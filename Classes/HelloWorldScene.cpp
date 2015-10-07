@@ -1,4 +1,5 @@
 #include "HelloWorldScene.h"
+#include "Graphics.h"
 
 USING_NS_CC;
 
@@ -71,6 +72,11 @@ bool HelloWorld::init()
 
     // add the sprite as a child to this layer
     this->addChild(sprite, 0);
+    
+    Diamond *d = Diamond::create();
+    d->setPosition(Vec2(visibleSize.width/2+origin.x, visibleSize.height*3/4 + origin.y));
+    
+    this->addChild(d, 0);
     
     return true;
 }
