@@ -92,4 +92,6 @@ private:
     }
 };
 
+Size getScreenSize();
+
 #endif /* Graphics_h */
