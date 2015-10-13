@@ -69,6 +69,7 @@ public:
 protected:
     std::string title;
     std::vector<std::string> options;
+    std::vector<std::function<void()>> optionActions;
     
     bool upHeld = false;
     bool downHeld = false;
@@ -88,6 +89,11 @@ protected:
             selected %= options.size();
             updateCursor();
         }
+        if(code == cocos2d::EventKeyboard::KeyCode::KEY_Z)
+        {
+            optionActions[selected]();
+        }
+
     }
     void onKeyReleased(EventKeyboard::KeyCode code, Event* event)
     {
@@ -131,6 +137,16 @@ private:
     }
 };
 
+void start()
+{
+    Director::getInstance()->pushScene(createSceneFromLayer<GameplayScene>());
+}
+
+void exit()
+{
+    Director::getInstance()->end();
+}
+
 class TitleMenu : public TextListMenuLayer
 {
 public:
@@ -139,7 +155,8 @@ public:
     {
         title = "フランの地下";
         options = boost::assign::list_of("Start")("Exit").convert_to_container<std::vector<std::string>>();
-
+        optionActions = boost::assign::list_of(start)(exit).convert_to_container<std::vector<std::function<void()>>>();
+        
         TextListMenuLayer::init();
 
         return true;
