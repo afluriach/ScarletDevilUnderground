@@ -14,7 +14,8 @@
 using namespace std::placeholders;
 USING_NS_CC;
 
-const KeyCodeMap KeyRegister::watchedKeys = boost::assign::map_list_of
+const KeyCodeMap watchedKeys = boost::assign::map_list_of
+(EventKeyboard::KeyCode::KEY_Z, Keys::action)
 (EventKeyboard::KeyCode::KEY_UP_ARROW, Keys::up)
 (EventKeyboard::KeyCode::KEY_DOWN_ARROW, Keys::down)
 (EventKeyboard::KeyCode::KEY_LEFT_ARROW, Keys::left)
@@ -69,4 +70,52 @@ bool KeyRegister::isKeyHeld(const Keys& key)
     }
     
     return result->second;
+}
+
+KeyListener::KeyListener(cocos2d::Node* node)
+{
+    keyListener = EventListenerKeyboard::create();
+    keyListener->onKeyPressed = std::bind(&KeyListener::onKeyDown, this, _1, _2);
+    keyListener->onKeyReleased = std::bind(&KeyListener::onKeyUp, this, _1, _2);
+    
+    node->getEventDispatcher()->addEventListenerWithSceneGraphPriority(keyListener, node);
+}
+
+void KeyListener::onKeyDown(EventKeyboard::KeyCode code, Event* event)
+{
+    auto code_it = watchedKeys.find(code);
+    
+    //If this is a watched key.
+    if(code_it != watchedKeys.end())
+    {
+        Keys k = code_it->second;
+        
+        auto key_it  = onPressed.find(k);
+        
+        //if there is a callback for this key.
+        if(key_it != onPressed.end())
+        {
+            key_it->second();
+        }
+    }
+}
+
+void KeyListener::onKeyUp(EventKeyboard::KeyCode code, Event* event)
+{
+    auto code_it = watchedKeys.find(code);
+    
+    //If this is a watched key.
+    if(code_it != watchedKeys.end())
+    {
+        Keys k = code_it->second;
+        
+        auto key_it  = onReleased.find(k);
+        
+        //if there is a callback for this key.
+        if(key_it != onReleased.end())
+        {
+            key_it->second();
+        }
+    }
+
 }

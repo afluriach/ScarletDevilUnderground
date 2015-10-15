@@ -12,6 +12,7 @@
 #include <vector>
 
 #include <boost/assign.hpp>
+#include <boost/bind.hpp>
 #include "cocos2d.h"
 
 #include "Graphics.h"
@@ -58,10 +59,14 @@ public:
         cursor->setPositionX(leftMargin/2);
         updateCursor();
         
-        keyListener = EventListenerKeyboard::create();
-        keyListener->onKeyPressed = std::bind(&TextListMenuLayer::onKeyPressed, this, _1, _2);
-        keyListener->onKeyReleased = std::bind(&TextListMenuLayer::onKeyReleased, this, _1, _2);
-        getEventDispatcher()->addEventListenerWithSceneGraphPriority(keyListener, this);
+        keyListener = new KeyListener(this);
+        
+        keyListener->addPressListener(Keys::up, boost::bind( &TextListMenuLayer::upPressed, this));
+        keyListener->addPressListener(Keys::down, boost::bind( &TextListMenuLayer::downPressed, this));
+        keyListener->addPressListener(Keys::action, boost::bind( &TextListMenuLayer::selectPressed, this));
+        
+        keyListener->addReleaseListener(Keys::up, boost::bind( &TextListMenuLayer::upReleased, this));
+        keyListener->addReleaseListener(Keys::down, boost::bind( &TextListMenuLayer::downReleased, this));
         
         return true;
     }
@@ -73,42 +78,42 @@ protected:
     
     bool upHeld = false;
     bool downHeld = false;
-    void onKeyPressed(EventKeyboard::KeyCode code, Event* event)
+    
+    inline void upPressed()
     {
-        if(code == cocos2d::EventKeyboard::KeyCode::KEY_UP_ARROW && !upHeld)
-        {
-            upHeld = true;
-            --selected;
-            selected %= options.size();
-            updateCursor();
-        }
-        if(code == cocos2d::EventKeyboard::KeyCode::KEY_DOWN_ARROW && !downHeld)
-        {
-            downHeld = true;
-            ++selected;
-            selected %= options.size();
-            updateCursor();
-        }
-        if(code == cocos2d::EventKeyboard::KeyCode::KEY_Z)
-        {
-            optionActions[selected]();
-        }
-
+        upHeld = true;
+        if(downHeld) return;
+        
+        --selected;
+        selected %= options.size();
+        updateCursor();
     }
-    void onKeyReleased(EventKeyboard::KeyCode code, Event* event)
+    inline void downPressed()
     {
-        if(code == cocos2d::EventKeyboard::KeyCode::KEY_UP_ARROW)
-        {
-            upHeld = false;
-        }
-        if(code == cocos2d::EventKeyboard::KeyCode::KEY_DOWN_ARROW)
-        {
-            downHeld = false;
-        }
+        downHeld = true;
+        if(upHeld) return;
+        
+        ++selected;
+        selected %= options.size();
+        updateCursor();
     }
+    inline void selectPressed()
+    {
+        optionActions[selected]();
+    }
+    
+    inline void upReleased()
+    {
+        upHeld = false;
+    }
+    inline void downReleased()
+    {
+        downHeld = false;
+    }
+    
 
 private:
-    cocos2d::EventListenerKeyboard* keyListener;
+    KeyListener* keyListener;
     
     //Space from top of screen to title label;
     const int titleMargin = 32;
