@@ -2,6 +2,7 @@
 #include "GameplayScene.hpp"
 #include "util.h"
 #include "menu.h"
+#include "controls.h"
 
 USING_NS_CC;
 
@@ -51,6 +52,9 @@ bool AppDelegate::applicationDidFinishLaunching() {
     // create a scene. it's an autorelease object
     auto scene = createSceneFromLayer<TitleMenu>();
 
+    //Activate key register
+    KeyRegister::init();
+    
     // run
     director->runWithScene(scene);
 

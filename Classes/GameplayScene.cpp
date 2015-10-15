@@ -11,50 +11,9 @@
 #include "controls.h"
 
 USING_NS_CC;
-using namespace std::placeholders;
-
-typedef std::map<EventKeyboard::KeyCode, Keys> KeyCodeMap;
-
-const KeyCodeMap GameplayScene::keys = boost::assign::map_list_of
-(EventKeyboard::KeyCode::KEY_UP_ARROW, Keys::up)
-(EventKeyboard::KeyCode::KEY_DOWN_ARROW, Keys::down)
-(EventKeyboard::KeyCode::KEY_LEFT_ARROW, Keys::left)
-(EventKeyboard::KeyCode::KEY_RIGHT_ARROW, Keys::right);
-
-void GameplayScene::onKeyDown(EventKeyboard::KeyCode code, Event* event)
-{
-    log("%d pressed", code);
-    
-    if(keys.find(code) != keys.end())
-    {
-        keyHeld[keys.find(code)->second] = true;
-    }
-}
-
-void GameplayScene::onKeyUp(EventKeyboard::KeyCode code, Event* event)
-{
-    log("%d released", code);
-    
-    if(keys.find(code) != keys.end())
-    {
-        keyHeld[keys.find(code)->second] = false;
-    }
-}
-
 
 bool GameplayScene::init()
 {
-    //Initialize key held map by making sure each key name is in it.
-    for(auto it = keys.begin(); it != keys.end(); ++it)
-    {
-        keyHeld[it->second] = false;
-    }
-    
-    keyListener = EventListenerKeyboard::create();
-    keyListener->onKeyPressed = std::bind(&GameplayScene::onKeyDown, this, _1, _2);
-    keyListener->onKeyReleased = std::bind(&GameplayScene::onKeyUp, this, _1, _2);
-    getEventDispatcher()->addEventListenerWithSceneGraphPriority(keyListener, this);
-    
     scheduleUpdate();
     
     tileMap = TMXTiledMap::create("maps/floor1_start.tmx");
@@ -67,14 +26,16 @@ bool GameplayScene::init()
 
 void GameplayScene::update(float dt)
 {
+    KeyRegister* kr = KeyRegister::inst();
+    
     //Check camera scroll.
-    if(isKeyHeld(Keys::up) && !isKeyHeld(Keys::down))
+    if(kr->isKeyHeld(Keys::up) && !kr->isKeyHeld(Keys::down))
         move(0, cameraMovePixPerFrame);
-    if(isKeyHeld(Keys::down) && !isKeyHeld(Keys::up))
+    if(kr->isKeyHeld(Keys::down) && !kr->isKeyHeld(Keys::up))
         move(0, -cameraMovePixPerFrame);
-    if(isKeyHeld(Keys::left) && !isKeyHeld(Keys::right))
+    if(kr->isKeyHeld(Keys::left) && !kr->isKeyHeld(Keys::right))
         move(-cameraMovePixPerFrame, 0);
-    if(isKeyHeld(Keys::right) && !isKeyHeld(Keys::left))
+    if(kr->isKeyHeld(Keys::right) && !kr->isKeyHeld(Keys::left))
         move(cameraMovePixPerFrame, 0);
     
 }
@@ -82,17 +43,4 @@ void GameplayScene::update(float dt)
 void GameplayScene::move(int dx, int dy)
 {
     setPosition(getPositionX()-dx, getPositionY()-dy);
-}
-
-bool GameplayScene::isKeyHeld(const Keys& key)
-{
-    auto result = keyHeld.find(key);
-    
-    if(result == keyHeld.end())
-    {
-        log("isKeyHeld: warning, unknown enum value %d.", key);
-        return false;
-    }
-    
-    return result->second;
 }
