@@ -20,7 +20,7 @@ const KeyCodeMap GameplayScene::keys = boost::assign::map_list_of
 (EventKeyboard::KeyCode::KEY_LEFT_ARROW, "left")
 (EventKeyboard::KeyCode::KEY_RIGHT_ARROW, "right");
 
-void GameplayScene::onKeyPressed(EventKeyboard::KeyCode code, Event* event)
+void GameplayScene::onKeyDown(EventKeyboard::KeyCode code, Event* event)
 {
     log("%d pressed", code);
     
@@ -30,7 +30,7 @@ void GameplayScene::onKeyPressed(EventKeyboard::KeyCode code, Event* event)
     }
 }
 
-void GameplayScene::onKeyReleased(EventKeyboard::KeyCode code, Event* event)
+void GameplayScene::onKeyUp(EventKeyboard::KeyCode code, Event* event)
 {
     log("%d released", code);
     
@@ -50,8 +50,8 @@ bool GameplayScene::init()
     }
     
     keyListener = EventListenerKeyboard::create();
-    keyListener->onKeyPressed = std::bind(&GameplayScene::onKeyPressed, this, _1, _2);
-    keyListener->onKeyReleased = std::bind(&GameplayScene::onKeyReleased, this, _1, _2);
+    keyListener->onKeyPressed = std::bind(&GameplayScene::onKeyDown, this, _1, _2);
+    keyListener->onKeyReleased = std::bind(&GameplayScene::onKeyUp, this, _1, _2);
     getEventDispatcher()->addEventListenerWithSceneGraphPriority(keyListener, this);
     
     scheduleUpdate();

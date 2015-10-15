@@ -24,8 +24,8 @@ private:
     cocos2d::TMXTiledMap* tileMap;
     
     cocos2d::EventListenerKeyboard* keyListener;
-    void onKeyPressed(cocos2d::EventKeyboard::KeyCode, cocos2d::Event*);
-    void onKeyReleased(cocos2d::EventKeyboard::KeyCode, cocos2d::Event*);
+    void onKeyDown(cocos2d::EventKeyboard::KeyCode, cocos2d::Event*);
+    void onKeyUp(cocos2d::EventKeyboard::KeyCode, cocos2d::Event*);
     bool isKeyHeld(const std::string& key);
     
     //Map the key code to the string used to identify it
