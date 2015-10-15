@@ -8,17 +8,18 @@
 
 #include <boost/assign.hpp>
 #include "GameplayScene.hpp"
+#include "controls.h"
 
 USING_NS_CC;
 using namespace std::placeholders;
 
-typedef std::map<EventKeyboard::KeyCode, std::string> KeyCodeMap;
+typedef std::map<EventKeyboard::KeyCode, Keys> KeyCodeMap;
 
 const KeyCodeMap GameplayScene::keys = boost::assign::map_list_of
-(EventKeyboard::KeyCode::KEY_UP_ARROW, "up")
-(EventKeyboard::KeyCode::KEY_DOWN_ARROW, "down")
-(EventKeyboard::KeyCode::KEY_LEFT_ARROW, "left")
-(EventKeyboard::KeyCode::KEY_RIGHT_ARROW, "right");
+(EventKeyboard::KeyCode::KEY_UP_ARROW, Keys::up)
+(EventKeyboard::KeyCode::KEY_DOWN_ARROW, Keys::down)
+(EventKeyboard::KeyCode::KEY_LEFT_ARROW, Keys::left)
+(EventKeyboard::KeyCode::KEY_RIGHT_ARROW, Keys::right);
 
 void GameplayScene::onKeyDown(EventKeyboard::KeyCode code, Event* event)
 {
@@ -67,13 +68,13 @@ bool GameplayScene::init()
 void GameplayScene::update(float dt)
 {
     //Check camera scroll.
-    if(isKeyHeld("up") && !isKeyHeld("down"))
+    if(isKeyHeld(Keys::up) && !isKeyHeld(Keys::down))
         move(0, cameraMovePixPerFrame);
-    if(isKeyHeld("down") && !isKeyHeld("up"))
+    if(isKeyHeld(Keys::down) && !isKeyHeld(Keys::up))
         move(0, -cameraMovePixPerFrame);
-    if(isKeyHeld("left") && !isKeyHeld("right"))
+    if(isKeyHeld(Keys::left) && !isKeyHeld(Keys::right))
         move(-cameraMovePixPerFrame, 0);
-    if(isKeyHeld("right") && !isKeyHeld("left"))
+    if(isKeyHeld(Keys::right) && !isKeyHeld(Keys::left))
         move(cameraMovePixPerFrame, 0);
     
 }
@@ -83,13 +84,13 @@ void GameplayScene::move(int dx, int dy)
     setPosition(getPositionX()-dx, getPositionY()-dy);
 }
 
-bool GameplayScene::isKeyHeld(const std::string& key)
+bool GameplayScene::isKeyHeld(const Keys& key)
 {
     auto result = keyHeld.find(key);
     
     if(result == keyHeld.end())
     {
-        log("isKeyHeld: warning, unknown key name %s.", key.c_str());
+        log("isKeyHeld: warning, unknown enum value %d.", key);
         return false;
     }
     

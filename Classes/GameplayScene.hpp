@@ -11,6 +11,7 @@
 
 #include "cocos2d.h"
 #include <map>
+#include "controls.h"
 
 class GameplayScene : public cocos2d::Layer
 {
@@ -26,11 +27,11 @@ private:
     cocos2d::EventListenerKeyboard* keyListener;
     void onKeyDown(cocos2d::EventKeyboard::KeyCode, cocos2d::Event*);
     void onKeyUp(cocos2d::EventKeyboard::KeyCode, cocos2d::Event*);
-    bool isKeyHeld(const std::string& key);
+    bool isKeyHeld(const Keys& key);
     
     //Map the key code to the string used to identify it
-    static const std::map<cocos2d::EventKeyboard::KeyCode, std::string> keys;
-    std::map<std::string, bool> keyHeld;
+    static const std::map<cocos2d::EventKeyboard::KeyCode, Keys> keys;
+    std::map<Keys, bool> keyHeld;
     
     const int cameraMovePixPerFrame = 3;
     void move(int dx, int dy);
