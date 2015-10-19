@@ -23,8 +23,7 @@ AppDelegate::~AppDelegate()
     log("app exiting");
 }
 
-//if you want a different context,just modify the value of glContextAttrs
-//it will takes effect on all platforms
+//Called in AppController.mm. This appears to be for Mac/iOS only.
 void AppDelegate::initGLContextAttrs()
 {
     //set OpenGL context attributions,now can only set six attributions:
@@ -35,7 +34,7 @@ void AppDelegate::initGLContextAttrs()
 }
 
 bool AppDelegate::applicationDidFinishLaunching() {
-    // initialize director
+    //Initialize OpenGL view (and set window title on desktop version).
     auto director = Director::getInstance();
     auto glview = director->getOpenGLView();
     if(!glview) {
@@ -43,19 +42,14 @@ bool AppDelegate::applicationDidFinishLaunching() {
         director->setOpenGLView(glview);
     }
 
-    // turn on display FPS
     director->setDisplayStats(showStats);
-
-    // set FPS. the default value is 1.0/60 if you don't call this
     director->setAnimationInterval(secondsPerFrame);
 
-    // create a scene. it's an autorelease object
-    auto scene = createSceneFromLayer<TitleMenu>();
-
-    //Activate key register
+    //Activate key register.
     keyRegister = new KeyRegister();
     
-    // run
+    //Create title menu scene and run it.
+    auto scene = createSceneFromLayer<TitleMenu>();
     director->runWithScene(scene);
 
     return true;
