@@ -9,6 +9,7 @@
 #include <boost/assign.hpp>
 #include "GameplayScene.hpp"
 #include "controls.h"
+#include "AppDelegate.h"
 
 USING_NS_CC;
 
@@ -26,7 +27,7 @@ bool GameplayScene::init()
 
 void GameplayScene::update(float dt)
 {
-    KeyRegister* kr = KeyRegister::inst();
+    KeyRegister* kr = app->keyRegister;
     
     //Check camera scroll.
     if(kr->isKeyHeld(Keys::up) && !kr->isKeyHeld(Keys::down))

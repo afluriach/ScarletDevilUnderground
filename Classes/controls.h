@@ -29,25 +29,13 @@ extern const KeyCodeMap watchedKeys;
 class KeyRegister
 {
 public:
-    
-    static inline KeyRegister* inst()
-    {
-        return _inst;
-    }
     bool isKeyHeld(const Keys& key);
-    
-    static inline void init()
-    {
-        if(!_inst)
-            _inst = new KeyRegister();
-    }
 private:
+    friend class AppDelegate;
     KeyRegister();
 
     void onKeyDown(cocos2d::EventKeyboard::KeyCode, cocos2d::Event*);
     void onKeyUp(cocos2d::EventKeyboard::KeyCode, cocos2d::Event*);
-    
-    static KeyRegister* _inst;
     
     std::map<Keys, bool> keyHeld;
     

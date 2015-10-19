@@ -4,14 +4,21 @@
 #include "menu.h"
 #include "controls.h"
 
+#include <cstdlib>
+
 USING_NS_CC;
 
-AppDelegate::AppDelegate() {
+AppDelegate* app;
 
+AppDelegate::AppDelegate() {
+    app = this;
 }
 
 AppDelegate::~AppDelegate() 
 {
+    delete keyRegister;
+    
+    log("app exiting");
 }
 
 //if you want a different context,just modify the value of glContextAttrs
@@ -53,7 +60,7 @@ bool AppDelegate::applicationDidFinishLaunching() {
     auto scene = createSceneFromLayer<TitleMenu>();
 
     //Activate key register
-    KeyRegister::init();
+    keyRegister = new KeyRegister();
     
     // run
     director->runWithScene(scene);

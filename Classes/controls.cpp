@@ -21,9 +21,6 @@ const KeyCodeMap watchedKeys = boost::assign::map_list_of
 (EventKeyboard::KeyCode::KEY_LEFT_ARROW, Keys::left)
 (EventKeyboard::KeyCode::KEY_RIGHT_ARROW, Keys::right);
 
-KeyRegister* KeyRegister::_inst;
-
-
 KeyRegister::KeyRegister()
 {
     //Initialize key held map by putting each key enum in it.
@@ -36,7 +33,7 @@ KeyRegister::KeyRegister()
     keyListener->onKeyPressed = std::bind(&KeyRegister::onKeyDown, this, _1, _2);
     keyListener->onKeyReleased = std::bind(&KeyRegister::onKeyUp, this, _1, _2);
 
-    Director::getInstance()->getEventDispatcher()->addEventListenerWithFixedPriority(keyListener, AppDelegate::EventPriorities::KeyRegister);
+    Director::getInstance()->getEventDispatcher()->addEventListenerWithFixedPriority(keyListener, AppDelegate::EventPriorities::KeyRegisterEvent);
 }
 
 void KeyRegister::onKeyDown(EventKeyboard::KeyCode code, Event* event)
