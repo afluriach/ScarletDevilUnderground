@@ -16,6 +16,7 @@
 #include "cocos2d.h"
 
 #include "Graphics.h"
+#include "util.h"
 
 using namespace std::placeholders;
 
@@ -142,16 +143,6 @@ private:
     }
 };
 
-void start()
-{
-    Director::getInstance()->pushScene(createSceneFromLayer<GameplayScene>());
-}
-
-void exit()
-{
-    Director::getInstance()->end();
-}
-
 class TitleMenu : public TextListMenuLayer
 {
 public:
@@ -165,6 +156,16 @@ public:
         TextListMenuLayer::init();
 
         return true;
+    }
+private:
+    static inline void start()
+    {
+        Director::getInstance()->pushScene(createSceneFromLayer<GameplayScene>());
+    }
+    
+    static inline void exit()
+    {
+        Director::getInstance()->end();
     }
 };
 
