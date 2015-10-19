@@ -30,6 +30,7 @@ class KeyRegister
 {
 public:
     bool isKeyHeld(const Keys& key);
+    static const bool logKeyEvents = false;
 private:
     friend class AppDelegate;
     KeyRegister();

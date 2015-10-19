@@ -38,7 +38,8 @@ KeyRegister::KeyRegister()
 
 void KeyRegister::onKeyDown(EventKeyboard::KeyCode code, Event* event)
 {
-    log("%d pressed", code);
+    if(logKeyEvents)
+        log("%d pressed", code);
     
     if(watchedKeys.find(code) != watchedKeys.end())
     {
@@ -48,7 +49,8 @@ void KeyRegister::onKeyDown(EventKeyboard::KeyCode code, Event* event)
 
 void KeyRegister::onKeyUp(EventKeyboard::KeyCode code, Event* event)
 {
-    log("%d released", code);
+    if(logKeyEvents)
+        log("%d released", code);
     
     if(watchedKeys.find(code) != watchedKeys.end())
     {
