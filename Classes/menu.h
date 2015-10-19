@@ -17,6 +17,7 @@
 
 #include "Graphics.h"
 #include "util.h"
+#include "AppDelegate.h"
 
 using namespace std::placeholders;
 
@@ -149,7 +150,7 @@ public:
     CREATE_FUNC(TitleMenu);
     virtual bool init ()
     {
-        title = "フランの地下";
+        title = AppDelegate::title;
         options = boost::assign::list_of("Start")("Exit").convert_to_container<std::vector<std::string>>();
         optionActions = boost::assign::list_of(start)(exit).convert_to_container<std::vector<std::function<void()>>>();
         

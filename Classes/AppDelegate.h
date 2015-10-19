@@ -18,6 +18,11 @@ public:
         KeyRegisterEvent = 1
     };
     
+    static const int framesPerSecond = 60;
+    constexpr static float secondsPerFrame = 1.0 / framesPerSecond;
+    static const bool showStats = true;
+    static const std::string title;
+    
     AppDelegate();
     virtual ~AppDelegate();
 
