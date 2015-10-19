@@ -14,10 +14,10 @@
 
 USING_NS_CC;
 
-class Diamond : public Node
+class DiamondCursor : public Node
 {
 public:
-    CREATE_FUNC(Diamond);
+    CREATE_FUNC(DiamondCursor);
     virtual void onEnter()
     {
         Node::onEnter();

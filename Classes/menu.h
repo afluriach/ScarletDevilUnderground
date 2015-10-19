@@ -56,7 +56,7 @@ public:
             log("added %s", labelText.c_str());
         }
         
-        cursor = Diamond::create();
+        cursor = DiamondCursor::create();
         addChild(cursor);
         cursor->setPositionX(leftMargin/2);
         updateCursor();
