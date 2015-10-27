@@ -23,7 +23,9 @@ public:
 private:
     cocos2d::Layer* mapLayer;
     cocos2d::TMXTiledMap* tileMap;
-        
+    
+    void loadMapObjects(const cocos2d::TMXTiledMap& map);
+    
     const int cameraMovePixPerFrame = 3;
     void move(int dx, int dy);
 };

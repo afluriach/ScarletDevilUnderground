@@ -7,6 +7,7 @@
 //
 
 #include <boost/assign.hpp>
+#include <boost/foreach.hpp>
 #include "GameplayScene.hpp"
 #include "controls.h"
 #include "AppDelegate.h"
@@ -17,12 +18,58 @@ bool GameplayScene::init()
 {
     scheduleUpdate();
     
-    tileMap = TMXTiledMap::create("maps/floor1_start.tmx");
+    tileMap = TMXTiledMap::create("maps/block_room.tmx");
     
     addChild(tileMap);
     
+    loadMapObjects(*tileMap);
+    
     log("Gameplay scene initialized.");
     return true;
+}
+
+void printObject(const ValueMap& obj)
+{
+    BOOST_FOREACH(ValueMap::value_type entryPair, obj)
+    {
+        log(
+            "Object property %s: %s.",
+            entryPair.first.c_str(),
+            entryPair.second.asString().c_str()
+            );
+    }
+}
+
+void printGroup(TMXObjectGroup* group)
+{
+    const ValueVector& objects = group->getObjects();
+    
+    BOOST_FOREACH(Value obj, objects)
+    {
+        const ValueMap& objAsMap = obj.asValueMap();
+        
+        BOOST_FOREACH(ValueMap::value_type entryPair, objAsMap)
+        {
+            log(
+                "Object property %s: %s.",
+                entryPair.first.c_str(),
+                entryPair.second.asString().c_str()
+                );
+        }
+    }
+}
+
+void GameplayScene::loadMapObjects(const TMXTiledMap& map)
+{
+    Vector<TMXObjectGroup*> objLayers = map.getObjectGroups();
+    log("%ld object groups.", objLayers.size());
+    
+    if(map.getObjectGroup("objects") == nullptr){
+        log("Objects group missing.");
+    }
+    else{
+        printGroup(map.getObjectGroup("objects"));
+    }
 }
 
 void GameplayScene::update(float dt)
