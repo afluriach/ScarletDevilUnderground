@@ -12,6 +12,7 @@
 #include "cocos2d.h"
 #include <map>
 #include "controls.h"
+#include "GSpace.hpp"
 
 class GameplayScene : public cocos2d::Layer
 {
@@ -23,6 +24,8 @@ public:
 private:
     cocos2d::Layer* mapLayer;
     cocos2d::TMXTiledMap* tileMap;
+    
+    GSpace gspace;
     
     void loadMapObjects(const cocos2d::TMXTiledMap& map);
     

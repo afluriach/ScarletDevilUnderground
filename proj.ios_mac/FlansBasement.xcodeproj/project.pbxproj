@@ -65,6 +65,9 @@
 		E20A7D701BCD27F0007F1A3B /* maps in Resources */ = {isa = PBXBuildFile; fileRef = E20A7D6E1BCD27F0007F1A3B /* maps */; settings = {ASSET_TAGS = (); }; };
 		E23F055E1BD0294A0091BD6D /* controls.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E23F055D1BD0294A0091BD6D /* controls.cpp */; settings = {ASSET_TAGS = (); }; };
 		E23F055F1BD0294A0091BD6D /* controls.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E23F055D1BD0294A0091BD6D /* controls.cpp */; settings = {ASSET_TAGS = (); }; };
+		E27E85781BE016BB00A94217 /* libchipmunk++.a in Frameworks */ = {isa = PBXBuildFile; fileRef = E27E85771BE016BB00A94217 /* libchipmunk++.a */; };
+		E27E857B1BE0178800A94217 /* GSpace.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E27E85791BE0178800A94217 /* GSpace.cpp */; settings = {ASSET_TAGS = (); }; };
+		E27E857C1BE0178800A94217 /* GSpace.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E27E85791BE0178800A94217 /* GSpace.cpp */; settings = {ASSET_TAGS = (); }; };
 		E28D89851BDFE7CD00F58903 /* util.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E28D89841BDFE7CD00F58903 /* util.cpp */; settings = {ASSET_TAGS = (); }; };
 		E28D89861BDFE7CD00F58903 /* util.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E28D89841BDFE7CD00F58903 /* util.cpp */; settings = {ASSET_TAGS = (); }; };
 		E2AC8F481BCD4BC20001DB3E /* Graphics.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E2AC8F471BCD4BC20001DB3E /* Graphics.cpp */; settings = {ASSET_TAGS = (); }; };
@@ -162,6 +165,9 @@
 		E20A7D6E1BCD27F0007F1A3B /* maps */ = {isa = PBXFileReference; lastKnownFileType = folder; path = maps; sourceTree = "<group>"; };
 		E23F05591BD024040091BD6D /* controls.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = controls.h; sourceTree = "<group>"; };
 		E23F055D1BD0294A0091BD6D /* controls.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = controls.cpp; sourceTree = "<group>"; };
+		E27E85771BE016BB00A94217 /* libchipmunk++.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = "libchipmunk++.a"; path = "../../../dev/chipmunkpp/libchipmunk++.a"; sourceTree = "<group>"; };
+		E27E85791BE0178800A94217 /* GSpace.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = GSpace.cpp; sourceTree = "<group>"; };
+		E27E857A1BE0178800A94217 /* GSpace.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = GSpace.hpp; sourceTree = "<group>"; };
 		E282936F1BC5CA65005363B0 /* Graphics.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Graphics.h; sourceTree = "<group>"; };
 		E28D89841BDFE7CD00F58903 /* util.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = util.cpp; sourceTree = "<group>"; };
 		E2AC8F461BCD40890001DB3E /* menu.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = menu.h; sourceTree = "<group>"; };
@@ -192,6 +198,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				E27E85781BE016BB00A94217 /* libchipmunk++.a in Frameworks */,
 				1AC6FB21180E996B004C840B /* libcocos2d Mac.a in Frameworks */,
 				5087E76717EB910900C73F5D /* libz.dylib in Frameworks */,
 				8262943E1AAF051F00CB7CF7 /* Security.framework in Frameworks */,
@@ -259,6 +266,7 @@
 		29B97323FDCFA39411CA2CEA /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				E27E85771BE016BB00A94217 /* libchipmunk++.a */,
 				8262943D1AAF051F00CB7CF7 /* Security.framework */,
 				52B47A461A53D09B004E4C60 /* Security.framework */,
 				D6B0611A1803AB670077942B /* CoreMotion.framework */,
@@ -305,6 +313,8 @@
 				E2AC8F461BCD40890001DB3E /* menu.h */,
 				E28D89841BDFE7CD00F58903 /* util.cpp */,
 				E20A7D6C1BCD211D007F1A3B /* util.h */,
+				E27E85791BE0178800A94217 /* GSpace.cpp */,
+				E27E857A1BE0178800A94217 /* GSpace.hpp */,
 			);
 			name = Classes;
 			path = ../Classes;
@@ -500,6 +510,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				46880B8819C43A87006E1F66 /* AppDelegate.cpp in Sources */,
+				E27E857B1BE0178800A94217 /* GSpace.cpp in Sources */,
 				E23F055E1BD0294A0091BD6D /* controls.cpp in Sources */,
 				503AE10017EB989F00D1A890 /* AppController.mm in Sources */,
 				503AE10217EB989F00D1A890 /* RootViewController.mm in Sources */,
@@ -520,6 +531,7 @@
 				E2AC8F491BCD4BC20001DB3E /* Graphics.cpp in Sources */,
 				E23F055F1BD0294A0091BD6D /* controls.cpp in Sources */,
 				E28D89861BDFE7CD00F58903 /* util.cpp in Sources */,
+				E27E857C1BE0178800A94217 /* GSpace.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -697,6 +709,7 @@
 					"$(SRCROOT)/../cocos2d/external",
 					"$(SRCROOT)/../cocos2d/external/chipmunk/include/chipmunk",
 					/Users/toni/dev/boost_1_59_0,
+					/Users/toni/dev/chipmunkpp/src/,
 				);
 				MACOSX_DEPLOYMENT_TARGET = 10.7;
 				ONLY_ACTIVE_ARCH = YES;
@@ -727,6 +740,7 @@
 					"$(SRCROOT)/../cocos2d/external",
 					"$(SRCROOT)/../cocos2d/external/chipmunk/include/chipmunk",
 					/Users/toni/dev/boost_1_59_0,
+					/Users/toni/dev/chipmunkpp/src/,
 				);
 				MACOSX_DEPLOYMENT_TARGET = 10.7;
 				OTHER_CFLAGS = "-DNS_BLOCK_ASSERTIONS=1";
