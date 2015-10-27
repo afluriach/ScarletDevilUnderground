@@ -13,7 +13,6 @@
 
 #include "cocos2d.h"
 
-#include <boost/assign.hpp>
 #include <boost/bind.hpp>
 
 #include "AppDelegate.h"
@@ -152,8 +151,14 @@ public:
     virtual bool init ()
     {
         title = AppDelegate::title;
-        options = boost::assign::list_of("Start")("Exit").convert_to_container<std::vector<std::string>>();
-        optionActions = boost::assign::list_of(start)(exit).convert_to_container<std::vector<std::function<void()>>>();
+        options = list_of_typed(
+            ("Start")("Exit"),
+            std::vector<std::string>
+        );
+        optionActions = list_of_typed(
+            (start)(exit),
+            std::vector<std::function<void()>>
+        );
         
         TextListMenuLayer::init();
 
