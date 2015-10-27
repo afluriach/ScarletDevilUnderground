@@ -9,8 +9,10 @@
 #ifndef GameplayScene_hpp
 #define GameplayScene_hpp
 
-#include "cocos2d.h"
 #include <map>
+
+#include "cocos2d.h"
+
 #include "controls.h"
 #include "GSpace.hpp"
 

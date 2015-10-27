@@ -7,10 +7,11 @@
 //
 
 #include <boost/assign.hpp>
+
+#include "AppDelegate.h"
+#include "controls.h"
 #include "GameplayScene.hpp"
 #include "util.h"
-#include "controls.h"
-#include "AppDelegate.h"
 
 USING_NS_CC;
 

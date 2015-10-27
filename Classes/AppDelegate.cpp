@@ -1,10 +1,10 @@
-#include "AppDelegate.h"
-#include "GameplayScene.hpp"
-#include "util.h"
-#include "menu.h"
-#include "controls.h"
-
 #include <cstdlib>
+
+#include "AppDelegate.h"
+#include "controls.h"
+#include "GameplayScene.hpp"
+#include "menu.h"
+#include "util.h"
 
 USING_NS_CC;
 

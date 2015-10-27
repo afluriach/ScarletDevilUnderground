@@ -11,13 +11,14 @@
 
 #include <vector>
 
-#include <boost/assign.hpp>
-#include <boost/bind.hpp>
 #include "cocos2d.h"
 
+#include <boost/assign.hpp>
+#include <boost/bind.hpp>
+
+#include "AppDelegate.h"
 #include "Graphics.h"
 #include "util.h"
-#include "AppDelegate.h"
 
 using namespace std::placeholders;
 
@@ -34,7 +35,7 @@ public:
     {
         MenuLayer::init();
         
-        Size screenSize = getScreenSize();
+        cocos2d::Size screenSize = getScreenSize();
         
         titleLabel = cocos2d::Label::createWithSystemFont(title, titleFont, titleSize);
         

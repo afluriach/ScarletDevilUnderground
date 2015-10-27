@@ -9,8 +9,9 @@
 #ifndef Graphics_h
 #define Graphics_h
 
-#include "cocos2d.h"
 #include <iostream>
+
+#include "cocos2d.h"
 
 USING_NS_CC;
 
@@ -92,6 +93,6 @@ private:
     }
 };
 
-Size getScreenSize();
+cocos2d::Size getScreenSize();
 
 #endif /* Graphics_h */
