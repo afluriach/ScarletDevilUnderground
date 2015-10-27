@@ -7,3 +7,8 @@
 //
 
 #include "GSpace.hpp"
+
+GSpace::GSpace()
+{
+    space.setGravity(cp::Vect(0,0));
+}

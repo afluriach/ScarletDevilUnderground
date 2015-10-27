@@ -14,10 +14,7 @@
 class GSpace
 {
 public:
-    inline GSpace()
-    {
-        space.setGravity(cp::Vect(0,0));
-    }
+    GSpace();
 private:
     cp::Space space;
 };
