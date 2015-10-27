@@ -6,8 +6,6 @@
 //
 //
 
-#include <boost/assign.hpp>
-
 #include "AppDelegate.h"
 #include "controls.h"
 #include "GameplayScene.hpp"
