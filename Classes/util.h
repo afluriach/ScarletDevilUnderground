@@ -9,6 +9,10 @@
 #ifndef util_h
 #define util_h
 
+#include <boost/foreach.hpp>
+
+#define foreach BOOST_FOREACH
+
 template <typename T>
 cocos2d::Scene* createSceneFromLayer()
 {
