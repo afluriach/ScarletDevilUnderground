@@ -81,6 +81,15 @@ protected:
     bool upHeld = false;
     bool downHeld = false;
     
+    inline TextListMenuLayer(
+        const std::string& title,
+        const std::vector<std::string>& options,
+        const std::vector<std::function<void()>>& optionActions
+    ) :
+    title(title),
+    options(options),
+    optionActions(optionActions) {}
+    
     inline void upPressed()
     {
         upHeld = true;
@@ -148,22 +157,15 @@ class TitleMenu : public TextListMenuLayer
 {
 public:
     CREATE_FUNC(TitleMenu);
-    virtual bool init ()
-    {
-        title = AppDelegate::title;
-        options = list_of_typed(
-            ("Start")("Exit"),
-            std::vector<std::string>
-        );
-        optionActions = list_of_typed(
-            (start)(exit),
-            std::vector<std::function<void()>>
-        );
-        
-        TextListMenuLayer::init();
-
-        return true;
-    }
+    
+protected:
+    inline TitleMenu() : TextListMenuLayer(
+        AppDelegate::title,
+        list_of_typed( ("Start")("Exit"), std::vector<std::string>),
+        list_of_typed( (start)(exit), std::vector<std::function<void()>>)
+    )
+    {}
+                                  
 private:
     static inline void start()
     {
