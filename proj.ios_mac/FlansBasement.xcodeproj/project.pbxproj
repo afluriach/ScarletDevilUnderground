@@ -65,6 +65,8 @@
 		E20A7D701BCD27F0007F1A3B /* maps in Resources */ = {isa = PBXBuildFile; fileRef = E20A7D6E1BCD27F0007F1A3B /* maps */; settings = {ASSET_TAGS = (); }; };
 		E23F055E1BD0294A0091BD6D /* controls.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E23F055D1BD0294A0091BD6D /* controls.cpp */; settings = {ASSET_TAGS = (); }; };
 		E23F055F1BD0294A0091BD6D /* controls.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E23F055D1BD0294A0091BD6D /* controls.cpp */; settings = {ASSET_TAGS = (); }; };
+		E28D89851BDFE7CD00F58903 /* util.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E28D89841BDFE7CD00F58903 /* util.cpp */; settings = {ASSET_TAGS = (); }; };
+		E28D89861BDFE7CD00F58903 /* util.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E28D89841BDFE7CD00F58903 /* util.cpp */; settings = {ASSET_TAGS = (); }; };
 		E2AC8F481BCD4BC20001DB3E /* Graphics.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E2AC8F471BCD4BC20001DB3E /* Graphics.cpp */; settings = {ASSET_TAGS = (); }; };
 		E2AC8F491BCD4BC20001DB3E /* Graphics.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E2AC8F471BCD4BC20001DB3E /* Graphics.cpp */; settings = {ASSET_TAGS = (); }; };
 /* End PBXBuildFile section */
@@ -161,6 +163,7 @@
 		E23F05591BD024040091BD6D /* controls.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = controls.h; sourceTree = "<group>"; };
 		E23F055D1BD0294A0091BD6D /* controls.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = controls.cpp; sourceTree = "<group>"; };
 		E282936F1BC5CA65005363B0 /* Graphics.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Graphics.h; sourceTree = "<group>"; };
+		E28D89841BDFE7CD00F58903 /* util.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = util.cpp; sourceTree = "<group>"; };
 		E2AC8F461BCD40890001DB3E /* menu.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = menu.h; sourceTree = "<group>"; };
 		E2AC8F471BCD4BC20001DB3E /* Graphics.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Graphics.cpp; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -293,14 +296,15 @@
 			children = (
 				46880B8419C43A87006E1F66 /* AppDelegate.cpp */,
 				46880B8519C43A87006E1F66 /* AppDelegate.h */,
-				E20A7D6C1BCD211D007F1A3B /* util.h */,
-				E282936F1BC5CA65005363B0 /* Graphics.h */,
-				E2AC8F471BCD4BC20001DB3E /* Graphics.cpp */,
+				E23F055D1BD0294A0091BD6D /* controls.cpp */,
+				E23F05591BD024040091BD6D /* controls.h */,
 				E20A7D681BCD205E007F1A3B /* GameplayScene.cpp */,
 				E20A7D691BCD205E007F1A3B /* GameplayScene.hpp */,
+				E2AC8F471BCD4BC20001DB3E /* Graphics.cpp */,
+				E282936F1BC5CA65005363B0 /* Graphics.h */,
 				E2AC8F461BCD40890001DB3E /* menu.h */,
-				E23F05591BD024040091BD6D /* controls.h */,
-				E23F055D1BD0294A0091BD6D /* controls.cpp */,
+				E28D89841BDFE7CD00F58903 /* util.cpp */,
+				E20A7D6C1BCD211D007F1A3B /* util.h */,
 			);
 			name = Classes;
 			path = ../Classes;
@@ -502,6 +506,7 @@
 				E20A7D6A1BCD205E007F1A3B /* GameplayScene.cpp in Sources */,
 				E2AC8F481BCD4BC20001DB3E /* Graphics.cpp in Sources */,
 				503AE10117EB989F00D1A890 /* main.m in Sources */,
+				E28D89851BDFE7CD00F58903 /* util.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -514,6 +519,7 @@
 				503AE10517EB98FF00D1A890 /* main.cpp in Sources */,
 				E2AC8F491BCD4BC20001DB3E /* Graphics.cpp in Sources */,
 				E23F055F1BD0294A0091BD6D /* controls.cpp in Sources */,
+				E28D89861BDFE7CD00F58903 /* util.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

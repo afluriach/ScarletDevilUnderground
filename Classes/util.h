@@ -22,4 +22,12 @@ cocos2d::Scene* createSceneFromLayer()
     return scene;
 }
 
+template <typename T>
+void pushScene()
+{
+    cocos2d::Director::getInstance()->pushScene(createSceneFromLayer<T>());
+}
+
+void end();
+
 #endif /* util_h */

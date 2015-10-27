@@ -161,12 +161,12 @@ public:
 private:
     static inline void start()
     {
-        Director::getInstance()->pushScene(createSceneFromLayer<GameplayScene>());
+        pushScene<GameplayScene>();
     }
     
     static inline void exit()
     {
-        Director::getInstance()->end();
+        end();
     }
 };
 
