@@ -49,7 +49,7 @@ void GameplayScene::loadObjectGroup(TMXObjectGroup* group)
     const ValueVector& objects = group->getObjects();
     
     gspace.addObjects(objects);
-    gspace.processAdditions();
+    gspace.processAdditions(this);
 }
 
 void GameplayScene::loadMapObjects(const TMXTiledMap& map)

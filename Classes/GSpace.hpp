@@ -28,7 +28,7 @@ public:
 
     void addObject(const ValueMap& obj);
     void addObjects(const ValueVector& objs);
-    void processAdditions();
+    void processAdditions(cocos2d::Layer* graphicsLayer);
     
     static std::shared_ptr<cp::Body> createRectangleBody(
         cp::Space& space,

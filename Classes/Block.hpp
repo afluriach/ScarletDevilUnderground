@@ -30,18 +30,6 @@ public:
             letter = it->second.asString();
         else
             cocos2d::log("%s: letter undefined", name.c_str());
-        
-        cp::Vect centerPix(initialCenter);
-        centerPix *= AppDelegate::pixelsPerTile;
-        std::string resPath = "sprites/block "+letter+".png";
-        cocos2d::Node* node = cocos2d::Sprite::create(resPath);
-        node->setPosition(centerPix.x, centerPix.y);
-        GameplayScene::inst->addChild(node, GameplayScene::Layer::ground);
-        
-        if(node == nullptr)
-            log("%s sprite not loaded", name.c_str());
-        else
-            log("%s sprite %s added at %f,%f", name.c_str(), resPath.c_str(), centerPix.x, centerPix.y);
     }
     CallSuper(
         RectangleObject,
@@ -51,7 +39,7 @@ public:
         cp::Space& space,
         space
     )
-
+    virtual void initializeGraphics(cocos2d::Layer* layer);
 private:
     std::string letter;
 };

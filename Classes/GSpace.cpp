@@ -83,10 +83,11 @@ shared_ptr<cp::Body> GSpace::createRectangleBody(
     return body;
 }
 
-void GSpace::processAdditions()
+void GSpace::processAdditions(cocos2d::Layer* graphicsLayer)
 {
     foreach(GObject* obj, toAdd)
     {
         obj->initializeBody(space);
+        obj->initializeGraphics(graphicsLayer);
     }
 }

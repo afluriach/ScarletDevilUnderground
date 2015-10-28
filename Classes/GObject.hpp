@@ -51,6 +51,8 @@ public:
     
     //Create body and add it to space. This assumes BB is rectangle dimensions
     std::shared_ptr<cp::Body> initRectangleBody(cp::Space& space);
+    //Create Node which graphically reprensets this object and adds it to Layer
+    virtual void initializeGraphics(cocos2d::Layer* layer) = 0;
 };
 
 #endif /* GObject_hpp */
