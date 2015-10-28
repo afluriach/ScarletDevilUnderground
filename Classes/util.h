@@ -9,6 +9,7 @@
 #ifndef util_h
 #define util_h
 
+#include "chipmunk.hpp"
 #include "cocos2d.h"
 
 #include <boost/foreach.hpp>
@@ -30,6 +31,12 @@ inline ret method( signature ) \
 { \
     return superMethod(args); \
 } \
+
+#define expand_vector2(v)  ((v).x) , ((v).y) 
+
+//Define assignment conversion between cocos and chipmunk vectors
+cocos2d::Vec2 toCocos(const cp::Vect& rhs);
+cp::Vect toChipmunk(const cocos2d::Vec2& rhs);
 
 cocos2d::Scene* crntScene();
 

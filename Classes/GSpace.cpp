@@ -54,8 +54,8 @@ shared_ptr<cp::Body> GSpace::createRectangleBody(
     log(
         "Creating rectangle body for %s. %f x %f at %f,%f, mass: %f",
         obj->name.c_str(),
-        dim.x, dim.y,
-        center.x, center.y,
+        expand_vector2(dim),
+        expand_vector2(center),
         mass
     );
     

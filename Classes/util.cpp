@@ -7,6 +7,7 @@
 //
 
 #include "cocos2d.h"
+#include "chipmunk.hpp"
 
 #include "util.h"
 
@@ -37,4 +38,14 @@ void printValueMap(const ValueMap& obj)
 float getFloat(const cocos2d::ValueMap& args, const std::string& name)
 {
     return args.at(name).asFloat();
+}
+
+cocos2d::Vec2 toCocos(const cp::Vect& rhs)
+{
+    return cocos2d::Vec2(expand_vector2(rhs));
+}
+
+cp::Vect toChipmunk(const cocos2d::Vec2& rhs)
+{
+    return cp::Vect(expand_vector2(rhs));
 }
