@@ -562,7 +562,7 @@ struct ScriptEvent
 };
 
 /** 
- * Don't make ScriptEngineProtocol inherits from Object since setScriptEngine is invoked only once in AppDelegate.cpp,
+ * Don't make ScriptEngineProtocol inherits from Object since setScriptEngine is invoked only once in App.cpp,
  * It will affect the lifecycle of ScriptEngine instance, the autorelease pool will be destroyed before destructing ScriptEngine.
  * So a crash will appear on Win32 if you click the close button.
  * @js NA

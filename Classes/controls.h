@@ -32,7 +32,7 @@ public:
     bool isKeyHeld(const Keys& key);
     static const bool logKeyEvents = false;
 private:
-    friend class AppDelegate;
+    friend class App;
     KeyRegister();
 
     void onKeyDown(cocos2d::EventKeyboard::KeyCode, cocos2d::Event*);

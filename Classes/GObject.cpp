@@ -18,10 +18,10 @@ GObject::GObject(const ValueMap& obj) : name(obj.at("name").asString() )
     printValueMap(obj);
     
     cp::Vect cornerPos(getFloat(obj, "x"), getFloat(obj, "y"));
-    cornerPos *= AppDelegate::tilesPerPixel;
+    cornerPos *= App::tilesPerPixel;
     
     dim = cp::Vect(getFloat(obj, "width"), getFloat(obj, "height"));
-    dim *= AppDelegate::tilesPerPixel;
+    dim *= App::tilesPerPixel;
     
     initialCenter = cp::Vect(cornerPos);
     initialCenter += (dim*0.5);

@@ -12,7 +12,7 @@
 #include "cocos2d.h"
 #include "chipmunk.h"
 
-#include "AppDelegate.h"
+#include "App.h"
 #include "GameplayScene.hpp"
 #include "GObject.hpp"
 #include "util.h"

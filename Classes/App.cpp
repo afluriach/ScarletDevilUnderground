@@ -1,6 +1,6 @@
 #include <cstdlib>
 
-#include "AppDelegate.h"
+#include "App.h"
 #include "controls.h"
 #include "GameplayScene.hpp"
 #include "menu.h"
@@ -8,15 +8,15 @@
 
 USING_NS_CC;
 
-AppDelegate* app;
+App* app;
 
-const std::string AppDelegate::title = "フランの地下";
+const std::string App::title = "フランの地下";
 
-AppDelegate::AppDelegate() {
+App::App() {
     app = this;
 }
 
-AppDelegate::~AppDelegate() 
+App::~App() 
 {
     delete keyRegister;
     
@@ -24,7 +24,7 @@ AppDelegate::~AppDelegate()
 }
 
 //Called in AppController.mm. This appears to be for Mac/iOS only.
-void AppDelegate::initGLContextAttrs()
+void App::initGLContextAttrs()
 {
     //set OpenGL context attributions,now can only set six attributions:
     //red,green,blue,alpha,depth,stencil
@@ -33,7 +33,7 @@ void AppDelegate::initGLContextAttrs()
     GLView::setGLContextAttrs(glContextAttrs);
 }
 
-bool AppDelegate::applicationDidFinishLaunching() {
+bool App::applicationDidFinishLaunching() {
     //Initialize OpenGL view (and set window title on desktop version).
     auto director = Director::getInstance();
     auto glview = director->getOpenGLView();
@@ -56,7 +56,7 @@ bool AppDelegate::applicationDidFinishLaunching() {
 }
 
 // This function will be called when the app is inactive. When comes a phone call,it's be invoked too
-void AppDelegate::applicationDidEnterBackground() {
+void App::applicationDidEnterBackground() {
     Director::getInstance()->stopAnimation();
 
     // if you use SimpleAudioEngine, it must be pause
@@ -64,7 +64,7 @@ void AppDelegate::applicationDidEnterBackground() {
 }
 
 // this function will be called when the app is active again
-void AppDelegate::applicationWillEnterForeground() {
+void App::applicationWillEnterForeground() {
     Director::getInstance()->startAnimation();
 
     // if you use SimpleAudioEngine, it must resume here

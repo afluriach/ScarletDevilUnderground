@@ -15,7 +15,7 @@
 
 #include <boost/bind.hpp>
 
-#include "AppDelegate.h"
+#include "App.h"
 #include "Graphics.h"
 #include "util.h"
 
@@ -160,7 +160,7 @@ public:
     
 protected:
     inline TitleMenu() : TextListMenuLayer(
-        AppDelegate::title,
+        App::title,
         list_of_typed( ("Start")("Exit"), std::vector<std::string>),
         list_of_typed( (start)(exit), std::vector<std::function<void()>>)
     )

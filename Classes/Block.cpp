@@ -11,7 +11,7 @@
 void Block::initializeGraphics(cocos2d::Layer* layer)
 {
     cp::Vect centerPix(initialCenter);
-    centerPix *= AppDelegate::pixelsPerTile;
+    centerPix *= App::pixelsPerTile;
     std::string resPath = "sprites/block "+letter+".png";
     cocos2d::Node* node = cocos2d::Sprite::create(resPath);
     node->setPosition(centerPix.x, centerPix.y);

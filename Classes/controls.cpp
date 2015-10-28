@@ -8,7 +8,7 @@
 
 #include <boost/assign.hpp>
 
-#include "AppDelegate.h"
+#include "App.h"
 #include "controls.h"
 
 using namespace std::placeholders;
@@ -33,7 +33,7 @@ KeyRegister::KeyRegister()
     keyListener->onKeyPressed = std::bind(&KeyRegister::onKeyDown, this, _1, _2);
     keyListener->onKeyReleased = std::bind(&KeyRegister::onKeyUp, this, _1, _2);
 
-    Director::getInstance()->getEventDispatcher()->addEventListenerWithFixedPriority(keyListener, AppDelegate::EventPriorities::KeyRegisterEvent);
+    Director::getInstance()->getEventDispatcher()->addEventListenerWithFixedPriority(keyListener, App::EventPriorities::KeyRegisterEvent);
 }
 
 void KeyRegister::onKeyDown(EventKeyboard::KeyCode code, Event* event)

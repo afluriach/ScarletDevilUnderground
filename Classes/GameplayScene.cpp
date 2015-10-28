@@ -6,7 +6,7 @@
 //
 //
 
-#include "AppDelegate.h"
+#include "App.h"
 #include "controls.h"
 #include "GameplayScene.hpp"
 #include "GObject.hpp"

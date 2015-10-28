@@ -22,13 +22,13 @@
  THE SOFTWARE.
  ****************************************************************************/
 
-#include "AppDelegate.h"
+#include "App.h"
 #include "cocos2d.h"
 
 USING_NS_CC;
 
 int main(int argc, char *argv[])
 {
-    AppDelegate app;
+    App app;
     return Application::getInstance()->run();
 }
