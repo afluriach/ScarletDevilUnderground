@@ -12,6 +12,11 @@
 
 USING_NS_CC;
 
+Scene* crntScene()
+{
+    return Director::getInstance()->getRunningScene();
+}
+
 void end()
 {
     Director::getInstance()->end();

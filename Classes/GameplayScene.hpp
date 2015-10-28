@@ -19,10 +19,17 @@
 class GameplayScene : public cocos2d::Layer
 {
 public:    
+    enum Layer{
+        map = 1,
+        ground,
+    };
+    
     virtual bool init();
     virtual void update(float dt);
     
     CREATE_FUNC(GameplayScene);
+    
+    static GameplayScene* inst;
 private:
     cocos2d::Layer* mapLayer;
     cocos2d::TMXTiledMap* tileMap;

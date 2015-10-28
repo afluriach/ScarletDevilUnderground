@@ -15,13 +15,17 @@
 using namespace std;
 USING_NS_CC;
 
+GameplayScene* GameplayScene::inst;
+
 bool GameplayScene::init()
 {
+    inst = this;
+    
     scheduleUpdate();
     
     tileMap = TMXTiledMap::create("maps/block_room.tmx");
     
-    addChild(tileMap);
+    addChild(tileMap, Layer::map);
     
     loadMapObjects(*tileMap);
     

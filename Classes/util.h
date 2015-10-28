@@ -22,6 +22,8 @@
 #define list_of_typed(list,type) list_of list .convert_to_container<type>()
 #define map_list_of boost::assign::map_list_of
 
+cocos2d::Scene* crntScene();
+
 template <typename T>
 cocos2d::Scene* createSceneFromLayer()
 {
