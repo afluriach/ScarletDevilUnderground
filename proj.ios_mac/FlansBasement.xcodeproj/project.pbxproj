@@ -59,8 +59,8 @@
 		D6B0611B1803AB670077942B /* CoreMotion.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D6B0611A1803AB670077942B /* CoreMotion.framework */; };
 		E20328D51BE082970069B322 /* sprites in Resources */ = {isa = PBXBuildFile; fileRef = E20328D41BE082970069B322 /* sprites */; settings = {ASSET_TAGS = (); }; };
 		E20328D61BE082970069B322 /* sprites in Resources */ = {isa = PBXBuildFile; fileRef = E20328D41BE082970069B322 /* sprites */; settings = {ASSET_TAGS = (); }; };
-		E20A7D6A1BCD205E007F1A3B /* GameplayScene.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E20A7D681BCD205E007F1A3B /* GameplayScene.cpp */; settings = {ASSET_TAGS = (); }; };
-		E20A7D6B1BCD205E007F1A3B /* GameplayScene.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E20A7D681BCD205E007F1A3B /* GameplayScene.cpp */; settings = {ASSET_TAGS = (); }; };
+		E20A7D6A1BCD205E007F1A3B /* PlayScene.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E20A7D681BCD205E007F1A3B /* PlayScene.cpp */; settings = {ASSET_TAGS = (); }; };
+		E20A7D6B1BCD205E007F1A3B /* PlayScene.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E20A7D681BCD205E007F1A3B /* PlayScene.cpp */; settings = {ASSET_TAGS = (); }; };
 		E20A7D6F1BCD27F0007F1A3B /* maps in Resources */ = {isa = PBXBuildFile; fileRef = E20A7D6E1BCD27F0007F1A3B /* maps */; settings = {ASSET_TAGS = (); }; };
 		E20A7D701BCD27F0007F1A3B /* maps in Resources */ = {isa = PBXBuildFile; fileRef = E20A7D6E1BCD27F0007F1A3B /* maps */; settings = {ASSET_TAGS = (); }; };
 		E23F055E1BD0294A0091BD6D /* controls.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E23F055D1BD0294A0091BD6D /* controls.cpp */; settings = {ASSET_TAGS = (); }; };
@@ -163,8 +163,8 @@
 		D44C620F132DFF4E0009C878 /* AudioToolbox.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AudioToolbox.framework; path = System/Library/Frameworks/AudioToolbox.framework; sourceTree = SDKROOT; };
 		D6B0611A1803AB670077942B /* CoreMotion.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreMotion.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS7.0.sdk/System/Library/Frameworks/CoreMotion.framework; sourceTree = DEVELOPER_DIR; };
 		E20328D41BE082970069B322 /* sprites */ = {isa = PBXFileReference; lastKnownFileType = folder; path = sprites; sourceTree = "<group>"; };
-		E20A7D681BCD205E007F1A3B /* GameplayScene.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = GameplayScene.cpp; sourceTree = "<group>"; };
-		E20A7D691BCD205E007F1A3B /* GameplayScene.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = GameplayScene.hpp; sourceTree = "<group>"; };
+		E20A7D681BCD205E007F1A3B /* PlayScene.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = PlayScene.cpp; sourceTree = "<group>"; };
+		E20A7D691BCD205E007F1A3B /* PlayScene.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = PlayScene.hpp; sourceTree = "<group>"; };
 		E20A7D6C1BCD211D007F1A3B /* util.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = util.h; sourceTree = "<group>"; };
 		E20A7D6E1BCD27F0007F1A3B /* maps */ = {isa = PBXFileReference; lastKnownFileType = folder; path = maps; sourceTree = "<group>"; };
 		E23F05591BD024040091BD6D /* controls.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = controls.h; sourceTree = "<group>"; };
@@ -314,8 +314,8 @@
 				46880B8519C43A87006E1F66 /* App.h */,
 				E23F055D1BD0294A0091BD6D /* controls.cpp */,
 				E23F05591BD024040091BD6D /* controls.h */,
-				E20A7D681BCD205E007F1A3B /* GameplayScene.cpp */,
-				E20A7D691BCD205E007F1A3B /* GameplayScene.hpp */,
+				E20A7D681BCD205E007F1A3B /* PlayScene.cpp */,
+				E20A7D691BCD205E007F1A3B /* PlayScene.hpp */,
 				E2AC8F471BCD4BC20001DB3E /* Graphics.cpp */,
 				E282936F1BC5CA65005363B0 /* Graphics.h */,
 				E2AC8F461BCD40890001DB3E /* menu.h */,
@@ -527,7 +527,7 @@
 				503AE10017EB989F00D1A890 /* AppController.mm in Sources */,
 				E2B63AA51BE0450D005695B0 /* GObject.cpp in Sources */,
 				503AE10217EB989F00D1A890 /* RootViewController.mm in Sources */,
-				E20A7D6A1BCD205E007F1A3B /* GameplayScene.cpp in Sources */,
+				E20A7D6A1BCD205E007F1A3B /* PlayScene.cpp in Sources */,
 				E2AC8F481BCD4BC20001DB3E /* Graphics.cpp in Sources */,
 				503AE10117EB989F00D1A890 /* main.m in Sources */,
 				E2B63AA91BE0498C005695B0 /* Block.cpp in Sources */,
@@ -540,7 +540,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				E2B63AAA1BE0498C005695B0 /* Block.cpp in Sources */,
-				E20A7D6B1BCD205E007F1A3B /* GameplayScene.cpp in Sources */,
+				E20A7D6B1BCD205E007F1A3B /* PlayScene.cpp in Sources */,
 				46880B8919C43A87006E1F66 /* App.cpp in Sources */,
 				E2B63AA61BE0450D005695B0 /* GObject.cpp in Sources */,
 				503AE10517EB98FF00D1A890 /* main.cpp in Sources */,

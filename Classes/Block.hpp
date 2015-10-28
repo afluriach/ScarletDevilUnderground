@@ -13,7 +13,7 @@
 #include "chipmunk.h"
 
 #include "App.h"
-#include "GameplayScene.hpp"
+#include "PlayScene.hpp"
 #include "GObject.hpp"
 #include "util.h"
 

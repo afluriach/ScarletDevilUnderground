@@ -1,13 +1,13 @@
 //
-//  GameplayScene.hpp
+//  PlayScene.hpp
 //  FlansBasement
 //
 //  Created by Toni on 10/13/15.
 //
 //
 
-#ifndef GameplayScene_hpp
-#define GameplayScene_hpp
+#ifndef PlayScene_hpp
+#define PlayScene_hpp
 
 #include <map>
 
@@ -16,7 +16,7 @@
 #include "controls.h"
 #include "GSpace.hpp"
 
-class GameplayScene : public cocos2d::Layer
+class PlayScene : public cocos2d::Layer
 {
 public:    
     enum Layer{
@@ -27,9 +27,9 @@ public:
     virtual bool init();
     virtual void update(float dt);
     
-    CREATE_FUNC(GameplayScene);
+    CREATE_FUNC(PlayScene);
     
-    static GameplayScene* inst;
+    static PlayScene* inst;
     
     GSpace gspace;
 private:
@@ -44,4 +44,4 @@ private:
     void move(int dx, int dy);
 };
 
-#endif /* GameplayScene_hpp */
+#endif /* PlayScene_hpp */

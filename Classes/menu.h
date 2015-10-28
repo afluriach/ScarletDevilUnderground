@@ -169,7 +169,7 @@ protected:
 private:
     static inline void start()
     {
-        pushScene<GameplayScene>();
+        pushScene<PlayScene>();
     }
     
     static inline void exit()

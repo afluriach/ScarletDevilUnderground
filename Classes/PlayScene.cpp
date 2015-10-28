@@ -1,5 +1,5 @@
 //
-//  GameplayScene.cpp
+//  PlayScene.cpp
 //  FlansBasement
 //
 //  Created by Toni on 10/13/15.
@@ -8,16 +8,16 @@
 
 #include "App.h"
 #include "controls.h"
-#include "GameplayScene.hpp"
+#include "PlayScene.hpp"
 #include "GObject.hpp"
 #include "util.h"
 
 using namespace std;
 USING_NS_CC;
 
-GameplayScene* GameplayScene::inst;
+PlayScene* PlayScene::inst;
 
-bool GameplayScene::init()
+bool PlayScene::init()
 {
     inst = this;
     
@@ -44,7 +44,7 @@ void printGroup(TMXObjectGroup* group)
     }
 }
 
-void GameplayScene::loadObjectGroup(TMXObjectGroup* group)
+void PlayScene::loadObjectGroup(TMXObjectGroup* group)
 {
     const ValueVector& objects = group->getObjects();
     
@@ -52,7 +52,7 @@ void GameplayScene::loadObjectGroup(TMXObjectGroup* group)
     gspace.processAdditions(this);
 }
 
-void GameplayScene::loadMapObjects(const TMXTiledMap& map)
+void PlayScene::loadMapObjects(const TMXTiledMap& map)
 {
     Vector<TMXObjectGroup*> objLayers = map.getObjectGroups();
     log("%ld object groups.", objLayers.size());
@@ -65,7 +65,7 @@ void GameplayScene::loadMapObjects(const TMXTiledMap& map)
     }
 }
 
-void GameplayScene::update(float dt)
+void PlayScene::update(float dt)
 {
     KeyRegister* kr = app->keyRegister;
     
@@ -81,7 +81,7 @@ void GameplayScene::update(float dt)
     
 }
 
-void GameplayScene::move(int dx, int dy)
+void PlayScene::move(int dx, int dy)
 {
     setPosition(getPositionX()-dx, getPositionY()-dy);
 }
