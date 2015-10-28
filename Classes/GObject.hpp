@@ -24,13 +24,6 @@ public:
     
     //Representation as a map object
     GObject(const cocos2d::ValueMap& args);
-    
-    template <typename T>
-    static AdapterType consAdapter()
-    {
-        return [](const cocos2d::ValueMap& args) -> GObject* { return new T(args); };
-    }
-    
     //Map each class name to a constructor adapter function.
     static const std::map<std::string,AdapterType> adapters;
     

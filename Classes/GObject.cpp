@@ -12,6 +12,15 @@
 
 USING_NS_CC;
 
+//Adapters for mapping the name of a class to a factory adapter.
+template <typename T>
+static GObject::AdapterType consAdapter()
+{
+    return [](const cocos2d::ValueMap& args) -> GObject* { return new T(args); };
+}
+
+const std::map<std::string,GObject::AdapterType> GObject::adapters = map_list_of("Block", consAdapter<Block>());
+
 GObject::GObject(const ValueMap& obj) : name(obj.at("name").asString() )
 {
     log("GObject %s instantiated.", name.c_str());
@@ -27,7 +36,6 @@ GObject::GObject(const ValueMap& obj) : name(obj.at("name").asString() )
     initialCenter += (dim*0.5);
 }
 
-const std::map<std::string,GObject::AdapterType> GObject::adapters = map_list_of("Block", GObject::consAdapter<Block>());
 
 GObject* GObject::constructByType(const std::string& type, const cocos2d::ValueMap& args )
 {
