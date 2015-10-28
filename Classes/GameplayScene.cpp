@@ -9,6 +9,7 @@
 #include "AppDelegate.h"
 #include "controls.h"
 #include "GameplayScene.hpp"
+#include "GObject.hpp"
 #include "util.h"
 
 USING_NS_CC;
@@ -38,6 +39,22 @@ void printGroup(TMXObjectGroup* group)
     }
 }
 
+void loadObject(const ValueMap& obj)
+{
+    GObject gobj(obj);
+}
+
+void loadObjectGroup(TMXObjectGroup* group)
+{
+    const ValueVector& objects = group->getObjects();
+    
+    foreach(Value obj, objects)
+    {
+        const ValueMap& objAsMap = obj.asValueMap();
+        loadObject(objAsMap);
+    }
+}
+
 void GameplayScene::loadMapObjects(const TMXTiledMap& map)
 {
     Vector<TMXObjectGroup*> objLayers = map.getObjectGroups();
@@ -47,7 +64,7 @@ void GameplayScene::loadMapObjects(const TMXTiledMap& map)
         log("Objects group missing.");
     }
     else{
-        printGroup(map.getObjectGroup("objects"));
+        loadObjectGroup(map.getObjectGroup("objects"));
     }
 }
 
