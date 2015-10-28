@@ -31,6 +31,8 @@ public:
     static const std::map<std::string,AdapterType> adapters;
     
     static GObject* constructByType(const std::string& type, const cocos2d::ValueMap& args );
+
+    const std::string name;
 };
 
 #endif /* GObject_hpp */

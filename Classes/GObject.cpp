@@ -12,9 +12,9 @@
 
 USING_NS_CC;
 
-GObject::GObject(const ValueMap& obj)
+GObject::GObject(const ValueMap& obj) : name(obj.at("name").asString() )
 {
-    log("GObject instantiated.");
+    log("GObject %s instantiated.", name.c_str());
     printValueMap(obj);
 }
 
