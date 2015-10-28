@@ -10,7 +10,6 @@
 #define Block_hpp
 
 #include "cocos2d.h"
-#include "chipmunk.h"
 
 #include "App.h"
 #include "PlayScene.hpp"
