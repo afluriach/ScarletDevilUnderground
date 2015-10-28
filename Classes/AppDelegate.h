@@ -21,6 +21,10 @@ public:
     
     static const int framesPerSecond = 60;
     constexpr static float secondsPerFrame = 1.0 / framesPerSecond;
+    
+    static const int pixelsPerTile = 128;
+    static const int tilesPerPixel = 1.0/pixelsPerTile;
+    
     static const bool showStats = true;
     static const std::string title;
     
