@@ -20,6 +20,7 @@
 //The list directly follows the list_of macro, and every element include the first
 //is in parenthesis
 #define list_of_typed(list,type) list_of list .convert_to_container<type>()
+#define map_list_of boost::assign::map_list_of
 
 template <typename T>
 cocos2d::Scene* createSceneFromLayer()

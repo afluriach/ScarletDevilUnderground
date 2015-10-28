@@ -12,6 +12,7 @@
 #include "GObject.hpp"
 #include "util.h"
 
+using namespace std;
 USING_NS_CC;
 
 bool GameplayScene::init()
@@ -41,7 +42,10 @@ void printGroup(TMXObjectGroup* group)
 
 void loadObject(const ValueMap& obj)
 {
-    GObject gobj(obj);
+//    GObject gobj(obj);
+    string type = obj.at("type").asString();
+    GObject* gobj = GObject::constructByType(type, obj);
+    delete gobj;
 }
 
 void loadObjectGroup(TMXObjectGroup* group)

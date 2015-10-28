@@ -74,6 +74,8 @@
 		E2AC8F491BCD4BC20001DB3E /* Graphics.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E2AC8F471BCD4BC20001DB3E /* Graphics.cpp */; settings = {ASSET_TAGS = (); }; };
 		E2B63AA51BE0450D005695B0 /* GObject.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E2B63AA31BE0450D005695B0 /* GObject.cpp */; settings = {ASSET_TAGS = (); }; };
 		E2B63AA61BE0450D005695B0 /* GObject.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E2B63AA31BE0450D005695B0 /* GObject.cpp */; settings = {ASSET_TAGS = (); }; };
+		E2B63AA91BE0498C005695B0 /* Block.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E2B63AA71BE0498C005695B0 /* Block.cpp */; settings = {ASSET_TAGS = (); }; };
+		E2B63AAA1BE0498C005695B0 /* Block.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E2B63AA71BE0498C005695B0 /* Block.cpp */; settings = {ASSET_TAGS = (); }; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -176,6 +178,8 @@
 		E2AC8F471BCD4BC20001DB3E /* Graphics.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Graphics.cpp; sourceTree = "<group>"; };
 		E2B63AA31BE0450D005695B0 /* GObject.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = GObject.cpp; sourceTree = "<group>"; };
 		E2B63AA41BE0450D005695B0 /* GObject.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = GObject.hpp; sourceTree = "<group>"; };
+		E2B63AA71BE0498C005695B0 /* Block.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Block.cpp; sourceTree = "<group>"; };
+		E2B63AA81BE0498C005695B0 /* Block.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = Block.hpp; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -321,6 +325,8 @@
 				E27E857A1BE0178800A94217 /* GSpace.hpp */,
 				E2B63AA31BE0450D005695B0 /* GObject.cpp */,
 				E2B63AA41BE0450D005695B0 /* GObject.hpp */,
+				E2B63AA71BE0498C005695B0 /* Block.cpp */,
+				E2B63AA81BE0498C005695B0 /* Block.hpp */,
 			);
 			name = Classes;
 			path = ../Classes;
@@ -524,6 +530,7 @@
 				E20A7D6A1BCD205E007F1A3B /* GameplayScene.cpp in Sources */,
 				E2AC8F481BCD4BC20001DB3E /* Graphics.cpp in Sources */,
 				503AE10117EB989F00D1A890 /* main.m in Sources */,
+				E2B63AA91BE0498C005695B0 /* Block.cpp in Sources */,
 				E28D89851BDFE7CD00F58903 /* util.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -532,6 +539,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				E2B63AAA1BE0498C005695B0 /* Block.cpp in Sources */,
 				E20A7D6B1BCD205E007F1A3B /* GameplayScene.cpp in Sources */,
 				46880B8919C43A87006E1F66 /* AppDelegate.cpp in Sources */,
 				E2B63AA61BE0450D005695B0 /* GObject.cpp in Sources */,
