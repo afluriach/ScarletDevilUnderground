@@ -9,6 +9,8 @@
 #ifndef util_h
 #define util_h
 
+#include "cocos2d.h"
+
 #include <boost/foreach.hpp>
 #include <boost/assign.hpp>
 
@@ -35,5 +37,7 @@ void pushScene()
 }
 
 void end();
+
+void printValueMap(const cocos2d::ValueMap& obj);
 
 #endif /* util_h */

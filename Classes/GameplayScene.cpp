@@ -27,18 +27,6 @@ bool GameplayScene::init()
     return true;
 }
 
-void printObject(const ValueMap& obj)
-{
-    foreach(ValueMap::value_type entryPair, obj)
-    {
-        log(
-            "Object property %s: %s.",
-            entryPair.first.c_str(),
-            entryPair.second.asString().c_str()
-            );
-    }
-}
-
 void printGroup(TMXObjectGroup* group)
 {
     const ValueVector& objects = group->getObjects();
@@ -46,15 +34,7 @@ void printGroup(TMXObjectGroup* group)
     foreach(Value obj, objects)
     {
         const ValueMap& objAsMap = obj.asValueMap();
-        
-        foreach(ValueMap::value_type entryPair, objAsMap)
-        {
-            log(
-                "Object property %s: %s.",
-                entryPair.first.c_str(),
-                entryPair.second.asString().c_str()
-                );
-        }
+        printValueMap(objAsMap);
     }
 }
 
