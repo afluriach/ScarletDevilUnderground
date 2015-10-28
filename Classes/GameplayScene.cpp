@@ -40,23 +40,11 @@ void printGroup(TMXObjectGroup* group)
     }
 }
 
-void loadObject(const ValueMap& obj)
-{
-//    GObject gobj(obj);
-    string type = obj.at("type").asString();
-    GObject* gobj = GObject::constructByType(type, obj);
-    delete gobj;
-}
-
-void loadObjectGroup(TMXObjectGroup* group)
+void GameplayScene::loadObjectGroup(TMXObjectGroup* group)
 {
     const ValueVector& objects = group->getObjects();
     
-    foreach(Value obj, objects)
-    {
-        const ValueMap& objAsMap = obj.asValueMap();
-        loadObject(objAsMap);
-    }
+    gspace.addObjects(objects);
 }
 
 void GameplayScene::loadMapObjects(const TMXTiledMap& map)

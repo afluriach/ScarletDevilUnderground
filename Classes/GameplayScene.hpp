@@ -30,6 +30,8 @@ private:
     GSpace gspace;
     
     void loadMapObjects(const cocos2d::TMXTiledMap& map);
+    //Add a map object layer to space.
+    void loadObjectGroup(TMXObjectGroup* group);
     
     const int cameraMovePixPerFrame = 3;
     void move(int dx, int dy);
