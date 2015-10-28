@@ -15,6 +15,8 @@
 #include "chipmunk.hpp"
 #include "cocos2d.h"
 
+#include "util.h"
+
 class GObject
 {
 public:

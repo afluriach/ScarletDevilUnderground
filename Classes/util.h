@@ -22,6 +22,15 @@
 #define list_of_typed(list,type) list_of list .convert_to_container<type>()
 #define map_list_of boost::assign::map_list_of
 
+//Despite its name, it could map to another method of a different name
+//with the same signature in the same class.
+//Otherwise, superMethod identifier includes class name scope.
+#define CallSuper(name, method, superMethod, ret, signature, args) \
+inline ret method( signature ) \
+{ \
+    return superMethod(args); \
+} \
+
 cocos2d::Scene* crntScene();
 
 template <typename T>

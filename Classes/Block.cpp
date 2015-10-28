@@ -8,7 +8,3 @@
 
 #include "Block.hpp"
 
-std::shared_ptr<cp::Body> Block::initializeBody(cp::Space& space)
-{
-    return GObject::initRectangleBody(space);
-}

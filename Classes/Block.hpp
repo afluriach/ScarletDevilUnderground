@@ -17,7 +17,7 @@
 #include "GObject.hpp"
 #include "util.h"
 
-class Block : public GObject
+class Block : virtual public GObject
 {
 public:
     inline Block(const cocos2d::ValueMap& args) : GObject(args)
@@ -43,7 +43,15 @@ public:
         else
             log("%s sprite %s added at %f,%f", name.c_str(), resPath.c_str(), centerPix.x, centerPix.y);
     }
-    virtual std::shared_ptr<cp::Body> initializeBody(cp::Space& space);
+    CallSuper(
+        RectangleObject,
+        initializeBody,
+        GObject::initRectangleBody,
+        std::shared_ptr<cp::Body>,
+        cp::Space& space,
+        space
+    )
+
 private:
     std::string letter;
 };
