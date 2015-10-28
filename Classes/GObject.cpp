@@ -16,6 +16,15 @@ GObject::GObject(const ValueMap& obj) : name(obj.at("name").asString() )
 {
     log("GObject %s instantiated.", name.c_str());
     printValueMap(obj);
+    
+    cp::Vect cornerPos(getFloat(obj, "x"), getFloat(obj, "y"));
+    cornerPos *= AppDelegate::tilesPerPixel;
+    
+    dim = cp::Vect(getFloat(obj, "width"), getFloat(obj, "height"));
+    dim *= AppDelegate::tilesPerPixel;
+    
+    initialCenter = cp::Vect(cornerPos);
+    initialCenter += (dim*0.5);
 }
 
 const std::map<std::string,GObject::AdapterType> GObject::adapters = map_list_of("Block", GObject::consAdapter<Block>());
@@ -29,4 +38,10 @@ GObject* GObject::constructByType(const std::string& type, const cocos2d::ValueM
         return adapter(args);
     }
     else return nullptr;
+}
+
+std::shared_ptr<cp::Body> GObject::initRectangleBody(cp::Space& space)
+{
+    body = GSpace::createRectangleBody(space, initialCenter, dim, mass, this);
+    return body;
 }

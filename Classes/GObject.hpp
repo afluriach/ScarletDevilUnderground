@@ -10,7 +10,9 @@
 #define GObject_hpp
 
 #include <map>
+#include <memory>
 
+#include "chipmunk.hpp"
 #include "cocos2d.h"
 
 class GObject
@@ -33,6 +35,20 @@ public:
     static GObject* constructByType(const std::string& type, const cocos2d::ValueMap& args );
 
     const std::string name;
+    
+    std::shared_ptr<cp::Body> body;
+    //A default of 0 signifies undefined. Using -1 to indicate static.
+    float mass = 0;
+    
+    //Posiition where the object was loaded
+    cp::Vect initialCenter;
+    //Rectular dimensions or BB dimensions if object is not actually rectangular.
+    cp::Vect dim;
+    
+    virtual std::shared_ptr<cp::Body>initializeBody(cp::Space& space) = 0;
+    
+    //Create body and add it to space. This assumes BB is rectangle dimensions
+    std::shared_ptr<cp::Body> initRectangleBody(cp::Space& space);
 };
 
 #endif /* GObject_hpp */

@@ -33,3 +33,8 @@ void printValueMap(const ValueMap& obj)
         );
     }
 }
+
+float getFloat(const cocos2d::ValueMap& args, const std::string& name)
+{
+    return args.at(name).asFloat();
+}

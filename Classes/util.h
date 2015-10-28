@@ -42,5 +42,6 @@ void pushScene()
 void end();
 
 void printValueMap(const cocos2d::ValueMap& obj);
+float getFloat(const cocos2d::ValueMap& obj, const std::string& name);
 
 #endif /* util_h */

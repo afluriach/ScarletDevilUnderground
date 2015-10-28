@@ -10,6 +10,7 @@
 #define GSpace_hpp
 
 #include <map>
+#include <memory>
 #include <vector>
 
 #include "cocos2d.h"
@@ -27,6 +28,15 @@ public:
 
     void addObject(const ValueMap& obj);
     void addObjects(const ValueVector& objs);
+    void processAdditions();
+    
+    static std::shared_ptr<cp::Body> createRectangleBody(
+        cp::Space& space,
+        const cp::Vect& center,
+        const cp::Vect& dim,
+        float mass,
+        GObject* obj
+    );
 private:
     cp::Space space;
     
@@ -34,8 +44,6 @@ private:
     map<string, vector<GObject*>> objsByType;
     
     vector<GObject*> toAdd;
-    
-    void processAdditions();
 };
 
 #endif /* GSpace_hpp */

@@ -30,11 +30,11 @@ public:
     CREATE_FUNC(GameplayScene);
     
     static GameplayScene* inst;
+    
+    GSpace gspace;
 private:
     cocos2d::Layer* mapLayer;
     cocos2d::TMXTiledMap* tileMap;
-    
-    GSpace gspace;
     
     void loadMapObjects(const cocos2d::TMXTiledMap& map);
     //Add a map object layer to space.
