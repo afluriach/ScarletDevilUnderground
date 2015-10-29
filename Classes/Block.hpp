@@ -31,7 +31,6 @@ public:
             cocos2d::log("%s: letter undefined", name.c_str());
     }
     CallSuper(
-        RectangleObject,
         initializeBody,
         GObject::initRectangleBody,
         std::shared_ptr<cp::Body>,

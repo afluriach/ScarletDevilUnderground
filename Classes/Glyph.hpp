@@ -21,7 +21,6 @@ public:
     }
     
     CallSuper(
-        RectangleObject,
         initializeBody,
         GObject::initRectangleBody,
         std::shared_ptr<cp::Body>,

@@ -28,7 +28,7 @@
 //Despite its name, it could map to another method of a different name
 //with the same signature in the same class.
 //Otherwise, superMethod identifier includes class name scope.
-#define CallSuper(name, method, superMethod, ret, signature, args) \
+#define CallSuper(method, superMethod, ret, signature, args) \
 inline ret method( signature ) \
 { \
     return superMethod(args); \
