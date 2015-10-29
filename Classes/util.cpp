@@ -49,3 +49,10 @@ cp::Vect toChipmunk(const cocos2d::Vec2& rhs)
 {
     return cp::Vect(expand_vector2(rhs));
 }
+
+Sprite* loadImageSprite(const std::string& resPath, PlayScene::Layer sceneLayer, cocos2d::Layer* dest, const Vec2& pos)
+{
+    cocos2d::Node* node = cocos2d::Sprite::create(resPath);
+    node->setPosition(pos);
+    dest->addChild(node, sceneLayer);
+}

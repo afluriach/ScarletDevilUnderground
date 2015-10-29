@@ -6,7 +6,12 @@
 //
 //
 
+#include "cocos2d.h"
+
 #include "Block.hpp"
+#include "Glyph.hpp"
+
+#include "PlayScene.hpp"
 #include "GObject.hpp"
 #include "util.h"
 
@@ -19,7 +24,10 @@ static GObject::AdapterType consAdapter()
     return [](const cocos2d::ValueMap& args) -> GObject* { return new T(args); };
 }
 
-const std::map<std::string,GObject::AdapterType> GObject::adapters = map_list_of("Block", consAdapter<Block>());
+const std::map<std::string,GObject::AdapterType> GObject::adapters =
+    map_list_of
+    ("Block", consAdapter<Block>())
+    ("Glyph", consAdapter<Glyph>());
 
 GObject::GObject(const ValueMap& obj) : name(obj.at("name").asString() )
 {
@@ -52,4 +60,17 @@ std::shared_ptr<cp::Body> GObject::initRectangleBody(cp::Space& space)
 {
     body = GSpace::createRectangleBody(space, initialCenter, dim, mass, this);
     return body;
+}
+
+void GObject::loadImageSprite(const std::string& resPath, PlayScene::Layer sceneLayer, cocos2d::Layer* dest)
+{
+    cp::Vect centerPix(initialCenter);
+    centerPix *= App::pixelsPerTile;
+    
+    cocos2d::Node* node = ::loadImageSprite(resPath,sceneLayer,dest, toCocos(centerPix));
+    
+    if(node == nullptr)
+        log("%s sprite not loaded", name.c_str());
+    else
+        log("%s sprite %s added at %f,%f", name.c_str(), resPath.c_str(), expand_vector2(centerPix));
 }

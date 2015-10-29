@@ -11,15 +11,6 @@
 
 void Block::initializeGraphics(cocos2d::Layer* layer)
 {
-    cp::Vect centerPix(initialCenter);
-    centerPix *= App::pixelsPerTile;
     std::string resPath = "sprites/block "+letter+".png";
-    cocos2d::Node* node = cocos2d::Sprite::create(resPath);
-    node->setPosition(toCocos(centerPix));
-    layer->addChild(node, PlayScene::Layer::ground);
-    
-    if(node == nullptr)
-        log("%s sprite not loaded", name.c_str());
-    else
-        log("%s sprite %s added at %f,%f", name.c_str(), resPath.c_str(), expand_vector2(centerPix));
+    loadImageSprite(resPath, PlayScene::Layer::ground, layer);
 }

@@ -15,6 +15,8 @@
 #include <boost/foreach.hpp>
 #include <boost/assign.hpp>
 
+#include "PlayScene.hpp"
+
 #define foreach BOOST_FOREACH
 #define list_of boost::assign::list_of
 //Convert to concrete container type.
@@ -59,5 +61,7 @@ void end();
 
 void printValueMap(const cocos2d::ValueMap& obj);
 float getFloat(const cocos2d::ValueMap& obj, const std::string& name);
+
+cocos2d::Sprite* loadImageSprite(const std::string& resPath, PlayScene::Layer sceneLayer, cocos2d::Layer* dest, const Vec2& pos);
 
 #endif /* util_h */

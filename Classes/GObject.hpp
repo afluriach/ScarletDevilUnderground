@@ -15,6 +15,7 @@
 #include "chipmunk.hpp"
 #include "cocos2d.h"
 
+#include "PlayScene.hpp"
 #include "util.h"
 
 class GObject
@@ -46,6 +47,8 @@ public:
     std::shared_ptr<cp::Body> initRectangleBody(cp::Space& space);
     //Create Node which graphically reprensets this object and adds it to Layer
     virtual void initializeGraphics(cocos2d::Layer* layer) = 0;
+    
+    void loadImageSprite(const std::string& resPath, PlayScene::Layer sceneLayer, cocos2d::Layer* dest);
 };
 
 #endif /* GObject_hpp */

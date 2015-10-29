@@ -70,6 +70,8 @@
 		E27E857C1BE0178800A94217 /* GSpace.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E27E85791BE0178800A94217 /* GSpace.cpp */; };
 		E28D89851BDFE7CD00F58903 /* util.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E28D89841BDFE7CD00F58903 /* util.cpp */; };
 		E28D89861BDFE7CD00F58903 /* util.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E28D89841BDFE7CD00F58903 /* util.cpp */; };
+		E29FF7511BE18BE7004725C1 /* Glyph.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E29FF74F1BE18BE7004725C1 /* Glyph.cpp */; };
+		E29FF7521BE18BE7004725C1 /* Glyph.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E29FF74F1BE18BE7004725C1 /* Glyph.cpp */; };
 		E2AC8F481BCD4BC20001DB3E /* Graphics.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E2AC8F471BCD4BC20001DB3E /* Graphics.cpp */; };
 		E2AC8F491BCD4BC20001DB3E /* Graphics.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E2AC8F471BCD4BC20001DB3E /* Graphics.cpp */; };
 		E2B63AA51BE0450D005695B0 /* GObject.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E2B63AA31BE0450D005695B0 /* GObject.cpp */; };
@@ -174,6 +176,8 @@
 		E27E857A1BE0178800A94217 /* GSpace.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = GSpace.hpp; sourceTree = "<group>"; };
 		E282936F1BC5CA65005363B0 /* Graphics.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Graphics.h; sourceTree = "<group>"; };
 		E28D89841BDFE7CD00F58903 /* util.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = util.cpp; sourceTree = "<group>"; };
+		E29FF74F1BE18BE7004725C1 /* Glyph.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Glyph.cpp; sourceTree = "<group>"; };
+		E29FF7501BE18BE7004725C1 /* Glyph.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = Glyph.hpp; sourceTree = "<group>"; };
 		E2AC8F461BCD40890001DB3E /* menu.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = menu.h; sourceTree = "<group>"; };
 		E2AC8F471BCD4BC20001DB3E /* Graphics.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Graphics.cpp; sourceTree = "<group>"; };
 		E2B63AA31BE0450D005695B0 /* GObject.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = GObject.cpp; sourceTree = "<group>"; };
@@ -327,6 +331,8 @@
 				E2B63AA41BE0450D005695B0 /* GObject.hpp */,
 				E2B63AA71BE0498C005695B0 /* Block.cpp */,
 				E2B63AA81BE0498C005695B0 /* Block.hpp */,
+				E29FF74F1BE18BE7004725C1 /* Glyph.cpp */,
+				E29FF7501BE18BE7004725C1 /* Glyph.hpp */,
 			);
 			name = Classes;
 			path = ../Classes;
@@ -531,6 +537,7 @@
 				E2AC8F481BCD4BC20001DB3E /* Graphics.cpp in Sources */,
 				503AE10117EB989F00D1A890 /* main.m in Sources */,
 				E2B63AA91BE0498C005695B0 /* Block.cpp in Sources */,
+				E29FF7511BE18BE7004725C1 /* Glyph.cpp in Sources */,
 				E28D89851BDFE7CD00F58903 /* util.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -543,6 +550,7 @@
 				E20A7D6B1BCD205E007F1A3B /* PlayScene.cpp in Sources */,
 				46880B8919C43A87006E1F66 /* App.cpp in Sources */,
 				E2B63AA61BE0450D005695B0 /* GObject.cpp in Sources */,
+				E29FF7521BE18BE7004725C1 /* Glyph.cpp in Sources */,
 				503AE10517EB98FF00D1A890 /* main.cpp in Sources */,
 				E2AC8F491BCD4BC20001DB3E /* Graphics.cpp in Sources */,
 				E23F055F1BD0294A0091BD6D /* controls.cpp in Sources */,

@@ -16,10 +16,10 @@
 #include "cocos2d.h"
 #include "chipmunk.hpp"
 
-#include "GObject.hpp"
-
 using namespace std;
 USING_NS_CC;
+
+class GObject;
 
 class GSpace
 {
