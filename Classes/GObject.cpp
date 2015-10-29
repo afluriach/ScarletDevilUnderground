@@ -24,10 +24,12 @@ static GObject::AdapterType consAdapter()
     return [](const cocos2d::ValueMap& args) -> GObject* { return new T(args); };
 }
 
+#define entry(name,cls) (name, consAdapter<cls>())
+
 const std::map<std::string,GObject::AdapterType> GObject::adapters =
     map_list_of
-    ("Block", consAdapter<Block>())
-    ("Glyph", consAdapter<Glyph>());
+    entry("Block", Block)
+    entry("Glyph", Glyph);
 
 GObject::GObject(const ValueMap& obj) : name(obj.at("name").asString() )
 {
