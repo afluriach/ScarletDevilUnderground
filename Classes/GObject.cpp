@@ -25,11 +25,13 @@ static GObject::AdapterType consAdapter()
 }
 
 #define entry(name,cls) (name, consAdapter<cls>())
+//To make an entry where the name matches the class
+#define entry_same(cls) entry(#cls, cls)
 
 const std::map<std::string,GObject::AdapterType> GObject::adapters =
     map_list_of
-    entry("Block", Block)
-    entry("Glyph", Glyph);
+    entry_same(Block)
+    entry_same(Glyph);
 
 GObject::GObject(const ValueMap& obj) : name(obj.at("name").asString() )
 {
