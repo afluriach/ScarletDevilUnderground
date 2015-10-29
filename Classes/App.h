@@ -19,6 +19,9 @@ public:
         KeyRegisterEvent = 1
     };
     
+    static const int width = 800;
+    static const int height = 500;
+    
     static const int framesPerSecond = 60;
     constexpr static float secondsPerFrame = 1.0 / framesPerSecond;
     

@@ -40,6 +40,8 @@ bool App::applicationDidFinishLaunching() {
     if(!glview) {
         glview = GLViewImpl::create(title);
         director->setOpenGLView(glview);
+        
+        glview->setDesignResolutionSize(width, height, ResolutionPolicy::SHOW_ALL);
     }
 
     director->setDisplayStats(showStats);
