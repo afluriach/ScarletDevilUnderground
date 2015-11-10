@@ -8,6 +8,7 @@
 
 #include "cocos2d.h"
 
+#include "App.h"
 #include "util.h"
 
 #include "GObject.hpp"
@@ -19,11 +20,6 @@ USING_NS_CC;
 float rectagleMomentOfInteria(float mass, const cp::Vect& dim)
 {
     return mass*(dim.x*dim.x+dim.y*dim.y)/12;
-}
-
-GSpace::GSpace()
-{
-    space.setGravity(cp::Vect(0,0));
 }
 
 void GSpace::addObject(const ValueMap& obj)
@@ -42,6 +38,33 @@ void GSpace::addObjects(const ValueVector& objs)
         const ValueMap& objAsMap = obj.asValueMap();
         addObject(objAsMap);
     }
+}
+
+void GSpace::initObjects()
+{
+    foreach(GObject* obj, addedLastFrame)
+    {
+        obj->init();
+    }
+    addedLastFrame.clear();
+}
+
+void GSpace::update()
+{
+    //Run inits for recently added objects
+    initObjects();
+    
+    //TODO Run updates for all objects
+    foreach(GObject* obj, objects)
+    {
+        obj->update();
+    }
+    
+    //physics step
+    space.step(App::secondsPerFrame);
+    
+    //process additions
+    processAdditions();
 }
 
 shared_ptr<cp::Body> GSpace::createRectangleBody(
@@ -83,11 +106,20 @@ shared_ptr<cp::Body> GSpace::createRectangleBody(
     return body;
 }
 
-void GSpace::processAdditions(cocos2d::Layer* graphicsLayer)
+void GSpace::processAdditions()
 {
     foreach(GObject* obj, toAdd)
     {
         obj->initializeBody(space);
         obj->initializeGraphics(graphicsLayer);
+        objects.push_back(obj);
     }
+    //move(toAdd.begin(), toAdd.end(), addedLastFrame.end());
+    //For some strange reason std::move fails with a memory error here.
+    foreach(GObject* obj, toAdd)
+    {
+        addedLastFrame.push_back(obj);
+    }
+    
+    toAdd.clear();
 }

@@ -28,6 +28,7 @@ public:
         space
     )
     
+    virtual void init();
     virtual void initializeGraphics(cocos2d::Layer* layer);
 };
 

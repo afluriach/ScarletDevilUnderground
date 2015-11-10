@@ -37,6 +37,8 @@ public:
         cp::Space& space,
         space
     )
+    no_op(init)
+    
     virtual void initializeGraphics(cocos2d::Layer* layer);
 private:
     std::string letter;

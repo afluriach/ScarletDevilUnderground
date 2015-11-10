@@ -34,6 +34,8 @@ inline ret method( signature ) \
     return superMethod(args); \
 } \
 
+#define no_op(method) inline void method() {}
+
 #define expand_vector2(v)  ((v).x) , ((v).y) 
 
 //Define assignment conversion between cocos and chipmunk vectors

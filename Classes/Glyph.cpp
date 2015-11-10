@@ -13,3 +13,8 @@ void Glyph::initializeGraphics(cocos2d::Layer* layer)
 {
     loadImageSprite("sprites/glyph.png", PlayScene::Layer::ground, layer);
 }
+
+void Glyph::init()
+{
+    body->setVel(cp::Vect(0,-6));
+}

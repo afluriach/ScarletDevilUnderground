@@ -49,7 +49,9 @@ void PlayScene::loadObjectGroup(TMXObjectGroup* group)
     const ValueVector& objects = group->getObjects();
     
     gspace.addObjects(objects);
-    gspace.processAdditions(this);
+    //This isn't really necessary. If this is not added, nothing will happen the first frame
+    //since there will be no objects, and all objects will be added at the end of the first frame.
+    gspace.processAdditions();
 }
 
 void PlayScene::loadMapObjects(const TMXTiledMap& map)
@@ -79,6 +81,7 @@ void PlayScene::update(float dt)
     if(kr->isKeyHeld(Keys::right) && !kr->isKeyHeld(Keys::left))
         move(cameraMovePixPerFrame, 0);
     
+    gspace.update();
 }
 
 void PlayScene::move(int dx, int dy)

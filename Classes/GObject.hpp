@@ -41,6 +41,15 @@ public:
     //Rectular dimensions or BB dimensions if object is not actually rectangular.
     cp::Vect dim;
     
+    //Called on the first frame after it has been added, before update is called on it or any other
+    //objects in the same frame
+    virtual void init() = 0;
+    inline virtual void update()
+    {
+        updateSpritePos();
+    }
+    
+    //Called before adding the the object to space.
     virtual std::shared_ptr<cp::Body>initializeBody(cp::Space& space) = 0;
     
     //Create body and add it to space. This assumes BB is rectangle dimensions
@@ -49,6 +58,9 @@ public:
     virtual void initializeGraphics(cocos2d::Layer* layer) = 0;
     
     void loadImageSprite(const std::string& resPath, PlayScene::Layer sceneLayer, cocos2d::Layer* dest);
+    void updateSpritePos();
+private:
+    cocos2d::Node* sprite;
 };
 
 #endif /* GObject_hpp */

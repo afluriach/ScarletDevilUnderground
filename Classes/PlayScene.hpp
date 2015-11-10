@@ -18,7 +18,9 @@
 
 class PlayScene : public cocos2d::Layer
 {
-public:    
+public:
+    inline PlayScene() : gspace(this) {}
+    
     enum Layer{
         map = 1,
         ground,

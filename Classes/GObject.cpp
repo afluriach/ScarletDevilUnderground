@@ -71,10 +71,17 @@ void GObject::loadImageSprite(const std::string& resPath, PlayScene::Layer scene
     cp::Vect centerPix(initialCenter);
     centerPix *= App::pixelsPerTile;
     
-    cocos2d::Node* node = ::loadImageSprite(resPath,sceneLayer,dest, toCocos(centerPix));
+    sprite = ::loadImageSprite(resPath,sceneLayer,dest, toCocos(centerPix));
     
-    if(node == nullptr)
+    if(sprite == nullptr)
         log("%s sprite not loaded", name.c_str());
     else
         log("%s sprite %s added at %f,%f", name.c_str(), resPath.c_str(), expand_vector2(centerPix));
+}
+
+void GObject::updateSpritePos()
+{
+    if(sprite != nullptr){
+        sprite->setPosition(toCocos(body->getPos())*App::pixelsPerTile);
+    }
 }

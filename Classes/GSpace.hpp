@@ -24,11 +24,16 @@ class GObject;
 class GSpace
 {
 public:
-    GSpace();
+    inline GSpace(cocos2d::Layer* graphicsLayer) : graphicsLayer(graphicsLayer)
+    {
+        space.setGravity(cp::Vect(0,0));
+    }
 
     void addObject(const ValueMap& obj);
     void addObjects(const ValueVector& objs);
-    void processAdditions(cocos2d::Layer* graphicsLayer);
+    void processAdditions();
+    
+    void update();
     
     static std::shared_ptr<cp::Body> createRectangleBody(
         cp::Space& space,
@@ -39,11 +44,20 @@ public:
     );
 private:
     cp::Space space;
+    //The graphics destination to use for all objects constructed in this space.
+    cocos2d::Layer* graphicsLayer;
     
+    vector<GObject*> objects;
     map<string, GObject*> objByName;
     map<string, vector<GObject*>> objsByType;
     
+    //Objects which have been queued for addition. Will be added at end of frame.
     vector<GObject*> toAdd;
+    //Objects whose additions have been processsed last frame. Physics has been initialized but
+    //init has not yet run; it will run at start of frame.
+    vector<GObject*> addedLastFrame;
+    
+    void initObjects();
 };
 
 #endif /* GSpace_hpp */
