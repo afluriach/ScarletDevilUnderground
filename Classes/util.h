@@ -59,6 +59,11 @@ void pushScene()
     cocos2d::Director::getInstance()->pushScene(createSceneFromLayer<T>());
 }
 
+inline void popScene()
+{
+    cocos2d::Director::getInstance()->popScene();
+}
+
 void end();
 
 void printValueMap(const cocos2d::ValueMap& obj);

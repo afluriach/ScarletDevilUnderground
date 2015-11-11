@@ -21,6 +21,8 @@
 
 using namespace std::placeholders;
 
+class SceneSelect;
+
 class MenuLayer : public cocos2d::Layer
 {
     
@@ -161,8 +163,8 @@ public:
 protected:
     inline TitleMenu() : TextListMenuLayer(
         App::title,
-        list_of_typed( ("Start")("Exit"), std::vector<std::string>),
-        list_of_typed( (start)(exit), std::vector<std::function<void()>>)
+        list_of_typed( ("Start")("Scene Select")("Exit"), std::vector<std::string>),
+        list_of_typed( (start)(sceneSelect)(exit), std::vector<std::function<void()>>)
     )
     {}
                                   
@@ -172,9 +174,51 @@ private:
         pushScene<PlayScene>();
     }
     
+    static inline void sceneSelect()
+    {
+        pushScene<SceneSelect>();
+    }
+    
     static inline void exit()
     {
         end();
+    }
+};
+
+class SceneSelect : public TextListMenuLayer
+{
+public:
+    
+    CREATE_FUNC(SceneSelect);
+    
+    inline SceneSelect() :
+    TextListMenuLayer(
+        title,
+        list_of_typed( ("Play Scene")("Back"), std::vector<std::string>),
+        getSceneLaunchAdapters()
+    )
+    {}
+    
+protected:
+    const std::string title = "Scene Select";
+    
+    typedef std::function<void(void)> SceneLaunchAdapter;
+    template <typename T>
+    inline SceneLaunchAdapter sceneLaunchAdapter(){
+        return []() -> void { pushScene<T>(); };
+    }
+
+    inline std::vector<SceneLaunchAdapter> getSceneLaunchAdapters(){
+        std::vector<SceneLaunchAdapter> adapters = list_of_typed( (sceneLaunchAdapter<PlayScene>())
+            (back),
+            
+            std::vector<SceneLaunchAdapter>);
+        
+        return adapters;
+    }
+    
+    static inline void back(){
+        popScene();
     }
 };
 
