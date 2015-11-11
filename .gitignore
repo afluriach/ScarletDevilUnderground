@@ -18,3 +18,7 @@ xcuserdata
 *.moved-aside
 *.xcuserstate
 *.xcscmblueprint
+local.properties
+cocos2d/cocos/platform/android/java/bin
+proj.android/bin
+gen/
