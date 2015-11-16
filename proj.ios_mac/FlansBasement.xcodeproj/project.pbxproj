@@ -63,6 +63,10 @@
 		E20A7D6B1BCD205E007F1A3B /* PlayScene.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E20A7D681BCD205E007F1A3B /* PlayScene.cpp */; };
 		E20A7D6F1BCD27F0007F1A3B /* maps in Resources */ = {isa = PBXBuildFile; fileRef = E20A7D6E1BCD27F0007F1A3B /* maps */; };
 		E20A7D701BCD27F0007F1A3B /* maps in Resources */ = {isa = PBXBuildFile; fileRef = E20A7D6E1BCD27F0007F1A3B /* maps */; };
+		E23121FD1BF7FDA300FEA94B /* Dialog.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E23121FB1BF7FDA300FEA94B /* Dialog.cpp */; };
+		E23121FE1BF7FDA300FEA94B /* Dialog.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E23121FB1BF7FDA300FEA94B /* Dialog.cpp */; };
+		E23122031BFA757900FEA94B /* portraits in Resources */ = {isa = PBXBuildFile; fileRef = E23122021BFA757900FEA94B /* portraits */; };
+		E23122041BFA757900FEA94B /* portraits in Resources */ = {isa = PBXBuildFile; fileRef = E23122021BFA757900FEA94B /* portraits */; };
 		E23F055E1BD0294A0091BD6D /* controls.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E23F055D1BD0294A0091BD6D /* controls.cpp */; };
 		E23F055F1BD0294A0091BD6D /* controls.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E23F055D1BD0294A0091BD6D /* controls.cpp */; };
 		E27E85781BE016BB00A94217 /* libchipmunk++.a in Frameworks */ = {isa = PBXBuildFile; fileRef = E27E85771BE016BB00A94217 /* libchipmunk++.a */; };
@@ -169,6 +173,10 @@
 		E20A7D691BCD205E007F1A3B /* PlayScene.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = PlayScene.hpp; sourceTree = "<group>"; };
 		E20A7D6C1BCD211D007F1A3B /* util.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = util.h; sourceTree = "<group>"; };
 		E20A7D6E1BCD27F0007F1A3B /* maps */ = {isa = PBXFileReference; lastKnownFileType = folder; path = maps; sourceTree = "<group>"; };
+		E23121FB1BF7FDA300FEA94B /* Dialog.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Dialog.cpp; sourceTree = "<group>"; };
+		E23121FC1BF7FDA300FEA94B /* Dialog.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = Dialog.hpp; sourceTree = "<group>"; };
+		E23122011BFA74AC00FEA94B /* LibraryOpening.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = LibraryOpening.h; path = scenes/LibraryOpening.h; sourceTree = "<group>"; };
+		E23122021BFA757900FEA94B /* portraits */ = {isa = PBXFileReference; lastKnownFileType = folder; path = portraits; sourceTree = "<group>"; };
 		E23F05591BD024040091BD6D /* controls.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = controls.h; sourceTree = "<group>"; };
 		E23F055D1BD0294A0091BD6D /* controls.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = controls.cpp; sourceTree = "<group>"; };
 		E27E85771BE016BB00A94217 /* libchipmunk++.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = "libchipmunk++.a"; path = "../../../dev/chipmunkpp/libchipmunk++.a"; sourceTree = "<group>"; };
@@ -303,6 +311,7 @@
 		46880B7519C43A67006E1F66 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				E23122021BFA757900FEA94B /* portraits */,
 				E20A7D6E1BCD27F0007F1A3B /* maps */,
 				521A8EA819F11F5000D177D7 /* fonts */,
 				E20328D41BE082970069B322 /* sprites */,
@@ -314,6 +323,7 @@
 		46880B8319C43A87006E1F66 /* Classes */ = {
 			isa = PBXGroup;
 			children = (
+				E23121FF1BFA746D00FEA94B /* scenes */,
 				46880B8419C43A87006E1F66 /* App.cpp */,
 				46880B8519C43A87006E1F66 /* App.h */,
 				E23F055D1BD0294A0091BD6D /* controls.cpp */,
@@ -333,6 +343,8 @@
 				E2B63AA81BE0498C005695B0 /* Block.hpp */,
 				E29FF74F1BE18BE7004725C1 /* Glyph.cpp */,
 				E29FF7501BE18BE7004725C1 /* Glyph.hpp */,
+				E23121FB1BF7FDA300FEA94B /* Dialog.cpp */,
+				E23121FC1BF7FDA300FEA94B /* Dialog.hpp */,
 			);
 			name = Classes;
 			path = ../Classes;
@@ -384,6 +396,14 @@
 			name = Icons;
 			path = ios;
 			sourceTree = SOURCE_ROOT;
+		};
+		E23121FF1BFA746D00FEA94B /* scenes */ = {
+			isa = PBXGroup;
+			children = (
+				E23122011BFA74AC00FEA94B /* LibraryOpening.h */,
+			);
+			name = scenes;
+			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
 
@@ -504,6 +524,7 @@
 				5087E77E17EB970100C73F5D /* Default.png in Resources */,
 				521A8E6419F0C34300D177D7 /* Default-667h@2x.png in Resources */,
 				E20328D51BE082970069B322 /* sprites in Resources */,
+				E23122031BFA757900FEA94B /* portraits in Resources */,
 				E20A7D6F1BCD27F0007F1A3B /* maps in Resources */,
 				50EF629717ECD46A001EB2F8 /* Icon-58.png in Resources */,
 			);
@@ -516,6 +537,7 @@
 				503AE0F817EB97AB00D1A890 /* Icon.icns in Resources */,
 				E20328D61BE082970069B322 /* sprites in Resources */,
 				E20A7D701BCD27F0007F1A3B /* maps in Resources */,
+				E23122041BFA757900FEA94B /* portraits in Resources */,
 				521A8EAA19F11F5000D177D7 /* fonts in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -530,6 +552,7 @@
 				46880B8819C43A87006E1F66 /* App.cpp in Sources */,
 				E27E857B1BE0178800A94217 /* GSpace.cpp in Sources */,
 				E23F055E1BD0294A0091BD6D /* controls.cpp in Sources */,
+				E23121FD1BF7FDA300FEA94B /* Dialog.cpp in Sources */,
 				503AE10017EB989F00D1A890 /* AppController.mm in Sources */,
 				E2B63AA51BE0450D005695B0 /* GObject.cpp in Sources */,
 				503AE10217EB989F00D1A890 /* RootViewController.mm in Sources */,
@@ -552,6 +575,7 @@
 				E2B63AA61BE0450D005695B0 /* GObject.cpp in Sources */,
 				E29FF7521BE18BE7004725C1 /* Glyph.cpp in Sources */,
 				503AE10517EB98FF00D1A890 /* main.cpp in Sources */,
+				E23121FE1BF7FDA300FEA94B /* Dialog.cpp in Sources */,
 				E2AC8F491BCD4BC20001DB3E /* Graphics.cpp in Sources */,
 				E23F055F1BD0294A0091BD6D /* controls.cpp in Sources */,
 				E28D89861BDFE7CD00F58903 /* util.cpp in Sources */,

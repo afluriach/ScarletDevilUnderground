@@ -845,13 +845,13 @@ void DrawNode::drawPolygon(const Vec2 *verts, int count, const Color4F &fillColo
     _dirty = true;
 }
 
-void DrawNode::drawSolidRect(const Vec2 &origin, const Vec2 &destination, const Color4F &color)
+void DrawNode::drawSolidRect(const Vec2 &lowerLeft, const Vec2 &upperRight, const Color4F &color)
 {
     Vec2 vertices[] = {
-        origin,
-        Vec2(destination.x, origin.y),
-        destination,
-        Vec2(origin.x, destination.y)
+        lowerLeft,
+        Vec2(upperRight.x, lowerLeft.y),
+        upperRight,
+        Vec2(lowerLeft.x, upperRight.y)
     };
     
     drawSolidPoly(vertices, 4, color );

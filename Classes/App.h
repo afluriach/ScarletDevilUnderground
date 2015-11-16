@@ -31,6 +31,11 @@ public:
     static const bool showStats = true;
     static const std::string title;
     
+    static inline cocos2d::Vec2 getScreenCenter()
+    {
+        return cocos2d::Vec2(width/2, height/2);
+    }
+    
     App();
     virtual ~App();
 
