@@ -55,12 +55,12 @@ void Dialog::advanceFrame()
 {
     ++frameNum;
     
-    if(frameNum < dialog->size()){
+    if(frameNum < dialog.size()){
         runFrame();
     }
 }
 
 void Dialog::runFrame()
 {
-    dialog->at(frameNum)(*this);
+    dialog.at(frameNum)(*this);
 }

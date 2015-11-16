@@ -13,11 +13,14 @@
 
 #include "cocos2d.h"
 
+#include "util.h"
+
 //A dialog frame is simply a function that takes a reference to a Dialog and applies some operation to it.
 //In most cases it will set the message text.
 //It can also change the title or dialog colors.
 class Dialog;
 typedef std::function<void(Dialog&)> DialogFrame;
+DialogFrame setText(const std::string& msg);
 
 class Dialog : public cocos2d::Node
 {
@@ -33,9 +36,16 @@ public:
     static const int bodySize = 24;
     static const int textMargin = 24;
     
-    inline void setDialog(const std::vector<DialogFrame>& dialog)
+    inline void setDialog(const std::string& res)
     {
-        this->dialog = &dialog;
+        std::vector<std::string> dialogLines = splitString(loadTextFile(res),"\n");
+    
+        dialog = std::vector<DialogFrame>();
+        foreach(std::string line, dialogLines)
+        {
+            dialog.push_back(setText(line));
+        }
+        
         frameNum = 0;
         runFrame();
     }
@@ -66,7 +76,7 @@ private:
     cocos2d::DrawNode* backgroundNode;
     
 //Current state of the dialog.
-    const std::vector<DialogFrame>* dialog;
+    std::vector<DialogFrame> dialog;
     int frameNum = 0;
     
     std::string title;

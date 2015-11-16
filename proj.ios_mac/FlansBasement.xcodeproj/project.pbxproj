@@ -69,6 +69,8 @@
 		E23122041BFA757900FEA94B /* portraits in Resources */ = {isa = PBXBuildFile; fileRef = E23122021BFA757900FEA94B /* portraits */; };
 		E231220A1BFA937100FEA94B /* menu.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E23122091BFA937100FEA94B /* menu.cpp */; };
 		E231220B1BFA937100FEA94B /* menu.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E23122091BFA937100FEA94B /* menu.cpp */; };
+		E231220D1BFA9D7700FEA94B /* dialogs in Resources */ = {isa = PBXBuildFile; fileRef = E231220C1BFA9D7700FEA94B /* dialogs */; };
+		E231220E1BFA9D7700FEA94B /* dialogs in Resources */ = {isa = PBXBuildFile; fileRef = E231220C1BFA9D7700FEA94B /* dialogs */; };
 		E23F055E1BD0294A0091BD6D /* controls.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E23F055D1BD0294A0091BD6D /* controls.cpp */; };
 		E23F055F1BD0294A0091BD6D /* controls.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E23F055D1BD0294A0091BD6D /* controls.cpp */; };
 		E27E85781BE016BB00A94217 /* libchipmunk++.a in Frameworks */ = {isa = PBXBuildFile; fileRef = E27E85771BE016BB00A94217 /* libchipmunk++.a */; };
@@ -180,6 +182,7 @@
 		E23122011BFA74AC00FEA94B /* LibraryOpening.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = LibraryOpening.h; path = scenes/LibraryOpening.h; sourceTree = "<group>"; };
 		E23122021BFA757900FEA94B /* portraits */ = {isa = PBXFileReference; lastKnownFileType = folder; path = portraits; sourceTree = "<group>"; };
 		E23122091BFA937100FEA94B /* menu.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = menu.cpp; sourceTree = "<group>"; };
+		E231220C1BFA9D7700FEA94B /* dialogs */ = {isa = PBXFileReference; lastKnownFileType = folder; path = dialogs; sourceTree = "<group>"; };
 		E23F05591BD024040091BD6D /* controls.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = controls.h; sourceTree = "<group>"; };
 		E23F055D1BD0294A0091BD6D /* controls.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = controls.cpp; sourceTree = "<group>"; };
 		E27E85771BE016BB00A94217 /* libchipmunk++.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = "libchipmunk++.a"; path = "../../../dev/chipmunkpp/libchipmunk++.a"; sourceTree = "<group>"; };
@@ -314,6 +317,7 @@
 		46880B7519C43A67006E1F66 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				E231220C1BFA9D7700FEA94B /* dialogs */,
 				E23122021BFA757900FEA94B /* portraits */,
 				E20A7D6E1BCD27F0007F1A3B /* maps */,
 				521A8EA819F11F5000D177D7 /* fonts */,
@@ -525,6 +529,7 @@
 				5087E78217EB970100C73F5D /* Icon-144.png in Resources */,
 				50EF629817ECD46A001EB2F8 /* Icon-80.png in Resources */,
 				5087E78417EB970100C73F5D /* Icon-57.png in Resources */,
+				E231220D1BFA9D7700FEA94B /* dialogs in Resources */,
 				5087E77E17EB970100C73F5D /* Default.png in Resources */,
 				521A8E6419F0C34300D177D7 /* Default-667h@2x.png in Resources */,
 				E20328D51BE082970069B322 /* sprites in Resources */,
@@ -538,6 +543,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				E231220E1BFA9D7700FEA94B /* dialogs in Resources */,
 				503AE0F817EB97AB00D1A890 /* Icon.icns in Resources */,
 				E20328D61BE082970069B322 /* sprites in Resources */,
 				E20A7D701BCD27F0007F1A3B /* maps in Resources */,

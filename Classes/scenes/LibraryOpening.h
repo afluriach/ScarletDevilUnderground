@@ -32,7 +32,7 @@ public:
         addChild(background, 1);
         
         dialogNode = Dialog::create();
-        dialogNode->setDialog(dialog);
+        dialogNode->setDialog("dialogs/library_opening");
         dialogNode->setPosition(dialogPosition());
         addChild(dialogNode, 2);
 
