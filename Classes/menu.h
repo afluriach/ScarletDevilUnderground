@@ -188,34 +188,23 @@ private:
 class SceneSelect : public TextListMenuLayer
 {
 public:
+    typedef std::function<void(void)> SceneLaunchAdapter;
+    
+    static const std::vector<std::string> sceneTitles;
+    static const std::vector<SceneLaunchAdapter> sceneActions;
     
     CREATE_FUNC(SceneSelect);
     
     inline SceneSelect() :
     TextListMenuLayer(
         title,
-        list_of_typed( ("Play Scene")("Back"), std::vector<std::string>),
-        getSceneLaunchAdapters()
+        sceneTitles,
+        sceneActions
     )
     {}
     
 protected:
     const std::string title = "Scene Select";
-    
-    typedef std::function<void(void)> SceneLaunchAdapter;
-    template <typename T>
-    inline SceneLaunchAdapter sceneLaunchAdapter(){
-        return []() -> void { pushScene<T>(); };
-    }
-
-    inline std::vector<SceneLaunchAdapter> getSceneLaunchAdapters(){
-        std::vector<SceneLaunchAdapter> adapters = list_of_typed( (sceneLaunchAdapter<PlayScene>())
-            (back),
-            
-            std::vector<SceneLaunchAdapter>);
-        
-        return adapters;
-    }
     
     static inline void back(){
         popScene();
