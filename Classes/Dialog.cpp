@@ -49,7 +49,7 @@ void Dialog::update(float dt)
 {
     KeyRegister* kr = app->keyRegister;
     
-    if(kr->isKeyHeld(Keys::action)){
+    if(kr->isKeyDown(Keys::action)){
         advanceFrame();
     }
 }

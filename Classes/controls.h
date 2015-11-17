@@ -29,7 +29,7 @@ extern const KeyCodeMap watchedKeys;
 class KeyRegister
 {
 public:
-    bool isKeyHeld(const Keys& key);
+    bool isKeyDown(const Keys& key);
     static const bool logKeyEvents = false;
 private:
     friend class App;
@@ -38,7 +38,7 @@ private:
     void onKeyDown(cocos2d::EventKeyboard::KeyCode, cocos2d::Event*);
     void onKeyUp(cocos2d::EventKeyboard::KeyCode, cocos2d::Event*);
     
-    std::map<Keys, bool> keyHeld;
+    std::map<Keys, bool> keyDown;
     
     cocos2d::EventListenerKeyboard* keyListener;
 };

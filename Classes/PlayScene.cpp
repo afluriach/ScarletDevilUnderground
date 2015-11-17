@@ -72,13 +72,13 @@ void PlayScene::update(float dt)
     KeyRegister* kr = app->keyRegister;
     
     //Check camera scroll.
-    if(kr->isKeyHeld(Keys::up) && !kr->isKeyHeld(Keys::down))
+    if(kr->isKeyDown(Keys::up) && !kr->isKeyDown(Keys::down))
         move(0, cameraMovePixPerFrame);
-    if(kr->isKeyHeld(Keys::down) && !kr->isKeyHeld(Keys::up))
+    if(kr->isKeyDown(Keys::down) && !kr->isKeyDown(Keys::up))
         move(0, -cameraMovePixPerFrame);
-    if(kr->isKeyHeld(Keys::left) && !kr->isKeyHeld(Keys::right))
+    if(kr->isKeyDown(Keys::left) && !kr->isKeyDown(Keys::right))
         move(-cameraMovePixPerFrame, 0);
-    if(kr->isKeyHeld(Keys::right) && !kr->isKeyHeld(Keys::left))
+    if(kr->isKeyDown(Keys::right) && !kr->isKeyDown(Keys::left))
         move(cameraMovePixPerFrame, 0);
     
     gspace.update();

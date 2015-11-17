@@ -26,7 +26,7 @@ KeyRegister::KeyRegister()
     //Initialize key held map by putting each key enum in it.
     for(auto it = watchedKeys.begin(); it != watchedKeys.end(); ++it)
     {
-        keyHeld[it->second] = false;
+        keyDown[it->second] = false;
     }
     
     keyListener = EventListenerKeyboard::create();
@@ -43,7 +43,7 @@ void KeyRegister::onKeyDown(EventKeyboard::KeyCode code, Event* event)
     
     if(watchedKeys.find(code) != watchedKeys.end())
     {
-        keyHeld[watchedKeys.find(code)->second] = true;
+        keyDown[watchedKeys.find(code)->second] = true;
     }
 }
 
@@ -54,17 +54,17 @@ void KeyRegister::onKeyUp(EventKeyboard::KeyCode code, Event* event)
     
     if(watchedKeys.find(code) != watchedKeys.end())
     {
-        keyHeld[watchedKeys.find(code)->second] = false;
+        keyDown[watchedKeys.find(code)->second] = false;
     }
 }
 
-bool KeyRegister::isKeyHeld(const Keys& key)
+bool KeyRegister::isKeyDown(const Keys& key)
 {
-    auto result = keyHeld.find(key);
+    auto result = keyDown.find(key);
     
-    if(result == keyHeld.end())
+    if(result == keyDown.end())
     {
-        log("isKeyHeld: warning, unknown enum value %d.", key);
+        log("isKeyDown: warning, unknown enum value %d.", key);
         return false;
     }
     
