@@ -19,7 +19,7 @@ class DiamondCursor : public Node
 {
 public:
     CREATE_FUNC(DiamondCursor);
-    virtual void onEnter()
+    inline virtual void onEnter()
     {
         Node::onEnter();
         scheduleUpdate();
@@ -33,7 +33,7 @@ public:
         drawShape();
     }
     
-    virtual void update(float dt)
+    inline virtual void update(float dt)
     {
         float scaleDelta = dt / interval;
         
@@ -86,7 +86,7 @@ private:
     float scale = 1;
     int crntColor=0;
     
-    void drawShape()
+    inline void drawShape()
     {
         drawNode->clear();
         drawNode->drawSolidRect(Vec2(-halfSize,-halfSize), Vec2(halfSize,halfSize), colors[crntColor]);
