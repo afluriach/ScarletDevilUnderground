@@ -43,7 +43,7 @@ bool Dialog::init()
     setMsg("");    
     
     cursor = DownTriangleCursor::create();
-    cursor->setPosition(cocos2d::Vec2(0,-height/2));
+    cursor->setPosition(cocos2d::Vec2(width/2 - textMargin,-height/2));
     cursor->setScale(cursorScale);
     cursor->setVisible(false);
     addChild(cursor,2);
