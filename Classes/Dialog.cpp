@@ -20,6 +20,12 @@ using namespace cocos2d;
 const Color4F Dialog::backgroundColor = Color4F(0.5, 0.5, 0.5, 0.5);
 const string Dialog::font = "Arial";
 
+void Dialog::checkAdvanceFrame()
+{
+    if(timeInFrame >= frameWaitTime)
+        advanceFrame();
+}
+
 bool Dialog::init()
 {
     Node::init();
@@ -31,6 +37,7 @@ bool Dialog::init()
     setMsg("");    
     
     scheduleUpdate();
+    keyListener.addPressListener(Keys::action, std::bind(&Dialog::checkAdvanceFrame, this));
     
     return true;
 }
@@ -47,16 +54,13 @@ void Dialog::drawBackground()
 
 void Dialog::update(float dt)
 {
-    KeyRegister* kr = app->keyRegister;
-    
-    if(kr->isKeyDown(Keys::action)){
-        advanceFrame();
-    }
+    timeInFrame += dt;
 }
 
 void Dialog::advanceFrame()
 {
     ++frameNum;
+    timeInFrame = 0;
     
     if(frameNum < dialog.size()){
         runFrame();

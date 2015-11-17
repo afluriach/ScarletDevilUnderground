@@ -13,6 +13,7 @@
 
 #include "cocos2d.h"
 
+#include "controls.h"
 #include "util.h"
 
 //A dialog frame is simply a function that takes a reference to a Dialog and applies some operation to it.
@@ -25,6 +26,8 @@ DialogFrame setText(const std::string& msg);
 class Dialog : public cocos2d::Node
 {
 public:
+    inline Dialog() : keyListener(this) {}
+
     CREATE_FUNC(Dialog);
     virtual bool init();
     virtual void update(float dt);
@@ -35,6 +38,8 @@ public:
     static const int titleSize = 30;
     static const int bodySize = 24;
     static const int textMargin = 24;
+    //The minimum time a frame must be displayed
+    constexpr static const float frameWaitTime = 0.6;
     
     inline void setDialog(const std::string& res)
     {
@@ -62,6 +67,7 @@ private:
     void update();
     void runFrame();
     void advanceFrame();
+    void checkAdvanceFrame();
     void processDialogFile(const std::string& text);
     
     static const cocos2d::Color4F backgroundColor;
@@ -70,9 +76,12 @@ private:
     cocos2d::Label* bodyText;
     cocos2d::DrawNode* backgroundNode;
     
+    KeyListener keyListener;
+    
 //Current state of the dialog.
     std::vector<DialogFrame> dialog;
     int frameNum = 0;
+    float timeInFrame = 0;
     
     std::string title;
     std::string msg;
