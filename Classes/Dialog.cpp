@@ -22,8 +22,11 @@ const string Dialog::font = "Arial";
 
 void Dialog::checkAdvanceFrame()
 {
-    if(timeInFrame >= frameWaitTime)
+    if(timeInFrame >= frameWaitTime){
         advanceFrame();
+        cursor->reset();
+        cursor->setVisible(false);
+    }
 }
 
 bool Dialog::init()
@@ -35,6 +38,12 @@ bool Dialog::init()
     addChild(backgroundNode, 1);
 
     setMsg("");    
+    
+    cursor = DownTriangleCursor::create();
+    cursor->setPosition(cocos2d::Vec2(0,-height/2));
+    cursor->setScale(cursorScale);
+    cursor->setVisible(false);
+    addChild(cursor,2);
     
     scheduleUpdate();
     keyListener.addPressListener(Keys::action, std::bind(&Dialog::checkAdvanceFrame, this));
@@ -55,6 +64,9 @@ void Dialog::drawBackground()
 void Dialog::update(float dt)
 {
     timeInFrame += dt;
+    
+    if(timeInFrame > frameWaitTime)
+        cursor->setVisible(true);
 }
 
 void Dialog::advanceFrame()

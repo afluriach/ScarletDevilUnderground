@@ -15,20 +15,17 @@
 
 USING_NS_CC;
 
-class DiamondCursor : public Node
+class Cursor : public Node
 {
 public:
-    CREATE_FUNC(DiamondCursor);
     inline virtual void onEnter()
     {
         Node::onEnter();
         scheduleUpdate();
         
-        setScaleY(ratio);
         
         drawNode = DrawNode::create();
         addChild(drawNode);
-        drawNode->setRotation(45);
         
         drawShape();
     }
@@ -64,11 +61,17 @@ public:
         }
         setScaleX(scale);
     }
-private:
+    inline void reset()
+    {
+        scale = 1;
+        crntColor = 0;
+        expanding = false;
+        drawShape();
+    }
+protected:
+    virtual void drawShape() = 0;
     //The length of time for the diamond to expand or shrink fully.
     const float interval = 0.5;
-    //Y scale.
-    const float ratio = 1.5;
     //Base size of shape.
     const int halfSize = 20;
     
@@ -85,11 +88,43 @@ private:
     bool expanding=false;
     float scale = 1;
     int crntColor=0;
-    
-    inline void drawShape()
+};
+
+class DiamondCursor : public Cursor
+{
+public:
+    inline virtual void onEnter()
+    {
+        Cursor::onEnter();
+        drawNode->setRotation(45);
+        setScaleY(ratio);
+    }
+    CREATE_FUNC(DiamondCursor);
+protected:
+    //Y scale.
+    const float ratio = 1.5;
+
+    virtual inline void drawShape()
     {
         drawNode->clear();
         drawNode->drawSolidRect(Vec2(-halfSize,-halfSize), Vec2(halfSize,halfSize), colors[crntColor]);
+    }
+};
+
+class DownTriangleCursor : public Cursor
+{
+public:
+    CREATE_FUNC(DownTriangleCursor);
+protected:
+    virtual inline void drawShape()
+    {
+        drawNode->clear();
+        
+        cocos2d::Vec2 left(-halfSize,halfSize);
+        cocos2d::Vec2 right(halfSize,halfSize);
+        cocos2d::Vec2 bottom(0,-halfSize);
+        
+        drawNode->drawTriangle(left,right,bottom,colors[crntColor]);
     }
 };
 
