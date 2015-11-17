@@ -6,8 +6,11 @@
 //
 //
 
+#include <vector>
+
 #include "App.h"
 #include "controls.h"
+#include "util.h"
 
 #include "Dialog.hpp"
 
@@ -63,4 +66,15 @@ void Dialog::advanceFrame()
 void Dialog::runFrame()
 {
     dialog.at(frameNum)(*this);
+}
+
+void Dialog::processDialogFile(const std::string& text)
+{
+    vector<string> lines = splitString(text, "\n");
+        
+    dialog = std::vector<DialogFrame>();
+    foreach(std::string line, lines)
+    {
+        dialog.push_back(setText(line));
+    }
 }

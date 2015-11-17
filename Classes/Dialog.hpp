@@ -38,13 +38,7 @@ public:
     
     inline void setDialog(const std::string& res)
     {
-        std::vector<std::string> dialogLines = splitString(loadTextFile(res),"\n");
-    
-        dialog = std::vector<DialogFrame>();
-        foreach(std::string line, dialogLines)
-        {
-            dialog.push_back(setText(line));
-        }
+        processDialogFile(loadTextFile(res));
         
         frameNum = 0;
         runFrame();
@@ -68,6 +62,7 @@ private:
     void update();
     void runFrame();
     void advanceFrame();
+    void processDialogFile(const std::string& text);
     
     static const cocos2d::Color4F backgroundColor;
     static const std::string font;
