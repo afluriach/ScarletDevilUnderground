@@ -197,15 +197,13 @@ public:
     
     inline SceneSelect() :
     TextListMenuLayer(
-        title,
+        "Scene Select",
         sceneTitles,
         sceneActions
     )
     {}
     
-protected:
-    const std::string title = "Scene Select";
-    
+protected:    
     static inline void back(){
         popScene();
     }
