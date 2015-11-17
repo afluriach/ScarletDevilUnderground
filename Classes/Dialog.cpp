@@ -8,6 +8,9 @@
 
 #include <vector>
 
+#include <boost/algorithm/string/predicate.hpp>
+#include <boost/lexical_cast.hpp>
+
 #include "App.h"
 #include "controls.h"
 #include "util.h"
@@ -84,6 +87,28 @@ void Dialog::runFrame()
     dialog.at(frameNum)(*this);
 }
 
+DialogFrame makeSetColor(const std::string& line)
+{
+    std::vector<std::string> tokens = splitString(line, " ");
+    
+    if(tokens.size() != 4){
+        log("Invalid setColor directive: %s", line.c_str());
+        return setColor(cocos2d::Color3B(255,255,255));
+    }
+    
+    try{
+        log("%s %s %s", tokens[1].c_str(), tokens[2].c_str(), tokens[3].c_str());
+        return setColor(cocos2d::Color3B(
+            boost::lexical_cast<int>(tokens[1]),
+            boost::lexical_cast<int>(tokens[2]),
+            boost::lexical_cast<int>(tokens[3])
+        ));
+    } catch(boost::bad_lexical_cast){
+        log("setColor parse error: %s", line.c_str());
+        return setColor(cocos2d::Color3B(255,255,255));
+    }
+}
+
 void Dialog::processDialogFile(const std::string& text)
 {
     vector<string> lines = splitString(text, "\n");
@@ -91,6 +116,14 @@ void Dialog::processDialogFile(const std::string& text)
     dialog = std::vector<DialogFrame>();
     foreach(std::string line, lines)
     {
+        //Check for directives
+        if(boost::starts_with(line, ":")){
+            if(boost::starts_with(line, ":setColor")){
+                dialog.push_back(makeSetColor(line));
+                continue;
+            }
+        }
+        
         dialog.push_back(setText(line));
     }
 }
