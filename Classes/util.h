@@ -18,13 +18,13 @@
 
 #include "PlayScene.hpp"
 
+using namespace boost::assign;
+
 #define foreach BOOST_FOREACH
-#define list_of boost::assign::list_of
 //Convert to concrete container type.
 //The list directly follows the list_of macro, and every element include the first
 //is in parenthesis
 #define list_of_typed(list,type) list_of list .convert_to_container<type>()
-#define map_list_of boost::assign::map_list_of
 
 //Despite its name, it could map to another method of a different name
 //with the same signature in the same class.

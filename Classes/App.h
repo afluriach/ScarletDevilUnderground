@@ -4,6 +4,7 @@
 #include "cocos2d.h"
 
 #include "controls.h"
+#include "LuaAPI.hpp"
 
 /**
 @brief    The cocos2d Application.
@@ -61,6 +62,7 @@ public:
     virtual void applicationWillEnterForeground();
     
     KeyRegister* keyRegister;
+    Lua::Inst lua;
 };
 
 extern App* app;

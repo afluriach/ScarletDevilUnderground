@@ -14,6 +14,8 @@ const std::string App::title = "フランの地下";
 
 App::App() {
     app = this;
+    //Initialize Lua
+    lua.runFile("scripts/luatest.lua");
 }
 
 App::~App() 

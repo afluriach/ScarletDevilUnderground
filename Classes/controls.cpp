@@ -6,15 +6,14 @@
 //
 //
 
-#include <boost/assign.hpp>
-
 #include "App.h"
 #include "controls.h"
+#include "util.h"
 
 using namespace std::placeholders;
 USING_NS_CC;
 
-const KeyCodeMap watchedKeys = boost::assign::map_list_of
+const KeyCodeMap watchedKeys = map_list_of
 (EventKeyboard::KeyCode::KEY_Z, Keys::action)
 (EventKeyboard::KeyCode::KEY_UP_ARROW, Keys::up)
 (EventKeyboard::KeyCode::KEY_DOWN_ARROW, Keys::down)
