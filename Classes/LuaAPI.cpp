@@ -8,7 +8,21 @@
 
 #include "LuaAPI.hpp"
 
+using namespace std;
+
 namespace Lua{
+
+    shared_ptr<Data> Data::copy(lua_State* L)
+    {
+        if(lua_isnumber(L, -1)){
+            double n = lua_tonumber(L, -1);
+            return make_shared<Number>(n);
+        }
+        if(lua_isstring(L, -1)){
+            const char* c = lua_tostring(L, -1);
+            return make_shared<String>(c);
+        }
+    }
 
     //Raise Lua exception
     void error(lua_State* L, const string& msg)

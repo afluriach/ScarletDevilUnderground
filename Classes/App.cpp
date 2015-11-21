@@ -16,6 +16,18 @@ App::App() {
     app = this;
     //Initialize Lua
     lua.runFile("scripts/luatest.lua");
+    
+    std::vector<std::shared_ptr<Lua::Data>> args;
+    
+    args.push_back(std::make_shared<Lua::Number>(3));
+    args.push_back(std::make_shared<Lua::Number>(6));
+    
+    std::vector<std::shared_ptr<Lua::Data>> results = lua.call("add", args);
+    
+    foreach(shared_ptr<Lua::Data> d, results)
+    {
+        log("result %s", d->toStr().c_str());
+    }
 }
 
 App::~App() 
