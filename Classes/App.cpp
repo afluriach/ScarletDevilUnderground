@@ -86,3 +86,8 @@ void App::applicationWillEnterForeground() {
     // if you use SimpleAudioEngine, it must resume here
     // SimpleAudioEngine::getInstance()->resumeBackgroundMusic();
 }
+
+void App::end()
+{
+    Director::getInstance()->end();
+}

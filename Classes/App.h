@@ -61,6 +61,8 @@ public:
     */
     virtual void applicationWillEnterForeground();
     
+    void end();
+    
     KeyRegister* keyRegister;
     Lua::Inst lua;
 };

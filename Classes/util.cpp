@@ -18,11 +18,6 @@ Scene* crntScene()
     return Director::getInstance()->getRunningScene();
 }
 
-void end()
-{
-    Director::getInstance()->end();
-}
-
 void printValueMap(const ValueMap& obj)
 {
     foreach(ValueMap::value_type entryPair, obj)

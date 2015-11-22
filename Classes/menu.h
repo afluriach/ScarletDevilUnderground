@@ -181,7 +181,7 @@ private:
     
     static inline void exit()
     {
-        end();
+        app->end();
     }
 };
 

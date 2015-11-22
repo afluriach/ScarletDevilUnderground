@@ -65,8 +65,6 @@ inline void popScene()
     cocos2d::Director::getInstance()->popScene();
 }
 
-void end();
-
 void printValueMap(const cocos2d::ValueMap& obj);
 float getFloat(const cocos2d::ValueMap& obj, const std::string& name);
 
