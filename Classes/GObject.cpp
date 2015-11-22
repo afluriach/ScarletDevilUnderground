@@ -60,12 +60,6 @@ GObject* GObject::constructByType(const std::string& type, const cocos2d::ValueM
     else return nullptr;
 }
 
-std::shared_ptr<cp::Body> GObject::initRectangleBody(cp::Space& space)
-{
-    body = GSpace::createRectangleBody(space, initialCenter, dim, mass, this);
-    return body;
-}
-
 void GObject::loadImageSprite(const std::string& resPath, PlayScene::Layer sceneLayer, cocos2d::Layer* dest)
 {
     cp::Vect centerPix(initialCenter);

@@ -16,12 +16,12 @@
 #include "GObject.hpp"
 #include "util.h"
 
-class Block : virtual public GObject
+class Block : virtual public GObject, RectangleBody
 {
 public:
     inline Block(const cocos2d::ValueMap& args) : GObject(args)
     {
-        mass = 1;
+        GObject::mass = 1;
         
         cocos2d::log("Block created.");
         auto it = args.find("letter");
@@ -30,13 +30,6 @@ public:
         else
             cocos2d::log("%s: letter undefined", name.c_str());
     }
-    CallSuper(
-        initializeBody,
-        GObject::initRectangleBody,
-        std::shared_ptr<cp::Body>,
-        cp::Space& space,
-        space
-    )
     no_op(init)
     
     virtual void initializeGraphics(cocos2d::Layer* layer);

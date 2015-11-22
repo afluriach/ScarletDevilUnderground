@@ -12,21 +12,13 @@
 #include "GObject.hpp"
 #include "util.h"
 
-class Glyph : public GObject
+class Glyph : public virtual GObject, RectangleBody
 {
 public:
     inline Glyph(const cocos2d::ValueMap& args) : GObject(args)
     {
         mass = 1;
     }
-    
-    CallSuper(
-        initializeBody,
-        GObject::initRectangleBody,
-        std::shared_ptr<cp::Body>,
-        cp::Space& space,
-        space
-    )
     
     virtual void init();
     virtual void initializeGraphics(cocos2d::Layer* layer);

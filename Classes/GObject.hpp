@@ -52,8 +52,6 @@ public:
     //Called before adding the the object to space.
     virtual std::shared_ptr<cp::Body>initializeBody(cp::Space& space) = 0;
     
-    //Create body and add it to space. This assumes BB is rectangle dimensions
-    std::shared_ptr<cp::Body> initRectangleBody(cp::Space& space);
     //Create Node which graphically reprensets this object and adds it to Layer
     virtual void initializeGraphics(cocos2d::Layer* layer) = 0;
     
@@ -61,6 +59,17 @@ public:
     void updateSpritePos();
 private:
     cocos2d::Node* sprite;
+};
+
+class RectangleBody : public virtual GObject
+{
+public:
+    //Create body and add it to space. This assumes BB is rectangle dimensions
+    virtual inline std::shared_ptr<cp::Body> initializeBody(cp::Space& space)
+    {
+        body = GSpace::createRectangleBody(space, initialCenter, dim, mass, this);
+        return body;
+    }
 };
 
 #endif /* GObject_hpp */
