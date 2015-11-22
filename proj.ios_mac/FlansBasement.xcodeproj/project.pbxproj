@@ -76,6 +76,8 @@
 		E231220B1BFA937100FEA94B /* menu.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E23122091BFA937100FEA94B /* menu.cpp */; };
 		E231220D1BFA9D7700FEA94B /* dialogs in Resources */ = {isa = PBXBuildFile; fileRef = E231220C1BFA9D7700FEA94B /* dialogs */; };
 		E231220E1BFA9D7700FEA94B /* dialogs in Resources */ = {isa = PBXBuildFile; fileRef = E231220C1BFA9D7700FEA94B /* dialogs */; };
+		E23E1B2C1C014A0A00F7FAC1 /* LuaShell.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E23E1B2A1C014A0A00F7FAC1 /* LuaShell.cpp */; };
+		E23E1B2D1C014A0A00F7FAC1 /* LuaShell.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E23E1B2A1C014A0A00F7FAC1 /* LuaShell.cpp */; };
 		E23F055E1BD0294A0091BD6D /* controls.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E23F055D1BD0294A0091BD6D /* controls.cpp */; };
 		E23F055F1BD0294A0091BD6D /* controls.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E23F055D1BD0294A0091BD6D /* controls.cpp */; };
 		E26147BC1C005A1B008CA1D0 /* scripts in Resources */ = {isa = PBXBuildFile; fileRef = E26147BB1C005A1B008CA1D0 /* scripts */; };
@@ -193,6 +195,8 @@
 		E23122021BFA757900FEA94B /* portraits */ = {isa = PBXFileReference; lastKnownFileType = folder; path = portraits; sourceTree = "<group>"; };
 		E23122091BFA937100FEA94B /* menu.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = menu.cpp; sourceTree = "<group>"; };
 		E231220C1BFA9D7700FEA94B /* dialogs */ = {isa = PBXFileReference; lastKnownFileType = folder; path = dialogs; sourceTree = "<group>"; };
+		E23E1B2A1C014A0A00F7FAC1 /* LuaShell.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = LuaShell.cpp; sourceTree = "<group>"; };
+		E23E1B2B1C014A0A00F7FAC1 /* LuaShell.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = LuaShell.hpp; sourceTree = "<group>"; };
 		E23F05591BD024040091BD6D /* controls.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = controls.h; sourceTree = "<group>"; };
 		E23F055D1BD0294A0091BD6D /* controls.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = controls.cpp; sourceTree = "<group>"; };
 		E26147BB1C005A1B008CA1D0 /* scripts */ = {isa = PBXFileReference; lastKnownFileType = folder; path = scripts; sourceTree = "<group>"; };
@@ -371,6 +375,8 @@
 				E23121FC1BF7FDA300FEA94B /* Dialog.hpp */,
 				E2080BC71C00486000EB78DF /* LuaAPI.cpp */,
 				E2080BC81C00486000EB78DF /* LuaAPI.hpp */,
+				E23E1B2A1C014A0A00F7FAC1 /* LuaShell.cpp */,
+				E23E1B2B1C014A0A00F7FAC1 /* LuaShell.hpp */,
 			);
 			name = Classes;
 			path = ../Classes;
@@ -586,6 +592,7 @@
 				E23F055E1BD0294A0091BD6D /* controls.cpp in Sources */,
 				E23121FD1BF7FDA300FEA94B /* Dialog.cpp in Sources */,
 				503AE10017EB989F00D1A890 /* AppController.mm in Sources */,
+				E23E1B2C1C014A0A00F7FAC1 /* LuaShell.cpp in Sources */,
 				E2B63AA51BE0450D005695B0 /* GObject.cpp in Sources */,
 				503AE10217EB989F00D1A890 /* RootViewController.mm in Sources */,
 				E20A7D6A1BCD205E007F1A3B /* PlayScene.cpp in Sources */,
@@ -612,6 +619,7 @@
 				E2AC8F491BCD4BC20001DB3E /* Graphics.cpp in Sources */,
 				E23F055F1BD0294A0091BD6D /* controls.cpp in Sources */,
 				E2080BCA1C00486000EB78DF /* LuaAPI.cpp in Sources */,
+				E23E1B2D1C014A0A00F7FAC1 /* LuaShell.cpp in Sources */,
 				E28D89861BDFE7CD00F58903 /* util.cpp in Sources */,
 				E27E857C1BE0178800A94217 /* GSpace.cpp in Sources */,
 			);

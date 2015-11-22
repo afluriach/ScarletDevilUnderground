@@ -13,8 +13,15 @@
 using namespace std::placeholders;
 USING_NS_CC;
 
+//Backtick "KEY_TILDE" enum does not work on OS X.
+const EventKeyboard::KeyCode backtickKey = static_cast<EventKeyboard::KeyCode>(123);
+//Similarly, neither KEY_RETURN nor KEY_ENTER are recognized
+const EventKeyboard::KeyCode returnKey = static_cast<EventKeyboard::KeyCode>(35);
+
 const KeyCodeMap watchedKeys = map_list_of
 (EventKeyboard::KeyCode::KEY_Z, Keys::action)
+(backtickKey, Keys::backtick)
+(returnKey, Keys::enter)
 (EventKeyboard::KeyCode::KEY_UP_ARROW, Keys::up)
 (EventKeyboard::KeyCode::KEY_DOWN_ARROW, Keys::down)
 (EventKeyboard::KeyCode::KEY_LEFT_ARROW, Keys::left)
@@ -70,13 +77,23 @@ bool KeyRegister::isKeyDown(const Keys& key)
     return result->second;
 }
 
+KeyListener::KeyListener()
+{
+    initListener();
+    Director::getInstance()->getEventDispatcher()->addEventListenerWithFixedPriority(keyListener, App::EventPriorities::KeyGlobalListenerEvent);
+}
+
 KeyListener::KeyListener(cocos2d::Node* node)
+{
+    initListener();
+    node->getEventDispatcher()->addEventListenerWithSceneGraphPriority(keyListener, node);
+}
+
+void KeyListener::initListener()
 {
     keyListener = EventListenerKeyboard::create();
     keyListener->onKeyPressed = std::bind(&KeyListener::onKeyDown, this, _1, _2);
     keyListener->onKeyReleased = std::bind(&KeyListener::onKeyUp, this, _1, _2);
-    
-    node->getEventDispatcher()->addEventListenerWithSceneGraphPriority(keyListener, node);
 }
 
 void KeyListener::onKeyDown(EventKeyboard::KeyCode code, Event* event)

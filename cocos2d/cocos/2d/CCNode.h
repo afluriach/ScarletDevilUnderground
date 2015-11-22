@@ -544,6 +544,13 @@ public:
      * @param visible   true if the node is visible, false if the node is hidden.
      */
     virtual void setVisible(bool visible);
+    
+    /**
+     * Invert node visibility.
+     */
+    virtual void toggleVisible();
+    
+    
     /**
      * Determines if the node is visible.
      *

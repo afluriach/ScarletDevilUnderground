@@ -16,6 +16,8 @@ enum Keys
     left,
     right,
     action,
+    backtick,
+    enter,
 };
 
 typedef std::map<cocos2d::EventKeyboard::KeyCode, Keys> KeyCodeMap;
@@ -44,10 +46,11 @@ private:
 };
 
 //Listens for key presses and calls the associated callback.
-//This attaches to a Node's event handler.
+//This may attach to a Node's event handler or the Direcor's global one.
 class KeyListener
 {
 public:
+    KeyListener();
     KeyListener(cocos2d::Node* node);
     
     inline void addPressListener(Keys k, std::function<void()> f)
@@ -61,6 +64,7 @@ public:
     }
     
 private:
+    void initListener();
     void onKeyDown(cocos2d::EventKeyboard::KeyCode, cocos2d::Event*);
     void onKeyUp(cocos2d::EventKeyboard::KeyCode, cocos2d::Event*);
     

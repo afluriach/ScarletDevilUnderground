@@ -696,6 +696,11 @@ void Node::setVisible(bool visible)
     }
 }
 
+void Node::toggleVisible()
+{
+    setVisible(!_visible);
+}
+
 const Vec2& Node::getAnchorPointInPoints() const
 {
     return _anchorPointInPoints;

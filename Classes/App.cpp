@@ -2,6 +2,7 @@
 
 #include "App.h"
 #include "controls.h"
+#include "LuaShell.hpp"
 #include "PlayScene.hpp"
 #include "menu.h"
 #include "util.h"
@@ -89,4 +90,20 @@ void App::applicationWillEnterForeground() {
 void App::end()
 {
     Director::getInstance()->end();
+}
+
+void App::installLuaShell(Scene* scene)
+{
+    luaShell = LuaShell::create();
+    luaShell->setVisible(false);
+    keyListener.addPressListener(
+        Keys::backtick,
+        [=]() -> void {luaShell->toggleVisible();}
+    );
+    keyListener.addPressListener(
+        Keys::enter,
+        [=]() -> void {if(luaShell->isVisible()) luaShell->runText();}
+    );
+    
+    scene->addChild(luaShell, 2);
 }

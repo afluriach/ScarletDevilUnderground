@@ -115,9 +115,11 @@ bool EditBox::initWithSizeAndBackgroundSprite(const cocos2d::Size &size, cocos2d
         this->setContentSize(size);
         this->setPosition(Vec2(0, 0));
         
-        _backgroundSprite->setPosition(Vec2(_contentSize.width/2, _contentSize.height/2));
-        _backgroundSprite->setContentSize(size);
-        this->addProtectedChild(_backgroundSprite);
+        if(_backgroundSprite){
+            _backgroundSprite->setPosition(Vec2(_contentSize.width/2, _contentSize.height/2));
+            _backgroundSprite->setContentSize(size);
+            this->addProtectedChild(_backgroundSprite);
+        }
         
         this->setTouchEnabled(true);
         
@@ -379,7 +381,7 @@ void EditBox::setContentSize(const Size& size)
     
 void EditBox::adaptRenderers()
 {
-    if (_contentSizeDirty)
+    if (_contentSizeDirty && _backgroundSprite)
     {
         _backgroundSprite->setContentSize(_contentSize);
         _backgroundSprite->setPosition(Vec2(_contentSize.width/2, _contentSize.height/2));

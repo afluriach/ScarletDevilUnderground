@@ -5,15 +5,7 @@
 
 #include "controls.h"
 #include "LuaAPI.hpp"
-
-template <typename T>
-cocos2d::Scene* createSceneFromLayer()
-{
-    cocos2d::Scene* scene  = cocos2d::Scene::create();
-    cocos2d::Layer* layer = T::create();
-    scene->addChild(layer);
-    return scene;
-}
+#include "LuaShell.hpp"
 
 /**
 @brief    The cocos2d Application.
@@ -26,7 +18,8 @@ class  App : private cocos2d::Application
 public:
     enum EventPriorities
     {
-        KeyRegisterEvent = 1
+        KeyGlobalListenerEvent = 1,
+        KeyRegisterEvent,
     };
     
     static const int width = 800;
@@ -94,6 +87,23 @@ public:
     
     KeyRegister* keyRegister;
     Lua::Inst lua;
+protected:
+    KeyListener keyListener;
+    //The shell that is installed in the current scene.
+    LuaShell* luaShell;
+
+    template <typename T>
+    inline cocos2d::Scene* createSceneFromLayer()
+    {
+        cocos2d::Scene* scene  = cocos2d::Scene::create();
+        cocos2d::Layer* layer = T::create();
+        scene->addChild(layer,1);
+        
+        installLuaShell(scene);
+        
+        return scene;
+    }
+    void installLuaShell(cocos2d::Scene* scene);
 };
 
 extern App* app;
