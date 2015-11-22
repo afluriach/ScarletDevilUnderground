@@ -45,26 +45,6 @@ cp::Vect toChipmunk(const cocos2d::Vec2& rhs);
 
 cocos2d::Scene* crntScene();
 
-template <typename T>
-cocos2d::Scene* createSceneFromLayer()
-{
-    cocos2d::Scene* scene  = cocos2d::Scene::create();
-    cocos2d::Layer* layer = T::create();
-    scene->addChild(layer);
-    return scene;
-}
-
-template <typename T>
-void pushScene()
-{
-    cocos2d::Director::getInstance()->pushScene(createSceneFromLayer<T>());
-}
-
-inline void popScene()
-{
-    cocos2d::Director::getInstance()->popScene();
-}
-
 void printValueMap(const cocos2d::ValueMap& obj);
 float getFloat(const cocos2d::ValueMap& obj, const std::string& name);
 

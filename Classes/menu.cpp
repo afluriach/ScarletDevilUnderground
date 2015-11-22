@@ -8,6 +8,7 @@
 
 #include <vector>
 
+#include "App.h"
 #include "util.h"
 
 #include "menu.h"
@@ -25,7 +26,7 @@ const std::vector<std::string> SceneSelect::sceneTitles = list_of_typed(
 
 template <typename T>
 SceneSelect::SceneLaunchAdapter sceneLaunchAdapter(){
-    return []() -> void { pushScene<T>(); };
+    return []() -> void { app->pushScene<T>(); };
 }
 
 const std::vector<SceneSelect::SceneLaunchAdapter> SceneSelect::sceneActions = list_of_typed(

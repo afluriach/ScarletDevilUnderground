@@ -6,6 +6,15 @@
 #include "controls.h"
 #include "LuaAPI.hpp"
 
+template <typename T>
+cocos2d::Scene* createSceneFromLayer()
+{
+    cocos2d::Scene* scene  = cocos2d::Scene::create();
+    cocos2d::Layer* layer = T::create();
+    scene->addChild(layer);
+    return scene;
+}
+
 /**
 @brief    The cocos2d Application.
 
@@ -62,6 +71,19 @@ public:
     virtual void applicationWillEnterForeground();
     
     void end();
+    
+    //Methods for controlling the active scene; wraps calls to Director.
+    
+    template <typename T>
+    inline void pushScene()
+    {
+        cocos2d::Director::getInstance()->pushScene(createSceneFromLayer<T>());
+    }
+
+    inline void popScene()
+    {
+        cocos2d::Director::getInstance()->popScene();
+    }
     
     KeyRegister* keyRegister;
     Lua::Inst lua;

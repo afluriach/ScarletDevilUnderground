@@ -171,12 +171,12 @@ protected:
 private:
     static inline void start()
     {
-        pushScene<PlayScene>();
+        app->pushScene<PlayScene>();
     }
     
     static inline void sceneSelect()
     {
-        pushScene<SceneSelect>();
+        app->pushScene<SceneSelect>();
     }
     
     static inline void exit()
@@ -205,7 +205,7 @@ public:
     
 protected:    
     static inline void back(){
-        popScene();
+        app->popScene();
     }
 };
 
