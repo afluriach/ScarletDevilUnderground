@@ -84,6 +84,13 @@ public:
     {
         cocos2d::Director::getInstance()->popScene();
     }
+
+    template <typename T>
+    inline void runScene()
+    {
+        cocos2d::Director::getInstance()->runWithScene(createSceneFromLayer<T>());
+    }
+    
     
     KeyRegister* keyRegister;
     Lua::Inst lua;

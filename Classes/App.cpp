@@ -65,8 +65,7 @@ bool App::applicationDidFinishLaunching() {
     keyRegister = new KeyRegister();
     
     //Create title menu scene and run it.
-    auto scene = createSceneFromLayer<TitleMenu>();
-    director->runWithScene(scene);
+    runScene<TitleMenu>();
 
     return true;
 }
