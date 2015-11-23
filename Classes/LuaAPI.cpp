@@ -12,18 +12,6 @@ using namespace std;
 
 namespace Lua{
 
-    shared_ptr<Data> Data::copy(lua_State* L)
-    {
-        if(lua_isnumber(L, -1)){
-            double n = lua_tonumber(L, -1);
-            return make_shared<Number>(n);
-        }
-        if(lua_isstring(L, -1)){
-            const char* c = lua_tostring(L, -1);
-            return make_shared<String>(c);
-        }
-    }
-
     //Raise Lua exception
     void error(lua_State* L, const string& msg)
     {
@@ -68,7 +56,7 @@ namespace Lua{
         runString(loadTextFile(path));
     }
 
-     vector<shared_ptr<Data>> Inst::call(const string& name, const vector<shared_ptr<Lua::Data>>& params)
+     vector<LuaRef> Inst::call(const string& name, const vector<LuaRef>& params)
     {
         int top = lua_gettop(state);
         
@@ -77,18 +65,20 @@ namespace Lua{
         //Remove global table after pushing function to call
         lua_remove(state, -2);
         
-        foreach(shared_ptr<Lua::Data> d, params)
+        foreach(LuaRef r, params)
         {
-            d->push(state);
+            r.push(state);
         }
         
         lua_call(state, params.size(), LUA_MULTRET);
         
         int nResults = lua_gettop(state) - top;
-        vector<shared_ptr<Data>> results;
+        vector<LuaRef> results;
         
         for(int i=0;i<nResults; ++i){
-            results.push_back(Data::pop(state));
+            LuaRef ref(state);
+            ref.pop(state);
+            results.push_back(ref);
         }
         reverse(results.begin(), results.end());
         return results;

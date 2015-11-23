@@ -17,70 +17,15 @@
 
 #include "cocos2d.h"
 #include "lua.hpp"
+#include "LuaBridge.h"
 
 #include "util.h"
 
 using namespace std;
+using namespace luabridge;
 
 namespace Lua
 {
-
-    //Abstract base representing a Lua object.
-    class Data
-    {
-    public:
-        virtual string toStr() const = 0;
-    
-        virtual void push(lua_State* L) = 0;
-        static shared_ptr<Data> copy(lua_State* L);
-        inline static shared_ptr<Data> pop(lua_State* L)
-        {
-            shared_ptr<Data> val = copy(L);
-            lua_pop(L,1);
-            return val;
-        }
-    };
-    
-    class Number : public Lua::Data
-    {
-    public:
-        inline Number()
-        {
-            n = 0;
-        }
-        inline Number(double n) : n(n) {}
-        
-        double n;
-        inline void push(lua_State* L)
-        {
-            lua_pushnumber(L, n);
-        }
-        inline virtual string toStr() const
-        {
-            return boost::lexical_cast<string>(n);
-        }
-    };
-    
-    class String : public Lua::Data
-    {
-    public:
-        inline String()
-        {
-            s = "";
-        }
-        inline String(const string& s) : s(s) {}
-        
-        string s;
-        inline void push(lua_State* L)
-        {
-            lua_pushstring(L, s.c_str());
-        }
-        inline virtual string toStr() const
-        {
-            return s;
-        }
-    };
-    
     //Raise Lua exception
     void error(lua_State* L, const string& msg);
     
@@ -99,7 +44,14 @@ namespace Lua
         void installFunction(lua_CFunction func, const string& name);
         void runString(const string& str);
         void runFile(const string& path);
-        vector<shared_ptr<Data>> call(const string& name, const vector<shared_ptr<Lua::Data>>& params);
+        vector<LuaRef> call(const string& name, const vector<LuaRef>& params);
+        
+        //Helper for making Lua data, since LuaRef requires the lua state.
+        template<typename T>
+        LuaRef makeRef(T data)
+        {
+            return LuaRef(state,data);
+        }
     private:
         lua_State *state;
     };

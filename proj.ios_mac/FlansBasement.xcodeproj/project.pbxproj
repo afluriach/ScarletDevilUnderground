@@ -812,6 +812,7 @@
 					/Users/toni/dev/boost_1_59_0,
 					/Users/toni/dev/chipmunkpp/src/,
 					"/Users/toni/dev/lua-5.3.1/src/",
+					"/Users/toni/dev/LuaBridge/Source/LuaBridge/**",
 				);
 				MACOSX_DEPLOYMENT_TARGET = 10.7;
 				ONLY_ACTIVE_ARCH = YES;
@@ -844,6 +845,7 @@
 					/Users/toni/dev/boost_1_59_0,
 					/Users/toni/dev/chipmunkpp/src/,
 					"/Users/toni/dev/lua-5.3.1/src/",
+					"/Users/toni/dev/LuaBridge/Source/LuaBridge/**",
 				);
 				MACOSX_DEPLOYMENT_TARGET = 10.7;
 				OTHER_CFLAGS = "-DNS_BLOCK_ASSERTIONS=1";
