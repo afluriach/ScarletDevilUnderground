@@ -17,13 +17,14 @@
 
 #include "App.h"
 #include "Graphics.h"
+#include "scenes.h"
 #include "util.h"
 
 using namespace std::placeholders;
 
 class SceneSelect;
 
-class MenuLayer : public cocos2d::Layer
+class MenuLayer : public GScene
 {
     
 };

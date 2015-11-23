@@ -12,8 +12,8 @@
 #include "cocos2d.h"
 
 #include "App.h"
-#include "PlayScene.hpp"
 #include "GObject.hpp"
+#include "scenes.h"
 #include "util.h"
 
 class Block : virtual public GObject, RectangleBody, ImageSprite
@@ -30,7 +30,7 @@ public:
     no_op(init)
     
     virtual string imageSpritePath() const {return "sprites/block "+letter+".png";}
-    virtual PlayScene::Layer sceneLayer() const {return PlayScene::Layer::ground;}
+    virtual GScene::Layer sceneLayer() const {return GScene::Layer::ground;}
     
     virtual inline float getMass() const { return 1;}
 

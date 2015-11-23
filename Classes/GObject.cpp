@@ -48,7 +48,7 @@ void GObject::updateSpritePos()
     }
 }
 
-void ImageSprite::loadImageSprite(const std::string& resPath, PlayScene::Layer sceneLayer, cocos2d::Layer* dest)
+void ImageSprite::loadImageSprite(const std::string& resPath, GScene::Layer sceneLayer, cocos2d::Layer* dest)
 {
     cp::Vect centerPix(initialCenter);
     centerPix *= App::pixelsPerTile;

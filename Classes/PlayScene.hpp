@@ -14,34 +14,20 @@
 #include "cocos2d.h"
 
 #include "controls.h"
-#include "GSpace.hpp"
+#include "scenes.h"
 
-class PlayScene : public cocos2d::Layer
+class PlayScene : virtual public GScene, MapScene
 {
-public:
-    inline PlayScene() : gspace(this) {}
+public:    
+    inline PlayScene() : MapScene("maps/block_room.tmx")
+    {
+        addUpdate(bind(&PlayScene::updateCamera, this, _1));
+    }
     
-    enum Layer{
-        map = 1,
-        ground,
-    };
+    virtual void updateCamera(float dt);
     
-    virtual bool init();
-    virtual void update(float dt);
-    
-    CREATE_FUNC(PlayScene);
-    
-    static PlayScene* inst;
-    
-    GSpace gspace;
-private:
-    cocos2d::Layer* mapLayer;
-    cocos2d::TMXTiledMap* tileMap;
-    
-    void loadMapObjects(const cocos2d::TMXTiledMap& map);
-    //Add a map object layer to space.
-    void loadObjectGroup(TMXObjectGroup* group);
-    
+    CREATE_FUNC(PlayScene);    
+private:    
     const int cameraMovePixPerFrame = 3;
     void move(int dx, int dy);
 };

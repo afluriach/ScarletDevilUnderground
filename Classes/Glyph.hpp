@@ -22,7 +22,7 @@ public:
     virtual void init();
     
     virtual string imageSpritePath() const {return "sprites/glyph.png";}
-    virtual PlayScene::Layer sceneLayer() const {return PlayScene::Layer::ground;}
+    virtual GScene::Layer sceneLayer() const {return GScene::Layer::ground;}
     
     virtual inline float getMass() const {return 1;}
 };

@@ -13,9 +13,10 @@
 
 #include "App.h"
 #include "Dialog.hpp"
+#include "scenes.h"
 #include "util.h"
 
-class LibraryOpening : public cocos2d::Layer
+class LibraryOpening : public GScene
 {
 public:
     const int edgeMargin = 30;

@@ -78,11 +78,11 @@ class ImageSprite : public virtual GObject
 {
 public:
     virtual string imageSpritePath() const = 0;
-    virtual PlayScene::Layer sceneLayer() const = 0;
-    void loadImageSprite(const std::string& resPath, PlayScene::Layer sceneLayer, cocos2d::Layer* dest);
+    virtual GScene::Layer sceneLayer() const = 0;
+    void loadImageSprite(const std::string& resPath, GScene::Layer sceneLayer, cocos2d::Layer* dest);
     inline void initializeGraphics(cocos2d::Layer* layer)
     {
-        loadImageSprite(imageSpritePath(), PlayScene::Layer::ground, layer);
+        loadImageSprite(imageSpritePath(), GScene::Layer::ground, layer);
     }
 };
 

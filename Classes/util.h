@@ -48,7 +48,7 @@ cocos2d::Scene* crntScene();
 void printValueMap(const cocos2d::ValueMap& obj);
 float getFloat(const cocos2d::ValueMap& obj, const std::string& name);
 
-cocos2d::Sprite* loadImageSprite(const std::string& resPath, PlayScene::Layer sceneLayer, cocos2d::Layer* dest, const Vec2& pos);
+cocos2d::Sprite* loadImageSprite(const std::string& resPath, GScene::Layer sceneLayer, cocos2d::Layer* dest, const Vec2& pos);
 
 inline std::string loadTextFile(const std::string& res)
 {
