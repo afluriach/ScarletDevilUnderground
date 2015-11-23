@@ -29,8 +29,24 @@ public:
         map = 1,
         ground,
     };
+    typedef std::function<void () > AdapterType;
+    //Map each class name to a constructor adapter function.
+    static const std::map<std::string,AdapterType> adapters;
     
     static GScene* crntScene;
+
+    static inline void runScene(const string& name)
+    {
+        auto it = adapters.find(name);
+        
+        if(it == adapters.end()){
+            log("runScene: %s not found.", name.c_str());
+        }
+        else
+        {
+            it->second();
+        }
+    }
 
 //Rather than managing overrides to the init method, a scene simply registers their own.
 //Init methods must be installed at construction time.

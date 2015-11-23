@@ -809,6 +809,14 @@ Vec2 Director::getVisibleOrigin() const
 
 // scene management
 
+void Director::runScene(Scene *scene)
+{
+    if(!_runningScene)
+        runWithScene(scene);
+    else
+        replaceScene(scene);
+}
+
 void Director::runWithScene(Scene *scene)
 {
     CCASSERT(scene != nullptr, "This command can only be used to start the Director. There is already a scene present.");

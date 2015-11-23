@@ -82,7 +82,7 @@ public:
     template <typename T>
     inline void runScene()
     {
-        cocos2d::Director::getInstance()->runWithScene(createSceneFromLayer<T>());
+        cocos2d::Director::getInstance()->runScene(createSceneFromLayer<T>());
     }
     
     
@@ -92,18 +92,23 @@ protected:
     KeyListener keyListener;
     //The shell that is installed in the current scene.
     LuaShell* luaShell;
-
-    template <typename T>
-    inline cocos2d::Scene* createSceneFromLayer()
+    
+    inline cocos2d::Scene* createSceneFromLayer(cocos2d::Layer* layer)
     {
         cocos2d::Scene* scene  = cocos2d::Scene::create();
-        cocos2d::Layer* layer = T::create();
         scene->addChild(layer,1);
         
         installLuaShell(scene);
         
         return scene;
     }
+
+    template <typename T>
+    inline cocos2d::Scene* createSceneFromLayer()
+    {
+        return createSceneFromLayer(T::create());
+    }
+    
     void installLuaShell(cocos2d::Scene* scene);
 };
 

@@ -262,6 +262,10 @@ public:
 
     // Scene Management
 
+    //Run new scene or replace if one is running.
+    void runScene(Scene *scene);
+
+
     /** 
      * Enters the Director's main loop with the given Scene.
      * Call it to run only your FIRST scene.
@@ -270,6 +274,7 @@ public:
      * It will call pushScene: and then it will call startAnimation
      * @js NA
      */
+
     void runWithScene(Scene *scene);
 
     /** 

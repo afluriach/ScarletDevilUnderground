@@ -51,8 +51,6 @@ namespace Lua{
         return result;
     }
 
-
-
     Inst::Inst()
     {
         state = luaL_newstate();
@@ -63,12 +61,6 @@ namespace Lua{
     Inst::~Inst()
     {
         lua_close(state);
-    }
-    
-    void Inst::installApi()
-    {
-        installFunction(log,"log");
-        installFunction(createObject,"createObject");
     }
     
     void Inst::installFunction(lua_CFunction func, const string& name)
@@ -117,7 +109,6 @@ namespace Lua{
         reverse(results.begin(), results.end());
         return results;
     };
-
 
     //Lua API functions:
     int log(lua_State* L)
@@ -226,5 +217,31 @@ namespace Lua{
         ValueMap objArg = GObject::makeValueMapArg(posV,dimV,m);
         
         scene->gspace.addObject(objArg);
+        
+        return 0;
+    }
+    
+    int runScene(lua_State* L)
+    {
+        int nArgs = lua_gettop(L);
+        
+        if(nArgs != 1){
+            cocos2d::log("runScene: single string required.");
+            return 0;
+        }
+        
+        LuaRef name(L);
+        name.pop(L);
+        
+        GScene::runScene(name.tostring());
+
+        return 0;
+    }
+    
+    void Inst::installApi()
+    {
+        installFunction(log,"log");
+        installFunction(createObject,"createObject");
+        installFunction(runScene,"runScene");
     }
 }
