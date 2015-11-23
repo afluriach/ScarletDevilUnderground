@@ -33,8 +33,6 @@ public:
     const std::string name;
     
     std::shared_ptr<cp::Body> body;
-    //A default of 0 signifies undefined. Using -1 to indicate static.
-    float mass = 0;
     
     //Posiition where the object was loaded
     cp::Vect initialCenter;
@@ -63,10 +61,13 @@ protected:
 class RectangleBody : public virtual GObject
 {
 public:
+    //A default of 0 signifies undefined. Using -1 to indicate static or positive for dynamic.
+    virtual float getMass() const = 0;
+
     //Create body and add it to space. This assumes BB is rectangle dimensions
     virtual inline std::shared_ptr<cp::Body> initializeBody(cp::Space& space)
     {
-        body = GSpace::createRectangleBody(space, initialCenter, dim, mass, this);
+        body = GSpace::createRectangleBody(space, initialCenter, dim, getMass(), this);
         return body;
     }
 };

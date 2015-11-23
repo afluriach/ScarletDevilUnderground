@@ -17,13 +17,14 @@ class Glyph : public virtual GObject, RectangleBody, ImageSprite
 public:
     inline Glyph(const cocos2d::ValueMap& args) : GObject(args)
     {
-        mass = 1;
     }
     
     virtual void init();
     
     virtual string imageSpritePath() const {return "sprites/glyph.png";}
     virtual PlayScene::Layer sceneLayer() const {return PlayScene::Layer::ground;}
+    
+    virtual inline float getMass() const {return 1;}
 };
 
 #endif /* Glyph_hpp */

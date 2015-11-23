@@ -20,9 +20,7 @@ class Block : virtual public GObject, RectangleBody, ImageSprite
 {
 public:
     inline Block(const cocos2d::ValueMap& args) : GObject(args)
-    {
-        GObject::mass = 1;
-        
+    {        
         auto it = args.find("letter");
         if(it != args.end())
             letter = it->second.asString();
@@ -33,6 +31,8 @@ public:
     
     virtual string imageSpritePath() const {return "sprites/block "+letter+".png";}
     virtual PlayScene::Layer sceneLayer() const {return PlayScene::Layer::ground;}
+    
+    virtual inline float getMass() const { return 1;}
 
 private:
     std::string letter;
