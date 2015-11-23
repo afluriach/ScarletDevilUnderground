@@ -17,7 +17,7 @@ USING_NS_CC;
 
 GObject::GObject(const ValueMap& obj) : name(obj.at("name").asString() )
 {
-    log("%s created at %.1f,%.1f.", name.c_str(),getFloat(obj, "x"), getFloat(obj, "y"));
+    log("%s created at %.1f,%.1f.", name.c_str(),getFloat(obj, "x")/App::pixelsPerTile, getFloat(obj, "y")/App::pixelsPerTile);
     
     cp::Vect cornerPos(getFloat(obj, "x"), getFloat(obj, "y"));
     cornerPos *= App::tilesPerPixel;
