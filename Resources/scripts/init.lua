@@ -1,0 +1,1 @@
+log("init.lua run")
