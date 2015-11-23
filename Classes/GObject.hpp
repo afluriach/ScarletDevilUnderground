@@ -55,9 +55,8 @@ public:
     //Create Node which graphically reprensets this object and adds it to Layer
     virtual void initializeGraphics(cocos2d::Layer* layer) = 0;
     
-    void loadImageSprite(const std::string& resPath, PlayScene::Layer sceneLayer, cocos2d::Layer* dest);
     void updateSpritePos();
-private:
+protected:
     cocos2d::Node* sprite;
 };
 
@@ -69,6 +68,20 @@ public:
     {
         body = GSpace::createRectangleBody(space, initialCenter, dim, mass, this);
         return body;
+    }
+};
+
+//Initialize graphics from a still image. Any class that uses this mixin has to implement interface to
+//provide the path to the image file.
+class ImageSprite : public virtual GObject
+{
+public:
+    virtual string imageSpritePath() const = 0;
+    virtual PlayScene::Layer sceneLayer() const = 0;
+    void loadImageSprite(const std::string& resPath, PlayScene::Layer sceneLayer, cocos2d::Layer* dest);
+    inline void initializeGraphics(cocos2d::Layer* layer)
+    {
+        loadImageSprite(imageSpritePath(), PlayScene::Layer::ground, layer);
     }
 };
 

@@ -12,7 +12,7 @@
 #include "GObject.hpp"
 #include "util.h"
 
-class Glyph : public virtual GObject, RectangleBody
+class Glyph : public virtual GObject, RectangleBody, ImageSprite
 {
 public:
     inline Glyph(const cocos2d::ValueMap& args) : GObject(args)
@@ -21,7 +21,9 @@ public:
     }
     
     virtual void init();
-    virtual void initializeGraphics(cocos2d::Layer* layer);
+    
+    virtual string imageSpritePath() const {return "sprites/glyph.png";}
+    virtual PlayScene::Layer sceneLayer() const {return PlayScene::Layer::ground;}
 };
 
 #endif /* Glyph_hpp */

@@ -16,7 +16,7 @@
 #include "GObject.hpp"
 #include "util.h"
 
-class Block : virtual public GObject, RectangleBody
+class Block : virtual public GObject, RectangleBody, ImageSprite
 {
 public:
     inline Block(const cocos2d::ValueMap& args) : GObject(args)
@@ -32,7 +32,9 @@ public:
     }
     no_op(init)
     
-    virtual void initializeGraphics(cocos2d::Layer* layer);
+    virtual string imageSpritePath() const {return "sprites/block "+letter+".png";}
+    virtual PlayScene::Layer sceneLayer() const {return PlayScene::Layer::ground;}
+
 private:
     std::string letter;
 };

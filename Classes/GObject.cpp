@@ -60,7 +60,14 @@ GObject* GObject::constructByType(const std::string& type, const cocos2d::ValueM
     else return nullptr;
 }
 
-void GObject::loadImageSprite(const std::string& resPath, PlayScene::Layer sceneLayer, cocos2d::Layer* dest)
+void GObject::updateSpritePos()
+{
+    if(sprite != nullptr){
+        sprite->setPosition(toCocos(body->getPos())*App::pixelsPerTile);
+    }
+}
+
+void ImageSprite::loadImageSprite(const std::string& resPath, PlayScene::Layer sceneLayer, cocos2d::Layer* dest)
 {
     cp::Vect centerPix(initialCenter);
     centerPix *= App::pixelsPerTile;
@@ -71,11 +78,4 @@ void GObject::loadImageSprite(const std::string& resPath, PlayScene::Layer scene
         log("%s sprite not loaded", name.c_str());
     else
         log("%s sprite %s added at %f,%f", name.c_str(), resPath.c_str(), expand_vector2(centerPix));
-}
-
-void GObject::updateSpritePos()
-{
-    if(sprite != nullptr){
-        sprite->setPosition(toCocos(body->getPos())*App::pixelsPerTile);
-    }
 }
