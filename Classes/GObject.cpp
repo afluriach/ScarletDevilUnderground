@@ -11,6 +11,7 @@
 #include "Block.hpp"
 #include "Glyph.hpp"
 
+#include "App.h"
 #include "PlayScene.hpp"
 #include "GObject.hpp"
 #include "util.h"
@@ -35,8 +36,7 @@ const std::map<std::string,GObject::AdapterType> GObject::adapters =
 
 GObject::GObject(const ValueMap& obj) : name(obj.at("name").asString() )
 {
-    log("GObject %s instantiated.", name.c_str());
-    printValueMap(obj);
+    log("%s created at %.1f,%.1f.", name.c_str(),getFloat(obj, "x"), getFloat(obj, "y"));
     
     cp::Vect cornerPos(getFloat(obj, "x"), getFloat(obj, "y"));
     cornerPos *= App::tilesPerPixel;
@@ -76,6 +76,6 @@ void ImageSprite::loadImageSprite(const std::string& resPath, PlayScene::Layer s
     
     if(sprite == nullptr)
         log("%s sprite not loaded", name.c_str());
-    else
-        log("%s sprite %s added at %f,%f", name.c_str(), resPath.c_str(), expand_vector2(centerPix));
+    else if(App::logSprites)
+        log("%s sprite %s added at %.1f,%.1f, layer %d", name.c_str(), resPath.c_str(), expand_vector2(centerPix), sceneLayer);
 }

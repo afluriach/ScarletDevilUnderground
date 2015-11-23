@@ -57,7 +57,6 @@ void PlayScene::loadObjectGroup(TMXObjectGroup* group)
 void PlayScene::loadMapObjects(const TMXTiledMap& map)
 {
     Vector<TMXObjectGroup*> objLayers = map.getObjectGroups();
-    log("%ld object groups.", objLayers.size());
     
     if(map.getObjectGroup("objects") == nullptr){
         log("Objects group missing.");

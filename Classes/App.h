@@ -32,6 +32,7 @@ public:
     constexpr static float tilesPerPixel = 1.0/pixelsPerTile;
     
     static const bool showStats = true;
+    static const bool logSprites = false;
     static const std::string title;
     
     static inline cocos2d::Vec2 getScreenCenter()

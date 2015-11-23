@@ -23,7 +23,6 @@ public:
     {
         GObject::mass = 1;
         
-        cocos2d::log("Block created.");
         auto it = args.find("letter");
         if(it != args.end())
             letter = it->second.asString();
