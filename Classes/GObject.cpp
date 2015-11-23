@@ -8,31 +8,12 @@
 
 #include "cocos2d.h"
 
-#include "Block.hpp"
-#include "Glyph.hpp"
-
 #include "App.h"
 #include "PlayScene.hpp"
 #include "GObject.hpp"
 #include "util.h"
 
 USING_NS_CC;
-
-//Adapters for mapping the name of a class to a factory adapter.
-template <typename T>
-static GObject::AdapterType consAdapter()
-{
-    return [](const cocos2d::ValueMap& args) -> GObject* { return new T(args); };
-}
-
-#define entry(name,cls) (name, consAdapter<cls>())
-//To make an entry where the name matches the class
-#define entry_same(cls) entry(#cls, cls)
-
-const std::map<std::string,GObject::AdapterType> GObject::adapters =
-    map_list_of
-    entry_same(Block)
-    entry_same(Glyph);
 
 GObject::GObject(const ValueMap& obj) : name(obj.at("name").asString() )
 {

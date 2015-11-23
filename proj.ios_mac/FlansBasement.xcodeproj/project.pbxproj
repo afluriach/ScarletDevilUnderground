@@ -80,6 +80,8 @@
 		E23E1B2D1C014A0A00F7FAC1 /* LuaShell.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E23E1B2A1C014A0A00F7FAC1 /* LuaShell.cpp */; };
 		E23F055E1BD0294A0091BD6D /* controls.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E23F055D1BD0294A0091BD6D /* controls.cpp */; };
 		E23F055F1BD0294A0091BD6D /* controls.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E23F055D1BD0294A0091BD6D /* controls.cpp */; };
+		E24450241C02CFA8006D78B0 /* ObjectMapping.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E24450231C02CFA8006D78B0 /* ObjectMapping.cpp */; };
+		E24450251C02CFA8006D78B0 /* ObjectMapping.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E24450231C02CFA8006D78B0 /* ObjectMapping.cpp */; };
 		E26147BC1C005A1B008CA1D0 /* scripts in Resources */ = {isa = PBXBuildFile; fileRef = E26147BB1C005A1B008CA1D0 /* scripts */; };
 		E26147BD1C005A1B008CA1D0 /* scripts in Resources */ = {isa = PBXBuildFile; fileRef = E26147BB1C005A1B008CA1D0 /* scripts */; };
 		E27E85781BE016BB00A94217 /* libchipmunk++.a in Frameworks */ = {isa = PBXBuildFile; fileRef = E27E85771BE016BB00A94217 /* libchipmunk++.a */; };
@@ -199,6 +201,7 @@
 		E23E1B2B1C014A0A00F7FAC1 /* LuaShell.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = LuaShell.hpp; sourceTree = "<group>"; };
 		E23F05591BD024040091BD6D /* controls.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = controls.h; sourceTree = "<group>"; };
 		E23F055D1BD0294A0091BD6D /* controls.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = controls.cpp; sourceTree = "<group>"; };
+		E24450231C02CFA8006D78B0 /* ObjectMapping.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ObjectMapping.cpp; sourceTree = "<group>"; };
 		E26147BB1C005A1B008CA1D0 /* scripts */ = {isa = PBXFileReference; lastKnownFileType = folder; path = scripts; sourceTree = "<group>"; };
 		E27E85771BE016BB00A94217 /* libchipmunk++.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = "libchipmunk++.a"; path = "../../../dev/chipmunkpp/libchipmunk++.a"; sourceTree = "<group>"; };
 		E27E85791BE0178800A94217 /* GSpace.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = GSpace.cpp; sourceTree = "<group>"; };
@@ -367,6 +370,7 @@
 				E27E857A1BE0178800A94217 /* GSpace.hpp */,
 				E2B63AA31BE0450D005695B0 /* GObject.cpp */,
 				E2B63AA41BE0450D005695B0 /* GObject.hpp */,
+				E24450231C02CFA8006D78B0 /* ObjectMapping.cpp */,
 				E2B63AA71BE0498C005695B0 /* Block.cpp */,
 				E2B63AA81BE0498C005695B0 /* Block.hpp */,
 				E29FF74F1BE18BE7004725C1 /* Glyph.cpp */,
@@ -593,6 +597,7 @@
 				E23121FD1BF7FDA300FEA94B /* Dialog.cpp in Sources */,
 				503AE10017EB989F00D1A890 /* AppController.mm in Sources */,
 				E23E1B2C1C014A0A00F7FAC1 /* LuaShell.cpp in Sources */,
+				E24450241C02CFA8006D78B0 /* ObjectMapping.cpp in Sources */,
 				E2B63AA51BE0450D005695B0 /* GObject.cpp in Sources */,
 				503AE10217EB989F00D1A890 /* RootViewController.mm in Sources */,
 				E20A7D6A1BCD205E007F1A3B /* PlayScene.cpp in Sources */,
@@ -617,6 +622,7 @@
 				503AE10517EB98FF00D1A890 /* main.cpp in Sources */,
 				E23121FE1BF7FDA300FEA94B /* Dialog.cpp in Sources */,
 				E2AC8F491BCD4BC20001DB3E /* Graphics.cpp in Sources */,
+				E24450251C02CFA8006D78B0 /* ObjectMapping.cpp in Sources */,
 				E23F055F1BD0294A0091BD6D /* controls.cpp in Sources */,
 				E2080BCA1C00486000EB78DF /* LuaAPI.cpp in Sources */,
 				E23E1B2D1C014A0A00F7FAC1 /* LuaShell.cpp in Sources */,
