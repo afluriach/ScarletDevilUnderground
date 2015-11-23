@@ -29,6 +29,8 @@ public:
         map = 1,
         ground,
     };
+    
+    static GScene* crntScene;
 
 //Rather than managing overrides to the init method, a scene simply registers their own.
 //Init methods must be installed at construction time.
@@ -37,6 +39,8 @@ public:
     {
         //Updater has to be scheduled at init time.
         addInit(bind(&GScene::initUpdate,this));
+        
+        crntScene = this;
     }
 
     inline void addInit(function<void()> init)

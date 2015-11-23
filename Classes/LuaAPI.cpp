@@ -6,6 +6,8 @@
 //
 //
 
+#include "GObject.hpp"
+
 #include "LuaAPI.hpp"
 
 using namespace std;
@@ -20,6 +22,37 @@ namespace Lua{
     }
 
 //Lua API methods
+
+    map<string,string> getStringMapFromTable(LuaRef table, lua_State* state)
+    {
+        table.push(state);
+        lua_pushnil(state);
+        
+        map<string,string> result;
+        
+        while(lua_next(state, -2))
+        {
+            //lua_next puts value on top of stack above key.
+
+            //Copy key before consuming it.
+            lua_pushvalue(state, -2);
+            
+            string key(lua_tostring(state, -1));
+            string value(lua_tostring(state, -2));
+            
+            cocos2d::log("%s,%s", key.c_str(), value.c_str());
+            result[key] = value;
+            
+            lua_pop(state,2);
+        }
+        //Pop the table;
+        lua_pop(state,1);
+        
+        return result;
+    }
+
+
+
     Inst::Inst()
     {
         state = luaL_newstate();
@@ -35,6 +68,7 @@ namespace Lua{
     void Inst::installApi()
     {
         installFunction(log,"log");
+        installFunction(createObject,"createObject");
     }
     
     void Inst::installFunction(lua_CFunction func, const string& name)
@@ -48,7 +82,7 @@ namespace Lua{
         int error = luaL_dostring(state, str.c_str());
         
         if(error)
-            cocos2d::log("runString Lua error.");
+            cocos2d::log("Lua error: %s", lua_tostring(state,-1));
     }
     
     void Inst::runFile(const string& path)
@@ -106,5 +140,91 @@ namespace Lua{
         
         return 0;
     }
+    
+    int createObject(lua_State* L)
+    {
+        int nArgs = lua_gettop(L);
+        
+        GSpaceScene* scene = dynamic_cast<GSpaceScene*>(GScene::crntScene);
+        if(!scene){
+            error(L, "createObject: cannot create object in this scene.");
+            return 0;
+        }
+        
+        if(nArgs != 1){
+            error(L, "createObject: single table params required");
+            return 0;
+        }
+        
+        LuaRef arg(L);
+        arg.pop(L);
+        
+        if(!arg.isTable()){
+            error(L, "createObject: single table params required");
+            return 0;
+        }
+        
+        //Position and dimension are x,y vector
+        LuaRef pos = arg["pos"];
+        LuaRef dim = arg["dim"];
+        LuaRef props = arg["props"];
+        
+        LuaRef name = arg["name"];
+        LuaRef type = arg["type"];
 
+        if(name.isNil()){
+            error(L, "createObject: name required");
+            return 0;
+        }
+        
+        if(type.isNil()){
+            error(L, "createObject: type required");
+            return 0;
+        }
+
+        
+        if(pos.isNil()){
+            error(L, "createObject: pos required");
+            return 0;
+        }
+
+        if(dim.isNil()){
+            error(L, "createObject: dim required");
+            return 0;
+        }
+
+        if(pos["x"].isNil() || !pos["x"].isNumber()){
+            error(L, "createObject: pos.x invalid");
+            return 0;
+        }
+
+        if(pos["y"].isNil() || !pos["y"].isNumber()){
+            error(L, "createObject: pos.y invalid");
+            return 0;
+        }
+        if(dim["width"].isNil() || !dim["width"].isNumber()){
+            error(L, "createObject: dim.width invalid");
+            return 0;
+        }
+        if(dim["height"].isNil() || !dim["height"].isNumber()){
+            error(L, "createObject: dim.height invalid");
+            return 0;
+        }
+
+        map<string,string> m;
+        
+        Vec2 posV(pos["x"].cast<float>(), pos["y"].cast<float>());
+        Vec2 dimV(dim["width"].cast<float>(), dim["height"].cast<float>());
+        
+        if(props.isTable()){
+            m = getStringMapFromTable(props, L);
+        }
+        m["name"] = name.tostring();
+        m["type"] = type.tostring();
+
+        
+        ValueMap objArg = GObject::makeValueMapArg(posV,dimV,m);
+        
+        scene->gspace.addObject(objArg);
+    }
 }

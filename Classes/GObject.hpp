@@ -29,6 +29,8 @@ public:
     static const std::map<std::string,AdapterType> adapters;
     
     static GObject* constructByType(const std::string& type, const cocos2d::ValueMap& args );
+    
+    static ValueMap makeValueMapArg(const Vec2& pos, const Vec2& dim, const map<string,string>& props);
 
     const std::string name;
     

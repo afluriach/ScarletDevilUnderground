@@ -41,6 +41,27 @@ GObject* GObject::constructByType(const std::string& type, const cocos2d::ValueM
     else return nullptr;
 }
 
+ValueMap GObject::makeValueMapArg(const Vec2& pos, const Vec2& dim, const map<string,string>& props)
+{
+    ValueMap vm;
+    
+    Vec2 posPix = pos * App::pixelsPerTile;
+    Vec2 dimPix = dim * App::pixelsPerTile;
+    
+    vm["x"] = Value(posPix.x);
+    vm["y"] = Value(posPix.y);
+    
+    vm["width"] = Value(dimPix.x);
+    vm["height"] = Value(dimPix.y);
+    
+    for(auto it = props.begin(); it != props.end(); ++it)
+    {
+        vm[it->first] = it->second;
+    }
+    
+    return vm;
+}
+
 void GObject::updateSpritePos()
 {
     if(sprite != nullptr){

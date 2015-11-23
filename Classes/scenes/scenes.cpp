@@ -8,6 +8,8 @@
 
 #include "scenes.h"
 
+GScene* GScene::crntScene;
+
 void MapScene::loadObjectGroup(TMXObjectGroup* group)
 {
     const ValueVector& objects = group->getObjects();
