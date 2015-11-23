@@ -74,7 +74,7 @@ shared_ptr<cp::Body> GSpace::createRectangleBody(
     float mass,
     GObject* obj)
 {
-    log(
+    if(logPhysics) log(
         "Creating rectangle body for %s. %f x %f at %f,%f, mass: %f",
         obj->name.c_str(),
         expand_vector2(dim),

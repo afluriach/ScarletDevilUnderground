@@ -24,6 +24,8 @@ class GObject;
 class GSpace
 {
 public:
+    static const bool logPhysics = false;
+
     inline GSpace(cocos2d::Layer* graphicsLayer) : graphicsLayer(graphicsLayer)
     {
         space.setGravity(cp::Vect(0,0));
