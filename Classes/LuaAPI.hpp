@@ -17,6 +17,7 @@
 
 #include "cocos2d.h"
 #include "lua.hpp"
+
 #include "util.h"
 
 using namespace std;
@@ -91,67 +92,14 @@ namespace Lua
     class Inst
     {
     public:
-        inline Inst()
-        {
-            state = luaL_newstate();
-            //Load standard libraries
-            luaL_openlibs(state);
-            installApi();
-        }
-        inline ~Inst()
-        {
-            lua_close(state);
-        }
+        Inst();
+        ~Inst();
         
-        inline void installApi()
-        {
-            installFunction(log,"log");
-        }
-        
-        inline void installFunction(lua_CFunction func, const string& name)
-        {
-            lua_pushcfunction(state, func);
-            lua_setglobal(state, name.c_str());
-        }
-        
-        inline void runString(const string& str)
-        {        
-            int error = luaL_dostring(state, str.c_str());
-            
-            if(error)
-                cocos2d::log("runString Lua error.");
-        }
-        
-        inline void runFile(const string& path)
-        {
-            runString(loadTextFile(path));
-        }
-    
-        inline vector<shared_ptr<Data>> call(const string& name, const vector<shared_ptr<Lua::Data>>& params)
-        {
-            int top = lua_gettop(state);
-            
-            lua_pushglobaltable(state);
-            lua_getfield(state, -1, name.c_str());
-            //Remove global table after pushing function to call
-            lua_remove(state, -2);
-            
-            foreach(shared_ptr<Lua::Data> d, params)
-            {
-                d->push(state);
-            }
-            
-            lua_call(state, params.size(), LUA_MULTRET);
-            
-            int nResults = lua_gettop(state) - top;
-            vector<shared_ptr<Data>> results;
-            
-            for(int i=0;i<nResults; ++i){
-                results.push_back(Data::pop(state));
-            }
-            reverse(results.begin(), results.end());
-            return results;
-        };
+        void installApi();
+        void installFunction(lua_CFunction func, const string& name);
+        void runString(const string& str);
+        void runFile(const string& path);
+        vector<shared_ptr<Data>> call(const string& name, const vector<shared_ptr<Lua::Data>>& params);
     private:
         lua_State *state;
     };
