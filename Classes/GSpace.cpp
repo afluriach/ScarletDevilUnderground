@@ -6,6 +6,11 @@
 //
 //
 
+#include <cmath>
+#include <memory>
+
+#include <boost/math/constants/constants.hpp>
+
 #include "cocos2d.h"
 
 #include "App.h"
@@ -16,6 +21,11 @@
 
 using namespace std;
 USING_NS_CC;
+
+float circleMomentOfInertia(float mass, float radius)
+{
+    return boost::math::constants::pi<float>()/2*pow(radius,4);
+}
 
 float rectagleMomentOfInteria(float mass, const cp::Vect& dim)
 {
@@ -65,6 +75,44 @@ void GSpace::update()
     
     //process additions
     processAdditions();
+}
+
+shared_ptr<cp::Body> GSpace::createCircleBody(
+    cp::Space& space,
+    const cp::Vect& center,
+    float radius,
+    float mass,
+    GObject* obj)
+{
+    if(logPhysics) log(
+        "createCircleBody for %s at %f,%f, mass: %f",
+        obj->name.c_str(),
+        expand_vector2(center),
+        mass
+    );
+    
+    shared_ptr<cp::Body> body;
+    if(mass < 0){
+        body = space.staticBody;
+    }
+    else{
+        body = make_shared<cp::Body>(mass, circleMomentOfInertia(mass, radius));
+        space.add(body);
+    }
+    body->setPos(center);
+    
+    shared_ptr<cp::CircleShape> shape = make_shared<cp::CircleShape>(body, radius);
+    shape->setBody(body);
+    space.add(shape);
+    
+    //Set shape layer and group.
+    //Set sensor
+    //Set collision type.
+    
+    shape->setUserData(obj);
+    body->setUserData(obj);
+    
+    return body;
 }
 
 shared_ptr<cp::Body> GSpace::createRectangleBody(

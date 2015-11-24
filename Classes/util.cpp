@@ -35,6 +35,11 @@ float getFloat(const cocos2d::ValueMap& args, const std::string& name)
     return args.at(name).asFloat();
 }
 
+IntVec2 toIntVector(const cocos2d::Size& rhs)
+{
+    return IntVec2(rhs.width,rhs.height);
+}
+
 cocos2d::Vec2 toCocos(const cp::Vect& rhs)
 {
     return cocos2d::Vec2(expand_vector2(rhs));
@@ -45,11 +50,16 @@ cp::Vect toChipmunk(const cocos2d::Vec2& rhs)
     return cp::Vect(expand_vector2(rhs));
 }
 
+void positionAndAddNode(Node* node, GScene::Layer sceneLayer, cocos2d::Layer* dest, const Vec2& pos)
+{
+    node->setPosition(pos);
+    dest->addChild(node, sceneLayer);
+}
+
 Sprite* loadImageSprite(const std::string& resPath, GScene::Layer sceneLayer, cocos2d::Layer* dest, const Vec2& pos)
 {
     cocos2d::Sprite* node = cocos2d::Sprite::create(resPath);
-    node->setPosition(pos);
-    dest->addChild(node, sceneLayer);
+    positionAndAddNode(node,sceneLayer,dest,pos);
     
     return node;
 }

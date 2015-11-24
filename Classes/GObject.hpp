@@ -15,6 +15,7 @@
 #include "chipmunk.hpp"
 #include "cocos2d.h"
 
+#include "GAnimation.hpp"
 #include "PlayScene.hpp"
 #include "util.h"
 
@@ -55,6 +56,7 @@ public:
     //Create Node which graphically reprensets this object and adds it to Layer
     virtual void initializeGraphics(cocos2d::Layer* layer) = 0;
     
+    cocos2d::Vec2 getInitialCenterPix();
     void updateSpritePos();
 protected:
     cocos2d::Node* sprite;
@@ -74,6 +76,23 @@ public:
     }
 };
 
+class CircleBody : public virtual GObject
+{
+public:
+    //A default of 0 signifies undefined. Using -1 to indicate static or positive for dynamic.
+    virtual float getMass() const = 0;
+
+    //Create body and add it to space. This assumes BB is rectangle dimensions
+    virtual inline std::shared_ptr<cp::Body> initializeBody(cp::Space& space)
+    {
+        if(dim.x != dim.y)
+            log("CircleBody: non-square BB given, using width for radius.");
+    
+        body = GSpace::createCircleBody(space, initialCenter, dim.x, getMass(), this);
+        return body;
+    }
+};
+
 //Initialize graphics from a still image. Any class that uses this mixin has to implement interface to
 //provide the path to the image file.
 class ImageSprite : public virtual GObject
@@ -86,6 +105,32 @@ public:
     {
         loadImageSprite(imageSpritePath(), GScene::Layer::ground, layer);
     }
+};
+
+class PatchConSprite : virtual public GObject
+{
+public:
+    virtual string imageSpritePath() const = 0;
+    virtual GScene::Layer sceneLayer() const = 0;
+    
+    inline void initializeGraphics(cocos2d::Layer* layer)
+    {
+        animSprite = PatchConAnimation::create();
+        animSprite->loadAnimation(imageSpritePath());
+        positionAndAddNode(animSprite, sceneLayer(), layer, getInitialCenterPix());
+        sprite = animSprite;
+    }
+    
+    virtual void update()
+    {
+        GObject::update();
+        
+        cp::Vect dist = body->getVel()*App::secondsPerFrame;
+        
+        animSprite->accumulate(dist.length());
+    }
+protected:
+    PatchConAnimation* animSprite;
 };
 
 #endif /* GObject_hpp */

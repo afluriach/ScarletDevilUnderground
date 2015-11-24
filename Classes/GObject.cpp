@@ -69,12 +69,18 @@ void GObject::updateSpritePos()
     }
 }
 
-void ImageSprite::loadImageSprite(const std::string& resPath, GScene::Layer sceneLayer, cocos2d::Layer* dest)
+cocos2d::Vec2 GObject::getInitialCenterPix()
 {
     cp::Vect centerPix(initialCenter);
     centerPix *= App::pixelsPerTile;
     
-    sprite = ::loadImageSprite(resPath,sceneLayer,dest, toCocos(centerPix));
+    return toCocos(centerPix);
+}
+
+void ImageSprite::loadImageSprite(const std::string& resPath, GScene::Layer sceneLayer, cocos2d::Layer* dest)
+{
+    cocos2d::Vec2 centerPix = getInitialCenterPix();
+    sprite = ::loadImageSprite(resPath,sceneLayer,dest, centerPix);
     
     if(sprite == nullptr)
         log("%s sprite not loaded", name.c_str());

@@ -10,6 +10,7 @@
 
 #include "Block.hpp"
 #include "Glyph.hpp"
+#include "Player.hpp"
 
 //Adapters for mapping the name of a class to a factory adapter.
 template <typename T>
@@ -25,4 +26,5 @@ static GObject::AdapterType consAdapter()
 const std::map<std::string,GObject::AdapterType> GObject::adapters =
     map_list_of
     entry_same(Block)
-    entry_same(Glyph);
+    entry_same(Glyph)
+    entry_same(Player);

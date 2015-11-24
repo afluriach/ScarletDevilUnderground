@@ -101,6 +101,10 @@
 		E2B63AA61BE0450D005695B0 /* GObject.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E2B63AA31BE0450D005695B0 /* GObject.cpp */; };
 		E2B63AA91BE0498C005695B0 /* Block.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E2B63AA71BE0498C005695B0 /* Block.cpp */; };
 		E2B63AAA1BE0498C005695B0 /* Block.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E2B63AA71BE0498C005695B0 /* Block.cpp */; };
+		E2CDC5461C04F89D0017537B /* GAnimation.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E2CDC5441C04F89D0017537B /* GAnimation.cpp */; };
+		E2CDC5471C04F89D0017537B /* GAnimation.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E2CDC5441C04F89D0017537B /* GAnimation.cpp */; };
+		E2CDC54B1C0507090017537B /* Player.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E2CDC5491C0507090017537B /* Player.cpp */; };
+		E2CDC54C1C0507090017537B /* Player.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E2CDC5491C0507090017537B /* Player.cpp */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -223,6 +227,10 @@
 		E2B63AA41BE0450D005695B0 /* GObject.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = GObject.hpp; sourceTree = "<group>"; };
 		E2B63AA71BE0498C005695B0 /* Block.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Block.cpp; sourceTree = "<group>"; };
 		E2B63AA81BE0498C005695B0 /* Block.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = Block.hpp; sourceTree = "<group>"; };
+		E2CDC5441C04F89D0017537B /* GAnimation.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = GAnimation.cpp; sourceTree = "<group>"; };
+		E2CDC5451C04F89D0017537B /* GAnimation.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = GAnimation.hpp; sourceTree = "<group>"; };
+		E2CDC5491C0507090017537B /* Player.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Player.cpp; sourceTree = "<group>"; };
+		E2CDC54A1C0507090017537B /* Player.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = Player.hpp; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -363,6 +371,8 @@
 				E23121FF1BFA746D00FEA94B /* scenes */,
 				46880B8419C43A87006E1F66 /* App.cpp */,
 				46880B8519C43A87006E1F66 /* App.h */,
+				E2CDC5441C04F89D0017537B /* GAnimation.cpp */,
+				E2CDC5451C04F89D0017537B /* GAnimation.hpp */,
 				E23F055D1BD0294A0091BD6D /* controls.cpp */,
 				E23F05591BD024040091BD6D /* controls.h */,
 				E20A7D681BCD205E007F1A3B /* PlayScene.cpp */,
@@ -388,6 +398,8 @@
 				E2080BC81C00486000EB78DF /* LuaAPI.hpp */,
 				E23E1B2A1C014A0A00F7FAC1 /* LuaShell.cpp */,
 				E23E1B2B1C014A0A00F7FAC1 /* LuaShell.hpp */,
+				E2CDC5491C0507090017537B /* Player.cpp */,
+				E2CDC54A1C0507090017537B /* Player.hpp */,
 			);
 			name = Classes;
 			path = ../Classes;
@@ -607,12 +619,14 @@
 				E23121FD1BF7FDA300FEA94B /* Dialog.cpp in Sources */,
 				E244502E1C03A760006D78B0 /* scenes.cpp in Sources */,
 				503AE10017EB989F00D1A890 /* AppController.mm in Sources */,
+				E2CDC54B1C0507090017537B /* Player.cpp in Sources */,
 				E23E1B2C1C014A0A00F7FAC1 /* LuaShell.cpp in Sources */,
 				E24450241C02CFA8006D78B0 /* ObjectMapping.cpp in Sources */,
 				E2B63AA51BE0450D005695B0 /* GObject.cpp in Sources */,
 				503AE10217EB989F00D1A890 /* RootViewController.mm in Sources */,
 				E20A7D6A1BCD205E007F1A3B /* PlayScene.cpp in Sources */,
 				E2AC8F481BCD4BC20001DB3E /* Graphics.cpp in Sources */,
+				E2CDC5461C04F89D0017537B /* GAnimation.cpp in Sources */,
 				503AE10117EB989F00D1A890 /* main.m in Sources */,
 				E2B63AA91BE0498C005695B0 /* Block.cpp in Sources */,
 				E24450321C03D1DE006D78B0 /* SceneMapping.cpp in Sources */,
@@ -629,6 +643,7 @@
 				E20A7D6B1BCD205E007F1A3B /* PlayScene.cpp in Sources */,
 				E231220B1BFA937100FEA94B /* menu.cpp in Sources */,
 				46880B8919C43A87006E1F66 /* App.cpp in Sources */,
+				E2CDC5471C04F89D0017537B /* GAnimation.cpp in Sources */,
 				E2B63AA61BE0450D005695B0 /* GObject.cpp in Sources */,
 				E29FF7521BE18BE7004725C1 /* Glyph.cpp in Sources */,
 				E24450331C03D1DE006D78B0 /* SceneMapping.cpp in Sources */,
@@ -640,6 +655,7 @@
 				E2080BCA1C00486000EB78DF /* LuaAPI.cpp in Sources */,
 				E244502F1C03A760006D78B0 /* scenes.cpp in Sources */,
 				E23E1B2D1C014A0A00F7FAC1 /* LuaShell.cpp in Sources */,
+				E2CDC54C1C0507090017537B /* Player.cpp in Sources */,
 				E28D89861BDFE7CD00F58903 /* util.cpp in Sources */,
 				E27E857C1BE0178800A94217 /* GSpace.cpp in Sources */,
 			);

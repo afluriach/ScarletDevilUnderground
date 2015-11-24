@@ -37,6 +37,14 @@ public:
     
     void update();
     
+
+    static std::shared_ptr<cp::Body> createCircleBody(
+        cp::Space& space,
+        const cp::Vect& center,
+        float radius,
+        float mass,
+        GObject* obj
+    );
     static std::shared_ptr<cp::Body> createRectangleBody(
         cp::Space& space,
         const cp::Vect& center,
