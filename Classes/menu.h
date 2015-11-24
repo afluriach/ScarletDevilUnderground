@@ -66,12 +66,20 @@ public:
         
         keyListener = new KeyListener(this);
         
-        keyListener->addPressListener(Keys::up, boost::bind( &TextListMenuLayer::upPressed, this));
-        keyListener->addPressListener(Keys::down, boost::bind( &TextListMenuLayer::downPressed, this));
+        keyListener->addPressListener(Keys::moveUp, boost::bind( &TextListMenuLayer::upPressed, this));
+        keyListener->addPressListener(Keys::arrowUp, boost::bind( &TextListMenuLayer::upPressed, this));
+        
+        keyListener->addPressListener(Keys::moveDown, boost::bind( &TextListMenuLayer::downPressed, this));
+        keyListener->addPressListener(Keys::arrowDown, boost::bind( &TextListMenuLayer::downPressed, this));
+
         keyListener->addPressListener(Keys::action, boost::bind( &TextListMenuLayer::selectPressed, this));
         
-        keyListener->addReleaseListener(Keys::up, boost::bind( &TextListMenuLayer::upReleased, this));
-        keyListener->addReleaseListener(Keys::down, boost::bind( &TextListMenuLayer::downReleased, this));
+        keyListener->addReleaseListener(Keys::moveUp, boost::bind( &TextListMenuLayer::upReleased, this));
+        keyListener->addReleaseListener(Keys::arrowUp, boost::bind( &TextListMenuLayer::upReleased, this));
+        
+        keyListener->addReleaseListener(Keys::moveDown, boost::bind( &TextListMenuLayer::downReleased, this));
+        keyListener->addReleaseListener(Keys::arrowDown, boost::bind( &TextListMenuLayer::downReleased, this));
+
         
         return true;
     }
@@ -99,7 +107,9 @@ protected:
         if(downHeld) return;
         
         --selected;
-        selected %= options.size();
+        if(selected < 0)
+            selected += options.size();
+
         updateCursor();
     }
     inline void downPressed()
@@ -108,7 +118,9 @@ protected:
         if(upHeld) return;
         
         ++selected;
-        selected %= options.size();
+        if(selected >= options.size())
+            selected = 0;
+        
         updateCursor();
     }
     inline void selectPressed()

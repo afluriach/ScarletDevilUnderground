@@ -22,10 +22,14 @@ const KeyCodeMap watchedKeys = map_list_of
 (EventKeyboard::KeyCode::KEY_Z, Keys::action)
 (backtickKey, Keys::backtick)
 (returnKey, Keys::enter)
-(EventKeyboard::KeyCode::KEY_UP_ARROW, Keys::up)
-(EventKeyboard::KeyCode::KEY_DOWN_ARROW, Keys::down)
-(EventKeyboard::KeyCode::KEY_LEFT_ARROW, Keys::left)
-(EventKeyboard::KeyCode::KEY_RIGHT_ARROW, Keys::right);
+(EventKeyboard::KeyCode::KEY_W, Keys::moveUp)
+(EventKeyboard::KeyCode::KEY_S, Keys::moveDown)
+(EventKeyboard::KeyCode::KEY_A, Keys::moveLeft)
+(EventKeyboard::KeyCode::KEY_D, Keys::moveRight)
+(EventKeyboard::KeyCode::KEY_UP_ARROW, Keys::arrowUp)
+(EventKeyboard::KeyCode::KEY_DOWN_ARROW, Keys::arrowDown)
+(EventKeyboard::KeyCode::KEY_LEFT_ARROW, Keys::arrowLeft)
+(EventKeyboard::KeyCode::KEY_RIGHT_ARROW, Keys::arrowRight);
 
 KeyRegister::KeyRegister()
 {
@@ -40,6 +44,34 @@ KeyRegister::KeyRegister()
     keyListener->onKeyReleased = std::bind(&KeyRegister::onKeyUp, this, _1, _2);
 
     Director::getInstance()->getEventDispatcher()->addEventListenerWithFixedPriority(keyListener, App::EventPriorities::KeyRegisterEvent);
+}
+
+#define MOVE_KEYS isKeyDown(Keys::moveUp), isKeyDown(Keys::moveDown), isKeyDown(Keys::moveLeft), isKeyDown(Keys::moveRight)
+#define ARROW_KEYS isKeyDown(Keys::arrowUp), isKeyDown(Keys::arrowDown), isKeyDown(Keys::arrowLeft), isKeyDown(Keys::arrowRight)
+
+cocos2d::Vec2 getDirectionVecFromKeyQuad(bool up, bool down, bool left, bool right)
+{
+    Vec2 result;
+
+    if(up && !down) result.y = 1;
+    if(down && !up) result.y = -1;
+    if(left && !right) result.x = -1;
+    if(right && !left) result.x = 1;
+    
+    if(result.lengthSquared() > 1)
+        result.normalize();
+    
+    return result;
+}
+
+cocos2d::Vec2 KeyRegister::getMoveKeyState()
+{
+    return getDirectionVecFromKeyQuad(MOVE_KEYS);
+}
+
+cocos2d::Vec2 KeyRegister::getArrowKeyState()
+{
+    return getDirectionVecFromKeyQuad(ARROW_KEYS);
 }
 
 void KeyRegister::onKeyDown(EventKeyboard::KeyCode code, Event* event)

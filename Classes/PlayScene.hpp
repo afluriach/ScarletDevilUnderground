@@ -29,7 +29,7 @@ public:
     CREATE_FUNC(PlayScene);    
 private:    
     const int cameraMovePixPerFrame = 3;
-    void move(int dx, int dy);
+    void move(const cocos2d::Vec2& v);
 };
 
 #endif /* PlayScene_hpp */

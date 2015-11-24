@@ -29,19 +29,13 @@ void printGroup(TMXObjectGroup* group)
 void PlayScene::updateCamera(float dt)
 {
     KeyRegister* kr = app->keyRegister;
-    
-    //Check camera scroll.
-    if(kr->isKeyDown(Keys::up) && !kr->isKeyDown(Keys::down))
-        move(0, cameraMovePixPerFrame);
-    if(kr->isKeyDown(Keys::down) && !kr->isKeyDown(Keys::up))
-        move(0, -cameraMovePixPerFrame);
-    if(kr->isKeyDown(Keys::left) && !kr->isKeyDown(Keys::right))
-        move(-cameraMovePixPerFrame, 0);
-    if(kr->isKeyDown(Keys::right) && !kr->isKeyDown(Keys::left))
-        move(cameraMovePixPerFrame, 0);
+
+    Vec2 arrowState = kr->getArrowKeyState();
+    arrowState *= cameraMovePixPerFrame;
+    move(arrowState);
 }
 
-void PlayScene::move(int dx, int dy)
+void PlayScene::move(const Vec2& v)
 {
-    setPosition(getPositionX()-dx, getPositionY()-dy);
+    setPosition(getPositionX()-v.x, getPositionY()-v.y);
 }

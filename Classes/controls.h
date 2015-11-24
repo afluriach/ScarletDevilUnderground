@@ -9,12 +9,18 @@
 #ifndef controls_h
 #define controls_h
 
+#include "cocos2d.h"
+
 enum Keys
 {
-    up = 1,
-    down,
-    left,
-    right,
+    moveUp = 1,
+    moveDown,
+    moveLeft,
+    moveRight,
+    arrowUp,
+    arrowDown,
+    arrowLeft,
+    arrowRight,
     action,
     backtick,
     enter,
@@ -33,6 +39,11 @@ class KeyRegister
 public:
     bool isKeyDown(const Keys& key);
     static const bool logKeyEvents = false;
+    
+    //Gets the state of the move or arrow key.
+    cocos2d::Vec2 getMoveKeyState();
+    cocos2d::Vec2 getArrowKeyState();
+
 private:
     friend class App;
     KeyRegister();
