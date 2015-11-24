@@ -11,6 +11,9 @@
 
 #include <map>
 #include <memory>
+#include <vector>
+
+#include <boost/foreach.hpp>
 
 #include "chipmunk.hpp"
 #include "cocos2d.h"
@@ -45,9 +48,16 @@ public:
     //Called on the first frame after it has been added, before update is called on it or any other
     //objects in the same frame
     virtual void init() = 0;
-    inline virtual void update()
+    
+    inline void addUpdater(std::function<void()> f){
+        updaters.push_back(f);
+    }
+    
+    inline void update()
     {
-        updateSpritePos();
+        BOOST_FOREACH(std::function<void()> f, updaters){
+            f();
+        }
     }
     
     //Called before adding the the object to space.
@@ -57,9 +67,8 @@ public:
     virtual void initializeGraphics(cocos2d::Layer* layer) = 0;
     
     cocos2d::Vec2 getInitialCenterPix();
-    void updateSpritePos();
-protected:
-    cocos2d::Node* sprite;
+private:
+    std::vector<std::function<void()>> updaters;
 };
 
 class RectangleBody : public virtual GObject
@@ -93,9 +102,21 @@ public:
     }
 };
 
+class SpriteObject : public virtual GObject
+{
+public:
+    SpriteObject()
+    {
+        addUpdater(std::bind(&SpriteObject::updateSpritePos, this));
+    }
+    
+    void updateSpritePos();
+    cocos2d::Node* sprite;
+};
+
 //Initialize graphics from a still image. Any class that uses this mixin has to implement interface to
 //provide the path to the image file.
-class ImageSprite : public virtual GObject
+class ImageSprite : public virtual SpriteObject
 {
 public:
     virtual string imageSpritePath() const = 0;
@@ -107,7 +128,7 @@ public:
     }
 };
 
-class PatchConSprite : virtual public GObject
+class PatchConSprite : virtual public SpriteObject
 {
 public:
     virtual string imageSpritePath() const = 0;
@@ -121,10 +142,13 @@ public:
         sprite = animSprite;
     }
     
-    virtual void update()
+    inline PatchConSprite()
     {
-        GObject::update();
-        
+        addUpdater(std::bind(&PatchConSprite::updateAnimation, this));
+    }
+    
+    inline void updateAnimation()
+    {
         cp::Vect dist = body->getVel()*App::secondsPerFrame;
         
         animSprite->accumulate(dist.length());

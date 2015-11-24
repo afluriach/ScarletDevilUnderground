@@ -62,7 +62,7 @@ ValueMap GObject::makeValueMapArg(const Vec2& pos, const Vec2& dim, const map<st
     return vm;
 }
 
-void GObject::updateSpritePos()
+void SpriteObject::updateSpritePos()
 {
     if(sprite != nullptr){
         sprite->setPosition(toCocos(body->getPos())*App::pixelsPerTile);
