@@ -17,7 +17,6 @@ USING_NS_CC;
 
 GObject::GObject(const ValueMap& obj) : name(obj.at("name").asString() )
 {
-    log("%s created at %.1f,%.1f.", name.c_str(),getFloat(obj, "x")/App::pixelsPerTile, getFloat(obj, "y")/App::pixelsPerTile);
     
     if(obj.find(Lua::lauArgTag) != obj.end()){
         //This is coming from the scripting API
@@ -36,6 +35,8 @@ GObject::GObject(const ValueMap& obj) : name(obj.at("name").asString() )
         initialCenter = cp::Vect(cornerPos);
         initialCenter += (dim*0.5);
     }
+    
+    log("%s created at %.1f,%.1f.", name.c_str(),initialCenter.x, initialCenter.y);
 }
 
 GObject::GObject(const string& name, const cp::Vect& pos) : name(name), initialCenter(pos) {

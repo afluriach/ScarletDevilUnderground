@@ -214,11 +214,10 @@ namespace Lua{
         
         ValueMap objArg = GObject::makeValueMapArg(posV,m);
         
-        //Dimensions, if included for dynamically sized objects, must be converted to pixel space to match existing interface.
-        if(width.isNumber() && height.isNumber()){
-            objArg["width"] = Value(getFloat(width)*App::pixelsPerTile);
-            objArg["height"] = Value(getFloat(height)*App::pixelsPerTile);
-        }
+        //Dimensions, if included for dynamically sized objects, must be converted to pixel space to match existing interface. Otherwise provide 0 for dimension for objects that expect it to be there.
+        
+        objArg["width"] = width.isNumber() ? Value(getFloat(width)*App::pixelsPerTile) : Value(0.0);
+        objArg["height"] = height.isNumber() ? Value(getFloat(height)*App::pixelsPerTile) : Value(0.0);
         
         space->addObject(objArg);
         

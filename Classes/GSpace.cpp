@@ -116,6 +116,9 @@ shared_ptr<cp::Body> GSpace::createCircleBody(
         mass
     );
     
+    if(radius == 0)
+        log("createCircleBody: zero radius for %s.", obj->name.c_str());
+    
     shared_ptr<cp::Body> body;
     if(mass < 0){
         body = space.staticBody;
@@ -155,6 +158,11 @@ shared_ptr<cp::Body> GSpace::createRectangleBody(
         expand_vector2(center),
         mass
     );
+    
+    if(dim.x == 0)
+        log("createRectangleBody: zero width for %s.", obj->name.c_str());
+    if(dim.y == 0)
+        log("createRectangleBody: zero height for %s.", obj->name.c_str());
     
     shared_ptr<cp::Body> body;
     if(mass < 0){
