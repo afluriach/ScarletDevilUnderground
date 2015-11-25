@@ -138,6 +138,7 @@ namespace Lua{
         }
         
         log("getVec2FromTable: not a vector");
+        return Vec2(0,0);
     }
 
     //Lua API functions:
