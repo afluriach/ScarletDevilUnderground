@@ -6,6 +6,8 @@
 //
 //
 
+#include "Prefix.h"
+
 #include "scenes.h"
 
 GScene* GScene::crntScene;
@@ -52,3 +54,4 @@ GSpace* GScene::getSpace()
     if(scene) return &(scene->gspace);
     else return nullptr;
 }
+

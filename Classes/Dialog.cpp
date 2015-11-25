@@ -6,14 +6,7 @@
 //
 //
 
-#include <vector>
-
-#include <boost/algorithm/string/predicate.hpp>
-#include <boost/lexical_cast.hpp>
-
-#include "App.h"
 #include "controls.h"
-#include "util.h"
 
 #include "Dialog.hpp"
 

@@ -9,12 +9,8 @@
 #ifndef LibraryOpening_h
 #define LibraryOpening_h
 
-#include "cocos2d.h"
-
-#include "App.h"
 #include "Dialog.hpp"
 #include "scenes.h"
-#include "util.h"
 
 class LibraryOpening : public GScene
 {

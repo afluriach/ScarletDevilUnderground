@@ -92,6 +92,12 @@ Layer *Layer::create()
     }
 }
 
+void Layer::positionAndAddNode(Node* node, int zLayer, const Vec2& pos)
+{
+    node->setPosition(pos);
+    addChild(node, zLayer);
+}
+
 int Layer::executeScriptTouchHandler(EventTouch::EventCode eventType, Touch* touch, Event* event)
 {
 #if CC_ENABLE_SCRIPT_BINDING

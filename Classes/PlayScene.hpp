@@ -9,9 +9,7 @@
 #ifndef PlayScene_hpp
 #define PlayScene_hpp
 
-#include <map>
-
-#include "cocos2d.h"
+#include "Prefix.h"
 
 #include "controls.h"
 #include "scenes.h"
@@ -21,7 +19,7 @@ class PlayScene : virtual public GScene, MapScene
 public:    
     inline PlayScene() : MapScene("maps/block_room.tmx")
     {
-        addUpdate(bind(&PlayScene::updateCamera, this, _1));
+        addUpdate(bind(&PlayScene::updateCamera, this, placeholders::_1));
     }
     
     virtual void updateCamera(float dt);

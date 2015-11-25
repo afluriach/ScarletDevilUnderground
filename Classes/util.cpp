@@ -6,10 +6,9 @@
 //
 //
 
-#include "cocos2d.h"
-#include "chipmunk.hpp"
+#include "Prefix.h"
 
-#include "util.h"
+#include "scenes.h"
 
 USING_NS_CC;
 
@@ -40,7 +39,6 @@ float dirToPhysicsAngle(Direction d)
     }
 }
 
-
 float getFloat(const cocos2d::ValueMap& args, const std::string& name)
 {
     return args.at(name).asFloat();
@@ -61,18 +59,12 @@ cp::Vect toChipmunk(const cocos2d::Vec2& rhs)
     return cp::Vect(expand_vector2(rhs));
 }
 
-void positionAndAddNode(Node* node, GScene::Layer sceneLayer, cocos2d::Layer* dest, const Vec2& pos)
-{
-    node->setPosition(pos);
-    dest->addChild(node, sceneLayer);
-}
-
 Sprite* loadImageSprite(const std::string& resPath, GScene::Layer sceneLayer, cocos2d::Layer* dest, const Vec2& pos)
 {
     cocos2d::Sprite* node = cocos2d::Sprite::create(resPath);
     
     if(node)
-        positionAndAddNode(node,sceneLayer,dest,pos);
+        dest->positionAndAddNode(node,sceneLayer,pos);
     else
         log("loadImageSprite: sprite %s not loaded", resPath.c_str());
 

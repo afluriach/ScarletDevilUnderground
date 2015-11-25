@@ -6,12 +6,8 @@
 //
 //
 
-#include "cocos2d.h"
-
-#include "App.h"
 #include "PlayScene.hpp"
 #include "GObject.hpp"
-#include "util.h"
 
 USING_NS_CC;
 

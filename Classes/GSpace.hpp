@@ -9,13 +9,7 @@
 #ifndef GSpace_hpp
 #define GSpace_hpp
 
-#include <map>
-#include <memory>
-#include <set>
-#include <vector>
-
-#include "cocos2d.h"
-#include "chipmunk.hpp"
+#include "Prefix.h"
 
 using namespace std;
 USING_NS_CC;

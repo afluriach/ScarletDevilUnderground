@@ -9,19 +9,6 @@
 #ifndef Lua_hpp
 #define Lua_hpp
 
-#include <algorithm>
-#include <map>
-#include <memory>
-#include <vector>
-
-#include <boost/lexical_cast.hpp>
-
-#include "cocos2d.h"
-#include "lua.hpp"
-#include "LuaBridge.h"
-
-#include "util.h"
-
 using namespace std;
 using namespace luabridge;
 

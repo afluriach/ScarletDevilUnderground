@@ -24,7 +24,7 @@ static GObject::AdapterType consAdapter()
 #define entry_same(cls) entry(#cls, cls)
 
 const std::map<std::string,GObject::AdapterType> GObject::adapters =
-    map_list_of
+    boost::assign::map_list_of
     entry_same(Block)
     entry_same(Glyph)
     entry_same(Player);

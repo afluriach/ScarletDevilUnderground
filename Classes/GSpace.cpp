@@ -6,16 +6,6 @@
 //
 //
 
-#include <cmath>
-#include <memory>
-
-#include <boost/math/constants/constants.hpp>
-
-#include "cocos2d.h"
-
-#include "App.h"
-#include "util.h"
-
 #include "GObject.hpp"
 #include "GSpace.hpp"
 

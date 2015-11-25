@@ -6,11 +6,11 @@
 //
 //
 
-#include "App.h"
-#include "controls.h"
-#include "util.h"
+#include "Prefix.h"
 
-using namespace std::placeholders;
+#include "controls.h"
+
+using namespace std;
 USING_NS_CC;
 
 //Backtick "KEY_TILDE" enum does not work on OS X.
@@ -18,7 +18,7 @@ const EventKeyboard::KeyCode backtickKey = static_cast<EventKeyboard::KeyCode>(1
 //Similarly, neither KEY_RETURN nor KEY_ENTER are recognized
 const EventKeyboard::KeyCode returnKey = static_cast<EventKeyboard::KeyCode>(35);
 
-const KeyCodeMap watchedKeys = map_list_of
+const KeyCodeMap watchedKeys = boost::assign::map_list_of
 (EventKeyboard::KeyCode::KEY_Z, Keys::action)
 (backtickKey, Keys::backtick)
 (returnKey, Keys::enter)
@@ -40,8 +40,8 @@ KeyRegister::KeyRegister()
     }
     
     keyListener = EventListenerKeyboard::create();
-    keyListener->onKeyPressed = std::bind(&KeyRegister::onKeyDown, this, _1, _2);
-    keyListener->onKeyReleased = std::bind(&KeyRegister::onKeyUp, this, _1, _2);
+    keyListener->onKeyPressed = std::bind(&KeyRegister::onKeyDown, this, placeholders::_1, placeholders::_2);
+    keyListener->onKeyReleased = std::bind(&KeyRegister::onKeyUp, this, placeholders::_1, placeholders::_2);
 
     Director::getInstance()->getEventDispatcher()->addEventListenerWithFixedPriority(keyListener, App::EventPriorities::KeyRegisterEvent);
 }
@@ -124,8 +124,8 @@ KeyListener::KeyListener(cocos2d::Node* node)
 void KeyListener::initListener()
 {
     keyListener = EventListenerKeyboard::create();
-    keyListener->onKeyPressed = std::bind(&KeyListener::onKeyDown, this, _1, _2);
-    keyListener->onKeyReleased = std::bind(&KeyListener::onKeyUp, this, _1, _2);
+    keyListener->onKeyPressed = std::bind(&KeyListener::onKeyDown, this, placeholders::_1, placeholders::_2);
+    keyListener->onKeyReleased = std::bind(&KeyListener::onKeyUp, this, placeholders::_1, placeholders::_2);
 }
 
 void KeyListener::onKeyDown(EventKeyboard::KeyCode code, Event* event)

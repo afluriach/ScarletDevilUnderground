@@ -9,16 +9,11 @@
 #ifndef menu_h
 #define menu_h
 
-#include <vector>
+#include "Prefix.h"
 
-#include "cocos2d.h"
-
-#include <boost/bind.hpp>
-
-#include "App.h"
 #include "Graphics.h"
+#include "PlayScene.hpp"
 #include "scenes.h"
-#include "util.h"
 
 using namespace std::placeholders;
 

@@ -9,10 +9,7 @@
 #ifndef LuaShell_hpp
 #define LuaShell_hpp
 
-#include "cocos2d.h"
-#include "ui/CocosGUI.h"
-
-#include "App.h"
+#include "Prefix.h"
 
 USING_NS_CC;
 

@@ -9,18 +9,8 @@
 #ifndef GObject_hpp
 #define GObject_hpp
 
-#include <map>
-#include <memory>
-#include <vector>
-
-#include <boost/foreach.hpp>
-
-#include "chipmunk.hpp"
-#include "cocos2d.h"
-
 #include "GAnimation.hpp"
 #include "PlayScene.hpp"
-#include "util.h"
 
 class GObject
 {
@@ -177,7 +167,7 @@ public:
     {
         animSprite = PatchConAnimation::create();
         animSprite->loadAnimation(imageSpritePath());
-        positionAndAddNode(animSprite, sceneLayer(), layer, getInitialCenterPix());
+        layer->positionAndAddNode(animSprite, sceneLayer(), getInitialCenterPix());
         sprite = animSprite;
     }
     

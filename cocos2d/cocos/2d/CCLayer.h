@@ -62,6 +62,8 @@ All features from Node are valid, plus the following new features:
 class CC_DLL Layer : public Node
 {
 public:    
+    void positionAndAddNode(Node* node, int zLayer, const Vec2& pos);
+    
     /** Creates a fullscreen black layer.
      *
      * @return An autoreleased Layer object.

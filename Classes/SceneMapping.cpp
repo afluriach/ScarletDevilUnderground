@@ -6,9 +6,9 @@
 //
 //
 
-#include "App.h"
+#include "Prefix.h"
+
 #include "scenes.h"
-#include "util.h"
 
 #include "LibraryOpening.h"
 #include "menu.h"
@@ -24,7 +24,7 @@ GScene::AdapterType adapter()
     return []() -> void {app->runScene<T>();};
 }
 
-const std::map<std::string,GScene::AdapterType> GScene::adapters = map_list_of
+const std::map<std::string,GScene::AdapterType> GScene::adapters = boost::assign::map_list_of
     entry_same(LibraryOpening)
     entry_same(PlayScene)
     entry_same(TitleMenu)

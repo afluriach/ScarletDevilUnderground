@@ -9,8 +9,6 @@
 #ifndef Graphics_h
 #define Graphics_h
 
-#include "cocos2d.h"
-
 USING_NS_CC;
 
 class Cursor : public Node

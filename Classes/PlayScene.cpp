@@ -6,11 +6,11 @@
 //
 //
 
-#include "App.h"
+#include "Prefix.h"
+
 #include "controls.h"
 #include "PlayScene.hpp"
 #include "GObject.hpp"
-#include "util.h"
 
 using namespace std;
 USING_NS_CC;

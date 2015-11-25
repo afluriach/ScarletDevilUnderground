@@ -9,12 +9,10 @@
 #ifndef Block_hpp
 #define Block_hpp
 
-#include "cocos2d.h"
+#include "Prefix.h"
 
-#include "App.h"
 #include "GObject.hpp"
 #include "scenes.h"
-#include "util.h"
 
 class Block : virtual public GObject, RectangleBody, ImageSprite
 {

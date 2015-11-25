@@ -1,11 +1,7 @@
-#include <cstdlib>
-
 #include "App.h"
-#include "controls.h"
-#include "LuaShell.hpp"
+
 #include "PlayScene.hpp"
 #include "menu.h"
-#include "util.h"
 
 USING_NS_CC;
 

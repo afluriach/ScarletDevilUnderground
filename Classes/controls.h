@@ -9,8 +9,6 @@
 #ifndef controls_h
 #define controls_h
 
-#include "cocos2d.h"
-
 enum Keys
 {
     moveUp = 1,

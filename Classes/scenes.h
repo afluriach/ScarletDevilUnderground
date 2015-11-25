@@ -9,17 +9,10 @@
 #ifndef scenes_h
 #define scenes_h
 
-#include <functional>
-#include <vector>
-
-#include <boost/foreach.hpp>
-
-#include "cocos2d.h"
-
+#include "Prefix.h"
 #include "GSpace.hpp"
 
 using namespace std;
-using namespace std::placeholders;
 USING_NS_CC;
 
 class GScene : public Layer
@@ -90,7 +83,6 @@ public:
             f(dt);
         }
     }
-    
 private:
     vector<function<void()>> initializers;
     vector<function<void(float)>> updaters;
@@ -106,7 +98,7 @@ class GSpaceScene : virtual public GScene
 public:
     inline GSpaceScene() : gspace(this)
     {
-        addUpdate(bind(&GSpaceScene::updateSpace,this, _1));
+        addUpdate(bind(&GSpaceScene::updateSpace,this, placeholders::_1));
     }
 
     GSpace gspace;
