@@ -3,7 +3,6 @@
 //Already included in PCH
 //#include "App.h"
 
-#include "PlayScene.hpp"
 #include "menu.h"
 
 USING_NS_CC;

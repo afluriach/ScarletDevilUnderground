@@ -12,7 +12,6 @@
 
 //scenes
 #include "LibraryOpening.h"
-#include "PlayScene.hpp"
 
 const std::vector<std::string> SceneSelect::sceneTitles = list_of_typed(
     ("Play Scene")

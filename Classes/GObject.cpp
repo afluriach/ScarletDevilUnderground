@@ -8,8 +8,6 @@
 
 #include "Prefix.h"
 
-#include "PlayScene.hpp"
-
 USING_NS_CC;
 
 GObject::GObject(const ValueMap& obj) : name(obj.at("name").asString() )
