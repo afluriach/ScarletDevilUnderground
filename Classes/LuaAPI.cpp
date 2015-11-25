@@ -82,6 +82,14 @@ namespace Lua{
     {
         runString(loadTextFile(path));
     }
+    
+    void Inst::runObjectFile(const string& path)
+    {
+        luaL_loadfile(state, getRealPath(path).c_str());
+        lua_pcall(state, 0, LUA_MULTRET, 0);
+    
+        runString(loadTextFile(path));
+    }
 
      vector<LuaRef> Inst::call(const string& name, const vector<LuaRef>& params)
     {

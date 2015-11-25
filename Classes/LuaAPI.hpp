@@ -45,6 +45,9 @@ namespace Lua
         void installFunction(lua_CFunction func, const string& name);
         void runString(const string& str);
         void runFile(const string& path);
+        //Strictly speaking, this supports Lua text as well as object files. It uses loadfile directly
+        //rather than passing the file's contents as a string.
+        void runObjectFile(const string& path);
         vector<LuaRef> call(const string& name, const vector<LuaRef>& params);
         
         //Helper for making Lua data, since LuaRef requires the lua state.

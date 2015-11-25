@@ -65,6 +65,11 @@ float getFloat(const cocos2d::ValueMap& obj, const std::string& name);
 void positionAndAddNode(Node* node, GScene::Layer sceneLayer, cocos2d::Layer* dest, const Vec2& pos);
 cocos2d::Sprite* loadImageSprite(const std::string& resPath, GScene::Layer sceneLayer, cocos2d::Layer* dest, const Vec2& pos);
 
+inline std::string getRealPath(const std::string& path)
+{
+    return FileUtils::getInstance()->fullPathForFilename(path);
+}
+
 inline std::string loadTextFile(const std::string& res)
 {
     return cocos2d::FileUtils::getInstance()->getStringFromFile(res);
