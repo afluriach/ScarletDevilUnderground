@@ -33,7 +33,7 @@ public:
     virtual GScene::Layer sceneLayer() const {return GScene::Layer::ground;}
     
     virtual inline float getMass() const { return 1;}
-
+    virtual inline GSpace::Type getType() const {return GSpace::Type::environment;}
 private:
     std::string letter;
 };

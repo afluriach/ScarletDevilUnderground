@@ -15,6 +15,7 @@
 #include <boost/foreach.hpp>
 #include <boost/assign.hpp>
 #include <boost/algorithm/string.hpp>
+#include <boost/math/constants/constants.hpp>
 
 #include "PlayScene.hpp"
 
@@ -41,10 +42,20 @@ inline ret method( signature ) \
 
 typedef pair<int,int> IntVec2;
 
+enum Direction{
+    rightDir=1,
+    upDir,
+    leftDir,
+    downDir
+};
+
+
 //Define assignment conversion between cocos and chipmunk vectors
 cocos2d::Vec2 toCocos(const cp::Vect& rhs);
 cp::Vect toChipmunk(const cocos2d::Vec2& rhs);
 IntVec2 toIntVector(const cocos2d::Size& rhs);
+
+float dirToPhysicsAngle(Direction d);
 
 cocos2d::Scene* crntScene();
 

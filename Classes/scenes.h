@@ -47,6 +47,9 @@ public:
             it->second();
         }
     }
+    
+    //Get gspace if this scene is a space scene, null otherwise.
+    static GSpace* getSpace();
 
 //Rather than managing overrides to the init method, a scene simply registers their own.
 //Init methods must be installed at construction time.

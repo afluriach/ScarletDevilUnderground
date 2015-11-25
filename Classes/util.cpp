@@ -30,6 +30,17 @@ void printValueMap(const ValueMap& obj)
     }
 }
 
+float dirToPhysicsAngle(Direction d)
+{
+    switch(d){
+    case Direction::rightDir: return 0;
+    case Direction::upDir: return boost::math::constants::pi<float>() /2;
+    case Direction::leftDir: return boost::math::constants::pi<float>();
+    case Direction::downDir: return boost::math::constants::pi<float>() *3/2;
+    }
+}
+
+
 float getFloat(const cocos2d::ValueMap& args, const std::string& name)
 {
     return args.at(name).asFloat();

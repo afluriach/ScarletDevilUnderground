@@ -136,8 +136,8 @@ namespace Lua{
     {
         int nArgs = lua_gettop(L);
         
-        GSpaceScene* scene = dynamic_cast<GSpaceScene*>(GScene::crntScene);
-        if(!scene){
+        GSpace* space = GScene::getSpace();
+        if(!space){
             error(L, "createObject: cannot create object in this scene.");
             return 0;
         }
@@ -216,7 +216,7 @@ namespace Lua{
         
         ValueMap objArg = GObject::makeValueMapArg(posV,dimV,m);
         
-        scene->gspace.addObject(objArg);
+        space->addObject(objArg);
         
         return 0;
     }

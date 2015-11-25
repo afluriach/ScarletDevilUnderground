@@ -29,6 +29,10 @@ public:
     
     //Representation as a map object
     GObject(const cocos2d::ValueMap& args);
+    GObject(const string& name, const cp::Vect& pos, const cp::Vect& dim);
+    
+    virtual ~GObject() {}
+    
     //Map each class name to a constructor adapter function.
     static const std::map<std::string,AdapterType> adapters;
     
@@ -71,33 +75,54 @@ private:
     std::vector<std::function<void()>> updaters;
 };
 
-class RectangleBody : public virtual GObject
+class PhysicsObject : public virtual GObject
 {
 public:
     //A default of 0 signifies undefined. Using -1 to indicate static or positive for dynamic.
     virtual float getMass() const = 0;
+    virtual GSpace::Type getType() const = 0;
+    virtual inline bool getSensor() const {return false;}
+    virtual inline int getLayers() const {return GSpace::Layers::ground;}
+};
 
+class RectangleBody : public virtual PhysicsObject
+{
+public:
     //Create body and add it to space. This assumes BB is rectangle dimensions
     virtual inline std::shared_ptr<cp::Body> initializeBody(cp::Space& space)
     {
-        body = GSpace::createRectangleBody(space, initialCenter, dim, getMass(), this);
+        body = GSpace::createRectangleBody(
+            space,
+            initialCenter,
+            dim,
+            getMass(),
+            getType(),
+            getLayers(),
+            getSensor(),
+            this
+        );
         return body;
     }
 };
 
-class CircleBody : public virtual GObject
+class CircleBody : public virtual PhysicsObject
 {
 public:
-    //A default of 0 signifies undefined. Using -1 to indicate static or positive for dynamic.
-    virtual float getMass() const = 0;
+    virtual float getRadius() const = 0;
 
     //Create body and add it to space. This assumes BB is rectangle dimensions
     virtual inline std::shared_ptr<cp::Body> initializeBody(cp::Space& space)
     {
-        if(dim.x != dim.y)
-            log("CircleBody: non-square BB given, using width for radius.");
-    
-        body = GSpace::createCircleBody(space, initialCenter, dim.x, getMass(), this);
+        body = GSpace::createCircleBody(
+            space,
+            initialCenter,
+            getRadius(),
+            getMass(),
+            getType(),
+            getLayers(),
+            getSensor(),
+            this
+        );
         return body;
     }
 };

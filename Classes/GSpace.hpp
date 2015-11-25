@@ -11,6 +11,7 @@
 
 #include <map>
 #include <memory>
+#include <set>
 #include <vector>
 
 #include "cocos2d.h"
@@ -24,6 +25,23 @@ class GObject;
 class GSpace
 {
 public:
+    enum Type{
+        player=1,
+        playerBullet,
+        environment
+    };
+    
+    //Layers are interpreted as a bitmask.
+    //For now, multilayer physics is not being used.
+    enum Layers{
+        ground = 1,
+    };
+
+    //Type signifies the collision handler as well as the group, but the group can be overidden:
+    //Normally objects only collide with those of non-matching group. If we want an object to collide
+    //with everything, use 0 for its group instead of its (non-zero) type.
+    static const set<Type> selfCollideTypes;
+
     static const bool logPhysics = false;
 
     inline GSpace(cocos2d::Layer* graphicsLayer) : graphicsLayer(graphicsLayer)
@@ -32,6 +50,7 @@ public:
     }
 
     void addObject(const ValueMap& obj);
+    void addObject(GObject*);
     void addObjects(const ValueVector& objs);
     void processAdditions();
     
@@ -43,6 +62,9 @@ public:
         const cp::Vect& center,
         float radius,
         float mass,
+        GSpace::Type type,
+        int layers,
+        bool sensor,
         GObject* obj
     );
     static std::shared_ptr<cp::Body> createRectangleBody(
@@ -50,6 +72,9 @@ public:
         const cp::Vect& center,
         const cp::Vect& dim,
         float mass,
+        GSpace::Type type,
+        int layers,
+        bool sensor,
         GObject* obj
     );
 private:

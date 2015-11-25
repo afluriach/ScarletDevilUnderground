@@ -6,7 +6,16 @@
 //
 //
 
+#include "App.h"
+#include "Bullet.hpp"
+
 #include "Player.hpp"
+
+void Player::setDirection(Direction d)
+{
+    animSprite->setDirection(d);
+    body->setAngle(dirToPhysicsAngle(d));
+}
 
 void Player::checkControls()
 {
@@ -21,12 +30,41 @@ void Player::checkControls()
     
     //Facing is not diagonal, horizontal direction will override.
     if(facing.y > 0)
-        animSprite->setDirection(PatchConAnimation::Direction::up);
+        setDirection(Direction::upDir);
     else if(facing.y < 0)
-        animSprite->setDirection(PatchConAnimation::Direction::down);
+        setDirection(Direction::downDir);
     if(facing.x < 0)
-        animSprite->setDirection(PatchConAnimation::Direction::left);
+        setDirection(Direction::leftDir);
     else if(facing.x > 0)
-        animSprite->setDirection(PatchConAnimation::Direction::right);
+        setDirection(Direction::rightDir);
+    
+    //Fire if arrow key is pressed
+    if(!facing.isZero())
+    {
+        fireIfPossible();
+    }
+}
 
+void Player::updateFireTime()
+{
+    lastFireTime += App::secondsPerFrame;
+}
+
+void Player::fireIfPossible()
+{
+    if(lastFireTime >= getFireInterval())
+    {
+        lastFireTime = 0;
+        fire();
+    }
+}
+
+void Player::fire()
+{
+    cp::Vect pos = body->getPos();
+    pos += cp::Vect::ray(fireDist,body->getAngle());
+    
+    PlayerBaseBullet* bullet = new PlayerBaseBullet(body->getAngle(), pos);
+    
+    GScene::getSpace()->addObject(bullet);
 }

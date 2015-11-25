@@ -22,6 +22,11 @@
 using namespace std;
 USING_NS_CC;
 
+const set<GSpace::Type> GSpace::selfCollideTypes = list_of_typed(
+    (GSpace::Type::environment),
+    set<GSpace::Type>
+);
+
 float circleMomentOfInertia(float mass, float radius)
 {
     return boost::math::constants::pi<float>()/2*pow(radius,4);
@@ -34,11 +39,15 @@ float rectagleMomentOfInteria(float mass, const cp::Vect& dim)
 
 void GSpace::addObject(const ValueMap& obj)
 {
-    //    GObject gobj(obj);
     string type = obj.at("type").asString();
     GObject* gobj = GObject::constructByType(type, obj);
     
-    toAdd.push_back(gobj);
+    addObject(gobj);
+}
+
+void GSpace::addObject(GObject* obj)
+{
+    toAdd.push_back(obj);
 }
 
 void GSpace::addObjects(const ValueVector& objs)
@@ -77,11 +86,27 @@ void GSpace::update()
     processAdditions();
 }
 
+bool isSelfCollideType(GSpace::Type t)
+{
+    return GSpace::selfCollideTypes.find(t) != GSpace::selfCollideTypes.end();
+}
+
+void setShapeProperties(shared_ptr<cp::Shape> shape, int layers, GSpace::Type type, bool sensor)
+{
+    shape->setLayers(layers);
+    shape->setGroup(isSelfCollideType(type) ? 0 : type);
+    shape->setCollisionType(type);
+    shape->setSensor(sensor);
+}
+
 shared_ptr<cp::Body> GSpace::createCircleBody(
     cp::Space& space,
     const cp::Vect& center,
     float radius,
     float mass,
+    GSpace::Type type,
+    int layers,
+    bool sensor,
     GObject* obj)
 {
     if(logPhysics) log(
@@ -105,9 +130,7 @@ shared_ptr<cp::Body> GSpace::createCircleBody(
     shape->setBody(body);
     space.add(shape);
     
-    //Set shape layer and group.
-    //Set sensor
-    //Set collision type.
+    setShapeProperties(shape, layers, type, sensor);
     
     shape->setUserData(obj);
     body->setUserData(obj);
@@ -120,6 +143,9 @@ shared_ptr<cp::Body> GSpace::createRectangleBody(
     const cp::Vect& center,
     const cp::Vect& dim,
     float mass,
+    GSpace::Type type,
+    int layers,
+    bool sensor,
     GObject* obj)
 {
     if(logPhysics) log(
@@ -144,9 +170,7 @@ shared_ptr<cp::Body> GSpace::createRectangleBody(
     shape->setBody(body);
     space.add(shape);
     
-    //Set shape layer and group.
-    //Set sensor
-    //Set collision type.
+    setShapeProperties(shape, layers, type, sensor);
     
     shape->setUserData(obj);
     body->setUserData(obj);

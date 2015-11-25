@@ -29,6 +29,8 @@ GObject::GObject(const ValueMap& obj) : name(obj.at("name").asString() )
     initialCenter += (dim*0.5);
 }
 
+GObject::GObject(const string& name, const cp::Vect& pos, const cp::Vect& dim) : name(name), initialCenter(pos), dim(dim) {}
+
 
 GObject* GObject::constructByType(const std::string& type, const cocos2d::ValueMap& args )
 {

@@ -44,3 +44,11 @@ void MapScene::loadMap()
     addChild(tileMap, GScene::Layer::map);
     loadMapObjects(*tileMap);
 }
+
+GSpace* GScene::getSpace()
+{
+    GSpaceScene* scene = dynamic_cast<GSpaceScene*>(crntScene);
+    
+    if(scene) return &(scene->gspace);
+    else return nullptr;
+}

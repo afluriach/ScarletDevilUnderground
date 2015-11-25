@@ -105,6 +105,8 @@
 		E2CDC5471C04F89D0017537B /* GAnimation.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E2CDC5441C04F89D0017537B /* GAnimation.cpp */; };
 		E2CDC54B1C0507090017537B /* Player.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E2CDC5491C0507090017537B /* Player.cpp */; };
 		E2CDC54C1C0507090017537B /* Player.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E2CDC5491C0507090017537B /* Player.cpp */; };
+		E2CDC54F1C051FFC0017537B /* Bullet.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E2CDC54D1C051FFC0017537B /* Bullet.cpp */; };
+		E2CDC5501C051FFC0017537B /* Bullet.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E2CDC54D1C051FFC0017537B /* Bullet.cpp */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -231,6 +233,8 @@
 		E2CDC5451C04F89D0017537B /* GAnimation.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = GAnimation.hpp; sourceTree = "<group>"; };
 		E2CDC5491C0507090017537B /* Player.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Player.cpp; sourceTree = "<group>"; };
 		E2CDC54A1C0507090017537B /* Player.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = Player.hpp; sourceTree = "<group>"; };
+		E2CDC54D1C051FFC0017537B /* Bullet.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Bullet.cpp; sourceTree = "<group>"; };
+		E2CDC54E1C051FFC0017537B /* Bullet.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = Bullet.hpp; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -400,6 +404,8 @@
 				E23E1B2B1C014A0A00F7FAC1 /* LuaShell.hpp */,
 				E2CDC5491C0507090017537B /* Player.cpp */,
 				E2CDC54A1C0507090017537B /* Player.hpp */,
+				E2CDC54D1C051FFC0017537B /* Bullet.cpp */,
+				E2CDC54E1C051FFC0017537B /* Bullet.hpp */,
 			);
 			name = Classes;
 			path = ../Classes;
@@ -618,6 +624,7 @@
 				E23F055E1BD0294A0091BD6D /* controls.cpp in Sources */,
 				E23121FD1BF7FDA300FEA94B /* Dialog.cpp in Sources */,
 				E244502E1C03A760006D78B0 /* scenes.cpp in Sources */,
+				E2CDC54F1C051FFC0017537B /* Bullet.cpp in Sources */,
 				503AE10017EB989F00D1A890 /* AppController.mm in Sources */,
 				E2CDC54B1C0507090017537B /* Player.cpp in Sources */,
 				E23E1B2C1C014A0A00F7FAC1 /* LuaShell.cpp in Sources */,
@@ -654,6 +661,7 @@
 				E23F055F1BD0294A0091BD6D /* controls.cpp in Sources */,
 				E2080BCA1C00486000EB78DF /* LuaAPI.cpp in Sources */,
 				E244502F1C03A760006D78B0 /* scenes.cpp in Sources */,
+				E2CDC5501C051FFC0017537B /* Bullet.cpp in Sources */,
 				E23E1B2D1C014A0A00F7FAC1 /* LuaShell.cpp in Sources */,
 				E2CDC54C1C0507090017537B /* Player.cpp in Sources */,
 				E28D89861BDFE7CD00F58903 /* util.cpp in Sources */,
