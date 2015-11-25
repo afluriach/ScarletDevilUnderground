@@ -9,9 +9,45 @@
 #ifndef Prefix_h
 #define Prefix_h
 
-//#if NOT_USING_PCH
-//#include "AppPrefix.h"
+//C standard libraries
+#include <algorithm>
+#include <cmath>
+#include <cstdlib>
+#include <functional>
+#include <map>
+#include <memory>
+#include <set>
+#include <vector>
 
-#include "AppPrefix.pch"
+//All external libraries used by this app.
+#include "chipmunk.hpp"
+#include "cocos2d.h"
+#include "ui/CocosGUI.h"
+#include "lua.hpp"
+#include "LuaBridge.h"
+
+//Boost modules
+#include <boost/algorithm/string.hpp>
+#include <boost/algorithm/string/predicate.hpp>
+#include <boost/assign.hpp>
+#include <boost/bind.hpp>
+#include <boost/foreach.hpp>
+#include <boost/lexical_cast.hpp>
+#include <boost/math/constants/constants.hpp>
+
+//app modules that are often used.
+#include "types.h"
+#include "controls.h"
+#include "LuaAPI.hpp"
+#include "LuaShell.hpp"
+#include "App.h"
+#include "GAnimation.hpp"
+#include "GSpace.hpp"
+#include "GObject.hpp"
+#include "macros.h"
+#include "scenes.h"
+#include "util.h"
+#include "Graphics.h"
+#include "menu.h"
 
 #endif /* Prefix_h */
