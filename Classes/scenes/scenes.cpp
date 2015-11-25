@@ -8,8 +8,6 @@
 
 #include "Prefix.h"
 
-#include "scenes.h"
-
 GScene* GScene::crntScene;
 
 void MapScene::loadObjectGroup(TMXObjectGroup* group)
@@ -43,7 +41,7 @@ void MapScene::loadMap()
     else
         log("Map %s not found.", mapRes.c_str());
     
-    addChild(tileMap, GScene::Layer::map);
+    addChild(tileMap, GraphicsLayer::map);
     loadMapObjects(*tileMap);
 }
 

@@ -9,9 +9,6 @@
 #ifndef GObject_hpp
 #define GObject_hpp
 
-#include "GAnimation.hpp"
-#include "PlayScene.hpp"
-
 class GObject
 {
 public:
@@ -68,9 +65,9 @@ class PhysicsObject : public virtual GObject
 public:
     //A default of 0 signifies undefined. Using -1 to indicate static or positive for dynamic.
     virtual float getMass() const = 0;
-    virtual GSpace::Type getType() const = 0;
+    virtual GType getType() const = 0;
     virtual inline bool getSensor() const {return false;}
-    virtual inline int getLayers() const {return GSpace::Layers::ground;}
+    virtual inline int getLayers() const {return PhysicsLayers::groundLayer;}
 };
 
 class RectangleBody : public virtual PhysicsObject
@@ -149,11 +146,11 @@ class ImageSprite : public virtual SpriteObject
 {
 public:
     virtual string imageSpritePath() const = 0;
-    virtual GScene::Layer sceneLayer() const = 0;
-    void loadImageSprite(const std::string& resPath, GScene::Layer sceneLayer, cocos2d::Layer* dest);
+    virtual GraphicsLayer sceneLayer() const = 0;
+    void loadImageSprite(const std::string& resPath, GraphicsLayer sceneLayer, cocos2d::Layer* dest);
     inline void initializeGraphics(cocos2d::Layer* layer)
     {
-        loadImageSprite(imageSpritePath(), GScene::Layer::ground, layer);
+        loadImageSprite(imageSpritePath(), GraphicsLayer::ground, layer);
     }
 };
 
@@ -161,7 +158,7 @@ class PatchConSprite : virtual public SpriteObject
 {
 public:
     virtual string imageSpritePath() const = 0;
-    virtual GScene::Layer sceneLayer() const = 0;
+    virtual GraphicsLayer sceneLayer() const = 0;
     
     inline void initializeGraphics(cocos2d::Layer* layer)
     {

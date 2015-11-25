@@ -1,6 +1,7 @@
 #include "Prefix.h"
 
-#include "App.h"
+//Already included in PCH
+//#include "App.h"
 
 #include "PlayScene.hpp"
 #include "menu.h"

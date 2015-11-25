@@ -8,8 +8,6 @@
 
 #include "Prefix.h"
 
-#include "GObject.hpp"
-
 #include "LuaAPI.hpp"
 
 using namespace std;

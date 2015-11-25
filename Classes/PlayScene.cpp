@@ -8,9 +8,7 @@
 
 #include "Prefix.h"
 
-#include "controls.h"
 #include "PlayScene.hpp"
-#include "GObject.hpp"
 
 using namespace std;
 USING_NS_CC;

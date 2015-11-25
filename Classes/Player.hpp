@@ -9,8 +9,6 @@
 #ifndef Player_hpp
 #define Player_hpp
 
-#include "GObject.hpp"
-
 class Player : virtual public GObject, PatchConSprite, CircleBody
 {
 public:
@@ -35,10 +33,10 @@ public:
 
     virtual inline float getRadius() const {return 0.35;}
     inline float getMass() const {return 1;}
-    virtual inline GSpace::Type getType() const {return GSpace::Type::player;}
+    virtual inline GType getType() const {return GType::player;}
     
     inline string imageSpritePath() const {return "sprites/flandre.png";}
-    inline GScene::Layer sceneLayer() const {return GScene::Layer::ground;}
+    inline GraphicsLayer sceneLayer() const {return GraphicsLayer::ground;}
     no_op(init);
     
     void setDirection(Direction);

@@ -9,18 +9,12 @@
 #ifndef scenes_h
 #define scenes_h
 
-#include "GSpace.hpp"
-
 using namespace std;
 USING_NS_CC;
 
 class GScene : public Layer
 {
 public:
-    enum Layer{
-        map = 1,
-        ground,
-    };
     typedef std::function<void () > AdapterType;
     //Map each class name to a constructor adapter function.
     static const std::map<std::string,AdapterType> adapters;

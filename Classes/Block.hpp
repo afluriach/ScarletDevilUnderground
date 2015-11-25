@@ -9,9 +9,6 @@
 #ifndef Block_hpp
 #define Block_hpp
 
-#include "GObject.hpp"
-#include "scenes.h"
-
 class Block : virtual public GObject, RectangleBody, ImageSprite
 {
 public:
@@ -26,10 +23,10 @@ public:
     no_op(init)
     
     virtual string imageSpritePath() const {return "sprites/block "+letter+".png";}
-    virtual GScene::Layer sceneLayer() const {return GScene::Layer::ground;}
+    virtual GraphicsLayer sceneLayer() const {return GraphicsLayer::ground;}
     
     virtual inline float getMass() const { return 1;}
-    virtual inline GSpace::Type getType() const {return GSpace::Type::environment;}
+    virtual inline GType getType() const {return GType::environment;}
     
     virtual inline cp::Vect getDimensions() const {return cp::Vect(1,1);}
 private:

@@ -8,8 +8,6 @@
 
 #include "Prefix.h"
 
-#include "GObject.hpp"
-
 #include "Block.hpp"
 #include "Glyph.hpp"
 #include "Player.hpp"

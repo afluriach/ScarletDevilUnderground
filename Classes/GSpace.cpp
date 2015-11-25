@@ -8,15 +8,12 @@
 
 #include "Prefix.h"
 
-#include "GObject.hpp"
-#include "GSpace.hpp"
-
 using namespace std;
 USING_NS_CC;
 
-const set<GSpace::Type> GSpace::selfCollideTypes = list_of_typed(
-    (GSpace::Type::environment),
-    set<GSpace::Type>
+const set<GType> GSpace::selfCollideTypes = list_of_typed(
+    (GType::environment),
+    set<GType>
 );
 
 float circleMomentOfInertia(float mass, float radius)
@@ -78,12 +75,12 @@ void GSpace::update()
     processAdditions();
 }
 
-bool isSelfCollideType(GSpace::Type t)
+bool isSelfCollideType(GType t)
 {
     return GSpace::selfCollideTypes.find(t) != GSpace::selfCollideTypes.end();
 }
 
-void setShapeProperties(shared_ptr<cp::Shape> shape, int layers, GSpace::Type type, bool sensor)
+void setShapeProperties(shared_ptr<cp::Shape> shape, int layers, GType type, bool sensor)
 {
     shape->setLayers(layers);
     shape->setGroup(isSelfCollideType(type) ? 0 : type);
@@ -96,7 +93,7 @@ shared_ptr<cp::Body> GSpace::createCircleBody(
     const cp::Vect& center,
     float radius,
     float mass,
-    GSpace::Type type,
+    GType type,
     int layers,
     bool sensor,
     GObject* obj)
@@ -138,7 +135,7 @@ shared_ptr<cp::Body> GSpace::createRectangleBody(
     const cp::Vect& center,
     const cp::Vect& dim,
     float mass,
-    GSpace::Type type,
+    GType type,
     int layers,
     bool sensor,
     GObject* obj)

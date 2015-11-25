@@ -18,4 +18,21 @@ enum Direction{
     downDir
 };
 
+enum GraphicsLayer{
+    map = 1,
+    ground,
+};
+
+enum GType{
+    player=1,
+    playerBullet,
+    environment
+};
+
+//Layers are interpreted as a bitmask.
+//For now, multilayer physics is not being used.
+enum PhysicsLayers{
+    groundLayer = 1,
+};
+
 #endif /* types_h */

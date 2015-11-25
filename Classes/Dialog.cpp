@@ -8,8 +8,6 @@
 
 #include "Prefix.h"
 
-#include "controls.h"
-
 #include "Dialog.hpp"
 
 using namespace std;

@@ -1,10 +1,6 @@
 #ifndef  _APP_DELEGATE_H_
 #define  _APP_DELEGATE_H_
 
-#include "controls.h"
-#include "LuaAPI.hpp"
-#include "LuaShell.hpp"
-
 /**
 @brief    The cocos2d Application.
 

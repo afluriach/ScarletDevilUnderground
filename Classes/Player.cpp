@@ -8,7 +8,6 @@
 
 #include "Prefix.h"
 
-#include "App.h"
 #include "Bullet.hpp"
 
 #include "Player.hpp"

@@ -9,8 +9,8 @@
 #ifndef PlayScene_hpp
 #define PlayScene_hpp
 
-#include "controls.h"
-#include "scenes.h"
+//Already included in PCH
+//#include "scenes.h"
 
 class PlayScene : virtual public GScene, MapScene
 {

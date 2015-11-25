@@ -9,7 +9,6 @@
 #ifndef Dialog_hpp
 #define Dialog_hpp
 
-#include "controls.h"
 #include "Graphics.h"
 
 //A dialog frame is simply a function that takes a reference to a Dialog and applies some operation to it.

@@ -8,8 +8,6 @@
 
 #include "Prefix.h"
 
-#include "scenes.h"
-
 USING_NS_CC;
 
 Scene* crntScene()
@@ -59,7 +57,7 @@ cp::Vect toChipmunk(const cocos2d::Vec2& rhs)
     return cp::Vect(expand_vector2(rhs));
 }
 
-Sprite* loadImageSprite(const std::string& resPath, GScene::Layer sceneLayer, cocos2d::Layer* dest, const Vec2& pos)
+Sprite* loadImageSprite(const std::string& resPath, GraphicsLayer sceneLayer, cocos2d::Layer* dest, const Vec2& pos)
 {
     cocos2d::Sprite* node = cocos2d::Sprite::create(resPath);
     

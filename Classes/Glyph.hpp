@@ -9,8 +9,6 @@
 #ifndef Glyph_hpp
 #define Glyph_hpp
 
-#include "GObject.hpp"
-
 class Glyph : public virtual GObject, RectangleBody, ImageSprite
 {
 public:
@@ -21,10 +19,10 @@ public:
     virtual void init();
     
     virtual string imageSpritePath() const {return "sprites/glyph.png";}
-    virtual GScene::Layer sceneLayer() const {return GScene::Layer::ground;}
+    virtual GraphicsLayer sceneLayer() const {return GraphicsLayer::ground;}
     
     virtual inline float getMass() const {return 1;}
-    virtual inline GSpace::Type getType() const {return GSpace::Type::environment;}
+    virtual inline GType getType() const {return GType::environment;}
     
     virtual inline cp::Vect getDimensions() const {return cp::Vect(1,1);}
 };

@@ -8,7 +8,8 @@
 
 #include "Prefix.h"
 
-#include "controls.h"
+//Already included in PCH
+//#include "controls.h"
 
 using namespace std;
 USING_NS_CC;

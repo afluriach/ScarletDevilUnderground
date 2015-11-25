@@ -14,25 +14,15 @@ USING_NS_CC;
 
 class GObject;
 
+//GSpace.hpp is already included in PCH
+
 class GSpace
 {
 public:
-    enum Type{
-        player=1,
-        playerBullet,
-        environment
-    };
-    
-    //Layers are interpreted as a bitmask.
-    //For now, multilayer physics is not being used.
-    enum Layers{
-        ground = 1,
-    };
-
     //Type signifies the collision handler as well as the group, but the group can be overidden:
     //Normally objects only collide with those of non-matching group. If we want an object to collide
     //with everything, use 0 for its group instead of its (non-zero) type.
-    static const set<Type> selfCollideTypes;
+    static const set<GType> selfCollideTypes;
 
     static const bool logPhysics = false;
 
@@ -54,7 +44,7 @@ public:
         const cp::Vect& center,
         float radius,
         float mass,
-        GSpace::Type type,
+        GType type,
         int layers,
         bool sensor,
         GObject* obj
@@ -64,7 +54,7 @@ public:
         const cp::Vect& center,
         const cp::Vect& dim,
         float mass,
-        GSpace::Type type,
+        GType type,
         int layers,
         bool sensor,
         GObject* obj

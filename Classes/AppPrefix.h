@@ -39,8 +39,15 @@
 
 //app modules that are often used.
 #include "types.h"
+#include "controls.h"
+#include "LuaAPI.hpp"
+#include "LuaShell.hpp"
 #include "App.h"
+#include "GAnimation.hpp"
+#include "GSpace.hpp"
+#include "GObject.hpp"
 #include "macros.h"
+#include "scenes.h"
 #include "util.h"
 
 #endif /* AppPrefix_h */

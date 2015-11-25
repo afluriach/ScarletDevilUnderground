@@ -9,8 +9,6 @@
 #ifndef util_h
 #define util_h
 
-#include "scenes.h"
-
 //Define assignment conversion between cocos and chipmunk vectors
 cocos2d::Vec2 toCocos(const cp::Vect& rhs);
 cp::Vect toChipmunk(const cocos2d::Vec2& rhs);
@@ -23,7 +21,7 @@ cocos2d::Scene* crntScene();
 void printValueMap(const cocos2d::ValueMap& obj);
 float getFloat(const cocos2d::ValueMap& obj, const std::string& name);
 
-cocos2d::Sprite* loadImageSprite(const std::string& resPath, GScene::Layer sceneLayer, cocos2d::Layer* dest, const Vec2& pos);
+cocos2d::Sprite* loadImageSprite(const std::string& resPath, GraphicsLayer sceneLayer, cocos2d::Layer* dest, const Vec2& pos);
 
 inline std::string getRealPath(const std::string& path)
 {

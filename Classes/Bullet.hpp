@@ -9,8 +9,6 @@
 #ifndef Bullet_hpp
 #define Bullet_hpp
 
-#include "GObject.hpp"
-
 using namespace std;
 
 class Bullet : virtual public GObject, public CircleBody
@@ -29,9 +27,9 @@ public:
     inline PlayerBaseBullet(float angle, const cp::Vect& pos) : angle(angle), GObject("playerBaseBullet", pos) {}
 
     virtual inline string imageSpritePath() const {return "sprites/flandre_bullet.png";}
-    virtual inline GScene::Layer sceneLayer() const {return GScene::Layer::ground;}
+    virtual inline GraphicsLayer sceneLayer() const {return GraphicsLayer::ground;}
     
-    virtual inline GSpace::Type getType() const {return GSpace::Type::playerBullet;}
+    virtual inline GType getType() const {return GType::playerBullet;}
     virtual inline float getRadius() const {return 0.3;}
     
     void init();

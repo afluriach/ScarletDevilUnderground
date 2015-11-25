@@ -9,7 +9,6 @@
 #include "Prefix.h"
 
 #include "PlayScene.hpp"
-#include "GObject.hpp"
 
 USING_NS_CC;
 
@@ -87,7 +86,7 @@ cp::Vect RectangleMapBody::getDimensionsFromMap(const ValueMap& arg)
     return cp::Vect(getFloat(arg, "width")*App::tilesPerPixel, getFloat(arg, "height")*App::tilesPerPixel);
 }
 
-void ImageSprite::loadImageSprite(const std::string& resPath, GScene::Layer sceneLayer, cocos2d::Layer* dest)
+void ImageSprite::loadImageSprite(const std::string& resPath, GraphicsLayer sceneLayer, cocos2d::Layer* dest)
 {
     cocos2d::Vec2 centerPix = getInitialCenterPix();
     sprite = ::loadImageSprite(resPath,sceneLayer,dest, centerPix);
