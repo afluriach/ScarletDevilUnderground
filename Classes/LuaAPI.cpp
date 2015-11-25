@@ -237,15 +237,20 @@ namespace Lua{
         int nArgs = lua_gettop(L);
         
         if(nArgs != 1){
-            log("runScene: single string required.");
+            error(L, "runScene: single string required.");
             return 0;
         }
         
         LuaRef name(L);
         name.pop(L);
         
-        GScene::runScene(name.tostring());
-
+        try{
+            GScene::runScene(name.tostring());
+        }
+        catch(exception){
+            error(L, "runScene: " + name.tostring() + " not found");
+        }
+        
         return 0;
     }
     

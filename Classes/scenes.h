@@ -40,7 +40,7 @@ public:
         auto it = adapters.find(name);
         
         if(it == adapters.end()){
-            log("runScene: %s not found.", name.c_str());
+            throw runtime_error("runScene: " + name + " not found.");
         }
         else
         {
