@@ -70,7 +70,11 @@ void positionAndAddNode(Node* node, GScene::Layer sceneLayer, cocos2d::Layer* de
 Sprite* loadImageSprite(const std::string& resPath, GScene::Layer sceneLayer, cocos2d::Layer* dest, const Vec2& pos)
 {
     cocos2d::Sprite* node = cocos2d::Sprite::create(resPath);
-    positionAndAddNode(node,sceneLayer,dest,pos);
     
+    if(node)
+        positionAndAddNode(node,sceneLayer,dest,pos);
+    else
+        log("loadImageSprite: sprite %s not loaded", resPath.c_str());
+
     return node;
 }
