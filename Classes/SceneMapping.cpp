@@ -9,7 +9,6 @@
 #include "Prefix.h"
 
 #include "LibraryOpening.h"
-#include "menu.h"
 #include "PlayScene.hpp"
 
 #define entry(name,cls) (name, adapter<cls>())

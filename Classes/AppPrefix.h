@@ -49,5 +49,7 @@
 #include "macros.h"
 #include "scenes.h"
 #include "util.h"
+#include "Graphics.h"
+#include "menu.h"
 
 #endif /* AppPrefix_h */

@@ -9,7 +9,6 @@
 #ifndef menu_h
 #define menu_h
 
-#include "Graphics.h"
 #include "PlayScene.hpp"
 
 using namespace std::placeholders;

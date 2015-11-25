@@ -3,8 +3,6 @@
 //Already included in PCH
 //#include "App.h"
 
-#include "menu.h"
-
 USING_NS_CC;
 
 App* app;
