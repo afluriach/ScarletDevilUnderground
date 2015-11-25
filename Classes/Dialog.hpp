@@ -13,6 +13,7 @@
 
 #include "cocos2d.h"
 
+#include "App.h"
 #include "controls.h"
 #include "Graphics.h"
 #include "util.h"
@@ -104,6 +105,11 @@ inline DialogFrame setText(const std::string& msg)
 inline DialogFrame setColor(const cocos2d::Color3B& color)
 {
     return [=](Dialog& d) -> void {d.setColor(color);};
+}
+
+inline DialogFrame runLua(const string& script)
+{
+    return [=](Dialog& d)-> void {app->lua.runString(script);};
 }
 
 #endif /* Dialog_hpp */

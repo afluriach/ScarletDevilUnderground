@@ -122,6 +122,10 @@ void Dialog::processDialogFile(const std::string& text)
                 dialog.push_back(makeSetColor(line));
                 continue;
             }
+            else if(boost::starts_with(line, ":lua ")){
+                dialog.push_back(runLua(line.substr(5)));
+                continue;
+            }
         }
         
         dialog.push_back(setText(line));
