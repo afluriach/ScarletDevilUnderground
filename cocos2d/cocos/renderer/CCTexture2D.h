@@ -315,6 +315,14 @@ public:
      */
     CC_DEPRECATED_ATTRIBUTE void setTexParameters(const TexParams* texParams) { return setTexParameters(*texParams); };
 
+    inline void useAntiAlias(bool aa)
+    {
+        if(aa)
+            setAntiAliasTexParameters();
+        else
+            setAliasTexParameters();
+    }
+
     /** Sets antialias texture parameters:
     - GL_TEXTURE_MIN_FILTER = GL_LINEAR
     - GL_TEXTURE_MAG_FILTER = GL_LINEAR

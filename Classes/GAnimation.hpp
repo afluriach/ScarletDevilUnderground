@@ -61,6 +61,7 @@ public:
         sprite = Sprite::createWithSpriteFrame(sequence->frames.at(0));
         sprite->setScale(zoom);
         addChild(sprite,1);
+        sprite->useAntiAliasTexture(false);
     }
     
     void accumulate(float dx);

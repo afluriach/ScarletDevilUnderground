@@ -31,6 +31,7 @@ THE SOFTWARE.
 #include <string>
 #include "2d/CCNode.h"
 #include "2d/CCDrawNode.h"
+#include "2d/CCSpriteBatchNode.h"
 #include "base/CCProtocols.h"
 #include "renderer/CCTextureAtlas.h"
 #include "renderer/CCQuadCommand.h"
@@ -38,7 +39,6 @@ THE SOFTWARE.
 
 NS_CC_BEGIN
 
-class SpriteBatchNode;
 class SpriteFrame;
 class Animation;
 class Rect;
@@ -156,7 +156,26 @@ public:
 
     /// @{
     /// @name BatchNode methods
-
+    
+    /**
+     * Activate or deactivate aliasing. If this sprite is batched, all sprites within a batch of the same 
+     * texture will have the same aliasing status applied.
+     */
+    inline void useAntiAliasTexture(bool aa)
+    {
+        //Apply to batch if is in use, otherwise apply just to this texture.
+        
+        //Texture2D* tex = _batchNode ? _batchNode->getTexture() : _texture;
+        //_texture->useAntiAlias(aa)
+        //
+        //Not sure if texture will ever need to be updated if a batchNode is in use.
+        
+        if(_batchNode)
+            _batchNode->getTexture()->useAntiAlias(aa);
+        if(_texture)
+            _texture->useAntiAlias(aa);
+    }
+    
     /**
      * Updates the quad according the rotation, position, scale values.
      */
