@@ -6,6 +6,8 @@
 //
 //
 
+#include "Prefix.h"
+
 #include "PlayScene.hpp"
 #include "GObject.hpp"
 

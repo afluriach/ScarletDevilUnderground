@@ -9,8 +9,6 @@
 #ifndef menu_h
 #define menu_h
 
-#include "Prefix.h"
-
 #include "Graphics.h"
 #include "PlayScene.hpp"
 #include "scenes.h"

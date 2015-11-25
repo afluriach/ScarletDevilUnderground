@@ -6,6 +6,8 @@
 //
 //
 
+#include "Prefix.h"
+
 #include "controls.h"
 
 #include "Dialog.hpp"

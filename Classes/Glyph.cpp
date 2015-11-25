@@ -6,6 +6,8 @@
 //
 //
 
+#include "Prefix.h"
+
 #include "Glyph.hpp"
 #include "PlayScene.hpp"
 

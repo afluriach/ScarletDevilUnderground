@@ -6,6 +6,7 @@
 //
 //
 
+#include "Prefix.h"
 #include "Bullet.hpp"
 
 void PlayerBaseBullet::init()

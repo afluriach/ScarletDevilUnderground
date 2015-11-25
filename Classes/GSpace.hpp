@@ -9,8 +9,6 @@
 #ifndef GSpace_hpp
 #define GSpace_hpp
 
-#include "Prefix.h"
-
 using namespace std;
 USING_NS_CC;
 

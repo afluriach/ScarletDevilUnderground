@@ -6,6 +6,8 @@
 //
 //
 
+#include "Prefix.h"
+
 #include "GObject.hpp"
 #include "GSpace.hpp"
 

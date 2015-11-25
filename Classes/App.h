@@ -1,8 +1,6 @@
 #ifndef  _APP_DELEGATE_H_
 #define  _APP_DELEGATE_H_
 
-#include "Prefix.h"
-
 #include "controls.h"
 #include "LuaAPI.hpp"
 #include "LuaShell.hpp"

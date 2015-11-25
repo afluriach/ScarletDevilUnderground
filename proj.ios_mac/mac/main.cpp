@@ -22,6 +22,8 @@
  THE SOFTWARE.
  ****************************************************************************/
 
+#include "Prefix.h"
+
 #include "App.h"
 #include "cocos2d.h"
 

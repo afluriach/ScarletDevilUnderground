@@ -9,7 +9,6 @@
 #ifndef scenes_h
 #define scenes_h
 
-#include "Prefix.h"
 #include "GSpace.hpp"
 
 using namespace std;

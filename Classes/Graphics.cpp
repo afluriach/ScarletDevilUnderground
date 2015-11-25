@@ -6,9 +6,12 @@
 //
 //
 
+#include "Prefix.h"
+
 USING_NS_CC;
 
-Size getScreenSize()
+//Qualify Size for ambiguity.
+cocos2d::Size getScreenSize()
 {
     return Director::getInstance()->getVisibleSize();
 }

@@ -9,8 +9,6 @@
 #ifndef Dialog_hpp
 #define Dialog_hpp
 
-#include "Prefix.h"
-
 #include "controls.h"
 #include "Graphics.h"
 

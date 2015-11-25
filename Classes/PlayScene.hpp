@@ -9,8 +9,6 @@
 #ifndef PlayScene_hpp
 #define PlayScene_hpp
 
-#include "Prefix.h"
-
 #include "controls.h"
 #include "scenes.h"
 

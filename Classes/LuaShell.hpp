@@ -9,8 +9,6 @@
 #ifndef LuaShell_hpp
 #define LuaShell_hpp
 
-#include "Prefix.h"
-
 USING_NS_CC;
 
 class LuaShell : public Layer
