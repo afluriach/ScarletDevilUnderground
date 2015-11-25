@@ -372,6 +372,7 @@
 		46880B8319C43A87006E1F66 /* Classes */ = {
 			isa = PBXGroup;
 			children = (
+				E2CDC5511C056B6B0017537B /* objects */,
 				E23121FF1BFA746D00FEA94B /* scenes */,
 				46880B8419C43A87006E1F66 /* App.cpp */,
 				46880B8519C43A87006E1F66 /* App.h */,
@@ -389,23 +390,12 @@
 				E20A7D6C1BCD211D007F1A3B /* util.h */,
 				E27E85791BE0178800A94217 /* GSpace.cpp */,
 				E27E857A1BE0178800A94217 /* GSpace.hpp */,
-				E2B63AA31BE0450D005695B0 /* GObject.cpp */,
-				E2B63AA41BE0450D005695B0 /* GObject.hpp */,
-				E24450231C02CFA8006D78B0 /* ObjectMapping.cpp */,
-				E2B63AA71BE0498C005695B0 /* Block.cpp */,
-				E2B63AA81BE0498C005695B0 /* Block.hpp */,
-				E29FF74F1BE18BE7004725C1 /* Glyph.cpp */,
-				E29FF7501BE18BE7004725C1 /* Glyph.hpp */,
 				E23121FB1BF7FDA300FEA94B /* Dialog.cpp */,
 				E23121FC1BF7FDA300FEA94B /* Dialog.hpp */,
 				E2080BC71C00486000EB78DF /* LuaAPI.cpp */,
 				E2080BC81C00486000EB78DF /* LuaAPI.hpp */,
 				E23E1B2A1C014A0A00F7FAC1 /* LuaShell.cpp */,
 				E23E1B2B1C014A0A00F7FAC1 /* LuaShell.hpp */,
-				E2CDC5491C0507090017537B /* Player.cpp */,
-				E2CDC54A1C0507090017537B /* Player.hpp */,
-				E2CDC54D1C051FFC0017537B /* Bullet.cpp */,
-				E2CDC54E1C051FFC0017537B /* Bullet.hpp */,
 			);
 			name = Classes;
 			path = ../Classes;
@@ -467,6 +457,24 @@
 				E24450311C03D1DE006D78B0 /* SceneMapping.cpp */,
 			);
 			name = scenes;
+			sourceTree = "<group>";
+		};
+		E2CDC5511C056B6B0017537B /* objects */ = {
+			isa = PBXGroup;
+			children = (
+				E2CDC5491C0507090017537B /* Player.cpp */,
+				E2CDC54A1C0507090017537B /* Player.hpp */,
+				E2CDC54D1C051FFC0017537B /* Bullet.cpp */,
+				E2CDC54E1C051FFC0017537B /* Bullet.hpp */,
+				E2B63AA31BE0450D005695B0 /* GObject.cpp */,
+				E2B63AA41BE0450D005695B0 /* GObject.hpp */,
+				E24450231C02CFA8006D78B0 /* ObjectMapping.cpp */,
+				E2B63AA71BE0498C005695B0 /* Block.cpp */,
+				E2B63AA81BE0498C005695B0 /* Block.hpp */,
+				E29FF74F1BE18BE7004725C1 /* Glyph.cpp */,
+				E29FF7501BE18BE7004725C1 /* Glyph.hpp */,
+			);
+			name = objects;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
