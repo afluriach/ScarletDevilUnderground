@@ -16,10 +16,10 @@
 #include "scenes.h"
 #include "util.h"
 
-class Block : virtual public GObject, RectangleBody, ImageSprite
+class Block : virtual public GObject, RectangleMapBody, ImageSprite
 {
 public:
-    inline Block(const cocos2d::ValueMap& args) : GObject(args)
+    inline Block(const cocos2d::ValueMap& args) : GObject(args), RectangleMapBody(args)
     {        
         auto it = args.find("letter");
         if(it != args.end())

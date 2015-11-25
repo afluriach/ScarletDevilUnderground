@@ -22,15 +22,16 @@ GObject::GObject(const ValueMap& obj) : name(obj.at("name").asString() )
     cp::Vect cornerPos(getFloat(obj, "x"), getFloat(obj, "y"));
     cornerPos *= App::tilesPerPixel;
     
-    dim = cp::Vect(getFloat(obj, "width"), getFloat(obj, "height"));
+    cp::Vect dim(getFloat(obj, "width"), getFloat(obj, "height"));
     dim *= App::tilesPerPixel;
     
     initialCenter = cp::Vect(cornerPos);
     initialCenter += (dim*0.5);
 }
 
-GObject::GObject(const string& name, const cp::Vect& pos, const cp::Vect& dim) : name(name), initialCenter(pos), dim(dim) {}
+GObject::GObject(const string& name, const cp::Vect& pos) : name(name), initialCenter(pos) {
 
+}
 
 GObject* GObject::constructByType(const std::string& type, const cocos2d::ValueMap& args )
 {
@@ -77,6 +78,11 @@ cocos2d::Vec2 GObject::getInitialCenterPix()
     centerPix *= App::pixelsPerTile;
     
     return toCocos(centerPix);
+}
+
+cp::Vect RectangleMapBody::getDimensionsFromMap(const ValueMap& arg)
+{
+    return cp::Vect(getFloat(arg, "width")*App::tilesPerPixel, getFloat(arg, "height")*App::tilesPerPixel);
 }
 
 void ImageSprite::loadImageSprite(const std::string& resPath, GScene::Layer sceneLayer, cocos2d::Layer* dest)

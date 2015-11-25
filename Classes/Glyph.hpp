@@ -12,10 +12,10 @@
 #include "GObject.hpp"
 #include "util.h"
 
-class Glyph : public virtual GObject, RectangleBody, ImageSprite
+class Glyph : public virtual GObject, RectangleMapBody, ImageSprite
 {
 public:
-    inline Glyph(const cocos2d::ValueMap& args) : GObject(args)
+    inline Glyph(const cocos2d::ValueMap& args) : GObject(args), RectangleMapBody(args)
     {
     }
     

@@ -26,7 +26,7 @@ class PlayerBaseBullet : virtual public Bullet, public ImageSprite
 public:
     static constexpr float speed = 6;
 
-    inline PlayerBaseBullet(float angle, const cp::Vect& pos) : angle(angle), GObject("playerBaseBullet", pos, cp::Vect(0.5,0.5)) {}
+    inline PlayerBaseBullet(float angle, const cp::Vect& pos) : angle(angle), GObject("playerBaseBullet", pos) {}
 
     virtual inline string imageSpritePath() const {return "sprites/flandre_bullet.png";}
     virtual inline GScene::Layer sceneLayer() const {return GScene::Layer::ground;}

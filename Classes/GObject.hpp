@@ -29,7 +29,7 @@ public:
     
     //Representation as a map object
     GObject(const cocos2d::ValueMap& args);
-    GObject(const string& name, const cp::Vect& pos, const cp::Vect& dim);
+    GObject(const string& name, const cp::Vect& pos);
     
     virtual ~GObject() {}
     
@@ -46,8 +46,6 @@ public:
     
     //Posiition where the object was loaded
     cp::Vect initialCenter;
-    //Rectular dimensions or BB dimensions if object is not actually rectangular.
-    cp::Vect dim;
     
     //Called on the first frame after it has been added, before update is called on it or any other
     //objects in the same frame
@@ -94,7 +92,7 @@ public:
         body = GSpace::createRectangleBody(
             space,
             initialCenter,
-            dim,
+            getDimensions(),
             getMass(),
             getType(),
             getLayers(),
@@ -103,6 +101,22 @@ public:
         );
         return body;
     }
+    
+    virtual inline cp::Vect getDimensions() const = 0;
+};
+
+class RectangleMapBody : public virtual RectangleBody
+{
+public:
+    static cp::Vect getDimensionsFromMap(const ValueMap& arg);
+
+    inline RectangleMapBody(const ValueMap& arg) : dim(getDimensionsFromMap(arg)) {}
+    
+    inline cp::Vect getDimensions() const { return dim;}
+
+private:
+    //Rectular dimensions or BB dimensions if object is not actually rectangular.
+    cp::Vect dim;
 };
 
 class CircleBody : public virtual PhysicsObject
