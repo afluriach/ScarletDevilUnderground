@@ -27,13 +27,11 @@ using namespace luabridge;
 
 namespace Lua
 {
+    static const string lauArgTag = "luaScript";
+
     //Raise Lua exception
     void error(lua_State* L, const string& msg);
     
-    //Lua API functions:
-    int createObject(lua_State* L);
-    int log(lua_State* L);
-
     map<string,string> getStringMapFromTable(LuaRef table);
 
     //Wraps a VM instance and interfaces with it.

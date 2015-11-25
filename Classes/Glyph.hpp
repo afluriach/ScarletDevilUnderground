@@ -12,10 +12,10 @@
 #include "GObject.hpp"
 #include "util.h"
 
-class Glyph : public virtual GObject, RectangleMapBody, ImageSprite
+class Glyph : public virtual GObject, RectangleBody, ImageSprite
 {
 public:
-    inline Glyph(const cocos2d::ValueMap& args) : GObject(args), RectangleMapBody(args)
+    inline Glyph(const cocos2d::ValueMap& args) : GObject(args)
     {
     }
     
@@ -26,6 +26,8 @@ public:
     
     virtual inline float getMass() const {return 1;}
     virtual inline GSpace::Type getType() const {return GSpace::Type::environment;}
+    
+    virtual inline cp::Vect getDimensions() const {return cp::Vect(1,1);}
 };
 
 #endif /* Glyph_hpp */

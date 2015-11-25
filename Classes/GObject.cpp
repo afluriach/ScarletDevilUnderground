@@ -19,14 +19,23 @@ GObject::GObject(const ValueMap& obj) : name(obj.at("name").asString() )
 {
     log("%s created at %.1f,%.1f.", name.c_str(),getFloat(obj, "x")/App::pixelsPerTile, getFloat(obj, "y")/App::pixelsPerTile);
     
-    cp::Vect cornerPos(getFloat(obj, "x"), getFloat(obj, "y"));
-    cornerPos *= App::tilesPerPixel;
-    
-    cp::Vect dim(getFloat(obj, "width"), getFloat(obj, "height"));
-    dim *= App::tilesPerPixel;
-    
-    initialCenter = cp::Vect(cornerPos);
-    initialCenter += (dim*0.5);
+    if(obj.find(Lua::lauArgTag) != obj.end()){
+        //This is coming from the scripting API
+        
+        //Interpret coordinates as center, unit space.
+        initialCenter = cp::Vect(getFloat(obj, "x"), getFloat(obj, "y"));
+    }
+    else{
+        //When loaded from a map, coordinates represent the corner in pixels.
+        cp::Vect cornerPos(getFloat(obj, "x"), getFloat(obj, "y"));
+        cornerPos *= App::tilesPerPixel;
+        
+        cp::Vect dim(getFloat(obj, "width"), getFloat(obj, "height"));
+        dim *= App::tilesPerPixel;
+        
+        initialCenter = cp::Vect(cornerPos);
+        initialCenter += (dim*0.5);
+    }
 }
 
 GObject::GObject(const string& name, const cp::Vect& pos) : name(name), initialCenter(pos) {
@@ -44,18 +53,12 @@ GObject* GObject::constructByType(const std::string& type, const cocos2d::ValueM
     else return nullptr;
 }
 
-ValueMap GObject::makeValueMapArg(const Vec2& pos, const Vec2& dim, const map<string,string>& props)
+ValueMap GObject::makeValueMapArg(const Vec2& pos, const map<string,string>& props)
 {
     ValueMap vm;
     
-    Vec2 posPix = pos * App::pixelsPerTile;
-    Vec2 dimPix = dim * App::pixelsPerTile;
-    
-    vm["x"] = Value(posPix.x);
-    vm["y"] = Value(posPix.y);
-    
-    vm["width"] = Value(dimPix.x);
-    vm["height"] = Value(dimPix.y);
+    vm["x"] = Value(pos.x);
+    vm["y"] = Value(pos.y);
     
     for(auto it = props.begin(); it != props.end(); ++it)
     {

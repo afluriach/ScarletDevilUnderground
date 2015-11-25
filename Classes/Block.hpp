@@ -16,10 +16,10 @@
 #include "scenes.h"
 #include "util.h"
 
-class Block : virtual public GObject, RectangleMapBody, ImageSprite
+class Block : virtual public GObject, RectangleBody, ImageSprite
 {
 public:
-    inline Block(const cocos2d::ValueMap& args) : GObject(args), RectangleMapBody(args)
+    inline Block(const cocos2d::ValueMap& args) : GObject(args)
     {        
         auto it = args.find("letter");
         if(it != args.end())
@@ -34,6 +34,8 @@ public:
     
     virtual inline float getMass() const { return 1;}
     virtual inline GSpace::Type getType() const {return GSpace::Type::environment;}
+    
+    virtual inline cp::Vect getDimensions() const {return cp::Vect(1,1);}
 private:
     std::string letter;
 };

@@ -11,6 +11,7 @@
 #include "LuaAPI.hpp"
 
 using namespace std;
+using namespace cocos2d;
 
 namespace Lua{
 
@@ -40,7 +41,7 @@ namespace Lua{
             string key(lua_tostring(state, -1));
             string value(lua_tostring(state, -2));
             
-            cocos2d::log("%s,%s", key.c_str(), value.c_str());
+            log("%s,%s", key.c_str(), value.c_str());
             result[key] = value;
             
             lua_pop(state,2);
@@ -74,7 +75,7 @@ namespace Lua{
         int error = luaL_dostring(state, str.c_str());
         
         if(error)
-            cocos2d::log("Lua error: %s", lua_tostring(state,-1));
+            log("Lua error: %s", lua_tostring(state,-1));
     }
     
     void Inst::runFile(const string& path)
@@ -109,9 +110,38 @@ namespace Lua{
         reverse(results.begin(), results.end());
         return results;
     };
+    
+//Lua data access helpers
+    #define requireNonNil(ref, L, msg) \
+        if(ref.isNil()){ \
+            error(L, msg); \
+            return 0; \
+        }
+
+    float getFloat(LuaRef r)
+    {
+        return r.cast<float>();
+    }
+    
+    Vec2 getVec2FromTable(LuaRef t)
+    {
+        if(t.isNil()){
+            log("getVec2FromTable: nil table vector");
+            return Vec2(0,0);
+        }
+        
+        if(t["x"].isNumber() && t["y"].isNumber()){
+            return Vec2(getFloat(t["x"]), getFloat(t["x"]));
+        }
+        if(t[1].isNumber() && t[2].isNumber()){
+            return Vec2(getFloat(t[1]), getFloat(t[2]));
+        }
+        
+        log("getVec2FromTable: not a vector");
+    }
 
     //Lua API functions:
-    int log(lua_State* L)
+    int luaLog(lua_State* L)
     {
         //The first argument must be a string
         int nArgs = lua_gettop(L);
@@ -127,7 +157,7 @@ namespace Lua{
         }
 
         //paramters are ones-based, arg count is at index 0;
-        cocos2d::log("%s", lua_tostring(L,1));
+        log("%s", lua_tostring(L,1));
         
         return 0;
     }
@@ -157,64 +187,37 @@ namespace Lua{
         
         //Position and dimension are x,y vector
         LuaRef pos = arg["pos"];
-        LuaRef dim = arg["dim"];
         LuaRef props = arg["props"];
         
         LuaRef name = arg["name"];
         LuaRef type = arg["type"];
 
-        if(name.isNil()){
-            error(L, "createObject: name required");
-            return 0;
-        }
-        
-        if(type.isNil()){
-            error(L, "createObject: type required");
-            return 0;
-        }
+        LuaRef width = arg["width"];
+        LuaRef height = arg["height"];
 
-        
-        if(pos.isNil()){
-            error(L, "createObject: pos required");
-            return 0;
-        }
+        requireNonNil(name, L, "createObject: name required");
+        requireNonNil(type, L, "createObject: type required");
+        requireNonNil(pos,L, "createObject: pos required");
 
-        if(dim.isNil()){
-            error(L, "createObject: dim required");
-            return 0;
-        }
-
-        if(pos["x"].isNil() || !pos["x"].isNumber()){
-            error(L, "createObject: pos.x invalid");
-            return 0;
-        }
-
-        if(pos["y"].isNil() || !pos["y"].isNumber()){
-            error(L, "createObject: pos.y invalid");
-            return 0;
-        }
-        if(dim["width"].isNil() || !dim["width"].isNumber()){
-            error(L, "createObject: dim.width invalid");
-            return 0;
-        }
-        if(dim["height"].isNil() || !dim["height"].isNumber()){
-            error(L, "createObject: dim.height invalid");
-            return 0;
-        }
+        Vec2 posV = getVec2FromTable(pos);
 
         map<string,string> m;
         
-        Vec2 posV(pos["x"].cast<float>(), pos["y"].cast<float>());
-        Vec2 dimV(dim["width"].cast<float>(), dim["height"].cast<float>());
-        
-        if(props.isTable()){
+        if(!props.isNil() && props.isTable()){
             m = getStringMapFromTable(props, L);
         }
         m["name"] = name.tostring();
         m["type"] = type.tostring();
-
         
-        ValueMap objArg = GObject::makeValueMapArg(posV,dimV,m);
+        m[lauArgTag] = "true";
+        
+        ValueMap objArg = GObject::makeValueMapArg(posV,m);
+        
+        //Dimensions, if included for dynamically sized objects, must be converted to pixel space to match existing interface.
+        if(width.isNumber() && height.isNumber()){
+            objArg["width"] = Value(getFloat(width)*App::pixelsPerTile);
+            objArg["height"] = Value(getFloat(height)*App::pixelsPerTile);
+        }
         
         space->addObject(objArg);
         
@@ -226,7 +229,7 @@ namespace Lua{
         int nArgs = lua_gettop(L);
         
         if(nArgs != 1){
-            cocos2d::log("runScene: single string required.");
+            log("runScene: single string required.");
             return 0;
         }
         
@@ -240,7 +243,7 @@ namespace Lua{
     
     void Inst::installApi()
     {
-        installFunction(log,"log");
+        installFunction(luaLog,"log");
         installFunction(createObject,"createObject");
         installFunction(runScene,"runScene");
     }
