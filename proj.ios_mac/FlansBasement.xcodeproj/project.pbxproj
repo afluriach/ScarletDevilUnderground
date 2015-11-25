@@ -380,8 +380,6 @@
 				E2CDC5451C04F89D0017537B /* GAnimation.hpp */,
 				E23F055D1BD0294A0091BD6D /* controls.cpp */,
 				E23F05591BD024040091BD6D /* controls.h */,
-				E20A7D681BCD205E007F1A3B /* PlayScene.cpp */,
-				E20A7D691BCD205E007F1A3B /* PlayScene.hpp */,
 				E2AC8F471BCD4BC20001DB3E /* Graphics.cpp */,
 				E282936F1BC5CA65005363B0 /* Graphics.h */,
 				E2AC8F461BCD40890001DB3E /* menu.h */,
@@ -455,6 +453,8 @@
 				E244502D1C03A760006D78B0 /* scenes.cpp */,
 				E244502C1C039CF0006D78B0 /* scenes.h */,
 				E24450311C03D1DE006D78B0 /* SceneMapping.cpp */,
+				E20A7D681BCD205E007F1A3B /* PlayScene.cpp */,
+				E20A7D691BCD205E007F1A3B /* PlayScene.hpp */,
 			);
 			name = scenes;
 			sourceTree = "<group>";
