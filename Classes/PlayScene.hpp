@@ -17,7 +17,7 @@ class PlayScene : virtual public GScene, MapScene
 public:    
     inline PlayScene() : MapScene("maps/block_room.tmx")
     {
-        addUpdate(bind(&PlayScene::updateCamera, this, placeholders::_1));
+        multiUpdate += bind(&PlayScene::updateCamera, this, placeholders::_1);
     }
     
     virtual void updateCamera(float dt);

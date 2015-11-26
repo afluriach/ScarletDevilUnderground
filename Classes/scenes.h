@@ -40,43 +40,27 @@ public:
     inline GScene()
     {
         //Updater has to be scheduled at init time.
-        addInit(bind(&GScene::initUpdate,this));
+        multiInit += bind(&GScene::initUpdate,this);
         
         crntScene = this;
     }
 
-    inline void addInit(function<void()> init)
-    {
-        initializers.push_back(init);
-    }
     inline virtual bool init()
     {
         cocos2d::Layer::init();
         
-        BOOST_FOREACH(function<void()> f, initializers)
-        {
-            f();
-        }
+        multiInit();
         
         return true;
     }
     
-    inline void addUpdate(function<void(float)> update)
-    {
-        updaters.push_back(update);
-    }
-
     inline virtual void update(float dt)
     {
-        BOOST_FOREACH(function<void(float)> f, updaters)
-        {
-            f(dt);
-        }
+        multiUpdate(dt);
     }
+    util::multifunction<void()> multiInit;
+    util::multifunction<void(float)> multiUpdate;
 private:
-    vector<function<void()>> initializers;
-    vector<function<void(float)>> updaters;
-    
     inline void initUpdate()
     {
         scheduleUpdate();
@@ -88,7 +72,7 @@ class GSpaceScene : virtual public GScene
 public:
     inline GSpaceScene() : gspace(this)
     {
-        addUpdate(bind(&GSpaceScene::updateSpace,this, placeholders::_1));
+        multiUpdate += bind(&GSpaceScene::updateSpace,this, placeholders::_1);
     }
 
     GSpace gspace;
@@ -104,7 +88,7 @@ class MapScene : virtual public GSpaceScene
 public:
     inline MapScene(const string& res) : mapRes(res)
     {
-        addInit(bind(&MapScene::loadMap, this));
+        multiInit += bind(&MapScene::loadMap, this);
     }
 protected:
     string mapRes;

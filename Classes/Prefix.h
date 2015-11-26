@@ -42,6 +42,7 @@ USING_NS_CC;
 #include "macros.h"
 #include "types.h"
 #include "util.h"
+#include "multifunction.h"
 
 #include "controls.h"
 #include "LuaAPI.hpp"
