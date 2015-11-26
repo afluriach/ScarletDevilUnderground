@@ -12,56 +12,9 @@
 class Cursor : public Node
 {
 public:
-    inline virtual void onEnter()
-    {
-        Node::onEnter();
-        scheduleUpdate();
-        
-        
-        drawNode = DrawNode::create();
-        addChild(drawNode);
-        
-        drawShape();
-    }
-    
-    inline virtual void update(float dt)
-    {
-        float scaleDelta = dt / interval;
-        
-        if(expanding)
-        {
-            scale += scaleDelta;
-            
-            if(scale >= 1)
-            {
-                expanding = false;
-                scale = 1 - (scale -1);
-            }
-        }
-        else
-        {
-            scale -= scaleDelta;
-            
-            if(scale <= 0)
-            {
-                expanding = true;
-                scale = 0 - scale;
-                
-                ++crntColor;
-                crntColor %= 6;
-                
-                drawShape();
-            }
-        }
-        setScaleX(scale);
-    }
-    inline void reset()
-    {
-        scale = 1;
-        crntColor = 0;
-        expanding = false;
-        drawShape();
-    }
+    virtual void onEnter();
+    virtual void update(float dt);
+    void reset();
 protected:
     virtual void drawShape() = 0;
     //The length of time for the diamond to expand or shrink fully.
