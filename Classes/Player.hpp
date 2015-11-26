@@ -9,13 +9,12 @@
 #ifndef Player_hpp
 #define Player_hpp
 
-class Player : virtual public GObject, PatchConSprite, CircleBody
+class Player : virtual public GObject, PatchConSprite, CircleBody, Updater<Player>
 {
 public:
     static constexpr float fireDist = 1;
 
-    inline Player(const ValueMap& args) : GObject(args) {
-        addUpdater(std::bind(&Player::playerUpdate, this));
+    inline Player(const ValueMap& args) : GObject(args), Updater<Player>(this) {
     }
     
     inline float getSpeed() const{
@@ -26,7 +25,7 @@ public:
         return 0.6;
     }
     
-    inline void playerUpdate(){
+    inline void update(){
         updateFireTime();
         checkControls();
     }

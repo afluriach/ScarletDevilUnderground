@@ -60,6 +60,16 @@ private:
     std::vector<std::function<void()>> updaters;
 };
 
+template<typename Derived>
+class Updater : public virtual GObject
+{
+public:
+    inline Updater(Derived* that)
+    {
+        addUpdater(std::bind(&Derived::update, that));
+    }
+};
+
 class PhysicsObject : public virtual GObject
 {
 public:
@@ -128,15 +138,12 @@ public:
     }
 };
 
-class SpriteObject : public virtual GObject
+class SpriteObject : public virtual GObject, Updater<SpriteObject>
 {
 public:
-    SpriteObject()
-    {
-        addUpdater(std::bind(&SpriteObject::updateSpritePos, this));
-    }
-    
-    void updateSpritePos();
+    inline SpriteObject() : Updater(this) {}
+
+    void update();
     cocos2d::Node* sprite;
 };
 
@@ -154,9 +161,10 @@ public:
     }
 };
 
-class PatchConSprite : virtual public SpriteObject
+class PatchConSprite : virtual public SpriteObject, Updater<PatchConSprite>
 {
 public:
+    inline PatchConSprite() : Updater<PatchConSprite>(this ) {}
     virtual string imageSpritePath() const = 0;
     virtual GraphicsLayer sceneLayer() const = 0;
     
@@ -168,12 +176,7 @@ public:
         sprite = animSprite;
     }
     
-    inline PatchConSprite()
-    {
-        addUpdater(std::bind(&PatchConSprite::updateAnimation, this));
-    }
-    
-    inline void updateAnimation()
+    inline void update()
     {
         cp::Vect dist = body->getVel()*App::secondsPerFrame;
         
