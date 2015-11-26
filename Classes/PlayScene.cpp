@@ -10,9 +10,6 @@
 
 #include "PlayScene.hpp"
 
-using namespace std;
-USING_NS_CC;
-
 void printGroup(TMXObjectGroup* group)
 {
     const ValueVector& objects = group->getObjects();

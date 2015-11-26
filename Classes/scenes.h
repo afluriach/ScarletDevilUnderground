@@ -9,9 +9,6 @@
 #ifndef scenes_h
 #define scenes_h
 
-using namespace std;
-USING_NS_CC;
-
 class GScene : public Layer
 {
 public:

@@ -10,9 +10,6 @@
 
 #include "Dialog.hpp"
 
-using namespace std;
-using namespace cocos2d;
-
 const Color4F Dialog::backgroundColor = Color4F(0.5, 0.5, 0.5, 0.5);
 const string Dialog::font = "Arial";
 

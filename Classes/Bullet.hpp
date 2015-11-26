@@ -9,8 +9,6 @@
 #ifndef Bullet_hpp
 #define Bullet_hpp
 
-using namespace std;
-
 class Bullet : virtual public GObject, public CircleBody
 {
 public:

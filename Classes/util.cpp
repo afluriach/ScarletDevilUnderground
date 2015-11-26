@@ -8,8 +8,6 @@
 
 #include "Prefix.h"
 
-USING_NS_CC;
-
 Scene* crntScene()
 {
     return Director::getInstance()->getRunningScene();

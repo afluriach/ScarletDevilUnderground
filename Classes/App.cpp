@@ -3,8 +3,6 @@
 //Already included in PCH
 //#include "App.h"
 
-USING_NS_CC;
-
 App* app;
 
 const std::string App::title = "フランの地下";

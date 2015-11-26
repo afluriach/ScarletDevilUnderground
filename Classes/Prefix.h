@@ -35,8 +35,14 @@
 #include <boost/lexical_cast.hpp>
 #include <boost/math/constants/constants.hpp>
 
+using namespace std;
+USING_NS_CC;
+
 //app modules that are often used.
+#include "macros.h"
 #include "types.h"
+#include "util.h"
+
 #include "controls.h"
 #include "LuaAPI.hpp"
 #include "LuaShell.hpp"
@@ -44,9 +50,7 @@
 #include "GAnimation.hpp"
 #include "GSpace.hpp"
 #include "GObject.hpp"
-#include "macros.h"
 #include "scenes.h"
-#include "util.h"
 #include "Graphics.h"
 #include "menu.h"
 

@@ -8,9 +8,6 @@
 
 #include "Prefix.h"
 
-using namespace std;
-USING_NS_CC;
-
 const set<GType> GSpace::selfCollideTypes = list_of_typed(
     (GType::environment),
     set<GType>

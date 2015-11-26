@@ -11,9 +11,6 @@
 //Already included in PCH
 //#include "controls.h"
 
-using namespace std;
-USING_NS_CC;
-
 //Backtick "KEY_TILDE" enum does not work on OS X.
 const EventKeyboard::KeyCode backtickKey = static_cast<EventKeyboard::KeyCode>(123);
 //Similarly, neither KEY_RETURN nor KEY_ENTER are recognized

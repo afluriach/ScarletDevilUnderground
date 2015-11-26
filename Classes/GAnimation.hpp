@@ -9,9 +9,6 @@
 #ifndef GAnimation_hpp
 #define GAnimation_hpp
 
-using namespace std;
-USING_NS_CC;
-
 //The set of sprites frames used for a single animation. Since the sprite frames are
 //stateless and do not contain any logic representing an animation, only one needs to exist.
 //However, since SpriteFrames are a relatively lightweight wrapper (and since Textures

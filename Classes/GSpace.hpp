@@ -9,9 +9,6 @@
 #ifndef GSpace_hpp
 #define GSpace_hpp
 
-using namespace std;
-USING_NS_CC;
-
 class GObject;
 
 //GSpace.hpp is already included in PCH

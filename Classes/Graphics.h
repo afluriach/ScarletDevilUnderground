@@ -9,8 +9,6 @@
 #ifndef Graphics_h
 #define Graphics_h
 
-USING_NS_CC;
-
 class Cursor : public Node
 {
 public:

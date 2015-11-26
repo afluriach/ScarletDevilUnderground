@@ -9,7 +9,6 @@
 #ifndef Lua_hpp
 #define Lua_hpp
 
-using namespace std;
 using namespace luabridge;
 
 namespace Lua
