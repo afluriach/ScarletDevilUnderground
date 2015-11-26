@@ -9,12 +9,12 @@
 #ifndef Player_hpp
 #define Player_hpp
 
-class Player : virtual public GObject, PatchConSprite, CircleBody, Updater<Player>
+class Player : virtual public GObject, PatchConSprite, CircleBody, RegisterUpdate<Player>
 {
 public:
     static constexpr float fireDist = 1;
 
-    inline Player(const ValueMap& args) : GObject(args), Updater<Player>(this) {
+    inline Player(const ValueMap& args) : GObject(args), RegisterUpdate<Player>(this) {
     }
     
     inline float getSpeed() const{

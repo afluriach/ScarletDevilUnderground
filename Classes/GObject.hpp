@@ -61,10 +61,10 @@ private:
 };
 
 template<typename Derived>
-class Updater : public virtual GObject
+class RegisterUpdate : public virtual GObject
 {
 public:
-    inline Updater(Derived* that)
+    inline RegisterUpdate(Derived* that)
     {
         addUpdater(std::bind(&Derived::update, that));
     }
@@ -138,10 +138,10 @@ public:
     }
 };
 
-class SpriteObject : public virtual GObject, Updater<SpriteObject>
+class SpriteObject : public virtual GObject, RegisterUpdate<SpriteObject>
 {
 public:
-    inline SpriteObject() : Updater(this) {}
+    inline SpriteObject() : RegisterUpdate(this) {}
 
     void update();
     cocos2d::Node* sprite;
@@ -161,10 +161,10 @@ public:
     }
 };
 
-class PatchConSprite : virtual public SpriteObject, Updater<PatchConSprite>
+class PatchConSprite : virtual public SpriteObject, RegisterUpdate<PatchConSprite>
 {
 public:
-    inline PatchConSprite() : Updater<PatchConSprite>(this ) {}
+    inline PatchConSprite() : RegisterUpdate<PatchConSprite>(this ) {}
     virtual string imageSpritePath() const = 0;
     virtual GraphicsLayer sceneLayer() const = 0;
     
