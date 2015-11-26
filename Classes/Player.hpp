@@ -36,7 +36,6 @@ public:
     
     inline string imageSpritePath() const {return "sprites/flandre.png";}
     inline GraphicsLayer sceneLayer() const {return GraphicsLayer::ground;}
-    no_op(init);
     
     void setDirection(Direction);
     void updateFireTime();

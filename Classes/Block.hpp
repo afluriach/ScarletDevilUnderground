@@ -20,7 +20,6 @@ public:
         else
             cocos2d::log("%s: letter undefined", name.c_str());
     }
-    no_op(init)
     
     virtual string imageSpritePath() const {return "sprites/block "+letter+".png";}
     virtual GraphicsLayer sceneLayer() const {return GraphicsLayer::ground;}

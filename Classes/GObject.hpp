@@ -34,9 +34,18 @@ public:
     //Posiition where the object was loaded
     cp::Vect initialCenter;
     
+    inline void addInit(std::function<void()> f){
+        initializers.push_back(f);
+    }
+    
     //Called on the first frame after it has been added, before update is called on it or any other
     //objects in the same frame
-    virtual void init() = 0;
+    inline void init()
+    {
+        BOOST_FOREACH(std::function<void()> f, initializers){
+            f();
+        }
+    }
     
     inline void addUpdater(std::function<void()> f){
         updaters.push_back(f);
@@ -57,7 +66,18 @@ public:
     
     cocos2d::Vec2 getInitialCenterPix();
 private:
+    std::vector<std::function<void()>> initializers;
     std::vector<std::function<void()>> updaters;
+};
+
+template<typename Derived>
+class RegisterInit : public virtual GObject
+{
+public:
+    inline RegisterInit(Derived* that)
+    {
+        addInit(std::bind(&Derived::init, that));
+    }
 };
 
 template<typename Derived>

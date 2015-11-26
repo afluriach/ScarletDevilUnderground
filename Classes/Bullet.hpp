@@ -19,12 +19,12 @@ public:
     virtual inline bool getSensor() const {return true;}
 };
 
-class PlayerBaseBullet : virtual public Bullet, public ImageSprite
+class PlayerBaseBullet : virtual public Bullet, public ImageSprite, RegisterInit<PlayerBaseBullet>
 {
 public:
     static constexpr float speed = 6;
 
-    inline PlayerBaseBullet(float angle, const cp::Vect& pos) : angle(angle), GObject("playerBaseBullet", pos) {}
+    inline PlayerBaseBullet(float angle, const cp::Vect& pos) : angle(angle), GObject("playerBaseBullet", pos), RegisterInit<PlayerBaseBullet>(this) {}
 
     virtual inline string imageSpritePath() const {return "sprites/flandre_bullet.png";}
     virtual inline GraphicsLayer sceneLayer() const {return GraphicsLayer::ground;}

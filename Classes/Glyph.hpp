@@ -9,14 +9,14 @@
 #ifndef Glyph_hpp
 #define Glyph_hpp
 
-class Glyph : public virtual GObject, RectangleBody, ImageSprite
+class Glyph : public virtual GObject, RectangleBody, ImageSprite, RegisterInit<Glyph>
 {
 public:
-    inline Glyph(const cocos2d::ValueMap& args) : GObject(args)
+    inline Glyph(const cocos2d::ValueMap& args) : GObject(args), RegisterInit<Glyph>(this)
     {
     }
     
-    virtual void init();
+    void init();
     
     virtual string imageSpritePath() const {return "sprites/glyph.png";}
     virtual GraphicsLayer sceneLayer() const {return GraphicsLayer::ground;}
