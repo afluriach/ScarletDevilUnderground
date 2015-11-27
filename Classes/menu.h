@@ -9,7 +9,7 @@
 #ifndef menu_h
 #define menu_h
 
-#include "PlayScene.hpp"
+#include "BlockScene.h"
 
 class SceneSelect;
 
@@ -124,7 +124,7 @@ protected:
 private:
     static inline void start()
     {
-        app->pushScene<PlayScene>();
+        app->pushScene<BlockScene>();
     }
     
     static inline void sceneSelect()

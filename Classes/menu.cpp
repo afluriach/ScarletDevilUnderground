@@ -9,10 +9,11 @@
 #include "Prefix.h"
 
 //scenes
+#include "BlockScene.h"
 #include "LibraryOpening.h"
 
 const vector<string> SceneSelect::sceneTitles = list_of_typed(
-    ("Play Scene")
+    ("Block Scene")
     ("Library Opening")
     ("Back"),
     vector<string>
@@ -24,7 +25,7 @@ SceneSelect::SceneLaunchAdapter sceneLaunchAdapter(){
 }
 
 const vector<SceneSelect::SceneLaunchAdapter> SceneSelect::sceneActions = list_of_typed(
-    (sceneLaunchAdapter<PlayScene>())
+    (sceneLaunchAdapter<BlockScene>())
     (sceneLaunchAdapter<LibraryOpening>())
     (SceneSelect::back),
     vector<SceneSelect::SceneLaunchAdapter>

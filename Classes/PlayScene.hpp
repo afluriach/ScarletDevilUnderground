@@ -12,10 +12,10 @@
 //Already included in PCH
 //#include "scenes.h"
 
-class PlayScene : virtual public GScene, MapScene
+class PlayScene : virtual public GScene, public MapScene
 {
 public:    
-    inline PlayScene() : MapScene("maps/block_room.tmx")
+    inline PlayScene(const string& map) : MapScene(map)
     {
         multiInit.insertWithOrder(bind(&PlayScene::trackPlayer, this), initOrder::postLoadObjects);
         multiUpdate += bindMethod(&PlayScene::updateCamera, this);
@@ -33,8 +33,6 @@ public:
     inline void setCameraTarget(GObject* target){
         cameraTarget = target;
     }
-    
-    CREATE_FUNC(PlayScene);    
 private:    
     const int cameraMovePixPerFrame = 3;
     GObject* cameraTarget = nullptr;
