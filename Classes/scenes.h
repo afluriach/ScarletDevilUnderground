@@ -25,9 +25,9 @@ public:
         postLoadObjects,
     };
 
-    typedef std::function<void () > AdapterType;
+    typedef function<void () > AdapterType;
     //Map each class name to a constructor adapter function.
-    static const std::map<std::string,AdapterType> adapters;
+    static const map<string,AdapterType> adapters;
     
     static GScene* crntScene;
 

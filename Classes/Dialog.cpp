@@ -77,9 +77,9 @@ void Dialog::runFrame()
     dialog.at(frameNum)(*this);
 }
 
-DialogFrame makeSetColor(const std::string& line)
+DialogFrame makeSetColor(const string& line)
 {
-    std::vector<std::string> tokens = splitString(line, " ");
+    vector<string> tokens = splitString(line, " ");
     
     if(tokens.size() != 4){
         log("Invalid setColor directive: %s", line.c_str());
@@ -99,12 +99,12 @@ DialogFrame makeSetColor(const std::string& line)
     }
 }
 
-void Dialog::processDialogFile(const std::string& text)
+void Dialog::processDialogFile(const string& text)
 {
     vector<string> lines = splitString(text, "\n");
         
-    dialog = std::vector<DialogFrame>();
-    foreach(std::string line, lines)
+    dialog = vector<DialogFrame>();
+    foreach(string line, lines)
     {
         //Check for directives
         if(boost::starts_with(line, ":")){

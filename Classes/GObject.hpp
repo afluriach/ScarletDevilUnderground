@@ -12,7 +12,7 @@
 class GObject
 {
 public:
-    typedef std::function<GObject*( const ValueMap&) > AdapterType;
+    typedef function<GObject*( const ValueMap&) > AdapterType;
     
     //Representation as a map object
     GObject(const ValueMap& args);
@@ -21,15 +21,15 @@ public:
     virtual ~GObject() {}
     
     //Map each class name to a constructor adapter function.
-    static const std::map<std::string,AdapterType> adapters;
+    static const map<string,AdapterType> adapters;
     
-    static GObject* constructByType(const std::string& type, const ValueMap& args );
+    static GObject* constructByType(const string& type, const ValueMap& args );
     
     static ValueMap makeValueMapArg(const Vec2& pos, const map<string,string>& props);
 
-    const std::string name;
+    const string name;
     
-    std::shared_ptr<cp::Body> body;
+    shared_ptr<cp::Body> body;
     
     //Posiition where the object was loaded
     cp::Vect initialCenter;
@@ -47,7 +47,7 @@ public:
     }
     
     //Called before adding the the object to space.
-    virtual std::shared_ptr<cp::Body>initializeBody(cp::Space& space) = 0;
+    virtual shared_ptr<cp::Body>initializeBody(cp::Space& space) = 0;
     
     //Create Node which graphically reprensets this object and adds it to Layer
     virtual void initializeGraphics(Layer* layer) = 0;
@@ -92,7 +92,7 @@ class RectangleBody : public virtual PhysicsObject
 {
 public:
     //Create body and add it to space. This assumes BB is rectangle dimensions
-    virtual inline std::shared_ptr<cp::Body> initializeBody(cp::Space& space)
+    virtual inline shared_ptr<cp::Body> initializeBody(cp::Space& space)
     {
         body = GSpace::createRectangleBody(
             space,
@@ -130,7 +130,7 @@ public:
     virtual float getRadius() const = 0;
 
     //Create body and add it to space. This assumes BB is rectangle dimensions
-    virtual inline std::shared_ptr<cp::Body> initializeBody(cp::Space& space)
+    virtual inline shared_ptr<cp::Body> initializeBody(cp::Space& space)
     {
         body = GSpace::createCircleBody(
             space,
@@ -162,7 +162,7 @@ class ImageSprite : public virtual SpriteObject
 public:
     virtual string imageSpritePath() const = 0;
     virtual GraphicsLayer sceneLayer() const = 0;
-    void loadImageSprite(const std::string& resPath, GraphicsLayer sceneLayer, Layer* dest);
+    void loadImageSprite(const string& resPath, GraphicsLayer sceneLayer, Layer* dest);
     inline void initializeGraphics(Layer* layer)
     {
         loadImageSprite(imageSpritePath(), GraphicsLayer::ground, layer);

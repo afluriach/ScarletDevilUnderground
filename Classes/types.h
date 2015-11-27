@@ -9,7 +9,7 @@
 #ifndef types_h
 #define types_h
 
-typedef std::pair<int,int> IntVec2;
+typedef pair<int,int> IntVec2;
 
 enum Direction{
     rightDir=1,

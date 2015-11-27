@@ -27,7 +27,7 @@ public:
     
     static const bool showStats = true;
     static const bool logSprites = false;
-    static const std::string title;
+    static const string title;
     
     static inline Vec2 getScreenCenter()
     {

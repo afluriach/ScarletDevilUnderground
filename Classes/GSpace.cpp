@@ -199,7 +199,7 @@ void GSpace::processAdditions()
         objByName[obj->name] = obj;
     }
     //move(toAdd.begin(), toAdd.end(), addedLastFrame.end());
-    //For some strange reason std::move fails with a memory error here.
+    //For some strange reason move fails with a memory error here.
     foreach(GObject* obj, toAdd)
     {
         addedLastFrame.push_back(obj);

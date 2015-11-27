@@ -29,6 +29,6 @@ public:
     
     virtual inline cp::Vect getDimensions() const {return cp::Vect(1,1);}
 private:
-    std::string letter;
+    string letter;
 };
 #endif /* Block_hpp */

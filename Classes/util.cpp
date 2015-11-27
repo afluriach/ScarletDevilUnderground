@@ -35,7 +35,7 @@ float dirToPhysicsAngle(Direction d)
     }
 }
 
-float getFloat(const ValueMap& args, const std::string& name)
+float getFloat(const ValueMap& args, const string& name)
 {
     return args.at(name).asFloat();
 }
@@ -55,7 +55,7 @@ cp::Vect toChipmunk(const Vec2& rhs)
     return cp::Vect(expand_vector2(rhs));
 }
 
-Sprite* loadImageSprite(const std::string& resPath, GraphicsLayer sceneLayer, Layer* dest, const Vec2& pos)
+Sprite* loadImageSprite(const string& resPath, GraphicsLayer sceneLayer, Layer* dest, const Vec2& pos)
 {
     Sprite* node = Sprite::create(resPath);
     

@@ -5,7 +5,7 @@
 
 App* app;
 
-const std::string App::title = "フランの地下";
+const string App::title = "フランの地下";
 
 App::App() {
     app = this;

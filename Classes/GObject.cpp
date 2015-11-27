@@ -36,7 +36,7 @@ GObject::GObject(const string& name, const cp::Vect& pos) : name(name), initialC
 
 }
 
-GObject* GObject::constructByType(const std::string& type, const ValueMap& args )
+GObject* GObject::constructByType(const string& type, const ValueMap& args )
 {
     auto it = adapters.find(type);
     
@@ -82,7 +82,7 @@ cp::Vect RectangleMapBody::getDimensionsFromMap(const ValueMap& arg)
     return cp::Vect(getFloat(arg, "width")*App::tilesPerPixel, getFloat(arg, "height")*App::tilesPerPixel);
 }
 
-void ImageSprite::loadImageSprite(const std::string& resPath, GraphicsLayer sceneLayer, Layer* dest)
+void ImageSprite::loadImageSprite(const string& resPath, GraphicsLayer sceneLayer, Layer* dest)
 {
     Vec2 centerPix = getInitialCenterPix();
     sprite = ::loadImageSprite(resPath,sceneLayer,dest, centerPix);

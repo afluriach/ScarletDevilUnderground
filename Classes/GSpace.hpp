@@ -37,7 +37,7 @@ public:
     
     GObject* getObjectByName(const string& name);
 
-    static std::shared_ptr<cp::Body> createCircleBody(
+    static shared_ptr<cp::Body> createCircleBody(
         cp::Space& space,
         const cp::Vect& center,
         float radius,
@@ -47,7 +47,7 @@ public:
         bool sensor,
         GObject* obj
     );
-    static std::shared_ptr<cp::Body> createRectangleBody(
+    static shared_ptr<cp::Body> createRectangleBody(
         cp::Space& space,
         const cp::Vect& center,
         const cp::Vect& dim,

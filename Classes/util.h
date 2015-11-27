@@ -19,23 +19,23 @@ float dirToPhysicsAngle(Direction d);
 Scene* crntScene();
 
 void printValueMap(const ValueMap& obj);
-float getFloat(const ValueMap& obj, const std::string& name);
+float getFloat(const ValueMap& obj, const string& name);
 
-Sprite* loadImageSprite(const std::string& resPath, GraphicsLayer sceneLayer, Layer* dest, const Vec2& pos);
+Sprite* loadImageSprite(const string& resPath, GraphicsLayer sceneLayer, Layer* dest, const Vec2& pos);
 
-inline std::string getRealPath(const std::string& path)
+inline string getRealPath(const string& path)
 {
     return FileUtils::getInstance()->fullPathForFilename(path);
 }
 
-inline std::string loadTextFile(const std::string& res)
+inline string loadTextFile(const string& res)
 {
     return FileUtils::getInstance()->getStringFromFile(res);
 }
 
-inline std::vector<std::string> splitString(const std::string& input,const std::string& sep)
+inline vector<string> splitString(const string& input,const string& sep)
 {
-    std::vector<std::string> output;
+    vector<string> output;
     boost::split(output, input,boost::is_any_of(sep));
     return output;
 }

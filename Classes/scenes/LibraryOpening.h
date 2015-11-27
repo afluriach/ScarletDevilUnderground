@@ -43,10 +43,10 @@ public:
 private:
     Dialog* dialogNode;
     
-    const std::vector<DialogFrame> dialog = list_of_typed(
+    const vector<DialogFrame> dialog = list_of_typed(
         (setText("“Finally, I made it to the library again.” Flandre looked around wide-eyed at the library."))
         (setText("She took off running.")),
-        std::vector<DialogFrame>
+        vector<DialogFrame>
     );
 };
 

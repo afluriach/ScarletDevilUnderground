@@ -21,7 +21,7 @@ GScene::AdapterType adapter()
     return []() -> void {app->runScene<T>();};
 }
 
-const std::map<std::string,GScene::AdapterType> GScene::adapters = boost::assign::map_list_of
+const map<string,GScene::AdapterType> GScene::adapters = boost::assign::map_list_of
     entry_same(LibraryOpening)
     entry_same(PlayScene)
     entry_same(TitleMenu)

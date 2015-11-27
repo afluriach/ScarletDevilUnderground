@@ -16,7 +16,7 @@
 //
 //In order to prevent a caching system from reducing performance (by keeping textures loaded
 //that are no longer used, it should use weak_ptrs. However, cocos uses it own semantics for
-//managing object lifecycle so a std::weak_ptr will not work.
+//managing object lifecycle so a weak_ptr will not work.
 class AnimationSpriteSequence
 {
 public:

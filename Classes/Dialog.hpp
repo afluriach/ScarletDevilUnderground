@@ -13,8 +13,8 @@
 //In most cases it will set the message text.
 //It can also change the title or dialog colors.
 class Dialog;
-typedef std::function<void(Dialog&)> DialogFrame;
-DialogFrame setText(const std::string& msg);
+typedef function<void(Dialog&)> DialogFrame;
+DialogFrame setText(const string& msg);
 
 class Dialog : public Node
 {
@@ -35,7 +35,7 @@ public:
     constexpr static float frameWaitTime = 0.6;
     constexpr static float cursorScale = 0.6;
     
-    inline void setDialog(const std::string& res)
+    inline void setDialog(const string& res)
     {
         processDialogFile(loadTextFile(res));
         
@@ -43,7 +43,7 @@ public:
         runFrame();
     }
     
-    inline void setMsg(const std::string& msg)
+    inline void setMsg(const string& msg)
     {
         this->msg = msg;
         removeChild(bodyText);
@@ -67,10 +67,10 @@ private:
     void runFrame();
     void advanceFrame();
     void checkAdvanceFrame();
-    void processDialogFile(const std::string& text);
+    void processDialogFile(const string& text);
     
     static const Color4F backgroundColor;
-    static const std::string font;
+    static const string font;
     
     Label* bodyText;
     DrawNode* backgroundNode;
@@ -79,16 +79,16 @@ private:
     KeyListener keyListener;
     
 //Current state of the dialog.
-    std::vector<DialogFrame> dialog;
+    vector<DialogFrame> dialog;
     int frameNum = 0;
     float timeInFrame = 0;
     
-    std::string title;
-    std::string msg;
+    string title;
+    string msg;
     Color3B bodyColor = Color3B(255,255,255);
 };
 
-inline DialogFrame setText(const std::string& msg)
+inline DialogFrame setText(const string& msg)
 {
     return [=](Dialog& d) -> void {d.setMsg(msg);};
 }

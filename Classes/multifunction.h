@@ -36,7 +36,7 @@ namespace detail {
     template <typename R, typename... Args>
     struct call_helper {
         static R call(
-            std::vector<std::function<R(Args...)>> const& listeners,
+            vector<function<R(Args...)>> const& listeners,
             Args... args
         ) {
             R ret;
@@ -49,7 +49,7 @@ namespace detail {
     template <typename... Args>
     struct call_helper<void, Args...> {
         static void call(
-            std::vector<std::function<void(Args...)>> const& listeners,
+            vector<function<void(Args...)>> const& listeners,
             Args... args
         ) {
             for (auto listener : listeners)
@@ -144,10 +144,10 @@ public:
     
 private:
 
-    std::vector<std::function<R(Args...)>> listeners;
-    std::vector<int> orderTags;
-    std::vector<std::size_t> token_lookup;
-    static constexpr std::size_t NIL = -1;
+    vector<function<R(Args...)>> listeners;
+    vector<int> orderTags;
+    vector<size_t> token_lookup;
+    static constexpr size_t NIL = -1;
 };
 
 } // namespace util

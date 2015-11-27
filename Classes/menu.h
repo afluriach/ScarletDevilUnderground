@@ -25,17 +25,17 @@ public:
     virtual bool init();
     
 protected:
-    std::string title;
-    std::vector<std::string> options;
-    std::vector<std::function<void()>> optionActions;
+    string title;
+    vector<string> options;
+    vector<function<void()>> optionActions;
     
     bool upHeld = false;
     bool downHeld = false;
     
     inline TextListMenuLayer(
-        const std::string& title,
-        const std::vector<std::string>& options,
-        const std::vector<std::function<void()>>& optionActions
+        const string& title,
+        const vector<string>& options,
+        const vector<function<void()>>& optionActions
     ) :
     title(title),
     options(options),
@@ -84,19 +84,19 @@ private:
     //Space from top of screen to title label;
     const int titleMargin = 32;
     const int titleSize = 48;
-    const std::string titleFont = "Arial";
+    const string titleFont = "Arial";
     //Space from title label to first item in menu.
     const int menuStartMargin = 100;
     const int menuItemSpacing = 60;
     const int menuItemSize = 32;
-    const std::string menuItemFont = "Arial";
+    const string menuItemFont = "Arial";
     //Space from left side of screen to menu item;
     const int leftMargin = 72;
     //Space between the left side of the menu item to the cursor.
     const int cursorMargin = 5;
     
     Label* titleLabel;
-    std::vector<Label*> menuItemLabels;
+    vector<Label*> menuItemLabels;
     
     Node* cursor;
     int selected = 0;
@@ -116,8 +116,8 @@ public:
 protected:
     inline TitleMenu() : TextListMenuLayer(
         App::title,
-        list_of_typed( ("Start")("Scene Select")("Exit"), std::vector<std::string>),
-        list_of_typed( (start)(sceneSelect)(exit), std::vector<std::function<void()>>)
+        list_of_typed( ("Start")("Scene Select")("Exit"), vector<string>),
+        list_of_typed( (start)(sceneSelect)(exit), vector<function<void()>>)
     )
     {}
                                   
@@ -141,10 +141,10 @@ private:
 class SceneSelect : public TextListMenuLayer
 {
 public:
-    typedef std::function<void(void)> SceneLaunchAdapter;
+    typedef function<void(void)> SceneLaunchAdapter;
     
-    static const std::vector<std::string> sceneTitles;
-    static const std::vector<SceneLaunchAdapter> sceneActions;
+    static const vector<string> sceneTitles;
+    static const vector<SceneLaunchAdapter> sceneActions;
     
     CREATE_FUNC(SceneSelect);
     

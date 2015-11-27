@@ -11,11 +11,11 @@
 //scenes
 #include "LibraryOpening.h"
 
-const std::vector<std::string> SceneSelect::sceneTitles = list_of_typed(
+const vector<string> SceneSelect::sceneTitles = list_of_typed(
     ("Play Scene")
     ("Library Opening")
     ("Back"),
-    std::vector<std::string>
+    vector<string>
 );
 
 template <typename T>
@@ -23,11 +23,11 @@ SceneSelect::SceneLaunchAdapter sceneLaunchAdapter(){
     return []() -> void { app->pushScene<T>(); };
 }
 
-const std::vector<SceneSelect::SceneLaunchAdapter> SceneSelect::sceneActions = list_of_typed(
+const vector<SceneSelect::SceneLaunchAdapter> SceneSelect::sceneActions = list_of_typed(
     (sceneLaunchAdapter<PlayScene>())
     (sceneLaunchAdapter<LibraryOpening>())
     (SceneSelect::back),
-    std::vector<SceneSelect::SceneLaunchAdapter>
+    vector<SceneSelect::SceneLaunchAdapter>
 );
 
 bool TextListMenuLayer::init()
@@ -45,7 +45,7 @@ bool TextListMenuLayer::init()
     
     for(int i=0;i<options.size(); ++i)
     {
-        std::string labelText = options[i];
+        string labelText = options[i];
         int yPos = screenSize.height - titleMargin - menuStartMargin - i*menuItemSpacing;
         
         Label* label = Label::createWithSystemFont(labelText, menuItemFont, menuItemSize);

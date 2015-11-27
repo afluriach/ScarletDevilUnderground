@@ -24,7 +24,7 @@ enum Keys
     enter,
 };
 
-typedef std::map<EventKeyboard::KeyCode, Keys> KeyCodeMap;
+typedef map<EventKeyboard::KeyCode, Keys> KeyCodeMap;
 
 //Map the Cocos key code to the enum used to identify it.
 //This describes all of the keys that will be tracked by the register, and also all
@@ -49,7 +49,7 @@ private:
     void onKeyDown(EventKeyboard::KeyCode, Event*);
     void onKeyUp(EventKeyboard::KeyCode, Event*);
     
-    std::map<Keys, bool> keyDown;
+    map<Keys, bool> keyDown;
     
     EventListenerKeyboard* keyListener;
 };
@@ -62,12 +62,12 @@ public:
     KeyListener();
     KeyListener(Node* node);
     
-    inline void addPressListener(Keys k, std::function<void()> f)
+    inline void addPressListener(Keys k, function<void()> f)
     {
         onPressed[k] = f;
     }
     
-    inline void addReleaseListener(Keys k, std::function<void()> f)
+    inline void addReleaseListener(Keys k, function<void()> f)
     {
         onReleased[k] = f;
     }
@@ -78,8 +78,8 @@ private:
     void onKeyUp(EventKeyboard::KeyCode, Event*);
     
     EventListenerKeyboard* keyListener;
-    std::map<Keys, std::function<void()>> onPressed;
-    std::map<Keys, std::function<void()>> onReleased;
+    map<Keys, function<void()>> onPressed;
+    map<Keys, function<void()>> onReleased;
     
 };
 
