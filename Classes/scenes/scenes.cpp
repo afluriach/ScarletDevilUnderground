@@ -53,3 +53,7 @@ GSpace* GScene::getSpace()
     else return nullptr;
 }
 
+void GScene::move(const Vec2& v)
+{
+    setPosition(getPositionX()-v.x, getPositionY()-v.y);
+}

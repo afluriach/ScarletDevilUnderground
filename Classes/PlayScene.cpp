@@ -29,8 +29,3 @@ void PlayScene::updateCamera(float dt)
     arrowState *= cameraMovePixPerFrame;
     move(arrowState);
 }
-
-void PlayScene::move(const Vec2& v)
-{
-    setPosition(getPositionX()-v.x, getPositionY()-v.y);
-}

@@ -58,6 +58,9 @@ public:
     {
         multiUpdate(dt);
     }
+    
+    void move(const Vec2& v);
+    
     util::multifunction<void()> multiInit;
     util::multifunction<void(float)> multiUpdate;
 private:

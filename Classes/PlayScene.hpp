@@ -20,12 +20,11 @@ public:
         multiUpdate += bind(&PlayScene::updateCamera, this, placeholders::_1);
     }
     
-    virtual void updateCamera(float dt);
+    void updateCamera(float dt);
     
     CREATE_FUNC(PlayScene);    
 private:    
     const int cameraMovePixPerFrame = 3;
-    void move(const cocos2d::Vec2& v);
 };
 
 #endif /* PlayScene_hpp */
