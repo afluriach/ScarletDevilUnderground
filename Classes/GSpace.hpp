@@ -25,7 +25,7 @@ public:
 
     inline GSpace(Layer* graphicsLayer) : graphicsLayer(graphicsLayer)
     {
-        space.setGravity(cp::Vect(0,0));
+        space.setGravity(SpaceVect(0,0));
     }
 
     void addObject(const ValueMap& obj);
@@ -39,7 +39,7 @@ public:
 
     static shared_ptr<cp::Body> createCircleBody(
         cp::Space& space,
-        const cp::Vect& center,
+        const SpaceVect& center,
         float radius,
         float mass,
         GType type,
@@ -49,8 +49,8 @@ public:
     );
     static shared_ptr<cp::Body> createRectangleBody(
         cp::Space& space,
-        const cp::Vect& center,
-        const cp::Vect& dim,
+        const SpaceVect& center,
+        const SpaceVect& dim,
         float mass,
         GType type,
         int layers,

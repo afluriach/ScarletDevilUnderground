@@ -12,5 +12,5 @@
 
 void Glyph::init()
 {
-    body->setVel(cp::Vect(0,-6));
+    body->setVel(SpaceVect(0,-6));
 }

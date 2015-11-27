@@ -45,14 +45,14 @@ IntVec2 toIntVector(const cocos2d::Size& rhs)
     return IntVec2(rhs.width,rhs.height);
 }
 
-Vec2 toCocos(const cp::Vect& rhs)
+Vec2 toCocos(const SpaceVect& rhs)
 {
     return Vec2(expand_vector2(rhs));
 }
 
-cp::Vect toChipmunk(const Vec2& rhs)
+SpaceVect toChipmunk(const Vec2& rhs)
 {
-    return cp::Vect(expand_vector2(rhs));
+    return SpaceVect(expand_vector2(rhs));
 }
 
 Sprite* loadImageSprite(const string& resPath, GraphicsLayer sceneLayer, Layer* dest, const Vec2& pos)

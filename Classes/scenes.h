@@ -75,7 +75,7 @@ public:
     void move(const Vec2& v);
     //The different vector type is intentional, as Chipmunk vector implies
     //unit space as opposed to pixel space.
-    void setUnitPosition(const cp::Vect& v);
+    void setUnitPosition(const SpaceVect& v);
     
     util::multifunction<void()> multiInit;
     util::multifunction<void(float)> multiUpdate;

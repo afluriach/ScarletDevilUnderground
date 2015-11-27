@@ -55,7 +55,7 @@ void GScene::move(const Vec2& v)
     setPosition(getPositionX()-v.x, getPositionY()-v.y);
 }
 
-void GScene::setUnitPosition(const cp::Vect& v)
+void GScene::setUnitPosition(const SpaceVect& v)
 {
     setPosition(-App::pixelsPerTile*v.x+App::width/2, -App::pixelsPerTile*v.y+App::height/2);
 }

@@ -15,24 +15,24 @@ GObject::GObject(const ValueMap& obj) : name(obj.at("name").asString() )
         //This is coming from the scripting API
         
         //Interpret coordinates as center, unit space.
-        initialCenter = cp::Vect(getFloat(obj, "x"), getFloat(obj, "y"));
+        initialCenter = SpaceVect(getFloat(obj, "x"), getFloat(obj, "y"));
     }
     else{
         //When loaded from a map, coordinates represent the corner in pixels.
-        cp::Vect cornerPos(getFloat(obj, "x"), getFloat(obj, "y"));
+        SpaceVect cornerPos(getFloat(obj, "x"), getFloat(obj, "y"));
         cornerPos *= App::tilesPerPixel;
         
-        cp::Vect dim(getFloat(obj, "width"), getFloat(obj, "height"));
+        SpaceVect dim(getFloat(obj, "width"), getFloat(obj, "height"));
         dim *= App::tilesPerPixel;
         
-        initialCenter = cp::Vect(cornerPos);
+        initialCenter = SpaceVect(cornerPos);
         initialCenter += (dim*0.5);
     }
     
     log("%s created at %.1f,%.1f.", name.c_str(),initialCenter.x, initialCenter.y);
 }
 
-GObject::GObject(const string& name, const cp::Vect& pos) : name(name), initialCenter(pos) {
+GObject::GObject(const string& name, const SpaceVect& pos) : name(name), initialCenter(pos) {
 
 }
 
@@ -71,15 +71,15 @@ void SpriteObject::update()
 
 Vec2 GObject::getInitialCenterPix()
 {
-    cp::Vect centerPix(initialCenter);
+    SpaceVect centerPix(initialCenter);
     centerPix *= App::pixelsPerTile;
     
     return toCocos(centerPix);
 }
 
-cp::Vect RectangleMapBody::getDimensionsFromMap(const ValueMap& arg)
+SpaceVect RectangleMapBody::getDimensionsFromMap(const ValueMap& arg)
 {
-    return cp::Vect(getFloat(arg, "width")*App::tilesPerPixel, getFloat(arg, "height")*App::tilesPerPixel);
+    return SpaceVect(getFloat(arg, "width")*App::tilesPerPixel, getFloat(arg, "height")*App::tilesPerPixel);
 }
 
 void ImageSprite::loadImageSprite(const string& resPath, GraphicsLayer sceneLayer, Layer* dest)

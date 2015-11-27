@@ -11,5 +11,5 @@
 
 void PlayerBaseBullet::init()
 {
-    body->setVel(cp::Vect::ray(speed,angle));
+    body->setVel(SpaceVect::ray(speed,angle));
 }

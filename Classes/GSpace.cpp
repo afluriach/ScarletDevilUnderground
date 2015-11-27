@@ -18,7 +18,7 @@ float circleMomentOfInertia(float mass, float radius)
     return boost::math::constants::pi<float>()/2*pow(radius,4);
 }
 
-float rectagleMomentOfInteria(float mass, const cp::Vect& dim)
+float rectagleMomentOfInteria(float mass, const SpaceVect& dim)
 {
     return mass*(dim.x*dim.x+dim.y*dim.y)/12;
 }
@@ -98,7 +98,7 @@ void setShapeProperties(shared_ptr<cp::Shape> shape, int layers, GType type, boo
 
 shared_ptr<cp::Body> GSpace::createCircleBody(
     cp::Space& space,
-    const cp::Vect& center,
+    const SpaceVect& center,
     float radius,
     float mass,
     GType type,
@@ -140,8 +140,8 @@ shared_ptr<cp::Body> GSpace::createCircleBody(
 
 shared_ptr<cp::Body> GSpace::createRectangleBody(
     cp::Space& space,
-    const cp::Vect& center,
-    const cp::Vect& dim,
+    const SpaceVect& center,
+    const SpaceVect& dim,
     float mass,
     GType type,
     int layers,

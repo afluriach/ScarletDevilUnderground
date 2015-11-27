@@ -62,8 +62,8 @@ void Player::fireIfPossible()
 
 void Player::fire()
 {
-    cp::Vect pos = body->getPos();
-    pos += cp::Vect::ray(fireDist,body->getAngle());
+    SpaceVect pos = body->getPos();
+    pos += SpaceVect::ray(fireDist,body->getAngle());
     
     PlayerBaseBullet* bullet = new PlayerBaseBullet(body->getAngle(), pos);
     

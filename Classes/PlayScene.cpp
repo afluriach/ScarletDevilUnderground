@@ -33,7 +33,7 @@ void PlayScene::updateCamera(float dt)
 
 void PlayScene::trackCameraTarget()
 {
-    const cp::Vect& pos = cameraTarget->body->getPos();
+    const SpaceVect& pos = cameraTarget->body->getPos();
     setUnitPosition(pos);
 }
 

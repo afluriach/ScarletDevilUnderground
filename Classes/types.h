@@ -10,6 +10,8 @@
 #define types_h
 
 typedef pair<int,int> IntVec2;
+//Represents a Chipmunk physics unit space vector
+typedef cp::Vect SpaceVect;
 
 enum Direction{
     rightDir=1,

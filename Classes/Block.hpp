@@ -27,7 +27,7 @@ public:
     virtual inline float getMass() const { return 1;}
     virtual inline GType getType() const {return GType::environment;}
     
-    virtual inline cp::Vect getDimensions() const {return cp::Vect(1,1);}
+    virtual inline SpaceVect getDimensions() const {return SpaceVect(1,1);}
 private:
     string letter;
 };
