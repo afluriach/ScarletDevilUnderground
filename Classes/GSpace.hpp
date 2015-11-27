@@ -23,7 +23,7 @@ public:
 
     static const bool logPhysics = false;
 
-    inline GSpace(cocos2d::Layer* graphicsLayer) : graphicsLayer(graphicsLayer)
+    inline GSpace(Layer* graphicsLayer) : graphicsLayer(graphicsLayer)
     {
         space.setGravity(cp::Vect(0,0));
     }
@@ -60,7 +60,7 @@ public:
 private:
     cp::Space space;
     //The graphics destination to use for all objects constructed in this space.
-    cocos2d::Layer* graphicsLayer;
+    Layer* graphicsLayer;
     
     vector<GObject*> objects;
     map<string, GObject*> objByName;

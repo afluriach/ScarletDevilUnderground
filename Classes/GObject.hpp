@@ -12,10 +12,10 @@
 class GObject
 {
 public:
-    typedef std::function<GObject*( const cocos2d::ValueMap&) > AdapterType;
+    typedef std::function<GObject*( const ValueMap&) > AdapterType;
     
     //Representation as a map object
-    GObject(const cocos2d::ValueMap& args);
+    GObject(const ValueMap& args);
     GObject(const string& name, const cp::Vect& pos);
     
     virtual ~GObject() {}
@@ -23,7 +23,7 @@ public:
     //Map each class name to a constructor adapter function.
     static const std::map<std::string,AdapterType> adapters;
     
-    static GObject* constructByType(const std::string& type, const cocos2d::ValueMap& args );
+    static GObject* constructByType(const std::string& type, const ValueMap& args );
     
     static ValueMap makeValueMapArg(const Vec2& pos, const map<string,string>& props);
 
@@ -50,9 +50,9 @@ public:
     virtual std::shared_ptr<cp::Body>initializeBody(cp::Space& space) = 0;
     
     //Create Node which graphically reprensets this object and adds it to Layer
-    virtual void initializeGraphics(cocos2d::Layer* layer) = 0;
+    virtual void initializeGraphics(Layer* layer) = 0;
     
-    cocos2d::Vec2 getInitialCenterPix();
+    Vec2 getInitialCenterPix();
 
     util::multifunction<void()> multiInit;
     util::multifunction<void()> multiUpdate;
@@ -152,7 +152,7 @@ public:
     inline SpriteObject() : RegisterUpdate(this) {}
 
     void update();
-    cocos2d::Node* sprite;
+    Node* sprite;
 };
 
 //Initialize graphics from a still image. Any class that uses this mixin has to implement interface to
@@ -162,8 +162,8 @@ class ImageSprite : public virtual SpriteObject
 public:
     virtual string imageSpritePath() const = 0;
     virtual GraphicsLayer sceneLayer() const = 0;
-    void loadImageSprite(const std::string& resPath, GraphicsLayer sceneLayer, cocos2d::Layer* dest);
-    inline void initializeGraphics(cocos2d::Layer* layer)
+    void loadImageSprite(const std::string& resPath, GraphicsLayer sceneLayer, Layer* dest);
+    inline void initializeGraphics(Layer* layer)
     {
         loadImageSprite(imageSpritePath(), GraphicsLayer::ground, layer);
     }
@@ -176,7 +176,7 @@ public:
     virtual string imageSpritePath() const = 0;
     virtual GraphicsLayer sceneLayer() const = 0;
     
-    inline void initializeGraphics(cocos2d::Layer* layer)
+    inline void initializeGraphics(Layer* layer)
     {
         animSprite = PatchConAnimation::create();
         animSprite->loadAnimation(imageSpritePath());

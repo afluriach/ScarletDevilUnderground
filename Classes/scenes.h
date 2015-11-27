@@ -60,7 +60,7 @@ public:
 
     inline virtual bool init()
     {
-        cocos2d::Layer::init();
+        Layer::init();
         
         multiInit();
         
@@ -118,10 +118,10 @@ public:
     }
 protected:
     string mapRes;
-    cocos2d::Layer* mapLayer;
-    cocos2d::TMXTiledMap* tileMap;
+    Layer* mapLayer;
+    TMXTiledMap* tileMap;
     
-    void loadMapObjects(const cocos2d::TMXTiledMap& map);
+    void loadMapObjects(const TMXTiledMap& map);
     //Add a map object layer to space.
     void loadObjectGroup(TMXObjectGroup* group);
     

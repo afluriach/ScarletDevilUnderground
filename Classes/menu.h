@@ -95,10 +95,10 @@ private:
     //Space between the left side of the menu item to the cursor.
     const int cursorMargin = 5;
     
-    cocos2d::Label* titleLabel;
-    std::vector<cocos2d::Label*> menuItemLabels;
+    Label* titleLabel;
+    std::vector<Label*> menuItemLabels;
     
-    cocos2d::Node* cursor;
+    Node* cursor;
     int selected = 0;
     
     void updateCursor()

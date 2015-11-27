@@ -35,7 +35,7 @@ float dirToPhysicsAngle(Direction d)
     }
 }
 
-float getFloat(const cocos2d::ValueMap& args, const std::string& name)
+float getFloat(const ValueMap& args, const std::string& name)
 {
     return args.at(name).asFloat();
 }
@@ -45,19 +45,19 @@ IntVec2 toIntVector(const cocos2d::Size& rhs)
     return IntVec2(rhs.width,rhs.height);
 }
 
-cocos2d::Vec2 toCocos(const cp::Vect& rhs)
+Vec2 toCocos(const cp::Vect& rhs)
 {
-    return cocos2d::Vec2(expand_vector2(rhs));
+    return Vec2(expand_vector2(rhs));
 }
 
-cp::Vect toChipmunk(const cocos2d::Vec2& rhs)
+cp::Vect toChipmunk(const Vec2& rhs)
 {
     return cp::Vect(expand_vector2(rhs));
 }
 
-Sprite* loadImageSprite(const std::string& resPath, GraphicsLayer sceneLayer, cocos2d::Layer* dest, const Vec2& pos)
+Sprite* loadImageSprite(const std::string& resPath, GraphicsLayer sceneLayer, Layer* dest, const Vec2& pos)
 {
-    cocos2d::Sprite* node = cocos2d::Sprite::create(resPath);
+    Sprite* node = Sprite::create(resPath);
     
     if(node)
         dest->positionAndAddNode(node,sceneLayer,pos);

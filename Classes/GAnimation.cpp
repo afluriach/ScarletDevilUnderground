@@ -20,7 +20,7 @@ shared_ptr<AnimationSpriteSequence> AnimationSpriteSequence::loadFromRasterImage
         return shared_ptr<AnimationSpriteSequence>(nullptr);
     }
     
-    cocos2d::Vector<SpriteFrame*> frames;
+    Vector<SpriteFrame*> frames;
     
     cocos2d::Size size = texture->getContentSize();
     IntVec2 intSize = toIntVector(size);

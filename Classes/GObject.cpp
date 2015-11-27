@@ -36,7 +36,7 @@ GObject::GObject(const string& name, const cp::Vect& pos) : name(name), initialC
 
 }
 
-GObject* GObject::constructByType(const std::string& type, const cocos2d::ValueMap& args )
+GObject* GObject::constructByType(const std::string& type, const ValueMap& args )
 {
     auto it = adapters.find(type);
     
@@ -69,7 +69,7 @@ void SpriteObject::update()
     }
 }
 
-cocos2d::Vec2 GObject::getInitialCenterPix()
+Vec2 GObject::getInitialCenterPix()
 {
     cp::Vect centerPix(initialCenter);
     centerPix *= App::pixelsPerTile;
@@ -82,9 +82,9 @@ cp::Vect RectangleMapBody::getDimensionsFromMap(const ValueMap& arg)
     return cp::Vect(getFloat(arg, "width")*App::tilesPerPixel, getFloat(arg, "height")*App::tilesPerPixel);
 }
 
-void ImageSprite::loadImageSprite(const std::string& resPath, GraphicsLayer sceneLayer, cocos2d::Layer* dest)
+void ImageSprite::loadImageSprite(const std::string& resPath, GraphicsLayer sceneLayer, Layer* dest)
 {
-    cocos2d::Vec2 centerPix = getInitialCenterPix();
+    Vec2 centerPix = getInitialCenterPix();
     sprite = ::loadImageSprite(resPath,sceneLayer,dest, centerPix);
     
     if(sprite == nullptr)

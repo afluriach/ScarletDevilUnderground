@@ -67,9 +67,9 @@ protected:
     {
         drawNode->clear();
         
-        cocos2d::Vec2 left(-halfSize,halfSize);
-        cocos2d::Vec2 right(halfSize,halfSize);
-        cocos2d::Vec2 bottom(0,-halfSize);
+        Vec2 left(-halfSize,halfSize);
+        Vec2 right(halfSize,halfSize);
+        Vec2 bottom(0,-halfSize);
         
         drawNode->drawTriangle(left,right,bottom,colors[crntColor]);
     }

@@ -37,7 +37,7 @@ void LuaShell::createEditBox()
     editBox = ui::EditBox::create(cocos2d::Size(width,height),nullptr);
     editBox->setPosition(Vec2(App::width/2, height/2));
     //Return type shouldn't matter for desktop UI.
-    editBox->setInputMode(cocos2d::ui::EditBox::InputMode::ANY);
+    editBox->setInputMode(ui::EditBox::InputMode::ANY);
     editBox->setFontName("Courier");
     editBox->setFontSize(16);
     editBox->setText("--Lua Code Here");

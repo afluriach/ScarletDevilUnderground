@@ -12,13 +12,13 @@
 class Block : virtual public GObject, RectangleBody, ImageSprite
 {
 public:
-    inline Block(const cocos2d::ValueMap& args) : GObject(args)
+    inline Block(const ValueMap& args) : GObject(args)
     {        
         auto it = args.find("letter");
         if(it != args.end())
             letter = it->second.asString();
         else
-            cocos2d::log("%s: letter undefined", name.c_str());
+            log("%s: letter undefined", name.c_str());
     }
     
     virtual string imageSpritePath() const {return "sprites/block "+letter+".png";}

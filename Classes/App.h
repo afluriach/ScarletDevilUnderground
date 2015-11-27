@@ -7,7 +7,7 @@
 The reason for implement as private inheritance is to hide some interface call by Director.
 */
 
-class  App : private cocos2d::Application
+class  App : private Application
 {
 public:
     enum EventPriorities
@@ -29,9 +29,9 @@ public:
     static const bool logSprites = false;
     static const std::string title;
     
-    static inline cocos2d::Vec2 getScreenCenter()
+    static inline Vec2 getScreenCenter()
     {
-        return cocos2d::Vec2(width/2, height/2);
+        return Vec2(width/2, height/2);
     }
     
     App();
@@ -65,18 +65,18 @@ public:
     template <typename T>
     inline void pushScene()
     {
-        cocos2d::Director::getInstance()->pushScene(createSceneFromLayer<T>());
+        Director::getInstance()->pushScene(createSceneFromLayer<T>());
     }
 
     inline void popScene()
     {
-        cocos2d::Director::getInstance()->popScene();
+        Director::getInstance()->popScene();
     }
 
     template <typename T>
     inline void runScene()
     {
-        cocos2d::Director::getInstance()->runScene(createSceneFromLayer<T>());
+        Director::getInstance()->runScene(createSceneFromLayer<T>());
     }
     
     
@@ -87,9 +87,9 @@ protected:
     //The shell that is installed in the current scene.
     LuaShell* luaShell;
     
-    inline cocos2d::Scene* createSceneFromLayer(cocos2d::Layer* layer)
+    inline Scene* createSceneFromLayer(Layer* layer)
     {
-        cocos2d::Scene* scene  = cocos2d::Scene::create();
+        Scene* scene  = Scene::create();
         scene->addChild(layer,1);
         
         installLuaShell(scene);
@@ -98,12 +98,12 @@ protected:
     }
 
     template <typename T>
-    inline cocos2d::Scene* createSceneFromLayer()
+    inline Scene* createSceneFromLayer()
     {
         return createSceneFromLayer(T::create());
     }
     
-    void installLuaShell(cocos2d::Scene* scene);
+    void installLuaShell(Scene* scene);
 };
 
 extern App* app;

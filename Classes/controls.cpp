@@ -47,7 +47,7 @@ KeyRegister::KeyRegister()
 #define MOVE_KEYS isKeyDown(Keys::moveUp), isKeyDown(Keys::moveDown), isKeyDown(Keys::moveLeft), isKeyDown(Keys::moveRight)
 #define ARROW_KEYS isKeyDown(Keys::arrowUp), isKeyDown(Keys::arrowDown), isKeyDown(Keys::arrowLeft), isKeyDown(Keys::arrowRight)
 
-cocos2d::Vec2 getDirectionVecFromKeyQuad(bool up, bool down, bool left, bool right)
+Vec2 getDirectionVecFromKeyQuad(bool up, bool down, bool left, bool right)
 {
     Vec2 result;
 
@@ -62,12 +62,12 @@ cocos2d::Vec2 getDirectionVecFromKeyQuad(bool up, bool down, bool left, bool rig
     return result;
 }
 
-cocos2d::Vec2 KeyRegister::getMoveKeyState()
+Vec2 KeyRegister::getMoveKeyState()
 {
     return getDirectionVecFromKeyQuad(MOVE_KEYS);
 }
 
-cocos2d::Vec2 KeyRegister::getArrowKeyState()
+Vec2 KeyRegister::getArrowKeyState()
 {
     return getDirectionVecFromKeyQuad(ARROW_KEYS);
 }
@@ -113,7 +113,7 @@ KeyListener::KeyListener()
     Director::getInstance()->getEventDispatcher()->addEventListenerWithFixedPriority(keyListener, App::EventPriorities::KeyGlobalListenerEvent);
 }
 
-KeyListener::KeyListener(cocos2d::Node* node)
+KeyListener::KeyListener(Node* node)
 {
     initListener();
     node->getEventDispatcher()->addEventListenerWithSceneGraphPriority(keyListener, node);

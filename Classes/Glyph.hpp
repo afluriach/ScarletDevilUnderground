@@ -12,7 +12,7 @@
 class Glyph : public virtual GObject, RectangleBody, ImageSprite, RegisterInit<Glyph>
 {
 public:
-    inline Glyph(const cocos2d::ValueMap& args) : GObject(args), RegisterInit<Glyph>(this)
+    inline Glyph(const ValueMap& args) : GObject(args), RegisterInit<Glyph>(this)
     {
     }
     

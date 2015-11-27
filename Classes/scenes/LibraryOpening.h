@@ -20,9 +20,9 @@ public:
     
     inline virtual bool init()
     {
-        cocos2d::Layer::init();
+        Layer::init();
         
-        cocos2d::Sprite* background = cocos2d::Sprite::create("portraits/library1.png");
+        Sprite* background = Sprite::create("portraits/library1.png");
         background->setScale(0.2);
         background->setPosition(App::getScreenCenter());
         addChild(background, 1);
@@ -35,9 +35,9 @@ public:
         return true;
     }
     
-    inline cocos2d::Vec2 dialogPosition()
+    inline Vec2 dialogPosition()
     {
-        return cocos2d::Vec2(App::width/2, Dialog::height/2 + edgeMargin);
+        return Vec2(App::width/2, Dialog::height/2 + edgeMargin);
     }
     
 private:

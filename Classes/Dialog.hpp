@@ -16,7 +16,7 @@ class Dialog;
 typedef std::function<void(Dialog&)> DialogFrame;
 DialogFrame setText(const std::string& msg);
 
-class Dialog : public cocos2d::Node
+class Dialog : public Node
 {
 public:
     inline Dialog() : keyListener(this) {}
@@ -47,14 +47,14 @@ public:
     {
         this->msg = msg;
         removeChild(bodyText);
-        bodyText = cocos2d::Label::createWithSystemFont(msg, font, bodySize);
+        bodyText = Label::createWithSystemFont(msg, font, bodySize);
         bodyText->setWidth(width-textMargin*2);
         bodyText->setColor(bodyColor);
         addChild(bodyText, 2);
     }
     //After applying a directive frame that does not change the content,
     //advance to the next frame.
-    inline void setColor(const cocos2d::Color3B& color)
+    inline void setColor(const Color3B& color)
     {
         bodyColor = color;
         log("color set to %d %d %d", color.r, color.g, color.b);
@@ -69,11 +69,11 @@ private:
     void checkAdvanceFrame();
     void processDialogFile(const std::string& text);
     
-    static const cocos2d::Color4F backgroundColor;
+    static const Color4F backgroundColor;
     static const std::string font;
     
-    cocos2d::Label* bodyText;
-    cocos2d::DrawNode* backgroundNode;
+    Label* bodyText;
+    DrawNode* backgroundNode;
     Cursor* cursor;
     
     KeyListener keyListener;
@@ -85,7 +85,7 @@ private:
     
     std::string title;
     std::string msg;
-    cocos2d::Color3B bodyColor = cocos2d::Color3B(255,255,255);
+    Color3B bodyColor = Color3B(255,255,255);
 };
 
 inline DialogFrame setText(const std::string& msg)
@@ -93,7 +93,7 @@ inline DialogFrame setText(const std::string& msg)
     return [=](Dialog& d) -> void {d.setMsg(msg);};
 }
 
-inline DialogFrame setColor(const cocos2d::Color3B& color)
+inline DialogFrame setColor(const Color3B& color)
 {
     return [=](Dialog& d) -> void {d.setColor(color);};
 }

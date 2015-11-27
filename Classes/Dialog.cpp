@@ -33,7 +33,7 @@ bool Dialog::init()
     setMsg("");    
     
     cursor = DownTriangleCursor::create();
-    cursor->setPosition(cocos2d::Vec2(width/2 - textMargin,-height/2));
+    cursor->setPosition(Vec2(width/2 - textMargin,-height/2));
     cursor->setScale(cursorScale);
     cursor->setVisible(false);
     addChild(cursor,2);
@@ -83,19 +83,19 @@ DialogFrame makeSetColor(const std::string& line)
     
     if(tokens.size() != 4){
         log("Invalid setColor directive: %s", line.c_str());
-        return setColor(cocos2d::Color3B(255,255,255));
+        return setColor(Color3B(255,255,255));
     }
     
     try{
         log("%s %s %s", tokens[1].c_str(), tokens[2].c_str(), tokens[3].c_str());
-        return setColor(cocos2d::Color3B(
+        return setColor(Color3B(
             boost::lexical_cast<int>(tokens[1]),
             boost::lexical_cast<int>(tokens[2]),
             boost::lexical_cast<int>(tokens[3])
         ));
     } catch(boost::bad_lexical_cast){
         log("setColor parse error: %s", line.c_str());
-        return setColor(cocos2d::Color3B(255,255,255));
+        return setColor(Color3B(255,255,255));
     }
 }
 

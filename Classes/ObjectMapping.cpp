@@ -16,7 +16,7 @@
 template <typename T>
 static GObject::AdapterType consAdapter()
 {
-    return [](const cocos2d::ValueMap& args) -> GObject* { return new T(args); };
+    return [](const ValueMap& args) -> GObject* { return new T(args); };
 }
 
 #define entry(name,cls) (name, consAdapter<cls>())

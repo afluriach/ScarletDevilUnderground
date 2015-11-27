@@ -22,12 +22,12 @@ class AnimationSpriteSequence
 public:
     static shared_ptr<AnimationSpriteSequence> loadFromRasterImage(const string& path, int cols, int rows);
     
-    inline AnimationSpriteSequence(cocos2d::Vector<SpriteFrame*> frames) : frames(frames) {}
+    inline AnimationSpriteSequence(Vector<SpriteFrame*> frames) : frames(frames) {}
     //Use cocos vector to manage object lifecycle.
-    cocos2d::Vector<SpriteFrame*> frames;
+    Vector<SpriteFrame*> frames;
 };
 
-class GAnimation : public cocos2d::Node
+class GAnimation : public Node
 {
 };
 

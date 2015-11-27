@@ -24,7 +24,7 @@ enum Keys
     enter,
 };
 
-typedef std::map<cocos2d::EventKeyboard::KeyCode, Keys> KeyCodeMap;
+typedef std::map<EventKeyboard::KeyCode, Keys> KeyCodeMap;
 
 //Map the Cocos key code to the enum used to identify it.
 //This describes all of the keys that will be tracked by the register, and also all
@@ -39,19 +39,19 @@ public:
     static const bool logKeyEvents = false;
     
     //Gets the state of the move or arrow key.
-    cocos2d::Vec2 getMoveKeyState();
-    cocos2d::Vec2 getArrowKeyState();
+    Vec2 getMoveKeyState();
+    Vec2 getArrowKeyState();
 
 private:
     friend class App;
     KeyRegister();
 
-    void onKeyDown(cocos2d::EventKeyboard::KeyCode, cocos2d::Event*);
-    void onKeyUp(cocos2d::EventKeyboard::KeyCode, cocos2d::Event*);
+    void onKeyDown(EventKeyboard::KeyCode, Event*);
+    void onKeyUp(EventKeyboard::KeyCode, Event*);
     
     std::map<Keys, bool> keyDown;
     
-    cocos2d::EventListenerKeyboard* keyListener;
+    EventListenerKeyboard* keyListener;
 };
 
 //Listens for key presses and calls the associated callback.
@@ -60,7 +60,7 @@ class KeyListener
 {
 public:
     KeyListener();
-    KeyListener(cocos2d::Node* node);
+    KeyListener(Node* node);
     
     inline void addPressListener(Keys k, std::function<void()> f)
     {
@@ -74,10 +74,10 @@ public:
     
 private:
     void initListener();
-    void onKeyDown(cocos2d::EventKeyboard::KeyCode, cocos2d::Event*);
-    void onKeyUp(cocos2d::EventKeyboard::KeyCode, cocos2d::Event*);
+    void onKeyDown(EventKeyboard::KeyCode, Event*);
+    void onKeyUp(EventKeyboard::KeyCode, Event*);
     
-    cocos2d::EventListenerKeyboard* keyListener;
+    EventListenerKeyboard* keyListener;
     std::map<Keys, std::function<void()>> onPressed;
     std::map<Keys, std::function<void()>> onReleased;
     
