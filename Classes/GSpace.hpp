@@ -35,6 +35,7 @@ public:
     
     void update();
     
+    GObject* getObjectByName(const string& name);
 
     static std::shared_ptr<cp::Body> createCircleBody(
         cp::Space& space,

@@ -23,6 +23,22 @@ void printGroup(TMXObjectGroup* group)
 
 void PlayScene::updateCamera(float dt)
 {
+    if(cameraTarget){
+        trackCameraTarget();
+    }
+    else{
+        applyCameraControls();
+    }
+}
+
+void PlayScene::trackCameraTarget()
+{
+    const cp::Vect& pos = cameraTarget->body->getPos();
+    setUnitPosition(pos);
+}
+
+void PlayScene::applyCameraControls()
+{
     KeyRegister* kr = app->keyRegister;
 
     Vec2 arrowState = kr->getArrowKeyState();

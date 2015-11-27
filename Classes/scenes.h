@@ -12,6 +12,19 @@
 class GScene : public Layer
 {
 public:
+    //The order of initialization events, as performed by GScene and it's various dervied classes.
+    enum initOrder{
+        //This includes all top-level GScene init, as well running Layer::init and Node::scheduleUpdate.
+        core = 1,
+        //Loading map objects if applicable
+        mapLoad,
+        //Running GSpace::loadAdditions, if applicable
+        loadObjects,
+        //Objects that wish to query the GSpace, including looking up other objects that are expected
+        //to be loaded.
+        postLoadObjects,
+    };
+
     typedef std::function<void () > AdapterType;
     //Map each class name to a constructor adapter function.
     static const std::map<std::string,AdapterType> adapters;
@@ -40,8 +53,8 @@ public:
     inline GScene()
     {
         //Updater has to be scheduled at init time.
-        multiInit += bind(&GScene::initUpdate,this);
-        
+        multiInit.insertWithOrder(bind(&GScene::initUpdate,this), initOrder::core);
+    
         crntScene = this;
     }
 
@@ -60,6 +73,9 @@ public:
     }
     
     void move(const Vec2& v);
+    //The different vector type is intentional, as Chipmunk vector implies
+    //unit space as opposed to pixel space.
+    void setUnitPosition(const cp::Vect& v);
     
     util::multifunction<void()> multiInit;
     util::multifunction<void(float)> multiUpdate;
@@ -75,6 +91,7 @@ class GSpaceScene : virtual public GScene
 public:
     inline GSpaceScene() : gspace(this)
     {
+        multiInit.insertWithOrder(bind(&GSpaceScene::processAdditions, this), initOrder::loadObjects);
         multiUpdate += bind(&GSpaceScene::updateSpace,this, placeholders::_1);
     }
 
@@ -84,6 +101,12 @@ public:
     {
         gspace.update();
     }
+    
+    //Process added objects so they are availible to anything that queries the GSpace.
+    //This is needed for any scene init code that wishes to access loaded objects.
+    inline void processAdditions(){
+        gspace.processAdditions();
+    }
 };
 
 class MapScene : virtual public GSpaceScene
@@ -91,7 +114,7 @@ class MapScene : virtual public GSpaceScene
 public:
     inline MapScene(const string& res) : mapRes(res)
     {
-        multiInit += bind(&MapScene::loadMap, this);
+        multiInit.insertWithOrder(bind(&MapScene::loadMap, this),initOrder::mapLoad);
     }
 protected:
     string mapRes;

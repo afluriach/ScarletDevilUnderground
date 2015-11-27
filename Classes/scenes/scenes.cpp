@@ -15,9 +15,6 @@ void MapScene::loadObjectGroup(TMXObjectGroup* group)
     const ValueVector& objects = group->getObjects();
     
     gspace.addObjects(objects);
-    //This isn't really necessary. If this is not added, nothing will happen the first frame
-    //since there will be no objects, and all objects will be added at the end of the first frame.
-    gspace.processAdditions();
 }
 
 void MapScene::loadMapObjects(const TMXTiledMap& map)
@@ -56,4 +53,9 @@ GSpace* GScene::getSpace()
 void GScene::move(const Vec2& v)
 {
     setPosition(getPositionX()-v.x, getPositionY()-v.y);
+}
+
+void GScene::setUnitPosition(const cp::Vect& v)
+{
+    setPosition(-App::pixelsPerTile*v.x+App::width/2, -App::pixelsPerTile*v.y+App::height/2);
 }

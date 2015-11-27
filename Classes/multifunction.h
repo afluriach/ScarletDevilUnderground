@@ -88,8 +88,39 @@ public:
     template <typename F>
     function_token operator +=(F listener) {
         listeners.push_back(listener);
+        orderTags.push_back(0);
         token_lookup.push_back(listeners.size() - 1);
         return function_token{token_lookup.size() - 1};
+    }
+
+    //Tag allows the call order to specified. Function will be inserted after any function with the same
+    //order tag, but before any with a larger tag.
+    template <typename F>
+    function_token insertWithOrder(F listener, int orderTag) {
+        long insertPos = -1;
+        
+        auto it1 = listeners.begin();
+        auto it2 = orderTags.begin();
+        for(; it1 != listeners.end(); ++it1, ++it2){
+            if(orderTag < *it2){
+                insertPos = it1 - listeners.begin();
+                
+                listeners.insert(it1, listener);
+                orderTags.insert(it2, orderTag);
+                
+                break;
+            }
+        }
+        
+        if(insertPos == -1){
+            //Insert at end.
+            insertPos = listeners.size();
+            listeners.push_back(listener);
+            orderTags.push_back(orderTag);
+        }
+    
+        token_lookup.push_back(insertPos);
+        return function_token{static_cast<unsigned long>(insertPos)};
     }
 
     void operator -=(function_token token) {
@@ -114,6 +145,7 @@ public:
 private:
 
     std::vector<std::function<R(Args...)>> listeners;
+    std::vector<int> orderTags;
     std::vector<std::size_t> token_lookup;
     static constexpr std::size_t NIL = -1;
 };
