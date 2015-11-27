@@ -88,7 +88,7 @@ bool isSelfCollideType(GType t)
     return GSpace::selfCollideTypes.find(t) != GSpace::selfCollideTypes.end();
 }
 
-void setShapeProperties(shared_ptr<cp::Shape> shape, int layers, GType type, bool sensor)
+void setShapeProperties(shared_ptr<Shape> shape, int layers, GType type, bool sensor)
 {
     shape->setLayers(layers);
     shape->setGroup(isSelfCollideType(type) ? 0 : type);
@@ -96,8 +96,8 @@ void setShapeProperties(shared_ptr<cp::Shape> shape, int layers, GType type, boo
     shape->setSensor(sensor);
 }
 
-shared_ptr<cp::Body> GSpace::createCircleBody(
-    cp::Space& space,
+shared_ptr<Body> GSpace::createCircleBody(
+    Space& space,
     const SpaceVect& center,
     float radius,
     float mass,
@@ -116,17 +116,17 @@ shared_ptr<cp::Body> GSpace::createCircleBody(
     if(radius == 0)
         log("createCircleBody: zero radius for %s.", obj->name.c_str());
     
-    shared_ptr<cp::Body> body;
+    shared_ptr<Body> body;
     if(mass < 0){
         body = space.staticBody;
     }
     else{
-        body = make_shared<cp::Body>(mass, circleMomentOfInertia(mass, radius));
+        body = make_shared<Body>(mass, circleMomentOfInertia(mass, radius));
         space.add(body);
     }
     body->setPos(center);
     
-    shared_ptr<cp::CircleShape> shape = make_shared<cp::CircleShape>(body, radius);
+    shared_ptr<CircleShape> shape = make_shared<CircleShape>(body, radius);
     shape->setBody(body);
     space.add(shape);
     
@@ -138,8 +138,8 @@ shared_ptr<cp::Body> GSpace::createCircleBody(
     return body;
 }
 
-shared_ptr<cp::Body> GSpace::createRectangleBody(
-    cp::Space& space,
+shared_ptr<Body> GSpace::createRectangleBody(
+    Space& space,
     const SpaceVect& center,
     const SpaceVect& dim,
     float mass,
@@ -161,17 +161,17 @@ shared_ptr<cp::Body> GSpace::createRectangleBody(
     if(dim.y == 0)
         log("createRectangleBody: zero height for %s.", obj->name.c_str());
     
-    shared_ptr<cp::Body> body;
+    shared_ptr<Body> body;
     if(mass < 0){
         body = space.staticBody;
     }
     else{
-        body = make_shared<cp::Body>(mass, rectagleMomentOfInteria(mass, dim));
+        body = make_shared<Body>(mass, rectagleMomentOfInteria(mass, dim));
         space.add(body);
     }
     body->setPos(center);
     
-    shared_ptr<cp::PolyShape> shape = cp::PolyShape::rectangle(body, dim);
+    shared_ptr<PolyShape> shape = PolyShape::rectangle(body, dim);
     shape->setBody(body);
     space.add(shape);
     

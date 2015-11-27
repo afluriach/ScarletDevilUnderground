@@ -37,8 +37,8 @@ public:
     
     GObject* getObjectByName(const string& name);
 
-    static shared_ptr<cp::Body> createCircleBody(
-        cp::Space& space,
+    static shared_ptr<Body> createCircleBody(
+        Space& space,
         const SpaceVect& center,
         float radius,
         float mass,
@@ -47,8 +47,8 @@ public:
         bool sensor,
         GObject* obj
     );
-    static shared_ptr<cp::Body> createRectangleBody(
-        cp::Space& space,
+    static shared_ptr<Body> createRectangleBody(
+        Space& space,
         const SpaceVect& center,
         const SpaceVect& dim,
         float mass,
@@ -58,7 +58,7 @@ public:
         GObject* obj
     );
 private:
-    cp::Space space;
+    Space space;
     //The graphics destination to use for all objects constructed in this space.
     Layer* graphicsLayer;
     

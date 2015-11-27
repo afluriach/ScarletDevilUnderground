@@ -37,6 +37,7 @@
 
 using namespace std;
 USING_NS_CC;
+using namespace cp;
 
 //app modules that are often used.
 #include "macros.h"

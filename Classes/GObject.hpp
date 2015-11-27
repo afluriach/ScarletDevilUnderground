@@ -29,7 +29,7 @@ public:
 
     const string name;
     
-    shared_ptr<cp::Body> body;
+    shared_ptr<Body> body;
     
     //Posiition where the object was loaded
     SpaceVect initialCenter;
@@ -47,7 +47,7 @@ public:
     }
     
     //Called before adding the the object to space.
-    virtual shared_ptr<cp::Body>initializeBody(cp::Space& space) = 0;
+    virtual shared_ptr<Body>initializeBody(Space& space) = 0;
     
     //Create Node which graphically reprensets this object and adds it to Layer
     virtual void initializeGraphics(Layer* layer) = 0;
@@ -92,7 +92,7 @@ class RectangleBody : public virtual PhysicsObject
 {
 public:
     //Create body and add it to space. This assumes BB is rectangle dimensions
-    virtual inline shared_ptr<cp::Body> initializeBody(cp::Space& space)
+    virtual inline shared_ptr<Body> initializeBody(Space& space)
     {
         body = GSpace::createRectangleBody(
             space,
@@ -130,7 +130,7 @@ public:
     virtual float getRadius() const = 0;
 
     //Create body and add it to space. This assumes BB is rectangle dimensions
-    virtual inline shared_ptr<cp::Body> initializeBody(cp::Space& space)
+    virtual inline shared_ptr<Body> initializeBody(Space& space)
     {
         body = GSpace::createCircleBody(
             space,
