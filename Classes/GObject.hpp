@@ -64,7 +64,7 @@ class RegisterInit : public virtual GObject
 public:
     inline RegisterInit(Derived* that)
     {
-        multiInit += std::bind(&Derived::init, that);
+        multiInit += bind(&Derived::init, that);
     }
 };
 
@@ -74,7 +74,7 @@ class RegisterUpdate : public virtual GObject
 public:
     inline RegisterUpdate(Derived* that)
     {
-        multiUpdate += std::bind(&Derived::update, that);
+        multiUpdate += bind(&Derived::update, that);
     }
 };
 

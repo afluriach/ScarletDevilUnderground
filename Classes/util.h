@@ -40,4 +40,17 @@ inline std::vector<std::string> splitString(const std::string& input,const std::
     return output;
 }
 
+//Bind this but not the explicit arguments.
+template<typename T, typename A1>
+function<void(A1)> bindMethod(void (T::* m)(A1), T* This)
+{
+    return bind(m, This, placeholders::_1);
+}
+
+template<typename T, typename A1, typename A2>
+function<void(A1,A2)> bindMethod(void (T::* m)(A1,A2), T* This)
+{
+    return bind(m, This, placeholders::_1, placeholders::_2);
+}
+
 #endif /* util_h */

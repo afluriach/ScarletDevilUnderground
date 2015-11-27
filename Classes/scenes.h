@@ -92,7 +92,7 @@ public:
     inline GSpaceScene() : gspace(this)
     {
         multiInit.insertWithOrder(bind(&GSpaceScene::processAdditions, this), initOrder::loadObjects);
-        multiUpdate += bind(&GSpaceScene::updateSpace,this, placeholders::_1);
+        multiUpdate += bindMethod(&GSpaceScene::updateSpace,this);
     }
 
     GSpace gspace;

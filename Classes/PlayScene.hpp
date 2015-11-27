@@ -18,7 +18,7 @@ public:
     inline PlayScene() : MapScene("maps/block_room.tmx")
     {
         multiInit.insertWithOrder(bind(&PlayScene::trackPlayer, this), initOrder::postLoadObjects);
-        multiUpdate += bind(&PlayScene::updateCamera, this, placeholders::_1);
+        multiUpdate += bindMethod(&PlayScene::updateCamera, this);
     }
     
     //set player object. should be post load object init

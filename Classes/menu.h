@@ -11,8 +11,6 @@
 
 #include "PlayScene.hpp"
 
-using namespace std::placeholders;
-
 class SceneSelect;
 
 class MenuLayer : public GScene

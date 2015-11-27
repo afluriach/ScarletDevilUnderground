@@ -39,7 +39,7 @@ bool Dialog::init()
     addChild(cursor,2);
     
     scheduleUpdate();
-    keyListener.addPressListener(Keys::action, std::bind(&Dialog::checkAdvanceFrame, this));
+    keyListener.addPressListener(Keys::action, bind(&Dialog::checkAdvanceFrame, this));
     
     return true;
 }

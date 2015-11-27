@@ -38,8 +38,8 @@ KeyRegister::KeyRegister()
     }
     
     keyListener = EventListenerKeyboard::create();
-    keyListener->onKeyPressed = std::bind(&KeyRegister::onKeyDown, this, placeholders::_1, placeholders::_2);
-    keyListener->onKeyReleased = std::bind(&KeyRegister::onKeyUp, this, placeholders::_1, placeholders::_2);
+    keyListener->onKeyPressed = bindMethod(&KeyRegister::onKeyDown, this);
+    keyListener->onKeyReleased = bindMethod(&KeyRegister::onKeyUp, this);
 
     Director::getInstance()->getEventDispatcher()->addEventListenerWithFixedPriority(keyListener, App::EventPriorities::KeyRegisterEvent);
 }
@@ -122,8 +122,8 @@ KeyListener::KeyListener(cocos2d::Node* node)
 void KeyListener::initListener()
 {
     keyListener = EventListenerKeyboard::create();
-    keyListener->onKeyPressed = std::bind(&KeyListener::onKeyDown, this, placeholders::_1, placeholders::_2);
-    keyListener->onKeyReleased = std::bind(&KeyListener::onKeyUp, this, placeholders::_1, placeholders::_2);
+    keyListener->onKeyPressed = bindMethod(&KeyListener::onKeyDown, this);
+    keyListener->onKeyReleased = bindMethod(&KeyListener::onKeyUp, this);
 }
 
 void KeyListener::onKeyDown(EventKeyboard::KeyCode code, Event* event)
