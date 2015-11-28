@@ -24,6 +24,12 @@ public:
         //to be loaded.
         postLoadObjects,
     };
+    
+    enum updateOrder{
+        //Update tick on GSpace and all objects, if applicable
+        spaceUpdate,
+        moveCamera,
+    };
 
     typedef function<void () > AdapterType;
     //Map each class name to a constructor adapter function.
@@ -62,12 +68,12 @@ public:
     inline GSpaceScene() : gspace(this)
     {
         multiInit.insertWithOrder(bind(&GSpaceScene::processAdditions, this), initOrder::loadObjects);
-        multiUpdate += bindMethod(&GSpaceScene::updateSpace,this);
+        multiUpdate.insertWithOrder(bind(&GSpaceScene::updateSpace,this), updateOrder::spaceUpdate);
     }
 
     GSpace gspace;
     
-    inline void updateSpace(float dt)
+    inline void updateSpace()
     {
         gspace.update();
     }

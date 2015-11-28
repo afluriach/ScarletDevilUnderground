@@ -18,7 +18,7 @@ public:
     inline PlayScene(const string& map) : MapScene(map)
     {
         multiInit.insertWithOrder(bind(&PlayScene::trackPlayer, this), initOrder::postLoadObjects);
-        multiUpdate += bindMethod(&PlayScene::updateCamera, this);
+        multiUpdate.insertWithOrder(bindMethod(&PlayScene::updateCamera, this), updateOrder::moveCamera);
     }
     
     //set player object. should be post load object init
