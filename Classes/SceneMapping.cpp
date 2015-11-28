@@ -8,6 +8,7 @@
 
 #include "Prefix.h"
 
+#include "Library.h"
 #include "LibraryOpening.h"
 #include "PlayScene.hpp"
 
@@ -22,6 +23,7 @@ GScene::AdapterType adapter()
 }
 
 const map<string,GScene::AdapterType> GScene::adapters = boost::assign::map_list_of
+    entry_same(Library)
     entry_same(LibraryOpening)
     entry_same(MapScene)
     entry_same(TitleMenu)

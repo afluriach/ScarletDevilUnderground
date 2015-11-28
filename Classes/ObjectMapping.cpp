@@ -10,6 +10,7 @@
 
 #include "Block.hpp"
 #include "Glyph.hpp"
+#include "Patchouli.hpp"
 #include "Player.hpp"
 
 //Adapters for mapping the name of a class to a factory adapter.
@@ -27,4 +28,5 @@ const map<string,GObject::AdapterType> GObject::adapters =
     boost::assign::map_list_of
     entry_same(Block)
     entry_same(Glyph)
+    entry_same(Patchouli)
     entry_same(Player);

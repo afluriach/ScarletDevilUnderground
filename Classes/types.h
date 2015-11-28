@@ -28,6 +28,7 @@ enum GraphicsLayer{
 enum GType{
     player=1,
     playerBullet,
+    enemy,
     environment
 };
 
