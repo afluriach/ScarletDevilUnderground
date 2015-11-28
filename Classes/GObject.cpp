@@ -69,6 +69,31 @@ void SpriteObject::update()
     }
 }
 
+void LoopAnimationSprite::initializeGraphics(Layer* layer)
+{
+    anim = TimedLoopAnimation::create();
+    anim->loadAnimation(animationName(), animationSize(), animationDuration());
+    
+    layer->addChild(anim, GraphicsLayer::ground);
+    sprite = anim;
+}
+
+void PatchConSprite::initializeGraphics(Layer* layer)
+{
+    animSprite = PatchConAnimation::create();
+    animSprite->loadAnimation(imageSpritePath());
+    layer->positionAndAddNode(animSprite, sceneLayer(), getInitialCenterPix());
+    sprite = animSprite;
+}
+
+void PatchConSprite::update()
+{
+    SpaceVect dist = body->getVel()*App::secondsPerFrame;
+    
+    animSprite->accumulate(dist.length());
+}
+
+
 Vec2 GObject::getInitialCenterPix()
 {
     SpaceVect centerPix(initialCenter);

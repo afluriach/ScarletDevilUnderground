@@ -32,51 +32,17 @@ protected:
     bool upHeld = false;
     bool downHeld = false;
     
-    inline TextListMenuLayer(
+    TextListMenuLayer(
         const string& title,
         const vector<string>& options,
         const vector<function<void()>>& optionActions
-    ) :
-    title(title),
-    options(options),
-    optionActions(optionActions) {}
+    );
     
-    inline void upPressed()
-    {
-        upHeld = true;
-        if(downHeld) return;
-        
-        --selected;
-        if(selected < 0)
-            selected += options.size();
-
-        updateCursor();
-    }
-    inline void downPressed()
-    {
-        downHeld = true;
-        if(upHeld) return;
-        
-        ++selected;
-        if(selected >= options.size())
-            selected = 0;
-        
-        updateCursor();
-    }
-    inline void selectPressed()
-    {
-        optionActions[selected]();
-    }
-    
-    inline void upReleased()
-    {
-        upHeld = false;
-    }
-    inline void downReleased()
-    {
-        downHeld = false;
-    }
-    
+    void upPressed();
+    void downPressed();
+    void selectPressed();
+    void upReleased();
+    void downReleased();
 
 private:
     KeyListener* keyListener;
@@ -114,28 +80,11 @@ public:
     CREATE_FUNC(TitleMenu);
     
 protected:
-    inline TitleMenu() : TextListMenuLayer(
-        App::title,
-        list_of_typed( ("Start")("Scene Select")("Exit"), vector<string>),
-        list_of_typed( (start)(sceneSelect)(exit), vector<function<void()>>)
-    )
-    {}
-                                  
+    TitleMenu();
 private:
-    static inline void start()
-    {
-        app->pushScene<BlockScene>();
-    }
-    
-    static inline void sceneSelect()
-    {
-        app->pushScene<SceneSelect>();
-    }
-    
-    static inline void exit()
-    {
-        app->end();
-    }
+    static void start();
+    static void sceneSelect();
+    static void exit();
 };
 
 class SceneSelect : public TextListMenuLayer

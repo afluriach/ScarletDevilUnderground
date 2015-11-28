@@ -18,7 +18,7 @@ public:
     GObject(const ValueMap& args);
     GObject(const string& name, const SpaceVect& pos);
     
-    virtual ~GObject() {}
+    inline virtual ~GObject() {}
     
     //Map each class name to a constructor adapter function.
     static const map<string,AdapterType> adapters;
@@ -179,14 +179,7 @@ public:
     virtual int animationSize() const = 0;
     virtual float animationDuration() const = 0;
     
-    virtual void initializeGraphics(Layer* layer)
-    {
-        anim = TimedLoopAnimation::create();
-        anim->loadAnimation(animationName(), animationSize(), animationDuration());
-        
-        layer->addChild(anim, GraphicsLayer::ground);
-        sprite = anim;
-    }
+    virtual void initializeGraphics(Layer* layer);
     inline void update()
     {
         anim->update();
@@ -202,20 +195,8 @@ public:
     virtual string imageSpritePath() const = 0;
     virtual GraphicsLayer sceneLayer() const = 0;
     
-    inline void initializeGraphics(Layer* layer)
-    {
-        animSprite = PatchConAnimation::create();
-        animSprite->loadAnimation(imageSpritePath());
-        layer->positionAndAddNode(animSprite, sceneLayer(), getInitialCenterPix());
-        sprite = animSprite;
-    }
-    
-    inline void update()
-    {
-        SpaceVect dist = body->getVel()*App::secondsPerFrame;
-        
-        animSprite->accumulate(dist.length());
-    }
+    void initializeGraphics(Layer* layer);
+    void update();
 protected:
     PatchConAnimation* animSprite;
 };

@@ -31,46 +31,16 @@ public:
     
     static GScene* crntScene;
 
-    static inline void runScene(const string& name)
-    {
-        auto it = adapters.find(name);
-        
-        if(it == adapters.end()){
-            throw runtime_error("runScene: " + name + " not found.");
-        }
-        else
-        {
-            it->second();
-        }
-    }
-    
+    static void runScene(const string& name);
     //Get gspace if this scene is a space scene, null otherwise.
     static GSpace* getSpace();
 
 //Rather than managing overrides to the init method, a scene simply registers their own.
 //Init methods must be installed at construction time.
 
-    inline GScene()
-    {
-        //Updater has to be scheduled at init time.
-        multiInit.insertWithOrder(bind(&GScene::initUpdate,this), initOrder::core);
-    
-        crntScene = this;
-    }
-
-    inline virtual bool init()
-    {
-        Layer::init();
-        
-        multiInit();
-        
-        return true;
-    }
-    
-    inline virtual void update(float dt)
-    {
-        multiUpdate(dt);
-    }
+    GScene();
+    bool init();
+    void update(float dt);
     
     void move(const Vec2& v);
     //The different vector type is intentional, as Chipmunk vector implies

@@ -40,22 +40,13 @@ protected:
 class DiamondCursor : public Cursor
 {
 public:
-    inline virtual void onEnter()
-    {
-        Cursor::onEnter();
-        drawNode->setRotation(45);
-        setScaleY(ratio);
-    }
+    virtual void onEnter();
     CREATE_FUNC(DiamondCursor);
 protected:
     //Y scale.
     const float ratio = 1.5;
 
-    virtual inline void drawShape()
-    {
-        drawNode->clear();
-        drawNode->drawSolidRect(Vec2(-halfSize,-halfSize), Vec2(halfSize,halfSize), colors[crntColor]);
-    }
+    virtual void drawShape();
 };
 
 class DownTriangleCursor : public Cursor
@@ -63,16 +54,7 @@ class DownTriangleCursor : public Cursor
 public:
     CREATE_FUNC(DownTriangleCursor);
 protected:
-    virtual inline void drawShape()
-    {
-        drawNode->clear();
-        
-        Vec2 left(-halfSize,halfSize);
-        Vec2 right(halfSize,halfSize);
-        Vec2 bottom(0,-halfSize);
-        
-        drawNode->drawTriangle(left,right,bottom,colors[crntColor]);
-    }
+    virtual void drawShape();
 };
 
 cocos2d::Size getScreenSize();

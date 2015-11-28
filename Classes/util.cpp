@@ -66,3 +66,21 @@ Sprite* loadImageSprite(const string& resPath, GraphicsLayer sceneLayer, Layer* 
 
     return node;
 }
+
+string getRealPath(const string& path)
+{
+    return FileUtils::getInstance()->fullPathForFilename(path);
+}
+
+string loadTextFile(const string& res)
+{
+    return FileUtils::getInstance()->getStringFromFile(res);
+}
+
+vector<string> splitString(const string& input,const string& sep)
+{
+    vector<string> output;
+    boost::split(output, input,boost::is_any_of(sep));
+    return output;
+}
+

@@ -12,6 +12,53 @@
 #include "BlockScene.h"
 #include "LibraryOpening.h"
 
+TextListMenuLayer::TextListMenuLayer(
+    const string& title,
+    const vector<string>& options,
+    const vector<function<void()>>& optionActions
+) :
+title(title),
+options(options),
+optionActions(optionActions) {}
+
+void TextListMenuLayer::upPressed()
+{
+    upHeld = true;
+    if(downHeld) return;
+    
+    --selected;
+    if(selected < 0)
+        selected += options.size();
+
+    updateCursor();
+}
+
+void TextListMenuLayer::downPressed()
+{
+    downHeld = true;
+    if(upHeld) return;
+    
+    ++selected;
+    if(selected >= options.size())
+        selected = 0;
+    
+    updateCursor();
+}
+void TextListMenuLayer::selectPressed()
+{
+    optionActions[selected]();
+}
+
+void TextListMenuLayer::upReleased()
+{
+    upHeld = false;
+}
+void TextListMenuLayer::downReleased()
+{
+    downHeld = false;
+}
+
+
 const vector<string> SceneSelect::sceneTitles = list_of_typed(
     ("Block Scene")
     ("Library Opening")
@@ -81,3 +128,26 @@ bool TextListMenuLayer::init()
     
     return true;
 }
+
+TitleMenu::TitleMenu() : TextListMenuLayer(
+        App::title,
+        list_of_typed( ("Start")("Scene Select")("Exit"), vector<string>),
+        list_of_typed( (start)(sceneSelect)(exit), vector<function<void()>>)
+)
+{}
+                                  
+void TitleMenu::start()
+{
+    app->pushScene<BlockScene>();
+}
+
+void TitleMenu::sceneSelect()
+{
+    app->pushScene<SceneSelect>();
+}
+
+void TitleMenu::exit()
+{
+    app->end();
+}
+

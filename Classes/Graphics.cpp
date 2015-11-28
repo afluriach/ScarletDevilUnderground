@@ -64,3 +64,28 @@ void Cursor::reset()
     expanding = false;
     drawShape();
 }
+
+void DiamondCursor::onEnter()
+{
+    Cursor::onEnter();
+    drawNode->setRotation(45);
+    setScaleY(ratio);
+}
+
+void DiamondCursor::drawShape()
+{
+    drawNode->clear();
+    drawNode->drawSolidRect(Vec2(-halfSize,-halfSize), Vec2(halfSize,halfSize), colors[crntColor]);
+}
+
+void DownTriangleCursor::drawShape()
+{
+    drawNode->clear();
+    
+    Vec2 left(-halfSize,halfSize);
+    Vec2 right(halfSize,halfSize);
+    Vec2 bottom(0,-halfSize);
+    
+    drawNode->drawTriangle(left,right,bottom,colors[crntColor]);
+}
+

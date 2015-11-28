@@ -63,16 +63,7 @@ public:
     
     CREATE_FUNC(PatchConAnimation);
     
-    inline void loadAnimation(const string& path)
-    {
-        sequence = AnimationSpriteSequence::loadFromRasterImage(path,4,4);
-        
-        sprite = Sprite::createWithSpriteFrame(sequence->frames.at(0));
-        sprite->setScale(zoom);
-        addChild(sprite,1);
-        sprite->useAntiAliasTexture(false);
-    }
-    
+    void loadAnimation(const string& path);    
     void accumulate(float dx);
     
     //Reset to standing. Implicitly removes run effect.

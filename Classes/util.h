@@ -23,22 +23,9 @@ float getFloat(const ValueMap& obj, const string& name);
 
 Sprite* loadImageSprite(const string& resPath, GraphicsLayer sceneLayer, Layer* dest, const Vec2& pos);
 
-inline string getRealPath(const string& path)
-{
-    return FileUtils::getInstance()->fullPathForFilename(path);
-}
-
-inline string loadTextFile(const string& res)
-{
-    return FileUtils::getInstance()->getStringFromFile(res);
-}
-
-inline vector<string> splitString(const string& input,const string& sep)
-{
-    vector<string> output;
-    boost::split(output, input,boost::is_any_of(sep));
-    return output;
-}
+string getRealPath(const string& path);
+string loadTextFile(const string& res);
+vector<string> splitString(const string& input,const string& sep);
 
 //Bind this but not the explicit arguments.
 template<typename T, typename A1>

@@ -10,6 +10,42 @@
 
 GScene* GScene::crntScene;
 
+void GScene::runScene(const string& name)
+{
+    auto it = adapters.find(name);
+    
+    if(it == adapters.end()){
+        throw runtime_error("runScene: " + name + " not found.");
+    }
+    else
+    {
+        it->second();
+    }
+}
+
+GScene::GScene()
+{
+    //Updater has to be scheduled at init time.
+    multiInit.insertWithOrder(bind(&GScene::initUpdate,this), initOrder::core);
+
+    crntScene = this;
+}
+
+bool GScene::init()
+{
+    Layer::init();
+    
+    multiInit();
+    
+    return true;
+}
+
+void GScene::update(float dt)
+{
+    multiUpdate(dt);
+}
+
+
 void MapScene::loadObjectGroup(TMXObjectGroup* group)
 {
     const ValueVector& objects = group->getObjects();
