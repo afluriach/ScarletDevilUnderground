@@ -150,6 +150,8 @@ class SpriteObject : public virtual GObject, RegisterUpdate<SpriteObject>
 {
 public:
     inline SpriteObject() : RegisterUpdate(this) {}
+    
+    virtual GraphicsLayer sceneLayer() const = 0;
 
     void update();
     Node* sprite;
@@ -161,11 +163,10 @@ class ImageSprite : public virtual SpriteObject
 {
 public:
     virtual string imageSpritePath() const = 0;
-    virtual GraphicsLayer sceneLayer() const = 0;
     void loadImageSprite(const string& resPath, GraphicsLayer sceneLayer, Layer* dest);
     inline void initializeGraphics(Layer* layer)
     {
-        loadImageSprite(imageSpritePath(), GraphicsLayer::ground, layer);
+        loadImageSprite(imageSpritePath(), sceneLayer(), layer);
     }
 };
 

@@ -74,7 +74,7 @@ void LoopAnimationSprite::initializeGraphics(Layer* layer)
     anim = TimedLoopAnimation::create();
     anim->loadAnimation(animationName(), animationSize(), animationDuration());
     
-    layer->addChild(anim, GraphicsLayer::ground);
+    layer->positionAndAddNode(anim, sceneLayer(), getInitialCenterPix());
     sprite = anim;
 }
 
