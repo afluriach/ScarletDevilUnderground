@@ -9,6 +9,8 @@
 #ifndef Prefix_h
 #define Prefix_h
 
+//External includes should also be copied to build specific PCH.
+
 //C standard libraries
 #include <algorithm>
 #include <cmath>

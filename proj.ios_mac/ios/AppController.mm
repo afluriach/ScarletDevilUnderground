@@ -22,10 +22,9 @@
  THE SOFTWARE.
  ****************************************************************************/
 
+#include "Prefix.h"
 #import "AppController.h"
 #import "platform/ios/CCEAGLView-ios.h"
-#import "cocos2d.h"
-#import "App.h"
 #import "RootViewController.h"
 
 @implementation AppController
