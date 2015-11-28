@@ -18,10 +18,12 @@ public:
         
     CREATE_FUNC(LibraryOpening);
     
-    inline virtual bool init()
+    inline LibraryOpening(){
+        multiInit += bind(&LibraryOpening::start, this);
+    }
+    
+    inline void start()
     {
-        Layer::init();
-        
         Sprite* background = Sprite::create("portraits/library1.png");
         background->setScale(0.2);
         background->setPosition(App::getScreenCenter());
@@ -31,8 +33,6 @@ public:
         dialogNode->setDialog("dialogs/library_opening");
         dialogNode->setPosition(dialogPosition());
         getLayer(sceneLayers::dialogLayer)->addChild(dialogNode);
-
-        return true;
     }
     
     inline Vec2 dialogPosition()
