@@ -152,6 +152,7 @@ public:
     inline SpriteObject() : RegisterUpdate(this) {}
     
     virtual GraphicsLayer sceneLayer() const = 0;
+    inline virtual float zoom() const {return 1;}
 
     void update();
     Node* sprite;
@@ -192,9 +193,13 @@ protected:
 class PatchConSprite : virtual public SpriteObject, RegisterUpdate<PatchConSprite>
 {
 public:
+    static const int pixelWidth = 32;
+
     inline PatchConSprite() : RegisterUpdate<PatchConSprite>(this ) {}
     virtual string imageSpritePath() const = 0;
     virtual GraphicsLayer sceneLayer() const = 0;
+    
+    inline float zoom() const {return App::pixelsPerTile / pixelWidth;}
     
     void initializeGraphics(Layer* layer);
     void update();

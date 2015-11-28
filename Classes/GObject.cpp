@@ -74,7 +74,7 @@ void LoopAnimationSprite::initializeGraphics(Layer* layer)
     anim = TimedLoopAnimation::create();
     anim->loadAnimation(animationName(), animationSize(), animationDuration());
     
-    layer->positionAndAddNode(anim, sceneLayer(), getInitialCenterPix());
+    layer->positionAndAddNode(anim, sceneLayer(), getInitialCenterPix(), zoom());
     sprite = anim;
 }
 
@@ -82,7 +82,7 @@ void PatchConSprite::initializeGraphics(Layer* layer)
 {
     animSprite = PatchConAnimation::create();
     animSprite->loadAnimation(imageSpritePath());
-    layer->positionAndAddNode(animSprite, sceneLayer(), getInitialCenterPix());
+    layer->positionAndAddNode(animSprite, sceneLayer(), getInitialCenterPix(), zoom());
     sprite = animSprite;
 }
 
@@ -110,7 +110,7 @@ SpaceVect RectangleMapBody::getDimensionsFromMap(const ValueMap& arg)
 void ImageSprite::loadImageSprite(const string& resPath, GraphicsLayer sceneLayer, Layer* dest)
 {
     Vec2 centerPix = getInitialCenterPix();
-    sprite = ::loadImageSprite(resPath,sceneLayer,dest, centerPix);
+    sprite = ::loadImageSprite(resPath,sceneLayer,dest, centerPix, zoom());
     
     if(sprite == nullptr)
         log("%s sprite not loaded", name.c_str());

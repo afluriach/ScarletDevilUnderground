@@ -21,7 +21,7 @@ Scene* crntScene();
 void printValueMap(const ValueMap& obj);
 float getFloat(const ValueMap& obj, const string& name);
 
-Sprite* loadImageSprite(const string& resPath, GraphicsLayer sceneLayer, Layer* dest, const Vec2& pos);
+Sprite* loadImageSprite(const string& resPath, GraphicsLayer sceneLayer, Layer* dest, const Vec2& pos, float zoom);
 
 string getRealPath(const string& path);
 string loadTextFile(const string& res);

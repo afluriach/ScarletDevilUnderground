@@ -54,9 +54,6 @@ protected:
 //Can go for a running effect by omitting the middle frame.
 class PatchConAnimation : public GAnimation {
 public:
-    static const int pixelWidth = 32;
-    static constexpr int zoom = App::pixelsPerTile / pixelWidth;
-    
     //One pace is 1 unit, with the middle state representing a small distance between steps.
     static constexpr float stepSize = 0.3;
     static constexpr float midstepSize = 0.15;

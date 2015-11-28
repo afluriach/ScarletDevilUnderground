@@ -92,9 +92,10 @@ Layer *Layer::create()
     }
 }
 
-void Layer::positionAndAddNode(Node* node, int zLayer, const Vec2& pos)
+void Layer::positionAndAddNode(Node* node, int zLayer, const Vec2& pos, float zoom)
 {
     node->setPosition(pos);
+    node->setScale(zoom);
     addChild(node, zLayer);
 }
 

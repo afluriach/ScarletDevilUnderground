@@ -55,12 +55,12 @@ SpaceVect toChipmunk(const Vec2& rhs)
     return SpaceVect(expand_vector2(rhs));
 }
 
-Sprite* loadImageSprite(const string& resPath, GraphicsLayer sceneLayer, Layer* dest, const Vec2& pos)
+Sprite* loadImageSprite(const string& resPath, GraphicsLayer sceneLayer, Layer* dest, const Vec2& pos, float zoom)
 {
     Sprite* node = Sprite::create(resPath);
     
     if(node)
-        dest->positionAndAddNode(node,sceneLayer,pos);
+        dest->positionAndAddNode(node,sceneLayer,pos, zoom);
     else
         log("loadImageSprite: sprite %s not loaded", resPath.c_str());
 
