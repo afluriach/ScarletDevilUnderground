@@ -51,6 +51,51 @@ shared_ptr<AnimationSpriteSequence> AnimationSpriteSequence::loadFromRasterImage
     return make_shared<AnimationSpriteSequence>(frames);
 }
 
+shared_ptr<AnimationSpriteSequence> AnimationSpriteSequence::loadFromImageSequence(const string& name, int length)
+{
+    Vector<SpriteFrame*> frames;
+    
+    for(int i=1; i<= length; ++i)
+    {
+        string path = "sprites/" + name + boost::lexical_cast<string>(i) + ".png";
+        
+        if(!FileUtils::getInstance()->isFileExist(path)){
+            log("loadFromImageSequence: %s not found", path.c_str());
+            return nullptr;
+        }
+        
+        frames.pushBack(Sprite::create(path)->getSpriteFrame());
+    }
+    
+    return make_shared<AnimationSpriteSequence>(frames);
+}
+
+void TimedLoopAnimation::loadAnimation(const string& name, int length, float animationInterval)
+{
+    setName("TimedLoopAnimation");
+    sequence = AnimationSpriteSequence::loadFromImageSequence(name, length);
+    frameInterval = animationInterval / length;
+    
+    sprite = Sprite::createWithSpriteFrame(sequence->frames.at(0));
+    sprite->setName("TimedLoopAnimation sprite");
+    addChild(sprite,1);
+}
+
+void TimedLoopAnimation::update()
+{
+    timeInFrame += App::secondsPerFrame;
+    
+    while(timeInFrame >= frameInterval){
+        ++crntFrame;
+        timeInFrame -= frameInterval;
+        if(crntFrame >= sequence->frames.size()){
+            crntFrame = 0;
+        }
+    }
+    
+    sprite->setSpriteFrame(sequence->frames.at(crntFrame));
+}
+
 void PatchConAnimation::accumulate(float dx)
 {
     distanceAccumulated += dx;

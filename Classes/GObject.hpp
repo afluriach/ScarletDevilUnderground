@@ -169,6 +169,32 @@ public:
     }
 };
 
+class LoopAnimationSprite : public virtual SpriteObject, RegisterUpdate<LoopAnimationSprite>
+{
+public:
+    inline LoopAnimationSprite() : RegisterUpdate<LoopAnimationSprite>(this){
+    }
+
+    virtual string animationName() const = 0;
+    virtual int animationSize() const = 0;
+    virtual float animationDuration() const = 0;
+    
+    virtual void initializeGraphics(Layer* layer)
+    {
+        anim = TimedLoopAnimation::create();
+        anim->loadAnimation(animationName(), animationSize(), animationDuration());
+        
+        layer->addChild(anim, GraphicsLayer::ground);
+        sprite = anim;
+    }
+    inline void update()
+    {
+        anim->update();
+    }
+protected:
+    TimedLoopAnimation* anim;
+};
+
 class PatchConSprite : virtual public SpriteObject, RegisterUpdate<PatchConSprite>
 {
 public:

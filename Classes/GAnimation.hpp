@@ -21,6 +21,7 @@ class AnimationSpriteSequence
 {
 public:
     static shared_ptr<AnimationSpriteSequence> loadFromRasterImage(const string& path, int cols, int rows);
+    static shared_ptr<AnimationSpriteSequence> loadFromImageSequence(const string& name, int length);
     
     inline AnimationSpriteSequence(Vector<SpriteFrame*> frames) : frames(frames) {}
     //Use cocos vector to manage object lifecycle.
@@ -29,6 +30,24 @@ public:
 
 class GAnimation : public Node
 {
+};
+
+class TimedAnimation : GAnimation{
+public:
+    virtual void update() = 0;
+};
+
+class TimedLoopAnimation : public GAnimation {
+public:
+   CREATE_FUNC(TimedLoopAnimation);
+   void loadAnimation(const string& name, int length, float animationInterval);
+   void update();
+protected:
+    shared_ptr<AnimationSpriteSequence> sequence;
+    float frameInterval;
+    float timeInFrame = 0;
+    int crntFrame = 0;
+    Sprite* sprite;
 };
 
 //Sprite frames are loaded raster order. So all directions are encompassed with a single sprite frame set.

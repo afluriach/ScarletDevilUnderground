@@ -35,4 +35,27 @@ protected:
     float angle;
 };
 
+class PatchouliFireBullet : virtual public Bullet, public LoopAnimationSprite
+{
+public:
+    static constexpr float speed = 6;
+
+    inline PatchouliFireBullet(float angle, const SpaceVect& pos) : angle(angle), GObject("patchouliFireBullet", pos) {
+        multiInit += bind(&PatchouliFireBullet::init, this);
+    }
+
+    virtual string animationName() const {return "patchouli_fire";}
+    virtual int animationSize() const {return 5;}
+    virtual float animationDuration() const {return 0.3;}
+
+    virtual inline GraphicsLayer sceneLayer() const {return GraphicsLayer::ground;}
+    
+    virtual inline GType getType() const {return GType::enemyBullet;}
+    virtual inline float getRadius() const {return 0.3;}
+    
+    void init();
+protected:
+    float angle;
+};
+
 #endif /* Bullet_hpp */

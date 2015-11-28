@@ -29,6 +29,7 @@ enum GType{
     player=1,
     playerBullet,
     enemy,
+    enemyBullet,
     environment
 };
 
