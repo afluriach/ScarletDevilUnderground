@@ -59,8 +59,6 @@
 		D6B0611B1803AB670077942B /* CoreMotion.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D6B0611A1803AB670077942B /* CoreMotion.framework */; };
 		E20328D51BE082970069B322 /* sprites in Resources */ = {isa = PBXBuildFile; fileRef = E20328D41BE082970069B322 /* sprites */; };
 		E20328D61BE082970069B322 /* sprites in Resources */ = {isa = PBXBuildFile; fileRef = E20328D41BE082970069B322 /* sprites */; };
-		E2080BC41C0047A700EB78DF /* liblua.a in Frameworks */ = {isa = PBXBuildFile; fileRef = E2080BC31C0047A700EB78DF /* liblua.a */; };
-		E2080BC51C0047BB00EB78DF /* liblua.a in Frameworks */ = {isa = PBXBuildFile; fileRef = E2080BC31C0047A700EB78DF /* liblua.a */; };
 		E2080BC61C0047EB00EB78DF /* libchipmunk++.a in Frameworks */ = {isa = PBXBuildFile; fileRef = E27E85771BE016BB00A94217 /* libchipmunk++.a */; };
 		E2080BC91C00486000EB78DF /* LuaAPI.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E2080BC71C00486000EB78DF /* LuaAPI.cpp */; };
 		E2080BCA1C00486000EB78DF /* LuaAPI.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E2080BC71C00486000EB78DF /* LuaAPI.cpp */; };
@@ -253,7 +251,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				E2080BC61C0047EB00EB78DF /* libchipmunk++.a in Frameworks */,
-				E2080BC41C0047A700EB78DF /* liblua.a in Frameworks */,
 				52B47A471A53D09C004E4C60 /* Security.framework in Frameworks */,
 				1AC6FB30180E99EB004C840B /* libcocos2d iOS.a in Frameworks */,
 				D6B0611B1803AB670077942B /* CoreMotion.framework in Frameworks */,
@@ -273,7 +270,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				E2080BC51C0047BB00EB78DF /* liblua.a in Frameworks */,
 				E27E85781BE016BB00A94217 /* libchipmunk++.a in Frameworks */,
 				1AC6FB21180E996B004C840B /* libcocos2d Mac.a in Frameworks */,
 				5087E76717EB910900C73F5D /* libz.dylib in Frameworks */,
@@ -879,8 +875,8 @@
 					"$(SRCROOT)/../cocos2d/external/chipmunk/include/chipmunk",
 					/Users/toni/dev/boost_1_59_0,
 					/Users/toni/dev/chipmunkpp/src/,
-					"/Users/toni/dev/lua-5.3.1/src/",
-					"/Users/toni/dev/LuaBridge/Source/LuaBridge/**",
+					"$(SRCROOT)/../cocos2d/lua",
+					"$(SRCROOT)/../cocos2d/LuaBridge/**",
 				);
 				MACOSX_DEPLOYMENT_TARGET = 10.7;
 				ONLY_ACTIVE_ARCH = YES;
@@ -914,8 +910,8 @@
 					"$(SRCROOT)/../cocos2d/external/chipmunk/include/chipmunk",
 					/Users/toni/dev/boost_1_59_0,
 					/Users/toni/dev/chipmunkpp/src/,
-					"/Users/toni/dev/lua-5.3.1/src/",
-					"/Users/toni/dev/LuaBridge/Source/LuaBridge/**",
+					"$(SRCROOT)/../cocos2d/lua",
+					"$(SRCROOT)/../cocos2d/LuaBridge/**",
 				);
 				MACOSX_DEPLOYMENT_TARGET = 10.7;
 				OTHER_CFLAGS = "-DNS_BLOCK_ASSERTIONS=1";
