@@ -87,7 +87,7 @@ bool TextListMenuLayer::init()
     titleLabel = Label::createWithSystemFont(title, titleFont, titleSize);
     
     titleLabel->setPosition(screenSize.width/2, screenSize.height - titleMargin);
-    addChild(titleLabel);
+    getLayer(sceneLayers::uiLayer)->addChild(titleLabel);
     
     log("added title: %s", title.c_str());
     
@@ -99,13 +99,13 @@ bool TextListMenuLayer::init()
         Label* label = Label::createWithSystemFont(labelText, menuItemFont, menuItemSize);
         menuItemLabels.push_back(label);
         label->setPosition(leftMargin + label->getContentSize().width/2, yPos);
-        addChild(label);
+        getLayer(sceneLayers::uiLayer)->addChild(label);
         
         log("added %s", labelText.c_str());
     }
     
     cursor = DiamondCursor::create();
-    addChild(cursor);
+    getLayer(sceneLayers::uiLayer)->addChild(cursor);
     cursor->setPositionX(leftMargin/2);
     updateCursor();
     

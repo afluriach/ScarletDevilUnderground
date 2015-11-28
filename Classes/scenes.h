@@ -30,6 +30,17 @@ public:
         spaceUpdate,
         moveCamera,
     };
+    
+    enum sceneLayers{
+        //Represents the world and objects in it (map and all gspace objects).
+        //GraphicsLayer is used for z-ordering inside of this layer.
+        //It is the only layer that moves with the camera
+        spaceLayer = 1,
+        dialogBackgroundLayer,
+        dialogLayer,
+        uiLayer,
+        nLayers
+    };
 
     typedef function<void () > AdapterType;
     //Map each class name to a constructor adapter function.
@@ -55,7 +66,20 @@ public:
     
     util::multifunction<void()> multiInit;
     util::multifunction<void(float)> multiUpdate;
+    
+    inline Layer* getLayer(sceneLayers layer){
+        auto it = layers.find(static_cast<int>(layer));
+        if(it == layers.end()) return nullptr;
+        return it->second;
+    }
+    
+    //Nodes should not be directly added to a GScene, but rather use one of the defined layers.
+    inline void addChild(Node* n, int z) {throw runtime_error("addChild: Node should not be added directly to GScene.");}
+    inline void addChild(Node* n) {throw runtime_error("addChild: Node should not be added directly to GScene.");};
+    
 private:
+    //Make sure to use a cocos map so cocos refcounting works.
+    cocos2d::Map<int,Layer*> layers;
     inline void initUpdate()
     {
         scheduleUpdate();
@@ -65,7 +89,7 @@ private:
 class GSpaceScene : virtual public GScene
 {
 public:
-    inline GSpaceScene() : gspace(this)
+    inline GSpaceScene() : gspace(getLayer(sceneLayers::spaceLayer))
     {
         multiInit.insertWithOrder(bind(&GSpaceScene::processAdditions, this), initOrder::loadObjects);
         multiUpdate.insertWithOrder(bind(&GSpaceScene::updateSpace,this), updateOrder::spaceUpdate);

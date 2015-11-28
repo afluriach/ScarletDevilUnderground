@@ -25,12 +25,12 @@ public:
         Sprite* background = Sprite::create("portraits/library1.png");
         background->setScale(0.2);
         background->setPosition(App::getScreenCenter());
-        addChild(background, 1);
+        getLayer(sceneLayers::dialogBackgroundLayer)->addChild(background);
         
         dialogNode = Dialog::create();
         dialogNode->setDialog("dialogs/library_opening");
         dialogNode->setPosition(dialogPosition());
-        addChild(dialogNode, 2);
+        getLayer(sceneLayers::dialogLayer)->addChild(dialogNode);
 
         return true;
     }

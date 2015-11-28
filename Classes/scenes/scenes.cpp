@@ -29,11 +29,23 @@ GScene::GScene()
     multiInit.insertWithOrder(bind(&GScene::initUpdate,this), initOrder::core);
 
     crntScene = this;
+    
+    //Create the sublayers at construction (so they are available to mixins at construction time).
+    //But do not add sublayers until init time.
+    for(int i=1; i<sceneLayers::nLayers; ++i){
+        Layer* l = Layer::create();
+        layers.insert(i, l);
+    }
 }
 
 bool GScene::init()
 {
     Layer::init();
+    
+    for(int i=1; i<sceneLayers::nLayers; ++i){
+        Layer* l = layers.at(i);
+        Node::addChild(l,i);
+    }
     
     multiInit();
     
@@ -74,7 +86,7 @@ void MapScene::loadMap()
     else
         log("Map %s not found.", mapRes.c_str());
     
-    addChild(tileMap, GraphicsLayer::map);
+    getLayer(sceneLayers::spaceLayer)->addChild(tileMap, GraphicsLayer::map);
     loadMapObjects(*tileMap);
 }
 
@@ -88,10 +100,10 @@ GSpace* GScene::getSpace()
 
 void GScene::move(const Vec2& v)
 {
-    setPosition(getPositionX()-v.x, getPositionY()-v.y);
+    getLayer(sceneLayers::spaceLayer)->setPosition(getPositionX()-v.x, getPositionY()-v.y);
 }
 
 void GScene::setUnitPosition(const SpaceVect& v)
 {
-    setPosition(-App::pixelsPerTile*v.x+App::width/2, -App::pixelsPerTile*v.y+App::height/2);
+    getLayer(sceneLayers::spaceLayer)->setPosition(-App::pixelsPerTile*v.x+App::width/2, -App::pixelsPerTile*v.y+App::height/2);
 }
