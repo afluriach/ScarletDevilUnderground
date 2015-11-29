@@ -122,6 +122,14 @@ namespace Lua{
             error(L, msg); \
             return 0; \
         }
+    #define NARGS int nArgs = lua_gettop(L);
+
+    char errorbuf[128];
+    #define check_args(name, target)         if(nArgs != target){ \
+            snprintf(errorbuf, 128, #name ": %d parameters required, %d found", target, nArgs); \
+            error(L, errorbuf); \
+            return 1; \
+        }
 
     float getFloat(LuaRef r)
     {
@@ -150,12 +158,8 @@ namespace Lua{
     int luaLog(lua_State* L)
     {
         //The first argument must be a string
-        int nArgs = lua_gettop(L);
-        
-        if(nArgs < 1){
-            error(L, "log: parameter required");
-            return 0;
-        }
+        NARGS
+        check_args(log, 1);
         
         if(!lua_isstring(L,1)){
             error(L, "log: first parameter must be string.");
@@ -170,16 +174,12 @@ namespace Lua{
     
     int createObject(lua_State* L)
     {
-        int nArgs = lua_gettop(L);
+        NARGS
+        check_args(createObject, 1)
         
         GSpace* space = GScene::getSpace();
         if(!space){
             error(L, "createObject: cannot create object in this scene.");
-            return 0;
-        }
-        
-        if(nArgs != 1){
-            error(L, "createObject: single table params required");
             return 0;
         }
         
@@ -231,12 +231,8 @@ namespace Lua{
     
     int removeObject(lua_State* L)
     {
-        int nArgs = lua_gettop(L);
-        
-        if(nArgs != 1){
-            error(L, "removeObject: single string required.");
-            return 0;
-        }
+        NARGS
+        check_args(removeObject, 1)
 
         LuaRef name(L);
         name.pop(L);
@@ -248,12 +244,8 @@ namespace Lua{
     
     int runScene(lua_State* L)
     {
-        int nArgs = lua_gettop(L);
-        
-        if(nArgs != 1){
-            error(L, "runScene: single string required.");
-            return 0;
-        }
+        NARGS
+        check_args(runScene, 1)
         
         LuaRef name(L);
         name.pop(L);
@@ -270,12 +262,8 @@ namespace Lua{
     
     int castSpell(lua_State* L)
     {
-        int nArgs = lua_gettop(L);
-        
-        if(nArgs != 2){
-            error(L, "castSpell: two strings required.");
-            return 0;
-        }
+        NARGS
+        check_args(castSpell, 2)
 
         LuaRef spell(L);
         spell.pop(L);
@@ -303,12 +291,8 @@ namespace Lua{
     
     int stopSpell(lua_State* L)
     {
-        int nArgs = lua_gettop(L);
-        
-        if(nArgs != 1){
-            error(L, "stopSpell: one string required.");
-            return 0;
-        }
+        NARGS
+        check_args(stopSpell, 1)
 
         LuaRef caster(L);
         caster.pop(L);
@@ -333,12 +317,8 @@ namespace Lua{
     
     int getObjectCount(lua_State* L)
     {
-        int nArgs = lua_gettop(L);
-        
-        if(nArgs != 0){
-            error(L, "getObjectCount: no argument expected.");
-            return 0;
-        }
+        NARGS
+        check_args(getObjectCount, 0)
 
         GSpace* space = GScene::getSpace();
         if(!space){
