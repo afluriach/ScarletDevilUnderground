@@ -194,9 +194,9 @@ void GSpace::processAdditions()
         
         auto name_it = objByName.find(obj->name);
         
-        if(!obj->name.empty() && name_it != objByName.end()){
-            log("processAdditions: duplicate object with name %s", obj->name.c_str());
-        }
+//        if(!obj->name.empty() && name_it != objByName.end()){
+//            log("processAdditions: duplicate object with name %s", obj->name.c_str());
+//        }
         objByName[obj->name] = obj;
         objByUUID[obj->uuid] = obj;
     }
@@ -221,6 +221,11 @@ void GSpace::removeObject(const string& name)
     toRemove.push_back(it->second);
 }
 
+void GSpace::removeObject(GObject* obj)
+{
+    toRemove.push_back(obj);
+}
+
 void GSpace::processRemovals()
 {
     BOOST_FOREACH(GObject* obj, toRemove){
@@ -232,4 +237,65 @@ void GSpace::processRemovals()
         delete obj;
     }
     toRemove.clear();
+}
+
+//Collision handlers
+//std::function<int(Arbiter, Space&)>
+
+#define OBJS_FROM_ARB \
+    GObject* a = static_cast<GObject*>(arb.getBodyA().getUserData()); \
+    GObject* b = static_cast<GObject*>(arb.getBodyB().getUserData());
+
+void logHandler(const string& base, Arbiter& arb)
+{
+    OBJS_FROM_ARB
+    
+    log("%s: %s, %s", base.c_str(), a->name.c_str(), b->name.c_str());
+}
+
+int playerEnemyBegin(Arbiter arb, Space& spacae)
+{
+    logHandler("playerEnemyBegin", arb);
+    return 1;
+}
+
+int playerEnemyEnd(Arbiter arb, Space& space)
+{
+    logHandler("playerEnemyEnd", arb);
+    return 1;
+}
+
+int playerEnemyBulletBegin(Arbiter arb, Space& spacae)
+{
+    OBJS_FROM_ARB
+    log("%s hit by %s", a->name.c_str(), b->name.c_str());
+    GScene::getSpace()->removeObject(b);
+    return 1;
+}
+
+int playerBulletEnemyBegin(Arbiter arb, Space& spacae)
+{
+    OBJS_FROM_ARB
+    log("%s hit by %s", b->name.c_str(), a->name.c_str());
+    GScene::getSpace()->removeObject(a);
+    return 1;
+}
+
+int playerBulletEnvironment(Arbiter arb, Space& space)
+{
+    OBJS_FROM_ARB
+    log("%s hit object %s",  a->name.c_str(), b->name.c_str());
+    GScene::getSpace()->removeObject(a);
+    return 1;
+}
+
+#define AddHandler(a,b,begin,end) \
+space.addCollisionHandler(GType::a, GType::b, begin, nullptr, nullptr, end);
+
+void GSpace::addCollisionHandlers()
+{
+    AddHandler(player, enemy, playerEnemyBegin, playerEnemyEnd)
+    AddHandler(player, enemyBullet, playerEnemyBulletBegin, nullptr)
+    AddHandler(playerBullet, enemy, playerBulletEnemyBegin, nullptr)
+    AddHandler(playerBullet, environment, playerBulletEnvironment, nullptr)
 }

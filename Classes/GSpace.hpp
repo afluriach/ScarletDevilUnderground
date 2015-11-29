@@ -26,6 +26,7 @@ public:
     inline GSpace(Layer* graphicsLayer) : graphicsLayer(graphicsLayer)
     {
         space.setGravity(SpaceVect(0,0));
+        addCollisionHandlers();
     }
 
     void addObject(const ValueMap& obj);
@@ -34,6 +35,7 @@ public:
     void processAdditions();
     
     void removeObject(const string& name);
+    void removeObject(GObject* obj);
     void processRemovals();
     
     void update();
@@ -78,6 +80,7 @@ private:
     vector<GObject*> toRemove;
     
     void initObjects();
+    void addCollisionHandlers();
 };
 
 #endif /* GSpace_hpp */
