@@ -11,6 +11,8 @@
 
 class GObject;
 
+#define STANDARD_CONS(name) inline name(GObject* caster) : Spell(caster) {}
+
 class Spell
 {
 public:
@@ -25,6 +27,16 @@ public:
     virtual void end() = 0;
 protected:
     GObject* caster;
+};
+
+class FlameFence : public Spell{
+public:
+    STANDARD_CONS(FlameFence)
+    void init();
+    void update();
+    void end();
+protected:
+    vector<GObject*> bullets;
 };
 
 class PeriodicSpell : virtual public Spell{

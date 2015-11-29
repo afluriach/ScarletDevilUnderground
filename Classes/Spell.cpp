@@ -23,3 +23,33 @@ void FireStarburst::runPeriodic()
         GScene::getSpace()->addObject(bullet);
     }
 }
+
+void FlameFence::init()
+{
+    SpaceVect center = caster->body->getPos();
+    
+    for(int y = -10; y < 10; y += 2)
+    {
+        SpaceVect rowSkew(y % 2 ? 0.5 : 0, 0);
+        for(int x = -10; x < 10; x += 2)
+        {
+            SpaceVect pos(center);
+            pos += SpaceVect(x,y) + rowSkew;
+            
+            StationaryFireBullet* bullet = new StationaryFireBullet(pos);
+            bullets.push_back(bullet);
+            GScene::getSpace()->addObject(bullet);
+        }
+    }
+}
+
+void FlameFence::update()
+{
+}
+
+void FlameFence::end()
+{
+    foreach(GObject* bullet, bullets){
+        GScene::getSpace()->removeObject(bullet);
+    }
+}
