@@ -63,4 +63,10 @@ namespace cp {
 	void Body::setUserData(DataPointer p) {
 		cpBodySetUserData(body, p);
 	}
+    void Body::removeShapes(Space& space){
+        for(auto it=shapes.begin(); it != shapes.end(); ++it){
+            space.remove(*it);
+        }
+    }
+
 }

@@ -134,6 +134,7 @@ shared_ptr<Body> GSpace::createCircleBody(
     
     shape->setUserData(obj);
     body->setUserData(obj);
+    body->addShape(shape);
     
     return body;
 }
@@ -179,6 +180,7 @@ shared_ptr<Body> GSpace::createRectangleBody(
     
     shape->setUserData(obj);
     body->setUserData(obj);
+    body->addShape(shape);
     
     return body;
 }
@@ -224,7 +226,9 @@ void GSpace::processRemovals()
     BOOST_FOREACH(GObject* obj, toRemove){
         objByName.erase(obj->name);
         objByUUID.erase(obj->uuid);
+        obj->body->removeShapes(space);
         space.remove(obj->body);
+
         delete obj;
     }
     toRemove.clear();

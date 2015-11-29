@@ -1,6 +1,7 @@
 #pragma once
 
 #include "vect.hpp"
+#include "space.hpp"
 
 #include <chipmunk.h>
 
@@ -41,7 +42,16 @@ namespace cp {
 
 		DataPointer getUserData() const;
 		void setUserData(DataPointer);
+        
+        inline void addShape(std::shared_ptr<Shape> shape){
+            shapes.push_back(shape);
+        }
+        
+        void remove(Space& space);
+        void removeShapes(Space& space);
+        
 	private:
+        std::vector<std::shared_ptr<Shape>> shapes;
 		Body(const Body&);
 		const Body& operator=(const Body&);
 		cpBody* body;
