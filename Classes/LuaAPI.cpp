@@ -331,13 +331,15 @@ namespace Lua{
         return 0;
     }
     
+    #define install(name) installFunction(name, #name)
+    
     void Inst::installApi()
     {
         installFunction(luaLog,"log");
-        installFunction(createObject,"createObject");
-        installFunction(runScene,"runScene");
-        installFunction(removeObject, "removeObject");
-        installFunction(castSpell, "castSpell");
-        installFunction(stopSpell, "stopSpell");
+        install(createObject);
+        install(runScene);
+        install(removeObject);
+        install(castSpell);
+        install(stopSpell);
     }
 }
