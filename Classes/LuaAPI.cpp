@@ -331,6 +331,26 @@ namespace Lua{
         return 0;
     }
     
+    int getObjectCount(lua_State* L)
+    {
+        int nArgs = lua_gettop(L);
+        
+        if(nArgs != 0){
+            error(L, "getObjectCount: no argument expected.");
+            return 0;
+        }
+
+        GSpace* space = GScene::getSpace();
+        if(!space){
+            log("getObjectCount: cannot use in this scene.");
+            return 0;
+        }
+
+        log("%d objects.", space->getObjectCount());
+        
+        return 0;
+    }
+    
     #define install(name) installFunction(name, #name)
     
     void Inst::installApi()
@@ -341,5 +361,6 @@ namespace Lua{
         install(removeObject);
         install(castSpell);
         install(stopSpell);
+        install(getObjectCount);
     }
 }

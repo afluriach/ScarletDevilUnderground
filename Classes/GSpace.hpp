@@ -67,6 +67,11 @@ public:
         bool sensor,
         GObject* obj
     );
+    
+    inline int getObjectCount(){
+        return objByUUID.size();
+    }
+    
 private:
     Space space;
     //The graphics destination to use for all objects constructed in this space.
