@@ -125,11 +125,26 @@ namespace Lua{
     #define NARGS int nArgs = lua_gettop(L);
 
     char errorbuf[128];
-    #define check_args(name, target)         if(nArgs != target){ \
-            snprintf(errorbuf, 128, #name ": %d parameters required, %d found", target, nArgs); \
-            error(L, errorbuf); \
-            return 1; \
-        }
+    #define check_args(name, target)\
+    if(nArgs != target){ \
+        snprintf(errorbuf, 128, #name ": %d parameters required, %d found", target, nArgs); \
+        error(L, errorbuf); \
+        return 1; \
+    }
+    
+    #define get_gspace(errorMsg) \
+    GSpace* gspace = GScene::getSpace(); \
+    if(!gspace){ \
+        error(L, errorMsg); \
+        return 1; \
+    } \
+
+    #define arg(name) \
+    LuaRef name(L); \
+    name.pop(L);
+    
+    //Create LuaRef from value stored in table under the same name.
+    #define ref_from_table(table, name) LuaRef name = table[#name];
 
     float getFloat(LuaRef r)
     {
@@ -177,29 +192,24 @@ namespace Lua{
         NARGS
         check_args(createObject, 1)
         
-        GSpace* space = GScene::getSpace();
-        if(!space){
-            error(L, "createObject: cannot create object in this scene.");
-            return 0;
-        }
+        get_gspace("createObject: cannot create object in this scene.")
         
-        LuaRef arg(L);
-        arg.pop(L);
+        arg(args);
         
-        if(!arg.isTable()){
+        if(!args.isTable()){
             error(L, "createObject: single table params required");
             return 0;
         }
         
         //Position and dimension are x,y vector
-        LuaRef pos = arg["pos"];
-        LuaRef props = arg["props"];
-        
-        LuaRef name = arg["name"];
-        LuaRef type = arg["type"];
+        ref_from_table(args,pos)
+        ref_from_table(args,props)
 
-        LuaRef width = arg["width"];
-        LuaRef height = arg["height"];
+        ref_from_table(args, name)
+        ref_from_table(args, type)
+
+        ref_from_table(args, width)
+        ref_from_table(args, height)
 
         requireNonNil(name, L, "createObject: name required");
         requireNonNil(type, L, "createObject: type required");
@@ -224,7 +234,7 @@ namespace Lua{
         objArg["width"] = width.isNumber() ? Value(getFloat(width)*App::pixelsPerTile) : Value(0.0);
         objArg["height"] = height.isNumber() ? Value(getFloat(height)*App::pixelsPerTile) : Value(0.0);
         
-        space->addObject(objArg);
+        gspace->addObject(objArg);
         
         return 0;
     }
@@ -233,11 +243,10 @@ namespace Lua{
     {
         NARGS
         check_args(removeObject, 1)
+        arg(name)
 
-        LuaRef name(L);
-        name.pop(L);
-
-        GScene::getSpace()->removeObject(name.tostring());
+        get_gspace("Cannot use in this scene.")
+        gspace->removeObject(name.tostring());
         
         return 0;
     }
@@ -246,15 +255,14 @@ namespace Lua{
     {
         NARGS
         check_args(runScene, 1)
-        
-        LuaRef name(L);
-        name.pop(L);
+        arg(name)
         
         try{
             GScene::runScene(name.tostring());
         }
         catch(exception){
             error(L, "runScene: " + name.tostring() + " not found");
+            return 1;
         }
         
         return 0;
@@ -264,20 +272,12 @@ namespace Lua{
     {
         NARGS
         check_args(castSpell, 2)
-
-        LuaRef spell(L);
-        spell.pop(L);
-
-        LuaRef caster(L);
-        caster.pop(L);
-
-        GSpace* space = GScene::getSpace();
-        if(!space){
-            log("castSpell: cannot cast spell in this scene.");
-            return 0;
-        }
+        arg(spell)
+        arg(caster)
         
-        GObject* obj = space->getObject(caster.tostring());
+        get_gspace("castSpell: cannot cast spell in this scene.")
+        
+        GObject* obj = gspace->getObject(caster.tostring());
         Spellcaster* sc = dynamic_cast<Spellcaster*>(obj);
         
         if(!sc){
@@ -293,17 +293,11 @@ namespace Lua{
     {
         NARGS
         check_args(stopSpell, 1)
+        arg(caster)
 
-        LuaRef caster(L);
-        caster.pop(L);
-
-        GSpace* space = GScene::getSpace();
-        if(!space){
-            log("stopSpell: cannot use in this scene.");
-            return 0;
-        }
+        get_gspace("stopSpell: cannot use in this scene.")
         
-        GObject* obj = space->getObject(caster.tostring());
+        GObject* obj = gspace->getObject(caster.tostring());
         Spellcaster* sc = dynamic_cast<Spellcaster*>(obj);
         
         if(!sc){
@@ -319,14 +313,10 @@ namespace Lua{
     {
         NARGS
         check_args(getObjectCount, 0)
+        
+        get_gspace("getObjectCount: cannot use in this scene.")
 
-        GSpace* space = GScene::getSpace();
-        if(!space){
-            log("getObjectCount: cannot use in this scene.");
-            return 0;
-        }
-
-        log("%d objects.", space->getObjectCount());
+        log("%d objects.", gspace->getObjectCount());
         
         return 0;
     }
