@@ -215,4 +215,19 @@ protected:
     PatchConAnimation* animSprite;
 };
 
+class Spellcaster : public virtual GObject
+{
+public:
+    inline Spellcaster(){
+        multiUpdate += bind(&Spellcaster::update, this);
+    }
+    ~Spellcaster();
+    void cast(shared_ptr<Spell> spell);
+    void cast(const string& name);
+    void update();
+    void stop();
+protected:
+    shared_ptr<Spell> crntSpell;
+};
+
 #endif /* GObject_hpp */

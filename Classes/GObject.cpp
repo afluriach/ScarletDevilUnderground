@@ -117,3 +117,44 @@ void ImageSprite::loadImageSprite(const string& resPath, GraphicsLayer sceneLaye
     else if(App::logSprites)
         log("%s sprite %s added at %.1f,%.1f, layer %d", name.c_str(), resPath.c_str(), expand_vector2(centerPix), sceneLayer);
 }
+
+
+void Spellcaster::cast(shared_ptr<Spell> spell)
+{
+    if(crntSpell.get()){
+        crntSpell->end();
+    }
+    spell->init();
+    crntSpell = spell;
+}
+
+void Spellcaster::cast(const string& name)
+{
+    auto it = Spell::adapters.find(name);
+    if(it == Spell::adapters.end()){
+        log("Spell %s not available.", name.c_str());
+        return;
+    }
+    cast(it->second(this));
+}
+
+void Spellcaster::stop()
+{
+    if(crntSpell.get())
+        crntSpell->end();
+    crntSpell.reset();
+}
+
+void Spellcaster::update()
+{
+    if(crntSpell.get()){
+        crntSpell->update();
+    }
+}
+
+Spellcaster::~Spellcaster()
+{
+    if(crntSpell.get()){
+        crntSpell->end();
+    }
+}

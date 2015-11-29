@@ -9,14 +9,11 @@
 #ifndef Patchouli_hpp
 #define Patchouli_hpp
 
-class Patchouli : virtual public GObject, PatchConSprite, CircleBody
+class Patchouli : virtual public GObject, PatchConSprite, CircleBody, Spellcaster
 {
 public:
     inline Patchouli(const ValueMap& args) : GObject(args){
-        multiUpdate += bind(&Patchouli::update, this);
     }
-    
-    void update();
     
     virtual inline float getRadius() const {return 0.35;}
     inline float getMass() const {return 1;}
@@ -24,8 +21,6 @@ public:
     
     inline string imageSpritePath() const {return "sprites/patchouli.png";}
     inline GraphicsLayer sceneLayer() const {return GraphicsLayer::ground;}
-protected:
-    float timeSinceFire = 0;
 };
 
 #endif /* Patchouli_hpp */

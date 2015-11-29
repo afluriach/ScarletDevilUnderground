@@ -52,6 +52,7 @@ using namespace cp;
 #include "LuaAPI.hpp"
 #include "LuaShell.hpp"
 #include "App.h"
+#include "Spell.hpp"
 #include "GAnimation.hpp"
 #include "GSpace.hpp"
 #include "GObject.hpp"

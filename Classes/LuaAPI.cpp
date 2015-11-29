@@ -268,11 +268,76 @@ namespace Lua{
         return 0;
     }
     
+    int castSpell(lua_State* L)
+    {
+        int nArgs = lua_gettop(L);
+        
+        if(nArgs != 2){
+            error(L, "castSpell: two strings required.");
+            return 0;
+        }
+
+        LuaRef spell(L);
+        spell.pop(L);
+
+        LuaRef caster(L);
+        caster.pop(L);
+
+        GSpace* space = GScene::getSpace();
+        if(!space){
+            log("castSpell: cannot cast spell in this scene.");
+            return 0;
+        }
+        
+        GObject* obj = space->getObject(caster.tostring());
+        Spellcaster* sc = dynamic_cast<Spellcaster*>(obj);
+        
+        if(!sc){
+            log("castSpell: %s is not a Spellcaster.", caster.tostring().c_str());
+            return 0;
+        }
+        
+        sc->cast(spell.tostring());
+        return 0;
+    }
+    
+    int stopSpell(lua_State* L)
+    {
+        int nArgs = lua_gettop(L);
+        
+        if(nArgs != 1){
+            error(L, "stopSpell: one string required.");
+            return 0;
+        }
+
+        LuaRef caster(L);
+        caster.pop(L);
+
+        GSpace* space = GScene::getSpace();
+        if(!space){
+            log("stopSpell: cannot use in this scene.");
+            return 0;
+        }
+        
+        GObject* obj = space->getObject(caster.tostring());
+        Spellcaster* sc = dynamic_cast<Spellcaster*>(obj);
+        
+        if(!sc){
+            log("stopSpell: %s is not a Spellcaster.", caster.tostring().c_str());
+            return 0;
+        }
+        
+        sc->stop();
+        return 0;
+    }
+    
     void Inst::installApi()
     {
         installFunction(luaLog,"log");
         installFunction(createObject,"createObject");
         installFunction(runScene,"runScene");
         installFunction(removeObject, "removeObject");
+        installFunction(castSpell, "castSpell");
+        installFunction(stopSpell, "stopSpell");
     }
 }

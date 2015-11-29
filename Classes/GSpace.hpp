@@ -34,6 +34,11 @@ public:
     void addObjects(const ValueVector& objs);
     void processAdditions();
     
+    inline GObject* getObject(const string& name){
+        auto it = objByName.find(name);
+        return it != objByName.end() ? it->second : nullptr;
+    }
+    
     void removeObject(const string& name);
     void removeObject(GObject* obj);
     void processRemovals();
