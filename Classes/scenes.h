@@ -27,6 +27,7 @@ public:
     
     enum updateOrder{
         //Update tick on GSpace and all objects, if applicable
+        runShellScript=1,
         spaceUpdate,
         moveCamera,
     };
@@ -39,6 +40,7 @@ public:
         dialogBackgroundLayer,
         dialogLayer,
         uiLayer,
+        luaShellLayer,
         nLayers
     };
 

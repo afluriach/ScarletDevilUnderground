@@ -21,6 +21,7 @@ public:
     virtual void setVisible(bool visible);
     
     void runText();
+    string getText();
 protected:
     void createEditBox();
 

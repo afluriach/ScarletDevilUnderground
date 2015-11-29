@@ -59,3 +59,8 @@ void LuaShell::runText()
     log("running script: %s", editBox->getText());
     app->lua.runString(editBox->getText());
 }
+
+string LuaShell::getText()
+{
+    return editBox->getText();
+}

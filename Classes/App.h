@@ -7,6 +7,8 @@
 The reason for implement as private inheritance is to hide some interface call by Director.
 */
 
+class GScene;
+
 class  App : private Application
 {
 public:
@@ -86,16 +88,9 @@ protected:
     KeyListener keyListener;
     //The shell that is installed in the current scene.
     LuaShell* luaShell;
+    string pendingScript;
     
-    inline Scene* createSceneFromLayer(Layer* layer)
-    {
-        Scene* scene  = Scene::create();
-        scene->addChild(layer,1);
-        
-        installLuaShell(scene);
-        
-        return scene;
-    }
+    Scene* createSceneFromLayer(Layer* layer);
 
     template <typename T>
     inline Scene* createSceneFromLayer()
@@ -103,7 +98,8 @@ protected:
         return createSceneFromLayer(T::create());
     }
     
-    void installLuaShell(Scene* scene);
+    void installLuaShell(GScene* scene);
+    void checkPendingScript();
 };
 
 extern App* app;

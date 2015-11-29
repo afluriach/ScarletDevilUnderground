@@ -69,12 +69,35 @@ void App::applicationWillEnterForeground() {
     // SimpleAudioEngine::getInstance()->resumeBackgroundMusic();
 }
 
+Scene* App::createSceneFromLayer(Layer* layer)
+{
+    Scene* scene  = Scene::create();
+    scene->addChild(layer,1);
+    
+    GScene* gscene = dynamic_cast<GScene*>(layer);
+    if(gscene)
+        installLuaShell(gscene);
+    else
+        log("createSceneFromLayer: Lua shell not installed for non-GScene.");
+    
+    return scene;
+}
+
+
 void App::end()
 {
     Director::getInstance()->end();
 }
 
-void App::installLuaShell(Scene* scene)
+void App::checkPendingScript()
+{
+    if(!pendingScript.empty()){
+        lua.runString(pendingScript);
+        pendingScript.clear();
+    }
+}
+
+void App::installLuaShell(GScene* gscene)
 {
     luaShell = LuaShell::create();
     luaShell->setVisible(false);
@@ -84,8 +107,10 @@ void App::installLuaShell(Scene* scene)
     );
     keyListener.addPressListener(
         Keys::enter,
-        [=]() -> void {if(luaShell->isVisible()) luaShell->runText();}
+        [=]() -> void {if(luaShell->isVisible()) pendingScript = luaShell->getText();}
     );
     
-    scene->addChild(luaShell, 2);
+    gscene->multiUpdate.insertWithOrder(bind(&App::checkPendingScript,this), GScene::updateOrder::runShellScript);
+    
+    gscene->getLayer(GScene::sceneLayers::luaShellLayer)->addChild(luaShell, 1);
 }
