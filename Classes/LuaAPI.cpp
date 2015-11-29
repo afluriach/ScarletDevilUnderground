@@ -125,17 +125,18 @@ namespace Lua{
     #define NARGS int nArgs = lua_gettop(L);
 
     char errorbuf[128];
-    #define check_args(name, target)\
+    #define check_args(target)\
     if(nArgs != target){ \
-        snprintf(errorbuf, 128, #name ": %d parameters required, %d found", target, nArgs); \
+        snprintf(errorbuf, 128, "%s: %d parameters required, %d found", crntFuncName, target, nArgs); \
         error(L, errorbuf); \
         return 1; \
     }
     
-    #define get_gspace(errorMsg) \
+    #define get_gspace \
     GSpace* gspace = GScene::getSpace(); \
     if(!gspace){ \
-        error(L, errorMsg); \
+        snprintf(errorbuf, 128, "%s: cannot use in current scene.", crntFuncName); \
+        error(L, errorbuf); \
         return 1; \
     } \
 
@@ -145,7 +146,19 @@ namespace Lua{
     
     //Create LuaRef from value stored in table under the same name.
     #define ref_from_table(table, name) LuaRef name = table[#name];
+    
+    #define func(name) \
+    int name(lua_State* L) \
+    { \
+    const char* crntFuncName = #name;
+    
+    #define push_error(errorMsg) \
+    snprintf(errorbuf, 128, "%s: %s", crntFuncName, errorMsg); \
+    error(L, errorbuf); \
+    return 1;
 
+    #define c_str(string_expr) string(string_expr).c_str()
+    
     float getFloat(LuaRef r)
     {
         return r.cast<float>();
@@ -170,35 +183,31 @@ namespace Lua{
     }
 
     //Lua API functions:
-    int luaLog(lua_State* L)
-    {
+    func(log)
         //The first argument must be a string
         NARGS
-        check_args(log, 1);
+        check_args(1);
         
         if(!lua_isstring(L,1)){
-            error(L, "log: first parameter must be string.");
-            return 0;
+            push_error("first parameter must be string.")
         }
 
         //paramters are ones-based, arg count is at index 0;
-        log("%s", lua_tostring(L,1));
+        cocos2d::log("%s", lua_tostring(L,1));
         
         return 0;
     }
     
-    int createObject(lua_State* L)
-    {
+    func(createObject)
         NARGS
-        check_args(createObject, 1)
+        check_args(1)
         
-        get_gspace("createObject: cannot create object in this scene.")
+        get_gspace
         
         arg(args);
         
         if(!args.isTable()){
-            error(L, "createObject: single table params required");
-            return 0;
+            push_error("single table params required")
         }
         
         //Position and dimension are x,y vector
@@ -238,85 +247,77 @@ namespace Lua{
         
         return 0;
     }
-    
-    int removeObject(lua_State* L)
-    {
+
+    func(removeObject)
         NARGS
-        check_args(removeObject, 1)
+        check_args(1)
         arg(name)
 
-        get_gspace("Cannot use in this scene.")
+        get_gspace
         gspace->removeObject(name.tostring());
         
         return 0;
     }
     
-    int runScene(lua_State* L)
-    {
+    func(runScene)
         NARGS
-        check_args(runScene, 1)
+        check_args(1)
         arg(name)
         
         try{
             GScene::runScene(name.tostring());
         }
         catch(exception){
-            error(L, "runScene: " + name.tostring() + " not found");
-            return 1;
+            push_error(c_str("runScene: " + name.tostring() + " not found"))
         }
         
         return 0;
     }
     
-    int castSpell(lua_State* L)
-    {
+    func(castSpell)
         NARGS
-        check_args(castSpell, 2)
+        check_args(2)
         arg(spell)
         arg(caster)
         
-        get_gspace("castSpell: cannot cast spell in this scene.")
+        get_gspace
         
         GObject* obj = gspace->getObject(caster.tostring());
         Spellcaster* sc = dynamic_cast<Spellcaster*>(obj);
         
         if(!sc){
-            log("castSpell: %s is not a Spellcaster.", caster.tostring().c_str());
-            return 0;
+            push_error(c_str(caster.tostring() + " is not a Spellcaster."))
         }
         
         sc->cast(spell.tostring());
         return 0;
     }
     
-    int stopSpell(lua_State* L)
-    {
+    func(stopSpell)
         NARGS
-        check_args(stopSpell, 1)
+        check_args(1)
         arg(caster)
 
-        get_gspace("stopSpell: cannot use in this scene.")
+        get_gspace
         
         GObject* obj = gspace->getObject(caster.tostring());
         Spellcaster* sc = dynamic_cast<Spellcaster*>(obj);
         
         if(!sc){
-            log("stopSpell: %s is not a Spellcaster.", caster.tostring().c_str());
-            return 0;
+            push_error(c_str(caster.tostring() + " is not a Spellcaster."))
         }
         
         sc->stop();
         return 0;
     }
     
-    int getObjectCount(lua_State* L)
-    {
+    func(getObjectCount)
         NARGS
-        check_args(getObjectCount, 0)
+        check_args(0)
         
-        get_gspace("getObjectCount: cannot use in this scene.")
+        get_gspace
 
-        log("%d objects.", gspace->getObjectCount());
+        cocos2d::log("%d objects.", gspace->getObjectCount());
         
         return 0;
     }
@@ -325,7 +326,7 @@ namespace Lua{
     
     void Inst::installApi()
     {
-        installFunction(luaLog,"log");
+        install(log);
         install(createObject);
         install(runScene);
         install(removeObject);
