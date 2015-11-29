@@ -28,6 +28,7 @@ public:
     static ValueMap makeValueMapArg(const Vec2& pos, const map<string,string>& props);
 
     const string name;
+    const unsigned int uuid;
     
     shared_ptr<Body> body;
     
@@ -56,6 +57,8 @@ public:
 
     util::multifunction<void()> multiInit;
     util::multifunction<void()> multiUpdate;
+private:
+    static unsigned int nextUUID;
 };
 
 template<typename Derived>
@@ -150,6 +153,11 @@ class SpriteObject : public virtual GObject, RegisterUpdate<SpriteObject>
 {
 public:
     inline SpriteObject() : RegisterUpdate(this) {}
+    
+    inline ~SpriteObject(){        
+        if(sprite)
+            sprite->removeFromParent();
+    }
     
     virtual GraphicsLayer sceneLayer() const = 0;
     inline virtual float zoom() const {return 1;}

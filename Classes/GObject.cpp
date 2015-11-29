@@ -8,9 +8,10 @@
 
 #include "Prefix.h"
 
-GObject::GObject(const ValueMap& obj) : name(obj.at("name").asString() )
+unsigned int GObject::nextUUID = 1;
+
+GObject::GObject(const ValueMap& obj) : name(obj.at("name").asString()), uuid(nextUUID++)
 {
-    
     if(obj.find(Lua::lauArgTag) != obj.end()){
         //This is coming from the scripting API
         
@@ -32,8 +33,7 @@ GObject::GObject(const ValueMap& obj) : name(obj.at("name").asString() )
     log("%s created at %.1f,%.1f.", name.c_str(),initialCenter.x, initialCenter.y);
 }
 
-GObject::GObject(const string& name, const SpaceVect& pos) : name(name), initialCenter(pos) {
-
+GObject::GObject(const string& name, const SpaceVect& pos) : name(name), initialCenter(pos), uuid(nextUUID++) {
 }
 
 GObject* GObject::constructByType(const string& type, const ValueMap& args )

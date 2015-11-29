@@ -33,6 +33,9 @@ public:
     void addObjects(const ValueVector& objs);
     void processAdditions();
     
+    void removeObject(const string& name);
+    void processRemovals();
+    
     void update();
     
     GObject* getObjectByName(const string& name);
@@ -61,16 +64,18 @@ private:
     Space space;
     //The graphics destination to use for all objects constructed in this space.
     Layer* graphicsLayer;
-    
-    vector<GObject*> objects;
+
+    map<unsigned int, GObject*> objByUUID;
     map<string, GObject*> objByName;
-    map<string, vector<GObject*>> objsByType;
     
     //Objects which have been queued for addition. Will be added at end of frame.
     vector<GObject*> toAdd;
     //Objects whose additions have been processsed last frame. Physics has been initialized but
     //init has not yet run; it will run at start of frame.
     vector<GObject*> addedLastFrame;
+
+    //Objects which have been queued for removal. Will be removed at end of frame.
+    vector<GObject*> toRemove;
     
     void initObjects();
 };

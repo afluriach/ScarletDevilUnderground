@@ -229,6 +229,23 @@ namespace Lua{
         return 0;
     }
     
+    int removeObject(lua_State* L)
+    {
+        int nArgs = lua_gettop(L);
+        
+        if(nArgs != 1){
+            error(L, "removeObject: single string required.");
+            return 0;
+        }
+
+        LuaRef name(L);
+        name.pop(L);
+
+        GScene::getSpace()->removeObject(name.tostring());
+        
+        return 0;
+    }
+    
     int runScene(lua_State* L)
     {
         int nArgs = lua_gettop(L);
@@ -256,5 +273,6 @@ namespace Lua{
         installFunction(luaLog,"log");
         installFunction(createObject,"createObject");
         installFunction(runScene,"runScene");
+        installFunction(removeObject, "removeObject");
     }
 }

@@ -59,14 +59,14 @@ void GSpace::update()
     //Run inits for recently added objects
     initObjects();
     
-    //TODO Run updates for all objects
-    foreach(GObject* obj, objects)
-    {
+    //physics step
+    space.step(App::secondsPerFrame);
+    
+    foreach(GObject* obj, objByUUID | boost::adaptors::map_values){
         obj->update();
     }
     
-    //physics step
-    space.step(App::secondsPerFrame);
+    processRemovals();
     
     //process additions
     processAdditions();
@@ -189,7 +189,6 @@ void GSpace::processAdditions()
     {
         obj->initializeBody(space);
         obj->initializeGraphics(graphicsLayer);
-        objects.push_back(obj);
         
         auto name_it = objByName.find(obj->name);
         
@@ -197,6 +196,7 @@ void GSpace::processAdditions()
             log("processAdditions: duplicate object with name %s", obj->name.c_str());
         }
         objByName[obj->name] = obj;
+        objByUUID[obj->uuid] = obj;
     }
     //move(toAdd.begin(), toAdd.end(), addedLastFrame.end());
     //For some strange reason move fails with a memory error here.
@@ -206,4 +206,26 @@ void GSpace::processAdditions()
     }
     
     toAdd.clear();
+}
+
+void GSpace::removeObject(const string& name)
+{
+    auto it = objByName.find(name);
+    if(it == objByName.end()){
+        log("removeObject: %s not found", name.c_str());
+        return;
+    }
+    
+    toRemove.push_back(it->second);
+}
+
+void GSpace::processRemovals()
+{
+    BOOST_FOREACH(GObject* obj, toRemove){
+        objByName.erase(obj->name);
+        objByUUID.erase(obj->uuid);
+        space.remove(obj->body);
+        delete obj;
+    }
+    toRemove.clear();
 }

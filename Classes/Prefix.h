@@ -36,6 +36,7 @@
 #include <boost/foreach.hpp>
 #include <boost/lexical_cast.hpp>
 #include <boost/math/constants/constants.hpp>
+#include <boost/range/adaptor/map.hpp>
 
 using namespace std;
 USING_NS_CC;
