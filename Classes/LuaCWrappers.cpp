@@ -16,7 +16,7 @@ void setVel(string name, float x, float y)
     if(obj)
         obj->body->setVel(SpaceVect(x,y));
     else
-        log("setVel: %s not found", name.c_str());
+        throw runtime_error("setVel: " + name + " not found");
 }
 
 //just for testing
@@ -28,7 +28,12 @@ void sv(float v, float x, float y)
 #define make_wrapper(name) \
 int name ## _wrapper(lua_State* L) \
 { \
-    return wrapFunc(#name, name, L);\
+    try{ \
+        return wrapFunc(#name, name, L);\
+    }catch(runtime_error err){ \
+        Lua::error(L, err.what()); \
+        return 1; \
+    } \
 }
 
 #define install_wrapper(name) installFunction(name ## _wrapper, #name);
