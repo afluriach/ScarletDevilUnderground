@@ -48,6 +48,29 @@ namespace Lua{
         
         return result;
     }
+    
+    list<LuaRef> getArgs(lua_State* L)
+    {
+        int nArgs = lua_gettop(L);
+        list<LuaRef> result;
+        
+        for(int i=0;i<nArgs; ++i){
+            LuaRef ref(L);
+            ref.pop(L);
+
+            //For some reason this first log statement always prints the first parameter.
+            //log("arg %d: %s", i+1, ref.tostring().c_str());
+            result.push_back(ref);
+        }
+        result.reverse();
+
+        //But here it shows them stored correctly.
+    //    foreach(LuaRef ref, result){
+    //        log("arg %s", ref.tostring().c_str());
+    //    }
+        
+        return result;
+    }
 
     Inst::Inst()
     {

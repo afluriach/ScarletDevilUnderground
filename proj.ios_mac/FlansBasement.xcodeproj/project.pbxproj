@@ -219,6 +219,7 @@
 		E23E1B2B1C014A0A00F7FAC1 /* LuaShell.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = LuaShell.hpp; sourceTree = "<group>"; };
 		E23F05591BD024040091BD6D /* controls.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = controls.h; sourceTree = "<group>"; };
 		E23F055D1BD0294A0091BD6D /* controls.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = controls.cpp; sourceTree = "<group>"; };
+		E24157BF1C0BD1120033B425 /* LuaWrap.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LuaWrap.h; sourceTree = "<group>"; };
 		E24450231C02CFA8006D78B0 /* ObjectMapping.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ObjectMapping.cpp; sourceTree = "<group>"; };
 		E244502C1C039CF0006D78B0 /* scenes.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = scenes.h; sourceTree = "<group>"; };
 		E244502D1C03A760006D78B0 /* scenes.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = scenes.cpp; path = scenes/scenes.cpp; sourceTree = "<group>"; };
@@ -405,6 +406,7 @@
 				E2080BC71C00486000EB78DF /* LuaAPI.cpp */,
 				E2080BC81C00486000EB78DF /* LuaAPI.hpp */,
 				E22224631C0BA3ED007DE7F9 /* LuaCWrappers.cpp */,
+				E24157BF1C0BD1120033B425 /* LuaWrap.h */,
 				E23E1B2A1C014A0A00F7FAC1 /* LuaShell.cpp */,
 				E23E1B2B1C014A0A00F7FAC1 /* LuaShell.hpp */,
 				E2CDC5541C062D000017537B /* Prefix.h */,

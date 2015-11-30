@@ -19,6 +19,8 @@ namespace Lua
     void error(lua_State* L, const string& msg);
     
     map<string,string> getStringMapFromTable(LuaRef table);
+    
+    list<LuaRef> getArgs(lua_State* L);
 
     //Wraps a VM instance and interfaces with it.
     class Inst
