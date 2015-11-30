@@ -383,6 +383,7 @@
 		46880B8319C43A87006E1F66 /* Classes */ = {
 			isa = PBXGroup;
 			children = (
+				E24157C01C0BD2420033B425 /* lua */,
 				E2CDC5511C056B6B0017537B /* objects */,
 				E23121FF1BFA746D00FEA94B /* scenes */,
 				46880B8419C43A87006E1F66 /* App.cpp */,
@@ -403,12 +404,6 @@
 				E27E857A1BE0178800A94217 /* GSpace.hpp */,
 				E23121FB1BF7FDA300FEA94B /* Dialog.cpp */,
 				E23121FC1BF7FDA300FEA94B /* Dialog.hpp */,
-				E2080BC71C00486000EB78DF /* LuaAPI.cpp */,
-				E2080BC81C00486000EB78DF /* LuaAPI.hpp */,
-				E22224631C0BA3ED007DE7F9 /* LuaCWrappers.cpp */,
-				E24157BF1C0BD1120033B425 /* LuaWrap.h */,
-				E23E1B2A1C014A0A00F7FAC1 /* LuaShell.cpp */,
-				E23E1B2B1C014A0A00F7FAC1 /* LuaShell.hpp */,
 				E2CDC5541C062D000017537B /* Prefix.h */,
 				E2C1564B1C077DFE001C2BEA /* multifunction.h */,
 				E214CF561C0ACEF800FC8784 /* Spell.cpp */,
@@ -479,6 +474,19 @@
 				E2C9E5DD1C0925DF00CA7C88 /* Library.h */,
 			);
 			name = scenes;
+			sourceTree = "<group>";
+		};
+		E24157C01C0BD2420033B425 /* lua */ = {
+			isa = PBXGroup;
+			children = (
+				E2080BC71C00486000EB78DF /* LuaAPI.cpp */,
+				E2080BC81C00486000EB78DF /* LuaAPI.hpp */,
+				E22224631C0BA3ED007DE7F9 /* LuaCWrappers.cpp */,
+				E24157BF1C0BD1120033B425 /* LuaWrap.h */,
+				E23E1B2A1C014A0A00F7FAC1 /* LuaShell.cpp */,
+				E23E1B2B1C014A0A00F7FAC1 /* LuaShell.hpp */,
+			);
+			name = lua;
 			sourceTree = "<group>";
 		};
 		E2CDC5511C056B6B0017537B /* objects */ = {
