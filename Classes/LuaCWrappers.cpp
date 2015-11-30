@@ -83,9 +83,12 @@ list<LuaRef> getArgs(lua_State* L)
 
 void setVel(string name, float x, float y)
 {
-    log("%s, %f, %f", name.c_str(), x,y);
     GObject* obj = GScene::getSpace()->getObject(name);
-    obj->body->setVel(SpaceVect(x,y));
+    
+    if(obj)
+        obj->body->setVel(SpaceVect(x,y));
+    else
+        log("setVel: %s not found", name.c_str());
 }
 
 //just for testing
