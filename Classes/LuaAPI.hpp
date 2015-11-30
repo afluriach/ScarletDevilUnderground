@@ -28,6 +28,7 @@ namespace Lua
         ~Inst();
         
         void installApi();
+        void installWrappers();
         void installFunction(lua_CFunction func, const string& name);
         void runString(const string& str);
         void runFile(const string& path);

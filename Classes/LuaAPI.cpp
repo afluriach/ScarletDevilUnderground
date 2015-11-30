@@ -55,6 +55,7 @@ namespace Lua{
         //Load standard libraries
         luaL_openlibs(state);
         installApi();
+        installWrappers();
     }
     Inst::~Inst()
     {

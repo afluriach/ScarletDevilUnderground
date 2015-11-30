@@ -69,6 +69,8 @@
 		E214CF591C0ACEF800FC8784 /* Spell.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E214CF561C0ACEF800FC8784 /* Spell.cpp */; };
 		E214CF5B1C0AD22E00FC8784 /* SpellMapping.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E214CF5A1C0AD22E00FC8784 /* SpellMapping.cpp */; };
 		E214CF5C1C0AD22E00FC8784 /* SpellMapping.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E214CF5A1C0AD22E00FC8784 /* SpellMapping.cpp */; };
+		E22224641C0BA3ED007DE7F9 /* LuaCWrappers.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E22224631C0BA3ED007DE7F9 /* LuaCWrappers.cpp */; };
+		E22224651C0BA3ED007DE7F9 /* LuaCWrappers.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E22224631C0BA3ED007DE7F9 /* LuaCWrappers.cpp */; };
 		E23121FD1BF7FDA300FEA94B /* Dialog.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E23121FB1BF7FDA300FEA94B /* Dialog.cpp */; };
 		E23121FE1BF7FDA300FEA94B /* Dialog.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E23121FB1BF7FDA300FEA94B /* Dialog.cpp */; };
 		E23122031BFA757900FEA94B /* portraits in Resources */ = {isa = PBXBuildFile; fileRef = E23122021BFA757900FEA94B /* portraits */; };
@@ -206,6 +208,7 @@
 		E214CF561C0ACEF800FC8784 /* Spell.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Spell.cpp; sourceTree = "<group>"; };
 		E214CF571C0ACEF800FC8784 /* Spell.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = Spell.hpp; sourceTree = "<group>"; };
 		E214CF5A1C0AD22E00FC8784 /* SpellMapping.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = SpellMapping.cpp; sourceTree = "<group>"; };
+		E22224631C0BA3ED007DE7F9 /* LuaCWrappers.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = LuaCWrappers.cpp; sourceTree = "<group>"; };
 		E23121FB1BF7FDA300FEA94B /* Dialog.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Dialog.cpp; sourceTree = "<group>"; };
 		E23121FC1BF7FDA300FEA94B /* Dialog.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = Dialog.hpp; sourceTree = "<group>"; };
 		E23122011BFA74AC00FEA94B /* LibraryOpening.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = LibraryOpening.h; path = scenes/LibraryOpening.h; sourceTree = "<group>"; };
@@ -401,6 +404,7 @@
 				E23121FC1BF7FDA300FEA94B /* Dialog.hpp */,
 				E2080BC71C00486000EB78DF /* LuaAPI.cpp */,
 				E2080BC81C00486000EB78DF /* LuaAPI.hpp */,
+				E22224631C0BA3ED007DE7F9 /* LuaCWrappers.cpp */,
 				E23E1B2A1C014A0A00F7FAC1 /* LuaShell.cpp */,
 				E23E1B2B1C014A0A00F7FAC1 /* LuaShell.hpp */,
 				E2CDC5541C062D000017537B /* Prefix.h */,
@@ -647,6 +651,7 @@
 				E231220A1BFA937100FEA94B /* menu.cpp in Sources */,
 				E214CF581C0ACEF800FC8784 /* Spell.cpp in Sources */,
 				46880B8819C43A87006E1F66 /* App.cpp in Sources */,
+				E22224641C0BA3ED007DE7F9 /* LuaCWrappers.cpp in Sources */,
 				E27E857B1BE0178800A94217 /* GSpace.cpp in Sources */,
 				E23F055E1BD0294A0091BD6D /* controls.cpp in Sources */,
 				E23121FD1BF7FDA300FEA94B /* Dialog.cpp in Sources */,
@@ -685,6 +690,7 @@
 				E29FF7521BE18BE7004725C1 /* Glyph.cpp in Sources */,
 				E24450331C03D1DE006D78B0 /* SceneMapping.cpp in Sources */,
 				503AE10517EB98FF00D1A890 /* main.cpp in Sources */,
+				E22224651C0BA3ED007DE7F9 /* LuaCWrappers.cpp in Sources */,
 				E2C9E5E11C09267C00CA7C88 /* Patchouli.cpp in Sources */,
 				E23121FE1BF7FDA300FEA94B /* Dialog.cpp in Sources */,
 				E2AC8F491BCD4BC20001DB3E /* Graphics.cpp in Sources */,
