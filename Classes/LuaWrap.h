@@ -126,4 +126,14 @@ struct wrap<void, Args...>{
     }
 };
 
+//The top level function that can be called to perform the wrapping.
+//
+//The wrap template (which contains wrapFunc) can no longer be matched automatically from the type of the function pointer
+//now that it has specialization. Now a template wrapper function has to declared to explicitly define wraps<> template arguments.
+template<typename Ret, typename...Args>
+int wrapper(const string& name, Ret (*func)(Args...), lua_State* L)
+{
+    return wrap<Ret,Args...>::wrapFunc(name, func, L);
+}
+
 #endif /* LuaWrap_h */
