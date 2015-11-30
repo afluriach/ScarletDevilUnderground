@@ -115,22 +115,23 @@ int wrapFunc(const string& name, Ret (*func)(Args...), lua_State* L)
     return 0;
 }
 
-int setVel_wrapper(lua_State* L)
-{
-    return wrapFunc("setVel", setVel, L);
+#define make_wrapper(name) \
+int name ## _wrapper(lua_State* L) \
+{ \
+    return wrapFunc(#name, name, L);\
 }
 
-int sv_wrapper(lua_State* L)
-{
-    return wrapFunc("sv", sv, L);
-}
+#define install_wrapper(name) installFunction(name ## _wrapper, #name);
+
+make_wrapper(setVel)
+make_wrapper(sv)
 
 namespace Lua
 {
     void Inst::installWrappers()
     {
-        installFunction(setVel_wrapper, "setVel");
-        installFunction(sv_wrapper, "sv");
+        install_wrapper(setVel)
+        install_wrapper(sv)
     }
 
 }
