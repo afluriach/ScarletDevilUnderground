@@ -102,13 +102,21 @@ struct cargs<>{
     }
 };
 
+//Wrap takes Lua arguments off the stack and converts them to a C tuple representing the required
+//signature to variadic_call the wrapped C function. For now it uses the default LuaRef template
+//casting, which will throw a Lua error if any parameter is not convertible.
+//
+//Wrap must be specialized to account for a void return type.
+//If there is a return type, the LuaRef conversion constructor is used.
+
 template<typename Ret, typename...Args>
 struct wrap{
     static int wrapFunc(const string& name, Ret (*func)(Args...), lua_State* L)
     {
         tuple<Args...> args = cargs<Args...>::getCArgs(L, name);
         
-        Ret r = call<Ret>(func, args);
+        //Return type (first template parameter) cannot be inferred.
+        Ret r = variadic_call<Ret>(func, args);
         LuaRef luaRet = convert<Ret>::convertToLua(r, L);
         luaRet.push(L);
         return 1;
@@ -120,8 +128,9 @@ struct wrap<void, Args...>{
     static int wrapFunc(const string& name, void (*func)(Args...), lua_State* L)
     {
         tuple<Args...> args = cargs<Args...>::getCArgs(L, name);
-        
-        call<void>(func, args);
+
+        //Return type (first template parameter) cannot be inferred.
+        variadic_call<void>(func, args);
         return 0;
     }
 };

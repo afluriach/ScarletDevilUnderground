@@ -62,7 +62,7 @@ namespace detail
     };
 }
 template <typename Ret, typename F, typename Tuple>
-Ret call(F f, Tuple && t)
+Ret variadic_call(F f, Tuple && t)
 {
     typedef typename std::decay<Tuple>::type ttype;
     return detail::call_impl<Ret, F, Tuple, 0 == std::tuple_size<ttype>::value, std::tuple_size<ttype>::value>::call(f, std::forward<Tuple>(t));
