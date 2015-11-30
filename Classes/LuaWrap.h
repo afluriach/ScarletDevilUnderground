@@ -12,7 +12,7 @@
 //May be specialized, but use LuaRef cast by default.
 template<typename T>
 struct convert{
-    static T convertLua(const string& name, int argNum, LuaRef ref)
+    static T convertFromLua(const string& name, int argNum, LuaRef ref)
     {
         return ref.cast<T>();
     }
@@ -22,7 +22,7 @@ struct convert{
 template<typename T>
 T convertLuaArg(const string& name, int argNum, LuaRef ref)
 {
-    return convert<T>::convertLua(name, argNum, ref);
+    return convert<T>::convertFromLua(name, argNum, ref);
 }
 
 //build tuple by processing untyped input
