@@ -23,7 +23,7 @@ public:
     
     //set player object. should be post load object init
     inline void trackPlayer(){
-        cameraTarget = gspace.getObjectByName("player");
+        cameraTarget = gspace.getObject("player");
     }
     
     void updateCamera(float dt);

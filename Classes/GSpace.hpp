@@ -45,8 +45,6 @@ public:
     
     void update();
     
-    GObject* getObjectByName(const string& name);
-
     static shared_ptr<Body> createCircleBody(
         Space& space,
         const SpaceVect& center,

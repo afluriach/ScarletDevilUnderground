@@ -72,16 +72,6 @@ void GSpace::update()
     processAdditions();
 }
 
-GObject* GSpace::getObjectByName(const string& name)
-{
-    auto it = objByName.find(name);
-    
-    if(it != objByName.end()){
-        return it->second;
-    }
-    return nullptr;
-}
-
 
 bool isSelfCollideType(GType t)
 {
@@ -192,7 +182,7 @@ void GSpace::processAdditions()
         obj->initializeBody(space);
         obj->initializeGraphics(graphicsLayer);
         
-        auto name_it = objByName.find(obj->name);
+//        auto name_it = objByName.find(obj->name);
         
 //        if(!obj->name.empty() && name_it != objByName.end()){
 //            log("processAdditions: duplicate object with name %s", obj->name.c_str());
