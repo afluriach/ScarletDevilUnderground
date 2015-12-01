@@ -28,6 +28,8 @@ namespace cp {
 		void remove(std::shared_ptr<Shape>);
 		void remove(std::shared_ptr<Body>);
 
+        std::shared_ptr<Body> makeStaticBody();
+
 		/// Global gravity applied to the space. Defaults to cp::Vect(0, 0). Can be overridden on a per body basis by
 		/// writing custom integration functions.
 		Vect getGravity() const;

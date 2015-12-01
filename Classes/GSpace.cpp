@@ -108,7 +108,7 @@ shared_ptr<Body> GSpace::createCircleBody(
     
     shared_ptr<Body> body;
     if(mass < 0){
-        body = space.staticBody;
+        body = space.makeStaticBody();
     }
     else{
         body = make_shared<Body>(mass, circleMomentOfInertia(mass, radius));
@@ -154,7 +154,7 @@ shared_ptr<Body> GSpace::createRectangleBody(
     
     shared_ptr<Body> body;
     if(mass < 0){
-        body = space.staticBody;
+        body = space.makeStaticBody();
     }
     else{
         body = make_shared<Body>(mass, rectagleMomentOfInteria(mass, dim));
@@ -213,7 +213,9 @@ void GSpace::removeObject(const string& name)
 
 void GSpace::removeObject(GObject* obj)
 {
-    toRemove.push_back(obj);
+    //Check for object being scheduled for removal twice.
+    if(find(toRemove.begin(), toRemove.end(), obj) == toRemove.end())
+        toRemove.push_back(obj);
 }
 
 void GSpace::processRemovals()

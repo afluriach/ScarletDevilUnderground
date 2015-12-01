@@ -22,6 +22,11 @@ namespace cp {
 	Space::operator cpSpace*() {
 		return space;
 	}
+    
+    shared_ptr<Body> Space::makeStaticBody()
+    {
+        return make_shared<Body>(cpBodyNewStatic());
+    }
 
 	void Space::add(shared_ptr<Shape> shape) {
 		cpSpaceAddShape(space, *shape);
