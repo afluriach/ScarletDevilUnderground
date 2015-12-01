@@ -13,11 +13,43 @@
 
 #define _lua_type_error(msg) Lua::lua_type_error(name, argNum,msg)
 
-//May be specialized, but use LuaRef cast by default.
+template<typename T>
+void check_numeric_range(LuaRef ref)
+{
+    double d = ref.cast<double>();
+    
+    if(d > numeric_limits<T>::max()
+    || d < numeric_limits<T>::min()
+    ){
+        throw Lua::lua_type_error(StringUtils::format("Lua number is outside of %s range.", typeid(T).name()));
+    }
+}
+
+void check_integer_value(LuaRef ref)
+{
+    double d = ref.cast<double>();
+    if(floor(d) != d)
+        throw Lua::lua_type_error("Attempt to cast non-integer Lua number to integer.");
+}
+
+template<typename T>
+void check_signed(LuaRef ref)
+{
+    double d = ref.cast<double>();
+    
+    if(!is_signed<T>::value && d < 0)
+        throw Lua::lua_type_error("Attempt to cast negative Lua number to unsigned.");
+}
+
+//General case for all numeric types.
 template<typename T>
 struct convert{
     inline static T convertFromLua(const string& name, int argNum, LuaRef ref)
     {
+        check_integer_value(ref);
+        check_signed<T>(ref);
+        check_numeric_range<T>(ref);
+    
         return ref.cast<T>();
     }
     inline static LuaRef convertToLua(const T& t, lua_State* L)
@@ -25,6 +57,19 @@ struct convert{
         return LuaRef(L, t);
     }
 };
+
+template<>
+struct convert<string>{
+    inline static string convertFromLua(const string& name, int argNum, LuaRef ref)
+    {
+        return ref.tostring();
+    }
+    inline static LuaRef convertToLua(const string& t, lua_State* L)
+    {
+        return LuaRef(L, t);
+    }
+};
+
 
 template<typename K,typename V>
 struct convert<map<K,V>>{

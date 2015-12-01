@@ -12,9 +12,11 @@
     #include <cmath>
     #include <cstdlib>
     #include <functional>
+    #include <limits>
     #include <map>
     #include <memory>
     #include <set>
+    #include <type_traits>
     #include <vector>
 
     //All external libraries used by this app.

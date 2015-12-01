@@ -20,9 +20,9 @@ void setVel(string name, float x, float y)
 }
 
 //just for testing
-void sv(float v, float x, float y)
+void sv(float v, float x, unsigned int y)
 {
-    log("%f, %f, %f", v, x,y);
+    log("%f, %f, %ud", v, x,y);
 }
 
 int getObjCount()
