@@ -74,6 +74,9 @@ template<>
 struct convert<function<void()>>{
     inline static function<void()> convertFromLua(const string& name, int argNum, LuaRef ref)
     {
+        if(!ref.isFunction())
+            throw Lua::lua_type_error(StringUtils::format("%s, expected a function for arg %d", name.c_str(), argNum));
+    
         return Lua::makeFunctorFromLuaFunction(ref);
     }
 //    inline static LuaRef convertToLua(const function<void>& t, lua_State* L)
