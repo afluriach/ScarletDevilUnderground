@@ -34,8 +34,9 @@ bool LuaShell::init()
 //Box does not obey Node visibility rules, instead must be created when the shell is shown.
 void LuaShell::createEditBox()
 {
-    editBox = ui::EditBox::create(cocos2d::Size(width,height),nullptr);
-    editBox->setPosition(Vec2(App::width/2, height/2));
+    //The coordinates used by the edit box do not obey the window scaling
+    editBox = ui::EditBox::create(cocos2d::Size(width,height)*app->screenscale,nullptr);
+    editBox->setPosition(Vec2(App::width, height)/2*app->screenscale);
     //Return type shouldn't matter for desktop UI.
     editBox->setInputMode(ui::EditBox::InputMode::ANY);
     editBox->setFontName("Courier");
