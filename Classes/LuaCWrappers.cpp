@@ -9,14 +9,24 @@
 #include "Prefix.h"
 #include "LuaWrap.h"
 
-void setVel(string name, float x, float y)
+void setpos(string name, float x, float y)
+{
+    GObject* obj = GScene::getSpace()->getObject(name);
+    
+    if(obj)
+        obj->body->setPos(SpaceVect(x,y));
+    else
+        throw runtime_error("setpos: " + name + " not found");
+}
+
+void setvel(string name, float x, float y)
 {
     GObject* obj = GScene::getSpace()->getObject(name);
     
     if(obj)
         obj->body->setVel(SpaceVect(x,y));
     else
-        throw runtime_error("setVel: " + name + " not found");
+        throw runtime_error("setvel: " + name + " not found");
 }
 
 //just for testing
@@ -67,7 +77,8 @@ int name ## _wrapper(lua_State* L) \
 
 #define install_wrapper(name) installFunction(name ## _wrapper, #name);
 
-make_wrapper(setVel)
+make_wrapper(setpos)
+make_wrapper(setvel)
 make_wrapper(sv)
 make_wrapper(getObjCount)
 make_wrapper(getUUIDNameMap)
@@ -78,7 +89,8 @@ namespace Lua
 {
     void Inst::installWrappers()
     {
-        install_wrapper(setVel)
+        install_wrapper(setpos)
+        install_wrapper(setvel)
         install_wrapper(sv)
         install_wrapper(getObjCount)
         install_wrapper(getUUIDNameMap)
