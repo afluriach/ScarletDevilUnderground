@@ -55,6 +55,12 @@ SpaceVect toChipmunk(const Vec2& rhs)
     return SpaceVect(expand_vector2(rhs));
 }
 
+SpaceVect toChipmunk(const cocos2d::Size& rhs)
+{
+    return SpaceVect(rhs.width, rhs.height);
+}
+
+
 Sprite* loadImageSprite(const string& resPath, GraphicsLayer sceneLayer, Layer* dest, const Vec2& pos, float zoom)
 {
     Sprite* node = Sprite::create(resPath);

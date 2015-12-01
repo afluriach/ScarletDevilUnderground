@@ -39,6 +39,9 @@
 #include <boost/lexical_cast.hpp>
 #include <boost/math/constants/constants.hpp>
 #include <boost/range/adaptor/map.hpp>
+#include <boost/random/mersenne_twister.hpp>
+#include <boost/random/uniform_01.hpp>
+#include <boost/random/uniform_int_distribution.hpp>
 
 using namespace std;
 USING_NS_CC;

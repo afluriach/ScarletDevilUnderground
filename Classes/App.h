@@ -83,6 +83,9 @@ public:
         Director::getInstance()->runScene(createSceneFromLayer<T>());
     }
     
+    boost::random::uniform_01<float> randomFloat;
+    boost::random::uniform_int_distribution<int> randomInt;
+    boost::random::mt19937 randomEngine;
     
     KeyRegister* keyRegister;
     Lua::Inst lua;

@@ -91,6 +91,8 @@
 		E24450331C03D1DE006D78B0 /* SceneMapping.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E24450311C03D1DE006D78B0 /* SceneMapping.cpp */; };
 		E26147BC1C005A1B008CA1D0 /* scripts in Resources */ = {isa = PBXBuildFile; fileRef = E26147BB1C005A1B008CA1D0 /* scripts */; };
 		E26147BD1C005A1B008CA1D0 /* scripts in Resources */ = {isa = PBXBuildFile; fileRef = E26147BB1C005A1B008CA1D0 /* scripts */; };
+		E27185391C0E252D006EA1EB /* Garden.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E27185371C0E252D006EA1EB /* Garden.cpp */; };
+		E271853A1C0E252D006EA1EB /* Garden.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E27185371C0E252D006EA1EB /* Garden.cpp */; };
 		E27E857B1BE0178800A94217 /* GSpace.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E27E85791BE0178800A94217 /* GSpace.cpp */; };
 		E27E857C1BE0178800A94217 /* GSpace.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E27E85791BE0178800A94217 /* GSpace.cpp */; };
 		E28D89851BDFE7CD00F58903 /* util.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E28D89841BDFE7CD00F58903 /* util.cpp */; };
@@ -226,6 +228,8 @@
 		E24450311C03D1DE006D78B0 /* SceneMapping.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = SceneMapping.cpp; sourceTree = "<group>"; };
 		E26147BB1C005A1B008CA1D0 /* scripts */ = {isa = PBXFileReference; lastKnownFileType = folder; path = scripts; sourceTree = "<group>"; };
 		E27185361C0E0CF8006EA1EB /* Flower.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Flower.h; sourceTree = "<group>"; };
+		E27185371C0E252D006EA1EB /* Garden.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Garden.cpp; sourceTree = "<group>"; };
+		E27185381C0E252D006EA1EB /* Garden.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = Garden.hpp; sourceTree = "<group>"; };
 		E27E85791BE0178800A94217 /* GSpace.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = GSpace.cpp; sourceTree = "<group>"; };
 		E27E857A1BE0178800A94217 /* GSpace.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = GSpace.hpp; sourceTree = "<group>"; };
 		E282936F1BC5CA65005363B0 /* Graphics.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Graphics.h; sourceTree = "<group>"; };
@@ -473,6 +477,8 @@
 				E20A7D691BCD205E007F1A3B /* PlayScene.hpp */,
 				E2C9E5DC1C091BC700CA7C88 /* BlockScene.h */,
 				E2C9E5DD1C0925DF00CA7C88 /* Library.h */,
+				E27185371C0E252D006EA1EB /* Garden.cpp */,
+				E27185381C0E252D006EA1EB /* Garden.hpp */,
 			);
 			name = scenes;
 			sourceTree = "<group>";
@@ -673,6 +679,7 @@
 				503AE10017EB989F00D1A890 /* AppController.mm in Sources */,
 				E2CDC54B1C0507090017537B /* Player.cpp in Sources */,
 				E2C9E5E01C09267C00CA7C88 /* Patchouli.cpp in Sources */,
+				E27185391C0E252D006EA1EB /* Garden.cpp in Sources */,
 				E23E1B2C1C014A0A00F7FAC1 /* LuaShell.cpp in Sources */,
 				E24450241C02CFA8006D78B0 /* ObjectMapping.cpp in Sources */,
 				E2B63AA51BE0450D005695B0 /* GObject.cpp in Sources */,
@@ -708,6 +715,7 @@
 				E2AC8F491BCD4BC20001DB3E /* Graphics.cpp in Sources */,
 				E214CF591C0ACEF800FC8784 /* Spell.cpp in Sources */,
 				E24450251C02CFA8006D78B0 /* ObjectMapping.cpp in Sources */,
+				E271853A1C0E252D006EA1EB /* Garden.cpp in Sources */,
 				E23F055F1BD0294A0091BD6D /* controls.cpp in Sources */,
 				E2080BCA1C00486000EB78DF /* LuaAPI.cpp in Sources */,
 				E244502F1C03A760006D78B0 /* scenes.cpp in Sources */,

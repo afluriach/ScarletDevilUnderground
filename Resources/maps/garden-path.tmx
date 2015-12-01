@@ -1,0 +1,129 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.0" orientation="orthogonal" renderorder="right-down" width="17" height="17" tilewidth="128" tileheight="128" nextobjectid="26">
+ <tileset firstgid="1" name="grass" tilewidth="128" tileheight="128">
+  <image source="grass.png" width="256" height="256"/>
+ </tileset>
+ <layer name="ground" width="17" height="17">
+  <data encoding="base64" compression="zlib">
+   eJxjZGBgYAJiRgpoZiBmoZCmxP5Rd4y6Y9QdQ9cdADACAro=
+  </data>
+ </layer>
+ <objectgroup name="objects">
+  <object id="1" name="player" type="Player" x="512" y="1536" width="128" height="128"/>
+  <object id="2" name="flower1" type="Flower" x="256" y="1792" width="128" height="128">
+   <properties>
+    <property name="color" value="sky"/>
+   </properties>
+  </object>
+  <object id="3" name="flower2" type="Flower" x="128" y="1664" width="128" height="128">
+   <properties>
+    <property name="color" value="sky"/>
+   </properties>
+  </object>
+  <object id="4" name="flower3" type="Flower" x="128" y="1536" width="128" height="128">
+   <properties>
+    <property name="color" value="sky"/>
+   </properties>
+  </object>
+  <object id="5" name="flower" type="Flower" x="128" y="1408" width="128" height="128">
+   <properties>
+    <property name="color" value="sky"/>
+   </properties>
+  </object>
+  <object id="6" name="flower" type="Flower" x="256" y="1280" width="128" height="128">
+   <properties>
+    <property name="color" value="sky"/>
+   </properties>
+  </object>
+  <object id="7" name="flower" type="Flower" x="384" y="1152" width="128" height="128">
+   <properties>
+    <property name="color" value="sky"/>
+   </properties>
+  </object>
+  <object id="8" name="flower" type="Flower" x="640" y="1024" width="128" height="128">
+   <properties>
+    <property name="color" value="sky"/>
+   </properties>
+  </object>
+  <object id="9" name="flower" type="Flower" x="512" y="1024" width="128" height="128">
+   <properties>
+    <property name="color" value="sky"/>
+   </properties>
+  </object>
+  <object id="10" name="flower" type="Flower" x="896" y="1024" width="128" height="128">
+   <properties>
+    <property name="color" value="sky"/>
+   </properties>
+  </object>
+  <object id="11" name="flower" type="Flower" x="768" y="1024" width="128" height="128">
+   <properties>
+    <property name="color" value="sky"/>
+   </properties>
+  </object>
+  <object id="12" name="flower" type="Flower" x="1024" y="1152" width="128" height="128">
+   <properties>
+    <property name="color" value="sky"/>
+   </properties>
+  </object>
+  <object id="13" name="flower" type="Flower" x="1024" y="1280" width="128" height="128">
+   <properties>
+    <property name="color" value="sky"/>
+   </properties>
+  </object>
+  <object id="14" name="flower" type="Flower" x="1024" y="1408" width="128" height="128">
+   <properties>
+    <property name="color" value="sky"/>
+   </properties>
+  </object>
+  <object id="15" name="flower" type="Flower" x="896" y="1536" width="128" height="128">
+   <properties>
+    <property name="color" value="sky"/>
+   </properties>
+  </object>
+  <object id="16" name="flower" type="Flower" x="896" y="1664" width="128" height="128">
+   <properties>
+    <property name="color" value="sky"/>
+   </properties>
+  </object>
+  <object id="17" name="flower" type="Flower" x="896" y="1792" width="128" height="128">
+   <properties>
+    <property name="color" value="sky"/>
+   </properties>
+  </object>
+  <object id="18" name="flower" type="Flower" x="768" y="1792" width="128" height="128">
+   <properties>
+    <property name="color" value="sky"/>
+   </properties>
+  </object>
+  <object id="19" name="flower" type="Flower" x="640" y="1792" width="128" height="128">
+   <properties>
+    <property name="color" value="sky"/>
+   </properties>
+  </object>
+  <object id="21" name="flower" type="Flower" x="512" y="1792" width="128" height="128">
+   <properties>
+    <property name="color" value="sky"/>
+   </properties>
+  </object>
+  <object id="22" name="flower" type="Flower" x="384" y="1792" width="128" height="128">
+   <properties>
+    <property name="color" value="sky"/>
+   </properties>
+  </object>
+  <object id="23" name="flower2" type="Flower" x="0" y="1920" width="128" height="128">
+   <properties>
+    <property name="color" value="magenta"/>
+   </properties>
+  </object>
+  <object id="24" name="flower2" type="Flower" x="128" y="2048" width="128" height="128">
+   <properties>
+    <property name="color" value="magenta"/>
+   </properties>
+  </object>
+  <object id="25" name="flower2" type="Flower" x="0" y="2048" width="128" height="128">
+   <properties>
+    <property name="color" value="magenta"/>
+   </properties>
+  </object>
+ </objectgroup>
+</map>

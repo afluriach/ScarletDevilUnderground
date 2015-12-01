@@ -118,6 +118,9 @@ public:
     {
         multiInit.insertWithOrder(bind(&MapScene::loadMap, this),initOrder::mapLoad);
     }
+    inline SpaceVect getMapSize(){
+        return toChipmunk(tileMap->getMapSize());
+    }
 protected:
     string mapRes;
     Layer* mapLayer;

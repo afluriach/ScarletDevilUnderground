@@ -12,6 +12,7 @@
 //Define assignment conversion between cocos and chipmunk vectors
 Vec2 toCocos(const SpaceVect& rhs);
 SpaceVect toChipmunk(const Vec2& rhs);
+SpaceVect toChipmunk(const cocos2d::Size& rhs);
 IntVec2 toIntVector(const cocos2d::Size& rhs);
 
 float dirToPhysicsAngle(Direction d);
