@@ -15,6 +15,24 @@ namespace Lua
 {
     static const string lauArgTag = "luaScript";
 
+    class lua_runtime_error : public runtime_error
+    {
+    public:
+        inline lua_runtime_error(string what) : runtime_error(what) {}
+        inline lua_runtime_error(const string& name, int arg, const string& msg)
+        : lua_runtime_error(StringUtils::format("%s, argument %d: %s", name.c_str(), arg, msg.c_str())){}
+
+    };
+    
+    class lua_type_error : public lua_runtime_error
+    {
+    public:
+        inline lua_type_error(string what) : lua_runtime_error(what) {}
+        inline lua_type_error(const string& name, int arg, const string& msg)
+        : lua_runtime_error(name, arg, msg){}
+
+    };
+
     //Raise Lua exception
     void error(lua_State* L, const string& msg);
     
@@ -48,6 +66,32 @@ namespace Lua
     private:
         lua_State *state;
     };
+    
+    template<typename K, typename V>
+    map<K,V> getMapFromTable(LuaRef table)
+    {
+        map<K,V> result;
+        
+        for(auto it = Iterator(table); !it.isNil(); ++it)
+        {
+            K key;
+            V value;
+            try{
+                LuaRef luakey = it.key();
+                key = luakey.cast<K>();
+            }catch(exception ex){
+                throw lua_type_error("Key of wrong type");
+            }
+            try{
+                LuaRef luavalue = it.value();
+                value = luavalue.cast<V>();
+            } catch(exception ex){
+                throw lua_type_error("Value of wrong type.");
+            }
+            result[key] = value;
+        }
+        return result;
+    }
 }
 
 #endif /* Lua_hpp */

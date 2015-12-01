@@ -33,6 +33,22 @@ int getObjCount()
     return space->getObjectCount();
 }
 
+map<int, string> getUUIDNameMap()
+{
+    GSpace* space = GScene::getSpace();
+    
+    if(!space) return map<int,string>();
+    
+    return space->getUUIDNameMap();
+}
+
+void printMap(map<string,string> m)
+{
+    for(auto it = m.begin(); it != m.end(); ++it){
+        log("%s : %s", it->first.c_str(), it->second.c_str());
+    }
+}
+
 #define make_wrapper(name) \
 int name ## _wrapper(lua_State* L) \
 { \
@@ -49,6 +65,8 @@ int name ## _wrapper(lua_State* L) \
 make_wrapper(setVel)
 make_wrapper(sv)
 make_wrapper(getObjCount)
+make_wrapper(getUUIDNameMap)
+make_wrapper(printMap)
 
 namespace Lua
 {
@@ -57,6 +75,8 @@ namespace Lua
         install_wrapper(setVel)
         install_wrapper(sv)
         install_wrapper(getObjCount)
+        install_wrapper(getUUIDNameMap)
+        install_wrapper(printMap)
     }
 
 }

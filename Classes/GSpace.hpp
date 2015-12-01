@@ -43,6 +43,8 @@ public:
     void removeObject(GObject* obj);
     void processRemovals();
     
+    map<int,string> getUUIDNameMap();
+    
     void update();
     
     static shared_ptr<Body> createCircleBody(

@@ -9,18 +9,48 @@
 #ifndef LuaWrap_h
 #define LuaWrap_h
 
+#include "LuaAPI.hpp"
+
+#define _lua_type_error(msg) Lua::lua_type_error(name, argNum,msg)
+
 //May be specialized, but use LuaRef cast by default.
 template<typename T>
 struct convert{
-    static T convertFromLua(const string& name, int argNum, LuaRef ref)
+    inline static T convertFromLua(const string& name, int argNum, LuaRef ref)
     {
         return ref.cast<T>();
     }
-    static LuaRef convertToLua(const T& t, lua_State* L)
+    inline static LuaRef convertToLua(const T& t, lua_State* L)
     {
         return LuaRef(L, t);
     }
 };
+
+template<typename K,typename V>
+struct convert<map<K,V>>{
+    inline static map<K,V> convertFromLua(const string& name, int argNum, LuaRef ref)
+    {
+        if(not ref.isTable())
+            throw runtime_error(_lua_type_error(" is not a table"));
+        
+        return Lua::getMapFromTable<K,V>(ref);
+    }
+    inline static LuaRef convertToLua(const map<K,V>& m, lua_State* L)
+    {
+        LuaRef table(L);
+        table = newTable(L);
+        
+        for(auto it = m.begin(); it != m.end(); ++it){
+            K key = it->first;
+            V value = it->second;
+            
+            table[key] = value;
+        }
+        
+        return table;
+    }
+};
+
 
 //conversion helper
 template<typename T>

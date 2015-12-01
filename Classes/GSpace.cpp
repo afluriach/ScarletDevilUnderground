@@ -229,6 +229,17 @@ void GSpace::processRemovals()
     toRemove.clear();
 }
 
+map<int,string> GSpace::getUUIDNameMap()
+{
+    map<int,string> result;
+    
+    for(auto it = objByUUID.begin(); it != objByUUID.end(); ++it)
+    {
+        result[it->first] = it->second->name;
+    }
+    return result;
+}
+
 //Collision handlers
 //std::function<int(Arbiter, Space&)>
 
