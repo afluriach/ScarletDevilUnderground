@@ -22,6 +22,7 @@ enum Direction{
 
 enum GraphicsLayer{
     map = 1,
+    foliage,
     ground,
 };
 
