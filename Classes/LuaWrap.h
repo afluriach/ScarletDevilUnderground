@@ -46,7 +46,8 @@ template<typename T>
 struct convert{
     inline static T convertFromLua(const string& name, int argNum, LuaRef ref)
     {
-        check_integer_value(ref);
+        if(typeid(T) != typeid(float) && typeid(T) != typeid(double))
+            check_integer_value(ref);
         check_signed<T>(ref);
         check_numeric_range<T>(ref);
     

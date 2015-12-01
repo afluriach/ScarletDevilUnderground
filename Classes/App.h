@@ -21,6 +21,8 @@ public:
     static const int width = 800;
     static const int height = 500;
     
+    float screenscale = 1;
+    
     static const int framesPerSecond = 60;
     constexpr static float secondsPerFrame = 1.0 / framesPerSecond;
     

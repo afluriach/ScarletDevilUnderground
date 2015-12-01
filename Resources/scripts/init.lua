@@ -1,1 +1,1 @@
-log("init.lua run")
+setscreenscale(1.5)

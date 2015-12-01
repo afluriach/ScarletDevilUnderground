@@ -35,7 +35,7 @@ bool App::applicationDidFinishLaunching() {
     auto director = Director::getInstance();
     auto glview = director->getOpenGLView();
     if(!glview) {
-        glview = GLViewImpl::create(title);
+        glview = GLViewImpl::createWithRect(App::title, cocos2d::Rect(0,0,App::width, App::height),screenscale);
         director->setOpenGLView(glview);
         
         glview->setDesignResolutionSize(width, height, ResolutionPolicy::SHOW_ALL);

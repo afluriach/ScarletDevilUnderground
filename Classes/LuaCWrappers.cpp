@@ -64,6 +64,11 @@ void addUpdate(function<void()> f, int order)
     GScene::crntScene->multiUpdate.insertWithOrder(f, order);
 }
 
+void setscreenscale(float f)
+{
+    app->screenscale = f;
+}
+
 #define make_wrapper(name) \
 int name ## _wrapper(lua_State* L) \
 { \
@@ -84,6 +89,7 @@ make_wrapper(getObjCount)
 make_wrapper(getUUIDNameMap)
 make_wrapper(printMap)
 make_wrapper(addUpdate)
+make_wrapper(setscreenscale)
 
 namespace Lua
 {
@@ -96,6 +102,7 @@ namespace Lua
         install_wrapper(getUUIDNameMap)
         install_wrapper(printMap)
         install_wrapper(addUpdate)
+        install_wrapper(setscreenscale)
     }
 
 }
