@@ -67,7 +67,7 @@ public:
     void setUnitPosition(const SpaceVect& v);
     
     util::multifunction<void()> multiInit;
-    util::multifunction<void(float)> multiUpdate;
+    util::multifunction<void()> multiUpdate;
     
     inline Layer* getLayer(sceneLayers layer){
         auto it = layers.find(static_cast<int>(layer));

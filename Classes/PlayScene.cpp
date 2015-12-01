@@ -21,7 +21,7 @@ void printGroup(TMXObjectGroup* group)
     }
 }
 
-void PlayScene::updateCamera(float dt)
+void PlayScene::updateCamera()
 {
     if(cameraTarget){
         trackCameraTarget();

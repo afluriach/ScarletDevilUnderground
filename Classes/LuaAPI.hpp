@@ -92,6 +92,8 @@ namespace Lua
         }
         return result;
     }
+    
+    function<void()> makeFunctorFromLuaFunction(LuaRef ref);
 }
 
 #endif /* Lua_hpp */

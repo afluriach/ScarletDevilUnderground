@@ -49,6 +49,13 @@ namespace Lua{
         return result;
     }
     
+    function<void()> makeFunctorFromLuaFunction(LuaRef ref)
+    {
+        return [=]() -> void{
+            ref();
+        };
+    }
+    
     list<LuaRef> getArgs(lua_State* L)
     {
         int nArgs = lua_gettop(L);

@@ -70,6 +70,17 @@ struct convert<string>{
     }
 };
 
+template<>
+struct convert<function<void()>>{
+    inline static function<void()> convertFromLua(const string& name, int argNum, LuaRef ref)
+    {
+        return Lua::makeFunctorFromLuaFunction(ref);
+    }
+//    inline static LuaRef convertToLua(const function<void>& t, lua_State* L)
+//    {
+//        throw Lua::lua_type_error("Return C functor not supported.");
+//    }
+};
 
 template<typename K,typename V>
 struct convert<map<K,V>>{

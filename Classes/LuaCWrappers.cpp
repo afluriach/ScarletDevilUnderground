@@ -49,6 +49,11 @@ void printMap(map<string,string> m)
     }
 }
 
+void addUpdate(function<void()> f, int order)
+{
+    GScene::crntScene->multiUpdate.insertWithOrder(f, order);
+}
+
 #define make_wrapper(name) \
 int name ## _wrapper(lua_State* L) \
 { \
@@ -67,6 +72,7 @@ make_wrapper(sv)
 make_wrapper(getObjCount)
 make_wrapper(getUUIDNameMap)
 make_wrapper(printMap)
+make_wrapper(addUpdate)
 
 namespace Lua
 {
@@ -77,6 +83,7 @@ namespace Lua
         install_wrapper(getObjCount)
         install_wrapper(getUUIDNameMap)
         install_wrapper(printMap)
+        install_wrapper(addUpdate)
     }
 
 }

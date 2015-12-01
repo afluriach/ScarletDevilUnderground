@@ -54,7 +54,7 @@ bool GScene::init()
 
 void GScene::update(float dt)
 {
-    multiUpdate(dt);
+    multiUpdate();
 }
 
 
