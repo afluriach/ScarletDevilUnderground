@@ -292,6 +292,11 @@ int playerBulletEnvironment(Arbiter arb, Space& space)
     return 1;
 }
 
+int noCollide(Arbiter arb, Space& space)
+{
+    return 0;
+}
+
 #define AddHandler(a,b,begin,end) \
 space.addCollisionHandler(GType::a, GType::b, begin, nullptr, nullptr, end);
 
@@ -301,4 +306,6 @@ void GSpace::addCollisionHandlers()
     AddHandler(player, enemyBullet, playerEnemyBulletBegin, nullptr)
     AddHandler(playerBullet, enemy, playerBulletEnemyBegin, nullptr)
     AddHandler(playerBullet, environment, playerBulletEnvironment, nullptr)
+    AddHandler(playerBullet,foliage,noCollide,nullptr)
+    AddHandler(enemyBullet,foliage,noCollide,nullptr)
 }

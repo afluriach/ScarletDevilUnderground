@@ -22,7 +22,7 @@ enum Direction{
 
 enum GraphicsLayer{
     map = 1,
-    foliage,
+    foliageLayer,
     ground,
 };
 
@@ -31,7 +31,8 @@ enum GType{
     playerBullet,
     enemy,
     enemyBullet,
-    environment
+    environment,
+    foliage,
 };
 
 //Layers are interpreted as a bitmask.
