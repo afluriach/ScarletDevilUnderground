@@ -18,9 +18,9 @@ void check_numeric_range(LuaRef ref)
 {
     double d = ref.cast<double>();
     
-    if(d > numeric_limits<T>::max()
-    || d < numeric_limits<T>::min()
-    ){
+    //allow subnormal float to be rounded.
+    double dmax = static_cast<double>(numeric_limits<T>::max());
+    if(d > dmax){
         throw Lua::lua_type_error(StringUtils::format("Lua number is outside of %s range.", typeid(T).name()));
     }
 }
