@@ -26,6 +26,10 @@ public:
     static GObject* constructByType(const string& type, const ValueMap& args );
     
     static ValueMap makeValueMapArg(const Vec2& pos, const map<string,string>& props);
+    
+    inline void setInitialVelocity(const SpaceVect&& v){
+        multiInit += [=]() -> void{ body->setVel(v);};
+    }
 
     const string name;
     const unsigned int uuid;

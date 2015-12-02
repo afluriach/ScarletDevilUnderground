@@ -22,17 +22,15 @@ class PlayerBaseBullet : virtual public Bullet, public ImageSprite, RegisterInit
 public:
     static constexpr float speed = 6;
 
-    inline PlayerBaseBullet(float angle, const SpaceVect& pos) : angle(angle), GObject("playerBaseBullet", pos), RegisterInit<PlayerBaseBullet>(this) {}
+    inline PlayerBaseBullet(float angle, const SpaceVect& pos) : GObject("playerBaseBullet", pos), RegisterInit<PlayerBaseBullet>(this) {
+        setInitialVelocity(SpaceVect::ray(speed, angle));
+    }
 
     virtual inline string imageSpritePath() const {return "sprites/flandre_bullet.png";}
     virtual inline GraphicsLayer sceneLayer() const {return GraphicsLayer::ground;}
     
     virtual inline GType getType() const {return GType::playerBullet;}
     virtual inline float getRadius() const {return 0.3;}
-    
-    void init();
-protected:
-    float angle;
 };
 
 class StationaryFireBullet : virtual public Bullet, public LoopAnimationSprite
@@ -56,8 +54,8 @@ class PatchouliFireBullet : virtual public Bullet, public LoopAnimationSprite
 public:
     static constexpr float speed = 6;
 
-    inline PatchouliFireBullet(float angle, const SpaceVect& pos) : angle(angle), GObject("patchouliFireBullet", pos) {
-        multiInit += bind(&PatchouliFireBullet::init, this);
+    inline PatchouliFireBullet(float angle, const SpaceVect& pos) : GObject("patchouliFireBullet", pos) {
+        setInitialVelocity(SpaceVect::ray(speed, angle));
     }
 
     virtual string animationName() const {return "patchouli_fire";}
@@ -68,10 +66,6 @@ public:
     
     virtual inline GType getType() const {return GType::enemyBullet;}
     virtual inline float getRadius() const {return 0.3;}
-    
-    void init();
-protected:
-    float angle;
 };
 
 #endif /* Bullet_hpp */

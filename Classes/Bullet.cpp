@@ -8,13 +8,3 @@
 
 #include "Prefix.h"
 #include "Bullet.hpp"
-
-void PlayerBaseBullet::init()
-{
-    body->setVel(SpaceVect::ray(speed,angle));
-}
-
-void PatchouliFireBullet::init()
-{
-    body->setVel(SpaceVect::ray(speed,angle));
-}
