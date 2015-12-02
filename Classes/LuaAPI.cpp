@@ -281,6 +281,8 @@ namespace Lua{
         ref_from_table(args, height)
 
         ref_from_table(args, radius)
+        ref_from_table(args, vx)
+        ref_from_table(args, vy)
 
         requireNonNil(name, L, "createObject: name required");
         requireNonNil(type, L, "createObject: type required");
@@ -308,6 +310,11 @@ namespace Lua{
         if(radius.isNumber())
             objArg["radius"] = Value(getFloat(radius));
         
+        if(vx.isNumber() && vy.isNumber()){
+            objArg["vx"] = Value(getFloat(vx));
+            objArg["vy"] = Value(getFloat(vy));
+        }
+
         gspace->addObject(objArg);
         
         return 0;

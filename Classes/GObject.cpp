@@ -17,6 +17,10 @@ GObject::GObject(const ValueMap& obj) : name(obj.at("name").asString()), uuid(ne
         
         //Interpret coordinates as center, unit space.
         initialCenter = SpaceVect(getFloat(obj, "x"), getFloat(obj, "y"));
+        
+        if(obj.find("vx") != obj.end() && obj.find("vy") != obj.end()){
+            setInitialVelocity(SpaceVect(getFloat(obj, "vx"), getFloat(obj, "vy")));
+        }
     }
     else{
         //When loaded from a map, coordinates represent the corner in pixels.
