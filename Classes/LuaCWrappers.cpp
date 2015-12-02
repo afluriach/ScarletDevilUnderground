@@ -9,6 +9,8 @@
 #include "Prefix.h"
 #include "LuaWrap.h"
 
+namespace Lua{
+
 void setpos(string name, float x, float y)
 {
     GObject* obj = GScene::getSpace()->getObject(name);
@@ -91,18 +93,16 @@ make_wrapper(printMap)
 make_wrapper(addUpdate)
 make_wrapper(setscreenscale)
 
-namespace Lua
+void Inst::installWrappers()
 {
-    void Inst::installWrappers()
-    {
-        install_wrapper(setpos)
-        install_wrapper(setvel)
-        install_wrapper(sv)
-        install_wrapper(getObjCount)
-        install_wrapper(getUUIDNameMap)
-        install_wrapper(printMap)
-        install_wrapper(addUpdate)
-        install_wrapper(setscreenscale)
-    }
+    install_wrapper(setpos)
+    install_wrapper(setvel)
+    install_wrapper(sv)
+    install_wrapper(getObjCount)
+    install_wrapper(getUUIDNameMap)
+    install_wrapper(printMap)
+    install_wrapper(addUpdate)
+    install_wrapper(setscreenscale)
+}
 
 }

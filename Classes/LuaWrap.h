@@ -11,7 +11,9 @@
 
 #include "LuaAPI.hpp"
 
-#define _lua_type_error(msg) Lua::lua_type_error(name, argNum,msg)
+#define _lua_type_error(msg) lua_type_error(name, argNum,msg)
+
+namespace Lua{
 
 template<typename T>
 void check_numeric_range(LuaRef ref)
@@ -21,7 +23,7 @@ void check_numeric_range(LuaRef ref)
     //allow subnormal float to be rounded.
     double dmax = static_cast<double>(numeric_limits<T>::max());
     if(d > dmax){
-        throw Lua::lua_type_error(StringUtils::format("Lua number is outside of %s range.", typeid(T).name()));
+        throw lua_type_error(StringUtils::format("Lua number is outside of %s range.", typeid(T).name()));
     }
 }
 
@@ -29,7 +31,7 @@ void check_integer_value(LuaRef ref)
 {
     double d = ref.cast<double>();
     if(floor(d) != d)
-        throw Lua::lua_type_error("Attempt to cast non-integer Lua number to integer.");
+        throw lua_type_error("Attempt to cast non-integer Lua number to integer.");
 }
 
 template<typename T>
@@ -38,7 +40,7 @@ void check_signed(LuaRef ref)
     double d = ref.cast<double>();
     
     if(!is_signed<T>::value && d < 0)
-        throw Lua::lua_type_error("Attempt to cast negative Lua number to unsigned.");
+        throw lua_type_error("Attempt to cast negative Lua number to unsigned.");
 }
 
 //General case for all numeric types.
@@ -76,13 +78,13 @@ struct convert<function<void()>>{
     inline static function<void()> convertFromLua(const string& name, int argNum, LuaRef ref)
     {
         if(!ref.isFunction())
-            throw Lua::lua_type_error(StringUtils::format("%s, expected a function for arg %d", name.c_str(), argNum));
+            throw lua_type_error(StringUtils::format("%s, expected a function for arg %d", name.c_str(), argNum));
     
-        return Lua::makeFunctorFromLuaFunction(ref);
+        return makeFunctorFromLuaFunction(ref);
     }
 //    inline static LuaRef convertToLua(const function<void>& t, lua_State* L)
 //    {
-//        throw Lua::lua_type_error("Return C functor not supported.");
+//        throw lua_type_error("Return C functor not supported.");
 //    }
 };
 
@@ -93,7 +95,7 @@ struct convert<map<K,V>>{
         if(not ref.isTable())
             throw runtime_error(_lua_type_error(" is not a table"));
         
-        return Lua::getMapFromTable<K,V>(ref);
+        return getMapFromTable<K,V>(ref);
     }
     inline static LuaRef convertToLua(const map<K,V>& m, lua_State* L)
     {
@@ -160,7 +162,7 @@ template<typename... Args>
 struct cargs{
     static tuple <Args...> getCArgs(lua_State* L, const string& name)
     {
-        list<LuaRef> luaArgs = Lua::getArgs(L);
+        list<LuaRef> luaArgs = getArgs(L);
 
         size_t c_arity = tuple_size<tuple<Args...>>::value;
         
@@ -180,7 +182,7 @@ template<>
 struct cargs<>{
     static tuple <> getCArgs(lua_State* L, const string& name)
     {
-        list<LuaRef> luaArgs = Lua::getArgs(L);
+        list<LuaRef> luaArgs = getArgs(L);
 
         size_t c_arity = 0;
         
@@ -234,5 +236,7 @@ int wrapper(const string& name, Ret (*func)(Args...), lua_State* L)
 {
     return wrap<Ret,Args...>::wrapFunc(name, func, L);
 }
+
+};//namespace
 
 #endif /* LuaWrap_h */
