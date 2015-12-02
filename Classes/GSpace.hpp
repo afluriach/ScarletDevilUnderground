@@ -38,6 +38,10 @@ public:
         auto it = objByName.find(name);
         return it != objByName.end() ? it->second : nullptr;
     }
+    inline GObject* getObject(unsigned int uuid){
+        auto it = objByUUID.find(uuid);
+        return it != objByUUID.end() ? it->second : nullptr;
+    }
     
     void removeObject(const string& name);
     void removeObject(GObject* obj);

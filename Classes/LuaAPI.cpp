@@ -183,12 +183,17 @@ namespace Lua{
     { \
     const char* crntFuncName = #name;
     
-    #define push_error(errorMsg) \
+    #define push_error(errorMsg) {\
     snprintf(errorbuf, 128, "%s: %s", crntFuncName, errorMsg); \
     error(L, errorbuf); \
-    return 1;
+    return 1; }
 
     #define c_str(string_expr) string(string_expr).c_str()
+    
+    #define check_type(type) \
+    if(typeStr == #type){ \
+        result = LuaRef(L, dynamic_cast<type*>(o)); \
+    }
     
     float getFloat(LuaRef r)
     {
@@ -212,6 +217,17 @@ namespace Lua{
         log("getVec2FromTable: not a vector");
         return Vec2(0,0);
     }
+    
+    //Convert userdata pointer to a derived class if applicable,
+    //otherwise return nil
+    LuaRef convertObjectUserdata(GObject* o, const string& typeStr, lua_State* L)
+    {
+        LuaRef result(L);
+
+        check_type(Spellcaster)
+        
+        return result;
+    }
 
     //Lua API functions:
     func(log)
@@ -229,11 +245,6 @@ namespace Lua{
         return 0;
     }
 
-    #define check_type(type) \
-    if(typeStr.tostring() == #type){ \
-        result = LuaRef(L, dynamic_cast<type*>(o)); \
-    }
-
     func(convert)
         NARGS
         check_args(2)
@@ -241,11 +252,7 @@ namespace Lua{
         arg(typeStr)
         arg(input)
 
-        GObject* o = input.cast<GObject*>();
-
-        LuaRef result(L);
-
-        check_type(Spellcaster)
+        LuaRef result = convertObjectUserdata(input.cast<GObject*>(),typeStr.tostring(),L);
 
         result.push(L);
         return 1;
