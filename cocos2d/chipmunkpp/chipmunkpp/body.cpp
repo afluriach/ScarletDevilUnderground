@@ -47,6 +47,10 @@ namespace cp {
 	void Body::setVel(Vect velocity) {
 		cpBodySetVel(body, velocity);
 	}
+    
+    void Body::applyImpulse(Vect force){
+        cpBodyApplyImpulse(body,force,Vect(0,0));
+    }
 
 	Float Body::getVelLimit() const {
 		return cpBodyGetVelLimit(body);

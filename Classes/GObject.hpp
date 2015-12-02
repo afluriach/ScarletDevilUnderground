@@ -35,6 +35,12 @@ public:
         body->setPos(SpaceVect(x,y));
     }
     
+    inline void applyImpulse(float mag, float angle){
+        SpaceVect v = SpaceVect::ray(mag,angle);
+        
+        body->applyImpulse(v);
+    }
+    
     inline unsigned int getUUID(){
         return uuid;
     }

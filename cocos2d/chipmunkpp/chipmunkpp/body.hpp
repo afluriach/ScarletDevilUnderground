@@ -47,6 +47,9 @@ namespace cp {
             shapes.push_back(shape);
         }
         
+        void applyImpulse(Vect force);
+
+        
         void remove(Space& space);
         void removeShapes(Space& space);
         
