@@ -73,6 +73,20 @@ struct convert<string>{
     }
 };
 
+template<typename C>
+struct convert<C*>{
+    inline static C* convertFromLua(const string& name, int argNum, LuaRef ref)
+    {
+        return ref.cast<C*>();
+    }
+    inline static LuaRef convertToLua(C* c, lua_State* L)
+    {
+        if(!c) return LuaRef(L);
+        
+        return LuaRef(L, c);
+    }
+};
+
 template<>
 struct convert<function<void()>>{
     inline static function<void()> convertFromLua(const string& name, int argNum, LuaRef ref)
@@ -227,6 +241,33 @@ struct wrap<void, Args...>{
     }
 };
 
+template<typename Ret, typename C, typename...Args>
+struct wrapMethod{
+    static int wrap(const string& name, Ret (C::*func)(Args...), lua_State* L)
+    {
+        tuple<C*, Args...> args = cargs<C*,Args...>::getCArgs(L, name);
+
+        //Return type (first template parameter) cannot be inferred.
+        Ret r = variadic_call<Ret>(mem_fn(func), args);
+        LuaRef luaRet = convert<Ret>::convertToLua(r, L);
+        luaRet.push(L);
+        return 1;
+    }
+};
+
+template<typename C, typename...Args>
+struct wrapMethod<void,C,Args...>{
+    static int wrap(const string& name, void (C::*func)(Args...), lua_State* L)
+    {
+        tuple<C*, Args...> args = cargs<C*,Args...>::getCArgs(L, name);
+
+        //Return type (first template parameter) cannot be inferred.
+        variadic_call<void>(mem_fn(func), args);
+        
+        return 0;
+    }
+};
+
 //The top level function that can be called to perform the wrapping.
 //
 //The wrap template (which contains wrapFunc) can no longer be matched automatically from the type of the function pointer
@@ -236,6 +277,13 @@ int wrapper(const string& name, Ret (*func)(Args...), lua_State* L)
 {
     return wrap<Ret,Args...>::wrapFunc(name, func, L);
 }
+
+template<typename C, typename Ret, typename...Args>
+int methodWrapper(const string& name, Ret (C::*func)(Args...), lua_State* L)
+{
+    return wrapMethod<Ret,C,Args...>::wrap(name, func, L);
+}
+
 
 };//namespace
 

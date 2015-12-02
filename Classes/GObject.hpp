@@ -31,6 +31,14 @@ public:
         multiInit += [=]() -> void{ body->setVel(v);};
     }
 
+    inline void setPos(float x, float y){
+        body->setPos(SpaceVect(x,y));
+    }
+    
+    inline unsigned int getUUID(){
+        return uuid;
+    }
+
     const string name;
     const unsigned int uuid;
     

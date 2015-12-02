@@ -71,6 +71,15 @@ void setscreenscale(float f)
     app->screenscale = f;
 }
 
+GObject* getObjByName(string name)
+{
+    GSpace* space = GScene::getSpace();
+    
+    if(!space) lua_runtime_error("Cannot access objects in this scene.");
+    
+    return space->getObject(name);
+}
+
 #define make_wrapper(name) \
 int name ## _wrapper(lua_State* L) \
 { \
@@ -82,7 +91,20 @@ int name ## _wrapper(lua_State* L) \
     } \
 }
 
+#define make_method_wrapper(cls, name) \
+int name ## _wrapper(lua_State* L) \
+{ \
+    try{ \
+        return methodWrapper(#cls "::" #name, &cls::name, L);\
+    }catch(runtime_error err){ \
+        Lua::error(L, err.what()); \
+        return 1; \
+    } \
+}
+
 #define install_wrapper(name) installFunction(name ## _wrapper, #name);
+#define install_method_wrapper(cls,name) installFunction(name ## _wrapper, #cls "_" #name);
+
 
 make_wrapper(setpos)
 make_wrapper(setvel)
@@ -92,6 +114,10 @@ make_wrapper(getUUIDNameMap)
 make_wrapper(printMap)
 make_wrapper(addUpdate)
 make_wrapper(setscreenscale)
+make_wrapper(getObjByName)
+
+make_method_wrapper(GObject,setPos)
+make_method_wrapper(GObject,getUUID)
 
 void Inst::installWrappers()
 {
@@ -103,6 +129,14 @@ void Inst::installWrappers()
     install_wrapper(printMap)
     install_wrapper(addUpdate)
     install_wrapper(setscreenscale)
+    install_wrapper(getObjByName)
+    
+    getGlobalNamespace(state)
+        .beginClass<GObject>("GObject")
+    .endClass();
+    
+    install_method_wrapper(GObject,setPos)
+    install_method_wrapper(GObject,getUUID)
 }
 
 }
