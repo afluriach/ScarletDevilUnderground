@@ -57,6 +57,7 @@ protected:
 
 class FireStarburst : public PeriodicSpell{
 public:
+    static constexpr float bulletSpeed = 6;
     inline FireStarburst(GObject* caster) : Spell(caster) {}
     no_op(init);
     inline float interval() const {return 0.5;}

@@ -9,6 +9,7 @@
 #include "Prefix.h"
 
 #include "Block.hpp"
+#include "Bullet.hpp"
 #include "Flower.h"
 #include "Glyph.hpp"
 #include "Patchouli.hpp"
@@ -28,6 +29,7 @@ static GObject::AdapterType consAdapter()
 const map<string,GObject::AdapterType> GObject::adapters =
     boost::assign::map_list_of
     entry_same(Block)
+    entry_same(FireBullet)
     entry_same(Flower)
     entry_same(Glyph)
     entry_same(Patchouli)

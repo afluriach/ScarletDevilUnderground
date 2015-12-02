@@ -19,7 +19,8 @@ void FireStarburst::runPeriodic()
 
         SpaceVect crntPos = pos + SpaceVect::ray(1, angle);
 
-        PatchouliFireBullet* bullet = new PatchouliFireBullet(angle, crntPos);
+        FireBullet* bullet = new FireBullet(crntPos);
+        bullet->setInitialVelocity(SpaceVect::ray(bulletSpeed, angle));
         GScene::getSpace()->addObject(bullet);
     }
 }
@@ -36,7 +37,7 @@ void FlameFence::init()
             SpaceVect pos(center);
             pos += SpaceVect(x,y) + rowSkew;
             
-            StationaryFireBullet* bullet = new StationaryFireBullet(pos);
+            FireBullet* bullet = new FireBullet(pos);
             bullets.push_back(bullet);
             GScene::getSpace()->addObject(bullet);
         }

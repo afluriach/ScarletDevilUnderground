@@ -280,6 +280,8 @@ namespace Lua{
         ref_from_table(args, width)
         ref_from_table(args, height)
 
+        ref_from_table(args, radius)
+
         requireNonNil(name, L, "createObject: name required");
         requireNonNil(type, L, "createObject: type required");
         requireNonNil(pos,L, "createObject: pos required");
@@ -302,6 +304,9 @@ namespace Lua{
         
         objArg["width"] = width.isNumber() ? Value(getFloat(width)*App::pixelsPerTile) : Value(0.0);
         objArg["height"] = height.isNumber() ? Value(getFloat(height)*App::pixelsPerTile) : Value(0.0);
+
+        if(radius.isNumber())
+            objArg["radius"] = Value(getFloat(radius));
         
         gspace->addObject(objArg);
         

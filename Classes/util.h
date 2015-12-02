@@ -21,6 +21,7 @@ Scene* crntScene();
 
 void printValueMap(const ValueMap& obj);
 float getFloat(const ValueMap& obj, const string& name);
+float getFloatOrDefault(const ValueMap& obj, const string& name, float def);
 
 Sprite* loadImageSprite(const string& resPath, GraphicsLayer sceneLayer, Layer* dest, const Vec2& pos, float zoom);
 

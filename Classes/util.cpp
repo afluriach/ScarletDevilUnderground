@@ -40,6 +40,13 @@ float getFloat(const ValueMap& args, const string& name)
     return args.at(name).asFloat();
 }
 
+float getFloatOrDefault(const ValueMap& args, const string& name, float def)
+{
+    if(args.find(name) != args.end())
+        return getFloat(args,name);
+    else return def;
+}
+
 IntVec2 toIntVector(const cocos2d::Size& rhs)
 {
     return IntVec2(rhs.width,rhs.height);
