@@ -118,6 +118,8 @@ make_wrapper(getObjByName)
 
 make_method_wrapper(GObject,setPos)
 make_method_wrapper(GObject,getUUID)
+make_method_wrapper(Spellcaster,castByName)
+make_method_wrapper(Spellcaster,stop)
 
 void Inst::installWrappers()
 {
@@ -133,10 +135,18 @@ void Inst::installWrappers()
     
     getGlobalNamespace(state)
         .beginClass<GObject>("GObject")
-    .endClass();
+            .addFunction("init", &GObject::init)
+        .endClass()
+        .deriveClass<Spellcaster, GObject>("Spellcaster")
+            .addFunction("cast", &Spellcaster::castByName)
+            .addFunction("stop", &Spellcaster::stop)
+        .endClass();
     
     install_method_wrapper(GObject,setPos)
     install_method_wrapper(GObject,getUUID)
+    install_method_wrapper(Spellcaster, castByName)
+    install_method_wrapper(Spellcaster,stop)
+
 }
 
 }

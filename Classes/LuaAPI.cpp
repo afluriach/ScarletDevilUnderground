@@ -228,7 +228,29 @@ namespace Lua{
         
         return 0;
     }
-    
+
+    #define check_type(type) \
+    if(typeStr.tostring() == #type){ \
+        result = LuaRef(L, dynamic_cast<type*>(o)); \
+    }
+
+    func(convert)
+        NARGS
+        check_args(2)
+
+        arg(typeStr)
+        arg(input)
+
+        GObject* o = input.cast<GObject*>();
+
+        LuaRef result(L);
+
+        check_type(Spellcaster)
+
+        result.push(L);
+        return 1;
+    }
+
     func(createObject)
         NARGS
         check_args(1)
@@ -364,5 +386,6 @@ namespace Lua{
         install(castSpell);
         install(stopSpell);
         install(getObjectCount);
+        install(convert);
     }
 }

@@ -236,6 +236,8 @@ public:
     ~Spellcaster();
     void cast(shared_ptr<Spell> spell);
     void cast(const string& name);
+//For Luabridge
+    void castByName(string name);
     void update();
     void stop();
 protected:

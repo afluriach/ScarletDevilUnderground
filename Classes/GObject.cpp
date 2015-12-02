@@ -138,6 +138,11 @@ void Spellcaster::cast(const string& name)
     cast(it->second(this));
 }
 
+void Spellcaster::castByName(string name)
+{
+    cast(name);
+}
+
 void Spellcaster::stop()
 {
     if(crntSpell.get())
