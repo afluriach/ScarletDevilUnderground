@@ -10,7 +10,6 @@ const string App::title = "フランの地下";
 App::App() {
     app = this;
     //Initialize Lua
-    lua.runFile("scripts/util.lua");
     lua.runFile("scripts/init.lua");
 }
 

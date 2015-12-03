@@ -39,6 +39,9 @@ namespace Lua
     map<string,string> getStringMapFromTable(LuaRef table);
     
     list<LuaRef> getArgs(lua_State* L);
+    
+    //C API function, runs a script using its simplied name in the app's Lua context.
+    void runscript(string name);
 
     //Wraps a VM instance and interfaces with it.
     class Inst
@@ -47,11 +50,15 @@ namespace Lua
         Inst();
         ~Inst();
         
+        static const vector<string> luaIncludes;
+    
         void installApi();
         void installWrappers();
+        void loadLibraries();
         void installFunction(lua_CFunction func, const string& name);
         void runString(const string& str);
         void runFile(const string& path);
+        
         //Strictly speaking, this supports Lua text as well as object files. It uses loadfile directly
         //rather than passing the file's contents as a string.
         void runObjectFile(const string& path);

@@ -12,11 +12,21 @@
 
 namespace Lua{
 
+const vector<string> Inst::luaIncludes = boost::assign::list_of
+    ("util")
+    ("class")
+    ("math")
+;
+
     //Raise Lua exception
     void error(lua_State* L, const string& msg)
     {
         lua_pushstring(L, msg.c_str());
         lua_error(L);
+    }
+    
+    void runscript(string name){
+        app->lua.runFile("scripts/"+name+".lua");
     }
 
 //Lua API methods
@@ -86,10 +96,19 @@ namespace Lua{
         luaL_openlibs(state);
         installApi();
         installWrappers();
+        loadLibraries();
     }
+    
     Inst::~Inst()
     {
         lua_close(state);
+    }
+    
+    void Inst::loadLibraries()
+    {
+        BOOST_FOREACH(auto s, luaIncludes){
+            runFile("scripts/"+s+".lua");
+        }
     }
     
     void Inst::installFunction(lua_CFunction func, const string& name)
