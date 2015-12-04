@@ -18,6 +18,7 @@ class Spell
 public:
     typedef function<shared_ptr<Spell>(GObject*)> AdapterType;
     static const map<string,AdapterType> adapters;
+    static const set<string> scripts;
 
     inline Spell(GObject* caster) : caster(caster){
     }
@@ -63,6 +64,27 @@ public:
     inline float interval() const {return 0.5;}
     void runPeriodic();
     no_op(end);
+};
+
+class ScriptedSpell : public Spell{
+public:
+    inline ScriptedSpell(GObject* caster, const string& scriptRes) : Spell(caster){
+        ctx.runFile("scripts/spells/" + scriptRes + ".lua");
+        //Push caster as a global variable in the script's context.
+        ctx.setGlobal(ctx.makeRef(caster), "caster");
+    }
+    virtual inline void init(){
+        ctx.callIfExists("init", vector<LuaRef>());
+    }
+    virtual inline void update(){
+        ctx.callIfExists("update", vector<LuaRef>());
+    }
+    virtual inline void end(){
+        ctx.callIfExists("exit", vector<LuaRef>());
+    }
+
+protected:
+    Lua::Inst ctx;
 };
 
 #endif /* Spell_hpp */

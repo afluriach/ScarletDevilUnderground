@@ -23,3 +23,7 @@ const map<string,Spell::AdapterType> Spell::adapters = boost::assign::map_list_o
     entry_same(FireStarburst)
     entry_same(FlameFence)
 ;
+
+const set<string> Spell::scripts = boost::assign::list_of
+    ("Test")
+;

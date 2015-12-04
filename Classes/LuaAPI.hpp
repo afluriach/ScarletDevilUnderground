@@ -56,6 +56,9 @@ namespace Lua
         void installWrappers();
         void loadLibraries();
         void installFunction(lua_CFunction func, const string& name);
+        void setGlobal(LuaRef ref, const string& name);
+        bool globalExists(const string& name);
+        
         void runString(const string& str);
         void runFile(const string& path);
         
@@ -63,6 +66,7 @@ namespace Lua
         //rather than passing the file's contents as a string.
         void runObjectFile(const string& path);
         vector<LuaRef> call(const string& name, const vector<LuaRef>& params);
+        vector<LuaRef> callIfExists(const string& name, const vector<LuaRef>& params);
         
         //Helper for making Lua data, since LuaRef requires the lua state.
         template<typename T>

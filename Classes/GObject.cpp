@@ -134,12 +134,21 @@ void Spellcaster::cast(shared_ptr<Spell> spell)
 
 void Spellcaster::cast(const string& name)
 {
-    auto it = Spell::adapters.find(name);
-    if(it == Spell::adapters.end()){
-        log("Spell %s not available.", name.c_str());
+    auto it_adaptor = Spell::adapters.find(name);
+    
+    if(it_adaptor != Spell::adapters.end()){
+        //Check for a Spell class
+        cast(it_adaptor->second(this));
         return;
     }
-    cast(it->second(this));
+    auto it_script = Spell::scripts.find(name);
+    if(it_script != Spell::scripts.end()){
+        //Check for a spell script.
+        cast(make_shared<ScriptedSpell>(this, name));
+        return;
+    }
+    
+    log("Spell %s not available.", name.c_str());
 }
 
 void Spellcaster::castByName(string name)

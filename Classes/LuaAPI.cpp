@@ -117,6 +117,12 @@ const vector<string> Inst::luaIncludes = boost::assign::list_of
         lua_setglobal(state, name.c_str());
     }
     
+    void Inst::setGlobal(LuaRef ref, const string& name)
+    {
+        ref.push(state);
+        lua_setglobal(state, name.c_str());
+    }
+    
     void Inst::runString(const string& str)
     {        
         int error = luaL_dostring(state, str.c_str());
@@ -138,7 +144,24 @@ const vector<string> Inst::luaIncludes = boost::assign::list_of
         runString(loadTextFile(path));
     }
 
-     vector<LuaRef> Inst::call(const string& name, const vector<LuaRef>& params)
+    bool Inst::globalExists(const string& name)
+    {
+        lua_getglobal(state, name.c_str());
+        bool result = !lua_isnil(state, -1);
+        lua_pop(state, 1);
+        
+        return result;
+    }
+
+    vector<LuaRef> Inst::callIfExists(const string& name, const vector<LuaRef>& params)
+    {
+        if(!globalExists(name))
+            return vector<LuaRef>();
+        
+        return call(name, params);
+    }
+
+    vector<LuaRef> Inst::call(const string& name, const vector<LuaRef>& params)
     {
         int top = lua_gettop(state);
         
