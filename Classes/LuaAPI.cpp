@@ -357,9 +357,11 @@ const vector<string> Inst::luaIncludes = boost::assign::list_of
             objArg["vy"] = Value(getFloat(vy));
         }
 
-        gspace->addObject(objArg);
-        
-        return 0;
+        //Return reference to the created object.
+        LuaRef obj(L, gspace->addObject(objArg));
+        obj.push(L);
+
+        return 1;
     }
 
     func(removeObject)

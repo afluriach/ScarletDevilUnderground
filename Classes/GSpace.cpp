@@ -23,17 +23,19 @@ float rectagleMomentOfInteria(float mass, const SpaceVect& dim)
     return mass*(dim.x*dim.x+dim.y*dim.y)/12;
 }
 
-void GSpace::addObject(const ValueMap& obj)
+GObject* GSpace::addObject(const ValueMap& obj)
 {
     string type = obj.at("type").asString();
     GObject* gobj = GObject::constructByType(type, obj);
     
-    addObject(gobj);
+    return addObject(gobj);
 }
 
-void GSpace::addObject(GObject* obj)
+GObject* GSpace::addObject(GObject* obj)
 {
     toAdd.push_back(obj);
+    
+    return obj;
 }
 
 void GSpace::addObjects(const ValueVector& objs)

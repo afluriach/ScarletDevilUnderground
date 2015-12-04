@@ -49,6 +49,7 @@ bool App::applicationDidFinishLaunching() {
     
     //Create title menu scene and run it.
     runScene<TitleMenu>();
+    lua.runFile("scripts/title.lua");
 
     return true;
 }

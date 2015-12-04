@@ -29,8 +29,8 @@ public:
         addCollisionHandlers();
     }
 
-    void addObject(const ValueMap& obj);
-    void addObject(GObject*);
+    GObject* addObject(const ValueMap& obj);
+    GObject* addObject(GObject*);
     void addObjects(const ValueVector& objs);
     void processAdditions();
     
