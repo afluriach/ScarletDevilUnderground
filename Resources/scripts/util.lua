@@ -60,5 +60,5 @@ end
 --Used to implement waiting in a coroutine by consuming a specific number of 
 --update ticks before returning
 function co_wait(seconds)
-    for i=0,seconds,frames_per_second do coroutine.yield() end
+    for i=1,seconds*frames_per_second do coroutine.yield() end
 end

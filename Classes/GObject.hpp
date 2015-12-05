@@ -31,8 +31,16 @@ public:
         multiInit += [=]() -> void{ body->setVel(v);};
     }
 
+    inline SpaceVect getPos(){
+        return body->getPos();
+    }
+
     inline void setPos(float x, float y){
         body->setPos(SpaceVect(x,y));
+    }
+    
+    inline void setVel(SpaceVect v){
+        body->setVel(v);
     }
     
     inline void applyImpulse(float mag, float angle){

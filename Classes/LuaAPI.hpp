@@ -39,6 +39,7 @@ namespace Lua
     int luaContextPanic(lua_State* L);
     
     map<string,string> getStringMapFromTable(LuaRef table);
+    Vec2 getVec2FromTable(LuaRef t);
     
     list<LuaRef> getArgs(lua_State* L);
     

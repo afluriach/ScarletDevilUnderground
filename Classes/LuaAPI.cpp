@@ -260,7 +260,7 @@ const vector<string> Inst::luaIncludes = boost::assign::list_of
         }
         
         if(t["x"].isNumber() && t["y"].isNumber()){
-            return Vec2(getFloat(t["x"]), getFloat(t["x"]));
+            return Vec2(getFloat(t["x"]), getFloat(t["y"]));
         }
         if(t[1].isNumber() && t[2].isNumber()){
             return Vec2(getFloat(t[1]), getFloat(t[2]));

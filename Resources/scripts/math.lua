@@ -1,5 +1,6 @@
 --https://raw.githubusercontent.com/willurd/liblove/master/lib/math/vector2.lua
 Vector2 = class('Vector2')
+Vector2.static = {}
 
 Vector2.DEFAULT_X = 0
 Vector2.DEFAULT_Y = 0
@@ -15,7 +16,7 @@ function Vector2:initialize (paramsOrX, y)
 	end
 end
 
-function Vector2.ray(len,angle)
+Vector2.static.ray = function(len,angle)
     return Vector2:new({x=len*math.cos(angle), y=len*math.sin(angle)})
 end
 

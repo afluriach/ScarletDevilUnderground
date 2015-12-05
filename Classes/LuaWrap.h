@@ -73,6 +73,25 @@ struct convert<string>{
     }
 };
 
+template<>
+struct convert<SpaceVect>{
+    inline static SpaceVect convertFromLua(const string& name, int argNum, LuaRef ref)
+    {
+        Vec2 v = getVec2FromTable(ref);
+        return SpaceVect(v.x, v.y);
+    }
+    inline static LuaRef convertToLua(const SpaceVect& v, lua_State* L)
+    {
+        LuaRef table(L);
+        table = newTable(L);
+        
+        table["x"] = v.x;
+        table["y"] = v.y;
+        
+        return table;
+    }
+};
+
 template<typename C>
 struct convert<C*>{
     inline static C* convertFromLua(const string& name, int argNum, LuaRef ref)
