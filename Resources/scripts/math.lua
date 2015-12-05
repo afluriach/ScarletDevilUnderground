@@ -15,6 +15,10 @@ function Vector2:initialize (paramsOrX, y)
 	end
 end
 
+function Vector2.ray(len,angle)
+    return Vector2:new({x=len*math.cos(angle), y=len*math.sin(angle)})
+end
+
 function Vector2:copy ()
 	return Vector2:new({x=self.x, y=self.y})
 end
@@ -60,6 +64,10 @@ function Vector2:lengthSq ()
 	return (self.x ^ 2) + (self.y ^ 2)
 end
 
+function Vector2:getunit()
+    return self:copy():normalize()
+end
+
 function Vector2:normalize ()
 	local length = self:length()
 	if length > 0 then
@@ -74,4 +82,15 @@ end
 
 function Vector2:perp ()
 	return Vector2:new(-self.y, self.x)
+end
+
+function Vector2:dir()
+    return math.atan2(self.y, self.x)
+end
+
+function Vector2:rotate(angle)
+    return Vector2:new(
+        self.x*math.cos(angle) - self.y*math.sin(angle),
+        self.x*math.sin(angle) + self.y*math.cos(angle)
+    )
 end
