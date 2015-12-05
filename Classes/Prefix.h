@@ -46,6 +46,7 @@
 using namespace std;
 USING_NS_CC;
 using namespace cp;
+using namespace luabridge;
 
 //app modules that are often used.
 #include "macros.h"
@@ -54,6 +55,8 @@ using namespace cp;
 #include "multifunction.h"
 
 #include "controls.h"
+#include "LuaError.h"
+#include "LuaConvert.h"
 #include "LuaAPI.hpp"
 #include "LuaShell.hpp"
 #include "App.h"
