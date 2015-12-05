@@ -36,6 +36,8 @@ namespace Lua
     //Raise Lua exception
     void error(lua_State* L, const string& msg);
     
+    int luaContextPanic(lua_State* L);
+    
     map<string,string> getStringMapFromTable(LuaRef table);
     
     list<LuaRef> getArgs(lua_State* L);

@@ -97,6 +97,8 @@ const vector<string> Inst::luaIncludes = boost::assign::list_of
         installApi();
         installWrappers();
         loadLibraries();
+        
+        lua_atpanic(state, luaContextPanic);
     }
     
     Inst::~Inst()
@@ -175,18 +177,25 @@ const vector<string> Inst::luaIncludes = boost::assign::list_of
             r.push(state);
         }
         
-        lua_call(state, params.size(), LUA_MULTRET);
+        try{
         
-        int nResults = lua_gettop(state) - top;
-        vector<LuaRef> results;
-        
-        for(int i=0;i<nResults; ++i){
-            LuaRef ref(state);
-            ref.pop(state);
-            results.push_back(ref);
+            lua_call(state, params.size(), LUA_MULTRET);
+            
+            int nResults = lua_gettop(state) - top;
+            vector<LuaRef> results;
+            
+            for(int i=0;i<nResults; ++i){
+                LuaRef ref(state);
+                ref.pop(state);
+                results.push_back(ref);
+            }
+            reverse(results.begin(), results.end());
+            return results;
         }
-        reverse(results.begin(), results.end());
-        return results;
+        catch(lua_runtime_error ex){
+            log("Lua::Inst, %s: runtime exception %s.", name.c_str(), ex.what());
+            return vector<LuaRef>();
+        }
     };
     
 //Lua data access helpers
@@ -272,6 +281,14 @@ const vector<string> Inst::luaIncludes = boost::assign::list_of
     }
 
     //Lua API functions:
+    
+    func(luaContextPanic)
+
+        throw lua_runtime_error("Lua Panic.");
+        
+        return 0;
+    }
+    
     func(log)
         //The first argument must be a string
         NARGS
