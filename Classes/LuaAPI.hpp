@@ -53,6 +53,7 @@ namespace Lua
         ~Inst();
         
         static const vector<string> luaIncludes;
+        static const bool catchLuaPanic = false;
     
         void installApi();
         void installWrappers();

@@ -98,7 +98,8 @@ const vector<string> Inst::luaIncludes = boost::assign::list_of
         installWrappers();
         loadLibraries();
         
-        lua_atpanic(state, luaContextPanic);
+        if(catchLuaPanic)
+            lua_atpanic(state, luaContextPanic);
     }
     
     Inst::~Inst()
