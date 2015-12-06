@@ -280,7 +280,8 @@ const vector<string> Inst::luaIncludes = boost::assign::list_of
         }
 
         //Return reference to the created object.
-        LuaRef obj(L, gspace->addObject(objArg));
+        GObject* gobj = gspace->addObject(objArg);
+        LuaRef obj(L, gobj->uuid);
         obj.push(L);
 
         return 1;

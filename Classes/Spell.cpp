@@ -54,3 +54,19 @@ void FlameFence::end()
         GScene::getSpace()->removeObject(bullet);
     }
 }
+
+ScriptedSpell::ScriptedSpell(GObject* caster, const string& scriptRes) : Spell(caster){
+    ctx.runFile("scripts/spells/" + scriptRes + ".lua");
+    //Push caster as a global variable in the script's context.
+    ctx.setGlobal(ctx.makeRef(caster->uuid), "caster");
+}
+void ScriptedSpell::init(){
+    ctx.callIfExists("init", vector<LuaRef>());
+}
+void ScriptedSpell::update(){
+    ctx.callIfExists("update", vector<LuaRef>());
+}
+void ScriptedSpell::end(){
+    ctx.callIfExists("exit", vector<LuaRef>());
+}
+

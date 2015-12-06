@@ -68,20 +68,10 @@ public:
 
 class ScriptedSpell : public Spell{
 public:
-    inline ScriptedSpell(GObject* caster, const string& scriptRes) : Spell(caster){
-        ctx.runFile("scripts/spells/" + scriptRes + ".lua");
-        //Push caster as a global variable in the script's context.
-        ctx.setGlobal(ctx.makeRef(caster), "caster");
-    }
-    virtual inline void init(){
-        ctx.callIfExists("init", vector<LuaRef>());
-    }
-    virtual inline void update(){
-        ctx.callIfExists("update", vector<LuaRef>());
-    }
-    virtual inline void end(){
-        ctx.callIfExists("exit", vector<LuaRef>());
-    }
+    ScriptedSpell(GObject* caster, const string& scriptRes);
+    virtual void init();
+    virtual void update();
+    virtual void end();
 
 protected:
     Lua::Inst ctx;

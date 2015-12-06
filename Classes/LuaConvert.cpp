@@ -116,4 +116,19 @@ void check_integer_value(LuaRef ref)
         throw lua_type_error("Attempt to cast non-integer Lua number to integer.");
 }
 
+//The Lua data is actually the object UUID which is mapped to the object pointer from
+//the space.
+GObject* convert<GObject*>::convertFromLua(const string& name, int argNum, LuaRef ref)
+{
+    unsigned int uuid = ref.cast<unsigned int>();
+    return GScene::getSpace()->getObject(uuid);
+}
+LuaRef convert<GObject*>::convertToLua(GObject* obj, lua_State* L)
+{
+    LuaRef id(L, obj->uuid);
+    log("mapped %s to %ud", obj->name.c_str(), id.cast<unsigned int>());
+    return id;
+}
+
+
 }
