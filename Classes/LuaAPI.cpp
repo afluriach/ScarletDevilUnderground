@@ -321,11 +321,16 @@ const vector<string> Inst::luaIncludes = boost::assign::list_of
         
         get_gspace
         
-        GObject* obj = gspace->getObject(caster.tostring());
+        GObject* obj = getObjectFromLuaData(caster);
+
+        if(!obj){
+            push_error(c_str("castSpell: " + caster.tostring() + " not found" ));
+        }
+
         Spellcaster* sc = dynamic_cast<Spellcaster*>(obj);
         
         if(!sc){
-            push_error(c_str(caster.tostring() + " is not a Spellcaster."))
+            push_error(c_str("castSpell: " +caster.tostring() + " is not a Spellcaster."))
         }
         
         sc->cast(spell.tostring());
@@ -339,11 +344,16 @@ const vector<string> Inst::luaIncludes = boost::assign::list_of
 
         get_gspace
         
-        GObject* obj = gspace->getObject(caster.tostring());
+        GObject* obj = getObjectFromLuaData(caster);
+
+        if(!obj){
+            push_error(c_str("castSpell: " + caster.tostring() + " not found" ));
+        }
+
         Spellcaster* sc = dynamic_cast<Spellcaster*>(obj);
         
         if(!sc){
-            push_error(c_str(caster.tostring() + " is not a Spellcaster."))
+            push_error(c_str("stopSpell: " + caster.tostring() + " is not a Spellcaster."))
         }
         
         sc->stop();

@@ -19,6 +19,7 @@ list<LuaRef> getArgs(lua_State* L);
 map<string,string> getStringMapFromTable(LuaRef table, lua_State* state);
 float getFloat(LuaRef r);
 LuaRef convertObjectUserdata(GObject* o, const string& typeStr, lua_State* L);
+GObject* getObjectFromLuaData(LuaRef ref);
 
 void check_integer_value(LuaRef ref);
 

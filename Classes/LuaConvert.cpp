@@ -130,5 +130,19 @@ LuaRef convert<GObject*>::convertToLua(GObject* obj, lua_State* L)
     return id;
 }
 
+//Check if the data is a name or a number
+GObject* getObjectFromLuaData(LuaRef ref)
+{
+    GSpace* space = GScene::getSpace();
+    if(ref.isNumber())
+        return space->getObject(ref.cast<unsigned int>());
+    else if(ref.isString())
+        return space->getObject(ref.tostring());
+    else{
+        log("getObjectFromLuaData: input is not a name or an ID.");
+        return nullptr;
+    }
+}
+
 
 }
