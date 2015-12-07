@@ -25,7 +25,12 @@ function RoutineMain()
         InitialLaunch()
         co_wait(1)
         
-        for i=0,360,6 do
+        for i=0,90,6 do
+            Rotate( i / 180 * math.pi)
+            co_wait(0.05)
+        end
+        co_wait(0.5)
+        for i=90,270,6 do
             Rotate( i / 180 * math.pi)
             co_wait(0.05)
         end
