@@ -310,4 +310,5 @@ void GSpace::addCollisionHandlers()
     AddHandler(playerBullet, environment, playerBulletEnvironment, nullptr)
     AddHandler(playerBullet,foliage,noCollide,nullptr)
     AddHandler(enemyBullet,foliage,noCollide,nullptr)
+    AddHandler(playerBullet,enemyBullet, noCollide,nullptr)
 }

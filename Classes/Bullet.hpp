@@ -23,12 +23,12 @@ public:
     const float radius;
 };
 
-class PlayerBaseBullet : virtual public Bullet, public ImageSprite, RegisterInit<PlayerBaseBullet>
+class PlayerBaseBullet : virtual public Bullet, public ImageSprite
 {
 public:
     static constexpr float speed = 6;
 
-    inline PlayerBaseBullet(float angle, const SpaceVect& pos) : GObject("playerBaseBullet", pos), RegisterInit<PlayerBaseBullet>(this) {
+    inline PlayerBaseBullet(float angle, const SpaceVect& pos) : GObject("playerBaseBullet", pos) {
         setInitialVelocity(SpaceVect::ray(speed, angle));
     }
 
@@ -36,6 +36,9 @@ public:
     virtual inline GraphicsLayer sceneLayer() const {return GraphicsLayer::ground;}
     
     virtual inline GType getType() const {return GType::playerBullet;}
+    
+    static constexpr float spriteBaseRadius = 0.83;
+    inline virtual float zoom() const {return radius/spriteBaseRadius*2;}
 };
 
 class FireBullet : virtual public Bullet, public LoopAnimationSprite
