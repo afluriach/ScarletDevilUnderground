@@ -40,7 +40,8 @@ public:
         spaceLayer = 1,
         dialogBackgroundLayer,
         dialogLayer,
-        uiLayer,
+        hudLayer,
+        menuLayer,
         luaShellLayer,
         nLayers
     };

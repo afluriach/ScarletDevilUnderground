@@ -49,6 +49,6 @@ void PlayScene::applyCameraControls()
 void PlayScene::addHUD()
 {
     hud = HUD::create();
-    getLayer(sceneLayers::uiLayer)->addChild(hud);
+    getLayer(sceneLayers::hudLayer)->addChild(hud);
     multiUpdate.insertWithOrder(bind(&HUD::update, hud), updateOrder::hudUpdate);
 }
