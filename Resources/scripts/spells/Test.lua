@@ -21,9 +21,11 @@ end
 function RoutineMain()
     while true do
         InitialSpawn()
-        co_wait(2)
+        co_wait(1)
         InitialLaunch()
-        co_wait(3)
+        co_wait(1)
+        Rotate()
+        co_wait(2)
     end
 end
 
@@ -63,6 +65,25 @@ function InitialLaunch()
     
         GObject_setVel(objects[idx+1], vel)
     end
+end
+
+function Rotate()
+    log("rotate")
+    
+    for idx=0,initialRingCount-1 do
+        --since this is before rotation, it can just be determined programmatically
+        
+        --the direction they are already moving in
+        angle = (idx) / initialRingCount * math.pi*2
+        --add rotation
+        angle = angle + math.pi / 4
+        vel = Vector2.static.ray(initialLaunchSpeed, angle)
+        
+--        log(idx+1 .. " vel set " .. vel.x .. "," .. vel.y)
+    
+        GObject_setVel(objects[idx+1], vel)
+    end
+
 end
 
 function exit()
