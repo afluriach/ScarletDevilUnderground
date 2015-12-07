@@ -80,6 +80,15 @@ GObject* getObjByName(string name)
     return space->getObject(name);
 }
 
+bool isValidObject(unsigned int id)
+{
+    GSpace* space = GScene::getSpace();
+    
+    if(!space) lua_runtime_error("Cannot access objects in this scene.");
+
+    return space->getObject(id) != nullptr;
+}
+
 void setPlayerHealth(int val)
 {
     GSpace* space = GScene::getSpace();
@@ -132,6 +141,7 @@ make_wrapper(printMap)
 make_wrapper(addUpdate)
 make_wrapper(setscreenscale)
 make_wrapper(getObjByName)
+make_wrapper(isValidObject)
 make_wrapper(runscript)
 make_wrapper(setPlayerHealth)
 
@@ -153,6 +163,7 @@ void Inst::installWrappers()
     install_wrapper(addUpdate)
     install_wrapper(setscreenscale)
     install_wrapper(getObjByName)
+    install_wrapper(isValidObject)
     install_wrapper(runscript)
     install_wrapper(setPlayerHealth)
     

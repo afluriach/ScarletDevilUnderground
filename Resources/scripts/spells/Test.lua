@@ -70,8 +70,10 @@ function InitialLaunch()
         vel = Vector2.static.ray(initialLaunchSpeed, angle)
         
         log(idx+1 .. " vel set " .. vel.x .. "," .. vel.y)
-    
-        GObject_setVel(objects[idx+1], vel)
+        
+        if isValidObject(objects[idx+1]) then
+            GObject_setVel(objects[idx+1], vel)
+        end
     end
 end
 
@@ -87,7 +89,9 @@ function Rotate(rotation)
         
 --        log(idx+1 .. " vel set " .. vel.x .. "," .. vel.y)
     
-        GObject_setVel(objects[idx+1], vel)
+        if isValidObject(objects[idx+1]) then
+            GObject_setVel(objects[idx+1], vel)
+        end
     end
 
 end
