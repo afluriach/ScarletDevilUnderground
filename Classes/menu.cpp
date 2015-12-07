@@ -15,7 +15,7 @@
 TextListMenuLayer::TextListMenuLayer(
     const string& title,
     const vector<string>& options,
-    const vector<function<void()>>& optionActions
+    const vector<listAction>& optionActions
 ) :
 title(title),
 options(options),
@@ -67,15 +67,15 @@ const vector<string> SceneSelect::sceneTitles = list_of_typed(
 );
 
 template <typename T>
-SceneSelect::SceneLaunchAdapter sceneLaunchAdapter(){
+TextListMenuLayer::listAction sceneLaunchAdapter(){
     return []() -> void { app->pushScene<T>(); };
 }
 
-const vector<SceneSelect::SceneLaunchAdapter> SceneSelect::sceneActions = list_of_typed(
+const vector<TextListMenuLayer::listAction> SceneSelect::sceneActions = list_of_typed(
     (sceneLaunchAdapter<BlockScene>())
     (sceneLaunchAdapter<LibraryOpening>())
     (SceneSelect::back),
-    vector<SceneSelect::SceneLaunchAdapter>
+    vector<TextListMenuLayer::listAction>
 );
 
 bool TextListMenuLayer::init()
@@ -132,7 +132,7 @@ bool TextListMenuLayer::init()
 TitleMenu::TitleMenu() : TextListMenuLayer(
         App::title,
         list_of_typed( ("Start")("Scene Select")("Exit"), vector<string>),
-        list_of_typed( (start)(sceneSelect)(exit), vector<function<void()>>)
+        list_of_typed( (start)(sceneSelect)(exit), vector<listAction>)
 )
 {}
                                   

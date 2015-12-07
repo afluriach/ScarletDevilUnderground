@@ -21,13 +21,14 @@ class MenuLayer : public GScene
 class TextListMenuLayer : public MenuLayer
 {
 public:
-    
+    typedef function<void(void)> listAction;
+
     virtual bool init();
     
 protected:
     string title;
     vector<string> options;
-    vector<function<void()>> optionActions;
+    vector<listAction> optionActions;
     
     bool upHeld = false;
     bool downHeld = false;
@@ -35,7 +36,7 @@ protected:
     TextListMenuLayer(
         const string& title,
         const vector<string>& options,
-        const vector<function<void()>>& optionActions
+        const vector<listAction>& optionActions
     );
     
     void upPressed();
@@ -90,10 +91,8 @@ private:
 class SceneSelect : public TextListMenuLayer
 {
 public:
-    typedef function<void(void)> SceneLaunchAdapter;
-    
     static const vector<string> sceneTitles;
-    static const vector<SceneLaunchAdapter> sceneActions;
+    static const vector<listAction> sceneActions;
     
     CREATE_FUNC(SceneSelect);
     
