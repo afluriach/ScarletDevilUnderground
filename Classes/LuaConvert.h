@@ -90,6 +90,18 @@ struct convert{
 };
 
 template<>
+struct convert<bool>{
+    inline static bool convertFromLua(const string& name, int argNum, LuaRef ref)
+    {
+        return ref.cast<bool>();
+    }
+    inline static LuaRef convertToLua(const bool& b, lua_State* L)
+    {
+        return LuaRef(L, b);
+    }
+};
+
+template<>
 struct convert<string>{
     inline static string convertFromLua(const string& name, int argNum, LuaRef ref)
     {

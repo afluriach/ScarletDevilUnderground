@@ -60,9 +60,17 @@ bool GScene::init()
 
 void GScene::update(float dt)
 {
-    multiUpdate();
+    if(!isPaused)
+        multiUpdate();
+    else
+    {
+        app->checkPendingScript();
+    }
 }
 
+void GScene::setPaused(bool p){
+    isPaused = p;
+}
 
 void MapScene::loadObjectGroup(TMXObjectGroup* group)
 {

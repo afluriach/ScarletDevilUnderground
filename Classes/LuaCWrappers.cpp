@@ -106,6 +106,11 @@ void setPlayerHealth(int val)
     p->setHealth(val);
 }
 
+void setPaused(bool val)
+{
+    GScene::crntScene->setPaused(val);
+}
+
 #define make_wrapper(name) \
 int name ## _wrapper(lua_State* L) \
 { \
@@ -144,6 +149,7 @@ make_wrapper(getObjByName)
 make_wrapper(isValidObject)
 make_wrapper(runscript)
 make_wrapper(setPlayerHealth)
+make_wrapper(setPaused)
 
 make_method_wrapper(GObject,getPos)
 make_method_wrapper(GObject,setPos)
@@ -166,6 +172,7 @@ void Inst::installWrappers()
     install_wrapper(isValidObject)
     install_wrapper(runscript)
     install_wrapper(setPlayerHealth)
+    install_wrapper(setPaused)
     
 //    getGlobalNamespace(state)
 //        .beginClass<GObject>("GObject")

@@ -63,6 +63,8 @@ public:
     bool init();
     void update(float dt);
     
+    void setPaused(bool p);
+    
     void move(const Vec2& v);
     //The different vector type is intentional, as Chipmunk vector implies
     //unit space as opposed to pixel space.
@@ -82,6 +84,8 @@ public:
     inline void addChild(Node* n) {throw runtime_error("addChild: Node should not be added directly to GScene.");};
     
 private:
+    bool isPaused = false;
+
     //Make sure to use a cocos map so cocos refcounting works.
     cocos2d::Map<int,Layer*> layers;
     //the scale applied to the space layer
