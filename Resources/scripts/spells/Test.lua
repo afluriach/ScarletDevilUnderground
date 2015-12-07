@@ -1,5 +1,5 @@
-initialRingRadius = 1.5
-initialRingCount = 16
+initialRingRadius = 0.7
+initialRingCount = 12
 initialLaunchSpeed = 3
 
 function init()
@@ -11,7 +11,7 @@ end
 
 function createRingBullet(pos)
     log("createRingBullet")
-    return createObject{name='b', type='FireBullet', pos=pos, radius = 0.15}
+    return createObject{name='b', type='FireBullet', pos=pos, radius = 0.1}
 end
 
 function update()
