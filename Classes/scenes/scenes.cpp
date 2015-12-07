@@ -47,6 +47,12 @@ bool GScene::init()
         Node::addChild(l,i);
     }
     
+    //Apply zoom to adjust viewable area size.
+    float baseViewWidth = App::width * App::tilesPerPixel;
+    spaceZoom = baseViewWidth / App::viewWidth;
+    //Only apply zoom to space layer.
+    getLayer(sceneLayers::spaceLayer)->setScale(spaceZoom);
+    
     multiInit();
     
     return true;
@@ -98,12 +104,16 @@ GSpace* GScene::getSpace()
     else return nullptr;
 }
 
-void GScene::move(const Vec2& v)
+void GScene::move(const Vec2& w)
 {
+    Vec2 v = w * spaceZoom;
     getLayer(sceneLayers::spaceLayer)->setPosition(getPositionX()-v.x, getPositionY()-v.y);
 }
 
 void GScene::setUnitPosition(const SpaceVect& v)
 {
-    getLayer(sceneLayers::spaceLayer)->setPosition(-App::pixelsPerTile*v.x+App::width/2, -App::pixelsPerTile*v.y+App::height/2);
+    getLayer(sceneLayers::spaceLayer)->setPosition(
+        (-App::pixelsPerTile*v.x+App::width/2)*spaceZoom,
+        (-App::pixelsPerTile*v.y+App::height/2)*spaceZoom
+    );
 }
