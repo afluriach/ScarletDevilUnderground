@@ -24,8 +24,11 @@ function RoutineMain()
         co_wait(1)
         InitialLaunch()
         co_wait(1)
-        Rotate()
-        co_wait(2)
+        
+        for i=0,360,6 do
+            Rotate( i / 180 * math.pi)
+            co_wait(0.05)
+        end
     end
 end
 
@@ -67,16 +70,14 @@ function InitialLaunch()
     end
 end
 
-function Rotate()
-    log("rotate")
-    
+function Rotate(rotation)
     for idx=0,initialRingCount-1 do
         --since this is before rotation, it can just be determined programmatically
         
         --the direction they are already moving in
         angle = (idx) / initialRingCount * math.pi*2
         --add rotation
-        angle = angle + math.pi / 4
+        angle = angle + rotation
         vel = Vector2.static.ray(initialLaunchSpeed, angle)
         
 --        log(idx+1 .. " vel set " .. vel.x .. "," .. vel.y)
