@@ -13,6 +13,7 @@ class Player : virtual public GObject, PatchConSprite, CircleBody, RegisterUpdat
 {
 public:
     static constexpr float fireDist = 1;
+    static const int maxHealth = 5;
 
     inline Player(const ValueMap& args) : GObject(args), RegisterUpdate<Player>(this) {
     }
@@ -29,6 +30,16 @@ public:
         updateFireTime();
         checkControls();
     }
+    
+    void hit();
+
+    inline int getHealth(){
+        return health;
+    }
+    
+    inline void setHealth(int val){
+        health = val;
+    }
 
     virtual inline float getRadius() const {return 0.35;}
     inline float getMass() const {return 1;}
@@ -44,6 +55,7 @@ public:
     void fire();
 protected:
     float lastFireTime = 0;
+    int health = maxHealth;
 };
 
 #endif /* Player_hpp */

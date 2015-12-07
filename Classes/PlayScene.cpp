@@ -45,3 +45,10 @@ void PlayScene::applyCameraControls()
     arrowState *= cameraMovePixPerFrame;
     move(arrowState);
 }
+
+void PlayScene::addHUD()
+{
+    hud = HUD::create();
+    getLayer(sceneLayers::uiLayer)->addChild(hud);
+    multiUpdate.insertWithOrder(bind(&HUD::update, hud), updateOrder::hudUpdate);
+}

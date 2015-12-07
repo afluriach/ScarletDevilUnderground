@@ -115,6 +115,8 @@
 		E2CDC54C1C0507090017537B /* Player.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E2CDC5491C0507090017537B /* Player.cpp */; };
 		E2CDC54F1C051FFC0017537B /* Bullet.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E2CDC54D1C051FFC0017537B /* Bullet.cpp */; };
 		E2CDC5501C051FFC0017537B /* Bullet.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E2CDC54D1C051FFC0017537B /* Bullet.cpp */; };
+		E2E846B61C16201F00E5ADBC /* HUD.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E2E846B41C16201F00E5ADBC /* HUD.cpp */; };
+		E2E846B71C16201F00E5ADBC /* HUD.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E2E846B41C16201F00E5ADBC /* HUD.cpp */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -261,6 +263,8 @@
 		E2CDC54E1C051FFC0017537B /* Bullet.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = Bullet.hpp; sourceTree = "<group>"; };
 		E2CDC5541C062D000017537B /* Prefix.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Prefix.h; sourceTree = "<group>"; };
 		E2CDC5551C0631290017537B /* macros.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = macros.h; sourceTree = "<group>"; };
+		E2E846B41C16201F00E5ADBC /* HUD.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = HUD.cpp; sourceTree = "<group>"; };
+		E2E846B51C16201F00E5ADBC /* HUD.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = HUD.hpp; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -419,6 +423,8 @@
 				E214CF561C0ACEF800FC8784 /* Spell.cpp */,
 				E214CF571C0ACEF800FC8784 /* Spell.hpp */,
 				E214CF5A1C0AD22E00FC8784 /* SpellMapping.cpp */,
+				E2E846B41C16201F00E5ADBC /* HUD.cpp */,
+				E2E846B51C16201F00E5ADBC /* HUD.hpp */,
 			);
 			name = Classes;
 			path = ../Classes;
@@ -693,6 +699,7 @@
 				E24450241C02CFA8006D78B0 /* ObjectMapping.cpp in Sources */,
 				E2B63AA51BE0450D005695B0 /* GObject.cpp in Sources */,
 				503AE10217EB989F00D1A890 /* RootViewController.mm in Sources */,
+				E2E846B61C16201F00E5ADBC /* HUD.cpp in Sources */,
 				E20A7D6A1BCD205E007F1A3B /* PlayScene.cpp in Sources */,
 				E2AC8F481BCD4BC20001DB3E /* Graphics.cpp in Sources */,
 				E2CDC5461C04F89D0017537B /* GAnimation.cpp in Sources */,
@@ -726,6 +733,7 @@
 				E214CF591C0ACEF800FC8784 /* Spell.cpp in Sources */,
 				E24450251C02CFA8006D78B0 /* ObjectMapping.cpp in Sources */,
 				E271853A1C0E252D006EA1EB /* Garden.cpp in Sources */,
+				E2E846B71C16201F00E5ADBC /* HUD.cpp in Sources */,
 				E23F055F1BD0294A0091BD6D /* controls.cpp in Sources */,
 				E2080BCA1C00486000EB78DF /* LuaAPI.cpp in Sources */,
 				E244502F1C03A760006D78B0 /* scenes.cpp in Sources */,

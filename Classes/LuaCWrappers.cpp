@@ -80,6 +80,23 @@ GObject* getObjByName(string name)
     return space->getObject(name);
 }
 
+void setPlayerHealth(int val)
+{
+    GSpace* space = GScene::getSpace();
+    
+    if(!space) lua_runtime_error("Cannot access objects in this scene.");
+    
+    Player* p = space->getObject<Player>("player");
+    
+    if(!p)
+        lua_runtime_error("Player is not available.");
+    
+    if(val <= 0 || val > Player::maxHealth)
+        lua_runtime_error("setPlayerHealth: value outside valid range.");
+    
+    p->setHealth(val);
+}
+
 #define make_wrapper(name) \
 int name ## _wrapper(lua_State* L) \
 { \
@@ -116,6 +133,7 @@ make_wrapper(addUpdate)
 make_wrapper(setscreenscale)
 make_wrapper(getObjByName)
 make_wrapper(runscript)
+make_wrapper(setPlayerHealth)
 
 make_method_wrapper(GObject,getPos)
 make_method_wrapper(GObject,setPos)
@@ -136,6 +154,7 @@ void Inst::installWrappers()
     install_wrapper(setscreenscale)
     install_wrapper(getObjByName)
     install_wrapper(runscript)
+    install_wrapper(setPlayerHealth)
     
 //    getGlobalNamespace(state)
 //        .beginClass<GObject>("GObject")

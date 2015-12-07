@@ -38,6 +38,24 @@ public:
         auto it = objByName.find(name);
         return it != objByName.end() ? it->second : nullptr;
     }
+    template<typename T>
+    inline T* getObject(const string& name){
+        static_assert(
+            is_base_of<GObject, T>(),
+            "getObject: not a GObject type"
+        );
+    
+        auto it = objByName.find(name);
+        
+        if(it == objByName.end()) return nullptr;
+
+        T* result = dynamic_cast<T*>(it->second);
+        
+        if(!result)
+            throw runtime_error(StringUtils::format("getObject: %s is not of type %s", name.c_str(), typeid(T).name()));
+        
+        return result;
+    }
     inline GObject* getObject(unsigned int uuid){
         auto it = objByUUID.find(uuid);
         return it != objByUUID.end() ? it->second : nullptr;

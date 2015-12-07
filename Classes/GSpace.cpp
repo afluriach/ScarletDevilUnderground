@@ -272,9 +272,13 @@ int playerEnemyEnd(Arbiter arb, Space& space)
 
 int playerEnemyBulletBegin(Arbiter arb, Space& spacae)
 {
-    OBJS_FROM_ARB
-    log("%s hit by %s", a->name.c_str(), b->name.c_str());
-    GScene::getSpace()->removeObject(b);
+    GObject* playerObj = static_cast<GObject*>(arb.getBodyA().getUserData());
+    GObject* bullet = static_cast<GObject*>(arb.getBodyB().getUserData());
+    Player* player = dynamic_cast<Player*>(playerObj);
+    
+    log("%s hit by %s", player->name.c_str(), bullet->name.c_str());
+    player->hit();
+    GScene::getSpace()->removeObject(bullet);
     return 1;
 }
 

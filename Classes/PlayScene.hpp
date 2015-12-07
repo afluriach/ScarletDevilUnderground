@@ -12,12 +12,15 @@
 //Already included in PCH
 //#include "scenes.h"
 
+#include "HUD.hpp"
+
 class PlayScene : virtual public GScene, public MapScene
 {
 public:    
     inline PlayScene(const string& map) : MapScene(map)
     {
         multiInit.insertWithOrder(bind(&PlayScene::trackPlayer, this), initOrder::postLoadObjects);
+        multiInit.insertWithOrder(bind(&PlayScene::addHUD, this), initOrder::postLoadObjects);
         multiUpdate.insertWithOrder(bind(&PlayScene::updateCamera, this), updateOrder::moveCamera);
     }
     
@@ -34,8 +37,11 @@ public:
         cameraTarget = target;
     }
 private:    
+    void addHUD();
+
     const int cameraMovePixPerFrame = 3;
     GObject* cameraTarget = nullptr;
+    HUD* hud;
 };
 
 #endif /* PlayScene_hpp */

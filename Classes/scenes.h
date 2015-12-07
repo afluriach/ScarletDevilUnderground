@@ -30,6 +30,7 @@ public:
         runShellScript=1,
         spaceUpdate,
         moveCamera,
+        hudUpdate,
     };
     
     enum sceneLayers{

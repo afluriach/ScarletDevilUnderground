@@ -69,3 +69,7 @@ void Player::fire()
     
     GScene::getSpace()->addObject(bullet);
 }
+
+void Player::hit(){
+    health -= 1;
+}
