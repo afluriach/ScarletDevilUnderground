@@ -122,7 +122,7 @@ LUALIB_API void (luaL_requiref) (lua_State *L, const char *modname,
 	(luaL_loadfile(L, fn) || lua_pcall(L, 0, LUA_MULTRET, 0))
 
 #define luaL_dostring(L, s) \
-	(luaL_loadstring(L, s) || lua_pcall(L, 0, LUA_MULTRET, 0))
+	(luaL_loadstring(L, s) || docall(L, 0, LUA_MULTRET))
 
 #define luaL_getmetatable(L,n)	(lua_getfield(L, LUA_REGISTRYINDEX, (n)))
 

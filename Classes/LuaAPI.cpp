@@ -84,9 +84,7 @@ const vector<string> Inst::luaIncludes = boost::assign::list_of
     void Inst::runObjectFile(const string& path)
     {
         luaL_loadfile(state, getRealPath(path).c_str());
-        lua_pcall(state, 0, LUA_MULTRET, 0);
-    
-        runString(loadTextFile(path));
+        docall(state, 0, LUA_MULTRET);
     }
 
     bool Inst::globalExists(const string& name)
@@ -122,7 +120,7 @@ const vector<string> Inst::luaIncludes = boost::assign::list_of
         
         try{
         
-            int error = lua_pcall(state, params.size(), LUA_MULTRET, NULL);
+            int error = docall(state, params.size(), LUA_MULTRET);
 
             if(error)
             {

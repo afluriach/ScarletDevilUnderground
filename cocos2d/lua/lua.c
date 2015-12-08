@@ -193,7 +193,7 @@ static int msghandler (lua_State *L) {
 ** Interface to 'lua_pcall', which sets appropriate message function
 ** and C-signal handler. Used to run all chunks.
 */
-static int docall (lua_State *L, int narg, int nres) {
+int docall (lua_State *L, int narg, int nres) {
   int status;
   int base = lua_gettop(L) - narg;  /* function index */
   lua_pushcfunction(L, msghandler);  /* push message handler */
@@ -594,20 +594,4 @@ static int pmain (lua_State *L) {
 }
 
 
-int main (int argc, char **argv) {
-  int status, result;
-  lua_State *L = luaL_newstate();  /* create state */
-  if (L == NULL) {
-    l_message(argv[0], "cannot create state: not enough memory");
-    return EXIT_FAILURE;
-  }
-  lua_pushcfunction(L, &pmain);  /* to call 'pmain' in protected mode */
-  lua_pushinteger(L, argc);  /* 1st argument */
-  lua_pushlightuserdata(L, argv); /* 2nd argument */
-  status = lua_pcall(L, 2, 1, 0);  /* do the call */
-  result = lua_toboolean(L, -1);  /* get result */
-  report(L, status);
-  lua_close(L);
-  return (result && status == LUA_OK) ? EXIT_SUCCESS : EXIT_FAILURE;
-}
 
