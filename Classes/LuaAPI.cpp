@@ -122,18 +122,26 @@ const vector<string> Inst::luaIncludes = boost::assign::list_of
         
         try{
         
-            lua_call(state, params.size(), LUA_MULTRET);
-            
-            int nResults = lua_gettop(state) - top;
-            vector<LuaRef> results;
-            
-            for(int i=0;i<nResults; ++i){
-                LuaRef ref(state);
-                ref.pop(state);
-                results.push_back(ref);
+            int error = lua_pcall(state, params.size(), LUA_MULTRET, NULL);
+
+            if(error)
+            {
+                log("Lua::Inst::call: %s, error: %s", name.c_str(), lua_tostring(state,-1));
+                return vector<LuaRef>();
             }
-            reverse(results.begin(), results.end());
-            return results;
+            else
+            {
+                int nResults = lua_gettop(state) - top;
+                vector<LuaRef> results;
+                
+                for(int i=0;i<nResults; ++i){
+                    LuaRef ref(state);
+                    ref.pop(state);
+                    results.push_back(ref);
+                }
+                reverse(results.begin(), results.end());
+                return results;
+            }
         }
         catch(lua_runtime_error ex){
             log("Lua::Inst, %s: runtime exception %s.", name.c_str(), ex.what());
