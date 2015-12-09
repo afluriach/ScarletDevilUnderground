@@ -34,10 +34,13 @@ GObject::GObject(const ValueMap& obj) : name(obj.at("name").asString()), uuid(ne
         initialCenter += (dim*0.5);
     }
     
-    log("%s created at %.1f,%.1f.", name.c_str(),initialCenter.x, initialCenter.y);
+    if(logCreateObjects)
+        log("%s created at %.1f,%.1f.", name.c_str(),initialCenter.x, initialCenter.y);
 }
 
 GObject::GObject(const string& name, const SpaceVect& pos) : name(name), initialCenter(pos), uuid(nextUUID++) {
+    if(logCreateObjects)
+        log("%s created at %.1f,%.1f.", name.c_str(),initialCenter.x, initialCenter.y);
 }
 
 GObject* GObject::constructByType(const string& type, const ValueMap& args )

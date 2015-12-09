@@ -23,11 +23,8 @@ public:
 
     static const bool logPhysics = false;
 
-    inline GSpace(Layer* graphicsLayer) : graphicsLayer(graphicsLayer)
-    {
-        space.setGravity(SpaceVect(0,0));
-        addCollisionHandlers();
-    }
+    GSpace(Layer* graphicsLayer);    
+    ~GSpace();
 
     GObject* addObject(const ValueMap& obj);
     GObject* addObject(GObject*);
@@ -113,6 +110,8 @@ private:
     
     void initObjects();
     void addCollisionHandlers();
+    
+    void processRemoval(GObject* obj);    
 };
 
 #endif /* GSpace_hpp */

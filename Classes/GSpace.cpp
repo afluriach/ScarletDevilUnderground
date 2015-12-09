@@ -23,6 +23,28 @@ float rectagleMomentOfInteria(float mass, const SpaceVect& dim)
     return mass*(dim.x*dim.x+dim.y*dim.y)/12;
 }
 
+GSpace::GSpace(Layer* graphicsLayer) : graphicsLayer(graphicsLayer)
+{
+    GObject::resetObjectUUIDs();
+
+    space.setGravity(SpaceVect(0,0));
+    addCollisionHandlers();
+}
+
+GSpace::~GSpace()
+{
+    //Process removal modified objByUUID.
+    vector<GObject*> objs;
+    
+    for(auto it = objByUUID.begin(); it != objByUUID.end(); ++it){
+        objs.push_back(it->second);
+    }
+    
+    foreach(GObject* obj, objs){
+        processRemoval(obj);
+    }
+}
+
 GObject* GSpace::addObject(const ValueMap& obj)
 {
     string type = obj.at("type").asString();
@@ -220,15 +242,20 @@ void GSpace::removeObject(GObject* obj)
         toRemove.push_back(obj);
 }
 
+void GSpace::processRemoval(GObject* obj)
+{
+    objByName.erase(obj->name);
+    objByUUID.erase(obj->uuid);
+    obj->body->removeShapes(space);
+    space.remove(obj->body);
+
+    delete obj;
+}
+
 void GSpace::processRemovals()
 {
     BOOST_FOREACH(GObject* obj, toRemove){
-        objByName.erase(obj->name);
-        objByUUID.erase(obj->uuid);
-        obj->body->removeShapes(space);
-        space.remove(obj->body);
-
-        delete obj;
+        processRemoval(obj);
     }
     toRemove.clear();
 }

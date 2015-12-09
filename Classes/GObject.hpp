@@ -14,6 +14,8 @@ class GObject
 public:
     typedef function<GObject*( const ValueMap&) > AdapterType;
     
+    static constexpr bool logCreateObjects = false;
+    
     //Representation as a map object
     GObject(const ValueMap& args);
     GObject(const string& name, const SpaceVect& pos);
@@ -51,6 +53,10 @@ public:
     
     inline unsigned int getUUID(){
         return uuid;
+    }
+
+    inline static void resetObjectUUIDs(){
+        nextUUID = 1;
     }
 
     const string name;
