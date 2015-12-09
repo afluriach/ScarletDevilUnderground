@@ -24,6 +24,8 @@ void HealthBar::setMax(int m)
 void HealthBar::setValue(int v)
 {
     if(v == crntVal) return;
+    
+    if(v < 0) v = 0;
 
     for(int i=0;i<v; ++i){
         heartSprites.at(i)->setTexture("sprites/heart.png");
