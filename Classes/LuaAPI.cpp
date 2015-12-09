@@ -389,5 +389,7 @@ const vector<string> Inst::luaIncludes = boost::assign::list_of
         install(stopSpell);
         install(getObjectCount);
         installFunction(convertObj, "convert");
+        
+        install(doREPL);
     }
 }

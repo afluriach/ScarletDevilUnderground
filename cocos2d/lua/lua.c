@@ -307,18 +307,48 @@ static int pushline (lua_State *L, int firstline) {
   char *b = buffer;
   size_t l;
   const char *prmt = get_prompt(L, firstline);
-  int readstatus = lua_readline(L, b, prmt);
-  if (readstatus == 0)
+
+  fputs(prmt, stdout);
+  fflush(stdout);
+
+  //Read characters as they are available until a newline has been
+  //read. Do not block for IO but yield.
+  while(1)
+  {
+    int nextChar = fgetc(stdin);
+    if (nextChar == EOF){
+        lua_yield(L, 0);
+    }
+    else if(nextChar == '\n'){
+        //If this is a blank line, reprint the prompt and keep reading.
+        if(buffer == b){
+            fputs(prmt, stdout);
+            fflush(stdout);
+        }
+        else{
+            *b = '\0';
+            ++b;
+            break;
+        }
+    }
+    else{
+        *b = (char) nextChar;
+        ++b;
+    }
+  }
+
+  //if(buffer + 1 == b)
+  if(buffer[0] == '\0'){
+    //Blank line was entered
     return 0;  /* no input (prompt will be popped by caller) */
+  }
+  
   lua_pop(L, 1);  /* remove prompt */
-  l = strlen(b);
-  if (l > 0 && b[l-1] == '\n')  /* line ends with newline? */
-    b[--l] = '\0';  /* remove it */
-  if (firstline && b[0] == '=')  /* for compatibility with 5.2, ... */
-    lua_pushfstring(L, "return %s", b + 1);  /* change '=' to 'return' */
+  l = strlen(buffer);
+  if (firstline && buffer[0] == '=')  /* for compatibility with 5.2, ... */
+    lua_pushfstring(L, "return %s", buffer + 1);  /* change '=' to 'return' */
   else
-    lua_pushlstring(L, b, l);
-  lua_freeline(L, b);
+    lua_pushlstring(L, buffer, l);
   return 1;
 }
 
@@ -383,7 +413,6 @@ static int loadline (lua_State *L) {
   return status;
 }
 
-
 /*
 ** Prints (calling the Lua 'print' function) any values on the stack
 */
@@ -404,7 +433,9 @@ static void l_print (lua_State *L) {
 ** Do the REPL: repeatedly read (load) a line, evaluate (call) it, and
 ** print any results.
 */
-static void doREPL (lua_State *L) {
+int doREPL (lua_State *L) {
+  printf("REPL started.\n");
+
   int status;
   const char *oldprogname = progname;
   progname = NULL;  /* no 'progname' on errors in interactive mode */
@@ -417,6 +448,10 @@ static void doREPL (lua_State *L) {
   lua_settop(L, 0);  /* clear stack */
   lua_writeline();
   progname = oldprogname;
+  
+  printf("REPL ended.");
+  
+  return 0;
 }
 
 
