@@ -199,6 +199,25 @@ shared_ptr<Body> GSpace::createRectangleBody(
     return body;
 }
 
+void GSpace::addWallBlock(SpaceVect ll,SpaceVect ur)
+{
+    SpaceVect center = (ll + ur) / 2;
+    SpaceVect dim = ur - ll;
+    
+    shared_ptr<Body> wallBlock = createRectangleBody(
+        space,
+        center,
+        dim,
+        -1,
+        GType::wall,
+        PhysicsLayers::allLayers,
+        false,
+        nullptr
+    );
+    
+    space.add(wallBlock);
+}
+
 void GSpace::processAdditions()
 {
     foreach(GObject* obj, toAdd)
@@ -317,6 +336,13 @@ int playerBulletEnemyBegin(Arbiter arb, Space& spacae)
     return 1;
 }
 
+int playerFlowerBegin(Arbiter arb, Space& spacae)
+{
+    OBJS_FROM_ARB
+    log("%s stepped on", b->name.c_str());
+    return 1;
+}
+
 int playerBulletEnvironment(Arbiter arb, Space& space)
 {
     OBJS_FROM_ARB
@@ -342,4 +368,5 @@ void GSpace::addCollisionHandlers()
     AddHandler(playerBullet,foliage,noCollide,nullptr)
     AddHandler(enemyBullet,foliage,noCollide,nullptr)
     AddHandler(playerBullet,enemyBullet, noCollide,nullptr)
+    AddHandler(player, foliage, playerFlowerBegin,nullptr)
 }

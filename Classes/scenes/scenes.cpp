@@ -102,6 +102,13 @@ void MapScene::loadMap()
     
     getLayer(sceneLayers::spaceLayer)->addChild(tileMap, GraphicsLayer::map);
     loadMapObjects(*tileMap);
+    
+    cocos2d::Size size = tileMap->getMapSize();
+    
+    gspace.addWallBlock(SpaceVect(-1,0), SpaceVect(0,size.height));
+    gspace.addWallBlock(SpaceVect(size.width,0), SpaceVect(size.width+1,size.height));
+    gspace.addWallBlock(SpaceVect(0,size.height), SpaceVect(size.width,size.height+1));
+    gspace.addWallBlock(SpaceVect(0,-1), SpaceVect(size.width,0));
 }
 
 GSpace* GScene::getSpace()

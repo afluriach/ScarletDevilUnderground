@@ -52,8 +52,10 @@ namespace cp {
 	}
 
 	void Space::remove(shared_ptr<Body> body) {
-		cpSpaceRemoveBody(space, *body);
-		bodies.erase(find(bodies.begin(), bodies.end(), body));
+        if(cpSpaceContainsBody(space, *body)){
+            cpSpaceRemoveBody(space, *body);
+            bodies.erase(find(bodies.begin(), bodies.end(), body));
+        }
 	}
 
 	void Space::step(Float t) {

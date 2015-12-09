@@ -33,12 +33,16 @@ enum GType{
     enemyBullet,
     environment,
     foliage,
+    wall,
 };
 
 //Layers are interpreted as a bitmask.
 //For now, multilayer physics is not being used.
 enum PhysicsLayers{
     groundLayer = 1,
+    
+    //must be the bitwise or of all layers
+    allLayers = 1
 };
 
 #endif /* types_h */

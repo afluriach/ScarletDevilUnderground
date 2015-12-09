@@ -87,6 +87,8 @@ public:
         GObject* obj
     );
     
+    void addWallBlock(SpaceVect ll,SpaceVect ur);
+    
     inline int getObjectCount(){
         return objByUUID.size();
     }
