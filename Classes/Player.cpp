@@ -46,6 +46,19 @@ void Player::checkControls()
     }
 }
 
+void Player::updateHitTime()
+{
+    if(hitProtectionCountdown > 0)
+    {
+        hitProtectionCountdown -= App::secondsPerFrame;
+        
+        if(hitProtectionCountdown < 0){
+            sprite->setOpacity(255);
+            hitProtectionCountdown = 0;
+        }
+    }
+}
+
 void Player::updateFireTime()
 {
     lastFireTime += App::secondsPerFrame;
@@ -71,6 +84,11 @@ void Player::fire()
 }
 
 void Player::hit(){
-    health -= 1;
-    if(health < 0) health = 0;
+    if(hitProtectionCountdown <= 0){
+        hitProtectionCountdown = hitProtectionTime;
+        sprite->runAction(flickerAction(0.3, hitProtectionTime, 81));
+    
+        health -= 1;
+        if(health < 0) health = 0;
+    }
 }

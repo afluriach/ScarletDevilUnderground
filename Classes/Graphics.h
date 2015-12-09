@@ -57,6 +57,8 @@ protected:
     virtual void drawShape();
 };
 
+Action* flickerAction(float interval, float length, float opacity);
+
 cocos2d::Size getScreenSize();
 
 #endif /* Graphics_h */

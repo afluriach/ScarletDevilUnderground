@@ -89,3 +89,13 @@ void DownTriangleCursor::drawShape()
     drawNode->drawTriangle(left,right,bottom,colors[crntColor]);
 }
 
+Action* flickerAction(float interval, float length, float opacity)
+{
+    int nCycles = length / interval;
+    
+    Sequence* flicker = Sequence::createWithTwoActions(FadeTo::create(interval/2, opacity*255), FadeTo::create(interval/2, 255));
+    Repeat* loop = Repeat::create(flicker, nCycles);
+    
+    return loop;
+}
+

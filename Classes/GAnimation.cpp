@@ -103,6 +103,8 @@ void PatchConAnimation::loadAnimation(const string& path)
     sprite = Sprite::createWithSpriteFrame(sequence->frames.at(0));
     addChild(sprite,1);
     sprite->useAntiAliasTexture(false);
+    
+    this->setCascadeOpacityEnabled(true);
 }
 
 

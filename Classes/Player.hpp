@@ -14,6 +14,7 @@ class Player : virtual public GObject, PatchConSprite, CircleBody, RegisterUpdat
 public:
     static constexpr float fireDist = 1;
     static const int maxHealth = 5;
+    static constexpr float hitProtectionTime = 2.4;
 
     inline Player(const ValueMap& args) : GObject(args), RegisterUpdate<Player>(this) {
     }
@@ -28,6 +29,7 @@ public:
     
     inline void update(){
         updateFireTime();
+        updateHitTime();
         checkControls();
     }
     
@@ -50,10 +52,12 @@ public:
     
     void setDirection(Direction);
     void updateFireTime();
+    void updateHitTime();
     void checkControls();
     void fireIfPossible();
     void fire();
 protected:
+    float hitProtectionCountdown;
     float lastFireTime = 0;
     int health = maxHealth;
 };
