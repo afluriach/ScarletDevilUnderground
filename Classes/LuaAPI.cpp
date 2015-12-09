@@ -78,11 +78,6 @@ const vector<string> Inst::luaIncludes = boost::assign::list_of
     
     void Inst::runFile(const string& path)
     {
-        runString(loadTextFile(path));
-    }
-    
-    void Inst::runObjectFile(const string& path)
-    {
         luaL_loadfile(state, getRealPath(path).c_str());
         docall(state, 0, LUA_MULTRET);
     }

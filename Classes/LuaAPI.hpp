@@ -41,11 +41,10 @@ namespace Lua
         bool globalExists(const string& name);
         
         void runString(const string& str);
+        //This supports Lua text as well as object files. It uses loadfile directly
+        //rather than passing the file's contents as a string.
         void runFile(const string& path);
         
-        //Strictly speaking, this supports Lua text as well as object files. It uses loadfile directly
-        //rather than passing the file's contents as a string.
-        void runObjectFile(const string& path);
         vector<LuaRef> call(const string& name, const vector<LuaRef>& params);
         vector<LuaRef> callIfExists(const string& name, const vector<LuaRef>& params);
         
