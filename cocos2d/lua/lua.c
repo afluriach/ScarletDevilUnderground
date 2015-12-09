@@ -311,13 +311,12 @@ static int pushline (lua_State *L, int firstline) {
   fputs(prmt, stdout);
   fflush(stdout);
 
-  //Read characters as they are available until a newline has been
-  //read. Do not block for IO but yield.
+  //Read line.
   while(1)
   {
     int nextChar = fgetc(stdin);
     if (nextChar == EOF){
-        lua_yield(L, 0);
+        continue;
     }
     else if(nextChar == '\n'){
         //If this is a blank line, reprint the prompt and keep reading.
@@ -428,6 +427,22 @@ static void l_print (lua_State *L) {
   }
 }
 
+//Check if flag has been set to break out of REPL.
+int exitREPL(lua_State* L)
+{
+    int result = 0;
+    
+    lua_getglobal(L, "exitREPL");
+    if(!lua_isboolean(L, -1))
+        result = 0;
+    else
+        result = lua_toboolean(L, -1);
+    
+    lua_pop(L, 1);
+    
+    return result;
+}
+
 
 /*
 ** Do the REPL: repeatedly read (load) a line, evaluate (call) it, and
@@ -439,7 +454,8 @@ int doREPL (lua_State *L) {
   int status;
   const char *oldprogname = progname;
   progname = NULL;  /* no 'progname' on errors in interactive mode */
-  while ((status = loadline(L)) != -1) {
+  
+  while ((status = loadline(L)) != -1 && !exitREPL(L)) {
     if (status == LUA_OK)
       status = docall(L, 0, LUA_MULTRET);
     if (status == LUA_OK) l_print(L);

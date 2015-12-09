@@ -92,9 +92,6 @@ void App::end()
 
 void App::checkPendingScript()
 {
-    //First run native Lua REPL.
-    lua.call("check_repl", vector<luabridge::LuaRef>());
-
     if(!pendingScript.empty()){
         lua.runString(pendingScript);
         pendingScript.clear();

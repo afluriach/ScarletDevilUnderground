@@ -63,8 +63,10 @@ function co_wait(seconds)
     for i=1,seconds*frames_per_second do coroutine.yield() end
 end
 
-repl = coroutine.create(doREPL)
+function open_repl()
+    doREPL()
+end
 
-function check_repl()
-    coroutine.resume(repl)
+function exit_repl()
+    exitREPL = true
 end
