@@ -19,6 +19,7 @@ const EventKeyboard::KeyCode returnKey = static_cast<EventKeyboard::KeyCode>(35)
 const KeyCodeMap watchedKeys = boost::assign::map_list_of
 (EventKeyboard::KeyCode::KEY_Z, Keys::action)
 (backtickKey, Keys::backtick)
+(EventKeyboard::KeyCode::KEY_1, Keys::num1)
 (returnKey, Keys::enter)
 (EventKeyboard::KeyCode::KEY_W, Keys::moveUp)
 (EventKeyboard::KeyCode::KEY_S, Keys::moveDown)

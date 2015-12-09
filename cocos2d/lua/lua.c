@@ -455,11 +455,13 @@ int doREPL (lua_State *L) {
   const char *oldprogname = progname;
   progname = NULL;  /* no 'progname' on errors in interactive mode */
   
-  while ((status = loadline(L)) != -1 && !exitREPL(L)) {
+  while ((status = loadline(L)) != -1) {
     if (status == LUA_OK)
       status = docall(L, 0, LUA_MULTRET);
     if (status == LUA_OK) l_print(L);
     else report(L, status);
+    
+    if(exitREPL(L)) break;
   }
   lua_settop(L, 0);  /* clear stack */
   lua_writeline();

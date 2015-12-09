@@ -110,6 +110,10 @@ void App::installLuaShell(GScene* gscene)
         Keys::enter,
         [=]() -> void {if(luaShell->isVisible()) pendingScript = luaShell->getText();}
     );
+    keyListener.addPressListener(
+        Keys::num1,
+        [=]() -> void {lua.call("open_repl", vector<luabridge::LuaRef>());}
+    );
     
     gscene->multiUpdate.insertWithOrder(bind(&App::checkPendingScript,this), GScene::updateOrder::runShellScript);
     

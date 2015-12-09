@@ -64,6 +64,7 @@ function co_wait(seconds)
 end
 
 function open_repl()
+    exitREPL = false
     doREPL()
 end
 

@@ -21,6 +21,7 @@ enum Keys
     arrowRight,
     action,
     backtick,
+    num1,
     enter,
 };
 
