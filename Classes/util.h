@@ -70,4 +70,16 @@ Ret variadic_call(F f, Tuple && t)
     return detail::call_impl<Ret, F, Tuple, 0 == std::tuple_size<ttype>::value, std::tuple_size<ttype>::value>::call(f, std::forward<Tuple>(t));
 }
 
+//http://stackoverflow.com/a/17622468/807433
+struct enum_hash
+{
+    template <typename T>
+    inline
+    typename std::enable_if<std::is_enum<T>::value, std::size_t>::type
+    operator ()(T const value) const
+    {
+        return static_cast<std::size_t>(value);
+    }
+};
+
 #endif /* util_h */

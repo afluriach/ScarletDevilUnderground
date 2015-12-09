@@ -17,7 +17,7 @@ class Spell
 {
 public:
     typedef function<shared_ptr<Spell>(GObject*)> AdapterType;
-    static const map<string,AdapterType> adapters;
+    static const unordered_map<string,AdapterType> adapters;
     static const set<string> scripts;
 
     inline Spell(GObject* caster) : caster(caster){

@@ -23,11 +23,11 @@ public:
     inline virtual ~GObject() {}
     
     //Map each class name to a constructor adapter function.
-    static const map<string,AdapterType> adapters;
+    static const unordered_map<string,AdapterType> adapters;
     
     static GObject* constructByType(const string& type, const ValueMap& args );
     
-    static ValueMap makeValueMapArg(const Vec2& pos, const map<string,string>& props);
+    static ValueMap makeValueMapArg(const Vec2& pos, const unordered_map<string,string>& props);
     
     inline void setInitialVelocity(const SpaceVect&& v){
         multiInit += [=]() -> void{ body->setVel(v);};

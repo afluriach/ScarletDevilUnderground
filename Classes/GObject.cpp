@@ -54,7 +54,7 @@ GObject* GObject::constructByType(const string& type, const ValueMap& args )
     else return nullptr;
 }
 
-ValueMap GObject::makeValueMapArg(const Vec2& pos, const map<string,string>& props)
+ValueMap GObject::makeValueMapArg(const Vec2& pos, const unordered_map<string,string>& props)
 {
     ValueMap vm;
     

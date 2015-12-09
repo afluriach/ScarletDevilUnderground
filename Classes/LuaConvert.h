@@ -16,7 +16,7 @@ namespace Lua{
 Vec2 getVec2FromTable(LuaRef t);
 function<void()> makeFunctorFromLuaFunction(LuaRef ref);
 list<LuaRef> getArgs(lua_State* L);
-map<string,string> getStringMapFromTable(LuaRef table, lua_State* state);
+unordered_map<string,string> getStringMapFromTable(LuaRef table, lua_State* state);
 float getFloat(LuaRef r);
 LuaRef convertObjectUserdata(GObject* o, const string& typeStr, lua_State* L);
 GObject* getObjectFromLuaData(LuaRef ref);
@@ -24,9 +24,9 @@ GObject* getObjectFromLuaData(LuaRef ref);
 void check_integer_value(LuaRef ref);
 
 template<typename K, typename V>
-map<K,V> getMapFromTable(LuaRef table)
+unordered_map<K,V> getMapFromTable(LuaRef table)
 {
-    map<K,V> result;
+    unordered_map<K,V> result;
     
     for(auto it = Iterator(table); !it.isNil(); ++it)
     {
@@ -168,15 +168,15 @@ struct convert<function<void()>>{
 };
 
 template<typename K,typename V>
-struct convert<map<K,V>>{
-    inline static map<K,V> convertFromLua(const string& name, int argNum, LuaRef ref)
+struct convert<unordered_map<K,V>>{
+    inline static unordered_map<K,V> convertFromLua(const string& name, int argNum, LuaRef ref)
     {
         if(not ref.isTable())
             throw lua_type_error(" is not a table");
         
         return getMapFromTable<K,V>(ref);
     }
-    inline static LuaRef convertToLua(const map<K,V>& m, lua_State* L)
+    inline static LuaRef convertToLua(const unordered_map<K,V>& m, lua_State* L)
     {
         LuaRef table(L);
         table = newTable(L);

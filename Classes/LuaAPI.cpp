@@ -18,7 +18,7 @@ const vector<string> Inst::luaIncludes = boost::assign::list_of
     ("math")
 ;
 
-map<string, Inst*> Inst::instances;
+unordered_map<string, Inst*> Inst::instances;
 
 
     //Raise Lua exception
@@ -266,7 +266,7 @@ map<string, Inst*> Inst::instances;
 
         Vec2 posV = getVec2FromTable(pos);
 
-        map<string,string> m;
+        unordered_map<string,string> m;
         
         if(!props.isNil() && props.isTable()){
             m = getStringMapFromTable(props, L);

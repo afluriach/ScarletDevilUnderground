@@ -25,7 +25,7 @@ enum Keys
     enter,
 };
 
-typedef map<EventKeyboard::KeyCode, Keys> KeyCodeMap;
+typedef unordered_map<EventKeyboard::KeyCode, Keys, enum_hash> KeyCodeMap;
 
 //Map the Cocos key code to the enum used to identify it.
 //This describes all of the keys that will be tracked by the register, and also all
@@ -50,7 +50,7 @@ private:
     void onKeyDown(EventKeyboard::KeyCode, Event*);
     void onKeyUp(EventKeyboard::KeyCode, Event*);
     
-    map<Keys, bool> keyDown;
+    unordered_map<Keys, bool, enum_hash> keyDown;
     
     EventListenerKeyboard* keyListener;
 };
@@ -79,8 +79,8 @@ private:
     void onKeyUp(EventKeyboard::KeyCode, Event*);
     
     EventListenerKeyboard* keyListener;
-    map<Keys, function<void()>> onPressed;
-    map<Keys, function<void()>> onReleased;
+    unordered_map<Keys, function<void()>, enum_hash> onPressed;
+    unordered_map<Keys, function<void()>, enum_hash> onReleased;
     
 };
 

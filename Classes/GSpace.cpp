@@ -260,9 +260,9 @@ void GSpace::processRemovals()
     toRemove.clear();
 }
 
-map<int,string> GSpace::getUUIDNameMap()
+unordered_map<int,string> GSpace::getUUIDNameMap()
 {
-    map<int,string> result;
+    unordered_map<int,string> result;
     
     for(auto it = objByUUID.begin(); it != objByUUID.end(); ++it)
     {

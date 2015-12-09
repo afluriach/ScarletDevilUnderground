@@ -48,7 +48,7 @@ public:
 
     typedef function<void () > AdapterType;
     //Map each class name to a constructor adapter function.
-    static const map<string,AdapterType> adapters;
+    static const unordered_map<string,AdapterType> adapters;
     
     static GScene* crntScene;
 

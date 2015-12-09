@@ -19,7 +19,7 @@ Spell::AdapterType adapter()
     return [](GObject* caster) -> shared_ptr<Spell> {return make_shared<T>(caster);};
 }
 
-const map<string,Spell::AdapterType> Spell::adapters = boost::assign::map_list_of
+const unordered_map<string,Spell::AdapterType> Spell::adapters = boost::assign::map_list_of
     entry_same(FireStarburst)
     entry_same(FlameFence)
 ;

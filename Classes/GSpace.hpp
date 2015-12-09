@@ -62,7 +62,7 @@ public:
     void removeObject(GObject* obj);
     void processRemovals();
     
-    map<int,string> getUUIDNameMap();
+    unordered_map<int,string> getUUIDNameMap();
     
     void update();
     
@@ -96,8 +96,8 @@ private:
     //The graphics destination to use for all objects constructed in this space.
     Layer* graphicsLayer;
 
-    map<unsigned int, GObject*> objByUUID;
-    map<string, GObject*> objByName;
+    unordered_map<unsigned int, GObject*> objByUUID;
+    unordered_map<string, GObject*> objByName;
     
     //Objects which have been queued for addition. Will be added at end of frame.
     vector<GObject*> toAdd;

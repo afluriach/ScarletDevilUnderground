@@ -30,12 +30,12 @@ Vec2 getVec2FromTable(LuaRef t)
     return Vec2(0,0);
 }
 
-map<string,string> getStringMapFromTable(LuaRef table, lua_State* state)
+unordered_map<string,string> getStringMapFromTable(LuaRef table, lua_State* state)
 {
     table.push(state);
     lua_pushnil(state);
     
-    map<string,string> result;
+    unordered_map<string,string> result;
     
     while(lua_next(state, -2))
     {

@@ -26,7 +26,7 @@ static GObject::AdapterType consAdapter()
 //To make an entry where the name matches the class
 #define entry_same(cls) entry(#cls, cls)
 
-const map<string,GObject::AdapterType> GObject::adapters =
+const unordered_map<string,GObject::AdapterType> GObject::adapters =
     boost::assign::map_list_of
     entry_same(Block)
     entry_same(FireBullet)

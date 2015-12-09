@@ -45,16 +45,16 @@ int getObjCount()
     return space->getObjectCount();
 }
 
-map<int, string> getUUIDNameMap()
+unordered_map<int, string> getUUIDNameMap()
 {
     GSpace* space = GScene::getSpace();
     
-    if(!space) return map<int,string>();
+    if(!space) return unordered_map<int,string>();
     
     return space->getUUIDNameMap();
 }
 
-void printMap(map<string,string> m)
+void printMap(unordered_map<string,string> m)
 {
     for(auto it = m.begin(); it != m.end(); ++it){
         log("%s : %s", it->first.c_str(), it->second.c_str());
