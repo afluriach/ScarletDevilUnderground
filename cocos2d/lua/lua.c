@@ -467,7 +467,7 @@ int doREPL (lua_State *L) {
   lua_writeline();
   progname = oldprogname;
   
-  printf("REPL ended.");
+  printf("REPL ended.\n");
   
   return 0;
 }

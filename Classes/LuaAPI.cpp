@@ -18,6 +18,9 @@ const vector<string> Inst::luaIncludes = boost::assign::list_of
     ("math")
 ;
 
+map<string, Inst*> Inst::instances;
+
+
     //Raise Lua exception
     void error(lua_State* L, const string& msg)
     {
@@ -31,7 +34,7 @@ const vector<string> Inst::luaIncludes = boost::assign::list_of
 
 //Lua API methods
 
-    Inst::Inst()
+    Inst::Inst(const string& name) : name(name)
     {
         state = luaL_newstate();
         //Load standard libraries
@@ -42,11 +45,19 @@ const vector<string> Inst::luaIncludes = boost::assign::list_of
         
         if(catchLuaPanic)
             lua_atpanic(state, luaContextPanic);
+
+        cocos2d::log("Lua Inst created: %s.", name.c_str());
+        
+        if(instances.find(name) != instances.end())
+            cocos2d::log("Lua Inst with duplicate name: %s.", name.c_str());
+        instances[name] = this;
     }
     
     Inst::~Inst()
     {
         lua_close(state);
+        instances.erase(name);
+        cocos2d::log("Lua Inst closed: %s.", name.c_str());
     }
     
     void Inst::loadLibraries()
@@ -371,7 +382,32 @@ const vector<string> Inst::luaIncludes = boost::assign::list_of
         
         return 0;
     }
-    
+
+    func(open_repl)
+        int nargs = lua_gettop(L);
+
+        lua_State* target = nullptr;
+
+        if(nargs == 1)
+        {
+            const char* name = lua_tostring(L, -1);
+            auto it = Inst::instances.find(name);
+            
+            if(it != Inst::instances.end())
+                target = it->second->state;
+            else
+                cocos2d::log("open_repl: instance %s not found.", name);
+        }
+
+        if(!target)
+            target = app->lua.state;
+
+        lua_pushboolean(target, 0);
+        lua_setglobal(target, "exitREPL");
+
+        doREPL(target);
+    }
+
     #define install(name) installFunction(name, #name)
     
     void Inst::installApi()
@@ -383,8 +419,7 @@ const vector<string> Inst::luaIncludes = boost::assign::list_of
         install(castSpell);
         install(stopSpell);
         install(getObjectCount);
+        install(open_repl);
         installFunction(convertObj, "convert");
-        
-        install(doREPL);
     }
 }

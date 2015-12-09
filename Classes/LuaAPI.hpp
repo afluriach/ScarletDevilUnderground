@@ -27,11 +27,15 @@ namespace Lua
     class Inst
     {
     public:
-        Inst();
+        Inst(const string& name);
         ~Inst();
+        
+        const string name;
         
         static const vector<string> luaIncludes;
         static const bool catchLuaPanic = false;
+        
+        static map<string, Inst*> instances;
     
         void installApi();
         void installWrappers();
@@ -54,7 +58,6 @@ namespace Lua
         {
             return LuaRef(state,data);
         }
-    private:
         lua_State *state;
     };
     

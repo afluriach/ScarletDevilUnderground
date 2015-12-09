@@ -75,6 +75,7 @@ public:
 
 protected:
     Lua::Inst ctx;
+    string name;
 };
 
 #endif /* Spell_hpp */

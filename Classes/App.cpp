@@ -7,7 +7,8 @@ App* app;
 
 const string App::title = "フランの地下";
 
-App::App() {
+App::App() : lua("app")
+{
     app = this;
     //Initialize Lua
     lua.runFile("scripts/init.lua");
