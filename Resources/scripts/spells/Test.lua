@@ -10,7 +10,7 @@ function init()
 end
 
 function createRingBullet(pos)
-    log("createRingBullet")
+--    log("createRingBullet")
     return createObject{name='b', type='FireBullet', pos=pos, radius = 0.1}
 end
 
@@ -43,12 +43,12 @@ function InitialSpawn()
     objects = {}
     --Warning, C API does not return a Lua Vector2 but a duck-typed table.
     caster_pos = Vector2:new(GObject_getPos(caster))
-    log("caster pos: " .. caster_pos.x .. "," .. caster_pos.y)
+--    log("caster pos: " .. caster_pos.x .. "," .. caster_pos.y)
     
     for i=0,initialRingCount-1 do
         --bullet pos is really an offset from caster position
         pos = Vector2.static.ray(initialRingRadius, i/initialRingCount*math.pi*2)
-        log("bullet " .. i .. " offset " .. pos.x .. "," .. pos.y)
+        --log("bullet " .. i .. " offset " .. pos.x .. "," .. pos.y)
         pos = pos + caster_pos        
 
         objects[i+1] = createRingBullet(pos)
@@ -58,7 +58,7 @@ end
 function InitialLaunch()
     --launch ring
     
-    log("initial launch")
+--    log("initial launch")
     
     for idx=0,initialRingCount-1 do
         --their direction relative to the caster is also the 
@@ -69,7 +69,7 @@ function InitialLaunch()
         angle = (idx) / initialRingCount * math.pi*2
         vel = Vector2.static.ray(initialLaunchSpeed, angle)
         
-        log(idx+1 .. " vel set " .. vel.x .. "," .. vel.y)
+--        log(idx+1 .. " vel set " .. vel.x .. "," .. vel.y)
         
         if isValidObject(objects[idx+1]) then
             GObject_setVel(objects[idx+1], vel)
