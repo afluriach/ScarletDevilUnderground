@@ -12,10 +12,20 @@ class Spellcaster;
 
 namespace Lua{
 
-Vec2 getVec2FromTable(LuaRef t)
+bool tableIsVec2(LuaRef t)
 {
     if(t.isNil()){
-        log("getVec2FromTable: nil table vector");
+        return false;
+    }
+    
+    return (t["x"].isNumber() && t["y"].isNumber()) ||
+           (t[1].isNumber() && t[2].isNumber());
+}
+
+Vec2 getVec2FromTable(LuaRef t)
+{
+    if(!tableIsVec2(t)){
+        log("getVec2FromTable: not a table vector");
         return Vec2(0,0);
     }
     
@@ -26,6 +36,7 @@ Vec2 getVec2FromTable(LuaRef t)
         return Vec2(getFloat(t[1]), getFloat(t[2]));
     }
     
+    //Should be unreachable, since it must have passed the tableIsVec2 test.
     log("getVec2FromTable: not a vector");
     return Vec2(0,0);
 }

@@ -253,53 +253,19 @@ unordered_map<string, Inst*> Inst::instances;
         get_gspace
         
         arg(args);
-        
-        if(!args.isTable()){
-            push_error("single table params required")
-        }
-        
-        //Position and dimension are x,y vector
-        ref_from_table(args,pos)
-        ref_from_table(args,props)
 
+        requireType(L, "createObject: ", args, LUA_TTABLE);
+
+        //pos (and dim and vel if included) are interpreted as Vec2
+        ref_from_table(args,pos)
         ref_from_table(args, name)
         ref_from_table(args, type)
-
-        ref_from_table(args, width)
-        ref_from_table(args, height)
-
-        ref_from_table(args, radius)
-        ref_from_table(args, vx)
-        ref_from_table(args, vy)
 
         requireType(L, "createObject: name", name,LUA_TSTRING);
         requireType(L, "createObject: type", type,LUA_TSTRING);
         requireType(L, "createObject: pos", pos,LUA_TTABLE);
 
-        Vec2 posV = getVec2FromTable(pos);
-
-        unordered_map<string,string> m;
-        
-        if(!props.isNil() && props.isTable()){
-            m = getStringMapFromTable(props, L);
-        }
-        m["name"] = name.tostring();
-        m["type"] = type.tostring();
-        
-        ValueMap objArg = GObject::makeValueMapArg(posV,m);
-        
-        //Dimensions, if included for dynamically sized objects, must be converted to pixel space to match existing interface. Otherwise provide 0 for dimension for objects that expect it to be there.
-        
-        objArg["width"] = width.isNumber() ? Value(getFloat(width)*App::pixelsPerTile) : Value(0.0);
-        objArg["height"] = height.isNumber() ? Value(getFloat(height)*App::pixelsPerTile) : Value(0.0);
-
-        if(radius.isNumber())
-            objArg["radius"] = Value(getFloat(radius));
-        
-        if(vx.isNumber() && vy.isNumber()){
-            objArg["vx"] = Value(getFloat(vx));
-            objArg["vy"] = Value(getFloat(vy));
-        }
+        ValueMap objArg = GObject::makeValueMapArg(args);
 
         //Return reference to the created object.
         GObject* gobj = gspace->addObject(objArg);

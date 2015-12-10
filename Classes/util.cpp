@@ -108,9 +108,15 @@ void convertToUnitSpace(ValueMap& arg)
     SpaceVect center = SpaceVect(cornerPos);
     center += (dim*0.5);
     
-    arg["x"] = Value(center.x);
-    arg["y"] = Value(center.y);
+    arg.erase("x");
+    arg.erase("y");
+
+    arg.erase("width");
+    arg.erase("height");
     
-    arg["width"] = Value(dim.x);
-    arg["height"] = Value(dim.y);
+    arg["pos_x"] = Value(center.x);
+    arg["pos_y"] = Value(center.y);
+    
+    arg["dim_x"] = Value(dim.x);
+    arg["dim_y"] = Value(dim.y);
 }

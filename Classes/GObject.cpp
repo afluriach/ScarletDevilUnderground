@@ -13,10 +13,10 @@ unsigned int GObject::nextUUID = 1;
 GObject::GObject(const ValueMap& obj) : name(obj.at("name").asString()), uuid(nextUUID++)
 {
     //Interpret coordinates as center, unit space.
-    initialCenter = SpaceVect(getFloat(obj, "x"), getFloat(obj, "y"));
+    initialCenter = SpaceVect(getFloat(obj, "pos_x"), getFloat(obj, "pos_y"));
     
-    if(obj.find("vx") != obj.end() && obj.find("vy") != obj.end()){
-        setInitialVelocity(SpaceVect(getFloat(obj, "vx"), getFloat(obj, "vy")));
+    if(obj.find("vel_x") != obj.end() && obj.find("vel_y") != obj.end()){
+        setInitialVelocity(SpaceVect(getFloat(obj, "vel_x"), getFloat(obj, "vel_y")));
     }
     
     if(logCreateObjects)
@@ -39,16 +39,27 @@ GObject* GObject::constructByType(const string& type, const ValueMap& args )
     else return nullptr;
 }
 
-ValueMap GObject::makeValueMapArg(const Vec2& pos, const unordered_map<string,string>& props)
+ValueMap GObject::makeValueMapArg(LuaRef arg)
 {
     ValueMap vm;
     
-    vm["x"] = Value(pos.x);
-    vm["y"] = Value(pos.y);
-    
-    for(auto it = props.begin(); it != props.end(); ++it)
+    for(auto it = Iterator(arg); !it.isNil(); ++it)
     {
-        vm[it->first] = it->second;
+        string key = it.key().tostring();
+        LuaRef lval = it.value();
+        
+        if(lval.isNumber())
+            vm[key] = Value(lval.cast<double>());
+        else if(lval.isString())
+            vm[key] = Value(lval.tostring());
+        //The only compound data type currently expected is a Vector2.
+        else if(lval.isTable() && Lua::tableIsVec2(lval))
+        {
+            //Expand to key_[x,y] keys.
+            Vec2 v = Lua::getVec2FromTable(lval);
+            vm[key + "_x"] = Value(v.x);
+            vm[key + "_y"] = Value(v.y);
+        }
     }
     
     return vm;
@@ -96,7 +107,7 @@ Vec2 GObject::getInitialCenterPix()
 
 SpaceVect RectangleMapBody::getDimensionsFromMap(const ValueMap& arg)
 {
-    return SpaceVect(getFloat(arg, "width"), getFloat(arg, "height"));
+    return SpaceVect(getFloat(arg, "dim_x"), getFloat(arg, "dim_y"));
 }
 
 void ImageSprite::loadImageSprite(const string& resPath, GraphicsLayer sceneLayer, Layer* dest)

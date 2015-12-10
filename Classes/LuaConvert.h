@@ -13,7 +13,9 @@ class GObject;
 
 namespace Lua{
 
+bool tableIsVec2(LuaRef t);
 Vec2 getVec2FromTable(LuaRef t);
+Value cocosValueFromLua(LuaRef);
 function<void()> makeFunctorFromLuaFunction(LuaRef ref);
 list<LuaRef> getArgs(lua_State* L);
 unordered_map<string,string> getStringMapFromTable(LuaRef table, lua_State* state);
