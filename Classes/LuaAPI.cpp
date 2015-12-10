@@ -286,8 +286,6 @@ unordered_map<string, Inst*> Inst::instances;
         m["name"] = name.tostring();
         m["type"] = type.tostring();
         
-        m[lauArgTag] = "true";
-        
         ValueMap objArg = GObject::makeValueMapArg(posV,m);
         
         //Dimensions, if included for dynamically sized objects, must be converted to pixel space to match existing interface. Otherwise provide 0 for dimension for objects that expect it to be there.

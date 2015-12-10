@@ -12,26 +12,11 @@ unsigned int GObject::nextUUID = 1;
 
 GObject::GObject(const ValueMap& obj) : name(obj.at("name").asString()), uuid(nextUUID++)
 {
-    if(obj.find(Lua::lauArgTag) != obj.end()){
-        //This is coming from the scripting API
-        
-        //Interpret coordinates as center, unit space.
-        initialCenter = SpaceVect(getFloat(obj, "x"), getFloat(obj, "y"));
-        
-        if(obj.find("vx") != obj.end() && obj.find("vy") != obj.end()){
-            setInitialVelocity(SpaceVect(getFloat(obj, "vx"), getFloat(obj, "vy")));
-        }
-    }
-    else{
-        //When loaded from a map, coordinates represent the corner in pixels.
-        SpaceVect cornerPos(getFloat(obj, "x"), getFloat(obj, "y"));
-        cornerPos *= App::tilesPerPixel;
-        
-        SpaceVect dim(getFloat(obj, "width"), getFloat(obj, "height"));
-        dim *= App::tilesPerPixel;
-        
-        initialCenter = SpaceVect(cornerPos);
-        initialCenter += (dim*0.5);
+    //Interpret coordinates as center, unit space.
+    initialCenter = SpaceVect(getFloat(obj, "x"), getFloat(obj, "y"));
+    
+    if(obj.find("vx") != obj.end() && obj.find("vy") != obj.end()){
+        setInitialVelocity(SpaceVect(getFloat(obj, "vx"), getFloat(obj, "vy")));
     }
     
     if(logCreateObjects)
@@ -111,7 +96,7 @@ Vec2 GObject::getInitialCenterPix()
 
 SpaceVect RectangleMapBody::getDimensionsFromMap(const ValueMap& arg)
 {
-    return SpaceVect(getFloat(arg, "width")*App::tilesPerPixel, getFloat(arg, "height")*App::tilesPerPixel);
+    return SpaceVect(getFloat(arg, "width"), getFloat(arg, "height"));
 }
 
 void ImageSprite::loadImageSprite(const string& resPath, GraphicsLayer sceneLayer, Layer* dest)

@@ -82,4 +82,6 @@ struct enum_hash
     }
 };
 
+void convertToUnitSpace(ValueMap& arg);
+
 #endif /* util_h */

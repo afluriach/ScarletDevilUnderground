@@ -76,7 +76,12 @@ void MapScene::loadObjectGroup(TMXObjectGroup* group)
 {
     const ValueVector& objects = group->getObjects();
     
-    gspace.addObjects(objects);
+    foreach(Value obj, objects)
+    {
+        ValueMap& objAsMap = obj.asValueMap();
+        convertToUnitSpace(objAsMap);
+        gspace.addObject(objAsMap);
+    }
 }
 
 void MapScene::loadMapObjects(const TMXTiledMap& map)

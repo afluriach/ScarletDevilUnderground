@@ -97,3 +97,20 @@ vector<string> splitString(const string& input,const string& sep)
     return output;
 }
 
+void convertToUnitSpace(ValueMap& arg)
+{
+    SpaceVect cornerPos(getFloat(arg, "x"), getFloat(arg, "y"));
+    cornerPos *= App::tilesPerPixel;
+    
+    SpaceVect dim(getFloat(arg, "width"), getFloat(arg, "height"));
+    dim *= App::tilesPerPixel;
+    
+    SpaceVect center = SpaceVect(cornerPos);
+    center += (dim*0.5);
+    
+    arg["x"] = Value(center.x);
+    arg["y"] = Value(center.y);
+    
+    arg["width"] = Value(dim.x);
+    arg["height"] = Value(dim.y);
+}

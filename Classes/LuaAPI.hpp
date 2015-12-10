@@ -13,8 +13,6 @@ using namespace luabridge;
 
 namespace Lua
 {
-    static const string lauArgTag = "luaScript";
-
     //Raise Lua exception
     void error(lua_State* L, const string& msg);
     
