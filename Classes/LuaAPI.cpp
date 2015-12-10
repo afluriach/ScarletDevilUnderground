@@ -8,7 +8,9 @@
 
 #include "Prefix.h"
 
-#include "LuaAPI.hpp"
+//Copied from ltm.h.
+#define ttypename(x)	luaT_typenames_[(x) + 1]
+extern const char *const luaT_typenames_[LUA_NUMTAGS+2];
 
 namespace Lua{
 
@@ -30,6 +32,21 @@ unordered_map<string, Inst*> Inst::instances;
     
     void runscript(string name){
         app->lua.runFile("scripts/"+name+".lua");
+    }
+
+    void requireType(lua_State* L, const string& name, LuaRef ref, int typeID)
+    {
+        if(!ref.isType(typeID)){
+            error(
+                L,
+                StringUtils::format(
+                    "%s: expected %s, got %s.",
+                    name.c_str(),
+                    ttypename(typeID),
+                    ttypename(ref.getType())
+                )
+            );
+        }
     }
 
 //Lua API methods
@@ -153,11 +170,6 @@ unordered_map<string, Inst*> Inst::instances;
         }
     };
     
-    #define requireNonNil(ref, L, msg) \
-        if(ref.isNil()){ \
-            error(L, msg); \
-            return 0; \
-        }
     #define NARGS int nArgs = lua_gettop(L);
 
     char errorbuf[128];
@@ -260,9 +272,9 @@ unordered_map<string, Inst*> Inst::instances;
         ref_from_table(args, vx)
         ref_from_table(args, vy)
 
-        requireNonNil(name, L, "createObject: name required");
-        requireNonNil(type, L, "createObject: type required");
-        requireNonNil(pos,L, "createObject: pos required");
+        requireType(L, "createObject: name", name,LUA_TSTRING);
+        requireType(L, "createObject: type", type,LUA_TSTRING);
+        requireType(L, "createObject: pos", pos,LUA_TTABLE);
 
         Vec2 posV = getVec2FromTable(pos);
 

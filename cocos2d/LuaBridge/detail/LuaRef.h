@@ -843,6 +843,9 @@ public:
   // should never happen
   //inline bool isNone () const { return m_ref == LUA_NOREF; }
 
+  inline bool isType(int typeID) const { return type () == typeID;}
+  inline int getType() const {return type ();}
+
   inline bool isNil () const { return type () == LUA_TNIL; }
   inline bool isNumber () const { return type () == LUA_TNUMBER; }
   inline bool isString () const { return type () == LUA_TSTRING; }
