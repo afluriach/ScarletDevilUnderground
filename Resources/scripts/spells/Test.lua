@@ -26,12 +26,12 @@ function RoutineMain()
         co_wait(1)
         
         for i=0,90,6 do
-            Rotate( i / 180 * math.pi)
+            Rotate(math.rad(i))
             co_wait(0.05)
         end
         co_wait(0.5)
         for i=90,270,6 do
-            Rotate( i / 180 * math.pi)
+            Rotate(math.rad(i))
             co_wait(0.05)
         end
     end
@@ -47,7 +47,7 @@ function InitialSpawn()
     
     for i=0,initialRingCount-1 do
         --bullet pos is really an offset from caster position
-        pos = Vector2.static.ray(initialRingRadius, i/initialRingCount*math.pi*2)
+        pos = Vector2.static.ray(initialRingRadius, radial_angle(i/initialRingCount))
         --log("bullet " .. i .. " offset " .. pos.x .. "," .. pos.y)
         pos = pos + caster_pos        
 
@@ -66,7 +66,7 @@ function InitialLaunch()
     
         --since this is before rotation, it can just be determined programmatically
         
-        angle = (idx) / initialRingCount * math.pi*2
+        angle = radial_angle(idx/ initialRingCount)
         vel = Vector2.static.ray(initialLaunchSpeed, angle)
         
 --        log(idx+1 .. " vel set " .. vel.x .. "," .. vel.y)
@@ -82,7 +82,7 @@ function Rotate(rotation)
         --since this is before rotation, it can just be determined programmatically
         
         --the direction they are already moving in
-        angle = (idx) / initialRingCount * math.pi*2
+        angle = radial_angle(idx/initialRingCount)
         --add rotation
         angle = angle + rotation
         vel = Vector2.static.ray(initialLaunchSpeed, angle)

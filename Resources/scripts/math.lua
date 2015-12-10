@@ -95,3 +95,7 @@ function Vector2:rotate(angle)
         self.x*math.sin(angle) + self.y*math.cos(angle)
     )
 end
+
+function radial_angle(ratio)
+    return ratio*math.pi*2
+end
