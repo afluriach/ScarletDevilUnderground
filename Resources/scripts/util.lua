@@ -90,3 +90,53 @@ function timed_interval(startval, endval, lengthseconds, f)
         coroutine.yield()
     end
 end
+
+function assert_type(val,type_str)
+    assert(type(val) == type_str)
+end
+
+function str_cat(...)
+    local result = ""
+    
+    for idx,val in ipairs(table.pack(...)) do
+        result = result .. tostring(val)
+    end
+    return result
+end
+
+function assert_table_contents(t, entries)
+    for idx,entry in pairs(entries) do
+        if type(t[entry[1]]) ~= entry[2] then
+            error(str_cat(
+                "Entry ",
+                entry[1],
+                " of type ",
+                type(t[entry[1]]),
+                ", expected ",
+                entry[2]
+            ))
+        end
+    end
+end
+
+function create_object_ring(args)
+--    assert_type(args, 'table')
+--    assert_table_contents( args,{
+--        {'count', 'number'},
+--        {'radius', 'number'},
+--        {'center', 'table'},
+--        {'factory','function'}
+--    })
+    
+    local objects = {}
+    for i=0,args.count-1 do
+        --bullet pos is really an offset from caster position
+        local pos = Vector2.static.ray(args.radius, radial_angle(i/args.count))
+        pos = pos + args.center        
+
+        objects[i+1] = args.factory(pos)
+    end
+    return objects
+end
+
+
