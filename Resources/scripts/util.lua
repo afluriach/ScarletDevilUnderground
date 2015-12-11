@@ -63,6 +63,8 @@ _coWait = 0
 --Used to implement waiting in a coroutine by consuming a specific number of 
 --update ticks before returning
 function co_wait(seconds)
+    assert_type(seconds, 'number')
+    assert(seconds > 0)
     _coWait = _coWait + seconds
     while _coWait > seconds_per_frame do
         coroutine.yield()
