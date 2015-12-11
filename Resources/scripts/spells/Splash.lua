@@ -9,7 +9,7 @@ end
 gridSize = 4
 ringSize = 0.3
 gridSpacing = 2
-bulletSize = 0.15
+bulletSize = 0.1
 
 function createBullet(pos)
     return createObject{name='waterBullet', type='WaterBullet', pos=pos, radius = bulletSize}
@@ -17,7 +17,10 @@ end
 
 function Main()
     CreateGrid()
-    co_wait()
+    co_wait(0.7)
+    Disperse()
+    co_wait(1)
+    Fall()
 end
 
 function CreateGrid()
@@ -36,3 +39,24 @@ function CreateGrid()
         end
     end
 end
+
+function Disperse()
+    for y=0,gridSize-1 do
+        for x=0,gridSize-1 do
+            expand_ring(grid[y][x], 0.5)
+        end
+    end
+end
+
+--Apply downward force
+function Fall()
+    downVel = Vector2:new(0,-1.5)
+    for y=0,gridSize-1 do
+        for x=0,gridSize-1 do
+            for idx,obj in ipairs(grid[y][x]) do
+                add_vel(obj, downVel)
+            end
+        end
+    end
+end
+

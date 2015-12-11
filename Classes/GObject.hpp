@@ -41,6 +41,10 @@ public:
         body->setPos(SpaceVect(x,y));
     }
     
+    inline SpaceVect getVel(){
+        return body->getVel();
+    }
+    
     inline void setVel(SpaceVect v){
         body->setVel(v);
     }

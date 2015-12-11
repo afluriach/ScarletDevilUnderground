@@ -153,3 +153,9 @@ function expand_ring(objects, speed)
         end
     end
 end
+
+function add_vel(object, vel)
+    local new_total = Vector2:new()
+    new_total = new_total + GObject_getVel(object) + vel
+    GObject_setVel(object, new_total)
+end
