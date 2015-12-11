@@ -10,8 +10,19 @@ function init()
 end
 
 function createRingBullet(pos)
---    log("createRingBullet")
-    return createObject{name='b', type='FireBullet', pos=pos, radius = 0.1}
+    return createObject{name='fireBullet', type='FireBullet', pos=pos, radius = 0.1}
+end
+
+function createRing(caster_pos)
+    local objects = {}
+    for i=0,initialRingCount-1 do
+        --bullet pos is really an offset from caster position
+        local pos = Vector2.static.ray(initialRingRadius, radial_angle(i/initialRingCount))
+        pos = pos + caster_pos        
+
+        objects[i+1] = createRingBullet(pos)
+    end
+    return objects
 end
 
 function update()
@@ -39,37 +50,19 @@ end
 
 function InitialSpawn()
     --create ring and store created objects in global
-    --not the most efficient way to initialize a list-table    
-    objects = {}
-    --Warning, C API does not return a Lua Vector2 but a duck-typed table.
-    caster_pos = Vector2:new(GObject_getPos(caster))
---    log("caster pos: " .. caster_pos.x .. "," .. caster_pos.y)
-    
-    for i=0,initialRingCount-1 do
-        --bullet pos is really an offset from caster position
-        pos = Vector2.static.ray(initialRingRadius, radial_angle(i/initialRingCount))
-        --log("bullet " .. i .. " offset " .. pos.x .. "," .. pos.y)
-        pos = pos + caster_pos        
-
-        objects[i+1] = createRingBullet(pos)
-    end    
+    --not the most efficient way to initialize a list-table
+    objects = createRing(Vector2:new(GObject_getPos(caster)))
 end
 
 function InitialLaunch()
     --launch ring
-    
---    log("initial launch")
-    
     for idx=0,initialRingCount-1 do
         --their direction relative to the caster is also the 
         --direction they will be launched
     
-        --since this is before rotation, it can just be determined programmatically
-        
-        angle = radial_angle(idx/ initialRingCount)
-        vel = Vector2.static.ray(initialLaunchSpeed, angle)
-        
---        log(idx+1 .. " vel set " .. vel.x .. "," .. vel.y)
+        --since this is before rotation, it can just be determined programmatically        
+        local angle = radial_angle(idx/ initialRingCount)
+        local vel = Vector2.static.ray(initialLaunchSpeed, angle)
         
         if isValidObject(objects[idx+1]) then
             GObject_setVel(objects[idx+1], vel)
@@ -82,13 +75,11 @@ function Rotate(rotation)
         --since this is before rotation, it can just be determined programmatically
         
         --the direction they are already moving in
-        angle = radial_angle(idx/initialRingCount)
+        local angle = radial_angle(idx/initialRingCount)
         --add rotation
         angle = angle + rotation
-        vel = Vector2.static.ray(initialLaunchSpeed, angle)
+        local vel = Vector2.static.ray(initialLaunchSpeed, angle)
         
---        log(idx+1 .. " vel set " .. vel.x .. "," .. vel.y)
-    
         if isValidObject(objects[idx+1]) then
             GObject_setVel(objects[idx+1], vel)
         end
