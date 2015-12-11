@@ -30,6 +30,7 @@ const unordered_map<string,GObject::AdapterType> GObject::adapters =
     boost::assign::map_list_of
     entry_same(Block)
     entry_same(FireBullet)
+    entry_same(WaterBullet)
     entry_same(Flower)
     entry_same(Glyph)
     entry_same(Patchouli)

@@ -41,6 +41,22 @@ public:
     inline virtual float zoom() const {return radius/spriteBaseRadius*2;}
 };
 
+class WaterBullet : virtual public Bullet, public ImageSprite
+{
+public:
+    static constexpr float speed = 6;
+
+    inline WaterBullet(const ValueMap& arg) : Bullet(arg), GObject(arg) {}
+
+    virtual inline string imageSpritePath() const {return "sprites/water_bullet.png";}
+    virtual inline GraphicsLayer sceneLayer() const {return GraphicsLayer::ground;}
+    
+    virtual inline GType getType() const {return GType::enemyBullet;}
+    
+    static constexpr float spriteBaseRadius = 0.125;
+    inline virtual float zoom() const {return radius/spriteBaseRadius*2;}
+};
+
 class FireBullet : virtual public Bullet, public LoopAnimationSprite
 {
 public:

@@ -25,5 +25,6 @@ const unordered_map<string,Spell::AdapterType> Spell::adapters = boost::assign::
 ;
 
 const set<string> Spell::scripts = boost::assign::list_of
+    ("Splash")
     ("Test")
 ;
