@@ -613,13 +613,29 @@ const char *luaG_addinfo (lua_State *L, const char *msg, TString *src,
 
 
 l_noret luaG_errormsg (lua_State *L) {
-  if (L->errfunc != 0) {  /* is there an error handling function? */
+  if(!L->errfunc){
+    //Use msghandler as default error handler.
+    
+    lua_pushcfunction(L, msghandler);
+    //Swap base error message paramater so it is on top of the function.
+    lua_swap(L);
+
+    luaD_call(L, L->top - 2, 1, 0);  /* call it */
+  }
+
+  else {  /* is there an error handling function? */
     StkId errfunc = restorestack(L, L->errfunc);
     setobjs2s(L, L->top, L->top - 1);  /* move argument */
     setobjs2s(L, L->top - 1, errfunc);  /* push function */
     L->top++;  /* assume EXTRA_STACK */
     luaD_call(L, L->top - 2, 1, 0);  /* call it */
   }
+  
+    //For some reason, luaD_throw -> LUAI_THROW is inconsistent about whether it prints the
+    //error message. When encountering a syntax error running a file,
+    //errorfunc is present, yet LUAI_THROW still doesn't print the generated error message.
+    fprintf(stderr, "%s\n", lua_tostring(L,-1));
+    
   luaD_throw(L, LUA_ERRRUN);
 }
 

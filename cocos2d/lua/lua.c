@@ -174,7 +174,7 @@ static int report (lua_State *L, int status) {
 /*
 ** Message handler used to run all chunks
 */
-static int msghandler (lua_State *L) {
+int msghandler (lua_State *L) {
   const char *msg = lua_tostring(L, 1);
   if (msg == NULL) {  /* is error object not a string? */
     if (luaL_callmeta(L, 1, "__tostring") &&  /* does it have a metamethod */

@@ -322,6 +322,8 @@ int doREPL (lua_State *L);
 
 LUA_API int   (lua_error) (lua_State *L);
 
+int msghandler (lua_State *L);
+
 LUA_API int   (lua_next) (lua_State *L, int idx);
 
 LUA_API void  (lua_concat) (lua_State *L, int n);
@@ -375,6 +377,8 @@ LUA_API void      (lua_setallocf) (lua_State *L, lua_Alloc f, void *ud);
 #define lua_remove(L,idx)	(lua_rotate(L, (idx), -1), lua_pop(L, 1))
 
 #define lua_replace(L,idx)	(lua_copy(L, -1, (idx)), lua_pop(L, 1))
+
+#define lua_swap(L) lua_rotate(L, -2, 1)
 
 /* }============================================================== */
 
