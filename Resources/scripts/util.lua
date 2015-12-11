@@ -1,4 +1,5 @@
 frames_per_second = 60
+seconds_per_frame = 1 / frames_per_second
 
 function setfenv(fn, env)
   local i = 1
@@ -57,10 +58,16 @@ function getobj(name, typeStr)
     end
 end
 
+_coWait = 0
+
 --Used to implement waiting in a coroutine by consuming a specific number of 
 --update ticks before returning
 function co_wait(seconds)
-    for i=1,seconds*frames_per_second do coroutine.yield() end
+    _coWait = _coWait + seconds
+    while _coWait > seconds_per_frame do
+        coroutine.yield()
+        _coWait = _coWait - seconds_per_frame
+    end
 end
 
 function exit_repl()
