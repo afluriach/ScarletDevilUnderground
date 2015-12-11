@@ -73,3 +73,20 @@ end
 function exit_repl()
     exitREPL = true
 end
+
+--Repeatedly sample a function over the interval [start,end)
+--The function is run once per resume
+--repeatedly over time with discrete LERP values.
+function timed_interval(startval, endval, lengthseconds, f)
+    local range = endval - startval
+    local ticksForInterval = math.floor(lengthseconds*frames_per_second)
+    local dt = range / ticksForInterval
+    
+    local crntval = startval
+    
+    for count=1,ticksForInterval do
+        f(crntval)
+        crntval = crntval + dt
+        coroutine.yield()
+    end
+end

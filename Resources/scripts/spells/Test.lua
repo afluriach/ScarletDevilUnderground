@@ -36,15 +36,13 @@ function RoutineMain()
         InitialLaunch()
         co_wait(1)
         
-        for i=0,90,6 do
-            Rotate(math.rad(i))
-            co_wait(0.05)
+        local function rotateDegrees(deg)
+            Rotate(math.rad(deg))
         end
+        
+        timed_interval(0,90,0.75,rotateDegrees)
         co_wait(0.5)
-        for i=90,270,6 do
-            Rotate(math.rad(i))
-            co_wait(0.05)
-        end
+        timed_interval(90,270,1.5,rotateDegrees)
     end
 end
 
