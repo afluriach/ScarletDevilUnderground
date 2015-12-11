@@ -46,19 +46,7 @@ function InitialSpawn()
 end
 
 function InitialLaunch()
-    --launch ring
-    for idx=0,initialRingCount-1 do
-        --their direction relative to the caster is also the 
-        --direction they will be launched
-    
-        --since this is before rotation, it can just be determined programmatically        
-        local angle = radial_angle(idx/ initialRingCount)
-        local vel = Vector2.static.ray(initialLaunchSpeed, angle)
-        
-        if isValidObject(objects[idx+1]) then
-            GObject_setVel(objects[idx+1], vel)
-        end
-    end
+    expand_ring(objects, initialLaunchSpeed)
 end
 
 function Rotate(rotation)

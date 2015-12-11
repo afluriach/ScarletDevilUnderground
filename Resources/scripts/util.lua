@@ -139,4 +139,15 @@ function create_object_ring(args)
     return objects
 end
 
-
+--Apply outer radial velocity to a ring of objects.
+--This assumes that the object[i]'s angular position is i/#objects*math.pi.
+function expand_ring(objects, speed)
+    for idx,obj in ipairs(objects) do
+        local angle = radial_angle((idx-1)/ #objects)
+        local vel = Vector2.static.ray(speed, angle)
+        
+        if isValidObject(obj) then
+            GObject_setVel(obj, vel)
+        end
+    end
+end
