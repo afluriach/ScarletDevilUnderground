@@ -140,11 +140,11 @@
 ** default configuration for 64-bit Lua ('long long' and 'double')
 */
 #if !defined(LUA_INT_TYPE)
-#define LUA_INT_TYPE	LUA_INT_LONGLONG
+#define LUA_INT_TYPE	LUA_INT_INT
 #endif
 
 #if !defined(LUA_FLOAT_TYPE)
-#define LUA_FLOAT_TYPE	LUA_FLOAT_DOUBLE
+#define LUA_FLOAT_TYPE	LUA_FLOAT_FLOAT
 #endif								/* } */
 
 /* }================================================================== */
