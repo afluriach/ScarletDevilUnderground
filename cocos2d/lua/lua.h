@@ -319,6 +319,7 @@ LUA_API int (lua_gc) (lua_State *L, int what, int data);
 */
 
 int doREPL (lua_State *L);
+int print_gc_stats(lua_State* L);
 
 LUA_API int   (lua_error) (lua_State *L);
 

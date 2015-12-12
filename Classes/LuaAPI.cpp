@@ -397,5 +397,7 @@ unordered_map<string, Inst*> Inst::instances;
         install(getObjectCount);
         install(open_repl);
         installFunction(convertObj, "convert");
+        
+        install(print_gc_stats);
     }
 }

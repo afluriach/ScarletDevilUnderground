@@ -30,9 +30,8 @@
 #define LOG_GC true
 
 //Do not print individual steps unless they pass the threadhold.
-//A trivial collection typically takes 5-15 us.
-#define LOG_GC_TIME 30
-#define LOG_GC_BYTES 10000
+//A trivial collection typically takes 2-15 us.
+#define LOG_GC_TIME 200
 
 /*
 ** internal state for collector while inside the atomic phase. The
@@ -101,6 +100,26 @@
 
 static void reallymarkobject (global_State *g, GCObject *o);
 
+/*
+** {======================================================
+** Profiling
+** =======================================================
+*/
+
+unsigned long total_freed = 0;
+unsigned long total_time_us = 0;
+
+void update_stats(unsigned long bytes, unsigned long micros)
+{
+    total_freed += bytes;
+    total_time_us += micros;
+}
+
+int print_gc_stats(lua_State* L)
+{
+    printf("GC has recovered %lu KB in %lu ms.\n", total_freed/1000, total_time_us/1000);
+    return 0;
+}
 
 /*
 ** {======================================================
@@ -1134,7 +1153,7 @@ void luaC_step (lua_State *L) {
   global_State *g = G(L);
   l_mem debt = getdebt(g);  /* GC deficit (be paid now) */
   
-  #ifdef LOG_GC
+  #if LOG_GC
   boost::timer timer;
   unsigned long before_bytes = g->totalbytes + g->GCdebt;
   #endif
@@ -1155,12 +1174,13 @@ void luaC_step (lua_State *L) {
     runafewfinalizers(L);
   }
   
-  #ifdef LOG_GC
+  #if LOG_GC
   unsigned long after_bytes = g->totalbytes + g->GCdebt;
   
   double micros = timer.elapsed()*1e6;
+  update_stats(before_bytes-after_bytes, micros);
   
-  if(before_bytes-after_bytes > LOG_GC_BYTES || micros > LOG_GC_TIME)
+  if(micros > LOG_GC_TIME)
     printf("GC step recovered %luB in %.0lfus.\n", before_bytes-after_bytes, micros);
   #endif
 }
@@ -1179,7 +1199,7 @@ void luaC_fullgc (lua_State *L, int isemergency) {
   global_State *g = G(L);
   lua_assert(g->gckind == KGC_NORMAL);
   
-  #ifdef LOG_GC
+  #if LOG_GC
   boost::timer timer;
   unsigned long before_bytes = g->totalbytes + g->GCdebt;
   #endif
@@ -1199,10 +1219,11 @@ void luaC_fullgc (lua_State *L, int isemergency) {
   g->gckind = KGC_NORMAL;
   setpause(g);
   
-  #ifdef LOG_GC
+  #if LOG_GC
   unsigned long after_bytes = g->totalbytes + g->GCdebt;
   double micros = timer.elapsed()*1e6;
-
+  update_stats(before_bytes-after_bytes, micros);
+  
   printf("GC full cycle recovered %luB in %.0lfus.\n", before_bytes-after_bytes, micros);
   #endif
 
