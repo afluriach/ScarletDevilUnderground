@@ -111,6 +111,18 @@ void setPaused(bool val)
     GScene::crntScene->setPaused(val);
 }
 
+void dostring_in_inst(string script, string inst_name)
+{
+    auto it = Inst::instances.find(inst_name);
+    
+    if(it != Inst::instances.end()){
+        it->second->runString(script);
+    }
+    else{
+        cocos2d::log("dostring_in_inst: instance %s not found.", inst_name.c_str());
+    }
+}
+
 #define make_wrapper(name) \
 int name ## _wrapper(lua_State* L) \
 { \
@@ -150,6 +162,7 @@ make_wrapper(isValidObject)
 make_wrapper(runscript)
 make_wrapper(setPlayerHealth)
 make_wrapper(setPaused)
+make_wrapper(dostring_in_inst)
 
 make_method_wrapper(GObject,getPos)
 make_method_wrapper(GObject,setPos)
@@ -174,6 +187,7 @@ void Inst::installWrappers()
     install_wrapper(runscript)
     install_wrapper(setPlayerHealth)
     install_wrapper(setPaused)
+    install_wrapper(dostring_in_inst)
     
 //    getGlobalNamespace(state)
 //        .beginClass<GObject>("GObject")

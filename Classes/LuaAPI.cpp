@@ -18,6 +18,7 @@ const vector<string> Inst::luaIncludes = boost::assign::list_of
     ("util")
     ("class")
     ("math")
+    ("repl")
 ;
 
 unordered_map<string, Inst*> Inst::instances;
@@ -395,7 +396,7 @@ unordered_map<string, Inst*> Inst::instances;
         install(castSpell);
         install(stopSpell);
         install(getObjectCount);
-        install(open_repl);
+//        install(open_repl);
         installFunction(convertObj, "convert");
         
         install(print_gc_stats);
