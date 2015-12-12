@@ -19,6 +19,12 @@ App::App() : lua("app"), replInst("repl")
 App::~App() 
 {
     delete keyRegister;
+    
+    try{
+        lstop(replInst.state, nullptr);
+    }
+    catch(lua_longjmp* ex){}
+    luaReplThread->join();
     delete luaReplThread;
     
     log("app exiting");

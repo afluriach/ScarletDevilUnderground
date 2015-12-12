@@ -30,6 +30,9 @@ function repl.start()
     while true do
         local line = io.read('l')
         
+        --EOF
+        if not line then break end
+        
         if line == "--cancel" then
             buf = ""
         elseif line == "--exit" then
