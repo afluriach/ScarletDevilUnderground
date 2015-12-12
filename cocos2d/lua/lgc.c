@@ -29,6 +29,11 @@
 
 #define LOG_GC true
 
+//Do not print individual steps unless they pass the threadhold.
+//A trivial collection typically takes 5-15 us.
+#define LOG_GC_TIME 30
+#define LOG_GC_BYTES 10000
+
 /*
 ** internal state for collector while inside the atomic phase. The
 ** collector should never be in this state while running regular code.
@@ -1153,8 +1158,10 @@ void luaC_step (lua_State *L) {
   #ifdef LOG_GC
   unsigned long after_bytes = g->totalbytes + g->GCdebt;
   
-  double millis = timer.elapsed()*1000;
-  printf("GC step recovered %.3f KB in %.3lf ms.\n", (before_bytes-after_bytes)/1000.0, millis);
+  double micros = timer.elapsed()*1e6;
+  
+  if(before_bytes-after_bytes > LOG_GC_BYTES || micros > LOG_GC_TIME)
+    printf("GC step recovered %luB in %.0lfus.\n", before_bytes-after_bytes, micros);
   #endif
 }
 
@@ -1194,9 +1201,9 @@ void luaC_fullgc (lua_State *L, int isemergency) {
   
   #ifdef LOG_GC
   unsigned long after_bytes = g->totalbytes + g->GCdebt;
-  
-  double millis = timer.elapsed()*1000;
-  printf("GC full cycle recovered %.3f KB in %.3lf ms.\n", (before_bytes-after_bytes)/1000.0, millis);
+  double micros = timer.elapsed()*1e6;
+
+  printf("GC full cycle recovered %luB in %.0lfus.\n", before_bytes-after_bytes, micros);
   #endif
 
 }
