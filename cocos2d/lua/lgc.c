@@ -12,6 +12,8 @@
 
 #include <string.h>
 
+#include <boost/timer.hpp>
+
 #include "lua.h"
 
 #include "ldebug.h"
@@ -25,6 +27,7 @@
 #include "ltable.h"
 #include "ltm.h"
 
+#define LOG_GC true
 
 /*
 ** internal state for collector while inside the atomic phase. The
@@ -1125,6 +1128,12 @@ static l_mem getdebt (global_State *g) {
 void luaC_step (lua_State *L) {
   global_State *g = G(L);
   l_mem debt = getdebt(g);  /* GC deficit (be paid now) */
+  
+  #ifdef LOG_GC
+  boost::timer timer;
+  unsigned long before_bytes = g->totalbytes + g->GCdebt;
+  #endif
+  
   if (!g->gcrunning) {  /* not running? */
     luaE_setdebt(g, -GCSTEPSIZE * 10);  /* avoid being called too often */
     return;
@@ -1140,6 +1149,13 @@ void luaC_step (lua_State *L) {
     luaE_setdebt(g, debt);
     runafewfinalizers(L);
   }
+  
+  #ifdef LOG_GC
+  unsigned long after_bytes = g->totalbytes + g->GCdebt;
+  
+  double millis = timer.elapsed()*1000;
+  printf("GC step recovered %.3f KB in %.3lf ms.\n", (before_bytes-after_bytes)/1000.0, millis);
+  #endif
 }
 
 
@@ -1155,6 +1171,13 @@ void luaC_step (lua_State *L) {
 void luaC_fullgc (lua_State *L, int isemergency) {
   global_State *g = G(L);
   lua_assert(g->gckind == KGC_NORMAL);
+  
+  #ifdef LOG_GC
+  boost::timer timer;
+  unsigned long before_bytes = g->totalbytes + g->GCdebt;
+  #endif
+
+  
   if (isemergency) g->gckind = KGC_EMERGENCY;  /* set flag */
   if (keepinvariant(g)) {  /* black objects? */
     entersweep(L); /* sweep everything to turn them back to white */
@@ -1168,6 +1191,14 @@ void luaC_fullgc (lua_State *L, int isemergency) {
   luaC_runtilstate(L, bitmask(GCSpause));  /* finish collection */
   g->gckind = KGC_NORMAL;
   setpause(g);
+  
+  #ifdef LOG_GC
+  unsigned long after_bytes = g->totalbytes + g->GCdebt;
+  
+  double millis = timer.elapsed()*1000;
+  printf("GC full cycle recovered %.3f KB in %.3lf ms.\n", (before_bytes-after_bytes)/1000.0, millis);
+  #endif
+
 }
 
 /* }====================================================== */
