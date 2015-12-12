@@ -356,6 +356,13 @@ int noCollide(Arbiter arb, Space& space)
     return 0;
 }
 
+int bulletWall(Arbiter arb, Space& space)
+{
+    GObject* bullet = static_cast<GObject*>(arb.getBodyA().getUserData());
+    GScene::getSpace()->removeObject(bullet);
+    return 1;
+}
+
 #define AddHandler(a,b,begin,end) \
 space.addCollisionHandler(GType::a, GType::b, begin, nullptr, nullptr, end);
 
@@ -369,4 +376,7 @@ void GSpace::addCollisionHandlers()
     AddHandler(enemyBullet,foliage,noCollide,nullptr)
     AddHandler(playerBullet,enemyBullet, noCollide,nullptr)
     AddHandler(player, foliage, playerFlowerBegin,nullptr)
+    
+    AddHandler(playerBullet, wall, bulletWall, nullptr);
+    AddHandler(enemyBullet, wall, bulletWall, nullptr);
 }
