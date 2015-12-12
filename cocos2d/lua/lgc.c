@@ -27,7 +27,7 @@
 #include "ltable.h"
 #include "ltm.h"
 
-#define LOG_GC true
+#define LOG_GC false
 
 //Do not print individual steps unless they pass the threadhold.
 //A trivial collection typically takes 2-15 us.
