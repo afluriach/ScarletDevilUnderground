@@ -23,6 +23,8 @@ const vector<string> Inst::luaIncludes = boost::assign::list_of
 
 unordered_map<string, Inst*> Inst::instances;
 
+vector<pair<string,string>> Inst::commandQueue;
+mutex Inst::queueLock;
 
     //Raise Lua exception
     void error(lua_State* L, const string& msg)
@@ -48,6 +50,11 @@ unordered_map<string, Inst*> Inst::instances;
                 )
             );
         }
+    }
+    
+    void replThreadMain(Inst * inst)
+    {
+        inst->call("open_repl", vector<LuaRef>());
     }
 
 //Lua API methods
@@ -95,6 +102,32 @@ unordered_map<string, Inst*> Inst::instances;
     {
         ref.push(state);
         lua_setglobal(state, name.c_str());
+    }
+    
+    void Inst::addCommand(const string& target, const string& script)
+    {
+        queueLock.lock();
+        commandQueue.push_back(pair<string,string>(target,script));
+        queueLock.unlock();
+    }
+    
+    void Inst::runCommands()
+    {
+        queueLock.lock();
+        
+        BOOST_FOREACH(auto command, commandQueue)
+        {
+            auto it = Inst::instances.find(command.first);
+        
+            if(it != Inst::instances.end()){
+                it->second->runString(command.second);
+            }
+            else{
+                cocos2d::log("runCommands: instance %s not found.", command.first.c_str());
+            }
+        }
+        
+        queueLock.unlock();
     }
     
     void Inst::runString(const string& str)

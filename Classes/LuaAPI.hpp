@@ -34,6 +34,11 @@ namespace Lua
         static const bool catchLuaPanic = false;
         
         static unordered_map<string, Inst*> instances;
+        
+        static vector<pair<string,string>> commandQueue;
+        static mutex queueLock;
+        static void runCommands();
+        static void addCommand(const string& target, const string& script);
     
         void installApi();
         void installWrappers();
@@ -58,6 +63,8 @@ namespace Lua
         }
         lua_State *state;
     };
+
+    void replThreadMain(Inst * inst);
     
 }
 

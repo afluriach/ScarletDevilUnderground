@@ -92,11 +92,13 @@ public:
     
     KeyRegister* keyRegister;
     Lua::Inst lua;
+    Lua::Inst replInst;
 protected:
     KeyListener keyListener;
     //The shell that is installed in the current scene.
     LuaShell* luaShell;
     string pendingScript;
+    thread* luaReplThread;
     
     Scene* createSceneFromLayer(Layer* layer);
 

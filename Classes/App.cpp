@@ -7,16 +7,19 @@ App* app;
 
 const string App::title = "フランの地下";
 
-App::App() : lua("app")
+App::App() : lua("app"), replInst("repl")
 {
     app = this;
     //Initialize Lua
     lua.runFile("scripts/init.lua");
+    
+    luaReplThread = new thread(Lua::replThreadMain, &replInst);
 }
 
 App::~App() 
 {
     delete keyRegister;
+    delete luaReplThread;
     
     log("app exiting");
 }
@@ -97,6 +100,7 @@ void App::checkPendingScript()
         lua.runString(pendingScript);
         pendingScript.clear();
     }
+    Lua::Inst::runCommands();
 }
 
 void App::installLuaShell(GScene* gscene)
@@ -110,10 +114,6 @@ void App::installLuaShell(GScene* gscene)
     keyListener.addPressListener(
         Keys::enter,
         [=]() -> void {if(luaShell->isVisible()) pendingScript = luaShell->getText();}
-    );
-    keyListener.addPressListener(
-        Keys::num1,
-        [=]() -> void {lua.call("open_repl", vector<luabridge::LuaRef>());}
     );
     
     gscene->multiUpdate.insertWithOrder(bind(&App::checkPendingScript,this), GScene::updateOrder::runShellScript);

@@ -113,14 +113,7 @@ void setPaused(bool val)
 
 void dostring_in_inst(string script, string inst_name)
 {
-    auto it = Inst::instances.find(inst_name);
-    
-    if(it != Inst::instances.end()){
-        it->second->runString(script);
-    }
-    else{
-        cocos2d::log("dostring_in_inst: instance %s not found.", inst_name.c_str());
-    }
+    Inst::addCommand(inst_name, script);
 }
 
 #define make_wrapper(name) \

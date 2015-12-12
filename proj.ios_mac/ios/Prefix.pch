@@ -16,7 +16,9 @@
     #include <limits>
     #include <map>
     #include <memory>
+    #include <mutex>
     #include <set>
+    #include <thread>
     #include <type_traits>
     #include <vector>
 
