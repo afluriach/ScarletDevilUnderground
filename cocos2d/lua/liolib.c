@@ -472,12 +472,23 @@ static int read_line (lua_State *L, FILE *f, int chop) {
     int i = 0;
     l_lockfile(f);  /* no memory errors can happen inside the lock */
     while (!L->exit){
-      fd_set input;
-      FD_ZERO(&input);
-      FD_SET(STDIN_FILENO, &input);
-      int n = STDIN_FILENO + 1;
-      
-      if(select(n, &input, nullptr, nullptr, &wait)){
+      if(f == stdin)
+      {
+          fd_set input;
+          FD_ZERO(&input);
+          FD_SET(STDIN_FILENO, &input);
+          int n = STDIN_FILENO + 1;
+          
+          if(select(n, &input, nullptr, nullptr, &wait)){
+            c = l_getc(f);
+            if(i < LUAL_BUFFERSIZE && c != EOF && c != '\n'){
+              buff[i++] = c;
+            }
+            else break;
+          }
+      }
+      else
+      {
         c = l_getc(f);
         if(i < LUAL_BUFFERSIZE && c != EOF && c != '\n'){
           buff[i++] = c;
