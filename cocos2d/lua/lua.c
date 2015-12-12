@@ -307,33 +307,9 @@ static int pushline (lua_State *L, int firstline) {
   char *b = buffer;
   size_t l;
   const char *prmt = get_prompt(L, firstline);
-
-  fputs(prmt, stdout);
-  fflush(stdout);
-
-  //Read line.
-  while(1)
-  {
-    int nextChar = fgetc(stdin);
-    if (nextChar == EOF){
-        continue;
-    }
-    else if(nextChar == '\n'){
-        //If this is a blank line, reprint the prompt and keep reading.
-        if(buffer == b){
-            fputs(prmt, stdout);
-            fflush(stdout);
-        }
-        else{
-            *b = '\0';
-            ++b;
-            break;
-        }
-    }
-    else{
-        *b = (char) nextChar;
-        ++b;
-    }
+  int readstatus = lua_readline(L, b, prmt);
+  if (readstatus == 0){
+    return 0;
   }
 
   //if(buffer + 1 == b)
@@ -343,9 +319,11 @@ static int pushline (lua_State *L, int firstline) {
   }
   
   lua_pop(L, 1);  /* remove prompt */
-  l = strlen(buffer);
-  if (firstline && buffer[0] == '=')  /* for compatibility with 5.2, ... */
-    lua_pushfstring(L, "return %s", buffer + 1);  /* change '=' to 'return' */
+  l = strlen(b);
+  if (l > 0 && b[l-1] == '\n')  /* line ends with newline? */
+    b[--l] = '\0';  /* remove it */
+  if (firstline && b[0] == '=')  /* for compatibility with 5.2, ... */
+    lua_pushfstring(L, "return %s", b + 1);  /* change '=' to 'return' */
   else
     lua_pushlstring(L, buffer, l);
   return 1;
