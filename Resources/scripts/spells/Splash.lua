@@ -54,7 +54,7 @@ function Fall()
     for y=0,gridSize-1 do
         for x=0,gridSize-1 do
             for idx,obj in ipairs(grid[y][x]) do
-                add_vel(obj, downVel)
+                if isValidObject(obj) then add_vel(obj, downVel) end
             end
         end
     end
