@@ -12,19 +12,22 @@
 class Block : virtual public GObject, RectangleBody, ImageSprite
 {
 public:
-    inline Block(const ValueMap& args) : GObject(args)
-    {        
+    const bool isStatic;
+    inline Block(const ValueMap& args) :
+    GObject(args),
+    isStatic(args.find("static") != args.end())
+    {
         auto it = args.find("letter");
         if(it != args.end())
             letter = it->second.asString();
-        else
-            log("%s: letter undefined", name.c_str());
+//        else
+//            log("%s: letter undefined", name.c_str());
     }
     
-    virtual string imageSpritePath() const {return "sprites/block "+letter+".png";}
+    virtual string imageSpritePath() const {return !letter.empty() ? "sprites/block "+letter+".png"  : "sprites/block.png";}
     virtual GraphicsLayer sceneLayer() const {return GraphicsLayer::ground;}
     
-    virtual inline float getMass() const { return 1;}
+    virtual inline float getMass() const { return isStatic ? -1 : 1;}
     virtual inline GType getType() const {return GType::environment;}
     
     virtual inline SpaceVect getDimensions() const {return SpaceVect(1,1);}

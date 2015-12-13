@@ -234,6 +234,9 @@
 		E244502D1C03A760006D78B0 /* scenes.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = scenes.cpp; path = scenes/scenes.cpp; sourceTree = "<group>"; };
 		E24450311C03D1DE006D78B0 /* SceneMapping.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = SceneMapping.cpp; sourceTree = "<group>"; };
 		E26147BB1C005A1B008CA1D0 /* scripts */ = {isa = PBXFileReference; lastKnownFileType = folder; path = scripts; sourceTree = "<group>"; };
+		E268FC4D1C1CF219007A425B /* Marisa.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = Marisa.hpp; sourceTree = "<group>"; };
+		E268FC4E1C1CF234007A425B /* Collect.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Collect.h; path = scenes/Collect.h; sourceTree = "<group>"; };
+		E268FC4F1C1CF2C1007A425B /* CollectGlyph.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = CollectGlyph.hpp; sourceTree = "<group>"; };
 		E27185361C0E0CF8006EA1EB /* Flower.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Flower.h; sourceTree = "<group>"; };
 		E27185371C0E252D006EA1EB /* Garden.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Garden.cpp; sourceTree = "<group>"; };
 		E27185381C0E252D006EA1EB /* Garden.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = Garden.hpp; sourceTree = "<group>"; };
@@ -481,6 +484,7 @@
 			isa = PBXGroup;
 			children = (
 				E23122011BFA74AC00FEA94B /* LibraryOpening.h */,
+				E268FC4E1C1CF234007A425B /* Collect.h */,
 				E244502D1C03A760006D78B0 /* scenes.cpp */,
 				E244502C1C039CF0006D78B0 /* scenes.h */,
 				E24450311C03D1DE006D78B0 /* SceneMapping.cpp */,
@@ -524,6 +528,8 @@
 				E2B63AA81BE0498C005695B0 /* Block.hpp */,
 				E29FF74F1BE18BE7004725C1 /* Glyph.cpp */,
 				E29FF7501BE18BE7004725C1 /* Glyph.hpp */,
+				E268FC4F1C1CF2C1007A425B /* CollectGlyph.hpp */,
+				E268FC4D1C1CF219007A425B /* Marisa.hpp */,
 				E2C9E5DE1C09267C00CA7C88 /* Patchouli.cpp */,
 				E2C9E5DF1C09267C00CA7C88 /* Patchouli.hpp */,
 				E27185361C0E0CF8006EA1EB /* Flower.h */,

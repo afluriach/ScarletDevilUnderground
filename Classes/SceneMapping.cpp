@@ -9,6 +9,7 @@
 #include "Prefix.h"
 
 #include "BlockScene.h"
+#include "Collect.h"
 #include "Garden.hpp"
 #include "Library.h"
 #include "LibraryOpening.h"
@@ -26,6 +27,7 @@ GScene::AdapterType adapter()
 
 const unordered_map<string,GScene::AdapterType> GScene::adapters = boost::assign::map_list_of
     entry_same(BlockScene)
+    entry_same(Collect)
     entry_same(GardenBlooming)
     entry_same(GardenEmpty)
     entry_same(GardenPath)

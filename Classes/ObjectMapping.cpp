@@ -12,6 +12,9 @@
 #include "Bullet.hpp"
 #include "Flower.h"
 #include "Glyph.hpp"
+#include "CollectGlyph.hpp"
+
+#include "Marisa.hpp"
 #include "Patchouli.hpp"
 #include "Player.hpp"
 
@@ -33,5 +36,8 @@ const unordered_map<string,GObject::AdapterType> GObject::adapters =
     entry_same(WaterBullet)
     entry_same(Flower)
     entry_same(Glyph)
+    entry_same(CollectGlyph)
+
+    entry_same(Marisa)
     entry_same(Patchouli)
     entry_same(Player);
