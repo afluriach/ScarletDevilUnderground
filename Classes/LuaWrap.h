@@ -11,6 +11,101 @@
 
 namespace Lua{
 
+class Class
+{
+private:
+    static unordered_map<string, Class> classes;
+    static bool init;
+    
+    const string name;
+    unordered_map<string, lua_CFunction> methods;
+public:
+    static void makeClasses();
+    
+    inline static void installClasses(lua_State* L)
+    {
+        if(!init){
+            makeClasses();
+            init = true;
+        }
+    
+        foreach(auto classEntry, classes){
+            classEntry.second.installClass(L);
+        }
+    }
+    
+    inline static void makeClass(string name)
+    {
+        classes.insert(make_pair(name, Class(name)));
+    }
+
+    inline static void addMethod(string clsName, string methodName, lua_CFunction wrapper)
+    {
+        classes.at(clsName).methods.insert(make_pair(methodName, wrapper));
+    }
+
+    inline Class(const string& name) : name(name)
+    {
+    }
+
+    inline Class(const Class& other) noexcept :
+    name(other.name),
+    methods(other.methods)
+    {
+    }
+    
+    inline Class(Class&& c) :
+    name(move(c.name)),
+    methods(move(c.methods))
+    {
+    }
+    
+    inline void installClass(lua_State* L)
+    {
+        makeMetatable(L);
+        
+        //Add all wrapped methods
+        
+        //Get metatable
+        lua_getglobal(L, name.c_str());
+
+        foreach(auto methodEntry, methods){
+            string name = methodEntry.first;
+            lua_CFunction wrapper = methodEntry.second;
+            
+            //Add method
+            
+            //for table assign, value is top of stack and key is second.
+            lua_pushstring(L, name.c_str());
+            lua_pushcfunction(L, wrapper);
+            
+            lua_rawset(L, -3);
+        }
+    }
+    
+    inline void makeMetatable(lua_State* L)
+    {
+        //check if it already exists, which shouldn't happen unless the
+        //create constructor was inappopriately invoked.
+
+        lua_newtable(L);
+        lua_setglobal(L,name.c_str());
+    }
+    
+    static inline void setMetatable(const string& name, lua_State* L)
+    {
+        if(!lua_istable(L, -1))
+            throw runtime_error("setMetatable: top of stack must table.");
+        
+        lua_getglobal(L, name.c_str());
+        
+        if(lua_isnil(L, -1))
+            throw runtime_error(name + " metatable not found.");
+        
+        lua_setmetatable(L, -2);
+    }
+};
+
 //conversion helper
 template<typename T>
 T convertLuaArg(const string& name, int argNum, LuaRef ref)

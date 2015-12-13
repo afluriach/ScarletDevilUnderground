@@ -4,7 +4,7 @@ initialLaunchSpeed = 3
 
 function init()
     log("Test init")
-    log("caster is " .. GObject_getUUID(caster))
+    log("caster is " .. GObject.getUUID(caster))
     
     routine = coroutine.create(RoutineMain)
 end
@@ -38,7 +38,7 @@ function InitialSpawn()
     --create ring and store created objects in global
     --not the most efficient way to initialize a list-table
     objects = create_object_ring{
-        center=Vector2:new(GObject_getPos(caster)),
+        center=Vector2:new(GObject.getPos(caster)),
         count=initialRingCount,
         radius=initialRingRadius,
         factory=createRingBullet
@@ -60,7 +60,7 @@ function Rotate(rotation)
         local vel = Vector2.static.ray(initialLaunchSpeed, angle)
         
         if isValidObject(objects[idx+1]) then
-            GObject_setVel(objects[idx+1], vel)
+            GObject.setVel(objects[idx+1], vel)
         end
     end
 

@@ -8,6 +8,8 @@
 
 #include "Prefix.h"
 
+#include "LuaWrap.h"
+
 class Spellcaster;
 
 namespace Lua{
@@ -127,18 +129,24 @@ void check_integer_value(LuaRef ref)
         throw lua_type_error("Attempt to cast non-integer Lua number to integer.");
 }
 
-//The Lua data is actually the object UUID which is mapped to the object pointer from
-//the space.
+//The ID field cannot be wrapped, as it is used to get the pointer to the actual object.
 GObject* convert<GObject*>::convertFromLua(const string& name, int argNum, LuaRef ref)
 {
-    unsigned int uuid = ref.cast<unsigned int>();
+    unsigned int uuid = ref["uuid"].cast<unsigned int>();
     return GScene::getSpace()->getObject(uuid);
 }
 LuaRef convert<GObject*>::convertToLua(GObject* obj, lua_State* L)
 {
-    LuaRef id(L, obj->uuid);
-    log("mapped %s to %ud", obj->name.c_str(), id.cast<unsigned int>());
-    return id;
+    lua_newtable(L);
+    lua_pushstring(L, "uuid");
+    lua_pushnumber(L, obj->uuid);
+    lua_settable(L, -3);
+    
+    Class::setMetatable("GObject", L);
+    
+    LuaRef ref(L);
+    ref.pop(L);
+    return ref;
 }
 
 //Check if the data is a name or a number

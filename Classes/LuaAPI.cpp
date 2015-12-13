@@ -9,8 +9,8 @@
 #include "Prefix.h"
 
 //Copied from ltm.h.
-#define ttypename(x)	luaT_typenames_[(x) + 1]
-extern const char *const luaT_typenames_[LUA_NUMTAGS+2];
+//#define ttypename(x)	luaT_typenames_[(x) + 1]
+//extern const char *const luaT_typenames_[LUA_NUMTAGS+2];
 
 namespace Lua{
 
@@ -46,7 +46,7 @@ mutex Inst::queueLock;
                     "%s: expected %s, got %s.",
                     name.c_str(),
                     ttypename(typeID),
-                    ttypename(ref.getType())
+                    ref.getTypeName()
                 )
             );
         }
@@ -303,7 +303,7 @@ mutex Inst::queueLock;
 
         //Return reference to the created object.
         GObject* gobj = gspace->addObject(objArg);
-        LuaRef obj(L, gobj->uuid);
+        LuaRef obj = convert<GObject*>::convertToLua(gobj, L);
         obj.push(L);
 
         return 1;

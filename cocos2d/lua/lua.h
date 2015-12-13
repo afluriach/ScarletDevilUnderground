@@ -73,7 +73,8 @@ typedef struct lua_State lua_State;
 
 #define LUA_NUMTAGS		9
 
-
+#define ttypename(x)	luaT_typenames_[(x) + 1]
+extern const char *const luaT_typenames_[LUA_NUMTAGS+2];
 
 /* minimum Lua stack available to a C function */
 #define LUA_MINSTACK	20

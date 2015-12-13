@@ -11,6 +11,9 @@
 
 namespace Lua{
 
+unordered_map<string, Class> Class::classes;
+bool Class::init = false;
+
 void setpos(string name, float x, float y)
 {
     GObject* obj = GScene::getSpace()->getObject(name);
@@ -80,13 +83,10 @@ GObject* getObjByName(string name)
     return space->getObject(name);
 }
 
-bool isValidObject(unsigned int id)
+//The Lua conversion template will convert the wrapper object to a valid pointer or null.
+bool isValidObject(GObject* object)
 {
-    GSpace* space = GScene::getSpace();
-    
-    if(!space) lua_runtime_error("Cannot access objects in this scene.");
-
-    return space->getObject(id) != nullptr;
+    return object != nullptr;
 }
 
 void setPlayerHealth(int val)
@@ -116,6 +116,8 @@ void dostring_in_inst(string script, string inst_name)
     Inst::addCommand(inst_name, script);
 }
 
+///////////////////////////////////////////////////////////////////
+
 #define make_wrapper(name) \
 int name ## _wrapper(lua_State* L) \
 { \
@@ -140,6 +142,7 @@ int name ## _wrapper(lua_State* L) \
 
 #define install_wrapper(name) installFunction(name ## _wrapper, #name);
 #define install_method_wrapper(cls,name) installFunction(name ## _wrapper, #cls "_" #name);
+#define add_method(cls,name) Class::addMethod(#cls, #name, name ## _wrapper);
 
 
 make_wrapper(setpos)
@@ -165,6 +168,20 @@ make_method_wrapper(GObject,getUUID)
 make_method_wrapper(Spellcaster,castByName)
 make_method_wrapper(Spellcaster,stop)
 
+void Class::makeClasses()
+{
+    Class::makeClass("GObject");
+    Class::makeClass("Spellcaster");
+    
+    add_method(GObject,getPos)
+    add_method(GObject,setPos)
+    add_method(GObject,getVel)
+    add_method(GObject,setVel)
+    add_method(GObject,getUUID)
+    add_method(Spellcaster,castByName)
+    add_method(Spellcaster,stop)
+}
+
 void Inst::installWrappers()
 {
     install_wrapper(setpos)
@@ -182,24 +199,7 @@ void Inst::installWrappers()
     install_wrapper(setPaused)
     install_wrapper(dostring_in_inst)
     
-//    getGlobalNamespace(state)
-//        .beginClass<GObject>("GObject")
-//            .addFunction("init", &GObject::init)
-//            .addFunction("applyImpulse", &GObject::applyImpulse)
-//        .endClass()
-//        .deriveClass<Spellcaster, GObject>("Spellcaster")
-//            .addFunction("cast", &Spellcaster::castByName)
-//            .addFunction("stop", &Spellcaster::stop)
-//        .endClass();
-    
-    install_method_wrapper(GObject,getPos)
-    install_method_wrapper(GObject,setPos)
-    install_method_wrapper(GObject,getVel)
-    install_method_wrapper(GObject,setVel)
-    install_method_wrapper(GObject,getUUID)
-    install_method_wrapper(Spellcaster, castByName)
-    install_method_wrapper(Spellcaster,stop)
-
+    Class::installClasses(state);
 }
 
 }

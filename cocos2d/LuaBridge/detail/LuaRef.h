@@ -845,6 +845,7 @@ public:
 
   inline bool isType(int typeID) const { return type () == typeID;}
   inline int getType() const {return type ();}
+  inline const char* getTypeName() const {return ttypename(getType());}
 
   inline bool isNil () const { return type () == LUA_TNIL; }
   inline bool isNumber () const { return type () == LUA_TNUMBER; }
