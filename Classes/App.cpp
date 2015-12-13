@@ -24,6 +24,7 @@ App::~App()
         lstop(replInst.state, nullptr);
     }
     catch(lua_longjmp* ex){}
+    catch(runtime_error ex) {}
     luaReplThread->join();
     delete luaReplThread;
     
