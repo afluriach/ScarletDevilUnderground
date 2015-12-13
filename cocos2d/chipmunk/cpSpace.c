@@ -24,6 +24,9 @@
 
 #include "chipmunk_private.h"
 
+const float CollisionSlop = 1e-3;
+const float CollsionBiasBase = 0.1;
+
 //MARK: Contact Set Helpers
 
 // Equal function for arbiterSet.
@@ -93,8 +96,8 @@ cpSpaceInit(cpSpace *space)
 	space->gravity = cpvzero;
 	space->damping = 1.0f;
 	
-	space->collisionSlop = 0.1f;
-	space->collisionBias = cpfpow(1.0f - 0.1f, 60.0f);
+	space->collisionSlop = CollisionSlop;
+	space->collisionBias = cpfpow(CollsionBiasBase, 60.0f);
 	space->collisionPersistence = 3;
 	
 	space->locked = 0;
