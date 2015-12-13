@@ -102,6 +102,28 @@ private:
     static unsigned int nextUUID;
 };
 
+class ScriptedObject : virtual public GObject
+{
+public:
+    Lua::Inst ctx;
+    inline ScriptedObject(const string& script) :
+    ctx(boost::lexical_cast<string>(uuid) + "_" + name)
+    {
+        ctx.runFile("scripts/entities/"+script+".lua");
+        //Push this as a global variable in the script's context.
+        ctx.setGlobal(Lua::convert<GObject*>::convertToLua(this, ctx.state), "this");
+
+        multiInit += bind(&ScriptedObject::init, this);
+        multiUpdate += bind(&ScriptedObject::update, this);
+    }
+    inline void init(){
+        ctx.callIfExistsNoReturn("init");
+    }
+    inline void update(){
+        ctx.callIfExistsNoReturn("update");
+    }
+};
+
 template<typename Derived>
 class RegisterInit : public virtual GObject
 {

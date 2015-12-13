@@ -160,6 +160,35 @@ mutex Inst::queueLock;
         
         return call(name, params);
     }
+    
+    void Inst::callIfExistsNoReturn(const string& name)
+    {
+        if(!globalExists(name))
+            return;
+        
+        return callNoReturn(name);
+    }
+    
+    void Inst::callNoReturn(const string& name)
+    {
+        lua_pushglobaltable(state);
+        lua_getfield(state, -1, name.c_str());
+        //Remove global table after pushing function to call
+        lua_remove(state, -2);
+        
+        try{
+        
+            int error = docall(state, 0, 0);
+
+            if(error)
+            {
+                log("Lua::Inst::call: %s, error: %s", name.c_str(), lua_tostring(state,-1));
+            }
+        }
+        catch(lua_runtime_error ex){
+            log("Lua::Inst, %s: runtime exception %s.", name.c_str(), ex.what());
+        }
+    };
 
     vector<LuaRef> Inst::call(const string& name, const vector<LuaRef>& params)
     {

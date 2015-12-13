@@ -65,12 +65,12 @@ ctx(boost::lexical_cast<string>(caster->uuid) + "_" + scriptRes)
 }
 
 void ScriptedSpell::init(){
-    ctx.callIfExists("init", vector<LuaRef>());
+    ctx.callIfExistsNoReturn("init");
 }
 void ScriptedSpell::update(){
-    ctx.callIfExists("update", vector<LuaRef>());
+    ctx.callIfExistsNoReturn("update");
 }
 void ScriptedSpell::end(){
-    ctx.callIfExists("exit", vector<LuaRef>());
+    ctx.callIfExistsNoReturn("exit");
 }
 

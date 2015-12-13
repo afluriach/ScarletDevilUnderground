@@ -53,7 +53,9 @@ namespace Lua
         void runFile(const string& path);
         
         vector<LuaRef> call(const string& name, const vector<LuaRef>& params);
+        void callNoReturn(const string& name);
         vector<LuaRef> callIfExists(const string& name, const vector<LuaRef>& params);
+        void callIfExistsNoReturn(const string& name);
         
         //Helper for making Lua data, since LuaRef requires the lua state.
         template<typename T>

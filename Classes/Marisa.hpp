@@ -9,10 +9,12 @@
 #ifndef Marisa_h
 #define Marisa_h
 
-class Marisa : virtual public GObject, PatchConSprite, CircleBody, Spellcaster
+class Marisa : virtual public GObject, PatchConSprite, CircleBody, Spellcaster, ScriptedObject
 {
 public:
-    inline Marisa(const ValueMap& args) : GObject(args){
+    inline Marisa(const ValueMap& args) :
+    ScriptedObject("marisa"),
+    GObject(args){
     }
     
     virtual inline float getRadius() const {return 0.35;}
