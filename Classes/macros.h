@@ -28,5 +28,6 @@ inline ret method( signature ) \
 
 #define expand_vector2(v)  ((v).x) , ((v).y) 
 
+#define square(n) ( (n) * (n) )
 
 #endif /* macros_h */

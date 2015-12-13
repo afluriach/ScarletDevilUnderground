@@ -47,6 +47,10 @@ namespace cp {
             shapes.push_back(shape);
         }
         
+        inline float getMass() const {
+            return body->m;
+        }
+        
         void applyImpulse(Vect force);
 
         

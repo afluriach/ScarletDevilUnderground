@@ -49,6 +49,11 @@ public:
         body->setVel(v);
     }
     
+    //Apply a force as impulse where t = frame length.
+    inline void applyForceForSingleFrame(SpaceVect f){
+        body->applyImpulse(f * App::secondsPerFrame);
+    }
+    
     inline void applyImpulse(float mag, float angle){
         SpaceVect v = SpaceVect::ray(mag,angle);
         

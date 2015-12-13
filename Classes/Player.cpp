@@ -9,6 +9,7 @@
 #include "Prefix.h"
 
 #include "Bullet.hpp"
+#include "AI.hpp"
 
 #include "Player.hpp"
 
@@ -21,10 +22,11 @@ void Player::setDirection(Direction d)
 void Player::checkControls()
 {
     auto kr = app->keyRegister;
+    Vec2 moveDir = kr->getMoveKeyState();
     
-    Vec2 vel = kr->getMoveKeyState();
-    body->setVel(toChipmunk(vel)*getSpeed());
-    if(vel.lengthSquared() == 0)
+    ai::applyDesiredVelocity(*this, toChipmunk(moveDir)*getSpeed(), accel);
+    
+    if(moveDir.lengthSquared() == 0)
          animSprite->reset();
     
     Vec2 facing = kr->getArrowKeyState();

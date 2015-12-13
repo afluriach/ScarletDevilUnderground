@@ -115,6 +115,8 @@
 		E2CDC54C1C0507090017537B /* Player.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E2CDC5491C0507090017537B /* Player.cpp */; };
 		E2CDC54F1C051FFC0017537B /* Bullet.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E2CDC54D1C051FFC0017537B /* Bullet.cpp */; };
 		E2CDC5501C051FFC0017537B /* Bullet.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E2CDC54D1C051FFC0017537B /* Bullet.cpp */; };
+		E2E01EED1C1DCA0D00330904 /* AI.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E2E01EEB1C1DCA0D00330904 /* AI.cpp */; };
+		E2E01EEE1C1DCA0D00330904 /* AI.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E2E01EEB1C1DCA0D00330904 /* AI.cpp */; };
 		E2E846B61C16201F00E5ADBC /* HUD.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E2E846B41C16201F00E5ADBC /* HUD.cpp */; };
 		E2E846B71C16201F00E5ADBC /* HUD.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E2E846B41C16201F00E5ADBC /* HUD.cpp */; };
 /* End PBXBuildFile section */
@@ -266,6 +268,8 @@
 		E2CDC54E1C051FFC0017537B /* Bullet.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = Bullet.hpp; sourceTree = "<group>"; };
 		E2CDC5541C062D000017537B /* Prefix.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Prefix.h; sourceTree = "<group>"; };
 		E2CDC5551C0631290017537B /* macros.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = macros.h; sourceTree = "<group>"; };
+		E2E01EEB1C1DCA0D00330904 /* AI.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = AI.cpp; sourceTree = "<group>"; };
+		E2E01EEC1C1DCA0D00330904 /* AI.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = AI.hpp; sourceTree = "<group>"; };
 		E2E846B41C16201F00E5ADBC /* HUD.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = HUD.cpp; sourceTree = "<group>"; };
 		E2E846B51C16201F00E5ADBC /* HUD.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = HUD.hpp; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -428,6 +432,8 @@
 				E214CF5A1C0AD22E00FC8784 /* SpellMapping.cpp */,
 				E2E846B41C16201F00E5ADBC /* HUD.cpp */,
 				E2E846B51C16201F00E5ADBC /* HUD.hpp */,
+				E2E01EEB1C1DCA0D00330904 /* AI.cpp */,
+				E2E01EEC1C1DCA0D00330904 /* AI.hpp */,
 			);
 			name = Classes;
 			path = ../Classes;
@@ -690,6 +696,7 @@
 				E23DBD6E1C13832600AD72F7 /* LuaConvert.cpp in Sources */,
 				E214CF581C0ACEF800FC8784 /* Spell.cpp in Sources */,
 				46880B8819C43A87006E1F66 /* App.cpp in Sources */,
+				E2E01EED1C1DCA0D00330904 /* AI.cpp in Sources */,
 				E22224641C0BA3ED007DE7F9 /* LuaCWrappers.cpp in Sources */,
 				E27E857B1BE0178800A94217 /* GSpace.cpp in Sources */,
 				E23F055E1BD0294A0091BD6D /* controls.cpp in Sources */,
@@ -726,6 +733,7 @@
 				E231220B1BFA937100FEA94B /* menu.cpp in Sources */,
 				46880B8919C43A87006E1F66 /* App.cpp in Sources */,
 				E2CDC5471C04F89D0017537B /* GAnimation.cpp in Sources */,
+				E2E01EEE1C1DCA0D00330904 /* AI.cpp in Sources */,
 				E2B63AA61BE0450D005695B0 /* GObject.cpp in Sources */,
 				E214CF5C1C0AD22E00FC8784 /* SpellMapping.cpp in Sources */,
 				E29FF7521BE18BE7004725C1 /* Glyph.cpp in Sources */,

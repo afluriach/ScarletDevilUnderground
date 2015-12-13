@@ -15,6 +15,7 @@ public:
     static constexpr float fireDist = 1;
     static const int maxHealth = 5;
     static constexpr float hitProtectionTime = 2.4;
+    static constexpr float accel = 6;
 
     inline Player(const ValueMap& args) : GObject(args), RegisterUpdate<Player>(this) {
     }
