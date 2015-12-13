@@ -90,6 +90,12 @@ public:
 
         lua_newtable(L);
         lua_setglobal(L,name.c_str());
+        
+        //Set __index
+        lua_getglobal(L,name.c_str());
+        lua_pushstring(L, "__index");
+        lua_getglobal(L,name.c_str());
+        lua_rawset(L, -3);
     }
     
     static inline void setMetatable(const string& name, lua_State* L)

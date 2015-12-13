@@ -31,7 +31,7 @@ function CreateGrid()
         grid[y] = {}
         for x=0,gridSize-1 do
             grid[y][x] = create_object_ring{
-                center=Vector2:new(GObject.getPos(caster))+Vector2:new(x*gridSpacing-hs,y*gridSpacing-hs),
+                center=Vector2:new(caster:getPos())+Vector2:new(x*gridSpacing-hs,y*gridSpacing-hs),
                 radius=ringSize,
                 count=8,
                 factory=createBullet

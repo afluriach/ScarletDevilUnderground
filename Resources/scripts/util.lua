@@ -149,13 +149,13 @@ function expand_ring(objects, speed)
         local vel = Vector2.static.ray(speed, angle)
         
         if isValidObject(obj) then
-            GObject.setVel(obj, vel)
+            obj:setVel(vel)
         end
     end
 end
 
 function add_vel(object, vel)
     local new_total = Vector2:new()
-    new_total = new_total + GObject.getVel(object) + vel
-    GObject.setVel(object, new_total)
+    new_total = new_total + object:getVel() + vel
+    object:setVel(new_total)
 end
