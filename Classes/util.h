@@ -16,6 +16,7 @@ SpaceVect toChipmunk(const cocos2d::Size& rhs);
 IntVec2 toIntVector(const cocos2d::Size& rhs);
 
 float dirToPhysicsAngle(Direction d);
+Direction toDirection(const Vec2&);
 
 Scene* crntScene();
 

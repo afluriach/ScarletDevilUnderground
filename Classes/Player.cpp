@@ -15,6 +15,8 @@
 
 void Player::setDirection(Direction d)
 {
+    if(d == Direction::noneDir) return;
+
     animSprite->setDirection(d);
     body->setAngle(dirToPhysicsAngle(d));
 }
@@ -32,14 +34,12 @@ void Player::checkControls()
     Vec2 facing = kr->getArrowKeyState();
     
     //Facing is not diagonal, horizontal direction will override.
-    if(facing.y > 0)
-        setDirection(Direction::upDir);
-    else if(facing.y < 0)
-        setDirection(Direction::downDir);
-    if(facing.x < 0)
-        setDirection(Direction::leftDir);
-    else if(facing.x > 0)
-        setDirection(Direction::rightDir);
+    setDirection(toDirection(facing));
+    
+    //Player will automatically face their movement direction if look keys are not pressed
+    if(facing.isZero() && body->getVel().lengthSq() > square(getSpeed())/2){
+        setDirection(toDirection(moveDir));
+    }
     
     //Fire if arrow key is pressed
     if(!facing.isZero())

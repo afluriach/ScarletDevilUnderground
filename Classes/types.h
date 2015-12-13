@@ -17,7 +17,8 @@ enum Direction{
     rightDir=1,
     upDir,
     leftDir,
-    downDir
+    downDir,
+    noneDir,
 };
 
 enum GraphicsLayer{

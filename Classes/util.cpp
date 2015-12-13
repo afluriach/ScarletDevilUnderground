@@ -28,11 +28,26 @@ void printValueMap(const ValueMap& obj)
 float dirToPhysicsAngle(Direction d)
 {
     switch(d){
+    case Direction::noneDir:
     case Direction::rightDir: return 0;
     case Direction::upDir: return boost::math::constants::pi<float>() /2;
     case Direction::leftDir: return boost::math::constants::pi<float>();
     case Direction::downDir: return boost::math::constants::pi<float>() *3/2;
     }
+}
+
+Direction toDirection(const Vec2& v)
+{
+    if(v.y > 0)
+        return Direction::upDir;
+    else if(v.y < 0)
+        return Direction::downDir;
+    if(v.x < 0)
+        return Direction::leftDir;
+    else if(v.x > 0)
+        return Direction::rightDir;
+    
+    return Direction::noneDir;
 }
 
 float getFloat(const ValueMap& args, const string& name)
