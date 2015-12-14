@@ -30,9 +30,9 @@ float dirToPhysicsAngle(Direction d)
     switch(d){
     case Direction::noneDir:
     case Direction::rightDir: return 0;
-    case Direction::upDir: return boost::math::constants::pi<float>() /2;
-    case Direction::leftDir: return boost::math::constants::pi<float>();
-    case Direction::downDir: return boost::math::constants::pi<float>() *3/2;
+    case Direction::upDir: return float_pi /2;
+    case Direction::leftDir: return float_pi;
+    case Direction::downDir: return float_pi *3/2;
     }
 }
 

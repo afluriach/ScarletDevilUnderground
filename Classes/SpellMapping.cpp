@@ -16,12 +16,13 @@
 template<typename T>
 Spell::AdapterType adapter()
 {
-    return [](GObject* caster, const ValueMap& args) -> shared_ptr<Spell> {return make_shared<T>(caster, args);};
+    return [](Spellcaster* caster, const ValueMap& args) -> shared_ptr<Spell> {return make_shared<T>(caster, args);};
 }
 
 const unordered_map<string,Spell::AdapterType> Spell::adapters = boost::assign::map_list_of
     entry_same(FireStarburst)
     entry_same(FlameFence)
+    entry_same(StarlightTyphoon)
 ;
 
 const set<string> Spell::scripts = boost::assign::list_of

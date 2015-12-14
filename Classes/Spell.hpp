@@ -10,24 +10,25 @@
 #define Spell_hpp
 
 class GObject;
+class Spellcaster;
 
-#define STANDARD_CONS(name) inline name(GObject* caster,const ValueMap& args) : Spell(caster,args) {}
+#define STANDARD_CONS(name) inline name(Spellcaster* caster,const ValueMap& args) : Spell(caster,args) {}
 
 class Spell
 {
 public:
-    typedef function<shared_ptr<Spell>(GObject*,const ValueMap&)> AdapterType;
+    typedef function<shared_ptr<Spell>(Spellcaster*,const ValueMap&)> AdapterType;
     static const unordered_map<string,AdapterType> adapters;
     static const set<string> scripts;
 
-    inline Spell(GObject* caster,const ValueMap& args) : caster(caster){
+    inline Spell(Spellcaster* caster,const ValueMap& args) : caster(caster){
     }
     
     virtual void init() = 0;
     virtual void update() = 0;
     virtual void end() = 0;
 protected:
-    GObject* caster;
+    Spellcaster* caster;
 };
 
 class FlameFence : public Spell{
@@ -38,6 +39,50 @@ public:
     void end();
 protected:
     vector<GObject*> bullets;
+};
+
+//A somewhat conical, but mostly focused attack.
+//Most of the shots to be within half of the cone width.
+//Speed variation: maybe a factor of two.
+//Size variation, similarly, and the two should be inversely correlated.
+class StarlightTyphoon : public Spell{
+public:
+    inline StarlightTyphoon(Spellcaster* caster, const ValueMap& args):
+    Spell(caster, args)
+    {
+        set_float_arg(count, 30)
+        set_float_arg(duration, 1)
+        set_float_arg(speed, 6)
+        set_float_arg(width, float_pi / 4)
+        set_float_arg(angle, 0)
+        set_float_arg(radius, 0.2)
+        
+        shotsPerFrame = count / duration * App::secondsPerFrame;
+    }
+    void init();
+    void update();
+    void end();
+    void fire();
+protected:
+    //Distance from caster
+    const float offset = 0.7;
+    
+    float elapsed = 0;
+    float shotsPerFrame;
+    float accumulator = 0;
+
+    //Projectiles will be uniformly generated over the time period.
+    float count;
+    float duration;
+
+    //Average speed.
+    float speed;
+    //Width of the cone.
+    float width;
+    //Direction
+    float angle;
+    //Average bullet radius
+    float radius;
 };
 
 class PeriodicSpell : virtual public Spell{
@@ -68,7 +113,7 @@ public:
 
 class ScriptedSpell : public Spell{
 public:
-    ScriptedSpell(GObject* caster, const string& scriptRes, const ValueMap& args);
+    ScriptedSpell(Spellcaster* caster, const string& scriptRes, const ValueMap& args);
     virtual void init();
     virtual void update();
     virtual void end();

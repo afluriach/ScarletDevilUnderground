@@ -87,6 +87,18 @@ public:
         Director::getInstance()->runScene(createSceneFromLayer<T>());
     }
     
+    //Generate [min,max)
+    inline float getRandomFloat(float min, float max){
+        float u01 = randomFloat(randomEngine);
+        
+        return (min + u01*(max-min));
+    }
+    
+    //Generate [min,max]
+    inline int getRandomInt(int min, int max){
+        return randomInt(randomEngine, boost::random::uniform_int_distribution<int>::param_type(min,max));
+    }
+    
     boost::random::uniform_01<float> randomFloat;
     boost::random::uniform_int_distribution<int> randomInt;
     boost::random::mt19937 randomEngine;

@@ -15,7 +15,7 @@ void FireStarburst::runPeriodic()
     SpaceVect pos = caster->body->getPos();
     for(int i=0;i<8; ++i)
     {
-        float angle = boost::math::float_constants::pi * i / 4;
+        float angle = pi * i / 4;
 
         SpaceVect crntPos = pos + SpaceVect::ray(1, angle);
 
@@ -55,7 +55,7 @@ void FlameFence::end()
     }
 }
 
-ScriptedSpell::ScriptedSpell(GObject* caster, const string& scriptRes, const ValueMap& args):
+ScriptedSpell::ScriptedSpell(Spellcaster* caster, const string& scriptRes, const ValueMap& args):
 Spell(caster, args),
 //luaArgs(Lua::convert<ValueMap>::convertToLua(args, ctx.state)),
 ctx(boost::lexical_cast<string>(caster->uuid) + "_" + scriptRes)
@@ -77,3 +77,40 @@ void ScriptedSpell::end(){
     ctx.callIfExistsNoReturn("exit");
 }
 
+void StarlightTyphoon::init()
+{
+}
+void StarlightTyphoon::fire()
+{
+    //The angle variation, will be added to the base direction.
+    float arcPos = app->getRandomFloat(-width, width);
+    float crntSpeed = app->getRandomFloat(speed*0.5, speed*1.5);
+    float crntRadius = app->getRandomFloat(radius*0.7, radius*1.3);
+    
+    SpaceVect pos = caster->getPos() + SpaceVect::ray(offset, angle);
+    
+    StarBullet* b = new StarBullet(
+        pos,
+        crntRadius,
+        StarBullet::colors[app->getRandomInt(0,StarBullet::colors.size()-1)]
+    );
+    b->setInitialVelocity(SpaceVect::ray(crntSpeed, arcPos + angle));
+    GScene::getSpace()->addObject(b);
+}
+void StarlightTyphoon::update()
+{
+    accumulator += shotsPerFrame;
+    elapsed += App::secondsPerFrame;
+    
+    while(accumulator >= 1){
+        fire();
+        accumulator -= 1;
+    }
+    
+    if(elapsed > duration){
+        caster->stop();
+    }
+}
+void StarlightTyphoon::end()
+{
+}

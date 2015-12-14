@@ -15,7 +15,7 @@ const set<GType> GSpace::selfCollideTypes = list_of_typed(
 
 float circleMomentOfInertia(float mass, float radius)
 {
-    return boost::math::constants::pi<float>()/2*pow(radius,4);
+    return float_pi/2*pow(radius,4);
 }
 
 float rectagleMomentOfInteria(float mass, const SpaceVect& dim)
@@ -343,10 +343,10 @@ int playerFlowerBegin(Arbiter arb, Space& spacae)
     return 1;
 }
 
-int playerBulletEnvironment(Arbiter arb, Space& space)
+int bulletEnvironment(Arbiter arb, Space& space)
 {
     OBJS_FROM_ARB
-    log("%s hit object %s",  a->name.c_str(), b->name.c_str());
+//    log("%s hit object %s",  a->name.c_str(), b->name.c_str());
     GScene::getSpace()->removeObject(a);
     return 1;
 }
@@ -371,7 +371,8 @@ void GSpace::addCollisionHandlers()
     AddHandler(player, enemy, playerEnemyBegin, playerEnemyEnd)
     AddHandler(player, enemyBullet, playerEnemyBulletBegin, nullptr)
     AddHandler(playerBullet, enemy, playerBulletEnemyBegin, nullptr)
-    AddHandler(playerBullet, environment, playerBulletEnvironment, nullptr)
+    AddHandler(playerBullet, environment, bulletEnvironment, nullptr)
+    AddHandler(enemyBullet, environment, bulletEnvironment, nullptr)
     AddHandler(playerBullet,foliage,noCollide,nullptr)
     AddHandler(enemyBullet,foliage,noCollide,nullptr)
     AddHandler(playerBullet,enemyBullet, noCollide,nullptr)
