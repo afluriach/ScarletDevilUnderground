@@ -91,6 +91,8 @@
 		E244502F1C03A760006D78B0 /* scenes.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E244502D1C03A760006D78B0 /* scenes.cpp */; };
 		E24450321C03D1DE006D78B0 /* SceneMapping.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E24450311C03D1DE006D78B0 /* SceneMapping.cpp */; };
 		E24450331C03D1DE006D78B0 /* SceneMapping.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E24450311C03D1DE006D78B0 /* SceneMapping.cpp */; };
+		E25DC0991C1EE2A400765415 /* LuaWrap.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E25DC0981C1EE2A400765415 /* LuaWrap.cpp */; };
+		E25DC09A1C1EE2A400765415 /* LuaWrap.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E25DC0981C1EE2A400765415 /* LuaWrap.cpp */; };
 		E26147BC1C005A1B008CA1D0 /* scripts in Resources */ = {isa = PBXBuildFile; fileRef = E26147BB1C005A1B008CA1D0 /* scripts */; };
 		E26147BD1C005A1B008CA1D0 /* scripts in Resources */ = {isa = PBXBuildFile; fileRef = E26147BB1C005A1B008CA1D0 /* scripts */; };
 		E27185391C0E252D006EA1EB /* Garden.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E27185371C0E252D006EA1EB /* Garden.cpp */; };
@@ -235,6 +237,7 @@
 		E244502C1C039CF0006D78B0 /* scenes.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = scenes.h; sourceTree = "<group>"; };
 		E244502D1C03A760006D78B0 /* scenes.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = scenes.cpp; path = scenes/scenes.cpp; sourceTree = "<group>"; };
 		E24450311C03D1DE006D78B0 /* SceneMapping.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = SceneMapping.cpp; sourceTree = "<group>"; };
+		E25DC0981C1EE2A400765415 /* LuaWrap.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = LuaWrap.cpp; sourceTree = "<group>"; };
 		E26147BB1C005A1B008CA1D0 /* scripts */ = {isa = PBXFileReference; lastKnownFileType = folder; path = scripts; sourceTree = "<group>"; };
 		E268FC4D1C1CF219007A425B /* Marisa.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = Marisa.hpp; sourceTree = "<group>"; };
 		E268FC4E1C1CF234007A425B /* Collect.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Collect.h; path = scenes/Collect.h; sourceTree = "<group>"; };
@@ -510,6 +513,7 @@
 				E2080BC71C00486000EB78DF /* LuaAPI.cpp */,
 				E2080BC81C00486000EB78DF /* LuaAPI.hpp */,
 				E22224631C0BA3ED007DE7F9 /* LuaCWrappers.cpp */,
+				E25DC0981C1EE2A400765415 /* LuaWrap.cpp */,
 				E24157BF1C0BD1120033B425 /* LuaWrap.h */,
 				E23E1B2A1C014A0A00F7FAC1 /* LuaShell.cpp */,
 				E23E1B2B1C014A0A00F7FAC1 /* LuaShell.hpp */,
@@ -698,6 +702,7 @@
 				46880B8819C43A87006E1F66 /* App.cpp in Sources */,
 				E2E01EED1C1DCA0D00330904 /* AI.cpp in Sources */,
 				E22224641C0BA3ED007DE7F9 /* LuaCWrappers.cpp in Sources */,
+				E25DC0991C1EE2A400765415 /* LuaWrap.cpp in Sources */,
 				E27E857B1BE0178800A94217 /* GSpace.cpp in Sources */,
 				E23F055E1BD0294A0091BD6D /* controls.cpp in Sources */,
 				E23121FD1BF7FDA300FEA94B /* Dialog.cpp in Sources */,
@@ -732,6 +737,7 @@
 				E20A7D6B1BCD205E007F1A3B /* PlayScene.cpp in Sources */,
 				E231220B1BFA937100FEA94B /* menu.cpp in Sources */,
 				46880B8919C43A87006E1F66 /* App.cpp in Sources */,
+				E25DC09A1C1EE2A400765415 /* LuaWrap.cpp in Sources */,
 				E2CDC5471C04F89D0017537B /* GAnimation.cpp in Sources */,
 				E2E01EEE1C1DCA0D00330904 /* AI.cpp in Sources */,
 				E2B63AA61BE0450D005695B0 /* GObject.cpp in Sources */,
