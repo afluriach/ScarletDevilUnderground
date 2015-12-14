@@ -181,6 +181,16 @@ public:
      * @return True if the Value is null, false if not.
      */
     inline bool isNull() const { return _type == Type::NONE; }
+    
+    inline bool isNumber() const {
+        return _type == Type::INTEGER ||
+               _type == Type::FLOAT ||
+               _type == Type::DOUBLE;
+    }
+    
+    inline bool isString() const {
+        return _type == Type::STRING;
+    }
 
     /** Value type wrapped by Value. */
     enum class Type

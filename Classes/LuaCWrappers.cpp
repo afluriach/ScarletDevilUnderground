@@ -116,6 +116,37 @@ void dostring_in_inst(string script, string inst_name)
     Inst::addCommand(inst_name, script);
 }
 
+void castSpellWithArgs(string casterName, string spell, ValueMap args)
+{
+    GSpace* space = GScene::getSpace();
+    if(!space) lua_runtime_error("Cannot access objects in this scene.");
+    Spellcaster* caster = space->getObject<Spellcaster>(casterName);
+
+    if(!caster){
+        throw lua_runtime_error("castSpell: Spellcaster " + casterName + " not found");
+    }
+
+    caster->cast(spell, args);
+}
+    
+void castSpell(string casterName, string spell)
+{
+    castSpellWithArgs(casterName, spell, ValueMap());
+}
+
+void stopSpell(string casterName)
+{
+    GSpace* space = GScene::getSpace();
+    if(!space) lua_runtime_error("Cannot access objects in this scene.");
+    Spellcaster* caster = space->getObject<Spellcaster>(casterName);
+
+    if(!caster){
+        throw lua_runtime_error("castSpell: Spellcaster " + casterName + " not found");
+    }
+
+    caster->stop();
+}
+
 ///////////////////////////////////////////////////////////////////
 
 #define make_wrapper(name) \
@@ -159,13 +190,15 @@ make_wrapper(runscript)
 make_wrapper(setPlayerHealth)
 make_wrapper(setPaused)
 make_wrapper(dostring_in_inst)
+make_wrapper(castSpell)
+make_wrapper(castSpellWithArgs)
+make_wrapper(stopSpell)
 
 make_method_wrapper(GObject,getPos)
 make_method_wrapper(GObject,setPos)
 make_method_wrapper(GObject,getVel)
 make_method_wrapper(GObject,setVel)
 make_method_wrapper(GObject,getUUID)
-make_method_wrapper(Spellcaster,castByName)
 make_method_wrapper(Spellcaster,stop)
 
 void Class::makeClasses()
@@ -178,7 +211,6 @@ void Class::makeClasses()
     add_method(GObject,getVel)
     add_method(GObject,setVel)
     add_method(GObject,getUUID)
-    add_method(Spellcaster,castByName)
     add_method(Spellcaster,stop)
 }
 
@@ -198,6 +230,9 @@ void Inst::installWrappers()
     install_wrapper(setPlayerHealth)
     install_wrapper(setPaused)
     install_wrapper(dostring_in_inst)
+    install_wrapper(castSpell)
+    install_wrapper(castSpellWithArgs)
+    install_wrapper(stopSpell)
     
     Class::installClasses(state);
 }

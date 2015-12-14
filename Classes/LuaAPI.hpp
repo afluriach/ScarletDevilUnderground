@@ -45,6 +45,12 @@ namespace Lua
         void loadLibraries();
         void installFunction(lua_CFunction func, const string& name);
         void setGlobal(LuaRef ref, const string& name);
+        
+        template<typename T>
+        void setGlobal(T t, const string& name){
+            setGlobal(Lua::convert<T>::convertToLua(t, state), name);
+        }
+        
         bool globalExists(const string& name);
         
         void runString(const string& str);
@@ -56,6 +62,7 @@ namespace Lua
         void callNoReturn(const string& name);
         vector<LuaRef> callIfExists(const string& name, const vector<LuaRef>& params);
         void callIfExistsNoReturn(const string& name);
+        void callIfExistsNoReturn(const string& name, const vector<LuaRef>& params);
         
         //Helper for making Lua data, since LuaRef requires the lua state.
         template<typename T>

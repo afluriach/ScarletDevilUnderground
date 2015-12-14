@@ -169,6 +169,14 @@ mutex Inst::queueLock;
         return callNoReturn(name);
     }
     
+    void Inst::callIfExistsNoReturn(const string& name, const vector<LuaRef>& params)
+    {
+        if(!globalExists(name))
+            return;
+        
+        call(name, params);
+    }
+    
     void Inst::callNoReturn(const string& name)
     {
         lua_pushglobaltable(state);
@@ -328,7 +336,7 @@ mutex Inst::queueLock;
         requireType(L, "createObject: type", type,LUA_TSTRING);
         requireType(L, "createObject: pos", pos,LUA_TTABLE);
 
-        ValueMap objArg = GObject::makeValueMapArg(args);
+        ValueMap objArg = convert<ValueMap>::convertFromLua("args", 1, args);
 
         //Return reference to the created object.
         GObject* gobj = gspace->addObject(objArg);
@@ -363,54 +371,7 @@ mutex Inst::queueLock;
         
         return 0;
     }
-    
-    func(castSpell)
-        NARGS
-        check_args(2)
-        arg(spell)
-        arg(caster)
-        
-        get_gspace
-        
-        GObject* obj = getObjectFromLuaData(caster);
 
-        if(!obj){
-            push_error(c_str("castSpell: " + caster.tostring() + " not found" ));
-        }
-
-        Spellcaster* sc = dynamic_cast<Spellcaster*>(obj);
-        
-        if(!sc){
-            push_error(c_str("castSpell: " +caster.tostring() + " is not a Spellcaster."))
-        }
-        
-        sc->cast(spell.tostring());
-        return 0;
-    }
-    
-    func(stopSpell)
-        NARGS
-        check_args(1)
-        arg(caster)
-
-        get_gspace
-        
-        GObject* obj = getObjectFromLuaData(caster);
-
-        if(!obj){
-            push_error(c_str("castSpell: " + caster.tostring() + " not found" ));
-        }
-
-        Spellcaster* sc = dynamic_cast<Spellcaster*>(obj);
-        
-        if(!sc){
-            push_error(c_str("stopSpell: " + caster.tostring() + " is not a Spellcaster."))
-        }
-        
-        sc->stop();
-        return 0;
-    }
-    
     func(getObjectCount)
         NARGS
         check_args(0)
@@ -455,10 +416,7 @@ mutex Inst::queueLock;
         install(createObject);
         install(runScene);
         install(removeObject);
-        install(castSpell);
-        install(stopSpell);
         install(getObjectCount);
-//        install(open_repl);
         installFunction(convertObj, "convert");
         
         install(print_gc_stats);

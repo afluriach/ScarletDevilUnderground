@@ -55,16 +55,19 @@ void FlameFence::end()
     }
 }
 
-ScriptedSpell::ScriptedSpell(GObject* caster, const string& scriptRes):
-Spell(caster),
+ScriptedSpell::ScriptedSpell(GObject* caster, const string& scriptRes, const ValueMap& args):
+Spell(caster, args),
+//luaArgs(Lua::convert<ValueMap>::convertToLua(args, ctx.state)),
 ctx(boost::lexical_cast<string>(caster->uuid) + "_" + scriptRes)
 {
     ctx.runFile("scripts/spells/" + scriptRes + ".lua");
-    //Push caster as a global variable in the script's context.
-    ctx.setGlobal(Lua::convert<GObject*>::convertToLua(caster, ctx.state), "caster");
+    //Push caster and args as global variables in the script's context.
+    ctx.setGlobal(caster, "caster");
+    ctx.setGlobal(args, "args");
 }
 
 void ScriptedSpell::init(){
+    //ctx.callIfExistsNoReturn("init", {luaArgs});
     ctx.callIfExistsNoReturn("init");
 }
 void ScriptedSpell::update(){

@@ -163,5 +163,47 @@ GObject* getObjectFromLuaData(LuaRef ref)
     }
 }
 
+ValueMap convert<ValueMap>::convertFromLua(const string& name, int argNum, LuaRef ref)
+{
+    ValueMap vm;
+    
+    for(auto it = Iterator(ref); !it.isNil(); ++it)
+    {
+        string key = it.key().tostring();
+        LuaRef lval = it.value();
+        
+        if(lval.isNumber())
+            vm[key] = Value(lval.cast<double>());
+        else if(lval.isString())
+            vm[key] = Value(lval.tostring());
+        //The only compound data type currently expected is a Vector2.
+        else if(lval.isTable() && Lua::tableIsVec2(lval))
+        {
+            //Expand to key_[x,y] keys.
+            Vec2 v = Lua::getVec2FromTable(lval);
+            vm[key + "_x"] = Value(v.x);
+            vm[key + "_y"] = Value(v.y);
+        }
+    }
+    
+    return vm;
+}
+LuaRef convert<ValueMap>::convertToLua(ValueMap map, lua_State* L)
+{
+    LuaRef table = newTable(L);
+    
+    foreach(auto entry, map)
+    {
+        if(entry.second.isNumber()){
+            table[entry.first] = entry.second.asDouble();
+        }
+        else if(entry.second.isString()){
+            table[entry.first] = entry.second.asString();
+        }
+    }
+    
+    return table;
+}
+
 
 }

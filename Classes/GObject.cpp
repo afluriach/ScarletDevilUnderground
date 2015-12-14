@@ -39,32 +39,6 @@ GObject* GObject::constructByType(const string& type, const ValueMap& args )
     else return nullptr;
 }
 
-ValueMap GObject::makeValueMapArg(LuaRef arg)
-{
-    ValueMap vm;
-    
-    for(auto it = Iterator(arg); !it.isNil(); ++it)
-    {
-        string key = it.key().tostring();
-        LuaRef lval = it.value();
-        
-        if(lval.isNumber())
-            vm[key] = Value(lval.cast<double>());
-        else if(lval.isString())
-            vm[key] = Value(lval.tostring());
-        //The only compound data type currently expected is a Vector2.
-        else if(lval.isTable() && Lua::tableIsVec2(lval))
-        {
-            //Expand to key_[x,y] keys.
-            Vec2 v = Lua::getVec2FromTable(lval);
-            vm[key + "_x"] = Value(v.x);
-            vm[key + "_y"] = Value(v.y);
-        }
-    }
-    
-    return vm;
-}
-
 void SpriteObject::update()
 {
     if(sprite != nullptr){
@@ -131,28 +105,28 @@ void Spellcaster::cast(shared_ptr<Spell> spell)
     crntSpell = spell;
 }
 
-void Spellcaster::cast(const string& name)
+void Spellcaster::cast(const string& name, const ValueMap& args)
 {
     auto it_adaptor = Spell::adapters.find(name);
     
     if(it_adaptor != Spell::adapters.end()){
         //Check for a Spell class
-        cast(it_adaptor->second(this));
+        cast(it_adaptor->second(this, args));
         return;
     }
     auto it_script = Spell::scripts.find(name);
     if(it_script != Spell::scripts.end()){
         //Check for a spell script.
-        cast(make_shared<ScriptedSpell>(this, name));
+        cast(make_shared<ScriptedSpell>(this, name, args));
         return;
     }
     
     log("Spell %s not available.", name.c_str());
 }
 
-void Spellcaster::castByName(string name)
+void Spellcaster::castByName(string name, const ValueMap& args)
 {
-    cast(name);
+    cast(name, args);
 }
 
 void Spellcaster::stop()

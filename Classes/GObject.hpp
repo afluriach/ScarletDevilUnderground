@@ -27,8 +27,6 @@ public:
     
     static GObject* constructByType(const string& type, const ValueMap& args );
     
-    static ValueMap makeValueMapArg(LuaRef arg);
-    
     inline void setInitialVelocity(const SpaceVect&& v){
         multiInit += [=]() -> void{ body->setVel(v);};
     }
@@ -286,9 +284,9 @@ public:
     }
     ~Spellcaster();
     void cast(shared_ptr<Spell> spell);
-    void cast(const string& name);
+    void cast(const string& name, const ValueMap& args);
 //For Luabridge
-    void castByName(string name);
+    void castByName(string name, const ValueMap& args);
     void update();
     void stop();
 protected:

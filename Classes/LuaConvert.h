@@ -135,6 +135,13 @@ struct convert<SpaceVect>{
 };
 
 template<>
+struct convert<ValueMap>{
+    static ValueMap convertFromLua(const string& name, int argNum, LuaRef ref);
+    static LuaRef convertToLua(ValueMap obj, lua_State* L);
+
+};
+
+template<>
 struct convert<GObject*>{
     static GObject* convertFromLua(const string& name, int argNum, LuaRef ref);
     static LuaRef convertToLua(GObject* obj, lua_State* L);
