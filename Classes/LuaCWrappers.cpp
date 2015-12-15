@@ -83,6 +83,15 @@ GObject* getObjByName(string name)
     return space->getObject(name);
 }
 
+vector<string> getObjectNames()
+{
+    GSpace* space = GScene::getSpace();
+    
+    if(!space) lua_runtime_error("Cannot access objects in this scene.");
+
+    return space->getObjectNames();
+}
+
 //The Lua conversion template will convert the wrapper object to a valid pointer or null.
 bool isValidObject(GObject* object)
 {
@@ -147,6 +156,14 @@ void stopSpell(string casterName)
     caster->stop();
 }
 
+bool isObstacle(IntVec2 v)
+{
+    GSpace* space = GScene::getSpace();
+    if(!space) lua_runtime_error("Cannot access objects in this scene.");
+
+    return space->isObstacle(v);
+}
+
 ///////////////////////////////////////////////////////////////////
 
 #define make_wrapper(name) \
@@ -185,6 +202,7 @@ make_wrapper(printMap)
 make_wrapper(addUpdate)
 make_wrapper(setscreenscale)
 make_wrapper(getObjByName)
+make_wrapper(getObjectNames)
 make_wrapper(isValidObject)
 make_wrapper(runscript)
 make_wrapper(setPlayerHealth)
@@ -193,6 +211,7 @@ make_wrapper(dostring_in_inst)
 make_wrapper(castSpell)
 make_wrapper(castSpellWithArgs)
 make_wrapper(stopSpell)
+make_wrapper(isObstacle)
 
 make_method_wrapper(GObject,getPos)
 make_method_wrapper(GObject,setPos)
@@ -225,6 +244,8 @@ void Inst::installWrappers()
     install_wrapper(addUpdate)
     install_wrapper(setscreenscale)
     install_wrapper(getObjByName)
+    install_wrapper(getObjectNames)
+
     install_wrapper(isValidObject)
     install_wrapper(runscript)
     install_wrapper(setPlayerHealth)
@@ -233,6 +254,7 @@ void Inst::installWrappers()
     install_wrapper(castSpell)
     install_wrapper(castSpellWithArgs)
     install_wrapper(stopSpell)
+    install_wrapper(isObstacle)
     
     Class::installClasses(state);
 }

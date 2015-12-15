@@ -31,6 +31,10 @@ public:
     void addObjects(const ValueVector& objs);
     void processAdditions();
     
+    bool isObstacle(IntVec2);
+    vector<SpaceVect> pathToTile(IntVec2 begin, IntVec2 end);
+    void addNavObstacle(const SpaceVect& center, const SpaceVect& boundingDimensions);
+    
     inline GObject* getObject(const string& name){
         auto it = objByName.find(name);
         return it != objByName.end() ? it->second : nullptr;
@@ -58,6 +62,13 @@ public:
         return it != objByUUID.end() ? it->second : nullptr;
     }
     
+    inline vector<string> getObjectNames(){
+        auto key = [](pair<string,GObject*> e){return e.first;};
+        vector<string> names(objByName.size());
+        transform(objByName.begin(), objByName.end(), names.begin(), key);
+        return names;
+    }
+    
     void removeObject(const string& name);
     void removeObject(GObject* obj);
     void processRemovals();
@@ -66,8 +77,7 @@ public:
     
     void update();
     
-    static shared_ptr<Body> createCircleBody(
-        Space& space,
+    shared_ptr<Body> createCircleBody(
         const SpaceVect& center,
         float radius,
         float mass,
@@ -76,8 +86,7 @@ public:
         bool sensor,
         GObject* obj
     );
-    static shared_ptr<Body> createRectangleBody(
-        Space& space,
+    shared_ptr<Body> createRectangleBody(
         const SpaceVect& center,
         const SpaceVect& dim,
         float mass,
@@ -88,6 +97,13 @@ public:
     );
     
     void addWallBlock(SpaceVect ll,SpaceVect ur);
+    
+    inline void setSize(int x, int y){
+        spaceSize = IntVec2(x,y);
+        if(navMask)
+            delete navMask;
+        navMask = new boost::dynamic_bitset<>(x*y);
+    }
     
     inline int getObjectCount(){
         return objByUUID.size();
@@ -109,6 +125,26 @@ private:
 
     //Objects which have been queued for removal. Will be removed at end of frame.
     vector<GObject*> toRemove;
+    
+    boost::dynamic_bitset<>* navMask = nullptr;
+    IntVec2 spaceSize;
+    
+    inline void markObstacleTile(int x, int y){
+        if(x >= 0 && x < spaceSize.first){
+            if(y >= 0 && y < spaceSize.second){
+                (*navMask)[y*spaceSize.first+x] = 1;
+            }
+        }
+    }
+    
+    inline bool isObstacleTile(int x, int y){
+        if(x >= 0 && x < spaceSize.first){
+            if(y >= 0 && y < spaceSize.second){
+                return (*navMask)[y*spaceSize.first+x];
+            }
+        }
+        return false;
+    }
     
     void initObjects();
     void addCollisionHandlers();

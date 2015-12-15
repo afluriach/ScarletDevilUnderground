@@ -24,6 +24,26 @@ bool tableIsVec2(LuaRef t)
            (t[1].isNumber() && t[2].isNumber());
 }
 
+IntVec2 getInt2FromTable(LuaRef t)
+{
+    if(!tableIsVec2(t)){
+        log("getInt2FromTable: not a table vector");
+        return IntVec2(0,0);
+    }
+    
+    if(t["x"].isNumber() && t["y"].isNumber()){
+        return IntVec2(t["x"].cast<int>(), t["y"].cast<int>());
+    }
+    if(t[1].isNumber() && t[2].isNumber()){
+        return IntVec2(t[1].cast<int>(), t[2].cast<int>());
+    }
+    
+    //Should be unreachable, since it must have passed the tableIsVec2 test.
+    log("getVec2FromTable: not a vector");
+    return IntVec2(0,0);
+}
+
+
 Vec2 getVec2FromTable(LuaRef t)
 {
     if(!tableIsVec2(t)){

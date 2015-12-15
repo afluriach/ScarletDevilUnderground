@@ -14,6 +14,7 @@ class GObject;
 namespace Lua{
 
 bool tableIsVec2(LuaRef t);
+IntVec2 getInt2FromTable(LuaRef t);
 Vec2 getVec2FromTable(LuaRef t);
 Value cocosValueFromLua(LuaRef);
 function<void()> makeFunctorFromLuaFunction(LuaRef ref);
@@ -135,6 +136,26 @@ struct convert<SpaceVect>{
 };
 
 template<>
+struct convert<IntVec2>{
+    inline static IntVec2 convertFromLua(const string& name, int argNum, LuaRef ref)
+    {
+        return getInt2FromTable(ref);
+    }
+    inline static LuaRef convertToLua(const IntVec2& v, lua_State* L)
+    {
+        LuaRef table(L);
+        table = newTable(L);
+        
+        //Even though IntVec2 is actually a pair<int,int>, we will maintain vector semantics
+        //when passing to Lua.
+        table["x"] = v.first;
+        table["y"] = v.second;
+        
+        return table;
+    }
+};
+
+template<>
 struct convert<ValueMap>{
     static ValueMap convertFromLua(const string& name, int argNum, LuaRef ref);
     static LuaRef convertToLua(ValueMap obj, lua_State* L);
@@ -174,6 +195,39 @@ struct convert<function<void()>>{
 //    {
 //        throw lua_type_error("Return C functor not supported.");
 //    }
+};
+
+template<typename T>
+inline vector<T> getVectorFromTable(LuaRef ref)
+{
+}
+
+
+template<typename T>
+struct convert<vector<T>>{
+
+    inline static vector<T> convertFromLua(const string& name, int argNum, LuaRef ref)
+    {
+        vector<T> result;
+        
+        for(int i=1; !ref[i].isNil(); ++i)
+        {
+            result.push_back(convert<T>::convertFromLua(name, argNum, ref[i]));
+        }
+        return result;
+    }
+    inline static LuaRef convertToLua(const vector<T>& v, lua_State* L)
+    {
+        LuaRef table(L);
+        table = newTable(L);
+        
+        for(int i = 1; i <= v.size(); ++i)
+        {
+            table[i] = convert<T>::convertToLua(v[i-1], L);
+        }
+        
+        return table;
+    }
 };
 
 template<typename K,typename V>

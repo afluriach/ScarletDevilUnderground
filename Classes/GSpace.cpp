@@ -43,6 +43,9 @@ GSpace::~GSpace()
     foreach(GObject* obj, objs){
         processRemoval(obj);
     }
+    
+    if(navMask)
+        delete navMask;
 }
 
 GObject* GSpace::addObject(const ValueMap& obj)
@@ -111,7 +114,6 @@ void setShapeProperties(shared_ptr<Shape> shape, int layers, GType type, bool se
 }
 
 shared_ptr<Body> GSpace::createCircleBody(
-    Space& space,
     const SpaceVect& center,
     float radius,
     float mass,
@@ -133,6 +135,8 @@ shared_ptr<Body> GSpace::createCircleBody(
     shared_ptr<Body> body;
     if(mass < 0){
         body = space.makeStaticBody();
+        if(type == GType::environment)
+            addNavObstacle(center, SpaceVect(radius*2, radius*2));
     }
     else{
         body = make_shared<Body>(mass, circleMomentOfInertia(mass, radius));
@@ -154,7 +158,6 @@ shared_ptr<Body> GSpace::createCircleBody(
 }
 
 shared_ptr<Body> GSpace::createRectangleBody(
-    Space& space,
     const SpaceVect& center,
     const SpaceVect& dim,
     float mass,
@@ -179,6 +182,8 @@ shared_ptr<Body> GSpace::createRectangleBody(
     shared_ptr<Body> body;
     if(mass < 0){
         body = space.makeStaticBody();
+        if(type == GType::environment)
+            addNavObstacle(center,dim);
     }
     else{
         body = make_shared<Body>(mass, rectagleMomentOfInteria(mass, dim));
@@ -205,7 +210,6 @@ void GSpace::addWallBlock(SpaceVect ll,SpaceVect ur)
     SpaceVect dim = ur - ll;
     
     shared_ptr<Body> wallBlock = createRectangleBody(
-        space,
         center,
         dim,
         -1,
@@ -218,11 +222,27 @@ void GSpace::addWallBlock(SpaceVect ll,SpaceVect ur)
     space.add(wallBlock);
 }
 
+void GSpace::addNavObstacle(const SpaceVect& center, const SpaceVect& boundingDimensions)
+{
+    for(float x = center.x - boundingDimensions.x/2; x < center.x + boundingDimensions.x/2; ++x)
+    {
+        for(float y = center.y - boundingDimensions.y/2; y < center.y + boundingDimensions.y/2; ++y)
+        {
+            markObstacleTile(x,y);
+        }
+    }
+}
+
+bool GSpace::isObstacle(IntVec2 v)
+{
+    return isObstacleTile(v.first, v.second);
+}
+
 void GSpace::processAdditions()
 {
     foreach(GObject* obj, toAdd)
     {
-        obj->initializeBody(space);
+        obj->initializeBody(*this);
         obj->initializeGraphics(graphicsLayer);
         
 //        auto name_it = objByName.find(obj->name);
