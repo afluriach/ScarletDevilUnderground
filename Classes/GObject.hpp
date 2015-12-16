@@ -39,6 +39,11 @@ public:
         body->setPos(SpaceVect(x,y));
     }
     
+    inline virtual void setDirection(Direction d) {
+        if(body && d != Direction::noneDir)
+            body->setAngle(dirToPhysicsAngle(d));
+    }
+    
     inline SpaceVect getVel(){
         return body->getVel();
     }
@@ -270,6 +275,8 @@ public:
     
     void initializeGraphics(Layer* layer);
     void update();
+    
+    void setDirection(Direction d);
 protected:
     PatchConAnimation* animSprite;
 };

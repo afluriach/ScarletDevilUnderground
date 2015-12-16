@@ -74,9 +74,14 @@ void check_signed(LuaRef ref)
         throw lua_type_error("Attempt to cast negative Lua number to unsigned.");
 }
 
+//Base
+template<typename T, typename = void>
+struct convert{
+};
+
 //General case for all numeric types.
 template<typename T>
-struct convert{
+struct convert<T, typename enable_if<is_arithmetic<T>::value>::type>{
     inline static T convertFromLua(const string& name, int argNum, LuaRef ref)
     {
         if(typeid(T) != typeid(float) && typeid(T) != typeid(double))
@@ -89,6 +94,18 @@ struct convert{
     inline static LuaRef convertToLua(const T& t, lua_State* L)
     {
         return LuaRef(L, t);
+    }
+};
+
+template<typename T>
+struct convert<T, typename enable_if<is_enum<T>::value>::type>{
+    inline static T convertFromLua(const string& name, int argNum, LuaRef ref)
+    {
+        return static_cast<T>(ref.cast<int>());
+    }
+    inline static LuaRef convertToLua(const T& t, lua_State* L)
+    {
+        return LuaRef(L, static_cast<int>(t));
     }
 };
 
@@ -196,12 +213,6 @@ struct convert<function<void()>>{
 //        throw lua_type_error("Return C functor not supported.");
 //    }
 };
-
-template<typename T>
-inline vector<T> getVectorFromTable(LuaRef ref)
-{
-}
-
 
 template<typename T>
 struct convert<vector<T>>{

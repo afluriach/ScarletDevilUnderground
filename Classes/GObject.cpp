@@ -70,6 +70,13 @@ void PatchConSprite::update()
     animSprite->accumulate(dist.length());
 }
 
+void PatchConSprite::setDirection(Direction d)
+{
+    GObject::setDirection(d);
+    if(d == Direction::noneDir) return;
+
+    animSprite->setDirection(d);
+}
 
 Vec2 GObject::getInitialCenterPix()
 {

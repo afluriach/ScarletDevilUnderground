@@ -62,7 +62,7 @@ ctx(boost::lexical_cast<string>(caster->uuid) + "_" + scriptRes)
 {
     ctx.runFile("scripts/spells/" + scriptRes + ".lua");
     //Push caster and args as global variables in the script's context.
-    ctx.setGlobal(caster, "caster");
+    ctx.setGlobal<GObject*>(caster, "caster");
     ctx.setGlobal(args, "args");
 }
 

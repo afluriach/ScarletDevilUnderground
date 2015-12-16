@@ -13,14 +13,6 @@
 
 #include "Player.hpp"
 
-void Player::setDirection(Direction d)
-{
-    if(d == Direction::noneDir) return;
-
-    animSprite->setDirection(d);
-    body->setAngle(dirToPhysicsAngle(d));
-}
-
 void Player::checkControls()
 {
     auto kr = app->keyRegister;
