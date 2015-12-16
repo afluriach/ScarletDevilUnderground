@@ -63,6 +63,10 @@ public:
         body->applyImpulse(v);
     }
     
+    inline string getName(){
+        return name;
+    }
+    
     inline unsigned int getUUID(){
         return uuid;
     }
@@ -75,6 +79,8 @@ public:
     const unsigned int uuid;
     
     shared_ptr<Body> body;
+    shared_ptr<Body> radar;
+
     
     //Posiition where the object was loaded
     SpaceVect initialCenter;
@@ -91,8 +97,16 @@ public:
         multiUpdate();
     }
     
+    virtual inline void onDetect(GObject* other){
+        log("onDetect: non-radar object.");
+    }
+    virtual inline void onEndDetect(GObject* other){
+        log("onEndDetect: on non-radar object.");
+    }
+    
     //Called before adding the the object to space.
-    virtual shared_ptr<Body>initializeBody(GSpace& space) = 0;
+    virtual void initializeBody(GSpace& space) = 0;
+    virtual void initializeRadar(GSpace& space){};
     
     //Create Node which graphically reprensets this object and adds it to Layer
     virtual void initializeGraphics(Layer* layer) = 0;
@@ -124,6 +138,42 @@ public:
     }
     inline void update(){
         ctx.callIfExistsNoReturn("update");
+    }
+    inline void onDetect(GObject* other){
+        ctx.callIfExistsNoReturn("onDetect",ctx.makeArgs(other));
+    }
+    inline void onEndDetect(GObject* other){
+        ctx.callIfExistsNoReturn("onEndDetect", ctx.makeArgs(other));
+    }
+
+};
+
+class RadarObject : virtual public GObject
+{
+public:
+    virtual float getRadarRadius() const = 0;
+    virtual GType getRadarType() const = 0;
+
+    //Create body and add it to space. This assumes BB is rectangle dimensions
+    virtual inline void initializeRadar(GSpace& space)
+    {
+        radar = space.createCircleBody(
+            initialCenter,
+            getRadarRadius(),
+            0.1,
+            getRadarType(),
+            PhysicsLayers::allLayers,
+            true,
+            this
+        );
+    }
+    
+    inline RadarObject(){
+        multiUpdate += bind(&RadarObject::updateRadarPos, this);
+    }
+    
+    inline void updateRadarPos(){
+        radar->setPos(body->getPos());
     }
 };
 
@@ -161,7 +211,7 @@ class RectangleBody : public virtual PhysicsObject
 {
 public:
     //Create body and add it to space. This assumes BB is rectangle dimensions
-    virtual inline shared_ptr<Body> initializeBody(GSpace& space)
+    virtual inline void initializeBody(GSpace& space)
     {
         body = space.createRectangleBody(
             initialCenter,
@@ -172,7 +222,6 @@ public:
             getSensor(),
             this
         );
-        return body;
     }
     
     virtual inline SpaceVect getDimensions() const = 0;
@@ -198,7 +247,7 @@ public:
     virtual float getRadius() const = 0;
 
     //Create body and add it to space. This assumes BB is rectangle dimensions
-    virtual inline shared_ptr<Body> initializeBody(GSpace& space)
+    virtual inline void initializeBody(GSpace& space)
     {
         body = space.createCircleBody(
             initialCenter,
@@ -209,7 +258,6 @@ public:
             getSensor(),
             this
         );
-        return body;
     }
 };
 

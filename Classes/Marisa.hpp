@@ -9,13 +9,16 @@
 #ifndef Marisa_h
 #define Marisa_h
 
-class Marisa : virtual public GObject, PatchConSprite, CircleBody, Spellcaster, ScriptedObject
+class Marisa : virtual public GObject, PatchConSprite, CircleBody, Spellcaster, ScriptedObject, RadarObject
 {
 public:
     inline Marisa(const ValueMap& args) :
     ScriptedObject("marisa"),
     GObject(args){
     }
+    
+    virtual inline float getRadarRadius() const {return 6;}
+    virtual inline GType getRadarType() const { return GType::playerSensor;}
     
     virtual inline float getRadius() const {return 0.35;}
     inline float getMass() const {return 1;}

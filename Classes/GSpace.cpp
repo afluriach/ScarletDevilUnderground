@@ -243,6 +243,7 @@ void GSpace::processAdditions()
     foreach(GObject* obj, toAdd)
     {
         obj->initializeBody(*this);
+        obj->initializeRadar(*this);
         obj->initializeGraphics(graphicsLayer);
         
 //        auto name_it = objByName.find(obj->name);
@@ -285,8 +286,14 @@ void GSpace::processRemoval(GObject* obj)
 {
     objByName.erase(obj->name);
     objByUUID.erase(obj->uuid);
+    
     obj->body->removeShapes(space);
     space.remove(obj->body);
+    
+    if(obj->radar){
+        obj->radar->removeShapes(space);
+        space.remove(obj->radar);
+    }
 
     delete obj;
 }
@@ -383,6 +390,23 @@ int bulletWall(Arbiter arb, Space& space)
     return 1;
 }
 
+int sensorStart(Arbiter arb, Space& space)
+{
+    OBJS_FROM_ARB
+    log("%s sensed %s.", a->name.c_str(), b->name.c_str());
+    a->onDetect(b);
+    return 1;
+}
+
+int sensorEnd(Arbiter arb, Space& space)
+{
+    OBJS_FROM_ARB
+    log("%s lost %s.", a->name.c_str(), b->name.c_str());
+    a->onEndDetect(b);
+    return 1;
+}
+
+
 #define AddHandler(a,b,begin,end) \
 space.addCollisionHandler(GType::a, GType::b, begin, nullptr, nullptr, end);
 
@@ -400,4 +424,6 @@ void GSpace::addCollisionHandlers()
     
     AddHandler(playerBullet, wall, bulletWall, nullptr);
     AddHandler(enemyBullet, wall, bulletWall, nullptr);
+    
+    AddHandler(playerSensor, player, sensorStart, sensorEnd);
 }

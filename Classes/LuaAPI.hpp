@@ -58,6 +58,12 @@ namespace Lua
         //rather than passing the file's contents as a string.
         void runFile(const string& path);
         
+        template<typename T>
+        vector<LuaRef> makeArgs(T t)
+        {
+            return vector<LuaRef>{convert<T>::convertToLua(t,state)};
+        }
+        
         vector<LuaRef> call(const string& name, const vector<LuaRef>& params);
         void callNoReturn(const string& name);
         vector<LuaRef> callIfExists(const string& name, const vector<LuaRef>& params);
