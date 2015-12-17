@@ -19,9 +19,9 @@ class PlayScene : virtual public GScene, public MapScene
 public:    
     inline PlayScene(const string& map) : MapScene(map)
     {
-        multiInit.insertWithOrder(bind(&PlayScene::trackPlayer, this), initOrder::postLoadObjects);
-        multiInit.insertWithOrder(bind(&PlayScene::addHUD, this), initOrder::postLoadObjects);
-        multiUpdate.insertWithOrder(bind(&PlayScene::updateCamera, this), updateOrder::moveCamera);
+        multiInit.insertWithOrder(wrap<PlayScene,&PlayScene::trackPlayer>(), initOrder::postLoadObjects);
+        multiInit.insertWithOrder(wrap<PlayScene,&PlayScene::addHUD>(), initOrder::postLoadObjects);
+        multiUpdate.insertWithOrder(wrap<PlayScene,&PlayScene::updateCamera>(), updateOrder::moveCamera);
     }
     
     //set player object. should be post load object init
@@ -29,6 +29,7 @@ public:
         cameraTarget = gspace.getObject("player");
     }
     
+    void updateHUD();
     void updateCamera();
     void applyCameraControls();
     void trackCameraTarget();

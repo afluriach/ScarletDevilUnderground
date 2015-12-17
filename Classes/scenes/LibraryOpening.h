@@ -19,7 +19,7 @@ public:
     CREATE_FUNC(LibraryOpening);
     
     inline LibraryOpening(){
-        multiInit += bind(&LibraryOpening::start, this);
+        multiInit += wrap<LibraryOpening,&LibraryOpening::start>();
     }
     
     inline void start()

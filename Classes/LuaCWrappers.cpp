@@ -66,7 +66,13 @@ void printMap(unordered_map<string,string> m)
 
 void addUpdate(function<void()> f, int order)
 {
-    GScene::crntScene->multiUpdate.insertWithOrder(f, order);
+    //Wrapper with a dummy GScene pointer that isn't used.
+    GScene::crntScene->multiUpdate.insertWithOrder(
+        [=](GScene* g) -> void{
+            f();
+        },
+        order
+    );
 }
 
 void setscreenscale(float f)

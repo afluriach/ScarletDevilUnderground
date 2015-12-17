@@ -70,8 +70,15 @@ public:
     //unit space as opposed to pixel space.
     void setUnitPosition(const SpaceVect& v);
     
-    util::multifunction<void()> multiInit;
-    util::multifunction<void()> multiUpdate;
+    util::multifunction<void(GScene*)> multiInit;
+    util::multifunction<void(GScene*)> multiUpdate;
+    
+    //Wrapper to call a method of a derived type with a GScene this.
+    template<typename Derived, void (Derived::*Method)(void)>
+    function<void(GScene*)> wrap()
+    {
+        return wrapAsBaseMethod<GScene, Derived, Method>();
+    }
     
     inline Layer* getLayer(sceneLayers layer){
         auto it = layers.find(static_cast<int>(layer));
@@ -101,8 +108,8 @@ class GSpaceScene : virtual public GScene
 public:
     inline GSpaceScene() : gspace(getLayer(sceneLayers::spaceLayer))
     {
-        multiInit.insertWithOrder(bind(&GSpaceScene::processAdditions, this), initOrder::loadObjects);
-        multiUpdate.insertWithOrder(bind(&GSpaceScene::updateSpace,this), updateOrder::spaceUpdate);
+        multiInit.insertWithOrder(wrap<GSpaceScene,&GSpaceScene::processAdditions>(), initOrder::loadObjects);
+        multiUpdate.insertWithOrder(wrap<GSpaceScene,&GSpaceScene::updateSpace>(), updateOrder::spaceUpdate);
     }
 
     GSpace gspace;
@@ -124,7 +131,7 @@ class MapScene : virtual public GSpaceScene
 public:
     inline MapScene(const string& res) : mapRes(res)
     {
-        multiInit.insertWithOrder(bind(&MapScene::loadMap, this),initOrder::mapLoad);
+        multiInit.insertWithOrder(wrap<MapScene,&MapScene::loadMap>(),initOrder::mapLoad);
     }
     inline SpaceVect getMapSize(){
         return toChipmunk(tileMap->getMapSize());

@@ -26,7 +26,7 @@ void GScene::runScene(const string& name)
 GScene::GScene()
 {
     //Updater has to be scheduled at init time.
-    multiInit.insertWithOrder(bind(&GScene::initUpdate,this), initOrder::core);
+    multiInit.insertWithOrder(wrap<GScene,&GScene::initUpdate>(), initOrder::core);
 
     crntScene = this;
     
@@ -53,7 +53,7 @@ bool GScene::init()
     //Only apply zoom to space layer.
     getLayer(sceneLayers::spaceLayer)->setScale(spaceZoom);
     
-    multiInit();
+    multiInit(this);
     
     return true;
 }
@@ -61,7 +61,7 @@ bool GScene::init()
 void GScene::update(float dt)
 {
     if(!isPaused)
-        multiUpdate();
+        multiUpdate(this);
     else
     {
         app->checkPendingScript();

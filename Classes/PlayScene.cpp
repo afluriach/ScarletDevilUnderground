@@ -46,9 +46,15 @@ void PlayScene::applyCameraControls()
     move(arrowState);
 }
 
+//Rather than making an updater by capturing hud, just wrap it in a method to access hud from the supplied this.
+void PlayScene::updateHUD()
+{
+    hud->update();
+}
+
 void PlayScene::addHUD()
 {
     hud = HUD::create();
     getLayer(sceneLayers::hudLayer)->addChild(hud);
-    multiUpdate.insertWithOrder(bind(&HUD::update, hud), updateOrder::hudUpdate);
+    multiUpdate.insertWithOrder(wrap<PlayScene, &PlayScene::updateHUD>(), updateOrder::hudUpdate);
 }
