@@ -138,8 +138,8 @@ public:
         //Push this as a global variable in the script's context.
         ctx.setGlobal(Lua::convert<GObject*>::convertToLua(this, ctx.state), "this");
 
-        multiInit += wrap<ScriptedObject,&ScriptedObject::init>();
-        multiUpdate += wrap<ScriptedObject,&ScriptedObject::update>();
+        multiInit += wrap_method(ScriptedObject,init);
+        multiUpdate += wrap_method(ScriptedObject,update);
     }
     inline void init(){
         ctx.callIfExistsNoReturn("init");
@@ -177,7 +177,7 @@ public:
     }
     
     inline RadarObject(){
-        multiUpdate += wrap<RadarObject, &RadarObject::updateRadarPos>();
+        multiUpdate += wrap_method(RadarObject,updateRadarPos);
     }
     
     inline void updateRadarPos(){
@@ -191,7 +191,7 @@ class RegisterInit : public virtual GObject
 public:
     inline RegisterInit(Derived* that)
     {
-        multiInit += wrap<Derived, &Derived::init>();
+        multiInit += wrap_method(Derived,init);
     }
 };
 
@@ -201,7 +201,7 @@ class RegisterUpdate : public virtual GObject
 public:
     inline RegisterUpdate(Derived* that)
     {
-        multiUpdate += wrap<Derived,&Derived::update>();
+        multiUpdate += wrap_method(Derived,update);
     }
 };
 
@@ -341,7 +341,7 @@ class Spellcaster : public virtual GObject
 {
 public:
     inline Spellcaster(){
-        multiUpdate += wrap<Spellcaster,&Spellcaster::update>();
+        multiUpdate += wrap_method(Spellcaster,update);
     }
     ~Spellcaster();
     void cast(shared_ptr<Spell> spell);

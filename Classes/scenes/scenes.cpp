@@ -26,7 +26,7 @@ void GScene::runScene(const string& name)
 GScene::GScene()
 {
     //Updater has to be scheduled at init time.
-    multiInit.insertWithOrder(wrap<GScene,&GScene::initUpdate>(), initOrder::core);
+    multiInit.insertWithOrder(wrap_method(GScene,initUpdate), initOrder::core);
 
     crntScene = this;
     

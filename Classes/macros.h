@@ -35,4 +35,7 @@ inline ret method( signature ) \
 
 #define float_pi boost::math::constants::pi<float>()
 
+//Requires an appropriately defined wrap method (currently only GScene and GObject support this)
+#define wrap_method(cls,method) wrap<cls,&cls::method>()
+
 #endif /* macros_h */

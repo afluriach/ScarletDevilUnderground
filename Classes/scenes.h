@@ -108,8 +108,8 @@ class GSpaceScene : virtual public GScene
 public:
     inline GSpaceScene() : gspace(getLayer(sceneLayers::spaceLayer))
     {
-        multiInit.insertWithOrder(wrap<GSpaceScene,&GSpaceScene::processAdditions>(), initOrder::loadObjects);
-        multiUpdate.insertWithOrder(wrap<GSpaceScene,&GSpaceScene::updateSpace>(), updateOrder::spaceUpdate);
+        multiInit.insertWithOrder(wrap_method(GSpaceScene,processAdditions), initOrder::loadObjects);
+        multiUpdate.insertWithOrder(wrap_method(GSpaceScene,updateSpace), updateOrder::spaceUpdate);
     }
 
     GSpace gspace;
@@ -131,7 +131,7 @@ class MapScene : virtual public GSpaceScene
 public:
     inline MapScene(const string& res) : mapRes(res)
     {
-        multiInit.insertWithOrder(wrap<MapScene,&MapScene::loadMap>(),initOrder::mapLoad);
+        multiInit.insertWithOrder(wrap_method(MapScene,loadMap),initOrder::mapLoad);
     }
     inline SpaceVect getMapSize(){
         return toChipmunk(tileMap->getMapSize());
