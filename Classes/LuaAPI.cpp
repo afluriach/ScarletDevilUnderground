@@ -276,7 +276,7 @@ mutex Inst::queueLock;
     error(L, errorbuf); \
     return 1; }
 
-    #define c_str(string_expr) string(string_expr).c_str()
+    #define c_string(string_expr) string(string_expr).c_str()
         
     //Lua API functions:
     
@@ -366,7 +366,7 @@ mutex Inst::queueLock;
             GScene::runScene(name.tostring());
         }
         catch(exception){
-            push_error(c_str("runScene: " + name.tostring() + " not found"))
+            push_error(c_string("runScene: " + name.tostring() + " not found"))
         }
         
         return 0;
