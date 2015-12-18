@@ -26,11 +26,11 @@ void Player::checkControls()
     Vec2 facing = kr->getArrowKeyState();
     
     //Facing is not diagonal, horizontal direction will override.
-    setDirection(toDirection(facing));
+    setDirection(toDirection(toChipmunk(facing)));
     
     //Player will automatically face their movement direction if look keys are not pressed
     if(facing.isZero() && body->getVel().lengthSq() > square(getSpeed())/2){
-        setDirection(toDirection(moveDir));
+        setDirection(toDirection(toChipmunk(moveDir)));
     }
     
     //Fire if arrow key is pressed

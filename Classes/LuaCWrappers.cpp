@@ -219,6 +219,9 @@ make_wrapper(castSpellWithArgs)
 make_wrapper(stopSpell)
 make_wrapper(isObstacle)
 
+//Utility functions not specifically created for the scripting API
+make_wrapper(toDirection)
+
 make_method_wrapper(GObject,getPos)
 make_method_wrapper(GObject,setPos)
 make_method_wrapper(GObject,getVel)
@@ -265,6 +268,9 @@ void Inst::installWrappers()
     install_wrapper(castSpellWithArgs)
     install_wrapper(stopSpell)
     install_wrapper(isObstacle)
+    
+    //Utility functions not specifically created for the scripting API
+    install_wrapper(toDirection)
     
     Class::installClasses(state);
 }

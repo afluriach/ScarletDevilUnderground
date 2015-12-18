@@ -392,17 +392,23 @@ int bulletWall(Arbiter arb, Space& space)
 
 int sensorStart(Arbiter arb, Space& space)
 {
-    OBJS_FROM_ARB
-    log("%s sensed %s.", a->name.c_str(), b->name.c_str());
-    a->onDetect(b);
+    GObject* radarAgent = static_cast<GObject*>(arb.getBodyA().getUserData());
+    GObject* target = static_cast<GObject*>(arb.getBodyB().getUserData());
+    RadarObject* radarObject = dynamic_cast<RadarObject*>(radarAgent);
+    
+    log("%s sensed %s.", radarObject->name.c_str(), target->name.c_str());
+    radarObject->onDetect(target);
     return 1;
 }
 
 int sensorEnd(Arbiter arb, Space& space)
 {
-    OBJS_FROM_ARB
-    log("%s lost %s.", a->name.c_str(), b->name.c_str());
-    a->onEndDetect(b);
+    GObject* radarAgent = static_cast<GObject*>(arb.getBodyA().getUserData());
+    GObject* target = static_cast<GObject*>(arb.getBodyB().getUserData());
+    RadarObject* radarObject = dynamic_cast<RadarObject*>(radarAgent);
+    
+    log("%s lost %s.", radarObject->name.c_str(), target->name.c_str());
+    radarObject->onEndDetect(target);
     return 1;
 }
 

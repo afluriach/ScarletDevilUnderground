@@ -9,7 +9,14 @@
 #ifndef Marisa_h
 #define Marisa_h
 
-class Marisa : virtual public GObject, PatchConSprite, CircleBody, Spellcaster, ScriptedObject, RadarObject
+class Marisa :
+virtual public GObject,
+virtual ScriptedObject,
+virtual RadarObject,
+ScriptedRadar,
+PatchConSprite,
+CircleBody,
+Spellcaster
 {
 public:
     inline Marisa(const ValueMap& args) :

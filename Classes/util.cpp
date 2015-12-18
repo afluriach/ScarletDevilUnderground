@@ -36,7 +36,7 @@ float dirToPhysicsAngle(Direction d)
     }
 }
 
-Direction toDirection(const Vec2& v)
+Direction toDirection(SpaceVect v)
 {
     if(v.y > 0)
         return Direction::upDir;

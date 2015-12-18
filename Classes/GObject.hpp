@@ -97,13 +97,6 @@ public:
         multiUpdate(this);
     }
     
-    virtual inline void onDetect(GObject* other){
-        log("onDetect: non-radar object.");
-    }
-    virtual inline void onEndDetect(GObject* other){
-        log("onEndDetect: on non-radar object.");
-    }
-    
     //Called before adding the the object to space.
     virtual void initializeBody(GSpace& space) = 0;
     virtual void initializeRadar(GSpace& space){};
@@ -147,13 +140,6 @@ public:
     inline void update(){
         ctx.callIfExistsNoReturn("update");
     }
-    inline void onDetect(GObject* other){
-        ctx.callIfExistsNoReturn("onDetect",ctx.makeArgs(other));
-    }
-    inline void onEndDetect(GObject* other){
-        ctx.callIfExistsNoReturn("onEndDetect", ctx.makeArgs(other));
-    }
-
 };
 
 class RadarObject : virtual public GObject
@@ -161,6 +147,10 @@ class RadarObject : virtual public GObject
 public:
     virtual float getRadarRadius() const = 0;
     virtual GType getRadarType() const = 0;
+    
+    virtual void onDetect(GObject* other) = 0;
+    virtual void onEndDetect(GObject* other) = 0;
+
 
     //Create body and add it to space. This assumes BB is rectangle dimensions
     virtual inline void initializeRadar(GSpace& space)
@@ -184,6 +174,16 @@ public:
         radar->setPos(body->getPos());
     }
 };
+
+class ScriptedRadar : virtual public RadarObject, virtual public ScriptedObject{
+    inline void onDetect(GObject* other){
+        ctx.callIfExistsNoReturn("onDetect",ctx.makeArgs(other));
+    }
+    inline void onEndDetect(GObject* other){
+        ctx.callIfExistsNoReturn("onEndDetect", ctx.makeArgs(other));
+    }
+};
+
 
 template<typename Derived>
 class RegisterInit : public virtual GObject
