@@ -1,6 +1,6 @@
 //
 //  Dialog.hpp
-//  FlansBasement
+//  Koumachika
 //
 //  Created by Toni on 11/14/15.
 //

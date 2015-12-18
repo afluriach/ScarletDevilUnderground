@@ -1,6 +1,6 @@
 //
 //  HUD.hpp
-//  FlansBasement
+//  Koumachika
 //
 //  Created by Toni on 12/7/15.
 //

@@ -1,6 +1,6 @@
 //
 //  Garden.hpp
-//  FlansBasement
+//  Koumachika
 //
 //  Created by Toni on 12/1/15.
 //

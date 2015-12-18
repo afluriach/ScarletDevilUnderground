@@ -5,7 +5,7 @@
 
 App* app;
 
-const string App::title = "フランの地下";
+const string App::title = "紅魔地下";
 
 App::App() : lua("app"), replInst("repl")
 {

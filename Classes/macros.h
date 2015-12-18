@@ -1,6 +1,6 @@
 //
 //  macros.h
-//  FlansBasement
+//  Koumachika
 //
 //  Created by Toni on 11/25/15.
 //

@@ -1,6 +1,6 @@
 //
 //  Glyph.hpp
-//  FlansBasement
+//  Koumachika
 //
 //  Created by Toni on 10/28/15.
 //

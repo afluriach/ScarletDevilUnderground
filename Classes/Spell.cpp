@@ -1,6 +1,6 @@
 //
 //  Spell.cpp
-//  FlansBasement
+//  Koumachika
 //
 //  Created by Toni on 11/29/15.
 //

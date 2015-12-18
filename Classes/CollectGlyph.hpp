@@ -1,6 +1,6 @@
 //
 //  CollectGlyph.hpp
-//  FlansBasement
+//  Koumachika
 //
 //  Created by Toni on 12/12/15.
 //

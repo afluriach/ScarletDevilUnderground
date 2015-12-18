@@ -1,6 +1,6 @@
 //
 //  PlayScene.hpp
-//  FlansBasement
+//  Koumachika
 //
 //  Created by Toni on 10/13/15.
 //
