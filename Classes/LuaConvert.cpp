@@ -169,7 +169,8 @@ LuaRef convert<GObject*>::convertToLua(GObject* obj, lua_State* L)
     return ref;
 }
 
-//Check if the data is a name or a number
+//Check if the data is a name or an object
+[[deprecated("Does not use Class mapping")]]
 GObject* getObjectFromLuaData(LuaRef ref)
 {
     GSpace* space = GScene::getSpace();
