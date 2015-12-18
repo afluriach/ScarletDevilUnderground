@@ -18,6 +18,7 @@ const vector<string> Inst::luaIncludes = boost::assign::list_of
     ("util")
     ("class")
     ("math")
+    ("serpent")
     ("repl")
 ;
 

@@ -159,3 +159,7 @@ function add_vel(object, vel)
     new_total = new_total + object:getVel() + vel
     object:setVel(new_total)
 end
+
+function print_serialized(val)
+    print(serpent.dump(val))
+end
