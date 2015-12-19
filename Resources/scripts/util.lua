@@ -171,3 +171,13 @@ end
 function set_serialized(name, val)
     _G[name] = serpent.load(val)
 end
+
+function call_serialized(name, args_str)
+    local success,args = serpent.load(args_str)
+    if success then
+        local result = table.pack(_G[name](table.unpack(args)))
+        return serpent.dump(result)
+    else
+        error("call_serialized with invalid args string " + args_str)
+    end 
+end

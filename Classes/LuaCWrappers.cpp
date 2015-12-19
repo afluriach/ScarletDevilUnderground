@@ -231,6 +231,7 @@ make_method_wrapper(GObject,getUUID)
 make_method_wrapper(GObject,getName)
 make_method_wrapper(GObject,setScriptVal)
 make_method_wrapper(GObject,getScriptVal)
+make_method_wrapper(GObject,_callScriptVal)
 
 void Class::makeClasses()
 {
@@ -246,6 +247,7 @@ void Class::makeClasses()
     add_method(GObject,getName)
     add_method(GObject,setScriptVal)
     add_method(GObject,getScriptVal)
+    add_method(GObject,_callScriptVal)
 }
 
 void Inst::installWrappers()

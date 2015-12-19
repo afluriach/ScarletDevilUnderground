@@ -125,6 +125,11 @@ public:
     inline virtual void setScriptVal(string name, string val){
         log("setScriptVal: %s is not a ScriptedObject.", name.c_str());
     }
+    inline virtual string _callScriptVal(string field, string args){
+        log("_callScriptVal: %s is not a ScriptedObject.", name.c_str());
+        return "";
+    }
+
     
 private:
     static unsigned int nextUUID;
@@ -158,6 +163,10 @@ public:
     
     inline void setScriptVal(string field, string val){
         ctx.setSerialized(field,val);
+    }
+    
+    inline string _callScriptVal(string field, string args){
+        return ctx.callSerialized(field,args);
     }
 };
 

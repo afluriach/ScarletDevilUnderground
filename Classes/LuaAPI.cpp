@@ -20,6 +20,7 @@ const vector<string> Inst::luaIncludes = boost::assign::list_of
     ("math")
     ("serpent")
     ("repl")
+    ("gobject")
 ;
 
 unordered_map<string, Inst*> Inst::instances;

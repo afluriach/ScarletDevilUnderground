@@ -79,16 +79,25 @@ namespace Lua
         void callIfExistsNoReturn(const string& name);
         void callIfExistsNoReturn(const string& name, const vector<LuaRef>& params);
         
-        inline string getSerialized(const string& name){
-            vector<LuaRef> result = call("get_serialized", makeArgs(name));
+        template<typename T>
+        inline T callOneReturn(const string& name, vector<LuaRef> args, T defaultReturn){
+            vector<LuaRef> result = call(name, args);
             if(!result.empty())
                 return result[0];
             else
-                return "";
+                return defaultReturn;
+        }
+
+        inline string getSerialized(const string& name){
+            return callOneReturn("get_serialized", makeArgs(name), "");
         }
         
         inline void setSerialized(const string& name, const string& val){
             call("set_serialized", makeArgs(name, val));
+        }
+        
+        inline string callSerialized(const string& name, const string& args){
+            return callOneReturn("call_serialized", makeArgs(name, args), "");
         }
         
         //Helper for making Lua data, since LuaRef requires the lua state.
