@@ -116,6 +116,16 @@ public:
     {
         return wrapAsBaseMethod<GObject, Derived, Method>();
     }
+    
+    inline virtual string getScriptVal(string field){
+        log("getScriptVal: %s is not a ScriptedObject.", name.c_str());
+        return "";
+    }
+    
+    inline virtual void setScriptVal(string name, string val){
+        log("setScriptVal: %s is not a ScriptedObject.", name.c_str());
+    }
+    
 private:
     static unsigned int nextUUID;
 };
@@ -139,6 +149,15 @@ public:
     }
     inline void update(){
         ctx.callIfExistsNoReturn("update");
+    }
+    
+    //Part of GObject API.
+    inline string getScriptVal(string name){
+        return ctx.getSerialized(name);
+    }
+    
+    inline void setScriptVal(string field, string val){
+        ctx.setSerialized(field,val);
     }
 };
 

@@ -64,11 +64,32 @@ namespace Lua
             return vector<LuaRef>{convert<T>::convertToLua(t,state)};
         }
         
+        template<typename T, typename U>
+        vector<LuaRef> makeArgs(T t, U u)
+        {
+            return vector<LuaRef>{
+                convert<T>::convertToLua(t,state),
+                convert<U>::convertToLua(u,state)
+            };
+        }
+        
         vector<LuaRef> call(const string& name, const vector<LuaRef>& params);
         void callNoReturn(const string& name);
         vector<LuaRef> callIfExists(const string& name, const vector<LuaRef>& params);
         void callIfExistsNoReturn(const string& name);
         void callIfExistsNoReturn(const string& name, const vector<LuaRef>& params);
+        
+        inline string getSerialized(const string& name){
+            vector<LuaRef> result = call("get_serialized", makeArgs(name));
+            if(!result.empty())
+                return result[0];
+            else
+                return "";
+        }
+        
+        inline void setSerialized(const string& name, const string& val){
+            call("set_serialized", makeArgs(name, val));
+        }
         
         //Helper for making Lua data, since LuaRef requires the lua state.
         template<typename T>

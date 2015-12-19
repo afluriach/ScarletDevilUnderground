@@ -163,3 +163,11 @@ end
 function print_serialized(val)
     print(serpent.dump(val))
 end
+
+function get_serialized(name)
+    return serpent.dump(_G[name])   
+end
+
+function set_serialized(name, val)
+    _G[name] = serpent.load(val)
+end
