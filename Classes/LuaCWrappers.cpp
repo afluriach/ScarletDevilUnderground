@@ -170,6 +170,16 @@ bool isObstacle(IntVec2 v)
     return space->isObstacle(v);
 }
 
+void startDialog(string res, bool _auto)
+{
+    GScene::crntScene->createDialog(res, _auto);
+}
+
+void stopDialog()
+{
+    GScene::crntScene->stopDialog();
+}
+
 ///////////////////////////////////////////////////////////////////
 
 #define make_wrapper(name) \
@@ -218,6 +228,8 @@ make_wrapper(castSpell)
 make_wrapper(castSpellWithArgs)
 make_wrapper(stopSpell)
 make_wrapper(isObstacle)
+make_wrapper(startDialog)
+make_wrapper(stopDialog)
 
 //Utility functions not specifically created for the scripting API
 make_wrapper(toDirection)
@@ -272,6 +284,8 @@ void Inst::installWrappers()
     install_wrapper(castSpellWithArgs)
     install_wrapper(stopSpell)
     install_wrapper(isObstacle)
+    install_wrapper(startDialog)
+    install_wrapper(stopDialog)
     
     //Utility functions not specifically created for the scripting API
     install_wrapper(toDirection)

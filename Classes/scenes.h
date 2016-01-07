@@ -93,6 +93,7 @@ public:
     inline void addChild(Node* n) {throw runtime_error("addChild: Node should not be added directly to GScene.");};
     
     void createDialog(const string& res, bool autoAdvance);
+    void stopDialog();
     inline Vec2 dialogPosition()
     {
         return Vec2(App::width/2, Dialog::height/2 + dialogEdgeMargin);

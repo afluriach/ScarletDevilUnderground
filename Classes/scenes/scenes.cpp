@@ -153,5 +153,14 @@ void GScene::createDialog(const string& res, bool autoAdvance)
     
     dialogNode->setEndHandler([=]() -> void {
         getLayer(sceneLayers::dialogLayer)->removeChild(dialogNode);
+        dialogNode = nullptr;
     });
+}
+
+void GScene::stopDialog()
+{
+    if(dialogNode){
+        getLayer(sceneLayers::dialogLayer)->removeChild(dialogNode);
+        dialogNode = nullptr;
+    }
 }
