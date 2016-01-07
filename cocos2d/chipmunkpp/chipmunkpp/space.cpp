@@ -8,6 +8,9 @@
 using namespace std;
 
 namespace cp {
+
+    bool Space::maskSeperateHandler = false;
+
 	Space::Space() : space(cpSpaceNew()), staticBody(make_shared<Body>(space->staticBody)) {
 	}
 
@@ -116,6 +119,8 @@ namespace cp {
 	}
 
 	void Space::helperSeparate(cpArbiter* arb, cpSpace* s, void* d) {
+        if(maskSeperateHandler) return;
+
 		CallbackData& data = *reinterpret_cast<CallbackData*>(d);
 		return data.separate(arb, data.self);
 	}

@@ -33,6 +33,9 @@ GSpace::GSpace(Layer* graphicsLayer) : graphicsLayer(graphicsLayer)
 
 GSpace::~GSpace()
 {
+    //Avoid calling seperation (or "end contact") handlers.
+    cp::Space::maskSeperateHandler = true;
+
     //Process removal modified objByUUID.
     vector<GObject*> objs;
     
@@ -46,6 +49,8 @@ GSpace::~GSpace()
     
     if(navMask)
         delete navMask;
+
+    cp::Space::maskSeperateHandler = false;
 }
 
 GObject* GSpace::addObject(const ValueMap& obj)

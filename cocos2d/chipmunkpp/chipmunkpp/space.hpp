@@ -40,6 +40,9 @@ namespace cp {
 		std::shared_ptr<Shape> segmentQueryFirst(Vect a, Vect b, Layers, Group, SegmentQueryInfo* = nullptr) const;
 		std::shared_ptr<Shape> pointQueryFirst(Vect p, Layers, Group) const;
 
+        //If set, handler will not be called.
+        static bool maskSeperateHandler;
+
 		void addCollisionHandler(CollisionType a, CollisionType b,
 		                         std::function<int(Arbiter, Space&)> begin,
 		                         std::function<int(Arbiter, Space&)> preSolve,
