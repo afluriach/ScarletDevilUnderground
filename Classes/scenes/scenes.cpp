@@ -138,3 +138,20 @@ void GScene::setUnitPosition(const SpaceVect& v)
         (-App::pixelsPerTile*v.y+App::height/2)*spaceZoom
     );
 }
+
+void GScene::createDialog(const string& res, bool autoAdvance)
+{
+    dialogNode = Dialog::create();
+    dialogNode->setDialog(res);
+    dialogNode->setPosition(dialogPosition());
+    getLayer(sceneLayers::dialogLayer)->addChild(dialogNode);
+    
+    //This options are not actually mutually exclusive, but for simplicity just use a flag
+    //to choose one.
+    dialogNode->setAutoAdvance(autoAdvance);
+    dialogNode->setManualAdvance(!autoAdvance);
+    
+    dialogNode->setEndHandler([=]() -> void {
+        getLayer(sceneLayers::dialogLayer)->removeChild(dialogNode);
+    });
+}

@@ -32,7 +32,7 @@ public:
     static const int bodySize = 24;
     static const int textMargin = 24;
     //The minimum time a frame must be displayed
-    constexpr static float frameWaitTime = 0.6;
+    constexpr static float frameWaitTime = 1.2;
     constexpr static float cursorScale = 0.6;
     
     inline void setDialog(const string& res)
@@ -41,6 +41,22 @@ public:
         
         frameNum = 0;
         runFrame();
+    }
+    
+    //Enabled by default, allows cursor to appear and listen for action
+    //button to advance frame.
+    inline void setManualAdvance(bool manual){
+        manualAdvance = manual;
+        if(!manual)
+            cursor->setVisible(false);
+    }
+    
+    inline void setAutoAdvance(bool _auto){
+        autoAdvance = _auto;
+    }
+    
+    inline void setEndHandler(function<void()> f){
+        onEnd = f;
     }
     
     inline void setMsg(const string& msg)
@@ -66,7 +82,8 @@ private:
     void update();
     void runFrame();
     void advanceFrame();
-    void checkAdvanceFrame();
+    void checkTimedAdvance();
+    void checkManualAdvance();
     void processDialogFile(const string& text);
     
     static const Color4F backgroundColor;
@@ -86,6 +103,12 @@ private:
     string title;
     string msg;
     Color3B bodyColor = Color3B(255,255,255);
+    
+//Dialog type
+    bool manualAdvance = true;
+    bool autoAdvance = false;
+//Events
+    function<void()> onEnd;
 };
 
 inline DialogFrame setText(const string& msg)

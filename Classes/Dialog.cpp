@@ -13,12 +13,19 @@
 const Color4F Dialog::backgroundColor = Color4F(0.5, 0.5, 0.5, 0.5);
 const string Dialog::font = "Arial";
 
-void Dialog::checkAdvanceFrame()
+//This will advance the dialog based on time.
+void Dialog::checkTimedAdvance()
 {
-    if(timeInFrame >= frameWaitTime){
+    if(autoAdvance && timeInFrame >= frameWaitTime){
         advanceFrame();
-        cursor->reset();
-        cursor->setVisible(false);
+    }
+}
+
+//This will advance the dialog based on interaction.
+void Dialog::checkManualAdvance()
+{
+    if(manualAdvance && timeInFrame >= frameWaitTime){
+        advanceFrame();
     }
 }
 
@@ -39,7 +46,7 @@ bool Dialog::init()
     addChild(cursor,2);
     
     scheduleUpdate();
-    keyListener.addPressListener(Keys::action, bind(&Dialog::checkAdvanceFrame, this));
+    keyListener.addPressListener(Keys::action, bind(&Dialog::checkManualAdvance, this));
     
     return true;
 }
@@ -58,8 +65,12 @@ void Dialog::update(float dt)
 {
     timeInFrame += dt;
     
-    if(timeInFrame > frameWaitTime)
-        cursor->setVisible(true);
+    if(timeInFrame > frameWaitTime){
+        if(manualAdvance)
+            cursor->setVisible(true);
+        if(autoAdvance)
+            checkTimedAdvance();
+    }
 }
 
 void Dialog::advanceFrame()
@@ -69,6 +80,11 @@ void Dialog::advanceFrame()
     
     if(frameNum < dialog.size()){
         runFrame();
+        cursor->reset();
+        cursor->setVisible(false);
+    }
+    else if(onEnd){
+        onEnd();
     }
 }
 

@@ -46,6 +46,8 @@ public:
         nLayers
     };
 
+    const int dialogEdgeMargin = 30;
+
     typedef function<void () > AdapterType;
     //Map each class name to a constructor adapter function.
     static const unordered_map<string,AdapterType> adapters;
@@ -89,6 +91,15 @@ public:
     //Nodes should not be directly added to a GScene, but rather use one of the defined layers.
     inline void addChild(Node* n, int z) {throw runtime_error("addChild: Node should not be added directly to GScene.");}
     inline void addChild(Node* n) {throw runtime_error("addChild: Node should not be added directly to GScene.");};
+    
+    void createDialog(const string& res, bool autoAdvance);
+    inline Vec2 dialogPosition()
+    {
+        return Vec2(App::width/2, Dialog::height/2 + dialogEdgeMargin);
+    }
+    
+protected:
+    Dialog* dialogNode;
     
 private:
     bool isPaused = false;

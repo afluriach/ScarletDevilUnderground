@@ -67,8 +67,9 @@ using namespace luabridge;
 #include "GAnimation.hpp"
 #include "GSpace.hpp"
 #include "GObject.hpp"
-#include "scenes.h"
 #include "Graphics.h"
+#include "Dialog.hpp"
+#include "scenes.h"
 #include "menu.h"
 
 #endif /* Prefix_h */

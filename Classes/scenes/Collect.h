@@ -15,6 +15,7 @@ class Collect : public PlayScene
 {
 public:
     inline Collect() : PlayScene("maps/collect.tmx"){
+        createDialog("dialogs/collect_opening", true);
     }
 
     CREATE_FUNC(Collect);
