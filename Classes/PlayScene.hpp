@@ -20,7 +20,7 @@ public:
     inline PlayScene(const string& map) : MapScene(map)
     {
         multiInit.insertWithOrder(wrap_method(PlayScene,trackPlayer), initOrder::postLoadObjects);
-        multiInit.insertWithOrder(wrap_method(PlayScene,addHUD), initOrder::postLoadObjects);
+        multiInit.insertWithOrder(wrap_method(PlayScene,addHUD), initOrder::initHUD);
         multiUpdate.insertWithOrder(wrap_method(PlayScene,updateCamera), updateOrder::moveCamera);
     }
     

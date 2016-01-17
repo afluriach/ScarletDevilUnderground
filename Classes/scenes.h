@@ -23,6 +23,7 @@ public:
         mapLoad,
         //Running GSpace::loadAdditions, if applicable
         loadObjects,
+        initHUD,
         //Objects that wish to query the GSpace, including looking up other objects that are expected
         //to be loaded.
         postLoadObjects,
