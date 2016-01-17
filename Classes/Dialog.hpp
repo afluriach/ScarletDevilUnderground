@@ -74,7 +74,7 @@ public:
     {
         bodyColor = color;
         log("color set to %d %d %d", color.r, color.g, color.b);
-        advanceFrame();
+        advanceFrame(false);
     }
     
     inline void setNextScene(const string& next){
@@ -85,7 +85,7 @@ private:
     void drawContents();
     void update();
     void runFrame();
-    void advanceFrame();
+    void advanceFrame(bool resetCursor);
     void checkTimedAdvance();
     void checkManualAdvance();
     void processDialogFile(const string& text);

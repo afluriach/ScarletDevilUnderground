@@ -17,7 +17,7 @@ const string Dialog::font = "Arial";
 void Dialog::checkTimedAdvance()
 {
     if(autoAdvance && timeInFrame >= frameWaitTime){
-        advanceFrame();
+        advanceFrame(true);
     }
 }
 
@@ -25,7 +25,7 @@ void Dialog::checkTimedAdvance()
 void Dialog::checkManualAdvance()
 {
     if(manualAdvance && timeInFrame >= frameWaitTime){
-        advanceFrame();
+        advanceFrame(true);
     }
 }
 
@@ -73,15 +73,18 @@ void Dialog::update(float dt)
     }
 }
 
-void Dialog::advanceFrame()
+void Dialog::advanceFrame(bool resetCursor)
 {
     ++frameNum;
     timeInFrame = 0;
     
     if(frameNum < dialog.size()){
         runFrame();
-        cursor->reset();
-        cursor->setVisible(false);
+        //Cursor should not be reset if the previous frame was a directive.
+        if(resetCursor){
+            cursor->reset();
+            cursor->setVisible(false);
+        }
     }
     else{
         if(onEnd)
