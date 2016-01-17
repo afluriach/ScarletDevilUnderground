@@ -77,6 +77,11 @@ public:
         advanceFrame(false);
     }
     
+    inline void runLuaScript(const string& script){
+        app->lua.runString(script);
+        advanceFrame(false);
+    }
+    
     inline void setNextScene(const string& next){
         nextScene = next;
     }
@@ -129,7 +134,7 @@ inline DialogFrame setColor(const Color3B& color)
 
 inline DialogFrame runLua(const string& script)
 {
-    return [=](Dialog& d)-> void {app->lua.runString(script);};
+    return [=](Dialog& d)-> void {d.runLuaScript(script);};
 }
 
 #endif /* Dialog_hpp */
