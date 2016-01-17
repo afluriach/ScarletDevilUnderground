@@ -38,6 +38,11 @@ public:
     virtual bool init();
 
     HealthBar* health;
+    
+    inline void showHealth(bool val)
+    {
+        health->setVisible(val);
+    }
 protected:
     Player* player;
 };

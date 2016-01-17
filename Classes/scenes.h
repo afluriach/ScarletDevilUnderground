@@ -9,6 +9,9 @@
 #ifndef scenes_h
 #define scenes_h
 
+class PlayScene;
+class HUD;
+
 class GScene : public Layer
 {
 public:
@@ -57,8 +60,15 @@ public:
     static GScene* crntScene;
 
     static void runScene(const string& name);
+
+//Helpers to get the current scene as a specific sub-type (if applicable)
+    static PlayScene* playScene();
+
+//Getters for fields associated with specific types of scenes.
     //Get gspace if this scene is a space scene, null otherwise.
     static GSpace* getSpace();
+    //get HUD if this is a PlayScene
+    static HUD* getHUD();
 
 //Rather than managing overrides to the init method, a scene simply registers their own.
 //Init methods must be installed at construction time.

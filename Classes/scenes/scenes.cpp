@@ -117,11 +117,23 @@ void MapScene::loadMap()
     gspace.addWallBlock(SpaceVect(0,-1), SpaceVect(size.width,0));
 }
 
+PlayScene* GScene::playScene(){
+    return dynamic_cast<PlayScene*>(crntScene);
+}
+
 GSpace* GScene::getSpace()
 {
     GSpaceScene* scene = dynamic_cast<GSpaceScene*>(crntScene);
     
     if(scene) return &(scene->gspace);
+    else return nullptr;
+}
+
+HUD* GScene::getHUD()
+{
+    PlayScene* ps = playScene();
+    
+    if(ps) return ps->hud;
     else return nullptr;
 }
 

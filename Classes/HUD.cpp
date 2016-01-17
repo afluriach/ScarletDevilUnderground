@@ -11,6 +11,10 @@
 
 void HealthBar::setMax(int m)
 {
+    for(int i=0;i<heartSprites.size(); ++i)
+        removeChild(heartSprites.at(i));
+    heartSprites.clear();
+    
     for(int i=0;i<m; ++i)
     {
         Sprite* s = Sprite::create("sprites/heart.png");
@@ -64,7 +68,7 @@ bool HUD::init()
     health = HealthBar::create();
     health->setPosition(32, App::height - height/2);
     addChild(health, 2);
-    health->setMax(Player::maxHealth);
+    health->setMax(Player::defaultMaxHealth);
     
     return true;
 }

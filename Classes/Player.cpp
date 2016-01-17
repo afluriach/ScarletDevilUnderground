@@ -8,6 +8,7 @@
 
 #include "Prefix.h"
 
+#include "HUD.hpp"
 #include "Bullet.hpp"
 #include "AI.hpp"
 
@@ -85,4 +86,17 @@ void Player::hit(){
         health -= 1;
         if(health < 0) health = 0;
     }
+}
+
+void Player::setMaxHealth(int val){
+    maxHealth = val;
+    
+    if(health > maxHealth){
+        health = maxHealth;
+        if(GScene::playScene())
+            GScene::getHUD()->health->setValue(maxHealth);
+    }
+    
+    if(GScene::playScene())
+        GScene::getHUD()->health->setMax(maxHealth);
 }

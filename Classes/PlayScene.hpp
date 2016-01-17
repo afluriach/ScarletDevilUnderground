@@ -37,12 +37,13 @@ public:
     inline void setCameraTarget(GObject* target){
         cameraTarget = target;
     }
+    
+    HUD* hud;
 private:    
     void addHUD();
 
     const int cameraMovePixPerFrame = 3;
     GObject* cameraTarget = nullptr;
-    HUD* hud;
 };
 
 #endif /* PlayScene_hpp */

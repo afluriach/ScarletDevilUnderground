@@ -104,6 +104,15 @@ bool isValidObject(GObject* object)
     return object != nullptr;
 }
 
+void showHealth(bool val)
+{
+    PlayScene* ps = GScene::playScene();
+    
+    if(!ps) throw lua_runtime_error("HUD is not available in this scene.");
+    
+    ps->hud->showHealth(val);
+}
+
 void setPlayerHealth(int val)
 {
     GSpace* space = GScene::getSpace();
@@ -115,10 +124,28 @@ void setPlayerHealth(int val)
     if(!p)
         lua_runtime_error("Player is not available.");
     
-    if(val <= 0 || val > Player::maxHealth)
+    if(val <= 0 || val > p->getMaxHealth())
         lua_runtime_error("setPlayerHealth: value outside valid range.");
     
     p->setHealth(val);
+}
+
+void setPlayerMaxHealth(int val)
+{
+    GSpace* space = GScene::getSpace();
+    
+    if(!space) throw lua_runtime_error("setPlayerMaxHealth: Cannot access objects in this scene.");
+    
+    Player* p = space->getObject<Player>("player");
+    
+    if(!p)
+        throw lua_runtime_error("setPlayerMaxHealth: Player is not available.");
+    
+    if(val <= 0)
+        lua_runtime_error("setPlayerMaxHealth: value outside valid range.");
+    
+    p->setMaxHealth(val);
+
 }
 
 void setPaused(bool val)
@@ -221,7 +248,9 @@ make_wrapper(getObjByName)
 make_wrapper(getObjectNames)
 make_wrapper(isValidObject)
 make_wrapper(runscript)
+make_wrapper(showHealth)
 make_wrapper(setPlayerHealth)
+make_wrapper(setPlayerMaxHealth)
 make_wrapper(setPaused)
 make_wrapper(dostring_in_inst)
 make_wrapper(castSpell)
@@ -277,7 +306,9 @@ void Inst::installWrappers()
 
     install_wrapper(isValidObject)
     install_wrapper(runscript)
+    install_wrapper(showHealth)
     install_wrapper(setPlayerHealth)
+    install_wrapper(setPlayerMaxHealth)
     install_wrapper(setPaused)
     install_wrapper(dostring_in_inst)
     install_wrapper(castSpell)
