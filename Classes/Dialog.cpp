@@ -99,25 +99,25 @@ void Dialog::runFrame()
     dialog.at(frameNum)(*this);
 }
 
-DialogFrame makeSetColor(const string& line)
-{
+//This only includes the numerics, not the directive token.
+Color3B parseColorFromDirective(const string& line){
     vector<string> tokens = splitString(line, " ");
     
     if(tokens.size() != 4){
         log("Invalid setColor directive: %s", line.c_str());
-        return setColor(Color3B(255,255,255));
+        return Color3B(255,255,255);
     }
     
     try{
         log("%s %s %s", tokens[1].c_str(), tokens[2].c_str(), tokens[3].c_str());
-        return setColor(Color3B(
+        return Color3B(
             boost::lexical_cast<int>(tokens[1]),
             boost::lexical_cast<int>(tokens[2]),
             boost::lexical_cast<int>(tokens[3])
-        ));
+        );
     } catch(boost::bad_lexical_cast){
         log("setColor parse error: %s", line.c_str());
-        return setColor(Color3B(255,255,255));
+        return Color3B(255,255,255);
     }
 }
 
@@ -131,10 +131,15 @@ void Dialog::processDialogFile(const string& text)
         //Check for directives
         if(boost::starts_with(line, ":")){
             if(boost::starts_with(line, ":setColor")){
-                dialog.push_back(makeSetColor(line));
+                Color3B color = parseColorFromDirective(line);
+                dialog.push_back(
+                    makeAction<const Color3B&>(&Dialog::setColor, color)
+                );
             }
             else if(boost::starts_with(line, ":lua ")){
-                dialog.push_back(runLua(line.substr(5)));
+                dialog.push_back(
+                    makeAction<const string&>(&Dialog::runLuaScript, line.substr(5))
+                );
             }
             else if(boost::starts_with(line, ":nextScene")){
                 vector<string> tokens = splitString(line, " ");
@@ -149,7 +154,9 @@ void Dialog::processDialogFile(const string& text)
             }
         }
         else{
-            dialog.push_back(setText(line));
+            dialog.push_back(
+                makeAction<const string&>(&Dialog::setMsg,line)
+            );
         }
     }
 }

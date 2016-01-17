@@ -14,7 +14,6 @@
 //It can also change the title or dialog colors.
 class Dialog;
 typedef function<void(Dialog&)> DialogFrame;
-DialogFrame setText(const string& msg);
 
 class Dialog : public Node
 {
@@ -57,6 +56,12 @@ public:
     
     inline void setEndHandler(function<void()> f){
         onEnd = f;
+    }
+    
+    template<typename... Args>
+    inline DialogFrame makeAction(void (Dialog::*method)(Args...), Args... args)
+    {
+        return [=](Dialog& d) -> void {(d.*method)(args...);};
     }
     
     inline void setMsg(const string& msg)
@@ -121,20 +126,5 @@ private:
     //The scene to run after the current dialog has completed
     string nextScene;
 };
-
-inline DialogFrame setText(const string& msg)
-{
-    return [=](Dialog& d) -> void {d.setMsg(msg);};
-}
-
-inline DialogFrame setColor(const Color3B& color)
-{
-    return [=](Dialog& d) -> void {d.setColor(color);};
-}
-
-inline DialogFrame runLua(const string& script)
-{
-    return [=](Dialog& d)-> void {d.runLuaScript(script);};
-}
 
 #endif /* Dialog_hpp */
