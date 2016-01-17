@@ -29,6 +29,8 @@ public:
         //Update tick on GSpace and all objects, if applicable
         runShellScript=1,
         spaceUpdate,
+        //General scene update logic
+        sceneUpdate,
         moveCamera,
         hudUpdate,
     };
@@ -161,5 +163,22 @@ protected:
     void loadMap();
 };
 
+class ScriptedScene : virtual public GScene
+{
+public:
+    inline ScriptedScene(const string& res) :
+    ctx("scene")
+    {
+        multiInit.insertWithOrder(wrap_method(ScriptedScene, runInit), initOrder::postLoadObjects);
+        multiUpdate.insertWithOrder(wrap_method(ScriptedScene,runUpdate), updateOrder::sceneUpdate);
+        
+        ctx.runFile("scripts/scenes/"+res+".lua");
+    }
+
+    void runInit();
+    void runUpdate();
+    
+    Lua::Inst ctx;
+};
 
 #endif /* scenes_h */

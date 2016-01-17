@@ -11,10 +11,13 @@
 
 #include "PlayScene.hpp"
 
-class Collect : public PlayScene
+class Collect : public PlayScene, virtual public ScriptedScene
 {
 public:
-    inline Collect() : PlayScene("maps/collect.tmx"){
+    inline Collect() :
+    PlayScene("maps/collect.tmx"),
+    ScriptedScene("Collect")
+    {
         createDialog("dialogs/collect_opening", true);
     }
 

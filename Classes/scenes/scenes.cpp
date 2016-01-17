@@ -164,3 +164,12 @@ void GScene::stopDialog()
         dialogNode = nullptr;
     }
 }
+
+void ScriptedScene::runInit()
+{
+    ctx.callIfExistsNoReturn("init");
+}
+void ScriptedScene::runUpdate()
+{
+    ctx.callIfExistsNoReturn("update");
+}
