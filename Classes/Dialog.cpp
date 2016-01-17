@@ -83,8 +83,11 @@ void Dialog::advanceFrame()
         cursor->reset();
         cursor->setVisible(false);
     }
-    else if(onEnd){
-        onEnd();
+    else{
+        if(onEnd)
+            onEnd();
+        if(!nextScene.empty())
+            GScene::runScene(nextScene);
     }
 }
 
@@ -126,14 +129,24 @@ void Dialog::processDialogFile(const string& text)
         if(boost::starts_with(line, ":")){
             if(boost::starts_with(line, ":setColor")){
                 dialog.push_back(makeSetColor(line));
-                continue;
             }
             else if(boost::starts_with(line, ":lua ")){
                 dialog.push_back(runLua(line.substr(5)));
-                continue;
+            }
+            else if(boost::starts_with(line, ":nextScene")){
+                vector<string> tokens = splitString(line, " ");
+                if(tokens.size() != 2){
+                    log("invalid nextScene directive: %s.", line.c_str());
+                    continue;
+                }
+                if(!nextScene.empty())
+                    log("Warning, old nextScene overridden: %s.", nextScene.c_str());
+                nextScene = tokens[1];
+                
             }
         }
-        
-        dialog.push_back(setText(line));
+        else{
+            dialog.push_back(setText(line));
+        }
     }
 }

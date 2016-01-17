@@ -76,6 +76,10 @@ public:
         log("color set to %d %d %d", color.r, color.g, color.b);
         advanceFrame();
     }
+    
+    inline void setNextScene(const string& next){
+        nextScene = next;
+    }
 private:
     void drawBackground();
     void drawContents();
@@ -109,6 +113,8 @@ private:
     bool autoAdvance = false;
 //Events
     function<void()> onEnd;
+    //The scene to run after the current dialog has completed
+    string nextScene;
 };
 
 inline DialogFrame setText(const string& msg)
