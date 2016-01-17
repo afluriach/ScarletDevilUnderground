@@ -84,7 +84,7 @@ GObject* getObjByName(string name)
 {
     GSpace* space = GScene::getSpace();
     
-    if(!space) lua_runtime_error("Cannot access objects in this scene.");
+    if(!space) throw lua_runtime_error("getObjByName: Cannot access objects in this scene.");
     
     return space->getObject(name);
 }
@@ -93,7 +93,7 @@ vector<string> getObjectNames()
 {
     GSpace* space = GScene::getSpace();
     
-    if(!space) lua_runtime_error("Cannot access objects in this scene.");
+    if(!space) throw lua_runtime_error("getObjectNames: Cannot access objects in this scene.");
 
     return space->getObjectNames();
 }
@@ -108,7 +108,7 @@ void showHealth(bool val)
 {
     PlayScene* ps = GScene::playScene();
     
-    if(!ps) throw lua_runtime_error("HUD is not available in this scene.");
+    if(!ps) throw lua_runtime_error("showHealth: HUD is not available in this scene.");
     
     ps->hud->showHealth(val);
 }
@@ -117,15 +117,15 @@ void setPlayerHealth(int val)
 {
     GSpace* space = GScene::getSpace();
     
-    if(!space) lua_runtime_error("Cannot access objects in this scene.");
+    if(!space) throw lua_runtime_error("setPlayerHealth: Cannot access objects in this scene.");
     
     Player* p = space->getObject<Player>("player");
     
     if(!p)
-        lua_runtime_error("Player is not available.");
+        throw lua_runtime_error("setPlayerHealth: Player is not available.");
     
     if(val <= 0 || val > p->getMaxHealth())
-        lua_runtime_error("setPlayerHealth: value outside valid range.");
+        throw lua_runtime_error("setPlayerHealth: value outside valid range.");
     
     p->setHealth(val);
 }
@@ -142,7 +142,7 @@ void setPlayerMaxHealth(int val)
         throw lua_runtime_error("setPlayerMaxHealth: Player is not available.");
     
     if(val <= 0)
-        lua_runtime_error("setPlayerMaxHealth: value outside valid range.");
+        throw lua_runtime_error("setPlayerMaxHealth: value outside valid range.");
     
     p->setMaxHealth(val);
 
@@ -161,7 +161,7 @@ void dostring_in_inst(string script, string inst_name)
 void castSpellWithArgs(string casterName, string spell, ValueMap args)
 {
     GSpace* space = GScene::getSpace();
-    if(!space) lua_runtime_error("Cannot access objects in this scene.");
+    if(!space) throw lua_runtime_error("castSpellWithArgs: Cannot access objects in this scene.");
     Spellcaster* caster = space->getObject<Spellcaster>(casterName);
 
     if(!caster){
@@ -179,7 +179,7 @@ void castSpell(string casterName, string spell)
 void stopSpell(string casterName)
 {
     GSpace* space = GScene::getSpace();
-    if(!space) lua_runtime_error("Cannot access objects in this scene.");
+    if(!space) throw lua_runtime_error("stopSpell: Cannot access objects in this scene.");
     Spellcaster* caster = space->getObject<Spellcaster>(casterName);
 
     if(!caster){
@@ -192,7 +192,7 @@ void stopSpell(string casterName)
 bool isObstacle(IntVec2 v)
 {
     GSpace* space = GScene::getSpace();
-    if(!space) lua_runtime_error("Cannot access objects in this scene.");
+    if(!space) throw lua_runtime_error("isObstacle: Cannot access objects in this scene.");
 
     return space->isObstacle(v);
 }
