@@ -207,6 +207,26 @@ void stopDialog()
     GScene::crntScene->stopDialog();
 }
 
+void setObjectiveCounter(string iconRes, int val)
+{
+    HUD* hud = GScene::getHUD();
+    
+    if(!hud) throw lua_runtime_error("setObjectiveCounter: HUD is not available in this scene.");
+    
+    hud->objectiveCounter->setVisible(true);
+    hud->objectiveCounter->setVal(val);
+    hud->objectiveCounter->setIcon(iconRes);
+}
+
+void showObjectiveCounter(bool val)
+{
+    HUD* hud = GScene::getHUD();
+    
+    if(!hud) throw lua_runtime_error("setObjectiveCounter: HUD is not available in this scene.");
+
+    hud->objectiveCounter->setVisible(val);
+}
+
 ///////////////////////////////////////////////////////////////////
 
 #define make_wrapper(name) \
@@ -259,6 +279,8 @@ make_wrapper(stopSpell)
 make_wrapper(isObstacle)
 make_wrapper(startDialog)
 make_wrapper(stopDialog)
+make_wrapper(setObjectiveCounter)
+make_wrapper(showObjectiveCounter)
 
 //Utility functions not specifically created for the scripting API
 make_wrapper(toDirection)
@@ -317,6 +339,10 @@ void Inst::installWrappers()
     install_wrapper(isObstacle)
     install_wrapper(startDialog)
     install_wrapper(stopDialog)
+    
+    //HUD / UI
+    install_wrapper(setObjectiveCounter)
+    install_wrapper(showObjectiveCounter)
     
     //Utility functions not specifically created for the scripting API
     install_wrapper(toDirection)

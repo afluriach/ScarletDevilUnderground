@@ -42,6 +42,9 @@ void HealthBar::setValue(int v)
 
 //const Color4F HUD::backgroundColor = Color4F(0,0,0,0.75);
 
+const int HUD::fontSize = 32;
+const string HUD::fontName = "Arial";
+
 HUD::HUD() :
 player(GScene::getSpace()->getObject<Player>("player"))
 {
@@ -70,5 +73,48 @@ bool HUD::init()
     addChild(health, 2);
     health->setMax(Player::defaultMaxHealth);
     
+    objectiveCounter = new Counter("", 0);
+    objectiveCounter->setPosition(Counter::spacing/2 + Counter::iconSize + 8, Counter::iconSize/2 + 8);
+    addChild(objectiveCounter, 2);
+    objectiveCounter->setVisible(false);
+    
     return true;
+}
+
+void Counter::init(const string& iconRes, const int val)
+{
+    Node::init();
+    
+    icon = Sprite::create();
+    counter = Label::createWithSystemFont("", HUD::fontName, HUD::fontSize);
+    
+    //The center of the node will be the mid-point between the icon and the label.
+    //This will avoid the visual distraction of moving the Counter node and thus the
+    //icon if the width of the text label changes.
+    addChild(icon);
+    icon->setPosition(-(spacing+iconSize)/2, 0);
+    
+    //Label position will be set when its contents is set.
+    addChild(counter);
+
+    if(!iconRes.empty())
+        setIcon(iconRes);
+    setVal(val);
+}
+
+void Counter::setIcon(const string& iconRes)
+{
+    icon->setTexture(iconRes);
+    float size = icon->getTexture()->getContentSizeInPixels().getBoundingDimension();
+    if(size > iconSize)
+        icon->setScale(iconSize / size);
+}
+
+void Counter::setVal(const int val)
+{
+    this->val = val;
+    counter->setString(boost::lexical_cast<string>(val));
+    
+    float counterWidth = counter->getContentSize().width;
+    counter->setPosition((spacing+counterWidth)/2, 0);
 }

@@ -111,6 +111,11 @@ public:
     bool equals(const Size& target) const;
     /**Size(0,0).*/
     static const Size ZERO;
+    
+    //Return the larger dimension
+    inline float getBoundingDimension() const{
+        return (width > height) ? width : height;
+    }
 };
 
 /**Rectangle area.*/
