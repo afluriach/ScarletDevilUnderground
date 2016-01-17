@@ -29,7 +29,7 @@ class HUD : public Layer
 public:
     static const int height = 50;
     
-    static const Color4F backgroundColor;
+//    static const Color4F backgroundColor;
 
     CREATE_FUNC(HUD);
     HUD();

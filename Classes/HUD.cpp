@@ -36,7 +36,7 @@ void HealthBar::setValue(int v)
     crntVal = v;
 }
 
-const Color4F HUD::backgroundColor = Color4F(0,0,0,0.75);
+//const Color4F HUD::backgroundColor = Color4F(0,0,0,0.75);
 
 HUD::HUD() :
 player(GScene::getSpace()->getObject<Player>("player"))
@@ -52,14 +52,14 @@ bool HUD::init()
     Layer::init();
     
     //Create DrawNode in background layer
-    DrawNode* background = DrawNode::create();
-    addChild(background,1);
-    
-    background->drawSolidRect(
-        Vec2(0,App::height-height),
-        Vec2(App::width, App::height),
-        backgroundColor
-    );
+//    DrawNode* background = DrawNode::create();
+//    addChild(background,1);
+//    
+//    background->drawSolidRect(
+//        Vec2(0,App::height-height),
+//        Vec2(App::width, App::height),
+//        backgroundColor
+//    );
     
     health = HealthBar::create();
     health->setPosition(32, App::height - height/2);
