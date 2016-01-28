@@ -53,7 +53,6 @@ public:
     static const int height = 50;
     
     static const int fontSize;
-    static const string fontName;
     
 //    static const Color4F backgroundColor;
 

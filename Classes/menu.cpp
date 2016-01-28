@@ -84,7 +84,7 @@ bool TextListMenuLayer::init()
     
     cocos2d::Size screenSize = getScreenSize();
     
-    titleLabel = Label::createWithSystemFont(title, titleFont, titleSize);
+    titleLabel = createTextLabel(title, titleSize);
     
     titleLabel->setPosition(screenSize.width/2, screenSize.height - titleMargin);
     getLayer(sceneLayers::menuLayer)->addChild(titleLabel);
@@ -96,7 +96,7 @@ bool TextListMenuLayer::init()
         string labelText = options[i];
         int yPos = screenSize.height - titleMargin - menuStartMargin - i*menuItemSpacing;
         
-        Label* label = Label::createWithSystemFont(labelText, menuItemFont, menuItemSize);
+        Label* label = createTextLabel(labelText, menuItemSize);
         menuItemLabels.push_back(label);
         label->setPosition(leftMargin + label->getContentSize().width/2, yPos);
         getLayer(sceneLayers::menuLayer)->addChild(label);

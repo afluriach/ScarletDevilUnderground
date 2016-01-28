@@ -26,6 +26,8 @@ float getFloatOrDefault(const ValueMap& obj, const string& name, float def);
 
 Sprite* loadImageSprite(const string& resPath, GraphicsLayer sceneLayer, Layer* dest, const Vec2& pos, float zoom);
 
+Label* createTextLabel(const string& text, int size);
+
 string getRealPath(const string& path);
 string loadTextFile(const string& res);
 vector<string> splitString(const string& input,const string& sep);

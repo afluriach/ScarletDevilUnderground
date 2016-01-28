@@ -8,6 +8,8 @@
 
 #include "Prefix.h"
 
+const string defaultFont = "Arial";
+
 Scene* crntScene()
 {
     return Director::getInstance()->getRunningScene();
@@ -93,6 +95,12 @@ Sprite* loadImageSprite(const string& resPath, GraphicsLayer sceneLayer, Layer* 
         log("loadImageSprite: sprite %s not loaded", resPath.c_str());
 
     return node;
+}
+
+Label* createTextLabel(const string& text, int size)
+{
+    Label *l = Label::createWithSystemFont(text, defaultFont, size);
+    return l;
 }
 
 string getRealPath(const string& path)

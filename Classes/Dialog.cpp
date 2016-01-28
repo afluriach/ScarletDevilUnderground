@@ -11,7 +11,6 @@
 #include "Dialog.hpp"
 
 const Color4F Dialog::backgroundColor = Color4F(0.5, 0.5, 0.5, 0.5);
-const string Dialog::font = "Arial";
 
 //This will advance the dialog based on time.
 void Dialog::checkTimedAdvance()

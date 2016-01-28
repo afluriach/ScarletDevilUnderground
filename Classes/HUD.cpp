@@ -43,7 +43,6 @@ void HealthBar::setValue(int v)
 //const Color4F HUD::backgroundColor = Color4F(0,0,0,0.75);
 
 const int HUD::fontSize = 32;
-const string HUD::fontName = "Arial";
 
 HUD::HUD() :
 player(GScene::getSpace()->getObject<Player>("player"))
@@ -86,7 +85,7 @@ void Counter::init(const string& iconRes, const int val)
     Node::init();
     
     icon = Sprite::create();
-    counter = Label::createWithSystemFont("", HUD::fontName, HUD::fontSize);
+    counter = createTextLabel("", HUD::fontSize);
     
     //The center of the node will be the mid-point between the icon and the label.
     //This will avoid the visual distraction of moving the Counter node and thus the

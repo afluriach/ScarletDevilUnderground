@@ -68,7 +68,7 @@ public:
     {
         this->msg = msg;
         removeChild(bodyText);
-        bodyText = Label::createWithSystemFont(msg, font, bodySize);
+        bodyText = createTextLabel(msg, bodySize);
         bodyText->setWidth(width-textMargin*2);
         bodyText->setColor(bodyColor);
         addChild(bodyText, 2);
@@ -101,7 +101,6 @@ private:
     void processDialogFile(const string& text);
     
     static const Color4F backgroundColor;
-    static const string font;
     
     Label* bodyText;
     DrawNode* backgroundNode;

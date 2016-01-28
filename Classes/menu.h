@@ -51,12 +51,10 @@ private:
     //Space from top of screen to title label;
     const int titleMargin = 32;
     const int titleSize = 48;
-    const string titleFont = "Arial";
     //Space from title label to first item in menu.
     const int menuStartMargin = 100;
     const int menuItemSpacing = 60;
     const int menuItemSize = 32;
-    const string menuItemFont = "Arial";
     //Space from left side of screen to menu item;
     const int leftMargin = 72;
     //Space between the left side of the menu item to the cursor.
