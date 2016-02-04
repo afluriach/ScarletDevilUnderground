@@ -75,9 +75,22 @@ void addUpdate(function<void()> f, int order)
     );
 }
 
+//Increase window size and scale up content to match.
 void setscreenscale(float f)
 {
+    if(f <= 0) throw lua_runtime_error("setscreenscale: must be positive");
+
     app->screenscale = f;
+}
+
+//Scales graphics content resoltuion without changing window resolution;
+//for systems where the window resolution does not actually match content resolution
+//(e.g. Retina displays).
+void setdpiscale(float f)
+{
+    if(f <= 0) throw lua_runtime_error("setdpiscale: must be positive");
+
+    app->dpiscale = f;
 }
 
 GObject* getObjByName(string name)
@@ -264,6 +277,7 @@ make_wrapper(getUUIDNameMap)
 make_wrapper(printMap)
 make_wrapper(addUpdate)
 make_wrapper(setscreenscale)
+make_wrapper(setdpiscale)
 make_wrapper(getObjByName)
 make_wrapper(getObjectNames)
 make_wrapper(isValidObject)
@@ -323,6 +337,7 @@ void Inst::installWrappers()
     install_wrapper(printMap)
     install_wrapper(addUpdate)
     install_wrapper(setscreenscale)
+    install_wrapper(setdpiscale)
     install_wrapper(getObjByName)
     install_wrapper(getObjectNames)
 
