@@ -76,6 +76,9 @@ public:
     /** loads the default shaders */
     void loadDefaultGLPrograms();
     CC_DEPRECATED_ATTRIBUTE void loadDefaultShaders() { loadDefaultGLPrograms(); }
+    
+    //Load program from a resource file
+    void loadGLProgram(const std::string& name, const std::string& vert, const std::string& frag);
 
     /** returns a GL program for a given key 
      */

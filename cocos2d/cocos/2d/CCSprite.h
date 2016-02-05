@@ -33,6 +33,7 @@ THE SOFTWARE.
 #include "2d/CCDrawNode.h"
 #include "2d/CCSpriteBatchNode.h"
 #include "base/CCProtocols.h"
+#include "renderer/CCGLProgram.h"
 #include "renderer/CCTextureAtlas.h"
 #include "renderer/CCQuadCommand.h"
 #include "renderer/CCCustomCommand.h"
@@ -583,6 +584,8 @@ protected:
     //
     // Shared data
     //
+    
+    std::string shaderName = GLProgram::SHADER_NAME_POSITION_TEXTURE_COLOR_NO_MVP;
 
     // texture
     Rect _rect;                             /// Retangle of Texture2D

@@ -363,7 +363,12 @@ void DrawNode::onDraw(const Mat4 &transform, uint32_t flags)
     }
     
     CC_INCREMENT_GL_DRAWN_BATCHES_AND_VERTICES(1, _bufferCount);
-    CHECK_GL_ERROR_DEBUG();
+    
+//    CHECK_GL_ERROR_DEBUG();
+    if(glGetError()){
+        log("GLSL %d error", glProgram->getProgram());
+        glProgram->logAll();
+    }
 }
 
 void DrawNode::onDrawGLLine(const Mat4 &transform, uint32_t flags)

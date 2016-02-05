@@ -240,6 +240,33 @@ void showObjectiveCounter(bool val)
     hud->objectiveCounter->setVisible(val);
 }
 
+void printGlDebug()
+{
+    //print the program, vertex, and fragment log for each custom shader.
+    
+    log("printGlDebug:");
+    
+    BOOST_FOREACH(string name, App::shaderFiles){
+        log("%s", name.c_str());
+        GLProgram* p = GLProgramCache::getInstance()->getGLProgram(name);
+        
+        string logtext;
+        
+        logtext = p->getProgramLog();
+        if(!logtext.empty())
+            log("%s program log: \n%s", name.c_str(), logtext.c_str());
+
+        logtext = p->getVertexShaderLog();
+        if(!logtext.empty())
+            log("%s vertex log: \n%s", name.c_str(), logtext.c_str());
+
+        logtext = p->getFragmentShaderLog();
+        if(!logtext.empty())
+            log("%s fragment log: \n%s", name.c_str(), logtext.c_str());
+
+    }
+}
+
 ///////////////////////////////////////////////////////////////////
 
 #define make_wrapper(name) \
@@ -295,6 +322,7 @@ make_wrapper(startDialog)
 make_wrapper(stopDialog)
 make_wrapper(setObjectiveCounter)
 make_wrapper(showObjectiveCounter)
+make_wrapper(printGlDebug)
 
 //Utility functions not specifically created for the scripting API
 make_wrapper(toDirection)
@@ -354,6 +382,7 @@ void Inst::installWrappers()
     install_wrapper(isObstacle)
     install_wrapper(startDialog)
     install_wrapper(stopDialog)
+    install_wrapper(printGlDebug)
     
     //HUD / UI
     install_wrapper(setObjectiveCounter)

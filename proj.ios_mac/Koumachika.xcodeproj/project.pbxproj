@@ -65,6 +65,8 @@
 		E20A7D6B1BCD205E007F1A3B /* PlayScene.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E20A7D681BCD205E007F1A3B /* PlayScene.cpp */; };
 		E20A7D6F1BCD27F0007F1A3B /* maps in Resources */ = {isa = PBXBuildFile; fileRef = E20A7D6E1BCD27F0007F1A3B /* maps */; };
 		E20A7D701BCD27F0007F1A3B /* maps in Resources */ = {isa = PBXBuildFile; fileRef = E20A7D6E1BCD27F0007F1A3B /* maps */; };
+		E20EAF021C64F13C0061B640 /* shaders in Resources */ = {isa = PBXBuildFile; fileRef = E20EAF011C64F13C0061B640 /* shaders */; };
+		E20EAF031C64F13C0061B640 /* shaders in Resources */ = {isa = PBXBuildFile; fileRef = E20EAF011C64F13C0061B640 /* shaders */; };
 		E214CF581C0ACEF800FC8784 /* Spell.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E214CF561C0ACEF800FC8784 /* Spell.cpp */; };
 		E214CF591C0ACEF800FC8784 /* Spell.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E214CF561C0ACEF800FC8784 /* Spell.cpp */; };
 		E214CF5B1C0AD22E00FC8784 /* SpellMapping.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E214CF5A1C0AD22E00FC8784 /* SpellMapping.cpp */; };
@@ -215,6 +217,7 @@
 		E20A7D691BCD205E007F1A3B /* PlayScene.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = PlayScene.hpp; sourceTree = "<group>"; };
 		E20A7D6C1BCD211D007F1A3B /* util.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = util.h; sourceTree = "<group>"; };
 		E20A7D6E1BCD27F0007F1A3B /* maps */ = {isa = PBXFileReference; lastKnownFileType = folder; path = maps; sourceTree = "<group>"; };
+		E20EAF011C64F13C0061B640 /* shaders */ = {isa = PBXFileReference; lastKnownFileType = folder; path = shaders; sourceTree = "<group>"; };
 		E214CF561C0ACEF800FC8784 /* Spell.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Spell.cpp; sourceTree = "<group>"; };
 		E214CF571C0ACEF800FC8784 /* Spell.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = Spell.hpp; sourceTree = "<group>"; };
 		E214CF5A1C0AD22E00FC8784 /* SpellMapping.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = SpellMapping.cpp; sourceTree = "<group>"; };
@@ -398,6 +401,7 @@
 				E20A7D6E1BCD27F0007F1A3B /* maps */,
 				521A8EA819F11F5000D177D7 /* fonts */,
 				E26147BB1C005A1B008CA1D0 /* scripts */,
+				E20EAF011C64F13C0061B640 /* shaders */,
 				E20328D41BE082970069B322 /* sprites */,
 			);
 			name = Resources;
@@ -655,6 +659,7 @@
 				5087E77D17EB970100C73F5D /* Default-568h@2x.png in Resources */,
 				5087E78517EB970100C73F5D /* Icon-72.png in Resources */,
 				521A8E6519F0C34300D177D7 /* Default-736h@3x.png in Resources */,
+				E20EAF021C64F13C0061B640 /* shaders in Resources */,
 				521A8EA919F11F5000D177D7 /* fonts in Resources */,
 				50EF62A317ECD613001EB2F8 /* Icon-50.png in Resources */,
 				5087E78017EB970100C73F5D /* Icon-114.png in Resources */,
@@ -679,6 +684,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				E231220E1BFA9D7700FEA94B /* dialogs in Resources */,
+				E20EAF031C64F13C0061B640 /* shaders in Resources */,
 				E26147BD1C005A1B008CA1D0 /* scripts in Resources */,
 				503AE0F817EB97AB00D1A890 /* Icon.icns in Resources */,
 				E20328D61BE082970069B322 /* sprites in Resources */,

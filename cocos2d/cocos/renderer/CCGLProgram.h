@@ -453,6 +453,21 @@ public:
 
     /** returns the program error log */
     std::string getProgramLog() const;
+    
+    inline void logAll(){
+        std::string logtext;
+        
+        log("GLSL program ID %d logs", getProgram());
+        
+        logtext = getProgramLog();
+        log("shader program log: \n%s", logtext.c_str());
+
+        logtext = getVertexShaderLog();
+        log("vertex shader log: \n%s", logtext.c_str());
+
+        logtext = getFragmentShaderLog();
+        log("fragment shader log: \n%s", logtext.c_str());
+    }
 
     /** Reload all shaders, this function is designed for android
     when opengl context lost, so don't call it.

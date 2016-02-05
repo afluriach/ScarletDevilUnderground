@@ -57,6 +57,66 @@ protected:
     virtual void drawShape();
 };
 
+class InvertedSprite : public Sprite
+{
+public:
+    inline static InvertedSprite* create(const std::string& filename){
+        InvertedSprite *sprite = new (std::nothrow) InvertedSprite();
+        if (sprite && sprite->initWithFile(filename))
+        {
+            sprite->autorelease();
+            return sprite;
+        }
+        CC_SAFE_DELETE(sprite);
+        return nullptr;
+    }
+
+    InvertedSprite(){
+        shaderName = "inverted";
+    }
+//    virtual inline string getShaderName() const{
+//        return "inverted";
+//    }
+};
+
+class HueShiftLeftSprite : public Sprite
+{
+public:
+    inline static HueShiftLeftSprite* create(const std::string& filename){
+        HueShiftLeftSprite *sprite = new (std::nothrow) HueShiftLeftSprite();
+        if (sprite && sprite->initWithFile(filename))
+        {
+            sprite->autorelease();
+            return sprite;
+        }
+        CC_SAFE_DELETE(sprite);
+        return nullptr;
+    }
+
+    HueShiftLeftSprite(){
+        shaderName = "hue_shift_left";
+    }
+};
+
+class HueShiftRightSprite : public Sprite
+{
+public:
+    inline static HueShiftRightSprite* create(const std::string& filename){
+        HueShiftRightSprite *sprite = new (std::nothrow) HueShiftRightSprite();
+        if (sprite && sprite->initWithFile(filename))
+        {
+            sprite->autorelease();
+            return sprite;
+        }
+        CC_SAFE_DELETE(sprite);
+        return nullptr;
+    }
+
+    HueShiftRightSprite(){
+        shaderName = "hue_shift_right";
+    }
+};
+
 Action* flickerAction(float interval, float length, float opacity);
 
 cocos2d::Size getScreenSize();

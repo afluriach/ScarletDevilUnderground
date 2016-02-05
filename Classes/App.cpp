@@ -7,6 +7,13 @@ App* app;
 
 const string App::title = "紅魔地下";
 
+const vector<string> App::shaderFiles = boost::assign::list_of
+("sprite")
+("inverted")
+("hue_shift_left")
+("hue_shift_right")
+;
+
 App::App() : lua("app"), replInst("repl")
 {
     app = this;
@@ -59,6 +66,8 @@ bool App::applicationDidFinishLaunching() {
 
     director->setDisplayStats(showStats);
     director->setAnimationInterval(secondsPerFrame);
+
+    loadShaders();
 
     //Activate key register.
     keyRegister = new KeyRegister();
@@ -131,4 +140,11 @@ void App::installLuaShell(GScene* gscene)
     gscene->multiUpdate.insertWithOrder(bind(&App::checkPendingScript,this), GScene::updateOrder::runShellScript);
     
     gscene->getLayer(GScene::sceneLayers::luaShellLayer)->addChild(luaShell, 1);
+}
+
+void App::loadShaders()
+{
+    BOOST_FOREACH(string name, shaderFiles){
+        GLProgramCache::getInstance()->loadGLProgram(name, "shaders/"+name+".vert", "shaders/"+name+".frag");
+    }
 }

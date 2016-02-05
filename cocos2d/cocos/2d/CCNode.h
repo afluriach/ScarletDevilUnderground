@@ -1041,6 +1041,8 @@ public:
     virtual void setGLProgram(GLProgram *glprogram);
     CC_DEPRECATED_ATTRIBUTE void setShaderProgram(GLProgram *glprogram) { setGLProgram(glprogram); }
     
+    void setGLProgram(const std::string& name);
+    
     /**
      * Return the GLProgramState currently used for this node.
      *

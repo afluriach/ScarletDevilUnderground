@@ -36,6 +36,8 @@ THE SOFTWARE.
 #include "ui/shaders/UIShaders.h"
 #endif
 
+#include "platform/CCFIleUtils.h"
+
 NS_CC_BEGIN
 
 enum {
@@ -122,6 +124,27 @@ bool GLProgramCache::init()
 {
     loadDefaultGLPrograms();
     return true;
+}
+
+void GLProgramCache::loadGLProgram(const std::string& name, const std::string& vert, const std::string& frag)
+{
+    GLProgram *p = new (std::nothrow) GLProgram();
+    p->initWithByteArrays(
+        FileUtils::getInstance()->getStringFromFile(vert).c_str(),
+        FileUtils::getInstance()->getStringFromFile(frag).c_str()
+    );
+    
+    p->link();
+    p->updateUniforms();
+
+    if(glGetError())
+        log("GLSL program %s error: %s", name.c_str(), p->getProgramLog().c_str());
+    
+    if(_programs.find(name) != _programs.end()){
+        log("GLProgramCache::loadGLProgram: GL program %s already exists!", name.c_str());
+    }
+    
+    _programs.insert( std::make_pair( name, p ) );
 }
 
 void GLProgramCache::loadDefaultGLPrograms()

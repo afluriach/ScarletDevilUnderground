@@ -38,6 +38,8 @@ public:
     static const bool logSprites = false;
     static const string title;
     
+    static const vector<string> shaderFiles;
+    
     static inline Vec2 getScreenCenter()
     {
         return Vec2(width/2, height/2);
@@ -47,6 +49,8 @@ public:
     virtual ~App();
 
     virtual void initGLContextAttrs();
+    
+    void loadShaders();
 
     /**
     @brief    Implement Director and Scene init code here.
