@@ -71,12 +71,9 @@ public:
         return nullptr;
     }
 
-    InvertedSprite(){
-        shaderName = "inverted";
+    virtual inline string getShaderName() const{
+        return "inverted";
     }
-//    virtual inline string getShaderName() const{
-//        return "inverted";
-//    }
 };
 
 class HueShiftLeftSprite : public Sprite
@@ -92,9 +89,8 @@ public:
         CC_SAFE_DELETE(sprite);
         return nullptr;
     }
-
-    HueShiftLeftSprite(){
-        shaderName = "hue_shift_left";
+    virtual inline string getShaderName() const{
+        return "hue_shift_left";
     }
 };
 
@@ -112,8 +108,8 @@ public:
         return nullptr;
     }
 
-    HueShiftRightSprite(){
-        shaderName = "hue_shift_right";
+    virtual inline string getShaderName() const{
+        return "hue_shift_right";
     }
 };
 

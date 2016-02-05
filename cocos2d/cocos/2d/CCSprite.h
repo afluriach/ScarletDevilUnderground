@@ -550,6 +550,10 @@ CC_CONSTRUCTOR_ACCESS:
      * @lua     init
      */
     virtual bool initWithFile(const std::string& filename, const Rect& rect);
+    
+    virtual std::string getShaderName() const{
+        return GLProgram::SHADER_NAME_POSITION_TEXTURE_COLOR_NO_MVP;
+    }
 
 protected:
 
@@ -585,8 +589,6 @@ protected:
     // Shared data
     //
     
-    std::string shaderName = GLProgram::SHADER_NAME_POSITION_TEXTURE_COLOR_NO_MVP;
-
     // texture
     Rect _rect;                             /// Retangle of Texture2D
     bool   _rectRotated;                    /// Whether the texture is rotated

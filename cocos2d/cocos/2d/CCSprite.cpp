@@ -240,7 +240,7 @@ bool Sprite::initWithTexture(Texture2D *texture, const Rect& rect, bool rotated)
         _quad.tr.colors = Color4B::WHITE;
         
         // shader state
-        setGLProgramState(GLProgramState::getOrCreateWithGLProgramName(shaderName));
+        setGLProgramState(GLProgramState::getOrCreateWithGLProgramName(getShaderName()));
 
         // update texture (calls updateBlendFunc)
         setTexture(texture);
