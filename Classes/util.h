@@ -99,5 +99,6 @@ function<void(Base*)> wrapAsBaseMethod()
 }
 
 void convertToUnitSpace(ValueMap& arg);
+cocos2d::Rect getUnitspaceRectangle(const ValueMap& tileMapObj);
 
 #endif /* util_h */

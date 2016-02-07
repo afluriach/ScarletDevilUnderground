@@ -15,6 +15,8 @@
 #include "LibraryOpening.h"
 #include "PlayScene.hpp"
 
+#include "Clearing.hpp"
+
 #define entry(name,cls) (name, adapter<cls>())
 //To make an entry where the name matches the class
 #define entry_same(cls) entry(#cls, cls)
@@ -35,4 +37,6 @@ const unordered_map<string,GScene::AdapterType> GScene::adapters = boost::assign
     entry_same(LibraryOpening)
     entry_same(MapScene)
     entry_same(TitleMenu)
+
+    entry_same(Clearing)
 ;

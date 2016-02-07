@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.0" orientation="orthogonal" renderorder="right-down" width="17" height="17" tilewidth="128" tileheight="128" nextobjectid="11">
+ <tileset firstgid="1" name="grass" tilewidth="128" tileheight="128">
+  <image source="grass.png" width="256" height="256"/>
+ </tileset>
+ <tileset firstgid="5" name="dirt path horizontal" tilewidth="128" tileheight="128">
+  <image source="dirt path horizontal.png" width="128" height="128"/>
+ </tileset>
+ <tileset firstgid="6" name="tree" tilewidth="128" tileheight="128">
+  <image source="tree.png" width="256" height="256"/>
+ </tileset>
+ <layer name="grass" width="17" height="17">
+  <data encoding="base64" compression="zlib">
+   eJxjZGBgYAJiRgpoZiBmoZCmxP6h5I6R4s+h5o6h5t7h5A4AH5oCug==
+  </data>
+ </layer>
+ <layer name="path h" width="17" height="17">
+  <data encoding="base64" compression="zlib">
+   eJxjYBgFo4AywEoAj4JRgA8AAFxUACk=
+  </data>
+ </layer>
+ <layer name="trees1" width="17" height="17">
+  <data encoding="base64" compression="zlib">
+   eJxjY2BgYAdiNjJpEOAAYk4KaAYc5pIKsJlLKqDEfnR3UAJG3TG43UGOe2B6KEmnMD3k5ldq51tqAADwqgLv
+  </data>
+ </layer>
+ <layer name="trees2" width="17" height="17">
+  <data encoding="base64" compression="zlib">
+   eJxjYGBgYANidgYEIJaPLM4BxJxIYjA+A5o8Oh9dHJtaUgC6W8kBlNg/6o7B7Q5qgMHiF/R8SCqN7A5yaWoAAN7cAjs=
+  </data>
+ </layer>
+ <objectgroup name="walls">
+  <object id="2" x="0" y="0" width="2176" height="256"/>
+  <object id="5" x="0" y="256" width="480" height="288"/>
+  <object id="6" x="0" y="544" width="320" height="1728"/>
+  <object id="7" x="320" y="1568" width="160" height="608"/>
+  <object id="8" x="480" y="1792" width="1696" height="384"/>
+  <object id="9" x="1984" y="1536" width="192" height="256"/>
+ </objectgroup>
+ <objectgroup name="objects">
+  <object id="10" name="player" type="Player" x="1888" y="1056" width="128" height="128"/>
+ </objectgroup>
+</map>

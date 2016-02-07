@@ -215,6 +215,10 @@ public:
     void merge(const Rect& rect);
     /**An empty Rect.*/
     static const Rect ZERO;
+    
+    inline Vec2 getUpperCorner() const {
+        return Vec2(origin.x+size.width, origin.y + size.height);
+    }
 };
 
 NS_CC_END

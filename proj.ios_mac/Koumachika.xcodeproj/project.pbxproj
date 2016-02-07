@@ -222,6 +222,7 @@
 		E214CF571C0ACEF800FC8784 /* Spell.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = Spell.hpp; sourceTree = "<group>"; };
 		E214CF5A1C0AD22E00FC8784 /* SpellMapping.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = SpellMapping.cpp; sourceTree = "<group>"; };
 		E22224631C0BA3ED007DE7F9 /* LuaCWrappers.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = LuaCWrappers.cpp; sourceTree = "<group>"; };
+		E22EBA661C66C3BF004837EC /* Clearing.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = Clearing.hpp; sourceTree = "<group>"; };
 		E23121FB1BF7FDA300FEA94B /* Dialog.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Dialog.cpp; sourceTree = "<group>"; };
 		E23121FC1BF7FDA300FEA94B /* Dialog.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = Dialog.hpp; sourceTree = "<group>"; };
 		E23122011BFA74AC00FEA94B /* LibraryOpening.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = LibraryOpening.h; path = scenes/LibraryOpening.h; sourceTree = "<group>"; };
@@ -507,6 +508,7 @@
 				E2C9E5DD1C0925DF00CA7C88 /* Library.h */,
 				E27185371C0E252D006EA1EB /* Garden.cpp */,
 				E27185381C0E252D006EA1EB /* Garden.hpp */,
+				E22EBA661C66C3BF004837EC /* Clearing.hpp */,
 			);
 			name = scenes;
 			sourceTree = "<group>";

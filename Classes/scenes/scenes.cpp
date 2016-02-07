@@ -84,6 +84,21 @@ void MapScene::loadObjectGroup(TMXObjectGroup* group)
     }
 }
 
+void MapScene::loadWalls()
+{
+    TMXObjectGroup* walls = tileMap->getObjectGroup("walls");
+    if(!walls)
+        return;
+    
+    foreach(Value obj, walls->getObjects())
+    {
+        ValueMap& objAsMap = obj.asValueMap();
+        cocos2d::Rect area = getUnitspaceRectangle(objAsMap);
+        gspace.addWallBlock(toChipmunk(area.origin), toChipmunk(area.getUpperCorner()));
+    }
+}
+
+
 void MapScene::loadMapObjects(const TMXTiledMap& map)
 {
     Vector<TMXObjectGroup*> objLayers = map.getObjectGroups();
@@ -111,6 +126,7 @@ void MapScene::loadMap()
     cocos2d::Size size = tileMap->getMapSize();
     gspace.setSize(size.width, size.height);
     
+    loadWalls();
     gspace.addWallBlock(SpaceVect(-1,0), SpaceVect(0,size.height));
     gspace.addWallBlock(SpaceVect(size.width,0), SpaceVect(size.width+1,size.height));
     gspace.addWallBlock(SpaceVect(0,size.height), SpaceVect(size.width,size.height+1));
