@@ -39,4 +39,5 @@ const unordered_map<string,GScene::AdapterType> GScene::adapters = boost::assign
     entry_same(TitleMenu)
 
     entry_same(Clearing)
+    entry_same(ClearingPath)
 ;

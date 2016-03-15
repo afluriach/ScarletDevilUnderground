@@ -17,4 +17,13 @@ public:
     }
 };
 
+class ClearingPath : public PlayScene
+{
+public:
+    CREATE_FUNC(ClearingPath);
+    inline ClearingPath() : PlayScene("maps/clearing_path.tmx"){
+    }
+};
+
+
 #endif /* Clearing_h */

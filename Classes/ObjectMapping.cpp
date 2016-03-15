@@ -16,6 +16,8 @@
 
 #include "Marisa.hpp"
 #include "Patchouli.hpp"
+#include "Reimu.hpp"
+
 #include "Player.hpp"
 
 //Adapters for mapping the name of a class to a factory adapter.
@@ -41,4 +43,6 @@ const unordered_map<string,GObject::AdapterType> GObject::adapters =
 
     entry_same(Marisa)
     entry_same(Patchouli)
+    entry_same(Reimu)
+
     entry_same(Player);

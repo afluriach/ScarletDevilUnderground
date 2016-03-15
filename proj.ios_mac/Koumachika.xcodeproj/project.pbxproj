@@ -210,6 +210,7 @@
 		D44C620F132DFF4E0009C878 /* AudioToolbox.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AudioToolbox.framework; path = System/Library/Frameworks/AudioToolbox.framework; sourceTree = SDKROOT; };
 		D6B0611A1803AB670077942B /* CoreMotion.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreMotion.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS7.0.sdk/System/Library/Frameworks/CoreMotion.framework; sourceTree = DEVELOPER_DIR; };
 		E20328D41BE082970069B322 /* sprites */ = {isa = PBXFileReference; lastKnownFileType = folder; path = sprites; sourceTree = "<group>"; };
+		E20470241C988DA30078276E /* Reimu.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = Reimu.hpp; sourceTree = "<group>"; };
 		E2080BC31C0047A700EB78DF /* liblua.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = liblua.a; path = "../../../dev/lua-5.3.1/src/liblua.a"; sourceTree = "<group>"; };
 		E2080BC71C00486000EB78DF /* LuaAPI.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = LuaAPI.cpp; sourceTree = "<group>"; };
 		E2080BC81C00486000EB78DF /* LuaAPI.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = LuaAPI.hpp; sourceTree = "<group>"; };
@@ -549,6 +550,7 @@
 				E2C9E5DE1C09267C00CA7C88 /* Patchouli.cpp */,
 				E2C9E5DF1C09267C00CA7C88 /* Patchouli.hpp */,
 				E27185361C0E0CF8006EA1EB /* Flower.h */,
+				E20470241C988DA30078276E /* Reimu.hpp */,
 			);
 			name = objects;
 			sourceTree = "<group>";
