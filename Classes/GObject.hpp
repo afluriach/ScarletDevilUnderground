@@ -212,6 +212,39 @@ class ScriptedRadar : virtual public RadarObject, virtual public ScriptedObject{
     }
 };
 
+//A field of view sensor that tracks the object in front of the sensing object.
+class ObjectSensor : virtual public RadarObject
+{
+public:
+    //for object sensing
+    virtual float getRadarRadius() const { return 2.5;}
+    virtual GType getRadarType() const { return GType::objectSensor;}
+    
+    static constexpr float coneHalfWidth = float_pi / 4;
+
+    set<GObject*> inRange;
+    
+    inline virtual void onDetect(GObject* other)
+    {
+        inRange.insert(other);
+    }
+    inline virtual void onEndDetect(GObject* other)
+    {
+        inRange.erase(other);
+    }
+
+    //Find the object, if any, that is within the cone angle, selecting the one
+    //that is closest to the center of the object's direction.
+    GObject* getSensedObject();
+};
+
+class InteractibleObject : public virtual GObject
+{
+public:
+    virtual bool canInteract() = 0;
+    virtual void interact() = 0;
+};
+
 
 template<typename Derived>
 class RegisterInit : public virtual GObject

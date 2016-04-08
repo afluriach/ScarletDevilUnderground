@@ -39,6 +39,19 @@ void Player::checkControls()
     {
         fireIfPossible();
     }
+
+    //Check item interaction
+    if(kr->isKeyDown(Keys::enter))
+    {
+        GObject* item = getSensedObject();
+        if(item)
+        {
+            InteractibleObject* interactible = dynamic_cast<InteractibleObject*>(item);
+
+            if(interactible && interactible->canInteract())
+                interactible->interact();
+        }
+    }
 }
 
 void Player::updateHitTime()

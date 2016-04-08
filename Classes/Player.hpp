@@ -9,7 +9,7 @@
 #ifndef Player_hpp
 #define Player_hpp
 
-class Player : virtual public GObject, PatchConSprite, CircleBody, RegisterUpdate<Player>
+class Player : virtual public GObject, PatchConSprite, CircleBody, RegisterUpdate<Player>, ObjectSensor
 {
 public:
     static constexpr float fireDist = 1;
