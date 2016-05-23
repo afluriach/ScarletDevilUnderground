@@ -77,6 +77,11 @@ bool HUD::init()
     addChild(objectiveCounter, 2);
     objectiveCounter->setVisible(false);
     
+    interactionIcon = Sprite::create();
+    interactionIcon->setPosition(App::width - 64, App::height - 64);
+    interactionIcon->setScale(0.5);
+    addChild(interactionIcon);
+    
     return true;
 }
 

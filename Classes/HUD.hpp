@@ -64,11 +64,19 @@ public:
 
     HealthBar* health;
     Counter* objectiveCounter;    
+    Sprite* interactionIcon;
     
     inline void showHealth(bool val)
     {
         health->setVisible(val);
     }
+    
+    inline void setInteractionIcon(const string& val)
+    {
+        interactionIcon->setVisible(!val.empty());
+        interactionIcon->setTexture(val);
+    }
+    
 protected:
     Player* player;
 };

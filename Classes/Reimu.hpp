@@ -26,6 +26,9 @@ public:
     inline virtual void interact(){
         GScene::crntScene->createDialog("dialogs/warning_about_rumia", false);
     }
+    inline virtual string interactionIcon(){
+        return "sprites/ui/dialog.png";
+    }
 };
 
 #endif /* Reimu_h */

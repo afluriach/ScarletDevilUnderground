@@ -41,16 +41,19 @@ void Player::checkControls()
     }
 
     //Check item interaction
-    if(kr->isKeyDown(Keys::enter))
-    {
-        GObject* item = getSensedObject();
-        if(item)
-        {
-            InteractibleObject* interactible = dynamic_cast<InteractibleObject*>(item);
+    GObject* item = getSensedObject();
+    InteractibleObject* interactible = dynamic_cast<InteractibleObject*>(item);
 
-            if(interactible && interactible->canInteract())
-                interactible->interact();
-        }
+    if(interactible && interactible->canInteract())
+    {
+        GScene::getHUD()->setInteractionIcon(interactible->interactionIcon());
+
+        if(kr->isKeyDown(Keys::enter))
+            interactible->interact();
+    }
+    else
+    {
+        GScene::getHUD()->setInteractionIcon("");
     }
 }
 

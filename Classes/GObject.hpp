@@ -243,6 +243,7 @@ class InteractibleObject : public virtual GObject
 public:
     virtual bool canInteract() = 0;
     virtual void interact() = 0;
+    virtual string interactionIcon() = 0;
 };
 
 
