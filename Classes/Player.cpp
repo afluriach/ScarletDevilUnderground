@@ -16,6 +16,9 @@
 
 void Player::checkControls()
 {
+    if(GScene::isDialogActive())
+        return;
+
     auto kr = app->keyRegister;
     Vec2 moveDir = kr->getMoveKeyState();
     

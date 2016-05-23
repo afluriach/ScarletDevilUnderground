@@ -112,6 +112,10 @@ public:
         return Vec2(App::width/2, Dialog::height/2 + dialogEdgeMargin);
     }
     
+    static inline bool isDialogActive(){
+        return crntScene->dialogNode != nullptr;
+    }
+    
 protected:
     Dialog* dialogNode;
     
