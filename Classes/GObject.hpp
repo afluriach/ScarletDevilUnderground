@@ -246,6 +246,20 @@ public:
     virtual string interactionIcon() = 0;
 };
 
+class DialogEntity : public InteractibleObject
+{
+    virtual bool isDialogAvailable() = 0;
+    virtual string getDialog() = 0;
+
+    inline virtual bool canInteract(){
+        return isDialogAvailable();
+    }
+    virtual void interact();
+
+    inline virtual string interactionIcon(){
+        return "sprites/ui/dialog.png";
+    }
+};
 
 template<typename Derived>
 class RegisterInit : public virtual GObject

@@ -182,3 +182,8 @@ GObject* ObjectSensor::getSensedObject()
     
     return bestObj;
 }
+
+void DialogEntity::interact()
+{
+    GScene::crntScene->createDialog(getDialog(), false);
+}

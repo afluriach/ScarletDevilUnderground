@@ -9,7 +9,7 @@
 #ifndef Reimu_h
 #define Reimu_h
 
-class Reimu : virtual public GObject, PatchConSprite, CircleBody, InteractibleObject
+class Reimu : virtual public GObject, PatchConSprite, CircleBody, DialogEntity
 {
 public:
     inline Reimu(const ValueMap& args) : GObject(args){
@@ -22,12 +22,9 @@ public:
     inline string imageSpritePath() const {return "sprites/reimu.png";}
     inline GraphicsLayer sceneLayer() const {return GraphicsLayer::ground;}
     
-    inline virtual bool canInteract(){ return true;}
-    inline virtual void interact(){
-        GScene::crntScene->createDialog("dialogs/warning_about_rumia", false);
-    }
-    inline virtual string interactionIcon(){
-        return "sprites/ui/dialog.png";
+    inline virtual bool isDialogAvailable(){ return true;}
+    inline virtual string getDialog(){
+        return "dialogs/warning_about_rumia";
     }
 };
 
