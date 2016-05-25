@@ -14,10 +14,10 @@
 
 #include "HUD.hpp"
 
-class PlayScene : virtual public GScene, public MapScene
+class PlayScene : virtual public GScene, public MapScene, public ScriptedScene
 {
 public:    
-    inline PlayScene(const string& map) : MapScene(map)
+    inline PlayScene(const string& name) : MapScene(name), ScriptedScene(name)
     {
         multiInit.insertWithOrder(wrap_method(PlayScene,trackPlayer), initOrder::postLoadObjects);
         multiInit.insertWithOrder(wrap_method(PlayScene,addHUD), initOrder::initHUD);

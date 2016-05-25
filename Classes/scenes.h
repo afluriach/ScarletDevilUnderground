@@ -193,7 +193,7 @@ public:
             string path = "scripts/scenes/"+res+".lua";
         
             if(!FileUtils::getInstance()->isFileExist(path))
-                log("ScriptedScene: %s script does not exist.", path.c_str());
+                log("ScriptedScene: %s script does not exist.", res.c_str());
             else
                 ctx.runFile(path);
         }
