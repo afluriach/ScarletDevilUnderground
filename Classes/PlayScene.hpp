@@ -46,4 +46,13 @@ private:
     GObject* cameraTarget = nullptr;
 };
 
+#define GenericPlayScene( name ) \
+class name : public PlayScene \
+{ \
+public: \
+    CREATE_FUNC(name); \
+    inline name() : PlayScene(#name){ \
+    } \
+};
+
 #endif /* PlayScene_hpp */

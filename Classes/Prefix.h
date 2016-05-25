@@ -70,6 +70,7 @@ using namespace luabridge;
 #include "Graphics.h"
 #include "Dialog.hpp"
 #include "scenes.h"
+#include "PlayScene.hpp"
 #include "menu.h"
 
 #endif /* Prefix_h */

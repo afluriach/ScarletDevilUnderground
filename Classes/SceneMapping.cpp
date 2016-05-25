@@ -8,14 +8,10 @@
 
 #include "Prefix.h"
 
-#include "BlockRoom.h"
 #include "Collect.h"
 #include "Garden.hpp"
-#include "Library.h"
 #include "LibraryOpening.h"
 #include "PlayScene.hpp"
-
-#include "Clearing.hpp"
 
 #define entry(name,cls) (name, adapter<cls>())
 //To make an entry where the name matches the class
@@ -26,6 +22,16 @@ GScene::AdapterType adapter()
 {
     return []() -> void {app->runScene<T>();};
 }
+
+GenericPlayScene(BlockRoom)
+
+GenericPlayScene(Clearing)
+GenericPlayScene(ClearingPath)
+
+GenericPlayScene(GardenEmpty)
+GenericPlayScene(GardenPath)
+
+GenericPlayScene(Library)
 
 const unordered_map<string,GScene::AdapterType> GScene::adapters = boost::assign::map_list_of
     entry_same(BlockRoom)

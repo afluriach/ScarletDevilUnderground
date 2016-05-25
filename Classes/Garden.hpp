@@ -9,22 +9,6 @@
 #ifndef Garden_hpp
 #define Garden_hpp
 
-class GardenEmpty : public PlayScene
-{
-public:
-    CREATE_FUNC(GardenEmpty);
-    inline GardenEmpty() : PlayScene("GardenEmpty"){
-    }
-};
-
-class GardenPath : public PlayScene
-{
-public:
-    CREATE_FUNC(GardenPath);
-    inline GardenPath() : PlayScene("GardenPath"){
-    }
-};
-
 class GardenBlooming : public PlayScene
 {
 public:

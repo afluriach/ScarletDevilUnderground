@@ -9,7 +9,6 @@
 #include "Prefix.h"
 
 //scenes
-#include "BlockRoom.h"
 #include "LibraryOpening.h"
 
 TextListMenuLayer::TextListMenuLayer(
@@ -71,8 +70,12 @@ TextListMenuLayer::listAction sceneLaunchAdapter(){
     return []() -> void { app->pushScene<T>(); };
 }
 
+TextListMenuLayer::listAction sceneLaunchAdapterByName(const string& name){
+    return [=]() -> void { GScene::runScene(name); };
+}
+
 const vector<TextListMenuLayer::listAction> SceneSelect::sceneActions = list_of_typed(
-    (sceneLaunchAdapter<BlockRoom>())
+    (sceneLaunchAdapterByName("BlockRoom"))
     (sceneLaunchAdapter<LibraryOpening>())
     (SceneSelect::back),
     vector<TextListMenuLayer::listAction>
@@ -138,7 +141,7 @@ TitleMenu::TitleMenu() : TextListMenuLayer(
                                   
 void TitleMenu::start()
 {
-    app->pushScene<BlockRoom>();
+    GScene::runScene("BlockRoom");
 }
 
 void TitleMenu::sceneSelect()
