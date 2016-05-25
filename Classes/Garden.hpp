@@ -13,7 +13,7 @@ class GardenEmpty : public PlayScene
 {
 public:
     CREATE_FUNC(GardenEmpty);
-    inline GardenEmpty() : PlayScene("maps/garden-empty.tmx"){
+    inline GardenEmpty() : PlayScene("GardenEmpty"){
     }
 };
 
@@ -21,7 +21,7 @@ class GardenPath : public PlayScene
 {
 public:
     CREATE_FUNC(GardenPath);
-    inline GardenPath() : PlayScene("maps/garden-path.tmx"){
+    inline GardenPath() : PlayScene("GardenPath"){
     }
 };
 
@@ -29,7 +29,7 @@ class GardenBlooming : public PlayScene
 {
 public:
     CREATE_FUNC(GardenBlooming);
-    inline GardenBlooming() : PlayScene("maps/garden-blooming.tmx"){
+    inline GardenBlooming() : PlayScene("GardenBlooming"){
         multiInit += bind(&GardenBlooming::generateFlowers, this);
     }
     

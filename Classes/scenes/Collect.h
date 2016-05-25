@@ -15,7 +15,7 @@ class Collect : public PlayScene, virtual public ScriptedScene
 {
 public:
     inline Collect() :
-    PlayScene("maps/collect.tmx"),
+    PlayScene("Collect"),
     ScriptedScene("Collect")
     {
         createDialog("dialogs/collect_opening", true);

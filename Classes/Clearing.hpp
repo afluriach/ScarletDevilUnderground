@@ -13,7 +13,7 @@ class Clearing : public PlayScene
 {
 public:
     CREATE_FUNC(Clearing);
-    inline Clearing() : PlayScene("maps/clearing.tmx"){
+    inline Clearing() : PlayScene("Clearing"){
     }
 };
 
@@ -21,7 +21,7 @@ class ClearingPath : public PlayScene
 {
 public:
     CREATE_FUNC(ClearingPath);
-    inline ClearingPath() : PlayScene("maps/clearing_path.tmx"){
+    inline ClearingPath() : PlayScene("ClearingPath"){
     }
 };
 

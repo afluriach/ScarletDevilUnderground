@@ -158,7 +158,7 @@ public:
 class MapScene : virtual public GSpaceScene
 {
 public:
-    inline MapScene(const string& res) : mapRes(res)
+    inline MapScene(const string& res) : mapRes("maps/"+res+".tmx")
     {
         multiInit.insertWithOrder(wrap_method(MapScene,loadMap),initOrder::mapLoad);
     }

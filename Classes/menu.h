@@ -9,7 +9,7 @@
 #ifndef menu_h
 #define menu_h
 
-#include "BlockScene.h"
+#include "BlockRoom.h"
 
 class SceneSelect;
 

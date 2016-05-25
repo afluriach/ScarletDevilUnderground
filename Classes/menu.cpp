@@ -9,7 +9,7 @@
 #include "Prefix.h"
 
 //scenes
-#include "BlockScene.h"
+#include "BlockRoom.h"
 #include "LibraryOpening.h"
 
 TextListMenuLayer::TextListMenuLayer(
@@ -72,7 +72,7 @@ TextListMenuLayer::listAction sceneLaunchAdapter(){
 }
 
 const vector<TextListMenuLayer::listAction> SceneSelect::sceneActions = list_of_typed(
-    (sceneLaunchAdapter<BlockScene>())
+    (sceneLaunchAdapter<BlockRoom>())
     (sceneLaunchAdapter<LibraryOpening>())
     (SceneSelect::back),
     vector<TextListMenuLayer::listAction>
@@ -138,7 +138,7 @@ TitleMenu::TitleMenu() : TextListMenuLayer(
                                   
 void TitleMenu::start()
 {
-    app->pushScene<BlockScene>();
+    app->pushScene<BlockRoom>();
 }
 
 void TitleMenu::sceneSelect()
