@@ -188,7 +188,15 @@ public:
         multiInit.insertWithOrder(wrap_method(ScriptedScene, runInit), initOrder::postLoadObjects);
         multiUpdate.insertWithOrder(wrap_method(ScriptedScene,runUpdate), updateOrder::sceneUpdate);
         
-        ctx.runFile("scripts/scenes/"+res+".lua");
+        if(!res.empty())
+        {
+            string path = "scripts/scenes/"+res+".lua";
+        
+            if(!FileUtils::getInstance()->isFileExist(path))
+                log("ScriptedScene: %s script does not exist.", path.c_str());
+            else
+                ctx.runFile(path);
+        }
     }
 
     void runInit();
