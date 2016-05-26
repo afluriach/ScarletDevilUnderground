@@ -73,6 +73,10 @@
 		E214CF5C1C0AD22E00FC8784 /* SpellMapping.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E214CF5A1C0AD22E00FC8784 /* SpellMapping.cpp */; };
 		E22224641C0BA3ED007DE7F9 /* LuaCWrappers.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E22224631C0BA3ED007DE7F9 /* LuaCWrappers.cpp */; };
 		E22224651C0BA3ED007DE7F9 /* LuaCWrappers.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E22224631C0BA3ED007DE7F9 /* LuaCWrappers.cpp */; };
+		E2249BBF1CF73CE000B1D666 /* InventoryObject.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E2249BBD1CF73CE000B1D666 /* InventoryObject.cpp */; };
+		E2249BC01CF73CE000B1D666 /* InventoryObject.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E2249BBD1CF73CE000B1D666 /* InventoryObject.cpp */; };
+		E2249BC31CF740B300B1D666 /* Items.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E2249BC11CF740B300B1D666 /* Items.cpp */; };
+		E2249BC41CF740B300B1D666 /* Items.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E2249BC11CF740B300B1D666 /* Items.cpp */; };
 		E23121FD1BF7FDA300FEA94B /* Dialog.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E23121FB1BF7FDA300FEA94B /* Dialog.cpp */; };
 		E23121FE1BF7FDA300FEA94B /* Dialog.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E23121FB1BF7FDA300FEA94B /* Dialog.cpp */; };
 		E23122031BFA757900FEA94B /* portraits in Resources */ = {isa = PBXBuildFile; fileRef = E23122021BFA757900FEA94B /* portraits */; };
@@ -223,6 +227,10 @@
 		E214CF571C0ACEF800FC8784 /* Spell.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = Spell.hpp; sourceTree = "<group>"; };
 		E214CF5A1C0AD22E00FC8784 /* SpellMapping.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = SpellMapping.cpp; sourceTree = "<group>"; };
 		E22224631C0BA3ED007DE7F9 /* LuaCWrappers.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = LuaCWrappers.cpp; sourceTree = "<group>"; };
+		E2249BBD1CF73CE000B1D666 /* InventoryObject.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = InventoryObject.cpp; sourceTree = "<group>"; };
+		E2249BBE1CF73CE000B1D666 /* InventoryObject.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = InventoryObject.hpp; sourceTree = "<group>"; };
+		E2249BC11CF740B300B1D666 /* Items.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Items.cpp; sourceTree = "<group>"; };
+		E2249BC21CF740B300B1D666 /* Items.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = Items.hpp; sourceTree = "<group>"; };
 		E23121FB1BF7FDA300FEA94B /* Dialog.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Dialog.cpp; sourceTree = "<group>"; };
 		E23121FC1BF7FDA300FEA94B /* Dialog.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = Dialog.hpp; sourceTree = "<group>"; };
 		E23122011BFA74AC00FEA94B /* LibraryOpening.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = LibraryOpening.h; path = scenes/LibraryOpening.h; sourceTree = "<group>"; };
@@ -545,6 +553,10 @@
 				E2C9E5DF1C09267C00CA7C88 /* Patchouli.hpp */,
 				E27185361C0E0CF8006EA1EB /* Flower.h */,
 				E20470241C988DA30078276E /* Reimu.hpp */,
+				E2249BBD1CF73CE000B1D666 /* InventoryObject.cpp */,
+				E2249BBE1CF73CE000B1D666 /* InventoryObject.hpp */,
+				E2249BC11CF740B300B1D666 /* Items.cpp */,
+				E2249BC21CF740B300B1D666 /* Items.hpp */,
 			);
 			name = objects;
 			sourceTree = "<group>";
@@ -708,11 +720,13 @@
 				E22224641C0BA3ED007DE7F9 /* LuaCWrappers.cpp in Sources */,
 				E25DC0991C1EE2A400765415 /* LuaWrap.cpp in Sources */,
 				E27E857B1BE0178800A94217 /* GSpace.cpp in Sources */,
+				E2249BBF1CF73CE000B1D666 /* InventoryObject.cpp in Sources */,
 				E23F055E1BD0294A0091BD6D /* controls.cpp in Sources */,
 				E23121FD1BF7FDA300FEA94B /* Dialog.cpp in Sources */,
 				E244502E1C03A760006D78B0 /* scenes.cpp in Sources */,
 				E214CF5B1C0AD22E00FC8784 /* SpellMapping.cpp in Sources */,
 				E2CDC54F1C051FFC0017537B /* Bullet.cpp in Sources */,
+				E2249BC31CF740B300B1D666 /* Items.cpp in Sources */,
 				503AE10017EB989F00D1A890 /* AppController.mm in Sources */,
 				E2CDC54B1C0507090017537B /* Player.cpp in Sources */,
 				E2C9E5E01C09267C00CA7C88 /* Patchouli.cpp in Sources */,
@@ -764,7 +778,9 @@
 				E2CDC5501C051FFC0017537B /* Bullet.cpp in Sources */,
 				E23E1B2D1C014A0A00F7FAC1 /* LuaShell.cpp in Sources */,
 				E2CDC54C1C0507090017537B /* Player.cpp in Sources */,
+				E2249BC01CF73CE000B1D666 /* InventoryObject.cpp in Sources */,
 				E28D89861BDFE7CD00F58903 /* util.cpp in Sources */,
+				E2249BC41CF740B300B1D666 /* Items.cpp in Sources */,
 				E27E857C1BE0178800A94217 /* GSpace.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

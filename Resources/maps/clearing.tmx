@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.0" orientation="orthogonal" renderorder="right-down" width="17" height="17" tilewidth="128" tileheight="128" nextobjectid="11">
+<map version="1.0" orientation="orthogonal" renderorder="right-down" width="17" height="17" tilewidth="128" tileheight="128" nextobjectid="12">
  <tileset firstgid="1" name="grass" tilewidth="128" tileheight="128">
   <image source="grass.png" width="256" height="256"/>
  </tileset>
@@ -39,5 +39,6 @@
  </objectgroup>
  <objectgroup name="objects">
   <object id="10" name="player" type="Player" x="1888" y="1056" width="128" height="128"/>
+  <object id="11" name="key" type="GraveyardKey" x="672" y="1056" width="64" height="64"/>
  </objectgroup>
 </map>

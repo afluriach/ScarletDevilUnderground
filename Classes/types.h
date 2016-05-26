@@ -24,6 +24,7 @@ enum Direction{
 enum GraphicsLayer{
     map = 1,
     foliageLayer,
+    floorGraphicsLayer,
     ground,
 };
 
@@ -42,10 +43,11 @@ enum GType{
 //Layers are interpreted as a bitmask.
 //For now, multilayer physics is not being used.
 enum PhysicsLayers{
-    groundLayer = 1,
+    floorPhysicsLayer = 1,
+    groundLayer = 2,
     
     //must be the bitwise or of all layers
-    allLayers = 1
+    allLayers = 3
 };
 
 #endif /* types_h */

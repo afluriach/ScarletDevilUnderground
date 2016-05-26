@@ -20,6 +20,8 @@
 
 #include "Player.hpp"
 
+#include "Items.hpp"
+
 //Adapters for mapping the name of a class to a factory adapter.
 template <typename T>
 static GObject::AdapterType consAdapter()
@@ -40,6 +42,8 @@ const unordered_map<string,GObject::AdapterType> GObject::adapters =
     entry_same(Flower)
     entry_same(Glyph)
     entry_same(CollectGlyph)
+
+    entry_same(GraveyardKey)
 
     entry_same(Marisa)
     entry_same(Patchouli)
