@@ -29,9 +29,24 @@ static GObject::AdapterType consAdapter()
     return [](const ValueMap& args) -> GObject* { return new T(args); };
 }
 
+//Inventory adaptor: will return nullptr if the item has already been acquired,
+//meaning item will not be added.
+template <typename T>
+static GObject::AdapterType itemAdapter(const string& name)
+{
+    return [=](const ValueMap& args) -> GObject* {
+        if(GState::crntState.itemRegistry.find(name) != GState::crntState.itemRegistry.end())
+            return nullptr;
+        else return new T(args);
+    };
+}
+
 #define entry(name,cls) (name, consAdapter<cls>())
 //To make an entry where the name matches the class
 #define entry_same(cls) entry(#cls, cls)
+
+#define item_entry(name,cls,itemKey) (name, itemAdapter<cls>(#itemKey))
+#define item_entry_same(cls) item_entry(#cls,cls,cls)
 
 const unordered_map<string,GObject::AdapterType> GObject::adapters =
     boost::assign::map_list_of
@@ -43,7 +58,7 @@ const unordered_map<string,GObject::AdapterType> GObject::adapters =
     entry_same(Glyph)
     entry_same(CollectGlyph)
 
-    entry_same(GraveyardKey)
+    item_entry_same(GraveyardKey)
 
     entry_same(Marisa)
     entry_same(Patchouli)

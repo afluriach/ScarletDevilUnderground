@@ -267,6 +267,19 @@ void printGlDebug()
     }
 }
 
+void save()
+{
+    GState::save();
+}
+
+vector<string> getInventoryContents()
+{
+    auto registry = GState::crntState.itemRegistry;
+    vector<string> items(registry.begin(), registry.end());
+    
+    return items;
+}
+
 ///////////////////////////////////////////////////////////////////
 
 #define make_wrapper(name) \
@@ -323,6 +336,8 @@ make_wrapper(stopDialog)
 make_wrapper(setObjectiveCounter)
 make_wrapper(showObjectiveCounter)
 make_wrapper(printGlDebug)
+make_wrapper(save)
+make_wrapper(getInventoryContents)
 
 //Utility functions not specifically created for the scripting API
 make_wrapper(toDirection)
@@ -387,6 +402,10 @@ void Inst::installWrappers()
     //HUD / UI
     install_wrapper(setObjectiveCounter)
     install_wrapper(showObjectiveCounter)
+    
+    install_wrapper(save)
+    
+    install_wrapper(getInventoryContents)
     
     //Utility functions not specifically created for the scripting API
     install_wrapper(toDirection)

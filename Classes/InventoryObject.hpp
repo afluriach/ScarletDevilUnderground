@@ -24,7 +24,8 @@ public:
     
     //virtual API for item interaction
     virtual bool canAcquire() = 0;
-    virtual void onAcquire() = 0;
+    virtual void onAcquire() {}
+    virtual string itemName() const = 0;
     
     inline virtual bool canInteract(){
         return canAcquire();
@@ -32,6 +33,7 @@ public:
     
     inline virtual void interact(){
         onAcquire();
+        GState::crntState.itemRegistry.insert(itemName());
         
         //remove item object
         GScene::getSpace()->removeObject(this);

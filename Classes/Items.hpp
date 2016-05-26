@@ -19,12 +19,12 @@ public:
     }
 
     virtual inline string imageSpritePath() const {return "sprites/items/small grey key.png";}
+    virtual inline string itemName() const {return "GraveyardKey";}
     
     inline virtual bool canAcquire() { return true; }
-    inline virtual void onAcquire() {
-        //TODO, add to inventory register.
-        //Possibly trigger dialog hinting that it opens the gate.
-    }
+//    inline virtual void onAcquire() {
+        //TODO trigger dialog hinting that it opens the gate?
+//    }
 };
 
 #endif /* Items_hpp */

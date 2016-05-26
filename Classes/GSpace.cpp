@@ -63,7 +63,8 @@ GObject* GSpace::addObject(const ValueMap& obj)
 
 GObject* GSpace::addObject(GObject* obj)
 {
-    toAdd.push_back(obj);
+    if(obj)
+        toAdd.push_back(obj);
     
     return obj;
 }

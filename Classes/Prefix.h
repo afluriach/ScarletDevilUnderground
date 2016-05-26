@@ -16,6 +16,7 @@
 #include <cmath>
 #include <cstdlib>
 #include <functional>
+#include <fstream>
 #include <limits>
 #include <map>
 #include <memory>
@@ -46,6 +47,10 @@
 #include <boost/random/uniform_01.hpp>
 #include <boost/random/uniform_int_distribution.hpp>
 
+#include <boost/archive/binary_oarchive.hpp>
+#include <boost/archive/binary_iarchive.hpp>
+#include <boost/serialization/set.hpp>
+
 using namespace std;
 USING_NS_CC;
 using namespace cp;
@@ -62,6 +67,7 @@ using namespace luabridge;
 #include "LuaConvert.h"
 #include "LuaAPI.hpp"
 #include "LuaShell.hpp"
+#include "GState.hpp"
 #include "App.h"
 #include "Spell.hpp"
 #include "GAnimation.hpp"

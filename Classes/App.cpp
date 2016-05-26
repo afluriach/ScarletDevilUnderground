@@ -72,6 +72,9 @@ bool App::applicationDidFinishLaunching() {
     //Activate key register.
     keyRegister = new KeyRegister();
     
+    //Load profile data
+    GState::load();
+    
     //Create title menu scene and run it.
     runScene<TitleMenu>();
     lua.runFile("scripts/title.lua");

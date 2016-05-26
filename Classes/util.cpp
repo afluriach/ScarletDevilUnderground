@@ -154,3 +154,18 @@ cocos2d::Rect getUnitspaceRectangle(const ValueMap& tileMapObj)
     
     return cocos2d::Rect(cornerPos.x, cornerPos.y, dim.x, dim.y);
 }
+
+void checkCreateProfileSubfolder()
+{
+    auto* fu = FileUtils::getInstance();
+    
+    if(!fu->isDirectoryExist(fu->getWritablePath() + "koumachika")){
+        fu->createDirectory(fu->getWritablePath() + "koumachika");
+        log("profile directory created");
+    }
+}
+
+string getProfilePath()
+{
+    return FileUtils::getInstance()->getWritablePath() + "koumachika/profile.dat";
+}

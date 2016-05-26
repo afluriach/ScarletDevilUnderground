@@ -77,6 +77,8 @@
 		E2249BC01CF73CE000B1D666 /* InventoryObject.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E2249BBD1CF73CE000B1D666 /* InventoryObject.cpp */; };
 		E2249BC31CF740B300B1D666 /* Items.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E2249BC11CF740B300B1D666 /* Items.cpp */; };
 		E2249BC41CF740B300B1D666 /* Items.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E2249BC11CF740B300B1D666 /* Items.cpp */; };
+		E2249BC71CF756CC00B1D666 /* GState.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E2249BC51CF756CC00B1D666 /* GState.cpp */; };
+		E2249BC81CF756CC00B1D666 /* GState.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E2249BC51CF756CC00B1D666 /* GState.cpp */; };
 		E23121FD1BF7FDA300FEA94B /* Dialog.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E23121FB1BF7FDA300FEA94B /* Dialog.cpp */; };
 		E23121FE1BF7FDA300FEA94B /* Dialog.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E23121FB1BF7FDA300FEA94B /* Dialog.cpp */; };
 		E23122031BFA757900FEA94B /* portraits in Resources */ = {isa = PBXBuildFile; fileRef = E23122021BFA757900FEA94B /* portraits */; };
@@ -97,6 +99,7 @@
 		E244502F1C03A760006D78B0 /* scenes.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E244502D1C03A760006D78B0 /* scenes.cpp */; };
 		E24450321C03D1DE006D78B0 /* SceneMapping.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E24450311C03D1DE006D78B0 /* SceneMapping.cpp */; };
 		E24450331C03D1DE006D78B0 /* SceneMapping.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E24450311C03D1DE006D78B0 /* SceneMapping.cpp */; };
+		E24620281CF77271007C2CB5 /* libboost_serialization.a in Frameworks */ = {isa = PBXBuildFile; fileRef = E24620271CF77271007C2CB5 /* libboost_serialization.a */; };
 		E25DC0991C1EE2A400765415 /* LuaWrap.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E25DC0981C1EE2A400765415 /* LuaWrap.cpp */; };
 		E25DC09A1C1EE2A400765415 /* LuaWrap.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E25DC0981C1EE2A400765415 /* LuaWrap.cpp */; };
 		E26147BC1C005A1B008CA1D0 /* scripts in Resources */ = {isa = PBXBuildFile; fileRef = E26147BB1C005A1B008CA1D0 /* scripts */; };
@@ -231,6 +234,8 @@
 		E2249BBE1CF73CE000B1D666 /* InventoryObject.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = InventoryObject.hpp; sourceTree = "<group>"; };
 		E2249BC11CF740B300B1D666 /* Items.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Items.cpp; sourceTree = "<group>"; };
 		E2249BC21CF740B300B1D666 /* Items.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = Items.hpp; sourceTree = "<group>"; };
+		E2249BC51CF756CC00B1D666 /* GState.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = GState.cpp; sourceTree = "<group>"; };
+		E2249BC61CF756CC00B1D666 /* GState.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = GState.hpp; sourceTree = "<group>"; };
 		E23121FB1BF7FDA300FEA94B /* Dialog.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Dialog.cpp; sourceTree = "<group>"; };
 		E23121FC1BF7FDA300FEA94B /* Dialog.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = Dialog.hpp; sourceTree = "<group>"; };
 		E23122011BFA74AC00FEA94B /* LibraryOpening.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = LibraryOpening.h; path = scenes/LibraryOpening.h; sourceTree = "<group>"; };
@@ -249,11 +254,13 @@
 		E244502C1C039CF0006D78B0 /* scenes.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = scenes.h; sourceTree = "<group>"; };
 		E244502D1C03A760006D78B0 /* scenes.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = scenes.cpp; path = scenes/scenes.cpp; sourceTree = "<group>"; };
 		E24450311C03D1DE006D78B0 /* SceneMapping.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = SceneMapping.cpp; sourceTree = "<group>"; };
+		E24620271CF77271007C2CB5 /* libboost_serialization.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libboost_serialization.a; path = ../../../../../../dev/boost_1_59_0/stage/lib/libboost_serialization.a; sourceTree = "<group>"; };
 		E25DC0981C1EE2A400765415 /* LuaWrap.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = LuaWrap.cpp; sourceTree = "<group>"; };
 		E26147BB1C005A1B008CA1D0 /* scripts */ = {isa = PBXFileReference; lastKnownFileType = folder; path = scripts; sourceTree = "<group>"; };
 		E268FC4D1C1CF219007A425B /* Marisa.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = Marisa.hpp; sourceTree = "<group>"; };
 		E268FC4E1C1CF234007A425B /* Collect.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Collect.h; path = scenes/Collect.h; sourceTree = "<group>"; };
 		E268FC4F1C1CF2C1007A425B /* CollectGlyph.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = CollectGlyph.hpp; sourceTree = "<group>"; };
+		E270E0DB1CF777B6004A5DBB /* libboost_serialization.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libboost_serialization.dylib; path = ../../../../../../dev/boost_1_59_0/stage/lib/libboost_serialization.dylib; sourceTree = "<group>"; };
 		E27185361C0E0CF8006EA1EB /* Flower.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Flower.h; sourceTree = "<group>"; };
 		E27185371C0E252D006EA1EB /* Garden.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Garden.cpp; sourceTree = "<group>"; };
 		E27185381C0E252D006EA1EB /* Garden.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = Garden.hpp; sourceTree = "<group>"; };
@@ -311,6 +318,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				E24620281CF77271007C2CB5 /* libboost_serialization.a in Frameworks */,
 				1AC6FB21180E996B004C840B /* libcocos2d Mac.a in Frameworks */,
 				5087E76717EB910900C73F5D /* libz.dylib in Frameworks */,
 				8262943E1AAF051F00CB7CF7 /* Security.framework in Frameworks */,
@@ -378,6 +386,8 @@
 		29B97323FDCFA39411CA2CEA /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				E270E0DB1CF777B6004A5DBB /* libboost_serialization.dylib */,
+				E24620271CF77271007C2CB5 /* libboost_serialization.a */,
 				E2080BC31C0047A700EB78DF /* liblua.a */,
 				8262943D1AAF051F00CB7CF7 /* Security.framework */,
 				52B47A461A53D09B004E4C60 /* Security.framework */,
@@ -423,6 +433,8 @@
 				E23121FF1BFA746D00FEA94B /* scenes */,
 				46880B8419C43A87006E1F66 /* App.cpp */,
 				46880B8519C43A87006E1F66 /* App.h */,
+				E2249BC51CF756CC00B1D666 /* GState.cpp */,
+				E2249BC61CF756CC00B1D666 /* GState.hpp */,
 				E2CDC5441C04F89D0017537B /* GAnimation.cpp */,
 				E2CDC5451C04F89D0017537B /* GAnimation.hpp */,
 				E23F055D1BD0294A0091BD6D /* controls.cpp */,
@@ -716,6 +728,7 @@
 				E23DBD6E1C13832600AD72F7 /* LuaConvert.cpp in Sources */,
 				E214CF581C0ACEF800FC8784 /* Spell.cpp in Sources */,
 				46880B8819C43A87006E1F66 /* App.cpp in Sources */,
+				E2249BC71CF756CC00B1D666 /* GState.cpp in Sources */,
 				E2E01EED1C1DCA0D00330904 /* AI.cpp in Sources */,
 				E22224641C0BA3ED007DE7F9 /* LuaCWrappers.cpp in Sources */,
 				E25DC0991C1EE2A400765415 /* LuaWrap.cpp in Sources */,
@@ -754,6 +767,7 @@
 				E2B63AAA1BE0498C005695B0 /* Block.cpp in Sources */,
 				E20A7D6B1BCD205E007F1A3B /* PlayScene.cpp in Sources */,
 				E231220B1BFA937100FEA94B /* menu.cpp in Sources */,
+				E2249BC81CF756CC00B1D666 /* GState.cpp in Sources */,
 				46880B8919C43A87006E1F66 /* App.cpp in Sources */,
 				E25DC09A1C1EE2A400765415 /* LuaWrap.cpp in Sources */,
 				E2CDC5471C04F89D0017537B /* GAnimation.cpp in Sources */,
@@ -888,6 +902,7 @@
 				COMBINE_HIDPI_IMAGES = YES;
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_INLINES_ARE_PRIVATE_EXTERN = NO;
+				GCC_LINK_WITH_DYNAMIC_LIBRARIES = YES;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = mac/Prefix.pch;
 				GCC_PREPROCESSOR_DEFINITIONS = (
@@ -903,7 +918,7 @@
 					"$(SRCROOT)/../cocos2d/external/glfw3/include/mac",
 				);
 				INFOPLIST_FILE = mac/Info.plist;
-				LIBRARY_SEARCH_PATHS = "";
+				LIBRARY_SEARCH_PATHS = /Users/toni/dev/boost_1_59_0/stage/lib/;
 				OTHER_LDFLAGS = (
 					"$(_COCOS_LIB_MAC_BEGIN)",
 					"$(_COCOS_LIB_MAC_END)",
@@ -922,6 +937,7 @@
 				CLANG_CXX_LIBRARY = "libc++";
 				COMBINE_HIDPI_IMAGES = YES;
 				GCC_INLINES_ARE_PRIVATE_EXTERN = NO;
+				GCC_LINK_WITH_DYNAMIC_LIBRARIES = YES;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = mac/Prefix.pch;
 				GCC_PREPROCESSOR_DEFINITIONS = (
@@ -936,7 +952,7 @@
 					"$(SRCROOT)/../cocos2d/external/glfw3/include/mac",
 				);
 				INFOPLIST_FILE = mac/Info.plist;
-				LIBRARY_SEARCH_PATHS = "";
+				LIBRARY_SEARCH_PATHS = /Users/toni/dev/boost_1_59_0/stage/lib/;
 				OTHER_LDFLAGS = (
 					"$(_COCOS_LIB_MAC_BEGIN)",
 					"$(_COCOS_LIB_MAC_END)",
