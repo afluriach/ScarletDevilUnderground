@@ -129,6 +129,8 @@ mutex Inst::queueLock;
             }
         }
         
+        commandQueue.clear();
+        
         queueLock.unlock();
     }
     
