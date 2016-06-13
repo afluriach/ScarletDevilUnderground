@@ -280,6 +280,25 @@ vector<string> getInventoryContents()
     return items;
 }
 
+vector<pair<float,float>> getPath(pair<int,int> start, pair<int,int> end)
+{
+    vector<pair<float,float>> result;
+
+    vector<pair<int,int>> tileCoords = graph::gridAStar(
+        *GScene::getSpace()->getNavMask(),
+        start,
+        end,
+        GScene::getSpace()->getSize()
+    );
+    
+    //Convert to center position
+    foreach(auto tile, tileCoords){
+        result.push_back(pair<float,float>(tile.first+0.5, tile.second+0.5));
+    }
+    
+    return result;
+}
+
 ///////////////////////////////////////////////////////////////////
 
 #define make_wrapper(name) \
@@ -338,6 +357,7 @@ make_wrapper(showObjectiveCounter)
 make_wrapper(printGlDebug)
 make_wrapper(save)
 make_wrapper(getInventoryContents)
+make_wrapper(getPath)
 
 //Utility functions not specifically created for the scripting API
 make_wrapper(toDirection)
@@ -406,6 +426,8 @@ void Inst::installWrappers()
     install_wrapper(save)
     
     install_wrapper(getInventoryContents)
+    
+    install_wrapper(getPath)
     
     //Utility functions not specifically created for the scripting API
     install_wrapper(toDirection)

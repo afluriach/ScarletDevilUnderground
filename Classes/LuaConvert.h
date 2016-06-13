@@ -241,6 +241,30 @@ struct convert<vector<T>>{
     }
 };
 
+template<typename T, typename U>
+struct convert<pair<T,U>>{
+
+    inline static pair<T,U> convertFromLua(const string& name, int argNum, LuaRef ref)
+    {
+        pair<T,U> result;
+
+        result.first = convert<T>::convertFromLua(name, argNum, ref[1]);
+        result.first = convert<T>::convertFromLua(name, argNum, ref[2]);
+        
+        return result;
+    }
+    inline static LuaRef convertToLua(const pair<T,U>& p, lua_State* L)
+    {
+        LuaRef table(L);
+        table = newTable(L);
+        
+        table[1] = convert<T>::convertToLua(p.first, L);
+        table[2] = convert<T>::convertToLua(p.second, L);
+        
+        return table;
+    }
+};
+
 template<typename K,typename V>
 struct convert<unordered_map<K,V>>{
     inline static unordered_map<K,V> convertFromLua(const string& name, int argNum, LuaRef ref)

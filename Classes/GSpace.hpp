@@ -96,6 +96,9 @@ public:
         GObject* obj
     );
     
+    inline boost::dynamic_bitset<>* getNavMask() const { return navMask;}
+    inline IntVec2 getSize() const {return spaceSize;}
+    
     void addWallBlock(SpaceVect ll,SpaceVect ur);
     
     inline void setSize(int x, int y){

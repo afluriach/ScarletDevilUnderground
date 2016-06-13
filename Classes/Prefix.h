@@ -60,6 +60,7 @@ using namespace luabridge;
 #include "macros.h"
 #include "types.h"
 #include "util.h"
+#include "Graph.hpp"
 #include "multifunction.h"
 
 #include "controls.h"
