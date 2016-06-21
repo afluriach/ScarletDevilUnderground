@@ -15,7 +15,7 @@ void FireStarburst::runPeriodic()
     SpaceVect pos = caster->body->getPos();
     for(int i=0;i<8; ++i)
     {
-        float angle = pi * i / 4;
+        float angle = float_pi * i / 4;
 
         SpaceVect crntPos = pos + SpaceVect::ray(1, angle);
 
