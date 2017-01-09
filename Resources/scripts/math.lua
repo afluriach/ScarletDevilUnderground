@@ -20,6 +20,15 @@ Vector2.static.ray = function(len,angle)
     return Vector2:new({x=len*math.cos(angle), y=len*math.sin(angle)})
 end
 
+Vector2.static.lerp = function(start, End, ratio)
+	--delta = end-start
+	--v' = start + delta*ratio
+	dx = End.x - start.x
+	dy = End.y - start.y
+	return Vector2:new({x=start.x + dx*ratio, y=start.y + dy*ratio})
+end
+
+
 function Vector2:copy ()
 	return Vector2:new({x=self.x, y=self.y})
 end
