@@ -101,7 +101,6 @@
 		E244502F1C03A760006D78B0 /* scenes.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E244502D1C03A760006D78B0 /* scenes.cpp */; };
 		E24450321C03D1DE006D78B0 /* SceneMapping.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E24450311C03D1DE006D78B0 /* SceneMapping.cpp */; };
 		E24450331C03D1DE006D78B0 /* SceneMapping.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E24450311C03D1DE006D78B0 /* SceneMapping.cpp */; };
-		E24620281CF77271007C2CB5 /* libboost_serialization.a in Frameworks */ = {isa = PBXBuildFile; fileRef = E24620271CF77271007C2CB5 /* libboost_serialization.a */; };
 		E25DC0991C1EE2A400765415 /* LuaWrap.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E25DC0981C1EE2A400765415 /* LuaWrap.cpp */; };
 		E25DC09A1C1EE2A400765415 /* LuaWrap.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E25DC0981C1EE2A400765415 /* LuaWrap.cpp */; };
 		E26147BC1C005A1B008CA1D0 /* scripts in Resources */ = {isa = PBXBuildFile; fileRef = E26147BB1C005A1B008CA1D0 /* scripts */; };
@@ -112,6 +111,8 @@
 		E27E857C1BE0178800A94217 /* GSpace.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E27E85791BE0178800A94217 /* GSpace.cpp */; };
 		E28D89851BDFE7CD00F58903 /* util.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E28D89841BDFE7CD00F58903 /* util.cpp */; };
 		E28D89861BDFE7CD00F58903 /* util.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E28D89841BDFE7CD00F58903 /* util.cpp */; };
+		E29499A21FA1D30700179C82 /* libboost.a in Frameworks */ = {isa = PBXBuildFile; fileRef = E29499A11FA1D30700179C82 /* libboost.a */; };
+		E29499A41FA1D4FC00179C82 /* libboost.a in Frameworks */ = {isa = PBXBuildFile; fileRef = E29499A31FA1D4FC00179C82 /* libboost.a */; };
 		E29FF7511BE18BE7004725C1 /* Glyph.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E29FF74F1BE18BE7004725C1 /* Glyph.cpp */; };
 		E29FF7521BE18BE7004725C1 /* Glyph.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E29FF74F1BE18BE7004725C1 /* Glyph.cpp */; };
 		E2AC8F481BCD4BC20001DB3E /* Graphics.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E2AC8F471BCD4BC20001DB3E /* Graphics.cpp */; };
@@ -272,6 +273,8 @@
 		E27E857A1BE0178800A94217 /* GSpace.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = GSpace.hpp; sourceTree = "<group>"; };
 		E282936F1BC5CA65005363B0 /* Graphics.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Graphics.h; sourceTree = "<group>"; };
 		E28D89841BDFE7CD00F58903 /* util.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = util.cpp; sourceTree = "<group>"; };
+		E29499A11FA1D30700179C82 /* libboost.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libboost.a; path = ../../../lib/boost59/ios/build/arm64/libboost.a; sourceTree = "<group>"; };
+		E29499A31FA1D4FC00179C82 /* libboost.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libboost.a; path = ../../../lib/boost59/osx/build/x86_64/libboost.a; sourceTree = "<group>"; };
 		E29FF74F1BE18BE7004725C1 /* Glyph.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Glyph.cpp; sourceTree = "<group>"; };
 		E29FF7501BE18BE7004725C1 /* Glyph.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = Glyph.hpp; sourceTree = "<group>"; };
 		E2A65A2C1C063341005761BB /* types.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = types.h; sourceTree = "<group>"; };
@@ -303,6 +306,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				E29499A21FA1D30700179C82 /* libboost.a in Frameworks */,
 				52B47A471A53D09C004E4C60 /* Security.framework in Frameworks */,
 				1AC6FB30180E99EB004C840B /* libcocos2d iOS.a in Frameworks */,
 				D6B0611B1803AB670077942B /* CoreMotion.framework in Frameworks */,
@@ -322,7 +326,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				E24620281CF77271007C2CB5 /* libboost_serialization.a in Frameworks */,
+				E29499A41FA1D4FC00179C82 /* libboost.a in Frameworks */,
 				1AC6FB21180E996B004C840B /* libcocos2d Mac.a in Frameworks */,
 				5087E76717EB910900C73F5D /* libz.dylib in Frameworks */,
 				8262943E1AAF051F00CB7CF7 /* Security.framework in Frameworks */,
@@ -390,6 +394,8 @@
 		29B97323FDCFA39411CA2CEA /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				E29499A31FA1D4FC00179C82 /* libboost.a */,
+				E29499A11FA1D30700179C82 /* libboost.a */,
 				E270E0DB1CF777B6004A5DBB /* libboost_serialization.dylib */,
 				E24620271CF77271007C2CB5 /* libboost_serialization.a */,
 				E2080BC31C0047A700EB78DF /* liblua.a */,
@@ -628,6 +634,11 @@
 				TargetAttributes = {
 					1D6058900D05DD3D006BFB54 = {
 						DevelopmentTeam = ND4ZEDF966;
+						ProvisioningStyle = Automatic;
+					};
+					5087E73D17EB910900C73F5D = {
+						DevelopmentTeam = ND4ZEDF966;
+						ProvisioningStyle = Automatic;
 					};
 				};
 			};
@@ -828,9 +839,10 @@
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = YES;
 				CLANG_CXX_LANGUAGE_STANDARD = "c++14";
-				CODE_SIGN_IDENTITY = "iPhone Developer";
+				CODE_SIGN_IDENTITY = "iPhone Developer: afluriach@gmail.com (92R8S84A7Y)";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				COMPRESS_PNG_FILES = NO;
+				DEVELOPMENT_TEAM = ND4ZEDF966;
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_INLINES_ARE_PRIVATE_EXTERN = NO;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
@@ -848,18 +860,20 @@
 					"$(SRCROOT)/../cocos2d/cocos/platform/ios/Simulation",
 				);
 				INFOPLIST_FILE = ios/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
-				LIBRARY_SEARCH_PATHS = "";
+				IPHONEOS_DEPLOYMENT_TARGET = 10.3;
+				LIBRARY_SEARCH_PATHS = /Users/toni/lib/boost59/ios/build/arm64/;
+				ONLY_ACTIVE_ARCH = YES;
 				OTHER_LDFLAGS = (
 					"$(_COCOS_LIB_IOS_BEGIN)",
 					"$(_COCOS_LIB_IOS_END)",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.impulseeye.Koumachika;
+				PRODUCT_BUNDLE_IDENTIFIER = com.impulseeye.Kouma;
 				PROVISIONING_PROFILE = "";
-				SDKROOT = iphoneos;
+				PROVISIONING_PROFILE_SPECIFIER = "";
+				SDKROOT = iphoneos10.3;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				USER_HEADER_SEARCH_PATHS = "$(_COCOS_HEADER_IOS_BEGIN) $(_COCOS_HEADER_IOS_END)";
-				VALID_ARCHS = armv7;
+				VALID_ARCHS = arm64;
 			};
 			name = Debug;
 		};
@@ -868,9 +882,10 @@
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = YES;
 				CLANG_CXX_LANGUAGE_STANDARD = "c++14";
-				CODE_SIGN_IDENTITY = "iPhone Developer";
+				CODE_SIGN_IDENTITY = "iPhone Developer: afluriach@gmail.com (92R8S84A7Y)";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				COMPRESS_PNG_FILES = NO;
+				DEVELOPMENT_TEAM = ND4ZEDF966;
 				GCC_INLINES_ARE_PRIVATE_EXTERN = NO;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = ios/Prefix.pch;
@@ -886,18 +901,20 @@
 					"$(SRCROOT)/../cocos2d/cocos/platform/ios/Simulation",
 				);
 				INFOPLIST_FILE = ios/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
-				LIBRARY_SEARCH_PATHS = "";
+				IPHONEOS_DEPLOYMENT_TARGET = 10.3;
+				LIBRARY_SEARCH_PATHS = /Users/toni/lib/boost59/ios/build/arm64/;
+				ONLY_ACTIVE_ARCH = YES;
 				OTHER_LDFLAGS = (
 					"$(_COCOS_LIB_IOS_BEGIN)",
 					"$(_COCOS_LIB_IOS_END)",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.impulseeye.Koumachika;
+				PRODUCT_BUNDLE_IDENTIFIER = com.impulseeye.Kouma;
 				PROVISIONING_PROFILE = "";
-				SDKROOT = iphoneos;
+				PROVISIONING_PROFILE_SPECIFIER = "";
+				SDKROOT = iphoneos10.3;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				USER_HEADER_SEARCH_PATHS = "$(_COCOS_HEADER_IOS_BEGIN) $(_COCOS_HEADER_IOS_END)";
-				VALID_ARCHS = armv7;
+				VALID_ARCHS = arm64;
 			};
 			name = Release;
 		};
@@ -907,7 +924,9 @@
 				ALWAYS_SEARCH_USER_PATHS = YES;
 				CLANG_CXX_LANGUAGE_STANDARD = "c++14";
 				CLANG_CXX_LIBRARY = "libc++";
+				CODE_SIGN_IDENTITY = "Mac Developer";
 				COMBINE_HIDPI_IMAGES = YES;
+				DEVELOPMENT_TEAM = ND4ZEDF966;
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_INLINES_ARE_PRIVATE_EXTERN = NO;
 				GCC_LINK_WITH_DYNAMIC_LIBRARIES = YES;
@@ -926,12 +945,14 @@
 					"$(SRCROOT)/../cocos2d/external/glfw3/include/mac",
 				);
 				INFOPLIST_FILE = mac/Info.plist;
-				LIBRARY_SEARCH_PATHS = /Users/toni/dev/boost_1_59_0/stage/lib/;
+				LIBRARY_SEARCH_PATHS = /Users/toni/lib/boost59/osx/build/x86_64/;
+				MACOSX_DEPLOYMENT_TARGET = 10.10;
 				OTHER_LDFLAGS = (
 					"$(_COCOS_LIB_MAC_BEGIN)",
 					"$(_COCOS_LIB_MAC_END)",
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.impulseeye.Koumachika;
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				USER_HEADER_SEARCH_PATHS = "$(_COCOS_HEADER_MAC_BEGIN) $(_COCOS_HEADER_MAC_END)";
 				VALID_ARCHS = x86_64;
 			};
@@ -943,7 +964,9 @@
 				ALWAYS_SEARCH_USER_PATHS = YES;
 				CLANG_CXX_LANGUAGE_STANDARD = "c++14";
 				CLANG_CXX_LIBRARY = "libc++";
+				CODE_SIGN_IDENTITY = "Mac Developer";
 				COMBINE_HIDPI_IMAGES = YES;
+				DEVELOPMENT_TEAM = ND4ZEDF966;
 				GCC_INLINES_ARE_PRIVATE_EXTERN = NO;
 				GCC_LINK_WITH_DYNAMIC_LIBRARIES = YES;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
@@ -960,12 +983,14 @@
 					"$(SRCROOT)/../cocos2d/external/glfw3/include/mac",
 				);
 				INFOPLIST_FILE = mac/Info.plist;
-				LIBRARY_SEARCH_PATHS = /Users/toni/dev/boost_1_59_0/stage/lib/;
+				LIBRARY_SEARCH_PATHS = /Users/toni/lib/boost59/osx/build/x86_64/;
+				MACOSX_DEPLOYMENT_TARGET = 10.10;
 				OTHER_LDFLAGS = (
 					"$(_COCOS_LIB_MAC_BEGIN)",
 					"$(_COCOS_LIB_MAC_END)",
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.impulseeye.Koumachika;
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				USER_HEADER_SEARCH_PATHS = "$(_COCOS_HEADER_MAC_BEGIN) $(_COCOS_HEADER_MAC_END)";
 				VALID_ARCHS = x86_64;
 			};
