@@ -103,6 +103,7 @@
 		E24450331C03D1DE006D78B0 /* SceneMapping.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E24450311C03D1DE006D78B0 /* SceneMapping.cpp */; };
 		E25DC0991C1EE2A400765415 /* LuaWrap.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E25DC0981C1EE2A400765415 /* LuaWrap.cpp */; };
 		E25DC09A1C1EE2A400765415 /* LuaWrap.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E25DC0981C1EE2A400765415 /* LuaWrap.cpp */; };
+		E2610C471FE06A890079B36F /* libboost-combined.a in Frameworks */ = {isa = PBXBuildFile; fileRef = E2610C461FE06A890079B36F /* libboost-combined.a */; };
 		E26147BC1C005A1B008CA1D0 /* scripts in Resources */ = {isa = PBXBuildFile; fileRef = E26147BB1C005A1B008CA1D0 /* scripts */; };
 		E26147BD1C005A1B008CA1D0 /* scripts in Resources */ = {isa = PBXBuildFile; fileRef = E26147BB1C005A1B008CA1D0 /* scripts */; };
 		E27185391C0E252D006EA1EB /* Garden.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E27185371C0E252D006EA1EB /* Garden.cpp */; };
@@ -111,7 +112,6 @@
 		E27E857C1BE0178800A94217 /* GSpace.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E27E85791BE0178800A94217 /* GSpace.cpp */; };
 		E28D89851BDFE7CD00F58903 /* util.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E28D89841BDFE7CD00F58903 /* util.cpp */; };
 		E28D89861BDFE7CD00F58903 /* util.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E28D89841BDFE7CD00F58903 /* util.cpp */; };
-		E29499A21FA1D30700179C82 /* libboost.a in Frameworks */ = {isa = PBXBuildFile; fileRef = E29499A11FA1D30700179C82 /* libboost.a */; };
 		E29499A41FA1D4FC00179C82 /* libboost.a in Frameworks */ = {isa = PBXBuildFile; fileRef = E29499A31FA1D4FC00179C82 /* libboost.a */; };
 		E29FF7511BE18BE7004725C1 /* Glyph.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E29FF74F1BE18BE7004725C1 /* Glyph.cpp */; };
 		E29FF7521BE18BE7004725C1 /* Glyph.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E29FF74F1BE18BE7004725C1 /* Glyph.cpp */; };
@@ -261,6 +261,7 @@
 		E24450311C03D1DE006D78B0 /* SceneMapping.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = SceneMapping.cpp; sourceTree = "<group>"; };
 		E24620271CF77271007C2CB5 /* libboost_serialization.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libboost_serialization.a; path = ../../../../../../dev/boost_1_59_0/stage/lib/libboost_serialization.a; sourceTree = "<group>"; };
 		E25DC0981C1EE2A400765415 /* LuaWrap.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = LuaWrap.cpp; sourceTree = "<group>"; };
+		E2610C461FE06A890079B36F /* libboost-combined.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = "libboost-combined.a"; path = "../../../lib/boost59/ios/libboost-combined.a"; sourceTree = "<group>"; };
 		E26147BB1C005A1B008CA1D0 /* scripts */ = {isa = PBXFileReference; lastKnownFileType = folder; path = scripts; sourceTree = "<group>"; };
 		E268FC4D1C1CF219007A425B /* Marisa.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = Marisa.hpp; sourceTree = "<group>"; };
 		E268FC4E1C1CF234007A425B /* Collect.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Collect.h; path = scenes/Collect.h; sourceTree = "<group>"; };
@@ -295,6 +296,7 @@
 		E2CDC54E1C051FFC0017537B /* Bullet.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = Bullet.hpp; sourceTree = "<group>"; };
 		E2CDC5541C062D000017537B /* Prefix.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Prefix.h; sourceTree = "<group>"; };
 		E2CDC5551C0631290017537B /* macros.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = macros.h; sourceTree = "<group>"; };
+		E2D9A6EA1FE06252008E6D48 /* libboost.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libboost.a; path = ../../../lib/boost59/ios/build/armv7/libboost.a; sourceTree = "<group>"; };
 		E2E01EEB1C1DCA0D00330904 /* AI.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = AI.cpp; sourceTree = "<group>"; };
 		E2E01EEC1C1DCA0D00330904 /* AI.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = AI.hpp; sourceTree = "<group>"; };
 		E2E846B41C16201F00E5ADBC /* HUD.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = HUD.cpp; sourceTree = "<group>"; };
@@ -306,7 +308,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				E29499A21FA1D30700179C82 /* libboost.a in Frameworks */,
+				E2610C471FE06A890079B36F /* libboost-combined.a in Frameworks */,
 				52B47A471A53D09C004E4C60 /* Security.framework in Frameworks */,
 				1AC6FB30180E99EB004C840B /* libcocos2d iOS.a in Frameworks */,
 				D6B0611B1803AB670077942B /* CoreMotion.framework in Frameworks */,
@@ -394,6 +396,8 @@
 		29B97323FDCFA39411CA2CEA /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				E2610C461FE06A890079B36F /* libboost-combined.a */,
+				E2D9A6EA1FE06252008E6D48 /* libboost.a */,
 				E29499A31FA1D4FC00179C82 /* libboost.a */,
 				E29499A11FA1D30700179C82 /* libboost.a */,
 				E270E0DB1CF777B6004A5DBB /* libboost_serialization.dylib */,
@@ -838,6 +842,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = YES;
+				ARCHS = "$(ARCHS_STANDARD)";
 				CLANG_CXX_LANGUAGE_STANDARD = "c++14";
 				CODE_SIGN_IDENTITY = "iPhone Developer: afluriach@gmail.com (92R8S84A7Y)";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
@@ -861,7 +866,7 @@
 				);
 				INFOPLIST_FILE = ios/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 10.3;
-				LIBRARY_SEARCH_PATHS = /Users/toni/lib/boost59/ios/build/arm64/;
+				LIBRARY_SEARCH_PATHS = /Users/toni/lib/boost59/ios/;
 				ONLY_ACTIVE_ARCH = YES;
 				OTHER_LDFLAGS = (
 					"$(_COCOS_LIB_IOS_BEGIN)",
@@ -873,7 +878,7 @@
 				SDKROOT = iphoneos10.3;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				USER_HEADER_SEARCH_PATHS = "$(_COCOS_HEADER_IOS_BEGIN) $(_COCOS_HEADER_IOS_END)";
-				VALID_ARCHS = arm64;
+				VALID_ARCHS = "armv7 arm64";
 			};
 			name = Debug;
 		};
@@ -881,6 +886,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = YES;
+				ARCHS = "$(ARCHS_STANDARD)";
 				CLANG_CXX_LANGUAGE_STANDARD = "c++14";
 				CODE_SIGN_IDENTITY = "iPhone Developer: afluriach@gmail.com (92R8S84A7Y)";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
@@ -902,8 +908,8 @@
 				);
 				INFOPLIST_FILE = ios/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 10.3;
-				LIBRARY_SEARCH_PATHS = /Users/toni/lib/boost59/ios/build/arm64/;
-				ONLY_ACTIVE_ARCH = YES;
+				LIBRARY_SEARCH_PATHS = /Users/toni/lib/boost59/ios/;
+				ONLY_ACTIVE_ARCH = NO;
 				OTHER_LDFLAGS = (
 					"$(_COCOS_LIB_IOS_BEGIN)",
 					"$(_COCOS_LIB_IOS_END)",
@@ -914,7 +920,7 @@
 				SDKROOT = iphoneos10.3;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				USER_HEADER_SEARCH_PATHS = "$(_COCOS_HEADER_IOS_BEGIN) $(_COCOS_HEADER_IOS_END)";
-				VALID_ARCHS = arm64;
+				VALID_ARCHS = "armv7 arm64";
 			};
 			name = Release;
 		};
@@ -1033,6 +1039,7 @@
 				ONLY_ACTIVE_ARCH = YES;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = macosx;
+				VALID_ARCHS = x86_64;
 			};
 			name = Debug;
 		};
@@ -1067,10 +1074,12 @@
 				);
 				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
 				MACOSX_DEPLOYMENT_TARGET = 10.7;
+				ONLY_ACTIVE_ARCH = YES;
 				OTHER_CFLAGS = "-DNS_BLOCK_ASSERTIONS=1";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = macosx;
 				VALIDATE_PRODUCT = YES;
+				VALID_ARCHS = x86_64;
 			};
 			name = Release;
 		};
