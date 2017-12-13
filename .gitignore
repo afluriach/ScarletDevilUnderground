@@ -22,3 +22,10 @@ local.properties
 cocos2d/cocos/platform/android/java/bin
 proj.android/bin
 gen/
+
+##Visual Studio
+proj.win32/.vs/
+*.pdb
+*.tlog
+Debug.win32/
+*.vcxproj.user
