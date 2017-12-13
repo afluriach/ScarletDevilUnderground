@@ -268,6 +268,18 @@
     <Filter Include="external\poly2tri\sweep">
       <UniqueIdentifier>{c37eceeb-5702-4ff7-88de-94680a22266f}</UniqueIdentifier>
     </Filter>
+    <Filter Include="chipmunk">
+      <UniqueIdentifier>{042e865c-0151-4aec-8d31-b33dad986f68}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="lua">
+      <UniqueIdentifier>{e47544ff-5f15-4028-a74d-44fe39a8c804}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="LuaBridge">
+      <UniqueIdentifier>{56f7a737-f91e-4e90-8a2f-f86ebf001432}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="chipmunkpp">
+      <UniqueIdentifier>{12b4151b-d38c-4077-9b64-e5f2a1a71b61}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\physics\CCPhysicsBody.cpp">
@@ -306,7 +318,6 @@
     <ClCompile Include="..\deprecated\CCString.cpp">
       <Filter>deprecated</Filter>
     </ClCompile>
-    <ClCompile Include="..\cocos2d.cpp" />
     <ClCompile Include="..\..\external\ConvertUTF\ConvertUTF.c">
       <Filter>external\ConvertUTF</Filter>
     </ClCompile>
@@ -1827,6 +1838,238 @@
     <ClCompile Include="SpritePolygonCache.cpp">
       <Filter>2d</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\chipmunk\chipmunk.c">
+      <Filter>chipmunk</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\chipmunk\cpArbiter.c">
+      <Filter>chipmunk</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\chipmunk\cpArray.c">
+      <Filter>chipmunk</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\chipmunk\cpBB.c">
+      <Filter>chipmunk</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\chipmunk\cpBBTree.c">
+      <Filter>chipmunk</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\chipmunk\cpBody.c">
+      <Filter>chipmunk</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\chipmunk\cpCollision.c">
+      <Filter>chipmunk</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\chipmunk\constraints\cpConstraint.c">
+      <Filter>chipmunk</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\chipmunk\constraints\cpDampedRotarySpring.c">
+      <Filter>chipmunk</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\chipmunk\constraints\cpDampedSpring.c">
+      <Filter>chipmunk</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\chipmunk\constraints\cpGearJoint.c">
+      <Filter>chipmunk</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\chipmunk\constraints\cpGrooveJoint.c">
+      <Filter>chipmunk</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\chipmunk\cpHashSet.c">
+      <Filter>chipmunk</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\chipmunk\constraints\cpPinJoint.c">
+      <Filter>chipmunk</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\chipmunk\constraints\cpPivotJoint.c">
+      <Filter>chipmunk</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\chipmunk\cpPolyShape.c">
+      <Filter>chipmunk</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\chipmunk\constraints\cpRatchetJoint.c">
+      <Filter>chipmunk</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\chipmunk\constraints\cpRotaryLimitJoint.c">
+      <Filter>chipmunk</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\chipmunk\cpShape.c">
+      <Filter>chipmunk</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\chipmunk\constraints\cpSimpleMotor.c">
+      <Filter>chipmunk</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\chipmunk\constraints\cpSlideJoint.c">
+      <Filter>chipmunk</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\chipmunk\cpSpace.c">
+      <Filter>chipmunk</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\chipmunk\cpSpaceComponent.c">
+      <Filter>chipmunk</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\chipmunk\cpSpaceHash.c">
+      <Filter>chipmunk</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\chipmunk\cpSpaceQuery.c">
+      <Filter>chipmunk</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\chipmunk\cpSpaceStep.c">
+      <Filter>chipmunk</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\chipmunk\cpSpatialIndex.c">
+      <Filter>chipmunk</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\chipmunk\cpSweep1D.c">
+      <Filter>chipmunk</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\chipmunk\cpVect.c">
+      <Filter>chipmunk</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\lua\lapi.c">
+      <Filter>lua</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\lua\lauxlib.c">
+      <Filter>lua</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\lua\lbaselib.c">
+      <Filter>lua</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\lua\lbitlib.c">
+      <Filter>lua</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\lua\lcode.c">
+      <Filter>lua</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\lua\lcorolib.c">
+      <Filter>lua</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\lua\lctype.c">
+      <Filter>lua</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\lua\ldblib.c">
+      <Filter>lua</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\lua\ldebug.c">
+      <Filter>lua</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\lua\ldo.cpp">
+      <Filter>lua</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\lua\ldump.c">
+      <Filter>lua</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\lua\lfunc.c">
+      <Filter>lua</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\lua\lgc.c">
+      <Filter>lua</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\lua\linit.c">
+      <Filter>lua</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\lua\liolib.c">
+      <Filter>lua</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\lua\llex.c">
+      <Filter>lua</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\lua\lmathlib.c">
+      <Filter>lua</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\lua\lmem.c">
+      <Filter>lua</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\lua\loadlib.c">
+      <Filter>lua</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\lua\lobject.c">
+      <Filter>lua</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\lua\lopcodes.c">
+      <Filter>lua</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\lua\loslib.c">
+      <Filter>lua</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\lua\lparser.c">
+      <Filter>lua</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\lua\lstate.c">
+      <Filter>lua</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\lua\lstring.c">
+      <Filter>lua</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\lua\lstrlib.c">
+      <Filter>lua</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\lua\ltable.c">
+      <Filter>lua</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\lua\ltablib.c">
+      <Filter>lua</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\lua\ltm.c">
+      <Filter>lua</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\lua\lua.c">
+      <Filter>lua</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\lua\luac.c">
+      <Filter>lua</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\lua\lundump.c">
+      <Filter>lua</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\lua\lutf8lib.c">
+      <Filter>lua</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\lua\lvm.c">
+      <Filter>lua</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\lua\lzio.c">
+      <Filter>lua</Filter>
+    </ClCompile>
+    <ClCompile Include="..\cocos2d.cpp" />
+    <ClCompile Include="..\..\lua\SysTime.cpp">
+      <Filter>lua</Filter>
+    </ClCompile>
+    <ClCompile Include="..\base\LegacyStdio.cpp">
+      <Filter>base</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\chipmunkpp\chipmunkpp\arbiter.cpp">
+      <Filter>chipmunkpp</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\chipmunkpp\chipmunkpp\bb.cpp">
+      <Filter>chipmunkpp</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\chipmunkpp\chipmunkpp\body.cpp">
+      <Filter>chipmunkpp</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\chipmunkpp\chipmunkpp\circleshape.cpp">
+      <Filter>chipmunkpp</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\chipmunkpp\chipmunkpp\polyshape.cpp">
+      <Filter>chipmunkpp</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\chipmunkpp\chipmunkpp\segmentshape.cpp">
+      <Filter>chipmunkpp</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\chipmunkpp\chipmunkpp\shape.cpp">
+      <Filter>chipmunkpp</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\chipmunkpp\chipmunkpp\space.cpp">
+      <Filter>chipmunkpp</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\chipmunkpp\chipmunkpp\types.cpp">
+      <Filter>chipmunkpp</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\chipmunkpp\chipmunkpp\vect.cpp">
+      <Filter>chipmunkpp</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\chipmunkpp\chipmunk.cpp">
+      <Filter>chipmunkpp</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\physics\CCPhysicsBody.h">
@@ -1877,7 +2120,6 @@
     <ClInclude Include="..\deprecated\CCString.h">
       <Filter>deprecated</Filter>
     </ClInclude>
-    <ClInclude Include="..\cocos2d.h" />
     <ClInclude Include="..\..\external\ConvertUTF\ConvertUTF.h">
       <Filter>external\ConvertUTF</Filter>
     </ClInclude>
@@ -3575,6 +3817,262 @@
     <ClInclude Include="SpritePolygonCache.h">
       <Filter>2d</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\chipmunk\chipmunk.h">
+      <Filter>chipmunk</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\chipmunk\chipmunk_ffi.h">
+      <Filter>chipmunk</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\chipmunk\chipmunk_private.h">
+      <Filter>chipmunk</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\chipmunk\chipmunk_types.h">
+      <Filter>chipmunk</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\chipmunk\chipmunk_unsafe.h">
+      <Filter>chipmunk</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\chipmunk\cpArbiter.h">
+      <Filter>chipmunk</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\chipmunk\cpBB.h">
+      <Filter>chipmunk</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\chipmunk\cpBody.h">
+      <Filter>chipmunk</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\chipmunk\constraints\cpConstraint.h">
+      <Filter>chipmunk</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\chipmunk\constraints\cpDampedRotarySpring.h">
+      <Filter>chipmunk</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\chipmunk\constraints\cpDampedSpring.h">
+      <Filter>chipmunk</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\chipmunk\constraints\cpGearJoint.h">
+      <Filter>chipmunk</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\chipmunk\constraints\cpGrooveJoint.h">
+      <Filter>chipmunk</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\chipmunk\constraints\cpPinJoint.h">
+      <Filter>chipmunk</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\chipmunk\constraints\cpPivotJoint.h">
+      <Filter>chipmunk</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\chipmunk\cpPolyShape.h">
+      <Filter>chipmunk</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\chipmunk\constraints\cpRatchetJoint.h">
+      <Filter>chipmunk</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\chipmunk\constraints\cpRotaryLimitJoint.h">
+      <Filter>chipmunk</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\chipmunk\cpShape.h">
+      <Filter>chipmunk</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\chipmunk\constraints\cpSimpleMotor.h">
+      <Filter>chipmunk</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\chipmunk\constraints\cpSlideJoint.h">
+      <Filter>chipmunk</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\chipmunk\cpSpace.h">
+      <Filter>chipmunk</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\chipmunk\cpSpatialIndex.h">
+      <Filter>chipmunk</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\chipmunk\constraints\cpUtil.h">
+      <Filter>chipmunk</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\chipmunk\cpVect.h">
+      <Filter>chipmunk</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\chipmunk\prime.h">
+      <Filter>chipmunk</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\lua\lapi.h">
+      <Filter>lua</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\lua\lauxlib.h">
+      <Filter>lua</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\lua\lcode.h">
+      <Filter>lua</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\lua\lctype.h">
+      <Filter>lua</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\lua\ldebug.h">
+      <Filter>lua</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\lua\ldo.h">
+      <Filter>lua</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\lua\lfunc.h">
+      <Filter>lua</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\lua\lgc.h">
+      <Filter>lua</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\lua\llex.h">
+      <Filter>lua</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\lua\llimits.h">
+      <Filter>lua</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\lua\lmem.h">
+      <Filter>lua</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\lua\lobject.h">
+      <Filter>lua</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\lua\lopcodes.h">
+      <Filter>lua</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\lua\lparser.h">
+      <Filter>lua</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\lua\lprefix.h">
+      <Filter>lua</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\lua\lstate.h">
+      <Filter>lua</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\lua\lstring.h">
+      <Filter>lua</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\lua\ltable.h">
+      <Filter>lua</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\lua\ltm.h">
+      <Filter>lua</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\lua\lua.h">
+      <Filter>lua</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\lua\lua.hpp">
+      <Filter>lua</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\lua\luaconf.h">
+      <Filter>lua</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\lua\lualib.h">
+      <Filter>lua</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\lua\lundump.h">
+      <Filter>lua</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\lua\lvm.h">
+      <Filter>lua</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\lua\lzio.h">
+      <Filter>lua</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\LuaBridge\LuaBridge.h">
+      <Filter>LuaBridge</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\LuaBridge\RefCountedObject.h">
+      <Filter>LuaBridge</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\LuaBridge\RefCountedPtr.h">
+      <Filter>LuaBridge</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\LuaBridge\detail\CFunctions.h">
+      <Filter>LuaBridge</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\LuaBridge\detail\ClassInfo.h">
+      <Filter>LuaBridge</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\LuaBridge\detail\Constructor.h">
+      <Filter>LuaBridge</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\LuaBridge\detail\dump.h">
+      <Filter>LuaBridge</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\LuaBridge\detail\FuncTraits.h">
+      <Filter>LuaBridge</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\LuaBridge\detail\Iterator.h">
+      <Filter>LuaBridge</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\LuaBridge\detail\LuaException.h">
+      <Filter>LuaBridge</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\LuaBridge\detail\LuaHelpers.h">
+      <Filter>LuaBridge</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\LuaBridge\detail\LuaRef.h">
+      <Filter>LuaBridge</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\LuaBridge\detail\Namespace.h">
+      <Filter>LuaBridge</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\LuaBridge\detail\Stack.h">
+      <Filter>LuaBridge</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\LuaBridge\detail\TypeList.h">
+      <Filter>LuaBridge</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\LuaBridge\detail\TypeTraits.h">
+      <Filter>LuaBridge</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\LuaBridge\detail\Userdata.h">
+      <Filter>LuaBridge</Filter>
+    </ClInclude>
+    <ClInclude Include="..\cocos2d.h" />
+    <ClInclude Include="..\..\lua\SysTime.h">
+      <Filter>lua</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\lua\unistd.h">
+      <Filter>lua</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\lua\getopt.h">
+      <Filter>lua</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\chipmunkpp\chipmunkpp\arbiter.hpp">
+      <Filter>chipmunkpp</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\chipmunkpp\chipmunkpp\bb.hpp">
+      <Filter>chipmunkpp</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\chipmunkpp\chipmunkpp\body.hpp">
+      <Filter>chipmunkpp</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\chipmunkpp\chipmunkpp\circleshape.hpp">
+      <Filter>chipmunkpp</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\chipmunkpp\chipmunkpp\memory.hpp">
+      <Filter>chipmunkpp</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\chipmunkpp\chipmunkpp\polyshape.hpp">
+      <Filter>chipmunkpp</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\chipmunkpp\chipmunkpp\segmentqueryinfo.hpp">
+      <Filter>chipmunkpp</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\chipmunkpp\chipmunkpp\segmentshape.hpp">
+      <Filter>chipmunkpp</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\chipmunkpp\chipmunkpp\shape.hpp">
+      <Filter>chipmunkpp</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\chipmunkpp\chipmunkpp\space.hpp">
+      <Filter>chipmunkpp</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\chipmunkpp\chipmunkpp\types.hpp">
+      <Filter>chipmunkpp</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\chipmunkpp\chipmunkpp\vect.hpp">
+      <Filter>chipmunkpp</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\chipmunkpp\chipmunk.hpp">
+      <Filter>chipmunkpp</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="..\math\Mat4.inl">
@@ -3598,9 +4096,9 @@
     <None Include="..\math\Vec4.inl">
       <Filter>math</Filter>
     </None>
-    <None Include="cocos2d.def" />
     <None Include="..\3d\CCAnimationCurve.inl">
       <Filter>3d</Filter>
     </None>
+    <None Include="cocos2d.def" />
   </ItemGroup>
 </Project>
