@@ -157,6 +157,9 @@ Spellcaster::~Spellcaster()
     }
 }
 
+const float ObjectSensor::coneHalfWidth = float_pi / 4;
+
+
 GObject* ObjectSensor::getSensedObject()
 {
     SpaceVect facingUnit = SpaceVect::ray(1, body->getAngle());

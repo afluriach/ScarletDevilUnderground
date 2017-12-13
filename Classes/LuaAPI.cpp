@@ -411,6 +411,8 @@ mutex Inst::queueLock;
         lua_setglobal(target, "exitREPL");
 
         doREPL(target);
+
+		return 0;
     }
 
     #define install(name) installFunction(name, #name)

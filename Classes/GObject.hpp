@@ -207,6 +207,8 @@ public:
 };
 
 class ScriptedRadar : virtual public RadarObject, virtual public ScriptedObject{
+public:
+	inline ScriptedRadar() {}
     inline void onDetect(GObject* other){
         ctx.callIfExistsNoReturn("onDetect",ctx.makeArgs(other));
     }
@@ -219,11 +221,13 @@ class ScriptedRadar : virtual public RadarObject, virtual public ScriptedObject{
 class ObjectSensor : virtual public RadarObject
 {
 public:
+	inline ObjectSensor() {}
+
     //for object sensing
     virtual float getRadarRadius() const { return 2.5;}
     virtual GType getRadarType() const { return GType::objectSensor;}
     
-    static constexpr float coneHalfWidth = float_pi / 4;
+	static const float coneHalfWidth;
 
     set<GObject*> inRange;
     
@@ -287,6 +291,8 @@ public:
 class PhysicsObject : public virtual GObject
 {
 public:
+	inline PhysicsObject() {}
+
     //A default of 0 signifies undefined. Using -1 to indicate static or positive for dynamic.
     virtual float getMass() const = 0;
     virtual GType getType() const = 0;
@@ -443,6 +449,7 @@ public:
 class TouchDamageEnemy : public virtual Enemy
 {
 public:
+	inline TouchDamageEnemy() {}
     virtual void onTouchPlayer(Player* player);
 };
 
@@ -461,7 +468,8 @@ class HitPointsEnemy : public virtual Enemy, RegisterUpdate<HitPointsEnemy>
 class PlayerBulletDamage : public virtual HitPointsEnemy
 {
 public:
-    virtual void onPlayerBulletHit(Bullet* bullet);
+	inline PlayerBulletDamage() {}
+	virtual void onPlayerBulletHit(Bullet* bullet);
 };
 
 #endif /* GObject_hpp */
