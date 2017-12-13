@@ -17,8 +17,13 @@
 #include <stdlib.h>
 #include <string.h>
 
+#ifdef _WIN32
+#include "SysTime.h"
+#include "unistd.h"
+#else
 #include <sys/time.h>
 #include <unistd.h>
+#endif
 
 #include "lua.h"
 #include "lstate.h"

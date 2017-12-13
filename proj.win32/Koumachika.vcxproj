@@ -68,6 +68,7 @@
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <LibraryPath>$(MSBuildProgramFiles32)\Microsoft SDKs\Windows\v7.1A\lib;$(LibraryPath)</LibraryPath>
+    <IncludePath>D:\dev\boost_1_59_0;$(IncludePath)</IncludePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <LibraryPath>$(MSBuildProgramFiles32)\Microsoft SDKs\Windows\v7.1A\lib;$(LibraryPath)</LibraryPath>
@@ -75,7 +76,7 @@
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
       <Optimization>Disabled</Optimization>
-      <AdditionalIncludeDirectories>$(EngineRoot)cocos\audio\include;$(EngineRoot)external;$(EngineRoot)external\chipmunk\include\chipmunk;$(EngineRoot)extensions;..\Classes;..;%(AdditionalIncludeDirectories);$(_COCOS_HEADER_WIN32_BEGIN);$(_COCOS_HEADER_WIN32_END)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>D:\dev\boost_1_59_0;C:\Users\toni\git\kouma\Classes\scenes;$(EngineRoot)cocos\audio\include;$(EngineRoot)external;C:\Users\toni\git\kouma\cocos2d\LuaBridge;C:\Users\toni\git\kouma\cocos2d\LuaBridge\detail;C:\Users\toni\git\kouma\cocos2d\lua;C:\Users\toni\git\kouma\cocos2d\chipmunk\constraints;C:\Users\toni\git\kouma\cocos2d\chipmunkpp;C:\Users\toni\git\kouma\cocos2d\chipmunk;$(EngineRoot)extensions;..\Classes;..;%(AdditionalIncludeDirectories);$(_COCOS_HEADER_WIN32_BEGIN);$(_COCOS_HEADER_WIN32_END)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>WIN32;_DEBUG;_WINDOWS;_USE_MATH_DEFINES;GL_GLEXT_PROTOTYPES;CC_ENABLE_CHIPMUNK_INTEGRATION=1;COCOS2D_DEBUG=1;_CRT_SECURE_NO_WARNINGS;_SCL_SECURE_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <MinimalRebuild>false</MinimalRebuild>
       <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
@@ -86,11 +87,12 @@
       <DebugInformationFormat>EditAndContinue</DebugInformationFormat>
       <DisableSpecificWarnings>4267;4251;4244;%(DisableSpecificWarnings)</DisableSpecificWarnings>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
+      <LanguageStandard>stdcpp14</LanguageStandard>
     </ClCompile>
     <Link>
       <AdditionalDependencies>%(AdditionalDependencies);$(_COCOS_LIB_WIN32_BEGIN);$(_COCOS_LIB_WIN32_END)</AdditionalDependencies>
       <OutputFile>$(OutDir)$(ProjectName).exe</OutputFile>
-      <AdditionalLibraryDirectories>$(OutDir);%(AdditionalLibraryDirectories);$(_COCOS_LIB_PATH_WIN32_BEGIN);$(_COCOS_LIB_PATH_WIN32_END)</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>D:\dev\boost_1_59_0\lib-vc140\;$(OutDir);%(AdditionalLibraryDirectories);$(_COCOS_LIB_PATH_WIN32_BEGIN);$(_COCOS_LIB_PATH_WIN32_END)</AdditionalLibraryDirectories>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <SubSystem>Windows</SubSystem>
       <TargetMachine>MachineX86</TargetMachine>
@@ -109,7 +111,7 @@ xcopy "$(ProjectDir)..\Resources" "$(OutDir)" /D /E /I /F /Y</Command>
     <ClCompile>
       <Optimization>MaxSpeed</Optimization>
       <IntrinsicFunctions>true</IntrinsicFunctions>
-      <AdditionalIncludeDirectories>$(EngineRoot)cocos\audio\include;$(EngineRoot)external;$(EngineRoot)external\chipmunk\include\chipmunk;$(EngineRoot)extensions;..\Classes;..;%(AdditionalIncludeDirectories);$(_COCOS_HEADER_WIN32_BEGIN);$(_COCOS_HEADER_WIN32_END)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>D:\dev\boost_1_59_0;C:\Users\toni\git\kouma\Classes\scenes;$(EngineRoot)cocos\audio\include;$(EngineRoot)external;C:\Users\toni\git\kouma\cocos2d\LuaBridge;C:\Users\toni\git\kouma\cocos2d\LuaBridge\detail;C:\Users\toni\git\kouma\cocos2d\lua;C:\Users\toni\git\kouma\cocos2d\chipmunk\constraints;C:\Users\toni\git\kouma\cocos2d\chipmunkpp;C:\Users\toni\git\kouma\cocos2d\chipmunk;$(EngineRoot)extensions;..\Classes;..;%(AdditionalIncludeDirectories);$(_COCOS_HEADER_WIN32_BEGIN);$(_COCOS_HEADER_WIN32_END)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>WIN32;NDEBUG;_WINDOWS;_USE_MATH_DEFINES;GL_GLEXT_PROTOTYPES;CC_ENABLE_CHIPMUNK_INTEGRATION=1;_CRT_SECURE_NO_WARNINGS;_SCL_SECURE_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
       <FunctionLevelLinking>true</FunctionLevelLinking>
@@ -119,11 +121,12 @@ xcopy "$(ProjectDir)..\Resources" "$(OutDir)" /D /E /I /F /Y</Command>
       <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
       <DisableSpecificWarnings>4267;4251;4244;%(DisableSpecificWarnings)</DisableSpecificWarnings>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
+      <LanguageStandard>stdcpp14</LanguageStandard>
     </ClCompile>
     <Link>
       <AdditionalDependencies>libcurl_imp.lib;websockets.lib;%(AdditionalDependencies);$(_COCOS_LIB_WIN32_BEGIN);$(_COCOS_LIB_WIN32_END)</AdditionalDependencies>
       <OutputFile>$(OutDir)$(ProjectName).exe</OutputFile>
-      <AdditionalLibraryDirectories>$(OutDir);%(AdditionalLibraryDirectories);$(_COCOS_LIB_PATH_WIN32_BEGIN);$(_COCOS_LIB_PATH_WIN32_END)</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>D:\dev\boost_1_59_0\lib-x64;$(OutDir);%(AdditionalLibraryDirectories);$(_COCOS_LIB_PATH_WIN32_BEGIN);$(_COCOS_LIB_PATH_WIN32_END)</AdditionalLibraryDirectories>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <SubSystem>Windows</SubSystem>
       <OptimizeReferences>true</OptimizeReferences>
@@ -141,13 +144,85 @@ xcopy "$(ProjectDir)..\Resources" "$(OutDir)" /D /E /I /F /Y</Command>
     </PreLinkEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="..\Classes\AppDelegate.cpp" />
-    <ClCompile Include="..\Classes\HelloWorldScene.cpp" />
+    <ClCompile Include="..\Classes\AI.cpp" />
+    <ClCompile Include="..\Classes\App.cpp" />
+    <ClCompile Include="..\Classes\Block.cpp" />
+    <ClCompile Include="..\Classes\Bullet.cpp" />
+    <ClCompile Include="..\Classes\controls.cpp" />
+    <ClCompile Include="..\Classes\Dialog.cpp" />
+    <ClCompile Include="..\Classes\GAnimation.cpp" />
+    <ClCompile Include="..\Classes\Garden.cpp" />
+    <ClCompile Include="..\Classes\Glyph.cpp" />
+    <ClCompile Include="..\Classes\GObject.cpp" />
+    <ClCompile Include="..\Classes\Graph.cpp" />
+    <ClCompile Include="..\Classes\Graphics.cpp" />
+    <ClCompile Include="..\Classes\GSpace.cpp" />
+    <ClCompile Include="..\Classes\GState.cpp" />
+    <ClCompile Include="..\Classes\HUD.cpp" />
+    <ClCompile Include="..\Classes\InventoryObject.cpp" />
+    <ClCompile Include="..\Classes\Items.cpp" />
+    <ClCompile Include="..\Classes\LuaAPI.cpp" />
+    <ClCompile Include="..\Classes\LuaConvert.cpp" />
+    <ClCompile Include="..\Classes\LuaCWrappers.cpp" />
+    <ClCompile Include="..\Classes\LuaShell.cpp" />
+    <ClCompile Include="..\Classes\LuaWrap.cpp" />
+    <ClCompile Include="..\Classes\menu.cpp" />
+    <ClCompile Include="..\Classes\ObjectMapping.cpp" />
+    <ClCompile Include="..\Classes\Patchouli.cpp" />
+    <ClCompile Include="..\Classes\Player.cpp" />
+    <ClCompile Include="..\Classes\PlayScene.cpp" />
+    <ClCompile Include="..\Classes\SceneMapping.cpp" />
+    <ClCompile Include="..\Classes\scenes\scenes.cpp" />
+    <ClCompile Include="..\Classes\Spell.cpp" />
+    <ClCompile Include="..\Classes\SpellMapping.cpp" />
+    <ClCompile Include="..\Classes\Stalker.cpp" />
+    <ClCompile Include="..\Classes\Torch.cpp" />
+    <ClCompile Include="..\Classes\util.cpp" />
     <ClCompile Include="main.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\Classes\AppDelegate.h" />
-    <ClInclude Include="..\Classes\HelloWorldScene.h" />
+    <ClInclude Include="..\Classes\AI.hpp" />
+    <ClInclude Include="..\Classes\App.h" />
+    <ClInclude Include="..\Classes\Block.hpp" />
+    <ClInclude Include="..\Classes\Bullet.hpp" />
+    <ClInclude Include="..\Classes\CollectGlyph.hpp" />
+    <ClInclude Include="..\Classes\controls.h" />
+    <ClInclude Include="..\Classes\Dialog.hpp" />
+    <ClInclude Include="..\Classes\Flower.h" />
+    <ClInclude Include="..\Classes\GAnimation.hpp" />
+    <ClInclude Include="..\Classes\Garden.hpp" />
+    <ClInclude Include="..\Classes\Glyph.hpp" />
+    <ClInclude Include="..\Classes\GObject.hpp" />
+    <ClInclude Include="..\Classes\Graph.hpp" />
+    <ClInclude Include="..\Classes\Graphics.h" />
+    <ClInclude Include="..\Classes\GSpace.hpp" />
+    <ClInclude Include="..\Classes\GState.hpp" />
+    <ClInclude Include="..\Classes\HUD.hpp" />
+    <ClInclude Include="..\Classes\InventoryObject.hpp" />
+    <ClInclude Include="..\Classes\Items.hpp" />
+    <ClInclude Include="..\Classes\LuaAPI.hpp" />
+    <ClInclude Include="..\Classes\LuaConvert.h" />
+    <ClInclude Include="..\Classes\LuaError.h" />
+    <ClInclude Include="..\Classes\LuaShell.hpp" />
+    <ClInclude Include="..\Classes\LuaWrap.h" />
+    <ClInclude Include="..\Classes\macros.h" />
+    <ClInclude Include="..\Classes\Marisa.hpp" />
+    <ClInclude Include="..\Classes\menu.h" />
+    <ClInclude Include="..\Classes\multifunction.h" />
+    <ClInclude Include="..\Classes\Patchouli.hpp" />
+    <ClInclude Include="..\Classes\Player.hpp" />
+    <ClInclude Include="..\Classes\PlayScene.hpp" />
+    <ClInclude Include="..\Classes\Prefix.h" />
+    <ClInclude Include="..\Classes\Reimu.hpp" />
+    <ClInclude Include="..\Classes\scenes.h" />
+    <ClInclude Include="..\Classes\scenes\Collect.h" />
+    <ClInclude Include="..\Classes\scenes\LibraryOpening.h" />
+    <ClInclude Include="..\Classes\SceneUtil.h" />
+    <ClInclude Include="..\Classes\Spell.hpp" />
+    <ClInclude Include="..\Classes\Stalker.hpp" />
+    <ClInclude Include="..\Classes\Torch.hpp" />
+    <ClInclude Include="..\Classes\types.h" />
+    <ClInclude Include="..\Classes\util.h" />
     <ClInclude Include="main.h" />
   </ItemGroup>
   <ItemGroup>

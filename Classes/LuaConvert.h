@@ -269,7 +269,7 @@ template<typename K,typename V>
 struct convert<unordered_map<K,V>>{
     inline static unordered_map<K,V> convertFromLua(const string& name, int argNum, LuaRef ref)
     {
-        if(not ref.isTable())
+        if(!ref.isTable())
             throw lua_type_error(" is not a table");
         
         return getMapFromTable<K,V>(ref);

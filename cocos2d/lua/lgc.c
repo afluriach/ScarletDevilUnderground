@@ -11,6 +11,7 @@
 
 
 #include <string.h>
+#include <stdio.h>
 
 #include <boost/timer.hpp>
 
