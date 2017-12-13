@@ -15,6 +15,8 @@ namespace ai{
 
 //Not strictly an AI function since it's used to control the player.
 void applyDesiredVelocity(GObject& obj, const SpaceVect& desired, float maxForce);
+void seek(GObject& agent, GObject& target, float maxSpeed, float acceleration);
+Vec2 directionToTarget(GObject& agent, GObject& target);
 
 } //end NS
 

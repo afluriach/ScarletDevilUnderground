@@ -187,3 +187,24 @@ void DialogEntity::interact()
 {
     GScene::crntScene->createDialog(getDialog(), false);
 }
+
+void HitPointsEnemy::hit(int damage)
+{
+    hp -= damage;
+}
+
+void HitPointsEnemy::update()
+{
+    if(hp == 0){
+        GScene::getSpace()->removeObject(this);
+    }
+}
+
+void TouchDamageEnemy::onTouchPlayer(Player* player){
+        player->hit();
+}
+
+void PlayerBulletDamage::onPlayerBulletHit(Bullet* bullet)
+{
+    hit(1);
+}

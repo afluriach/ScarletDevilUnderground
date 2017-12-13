@@ -31,4 +31,16 @@ void applyDesiredVelocity(GObject& obj, const SpaceVect& desired, float accelera
     }
 }
 
+Vec2 directionToTarget(GObject& agent, GObject& target)
+{
+    return (toCocos(target.getPos()) - toCocos(agent.getPos())).getNormalized();
+}
+
+void seek(GObject& agent, GObject& target, float maxSpeed, float acceleration)
+{
+    Vec2 direction = directionToTarget(agent,target);
+    
+    applyDesiredVelocity(agent, toChipmunk(direction*maxSpeed), acceleration);
+}
+
 }//end NS

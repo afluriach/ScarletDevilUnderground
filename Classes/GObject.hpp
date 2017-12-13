@@ -9,6 +9,9 @@
 #ifndef GObject_hpp
 #define GObject_hpp
 
+class Player;
+class Bullet;
+
 class GObject
 {
 public:
@@ -428,6 +431,37 @@ public:
     void stop();
 protected:
     shared_ptr<Spell> crntSpell;
+};
+
+class Enemy : public virtual GObject
+{
+public:
+    virtual void onTouchPlayer(Player* target) = 0;
+    virtual void onPlayerBulletHit(Bullet* bullet) = 0;
+};
+
+class TouchDamageEnemy : public virtual Enemy
+{
+public:
+    virtual void onTouchPlayer(Player* player);
+};
+
+class HitPointsEnemy : public virtual Enemy, RegisterUpdate<HitPointsEnemy>
+{
+    public:
+        inline HitPointsEnemy(int _hp) : hp(_hp), RegisterUpdate(this) {}
+    
+        void update();
+    
+        void hit(int damage);
+    private:
+        int hp;
+};
+
+class PlayerBulletDamage : public virtual HitPointsEnemy
+{
+public:
+    virtual void onPlayerBulletHit(Bullet* bullet);
 };
 
 #endif /* GObject_hpp */

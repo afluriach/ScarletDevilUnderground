@@ -7,6 +7,7 @@
 //
 
 #include "Prefix.h"
+#include "Bullet.hpp"
 
 const set<GType> GSpace::selfCollideTypes = list_of_typed(
     (GType::environment),
@@ -339,7 +340,19 @@ void logHandler(const string& base, Arbiter& arb)
 
 int playerEnemyBegin(Arbiter arb, Space& spacae)
 {
-    logHandler("playerEnemyBegin", arb);
+    OBJS_FROM_ARB
+    
+    Player* p = dynamic_cast<Player*>(a);
+    Enemy* e = dynamic_cast<Enemy*>(b);
+    
+    if(!p)
+        log("%s is not a Player", a->getName().c_str());
+    if(!e)
+        log("%s is not an Enemy", b->getName().c_str());
+    
+    if(p && e)
+        e->onTouchPlayer(p);
+
     return 1;
 }
 
@@ -364,6 +377,18 @@ int playerEnemyBulletBegin(Arbiter arb, Space& spacae)
 int playerBulletEnemyBegin(Arbiter arb, Space& spacae)
 {
     OBJS_FROM_ARB
+    
+    Bullet* bullet = dynamic_cast<Bullet*>(a);
+    Enemy* enemy = dynamic_cast<Enemy*>(b);
+    
+    if(!bullet)
+        log("%s is not a Bullet", a->getName().c_str());
+    if(!enemy)
+        log("%s is not an Enemy", b->getName().c_str());
+    
+    if(bullet && enemy)
+        enemy->onPlayerBulletHit(bullet);
+    
     log("%s hit by %s", b->name.c_str(), a->name.c_str());
     GScene::getSpace()->removeObject(a);
     return 1;

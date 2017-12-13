@@ -20,8 +20,8 @@ public:
         KeyRegisterEvent,
     };
     
-    static const int width = 800;
-    static const int height = 500;
+    static const int width = 1600;
+    static const int height = 1000;
     
     float screenscale = 1;
     float dpiscale = 1;

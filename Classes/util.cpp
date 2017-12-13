@@ -38,17 +38,26 @@ float dirToPhysicsAngle(Direction d)
     }
 }
 
+//cocos Vector uses atan2, which returns angle in range [-pi,pi]
 Direction toDirection(SpaceVect v)
 {
-    if(v.y > 0)
-        return Direction::upDir;
-    else if(v.y < 0)
-        return Direction::downDir;
-    if(v.x < 0)
-        return Direction::leftDir;
-    else if(v.x > 0)
-        return Direction::rightDir;
+    if(v.x == 0 && v.y == 0)
+        return Direction::noneDir;
+
+    float a = toCocos(v).getAngle();
     
+    if(a >= -1.0/4.0*float_pi && a < 1.0/4.0*float_pi)
+        return Direction::rightDir;
+
+    if(a >=1.0/4.0*float_pi && a < 3.0/4.0*float_pi)
+        return Direction::upDir;
+    if(a >= -3.0/4.0*float_pi && a < -1.0/4.0*float_pi)
+        return Direction::downDir;
+    
+    if(a >= 3.0/4.0*float_pi || a < -3.0/4.0*float_pi)
+        return Direction::leftDir;
+    
+    //shouldn't happen
     return Direction::noneDir;
 }
 

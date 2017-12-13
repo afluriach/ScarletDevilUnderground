@@ -12,11 +12,14 @@
 #include "Bullet.hpp"
 #include "Flower.h"
 #include "Glyph.hpp"
+#include "Torch.hpp"
 #include "CollectGlyph.hpp"
 
 #include "Marisa.hpp"
 #include "Patchouli.hpp"
 #include "Reimu.hpp"
+
+#include "Stalker.hpp"
 
 #include "Player.hpp"
 
@@ -56,6 +59,7 @@ const unordered_map<string,GObject::AdapterType> GObject::adapters =
     entry_same(StarBullet)
     entry_same(Flower)
     entry_same(Glyph)
+    entry_same(Torch)
     entry_same(CollectGlyph)
 
     item_entry_same(GraveyardKey)
@@ -63,5 +67,7 @@ const unordered_map<string,GObject::AdapterType> GObject::adapters =
     entry_same(Marisa)
     entry_same(Patchouli)
     entry_same(Reimu)
+
+    entry_same(Stalker)
 
     entry_same(Player);
