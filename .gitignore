@@ -33,3 +33,4 @@ Debug.win32/
 *.obj
 *.lib
 *.idb
+Release.win32/
