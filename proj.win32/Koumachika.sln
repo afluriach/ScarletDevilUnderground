@@ -6,16 +6,28 @@ MinimumVisualStudioVersion = 10.0.40219.1
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Koumachika", "Koumachika.vcxproj", "{76A39BB2-9B84-4C65-98A5-654D86B86F2A}"
 	ProjectSection(ProjectDependencies) = postProject
 		{22B76414-479B-4CB2-8B79-68C3C834DE72} = {22B76414-479B-4CB2-8B79-68C3C834DE72}
+		{891C2952-CC7F-4DB5-BDE8-C8AFC09ADDE4} = {891C2952-CC7F-4DB5-BDE8-C8AFC09ADDE4}
+		{BCF87273-1181-4559-8261-5BFBF18C0E62} = {BCF87273-1181-4559-8261-5BFBF18C0E62}
 		{98A51BA8-FC3A-415B-AC8F-8C7BD464E93E} = {98A51BA8-FC3A-415B-AC8F-8C7BD464E93E}
 	EndProjectSection
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "libcocos2d", "..\cocos2d\cocos\2d\libcocos2d.vcxproj", "{98A51BA8-FC3A-415B-AC8F-8C7BD464E93E}"
+	ProjectSection(ProjectDependencies) = postProject
+		{BCF87273-1181-4559-8261-5BFBF18C0E62} = {BCF87273-1181-4559-8261-5BFBF18C0E62}
+	EndProjectSection
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "libbox2d", "..\cocos2d\external\Box2D\proj.win32\libbox2d.vcxproj", "{929480E7-23C0-4DF6-8456-096D71547116}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "libSpine", "..\cocos2d\cocos\editor-support\spine\proj.win32\libSpine.vcxproj", "{B7C2A162-DEC9-4418-972E-240AB3CBFCAE}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Lua", "..\cocos2d\lua\Lua\Lua.vcxproj", "{22B76414-479B-4CB2-8B79-68C3C834DE72}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Chipmunk", "..\cocos2d\chipmunk\Chipmunk\Chipmunk.vcxproj", "{BCF87273-1181-4559-8261-5BFBF18C0E62}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "ChipmunkPlusPlus", "..\cocos2d\chipmunkpp\ChipmunkPlusPlus\ChipmunkPlusPlus.vcxproj", "{891C2952-CC7F-4DB5-BDE8-C8AFC09ADDE4}"
+	ProjectSection(ProjectDependencies) = postProject
+		{BCF87273-1181-4559-8261-5BFBF18C0E62} = {BCF87273-1181-4559-8261-5BFBF18C0E62}
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -57,6 +69,22 @@ Global
 		{22B76414-479B-4CB2-8B79-68C3C834DE72}.Release|Win32.Build.0 = Release|Win32
 		{22B76414-479B-4CB2-8B79-68C3C834DE72}.Release|x64.ActiveCfg = Release|x64
 		{22B76414-479B-4CB2-8B79-68C3C834DE72}.Release|x64.Build.0 = Release|x64
+		{BCF87273-1181-4559-8261-5BFBF18C0E62}.Debug|Win32.ActiveCfg = Debug|Win32
+		{BCF87273-1181-4559-8261-5BFBF18C0E62}.Debug|Win32.Build.0 = Debug|Win32
+		{BCF87273-1181-4559-8261-5BFBF18C0E62}.Debug|x64.ActiveCfg = Debug|x64
+		{BCF87273-1181-4559-8261-5BFBF18C0E62}.Debug|x64.Build.0 = Debug|x64
+		{BCF87273-1181-4559-8261-5BFBF18C0E62}.Release|Win32.ActiveCfg = Release|Win32
+		{BCF87273-1181-4559-8261-5BFBF18C0E62}.Release|Win32.Build.0 = Release|Win32
+		{BCF87273-1181-4559-8261-5BFBF18C0E62}.Release|x64.ActiveCfg = Release|x64
+		{BCF87273-1181-4559-8261-5BFBF18C0E62}.Release|x64.Build.0 = Release|x64
+		{891C2952-CC7F-4DB5-BDE8-C8AFC09ADDE4}.Debug|Win32.ActiveCfg = Debug|Win32
+		{891C2952-CC7F-4DB5-BDE8-C8AFC09ADDE4}.Debug|Win32.Build.0 = Debug|Win32
+		{891C2952-CC7F-4DB5-BDE8-C8AFC09ADDE4}.Debug|x64.ActiveCfg = Debug|x64
+		{891C2952-CC7F-4DB5-BDE8-C8AFC09ADDE4}.Debug|x64.Build.0 = Debug|x64
+		{891C2952-CC7F-4DB5-BDE8-C8AFC09ADDE4}.Release|Win32.ActiveCfg = Release|Win32
+		{891C2952-CC7F-4DB5-BDE8-C8AFC09ADDE4}.Release|Win32.Build.0 = Release|Win32
+		{891C2952-CC7F-4DB5-BDE8-C8AFC09ADDE4}.Release|x64.ActiveCfg = Release|x64
+		{891C2952-CC7F-4DB5-BDE8-C8AFC09ADDE4}.Release|x64.Build.0 = Release|x64
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

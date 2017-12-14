@@ -122,7 +122,7 @@ xcopy /Y /Q "$(ProjectDir)..\..\external\sqlite3\libraries\win32\*.*" "$(OutDir)
       <ImportLibrary>$(TargetDir)$(TargetName).lib</ImportLibrary>
       <TargetMachine>MachineX86</TargetMachine>
       <ModuleDefinitionFile>cocos2d.def</ModuleDefinitionFile>
-      <AdditionalDependencies>sqlite3.lib;libcurl_imp.lib;websockets.lib;libmpg123.lib;libogg.lib;libvorbis.lib;libvorbisfile.lib;OpenAL32.lib;legacy_stdio_definitions.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>Chipmunk.lib;sqlite3.lib;libcurl_imp.lib;websockets.lib;libmpg123.lib;libogg.lib;libvorbis.lib;libvorbisfile.lib;OpenAL32.lib;legacy_stdio_definitions.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
     <PostBuildEvent>
       <Command>
@@ -165,11 +165,10 @@ xcopy /Y /Q "$(ProjectDir)..\..\external\win32-specific\OpenalSoft\prebuilt\*.*"
 xcopy /Y /Q "$(ProjectDir)..\..\external\win32-specific\MP3Decoder\prebuilt\*.*" "$(OutDir)"
 xcopy /Y /Q "$(ProjectDir)..\..\external\win32-specific\OggDecoder\prebuilt\*.*" "$(OutDir)"
 xcopy /Y /Q "$(ProjectDir)..\..\external\sqlite3\libraries\win32\*.*" "$(OutDir)"
-xcopy /Y /Q "$(ProjectDir)..\..\external\chipmunk\prebuilt\win32\release-lib\*.*" "$(OutDir)"
 </Command>
     </PreLinkEvent>
     <Link>
-      <AdditionalDependencies>sqlite3.lib;libcurl_imp.lib;websockets.lib;libmpg123.lib;libogg.lib;libvorbis.lib;libvorbisfile.lib;OpenAL32.lib;legacy_stdio_definitions.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>Chipmunk.lib;sqlite3.lib;libcurl_imp.lib;websockets.lib;libmpg123.lib;libogg.lib;libvorbis.lib;libvorbisfile.lib;OpenAL32.lib;legacy_stdio_definitions.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <OutputFile>$(OutDir)$(ProjectName).dll</OutputFile>
       <AdditionalLibraryDirectories>$(OutDir);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <IgnoreSpecificDefaultLibraries>LIBCMTD.lib;%(IgnoreSpecificDefaultLibraries)</IgnoreSpecificDefaultLibraries>
@@ -187,46 +186,6 @@ xcopy /Y /Q "$(ProjectDir)..\..\external\chipmunk\prebuilt\win32\release-lib\*.*
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="..\..\chipmunkpp\chipmunk.cpp" />
-    <ClCompile Include="..\..\chipmunkpp\chipmunkpp\arbiter.cpp" />
-    <ClCompile Include="..\..\chipmunkpp\chipmunkpp\bb.cpp" />
-    <ClCompile Include="..\..\chipmunkpp\chipmunkpp\body.cpp" />
-    <ClCompile Include="..\..\chipmunkpp\chipmunkpp\circleshape.cpp" />
-    <ClCompile Include="..\..\chipmunkpp\chipmunkpp\polyshape.cpp" />
-    <ClCompile Include="..\..\chipmunkpp\chipmunkpp\segmentshape.cpp" />
-    <ClCompile Include="..\..\chipmunkpp\chipmunkpp\shape.cpp" />
-    <ClCompile Include="..\..\chipmunkpp\chipmunkpp\space.cpp" />
-    <ClCompile Include="..\..\chipmunkpp\chipmunkpp\types.cpp" />
-    <ClCompile Include="..\..\chipmunkpp\chipmunkpp\vect.cpp" />
-    <ClCompile Include="..\..\chipmunk\chipmunk.c" />
-    <ClCompile Include="..\..\chipmunk\constraints\cpConstraint.c" />
-    <ClCompile Include="..\..\chipmunk\constraints\cpDampedRotarySpring.c" />
-    <ClCompile Include="..\..\chipmunk\constraints\cpDampedSpring.c" />
-    <ClCompile Include="..\..\chipmunk\constraints\cpGearJoint.c" />
-    <ClCompile Include="..\..\chipmunk\constraints\cpGrooveJoint.c" />
-    <ClCompile Include="..\..\chipmunk\constraints\cpPinJoint.c" />
-    <ClCompile Include="..\..\chipmunk\constraints\cpPivotJoint.c" />
-    <ClCompile Include="..\..\chipmunk\constraints\cpRatchetJoint.c" />
-    <ClCompile Include="..\..\chipmunk\constraints\cpRotaryLimitJoint.c" />
-    <ClCompile Include="..\..\chipmunk\constraints\cpSimpleMotor.c" />
-    <ClCompile Include="..\..\chipmunk\constraints\cpSlideJoint.c" />
-    <ClCompile Include="..\..\chipmunk\cpArbiter.c" />
-    <ClCompile Include="..\..\chipmunk\cpArray.c" />
-    <ClCompile Include="..\..\chipmunk\cpBB.c" />
-    <ClCompile Include="..\..\chipmunk\cpBBTree.c" />
-    <ClCompile Include="..\..\chipmunk\cpBody.c" />
-    <ClCompile Include="..\..\chipmunk\cpCollision.c" />
-    <ClCompile Include="..\..\chipmunk\cpHashSet.c" />
-    <ClCompile Include="..\..\chipmunk\cpPolyShape.c" />
-    <ClCompile Include="..\..\chipmunk\cpShape.c" />
-    <ClCompile Include="..\..\chipmunk\cpSpace.c" />
-    <ClCompile Include="..\..\chipmunk\cpSpaceComponent.c" />
-    <ClCompile Include="..\..\chipmunk\cpSpaceHash.c" />
-    <ClCompile Include="..\..\chipmunk\cpSpaceQuery.c" />
-    <ClCompile Include="..\..\chipmunk\cpSpaceStep.c" />
-    <ClCompile Include="..\..\chipmunk\cpSpatialIndex.c" />
-    <ClCompile Include="..\..\chipmunk\cpSweep1D.c" />
-    <ClCompile Include="..\..\chipmunk\cpVect.c" />
     <ClCompile Include="..\..\extensions\assets-manager\AssetsManager.cpp" />
     <ClCompile Include="..\..\extensions\assets-manager\AssetsManagerEx.cpp" />
     <ClCompile Include="..\..\extensions\assets-manager\CCEventAssetsManagerEx.cpp" />
@@ -751,45 +710,6 @@ xcopy /Y /Q "$(ProjectDir)..\..\external\chipmunk\prebuilt\win32\release-lib\*.*
     <ClCompile Include="SpritePolygonCache.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\..\chipmunkpp\chipmunk.hpp" />
-    <ClInclude Include="..\..\chipmunkpp\chipmunkpp\arbiter.hpp" />
-    <ClInclude Include="..\..\chipmunkpp\chipmunkpp\bb.hpp" />
-    <ClInclude Include="..\..\chipmunkpp\chipmunkpp\body.hpp" />
-    <ClInclude Include="..\..\chipmunkpp\chipmunkpp\circleshape.hpp" />
-    <ClInclude Include="..\..\chipmunkpp\chipmunkpp\memory.hpp" />
-    <ClInclude Include="..\..\chipmunkpp\chipmunkpp\polyshape.hpp" />
-    <ClInclude Include="..\..\chipmunkpp\chipmunkpp\segmentqueryinfo.hpp" />
-    <ClInclude Include="..\..\chipmunkpp\chipmunkpp\segmentshape.hpp" />
-    <ClInclude Include="..\..\chipmunkpp\chipmunkpp\shape.hpp" />
-    <ClInclude Include="..\..\chipmunkpp\chipmunkpp\space.hpp" />
-    <ClInclude Include="..\..\chipmunkpp\chipmunkpp\types.hpp" />
-    <ClInclude Include="..\..\chipmunkpp\chipmunkpp\vect.hpp" />
-    <ClInclude Include="..\..\chipmunk\chipmunk.h" />
-    <ClInclude Include="..\..\chipmunk\chipmunk_ffi.h" />
-    <ClInclude Include="..\..\chipmunk\chipmunk_private.h" />
-    <ClInclude Include="..\..\chipmunk\chipmunk_types.h" />
-    <ClInclude Include="..\..\chipmunk\chipmunk_unsafe.h" />
-    <ClInclude Include="..\..\chipmunk\constraints\cpConstraint.h" />
-    <ClInclude Include="..\..\chipmunk\constraints\cpDampedRotarySpring.h" />
-    <ClInclude Include="..\..\chipmunk\constraints\cpDampedSpring.h" />
-    <ClInclude Include="..\..\chipmunk\constraints\cpGearJoint.h" />
-    <ClInclude Include="..\..\chipmunk\constraints\cpGrooveJoint.h" />
-    <ClInclude Include="..\..\chipmunk\constraints\cpPinJoint.h" />
-    <ClInclude Include="..\..\chipmunk\constraints\cpPivotJoint.h" />
-    <ClInclude Include="..\..\chipmunk\constraints\cpRatchetJoint.h" />
-    <ClInclude Include="..\..\chipmunk\constraints\cpRotaryLimitJoint.h" />
-    <ClInclude Include="..\..\chipmunk\constraints\cpSimpleMotor.h" />
-    <ClInclude Include="..\..\chipmunk\constraints\cpSlideJoint.h" />
-    <ClInclude Include="..\..\chipmunk\constraints\cpUtil.h" />
-    <ClInclude Include="..\..\chipmunk\cpArbiter.h" />
-    <ClInclude Include="..\..\chipmunk\cpBB.h" />
-    <ClInclude Include="..\..\chipmunk\cpBody.h" />
-    <ClInclude Include="..\..\chipmunk\cpPolyShape.h" />
-    <ClInclude Include="..\..\chipmunk\cpShape.h" />
-    <ClInclude Include="..\..\chipmunk\cpSpace.h" />
-    <ClInclude Include="..\..\chipmunk\cpSpatialIndex.h" />
-    <ClInclude Include="..\..\chipmunk\cpVect.h" />
-    <ClInclude Include="..\..\chipmunk\prime.h" />
     <ClInclude Include="..\..\extensions\assets-manager\AssetsManager.h" />
     <ClInclude Include="..\..\extensions\assets-manager\AssetsManagerEx.h" />
     <ClInclude Include="..\..\extensions\assets-manager\CCEventAssetsManagerEx.h" />
