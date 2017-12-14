@@ -1,5 +1,5 @@
 /*
-** $Id: lua.h,v 1.328 2015/06/03 13:03:38 roberto Exp $
+** $Id: lua.h,v 1.332 2016/12/22 15:51:20 roberto Exp $
 ** Lua - A Scripting Language
 ** Lua.org, PUC-Rio, Brazil (http://www.lua.org)
 ** See Copyright Notice at the end of this file
@@ -19,11 +19,11 @@
 #define LUA_VERSION_MAJOR	"5"
 #define LUA_VERSION_MINOR	"3"
 #define LUA_VERSION_NUM		503
-#define LUA_VERSION_RELEASE	"1"
+#define LUA_VERSION_RELEASE	"4"
 
 #define LUA_VERSION	"Lua " LUA_VERSION_MAJOR "." LUA_VERSION_MINOR
 #define LUA_RELEASE	LUA_VERSION "." LUA_VERSION_RELEASE
-#define LUA_COPYRIGHT	LUA_RELEASE "  Copyright (C) 1994-2015 Lua.org, PUC-Rio"
+#define LUA_COPYRIGHT	LUA_RELEASE "  Copyright (C) 1994-2017 Lua.org, PUC-Rio"
 #define LUA_AUTHORS	"R. Ierusalimschy, L. H. de Figueiredo, W. Celes"
 
 
@@ -73,8 +73,7 @@ typedef struct lua_State lua_State;
 
 #define LUA_NUMTAGS		9
 
-#define ttypename(x)	luaT_typenames_[(x) + 1]
-extern const char *const luaT_typenames_[LUA_NUMTAGS+2];
+
 
 /* minimum Lua stack available to a C function */
 #define LUA_MINSTACK	20
@@ -270,8 +269,6 @@ LUA_API void  (lua_setuservalue) (lua_State *L, int idx);
 /*
 ** 'load' and 'call' functions (load and run Lua code)
 */
-int docall (lua_State *L, int narg, int nres);
-
 LUA_API void  (lua_callk) (lua_State *L, int nargs, int nresults,
                            lua_KContext ctx, lua_KFunction k);
 #define lua_call(L,n,r)		lua_callk(L, (n), (r), 0, NULL)
@@ -319,14 +316,7 @@ LUA_API int (lua_gc) (lua_State *L, int what, int data);
 ** miscellaneous functions
 */
 
-int doREPL (lua_State *L);
-int print_gc_stats(lua_State* L);
-struct lua_Debug;
-void lstop (lua_State *L, lua_Debug *ar);
-
 LUA_API int   (lua_error) (lua_State *L);
-
-int msghandler (lua_State *L);
 
 LUA_API int   (lua_next) (lua_State *L, int idx);
 
@@ -371,7 +361,7 @@ LUA_API void      (lua_setallocf) (lua_State *L, lua_Alloc f, void *ud);
 #define lua_pushliteral(L, s)	lua_pushstring(L, "" s)
 
 #define lua_pushglobaltable(L)  \
-	lua_rawgeti(L, LUA_REGISTRYINDEX, LUA_RIDX_GLOBALS)
+	((void)lua_rawgeti(L, LUA_REGISTRYINDEX, LUA_RIDX_GLOBALS))
 
 #define lua_tostring(L,i)	lua_tolstring(L, (i), NULL)
 
@@ -381,8 +371,6 @@ LUA_API void      (lua_setallocf) (lua_State *L, lua_Alloc f, void *ud);
 #define lua_remove(L,idx)	(lua_rotate(L, (idx), -1), lua_pop(L, 1))
 
 #define lua_replace(L,idx)	(lua_copy(L, -1, (idx)), lua_pop(L, 1))
-
-#define lua_swap(L) lua_rotate(L, -2, 1)
 
 /* }============================================================== */
 
@@ -400,54 +388,6 @@ LUA_API void      (lua_setallocf) (lua_State *L, lua_Alloc f, void *ud);
 
 #endif
 /* }============================================================== */
-
-/*
-** {======================================================================
-** Errors
-** =======================================================================
-*/
-
-/*
-** LUAI_THROW/LUAI_TRY define how Lua does exception handling. By
-** default, Lua handles errors with exceptions when compiling as
-** C++ code, with _longjmp/_setjmp when asked to use them, and with
-** longjmp/setjmp otherwise.
-*/
-#if !defined(LUAI_THROW)				/* { */
-
-#if defined(__cplusplus) && !defined(LUA_USE_LONGJMP)	/* { */
-
-/* C++ exceptions */
-#define LUAI_THROW(L,c)		throw(c)
-#define LUAI_TRY(L,c,a) \
-	try { a } catch(...) { if ((c)->status == 0) (c)->status = -1; }
-#define luai_jmpbuf		int  /* dummy variable */
-
-#elif defined(LUA_USE_POSIX)				/* }{ */
-
-/* in POSIX, try _longjmp/_setjmp (more efficient) */
-#define LUAI_THROW(L,c)		_longjmp((c)->b, 1)
-#define LUAI_TRY(L,c,a)		if (_setjmp((c)->b) == 0) { a }
-#define luai_jmpbuf		jmp_buf
-
-#else							/* }{ */
-
-/* ISO C handling with long jumps */
-#define LUAI_THROW(L,c)		longjmp((c)->b, 1)
-#define LUAI_TRY(L,c,a)		if (setjmp((c)->b) == 0) { a }
-#define luai_jmpbuf		jmp_buf
-
-#endif							/* } */
-
-#endif							/* } */
-
-/* chain list of long jump buffers */
-struct lua_longjmp {
-  struct lua_longjmp *previous;
-  luai_jmpbuf b;
-  volatile int status;  /* error code */
-};
-
 
 /*
 ** {======================================================================
@@ -520,7 +460,7 @@ struct lua_Debug {
 
 
 /******************************************************************************
-* Copyright (C) 1994-2015 Lua.org, PUC-Rio.
+* Copyright (C) 1994-2017 Lua.org, PUC-Rio.
 *
 * Permission is hereby granted, free of charge, to any person obtaining
 * a copy of this software and associated documentation files (the

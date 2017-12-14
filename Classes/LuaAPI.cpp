@@ -410,7 +410,7 @@ mutex Inst::queueLock;
         lua_pushboolean(target, 0);
         lua_setglobal(target, "exitREPL");
 
-        doREPL(target);
+//        doREPL(target);
 
 		return 0;
     }
@@ -426,6 +426,6 @@ mutex Inst::queueLock;
         install(getObjectCount);
         installFunction(convertObj, "convert");
         
-        install(print_gc_stats);
+        //install(print_gc_stats);
     }
 }

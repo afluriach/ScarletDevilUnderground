@@ -1,5 +1,5 @@
 /*
-** $Id: lua.c,v 1.225 2015/03/30 15:42:59 roberto Exp $
+** $Id: lua.c,v 1.230 2017/01/12 17:14:26 roberto Exp $
 ** Lua stand-alone interpreter
 ** See Copyright Notice in lua.h
 */
@@ -15,10 +15,10 @@
 #include <string.h>
 
 #include "lua.h"
-#include "lstate.h"
 
 #include "lauxlib.h"
 #include "lualib.h"
+
 
 
 #if !defined(LUA_PROMPT)
@@ -38,8 +38,7 @@
 #define LUA_INIT_VAR		"LUA_INIT"
 #endif
 
-#define LUA_INITVARVERSION  \
-	LUA_INIT_VAR "_" LUA_VERSION_MAJOR "_" LUA_VERSION_MINOR
+#define LUA_INITVARVERSION	LUA_INIT_VAR LUA_VERSUFFIX
 
 
 /*
@@ -56,6 +55,8 @@
 #elif defined(LUA_USE_WINDOWS)	/* }{ */
 
 #include <io.h>
+#include <windows.h>
+
 #define lua_stdin_is_tty()	_isatty(_fileno(stdin))
 
 #else				/* }{ */
@@ -107,8 +108,7 @@ static const char *progname = LUA_PROGNAME;
 /*
 ** Hook set by signal function to stop the interpreter.
 */
-void lstop (lua_State *L, lua_Debug *ar) {
-  L->exit = true;
+static void lstop (lua_State *L, lua_Debug *ar) {
   (void)ar;  /* unused arg. */
   lua_sethook(L, NULL, 0, 0);  /* reset hook */
   luaL_error(L, "interrupted!");
@@ -176,7 +176,7 @@ static int report (lua_State *L, int status) {
 /*
 ** Message handler used to run all chunks
 */
-int msghandler (lua_State *L) {
+static int msghandler (lua_State *L) {
   const char *msg = lua_tostring(L, 1);
   if (msg == NULL) {  /* is error object not a string? */
     if (luaL_callmeta(L, 1, "__tostring") &&  /* does it have a metamethod */
@@ -195,7 +195,7 @@ int msghandler (lua_State *L) {
 ** Interface to 'lua_pcall', which sets appropriate message function
 ** and C-signal handler. Used to run all chunks.
 */
-int docall (lua_State *L, int narg, int nres) {
+static int docall (lua_State *L, int narg, int nres) {
   int status;
   int base = lua_gettop(L) - narg;  /* function index */
   lua_pushcfunction(L, msghandler);  /* push message handler */
@@ -310,16 +310,8 @@ static int pushline (lua_State *L, int firstline) {
   size_t l;
   const char *prmt = get_prompt(L, firstline);
   int readstatus = lua_readline(L, b, prmt);
-  if (readstatus == 0){
-    return 0;
-  }
-
-  //if(buffer + 1 == b)
-  if(buffer[0] == '\0'){
-    //Blank line was entered
+  if (readstatus == 0)
     return 0;  /* no input (prompt will be popped by caller) */
-  }
-  
   lua_pop(L, 1);  /* remove prompt */
   l = strlen(b);
   if (l > 0 && b[l-1] == '\n')  /* line ends with newline? */
@@ -327,30 +319,27 @@ static int pushline (lua_State *L, int firstline) {
   if (firstline && b[0] == '=')  /* for compatibility with 5.2, ... */
     lua_pushfstring(L, "return %s", b + 1);  /* change '=' to 'return' */
   else
-    lua_pushlstring(L, buffer, l);
+    lua_pushlstring(L, b, l);
+  lua_freeline(L, b);
   return 1;
 }
 
 
 /*
-** Try to compile line on the stack as 'return <line>'; on return, stack
+** Try to compile line on the stack as 'return <line>;'; on return, stack
 ** has either compiled chunk or original line (if compilation failed).
 */
 static int addreturn (lua_State *L) {
-  int status;
-  size_t len; const char *line;
-  lua_pushliteral(L, "return ");
-  lua_pushvalue(L, -2);  /* duplicate line */
-  lua_concat(L, 2);  /* new line is "return ..." */
-  line = lua_tolstring(L, -1, &len);
-  if ((status = luaL_loadbuffer(L, line, len, "=stdin")) == LUA_OK) {
-    lua_remove(L, -3);  /* remove original line */
-    line += sizeof("return")/sizeof(char);  /* remove 'return' for history */
+  const char *line = lua_tostring(L, -1);  /* original line */
+  const char *retline = lua_pushfstring(L, "return %s;", line);
+  int status = luaL_loadbuffer(L, retline, strlen(retline), "=stdin");
+  if (status == LUA_OK) {
+    lua_remove(L, -2);  /* remove modified line */
     if (line[0] != '\0')  /* non empty? */
       lua_saveline(L, line);  /* keep history */
   }
   else
-    lua_pop(L, 2);  /* remove result from 'luaL_loadbuffer' and new line */
+    lua_pop(L, 2);  /* pop result from 'luaL_loadbuffer' and modified line */
   return status;
 }
 
@@ -392,6 +381,7 @@ static int loadline (lua_State *L) {
   return status;
 }
 
+
 /*
 ** Prints (calling the Lua 'print' function) any values on the stack
 */
@@ -407,49 +397,24 @@ static void l_print (lua_State *L) {
   }
 }
 
-//Check if flag has been set to break out of REPL.
-int exitREPL(lua_State* L)
-{
-    int result = 0;
-    
-    lua_getglobal(L, "exitREPL");
-    if(!lua_isboolean(L, -1))
-        result = 0;
-    else
-        result = lua_toboolean(L, -1);
-    
-    lua_pop(L, 1);
-    
-    return result;
-}
-
 
 /*
 ** Do the REPL: repeatedly read (load) a line, evaluate (call) it, and
 ** print any results.
 */
-int doREPL (lua_State *L) {
-  printf("REPL started.\n");
-
+static void doREPL (lua_State *L) {
   int status;
   const char *oldprogname = progname;
   progname = NULL;  /* no 'progname' on errors in interactive mode */
-  
   while ((status = loadline(L)) != -1) {
     if (status == LUA_OK)
       status = docall(L, 0, LUA_MULTRET);
     if (status == LUA_OK) l_print(L);
     else report(L, status);
-    
-    if(exitREPL(L)) break;
   }
   lua_settop(L, 0);  /* clear stack */
   lua_writeline();
   progname = oldprogname;
-  
-  printf("REPL ended.\n");
-  
-  return 0;
 }
 
 
@@ -494,7 +459,7 @@ static int handle_script (lua_State *L, char **argv) {
 /*
 ** Traverses all arguments from 'argv', returning a mask with those
 ** needed before running any Lua code (or an error code if it finds
-** any invalid argument). 'first' returns the first not-handled argument 
+** any invalid argument). 'first' returns the first not-handled argument
 ** (either the script name or a bad argument in case of error).
 */
 static int collectargs (char **argv, int *first) {
@@ -518,7 +483,7 @@ static int collectargs (char **argv, int *first) {
         args |= has_E;
         break;
       case 'i':
-        args |= has_i;  /* (-i implies -v) *//* FALLTHROUGH */ 
+        args |= has_i;  /* (-i implies -v) *//* FALLTHROUGH */
       case 'v':
         if (argv[i][2] != '\0')  /* extra characters after 1st? */
           return has_error;  /* invalid option */
@@ -564,6 +529,7 @@ static int runargs (lua_State *L, char **argv, int n) {
   }
   return 1;
 }
+
 
 
 static int handle_luainit (lua_State *L) {
@@ -627,4 +593,20 @@ static int pmain (lua_State *L) {
 }
 
 
+int main (int argc, char **argv) {
+  int status, result;
+  lua_State *L = luaL_newstate();  /* create state */
+  if (L == NULL) {
+    l_message(argv[0], "cannot create state: not enough memory");
+    return EXIT_FAILURE;
+  }
+  lua_pushcfunction(L, &pmain);  /* to call 'pmain' in protected mode */
+  lua_pushinteger(L, argc);  /* 1st argument */
+  lua_pushlightuserdata(L, argv); /* 2nd argument */
+  status = lua_pcall(L, 2, 1, 0);  /* do the call */
+  result = lua_toboolean(L, -1);  /* get result */
+  report(L, status);
+  lua_close(L);
+  return (result && status == LUA_OK) ? EXIT_SUCCESS : EXIT_FAILURE;
+}
 

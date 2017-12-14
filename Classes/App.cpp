@@ -21,7 +21,7 @@ App::App() : lua("app"), replInst("repl")
     lua.runFile("scripts/init.lua");
     
     if(useRepl){
-        luaReplThread = new thread(Lua::replThreadMain, &replInst);
+//        luaReplThread = new thread(Lua::replThreadMain, &replInst);
     }
 }
 
@@ -29,15 +29,15 @@ App::~App()
 {
     delete keyRegister;
     
-    if(useRepl){
-        try{
-            lstop(replInst.state, nullptr);
-        }
-        catch(lua_longjmp* ex){}
-        catch(runtime_error ex) {}
-        luaReplThread->join();
-        delete luaReplThread;
-    }
+//    if(useRepl){
+//        try{
+//            lstop(replInst.state, nullptr);
+//        }
+//        catch(lua_longjmp* ex){}
+//        catch(runtime_error ex) {}
+//        luaReplThread->join();
+//        delete luaReplThread;
+//    }
     
     log("app exiting");
 }
