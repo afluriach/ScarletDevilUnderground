@@ -42,9 +42,6 @@ struct LuaNil
 {
 };
 
-#define ttypename(x)	luaT_typenames_[(x) + 1]
-extern const char *const luaT_typenames_[11];
-
 //------------------------------------------------------------------------------
 /**
     Lightweight reference to a Lua object.

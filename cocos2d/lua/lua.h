@@ -73,7 +73,8 @@ typedef struct lua_State lua_State;
 
 #define LUA_NUMTAGS		9
 
-
+#define ttypename(x)	luaT_typenames_[(x) + 1]
+extern const char *const luaT_typenames_[11];
 
 /* minimum Lua stack available to a C function */
 #define LUA_MINSTACK	20
@@ -269,6 +270,8 @@ LUA_API void  (lua_setuservalue) (lua_State *L, int idx);
 /*
 ** 'load' and 'call' functions (load and run Lua code)
 */
+int docall(lua_State *L, int narg, int nres);
+
 LUA_API void  (lua_callk) (lua_State *L, int nargs, int nresults,
                            lua_KContext ctx, lua_KFunction k);
 #define lua_call(L,n,r)		lua_callk(L, (n), (r), 0, NULL)
