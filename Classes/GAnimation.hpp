@@ -73,7 +73,7 @@ protected:
     Sprite* sprite;
     float distanceAccumulated = 0;
     unsigned char crntFrame = 1;
-    Direction direction = Direction::upDir;
+    Direction direction = Direction::up;
     //Which foot to use for the first step after the animation has been standing still.
     //Represents first step that will be used next time, so it should be toggled immediately after use.
     bool firstStepIsLeft = false;

@@ -140,9 +140,12 @@ void App::installLuaShell(GScene* gscene)
         [=]() -> void {if(luaShell->isVisible()) pendingScript = luaShell->getText();}
     );
     
-    gscene->multiUpdate.insertWithOrder(bind(&App::checkPendingScript,this), GScene::updateOrder::runShellScript);
+    gscene->multiUpdate.insertWithOrder(
+        bind(&App::checkPendingScript,this),
+        static_cast<int>(GScene::updateOrder::runShellScript)
+    );
     
-    gscene->getLayer(GScene::sceneLayers::luaShellLayer)->addChild(luaShell, 1);
+    gscene->getLayer(GScene::sceneLayers::luaShell)->addChild(luaShell, 1);
 }
 
 void App::loadShaders()

@@ -16,7 +16,7 @@ class GScene : public Layer
 {
 public:
     //The order of initialization events, as performed by GScene and it's various dervied classes.
-    enum initOrder{
+    enum class initOrder{
         //This includes all top-level GScene init, as well running Layer::init and Node::scheduleUpdate.
         core = 1,
         //Loading map objects if applicable
@@ -29,7 +29,7 @@ public:
         postLoadObjects,
     };
     
-    enum updateOrder{
+    enum class updateOrder{
         //Update tick on GSpace and all objects, if applicable
         runShellScript=1,
         spaceUpdate,
@@ -39,17 +39,17 @@ public:
         hudUpdate,
     };
     
-    enum sceneLayers{
+    enum class sceneLayers{
         //Represents the world and objects in it (map and all gspace objects).
         //GraphicsLayer is used for z-ordering inside of this layer.
         //It is the only layer that moves with the camera
-        spaceLayer = 1,
-        dialogBackgroundLayer,
-        dialogLayer,
-        hudLayer,
-        menuLayer,
-        luaShellLayer,
-        nLayers
+        space = 1,
+        dialogBackground,
+        dialog,
+        hud,
+        menu,
+        luaShell,
+        end
     };
 
     const int dialogEdgeMargin = 30;
@@ -135,10 +135,16 @@ private:
 class GSpaceScene : virtual public GScene
 {
 public:
-    inline GSpaceScene() : gspace(getLayer(sceneLayers::spaceLayer))
+    inline GSpaceScene() : gspace(getLayer(sceneLayers::space))
     {
-        multiInit.insertWithOrder(wrap_method(GSpaceScene,processAdditions), initOrder::loadObjects);
-        multiUpdate.insertWithOrder(wrap_method(GSpaceScene,updateSpace), updateOrder::spaceUpdate);
+        multiInit.insertWithOrder(
+            wrap_method(GSpaceScene,processAdditions),
+            static_cast<int>(initOrder::loadObjects)
+        );
+        multiUpdate.insertWithOrder(
+            wrap_method(GSpaceScene,updateSpace),
+            static_cast<int>(updateOrder::spaceUpdate)
+        );
     }
 
     GSpace gspace;
@@ -160,7 +166,10 @@ class MapScene : virtual public GSpaceScene
 public:
     inline MapScene(const string& res) : mapRes("maps/"+res+".tmx")
     {
-        multiInit.insertWithOrder(wrap_method(MapScene,loadMap),initOrder::mapLoad);
+        multiInit.insertWithOrder(
+            wrap_method(MapScene,loadMap),
+            static_cast<int>(initOrder::mapLoad)
+        );
     }
     inline SpaceVect getMapSize(){
         return toChipmunk(tileMap->getMapSize());
@@ -185,8 +194,14 @@ public:
     inline ScriptedScene(const string& res) :
     ctx("scene")
     {
-        multiInit.insertWithOrder(wrap_method(ScriptedScene, runInit), initOrder::postLoadObjects);
-        multiUpdate.insertWithOrder(wrap_method(ScriptedScene,runUpdate), updateOrder::sceneUpdate);
+        multiInit.insertWithOrder(
+            wrap_method(ScriptedScene, runInit),
+            static_cast<int>(initOrder::postLoadObjects)
+        );
+        multiUpdate.insertWithOrder(
+            wrap_method(ScriptedScene,runUpdate),
+            static_cast<int>(updateOrder::sceneUpdate)
+        );
         
         if(!res.empty())
         {

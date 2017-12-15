@@ -23,7 +23,7 @@ public:
     
     inline string imageSpritePath() const {return "sprites/flower "+color+".png";}
 
-    virtual GraphicsLayer sceneLayer() const {return GraphicsLayer::foliageLayer;}
+    virtual GraphicsLayer sceneLayer() const {return GraphicsLayer::foliage;}
     
     virtual inline float getMass() const { return -1;}
     virtual inline GType getType() const {return GType::foliage;}

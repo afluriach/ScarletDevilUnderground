@@ -14,7 +14,7 @@ class  App : private Application
 public:
     friend class GScene;
 
-    enum EventPriorities
+    enum class EventPriorities
     {
         KeyGlobalListenerEvent = 1,
         KeyRegisterEvent,

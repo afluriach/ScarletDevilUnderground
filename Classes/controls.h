@@ -9,7 +9,7 @@
 #ifndef controls_h
 #define controls_h
 
-enum Keys
+enum class Keys
 {
     moveUp = 1,
     moveDown,

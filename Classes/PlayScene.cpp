@@ -55,6 +55,9 @@ void PlayScene::updateHUD()
 void PlayScene::addHUD()
 {
     hud = HUD::create();
-    getLayer(sceneLayers::hudLayer)->addChild(hud);
-    multiUpdate.insertWithOrder(wrap_method(PlayScene,updateHUD), updateOrder::hudUpdate);
+    getLayer(sceneLayers::hud)->addChild(hud);
+    multiUpdate.insertWithOrder(
+        wrap_method(PlayScene,updateHUD),
+        static_cast<int>(updateOrder::hudUpdate)
+    );
 }

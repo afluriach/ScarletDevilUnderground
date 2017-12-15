@@ -26,13 +26,16 @@ void GScene::runScene(const string& name)
 GScene::GScene()
 {
     //Updater has to be scheduled at init time.
-    multiInit.insertWithOrder(wrap_method(GScene,initUpdate), initOrder::core);
+    multiInit.insertWithOrder(
+        wrap_method(GScene,initUpdate),
+        static_cast<int>(initOrder::core)
+    );
 
     crntScene = this;
     
     //Create the sublayers at construction (so they are available to mixins at construction time).
     //But do not add sublayers until init time.
-    for(int i=1; i<sceneLayers::nLayers; ++i){
+    for(int i=1; i < static_cast<int>(sceneLayers::end); ++i){
         Layer* l = Layer::create();
         layers.insert(i, l);
     }
@@ -42,7 +45,7 @@ bool GScene::init()
 {
     Layer::init();
     
-    for(int i=1; i<sceneLayers::nLayers; ++i){
+    for(int i=1; i < static_cast<int>(sceneLayers::end); ++i){
         Layer* l = layers.at(i);
         Node::addChild(l,i);
     }
@@ -51,7 +54,7 @@ bool GScene::init()
     float baseViewWidth = App::width * App::tilesPerPixel;
     spaceZoom = baseViewWidth / App::viewWidth;
     //Only apply zoom to space layer.
-    getLayer(sceneLayers::spaceLayer)->setScale(spaceZoom);
+    getLayer(sceneLayers::space)->setScale(spaceZoom);
     
     multiInit(this);
     
@@ -120,7 +123,10 @@ void MapScene::loadMap()
     else
         log("Map %s not found.", mapRes.c_str());
     
-    getLayer(sceneLayers::spaceLayer)->addChild(tileMap, GraphicsLayer::map);
+    getLayer(sceneLayers::space)->addChild(
+        tileMap,
+        static_cast<int>(GraphicsLayer::map)
+    );
     loadMapObjects(*tileMap);
     
     cocos2d::Size size = tileMap->getMapSize();
@@ -156,12 +162,12 @@ HUD* GScene::getHUD()
 void GScene::move(const Vec2& w)
 {
     Vec2 v = w * spaceZoom;
-    getLayer(sceneLayers::spaceLayer)->setPosition(getPositionX()-v.x, getPositionY()-v.y);
+    getLayer(sceneLayers::space)->setPosition(getPositionX()-v.x, getPositionY()-v.y);
 }
 
 void GScene::setUnitPosition(const SpaceVect& v)
 {
-    getLayer(sceneLayers::spaceLayer)->setPosition(
+    getLayer(sceneLayers::space)->setPosition(
         (-App::pixelsPerTile*v.x+App::width/2)*spaceZoom,
         (-App::pixelsPerTile*v.y+App::height/2)*spaceZoom
     );
@@ -172,7 +178,7 @@ void GScene::createDialog(const string& res, bool autoAdvance)
     dialogNode = Dialog::create();
     dialogNode->setDialog(res);
     dialogNode->setPosition(dialogPosition());
-    getLayer(sceneLayers::dialogLayer)->addChild(dialogNode);
+    getLayer(sceneLayers::dialog)->addChild(dialogNode);
     
     //This options are not actually mutually exclusive, but for simplicity just use a flag
     //to choose one.
@@ -180,7 +186,7 @@ void GScene::createDialog(const string& res, bool autoAdvance)
     dialogNode->setManualAdvance(!autoAdvance);
     
     dialogNode->setEndHandler([=]() -> void {
-        getLayer(sceneLayers::dialogLayer)->removeChild(dialogNode);
+        getLayer(sceneLayers::dialog)->removeChild(dialogNode);
         dialogNode = nullptr;
     });
 }
@@ -188,7 +194,7 @@ void GScene::createDialog(const string& res, bool autoAdvance)
 void GScene::stopDialog()
 {
     if(dialogNode){
-        getLayer(sceneLayers::dialogLayer)->removeChild(dialogNode);
+        getLayer(sceneLayers::dialog)->removeChild(dialogNode);
         dialogNode = nullptr;
     }
 }

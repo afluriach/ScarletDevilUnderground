@@ -112,11 +112,11 @@ bool isSelfCollideType(GType t)
     return GSpace::selfCollideTypes.find(t) != GSpace::selfCollideTypes.end();
 }
 
-void setShapeProperties(shared_ptr<Shape> shape, int layers, GType type, bool sensor)
+void setShapeProperties(shared_ptr<Shape> shape, PhysicsLayers layers, GType type, bool sensor)
 {
-    shape->setLayers(layers);
-    shape->setGroup(isSelfCollideType(type) ? 0 : type);
-    shape->setCollisionType(type);
+    shape->setLayers(static_cast<unsigned int>(layers));
+    shape->setGroup(isSelfCollideType(type) ? 0 : static_cast<unsigned int>(type));
+    shape->setCollisionType(static_cast<unsigned int>(type));
     shape->setSensor(sensor);
 }
 
@@ -125,7 +125,7 @@ shared_ptr<Body> GSpace::createCircleBody(
     float radius,
     float mass,
     GType type,
-    int layers,
+    PhysicsLayers layers,
     bool sensor,
     GObject* obj)
 {
@@ -169,7 +169,7 @@ shared_ptr<Body> GSpace::createRectangleBody(
     const SpaceVect& dim,
     float mass,
     GType type,
-    int layers,
+    PhysicsLayers layers,
     bool sensor,
     GObject* obj)
 {
@@ -221,7 +221,7 @@ void GSpace::addWallBlock(SpaceVect ll,SpaceVect ur)
         dim,
         -1,
         GType::wall,
-        PhysicsLayers::allLayers,
+        PhysicsLayers::all,
         false,
         nullptr
     );
@@ -445,7 +445,7 @@ int sensorEnd(Arbiter arb, Space& space)
 
 
 #define AddHandler(a,b,begin,end) \
-space.addCollisionHandler(GType::a, GType::b, begin, nullptr, nullptr, end);
+space.addCollisionHandler(static_cast<CollisionType>(GType::a), static_cast<CollisionType>(GType::b), begin, nullptr, nullptr, end);
 
 void GSpace::addCollisionHandlers()
 {

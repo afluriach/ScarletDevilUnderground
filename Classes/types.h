@@ -13,22 +13,22 @@ typedef pair<int,int> IntVec2;
 //Represents a Chipmunk physics unit space vector
 typedef cp::Vect SpaceVect;
 
-enum Direction{
-    rightDir=1,
-    upDir,
-    leftDir,
-    downDir,
-    noneDir,
+enum class Direction{
+    right=1,
+    up,
+    left,
+    down,
+    none,
 };
 
-enum GraphicsLayer{
+enum class GraphicsLayer{
     map = 1,
-    foliageLayer,
-    floorGraphicsLayer,
+    foliage,
+    floor,
     ground,
 };
 
-enum GType{
+enum class GType{
     player=1,
     playerBullet,
     enemy,
@@ -42,12 +42,12 @@ enum GType{
 
 //Layers are interpreted as a bitmask.
 //For now, multilayer physics is not being used.
-enum PhysicsLayers{
-    floorPhysicsLayer = 1,
-    groundLayer = 2,
+enum class PhysicsLayers{
+    floor = 1,
+    ground = 2,
     
     //must be the bitwise or of all layers
-    allLayers = 3
+    all = 3
 };
 
 #endif /* types_h */

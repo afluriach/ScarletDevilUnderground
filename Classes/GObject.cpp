@@ -51,7 +51,7 @@ void LoopAnimationSprite::initializeGraphics(Layer* layer)
     anim = TimedLoopAnimation::create();
     anim->loadAnimation(animationName(), animationSize(), animationDuration());
     
-    layer->positionAndAddNode(anim, sceneLayer(), getInitialCenterPix(), zoom());
+    layer->positionAndAddNode(anim, sceneLayerAsInt(), getInitialCenterPix(), zoom());
     sprite = anim;
 }
 
@@ -59,7 +59,7 @@ void PatchConSprite::initializeGraphics(Layer* layer)
 {
     animSprite = PatchConAnimation::create();
     animSprite->loadAnimation(imageSpritePath());
-    layer->positionAndAddNode(animSprite, sceneLayer(), getInitialCenterPix(), zoom());
+    layer->positionAndAddNode(animSprite, sceneLayerAsInt(), getInitialCenterPix(), zoom());
     sprite = animSprite;
 }
 
@@ -73,7 +73,7 @@ void PatchConSprite::update()
 void PatchConSprite::setDirection(Direction d)
 {
     GObject::setDirection(d);
-    if(d == Direction::noneDir) return;
+    if(d == Direction::none) return;
 
     animSprite->setDirection(d);
 }

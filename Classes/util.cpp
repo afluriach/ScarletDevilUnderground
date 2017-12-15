@@ -30,11 +30,11 @@ void printValueMap(const ValueMap& obj)
 float dirToPhysicsAngle(Direction d)
 {
     switch(d){
-    case Direction::noneDir:
-    case Direction::rightDir: return 0;
-    case Direction::upDir: return float_pi /2;
-    case Direction::leftDir: return float_pi;
-    case Direction::downDir: return float_pi *3/2;
+    case Direction::none:
+    case Direction::right: return 0;
+    case Direction::up: return float_pi /2;
+    case Direction::left: return float_pi;
+    case Direction::down: return float_pi *3/2;
     }
 }
 
@@ -42,23 +42,23 @@ float dirToPhysicsAngle(Direction d)
 Direction toDirection(SpaceVect v)
 {
     if(v.x == 0 && v.y == 0)
-        return Direction::noneDir;
+        return Direction::none;
 
     float a = toCocos(v).getAngle();
     
     if(a >= -1.0/4.0*float_pi && a < 1.0/4.0*float_pi)
-        return Direction::rightDir;
+        return Direction::right;
 
     if(a >=1.0/4.0*float_pi && a < 3.0/4.0*float_pi)
-        return Direction::upDir;
+        return Direction::up;
     if(a >= -3.0/4.0*float_pi && a < -1.0/4.0*float_pi)
-        return Direction::downDir;
+        return Direction::down;
     
     if(a >= 3.0/4.0*float_pi || a < -3.0/4.0*float_pi)
-        return Direction::leftDir;
+        return Direction::left;
     
     //shouldn't happen
-    return Direction::noneDir;
+    return Direction::none;
 }
 
 float getFloat(const ValueMap& args, const string& name)
@@ -99,7 +99,7 @@ Sprite* loadImageSprite(const string& resPath, GraphicsLayer sceneLayer, Layer* 
     Sprite* node = Sprite::create(resPath);
     
     if(node)
-        dest->positionAndAddNode(node,sceneLayer,pos, zoom);
+        dest->positionAndAddNode(node,static_cast<int>(sceneLayer),pos, zoom);
     else
         log("loadImageSprite: sprite %s not loaded", resPath.c_str());
 

@@ -19,9 +19,18 @@ class PlayScene : virtual public GScene, public MapScene, public ScriptedScene
 public:    
     inline PlayScene(const string& name) : MapScene(name), ScriptedScene(name)
     {
-        multiInit.insertWithOrder(wrap_method(PlayScene,trackPlayer), initOrder::postLoadObjects);
-        multiInit.insertWithOrder(wrap_method(PlayScene,addHUD), initOrder::initHUD);
-        multiUpdate.insertWithOrder(wrap_method(PlayScene,updateCamera), updateOrder::moveCamera);
+        multiInit.insertWithOrder(
+            wrap_method(PlayScene,trackPlayer),
+            static_cast<int>(initOrder::postLoadObjects)
+        );
+        multiInit.insertWithOrder(
+            wrap_method(PlayScene,addHUD),
+            static_cast<int>(initOrder::initHUD)
+        );
+        multiUpdate.insertWithOrder(
+            wrap_method(PlayScene,updateCamera),
+            static_cast<int>(updateOrder::moveCamera)
+        );
     }
     
     //set player object. should be post load object init

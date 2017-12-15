@@ -128,7 +128,7 @@ void PatchConAnimation::reset()
 void PatchConAnimation::setDirection(Direction dir)
 {
     //flip or unflip sprite as needed
-    sprite->setFlippedX(dir == Direction::leftDir);
+    sprite->setFlippedX(dir == Direction::left);
     direction = dir;
     
     //update sprite frame
@@ -173,9 +173,9 @@ void PatchConAnimation::setFrame(int animFrame)
     //set crnt frame, and set sprite's frame to match
     switch(direction)
     {
-    case upDir: index = animFrame; break;
-    case leftDir: case rightDir: index = 8+ animFrame; break;
-    case downDir: index = animFrame*4+3; break;
+    case Direction::up: index = animFrame; break;
+    case Direction::left: case Direction::right: index = 8+ animFrame; break;
+    case Direction::down: index = animFrame*4+3; break;
     }
     sprite->setSpriteFrame(sequence->frames.at(index));
 }

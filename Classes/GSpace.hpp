@@ -82,7 +82,7 @@ public:
         float radius,
         float mass,
         GType type,
-        int layers,
+        PhysicsLayers layers,
         bool sensor,
         GObject* obj
     );
@@ -91,7 +91,7 @@ public:
         const SpaceVect& dim,
         float mass,
         GType type,
-        int layers,
+        PhysicsLayers layers,
         bool sensor,
         GObject* obj
     );

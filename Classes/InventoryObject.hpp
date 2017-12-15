@@ -18,9 +18,9 @@ public:
     virtual inline float getMass() const {return -1;}
     virtual inline GType getType() const {return GType::environment;}
     
-    virtual inline GraphicsLayer sceneLayer() const {return GraphicsLayer::floorGraphicsLayer;}
+    virtual inline GraphicsLayer sceneLayer() const {return GraphicsLayer::floor;}
 
-    virtual inline int getLayers() const { return PhysicsLayers::floorPhysicsLayer;}
+    virtual inline PhysicsLayers getLayers() const { return PhysicsLayers::floor;}
     
     //virtual API for item interaction
     virtual bool canAcquire() = 0;

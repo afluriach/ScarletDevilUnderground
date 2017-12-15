@@ -28,7 +28,7 @@ void Torch::initializeGraphics(Layer* layer)
     sprite->addChild(base, 1);
     sprite->addChild(flame, 2);
     
-    layer->positionAndAddNode(sprite, sceneLayer(), getInitialCenterPix(), 4.0);
+    layer->positionAndAddNode(sprite, sceneLayerAsInt(), getInitialCenterPix(), 4.0);
 }
 
 void Torch::setActive(bool active)

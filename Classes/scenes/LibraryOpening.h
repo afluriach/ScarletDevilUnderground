@@ -25,7 +25,7 @@ public:
         Sprite* background = Sprite::create("portraits/library1.png");
         background->setScale(0.2);
         background->setPosition(App::getScreenCenter());
-        getLayer(sceneLayers::dialogBackgroundLayer)->addChild(background);
+        getLayer(sceneLayers::dialogBackground)->addChild(background);
         
         createDialog("dialogs/library_opening", false);
     }

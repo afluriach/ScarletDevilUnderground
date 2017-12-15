@@ -42,7 +42,10 @@ KeyRegister::KeyRegister()
     keyListener->onKeyPressed = bindMethod(&KeyRegister::onKeyDown, this);
     keyListener->onKeyReleased = bindMethod(&KeyRegister::onKeyUp, this);
 
-    Director::getInstance()->getEventDispatcher()->addEventListenerWithFixedPriority(keyListener, App::EventPriorities::KeyRegisterEvent);
+    Director::getInstance()->getEventDispatcher()->addEventListenerWithFixedPriority(
+        keyListener,
+        static_cast<int>(App::EventPriorities::KeyRegisterEvent)
+    );
 }
 
 #define MOVE_KEYS isKeyDown(Keys::moveUp), isKeyDown(Keys::moveDown), isKeyDown(Keys::moveLeft), isKeyDown(Keys::moveRight)
@@ -111,7 +114,10 @@ bool KeyRegister::isKeyDown(const Keys& key)
 KeyListener::KeyListener()
 {
     initListener();
-    Director::getInstance()->getEventDispatcher()->addEventListenerWithFixedPriority(keyListener, App::EventPriorities::KeyGlobalListenerEvent);
+    Director::getInstance()->getEventDispatcher()->addEventListenerWithFixedPriority(
+        keyListener,
+        static_cast<int>(App::EventPriorities::KeyGlobalListenerEvent)
+    );
 }
 
 KeyListener::KeyListener(Node* node)

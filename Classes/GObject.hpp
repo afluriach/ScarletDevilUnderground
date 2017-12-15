@@ -43,7 +43,7 @@ public:
     }
     
     inline virtual void setDirection(Direction d) {
-        if(body && d != Direction::noneDir)
+        if(body && d != Direction::none)
             body->setAngle(dirToPhysicsAngle(d));
     }
     
@@ -191,7 +191,7 @@ public:
             getRadarRadius(),
             0.1,
             getRadarType(),
-            PhysicsLayers::allLayers,
+            PhysicsLayers::all,
             true,
             this
         );
@@ -297,7 +297,7 @@ public:
     virtual float getMass() const = 0;
     virtual GType getType() const = 0;
     virtual inline bool getSensor() const {return false;}
-    virtual inline int getLayers() const {return PhysicsLayers::groundLayer;}
+    virtual inline PhysicsLayers getLayers() const {return PhysicsLayers::ground;}
 };
 
 class RectangleBody : public virtual PhysicsObject
@@ -364,7 +364,13 @@ public:
             sprite->removeFromParent();
     }
     
+    //The Z-order used by Cocos2D.
     virtual GraphicsLayer sceneLayer() const = 0;
+    
+    inline int sceneLayerAsInt(){
+        return static_cast<int>(sceneLayer());
+    };
+    
     inline virtual float zoom() const {return 1;}
 
     void update();
