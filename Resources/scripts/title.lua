@@ -1,2 +1,1 @@
-runScene("Library")
-castSpell("patchouli", "Test")
+print("title script")

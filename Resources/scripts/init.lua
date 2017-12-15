@@ -1,2 +1,1 @@
-setscreenscale(1.5)
-setdpiscale(1)
+print("init script")
