@@ -117,7 +117,7 @@ public:
     }
     
 protected:
-    Dialog* dialogNode;
+    Dialog* dialogNode = nullptr;
     
 private:
     bool isPaused = false;
