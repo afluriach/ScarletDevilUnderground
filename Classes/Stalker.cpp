@@ -11,8 +11,6 @@
 #include "Player.hpp"
 #include "AI.hpp"
 
-const float Stalker::maxSpeed = 1.5;
-const float Stalker::acceleration = 4.5;
 const int Stalker::maxHP = 12;
 
 void Stalker::onDetect(GObject* other)
@@ -34,9 +32,9 @@ void Stalker::onEndDetect(GObject* other)
 void Stalker::update()
 {
     if(target != nullptr){
-        ai::seek(*this, *target, maxSpeed, acceleration);
+        ai::seek(*this, *target, getMaxSpeed(), getMaxAcceleration());
         setDirection(toDirection(toChipmunk(ai::directionToTarget(*this, *target))));
     }
     else
-        ai::applyDesiredVelocity(*this, SpaceVect(0,0), acceleration);
+        ai::applyDesiredVelocity(*this, SpaceVect(0,0), getMaxAcceleration());
 }

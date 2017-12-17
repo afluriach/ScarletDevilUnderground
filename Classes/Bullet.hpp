@@ -27,11 +27,12 @@ public:
 class PlayerBaseBullet : virtual public Bullet, public ImageSprite
 {
 public:
-    static constexpr float speed = 6;
 
     inline PlayerBaseBullet(float angle, const SpaceVect& pos) : GObject("playerBaseBullet", pos) {
-        setInitialVelocity(SpaceVect::ray(speed, angle));
+        setInitialVelocity(SpaceVect::ray(getMaxSpeed(), angle));
     }
+    
+    virtual inline float getMaxSpeed() const {return 6;}
 
     virtual inline string imageSpritePath() const {return "sprites/flandre_bullet.png";}
     virtual inline GraphicsLayer sceneLayer() const {return GraphicsLayer::ground;}
@@ -45,9 +46,10 @@ public:
 class WaterBullet : virtual public Bullet, public ImageSprite
 {
 public:
-    static constexpr float speed = 6;
 
     inline WaterBullet(const ValueMap& arg) : Bullet(arg), GObject(arg) {}
+
+    virtual inline float getMaxSpeed() const {return 6;}
 
     virtual inline string imageSpritePath() const {return "sprites/water_bullet.png";}
     virtual inline GraphicsLayer sceneLayer() const {return GraphicsLayer::ground;}

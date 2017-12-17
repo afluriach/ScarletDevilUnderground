@@ -22,7 +22,7 @@ void Player::checkControls()
     auto kr = app->keyRegister;
     Vec2 moveDir = kr->getMoveKeyState();
     
-    ai::applyDesiredVelocity(*this, toChipmunk(moveDir)*getSpeed(), accel);
+    ai::applyDesiredVelocity(*this, toChipmunk(moveDir)*getMaxSpeed(), getMaxAcceleration());
     
     if(moveDir.lengthSquared() == 0)
          animSprite->reset();
@@ -33,7 +33,7 @@ void Player::checkControls()
     setDirection(toDirection(toChipmunk(facing)));
     
     //Player will automatically face their movement direction if look keys are not pressed
-    if(facing.isZero() && body->getVel().lengthSq() > square(getSpeed())/2){
+    if(facing.isZero() && body->getVel().lengthSq() > square(getMaxSpeed())/2){
         setDirection(toDirection(toChipmunk(moveDir)));
     }
     

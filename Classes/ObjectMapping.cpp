@@ -20,6 +20,7 @@
 #include "Reimu.hpp"
 
 #include "Stalker.hpp"
+#include "Agent.hpp"
 
 #include "Player.hpp"
 
@@ -69,5 +70,6 @@ const unordered_map<string,GObject::AdapterType> GObject::adapters =
     entry_same(Reimu)
 
     entry_same(Stalker)
+    entry_same(Agent)
 
     entry_same(Player);

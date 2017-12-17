@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.0" tiledversion="1.0.3" orientation="orthogonal" renderorder="right-down" width="17" height="17" tilewidth="128" tileheight="128" nextobjectid="19">
+ <tileset firstgid="1" name="scarlet carpet texture" tilewidth="128" tileheight="128" tilecount="1" columns="1">
+  <image source="scarlet carpet texture.png" width="128" height="128"/>
+ </tileset>
+ <layer name="floor" width="17" height="17">
+  <data encoding="base64" compression="zlib">
+   eJxjZGBgYBzFo3gUj+IBwgCTZgEi
+  </data>
+ </layer>
+ <objectgroup name="objects">
+  <object id="1" name="block1" type="Block" x="128" y="1920" width="128" height="128"/>
+  <object id="2" name="block2" type="Block" x="384" y="1408" width="128" height="128"/>
+  <object id="3" name="block3" type="Block" x="128" y="896" width="128" height="128"/>
+  <object id="4" name="block4" type="Block" x="896" y="1408" width="128" height="128"/>
+  <object id="5" name="block5" type="Block" x="640" y="1920" width="128" height="128"/>
+  <object id="7" name="player" type="Player" x="512" y="1664" width="128" height="128"/>
+  <object id="8" name="block3" type="Block" x="640" y="896" width="128" height="128"/>
+  <object id="9" name="block3" type="Block" x="384" y="896" width="128" height="128"/>
+  <object id="10" name="block3" type="Block" x="384" y="1920" width="128" height="128"/>
+  <object id="11" name="block3" type="Block" x="896" y="896" width="128" height="128"/>
+  <object id="12" name="block3" type="Block" x="640" y="1408" width="128" height="128"/>
+  <object id="13" name="block3" type="Block" x="128" y="1408" width="128" height="128"/>
+  <object id="14" name="agent1" type="Agent" x="384" y="384" width="128" height="128">
+   <properties>
+    <property name="sprite" value="melancholy"/>
+   </properties>
+  </object>
+  <object id="17" name="agent2" type="Agent" x="640" y="384" width="128" height="128">
+   <properties>
+    <property name="sprite" value="melancholy"/>
+   </properties>
+  </object>
+  <object id="18" name="agent3" type="Agent" x="1152" y="1152" width="128" height="128">
+   <properties>
+    <property name="sprite" value="melancholy"/>
+   </properties>
+  </object>
+ </objectgroup>
+</map>

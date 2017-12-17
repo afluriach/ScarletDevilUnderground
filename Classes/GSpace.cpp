@@ -10,7 +10,8 @@
 #include "Bullet.hpp"
 
 const set<GType> GSpace::selfCollideTypes = list_of_typed(
-    (GType::environment),
+    (GType::environment)
+    (GType::enemy),
     set<GType>
 );
 
@@ -104,6 +105,8 @@ void GSpace::update()
     
     //process additions
     processAdditions();
+    
+    ++frame;
 }
 
 

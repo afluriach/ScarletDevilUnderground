@@ -133,6 +133,8 @@ public:
         return "";
     }
 
+    inline virtual float getMaxSpeed() const {return 0;}
+    inline virtual float getMaxAcceleration() const { return 0;}
     
 private:
     static unsigned int nextUUID;

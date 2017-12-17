@@ -20,9 +20,6 @@ TouchDamageEnemy,
 PlayerBulletDamage
 {
 public:
-
-    static const float maxSpeed;
-    static const float acceleration;
     static const int maxHP;
 
     inline Stalker(const ValueMap& args) :
@@ -43,6 +40,9 @@ public:
     
     virtual void onDetect(GObject* other);
     virtual void onEndDetect(GObject* other);
+    
+    virtual inline float getMaxSpeed() const {return 1.5f;}
+    virtual inline float getMaxAcceleration() const {return 4.5;}
     
     void update();
     

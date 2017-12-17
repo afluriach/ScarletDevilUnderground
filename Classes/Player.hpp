@@ -15,14 +15,12 @@ public:
     static constexpr float fireDist = 1;
     static const int defaultMaxHealth = 5;
     static constexpr float hitProtectionTime = 2.4;
-    static constexpr float accel = 6;
 
     inline Player(const ValueMap& args) : GObject(args), RegisterUpdate<Player>(this) {
     }
     
-    inline float getSpeed() const{
-        return 3;
-    };
+    virtual inline float getMaxSpeed() const{ return 3;}
+    virtual inline float getMaxAcceleration() const {return 6;}
 
     inline float getFireInterval() const {
         return 0.6;

@@ -114,10 +114,16 @@ public:
         return objByUUID.size();
     }
     
+    inline unsigned int getFrame(){
+        return frame;
+    }
+    
 private:
     Space space;
     //The graphics destination to use for all objects constructed in this space.
     Layer* graphicsLayer;
+    
+    unsigned int frame = 1;
 
     unordered_map<unsigned int, GObject*> objByUUID;
     unordered_map<string, GObject*> objByName;

@@ -71,6 +71,7 @@
 		E214CF591C0ACEF800FC8784 /* Spell.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E214CF561C0ACEF800FC8784 /* Spell.cpp */; };
 		E214CF5B1C0AD22E00FC8784 /* SpellMapping.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E214CF5A1C0AD22E00FC8784 /* SpellMapping.cpp */; };
 		E214CF5C1C0AD22E00FC8784 /* SpellMapping.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E214CF5A1C0AD22E00FC8784 /* SpellMapping.cpp */; };
+		E21738F61FE609360045C4CB /* Agent.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E21738F41FE609360045C4CB /* Agent.cpp */; };
 		E22224641C0BA3ED007DE7F9 /* LuaCWrappers.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E22224631C0BA3ED007DE7F9 /* LuaCWrappers.cpp */; };
 		E22224651C0BA3ED007DE7F9 /* LuaCWrappers.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E22224631C0BA3ED007DE7F9 /* LuaCWrappers.cpp */; };
 		E223F3861CFCB75F00AD4133 /* Graph.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E223F3841CFCB75F00AD4133 /* Graph.cpp */; };
@@ -236,6 +237,8 @@
 		E214CF561C0ACEF800FC8784 /* Spell.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Spell.cpp; sourceTree = "<group>"; };
 		E214CF571C0ACEF800FC8784 /* Spell.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = Spell.hpp; sourceTree = "<group>"; };
 		E214CF5A1C0AD22E00FC8784 /* SpellMapping.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = SpellMapping.cpp; sourceTree = "<group>"; };
+		E21738F41FE609360045C4CB /* Agent.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Agent.cpp; sourceTree = "<group>"; };
+		E21738F51FE609360045C4CB /* Agent.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = Agent.hpp; sourceTree = "<group>"; };
 		E22224631C0BA3ED007DE7F9 /* LuaCWrappers.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = LuaCWrappers.cpp; sourceTree = "<group>"; };
 		E223F3841CFCB75F00AD4133 /* Graph.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Graph.cpp; sourceTree = "<group>"; };
 		E223F3851CFCB75F00AD4133 /* Graph.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = Graph.hpp; sourceTree = "<group>"; };
@@ -597,6 +600,8 @@
 				E2A8467E1FE0CB0E001DFF88 /* Torch.hpp */,
 				E2A846811FE0D6B8001DFF88 /* Stalker.cpp */,
 				E2A846821FE0D6B8001DFF88 /* Stalker.hpp */,
+				E21738F41FE609360045C4CB /* Agent.cpp */,
+				E21738F51FE609360045C4CB /* Agent.hpp */,
 			);
 			name = objects;
 			sourceTree = "<group>";
@@ -759,6 +764,7 @@
 				E2080BC91C00486000EB78DF /* LuaAPI.cpp in Sources */,
 				E231220A1BFA937100FEA94B /* menu.cpp in Sources */,
 				E23DBD6E1C13832600AD72F7 /* LuaConvert.cpp in Sources */,
+				E21738F61FE609360045C4CB /* Agent.cpp in Sources */,
 				E214CF581C0ACEF800FC8784 /* Spell.cpp in Sources */,
 				46880B8819C43A87006E1F66 /* App.cpp in Sources */,
 				E2249BC71CF756CC00B1D666 /* GState.cpp in Sources */,
