@@ -38,6 +38,11 @@ float dirToPhysicsAngle(Direction d)
     }
 }
 
+SpaceVect dirToVector(Direction d)
+{
+    return SpaceVect::ray(1.0f, dirToPhysicsAngle(d));
+}
+
 //cocos Vector uses atan2, which returns angle in range [-pi,pi]
 Direction toDirection(SpaceVect v)
 {

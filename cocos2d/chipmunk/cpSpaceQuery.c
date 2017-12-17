@@ -162,7 +162,7 @@ SegmentQuery(struct SegmentQueryContext *context, cpShape *shape, void *data)
 	cpSegmentQueryInfo info;
 	
 	if(
-		!(shape->group && context->group == shape->group) && (context->layers&shape->layers) &&
+		(context->group == shape->group) && (context->layers&shape->layers) &&
 		cpShapeSegmentQuery(shape, context->start, context->end, &info)
 	){
 		context->func(shape, info.t, info.n, data);

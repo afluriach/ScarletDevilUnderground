@@ -101,6 +101,8 @@ public:
     
     void addWallBlock(SpaceVect ll,SpaceVect ur);
     
+    float wallFeeler(GObject* agent, SpaceVect feeler);
+    
     inline void setSize(int x, int y){
         spaceSize = IntVec2(x,y);
         if(navMask)

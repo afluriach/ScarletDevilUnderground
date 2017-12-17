@@ -66,6 +66,9 @@ public:
     //Reset to standing. Implicitly removes run effect.
     void reset();
     void setDirection(Direction dir);
+    inline Direction getDirection()const{
+        return direction;
+    }
     void checkAdvanceAnimation();
 protected:
     shared_ptr<AnimationSpriteSequence> sequence;

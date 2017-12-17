@@ -324,6 +324,30 @@ unordered_map<int,string> GSpace::getUUIDNameMap()
     return result;
 }
 
+float GSpace::wallFeeler(GObject* agent, SpaceVect feeler)
+{
+    SpaceVect start = agent->getPos();
+    SpaceVect end = start + feeler;
+    
+    //Distance along the segment is scaled [0,1].
+    float closest = 1.0f;
+    
+    auto queryCallback = [&closest] (std::shared_ptr<Shape> shape, cp::Float distance, cp::Vect vect) -> void {
+        
+        //scale distance from
+        closest = min<float>(closest, distance);
+    };
+    
+    space.segmentQuery(
+        start,
+        end,
+        static_cast<unsigned int>(PhysicsLayers::all),
+        static_cast<unsigned int>(GType::wall),
+        queryCallback);
+    
+    return closest*feeler.length();
+}
+
 //Collision handlers
 //std::function<int(Arbiter, Space&)>
 

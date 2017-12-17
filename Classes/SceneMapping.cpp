@@ -25,6 +25,7 @@ GScene::AdapterType adapter()
 
 GenericPlayScene(BlockRoom)
 GenericPlayScene(StalkerRoom)
+GenericPlayScene(B1)
 
 GenericPlayScene(Clearing)
 GenericPlayScene(ClearingPath)
@@ -38,6 +39,7 @@ const unordered_map<string,GScene::AdapterType> GScene::adapters = boost::assign
     entry_same(BlockRoom)
     entry_same(Collect)
     entry_same(StalkerRoom)
+    entry_same(B1)
     entry_same(GardenBlooming)
     entry_same(GardenEmpty)
     entry_same(GardenPath)

@@ -424,6 +424,9 @@ public:
     void update();
     
     void setDirection(Direction d);
+    inline Direction getDirection()const{
+        return animSprite->getDirection();
+    }
 protected:
     PatchConAnimation* animSprite;
 };
