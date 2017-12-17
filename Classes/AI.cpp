@@ -31,28 +31,31 @@ void applyDesiredVelocity(GObject& obj, const SpaceVect& desired, float accelera
     }
 }
 
-Vec2 directionToTarget(GObject& agent, GObject& target)
+SpaceVect directionToTarget(GObject& agent, GObject& target)
 {
-    return (toCocos(target.getPos()) - toCocos(agent.getPos())).getNormalized();
+    return directionToTarget(agent, target.getPos());
 }
 
-Vec2 directionToTarget(GObject& agent, const SpaceVect& target)
+SpaceVect directionToTarget(GObject& agent, const SpaceVect& target)
 {
-    return (toCocos(target) - toCocos(agent.getPos())).getNormalized();
+    return (target - agent.getPos()).normalize();
 }
 
 void seek(GObject& agent, GObject& target, float maxSpeed, float acceleration)
 {
-    Vec2 direction = directionToTarget(agent,target);
-    
-    applyDesiredVelocity(agent, toChipmunk(direction*maxSpeed), acceleration);
+	seek(agent, target.getPos(), maxSpeed, acceleration);
 }
 
 void seek(GObject& agent, const SpaceVect& target, float maxSpeed, float acceleration)
 {
-    Vec2 direction = directionToTarget(agent,target);
+	SpaceVect displacement = target - agent.getPos();
+
+	if (displacement.lengthSq() < 1e-4)
+		return;
+
+    SpaceVect direction = directionToTarget(agent,target);
     
-    applyDesiredVelocity(agent, toChipmunk(direction*maxSpeed), acceleration);
+    applyDesiredVelocity(agent, direction*maxSpeed, acceleration);
 }
 
 void StateMachine::update()
@@ -86,6 +89,7 @@ void MoveToPoint::update(StateMachine& fsm)
     
     if(dist2 < 0.25*0.25){
         fsm.pop();
+		return;
     }
     
     seek(*fsm.agent, target, fsm.agent->getMaxSpeed(), fsm.agent->getMaxAcceleration());

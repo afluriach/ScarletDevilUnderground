@@ -33,7 +33,7 @@ void Stalker::update()
 {
     if(target != nullptr){
         ai::seek(*this, *target, getMaxSpeed(), getMaxAcceleration());
-        setDirection(toDirection(toChipmunk(ai::directionToTarget(*this, *target))));
+        setDirection(toDirection(ai::directionToTarget(*this, *target)));
     }
     else
         ai::applyDesiredVelocity(*this, SpaceVect(0,0), getMaxAcceleration());
