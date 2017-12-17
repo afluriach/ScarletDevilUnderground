@@ -118,9 +118,10 @@ bool isSelfCollideType(GType t)
 void setShapeProperties(shared_ptr<Shape> shape, PhysicsLayers layers, GType type, bool sensor)
 {
     shape->setLayers(static_cast<unsigned int>(layers));
-    shape->setGroup(isSelfCollideType(type) ? 0 : static_cast<unsigned int>(type));
+    shape->setGroup(static_cast<unsigned int>(type));
     shape->setCollisionType(static_cast<unsigned int>(type));
     shape->setSensor(sensor);
+    shape->setSelfCollide(isSelfCollideType(type));
 }
 
 shared_ptr<Body> GSpace::createCircleBody(
@@ -327,10 +328,10 @@ unordered_map<int,string> GSpace::getUUIDNameMap()
     return result;
 }
 
-float GSpace::distanceFeeler(GObject* agent, SpaceVect feeler, GType gtype)
+float GSpace::distanceFeeler(GObject* agent, SpaceVect _feeler, GType gtype)
 {
     SpaceVect start = agent->getPos();
-    SpaceVect end = start + feeler;
+    SpaceVect end = start + _feeler;
     
     //Distance along the segment is scaled [0,1].
     float closest = 1.0f;
@@ -349,21 +350,59 @@ float GSpace::distanceFeeler(GObject* agent, SpaceVect feeler, GType gtype)
         static_cast<unsigned int>(gtype),
         queryCallback);
     
-    return closest*feeler.length();
+    return closest*_feeler.length();
 }
 
-float GSpace::wallFeeler(GObject* agent, SpaceVect feeler)
+float GSpace::wallDistanceFeeler(GObject* agent, SpaceVect feeler)
 {
     return distanceFeeler(agent, feeler, GType::wall);
 }
 
-float GSpace::obstacleFeeler(GObject* agent, SpaceVect feeler)
+float GSpace::obstacleDistanceFeeler(GObject* agent, SpaceVect _feeler)
 {
     return vmin(
-        wallFeeler(agent, feeler),
-        distanceFeeler(agent, feeler, GType::environment),
-        distanceFeeler(agent, feeler, GType::enemy)
+        wallDistanceFeeler(agent, _feeler),
+        distanceFeeler(agent, _feeler, GType::environment),
+        distanceFeeler(agent, _feeler, GType::enemy)
     );
+}
+
+bool GSpace::feeler(GObject* agent, SpaceVect _feeler, GType gtype)
+{
+    SpaceVect start = agent->getPos();
+    SpaceVect end = start + _feeler;
+    
+    bool collision = false;
+    
+    auto queryCallback = [agent, &collision] (std::shared_ptr<Shape> shape, cp::Float distance, cp::Vect vect) -> void {
+        
+        if(shape->getUserData() != agent){
+            collision = true;
+        }
+    };
+    
+    space.segmentQuery(
+        start,
+        end,
+        static_cast<unsigned int>(PhysicsLayers::all),
+        static_cast<unsigned int>(gtype),
+        queryCallback);
+    
+    return collision;
+}
+
+bool GSpace::wallFeeler(GObject* agent, SpaceVect _feeler)
+{
+    return feeler(agent, _feeler, GType::wall);
+}
+
+bool GSpace::obstacleFeeler(GObject* agent, SpaceVect _feeler)
+{
+    return
+        wallFeeler(agent, _feeler) ||
+        feeler(agent, _feeler, GType::environment) ||
+        feeler(agent, _feeler, GType::enemy)
+    ;
 }
 
 //Collision handlers

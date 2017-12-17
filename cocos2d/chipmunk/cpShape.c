@@ -55,6 +55,8 @@ cpShapeInit(cpShape *shape, const cpShapeClass *klass, cpBody *body)
 	shape->collision_type = 0;
 	shape->group = CP_NO_GROUP;
 	shape->layers = CP_ALL_LAYERS;
+    
+    shape->selfCollide = 0;
 	
 	shape->data = NULL;
 	

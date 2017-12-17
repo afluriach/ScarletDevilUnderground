@@ -103,6 +103,8 @@ struct cpShape {
 	cpGroup group;
 	// Layer bitmask for this shape. Shapes only collide if the bitwise and of their layers is non-zero.
 	cpLayers layers;
+    
+    cpBool selfCollide;
 	
 	CP_PRIVATE(cpSpace *space);
 	

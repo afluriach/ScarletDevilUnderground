@@ -102,8 +102,12 @@ public:
     void addWallBlock(SpaceVect ll,SpaceVect ur);
     
     float distanceFeeler(GObject* agent, SpaceVect feeler, GType gtype);
-    float obstacleFeeler(GObject* agent, SpaceVect feeler);
-    float wallFeeler(GObject* agent, SpaceVect feeler);
+    float obstacleDistanceFeeler(GObject* agent, SpaceVect feeler);
+    float wallDistanceFeeler(GObject* agent, SpaceVect feeler);
+    
+    bool feeler(GObject* agent, SpaceVect feeler, GType gtype);
+    bool obstacleFeeler(GObject* agent, SpaceVect feeler);
+    bool wallFeeler(GObject* agent, SpaceVect feeler);
     
     inline void setSize(int x, int y){
         spaceSize = IntVec2(x,y);

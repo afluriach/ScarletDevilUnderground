@@ -67,4 +67,9 @@ namespace cp {
 	{
 	    shape->sensor = sensor;
 	}
+    
+    void Shape::setSelfCollide(bool collide)
+    {
+        shape->selfCollide = collide;
+    }
 }

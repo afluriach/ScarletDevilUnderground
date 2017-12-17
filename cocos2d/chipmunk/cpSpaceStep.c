@@ -210,7 +210,7 @@ queryReject(cpShape *a, cpShape *b)
 		// Don't collide shapes attached to the same body.
 		|| a->body == b->body
 		// Don't collide objects in the same non-zero group
-		|| (a->group && a->group == b->group)
+		|| (a->group && a->group == b->group && !a->selfCollide && !b->selfCollide)
 		// Don't collide objects that don't share at least on layer.
 		|| !(a->layers & b->layers)
 		// Don't collide infinite mass objects
