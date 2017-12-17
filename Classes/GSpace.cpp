@@ -327,7 +327,7 @@ unordered_map<int,string> GSpace::getUUIDNameMap()
     return result;
 }
 
-float GSpace::wallFeeler(GObject* agent, SpaceVect feeler)
+float GSpace::distanceFeeler(GObject* agent, SpaceVect feeler, GType gtype)
 {
     SpaceVect start = agent->getPos();
     SpaceVect end = start + feeler;
@@ -335,20 +335,35 @@ float GSpace::wallFeeler(GObject* agent, SpaceVect feeler)
     //Distance along the segment is scaled [0,1].
     float closest = 1.0f;
     
-    auto queryCallback = [&closest] (std::shared_ptr<Shape> shape, cp::Float distance, cp::Vect vect) -> void {
+    auto queryCallback = [&closest,agent] (std::shared_ptr<Shape> shape, cp::Float distance, cp::Vect vect) -> void {
         
-        //scale distance from
-        closest = min<float>(closest, distance);
+        if(shape->getUserData() != agent){
+            closest = min<float>(closest, distance);
+        }
     };
     
     space.segmentQuery(
         start,
         end,
         static_cast<unsigned int>(PhysicsLayers::all),
-        static_cast<unsigned int>(GType::wall),
+        static_cast<unsigned int>(gtype),
         queryCallback);
     
     return closest*feeler.length();
+}
+
+float GSpace::wallFeeler(GObject* agent, SpaceVect feeler)
+{
+    return distanceFeeler(agent, feeler, GType::wall);
+}
+
+float GSpace::obstacleFeeler(GObject* agent, SpaceVect feeler)
+{
+    return vmin(
+        wallFeeler(agent, feeler),
+        distanceFeeler(agent, feeler, GType::environment),
+        distanceFeeler(agent, feeler, GType::enemy)
+    );
 }
 
 //Collision handlers
