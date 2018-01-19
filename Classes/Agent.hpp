@@ -29,7 +29,7 @@ public:
     }
     
     virtual inline float getRadius() const {return 0.35;}
-    inline float getMass() const {return 1;}
+    inline float getMass() const {return 20.0;}
     virtual inline GType getType() const {return GType::enemy;}
     
     virtual inline float getMaxSpeed() const {return 1.5;};

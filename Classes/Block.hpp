@@ -13,6 +13,7 @@ class Block : virtual public GObject, RectangleBody, ImageSprite
 {
 public:
     const bool isStatic;
+    const float mass = 40.0;
     inline Block(const ValueMap& args) :
     GObject(args),
     isStatic(args.find("static") != args.end())
@@ -27,7 +28,7 @@ public:
     virtual string imageSpritePath() const {return !letter.empty() ? "sprites/block "+letter+".png"  : "sprites/block.png";}
     virtual GraphicsLayer sceneLayer() const {return GraphicsLayer::ground;}
     
-    virtual inline float getMass() const { return isStatic ? -1 : 1;}
+    virtual inline float getMass() const { return isStatic ? -1 : mass;}
     virtual inline GType getType() const {return GType::environment;}
     
     virtual inline SpaceVect getDimensions() const {return SpaceVect(1,1);}

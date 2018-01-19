@@ -49,7 +49,7 @@ public:
     void setMaxHealth(int val);
 
     virtual inline float getRadius() const {return 0.35;}
-    inline float getMass() const {return 1;}
+    inline float getMass() const {return 20.0;}
     virtual inline GType getType() const {return GType::player;}
     
     inline string imageSpritePath() const {return "sprites/flandre.png";}

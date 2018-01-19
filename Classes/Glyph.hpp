@@ -21,7 +21,7 @@ public:
     virtual string imageSpritePath() const {return "sprites/glyph.png";}
     virtual GraphicsLayer sceneLayer() const {return GraphicsLayer::ground;}
     
-    virtual inline float getMass() const {return 1;}
+    virtual inline float getMass() const {return 40.0;}
     virtual inline GType getType() const {return GType::environment;}
     
     virtual inline SpaceVect getDimensions() const {return SpaceVect(1,1);}

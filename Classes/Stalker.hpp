@@ -32,7 +32,7 @@ public:
     virtual inline GType getRadarType() const { return GType::playerSensor;}
 
     virtual inline float getRadius() const {return 0.35;}
-    inline float getMass() const {return 1;}
+    inline float getMass() const {return 40.0;}
     virtual inline GType getType() const {return GType::enemy;}
 
     inline string imageSpritePath() const {return "sprites/dark_cirno.png";}
