@@ -211,3 +211,17 @@ void PlayerBulletDamage::onPlayerBulletHit(Bullet* bullet)
 {
     hit(1);
 }
+
+void FrictionObject::update()
+{
+    float _uk = uk();
+    SpaceVect vel = getVel();
+    float force = getMass() * App::Gaccel * uk();
+    
+    //if acceleraion, dv/dt, or change in velocity over one frame is greater
+    //than current velocity, apply stop instead
+    if(App::Gaccel * uk() * App::secondsPerFrame < vel.length())
+        applyForceForSingleFrame(vel * -force);
+    else
+        setVel(SpaceVect(0.0,0.0));
+}

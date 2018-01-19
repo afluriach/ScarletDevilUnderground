@@ -29,6 +29,8 @@ public:
     static const int framesPerSecond = 60;
     constexpr static float secondsPerFrame = 1.0 / framesPerSecond;
     
+    constexpr static float Gaccel = 9.8;
+    
     static const int pixelsPerTile = 128;
     constexpr static float tilesPerPixel = 1.0/pixelsPerTile;
     constexpr static float viewWidth = 12;

@@ -356,6 +356,15 @@ public:
     }
 };
 
+class FrictionObject : public virtual PhysicsObject, RegisterUpdate<FrictionObject>
+{
+public:
+    inline FrictionObject() : RegisterUpdate(this) {}
+
+    virtual float uk() const = 0;
+    void update();
+};
+
 class SpriteObject : public virtual GObject, RegisterUpdate<SpriteObject>
 {
 public:

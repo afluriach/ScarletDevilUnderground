@@ -9,7 +9,7 @@
 #ifndef Block_hpp
 #define Block_hpp
 
-class Block : virtual public GObject, RectangleBody, ImageSprite
+class Block : virtual public GObject, RectangleBody, ImageSprite, FrictionObject
 {
 public:
     const bool isStatic;
@@ -29,6 +29,7 @@ public:
     virtual GraphicsLayer sceneLayer() const {return GraphicsLayer::ground;}
     
     virtual inline float getMass() const { return isStatic ? -1 : mass;}
+    virtual inline float uk() const {return 0.5;}
     virtual inline GType getType() const {return GType::environment;}
     
     virtual inline SpaceVect getDimensions() const {return SpaceVect(1,1);}
