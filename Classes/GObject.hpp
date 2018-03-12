@@ -368,7 +368,7 @@ public:
 class SpriteObject : public virtual GObject, RegisterUpdate<SpriteObject>
 {
 public:
-    inline SpriteObject() : RegisterUpdate(this) {}
+    inline SpriteObject() : RegisterUpdate<SpriteObject>(this) {}
     
     inline ~SpriteObject(){        
         if(sprite)
@@ -459,11 +459,12 @@ protected:
     shared_ptr<Spell> crntSpell;
 };
 
-class Enemy : public virtual GObject
+class Enemy : virtual public GObject, virtual public SpriteObject
 {
 public:
     virtual void onTouchPlayer(Player* target) = 0;
     virtual void onPlayerBulletHit(Bullet* bullet) = 0;
+	void runDamageFlicker();
 };
 
 class TouchDamageEnemy : public virtual Enemy
@@ -476,7 +477,7 @@ public:
 class HitPointsEnemy : public virtual Enemy, RegisterUpdate<HitPointsEnemy>
 {
     public:
-        inline HitPointsEnemy(int _hp) : hp(_hp), RegisterUpdate(this) {}
+        inline HitPointsEnemy(int _hp) : hp(_hp), RegisterUpdate<HitPointsEnemy>(this) {}
     
         void update();
     

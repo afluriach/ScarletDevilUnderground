@@ -191,8 +191,16 @@ void DialogEntity::interact()
     GScene::crntScene->createDialog(getDialog(), false);
 }
 
+void Enemy::runDamageFlicker()
+{
+	if (sprite)
+		sprite->runAction(flickerAction(0.3, 1.2, 81));
+//		sprite->runAction(colorFlickerAction(0.3f, 4, Color3B(255, 0, 0)));
+}
+
 void HitPointsEnemy::hit(int damage)
 {
+	runDamageFlicker();
     hp -= damage;
 }
 
