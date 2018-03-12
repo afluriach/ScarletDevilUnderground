@@ -439,6 +439,11 @@ int playerEnemyBegin(Arbiter arb, Space& spacae)
 
 int playerEnemyEnd(Arbiter arb, Space& space)
 {
+	OBJS_FROM_ARB
+
+	Enemy* e = dynamic_cast<Enemy*>(b);
+
+	e->endTouchPlayer();
     logHandler("playerEnemyEnd", arb);
     return 1;
 }

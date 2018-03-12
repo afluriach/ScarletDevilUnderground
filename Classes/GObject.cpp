@@ -212,7 +212,19 @@ void HitPointsEnemy::update()
 }
 
 void TouchDamageEnemy::onTouchPlayer(Player* player){
-        player->hit();
+	hitTarget = player;
+}
+
+void TouchDamageEnemy::endTouchPlayer()
+{
+	hitTarget = nullptr;
+}
+
+//hit will be registered every frame, in case contact is maintained for longer than the hit protection time.
+void TouchDamageEnemy::update()
+{
+	if(hitTarget)
+		hitTarget->hit();
 }
 
 void PlayerBulletDamage::onPlayerBulletHit(Bullet* bullet)

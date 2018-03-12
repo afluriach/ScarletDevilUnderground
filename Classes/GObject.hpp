@@ -463,15 +463,20 @@ class Enemy : virtual public GObject, virtual public SpriteObject
 {
 public:
     virtual void onTouchPlayer(Player* target) = 0;
+	virtual void endTouchPlayer() = 0;
     virtual void onPlayerBulletHit(Bullet* bullet) = 0;
 	void runDamageFlicker();
 };
 
-class TouchDamageEnemy : public virtual Enemy
+class TouchDamageEnemy : public virtual Enemy, RegisterUpdate<TouchDamageEnemy>
 {
 public:
-	inline TouchDamageEnemy() {}
+	inline TouchDamageEnemy() : RegisterUpdate<TouchDamageEnemy>(this) {}
     virtual void onTouchPlayer(Player* player);
+	virtual void endTouchPlayer();
+	void update();
+protected:
+	Player * hitTarget = nullptr;
 };
 
 class HitPointsEnemy : public virtual Enemy, RegisterUpdate<HitPointsEnemy>
