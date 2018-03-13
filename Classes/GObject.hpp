@@ -140,19 +140,39 @@ private:
     static unsigned int nextUUID;
 };
 
-class ScriptedObject : virtual public GObject
+template<typename Derived>
+class RegisterInit : public virtual GObject
+{
+public:
+	inline RegisterInit(Derived* that)
+	{
+		multiInit += wrap_method(Derived, init, that);
+	}
+};
+
+template<typename Derived>
+class RegisterUpdate : public virtual GObject
+{
+public:
+	inline RegisterUpdate(Derived* that)
+	{
+		multiUpdate += wrap_method(Derived, update, that);
+	}
+};
+
+
+class ScriptedObject : virtual public GObject, RegisterInit<ScriptedObject>, RegisterUpdate<ScriptedObject>
 {
 public:
     Lua::Inst ctx;
     inline ScriptedObject(const string& script) :
-    ctx(boost::lexical_cast<string>(uuid) + "_" + name)
+    ctx(boost::lexical_cast<string>(uuid) + "_" + name),
+	RegisterInit(this),
+	RegisterUpdate(this)
     {
         ctx.runFile("scripts/entities/"+script+".lua");
         //Push this as a global variable in the script's context.
         ctx.setGlobal(Lua::convert<GObject*>::convertToLua(this, ctx.state), "this");
-
-        multiInit += wrap_method(ScriptedObject,init, this);
-        multiUpdate += wrap_method(ScriptedObject,update, this);
     }
     inline void init(){
         ctx.callIfExistsNoReturn("init");
@@ -175,7 +195,7 @@ public:
     }
 };
 
-class RadarObject : virtual public GObject
+class RadarObject : virtual public GObject, RegisterUpdate<RadarObject>
 {
 public:
     virtual float getRadarRadius() const = 0;
@@ -199,10 +219,12 @@ public:
         );
     }
     
-    inline RadarObject(){
-        multiUpdate += wrap_method(RadarObject,updateRadarPos, this);
-    }
-    
+	inline RadarObject() : RegisterUpdate(this) {}
+
+	inline void update() {
+		updateRadarPos();
+	}
+
     inline void updateRadarPos(){
         radar->setPos(body->getPos());
     }
@@ -267,26 +289,6 @@ class DialogEntity : public InteractibleObject
 
     inline virtual string interactionIcon(){
         return "sprites/ui/dialog.png";
-    }
-};
-
-template<typename Derived>
-class RegisterInit : public virtual GObject
-{
-public:
-    inline RegisterInit(Derived* that)
-    {
-        multiInit += wrap_method(Derived,init,that);
-    }
-};
-
-template<typename Derived>
-class RegisterUpdate : public virtual GObject
-{
-public:
-    inline RegisterUpdate(Derived* that)
-    {
-        multiUpdate += wrap_method(Derived,update,that);
     }
 };
 
@@ -442,12 +444,10 @@ protected:
     PatchConAnimation* animSprite;
 };
 
-class Spellcaster : public virtual GObject
+class Spellcaster : public virtual GObject, RegisterUpdate<Spellcaster>
 {
 public:
-    inline Spellcaster(){
-        multiUpdate += wrap_method(Spellcaster,update,this);
-    }
+    inline Spellcaster() : RegisterUpdate(this) {}
     ~Spellcaster();
     void cast(shared_ptr<Spell> spell);
     void cast(const string& name, const ValueMap& args);
@@ -462,9 +462,10 @@ protected:
 class Enemy : virtual public GObject, virtual public SpriteObject
 {
 public:
-    virtual void onTouchPlayer(Player* target) = 0;
-	virtual void endTouchPlayer() = 0;
-    virtual void onPlayerBulletHit(Bullet* bullet) = 0;
+	inline Enemy() {}
+	virtual void onTouchPlayer(Player* target) {};
+	virtual void endTouchPlayer() {};
+	virtual void onPlayerBulletHit(Bullet* bullet) {};
 	void runDamageFlicker();
 };
 

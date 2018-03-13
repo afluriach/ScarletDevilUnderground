@@ -443,8 +443,10 @@ int playerEnemyEnd(Arbiter arb, Space& space)
 
 	Enemy* e = dynamic_cast<Enemy*>(b);
 
-	e->endTouchPlayer();
-    logHandler("playerEnemyEnd", arb);
+	if(e)
+		e->endTouchPlayer();
+    
+	logHandler("playerEnemyEnd", arb);
     return 1;
 }
 
