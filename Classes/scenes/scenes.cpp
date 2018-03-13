@@ -27,7 +27,7 @@ GScene::GScene()
 {
     //Updater has to be scheduled at init time.
     multiInit.insertWithOrder(
-        wrap_method(GScene,initUpdate),
+        wrap_method(GScene,initUpdate,this),
         static_cast<int>(initOrder::core)
     );
 
@@ -56,7 +56,7 @@ bool GScene::init()
     //Only apply zoom to space layer.
     getLayer(sceneLayers::space)->setScale(spaceZoom);
     
-    multiInit(this);
+    multiInit();
     
     return true;
 }
@@ -64,7 +64,7 @@ bool GScene::init()
 void GScene::update(float dt)
 {
     if(!isPaused)
-        multiUpdate(this);
+        multiUpdate();
     else
     {
         app->checkPendingScript();

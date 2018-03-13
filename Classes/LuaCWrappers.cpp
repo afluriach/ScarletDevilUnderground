@@ -68,7 +68,7 @@ void addUpdate(function<void()> f, int order)
 {
     //Wrapper with a dummy GScene pointer that isn't used.
     GScene::crntScene->multiUpdate.insertWithOrder(
-        [=](GScene* g) -> void{
+        [=]() -> void{
             f();
         },
         order

@@ -31,7 +31,7 @@ public:
     static GObject* constructByType(const string& type, const ValueMap& args );
     
     inline void setInitialVelocity(const SpaceVect&& v){
-        multiInit += [=](GObject* obj) -> void{ obj->body->setVel(v);};
+        multiInit += [=]() -> void{ this->body->setVel(v);};
     }
 
     inline SpaceVect getPos(){
@@ -92,12 +92,12 @@ public:
     //objects in the same frame
     inline void init()
     {
-        multiInit(this);
+        multiInit();
     }
     
     inline void update()
     {
-        multiUpdate(this);
+        multiUpdate();
     }
     
     //Called before adding the the object to space.
@@ -109,16 +109,16 @@ public:
     
     Vec2 getInitialCenterPix();
 
-    util::multifunction<void(GObject*)> multiInit;
-    util::multifunction<void(GObject*)> multiUpdate;
+    util::multifunction<void(void)> multiInit;
+    util::multifunction<void(void)> multiUpdate;
     
       
     //Wrapper to call a method of a derived type with a GObject this.
-    template<typename Derived, void (Derived::*Method)(void)>
-    function<void(GObject*)> wrap()
-    {
-        return wrapAsBaseMethod<GObject, Derived, Method>();
-    }
+    //template<typename Derived, void (Derived::*Method)(void)>
+    //function<void(GObject*)> wrap()
+    //{
+    //    return wrapAsBaseMethod<GObject, Derived, Method>();
+    //}
     
     inline virtual string getScriptVal(string field){
         log("getScriptVal: %s is not a ScriptedObject.", name.c_str());
@@ -151,8 +151,8 @@ public:
         //Push this as a global variable in the script's context.
         ctx.setGlobal(Lua::convert<GObject*>::convertToLua(this, ctx.state), "this");
 
-        multiInit += wrap_method(ScriptedObject,init);
-        multiUpdate += wrap_method(ScriptedObject,update);
+        multiInit += wrap_method(ScriptedObject,init, this);
+        multiUpdate += wrap_method(ScriptedObject,update, this);
     }
     inline void init(){
         ctx.callIfExistsNoReturn("init");
@@ -200,7 +200,7 @@ public:
     }
     
     inline RadarObject(){
-        multiUpdate += wrap_method(RadarObject,updateRadarPos);
+        multiUpdate += wrap_method(RadarObject,updateRadarPos, this);
     }
     
     inline void updateRadarPos(){
@@ -276,7 +276,7 @@ class RegisterInit : public virtual GObject
 public:
     inline RegisterInit(Derived* that)
     {
-        multiInit += wrap_method(Derived,init);
+        multiInit += wrap_method(Derived,init,that);
     }
 };
 
@@ -286,7 +286,7 @@ class RegisterUpdate : public virtual GObject
 public:
     inline RegisterUpdate(Derived* that)
     {
-        multiUpdate += wrap_method(Derived,update);
+        multiUpdate += wrap_method(Derived,update,that);
     }
 };
 
@@ -446,7 +446,7 @@ class Spellcaster : public virtual GObject
 {
 public:
     inline Spellcaster(){
-        multiUpdate += wrap_method(Spellcaster,update);
+        multiUpdate += wrap_method(Spellcaster,update,this);
     }
     ~Spellcaster();
     void cast(shared_ptr<Spell> spell);

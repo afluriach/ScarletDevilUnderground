@@ -20,15 +20,15 @@ public:
     inline PlayScene(const string& name) : MapScene(name), ScriptedScene(name)
     {
         multiInit.insertWithOrder(
-            wrap_method(PlayScene,trackPlayer),
+            wrap_method(PlayScene,trackPlayer,this),
             static_cast<int>(initOrder::postLoadObjects)
         );
         multiInit.insertWithOrder(
-            wrap_method(PlayScene,addHUD),
+            wrap_method(PlayScene,addHUD,this),
             static_cast<int>(initOrder::initHUD)
         );
         multiUpdate.insertWithOrder(
-            wrap_method(PlayScene,updateCamera),
+            wrap_method(PlayScene,updateCamera,this),
             static_cast<int>(updateOrder::moveCamera)
         );
     }

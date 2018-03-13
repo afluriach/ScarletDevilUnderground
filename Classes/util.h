@@ -87,15 +87,11 @@ struct enum_hash
 };
 
 //Wrapper to call a method of a derived type with a base this.
-template<typename Base, typename Derived, void (Derived::*Method)(void)>
-function<void(Base*)> wrapAsBaseMethod()
+template<typename Class, void (Class::*Method)(void)>
+function<void()> wrapMethod(Class* This)
 {
-    return [](Base* obj) -> void {
-        Derived* d = dynamic_cast<Derived*>(obj);
-        if(!d)
-            throw runtime_error(StringUtils::format("GObject::methodWrap, object is not of type %s.", typeid(Derived).name()));
-        
-        mem_fn(Method)(d);
+    return [=]() -> void {
+        mem_fn(Method)(This);
     };
 }
 

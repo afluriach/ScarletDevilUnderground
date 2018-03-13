@@ -85,15 +85,15 @@ public:
     //unit space as opposed to pixel space.
     void setUnitPosition(const SpaceVect& v);
     
-    util::multifunction<void(GScene*)> multiInit;
-    util::multifunction<void(GScene*)> multiUpdate;
+    util::multifunction<void(void)> multiInit;
+    util::multifunction<void(void)> multiUpdate;
     
     //Wrapper to call a method of a derived type with a GScene this.
-    template<typename Derived, void (Derived::*Method)(void)>
-    function<void(GScene*)> wrap()
-    {
-        return wrapAsBaseMethod<GScene, Derived, Method>();
-    }
+    //template<typename Derived, void (Derived::*Method)(void)>
+    //function<void(GScene*)> wrap()
+    //{
+    //    return wrapAsBaseMethod<GScene, Derived, Method>();
+    //}
     
     inline Layer* getLayer(sceneLayers layer){
         auto it = layers.find(static_cast<int>(layer));
@@ -138,11 +138,11 @@ public:
     inline GSpaceScene() : gspace(getLayer(sceneLayers::space))
     {
         multiInit.insertWithOrder(
-            wrap_method(GSpaceScene,processAdditions),
+            wrap_method(GSpaceScene,processAdditions,this),
             static_cast<int>(initOrder::loadObjects)
         );
         multiUpdate.insertWithOrder(
-            wrap_method(GSpaceScene,updateSpace),
+            wrap_method(GSpaceScene,updateSpace,this),
             static_cast<int>(updateOrder::spaceUpdate)
         );
     }
@@ -167,7 +167,7 @@ public:
     inline MapScene(const string& res) : mapRes("maps/"+res+".tmx")
     {
         multiInit.insertWithOrder(
-            wrap_method(MapScene,loadMap),
+            wrap_method(MapScene,loadMap,this),
             static_cast<int>(initOrder::mapLoad)
         );
     }
@@ -195,11 +195,11 @@ public:
     ctx("scene")
     {
         multiInit.insertWithOrder(
-            wrap_method(ScriptedScene, runInit),
+            wrap_method(ScriptedScene, runInit,this),
             static_cast<int>(initOrder::postLoadObjects)
         );
         multiUpdate.insertWithOrder(
-            wrap_method(ScriptedScene,runUpdate),
+            wrap_method(ScriptedScene,runUpdate,this),
             static_cast<int>(updateOrder::sceneUpdate)
         );
         
