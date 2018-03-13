@@ -5,7 +5,7 @@
 
 App* app;
 
-const string App::title = "紅魔地下";
+const string App::title = "Kouma";
 
 const vector<string> App::shaderFiles = boost::assign::list_of
 ("sprite")
