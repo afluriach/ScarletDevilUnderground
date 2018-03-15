@@ -308,6 +308,7 @@
 		E2CDC5541C062D000017537B /* Prefix.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Prefix.h; sourceTree = "<group>"; };
 		E2CDC5551C0631290017537B /* macros.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = macros.h; sourceTree = "<group>"; };
 		E2D9A6EA1FE06252008E6D48 /* libboost.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libboost.a; path = ../../../lib/boost59/ios/build/armv7/libboost.a; sourceTree = "<group>"; };
+		E2DD4BF6205A1CAE005A7870 /* AIMixins.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = AIMixins.hpp; sourceTree = "<group>"; };
 		E2E01EEB1C1DCA0D00330904 /* AI.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = AI.cpp; sourceTree = "<group>"; };
 		E2E01EEC1C1DCA0D00330904 /* AI.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = AI.hpp; sourceTree = "<group>"; };
 		E2E846B41C16201F00E5ADBC /* HUD.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = HUD.cpp; sourceTree = "<group>"; };
@@ -453,6 +454,7 @@
 		46880B8319C43A87006E1F66 /* Classes */ = {
 			isa = PBXGroup;
 			children = (
+				E2DD4BF6205A1CAE005A7870 /* AIMixins.hpp */,
 				E24157C01C0BD2420033B425 /* lua */,
 				E2CDC5511C056B6B0017537B /* objects */,
 				E23121FF1BFA746D00FEA94B /* scenes */,
