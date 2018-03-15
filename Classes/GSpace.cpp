@@ -9,6 +9,8 @@
 #include "Prefix.h"
 #include "Bullet.hpp"
 
+class RadarObject;
+
 const set<GType> GSpace::selfCollideTypes = list_of_typed(
     (GType::environment)
     (GType::enemy),

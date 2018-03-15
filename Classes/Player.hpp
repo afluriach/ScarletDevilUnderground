@@ -9,6 +9,8 @@
 #ifndef Player_hpp
 #define Player_hpp
 
+#include "AIMixins.hpp"
+
 class Player : virtual public GObject, PatchConSprite, CircleBody, RegisterUpdate<Player>, ObjectSensor
 {
 public:
