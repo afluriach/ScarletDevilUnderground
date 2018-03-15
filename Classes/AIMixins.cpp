@@ -7,7 +7,7 @@
 //
 
 #include "Prefix.h"
-#include "AIMIxins.hpp"
+#include "AIMixins.hpp"
 
 const float ObjectSensor::coneHalfWidth = float_pi / 4;
 
