@@ -32,12 +32,26 @@ protected:
 class RadarObject : virtual public GObject, RegisterUpdate<RadarObject>
 {
 public:
+    inline RadarObject() :
+    RegisterUpdate(this)
+    {
+        setFovAngle(getDefaultFovAngle());
+    }
+
 	virtual float getRadarRadius() const = 0;
 	virtual GType getRadarType() const = 0;
+    virtual inline float getDefaultFovAngle() const {return 0.0f;}
 
-	virtual void onDetect(GObject* other) = 0;
-	virtual void onEndDetect(GObject* other) = 0;
+	virtual void onDetect(GObject* other) {};
+	virtual void onEndDetect(GObject* other) {};
 
+    void radarCollision(GObject* other);
+    void radarEndCollision(GObject* other);
+    
+    //Find the [visible] object that the agent is most directly facing.
+    GObject* getSensedObject();
+    
+    void setFovAngle(float angle);
 
 	//Create body and add it to space. This assumes BB is rectangle dimensions
 	virtual inline void initializeRadar(GSpace& space)
@@ -52,16 +66,27 @@ public:
 			this
 		);
 	}
+    
+    bool isObjectVisible(GObject* otther);
 
-	inline RadarObject() : RegisterUpdate(this) {}
-
-	inline void update() {
-		updateRadarPos();
-	}
-
+    void update();
+    void updateVisibleObjects();
+    
 	inline void updateRadarPos() {
 		radar->setPos(body->getPos());
 	}
+protected:
+    unordered_set<GObject*> objectsInRange;
+    unordered_set<GObject*> visibleObjects;
+    
+    list<GObject*> objectsToAdd;
+    list<GObject*> objectsToRemove;
+    
+    //Field of view angle in radians. This is the maximum angle from the facing
+    //direction to any visible target, i.e. half of the actual FOV width.
+    //If 0, FOV is not considered and this is a radius sensor.
+    float fovAngle = 0.0f;
+    float fovScalar = 0.0f;
 };
 
 class RadarStateMachineObject : virtual public GObject, StateMachineObject, RadarObject
@@ -88,34 +113,5 @@ public:
 		ctx.callIfExistsNoReturn("onEndDetect", ctx.makeArgs(other));
 	}
 };
-
-//A field of view sensor that tracks the object in front of the sensing object.
-class ObjectSensor : virtual public RadarObject
-{
-public:
-	inline ObjectSensor() {}
-
-	//for object sensing
-	virtual float getRadarRadius() const { return 2.5; }
-	virtual GType getRadarType() const { return GType::objectSensor; }
-
-	static const float coneHalfWidth;
-
-	set<GObject*> inRange;
-
-	inline virtual void onDetect(GObject* other)
-	{
-		inRange.insert(other);
-	}
-	inline virtual void onEndDetect(GObject* other)
-	{
-		inRange.erase(other);
-	}
-
-	//Find the object, if any, that is within the cone angle, selecting the one
-	//that is closest to the center of the object's direction.
-	GObject* getSensedObject();
-};
-
 
 #endif /* AIMixins_hpp */

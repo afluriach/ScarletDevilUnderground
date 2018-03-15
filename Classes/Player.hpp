@@ -11,7 +11,7 @@
 
 #include "AIMixins.hpp"
 
-class Player : virtual public GObject, PatchConSprite, CircleBody, RegisterUpdate<Player>, ObjectSensor
+class Player : virtual public GObject, PatchConSprite, CircleBody, RegisterUpdate<Player>, RadarObject
 {
 public:
     static constexpr float fireDist = 1;
@@ -23,6 +23,11 @@ public:
     
     virtual inline float getMaxSpeed() const{ return 3;}
     virtual inline float getMaxAcceleration() const {return 6;}
+    
+    //setting for player object sensing
+	inline virtual float getRadarRadius() const { return 2.5; }
+	inline virtual GType getRadarType() const { return GType::objectSensor; }
+    inline virtual float getDefaultFovAngle() const { return float_pi / 4.0f;}
 
     inline float getFireInterval() const {
         return 0.6;

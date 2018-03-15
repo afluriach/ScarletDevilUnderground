@@ -519,7 +519,7 @@ int sensorStart(Arbiter arb, Space& space)
 
 	if (radarObject) {
 		log("%s sensed %s.", radarObject->name.c_str(), target->name.c_str());
-		radarObject->onDetect(target);
+		radarObject->radarCollision(target);
 	}
 	else {
 		log("sensorStart: %s is not a radar object", radarAgent->name.c_str());
@@ -536,7 +536,7 @@ int sensorEnd(Arbiter arb, Space& space)
     
 	if (radarObject) {
 		log("%s lost %s.", radarObject->name.c_str(), target->name.c_str());
-		radarObject->onEndDetect(target);
+		radarObject->radarEndCollision(target);
 	}
 	else {
 		log("sensorEnd: %s is not a radar object", radarAgent->name.c_str());
