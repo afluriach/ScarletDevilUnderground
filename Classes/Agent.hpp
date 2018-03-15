@@ -10,22 +10,17 @@
 #define Agent_hpp
 
 #include "AI.hpp"
+#include "AIMixins.hpp"
 
-class Agent : virtual public GObject, PatchConSprite, CircleBody, RegisterUpdate<Agent>
+class Agent : virtual public GObject, PatchConSprite, CircleBody, StateMachineObject
 {
 public:
     inline Agent(const ValueMap& args) :
     GObject(args),
-    fsm(this),
-    RegisterUpdate<Agent>(this)
+    StateMachineObject(make_shared<ai::Wander>())
     {
         spriteName = args.at("sprite").asString();
         
-        fsm.push(make_shared<ai::Wander>());
-    }
-    
-    inline void update(){
-        fsm.update();
     }
     
     virtual inline float getRadius() const {return 0.35;}
@@ -39,7 +34,6 @@ public:
     inline GraphicsLayer sceneLayer() const {return GraphicsLayer::ground;}
 protected:
     string spriteName;
-    ai::StateMachine fsm;
 };
 
 #endif /* Agent_hpp */

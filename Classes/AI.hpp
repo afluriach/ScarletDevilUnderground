@@ -25,9 +25,13 @@ class StateMachine;
 class State
 {
 public:
-    virtual void onEnter(StateMachine& sm) = 0;
-    virtual void update(StateMachine& sm) = 0;
-    virtual void onExit(StateMachine& sm) = 0;
+
+	virtual void onEnter(StateMachine& sm) {};
+	virtual void update(StateMachine& sm) {};
+	virtual void onExit(StateMachine& sm) {};
+
+	virtual void onDetect(StateMachine& sm, GObject* obj) {};
+	virtual void onEndDetect(StateMachine& sm, GObject* obj) {};
 };
 
 class StateMachine
@@ -42,6 +46,10 @@ public:
     }
 
     void update();
+
+	virtual void onDetect(GObject* obj);
+	virtual void onEndDetect(GObject* obj);
+
     void push(shared_ptr<State> newState);
     void pop();
     
@@ -54,13 +62,20 @@ protected:
     unsigned int frame;
 };
 
+class Seek : public State {
+public:
+	virtual void update(StateMachine& sm);
+	virtual void onDetect(StateMachine& sm, GObject* target);
+	virtual void onEndDetect(StateMachine& sm, GObject* target);
+protected:
+	GObject * target;
+};
+
 class IdleWait : public State{
     public:
         inline IdleWait(unsigned int frames) :
         remaining(frames)
         {}
-        inline virtual void onEnter(StateMachine& sm) {};
-        inline virtual void onExit(StateMachine& sm) {};
     
         inline virtual void update(StateMachine& fsm){
             if(remaining == 0)
@@ -79,9 +94,6 @@ public:
     target(target)
     {}
     
-    inline virtual void onEnter(StateMachine& sm) {};
-    inline virtual void onExit(StateMachine& sm) {};
-    
     virtual void update(StateMachine& fsm);
 protected:
     SpaceVect target;
@@ -94,8 +106,6 @@ public:
 
     virtual void update(StateMachine& sm);
     
-    inline virtual void onEnter(StateMachine& sm) {};
-    inline virtual void onExit(StateMachine& sm) {};
 protected:
     float minWait, maxWait;
     float minDist, maxDist;
@@ -112,8 +122,6 @@ public:
         sm.pop();
     }
     
-    inline virtual void onEnter(StateMachine& sm) {};
-    inline virtual void onExit(StateMachine& sm) {};
 protected:
     std::function<void(StateMachine&)> op;
 };

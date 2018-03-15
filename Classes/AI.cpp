@@ -67,6 +67,23 @@ void StateMachine::update()
     crnt->update(*this);
 }
 
+void StateMachine::onDetect(GObject* obj)
+{
+	if (states.empty())
+		return;
+	State* crnt = states.back().get();
+
+	crnt->onDetect(*this, obj);
+}
+void StateMachine::onEndDetect(GObject* obj)
+{
+	if (states.empty())
+		return;
+	State* crnt = states.back().get();
+
+	crnt->onEndDetect(*this, obj);
+}
+
 void StateMachine::push(shared_ptr<State> newState)
 {
     states.push_back(newState);
@@ -81,6 +98,31 @@ void StateMachine::pop()
     
     crnt->onExit(*this);
     states.pop_back();
+}
+
+void Seek::onDetect(StateMachine& sm, GObject* other)
+{
+	target = other;
+}
+
+void Seek::onEndDetect(StateMachine& sm, GObject* other)
+{
+	target = nullptr;
+}
+
+void Seek::update(StateMachine& sm)
+{
+	if (target != nullptr) {
+		ai::seek(
+			*sm.agent,
+			*target,
+			sm.agent->getMaxSpeed(),
+			sm.agent->getMaxAcceleration()
+		);
+		sm.agent->setDirection(toDirection(ai::directionToTarget(*sm.agent, *target)));
+	}
+	else
+		ai::applyDesiredVelocity(*sm.agent, SpaceVect(0, 0), sm.agent->getMaxAcceleration());
 }
 
 void MoveToPoint::update(StateMachine& fsm)

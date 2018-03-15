@@ -183,6 +183,7 @@ xcopy "$(ProjectDir)..\Resources" "$(OutDir)" /D /E /I /F /Y</Command>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\Classes\AI.hpp" />
+    <ClInclude Include="..\Classes\AIMixins.hpp" />
     <ClInclude Include="..\Classes\App.h" />
     <ClInclude Include="..\Classes\Block.hpp" />
     <ClInclude Include="..\Classes\Bullet.hpp" />

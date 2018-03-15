@@ -9,12 +9,14 @@
 #ifndef Stalker_hpp
 #define Stalker_hpp
 
+#include "AI.hpp"
+#include "AIMixins.hpp"
+
 class Stalker :
 virtual public GObject,
-virtual RadarObject,
 PatchConSprite,
 CircleBody,
-RegisterUpdate<Stalker>,
+RadarStateMachineObject,
 virtual HitPointsEnemy,
 TouchDamageEnemy,
 PlayerBulletDamage
@@ -24,7 +26,7 @@ public:
 
     inline Stalker(const ValueMap& args) :
     GObject(args),
-    RegisterUpdate<Stalker>(this),
+	RadarStateMachineObject(make_shared<ai::Seek>()),
     HitPointsEnemy(maxHP)
     {}
 
@@ -37,15 +39,10 @@ public:
 
     inline string imageSpritePath() const {return "sprites/dark_cirno.png";}
     inline GraphicsLayer sceneLayer() const {return GraphicsLayer::ground;}
-    
-    virtual void onDetect(GObject* other);
-    virtual void onEndDetect(GObject* other);
-    
+        
     virtual inline float getMaxSpeed() const {return 1.5f;}
     virtual inline float getMaxAcceleration() const {return 4.5;}
-    
-    void update();
-    
+        
     Player* target = nullptr;
 };
 

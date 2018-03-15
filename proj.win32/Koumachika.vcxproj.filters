@@ -248,6 +248,9 @@
     <ClInclude Include="..\Classes\scenes\LibraryOpening.h">
       <Filter>src</Filter>
     </ClInclude>
+    <ClInclude Include="..\Classes\AIMixins.hpp">
+      <Filter>src</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="game.rc">
