@@ -514,10 +514,16 @@ int sensorStart(Arbiter arb, Space& space)
     GObject* radarAgent = static_cast<GObject*>(arb.getBodyA().getUserData());
     GObject* target = static_cast<GObject*>(arb.getBodyB().getUserData());
     RadarObject* radarObject = dynamic_cast<RadarObject*>(radarAgent);
-    
-    log("%s sensed %s.", radarObject->name.c_str(), target->name.c_str());
-    radarObject->onDetect(target);
-    return 1;
+
+	if (radarObject) {
+		log("%s sensed %s.", radarObject->name.c_str(), target->name.c_str());
+		radarObject->onDetect(target);
+	}
+	else {
+		log("sensorStart: %s is not a radar object", radarAgent->name.c_str());
+	}
+
+	return 1;
 }
 
 int sensorEnd(Arbiter arb, Space& space)
@@ -526,8 +532,14 @@ int sensorEnd(Arbiter arb, Space& space)
     GObject* target = static_cast<GObject*>(arb.getBodyB().getUserData());
     RadarObject* radarObject = dynamic_cast<RadarObject*>(radarAgent);
     
-    log("%s lost %s.", radarObject->name.c_str(), target->name.c_str());
-    radarObject->onEndDetect(target);
+	if (radarObject) {
+		log("%s lost %s.", radarObject->name.c_str(), target->name.c_str());
+		radarObject->onEndDetect(target);
+	}
+	else {
+		log("sensorEnd: %s is not a radar object", radarAgent->name.c_str());
+	}
+
     return 1;
 }
 
