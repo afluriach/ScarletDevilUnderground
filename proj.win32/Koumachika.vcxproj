@@ -178,6 +178,7 @@ xcopy "$(ProjectDir)..\Resources" "$(OutDir)" /D /E /I /F /Y</Command>
     <ClCompile Include="..\Classes\Spell.cpp" />
     <ClCompile Include="..\Classes\SpellMapping.cpp" />
     <ClCompile Include="..\Classes\Stalker.cpp" />
+    <ClCompile Include="..\Classes\StateMapping.cpp" />
     <ClCompile Include="..\Classes\Torch.cpp" />
     <ClCompile Include="..\Classes\util.cpp" />
     <ClCompile Include="main.cpp" />
