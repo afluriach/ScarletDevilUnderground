@@ -259,11 +259,14 @@ void GSpace::processAdditions()
         obj->initializeRadar(*this);
         obj->initializeGraphics(graphicsLayer);
         
-//        auto name_it = objByName.find(obj->name);
+        if(objByName.find(obj->name) != objByName.end()){
+            log("Object %s, %d name is not unique!", obj->name.c_str(), obj->uuid);
+        }
+
+        if(objByUUID.find(obj->uuid) != objByUUID.end()){
+            log("Object %s, %d UUID is not unique!", obj->name.c_str(), obj->uuid);
+        }
         
-//        if(!obj->name.empty() && name_it != objByName.end()){
-//            log("processAdditions: duplicate object with name %s", obj->name.c_str());
-//        }
         objByName[obj->name] = obj;
         objByUUID[obj->uuid] = obj;
     }
