@@ -348,18 +348,19 @@ protected:
     TimedLoopAnimation* anim;
 };
 
-class PatchConSprite : virtual public SpriteObject, RegisterUpdate<PatchConSprite>
+class PatchConSprite : virtual public SpriteObject, RegisterInit<PatchConSprite>, RegisterUpdate<PatchConSprite>
 {
 public:
     static const int pixelWidth = 32;
 
-    inline PatchConSprite() : RegisterUpdate<PatchConSprite>(this ) {}
+    PatchConSprite(const ValueMap& args);
     virtual string imageSpritePath() const = 0;
     virtual GraphicsLayer sceneLayer() const = 0;
     
     inline float zoom() const {return App::pixelsPerTile / pixelWidth;}
     
     void initializeGraphics(Layer* layer);
+    void init();
     void update();
     
     void setDirection(Direction d);
@@ -368,6 +369,7 @@ public:
     }
 protected:
     PatchConAnimation* animSprite;
+    Direction startingDirection = Direction::down;
 };
 
 class Spellcaster : public virtual GObject, RegisterUpdate<Spellcaster>

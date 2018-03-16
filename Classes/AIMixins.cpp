@@ -66,7 +66,7 @@ bool RadarObject::isObjectVisible(GObject* other)
 
 void RadarObject::setFovAngle(float angle)
 {
-    if(angle != 0.0f){
+    if(angle == 0.0f){
         fovAngle = 0.0f;
         fovScalar = 0.0f;
     } else {

@@ -26,12 +26,15 @@ protected:
 	ai::StateMachine fsm;
 };
 
-class RadarObject : virtual public GObject, RegisterUpdate<RadarObject>
+class RadarObject : virtual public GObject, RegisterInit<RadarObject>, RegisterUpdate<RadarObject>
 {
 public:
     inline RadarObject() :
+    RegisterInit(this),
     RegisterUpdate(this)
-    {
+    {}
+    
+    inline void init(){
         setFovAngle(getDefaultFovAngle());
     }
 

@@ -55,6 +55,23 @@ void LoopAnimationSprite::initializeGraphics(Layer* layer)
     sprite = anim;
 }
 
+PatchConSprite::PatchConSprite(const ValueMap& args) :
+RegisterInit<PatchConSprite>(this),
+RegisterUpdate<PatchConSprite>(this)
+{
+    auto it = args.find("direction");
+    if(it != args.end()){
+        Direction dir = stringToDirection(it->second.asString());
+        if(dir != Direction::none)
+            startingDirection = dir;
+    }
+}
+
+void PatchConSprite::init()
+{
+    setDirection(startingDirection);
+}
+
 void PatchConSprite::initializeGraphics(Layer* layer)
 {
     animSprite = PatchConAnimation::create();

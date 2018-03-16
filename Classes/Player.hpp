@@ -18,8 +18,11 @@ public:
     static const int defaultMaxHealth = 5;
     static constexpr float hitProtectionTime = 2.4;
 
-    inline Player(const ValueMap& args) : GObject(args), RegisterUpdate<Player>(this) {
-    }
+    inline Player(const ValueMap& args) :
+    GObject(args),
+    PatchConSprite(args),
+    RegisterUpdate<Player>(this)
+    {}
     
     virtual inline float getMaxSpeed() const{ return 3;}
     virtual inline float getMaxAcceleration() const {return 6;}

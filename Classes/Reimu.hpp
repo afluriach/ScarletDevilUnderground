@@ -12,8 +12,10 @@
 class Reimu : virtual public GObject, PatchConSprite, CircleBody, DialogEntity
 {
 public:
-    inline Reimu(const ValueMap& args) : GObject(args){
-    }
+    inline Reimu(const ValueMap& args) :
+    GObject(args),
+    PatchConSprite(args)
+    {}
     
     virtual inline float getRadius() const {return 0.35;}
     inline float getMass() const {return -1;}

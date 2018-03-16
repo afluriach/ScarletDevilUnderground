@@ -361,6 +361,7 @@ make_wrapper(getPath)
 
 //Utility functions not specifically created for the scripting API
 make_wrapper(toDirection)
+make_wrapper(stringToDirection)
 
 make_method_wrapper(GObject,getPos)
 make_method_wrapper(GObject,setPos)

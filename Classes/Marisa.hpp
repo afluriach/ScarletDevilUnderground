@@ -21,6 +21,7 @@ Spellcaster
 public:
     inline Marisa(const ValueMap& args) :
     ScriptedObject("marisa"),
+    PatchConSprite(args),
     GObject(args){
     }
     

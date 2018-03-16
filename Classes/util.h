@@ -17,7 +17,9 @@ IntVec2 toIntVector(const cocos2d::Size& rhs);
 
 float dirToPhysicsAngle(Direction d);
 SpaceVect dirToVector(Direction d);
+//Cannot be overloaded since it is exposed in the Lua API.
 Direction toDirection(SpaceVect);
+Direction stringToDirection(string str);
 
 Scene* crntScene();
 

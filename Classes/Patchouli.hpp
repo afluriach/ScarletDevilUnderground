@@ -12,7 +12,10 @@
 class Patchouli : virtual public GObject, PatchConSprite, CircleBody, Spellcaster
 {
 public:
-    inline Patchouli(const ValueMap& args) : GObject(args){
+    inline Patchouli(const ValueMap& args) :
+    GObject(args),
+    PatchConSprite(args)
+    {
     }
     
     virtual inline float getRadius() const {return 0.35;}

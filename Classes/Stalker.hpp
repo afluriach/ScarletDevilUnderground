@@ -26,12 +26,14 @@ public:
 
     inline Stalker(const ValueMap& args) :
     GObject(args),
+    PatchConSprite(args),
 	RadarStateMachineObject(make_shared<ai::Seek>(),args),
     HitPointsEnemy(maxHP)
     {}
 
     virtual inline float getRadarRadius() const {return 6;}
     virtual inline GType getRadarType() const { return GType::playerSensor;}
+    virtual inline float getDefaultFovAngle() const {return float_pi / 2.0f;}
 
     virtual inline float getRadius() const {return 0.35;}
     inline float getMass() const {return 40.0;}

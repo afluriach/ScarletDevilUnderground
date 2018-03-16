@@ -31,10 +31,10 @@ float dirToPhysicsAngle(Direction d)
 {
     switch(d){
     case Direction::none:
-    case Direction::right: return 0;
-    case Direction::up: return float_pi /2;
+    case Direction::right: return 0.0f;
+    case Direction::up: return float_pi / 2.0f;
     case Direction::left: return float_pi;
-    case Direction::down: return float_pi *3/2;
+    case Direction::down: return float_pi * 3.0f / 2.0f;
     }
 }
 
@@ -63,6 +63,18 @@ Direction toDirection(SpaceVect v)
         return Direction::left;
     
     //shouldn't happen
+    return Direction::none;
+}
+
+#define enum_strcmp(val) if(str == #val) return Direction::val;
+Direction stringToDirection(string str)
+{
+    enum_strcmp(up)
+    enum_strcmp(right)
+    enum_strcmp(left)
+    enum_strcmp(down)
+    
+    log("Invalid direction: %s", str.c_str());
     return Direction::none;
 }
 
