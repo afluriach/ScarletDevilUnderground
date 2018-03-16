@@ -55,6 +55,8 @@ public:
 	virtual void onDetect(GObject* obj);
 	virtual void onEndDetect(GObject* obj);
 
+	void setState(shared_ptr<State> newState);
+	void clearState();
     void push(shared_ptr<State> newState);
     void pop();
     

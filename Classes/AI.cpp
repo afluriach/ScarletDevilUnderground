@@ -95,6 +95,20 @@ void StateMachine::onEndDetect(GObject* obj)
 	crnt->onEndDetect(*this, obj);
 }
 
+void StateMachine::setState(shared_ptr<State> newState)
+{
+	clearState();
+	push(newState);
+}
+
+void StateMachine::clearState()
+{
+	while (!states.empty())
+	{
+		pop();
+	}
+}
+
 void StateMachine::push(shared_ptr<State> newState)
 {
     states.push_back(newState);

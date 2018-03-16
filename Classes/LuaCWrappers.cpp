@@ -299,6 +299,75 @@ vector<pair<float,float>> getPath(pair<int,int> start, pair<int,int> end)
     return result;
 }
 
+StateMachineObject* getFSMObject(string funcName,string objName)
+{
+	if (!GScene::getSpace())
+	{
+		log("%s: GSpace is not available in this scene!", funcName.c_str());
+		return nullptr;
+	}
+
+	GObject* obj = GScene::getSpace()->getObject(objName);
+	if (!obj) {
+		log("%s: object %s not found!", funcName.c_str(), objName.c_str());
+		return nullptr;
+	}
+
+	StateMachineObject* smo = dynamic_cast<StateMachineObject*>(obj);
+	if (!smo) {
+		log("%s: %s is not a StateMachineObject!", funcName.c_str(), objName.c_str());
+		return nullptr;
+	}
+
+	return smo;
+}
+
+shared_ptr<ai::State> constructState(string funcName, string stateName, ValueMap args)
+{
+	shared_ptr<ai::State> state = ai::State::constructState(stateName, args);
+	if (!state) {
+		log("%s: Unknown state class %s", funcName.c_str(), stateName.c_str());
+		return nullptr;
+	}
+
+	return state;
+}
+
+void setState(string objName, string stateName, ValueMap args)
+{
+	StateMachineObject* smo = getFSMObject("setState", objName);
+
+	if (smo) {
+		shared_ptr<ai::State> state = constructState("setState", stateName, args);
+
+		if (state)
+			smo->setState(state);
+	}
+}
+
+void pushState(string objName, string stateName, ValueMap args)
+{
+	StateMachineObject* smo = getFSMObject("pushState", objName);
+
+	if (smo) {
+		shared_ptr<ai::State> state = constructState("pushState", stateName, args);
+
+		if (state)
+			smo->pushState(state);
+	}
+
+}
+
+void clearState(string objName)
+{
+	StateMachineObject* smo = getFSMObject("clearState", objName);
+
+	if (smo) {
+		smo->clearState();
+	}
+
+}
+
 ///////////////////////////////////////////////////////////////////
 
 #define make_wrapper(name) \
@@ -358,6 +427,9 @@ make_wrapper(printGlDebug)
 make_wrapper(save)
 make_wrapper(getInventoryContents)
 make_wrapper(getPath)
+make_wrapper(setState)
+make_wrapper(pushState)
+make_wrapper(clearState)
 
 //Utility functions not specifically created for the scripting API
 make_wrapper(toDirection)
@@ -429,6 +501,11 @@ void Inst::installWrappers()
     install_wrapper(getInventoryContents)
     
     install_wrapper(getPath)
+
+	install_wrapper(setState)
+	install_wrapper(pushState)
+	install_wrapper(clearState)
+
     
     //Utility functions not specifically created for the scripting API
     install_wrapper(toDirection)

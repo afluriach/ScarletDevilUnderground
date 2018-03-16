@@ -22,6 +22,19 @@ public:
 		fsm.update();
 	}
 
+	inline void setState(shared_ptr<ai::State> state) {
+		fsm.setState(state);
+	}
+
+	inline void pushState(shared_ptr<ai::State> state) {
+		fsm.push(state);
+	}
+
+	inline void clearState() {
+		fsm.clearState();
+	}
+
+
 protected:
 	ai::StateMachine fsm;
 };
