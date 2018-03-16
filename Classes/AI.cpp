@@ -143,21 +143,12 @@ void Wander::update(StateMachine& fsm)
     vector<Direction> directions;
     SpaceVect target;
     
-    target = dirToVector(Direction::up)*dist;
-    if(!GScene::getSpace()->obstacleFeeler(fsm.agent, target)){
-        directions.push_back(Direction::up);
-    }
-    target = dirToVector(Direction::right)*dist;
-    if(!GScene::getSpace()->obstacleFeeler(fsm.agent, target)){
-        directions.push_back(Direction::right);
-    }
-    target = dirToVector(Direction::down)*dist;
-    if(!GScene::getSpace()->obstacleFeeler(fsm.agent, target)){
-        directions.push_back(Direction::down);
-    }
-    target = dirToVector(Direction::left)*dist;
-    if(!GScene::getSpace()->obstacleFeeler(fsm.agent, target)){
-        directions.push_back(Direction::left);
+    for(Direction d=Direction::right; d< Direction::none; enum_increment(Direction, d) )
+    {
+        target = dirToVector(d)*dist;
+        if(!GScene::getSpace()->obstacleFeeler(fsm.agent, target)){
+            directions.push_back(d);
+        }
     }
 
     if(directions.empty())

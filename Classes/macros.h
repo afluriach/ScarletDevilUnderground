@@ -38,4 +38,6 @@ inline ret method( signature ) \
 //Requires an appropriately defined wrap method (currently only GScene and GObject support this)
 #define wrap_method(cls,method,This) wrapMethod<cls,&cls::method>(This)
 
+#define enum_increment(cls,lval) lval = static_cast<cls>( static_cast<int>(lval) + 1 )
+
 #endif /* macros_h */
