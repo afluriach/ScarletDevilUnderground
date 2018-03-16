@@ -205,7 +205,6 @@ void PlayerBulletDamage::onPlayerBulletHit(Bullet* bullet)
 
 void FrictionObject::update()
 {
-    float _uk = uk();
     SpaceVect vel = getVel();
     float force = getMass() * App::Gaccel * uk();
     
