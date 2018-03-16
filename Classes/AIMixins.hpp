@@ -14,12 +14,9 @@
 class StateMachineObject : virtual public GObject, RegisterUpdate<StateMachineObject>
 {
 public:
-	inline StateMachineObject(shared_ptr<ai::State> startState) :
-		RegisterUpdate(this),
-		fsm(this)
-	{
-		fsm.push(startState);
-	}
+
+    inline StateMachineObject(const ValueMap& args) : StateMachineObject(nullptr, args) {}
+	StateMachineObject(shared_ptr<ai::State> startState, const ValueMap& args);
 
 	inline void update() {
 		fsm.update();
@@ -92,7 +89,7 @@ protected:
 class RadarStateMachineObject : virtual public GObject, StateMachineObject, RadarObject
 {
 public:
-	inline RadarStateMachineObject(shared_ptr<ai::State> startState) : StateMachineObject(startState) {}
+	inline RadarStateMachineObject(shared_ptr<ai::State> startState, const ValueMap& args) : StateMachineObject(startState, args) {}
 
 	inline virtual void onDetect(GObject* obj) {
 		fsm.onDetect(obj);

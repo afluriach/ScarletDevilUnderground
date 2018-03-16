@@ -31,7 +31,7 @@ inline ret method( signature ) \
 #define square(n) ( (n) * (n) )
 
 #define set_float_arg(field, def) field = getFloatOrDefault(args, #field, def);
-//float getFloatOrDefault(const ValueMap& obj, const string& name, float def);
+#define init_float_field(field,default) field(getFloatOrDefault(args, #field, default))
 
 #define float_pi boost::math::constants::pi<float>()
 

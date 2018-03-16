@@ -9,6 +9,33 @@
 #include "Prefix.h"
 #include "AIMixins.hpp"
 
+StateMachineObject::StateMachineObject(shared_ptr<ai::State> startState, const ValueMap& args) :
+    RegisterUpdate(this),
+    fsm(this)
+{
+    shared_ptr<ai::State> stateFromArgs = nullptr;
+    auto searchIter = args.find("startState");
+    
+    if(searchIter != args.end() && searchIter->second.asString() == "none")
+        return;
+
+    //If startState is provided in the object args map, try to construct it.
+    if(searchIter != args.end())
+    {
+        stateFromArgs = ai::State::constructState(searchIter->second.asString(), args);
+        
+        if(!stateFromArgs){
+            log("%s: failed to construct state %s", getName().c_str(),searchIter->second.asString().c_str());
+        }
+    }
+    
+    //If stateFromArgs was constructed, it will override the provided state.
+    if(stateFromArgs)
+        fsm.push(stateFromArgs);
+    else if(startState)
+        fsm.push(startState);
+}
+
 void RadarObject::update()
 {
     updateRadarPos();

@@ -17,7 +17,7 @@ class Agent : virtual public GObject, PatchConSprite, CircleBody, StateMachineOb
 public:
     inline Agent(const ValueMap& args) :
     GObject(args),
-    StateMachineObject(make_shared<ai::Wander>())
+    StateMachineObject(make_shared<ai::Wander>(),args)
     {
         spriteName = args.at("sprite").asString();
         

@@ -26,6 +26,11 @@ class State
 {
 public:
 
+    typedef function<shared_ptr<State>(const ValueMap&) > AdapterType;
+    static const unordered_map<string, State::AdapterType> adapters;
+    
+    static shared_ptr<State> constructState(const string& type, const ValueMap& args);
+
 	virtual void onEnter(StateMachine& sm) {};
 	virtual void update(StateMachine& sm) {};
 	virtual void onExit(StateMachine& sm) {};
@@ -64,6 +69,9 @@ protected:
 
 class Seek : public State {
 public:
+    inline Seek() {}
+    inline Seek(const ValueMap& args) {}
+    
 	virtual void update(StateMachine& sm);
 	virtual void onDetect(StateMachine& sm, GObject* target);
 	virtual void onEndDetect(StateMachine& sm, GObject* target);
@@ -73,6 +81,8 @@ protected:
 
 class IdleWait : public State{
     public:
+        IdleWait(const ValueMap& args);
+
         inline IdleWait(unsigned int frames) :
         remaining(frames)
         {}
@@ -90,6 +100,8 @@ class IdleWait : public State{
 
 class MoveToPoint : public State{
 public:
+    MoveToPoint(const ValueMap& args);
+
     inline MoveToPoint(SpaceVect target) :
     target(target)
     {}
@@ -101,6 +113,8 @@ protected:
 
 class Wander : public State {
 public:
+    Wander(const ValueMap& args);
+
     inline Wander() : minWait(1.0), maxWait(3.0), minDist(2.0), maxDist(4.0)
     {}
 

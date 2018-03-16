@@ -58,6 +58,17 @@ void seek(GObject& agent, const SpaceVect& target, float maxSpeed, float acceler
     applyDesiredVelocity(agent, direction*maxSpeed, acceleration);
 }
 
+shared_ptr<State> State::constructState(const string& type, const ValueMap& args)
+{
+    auto it = State::adapters.find(type);
+
+    if (it != State::adapters.end()) {
+        State::AdapterType adapter = it->second;
+        return adapter(args);
+    }
+    else return nullptr;
+}
+
 void StateMachine::update()
 {
     if(states.empty())
@@ -125,6 +136,62 @@ void Seek::update(StateMachine& sm)
 		ai::applyDesiredVelocity(*sm.agent, SpaceVect(0, 0), sm.agent->getMaxAcceleration());
 }
 
+IdleWait::IdleWait(const ValueMap& args)
+{
+    auto it = args.find("waitTime");
+    
+    if(it == args.end()){
+        log("IdleWait::IdleWait: waitTime missing from ValueMap!");
+        remaining = 0;
+        return;
+    }
+    
+    if(!it->second.isNumber()){
+        log("IdleWait::IdleWait: waitTime is not a number!");
+        remaining = 0;
+        return;
+    }
+
+    if(it->second.asFloat() < 0.0f){
+        log("IdleWait::IdleWait: waitTime is negative!");
+        remaining = 0;
+        return;
+    }
+    
+    float waitSeconds = getFloat(args, "waitTime");
+    remaining = App::framesPerSecond * waitSeconds;
+}
+
+MoveToPoint::MoveToPoint(const ValueMap& args)
+{
+    auto xIter = args.find("target_x");
+    auto yIter = args.find("target_y");
+    
+    if(xIter == args.end()){
+        log("MoveToPoint::MoveToPoint: target_x missing from ValueMap");
+        return;
+    }
+    if(yIter == args.end()){
+        log("MoveToPoint::MoveToPoint: target_y missing from ValueMap");
+        return;
+    }
+    
+    const Value &x = xIter->second;
+    const Value &y = yIter->second;
+
+//Cocos2D ValueMap does not correctly read data type.
+//    if(!x.isNumber()){
+//        log("MoveToPoint::MoveToPoint: target_x is not a number.");
+//        return;
+//    }
+//    if(!y.isNumber()){
+//        log("MoveToPoint::MoveToPoint: target_y is not a number.");
+//        return;
+//    }
+    
+    target  = SpaceVect(x.asFloat(), y.asFloat());
+}
+
 void MoveToPoint::update(StateMachine& fsm)
 {
     float dist2 = (fsm.agent->getPos() - target).lengthSq();
@@ -136,6 +203,14 @@ void MoveToPoint::update(StateMachine& fsm)
     
     seek(*fsm.agent, target, fsm.agent->getMaxSpeed(), fsm.agent->getMaxAcceleration());
 }
+
+Wander::Wander(const ValueMap& args) :
+    init_float_field(minWait,1.0f),
+    init_float_field(maxWait,1.0f),
+    init_float_field(minDist,1.0f),
+    init_float_field(maxDist,1.0f)
+{}
+
 
 void Wander::update(StateMachine& fsm)
 {
