@@ -68,7 +68,7 @@ public:
 	virtual void onDetect(StateMachine& sm, GObject* target);
 	virtual void onEndDetect(StateMachine& sm, GObject* target);
 protected:
-	GObject * target;
+	GObject* target = nullptr;
 };
 
 class IdleWait : public State{
