@@ -61,6 +61,9 @@ void TextListMenuLayer::downReleased()
 const vector<string> SceneSelect::sceneTitles = list_of_typed(
     ("Block Scene")
     ("Library Opening")
+	("Collect")
+	("Stalker Room")
+	("Wander")
     ("Back"),
     vector<string>
 );
@@ -74,12 +77,14 @@ TextListMenuLayer::listAction sceneLaunchAdapterByName(const string& name){
     return [=]() -> void { GScene::runScene(name); };
 }
 
-const vector<TextListMenuLayer::listAction> SceneSelect::sceneActions = list_of_typed(
-    (sceneLaunchAdapterByName("BlockRoom"))
-    (sceneLaunchAdapter<LibraryOpening>())
-    (SceneSelect::back),
-    vector<TextListMenuLayer::listAction>
-);
+const vector<TextListMenuLayer::listAction> SceneSelect::sceneActions = boost::assign::list_of
+	(sceneLaunchAdapterByName("BlockRoom"))
+	(sceneLaunchAdapterByName("LibraryOpening"))
+	(sceneLaunchAdapterByName("Collect"))
+	(sceneLaunchAdapterByName("StalkerRoom"))
+	(sceneLaunchAdapterByName("Wander"))
+	(SceneSelect::back)
+;
 
 bool TextListMenuLayer::init()
 {
