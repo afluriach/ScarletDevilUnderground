@@ -114,6 +114,36 @@ void MapScene::loadMapObjects(const TMXTiledMap& map)
     }
 }
 
+void MapScene::loadPaths(const TMXTiledMap& map)
+{
+	Vector<TMXObjectGroup*> objLayers = map.getObjectGroups();
+
+	if (!map.getObjectGroup("paths")) {
+		return;
+	}
+
+	ValueVector paths = map.getObjectGroup("paths")->getObjects();
+
+	foreach(Value value, paths)
+	{
+		Path crntPath;
+		ValueMap& asMap = value.asValueMap();
+
+		string name = asMap.at("name").asString();
+		ValueVector points = asMap.at("polylinePoints").asValueVector();
+		SpaceVect origin(asMap.at("x").asFloat(), asMap.at("y").asFloat());
+
+		foreach(Value point, points)
+		{
+			crntPath.push_back(SpaceVect(
+				(origin.x + point.asValueMap().at("x").asFloat()) / App::pixelsPerTile,
+				(origin.y - point.asValueMap().at("y").asFloat()) / App::pixelsPerTile
+			));
+		}
+		gspace.addPath(name, crntPath);
+	}
+}
+
 void MapScene::loadMap()
 {
     tileMap = TMXTiledMap::create(mapRes);
@@ -127,6 +157,7 @@ void MapScene::loadMap()
         tileMap,
         static_cast<int>(GraphicsLayer::map)
     );
+	loadPaths(*tileMap);
     loadMapObjects(*tileMap);
     
     cocos2d::Size size = tileMap->getMapSize();

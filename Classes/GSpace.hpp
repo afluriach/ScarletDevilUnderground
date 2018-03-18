@@ -101,6 +101,9 @@ public:
     
     void addWallBlock(SpaceVect ll,SpaceVect ur);
     
+	void addPath(string name, Path p);
+	Path* getPath(string name);
+
     float distanceFeeler(GObject* agent, SpaceVect feeler, GType gtype);
     float obstacleDistanceFeeler(GObject* agent, SpaceVect feeler);
     float wallDistanceFeeler(GObject* agent, SpaceVect feeler);
@@ -133,6 +136,8 @@ private:
 
     unordered_map<unsigned int, GObject*> objByUUID;
     unordered_map<string, GObject*> objByName;
+
+	unordered_map<string, Path> paths;
     
     //Objects which have been queued for addition. Will be added at end of frame.
     vector<GObject*> toAdd;

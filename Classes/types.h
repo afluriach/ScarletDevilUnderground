@@ -12,6 +12,7 @@
 typedef pair<int,int> IntVec2;
 //Represents a Chipmunk physics unit space vector
 typedef cp::Vect SpaceVect;
+typedef vector<SpaceVect> Path;
 
 enum class Direction{
     right=1,

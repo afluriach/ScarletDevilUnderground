@@ -235,6 +235,21 @@ void GSpace::addWallBlock(SpaceVect ll,SpaceVect ur)
     space.add(wallBlock);
 }
 
+void GSpace::addPath(string name, Path p)
+{
+	if (paths.find(name) != paths.end()) {
+		log("Duplicate path name %s!", name.c_str());
+	}
+	paths[name] = p;
+}
+
+Path* GSpace::getPath(string name)
+{
+	auto it = paths.find(name);
+
+	return it != paths.end() ? &(it->second) : nullptr;
+}
+
 void GSpace::addNavObstacle(const SpaceVect& center, const SpaceVect& boundingDimensions)
 {
     for(float x = center.x - boundingDimensions.x/2; x < center.x + boundingDimensions.x/2; ++x)

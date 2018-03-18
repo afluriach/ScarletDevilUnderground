@@ -181,6 +181,7 @@ protected:
     
     void loadMapObjects(const TMXTiledMap& map);
     //Add a map object layer to space.
+	void loadPaths(const TMXTiledMap& map);
     void loadObjectGroup(TMXObjectGroup* group);
     void loadWalls();
     
