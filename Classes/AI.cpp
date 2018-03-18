@@ -58,6 +58,24 @@ void seek(GObject& agent, const SpaceVect& target, float maxSpeed, float acceler
     applyDesiredVelocity(agent, direction*maxSpeed, acceleration);
 }
 
+void flee(GObject& agent, GObject& target, float maxSpeed, float acceleration)
+{
+	flee(agent, target.getPos(), maxSpeed, acceleration);
+}
+
+void flee(GObject& agent, const SpaceVect& target, float maxSpeed, float acceleration)
+{
+	SpaceVect displacement = target - agent.getPos();
+
+	if (displacement.lengthSq() < 1e-4)
+		return;
+
+    displacement = displacement.normalize();
+    displacement = displacement.rotate(float_pi);
+    
+    applyDesiredVelocity(agent, displacement*maxSpeed, acceleration);
+}
+
 shared_ptr<State> State::constructState(const string& type, const ValueMap& args)
 {
     auto it = State::adapters.find(type);
@@ -109,6 +127,14 @@ void StateMachine::clearState()
 	}
 }
 
+void StateMachine::clearSubstates()
+{
+	while (states.size() > 1)
+	{
+		pop();
+	}
+}
+
 void StateMachine::push(shared_ptr<State> newState)
 {
     states.push_back(newState);
@@ -123,16 +149,25 @@ void StateMachine::pop()
     
     crnt->onExit(*this);
     states.pop_back();
+    
+    if(!states.empty())
+        states.back()->onReturn(*this);
 }
 
-void Seek::onDetect(StateMachine& sm, GObject* other)
-{
-	target = other;
+Seek::Seek(const ValueMap& args) {
+    if(args.find("target_name") == args.end()){
+        log("Seek::Seek: target_name missing.");
+    }
+    target = GScene::getSpace()->getObject(args.at("target_name").asString());
+    
+    if(!target){
+        log("Seek::Seek: target object %s not found.", args.at("target_name").asString().c_str() );
+    }
 }
 
 void Seek::onEndDetect(StateMachine& sm, GObject* other)
 {
-	target = nullptr;
+	sm.pop();
 }
 
 void Seek::update(StateMachine& sm)
@@ -149,6 +184,45 @@ void Seek::update(StateMachine& sm)
 	else
 		ai::applyDesiredVelocity(*sm.agent, SpaceVect(0, 0), sm.agent->getMaxAcceleration());
 }
+
+Flee::Flee(const ValueMap& args) {
+    if(args.find("target_name") == args.end()){
+        log("Seek::Seek: target_name missing.");
+    }
+    target = GScene::getSpace()->getObject(args.at("target_name").asString());
+    
+    if(!target){
+        log("Flee::Flee: target object %s not found.", args.at("target_name").asString().c_str() );
+    }
+    
+    if(args.find("flee_distance") == args.end()){
+        log("Flee::Flee: flee_distance missing.");
+    }
+    else{
+        distance = args.at("flee_distance").asFloat();
+    }
+}
+
+void Flee::onEndDetect(StateMachine& sm, GObject* other)
+{
+	sm.pop();
+}
+
+void Flee::update(StateMachine& sm)
+{
+	if (target != nullptr) {
+		ai::flee(
+			*sm.agent,
+			*target,
+			sm.agent->getMaxSpeed(),
+			sm.agent->getMaxAcceleration()
+		);
+		sm.agent->setDirection(toDirection(ai::directionToTarget(*sm.agent, *target)));
+	}
+	else
+		ai::applyDesiredVelocity(*sm.agent, SpaceVect(0, 0), sm.agent->getMaxAcceleration());
+}
+
 
 IdleWait::IdleWait(const ValueMap& args)
 {
@@ -258,5 +332,18 @@ void Wander::update(StateMachine& fsm)
     int waitFrames = app->getRandomInt(minWait*App::framesPerSecond, maxWait*App::framesPerSecond);
     fsm.push(make_shared<IdleWait>(waitFrames));
 }
+
+#define compound_method(name, args1, args2) \
+void CompoundState::name args1 { \
+    stateA->name args2; \
+    stateB->name args2; \
+}
+
+
+compound_method(onEnter, (StateMachine& sm), (sm))
+compound_method(onExit, (StateMachine& sm), (sm))
+compound_method(update, (StateMachine& sm), (sm))
+compound_method(onDetect,(StateMachine& sm, GObject* obj), (sm,obj))
+compound_method(onEndDetect,(StateMachine& sm, GObject* obj), (sm,obj))
 
 }//end NS

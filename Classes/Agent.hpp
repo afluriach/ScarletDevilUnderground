@@ -12,17 +12,21 @@
 #include "AI.hpp"
 #include "AIMixins.hpp"
 
-class Agent : virtual public GObject, PatchConSprite, CircleBody, StateMachineObject
+class Agent : virtual public GObject, PatchConSprite, CircleBody, RadarStateMachineObject
 {
 public:
     inline Agent(const ValueMap& args) :
     GObject(args),
     PatchConSprite(args),
-    StateMachineObject(make_shared<ai::Wander>(),args)
+    RadarStateMachineObject(make_shared<ai::WanderAndFleePlayer>(3.0f, this),args)
     {
         spriteName = args.at("sprite").asString();
         
     }
+    
+    virtual inline float getRadarRadius() const {return 3.0f;}
+    virtual inline GType getRadarType() const { return GType::playerSensor;}
+    virtual inline float getDefaultFovAngle() const {return 0.0f;}
     
     virtual inline float getRadius() const {return 0.35;}
     inline float getMass() const {return 20.0;}

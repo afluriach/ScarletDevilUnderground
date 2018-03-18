@@ -60,6 +60,8 @@ namespace cp {
 
 		/// Uses complex multiplication to return a copy rotated by v. Scaling will occur if the vector isn't a unit vector.
 		Vect rotate(Vect v) const;
+        
+        Vect rotate(float angleRadians) const;
 
 		/// Inverse of Vect::rotate.
 		Vect unrotate(Vect v) const;

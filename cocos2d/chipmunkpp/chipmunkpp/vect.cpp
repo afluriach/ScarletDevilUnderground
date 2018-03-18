@@ -161,6 +161,15 @@ namespace cp {
 	Vect Vect::unrotate(Vect v) const {
 		return Vect(x * v.x + y * v.y, y * v.x - x * v.y);
 	}
+    
+    Vect Vect::rotate(float angleRadians) const {
+        double _cos = cos(angleRadians);
+        double _sin = sin(angleRadians);
+        return Vect(
+            _cos * x - _sin * y,
+            _sin * x + _cos * y
+        );
+    }
 
 	Vect Vect::lerp(Vect v1, Vect v2, Float t) {
 		return v1 * (1 - t) + v2 * t;

@@ -27,7 +27,7 @@ public:
     inline Stalker(const ValueMap& args) :
     GObject(args),
     PatchConSprite(args),
-	RadarStateMachineObject(make_shared<ai::Seek>(),args),
+	RadarStateMachineObject(make_shared<ai::DetectAndSeekPlayer>(), args),
     HitPointsEnemy(maxHP)
     {}
 

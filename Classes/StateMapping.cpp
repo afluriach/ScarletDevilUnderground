@@ -23,6 +23,7 @@ static State::AdapterType consAdapter()
 
 const unordered_map<string, State::AdapterType> State::adapters = boost::assign::map_list_of
     entry_same(Seek)
+    entry_same(Flee)
     entry_same(IdleWait)
     entry_same(MoveToPoint)
     entry_same(Wander)

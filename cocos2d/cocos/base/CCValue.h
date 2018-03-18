@@ -191,6 +191,10 @@ public:
     inline bool isString() const {
         return _type == Type::STRING;
     }
+    
+    inline bool isMap() const {
+        return _type == Type::MAP;
+    }
 
     /** Value type wrapped by Value. */
     enum class Type
