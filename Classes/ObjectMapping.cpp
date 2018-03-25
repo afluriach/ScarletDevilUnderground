@@ -19,6 +19,8 @@
 #include "Patchouli.hpp"
 #include "Reimu.hpp"
 
+#include "Facer.hpp"
+#include "Follower.hpp"
 #include "Stalker.hpp"
 #include "Agent.hpp"
 
@@ -69,6 +71,8 @@ const unordered_map<string,GObject::AdapterType> GObject::adapters =
     entry_same(Patchouli)
     entry_same(Reimu)
 
+    entry_same(Facer)
+    entry_same(Follower)
     entry_same(Stalker)
     entry_same(Agent)
 

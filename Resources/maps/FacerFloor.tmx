@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.0" tiledversion="1.0.3" orientation="orthogonal" renderorder="right-down" width="20" height="48" tilewidth="128" tileheight="128" nextobjectid="40">
+ <tileset firstgid="1" name="block_wall_dark_grey" tilewidth="128" tileheight="128" tilecount="16" columns="4">
+  <image source="block_wall_dark_grey.png" width="512" height="512"/>
+ </tileset>
+ <tileset firstgid="17" name="dirt1_green" tilewidth="128" tileheight="128" tilecount="4" columns="2">
+  <image source="dirt1_green.png" width="256" height="256"/>
+ </tileset>
+ <layer name="floor" width="20" height="48">
+  <data encoding="base64" compression="zlib">
+   eJzt07ENADAMAkFWcOz9Z40bb0ARxY+EaK8hJJ1umDa7ZVyXC59nJy7fBB++H3yv/xcfPnz48OHDh2+77wLxAUPv
+  </data>
+ </layer>
+ <layer name="wall_tiles" width="20" height="48">
+  <data encoding="base64" compression="zlib">
+   eJztls0KgDAMgwPq/Bvi+z+tiopzimbag0gKOWyUr4c2Wz2AglBL5PSjHLhg8px4r3kdtv6Vy32OYz+bxJpx/buzeGm8ypjHRAovM+Z9vR8sz2P2U42932o889vX3xfx/s9bZzac5/jv1zyLJ54NT34Tz5rH7pNP9kYLHrtPhv64UrxvnWliDT8HBSc=
+  </data>
+ </layer>
+ <objectgroup name="walls">
+  <object id="13" x="0" y="0" width="2560" height="128"/>
+  <object id="15" x="1280" y="128" width="128" height="1408"/>
+  <object id="16" x="640" y="768" width="640" height="128"/>
+  <object id="17" x="0" y="128" width="128" height="768"/>
+  <object id="19" x="128" y="768" width="384" height="128"/>
+  <object id="20" x="256" y="896" width="128" height="1280"/>
+  <object id="21" x="0" y="2176" width="512" height="128"/>
+  <object id="22" x="768" y="896" width="128" height="1280"/>
+  <object id="23" x="640" y="2176" width="640" height="128"/>
+  <object id="24" x="1280" y="1664" width="128" height="4096"/>
+  <object id="27" x="0" y="6016" width="2560" height="128"/>
+  <object id="28" x="1280" y="5888" width="128" height="128"/>
+  <object id="33" x="128" y="3328" width="384" height="128"/>
+  <object id="34" x="640" y="3328" width="640" height="128"/>
+  <object id="35" x="0" y="2304" width="128" height="3712"/>
+  <object id="36" x="128" y="4736" width="384" height="128"/>
+  <object id="38" x="640" y="4736" width="640" height="128"/>
+  <object id="39" x="2432" y="128" width="128" height="5888"/>
+ </objectgroup>
+ <objectgroup name="objects">
+  <object id="1" name="player" type="Player" x="256" y="256" width="128" height="128"/>
+  <object id="3" name="facer1a" type="Facer" x="768" y="2432" width="128" height="128"/>
+  <object id="4" name="facer2a" type="Facer" x="640" y="3840" width="128" height="128"/>
+  <object id="5" name="facer2b" type="Facer" x="640" y="4224" width="128" height="128"/>
+  <object id="6" name="follower1a" type="Follower" x="256" y="5120" width="128" height="128"/>
+  <object id="7" name="follower1b" type="Follower" x="896" y="5120" width="128" height="128"/>
+  <object id="8" name="facer3a" type="Facer" x="1408" y="256" width="128" height="128"/>
+  <object id="9" name="facer3c" type="Facer" x="1920" y="256" width="128" height="128"/>
+  <object id="10" name="facer3b" type="Facer" x="1664" y="256" width="128" height="128"/>
+  <object id="11" name="facer3d" type="Facer" x="2176" y="256" width="128" height="128"/>
+ </objectgroup>
+</map>

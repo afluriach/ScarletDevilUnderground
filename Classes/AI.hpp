@@ -22,6 +22,8 @@ void seek(GObject& agent, const SpaceVect& target, float maxSpeed, float acceler
 void flee(GObject& agent, GObject& target, float maxSpeed, float acceleration);
 void flee(GObject& agent, const SpaceVect& target, float maxSpeed, float acceleration);
 
+bool isFacingTarget(GObject* agent, GObject* target);
+bool isFacingTargetsBack(GObject* agent, GObject* target);
 
 SpaceVect directionToTarget(GObject& agent, GObject& target);
 SpaceVect directionToTarget(GObject& agent, const SpaceVect& target);

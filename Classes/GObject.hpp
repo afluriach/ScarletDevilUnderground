@@ -42,6 +42,30 @@ public:
         body->setPos(SpaceVect(x,y));
     }
     
+    inline void setAngle(float a){
+        if(!body){
+            log("GObject::setAngle: %s has no physics body!", name.c_str());
+            return;
+        }
+        body->setAngle(a);
+    }
+    
+    inline float getAngle(){
+        if(!body){
+            log("GObject::getAngle: %s has no physics body!", name.c_str());
+            return 0.0f;
+        }
+        return body->getAngle();
+    }
+    
+    inline float rotate(float a){
+        float setAngle(getAngle() + a);
+    }
+    
+    inline SpaceVect getFacingVector(){
+        return SpaceVect::ray(1.0f, getAngle());
+    }
+    
     inline virtual void setDirection(Direction d) {
         if(body && d != Direction::none)
             body->setAngle(dirToPhysicsAngle(d));

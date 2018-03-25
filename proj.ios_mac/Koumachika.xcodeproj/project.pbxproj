@@ -76,6 +76,10 @@
 		E2198F81205A2AAE00832E0C /* AIMixins.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E2198F7F205A2A1F00832E0C /* AIMixins.cpp */; };
 		E2198F89205B64E800832E0C /* StateMapping.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E2198F88205B64E800832E0C /* StateMapping.cpp */; };
 		E2198F8A205B64E800832E0C /* StateMapping.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E2198F88205B64E800832E0C /* StateMapping.cpp */; };
+		E2198F8D206825BC00832E0C /* Facer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E2198F8B206825BC00832E0C /* Facer.cpp */; };
+		E2198F8E206825BC00832E0C /* Facer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E2198F8B206825BC00832E0C /* Facer.cpp */; };
+		E2198F91206825D300832E0C /* Follower.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E2198F8F206825D300832E0C /* Follower.cpp */; };
+		E2198F92206825D300832E0C /* Follower.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E2198F8F206825D300832E0C /* Follower.cpp */; };
 		E22224641C0BA3ED007DE7F9 /* LuaCWrappers.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E22224631C0BA3ED007DE7F9 /* LuaCWrappers.cpp */; };
 		E22224651C0BA3ED007DE7F9 /* LuaCWrappers.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E22224631C0BA3ED007DE7F9 /* LuaCWrappers.cpp */; };
 		E223F3861CFCB75F00AD4133 /* Graph.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E223F3841CFCB75F00AD4133 /* Graph.cpp */; };
@@ -245,6 +249,10 @@
 		E21738F51FE609360045C4CB /* Agent.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = Agent.hpp; sourceTree = "<group>"; };
 		E2198F7F205A2A1F00832E0C /* AIMixins.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = AIMixins.cpp; sourceTree = "<group>"; };
 		E2198F88205B64E800832E0C /* StateMapping.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = StateMapping.cpp; sourceTree = "<group>"; };
+		E2198F8B206825BC00832E0C /* Facer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Facer.cpp; sourceTree = "<group>"; };
+		E2198F8C206825BC00832E0C /* Facer.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = Facer.hpp; sourceTree = "<group>"; };
+		E2198F8F206825D300832E0C /* Follower.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Follower.cpp; sourceTree = "<group>"; };
+		E2198F90206825D300832E0C /* Follower.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = Follower.hpp; sourceTree = "<group>"; };
 		E22224631C0BA3ED007DE7F9 /* LuaCWrappers.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = LuaCWrappers.cpp; sourceTree = "<group>"; };
 		E223F3841CFCB75F00AD4133 /* Graph.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Graph.cpp; sourceTree = "<group>"; };
 		E223F3851CFCB75F00AD4133 /* Graph.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = Graph.hpp; sourceTree = "<group>"; };
@@ -595,7 +603,11 @@
 				E2CDC54D1C051FFC0017537B /* Bullet.cpp */,
 				E2CDC54E1C051FFC0017537B /* Bullet.hpp */,
 				E268FC4F1C1CF2C1007A425B /* CollectGlyph.hpp */,
+				E2198F8B206825BC00832E0C /* Facer.cpp */,
+				E2198F8C206825BC00832E0C /* Facer.hpp */,
 				E27185361C0E0CF8006EA1EB /* Flower.h */,
+				E2198F8F206825D300832E0C /* Follower.cpp */,
+				E2198F90206825D300832E0C /* Follower.hpp */,
 				E29FF74F1BE18BE7004725C1 /* Glyph.cpp */,
 				E29FF7501BE18BE7004725C1 /* Glyph.hpp */,
 				E2249BBD1CF73CE000B1D666 /* InventoryObject.cpp */,
@@ -790,9 +802,11 @@
 				E23F055E1BD0294A0091BD6D /* controls.cpp in Sources */,
 				E23121FD1BF7FDA300FEA94B /* Dialog.cpp in Sources */,
 				E244502E1C03A760006D78B0 /* scenes.cpp in Sources */,
+				E2198F91206825D300832E0C /* Follower.cpp in Sources */,
 				E214CF5B1C0AD22E00FC8784 /* SpellMapping.cpp in Sources */,
 				E2CDC54F1C051FFC0017537B /* Bullet.cpp in Sources */,
 				E2249BC31CF740B300B1D666 /* Items.cpp in Sources */,
+				E2198F8D206825BC00832E0C /* Facer.cpp in Sources */,
 				503AE10017EB989F00D1A890 /* AppController.mm in Sources */,
 				E2CDC54B1C0507090017537B /* Player.cpp in Sources */,
 				E2C9E5E01C09267C00CA7C88 /* Patchouli.cpp in Sources */,
@@ -827,6 +841,8 @@
 				46880B8919C43A87006E1F66 /* App.cpp in Sources */,
 				E25DC09A1C1EE2A400765415 /* LuaWrap.cpp in Sources */,
 				E2CDC5471C04F89D0017537B /* GAnimation.cpp in Sources */,
+				E2198F8E206825BC00832E0C /* Facer.cpp in Sources */,
+				E2198F92206825D300832E0C /* Follower.cpp in Sources */,
 				E2E01EEE1C1DCA0D00330904 /* AI.cpp in Sources */,
 				E2B63AA61BE0450D005695B0 /* GObject.cpp in Sources */,
 				E214CF5C1C0AD22E00FC8784 /* SpellMapping.cpp in Sources */,

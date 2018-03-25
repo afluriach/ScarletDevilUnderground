@@ -36,7 +36,10 @@ GObject* GObject::constructByType(const string& type, const ValueMap& args )
         AdapterType adapter =  it->second;
         return adapter(args);
     }
-    else return nullptr;
+    else{
+        log("Unknown object type %s!", type.c_str());
+        return nullptr;
+    }
 }
 
 void SpriteObject::update()

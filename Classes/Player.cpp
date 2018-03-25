@@ -90,9 +90,9 @@ void Player::fireIfPossible()
 void Player::fire()
 {
     SpaceVect pos = body->getPos();
-    pos += SpaceVect::ray(fireDist,body->getAngle());
+    pos += SpaceVect::ray(fireDist,getAngle());
     
-    PlayerBaseBullet* bullet = new PlayerBaseBullet(body->getAngle(), pos);
+    PlayerBaseBullet* bullet = new PlayerBaseBullet(getAngle(), pos);
     
     GScene::getSpace()->addObject(bullet);
 }

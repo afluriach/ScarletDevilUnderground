@@ -31,6 +31,27 @@ void applyDesiredVelocity(GObject& obj, const SpaceVect& desired, float accelera
     }
 }
 
+bool isFacingTarget(GObject* agent, GObject* target)
+{
+    SpaceVect targetDirection = (target->getPos() - agent->getPos()).normalize();
+    SpaceVect agentFacingVector = agent->getFacingVector();
+    bool facing = SpaceVect::dot(agentFacingVector, target->getFacingVector()) < 0;
+    bool targetInFrontOfAgent = SpaceVect::dot(agentFacingVector, targetDirection) > 0;
+
+    return facing && targetInFrontOfAgent;
+}
+
+bool isFacingTargetsBack(GObject* agent, GObject* target)
+{
+    SpaceVect targetDirection = (target->getPos() - agent->getPos()).normalize();
+    SpaceVect agentFacingVector = agent->getFacingVector();
+
+    bool facingBack = SpaceVect::dot(agentFacingVector, target->getFacingVector()) > 0;
+    bool targetInFrontOfAgent = SpaceVect::dot(agentFacingVector, targetDirection) > 0;
+    
+    return facingBack && targetInFrontOfAgent;
+}
+
 SpaceVect directionToTarget(GObject& agent, GObject& target)
 {
     return directionToTarget(agent, target.getPos());

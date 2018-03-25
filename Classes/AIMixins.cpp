@@ -57,7 +57,7 @@ bool RadarObject::isObjectVisible(GObject* other)
 {
     if(fovAngle == 0.0f) return true;
 
-	SpaceVect facingUnit = SpaceVect::ray(1.0f, body->getAngle());
+	SpaceVect facingUnit = SpaceVect::ray(1.0f, getAngle());
     SpaceVect displacementUnit = (other->getPos() - getPos()).normalize();
     float scalar = SpaceVect::dot(facingUnit,displacementUnit);
     
@@ -117,7 +117,7 @@ void RadarObject::updateVisibleObjects()
 
 GObject* RadarObject::getSensedObject()
 {
-	SpaceVect facingUnit = SpaceVect::ray(1, body->getAngle());
+	SpaceVect facingUnit = SpaceVect::ray(1, getAngle());
 
 	float bestScalar = -1;
 	GObject* bestObj = nullptr;
