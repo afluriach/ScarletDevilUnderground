@@ -152,6 +152,8 @@ xcopy "$(ProjectDir)..\Resources" "$(OutDir)" /D /E /I /F /Y</Command>
     <ClCompile Include="..\Classes\Bullet.cpp" />
     <ClCompile Include="..\Classes\controls.cpp" />
     <ClCompile Include="..\Classes\Dialog.cpp" />
+    <ClCompile Include="..\Classes\Facer.cpp" />
+    <ClCompile Include="..\Classes\Follower.cpp" />
     <ClCompile Include="..\Classes\GAnimation.cpp" />
     <ClCompile Include="..\Classes\Garden.cpp" />
     <ClCompile Include="..\Classes\Glyph.cpp" />
@@ -192,7 +194,9 @@ xcopy "$(ProjectDir)..\Resources" "$(OutDir)" /D /E /I /F /Y</Command>
     <ClInclude Include="..\Classes\CollectGlyph.hpp" />
     <ClInclude Include="..\Classes\controls.h" />
     <ClInclude Include="..\Classes\Dialog.hpp" />
+    <ClInclude Include="..\Classes\Facer.hpp" />
     <ClInclude Include="..\Classes\Flower.h" />
+    <ClInclude Include="..\Classes\Follower.hpp" />
     <ClInclude Include="..\Classes\GAnimation.hpp" />
     <ClInclude Include="..\Classes\Garden.hpp" />
     <ClInclude Include="..\Classes\Glyph.hpp" />

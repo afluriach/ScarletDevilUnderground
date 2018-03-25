@@ -58,7 +58,7 @@ public:
         return body->getAngle();
     }
     
-    inline float rotate(float a){
+    inline void rotate(float a){
         float setAngle(getAngle() + a);
     }
     

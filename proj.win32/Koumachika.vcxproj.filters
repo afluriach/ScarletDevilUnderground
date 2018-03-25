@@ -123,6 +123,12 @@
     <ClCompile Include="..\Classes\StateMapping.cpp">
       <Filter>src</Filter>
     </ClCompile>
+    <ClCompile Include="..\Classes\Facer.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\Follower.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="main.h">
@@ -255,6 +261,12 @@
       <Filter>src</Filter>
     </ClInclude>
     <ClInclude Include="..\Classes\AIMixins.hpp">
+      <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\Facer.hpp">
+      <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\Follower.hpp">
       <Filter>src</Filter>
     </ClInclude>
   </ItemGroup>

@@ -64,6 +64,7 @@ const vector<string> SceneSelect::sceneTitles = list_of_typed(
 	("Collect")
 	("Stalker Room")
 	("Wander")
+	("Facer Floor")
     ("Back"),
     vector<string>
 );
@@ -83,6 +84,7 @@ const vector<TextListMenuLayer::listAction> SceneSelect::sceneActions = boost::a
 	(sceneLaunchAdapterByName("Collect"))
 	(sceneLaunchAdapterByName("StalkerRoom"))
 	(sceneLaunchAdapterByName("Wander"))
+	(sceneLaunchAdapterByName("FacerFloor"))
 	(SceneSelect::back)
 ;
 
