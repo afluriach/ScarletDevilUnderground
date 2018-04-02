@@ -202,6 +202,21 @@ protected:
     SpaceVect target;
 };
 
+class FollowPath : public State {
+public:
+	FollowPath(const ValueMap& args);
+	inline FollowPath(Path path, bool loop) :
+	path(path),
+	loop(loop)
+	{}
+
+	virtual void update(StateMachine& fsm);
+protected:
+	Path path;
+	int currentTarget = 0;
+	bool loop = false;
+};
+
 class Wander : public State {
 public:
     Wander(const ValueMap& args);

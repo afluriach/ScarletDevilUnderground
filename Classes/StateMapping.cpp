@@ -26,6 +26,8 @@ const unordered_map<string, State::AdapterType> State::adapters = boost::assign:
     entry_same(Flee)
     entry_same(IdleWait)
     entry_same(MoveToPoint)
+	entry_same(FollowPath)
     entry_same(Wander)
+
 ;
 

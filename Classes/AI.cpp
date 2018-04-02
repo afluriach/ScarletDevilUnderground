@@ -313,6 +313,43 @@ void MoveToPoint::update(StateMachine& fsm)
     seek(*fsm.agent, target, fsm.agent->getMaxSpeed(), fsm.agent->getMaxAcceleration());
 }
 
+FollowPath::FollowPath(const ValueMap& args)
+{
+	auto name_it = args.find("pathName");
+	auto loop_it = args.find("loop");
+
+	if (name_it == args.end()) {
+		log("FollowPath: pathName not provided!");
+	}
+
+	Path* p = GScene::getSpace()->getPath(name_it->second.asString());
+
+	if (!p) {
+		log("FollowPath: pathName %s not found!", name_it->second.asString().c_str());
+	}
+	else {
+		path = *p;
+	}
+
+	if (loop_it != args.end() && boost::iequals(loop_it->second.asString(), "true")) {
+		loop = true;
+	}
+}
+
+void FollowPath::update(StateMachine&  fsm)
+{
+	if (currentTarget < path.size()) {
+		fsm.push(make_shared<MoveToPoint>(path[currentTarget]));
+		++currentTarget;
+	}
+	else if (loop && path.size() > 0) {
+		currentTarget = 0;
+	}
+	else {
+		fsm.pop();
+	}
+}
+
 Wander::Wander(const ValueMap& args) :
     init_float_field(minWait,1.0f),
     init_float_field(maxWait,1.0f),
