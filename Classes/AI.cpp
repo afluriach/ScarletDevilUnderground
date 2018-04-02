@@ -339,6 +339,7 @@ FollowPath::FollowPath(const ValueMap& args)
 void FollowPath::update(StateMachine&  fsm)
 {
 	if (currentTarget < path.size()) {
+		fsm.agent->setDirection(toDirection(ai::directionToTarget(*fsm.agent, path[currentTarget])));
 		fsm.push(make_shared<MoveToPoint>(path[currentTarget]));
 		++currentTarget;
 	}
