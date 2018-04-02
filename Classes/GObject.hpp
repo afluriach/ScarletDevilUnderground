@@ -59,7 +59,7 @@ public:
     }
     
     inline void rotate(float a){
-        float setAngle(getAngle() + a);
+        setAngle(getAngle() + a);
     }
     
     inline SpaceVect getFacingVector(){

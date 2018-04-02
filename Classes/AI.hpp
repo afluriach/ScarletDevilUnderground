@@ -34,6 +34,8 @@ class State
 {
 public:
 
+	inline virtual ~State() {}
+
     typedef function<shared_ptr<State>(const ValueMap&) > AdapterType;
     static const unordered_map<string, State::AdapterType> adapters;
     

@@ -24,6 +24,8 @@ public:
     inline Spell(Spellcaster* caster,const ValueMap& args) : caster(caster){
     }
     
+	inline virtual ~Spell() {}
+
     virtual void init() = 0;
     virtual void update() = 0;
     virtual void end() = 0;
@@ -50,12 +52,12 @@ public:
     inline StarlightTyphoon(Spellcaster* caster, const ValueMap& args):
     Spell(caster, args)
     {
-        set_float_arg(count, 30)
-        set_float_arg(duration, 1)
-        set_float_arg(speed, 6)
-        set_float_arg(width, float_pi / 4)
-        set_float_arg(angle, 0)
-        set_float_arg(radius, 0.2)
+        set_float_arg(count, 30.0f)
+        set_float_arg(duration, 1.0f)
+        set_float_arg(speed, 6.0f)
+        set_float_arg(width, float_pi / 4.0f)
+        set_float_arg(angle, 0.0f)
+        set_float_arg(radius, 0.2f)
         
         shotsPerFrame = count / duration * App::secondsPerFrame;
     }
@@ -65,11 +67,11 @@ public:
     void fire();
 protected:
     //Distance from caster
-    const float offset = 0.7;
+    const float offset = 0.7f;
     
-    float elapsed = 0;
+    float elapsed = 0.0f;
     float shotsPerFrame;
-    float accumulator = 0;
+    float accumulator = 0.0f;
 
     //Projectiles will be uniformly generated over the time period.
     float count;
@@ -103,10 +105,10 @@ protected:
 
 class FireStarburst : public PeriodicSpell{
 public:
-    static constexpr float bulletSpeed = 6;
+    static constexpr float bulletSpeed = 6.0f;
     STANDARD_CONS(FireStarburst)
     no_op(init);
-    inline float interval() const {return 0.5;}
+    inline float interval() const {return 0.5f;}
     void runPeriodic();
     no_op(end);
 };

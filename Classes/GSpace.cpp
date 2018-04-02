@@ -179,7 +179,7 @@ shared_ptr<Body> GSpace::createRectangleBody(
     bool sensor,
     GObject* obj)
 {
-    if(logPhysics) log(
+    if(logPhysics && obj) log(
         "Creating rectangle body for %s. %f x %f at %f,%f, mass: %f",
         obj->name.c_str(),
         expand_vector2(dim),
@@ -187,9 +187,9 @@ shared_ptr<Body> GSpace::createRectangleBody(
         mass
     );
     
-    if(dim.x == 0)
+    if(dim.x == 0 && obj)
         log("createRectangleBody: zero width for %s.", obj->name.c_str());
-    if(dim.y == 0)
+    if(dim.y == 0 && obj)
         log("createRectangleBody: zero height for %s.", obj->name.c_str());
     
     shared_ptr<Body> body;

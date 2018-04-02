@@ -176,6 +176,7 @@ void PatchConAnimation::setFrame(int animFrame)
     case Direction::up: index = animFrame; break;
     case Direction::left: case Direction::right: index = 8+ animFrame; break;
     case Direction::down: index = animFrame*4+3; break;
+	case Direction::none: break;
     }
     sprite->setSpriteFrame(sequence->frames.at(index));
 }
