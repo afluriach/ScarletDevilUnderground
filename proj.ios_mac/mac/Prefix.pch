@@ -1,5 +1,4 @@
 //
-// Prefix header for all source files of the 'Paralaxer' target in the 'Paralaxer' project
 //
 
 #ifdef __OBJC__
@@ -7,11 +6,13 @@
 #endif
 
 #ifdef __cplusplus
+
     //C standard libraries
     #include <algorithm>
     #include <cmath>
     #include <cstdlib>
     #include <functional>
+    #include <fstream>
     #include <limits>
     #include <map>
     #include <memory>
@@ -19,6 +20,8 @@
     #include <set>
     #include <thread>
     #include <type_traits>
+    #include <unordered_set>
+    #include <utility>
     #include <vector>
 
     //All external libraries used by this app.
@@ -42,4 +45,37 @@
     #include <boost/random/uniform_01.hpp>
     #include <boost/random/uniform_int_distribution.hpp>
 
+    #include <boost/archive/binary_oarchive.hpp>
+    #include <boost/archive/binary_iarchive.hpp>
+    #include <boost/serialization/set.hpp>
+
+    using namespace std;
+    USING_NS_CC;
+    using namespace cp;
+    using namespace luabridge;
+
+    //app modules that are often used.
+    #include "macros.h"
+    #include "types.h"
+    #include "util.h"
+    #include "Graph.hpp"
+    #include "multifunction.h"
+
+    #include "controls.h"
+    #include "LuaError.h"
+    #include "LuaConvert.h"
+    #include "LuaAPI.hpp"
+    #include "LuaShell.hpp"
+    #include "GState.hpp"
+    #include "App.h"
+    #include "Spell.hpp"
+    #include "GAnimation.hpp"
+    #include "GSpace.hpp"
+    #include "GObject.hpp"
+    #include "Graphics.h"
+    #include "Dialog.hpp"
+    #include "scenes.h"
+    #include "PlayScene.hpp"
+    #include "menu.h"
+    
 #endif

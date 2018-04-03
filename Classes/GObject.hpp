@@ -415,9 +415,9 @@ class Enemy : virtual public GObject, virtual public SpriteObject
 {
 public:
 	inline Enemy() {}
-	virtual void onTouchPlayer(Player* target) {};
-	virtual void endTouchPlayer() {};
-	virtual void onPlayerBulletHit(Bullet* bullet) {};
+	inline virtual void onTouchPlayer(Player* target) {}
+	inline virtual void endTouchPlayer() {}
+	inline virtual void onPlayerBulletHit(Bullet* bullet) {}
 	void runDamageFlicker();
 };
 

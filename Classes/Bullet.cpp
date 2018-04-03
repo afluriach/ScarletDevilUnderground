@@ -17,4 +17,5 @@ const vector<string> StarBullet::colors = list_of_typed(
     ("purple")
     ("red")
     ("yellow")
-,vector<string>);
+    ,vector<string>
+);

@@ -230,7 +230,7 @@ static inline cpFloat cpBodyKineticEnergy(const cpBody *body)
 	// Need to do some fudging to avoid NaNs
 	cpFloat vsq = cpvdot(body->v, body->v);
 	cpFloat wsq = body->w*body->w;
-	return (vsq ? vsq*body->m : 0.0f) + (wsq ? wsq*body->i : 0.0f);
+	return (vsq != 0.0 && body ? vsq*body->m : 0.0f) + (wsq ? wsq*body->i : 0.0f);
 }
 
 /// Body/shape iterator callback function type. 
