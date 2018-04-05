@@ -439,7 +439,7 @@ void logHandler(const string& base, Arbiter& arb)
     log("%s: %s, %s", base.c_str(), a->name.c_str(), b->name.c_str());
 }
 
-int playerEnemyBegin(Arbiter arb, Space& spacae)
+int playerEnemyBegin(Arbiter arb, Space& space)
 {
     OBJS_FROM_ARB
     
@@ -470,7 +470,7 @@ int playerEnemyEnd(Arbiter arb, Space& space)
     return 1;
 }
 
-int playerEnemyBulletBegin(Arbiter arb, Space& spacae)
+int playerEnemyBulletBegin(Arbiter arb, Space& space)
 {
     GObject* playerObj = static_cast<GObject*>(arb.getBodyA().getUserData());
     GObject* bullet = static_cast<GObject*>(arb.getBodyB().getUserData());
@@ -482,7 +482,7 @@ int playerEnemyBulletBegin(Arbiter arb, Space& spacae)
     return 1;
 }
 
-int playerBulletEnemyBegin(Arbiter arb, Space& spacae)
+int playerBulletEnemyBegin(Arbiter arb, Space& space)
 {
     OBJS_FROM_ARB
     
@@ -502,7 +502,7 @@ int playerBulletEnemyBegin(Arbiter arb, Space& spacae)
     return 1;
 }
 
-int playerFlowerBegin(Arbiter arb, Space& spacae)
+int playerFlowerBegin(Arbiter arb, Space& space)
 {
     OBJS_FROM_ARB
     log("%s stepped on", b->name.c_str());
