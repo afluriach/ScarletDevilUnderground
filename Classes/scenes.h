@@ -59,9 +59,11 @@ public:
     static const unordered_map<string,AdapterType> adapters;
     
     static GScene* crntScene;
+	static string crntSceneName;
 	KeyListener keyListener;
 
     static void runScene(const string& name);
+	static void restartScene();
 
 //Helpers to get the current scene as a specific sub-type (if applicable)
     static PlayScene* playScene();

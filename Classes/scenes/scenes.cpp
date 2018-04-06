@@ -9,18 +9,25 @@
 #include "Prefix.h"
 
 GScene* GScene::crntScene;
+string GScene::crntSceneName;
 
 void GScene::runScene(const string& name)
 {
     auto it = adapters.find(name);
     
     if(it == adapters.end()){
-        throw runtime_error("runScene: " + name + " not found.");
+        log("runScene: %s not found", name.c_str());
     }
     else
     {
         it->second();
+		crntSceneName = name;
     }
+}
+
+void GScene::restartScene()
+{
+	runScene(crntSceneName);
 }
 
 GScene::GScene() : keyListener(this)

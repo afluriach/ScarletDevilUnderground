@@ -182,7 +182,7 @@ void PauseMenu::resume()
 
 void PauseMenu::restart()
 {
-	log("not implemented");
+	GScene::restartScene();
 }
 
 void PauseMenu::goToTitle()
