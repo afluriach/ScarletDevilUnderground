@@ -61,3 +61,22 @@ void PlayScene::addHUD()
         static_cast<int>(updateOrder::hudUpdate)
     );
 }
+
+void PlayScene::onPausePressed()
+{
+	isPaused = !isPaused;
+	showPauseMenu(isPaused);
+}
+
+void PlayScene::showPauseMenu(bool active)
+{
+	if (active)
+	{
+		pauseMenu = PauseMenu::create();
+		getLayer(sceneLayers::menu)->addChild(pauseMenu);
+	}
+	else
+	{
+		getLayer(sceneLayers::menu)->removeChild(pauseMenu);
+	}
+}

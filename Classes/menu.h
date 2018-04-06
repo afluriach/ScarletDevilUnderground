@@ -44,7 +44,6 @@ protected:
     void downReleased();
 
 private:
-    KeyListener* keyListener;
     
     //Space from top of screen to title label;
     const int titleMargin = 32;
@@ -104,6 +103,27 @@ protected:
     static inline void back(){
         app->popScene();
     }
+};
+
+class PauseMenu : public TextListMenuLayer
+{
+public:
+	static const string title;
+	static const vector<string> entryNames;
+	static const vector<listAction> entryActions;
+
+	CREATE_FUNC(PauseMenu);
+
+	inline PauseMenu() : TextListMenuLayer(
+		title,
+		entryNames,
+		entryActions
+	)
+	{}
+
+	static void goToTitle();
+	static void restart();
+	static void resume();
 };
 
 #endif /* menu_h */

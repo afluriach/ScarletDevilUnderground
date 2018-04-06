@@ -181,3 +181,7 @@ function call_serialized(name, args_str)
         error("call_serialized with invalid args string " + args_str)
     end 
 end
+
+function quitToTitle()
+	runScene("TitleMenu")
+end

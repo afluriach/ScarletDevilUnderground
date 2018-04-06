@@ -23,7 +23,7 @@ void GScene::runScene(const string& name)
     }
 }
 
-GScene::GScene()
+GScene::GScene() : keyListener(this)
 {
     //Updater has to be scheduled at init time.
     multiInit.insertWithOrder(

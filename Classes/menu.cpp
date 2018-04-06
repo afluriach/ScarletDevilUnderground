@@ -119,21 +119,19 @@ bool TextListMenuLayer::init()
     cursor->setPositionX(leftMargin/2);
     updateCursor();
     
-    keyListener = new KeyListener(this);
+    keyListener.addPressListener(Keys::moveUp, boost::bind( &TextListMenuLayer::upPressed, this));
+    keyListener.addPressListener(Keys::arrowUp, boost::bind( &TextListMenuLayer::upPressed, this));
     
-    keyListener->addPressListener(Keys::moveUp, boost::bind( &TextListMenuLayer::upPressed, this));
-    keyListener->addPressListener(Keys::arrowUp, boost::bind( &TextListMenuLayer::upPressed, this));
-    
-    keyListener->addPressListener(Keys::moveDown, boost::bind( &TextListMenuLayer::downPressed, this));
-    keyListener->addPressListener(Keys::arrowDown, boost::bind( &TextListMenuLayer::downPressed, this));
+    keyListener.addPressListener(Keys::moveDown, boost::bind( &TextListMenuLayer::downPressed, this));
+    keyListener.addPressListener(Keys::arrowDown, boost::bind( &TextListMenuLayer::downPressed, this));
 
-    keyListener->addPressListener(Keys::action, boost::bind( &TextListMenuLayer::selectPressed, this));
+    keyListener.addPressListener(Keys::action, boost::bind( &TextListMenuLayer::selectPressed, this));
     
-    keyListener->addReleaseListener(Keys::moveUp, boost::bind( &TextListMenuLayer::upReleased, this));
-    keyListener->addReleaseListener(Keys::arrowUp, boost::bind( &TextListMenuLayer::upReleased, this));
+    keyListener.addReleaseListener(Keys::moveUp, boost::bind( &TextListMenuLayer::upReleased, this));
+    keyListener.addReleaseListener(Keys::arrowUp, boost::bind( &TextListMenuLayer::upReleased, this));
     
-    keyListener->addReleaseListener(Keys::moveDown, boost::bind( &TextListMenuLayer::downReleased, this));
-    keyListener->addReleaseListener(Keys::arrowDown, boost::bind( &TextListMenuLayer::downReleased, this));
+    keyListener.addReleaseListener(Keys::moveDown, boost::bind( &TextListMenuLayer::downReleased, this));
+    keyListener.addReleaseListener(Keys::arrowDown, boost::bind( &TextListMenuLayer::downReleased, this));
 
     
     return true;
@@ -161,3 +159,31 @@ void TitleMenu::exit()
     app->end();
 }
 
+const string PauseMenu::title = "-PAUSED-";
+
+const vector<string> PauseMenu::entryNames = boost::assign::list_of
+	("Resume")
+	("Restart")
+	("Exit to title")
+;
+
+const vector<TextListMenuLayer::listAction> PauseMenu::entryActions = boost::assign::list_of
+	(PauseMenu::resume)
+	(PauseMenu::restart)
+	(PauseMenu::goToTitle)
+;
+
+void PauseMenu::resume()
+{
+	GScene::crntScene->setPaused(false);
+}
+
+void PauseMenu::restart()
+{
+	log("not implemented");
+}
+
+void PauseMenu::goToTitle()
+{
+	GScene::runScene("TitleMenu");
+}

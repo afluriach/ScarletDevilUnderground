@@ -131,11 +131,11 @@ void App::installLuaShell(GScene* gscene)
 {
     luaShell = LuaShell::create();
     luaShell->setVisible(false);
-    keyListener.addPressListener(
+    gscene->keyListener.addPressListener(
         Keys::backtick,
         [=]() -> void {luaShell->toggleVisible();}
     );
-    keyListener.addPressListener(
+	gscene->keyListener.addPressListener(
         Keys::enter,
         [=]() -> void {if(luaShell->isVisible()) pendingScript = luaShell->getText();}
     );

@@ -14,6 +14,8 @@
 
 #include "HUD.hpp"
 
+class PauseMenu;
+
 class PlayScene : virtual public GScene, public MapScene, public ScriptedScene
 {
 public:    
@@ -31,6 +33,12 @@ public:
             wrap_method(PlayScene,updateCamera,this),
             static_cast<int>(updateOrder::moveCamera)
         );
+
+		keyListener.addPressListener(
+			Keys::escape,
+			[=]()-> void {onPausePressed(); }
+		);
+
     }
     
     //set player object. should be post load object init
@@ -42,12 +50,16 @@ public:
     void updateCamera();
     void applyCameraControls();
     void trackCameraTarget();
+
+	void onPausePressed();
+	void showPauseMenu(bool active);
     
     inline void setCameraTarget(GObject* target){
         cameraTarget = target;
     }
     
     HUD* hud;
+	PauseMenu* pauseMenu;
 private:    
     void addHUD();
 

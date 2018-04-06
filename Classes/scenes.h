@@ -59,6 +59,7 @@ public:
     static const unordered_map<string,AdapterType> adapters;
     
     static GScene* crntScene;
+	KeyListener keyListener;
 
     static void runScene(const string& name);
 
@@ -119,7 +120,6 @@ public:
 protected:
     Dialog* dialogNode = nullptr;
     
-private:
     bool isPaused = false;
 
     //Make sure to use a cocos map so cocos refcounting works.
@@ -174,6 +174,9 @@ public:
     inline SpaceVect getMapSize(){
         return toChipmunk(tileMap->getMapSize());
     }
+
+	void onPausePressed();
+
 protected:
     string mapRes;
     Layer* mapLayer;

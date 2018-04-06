@@ -114,7 +114,6 @@ public:
     Lua::Inst lua;
     Lua::Inst replInst;
 protected:
-    KeyListener keyListener;
     //The shell that is installed in the current scene.
     LuaShell* luaShell;
     string pendingScript;

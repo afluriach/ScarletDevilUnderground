@@ -23,6 +23,7 @@ enum class Keys
     backtick,
     num1,
     enter,
+	escape,
 };
 
 typedef unordered_map<EventKeyboard::KeyCode, Keys, enum_hash> KeyCodeMap;
