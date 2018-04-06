@@ -11,12 +11,7 @@
 
 class SceneSelect;
 
-class MenuLayer : public GScene
-{
-    
-};
-
-class TextListMenuLayer : public MenuLayer
+class TextListMenuLayer : public Layer
 {
 public:
     typedef function<void(void)> listAction;
@@ -28,6 +23,7 @@ protected:
     vector<string> options;
     vector<listAction> optionActions;
     
+	KeyListener keyListener;
     bool upHeld = false;
     bool downHeld = false;
     

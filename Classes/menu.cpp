@@ -18,7 +18,9 @@ TextListMenuLayer::TextListMenuLayer(
 ) :
 title(title),
 options(options),
-optionActions(optionActions) {}
+optionActions(optionActions),
+keyListener(this)
+{}
 
 void TextListMenuLayer::upPressed()
 {
@@ -90,14 +92,14 @@ const vector<TextListMenuLayer::listAction> SceneSelect::sceneActions = boost::a
 
 bool TextListMenuLayer::init()
 {
-    MenuLayer::init();
+    Layer::init();
     
     cocos2d::Size screenSize = getScreenSize();
     
     titleLabel = createTextLabel(title, titleSize);
     
     titleLabel->setPosition(screenSize.width/2, screenSize.height - titleMargin);
-    getLayer(sceneLayers::menu)->addChild(titleLabel);
+    addChild(titleLabel);
     
     log("added title: %s", title.c_str());
     
@@ -109,13 +111,13 @@ bool TextListMenuLayer::init()
         Label* label = createTextLabel(labelText, menuItemSize);
         menuItemLabels.push_back(label);
         label->setPosition(leftMargin + label->getContentSize().width/2, yPos);
-        getLayer(sceneLayers::menu)->addChild(label);
+        addChild(label);
         
         log("added %s", labelText.c_str());
     }
     
     cursor = DiamondCursor::create();
-    getLayer(sceneLayers::menu)->addChild(cursor);
+    addChild(cursor);
     cursor->setPositionX(leftMargin/2);
     updateCursor();
     
