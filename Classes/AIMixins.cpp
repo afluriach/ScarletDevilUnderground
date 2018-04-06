@@ -44,13 +44,24 @@ void RadarObject::update()
 
 //Objects that gain/lose visibility because they enter/exit sensor range will be
 //processed during the next update.
-void RadarObject::radarCollision(GObject* other)
+void RadarObject::radarCollision(GObject* obj)
 {
-    objectsToAdd.push_back(other);
+	objectsInRange.insert(obj);
+
+	if (isObjectVisible(obj)) {
+		onDetect(obj);
+		visibleObjects.insert(obj);
+	}
+
 }
-void RadarObject::radarEndCollision(GObject* other)
+void RadarObject::radarEndCollision(GObject* obj)
 {
-    objectsToRemove.push_back(other);
+	objectsInRange.erase(obj);
+
+	if (isObjectVisible(obj)) {
+		onEndDetect(obj);
+		visibleObjects.erase(obj);
+	}
 }
 
 bool RadarObject::isObjectVisible(GObject* other)
@@ -91,28 +102,6 @@ void RadarObject::updateVisibleObjects()
             visibleObjects.erase(obj);
         }
     }
-    
-    BOOST_FOREACH(GObject* obj, objectsToAdd)
-    {
-        objectsInRange.insert(obj);
-        
-        if(isObjectVisible(obj)){
-            onDetect(obj);
-            visibleObjects.insert(obj);
-        }
-    }
-    objectsToAdd.clear();
-    
-    BOOST_FOREACH(GObject* obj, objectsToRemove)
-    {
-        objectsInRange.erase(obj);
-        
-        if(isObjectVisible(obj)){
-            onEndDetect(obj);
-            visibleObjects.erase(obj);
-        }
-    }
-    objectsToRemove.clear();
 }
 
 GObject* RadarObject::getSensedObject()

@@ -103,6 +103,12 @@ void GSpace::update()
         obj->update();
     }
     
+	//Objects which will be removed this frame should have the end contact handlers called 
+	//before they are deleted.
+	foreach(GObject* obj, toRemove) {
+		processRemovalEndContact(obj);
+	}
+
     processRemovals();
     
     //process additions
@@ -313,6 +319,54 @@ void GSpace::removeObject(GObject* obj)
         toRemove.push_back(obj);
 }
 
+void GSpace::addContact(contact c)
+{
+	auto it1 = currentContacts.find(c.first.first);
+	if (it1 == currentContacts.end()) {
+		currentContacts[c.first.first] = list<contact>();
+	}
+
+	auto it2 = currentContacts.find(c.first.second);
+	if (it2 == currentContacts.end()) {
+		currentContacts[c.first.second] = list<contact>();
+	}
+
+	currentContacts[c.first.first].push_back(c);
+	currentContacts[c.first.second].push_back(c);
+}
+
+void GSpace::removeContact(contact c)
+{
+	currentContacts[c.first.first].remove(c);
+	currentContacts[c.first.second].remove(c);
+}
+
+
+void GSpace::processRemovalEndContact(GObject* obj)
+{
+	auto it = currentContacts.find(obj);
+
+	if (it != currentContacts.end()) {
+		//By making a copy of the current object's contact list, we can mutate the lists stored in the map  
+		//inside of the list foreach i.e. removeContact will also mutate the current object's list.
+		list<contact> contactList = it->second;
+
+		foreach(contact c, contactList) {
+			auto itt = endContactHandlers.find(c.second);
+			if (itt != endContactHandlers.end() && itt->second) {
+				itt->second(c.first.first, c.first.second);
+			}
+			//Remove both objects from the contact set.
+			//This will prevent a double call to the end contact handler in case
+			//both are removed in the same frame.
+			removeContact(c);
+		}
+
+		if (it->second.size() != 0)
+			log("processRemovalEndContact: object %s Problem!", obj->getName().c_str());
+	}
+}
+
 void GSpace::processRemoval(GObject* obj)
 {
     objByName.erase(obj->name);
@@ -331,10 +385,12 @@ void GSpace::processRemoval(GObject* obj)
 
 void GSpace::processRemovals()
 {
+	space.maskSeperateHandler = true;
     BOOST_FOREACH(GObject* obj, toRemove){
         processRemoval(obj);
     }
     toRemove.clear();
+	space.maskSeperateHandler = false;
 }
 
 unordered_map<int,string> GSpace::getUUIDNameMap()
@@ -428,10 +484,6 @@ bool GSpace::obstacleFeeler(GObject* agent, SpaceVect _feeler)
 //Collision handlers
 //std::function<int(Arbiter, Space&)>
 
-#define OBJS_FROM_ARB \
-    GObject* a = static_cast<GObject*>(arb.getBodyA().getUserData()); \
-    GObject* b = static_cast<GObject*>(arb.getBodyB().getUserData());
-
 void logHandler(const string& base, Arbiter& arb)
 {
     OBJS_FROM_ARB
@@ -439,10 +491,13 @@ void logHandler(const string& base, Arbiter& arb)
     log("%s: %s, %s", base.c_str(), a->name.c_str(), b->name.c_str());
 }
 
-int playerEnemyBegin(Arbiter arb, Space& space)
+void logHandler(const string& name, GObject* a, GObject* b)
 {
-    OBJS_FROM_ARB
-    
+	log("%s: %s, %s", name.c_str(), a->name.c_str(), b->name.c_str());
+}
+
+int playerEnemyBegin(GObject* a, GObject* b)
+{    
     Player* p = dynamic_cast<Player*>(a);
     Enemy* e = dynamic_cast<Enemy*>(b);
     
@@ -457,23 +512,19 @@ int playerEnemyBegin(Arbiter arb, Space& space)
     return 1;
 }
 
-int playerEnemyEnd(Arbiter arb, Space& space)
+int playerEnemyEnd(GObject* a, GObject* b)
 {
-	OBJS_FROM_ARB
-
 	Enemy* e = dynamic_cast<Enemy*>(b);
 
 	if(e)
 		e->endTouchPlayer();
     
-	logHandler("playerEnemyEnd", arb);
+	logHandler("playerEnemyEnd", a,b);
     return 1;
 }
 
-int playerEnemyBulletBegin(Arbiter arb, Space& space)
+int playerEnemyBulletBegin(GObject* playerObj, GObject* bullet)
 {
-    GObject* playerObj = static_cast<GObject*>(arb.getBodyA().getUserData());
-    GObject* bullet = static_cast<GObject*>(arb.getBodyB().getUserData());
     Player* player = dynamic_cast<Player*>(playerObj);
     
     log("%s hit by %s", player->name.c_str(), bullet->name.c_str());
@@ -482,10 +533,8 @@ int playerEnemyBulletBegin(Arbiter arb, Space& space)
     return 1;
 }
 
-int playerBulletEnemyBegin(Arbiter arb, Space& space)
-{
-    OBJS_FROM_ARB
-    
+int playerBulletEnemyBegin(GObject* a, GObject* b)
+{    
     Bullet* bullet = dynamic_cast<Bullet*>(a);
     Enemy* enemy = dynamic_cast<Enemy*>(b);
     
@@ -502,37 +551,32 @@ int playerBulletEnemyBegin(Arbiter arb, Space& space)
     return 1;
 }
 
-int playerFlowerBegin(Arbiter arb, Space& space)
+int playerFlowerBegin(GObject* a, GObject* b)
 {
-    OBJS_FROM_ARB
     log("%s stepped on", b->name.c_str());
     return 1;
 }
 
-int bulletEnvironment(Arbiter arb, Space& space)
+int bulletEnvironment(GObject* a, GObject* b)
 {
-    OBJS_FROM_ARB
 //    log("%s hit object %s",  a->name.c_str(), b->name.c_str());
     GScene::getSpace()->removeObject(a);
     return 1;
 }
 
-int noCollide(Arbiter arb, Space& space)
+int noCollide(GObject* a, GObject* b)
 {
     return 0;
 }
 
-int bulletWall(Arbiter arb, Space& space)
+int bulletWall(GObject* bullet, GObject* unused)
 {
-    GObject* bullet = static_cast<GObject*>(arb.getBodyA().getUserData());
     GScene::getSpace()->removeObject(bullet);
     return 1;
 }
 
-int sensorStart(Arbiter arb, Space& space)
+int sensorStart(GObject* radarAgent, GObject* target)
 {
-    GObject* radarAgent = static_cast<GObject*>(arb.getBodyA().getUserData());
-    GObject* target = static_cast<GObject*>(arb.getBodyB().getUserData());
     RadarObject* radarObject = dynamic_cast<RadarObject*>(radarAgent);
 
 	if (radarObject) {
@@ -546,10 +590,8 @@ int sensorStart(Arbiter arb, Space& space)
 	return 1;
 }
 
-int sensorEnd(Arbiter arb, Space& space)
+int sensorEnd(GObject* radarAgent, GObject* target)
 {
-    GObject* radarAgent = static_cast<GObject*>(arb.getBodyA().getUserData());
-    GObject* target = static_cast<GObject*>(arb.getBodyB().getUserData());
     RadarObject* radarObject = dynamic_cast<RadarObject*>(radarAgent);
     
 	if (radarObject) {
@@ -563,9 +605,18 @@ int sensorEnd(Arbiter arb, Space& space)
     return 1;
 }
 
-
 #define AddHandler(a,b,begin,end) \
-space.addCollisionHandler(static_cast<CollisionType>(GType::a), static_cast<CollisionType>(GType::b), begin, nullptr, nullptr, end);
+space.addCollisionHandler( \
+	static_cast<CollisionType>(GType::a), \
+	static_cast<CollisionType>(GType::b), \
+	bind(&GSpace::beginContact<GType::a, GType::b>, this, placeholders::_1, placeholders::_2), \
+	nullptr, \
+	nullptr, \
+	bind(&GSpace::endContact<GType::a, GType::b>, this, placeholders::_1, placeholders::_2) \
+); \
+\
+beginContactHandlers[collision_type(GType::a, GType::b)] = begin; \
+endContactHandlers[collision_type(GType::a, GType::b)] = end;
 
 void GSpace::addCollisionHandlers()
 {

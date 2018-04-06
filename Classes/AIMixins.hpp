@@ -92,9 +92,6 @@ protected:
     unordered_set<GObject*> objectsInRange;
     unordered_set<GObject*> visibleObjects;
     
-    list<GObject*> objectsToAdd;
-    list<GObject*> objectsToRemove;
-    
     //Field of view angle in radians. This is the maximum angle from the facing
     //direction to any visible target, i.e. half of the actual FOV width.
     //If 0, FOV is not considered and this is a radius sensor.

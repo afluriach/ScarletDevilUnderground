@@ -13,12 +13,18 @@ class GObject;
 
 //GSpace.hpp is already included in PCH
 
+#define OBJS_FROM_ARB \
+    GObject* a = static_cast<GObject*>(arb.getBodyA().getUserData()); \
+    GObject* b = static_cast<GObject*>(arb.getBodyB().getUserData());
+
+
 class GSpace
 {
 public:
-    //Type signifies the collision handler as well as the group, but the group can be overidden:
-    //Normally objects only collide with those of non-matching group. If we want an object to collide
-    //with everything, use 0 for its group instead of its (non-zero) type.
+	typedef pair<GObject*, GObject*> object_pair;
+	typedef pair<GType, GType> collision_type;
+	typedef pair<object_pair, collision_type> contact;
+
     static const set<GType> selfCollideTypes;
 
     static const bool logPhysics = false;
@@ -129,6 +135,14 @@ public:
     
 private:
     Space space;
+
+	boost::unordered_map<GObject*,list<contact>> currentContacts;
+	boost::unordered_map<collision_type, function<void(GObject*, GObject*)>> beginContactHandlers;
+	boost::unordered_map<collision_type, function<void(GObject*, GObject*)>> endContactHandlers;
+
+	void addContact(contact c);
+	void removeContact(contact c);
+
     //The graphics destination to use for all objects constructed in this space.
     Layer* graphicsLayer;
     
@@ -167,11 +181,58 @@ private:
         }
         return false;
     }
+
+	template<GType TypeA, GType TypeB>
+	inline int beginContact(Arbiter arb, Space& space)
+	{
+		OBJS_FROM_ARB
+
+		auto it = beginContactHandlers.find(collision_type(TypeA, TypeB));
+
+		//No collide;
+		if(it == beginContactHandlers.end())
+			return 0;
+
+		if (a && b && it->second) {
+			it->second(a, b);
+			contact c = contact(
+				object_pair(a,b),
+				collision_type(TypeA,TypeB)
+			);
+			addContact(c);
+		}
+
+		return 1;
+	}
+
+	template<GType TypeA, GType TypeB>
+	inline int endContact(Arbiter arb, Space& space)
+	{
+		OBJS_FROM_ARB
+
+		auto it = endContactHandlers.find(collision_type(TypeA, TypeB));
+
+		//No collide
+		if (it == endContactHandlers.end())
+			return 0;
+
+		if (a && b && it->second) {
+			it->second(a, b);
+			contact c = contact(
+				object_pair(a, b),
+				collision_type(TypeA, TypeB)
+			);
+			removeContact(c);
+		}
+
+		return 1;
+	}
     
     void initObjects();
     void addCollisionHandlers();
     
     void processRemoval(GObject* obj);    
+	void processRemovalEndContact(GObject* obj);
 };
 
 #endif /* GSpace_hpp */

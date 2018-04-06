@@ -44,6 +44,8 @@
     #include <boost/random/mersenne_twister.hpp>
     #include <boost/random/uniform_01.hpp>
     #include <boost/random/uniform_int_distribution.hpp>
+	#include <boost/unordered/unordered_map.hpp>
+	#include <boost/unordered/unordered_set.hpp>
 
     #include <boost/archive/binary_oarchive.hpp>
     #include <boost/archive/binary_iarchive.hpp>
