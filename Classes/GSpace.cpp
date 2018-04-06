@@ -290,6 +290,7 @@ void GSpace::processAdditions()
         
         objByName[obj->name] = obj;
         objByUUID[obj->uuid] = obj;
+		currentContacts[obj] = list<contact>();
     }
     //move(toAdd.begin(), toAdd.end(), addedLastFrame.end());
     //For some strange reason move fails with a memory error here.
@@ -321,16 +322,6 @@ void GSpace::removeObject(GObject* obj)
 
 void GSpace::addContact(contact c)
 {
-	auto it1 = currentContacts.find(c.first.first);
-	if (it1 == currentContacts.end()) {
-		currentContacts[c.first.first] = list<contact>();
-	}
-
-	auto it2 = currentContacts.find(c.first.second);
-	if (it2 == currentContacts.end()) {
-		currentContacts[c.first.second] = list<contact>();
-	}
-
 	currentContacts[c.first.first].push_back(c);
 	currentContacts[c.first.second].push_back(c);
 }
@@ -341,36 +332,34 @@ void GSpace::removeContact(contact c)
 	currentContacts[c.first.second].remove(c);
 }
 
-
+//By making a copy of the current object's contact list, we can mutate the lists stored in the map  
+//inside of the list foreach i.e. removeContact will also mutate the current object's list.
+//
+//After the contact is processed, remove it from both objects' contact lists.
+//This will prevent a double call to the end contact handler in case both are removed in the same frame.
+//
+//The contact list of the object being processed should be empty when finished.
 void GSpace::processRemovalEndContact(GObject* obj)
 {
-	auto it = currentContacts.find(obj);
+	list<contact> contactList = currentContacts[obj];
 
-	if (it != currentContacts.end()) {
-		//By making a copy of the current object's contact list, we can mutate the lists stored in the map  
-		//inside of the list foreach i.e. removeContact will also mutate the current object's list.
-		list<contact> contactList = it->second;
-
-		foreach(contact c, contactList) {
-			auto itt = endContactHandlers.find(c.second);
-			if (itt != endContactHandlers.end() && itt->second) {
-				itt->second(c.first.first, c.first.second);
-			}
-			//Remove both objects from the contact set.
-			//This will prevent a double call to the end contact handler in case
-			//both are removed in the same frame.
-			removeContact(c);
+	foreach(contact c, contactList) {
+		auto itt = endContactHandlers.find(c.second);
+		if (itt != endContactHandlers.end() && itt->second) {
+			itt->second(c.first.first, c.first.second);
 		}
-
-		if (it->second.size() != 0)
-			log("processRemovalEndContact: object %s Problem!", obj->getName().c_str());
+		removeContact(c);
 	}
+
+	if (currentContacts[obj].size() != 0)
+		log("processRemovalEndContact: object %s problem!", obj->getName().c_str());
 }
 
 void GSpace::processRemoval(GObject* obj)
 {
     objByName.erase(obj->name);
     objByUUID.erase(obj->uuid);
+	currentContacts.erase(obj);
     
     obj->body->removeShapes(space);
     space.remove(obj->body);
@@ -380,7 +369,7 @@ void GSpace::processRemoval(GObject* obj)
         space.remove(obj->radar);
     }
 
-    delete obj;
+	delete obj;
 }
 
 void GSpace::processRemovals()
