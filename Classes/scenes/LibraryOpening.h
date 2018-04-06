@@ -23,7 +23,7 @@ public:
     inline void start()
     {
         Sprite* background = Sprite::create("portraits/library1.png");
-        background->setScale(0.2);
+        background->setScale(0.2f);
         background->setPosition(App::getScreenCenter());
         getLayer(sceneLayers::dialogBackground)->addChild(background);
         

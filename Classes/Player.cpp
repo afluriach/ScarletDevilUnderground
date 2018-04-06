@@ -100,7 +100,7 @@ void Player::fire()
 void Player::hit(){
     if(hitProtectionCountdown <= 0){
         hitProtectionCountdown = hitProtectionTime;
-        sprite->runAction(flickerAction(0.3, hitProtectionTime, 81));
+        sprite->runAction(flickerAction(0.3f, hitProtectionTime, 81.0f));
     
         health -= 1;
         if(health < 0) health = 0;

@@ -22,8 +22,10 @@
 #ifndef CHIPMUNK_HEADER
 #define CHIPMUNK_HEADER
 
-#ifdef _MSC_VER
-    #define _USE_MATH_DEFINES
+#ifdef _MSC_VER 
+	#ifndef _USE_MATH_DEFINES
+		#define _USE_MATH_DEFINES
+	#endif
 #endif
 
 #include <stdlib.h>

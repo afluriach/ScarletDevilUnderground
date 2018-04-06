@@ -215,7 +215,7 @@ public:
 	virtual void update(StateMachine& fsm);
 protected:
 	Path path;
-	int currentTarget = 0;
+	size_t currentTarget = 0;
 	bool loop = false;
 };
 

@@ -72,7 +72,7 @@ public:
 		radar = space.createCircleBody(
 			initialCenter,
 			getRadarRadius(),
-			0.1,
+			0.1f,
 			getRadarType(),
 			PhysicsLayers::all,
 			true,

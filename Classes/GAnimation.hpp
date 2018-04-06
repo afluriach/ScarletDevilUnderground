@@ -55,8 +55,8 @@ protected:
 class PatchConAnimation : public GAnimation {
 public:
     //One pace is 1 unit, with the middle state representing a small distance between steps.
-    static constexpr float stepSize = 0.4;
-    static constexpr float midstepSize = 0.2;
+    static constexpr float stepSize = 0.4f;
+    static constexpr float midstepSize = 0.2f;
     
     CREATE_FUNC(PatchConAnimation);
     

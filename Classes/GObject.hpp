@@ -53,7 +53,7 @@ public:
     inline float getAngle(){
         if(!body){
             log("GObject::getAngle: %s has no physics body!", name.c_str());
-            return 0.0f;
+            return 0.0;
         }
         return body->getAngle();
     }
@@ -89,6 +89,12 @@ public:
         
         body->applyImpulse(v);
     }
+
+	//A default of 0 signifies undefined. Using -1 to indicate static or positive for dynamic.
+	virtual float getMass() const = 0;
+	virtual GType getType() const = 0;
+	virtual inline bool getSensor() const { return false; }
+	virtual inline PhysicsLayers getLayers() const { return PhysicsLayers::ground; }
     
     inline string getName(){
         return name;
@@ -126,7 +132,7 @@ public:
     
     //Called before adding the the object to space.
     virtual void initializeBody(GSpace& space) = 0;
-    virtual void initializeRadar(GSpace& space){};
+    inline virtual void initializeRadar(GSpace& space){};
     
     //Create Node which graphically reprensets this object and adds it to Layer
     virtual void initializeGraphics(Layer* layer) = 0;
@@ -242,19 +248,7 @@ class DialogEntity : public InteractibleObject
     }
 };
 
-class PhysicsObject : public virtual GObject
-{
-public:
-	inline PhysicsObject() {}
-
-    //A default of 0 signifies undefined. Using -1 to indicate static or positive for dynamic.
-    virtual float getMass() const = 0;
-    virtual GType getType() const = 0;
-    virtual inline bool getSensor() const {return false;}
-    virtual inline PhysicsLayers getLayers() const {return PhysicsLayers::ground;}
-};
-
-class RectangleBody : public virtual PhysicsObject
+class RectangleBody : public virtual GObject
 {
 public:
     //Create body and add it to space. This assumes BB is rectangle dimensions
@@ -288,7 +282,7 @@ private:
     SpaceVect dim;
 };
 
-class CircleBody : public virtual PhysicsObject
+class CircleBody : public virtual GObject
 {
 public:
     virtual float getRadius() const = 0;
@@ -308,7 +302,7 @@ public:
     }
 };
 
-class FrictionObject : public virtual PhysicsObject, RegisterUpdate<FrictionObject>
+class FrictionObject : public virtual GObject, RegisterUpdate<FrictionObject>
 {
 public:
     inline FrictionObject() : RegisterUpdate(this) {}

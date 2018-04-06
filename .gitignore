@@ -34,3 +34,6 @@ Debug.win32/
 *.lib
 *.idb
 Release.win32/
+*.nativecodeanalysis.xml
+*.nativecodeanalysis.all.xml
+*.lastcodeanalysissucceeded

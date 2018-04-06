@@ -14,9 +14,9 @@
 class Player : virtual public GObject, PatchConSprite, CircleBody, RegisterUpdate<Player>, RadarObject
 {
 public:
-    static constexpr float fireDist = 1;
+    static constexpr float fireDist = 1.0f;
     static const int defaultMaxHealth = 5;
-    static constexpr float hitProtectionTime = 2.4;
+    static constexpr float hitProtectionTime = 2.4f;
 
     inline Player(const ValueMap& args) :
     GObject(args),
@@ -24,16 +24,16 @@ public:
     RegisterUpdate<Player>(this)
     {}
     
-    virtual inline float getMaxSpeed() const{ return 3;}
-    virtual inline float getMaxAcceleration() const {return 6;}
+    virtual inline float getMaxSpeed() const{ return 3.0f;}
+    virtual inline float getMaxAcceleration() const {return 6.0f;}
     
     //setting for player object sensing
-	inline virtual float getRadarRadius() const { return 2.5; }
+	inline virtual float getRadarRadius() const { return 2.5f; }
 	inline virtual GType getRadarType() const { return GType::objectSensor; }
     inline virtual float getDefaultFovAngle() const { return float_pi / 4.0f;}
 
     inline float getFireInterval() const {
-        return 0.6;
+        return 0.6f;
     }
     
     inline void update(){
@@ -58,8 +58,8 @@ public:
     
     void setMaxHealth(int val);
 
-    virtual inline float getRadius() const {return 0.35;}
-    inline float getMass() const {return 20.0;}
+    virtual inline float getRadius() const {return 0.35f;}
+    inline float getMass() const {return 20.0f;}
     virtual inline GType getType() const {return GType::player;}
     
     inline string imageSpritePath() const {return "sprites/flandre.png";}

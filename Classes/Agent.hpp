@@ -28,12 +28,12 @@ public:
     virtual inline GType getRadarType() const { return GType::playerSensor;}
     virtual inline float getDefaultFovAngle() const {return 0.0f;}
     
-    virtual inline float getRadius() const {return 0.35;}
-    inline float getMass() const {return 20.0;}
+    virtual inline float getRadius() const {return 0.35f;}
+    inline float getMass() const {return 20.0f;}
     virtual inline GType getType() const {return GType::enemy;}
     
-    virtual inline float getMaxSpeed() const {return 1.5;};
-    virtual inline float getMaxAcceleration() const {return 6;}
+    virtual inline float getMaxSpeed() const {return 1.5f;};
+    virtual inline float getMaxAcceleration() const {return 6.0f;}
     
     inline string imageSpritePath() const {return "sprites/"+spriteName+".png";}
     inline GraphicsLayer sceneLayer() const {return GraphicsLayer::ground;}

@@ -9,6 +9,11 @@
 #ifndef Prefix_h
 #define Prefix_h
 
+#ifdef _WIN32
+//"Inherited via dominance" warning
+#pragma warning(disable : 4250)	
+#endif
+
 //External includes should also be copied to build specific PCH.
 
 //C standard libraries

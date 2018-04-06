@@ -12,12 +12,12 @@
 class Bullet : virtual public GObject, public CircleBody
 {
 public:
-    inline Bullet(const ValueMap& args) : radius(getFloatOrDefault(args, "radius", 0.3)) {}
-    inline Bullet() : radius(0.3){}
+    inline Bullet(const ValueMap& args) : radius(getFloatOrDefault(args, "radius", 0.3f)) {}
+    inline Bullet() : radius(0.3f){}
     inline Bullet(float radius) : radius(radius){}
 
     //For now bullets can be treated as kinematic, meaning their mass is not relevant.
-    virtual inline float getMass() const {return 0.1;}
+    virtual inline float getMass() const {return 0.1f;}
     virtual inline bool getSensor() const {return true;}
     
     virtual inline float getRadius() const {return radius;}
@@ -32,14 +32,14 @@ public:
         setInitialVelocity(SpaceVect::ray(getMaxSpeed(), angle));
     }
     
-    virtual inline float getMaxSpeed() const {return 6;}
+    virtual inline float getMaxSpeed() const {return 6.0f;}
 
     virtual inline string imageSpritePath() const {return "sprites/flandre_bullet.png";}
     virtual inline GraphicsLayer sceneLayer() const {return GraphicsLayer::ground;}
     
     virtual inline GType getType() const {return GType::playerBullet;}
     
-    static constexpr float spriteBaseRadius = 0.83;
+    static constexpr float spriteBaseRadius = 0.83f;
     inline virtual float zoom() const {return radius/spriteBaseRadius*2;}
 };
 
@@ -49,14 +49,14 @@ public:
 
     inline WaterBullet(const ValueMap& arg) : Bullet(arg), GObject(arg) {}
 
-    virtual inline float getMaxSpeed() const {return 6;}
+    virtual inline float getMaxSpeed() const {return 6.0f;}
 
     virtual inline string imageSpritePath() const {return "sprites/water_bullet.png";}
     virtual inline GraphicsLayer sceneLayer() const {return GraphicsLayer::ground;}
     
     virtual inline GType getType() const {return GType::enemyBullet;}
     
-    static constexpr float spriteBaseRadius = 0.125;
+    static constexpr float spriteBaseRadius = 0.125f;
     inline virtual float zoom() const {return radius/spriteBaseRadius*2;}
 };
 
@@ -68,14 +68,14 @@ public:
     inline FireBullet(const ValueMap& arg) : Bullet(arg), GObject(arg) {}
 
     virtual string animationName() const {return "patchouli_fire";}
-    virtual int animationSize() const {return 5;}
-    virtual float animationDuration() const {return 0.3;}
+    virtual int animationSize() const {return 5.0f;}
+    virtual float animationDuration() const {return 0.3f;}
 
     virtual inline GraphicsLayer sceneLayer() const {return GraphicsLayer::ground;}
     
     virtual inline GType getType() const {return GType::enemyBullet;}
     
-    static constexpr float spriteBaseRadius = 0.83;
+    static constexpr float spriteBaseRadius = 0.83f;
     inline virtual float zoom() const {return radius/spriteBaseRadius*2;}
 };
 
@@ -102,7 +102,7 @@ public:
     
     virtual inline GType getType() const {return GType::enemyBullet;}
     
-    static constexpr float spriteBaseRadius = 0.125;
+    static constexpr float spriteBaseRadius = 0.125f;
     inline virtual float zoom() const {return radius/spriteBaseRadius*2;}
 };
 

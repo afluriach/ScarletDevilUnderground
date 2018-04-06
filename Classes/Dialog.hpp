@@ -31,8 +31,8 @@ public:
     static const int bodySize = 24;
     static const int textMargin = 24;
     //The minimum time a frame must be displayed
-    constexpr static float frameWaitTime = 1.2;
-    constexpr static float cursorScale = 0.6;
+    constexpr static float frameWaitTime = 1.2f;
+    constexpr static float cursorScale = 0.6f;
     
     inline void setDialog(const string& res)
     {
@@ -110,7 +110,7 @@ private:
     
 //Current state of the dialog.
     vector<DialogFrame> dialog;
-    int frameNum = 0;
+    size_t frameNum = 0;
     float timeInFrame = 0;
     
     string title;

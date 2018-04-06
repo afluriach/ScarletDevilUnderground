@@ -232,7 +232,7 @@ struct convert<vector<T>>{
         LuaRef table(L);
         table = newTable(L);
         
-        for(int i = 1; i <= v.size(); ++i)
+        for(size_t i = 1; i <= v.size(); ++i)
         {
             table[i] = convert<T>::convertToLua(v[i-1], L);
         }

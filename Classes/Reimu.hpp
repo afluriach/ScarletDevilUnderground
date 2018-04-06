@@ -17,8 +17,8 @@ public:
     PatchConSprite(args)
     {}
     
-    virtual inline float getRadius() const {return 0.35;}
-    inline float getMass() const {return -1;}
+    virtual inline float getRadius() const {return 0.35f;}
+    inline float getMass() const {return -1.0f;}
     virtual inline GType getType() const {return GType::enemy;}
     
     inline string imageSpritePath() const {return "sprites/reimu.png";}

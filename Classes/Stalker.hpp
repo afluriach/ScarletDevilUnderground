@@ -31,19 +31,19 @@ public:
     HitPointsEnemy(maxHP)
     {}
 
-    virtual inline float getRadarRadius() const {return 6;}
+    virtual inline float getRadarRadius() const {return 6.0f;}
     virtual inline GType getRadarType() const { return GType::playerSensor;}
     virtual inline float getDefaultFovAngle() const {return float_pi / 2.0f;}
 
-    virtual inline float getRadius() const {return 0.35;}
-    inline float getMass() const {return 40.0;}
+    virtual inline float getRadius() const {return 0.35f;}
+    inline float getMass() const {return 40.0f;}
     virtual inline GType getType() const {return GType::enemy;}
 
     inline string imageSpritePath() const {return "sprites/dark_cirno.png";}
     inline GraphicsLayer sceneLayer() const {return GraphicsLayer::ground;}
         
     virtual inline float getMaxSpeed() const {return 1.5f;}
-    virtual inline float getMaxAcceleration() const {return 4.5;}
+    virtual inline float getMaxAcceleration() const {return 4.5f;}
         
     Player* target = nullptr;
 };

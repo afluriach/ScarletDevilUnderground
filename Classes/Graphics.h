@@ -23,12 +23,12 @@ protected:
     const int halfSize = 20;
     
     Color4F colors[6] = {
-        Color4F(1,0,0,1),
-        Color4F(0.8,0.4,0,1),
-        Color4F(0.8,0.8,0,1),
-        Color4F(0,0.8,0,1),
-        Color4F(0,0,1,1),
-        Color4F(0.6,0,0.6,1)
+        Color4F(1.0f,0.0f,0.0f,1.0f),
+        Color4F(0.8f,0.4f,0.0f,1.0f),
+        Color4F(0.8f,0.8f,0.0f,1.0f),
+        Color4F(0.0f,0.8f,0.0f,1.0f),
+        Color4F(0.0f,0.0f,1.0f,1.0f),
+        Color4F(0.6f,0.0f,0.6f,1.0f)
     };
     
     DrawNode * drawNode;

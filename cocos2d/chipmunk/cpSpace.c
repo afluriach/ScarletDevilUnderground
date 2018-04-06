@@ -24,8 +24,8 @@
 
 #include "chipmunk_private.h"
 
-const float CollisionSlop = 1e-3;
-const float CollsionBiasBase = 0.1;
+const float CollisionSlop = 1e-3f;
+const float CollsionBiasBase = 0.1f;
 
 //MARK: Contact Set Helpers
 

@@ -19,7 +19,7 @@ public:
     
     static const vector<string> colors;
 
-    static constexpr float weight = 0.3;
+    static constexpr float weight = 0.3f;
     void generateFlowers();
     void addFlower(const SpaceVect& pos);
 };

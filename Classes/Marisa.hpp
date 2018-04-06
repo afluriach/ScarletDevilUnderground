@@ -25,11 +25,11 @@ public:
     GObject(args){
     }
     
-    virtual inline float getRadarRadius() const {return 6;}
+    virtual inline float getRadarRadius() const {return 6.0f;}
     virtual inline GType getRadarType() const { return GType::playerSensor;}
     
-    virtual inline float getRadius() const {return 0.35;}
-    inline float getMass() const {return 33.0;}
+    virtual inline float getRadius() const {return 0.35f;}
+    inline float getMass() const {return 33.0f;}
     virtual inline GType getType() const {return GType::enemy;}
     
     inline string imageSpritePath() const {return "sprites/marisa.png";}

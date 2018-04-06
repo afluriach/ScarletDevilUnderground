@@ -101,7 +101,7 @@ bool TextListMenuLayer::init()
     
     log("added title: %s", title.c_str());
     
-    for(int i=0;i<options.size(); ++i)
+    for(size_t i=0;i<options.size(); ++i)
     {
         string labelText = options[i];
         int yPos = screenSize.height - titleMargin - menuStartMargin - i*menuItemSpacing;

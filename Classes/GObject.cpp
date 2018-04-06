@@ -185,7 +185,7 @@ void DialogEntity::interact()
 void Enemy::runDamageFlicker()
 {
 	if (sprite)
-		sprite->runAction(flickerAction(0.3, 1.2, 81));
+		sprite->runAction(flickerAction(0.3f, 1.2f, 81.0f));
 //		sprite->runAction(colorFlickerAction(0.3f, 4, Color3B(255, 0, 0)));
 }
 

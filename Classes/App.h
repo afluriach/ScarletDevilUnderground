@@ -27,13 +27,13 @@ public:
     float dpiscale = 1;
     
     static const int framesPerSecond = 60;
-    constexpr static float secondsPerFrame = 1.0 / framesPerSecond;
+    constexpr static float secondsPerFrame = 1.0f / framesPerSecond;
     
-    constexpr static float Gaccel = 9.8;
+    constexpr static float Gaccel = 9.8f;
     
     static const int pixelsPerTile = 128;
-    constexpr static float tilesPerPixel = 1.0/pixelsPerTile;
-    constexpr static float viewWidth = 12;
+    constexpr static float tilesPerPixel = 1.0f/pixelsPerTile;
+    constexpr static float viewWidth = 12.0f;
     
     static const bool useRepl = false;
     static const bool showStats = true;

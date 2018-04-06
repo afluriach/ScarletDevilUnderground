@@ -30,6 +30,7 @@ void printValueMap(const ValueMap& obj)
 float dirToPhysicsAngle(Direction d)
 {
     switch(d){
+	default:
     case Direction::none:
     case Direction::right: return 0.0f;
     case Direction::up: return float_pi / 2.0f;

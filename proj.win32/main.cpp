@@ -15,6 +15,6 @@ int APIENTRY _tWinMain(HINSTANCE hInstance,
     UNREFERENCED_PARAMETER(lpCmdLine);
 
     // create the application instance
-    App app;
+	App inst;
     return Application::getInstance()->run();
 }
