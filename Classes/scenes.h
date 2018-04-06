@@ -177,8 +177,6 @@ public:
         return toChipmunk(tileMap->getMapSize());
     }
 
-	void onPausePressed();
-
 protected:
     string mapRes;
     Layer* mapLayer;

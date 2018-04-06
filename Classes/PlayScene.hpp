@@ -52,7 +52,8 @@ public:
     void trackCameraTarget();
 
 	void onPausePressed();
-	void showPauseMenu(bool active);
+	void enterPause();
+	void exitPause();
     
     inline void setCameraTarget(GObject* target){
         cameraTarget = target;

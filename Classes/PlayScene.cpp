@@ -64,19 +64,22 @@ void PlayScene::addHUD()
 
 void PlayScene::onPausePressed()
 {
-	isPaused = !isPaused;
-	showPauseMenu(isPaused);
+	if (isPaused)
+		exitPause();
+	else
+		enterPause();
 }
 
-void PlayScene::showPauseMenu(bool active)
+void PlayScene::enterPause()
 {
-	if (active)
-	{
-		pauseMenu = PauseMenu::create();
-		getLayer(sceneLayers::menu)->addChild(pauseMenu);
-	}
-	else
-	{
-		getLayer(sceneLayers::menu)->removeChild(pauseMenu);
-	}
+	pauseMenu = PauseMenu::create();
+	getLayer(sceneLayers::menu)->addChild(pauseMenu);
+	setPaused(true);
+}
+
+void PlayScene::exitPause()
+{
+	getLayer(sceneLayers::menu)->removeChild(pauseMenu);
+	pauseMenu = nullptr;
+	setPaused(false);
 }
