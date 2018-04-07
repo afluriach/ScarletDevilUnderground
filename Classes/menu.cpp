@@ -170,12 +170,12 @@ const vector<string> PauseMenu::entryNames = boost::assign::list_of
 ;
 
 const vector<TextListMenuLayer::listAction> PauseMenu::entryActions = boost::assign::list_of
-	(PauseMenu::resume)
+	(PauseMenu::resumeScene)
 	(PauseMenu::restart)
 	(PauseMenu::goToTitle)
 ;
 
-void PauseMenu::resume()
+void PauseMenu::resumeScene()
 {
 	GScene::playScene()->exitPause();
 }

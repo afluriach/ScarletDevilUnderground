@@ -119,7 +119,7 @@ public:
 
 	static void goToTitle();
 	static void restart();
-	static void resume();
+	static void resumeScene();
 };
 
 #endif /* menu_h */
