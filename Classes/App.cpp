@@ -57,7 +57,11 @@ bool App::applicationDidFinishLaunching() {
     auto director = Director::getInstance();
     auto glview = director->getOpenGLView();
     if(!glview) {
-        glview = GLViewImpl::createWithRect(App::title, cocos2d::Rect(0,0,App::width, App::height),screenscale);
+        glview = fullscreen ?
+            GLViewImpl::createWithFullScreen(App::title) :
+            GLViewImpl::createWithRect(App::title, cocos2d::Rect(0,0,App::width, App::height),screenscale)
+        ;
+        
         director->setOpenGLView(glview);
         director->setContentScaleFactor(screenscale*dpiscale);
         

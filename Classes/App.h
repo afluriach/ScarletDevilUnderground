@@ -25,6 +25,7 @@ public:
     
     float screenscale = 1;
     float dpiscale = 1;
+    bool fullscreen = false;
     
     static const int framesPerSecond = 60;
     constexpr static float secondsPerFrame = 1.0f / framesPerSecond;

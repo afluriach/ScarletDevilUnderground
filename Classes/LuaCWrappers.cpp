@@ -93,6 +93,11 @@ void setdpiscale(float f)
     app->dpiscale = f;
 }
 
+void setFullscreen(bool fs)
+{
+    app->fullscreen = fs;
+}
+
 GObject* getObjByName(string name)
 {
     GSpace* space = GScene::getSpace();
@@ -406,6 +411,7 @@ make_wrapper(printMap)
 make_wrapper(addUpdate)
 make_wrapper(setscreenscale)
 make_wrapper(setdpiscale)
+make_wrapper(setFullscreen)
 make_wrapper(getObjByName)
 make_wrapper(getObjectNames)
 make_wrapper(isValidObject)
@@ -474,6 +480,7 @@ void Inst::installWrappers()
     install_wrapper(addUpdate)
     install_wrapper(setscreenscale)
     install_wrapper(setdpiscale)
+    install_wrapper(setFullscreen)
     install_wrapper(getObjByName)
     install_wrapper(getObjectNames)
 
