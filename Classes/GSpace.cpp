@@ -8,6 +8,7 @@
 
 #include "Prefix.h"
 #include "Bullet.hpp"
+#include "Wall.hpp"
 
 class RadarObject;
 
@@ -228,6 +229,8 @@ void GSpace::addWallBlock(SpaceVect ll,SpaceVect ur)
     SpaceVect center = (ll + ur) / 2;
     SpaceVect dim = ur - ll;
     
+    GObject* wall = new Wall(center,dim);
+    
     shared_ptr<Body> wallBlock = createRectangleBody(
         center,
         dim,
@@ -235,10 +238,11 @@ void GSpace::addWallBlock(SpaceVect ll,SpaceVect ur)
         GType::wall,
         PhysicsLayers::all,
         false,
-        nullptr
+        wall
     );
     
     space.add(wallBlock);
+    addObject(wall);
 }
 
 void GSpace::addPath(string name, Path p)

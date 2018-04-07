@@ -82,6 +82,8 @@
 		E2198F92206825D300832E0C /* Follower.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E2198F8F206825D300832E0C /* Follower.cpp */; };
 		E22224641C0BA3ED007DE7F9 /* LuaCWrappers.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E22224631C0BA3ED007DE7F9 /* LuaCWrappers.cpp */; };
 		E22224651C0BA3ED007DE7F9 /* LuaCWrappers.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E22224631C0BA3ED007DE7F9 /* LuaCWrappers.cpp */; };
+		E2239A3F20784E39005DA29F /* Wall.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E2239A3D20784E39005DA29F /* Wall.cpp */; };
+		E2239A4020784E39005DA29F /* Wall.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E2239A3D20784E39005DA29F /* Wall.cpp */; };
 		E223F3861CFCB75F00AD4133 /* Graph.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E223F3841CFCB75F00AD4133 /* Graph.cpp */; };
 		E223F3871CFCB75F00AD4133 /* Graph.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E223F3841CFCB75F00AD4133 /* Graph.cpp */; };
 		E2249BBF1CF73CE000B1D666 /* InventoryObject.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E2249BBD1CF73CE000B1D666 /* InventoryObject.cpp */; };
@@ -254,6 +256,8 @@
 		E2198F8F206825D300832E0C /* Follower.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Follower.cpp; sourceTree = "<group>"; };
 		E2198F90206825D300832E0C /* Follower.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = Follower.hpp; sourceTree = "<group>"; };
 		E22224631C0BA3ED007DE7F9 /* LuaCWrappers.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = LuaCWrappers.cpp; sourceTree = "<group>"; };
+		E2239A3D20784E39005DA29F /* Wall.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Wall.cpp; sourceTree = "<group>"; };
+		E2239A3E20784E39005DA29F /* Wall.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = Wall.hpp; sourceTree = "<group>"; };
 		E223F3841CFCB75F00AD4133 /* Graph.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Graph.cpp; sourceTree = "<group>"; };
 		E223F3851CFCB75F00AD4133 /* Graph.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = Graph.hpp; sourceTree = "<group>"; };
 		E2249BBD1CF73CE000B1D666 /* InventoryObject.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = InventoryObject.cpp; sourceTree = "<group>"; };
@@ -624,6 +628,8 @@
 				E2A846821FE0D6B8001DFF88 /* Stalker.hpp */,
 				E2A8467D1FE0CB0E001DFF88 /* Torch.cpp */,
 				E2A8467E1FE0CB0E001DFF88 /* Torch.hpp */,
+				E2239A3D20784E39005DA29F /* Wall.cpp */,
+				E2239A3E20784E39005DA29F /* Wall.hpp */,
 			);
 			name = objects;
 			sourceTree = "<group>";
@@ -802,6 +808,7 @@
 				E23F055E1BD0294A0091BD6D /* controls.cpp in Sources */,
 				E23121FD1BF7FDA300FEA94B /* Dialog.cpp in Sources */,
 				E244502E1C03A760006D78B0 /* scenes.cpp in Sources */,
+				E2239A3F20784E39005DA29F /* Wall.cpp in Sources */,
 				E2198F91206825D300832E0C /* Follower.cpp in Sources */,
 				E214CF5B1C0AD22E00FC8784 /* SpellMapping.cpp in Sources */,
 				E2CDC54F1C051FFC0017537B /* Bullet.cpp in Sources */,
@@ -841,6 +848,7 @@
 				46880B8919C43A87006E1F66 /* App.cpp in Sources */,
 				E25DC09A1C1EE2A400765415 /* LuaWrap.cpp in Sources */,
 				E2CDC5471C04F89D0017537B /* GAnimation.cpp in Sources */,
+				E2239A4020784E39005DA29F /* Wall.cpp in Sources */,
 				E2198F8E206825BC00832E0C /* Facer.cpp in Sources */,
 				E2198F92206825D300832E0C /* Follower.cpp in Sources */,
 				E2E01EEE1C1DCA0D00330904 /* AI.cpp in Sources */,
