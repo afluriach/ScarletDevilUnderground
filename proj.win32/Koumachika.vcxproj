@@ -183,6 +183,7 @@ xcopy "$(ProjectDir)..\Resources" "$(OutDir)" /D /E /I /F /Y</Command>
     <ClCompile Include="..\Classes\StateMapping.cpp" />
     <ClCompile Include="..\Classes\Torch.cpp" />
     <ClCompile Include="..\Classes\util.cpp" />
+    <ClCompile Include="..\Classes\Wall.cpp" />
     <ClCompile Include="main.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -231,6 +232,7 @@ xcopy "$(ProjectDir)..\Resources" "$(OutDir)" /D /E /I /F /Y</Command>
     <ClInclude Include="..\Classes\Torch.hpp" />
     <ClInclude Include="..\Classes\types.h" />
     <ClInclude Include="..\Classes\util.h" />
+    <ClInclude Include="..\Classes\Wall.hpp" />
     <ClInclude Include="main.h" />
   </ItemGroup>
   <ItemGroup>
