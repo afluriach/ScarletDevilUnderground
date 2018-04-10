@@ -145,6 +145,7 @@ xcopy "$(ProjectDir)..\Resources" "$(OutDir)" /D /E /I /F /Y</Command>
     </PreLinkEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="..\Classes\Agent.cpp" />
     <ClCompile Include="..\Classes\AI.cpp" />
     <ClCompile Include="..\Classes\AIMixins.cpp" />
     <ClCompile Include="..\Classes\App.cpp" />
@@ -187,6 +188,7 @@ xcopy "$(ProjectDir)..\Resources" "$(OutDir)" /D /E /I /F /Y</Command>
     <ClCompile Include="main.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="..\Classes\Agent.hpp" />
     <ClInclude Include="..\Classes\AI.hpp" />
     <ClInclude Include="..\Classes\AIMixins.hpp" />
     <ClInclude Include="..\Classes\App.h" />

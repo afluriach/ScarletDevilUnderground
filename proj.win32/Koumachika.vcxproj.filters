@@ -15,9 +15,15 @@
     <ClCompile Include="main.cpp">
       <Filter>win32</Filter>
     </ClCompile>
+	<ClCompile Include="..\Classes\Agent.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
     <ClCompile Include="..\Classes\AI.cpp">
       <Filter>src</Filter>
     </ClCompile>
+	<ClInclude Include="..\Classes\AIMixins.hpp">
+      <Filter>src</Filter>
+    </ClInclude>
     <ClCompile Include="..\Classes\App.cpp">
       <Filter>src</Filter>
     </ClCompile>
@@ -33,6 +39,12 @@
     <ClCompile Include="..\Classes\Dialog.cpp">
       <Filter>src</Filter>
     </ClCompile>
+	<ClInclude Include="..\Classes\Facer.hpp">
+      <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\Follower.hpp">
+      <Filter>src</Filter>
+    </ClInclude>
     <ClCompile Include="..\Classes\GAnimation.cpp">
       <Filter>src</Filter>
     </ClCompile>
@@ -138,6 +150,12 @@
       <Filter>win32</Filter>
     </ClInclude>
     <ClInclude Include="..\Classes\AI.hpp">
+      <Filter>src</Filter>
+    </ClInclude>
+	<ClInclude Include="..\Classes\AIMixins.hpp">
+      <Filter>src</Filter>
+    </ClInclude>
+	<ClInclude Include="..\Classes\Agent.hpp">
       <Filter>src</Filter>
     </ClInclude>
     <ClInclude Include="..\Classes\App.h">
@@ -257,22 +275,13 @@
     <ClInclude Include="..\Classes\util.h">
       <Filter>src</Filter>
     </ClInclude>
+	<ClInclude Include="..\Classes\Wall.hpp">
+      <Filter>src</Filter>
+    </ClInclude>
     <ClInclude Include="..\Classes\scenes\Collect.h">
       <Filter>src</Filter>
     </ClInclude>
     <ClInclude Include="..\Classes\scenes\LibraryOpening.h">
-      <Filter>src</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Classes\AIMixins.hpp">
-      <Filter>src</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Classes\Facer.hpp">
-      <Filter>src</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Classes\Follower.hpp">
-      <Filter>src</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Classes\Wall.hpp">
       <Filter>src</Filter>
     </ClInclude>
   </ItemGroup>
