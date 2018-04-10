@@ -350,7 +350,8 @@ void GSpace::processRemovalEndContact(GObject* obj)
 	foreach(contact c, contactList) {
 		auto itt = endContactHandlers.find(c.second);
 		if (itt != endContactHandlers.end() && itt->second) {
-			itt->second(c.first.first, c.first.second);
+			int(GSpace::*end_method)(GObject*, GObject*) = itt->second;
+			(this->*end_method)(c.first.first, c.first.second);
 		}
 		removeContact(c);
 	}
@@ -489,7 +490,7 @@ void logHandler(const string& name, GObject* a, GObject* b)
 	log("%s: %s, %s", name.c_str(), a->name.c_str(), b->name.c_str());
 }
 
-int playerEnemyBegin(GObject* a, GObject* b)
+int GSpace::playerEnemyBegin(GObject* a, GObject* b)
 {    
     Player* p = dynamic_cast<Player*>(a);
     Enemy* e = dynamic_cast<Enemy*>(b);
@@ -505,7 +506,7 @@ int playerEnemyBegin(GObject* a, GObject* b)
     return 1;
 }
 
-int playerEnemyEnd(GObject* a, GObject* b)
+int GSpace::playerEnemyEnd(GObject* a, GObject* b)
 {
 	Enemy* e = dynamic_cast<Enemy*>(b);
 
@@ -516,17 +517,17 @@ int playerEnemyEnd(GObject* a, GObject* b)
     return 1;
 }
 
-int playerEnemyBulletBegin(GObject* playerObj, GObject* bullet)
+int GSpace::playerEnemyBulletBegin(GObject* playerObj, GObject* bullet)
 {
     Player* player = dynamic_cast<Player*>(playerObj);
     
     log("%s hit by %s", player->name.c_str(), bullet->name.c_str());
     player->hit();
-    GScene::getSpace()->removeObject(bullet);
+    removeObject(bullet);
     return 1;
 }
 
-int playerBulletEnemyBegin(GObject* a, GObject* b)
+int GSpace::playerBulletEnemyBegin(GObject* a, GObject* b)
 {    
     Bullet* bullet = dynamic_cast<Bullet*>(a);
     Enemy* enemy = dynamic_cast<Enemy*>(b);
@@ -540,35 +541,35 @@ int playerBulletEnemyBegin(GObject* a, GObject* b)
         enemy->onPlayerBulletHit(bullet);
     
     log("%s hit by %s", b->name.c_str(), a->name.c_str());
-    GScene::getSpace()->removeObject(a);
+    removeObject(a);
     return 1;
 }
 
-int playerFlowerBegin(GObject* a, GObject* b)
+int GSpace::playerFlowerBegin(GObject* a, GObject* b)
 {
     log("%s stepped on", b->name.c_str());
     return 1;
 }
 
-int bulletEnvironment(GObject* a, GObject* b)
+int GSpace::bulletEnvironment(GObject* a, GObject* b)
 {
 //    log("%s hit object %s",  a->name.c_str(), b->name.c_str());
-    GScene::getSpace()->removeObject(a);
+    removeObject(a);
     return 1;
 }
 
-int noCollide(GObject* a, GObject* b)
+int GSpace::noCollide(GObject* a, GObject* b)
 {
     return 0;
 }
 
-int bulletWall(GObject* bullet, GObject* unused)
+int GSpace::bulletWall(GObject* bullet, GObject* unused)
 {
-    GScene::getSpace()->removeObject(bullet);
+    removeObject(bullet);
     return 1;
 }
 
-int sensorStart(GObject* radarAgent, GObject* target)
+int GSpace::sensorStart(GObject* radarAgent, GObject* target)
 {
     RadarObject* radarObject = dynamic_cast<RadarObject*>(radarAgent);
 
@@ -583,7 +584,7 @@ int sensorStart(GObject* radarAgent, GObject* target)
 	return 1;
 }
 
-int sensorEnd(GObject* radarAgent, GObject* target)
+int GSpace::sensorEnd(GObject* radarAgent, GObject* target)
 {
     RadarObject* radarObject = dynamic_cast<RadarObject*>(radarAgent);
     
@@ -598,36 +599,24 @@ int sensorEnd(GObject* radarAgent, GObject* target)
     return 1;
 }
 
-#define AddHandler(a,b,begin,end) \
-space.addCollisionHandler( \
-	static_cast<CollisionType>(GType::a), \
-	static_cast<CollisionType>(GType::b), \
-	bind(&GSpace::beginContact<GType::a, GType::b>, this, placeholders::_1, placeholders::_2), \
-	nullptr, \
-	nullptr, \
-	bind(&GSpace::endContact<GType::a, GType::b>, this, placeholders::_1, placeholders::_2) \
-); \
-\
-beginContactHandlers[collision_type(GType::a, GType::b)] = begin; \
-endContactHandlers[collision_type(GType::a, GType::b)] = end;
+#define _addHandler(a,b,begin,end) AddHandler<GType::a, GType::b>(&GSpace::begin,&GSpace::end)
+#define _addHandlerNoEnd(a,b,begin) AddHandler<GType::a, GType::b>(&GSpace::begin,nullptr)
+
 
 void GSpace::addCollisionHandlers()
 {
-    AddHandler(player, enemy, playerEnemyBegin, playerEnemyEnd)
-    AddHandler(player, enemyBullet, playerEnemyBulletBegin, nullptr)
-    AddHandler(playerBullet, enemy, playerBulletEnemyBegin, nullptr)
-    AddHandler(playerBullet, environment, bulletEnvironment, nullptr)
-    AddHandler(enemyBullet, environment, bulletEnvironment, nullptr)
-    AddHandler(playerBullet,foliage,noCollide,nullptr)
-    AddHandler(enemyBullet,foliage,noCollide,nullptr)
-    AddHandler(playerBullet,enemyBullet, noCollide,nullptr)
-    AddHandler(player, foliage, playerFlowerBegin,nullptr)
-    
-    AddHandler(playerBullet, wall, bulletWall, nullptr);
-    AddHandler(enemyBullet, wall, bulletWall, nullptr);
-    
-    AddHandler(playerSensor, player, sensorStart, sensorEnd);
-
-    AddHandler(objectSensor, enemy, sensorStart, sensorEnd)
-    AddHandler(objectSensor, environment, sensorStart, sensorEnd);
+	_addHandler(player, enemy, playerEnemyBegin, playerEnemyEnd);
+	_addHandlerNoEnd(player, enemyBullet, playerEnemyBulletBegin);
+	_addHandlerNoEnd(playerBullet, enemy, playerBulletEnemyBegin);
+	_addHandlerNoEnd(playerBullet, environment, bulletEnvironment);
+	_addHandlerNoEnd(enemyBullet, environment, bulletEnvironment);
+	_addHandlerNoEnd(playerBullet, foliage, noCollide);
+	_addHandlerNoEnd(enemyBullet, foliage, noCollide);
+	_addHandlerNoEnd(playerBullet, enemyBullet, noCollide);
+	_addHandlerNoEnd(player, foliage, playerFlowerBegin);
+	_addHandlerNoEnd(playerBullet, wall, bulletWall);
+	_addHandlerNoEnd(enemyBullet, wall, bulletWall);    
+	_addHandler(playerSensor, player, sensorStart, sensorEnd);
+	_addHandler(objectSensor, enemy, sensorStart, sensorEnd);
+	_addHandler(objectSensor, environment, sensorStart, sensorEnd);
 }

@@ -137,8 +137,8 @@ private:
     Space space;
 
 	boost::unordered_map<GObject*,list<contact>> currentContacts;
-	boost::unordered_map<collision_type, function<void(GObject*, GObject*)>> beginContactHandlers;
-	boost::unordered_map<collision_type, function<void(GObject*, GObject*)>> endContactHandlers;
+	boost::unordered_map<collision_type, int(GSpace::*)(GObject*, GObject*)> beginContactHandlers;
+	boost::unordered_map<collision_type, int(GSpace::*)(GObject*, GObject*)> endContactHandlers;
 
 	void addContact(contact c);
 	void removeContact(contact c);
@@ -194,7 +194,8 @@ private:
 			return 0;
 
 		if (a && b && it->second) {
-			it->second(a, b);
+			int(GSpace::*begin_method)(GObject*, GObject*) = it->second;
+			(this->*begin_method)(a, b);
 			contact c = contact(
 				object_pair(a,b),
 				collision_type(TypeA,TypeB)
@@ -217,7 +218,8 @@ private:
 			return 0;
 
 		if (a && b && it->second) {
-			it->second(a, b);
+			int(GSpace::*end_method)(GObject*, GObject*) = it->second;
+			(this->*end_method)(a, b);
 			contact c = contact(
 				object_pair(a, b),
 				collision_type(TypeA, TypeB)
@@ -227,12 +229,40 @@ private:
 
 		return 1;
 	}
+
+	template<GType TypeA, GType TypeB>
+	inline void AddHandler(int(GSpace::*begin)(GObject*, GObject*), int(GSpace::*end)(GObject*, GObject*))
+	{
+		space.addCollisionHandler(
+			static_cast<CollisionType>(TypeA), 
+			static_cast<CollisionType>(TypeB), 
+			bind(&GSpace::beginContact<TypeA, TypeB>, this, placeholders::_1, placeholders::_2), 
+			nullptr, 
+			nullptr, 
+			bind(&GSpace::endContact<TypeA, TypeB>, this, placeholders::_1, placeholders::_2) 
+		); 
+
+		beginContactHandlers[collision_type(TypeA, TypeB)] = begin;
+		endContactHandlers[collision_type(TypeA,TypeB)] = end;
+	}
+
     
     void initObjects();
     void addCollisionHandlers();
     
     void processRemoval(GObject* obj);    
 	void processRemovalEndContact(GObject* obj);
+
+	int playerEnemyBegin(GObject* a, GObject* b);
+	int playerEnemyEnd(GObject* a, GObject* b);
+	int playerEnemyBulletBegin(GObject* playerObj, GObject* bullet);
+	int playerBulletEnemyBegin(GObject* a, GObject* b);
+	int playerFlowerBegin(GObject* a, GObject* b);
+	int bulletEnvironment(GObject* a, GObject* b);
+	int noCollide(GObject* a, GObject* b);
+	int bulletWall(GObject* bullet, GObject* unused);
+	int sensorStart(GObject* radarAgent, GObject* target);
+	int sensorEnd(GObject* radarAgent, GObject* target);
 };
 
 #endif /* GSpace_hpp */
