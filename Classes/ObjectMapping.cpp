@@ -74,6 +74,6 @@ const unordered_map<string,GObject::AdapterType> GObject::adapters =
     entry_same(Facer)
     entry_same(Follower)
     entry_same(Stalker)
-    entry_same(Agent)
+    entry_same(GenericAgent)
 
     entry_same(Player);

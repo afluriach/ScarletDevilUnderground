@@ -20,77 +20,77 @@
   <object id="11" name="block3" type="Block" x="896" y="896" width="128" height="128"/>
   <object id="12" name="block2" type="Block" x="640" y="1408" width="128" height="128"/>
   <object id="13" name="block1" type="Block" x="128" y="1408" width="128" height="128"/>
-  <object id="14" name="agent15" type="Agent" x="384" y="384" width="128" height="128">
+  <object id="14" name="GenericAgent15" type="GenericAgent" x="384" y="384" width="128" height="128">
    <properties>
     <property name="sprite" value="melancholy"/>
    </properties>
   </object>
-  <object id="17" name="agent14" type="Agent" x="640" y="384" width="128" height="128">
+  <object id="17" name="GenericAgent14" type="GenericAgent" x="640" y="384" width="128" height="128">
    <properties>
     <property name="sprite" value="melancholy"/>
    </properties>
   </object>
-  <object id="18" name="agent13" type="Agent" x="1152" y="1152" width="128" height="128">
+  <object id="18" name="GenericAgent13" type="GenericAgent" x="1152" y="1152" width="128" height="128">
    <properties>
     <property name="sprite" value="melancholy"/>
    </properties>
   </object>
-  <object id="19" name="agent12" type="Agent" x="896" y="384" width="128" height="128">
+  <object id="19" name="GenericAgent12" type="GenericAgent" x="896" y="384" width="128" height="128">
    <properties>
     <property name="sprite" value="melancholy"/>
    </properties>
   </object>
-  <object id="20" name="agent11" type="Agent" x="1152" y="384" width="128" height="128">
+  <object id="20" name="GenericAgent11" type="GenericAgent" x="1152" y="384" width="128" height="128">
    <properties>
     <property name="sprite" value="melancholy"/>
    </properties>
   </object>
-  <object id="21" name="agent10" type="Agent" x="1408" y="896" width="128" height="128">
+  <object id="21" name="GenericAgent10" type="GenericAgent" x="1408" y="896" width="128" height="128">
    <properties>
     <property name="sprite" value="melancholy"/>
    </properties>
   </object>
-  <object id="22" name="agent9" type="Agent" x="1792" y="1408" width="128" height="128">
+  <object id="22" name="GenericAgent9" type="GenericAgent" x="1792" y="1408" width="128" height="128">
    <properties>
     <property name="sprite" value="melancholy"/>
    </properties>
   </object>
-  <object id="23" name="agent8" type="Agent" x="1408" y="1792" width="128" height="128">
+  <object id="23" name="GenericAgent8" type="GenericAgent" x="1408" y="1792" width="128" height="128">
    <properties>
     <property name="sprite" value="melancholy"/>
    </properties>
   </object>
-  <object id="24" name="agent7" type="Agent" x="1152" y="1792" width="128" height="128">
+  <object id="24" name="GenericAgent7" type="GenericAgent" x="1152" y="1792" width="128" height="128">
    <properties>
     <property name="sprite" value="melancholy"/>
    </properties>
   </object>
-  <object id="25" name="agent6" type="Agent" x="896" y="1792" width="128" height="128">
+  <object id="25" name="GenericAgent6" type="GenericAgent" x="896" y="1792" width="128" height="128">
    <properties>
     <property name="sprite" value="melancholy"/>
    </properties>
   </object>
-  <object id="26" name="agent5" type="Agent" x="512" y="1152" width="128" height="128">
+  <object id="26" name="GenericAgent5" type="GenericAgent" x="512" y="1152" width="128" height="128">
    <properties>
     <property name="sprite" value="melancholy"/>
    </properties>
   </object>
-  <object id="27" name="agent4" type="Agent" x="1792" y="512" width="128" height="128">
+  <object id="27" name="GenericAgent4" type="GenericAgent" x="1792" y="512" width="128" height="128">
    <properties>
     <property name="sprite" value="melancholy"/>
    </properties>
   </object>
-  <object id="28" name="agent3" type="Agent" x="1536" y="384" width="128" height="128">
+  <object id="28" name="GenericAgent3" type="GenericAgent" x="1536" y="384" width="128" height="128">
    <properties>
     <property name="sprite" value="melancholy"/>
    </properties>
   </object>
-  <object id="29" name="agent2" type="Agent" x="1408" y="1408" width="128" height="128">
+  <object id="29" name="GenericAgent2" type="GenericAgent" x="1408" y="1408" width="128" height="128">
    <properties>
     <property name="sprite" value="melancholy"/>
    </properties>
   </object>
-  <object id="30" name="agent1" type="Agent" x="1792" y="1024" width="128" height="128">
+  <object id="30" name="GenericAgent1" type="GenericAgent" x="1792" y="1024" width="128" height="128">
    <properties>
     <property name="sprite" value="melancholy"/>
    </properties>

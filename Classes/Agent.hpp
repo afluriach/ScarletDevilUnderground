@@ -12,10 +12,10 @@
 #include "AI.hpp"
 #include "AIMixins.hpp"
 
-class Agent : virtual public GObject, PatchConSprite, CircleBody, RadarStateMachineObject
+class GenericAgent : virtual public GObject, PatchConSprite, CircleBody, RadarStateMachineObject
 {
 public:
-    inline Agent(const ValueMap& args) :
+    inline GenericAgent(const ValueMap& args) :
     GObject(args),
     PatchConSprite(args),
     RadarStateMachineObject(make_shared<ai::WanderAndFleePlayer>(3.0f, this),args)
