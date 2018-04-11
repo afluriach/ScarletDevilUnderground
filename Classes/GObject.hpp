@@ -53,6 +53,7 @@ public:
 	//objects in the same frame
 	inline void init(){
 		multiInit();
+        setupLuaContext();
 		runLuaInit();
 	}
 

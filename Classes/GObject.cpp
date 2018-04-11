@@ -15,8 +15,6 @@ GObject::GObject(const ValueMap& obj) :
 	uuid(nextUUID++),
 	ctx(boost::lexical_cast<string>(uuid) + "_" + name)
 {
-	setupLuaContext();
-
     //Interpret coordinates as center, unit space.
     initialCenter = SpaceVect(getFloat(obj, "pos_x"), getFloat(obj, "pos_y"));
     
@@ -34,8 +32,6 @@ GObject::GObject(const string& name, const SpaceVect& pos) :
 	ctx(boost::lexical_cast<string>(uuid) + "_" + name),
 	initialCenter(pos)
 {
-	setupLuaContext();
-
     if(logCreateObjects)
         log("%s created at %.1f,%.1f.", name.c_str(),initialCenter.x, initialCenter.y);
 }
