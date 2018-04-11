@@ -42,7 +42,7 @@ public:
 	}
 
 	//sensor interface
-	virtual float getRadarRadius() const { return 0.0f; }
+	virtual float getRadarRadius() const { return 1.0f; }
 	virtual GType getRadarType() const { return GType::none; }
 	virtual float getDefaultFovAngle() const { return 0.0f; }
 
