@@ -39,6 +39,7 @@ enum class GType{
     wall,
     playerSensor,
     objectSensor,
+	none,
 };
 
 //Layers are interpreted as a bitmask.

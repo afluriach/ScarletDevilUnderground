@@ -18,21 +18,62 @@ public:
     typedef function<GObject*( const ValueMap&) > AdapterType;
     
     static constexpr bool logCreateObjects = false;
-    
-    //Representation as a map object
+	//Map each class name to a constructor adapter function.
+	static const unordered_map<string, AdapterType> adapters;
+	static unsigned int nextUUID;
+
+	static GObject* constructByType(const string& type, const ValueMap& args);
+	
+	//Representation as a map object
     GObject(const ValueMap& args);
     GObject(const string& name, const SpaceVect& pos);
     
     inline virtual ~GObject() {}
+
+	//object identification, init, and update
+	const string name;
+	const unsigned int uuid;
+
+	util::multifunction<void(void)> multiInit;
+	util::multifunction<void(void)> multiUpdate;
+
+	inline string getName() {
+		return name;
+	}
+
+	inline unsigned int getUUID() {
+		return uuid;
+	}
+
+	inline static void resetObjectUUIDs() {
+		nextUUID = 1;
+	}
+
+	//Called on the first frame after it has been added, before update is called on it or any other
+	//objects in the same frame
+	inline void init(){
+		multiInit();
+		runLuaInit();
+	}
+
+	inline void update(){
+		multiUpdate();
+		runLuaUpdate();
+	}
     
-    //Map each class name to a constructor adapter function.
-    static const unordered_map<string,AdapterType> adapters;
-    
-    static GObject* constructByType(const string& type, const ValueMap& args );
-    
+	//BEGIN PHYSICS
+
+	shared_ptr<Body> body;
+	shared_ptr<Body> radar;
+
+	//Posiition where the object was loaded
+	SpaceVect initialCenter;
+
     inline void setInitialVelocity(const SpaceVect&& v){
         multiInit += [=]() -> void{ this->body->setVel(v);};
     }
+
+	Vec2 getInitialCenterPix();
 
     inline SpaceVect getPos(){
         return body->getPos();
@@ -95,79 +136,46 @@ public:
 	virtual GType getType() const = 0;
 	virtual inline bool getSensor() const { return false; }
 	virtual inline PhysicsLayers getLayers() const { return PhysicsLayers::ground; }
-    
-    inline string getName(){
-        return name;
-    }
-    
-    inline unsigned int getUUID(){
-        return uuid;
-    }
 
-    inline static void resetObjectUUIDs(){
-        nextUUID = 1;
-    }
+	inline virtual float getMaxSpeed() const { return 0; }
+	inline virtual float getMaxAcceleration() const { return 0; }
 
-    const string name;
-    const unsigned int uuid;
-    
-    shared_ptr<Body> body;
-    shared_ptr<Body> radar;
+	//Called before adding the the object to space.
+	virtual void initializeBody(GSpace& space) = 0;
+	inline virtual void initializeRadar(GSpace& space) {};
 
-    
-    //Posiition where the object was loaded
-    SpaceVect initialCenter;
-    
-    //Called on the first frame after it has been added, before update is called on it or any other
-    //objects in the same frame
-    inline void init()
-    {
-        multiInit();
-    }
-    
-    inline void update()
-    {
-        multiUpdate();
-    }
-    
-    //Called before adding the the object to space.
-    virtual void initializeBody(GSpace& space) = 0;
-    inline virtual void initializeRadar(GSpace& space){};
-    
-    //Create Node which graphically reprensets this object and adds it to Layer
-    virtual void initializeGraphics(Layer* layer) = 0;
-    
-    Vec2 getInitialCenterPix();
+	//Create Node which graphically reprensets this object and adds it to Layer
+	virtual void initializeGraphics(Layer* layer) = 0;
 
-    util::multifunction<void(void)> multiInit;
-    util::multifunction<void(void)> multiUpdate;
+	//END PHYSICS
     
-      
-    //Wrapper to call a method of a derived type with a GObject this.
-    //template<typename Derived, void (Derived::*Method)(void)>
-    //function<void(GObject*)> wrap()
-    //{
-    //    return wrapAsBaseMethod<GObject, Derived, Method>();
-    //}
-    
-    inline virtual string getScriptVal(string field){
-        log("getScriptVal: %s is not a ScriptedObject.", name.c_str());
-        return "";
-    }
-    
-    inline virtual void setScriptVal(string name, string val){
-        log("setScriptVal: %s is not a ScriptedObject.", name.c_str());
-    }
-    inline virtual string _callScriptVal(string field, string args){
-        log("_callScriptVal: %s is not a ScriptedObject.", name.c_str());
-        return "";
-    }
+	//BEGIN LUA
+	
+	Lua::Inst ctx;
 
-    inline virtual float getMaxSpeed() const {return 0;}
-    inline virtual float getMaxAcceleration() const { return 0;}
-    
-private:
-    static unsigned int nextUUID;
+	inline virtual string getScriptName() const { return ""; }
+
+	inline string getScriptVal(string name) {
+		return ctx.getSerialized(name);
+	}
+
+	inline void setScriptVal(string field, string val) {
+		ctx.setSerialized(field, val);
+	}
+
+	inline string _callScriptVal(string field, string args) {
+		return ctx.callSerialized(field, args);
+	}
+
+	inline void runLuaInit() {
+		ctx.callIfExistsNoReturn("init");
+	}
+	inline void runLuaUpdate() {
+		ctx.callIfExistsNoReturn("update");
+	}
+	void setupLuaContext();
+
+	//END LUA    
 };
 
 template<typename Derived>
@@ -188,41 +196,6 @@ public:
 	{
 		multiUpdate += wrap_method(Derived, update, that);
 	}
-};
-
-
-class ScriptedObject : virtual public GObject, RegisterInit<ScriptedObject>, RegisterUpdate<ScriptedObject>
-{
-public:
-    Lua::Inst ctx;
-    inline ScriptedObject(const string& script) :
-    ctx(boost::lexical_cast<string>(uuid) + "_" + name),
-	RegisterInit(this),
-	RegisterUpdate(this)
-    {
-        ctx.runFile("scripts/entities/"+script+".lua");
-        //Push this as a global variable in the script's context.
-        ctx.setGlobal(Lua::convert<GObject*>::convertToLua(this, ctx.state), "this");
-    }
-    inline void init(){
-        ctx.callIfExistsNoReturn("init");
-    }
-    inline void update(){
-        ctx.callIfExistsNoReturn("update");
-    }
-    
-    //Part of GObject API.
-    inline string getScriptVal(string name){
-        return ctx.getSerialized(name);
-    }
-    
-    inline void setScriptVal(string field, string val){
-        ctx.setSerialized(field,val);
-    }
-    
-    inline string _callScriptVal(string field, string args){
-        return ctx.callSerialized(field,args);
-    }
 };
 
 class InteractibleObject : public virtual GObject
@@ -394,7 +367,7 @@ class Spellcaster : public virtual GObject, RegisterUpdate<Spellcaster>
 {
 public:
     inline Spellcaster() : RegisterUpdate(this) {}
-    ~Spellcaster();
+	virtual ~Spellcaster();
     void cast(shared_ptr<Spell> spell);
     void cast(const string& name, const ValueMap& args);
 //For Luabridge

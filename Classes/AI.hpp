@@ -9,6 +9,8 @@
 #ifndef AI_hpp
 #define AI_hpp
 
+class Agent;
+
 namespace ai{
 
 //Low-level movement functions.
@@ -180,13 +182,7 @@ class IdleWait : public State{
         remaining(frames)
         {}
     
-        inline virtual void update(StateMachine& fsm){
-            if(remaining == 0)
-                fsm.pop();
-            --remaining;
-            
-            ai::applyDesiredVelocity(*fsm.agent, SpaceVect(0,0), fsm.agent->getMaxAcceleration());
-        }
+		virtual void update(StateMachine& fsm);
     private:
         unsigned int remaining;
 };
@@ -269,6 +265,22 @@ public:
     
 protected:
     std::function<void(StateMachine&)> op;
+};
+
+class FacerState : public State {
+public:
+	virtual void onEnter(StateMachine& sm);
+	virtual void update(StateMachine& sm);
+protected:
+	GObject* target = nullptr;
+};
+
+class FollowerState : public State {
+public:
+	virtual void onEnter(StateMachine& sm);
+	virtual void update(StateMachine& sm);
+protected:
+	GObject * target = nullptr;
 };
 
 } //end NS

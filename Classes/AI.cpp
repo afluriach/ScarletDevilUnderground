@@ -270,6 +270,16 @@ IdleWait::IdleWait(const ValueMap& args)
     float waitSeconds = getFloat(args, "waitTime");
     remaining = App::framesPerSecond * waitSeconds;
 }
+void IdleWait::update(StateMachine& fsm)
+{
+	if (remaining == 0)
+		fsm.pop();
+	--remaining;
+
+	ai::applyDesiredVelocity(*fsm.agent, SpaceVect(0, 0), fsm.agent->getMaxAcceleration());
+}
+
+
 
 MoveToPoint::MoveToPoint(const ValueMap& args)
 {
@@ -391,6 +401,42 @@ void Wander::update(StateMachine& fsm)
     int waitFrames = app->getRandomInt(minWait*App::framesPerSecond, maxWait*App::framesPerSecond);
     fsm.push(make_shared<IdleWait>(waitFrames));
 }
+
+void FacerState::onEnter(StateMachine& sm)
+{
+	target = GScene::getSpace()->getObject("player");
+}
+
+void FacerState::update(StateMachine& sm)
+{
+	if (isFacingTarget(sm.agent, target))
+	{
+		sm.agent->setVel(SpaceVect::ray(sm.agent->getMaxSpeed(), sm.agent->getAngle()));
+	}
+	else
+	{
+		sm.agent->setVel(SpaceVect(0, 0));
+	}
+}
+
+void FollowerState::onEnter(StateMachine& sm)
+{
+	target = GScene::getSpace()->getObject("player");
+}
+
+
+void FollowerState::update(StateMachine& sm)
+{
+	if (ai::isFacingTargetsBack(sm.agent, target))
+	{
+		sm.agent->setVel(SpaceVect::ray(sm.agent->getMaxSpeed(), sm.agent->getAngle()));
+	}
+	else
+	{
+		sm.agent->setVel(SpaceVect(0, 0));
+	}
+}
+
 
 #define compound_method(name, args1, args2) \
 void CompoundState::name args1 { \

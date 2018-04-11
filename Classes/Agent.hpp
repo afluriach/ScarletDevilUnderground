@@ -12,23 +12,68 @@
 #include "AI.hpp"
 #include "AIMixins.hpp"
 
-class GenericAgent : virtual public GObject, PatchConSprite, CircleBody, RadarStateMachineObject
+class Agent : virtual public GObject, public PatchConSprite, public CircleBody, public StateMachineObject, public RadarObject, public Spellcaster, RegisterInit<Agent>
+{
+public:
+	inline Agent(const ValueMap& args) :
+		GObject(args),
+		PatchConSprite(args),
+		StateMachineObject(args),
+		RegisterInit<Agent>(this)
+	{}
+
+	inline void init() {
+		shared_ptr<ai::State> startState = getStartState();
+
+		if (startState) {
+			fsm.push(startState);
+		}
+	}
+
+	//replaces functionality of RadarStateMachineObject by connecting sensor callbacks
+	inline virtual void onDetect(GObject* obj) {
+		fsm.onDetect(obj);
+		RadarObject::onDetect(obj);
+	}
+
+	inline virtual void onEndDetect(GObject* obj) {
+		fsm.onEndDetect(obj);
+		RadarObject::onEndDetect(obj);
+	}
+
+	//sensor interface
+	virtual float getRadarRadius() const { return 0.0f; }
+	virtual GType getRadarType() const { return GType::none; }
+	virtual float getDefaultFovAngle() const { return 0.0f; }
+
+	//physics/motor interface
+	virtual inline float getRadius() const { return 0.35f; }
+	virtual float getMass() const = 0;
+	virtual GType getType() const = 0;
+
+	//graphics interface
+	inline string imageSpritePath() const = 0;
+	inline GraphicsLayer sceneLayer() const { return GraphicsLayer::ground; }
+
+	//AI interface
+	virtual inline shared_ptr<ai::State> getStartState() { return nullptr; }
+};
+
+class GenericAgent : public Agent
 {
 public:
     inline GenericAgent(const ValueMap& args) :
-    GObject(args),
-    PatchConSprite(args),
-    RadarStateMachineObject(make_shared<ai::WanderAndFleePlayer>(3.0f, this),args)
+	GObject(args),
+	Agent(args)
     {
         spriteName = args.at("sprite").asString();
-        
     }
     
     virtual inline float getRadarRadius() const {return 3.0f;}
     virtual inline GType getRadarType() const { return GType::playerSensor;}
     virtual inline float getDefaultFovAngle() const {return 0.0f;}
     
-    virtual inline float getRadius() const {return 0.35f;}
+    //virtual inline float getRadius() const {return 0.35f;}
     inline float getMass() const {return 20.0f;}
     virtual inline GType getType() const {return GType::enemy;}
     
@@ -36,7 +81,11 @@ public:
     virtual inline float getMaxAcceleration() const {return 6.0f;}
     
     inline string imageSpritePath() const {return "sprites/"+spriteName+".png";}
-    inline GraphicsLayer sceneLayer() const {return GraphicsLayer::ground;}
+    //inline GraphicsLayer sceneLayer() const {return GraphicsLayer::ground;}
+
+	virtual inline shared_ptr<ai::State> getStartState() {
+		return make_shared<ai::WanderAndFleePlayer>(3.0f, this);
+	}
 protected:
     string spriteName;
 };

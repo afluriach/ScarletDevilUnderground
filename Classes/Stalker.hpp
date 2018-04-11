@@ -11,23 +11,16 @@
 
 #include "AI.hpp"
 #include "AIMixins.hpp"
+#include "Agent.hpp"
 
-class Stalker :
-virtual public GObject,
-PatchConSprite,
-CircleBody,
-RadarStateMachineObject,
-virtual HitPointsEnemy,
-TouchDamageEnemy,
-PlayerBulletDamage
+class Stalker : public Agent, virtual HitPointsEnemy, virtual TouchDamageEnemy, virtual PlayerBulletDamage
 {
 public:
     static const int maxHP;
 
     inline Stalker(const ValueMap& args) :
-    GObject(args),
-    PatchConSprite(args),
-	RadarStateMachineObject(make_shared<ai::DetectAndSeekPlayer>(), args),
+	GObject(args),
+    Agent(args),
     HitPointsEnemy(maxHP)
     {}
 
@@ -44,8 +37,10 @@ public:
         
     virtual inline float getMaxSpeed() const {return 1.5f;}
     virtual inline float getMaxAcceleration() const {return 4.5f;}
-        
-    Player* target = nullptr;
+
+	virtual inline shared_ptr<ai::State> getStartState() {
+		return make_shared<ai::DetectAndSeekPlayer>();
+	}        
 };
 
 #endif /* Stalker_hpp */

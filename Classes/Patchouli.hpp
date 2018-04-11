@@ -9,14 +9,15 @@
 #ifndef Patchouli_hpp
 #define Patchouli_hpp
 
-class Patchouli : virtual public GObject, PatchConSprite, CircleBody, Spellcaster
+#include "Agent.hpp"
+
+class Patchouli : public Agent
 {
 public:
     inline Patchouli(const ValueMap& args) :
-    GObject(args),
-    PatchConSprite(args)
-    {
-    }
+	GObject(args),
+    Agent(args)
+    {}
     
     virtual inline float getRadius() const {return 0.35f;}
     inline float getMass() const {return 30.0f;}

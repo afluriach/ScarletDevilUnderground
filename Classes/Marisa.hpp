@@ -9,21 +9,15 @@
 #ifndef Marisa_h
 #define Marisa_h
 
-class Marisa :
-virtual public GObject,
-virtual ScriptedObject,
-virtual RadarObject,
-ScriptedRadar,
-PatchConSprite,
-CircleBody,
-Spellcaster
+#include "Agent.hpp"
+
+class Marisa : public Agent
 {
 public:
     inline Marisa(const ValueMap& args) :
-    ScriptedObject("marisa"),
-    PatchConSprite(args),
-    GObject(args){
-    }
+	GObject(args),
+    Agent(args)
+	{}
     
     virtual inline float getRadarRadius() const {return 6.0f;}
     virtual inline GType getRadarType() const { return GType::playerSensor;}
@@ -34,6 +28,8 @@ public:
     
     inline string imageSpritePath() const {return "sprites/marisa.png";}
     inline GraphicsLayer sceneLayer() const {return GraphicsLayer::ground;}
+
+	inline virtual string getScriptName() const { return "marisa"; }
 };
 
 #endif /* Marisa_h */

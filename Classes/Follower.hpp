@@ -9,20 +9,16 @@
 #ifndef Follower_hpp
 #define Follower_hpp
 
-class Follower :
-virtual public GObject,
-PatchConSprite,
-CircleBody,
-TouchDamageEnemy,
-RegisterInit<Follower>,
-RegisterUpdate<Follower>
+#include "AI.hpp"
+#include "AIMixins.hpp"
+#include "Agent.hpp"
+
+class Follower : public Agent, public TouchDamageEnemy
 {
 public:
     inline Follower(const ValueMap& args) :
-    GObject(args),
-    PatchConSprite(args),
-    RegisterInit<Follower>(this),
-    RegisterUpdate<Follower>(this)
+	GObject(args),
+    Agent(args)
     {}
     
     virtual void onPlayerBulletHit(Bullet* bullet);
@@ -36,7 +32,10 @@ public:
         
     virtual inline float getMaxSpeed() const {return 1.0f;}
     virtual inline float getMaxAcceleration() const {return 4.5f;}
-        
+
+	virtual inline shared_ptr<ai::State> getStartState() {
+		return make_shared<ai::FollowerState>(); }
+
     GObject* target = nullptr;
     
     void init();

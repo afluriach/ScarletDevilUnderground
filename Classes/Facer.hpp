@@ -9,20 +9,16 @@
 #ifndef Facer_hpp
 #define Facer_hpp
 
-class Facer :
-virtual public GObject,
-PatchConSprite,
-CircleBody,
-TouchDamageEnemy,
-RegisterInit<Facer>,
-RegisterUpdate<Facer>
+#include "AI.hpp"
+#include "AIMixins.hpp"
+#include "Agent.hpp"
+
+class Facer : public Agent, public TouchDamageEnemy
 {
 public:
     inline Facer(const ValueMap& args) :
-    GObject(args),
-    PatchConSprite(args),
-    RegisterInit<Facer>(this),
-    RegisterUpdate<Facer>(this)
+	GObject(args),
+    Agent(args)
     {}
 
     virtual void onPlayerBulletHit(Bullet* bullet);
@@ -35,12 +31,11 @@ public:
     inline GraphicsLayer sceneLayer() const {return GraphicsLayer::ground;}
         
     virtual inline float getMaxSpeed() const {return 1.0f;}
-    virtual inline float getMaxAcceleration() const {return 4.5f;}
-        
-    GObject* target = nullptr;
-    
-    void init();
-    void update();
+    virtual inline float getMaxAcceleration() const {return 4.5f;}    
+
+	virtual inline shared_ptr<ai::State> getStartState() {
+		return make_shared<ai::FacerState>();
+	}
 };
 
 

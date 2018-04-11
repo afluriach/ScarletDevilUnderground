@@ -10,8 +10,13 @@
 
 unsigned int GObject::nextUUID = 1;
 
-GObject::GObject(const ValueMap& obj) : name(obj.at("name").asString()), uuid(nextUUID++)
+GObject::GObject(const ValueMap& obj) :
+	name(obj.at("name").asString()),
+	uuid(nextUUID++),
+	ctx(boost::lexical_cast<string>(uuid) + "_" + name)
 {
+	setupLuaContext();
+
     //Interpret coordinates as center, unit space.
     initialCenter = SpaceVect(getFloat(obj, "pos_x"), getFloat(obj, "pos_y"));
     
@@ -23,7 +28,14 @@ GObject::GObject(const ValueMap& obj) : name(obj.at("name").asString()), uuid(ne
         log("%s created at %.1f,%.1f.", name.c_str(),initialCenter.x, initialCenter.y);
 }
 
-GObject::GObject(const string& name, const SpaceVect& pos) : name(name), initialCenter(pos), uuid(nextUUID++) {
+GObject::GObject(const string& name, const SpaceVect& pos) :
+	name(name),
+	uuid(nextUUID++),
+	ctx(boost::lexical_cast<string>(uuid) + "_" + name),
+	initialCenter(pos)
+{
+	setupLuaContext();
+
     if(logCreateObjects)
         log("%s created at %.1f,%.1f.", name.c_str(),initialCenter.x, initialCenter.y);
 }
@@ -40,6 +52,19 @@ GObject* GObject::constructByType(const string& type, const ValueMap& args )
         log("Unknown object type %s!", type.c_str());
         return nullptr;
     }
+}
+
+void GObject::setupLuaContext()
+{
+	//Push this as a global variable in the object's script context.
+	ctx.setGlobal(Lua::convert<GObject*>::convertToLua(this, ctx.state), "this");
+
+	string scriptName = getScriptName();
+	string scriptPath = "scripts/entities/" + scriptName + ".lua";
+	if (scriptName != "" && FileUtils::getInstance()->isFileExist(scriptPath))
+	{
+		ctx.runFile(scriptPath);
+	}
 }
 
 void SpriteObject::update()

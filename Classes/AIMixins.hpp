@@ -55,8 +55,13 @@ public:
 	virtual GType getRadarType() const = 0;
     virtual inline float getDefaultFovAngle() const {return 0.0f;}
 
-	virtual void onDetect(GObject* other) {};
-	virtual void onEndDetect(GObject* other) {};
+	virtual inline void onDetect(GObject* other) {
+		ctx.callIfExistsNoReturn("onDetect", ctx.makeArgs(other));
+	}
+
+	virtual inline void onEndDetect(GObject* other) {
+		ctx.callIfExistsNoReturn("onEndDetect", ctx.makeArgs(other));
+	}
 
     void radarCollision(GObject* other);
     void radarEndCollision(GObject* other);
@@ -97,31 +102,6 @@ protected:
     //If 0, FOV is not considered and this is a radius sensor.
     float fovAngle = 0.0f;
     float fovScalar = 0.0f;
-};
-
-class RadarStateMachineObject : virtual public GObject, StateMachineObject, RadarObject
-{
-public:
-	inline RadarStateMachineObject(shared_ptr<ai::State> startState, const ValueMap& args) : StateMachineObject(startState, args) {}
-
-	inline virtual void onDetect(GObject* obj) {
-		fsm.onDetect(obj);
-	}
-
-	inline virtual void onEndDetect(GObject* obj) {
-		fsm.onEndDetect(obj);
-	}
-};
-
-class ScriptedRadar : virtual public RadarObject, virtual public ScriptedObject {
-public:
-	inline ScriptedRadar() {}
-	inline void onDetect(GObject* other) {
-		ctx.callIfExistsNoReturn("onDetect", ctx.makeArgs(other));
-	}
-	inline void onEndDetect(GObject* other) {
-		ctx.callIfExistsNoReturn("onEndDetect", ctx.makeArgs(other));
-	}
 };
 
 #endif /* AIMixins_hpp */

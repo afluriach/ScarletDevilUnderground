@@ -9,12 +9,12 @@
 #ifndef Reimu_h
 #define Reimu_h
 
-class Reimu : virtual public GObject, PatchConSprite, CircleBody, DialogEntity
+class Reimu : public Agent, public DialogEntity
 {
 public:
     inline Reimu(const ValueMap& args) :
-    GObject(args),
-    PatchConSprite(args)
+	GObject(args),
+    Agent(args)
     {}
     
     virtual inline float getRadius() const {return 0.35f;}
