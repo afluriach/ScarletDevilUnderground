@@ -16,9 +16,9 @@ function update()
 end
 
 function onDetect(obj)
-    print(obj:getName() .. " detected.")
+    print(obj:getName() .. " detected on frame " .. getFrameNumber())
 end
 
 function onEndDetect(obj)
-    print(obj:getName() .. " lost.")
+    print(obj:getName() .. " lost on frame " .. getFrameNumber())
 end

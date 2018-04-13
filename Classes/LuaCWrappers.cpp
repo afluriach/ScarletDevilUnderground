@@ -66,7 +66,6 @@ void printMap(unordered_map<string,string> m)
 
 void addUpdate(function<void()> f, int order)
 {
-    //Wrapper with a dummy GScene pointer that isn't used.
     GScene::crntScene->multiUpdate.insertWithOrder(
         [=]() -> void{
             f();
@@ -169,6 +168,14 @@ void setPlayerMaxHealth(int val)
 void setPaused(bool val)
 {
     GScene::crntScene->setPaused(val);
+}
+
+unsigned int getFrameNumber()
+{
+    GSpace* space = GScene::getSpace();
+    if(!space) throw lua_runtime_error("getFrameNumber: Cannot access frame number in this scene.");
+    
+    return space->getFrame();
 }
 
 void dostring_in_inst(string script, string inst_name)
@@ -420,6 +427,7 @@ make_wrapper(showHealth)
 make_wrapper(setPlayerHealth)
 make_wrapper(setPlayerMaxHealth)
 make_wrapper(setPaused)
+make_wrapper(getFrameNumber)
 make_wrapper(dostring_in_inst)
 make_wrapper(castSpell)
 make_wrapper(castSpellWithArgs)
@@ -490,6 +498,7 @@ void Inst::installWrappers()
     install_wrapper(setPlayerHealth)
     install_wrapper(setPlayerMaxHealth)
     install_wrapper(setPaused)
+    install_wrapper(getFrameNumber)
     install_wrapper(dostring_in_inst)
     install_wrapper(castSpell)
     install_wrapper(castSpellWithArgs)
