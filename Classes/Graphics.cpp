@@ -99,3 +99,16 @@ Action* flickerAction(float interval, float length, float opacity)
     return loop;
 }
 
+Action* flickerTintAction(float interval, float length, Color3B tint)
+{
+    int nCycles = length / interval;
+    
+    Sequence* flicker = Sequence::createWithTwoActions(
+        TintTo::create(interval/2, tint.r, tint.g,tint.b),
+        TintTo::create(interval/2, 255,255,255)
+    );
+    
+    Repeat* loop = Repeat::create(flicker, nCycles);
+    
+    return loop;
+}

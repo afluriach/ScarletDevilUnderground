@@ -17,6 +17,7 @@ public:
     static constexpr float fireDist = 1.0f;
     static const int defaultMaxHealth = 5;
     static constexpr float hitProtectionTime = 2.4f;
+    static constexpr float hitFlickerInterval = 0.3f;
 
     inline Player(const ValueMap& args) :
     GObject(args),

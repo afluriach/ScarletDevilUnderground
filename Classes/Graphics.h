@@ -114,6 +114,7 @@ public:
 };
 
 Action* flickerAction(float interval, float length, float opacity);
+Action* flickerTintAction(float interval, float length, Color3B tint);
 
 cocos2d::Size getScreenSize();
 

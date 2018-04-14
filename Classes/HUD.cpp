@@ -8,6 +8,7 @@
 
 #include "Prefix.h"
 #include "HUD.hpp"
+#include "Player.hpp"
 
 void HealthBar::setMax(int m)
 {
@@ -38,6 +39,13 @@ void HealthBar::setValue(int v)
         heartSprites.at(i)->setTexture("sprites/heart_empty.png");
     }
     crntVal = v;
+}
+
+void HealthBar::runFlicker()
+{
+    //TintTo action does not apply recursively.
+    for(int i=0;i<heartSprites.size(); ++i)
+        heartSprites.at(i)->runAction(flickerTintAction(Player::hitFlickerInterval, Player::hitProtectionTime,Color3B(127,127,127)));
 }
 
 //const Color4F HUD::backgroundColor = Color4F(0,0,0,0.75);
