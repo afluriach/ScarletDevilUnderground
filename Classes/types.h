@@ -20,6 +20,7 @@ enum class Direction{
     up,
     left,
     down,
+    end,
 };
 
 enum class GraphicsLayer{

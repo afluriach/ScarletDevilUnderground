@@ -41,4 +41,6 @@ inline ret method( signature ) \
 
 #define enum_increment(cls,lval) lval = static_cast<cls>( static_cast<int>(lval) + 1 )
 
+#define enum_foreach(cls,var_name,begin,end) for(cls var_name=cls::begin; var_name < cls::end; enum_increment(cls, var_name) )
+
 #endif /* macros_h */

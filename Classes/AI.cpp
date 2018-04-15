@@ -375,7 +375,7 @@ void Wander::update(StateMachine& fsm)
     vector<Direction> directions;
     SpaceVect target;
     
-    for(Direction d=Direction::right; d< Direction::none; enum_increment(Direction, d) )
+    enum_foreach(Direction,d,right,end)
     {
         target = dirToVector(d)*dist;
         if(!GScene::getSpace()->obstacleFeeler(fsm.agent, target)){
