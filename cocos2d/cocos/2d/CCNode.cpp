@@ -1712,12 +1712,35 @@ void Node::resume()
     _eventDispatcher->resumeEventListenersForTarget(this);
 }
 
+void Node::resumeRecursive()
+{
+    _scheduler->resumeTarget(this);
+    _actionManager->resumeTarget(this);
+    _eventDispatcher->resumeEventListenersForTarget(this);
+    
+    for(auto it = _children.begin(); it != _children.end(); ++it){
+        (*it)->resumeRecursive();
+    }
+}
+
 void Node::pause()
 {
     _scheduler->pauseTarget(this);
     _actionManager->pauseTarget(this);
     _eventDispatcher->pauseEventListenersForTarget(this);
 }
+
+void Node::pauseRecursive()
+{
+    _scheduler->pauseTarget(this);
+    _actionManager->pauseTarget(this);
+    _eventDispatcher->pauseEventListenersForTarget(this);
+    
+    for(auto it = _children.begin(); it != _children.end(); ++it){
+        (*it)->pauseRecursive();
+    }
+}
+
 
 void Node::resumeSchedulerAndActions()
 {

@@ -74,6 +74,7 @@ void PlayScene::enterPause()
 {
 	pauseMenu = PauseMenu::create();
 	getLayer(sceneLayers::menu)->addChild(pauseMenu);
+    pauseAnimations();
 	setPaused(true);
 }
 
@@ -81,5 +82,18 @@ void PlayScene::exitPause()
 {
 	getLayer(sceneLayers::menu)->removeChild(pauseMenu);
 	pauseMenu = nullptr;
+    resumeAnimations();
 	setPaused(false);
+}
+
+void PlayScene::pauseAnimations()
+{
+    getLayer(sceneLayers::space)->pauseRecursive();
+    getLayer(sceneLayers::hud)->pauseRecursive();
+}
+
+void PlayScene::resumeAnimations()
+{
+    getLayer(sceneLayers::space)->resumeRecursive();
+    getLayer(sceneLayers::hud)->resumeRecursive();
 }

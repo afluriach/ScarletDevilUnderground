@@ -55,9 +55,8 @@ public:
 	void enterPause();
 	void exitPause();
     
-    inline void setCameraTarget(GObject* target){
-        cameraTarget = target;
-    }
+    void pauseAnimations();
+    void resumeAnimations();
     
     HUD* hud;
 	PauseMenu* pauseMenu;

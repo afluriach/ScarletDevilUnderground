@@ -1450,12 +1450,14 @@ public:
      * This method is called internally by onEnter.
      */
     virtual void resume(void);
+    void resumeRecursive(void);
     /**
      * Pauses all scheduled selectors, actions and event listeners.
      * This method is called internally by onExit.
      */
     virtual void pause(void);
-
+    void pauseRecursive(void);
+    
     /**
      * Resumes all scheduled selectors, actions and event listeners.
      * This method is called internally by onEnter.
