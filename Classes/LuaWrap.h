@@ -9,6 +9,9 @@
 #ifndef LuaWrap_h
 #define LuaWrap_h
 
+#include "LuaConvert.h"
+#include "util.h"
+
 namespace Lua{
 
 class Class

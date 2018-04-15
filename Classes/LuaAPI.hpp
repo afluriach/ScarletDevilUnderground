@@ -11,6 +11,8 @@
 
 using namespace luabridge;
 
+#include "LuaConvert.h"
+
 namespace Lua
 {
     //Raise Lua exception

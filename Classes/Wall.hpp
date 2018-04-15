@@ -9,6 +9,8 @@
 #ifndef Wall_hpp
 #define Wall_hpp
 
+#include "GObject.hpp"
+
 class Wall : virtual public GObject, RectangleBody
 {
 public:

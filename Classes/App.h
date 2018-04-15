@@ -7,6 +7,10 @@
 The reason for implement as private inheritance is to hide some interface call by Director.
 */
 
+#include "controls.h"
+#include "LuaAPI.hpp"
+#include "LuaShell.hpp"
+
 class GScene;
 
 class  App : private Application

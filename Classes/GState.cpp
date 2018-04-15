@@ -9,6 +9,7 @@
 #include "Prefix.h"
 
 #include "GState.hpp"
+#include "util.h"
 
 GState GState::crntState;
 

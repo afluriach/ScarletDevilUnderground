@@ -10,6 +10,7 @@
 #define AIMixins_hpp
 
 #include "AI.hpp"
+#include "GObject.hpp"
 
 class StateMachineObject : virtual public GObject, RegisterUpdate<StateMachineObject>
 {

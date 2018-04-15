@@ -10,6 +10,7 @@
 #define Player_hpp
 
 #include "AIMixins.hpp"
+#include "GObject.hpp"
 
 class Collectible;
 

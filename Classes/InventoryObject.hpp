@@ -9,6 +9,8 @@
 #ifndef InventoryObject_hpp
 #define InventoryObject_hpp
 
+#include "GObject.hpp"
+
 //Represents an object that can be collected from the environment.
 //It is static, interactible, and disappears once obtained.
 class InventoryObject : virtual public GObject, public CircleBody, public ImageSprite, public InteractibleObject
@@ -31,14 +33,8 @@ public:
         return canAcquire();
     }
     
-    inline virtual void interact(){
-        onAcquire();
-        GState::crntState.itemRegistry.insert(itemName());
+    virtual void interact();
         
-        //remove item object
-        GScene::getSpace()->removeObject(this);
-    }
-    
     inline virtual string interactionIcon(){
         return "sprites/ui/item.png";
     }

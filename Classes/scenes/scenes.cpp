@@ -8,6 +8,9 @@
 
 #include "Prefix.h"
 
+#include "PlayScene.hpp"
+#include "scenes.h"
+
 GScene* GScene::crntScene;
 string GScene::crntSceneName;
 

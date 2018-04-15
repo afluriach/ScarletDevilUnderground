@@ -9,10 +9,9 @@
 #ifndef PlayScene_hpp
 #define PlayScene_hpp
 
-//Already included in PCH
-//#include "scenes.h"
-
 #include "HUD.hpp"
+#include "menu.h"
+#include "scenes.h"
 
 class PauseMenu;
 

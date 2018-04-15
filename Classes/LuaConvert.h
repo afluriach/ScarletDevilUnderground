@@ -9,6 +9,9 @@
 #ifndef LuaConvert_h
 #define LuaConvert_h
 
+#include "LuaError.h"
+#include "types.h"
+
 class GObject;
 
 namespace Lua{

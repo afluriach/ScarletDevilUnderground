@@ -8,6 +8,8 @@
 
 #include "Prefix.h"
 
+#include "Graphics.h"
+
 //Qualify Size for ambiguity.
 cocos2d::Size getScreenSize()
 {

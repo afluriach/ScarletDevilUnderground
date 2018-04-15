@@ -9,6 +9,8 @@
 #ifndef Reimu_h
 #define Reimu_h
 
+#include "Agent.hpp"
+
 class Reimu : public Agent, public DialogEntity
 {
 public:

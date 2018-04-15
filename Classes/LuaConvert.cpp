@@ -8,7 +8,11 @@
 
 #include "Prefix.h"
 
+#include "GObject.hpp"
+#include "Graph.hpp"
+#include "GState.hpp"
 #include "LuaWrap.h"
+#include "scenes.h"
 
 class Spellcaster;
 

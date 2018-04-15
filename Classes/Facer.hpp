@@ -9,8 +9,6 @@
 #ifndef Facer_hpp
 #define Facer_hpp
 
-#include "AI.hpp"
-#include "AIMixins.hpp"
 #include "Agent.hpp"
 
 class Facer : public Agent, public TouchDamageEnemy

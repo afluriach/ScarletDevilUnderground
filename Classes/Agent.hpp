@@ -11,6 +11,7 @@
 
 #include "AI.hpp"
 #include "AIMixins.hpp"
+#include "GObject.hpp"
 
 class Agent : virtual public GObject, public PatchConSprite, public CircleBody, public StateMachineObject, public RadarObject, public Spellcaster, RegisterInit<Agent>
 {

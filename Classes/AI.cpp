@@ -7,7 +7,9 @@
 //
 
 #include "Prefix.h"
+
 #include "AI.hpp"
+#include "GObject.hpp"
 
 namespace ai{
 
@@ -173,6 +175,15 @@ void StateMachine::pop()
     
     if(!states.empty())
         states.back()->onReturn(*this);
+}
+
+
+void Detect::onDetect(StateMachine& sm, GObject* obj)
+{
+    if(obj->getName() == target_name)
+    {
+        sm.push(nextState(obj));
+    }
 }
 
 Seek::Seek(const ValueMap& args) {

@@ -7,6 +7,7 @@
 //
 
 #include "Prefix.h"
+
 #include "Bullet.hpp"
 
 const vector<string> StarBullet::colors = list_of_typed(

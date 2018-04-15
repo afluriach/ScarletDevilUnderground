@@ -49,6 +49,10 @@
 #include "lua.hpp"
 #include "LuaBridge.h"
 
+#if defined(TARGET_OS_IOS) && defined(__OBJC__)
+    #import "platform/ios/CCEAGLView-ios.h"
+#endif
+
 //Boost modules
 #include <boost/algorithm/string.hpp>
 #include <boost/algorithm/string/predicate.hpp>
@@ -74,29 +78,5 @@ using namespace std;
 USING_NS_CC;
 using namespace cp;
 using namespace luabridge;
-
-//app modules that are often used.
-#include "macros.h"
-#include "types.h"
-#include "util.h"
-#include "Graph.hpp"
-#include "multifunction.h"
-
-#include "controls.h"
-#include "LuaError.h"
-#include "LuaConvert.h"
-#include "LuaAPI.hpp"
-#include "LuaShell.hpp"
-#include "GState.hpp"
-#include "App.h"
-#include "Spell.hpp"
-#include "GAnimation.hpp"
-#include "GSpace.hpp"
-#include "GObject.hpp"
-#include "Graphics.h"
-#include "Dialog.hpp"
-#include "scenes.h"
-#include "PlayScene.hpp"
-#include "menu.h"
 
 #endif /* Prefix_h */

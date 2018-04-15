@@ -7,8 +7,8 @@
 //
 
 #include "Prefix.h"
+
 #include "Facer.hpp"
-#include "AI.hpp"
 
 void Facer::onPlayerBulletHit(Bullet* bullet)
 {

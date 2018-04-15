@@ -9,6 +9,8 @@
 #ifndef Garden_hpp
 #define Garden_hpp
 
+#include "PlayScene.hpp"
+
 class GardenBlooming : public PlayScene
 {
 public:

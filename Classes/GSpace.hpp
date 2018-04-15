@@ -9,9 +9,9 @@
 #ifndef GSpace_hpp
 #define GSpace_hpp
 
-class GObject;
+#include "types.h"
 
-//GSpace.hpp is already included in PCH
+class GObject;
 
 #define OBJS_FROM_ARB \
     GObject* a = static_cast<GObject*>(arb.getBodyA().getUserData()); \

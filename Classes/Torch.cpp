@@ -7,6 +7,8 @@
 //
 
 #include "Prefix.h"
+
+#include "GAnimation.hpp"
 #include "Torch.hpp"
 
 void Torch::initializeGraphics(Layer* layer)

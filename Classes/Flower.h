@@ -9,6 +9,8 @@
 #ifndef Flower_h
 #define Flower_h
 
+#include "GObject.hpp"
+
 class Flower : virtual public GObject, CircleBody, ImageSprite
 {
 public:

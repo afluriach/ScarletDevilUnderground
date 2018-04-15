@@ -8,6 +8,10 @@
 
 #include "Prefix.h"
 
+#include "App.h"
+#include "macros.h"
+#include "util.h"
+
 const string defaultFont = "Arial";
 
 const float primaryAngles[4] = {0.0f, float_pi * 0.5f, float_pi, float_pi * 1.5f};

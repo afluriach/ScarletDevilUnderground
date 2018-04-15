@@ -8,7 +8,5 @@
 
 #include "Prefix.h"
 #include "Stalker.hpp"
-#include "Player.hpp"
-#include "AI.hpp"
 
 const int Stalker::maxHP = 12;

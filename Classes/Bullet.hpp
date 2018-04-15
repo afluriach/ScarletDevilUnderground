@@ -9,6 +9,8 @@
 #ifndef Bullet_hpp
 #define Bullet_hpp
 
+#include "GObject.hpp"
+
 class Bullet : virtual public GObject, public CircleBody
 {
 public:

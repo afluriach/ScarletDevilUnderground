@@ -8,8 +8,8 @@
 
 #include "Prefix.h"
 
-//Already included in PCH
-//#include "controls.h"
+#include "App.h"
+#include "controls.h"
 
 //Backtick "KEY_TILDE" enum does not work on OS X.
 const EventKeyboard::KeyCode backtickKey = static_cast<EventKeyboard::KeyCode>(123);

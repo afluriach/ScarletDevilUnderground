@@ -9,8 +9,16 @@
 #ifndef GObject_hpp
 #define GObject_hpp
 
+#include "App.h"
+#include "GAnimation.hpp"
+#include "macros.h"
+#include "multifunction.h"
+#include "types.h"
+
 class Player;
 class Bullet;
+class GSpace;
+class Spell;
 
 class GObject
 {
@@ -226,19 +234,7 @@ class RectangleBody : public virtual GObject
 {
 public:
     //Create body and add it to space. This assumes BB is rectangle dimensions
-    virtual inline void initializeBody(GSpace& space)
-    {
-        body = space.createRectangleBody(
-            initialCenter,
-            getDimensions(),
-            getMass(),
-            getType(),
-            getLayers(),
-            getSensor(),
-            this
-        );
-    }
-    
+    virtual void initializeBody(GSpace& space);    
     virtual inline SpaceVect getDimensions() const = 0;
 };
 
@@ -262,18 +258,7 @@ public:
     virtual float getRadius() const = 0;
 
     //Create body and add it to space. This assumes BB is rectangle dimensions
-    virtual inline void initializeBody(GSpace& space)
-    {
-        body = space.createCircleBody(
-            initialCenter,
-            getRadius(),
-            getMass(),
-            getType(),
-            getLayers(),
-            getSensor(),
-            this
-        );
-    }
+    virtual void initializeBody(GSpace& space);
 };
 
 class FrictionObject : public virtual GObject, RegisterUpdate<FrictionObject>

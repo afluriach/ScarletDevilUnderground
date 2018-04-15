@@ -7,7 +7,16 @@
 //
 
 #include "Prefix.h"
+
+#include "App.h"
+#include "GObject.hpp"
+#include "Graph.hpp"
+#include "GSpace.hpp"
+#include "GState.hpp"
+#include "HUD.hpp"
 #include "LuaWrap.h"
+#include "PlayScene.hpp"
+#include "scenes.h"
 
 namespace Lua{
 

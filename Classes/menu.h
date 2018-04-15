@@ -9,6 +9,8 @@
 #ifndef menu_h
 #define menu_h
 
+#include "Graphics.h"
+
 class SceneSelect;
 
 class TextListMenuLayer : public Layer

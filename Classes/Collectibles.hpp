@@ -9,6 +9,8 @@
 #ifndef Collectibles_hpp
 #define Collectibles_hpp
 
+#include "GObject.hpp"
+
 class Collectible : public virtual GObject
 {
 };

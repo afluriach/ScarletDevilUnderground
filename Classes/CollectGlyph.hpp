@@ -9,6 +9,8 @@
 #ifndef CollectGlyph_h
 #define CollectGlyph_h
 
+#include "GObject.hpp"
+
 class CollectGlyph : public virtual GObject, RectangleBody, ImageSprite
 {
 public:

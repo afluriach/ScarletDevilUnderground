@@ -8,6 +8,13 @@
 
 #include "Prefix.h"
 
+#include "GObject.hpp"
+#include "Graphics.h"
+#include "GSpace.hpp"
+#include "Player.hpp"
+#include "scenes.h"
+#include "Spell.hpp"
+
 unsigned int GObject::nextUUID = 1;
 
 GObject::GObject(const ValueMap& obj) :
@@ -136,9 +143,35 @@ Vec2 GObject::getInitialCenterPix()
     return toCocos(centerPix);
 }
 
+void RectangleBody::initializeBody(GSpace& space)
+{
+    body = space.createRectangleBody(
+        initialCenter,
+        getDimensions(),
+        getMass(),
+        getType(),
+        getLayers(),
+        getSensor(),
+        this
+    );
+}
+
 SpaceVect RectangleMapBody::getDimensionsFromMap(const ValueMap& arg)
 {
     return SpaceVect(getFloat(arg, "dim_x"), getFloat(arg, "dim_y"));
+}
+
+void CircleBody::initializeBody(GSpace& space)
+{
+    body = space.createCircleBody(
+        initialCenter,
+        getRadius(),
+        getMass(),
+        getType(),
+        getLayers(),
+        getSensor(),
+        this
+    );
 }
 
 void ImageSprite::loadImageSprite(const string& resPath, GraphicsLayer sceneLayer, Layer* dest)

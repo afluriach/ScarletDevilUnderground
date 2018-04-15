@@ -9,6 +9,8 @@
 #ifndef util_h
 #define util_h
 
+#include "types.h"
+
 //Define assignment conversion between cocos and chipmunk vectors
 Vec2 toCocos(const SpaceVect& rhs);
 SpaceVect toChipmunk(const Vec2& rhs);

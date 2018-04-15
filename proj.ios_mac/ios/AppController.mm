@@ -23,8 +23,9 @@
  ****************************************************************************/
 
 #include "Prefix.h"
+
+#import "App.h"
 #import "AppController.h"
-#import "platform/ios/CCEAGLView-ios.h"
 #import "RootViewController.h"
 
 @implementation AppController

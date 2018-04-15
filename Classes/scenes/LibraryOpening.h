@@ -10,6 +10,7 @@
 #define LibraryOpening_h
 
 #include "Dialog.hpp"
+#include "scenes.h"
 
 class LibraryOpening : public GScene
 {

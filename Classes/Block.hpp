@@ -9,6 +9,8 @@
 #ifndef Block_hpp
 #define Block_hpp
 
+#include "GObject.hpp"
+
 class Block : virtual public GObject, RectangleBody, ImageSprite, FrictionObject
 {
 public:

@@ -9,8 +9,6 @@
 #ifndef Follower_hpp
 #define Follower_hpp
 
-#include "AI.hpp"
-#include "AIMixins.hpp"
 #include "Agent.hpp"
 
 class Follower : public Agent, public TouchDamageEnemy

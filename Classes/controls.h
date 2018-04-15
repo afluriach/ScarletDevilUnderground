@@ -9,6 +9,8 @@
 #ifndef controls_h
 #define controls_h
 
+#include "util.h"
+
 enum class Keys
 {
     moveUp = 1,

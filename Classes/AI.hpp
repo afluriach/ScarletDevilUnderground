@@ -9,7 +9,12 @@
 #ifndef AI_hpp
 #define AI_hpp
 
+#include "GSpace.hpp"
+#include "scenes.h"
+#include "types.h"
+
 class Agent;
+class GObject;
 
 namespace ai{
 
@@ -124,11 +129,7 @@ public:
     nextState(nextState)
     {}
 
-    inline virtual void onDetect(StateMachine& sm, GObject* obj){
-        if(obj->getName() == target_name){
-            sm.push(nextState(obj));
-        }
-    }
+    virtual void onDetect(StateMachine& sm, GObject* obj);
 protected:
     string target_name;
     Generator nextState;

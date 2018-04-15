@@ -9,6 +9,11 @@
 #ifndef Spell_hpp
 #define Spell_hpp
 
+#include "App.h"
+#include "LuaAPI.hpp"
+#include "macros.h"
+#include "util.h"
+
 class GObject;
 class Spellcaster;
 

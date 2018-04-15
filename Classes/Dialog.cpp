@@ -9,6 +9,8 @@
 #include "Prefix.h"
 
 #include "Dialog.hpp"
+#include "macros.h"
+#include "scenes.h"
 
 const Color4F Dialog::backgroundColor = Color4F(0.5, 0.5, 0.5, 0.5);
 

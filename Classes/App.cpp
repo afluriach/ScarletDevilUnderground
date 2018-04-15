@@ -1,7 +1,9 @@
 #include "Prefix.h"
 
-//Already included in PCH
-//#include "App.h"
+#include "App.h"
+#include "menu.h"
+#include "GState.hpp"
+#include "scenes.h"
 
 App* app;
 

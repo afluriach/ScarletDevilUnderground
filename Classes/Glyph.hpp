@@ -9,6 +9,8 @@
 #ifndef Glyph_hpp
 #define Glyph_hpp
 
+#include "GObject.hpp"
+
 class Glyph : public virtual GObject, RectangleBody, ImageSprite, RegisterInit<Glyph>
 {
 public:

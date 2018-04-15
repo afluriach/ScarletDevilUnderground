@@ -10,6 +10,9 @@
 
 //scenes
 #include "LibraryOpening.h"
+#include "menu.h"
+#include "PlayScene.hpp"
+#include "scenes.h"
 
 TextListMenuLayer::TextListMenuLayer(
     const string& title,

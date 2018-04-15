@@ -9,8 +9,16 @@
 #ifndef scenes_h
 #define scenes_h
 
-class PlayScene;
+#include "App.h"
+#include "controls.h"
+#include "Dialog.hpp"
+#include "GSpace.hpp"
+#include "LuaAPI.hpp"
+#include "macros.h"
+#include "multifunction.h"
+
 class HUD;
+class PlayScene;
 
 class GScene : public Layer
 {

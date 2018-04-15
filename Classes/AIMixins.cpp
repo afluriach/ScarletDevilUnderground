@@ -7,6 +7,7 @@
 //
 
 #include "Prefix.h"
+
 #include "AIMixins.hpp"
 
 StateMachineObject::StateMachineObject(shared_ptr<ai::State> startState, const ValueMap& args) :

@@ -7,8 +7,11 @@
 //
 
 #include "Prefix.h"
+
 #include "Bullet.hpp"
+#include "GSpace.hpp"
 #include "Spell.hpp"
+#include "scenes.h"
 
 void FireStarburst::runPeriodic()
 {

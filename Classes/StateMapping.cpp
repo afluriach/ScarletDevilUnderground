@@ -7,6 +7,7 @@
 //
 
 #include "Prefix.h"
+
 #include "AI.hpp"
 
 using namespace ai;

@@ -8,6 +8,13 @@
 
 #include "Prefix.h"
 
+#include "App.h"
+#include "GSpace.hpp"
+#include "LuaAPI.hpp"
+#include "macros.h"
+#include "scenes.h"
+#include "util.h"
+
 //Copied from ltm.h.
 //#define ttypename(x)	luaT_typenames_[(x) + 1]
 //extern const char *const luaT_typenames_[LUA_NUMTAGS+2];

@@ -8,26 +8,23 @@
 
 #include "Prefix.h"
 
+#include "Agent.hpp"
 #include "Block.hpp"
 #include "Bullet.hpp"
-#include "Flower.h"
-#include "Glyph.hpp"
-#include "Torch.hpp"
 #include "CollectGlyph.hpp"
-
-#include "Marisa.hpp"
-#include "Patchouli.hpp"
-#include "Reimu.hpp"
-
+#include "Collectibles.hpp"
 #include "Facer.hpp"
 #include "Follower.hpp"
-#include "Stalker.hpp"
-#include "Agent.hpp"
-
-#include "Player.hpp"
-
+#include "Flower.h"
+#include "Glyph.hpp"
+#include "GState.hpp"
 #include "Items.hpp"
-#include "Collectibles.hpp"
+#include "Marisa.hpp"
+#include "Patchouli.hpp"
+#include "Player.hpp"
+#include "Reimu.hpp"
+#include "Stalker.hpp"
+#include "Torch.hpp"
 
 //Adapters for mapping the name of a class to a factory adapter.
 template <typename T>

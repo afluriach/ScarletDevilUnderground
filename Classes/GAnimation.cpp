@@ -8,8 +8,7 @@
 
 #include "Prefix.h"
 
-//Already in PCH
-//#include "GAnimation.hpp"
+#include "GAnimation.hpp"
 
 shared_ptr<AnimationSpriteSequence> AnimationSpriteSequence::loadFromRasterImage(const string& path, int cols, int rows)
 {

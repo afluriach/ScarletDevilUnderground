@@ -7,6 +7,7 @@
 //
 
 #include "Prefix.h"
+
 #include "Spell.hpp"
 
 #define entry(name,cls) (name, adapter<cls>())

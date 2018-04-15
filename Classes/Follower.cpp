@@ -7,8 +7,8 @@
 //
 
 #include "Prefix.h"
+
 #include "Follower.hpp"
-#include "AI.hpp"
 
 void Follower::onPlayerBulletHit(Bullet* bullet)
 {

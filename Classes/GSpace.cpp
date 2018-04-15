@@ -7,9 +7,14 @@
 //
 
 #include "Prefix.h"
+
+#include "AIMixins.hpp"
 #include "Bullet.hpp"
-#include "Wall.hpp"
 #include "Collectibles.hpp"
+#include "GSpace.hpp"
+#include "macros.h"
+#include "Player.hpp"
+#include "Wall.hpp"
 
 class RadarObject;
 

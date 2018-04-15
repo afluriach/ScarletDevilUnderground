@@ -9,8 +9,6 @@
 #ifndef Stalker_hpp
 #define Stalker_hpp
 
-#include "AI.hpp"
-#include "AIMixins.hpp"
 #include "Agent.hpp"
 
 class Stalker : public Agent, virtual HitPointsEnemy, virtual TouchDamageEnemy, virtual PlayerBulletDamage

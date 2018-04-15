@@ -12,7 +12,14 @@
 //A dialog frame is simply a function that takes a reference to a Dialog and applies some operation to it.
 //In most cases it will set the message text.
 //It can also change the title or dialog colors.
+
+#include "App.h"
+#include "controls.h"
+#include "Graphics.h"
+#include "util.h"
+
 class Dialog;
+
 typedef function<void(Dialog&)> DialogFrame;
 
 class Dialog : public Node
