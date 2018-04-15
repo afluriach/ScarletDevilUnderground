@@ -12,5 +12,5 @@
 
 void Follower::onPlayerBulletHit(Bullet* bullet)
 {
-    rotate(float_pi/2);
+    rotate(-0.5f*float_pi);
 }

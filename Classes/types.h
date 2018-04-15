@@ -15,11 +15,11 @@ typedef cp::Vect SpaceVect;
 typedef vector<SpaceVect> Path;
 
 enum class Direction{
-    right=1,
+    none = 0,
+    right,
     up,
     left,
     down,
-    none,
 };
 
 enum class GraphicsLayer{

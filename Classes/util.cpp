@@ -10,6 +10,8 @@
 
 const string defaultFont = "Arial";
 
+const float primaryAngles[4] = {0.0f, float_pi * 0.5f, float_pi, float_pi * 1.5f};
+
 Scene* crntScene()
 {
     return Director::getInstance()->getRunningScene();
@@ -29,14 +31,9 @@ void printValueMap(const ValueMap& obj)
 
 float dirToPhysicsAngle(Direction d)
 {
-    switch(d){
-	default:
-    case Direction::none:
-    case Direction::right: return 0.0f;
-    case Direction::up: return float_pi / 2.0f;
-    case Direction::left: return float_pi;
-    case Direction::down: return float_pi * 3.0f / 2.0f;
-    }
+    if(d == Direction::none) return 0.0f;
+    
+    return primaryAngles[static_cast<int>(d)-1];
 }
 
 SpaceVect dirToVector(Direction d)
@@ -49,39 +46,27 @@ Direction toDirection(SpaceVect v)
 {
     if(v.x == 0 && v.y == 0)
         return Direction::none;
-
-    float a = toCocos(v).getAngle();
     
-    if(a >= -1.0/4.0*float_pi && a < 1.0/4.0*float_pi)
-        return Direction::right;
-
-    if(a >=1.0/4.0*float_pi && a < 3.0/4.0*float_pi)
-        return Direction::up;
-    if(a >= -3.0/4.0*float_pi && a < -1.0/4.0*float_pi)
-        return Direction::down;
-    
-    if(a >= 3.0/4.0*float_pi || a < -3.0/4.0*float_pi)
-        return Direction::left;
-    
-    //shouldn't happen
-    return Direction::none;
+    return angleToDirection(toCocos(v).getAngle());
 }
 
+//round to nearest primary direction
 Direction angleToDirection(float a)
 {
-    if(a >= -1.0/4.0*float_pi && a < 1.0/4.0*float_pi)
-        return Direction::right;
-
-    if(a >=1.0/4.0*float_pi && a < 3.0/4.0*float_pi)
-        return Direction::up;
-    if(a >= -3.0/4.0*float_pi && a < -1.0/4.0*float_pi)
-        return Direction::down;
+    int closest = 0;
+    float distance = float_pi;
+    float angle = canonicalAngle(a);
     
-    if(a >= 3.0/4.0*float_pi || a < -3.0/4.0*float_pi)
-        return Direction::left;
+    for(int i=0;i<4; ++i){
+        float crnt = abs(angle - primaryAngles[i]);
+        
+        if(crnt < distance){
+            closest = i;
+            distance = crnt;
+        }
+    }
     
-    //shouldn't happen
-    return Direction::none;
+    return static_cast<Direction>(closest+1);
 }
 
 
