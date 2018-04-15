@@ -14,6 +14,15 @@
 #pragma warning(disable : 4250)	
 #endif
 
+#if defined(TARGET_OS_OSX) && defined(__OBJC__)
+	#import <Cocoa/Cocoa.h>
+#endif
+
+#if defined(TARGET_OS_IOS) && defined(__OBJC__)
+    #import <Foundation/Foundation.h>
+    #import <UIKit/UIKit.h>
+#endif
+
 //External includes should also be copied to build specific PCH.
 
 //C standard libraries
