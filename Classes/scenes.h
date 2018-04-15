@@ -11,12 +11,12 @@
 
 #include "App.h"
 #include "controls.h"
-#include "Dialog.hpp"
 #include "GSpace.hpp"
 #include "LuaAPI.hpp"
 #include "macros.h"
 #include "multifunction.h"
 
+class Dialog;
 class HUD;
 class PlayScene;
 
@@ -118,14 +118,9 @@ public:
     
     void createDialog(const string& res, bool autoAdvance);
     void stopDialog();
-    inline Vec2 dialogPosition()
-    {
-        return Vec2(App::width/2, Dialog::height/2 + dialogEdgeMargin);
-    }
+    Vec2 dialogPosition();
     
-    static inline bool isDialogActive(){
-        return crntScene->dialogNode != nullptr;
-    }
+    static bool isDialogActive();
     
 protected:
     Dialog* dialogNode = nullptr;

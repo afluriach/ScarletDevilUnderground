@@ -14,6 +14,13 @@
 
 const Color4F Dialog::backgroundColor = Color4F(0.5, 0.5, 0.5, 0.5);
 
+Dialog::~Dialog()
+{
+    removeChild(bodyText);
+    removeChild(backgroundNode);
+    removeChild(cursor);
+}
+
 //This will advance the dialog based on time.
 void Dialog::checkTimedAdvance()
 {

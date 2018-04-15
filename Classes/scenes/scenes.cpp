@@ -8,6 +8,7 @@
 
 #include "Prefix.h"
 
+#include "Dialog.hpp"
 #include "PlayScene.hpp"
 #include "scenes.h"
 
@@ -84,6 +85,16 @@ void GScene::update(float dt)
 void GScene::setPaused(bool p){
     isPaused = p;
 }
+
+Vec2 GScene::dialogPosition()
+{
+    return Vec2(App::width/2, Dialog::height/2 + dialogEdgeMargin);
+}
+    
+ bool GScene::isDialogActive(){
+    return crntScene->dialogNode != nullptr;
+}
+
 
 void MapScene::loadObjectGroup(TMXObjectGroup* group)
 {

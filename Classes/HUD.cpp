@@ -8,6 +8,7 @@
 
 #include "Prefix.h"
 
+#include "Graphics.h"
 #include "HUD.hpp"
 #include "Player.hpp"
 

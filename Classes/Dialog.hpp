@@ -31,6 +31,8 @@ public:
     virtual bool init();
     virtual void update(float dt);
     
+    virtual ~Dialog();
+    
     //dimensions are in UI coordinates (based on an 800x500 area)
     static const int width = 600;
     static const int height = 200;

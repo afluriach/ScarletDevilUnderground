@@ -8,11 +8,11 @@
 
 #include "Prefix.h"
 
-#include "HUD.hpp"
-#include "Bullet.hpp"
 #include "AI.hpp"
+#include "Bullet.hpp"
 #include "Collectibles.hpp"
-
+#include "Graphics.h"
+#include "HUD.hpp"
 #include "Player.hpp"
 
 void Player::checkControls()
