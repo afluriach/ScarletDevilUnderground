@@ -39,6 +39,7 @@ enum class GType{
     wall,
     playerSensor,
     objectSensor,
+    collectible,
 	none,
 };
 

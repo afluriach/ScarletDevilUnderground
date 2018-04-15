@@ -48,6 +48,24 @@ private:
     int val;
 };
 
+class PowerMeter : public Node
+{
+public:
+    CREATE_FUNC(PowerMeter);
+
+    static const int iconSize = 64;
+    
+    //Distance between icon and counter label.
+    static const int spacing = 32;
+
+    bool init();
+    void setVal(int val);
+private:
+    Sprite* icon;
+    Label* counter;
+    int val;
+};
+
 class HUD : public Layer
 {
 public:
@@ -64,6 +82,7 @@ public:
     virtual bool init();
 
     HealthBar* health;
+    PowerMeter* power;
     Counter* objectiveCounter;    
     Sprite* interactionIcon;
     

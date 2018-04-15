@@ -11,11 +11,14 @@
 
 #include "AIMixins.hpp"
 
+class Collectible;
+
 class Player : virtual public GObject, PatchConSprite, CircleBody, RegisterUpdate<Player>, RadarObject
 {
 public:
     static constexpr float fireDist = 1.0f;
     static const int defaultMaxHealth = 5;
+    static const int defaultMaxPower = 500;
     static constexpr float hitProtectionTime = 2.4f;
     static constexpr float hitFlickerInterval = 0.3f;
 
@@ -57,6 +60,18 @@ public:
         return maxHealth;
     }
     
+    inline int getPower(){
+        return power;
+    }
+    
+    inline bool consumePower(int val){
+        if(power >= val){
+            power -= val;
+            return true;
+        }
+        return false;
+    }
+    
     void setMaxHealth(int val);
 
     virtual inline float getRadius() const {return 0.35f;}
@@ -71,11 +86,17 @@ public:
     void checkControls();
     void fireIfPossible();
     void fire();
+    
+    void onCollectible(Collectible* coll);
 protected:
     float hitProtectionCountdown;
     float lastFireTime = 0;
+    
     int maxHealth = defaultMaxHealth;
     int health = defaultMaxHealth;
+    
+    int maxPower = defaultMaxPower;
+    int power = 100;
 };
 
 #endif /* Player_hpp */

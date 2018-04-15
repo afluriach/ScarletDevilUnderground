@@ -67,6 +67,24 @@ Direction toDirection(SpaceVect v)
     return Direction::none;
 }
 
+Direction angleToDirection(float a)
+{
+    if(a >= -1.0/4.0*float_pi && a < 1.0/4.0*float_pi)
+        return Direction::right;
+
+    if(a >=1.0/4.0*float_pi && a < 3.0/4.0*float_pi)
+        return Direction::up;
+    if(a >= -3.0/4.0*float_pi && a < -1.0/4.0*float_pi)
+        return Direction::down;
+    
+    if(a >= 3.0/4.0*float_pi || a < -3.0/4.0*float_pi)
+        return Direction::left;
+    
+    //shouldn't happen
+    return Direction::none;
+}
+
+
 #define enum_strcmp(val) if(str == #val) return Direction::val;
 Direction stringToDirection(string str)
 {
@@ -195,4 +213,9 @@ void checkCreateProfileSubfolder()
 string getProfilePath()
 {
     return FileUtils::getInstance()->getWritablePath() + "koumachika/profile.dat";
+}
+
+float canonicalAngle(float a)
+{
+    return a - float_2pi * floor( a / float_2pi);
 }

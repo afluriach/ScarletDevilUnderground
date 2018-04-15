@@ -9,6 +9,7 @@
 #include "Prefix.h"
 #include "Bullet.hpp"
 #include "Wall.hpp"
+#include "Collectibles.hpp"
 
 class RadarObject;
 
@@ -551,6 +552,18 @@ int GSpace::playerFlowerBegin(GObject* a, GObject* b)
     return 1;
 }
 
+int GSpace::playerCollectibleBegin(GObject* a, GObject* b)
+{
+    Player* p = dynamic_cast<Player*>(a);
+    Collectible* c = dynamic_cast<Collectible*>(b);
+    
+    if(p && c){
+        p->onCollectible(c);
+    }
+    
+    return 0;
+}
+
 int GSpace::bulletEnvironment(GObject* a, GObject* b)
 {
 //    log("%s hit object %s",  a->name.c_str(), b->name.c_str());
@@ -614,6 +627,7 @@ void GSpace::addCollisionHandlers()
 	_addHandlerNoEnd(enemyBullet, foliage, noCollide);
 	_addHandlerNoEnd(playerBullet, enemyBullet, noCollide);
 	_addHandlerNoEnd(player, foliage, playerFlowerBegin);
+    _addHandlerNoEnd(player,collectible,playerCollectibleBegin);
 	_addHandlerNoEnd(playerBullet, wall, bulletWall);
 	_addHandlerNoEnd(enemyBullet, wall, bulletWall);    
 	_addHandler(playerSensor, player, sensorStart, sensorEnd);

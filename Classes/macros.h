@@ -34,6 +34,7 @@ inline ret method( signature ) \
 #define init_float_field(field,default) field(getFloatOrDefault(args, #field, default))
 
 #define float_pi boost::math::constants::pi<float>()
+#define float_2pi (float_pi * 2.0f)
 
 //Requires an appropriately defined wrap method (currently only GScene and GObject support this)
 #define wrap_method(cls,method,This) wrapMethod<cls,&cls::method>(This)

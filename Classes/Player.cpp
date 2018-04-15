@@ -11,6 +11,7 @@
 #include "HUD.hpp"
 #include "Bullet.hpp"
 #include "AI.hpp"
+#include "Collectibles.hpp"
 
 #include "Player.hpp"
 
@@ -80,9 +81,10 @@ void Player::updateFireTime()
 
 void Player::fireIfPossible()
 {
-    if(lastFireTime >= getFireInterval())
+    if(lastFireTime >= getFireInterval() && power > 0)
     {
         lastFireTime = 0;
+        consumePower(1);
         fire();
     }
 }
@@ -119,4 +121,18 @@ void Player::setMaxHealth(int val){
     
     if(GScene::playScene())
         GScene::getHUD()->health->setMax(maxHealth);
+}
+
+void Player::onCollectible(Collectible* coll)
+{
+    PowerUp* p = dynamic_cast<PowerUp*>(coll);
+    
+    if(p){
+        power += 10;
+        
+        if(power > maxPower)
+            power = maxPower;
+        
+        GScene::getSpace()->removeObject(coll);
+    }
 }

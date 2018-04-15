@@ -111,6 +111,15 @@ void PatchConSprite::update()
     animSprite->accumulate(dist.length());
 }
 
+
+
+void PatchConSprite::setAngle(float a)
+{
+    GObject::setAngle(a);
+    
+    setDirection(angleToDirection(a));
+}
+
 void PatchConSprite::setDirection(Direction d)
 {
     GObject::setDirection(d);

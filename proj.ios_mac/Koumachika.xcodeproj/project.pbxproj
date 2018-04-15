@@ -121,6 +121,8 @@
 		E271853A1C0E252D006EA1EB /* Garden.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E27185371C0E252D006EA1EB /* Garden.cpp */; };
 		E27E857B1BE0178800A94217 /* GSpace.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E27E85791BE0178800A94217 /* GSpace.cpp */; };
 		E27E857C1BE0178800A94217 /* GSpace.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E27E85791BE0178800A94217 /* GSpace.cpp */; };
+		E284D1D72082D0920098B29A /* Collectibles.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E284D1D52082D0920098B29A /* Collectibles.cpp */; };
+		E284D1D82082D0920098B29A /* Collectibles.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E284D1D52082D0920098B29A /* Collectibles.cpp */; };
 		E28D89851BDFE7CD00F58903 /* util.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E28D89841BDFE7CD00F58903 /* util.cpp */; };
 		E28D89861BDFE7CD00F58903 /* util.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E28D89841BDFE7CD00F58903 /* util.cpp */; };
 		E29499A41FA1D4FC00179C82 /* libboost.a in Frameworks */ = {isa = PBXBuildFile; fileRef = E29499A31FA1D4FC00179C82 /* libboost.a */; };
@@ -298,6 +300,8 @@
 		E27E85791BE0178800A94217 /* GSpace.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = GSpace.cpp; sourceTree = "<group>"; };
 		E27E857A1BE0178800A94217 /* GSpace.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = GSpace.hpp; sourceTree = "<group>"; };
 		E282936F1BC5CA65005363B0 /* Graphics.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Graphics.h; sourceTree = "<group>"; };
+		E284D1D52082D0920098B29A /* Collectibles.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Collectibles.cpp; sourceTree = "<group>"; };
+		E284D1D62082D0920098B29A /* Collectibles.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = Collectibles.hpp; sourceTree = "<group>"; };
 		E28D89841BDFE7CD00F58903 /* util.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = util.cpp; sourceTree = "<group>"; };
 		E29499A11FA1D30700179C82 /* libboost.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libboost.a; path = ../../../lib/boost59/ios/build/arm64/libboost.a; sourceTree = "<group>"; };
 		E29499A31FA1D4FC00179C82 /* libboost.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libboost.a; path = ../../../lib/boost59/osx/build/x86_64/libboost.a; sourceTree = "<group>"; };
@@ -607,6 +611,8 @@
 				E2CDC54D1C051FFC0017537B /* Bullet.cpp */,
 				E2CDC54E1C051FFC0017537B /* Bullet.hpp */,
 				E268FC4F1C1CF2C1007A425B /* CollectGlyph.hpp */,
+				E284D1D52082D0920098B29A /* Collectibles.cpp */,
+				E284D1D62082D0920098B29A /* Collectibles.hpp */,
 				E2198F8B206825BC00832E0C /* Facer.cpp */,
 				E2198F8C206825BC00832E0C /* Facer.hpp */,
 				E27185361C0E0CF8006EA1EB /* Flower.h */,
@@ -815,6 +821,7 @@
 				E2249BC31CF740B300B1D666 /* Items.cpp in Sources */,
 				E2198F8D206825BC00832E0C /* Facer.cpp in Sources */,
 				503AE10017EB989F00D1A890 /* AppController.mm in Sources */,
+				E284D1D72082D0920098B29A /* Collectibles.cpp in Sources */,
 				E2CDC54B1C0507090017537B /* Player.cpp in Sources */,
 				E2C9E5E01C09267C00CA7C88 /* Patchouli.cpp in Sources */,
 				E27185391C0E252D006EA1EB /* Garden.cpp in Sources */,
@@ -873,6 +880,7 @@
 				E244502F1C03A760006D78B0 /* scenes.cpp in Sources */,
 				E2A846841FE0D6B8001DFF88 /* Stalker.cpp in Sources */,
 				E2CDC5501C051FFC0017537B /* Bullet.cpp in Sources */,
+				E284D1D82082D0920098B29A /* Collectibles.cpp in Sources */,
 				E23E1B2D1C014A0A00F7FAC1 /* LuaShell.cpp in Sources */,
 				E2CDC54C1C0507090017537B /* Player.cpp in Sources */,
 				E2249BC01CF73CE000B1D666 /* InventoryObject.cpp in Sources */,

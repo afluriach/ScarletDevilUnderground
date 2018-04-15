@@ -27,6 +27,7 @@
 #include "Player.hpp"
 
 #include "Items.hpp"
+#include "Collectibles.hpp"
 
 //Adapters for mapping the name of a class to a factory adapter.
 template <typename T>
@@ -64,6 +65,8 @@ const unordered_map<string,GObject::AdapterType> GObject::adapters =
     entry_same(Glyph)
     entry_same(Torch)
     entry_same(CollectGlyph)
+
+    entry_same(PowerUp)
 
     item_entry_same(GraveyardKey)
 

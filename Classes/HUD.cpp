@@ -59,6 +59,7 @@ player(GScene::getSpace()->getObject<Player>("player"))
 void HUD::update()
 {
     health->setValue(player->getHealth());
+    power->setVal(player->getPower());
 }
 
 bool HUD::init()
@@ -79,6 +80,11 @@ bool HUD::init()
     health->setPosition(32, App::height - height/2);
     addChild(health, 2);
     health->setMax(Player::defaultMaxHealth);
+    
+    power = PowerMeter::create();
+    power->setPosition(App::width/2, App::height - height/2);
+    addChild(power,2);
+    power->setVal(0);
     
     objectiveCounter = new Counter("", 0);
     objectiveCounter->setPosition(Counter::spacing/2 + Counter::iconSize + 8, Counter::iconSize/2 + 8);
@@ -126,6 +132,40 @@ void Counter::setVal(const int val)
 {
     this->val = val;
     counter->setString(boost::lexical_cast<string>(val));
+    
+    float counterWidth = counter->getContentSize().width;
+    counter->setPosition((spacing+counterWidth)/2, 0);
+}
+
+
+bool PowerMeter::init()
+{
+    Node::init();
+    
+    icon = Sprite::create();
+    counter = createTextLabel("", HUD::fontSize);
+    
+    //The center of the node will be the mid-point between the icon and the label.
+    //This will avoid the visual distraction of moving the Counter node and thus the
+    //icon if the width of the text label changes.
+    addChild(icon);
+    icon->setPosition(-(spacing+iconSize)/2, 0);
+    
+    //Label position will be set when its contents is set.
+    addChild(counter);
+
+    icon->setTexture("sprites/power_up.png");
+    setVal(0);
+    
+    return true;
+}
+
+void PowerMeter::setVal(int val)
+{
+    this->val = val;
+    counter->setString(
+        boost::str(boost::format("%.2f") % (val/100.0f) )
+    );
     
     float counterWidth = counter->getContentSize().width;
     counter->setPosition((spacing+counterWidth)/2, 0);

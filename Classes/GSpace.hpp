@@ -258,6 +258,7 @@ private:
 	int playerEnemyBulletBegin(GObject* playerObj, GObject* bullet);
 	int playerBulletEnemyBegin(GObject* a, GObject* b);
 	int playerFlowerBegin(GObject* a, GObject* b);
+    int playerCollectibleBegin(GObject* a, GObject* b);
 	int bulletEnvironment(GObject* a, GObject* b);
 	int noCollide(GObject* a, GObject* b);
 	int bulletWall(GObject* bullet, GObject* unused);

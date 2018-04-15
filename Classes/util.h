@@ -19,7 +19,9 @@ float dirToPhysicsAngle(Direction d);
 SpaceVect dirToVector(Direction d);
 //Cannot be overloaded since it is exposed in the Lua API.
 Direction toDirection(SpaceVect);
+Direction angleToDirection(float a);
 Direction stringToDirection(string str);
+float canonicalAngle(float a);
 
 Scene* crntScene();
 

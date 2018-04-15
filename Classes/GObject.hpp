@@ -84,7 +84,7 @@ public:
         body->setPos(SpaceVect(x,y));
     }
     
-    inline void setAngle(float a){
+    virtual inline void setAngle(float a){
         if(!body){
             log("GObject::setAngle: %s has no physics body!", name.c_str());
             return;
@@ -101,7 +101,7 @@ public:
     }
     
     inline void rotate(float a){
-        setAngle(getAngle() + a);
+        setAngle(canonicalAngle(getAngle() + a) );
     }
     
     inline SpaceVect getFacingVector(){
@@ -355,6 +355,8 @@ public:
     void init();
     void update();
     
+    
+    virtual void setAngle(float a);
     void setDirection(Direction d);
     inline Direction getDirection()const{
         return animSprite->getDirection();
