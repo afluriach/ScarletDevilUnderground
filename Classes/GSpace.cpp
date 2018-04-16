@@ -9,11 +9,13 @@
 #include "Prefix.h"
 
 #include "AIMixins.hpp"
+#include "App.h"
 #include "Bullet.hpp"
 #include "Collectibles.hpp"
 #include "GSpace.hpp"
 #include "macros.h"
 #include "Player.hpp"
+#include "util.h"
 #include "Wall.hpp"
 
 class RadarObject;

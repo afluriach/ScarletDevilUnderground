@@ -314,21 +314,6 @@ mutex Inst::queueLock;
         return 0;
     }
 
-    int convertObj(lua_State* L)
-    {
-    const char* crntFuncName = "convert";
-        NARGS
-        check_args(2)
-
-        arg(typeStr)
-        arg(input)
-
-        LuaRef result = convertObjectUserdata(input.cast<GObject*>(),typeStr.tostring(),L);
-
-        result.push(L);
-        return 1;
-    }
-
     func(createObject)
         NARGS
         check_args(1)
@@ -431,7 +416,6 @@ mutex Inst::queueLock;
         install(runScene);
         install(removeObject);
         install(getObjectCount);
-        installFunction(convertObj, "convert");
         
         //install(print_gc_stats);
     }

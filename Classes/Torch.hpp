@@ -10,6 +10,7 @@
 #define Torch_hpp
 
 #include "GObject.hpp"
+#include "GObjectMixins.hpp"
 
 class Torch : public virtual GObject, RectangleBody, SpriteObject, RegisterUpdate<Torch>
 {

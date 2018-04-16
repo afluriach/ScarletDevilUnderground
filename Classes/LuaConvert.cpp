@@ -13,6 +13,7 @@
 #include "GSpace.hpp"
 #include "GState.hpp"
 #include "LuaWrap.h"
+#include "macros.h"
 #include "scenes.h"
 
 class Spellcaster;
@@ -129,22 +130,6 @@ list<LuaRef> getArgs(lua_State* L)
 float getFloat(LuaRef r)
 {
     return r.cast<float>();
-}
-
-#define check_type(type) \
-if(typeStr == #type){ \
-    result = LuaRef(L, dynamic_cast<type*>(o)); \
-}
-
-//Convert userdata pointer to a derived class if applicable,
-//otherwise return nil
-LuaRef convertObjectUserdata(GObject* o, const string& typeStr, lua_State* L)
-{
-    LuaRef result(L);
-
-    check_type(Spellcaster)
-    
-    return result;
 }
 
 void check_integer_value(LuaRef ref)

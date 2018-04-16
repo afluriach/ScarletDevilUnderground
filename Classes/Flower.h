@@ -10,6 +10,7 @@
 #define Flower_h
 
 #include "GObject.hpp"
+#include "GObjectMixins.hpp"
 
 class Flower : virtual public GObject, CircleBody, ImageSprite
 {

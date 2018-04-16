@@ -10,6 +10,7 @@
 #define Collectibles_hpp
 
 #include "GObject.hpp"
+#include "GObjectMixins.hpp"
 
 class Collectible : public virtual GObject
 {

@@ -9,8 +9,9 @@
 #include "Prefix.h"
 
 #include "Bullet.hpp"
+#include "util.h"
 
-const vector<string> StarBullet::colors = list_of_typed(
+const vector<string> StarBullet::colors = boost::assign::list_of
     ("blue")
     ("green")
     ("grey")
@@ -18,5 +19,14 @@ const vector<string> StarBullet::colors = list_of_typed(
     ("purple")
     ("red")
     ("yellow")
-    ,vector<string>
-);
+;
+
+Bullet::Bullet(const ValueMap& args) :
+radius(getFloatOrDefault(args, "radius", 0.3f))
+{}
+
+PlayerBaseBullet::PlayerBaseBullet(float angle, const SpaceVect& pos) :
+GObject("playerBaseBullet", pos)
+{
+    setInitialVelocity(SpaceVect::ray(getMaxSpeed(), angle));
+}

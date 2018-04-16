@@ -9,6 +9,7 @@
 #include "Prefix.h"
 
 #include "Follower.hpp"
+#include "macros.h"
 
 void Follower::onPlayerBulletHit(Bullet* bullet)
 {

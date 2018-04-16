@@ -11,6 +11,7 @@
 
 #include "AIMixins.hpp"
 #include "GObject.hpp"
+#include "macros.h"
 
 class Collectible;
 

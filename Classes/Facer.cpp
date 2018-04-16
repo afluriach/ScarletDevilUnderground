@@ -9,6 +9,7 @@
 #include "Prefix.h"
 
 #include "Facer.hpp"
+#include "macros.h"
 
 void Facer::onPlayerBulletHit(Bullet* bullet)
 {

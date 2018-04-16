@@ -10,6 +10,7 @@
 
 #include "AIMixins.hpp"
 #include "GSpace.hpp"
+#include "LuaAPI.hpp"
 
 StateMachineObject::StateMachineObject(shared_ptr<ai::State> startState, const ValueMap& args) :
     RegisterUpdate(this),
@@ -37,6 +38,15 @@ StateMachineObject::StateMachineObject(shared_ptr<ai::State> startState, const V
     else if(startState)
         fsm.push(startState);
 }
+
+    void RadarObject::onDetect(GObject* other) {
+		ctx->callIfExistsNoReturn("onDetect", ctx->makeArgs(other));
+	}
+
+	void RadarObject::onEndDetect(GObject* other) {
+		ctx->callIfExistsNoReturn("onEndDetect", ctx->makeArgs(other));
+	}
+
 
 void RadarObject::initializeRadar(GSpace& space)
 {

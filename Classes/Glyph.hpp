@@ -10,6 +10,7 @@
 #define Glyph_hpp
 
 #include "GObject.hpp"
+#include "GObjectMixins.hpp"
 
 class Glyph : public virtual GObject, RectangleBody, ImageSprite, RegisterInit<Glyph>
 {

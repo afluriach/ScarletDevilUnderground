@@ -8,11 +8,13 @@
 
 #include "Prefix.h"
 
+#include "App.h"
 #include "Graphics.h"
 #include "GSpace.hpp"
 #include "HUD.hpp"
 #include "Player.hpp"
 #include "scenes.h"
+#include "util.h"
 
 void HealthBar::setMax(int m)
 {

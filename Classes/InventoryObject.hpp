@@ -10,6 +10,8 @@
 #define InventoryObject_hpp
 
 #include "GObject.hpp"
+#include "GObjectMixins.hpp"
+
 
 //Represents an object that can be collected from the environment.
 //It is static, interactible, and disappears once obtained.

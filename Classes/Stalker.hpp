@@ -10,6 +10,7 @@
 #define Stalker_hpp
 
 #include "Agent.hpp"
+#include "macros.h"
 
 class Stalker : public Agent, virtual HitPointsEnemy, virtual TouchDamageEnemy, virtual PlayerBulletDamage
 {

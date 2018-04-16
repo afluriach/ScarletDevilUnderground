@@ -10,6 +10,7 @@
 #define Wall_hpp
 
 #include "GObject.hpp"
+#include "GObjectMixins.hpp"
 
 class Wall : virtual public GObject, RectangleBody
 {

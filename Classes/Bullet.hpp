@@ -10,11 +10,12 @@
 #define Bullet_hpp
 
 #include "GObject.hpp"
+#include "GObjectMixins.hpp"
 
 class Bullet : virtual public GObject, public CircleBody
 {
 public:
-    inline Bullet(const ValueMap& args) : radius(getFloatOrDefault(args, "radius", 0.3f)) {}
+    Bullet(const ValueMap& args);
     inline Bullet() : radius(0.3f){}
     inline Bullet(float radius) : radius(radius){}
 
@@ -30,9 +31,7 @@ class PlayerBaseBullet : virtual public Bullet, public ImageSprite
 {
 public:
 
-    inline PlayerBaseBullet(float angle, const SpaceVect& pos) : GObject("playerBaseBullet", pos) {
-        setInitialVelocity(SpaceVect::ray(getMaxSpeed(), angle));
-    }
+    PlayerBaseBullet(float angle, const SpaceVect& pos);
     
     virtual inline float getMaxSpeed() const {return 6.0f;}
 

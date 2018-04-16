@@ -10,6 +10,7 @@
 #define Block_hpp
 
 #include "GObject.hpp"
+#include "GObjectMixins.hpp"
 
 class Block : virtual public GObject, RectangleBody, ImageSprite, FrictionObject
 {

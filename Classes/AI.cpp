@@ -9,9 +9,12 @@
 #include "Prefix.h"
 
 #include "AI.hpp"
+#include "App.h"
 #include "GSpace.hpp"
 #include "GObject.hpp"
+#include "macros.h"
 #include "scenes.h"
+#include "util.h"
 
 namespace ai{
 
@@ -410,13 +413,10 @@ void Wander::update(StateMachine& fsm)
     
     fsm.push(make_shared<MoveToPoint>(fsm.agent->getPos()+dirToVector(directions[randomIdx])*dist));
     
-    PatchConSprite* spriteObject = dynamic_cast<PatchConSprite*>(fsm.agent);
-    if(spriteObject){
-        fsm.push(make_shared<Operation>(
-            [=](StateMachine& sm) -> void {
-                spriteObject->setDirection(directions[randomIdx]);
-        }));
-    }
+    fsm.push(make_shared<Operation>(
+        [=](StateMachine& sm) -> void {
+            sm.agent->setDirection(directions[randomIdx]);
+    }));
     
     int waitFrames = app->getRandomInt(minWait*App::framesPerSecond, maxWait*App::framesPerSecond);
     fsm.push(make_shared<IdleWait>(waitFrames));

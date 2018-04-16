@@ -138,6 +138,8 @@
 		E2B63AA61BE0450D005695B0 /* GObject.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E2B63AA31BE0450D005695B0 /* GObject.cpp */; };
 		E2B63AA91BE0498C005695B0 /* Block.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E2B63AA71BE0498C005695B0 /* Block.cpp */; };
 		E2B63AAA1BE0498C005695B0 /* Block.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E2B63AA71BE0498C005695B0 /* Block.cpp */; };
+		E2C7562A208435DC004A59F5 /* GObjectMixins.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E2C75628208435DC004A59F5 /* GObjectMixins.cpp */; };
+		E2C7562B208435DC004A59F5 /* GObjectMixins.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E2C75628208435DC004A59F5 /* GObjectMixins.cpp */; };
 		E2C9E5E01C09267C00CA7C88 /* Patchouli.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E2C9E5DE1C09267C00CA7C88 /* Patchouli.cpp */; };
 		E2C9E5E11C09267C00CA7C88 /* Patchouli.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E2C9E5DE1C09267C00CA7C88 /* Patchouli.cpp */; };
 		E2CDC5461C04F89D0017537B /* GAnimation.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E2CDC5441C04F89D0017537B /* GAnimation.cpp */; };
@@ -317,6 +319,8 @@
 		E2B63AA71BE0498C005695B0 /* Block.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Block.cpp; sourceTree = "<group>"; };
 		E2B63AA81BE0498C005695B0 /* Block.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = Block.hpp; sourceTree = "<group>"; };
 		E2C1564B1C077DFE001C2BEA /* multifunction.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = multifunction.h; sourceTree = "<group>"; };
+		E2C75628208435DC004A59F5 /* GObjectMixins.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = GObjectMixins.cpp; sourceTree = "<group>"; };
+		E2C75629208435DC004A59F5 /* GObjectMixins.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = GObjectMixins.hpp; sourceTree = "<group>"; };
 		E2C9E5DE1C09267C00CA7C88 /* Patchouli.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Patchouli.cpp; sourceTree = "<group>"; };
 		E2C9E5DF1C09267C00CA7C88 /* Patchouli.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = Patchouli.hpp; sourceTree = "<group>"; };
 		E2CDC5441C04F89D0017537B /* GAnimation.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = GAnimation.cpp; sourceTree = "<group>"; };
@@ -599,6 +603,8 @@
 			children = (
 				E2B63AA31BE0450D005695B0 /* GObject.cpp */,
 				E2B63AA41BE0450D005695B0 /* GObject.hpp */,
+				E2C75628208435DC004A59F5 /* GObjectMixins.cpp */,
+				E2C75629208435DC004A59F5 /* GObjectMixins.hpp */,
 				E24450231C02CFA8006D78B0 /* ObjectMapping.cpp */,
 				E21738F51FE609360045C4CB /* Agent.hpp */,
 				E21738F41FE609360045C4CB /* Agent.cpp */,
@@ -830,6 +836,7 @@
 				E2AC8F481BCD4BC20001DB3E /* Graphics.cpp in Sources */,
 				E2CDC5461C04F89D0017537B /* GAnimation.cpp in Sources */,
 				503AE10117EB989F00D1A890 /* main.m in Sources */,
+				E2C7562A208435DC004A59F5 /* GObjectMixins.cpp in Sources */,
 				E2B63AA91BE0498C005695B0 /* Block.cpp in Sources */,
 				E24450321C03D1DE006D78B0 /* SceneMapping.cpp in Sources */,
 				E29FF7511BE18BE7004725C1 /* Glyph.cpp in Sources */,
@@ -848,6 +855,7 @@
 				E231220B1BFA937100FEA94B /* menu.cpp in Sources */,
 				E2249BC81CF756CC00B1D666 /* GState.cpp in Sources */,
 				E2198F8A205B64E800832E0C /* StateMapping.cpp in Sources */,
+				E2C7562B208435DC004A59F5 /* GObjectMixins.cpp in Sources */,
 				46880B8919C43A87006E1F66 /* App.cpp in Sources */,
 				E25DC09A1C1EE2A400765415 /* LuaWrap.cpp in Sources */,
 				E2CDC5471C04F89D0017537B /* GAnimation.cpp in Sources */,

@@ -11,6 +11,7 @@
 
 #include "AI.hpp"
 #include "GObject.hpp"
+#include "GObjectMixins.hpp"
 
 class StateMachineObject : virtual public GObject, RegisterUpdate<StateMachineObject>
 {
@@ -56,13 +57,8 @@ public:
 	virtual GType getRadarType() const = 0;
     virtual inline float getDefaultFovAngle() const {return 0.0f;}
 
-	virtual inline void onDetect(GObject* other) {
-		ctx.callIfExistsNoReturn("onDetect", ctx.makeArgs(other));
-	}
-
-	virtual inline void onEndDetect(GObject* other) {
-		ctx.callIfExistsNoReturn("onEndDetect", ctx.makeArgs(other));
-	}
+	virtual void onDetect(GObject* other);
+	virtual void onEndDetect(GObject* other);
 
     void radarCollision(GObject* other);
     void radarEndCollision(GObject* other);

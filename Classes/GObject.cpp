@@ -8,19 +8,17 @@
 
 #include "Prefix.h"
 
+#include "App.h"
 #include "GObject.hpp"
-#include "Graphics.h"
-#include "GSpace.hpp"
-#include "Player.hpp"
-#include "scenes.h"
-#include "Spell.hpp"
+#include "LuaAPI.hpp"
+#include "util.h"
 
 unsigned int GObject::nextUUID = 1;
 
 GObject::GObject(const ValueMap& obj) :
 	name(obj.at("name").asString()),
 	uuid(nextUUID++),
-	ctx(boost::lexical_cast<string>(uuid) + "_" + name)
+	ctx(make_unique<Lua::Inst>(boost::lexical_cast<string>(uuid) + "_" + name))
 {
     //Interpret coordinates as center, unit space.
     initialCenter = SpaceVect(getFloat(obj, "pos_x"), getFloat(obj, "pos_y"));
@@ -36,12 +34,14 @@ GObject::GObject(const ValueMap& obj) :
 GObject::GObject(const string& name, const SpaceVect& pos) :
 	name(name),
 	uuid(nextUUID++),
-	ctx(boost::lexical_cast<string>(uuid) + "_" + name),
+	ctx(make_unique<Lua::Inst>(boost::lexical_cast<string>(uuid) + "_" + name)),
 	initialCenter(pos)
 {
     if(logCreateObjects)
         log("%s created at %.1f,%.1f.", name.c_str(),initialCenter.x, initialCenter.y);
 }
+
+GObject::~GObject() {}
 
 GObject* GObject::constructByType(const string& type, const ValueMap& args )
 {
@@ -57,244 +57,111 @@ GObject* GObject::constructByType(const string& type, const ValueMap& args )
     }
 }
 
+//BEGIN PHYSICS
+
+     void GObject::setInitialVelocity(const SpaceVect&& v){
+        multiInit += [=]() -> void{ this->body->setVel(v);};
+    }
+
+    Vec2 GObject::getInitialCenterPix()
+    {
+        SpaceVect centerPix(initialCenter);
+        centerPix *= App::pixelsPerTile;
+        
+        return toCocos(centerPix);
+    }
+
+     SpaceVect GObject::getPos(){
+        return body->getPos();
+    }
+
+     void GObject::setPos(float x, float y){
+        body->setPos(SpaceVect(x,y));
+    }
+    
+    void GObject::setAngle(float a){
+        if(!body){
+            log("GObject::setAngle: %s has no physics body!", name.c_str());
+            return;
+        }
+        body->setAngle(a);
+    }
+    
+     float GObject::getAngle(){
+        if(!body){
+            log("GObject::getAngle: %s has no physics body!", name.c_str());
+            return 0.0;
+        }
+        return body->getAngle();
+    }
+    
+     void GObject::rotate(float a){
+        setAngle(canonicalAngle(getAngle() + a) );
+    }
+    
+     SpaceVect GObject::getFacingVector(){
+        return SpaceVect::ray(1.0f, getAngle());
+    }
+    
+    void GObject::setDirection(Direction d) {
+        if(body && d != Direction::none)
+            body->setAngle(dirToPhysicsAngle(d));
+    }
+    
+     SpaceVect GObject::getVel(){
+        return body->getVel();
+    }
+    
+     void GObject::setVel(SpaceVect v){
+        body->setVel(v);
+    }
+
+     void GObject::applyForceForSingleFrame(SpaceVect f){
+        body->applyImpulse(f * App::secondsPerFrame);
+    }
+    
+     void GObject::applyImpulse(float mag, float angle){
+        SpaceVect v = SpaceVect::ray(mag,angle);
+        
+        body->applyImpulse(v);
+    }
+
+
+//END PHYSICS
+
+//BEGIN LUA
+
+string GObject::getScriptVal(string name) {
+    return ctx->getSerialized(name);
+}
+
+void GObject::setScriptVal(string field, string val) {
+    ctx->setSerialized(field, val);
+}
+
+string GObject::_callScriptVal(string field, string args) {
+    return ctx->callSerialized(field, args);
+}
+
+void GObject::runLuaInit() {
+    ctx->callIfExistsNoReturn("init");
+}
+
+void GObject::runLuaUpdate() {
+    ctx->callIfExistsNoReturn("update");
+}
+
 void GObject::setupLuaContext()
 {
 	//Push this as a global variable in the object's script context.
-	ctx.setGlobal(Lua::convert<GObject*>::convertToLua(this, ctx.state), "this");
+	ctx->setGlobal(Lua::convert<GObject*>::convertToLua(this, ctx->state), "this");
 
 	string scriptName = getScriptName();
 	string scriptPath = "scripts/entities/" + scriptName + ".lua";
 	if (scriptName != "" && FileUtils::getInstance()->isFileExist(scriptPath))
 	{
-		ctx.runFile(scriptPath);
+		ctx->runFile(scriptPath);
 	}
 }
 
-void SpriteObject::update()
-{
-    if(sprite != nullptr){
-        sprite->setPosition(toCocos(body->getPos())*App::pixelsPerTile);
-    }
-}
-
-void LoopAnimationSprite::initializeGraphics(Layer* layer)
-{
-    anim = TimedLoopAnimation::create();
-    anim->loadAnimation(animationName(), animationSize(), animationDuration());
-    
-    layer->positionAndAddNode(anim, sceneLayerAsInt(), getInitialCenterPix(), zoom());
-    sprite = anim;
-}
-
-PatchConSprite::PatchConSprite(const ValueMap& args) :
-RegisterInit<PatchConSprite>(this),
-RegisterUpdate<PatchConSprite>(this)
-{
-    auto it = args.find("direction");
-    if(it != args.end()){
-        Direction dir = stringToDirection(it->second.asString());
-        if(dir != Direction::none)
-            startingDirection = dir;
-    }
-}
-
-void PatchConSprite::init()
-{
-    setDirection(startingDirection);
-}
-
-void PatchConSprite::initializeGraphics(Layer* layer)
-{
-    animSprite = PatchConAnimation::create();
-    animSprite->loadAnimation(imageSpritePath());
-    layer->positionAndAddNode(animSprite, sceneLayerAsInt(), getInitialCenterPix(), zoom());
-    sprite = animSprite;
-}
-
-void PatchConSprite::update()
-{
-    SpaceVect dist = body->getVel()*App::secondsPerFrame;
-    
-    animSprite->accumulate(dist.length());
-}
-
-
-
-void PatchConSprite::setAngle(float a)
-{
-    GObject::setAngle(a);
-    
-    setDirection(angleToDirection(a));
-}
-
-void PatchConSprite::setDirection(Direction d)
-{
-    GObject::setDirection(d);
-    if(d == Direction::none) return;
-
-    animSprite->setDirection(d);
-}
-
-Vec2 GObject::getInitialCenterPix()
-{
-    SpaceVect centerPix(initialCenter);
-    centerPix *= App::pixelsPerTile;
-    
-    return toCocos(centerPix);
-}
-
-void RectangleBody::initializeBody(GSpace& space)
-{
-    body = space.createRectangleBody(
-        initialCenter,
-        getDimensions(),
-        getMass(),
-        getType(),
-        getLayers(),
-        getSensor(),
-        this
-    );
-}
-
-SpaceVect RectangleMapBody::getDimensionsFromMap(const ValueMap& arg)
-{
-    return SpaceVect(getFloat(arg, "dim_x"), getFloat(arg, "dim_y"));
-}
-
-void CircleBody::initializeBody(GSpace& space)
-{
-    body = space.createCircleBody(
-        initialCenter,
-        getRadius(),
-        getMass(),
-        getType(),
-        getLayers(),
-        getSensor(),
-        this
-    );
-}
-
-void ImageSprite::loadImageSprite(const string& resPath, GraphicsLayer sceneLayer, Layer* dest)
-{
-    Vec2 centerPix = getInitialCenterPix();
-    sprite = ::loadImageSprite(resPath,sceneLayer,dest, centerPix, zoom());
-    
-    if(sprite == nullptr)
-        log("%s sprite not loaded", name.c_str());
-    else if(App::logSprites)
-        log("%s sprite %s added at %.1f,%.1f, layer %d", name.c_str(), resPath.c_str(), expand_vector2(centerPix), sceneLayer);
-}
-
-
-void Spellcaster::cast(shared_ptr<Spell> spell)
-{
-    if(crntSpell.get()){
-        crntSpell->end();
-    }
-    spell->init();
-    crntSpell = spell;
-}
-
-void Spellcaster::cast(const string& name, const ValueMap& args)
-{
-    auto it_adaptor = Spell::adapters.find(name);
-    
-    if(it_adaptor != Spell::adapters.end()){
-        //Check for a Spell class
-        cast(it_adaptor->second(this, args));
-        return;
-    }
-    auto it_script = Spell::scripts.find(name);
-    if(it_script != Spell::scripts.end()){
-        //Check for a spell script.
-        cast(make_shared<ScriptedSpell>(this, name, args));
-        return;
-    }
-    
-    log("Spell %s not available.", name.c_str());
-}
-
-void Spellcaster::castByName(string name, const ValueMap& args)
-{
-    cast(name, args);
-}
-
-void Spellcaster::stop()
-{
-    if(crntSpell.get())
-        crntSpell->end();
-    crntSpell.reset();
-}
-
-void Spellcaster::update()
-{
-    if(crntSpell.get()){
-        crntSpell->update();
-    }
-}
-
-Spellcaster::~Spellcaster()
-{
-    if(crntSpell.get()){
-        crntSpell->end();
-    }
-}
-
-void DialogEntity::interact()
-{
-    GScene::crntScene->createDialog(getDialog(), false);
-}
-
-void Enemy::runDamageFlicker()
-{
-	if (sprite)
-		sprite->runAction(flickerAction(0.3f, 1.2f, 81.0f));
-//		sprite->runAction(colorFlickerAction(0.3f, 4, Color3B(255, 0, 0)));
-}
-
-void HitPointsEnemy::hit(int damage)
-{
-	runDamageFlicker();
-    hp -= damage;
-}
-
-void HitPointsEnemy::update()
-{
-    if(hp == 0){
-        GScene::getSpace()->removeObject(this);
-    }
-}
-
-void TouchDamageEnemy::onTouchPlayer(Player* player){
-	hitTarget = player;
-}
-
-void TouchDamageEnemy::endTouchPlayer()
-{
-	hitTarget = nullptr;
-}
-
-//hit will be registered every frame, in case contact is maintained for longer than the hit protection time.
-void TouchDamageEnemy::update()
-{
-	if(hitTarget)
-		hitTarget->hit();
-}
-
-void PlayerBulletDamage::onPlayerBulletHit(Bullet* bullet)
-{
-    hit(1);
-}
-
-void FrictionObject::update()
-{
-    SpaceVect vel = getVel();
-    float force = getMass() * App::Gaccel * uk();
-    
-    //if acceleraion, dv/dt, or change in velocity over one frame is greater
-    //than current velocity, apply stop instead
-    if(App::Gaccel * uk() * App::secondsPerFrame < vel.length())
-        applyForceForSingleFrame(vel * -force);
-    else
-        setVel(SpaceVect(0.0,0.0));
-}
+//END LUA

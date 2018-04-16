@@ -9,9 +9,11 @@
 #include "Prefix.h"
 
 #include "AI.hpp"
+#include "App.h"
 #include "Bullet.hpp"
 #include "Collectibles.hpp"
 #include "controls.h"
+#include "GAnimation.hpp"
 #include "Graphics.h"
 #include "GSpace.hpp"
 #include "HUD.hpp"
