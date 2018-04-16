@@ -11,6 +11,7 @@
 
 #include "Graphics.h"
 
+class KeyListener;
 class SceneSelect;
 
 class TextListMenuLayer : public Layer
@@ -25,7 +26,7 @@ protected:
     vector<string> options;
     vector<listAction> optionActions;
     
-	KeyListener keyListener;
+	unique_ptr<KeyListener> keyListener;
     bool upHeld = false;
     bool downHeld = false;
     
@@ -34,6 +35,8 @@ protected:
         const vector<string>& options,
         const vector<listAction>& optionActions
     );
+    
+    virtual ~TextListMenuLayer();
     
     void upPressed();
     void downPressed();
@@ -98,9 +101,7 @@ public:
     {}
     
 protected:    
-    static inline void back(){
-        app->popScene();
-    }
+    static void back();
 };
 
 class PauseMenu : public TextListMenuLayer

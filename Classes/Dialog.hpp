@@ -13,19 +13,17 @@
 //In most cases it will set the message text.
 //It can also change the title or dialog colors.
 
-#include "App.h"
-#include "controls.h"
 #include "Graphics.h"
-#include "util.h"
 
 class Dialog;
+class KeyListener;
 
 typedef function<void(Dialog&)> DialogFrame;
 
 class Dialog : public Node
 {
 public:
-    inline Dialog() : keyListener(this) {}
+    Dialog();
 
     CREATE_FUNC(Dialog);
     virtual bool init();
@@ -41,15 +39,10 @@ public:
     static const int textMargin = 24;
     //The minimum time a frame must be displayed
     constexpr static float frameWaitTime = 1.2f;
+    constexpr static float frameSkipTime = 0.15f;
     constexpr static float cursorScale = 0.6f;
     
-    inline void setDialog(const string& res)
-    {
-        processDialogFile(loadTextFile(res));
-        
-        frameNum = 0;
-        runFrame();
-    }
+    void setDialog(const string& res);
     
     //Enabled by default, allows cursor to appear and listen for action
     //button to advance frame.
@@ -73,32 +66,13 @@ public:
         return [=](Dialog& d) -> void {(d.*method)(args...);};
     }
     
-    inline void setMsg(const string& msg)
-    {
-        this->msg = msg;
-        removeChild(bodyText);
-        bodyText = createTextLabel(msg, bodySize);
-        bodyText->setWidth(width-textMargin*2);
-        bodyText->setColor(bodyColor);
-        addChild(bodyText, 2);
-    }
+    void setMsg(const string& msg);
     //After applying a directive frame that does not change the content,
     //advance to the next frame.
-    inline void setColor(const Color3B& color)
-    {
-        bodyColor = color;
-        log("color set to %d %d %d", color.r, color.g, color.b);
-        advanceFrame(false);
-    }
+    void setColor(const Color3B& color);
     
-    inline void runLuaScript(const string& script){
-        app->lua.runString(script);
-        advanceFrame(false);
-    }
-    
-    inline void setNextScene(const string& next){
-        nextScene = next;
-    }
+    void runLuaScript(const string& script);
+    void setNextScene(const string& next);
 private:
     void drawBackground();
     void drawContents();
@@ -107,15 +81,19 @@ private:
     void advanceFrame(bool resetCursor);
     void checkTimedAdvance();
     void checkManualAdvance();
+    void checkSkipAdvance();
     void processDialogFile(const string& text);
     
+    static Color3B parseColorFromDirective(const string& line);
+    
     static const Color4F backgroundColor;
+    static const Color3B defaultTextColor;
     
     Label* bodyText;
     DrawNode* backgroundNode;
     Cursor* cursor;
     
-    KeyListener keyListener;
+    unique_ptr<KeyListener> keyListener;
     
 //Current state of the dialog.
     vector<DialogFrame> dialog;
@@ -124,7 +102,7 @@ private:
     
     string title;
     string msg;
-    Color3B bodyColor = Color3B(255,255,255);
+    Color3B bodyColor = defaultTextColor;
     
 //Dialog type
     bool manualAdvance = true;

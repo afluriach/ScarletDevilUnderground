@@ -10,6 +10,7 @@
 
 #include "GObject.hpp"
 #include "Graph.hpp"
+#include "GSpace.hpp"
 #include "GState.hpp"
 #include "LuaWrap.h"
 #include "scenes.h"

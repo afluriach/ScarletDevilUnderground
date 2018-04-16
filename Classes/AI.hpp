@@ -9,8 +9,6 @@
 #ifndef AI_hpp
 #define AI_hpp
 
-#include "GSpace.hpp"
-#include "scenes.h"
 #include "types.h"
 
 class Agent;
@@ -62,11 +60,7 @@ class StateMachine
 public:
     GObject *const agent;
 
-    inline StateMachine(GObject *const agent) :
-    agent(agent)
-    {
-        frame = GScene::getSpace()->getFrame();
-    }
+    StateMachine(GObject *const agent);
 
     void update();
 

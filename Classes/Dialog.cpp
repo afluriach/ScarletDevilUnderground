@@ -8,11 +8,18 @@
 
 #include "Prefix.h"
 
+#include "App.h"
+#include "controls.h"
 #include "Dialog.hpp"
 #include "macros.h"
 #include "scenes.h"
 
 const Color4F Dialog::backgroundColor = Color4F(0.5, 0.5, 0.5, 0.5);
+const Color3B Dialog::defaultTextColor = Color3B(255,255,255);
+
+Dialog::Dialog() :
+keyListener(make_unique<KeyListener>(this))
+{}
 
 Dialog::~Dialog()
 {
@@ -20,6 +27,15 @@ Dialog::~Dialog()
     removeChild(backgroundNode);
     removeChild(cursor);
 }
+
+void Dialog::setDialog(const string& res)
+{
+    processDialogFile(loadTextFile(res));
+    
+    frameNum = 0;
+    runFrame();
+}
+
 
 //This will advance the dialog based on time.
 void Dialog::checkTimedAdvance()
@@ -33,6 +49,13 @@ void Dialog::checkTimedAdvance()
 void Dialog::checkManualAdvance()
 {
     if(manualAdvance && timeInFrame >= frameWaitTime){
+        advanceFrame(true);
+    }
+}
+
+void Dialog::checkSkipAdvance()
+{
+    if(timeInFrame >= frameSkipTime){
         advanceFrame(true);
     }
 }
@@ -54,10 +77,39 @@ bool Dialog::init()
     addChild(cursor,2);
     
     scheduleUpdate();
-    keyListener.addPressListener(Keys::action, bind(&Dialog::checkManualAdvance, this));
+    keyListener->addPressListener(Keys::action, bind(&Dialog::checkManualAdvance, this));
     
     return true;
 }
+
+void Dialog::setMsg(const string& msg)
+{
+    this->msg = msg;
+    removeChild(bodyText);
+    bodyText = createTextLabel(msg, bodySize);
+    bodyText->setWidth(width-textMargin*2);
+    bodyText->setColor(bodyColor);
+    addChild(bodyText, 2);
+}
+
+void Dialog::setColor(const Color3B& color)
+{
+    bodyColor = color;
+    log("color set to %d %d %d", color.r, color.g, color.b);
+    advanceFrame(false);
+}
+
+void Dialog::runLuaScript(const string& script)
+{
+    app->lua.runString(script);
+    advanceFrame(false);
+}
+
+void Dialog::setNextScene(const string& next)
+{
+    nextScene = next;
+}
+
 
 void Dialog::drawBackground()
 {
@@ -73,6 +125,10 @@ void Dialog::update(float dt)
 {
     timeInFrame += dt;
     
+    if(app->keyRegister->isKeyDown(Keys::enter)){
+        checkSkipAdvance();
+    }
+        
     if(timeInFrame > frameWaitTime){
         if(manualAdvance)
             cursor->setVisible(true);
@@ -108,12 +164,12 @@ void Dialog::runFrame()
 }
 
 //This only includes the numerics, not the directive token.
-Color3B parseColorFromDirective(const string& line){
+Color3B Dialog::parseColorFromDirective(const string& line){
     vector<string> tokens = splitString(line, " ");
     
     if(tokens.size() != 4){
         log("Invalid setColor directive: %s", line.c_str());
-        return Color3B(255,255,255);
+        return defaultTextColor;
     }
     
     try{
@@ -125,7 +181,7 @@ Color3B parseColorFromDirective(const string& line){
         );
     } catch(boost::bad_lexical_cast){
         log("setColor parse error: %s", line.c_str());
-        return Color3B(255,255,255);
+        return defaultTextColor;
     }
 }
 

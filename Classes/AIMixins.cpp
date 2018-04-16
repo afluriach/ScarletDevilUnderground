@@ -9,6 +9,7 @@
 #include "Prefix.h"
 
 #include "AIMixins.hpp"
+#include "GSpace.hpp"
 
 StateMachineObject::StateMachineObject(shared_ptr<ai::State> startState, const ValueMap& args) :
     RegisterUpdate(this),
@@ -35,6 +36,19 @@ StateMachineObject::StateMachineObject(shared_ptr<ai::State> startState, const V
         fsm.push(stateFromArgs);
     else if(startState)
         fsm.push(startState);
+}
+
+void RadarObject::initializeRadar(GSpace& space)
+{
+    radar = space.createCircleBody(
+        initialCenter,
+        getRadarRadius(),
+        0.1f,
+        getRadarType(),
+        PhysicsLayers::all,
+        true,
+        this
+    );
 }
 
 void RadarObject::update()

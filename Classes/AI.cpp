@@ -9,7 +9,9 @@
 #include "Prefix.h"
 
 #include "AI.hpp"
+#include "GSpace.hpp"
 #include "GObject.hpp"
+#include "scenes.h"
 
 namespace ai{
 
@@ -109,6 +111,13 @@ shared_ptr<State> State::constructState(const string& type, const ValueMap& args
     }
     else return nullptr;
 }
+
+StateMachine::StateMachine(GObject *const agent) :
+agent(agent)
+{
+    frame = GScene::getSpace()->getFrame();
+}
+
 
 void StateMachine::update()
 {

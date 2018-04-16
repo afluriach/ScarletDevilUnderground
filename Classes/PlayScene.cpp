@@ -8,6 +8,12 @@
 
 #include "Prefix.h"
 
+#include "App.h"
+#include "controls.h"
+#include "GObject.hpp"
+#include "GSpace.hpp"
+#include "macros.h"
+#include "multifunction.h"
 #include "PlayScene.hpp"
 
 void printGroup(TMXObjectGroup* group)
@@ -19,6 +25,33 @@ void printGroup(TMXObjectGroup* group)
         const ValueMap& objAsMap = obj.asValueMap();
         printValueMap(objAsMap);
     }
+}
+
+PlayScene::PlayScene(const string& name) :
+MapScene(name),
+ScriptedScene(name)
+{
+    multiInit.insertWithOrder(
+        wrap_method(PlayScene,trackPlayer,this),
+        static_cast<int>(initOrder::postLoadObjects)
+    );
+    multiInit.insertWithOrder(
+        wrap_method(PlayScene,addHUD,this),
+        static_cast<int>(initOrder::initHUD)
+    );
+    multiUpdate.insertWithOrder(
+        wrap_method(PlayScene,updateCamera,this),
+        static_cast<int>(updateOrder::moveCamera)
+    );
+
+    keyListener->addPressListener(
+        Keys::escape,
+        [=]()-> void {onPausePressed(); }
+    );
+}
+
+void PlayScene::trackPlayer(){
+    cameraTarget = gspace->getObject("player");
 }
 
 void PlayScene::updateCamera()

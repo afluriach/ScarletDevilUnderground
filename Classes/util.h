@@ -92,6 +92,8 @@ struct enum_hash
     }
 };
 
+#define wrap_method(cls,method,This) wrapMethod<cls,&cls::method>(This)
+
 //Wrapper to call a method of a derived type with a base this.
 template<typename Class, void (Class::*Method)(void)>
 function<void()> wrapMethod(Class* This)

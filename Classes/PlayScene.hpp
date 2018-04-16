@@ -13,37 +13,16 @@
 #include "menu.h"
 #include "scenes.h"
 
+class GObject;
 class PauseMenu;
 
 class PlayScene : virtual public GScene, public MapScene, public ScriptedScene
 {
-public:    
-    inline PlayScene(const string& name) : MapScene(name), ScriptedScene(name)
-    {
-        multiInit.insertWithOrder(
-            wrap_method(PlayScene,trackPlayer,this),
-            static_cast<int>(initOrder::postLoadObjects)
-        );
-        multiInit.insertWithOrder(
-            wrap_method(PlayScene,addHUD,this),
-            static_cast<int>(initOrder::initHUD)
-        );
-        multiUpdate.insertWithOrder(
-            wrap_method(PlayScene,updateCamera,this),
-            static_cast<int>(updateOrder::moveCamera)
-        );
-
-		keyListener.addPressListener(
-			Keys::escape,
-			[=]()-> void {onPausePressed(); }
-		);
-
-    }
+public:
+    PlayScene(const string& name);
     
     //set player object. should be post load object init
-    inline void trackPlayer(){
-        cameraTarget = gspace.getObject("player");
-    }
+    void trackPlayer();
     
     void updateHUD();
     void updateCamera();

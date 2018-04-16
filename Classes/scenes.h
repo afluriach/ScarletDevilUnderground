@@ -9,16 +9,18 @@
 #ifndef scenes_h
 #define scenes_h
 
-#include "App.h"
-#include "controls.h"
-#include "GSpace.hpp"
-#include "LuaAPI.hpp"
-#include "macros.h"
 #include "multifunction.h"
+#include "types.h"
 
 class Dialog;
+class GSpace;
 class HUD;
+class KeyListener;
 class PlayScene;
+
+namespace Lua{
+    class Inst;
+}
 
 class GScene : public Layer
 {
@@ -68,7 +70,7 @@ public:
     
     static GScene* crntScene;
 	static string crntSceneName;
-	KeyListener keyListener;
+	unique_ptr<KeyListener> keyListener;
 
     static void runScene(const string& name);
 	static void restartScene();
@@ -86,6 +88,7 @@ public:
 //Init methods must be installed at construction time.
 
     GScene();
+    virtual ~GScene();
     bool init();
     void update(float dt);
     
@@ -140,45 +143,22 @@ protected:
 class GSpaceScene : virtual public GScene
 {
 public:
-    inline GSpaceScene() : gspace(getLayer(sceneLayers::space))
-    {
-        multiInit.insertWithOrder(
-            wrap_method(GSpaceScene,processAdditions,this),
-            static_cast<int>(initOrder::loadObjects)
-        );
-        multiUpdate.insertWithOrder(
-            wrap_method(GSpaceScene,updateSpace,this),
-            static_cast<int>(updateOrder::spaceUpdate)
-        );
-    }
+    GSpace* gspace;
 
-    GSpace gspace;
+    GSpaceScene();
+    virtual ~GSpaceScene();
     
-    inline void updateSpace()
-    {
-        gspace.update();
-    }
-    
+    void updateSpace();
     //Process added objects so they are availible to anything that queries the GSpace.
     //This is needed for any scene init code that wishes to access loaded objects.
-    inline void processAdditions(){
-        gspace.processAdditions();
-    }
+    void processAdditions();
 };
 
 class MapScene : virtual public GSpaceScene
 {
 public:
-    inline MapScene(const string& res) : mapRes("maps/"+res+".tmx")
-    {
-        multiInit.insertWithOrder(
-            wrap_method(MapScene,loadMap,this),
-            static_cast<int>(initOrder::mapLoad)
-        );
-    }
-    inline SpaceVect getMapSize(){
-        return toChipmunk(tileMap->getMapSize());
-    }
+    MapScene(const string& res);
+    SpaceVect getMapSize();
 
 protected:
     string mapRes;
@@ -198,33 +178,12 @@ protected:
 class ScriptedScene : virtual public GScene
 {
 public:
-    inline ScriptedScene(const string& res) :
-    ctx("scene")
-    {
-        multiInit.insertWithOrder(
-            wrap_method(ScriptedScene, runInit,this),
-            static_cast<int>(initOrder::postLoadObjects)
-        );
-        multiUpdate.insertWithOrder(
-            wrap_method(ScriptedScene,runUpdate,this),
-            static_cast<int>(updateOrder::sceneUpdate)
-        );
-        
-        if(!res.empty())
-        {
-            string path = "scripts/scenes/"+res+".lua";
-        
-            if(!FileUtils::getInstance()->isFileExist(path))
-                log("ScriptedScene: %s script does not exist.", res.c_str());
-            else
-                ctx.runFile(path);
-        }
-    }
+    ScriptedScene(const string& res);
 
     void runInit();
     void runUpdate();
     
-    Lua::Inst ctx;
+    unique_ptr<Lua::Inst> ctx;
 };
 
 #endif /* scenes_h */

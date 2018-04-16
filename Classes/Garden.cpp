@@ -10,6 +10,7 @@
 
 #include "Flower.h"
 #include "Garden.hpp"
+#include "GSpace.hpp"
 
 const vector<string> GardenBlooming::colors = boost::assign::list_of
 ("blue")
@@ -35,5 +36,5 @@ void GardenBlooming::addFlower(const SpaceVect& pos){
     const string& color = colors[index];
     
     Flower* f = new Flower(color + " flower", color, pos);
-    gspace.addObject(f);
+    gspace->addObject(f);
 }

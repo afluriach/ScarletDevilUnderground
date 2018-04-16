@@ -9,7 +9,7 @@
 #ifndef HUD_hpp
 #define HUD_hpp
 
-#include "Player.hpp"
+class Player;
 
 class HealthBar : public Node
 {

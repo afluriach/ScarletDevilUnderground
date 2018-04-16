@@ -11,9 +11,12 @@
 #include "AI.hpp"
 #include "Bullet.hpp"
 #include "Collectibles.hpp"
+#include "controls.h"
 #include "Graphics.h"
+#include "GSpace.hpp"
 #include "HUD.hpp"
 #include "Player.hpp"
+#include "scenes.h"
 
 void Player::checkControls()
 {

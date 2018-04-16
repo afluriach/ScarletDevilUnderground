@@ -10,6 +10,7 @@
 #define Garden_hpp
 
 #include "PlayScene.hpp"
+#include "types.h"
 
 class GardenBlooming : public PlayScene
 {

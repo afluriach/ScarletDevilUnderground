@@ -36,9 +36,6 @@ inline ret method( signature ) \
 #define float_pi boost::math::constants::pi<float>()
 #define float_2pi (float_pi * 2.0f)
 
-//Requires an appropriately defined wrap method (currently only GScene and GObject support this)
-#define wrap_method(cls,method,This) wrapMethod<cls,&cls::method>(This)
-
 #define enum_increment(cls,lval) lval = static_cast<cls>( static_cast<int>(lval) + 1 )
 
 #define enum_foreach(cls,var_name,begin,end) for(cls var_name=cls::begin; var_name < cls::end; enum_increment(cls, var_name) )

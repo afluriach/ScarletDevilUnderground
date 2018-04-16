@@ -15,6 +15,7 @@
 #include "GState.hpp"
 #include "HUD.hpp"
 #include "LuaWrap.h"
+#include "Player.hpp"
 #include "PlayScene.hpp"
 #include "scenes.h"
 

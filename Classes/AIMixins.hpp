@@ -73,18 +73,7 @@ public:
     void setFovAngle(float angle);
 
 	//Create body and add it to space. This assumes BB is rectangle dimensions
-	virtual inline void initializeRadar(GSpace& space)
-	{
-		radar = space.createCircleBody(
-			initialCenter,
-			getRadarRadius(),
-			0.1f,
-			getRadarType(),
-			PhysicsLayers::all,
-			true,
-			this
-		);
-	}
+	virtual void initializeRadar(GSpace& space);
     
     bool isObjectVisible(GObject* otther);
 

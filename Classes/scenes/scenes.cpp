@@ -8,9 +8,16 @@
 
 #include "Prefix.h"
 
+
+#include "App.h"
+#include "controls.h"
 #include "Dialog.hpp"
+#include "GSpace.hpp"
+#include "LuaAPI.hpp"
+#include "macros.h"
 #include "PlayScene.hpp"
 #include "scenes.h"
+#include "types.h"
 
 GScene* GScene::crntScene;
 string GScene::crntSceneName;
@@ -34,7 +41,7 @@ void GScene::restartScene()
 	runScene(crntSceneName);
 }
 
-GScene::GScene() : keyListener(this)
+GScene::GScene() : keyListener(make_unique<KeyListener>(this))
 {
     //Updater has to be scheduled at init time.
     multiInit.insertWithOrder(
@@ -51,6 +58,8 @@ GScene::GScene() : keyListener(this)
         layers.insert(i, l);
     }
 }
+
+GScene::~GScene() {}
 
 bool GScene::init()
 {
@@ -95,6 +104,49 @@ Vec2 GScene::dialogPosition()
     return crntScene->dialogNode != nullptr;
 }
 
+GSpaceScene::GSpaceScene()
+{
+    gspace = new GSpace(getLayer(sceneLayers::space));
+
+    multiInit.insertWithOrder(
+        wrap_method(GSpaceScene,processAdditions,this),
+        static_cast<int>(initOrder::loadObjects)
+    );
+    multiUpdate.insertWithOrder(
+        wrap_method(GSpaceScene,updateSpace,this),
+        static_cast<int>(updateOrder::spaceUpdate)
+    );
+}
+
+GSpaceScene::~GSpaceScene()
+{
+    delete gspace;
+}
+
+void GSpaceScene::updateSpace()
+{
+    gspace->update();
+}
+
+void GSpaceScene::processAdditions()
+{
+    gspace->processAdditions();
+}
+
+MapScene::MapScene(const string& res) :
+mapRes("maps/"+res+".tmx")
+{
+    multiInit.insertWithOrder(
+        wrap_method(MapScene,loadMap,this),
+        static_cast<int>(initOrder::mapLoad)
+    );
+}
+
+SpaceVect MapScene::getMapSize()
+{
+    return toChipmunk(tileMap->getMapSize());
+}
+
 
 void MapScene::loadObjectGroup(TMXObjectGroup* group)
 {
@@ -104,7 +156,7 @@ void MapScene::loadObjectGroup(TMXObjectGroup* group)
     {
         ValueMap& objAsMap = obj.asValueMap();
         convertToUnitSpace(objAsMap);
-        gspace.addObject(objAsMap);
+        gspace->addObject(objAsMap);
     }
 }
 
@@ -118,7 +170,7 @@ void MapScene::loadWalls()
     {
         ValueMap& objAsMap = obj.asValueMap();
         cocos2d::Rect area = getUnitspaceRectangle(objAsMap);
-        gspace.addWallBlock(toChipmunk(area.origin), toChipmunk(area.getUpperCorner()));
+        gspace->addWallBlock(toChipmunk(area.origin), toChipmunk(area.getUpperCorner()));
     }
 }
 
@@ -161,7 +213,7 @@ void MapScene::loadPaths(const TMXTiledMap& map)
 				(origin.y - point.asValueMap().at("y").asFloat()) / App::pixelsPerTile
 			));
 		}
-		gspace.addPath(name, crntPath);
+		gspace->addPath(name, crntPath);
 	}
 }
 
@@ -182,14 +234,38 @@ void MapScene::loadMap()
     loadMapObjects(*tileMap);
     
     cocos2d::Size size = tileMap->getMapSize();
-    gspace.setSize(size.width, size.height);
+    gspace->setSize(size.width, size.height);
     
     loadWalls();
-    gspace.addWallBlock(SpaceVect(-1,0), SpaceVect(0,size.height));
-    gspace.addWallBlock(SpaceVect(size.width,0), SpaceVect(size.width+1,size.height));
-    gspace.addWallBlock(SpaceVect(0,size.height), SpaceVect(size.width,size.height+1));
-    gspace.addWallBlock(SpaceVect(0,-1), SpaceVect(size.width,0));
+    gspace->addWallBlock(SpaceVect(-1,0), SpaceVect(0,size.height));
+    gspace->addWallBlock(SpaceVect(size.width,0), SpaceVect(size.width+1,size.height));
+    gspace->addWallBlock(SpaceVect(0,size.height), SpaceVect(size.width,size.height+1));
+    gspace->addWallBlock(SpaceVect(0,-1), SpaceVect(size.width,0));
 }
+
+ScriptedScene::ScriptedScene(const string& res) :
+ctx(make_unique<Lua::Inst>("scene"))
+{
+    multiInit.insertWithOrder(
+        wrap_method(ScriptedScene, runInit,this),
+        static_cast<int>(initOrder::postLoadObjects)
+    );
+    multiUpdate.insertWithOrder(
+        wrap_method(ScriptedScene,runUpdate,this),
+        static_cast<int>(updateOrder::sceneUpdate)
+    );
+    
+    if(!res.empty())
+    {
+        string path = "scripts/scenes/"+res+".lua";
+    
+        if(!FileUtils::getInstance()->isFileExist(path))
+            log("ScriptedScene: %s script does not exist.", res.c_str());
+        else
+            ctx->runFile(path);
+    }
+}
+
 
 PlayScene* GScene::playScene(){
     return dynamic_cast<PlayScene*>(crntScene);
@@ -199,7 +275,7 @@ GSpace* GScene::getSpace()
 {
     GSpaceScene* scene = dynamic_cast<GSpaceScene*>(crntScene);
     
-    if(scene) return &(scene->gspace);
+    if(scene) return scene->gspace;
     else return nullptr;
 }
 
@@ -253,9 +329,9 @@ void GScene::stopDialog()
 
 void ScriptedScene::runInit()
 {
-    ctx.callIfExistsNoReturn("init");
+    ctx->callIfExistsNoReturn("init");
 }
 void ScriptedScene::runUpdate()
 {
-    ctx.callIfExistsNoReturn("update");
+    ctx->callIfExistsNoReturn("update");
 }

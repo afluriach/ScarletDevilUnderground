@@ -59,7 +59,10 @@ private:
 };
 
 //Listens for key presses and calls the associated callback.
-//This may attach to a Node's event handler or the Direcor's global one.
+//This is attacheded to to a Node's (GScene or Layer) event handler.
+//It could be attached to the Director's global handler; however, this is not
+//done since the lifecycle of the KeyListener, and the callbacks in it,
+//must match that of the object whose methods are being invoked.
 class KeyListener
 {
 public:
