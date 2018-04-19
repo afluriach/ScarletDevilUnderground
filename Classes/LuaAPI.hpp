@@ -34,6 +34,7 @@ namespace Lua
         
         static const vector<string> luaIncludes;
         static const bool catchLuaPanic = false;
+        static const bool logInst = false;
         
         static unordered_map<string, Inst*> instances;
         

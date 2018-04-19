@@ -34,6 +34,9 @@ namespace cp {
 		/// Linear velocity of the center of gravity of the body.
 		Vect getVel() const;
 		void setVel(Vect velocity);
+        
+        float getAngularVel() const;
+        void setAngularVel(float);
 
 		/// Velocity limit of the body. Defaults to INFINITY unless you set it specifically. Can be used to limit
 		/// falling speeds, etc.

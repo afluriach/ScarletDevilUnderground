@@ -61,7 +61,7 @@ Direction angleToDirection(float a)
     float distance = float_pi;
     float angle = canonicalAngle(a);
     
-    for(int i=0;i<4; ++i){
+    for_irange(i,0,4){
         float crnt = abs(angle - primaryAngles[i]);
         
         if(crnt < distance){
@@ -207,4 +207,9 @@ string getProfilePath()
 float canonicalAngle(float a)
 {
     return a - float_2pi * floor( a / float_2pi);
+}
+
+float toDegrees(float a)
+{
+ return a / float_pi * 180.0f;
 }

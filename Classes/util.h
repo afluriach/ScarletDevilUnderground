@@ -25,6 +25,8 @@ Direction angleToDirection(float a);
 Direction stringToDirection(string str);
 float canonicalAngle(float a);
 
+float toDegrees(float a);
+
 Scene* crntScene();
 
 void printValueMap(const ValueMap& obj);

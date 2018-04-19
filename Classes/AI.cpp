@@ -12,8 +12,10 @@
 #include "App.h"
 #include "GSpace.hpp"
 #include "GObject.hpp"
+#include "GObjectMixins.hpp"
 #include "macros.h"
 #include "scenes.h"
+#include "Spell.hpp"
 #include "util.h"
 
 namespace ai{
@@ -67,6 +69,21 @@ SpaceVect directionToTarget(GObject& agent, GObject& target)
 SpaceVect directionToTarget(GObject& agent, const SpaceVect& target)
 {
     return (target - agent.getPos()).normalize();
+}
+
+float distanceToTarget(GObject& agent, GObject& target)
+{
+    return (target.getPos() - agent.getPos()).length();
+}
+
+float viewAngleToTarget(const GObject& agent, const GObject& target)
+{
+    SpaceVect displacement = target.getPos() - agent.getPos();
+    
+    if(displacement.lengthSq() > 0.01f)
+        return displacement.toAngle();
+    else
+        return numeric_limits<float>::infinity();
 }
 
 void seek(GObject& agent, GObject& target, float maxSpeed, float acceleration)
@@ -226,7 +243,33 @@ void Seek::update(StateMachine& sm)
 		sm.agent->setDirection(toDirection(ai::directionToTarget(*sm.agent, *target)));
 	}
 	else
-		ai::applyDesiredVelocity(*sm.agent, SpaceVect(0, 0), sm.agent->getMaxAcceleration());
+		ai::applyDesiredVelocity(*sm.agent, SpaceVect::zero, sm.agent->getMaxAcceleration());
+}
+
+void MaintainDistance::update(StateMachine& sm)
+{
+	if (target.get()) {
+        float crnt_distance = distanceToTarget(*sm.agent,*target.get());
+    
+        if(crnt_distance > distance + margin){
+            ai::seek(
+                *sm.agent,
+                *target.get(),
+                sm.agent->getMaxSpeed(),
+                sm.agent->getMaxAcceleration()
+            );
+        }
+        else if(crnt_distance < distance + margin){
+            ai::flee(
+                *sm.agent,
+                *target.get(),
+                sm.agent->getMaxSpeed(),
+                sm.agent->getMaxAcceleration()
+            );
+        }
+	}
+	else
+		ai::applyDesiredVelocity(*sm.agent, SpaceVect::zero, sm.agent->getMaxAcceleration());
 }
 
 Flee::Flee(const ValueMap& args) {
@@ -264,7 +307,7 @@ void Flee::update(StateMachine& sm)
 		sm.agent->setDirection(toDirection(ai::directionToTarget(*sm.agent, *target)));
 	}
 	else
-		ai::applyDesiredVelocity(*sm.agent, SpaceVect(0, 0), sm.agent->getMaxAcceleration());
+		ai::applyDesiredVelocity(*sm.agent, SpaceVect::zero, sm.agent->getMaxAcceleration());
 }
 
 
@@ -299,7 +342,7 @@ void IdleWait::update(StateMachine& fsm)
 		fsm.pop();
 	--remaining;
 
-	ai::applyDesiredVelocity(*fsm.agent, SpaceVect(0, 0), fsm.agent->getMaxAcceleration());
+	ai::applyDesiredVelocity(*fsm.agent, SpaceVect::zero, fsm.agent->getMaxAcceleration());
 }
 
 
@@ -422,6 +465,39 @@ void Wander::update(StateMachine& fsm)
     fsm.push(make_shared<IdleWait>(waitFrames));
 }
 
+Cast::Cast(string _spell_name, const ValueMap& _spell_args) :
+spell_name(_spell_name),
+spell_args(_spell_args)
+{}
+
+void Cast::onEnter(StateMachine& sm)
+{
+    Spellcaster* caster = dynamic_cast<Spellcaster*>(sm.agent);
+    
+    if(caster)
+    {
+        caster->cast(spell_name,spell_args);
+    }
+}
+
+void Cast::update(StateMachine& sm)
+{
+    Spellcaster* caster = dynamic_cast<Spellcaster*>(sm.agent);
+    
+    if(!caster->isSpellActive())
+        sm.pop();
+}
+
+void Cast::onExit(StateMachine& sm)
+{
+    Spellcaster* caster = dynamic_cast<Spellcaster*>(sm.agent);
+    
+    if(caster)
+    {
+        caster->stop();
+    }
+}
+
 void FacerState::onEnter(StateMachine& sm)
 {
 	target = GScene::getSpace()->getObject("player");
@@ -435,7 +511,7 @@ void FacerState::update(StateMachine& sm)
 	}
 	else
 	{
-		sm.agent->setVel(SpaceVect(0, 0));
+		sm.agent->setVel(SpaceVect::zero);
 	}
 }
 
@@ -453,10 +529,19 @@ void FollowerState::update(StateMachine& sm)
 	}
 	else
 	{
-		sm.agent->setVel(SpaceVect(0, 0));
+		sm.agent->setVel(SpaceVect::zero);
 	}
 }
 
+void SakuyaBase::onEnter(StateMachine& sm)
+{
+
+}
+
+void SakuyaBase::update(StateMachine& sm)
+{
+    sm.push(make_shared<Cast>("IllusionDial", ValueMap()));
+}
 
 #define compound_method(name, args1, args2) \
 void CompoundState::name args1 { \

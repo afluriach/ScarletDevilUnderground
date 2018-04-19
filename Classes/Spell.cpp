@@ -10,13 +10,16 @@
 
 #include "Bullet.hpp"
 #include "GSpace.hpp"
+#include "macros.h"
 #include "Spell.hpp"
 #include "scenes.h"
+#include "util.h"
+
 
 void FireStarburst::runPeriodic()
 {
     SpaceVect pos = caster->body->getPos();
-    for(int i=0;i<8; ++i)
+    for_irange(i,0,8)
     {
         float angle = float_pi * i / 4;
 
@@ -116,4 +119,80 @@ void StarlightTyphoon::update()
 }
 void StarlightTyphoon::end()
 {
+}
+
+//void PuppetryDoll::init()
+//{
+//}
+
+const int IllusionDial::count = 16;
+
+const float IllusionDial::radius = 2.5f;
+const float IllusionDial::arc_start = 0.0f;
+const float IllusionDial::arc_end = float_pi * 2.0f;
+const float IllusionDial::arc_width = arc_end - arc_start;
+const float IllusionDial::arc_spacing = arc_width / (count-1);
+const float IllusionDial::angular_speed = float_pi * 2.0f / 3.0f;
+
+IllusionDial::IllusionDial(Spellcaster* caster,const ValueMap& args) :
+Spell(caster,args),
+bullets(count),
+launch_flags(count, false)
+{}
+
+void IllusionDial::init()
+{
+    //refactor utility function for this
+    //getFloatOrDefault(args, "radius", radius);
+    
+    for_irange(i,0,count)
+    {
+  //      spawn_points[i] = SpaceVect::ray(radius, arc_start + i*arc_spacing);
+        IllusionDialDagger* bullet = new IllusionDialDagger(
+            caster->getPos() + SpaceVect::ray(radius, arc_start + i*arc_spacing),
+            i % 2 ? angular_speed : -angular_speed
+        );
+        GScene::getSpace()->addObject(bullet);
+        bullets[i] = object_ref(bullet);
+    }
+}
+
+void IllusionDial::runPeriodic()
+{
+    int best = -1;
+    float best_angle = float_pi;
+    
+    for_irange(i,0,count)
+    {
+        GObject* obj = bullets[i].get();
+        IllusionDialDagger* bullet = nullptr;
+        
+        if(obj && !launch_flags[i]){
+            bullet = dynamic_cast<IllusionDialDagger*>(obj);
+        }
+        
+        if(bullet){
+            float crnt = bullet->targetViewAngle();
+            
+            if(!isinf(crnt) && abs(crnt) < best_angle)
+                best = i;
+                best_angle = abs(crnt);
+        }
+    }
+    
+    if(best != -1)
+    {
+        dynamic_cast<IllusionDialDagger*>(bullets[best].get())->launch();
+        launch_flags[best] = true;
+    }
+    else
+    {
+        //Deactivate spell if all bullets are consumed.
+        active = false;
+    }
+}
+
+void IllusionDial::end()
+{
+    //delete remaining bullets
 }

@@ -68,12 +68,12 @@ void TextListMenuLayer::downReleased()
 
 
 const vector<string> SceneSelect::sceneTitles = boost::assign::list_of
-    ("Block Scene")
-    ("Library Opening")
 	("Collect")
 	("Stalker Room")
 	("Wander")
 	("Facer Floor")
+    ("SakuyaRoom")
+    ("Library")
     ("Back")
 ;
 
@@ -87,12 +87,12 @@ TextListMenuLayer::listAction sceneLaunchAdapterByName(const string& name){
 }
 
 const vector<TextListMenuLayer::listAction> SceneSelect::sceneActions = boost::assign::list_of
-	(sceneLaunchAdapterByName("BlockRoom"))
-	(sceneLaunchAdapterByName("LibraryOpening"))
 	(sceneLaunchAdapterByName("Collect"))
 	(sceneLaunchAdapterByName("StalkerRoom"))
 	(sceneLaunchAdapterByName("Wander"))
 	(sceneLaunchAdapterByName("FacerFloor"))
+    (sceneLaunchAdapterByName("SakuyaRoom"))
+    (sceneLaunchAdapterByName("Library"))
 	(SceneSelect::back)
 ;
 

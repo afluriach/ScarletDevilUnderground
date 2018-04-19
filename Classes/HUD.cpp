@@ -12,17 +12,18 @@
 #include "Graphics.h"
 #include "GSpace.hpp"
 #include "HUD.hpp"
+#include "macros.h"
 #include "Player.hpp"
 #include "scenes.h"
 #include "util.h"
 
 void HealthBar::setMax(int m)
 {
-    for(int i=0;i<heartSprites.size(); ++i)
+    for_irange(i,0,heartSprites.size())
         removeChild(heartSprites.at(i));
     heartSprites.clear();
     
-    for(int i=0;i<m; ++i)
+    for_irange(i,0,m)
     {
         Sprite* s = Sprite::create("sprites/heart.png");
         s->setPosition(32*i, 0);
@@ -50,7 +51,7 @@ void HealthBar::setValue(int v)
 void HealthBar::runFlicker()
 {
     //TintTo action does not apply recursively.
-    for(int i=0;i<heartSprites.size(); ++i)
+    for_irange(i,0,heartSprites.size())
         heartSprites.at(i)->runAction(flickerTintAction(Player::hitFlickerInterval, Player::hitProtectionTime,Color3B(127,127,127)));
 }
 

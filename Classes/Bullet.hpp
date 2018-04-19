@@ -11,6 +11,7 @@
 
 #include "GObject.hpp"
 #include "GObjectMixins.hpp"
+#include "types.h"
 
 class Bullet : virtual public GObject, public CircleBody
 {
@@ -25,6 +26,22 @@ public:
     
     virtual inline float getRadius() const {return radius;}
     const float radius;
+};
+
+class SquareBullet : virtual public GObject, public RectangleBody
+{
+public:
+//    SquareBullet(const ValueMap& args);
+    inline SquareBullet() : dimensions(SpaceVect::unit_square){}
+    inline SquareBullet(SpaceVect dimensions) :dimensions(dimensions){}
+
+    //For now bullets can be treated as kinematic, meaning their mass is not relevant.
+    virtual inline float getMass() const {return 0.1f;}
+    virtual inline bool getSensor() const {return true;}
+    
+    virtual inline SpaceVect getDimensions() const {return dimensions;}
+    
+    const SpaceVect dimensions;
 };
 
 class PlayerBaseBullet : virtual public Bullet, public ImageSprite
@@ -106,5 +123,26 @@ public:
     static constexpr float spriteBaseRadius = 0.125f;
     inline virtual float zoom() const {return radius/spriteBaseRadius*2;}
 };
+
+class IllusionDialDagger : virtual public SquareBullet, public ImageSprite
+{
+public:
+    static const float speed;
+    static const SpaceVect dimensions;
+
+    //IllusionDaggerBullet(const ValueMap& args);
+    IllusionDialDagger(const SpaceVect& pos, float anglar_velocity);
+    
+    virtual inline string imageSpritePath() const {return "sprites/knife green.png";}
+    virtual inline GraphicsLayer sceneLayer() const {return GraphicsLayer::ground;}
+    
+    virtual inline GType getType() const {return GType::enemyBullet;}
+    
+    inline virtual float zoom() const {return 1.0f;}
+    
+    float targetViewAngle();
+    void launch();
+};
+
 
 #endif /* Bullet_hpp */

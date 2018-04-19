@@ -23,6 +23,7 @@
 #include "Patchouli.hpp"
 #include "Player.hpp"
 #include "Reimu.hpp"
+#include "Sakuya.hpp"
 #include "Stalker.hpp"
 #include "Torch.hpp"
 
@@ -70,6 +71,7 @@ const unordered_map<string,GObject::AdapterType> GObject::adapters =
     entry_same(Marisa)
     entry_same(Patchouli)
     entry_same(Reimu)
+    entry_same(Sakuya)
 
     entry_same(Facer)
     entry_same(Follower)

@@ -204,6 +204,9 @@ namespace cp {
 	bool Vect::near(Vect v1, Vect v2, Float dist) {
 		return (v1-v2).lengthSq() < dist * dist;
 	}
+    
+    const Vect Vect::zero = Vect(0.0f,0.0f);
+    const Vect Vect::unit_square = Vect(1.0f,1.0f);
 }
 
 std::ostream& operator<<(std::ostream& out, const cp::Vect& vec)

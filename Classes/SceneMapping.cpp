@@ -35,6 +35,8 @@ GenericPlayScene(ClearingPath)
 GenericPlayScene(GardenEmpty)
 GenericPlayScene(GardenPath)
 
+GenericPlayScene(SakuyaRoom)
+
 GenericPlayScene(Library)
 
 const unordered_map<string,GScene::AdapterType> GScene::adapters = boost::assign::map_list_of
@@ -54,4 +56,6 @@ const unordered_map<string,GScene::AdapterType> GScene::adapters = boost::assign
 
     entry_same(Clearing)
     entry_same(ClearingPath)
+
+    entry_same(SakuyaRoom)
 ;

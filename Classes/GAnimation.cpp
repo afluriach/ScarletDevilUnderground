@@ -9,6 +9,7 @@
 #include "Prefix.h"
 
 #include "GAnimation.hpp"
+#include "macros.h"
 
 shared_ptr<AnimationSpriteSequence> AnimationSpriteSequence::loadFromRasterImage(const string& path, int cols, int rows)
 {
@@ -38,9 +39,9 @@ shared_ptr<AnimationSpriteSequence> AnimationSpriteSequence::loadFromRasterImage
     int frameWidth = intSize.first / cols;
     int frameHeight = intSize.second / rows;
     
-    for(int r = 0; r < rows; ++r)
+    for_irange(r,0,rows)
     {
-        for(int c = 0; c < cols; ++c)
+        for_irange(c,0,cols)
         {
             cocos2d::Rect rect(c*frameWidth,r*frameHeight,frameWidth,frameHeight);
             frames.pushBack(SpriteFrame::createWithTexture(texture, rect));

@@ -9,10 +9,12 @@
 #ifndef AI_hpp
 #define AI_hpp
 
+#include "object_ref.hpp"
 #include "types.h"
 
 class Agent;
 class GObject;
+class object_ref;
 
 namespace ai{
 
@@ -32,6 +34,10 @@ bool isFacingTargetsBack(GObject* agent, GObject* target);
 
 SpaceVect directionToTarget(GObject& agent, GObject& target);
 SpaceVect directionToTarget(GObject& agent, const SpaceVect& target);
+
+float distanceToTarget(GObject& agent, GObject& target);
+
+float viewAngleToTarget(const GObject& agent, const GObject& target);
 
 class StateMachine;
 
@@ -139,6 +145,20 @@ public:
 	virtual void onEndDetect(StateMachine& sm, GObject* target);
 protected:
 	GObject* target = nullptr;
+};
+
+class MaintainDistance : public State {
+public:
+    inline MaintainDistance(object_ref target, float distance, float margin) :
+    target(target),
+    distance(distance),
+    margin(margin)
+    {}
+    
+	virtual void update(StateMachine& sm);
+protected:
+	object_ref target;
+    float distance, margin;
 };
 
 class Flee : public State {
@@ -262,6 +282,18 @@ protected:
     std::function<void(StateMachine&)> op;
 };
 
+class Cast : public State {
+public:
+    Cast(string _spell_name, const ValueMap& _spell_args);
+
+    virtual void onEnter(StateMachine& sm);
+    virtual void update(StateMachine& sm);
+    virtual void onExit(StateMachine& sm);
+protected:
+    string spell_name;
+    ValueMap spell_args;
+};
+
 class FacerState : public State {
 public:
 	virtual void onEnter(StateMachine& sm);
@@ -276,6 +308,12 @@ public:
 	virtual void update(StateMachine& sm);
 protected:
 	GObject * target = nullptr;
+};
+
+class SakuyaBase : public State {
+public:
+	virtual void onEnter(StateMachine& sm);
+	virtual void update(StateMachine& sm);
 };
 
 } //end NS

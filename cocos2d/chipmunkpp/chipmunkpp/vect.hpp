@@ -110,6 +110,9 @@ namespace cp {
 
 		/// Returns true if the distance between v1 and v2 is less than dist.
 		static bool near(Vect v1, Vect v2, Float dist);
+        
+        static const Vect zero;
+        static const Vect unit_square;
 	};
 
 	bool operator==(const Vect& lhs, const Vect& rhs);

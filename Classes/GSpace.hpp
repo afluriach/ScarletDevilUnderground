@@ -34,7 +34,20 @@ public:
 
     GObject* addObject(const ValueMap& obj);
     GObject* addObject(GObject*);
+    
     void addObjects(const ValueVector& objs);
+    
+    template<typename T>
+    inline void addObjects(const vector<T*>& objects){
+        static_assert(
+            is_base_of<GObject, T>(),
+            "addObjects: not a GObject type"
+        );
+
+        BOOST_FOREACH(T* o, objects)
+            addObject(o);
+    }
+    
     void processAdditions();
     
     bool isObstacle(IntVec2);

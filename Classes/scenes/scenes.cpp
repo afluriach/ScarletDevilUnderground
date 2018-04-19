@@ -53,7 +53,7 @@ GScene::GScene() : keyListener(make_unique<KeyListener>(this))
     
     //Create the sublayers at construction (so they are available to mixins at construction time).
     //But do not add sublayers until init time.
-    for(int i=1; i < static_cast<int>(sceneLayers::end); ++i){
+    for_irange(i,1,sceneLayers::end){
         Layer* l = Layer::create();
         layers.insert(i, l);
     }
@@ -65,7 +65,7 @@ bool GScene::init()
 {
     Layer::init();
     
-    for(int i=1; i < static_cast<int>(sceneLayers::end); ++i){
+    for_irange(i,1,sceneLayers::end){
         Layer* l = layers.at(i);
         Node::addChild(l,i);
     }

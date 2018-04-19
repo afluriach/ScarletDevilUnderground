@@ -43,11 +43,11 @@ public:
 	util::multifunction<void(void)> multiInit;
 	util::multifunction<void(void)> multiUpdate;
 
-	inline string getName() {
+	inline string getName() const {
 		return name;
 	}
 
-	inline unsigned int getUUID() {
+	inline unsigned int getUUID() const {
 		return uuid;
 	}
 
@@ -77,18 +77,25 @@ public:
     SpaceVect initialCenter;
 
     void setInitialVelocity(const SpaceVect&& v);
+    void setInitialAngularVelocity(float w);
     Vec2 getInitialCenterPix();
 
-    SpaceVect getPos();
+    SpaceVect getPos() const;
     void setPos(float x, float y);
 
     virtual void setAngle(float a);
-    float getAngle();
+    float getAngle() const;
+    
     void rotate(float a);
     SpaceVect getFacingVector();
     virtual void setDirection(Direction d);
-    SpaceVect getVel();
+    
+    SpaceVect getVel() const;
     void setVel(SpaceVect v);
+    
+    float getAngularVel()const;
+    void setAngularVel(float w);
+    
     //Apply a force as impulse where t = frame length.
     void applyForceForSingleFrame(SpaceVect f);
     void applyImpulse(float mag, float angle);
@@ -124,7 +131,7 @@ public:
     void runLuaUpdate();
 	void setupLuaContext();
 
-	//END LUA    
+	//END LUA
 };
 
 #endif /* GObject_hpp */

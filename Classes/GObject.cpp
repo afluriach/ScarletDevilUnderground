@@ -63,6 +63,10 @@ GObject* GObject::constructByType(const string& type, const ValueMap& args )
         multiInit += [=]() -> void{ this->body->setVel(v);};
     }
 
+    void GObject::setInitialAngularVelocity(float w){
+        multiInit += [=]() -> void{ this->body->setAngularVel(w);};
+    }
+
     Vec2 GObject::getInitialCenterPix()
     {
         SpaceVect centerPix(initialCenter);
@@ -71,7 +75,7 @@ GObject* GObject::constructByType(const string& type, const ValueMap& args )
         return toCocos(centerPix);
     }
 
-     SpaceVect GObject::getPos(){
+     SpaceVect GObject::getPos() const {
         return body->getPos();
     }
 
@@ -87,7 +91,7 @@ GObject* GObject::constructByType(const string& type, const ValueMap& args )
         body->setAngle(a);
     }
     
-     float GObject::getAngle(){
+     float GObject::getAngle() const {
         if(!body){
             log("GObject::getAngle: %s has no physics body!", name.c_str());
             return 0.0;
@@ -108,12 +112,20 @@ GObject* GObject::constructByType(const string& type, const ValueMap& args )
             body->setAngle(dirToPhysicsAngle(d));
     }
     
-     SpaceVect GObject::getVel(){
+     SpaceVect GObject::getVel() const {
         return body->getVel();
     }
     
      void GObject::setVel(SpaceVect v){
         body->setVel(v);
+    }
+
+    float GObject::getAngularVel() const{
+        return body->getAngularVel();
+    }
+    
+     void GObject::setAngularVel(float w){
+        body->setAngularVel(w);
     }
 
      void GObject::applyForceForSingleFrame(SpaceVect f){

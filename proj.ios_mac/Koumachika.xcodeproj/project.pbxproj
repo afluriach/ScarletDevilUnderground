@@ -92,6 +92,8 @@
 		E2249BC41CF740B300B1D666 /* Items.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E2249BC11CF740B300B1D666 /* Items.cpp */; };
 		E2249BC71CF756CC00B1D666 /* GState.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E2249BC51CF756CC00B1D666 /* GState.cpp */; };
 		E2249BC81CF756CC00B1D666 /* GState.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E2249BC51CF756CC00B1D666 /* GState.cpp */; };
+		E229BF5A2086C2140053E7FA /* Sakuya.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E229BF582086C2140053E7FA /* Sakuya.cpp */; };
+		E229BF5B2086C2140053E7FA /* Sakuya.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E229BF582086C2140053E7FA /* Sakuya.cpp */; };
 		E23121FD1BF7FDA300FEA94B /* Dialog.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E23121FB1BF7FDA300FEA94B /* Dialog.cpp */; };
 		E23121FE1BF7FDA300FEA94B /* Dialog.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E23121FB1BF7FDA300FEA94B /* Dialog.cpp */; };
 		E23122031BFA757900FEA94B /* portraits in Resources */ = {isa = PBXBuildFile; fileRef = E23122021BFA757900FEA94B /* portraits */; };
@@ -134,6 +136,8 @@
 		E2A846841FE0D6B8001DFF88 /* Stalker.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E2A846811FE0D6B8001DFF88 /* Stalker.cpp */; };
 		E2AC8F481BCD4BC20001DB3E /* Graphics.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E2AC8F471BCD4BC20001DB3E /* Graphics.cpp */; };
 		E2AC8F491BCD4BC20001DB3E /* Graphics.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E2AC8F471BCD4BC20001DB3E /* Graphics.cpp */; };
+		E2AEF500208828EE00A4FC90 /* object_ref.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E2AEF4FE208828EE00A4FC90 /* object_ref.cpp */; };
+		E2AEF501208828EE00A4FC90 /* object_ref.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E2AEF4FE208828EE00A4FC90 /* object_ref.cpp */; };
 		E2B63AA51BE0450D005695B0 /* GObject.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E2B63AA31BE0450D005695B0 /* GObject.cpp */; };
 		E2B63AA61BE0450D005695B0 /* GObject.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E2B63AA31BE0450D005695B0 /* GObject.cpp */; };
 		E2B63AA91BE0498C005695B0 /* Block.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E2B63AA71BE0498C005695B0 /* Block.cpp */; };
@@ -268,6 +272,8 @@
 		E2249BC21CF740B300B1D666 /* Items.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = Items.hpp; sourceTree = "<group>"; };
 		E2249BC51CF756CC00B1D666 /* GState.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = GState.cpp; sourceTree = "<group>"; };
 		E2249BC61CF756CC00B1D666 /* GState.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = GState.hpp; sourceTree = "<group>"; };
+		E229BF582086C2140053E7FA /* Sakuya.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Sakuya.cpp; sourceTree = "<group>"; };
+		E229BF592086C2140053E7FA /* Sakuya.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = Sakuya.hpp; sourceTree = "<group>"; };
 		E23121FB1BF7FDA300FEA94B /* Dialog.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Dialog.cpp; sourceTree = "<group>"; };
 		E23121FC1BF7FDA300FEA94B /* Dialog.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = Dialog.hpp; sourceTree = "<group>"; };
 		E23122011BFA74AC00FEA94B /* LibraryOpening.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = LibraryOpening.h; path = scenes/LibraryOpening.h; sourceTree = "<group>"; };
@@ -314,6 +320,8 @@
 		E2A846821FE0D6B8001DFF88 /* Stalker.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = Stalker.hpp; sourceTree = "<group>"; };
 		E2AC8F461BCD40890001DB3E /* menu.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = menu.h; sourceTree = "<group>"; };
 		E2AC8F471BCD4BC20001DB3E /* Graphics.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Graphics.cpp; sourceTree = "<group>"; };
+		E2AEF4FE208828EE00A4FC90 /* object_ref.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = object_ref.cpp; sourceTree = "<group>"; };
+		E2AEF4FF208828EE00A4FC90 /* object_ref.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = object_ref.hpp; sourceTree = "<group>"; };
 		E2B63AA31BE0450D005695B0 /* GObject.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = GObject.cpp; sourceTree = "<group>"; };
 		E2B63AA41BE0450D005695B0 /* GObject.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = GObject.hpp; sourceTree = "<group>"; };
 		E2B63AA71BE0498C005695B0 /* Block.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Block.cpp; sourceTree = "<group>"; };
@@ -606,6 +614,8 @@
 				E2C75628208435DC004A59F5 /* GObjectMixins.cpp */,
 				E2C75629208435DC004A59F5 /* GObjectMixins.hpp */,
 				E24450231C02CFA8006D78B0 /* ObjectMapping.cpp */,
+				E2AEF4FE208828EE00A4FC90 /* object_ref.cpp */,
+				E2AEF4FF208828EE00A4FC90 /* object_ref.hpp */,
 				E21738F51FE609360045C4CB /* Agent.hpp */,
 				E21738F41FE609360045C4CB /* Agent.cpp */,
 				E2B63AA71BE0498C005695B0 /* Block.cpp */,
@@ -632,6 +642,8 @@
 				E2CDC5491C0507090017537B /* Player.cpp */,
 				E2CDC54A1C0507090017537B /* Player.hpp */,
 				E20470241C988DA30078276E /* Reimu.hpp */,
+				E229BF582086C2140053E7FA /* Sakuya.cpp */,
+				E229BF592086C2140053E7FA /* Sakuya.hpp */,
 				E2A846811FE0D6B8001DFF88 /* Stalker.cpp */,
 				E2A846821FE0D6B8001DFF88 /* Stalker.hpp */,
 				E2A8467D1FE0CB0E001DFF88 /* Torch.cpp */,
@@ -804,6 +816,7 @@
 				E214CF581C0ACEF800FC8784 /* Spell.cpp in Sources */,
 				46880B8819C43A87006E1F66 /* App.cpp in Sources */,
 				E2249BC71CF756CC00B1D666 /* GState.cpp in Sources */,
+				E2AEF500208828EE00A4FC90 /* object_ref.cpp in Sources */,
 				E2A8467F1FE0CB0E001DFF88 /* Torch.cpp in Sources */,
 				E2E01EED1C1DCA0D00330904 /* AI.cpp in Sources */,
 				E2A846831FE0D6B8001DFF88 /* Stalker.cpp in Sources */,
@@ -834,6 +847,7 @@
 				E2E846B61C16201F00E5ADBC /* HUD.cpp in Sources */,
 				E20A7D6A1BCD205E007F1A3B /* PlayScene.cpp in Sources */,
 				E2AC8F481BCD4BC20001DB3E /* Graphics.cpp in Sources */,
+				E229BF5A2086C2140053E7FA /* Sakuya.cpp in Sources */,
 				E2CDC5461C04F89D0017537B /* GAnimation.cpp in Sources */,
 				503AE10117EB989F00D1A890 /* main.m in Sources */,
 				E2C7562A208435DC004A59F5 /* GObjectMixins.cpp in Sources */,
@@ -858,10 +872,12 @@
 				E2C7562B208435DC004A59F5 /* GObjectMixins.cpp in Sources */,
 				46880B8919C43A87006E1F66 /* App.cpp in Sources */,
 				E25DC09A1C1EE2A400765415 /* LuaWrap.cpp in Sources */,
+				E229BF5B2086C2140053E7FA /* Sakuya.cpp in Sources */,
 				E2CDC5471C04F89D0017537B /* GAnimation.cpp in Sources */,
 				E2239A4020784E39005DA29F /* Wall.cpp in Sources */,
 				E2198F8E206825BC00832E0C /* Facer.cpp in Sources */,
 				E2198F92206825D300832E0C /* Follower.cpp in Sources */,
+				E2AEF501208828EE00A4FC90 /* object_ref.cpp in Sources */,
 				E2E01EEE1C1DCA0D00330904 /* AI.cpp in Sources */,
 				E2B63AA61BE0450D005695B0 /* GObject.cpp in Sources */,
 				E214CF5C1C0AD22E00FC8784 /* SpellMapping.cpp in Sources */,

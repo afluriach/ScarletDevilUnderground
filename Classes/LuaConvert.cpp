@@ -109,7 +109,7 @@ list<LuaRef> getArgs(lua_State* L)
     int nArgs = lua_gettop(L);
     list<LuaRef> result;
     
-    for(int i=0;i<nArgs; ++i){
+    for_irange(i,0,nArgs){
         LuaRef ref(L);
         ref.pop(L);
 

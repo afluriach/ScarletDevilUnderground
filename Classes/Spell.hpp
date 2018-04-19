@@ -10,11 +10,13 @@
 #define Spell_hpp
 
 #include "App.h"
+#include "GObject.hpp"
 #include "LuaAPI.hpp"
 #include "macros.h"
+#include "object_ref.hpp"
+#include "types.h"
 #include "util.h"
 
-class GObject;
 class Spellcaster;
 
 #define STANDARD_CONS(name) inline name(Spellcaster* caster,const ValueMap& args) : Spell(caster,args) {}
@@ -30,12 +32,17 @@ public:
     }
     
 	inline virtual ~Spell() {}
+    
+    inline bool isActive() const{
+        return active;
+    }
 
     virtual void init() = 0;
     virtual void update() = 0;
     virtual void end() = 0;
 protected:
     Spellcaster* caster;
+    bool active = true;
 };
 
 class FlameFence : public Spell{
@@ -130,6 +137,45 @@ protected:
     string name;
     //Would save the constructor argument for sending to init.
     //LuaRef luaArgs;
+};
+
+//class PuppetryDoll : public Spell
+//{
+//
+//    inline PuppetryDoll(Spellcaster* caster,const ValueMap& args) :
+//    Spell(caster,args)
+//    {}
+//    
+//    virtual void init();
+//    virtual void update();
+//    virtual void end();
+//
+//};
+
+class IllusionDialDagger;
+
+class IllusionDial : public PeriodicSpell
+{
+public:
+    static const float radius;
+    static const float arc_start;
+    static const float arc_end;
+    static const float arc_width;
+    static const float arc_spacing;
+    static const float angular_speed;
+    
+    static const int count;
+    
+    vector<object_ref> bullets;
+    vector<bool> launch_flags;
+
+    IllusionDial(Spellcaster* caster,const ValueMap& args);
+    
+    inline virtual float interval() const {return 2.0f/3.0f;};
+    
+    virtual void init();
+    virtual void runPeriodic();
+    virtual void end();
 };
 
 #endif /* Spell_hpp */

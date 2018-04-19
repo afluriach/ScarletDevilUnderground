@@ -24,6 +24,8 @@ const unordered_map<string,Spell::AdapterType> Spell::adapters = boost::assign::
     entry_same(FireStarburst)
     entry_same(FlameFence)
     entry_same(StarlightTyphoon)
+
+    entry_same(IllusionDial)
 ;
 
 const set<string> Spell::scripts = boost::assign::list_of

@@ -189,11 +189,45 @@ struct wrapMethod{
         luaRet.push(L);
         return 1;
     }
+    
+    static int wrapConst(const string& name, Ret (C::*func)(Args...) const, lua_State* L)
+    {
+        tuple<C*, Args...> args = cargs<C*,Args...>::getCArgs(L, name);
+        
+        C* This = get<0>(args);
+        if(!This){
+            log("wrapMethod %s: invalid this for first argument", name.c_str());
+            return 0;
+        }
+
+        //Return type (first template parameter) cannot be inferred.
+        Ret r = variadic_call<Ret>(mem_fn(func), args);
+        LuaRef luaRet = convert<Ret>::convertToLua(r, L);
+        luaRet.push(L);
+        return 1;
+    }
+    
 };
 
 template<typename C, typename...Args>
 struct wrapMethod<void,C,Args...>{
     static int wrap(const string& name, void (C::*func)(Args...), lua_State* L)
+    {
+        tuple<C*, Args...> args = cargs<C*,Args...>::getCArgs(L, name);
+
+        C* This = get<0>(args);
+        if(!This){
+            log("wrapMethod %s: invalid this for first argument", name.c_str());
+            return 0;
+        }
+
+        //Return type (first template parameter) cannot be inferred.
+        variadic_call<void>(mem_fn(func), args);
+        
+        return 0;
+    }
+    
+    static int wrapConst(const string& name, void (C::*func)(Args...)const, lua_State* L)
     {
         tuple<C*, Args...> args = cargs<C*,Args...>::getCArgs(L, name);
 
@@ -224,6 +258,12 @@ template<typename C, typename Ret, typename...Args>
 int methodWrapper(const string& name, Ret (C::*func)(Args...), lua_State* L)
 {
     return wrapMethod<Ret,C,Args...>::wrap(name, func, L);
+}
+
+template<typename C, typename Ret, typename...Args>
+int methodWrapper(const string& name, Ret (C::*func)(Args...)const, lua_State* L)
+{
+    return wrapMethod<Ret,C,Args...>::wrapConst(name, func, L);
 }
 
 

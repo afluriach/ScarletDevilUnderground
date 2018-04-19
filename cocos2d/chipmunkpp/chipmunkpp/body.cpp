@@ -48,6 +48,14 @@ namespace cp {
 		cpBodySetVel(body, velocity);
 	}
     
+    float Body::getAngularVel() const{
+        return body->w;
+    }
+    
+    void Body::setAngularVel(float w){
+        body->w = w;
+    }
+    
     void Body::applyImpulse(Vect force){
         cpBodyApplyImpulse(body,force,Vect(0,0));
     }

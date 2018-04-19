@@ -70,6 +70,11 @@ public:
     void castByName(string name, const ValueMap& args);
     void update();
     void stop();
+    
+    bool isSpellActive() const{
+        return static_cast<bool>(crntSpell);
+    }
+    
 protected:
     shared_ptr<Spell> crntSpell;
 };
@@ -147,12 +152,15 @@ public:
 
 //Initialize graphics from a still image. Any class that uses this mixin has to implement interface to
 //provide the path to the image file.
-class ImageSprite : public virtual SpriteObject
+class ImageSprite : public virtual SpriteObject, RegisterUpdate<ImageSprite>
 {
 public:
+    ImageSprite() : RegisterUpdate<ImageSprite>(this) {}
+
     virtual string imageSpritePath() const = 0;
     void loadImageSprite(const string& resPath, GraphicsLayer sceneLayer, Layer* dest);
     void initializeGraphics(Layer* layer);
+    void update();
 };
 
 class LoopAnimationSprite : public virtual SpriteObject, RegisterUpdate<LoopAnimationSprite>

@@ -81,7 +81,8 @@ mutex Inst::queueLock;
         if(catchLuaPanic)
             lua_atpanic(state, luaContextPanic);
 
-        cocos2d::log("Lua Inst created: %s.", name.c_str());
+        if(logInst)
+            cocos2d::log("Lua Inst created: %s.", name.c_str());
         
         if(instances.find(name) != instances.end())
             cocos2d::log("Lua Inst with duplicate name: %s.", name.c_str());
@@ -92,7 +93,9 @@ mutex Inst::queueLock;
     {
         lua_close(state);
         instances.erase(name);
-        cocos2d::log("Lua Inst closed: %s.", name.c_str());
+        
+        if(logInst)
+            cocos2d::log("Lua Inst closed: %s.", name.c_str());
     }
     
     void Inst::loadLibraries()
@@ -238,7 +241,7 @@ mutex Inst::queueLock;
                 int nResults = lua_gettop(state) - top;
                 vector<LuaRef> results;
                 
-                for(int i=0;i<nResults; ++i){
+                for_irange(i,0,nResults){
                     LuaRef ref(state);
                     ref.pop(state);
                     results.push_back(ref);

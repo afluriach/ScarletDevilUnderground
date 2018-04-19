@@ -10,10 +10,15 @@
 #define macros_h
 
 #define foreach BOOST_FOREACH
+
+#define for_irange(var,start,end) for(int var : boost::irange(static_cast<int>(start),static_cast<int>(end)))
+
 //Convert to concrete container type.
 //The list directly follows the list_of macro, and every element include the first
 //is in parenthesis
 #define list_of_typed(list,type) boost::assign::list_of list .convert_to_container<type>()
+
+#define debug_log(s) log("%s, %d: %s", __FUNCTION__, __LINE__, s);
 
 //Despite its name, it could map to another method of a different name
 //with the same signature in the same class.

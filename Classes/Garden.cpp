@@ -12,6 +12,7 @@
 #include "Flower.h"
 #include "Garden.hpp"
 #include "GSpace.hpp"
+#include "macros.h"
 
 const vector<string> GardenBlooming::colors = boost::assign::list_of
 ("blue")
@@ -24,8 +25,8 @@ const vector<string> GardenBlooming::colors = boost::assign::list_of
 void GardenBlooming::generateFlowers(){
     SpaceVect size = getMapSize();
     
-    for(int y=0;y < size.y; ++y){
-        for(int x=0;x<size.x; ++x){
+    for_irange(y,0,size.y){
+        for_irange(x,0,size.x){
             if(app->randomFloat(app->randomEngine) < weight){
                 addFlower(SpaceVect(0.5+x,0.5+y));
             }

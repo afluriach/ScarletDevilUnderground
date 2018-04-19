@@ -61,6 +61,7 @@
 #include <boost/dynamic_bitset.hpp>
 #include <boost/foreach.hpp>
 #include <boost/format.hpp>
+#include <boost/range/irange.hpp>
 #include <boost/lexical_cast.hpp>
 #include <boost/math/constants/constants.hpp>
 #include <boost/range/adaptor/map.hpp>

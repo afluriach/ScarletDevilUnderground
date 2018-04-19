@@ -66,7 +66,10 @@ void Spellcaster::stop()
 void Spellcaster::update()
 {
     if(crntSpell.get()){
-        crntSpell->update();
+        if(crntSpell->isActive())
+            crntSpell->update();
+        else
+            crntSpell.reset();
     }
 }
 
@@ -122,7 +125,7 @@ void FrictionObject::update()
     if(App::Gaccel * uk() * App::secondsPerFrame < vel.length())
         applyForceForSingleFrame(vel * -force);
     else
-        setVel(SpaceVect(0.0,0.0));
+        setVel(SpaceVect::zero);
 }
 
 //END PHYSICS
@@ -139,6 +142,13 @@ void SpriteObject::update()
 void ImageSprite::initializeGraphics(Layer* layer)
 {
     loadImageSprite(imageSpritePath(), sceneLayer(), layer);
+}
+
+void ImageSprite::update()
+{
+    if(sprite != nullptr){
+        sprite->setRotation(-toDegrees(getAngle()));
+    }
 }
 
 void LoopAnimationSprite::initializeGraphics(Layer* layer)
