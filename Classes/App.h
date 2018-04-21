@@ -10,8 +10,9 @@ The reason for implement as private inheritance is to hide some interface call b
 #include "LuaAPI.hpp"
 #include "LuaShell.hpp"
 
-class KeyRegister;
+class Gamepad;
 class GScene;
+class KeyRegister;
 
 class  App : private Application
 {
@@ -41,6 +42,7 @@ public:
     constexpr static float viewWidth = 12.0f;
     
     static const bool useRepl = false;
+    static const bool useGamepad = true;
     static const bool showStats = true;
     static const bool logSprites = false;
     static const string title;
@@ -116,6 +118,7 @@ public:
     boost::random::mt19937 randomEngine;
     
     KeyRegister* keyRegister;
+    Gamepad* gamepad;
     Lua::Inst lua;
     Lua::Inst replInst;
 protected:

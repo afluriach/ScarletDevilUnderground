@@ -10,6 +10,8 @@
 
 #include "App.h"
 #include "controls.h"
+#include "macros.h"
+#include "scenes.h"
 
 //Backtick "KEY_TILDE" enum does not work on OS X.
 const EventKeyboard::KeyCode backtickKey = static_cast<EventKeyboard::KeyCode>(123);
@@ -171,4 +173,123 @@ void KeyListener::onKeyUp(EventKeyboard::KeyCode code, Event* event)
         }
     }
 
+}
+
+void KeyListener::sendKeyDown(Keys key_id)
+{
+    auto key_it = onPressed.find(key_id);
+    
+    if(key_it != onPressed.end())
+    {
+        key_it->second();
+    }
+}
+
+void KeyListener::sendKeyUp(Keys key_id)
+{
+    auto key_it = onReleased.find(key_id);
+    
+    if(key_it != onReleased.end())
+    {
+        key_it->second();
+    }
+}
+
+#define add_key(key,padbutton) input_map.MapBool( \
+    static_cast<gainput::UserButtonId>(Keys::key), \
+    gamepad_id, \
+    gainput::padbutton \
+); \
+\
+wasKeyDown[Keys::key] = false;
+
+const bool Gamepad::logKeys = false;
+const float Gamepad::deadzone = 0.3f;
+
+Gamepad::Gamepad() :
+input_map(manager),
+gamepad(manager.GetDevice(gamepad_id)),
+gamepad_id(manager.CreateDevice<gainput::InputDevicePad>())
+{
+    if(gamepad){
+        log("Gamepad connected");
+    }
+    else{
+        log("Gamepad not connected");
+    }
+    
+    //init key map
+    add_key(escape,PadButtonStart);
+    add_key(action,PadButtonA);
+    add_key(enter,PadButtonX);
+}
+
+void Gamepad::checkKey(Keys key_id)
+{
+    bool newState = input_map.GetBool(static_cast<gainput::UserButtonId>(key_id));
+    
+    if(!wasKeyDown[key_id] && newState){
+        GScene::crntScene->keyListener->sendKeyDown(key_id);
+    }
+    else if(wasKeyDown[key_id] && !newState){
+        GScene::crntScene->keyListener->sendKeyUp(key_id);
+    }
+    
+    wasKeyDown[key_id] = newState;
+    //isKeyDown[key_id] = newState;
+}
+
+bool Gamepad::isKeyDown(Keys key_id)
+{
+    auto it = wasKeyDown.find(key_id);
+    
+    if(it == wasKeyDown.end())
+        return false;
+    else
+        return it->second;
+}
+
+SpaceVect Gamepad::getLeftStick()
+{
+    return left_stick;
+}
+
+SpaceVect Gamepad::getRightStick()
+{
+    return right_stick;
+}
+
+
+void Gamepad::update()
+{
+    manager.Update();
+
+    checkKey(Keys::escape);
+    checkKey(Keys::action);
+    checkKey(Keys::enter);
+    
+    left_stick.x = gamepad->GetFloat(gainput::PadButtonLeftStickX);
+    left_stick.y = gamepad->GetFloat(gainput::PadButtonLeftStickY);
+    
+    right_stick.x = gamepad->GetFloat(gainput::PadButtonRightStickX);
+    right_stick.y = gamepad->GetFloat(gainput::PadButtonRightStickY);
+    
+    if(left_stick.length() < deadzone)
+        left_stick = SpaceVect::zero;
+        
+    if(right_stick.length() < deadzone)
+        right_stick = SpaceVect::zero;
+    
+    if(logKeys)
+        logKeyPresses();
+}
+
+void Gamepad::logKeyPresses()
+{
+    enum_foreach(gainput::PadButton, button_id, PadButtonStart, PadButton31)
+    {
+        if(gamepad->GetBool(button_id)){
+            log("Gamepad button %d pressed", button_id);
+        }
+    }
 }

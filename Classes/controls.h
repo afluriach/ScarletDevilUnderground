@@ -38,6 +38,7 @@ extern const KeyCodeMap watchedKeys;
 //Tracks all key events. Used globally to poll key state.
 class KeyRegister
 {
+    friend Gamepad;
 public:
     bool isKeyDown(const Keys& key);
     static const bool logKeyEvents = false;
@@ -65,6 +66,7 @@ private:
 //must match that of the object whose methods are being invoked.
 class KeyListener
 {
+    friend Gamepad;
 public:
     KeyListener();
     KeyListener(Node* node);
@@ -84,10 +86,40 @@ private:
     void onKeyDown(EventKeyboard::KeyCode, Event*);
     void onKeyUp(EventKeyboard::KeyCode, Event*);
     
+    void sendKeyDown(Keys key_id);
+    void sendKeyUp(Keys key_id);
+    
     EventListenerKeyboard* keyListener;
     unordered_map<Keys, function<void()>, enum_hash> onPressed;
     unordered_map<Keys, function<void()>, enum_hash> onReleased;
     
+};
+
+//Wrapper for gainput library.
+class Gamepad
+{
+public:
+    static const bool logKeys;
+    static const float deadzone;
+
+    Gamepad();
+    void update();
+    bool isKeyDown(Keys key_id);
+    SpaceVect getLeftStick();
+    SpaceVect getRightStick();
+protected:
+    gainput::InputManager manager;
+    gainput::InputMap input_map;
+    gainput::DeviceId gamepad_id;
+    gainput::InputDevice* gamepad;
+
+    unordered_map<Keys,bool> wasKeyDown;
+    //unordered_map<Keys,bool> isKeyDown;
+    
+    SpaceVect left_stick,right_stick;
+    
+    void checkKey(Keys key_id);
+    void logKeyPresses();
 };
 
 #endif /* controls_h */

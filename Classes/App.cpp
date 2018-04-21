@@ -2,6 +2,7 @@
 
 #include "App.h"
 #include "controls.h"
+#include "macros.h"
 #include "menu.h"
 #include "GState.hpp"
 #include "scenes.h"
@@ -30,7 +31,8 @@ App::App() : lua("app"), replInst("repl")
 
 App::~App() 
 {
-    delete keyRegister;
+    delete_if(gamepad);
+    delete_if(keyRegister);
     
 //    if(useRepl){
 //        try{
@@ -78,6 +80,7 @@ bool App::applicationDidFinishLaunching() {
 
     //Activate key register.
     keyRegister = new KeyRegister();
+    gamepad = new Gamepad();
     
     //Load profile data
     GState::load();

@@ -89,6 +89,10 @@ void GScene::update(float dt)
     {
         app->checkPendingScript();
     }
+    
+    if(App::useGamepad){
+        app->gamepad->update();
+    }
 }
 
 void GScene::setPaused(bool p){

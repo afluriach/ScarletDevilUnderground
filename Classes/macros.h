@@ -45,4 +45,6 @@ inline ret method( signature ) \
 
 #define enum_foreach(cls,var_name,begin,end) for(cls var_name=cls::begin; var_name < cls::end; enum_increment(cls, var_name) )
 
+#define delete_if(ptr) if(ptr) { delete ptr; ptr = nullptr; }
+
 #endif /* macros_h */

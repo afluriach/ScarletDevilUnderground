@@ -48,6 +48,7 @@
 #include "ui/CocosGUI.h"
 #include "lua.hpp"
 #include "LuaBridge.h"
+#include "gainput/gainput.h"
 
 #if defined(TARGET_OS_IOS) && defined(__OBJC__)
     #import "platform/ios/CCEAGLView-ios.h"

@@ -138,6 +138,7 @@
 		E2AC8F491BCD4BC20001DB3E /* Graphics.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E2AC8F471BCD4BC20001DB3E /* Graphics.cpp */; };
 		E2AEF500208828EE00A4FC90 /* object_ref.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E2AEF4FE208828EE00A4FC90 /* object_ref.cpp */; };
 		E2AEF501208828EE00A4FC90 /* object_ref.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E2AEF4FE208828EE00A4FC90 /* object_ref.cpp */; };
+		E2AEF5032089983000A4FC90 /* libgainputstatic.a in Frameworks */ = {isa = PBXBuildFile; fileRef = E2AEF5022089982F00A4FC90 /* libgainputstatic.a */; };
 		E2B63AA51BE0450D005695B0 /* GObject.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E2B63AA31BE0450D005695B0 /* GObject.cpp */; };
 		E2B63AA61BE0450D005695B0 /* GObject.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E2B63AA31BE0450D005695B0 /* GObject.cpp */; };
 		E2B63AA91BE0498C005695B0 /* Block.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E2B63AA71BE0498C005695B0 /* Block.cpp */; };
@@ -322,6 +323,7 @@
 		E2AC8F471BCD4BC20001DB3E /* Graphics.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Graphics.cpp; sourceTree = "<group>"; };
 		E2AEF4FE208828EE00A4FC90 /* object_ref.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = object_ref.cpp; sourceTree = "<group>"; };
 		E2AEF4FF208828EE00A4FC90 /* object_ref.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = object_ref.hpp; sourceTree = "<group>"; };
+		E2AEF5022089982F00A4FC90 /* libgainputstatic.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libgainputstatic.a; path = ../gainput/lib/mac/libgainputstatic.a; sourceTree = "<group>"; };
 		E2B63AA31BE0450D005695B0 /* GObject.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = GObject.cpp; sourceTree = "<group>"; };
 		E2B63AA41BE0450D005695B0 /* GObject.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = GObject.hpp; sourceTree = "<group>"; };
 		E2B63AA71BE0498C005695B0 /* Block.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Block.cpp; sourceTree = "<group>"; };
@@ -372,6 +374,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				E2AEF5032089983000A4FC90 /* libgainputstatic.a in Frameworks */,
 				E29499A41FA1D4FC00179C82 /* libboost.a in Frameworks */,
 				1AC6FB21180E996B004C840B /* libcocos2d Mac.a in Frameworks */,
 				5087E76717EB910900C73F5D /* libz.dylib in Frameworks */,
@@ -439,6 +442,7 @@
 		29B97323FDCFA39411CA2CEA /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				E2AEF5022089982F00A4FC90 /* libgainputstatic.a */,
 				E2610C461FE06A890079B36F /* libboost-combined.a */,
 				E2D9A6EA1FE06252008E6D48 /* libboost.a */,
 				E29499A31FA1D4FC00179C82 /* libboost.a */,
@@ -1039,7 +1043,10 @@
 					"$(SRCROOT)/../cocos2d/external/glfw3/include/mac",
 				);
 				INFOPLIST_FILE = mac/Info.plist;
-				LIBRARY_SEARCH_PATHS = /Users/toni/lib/boost59/osx/build/x86_64/;
+				LIBRARY_SEARCH_PATHS = (
+					/Users/toni/lib/boost59/osx/build/x86_64/,
+					"$(SRCROOT)/../gainput/lib/mac",
+				);
 				MACOSX_DEPLOYMENT_TARGET = 10.10;
 				OTHER_LDFLAGS = (
 					"$(_COCOS_LIB_MAC_BEGIN)",
@@ -1077,7 +1084,10 @@
 					"$(SRCROOT)/../cocos2d/external/glfw3/include/mac",
 				);
 				INFOPLIST_FILE = mac/Info.plist;
-				LIBRARY_SEARCH_PATHS = /Users/toni/lib/boost59/osx/build/x86_64/;
+				LIBRARY_SEARCH_PATHS = (
+					/Users/toni/lib/boost59/osx/build/x86_64/,
+					"$(SRCROOT)/../gainput/lib/mac",
+				);
 				MACOSX_DEPLOYMENT_TARGET = 10.10;
 				OTHER_LDFLAGS = (
 					"$(_COCOS_LIB_MAC_BEGIN)",
@@ -1134,6 +1144,7 @@
 					"$(SRCROOT)/../cocos2d/chipmunkpp",
 					"$(SRCROOT)/../cocos2d/lua",
 					"$(SRCROOT)/../cocos2d/LuaBridge/**",
+					"$(SRCROOT)/../gainput/include",
 				);
 				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
 				MACOSX_DEPLOYMENT_TARGET = 10.7;
@@ -1185,6 +1196,7 @@
 					"$(SRCROOT)/../cocos2d/chipmunkpp",
 					"$(SRCROOT)/../cocos2d/lua",
 					"$(SRCROOT)/../cocos2d/LuaBridge/**",
+					"$(SRCROOT)/../gainput/include",
 				);
 				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
 				MACOSX_DEPLOYMENT_TARGET = 10.7;

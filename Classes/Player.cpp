@@ -26,14 +26,30 @@ void Player::checkControls()
         return;
 
     auto kr = app->keyRegister;
-    Vec2 moveDir = kr->getMoveKeyState();
+    auto gp = app->gamepad;
+    
+    Vec2 moveDir;
+    Vec2 moveDirKeyboard = kr->getMoveKeyState();
+    SpaceVect moveDirGamepad = gp->getLeftStick();
+    
+    if(moveDirGamepad.lengthSq() > 0.0f)
+        moveDir = toCocos(moveDirGamepad);
+    else
+        moveDir = moveDirKeyboard;
     
     ai::applyDesiredVelocity(*this, toChipmunk(moveDir)*getMaxSpeed(), getMaxAcceleration());
     
     if(moveDir.lengthSquared() == 0)
          animSprite->reset();
     
-    Vec2 facing = kr->getArrowKeyState();
+    Vec2 facing;
+    Vec2 facing_keyboard = kr->getArrowKeyState();
+    SpaceVect facing_gamepad = gp->getRightStick();
+    
+    if(facing_gamepad.lengthSq() > 0.0f)
+        facing = toCocos(facing_gamepad);
+    else
+        facing = facing_keyboard;
     
     //Facing is not diagonal, horizontal direction will override.
     setDirection(toDirection(toChipmunk(facing)));
@@ -57,8 +73,14 @@ void Player::checkControls()
     {
         GScene::getHUD()->setInteractionIcon(interactible->interactionIcon());
 
-        if(kr->isKeyDown(Keys::enter))
+        if(
+            kr->isKeyDown(Keys::enter) ||
+            kr->isKeyDown(Keys::action) ||
+            gp->isKeyDown(Keys::enter) ||
+            gp->isKeyDown(Keys::action)
+        ){
             interactible->interact();
+        }
     }
     else
     {
