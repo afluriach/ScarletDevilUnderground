@@ -47,4 +47,9 @@ inline ret method( signature ) \
 
 #define delete_if(ptr) if(ptr) { delete ptr; ptr = nullptr; }
 
+#define enum_bitwise_or(cls,a,b) static_cast<cls>(static_cast<unsigned int>(cls::a) | static_cast<unsigned int>(cls::b))
+
+#define enum_bitwise_or3(cls,a,b,c) static_cast<cls>(static_cast<unsigned int>(cls::a) | static_cast<unsigned int>(cls::b) | static_cast<unsigned int>(cls::c))
+
+
 #endif /* macros_h */

@@ -44,8 +44,8 @@ ScriptedScene(name)
         static_cast<int>(updateOrder::moveCamera)
     );
 
-    keyListener->addPressListener(
-        Keys::escape,
+    control_listener->addPressListener(
+        ControlAction::pause,
         [=]()-> void {onPausePressed(); }
     );
 }
@@ -72,9 +72,9 @@ void PlayScene::trackCameraTarget()
 
 void PlayScene::applyCameraControls()
 {
-    KeyRegister* kr = app->keyRegister;
+    ControlRegister* cr = app->control_register;
 
-    Vec2 arrowState = kr->getArrowKeyState();
+    Vec2 arrowState = toCocos(cr->getRightVector());
     arrowState *= cameraMovePixPerFrame;
     move(arrowState);
 }

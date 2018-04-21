@@ -94,6 +94,22 @@ struct enum_hash
     }
 };
 
+template<typename E>
+inline list<E> expand_enum_bitfield(E input, E end)
+{
+    list<E> result;
+    unsigned int input_int = static_cast<unsigned int>(input);
+    
+    for(unsigned int i = 1, bit = 0; i < static_cast<unsigned int>(end); i *= 2, ++bit)
+    {
+        if( (input_int >> bit) & 1){
+            result.push_back(static_cast<E>(i));
+        }
+    }
+    
+    return result;
+}
+
 #define wrap_method(cls,method,This) wrapMethod<cls,&cls::method>(This)
 
 //Wrapper to call a method of a derived type with a base this.
@@ -121,7 +137,6 @@ typename std::common_type<
   else
     return vmin(val1, std::forward<Ts>(vs)...);
 }
-
 
 void convertToUnitSpace(ValueMap& arg);
 cocos2d::Rect getUnitspaceRectangle(const ValueMap& tileMapObj);

@@ -11,7 +11,7 @@
 
 #include "Graphics.h"
 
-class KeyListener;
+class ControlListener;
 class SceneSelect;
 
 class TextListMenuLayer : public Layer
@@ -26,7 +26,7 @@ protected:
     vector<string> options;
     vector<listAction> optionActions;
     
-	unique_ptr<KeyListener> keyListener;
+	unique_ptr<ControlListener> control_listener;
     bool upHeld = false;
     bool downHeld = false;
     

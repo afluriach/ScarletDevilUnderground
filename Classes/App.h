@@ -10,15 +10,13 @@ The reason for implement as private inheritance is to hide some interface call b
 #include "LuaAPI.hpp"
 #include "LuaShell.hpp"
 
-class Gamepad;
+class ControlRegister;
 class GScene;
 class KeyRegister;
 
 class  App : private Application
 {
 public:
-    friend class GScene;
-
     enum class EventPriorities
     {
         KeyGlobalListenerEvent = 1,
@@ -41,8 +39,6 @@ public:
     constexpr static float tilesPerPixel = 1.0f/pixelsPerTile;
     constexpr static float viewWidth = 12.0f;
     
-    static const bool useRepl = false;
-    static const bool useGamepad = true;
     static const bool showStats = true;
     static const bool logSprites = false;
     static const string title;
@@ -117,11 +113,12 @@ public:
     boost::random::uniform_int_distribution<int> randomInt;
     boost::random::mt19937 randomEngine;
     
-    KeyRegister* keyRegister;
-    Gamepad* gamepad;
+    void checkPendingScript();
+    ControlRegister* control_register;
     Lua::Inst lua;
-    Lua::Inst replInst;
 protected:
+    void update(float dt);
+
     //The shell that is installed in the current scene.
     LuaShell* luaShell;
     string pendingScript;
@@ -136,7 +133,6 @@ protected:
     }
     
     void installLuaShell(GScene* scene);
-    void checkPendingScript();
 };
 
 extern App* app;

@@ -17,8 +17,8 @@
 const Color4F Dialog::backgroundColor = Color4F(0.5, 0.5, 0.5, 0.5);
 const Color3B Dialog::defaultTextColor = Color3B(255,255,255);
 
-Dialog::Dialog() :
-keyListener(make_unique<KeyListener>(this))
+Dialog::Dialog():
+control_listener(make_unique<ControlListener>())
 {}
 
 Dialog::~Dialog()
@@ -77,7 +77,7 @@ bool Dialog::init()
     addChild(cursor,2);
     
     scheduleUpdate();
-    keyListener->addPressListener(Keys::action, bind(&Dialog::checkManualAdvance, this));
+    control_listener->addPressListener(ControlAction::menuSelect, bind(&Dialog::checkManualAdvance, this));
     
     return true;
 }
@@ -125,7 +125,7 @@ void Dialog::update(float dt)
 {
     timeInFrame += dt;
     
-    if(app->keyRegister->isKeyDown(Keys::enter)){
+    if(app->control_register->isControlAction(ControlAction::dialogSkip)){
         checkSkipAdvance();
     }
         

@@ -38,6 +38,8 @@ namespace cp {
 
 		/// Returns the squared length. Faster than Vect::length() when you only need to compare lengths.
 		Float lengthSq() const;
+        
+        bool isZero() const;
 
 		/// Returns a perpendicular vector. (90 degree rotation)
 		Vect perp() const;

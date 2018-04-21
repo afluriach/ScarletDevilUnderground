@@ -21,10 +21,10 @@ TextListMenuLayer::TextListMenuLayer(
     const vector<string>& options,
     const vector<listAction>& optionActions
 ) :
+control_listener(make_unique<ControlListener>()),
 title(title),
 options(options),
-optionActions(optionActions),
-keyListener(make_unique<KeyListener>(this))
+optionActions(optionActions)
 {}
 
 TextListMenuLayer::~TextListMenuLayer() {}
@@ -79,7 +79,7 @@ const vector<string> SceneSelect::sceneTitles = boost::assign::list_of
 
 template <typename T>
 TextListMenuLayer::listAction sceneLaunchAdapter(){
-    return []() -> void { app->pushScene<T>(); };
+    return []() -> void { app->runScene<T>(); };
 }
 
 TextListMenuLayer::listAction sceneLaunchAdapterByName(const string& name){
@@ -127,20 +127,13 @@ bool TextListMenuLayer::init()
     cursor->setPositionX(leftMargin/2);
     updateCursor();
     
-    keyListener->addPressListener(Keys::moveUp, boost::bind( &TextListMenuLayer::upPressed, this));
-    keyListener->addPressListener(Keys::arrowUp, boost::bind( &TextListMenuLayer::upPressed, this));
-    
-    keyListener->addPressListener(Keys::moveDown, boost::bind( &TextListMenuLayer::downPressed, this));
-    keyListener->addPressListener(Keys::arrowDown, boost::bind( &TextListMenuLayer::downPressed, this));
+    control_listener->addPressListener(ControlAction::menuUp, boost::bind( &TextListMenuLayer::upPressed, this));
+    control_listener->addPressListener(ControlAction::menuDown, boost::bind( &TextListMenuLayer::downPressed, this));
 
-    keyListener->addPressListener(Keys::action, boost::bind( &TextListMenuLayer::selectPressed, this));
+    control_listener->addPressListener(ControlAction::menuSelect, boost::bind( &TextListMenuLayer::selectPressed, this));
     
-    keyListener->addReleaseListener(Keys::moveUp, boost::bind( &TextListMenuLayer::upReleased, this));
-    keyListener->addReleaseListener(Keys::arrowUp, boost::bind( &TextListMenuLayer::upReleased, this));
-    
-    keyListener->addReleaseListener(Keys::moveDown, boost::bind( &TextListMenuLayer::downReleased, this));
-    keyListener->addReleaseListener(Keys::arrowDown, boost::bind( &TextListMenuLayer::downReleased, this));
-
+    control_listener->addReleaseListener(ControlAction::menuUp, boost::bind( &TextListMenuLayer::upReleased, this));
+    control_listener->addReleaseListener(ControlAction::menuDown, boost::bind( &TextListMenuLayer::downReleased, this));
     
     return true;
 }
@@ -159,7 +152,7 @@ void TitleMenu::start()
 
 void TitleMenu::sceneSelect()
 {
-    app->pushScene<SceneSelect>();
+    app->runScene<SceneSelect>();
 }
 
 void TitleMenu::exit()
@@ -169,7 +162,7 @@ void TitleMenu::exit()
 
 void SceneSelect::back()
 {
-    app->popScene();
+    app->runScene<TitleMenu>();
 }
 
 const string PauseMenu::title = "-PAUSED-";

@@ -15,7 +15,7 @@
 class Dialog;
 class GSpace;
 class HUD;
-class KeyListener;
+class ControlListener;
 class PlayScene;
 
 namespace Lua{
@@ -70,7 +70,7 @@ public:
     
     static GScene* crntScene;
 	static string crntSceneName;
-	unique_ptr<KeyListener> keyListener;
+	unique_ptr<ControlListener> control_listener;
 
     static void runScene(const string& name);
 	static void restartScene();

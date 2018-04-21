@@ -18,180 +18,149 @@ const EventKeyboard::KeyCode backtickKey = static_cast<EventKeyboard::KeyCode>(1
 //Similarly, neither KEY_RETURN nor KEY_ENTER are recognized
 const EventKeyboard::KeyCode returnKey = static_cast<EventKeyboard::KeyCode>(35);
 
-const KeyCodeMap watchedKeys = boost::assign::map_list_of
-(EventKeyboard::KeyCode::KEY_Z, Keys::action)
-(backtickKey, Keys::backtick)
-(EventKeyboard::KeyCode::KEY_1, Keys::num1)
-(returnKey, Keys::enter)
-(EventKeyboard::KeyCode::KEY_ESCAPE, Keys::escape)
-(EventKeyboard::KeyCode::KEY_W, Keys::moveUp)
-(EventKeyboard::KeyCode::KEY_S, Keys::moveDown)
-(EventKeyboard::KeyCode::KEY_A, Keys::moveLeft)
-(EventKeyboard::KeyCode::KEY_D, Keys::moveRight)
-(EventKeyboard::KeyCode::KEY_UP_ARROW, Keys::arrowUp)
-(EventKeyboard::KeyCode::KEY_DOWN_ARROW, Keys::arrowDown)
-(EventKeyboard::KeyCode::KEY_LEFT_ARROW, Keys::arrowLeft)
-(EventKeyboard::KeyCode::KEY_RIGHT_ARROW, Keys::arrowRight);
+const bool ControlRegister::logKeyEvents = false;
+const bool ControlRegister::logButtons = false;
+const float ControlRegister::deadzone = 0.3f;
 
-KeyRegister::KeyRegister()
+const KeyCodeMap ControlRegister::watchedKeys = boost::assign::map_list_of
+    (EventKeyboard::KeyCode::KEY_Z, KeyboardKey::z)
+    (backtickKey, KeyboardKey::backtick)
+    (EventKeyboard::KeyCode::KEY_1, KeyboardKey::num1)
+    (returnKey, KeyboardKey::enter)
+    (EventKeyboard::KeyCode::KEY_ESCAPE, KeyboardKey::escape)
+    (EventKeyboard::KeyCode::KEY_W, KeyboardKey::w)
+    (EventKeyboard::KeyCode::KEY_S, KeyboardKey::s)
+    (EventKeyboard::KeyCode::KEY_A, KeyboardKey::a)
+    (EventKeyboard::KeyCode::KEY_D, KeyboardKey::d)
+    (EventKeyboard::KeyCode::KEY_UP_ARROW, KeyboardKey::arrowUp)
+    (EventKeyboard::KeyCode::KEY_DOWN_ARROW, KeyboardKey::arrowDown)
+    (EventKeyboard::KeyCode::KEY_LEFT_ARROW, KeyboardKey::arrowLeft)
+    (EventKeyboard::KeyCode::KEY_RIGHT_ARROW, KeyboardKey::arrowRight)
+;
+
+const GamepadButtonMap ControlRegister::watchedButtons = boost::assign::map_list_of
+    (gainput::PadButtonStart, GamepadButton::start)
+    (gainput::PadButtonA, GamepadButton::a)
+    (gainput::PadButtonB, GamepadButton::b)
+;
+
+const KeyActionMap ControlRegister::keyActionMap = boost::assign::map_list_of
+    (KeyboardKey::escape, enum_bitwise_or(ControlAction,menuBack,pause))
+    (KeyboardKey::backtick, ControlAction::scriptConsole)
+    (KeyboardKey::enter, enum_bitwise_or3(ControlAction,menuSelect,interact,enter))
+    (KeyboardKey::z, enum_bitwise_or(ControlAction,menuSelect,interact))
+;
+
+const ButtonActionMap ControlRegister::buttonActionMap = boost::assign::map_list_of
+    (GamepadButton::start, ControlAction::pause)
+    (GamepadButton::a, enum_bitwise_or(ControlAction,interact,menuSelect))
+    (GamepadButton::b, enum_bitwise_or(ControlAction,menuBack,dialogSkip))
+;
+
+ControlRegister::ControlRegister() :
+input_map(manager),
+gamepad_id(manager.CreateDevice<gainput::InputDevicePad>()),
+gamepad(manager.GetDevice(gamepad_id))
 {
     //Initialize key held map by putting each key enum in it.
-    for(auto it = watchedKeys.begin(); it != watchedKeys.end(); ++it)
+    for(auto it = watchedKeys.begin(); it != watchedKeys.end(); ++it){
+        isKeyDown[it->second] = false;
+    }
+    
+    for(auto it = watchedButtons.begin(); it != watchedButtons.end(); ++it){
+        isButtonDown[it->second] = false;
+    }
+    
+    enum_foreach(ControlAction,a,pause,end)
     {
-        keyDown[it->second] = false;
+        onPressedID[a] = list<unsigned int>();
+        onReleasedID[a] = list<unsigned int>();
     }
     
     keyListener = EventListenerKeyboard::create();
-    keyListener->onKeyPressed = bindMethod(&KeyRegister::onKeyDown, this);
-    keyListener->onKeyReleased = bindMethod(&KeyRegister::onKeyUp, this);
+    keyListener->onKeyPressed = bindMethod(&ControlRegister::onKeyDown, this);
+    keyListener->onKeyReleased = bindMethod(&ControlRegister::onKeyUp, this);
 
     Director::getInstance()->getEventDispatcher()->addEventListenerWithFixedPriority(
         keyListener,
         static_cast<int>(App::EventPriorities::KeyRegisterEvent)
     );
+    
+    manager.Update();
+    
+    if(gamepad->IsAvailable()){
+        log("Gamepad connected");
+    }
+    else{
+        log("Gamepad not connected");
+    }
+    
+    for(auto it = watchedButtons.begin(); it != watchedButtons.end(); ++it){
+        input_map.MapBool(
+            static_cast<gainput::UserButtonId>(it->second),
+            gamepad_id,
+            it->first
+        );
+    }
+
+
 }
 
-#define MOVE_KEYS isKeyDown(Keys::moveUp), isKeyDown(Keys::moveDown), isKeyDown(Keys::moveLeft), isKeyDown(Keys::moveRight)
-#define ARROW_KEYS isKeyDown(Keys::arrowUp), isKeyDown(Keys::arrowDown), isKeyDown(Keys::arrowLeft), isKeyDown(Keys::arrowRight)
-
-Vec2 getDirectionVecFromKeyQuad(bool up, bool down, bool left, bool right)
+ControlRegister::~ControlRegister()
 {
-    Vec2 result;
+    Director::getInstance()->getEventDispatcher()->removeEventListener(keyListener);
+}
+
+bool ControlRegister::isControlAction(ControlAction action)
+{
+    auto it = isActionPressed.find(action);
+    
+    if(it == isActionPressed.end()){
+        log("Unknown ControlAction %d", action);
+        return false;
+    }
+    else
+        return it->second;
+}
+
+
+#define MOVE_KEYS isKeyDown[KeyboardKey::w], isKeyDown[KeyboardKey::s], isKeyDown[KeyboardKey::a], isKeyDown[KeyboardKey::d]
+#define ARROW_KEYS isKeyDown[KeyboardKey::arrowUp], isKeyDown[KeyboardKey::arrowDown], isKeyDown[KeyboardKey::arrowLeft], isKeyDown[KeyboardKey::arrowRight]
+
+SpaceVect getDirectionVecFromKeyQuad(bool up, bool down, bool left, bool right)
+{
+    SpaceVect result;
 
     if(up && !down) result.y = 1;
     if(down && !up) result.y = -1;
     if(left && !right) result.x = -1;
     if(right && !left) result.x = 1;
     
-    if(result.lengthSquared() > 1)
-        result.normalize();
-    
-    return result;
+    return result.normalizeSafe();
 }
 
-Vec2 KeyRegister::getMoveKeyState()
-{
-    return getDirectionVecFromKeyQuad(MOVE_KEYS);
-}
-
-Vec2 KeyRegister::getArrowKeyState()
-{
-    return getDirectionVecFromKeyQuad(ARROW_KEYS);
-}
-
-void KeyRegister::onKeyDown(EventKeyboard::KeyCode code, Event* event)
+void ControlRegister::onKeyDown(EventKeyboard::KeyCode code, Event* event)
 {
     if(logKeyEvents)
         log("%d pressed", code);
     
-    if(watchedKeys.find(code) != watchedKeys.end())
-    {
-        keyDown[watchedKeys.find(code)->second] = true;
+    auto key_it = watchedKeys.find(code);
+    
+    if(key_it != watchedKeys.end()){
+        isKeyDown[key_it->second] = true;
     }
 }
 
-void KeyRegister::onKeyUp(EventKeyboard::KeyCode code, Event* event)
+void ControlRegister::onKeyUp(EventKeyboard::KeyCode code, Event* event)
 {
     if(logKeyEvents)
         log("%d released", code);
     
-    if(watchedKeys.find(code) != watchedKeys.end())
-    {
-        keyDown[watchedKeys.find(code)->second] = false;
-    }
-}
-
-bool KeyRegister::isKeyDown(const Keys& key)
-{
-    auto result = keyDown.find(key);
+    auto key_it = watchedKeys.find(code);
     
-    if(result == keyDown.end())
+    if(key_it != watchedKeys.end())
     {
-        log("isKeyDown: warning, unknown enum value %d.", key);
-        return false;
-    }
-    
-    return result->second;
-}
-
-KeyListener::KeyListener()
-{
-    initListener();
-    Director::getInstance()->getEventDispatcher()->addEventListenerWithFixedPriority(
-        keyListener,
-        static_cast<int>(App::EventPriorities::KeyGlobalListenerEvent)
-    );
-}
-
-KeyListener::KeyListener(Node* node)
-{
-    initListener();
-    node->getEventDispatcher()->addEventListenerWithSceneGraphPriority(keyListener, node);
-}
-
-void KeyListener::initListener()
-{
-    keyListener = EventListenerKeyboard::create();
-    keyListener->onKeyPressed = bindMethod(&KeyListener::onKeyDown, this);
-    keyListener->onKeyReleased = bindMethod(&KeyListener::onKeyUp, this);
-}
-
-void KeyListener::onKeyDown(EventKeyboard::KeyCode code, Event* event)
-{
-    auto code_it = watchedKeys.find(code);
-    
-    //If this is a watched key.
-    if(code_it != watchedKeys.end())
-    {
-        Keys k = code_it->second;
-        
-        auto key_it  = onPressed.find(k);
-        
-        //if there is a callback for this key.
-        if(key_it != onPressed.end())
-        {
-            key_it->second();
-        }
-    }
-}
-
-void KeyListener::onKeyUp(EventKeyboard::KeyCode code, Event* event)
-{
-    auto code_it = watchedKeys.find(code);
-    
-    //If this is a watched key.
-    if(code_it != watchedKeys.end())
-    {
-        Keys k = code_it->second;
-        
-        auto key_it  = onReleased.find(k);
-        
-        //if there is a callback for this key.
-        if(key_it != onReleased.end())
-        {
-            key_it->second();
-        }
-    }
-
-}
-
-void KeyListener::sendKeyDown(Keys key_id)
-{
-    auto key_it = onPressed.find(key_id);
-    
-    if(key_it != onPressed.end())
-    {
-        key_it->second();
-    }
-}
-
-void KeyListener::sendKeyUp(Keys key_id)
-{
-    auto key_it = onReleased.find(key_id);
-    
-    if(key_it != onReleased.end())
-    {
-        key_it->second();
+        isKeyDown[key_it->second] = false;
     }
 }
 
@@ -203,88 +172,112 @@ void KeyListener::sendKeyUp(Keys key_id)
 \
 wasKeyDown[Keys::key] = false;
 
-const bool Gamepad::logKeys = false;
-const float Gamepad::deadzone = 0.3f;
-
-Gamepad::Gamepad() :
-input_map(manager),
-gamepad(manager.GetDevice(gamepad_id)),
-gamepad_id(manager.CreateDevice<gainput::InputDevicePad>())
+void ControlRegister::updateVectors()
 {
-    if(gamepad){
-        log("Gamepad connected");
-    }
-    else{
-        log("Gamepad not connected");
-    }
-    
-    //init key map
-    add_key(escape,PadButtonStart);
-    add_key(action,PadButtonA);
-    add_key(enter,PadButtonX);
-}
+    prev_left_vector = left_vector;
+    prev_right_vector = right_vector;
 
-void Gamepad::checkKey(Keys key_id)
-{
-    bool newState = input_map.GetBool(static_cast<gainput::UserButtonId>(key_id));
+    SpaceVect left_stick,right_stick;
     
-    if(!wasKeyDown[key_id] && newState){
-        GScene::crntScene->keyListener->sendKeyDown(key_id);
-    }
-    else if(wasKeyDown[key_id] && !newState){
-        GScene::crntScene->keyListener->sendKeyUp(key_id);
+    if(gamepad->IsAvailable())
+    {
+        left_stick.x = gamepad->GetFloat(gainput::PadButtonLeftStickX);
+        left_stick.y = gamepad->GetFloat(gainput::PadButtonLeftStickY);
+
+        right_stick.x = gamepad->GetFloat(gainput::PadButtonRightStickX);
+        right_stick.y = gamepad->GetFloat(gainput::PadButtonRightStickY);
     }
     
-    wasKeyDown[key_id] = newState;
-    //isKeyDown[key_id] = newState;
-}
+    left_vector = (left_stick.length() >= deadzone) ? left_stick :  getDirectionVecFromKeyQuad(MOVE_KEYS);
 
-bool Gamepad::isKeyDown(Keys key_id)
-{
-    auto it = wasKeyDown.find(key_id);
+    right_vector = (right_stick.length() >= deadzone) ? right_stick :  getDirectionVecFromKeyQuad(ARROW_KEYS);
     
-    if(it == wasKeyDown.end())
-        return false;
-    else
-        return it->second;
+    if(left_vector.y > 0 || right_vector.y > 0)
+        isActionPressed[ControlAction::menuUp] = true;
+
+    if(left_vector.y < 0 || right_vector.y < 0)
+        isActionPressed[ControlAction::menuDown] = true;
 }
 
-SpaceVect Gamepad::getLeftStick()
+void ControlRegister::updateActionState()
 {
-    return left_stick;
+    wasActionPressed = isActionPressed;
+    
+    for(auto action_it = isActionPressed.begin(); action_it != isActionPressed.end(); ++action_it){
+        action_it->second = false;
+    }
+    
+    for(auto key_it = keyActionMap.begin(); key_it != keyActionMap.end(); ++key_it){
+        if(isKeyDown[key_it->first]){
+            setActions(key_it->second);
+        }
+    }
+    
+    for(auto button_it = buttonActionMap.begin(); button_it != buttonActionMap.end(); ++button_it){
+        if(isButtonDown[button_it->first]){
+            setActions(button_it->second);
+        }
+    }
 }
 
-SpaceVect Gamepad::getRightStick()
+void ControlRegister::setActions(ControlAction actions_bitfield)
 {
-    return right_stick;
+    list<ControlAction> actions = expand_enum_bitfield(actions_bitfield, ControlAction::end);
+    
+    BOOST_FOREACH(ControlAction a, actions)
+    {
+        isActionPressed[a] = true;
+    }
 }
 
+void ControlRegister::callCallbacks(ControlAction action, const ActionIDMap& id_map, const CallbackMap& callback_map)
+{
+    list<unsigned int> IDs = id_map.at(action);
 
-void Gamepad::update()
+    BOOST_FOREACH(unsigned int i, IDs){
+        auto it = callback_map.find(i);
+        if(it != callback_map.end())
+            it->second();
+    }
+}
+
+void ControlRegister::checkCallbacks()
+{
+    enum_foreach(ControlAction, action, pause, end)
+    {
+        if(!wasActionPressed[action] && isActionPressed[action]){
+            callCallbacks(action,onPressedID,onPressedCallback);
+        }
+        
+        else if(wasActionPressed[action] && !isActionPressed[action]){
+            callCallbacks(action,onReleasedID,onReleasedCallback);
+        }
+    }
+}
+
+void ControlRegister::update()
 {
     manager.Update();
-
-    checkKey(Keys::escape);
-    checkKey(Keys::action);
-    checkKey(Keys::enter);
+    if(gamepad->IsAvailable())
+        pollGamepad();
     
-    left_stick.x = gamepad->GetFloat(gainput::PadButtonLeftStickX);
-    left_stick.y = gamepad->GetFloat(gainput::PadButtonLeftStickY);
+    updateActionState();
+    updateVectors();
+    checkCallbacks();
     
-    right_stick.x = gamepad->GetFloat(gainput::PadButtonRightStickX);
-    right_stick.y = gamepad->GetFloat(gainput::PadButtonRightStickY);
-    
-    if(left_stick.length() < deadzone)
-        left_stick = SpaceVect::zero;
-        
-    if(right_stick.length() < deadzone)
-        right_stick = SpaceVect::zero;
-    
-    if(logKeys)
-        logKeyPresses();
+    if(logButtons)
+        logGamepadButtons();
 }
 
-void Gamepad::logKeyPresses()
+void ControlRegister::pollGamepad()
+{
+    for(auto button_it = watchedButtons.begin(); button_it != watchedButtons.end(); ++button_it){
+        isButtonDown[button_it->second] = input_map.GetBool(static_cast<gainput::UserButtonId>(button_it->second));
+        //isButtonDown[button_it->second] = input_map.GetBool(button_it->first);
+    }
+}
+
+void ControlRegister::logGamepadButtons()
 {
     enum_foreach(gainput::PadButton, button_id, PadButtonStart, PadButton31)
     {
@@ -292,4 +285,56 @@ void Gamepad::logKeyPresses()
             log("Gamepad button %d pressed", button_id);
         }
     }
+}
+
+unsigned int ControlRegister::addPressListener(ControlAction action, function<void()> f)
+{
+    int uuid = nextListenerUUID++;
+
+    onPressedID[action].push_back(uuid);
+    onPressedCallback[uuid] = f;
+    
+    return uuid;
+}
+
+unsigned int ControlRegister::addReleaseListener(ControlAction action, function<void()> f)
+{
+    int uuid = nextListenerUUID++;
+
+    onReleasedID[action].push_back(uuid);
+    onReleasedCallback[uuid] = f;
+    
+    return uuid;
+}
+
+void ControlRegister::removeListener(unsigned int uuid)
+{
+    for(auto it = onPressedID.begin(); it != onPressedID.end(); ++it){
+        it->second.remove(uuid);
+    }
+
+    for(auto it = onReleasedID.begin(); it != onReleasedID.end(); ++it){
+        it->second.remove(uuid);
+    }
+
+    onPressedCallback.erase(uuid);
+    onReleasedCallback.erase(uuid);
+}
+
+ControlListener::~ControlListener()
+{
+    BOOST_FOREACH(unsigned int id, callback_IDs){
+        app->control_register->removeListener(id);
+    }
+}
+
+void ControlListener::addPressListener(ControlAction action, function<void()> f)
+{
+    unsigned int uuid = app->control_register->addPressListener(action, f);
+    callback_IDs.push_back(uuid);
+}
+void ControlListener::addReleaseListener(ControlAction action, function<void()> f)
+{
+    unsigned int uuid = app->control_register->addReleaseListener(action, f);
+    callback_IDs.push_back(uuid);
 }

@@ -41,7 +41,8 @@ void GScene::restartScene()
 	runScene(crntSceneName);
 }
 
-GScene::GScene() : keyListener(make_unique<KeyListener>(this))
+GScene::GScene() :
+control_listener(make_unique<ControlListener>())
 {
     //Updater has to be scheduled at init time.
     multiInit.insertWithOrder(
@@ -85,14 +86,6 @@ void GScene::update(float dt)
 {
     if(!isPaused)
         multiUpdate();
-    else
-    {
-        app->checkPendingScript();
-    }
-    
-    if(App::useGamepad){
-        app->gamepad->update();
-    }
 }
 
 void GScene::setPaused(bool p){

@@ -25,38 +25,23 @@ void Player::checkControls()
     if(GScene::isDialogActive())
         return;
 
-    auto kr = app->keyRegister;
-    auto gp = app->gamepad;
+    auto cr = app->control_register;
     
-    Vec2 moveDir;
-    Vec2 moveDirKeyboard = kr->getMoveKeyState();
-    SpaceVect moveDirGamepad = gp->getLeftStick();
+    SpaceVect moveDir = cr->getLeftVector();
     
-    if(moveDirGamepad.lengthSq() > 0.0f)
-        moveDir = toCocos(moveDirGamepad);
-    else
-        moveDir = moveDirKeyboard;
+    ai::applyDesiredVelocity(*this, moveDir*getMaxSpeed(), getMaxAcceleration());
     
-    ai::applyDesiredVelocity(*this, toChipmunk(moveDir)*getMaxSpeed(), getMaxAcceleration());
-    
-    if(moveDir.lengthSquared() == 0)
+    if(moveDir.isZero())
          animSprite->reset();
     
-    Vec2 facing;
-    Vec2 facing_keyboard = kr->getArrowKeyState();
-    SpaceVect facing_gamepad = gp->getRightStick();
-    
-    if(facing_gamepad.lengthSq() > 0.0f)
-        facing = toCocos(facing_gamepad);
-    else
-        facing = facing_keyboard;
+    SpaceVect facing = cr->getRightVector();
     
     //Facing is not diagonal, horizontal direction will override.
-    setDirection(toDirection(toChipmunk(facing)));
+    setDirection(toDirection(facing));
     
     //Player will automatically face their movement direction if look keys are not pressed
     if(facing.isZero() && body->getVel().lengthSq() > square(getMaxSpeed())/2){
-        setDirection(toDirection(toChipmunk(moveDir)));
+        setDirection(toDirection(moveDir));
     }
     
     //Fire if arrow key is pressed
@@ -73,12 +58,7 @@ void Player::checkControls()
     {
         GScene::getHUD()->setInteractionIcon(interactible->interactionIcon());
 
-        if(
-            kr->isKeyDown(Keys::enter) ||
-            kr->isKeyDown(Keys::action) ||
-            gp->isKeyDown(Keys::enter) ||
-            gp->isKeyDown(Keys::action)
-        ){
+        if(cr->isControlAction(ControlAction::interact)){
             interactible->interact();
         }
     }

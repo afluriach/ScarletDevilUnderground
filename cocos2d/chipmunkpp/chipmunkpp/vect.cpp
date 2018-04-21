@@ -113,6 +113,10 @@ namespace cp {
 	Float Vect::length() const {
 		return sqrt(lengthSq());
 	}
+    
+    bool Vect::isZero() const {
+        return x == 0 && y == 0;
+    }
 
 	Vect Vect::perp() const {
 		return Vect(-y, x);

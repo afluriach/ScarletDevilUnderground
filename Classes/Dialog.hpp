@@ -16,7 +16,7 @@
 #include "Graphics.h"
 
 class Dialog;
-class KeyListener;
+class ControlListener;
 
 typedef function<void(Dialog&)> DialogFrame;
 
@@ -93,7 +93,7 @@ private:
     DrawNode* backgroundNode;
     Cursor* cursor;
     
-    unique_ptr<KeyListener> keyListener;
+    unique_ptr<ControlListener> control_listener;
     
 //Current state of the dialog.
     vector<DialogFrame> dialog;

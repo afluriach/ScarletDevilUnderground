@@ -6,6 +6,7 @@
 #include "menu.h"
 #include "GState.hpp"
 #include "scenes.h"
+#include "util.h"
 
 App* app;
 
@@ -18,32 +19,17 @@ const vector<string> App::shaderFiles = boost::assign::list_of
 ("hue_shift_right")
 ;
 
-App::App() : lua("app"), replInst("repl")
+App::App() : lua("app")
 {
     app = this;
     //Initialize Lua
-    lua.runFile("scripts/init.lua");
-    
-    if(useRepl){
-//        luaReplThread = new thread(Lua::replThreadMain, &replInst);
-    }
+    lua.runFile("scripts/init.lua");    
 }
 
 App::~App() 
 {
-    delete_if(gamepad);
-    delete_if(keyRegister);
-    
-//    if(useRepl){
-//        try{
-//            lstop(replInst.state, nullptr);
-//        }
-//        catch(lua_longjmp* ex){}
-//        catch(runtime_error ex) {}
-//        luaReplThread->join();
-//        delete luaReplThread;
-//    }
-    
+    delete_if(control_register);
+        
     log("app exiting");
 }
 
@@ -79,11 +65,18 @@ bool App::applicationDidFinishLaunching() {
     loadShaders();
 
     //Activate key register.
-    keyRegister = new KeyRegister();
-    gamepad = new Gamepad();
+    control_register = new ControlRegister();
     
     //Load profile data
     GState::load();
+    
+    Director::getInstance()->getScheduler()->schedule(
+        bindMethod(&App::update, this),
+        this,
+        0.0f,
+        false,
+        "app_update"
+    );
     
     //Create title menu scene and run it.
     runScene<TitleMenu>();
@@ -141,12 +134,12 @@ void App::installLuaShell(GScene* gscene)
 {
     luaShell = LuaShell::create();
     luaShell->setVisible(false);
-    gscene->keyListener->addPressListener(
-        Keys::backtick,
+    gscene->control_listener->addPressListener(
+        ControlAction::scriptConsole,
         [=]() -> void {luaShell->toggleVisible();}
     );
-	gscene->keyListener->addPressListener(
-        Keys::enter,
+	gscene->control_listener->addPressListener(
+        ControlAction::enter,
         [=]() -> void {if(luaShell->isVisible()) pendingScript = luaShell->getText();}
     );
     
@@ -163,4 +156,10 @@ void App::loadShaders()
     BOOST_FOREACH(string name, shaderFiles){
         GLProgramCache::getInstance()->loadGLProgram(name, "shaders/"+name+".vert", "shaders/"+name+".frag");
     }
+}
+
+void App::update(float dt)
+{
+    checkPendingScript();
+    control_register->update();
 }
