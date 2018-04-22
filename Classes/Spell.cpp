@@ -11,6 +11,7 @@
 #include "Bullet.hpp"
 #include "GSpace.hpp"
 #include "macros.h"
+#include "Player.hpp"
 #include "Spell.hpp"
 #include "scenes.h"
 #include "util.h"
@@ -195,4 +196,39 @@ void IllusionDial::runPeriodic()
 void IllusionDial::end()
 {
     //delete remaining bullets
+}
+
+const int PlayerBatMode::framesPerDrain = App::framesPerSecond / Player::batModeCostPerSecond;
+
+PlayerBatMode::PlayerBatMode(Player* caster,const ValueMap& args) :
+Spell(caster,args)
+{
+    p = caster;
+}
+
+void PlayerBatMode::init()
+{
+    p->consumePower(Player::batModeInitialCost);
+
+    p->setSpellProtectionMode(true);
+    p->setSprite("flandre_bat");
+    p->setMaxSpeed(Player::batModeMaxSpeed);
+}
+void PlayerBatMode::update()
+{
+    if(framesSinceDrain >= framesPerDrain){
+        if(!p->consumePower(1)){
+            active = false;
+        }
+        framesSinceDrain = 0;
+    }
+    p->checkBatModeControls();
+    ++framesSinceDrain;
+}
+
+void PlayerBatMode::end()
+{
+    p->setSpellProtectionMode(false);
+    p->setSprite("flandre");
+    p->setMaxSpeed(Player::baseMaxSpeed);
 }

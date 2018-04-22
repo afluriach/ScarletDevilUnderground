@@ -25,6 +25,9 @@ enum class KeyboardKey
     z,
     backtick,
     num1,
+    num2,
+    num3,
+    num4,
     enter,
 	escape,
 };
@@ -34,6 +37,10 @@ enum class GamepadButton
     start = 1,
     a,
     b,
+    dpadUp,
+    dpadRight,
+    dpadDown,
+    dpadLeft,
 };
 
 enum class ControlAction
@@ -47,7 +54,11 @@ enum class ControlAction
     dialogSkip = 64,
     interact = 128,
     enter = 256,
-    end = 512,
+    spell1 = 512,
+    spell2 = 1024,
+    spell3 = 2048,
+    spell4 = 4096,
+    end = 8192,
 };
 
 typedef unordered_map<EventKeyboard::KeyCode, KeyboardKey, enum_hash> KeyCodeMap;
@@ -77,6 +88,7 @@ public:
     ~ControlRegister();
     
     bool isControlAction(ControlAction action);
+    bool isControlActionPressed(ControlAction action);
     
     inline SpaceVect getLeftVector(){ return left_vector;}
     inline SpaceVect getRightVector(){ return right_vector;}

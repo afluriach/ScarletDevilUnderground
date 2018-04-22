@@ -194,6 +194,7 @@ public:
     void init();
     void update();
     
+    void setSprite(const string& name);
     
     virtual void setAngle(float a);
     void setDirection(Direction d);

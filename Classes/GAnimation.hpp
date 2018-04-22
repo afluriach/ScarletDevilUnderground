@@ -77,7 +77,7 @@ public:
 protected:
     shared_ptr<AnimationSpriteSequence> sequence;
 
-    Sprite* sprite;
+    Sprite* sprite = nullptr;
     float distanceAccumulated = 0;
     unsigned char crntFrame = 1;
     Direction direction = Direction::up;

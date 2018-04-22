@@ -26,6 +26,9 @@ const KeyCodeMap ControlRegister::watchedKeys = boost::assign::map_list_of
     (EventKeyboard::KeyCode::KEY_Z, KeyboardKey::z)
     (backtickKey, KeyboardKey::backtick)
     (EventKeyboard::KeyCode::KEY_1, KeyboardKey::num1)
+    (EventKeyboard::KeyCode::KEY_2, KeyboardKey::num2)
+    (EventKeyboard::KeyCode::KEY_3, KeyboardKey::num3)
+    (EventKeyboard::KeyCode::KEY_4, KeyboardKey::num4)
     (returnKey, KeyboardKey::enter)
     (EventKeyboard::KeyCode::KEY_ESCAPE, KeyboardKey::escape)
     (EventKeyboard::KeyCode::KEY_W, KeyboardKey::w)
@@ -42,6 +45,10 @@ const GamepadButtonMap ControlRegister::watchedButtons = boost::assign::map_list
     (gainput::PadButtonStart, GamepadButton::start)
     (gainput::PadButtonA, GamepadButton::a)
     (gainput::PadButtonB, GamepadButton::b)
+    (gainput::PadButtonUp, GamepadButton::dpadUp)
+    (gainput::PadButtonRight, GamepadButton::dpadRight)
+    (gainput::PadButtonDown, GamepadButton::dpadDown)
+    (gainput::PadButtonLeft, GamepadButton::dpadLeft)
 ;
 
 const KeyActionMap ControlRegister::keyActionMap = boost::assign::map_list_of
@@ -49,12 +56,20 @@ const KeyActionMap ControlRegister::keyActionMap = boost::assign::map_list_of
     (KeyboardKey::backtick, ControlAction::scriptConsole)
     (KeyboardKey::enter, enum_bitwise_or3(ControlAction,menuSelect,interact,enter))
     (KeyboardKey::z, enum_bitwise_or(ControlAction,menuSelect,interact))
+    (KeyboardKey::num1, ControlAction::spell1)
+    (KeyboardKey::num2, ControlAction::spell2)
+    (KeyboardKey::num3, ControlAction::spell3)
+    (KeyboardKey::num4, ControlAction::spell4)
 ;
 
 const ButtonActionMap ControlRegister::buttonActionMap = boost::assign::map_list_of
     (GamepadButton::start, ControlAction::pause)
     (GamepadButton::a, enum_bitwise_or(ControlAction,interact,menuSelect))
     (GamepadButton::b, enum_bitwise_or(ControlAction,menuBack,dialogSkip))
+    (GamepadButton::dpadUp, ControlAction::spell1)
+    (GamepadButton::dpadRight, ControlAction::spell2)
+    (GamepadButton::dpadDown, ControlAction::spell3)
+    (GamepadButton::dpadLeft, ControlAction::spell4)
 ;
 
 ControlRegister::ControlRegister() :
@@ -123,6 +138,18 @@ bool ControlRegister::isControlAction(ControlAction action)
         return it->second;
 }
 
+bool ControlRegister::isControlActionPressed(ControlAction action)
+{
+    auto it_prev = wasActionPressed.find(action);
+    auto it_crnt = isActionPressed.find(action);
+    
+    if(it_prev == wasActionPressed.end() || it_crnt == isActionPressed.end()){
+        log("Unknown ControlAction %d", action);
+        return false;
+    }
+    else
+        return !it_prev->second && it_crnt->second;
+}
 
 #define MOVE_KEYS isKeyDown[KeyboardKey::w], isKeyDown[KeyboardKey::s], isKeyDown[KeyboardKey::a], isKeyDown[KeyboardKey::d]
 #define ARROW_KEYS isKeyDown[KeyboardKey::arrowUp], isKeyDown[KeyboardKey::arrowDown], isKeyDown[KeyboardKey::arrowLeft], isKeyDown[KeyboardKey::arrowRight]

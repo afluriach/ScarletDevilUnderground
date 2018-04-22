@@ -98,6 +98,9 @@ void TimedLoopAnimation::update()
 
 void PatchConAnimation::loadAnimation(const string& path)
 {
+    if(sprite)
+        sprite->removeFromParent();
+    
     sequence = AnimationSpriteSequence::loadFromRasterImage(path,4,4);
     
     sprite = Sprite::createWithSpriteFrame(sequence->frames.at(0));

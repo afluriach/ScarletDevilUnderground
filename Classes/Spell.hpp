@@ -178,4 +178,17 @@ public:
     virtual void end();
 };
 
+class PlayerBatMode : public Spell{
+public:
+    static const int framesPerDrain;
+
+    PlayerBatMode(Player* caster, const ValueMap& args);
+    virtual void init();
+    virtual void update();
+    virtual void end();
+protected:
+    Player* p = nullptr;
+    int framesSinceDrain = 0;
+};
+
 #endif /* Spell_hpp */

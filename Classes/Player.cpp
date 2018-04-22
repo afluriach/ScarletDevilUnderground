@@ -19,8 +19,78 @@
 #include "HUD.hpp"
 #include "Player.hpp"
 #include "scenes.h"
+#include "Spell.hpp"
 
-void Player::checkControls()
+const int Player::defaultMaxHealth = 5;
+const int Player::defaultMaxPower = 500;
+
+const int Player::batModeInitialCost = 9;
+const int Player::batModeCostPerSecond = 5;
+
+const float Player::fireDist = 1.0f;
+
+const float Player::spellCooldownTime = 1.0f;
+const float Player::hitProtectionTime = 2.4f;
+const float Player::hitFlickerInterval = 0.3f;
+
+const float Player::baseMaxSpeed = 3.0f;
+const float Player::batModeMaxSpeed = 5.0f;
+
+void Player::checkBatModeControls()
+{
+    auto cr = app->control_register;
+    
+    SpaceVect moveDir = cr->getLeftVector();
+    
+    ai::applyDesiredVelocity(*this, moveDir*getMaxSpeed(), getMaxAcceleration());
+    
+    if(moveDir.isZero())
+         animSprite->reset();
+    
+    SpaceVect facing = cr->getRightVector();
+    
+    //Facing is not diagonal, horizontal direction will override.
+    setDirection(toDirection(facing));
+    
+    //Player will automatically face their movement direction if look keys are not pressed
+    if(facing.isZero() && body->getVel().lengthSq() > square(getMaxSpeed())/2){
+        setDirection(toDirection(moveDir));
+    }
+
+}
+
+void Player::updateSpell()
+{
+    auto cr = app->control_register;
+    
+    if(isSpellActive())
+    {
+        if(cr->isControlActionPressed(ControlAction::spell1)){
+            stop();
+        }
+    }
+    else
+    {
+        spellCooldown = max(spellCooldown - App::secondsPerFrame, 0.0f);
+        
+        if(spellCooldown <= 0){
+            if( cr->isControlActionPressed(ControlAction::spell1) &&
+                power > Player::batModeInitialCost){
+                    cast(make_shared<PlayerBatMode>(this, ValueMap()));
+            }
+        }
+    }
+}
+
+void Player::stop()
+{
+    Spellcaster::stop();
+
+    spellCooldown = spellCooldownTime;
+    GScene::getHUD()->power->runFlicker();
+}
+
+void Player::checkBaseControls()
 {
     if(GScene::isDialogActive())
         return;
@@ -86,6 +156,17 @@ void Player::updateFireTime()
     lastFireTime += App::secondsPerFrame;
 }
 
+void Player::update()
+{
+    if(!isSpellActive()){
+        updateFireTime();
+        updateHitTime();
+        checkBaseControls();
+    }
+    updateSpell();
+}
+
+
 void Player::fireIfPossible()
 {
     if(lastFireTime >= getFireInterval() && power > 0)
@@ -107,7 +188,7 @@ void Player::fire()
 }
 
 void Player::hit(){
-    if(hitProtectionCountdown <= 0){
+    if(hitProtectionCountdown <= 0 && !spellProtectionMode){
         hitProtectionCountdown = hitProtectionTime;
         sprite->runAction(flickerAction(hitFlickerInterval, hitProtectionTime, 81.0f));
         GScene::getHUD()->health->runFlicker();

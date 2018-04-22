@@ -60,6 +60,7 @@ public:
 
     bool init();
     void setVal(int val);
+    void runFlicker();
 private:
     Sprite* icon;
     Label* counter;

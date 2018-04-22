@@ -11,18 +11,33 @@
 
 #include "AIMixins.hpp"
 #include "GObject.hpp"
+#include "GObjectMixins.hpp"
 #include "macros.h"
 
 class Collectible;
 
-class Player : virtual public GObject, PatchConSprite, CircleBody, RegisterUpdate<Player>, RadarObject
+class Player : virtual public GObject,
+public PatchConSprite,
+public CircleBody,
+public RadarObject,
+public Spellcaster,
+RegisterUpdate<Player>
 {
 public:
-    static constexpr float fireDist = 1.0f;
-    static const int defaultMaxHealth = 5;
-    static const int defaultMaxPower = 500;
-    static constexpr float hitProtectionTime = 2.4f;
-    static constexpr float hitFlickerInterval = 0.3f;
+    static const int defaultMaxHealth;
+    static const int defaultMaxPower;
+    
+    static const int batModeInitialCost;
+    static const int batModeCostPerSecond;
+    
+    static const float fireDist;
+    
+    static const float spellCooldownTime;
+    static const float hitProtectionTime;
+    static const float hitFlickerInterval;
+    
+    static const float baseMaxSpeed;
+    static const float batModeMaxSpeed;
 
     inline Player(const ValueMap& args) :
     GObject(args),
@@ -30,7 +45,8 @@ public:
     RegisterUpdate<Player>(this)
     {}
     
-    virtual inline float getMaxSpeed() const{ return 3.0f;}
+    inline void setMaxSpeed(float s) {crntMaxSpeed = s;}
+    virtual inline float getMaxSpeed() const{ return crntMaxSpeed;}
     virtual inline float getMaxAcceleration() const {return 6.0f;}
     
     //setting for player object sensing
@@ -40,12 +56,6 @@ public:
 
     inline float getFireInterval() const {
         return 0.6f;
-    }
-    
-    inline void update(){
-        updateFireTime();
-        updateHitTime();
-        checkControls();
     }
     
     void hit();
@@ -74,6 +84,11 @@ public:
         return false;
     }
     
+    inline bool isSpellProtectionMode() const {return spellProtectionMode;}
+    inline void setSpellProtectionMode(bool mode) {spellProtectionMode = mode;}
+    
+    virtual void stop();
+    
     void setMaxHealth(int val);
 
     virtual inline float getRadius() const {return 0.35f;}
@@ -83,22 +98,30 @@ public:
     inline string imageSpritePath() const {return "sprites/flandre.png";}
     inline GraphicsLayer sceneLayer() const {return GraphicsLayer::ground;}
     
+    void update();
     void updateFireTime();
     void updateHitTime();
-    void checkControls();
+    void checkBaseControls();
+    void checkBatModeControls();
+    void updateSpell();
     void fireIfPossible();
     void fire();
     
     void onCollectible(Collectible* coll);
 protected:
     float hitProtectionCountdown;
+    float spellCooldown;
     float lastFireTime = 0;
+    
+    float crntMaxSpeed = baseMaxSpeed;
     
     int maxHealth = defaultMaxHealth;
     int health = defaultMaxHealth;
     
     int maxPower = defaultMaxPower;
     int power = 100;
+    
+    bool spellProtectionMode = false;
 };
 
 #endif /* Player_hpp */

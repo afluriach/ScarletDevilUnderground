@@ -11,7 +11,7 @@
 #include "GObjectMixins.hpp"
 #include "Graphics.h"
 #include "GSpace.hpp"
-#include "PLayer.hpp"
+#include "Player.hpp"
 #include "scenes.h"
 #include "Spell.hpp"
 #include "util.h"
@@ -69,7 +69,7 @@ void Spellcaster::update()
         if(crntSpell->isActive())
             crntSpell->update();
         else
-            crntSpell.reset();
+            stop();
     }
 }
 
@@ -193,6 +193,11 @@ void PatchConSprite::initializeGraphics(Layer* layer)
     animSprite->loadAnimation(imageSpritePath());
     layer->positionAndAddNode(animSprite, sceneLayerAsInt(), getInitialCenterPix(), zoom());
     sprite = animSprite;
+}
+
+void PatchConSprite::setSprite(const string& name)
+{
+    animSprite->loadAnimation("sprites/"+name+".png");
 }
 
 void PatchConSprite::update()

@@ -177,3 +177,12 @@ void PowerMeter::setVal(int val)
     float counterWidth = counter->getContentSize().width;
     counter->setPosition((spacing+counterWidth)/2, 0);
 }
+
+void PowerMeter::runFlicker()
+{
+    icon->runAction(flickerTintAction(
+        Player::hitFlickerInterval,
+        Player::spellCooldownTime,
+        Color3B(127,127,127)
+    ));
+}
