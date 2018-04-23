@@ -25,7 +25,7 @@ const vector<string> StarBullet::colors = boost::assign::list_of
     ("yellow")
 ;
 
-Bullet::Bullet(const ValueMap& args) :
+CircleBullet::CircleBullet(const ValueMap& args) :
 radius(getFloatOrDefault(args, "radius", 0.3f))
 {}
 
@@ -41,7 +41,7 @@ const SpaceVect IllusionDialDagger::dimensions = SpaceVect(0.25f,1.0f);
 
 IllusionDialDagger::IllusionDialDagger(const SpaceVect& pos, float angular_velocity) :
 GObject("IllusionDialDagger", pos),
-SquareBullet(dimensions)
+RectangleBullet(dimensions)
 {
     setInitialAngularVelocity(angular_velocity);
 }

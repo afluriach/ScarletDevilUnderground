@@ -13,38 +13,38 @@
 #include "GObjectMixins.hpp"
 #include "types.h"
 
-class Bullet : virtual public GObject, public CircleBody
+class Bullet : virtual public GObject
 {
 public:
-    Bullet(const ValueMap& args);
-    inline Bullet() : radius(0.3f){}
-    inline Bullet(float radius) : radius(radius){}
-
     //For now bullets can be treated as kinematic, meaning their mass is not relevant.
     virtual inline float getMass() const {return 0.1f;}
     virtual inline bool getSensor() const {return true;}
+};
+
+class CircleBullet : public Bullet, public CircleBody
+{
+public:
+    CircleBullet(const ValueMap& args);
+    inline CircleBullet() : radius(0.3f){}
+    inline CircleBullet(float radius) : radius(radius){}
     
     virtual inline float getRadius() const {return radius;}
     const float radius;
 };
 
-class SquareBullet : virtual public GObject, public RectangleBody
+class RectangleBullet : public Bullet, public RectangleBody
 {
 public:
 //    SquareBullet(const ValueMap& args);
-    inline SquareBullet() : dimensions(SpaceVect::unit_square){}
-    inline SquareBullet(SpaceVect dimensions) :dimensions(dimensions){}
-
-    //For now bullets can be treated as kinematic, meaning their mass is not relevant.
-    virtual inline float getMass() const {return 0.1f;}
-    virtual inline bool getSensor() const {return true;}
+    inline RectangleBullet() : dimensions(SpaceVect::unit_square){}
+    inline RectangleBullet(SpaceVect dimensions) :dimensions(dimensions){}
     
     virtual inline SpaceVect getDimensions() const {return dimensions;}
     
     const SpaceVect dimensions;
 };
 
-class PlayerBaseBullet : virtual public Bullet, public ImageSprite
+class PlayerBaseBullet : virtual public CircleBullet, public ImageSprite
 {
 public:
 
@@ -61,11 +61,11 @@ public:
     inline virtual float zoom() const {return radius/spriteBaseRadius*2;}
 };
 
-class WaterBullet : virtual public Bullet, public ImageSprite
+class WaterBullet : virtual public CircleBullet, public ImageSprite
 {
 public:
 
-    inline WaterBullet(const ValueMap& arg) : Bullet(arg), GObject(arg) {}
+    inline WaterBullet(const ValueMap& arg) : CircleBullet(arg), GObject(arg) {}
 
     virtual inline float getMaxSpeed() const {return 6.0f;}
 
@@ -78,12 +78,12 @@ public:
     inline virtual float zoom() const {return radius/spriteBaseRadius*2;}
 };
 
-class FireBullet : virtual public Bullet, public LoopAnimationSprite
+class FireBullet : virtual public CircleBullet, public LoopAnimationSprite
 {
 public:
     inline FireBullet(const SpaceVect& pos) : GObject("stationaryFireBullet", pos) {
     }
-    inline FireBullet(const ValueMap& arg) : Bullet(arg), GObject(arg) {}
+    inline FireBullet(const ValueMap& arg) : CircleBullet(arg), GObject(arg) {}
 
     virtual string animationName() const {return "patchouli_fire";}
     virtual int animationSize() const {return 5.0f;}
@@ -97,18 +97,18 @@ public:
     inline virtual float zoom() const {return radius/spriteBaseRadius*2;}
 };
 
-class StarBullet : virtual public Bullet, public ImageSprite
+class StarBullet : virtual public CircleBullet, public ImageSprite
 {
 public:
     static const vector<string> colors;
 
     inline StarBullet(const ValueMap& arg) :
-    Bullet(arg),
+    CircleBullet(arg),
     GObject(arg),
     color(arg.at("color").asString())
     {}
     inline StarBullet(const SpaceVect& pos, float radius, const string& color) :
-    Bullet(radius),
+    CircleBullet(radius),
     color(color),
     GObject("starBullet", pos)
     {}
@@ -124,7 +124,7 @@ public:
     inline virtual float zoom() const {return radius/spriteBaseRadius*2;}
 };
 
-class IllusionDialDagger : virtual public SquareBullet, public ImageSprite
+class IllusionDialDagger : virtual public RectangleBullet, public ImageSprite
 {
 public:
     static const float speed;
