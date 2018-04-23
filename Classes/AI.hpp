@@ -14,7 +14,6 @@
 
 class Agent;
 class GObject;
-class object_ref;
 
 namespace ai{
 
@@ -23,14 +22,14 @@ namespace ai{
 //Not strictly an AI function since it's used to control the player.
 void applyDesiredVelocity(GObject& obj, const SpaceVect& desired, float maxForce);
 
-void seek(GObject& agent, GObject& target, float maxSpeed, float acceleration);
+void seek(GObject& agent, const GObject& target, float maxSpeed, float acceleration);
 void seek(GObject& agent, const SpaceVect& target, float maxSpeed, float acceleration);
 
-void flee(GObject& agent, GObject& target, float maxSpeed, float acceleration);
+void flee(GObject& agent, const GObject& target, float maxSpeed, float acceleration);
 void flee(GObject& agent, const SpaceVect& target, float maxSpeed, float acceleration);
 
-bool isFacingTarget(GObject* agent, GObject* target);
-bool isFacingTargetsBack(GObject* agent, GObject* target);
+bool isFacingTarget(const GObject& agent, const GObject& target);
+bool isFacingTargetsBack(const GObject& agent, const GObject& target);
 
 SpaceVect directionToTarget(const GObject& agent, const GObject& target);
 SpaceVect directionToTarget(const GObject& agent, const SpaceVect& target);
@@ -147,12 +146,12 @@ public:
 	virtual void update(StateMachine& sm);
 	virtual void onEndDetect(StateMachine& sm, GObject* target);
 protected:
-	GObject* target = nullptr;
+	gobject_ref target;
 };
 
 class MaintainDistance : public State {
 public:
-    inline MaintainDistance(object_ref target, float distance, float margin) :
+    inline MaintainDistance(gobject_ref target, float distance, float margin) :
     target(target),
     distance(distance),
     margin(margin)
@@ -160,7 +159,7 @@ public:
     
 	virtual void update(StateMachine& sm);
 protected:
-	object_ref target;
+	gobject_ref target;
     float distance, margin;
 };
 
@@ -175,7 +174,7 @@ public:
 	virtual void update(StateMachine& sm);
 	virtual void onEndDetect(StateMachine& sm, GObject* target);
 protected:
-	GObject* target = nullptr;
+	gobject_ref target;
     float distance;
 };
 
@@ -302,7 +301,7 @@ public:
 	virtual void onEnter(StateMachine& sm);
 	virtual void update(StateMachine& sm);
 protected:
-	GObject* target = nullptr;
+	gobject_ref target = nullptr;
 };
 
 class FollowerState : public State {
@@ -310,7 +309,7 @@ public:
 	virtual void onEnter(StateMachine& sm);
 	virtual void update(StateMachine& sm);
 protected:
-	GObject * target = nullptr;
+	gobject_ref target = nullptr;
 };
 
 class SakuyaBase : public State {

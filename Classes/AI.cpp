@@ -41,22 +41,22 @@ void applyDesiredVelocity(GObject& obj, const SpaceVect& desired, float accelera
     }
 }
 
-bool isFacingTarget(GObject* agent, GObject* target)
+bool isFacingTarget(const GObject& agent, const GObject& target)
 {
-    SpaceVect targetDirection = (target->getPos() - agent->getPos()).normalize();
-    SpaceVect agentFacingVector = agent->getFacingVector();
-    bool facing = SpaceVect::dot(agentFacingVector, target->getFacingVector()) < 0;
+    SpaceVect targetDirection = (target.getPos() - agent.getPos()).normalize();
+    SpaceVect agentFacingVector = agent.getFacingVector();
+    bool facing = SpaceVect::dot(agentFacingVector, target.getFacingVector()) < 0;
     bool targetInFrontOfAgent = SpaceVect::dot(agentFacingVector, targetDirection) > 0;
 
     return facing && targetInFrontOfAgent;
 }
 
-bool isFacingTargetsBack(GObject* agent, GObject* target)
+bool isFacingTargetsBack(const GObject& agent, const GObject& target)
 {
-    SpaceVect targetDirection = (target->getPos() - agent->getPos()).normalize();
-    SpaceVect agentFacingVector = agent->getFacingVector();
+    SpaceVect targetDirection = (target.getPos() - agent.getPos()).normalize();
+    SpaceVect agentFacingVector = agent.getFacingVector();
 
-    bool facingBack = SpaceVect::dot(agentFacingVector, target->getFacingVector()) > 0;
+    bool facingBack = SpaceVect::dot(agentFacingVector, target.getFacingVector()) > 0;
     bool targetInFrontOfAgent = SpaceVect::dot(agentFacingVector, targetDirection) > 0;
     
     return facingBack && targetInFrontOfAgent;
@@ -92,7 +92,7 @@ float viewAngleToTarget(const GObject& agent, const GObject& target)
     SpaceVect displacement = target.getPos() - agent.getPos();
     
     if(displacement.lengthSq() > 0.01f)
-        return displacement.toAngle();
+        return displacement.toAngle() - agent.getAngle();
     else
         return numeric_limits<float>::infinity();
 }
@@ -232,7 +232,7 @@ Seek::Seek(const ValueMap& args) {
     }
     target = GScene::getSpace()->getObject(args.at("target_name").asString());
     
-    if(!target){
+    if(!target.isValid()){
         log("Seek::Seek: target object %s not found.", args.at("target_name").asString().c_str() );
     }
 }
@@ -244,17 +244,18 @@ void Seek::onEndDetect(StateMachine& sm, GObject* other)
 
 void Seek::update(StateMachine& sm)
 {
-	if (target != nullptr) {
+	if (target.isValid()) {
 		ai::seek(
 			*sm.agent,
-			*target,
+			*target.get(),
 			sm.agent->getMaxSpeed(),
 			sm.agent->getMaxAcceleration()
 		);
-		sm.agent->setDirection(toDirection(ai::directionToTarget(*sm.agent, *target)));
+		sm.agent->setDirection(toDirection(ai::directionToTarget(*sm.agent, *target.get())));
 	}
-	else
-		ai::applyDesiredVelocity(*sm.agent, SpaceVect::zero, sm.agent->getMaxAcceleration());
+	else{
+		sm.pop();
+    }
 }
 
 void MaintainDistance::update(StateMachine& sm)
@@ -289,7 +290,7 @@ Flee::Flee(const ValueMap& args) {
     }
     target = GScene::getSpace()->getObject(args.at("target_name").asString());
     
-    if(!target){
+    if(!target.isValid()){
         log("Flee::Flee: target object %s not found.", args.at("target_name").asString().c_str() );
     }
     
@@ -308,19 +309,20 @@ void Flee::onEndDetect(StateMachine& sm, GObject* other)
 
 void Flee::update(StateMachine& sm)
 {
-	if (target != nullptr) {
+	if (target.isValid()) {
 		ai::flee(
 			*sm.agent,
-			*target,
+			*target.get(),
 			sm.agent->getMaxSpeed(),
 			sm.agent->getMaxAcceleration()
 		);
-		sm.agent->setDirection(toDirection(ai::directionToTarget(*sm.agent, *target)));
+		sm.agent->setDirection(toDirection(ai::directionToTarget(*sm.agent, *target.get())));
 	}
-	else
-		ai::applyDesiredVelocity(*sm.agent, SpaceVect::zero, sm.agent->getMaxAcceleration());
-}
+	else{
+        sm.pop();
+    }
 
+}
 
 IdleWait::IdleWait(const ValueMap& args)
 {
@@ -355,8 +357,6 @@ void IdleWait::update(StateMachine& fsm)
 
 	ai::applyDesiredVelocity(*fsm.agent, SpaceVect::zero, fsm.agent->getMaxAcceleration());
 }
-
-
 
 MoveToPoint::MoveToPoint(const ValueMap& args)
 {
@@ -516,14 +516,17 @@ void FacerState::onEnter(StateMachine& sm)
 
 void FacerState::update(StateMachine& sm)
 {
-	if (isFacingTarget(sm.agent, target))
-	{
-		sm.agent->setVel(SpaceVect::ray(sm.agent->getMaxSpeed(), sm.agent->getAngle()));
-	}
-	else
-	{
-		sm.agent->setVel(SpaceVect::zero);
-	}
+    if(target.isValid()){
+        if (isFacingTarget(*sm.agent, *target.get())){
+            sm.agent->setVel(SpaceVect::ray(sm.agent->getMaxSpeed(), sm.agent->getAngle()));
+        }
+        else{
+            sm.agent->setVel(SpaceVect::zero);
+        }
+    }
+    else{
+        sm.pop();
+    }
 }
 
 void FollowerState::onEnter(StateMachine& sm)
@@ -534,14 +537,17 @@ void FollowerState::onEnter(StateMachine& sm)
 
 void FollowerState::update(StateMachine& sm)
 {
-	if (ai::isFacingTargetsBack(sm.agent, target))
-	{
-		sm.agent->setVel(SpaceVect::ray(sm.agent->getMaxSpeed(), sm.agent->getAngle()));
-	}
-	else
-	{
-		sm.agent->setVel(SpaceVect::zero);
-	}
+    if(target.isValid()){
+        if (ai::isFacingTargetsBack(*sm.agent, *target.get())){
+            sm.agent->setVel(SpaceVect::ray(sm.agent->getMaxSpeed(), sm.agent->getAngle()));
+        }
+        else{
+            sm.agent->setVel(SpaceVect::zero);
+        }
+    }
+    else{
+        sm.pop();
+    }
 }
 
 void SakuyaBase::onEnter(StateMachine& sm)

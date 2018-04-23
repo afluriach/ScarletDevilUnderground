@@ -52,7 +52,7 @@ public:
     void update();
     void end();
 protected:
-    vector<GObject*> bullets;
+    vector<gobject_ref> bullets;
 };
 
 //A somewhat conical, but mostly focused attack.
@@ -166,7 +166,7 @@ public:
     
     static const int count;
     
-    vector<object_ref> bullets;
+    vector<object_ref<IllusionDialDagger>> bullets;
     vector<bool> launch_flags;
 
     IllusionDial(Spellcaster* caster,const ValueMap& args);

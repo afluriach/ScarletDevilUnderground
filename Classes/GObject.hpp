@@ -83,6 +83,7 @@ public:
     SpaceVect initialCenter;
 
     void setInitialVelocity(const SpaceVect&& v);
+    void setInitialAngle(float a);
     void setInitialAngularVelocity(float w);
     Vec2 getInitialCenterPix();
 
@@ -93,7 +94,7 @@ public:
     float getAngle() const;
     
     void rotate(float a);
-    SpaceVect getFacingVector();
+    SpaceVect getFacingVector() const;
     virtual void setDirection(Direction d);
     
     SpaceVect getVel() const;

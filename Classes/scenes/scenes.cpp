@@ -287,7 +287,9 @@ HUD* GScene::getHUD()
 void GScene::move(const Vec2& w)
 {
     Vec2 v = w * spaceZoom;
-    getLayer(sceneLayers::space)->setPosition(getPositionX()-v.x, getPositionY()-v.y);
+    Vec2 pos = getLayer(sceneLayers::space)->getPosition();
+    
+    getLayer(sceneLayers::space)->setPosition(pos - v);
 }
 
 void GScene::setUnitPosition(const SpaceVect& v)

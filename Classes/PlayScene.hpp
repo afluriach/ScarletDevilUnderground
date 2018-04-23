@@ -9,6 +9,7 @@
 #ifndef PlayScene_hpp
 #define PlayScene_hpp
 
+#include "object_ref.hpp"
 #include "HUD.hpp"
 #include "menu.h"
 #include "scenes.h"
@@ -42,7 +43,7 @@ private:
     void addHUD();
 
     const int cameraMovePixPerFrame = 3;
-    GObject* cameraTarget = nullptr;
+    gobject_ref cameraTarget;
 };
 
 #define GenericPlayScene( name ) \

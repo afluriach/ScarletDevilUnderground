@@ -57,8 +57,9 @@ void FlameFence::update()
 
 void FlameFence::end()
 {
-    foreach(GObject* bullet, bullets){
-        GScene::getSpace()->removeObject(bullet);
+    foreach(gobject_ref bullet, bullets){
+        if(bullet.isValid())
+            GScene::getSpace()->removeObject(bullet.get());
     }
 }
 
@@ -154,7 +155,7 @@ void IllusionDial::init()
             i % 2 ? angular_speed : -angular_speed
         );
         GScene::getSpace()->addObject(bullet);
-        bullets[i] = object_ref(bullet);
+        bullets[i] = object_ref<IllusionDialDagger>(bullet);
     }
 }
 
@@ -165,15 +166,8 @@ void IllusionDial::runPeriodic()
     
     for_irange(i,0,count)
     {
-        GObject* obj = bullets[i].get();
-        IllusionDialDagger* bullet = nullptr;
-        
-        if(obj && !launch_flags[i]){
-            bullet = dynamic_cast<IllusionDialDagger*>(obj);
-        }
-        
-        if(bullet){
-            float crnt = bullet->targetViewAngle();
+        if(bullets[i].isValid() && !launch_flags[i]){
+            float crnt = bullets[i].get()->targetViewAngle();
             
             if(!isinf(crnt) && abs(crnt) < best_angle)
                 best = i;
@@ -183,7 +177,7 @@ void IllusionDial::runPeriodic()
     
     if(best != -1)
     {
-        dynamic_cast<IllusionDialDagger*>(bullets[best].get())->launch();
+        bullets[best].get()->launch();
         launch_flags[best] = true;
     }
     else

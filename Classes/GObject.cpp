@@ -67,6 +67,10 @@ GObject* GObject::constructByType(const string& type, const ValueMap& args )
         multiInit += [=]() -> void{ this->body->setVel(v);};
     }
 
+    void GObject::setInitialAngle(float a){
+        multiInit += [=]() -> void{ this->body->setAngle(a);};
+    }
+
     void GObject::setInitialAngularVelocity(float w){
         multiInit += [=]() -> void{ this->body->setAngularVel(w);};
     }
@@ -100,14 +104,14 @@ GObject* GObject::constructByType(const string& type, const ValueMap& args )
             log("GObject::getAngle: %s has no physics body!", name.c_str());
             return 0.0;
         }
-        return body->getAngle();
+        return canonicalAngle(body->getAngle());
     }
     
      void GObject::rotate(float a){
         setAngle(canonicalAngle(getAngle() + a) );
     }
     
-     SpaceVect GObject::getFacingVector(){
+     SpaceVect GObject::getFacingVector() const{
         return SpaceVect::ray(1.0f, getAngle());
     }
     

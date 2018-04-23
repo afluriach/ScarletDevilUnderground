@@ -56,7 +56,7 @@ void PlayScene::trackPlayer(){
 
 void PlayScene::updateCamera()
 {
-    if(cameraTarget){
+    if(cameraTarget.isValid()){
         trackCameraTarget();
     }
     else{
@@ -66,17 +66,16 @@ void PlayScene::updateCamera()
 
 void PlayScene::trackCameraTarget()
 {
-    const SpaceVect& pos = cameraTarget->body->getPos();
+    const SpaceVect& pos = cameraTarget.get()->body->getPos();
     setUnitPosition(pos);
 }
 
 void PlayScene::applyCameraControls()
 {
-    ControlRegister* cr = app->control_register;
-
-    Vec2 arrowState = toCocos(cr->getRightVector());
-    arrowState *= cameraMovePixPerFrame;
-    move(arrowState);
+    Vec2 arrowState = toCocos(app->control_register->getRightVector());
+    if(!arrowState.isZero()){
+        move(arrowState * cameraMovePixPerFrame);
+    }
 }
 
 //Rather than making an updater by capturing hud, just wrap it in a method to access hud from the supplied this.

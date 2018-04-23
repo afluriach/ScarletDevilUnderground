@@ -65,8 +65,14 @@ player(GScene::getSpace()->getObject<Player>("player"))
 }
 void HUD::update()
 {
-    health->setValue(player->getHealth());
-    power->setVal(player->getPower());
+    if(player.isValid()){
+        Player* p = player.get();
+        health->setValue(p->getHealth());
+        power->setVal(p->getPower());
+    }
+    else{
+        setVisible(false);
+    }
 }
 
 bool HUD::init()

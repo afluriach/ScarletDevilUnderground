@@ -82,6 +82,10 @@ public:
         return it != objByUUID.end() ? it->second : nullptr;
     }
     
+    inline bool isValid(unsigned int uuid){
+        return getObject(uuid) != nullptr;
+    }
+    
     inline vector<string> getObjectNames(){
         auto key = [](pair<string,GObject*> e){return e.first;};
         vector<string> names(objByName.size());

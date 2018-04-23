@@ -9,6 +9,8 @@
 #ifndef HUD_hpp
 #define HUD_hpp
 
+#include "object_ref.hpp"
+
 class Player;
 
 class HealthBar : public Node
@@ -99,7 +101,7 @@ public:
     }
     
 protected:
-    Player* player;
+    object_ref<Player> player;
 };
 
 #endif /* HUD_hpp */

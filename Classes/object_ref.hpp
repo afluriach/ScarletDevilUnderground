@@ -11,16 +11,45 @@
 
 class GObject;
 
+GObject* _object_ref_get_gobject(unsigned int uuid);
+bool _object_ref_is_valid(unsigned int uuid);
+unsigned int _object_ref_get_uuid(GObject* obj);
+
+template<class T>
 class object_ref
 {
 public:
-    object_ref();
-    object_ref(unsigned int uuid);
-    object_ref(const GObject& obj);
-    object_ref(GObject* obj);
-    GObject* get();
+    inline object_ref():
+    uuid(0)
+    {}
+
+    inline object_ref(unsigned int uuid):
+    uuid(uuid)
+    {}
+
+    inline object_ref(const T& obj):
+    uuid(obj.getUUID())
+    {}
+
+    inline object_ref(T* obj){
+        uuid = _object_ref_get_uuid(obj);
+    }
+
+    inline T* get() const{
+        return dynamic_cast<T*>(_object_ref_get_gobject(uuid));
+    }
+
+    inline GObject* getBase() const{
+        return get();
+    }
+
+    inline bool isValid()const{
+        return _object_ref_is_valid(uuid);
+    }
 protected:
     unsigned int uuid;
 };
+
+typedef object_ref<GObject> gobject_ref;
 
 #endif /* object_ref_hpp */
