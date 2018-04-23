@@ -24,7 +24,7 @@ public:
     
     virtual inline float getRadius() const {return 0.35f;}
     inline float getMass() const {return 33.0f;}
-    virtual inline GType getType() const {return GType::enemy;}
+    virtual inline GType getType() const {return GType::npc;}
     
     inline string imageSpritePath() const {return "sprites/marisa.png";}
     inline GraphicsLayer sceneLayer() const {return GraphicsLayer::ground;}

@@ -41,6 +41,7 @@ enum class GType{
     playerSensor,
     objectSensor,
     collectible,
+    npc,
 	none,
 };
 

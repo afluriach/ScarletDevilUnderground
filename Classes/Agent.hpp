@@ -76,7 +76,7 @@ public:
     
     //virtual inline float getRadius() const {return 0.35f;}
     inline float getMass() const {return 20.0f;}
-    virtual inline GType getType() const {return GType::enemy;}
+    virtual inline GType getType() const {return GType::npc;}
     
     virtual inline float getMaxSpeed() const {return 1.5f;};
     virtual inline float getMaxAcceleration() const {return 6.0f;}

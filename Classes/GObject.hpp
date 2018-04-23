@@ -29,6 +29,11 @@ public:
 	static unsigned int nextUUID;
 
 	static GObject* constructByType(const string& type, const ValueMap& args);
+    
+    template<typename T>
+    inline bool isType(){
+        return dynamic_cast<T*>(this) != nullptr;
+    }
 	
 	//Representation as a map object
     GObject(const ValueMap& args);

@@ -24,6 +24,7 @@ const float ControlRegister::deadzone = 0.3f;
 
 const KeyCodeMap ControlRegister::watchedKeys = boost::assign::map_list_of
     (EventKeyboard::KeyCode::KEY_Z, KeyboardKey::z)
+    (EventKeyboard::KeyCode::KEY_X, KeyboardKey::x)
     (backtickKey, KeyboardKey::backtick)
     (EventKeyboard::KeyCode::KEY_1, KeyboardKey::num1)
     (EventKeyboard::KeyCode::KEY_2, KeyboardKey::num2)
@@ -56,6 +57,7 @@ const KeyActionMap ControlRegister::keyActionMap = boost::assign::map_list_of
     (KeyboardKey::backtick, ControlAction::scriptConsole)
     (KeyboardKey::enter, enum_bitwise_or3(ControlAction,menuSelect,interact,enter))
     (KeyboardKey::z, enum_bitwise_or(ControlAction,menuSelect,interact))
+    (KeyboardKey::x, ControlAction::dialogSkip)
     (KeyboardKey::num1, ControlAction::spell1)
     (KeyboardKey::num2, ControlAction::spell2)
     (KeyboardKey::num3, ControlAction::spell3)

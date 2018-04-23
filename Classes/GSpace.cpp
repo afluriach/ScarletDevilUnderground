@@ -26,6 +26,9 @@ const set<GType> GSpace::selfCollideTypes = list_of_typed(
     set<GType>
 );
 
+const bool GSpace::logBodyCreation = false;
+const bool GSpace::logPhysicsHandlers = false;
+
 float circleMomentOfInertia(float mass, float radius)
 {
     return float_pi/2*pow(radius,4);
@@ -150,7 +153,7 @@ shared_ptr<Body> GSpace::createCircleBody(
     bool sensor,
     GObject* obj)
 {
-    if(logPhysics) log(
+    if(logBodyCreation) log(
         "createCircleBody for %s at %f,%f, mass: %f",
         obj->name.c_str(),
         expand_vector2(center),
@@ -194,7 +197,7 @@ shared_ptr<Body> GSpace::createRectangleBody(
     bool sensor,
     GObject* obj)
 {
-    if(logPhysics && obj) log(
+    if(logBodyCreation && obj) log(
         "Creating rectangle body for %s. %f x %f at %f,%f, mass: %f",
         obj->name.c_str(),
         expand_vector2(dim),
@@ -292,7 +295,7 @@ void GSpace::processAdditions()
         obj->initializeRadar(*this);
         obj->initializeGraphics(graphicsLayer);
         
-        if(objByName.find(obj->name) != objByName.end()){
+        if(objByName.find(obj->name) != objByName.end() && !obj->isType<Wall>() && !obj->isType<Bullet>()){
             log("Object %s, %d name is not unique!", obj->name.c_str(), obj->uuid);
         }
 
@@ -488,14 +491,17 @@ bool GSpace::obstacleFeeler(GObject* agent, SpaceVect _feeler)
 
 void logHandler(const string& base, Arbiter& arb)
 {
-    OBJS_FROM_ARB
-    
-    log("%s: %s, %s", base.c_str(), a->name.c_str(), b->name.c_str());
+    if(GSpace::logPhysicsHandlers){
+        OBJS_FROM_ARB
+        
+        log("%s: %s, %s", base.c_str(), a->name.c_str(), b->name.c_str());
+    }
 }
 
 void logHandler(const string& name, GObject* a, GObject* b)
 {
-	log("%s: %s, %s", name.c_str(), a->name.c_str(), b->name.c_str());
+    if(GSpace::logPhysicsHandlers)
+        log("%s: %s, %s", name.c_str(), a->name.c_str(), b->name.c_str());
 }
 
 int GSpace::playerEnemyBegin(GObject* a, GObject* b)
@@ -529,7 +535,8 @@ int GSpace::playerEnemyBulletBegin(GObject* playerObj, GObject* bullet)
 {
     Player* player = dynamic_cast<Player*>(playerObj);
     
-    log("%s hit by %s", player->name.c_str(), bullet->name.c_str());
+    if(logPhysicsHandlers)
+        log("%s hit by %s", player->name.c_str(), bullet->name.c_str());
     player->hit();
     removeObject(bullet);
     return 1;
@@ -548,14 +555,18 @@ int GSpace::playerBulletEnemyBegin(GObject* a, GObject* b)
     if(bullet && enemy)
         enemy->onPlayerBulletHit(bullet);
     
-    log("%s hit by %s", b->name.c_str(), a->name.c_str());
+    if(logPhysicsHandlers)
+        log("%s hit by %s", b->name.c_str(), a->name.c_str());
+    
     removeObject(a);
     return 1;
 }
 
 int GSpace::playerFlowerBegin(GObject* a, GObject* b)
 {
-    log("%s stepped on", b->name.c_str());
+    if(logPhysicsHandlers)
+        log("%s stepped on", b->name.c_str());
+    
     return 1;
 }
 
@@ -573,7 +584,9 @@ int GSpace::playerCollectibleBegin(GObject* a, GObject* b)
 
 int GSpace::bulletEnvironment(GObject* a, GObject* b)
 {
-//    log("%s hit object %s",  a->name.c_str(), b->name.c_str());
+    if(logPhysicsHandlers)
+        log("%s hit object %s",  a->name.c_str(), b->name.c_str());
+    
     removeObject(a);
     return 1;
 }
@@ -581,6 +594,12 @@ int GSpace::bulletEnvironment(GObject* a, GObject* b)
 int GSpace::noCollide(GObject* a, GObject* b)
 {
     return 0;
+}
+
+
+int GSpace::collide(GObject* a, GObject* b)
+{
+    return 1;
 }
 
 int GSpace::bulletWall(GObject* bullet, GObject* unused)
@@ -594,7 +613,8 @@ int GSpace::sensorStart(GObject* radarAgent, GObject* target)
     RadarObject* radarObject = dynamic_cast<RadarObject*>(radarAgent);
 
 	if (radarObject) {
-		log("%s sensed %s.", radarObject->name.c_str(), target->name.c_str());
+        if(logPhysicsHandlers)
+            log("%s sensed %s.", radarObject->name.c_str(), target->name.c_str());
 		radarObject->radarCollision(target);
 	}
 	else {
@@ -609,7 +629,8 @@ int GSpace::sensorEnd(GObject* radarAgent, GObject* target)
     RadarObject* radarObject = dynamic_cast<RadarObject*>(radarAgent);
     
 	if (radarObject) {
-		log("%s lost %s.", radarObject->name.c_str(), target->name.c_str());
+        if(logPhysicsHandlers)
+            log("%s lost %s.", radarObject->name.c_str(), target->name.c_str());
 		radarObject->radarEndCollision(target);
 	}
 	else {
@@ -635,9 +656,11 @@ void GSpace::addCollisionHandlers()
 	_addHandlerNoEnd(playerBullet, enemyBullet, noCollide);
 	_addHandlerNoEnd(player, foliage, playerFlowerBegin);
     _addHandlerNoEnd(player,collectible,playerCollectibleBegin);
+    _addHandlerNoEnd(player,npc,collide);
 	_addHandlerNoEnd(playerBullet, wall, bulletWall);
 	_addHandlerNoEnd(enemyBullet, wall, bulletWall);    
 	_addHandler(playerSensor, player, sensorStart, sensorEnd);
 	_addHandler(objectSensor, enemy, sensorStart, sensorEnd);
 	_addHandler(objectSensor, environment, sensorStart, sensorEnd);
+    _addHandler(objectSensor, npc, sensorStart, sensorEnd);
 }

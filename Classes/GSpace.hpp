@@ -27,7 +27,8 @@ public:
 
     static const set<GType> selfCollideTypes;
 
-    static const bool logPhysics = false;
+    static const bool logBodyCreation;
+    static const bool logPhysicsHandlers;
 
     GSpace(Layer* graphicsLayer);    
     ~GSpace();
@@ -274,6 +275,7 @@ private:
     int playerCollectibleBegin(GObject* a, GObject* b);
 	int bulletEnvironment(GObject* a, GObject* b);
 	int noCollide(GObject* a, GObject* b);
+	int collide(GObject* a, GObject* b);
 	int bulletWall(GObject* bullet, GObject* unused);
 	int sensorStart(GObject* radarAgent, GObject* target);
 	int sensorEnd(GObject* radarAgent, GObject* target);

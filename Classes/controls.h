@@ -23,6 +23,7 @@ enum class KeyboardKey
     arrowLeft,
     arrowRight,
     z,
+    x,
     backtick,
     num1,
     num2,
