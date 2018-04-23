@@ -32,6 +32,8 @@ public:
     
     static const float fireDist;
     
+    static const float interactCooldownTime;
+    
     static const float spellCooldownTime;
     static const float hitProtectionTime;
     static const float hitFlickerInterval;
@@ -109,8 +111,9 @@ public:
     
     void onCollectible(Collectible* coll);
 protected:
-    float hitProtectionCountdown;
-    float spellCooldown;
+    float hitProtectionCountdown = 0.0f;
+    float spellCooldown = 0.0f;
+    float interactCooldown = 0.0f;
     float lastFireTime = 0;
     
     float crntMaxSpeed = baseMaxSpeed;

@@ -29,6 +29,8 @@ const int Player::batModeCostPerSecond = 5;
 
 const float Player::fireDist = 1.0f;
 
+const float Player::interactCooldownTime = 0.1f;
+
 const float Player::spellCooldownTime = 1.0f;
 const float Player::hitProtectionTime = 2.4f;
 const float Player::hitFlickerInterval = 0.3f;
@@ -121,6 +123,7 @@ void Player::checkBaseControls()
     }
 
     //Check item interaction
+    interactCooldown = max(interactCooldown - App::secondsPerFrame,0.0f);
     GObject* item = getSensedObject();
     InteractibleObject* interactible = dynamic_cast<InteractibleObject*>(item);
 
@@ -128,8 +131,9 @@ void Player::checkBaseControls()
     {
         GScene::getHUD()->setInteractionIcon(interactible->interactionIcon());
 
-        if(cr->isControlAction(ControlAction::interact)){
+        if(cr->isControlActionPressed(ControlAction::interact) && interactCooldown <= 0.0f){
             interactible->interact();
+            interactCooldown = interactCooldownTime;
         }
     }
     else
