@@ -71,6 +71,7 @@ public:
 	inline void update(){
 		multiUpdate();
 		runLuaUpdate();
+        updateSprite();
 	}
     
 	//BEGIN PHYSICS
@@ -107,6 +108,7 @@ public:
 
 	//A default of 0 signifies undefined. Using -1 to indicate static or positive for dynamic.
 	virtual float getMass() const = 0;
+    virtual float getMomentOfInertia() const = 0;
 	virtual GType getType() const = 0;
 	virtual inline bool getSensor() const { return false; }
 	virtual inline PhysicsLayers getLayers() const { return PhysicsLayers::ground; }
@@ -137,6 +139,18 @@ public:
 	void setupLuaContext();
 
 	//END LUA
+    
+    //BEGIN GRAPHICS
+    
+    Node* sprite = nullptr;
+    
+        //The Z-order used by Cocos2D.
+    virtual GraphicsLayer sceneLayer() const {return GraphicsLayer::ground;}
+    inline int sceneLayerAsInt(){return static_cast<int>(sceneLayer());};
+    inline virtual float zoom() const {return 1.0f;}
+    void updateSprite();
+
+    //END GRAPHICS
 };
 
 #endif /* GObject_hpp */

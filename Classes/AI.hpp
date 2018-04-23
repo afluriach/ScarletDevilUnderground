@@ -32,10 +32,13 @@ void flee(GObject& agent, const SpaceVect& target, float maxSpeed, float acceler
 bool isFacingTarget(GObject* agent, GObject* target);
 bool isFacingTargetsBack(GObject* agent, GObject* target);
 
-SpaceVect directionToTarget(GObject& agent, GObject& target);
-SpaceVect directionToTarget(GObject& agent, const SpaceVect& target);
+SpaceVect directionToTarget(const GObject& agent, const GObject& target);
+SpaceVect directionToTarget(const GObject& agent, const SpaceVect& target);
 
-float distanceToTarget(GObject& agent, GObject& target);
+SpaceVect displacementToTarget(const GObject& agent, const SpaceVect& target);
+SpaceVect displacementToTarget(const GObject& agent, const GObject& target);
+
+float distanceToTarget(const GObject& agent, const GObject& target);
 
 float viewAngleToTarget(const GObject& agent, const GObject& target);
 
@@ -314,6 +317,20 @@ class SakuyaBase : public State {
 public:
 	virtual void onEnter(StateMachine& sm);
 	virtual void update(StateMachine& sm);
+};
+
+class IllusionDash : public State {
+public:
+    IllusionDash(SpaceVect _target);
+    IllusionDash(const ValueMap& args);
+    static const float scale;
+    static const float opacity;
+    static const float speed;
+
+	virtual void onEnter(StateMachine& sm);
+    virtual void update(StateMachine& sm);
+protected:
+    SpaceVect target;
 };
 
 } //end NS

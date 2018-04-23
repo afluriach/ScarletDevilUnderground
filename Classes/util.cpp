@@ -73,6 +73,15 @@ Direction angleToDirection(float a)
     return static_cast<Direction>(closest+1);
 }
 
+float circleMomentOfInertia(float mass, float radius)
+{
+    return float_pi/2*pow(radius,4);
+}
+
+float rectangleMomentOfInertia(float mass, const SpaceVect& dim)
+{
+    return mass*(dim.x*dim.x+dim.y*dim.y)/12;
+}
 
 #define enum_strcmp(val) if(str == #val) return Direction::val;
 Direction stringToDirection(string str)

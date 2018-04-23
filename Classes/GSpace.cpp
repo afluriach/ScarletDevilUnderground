@@ -29,16 +29,6 @@ const set<GType> GSpace::selfCollideTypes = list_of_typed(
 const bool GSpace::logBodyCreation = false;
 const bool GSpace::logPhysicsHandlers = false;
 
-float circleMomentOfInertia(float mass, float radius)
-{
-    return float_pi/2*pow(radius,4);
-}
-
-float rectagleMomentOfInteria(float mass, const SpaceVect& dim)
-{
-    return mass*(dim.x*dim.x+dim.y*dim.y)/12;
-}
-
 GSpace::GSpace(Layer* graphicsLayer) : graphicsLayer(graphicsLayer)
 {
     GObject::resetObjectUUIDs();
@@ -217,7 +207,7 @@ shared_ptr<Body> GSpace::createRectangleBody(
             addNavObstacle(center,dim);
     }
     else{
-        body = make_shared<Body>(mass, rectagleMomentOfInteria(mass, dim));
+        body = make_shared<Body>(mass, rectangleMomentOfInertia(mass, dim));
         space.add(body);
     }
     body->setPos(center);

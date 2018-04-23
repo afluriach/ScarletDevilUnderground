@@ -12,7 +12,7 @@
 #include "GObject.hpp"
 #include "GObjectMixins.hpp"
 
-class Torch : public virtual GObject, RectangleBody, SpriteObject, RegisterUpdate<Torch>
+class Torch : public virtual GObject, RectangleBody, RegisterUpdate<Torch>
 {
 public:
     inline Torch(const ValueMap& args) : GObject(args), RegisterUpdate<Torch>(this)

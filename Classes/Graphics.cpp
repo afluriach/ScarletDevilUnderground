@@ -114,3 +114,27 @@ Action* flickerTintAction(float interval, float length, Color3B tint)
     
     return loop;
 }
+
+Action* motionBlurStretch(float duration, float angle, float opacity, float scale)
+{
+//    float scaleX = 1 + cos(angle)*(scale-1);
+//    float scaleY = 1 + sin(angle)*(scale-1);
+//
+//    Sequence* sequence = Sequence::create(
+//        ScaleBy::create(0.0f, scaleX, scaleY),
+//        FadeTo::create(0.0f,opacity*255),
+//        DelayTime::create(duration),
+//        ScaleBy::create(0.0f, 1.0f/scaleX, 1.0f/scaleY),
+//        FadeTo::create(0.0f,255),
+//        nullptr
+//   );
+
+    Sequence* sequence = Sequence::create(
+        FadeTo::create(0.0f,opacity*255),
+        DelayTime::create(duration),
+        FadeTo::create(0.0f,255),
+        nullptr
+   );
+    
+    return sequence;
+}

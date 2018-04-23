@@ -10,6 +10,7 @@
 
 #include "AI.hpp"
 #include "App.h"
+#include "Graphics.h"
 #include "GSpace.hpp"
 #include "GObject.hpp"
 #include "GObjectMixins.hpp"
@@ -61,17 +62,27 @@ bool isFacingTargetsBack(GObject* agent, GObject* target)
     return facingBack && targetInFrontOfAgent;
 }
 
-SpaceVect directionToTarget(GObject& agent, GObject& target)
+SpaceVect directionToTarget(const GObject& agent, const GObject& target)
 {
     return directionToTarget(agent, target.getPos());
 }
 
-SpaceVect directionToTarget(GObject& agent, const SpaceVect& target)
+SpaceVect directionToTarget(const GObject& agent, const SpaceVect& target)
 {
     return (target - agent.getPos()).normalize();
 }
 
-float distanceToTarget(GObject& agent, GObject& target)
+SpaceVect displacementToTarget(const GObject& agent, const SpaceVect& target)
+{
+    return target - agent.getPos();
+}
+
+SpaceVect displacementToTarget(const GObject& agent, const GObject& target)
+{
+    return displacementToTarget(agent,target.getPos());
+}
+
+float distanceToTarget(const GObject& agent, const GObject& target)
 {
     return (target.getPos() - agent.getPos()).length();
 }
@@ -541,6 +552,40 @@ void SakuyaBase::onEnter(StateMachine& sm)
 void SakuyaBase::update(StateMachine& sm)
 {
     sm.push(make_shared<Cast>("IllusionDial", ValueMap()));
+}
+
+const float IllusionDash::scale = 2.5f;
+const float IllusionDash::opacity = 0.25f;
+const float IllusionDash::speed = 10.0f;
+
+IllusionDash::IllusionDash(SpaceVect _target) :
+target(_target)
+{}
+
+IllusionDash::IllusionDash(const ValueMap& args)
+{
+    auto t = args.at("target").asValueMap();
+    
+    target = SpaceVect(t.at("x").asFloat(), t.at("y").asFloat());
+}
+
+void IllusionDash::onEnter(StateMachine& sm)
+{
+    SpaceVect disp = displacementToTarget(*sm.agent, target);
+    
+    sm.agent->setVel(disp.normalizeSafe()*speed);
+    sm.agent->sprite->runAction(motionBlurStretch(disp.length()/speed, disp.toAngle(), opacity, scale));
+}
+
+void IllusionDash::update(StateMachine& sm)
+{
+    SpaceVect disp = displacementToTarget(*sm.agent, target);
+    sm.agent->setVel(disp.normalizeSafe()*speed);
+    
+    if(disp.lengthSq() < 0.125f){
+        sm.agent->setVel(SpaceVect::zero);
+        sm.pop();
+    }
 }
 
 #define compound_method(name, args1, args2) \

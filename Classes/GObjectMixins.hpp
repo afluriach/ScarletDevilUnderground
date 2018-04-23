@@ -89,6 +89,7 @@ public:
     //Create body and add it to space. This assumes BB is rectangle dimensions
     virtual void initializeBody(GSpace& space);    
     virtual inline SpaceVect getDimensions() const = 0;
+    virtual float getMomentOfInertia() const;
 };
 
 class RectangleMapBody : public virtual RectangleBody
@@ -109,6 +110,7 @@ class CircleBody : public virtual GObject
 {
 public:
     virtual float getRadius() const = 0;
+    virtual float getMomentOfInertia() const;
 
     //Create body and add it to space. This assumes BB is rectangle dimensions
     virtual void initializeBody(GSpace& space);
@@ -127,32 +129,9 @@ public:
 
 //GRAPHICS MIXINS
 
-class SpriteObject : public virtual GObject, RegisterUpdate<SpriteObject>
-{
-public:
-    inline SpriteObject() : RegisterUpdate<SpriteObject>(this) {}
-    
-    inline ~SpriteObject(){        
-        if(sprite)
-            sprite->removeFromParent();
-    }
-    
-    //The Z-order used by Cocos2D.
-    virtual GraphicsLayer sceneLayer() const = 0;
-    
-    inline int sceneLayerAsInt(){
-        return static_cast<int>(sceneLayer());
-    };
-    
-    inline virtual float zoom() const {return 1;}
-
-    void update();
-    Node* sprite;
-};
-
 //Initialize graphics from a still image. Any class that uses this mixin has to implement interface to
 //provide the path to the image file.
-class ImageSprite : public virtual SpriteObject, RegisterUpdate<ImageSprite>
+class ImageSprite : public virtual GObject, RegisterUpdate<ImageSprite>
 {
 public:
     ImageSprite() : RegisterUpdate<ImageSprite>(this) {}
@@ -163,7 +142,7 @@ public:
     void update();
 };
 
-class LoopAnimationSprite : public virtual SpriteObject, RegisterUpdate<LoopAnimationSprite>
+class LoopAnimationSprite : public virtual GObject, RegisterUpdate<LoopAnimationSprite>
 {
 public:
     inline LoopAnimationSprite() : RegisterUpdate<LoopAnimationSprite>(this){
@@ -179,7 +158,7 @@ protected:
     TimedLoopAnimation* anim;
 };
 
-class PatchConSprite : virtual public SpriteObject, RegisterInit<PatchConSprite>, RegisterUpdate<PatchConSprite>
+class PatchConSprite : virtual public GObject, RegisterInit<PatchConSprite>, RegisterUpdate<PatchConSprite>
 {
 public:
     static const int pixelWidth = 32;
@@ -208,7 +187,7 @@ protected:
 
 //ENEMY MIXINS
 
-class Enemy : virtual public GObject, virtual public SpriteObject
+class Enemy : virtual public GObject
 {
 public:
 	inline Enemy() {}

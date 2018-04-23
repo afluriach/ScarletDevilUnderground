@@ -27,6 +27,9 @@ float canonicalAngle(float a);
 
 float toDegrees(float a);
 
+float circleMomentOfInertia(float mass, float radius);
+float rectangleMomentOfInertia(float mass, const SpaceVect& dim);
+
 Scene* crntScene();
 
 void printValueMap(const ValueMap& obj);

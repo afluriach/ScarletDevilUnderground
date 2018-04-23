@@ -188,12 +188,9 @@ ValueMap convert<ValueMap>::convertFromLua(const string& name, int argNum, LuaRe
         else if(lval.isString())
             vm[key] = Value(lval.tostring());
         //The only compound data type currently expected is a Vector2.
-        else if(lval.isTable() && Lua::tableIsVec2(lval))
+        else if(lval.isTable())
         {
-            //Expand to key_[x,y] keys.
-            Vec2 v = Lua::getVec2FromTable(lval);
-            vm[key + "_x"] = Value(v.x);
-            vm[key + "_y"] = Value(v.y);
+            vm[key] = convertFromLua(name+"."+key, argNum,lval);
         }
     }
     
@@ -210,6 +207,9 @@ LuaRef convert<ValueMap>::convertToLua(ValueMap map, lua_State* L)
         }
         else if(entry.second.isString()){
             table[entry.first] = entry.second.asString();
+        }
+        else if(entry.second.isMap()){
+            table[entry.first] = convertToLua(entry.second.asValueMap(),L);
         }
     }
     

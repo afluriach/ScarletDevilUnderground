@@ -30,5 +30,6 @@ const unordered_map<string, State::AdapterType> State::adapters = boost::assign:
 	entry_same(FollowPath)
     entry_same(Wander)
 
+    entry_same(IllusionDash)
 ;
 

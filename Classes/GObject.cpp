@@ -41,7 +41,11 @@ GObject::GObject(const string& name, const SpaceVect& pos) :
         log("%s created at %.1f,%.1f.", name.c_str(),initialCenter.x, initialCenter.y);
 }
 
-GObject::~GObject() {}
+GObject::~GObject()
+{
+    if(sprite)
+        sprite->removeFromParent();
+}
 
 GObject* GObject::constructByType(const string& type, const ValueMap& args )
 {
@@ -177,3 +181,14 @@ void GObject::setupLuaContext()
 }
 
 //END LUA
+
+//BEGIN GRAPHICS
+
+void GObject::updateSprite()
+{
+    if(sprite != nullptr){
+        sprite->setPosition(toCocos(body->getPos())*App::pixelsPerTile);
+    }
+}
+
+//END GRAPHICS

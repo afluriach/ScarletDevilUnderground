@@ -97,6 +97,10 @@ void RectangleBody::initializeBody(GSpace& space)
     );
 }
 
+float RectangleBody::getMomentOfInertia() const{
+    return rectangleMomentOfInertia(getMass(), getDimensions());
+}
+
 SpaceVect RectangleMapBody::getDimensionsFromMap(const ValueMap& arg)
 {
     return SpaceVect(getFloat(arg, "dim_x"), getFloat(arg, "dim_y"));
@@ -115,8 +119,13 @@ void CircleBody::initializeBody(GSpace& space)
     );
 }
 
+float CircleBody::getMomentOfInertia() const{
+    return circleMomentOfInertia(getMass(), getRadius());
+}
+
 void FrictionObject::update()
 {
+    //linear
     SpaceVect vel = getVel();
     float force = getMass() * App::Gaccel * uk();
     
@@ -126,18 +135,20 @@ void FrictionObject::update()
         applyForceForSingleFrame(vel * -force);
     else
         setVel(SpaceVect::zero);
+    
+    //rotational
+    float angularVel = getAngularVel();
+    float angularImpulse = getMomentOfInertia() * App::Gaccel * uk() * App::secondsPerFrame;
+    
+    if(angularImpulse < angularVel)
+        setAngularVel(angularVel - angularImpulse);
+    else
+        setAngularVel(0);
 }
 
 //END PHYSICS
 
 //GRAPHICS MIXINS
-
-void SpriteObject::update()
-{
-    if(sprite != nullptr){
-        sprite->setPosition(toCocos(body->getPos())*App::pixelsPerTile);
-    }
-}
 
 void ImageSprite::initializeGraphics(Layer* layer)
 {
