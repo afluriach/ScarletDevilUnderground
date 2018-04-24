@@ -17,7 +17,7 @@
 template<typename T>
 Spell::AdapterType adapter()
 {
-    return [](Spellcaster* caster, const ValueMap& args) -> shared_ptr<Spell> {return make_shared<T>(caster, args);};
+    return [](Spellcaster* caster, const ValueMap& args) -> unique_ptr<Spell> {return make_unique<T>(caster, args);};
 }
 
 const unordered_map<string,Spell::AdapterType> Spell::adapters = boost::assign::map_list_of

@@ -24,7 +24,7 @@ class Spellcaster;
 class Spell
 {
 public:
-    typedef function<shared_ptr<Spell>(Spellcaster*,const ValueMap&)> AdapterType;
+    typedef function<unique_ptr<Spell>(Spellcaster*,const ValueMap&)> AdapterType;
     static const unordered_map<string,AdapterType> adapters;
     static const set<string> scripts;
 

@@ -62,9 +62,9 @@ class DialogEntity : public InteractibleObject
 class Spellcaster : public virtual GObject, RegisterUpdate<Spellcaster>
 {
 public:
-    inline Spellcaster() : RegisterUpdate(this) {}
+    Spellcaster();
 	virtual ~Spellcaster();
-    void cast(shared_ptr<Spell> spell);
+    void cast(unique_ptr<Spell> spell);
     void cast(const string& name, const ValueMap& args);
 //For Luabridge
     void castByName(string name, const ValueMap& args);
@@ -76,7 +76,7 @@ public:
     }
     
 protected:
-    shared_ptr<Spell> crntSpell;
+    unique_ptr<Spell> crntSpell;
 };
 
 //END LOGIC

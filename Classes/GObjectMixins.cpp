@@ -23,13 +23,17 @@ void DialogEntity::interact()
     GScene::crntScene->createDialog(getDialog(), false);
 }
 
-void Spellcaster::cast(shared_ptr<Spell> spell)
+Spellcaster::Spellcaster() :
+RegisterUpdate(this)
+{}
+
+void Spellcaster::cast(unique_ptr<Spell> spell)
 {
     if(crntSpell.get()){
         crntSpell->end();
     }
     spell->init();
-    crntSpell = spell;
+    crntSpell = move(spell);
 }
 
 void Spellcaster::cast(const string& name, const ValueMap& args)
@@ -44,7 +48,7 @@ void Spellcaster::cast(const string& name, const ValueMap& args)
     auto it_script = Spell::scripts.find(name);
     if(it_script != Spell::scripts.end()){
         //Check for a spell script.
-        cast(make_shared<ScriptedSpell>(this, name, args));
+        cast(make_unique<ScriptedSpell>(this, name, args));
         return;
     }
     
@@ -86,7 +90,7 @@ Spellcaster::~Spellcaster()
 
 void RectangleBody::initializeBody(GSpace& space)
 {
-    body = space.createRectangleBody(
+    body = move(space.createRectangleBody(
         initialCenter,
         getDimensions(),
         getMass(),
@@ -94,7 +98,7 @@ void RectangleBody::initializeBody(GSpace& space)
         getLayers(),
         getSensor(),
         this
-    );
+    ));
 }
 
 float RectangleBody::getMomentOfInertia() const{
@@ -108,7 +112,7 @@ SpaceVect RectangleMapBody::getDimensionsFromMap(const ValueMap& arg)
 
 void CircleBody::initializeBody(GSpace& space)
 {
-    body = space.createCircleBody(
+    body = move(space.createCircleBody(
         initialCenter,
         getRadius(),
         getMass(),
@@ -116,7 +120,7 @@ void CircleBody::initializeBody(GSpace& space)
         getLayers(),
         getSensor(),
         this
-    );
+    ));
 }
 
 float CircleBody::getMomentOfInertia() const{

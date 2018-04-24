@@ -78,7 +78,7 @@ void Player::updateSpell()
         if(spellCooldown <= 0){
             if( cr->isControlActionPressed(ControlAction::spell1) &&
                 power > Player::batModeInitialCost){
-                    cast(make_shared<PlayerBatMode>(this, ValueMap()));
+                    cast(make_unique<PlayerBatMode>(this, ValueMap()));
             }
         }
     }
