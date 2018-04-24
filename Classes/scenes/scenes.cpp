@@ -96,10 +96,6 @@ Vec2 GScene::dialogPosition()
 {
     return Vec2(App::width/2, Dialog::height/2 + dialogEdgeMargin);
 }
-    
- bool GScene::isDialogActive(){
-    return crntScene->dialogNode != nullptr;
-}
 
 GSpaceScene::GSpaceScene()
 {
@@ -263,27 +259,6 @@ ctx(make_unique<Lua::Inst>("scene"))
     }
 }
 
-
-PlayScene* GScene::playScene(){
-    return dynamic_cast<PlayScene*>(crntScene);
-}
-
-GSpace* GScene::getSpace()
-{
-    GSpaceScene* scene = dynamic_cast<GSpaceScene*>(crntScene);
-    
-    if(scene) return scene->gspace;
-    else return nullptr;
-}
-
-HUD* GScene::getHUD()
-{
-    PlayScene* ps = playScene();
-    
-    if(ps) return ps->hud;
-    else return nullptr;
-}
-
 void GScene::move(const Vec2& w)
 {
     Vec2 v = w * spaceZoom;
@@ -302,27 +277,27 @@ void GScene::setUnitPosition(const SpaceVect& v)
 
 void GScene::createDialog(const string& res, bool autoAdvance)
 {
-    dialogNode = Dialog::create();
-    dialogNode->setDialog(res);
-    dialogNode->setPosition(dialogPosition());
-    getLayer(sceneLayers::dialog)->addChild(dialogNode);
+    app->dialog = Dialog::create();
+    app->dialog->setDialog(res);
+    app->dialog->setPosition(dialogPosition());
+    getLayer(sceneLayers::dialog)->addChild(app->dialog);
     
     //This options are not actually mutually exclusive, but for simplicity just use a flag
     //to choose one.
-    dialogNode->setAutoAdvance(autoAdvance);
-    dialogNode->setManualAdvance(!autoAdvance);
+    app->dialog->setAutoAdvance(autoAdvance);
+    app->dialog->setManualAdvance(!autoAdvance);
     
-    dialogNode->setEndHandler([=]() -> void {
-        getLayer(sceneLayers::dialog)->removeChild(dialogNode);
-        dialogNode = nullptr;
+    app->dialog->setEndHandler([=]() -> void {
+        getLayer(sceneLayers::dialog)->removeChild(app->dialog);
+        app->dialog = nullptr;
     });
 }
 
 void GScene::stopDialog()
 {
-    if(dialogNode){
-        getLayer(sceneLayers::dialog)->removeChild(dialogNode);
-        dialogNode = nullptr;
+    if(app->dialog){
+        getLayer(sceneLayers::dialog)->removeChild(app->dialog);
+        app->dialog = nullptr;
     }
 }
 

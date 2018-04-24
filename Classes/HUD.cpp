@@ -60,9 +60,15 @@ void HealthBar::runFlicker()
 const int HUD::fontSize = 32;
 
 HUD::HUD() :
-player(GScene::getSpace()->getObject<Player>("player"))
+player(app->space->getObject<Player>("player"))
+{
+    app->hud = this;
+}
+
+HUD::~HUD()
 {
 }
+
 void HUD::update()
 {
     if(player.isValid()){

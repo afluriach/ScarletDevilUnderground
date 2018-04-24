@@ -15,7 +15,6 @@
 #include "GObject.hpp"
 #include "GObjectMixins.hpp"
 #include "macros.h"
-#include "scenes.h"
 #include "Spell.hpp"
 #include "util.h"
 
@@ -146,7 +145,7 @@ shared_ptr<State> State::constructState(const string& type, const ValueMap& args
 StateMachine::StateMachine(GObject *const agent) :
 agent(agent)
 {
-    frame = GScene::getSpace()->getFrame();
+    frame = app->space->getFrame();
 }
 
 
@@ -230,7 +229,7 @@ Seek::Seek(const ValueMap& args) {
     if(args.find("target_name") == args.end()){
         log("Seek::Seek: target_name missing.");
     }
-    target = GScene::getSpace()->getObject(args.at("target_name").asString());
+    target = app->space->getObject(args.at("target_name").asString());
     
     if(!target.isValid()){
         log("Seek::Seek: target object %s not found.", args.at("target_name").asString().c_str() );
@@ -288,7 +287,7 @@ Flee::Flee(const ValueMap& args) {
     if(args.find("target_name") == args.end()){
         log("Seek::Seek: target_name missing.");
     }
-    target = GScene::getSpace()->getObject(args.at("target_name").asString());
+    target = app->space->getObject(args.at("target_name").asString());
     
     if(!target.isValid()){
         log("Flee::Flee: target object %s not found.", args.at("target_name").asString().c_str() );
@@ -409,7 +408,7 @@ FollowPath::FollowPath(const ValueMap& args)
 		log("FollowPath: pathName not provided!");
 	}
 
-	Path* p = GScene::getSpace()->getPath(name_it->second.asString());
+	Path* p = app->space->getPath(name_it->second.asString());
 
 	if (!p) {
 		log("FollowPath: pathName %s not found!", name_it->second.asString().c_str());
@@ -455,7 +454,7 @@ void Wander::update(StateMachine& fsm)
     enum_foreach(Direction,d,right,end)
     {
         target = dirToVector(d)*dist;
-        if(!GScene::getSpace()->obstacleFeeler(fsm.agent, target)){
+        if(!app->space->obstacleFeeler(fsm.agent, target)){
             directions.push_back(d);
         }
     }
@@ -511,7 +510,7 @@ void Cast::onExit(StateMachine& sm)
 
 void FacerState::onEnter(StateMachine& sm)
 {
-	target = GScene::getSpace()->getObject("player");
+	target = app->space->getObject("player");
 }
 
 void FacerState::update(StateMachine& sm)
@@ -531,7 +530,7 @@ void FacerState::update(StateMachine& sm)
 
 void FollowerState::onEnter(StateMachine& sm)
 {
-	target = GScene::getSpace()->getObject("player");
+	target = app->space->getObject("player");
 }
 
 

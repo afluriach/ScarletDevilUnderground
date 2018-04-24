@@ -19,7 +19,9 @@ const Color3B Dialog::defaultTextColor = Color3B(255,255,255);
 
 Dialog::Dialog():
 control_listener(make_unique<ControlListener>())
-{}
+{
+    app->dialog = this;
+}
 
 Dialog::~Dialog()
 {

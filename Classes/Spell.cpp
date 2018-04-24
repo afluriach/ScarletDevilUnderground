@@ -13,9 +13,6 @@
 #include "macros.h"
 #include "Player.hpp"
 #include "Spell.hpp"
-#include "scenes.h"
-#include "util.h"
-
 
 void FireStarburst::runPeriodic()
 {
@@ -28,7 +25,7 @@ void FireStarburst::runPeriodic()
 
         FireBullet* bullet = new FireBullet(crntPos);
         bullet->setInitialVelocity(SpaceVect::ray(bulletSpeed, angle));
-        GScene::getSpace()->addObject(bullet);
+        app->space->addObject(bullet);
     }
 }
 
@@ -46,7 +43,7 @@ void FlameFence::init()
             
             FireBullet* bullet = new FireBullet(pos);
             bullets.push_back(bullet);
-            GScene::getSpace()->addObject(bullet);
+            app->space->addObject(bullet);
         }
     }
 }
@@ -59,7 +56,7 @@ void FlameFence::end()
 {
     foreach(gobject_ref bullet, bullets){
         if(bullet.isValid())
-            GScene::getSpace()->removeObject(bullet.get());
+            app->space->removeObject(bullet.get());
     }
 }
 
@@ -103,7 +100,7 @@ void StarlightTyphoon::fire()
         StarBullet::colors[app->getRandomInt(0,StarBullet::colors.size()-1)]
     );
     b->setInitialVelocity(SpaceVect::ray(crntSpeed, arcPos + angle));
-    GScene::getSpace()->addObject(b);
+    app->space->addObject(b);
 }
 void StarlightTyphoon::update()
 {
@@ -154,7 +151,7 @@ void IllusionDial::init()
             caster->getPos() + SpaceVect::ray(radius, arc_start + i*arc_spacing),
             i % 2 ? angular_speed : -angular_speed
         );
-        GScene::getSpace()->addObject(bullet);
+        app->space->addObject(bullet);
         bullets[i] = object_ref<IllusionDialDagger>(bullet);
     }
 }

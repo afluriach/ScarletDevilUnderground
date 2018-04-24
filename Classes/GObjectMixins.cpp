@@ -271,7 +271,7 @@ void HitPointsEnemy::hit(int damage)
 void HitPointsEnemy::update()
 {
     if(hp == 0){
-        GScene::getSpace()->removeObject(this);
+        app->space->removeObject(this);
     }
 }
 

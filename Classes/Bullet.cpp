@@ -9,10 +9,10 @@
 #include "Prefix.h"
 
 #include "AI.hpp"
+#include "App.h"
 #include "Bullet.hpp"
 #include "GSpace.hpp"
 #include "macros.h"
-#include "scenes.h"
 #include "util.h"
 
 const vector<string> StarBullet::colors = boost::assign::list_of
@@ -48,7 +48,7 @@ RectangleBullet(dimensions)
 
 float IllusionDialDagger::targetViewAngle()
 {
-    GObject* target = GScene::getSpace()->getObject("player");
+    GObject* target = app->space->getObject("player");
 
     if(target)
         return ai::viewAngleToTarget(*this,*target);
@@ -58,7 +58,7 @@ float IllusionDialDagger::targetViewAngle()
 
 void IllusionDialDagger::launch()
 {
-    GObject* target = GScene::getSpace()->getObject("player");
+    GObject* target = app->space->getObject("player");
 
     if(target){
         setVel(ai::directionToTarget(*this, *target)*speed);

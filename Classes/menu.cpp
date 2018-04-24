@@ -181,7 +181,7 @@ const vector<TextListMenuLayer::listAction> PauseMenu::entryActions = boost::ass
 
 void PauseMenu::resumeScene()
 {
-	GScene::playScene()->exitPause();
+	GScene::crntScene->exitPause();
 }
 
 void PauseMenu::restart()

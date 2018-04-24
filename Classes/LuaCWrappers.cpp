@@ -17,7 +17,6 @@
 #include "LuaWrap.h"
 #include "Player.hpp"
 #include "PlayScene.hpp"
-#include "scenes.h"
 
 namespace Lua{
 
@@ -26,7 +25,7 @@ bool Class::init = false;
 
 void setpos(string name, float x, float y)
 {
-    GObject* obj = GScene::getSpace()->getObject(name);
+    GObject* obj = app->space->getObject(name);
     
     if(obj)
         obj->body->setPos(SpaceVect(x,y));
@@ -36,7 +35,7 @@ void setpos(string name, float x, float y)
 
 void setvel(string name, float x, float y)
 {
-    GObject* obj = GScene::getSpace()->getObject(name);
+    GObject* obj = app->space->getObject(name);
     
     if(obj)
         obj->body->setVel(SpaceVect(x,y));
@@ -52,7 +51,7 @@ void sv(float v, float x, unsigned int y)
 
 int getObjCount()
 {
-    GSpace* space = GScene::getSpace();
+    GSpace* space = app->space;
     
     if(!space) return -1;
     return space->getObjectCount();
@@ -60,7 +59,7 @@ int getObjCount()
 
 unordered_map<int, string> getUUIDNameMap()
 {
-    GSpace* space = GScene::getSpace();
+    GSpace* space = app->space;
     
     if(!space) return unordered_map<int,string>();
     
@@ -109,20 +108,16 @@ void setFullscreen(bool fs)
 
 GObject* getObjByName(string name)
 {
-    GSpace* space = GScene::getSpace();
+    if(!app->space) throw lua_runtime_error("getObjByName: Cannot access objects in this scene.");
     
-    if(!space) throw lua_runtime_error("getObjByName: Cannot access objects in this scene.");
-    
-    return space->getObject(name);
+    return app->space->getObject(name);
 }
 
 vector<string> getObjectNames()
 {
-    GSpace* space = GScene::getSpace();
-    
-    if(!space) throw lua_runtime_error("getObjectNames: Cannot access objects in this scene.");
+    if(!app->space) throw lua_runtime_error("getObjectNames: Cannot access objects in this scene.");
 
-    return space->getObjectNames();
+    return app->space->getObjectNames();
 }
 
 //The Lua conversion template will convert the wrapper object to a valid pointer or null.
@@ -133,20 +128,16 @@ bool isValidObject(GObject* object)
 
 void showHealth(bool val)
 {
-    PlayScene* ps = GScene::playScene();
+    if(!app->hud) throw lua_runtime_error("showHealth: HUD is not available!");
     
-    if(!ps) throw lua_runtime_error("showHealth: HUD is not available in this scene.");
-    
-    ps->hud->showHealth(val);
+    app->hud->showHealth(val);
 }
 
 void setPlayerHealth(int val)
 {
-    GSpace* space = GScene::getSpace();
+    if(!app->space) throw lua_runtime_error("setPlayerHealth: Cannot access objects in this scene!");
     
-    if(!space) throw lua_runtime_error("setPlayerHealth: Cannot access objects in this scene.");
-    
-    Player* p = space->getObject<Player>("player");
+    Player* p = app->space->getObject<Player>("player");
     
     if(!p)
         throw lua_runtime_error("setPlayerHealth: Player is not available.");
@@ -159,11 +150,9 @@ void setPlayerHealth(int val)
 
 void setPlayerMaxHealth(int val)
 {
-    GSpace* space = GScene::getSpace();
+    if(!app->space) throw lua_runtime_error("setPlayerMaxHealth: Cannot access objects in this scene.");
     
-    if(!space) throw lua_runtime_error("setPlayerMaxHealth: Cannot access objects in this scene.");
-    
-    Player* p = space->getObject<Player>("player");
+    Player* p = app->space->getObject<Player>("player");
     
     if(!p)
         throw lua_runtime_error("setPlayerMaxHealth: Player is not available.");
@@ -182,7 +171,7 @@ void setPaused(bool val)
 
 unsigned int getFrameNumber()
 {
-    GSpace* space = GScene::getSpace();
+    GSpace* space = app->space;
     if(!space) throw lua_runtime_error("getFrameNumber: Cannot access frame number in this scene.");
     
     return space->getFrame();
@@ -195,9 +184,8 @@ void dostring_in_inst(string script, string inst_name)
 
 void castSpellWithArgs(string casterName, string spell, ValueMap args)
 {
-    GSpace* space = GScene::getSpace();
-    if(!space) throw lua_runtime_error("castSpellWithArgs: Cannot access objects in this scene.");
-    Spellcaster* caster = space->getObject<Spellcaster>(casterName);
+    if(!app->space) throw lua_runtime_error("castSpellWithArgs: Cannot access objects in this scene.");
+    Spellcaster* caster = app->space->getObject<Spellcaster>(casterName);
 
     if(!caster){
         throw lua_runtime_error("castSpell: Spellcaster " + casterName + " not found");
@@ -213,9 +201,8 @@ void castSpell(string casterName, string spell)
 
 void stopSpell(string casterName)
 {
-    GSpace* space = GScene::getSpace();
-    if(!space) throw lua_runtime_error("stopSpell: Cannot access objects in this scene.");
-    Spellcaster* caster = space->getObject<Spellcaster>(casterName);
+    if(!app->space) throw lua_runtime_error("stopSpell: Cannot access objects in this scene.");
+    Spellcaster* caster = app->space->getObject<Spellcaster>(casterName);
 
     if(!caster){
         throw lua_runtime_error("castSpell: Spellcaster " + casterName + " not found");
@@ -226,10 +213,9 @@ void stopSpell(string casterName)
 
 bool isObstacle(IntVec2 v)
 {
-    GSpace* space = GScene::getSpace();
-    if(!space) throw lua_runtime_error("isObstacle: Cannot access objects in this scene.");
+    if(!app->space) throw lua_runtime_error("isObstacle: Cannot access objects in this scene.");
 
-    return space->isObstacle(v);
+    return app->space->isObstacle(v);
 }
 
 void startDialog(string res, bool _auto)
@@ -244,22 +230,18 @@ void stopDialog()
 
 void setObjectiveCounter(string iconRes, int val)
 {
-    HUD* hud = GScene::getHUD();
+    if(!app->hud) throw lua_runtime_error("setObjectiveCounter: HUD is not available!");
     
-    if(!hud) throw lua_runtime_error("setObjectiveCounter: HUD is not available in this scene.");
-    
-    hud->objectiveCounter->setVisible(true);
-    hud->objectiveCounter->setVal(val);
-    hud->objectiveCounter->setIcon(iconRes);
+    app->hud->objectiveCounter->setVisible(true);
+    app->hud->objectiveCounter->setVal(val);
+    app->hud->objectiveCounter->setIcon(iconRes);
 }
 
 void showObjectiveCounter(bool val)
 {
-    HUD* hud = GScene::getHUD();
-    
-    if(!hud) throw lua_runtime_error("setObjectiveCounter: HUD is not available in this scene.");
+    if(!app->hud) throw lua_runtime_error("setObjectiveCounter: HUD is not available!");
 
-    hud->objectiveCounter->setVisible(val);
+    app->hud->objectiveCounter->setVisible(val);
 }
 
 void printGlDebug()
@@ -307,10 +289,10 @@ vector<pair<float,float>> getPath(pair<int,int> start, pair<int,int> end)
     vector<pair<float,float>> result;
 
     vector<pair<int,int>> tileCoords = graph::gridAStar(
-        *GScene::getSpace()->getNavMask(),
+        *app->space->getNavMask(),
         start,
         end,
-        GScene::getSpace()->getSize()
+        app->space->getSize()
     );
     
     //Convert to center position
@@ -323,13 +305,13 @@ vector<pair<float,float>> getPath(pair<int,int> start, pair<int,int> end)
 
 StateMachineObject* getFSMObject(string funcName,string objName)
 {
-	if (!GScene::getSpace())
+	if (!app->space)
 	{
 		log("%s: GSpace is not available in this scene!", funcName.c_str());
 		return nullptr;
 	}
 
-	GObject* obj = GScene::getSpace()->getObject(objName);
+	GObject* obj = app->space->getObject(objName);
 	if (!obj) {
 		log("%s: object %s not found!", funcName.c_str(), objName.c_str());
 		return nullptr;

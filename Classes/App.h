@@ -10,9 +10,15 @@ The reason for implement as private inheritance is to hide some interface call b
 #include "LuaAPI.hpp"
 #include "LuaShell.hpp"
 
+class App;
 class ControlRegister;
+class Dialog;
 class GScene;
+class GSpace;
+class HUD;
 class KeyRegister;
+
+extern App* app;
 
 class  App : private Application
 {
@@ -56,6 +62,17 @@ public:
     virtual void initGLContextAttrs();
     
     void loadShaders();
+    
+    //globals exposed by app
+    ControlRegister* control_register = nullptr;
+    Dialog* dialog = nullptr;
+    HUD* hud = nullptr;
+    Lua::Inst lua;
+    GSpace* space = nullptr;
+
+    boost::random::uniform_01<float> randomFloat;
+    boost::random::uniform_int_distribution<int> randomInt;
+    boost::random::mt19937 randomEngine;
 
     /**
     @brief    Implement Director and Scene init code here.
@@ -109,20 +126,13 @@ public:
         return randomInt(randomEngine, boost::random::uniform_int_distribution<int>::param_type(min,max));
     }
     
-    boost::random::uniform_01<float> randomFloat;
-    boost::random::uniform_int_distribution<int> randomInt;
-    boost::random::mt19937 randomEngine;
-    
     void checkPendingScript();
-    ControlRegister* control_register;
-    Lua::Inst lua;
 protected:
     void update(float dt);
 
     //The shell that is installed in the current scene.
     LuaShell* luaShell;
     string pendingScript;
-    thread* luaReplThread;
     
     Scene* createSceneFromLayer(Layer* layer);
 
@@ -134,8 +144,6 @@ protected:
     
     void installLuaShell(GScene* scene);
 };
-
-extern App* app;
 
 #endif // _APP_DELEGATE_H_
 

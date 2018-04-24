@@ -18,7 +18,6 @@
 #include "GSpace.hpp"
 #include "HUD.hpp"
 #include "Player.hpp"
-#include "scenes.h"
 #include "Spell.hpp"
 
 const int Player::defaultMaxHealth = 5;
@@ -89,12 +88,12 @@ void Player::stop()
     Spellcaster::stop();
 
     spellCooldown = spellCooldownTime;
-    GScene::getHUD()->power->runFlicker();
+    app->hud->power->runFlicker();
 }
 
 void Player::checkBaseControls()
 {
-    if(GScene::isDialogActive())
+    if(app->dialog)
         return;
 
     auto cr = app->control_register;
@@ -129,7 +128,7 @@ void Player::checkBaseControls()
 
     if(interactible && interactible->canInteract())
     {
-        GScene::getHUD()->setInteractionIcon(interactible->interactionIcon());
+        app->hud->setInteractionIcon(interactible->interactionIcon());
 
         if(cr->isControlActionPressed(ControlAction::interact) && interactCooldown <= 0.0f){
             interactible->interact();
@@ -138,7 +137,7 @@ void Player::checkBaseControls()
     }
     else
     {
-        GScene::getHUD()->setInteractionIcon("");
+        app->hud->setInteractionIcon("");
     }
 }
 
@@ -188,14 +187,14 @@ void Player::fire()
     
     PlayerBaseBullet* bullet = new PlayerBaseBullet(getAngle(), pos);
     
-    GScene::getSpace()->addObject(bullet);
+    app->space->addObject(bullet);
 }
 
 void Player::hit(){
     if(hitProtectionCountdown <= 0 && !spellProtectionMode){
         hitProtectionCountdown = hitProtectionTime;
         sprite->runAction(flickerAction(hitFlickerInterval, hitProtectionTime, 81.0f));
-        GScene::getHUD()->health->runFlicker();
+        app->hud->health->runFlicker();
     
         health -= 1;
         if(health < 0) health = 0;
@@ -207,12 +206,12 @@ void Player::setMaxHealth(int val){
     
     if(health > maxHealth){
         health = maxHealth;
-        if(GScene::playScene())
-            GScene::getHUD()->health->setValue(maxHealth);
+        if(app->hud)
+            app->hud->health->setValue(maxHealth);
     }
     
-    if(GScene::playScene())
-        GScene::getHUD()->health->setMax(maxHealth);
+    if(app->hud)
+        app->hud->health->setMax(maxHealth);
 }
 
 void Player::onCollectible(Collectible* coll)
@@ -225,6 +224,6 @@ void Player::onCollectible(Collectible* coll)
         if(power > maxPower)
             power = maxPower;
         
-        GScene::getSpace()->removeObject(coll);
+        app->space->removeObject(coll);
     }
 }

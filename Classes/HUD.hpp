@@ -80,6 +80,7 @@ public:
 
     CREATE_FUNC(HUD);
     HUD();
+    virtual ~HUD();
     //Not an override of Layer
     void update();
     virtual bool init();

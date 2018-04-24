@@ -6,14 +6,14 @@
 //
 //
 
+#include "App.h"
 #include "GObject.hpp"
 #include "GSpace.hpp"
 #include "object_ref.hpp"
-#include "scenes.h"
 
 GObject* _object_ref_get_gobject(unsigned int uuid)
 {
-    GSpace * space = GScene::getSpace();
+    GSpace * space = app->space;
     
     if(!space)
         return nullptr;
@@ -23,7 +23,7 @@ GObject* _object_ref_get_gobject(unsigned int uuid)
 
 bool _object_ref_is_valid(unsigned int uuid)
 {
-    GSpace * space = GScene::getSpace();
+    GSpace * space = app->space;
     
     if(!space)
         return false;

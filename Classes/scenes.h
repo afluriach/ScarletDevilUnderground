@@ -75,15 +75,6 @@ public:
     static void runScene(const string& name);
 	static void restartScene();
 
-//Helpers to get the current scene as a specific sub-type (if applicable)
-    static PlayScene* playScene();
-
-//Getters for fields associated with specific types of scenes.
-    //Get gspace if this scene is a space scene, null otherwise.
-    static GSpace* getSpace();
-    //get HUD if this is a PlayScene
-    static HUD* getHUD();
-
 //Rather than managing overrides to the init method, a scene simply registers their own.
 //Init methods must be installed at construction time.
 
@@ -123,11 +114,9 @@ public:
     void stopDialog();
     Vec2 dialogPosition();
     
-    static bool isDialogActive();
-    
-protected:
-    Dialog* dialogNode = nullptr;
-    
+    inline virtual void enterPause(){}
+	inline virtual void exitPause(){}
+protected:    
     bool isPaused = false;
 
     //Make sure to use a cocos map so cocos refcounting works.

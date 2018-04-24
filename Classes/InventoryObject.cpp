@@ -8,10 +8,10 @@
 
 #include "Prefix.h"
 
+#include "App.h"
 #include "GSpace.hpp"
 #include "GState.hpp"
 #include "InventoryObject.hpp"
-#include "scenes.h"
 
 void InventoryObject::interact()
 {
@@ -19,5 +19,5 @@ void InventoryObject::interact()
     GState::crntState.itemRegistry.insert(itemName());
     
     //remove item object
-    GScene::getSpace()->removeObject(this);
+    app->space->removeObject(this);
 }

@@ -8,13 +8,13 @@
 
 #include "Prefix.h"
 
+#include "App.h"
 #include "GObject.hpp"
 #include "Graph.hpp"
 #include "GSpace.hpp"
 #include "GState.hpp"
 #include "LuaWrap.h"
 #include "macros.h"
-#include "scenes.h"
 
 class Spellcaster;
 
@@ -143,7 +143,7 @@ void check_integer_value(LuaRef ref)
 GObject* convert<GObject*>::convertFromLua(const string& name, int argNum, LuaRef ref)
 {
     unsigned int uuid = ref["uuid"].cast<unsigned int>();
-    return GScene::getSpace()->getObject(uuid);
+    return app->space->getObject(uuid);
 }
 LuaRef convert<GObject*>::convertToLua(GObject* obj, lua_State* L)
 {
@@ -163,7 +163,7 @@ LuaRef convert<GObject*>::convertToLua(GObject* obj, lua_State* L)
 [[deprecated("Does not use Class mapping")]]
 GObject* getObjectFromLuaData(LuaRef ref)
 {
-    GSpace* space = GScene::getSpace();
+    GSpace* space = app->space;
     if(ref.isNumber())
         return space->getObject(ref.cast<unsigned int>());
     else if(ref.isString())

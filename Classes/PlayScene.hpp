@@ -31,8 +31,8 @@ public:
     void trackCameraTarget();
 
 	void onPausePressed();
-	void enterPause();
-	void exitPause();
+	virtual void enterPause();
+	virtual void exitPause();
     
     void pauseAnimations();
     void resumeAnimations();

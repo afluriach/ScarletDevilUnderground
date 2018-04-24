@@ -267,7 +267,7 @@ mutex Inst::queueLock;
     }
     
     #define get_gspace \
-    GSpace* gspace = GScene::getSpace(); \
+    GSpace* gspace = app->space; \
     if(!gspace){ \
         snprintf(errorbuf, 128, "%s: cannot use in current scene.", crntFuncName); \
         error(L, errorbuf); \
