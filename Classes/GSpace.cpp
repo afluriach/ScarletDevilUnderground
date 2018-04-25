@@ -332,8 +332,9 @@ void GSpace::addCollisionHandlers()
 }
 
 const set<GType> GSpace::selfCollideTypes = boost::assign::list_of
-    (GType::environment)
     (GType::enemy)
+    (GType::environment)
+    (GType::npc)
 ;
 
 const bool GSpace::logBodyCreation = false;
