@@ -21,22 +21,27 @@ class GObject;
 class GSpace
 {
 public:
-	typedef pair<GObject*, GObject*> object_pair;
-	typedef pair<GType, GType> collision_type;
-	typedef pair<object_pair, collision_type> contact;
-
-    static const set<GType> selfCollideTypes;
-
-    static const bool logBodyCreation;
-    static const bool logPhysicsHandlers;
-
     GSpace(Layer* graphicsLayer);    
     ~GSpace();
-
+    
+    inline IntVec2 getSize() const {return spaceSize;}
+    void setSize(int x, int y);
+    
+    inline unsigned int getFrame(){ return frame;}
+ 
+    void update();
+    void processAdditions();
+private:
+    //The graphics destination to use for all objects constructed in this space.
+    Layer* graphicsLayer;
+    unsigned int frame = 1;
+    IntVec2 spaceSize;
+//BEGIN OBJECT MANIPULATION
+public:
     GObject* addObject(const ValueMap& obj);
     GObject* addObject(GObject*);
-    
     void addObjects(const ValueVector& objs);
+    void addWallBlock(SpaceVect ll,SpaceVect ur);
     
     template<typename T>
     inline void addObjects(const vector<T*>& objects){
@@ -49,57 +54,72 @@ public:
             addObject(o);
     }
     
-    void processAdditions();
+    bool isValid(unsigned int uuid) const;
+    vector<string> getObjectNames() const;
+    unordered_map<int,string> getUUIDNameMap() const;
+    inline int getObjectCount() const { return objByUUID.size();}
     
-    bool isObstacle(IntVec2);
-    vector<SpaceVect> pathToTile(IntVec2 begin, IntVec2 end);
-    void addNavObstacle(const SpaceVect& center, const SpaceVect& boundingDimensions);
+    GObject* getObject(const string& name) const;
+    GObject* getObject(unsigned int uuid) const;
     
-    inline GObject* getObject(const string& name){
-        auto it = objByName.find(name);
-        return it != objByName.end() ? it->second : nullptr;
-    }
     template<typename T>
-    inline T* getObject(const string& name){
+    inline T* getObject(const string& name) const{
         static_assert(
             is_base_of<GObject, T>(),
             "getObject: not a GObject type"
         );
-    
-        auto it = objByName.find(name);
-        
-        if(it == objByName.end()) return nullptr;
-
-        T* result = dynamic_cast<T*>(it->second);
-        
-        if(!result)
-            throw runtime_error(StringUtils::format("getObject: %s is not of type %s", name.c_str(), typeid(T).name()));
-        
-        return result;
-    }
-    inline GObject* getObject(unsigned int uuid){
-        auto it = objByUUID.find(uuid);
-        return it != objByUUID.end() ? it->second : nullptr;
-    }
-    
-    inline bool isValid(unsigned int uuid){
-        return getObject(uuid) != nullptr;
-    }
-    
-    inline vector<string> getObjectNames(){
-        auto key = [](pair<string,GObject*> e){return e.first;};
-        vector<string> names(objByName.size());
-        transform(objByName.begin(), objByName.end(), names.begin(), key);
-        return names;
+        return dynamic_cast<T*>(getObject(name));
     }
     
     void removeObject(const string& name);
     void removeObject(GObject* obj);
+    
+private:
     void processRemovals();
+    void initObjects();
+    void processRemoval(GObject* obj);
     
-    unordered_map<int,string> getUUIDNameMap();
+    unordered_map<unsigned int, GObject*> objByUUID;
+    unordered_map<string, GObject*> objByName;
     
-    void update();
+    //Objects which have been queued for addition. Will be added at end of frame.
+    vector<GObject*> toAdd;
+    //Objects whose additions have been processsed last frame. Physics has been initialized but
+    //init has not yet run; it will run at start of frame.
+    vector<GObject*> addedLastFrame;
+
+    //Objects which have been queued for removal. Will be removed at end of frame.
+    vector<GObject*> toRemove;
+//END OBJECT MANIPULATION
+
+//BEGIN NAVIGATION
+public:
+    bool isObstacle(IntVec2) const;
+    void addNavObstacle(const SpaceVect& center, const SpaceVect& boundingDimensions);
+
+    vector<SpaceVect> pathToTile(IntVec2 begin, IntVec2 end);
+    void addPath(string name, Path p);
+	Path const* getPath(string name) const;
+
+    inline boost::dynamic_bitset<>* getNavMask() const { return navMask;}
+private:
+    void markObstacleTile(int x, int y);
+    bool isObstacleTile(int x, int y) const;
+    
+	unordered_map<string, Path> paths;
+    boost::dynamic_bitset<>* navMask = nullptr;
+//END NAVIGATION
+    
+//BEGIN PHYSICS
+public:
+	typedef pair<GObject*, GObject*> object_pair;
+	typedef pair<GType, GType> collision_type;
+	typedef pair<object_pair, collision_type> contact;
+
+    static const set<GType> selfCollideTypes;
+
+    static const bool logBodyCreation;
+    static const bool logPhysicsHandlers;
     
     shared_ptr<Body> createCircleBody(
         const SpaceVect& center,
@@ -119,38 +139,6 @@ public:
         bool sensor,
         GObject* obj
     );
-    
-    inline boost::dynamic_bitset<>* getNavMask() const { return navMask;}
-    inline IntVec2 getSize() const {return spaceSize;}
-    
-    void addWallBlock(SpaceVect ll,SpaceVect ur);
-    
-	void addPath(string name, Path p);
-	Path* getPath(string name);
-
-    float distanceFeeler(GObject* agent, SpaceVect feeler, GType gtype);
-    float obstacleDistanceFeeler(GObject* agent, SpaceVect feeler);
-    float wallDistanceFeeler(GObject* agent, SpaceVect feeler);
-    
-    bool feeler(GObject* agent, SpaceVect feeler, GType gtype);
-    bool obstacleFeeler(GObject* agent, SpaceVect feeler);
-    bool wallFeeler(GObject* agent, SpaceVect feeler);
-    
-    inline void setSize(int x, int y){
-        spaceSize = IntVec2(x,y);
-        if(navMask)
-            delete navMask;
-        navMask = new boost::dynamic_bitset<>(x*y);
-    }
-    
-    inline int getObjectCount(){
-        return objByUUID.size();
-    }
-    
-    inline unsigned int getFrame(){
-        return frame;
-    }
-    
 private:
     Space space;
 
@@ -160,47 +148,10 @@ private:
 
 	void addContact(contact c);
 	void removeContact(contact c);
-
-    //The graphics destination to use for all objects constructed in this space.
-    Layer* graphicsLayer;
+    void addCollisionHandlers();
+    void processRemovalEndContact(GObject* obj);
     
-    unsigned int frame = 1;
-
-    unordered_map<unsigned int, GObject*> objByUUID;
-    unordered_map<string, GObject*> objByName;
-
-	unordered_map<string, Path> paths;
-    
-    //Objects which have been queued for addition. Will be added at end of frame.
-    vector<GObject*> toAdd;
-    //Objects whose additions have been processsed last frame. Physics has been initialized but
-    //init has not yet run; it will run at start of frame.
-    vector<GObject*> addedLastFrame;
-
-    //Objects which have been queued for removal. Will be removed at end of frame.
-    vector<GObject*> toRemove;
-    
-    boost::dynamic_bitset<>* navMask = nullptr;
-    IntVec2 spaceSize;
-    
-    inline void markObstacleTile(int x, int y){
-        if(x >= 0 && x < spaceSize.first){
-            if(y >= 0 && y < spaceSize.second){
-                (*navMask)[y*spaceSize.first+x] = 1;
-            }
-        }
-    }
-    
-    inline bool isObstacleTile(int x, int y){
-        if(x >= 0 && x < spaceSize.first){
-            if(y >= 0 && y < spaceSize.second){
-                return (*navMask)[y*spaceSize.first+x];
-            }
-        }
-        return false;
-    }
-
-	template<GType TypeA, GType TypeB>
+    template<GType TypeA, GType TypeB>
 	inline int beginContact(Arbiter arb, Space& space)
 	{
 		OBJS_FROM_ARB
@@ -263,14 +214,10 @@ private:
 		beginContactHandlers[collision_type(TypeA, TypeB)] = begin;
 		endContactHandlers[collision_type(TypeA,TypeB)] = end;
 	}
-
     
-    void initObjects();
-    void addCollisionHandlers();
+    void logHandler(const string& base, Arbiter& arb);
+    void logHandler(const string& name, GObject* a, GObject* b);
     
-    void processRemoval(GObject* obj);    
-	void processRemovalEndContact(GObject* obj);
-
 	int playerEnemyBegin(GObject* a, GObject* b);
 	int playerEnemyEnd(GObject* a, GObject* b);
 	int playerEnemyBulletBegin(GObject* playerObj, GObject* bullet);
@@ -283,6 +230,18 @@ private:
 	int bulletWall(GObject* bullet, GObject* unused);
 	int sensorStart(GObject* radarAgent, GObject* target);
 	int sensorEnd(GObject* radarAgent, GObject* target);
+//END PHYSICS
+
+//BEGIN SENSORS
+public:
+    float distanceFeeler(GObject* agent, SpaceVect feeler, GType gtype) const;
+    float obstacleDistanceFeeler(GObject* agent, SpaceVect feeler) const;
+    float wallDistanceFeeler(GObject* agent, SpaceVect feeler) const;
+    
+    bool feeler(GObject* agent, SpaceVect feeler, GType gtype) const;
+    bool obstacleFeeler(GObject* agent, SpaceVect feeler) const;
+    bool wallFeeler(GObject* agent, SpaceVect feeler) const;
+//END SENSORS
 };
 
 #endif /* GSpace_hpp */

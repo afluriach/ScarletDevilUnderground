@@ -408,7 +408,7 @@ FollowPath::FollowPath(const ValueMap& args)
 		log("FollowPath: pathName not provided!");
 	}
 
-	Path* p = app->space->getPath(name_it->second.asString());
+	Path const* p = app->space->getPath(name_it->second.asString());
 
 	if (!p) {
 		log("FollowPath: pathName %s not found!", name_it->second.asString().c_str());

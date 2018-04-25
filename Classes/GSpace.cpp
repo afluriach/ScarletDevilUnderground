@@ -20,15 +20,6 @@
 
 class RadarObject;
 
-const set<GType> GSpace::selfCollideTypes = list_of_typed(
-    (GType::environment)
-    (GType::enemy),
-    set<GType>
-);
-
-const bool GSpace::logBodyCreation = false;
-const bool GSpace::logPhysicsHandlers = false;
-
 GSpace::GSpace(Layer* graphicsLayer) : graphicsLayer(graphicsLayer)
 {
     GObject::resetObjectUUIDs();
@@ -60,38 +51,12 @@ GSpace::~GSpace()
     cp::Space::maskSeperateHandler = false;
 }
 
-GObject* GSpace::addObject(const ValueMap& obj)
+void GSpace::setSize(int x, int y)
 {
-    string type = obj.at("type").asString();
-    GObject* gobj = GObject::constructByType(type, obj);
-    
-    return addObject(gobj);
-}
-
-GObject* GSpace::addObject(GObject* obj)
-{
-    if(obj)
-        toAdd.push_back(obj);
-    
-    return obj;
-}
-
-void GSpace::addObjects(const ValueVector& objs)
-{
-    foreach(Value obj, objs)
-    {
-        const ValueMap& objAsMap = obj.asValueMap();
-        addObject(objAsMap);
-    }
-}
-
-void GSpace::initObjects()
-{
-    foreach(GObject* obj, addedLastFrame)
-    {
-        obj->init();
-    }
-    addedLastFrame.clear();
+    spaceSize = IntVec2(x,y);
+    if(navMask)
+        delete navMask;
+    navMask = new boost::dynamic_bitset<>(x*y);
 }
 
 void GSpace::update()
@@ -120,6 +85,259 @@ void GSpace::update()
     ++frame;
 }
 
+//BEGIN OBJECT MANIPULATION
+GObject* GSpace::addObject(const ValueMap& obj)
+{
+    string type = obj.at("type").asString();
+    GObject* gobj = GObject::constructByType(type, obj);
+    
+    return addObject(gobj);
+}
+
+GObject* GSpace::addObject(GObject* obj)
+{
+    if(obj)
+        toAdd.push_back(obj);
+    
+    return obj;
+}
+
+void GSpace::addObjects(const ValueVector& objs)
+{
+    foreach(Value obj, objs)
+    {
+        const ValueMap& objAsMap = obj.asValueMap();
+        addObject(objAsMap);
+    }
+}
+
+void GSpace::addWallBlock(SpaceVect ll,SpaceVect ur)
+{
+    SpaceVect center = (ll + ur) / 2;
+    SpaceVect dim = ur - ll;
+    
+    GObject* wall = new Wall(center,dim);
+    
+    shared_ptr<Body> wallBlock = createRectangleBody(
+        center,
+        dim,
+        -1,
+        GType::wall,
+        PhysicsLayers::all,
+        false,
+        wall
+    );
+    
+    space.add(wallBlock);
+    addObject(wall);
+}
+
+GObject* GSpace::getObject(const string& name) const
+{
+    auto it = objByName.find(name);
+    return it != objByName.end() ? it->second : nullptr;
+}
+
+GObject* GSpace::getObject(unsigned int uuid) const
+{
+    auto it = objByUUID.find(uuid);
+    return it != objByUUID.end() ? it->second : nullptr;
+}
+
+bool GSpace::isValid(unsigned int uuid) const
+{
+    return getObject(uuid) != nullptr;
+}
+
+vector<string> GSpace::getObjectNames() const
+{
+    auto key = [](pair<string,GObject*> e){return e.first;};
+    vector<string> names(objByName.size());
+    transform(objByName.begin(), objByName.end(), names.begin(), key);
+    return names;
+}
+
+void GSpace::processAdditions()
+{
+    foreach(GObject* obj, toAdd)
+    {
+        obj->initializeBody(*this);
+        obj->initializeRadar(*this);
+        obj->initializeGraphics(graphicsLayer);
+        
+        if(objByName.find(obj->name) != objByName.end() && !obj->isType<Wall>() && !obj->isType<Bullet>()){
+            log("Object %s, %d name is not unique!", obj->name.c_str(), obj->uuid);
+        }
+
+        if(objByUUID.find(obj->uuid) != objByUUID.end()){
+            log("Object %s, %d UUID is not unique!", obj->name.c_str(), obj->uuid);
+        }
+        
+        objByName[obj->name] = obj;
+        objByUUID[obj->uuid] = obj;
+		currentContacts[obj] = list<contact>();
+    }
+    //move(toAdd.begin(), toAdd.end(), addedLastFrame.end());
+    //For some strange reason move fails with a memory error here.
+    foreach(GObject* obj, toAdd)
+    {
+        addedLastFrame.push_back(obj);
+    }
+    
+    toAdd.clear();
+}
+
+void GSpace::removeObject(const string& name)
+{
+    auto it = objByName.find(name);
+    if(it == objByName.end()){
+        log("removeObject: %s not found", name.c_str());
+        return;
+    }
+    
+    toRemove.push_back(it->second);
+}
+
+void GSpace::removeObject(GObject* obj)
+{
+    //Check for object being scheduled for removal twice.
+    if(find(toRemove.begin(), toRemove.end(), obj) == toRemove.end())
+        toRemove.push_back(obj);
+}
+
+void GSpace::processRemoval(GObject* obj)
+{
+    objByName.erase(obj->name);
+    objByUUID.erase(obj->uuid);
+	currentContacts.erase(obj);
+    
+    obj->body->removeShapes(space);
+    space.remove(obj->body);
+    
+    if(obj->radar){
+        obj->radar->removeShapes(space);
+        space.remove(obj->radar);
+    }
+
+	delete obj;
+}
+
+void GSpace::initObjects()
+{
+    foreach(GObject* obj, addedLastFrame)
+    {
+        obj->init();
+    }
+    addedLastFrame.clear();
+}
+
+void GSpace::processRemovals()
+{
+	space.maskSeperateHandler = true;
+    BOOST_FOREACH(GObject* obj, toRemove){
+        processRemoval(obj);
+    }
+    toRemove.clear();
+	space.maskSeperateHandler = false;
+}
+
+unordered_map<int,string> GSpace::getUUIDNameMap() const
+{
+    unordered_map<int,string> result;
+    
+    for(auto it = objByUUID.begin(); it != objByUUID.end(); ++it)
+    {
+        result[it->first] = it->second->name;
+    }
+    return result;
+}
+//END OBJECT MANIPULATION
+
+//BEGIN NAVIGATION
+void GSpace::addPath(string name, Path p)
+{
+	if (paths.find(name) != paths.end()) {
+		log("Duplicate path name %s!", name.c_str());
+	}
+	paths[name] = p;
+}
+
+Path const* GSpace::getPath(string name) const
+{
+	auto it = paths.find(name);
+
+	return it != paths.end() ? &(it->second) : nullptr;
+}
+
+void GSpace::addNavObstacle(const SpaceVect& center, const SpaceVect& boundingDimensions)
+{
+    for(float x = center.x - boundingDimensions.x/2; x < center.x + boundingDimensions.x/2; ++x)
+    {
+        for(float y = center.y - boundingDimensions.y/2; y < center.y + boundingDimensions.y/2; ++y)
+        {
+            markObstacleTile(x,y);
+        }
+    }
+}
+
+bool GSpace::isObstacle(IntVec2 v) const
+{
+    return isObstacleTile(v.first, v.second);
+}
+
+void GSpace::markObstacleTile(int x, int y)
+{
+    if(x >= 0 && x < spaceSize.first){
+        if(y >= 0 && y < spaceSize.second){
+            (*navMask)[y*spaceSize.first+x] = 1;
+        }
+    }
+}
+
+bool GSpace::isObstacleTile(int x, int y) const
+{
+    if(x >= 0 && x < spaceSize.first){
+        if(y >= 0 && y < spaceSize.second){
+            return (*navMask)[y*spaceSize.first+x];
+        }
+    }
+    return false;
+}
+
+//END NAVIGATION
+
+//BEGIN PHYSICS
+#define _addHandler(a,b,begin,end) AddHandler<GType::a, GType::b>(&GSpace::begin,&GSpace::end)
+#define _addHandlerNoEnd(a,b,begin) AddHandler<GType::a, GType::b>(&GSpace::begin,nullptr)
+
+void GSpace::addCollisionHandlers()
+{
+	_addHandler(player, enemy, playerEnemyBegin, playerEnemyEnd);
+	_addHandlerNoEnd(player, enemyBullet, playerEnemyBulletBegin);
+	_addHandlerNoEnd(playerBullet, enemy, playerBulletEnemyBegin);
+	_addHandlerNoEnd(playerBullet, environment, bulletEnvironment);
+	_addHandlerNoEnd(enemyBullet, environment, bulletEnvironment);
+	_addHandlerNoEnd(playerBullet, foliage, noCollide);
+	_addHandlerNoEnd(enemyBullet, foliage, noCollide);
+	_addHandlerNoEnd(playerBullet, enemyBullet, noCollide);
+	_addHandlerNoEnd(player, foliage, playerFlowerBegin);
+    _addHandlerNoEnd(player,collectible,playerCollectibleBegin);
+    _addHandlerNoEnd(player,npc,collide);
+	_addHandlerNoEnd(playerBullet, wall, bulletWall);
+	_addHandlerNoEnd(enemyBullet, wall, bulletWall);    
+	_addHandler(playerSensor, player, sensorStart, sensorEnd);
+	_addHandler(objectSensor, enemy, sensorStart, sensorEnd);
+	_addHandler(objectSensor, environment, sensorStart, sensorEnd);
+    _addHandler(objectSensor, npc, sensorStart, sensorEnd);
+}
+
+const set<GType> GSpace::selfCollideTypes = boost::assign::list_of
+    (GType::environment)
+    (GType::enemy)
+;
+
+const bool GSpace::logBodyCreation = false;
+const bool GSpace::logPhysicsHandlers = false;
 
 bool isSelfCollideType(GType t)
 {
@@ -226,106 +444,6 @@ shared_ptr<Body> GSpace::createRectangleBody(
     return body;
 }
 
-void GSpace::addWallBlock(SpaceVect ll,SpaceVect ur)
-{
-    SpaceVect center = (ll + ur) / 2;
-    SpaceVect dim = ur - ll;
-    
-    GObject* wall = new Wall(center,dim);
-    
-    shared_ptr<Body> wallBlock = createRectangleBody(
-        center,
-        dim,
-        -1,
-        GType::wall,
-        PhysicsLayers::all,
-        false,
-        wall
-    );
-    
-    space.add(wallBlock);
-    addObject(wall);
-}
-
-void GSpace::addPath(string name, Path p)
-{
-	if (paths.find(name) != paths.end()) {
-		log("Duplicate path name %s!", name.c_str());
-	}
-	paths[name] = p;
-}
-
-Path* GSpace::getPath(string name)
-{
-	auto it = paths.find(name);
-
-	return it != paths.end() ? &(it->second) : nullptr;
-}
-
-void GSpace::addNavObstacle(const SpaceVect& center, const SpaceVect& boundingDimensions)
-{
-    for(float x = center.x - boundingDimensions.x/2; x < center.x + boundingDimensions.x/2; ++x)
-    {
-        for(float y = center.y - boundingDimensions.y/2; y < center.y + boundingDimensions.y/2; ++y)
-        {
-            markObstacleTile(x,y);
-        }
-    }
-}
-
-bool GSpace::isObstacle(IntVec2 v)
-{
-    return isObstacleTile(v.first, v.second);
-}
-
-void GSpace::processAdditions()
-{
-    foreach(GObject* obj, toAdd)
-    {
-        obj->initializeBody(*this);
-        obj->initializeRadar(*this);
-        obj->initializeGraphics(graphicsLayer);
-        
-        if(objByName.find(obj->name) != objByName.end() && !obj->isType<Wall>() && !obj->isType<Bullet>()){
-            log("Object %s, %d name is not unique!", obj->name.c_str(), obj->uuid);
-        }
-
-        if(objByUUID.find(obj->uuid) != objByUUID.end()){
-            log("Object %s, %d UUID is not unique!", obj->name.c_str(), obj->uuid);
-        }
-        
-        objByName[obj->name] = obj;
-        objByUUID[obj->uuid] = obj;
-		currentContacts[obj] = list<contact>();
-    }
-    //move(toAdd.begin(), toAdd.end(), addedLastFrame.end());
-    //For some strange reason move fails with a memory error here.
-    foreach(GObject* obj, toAdd)
-    {
-        addedLastFrame.push_back(obj);
-    }
-    
-    toAdd.clear();
-}
-
-void GSpace::removeObject(const string& name)
-{
-    auto it = objByName.find(name);
-    if(it == objByName.end()){
-        log("removeObject: %s not found", name.c_str());
-        return;
-    }
-    
-    toRemove.push_back(it->second);
-}
-
-void GSpace::removeObject(GObject* obj)
-{
-    //Check for object being scheduled for removal twice.
-    if(find(toRemove.begin(), toRemove.end(), obj) == toRemove.end())
-        toRemove.push_back(obj);
-}
-
 void GSpace::addContact(contact c)
 {
 	currentContacts[c.first.first].push_back(c);
@@ -362,136 +480,19 @@ void GSpace::processRemovalEndContact(GObject* obj)
 		log("processRemovalEndContact: object %s problem!", obj->getName().c_str());
 }
 
-void GSpace::processRemoval(GObject* obj)
+
+void GSpace::logHandler(const string& base, Arbiter& arb)
 {
-    objByName.erase(obj->name);
-    objByUUID.erase(obj->uuid);
-	currentContacts.erase(obj);
-    
-    obj->body->removeShapes(space);
-    space.remove(obj->body);
-    
-    if(obj->radar){
-        obj->radar->removeShapes(space);
-        space.remove(obj->radar);
-    }
-
-	delete obj;
-}
-
-void GSpace::processRemovals()
-{
-	space.maskSeperateHandler = true;
-    BOOST_FOREACH(GObject* obj, toRemove){
-        processRemoval(obj);
-    }
-    toRemove.clear();
-	space.maskSeperateHandler = false;
-}
-
-unordered_map<int,string> GSpace::getUUIDNameMap()
-{
-    unordered_map<int,string> result;
-    
-    for(auto it = objByUUID.begin(); it != objByUUID.end(); ++it)
-    {
-        result[it->first] = it->second->name;
-    }
-    return result;
-}
-
-float GSpace::distanceFeeler(GObject* agent, SpaceVect _feeler, GType gtype)
-{
-    SpaceVect start = agent->getPos();
-    SpaceVect end = start + _feeler;
-    
-    //Distance along the segment is scaled [0,1].
-    float closest = 1.0f;
-    
-    auto queryCallback = [&closest,agent] (std::shared_ptr<Shape> shape, cp::Float distance, cp::Vect vect) -> void {
-        
-        if(shape->getUserData() != agent){
-            closest = min<float>(closest, distance);
-        }
-    };
-    
-    space.segmentQuery(
-        start,
-        end,
-        static_cast<unsigned int>(PhysicsLayers::all),
-        static_cast<unsigned int>(gtype),
-        queryCallback);
-    
-    return closest*_feeler.length();
-}
-
-float GSpace::wallDistanceFeeler(GObject* agent, SpaceVect feeler)
-{
-    return distanceFeeler(agent, feeler, GType::wall);
-}
-
-float GSpace::obstacleDistanceFeeler(GObject* agent, SpaceVect _feeler)
-{
-    return vmin(
-        wallDistanceFeeler(agent, _feeler),
-        distanceFeeler(agent, _feeler, GType::environment),
-        distanceFeeler(agent, _feeler, GType::enemy)
-    );
-}
-
-bool GSpace::feeler(GObject* agent, SpaceVect _feeler, GType gtype)
-{
-    SpaceVect start = agent->getPos();
-    SpaceVect end = start + _feeler;
-    
-    bool collision = false;
-    
-    auto queryCallback = [agent, &collision] (std::shared_ptr<Shape> shape, cp::Float distance, cp::Vect vect) -> void {
-        
-        if(shape->getUserData() != agent){
-            collision = true;
-        }
-    };
-    
-    space.segmentQuery(
-        start,
-        end,
-        static_cast<unsigned int>(PhysicsLayers::all),
-        static_cast<unsigned int>(gtype),
-        queryCallback);
-    
-    return collision;
-}
-
-bool GSpace::wallFeeler(GObject* agent, SpaceVect _feeler)
-{
-    return feeler(agent, _feeler, GType::wall);
-}
-
-bool GSpace::obstacleFeeler(GObject* agent, SpaceVect _feeler)
-{
-    return
-        wallFeeler(agent, _feeler) ||
-        feeler(agent, _feeler, GType::environment) ||
-        feeler(agent, _feeler, GType::enemy)
-    ;
-}
-
-//Collision handlers
-//std::function<int(Arbiter, Space&)>
-
-void logHandler(const string& base, Arbiter& arb)
-{
-    if(GSpace::logPhysicsHandlers){
+    if(logPhysicsHandlers){
         OBJS_FROM_ARB
         
         log("%s: %s, %s", base.c_str(), a->name.c_str(), b->name.c_str());
     }
 }
 
-void logHandler(const string& name, GObject* a, GObject* b)
+void GSpace::logHandler(const string& name, GObject* a, GObject* b)
 {
-    if(GSpace::logPhysicsHandlers)
+    if(logPhysicsHandlers)
         log("%s: %s, %s", name.c_str(), a->name.c_str(), b->name.c_str());
 }
 
@@ -587,7 +588,6 @@ int GSpace::noCollide(GObject* a, GObject* b)
     return 0;
 }
 
-
 int GSpace::collide(GObject* a, GObject* b)
 {
     return 1;
@@ -630,28 +630,83 @@ int GSpace::sensorEnd(GObject* radarAgent, GObject* target)
 
     return 1;
 }
+//END PHYSICS
 
-#define _addHandler(a,b,begin,end) AddHandler<GType::a, GType::b>(&GSpace::begin,&GSpace::end)
-#define _addHandlerNoEnd(a,b,begin) AddHandler<GType::a, GType::b>(&GSpace::begin,nullptr)
-
-
-void GSpace::addCollisionHandlers()
+//BEGIN SENSORS
+float GSpace::distanceFeeler(GObject* agent, SpaceVect _feeler, GType gtype) const
 {
-	_addHandler(player, enemy, playerEnemyBegin, playerEnemyEnd);
-	_addHandlerNoEnd(player, enemyBullet, playerEnemyBulletBegin);
-	_addHandlerNoEnd(playerBullet, enemy, playerBulletEnemyBegin);
-	_addHandlerNoEnd(playerBullet, environment, bulletEnvironment);
-	_addHandlerNoEnd(enemyBullet, environment, bulletEnvironment);
-	_addHandlerNoEnd(playerBullet, foliage, noCollide);
-	_addHandlerNoEnd(enemyBullet, foliage, noCollide);
-	_addHandlerNoEnd(playerBullet, enemyBullet, noCollide);
-	_addHandlerNoEnd(player, foliage, playerFlowerBegin);
-    _addHandlerNoEnd(player,collectible,playerCollectibleBegin);
-    _addHandlerNoEnd(player,npc,collide);
-	_addHandlerNoEnd(playerBullet, wall, bulletWall);
-	_addHandlerNoEnd(enemyBullet, wall, bulletWall);    
-	_addHandler(playerSensor, player, sensorStart, sensorEnd);
-	_addHandler(objectSensor, enemy, sensorStart, sensorEnd);
-	_addHandler(objectSensor, environment, sensorStart, sensorEnd);
-    _addHandler(objectSensor, npc, sensorStart, sensorEnd);
+    SpaceVect start = agent->getPos();
+    SpaceVect end = start + _feeler;
+    
+    //Distance along the segment is scaled [0,1].
+    float closest = 1.0f;
+    
+    auto queryCallback = [&closest,agent] (std::shared_ptr<Shape> shape, cp::Float distance, cp::Vect vect) -> void {
+        
+        if(shape->getUserData() != agent){
+            closest = min<float>(closest, distance);
+        }
+    };
+    
+    space.segmentQuery(
+        start,
+        end,
+        static_cast<unsigned int>(PhysicsLayers::all),
+        static_cast<unsigned int>(gtype),
+        queryCallback);
+    
+    return closest*_feeler.length();
 }
+
+float GSpace::wallDistanceFeeler(GObject* agent, SpaceVect feeler) const
+{
+    return distanceFeeler(agent, feeler, GType::wall);
+}
+
+float GSpace::obstacleDistanceFeeler(GObject* agent, SpaceVect _feeler) const
+{
+    return vmin(
+        wallDistanceFeeler(agent, _feeler),
+        distanceFeeler(agent, _feeler, GType::environment),
+        distanceFeeler(agent, _feeler, GType::enemy)
+    );
+}
+
+bool GSpace::feeler(GObject* agent, SpaceVect _feeler, GType gtype) const
+{
+    SpaceVect start = agent->getPos();
+    SpaceVect end = start + _feeler;
+    
+    bool collision = false;
+    
+    auto queryCallback = [agent, &collision] (std::shared_ptr<Shape> shape, cp::Float distance, cp::Vect vect) -> void {
+        
+        if(shape->getUserData() != agent){
+            collision = true;
+        }
+    };
+    
+    space.segmentQuery(
+        start,
+        end,
+        static_cast<unsigned int>(PhysicsLayers::all),
+        static_cast<unsigned int>(gtype),
+        queryCallback);
+    
+    return collision;
+}
+
+bool GSpace::wallFeeler(GObject* agent, SpaceVect _feeler) const
+{
+    return feeler(agent, _feeler, GType::wall);
+}
+
+bool GSpace::obstacleFeeler(GObject* agent, SpaceVect _feeler) const
+{
+    return
+        wallFeeler(agent, _feeler) ||
+        feeler(agent, _feeler, GType::environment) ||
+        feeler(agent, _feeler, GType::enemy)
+    ;
+}
+//END SENSORS
