@@ -262,7 +262,7 @@ void GSpace::addPath(string name, Path p)
 	paths[name] = p;
 }
 
-Path const* GSpace::getPath(string name) const
+const Path* GSpace::getPath(string name) const
 {
 	auto it = paths.find(name);
 
@@ -634,7 +634,7 @@ int GSpace::sensorEnd(GObject* radarAgent, GObject* target)
 //END PHYSICS
 
 //BEGIN SENSORS
-float GSpace::distanceFeeler(GObject* agent, SpaceVect _feeler, GType gtype) const
+float GSpace::distanceFeeler(const GObject * agent, SpaceVect _feeler, GType gtype) const
 {
     SpaceVect start = agent->getPos();
     SpaceVect end = start + _feeler;
@@ -659,12 +659,12 @@ float GSpace::distanceFeeler(GObject* agent, SpaceVect _feeler, GType gtype) con
     return closest*_feeler.length();
 }
 
-float GSpace::wallDistanceFeeler(GObject* agent, SpaceVect feeler) const
+float GSpace::wallDistanceFeeler(const GObject * agent, SpaceVect feeler) const
 {
     return distanceFeeler(agent, feeler, GType::wall);
 }
 
-float GSpace::obstacleDistanceFeeler(GObject* agent, SpaceVect _feeler) const
+float GSpace::obstacleDistanceFeeler(const GObject * agent, SpaceVect _feeler) const
 {
     return vmin(
         wallDistanceFeeler(agent, _feeler),
@@ -673,7 +673,12 @@ float GSpace::obstacleDistanceFeeler(GObject* agent, SpaceVect _feeler) const
     );
 }
 
-bool GSpace::feeler(GObject* agent, SpaceVect _feeler, GType gtype) const
+bool GSpace::feeler(const GObject * agent, SpaceVect _feeler, GType gtype) const
+{
+    return feeler(agent,_feeler, gtype, PhysicsLayers::all);
+}
+
+bool GSpace::feeler(const GObject * agent, SpaceVect _feeler, GType gtype, PhysicsLayers layers) const
 {
     SpaceVect start = agent->getPos();
     SpaceVect end = start + _feeler;
@@ -690,24 +695,35 @@ bool GSpace::feeler(GObject* agent, SpaceVect _feeler, GType gtype) const
     space.segmentQuery(
         start,
         end,
-        static_cast<unsigned int>(PhysicsLayers::all),
+        static_cast<unsigned int>(layers),
         static_cast<unsigned int>(gtype),
         queryCallback);
     
     return collision;
 }
 
-bool GSpace::wallFeeler(GObject* agent, SpaceVect _feeler) const
+bool GSpace::wallFeeler(const GObject * agent, SpaceVect _feeler) const
 {
     return feeler(agent, _feeler, GType::wall);
 }
 
-bool GSpace::obstacleFeeler(GObject* agent, SpaceVect _feeler) const
+bool GSpace::obstacleFeeler(const GObject * agent, SpaceVect _feeler) const
 {
     return
         wallFeeler(agent, _feeler) ||
         feeler(agent, _feeler, GType::environment) ||
+        feeler(agent, _feeler, GType::npc) ||
+        feeler(agent, _feeler, GType::player) ||
         feeler(agent, _feeler, GType::enemy)
+    ;
+}
+
+bool GSpace::lineOfSight(const GObject* agent, const GObject * target) const
+{
+    SpaceVect feeler_displacement = target->getPos() - agent->getPos();
+    
+    return !feeler(agent, feeler_displacement, GType::environment,PhysicsLayers::eyeLevel) &&
+           !feeler(agent, feeler_displacement, GType::wall,PhysicsLayers::eyeLevel)
     ;
 }
 //END SENSORS

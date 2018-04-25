@@ -28,6 +28,7 @@ public:
     virtual inline float getMass() const { return -1.0f;}
     virtual inline GType getType() const {return GType::wall;}
     virtual inline SpaceVect getDimensions() const {return dimensions;}
+    virtual PhysicsLayers getLayers() const;
     
     inline virtual void initializeGraphics(Layer* layer){};
 private:

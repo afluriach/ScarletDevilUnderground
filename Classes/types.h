@@ -50,9 +50,10 @@ enum class GType{
 enum class PhysicsLayers{
     floor = 1,
     ground = 2,
+    eyeLevel = 4,
     
     //must be the bitwise or of all layers
-    all = 3
+    all = 7
 };
 
 #endif /* types_h */

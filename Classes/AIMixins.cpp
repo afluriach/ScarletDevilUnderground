@@ -91,13 +91,14 @@ void RadarObject::radarEndCollision(GObject* obj)
 
 bool RadarObject::isObjectVisible(GObject* other)
 {
-    if(fovAngle == 0.0f) return true;
+    if(fovAngle == 0.0f)
+        return ai::isLineOfSight(*this, *other);
 
 	SpaceVect facingUnit = SpaceVect::ray(1.0f, getAngle());
     SpaceVect displacementUnit = (other->getPos() - getPos()).normalize();
     float scalar = SpaceVect::dot(facingUnit,displacementUnit);
     
-    return scalar >= fovScalar;
+    return scalar >= fovScalar && ai::isLineOfSight(*this, *other);
 }
 
 void RadarObject::setFovAngle(float angle)

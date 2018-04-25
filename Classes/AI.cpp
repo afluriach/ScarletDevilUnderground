@@ -61,6 +61,11 @@ bool isFacingTargetsBack(const GObject& agent, const GObject& target)
     return facingBack && targetInFrontOfAgent;
 }
 
+bool isLineOfSight(const GObject& agent, const GObject& target)
+{
+    return app->space->lineOfSight(&agent, &target);
+}
+
 SpaceVect directionToTarget(const GObject& agent, const GObject& target)
 {
     return directionToTarget(agent, target.getPos());
@@ -238,7 +243,9 @@ Seek::Seek(const ValueMap& args) {
 
 void Seek::onEndDetect(StateMachine& sm, GObject* other)
 {
-	sm.pop();
+    if(target == other){
+        sm.pop();
+    }
 }
 
 void Seek::update(StateMachine& sm)

@@ -31,8 +31,7 @@ bool _object_ref_is_valid(unsigned int uuid)
     return space->isValid(uuid);
 }
 
-
-unsigned int _object_ref_get_uuid(GObject* obj)
+unsigned int _object_ref_get_uuid(const GObject* obj)
 {
     if(obj == nullptr)
         return 0;

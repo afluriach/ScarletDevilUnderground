@@ -30,6 +30,7 @@ void flee(GObject& agent, const SpaceVect& target, float maxSpeed, float acceler
 
 bool isFacingTarget(const GObject& agent, const GObject& target);
 bool isFacingTargetsBack(const GObject& agent, const GObject& target);
+bool isLineOfSight(const GObject& agent, const GObject& target);
 
 SpaceVect directionToTarget(const GObject& agent, const GObject& target);
 SpaceVect directionToTarget(const GObject& agent, const SpaceVect& target);

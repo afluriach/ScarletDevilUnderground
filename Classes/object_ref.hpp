@@ -13,7 +13,7 @@ class GObject;
 
 GObject* _object_ref_get_gobject(unsigned int uuid);
 bool _object_ref_is_valid(unsigned int uuid);
-unsigned int _object_ref_get_uuid(GObject* obj);
+unsigned int _object_ref_get_uuid(const GObject* obj);
 
 template<class T>
 class object_ref
@@ -46,6 +46,18 @@ public:
     inline bool isValid()const{
         return _object_ref_is_valid(uuid);
     }
+    
+    inline bool operator==(const GObject* rhs)const{
+        if(!rhs)
+            return uuid == 0;
+        else
+            return uuid == _object_ref_get_uuid(rhs);
+    }
+
+    inline bool operator==(const GObject& rhs)const{
+        return this == &rhs;
+    }
+
 protected:
     unsigned int uuid;
 };

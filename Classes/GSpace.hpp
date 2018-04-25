@@ -99,7 +99,7 @@ public:
 
     vector<SpaceVect> pathToTile(IntVec2 begin, IntVec2 end);
     void addPath(string name, Path p);
-	Path const* getPath(string name) const;
+	const Path* getPath(string name) const;
 
     inline boost::dynamic_bitset<>* getNavMask() const { return navMask;}
 private:
@@ -234,13 +234,16 @@ private:
 
 //BEGIN SENSORS
 public:
-    float distanceFeeler(GObject* agent, SpaceVect feeler, GType gtype) const;
-    float obstacleDistanceFeeler(GObject* agent, SpaceVect feeler) const;
-    float wallDistanceFeeler(GObject* agent, SpaceVect feeler) const;
+    float distanceFeeler(const GObject * agent, SpaceVect feeler, GType gtype) const;
+    float obstacleDistanceFeeler(const GObject * agent, SpaceVect feeler) const;
+    float wallDistanceFeeler(const GObject * agent, SpaceVect feeler) const;
     
-    bool feeler(GObject* agent, SpaceVect feeler, GType gtype) const;
-    bool obstacleFeeler(GObject* agent, SpaceVect feeler) const;
-    bool wallFeeler(GObject* agent, SpaceVect feeler) const;
+    bool feeler(const GObject * agent, SpaceVect feeler, GType gtype) const;
+    bool feeler(const GObject * agent, SpaceVect feeler, GType gtype, PhysicsLayers layers) const;
+    bool obstacleFeeler(const GObject * agent, SpaceVect feeler) const;
+    bool wallFeeler(const GObject * agent, SpaceVect feeler) const;
+    
+    bool lineOfSight(const GObject * agent, const GObject * target) const;
 //END SENSORS
 };
 
