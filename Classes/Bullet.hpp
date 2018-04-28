@@ -16,6 +16,7 @@
 class Bullet : virtual public GObject
 {
 public:
+	inline Bullet() {}
     //For now bullets can be treated as kinematic, meaning their mass is not relevant.
     virtual inline float getMass() const {return 0.1f;}
     virtual inline bool getSensor() const {return true;}

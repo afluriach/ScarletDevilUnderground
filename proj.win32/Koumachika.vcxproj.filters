@@ -15,13 +15,13 @@
     <ClCompile Include="main.cpp">
       <Filter>win32</Filter>
     </ClCompile>
-	<ClCompile Include="..\Classes\Agent.cpp">
+    <ClCompile Include="..\Classes\Agent.cpp">
       <Filter>src</Filter>
     </ClCompile>
     <ClCompile Include="..\Classes\AI.cpp">
       <Filter>src</Filter>
     </ClCompile>
-	<ClInclude Include="..\Classes\AIMixins.hpp">
+    <ClInclude Include="..\Classes\AIMixins.hpp">
       <Filter>src</Filter>
     </ClInclude>
     <ClCompile Include="..\Classes\App.cpp">
@@ -39,7 +39,7 @@
     <ClCompile Include="..\Classes\Dialog.cpp">
       <Filter>src</Filter>
     </ClCompile>
-	<ClInclude Include="..\Classes\Facer.hpp">
+    <ClInclude Include="..\Classes\Facer.hpp">
       <Filter>src</Filter>
     </ClInclude>
     <ClInclude Include="..\Classes\Follower.hpp">
@@ -144,6 +144,18 @@
     <ClCompile Include="..\Classes\Wall.cpp">
       <Filter>src</Filter>
     </ClCompile>
+    <ClCompile Include="..\Classes\Collectibles.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\object_ref.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\GObjectMixins.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\Sakuya.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="main.h">
@@ -152,10 +164,10 @@
     <ClInclude Include="..\Classes\AI.hpp">
       <Filter>src</Filter>
     </ClInclude>
-	<ClInclude Include="..\Classes\AIMixins.hpp">
+    <ClInclude Include="..\Classes\AIMixins.hpp">
       <Filter>src</Filter>
     </ClInclude>
-	<ClInclude Include="..\Classes\Agent.hpp">
+    <ClInclude Include="..\Classes\Agent.hpp">
       <Filter>src</Filter>
     </ClInclude>
     <ClInclude Include="..\Classes\App.h">
@@ -275,13 +287,25 @@
     <ClInclude Include="..\Classes\util.h">
       <Filter>src</Filter>
     </ClInclude>
-	<ClInclude Include="..\Classes\Wall.hpp">
+    <ClInclude Include="..\Classes\Wall.hpp">
       <Filter>src</Filter>
     </ClInclude>
     <ClInclude Include="..\Classes\scenes\Collect.h">
       <Filter>src</Filter>
     </ClInclude>
     <ClInclude Include="..\Classes\scenes\LibraryOpening.h">
+      <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\Collectibles.hpp">
+      <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\object_ref.hpp">
+      <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\GObjectMixins.hpp">
+      <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\Sakuya.hpp">
       <Filter>src</Filter>
     </ClInclude>
   </ItemGroup>

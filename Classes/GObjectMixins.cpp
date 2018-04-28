@@ -6,6 +6,8 @@
 //
 //
 
+#include "Prefix.h"
+
 #include "App.h"
 #include "GAnimation.hpp"
 #include "GObjectMixins.hpp"

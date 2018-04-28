@@ -31,7 +31,6 @@ Debug.win32/
 *.vcxproj.user
 *.log
 *.obj
-*.lib
 *.idb
 Release.win32/
 *.nativecodeanalysis.xml

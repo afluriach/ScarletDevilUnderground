@@ -77,7 +77,7 @@
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
       <Optimization>Disabled</Optimization>
-      <AdditionalIncludeDirectories>D:\dev\boost_1_59_0;C:\Users\toni\git\kouma\Classes\scenes;$(EngineRoot)cocos\audio\include;$(EngineRoot)external;C:\Users\toni\git\kouma\cocos2d\LuaBridge;C:\Users\toni\git\kouma\cocos2d\LuaBridge\detail;C:\Users\toni\git\kouma\cocos2d\lua;C:\Users\toni\git\kouma\cocos2d\chipmunk\constraints;C:\Users\toni\git\kouma\cocos2d\chipmunkpp;C:\Users\toni\git\kouma\cocos2d\chipmunk;$(EngineRoot)extensions;..\Classes;..;%(AdditionalIncludeDirectories);$(_COCOS_HEADER_WIN32_BEGIN);$(_COCOS_HEADER_WIN32_END)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>C:\Users\toni\git\kouma\gainput\include;D:\dev\boost_1_59_0;C:\Users\toni\git\kouma\Classes\scenes;$(EngineRoot)cocos\audio\include;$(EngineRoot)external;C:\Users\toni\git\kouma\cocos2d\LuaBridge;C:\Users\toni\git\kouma\cocos2d\LuaBridge\detail;C:\Users\toni\git\kouma\cocos2d\lua;C:\Users\toni\git\kouma\cocos2d\chipmunk\constraints;C:\Users\toni\git\kouma\cocos2d\chipmunkpp;C:\Users\toni\git\kouma\cocos2d\chipmunk;$(EngineRoot)extensions;..\Classes;..;%(AdditionalIncludeDirectories);$(_COCOS_HEADER_WIN32_BEGIN);$(_COCOS_HEADER_WIN32_END)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>WIN32;_DEBUG;_WINDOWS;_USE_MATH_DEFINES;GL_GLEXT_PROTOTYPES;CC_ENABLE_CHIPMUNK_INTEGRATION=1;COCOS2D_DEBUG=1;_CRT_SECURE_NO_WARNINGS;_SCL_SECURE_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <MinimalRebuild>false</MinimalRebuild>
       <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
@@ -91,9 +91,9 @@
       <LanguageStandard>stdcpp14</LanguageStandard>
     </ClCompile>
     <Link>
-      <AdditionalDependencies>Lua.lib;Chipmunk.lib;ChipmunkPlusPlus.lib;%(AdditionalDependencies);$(_COCOS_LIB_WIN32_BEGIN);$(_COCOS_LIB_WIN32_END)</AdditionalDependencies>
+      <AdditionalDependencies>Lua.lib;Chipmunk.lib;ChipmunkPlusPlus.lib;xinput.lib;gainputstatic-debug.lib;%(AdditionalDependencies);$(_COCOS_LIB_WIN32_BEGIN);$(_COCOS_LIB_WIN32_END)</AdditionalDependencies>
       <OutputFile>$(OutDir)$(ProjectName).exe</OutputFile>
-      <AdditionalLibraryDirectories>D:\dev\boost_1_59_0\lib-vc140\;$(OutDir);%(AdditionalLibraryDirectories);$(_COCOS_LIB_PATH_WIN32_BEGIN);$(_COCOS_LIB_PATH_WIN32_END)</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>D:\dev\boost_1_59_0\lib-vc140\;$(OutDir);%(AdditionalLibraryDirectories);$(_COCOS_LIB_PATH_WIN32_BEGIN);$(_COCOS_LIB_PATH_WIN32_END);C:\Users\toni\git\kouma\gainput\lib\win32</AdditionalLibraryDirectories>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <SubSystem>Windows</SubSystem>
       <TargetMachine>MachineX86</TargetMachine>
@@ -112,7 +112,7 @@ xcopy "$(ProjectDir)..\Resources" "$(OutDir)" /D /E /I /F /Y</Command>
     <ClCompile>
       <Optimization>MaxSpeed</Optimization>
       <IntrinsicFunctions>true</IntrinsicFunctions>
-      <AdditionalIncludeDirectories>D:\dev\boost_1_59_0;C:\Users\toni\git\kouma\Classes\scenes;$(EngineRoot)cocos\audio\include;$(EngineRoot)external;C:\Users\toni\git\kouma\cocos2d\LuaBridge;C:\Users\toni\git\kouma\cocos2d\LuaBridge\detail;C:\Users\toni\git\kouma\cocos2d\lua;C:\Users\toni\git\kouma\cocos2d\chipmunk\constraints;C:\Users\toni\git\kouma\cocos2d\chipmunkpp;C:\Users\toni\git\kouma\cocos2d\chipmunk;$(EngineRoot)extensions;..\Classes;..;%(AdditionalIncludeDirectories);$(_COCOS_HEADER_WIN32_BEGIN);$(_COCOS_HEADER_WIN32_END)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>D:\dev\boost_1_59_0;C:\Users\toni\git\kouma\Classes\scenes;$(EngineRoot)cocos\audio\include;$(EngineRoot)external;C:\Users\toni\git\kouma\cocos2d\LuaBridge;C:\Users\toni\git\kouma\cocos2d\LuaBridge\detail;C:\Users\toni\git\kouma\cocos2d\lua;C:\Users\toni\git\kouma\cocos2d\chipmunk\constraints;C:\Users\toni\git\kouma\cocos2d\chipmunkpp;C:\Users\toni\git\kouma\cocos2d\chipmunk;$(EngineRoot)extensions;..\Classes;..;%(AdditionalIncludeDirectories);$(_COCOS_HEADER_WIN32_BEGIN);$(_COCOS_HEADER_WIN32_END);C:\Users\toni\git\kouma\gainput\include</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>WIN32;NDEBUG;_WINDOWS;_USE_MATH_DEFINES;GL_GLEXT_PROTOTYPES;CC_ENABLE_CHIPMUNK_INTEGRATION=1;_CRT_SECURE_NO_WARNINGS;_SCL_SECURE_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
       <FunctionLevelLinking>true</FunctionLevelLinking>
@@ -125,9 +125,9 @@ xcopy "$(ProjectDir)..\Resources" "$(OutDir)" /D /E /I /F /Y</Command>
       <LanguageStandard>stdcpp14</LanguageStandard>
     </ClCompile>
     <Link>
-      <AdditionalDependencies>Lua.lib;Chipmunk.lib;ChipmunkPlusPlus.lib;libcurl_imp.lib;websockets.lib;%(AdditionalDependencies);$(_COCOS_LIB_WIN32_BEGIN);$(_COCOS_LIB_WIN32_END)</AdditionalDependencies>
+      <AdditionalDependencies>Lua.lib;Chipmunk.lib;ChipmunkPlusPlus.lib;xinput.lib;gainputstatic-release.lib;libcurl_imp.lib;websockets.lib;%(AdditionalDependencies);$(_COCOS_LIB_WIN32_BEGIN);$(_COCOS_LIB_WIN32_END)</AdditionalDependencies>
       <OutputFile>$(OutDir)$(ProjectName).exe</OutputFile>
-      <AdditionalLibraryDirectories>D:\dev\boost_1_59_0\lib-x64;$(OutDir);%(AdditionalLibraryDirectories);$(_COCOS_LIB_PATH_WIN32_BEGIN);$(_COCOS_LIB_PATH_WIN32_END)</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>D:\dev\boost_1_59_0\lib-x64;$(OutDir);%(AdditionalLibraryDirectories);$(_COCOS_LIB_PATH_WIN32_BEGIN);$(_COCOS_LIB_PATH_WIN32_END);C:\Users\toni\git\kouma\gainput\lib\win32</AdditionalLibraryDirectories>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <SubSystem>Windows</SubSystem>
       <OptimizeReferences>true</OptimizeReferences>
@@ -151,6 +151,7 @@ xcopy "$(ProjectDir)..\Resources" "$(OutDir)" /D /E /I /F /Y</Command>
     <ClCompile Include="..\Classes\App.cpp" />
     <ClCompile Include="..\Classes\Block.cpp" />
     <ClCompile Include="..\Classes\Bullet.cpp" />
+    <ClCompile Include="..\Classes\Collectibles.cpp" />
     <ClCompile Include="..\Classes\controls.cpp" />
     <ClCompile Include="..\Classes\Dialog.cpp" />
     <ClCompile Include="..\Classes\Facer.cpp" />
@@ -159,6 +160,7 @@ xcopy "$(ProjectDir)..\Resources" "$(OutDir)" /D /E /I /F /Y</Command>
     <ClCompile Include="..\Classes\Garden.cpp" />
     <ClCompile Include="..\Classes\Glyph.cpp" />
     <ClCompile Include="..\Classes\GObject.cpp" />
+    <ClCompile Include="..\Classes\GObjectMixins.cpp" />
     <ClCompile Include="..\Classes\Graph.cpp" />
     <ClCompile Include="..\Classes\Graphics.cpp" />
     <ClCompile Include="..\Classes\GSpace.cpp" />
@@ -173,9 +175,11 @@ xcopy "$(ProjectDir)..\Resources" "$(OutDir)" /D /E /I /F /Y</Command>
     <ClCompile Include="..\Classes\LuaWrap.cpp" />
     <ClCompile Include="..\Classes\menu.cpp" />
     <ClCompile Include="..\Classes\ObjectMapping.cpp" />
+    <ClCompile Include="..\Classes\object_ref.cpp" />
     <ClCompile Include="..\Classes\Patchouli.cpp" />
     <ClCompile Include="..\Classes\Player.cpp" />
     <ClCompile Include="..\Classes\PlayScene.cpp" />
+    <ClCompile Include="..\Classes\Sakuya.cpp" />
     <ClCompile Include="..\Classes\SceneMapping.cpp" />
     <ClCompile Include="..\Classes\scenes\scenes.cpp" />
     <ClCompile Include="..\Classes\Spell.cpp" />
@@ -195,6 +199,7 @@ xcopy "$(ProjectDir)..\Resources" "$(OutDir)" /D /E /I /F /Y</Command>
     <ClInclude Include="..\Classes\Block.hpp" />
     <ClInclude Include="..\Classes\Bullet.hpp" />
     <ClInclude Include="..\Classes\CollectGlyph.hpp" />
+    <ClInclude Include="..\Classes\Collectibles.hpp" />
     <ClInclude Include="..\Classes\controls.h" />
     <ClInclude Include="..\Classes\Dialog.hpp" />
     <ClInclude Include="..\Classes\Facer.hpp" />
@@ -204,6 +209,7 @@ xcopy "$(ProjectDir)..\Resources" "$(OutDir)" /D /E /I /F /Y</Command>
     <ClInclude Include="..\Classes\Garden.hpp" />
     <ClInclude Include="..\Classes\Glyph.hpp" />
     <ClInclude Include="..\Classes\GObject.hpp" />
+    <ClInclude Include="..\Classes\GObjectMixins.hpp" />
     <ClInclude Include="..\Classes\Graph.hpp" />
     <ClInclude Include="..\Classes\Graphics.h" />
     <ClInclude Include="..\Classes\GSpace.hpp" />
@@ -220,11 +226,13 @@ xcopy "$(ProjectDir)..\Resources" "$(OutDir)" /D /E /I /F /Y</Command>
     <ClInclude Include="..\Classes\Marisa.hpp" />
     <ClInclude Include="..\Classes\menu.h" />
     <ClInclude Include="..\Classes\multifunction.h" />
+    <ClInclude Include="..\Classes\object_ref.hpp" />
     <ClInclude Include="..\Classes\Patchouli.hpp" />
     <ClInclude Include="..\Classes\Player.hpp" />
     <ClInclude Include="..\Classes\PlayScene.hpp" />
     <ClInclude Include="..\Classes\Prefix.h" />
     <ClInclude Include="..\Classes\Reimu.hpp" />
+    <ClInclude Include="..\Classes\Sakuya.hpp" />
     <ClInclude Include="..\Classes\scenes.h" />
     <ClInclude Include="..\Classes\scenes\Collect.h" />
     <ClInclude Include="..\Classes\scenes\LibraryOpening.h" />

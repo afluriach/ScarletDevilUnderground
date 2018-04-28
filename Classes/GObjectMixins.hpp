@@ -9,6 +9,8 @@
 #ifndef GObjectMixins_hpp
 #define GObjectMixins_hpp
 
+#include "Prefix.h"
+
 #include "GObject.hpp"
 #include "multifunction.h"
 #include "util.h"
@@ -86,6 +88,7 @@ protected:
 class RectangleBody : public virtual GObject
 {
 public:
+	inline RectangleBody(){}
     //Create body and add it to space. This assumes BB is rectangle dimensions
     virtual void initializeBody(GSpace& space);    
     virtual inline SpaceVect getDimensions() const = 0;

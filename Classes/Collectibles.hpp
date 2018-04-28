@@ -14,6 +14,8 @@
 
 class Collectible : public virtual GObject
 {
+public:
+	inline Collectible(){}
 };
 
 class PowerUp : public Collectible, public RectangleBody, public ImageSprite
