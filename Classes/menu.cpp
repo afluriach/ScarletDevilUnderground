@@ -193,3 +193,26 @@ void PauseMenu::goToTitle()
 {
 	GScene::runScene("TitleMenu");
 }
+
+const string GameOverMenu::title = "GAME OVER";
+
+const vector<string> GameOverMenu::entryNames = boost::assign::list_of
+	("Restart")
+	("Exit to title")
+;
+
+const vector<TextListMenuLayer::listAction> GameOverMenu::entryActions = boost::assign::list_of
+	(PauseMenu::restart)
+	(PauseMenu::goToTitle)
+;
+
+void GameOverMenu::restart()
+{
+	GScene::restartScene();
+}
+
+void GameOverMenu::goToTitle()
+{
+	GScene::runScene("TitleMenu");
+}
+

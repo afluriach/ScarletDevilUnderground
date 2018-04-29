@@ -17,6 +17,7 @@ class GScene;
 class GSpace;
 class HUD;
 class KeyRegister;
+class PlayScene;
 
 extern App* app;
 
@@ -32,9 +33,12 @@ public:
     static const int width = 1600;
     static const int height = 1000;
     
+    //Game options set through the script API
     float screenscale = 1;
     float dpiscale = 1;
     bool fullscreen = false;
+    
+    bool suppressGameOver = false;
     
     static const int framesPerSecond = 60;
     constexpr static float secondsPerFrame = 1.0f / framesPerSecond;
@@ -69,10 +73,13 @@ public:
     HUD* hud = nullptr;
     Lua::Inst lua;
     GSpace* space = nullptr;
+    PlayScene* playScene = nullptr;
 
     boost::random::uniform_01<float> randomFloat;
     boost::random::uniform_int_distribution<int> randomInt;
     boost::random::mt19937 randomEngine;
+    
+    PlayScene* getPlayScene();
 
     /**
     @brief    Implement Director and Scene init code here.

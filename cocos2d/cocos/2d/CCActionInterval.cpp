@@ -2029,6 +2029,16 @@ TintTo* TintTo::create(float duration, const Color3B& color)
     return create(duration, color.r, color.g, color.b);
 }
 
+TintTo* TintTo::createRecursive(float duration, const Color3B& color)
+{
+    TintTo *tintTo = new (std::nothrow) TintTo();
+    tintTo->initWithDuration(duration, color.r, color.g, color.b);
+    tintTo->autorelease();
+    tintTo->recursive = true;
+
+    return tintTo;
+}
+
 bool TintTo::initWithDuration(float duration, GLubyte red, GLubyte green, GLubyte blue)
 {
     if (ActionInterval::initWithDuration(duration))
@@ -2069,11 +2079,16 @@ void TintTo::update(float time)
 {
     if (_target)
     {
-        _target->setColor(Color3B(
+        Color3B crntColor(
             (GLubyte)(_from.r + (_to.r - _from.r) * time),
             (GLubyte)(_from.g + (_to.g - _from.g) * time),
             (GLubyte)(_from.b + (_to.b - _from.b) * time)
-        ));
+        );
+        
+        if(recursive)
+            _target->setColorRecursive(crntColor);
+        else
+            _target->setColor(crntColor);
     }    
 }
 

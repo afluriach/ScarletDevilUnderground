@@ -1256,6 +1256,7 @@ public:
      * @return An autoreleased TintTo object.
      */
     static TintTo* create(float duration, GLubyte red, GLubyte green, GLubyte blue);
+    static TintTo* createRecursive(float duration, const Color3B& color);
     /**
      * Creates an action with duration and color.
      * @param duration Duration time, in seconds.
@@ -1285,6 +1286,7 @@ CC_CONSTRUCTOR_ACCESS:
 protected:
     Color3B _to;
     Color3B _from;
+    bool recursive = false;
 
 private:
     CC_DISALLOW_COPY_AND_ASSIGN(TintTo);

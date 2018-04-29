@@ -164,6 +164,11 @@ void setPlayerMaxHealth(int val)
 
 }
 
+void suppressGameOver(bool b)
+{
+    app->suppressGameOver = b;
+}
+
 void setPaused(bool val)
 {
     GScene::crntScene->setPaused(val);
@@ -418,6 +423,7 @@ make_wrapper(runscript)
 make_wrapper(showHealth)
 make_wrapper(setPlayerHealth)
 make_wrapper(setPlayerMaxHealth)
+make_wrapper(suppressGameOver)
 make_wrapper(setPaused)
 make_wrapper(getFrameNumber)
 make_wrapper(dostring_in_inst)
@@ -489,6 +495,7 @@ void Inst::installWrappers()
     install_wrapper(showHealth)
     install_wrapper(setPlayerHealth)
     install_wrapper(setPlayerMaxHealth)
+    install_wrapper(suppressGameOver)
     install_wrapper(setPaused)
     install_wrapper(getFrameNumber)
     install_wrapper(dostring_in_inst)

@@ -20,6 +20,9 @@ class PauseMenu;
 class PlayScene : virtual public GScene, public MapScene, public ScriptedScene
 {
 public:
+    static const Color3B fadeoutColor;
+    static const float fadeoutLength;
+
     PlayScene(const string& name);
     
     //set player object. should be post load object init
@@ -37,8 +40,11 @@ public:
     void pauseAnimations();
     void resumeAnimations();
     
-    HUD* hud;
-	PauseMenu* pauseMenu;
+    void triggerGameOver();
+    void showGameOverMenu(float unused);
+    
+    HUD* hud = nullptr;
+	PauseMenu* pauseMenu = nullptr;
 private:    
     void addHUD();
 

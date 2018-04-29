@@ -1697,6 +1697,7 @@ public:
     virtual const Color3B& getColor() const;
     virtual const Color3B& getDisplayedColor() const;
     virtual void setColor(const Color3B& color);
+    virtual void setColorRecursive(const Color3B& color);
     virtual void updateDisplayedColor(const Color3B& parentColor);
     virtual bool isCascadeColorEnabled() const;
     virtual void setCascadeColorEnabled(bool cascadeColorEnabled);

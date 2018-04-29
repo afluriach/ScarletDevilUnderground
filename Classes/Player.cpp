@@ -18,6 +18,7 @@
 #include "GSpace.hpp"
 #include "HUD.hpp"
 #include "Player.hpp"
+#include "PlayScene.hpp"
 #include "Spell.hpp"
 
 const int Player::defaultMaxHealth = 5;
@@ -167,6 +168,9 @@ void Player::update()
         checkBaseControls();
     }
     updateSpell();
+    
+    if(health <= 0 && !app->suppressGameOver)
+        app->playScene->triggerGameOver();
 }
 
 

@@ -2277,6 +2277,15 @@ void Node::setColor(const Color3B& color)
     updateCascadeColor();
 }
 
+void Node::setColorRecursive(const Color3B& color)
+{
+    setColor(color);
+    
+    for(auto it = _children.begin(); it != _children.end(); ++it){
+        (*it)->setColorRecursive(color);
+    }
+}
+
 void Node::updateDisplayedColor(const Color3B& parentColor)
 {
     _displayedColor.r = _realColor.r * parentColor.r/255.0;

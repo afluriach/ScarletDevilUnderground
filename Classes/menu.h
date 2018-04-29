@@ -125,4 +125,24 @@ public:
 	static void resumeScene();
 };
 
+class GameOverMenu : public TextListMenuLayer
+{
+public:
+	static const string title;
+	static const vector<string> entryNames;
+	static const vector<listAction> entryActions;
+
+	CREATE_FUNC(GameOverMenu);
+
+	inline GameOverMenu() : TextListMenuLayer(
+		title,
+		entryNames,
+		entryActions
+	)
+	{}
+
+	static void goToTitle();
+	static void restart();
+};
+
 #endif /* menu_h */

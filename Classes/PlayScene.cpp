@@ -10,7 +10,9 @@
 
 #include "App.h"
 #include "controls.h"
+#include "Dialog.hpp"
 #include "GObject.hpp"
+#include "Graphics.h"
 #include "GSpace.hpp"
 #include "macros.h"
 #include "multifunction.h"
@@ -26,6 +28,9 @@ void printGroup(TMXObjectGroup* group)
         printValueMap(objAsMap);
     }
 }
+
+const Color3B PlayScene::fadeoutColor = Color3B(128,0,0);
+const float PlayScene::fadeoutLength = 3.0f;
 
 PlayScene::PlayScene(const string& name) :
 MapScene(name),
@@ -48,6 +53,8 @@ ScriptedScene(name)
         ControlAction::pause,
         [=]()-> void {onPausePressed(); }
     );
+    
+    app->playScene = this;
 }
 
 void PlayScene::trackPlayer(){
@@ -128,4 +135,35 @@ void PlayScene::resumeAnimations()
 {
     getLayer(sceneLayers::space)->resumeRecursive();
     getLayer(sceneLayers::hud)->resumeRecursive();
+}
+
+void PlayScene::showGameOverMenu(float unused)
+{
+    app->hud->setVisible(false);
+	if(app->dialog)
+        app->dialog->setVisible(false);
+
+	GameOverMenu* gom = GameOverMenu::create();
+
+    getLayer(sceneLayers::menu)->addChild(gom);
+}
+
+void PlayScene::triggerGameOver()
+{
+    if(pauseMenu)
+        pauseMenu->setVisible(false);
+    
+    setPaused(true);
+    
+    getLayer(sceneLayers::space)->runAction(tintTo(fadeoutColor,fadeoutLength));
+
+    Director::getInstance()->getScheduler()->schedule(
+        bind(&PlayScene::showGameOverMenu, this, placeholders::_1),
+        this,
+        0.0f,
+        0,
+        fadeoutLength,
+        false,
+        "showGameOverMenu"
+    );
 }

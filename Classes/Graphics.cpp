@@ -115,6 +115,11 @@ Action* flickerTintAction(float interval, float length, Color3B tint)
     return loop;
 }
 
+Action* tintTo(Color3B tint, float length)
+{
+    return TintTo::createRecursive(length,tint);
+}
+
 Action* motionBlurStretch(float duration, float angle, float opacity, float scale)
 {
 //    float scaleX = 1 + cos(angle)*(scale-1);
