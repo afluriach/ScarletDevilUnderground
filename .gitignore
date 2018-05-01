@@ -38,3 +38,4 @@ Release.win32/
 *.nativecodeanalysis.xml
 *.nativecodeanalysis.all.xml
 *.lastcodeanalysissucceeded
+CMakeCache.txt
