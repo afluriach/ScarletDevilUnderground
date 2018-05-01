@@ -23,6 +23,12 @@
     #import <UIKit/UIKit.h>
 #endif
 
+#if defined(TARGET_OS_IOS)
+    #define use_gamepad 0
+else
+    #define use_gamepad 1
+#endif
+
 //External includes should also be copied to build specific PCH.
 
 //C standard libraries
@@ -48,7 +54,10 @@
 #include "ui/CocosGUI.h"
 #include "lua.hpp"
 #include "LuaBridge.h"
-#include "gainput/gainput.h"
+
+#if use_gamepad
+    #include "gainput/gainput.h"
+#endif
 
 #if defined(TARGET_OS_IOS) && defined(__OBJC__)
     #import "platform/ios/CCEAGLView-ios.h"

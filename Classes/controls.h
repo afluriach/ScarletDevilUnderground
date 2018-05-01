@@ -63,7 +63,9 @@ enum class ControlAction
 };
 
 typedef unordered_map<EventKeyboard::KeyCode, KeyboardKey, enum_hash> KeyCodeMap;
+#if use_gamepad
 typedef unordered_map<gainput::UserButtonId, GamepadButton> GamepadButtonMap;
+#endif
 
 typedef unordered_map<KeyboardKey, ControlAction, enum_hash> KeyActionMap;
 typedef unordered_map<GamepadButton, ControlAction, enum_hash> ButtonActionMap;
@@ -80,7 +82,9 @@ public:
     static const float deadzone;
     
     static const KeyCodeMap watchedKeys;
+    #if use_gamepad
     static const GamepadButtonMap watchedButtons;
+    #endif
     
     static const KeyActionMap keyActionMap;
     static const ButtonActionMap buttonActionMap;
@@ -129,11 +133,13 @@ private:
 
     EventListenerKeyboard* keyListener;
     
+    #if use_gamepad
     gainput::InputManager manager;
     gainput::InputMap input_map;
     gainput::DeviceId gamepad_id;
     gainput::InputDevice* gamepad;
     bool gamepadInitialized = false;
+    #endif
 
     unsigned int nextListenerUUID = 1;
 };

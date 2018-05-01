@@ -42,6 +42,7 @@ const KeyCodeMap ControlRegister::watchedKeys = boost::assign::map_list_of
     (EventKeyboard::KeyCode::KEY_RIGHT_ARROW, KeyboardKey::arrowRight)
 ;
 
+#if use_gamepad
 const GamepadButtonMap ControlRegister::watchedButtons = boost::assign::map_list_of
     (gainput::PadButtonStart, GamepadButton::start)
     (gainput::PadButtonA, GamepadButton::a)
@@ -51,6 +52,7 @@ const GamepadButtonMap ControlRegister::watchedButtons = boost::assign::map_list
     (gainput::PadButtonDown, GamepadButton::dpadDown)
     (gainput::PadButtonLeft, GamepadButton::dpadLeft)
 ;
+#endif
 
 const KeyActionMap ControlRegister::keyActionMap = boost::assign::map_list_of
     (KeyboardKey::escape, enum_bitwise_or(ControlAction,menuBack,pause))
@@ -74,19 +76,24 @@ const ButtonActionMap ControlRegister::buttonActionMap = boost::assign::map_list
     (GamepadButton::dpadLeft, ControlAction::spell4)
 ;
 
-ControlRegister::ControlRegister() :
+ControlRegister::ControlRegister()
+#if use_gamepad
+:
 input_map(manager),
 gamepad_id(manager.CreateDevice<gainput::InputDevicePad>()),
 gamepad(manager.GetDevice(gamepad_id))
+#endif
 {
     //Initialize key held map by putting each key enum in it.
     for(auto it = watchedKeys.begin(); it != watchedKeys.end(); ++it){
         isKeyDown[it->second] = false;
     }
     
+    #if use_gamepad
     for(auto it = watchedButtons.begin(); it != watchedButtons.end(); ++it){
         isButtonDown[it->second] = false;
     }
+    #endif
     
     enum_foreach(ControlAction,a,pause,end)
     {
@@ -103,6 +110,7 @@ gamepad(manager.GetDevice(gamepad_id))
         static_cast<int>(App::EventPriorities::KeyRegisterEvent)
     );
     
+    #if use_gamepad
     manager.Update();
     
     if(gamepad->IsAvailable()){
@@ -119,8 +127,7 @@ gamepad(manager.GetDevice(gamepad_id))
             it->first
         );
     }
-
-
+    #endif
 }
 
 ControlRegister::~ControlRegister()
@@ -208,6 +215,7 @@ void ControlRegister::updateVectors()
 
     SpaceVect left_stick,right_stick;
     
+    #if use_gamepad
     if(gamepad->IsAvailable())
     {
         left_stick.x = gamepad->GetFloat(gainput::PadButtonLeftStickX);
@@ -216,6 +224,7 @@ void ControlRegister::updateVectors()
         right_stick.x = gamepad->GetFloat(gainput::PadButtonRightStickX);
         right_stick.y = gamepad->GetFloat(gainput::PadButtonRightStickY);
     }
+    #endif
     
     left_vector = (left_stick.length() >= deadzone) ? left_stick :  getDirectionVecFromKeyQuad(MOVE_KEYS);
 
@@ -286,18 +295,23 @@ void ControlRegister::checkCallbacks()
 
 void ControlRegister::update()
 {
+    #if use_gamepad
     manager.Update();
     if(gamepad->IsAvailable())
         pollGamepad();
+    #endif
     
     updateActionState();
     updateVectors();
     checkCallbacks();
     
+    #if use_gamepad
     if(logButtons)
         logGamepadButtons();
+    #endif
 }
 
+#if use_gamepad
 void ControlRegister::pollGamepad()
 {
     for(auto button_it = watchedButtons.begin(); button_it != watchedButtons.end(); ++button_it){
@@ -315,6 +329,7 @@ void ControlRegister::logGamepadButtons()
         }
     }
 }
+#endif
 
 unsigned int ControlRegister::addPressListener(ControlAction action, function<void()> f)
 {
