@@ -157,7 +157,6 @@
 		E2E01EEE1C1DCA0D00330904 /* AI.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E2E01EEB1C1DCA0D00330904 /* AI.cpp */; };
 		E2E846B61C16201F00E5ADBC /* HUD.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E2E846B41C16201F00E5ADBC /* HUD.cpp */; };
 		E2E846B71C16201F00E5ADBC /* HUD.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E2E846B41C16201F00E5ADBC /* HUD.cpp */; };
-		E2FC5A262097FBE400DA35D7 /* libglfw3.a in Frameworks */ = {isa = PBXBuildFile; fileRef = E2FC59FF2097FB5800DA35D7 /* libglfw3.a */; };
 		E2FC5A292097FBF200DA35D7 /* libglfw3.a in Frameworks */ = {isa = PBXBuildFile; fileRef = E2FC59FF2097FB5800DA35D7 /* libglfw3.a */; };
 /* End PBXBuildFile section */
 
@@ -378,7 +377,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				E2FC5A262097FBE400DA35D7 /* libglfw3.a in Frameworks */,
 				E2610C471FE06A890079B36F /* libboost-combined.a in Frameworks */,
 				52B47A471A53D09C004E4C60 /* Security.framework in Frameworks */,
 				1AC6FB30180E99EB004C840B /* libcocos2d iOS.a in Frameworks */,
