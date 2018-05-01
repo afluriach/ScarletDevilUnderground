@@ -30,8 +30,12 @@ CMakeScripts/
 Makefile
 *.cmake
 *.app/
+
+##GLFW
 glfw_config.h
 glfw3.pc
+glfw/src/Release/
+glfw/src/Debug/
 
 ##Visual Studio
 .vs/
