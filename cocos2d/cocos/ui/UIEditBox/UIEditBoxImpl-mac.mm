@@ -332,7 +332,7 @@ void EditBoxImplMac::doAnimationWhenKeyboardMove(float duration, float distance)
         [_sysEdit doAnimationWhenKeyboardMoveWithDuration:duration distance:distance];
 }
 
-bool EditBoxImplMac::initWithSize(const Size& size)
+bool EditBoxImplMac::initWithSize(const CCSize& size)
 {
     GLView* eglView = Director::getInstance()->getOpenGLView();
 
@@ -514,8 +514,8 @@ void EditBoxImplMac::updatePosition(float dt)
 
 void EditBoxImplMac::adjustTextFieldPosition()
 {
-	Size contentSize = _editBox->getContentSize();
-	Rect rect = Rect(0, 0, contentSize.width, contentSize.height);
+	CCSize contentSize = _editBox->getContentSize();
+	CCRect rect = CCRect(0, 0, contentSize.width, contentSize.height);
 
     rect = RectApplyAffineTransform(rect, _editBox->nodeToWorldTransform());
 	
@@ -535,7 +535,7 @@ void EditBoxImplMac::setVisible(bool visible)
     [_sysEdit.secureTextField setHidden:!visible];
 }
 
-void EditBoxImplMac::setContentSize(const Size& size)
+void EditBoxImplMac::setContentSize(const CCSize& size)
 {
     _contentSize = size;
     CCLOG("[Edit text] content size = (%f, %f)", size.width, size.height);

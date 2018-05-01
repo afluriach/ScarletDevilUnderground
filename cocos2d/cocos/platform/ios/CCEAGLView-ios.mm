@@ -259,7 +259,7 @@ Copyright (C) 2008 Apple Inc. All Rights Reserved.
     // Issue #914 #924
 //     Director *director = [Director sharedDirector];
 //     [director reshapeProjection:size_];
-    cocos2d::Size size;
+    cocos2d::CCSize size;
     size.width = size_.width;
     size.height = size_.height;
     //cocos2d::Director::getInstance()->reshapeProjection(size);
@@ -798,11 +798,11 @@ Copyright (C) 2008 Apple Inc. All Rights Reserved.
 
     
     cocos2d::IMEKeyboardNotificationInfo notiInfo;
-    notiInfo.begin = cocos2d::Rect(begin.origin.x,
+    notiInfo.begin = cocos2d::CCRect(begin.origin.x,
                                      begin.origin.y,
                                      begin.size.width,
                                      begin.size.height);
-    notiInfo.end = cocos2d::Rect(end.origin.x,
+    notiInfo.end = cocos2d::CCRect(end.origin.x,
                                    end.origin.y,
                                    end.size.width,
                                    end.size.height);

@@ -82,7 +82,7 @@ public:
      */
     virtual ~EditBoxImplMac();
     
-    virtual bool initWithSize(const Size& size);
+    virtual bool initWithSize(const CCSize& size);
     virtual void setFont(const char* pFontName, int fontSize);
     virtual void setFontColor(const Color4B& color);
     virtual void setPlaceholderFont(const char* pFontName, int fontSize);
@@ -99,7 +99,7 @@ public:
     virtual void setPlaceHolder(const char* pText);
     virtual void setPosition(const Vec2& pos);
     virtual void setVisible(bool visible);
-    virtual void setContentSize(const Size& size);
+    virtual void setContentSize(const CCSize& size);
     virtual void setAnchorPoint(const Vec2& anchorPoint);
     /**
      * @js NA
@@ -118,7 +118,7 @@ public:
 private:
     NSPoint    convertDesignCoordToScreenCoord(const Vec2& designCoord, bool bInRetinaMode);
     void       adjustTextFieldPosition();
-    Size     _contentSize;
+    CCSize     _contentSize;
     Vec2    _position;
     Vec2    _anchorPoint;
     int        _maxTextLength;

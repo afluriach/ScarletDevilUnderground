@@ -83,7 +83,7 @@ public:
      */
     virtual ~EditBoxImplIOS();
     
-    virtual bool initWithSize(const Size& size);
+    virtual bool initWithSize(const CCSize& size);
     virtual void setFont(const char* pFontName, int fontSize);
     virtual void setFontColor(const Color4B& color);
     virtual void setPlaceholderFont(const char* pFontName, int fontSize);
@@ -101,7 +101,7 @@ public:
     virtual void setPlaceHolder(const char* pText);
     virtual void setPosition(const Vec2& pos);
     virtual void setVisible(bool visible);
-    virtual void setContentSize(const Size& size);
+    virtual void setContentSize(const CCSize& size);
 	virtual void setAnchorPoint(const Vec2& anchorPoint);
     virtual void updatePosition(float dt) override;
     /**
@@ -120,14 +120,14 @@ public:
 	
 	virtual void onEndEditing();
 private:
-	void			initInactiveLabels(const Size& size);
+	void			initInactiveLabels(const CCSize& size);
 	void			setInactiveText(const char* pText);
 	void			adjustTextFieldPosition();
     void            placeInactiveLabels();
 	
     Label*     _label;
     Label*     _labelPlaceHolder;
-    Size          _contentSize;
+    CCSize          _contentSize;
     Vec2         _position;
     Vec2         _anchorPoint;
     UIEditBoxImplIOS_objc* _systemControl;

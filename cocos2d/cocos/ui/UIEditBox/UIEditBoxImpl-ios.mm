@@ -294,7 +294,7 @@ void EditBoxImplIOS::doAnimationWhenKeyboardMove(float duration, float distance)
     }
 }
 
-bool EditBoxImplIOS::initWithSize(const Size& size)
+bool EditBoxImplIOS::initWithSize(const CCSize& size)
 {
     do 
     {
@@ -319,7 +319,7 @@ bool EditBoxImplIOS::initWithSize(const Size& size)
     return false;
 }
 
-void EditBoxImplIOS::initInactiveLabels(const Size& size)
+void EditBoxImplIOS::initInactiveLabels(const CCSize& size)
 {
 	const char* pDefaultFontName = [[_systemControl.textField.font fontName] UTF8String];
 
@@ -359,7 +359,7 @@ void EditBoxImplIOS::setInactiveText(const char* pText)
 
     // Clip the text width to fit to the text box
     float fMaxWidth = _editBox->getContentSize().width - CC_EDIT_BOX_PADDING * 2;
-    Size labelSize = _label->getContentSize();
+    CCSize labelSize = _label->getContentSize();
     if(labelSize.width > fMaxWidth) {
         _label->setDimensions(fMaxWidth,labelSize.height);
     }
@@ -582,7 +582,7 @@ void EditBoxImplIOS::setVisible(bool visible)
 //    _systemControl.textField.hidden = !visible;
 }
 
-void EditBoxImplIOS::setContentSize(const Size& size)
+void EditBoxImplIOS::setContentSize(const CCSize& size)
 {
     _contentSize = size;
     CCLOG("[Edit text] content size = (%f, %f)", size.width, size.height);
@@ -629,8 +629,8 @@ void EditBoxImplIOS::updatePosition(float dt)
 
 void EditBoxImplIOS::adjustTextFieldPosition()
 {
-	Size contentSize = _editBox->getContentSize();
-	Rect rect = Rect(0, 0, contentSize.width, contentSize.height);
+	CCSize contentSize = _editBox->getContentSize();
+	CCRect rect = CCRect(0, 0, contentSize.width, contentSize.height);
     rect = RectApplyAffineTransform(rect, _editBox->nodeToWorldTransform());
 	
 	Vec2 designCoord = Vec2(rect.origin.x, rect.origin.y + rect.size.height);
