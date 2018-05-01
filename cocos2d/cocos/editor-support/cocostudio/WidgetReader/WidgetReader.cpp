@@ -720,7 +720,7 @@ namespace cocostudio
         RotationSkew f_rotationskew(rotationSkew.x, rotationSkew.y);
         Position f_position(position.x, position.y);
         Scale f_scale(scale.x, scale.y);
-        AnchorPoint f_anchortpoint(anchorPoint.x, anchorPoint.y);
+        flatbuffers::AnchorPoint f_anchortpoint(anchorPoint.x, anchorPoint.y);
         Color f_color(color.a, color.r, color.g, color.b);
         FlatSize f_size(size.x, size.y);
         auto f_layoutComponent = CreateLayoutComponentTable(*builder,
