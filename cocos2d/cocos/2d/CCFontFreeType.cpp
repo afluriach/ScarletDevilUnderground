@@ -46,7 +46,7 @@ typedef struct _DataRef
 
 static std::unordered_map<std::string, DataRef> s_cacheFontData;
 
-FontFreeType * FontFreeType::create(const std::string &fontName, int fontSize, GlyphCollection glyphs, const char *customGlyphs,bool distanceFieldEnabled /* = false */,int outline /* = 0 */)
+FontFreeType * FontFreeType::create(const std::string &fontName, int fontSize, CCGlyphCollection glyphs, const char *customGlyphs,bool distanceFieldEnabled /* = false */,int outline /* = 0 */)
 {
     FontFreeType *tempFont =  new FontFreeType(distanceFieldEnabled,outline);
 
@@ -173,7 +173,7 @@ FontFreeType::~FontFreeType()
 FontAtlas * FontFreeType::createFontAtlas()
 {
     FontAtlas *atlas = new (std::nothrow) FontAtlas(*this);
-    if (_usedGlyphs != GlyphCollection::DYNAMIC)
+    if (_usedGlyphs != CCGlyphCollection::DYNAMIC)
     {
         std::u16string utf16;
         if (StringUtils::UTF8ToUTF16(getCurrentGlyphCollection(), utf16))

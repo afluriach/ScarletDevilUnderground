@@ -54,11 +54,11 @@ protected:
      * @lua NA
      */
     virtual ~Font() {}
-    void setCurrentGlyphCollection(GlyphCollection glyphs, const char *customGlyphs = 0);
-    const char * getGlyphCollection(GlyphCollection glyphs) const;
+    void setCurrentGlyphCollection(CCGlyphCollection glyphs, const char *customGlyphs = 0);
+    const char * getGlyphCollection(CCGlyphCollection glyphs) const;
     
 
-    GlyphCollection     _usedGlyphs;
+    CCGlyphCollection     _usedGlyphs;
     char              * _customGlyphs;
     static const char * _glyphASCII;
     static const char * _glyphNEHE;

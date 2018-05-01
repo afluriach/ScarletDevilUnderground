@@ -44,7 +44,7 @@ NS_CC_BEGIN
  * Specify a collections of characters to be load when Label created.
  * Consider using DYNAMIC.
  */
-enum class GlyphCollection {
+enum class CCGlyphCollection {
     DYNAMIC,
     NEHE,
     ASCII,
@@ -61,13 +61,13 @@ typedef struct _ttfConfig
     std::string fontFilePath;
     int fontSize;
 
-    GlyphCollection glyphs;
+    CCGlyphCollection glyphs;
     const char *customGlyphs;
 
     bool distanceFieldEnabled;
     int outlineSize;
 
-    _ttfConfig(const char* filePath = "",int size = 12, const GlyphCollection& glyphCollection = GlyphCollection::DYNAMIC,
+    _ttfConfig(const char* filePath = "",int size = 12, const CCGlyphCollection& glyphCollection = CCGlyphCollection::DYNAMIC,
         const char *customGlyphCollection = nullptr,bool useDistanceField = false,int outline = 0)
         :fontFilePath(filePath)
         ,fontSize(size)

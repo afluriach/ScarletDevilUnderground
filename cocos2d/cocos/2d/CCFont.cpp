@@ -34,20 +34,20 @@ const char * Font::_glyphNEHE =  "!\"#$%&'()*+,-./0123456789:;<=>?@ABCDEFGHIJKLM
 
 
 Font::Font() : 
-_usedGlyphs(GlyphCollection::ASCII)
+_usedGlyphs(CCGlyphCollection::ASCII)
 , _customGlyphs(nullptr)
 {
 }
 
-const char * Font::getGlyphCollection(GlyphCollection glyphs) const
+const char * Font::getGlyphCollection(CCGlyphCollection glyphs) const
 {
     switch (glyphs)
     {
-        case GlyphCollection::NEHE:
+        case CCGlyphCollection::NEHE:
             return _glyphNEHE;
             break;
             
-        case GlyphCollection::ASCII:
+        case CCGlyphCollection::ASCII:
             return _glyphASCII;
             break;
             
@@ -57,18 +57,18 @@ const char * Font::getGlyphCollection(GlyphCollection glyphs) const
     }
 }
 
-void Font::setCurrentGlyphCollection(GlyphCollection glyphs, const char *customGlyphs)
+void Font::setCurrentGlyphCollection(CCGlyphCollection glyphs, const char *customGlyphs)
 {
     if (_customGlyphs)
         delete [] _customGlyphs;
     
     switch (glyphs)
     {
-        case GlyphCollection::NEHE:
+        case CCGlyphCollection::NEHE:
             _customGlyphs = 0;
             break;
             
-        case GlyphCollection::ASCII:
+        case CCGlyphCollection::ASCII:
             _customGlyphs = 0;
             break;
             

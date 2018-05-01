@@ -92,7 +92,7 @@ Label* Label::createWithTTF(const std::string& text, const std::string& fontFile
 
     if (ret && FileUtils::getInstance()->isFileExist(fontFile))
     {
-        TTFConfig ttfConfig(fontFile.c_str(),fontSize,GlyphCollection::DYNAMIC);
+        TTFConfig ttfConfig(fontFile.c_str(),fontSize,CCGlyphCollection::DYNAMIC);
         if (ret->setTTFConfig(ttfConfig))
         {
             ret->setDimensions(dimensions.width,dimensions.height);
