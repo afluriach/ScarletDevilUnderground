@@ -975,7 +975,7 @@ void Renderer::flushTriangles()
 }
 
 // helpers
-bool Renderer::checkVisibility(const Mat4 &transform, const Size &size)
+bool Renderer::checkVisibility(const Mat4 &transform, const CCSize &size)
 {
     auto scene = Director::getInstance()->getRunningScene();
     // only cull the default camera. The culling algorithm is valid for default camera.
@@ -983,7 +983,7 @@ bool Renderer::checkVisibility(const Mat4 &transform, const Size &size)
         return true;
     
     // half size of the screen
-    Size screen_half = Director::getInstance()->getWinSize();
+    CCSize screen_half = Director::getInstance()->getWinSize();
     screen_half.width /= 2;
     screen_half.height /= 2;
 

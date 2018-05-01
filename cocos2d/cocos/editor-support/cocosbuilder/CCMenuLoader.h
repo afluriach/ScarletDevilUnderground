@@ -28,7 +28,7 @@ protected:
     {
         cocos2d::Menu * pMenu = cocos2d::Menu::create();
         
-        pMenu->setContentSize(cocos2d::Size::ZERO);
+        pMenu->setContentSize(cocos2d::CCSize::ZERO);
         
         return pMenu;
     }

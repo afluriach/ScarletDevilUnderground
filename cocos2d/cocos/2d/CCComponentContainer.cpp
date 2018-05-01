@@ -40,9 +40,9 @@ ComponentContainer::~ComponentContainer(void)
     CC_SAFE_DELETE(_components);
 }
 
-Component* ComponentContainer::get(const std::string& name) const
+CCComponent* ComponentContainer::get(const std::string& name) const
 {
-    Component* ret = nullptr;
+    CCComponent* ret = nullptr;
     do {
         CC_BREAK_IF(nullptr == _components);
         ret = _components->at(name);
@@ -51,7 +51,7 @@ Component* ComponentContainer::get(const std::string& name) const
     return ret;
 }
 
-bool ComponentContainer::add(Component *com)
+bool ComponentContainer::add(CCComponent *com)
 {
     bool ret = false;
     CCASSERT(com != nullptr, "Argument must be non-nil");
@@ -60,9 +60,9 @@ bool ComponentContainer::add(Component *com)
     {
         if (_components == nullptr)
         {
-            _components = new (std::nothrow) Map<std::string, Component*>();
+            _components = new (std::nothrow) Map<std::string, CCComponent*>();
         }
-        Component *component = _components->at(com->getName());
+        CCComponent *component = _components->at(com->getName());
         
         CCASSERT(component == nullptr, "Component already added. It can't be added again");
         CC_BREAK_IF(component);
@@ -94,7 +94,7 @@ bool ComponentContainer::remove(const std::string& name)
     return ret;
  }
 
-bool ComponentContainer::remove(Component *com)
+bool ComponentContainer::remove(CCComponent *com)
 {
     bool ret = false;
     do
@@ -135,7 +135,7 @@ void ComponentContainer::removeAll()
 
 void ComponentContainer::alloc(void)
 {
-    _components = new (std::nothrow) Map<std::string, Component*>();
+    _components = new (std::nothrow) Map<std::string, CCComponent*>();
 }
 
 void ComponentContainer::visit(float delta)

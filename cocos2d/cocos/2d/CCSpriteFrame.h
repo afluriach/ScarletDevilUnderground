@@ -63,7 +63,7 @@ public:
      * @param rect A specified rect.
      * @return An autoreleased SpriteFrame object.
      */
-    static SpriteFrame* create(const std::string& filename, const Rect& rect);
+    static SpriteFrame* create(const std::string& filename, const CCRect& rect);
     
     /** Create a SpriteFrame with a texture filename, rect, rotated, offset and originalSize in pixels.
      The originalSize is the size in pixels of the frame before being trimmed.
@@ -75,7 +75,7 @@ public:
      * @param originalSize A specified original size.
      * @return An autoreleased SpriteFrame object.
      */
-    static SpriteFrame* create(const std::string& filename, const Rect& rect, bool rotated, const Vec2& offset, const Size& originalSize);
+    static SpriteFrame* create(const std::string& filename, const CCRect& rect, bool rotated, const Vec2& offset, const CCSize& originalSize);
     
     /** Create a SpriteFrame with a texture, rect in points.
      It is assumed that the frame was not trimmed.
@@ -83,7 +83,7 @@ public:
      * @param rect A specified rect.
      * @return An autoreleased SpriteFrame object.
      */
-    static SpriteFrame* createWithTexture(Texture2D* pobTexture, const Rect& rect);
+    static SpriteFrame* createWithTexture(Texture2D* pobTexture, const CCRect& rect);
 
     /** Create a SpriteFrame with a texture, rect, rotated, offset and originalSize in pixels.
      The originalSize is the size in points of the frame before being trimmed.
@@ -94,19 +94,19 @@ public:
      * @param originalSize A specified original size.
      * @return An autoreleased SpriteFrame object.
      */
-    static SpriteFrame* createWithTexture(Texture2D* pobTexture, const Rect& rect, bool rotated, const Vec2& offset, const Size& originalSize);
+    static SpriteFrame* createWithTexture(Texture2D* pobTexture, const CCRect& rect, bool rotated, const Vec2& offset, const CCSize& originalSize);
 
     // attributes
     /** Get rect of the sprite frame.
      *
      * @return The rect of the sprite frame, in pixels.
      */
-    inline const Rect& getRectInPixels() const { return _rectInPixels; }
+    inline const CCRect& getRectInPixels() const { return _rectInPixels; }
     /** Set rect of the sprite frame.
      *
      * @param rectInPixels The rect of the sprite frame, in pixels.
      */
-    void setRectInPixels(const Rect& rectInPixels);
+    void setRectInPixels(const CCRect& rectInPixels);
 
     /**Is the sprite frame rotated or not.
      *
@@ -123,12 +123,12 @@ public:
      *
      * @return The rect of the sprite frame.
      */
-    inline const Rect& getRect() const { return _rect; }
+    inline const CCRect& getRect() const { return _rect; }
     /** Set rect of the frame.
      *
      * @param rect The rect of the sprite.
      */
-    void setRect(const Rect& rect);
+    void setRect(const CCRect& rect);
 
     /** Get offset of the frame.
      * 
@@ -145,23 +145,23 @@ public:
      *
      * @return The original size of the trimmed image, in pixels.
      */
-    inline const Size& getOriginalSizeInPixels() const { return _originalSizeInPixels; }
+    inline const CCSize& getOriginalSizeInPixels() const { return _originalSizeInPixels; }
     /** Set original size of the trimmed image.
      *
      * @param sizeInPixels The original size of the trimmed image, in pixels.
      */
-    inline void setOriginalSizeInPixels(const Size& sizeInPixels) { _originalSizeInPixels = sizeInPixels; }
+    inline void setOriginalSizeInPixels(const CCSize& sizeInPixels) { _originalSizeInPixels = sizeInPixels; }
 
     /** Get original size of the trimmed image.
      *
      * @return The original size of the trimmed image.
      */
-    inline const Size& getOriginalSize() const { return _originalSize; }
+    inline const CCSize& getOriginalSize() const { return _originalSize; }
     /** Set original size of the trimmed image.
      *
      * @param sizeInPixels The original size of the trimmed image.
      */
-    inline void setOriginalSize(const Size& sizeInPixels) { _originalSize = sizeInPixels; }
+    inline void setOriginalSize(const CCSize& sizeInPixels) { _originalSize = sizeInPixels; }
 
     /** Get texture of the frame.
      *
@@ -202,33 +202,33 @@ CC_CONSTRUCTOR_ACCESS:
     /** Initializes a SpriteFrame with a texture, rect in points.
      It is assumed that the frame was not trimmed.
      */
-    bool initWithTexture(Texture2D* pobTexture, const Rect& rect);
+    bool initWithTexture(Texture2D* pobTexture, const CCRect& rect);
     
     /** Initializes a SpriteFrame with a texture filename, rect in points;
      It is assumed that the frame was not trimmed.
      */
-    bool initWithTextureFilename(const std::string& filename, const Rect& rect);
+    bool initWithTextureFilename(const std::string& filename, const CCRect& rect);
     
     /** Initializes a SpriteFrame with a texture, rect, rotated, offset and originalSize in pixels.
      The originalSize is the size in points of the frame before being trimmed.
      */
-    bool initWithTexture(Texture2D* pobTexture, const Rect& rect, bool rotated, const Vec2& offset, const Size& originalSize);
+    bool initWithTexture(Texture2D* pobTexture, const CCRect& rect, bool rotated, const Vec2& offset, const CCSize& originalSize);
     
     /** Initializes a SpriteFrame with a texture, rect, rotated, offset and originalSize in pixels.
      The originalSize is the size in pixels of the frame before being trimmed.
      
      @since v1.1
      */
-    bool initWithTextureFilename(const std::string& filename, const Rect& rect, bool rotated, const Vec2& offset, const Size& originalSize);
+    bool initWithTextureFilename(const std::string& filename, const CCRect& rect, bool rotated, const Vec2& offset, const CCSize& originalSize);
 
 protected:
     Vec2 _offset;
-    Size _originalSize;
-    Rect _rectInPixels;
+    CCSize _originalSize;
+    CCRect _rectInPixels;
     bool   _rotated;
-    Rect _rect;
+    CCRect _rect;
     Vec2 _offsetInPixels;
-    Size _originalSizeInPixels;
+    CCSize _originalSizeInPixels;
     Texture2D *_texture;
     std::string  _textureFilename;
 };

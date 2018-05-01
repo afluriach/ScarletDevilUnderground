@@ -205,7 +205,7 @@ Node* CCBReader::readNodeGraphFromFile(const char* pCCBFileName, Ref* pOwner)
     return this->readNodeGraphFromFile(pCCBFileName, pOwner, Director::getInstance()->getWinSize());
 }
 
-Node* CCBReader::readNodeGraphFromFile(const char *pCCBFileName, Ref *pOwner, const Size &parentSize)
+Node* CCBReader::readNodeGraphFromFile(const char *pCCBFileName, Ref *pOwner, const CCSize &parentSize)
 {
     if (nullptr == pCCBFileName || strlen(pCCBFileName) == 0)
     {
@@ -229,7 +229,7 @@ Node* CCBReader::readNodeGraphFromFile(const char *pCCBFileName, Ref *pOwner, co
     return ret;
 }
 
-Node* CCBReader::readNodeGraphFromData(std::shared_ptr<cocos2d::Data> data, Ref *pOwner, const Size &parentSize)
+Node* CCBReader::readNodeGraphFromData(std::shared_ptr<cocos2d::Data> data, Ref *pOwner, const CCSize &parentSize)
 {
     _data = data;
     _bytes =_data->getBytes();
@@ -277,7 +277,7 @@ Scene* CCBReader::createSceneWithNodeGraphFromFile(const char *pCCBFileName, Ref
     return createSceneWithNodeGraphFromFile(pCCBFileName, pOwner, Director::getInstance()->getWinSize());
 }
 
-Scene* CCBReader::createSceneWithNodeGraphFromFile(const char *pCCBFileName, Ref *pOwner, const Size &parentSize)
+Scene* CCBReader::createSceneWithNodeGraphFromFile(const char *pCCBFileName, Ref *pOwner, const CCSize &parentSize)
 {
     Node *pNode = readNodeGraphFromFile(pCCBFileName, pOwner, parentSize);
     Scene *pScene = Scene::create();
@@ -801,7 +801,7 @@ CCBKeyframe* CCBReader::readKeyframe(PropertyType type)
             spriteFile = _CCBRootPath + spriteFile;
 
             Texture2D *texture = Director::getInstance()->getTextureCache()->addImage(spriteFile.c_str());
-            Rect bounds = Rect(0, 0, texture->getContentSize().width, texture->getContentSize().height);
+            CCRect bounds = CCRect(0, 0, texture->getContentSize().width, texture->getContentSize().height);
             
             spriteFrame = SpriteFrame::createWithTexture(texture, bounds);
         }

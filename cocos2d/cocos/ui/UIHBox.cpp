@@ -48,7 +48,7 @@ HBox* HBox::create()
     return nullptr;
 }
     
-HBox* HBox::create(const cocos2d::Size &size)
+HBox* HBox::create(const cocos2d::CCSize &size)
 {
     HBox* widget = new (std::nothrow) HBox();
     if (widget && widget->initWithSize(size))
@@ -70,7 +70,7 @@ bool HBox::init()
     return false;
 }
     
-bool HBox::initWithSize(const Size& size)
+bool HBox::initWithSize(const CCSize& size)
 {
     if (init())
     {

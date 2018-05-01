@@ -244,7 +244,7 @@ int FontFreeType::getFontAscender() const
     return (static_cast<int>(_fontRef->size->metrics.ascender >> 6));
 }
 
-unsigned char* FontFreeType::getGlyphBitmap(unsigned short theChar, long &outWidth, long &outHeight, Rect &outRect,int &xAdvance)
+unsigned char* FontFreeType::getGlyphBitmap(unsigned short theChar, long &outWidth, long &outHeight, CCRect &outRect,int &xAdvance)
 {
     bool invalidChar = true;
     unsigned char * ret = nullptr;

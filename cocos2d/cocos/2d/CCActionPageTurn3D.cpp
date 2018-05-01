@@ -28,7 +28,7 @@ THE SOFTWARE.
 
 NS_CC_BEGIN
 
-PageTurn3D* PageTurn3D::create(float duration, const Size& gridSize)
+PageTurn3D* PageTurn3D::create(float duration, const CCSize& gridSize)
 {
     PageTurn3D *action = new (std::nothrow) PageTurn3D();
 

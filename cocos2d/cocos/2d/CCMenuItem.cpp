@@ -134,9 +134,9 @@ bool MenuItem::isEnabled() const
     return _enabled;
 }
 
-Rect MenuItem::rect() const
+CCRect MenuItem::rect() const
 {
-    return Rect( _position.x - _contentSize.width * _anchorPoint.x,
+    return CCRect( _position.x - _contentSize.width * _anchorPoint.x,
                       _position.y - _contentSize.height * _anchorPoint.y,
                       _contentSize.width, _contentSize.height);
 }
@@ -925,7 +925,7 @@ void MenuItemToggle::setSelectedIndex(unsigned int index)
 
         MenuItem* item = _subItems.at(_selectedIndex);
         this->addChild(item, 0, kCurrentItem);
-        Size s = item->getContentSize();
+        CCSize s = item->getContentSize();
         this->setContentSize(s);
         item->setPosition(s.width/2, s.height/2);
     }

@@ -64,7 +64,7 @@ TextAtlas* TextAtlas::create()
 void TextAtlas::initRenderer()
 {
     _labelAtlasRenderer = Label::create();
-    _labelAtlasRenderer->setAnchorPoint(Point::ANCHOR_MIDDLE);
+    _labelAtlasRenderer->setAnchorPoint(CCPoint::ANCHOR_MIDDLE);
     addProtectedChild(_labelAtlasRenderer, LABELATLAS_RENDERER_Z, -1);
 }
     
@@ -139,7 +139,7 @@ void TextAtlas::adaptRenderers()
     }
 }
 
-Size TextAtlas::getVirtualRendererSize() const
+CCSize TextAtlas::getVirtualRendererSize() const
 {
     return _labelAtlasRenderer->getContentSize();
 }
@@ -157,7 +157,7 @@ void TextAtlas::labelAtlasScaleChangedWithSize()
     }
     else
     {
-        Size textureSize = _labelAtlasRenderer->getContentSize();
+        CCSize textureSize = _labelAtlasRenderer->getContentSize();
         if (textureSize.width <= 0.0f || textureSize.height <= 0.0f)
         {
             _labelAtlasRenderer->setScale(1.0f);

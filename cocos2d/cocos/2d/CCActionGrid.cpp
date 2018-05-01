@@ -33,7 +33,7 @@ THE SOFTWARE.
 NS_CC_BEGIN
 // implementation of GridAction
 
-bool GridAction::initWithDuration(float duration, const Size& gridSize)
+bool GridAction::initWithDuration(float duration, const CCSize& gridSize)
 {
     if (ActionInterval::initWithDuration(duration))
     {

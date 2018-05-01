@@ -81,7 +81,7 @@ public:
      @since v2.0.1
      */
     static LabelTTF * create(const std::string& string, const std::string& fontName, float fontSize,
-                             const Size& dimensions = Size::ZERO, TextHAlignment hAlignment = TextHAlignment::CENTER,
+                             const CCSize& dimensions = CCSize::ZERO, TextHAlignment hAlignment = TextHAlignment::CENTER,
                              TextVAlignment vAlignment = TextVAlignment::TOP);
     
     
@@ -90,7 +90,7 @@ public:
     
     /** initializes the LabelTTF with a font name, alignment, dimension and font size */
     bool initWithString(const std::string& string, const std::string& fontName, float fontSize,
-                        const Size& dimensions = Size::ZERO, TextHAlignment hAlignment = TextHAlignment::LEFT, 
+                        const CCSize& dimensions = CCSize::ZERO, TextHAlignment hAlignment = TextHAlignment::LEFT, 
                         TextVAlignment vAlignment = TextVAlignment::TOP);
     
     /** initializes the LabelTTF with a font name, alignment, dimension and font size */
@@ -105,7 +105,7 @@ public:
     
     
     /** enable or disable shadow for the label */
-    void enableShadow(const Size &shadowOffset, float shadowOpacity, float shadowBlur, bool mustUpdateTexture = true);
+    void enableShadow(const CCSize &shadowOffset, float shadowOpacity, float shadowBlur, bool mustUpdateTexture = true);
     
     /** disable shadow rendering */
     void disableShadow(bool mustUpdateTexture = true);
@@ -135,8 +135,8 @@ public:
     TextVAlignment getVerticalAlignment() const;
     void setVerticalAlignment(TextVAlignment verticalAlignment);
     
-    const Size& getDimensions() const;
-    void setDimensions(const Size &dim);
+    const CCSize& getDimensions() const;
+    void setDimensions(const CCSize &dim);
     
     float getFontSize() const;
     void setFontSize(float fontSize);
@@ -151,7 +151,7 @@ public:
     virtual void setFlippedX(bool flippedX);
     virtual void setFlippedY(bool flippedY);
 
-    virtual Rect getBoundingBox() const override;
+    virtual CCRect getBoundingBox() const override;
 
     /**
      * @js NA
@@ -159,7 +159,7 @@ public:
      */
     virtual std::string getDescription() const override;
     virtual void visit(Renderer *renderer, const Mat4 &parentTransform, uint32_t parentFlags) override;
-    virtual const Size& getContentSize() const override;
+    virtual const CCSize& getContentSize() const override;
 protected:
     Label*    _renderLabel;
     bool _contentDirty;

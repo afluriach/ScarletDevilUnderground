@@ -349,7 +349,7 @@ void PhysicsWorld::rayCast(PhysicsRayCastCallbackFunc func, const Vec2& point1, 
     }
 }
 
-void PhysicsWorld::queryRect(PhysicsQueryRectCallbackFunc func, const Rect& rect, void* data)
+void PhysicsWorld::queryRect(PhysicsQueryRectCallbackFunc func, const CCRect& rect, void* data)
 {
     CCASSERT(func != nullptr, "func shouldn't be nullptr");
     

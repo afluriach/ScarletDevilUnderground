@@ -202,8 +202,8 @@ public:
     virtual void onEnter(Frame *nextFrame, int currentFrameIndex) override;
     virtual Frame* clone() override;
 
-    inline void setPosition(const cocos2d::Point& position) { _position = position; }
-    inline cocos2d::Point getPosition() const { return _position; }
+    inline void setPosition(const cocos2d::CCPoint& position) { _position = position; }
+    inline cocos2d::CCPoint getPosition() const { return _position; }
 
     inline void setX(float x) { _position.x = x; }
     inline void setY(float y) { _position.y = y; }
@@ -214,7 +214,7 @@ public:
 protected:
     virtual void onApply(float percent) override;
     
-    cocos2d::Point _position;
+    cocos2d::CCPoint _position;
     float _betweenX;
     float _betweenY;
 };
@@ -258,11 +258,11 @@ public:
     virtual void onEnter(Frame *nextFrame, int currentFrameIndex) override;
     virtual Frame* clone() override;
 
-    inline void setAnchorPoint(const cocos2d::Point& point) { _anchorPoint = point; }
-    inline cocos2d::Point getAnchorPoint() const { return _anchorPoint; }
+    inline void setAnchorPoint(const cocos2d::CCPoint& point) { _anchorPoint = point; }
+    inline cocos2d::CCPoint getAnchorPoint() const { return _anchorPoint; }
 
 protected:
-    cocos2d::Point _anchorPoint;
+    cocos2d::CCPoint _anchorPoint;
 };
 
 

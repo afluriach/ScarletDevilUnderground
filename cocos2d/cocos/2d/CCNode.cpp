@@ -89,7 +89,7 @@ Node::Node(void)
 , _normalizedPositionDirty(false)
 , _skewX(0.0f)
 , _skewY(0.0f)
-, _contentSize(Size::ZERO)
+, _contentSize(CCSize::ZERO)
 , _contentSizeDirty(true)
 , _transformDirty(true)
 , _inverseDirty(true)
@@ -732,12 +732,12 @@ void Node::setAnchorPoint(const Vec2& point)
 }
 
 /// contentSize getter
-const Size& Node::getContentSize() const
+const CCSize& Node::getContentSize() const
 {
     return _contentSize;
 }
 
-void Node::setContentSize(const Size & size)
+void Node::setContentSize(const CCSize & size)
 {
     if (! size.equals(_contentSize))
     {
@@ -873,9 +873,9 @@ Scene* Node::getScene() const
     return dynamic_cast<Scene*>(sceneNode);
 }
 
-Rect Node::getBoundingBox() const
+CCRect Node::getBoundingBox() const
 {
-    Rect rect(0, 0, _contentSize.width, _contentSize.height);
+    CCRect rect(0, 0, _contentSize.width, _contentSize.height);
     return RectApplyAffineTransform(rect, getNodeToParentAffineTransform());
 }
 
@@ -2024,7 +2024,7 @@ void Node::updateTransform()
 
 // MARK: components
 
-Component* Node::getComponent(const std::string& name)
+CCComponent* Node::getComponent(const std::string& name)
 {
     if (_componentContainer)
         return _componentContainer->get(name);
@@ -2032,7 +2032,7 @@ Component* Node::getComponent(const std::string& name)
     return nullptr;
 }
 
-bool Node::addComponent(Component *component)
+bool Node::addComponent(CCComponent *component)
 {
     // lazy alloc
     if (!_componentContainer)
@@ -2049,7 +2049,7 @@ bool Node::removeComponent(const std::string& name)
     return false;
 }
 
-bool Node::removeComponent(Component *component)
+bool Node::removeComponent(CCComponent *component)
 {
     if (_componentContainer)
     {

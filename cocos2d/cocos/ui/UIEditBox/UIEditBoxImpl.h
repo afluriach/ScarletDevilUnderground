@@ -45,7 +45,7 @@ namespace cocos2d {
              */
             virtual ~EditBoxImpl() {}
             
-            virtual bool initWithSize(const Size& size) = 0;
+            virtual bool initWithSize(const CCSize& size) = 0;
             virtual void setFont(const char* pFontName, int fontSize) = 0;
             virtual void setFontColor(const Color4B& color) = 0;
             virtual void setPlaceholderFont(const char* pFontName, int fontSize) = 0;
@@ -67,7 +67,7 @@ namespace cocos2d {
             
             virtual void setPosition(const Vec2& pos) = 0;
             virtual void setVisible(bool visible) = 0;
-            virtual void setContentSize(const Size& size) = 0;
+            virtual void setContentSize(const CCSize& size) = 0;
             virtual void setAnchorPoint(const Vec2& anchorPoint) = 0;
             
             /**

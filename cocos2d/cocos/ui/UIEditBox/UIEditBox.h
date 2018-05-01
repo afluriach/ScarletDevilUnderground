@@ -191,7 +191,7 @@ namespace ui {
          * create a edit box with size.
          * @return An autorelease pointer of EditBox, you don't need to release it only if you retain it again.
          */
-        static EditBox* create(const Size& size,
+        static EditBox* create(const CCSize& size,
                                Scale9Sprite* normalSprite,
                                Scale9Sprite* pressedSprite = nullptr,
                                Scale9Sprite* disabledSprite = nullptr);
@@ -201,7 +201,7 @@ namespace ui {
          * create a edit box with size.
          * @return An autorelease pointer of EditBox, you don't need to release it only if you retain it again.
          */
-        static EditBox* create(const Size& size,
+        static EditBox* create(const CCSize& size,
                                const std::string& normal9SpriteBg,
                                TextureResType texType = TextureResType::LOCAL);
             
@@ -226,7 +226,7 @@ namespace ui {
          * @param texType the resource type, the default value is TextureResType::LOCAL
          * @return Whether initialization is successfully or not.
          */
-        bool initWithSizeAndBackgroundSprite(const Size& size,
+        bool initWithSizeAndBackgroundSprite(const CCSize& size,
                                              const std::string& normal9SpriteBg,
                                              TextureResType texType = TextureResType::LOCAL);
             
@@ -237,7 +237,7 @@ namespace ui {
          * @param normal9SpriteBg  background image of edit box.
          * @return Whether initialization is successfully or not.
          */
-        bool initWithSizeAndBackgroundSprite(const Size& size, Scale9Sprite* normal9SpriteBg);
+        bool initWithSizeAndBackgroundSprite(const CCSize& size, Scale9Sprite* normal9SpriteBg);
 
         /**
          * Gets/Sets the delegate for edit box.
@@ -411,7 +411,7 @@ namespace ui {
         /* override functions */
         virtual void setPosition(const Vec2& pos) override;
         virtual void setVisible(bool visible) override;
-        virtual void setContentSize(const Size& size) override;
+        virtual void setContentSize(const CCSize& size) override;
         virtual void setAnchorPoint(const Vec2& anchorPoint) override;
 
         /**

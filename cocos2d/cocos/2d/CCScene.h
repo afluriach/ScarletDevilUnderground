@@ -74,7 +74,7 @@ public:
      * @return An autoreleased Scene object.
      * @js NA
      */
-    static Scene *createWithSize(const Size& size);
+    static Scene *createWithSize(const CCSize& size);
 
     using Node::addChild;
     virtual std::string getDescription() const override;
@@ -112,7 +112,7 @@ CC_CONSTRUCTOR_ACCESS:
     virtual ~Scene();
     
     bool init() override;
-    bool initWithSize(const Size& size);
+    bool initWithSize(const CCSize& size);
     
     void setCameraOrderDirty() { _cameraOrderDirty = true; }
     

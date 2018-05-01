@@ -37,10 +37,10 @@ NS_CC_BEGIN
 const Vec2 CCPointZero;
 
 /* The "zero" size -- equivalent to Size(0, 0). */
-const Size CCSizeZero = Size::ZERO;
+const CCSize CCSizeZero = CCSize::ZERO;
 
 /* The "zero" rectangle -- equivalent to Rect(0, 0, 0, 0). */
-const Rect CCRectZero = Rect::ZERO;
+const CCRect CCRectZero = CCRect::ZERO;
 
 
 const Color3B ccWHITE = Color3B::WHITE;

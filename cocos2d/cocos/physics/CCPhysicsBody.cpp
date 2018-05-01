@@ -158,7 +158,7 @@ PhysicsBody* PhysicsBody::createCircle(float radius, const PhysicsMaterial& mate
     return nullptr;
 }
 
-PhysicsBody* PhysicsBody::createBox(const Size& size, const PhysicsMaterial& material, const Vec2& offset)
+PhysicsBody* PhysicsBody::createBox(const CCSize& size, const PhysicsMaterial& material, const Vec2& offset)
 {
     PhysicsBody* body = new (std::nothrow) PhysicsBody();
     if (body && body->init())
@@ -201,7 +201,7 @@ PhysicsBody* PhysicsBody::createEdgeSegment(const Vec2& a, const Vec2& b, const 
     return nullptr;
 }
 
-PhysicsBody* PhysicsBody::createEdgeBox(const Size& size, const PhysicsMaterial& material, float border/* = 1*/, const Vec2& offset)
+PhysicsBody* PhysicsBody::createEdgeBox(const CCSize& size, const PhysicsMaterial& material, float border/* = 1*/, const Vec2& offset)
 {
     PhysicsBody* body = new (std::nothrow) PhysicsBody();
     if (body && body->init())

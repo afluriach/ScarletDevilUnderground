@@ -96,7 +96,7 @@ namespace ui {
          * @param capInsets A specified cap insets.
          * @return A Scale9Sprite instance.
          */
-        static Scale9Sprite* create(const std::string& file, const Rect& rect,  const Rect& capInsets);
+        static Scale9Sprite* create(const std::string& file, const CCRect& rect,  const CCRect& capInsets);
         
         /**
          * Creates a 9-slice sprite with a texture file. The whole texture will be
@@ -107,7 +107,7 @@ namespace ui {
          * @param file A texture file name.
          * @return A Scale9Sprite instance.
          */
-        static Scale9Sprite* create(const Rect& capInsets, const std::string& file);
+        static Scale9Sprite* create(const CCRect& capInsets, const std::string& file);
         
         /**
          * Creates a 9-slice sprite with a texture file and a delimitation zone. The
@@ -118,7 +118,7 @@ namespace ui {
          * @param rect A delimitation zone.
          * @return A Scale9Sprite instance.
          */
-        static Scale9Sprite* create(const std::string& file, const Rect& rect);
+        static Scale9Sprite* create(const std::string& file, const CCRect& rect);
         
         /**
          * Creates a 9-slice sprite with a texture file. The whole texture will be
@@ -153,7 +153,7 @@ namespace ui {
          * @param capInsets  A delimitation zone.
          * @return A Scale9Sprite instance.
          */
-        static Scale9Sprite* createWithSpriteFrame(SpriteFrame* spriteFrame, const Rect& capInsets);
+        static Scale9Sprite* createWithSpriteFrame(SpriteFrame* spriteFrame, const CCRect& capInsets);
         
         /**
          * Creates a 9-slice sprite with an sprite frame name.
@@ -178,7 +178,7 @@ namespace ui {
          * @param capInsets A delimitation zone.
          * @return A Scale9Sprite instance.
          */
-        static Scale9Sprite* createWithSpriteFrameName(const std::string& spriteFrameName, const Rect& capInsets);
+        static Scale9Sprite* createWithSpriteFrameName(const std::string& spriteFrameName, const CCRect& capInsets);
         
         /**
          * Initializes a 9-slice sprite with a texture file, a delimitation zone and
@@ -194,7 +194,7 @@ namespace ui {
          * @param capInsets The values to use for the cap insets.
          * @return True if initialize success, false otherwise.
          */
-        virtual bool initWithFile(const std::string& file, const Rect& rect,  const Rect& capInsets);
+        virtual bool initWithFile(const std::string& file, const CCRect& rect,  const CCRect& capInsets);
         
         /**
          * Initializes a 9-slice sprite with a texture file and a delimitation zone. The
@@ -209,7 +209,7 @@ namespace ui {
          * texture's full rect.
          * @return True if initializes success, false otherwise.
          */
-        virtual bool initWithFile(const std::string& file, const Rect& rect);
+        virtual bool initWithFile(const std::string& file, const CCRect& rect);
         
         /**
          * Initializes a 9-slice sprite with a texture file and with the specified cap
@@ -222,7 +222,7 @@ namespace ui {
          * @param capInsets The values to use for the cap insets.
          * @return True if initializes success, false otherwise.
          */
-        virtual bool initWithFile(const Rect& capInsets, const std::string& file);
+        virtual bool initWithFile(const CCRect& capInsets, const std::string& file);
         
         /**
          * Initializes a 9-slice sprite with a texture file. The whole texture will be
@@ -247,7 +247,7 @@ namespace ui {
          * @param capInsets The values to use for the cap insets.
          * @return True if initializes success, false otherwise.
          */
-        virtual bool initWithSpriteFrame(SpriteFrame* spriteFrame, const Rect& capInsets);
+        virtual bool initWithSpriteFrame(SpriteFrame* spriteFrame, const CCRect& capInsets);
         
         /**
          * Initializes a 9-slice sprite with an sprite frame.
@@ -271,7 +271,7 @@ namespace ui {
          * @param capInsets The values to use for the cap insets.
          * @return True if initializes success, false otherwise.
          */
-        virtual bool initWithSpriteFrameName(const std::string& spriteFrameName, const Rect& capInsets);
+        virtual bool initWithSpriteFrameName(const std::string& spriteFrameName, const CCRect& capInsets);
         
         /**
          * Initializes a 9-slice sprite with an sprite frame name.
@@ -299,7 +299,7 @@ namespace ui {
          * @param capInsets The values to use for the cap insets.
          * @return True if initializes success, false otherwise.
          */
-        virtual bool init(Sprite* sprite, const Rect& rect, bool rotated, const Rect& capInsets);
+        virtual bool init(Sprite* sprite, const CCRect& rect, bool rotated, const CCRect& capInsets);
 
         /**
          * @brief Initializes a 9-slice sprite with an sprite instance.
@@ -312,7 +312,7 @@ namespace ui {
          * @param capInsets The values to use for the cap insets.
          * @return True if initializes success, false otherwise.
          */
-        virtual bool init(Sprite* sprite, const Rect& rect, const Rect& capInsets);
+        virtual bool init(Sprite* sprite, const CCRect& rect, const CCRect& capInsets);
 
         /**
          * @brief Initializes a 9-slice sprite with an sprite instance.
@@ -329,11 +329,11 @@ namespace ui {
          * @return True if initializes success, false otherwise.
          */
         virtual bool init(Sprite* sprite,
-                          const Rect& rect,
+                          const CCRect& rect,
                           bool rotated,
                           const Vec2 &offset,
-                          const Size &originalSize,
-                          const Rect& capInsets);
+                          const CCSize &originalSize,
+                          const CCRect& capInsets);
         
         /**
          * @brief Initializes a 9-slice sprite with a sprite batchnode.
@@ -349,9 +349,9 @@ namespace ui {
          * @return True if initializes success, false otherwise.
          */
          CC_DEPRECATED(v3) virtual bool initWithBatchNode(SpriteBatchNode* batchnode,
-                                                          const Rect& rect,
+                                                          const CCRect& rect,
                                                           bool rotated,
-                                                          const Rect& capInsets);
+                                                          const CCRect& capInsets);
         /**
          * @brief Initializes a 9-slice sprite with a sprite batch node.
          * Once the sprite is created, you can then call its "setContentSize:" method
@@ -364,7 +364,7 @@ namespace ui {
          * @param capInsets The values to use for the cap insets.
          * @return True if initializes success, false otherwise.
          */
-        CC_DEPRECATED(v3) virtual bool initWithBatchNode(SpriteBatchNode* batchnode, const Rect& rect, const Rect& capInsets);
+        CC_DEPRECATED(v3) virtual bool initWithBatchNode(SpriteBatchNode* batchnode, const CCRect& rect, const CCRect& capInsets);
         
         /**
          * Sets the source blending function.
@@ -393,7 +393,7 @@ namespace ui {
          * @param capInsets The values to use for the cap insets.
          * @return A Scale9Sprite instance.
          */
-        Scale9Sprite* resizableSpriteWithCapInsets(const Rect& capInsets) const;
+        Scale9Sprite* resizableSpriteWithCapInsets(const CCRect& capInsets) const;
         
         
         /**
@@ -407,9 +407,9 @@ namespace ui {
          * @js NA
          */
         virtual bool updateWithSprite(Sprite* sprite,
-                                      const Rect& rect,
+                                      const CCRect& rect,
                                       bool rotated,
-                                      const Rect& capInsets);
+                                      const CCRect& capInsets);
 
         /**
          * @brief Update Scale9Sprite with a specified sprite.
@@ -424,11 +424,11 @@ namespace ui {
          * @js NA
          */
         virtual bool updateWithSprite(Sprite* sprite,
-                                      const Rect& rect,
+                                      const CCRect& rect,
                                       bool rotated,
                                       const Vec2 &offset,
-                                      const Size &originalSize,
-                                      const Rect& capInsets);
+                                      const CCSize &originalSize,
+                                      const CCRect& capInsets);
 
         /**
          * @brief Update Scale9Sprite with a specified sprite.
@@ -441,9 +441,9 @@ namespace ui {
          * @return True if update success, false otherwise.
          */
         CC_DEPRECATED(v3) bool updateWithBatchNode(SpriteBatchNode* batchnode,
-                                                   const Rect& originalRect,
+                                                   const CCRect& originalRect,
                                                    bool rotated,
-                                                   const Rect& capInsets);
+                                                   const CCRect& capInsets);
 
         
         /**
@@ -452,10 +452,10 @@ namespace ui {
          * @param spriteFrame A sprite frame pointer.
          * @param capInsets The values to use for the cap insets.
          */
-        virtual void setSpriteFrame(SpriteFrame * spriteFrame, const Rect& capInsets = Rect::ZERO);
+        virtual void setSpriteFrame(SpriteFrame * spriteFrame, const CCRect& capInsets = CCRect::ZERO);
         
         // overrides
-        virtual void setContentSize(const Size & size) override;
+        virtual void setContentSize(const CCSize & size) override;
         virtual void setAnchorPoint(const Vec2& anchorPoint) override;
         
         /**
@@ -471,35 +471,35 @@ namespace ui {
          *
          * @return Sprite size.
          */
-        Size getOriginalSize() const;
+        CCSize getOriginalSize() const;
         
         /**
          * @brief Change the prefered size of Scale9Sprite.
          *
          * @param size A delimitation zone.
          */
-        void setPreferredSize(const Size& size);
+        void setPreferredSize(const CCSize& size);
         
         /**
          * @brief Query the  Scale9Sprite's prefered size.
          *
          * @return Scale9Sprite's prefered size.
          */
-        Size getPreferredSize() const;
+        CCSize getPreferredSize() const;
         
         /**
          * @brief Change the cap inset size.
          *
          * @param rect A delimitation zone.
          */
-        void setCapInsets(const Rect& rect);
+        void setCapInsets(const CCRect& rect);
         
         /**
          * @brief Query the Scale9Sprite's prefered size.
          *
          * @return Scale9Sprite's cap inset.
          */
-        Rect getCapInsets()const;
+        CCRect getCapInsets()const;
         
         /**
          * @brief Change the left sprite's cap inset.
@@ -688,9 +688,9 @@ namespace ui {
         virtual void sortAllProtectedChildren();
         
         bool _spritesGenerated;
-        Rect _spriteRect;
+        CCRect _spriteRect;
         bool   _spriteFrameRotated;
-        Rect _capInsetsInternal;
+        CCRect _capInsetsInternal;
         bool _positionsAreDirty;
         
         Sprite* _scale9Image; //the original sprite
@@ -707,24 +707,24 @@ namespace ui {
         bool _scale9Enabled;
         BlendFunc _blendFunc;
         
-        Size _topLeftSize;
-        Size _centerSize;
-        Size _bottomRightSize;
+        CCSize _topLeftSize;
+        CCSize _centerSize;
+        CCSize _bottomRightSize;
         Vec2 _centerOffset;
         
         /** Original sprite's size. */
-        Size _originalSize;
+        CCSize _originalSize;
         Vec2 _offset;
         /** Preferred sprite's size. By default the preferred size is the original size. */
         
         //if the preferredSize component is given as -1, it is ignored
-        Size _preferredSize;
+        CCSize _preferredSize;
         /**
          * The end-cap insets.
          * On a non-resizeable sprite, this property is set to CGRect::ZERO; the sprite
          * does not use end caps and the entire sprite is subject to stretching.
          */
-        Rect _capInsets;
+        CCRect _capInsets;
         /** Sets the left side inset */
         float _insetLeft;
         /** Sets the top side inset */

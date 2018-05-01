@@ -123,7 +123,7 @@ public:
     /** Creates a TextFieldTTF from a fontname, alignment, dimension and font size.
     * @js NA
     */
-    static TextFieldTTF * textFieldWithPlaceHolder(const std::string& placeholder, const Size& dimensions, TextHAlignment alignment, const std::string& fontName, float fontSize);
+    static TextFieldTTF * textFieldWithPlaceHolder(const std::string& placeholder, const CCSize& dimensions, TextHAlignment alignment, const std::string& fontName, float fontSize);
     
     /** Creates a TextFieldTTF from a fontname and font size.
     * @js NA
@@ -131,7 +131,7 @@ public:
     static TextFieldTTF * textFieldWithPlaceHolder(const std::string& placeholder, const std::string& fontName, float fontSize);
     
     /** Initializes the TextFieldTTF with a font name, alignment, dimension and font size. */
-    bool initWithPlaceHolder(const std::string& placeholder, const Size& dimensions, TextHAlignment alignment, const std::string& fontName, float fontSize);
+    bool initWithPlaceHolder(const std::string& placeholder, const CCSize& dimensions, TextHAlignment alignment, const std::string& fontName, float fontSize);
     
     /** Initializes the TextFieldTTF with a font name and font size. */
     bool initWithPlaceHolder(const std::string& placeholder, const std::string& fontName, float fontSize);

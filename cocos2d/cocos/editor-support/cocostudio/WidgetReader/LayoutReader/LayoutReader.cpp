@@ -174,7 +174,7 @@ namespace cocostudio
         panel->setBackGroundImageOpacity(_opacity);
         
         if (panel->isBackGroundImageScale9Enabled()) {
-            panel->setBackGroundImageCapInsets(Rect(capsx, capsy, capsWidth, capsHeight));
+            panel->setBackGroundImageCapInsets(CCRect(capsx, capsy, capsWidth, capsHeight));
         }
         
         panel->setLayoutType(layoutType);
@@ -193,7 +193,7 @@ namespace cocostudio
         bool adaptScrenn = DICTOOL->getBooleanValue_json(options, P_AdaptScreen);
         if (adaptScrenn)
         {
-            Size screenSize = CCDirector::getInstance()->getWinSize();
+            CCSize screenSize = CCDirector::getInstance()->getWinSize();
             w = screenSize.width;
             h = screenSize.height;
         }
@@ -202,7 +202,7 @@ namespace cocostudio
             w = DICTOOL->getFloatValue_json(options, P_Width);
             h = DICTOOL->getFloatValue_json(options, P_Height);
         }
-        panel->setContentSize(Size(w, h));
+        panel->setContentSize(CCSize(w, h));
         /**/
         
         panel->setClippingEnabled(DICTOOL->getBooleanValue_json(options, P_ClipAble));
@@ -297,7 +297,7 @@ namespace cocostudio
             float cy = DICTOOL->getFloatValue_json(options, P_CapInsetsY);
             float cw = DICTOOL->getFloatValue_json(options, P_CapInsetsWidth,1);
             float ch = DICTOOL->getFloatValue_json(options, P_CapInsetsHeight,1);
-            panel->setBackGroundImageCapInsets(Rect(cx, cy, cw, ch));
+            panel->setBackGroundImageCapInsets(CCRect(cx, cy, cw, ch));
         }
         
         panel->setLayoutType((Layout::Type)DICTOOL->getIntValue_json(options, P_LayoutType));
@@ -331,8 +331,8 @@ namespace cocostudio
         int colorType = 0;
         GLubyte bgColorOpacity = 255;
         Vec2 colorVector(0.0f, -0.5f);
-        Rect capInsets;
-        Size scale9Size;
+        CCRect capInsets;
+        CCSize scale9Size;
         bool backGroundScale9Enabled = false;
         
         
@@ -685,18 +685,18 @@ namespace cocostudio
         if (backGroundScale9Enabled)
         {
             auto f_capInsets = options->capInsets();
-            Rect capInsets(f_capInsets->x(), f_capInsets->y(), f_capInsets->width(), f_capInsets->height());
+            CCRect capInsets(f_capInsets->x(), f_capInsets->y(), f_capInsets->width(), f_capInsets->height());
             panel->setBackGroundImageCapInsets(capInsets);
             
             auto f_scale9Size = options->scale9Size();
-            Size scale9Size(f_scale9Size->width(), f_scale9Size->height());
+            CCSize scale9Size(f_scale9Size->width(), f_scale9Size->height());
             panel->setContentSize(scale9Size);
         }
         else
         {
             if (!panel->isIgnoreContentAdaptWithSize())
             {
-                Size contentSize(widgetOptions->size()->width(), widgetOptions->size()->height());
+                CCSize contentSize(widgetOptions->size()->width(), widgetOptions->size()->height());
                 panel->setContentSize(contentSize);
             }
         }

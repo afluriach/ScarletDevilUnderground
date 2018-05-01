@@ -33,93 +33,93 @@ NS_CC_BEGIN
 
 // implementation of Size
 
-Size::Size(void) : width(0), height(0)
+CCSize::CCSize(void) : width(0), height(0)
 {
 }
 
-Size::Size(float w, float h) : width(w), height(h)
+CCSize::CCSize(float w, float h) : width(w), height(h)
 {
 }
 
-Size::Size(const Size& other) : width(other.width), height(other.height)
+CCSize::CCSize(const CCSize& other) : width(other.width), height(other.height)
 {
 }
 
-Size::Size(const Vec2& point) : width(point.x), height(point.y)
+CCSize::CCSize(const Vec2& point) : width(point.x), height(point.y)
 {
 }
 
-Size& Size::operator= (const Size& other)
+CCSize& CCSize::operator= (const CCSize& other)
 {
     setSize(other.width, other.height);
     return *this;
 }
 
-Size& Size::operator= (const Vec2& point)
+CCSize& CCSize::operator= (const Vec2& point)
 {
     setSize(point.x, point.y);
     return *this;
 }
 
-Size Size::operator+(const Size& right) const
+CCSize CCSize::operator+(const CCSize& right) const
 {
-    return Size(this->width + right.width, this->height + right.height);
+    return CCSize(this->width + right.width, this->height + right.height);
 }
 
-Size Size::operator-(const Size& right) const
+CCSize CCSize::operator-(const CCSize& right) const
 {
-    return Size(this->width - right.width, this->height - right.height);
+    return CCSize(this->width - right.width, this->height - right.height);
 }
 
-Size Size::operator*(float a) const
+CCSize CCSize::operator*(float a) const
 {
-    return Size(this->width * a, this->height * a);
+    return CCSize(this->width * a, this->height * a);
 }
 
-Size Size::operator/(float a) const
+CCSize CCSize::operator/(float a) const
 {
 	CCASSERT(a!=0, "CCSize division by 0.");
-    return Size(this->width / a, this->height / a);
+    return CCSize(this->width / a, this->height / a);
 }
 
-void Size::setSize(float w, float h)
+void CCSize::setSize(float w, float h)
 {
     this->width = w;
     this->height = h;
 }
 
-bool Size::equals(const Size& target) const
+bool CCSize::equals(const CCSize& target) const
 {
     return (fabs(this->width  - target.width)  < FLT_EPSILON)
         && (fabs(this->height - target.height) < FLT_EPSILON);
 }
 
-const Size Size::ZERO = Size(0, 0);
+const CCSize CCSize::ZERO = CCSize(0, 0);
 
 // implementation of Rect
 
-Rect::Rect(void)
+CCRect::CCRect(void)
 {
     setRect(0.0f, 0.0f, 0.0f, 0.0f);
 }
 
-Rect::Rect(float x, float y, float width, float height)
+CCRect::CCRect(float x, float y, float width, float height)
 {
     setRect(x, y, width, height);
 }
 
-Rect::Rect(const Rect& other)
+CCRect::CCRect(const CCRect& other)
 {
     setRect(other.origin.x, other.origin.y, other.size.width, other.size.height);
 }
 
-Rect& Rect::operator= (const Rect& other)
+CCRect& CCRect::operator= (const CCRect& other)
 {
     setRect(other.origin.x, other.origin.y, other.size.width, other.size.height);
     return *this;
 }
 
-void Rect::setRect(float x, float y, float width, float height)
+void CCRect::setRect(float x, float y, float width, float height)
 {
     // CGRect can support width<0 or height<0
     // CCASSERT(width >= 0.0f && height >= 0.0f, "width and height of Rect must not less than 0.");
@@ -131,43 +131,43 @@ void Rect::setRect(float x, float y, float width, float height)
     size.height = height;
 }
 
-bool Rect::equals(const Rect& rect) const
+bool CCRect::equals(const CCRect& rect) const
 {
     return (origin.equals(rect.origin) && 
             size.equals(rect.size));
 }
 
-float Rect::getMaxX() const
+float CCRect::getMaxX() const
 {
     return origin.x + size.width;
 }
 
-float Rect::getMidX() const
+float CCRect::getMidX() const
 {
     return origin.x + size.width / 2.0f;
 }
 
-float Rect::getMinX() const
+float CCRect::getMinX() const
 {
     return origin.x;
 }
 
-float Rect::getMaxY() const
+float CCRect::getMaxY() const
 {
     return origin.y + size.height;
 }
 
-float Rect::getMidY() const
+float CCRect::getMidY() const
 {
     return origin.y + size.height / 2.0f;
 }
 
-float Rect::getMinY() const
+float CCRect::getMinY() const
 {
     return origin.y;
 }
 
-bool Rect::containsPoint(const Vec2& point) const
+bool CCRect::containsPoint(const Vec2& point) const
 {
     bool bRet = false;
 
@@ -180,7 +180,7 @@ bool Rect::containsPoint(const Vec2& point) const
     return bRet;
 }
 
-bool Rect::intersectsRect(const Rect& rect) const
+bool CCRect::intersectsRect(const CCRect& rect) const
 {
     return !(     getMaxX() < rect.getMinX() ||
              rect.getMaxX() <      getMinX() ||
@@ -188,7 +188,7 @@ bool Rect::intersectsRect(const Rect& rect) const
              rect.getMaxY() <      getMinY());
 }
 
-bool Rect::intersectsCircle(const cocos2d::Vec2 &center, float radius) const
+bool CCRect::intersectsCircle(const cocos2d::Vec2 &center, float radius) const
 {
     Vec2 rectangleCenter((origin.x + size.width / 2),
                          (origin.y + size.height / 2));
@@ -222,7 +222,7 @@ bool Rect::intersectsCircle(const cocos2d::Vec2 &center, float radius) const
     return (cornerDistanceSq <= (powf(radius, 2)));
 }
 
-void Rect::merge(const Rect& rect)
+void CCRect::merge(const CCRect& rect)
 {
     float top1    = getMaxY();
     float left1   = getMinX();
@@ -239,7 +239,7 @@ void Rect::merge(const Rect& rect)
     size.height = std::max(top1, top2) - origin.y;
 }
 
-Rect Rect::unionWithRect(const Rect & rect) const
+CCRect CCRect::unionWithRect(const CCRect & rect) const
 {
     float thisLeftX = origin.x;
     float thisRightX = origin.x + size.width;
@@ -276,9 +276,9 @@ Rect Rect::unionWithRect(const Rect & rect) const
     float combinedTopY = std::max(thisTopY, otherTopY);
     float combinedBottomY = std::min(thisBottomY, otherBottomY);
     
-    return Rect(combinedLeftX, combinedBottomY, combinedRightX - combinedLeftX, combinedTopY - combinedBottomY);
+    return CCRect(combinedLeftX, combinedBottomY, combinedRightX - combinedLeftX, combinedTopY - combinedBottomY);
 }
 
-const Rect Rect::ZERO = Rect(0, 0, 0, 0);
+const CCRect CCRect::ZERO = CCRect(0, 0, 0, 0);
 
 NS_CC_END

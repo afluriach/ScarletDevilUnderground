@@ -95,7 +95,7 @@ void ControlHuePicker::setHuePercentage(float hueValueInPercent)
     _hue=_huePercentage*360.0f;
 
     // Clamp the position of the icon within the circle
-    Rect backgroundBox=_background->getBoundingBox();
+    CCRect backgroundBox=_background->getBoundingBox();
 
     // Get the center point of the background image
     float centerX           = _startPos.x + backgroundBox.size.width * 0.5f;
@@ -128,7 +128,7 @@ void ControlHuePicker::updateSliderPosition(Vec2 location)
 {
 
     // Clamp the position of the icon within the circle
-    Rect backgroundBox=_background->getBoundingBox();
+    CCRect backgroundBox=_background->getBoundingBox();
     
     // Get the center point of the background image
     float centerX           = _startPos.x + backgroundBox.size.width * 0.5f;

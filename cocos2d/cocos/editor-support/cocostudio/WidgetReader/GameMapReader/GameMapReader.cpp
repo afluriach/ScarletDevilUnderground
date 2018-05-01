@@ -172,7 +172,7 @@ namespace cocostudio
                 
                 if (layerInfo->_visible)
                 {
-                    Size size = layerInfo->_layerSize;
+                    CCSize size = layerInfo->_layerSize;
                     auto& tilesets = mapInfo->getTilesets();
                     if (tilesets.size()>0)
                     {

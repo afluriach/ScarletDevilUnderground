@@ -870,10 +870,10 @@ Action* Sprite3D::runAction(Action *action)
     return Node::runAction(action);
 }
 
-Rect Sprite3D::getBoundingBox() const
+CCRect Sprite3D::getBoundingBox() const
 {
     AABB aabb = getAABB();
-    Rect ret(aabb._min.x, aabb._min.y, (aabb._max.x - aabb._min.x), (aabb._max.y - aabb._min.y));
+    CCRect ret(aabb._min.x, aabb._min.y, (aabb._max.x - aabb._min.x), (aabb._max.y - aabb._min.y));
     return ret;
 }
 

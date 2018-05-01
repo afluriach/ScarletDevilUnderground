@@ -119,33 +119,33 @@ public:
      * Sets capinsets for slider, if slider is using scale9 renderer.
      * @param capInsets Capinsets for slider.
      */
-    void setCapInsets(const Rect &capInsets);
+    void setCapInsets(const CCRect &capInsets);
     
     /**
      * Sets capinsets for bar slider, if slider is using scale9 renderer.
      * @param capInsets Capinsets for bar slider.
      */
-    void setCapInsetsBarRenderer(const Rect &capInsets);
+    void setCapInsetsBarRenderer(const CCRect &capInsets);
     
     /**
      * Gets capinsets for bar slider, if slider is using scale9 renderer.
      * @return capInsets Capinsets for bar slider.
      */
-    const Rect& getCapInsetsBarRenderer()const;
+    const CCRect& getCapInsetsBarRenderer()const;
     
     /**
      * Sets capinsets for progress bar slider, if slider is using scale9 renderer.
      * @param capInsets Capinsets for progress bar slider.
      * @js NA
      */
-    void setCapInsetProgressBarRebderer(const Rect &capInsets);
+    void setCapInsetProgressBarRebderer(const CCRect &capInsets);
     
     /**
      * Gets capinsets for progress bar slider, if slider is using scale9 renderer.
      * @return Capinsets for progress bar slider.
      * @js NA
      */
-    const Rect& getCapInsetsProgressBarRebderer()const;
+    const CCRect& getCapInsetsProgressBarRebderer()const;
     
     /**
      * Load textures for slider ball.
@@ -219,7 +219,7 @@ public:
     virtual void onTouchCancelled(Touch *touch, Event *unusedEvent) override;
     
     //override "getVirtualRendererSize" method of widget.
-    virtual Size getVirtualRendererSize() const override;
+    virtual CCSize getVirtualRendererSize() const override;
     
     //override "getVirtualRenderer" method of widget.
     virtual Node* getVirtualRenderer() override;
@@ -266,8 +266,8 @@ protected:
 protected:
     Scale9Sprite*  _barRenderer;
     Scale9Sprite* _progressBarRenderer;
-    Size _barTextureSize;
-    Size _progressBarTextureSize;
+    CCSize _barTextureSize;
+    CCSize _progressBarTextureSize;
     
     Sprite* _slidBallNormalRenderer;
     Sprite* _slidBallPressedRenderer;
@@ -290,8 +290,8 @@ protected:
     std::string _slidBallPressedTextureFile;
     std::string _slidBallDisabledTextureFile;
 
-    Rect _capInsetsBarRenderer;
-    Rect _capInsetsProgressBarRenderer;
+    CCRect _capInsetsBarRenderer;
+    CCRect _capInsetsProgressBarRenderer;
 
     Ref*       _sliderEventListener;
 #if defined(__GNUC__) && ((__GNUC__ >= 4) || ((__GNUC__ == 3) && (__GNUC_MINOR__ >= 1)))

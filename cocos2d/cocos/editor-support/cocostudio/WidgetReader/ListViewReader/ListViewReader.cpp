@@ -105,10 +105,10 @@ namespace cocostudio
         int colorType = 0;
         GLubyte bgColorOpacity = 255;
         Vec2 colorVector(0.0f, -0.5f);
-        Rect capInsets;
-        Size scale9Size;
+        CCRect capInsets;
+        CCSize scale9Size;
         bool backGroundScale9Enabled = false;
-        Size innerSize(200, 300);
+        CCSize innerSize(200, 300);
         int direction = 0;
         bool bounceEnabled = false;
         int itemMargin = 0;
@@ -507,7 +507,7 @@ namespace cocostudio
         listView->setOpacity(opacity);
         
         auto f_innerSize = options->innerSize();
-        Size innerSize(f_innerSize->width(), f_innerSize->height());
+        CCSize innerSize(f_innerSize->width(), f_innerSize->height());
         listView->setInnerContainerSize(innerSize);
         //         int direction = options->direction();
         //         listView->setDirection((ScrollView::Direction)direction);
@@ -563,18 +563,18 @@ namespace cocostudio
         if (backGroundScale9Enabled)
         {
             auto f_capInsets = options->capInsets();
-            Rect capInsets(f_capInsets->x(), f_capInsets->y(), f_capInsets->width(), f_capInsets->height());
+            CCRect capInsets(f_capInsets->x(), f_capInsets->y(), f_capInsets->width(), f_capInsets->height());
             listView->setBackGroundImageCapInsets(capInsets);
             
             auto f_scale9Size = options->scale9Size();
-            Size scale9Size(f_scale9Size->width(), f_scale9Size->height());
+            CCSize scale9Size(f_scale9Size->width(), f_scale9Size->height());
             listView->setContentSize(scale9Size);
         }
         else
         {
             if (!listView->isIgnoreContentAdaptWithSize())
             {
-                Size contentSize(widgetOptions->size()->width(), widgetOptions->size()->height());
+                CCSize contentSize(widgetOptions->size()->width(), widgetOptions->size()->height());
                 listView->setContentSize(contentSize);
             }
         }

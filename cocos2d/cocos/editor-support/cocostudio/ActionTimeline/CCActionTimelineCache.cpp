@@ -267,7 +267,7 @@ Frame* ActionTimelineCache::loadPositionFrame(const rapidjson::Value& json)
 
     float x = DICTOOL->getFloatValue_json(json, X);
     float y = DICTOOL->getFloatValue_json(json, Y);
-    frame->setPosition(Point(x,y));
+    frame->setPosition(CCPoint(x,y));
 
     return frame;
 }
@@ -328,7 +328,7 @@ Frame* ActionTimelineCache::loadAnchorPointFrame (const rapidjson::Value& json)
     float anchorx = DICTOOL->getFloatValue_json(json, X);
     float anchory = DICTOOL->getFloatValue_json(json, Y);
 
-    frame->setAnchorPoint(Point(anchorx, anchory));
+    frame->setAnchorPoint(CCPoint(anchorx, anchory));
 
     return frame;
 }

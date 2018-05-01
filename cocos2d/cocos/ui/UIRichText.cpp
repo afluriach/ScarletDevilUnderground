@@ -323,7 +323,7 @@ void RichText::handleImageRenderer(const std::string& fileParh, const Color3B &c
     
 void RichText::handleCustomRenderer(cocos2d::Node *renderer)
 {
-    Size imgSize = renderer->getContentSize();
+    CCSize imgSize = renderer->getContentSize();
     _leftSpaceWidth -= imgSize.width;
     if (_leftSpaceWidth < 0.0f)
     {
@@ -358,12 +358,12 @@ void RichText::formarRenderers()
             l->setAnchorPoint(Vec2::ZERO);
             l->setPosition(nextPosX, 0.0f);
             _elementRenderersContainer->addChild(l, 1);
-            Size iSize = l->getContentSize();
+            CCSize iSize = l->getContentSize();
             newContentSizeWidth += iSize.width;
             newContentSizeHeight = MAX(newContentSizeHeight, iSize.height);
             nextPosX += iSize.width;
         }
-        _elementRenderersContainer->setContentSize(Size(newContentSizeWidth, newContentSizeHeight));
+        _elementRenderersContainer->setContentSize(CCSize(newContentSizeWidth, newContentSizeHeight));
     }
     else
     {
@@ -415,7 +415,7 @@ void RichText::formarRenderers()
     
     if (_ignoreSize)
     {
-        Size s = getVirtualRendererSize();
+        CCSize s = getVirtualRendererSize();
         this->setContentSize(s);
     }
     else
@@ -451,7 +451,7 @@ void RichText::setAnchorPoint(const Vec2 &pt)
     _elementRenderersContainer->setAnchorPoint(pt);
 }
     
-Size RichText::getVirtualRendererSize() const
+CCSize RichText::getVirtualRendererSize() const
 {
     return _elementRenderersContainer->getContentSize();
 }

@@ -369,7 +369,7 @@ void TextField::initRenderer()
     addProtectedChild(_textFieldRenderer, TEXTFIELD_RENDERER_Z, -1);
 }
 
-void TextField::setTouchSize(const Size &size)
+void TextField::setTouchSize(const CCSize &size)
 {
     _touchWidth = size.width;
     _touchHeight = size.height;
@@ -385,7 +385,7 @@ bool TextField::hitTest(const Vec2 &pt)
     if (_useTouchArea)
     {
         Vec2 nsp = convertToNodeSpace(pt);
-        Rect bb = Rect(-_touchWidth * _anchorPoint.x, -_touchHeight * _anchorPoint.y, _touchWidth, _touchHeight);
+        CCRect bb = CCRect(-_touchWidth * _anchorPoint.x, -_touchHeight * _anchorPoint.y, _touchWidth, _touchHeight);
         if (nsp.x >= bb.origin.x && nsp.x <= bb.origin.x + bb.size.width
             && nsp.y >= bb.origin.y && nsp.y <= bb.origin.y + bb.size.height)
         {
@@ -400,9 +400,9 @@ bool TextField::hitTest(const Vec2 &pt)
     return false;
 }
     
-Size TextField::getTouchSize()const
+CCSize TextField::getTouchSize()const
 {
-    return Size(_touchWidth, _touchHeight);
+    return CCSize(_touchWidth, _touchHeight);
 }
 
 void TextField::setString(const std::string& text)
@@ -772,9 +772,9 @@ void TextField::textfieldRendererScaleChangedWithSize()
     _textFieldRenderer->setPosition(_contentSize.width / 2.0f, _contentSize.height / 2.0f);
 }
 
-Size TextField::getAutoRenderSize()
+CCSize TextField::getAutoRenderSize()
 {
-    Size virtualSize = _textFieldRenderer->getContentSize();
+    CCSize virtualSize = _textFieldRenderer->getContentSize();
     if (!_ignoreSize)
     {
         _textFieldRenderer->setDimensions(0, 0);
@@ -785,7 +785,7 @@ Size TextField::getAutoRenderSize()
     return virtualSize;
 }
 
-Size TextField::getVirtualRendererSize() const
+CCSize TextField::getVirtualRendererSize() const
 {
     return _textFieldRenderer->getContentSize();
 }
@@ -834,7 +834,7 @@ void TextField::copySpecialProperties(Widget *widget)
     }
 }
     
-void TextField::setTextAreaSize(const Size &size)
+void TextField::setTextAreaSize(const CCSize &size)
 {
     this->setContentSize(size);
 }

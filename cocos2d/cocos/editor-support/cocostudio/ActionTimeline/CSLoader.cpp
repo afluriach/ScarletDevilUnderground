@@ -421,7 +421,7 @@ Node* CSLoader::loadNode(const rapidjson::Value& json)
             for (int i = 0; i < componentSize; ++i)
             {
                 const rapidjson::Value &dic = DICTOOL->getSubDictionary_json(components, COMPONENTS, i);
-                Component* component = loadComponent(dic);
+                CCComponent* component = loadComponent(dic);
                 if (component)
                 {
                     node->addComponent(component);
@@ -474,7 +474,7 @@ Node* CSLoader::loadNode(const rapidjson::Value& json)
                             }
                             else
                             {
-                                Size parentSize = parent->getContentSize();
+                                CCSize parentSize = parent->getContentSize();
                                 widget->setPosition(Vec2(widget->getPositionX() + parentSize.width * parent->getAnchorPoint().x,
                                                          widget->getPositionY() + parentSize.height * parent->getAnchorPoint().y));
                             }
@@ -520,7 +520,7 @@ void CSLoader::initNode(Node* node, const rapidjson::Value& json)
     bool visible        = DICTOOL->getBooleanValue_json(json, VISIBLE);
     
     if(x != 0 || y != 0)
-        node->setPosition(Point(x, y));
+        node->setPosition(CCPoint(x, y));
     if(scalex != 1)
         node->setScaleX(scalex);
     if(scaley != 1)
@@ -536,9 +536,9 @@ void CSLoader::initNode(Node* node, const rapidjson::Value& json)
     if(skewy != 0)
         node->setSkewY(skewy);
     if(anchorx != 0.5f || anchory != 0.5f)
-        node->setAnchorPoint(Point(anchorx, anchory));
+        node->setAnchorPoint(CCPoint(anchorx, anchory));
     if(width != 0 || height != 0)
-        node->setContentSize(Size(width, height));
+        node->setContentSize(CCSize(width, height));
     if(zorder != 0)
         node->setLocalZOrder(zorder);
     if(visible != true)
@@ -758,9 +758,9 @@ Node* CSLoader::loadWidget(const rapidjson::Value& json)
     return widget;
 }
 
-Component* CSLoader::loadComponent(const rapidjson::Value &json)
+CCComponent* CSLoader::loadComponent(const rapidjson::Value &json)
 {
-    Component* component = nullptr;
+    CCComponent* component = nullptr;
     
     std::string componentType = DICTOOL->getStringValue_json(json, COMPONENT_TYPE);
     
@@ -774,7 +774,7 @@ Component* CSLoader::loadComponent(const rapidjson::Value &json)
     return component;
 }
 
-Component* CSLoader::loadComAudio(const rapidjson::Value &json)
+CCComponent* CSLoader::loadComAudio(const rapidjson::Value &json)
 {
     ComAudio* audio = ComAudio::create();
     
@@ -915,7 +915,7 @@ Node* CSLoader::nodeWithFlatBuffers(const flatbuffers::NodeTree *nodetree, const
         {
             node = Node::create();
             auto reader = ComAudioReader::getInstance();
-            Component* component = reader->createComAudioWithFlatBuffers(options->data());
+            CCComponent* component = reader->createComAudioWithFlatBuffers(options->data());
             if (component)
             {
                 node->addComponent(component);
@@ -1263,7 +1263,7 @@ Node* CSLoader::nodeWithFlatBuffersForSimulator(const flatbuffers::NodeTree *nod
     {
         node = Node::create();
         auto reader = ComAudioReader::getInstance();
-        Component* component = reader->createComAudioWithFlatBuffers(options->data());
+        CCComponent* component = reader->createComAudioWithFlatBuffers(options->data());
         if (component)
         {
             node->addComponent(component);

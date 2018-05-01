@@ -197,25 +197,25 @@ public:
      *
      * @return Size of the layer in tiles.
      */
-    inline const Size& getLayerSize() const { return _layerSize; };
+    inline const CCSize& getLayerSize() const { return _layerSize; };
     
     /** Set size of the layer in tiles.
      *
      * @param size Size of the layer in tiles.
      */
-    inline void setLayerSize(const Size& size) { _layerSize = size; };
+    inline void setLayerSize(const CCSize& size) { _layerSize = size; };
     
     /** Size of the map's tile (could be different from the tile's size).
      *
      * @return The size of the map's tile.
      */
-    inline const Size& getMapTileSize() const { return _mapTileSize; };
+    inline const CCSize& getMapTileSize() const { return _mapTileSize; };
     
     /** Set the size of the map's tile.
      *
      * @param size The size of the map's tile.
      */
-    inline void setMapTileSize(const Size& size) { _mapTileSize = size; };
+    inline void setMapTileSize(const CCSize& size) { _mapTileSize = size; };
     
     /** Pointer to the map of tiles.
      * @js NA
@@ -308,7 +308,7 @@ protected:
     /* The layer recognizes some special properties, like cc_vertez */
     void parseInternalProperties();
     void setupTileSprite(Sprite* sprite, Vec2 pos, int gid);
-    Sprite* reusedTileWithRect(Rect rect);
+    Sprite* reusedTileWithRect(CCRect rect);
     int getVertexZForPos(const Vec2& pos);
 
     // index
@@ -333,9 +333,9 @@ protected:
     float _contentScaleFactor;
     
     /** size of the layer in tiles */
-    Size _layerSize;
+    CCSize _layerSize;
     /** size of the map's tile (could be different from the tile's size) */
-    Size _mapTileSize;
+    CCSize _mapTileSize;
     /** pointer to the map of tiles */
     uint32_t* _tiles;
     /** Tileset information for the layer */

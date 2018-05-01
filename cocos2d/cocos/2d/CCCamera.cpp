@@ -277,7 +277,7 @@ Vec3 Camera::unproject(const Vec3& src) const
     return Vec3(screen.x, screen.y, screen.z);
 }
 
-void Camera::unproject(const Size& viewport, const Vec3* src, Vec3* dst) const
+void Camera::unproject(const CCSize& viewport, const Vec3* src, Vec3* dst) const
 {
     CCASSERT(src && dst, "vec3 can not be null");
     

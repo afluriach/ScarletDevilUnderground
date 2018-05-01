@@ -327,7 +327,7 @@ const Mat4& Armature::getNodeToParentTransform() const
 void Armature::updateOffsetPoint()
 {
     // Set contentsize and Calculate anchor point.
-    Rect rect = getBoundingBox();
+    CCRect rect = getBoundingBox();
     setContentSize(rect.size);
     _offsetPoint.set(-rect.origin.x, -rect.origin.y);
     if (rect.size.width != 0 && rect.size.height != 0)
@@ -498,20 +498,20 @@ void Armature::visit(cocos2d::Renderer *renderer, const Mat4 &parentTransform, u
     director->popMatrix(MATRIX_STACK_TYPE::MATRIX_STACK_MODELVIEW);
 }
 
-Rect Armature::getBoundingBox() const
+CCRect Armature::getBoundingBox() const
 {
     float minx, miny, maxx, maxy = 0;
 
     bool first = true;
 
-    Rect boundingBox = Rect(0, 0, 0, 0);
+    CCRect boundingBox = CCRect(0, 0, 0, 0);
 
     for (const auto& object : _children)
     {
         if (Bone *bone = dynamic_cast<Bone *>(object))
         {
-            Rect r = bone->getDisplayManager()->getBoundingBox();
-            if (r.equals(Rect::ZERO)) 
+            CCRect r = bone->getDisplayManager()->getBoundingBox();
+            if (r.equals(CCRect::ZERO)) 
                 continue;
 
             if(first)

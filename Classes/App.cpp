@@ -50,7 +50,7 @@ bool App::applicationDidFinishLaunching() {
     if(!glview) {
         glview = fullscreen ?
             GLViewImpl::createWithFullScreen(App::title) :
-            GLViewImpl::createWithRect(App::title, cocos2d::Rect(0,0,App::width, App::height),screenscale)
+            GLViewImpl::createWithRect(App::title, cocos2d::CCRect(0,0,App::width, App::height),screenscale)
         ;
         
         director->setOpenGLView(glview);

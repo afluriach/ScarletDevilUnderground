@@ -56,7 +56,7 @@ public:
     virtual void setScissorInPoints(float x , float y , float w , float h);
 
     Windows::Graphics::Display::DisplayOrientations getDeviceOrientation() {return m_orientation;};
-    Size getRenerTargetSize() const { return Size(m_width, m_height); }
+    CCSize getRenerTargetSize() const { return CCSize(m_width, m_height); }
 
     virtual void setIMEKeyboardState(bool bOpen);
     virtual void setIMEKeyboardState(bool bOpen, std::string str);
@@ -116,7 +116,7 @@ protected:
     GLViewImpl();
     virtual ~GLViewImpl();
 
-    bool initWithRect(const std::string& viewName, Rect rect, float frameZoomFactor);
+    bool initWithRect(const std::string& viewName, CCRect rect, float frameZoomFactor);
     bool initWithFullScreen(const std::string& viewName);
 
     /*

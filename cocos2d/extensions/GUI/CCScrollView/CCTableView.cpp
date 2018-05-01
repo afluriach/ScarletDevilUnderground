@@ -30,15 +30,15 @@ NS_CC_EXT_BEGIN
 
 TableView* TableView::create()
 {
-    return TableView::create(nullptr, Size::ZERO);
+    return TableView::create(nullptr, CCSize::ZERO);
 }
 
-TableView* TableView::create(TableViewDataSource* dataSource, Size size)
+TableView* TableView::create(TableViewDataSource* dataSource, CCSize size)
 {
     return TableView::create(dataSource, size, nullptr);
 }
 
-TableView* TableView::create(TableViewDataSource* dataSource, Size size, Node *container)
+TableView* TableView::create(TableViewDataSource* dataSource, CCSize size, Node *container)
 {
     TableView *table = new (std::nothrow) TableView();
     table->initWithViewSize(size, container);
@@ -50,7 +50,7 @@ TableView* TableView::create(TableViewDataSource* dataSource, Size size, Node *c
     return table;
 }
 
-bool TableView::initWithViewSize(Size size, Node* container/* = nullptr*/)
+bool TableView::initWithViewSize(CCSize size, Node* container/* = nullptr*/)
 {
     if (ScrollView::initWithViewSize(size,container))
     {
@@ -265,7 +265,7 @@ void TableView::_addCellIfNecessary(TableViewCell * cell)
 
 void TableView::_updateContentSize()
 {
-    Size size = Size::ZERO;
+    CCSize size = CCSize::ZERO;
     ssize_t cellsCount = _dataSource->numberOfCellsInTableView(this);
 
     if (cellsCount > 0)
@@ -275,10 +275,10 @@ void TableView::_updateContentSize()
         switch (this->getDirection())
         {
             case Direction::HORIZONTAL:
-                size = Size(maxPosition, _viewSize.height);
+                size = CCSize(maxPosition, _viewSize.height);
                 break;
             default:
-                size = Size(_viewSize.width, maxPosition);
+                size = CCSize(_viewSize.width, maxPosition);
                 break;
         }
     }
@@ -304,7 +304,7 @@ Vec2 TableView::_offsetFromIndex(ssize_t index)
 {
     Vec2 offset = this->__offsetFromIndex(index);
 
-    const Size cellSize = _dataSource->tableCellSizeForIndex(this, index);
+    const CCSize cellSize = _dataSource->tableCellSizeForIndex(this, index);
     if (_vordering == VerticalFillOrder::TOP_DOWN)
     {
         offset.y = this->getContainer()->getContentSize().height - offset.y - cellSize.height;
@@ -315,7 +315,7 @@ Vec2 TableView::_offsetFromIndex(ssize_t index)
 Vec2 TableView::__offsetFromIndex(ssize_t index)
 {
     Vec2 offset;
-    Size  cellSize;
+    CCSize  cellSize;
 
     switch (this->getDirection())
     {
@@ -428,7 +428,7 @@ void TableView::_updateCellPositions()
     if (cellsCount > 0)
     {
         float currentPos = 0;
-        Size cellSize;
+        CCSize cellSize;
         for (int i=0; i < cellsCount; i++)
         {
             _vCellsPositions[i] = currentPos;
@@ -574,7 +574,7 @@ void TableView::onTouchEnded(Touch *pTouch, Event *pEvent)
     }
 
     if (_touchedCell){
-		Rect bb = this->getBoundingBox();
+		CCRect bb = this->getBoundingBox();
 		bb.origin = _parent->convertToWorldSpace(bb.origin);
 
 		if (bb.containsPoint(pTouch->getLocation()) && _tableViewDelegate != nullptr)

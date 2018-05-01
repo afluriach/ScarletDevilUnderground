@@ -108,8 +108,8 @@ bool ControlStepper::initWithMinusSpriteAndPlusSprite(Sprite *minusSprite, Sprit
         _plusSprite->addChild(_plusLabel);
         
         // Defines the content size
-        Rect maxRect = ControlUtils::RectUnion(_minusSprite->getBoundingBox(), _plusSprite->getBoundingBox());
-        this->setContentSize( Size(_minusSprite->getContentSize().width + _plusSprite->getContentSize().height, maxRect.size.height) );
+        CCRect maxRect = ControlUtils::RectUnion(_minusSprite->getBoundingBox(), _plusSprite->getBoundingBox());
+        this->setContentSize( CCSize(_minusSprite->getContentSize().width + _plusSprite->getContentSize().height, maxRect.size.height) );
         return true;
     }
     return false;

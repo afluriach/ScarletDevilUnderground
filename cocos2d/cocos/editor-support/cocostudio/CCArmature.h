@@ -149,7 +149,7 @@ public:
     /**
      * This boundingBox will calculate all bones' boundingBox every time
      */
-    virtual cocos2d::Rect getBoundingBox() const override;
+    virtual cocos2d::CCRect getBoundingBox() const override;
 
     Bone *getBoneAtPoint(float x, float y) const;
 

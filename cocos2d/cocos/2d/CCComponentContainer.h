@@ -32,7 +32,7 @@ THE SOFTWARE.
 
 NS_CC_BEGIN
 
-class Component;
+class CCComponent;
 class Node;
 
 class CC_DLL ComponentContainer
@@ -52,10 +52,10 @@ public:
 	/**
      * @js getComponent
      */
-	virtual Component* get(const std::string& name) const;
-    virtual bool add(Component *com);
+	virtual CCComponent* get(const std::string& name) const;
+    virtual bool add(CCComponent *com);
     virtual bool remove(const std::string& name);
-    virtual bool remove(Component *com);
+    virtual bool remove(CCComponent *com);
     virtual void removeAll();
     virtual void visit(float delta);
 public:
@@ -65,7 +65,7 @@ private:
     void alloc(void);
     
 private:
-    Map<std::string, Component*>* _components;
+    Map<std::string, CCComponent*>* _components;
     Node *_owner;
     
     friend class Node;

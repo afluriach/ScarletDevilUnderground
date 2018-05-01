@@ -88,9 +88,9 @@ namespace cocostudio
                 
             }
             else if(key == P_Scale9Width){
-                imageView->setContentSize(Size(valueToFloat(value), imageView->getContentSize().height));
+                imageView->setContentSize(CCSize(valueToFloat(value), imageView->getContentSize().height));
             }else if(key == P_Scale9Height){
-                imageView->setContentSize(Size(imageView->getContentSize().width, valueToFloat(value)));
+                imageView->setContentSize(CCSize(imageView->getContentSize().width, valueToFloat(value)));
             }
             else if(key == P_CapInsetsX){
                 capsx = valueToFloat(value);
@@ -105,7 +105,7 @@ namespace cocostudio
         } //end of for loop
         
         if (imageView->isScale9Enabled()) {
-            imageView->setCapInsets(Rect(capsx, capsy, capsWidth, capsHeight));
+            imageView->setCapInsets(CCRect(capsx, capsy, capsWidth, capsHeight));
         }
         
         this->endSetBasicProperties(widget);
@@ -144,7 +144,7 @@ namespace cocostudio
           
             float swf = DICTOOL->getFloatValue_json(options, P_Scale9Width,80.0f);
             float shf = DICTOOL->getFloatValue_json(options, P_Scale9Height,80.0f);
-            imageView->setContentSize(Size(swf, shf));
+            imageView->setContentSize(CCSize(swf, shf));
             
             
             float cx = DICTOOL->getFloatValue_json(options, P_CapInsetsX);
@@ -152,7 +152,7 @@ namespace cocostudio
             float cw = DICTOOL->getFloatValue_json(options, P_CapInsetsWidth,1.0f);
             float ch = DICTOOL->getFloatValue_json(options, P_CapInsetsHeight,1.0f);
             
-            imageView->setCapInsets(Rect(cx, cy, cw, ch));
+            imageView->setCapInsets(CCRect(cx, cy, cw, ch));
             
         }
         
@@ -167,8 +167,8 @@ namespace cocostudio
         auto widgetOptions = *(Offset<WidgetOptions>*)(&temp);
         
         bool scale9Enabled = false;
-        Rect capInsets;
-        cocos2d::Size scale9Size;
+        CCRect capInsets;
+        cocos2d::CCSize scale9Size;
         
         std::string path = "";
         std::string plistFile = "";
@@ -372,17 +372,17 @@ namespace cocostudio
             imageView->ignoreContentAdaptWithSize(false);
             
             auto f_scale9Size = options->scale9Size();
-            Size scale9Size(f_scale9Size->width(), f_scale9Size->height());
+            CCSize scale9Size(f_scale9Size->width(), f_scale9Size->height());
             imageView->setContentSize(scale9Size);
             
             
             auto f_capInset = options->capInsets();
-            Rect capInsets(f_capInset->x(), f_capInset->y(), f_capInset->width(), f_capInset->height());
+            CCRect capInsets(f_capInset->x(), f_capInset->y(), f_capInset->width(), f_capInset->height());
             imageView->setCapInsets(capInsets);
         }
         else
         {
-            Size contentSize(options->widgetOptions()->size()->width(), options->widgetOptions()->size()->height());
+            CCSize contentSize(options->widgetOptions()->size()->width(), options->widgetOptions()->size()->height());
             imageView->setContentSize(contentSize);
         }
     }

@@ -137,7 +137,7 @@ void NodeLoader::parseProperties(Node * pNode, Node * pParent, CCBReader * ccbRe
             }
             case CCBReader::PropertyType::SIZE:
             {
-                Size size = this->parsePropTypeSize(pNode, pParent, ccbReader);
+                CCSize size = this->parsePropTypeSize(pNode, pParent, ccbReader);
                 if(setProp) {
                     this->onHandlePropTypeSize(pNode, pParent, propertyName.c_str(), size, ccbReader);
                 }
@@ -374,7 +374,7 @@ Vec2 NodeLoader::parsePropTypePosition(Node * pNode, Node * pParent, CCBReader *
     
     CCBReader::PositionType type = static_cast<CCBReader::PositionType>(ccbReader->readInt(false));
     
-    Size containerSize = ccbReader->getAnimationManager()->getContainerSize(pParent);
+    CCSize containerSize = ccbReader->getAnimationManager()->getContainerSize(pParent);
     
     Vec2 pt = getAbsolutePosition(Vec2(x,y), type, containerSize, pPropertyName);
     pNode->setPosition(pt);
@@ -407,13 +407,13 @@ Vec2 NodeLoader::parsePropTypePointLock(Node * pNode, Node * pParent, CCBReader 
     return Vec2(x, y);
 }
 
-Size NodeLoader::parsePropTypeSize(Node * pNode, Node * pParent, CCBReader * ccbReader) {
+CCSize NodeLoader::parsePropTypeSize(Node * pNode, Node * pParent, CCBReader * ccbReader) {
     float width = ccbReader->readFloat();
     float height = ccbReader->readFloat();
 
     CCBReader::SizeType type = static_cast<CCBReader::SizeType>(ccbReader->readInt(false));
 
-    Size containerSize = ccbReader->getAnimationManager()->getContainerSize(pParent);
+    CCSize containerSize = ccbReader->getAnimationManager()->getContainerSize(pParent);
 
     switch (type) 
     {
@@ -459,7 +459,7 @@ Size NodeLoader::parsePropTypeSize(Node * pNode, Node * pParent, CCBReader * ccb
             break;
     }
     
-    return Size(width, height);
+    return CCSize(width, height);
 }
 
 
@@ -582,7 +582,7 @@ SpriteFrame * NodeLoader::parsePropTypeSpriteFrame(Node * pNode, Node * pParent,
             spriteFile = ccbReader->getCCBRootPath() + spriteFile;
             Texture2D * texture = Director::getInstance()->getTextureCache()->addImage(spriteFile.c_str());
             if(texture != nullptr) {
-                Rect bounds = Rect(0, 0, texture->getContentSize().width, texture->getContentSize().height);
+                CCRect bounds = CCRect(0, 0, texture->getContentSize().width, texture->getContentSize().height);
                 spriteFrame = SpriteFrame::createWithTexture(texture, bounds);
             }
         }
@@ -1017,7 +1017,7 @@ void NodeLoader::onHandlePropTypePointLock(Node * pNode, Node * pParent, const c
     ASSERT_FAIL_UNEXPECTED_PROPERTY(pPropertyName);
 }
 
-void NodeLoader::onHandlePropTypeSize(Node * pNode, Node * pParent, const char* pPropertyName, Size pSize, CCBReader * ccbReader) {
+void NodeLoader::onHandlePropTypeSize(Node * pNode, Node * pParent, const char* pPropertyName, CCSize pSize, CCBReader * ccbReader) {
     if(strcmp(pPropertyName, PROPERTY_CONTENTSIZE) == 0) {
         pNode->setContentSize(pSize);
     } else {

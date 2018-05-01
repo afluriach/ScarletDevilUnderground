@@ -69,7 +69,7 @@ BillBoard* BillBoard::create(const std::string& filename, Mode mode)
     return nullptr;
 }
 
-BillBoard* BillBoard::create(const std::string& filename, const Rect& rect, Mode mode)
+BillBoard* BillBoard::create(const std::string& filename, const CCRect& rect, Mode mode)
 {
     BillBoard *billborad = new (std::nothrow) BillBoard();
     if (billborad && billborad->initWithFile(filename, rect))

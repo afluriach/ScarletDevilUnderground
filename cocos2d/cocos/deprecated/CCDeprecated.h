@@ -255,7 +255,7 @@ CC_DEPRECATED_ATTRIBUTE static inline Vec2 ccpClamp(const Vec2& p, const Vec2& f
 /** Quickly convert Size to a Vec2
  @since v0.99.1
  */
-CC_DEPRECATED_ATTRIBUTE static inline Vec2 ccpFromSize(const Size& s)
+CC_DEPRECATED_ATTRIBUTE static inline Vec2 ccpFromSize(const CCSize& s)
 {
     return Vec2(s);
 }
@@ -382,24 +382,24 @@ CC_DEPRECATED_ATTRIBUTE inline Vec2 CCPointMake(float x, float y)
     return Vec2(x, y);
 }
 
-CC_DEPRECATED_ATTRIBUTE inline Size CCSizeMake(float width, float height)
+CC_DEPRECATED_ATTRIBUTE inline CCSize CCSizeMake(float width, float height)
 {
-    return Size(width, height);
+    return CCSize(width, height);
 }
 
-CC_DEPRECATED_ATTRIBUTE inline Rect CCRectMake(float x, float y, float width, float height)
+CC_DEPRECATED_ATTRIBUTE inline CCRect CCRectMake(float x, float y, float width, float height)
 {
-    return Rect(x, y, width, height);
+    return CCRect(x, y, width, height);
 }
 
 
 CC_DEPRECATED_ATTRIBUTE extern const Vec2 CCPointZero;
 
 /* The "zero" size -- equivalent to Size(0, 0). */
-CC_DEPRECATED_ATTRIBUTE extern const Size CCSizeZero;
+CC_DEPRECATED_ATTRIBUTE extern const CCSize CCSizeZero;
 
 /* The "zero" rectangle -- equivalent to Rect(0, 0, 0, 0). */
-CC_DEPRECATED_ATTRIBUTE extern const Rect CCRectZero;
+CC_DEPRECATED_ATTRIBUTE extern const CCRect CCRectZero;
 
 
 CC_DEPRECATED_ATTRIBUTE extern const Color3B ccWHITE;
@@ -484,7 +484,7 @@ CC_DEPRECATED_ATTRIBUTE static inline Vec2 CCPointApplyAffineTransform(const Vec
     return PointApplyAffineTransform(point, t);
 }
 
-CC_DEPRECATED_ATTRIBUTE static inline Size CCSizeApplyAffineTransform(const Size& size, const AffineTransform& t)
+CC_DEPRECATED_ATTRIBUTE static inline CCSize CCSizeApplyAffineTransform(const CCSize& size, const AffineTransform& t)
 {
     return SizeApplyAffineTransform(size, t);
 }
@@ -494,7 +494,7 @@ CC_DEPRECATED_ATTRIBUTE static inline AffineTransform CCAffineTransformMakeIdent
     return AffineTransformMakeIdentity();
 }
 
-CC_DEPRECATED_ATTRIBUTE static inline Rect CCRectApplyAffineTransform(const Rect& rect, const AffineTransform& anAffineTransform)
+CC_DEPRECATED_ATTRIBUTE static inline CCRect CCRectApplyAffineTransform(const CCRect& rect, const AffineTransform& anAffineTransform)
 {
     return RectApplyAffineTransform(rect, anAffineTransform);
 }
@@ -770,11 +770,7 @@ CC_DEPRECATED_ATTRIBUTE typedef Timer CCTimer;
 CC_DEPRECATED_ATTRIBUTE typedef Scheduler CCScheduler;
 CC_DEPRECATED_ATTRIBUTE typedef GLView CCEGLView;
 
-CC_DEPRECATED_ATTRIBUTE typedef Component CCComponent;
 CC_DEPRECATED_ATTRIBUTE typedef AffineTransform CCAffineTransform;
-CC_DEPRECATED_ATTRIBUTE typedef Vec2 CCPoint;
-CC_DEPRECATED_ATTRIBUTE typedef Size CCSize;
-CC_DEPRECATED_ATTRIBUTE typedef Rect CCRect;
 CC_DEPRECATED_ATTRIBUTE typedef Color3B ccColor3B;
 CC_DEPRECATED_ATTRIBUTE typedef Color4F ccColor4F;
 CC_DEPRECATED_ATTRIBUTE typedef Color4B ccColor4B;

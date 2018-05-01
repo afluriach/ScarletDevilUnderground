@@ -163,7 +163,7 @@ public:
      * Returns 2d bounding-box
      * Note: the bouding-box is just get from the AABB which as Z=0, so that is not very accurate.
      */
-    virtual Rect getBoundingBox() const override;
+    virtual CCRect getBoundingBox() const override;
 
     // set which face is going to cull, GL_BACK, GL_FRONT, GL_FRONT_AND_BACK, default GL_BACK
     void setCullFace(GLenum cullFace);

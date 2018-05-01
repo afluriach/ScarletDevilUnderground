@@ -130,9 +130,9 @@ bool ControlSlider::initWithSprites(Sprite * backgroundSprite, Sprite* progressS
         this->setSelectedThumbSprite(selectedThumbSprite);
 
         // Defines the content size
-        Rect maxRect   = ControlUtils::RectUnion(backgroundSprite->getBoundingBox(), thumbSprite->getBoundingBox());
+        CCRect maxRect   = ControlUtils::RectUnion(backgroundSprite->getBoundingBox(), thumbSprite->getBoundingBox());
 
-        setContentSize(Size(maxRect.size.width, maxRect.size.height));
+        setContentSize(CCSize(maxRect.size.width, maxRect.size.height));
         
         // Add the slider background
         _backgroundSprite->setAnchorPoint(Vec2(0.5f, 0.5f));
@@ -222,7 +222,7 @@ bool ControlSlider::isTouchInside(Touch * touch)
   Vec2 touchLocation   = touch->getLocation();
   touchLocation           = this->getParent()->convertToNodeSpace(touchLocation);
 
-  Rect rect             = this->getBoundingBox();
+  CCRect rect             = this->getBoundingBox();
   rect.size.width         += _thumbSprite->getContentSize().width;
   rect.origin.x           -= _thumbSprite->getContentSize().width / 2;
 
@@ -285,8 +285,8 @@ void ControlSlider::needsLayout()
     _selectedThumbSprite->setPosition(pos);
 
     // Stretches content proportional to newLevel
-    Rect textureRect          = _progressSprite->getTextureRect();
-    textureRect                 = Rect(textureRect.origin.x, textureRect.origin.y, pos.x, textureRect.size.height);
+    CCRect textureRect          = _progressSprite->getTextureRect();
+    textureRect                 = CCRect(textureRect.origin.x, textureRect.origin.y, pos.x, textureRect.size.height);
     _progressSprite->setTextureRect(textureRect, _progressSprite->isTextureRectRotated(), textureRect.size);
 }
 

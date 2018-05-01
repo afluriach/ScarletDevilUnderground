@@ -304,7 +304,7 @@ public:
      * @param rect  The boundary. If \p rect is equal to Rect::ZERO, it'll work
      *              with no boundary.
      */
-    static Follow* create(Node *followedNode, const Rect& rect = Rect::ZERO);
+    static Follow* create(Node *followedNode, const CCRect& rect = CCRect::ZERO);
     /** Return boundarySet.
      *
      * @return Return boundarySet.
@@ -347,7 +347,7 @@ CC_CONSTRUCTOR_ACCESS:
     , _rightBoundary(0.0)
     , _topBoundary(0.0)
     , _bottomBoundary(0.0)
-    , _worldRect(Rect::ZERO)
+    , _worldRect(CCRect::ZERO)
     {}
     /**
      * @js NA
@@ -362,7 +362,7 @@ CC_CONSTRUCTOR_ACCESS:
      * @param rect  The boundary. If \p rect is equal to Rect::ZERO, it'll work
      *              with no boundary.
      */
-    bool initWithTarget(Node *followedNode, const Rect& rect = Rect::ZERO);
+    bool initWithTarget(Node *followedNode, const CCRect& rect = CCRect::ZERO);
 
 protected:
     /** Node to follow. */
@@ -383,7 +383,7 @@ protected:
     float _rightBoundary;
     float _topBoundary;
     float _bottomBoundary;
-    Rect _worldRect;
+    CCRect _worldRect;
 
 private:
     CC_DISALLOW_COPY_AND_ASSIGN(Follow);

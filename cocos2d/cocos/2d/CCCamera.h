@@ -148,7 +148,7 @@ public:
      * @param src The screen-space position.
      * @param dst The world-space position.
      */
-    void unproject(const Size& viewport, const Vec3* src, Vec3* dst) const;
+    void unproject(const CCSize& viewport, const Vec3* src, Vec3* dst) const;
     
     /**
      * Is this aabb visible in frustum

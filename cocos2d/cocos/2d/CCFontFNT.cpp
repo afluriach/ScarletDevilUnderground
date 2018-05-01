@@ -59,7 +59,7 @@ typedef struct _BMFontDef {
     //! ID of the character
     unsigned int charID;
     //! origin and size of the font
-    Rect rect;
+    CCRect rect;
     //! The X amount the image should be offset when drawing the image (in pixels)
     short xOffset;
     //! The Y amount the image should be offset when drawing the image (in pixels)
@@ -747,7 +747,7 @@ FontAtlas * FontFNT::createFontAtlas()
         FontLetterDefinition tempDefinition;
         
         fontDef = currentElement->fontDef;
-        Rect tempRect;
+        CCRect tempRect;
         
         tempRect = fontDef.rect;
         tempRect = CC_RECT_PIXELS_TO_POINTS(tempRect);

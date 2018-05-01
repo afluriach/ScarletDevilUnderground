@@ -113,7 +113,7 @@ bool AtlasNode::initWithTexture(Texture2D* texture, int tileWidth, int tileHeigh
 
 void AtlasNode::calculateMaxItems()
 {
-    Size s = _textureAtlas->getTexture()->getContentSize();
+    CCSize s = _textureAtlas->getTexture()->getContentSize();
     
     if (_ignoreContentScaleFactor)
     {

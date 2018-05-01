@@ -135,7 +135,7 @@ namespace cocostudio
         } //end of for loop
         
         if (slider->isScale9Enabled()) {
-            slider->setContentSize(Size(barLength, slider->getContentSize().height));
+            slider->setContentSize(CCSize(barLength, slider->getContentSize().height));
         }
         slider->setPercent(percent);
         
@@ -166,7 +166,7 @@ namespace cocostudio
         
         if (barTextureScale9Enable)
         {
-            slider->setContentSize(Size(barLength, slider->getContentSize().height));
+            slider->setContentSize(CCSize(barLength, slider->getContentSize().height));
         }
         
         //loading normal slider ball texture

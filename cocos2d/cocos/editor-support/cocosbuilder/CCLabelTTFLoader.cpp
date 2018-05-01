@@ -72,7 +72,7 @@ void LabelTTFLoader::onHandlePropTypeIntegerLabeled(Node * pNode, Node * pParent
     }
 }
 
-void LabelTTFLoader::onHandlePropTypeSize(Node * pNode, Node * pParent, const char * pPropertyName, Size size, CCBReader * ccbReader) {
+void LabelTTFLoader::onHandlePropTypeSize(Node * pNode, Node * pParent, const char * pPropertyName, CCSize size, CCBReader * ccbReader) {
     if(strcmp(pPropertyName, PROPERTY_DIMENSIONS) == 0) {
         ((Label *)pNode)->setDimensions(size.width,size.height);
     } else {

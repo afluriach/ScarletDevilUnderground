@@ -71,15 +71,15 @@ public:
     
     cocos2d::ValueVector& getKeyframeCallbacks();
     
-    const cocos2d::Size& getRootContainerSize();
-    void setRootContainerSize(const cocos2d::Size &rootContainerSize);
+    const cocos2d::CCSize& getRootContainerSize();
+    void setRootContainerSize(const cocos2d::CCSize &rootContainerSize);
     
     CCBAnimationManagerDelegate* getDelegate();
     void setDelegate(CCBAnimationManagerDelegate* pDelegate); // retain
     
     const char* getRunningSequenceName();
     
-    const cocos2d::Size& getContainerSize(cocos2d::Node* pNode);
+    const cocos2d::CCSize& getContainerSize(cocos2d::Node* pNode);
     
     void addNode(cocos2d::Node *pNode, const std::unordered_map<int, cocos2d::Map<std::string, CCBSequenceProperty*>>& seq);
     void setBaseValue(const cocos2d::Value& value, cocos2d::Node *pNode, const std::string& propName);
@@ -140,7 +140,7 @@ private:
     
     cocos2d::Node *_rootNode;
     
-    cocos2d::Size _rootContainerSize;
+    cocos2d::CCSize _rootContainerSize;
     
     CCBAnimationManagerDelegate *_delegate;
     CCBSequence *_runningSequence;

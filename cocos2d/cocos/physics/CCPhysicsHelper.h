@@ -54,10 +54,10 @@ public:
     static cpVect point2cpv(const Vec2& point) { return cpv(point.x, point.y); }
     
     /** Make cpVect type convert to Size type. */
-    static Size cpv2size(const cpVect& vec) { return Size(vec.x, vec.y); }
+    static CCSize cpv2size(const cpVect& vec) { return CCSize(vec.x, vec.y); }
     
     /** Make Size type convert to cpVect type. */
-    static cpVect size2cpv(const Size& size) { return cpv(size.width, size.height); }
+    static cpVect size2cpv(const CCSize& size) { return cpv(size.width, size.height); }
     
     /** Make cpFloat type convert to float type. */
     static float cpfloat2float(cpFloat f) { return f; }
@@ -66,10 +66,10 @@ public:
     static cpFloat float2cpfloat(float f) { return f; }
     
     /** Make Rect type convert to cpBB type. */
-    static cpBB rect2cpbb(const Rect& rect) { return cpBBNew(rect.origin.x, rect.origin.y, rect.origin.x + rect.size.width, rect.origin.y + rect.size.height); }
+    static cpBB rect2cpbb(const CCRect& rect) { return cpBBNew(rect.origin.x, rect.origin.y, rect.origin.x + rect.size.width, rect.origin.y + rect.size.height); }
     
     /** Make cpBB type convert to Rect type. */
-    static Rect cpbb2rect(const cpBB& bb) { return Rect(bb.l, bb.b, bb.r -  bb.l, bb.t - bb.b); }
+    static CCRect cpbb2rect(const cpBB& bb) { return CCRect(bb.l, bb.b, bb.r -  bb.l, bb.t - bb.b); }
     
     /** 
      Make cpVect array convert to Vec2 array.

@@ -50,7 +50,7 @@ void Scale9SpriteLoader::onHandlePropTypeBlendFunc(Node * pNode, Node * pParent,
     }
 }
 
-void Scale9SpriteLoader::onHandlePropTypeSize(Node * pNode, Node * pParent, const char * pPropertyName, Size pSize, CCBReader * ccbReader) {
+void Scale9SpriteLoader::onHandlePropTypeSize(Node * pNode, Node * pParent, const char * pPropertyName, CCSize pSize, CCBReader * ccbReader) {
     if(strcmp(pPropertyName, PROPERTY_CONTENTSIZE) == 0) {
         //((Scale9Sprite *)pNode)->setContentSize(pSize);
     } else if(strcmp(pPropertyName, PROPERTY_PREFEREDSIZE) == 0) {

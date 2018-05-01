@@ -51,7 +51,7 @@ TMXLayer * TMXLayer::create(TMXTilesetInfo *tilesetInfo, TMXLayerInfo *layerInfo
 bool TMXLayer::initWithTilesetInfo(TMXTilesetInfo *tilesetInfo, TMXLayerInfo *layerInfo, TMXMapInfo *mapInfo)
 {    
     // FIXME:: is 35% a good estimate ?
-    Size size = layerInfo->_layerSize;
+    CCSize size = layerInfo->_layerSize;
     float totalNumberOfTiles = size.width * size.height;
     float capacity = totalNumberOfTiles * 0.35f + 1; // 35 percent is occupied ?
 
@@ -85,7 +85,7 @@ bool TMXLayer::initWithTilesetInfo(TMXTilesetInfo *tilesetInfo, TMXLayerInfo *la
 
         _atlasIndexArray = ccCArrayNew(totalNumberOfTiles);
 
-        this->setContentSize(CC_SIZE_PIXELS_TO_POINTS(Size(_layerSize.width * _mapTileSize.width, _layerSize.height * _mapTileSize.height)));
+        this->setContentSize(CC_SIZE_PIXELS_TO_POINTS(CCSize(_layerSize.width * _mapTileSize.width, _layerSize.height * _mapTileSize.height)));
 
         _useAutomaticVertexZ = false;
         _vertexZvalue = 0;
@@ -103,8 +103,8 @@ TMXLayer::TMXLayer()
 ,_reusedTile(nullptr)
 ,_atlasIndexArray(nullptr)
 ,_contentScaleFactor(1.0f)
-,_layerSize(Size::ZERO)
-,_mapTileSize(Size::ZERO)
+,_layerSize(CCSize::ZERO)
+,_mapTileSize(CCSize::ZERO)
 ,_tiles(nullptr)
 ,_tileSet(nullptr)
 ,_layerOrientation(TMXOrientationOrtho)
@@ -277,7 +277,7 @@ void TMXLayer::setupTileSprite(Sprite* sprite, Vec2 pos, int gid)
     }
 }
 
-Sprite* TMXLayer::reusedTileWithRect(Rect rect)
+Sprite* TMXLayer::reusedTileWithRect(CCRect rect)
 {
     if (! _reusedTile) 
     {
@@ -319,7 +319,7 @@ Sprite * TMXLayer::getTileAt(const Vec2& pos)
         // tile not created yet. create it
         if (! tile) 
         {
-            Rect rect = _tileSet->getRectForGID(gid);
+            CCRect rect = _tileSet->getRectForGID(gid);
             rect = CC_RECT_PIXELS_TO_POINTS(rect);
 
             tile = Sprite::createWithTexture(this->getTexture(), rect);
@@ -360,7 +360,7 @@ Sprite * TMXLayer::insertTileForGID(uint32_t gid, const Vec2& pos)
 {
     if (gid != 0 && (static_cast<int>((gid & kTMXFlippedMask)) - _tileSet->_firstGid) >= 0)
     {
-        Rect rect = _tileSet->getRectForGID(gid);
+        CCRect rect = _tileSet->getRectForGID(gid);
         rect = CC_RECT_PIXELS_TO_POINTS(rect);
         
         intptr_t z = (intptr_t)(pos.x + pos.y * _layerSize.width);
@@ -398,8 +398,8 @@ Sprite * TMXLayer::insertTileForGID(uint32_t gid, const Vec2& pos)
 
 Sprite * TMXLayer::updateTileForGID(uint32_t gid, const Vec2& pos)
 {
-    Rect rect = _tileSet->getRectForGID(gid);
-    rect = Rect(rect.origin.x / _contentScaleFactor, rect.origin.y / _contentScaleFactor, rect.size.width/ _contentScaleFactor, rect.size.height/ _contentScaleFactor);
+    CCRect rect = _tileSet->getRectForGID(gid);
+    rect = CCRect(rect.origin.x / _contentScaleFactor, rect.origin.y / _contentScaleFactor, rect.size.width/ _contentScaleFactor, rect.size.height/ _contentScaleFactor);
     int z = (int)(pos.x + pos.y * _layerSize.width);
 
     Sprite *tile = reusedTileWithRect(rect);
@@ -422,7 +422,7 @@ Sprite * TMXLayer::appendTileForGID(uint32_t gid, const Vec2& pos)
 {
     if (gid != 0 && (static_cast<int>((gid & kTMXFlippedMask)) - _tileSet->_firstGid) >= 0)
     {
-        Rect rect = _tileSet->getRectForGID(gid);
+        CCRect rect = _tileSet->getRectForGID(gid);
         rect = CC_RECT_PIXELS_TO_POINTS(rect);
         
         intptr_t z = (intptr_t)(pos.x + pos.y * _layerSize.width);
@@ -517,7 +517,7 @@ void TMXLayer::setTileGID(uint32_t gid, const Vec2& pos, TMXTileFlags flags)
             Sprite *sprite = static_cast<Sprite*>(getChildByTag(z));
             if (sprite)
             {
-                Rect rect = _tileSet->getRectForGID(gid);
+                CCRect rect = _tileSet->getRectForGID(gid);
                 rect = CC_RECT_PIXELS_TO_POINTS(rect);
 
                 sprite->setTextureRect(rect, false, rect.size);

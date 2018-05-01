@@ -44,7 +44,7 @@ class Action;
 class LabelProtocol;
 class Scheduler;
 class ActionManager;
-class Component;
+class CCComponent;
 class ComponentContainer;
 class EventDispatcher;
 class Scene;
@@ -525,7 +525,7 @@ public:
      *
      * @param contentSize   The untransformed size of the node.
      */
-    virtual void setContentSize(const Size& contentSize);
+    virtual void setContentSize(const CCSize& contentSize);
     /**
      * Returns the untransformed size of the node.
      *
@@ -533,7 +533,7 @@ public:
      *
      * @return The untransformed size of the node.
      */
-    virtual const Size& getContentSize() const;
+    virtual const CCSize& getContentSize() const;
 
 
     /**
@@ -1164,10 +1164,10 @@ public:
      *
      * @return An AABB (axis-aligned bounding-box) in its parent's coordinate system
      */
-    virtual Rect getBoundingBox() const;
+    virtual CCRect getBoundingBox() const;
 
     /** @deprecated Use getBoundingBox instead */
-    CC_DEPRECATED_ATTRIBUTE inline virtual Rect boundingBox() const { return getBoundingBox(); }
+    CC_DEPRECATED_ATTRIBUTE inline virtual CCRect boundingBox() const { return getBoundingBox(); }
 
     /** Set event dispatcher for scene.
      *
@@ -1622,7 +1622,7 @@ public:
      * @param name A given name of component.
      * @return The Component by name.
      */
-    Component* getComponent(const std::string& name);
+    CCComponent* getComponent(const std::string& name);
 
     /**
      * Adds a component.
@@ -1630,7 +1630,7 @@ public:
      * @param component A given component.
      * @return True if added success.
      */
-    virtual bool addComponent(Component *component);
+    virtual bool addComponent(CCComponent *component);
 
     /**
      * Removes a component by its name.
@@ -1646,7 +1646,7 @@ public:
      * @param component A given component.
      * @return True if removed success.
      */
-    virtual bool removeComponent(Component *component);
+    virtual bool removeComponent(CCComponent *component);
     /**
      * Removes all components
      */
@@ -1788,7 +1788,7 @@ protected:
     Vec2 _anchorPointInPoints;     ///< anchor point in points
     Vec2 _anchorPoint;             ///< anchor point normalized (NOT in points)
 
-    Size _contentSize;              ///< untransformed size of the node
+    CCSize _contentSize;              ///< untransformed size of the node
     bool _contentSizeDirty;         ///< whether or not the contentSize is dirty
 
     Mat4 _modelViewTransform;    ///< ModelView transform of the Node.

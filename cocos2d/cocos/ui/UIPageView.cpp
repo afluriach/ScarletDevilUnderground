@@ -228,7 +228,7 @@ void PageView::onSizeChanged()
 
 void PageView::updateAllPagesSize()
 {
-    Size selfSize = getContentSize();
+    CCSize selfSize = getContentSize();
     for (auto& page : _pages)
     {
         page->setContentSize(selfSize);

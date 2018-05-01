@@ -11,7 +11,7 @@ using namespace cocos2d::extension;
 
 namespace cocosbuilder {
 
-void ScrollViewLoader::onHandlePropTypeSize(Node * pNode, Node * pParent, const char * pPropertyName, Size pSize, CCBReader * ccbReader) {
+void ScrollViewLoader::onHandlePropTypeSize(Node * pNode, Node * pParent, const char * pPropertyName, CCSize pSize, CCBReader * ccbReader) {
 	if(strcmp(pPropertyName, PROPERTY_CONTENTSIZE) == 0) {
 		((ScrollView *)pNode)->setViewSize(pSize);
 	} else {

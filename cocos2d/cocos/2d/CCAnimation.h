@@ -212,7 +212,7 @@ public:
      * @param pobTexture A frame with a texture.
      * @param rect The Texture of rect.
      */
-    void addSpriteFrameWithTexture(Texture2D* pobTexture, const Rect& rect);
+    void addSpriteFrameWithTexture(Texture2D* pobTexture, const CCRect& rect);
 
     /** Gets the total Delay units of the Animation. 
      *

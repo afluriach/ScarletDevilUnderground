@@ -38,7 +38,7 @@ namespace ui {
      *@brief A component class used for layout.
      * The LayoutComponent holds all the data for layouting.
      */
-    class CC_GUI_DLL LayoutComponent : public Component
+    class CC_GUI_DLL LayoutComponent : public CCComponent
     {
     public:
         /**
@@ -124,25 +124,25 @@ namespace ui {
          * Query the anchor position.
          *@return Anchor position to it's parent
          */
-        const Point& getAnchorPosition()const;
+        const CCPoint& getAnchorPosition()const;
 
         /**
          * Change the anchor position to it's parent.
          *@param point A value in (x,y) format.
          */
-        void setAnchorPosition(const Point& point);
+        void setAnchorPosition(const CCPoint& point);
 
         /**
          * Query the owner's position.
          *@return The owner's position.
          */
-        const Point& getPosition()const;
+        const CCPoint& getPosition()const;
 
         /**
          * Change the position of component owner.
          * @param position A position in (x,y)
          */ 
-        void setPosition(const Point& position);
+        void setPosition(const CCPoint& position);
 
         /**
          * Whether position percentX is enabled or not. 
@@ -269,13 +269,13 @@ namespace ui {
          * Query owner's content size.
          *@return Owner's content size.
          */
-        const Size& getSize()const;
+        const CCSize& getSize()const;
 
         /**
          * Change the content size of owner.
          *@param size Content size in @see `Size`.
          */
-        void setSize(const Size& size);
+        void setSize(const CCSize& size);
 
         /**
          * Query whether percent width is enabled or not.

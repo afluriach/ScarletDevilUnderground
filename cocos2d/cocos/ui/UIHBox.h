@@ -68,12 +68,12 @@ public:
      *@param size The content size of the layout.
      *@return A HBox instance pointer.
      */
-    static HBox* create(const Size& size);
+    static HBox* create(const CCSize& size);
     
 CC_CONSTRUCTOR_ACCESS:
     //initializes state of widget.
     virtual bool init() override;
-    virtual bool initWithSize(const Size& size);
+    virtual bool initWithSize(const CCSize& size);
 };
     
 }

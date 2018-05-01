@@ -62,7 +62,7 @@ bool TMXTiledMap::initWithTMXFile(const std::string& tmxFile)
 {
     CCASSERT(tmxFile.size()>0, "TMXTiledMap: tmx file should not be empty");
     
-    setContentSize(Size::ZERO);
+    setContentSize(CCSize::ZERO);
 
     TMXMapInfo *mapInfo = TMXMapInfo::create(tmxFile);
 
@@ -78,7 +78,7 @@ bool TMXTiledMap::initWithTMXFile(const std::string& tmxFile)
 
 bool TMXTiledMap::initWithXML(const std::string& tmxString, const std::string& resourcePath)
 {
-    setContentSize(Size::ZERO);
+    setContentSize(CCSize::ZERO);
 
     TMXMapInfo *mapInfo = TMXMapInfo::createWithXML(tmxString, resourcePath);
 
@@ -89,8 +89,8 @@ bool TMXTiledMap::initWithXML(const std::string& tmxString, const std::string& r
 }
 
 TMXTiledMap::TMXTiledMap()
-    :_mapSize(Size::ZERO)
-    ,_tileSize(Size::ZERO)        
+    :_mapSize(CCSize::ZERO)
+    ,_tileSize(CCSize::ZERO)        
 {
 }
 
@@ -113,7 +113,7 @@ TMXLayer * TMXTiledMap::parseLayer(TMXLayerInfo *layerInfo, TMXMapInfo *mapInfo)
 
 TMXTilesetInfo * TMXTiledMap::tilesetForLayer(TMXLayerInfo *layerInfo, TMXMapInfo *mapInfo)
 {
-    Size size = layerInfo->_layerSize;
+    CCSize size = layerInfo->_layerSize;
     auto& tilesets = mapInfo->getTilesets();
     if (tilesets.size()>0)
     {
@@ -177,8 +177,8 @@ void TMXTiledMap::buildWithMapInfo(TMXMapInfo* mapInfo)
             addChild(child, idx, idx);
             
             // update content size with the max size
-            const Size& childSize = child->getContentSize();
-            Size currentSize = this->getContentSize();
+            const CCSize& childSize = child->getContentSize();
+            CCSize currentSize = this->getContentSize();
             currentSize.width = std::max( currentSize.width, childSize.width );
             currentSize.height = std::max( currentSize.height, childSize.height );
             this->setContentSize(currentSize);

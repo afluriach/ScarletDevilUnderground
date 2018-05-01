@@ -141,25 +141,25 @@ public:
      *
      * @return The map's size property measured in tiles.
      */
-    inline const Size& getMapSize() const { return _mapSize; };
+    inline const CCSize& getMapSize() const { return _mapSize; };
     
     /** Set the map's size property measured in tiles.
      *
      * @param mapSize The map's size property measured in tiles.
      */
-    inline void setMapSize(const Size& mapSize) { _mapSize = mapSize; };
+    inline void setMapSize(const CCSize& mapSize) { _mapSize = mapSize; };
 
     /** The tiles's size property measured in pixels.
      *
      * @return The tiles's size property measured in pixels.
      */
-    inline const Size& getTileSize() const { return _tileSize; };
+    inline const CCSize& getTileSize() const { return _tileSize; };
     
     /** Set the tiles's size property measured in pixels. 
      *
      * @param tileSize The tiles's size property measured in pixels.
      */
-    inline void setTileSize(const Size& tileSize) { _tileSize = tileSize; };
+    inline void setTileSize(const CCSize& tileSize) { _tileSize = tileSize; };
 
     /** Get map orientation. 
      *
@@ -226,9 +226,9 @@ protected:
     void buildWithMapInfo(TMXMapInfo* mapInfo);
 
     /** the map's size property measured in tiles */
-    Size _mapSize;
+    CCSize _mapSize;
     /** the tiles's size property measured in pixels */
-    Size _tileSize;
+    CCSize _tileSize;
     /** map orientation */
     int _mapOrientation;
     /** object groups */

@@ -283,7 +283,7 @@ public:
      * @param fullRect The total size of screen.
      * @param fullViewport The total viewportSize.
      */
-    void setVirtualViewport(const Vec2& rtBegin, const Rect& fullRect, const Rect& fullViewport);
+    void setVirtualViewport(const Vec2& rtBegin, const CCRect& fullRect, const CCRect& fullViewport);
 
 public:
     /** FIXME: should be procted.
@@ -321,9 +321,9 @@ protected:
     
     //flags: whether generate new modelView and projection matrix or not
     bool         _keepMatrix;
-    Rect         _rtTextureRect;
-    Rect         _fullRect;
-    Rect         _fullviewPort;
+    CCRect         _rtTextureRect;
+    CCRect         _fullRect;
+    CCRect         _fullviewPort;
     
     GLuint       _FBO;
     GLuint       _depthRenderBufffer;

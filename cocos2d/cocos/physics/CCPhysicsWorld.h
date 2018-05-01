@@ -169,7 +169,7 @@ public:
     * @param   rect   A Rect object contains a rectangle's x, y, width and height.
     * @param   data   User defined data, it is passed to func. 
     */
-    void queryRect(PhysicsQueryRectCallbackFunc func, const Rect& rect, void* data);
+    void queryRect(PhysicsQueryRectCallbackFunc func, const CCRect& rect, void* data);
     
     /**
     * Searches for physics shapes that contains the point. 

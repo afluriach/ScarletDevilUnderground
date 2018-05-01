@@ -39,7 +39,7 @@ THE SOFTWARE.
 NS_CC_BEGIN
 // implementation of GridBase
 
-GridBase* GridBase::create(const Size& gridSize)
+GridBase* GridBase::create(const CCSize& gridSize)
 {
     GridBase *pGridBase = new (std::nothrow) GridBase();
 
@@ -58,7 +58,7 @@ GridBase* GridBase::create(const Size& gridSize)
     return pGridBase;
 }
 
-GridBase* GridBase::create(const Size& gridSize, Texture2D *texture, bool flipped)
+GridBase* GridBase::create(const CCSize& gridSize, Texture2D *texture, bool flipped)
 {
     GridBase *pGridBase = new (std::nothrow) GridBase();
 
@@ -77,7 +77,7 @@ GridBase* GridBase::create(const Size& gridSize, Texture2D *texture, bool flippe
     return pGridBase;
 }
 
-bool GridBase::initWithSize(const Size& gridSize, Texture2D *texture, bool flipped)
+bool GridBase::initWithSize(const CCSize& gridSize, Texture2D *texture, bool flipped)
 {
     bool ret = true;
 
@@ -89,7 +89,7 @@ bool GridBase::initWithSize(const Size& gridSize, Texture2D *texture, bool flipp
     CC_SAFE_RETAIN(_texture);
     _isTextureFlipped = flipped;
 
-    Size texSize = _texture->getContentSize();
+    CCSize texSize = _texture->getContentSize();
     _step.x = texSize.width / _gridSize.width;
     _step.y = texSize.height / _gridSize.height;
 
@@ -109,10 +109,10 @@ bool GridBase::initWithSize(const Size& gridSize, Texture2D *texture, bool flipp
     return ret;
 }
 
-bool GridBase::initWithSize(const Size& gridSize)
+bool GridBase::initWithSize(const CCSize& gridSize)
 {
     Director *director = Director::getInstance();
-    Size s = director->getWinSizeInPixels();
+    CCSize s = director->getWinSizeInPixels();
     
     auto POTWide = ccNextPOT((unsigned int)s.width);
     auto POTHigh = ccNextPOT((unsigned int)s.height);
@@ -181,7 +181,7 @@ void GridBase::set2DProjection()
 {
     Director *director = Director::getInstance();
 
-    Size    size = director->getWinSizeInPixels();
+    CCSize    size = director->getWinSizeInPixels();
 
     glViewport(0, 0, (GLsizei)(size.width), (GLsizei)(size.height) );
     director->loadIdentityMatrix(MATRIX_STACK_TYPE::MATRIX_STACK_PROJECTION);
@@ -254,7 +254,7 @@ void GridBase::calculateVertexPoints(void)
 
 // implementation of Grid3D
 
-Grid3D* Grid3D::create(const Size& gridSize, Texture2D *texture, bool flipped)
+Grid3D* Grid3D::create(const CCSize& gridSize, Texture2D *texture, bool flipped)
 {
     Grid3D *ret= new (std::nothrow) Grid3D();
 
@@ -274,7 +274,7 @@ Grid3D* Grid3D::create(const Size& gridSize, Texture2D *texture, bool flipped)
     return ret;
 }
 
-Grid3D* Grid3D::create(const Size& gridSize)
+Grid3D* Grid3D::create(const CCSize& gridSize)
 {
     Grid3D *ret= new (std::nothrow) Grid3D();
 
@@ -499,7 +499,7 @@ TiledGrid3D::~TiledGrid3D(void)
     CC_SAFE_FREE(_indices);
 }
 
-TiledGrid3D* TiledGrid3D::create(const Size& gridSize, Texture2D *texture, bool flipped)
+TiledGrid3D* TiledGrid3D::create(const CCSize& gridSize, Texture2D *texture, bool flipped)
 {
     TiledGrid3D *ret= new (std::nothrow) TiledGrid3D();
 
@@ -519,7 +519,7 @@ TiledGrid3D* TiledGrid3D::create(const Size& gridSize, Texture2D *texture, bool 
     return ret;
 }
 
-TiledGrid3D* TiledGrid3D::create(const Size& gridSize)
+TiledGrid3D* TiledGrid3D::create(const CCSize& gridSize)
 {
     TiledGrid3D *ret= new (std::nothrow) TiledGrid3D();
 

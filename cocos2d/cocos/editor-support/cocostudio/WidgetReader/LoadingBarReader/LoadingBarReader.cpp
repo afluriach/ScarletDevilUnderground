@@ -105,7 +105,7 @@ namespace cocostudio
         } //end of for loop
         
         if (loadingBar->isScale9Enabled()) {
-            loadingBar->setCapInsets(Rect(capsx, capsy, capsWidth, capsHeight));
+            loadingBar->setCapInsets(CCRect(capsx, capsy, capsWidth, capsHeight));
         }
         loadingBar->setPercent(percent);
         this->endSetBasicProperties(widget);
@@ -135,13 +135,13 @@ namespace cocostudio
         float ch = DICTOOL->getFloatValue_json(options, P_CapInsetsHeight,1);
         
         if (scale9Enable) {
-            loadingBar->setCapInsets(Rect(cx, cy, cw, ch));
+            loadingBar->setCapInsets(CCRect(cx, cy, cw, ch));
 
         }
         
         float width = DICTOOL->getFloatValue_json(options, P_Width);
         float height = DICTOOL->getFloatValue_json(options, P_Height);
-        loadingBar->setContentSize(Size(width, height));
+        loadingBar->setContentSize(CCSize(width, height));
         
         /**/
         

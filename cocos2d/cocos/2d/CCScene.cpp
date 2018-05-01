@@ -72,7 +72,7 @@ bool Scene::init()
     return initWithSize(size);
 }
 
-bool Scene::initWithSize(const Size& size)
+bool Scene::initWithSize(const CCSize& size)
 {
     setContentSize(size);
     return true;
@@ -93,7 +93,7 @@ Scene* Scene::create()
     }
 }
 
-Scene* Scene::createWithSize(const Size& size)
+Scene* Scene::createWithSize(const CCSize& size)
 {
     Scene *ret = new (std::nothrow) Scene();
     if (ret && ret->initWithSize(size))

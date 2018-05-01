@@ -80,7 +80,7 @@ namespace ui {
         bool ret = true;
         do
         {
-            if (!Component::init())
+            if (!CCComponent::init())
             {
                 ret = false;
                 break;
@@ -103,10 +103,10 @@ namespace ui {
         if (parent == nullptr)
             return;
 
-        const Point& ownerPoint = _owner->getPosition();
-        const Point& ownerAnchor = _owner->getAnchorPoint();
-        const Size& ownerSize = _owner->getContentSize();
-        const Size& parentSize = parent->getContentSize();
+        const CCPoint& ownerPoint = _owner->getPosition();
+        const CCPoint& ownerAnchor = _owner->getAnchorPoint();
+        const CCSize& ownerSize = _owner->getContentSize();
+        const CCSize& parentSize = parent->getContentSize();
 
         _leftMargin = ownerPoint.x - ownerAnchor.x * ownerSize.width;
         _rightMargin = parentSize.width - (ownerPoint.x + (1 - ownerAnchor.x) * ownerSize.width);
@@ -117,10 +117,10 @@ namespace ui {
         if (parent == nullptr)
             return;
 
-        const Point& ownerPoint = _owner->getPosition();
-        const Point& ownerAnchor = _owner->getAnchorPoint();
-        const Size& ownerSize = _owner->getContentSize();
-        const Size& parentSize = parent->getContentSize();
+        const CCPoint& ownerPoint = _owner->getPosition();
+        const CCPoint& ownerAnchor = _owner->getAnchorPoint();
+        const CCSize& ownerSize = _owner->getContentSize();
+        const CCSize& parentSize = parent->getContentSize();
 
         _bottomMargin = ownerPoint.y - ownerAnchor.y * ownerSize.height;
         _topMargin = parentSize.height - (ownerPoint.y + (1 - ownerAnchor.y) * ownerSize.height);
@@ -148,36 +148,36 @@ namespace ui {
     }
 
     //Position & Margin
-    const Point& LayoutComponent::getAnchorPosition()const
+    const CCPoint& LayoutComponent::getAnchorPosition()const
     {
         return _owner->getAnchorPoint();
     }
-    void LayoutComponent::setAnchorPosition(const Point& point)
+    void LayoutComponent::setAnchorPosition(const CCPoint& point)
     {
-        Rect oldRect = _owner->getBoundingBox();
+        CCRect oldRect = _owner->getBoundingBox();
         _owner->setAnchorPoint(point);
-        Rect newRect = _owner->getBoundingBox();
+        CCRect newRect = _owner->getBoundingBox();
         float offSetX = oldRect.origin.x - newRect.origin.x;
         float offSetY = oldRect.origin.y - newRect.origin.y;
 
-        Point ownerPosition = _owner->getPosition();
+        CCPoint ownerPosition = _owner->getPosition();
         ownerPosition.x += offSetX;
         ownerPosition.y += offSetY;
 
         this->setPosition(ownerPosition);
     }
 
-    const Point& LayoutComponent::getPosition()const
+    const CCPoint& LayoutComponent::getPosition()const
     {
         return _owner->getPosition();
     }
-    void LayoutComponent::setPosition(const Point& position)
+    void LayoutComponent::setPosition(const CCPoint& position)
     {
         Node* parent = this->getOwnerParent();
         if (parent != nullptr)
         {
-            Point ownerPoint = position;
-            const Size& parentSize = parent->getContentSize();
+            CCPoint ownerPoint = position;
+            const CCSize& parentSize = parent->getContentSize();
 
             if (parentSize.width != 0)
                 _positionPercentX = ownerPoint.x / parentSize.width;
@@ -279,8 +279,8 @@ namespace ui {
         Node* parent = this->getOwnerParent();
         if (parent != nullptr)
         {
-            Point ownerPoint = _owner->getPosition();
-            const Size& parentSize = parent->getContentSize();
+            CCPoint ownerPoint = _owner->getPosition();
+            const CCSize& parentSize = parent->getContentSize();
             if (parentSize.width != 0)
                 _positionPercentX = ownerPoint.x / parentSize.width;
             else
@@ -310,8 +310,8 @@ namespace ui {
         Node* parent = this->getOwnerParent();
         if (parent != nullptr)
         {
-            Point ownerPoint = _owner->getPosition();
-            const Size& parentSize = parent->getContentSize();
+            CCPoint ownerPoint = _owner->getPosition();
+            const CCSize& parentSize = parent->getContentSize();
             if (parentSize.height != 0)
                 _positionPercentY = ownerPoint.y / parentSize.height;
             else
@@ -363,17 +363,17 @@ namespace ui {
     }
 
     //Size & Percent
-    const Size& LayoutComponent::getSize()const
+    const CCSize& LayoutComponent::getSize()const
     {
         return this->getOwner()->getContentSize();
     }
-    void LayoutComponent::setSize(const Size& size)
+    void LayoutComponent::setSize(const CCSize& size)
     {
         Node* parent = this->getOwnerParent();
         if (parent != nullptr)
         {
-            Size ownerSize = size;
-            const Size& parentSize = parent->getContentSize();
+            CCSize ownerSize = size;
+            const CCSize& parentSize = parent->getContentSize();
 
             if (parentSize.width != 0)
                 _percentWidth = ownerSize.width / parentSize.width;
@@ -421,13 +421,13 @@ namespace ui {
     }
     void LayoutComponent::setSizeWidth(float width)
     {
-        Size ownerSize = _owner->getContentSize();
+        CCSize ownerSize = _owner->getContentSize();
         ownerSize.width = width;
 
         Node* parent = this->getOwnerParent();
         if (parent != nullptr)
         {
-            const Size& parentSize = parent->getContentSize();
+            const CCSize& parentSize = parent->getContentSize();
             if (parentSize.width != 0)
                 _percentWidth = ownerSize.width / parentSize.width;
             else
@@ -454,7 +454,7 @@ namespace ui {
         Node* parent = this->getOwnerParent();
         if (parent != nullptr)
         {
-            Size ownerSize = _owner->getContentSize();
+            CCSize ownerSize = _owner->getContentSize();
             ownerSize.width = parent->getContentSize().width * _percentWidth;
             _owner->setContentSize(ownerSize);
 
@@ -481,13 +481,13 @@ namespace ui {
     }
     void LayoutComponent::setSizeHeight(float height)
     {
-        Size ownerSize = _owner->getContentSize();
+        CCSize ownerSize = _owner->getContentSize();
         ownerSize.height = height;
 
         Node* parent = this->getOwnerParent();
         if (parent != nullptr)
         {
-            const Size& parentSize = parent->getContentSize();
+            const CCSize& parentSize = parent->getContentSize();
             if (parentSize.height != 0)
                 _percentHeight = ownerSize.height / parentSize.height;
             else
@@ -514,7 +514,7 @@ namespace ui {
         Node* parent = this->getOwnerParent();
         if (parent != nullptr)
         {
-            Size ownerSize = _owner->getContentSize();
+            CCSize ownerSize = _owner->getContentSize();
             ownerSize.height = parent->getContentSize().height * _percentHeight;
             _owner->setContentSize(ownerSize);
 
@@ -557,10 +557,10 @@ namespace ui {
         if (parent == nullptr)
             return;
 
-        const Size& parentSize = parent->getContentSize();
-        const Point& ownerAnchor = _owner->getAnchorPoint();
-        Size ownerSize = _owner->getContentSize();
-        Point ownerPosition = _owner->getPosition();
+        const CCSize& parentSize = parent->getContentSize();
+        const CCPoint& ownerAnchor = _owner->getAnchorPoint();
+        CCSize ownerSize = _owner->getContentSize();
+        CCPoint ownerPosition = _owner->getPosition();
 
         switch (this->_horizontalEdge)
         {

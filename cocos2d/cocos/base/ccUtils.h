@@ -92,7 +92,7 @@ namespace utils
      * Calculate unionof bounding box of a node and its children.
      * @return Returns unionof bounding box of a node and its children.
      */
-    Rect CC_DLL getCascadeBoundingBox(Node *node);
+    CCRect CC_DLL getCascadeBoundingBox(Node *node);
 }
 
 NS_CC_END

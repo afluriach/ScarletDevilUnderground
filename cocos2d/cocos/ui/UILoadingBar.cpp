@@ -41,10 +41,10 @@ _percent(100.0),
 _totalLength(0),
 _barRenderer(nullptr),
 _renderBarTexType(TextureResType::LOCAL),
-_barRendererTextureSize(Size::ZERO),
+_barRendererTextureSize(CCSize::ZERO),
 _scale9Enabled(false),
 _prevIgnoreSize(true),
-_capInsets(Rect::ZERO),
+_capInsets(CCRect::ZERO),
 _textureFile(""),
 _barRendererAdaptDirty(true)
 {
@@ -227,7 +227,7 @@ bool LoadingBar::isScale9Enabled()const
     return _scale9Enabled;
 }
     
-void LoadingBar::setCapInsets(const Rect &capInsets)
+void LoadingBar::setCapInsets(const CCRect &capInsets)
 {
     _capInsets = ui::Helper::restrictCapInsetRect(capInsets, _barRendererTextureSize);
     if (!_scale9Enabled)
@@ -237,7 +237,7 @@ void LoadingBar::setCapInsets(const Rect &capInsets)
     _barRenderer->setCapInsets(_capInsets);
 }
 
-const Rect& LoadingBar::getCapInsets()const
+const CCRect& LoadingBar::getCapInsets()const
 {
     return _capInsets;
 }
@@ -276,7 +276,7 @@ void LoadingBar::updateProgressBar()
     {
         float res = _percent / 100.0f;
         Sprite* spriteRenderer = _barRenderer->getSprite();
-        Rect rect = spriteRenderer->getTextureRect();
+        CCRect rect = spriteRenderer->getTextureRect();
         rect.size.width = _barRendererTextureSize.width * res;
         spriteRenderer->setTextureRect(rect, spriteRenderer->isTextureRectRotated(), rect.size);
     }
@@ -311,7 +311,7 @@ void LoadingBar::ignoreContentAdaptWithSize(bool ignore)
     }
 }
 
-Size LoadingBar::getVirtualRendererSize() const
+CCSize LoadingBar::getVirtualRendererSize() const
 {
     return _barRendererTextureSize;
 }
@@ -348,7 +348,7 @@ void LoadingBar::barRendererScaleChangedWithSize()
         else
         {
             
-            Size textureSize = _barRendererTextureSize;
+            CCSize textureSize = _barRendererTextureSize;
             if (textureSize.width <= 0.0f || textureSize.height <= 0.0f)
             {
                 _barRenderer->setScale(1.0f);
@@ -376,7 +376,7 @@ void LoadingBar::barRendererScaleChangedWithSize()
 void LoadingBar::setScale9Scale()
 {
     float width = (float)(_percent) / 100.0f * _totalLength;
-    _barRenderer->setPreferredSize(Size(width, _contentSize.height));
+    _barRenderer->setPreferredSize(CCSize(width, _contentSize.height));
 }
 
 std::string LoadingBar::getDescription() const

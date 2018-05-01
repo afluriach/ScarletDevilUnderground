@@ -67,16 +67,16 @@ CC_DLL Vec2 __CCPointApplyAffineTransform(const Vec2& point, const AffineTransfo
 #define PointApplyAffineTransform __CCPointApplyAffineTransform
 
 /**Multiply size (width,height,0) by a  affine tranform.*/
-CC_DLL Size __CCSizeApplyAffineTransform(const Size& size, const AffineTransform& t);
+CC_DLL CCSize __CCSizeApplyAffineTransform(const CCSize& size, const AffineTransform& t);
 #define SizeApplyAffineTransform __CCSizeApplyAffineTransform
 /**Make identity affine transform.*/
 CC_DLL AffineTransform AffineTransformMakeIdentity();
 /**Transform Rect, which will transform the four vertice of the point.*/
-CC_DLL Rect RectApplyAffineTransform(const Rect& rect, const AffineTransform& anAffineTransform);
+CC_DLL CCRect RectApplyAffineTransform(const CCRect& rect, const AffineTransform& anAffineTransform);
 /**@{
  Transform vec2 and Rect by Mat4.
  */
-CC_DLL Rect RectApplyTransform(const Rect& rect, const Mat4& transform);
+CC_DLL CCRect RectApplyTransform(const CCRect& rect, const Mat4& transform);
 CC_DLL Vec2 PointApplyTransform(const Vec2& point, const Mat4& transform);
 /**@}*/
 /**

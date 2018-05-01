@@ -100,7 +100,7 @@ bool TextListMenuLayer::init()
 {
     Layer::init();
     
-    cocos2d::Size screenSize = getScreenSize();
+    cocos2d::CCSize screenSize = getScreenSize();
     
     titleLabel = createTextLabel(title, titleSize);
     

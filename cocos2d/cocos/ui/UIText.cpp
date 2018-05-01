@@ -186,7 +186,7 @@ Text::Type Text::getType() const
     return _type;
 }
 
-void Text::setTextAreaSize(const Size &size)
+void Text::setTextAreaSize(const CCSize &size)
 {
     _labelRenderer->setDimensions(size.width,size.height);
     if (!_ignoreSize)
@@ -197,7 +197,7 @@ void Text::setTextAreaSize(const Size &size)
     _labelRendererAdaptDirty = true;
 }
 
-const Size& Text::getTextAreaSize()const
+const CCSize& Text::getTextAreaSize()const
 {
     return _labelRenderer->getDimensions();
 }
@@ -282,14 +282,14 @@ void Text::adaptRenderers()
     }
 }
 
-Size Text::getVirtualRendererSize() const
+CCSize Text::getVirtualRendererSize() const
 {
     return _labelRenderer->getContentSize();
 }
 
-Size Text::getAutoRenderSize()
+CCSize Text::getAutoRenderSize()
 {
-    Size virtualSize = _labelRenderer->getContentSize();
+    CCSize virtualSize = _labelRenderer->getContentSize();
     if (!_ignoreSize)
     {
         _labelRenderer->setDimensions(0, 0);
@@ -316,7 +316,7 @@ void Text::labelScaleChangedWithSize()
     else
     {
         _labelRenderer->setDimensions(_contentSize.width,_contentSize.height);
-        Size textureSize = _labelRenderer->getContentSize();
+        CCSize textureSize = _labelRenderer->getContentSize();
         if (textureSize.width <= 0.0f || textureSize.height <= 0.0f)
         {
             _labelRenderer->setScale(1.0f);
@@ -337,7 +337,7 @@ std::string Text::getDescription() const
     return "Label";
 }
 
-void Text::enableShadow(const Color4B& shadowColor,const Size &offset, int blurRadius)
+void Text::enableShadow(const Color4B& shadowColor,const CCSize &offset, int blurRadius)
 {
     _labelRenderer->enableShadow(shadowColor, offset, blurRadius);
 }

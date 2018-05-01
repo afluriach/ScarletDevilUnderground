@@ -83,7 +83,7 @@ public:
      * @param container parent object
      * @return autoreleased scroll view object
      */
-    static ScrollView* create(Size size, Node* container = NULL);
+    static ScrollView* create(CCSize size, Node* container = NULL);
 
     /**
      * Returns an autoreleased scroll view object.
@@ -110,7 +110,7 @@ public:
      * @param container parent object
      * @return scroll view object
      */
-    bool initWithViewSize(Size size, Node* container = NULL);
+    bool initWithViewSize(CCSize size, Node* container = NULL);
 
     /**
      * Sets a new content offset. It ignores max/min offset. It just sets what's given. (just like UIKit's UIScrollView)
@@ -202,8 +202,8 @@ public:
      * It's semantically different what it actually means to common scroll views.
      * Hence, this scroll view will use a separate size property.
      */
-    Size getViewSize() const { return _viewSize; }
-    void setViewSize(Size size);
+    CCSize getViewSize() const { return _viewSize; }
+    void setViewSize(CCSize size);
 
     Node * getContainer();
     void setContainer(Node * pContainer);
@@ -241,8 +241,8 @@ public:
     virtual void onTouchCancelled(Touch *touch, Event *event) override;
     
     // Overrides
-    virtual void setContentSize(const Size & size) override;
-    virtual const Size& getContentSize() const override;
+    virtual void setContentSize(const CCSize & size) override;
+    virtual const CCSize& getContentSize() const override;
     /**
      * @js NA
      * @lua NA
@@ -297,7 +297,7 @@ protected:
      */
     void handleZoom();
 
-    Rect getViewRect();
+    CCRect getViewRect();
 
     /**
      * scroll view delegate
@@ -359,7 +359,7 @@ protected:
      * It's semantically different what it actually means to common scroll views.
      * Hence, this scroll view will use a separate size property.
      */
-    Size _viewSize;
+    CCSize _viewSize;
     /**
      * max and min scale
      */
@@ -367,7 +367,7 @@ protected:
     /**
      * scissor rect for parent, just for restoring GL_SCISSOR_BOX
      */
-    Rect _parentScissorRect;
+    CCRect _parentScissorRect;
     bool _scissorRestored;
     
     /** Touch listener */

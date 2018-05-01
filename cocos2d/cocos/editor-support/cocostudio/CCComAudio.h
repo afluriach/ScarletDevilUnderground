@@ -31,7 +31,7 @@ THE SOFTWARE.
 
 namespace cocostudio {
 
-class CC_STUDIO_DLL ComAudio : public cocos2d::Component
+class CC_STUDIO_DLL ComAudio : public cocos2d::CCComponent
 {
 
     DECLARE_CLASS_COMPONENT_INFO

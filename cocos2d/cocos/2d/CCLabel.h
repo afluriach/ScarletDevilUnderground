@@ -129,7 +129,7 @@ public:
      * @return An automatically released Label object.
      */
     static Label* createWithSystemFont(const std::string& text, const std::string& font, float fontSize,
-        const Size& dimensions = Size::ZERO, TextHAlignment hAlignment = TextHAlignment::LEFT,
+        const CCSize& dimensions = CCSize::ZERO, TextHAlignment hAlignment = TextHAlignment::LEFT,
         TextVAlignment vAlignment = TextVAlignment::TOP);
 
     /**
@@ -145,7 +145,7 @@ public:
     * @return An automatically released Label object.
     */
     static Label * createWithTTF(const std::string& text, const std::string& fontFilePath, float fontSize,
-        const Size& dimensions = Size::ZERO, TextHAlignment hAlignment = TextHAlignment::LEFT,
+        const CCSize& dimensions = CCSize::ZERO, TextHAlignment hAlignment = TextHAlignment::LEFT,
         TextVAlignment vAlignment = TextVAlignment::TOP);
 
     /**
@@ -307,7 +307,7 @@ public:
      *
      * @todo Support blur for shadow effect.
      */
-    virtual void enableShadow(const Color4B& shadowColor = Color4B::BLACK,const Size &offset = Size(2,-2), int blurRadius = 0);
+    virtual void enableShadow(const Color4B& shadowColor = Color4B::BLACK,const CCSize &offset = CCSize(2,-2), int blurRadius = 0);
 
     /**
      * Enable outline effect to Label.
@@ -388,7 +388,7 @@ public:
 
     /** Sets the untransformed size of the Label in a more efficient way. */
     void setDimensions(float width, float height);
-    const Size& getDimensions() const{ return _labelDimensions;}
+    const CCSize& getDimensions() const{ return _labelDimensions;}
 
     /** Update content immediately.*/
     virtual void updateContent();
@@ -453,9 +453,9 @@ public:
 
     virtual std::string getDescription() const override;
 
-    virtual const Size& getContentSize() const override;
+    virtual const CCSize& getContentSize() const override;
 
-    virtual Rect getBoundingBox() const override;
+    virtual CCRect getBoundingBox() const override;
 
     virtual void visit(Renderer *renderer, const Mat4 &parentTransform, uint32_t parentFlags) override;
     virtual void draw(Renderer *renderer, const Mat4 &transform, uint32_t flags) override;
@@ -463,7 +463,7 @@ public:
     virtual void setCameraMask(unsigned short mask, bool applyChildren = true) override;
 
     CC_DEPRECATED_ATTRIBUTE static Label* create(const std::string& text, const std::string& font, float fontSize,
-        const Size& dimensions = Size::ZERO, TextHAlignment hAlignment = TextHAlignment::LEFT,
+        const CCSize& dimensions = CCSize::ZERO, TextHAlignment hAlignment = TextHAlignment::LEFT,
         TextVAlignment vAlignment = TextVAlignment::TOP);
 
     CC_DEPRECATED_ATTRIBUTE virtual void setFontDefinition(const FontDefinition& textDefinition);
@@ -497,7 +497,7 @@ protected:
         FontLetterDefinition def;
 
         Vec2 position;
-        Size  contentSize;
+        CCSize  contentSize;
         int   atlasIndex;
     };
     enum class LabelType {
@@ -556,7 +556,7 @@ protected:
 
     //! used for optimization
     Sprite *_reusedLetter;
-    Rect _reusedRect;
+    CCRect _reusedRect;
     int _limitShowCount;
 
     float _additionalKerning;
@@ -565,7 +565,7 @@ protected:
     int * _horizontalKernings;
 
     float _maxLineWidth;
-    Size  _labelDimensions;
+    CCSize  _labelDimensions;
     float _labelWidth;
     float _labelHeight;
     TextHAlignment _hAlignment;
@@ -590,7 +590,7 @@ protected:
 
     bool    _shadowDirty;
     bool    _shadowEnabled;
-    Size    _shadowOffset;
+    CCSize    _shadowOffset;
     int     _shadowBlurRadius;
     Mat4  _shadowTransform;
     Color4F _shadowColor4F;

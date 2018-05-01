@@ -47,7 +47,7 @@ namespace cocostudio
         flatbuffers::Offset<flatbuffers::Table> createOptionsWithFlatBuffers(const tinyxml2::XMLElement* objectData,
                                                                              flatbuffers::FlatBufferBuilder* builder);
         void setPropsWithFlatBuffers(cocos2d::Node* node, const flatbuffers::Table* comAudioOptions);
-        cocos2d::Component* createComAudioWithFlatBuffers(const flatbuffers::Table* comAudioOptions);
+        cocos2d::CCComponent* createComAudioWithFlatBuffers(const flatbuffers::Table* comAudioOptions);
         cocos2d::Node* createNodeWithFlatBuffers(const flatbuffers::Table* nodeOptions) { return nullptr; };
     };
 }

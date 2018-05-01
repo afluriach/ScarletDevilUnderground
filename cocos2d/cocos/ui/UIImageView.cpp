@@ -38,7 +38,7 @@ IMPLEMENT_CLASS_GUI_INFO(ImageView)
 ImageView::ImageView():
 _scale9Enabled(false),
 _prevIgnoreSize(true),
-_capInsets(Rect::ZERO),
+_capInsets(CCRect::ZERO),
 _imageRenderer(nullptr),
 _textureFile(""),
 _imageTexType(TextureResType::LOCAL),
@@ -144,7 +144,7 @@ void ImageView::loadTexture(const std::string& fileName, TextureResType texType)
     _imageRendererAdaptDirty = true;
 }
 
-void ImageView::setTextureRect(const Rect &rect)
+void ImageView::setTextureRect(const CCRect &rect)
 {
     //This API should be refactor
     if (_scale9Enabled)
@@ -203,7 +203,7 @@ void ImageView::ignoreContentAdaptWithSize(bool ignore)
     }
 }
 
-void ImageView::setCapInsets(const Rect &capInsets)
+void ImageView::setCapInsets(const CCRect &capInsets)
 {
     _capInsets = ui::Helper::restrictCapInsetRect(capInsets, _imageTextureSize);
     if (!_scale9Enabled)
@@ -213,7 +213,7 @@ void ImageView::setCapInsets(const Rect &capInsets)
     _imageRenderer->setCapInsets(_capInsets);
 }
 
-const Rect& ImageView::getCapInsets()const
+const CCRect& ImageView::getCapInsets()const
 {
     return _capInsets;
 }
@@ -233,7 +233,7 @@ void ImageView::adaptRenderers()
     }
 }
 
-Size ImageView::getVirtualRendererSize() const
+CCSize ImageView::getVirtualRendererSize() const
 {
     return _imageTextureSize;
 }
@@ -261,7 +261,7 @@ void ImageView::imageTextureScaleChangedWithSize()
         }
         else
         {
-            Size textureSize = _imageTextureSize;
+            CCSize textureSize = _imageTextureSize;
             if (textureSize.width <= 0.0f || textureSize.height <= 0.0f)
             {
                 _imageRenderer->setScale(1.0f);

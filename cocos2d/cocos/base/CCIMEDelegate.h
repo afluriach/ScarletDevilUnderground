@@ -46,8 +46,8 @@ extern const std::string CC_DLL STD_STRING_EMPTY;
  */
 typedef struct
 {
-    Rect  begin;              // the soft keyboard rectangle when animation begins
-    Rect  end;                // the soft keyboard rectangle when animation ends
+    CCRect  begin;              // the soft keyboard rectangle when animation begins
+    CCRect  end;                // the soft keyboard rectangle when animation ends
     float     duration;           // the soft keyboard animation duration
 } IMEKeyboardNotificationInfo;
 

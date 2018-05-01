@@ -48,7 +48,7 @@ VBox* VBox::create()
     return nullptr;
 }
 
-VBox* VBox::create(const cocos2d::Size &size)
+VBox* VBox::create(const cocos2d::CCSize &size)
 {
     VBox* widget = new (std::nothrow) VBox();
     if (widget && widget->initWithSize(size))
@@ -70,7 +70,7 @@ bool VBox::init()
     return false;
 }
 
-bool VBox::initWithSize(const Size& size)
+bool VBox::initWithSize(const CCSize& size)
 {
     if (init())
     {

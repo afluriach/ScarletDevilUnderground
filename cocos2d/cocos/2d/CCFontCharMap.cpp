@@ -123,7 +123,7 @@ FontAtlas * FontCharMap::createFontAtlas()
     if (!tempAtlas)
         return nullptr;
     
-    Size s = _texture->getContentSize();
+    CCSize s = _texture->getContentSize();
 
     int itemsPerColumn = (int)(s.height / _itemHeight);
     int itemsPerRow = (int)(s.width / _itemWidth);

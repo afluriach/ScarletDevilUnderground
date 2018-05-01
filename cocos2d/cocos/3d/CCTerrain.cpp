@@ -1438,7 +1438,7 @@ Terrain::QuadTree::~QuadTree()
     if(_br) delete _br;
 }
 
-Terrain::TerrainData::TerrainData(const char * heightMapsrc , const char * textureSrc, const Size & chunksize, float height, float scale)
+Terrain::TerrainData::TerrainData(const char * heightMapsrc , const char * textureSrc, const CCSize & chunksize, float height, float scale)
 { 
     this->_heightMapSrc = heightMapsrc;
     this->_detailMaps[0]._detailMapSrc = textureSrc;
@@ -1449,7 +1449,7 @@ Terrain::TerrainData::TerrainData(const char * heightMapsrc , const char * textu
     _skirtHeightRatio = 1;
 }
 
-Terrain::TerrainData::TerrainData(const char * heightMapsrc, const char * alphamap, const DetailMap& detail1, const DetailMap& detail2, const DetailMap& detail3, const DetailMap& detail4, const Size & chunksize, float height, float scale)
+Terrain::TerrainData::TerrainData(const char * heightMapsrc, const char * alphamap, const DetailMap& detail1, const DetailMap& detail2, const DetailMap& detail3, const DetailMap& detail4, const CCSize & chunksize, float height, float scale)
 {
     this->_heightMapSrc = heightMapsrc;
     this->_alphaMapSrc = const_cast<char *>(alphamap);
@@ -1464,7 +1464,7 @@ Terrain::TerrainData::TerrainData(const char * heightMapsrc, const char * alpham
     _skirtHeightRatio = 1;
 }
 
-Terrain::TerrainData::TerrainData(const char* heightMapsrc, const char * alphamap, const DetailMap& detail1, const DetailMap& detail2, const DetailMap& detail3, const Size & chunksize /*= Size(32,32)*/, float height /*= 2*/, float scale /*= 0.1*/)
+Terrain::TerrainData::TerrainData(const char* heightMapsrc, const char * alphamap, const DetailMap& detail1, const DetailMap& detail2, const DetailMap& detail3, const CCSize & chunksize /*= Size(32,32)*/, float height /*= 2*/, float scale /*= 0.1*/)
 {
     this->_heightMapSrc = heightMapsrc;
     this->_alphaMapSrc = const_cast<char *>(alphamap);

@@ -42,8 +42,8 @@ NS_CC_BEGIN
 
 class SpriteFrame;
 class Animation;
-class Rect;
-class Size;
+class CCRect;
+class CCSize;
 class Texture2D;
 struct transformValues_;
 
@@ -107,7 +107,7 @@ public:
      * @param   rect     A subrect of the image file.
      * @return  An autoreleased sprite object.
      */
-    static Sprite* create(const std::string& filename, const Rect& rect);
+    static Sprite* create(const std::string& filename, const CCRect& rect);
 
     /**
      * Creates a sprite with a Texture2D object.
@@ -130,7 +130,7 @@ public:
      * @param   rotated     Whether or not the rect is rotated.
      * @return  An autoreleased sprite object.
      */
-    static Sprite* createWithTexture(Texture2D *texture, const Rect& rect, bool rotated=false);
+    static Sprite* createWithTexture(Texture2D *texture, const CCRect& rect, bool rotated=false);
 
     /**
      * Creates a sprite with an sprite frame.
@@ -228,13 +228,13 @@ public:
      *
      * It will call setTextureRect(const Rect& rect, bool rotated, const Size& untrimmedSize) with \p rotated = false, and \p utrimmedSize = rect.size.
      */
-    virtual void setTextureRect(const Rect& rect);
+    virtual void setTextureRect(const CCRect& rect);
 
     /** @overload
      *
      * It will update the texture coordinates and the vertex rectangle.
      */
-    virtual void setTextureRect(const Rect& rect, bool rotated, const Size& untrimmedSize);
+    virtual void setTextureRect(const CCRect& rect, bool rotated, const CCSize& untrimmedSize);
 
     /**
      * Sets the vertex rect.
@@ -243,7 +243,7 @@ public:
      * Useful if you want to create 2x images from SD images in Retina Display.
      * Do not call it manually. Use setTextureRect instead.
      */
-    virtual void setVertexRect(const Rect& rect);
+    virtual void setVertexRect(const CCRect& rect);
 
     /** @{
      * Sets a new SpriteFrame to the Sprite.
@@ -326,7 +326,7 @@ public:
     /**
      * Returns the rect of the Sprite in points.
      */
-    inline const Rect& getTextureRect() const { return _rect; }
+    inline const CCRect& getTextureRect() const { return _rect; }
 
     /**
      * Gets the weak reference of the TextureAtlas when the sprite is rendered using via SpriteBatchNode.
@@ -490,7 +490,7 @@ CC_CONSTRUCTOR_ACCESS:
      * @param   rect        Only the contents inside rect of this texture will be applied for this sprite.
      * @return  True if the sprite is initialized properly, false otherwise.
      */
-    virtual bool initWithTexture(Texture2D *texture, const Rect& rect);
+    virtual bool initWithTexture(Texture2D *texture, const CCRect& rect);
 
     /**
      * Initializes a sprite with a texture and a rect in points, optionally rotated.
@@ -503,7 +503,7 @@ CC_CONSTRUCTOR_ACCESS:
      * @param   rotated     Whether or not the texture rectangle is rotated.
      * @return  True if the sprite is initialized properly, false otherwise.
      */
-    virtual bool initWithTexture(Texture2D *texture, const Rect& rect, bool rotated);
+    virtual bool initWithTexture(Texture2D *texture, const CCRect& rect, bool rotated);
 
     /**
      * Initializes a sprite with an SpriteFrame. The texture and rect in SpriteFrame will be applied on this sprite.
@@ -549,7 +549,7 @@ CC_CONSTRUCTOR_ACCESS:
      * @return  True if the sprite is initialized properly, false otherwise.
      * @lua     init
      */
-    virtual bool initWithFile(const std::string& filename, const Rect& rect);
+    virtual bool initWithFile(const std::string& filename, const CCRect& rect);
     
     virtual std::string getShaderName() const{
         return GLProgram::SHADER_NAME_POSITION_TEXTURE_COLOR_NO_MVP;
@@ -558,7 +558,7 @@ CC_CONSTRUCTOR_ACCESS:
 protected:
 
     void updateColor() override;
-    virtual void setTextureCoords(Rect rect);
+    virtual void setTextureCoords(CCRect rect);
     virtual void updateBlendFunc();
     virtual void setReorderChildDirtyRecursively();
     virtual void setDirtyRecursively(bool value);
@@ -590,7 +590,7 @@ protected:
     //
     
     // texture
-    Rect _rect;                             /// Retangle of Texture2D
+    CCRect _rect;                             /// Retangle of Texture2D
     bool   _rectRotated;                    /// Whether the texture is rotated
 
     // Offset Position (used by Zwoptex)

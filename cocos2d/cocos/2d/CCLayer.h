@@ -378,7 +378,7 @@ public:
     //
     virtual void draw(Renderer *renderer, const Mat4 &transform, uint32_t flags) override;
 
-    virtual void setContentSize(const Size & var) override;
+    virtual void setContentSize(const CCSize & var) override;
     /** BlendFunction. Conforms to BlendProtocol protocol */
     /**
     * @lua NA

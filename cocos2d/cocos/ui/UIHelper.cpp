@@ -172,7 +172,7 @@ void Helper::doLayout(cocos2d::Node *rootNode)
     }
 }
     
-Rect Helper::restrictCapInsetRect(const cocos2d::Rect &capInsets, const Size& textureSize )
+CCRect Helper::restrictCapInsetRect(const cocos2d::CCRect &capInsets, const CCSize& textureSize )
 {
     float x = capInsets.origin.x;
     float y = capInsets.origin.y;
@@ -189,7 +189,7 @@ Rect Helper::restrictCapInsetRect(const cocos2d::Rect &capInsets, const Size& te
         y = 0.0f;
         height = 0.0f;
     }
-    return Rect(x, y, width, height);
+    return CCRect(x, y, width, height);
 }
 }
 

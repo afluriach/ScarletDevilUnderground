@@ -163,11 +163,11 @@ namespace cocostudio
         nodeReader->setPropsWithFlatBuffers(node, (Table*)(options->nodeOptions()));
     }
     
-    Component* ComAudioReader::createComAudioWithFlatBuffers(const flatbuffers::Table *comAudioOptions)
+    CCComponent* ComAudioReader::createComAudioWithFlatBuffers(const flatbuffers::Table *comAudioOptions)
     {
         auto options = (ComAudioOptions*)comAudioOptions;
         
-        Component* component = ComAudio::create();
+        CCComponent* component = ComAudio::create();
         ComAudio* audio = static_cast<ComAudio*>(component);
         
         auto fileNameData = options->fileNameData();

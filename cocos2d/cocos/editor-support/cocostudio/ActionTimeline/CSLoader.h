@@ -134,8 +134,8 @@ protected:
     cocos2d::Node* loadWidget(const rapidjson::Value& json);
     
     // load component
-    cocos2d::Component* loadComponent(const rapidjson::Value& json);
-    cocos2d::Component* loadComAudio(const rapidjson::Value& json);
+    cocos2d::CCComponent* loadComponent(const rapidjson::Value& json);
+    cocos2d::CCComponent* loadComAudio(const rapidjson::Value& json);
     
     bool isWidget(const std::string& type);
     bool isCustomWidget(const std::string& type);
@@ -148,7 +148,7 @@ protected:
     
     std::unordered_map<std::string, NodeCreateFunc> _funcs;
     
-    typedef std::function<cocos2d::Component*(const rapidjson::Value& json)> ComponentCreateFunc;
+    typedef std::function<cocos2d::CCComponent*(const rapidjson::Value& json)> ComponentCreateFunc;
     typedef std::pair<std::string, ComponentCreateFunc> ComponentPair;
     
     std::unordered_map<std::string, ComponentCreateFunc> _componentFuncs;

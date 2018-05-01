@@ -514,7 +514,7 @@ void CheckBox::adaptRenderers()
     }
 }
 
-Size CheckBox::getVirtualRendererSize() const
+CCSize CheckBox::getVirtualRendererSize() const
 {
     return _backGroundBoxRenderer->getContentSize();
 }
@@ -533,7 +533,7 @@ void CheckBox::backGroundTextureScaleChangedWithSize()
     }
     else
     {
-        Size textureSize = _backGroundBoxRenderer->getContentSize();
+        CCSize textureSize = _backGroundBoxRenderer->getContentSize();
         if (textureSize.width <= 0.0f || textureSize.height <= 0.0f)
         {
             _backGroundBoxRenderer->setScale(1.0f);
@@ -558,7 +558,7 @@ void CheckBox::backGroundSelectedTextureScaleChangedWithSize()
     }
     else
     {
-        Size textureSize = _backGroundSelectedBoxRenderer->getContentSize();
+        CCSize textureSize = _backGroundSelectedBoxRenderer->getContentSize();
         if (textureSize.width <= 0.0f || textureSize.height <= 0.0f)
         {
             _backGroundSelectedBoxRenderer->setScale(1.0f);
@@ -580,7 +580,7 @@ void CheckBox::frontCrossTextureScaleChangedWithSize()
     }
     else
     {
-        Size textureSize = _frontCrossRenderer->getContentSize();
+        CCSize textureSize = _frontCrossRenderer->getContentSize();
         if (textureSize.width <= 0.0f || textureSize.height <= 0.0f)
         {
             _frontCrossRenderer->setScale(1.0f);
@@ -602,7 +602,7 @@ void CheckBox::backGroundDisabledTextureScaleChangedWithSize()
     }
     else
     {
-        Size textureSize = _backGroundBoxDisabledRenderer->getContentSize();
+        CCSize textureSize = _backGroundBoxDisabledRenderer->getContentSize();
         if (textureSize.width <= 0.0f || textureSize.height <= 0.0f)
         {
             _backGroundBoxDisabledRenderer->setScale(1.0f);
@@ -624,7 +624,7 @@ void CheckBox::frontCrossDisabledTextureScaleChangedWithSize()
     }
     else
     {
-        Size textureSize = _frontCrossDisabledRenderer->getContentSize();
+        CCSize textureSize = _frontCrossDisabledRenderer->getContentSize();
         if (textureSize.width <= 0.0f || textureSize.height <= 0.0f)
         {
             _frontCrossDisabledRenderer->setScale(1.0f);

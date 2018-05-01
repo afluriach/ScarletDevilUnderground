@@ -117,8 +117,8 @@ public:
      */
     virtual bool isVisible() const;
 
-    cocos2d::Size getContentSize() const;
-    cocos2d::Rect getBoundingBox() const;
+    cocos2d::CCSize getContentSize() const;
+    cocos2d::CCRect getBoundingBox() const;
 
     cocos2d::Vec2 getAnchorPoint() const;
     cocos2d::Vec2 getAnchorPointInPoints() const;

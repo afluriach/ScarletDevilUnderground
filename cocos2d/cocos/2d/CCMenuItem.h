@@ -65,7 +65,7 @@ public:
     static MenuItem* create(const ccMenuCallback& callback);
 
     /** Returns the outside box. */
-    Rect rect() const;
+    CCRect rect() const;
     /** Activate the item. */
     virtual void activate();
     /** The item was selected (not activated), similar to "mouse-over". */

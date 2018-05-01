@@ -72,8 +72,8 @@ namespace cocostudio
         int colorType = 0;
         GLubyte bgColorOpacity = 255;
         Vec2 colorVector(0.0f, -0.5f);
-        Rect capInsets;
-        Size scale9Size;
+        CCRect capInsets;
+        CCSize scale9Size;
         bool backGroundScale9Enabled = false;
         
         
@@ -426,18 +426,18 @@ namespace cocostudio
         if (backGroundScale9Enabled)
         {
             auto f_capInsets = options->capInsets();
-            Rect capInsets(f_capInsets->x(), f_capInsets->y(), f_capInsets->width(), f_capInsets->height());
+            CCRect capInsets(f_capInsets->x(), f_capInsets->y(), f_capInsets->width(), f_capInsets->height());
             pageView->setBackGroundImageCapInsets(capInsets);
             
             auto f_scale9Size = options->scale9Size();
-            Size scale9Size(f_scale9Size->width(), f_scale9Size->height());
+            CCSize scale9Size(f_scale9Size->width(), f_scale9Size->height());
             pageView->setContentSize(scale9Size);
         }
         else
         {
             if (!pageView->isIgnoreContentAdaptWithSize())
             {
-                Size contentSize(widgetOptions->size()->width(), widgetOptions->size()->height());
+                CCSize contentSize(widgetOptions->size()->width(), widgetOptions->size()->height());
                 pageView->setContentSize(contentSize);
             }
         }

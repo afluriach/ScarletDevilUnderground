@@ -54,7 +54,7 @@ Label* Label::create()
     return ret;
 }
 
-Label* Label::create(const std::string& text, const std::string& font, float fontSize, const Size& dimensions /* = Size::ZERO */, TextHAlignment hAlignment /* = TextHAlignment::LEFT */, TextVAlignment vAlignment /* = TextVAlignment::TOP */)
+Label* Label::create(const std::string& text, const std::string& font, float fontSize, const CCSize& dimensions /* = Size::ZERO */, TextHAlignment hAlignment /* = TextHAlignment::LEFT */, TextVAlignment vAlignment /* = TextVAlignment::TOP */)
 {
     if (FileUtils::getInstance()->isFileExist(font))
     {
@@ -66,7 +66,7 @@ Label* Label::create(const std::string& text, const std::string& font, float fon
     }
 }
 
-Label* Label::createWithSystemFont(const std::string& text, const std::string& font, float fontSize, const Size& dimensions /* = Size::ZERO */, TextHAlignment hAlignment /* = TextHAlignment::LEFT */, TextVAlignment vAlignment /* = TextVAlignment::TOP */)
+Label* Label::createWithSystemFont(const std::string& text, const std::string& font, float fontSize, const CCSize& dimensions /* = Size::ZERO */, TextHAlignment hAlignment /* = TextHAlignment::LEFT */, TextVAlignment vAlignment /* = TextVAlignment::TOP */)
 {
     auto ret = new (std::nothrow) Label(nullptr,hAlignment,vAlignment);
 
@@ -86,7 +86,7 @@ Label* Label::createWithSystemFont(const std::string& text, const std::string& f
     return nullptr;
 }
 
-Label* Label::createWithTTF(const std::string& text, const std::string& fontFile, float fontSize, const Size& dimensions /* = Size::ZERO */, TextHAlignment hAlignment /* = TextHAlignment::LEFT */, TextVAlignment vAlignment /* = TextVAlignment::TOP */)
+Label* Label::createWithTTF(const std::string& text, const std::string& fontFile, float fontSize, const CCSize& dimensions /* = Size::ZERO */, TextHAlignment hAlignment /* = TextHAlignment::LEFT */, TextVAlignment vAlignment /* = TextVAlignment::TOP */)
 {
     auto ret = new (std::nothrow) Label(nullptr,hAlignment,vAlignment);
 
@@ -245,7 +245,7 @@ Label::Label(FontAtlas *atlas /* = nullptr */, TextHAlignment hAlignment /* = Te
 , _lineBreakWithoutSpaces(false)
 , _horizontalKernings(nullptr)
 , _maxLineWidth(0.0f)
-, _labelDimensions(Size::ZERO)
+, _labelDimensions(CCSize::ZERO)
 , _labelWidth(0.0f)
 , _labelHeight(0.0f)
 , _hAlignment(hAlignment)
@@ -587,7 +587,7 @@ void Label::alignText()
 {
     if (_fontAtlas == nullptr || _currentUTF16String.empty())
     {
-        setContentSize(Size::ZERO);
+        setContentSize(CCSize::ZERO);
         return;
     }
 
@@ -616,7 +616,7 @@ void Label::alignText()
         LabelTextFormatter::alignText(this);
 
     int strLen = static_cast<int>(_currentUTF16String.length());
-    Rect uvRect;
+    CCRect uvRect;
     Sprite* letterSprite;
     for(const auto &child : _children) {
         int tag = child->getTag();
@@ -777,7 +777,7 @@ void Label::enableOutline(const Color4B& outlineColor,int outlineSize /* = -1 */
     }
 }
 
-void Label::enableShadow(const Color4B& shadowColor /* = Color4B::BLACK */,const Size &offset /* = Size(2 ,-2)*/, int blurRadius /* = 0 */)
+void Label::enableShadow(const Color4B& shadowColor /* = Color4B::BLACK */,const CCSize &offset /* = Size(2 ,-2)*/, int blurRadius /* = 0 */)
 {
     _shadowEnabled = true;
     _shadowDirty = true;
@@ -1267,7 +1267,7 @@ Sprite * Label::getLetter(int letterIndex)
 
         if (!sp)
         {
-            Rect uvRect;
+            CCRect uvRect;
             uvRect.size.height = letter.def.height;
             uvRect.size.width  = letter.def.width;
             uvRect.origin.x    = letter.def.U;
@@ -1468,7 +1468,7 @@ std::string Label::getDescription() const
     return StringUtils::format("<Label | Tag = %d, Label = '%s'>", _tag, utf8str.c_str());
 }
 
-const Size& Label::getContentSize() const
+const CCSize& Label::getContentSize() const
 {
     if (_systemFontDirty || _contentDirty)
     {
@@ -1477,7 +1477,7 @@ const Size& Label::getContentSize() const
     return _contentSize;
 }
 
-Rect Label::getBoundingBox() const
+CCRect Label::getBoundingBox() const
 {
     const_cast<Label*>(this)->getContentSize();
 

@@ -109,7 +109,7 @@ public:
 
     ValueMap            _properties;
     std::string         _name;
-    Size                _layerSize;
+    CCSize                _layerSize;
     uint32_t            *_tiles;
     bool                _visible;
     unsigned char       _opacity;
@@ -132,13 +132,13 @@ class CC_DLL TMXTilesetInfo : public Ref
 public:
     std::string     _name;
     int             _firstGid;
-    Size            _tileSize;
+    CCSize            _tileSize;
     int             _spacing;
     int             _margin;
     //! filename containing the tiles (should be spritesheet / texture atlas)
     std::string     _sourceImage;
     //! size in pixels of the image
-    Size            _imageSize;
+    CCSize            _imageSize;
 public:
     /**
      * @js ctor
@@ -149,7 +149,7 @@ public:
      * @lua NA
      */
     virtual ~TMXTilesetInfo();
-    Rect getRectForGID(uint32_t gid);
+    CCRect getRectForGID(uint32_t gid);
 };
 
 /** @brief TMXMapInfo contains the information about the map like:
@@ -206,12 +206,12 @@ public:
     inline void setOrientation(int orientation) { _orientation = orientation; };
 
     /// map width & height
-    inline const Size& getMapSize() const { return _mapSize; };
-    inline void setMapSize(const Size& mapSize) { _mapSize = mapSize; };
+    inline const CCSize& getMapSize() const { return _mapSize; };
+    inline void setMapSize(const CCSize& mapSize) { _mapSize = mapSize; };
 
     /// tiles width & height
-    inline const Size& getTileSize() const { return _tileSize; };
-    inline void setTileSize(const Size& tileSize) { _tileSize = tileSize; };
+    inline const CCSize& getTileSize() const { return _tileSize; };
+    inline void setTileSize(const CCSize& tileSize) { _tileSize = tileSize; };
     
     /// Layers
     inline const Vector<TMXLayerInfo*>& getLayers() const { return _layers; };
@@ -286,9 +286,9 @@ protected:
     /// map orientation
     int    _orientation;
     /// map width & height
-    Size _mapSize;
+    CCSize _mapSize;
     /// tiles width & height
-    Size _tileSize;
+    CCSize _tileSize;
     /// Layers
     Vector<TMXLayerInfo*> _layers;
     /// tilesets

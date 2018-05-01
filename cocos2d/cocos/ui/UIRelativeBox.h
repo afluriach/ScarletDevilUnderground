@@ -71,12 +71,12 @@ public:
      * @param size Size in `Size`.
      * @return A RelativeBox instance.
      */
-    static RelativeBox* create(const Size& size);
+    static RelativeBox* create(const CCSize& size);
     
 CC_CONSTRUCTOR_ACCESS:
     //initializes state of widget.
     virtual bool init() override;
-    virtual bool initWithSize(const Size& size);
+    virtual bool initWithSize(const CCSize& size);
 };
     
 }

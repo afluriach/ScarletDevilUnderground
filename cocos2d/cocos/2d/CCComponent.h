@@ -41,19 +41,19 @@ enum {
     kComponentOnUpdate
 };
 
-class CC_DLL Component : public Ref
+class CC_DLL CCComponent : public Ref
 {
 CC_CONSTRUCTOR_ACCESS:
     /**
      * @js ctor
      */
-    Component(void);
+    CCComponent(void);
 public:
     /**
      * @js NA
      * @lua NA
      */
-    virtual ~Component(void);
+    virtual ~CCComponent(void);
     virtual bool init();
 
     virtual void onEnter();
@@ -62,7 +62,7 @@ public:
     virtual bool serialize(void* r);
     virtual bool isEnabled() const;
     virtual void setEnabled(bool b);
-    static Component* create(void);
+    static CCComponent* create(void);
     
     const std::string& getName() const;
     void setName(const std::string& name);

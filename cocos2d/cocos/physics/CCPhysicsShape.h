@@ -518,14 +518,14 @@ public:
      * @param   offset A Vec2 object, it is the offset from the body’s center of gravity in body local coordinates.
      * @return  An autoreleased PhysicsShapeBox object pointer.
      */
-    static PhysicsShapeBox* create(const Size& size, const PhysicsMaterial& material = PHYSICSSHAPE_MATERIAL_DEFAULT, const Vec2& offset = Vec2::ZERO);
+    static PhysicsShapeBox* create(const CCSize& size, const PhysicsMaterial& material = PHYSICSSHAPE_MATERIAL_DEFAULT, const Vec2& offset = Vec2::ZERO);
     
     /**
      * Get this box's width and height.
      *
      * @return An Size object.
      */
-    Size getSize() const;
+    CCSize getSize() const;
     
     /**
      * Get this box's position offset.
@@ -535,7 +535,7 @@ public:
     virtual Vec2 getOffset() override { return getCenter(); }
     
 protected:
-    bool init(const Size& size, const PhysicsMaterial& material = PHYSICSSHAPE_MATERIAL_DEFAULT, const Vec2& offset = Vec2::ZERO);
+    bool init(const CCSize& size, const PhysicsMaterial& material = PHYSICSSHAPE_MATERIAL_DEFAULT, const Vec2& offset = Vec2::ZERO);
     
 protected:
     PhysicsShapeBox();
@@ -649,7 +649,7 @@ public:
      * @param   offset A Vec2 object, it is the offset from the body’s center of gravity in body local coordinates.
      * @return  An autoreleased PhysicsShapeEdgeBox object pointer.
      */
-    static PhysicsShapeEdgeBox* create(const Size& size, const PhysicsMaterial& material = PHYSICSSHAPE_MATERIAL_DEFAULT, float border = 0, const Vec2& offset = Vec2::ZERO);
+    static PhysicsShapeEdgeBox* create(const CCSize& size, const PhysicsMaterial& material = PHYSICSSHAPE_MATERIAL_DEFAULT, float border = 0, const Vec2& offset = Vec2::ZERO);
     
     /**
      * Get this box's position offset.
@@ -659,7 +659,7 @@ public:
     virtual Vec2 getOffset() override { return getCenter(); }
     
 protected:
-    bool init(const Size& size, const PhysicsMaterial& material = PHYSICSSHAPE_MATERIAL_DEFAULT, float border = 1, const Vec2& offset = Vec2::ZERO);
+    bool init(const CCSize& size, const PhysicsMaterial& material = PHYSICSSHAPE_MATERIAL_DEFAULT, float border = 1, const Vec2& offset = Vec2::ZERO);
     
 protected:
     PhysicsShapeEdgeBox();

@@ -86,7 +86,7 @@ public:
      * Updates the texture rect of the ImageView in points.
      * It will call setTextureRect:rotated:untrimmedSize with rotated = NO, and utrimmedSize = rect.size.
      */
-    void setTextureRect(const Rect& rect);
+    void setTextureRect(const CCRect& rect);
 
     /**
      * Enable scale9 renderer.
@@ -107,19 +107,19 @@ public:
      *
      * @param capInsets    capinsets for imageview
      */
-    void setCapInsets(const Rect &capInsets);
+    void setCapInsets(const CCRect &capInsets);
 
     /**
      * Get ImageView's capInsets size.
      * @return Query capInsets size in Rect
      * @see `setCapInsets(const Rect&)`
      */
-    const Rect& getCapInsets()const;
+    const CCRect& getCapInsets()const;
 
     //override methods.
     virtual void ignoreContentAdaptWithSize(bool ignore) override;
     virtual std::string getDescription() const override;
-    virtual Size getVirtualRendererSize() const override;
+    virtual CCSize getVirtualRendererSize() const override;
     virtual Node* getVirtualRenderer() override;
     
 CC_CONSTRUCTOR_ACCESS:
@@ -139,11 +139,11 @@ protected:
 protected:
     bool _scale9Enabled;
     bool _prevIgnoreSize;
-    Rect _capInsets;
+    CCRect _capInsets;
     Scale9Sprite* _imageRenderer;
     std::string _textureFile;
     TextureResType _imageTexType;
-    Size _imageTextureSize;
+    CCSize _imageTextureSize;
     bool _imageRendererAdaptDirty;
 };
 

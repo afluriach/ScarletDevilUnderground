@@ -52,7 +52,7 @@ public:
     @param amplitude Specify the amplitude of the Waves3D action.
     @return If the creation sucess, return a pointer of Waves3D action; otherwise, return nil.
     */
-    static Waves3D* create(float duration, const Size& gridSize, unsigned int waves, float amplitude);
+    static Waves3D* create(float duration, const CCSize& gridSize, unsigned int waves, float amplitude);
 
     /**
     @brief Get the amplitude of the effect.
@@ -92,7 +92,7 @@ CC_CONSTRUCTOR_ACCESS:
     @param amplitude Specify the amplitude of the Waves3D action.
     @return If the initialization success, return true; otherwise, return false.
     */
-    bool initWithDuration(float duration, const Size& gridSize, unsigned int waves, float amplitude);
+    bool initWithDuration(float duration, const CCSize& gridSize, unsigned int waves, float amplitude);
 
 protected:
     unsigned int _waves;
@@ -138,7 +138,7 @@ CC_CONSTRUCTOR_ACCESS:
     @param duration Specify the duration of the FlipX3D action. It's a value in seconds.
     @return If the initialization success, return true; otherwise, return false.
     */
-    virtual bool initWithSize(const Size& gridSize, float duration);
+    virtual bool initWithSize(const CCSize& gridSize, float duration);
 
 private:
     CC_DISALLOW_COPY_AND_ASSIGN(FlipX3D);
@@ -187,7 +187,7 @@ public:
     @param radius Specify the radius of the lens.
     @return If the creation sucess, return a pointer of Lens3D action; otherwise, return nil.
     */
-    static Lens3D* create(float duration, const Size& gridSize, const Vec2& position, float radius);
+    static Lens3D* create(float duration, const CCSize& gridSize, const Vec2& position, float radius);
 
     /**
     @brief Get the value of lens effect. Default value is 0.7.
@@ -235,7 +235,7 @@ CC_CONSTRUCTOR_ACCESS:
     @param radius Specify the radius of the lens effect.
     @return If the initialization success, return true; otherwise, return false.
     */
-    bool initWithDuration(float duration, const Size& gridSize, const Vec2& position, float radius);
+    bool initWithDuration(float duration, const CCSize& gridSize, const Vec2& position, float radius);
 
 protected:
     /* lens center position */
@@ -272,7 +272,7 @@ public:
     @param amplitude Specify the amplitude of the ripple effect.
     @return If the creation sucess, return a pointer of Ripple3D action; otherwise, return nil.
     */
-    static Ripple3D* create(float duration, const Size& gridSize, const Vec2& position, float radius, unsigned int waves, float amplitude);
+    static Ripple3D* create(float duration, const CCSize& gridSize, const Vec2& position, float radius, unsigned int waves, float amplitude);
 
     /**
     @brief Get the center position of ripple effect.
@@ -325,7 +325,7 @@ CC_CONSTRUCTOR_ACCESS:
     @param amplitude Specify the amplitude of the ripple effect.
     @return If the initialization success, return true; otherwise, return false.
      */
-    bool initWithDuration(float duration, const Size& gridSize, const Vec2& position, float radius, unsigned int waves, float amplitude);
+    bool initWithDuration(float duration, const CCSize& gridSize, const Vec2& position, float radius, unsigned int waves, float amplitude);
 
 protected:
     /* center position */
@@ -356,7 +356,7 @@ public:
     @param shakeZ Specify whether shake on the z axis.
     @return If the creation sucess, return a pointer of Shaky3D action; otherwise, return nil.
     */
-    static Shaky3D* create(float initWithDuration, const Size& gridSize, int range, bool shakeZ);
+    static Shaky3D* create(float initWithDuration, const CCSize& gridSize, int range, bool shakeZ);
 
     // Overrides
 	virtual Shaky3D* clone() const override;
@@ -374,7 +374,7 @@ CC_CONSTRUCTOR_ACCESS:
     @param shakeZ Specify whether shake on the z axis.
     @return If the Initialization sucess, return true; otherwise, return false.
     */
-    bool initWithDuration(float duration, const Size& gridSize, int range, bool shakeZ);
+    bool initWithDuration(float duration, const CCSize& gridSize, int range, bool shakeZ);
 
 protected:
     int _randrange;
@@ -401,7 +401,7 @@ public:
     @param amplitude Specify the amplitude of the Liquid action.
     @return If the creation sucess, return a pointer of Liquid action; otherwise, return nil.
     */
-    static Liquid* create(float duration, const Size& gridSize, unsigned int waves, float amplitude);
+    static Liquid* create(float duration, const CCSize& gridSize, unsigned int waves, float amplitude);
 
     /**
     @brief Get the amplitude of the effect.
@@ -441,7 +441,7 @@ CC_CONSTRUCTOR_ACCESS:
     @param amplitude Specify the amplitude of the Liquid action.
     @return If the initialization sucess, return true; otherwise, return false.
     */
-    bool initWithDuration(float duration, const Size& gridSize, unsigned int waves, float amplitude);
+    bool initWithDuration(float duration, const CCSize& gridSize, unsigned int waves, float amplitude);
 
 protected:
     unsigned int _waves;
@@ -472,7 +472,7 @@ public:
     @param vertical Specify whether waves on vertical.
     @return If the creation sucess, return a pointer of Waves action; otherwise, return nil.
     */
-    static Waves* create(float duration, const Size& gridSize, unsigned int waves, float amplitude, bool horizontal, bool vertical);
+    static Waves* create(float duration, const CCSize& gridSize, unsigned int waves, float amplitude, bool horizontal, bool vertical);
 
     /**
     @brief Get the amplitude of the effect.
@@ -514,7 +514,7 @@ CC_CONSTRUCTOR_ACCESS:
     @param vertical Specify whether waves on vertical.
     @return If the initialization sucess, return true; otherwise, return false.
     */
-    bool initWithDuration(float duration, const Size& gridSize, unsigned int waves, float amplitude, bool horizontal, bool vertical);
+    bool initWithDuration(float duration, const CCSize& gridSize, unsigned int waves, float amplitude, bool horizontal, bool vertical);
 
 protected:
     unsigned int _waves;
@@ -545,7 +545,7 @@ public:
     @param amplitude Specify the amplitude of the Twirl action.
     @return If the creation sucess, return a pointer of Twirl action; otherwise, return nil.
     */
-    static Twirl* create(float duration, const Size& gridSize, Vec2 position, unsigned int twirls, float amplitude);
+    static Twirl* create(float duration, const CCSize& gridSize, Vec2 position, unsigned int twirls, float amplitude);
 
     /**
     @brief Get the center position of twirl action.
@@ -598,7 +598,7 @@ CC_CONSTRUCTOR_ACCESS:
     @param amplitude Specify the amplitude of the Twirl action.
     @return If the initialization sucess, return true; otherwise, return false.
     */
-    bool initWithDuration(float duration, const Size& gridSize, Vec2 position, unsigned int twirls, float amplitude);
+    bool initWithDuration(float duration, const CCSize& gridSize, Vec2 position, unsigned int twirls, float amplitude);
 
 protected:
     /* twirl center */

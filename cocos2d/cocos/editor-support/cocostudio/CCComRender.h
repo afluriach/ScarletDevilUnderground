@@ -31,7 +31,7 @@ THE SOFTWARE.
 
 namespace cocostudio {
 
-class CC_STUDIO_DLL ComRender : public cocos2d::Component
+class CC_STUDIO_DLL ComRender : public cocos2d::CCComponent
 {
     DECLARE_CLASS_COMPONENT_INFO
 CC_CONSTRUCTOR_ACCESS:

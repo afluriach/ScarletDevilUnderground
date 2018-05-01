@@ -11,7 +11,7 @@
 #include "Graphics.h"
 
 //Qualify Size for ambiguity.
-cocos2d::Size getScreenSize()
+cocos2d::CCSize getScreenSize()
 {
     return Director::getInstance()->getVisibleSize();
 }

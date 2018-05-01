@@ -73,7 +73,7 @@ public:
      * @param   rect     A subrect of the image file
      * @return  An autoreleased BillBoard object
      */
-    static BillBoard* create(const std::string& filename, const Rect& rect, Mode mode = Mode::VIEW_POINT_ORIENTED);
+    static BillBoard* create(const std::string& filename, const CCRect& rect, Mode mode = Mode::VIEW_POINT_ORIENTED);
 
      /**
      * Creates a BillBoard with a Texture2D object.

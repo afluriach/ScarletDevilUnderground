@@ -68,12 +68,12 @@ public:
      *@param size The content size of the layout.
      *@return A VBox instance pointer.
      */
-    static VBox* create(const Size& size);
+    static VBox* create(const CCSize& size);
     
 CC_CONSTRUCTOR_ACCESS:
     //initializes state of widget.
     virtual bool init() override;
-    virtual bool initWithSize(const Size& size);
+    virtual bool initWithSize(const CCSize& size);
 };
     
 }

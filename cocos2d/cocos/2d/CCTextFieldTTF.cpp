@@ -70,7 +70,7 @@ TextFieldTTF::~TextFieldTTF()
 // static constructor
 //////////////////////////////////////////////////////////////////////////
 
-TextFieldTTF * TextFieldTTF::textFieldWithPlaceHolder(const std::string& placeholder, const Size& dimensions, TextHAlignment alignment, const std::string& fontName, float fontSize)
+TextFieldTTF * TextFieldTTF::textFieldWithPlaceHolder(const std::string& placeholder, const CCSize& dimensions, TextHAlignment alignment, const std::string& fontName, float fontSize)
 {
     TextFieldTTF *ret = new (std::nothrow) TextFieldTTF();
     if(ret && ret->initWithPlaceHolder("", dimensions, alignment, fontName, fontSize))
@@ -106,7 +106,7 @@ TextFieldTTF * TextFieldTTF::textFieldWithPlaceHolder(const std::string& placeho
 // initialize
 //////////////////////////////////////////////////////////////////////////
 
-bool TextFieldTTF::initWithPlaceHolder(const std::string& placeholder, const Size& dimensions, TextHAlignment alignment, const std::string& fontName, float fontSize)
+bool TextFieldTTF::initWithPlaceHolder(const std::string& placeholder, const CCSize& dimensions, TextHAlignment alignment, const std::string& fontName, float fontSize)
 {
     _placeHolder = placeholder;
     setDimensions(dimensions.width,dimensions.height);

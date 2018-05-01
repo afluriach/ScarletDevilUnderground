@@ -88,9 +88,9 @@ namespace cocostudio
                     label->setFontName(value);
                 }
             }else if(key == P_AreaWidth){
-                label->setTextAreaSize(Size(valueToFloat(value), label->getTextAreaSize().height));
+                label->setTextAreaSize(CCSize(valueToFloat(value), label->getTextAreaSize().height));
             }else if(key == P_AreaHeight){
-                label->setTextAreaSize(Size(label->getTextAreaSize().width, valueToFloat(value)));
+                label->setTextAreaSize(CCSize(label->getTextAreaSize().width, valueToFloat(value)));
             }else if(key == P_HAlignment){
                 label->setTextHorizontalAlignment((TextHAlignment)valueToInt(value));
             }else if(key == P_VAlignment){
@@ -131,7 +131,7 @@ namespace cocostudio
         bool ah = DICTOOL->checkObjectExist_json(options, P_AreaHeight);
         if (aw && ah)
         {
-            Size size = Size(DICTOOL->getFloatValue_json(options, P_AreaWidth),DICTOOL->getFloatValue_json(options,P_AreaHeight));
+            CCSize size = CCSize(DICTOOL->getFloatValue_json(options, P_AreaWidth),DICTOOL->getFloatValue_json(options,P_AreaHeight));
             label->setTextAreaSize(size);
         }
         bool ha = DICTOOL->checkObjectExist_json(options, P_HAlignment);
@@ -169,7 +169,7 @@ namespace cocostudio
         int outlineSize = 1;
         bool shadowEnabled = false;
         Color4B shadowColor = Color4B::BLACK;
-        Size shadowOffset = Size(2, -2);
+        CCSize shadowOffset = CCSize(2, -2);
         int shadowBlurRadius = 0;
         
         std::string path = "";
@@ -409,8 +409,8 @@ namespace cocostudio
         std::string fontName = options->fontName()->c_str();
         label->setFontName(fontName);
         
-        Size areaSize = Size(options->areaWidth(), options->areaHeight());
-        if (!areaSize.equals(Size::ZERO))
+        CCSize areaSize = CCSize(options->areaWidth(), options->areaHeight());
+        if (!areaSize.equals(CCSize::ZERO))
         {
             label->setTextAreaSize(areaSize);
         }
@@ -466,7 +466,7 @@ namespace cocostudio
             if (f_shadowColor)
             {
                 Color4B shadowColor(f_shadowColor->r(), f_shadowColor->g(), f_shadowColor->b(), f_shadowColor->a());
-                label->enableShadow(shadowColor, Size(options->shadowOffsetX(), options->shadowOffsetY()), options->shadowBlurRadius());
+                label->enableShadow(shadowColor, CCSize(options->shadowOffsetX(), options->shadowOffsetY()), options->shadowBlurRadius());
             }
         }
 
@@ -491,7 +491,7 @@ namespace cocostudio
         auto widgetOptions = options->widgetOptions();
         if (!label->isIgnoreContentAdaptWithSize())
         {
-            Size contentSize(widgetOptions->size()->width(), widgetOptions->size()->height());
+            CCSize contentSize(widgetOptions->size()->width(), widgetOptions->size()->height());
             label->setContentSize(contentSize);
         }
         

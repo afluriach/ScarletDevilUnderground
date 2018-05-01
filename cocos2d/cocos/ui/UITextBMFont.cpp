@@ -134,7 +134,7 @@ void TextBMFont::adaptRenderers()
     }
 }
 
-Size TextBMFont::getVirtualRendererSize() const
+CCSize TextBMFont::getVirtualRendererSize() const
 {
     return _labelBMFontRenderer->getContentSize();
 }
@@ -152,7 +152,7 @@ void TextBMFont::labelBMFontScaleChangedWithSize()
     }
     else
     {
-        Size textureSize = _labelBMFontRenderer->getContentSize();
+        CCSize textureSize = _labelBMFontRenderer->getContentSize();
         if (textureSize.width <= 0.0f || textureSize.height <= 0.0f)
         {
             _labelBMFontRenderer->setScale(1.0f);

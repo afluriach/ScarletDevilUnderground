@@ -162,8 +162,8 @@ namespace cocostudio
         this->endSetBasicProperties(widget);
 
         if (button->isScale9Enabled()) {
-            button->setCapInsets(Rect(capsx, capsy, capsWidth, capsHeight));
-            button->setContentSize(Size(scale9Width, scale9Height));
+            button->setCapInsets(CCRect(capsx, capsy, capsWidth, capsHeight));
+            button->setContentSize(CCSize(scale9Width, scale9Height));
         }
         
         button->setTitleColor(Color3B(cri, cgi, cbi));
@@ -207,14 +207,14 @@ namespace cocostudio
             float cw = DICTOOL->getFloatValue_json(options, P_CapInsetsWidth);
             float ch = DICTOOL->getFloatValue_json(options, P_CapInsetsHeight);
             
-            button->setCapInsets(Rect(cx, cy, cw, ch));
+            button->setCapInsets(CCRect(cx, cy, cw, ch));
             bool sw = DICTOOL->checkObjectExist_json(options, P_Scale9Width);
             bool sh = DICTOOL->checkObjectExist_json(options, P_Scale9Height);
             if (sw && sh)
             {
                 float swf = DICTOOL->getFloatValue_json(options, P_Scale9Width);
                 float shf = DICTOOL->getFloatValue_json(options, P_Scale9Height);
-                button->setContentSize(Size(swf, shf));
+                button->setContentSize(CCSize(swf, shf));
             }
         }
         bool tt = DICTOOL->checkObjectExist_json(options, P_Text);
@@ -251,11 +251,11 @@ namespace cocostudio
         
         bool displaystate = true;
         bool scale9Enabled = false;
-        Rect capInsets;
+        CCRect capInsets;
         std::string text = "";
         int fontSize = 14;
         std::string fontName = "";
-        cocos2d::Size scale9Size;
+        cocos2d::CCSize scale9Size;
         Color4B textColor(255, 255, 255, 255);
         
         std::string normalPath = "";
@@ -279,7 +279,7 @@ namespace cocostudio
         int outlineSize = 1;
         bool shadowEnabled = false;
         Color4B shadowColor = Color4B::BLACK;
-        Size shadowOffset = Size(2, -2);
+        CCSize shadowOffset = CCSize(2, -2);
         int shadowBlurRadius = 0;
         
         // attributes
@@ -905,7 +905,7 @@ namespace cocostudio
             {
                 Color4B shadowColor(f_shadowColor->r(), f_shadowColor->g(), f_shadowColor->b(), f_shadowColor->a());
                 auto label = button->getTitleRenderer();
-                label->enableShadow(shadowColor, Size(options->shadowOffsetX(), options->shadowOffsetY()), options->shadowBlurRadius());
+                label->enableShadow(shadowColor, CCSize(options->shadowOffsetX(), options->shadowOffsetY()), options->shadowBlurRadius());
             }
         }
         
@@ -918,15 +918,15 @@ namespace cocostudio
             button->ignoreContentAdaptWithSize(false);
             
             auto f_capInsets = options->capInsets();
-            Rect capInsets(f_capInsets->x(), f_capInsets->y(), f_capInsets->width(), f_capInsets->height());
+            CCRect capInsets(f_capInsets->x(), f_capInsets->y(), f_capInsets->width(), f_capInsets->height());
             button->setCapInsets(capInsets);
             
-            Size scale9Size(options->scale9Size()->width(), options->scale9Size()->height());
+            CCSize scale9Size(options->scale9Size()->width(), options->scale9Size()->height());
             button->setContentSize(scale9Size);
         }
         else
         {
-            Size contentSize(options->widgetOptions()->size()->width(), options->widgetOptions()->size()->height());
+            CCSize contentSize(options->widgetOptions()->size()->width(), options->widgetOptions()->size()->height());
             button->setContentSize(contentSize);
         }
     }

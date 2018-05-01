@@ -40,8 +40,8 @@ IMPLEMENT_CLASS_GUI_INFO(Slider)
 Slider::Slider():
 _barRenderer(nullptr),
 _progressBarRenderer(nullptr),
-_barTextureSize(Size::ZERO),
-_progressBarTextureSize(Size::ZERO),
+_barTextureSize(CCSize::ZERO),
+_progressBarTextureSize(CCSize::ZERO),
 _slidBallNormalRenderer(nullptr),
 _slidBallPressedRenderer(nullptr),
 _slidBallDisabledRenderer(nullptr),
@@ -58,8 +58,8 @@ _progressBarTextureFile(""),
 _slidBallNormalTextureFile(""),
 _slidBallPressedTextureFile(""),
 _slidBallDisabledTextureFile(""),
-_capInsetsBarRenderer(Rect::ZERO),
-_capInsetsProgressBarRenderer(Rect::ZERO),
+_capInsetsBarRenderer(CCRect::ZERO),
+_capInsetsProgressBarRenderer(CCRect::ZERO),
 _sliderEventListener(nullptr),
 _sliderEventSelector(nullptr),
 _eventCallback(nullptr),
@@ -238,13 +238,13 @@ void Slider::ignoreContentAdaptWithSize(bool ignore)
     }
 }
 
-void Slider::setCapInsets(const Rect &capInsets)
+void Slider::setCapInsets(const CCRect &capInsets)
 {
     setCapInsetsBarRenderer(capInsets);
     setCapInsetProgressBarRebderer(capInsets);
 }
 
-void Slider::setCapInsetsBarRenderer(const Rect &capInsets)
+void Slider::setCapInsetsBarRenderer(const CCRect &capInsets)
 {
     _capInsetsBarRenderer = ui::Helper::restrictCapInsetRect(capInsets, _barRenderer->getContentSize());
     if (!_scale9Enabled)
@@ -254,12 +254,12 @@ void Slider::setCapInsetsBarRenderer(const Rect &capInsets)
     _barRenderer->setCapInsets(_capInsetsBarRenderer);
 }
     
-const Rect& Slider::getCapInsetsBarRenderer()const
+const CCRect& Slider::getCapInsetsBarRenderer()const
 {
     return _capInsetsBarRenderer;
 }
 
-void Slider::setCapInsetProgressBarRebderer(const Rect &capInsets)
+void Slider::setCapInsetProgressBarRebderer(const CCRect &capInsets)
 {
     _capInsetsProgressBarRenderer = ui::Helper::restrictCapInsetRect(capInsets, _progressBarRenderer->getContentSize());
     
@@ -270,7 +270,7 @@ void Slider::setCapInsetProgressBarRebderer(const Rect &capInsets)
     _progressBarRenderer->setCapInsets(_capInsetsProgressBarRenderer);
 }
     
-const Rect& Slider::getCapInsetsProgressBarRebderer()const
+const CCRect& Slider::getCapInsetsProgressBarRebderer()const
 {
     return _capInsetsProgressBarRenderer;
 }
@@ -367,14 +367,14 @@ void Slider::setPercent(int percent)
     _slidBallRenderer->setPosition(dis, _contentSize.height / 2.0f);
     if (_scale9Enabled)
     {
-        _progressBarRenderer->setPreferredSize(Size(dis,_contentSize.height));
+        _progressBarRenderer->setPreferredSize(CCSize(dis,_contentSize.height));
     }
     else
     {
         Sprite* spriteRenderer = _progressBarRenderer->getSprite();
         
         if (nullptr != spriteRenderer) {
-            Rect rect = spriteRenderer->getTextureRect();
+            CCRect rect = spriteRenderer->getTextureRect();
             rect.size.width = _progressBarTextureSize.width * res;
             spriteRenderer->setTextureRect(rect, spriteRenderer->isTextureRectRotated(), rect.size);
         }
@@ -384,8 +384,8 @@ void Slider::setPercent(int percent)
 bool Slider::hitTest(const cocos2d::Vec2 &pt)
 {
     Vec2 nsp = this->_slidBallNormalRenderer->convertToNodeSpace(pt);
-    Size ballSize = this->_slidBallNormalRenderer->getContentSize();
-    Rect ballRect = Rect(0,0, ballSize.width, ballSize.height);
+    CCSize ballSize = this->_slidBallNormalRenderer->getContentSize();
+    CCRect ballRect = CCRect(0,0, ballSize.width, ballSize.height);
     if (ballRect.containsPoint(nsp))
     {
         return true;
@@ -483,7 +483,7 @@ void Slider::adaptRenderers()
     }
 }
 
-Size Slider::getVirtualRendererSize() const
+CCSize Slider::getVirtualRendererSize() const
 {
     return _barRenderer->getContentSize();
 }
@@ -516,7 +516,7 @@ void Slider::barRendererScaleChangedWithSize()
         }
         else
         {
-            Size btextureSize = _barTextureSize;
+            CCSize btextureSize = _barTextureSize;
             if (btextureSize.width <= 0.0f || btextureSize.height <= 0.0f)
             {
                 _barRenderer->setScale(1.0f);
@@ -542,7 +542,7 @@ void Slider::progressBarRendererScaleChangedWithSize()
     {
         if (!_scale9Enabled)
         {
-            Size ptextureSize = _progressBarTextureSize;
+            CCSize ptextureSize = _progressBarTextureSize;
             float pscaleX = _contentSize.width / ptextureSize.width;
             float pscaleY = _contentSize.height / ptextureSize.height;
             _progressBarRenderer->setScaleX(pscaleX);
@@ -558,7 +558,7 @@ void Slider::progressBarRendererScaleChangedWithSize()
         }
         else
         {
-            Size ptextureSize = _progressBarTextureSize;
+            CCSize ptextureSize = _progressBarTextureSize;
             if (ptextureSize.width <= 0.0f || ptextureSize.height <= 0.0f)
             {
                 _progressBarRenderer->setScale(1.0f);

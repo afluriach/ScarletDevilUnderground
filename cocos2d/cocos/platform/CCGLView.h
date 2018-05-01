@@ -162,7 +162,7 @@ public:
      *
      * @return The frame size of EGL view.
      */
-    virtual const Size& getFrameSize() const;
+    virtual const CCSize& getFrameSize() const;
 
     /**
      * Set the frame size of EGL view.
@@ -225,7 +225,7 @@ public:
      *
      * @return The visible area size of opengl viewport.
      */
-    virtual Size getVisibleSize() const;
+    virtual CCSize getVisibleSize() const;
 
     /**
      * Get the visible origin point of opengl viewport.
@@ -239,7 +239,7 @@ public:
      *
      * @return The visible rectangle of opengl viewport.
      */
-    virtual Rect getVisibleRect() const;
+    virtual CCRect getVisibleRect() const;
 
     /**
      * Set the design resolution size.
@@ -257,7 +257,7 @@ public:
      *
      * @return The design resolution size.
      */
-    virtual const Size&  getDesignResolutionSize() const;
+    virtual const CCSize&  getDesignResolutionSize() const;
 
     /**
      * Set opengl view port rectangle with points.
@@ -291,7 +291,7 @@ public:
      *
      * @return The current scissor rectangle.
      */
-    virtual Rect getScissorRect() const;
+    virtual CCRect getScissorRect() const;
 
     /** Set the view name. 
      *
@@ -346,7 +346,7 @@ public:
      *
      * @return Return the opengl view port rectangle.
      */
-    const Rect& getViewPortRect() const;
+    const CCRect& getViewPortRect() const;
     
     /**
      * Get list of all active touches.
@@ -389,11 +389,11 @@ protected:
     void handleTouchesOfEndOrCancel(EventTouch::EventCode eventCode, int num, intptr_t ids[], float xs[], float ys[]);
 
     // real screen size
-    Size _screenSize;
+    CCSize _screenSize;
     // resolution size, it is the size appropriate for the app resources.
-    Size _designResolutionSize;
+    CCSize _designResolutionSize;
     // the view port size
-    Rect _viewPortRect;
+    CCRect _viewPortRect;
     // the view name
     std::string _viewName;
 

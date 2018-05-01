@@ -196,7 +196,7 @@ bool LabelTextFormatter::alignText(Label *theLabel)
 
     if (theLabel->_labelWidth > theLabel->_contentSize.width)
     {
-        theLabel->setContentSize(Size(theLabel->_labelWidth,theLabel->_contentSize.height));
+        theLabel->setContentSize(CCSize(theLabel->_labelWidth,theLabel->_contentSize.height));
     }
 
     for (int ctr = 0; ctr <= strLen; ++ctr)
@@ -398,7 +398,7 @@ bool LabelTextFormatter::createStringSprites(Label *theLabel)
     }
     
     float lastCharWidth = tempDefinition.width * contentScaleFactor;
-    Size tmpSize;
+    CCSize tmpSize;
     // If the last character processed has an xAdvance which is less that the width of the characters image, then we need
     // to adjust the width of the string to take this into account, or the character will overlap the end of the bounding
     // box

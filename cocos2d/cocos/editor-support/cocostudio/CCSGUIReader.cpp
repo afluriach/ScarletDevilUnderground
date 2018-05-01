@@ -136,7 +136,7 @@ int GUIReader::getVersionInteger(const char *str)
     /************************/
 }
 
-void GUIReader::storeFileDesignSize(const char *fileName, const cocos2d::Size &size)
+void GUIReader::storeFileDesignSize(const char *fileName, const cocos2d::CCSize &size)
 {
     std::string keyWidth = fileName;
     keyWidth.append("width");
@@ -146,7 +146,7 @@ void GUIReader::storeFileDesignSize(const char *fileName, const cocos2d::Size &s
     _fileDesignSizes[keyHeight] = cocos2d::Value(size.height);
 }
 
-const cocos2d::Size GUIReader::getFileDesignSize(const char* fileName) const
+const cocos2d::CCSize GUIReader::getFileDesignSize(const char* fileName) const
 {
     std::string keyWidth = fileName;
     keyWidth.append("width");
@@ -154,7 +154,7 @@ const cocos2d::Size GUIReader::getFileDesignSize(const char* fileName) const
     keyHeight.append("height");
     float w = _fileDesignSizes.at(keyWidth).asFloat();
     float h = _fileDesignSizes.at(keyHeight).asFloat();
-    return Size(w, h);
+    return CCSize(w, h);
 }
     
 void GUIReader::registerTypeAndCallBack(const std::string& classType,
@@ -499,21 +499,21 @@ Widget* WidgetPropertiesReader0250::createWidget(const rapidjson::Value& data, c
     float fileDesignHeight = DICTOOL->getFloatValue_json(data, "designHeight");
     if (fileDesignWidth <= 0 || fileDesignHeight <= 0) {
         CCLOGERROR("Read design size error!\n");
-        Size winSize = Director::getInstance()->getWinSize();
+        CCSize winSize = Director::getInstance()->getWinSize();
         GUIReader::getInstance()->storeFileDesignSize(fileName, winSize);
     }
     else
     {
-        GUIReader::getInstance()->storeFileDesignSize(fileName, Size(fileDesignWidth, fileDesignHeight));
+        GUIReader::getInstance()->storeFileDesignSize(fileName, CCSize(fileDesignWidth, fileDesignHeight));
     }
     const rapidjson::Value& widgetTree = DICTOOL->getSubDictionary_json(data, "widgetTree");
     Widget* widget = widgetFromJsonDictionary(widgetTree);
     
     /* *********temp********* */
-    if (widget->getContentSize().equals(Size::ZERO))
+    if (widget->getContentSize().equals(CCSize::ZERO))
     {
         Layout* rootWidget = dynamic_cast<Layout*>(widget);
-        rootWidget->setContentSize(Size(fileDesignWidth, fileDesignHeight));
+        rootWidget->setContentSize(CCSize(fileDesignWidth, fileDesignHeight));
     }
     /* ********************** */
     
@@ -627,7 +627,7 @@ void WidgetPropertiesReader0250::setPropsForWidgetFromJsonDictionary(Widget*widg
     
     float w = DICTOOL->getFloatValue_json(options, "width");
     float h = DICTOOL->getFloatValue_json(options, "height");
-    widget->setContentSize(Size(w, h));
+    widget->setContentSize(CCSize(w, h));
     
     widget->setTag(DICTOOL->getIntValue_json(options, "tag"));
 	widget->setActionTag(DICTOOL->getIntValue_json(options, "actiontag"));
@@ -719,14 +719,14 @@ void WidgetPropertiesReader0250::setPropsForButtonFromJsonDictionary(Widget*widg
         {
             button->loadTextures(normalFileName_tp, pressedFileName_tp, disabledFileName_tp);
         }
-        button->setCapInsets(Rect(cx, cy, cw, ch));
+        button->setCapInsets(CCRect(cx, cy, cw, ch));
         bool sw = DICTOOL->checkObjectExist_json(options, "scale9Width");
         bool sh = DICTOOL->checkObjectExist_json(options, "scale9Height");
         if (sw && sh)
         {
             float swf = DICTOOL->getFloatValue_json(options, "scale9Width");
             float shf = DICTOOL->getFloatValue_json(options, "scale9Height");
-            button->setContentSize(Size(swf, shf));
+            button->setContentSize(CCSize(swf, shf));
         }
     }
     else
@@ -842,14 +842,14 @@ void WidgetPropertiesReader0250::setPropsForImageViewFromJsonDictionary(Widget*w
         {
             float swf = DICTOOL->getFloatValue_json(options, "scale9Width");
             float shf = DICTOOL->getFloatValue_json(options, "scale9Height");
-            imageView->setContentSize(Size(swf, shf));
+            imageView->setContentSize(CCSize(swf, shf));
         }
         
         float cx = DICTOOL->getFloatValue_json(options, "capInsetsX");
         float cy = DICTOOL->getFloatValue_json(options, "capInsetsY");
         float cw = DICTOOL->getFloatValue_json(options, "capInsetsWidth");
         float ch = DICTOOL->getFloatValue_json(options, "capInsetsHeight");
-        imageView->setCapInsets(Rect(cx, cy, cw, ch));
+        imageView->setCapInsets(CCRect(cx, cy, cw, ch));
         
     }
     else
@@ -888,7 +888,7 @@ void WidgetPropertiesReader0250::setPropsForLabelFromJsonDictionary(Widget*widge
     bool ah = DICTOOL->checkObjectExist_json(options, "areaHeight");
     if (aw && ah)
     {
-        Size size = Size(DICTOOL->getFloatValue_json(options, "areaWidth"),DICTOOL->getFloatValue_json(options,"areaHeight"));
+        CCSize size = CCSize(DICTOOL->getFloatValue_json(options, "areaWidth"),DICTOOL->getFloatValue_json(options,"areaHeight"));
         label->setTextAreaSize(size);
     }
     bool ha = DICTOOL->checkObjectExist_json(options, "hAlignment");
@@ -980,7 +980,7 @@ void WidgetPropertiesReader0250::setPropsForLayoutFromJsonDictionary(Widget*widg
         {
             panel->setBackGroundImage(imageFileName_tp);
         }
-        panel->setBackGroundImageCapInsets(Rect(cx, cy, cw, ch));
+        panel->setBackGroundImageCapInsets(CCRect(cx, cy, cw, ch));
     }
     else
     {
@@ -1003,7 +1003,7 @@ void WidgetPropertiesReader0250::setPropsForScrollViewFromJsonDictionary(Widget*
     cocos2d::ui::ScrollView* scrollView = static_cast<cocos2d::ui::ScrollView*>(widget);
     float innerWidth = DICTOOL->getFloatValue_json(options, "innerWidth");
     float innerHeight = DICTOOL->getFloatValue_json(options, "innerHeight");
-    scrollView->setInnerContainerSize(Size(innerWidth, innerHeight));
+    scrollView->setInnerContainerSize(CCSize(innerWidth, innerHeight));
 	int direction = DICTOOL->getFloatValue_json(options, "direction");
     scrollView->setDirection((ScrollView::Direction)direction);
     scrollView->setBounceEnabled(DICTOOL->getBooleanValue_json(options, "bounceEnable"));
@@ -1035,7 +1035,7 @@ void WidgetPropertiesReader0250::setPropsForSliderFromJsonDictionary(Widget*widg
             {
                 slider->loadBarTexture(imageFileName_tp);
             }
-            slider->setContentSize(Size(barLength, slider->getContentSize().height));
+            slider->setContentSize(CCSize(barLength, slider->getContentSize().height));
         }
         else
         {
@@ -1111,7 +1111,7 @@ void WidgetPropertiesReader0250::setPropsForTextFieldFromJsonDictionary(Widget*w
     bool tsh = DICTOOL->checkObjectExist_json(options, "touchSizeHeight");
     if (tsw && tsh)
     {
-        textField->setTouchSize(Size(DICTOOL->getFloatValue_json(options, "touchSizeWidth"), DICTOOL->getFloatValue_json(options,"touchSizeHeight")));
+        textField->setTouchSize(CCSize(DICTOOL->getFloatValue_json(options, "touchSizeWidth"), DICTOOL->getFloatValue_json(options,"touchSizeHeight")));
     }
     
     float dw = DICTOOL->getFloatValue_json(options, "width");
@@ -1209,21 +1209,21 @@ Widget* WidgetPropertiesReader0300::createWidget(const rapidjson::Value& data, c
     float fileDesignHeight = DICTOOL->getFloatValue_json(data, "designHeight");
     if (fileDesignWidth <= 0 || fileDesignHeight <= 0) {
         CCLOGERROR("Read design size error!\n");
-        Size winSize = Director::getInstance()->getWinSize();
+        CCSize winSize = Director::getInstance()->getWinSize();
         GUIReader::getInstance()->storeFileDesignSize(fileName, winSize);
     }
     else
     {
-        GUIReader::getInstance()->storeFileDesignSize(fileName, Size(fileDesignWidth, fileDesignHeight));
+        GUIReader::getInstance()->storeFileDesignSize(fileName, CCSize(fileDesignWidth, fileDesignHeight));
     }
     const rapidjson::Value& widgetTree = DICTOOL->getSubDictionary_json(data, "widgetTree");
     Widget* widget = widgetFromJsonDictionary(widgetTree);
     
     /* *********temp********* */
-    if (widget->getContentSize().equals(Size::ZERO))
+    if (widget->getContentSize().equals(CCSize::ZERO))
     {
         Layout* rootWidget = dynamic_cast<Layout*>(widget);
-        rootWidget->setContentSize(Size(fileDesignWidth, fileDesignHeight));
+        rootWidget->setContentSize(CCSize(fileDesignWidth, fileDesignHeight));
     }
     /* ********************** */
     
@@ -1267,12 +1267,12 @@ Widget* WidgetPropertiesReader0300::createWidget(const rapidjson::Value& data, c
             
             if (fileDesignWidth <= 0 || fileDesignHeight <= 0) {
                 CCLOGERROR("Read design size error!\n");
-                Size winSize = Director::getInstance()->getWinSize();
+                CCSize winSize = Director::getInstance()->getWinSize();
                 GUIReader::getInstance()->storeFileDesignSize(fileName, winSize);
             }
             else
             {
-                GUIReader::getInstance()->storeFileDesignSize(fileName, Size(fileDesignWidth, fileDesignHeight));
+                GUIReader::getInstance()->storeFileDesignSize(fileName, CCSize(fileDesignWidth, fileDesignHeight));
             }
             
             
@@ -1284,10 +1284,10 @@ Widget* WidgetPropertiesReader0300::createWidget(const rapidjson::Value& data, c
                 widget = widgetFromBinary(cocoLoader, widgetTreeNode);
             }
             
-            if (widget->getContentSize().equals(Size::ZERO))
+            if (widget->getContentSize().equals(CCSize::ZERO))
             {
                 Layout* rootWidget = dynamic_cast<Layout*>(widget);
-                rootWidget->setContentSize(Size(fileDesignWidth, fileDesignHeight));
+                rootWidget->setContentSize(CCSize(fileDesignWidth, fileDesignHeight));
             }
         }
     }

@@ -451,7 +451,7 @@ struct CC_DLL AnimationFrameData
 {
     T2F_Quad texCoords;
     float delay;
-    Size size;
+    CCSize size;
 };
 
 /**
@@ -475,7 +475,7 @@ public:
     /// true if shadow enabled
     bool   _shadowEnabled;
     /// shadow x and y offset
-	Size   _shadowOffset;
+	CCSize   _shadowOffset;
     /// shadow blurrines
 	float  _shadowBlur;
     /// shadow opacity
@@ -522,7 +522,7 @@ public:
         : _fontSize(0)
         , _alignment(TextHAlignment::CENTER)
         , _vertAlignment(TextVAlignment::TOP)
-    	, _dimensions(Size::ZERO)
+    	, _dimensions(CCSize::ZERO)
         , _fontFillColor(Color3B::WHITE)
         , _fontAlpha(255)
     {}
@@ -536,7 +536,7 @@ public:
     /// vertical alignment
     TextVAlignment _vertAlignment;
     /// renering box
-    Size                  _dimensions;
+    CCSize                  _dimensions;
     /// font color
     Color3B               _fontFillColor;
     /// font alpha

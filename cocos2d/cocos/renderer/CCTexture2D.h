@@ -226,7 +226,7 @@ public:
      * @js NA
      * @lua NA
      */
-    bool initWithData(const void *data, ssize_t dataLen, Texture2D::PixelFormat pixelFormat, int pixelsWide, int pixelsHigh, const Size& contentSize);
+    bool initWithData(const void *data, ssize_t dataLen, Texture2D::PixelFormat pixelFormat, int pixelsWide, int pixelsHigh, const CCSize& contentSize);
 
     /** Initializes with mipmaps. 
      
@@ -254,7 +254,7 @@ public:
     /** Draws a texture at a given point. */
     void drawAtPoint(const Vec2& point);
     /** Draws a texture inside a rect.*/
-    void drawInRect(const Rect& rect);
+    void drawInRect(const CCRect& rect);
 
     /**
     Extensions to make it easy to create a Texture2D object from an image file.
@@ -287,7 +287,7 @@ public:
      @param hAlignment The font horizontal text alignment type.
      @param vAlignment The font vertical text alignment type.
      */
-    bool initWithString(const char *text,  const std::string &fontName, float fontSize, const Size& dimensions = Size(0, 0), TextHAlignment hAlignment = TextHAlignment::CENTER, TextVAlignment vAlignment = TextVAlignment::TOP);
+    bool initWithString(const char *text,  const std::string &fontName, float fontSize, const CCSize& dimensions = CCSize(0, 0), TextHAlignment hAlignment = TextHAlignment::CENTER, TextVAlignment vAlignment = TextVAlignment::TOP);
 
     /** Initializes a texture from a string using a text definition.
      
@@ -369,7 +369,7 @@ public:
     CC_DEPRECATED_ATTRIBUTE unsigned int bitsPerPixelForFormat(Texture2D::PixelFormat format) const { return getBitsPerPixelForFormat(format); };
 
     /** Get content size. */
-    const Size& getContentSizeInPixels();
+    const CCSize& getContentSizeInPixels();
 
     /** Whether or not the texture has their Alpha premultiplied. */
     bool hasPremultipliedAlpha() const;
@@ -400,7 +400,7 @@ public:
     void setMaxT(GLfloat maxT);
     
     /** Get the texture content size.*/
-    Size getContentSize() const;
+    CCSize getContentSize() const;
     
     /** Set a shader program to the texture.
 
@@ -484,7 +484,7 @@ protected:
     GLfloat _maxT;
 
     /** content size */
-    Size _contentSize;
+    CCSize _contentSize;
 
     /** whether or not the texture has their Alpha premultiplied */
     bool _hasPremultipliedAlpha;

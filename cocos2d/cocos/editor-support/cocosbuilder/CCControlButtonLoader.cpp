@@ -77,7 +77,7 @@ void ControlButtonLoader::onHandlePropTypePoint(Node * pNode, Node * pParent, co
     }
 }
 
-void ControlButtonLoader::onHandlePropTypeSize(Node * pNode, Node * pParent, const char * pPropertyName, Size pSize, CCBReader * ccbReader) {
+void ControlButtonLoader::onHandlePropTypeSize(Node * pNode, Node * pParent, const char * pPropertyName, CCSize pSize, CCBReader * ccbReader) {
     if(strcmp(pPropertyName, PROPERTY_PREFEREDSIZE) == 0) {
         ((ControlButton *)pNode)->setPreferredSize(pSize);
     } else {

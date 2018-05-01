@@ -81,7 +81,7 @@ bool ControlButton::initWithLabelAndBackgroundSprite(Node* node, ui::Scale9Sprit
 
         // Adjust the background image by default
         setAdjustBackgroundImage(true);
-        setPreferredSize(Size::ZERO);
+        setPreferredSize(CCSize::ZERO);
         // Zooming button by default
         _zoomOnTouchDown = true;
         _scaleRatio = 1.1f;
@@ -213,7 +213,7 @@ bool ControlButton::getZoomOnTouchDown()
     return _zoomOnTouchDown;
 }
 
-void ControlButton::setPreferredSize(const Size& size)
+void ControlButton::setPreferredSize(const CCSize& size)
 {
     if(size.width == 0 && size.height == 0)
     {
@@ -233,7 +233,7 @@ void ControlButton::setPreferredSize(const Size& size)
     needsLayout();
 }
 
-const Size& ControlButton::getPreferredSize() const
+const CCSize& ControlButton::getPreferredSize() const
 {
     return _preferredSize;
 }
@@ -435,7 +435,7 @@ ui::Scale9Sprite* ControlButton::getBackgroundSpriteForState(State state)
 
 void ControlButton::setBackgroundSpriteForState(ui::Scale9Sprite* sprite, State state)
 {
-    Size oldPreferredSize = _preferredSize;
+    CCSize oldPreferredSize = _preferredSize;
 
     auto previousBackgroundSprite = _backgroundSpriteDispatchTable.at((int)state);
     if (previousBackgroundSprite)
@@ -454,7 +454,7 @@ void ControlButton::setBackgroundSpriteForState(ui::Scale9Sprite* sprite, State 
         if (oldPreferredSize.equals(_preferredSize))
         {
             // Force update of preferred size
-            sprite->setPreferredSize(Size(oldPreferredSize.width+1, oldPreferredSize.height+1));
+            sprite->setPreferredSize(CCSize(oldPreferredSize.width+1, oldPreferredSize.height+1));
         }
         
         sprite->setPreferredSize(this->_preferredSize);
@@ -519,7 +519,7 @@ void ControlButton::needsLayout()
     }
    
     // Get the title label size
-    Size titleLabelSize;
+    CCSize titleLabelSize;
     if (_titleLabel != nullptr)
     {
         titleLabelSize = _titleLabel->getBoundingBox().size;
@@ -531,7 +531,7 @@ void ControlButton::needsLayout()
         // Add the margins
         if (_backgroundSprite != nullptr)
         {
-            _backgroundSprite->setContentSize(Size(titleLabelSize.width + _marginH * 2, titleLabelSize.height + _marginV * 2));
+            _backgroundSprite->setContentSize(CCSize(titleLabelSize.width + _marginH * 2, titleLabelSize.height + _marginV * 2));
         }
     } 
     else
@@ -539,7 +539,7 @@ void ControlButton::needsLayout()
         //TODO: should this also have margins if one of the preferred sizes is relaxed?
         if (_backgroundSprite != nullptr)
         {
-            Size preferredSize = _backgroundSprite->getPreferredSize();
+            CCSize preferredSize = _backgroundSprite->getPreferredSize();
             if (preferredSize.width <= 0)
             {
                 preferredSize.width = titleLabelSize.width;
@@ -554,19 +554,19 @@ void ControlButton::needsLayout()
     }
     
     // Set the content size
-    Rect rectTitle;
+    CCRect rectTitle;
     if (_titleLabel != nullptr)
     {
         rectTitle = _titleLabel->getBoundingBox();
     }
-    Rect rectBackground;
+    CCRect rectBackground;
     if (_backgroundSprite != nullptr)
     {
         rectBackground = _backgroundSprite->getBoundingBox();
     }
 
-    Rect maxRect = ControlUtils::RectUnion(rectTitle, rectBackground);
-    setContentSize(Size(maxRect.size.width, maxRect.size.height));        
+    CCRect maxRect = ControlUtils::RectUnion(rectTitle, rectBackground);
+    setContentSize(CCSize(maxRect.size.width, maxRect.size.height));        
     
     if (_titleLabel != nullptr)
     {

@@ -67,7 +67,7 @@ LabelTTF * LabelTTF::create()
 }
 
 LabelTTF* LabelTTF::create(const std::string& string, const std::string& fontName, float fontSize,
-                               const Size &dimensions, TextHAlignment hAlignment, 
+                               const CCSize &dimensions, TextHAlignment hAlignment, 
                                TextVAlignment vAlignment)
 {
     LabelTTF *ret = new (std::nothrow) LabelTTF();
@@ -93,7 +93,7 @@ LabelTTF * LabelTTF::createWithFontDefinition(const std::string& string, FontDef
 }
 
 bool LabelTTF::initWithString(const std::string& string, const std::string& fontName, float fontSize,
-                                const cocos2d::Size &dimensions, TextHAlignment hAlignment,
+                                const cocos2d::CCSize &dimensions, TextHAlignment hAlignment,
                                 TextVAlignment vAlignment)
 {
     _renderLabel->setString(string);
@@ -153,12 +153,12 @@ void LabelTTF::setVerticalAlignment(TextVAlignment verticalAlignment)
     _contentDirty = true;
 }
 
-const Size& LabelTTF::getDimensions() const
+const CCSize& LabelTTF::getDimensions() const
 {
     return _renderLabel->getDimensions();
 }
 
-void LabelTTF::setDimensions(const Size &dim)
+void LabelTTF::setDimensions(const CCSize &dim)
 {
     _renderLabel->setDimensions(dim.width,dim.height);
     _contentDirty = true;
@@ -186,7 +186,7 @@ void LabelTTF::setFontName(const std::string& fontName)
     _contentDirty = true;
 }
 
-void LabelTTF::enableShadow(const Size &shadowOffset, float shadowOpacity, float shadowBlur, bool updateTexture)
+void LabelTTF::enableShadow(const CCSize &shadowOffset, float shadowOpacity, float shadowBlur, bool updateTexture)
 {
     Color4B temp(Color3B::BLACK);
     temp.a = 255 * shadowOpacity;
@@ -272,13 +272,13 @@ void LabelTTF::visit(Renderer *renderer, const Mat4 &parentTransform, uint32_t p
     Node::visit(renderer,parentTransform, parentFlags);
 }
 
-const Size& LabelTTF::getContentSize() const
+const CCSize& LabelTTF::getContentSize() const
 {
     const_cast<LabelTTF*>(this)->setContentSize(_renderLabel->getContentSize());
     return _contentSize;
 }
 
-Rect LabelTTF::getBoundingBox() const
+CCRect LabelTTF::getBoundingBox() const
 {
     const_cast<LabelTTF*>(this)->setContentSize(_renderLabel->getContentSize());
     return Node::getBoundingBox();

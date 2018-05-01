@@ -75,7 +75,7 @@ public:
      *
      * @return A content size in Size.
      */
-    virtual Size getLayoutContentSize()const = 0;
+    virtual CCSize getLayoutContentSize()const = 0;
     
     /**
      * @brief Get all elements of the layout.
@@ -179,13 +179,13 @@ public:
      * @param capInsets  The capInsets in Rect.
      *
      */
-    void setBackGroundImageCapInsets(const Rect& capInsets);
+    void setBackGroundImageCapInsets(const CCRect& capInsets);
     
     /**
      * Query background image's capInsets size.
      *@return The background image capInsets.
      */
-    const Rect& getBackGroundImageCapInsets()const;
+    const CCRect& getBackGroundImageCapInsets()const;
     
     /**
      * Sets Color Type for layout's background
@@ -309,7 +309,7 @@ public:
      *
      * @return background image texture size.
      */
-    const Size& getBackGroundImageTextureSize() const;
+    const CCSize& getBackGroundImageTextureSize() const;
     
     /**
      * Toggle layout clipping.
@@ -470,12 +470,12 @@ protected:
     void stencilClippingVisit(Renderer *renderer, const Mat4 &parentTransform, uint32_t parentFlags);
     void scissorClippingVisit(Renderer *renderer, const Mat4 &parentTransform, uint32_t parentFlags);
     
-    void setStencilClippingSize(const Size& size);
-    const Rect& getClippingRect();
+    void setStencilClippingSize(const CCSize& size);
+    const CCRect& getClippingRect();
     
     virtual void doLayout()override;
     virtual LayoutManager* createLayoutManager()override;
-    virtual Size getLayoutContentSize()const override;
+    virtual CCSize getLayoutContentSize()const override;
     virtual const Vector<Node*>& getLayoutElements()const override;
     
     //clipping
@@ -495,7 +495,7 @@ protected:
     /**
      *get the content size of the layout, it will accumulate all its children's content size
      */
-    Size getLayoutAccumulatedSize() const;
+    CCSize getLayoutAccumulatedSize() const;
     
     /**
      * When the layout get focused, it the layout pass the focus to its child, it will use this method to determine which child 
@@ -601,10 +601,10 @@ protected:
     bool _backGroundScale9Enabled;
     Scale9Sprite* _backGroundImage;
     std::string _backGroundImageFileName;
-    Rect _backGroundImageCapInsets;
+    CCRect _backGroundImageCapInsets;
     BackGroundColorType _colorType;
     TextureResType _bgImageTexType;
-    Size _backGroundImageTextureSize;
+    CCSize _backGroundImageTextureSize;
     Color3B _backGroundImageColor;
     GLubyte _backGroundImageOpacity;
 
@@ -622,7 +622,7 @@ protected:
     ClippingType _clippingType;
     DrawNode* _clippingStencil;
     bool _scissorRectDirty;
-    Rect _clippingRect;
+    CCRect _clippingRect;
     Layout* _clippingParent;
     bool _clippingRectDirty;
     

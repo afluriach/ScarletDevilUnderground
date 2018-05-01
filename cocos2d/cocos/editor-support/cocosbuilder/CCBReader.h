@@ -177,12 +177,12 @@ public:
 
     cocos2d::Node* readNodeGraphFromFile(const char *pCCBFileName);
     cocos2d::Node* readNodeGraphFromFile(const char *pCCBFileName, cocos2d::Ref *pOwner);
-    cocos2d::Node* readNodeGraphFromFile(const char *pCCBFileName, cocos2d::Ref *pOwner, const cocos2d::Size &parentSize);
+    cocos2d::Node* readNodeGraphFromFile(const char *pCCBFileName, cocos2d::Ref *pOwner, const cocos2d::CCSize &parentSize);
     /**
      * @js NA
      * @lua NA
      */
-    cocos2d::Node* readNodeGraphFromData(std::shared_ptr<cocos2d::Data> data, cocos2d::Ref *pOwner, const cocos2d::Size &parentSize);
+    cocos2d::Node* readNodeGraphFromData(std::shared_ptr<cocos2d::Data> data, cocos2d::Ref *pOwner, const cocos2d::CCSize &parentSize);
    
     /**
      @lua NA
@@ -195,7 +195,7 @@ public:
     /**
      @lua NA
      */
-    cocos2d::Scene* createSceneWithNodeGraphFromFile(const char *pCCBFileName, cocos2d::Ref *pOwner, const cocos2d::Size &parentSize);
+    cocos2d::Scene* createSceneWithNodeGraphFromFile(const char *pCCBFileName, cocos2d::Ref *pOwner, const cocos2d::CCSize &parentSize);
     
     /**
      * @js NA

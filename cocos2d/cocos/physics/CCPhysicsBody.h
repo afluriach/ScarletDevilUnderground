@@ -106,7 +106,7 @@ public:
      * @param   offset A Vec2 object, it is the offset from the body’s center of gravity in body local coordinates.
      * @return  An autoreleased PhysicsBody object pointer.
      */
-    static PhysicsBody* createBox(const Size& size, const PhysicsMaterial& material = PHYSICSBODY_MATERIAL_DEFAULT, const Vec2& offset = Vec2::ZERO);
+    static PhysicsBody* createBox(const CCSize& size, const PhysicsMaterial& material = PHYSICSBODY_MATERIAL_DEFAULT, const Vec2& offset = Vec2::ZERO);
     
     /**
      * @brief Create a body contains a polygon shape.
@@ -139,7 +139,7 @@ public:
      * @param   offset A Vec2 object, it is the offset from the body’s center of gravity in body local coordinates.
      * @return  An autoreleased PhysicsBody object pointer.
      */
-    static PhysicsBody* createEdgeBox(const Size& size, const PhysicsMaterial& material = PHYSICSBODY_MATERIAL_DEFAULT, float border = 1, const Vec2& offset = Vec2::ZERO);
+    static PhysicsBody* createEdgeBox(const CCSize& size, const PhysicsMaterial& material = PHYSICSBODY_MATERIAL_DEFAULT, float border = 1, const Vec2& offset = Vec2::ZERO);
     
     /** 
      Create a body contains a EdgePolygon shape. 

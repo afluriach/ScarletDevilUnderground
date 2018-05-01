@@ -115,15 +115,15 @@ public:
         /**empty constructor*/
         TerrainData();
         /**constructor, this constructor construct a simple terrain which only have 1 detailmap*/
-        TerrainData(const char* heightMapsrc, const char * textureSrc, const Size & chunksize = Size(32,32), float mapHeight = 2, float mapScale = 0.1);
+        TerrainData(const char* heightMapsrc, const char * textureSrc, const CCSize & chunksize = CCSize(32,32), float mapHeight = 2, float mapScale = 0.1);
         /**constructor, this constructor construct a terrain which have 4 detailmaps, 1 alpha map*/
-        TerrainData(const char* heightMapsrc, const char * alphamap, const DetailMap& detail1,const DetailMap& detail2, const DetailMap& detail3, const DetailMap& detail4, const Size & chunksize = Size(32,32), float mapHeight = 2, float mapScale = 0.1);
+        TerrainData(const char* heightMapsrc, const char * alphamap, const DetailMap& detail1,const DetailMap& detail2, const DetailMap& detail3, const DetailMap& detail4, const CCSize & chunksize = CCSize(32,32), float mapHeight = 2, float mapScale = 0.1);
         /**constructor, this constructor construct a terrain which have 3 detailmaps, 1 alpha map*/
-        TerrainData(const char* heightMapsrc, const char * alphamap, const DetailMap& detail1,const DetailMap& detail2, const DetailMap& detail3, const Size & chunksize = Size(32,32), float mapHeight = 2, float mapScale = 0.1);
+        TerrainData(const char* heightMapsrc, const char * alphamap, const DetailMap& detail1,const DetailMap& detail2, const DetailMap& detail3, const CCSize & chunksize = CCSize(32,32), float mapHeight = 2, float mapScale = 0.1);
         /**
         *deterimine the chunk size,chunk is the minimal subdivision of the Terrain
         */
-        Size _chunkSize;
+        CCSize _chunkSize;
         /**height Map source path*/
         std::string _heightMapSrc;
         /**the source path of the alpha map*/
@@ -237,7 +237,7 @@ private:
         /**parent terrain*/
         Terrain * _terrain;
         /**chunk size*/
-        Size _size;
+        CCSize _size;
         /**chunk's estimated slope*/
         float _slope;
         std::vector<TerrainVertexData> _currentVertices;
@@ -440,7 +440,7 @@ protected:
     std::vector<GLushort> _indices;
     int _imageWidth;
     int _imageHeight;
-    Size _chunkSize;
+    CCSize _chunkSize;
     bool _isEnableFrustumCull;
     int _maxDetailMapValue;
     cocos2d::Image * _heightMapImage;

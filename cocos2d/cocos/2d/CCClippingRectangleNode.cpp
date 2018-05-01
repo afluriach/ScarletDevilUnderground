@@ -7,7 +7,7 @@
 
 NS_CC_BEGIN
 
-ClippingRectangleNode* ClippingRectangleNode::create(const Rect& clippingRegion)
+ClippingRectangleNode* ClippingRectangleNode::create(const CCRect& clippingRegion)
 {
     ClippingRectangleNode* node = new ClippingRectangleNode();
     if (node && node->init()) {
@@ -32,7 +32,7 @@ ClippingRectangleNode* ClippingRectangleNode::create()
     return node;
 }
 
-void ClippingRectangleNode::setClippingRegion(const Rect &clippingRegion)
+void ClippingRectangleNode::setClippingRegion(const CCRect &clippingRegion)
 {
     _clippingRegion = clippingRegion;
 }
@@ -51,7 +51,7 @@ void ClippingRectangleNode::onBeforeVisitScissor()
             parent = parent->getParent();
         }
         
-        const Point pos = convertToWorldSpace(Point(_clippingRegion.origin.x, _clippingRegion.origin.y));
+        const CCPoint pos = convertToWorldSpace(CCPoint(_clippingRegion.origin.x, _clippingRegion.origin.y));
         GLView* glView = Director::getInstance()->getOpenGLView();
         glView->setScissorInPoints(pos.x * scaleX,
                                    pos.y * scaleY,

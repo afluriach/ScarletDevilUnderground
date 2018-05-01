@@ -59,7 +59,7 @@ protected:
      * @js NA
      * @lua NA
      */
-    virtual void onHandlePropTypeSize(cocos2d::Node * pNode, cocos2d::Node * pParent, const char * pPropertyName, cocos2d::Size pSize, CCBReader * ccbReader);
+    virtual void onHandlePropTypeSize(cocos2d::Node * pNode, cocos2d::Node * pParent, const char * pPropertyName, cocos2d::CCSize pSize, CCBReader * ccbReader);
     /**
      * @js NA
      * @lua NA

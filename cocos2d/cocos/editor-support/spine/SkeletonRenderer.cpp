@@ -288,7 +288,7 @@ Texture2D* SkeletonRenderer::getTexture (spSkinnedMeshAttachment* attachment) co
 	return (Texture2D*)((spAtlasRegion*)attachment->rendererObject)->page->rendererObject;
 }
 
-Rect SkeletonRenderer::getBoundingBox () const {
+CCRect SkeletonRenderer::getBoundingBox () const {
 	float minX = FLT_MAX, minY = FLT_MAX, maxX = FLT_MIN, maxY = FLT_MIN;
 	float scaleX = getScaleX(), scaleY = getScaleY();
 	for (int i = 0; i < _skeleton->slotsCount; ++i) {
@@ -318,7 +318,7 @@ Rect SkeletonRenderer::getBoundingBox () const {
 		}
 	}
 	Vec2 position = getPosition();
-	return Rect(position.x + minX, position.y + minY, maxX - minX, maxY - minY);
+	return CCRect(position.x + minX, position.y + minY, maxX - minX, maxY - minY);
 }
 
 // --- Convenience methods for Skeleton_* functions.

@@ -51,9 +51,9 @@ _zoomScale(0.1f),
 _prevIgnoreSize(true),
 _scale9Enabled(false),
 _pressedActionEnabled(false),
-_capInsetsNormal(Rect::ZERO),
-_capInsetsPressed(Rect::ZERO),
-_capInsetsDisabled(Rect::ZERO),
+_capInsetsNormal(CCRect::ZERO),
+_capInsetsPressed(CCRect::ZERO),
+_capInsetsDisabled(CCRect::ZERO),
 _normalTextureSize(_contentSize),
 _pressedTextureSize(_contentSize),
 _disabledTextureSize(_contentSize),
@@ -342,7 +342,7 @@ void Button::loadTextureDisabled(SpriteFrame* disabledSpriteFrame)
     this->setupDisabledTexture();
 }
 
-void Button::setCapInsets(const Rect &capInsets)
+void Button::setCapInsets(const CCRect &capInsets)
 {
     setCapInsetsNormalRenderer(capInsets);
     setCapInsetsPressedRenderer(capInsets);
@@ -350,7 +350,7 @@ void Button::setCapInsets(const Rect &capInsets)
 }
 
 
-void Button::setCapInsetsNormalRenderer(const Rect &capInsets)
+void Button::setCapInsetsNormalRenderer(const CCRect &capInsets)
 {
     _capInsetsNormal = Helper::restrictCapInsetRect(capInsets, this->_normalTextureSize);
 
@@ -362,7 +362,7 @@ void Button::setCapInsetsNormalRenderer(const Rect &capInsets)
     _buttonNormalRenderer->setCapInsets(_capInsetsNormal);
 }
 
-void Button::setCapInsetsPressedRenderer(const Rect &capInsets)
+void Button::setCapInsetsPressedRenderer(const CCRect &capInsets)
 {
     _capInsetsPressed = Helper::restrictCapInsetRect(capInsets, this->_pressedTextureSize);
 
@@ -374,7 +374,7 @@ void Button::setCapInsetsPressedRenderer(const Rect &capInsets)
     _buttonClickedRenderer->setCapInsets(_capInsetsPressed);
 }
 
-void Button::setCapInsetsDisabledRenderer(const Rect &capInsets)
+void Button::setCapInsetsDisabledRenderer(const CCRect &capInsets)
 {
     _capInsetsDisabled = Helper::restrictCapInsetRect(capInsets, this->_disabledTextureSize);
 
@@ -386,17 +386,17 @@ void Button::setCapInsetsDisabledRenderer(const Rect &capInsets)
     _buttonDisableRenderer->setCapInsets(_capInsetsDisabled);
 }
 
-const Rect& Button::getCapInsetsNormalRenderer()const
+const CCRect& Button::getCapInsetsNormalRenderer()const
 {
     return _capInsetsNormal;
 }
 
-const Rect& Button::getCapInsetsPressedRenderer()const
+const CCRect& Button::getCapInsetsPressedRenderer()const
 {
     return _capInsetsPressed;
 }
 
-const Rect& Button::getCapInsetsDisabledRenderer()const
+const CCRect& Button::getCapInsetsDisabledRenderer()const
 {
     return _capInsetsDisabled;
 }
@@ -537,7 +537,7 @@ void Button::updateContentSize()
         }
         else
         {
-            Size s = getNormalSize();
+            CCSize s = getNormalSize();
             ProtectedNode::setContentSize(s);
         }
         onSizeChanged();
@@ -583,7 +583,7 @@ void Button::adaptRenderers()
     }
 }
 
-Size Button::getVirtualRendererSize() const
+CCSize Button::getVirtualRendererSize() const
 {
     if (_unifySize)
     {
@@ -592,7 +592,7 @@ Size Button::getVirtualRendererSize() const
 
     if(nullptr != _titleRenderer)
     {
-        Size titleSize = _titleRenderer->getContentSize();
+        CCSize titleSize = _titleRenderer->getContentSize();
         if (!_normalTextureLoaded && _titleRenderer->getString().size() > 0)
         {
             return titleSize;
@@ -642,7 +642,7 @@ void Button::normalTextureScaleChangedWithSize()
         }
         else
         {
-            Size textureSize = _normalTextureSize;
+            CCSize textureSize = _normalTextureSize;
             if (textureSize.width <= 0.0f || textureSize.height <= 0.0f)
             {
                 _buttonNormalRenderer->setScale(1.0f);
@@ -681,7 +681,7 @@ void Button::pressedTextureScaleChangedWithSize()
         }
         else
         {
-            Size textureSize = _pressedTextureSize;
+            CCSize textureSize = _pressedTextureSize;
             if (textureSize.width <= 0.0f || textureSize.height <= 0.0f)
             {
                 _buttonClickedRenderer->setScale(1.0f);
@@ -717,7 +717,7 @@ void Button::disabledTextureScaleChangedWithSize()
         }
         else
         {
-            Size textureSize = _disabledTextureSize;
+            CCSize textureSize = _disabledTextureSize;
             if (textureSize.width <= 0.0f || textureSize.height <= 0.0f)
             {
                 _buttonDisableRenderer->setScale(1.0f);
@@ -911,14 +911,14 @@ void Button::copySpecialProperties(Widget *widget)
     }
 
 }
-Size Button::getNormalSize() const
+CCSize Button::getNormalSize() const
 {
-    Size titleSize;
+    CCSize titleSize;
     if (_titleRenderer != nullptr)
     {
         titleSize = _titleRenderer->getContentSize();
     }
-    Size imageSize;
+    CCSize imageSize;
     if (_buttonNormalRenderer != nullptr)
     {
         imageSize = _buttonNormalRenderer->getContentSize();
@@ -926,10 +926,10 @@ Size Button::getNormalSize() const
     float width = titleSize.width > imageSize.width ? titleSize.width : imageSize.width;
     float height = titleSize.height > imageSize.height ? titleSize.height : imageSize.height;
 
-    return Size(width,height);
+    return CCSize(width,height);
 }
 
-Size Button::getNormalTextureSize() const
+CCSize Button::getNormalTextureSize() const
 {
     return _normalTextureSize;
 }

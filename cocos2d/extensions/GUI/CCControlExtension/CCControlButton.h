@@ -224,7 +224,7 @@ protected:
     CC_SYNTHESIZE_RETAIN(cocos2d::ui::Scale9Sprite*, _backgroundSprite, BackgroundSprite);
 
     /** The prefered size of the button, if label is larger it will be expanded. */
-    CC_PROPERTY_PASS_BY_REF(Size, _preferredSize, PreferredSize);
+    CC_PROPERTY_PASS_BY_REF(CCSize, _preferredSize, PreferredSize);
 
     /** Adjust the button zooming on touchdown. Default value is YES. */
     CC_PROPERTY(bool, _zoomOnTouchDown, ZoomOnTouchDown);

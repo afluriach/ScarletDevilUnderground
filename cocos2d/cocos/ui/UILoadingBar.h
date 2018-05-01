@@ -157,18 +157,18 @@ public:
      * This setting only take effect when enable scale9 renderer.
      * @param capInsets CapInset in `Rect`.
      */
-    void setCapInsets(const Rect &capInsets);
+    void setCapInsets(const CCRect &capInsets);
     
     
     /**
      * @brief Query LoadingBar's capInsets.
      * @return CapInsets of LoadingBar.
      */
-    const Rect& getCapInsets()const;
+    const CCRect& getCapInsets()const;
     
     //override methods.
     virtual void ignoreContentAdaptWithSize(bool ignore) override;
-    virtual Size getVirtualRendererSize() const override;
+    virtual CCSize getVirtualRendererSize() const override;
     virtual Node* getVirtualRenderer() override;
     virtual std::string getDescription() const override;
 protected:
@@ -189,10 +189,10 @@ protected:
     float _totalLength;
     Scale9Sprite* _barRenderer;
     TextureResType _renderBarTexType;
-    Size _barRendererTextureSize;
+    CCSize _barRendererTextureSize;
     bool _scale9Enabled;
     bool _prevIgnoreSize;
-    Rect _capInsets;
+    CCRect _capInsets;
     std::string _textureFile;
     bool _barRendererAdaptDirty;
 };

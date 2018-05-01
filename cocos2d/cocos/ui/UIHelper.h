@@ -110,7 +110,7 @@ public:
      *@param  textureSize  The size of a scale9enabled texture
      *@return a restricted capInset.
      */
-    static Rect restrictCapInsetRect(const Rect& capInsets, const Size& textureSize);
+    static CCRect restrictCapInsetRect(const CCRect& capInsets, const CCSize& textureSize);
 };
 }
 

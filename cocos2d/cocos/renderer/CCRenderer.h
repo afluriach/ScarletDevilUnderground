@@ -188,7 +188,7 @@ public:
     inline GroupCommandManager* getGroupCommandManager() const { return _groupCommandManager; };
 
     /** returns whether or not a rectangle is visible or not */
-    bool checkVisibility(const Mat4& transform, const Size& size);
+    bool checkVisibility(const Mat4& transform, const CCSize& size);
 
 protected:
 

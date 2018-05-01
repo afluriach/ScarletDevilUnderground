@@ -56,9 +56,9 @@ Vec2 PointApplyTransform(const Vec2& point, const Mat4& transform)
 }
 
 
-Size __CCSizeApplyAffineTransform(const Size& size, const AffineTransform& t)
+CCSize __CCSizeApplyAffineTransform(const CCSize& size, const AffineTransform& t)
 {
-  Size s;
+  CCSize s;
   s.width = (float)((double)t.a * size.width + (double)t.c * size.height);
   s.height = (float)((double)t.b * size.width + (double)t.d * size.height);
   return s;
@@ -73,7 +73,7 @@ AffineTransform AffineTransformMakeIdentity()
 extern const AffineTransform AffineTransformIdentity = AffineTransformMakeIdentity();
 const AffineTransform AffineTransform::IDENTITY = AffineTransformMakeIdentity();
 
-Rect RectApplyAffineTransform(const Rect& rect, const AffineTransform& anAffineTransform)
+CCRect RectApplyAffineTransform(const CCRect& rect, const AffineTransform& anAffineTransform)
 {
     float top    = rect.getMinY();
     float left   = rect.getMinX();
@@ -90,10 +90,10 @@ Rect RectApplyAffineTransform(const Rect& rect, const AffineTransform& anAffineT
     float minY = min(min(topLeft.y, topRight.y), min(bottomLeft.y, bottomRight.y));
     float maxY = max(max(topLeft.y, topRight.y), max(bottomLeft.y, bottomRight.y));
         
-    return Rect(minX, minY, (maxX - minX), (maxY - minY));
+    return CCRect(minX, minY, (maxX - minX), (maxY - minY));
 }
 
-Rect RectApplyTransform(const Rect& rect, const Mat4& transform)
+CCRect RectApplyTransform(const CCRect& rect, const Mat4& transform)
 {
     float top    = rect.getMinY();
     float left   = rect.getMinX();
@@ -114,7 +114,7 @@ Rect RectApplyTransform(const Rect& rect, const Mat4& transform)
     float minY = min(min(topLeft.y, topRight.y), min(bottomLeft.y, bottomRight.y));
     float maxY = max(max(topLeft.y, topRight.y), max(bottomLeft.y, bottomRight.y));
 
-    return Rect(minX, minY, (maxX - minX), (maxY - minY));
+    return CCRect(minX, minY, (maxX - minX), (maxY - minY));
 }
 
 

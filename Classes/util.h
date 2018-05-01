@@ -14,8 +14,8 @@
 //Define assignment conversion between cocos and chipmunk vectors
 Vec2 toCocos(const SpaceVect& rhs);
 SpaceVect toChipmunk(const Vec2& rhs);
-SpaceVect toChipmunk(const cocos2d::Size& rhs);
-IntVec2 toIntVector(const cocos2d::Size& rhs);
+SpaceVect toChipmunk(const cocos2d::CCSize& rhs);
+IntVec2 toIntVector(const cocos2d::CCSize& rhs);
 
 float dirToPhysicsAngle(Direction d);
 SpaceVect dirToVector(Direction d);
@@ -142,7 +142,7 @@ typename std::common_type<
 }
 
 void convertToUnitSpace(ValueMap& arg);
-cocos2d::Rect getUnitspaceRectangle(const ValueMap& tileMapObj);
+cocos2d::CCRect getUnitspaceRectangle(const ValueMap& tileMapObj);
 
 void checkCreateProfileSubfolder();
 string getProfilePath();

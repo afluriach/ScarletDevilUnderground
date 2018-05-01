@@ -300,14 +300,14 @@ public:
      * The touch size is used for @see `hitTest`.
      * @param size A delimitation zone.
      */
-    void setTouchSize(const Size &size);
+    void setTouchSize(const CCSize &size);
     
     /**
      * @brief Get current touch size of TextField.
      *
      * @return The TextField's touch size.
      */
-    Size getTouchSize()const;
+    CCSize getTouchSize()const;
     
     /**
      * @brief Toggle enable touch area.
@@ -569,9 +569,9 @@ public:
      *
      * @return A delimitation zone.
      */
-    virtual Size getAutoRenderSize();
+    virtual CCSize getAutoRenderSize();
     //overide functions.
-    virtual Size getVirtualRendererSize() const override;
+    virtual CCSize getVirtualRendererSize() const override;
     virtual Node* getVirtualRenderer() override;
     virtual void onEnter() override;
     
@@ -586,7 +586,7 @@ public:
      *
      * @param size A delimitation zone.
      */
-    void setTextAreaSize(const Size &size);
+    void setTextAreaSize(const CCSize &size);
     
     /**
      * @brief Change horizontal text alignment.

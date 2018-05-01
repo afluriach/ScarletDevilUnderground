@@ -73,7 +73,7 @@ ScrollView::~ScrollView()
 
 }
 
-ScrollView* ScrollView::create(Size size, Node* container/* = nullptr*/)
+ScrollView* ScrollView::create(CCSize size, Node* container/* = nullptr*/)
 {
     ScrollView* pRet = new (std::nothrow) ScrollView();
     if (pRet && pRet->initWithViewSize(size, container))
@@ -102,7 +102,7 @@ ScrollView* ScrollView::create()
 }
 
 
-bool ScrollView::initWithViewSize(Size size, Node *container/* = nullptr*/)
+bool ScrollView::initWithViewSize(CCSize size, Node *container/* = nullptr*/)
 {
     if (Layer::init())
     {
@@ -140,18 +140,18 @@ bool ScrollView::initWithViewSize(Size size, Node *container/* = nullptr*/)
 
 bool ScrollView::init()
 {
-    return this->initWithViewSize(Size(200, 200), nullptr);
+    return this->initWithViewSize(CCSize(200, 200), nullptr);
 }
 
 bool ScrollView::isNodeVisible(Node* node)
 {
     const Vec2 offset = this->getContentOffset();
-    const Size  size   = this->getViewSize();
+    const CCSize  size   = this->getViewSize();
     const float   scale  = this->getZoomScale();
     
-    Rect viewRect;
+    CCRect viewRect;
     
-    viewRect = Rect(-offset.x/scale, -offset.y/scale, size.width/scale, size.height/scale); 
+    viewRect = CCRect(-offset.x/scale, -offset.y/scale, size.width/scale, size.height/scale); 
     
     return viewRect.intersectsRect(node->getBoundingBox());
 }
@@ -314,7 +314,7 @@ void ScrollView::updateTweenAction(float value, const std::string& key)
     this->setZoomScale(value);
 }
 
-void ScrollView::setViewSize(Size size)
+void ScrollView::setViewSize(CCSize size)
 {
     _viewSize = size;
     Layer::setContentSize(size);
@@ -462,12 +462,12 @@ void ScrollView::performedAnimatedScroll(float dt)
 }
 
 
-const Size& ScrollView::getContentSize() const
+const CCSize& ScrollView::getContentSize() const
 {
 	return _container->getContentSize();
 }
 
-void ScrollView::setContentSize(const Size & size)
+void ScrollView::setContentSize(const CCSize & size)
 {
     if (this->getContainer() != nullptr)
     {
@@ -529,7 +529,7 @@ void ScrollView::onBeforeDraw()
     if (_clippingToBounds)
     {
 		_scissorRestored = false;
-        Rect frame = getViewRect();
+        CCRect frame = getViewRect();
         auto glview = Director::getInstance()->getOpenGLView();
 
         if (glview->isScissorEnabled()) {
@@ -644,7 +644,7 @@ bool ScrollView::onTouchBegan(Touch* touch, Event* event)
         return false;
     }
     
-    Rect frame = getViewRect();
+    CCRect frame = getViewRect();
 
     //dispatcher does not know about clipping. reject touches outside visible bounds.
     if (_touches.size() > 2 ||
@@ -692,7 +692,7 @@ void ScrollView::onTouchMoved(Touch* touch, Event* event)
         if (_touches.size() == 1 && _dragging)
         { // scrolling
             Vec2 moveDistance, newPoint;
-            Rect  frame;
+            CCRect  frame;
             float newX, newY;
             
             frame = getViewRect();
@@ -818,7 +818,7 @@ void ScrollView::onTouchCancelled(Touch* touch, Event* event)
     }
 }
 
-Rect ScrollView::getViewRect()
+CCRect ScrollView::getViewRect()
 {
     Vec2 screenPos = this->convertToWorldSpace(Vec2::ZERO);
     
@@ -842,6 +842,6 @@ Rect ScrollView::getViewRect()
         scaleY = -scaleY;
     }
 
-    return Rect(screenPos.x, screenPos.y, _viewSize.width*scaleX, _viewSize.height*scaleY);
+    return CCRect(screenPos.x, screenPos.y, _viewSize.width*scaleX, _viewSize.height*scaleY);
 }
 NS_CC_EXT_END

@@ -123,20 +123,20 @@ namespace ui {
 
     bool Scale9Sprite::init()
     {
-        return this->init(NULL, Rect::ZERO, Rect::ZERO);
+        return this->init(NULL, CCRect::ZERO, CCRect::ZERO);
     }
 
-    bool Scale9Sprite::init(Sprite* sprite, const Rect& rect, const Rect& capInsets)
+    bool Scale9Sprite::init(Sprite* sprite, const CCRect& rect, const CCRect& capInsets)
     {
         return this->init(sprite, rect, false, capInsets);
     }
 
-    bool Scale9Sprite::init(Sprite* sprite, const Rect& rect, bool rotated, const Rect& capInsets)
+    bool Scale9Sprite::init(Sprite* sprite, const CCRect& rect, bool rotated, const CCRect& capInsets)
     {
         return init(sprite, rect, rotated, Vec2::ZERO, rect.size, capInsets);
     }
 
-    bool Scale9Sprite::init(Sprite* sprite, const Rect& rect, bool rotated, const Vec2 &offset, const Size &originalSize, const Rect& capInsets)
+    bool Scale9Sprite::init(Sprite* sprite, const CCRect& rect, bool rotated, const Vec2 &offset, const CCSize &originalSize, const CCRect& capInsets)
     {
         if(sprite)
         {
@@ -146,13 +146,13 @@ namespace ui {
         return true;
     }
 
-    bool Scale9Sprite::initWithBatchNode(cocos2d::SpriteBatchNode *batchnode, const cocos2d::Rect &rect, bool rotated, const cocos2d::Rect &capInsets)
+    bool Scale9Sprite::initWithBatchNode(cocos2d::SpriteBatchNode *batchnode, const cocos2d::CCRect &rect, bool rotated, const cocos2d::CCRect &capInsets)
     {
         Sprite *sprite = Sprite::createWithTexture(batchnode->getTexture());
         return init(sprite, rect, rotated, capInsets);
     }
 
-    bool Scale9Sprite::initWithBatchNode(cocos2d::SpriteBatchNode *batchnode, const cocos2d::Rect &rect, const cocos2d::Rect &capInsets)
+    bool Scale9Sprite::initWithBatchNode(cocos2d::SpriteBatchNode *batchnode, const cocos2d::CCRect &rect, const cocos2d::CCRect &capInsets)
     {
         auto sprite = Sprite::createWithTexture(batchnode->getTexture());
         return init(sprite, rect, false, capInsets);
@@ -208,20 +208,20 @@ namespace ui {
             _bottomRightSprite->setBlendFunc(_blendFunc);
     }
 
-    bool Scale9Sprite::updateWithBatchNode(cocos2d::SpriteBatchNode *batchnode, const cocos2d::Rect &originalRect, bool rotated, const cocos2d::Rect &capInsets)
+    bool Scale9Sprite::updateWithBatchNode(cocos2d::SpriteBatchNode *batchnode, const cocos2d::CCRect &originalRect, bool rotated, const cocos2d::CCRect &capInsets)
     {
         Sprite *sprite = Sprite::createWithTexture(batchnode->getTexture());
         return this->updateWithSprite(sprite, originalRect, rotated, Vec2::ZERO, originalRect.size, capInsets);
     }
 
-    bool Scale9Sprite::updateWithSprite(Sprite* sprite, const Rect& rect, bool rotated, const Rect& capInsets)
+    bool Scale9Sprite::updateWithSprite(Sprite* sprite, const CCRect& rect, bool rotated, const CCRect& capInsets)
     {
         return updateWithSprite(sprite, rect, rotated, Vec2::ZERO, rect.size, capInsets);
     }
 
-    static Rect intersectRect(const Rect &first, const Rect &second)
+    static CCRect intersectRect(const CCRect &first, const CCRect &second)
     {
-        Rect ret;
+        CCRect ret;
         ret.origin.x = std::max(first.origin.x,second.origin.x);
         ret.origin.y = std::max(first.origin.y,second.origin.y);
 
@@ -233,7 +233,7 @@ namespace ui {
         return ret;
     }
 
-    bool Scale9Sprite::updateWithSprite(Sprite* sprite, const Rect& textureRect, bool rotated, const Vec2 &offset, const Size &originalSize, const Rect& capInsets)
+    bool Scale9Sprite::updateWithSprite(Sprite* sprite, const CCRect& textureRect, bool rotated, const Vec2 &offset, const CCSize &originalSize, const CCRect& capInsets)
     {
         GLubyte opacity = getOpacity();
         Color3B color = getColor();
@@ -274,21 +274,21 @@ namespace ui {
             return false;
         }
 
-        Rect rect(textureRect);
-        Size size(originalSize);
+        CCRect rect(textureRect);
+        CCSize size(originalSize);
 
         _capInsets = capInsets;
 
         // If there is no given rect
-        if ( rect.equals(Rect::ZERO) )
+        if ( rect.equals(CCRect::ZERO) )
         {
             // Get the texture size as original
-            Size textureSize = _scale9Image->getTexture()->getContentSize();
+            CCSize textureSize = _scale9Image->getTexture()->getContentSize();
 
-            rect = Rect(0, 0, textureSize.width, textureSize.height);
+            rect = CCRect(0, 0, textureSize.width, textureSize.height);
         }
 
-        if( size.equals(Size::ZERO) )
+        if( size.equals(CCSize::ZERO) )
         {
             size = rect.size;
         }
@@ -330,17 +330,17 @@ namespace ui {
                 ceilf(_offset.y + (_originalSize.height - _spriteRect.size.height) / 2));
 
         // If there is no specified center region
-        if ( _capInsetsInternal.equals(Rect::ZERO) )
+        if ( _capInsetsInternal.equals(CCRect::ZERO) )
         {
             // log("... cap insets not specified : using default cap insets ...");
-            _capInsetsInternal = Rect(width /3, height /3, width /3, height /3);
+            _capInsetsInternal = CCRect(width /3, height /3, width /3, height /3);
         }
 
-        Rect originalRect;
+        CCRect originalRect;
         if(_spriteFrameRotated)
-            originalRect = Rect(_spriteRect.origin.x - offsetPosition.y, _spriteRect.origin.y - offsetPosition.x, _originalSize.width, _originalSize.height);
+            originalRect = CCRect(_spriteRect.origin.x - offsetPosition.y, _spriteRect.origin.y - offsetPosition.x, _originalSize.width, _originalSize.height);
         else
-            originalRect = Rect(_spriteRect.origin.x - offsetPosition.x, _spriteRect.origin.y - offsetPosition.y, _originalSize.width, _originalSize.height);
+            originalRect = CCRect(_spriteRect.origin.x - offsetPosition.x, _spriteRect.origin.y - offsetPosition.y, _originalSize.width, _originalSize.height);
 
         float leftWidth = _capInsetsInternal.origin.x;
         float centerWidth = _capInsetsInternal.size.width;
@@ -356,19 +356,19 @@ namespace ui {
         float x = 0.0;
         float y = 0.0;
 
-        Rect pixelRect = Rect(offsetPosition.x, offsetPosition.y, _spriteRect.size.width, _spriteRect.size.height);
+        CCRect pixelRect = CCRect(offsetPosition.x, offsetPosition.y, _spriteRect.size.width, _spriteRect.size.height);
 
         // top left
-        Rect leftTopBoundsOriginal = Rect(x, y, leftWidth, topHeight);
-        Rect leftTopBounds = leftTopBoundsOriginal;
+        CCRect leftTopBoundsOriginal = CCRect(x, y, leftWidth, topHeight);
+        CCRect leftTopBounds = leftTopBoundsOriginal;
 
         // top center
         x += leftWidth;
-        Rect centerTopBounds = Rect(x, y, centerWidth, topHeight);
+        CCRect centerTopBounds = CCRect(x, y, centerWidth, topHeight);
 
         // top right
         x += centerWidth;
-        Rect rightTopBounds = Rect(x, y, rightWidth, topHeight);
+        CCRect rightTopBounds = CCRect(x, y, rightWidth, topHeight);
 
         // ... center row
         x = 0.0;
@@ -376,16 +376,16 @@ namespace ui {
         y += topHeight;
 
         // center left
-        Rect leftCenterBounds = Rect(x, y, leftWidth, centerHeight);
+        CCRect leftCenterBounds = CCRect(x, y, leftWidth, centerHeight);
 
         // center center
         x += leftWidth;
-        Rect centerBoundsOriginal = Rect(x, y, centerWidth, centerHeight);
-        Rect centerBounds = centerBoundsOriginal;
+        CCRect centerBoundsOriginal = CCRect(x, y, centerWidth, centerHeight);
+        CCRect centerBounds = centerBoundsOriginal;
 
         // center right
         x += centerWidth;
-        Rect rightCenterBounds = Rect(x, y, rightWidth, centerHeight);
+        CCRect rightCenterBounds = CCRect(x, y, rightWidth, centerHeight);
 
         // ... bottom row
         x = 0.0;
@@ -394,16 +394,16 @@ namespace ui {
         y += centerHeight;
 
         // bottom left
-        Rect leftBottomBounds = Rect(x, y, leftWidth, bottomHeight);
+        CCRect leftBottomBounds = CCRect(x, y, leftWidth, bottomHeight);
 
         // bottom center
         x += leftWidth;
-        Rect centerBottomBounds = Rect(x, y, centerWidth, bottomHeight);
+        CCRect centerBottomBounds = CCRect(x, y, centerWidth, bottomHeight);
 
         // bottom right
         x += centerWidth;
-        Rect rightBottomBoundsOriginal = Rect(x, y, rightWidth, bottomHeight);
-        Rect rightBottomBounds = rightBottomBoundsOriginal;
+        CCRect rightBottomBoundsOriginal = CCRect(x, y, rightWidth, bottomHeight);
+        CCRect rightBottomBounds = rightBottomBoundsOriginal;
 
         if((_capInsetsInternal.origin.x + _capInsetsInternal.size.width) <= _originalSize.width
            || (_capInsetsInternal.origin.y + _capInsetsInternal.size.height) <= _originalSize.height)
@@ -423,19 +423,19 @@ namespace ui {
             //it is error but for legacy turn off clip system
             CCLOG("Scale9Sprite capInsetsInternal > originalSize");
 
-        Rect rotatedLeftTopBoundsOriginal = leftTopBoundsOriginal;
-        Rect rotatedCenterBoundsOriginal = centerBoundsOriginal;
-        Rect rotatedRightBottomBoundsOriginal = rightBottomBoundsOriginal;
+        CCRect rotatedLeftTopBoundsOriginal = leftTopBoundsOriginal;
+        CCRect rotatedCenterBoundsOriginal = centerBoundsOriginal;
+        CCRect rotatedRightBottomBoundsOriginal = rightBottomBoundsOriginal;
 
-        Rect rotatedCenterBounds = centerBounds;
-        Rect rotatedRightBottomBounds = rightBottomBounds;
-        Rect rotatedLeftBottomBounds = leftBottomBounds;
-        Rect rotatedRightTopBounds = rightTopBounds;
-        Rect rotatedLeftTopBounds = leftTopBounds;
-        Rect rotatedRightCenterBounds = rightCenterBounds;
-        Rect rotatedLeftCenterBounds = leftCenterBounds;
-        Rect rotatedCenterBottomBounds = centerBottomBounds;
-        Rect rotatedCenterTopBounds = centerTopBounds;
+        CCRect rotatedCenterBounds = centerBounds;
+        CCRect rotatedRightBottomBounds = rightBottomBounds;
+        CCRect rotatedLeftBottomBounds = leftBottomBounds;
+        CCRect rotatedRightTopBounds = rightTopBounds;
+        CCRect rotatedLeftTopBounds = leftTopBounds;
+        CCRect rotatedRightCenterBounds = rightCenterBounds;
+        CCRect rotatedLeftCenterBounds = leftCenterBounds;
+        CCRect rotatedCenterBottomBounds = centerBottomBounds;
+        CCRect rotatedCenterTopBounds = centerTopBounds;
 
         if (!_spriteFrameRotated)
         {
@@ -592,7 +592,7 @@ namespace ui {
         }
     }
 
-    void Scale9Sprite::setContentSize(const Size &size)
+    void Scale9Sprite::setContentSize(const CCSize &size)
     {
         Node::setContentSize(size);
         this->_positionsAreDirty = true;
@@ -600,7 +600,7 @@ namespace ui {
 
     void Scale9Sprite::updatePositions()
     {
-        Size size = this->_contentSize;
+        CCSize size = this->_contentSize;
 
         float sizableWidth = size.width - _topLeftSize.width - _bottomRightSize.width;
         float sizableHeight = size.height - _topLeftSize.height - _bottomRightSize.height;
@@ -679,14 +679,14 @@ namespace ui {
         }
     }
 
-    bool Scale9Sprite::initWithFile(const std::string& file, const Rect& rect,  const Rect& capInsets)
+    bool Scale9Sprite::initWithFile(const std::string& file, const CCRect& rect,  const CCRect& capInsets)
     {
         Sprite *sprite = Sprite::create(file);
         bool pReturn = this->init(sprite, rect, capInsets);
         return pReturn;
     }
 
-    Scale9Sprite* Scale9Sprite::create(const std::string& file, const Rect& rect,  const Rect& capInsets)
+    Scale9Sprite* Scale9Sprite::create(const std::string& file, const CCRect& rect,  const CCRect& capInsets)
     {
         Scale9Sprite* pReturn = new (std::nothrow) Scale9Sprite();
         if ( pReturn && pReturn->initWithFile(file, rect, capInsets) )
@@ -698,13 +698,13 @@ namespace ui {
         return NULL;
     }
 
-    bool Scale9Sprite::initWithFile(const std::string& file, const Rect& rect)
+    bool Scale9Sprite::initWithFile(const std::string& file, const CCRect& rect)
     {
-        bool pReturn = this->initWithFile(file, rect, Rect::ZERO);
+        bool pReturn = this->initWithFile(file, rect, CCRect::ZERO);
         return pReturn;
     }
 
-    Scale9Sprite* Scale9Sprite::create(const std::string& file, const Rect& rect)
+    Scale9Sprite* Scale9Sprite::create(const std::string& file, const CCRect& rect)
     {
         Scale9Sprite* pReturn = new (std::nothrow) Scale9Sprite();
         if ( pReturn && pReturn->initWithFile(file, rect) )
@@ -717,13 +717,13 @@ namespace ui {
     }
 
 
-    bool Scale9Sprite::initWithFile(const Rect& capInsets, const std::string& file)
+    bool Scale9Sprite::initWithFile(const CCRect& capInsets, const std::string& file)
     {
-        bool pReturn = this->initWithFile(file, Rect::ZERO, capInsets);
+        bool pReturn = this->initWithFile(file, CCRect::ZERO, capInsets);
         return pReturn;
     }
 
-    Scale9Sprite* Scale9Sprite::create(const Rect& capInsets, const std::string& file)
+    Scale9Sprite* Scale9Sprite::create(const CCRect& capInsets, const std::string& file)
     {
         Scale9Sprite* pReturn = new (std::nothrow) Scale9Sprite();
         if ( pReturn && pReturn->initWithFile(capInsets, file) )
@@ -737,7 +737,7 @@ namespace ui {
 
     bool Scale9Sprite::initWithFile(const std::string& file)
     {
-        bool pReturn = this->initWithFile(file, Rect::ZERO);
+        bool pReturn = this->initWithFile(file, CCRect::ZERO);
         return pReturn;
 
     }
@@ -754,7 +754,7 @@ namespace ui {
         return NULL;
     }
 
-    bool Scale9Sprite::initWithSpriteFrame(SpriteFrame* spriteFrame, const Rect& capInsets)
+    bool Scale9Sprite::initWithSpriteFrame(SpriteFrame* spriteFrame, const CCRect& capInsets)
     {
         Texture2D* texture = spriteFrame->getTexture();
         CCASSERT(texture != NULL, "CCTexture must be not nil");
@@ -766,7 +766,7 @@ namespace ui {
         return pReturn;
     }
 
-    Scale9Sprite* Scale9Sprite::createWithSpriteFrame(SpriteFrame* spriteFrame, const Rect& capInsets)
+    Scale9Sprite* Scale9Sprite::createWithSpriteFrame(SpriteFrame* spriteFrame, const CCRect& capInsets)
     {
         Scale9Sprite* pReturn = new (std::nothrow) Scale9Sprite();
         if ( pReturn && pReturn->initWithSpriteFrame(spriteFrame, capInsets) )
@@ -780,7 +780,7 @@ namespace ui {
     bool Scale9Sprite::initWithSpriteFrame(SpriteFrame* spriteFrame)
     {
         CCASSERT(spriteFrame != NULL, "Invalid spriteFrame for sprite");
-        bool pReturn = this->initWithSpriteFrame(spriteFrame, Rect::ZERO);
+        bool pReturn = this->initWithSpriteFrame(spriteFrame, CCRect::ZERO);
         return pReturn;
     }
 
@@ -796,7 +796,7 @@ namespace ui {
         return NULL;
     }
 
-    bool Scale9Sprite::initWithSpriteFrameName(const std::string& spriteFrameName, const Rect& capInsets)
+    bool Scale9Sprite::initWithSpriteFrameName(const std::string& spriteFrameName, const CCRect& capInsets)
     {
         CCASSERT((SpriteFrameCache::getInstance()) != NULL, "SpriteFrameCache::getInstance() must be non-NULL");
 
@@ -809,7 +809,7 @@ namespace ui {
         return pReturn;
     }
 
-    Scale9Sprite* Scale9Sprite::createWithSpriteFrameName(const std::string& spriteFrameName, const Rect& capInsets)
+    Scale9Sprite* Scale9Sprite::createWithSpriteFrameName(const std::string& spriteFrameName, const CCRect& capInsets)
     {
         Scale9Sprite* pReturn = new (std::nothrow) Scale9Sprite();
         if ( pReturn && pReturn->initWithSpriteFrameName(spriteFrameName, capInsets) )
@@ -823,7 +823,7 @@ namespace ui {
 
     bool Scale9Sprite::initWithSpriteFrameName(const std::string& spriteFrameName)
     {
-        bool pReturn = this->initWithSpriteFrameName(spriteFrameName, Rect::ZERO);
+        bool pReturn = this->initWithSpriteFrameName(spriteFrameName, CCRect::ZERO);
         return pReturn;
     }
 
@@ -842,7 +842,7 @@ namespace ui {
 
     }
 
-    Scale9Sprite* Scale9Sprite::resizableSpriteWithCapInsets(const Rect& capInsets) const
+    Scale9Sprite* Scale9Sprite::resizableSpriteWithCapInsets(const CCRect& capInsets) const
     {
         Scale9Sprite* pReturn = new (std::nothrow) Scale9Sprite();
         if ( pReturn && pReturn->init(_scale9Image, _spriteRect, _spriteFrameRotated, _offset, _originalSize, _capInsets) )
@@ -907,14 +907,14 @@ namespace ui {
 
     void Scale9Sprite::updateCapInset()
     {
-        Rect insets;
+        CCRect insets;
         if (this->_insetLeft == 0 && this->_insetTop == 0 && this->_insetRight == 0 && this->_insetBottom == 0)
         {
-            insets = Rect::ZERO;
+            insets = CCRect::ZERO;
         }
         else
         {
-            insets = Rect(_insetLeft,
+            insets = CCRect(_insetLeft,
                           _insetTop,
                           _originalSize.width-_insetLeft-_insetRight,
                           _originalSize.height-_insetTop-_insetBottom);
@@ -923,7 +923,7 @@ namespace ui {
     }
 
 
-    void Scale9Sprite::setSpriteFrame(SpriteFrame * spriteFrame, const Rect& capInsets)
+    void Scale9Sprite::setSpriteFrame(SpriteFrame * spriteFrame, const CCRect& capInsets)
     {
         Sprite * sprite = Sprite::createWithTexture(spriteFrame->getTexture());
         this->updateWithSprite(sprite, spriteFrame->getRect(), spriteFrame->isRotated(), spriteFrame->getOffset(), spriteFrame->getOriginalSize(), capInsets);
@@ -935,16 +935,16 @@ namespace ui {
         this->_insetBottom = _originalSize.height - _insetTop - capInsets.size.height;
     }
 
-    void Scale9Sprite::setPreferredSize(const Size& preferedSize)
+    void Scale9Sprite::setPreferredSize(const CCSize& preferedSize)
     {
         this->setContentSize(preferedSize);
         this->_preferredSize = preferedSize;
     }
 
 
-    void Scale9Sprite::setCapInsets(const Rect& capInsets)
+    void Scale9Sprite::setCapInsets(const CCRect& capInsets)
     {
-        Size contentSize = this->_contentSize;
+        CCSize contentSize = this->_contentSize;
         this->updateWithSprite(this->_scale9Image, _spriteRect, _spriteFrameRotated, _offset, _originalSize, capInsets);
         this->_insetLeft = capInsets.origin.x;
         this->_insetTop = capInsets.origin.y;
@@ -1070,18 +1070,18 @@ namespace ui {
 
     }
 
-    Size Scale9Sprite::getOriginalSize()const
+    CCSize Scale9Sprite::getOriginalSize()const
     {
         return _originalSize;
     }
 
 
-    Size Scale9Sprite::getPreferredSize() const
+    CCSize Scale9Sprite::getPreferredSize() const
     {
         return _preferredSize;
     }
 
-    Rect Scale9Sprite::getCapInsets()const
+    CCRect Scale9Sprite::getCapInsets()const
     {
         return _capInsets;
     }

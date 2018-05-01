@@ -100,7 +100,7 @@ public:
      * @param texture A given texture.
      8 @param rect A given rect, in points.
      */
-    void setTextureWithRect(Texture2D *texture, const Rect& rect);
+    void setTextureWithRect(Texture2D *texture, const CCRect& rect);
 
     /** Listen the event that renderer was recreated on Android/WP8.
      * @js NA
@@ -167,7 +167,7 @@ protected:
     void initIndices();
     
     /** initializes the texture with a rectangle measured Points */
-    void initTexCoordsWithRect(const Rect& rect);
+    void initTexCoordsWithRect(const CCRect& rect);
     
     /** Updates texture coords */
     void updateTexCoords();

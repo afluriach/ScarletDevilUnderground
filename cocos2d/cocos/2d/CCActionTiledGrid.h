@@ -52,7 +52,7 @@ public:
     @param shakeZ Specify whether shake on the z axis.
     @return If the creation success, return a pointer of ShakyTiles3D action; otherwise, return nil.
     */
-    static ShakyTiles3D* create(float duration, const Size& gridSize, int range, bool shakeZ);
+    static ShakyTiles3D* create(float duration, const CCSize& gridSize, int range, bool shakeZ);
 
     // Override
 	virtual ShakyTiles3D* clone() const override;
@@ -70,7 +70,7 @@ CC_CONSTRUCTOR_ACCESS:
     @param shakeZ Specify whether shake on the z axis.
     @return If the Initialization success, return true; otherwise, return false.
     */
-    bool initWithDuration(float duration, const Size& gridSize, int range, bool shakeZ);
+    bool initWithDuration(float duration, const CCSize& gridSize, int range, bool shakeZ);
 
 protected:
     int _randrange;
@@ -97,7 +97,7 @@ public:
      * @param shatterZ Specify whether shatter on the z axis.
      * @return If the creation success, return a pointer of ShatteredTiles3D action; otherwise, return nil.
      */
-    static ShatteredTiles3D* create(float duration, const Size& gridSize, int range, bool shatterZ);
+    static ShatteredTiles3D* create(float duration, const CCSize& gridSize, int range, bool shatterZ);
 
     // Override
 	virtual ShatteredTiles3D* clone() const override;
@@ -115,7 +115,7 @@ CC_CONSTRUCTOR_ACCESS:
     @param shatterZ Specify whether shake on the z axis.
     @return If the Initialization success, return true; otherwise, return false.
     */
-    bool initWithDuration(float duration, const Size& gridSize, int range, bool shatterZ);
+    bool initWithDuration(float duration, const CCSize& gridSize, int range, bool shatterZ);
 
 protected:
     int _randrange;
@@ -143,10 +143,10 @@ public:
     * @param seed Specify the random seed.
     * @return If the creation success, return a pointer of ShuffleTiles action; otherwise, return nil.
     */
-    static ShuffleTiles* create(float duration, const Size& gridSize, unsigned int seed);
+    static ShuffleTiles* create(float duration, const CCSize& gridSize, unsigned int seed);
 
     void shuffle(unsigned int *array, unsigned int len);
-    Size getDelta(const Size& pos) const;
+    CCSize getDelta(const CCSize& pos) const;
     void placeTile(const Vec2& pos, Tile *t);
 
     // Overrides
@@ -165,7 +165,7 @@ CC_CONSTRUCTOR_ACCESS:
     * @param seed Specify the random seed.
     * @return If the Initialization success, return true; otherwise, return false.
     */
-    bool initWithDuration(float duration, const Size& gridSize, unsigned int seed);
+    bool initWithDuration(float duration, const CCSize& gridSize, unsigned int seed);
 
 protected:
     unsigned int _seed;
@@ -190,7 +190,7 @@ public:
     * @param gridSize Specify the size of the grid.
     * @return If the creation success, return a pointer of FadeOutTRTiles action; otherwise, return nil.
     */
-    static FadeOutTRTiles* create(float duration, const Size& gridSize);
+    static FadeOutTRTiles* create(float duration, const CCSize& gridSize);
 
     /**
     @brief Calculate the percentage a tile should be shown.
@@ -198,7 +198,7 @@ public:
     @param time The current percentage of the action.
     @return Return the percentage the tile should be shown.
     */
-    virtual float testFunc(const Size& pos, float time);
+    virtual float testFunc(const CCSize& pos, float time);
 
     /**
     @brief Show the tile at specified position.
@@ -244,10 +244,10 @@ public:
     * @param gridSize Specify the size of the grid.
     * @return If the creation success, return a pointer of FadeOutBLTiles action; otherwise, return nil.
     */
-    static FadeOutBLTiles* create(float duration, const Size& gridSize);
+    static FadeOutBLTiles* create(float duration, const CCSize& gridSize);
 
     // Overrides
-    virtual float testFunc(const Size& pos, float time) override;
+    virtual float testFunc(const CCSize& pos, float time) override;
 	virtual FadeOutBLTiles* clone() const override;
 
 CC_CONSTRUCTOR_ACCESS:
@@ -271,13 +271,13 @@ public:
     * @param gridSize Specify the size of the grid.
     * @return If the creation success, return a pointer of FadeOutUpTiles action; otherwise, return nil.
     */
-    static FadeOutUpTiles* create(float duration, const Size& gridSize);
+    static FadeOutUpTiles* create(float duration, const CCSize& gridSize);
 
     virtual void transformTile(const Vec2& pos, float distance) override;
 
     // Overrides
 	virtual FadeOutUpTiles* clone() const override;
-    virtual float testFunc(const Size& pos, float time) override;
+    virtual float testFunc(const CCSize& pos, float time) override;
 
 CC_CONSTRUCTOR_ACCESS:
     FadeOutUpTiles() {}
@@ -300,11 +300,11 @@ public:
     * @param gridSize Specify the size of the grid.
     * @return If the creation success, return a pointer of FadeOutDownTiles action; otherwise, return nil.
     */
-    static FadeOutDownTiles* create(float duration, const Size& gridSize);
+    static FadeOutDownTiles* create(float duration, const CCSize& gridSize);
 
     // Overrides
 	virtual FadeOutDownTiles* clone() const override;
-    virtual float testFunc(const Size& pos, float time) override;
+    virtual float testFunc(const CCSize& pos, float time) override;
 
 CC_CONSTRUCTOR_ACCESS:
     FadeOutDownTiles() {}
@@ -327,7 +327,7 @@ public:
     * @param gridSize Specify the size of the grid.
     * @return If the creation success, return a pointer of TurnOffTiles action; otherwise, return nil.
     */
-    static TurnOffTiles* create(float duration, const Size& gridSize);
+    static TurnOffTiles* create(float duration, const CCSize& gridSize);
     /** 
     * @brief Create the action with the grid size and the duration.
     * @param duration Specify the duration of the TurnOffTiles action. It's a value in seconds.
@@ -335,7 +335,7 @@ public:
     * @param seed Specify the random seed.
     * @return If the creation success, return a pointer of TurnOffTiles action; otherwise, return nil.
     */
-    static TurnOffTiles* create(float duration, const Size& gridSize, unsigned int seed);
+    static TurnOffTiles* create(float duration, const CCSize& gridSize, unsigned int seed);
 
     /**
     @brief Shuffle the array specified.
@@ -372,7 +372,7 @@ CC_CONSTRUCTOR_ACCESS:
     * @param seed Specify the random seed.
     * @return If the Initialization success, return true; otherwise, return false.
     */
-    bool initWithDuration(float duration, const Size& gridSize, unsigned int seed);
+    bool initWithDuration(float duration, const CCSize& gridSize, unsigned int seed);
 
 protected:
     unsigned int    _seed;
@@ -398,7 +398,7 @@ public:
      * @param amplitude Specify the amplitude of the WavesTiles3D action.
      * @return If the creation success, return a pointer of WavesTiles3D action; otherwise, return nil.
      */
-    static WavesTiles3D* create(float duration, const Size& gridSize, unsigned int waves, float amplitude);
+    static WavesTiles3D* create(float duration, const CCSize& gridSize, unsigned int waves, float amplitude);
 
     /**
     @brief Get the amplitude of the effect.
@@ -438,7 +438,7 @@ CC_CONSTRUCTOR_ACCESS:
     @param amplitude Specify the amplitude of the WavesTiles3D action.
     @return If the initialization success, return true; otherwise, return false.
     */
-    bool initWithDuration(float duration, const Size& gridSize, unsigned int waves, float amplitude);
+    bool initWithDuration(float duration, const CCSize& gridSize, unsigned int waves, float amplitude);
 
 protected:
     unsigned int _waves;
@@ -464,7 +464,7 @@ public:
      * @param amplitude Specify the amplitude of the JumpTiles3D action.
      * @return If the creation success, return a pointer of JumpTiles3D action; otherwise, return nil.
      */
-    static JumpTiles3D* create(float duration, const Size& gridSize, unsigned int numberOfJumps, float amplitude);
+    static JumpTiles3D* create(float duration, const CCSize& gridSize, unsigned int numberOfJumps, float amplitude);
 
     /**
     @brief Get the amplitude of the effect.
@@ -504,7 +504,7 @@ CC_CONSTRUCTOR_ACCESS:
      * @param amplitude Specify the amplitude of the JumpTiles3D action.
      * @return If the initialization success, return true; otherwise, return false.
      */
-    bool initWithDuration(float duration, const Size& gridSize, unsigned int numberOfJumps, float amplitude);
+    bool initWithDuration(float duration, const CCSize& gridSize, unsigned int numberOfJumps, float amplitude);
 
 protected:
     unsigned int _jumps;
@@ -550,7 +550,7 @@ CC_CONSTRUCTOR_ACCESS:
 
 protected:
     unsigned int _rows;
-    Size _winSize;
+    CCSize _winSize;
 
 private:
     CC_DISALLOW_COPY_AND_ASSIGN(SplitRows);
@@ -595,7 +595,7 @@ CC_CONSTRUCTOR_ACCESS:
 
 protected:
     unsigned int _cols;
-    Size _winSize;
+    CCSize _winSize;
 
 private:
     CC_DISALLOW_COPY_AND_ASSIGN(SplitCols);

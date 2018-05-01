@@ -52,7 +52,7 @@ public:
     @param clippingRegion Specify the clipping rectangle.
     @return If the creation success, return a pointer of ClippingRectangleNode; otherwise return nil.
     */
-    static ClippingRectangleNode* create(const Rect& clippingRegion);
+    static ClippingRectangleNode* create(const CCRect& clippingRegion);
     /**
     @brief Create a clipping rectangle node.
     @return If the creation success, return a pointer of ClippingRectangleNode; otherwise return nil.
@@ -63,14 +63,14 @@ public:
     @brief Get the clipping rectangle.
     @return The clipping rectangle.
     */
-    const Rect& getClippingRegion() const {
+    const CCRect& getClippingRegion() const {
         return _clippingRegion;
     }
     /**
     @brief Set the clipping rectangle.
     @param clippingRegion Specify the clipping rectangle.
     */
-    void setClippingRegion(const Rect& clippingRegion);
+    void setClippingRegion(const CCRect& clippingRegion);
     
     /**
     @brief Get whether the clipping is enabled or not.
@@ -100,7 +100,7 @@ protected:
     void onBeforeVisitScissor();
     void onAfterVisitScissor();
     
-    Rect _clippingRegion;
+    CCRect _clippingRegion;
     bool _clippingEnabled;
     
     CustomCommand _beforeVisitCmdScissor;

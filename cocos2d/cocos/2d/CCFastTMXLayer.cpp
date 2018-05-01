@@ -93,7 +93,7 @@ bool TMXLayer::initWithTilesetInfo(TMXTilesetInfo *tilesetInfo, TMXLayerInfo *la
     Vec2 offset = this->calculateLayerOffset(layerInfo->_offset);
     this->setPosition(CC_POINT_PIXELS_TO_POINTS(offset));
 
-    this->setContentSize(CC_SIZE_PIXELS_TO_POINTS(Size(_layerSize.width * _mapTileSize.width, _layerSize.height * _mapTileSize.height)));
+    this->setContentSize(CC_SIZE_PIXELS_TO_POINTS(CCSize(_layerSize.width * _mapTileSize.width, _layerSize.height * _mapTileSize.height)));
     
     this->tileToNodeTransform();
 
@@ -108,8 +108,8 @@ bool TMXLayer::initWithTilesetInfo(TMXTilesetInfo *tilesetInfo, TMXLayerInfo *la
 
 TMXLayer::TMXLayer()
 : _layerName("")
-, _layerSize(Size::ZERO)
-, _mapTileSize(Size::ZERO)
+, _layerSize(CCSize::ZERO)
+, _mapTileSize(CCSize::ZERO)
 , _tiles(nullptr)
 , _tileSet(nullptr)
 , _layerOrientation(FAST_TMX_ORIENTATION_ORTHO)
@@ -141,8 +141,8 @@ void TMXLayer::draw(Renderer *renderer, const Mat4& transform, uint32_t flags)
     
     if( flags != 0 || _dirty || _quadsDirty )
     {
-        Size s = Director::getInstance()->getWinSize();
-        auto rect = Rect(0, 0, s.width, s.height);
+        CCSize s = Director::getInstance()->getWinSize();
+        auto rect = CCRect(0, 0, s.width, s.height);
         
         Mat4 inv = transform;
         inv.inverse();
@@ -183,11 +183,11 @@ void TMXLayer::onDraw(Primitive *primitive)
     CC_INCREMENT_GL_DRAWN_BATCHES_AND_VERTICES(1, primitive->getCount() * 4);
 }
 
-void TMXLayer::updateTiles(const Rect& culledRect)
+void TMXLayer::updateTiles(const CCRect& culledRect)
 {
-    Rect visibleTiles = culledRect;
-    Size mapTileSize = CC_SIZE_PIXELS_TO_POINTS(_mapTileSize);
-    Size tileSize = CC_SIZE_PIXELS_TO_POINTS(_tileSet->_tileSize);
+    CCRect visibleTiles = culledRect;
+    CCSize mapTileSize = CC_SIZE_PIXELS_TO_POINTS(_mapTileSize);
+    CCSize tileSize = CC_SIZE_PIXELS_TO_POINTS(_tileSet->_tileSize);
     Mat4 nodeToTileTransform = _tileToNodeTransform.getInversed();
     //transform to tile
     visibleTiles = RectApplyTransform(visibleTiles, nodeToTileTransform);
@@ -215,7 +215,7 @@ void TMXLayer::updateTiles(const Rect& culledRect)
     }
     else if(_layerOrientation == FAST_TMX_ORIENTATION_ISO)
     {
-        Rect overTileRect(0, 0, tileSizeMax - mapTileSize.width, tileSizeMax - mapTileSize.height);
+        CCRect overTileRect(0, 0, tileSizeMax - mapTileSize.width, tileSizeMax - mapTileSize.height);
         if (overTileRect.size.width < 0) overTileRect.size.width = 0;
         if (overTileRect.size.height < 0) overTileRect.size.height = 0;
         overTileRect = RectApplyTransform(overTileRect, nodeToTileTransform);
@@ -323,7 +323,7 @@ void TMXLayer::setupTiles()
     // Parse cocos2d properties
     this->parseInternalProperties();
 
-    Size screenSize = Director::getInstance()->getWinSize();
+    CCSize screenSize = Director::getInstance()->getWinSize();
 
     switch (_layerOrientation)
     {
@@ -427,8 +427,8 @@ void TMXLayer::updateTotalQuads()
 {
     if(_quadsDirty)
     {
-        Size tileSize = CC_SIZE_PIXELS_TO_POINTS(_tileSet->_tileSize);
-        Size texSize = _tileSet->_imageSize;
+        CCSize tileSize = CC_SIZE_PIXELS_TO_POINTS(_tileSet->_tileSize);
+        CCSize texSize = _tileSet->_imageSize;
         _tileToQuadIndex.clear();
         _totalQuads.resize(int(_layerSize.width * _layerSize.height));
         _indices.resize(6 * int(_layerSize.width * _layerSize.height));
@@ -518,7 +518,7 @@ void TMXLayer::updateTotalQuads()
                 }
                 
                 // texcoords
-                Rect tileTexture = _tileSet->getRectForGID(tileGID);
+                CCRect tileTexture = _tileSet->getRectForGID(tileGID);
                 left   = (tileTexture.origin.x / texSize.width);
                 right  = left + (tileTexture.size.width / texSize.width);
                 bottom = (tileTexture.origin.y / texSize.height);
@@ -575,7 +575,7 @@ Sprite* TMXLayer::getTileAt(const Vec2& tileCoordinate)
         else
         {
             // tile not created yet. create it
-            Rect rect = _tileSet->getRectForGID(gid);
+            CCRect rect = _tileSet->getRectForGID(gid);
             rect = CC_RECT_PIXELS_TO_POINTS(rect);
             tile = Sprite::createWithTexture(_texture, rect);
             
@@ -796,7 +796,7 @@ void TMXLayer::setTileGID(int gid, const Vec2& tileCoordinate, TMXTileFlags flag
         if (it != _spriteContainer.end())
         {
             Sprite *sprite = it->second.first;
-            Rect rect = _tileSet->getRectForGID(gid);
+            CCRect rect = _tileSet->getRectForGID(gid);
             rect = CC_RECT_PIXELS_TO_POINTS(rect);
             
             sprite->setTextureRect(rect, false, rect.size);

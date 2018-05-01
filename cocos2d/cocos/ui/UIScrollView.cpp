@@ -137,20 +137,20 @@ void ScrollView::onSizeChanged()
     _bounceBottomBoundary = bounceBoundaryParameterY;
     _bounceLeftBoundary = bounceBoundaryParameterX;
     _bounceRightBoundary = _contentSize.width - bounceBoundaryParameterX;
-    Size innerSize = _innerContainer->getContentSize();
+    CCSize innerSize = _innerContainer->getContentSize();
     float orginInnerSizeWidth = innerSize.width;
     float orginInnerSizeHeight = innerSize.height;
     float innerSizeWidth = MAX(orginInnerSizeWidth, _contentSize.width);
     float innerSizeHeight = MAX(orginInnerSizeHeight, _contentSize.height);
-    _innerContainer->setContentSize(Size(innerSizeWidth, innerSizeHeight));
+    _innerContainer->setContentSize(CCSize(innerSizeWidth, innerSizeHeight));
     _innerContainer->setPosition(Vec2(0, _contentSize.height - _innerContainer->getContentSize().height));
 }
 
-void ScrollView::setInnerContainerSize(const Size &size)
+void ScrollView::setInnerContainerSize(const CCSize &size)
 {
     float innerSizeWidth = _contentSize.width;
     float innerSizeHeight = _contentSize.height;
-    Size originalInnerSize = _innerContainer->getContentSize();
+    CCSize originalInnerSize = _innerContainer->getContentSize();
     if (size.width < _contentSize.width)
     {
         CCLOG("Inner width <= scrollview width, it will be force sized!");
@@ -167,13 +167,13 @@ void ScrollView::setInnerContainerSize(const Size &size)
     {
         innerSizeHeight = size.height;
     }
-    _innerContainer->setContentSize(Size(innerSizeWidth, innerSizeHeight));
+    _innerContainer->setContentSize(CCSize(innerSizeWidth, innerSizeHeight));
 
     switch (_direction)
     {
         case Direction::VERTICAL:
         {
-            Size newInnerSize = _innerContainer->getContentSize();
+            CCSize newInnerSize = _innerContainer->getContentSize();
             float offset = originalInnerSize.height - newInnerSize.height;
             scrollChildren(0.0f, offset);
             break;
@@ -182,7 +182,7 @@ void ScrollView::setInnerContainerSize(const Size &size)
         {
             if (_innerContainer->getRightBoundary() <= _contentSize.width)
             {
-                Size newInnerSize = _innerContainer->getContentSize();
+                CCSize newInnerSize = _innerContainer->getContentSize();
                 float offset = originalInnerSize.width - newInnerSize.width;
                 scrollChildren(offset, 0.0f);
             }
@@ -190,7 +190,7 @@ void ScrollView::setInnerContainerSize(const Size &size)
         }
         case Direction::BOTH:
         {
-            Size newInnerSize = _innerContainer->getContentSize();
+            CCSize newInnerSize = _innerContainer->getContentSize();
             float offsetY = originalInnerSize.height - newInnerSize.height;
             float offsetX = 0.0f;
             if (_innerContainer->getRightBoundary() <= _contentSize.width)
@@ -225,7 +225,7 @@ void ScrollView::setInnerContainerSize(const Size &size)
     }
 }
 
-const Size& ScrollView::getInnerContainerSize() const
+const CCSize& ScrollView::getInnerContainerSize() const
 {
 	return _innerContainer->getContentSize();
 }

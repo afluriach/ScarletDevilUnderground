@@ -134,15 +134,15 @@ void SpriteFrameCache::addSpriteFramesWithDictionary(ValueMap& dictionary, Textu
             oh = abs(oh);
             // create frame
             spriteFrame = SpriteFrame::createWithTexture(texture,
-                                                         Rect(x, y, w, h),
+                                                         CCRect(x, y, w, h),
                                                          false,
                                                          Vec2(ox, oy),
-                                                         Size((float)ow, (float)oh)
+                                                         CCSize((float)ow, (float)oh)
                                                          );
         } 
         else if(format == 1 || format == 2) 
         {
-            Rect frame = RectFromString(frameDict["frame"].asString());
+            CCRect frame = RectFromString(frameDict["frame"].asString());
             bool rotated = false;
 
             // rotation
@@ -152,7 +152,7 @@ void SpriteFrameCache::addSpriteFramesWithDictionary(ValueMap& dictionary, Textu
             }
 
             Vec2 offset = PointFromString(frameDict["offset"].asString());
-            Size sourceSize = SizeFromString(frameDict["sourceSize"].asString());
+            CCSize sourceSize = SizeFromString(frameDict["sourceSize"].asString());
 
             // create frame
             spriteFrame = SpriteFrame::createWithTexture(texture,
@@ -165,10 +165,10 @@ void SpriteFrameCache::addSpriteFramesWithDictionary(ValueMap& dictionary, Textu
         else if (format == 3)
         {
             // get values
-            Size spriteSize = SizeFromString(frameDict["spriteSize"].asString());
+            CCSize spriteSize = SizeFromString(frameDict["spriteSize"].asString());
             Vec2 spriteOffset = PointFromString(frameDict["spriteOffset"].asString());
-            Size spriteSourceSize = SizeFromString(frameDict["spriteSourceSize"].asString());
-            Rect textureRect = RectFromString(frameDict["textureRect"].asString());
+            CCSize spriteSourceSize = SizeFromString(frameDict["spriteSourceSize"].asString());
+            CCRect textureRect = RectFromString(frameDict["textureRect"].asString());
             bool textureRotated = frameDict["textureRotated"].asBool();
 
             // get aliases
@@ -186,7 +186,7 @@ void SpriteFrameCache::addSpriteFramesWithDictionary(ValueMap& dictionary, Textu
             
             // create frame
             spriteFrame = SpriteFrame::createWithTexture(texture,
-                                                         Rect(textureRect.origin.x, textureRect.origin.y, spriteSize.width, spriteSize.height),
+                                                         CCRect(textureRect.origin.x, textureRect.origin.y, spriteSize.width, spriteSize.height),
                                                          textureRotated,
                                                          spriteOffset,
                                                          spriteSourceSize);

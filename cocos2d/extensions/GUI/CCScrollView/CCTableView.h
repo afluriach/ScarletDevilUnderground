@@ -110,7 +110,7 @@ public:
      * @param idx the index of a cell to get a size
      * @return size of a cell at given index
      */
-    virtual Size tableCellSizeForIndex(TableView *table, ssize_t idx) {
+    virtual CCSize tableCellSizeForIndex(TableView *table, ssize_t idx) {
         return cellSizeForTable(table);
     };
     /**
@@ -119,8 +119,8 @@ public:
      * @param table table to hold the instances of Class
      * @return cell size
      */
-    virtual Size cellSizeForTable(TableView *table) {
-        return Size::ZERO;
+    virtual CCSize cellSizeForTable(TableView *table) {
+        return CCSize::ZERO;
     };
     /**
      * a cell instance at a given index
@@ -170,7 +170,7 @@ public:
      * in lua:
      * @endcode
      */
-    static TableView* create(TableViewDataSource* dataSource, Size size);
+    static TableView* create(TableViewDataSource* dataSource, CCSize size);
     /**
      * An initialized table view object
      *
@@ -185,7 +185,7 @@ public:
      * in lua:
      * @endcode
      */
-    static TableView* create(TableViewDataSource* dataSource, Size size, Node *container);
+    static TableView* create(TableViewDataSource* dataSource, CCSize size, Node *container);
     /**
      * @js ctor
      * @lua new
@@ -197,7 +197,7 @@ public:
      */
     virtual ~TableView();
 
-    bool initWithViewSize(Size size, Node* container = NULL);
+    bool initWithViewSize(CCSize size, Node* container = NULL);
 
     /**
      * data source

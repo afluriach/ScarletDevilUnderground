@@ -27,7 +27,7 @@ THE SOFTWARE.
 
 NS_CC_BEGIN
 
-Component::Component(void)
+CCComponent::CCComponent(void)
 : _owner(nullptr)
 , _enabled(true)
 {
@@ -37,18 +37,18 @@ Component::Component(void)
 #endif
 }
 
-Component::~Component(void)
+CCComponent::~CCComponent(void)
 {
 }
 
-bool Component::init()
+bool CCComponent::init()
 {
     return true;
 }
 
 #if CC_ENABLE_SCRIPT_BINDING
 
-static bool sendComponentEventToJS(Component* node, int action)
+static bool sendComponentEventToJS(CCComponent* node, int action)
 {
     auto scriptEngine = ScriptEngineManager::getInstance()->getScriptEngine();
     
@@ -69,7 +69,7 @@ static bool sendComponentEventToJS(Component* node, int action)
 
 #endif
 
-void Component::onEnter()
+void CCComponent::onEnter()
 {
 #if CC_ENABLE_SCRIPT_BINDING
     if (_scriptType == kScriptTypeJavascript)
@@ -80,7 +80,7 @@ void Component::onEnter()
 #endif
 }
 
-void Component::onExit()
+void CCComponent::onExit()
 {
 #if CC_ENABLE_SCRIPT_BINDING
     if (_scriptType == kScriptTypeJavascript)
@@ -91,7 +91,7 @@ void Component::onExit()
 #endif
 }
 
-void Component::update(float delta)
+void CCComponent::update(float delta)
 {
 #if CC_ENABLE_SCRIPT_BINDING
     if (_scriptType == kScriptTypeJavascript)
@@ -102,14 +102,14 @@ void Component::update(float delta)
 #endif
 }
 
-bool Component::serialize(void *ar)
+bool CCComponent::serialize(void *ar)
 {
     return true;
 }
 
-Component* Component::create(void)
+CCComponent* CCComponent::create(void)
 {
-    Component * ret = new (std::nothrow) Component();
+    CCComponent * ret = new (std::nothrow) CCComponent();
     if (ret != nullptr && ret->init())
     {
         ret->autorelease();
@@ -121,32 +121,32 @@ Component* Component::create(void)
     return ret;
 }
 
-const std::string& Component::getName() const
+const std::string& CCComponent::getName() const
 {
     return _name;
 }
 
-void Component::setName(const std::string& name)
+void CCComponent::setName(const std::string& name)
 {
     _name = name;
 }
 
-Node* Component::getOwner() const
+Node* CCComponent::getOwner() const
 {
     return _owner;
 }
 
-void Component::setOwner(Node *owner)
+void CCComponent::setOwner(Node *owner)
 {
     _owner = owner;
 }
 
-bool Component::isEnabled() const
+bool CCComponent::isEnabled() const
 {
     return _enabled;
 }
 
-void Component::setEnabled(bool b)
+void CCComponent::setEnabled(bool b)
 {
     _enabled = b;
 }

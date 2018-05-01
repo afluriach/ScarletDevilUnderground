@@ -67,7 +67,7 @@ void EditBox::touchDownAction(Ref *sender, TouchEventType controlEvent)
     }
 }
 
-EditBox* EditBox::create(const Size& size,
+EditBox* EditBox::create(const CCSize& size,
                          const std::string& normalSprite,
                         TextureResType texType /*= TextureResType::LOCAL*/)
 {
@@ -86,7 +86,7 @@ EditBox* EditBox::create(const Size& size,
 }
     
     
-EditBox* EditBox::create(const cocos2d::Size &size, cocos2d::ui::Scale9Sprite *normalSprite, ui::Scale9Sprite *pressedSprite, Scale9Sprite* disabledSprite)
+EditBox* EditBox::create(const cocos2d::CCSize &size, cocos2d::ui::Scale9Sprite *normalSprite, ui::Scale9Sprite *pressedSprite, Scale9Sprite* disabledSprite)
 {
     EditBox* pRet = new (std::nothrow) EditBox();
     
@@ -102,7 +102,7 @@ EditBox* EditBox::create(const cocos2d::Size &size, cocos2d::ui::Scale9Sprite *n
     return pRet;
 }
     
-bool EditBox::initWithSizeAndBackgroundSprite(const cocos2d::Size &size, cocos2d::ui::Scale9Sprite *pNormal9SpriteBg)
+bool EditBox::initWithSizeAndBackgroundSprite(const cocos2d::CCSize &size, cocos2d::ui::Scale9Sprite *pNormal9SpriteBg)
 {
     if (Widget::init())
     {
@@ -131,7 +131,7 @@ bool EditBox::initWithSizeAndBackgroundSprite(const cocos2d::Size &size, cocos2d
 }
 
 
-bool EditBox::initWithSizeAndBackgroundSprite(const Size& size,
+bool EditBox::initWithSizeAndBackgroundSprite(const CCSize& size,
                                                         const std::string& pNormal9SpriteBg,
                                                         TextureResType texType)
 {
@@ -370,7 +370,7 @@ void EditBox::setVisible(bool visible)
     }
 }
 
-void EditBox::setContentSize(const Size& size)
+void EditBox::setContentSize(const CCSize& size)
 {
     Widget::setContentSize(size);
     if (_editBoxImpl != nullptr)
@@ -449,17 +449,17 @@ void EditBox::onExit(void)
     }
 }
 
-static Rect getRect(Node * pNode)
+static CCRect getRect(Node * pNode)
 {
-	Size contentSize = pNode->getContentSize();
-	Rect rect = Rect(0, 0, contentSize.width, contentSize.height);
+	CCSize contentSize = pNode->getContentSize();
+	CCRect rect = CCRect(0, 0, contentSize.width, contentSize.height);
 	return RectApplyTransform(rect, pNode->getNodeToWorldTransform());
 }
 
 void EditBox::keyboardWillShow(IMEKeyboardNotificationInfo& info)
 {
     // CCLOG("CCEditBox::keyboardWillShow");
-    Rect rectTracked = getRect(this);
+    CCRect rectTracked = getRect(this);
 	// some adjustment for margin between the keyboard and the edit box.
 	rectTracked.origin.y -= 4;
 

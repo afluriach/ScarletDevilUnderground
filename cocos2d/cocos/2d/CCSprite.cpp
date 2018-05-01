@@ -62,7 +62,7 @@ Sprite* Sprite::createWithTexture(Texture2D *texture)
     return nullptr;
 }
 
-Sprite* Sprite::createWithTexture(Texture2D *texture, const Rect& rect, bool rotated)
+Sprite* Sprite::createWithTexture(Texture2D *texture, const CCRect& rect, bool rotated)
 {
     Sprite *sprite = new (std::nothrow) Sprite();
     if (sprite && sprite->initWithTexture(texture, rect, rotated))
@@ -86,7 +86,7 @@ Sprite* Sprite::create(const std::string& filename)
     return nullptr;
 }
 
-Sprite* Sprite::create(const std::string& filename, const Rect& rect)
+Sprite* Sprite::create(const std::string& filename, const CCRect& rect)
 {
     Sprite *sprite = new (std::nothrow) Sprite();
     if (sprite && sprite->initWithFile(filename, rect))
@@ -137,20 +137,20 @@ Sprite* Sprite::create()
 
 bool Sprite::init(void)
 {
-    return initWithTexture(nullptr, Rect::ZERO );
+    return initWithTexture(nullptr, CCRect::ZERO );
 }
 
 bool Sprite::initWithTexture(Texture2D *texture)
 {
     CCASSERT(texture != nullptr, "Invalid texture for sprite");
 
-    Rect rect = Rect::ZERO;
+    CCRect rect = CCRect::ZERO;
     rect.size = texture->getContentSize();
 
     return initWithTexture(texture, rect);
 }
 
-bool Sprite::initWithTexture(Texture2D *texture, const Rect& rect)
+bool Sprite::initWithTexture(Texture2D *texture, const CCRect& rect)
 {
     return initWithTexture(texture, rect, false);
 }
@@ -162,7 +162,7 @@ bool Sprite::initWithFile(const std::string& filename)
     Texture2D *texture = Director::getInstance()->getTextureCache()->addImage(filename);
     if (texture)
     {
-        Rect rect = Rect::ZERO;
+        CCRect rect = CCRect::ZERO;
         rect.size = texture->getContentSize();
         return initWithTexture(texture, rect);
     }
@@ -173,7 +173,7 @@ bool Sprite::initWithFile(const std::string& filename)
     return false;
 }
 
-bool Sprite::initWithFile(const std::string &filename, const Rect& rect)
+bool Sprite::initWithFile(const std::string &filename, const CCRect& rect)
 {
     CCASSERT(filename.size()>0, "Invalid filename");
 
@@ -208,7 +208,7 @@ bool Sprite::initWithSpriteFrame(SpriteFrame *spriteFrame)
 }
 
 // designated initializer
-bool Sprite::initWithTexture(Texture2D *texture, const Rect& rect, bool rotated)
+bool Sprite::initWithTexture(Texture2D *texture, const CCRect& rect, bool rotated)
 {
     bool result;
     if (Node::init())
@@ -309,7 +309,7 @@ void Sprite::setTexture(const std::string &filename)
     Texture2D *texture = Director::getInstance()->getTextureCache()->addImage(filename);
     setTexture(texture);
 
-    Rect rect = Rect::ZERO;
+    CCRect rect = CCRect::ZERO;
     if (texture)
         rect.size = texture->getContentSize();
     setTextureRect(rect);
@@ -354,12 +354,12 @@ Texture2D* Sprite::getTexture() const
     return _texture;
 }
 
-void Sprite::setTextureRect(const Rect& rect)
+void Sprite::setTextureRect(const CCRect& rect)
 {
     setTextureRect(rect, false, rect.size);
 }
 
-void Sprite::setTextureRect(const Rect& rect, bool rotated, const Size& untrimmedSize)
+void Sprite::setTextureRect(const CCRect& rect, bool rotated, const CCSize& untrimmedSize)
 {
     _rectRotated = rotated;
 
@@ -408,12 +408,12 @@ void Sprite::setTextureRect(const Rect& rect, bool rotated, const Size& untrimme
 }
 
 // override this method to generate "double scale" sprites
-void Sprite::setVertexRect(const Rect& rect)
+void Sprite::setVertexRect(const CCRect& rect)
 {
     _rect = rect;
 }
 
-void Sprite::setTextureCoords(Rect rect)
+void Sprite::setTextureCoords(CCRect rect)
 {
     rect = CC_RECT_POINTS_TO_PIXELS(rect);
 
@@ -534,7 +534,7 @@ void Sprite::updateTransform(void)
             // calculate the Quad based on the Affine Matrix
             //
 
-            Size &size = _rect.size;
+            CCSize &size = _rect.size;
 
             float x1 = _offsetPosition.x;
             float y1 = _offsetPosition.y;
@@ -984,7 +984,7 @@ void Sprite::setDisplayFrameWithAnimationName(const std::string& animationName, 
 
 bool Sprite::isFrameDisplayed(SpriteFrame *frame) const
 {
-    Rect r = frame->getRect();
+    CCRect r = frame->getRect();
 
     return (r.equals(_rect) &&
             frame->getTexture()->getName() == _texture->getName() &&

@@ -107,7 +107,7 @@ float getFloatOrDefault(const ValueMap& args, const string& name, float def)
     else return def;
 }
 
-IntVec2 toIntVector(const cocos2d::Size& rhs)
+IntVec2 toIntVector(const cocos2d::CCSize& rhs)
 {
     return IntVec2(rhs.width,rhs.height);
 }
@@ -122,7 +122,7 @@ SpaceVect toChipmunk(const Vec2& rhs)
     return SpaceVect(expand_vector2(rhs));
 }
 
-SpaceVect toChipmunk(const cocos2d::Size& rhs)
+SpaceVect toChipmunk(const cocos2d::CCSize& rhs)
 {
     return SpaceVect(rhs.width, rhs.height);
 }
@@ -187,7 +187,7 @@ void convertToUnitSpace(ValueMap& arg)
     arg["dim_y"] = Value(dim.y);
 }
 
-cocos2d::Rect getUnitspaceRectangle(const ValueMap& tileMapObj)
+cocos2d::CCRect getUnitspaceRectangle(const ValueMap& tileMapObj)
 {
     SpaceVect cornerPos(getFloat(tileMapObj, "x"), getFloat(tileMapObj, "y"));
     cornerPos *= App::tilesPerPixel;
@@ -195,7 +195,7 @@ cocos2d::Rect getUnitspaceRectangle(const ValueMap& tileMapObj)
     SpaceVect dim(getFloat(tileMapObj, "width"), getFloat(tileMapObj, "height"));
     dim *= App::tilesPerPixel;
     
-    return cocos2d::Rect(cornerPos.x, cornerPos.y, dim.x, dim.y);
+    return cocos2d::CCRect(cornerPos.x, cornerPos.y, dim.x, dim.y);
 }
 
 void checkCreateProfileSubfolder()

@@ -96,7 +96,7 @@ public:
      * @js NA
      * @lua NA
      */
-    static Rect RectUnion(const Rect& src1, const Rect& src2);
+    static CCRect RectUnion(const CCRect& src1, const CCRect& src2);
 };
 
 // end of GUI group

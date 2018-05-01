@@ -44,7 +44,7 @@ LinearHorizontalLayoutManager* LinearHorizontalLayoutManager::create()
     
 void LinearHorizontalLayoutManager::doLayout(LayoutProtocol* layout)
 {
-    Size layoutSize = layout->getLayoutContentSize();
+    CCSize layoutSize = layout->getLayoutContentSize();
     Vector<Node*> container = layout->getLayoutElements();
     float leftBoundary = 0.0f;
     for (auto& subWidget : container)
@@ -57,7 +57,7 @@ void LinearHorizontalLayoutManager::doLayout(LayoutProtocol* layout)
             {
                 LinearLayoutParameter::LinearGravity childGravity = layoutParameter->getGravity();
                 Vec2 ap = child->getAnchorPoint();
-                Size cs = child->getContentSize();
+                CCSize cs = child->getContentSize();
                 float finalPosX = leftBoundary + (ap.x * cs.width);
                 float finalPosY = layoutSize.height - (1.0f - ap.y) * cs.height;
                 switch (childGravity)
@@ -100,7 +100,7 @@ LinearVerticalLayoutManager* LinearVerticalLayoutManager::create()
     
 void LinearVerticalLayoutManager::doLayout(LayoutProtocol* layout)
 {
-    Size layoutSize = layout->getLayoutContentSize();
+    CCSize layoutSize = layout->getLayoutContentSize();
     Vector<Node*> container = layout->getLayoutElements();
     float topBoundary = layoutSize.height;
     
@@ -115,7 +115,7 @@ void LinearVerticalLayoutManager::doLayout(LayoutProtocol* layout)
             {
                 LinearLayoutParameter::LinearGravity childGravity = layoutParameter->getGravity();
                 Vec2 ap = subWidget->getAnchorPoint();
-                Size cs = subWidget->getContentSize();
+                CCSize cs = subWidget->getContentSize();
                 float finalPosX = ap.x * cs.width;
                 float finalPosY = topBoundary - ((1.0f-ap.y) * cs.height);
                 switch (childGravity)
@@ -206,7 +206,7 @@ Widget* RelativeLayoutManager::getRelativeWidget(Widget* widget)
 bool RelativeLayoutManager::caculateFinalPositionWithRelativeWidget(LayoutProtocol *layout)
 {
     Vec2 ap = _widget->getAnchorPoint();
-    Size cs = _widget->getContentSize();
+    CCSize cs = _widget->getContentSize();
     
     _finalPositionX = 0.0f;
     _finalPositionY = 0.0f;
@@ -217,7 +217,7 @@ bool RelativeLayoutManager::caculateFinalPositionWithRelativeWidget(LayoutProtoc
 
     RelativeLayoutParameter::RelativeAlign align = layoutParameter->getAlign();
 
-    Size layoutSize = layout->getLayoutContentSize();
+    CCSize layoutSize = layout->getLayoutContentSize();
 
     
     switch (align)
@@ -280,7 +280,7 @@ bool RelativeLayoutManager::caculateFinalPositionWithRelativeWidget(LayoutProtoc
                 {
                     return false;
                 }
-                Size rbs = relativeWidget->getContentSize();
+                CCSize rbs = relativeWidget->getContentSize();
                 float locationTop = relativeWidget->getTopBoundary();
                 
                 _finalPositionY = locationTop + ap.y * cs.height;
@@ -320,7 +320,7 @@ bool RelativeLayoutManager::caculateFinalPositionWithRelativeWidget(LayoutProtoc
                 {
                     return false;
                 }
-                Size rbs = relativeWidget->getContentSize();
+                CCSize rbs = relativeWidget->getContentSize();
                 float locationLeft = relativeWidget->getLeftBoundary();
                 _finalPositionX = locationLeft - (1.0f - ap.x) * cs.width;
                 
@@ -360,7 +360,7 @@ bool RelativeLayoutManager::caculateFinalPositionWithRelativeWidget(LayoutProtoc
                 {
                     return false;
                 }
-                Size rbs = relativeWidget->getContentSize();
+                CCSize rbs = relativeWidget->getContentSize();
                 float locationRight = relativeWidget->getRightBoundary();
                 _finalPositionX = locationRight + ap.x * cs.width;
                 
@@ -400,7 +400,7 @@ bool RelativeLayoutManager::caculateFinalPositionWithRelativeWidget(LayoutProtoc
                 {
                     return false;
                 }
-                Size rbs = relativeWidget->getContentSize();
+                CCSize rbs = relativeWidget->getContentSize();
                 float locationBottom = relativeWidget->getBottomBoundary();
                 
                 _finalPositionY = locationBottom - (1.0f - ap.y) * cs.height;

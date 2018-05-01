@@ -51,7 +51,7 @@ public:
      */
     virtual ~EditBoxImplWin();
     
-    virtual bool initWithSize(const Size& size);
+    virtual bool initWithSize(const CCSize& size);
 	virtual void setFont(const char* pFontName, int fontSize);
     virtual void setFontColor(const Color4B& color);
     virtual void setPlaceholderFont(const char* pFontName, int fontSize);
@@ -68,7 +68,7 @@ public:
     virtual void setPlaceHolder(const char* pText);
     virtual void setPosition(const Vec2& pos);
 	virtual void setVisible(bool visible);
-    virtual void setContentSize(const Size& size);
+    virtual void setContentSize(const CCSize& size);
     virtual void setAnchorPoint(const Vec2& anchorPoint);
     /**
      * @js NA
@@ -98,7 +98,7 @@ private:
     Color4B _colPlaceHolder;
 
     int   _maxLength;
-    Size _editSize;
+    CCSize _editSize;
 
 	/*
     Size     _contentSize;

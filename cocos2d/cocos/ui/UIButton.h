@@ -125,46 +125,46 @@ public:
      *
      * @param capInsets    capInset in Rect.
      */
-    void setCapInsets(const Rect &capInsets);
+    void setCapInsets(const CCRect &capInsets);
 
     /**
      * Sets capInsets for button, only the normal state scale9 renderer will be affected.
      *
      * @param capInsets    capInsets in Rect.
      */
-    void setCapInsetsNormalRenderer(const Rect &capInsets);
+    void setCapInsetsNormalRenderer(const CCRect &capInsets);
 
     /**
      * Return the capInsets of normal state scale9sprite.
      *@return The normal scale9 renderer capInsets.
      */
-    const Rect& getCapInsetsNormalRenderer()const;
+    const CCRect& getCapInsetsNormalRenderer()const;
 
     /**
      * Sets capInsets for button, only the pressed state scale9 renderer will be affected.
      *
      * @param capInsets    capInsets in Rect
      */
-    void setCapInsetsPressedRenderer(const Rect &capInsets);
+    void setCapInsetsPressedRenderer(const CCRect &capInsets);
 
     /**
      * Return the capInsets of pressed state scale9sprite.
      *@return The pressed scale9 renderer capInsets.
      */
-    const Rect& getCapInsetsPressedRenderer()const;
+    const CCRect& getCapInsetsPressedRenderer()const;
 
     /**
      * Sets capInsets for button, only the disabled state scale9 renderer will be affected.
      *
      * @param capInsets  capInsets in Rect.
      */
-    void setCapInsetsDisabledRenderer(const Rect &capInsets);
+    void setCapInsetsDisabledRenderer(const CCRect &capInsets);
 
     /**
      * Return the capInsets of disabled state scale9sprite.
      *@return The disabled scale9 renderer capInsets.
      */
-    const Rect& getCapInsetsDisabledRenderer()const;
+    const CCRect& getCapInsetsDisabledRenderer()const;
 
     /**
      * Enable scale9 renderer.
@@ -188,7 +188,7 @@ public:
 
     //override methods
     virtual void ignoreContentAdaptWithSize(bool ignore) override;
-    virtual Size getVirtualRendererSize() const override;
+    virtual CCSize getVirtualRendererSize() const override;
     virtual Node* getVirtualRenderer() override;
     virtual std::string getDescription() const override;
 
@@ -267,7 +267,7 @@ CC_CONSTRUCTOR_ACCESS:
                       const std::string& disableImage = "",
                       TextureResType texType = TextureResType::LOCAL);
 
-    virtual Size getNormalTextureSize() const;
+    virtual CCSize getNormalTextureSize() const;
 
 protected:
     virtual void initRenderer() override;
@@ -295,7 +295,7 @@ protected:
     virtual Widget* createCloneInstance() override;
     virtual void copySpecialProperties(Widget* model) override;
 
-    virtual Size getNormalSize() const;
+    virtual CCSize getNormalSize() const;
 protected:
     Scale9Sprite* _buttonNormalRenderer;
     Scale9Sprite* _buttonClickedRenderer;
@@ -307,13 +307,13 @@ protected:
     bool _scale9Enabled;
     bool _pressedActionEnabled;
 
-    Rect _capInsetsNormal;
-    Rect _capInsetsPressed;
-    Rect _capInsetsDisabled;
+    CCRect _capInsetsNormal;
+    CCRect _capInsetsPressed;
+    CCRect _capInsetsDisabled;
 
-    Size _normalTextureSize;
-    Size _pressedTextureSize;
-    Size _disabledTextureSize;
+    CCSize _normalTextureSize;
+    CCSize _pressedTextureSize;
+    CCSize _disabledTextureSize;
 
     float _normalTextureScaleXInSize;
     float _normalTextureScaleYInSize;

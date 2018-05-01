@@ -505,7 +505,7 @@ LayerColor * LayerColor::create(const Color4B& color)
 
 bool LayerColor::init()
 {
-    Size s = Director::getInstance()->getWinSize();
+    CCSize s = Director::getInstance()->getWinSize();
     return initWithColor(Color4B(0,0,0,0), s.width, s.height);
 }
 
@@ -529,7 +529,7 @@ bool LayerColor::initWithColor(const Color4B& color, GLfloat w, GLfloat h)
         }
 
         updateColor();
-        setContentSize(Size(w, h));
+        setContentSize(CCSize(w, h));
 
         setGLProgramState(GLProgramState::getOrCreateWithGLProgramName(GLProgram::SHADER_NAME_POSITION_COLOR_NO_MVP));
         return true;
@@ -539,13 +539,13 @@ bool LayerColor::initWithColor(const Color4B& color, GLfloat w, GLfloat h)
 
 bool LayerColor::initWithColor(const Color4B& color)
 {
-    Size s = Director::getInstance()->getWinSize();
+    CCSize s = Director::getInstance()->getWinSize();
     this->initWithColor(color, s.width, s.height);
     return true;
 }
 
 /// override contentSize
-void LayerColor::setContentSize(const Size & size)
+void LayerColor::setContentSize(const CCSize & size)
 {
     _squareVertices[1].x = size.width;
     _squareVertices[2].y = size.height;
@@ -557,17 +557,17 @@ void LayerColor::setContentSize(const Size & size)
 
 void LayerColor::changeWidthAndHeight(GLfloat w ,GLfloat h)
 {
-    this->setContentSize(Size(w, h));
+    this->setContentSize(CCSize(w, h));
 }
 
 void LayerColor::changeWidth(GLfloat w)
 {
-    this->setContentSize(Size(w, _contentSize.height));
+    this->setContentSize(CCSize(w, _contentSize.height));
 }
 
 void LayerColor::changeHeight(GLfloat h)
 {
-    this->setContentSize(Size(_contentSize.width, h));
+    this->setContentSize(CCSize(_contentSize.width, h));
 }
 
 void LayerColor::updateColor()

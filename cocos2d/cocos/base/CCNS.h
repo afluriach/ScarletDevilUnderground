@@ -45,7 +45,7 @@ NS_CC_BEGIN
  * @return A Core Graphics structure that represents a rectangle.
  *      If the string is not well-formed, the function returns Rect::ZERO.
  */
-Rect CC_DLL RectFromString(const std::string& str);
+CCRect CC_DLL RectFromString(const std::string& str);
 
 /**
  * @brief Returns a Core Graphics point structure corresponding to the data in a given string.
@@ -69,7 +69,7 @@ Vec2 CC_DLL PointFromString(const std::string& str);
  * @return A Core Graphics structure that represents a size.
  *      If the string is not well-formed, the function returns Size::ZERO.
  */
-Size CC_DLL SizeFromString(const std::string& str);
+CCSize CC_DLL SizeFromString(const std::string& str);
 
 // end of data_structure group
 /** @} */

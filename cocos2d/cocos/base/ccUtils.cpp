@@ -192,10 +192,10 @@ double gettime()
     return (double)tv.tv_sec + (double)tv.tv_usec/1000000;
 }
 
-Rect getCascadeBoundingBox(Node *node)
+CCRect getCascadeBoundingBox(Node *node)
 {
-    Rect cbb;
-    Size contentSize = node->getContentSize();
+    CCRect cbb;
+    CCSize contentSize = node->getContentSize();
     
     // check all childrens bounding box, get maximize box
     Node* child = nullptr;
@@ -205,7 +205,7 @@ Rect getCascadeBoundingBox(Node *node)
         child = dynamic_cast<Node*>(object);
         if (!child->isVisible()) continue;
         
-        const Rect box = getCascadeBoundingBox(child);
+        const CCRect box = getCascadeBoundingBox(child);
         if (box.size.width <= 0 || box.size.height <= 0) continue;
         
         if (!merge)
@@ -222,7 +222,7 @@ Rect getCascadeBoundingBox(Node *node)
     // merge content size
     if (contentSize.width > 0 && contentSize.height > 0)
     {
-        const Rect box = RectApplyAffineTransform(Rect(0, 0, contentSize.width, contentSize.height), node->getNodeToWorldAffineTransform());
+        const CCRect box = RectApplyAffineTransform(CCRect(0, 0, contentSize.width, contentSize.height), node->getNodeToWorldAffineTransform());
         if (!merge)
         {
             cbb = box;

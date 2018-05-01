@@ -48,7 +48,7 @@ RelativeBox* RelativeBox::create()
     return nullptr;
 }
 
-RelativeBox* RelativeBox::create(const cocos2d::Size &size)
+RelativeBox* RelativeBox::create(const cocos2d::CCSize &size)
 {
     RelativeBox* widget = new (std::nothrow) RelativeBox();
     if (widget && widget->initWithSize(size))
@@ -70,7 +70,7 @@ bool RelativeBox::init()
     return false;
 }
 
-bool RelativeBox::initWithSize(const Size& size)
+bool RelativeBox::initWithSize(const CCSize& size)
 {
     if (init())
     {

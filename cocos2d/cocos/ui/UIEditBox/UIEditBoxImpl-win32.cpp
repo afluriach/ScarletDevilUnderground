@@ -503,7 +503,7 @@ void EditBoxImplWin::doAnimationWhenKeyboardMove(float duration, float distance)
 
 static const int CC_EDIT_BOX_PADDING = 5;
 
-bool EditBoxImplWin::initWithSize(const Size& size)
+bool EditBoxImplWin::initWithSize(const CCSize& size)
 {
     //! int fontSize = getFontSizeAccordingHeightJni(size.height-12);
     _label = Label::create();
@@ -667,7 +667,7 @@ void EditBoxImplWin::setVisible(bool visible)
 { // don't need to be implemented on win32 platform.
 }
 
-void EditBoxImplWin::setContentSize(const Size& size)
+void EditBoxImplWin::setContentSize(const CCSize& size)
 {
 }
 

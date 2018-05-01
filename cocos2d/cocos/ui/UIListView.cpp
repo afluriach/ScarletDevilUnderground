@@ -100,7 +100,7 @@ void ListView::updateInnerContainerSize()
             }
             float finalWidth = _contentSize.width;
             float finalHeight = totalHeight;
-            setInnerContainerSize(Size(finalWidth, finalHeight));
+            setInnerContainerSize(CCSize(finalWidth, finalHeight));
             break;
         }
         case Direction::HORIZONTAL:
@@ -113,7 +113,7 @@ void ListView::updateInnerContainerSize()
             }
             float finalWidth = totalWidth;
             float finalHeight = _contentSize.height;
-            setInnerContainerSize(Size(finalWidth, finalHeight));
+            setInnerContainerSize(CCSize(finalWidth, finalHeight));
             break;
         }
         default:

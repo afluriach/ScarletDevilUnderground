@@ -482,12 +482,12 @@ public:
      * @deprecated use `setContentSize` instead.
      * @param size that is widget's size
      */
-    CC_DEPRECATED_ATTRIBUTE virtual void setSize(const Size &size);
+    CC_DEPRECATED_ATTRIBUTE virtual void setSize(const CCSize &size);
     /**
      * Changes the size that is widget's size
      * @param contentSize A content size in `Size`.
      */
-    virtual void setContentSize(const Size& contentSize) override;
+    virtual void setContentSize(const CCSize& contentSize) override;
 
     /**
      * Changes the percent that is widget's percent size
@@ -517,20 +517,20 @@ public:
      *
      * @return Widget content size.
      */
-    CC_DEPRECATED_ATTRIBUTE const Size& getSize() const;
+    CC_DEPRECATED_ATTRIBUTE const CCSize& getSize() const;
     
     /**
      * Get the user defined widget size.
      *@return User defined size.
      */
-    const Size& getCustomSize() const;
+    const CCSize& getCustomSize() const;
     
     /**
      * Get the content size of widget.
      * @warning This API exists mainly for keeping back compatibility.
      * @return 
      */
-    virtual const Size& getLayoutSize() {return _contentSize;};
+    virtual const CCSize& getLayoutSize() {return _contentSize;};
 
     /**
      * Get size percent of widget.
@@ -640,7 +640,7 @@ public:
      *  Get the virtual renderer's size
      *@return Widget virtual renderer size.
      */
-    virtual Size getVirtualRendererSize() const;
+    virtual CCSize getVirtualRendererSize() const;
     
 
     /**
@@ -673,7 +673,7 @@ public:
     /**
      * Update all children's contents size and position recursively.
      */
-    void updateSizeAndPosition(const Size& parentSize);
+    void updateSizeAndPosition(const CCSize& parentSize);
     
     /**
      * Set the tag of action.
@@ -923,7 +923,7 @@ protected:
     virtual void copyClonedWidgetChildren(Widget* model);
     
     Widget* getWidgetParent();
-    void updateContentSizeWithTextureSize(const Size& size);
+    void updateContentSizeWithTextureSize(const CCSize& size);
     
     bool isAncestorsEnabled();
     Widget* getAncensterWidget(Node* node);
@@ -950,7 +950,7 @@ protected:
     //used for search widget by action tag in UIHelper class
     int _actionTag;
 
-    Size _customSize;
+    CCSize _customSize;
 
     Vec2 _sizePercent;
     Vec2 _positionPercent;

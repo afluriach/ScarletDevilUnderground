@@ -200,13 +200,13 @@ void LabelBMFont::setColor(const Color3B& color)
     _label->setColor(color);
 }
 
-const Size& LabelBMFont::getContentSize() const
+const CCSize& LabelBMFont::getContentSize() const
 {
     const_cast<LabelBMFont*>(this)->setContentSize(_label->getContentSize());
     return _contentSize;
 }
 
-Rect LabelBMFont::getBoundingBox() const
+CCRect LabelBMFont::getBoundingBox() const
 {
     return Node::getBoundingBox();
 }

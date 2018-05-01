@@ -189,7 +189,7 @@ public:
     static RichElementImage* create(int tag, const Color3B& color, GLubyte opacity, const std::string& filePath);
 protected:
     std::string _filePath;
-    Rect _textureRect;
+    CCRect _textureRect;
     int _textureType;
     friend class RichText;
 };
@@ -316,7 +316,7 @@ public:
 
     //override functions.
     virtual void setAnchorPoint(const Vec2 &pt) override;
-    virtual Size getVirtualRendererSize() const override;
+    virtual CCSize getVirtualRendererSize() const override;
     virtual void ignoreContentAdaptWithSize(bool ignore) override;
     virtual std::string getDescription() const override;
     

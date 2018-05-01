@@ -402,7 +402,7 @@ void PositionFrame::onApply(float percent)
 {
     if (nullptr != _node && (_betweenX != 0 || _betweenY != 0))
     {
-        Point p;
+        CCPoint p;
         p.x = _position.x + _betweenX * percent;
         p.y = _position.y + _betweenY * percent;
         

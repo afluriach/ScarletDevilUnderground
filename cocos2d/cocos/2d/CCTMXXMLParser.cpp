@@ -70,10 +70,10 @@ void TMXLayerInfo::setProperties(ValueMap var)
 // implementation TMXTilesetInfo
 TMXTilesetInfo::TMXTilesetInfo()
     :_firstGid(0)
-    ,_tileSize(Size::ZERO)
+    ,_tileSize(CCSize::ZERO)
     ,_spacing(0)
     ,_margin(0)
-    ,_imageSize(Size::ZERO)
+    ,_imageSize(CCSize::ZERO)
 {
 }
 
@@ -82,9 +82,9 @@ TMXTilesetInfo::~TMXTilesetInfo()
     CCLOGINFO("deallocing TMXTilesetInfo: %p", this);
 }
 
-Rect TMXTilesetInfo::getRectForGID(uint32_t gid)
+CCRect TMXTilesetInfo::getRectForGID(uint32_t gid)
 {
-    Rect rect;
+    CCRect rect;
     rect.size = _tileSize;
     gid &= kTMXFlippedMask;
     gid = gid - _firstGid;
@@ -156,8 +156,8 @@ bool TMXMapInfo::initWithTMXFile(const std::string& tmxFile)
 }
 
 TMXMapInfo::TMXMapInfo()
-: _mapSize(Size::ZERO)    
-, _tileSize(Size::ZERO)
+: _mapSize(CCSize::ZERO)    
+, _tileSize(CCSize::ZERO)
 , _layerAttribs(0)
 , _storingCharacters(false)
 , _xmlTileIndex(0)
@@ -243,7 +243,7 @@ void TMXMapInfo::startElement(void *ctx, const char *name, const char **atts)
             CCLOG("cocos2d: TMXFomat: Unsupported orientation: %d", tmxMapInfo->getOrientation());
         }
 
-        Size s;
+        CCSize s;
         s.width = attributeDict["width"].asFloat();
         s.height = attributeDict["height"].asFloat();
         tmxMapInfo->setMapSize(s);
@@ -305,7 +305,7 @@ void TMXMapInfo::startElement(void *ctx, const char *name, const char **atts)
             
             tileset->_spacing = attributeDict["spacing"].asInt();
             tileset->_margin = attributeDict["margin"].asInt();
-            Size s;
+            CCSize s;
             s.width = attributeDict["tilewidth"].asFloat();
             s.height = attributeDict["tileheight"].asFloat();
             tileset->_tileSize = s;
@@ -319,7 +319,7 @@ void TMXMapInfo::startElement(void *ctx, const char *name, const char **atts)
         if (tmxMapInfo->getParentElement() == TMXPropertyLayer)
         {
             TMXLayerInfo* layer = tmxMapInfo->getLayers().back();
-            Size layerSize = layer->_layerSize;
+            CCSize layerSize = layer->_layerSize;
             uint32_t gid = static_cast<uint32_t>(attributeDict["gid"].asInt());
             int tilesAmount = layerSize.width*layerSize.height;
             
@@ -341,7 +341,7 @@ void TMXMapInfo::startElement(void *ctx, const char *name, const char **atts)
         TMXLayerInfo *layer = new (std::nothrow) TMXLayerInfo();
         layer->_name = attributeDict["name"].asString();
 
-        Size s;
+        CCSize s;
         s.width = attributeDict["width"].asFloat();
         s.height = attributeDict["height"].asFloat();
         layer->_layerSize = s;
@@ -404,7 +404,7 @@ void TMXMapInfo::startElement(void *ctx, const char *name, const char **atts)
             tmxMapInfo->setLayerAttribs(tmxMapInfo->getLayerAttribs() | TMXLayerAttribNone);
             
             TMXLayerInfo* layer = tmxMapInfo->getLayers().back();
-            Size layerSize = layer->_layerSize;
+            CCSize layerSize = layer->_layerSize;
             int tilesAmount = layerSize.width*layerSize.height;
 
             uint32_t *tiles = (uint32_t*) malloc(tilesAmount*sizeof(uint32_t));
@@ -461,7 +461,7 @@ void TMXMapInfo::startElement(void *ctx, const char *name, const char **atts)
         
         int width = attributeDict["width"].asInt();
         int height = attributeDict["height"].asInt();
-        Size s(width, height);
+        CCSize s(width, height);
         s = CC_SIZE_PIXELS_TO_POINTS(s);
         dict["width"] = Value(s.width);
         dict["height"] = Value(s.height);
@@ -638,7 +638,7 @@ void TMXMapInfo::endElement(void *ctx, const char *name)
             if (tmxMapInfo->getLayerAttribs() & (TMXLayerAttribGzip | TMXLayerAttribZlib))
             {
                 unsigned char *deflated = nullptr;
-                Size s = layer->_layerSize;
+                CCSize s = layer->_layerSize;
                 // int sizeHint = s.width * s.height * sizeof(uint32_t);
                 ssize_t sizeHint = s.width * s.height * sizeof(unsigned int);
                 

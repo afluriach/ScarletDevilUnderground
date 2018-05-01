@@ -154,9 +154,9 @@ RGBA ControlUtils::RGBfromHSV(HSV value)
     return out;     
 }
 
-Rect ControlUtils::RectUnion(const Rect& src1, const Rect& src2) 
+CCRect ControlUtils::RectUnion(const CCRect& src1, const CCRect& src2) 
 {
-    Rect result;
+    CCRect result;
     
     float x1 = MIN(src1.getMinX(), src2.getMinX());
     float y1 = MIN(src1.getMinY(), src2.getMinY());
@@ -164,7 +164,7 @@ Rect ControlUtils::RectUnion(const Rect& src1, const Rect& src2)
     float y2 = MAX(src1.getMaxY(), src2.getMaxY());
     
     result.origin=Vec2(x1,y1);
-    result.size=Size(x2-x1, y2-y1);
+    result.size=CCSize(x2-x1, y2-y1);
     return result;
 }
 

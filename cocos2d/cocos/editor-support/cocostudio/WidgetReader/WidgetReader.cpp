@@ -163,7 +163,7 @@ namespace cocostudio
         bool adaptScrenn = DICTOOL->getBooleanValue_json(options, P_AdaptScreen);
         if (adaptScrenn)
         {
-            Size screenSize = CCDirector::getInstance()->getWinSize();
+            CCSize screenSize = CCDirector::getInstance()->getWinSize();
             w = screenSize.width;
             h = screenSize.height;
         }
@@ -172,7 +172,7 @@ namespace cocostudio
             w = DICTOOL->getFloatValue_json(options, P_Width);
             h = DICTOOL->getFloatValue_json(options, P_Height);
         }
-        widget->setContentSize(Size(w, h));
+        widget->setContentSize(CCSize(w, h));
         
         widget->setTag(DICTOOL->getIntValue_json(options, P_Tag));
         widget->setActionTag(DICTOOL->getIntValue_json(options, P_ActionTag));
@@ -280,7 +280,7 @@ namespace cocostudio
     
     void WidgetReader::endSetBasicProperties(Widget *widget)
     {
-        Size screenSize = Director::getInstance()->getWinSize();
+        CCSize screenSize = Director::getInstance()->getWinSize();
         
         widget->setPositionPercent(Vec2(_positionPercentX, _positionPercentY));
         widget->setSizePercent(Vec2(_sizePercentX, _sizePercentY));
@@ -292,7 +292,7 @@ namespace cocostudio
         widget->setOpacity(_opacity);
         //the setSize method will be conflict with scale9Width & scale9Height
         if (!widget->isIgnoreContentAdaptWithSize()) {
-            widget->setContentSize(Size(_width, _height));
+            widget->setContentSize(CCSize(_width, _height));
         }
         widget->setPosition(_position);
         widget->setAnchorPoint(_originalAnchorPoint);
@@ -784,7 +784,7 @@ namespace cocostudio
         widget->setUnifySizeEnabled(false);
         widget->setLayoutComponentEnabled(true);
         widget->ignoreContentAdaptWithSize(false);
-        Size contentSize(options->size()->width(), options->size()->height());
+        CCSize contentSize(options->size()->width(), options->size()->height());
         widget->setContentSize(contentSize);
         
         int tag = options->tag();

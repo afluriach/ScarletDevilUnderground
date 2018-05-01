@@ -162,7 +162,7 @@ void Skin::updateTransform()
         //
         Mat4 transform = getNodeToParentTransform();
 
-        Size &size = _rect.size;
+        CCSize &size = _rect.size;
 
         float x1 = _offsetPosition.x;
         float y1 = _offsetPosition.y;

@@ -22,7 +22,7 @@ shared_ptr<AnimationSpriteSequence> AnimationSpriteSequence::loadFromRasterImage
     
     Vector<SpriteFrame*> frames;
     
-    cocos2d::Size size = texture->getContentSize();
+    cocos2d::CCSize size = texture->getContentSize();
     IntVec2 intSize = toIntVector(size);
     
     if(intSize.first % cols != 0 || intSize.second % rows != 0){
@@ -43,7 +43,7 @@ shared_ptr<AnimationSpriteSequence> AnimationSpriteSequence::loadFromRasterImage
     {
         for_irange(c,0,cols)
         {
-            cocos2d::Rect rect(c*frameWidth,r*frameHeight,frameWidth,frameHeight);
+            cocos2d::CCRect rect(c*frameWidth,r*frameHeight,frameWidth,frameHeight);
             frames.pushBack(SpriteFrame::createWithTexture(texture, rect));
         }
     }

@@ -162,7 +162,7 @@ void MapScene::loadWalls()
     foreach(Value obj, walls->getObjects())
     {
         ValueMap& objAsMap = obj.asValueMap();
-        cocos2d::Rect area = getUnitspaceRectangle(objAsMap);
+        cocos2d::CCRect area = getUnitspaceRectangle(objAsMap);
         gspace->addWallBlock(toChipmunk(area.origin), toChipmunk(area.getUpperCorner()));
     }
 }
@@ -226,7 +226,7 @@ void MapScene::loadMap()
 	loadPaths(*tileMap);
     loadMapObjects(*tileMap);
     
-    cocos2d::Size size = tileMap->getMapSize();
+    cocos2d::CCSize size = tileMap->getMapSize();
     gspace->setSize(size.width, size.height);
     
     loadWalls();

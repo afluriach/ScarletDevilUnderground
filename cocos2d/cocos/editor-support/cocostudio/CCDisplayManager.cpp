@@ -418,15 +418,15 @@ bool DisplayManager::isVisible() const
 }
 
 
-Size DisplayManager::getContentSize() const
+CCSize DisplayManager::getContentSize() const
 {
-    CS_RETURN_IF(!_displayRenderNode) Size(0, 0);
+    CS_RETURN_IF(!_displayRenderNode) CCSize(0, 0);
     return _displayRenderNode->getContentSize();
 }
 
-Rect DisplayManager::getBoundingBox() const
+CCRect DisplayManager::getBoundingBox() const
 {
-    CS_RETURN_IF(!_displayRenderNode) Rect(0, 0, 0, 0);
+    CS_RETURN_IF(!_displayRenderNode) CCRect(0, 0, 0, 0);
     return _displayRenderNode->getBoundingBox();
 }
 

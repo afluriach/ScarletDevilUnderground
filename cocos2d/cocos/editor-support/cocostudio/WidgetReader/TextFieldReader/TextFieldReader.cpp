@@ -80,9 +80,9 @@ namespace cocostudio
             }else if(key == P_FontName){
                 textField->setFontName(value);
             }else if(key == P_TouchSizeWidth){
-                textField->setTouchSize(Size(valueToFloat(value), textField->getTouchSize().height));
+                textField->setTouchSize(CCSize(valueToFloat(value), textField->getTouchSize().height));
             }else if(key == P_TouchSizeHeight){
-                textField->setTouchSize(Size(textField->getTouchSize().width,  valueToFloat(value)));
+                textField->setTouchSize(CCSize(textField->getTouchSize().width,  valueToFloat(value)));
             }else if (key == P_MaxLengthEnable){
                 textField->setMaxLengthEnabled(valueToBool(value));
             }else if(key == P_MaxLength){
@@ -123,7 +123,7 @@ namespace cocostudio
         bool tsh = DICTOOL->checkObjectExist_json(options, P_TouchSizeHeight);
         if (tsw && tsh)
         {
-            textField->setTouchSize(Size(DICTOOL->getFloatValue_json(options, P_TouchSizeWidth), DICTOOL->getFloatValue_json(options,P_TouchSizeHeight)));
+            textField->setTouchSize(CCSize(DICTOOL->getFloatValue_json(options, P_TouchSizeWidth), DICTOOL->getFloatValue_json(options,P_TouchSizeHeight)));
         }
         
 //        float dw = DICTOOL->getFloatValue_json(options, "width");
@@ -350,7 +350,7 @@ namespace cocostudio
         if (!textField->isIgnoreContentAdaptWithSize())
         {
             ((Label*)(textField->getVirtualRenderer()))->setLineBreakWithoutSpace(true);
-            Size contentSize(widgetOptions->size()->width(), widgetOptions->size()->height());
+            CCSize contentSize(widgetOptions->size()->width(), widgetOptions->size()->height());
             textField->setContentSize(contentSize);
         }
         

@@ -73,7 +73,7 @@ PhysicsSprite* PhysicsSprite::createWithTexture(Texture2D *pTexture)
     return pRet;
 }
 
-PhysicsSprite* PhysicsSprite::createWithTexture(Texture2D *pTexture, const Rect& rect)
+PhysicsSprite* PhysicsSprite::createWithTexture(Texture2D *pTexture, const CCRect& rect)
 {
     PhysicsSprite* pRet = new (std::nothrow) PhysicsSprite();
     if (pRet && pRet->initWithTexture(pTexture, rect))
@@ -133,7 +133,7 @@ PhysicsSprite* PhysicsSprite::create(const char *pszFileName)
     return pRet;
 }
 
-PhysicsSprite* PhysicsSprite::create(const char *pszFileName, const Rect& rect)
+PhysicsSprite* PhysicsSprite::create(const char *pszFileName, const CCRect& rect)
 {
     PhysicsSprite* pRet = new (std::nothrow) PhysicsSprite();
     if (pRet && pRet->initWithFile(pszFileName, rect))

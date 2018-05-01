@@ -5,7 +5,7 @@ using namespace cocos2d;
 
 namespace cocosbuilder {
 
-CC_DLL Vec2 getAbsolutePosition(const Vec2 &pt, CCBReader::PositionType type, const Size &containerSize, const std::string& propName)
+CC_DLL Vec2 getAbsolutePosition(const Vec2 &pt, CCBReader::PositionType type, const CCSize &containerSize, const std::string& propName)
 {
     Vec2 absPt;
     if (type == CCBReader::PositionType::RELATIVE_BOTTOM_LEFT)

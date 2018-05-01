@@ -232,7 +232,7 @@ public:
 
 
     //override functions
-    virtual Size getVirtualRendererSize() const override;
+    virtual CCSize getVirtualRendererSize() const override;
     virtual Node* getVirtualRenderer() override;
     virtual std::string getDescription() const override;
     

@@ -54,10 +54,10 @@ Layout::Layout():
 _backGroundScale9Enabled(false),
 _backGroundImage(nullptr),
 _backGroundImageFileName(""),
-_backGroundImageCapInsets(Rect::ZERO),
+_backGroundImageCapInsets(CCRect::ZERO),
 _colorType(BackGroundColorType::NONE),
 _bgImageTexType(TextureResType::LOCAL),
-_backGroundImageTextureSize(Size::ZERO),
+_backGroundImageTextureSize(CCSize::ZERO),
 _backGroundImageColor(Color3B::WHITE),
 _backGroundImageOpacity(255),
 _colorRender(nullptr),
@@ -72,7 +72,7 @@ _layoutType(Type::ABSOLUTE),
 _clippingType(ClippingType::STENCIL),
 _clippingStencil(nullptr),
 _scissorRectDirty(false),
-_clippingRect(Rect::ZERO),
+_clippingRect(CCRect::ZERO),
 _clippingParent(nullptr),
 _clippingRectDirty(true),
 _currentStencilEnabled(GL_FALSE),
@@ -146,7 +146,7 @@ bool Layout::init()
     if (Widget::init())
     {
         ignoreContentAdaptWithSize(false);
-        setContentSize(Size::ZERO);
+        setContentSize(CCSize::ZERO);
         setAnchorPoint(Vec2::ZERO);
         onPassFocusToChild = CC_CALLBACK_2(Layout::findNearestChildWidgetIndex, this);
         return true;
@@ -411,7 +411,7 @@ void Layout::onAfterVisitStencil()
     
 void Layout::onBeforeVisitScissor()
 {
-    Rect clippingRect = getClippingRect();
+    CCRect clippingRect = getClippingRect();
     glEnable(GL_SCISSOR_TEST);
     auto glview = Director::getInstance()->getOpenGLView();
     glview->setScissorInPoints(clippingRect.origin.x, clippingRect.origin.y, clippingRect.size.width, clippingRect.size.height);
@@ -497,7 +497,7 @@ Layout::ClippingType Layout::getClippingType()const
     return _clippingType;
 }
     
-void Layout::setStencilClippingSize(const Size &size)
+void Layout::setStencilClippingSize(const CCSize &size)
 {
     if (_clippingEnabled && _clippingType == ClippingType::STENCIL)
     {
@@ -512,7 +512,7 @@ void Layout::setStencilClippingSize(const Size &size)
     }
 }
     
-const Rect& Layout::getClippingRect() 
+const CCRect& Layout::getClippingRect() 
 {
     if (_clippingRectDirty)
     {
@@ -520,7 +520,7 @@ const Rect& Layout::getClippingRect()
         AffineTransform t = getNodeToWorldAffineTransform();
         float scissorWidth = _contentSize.width*t.a;
         float scissorHeight = _contentSize.height*t.d;
-        Rect parentClippingRect;
+        CCRect parentClippingRect;
         Layout* parent = this;
 
         while (parent)
@@ -670,7 +670,7 @@ void Layout::setBackGroundImage(const std::string& fileName,TextureResType texTy
     updateBackGroundImageRGBA();
 }
 
-void Layout::setBackGroundImageCapInsets(const Rect &capInsets)
+void Layout::setBackGroundImageCapInsets(const CCRect &capInsets)
 {
     _backGroundImageCapInsets = capInsets;
     if (_backGroundScale9Enabled && _backGroundImage)
@@ -679,7 +679,7 @@ void Layout::setBackGroundImageCapInsets(const Rect &capInsets)
     }
 }
     
-const Rect& Layout::getBackGroundImageCapInsets()const
+const CCRect& Layout::getBackGroundImageCapInsets()const
 {
     return _backGroundImageCapInsets;
 }
@@ -737,7 +737,7 @@ void Layout::removeBackGroundImage()
     removeProtectedChild(_backGroundImage);
     _backGroundImage = nullptr;
     _backGroundImageFileName = "";
-    _backGroundImageTextureSize = Size::ZERO;
+    _backGroundImageTextureSize = CCSize::ZERO;
 }
 
 void Layout::setBackGroundColorType(BackGroundColorType type)
@@ -930,7 +930,7 @@ void Layout::updateBackGroundImageRGBA()
     }
 }
 
-const Size& Layout::getBackGroundImageTextureSize() const
+const CCSize& Layout::getBackGroundImageTextureSize() const
 {
     return _backGroundImageTextureSize;
 }
@@ -968,7 +968,7 @@ void Layout::requestDoLayout()
     _doLayoutDirty = true;
 }
     
-Size Layout::getLayoutContentSize()const
+CCSize Layout::getLayoutContentSize()const
 {
     return this->getContentSize();
 }
@@ -1077,10 +1077,10 @@ bool Layout::isPassFocusToChild()const
     return _passFocusToChild;
 }
 
-Size Layout::getLayoutAccumulatedSize()const
+CCSize Layout::getLayoutAccumulatedSize()const
 {
     const auto& children = this->getChildren();
-    Size layoutSize = Size::ZERO;
+    CCSize layoutSize = CCSize::ZERO;
     int widgetCount =0;
     for(const auto& widget : children)
     {
@@ -1096,7 +1096,7 @@ Size Layout::getLayoutAccumulatedSize()const
             {
                 widgetCount++;
                 Margin m = w->getLayoutParameter()->getMargin();
-                layoutSize = layoutSize + w->getContentSize() + Size(m.right + m.left,  m.top + m.bottom) * 0.5;
+                layoutSize = layoutSize + w->getContentSize() + CCSize(m.right + m.left,  m.top + m.bottom) * 0.5;
             }
         }
     }
@@ -1105,11 +1105,11 @@ Size Layout::getLayoutAccumulatedSize()const
     Type type = this->getLayoutType();
     if (type == Type::HORIZONTAL)
     {
-        layoutSize = layoutSize - Size(0, layoutSize.height/widgetCount * (widgetCount-1));
+        layoutSize = layoutSize - CCSize(0, layoutSize.height/widgetCount * (widgetCount-1));
     }
     if (type == Type::VERTICAL)
     {
-        layoutSize = layoutSize - Size(layoutSize.width/widgetCount * (widgetCount-1), 0);
+        layoutSize = layoutSize - CCSize(layoutSize.width/widgetCount * (widgetCount-1), 0);
     }
     return layoutSize;
 }
@@ -1118,7 +1118,7 @@ Vec2 Layout::getWorldCenterPoint(Widget* widget)const
 {
     Layout *layout = dynamic_cast<Layout*>(widget);
     //FIXEDME: we don't need to calculate the content size of layout anymore
-    Size widgetSize = layout ? layout->getLayoutAccumulatedSize() :  widget->getContentSize();
+    CCSize widgetSize = layout ? layout->getLayoutAccumulatedSize() :  widget->getContentSize();
 //    CCLOG("contnet size : width = %f, height = %f", widgetSize.width, widgetSize.height);
     return widget->convertToWorldSpace(Vec2(widgetSize.width/2, widgetSize.height/2));
 }

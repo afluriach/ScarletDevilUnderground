@@ -64,7 +64,7 @@ public:
     virtual FontAtlas   * createFontAtlas() override;
     virtual int         * getHorizontalKerningForTextUTF16(const std::u16string& text, int &outNumLetters) const override;
     
-    unsigned char       * getGlyphBitmap(unsigned short theChar, long &outWidth, long &outHeight, Rect &outRect,int &xAdvance);
+    unsigned char       * getGlyphBitmap(unsigned short theChar, long &outWidth, long &outHeight, CCRect &outRect,int &xAdvance);
     
     virtual int           getFontMaxHeight() const override;  
     virtual int           getFontAscender() const;

@@ -176,34 +176,34 @@ void GLView::setDesignResolutionSize(float width, float height, ResolutionPolicy
     updateDesignResolutionSize();
  }
 
-const Size& GLView::getDesignResolutionSize() const 
+const CCSize& GLView::getDesignResolutionSize() const 
 {
     return _designResolutionSize;
 }
 
-const Size& GLView::getFrameSize() const
+const CCSize& GLView::getFrameSize() const
 {
     return _screenSize;
 }
 
 void GLView::setFrameSize(float width, float height)
 {
-    _designResolutionSize = _screenSize = Size(width, height);
+    _designResolutionSize = _screenSize = CCSize(width, height);
 }
 
-Rect GLView::getVisibleRect() const
+CCRect GLView::getVisibleRect() const
 {
-    Rect ret;
+    CCRect ret;
     ret.size = getVisibleSize();
     ret.origin = getVisibleOrigin();
     return ret;
 }
 
-Size GLView::getVisibleSize() const
+CCSize GLView::getVisibleSize() const
 {
     if (_resolutionPolicy == ResolutionPolicy::NO_BORDER)
     {
-        return Size(_screenSize.width/_scaleX, _screenSize.height/_scaleY);
+        return CCSize(_screenSize.width/_scaleX, _screenSize.height/_scaleY);
     }
     else 
     {
@@ -245,7 +245,7 @@ bool GLView::isScissorEnabled()
 	return (GL_FALSE == glIsEnabled(GL_SCISSOR_TEST)) ? false : true;
 }
 
-Rect GLView::getScissorRect() const
+CCRect GLView::getScissorRect() const
 {
 	GLfloat params[4];
 	glGetFloatv(GL_SCISSOR_BOX, params);
@@ -253,7 +253,7 @@ Rect GLView::getScissorRect() const
 	float y = (params[1] - _viewPortRect.origin.y) / _scaleY;
 	float w = params[2] / _scaleX;
 	float h = params[3] / _scaleY;
-	return Rect(x, y, w, h);
+	return CCRect(x, y, w, h);
 }
 
 void GLView::setViewName(const std::string& viewname )
@@ -433,7 +433,7 @@ void GLView::handleTouchesCancel(int num, intptr_t ids[], float xs[], float ys[]
     handleTouchesOfEndOrCancel(EventTouch::EventCode::CANCELLED, num, ids, xs, ys);
 }
 
-const Rect& GLView::getViewPortRect() const
+const CCRect& GLView::getViewPortRect() const
 {
     return _viewPortRect;
 }

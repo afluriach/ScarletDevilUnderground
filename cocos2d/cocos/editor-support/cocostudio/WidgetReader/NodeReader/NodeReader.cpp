@@ -483,7 +483,7 @@ namespace cocostudio
         node->setName(name);
         
 //        if(x != 0 || y != 0)
-            node->setPosition(Point(x, y));
+            node->setPosition(CCPoint(x, y));
         if(scalex != 1)
             node->setScaleX(scalex);
         if(scaley != 1)
@@ -495,13 +495,13 @@ namespace cocostudio
         if (rotationSkewY != 0)
             node->setRotationSkewY(rotationSkewY);
         if(anchorx != 0.5f || anchory != 0.5f)
-            node->setAnchorPoint(Point(anchorx, anchory));
+            node->setAnchorPoint(CCPoint(anchorx, anchory));
         if(zorder != 0)
             node->setLocalZOrder(zorder);
         if(visible != true)
             node->setVisible(visible);
 //        if (w != 0 || h != 0)
-            node->setContentSize(Size(w, h));
+            node->setContentSize(CCSize(w, h));
         if (alpha != 255)
             node->setOpacity(alpha);
         

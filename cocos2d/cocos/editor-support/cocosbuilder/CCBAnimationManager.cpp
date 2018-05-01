@@ -22,7 +22,7 @@ CCBAnimationManager::CCBAnimationManager()
 , _owner(nullptr)
 , _autoPlaySequenceId(0)
 , _rootNode(nullptr)
-, _rootContainerSize(Size::ZERO)
+, _rootContainerSize(CCSize::ZERO)
 , _delegate(nullptr)
 , _runningSequence(nullptr)
 {
@@ -171,12 +171,12 @@ ValueVector& CCBAnimationManager::getKeyframeCallbacks()
     return _keyframeCallbacks;
 }
 
-const Size& CCBAnimationManager::getRootContainerSize()
+const CCSize& CCBAnimationManager::getRootContainerSize()
 {
     return _rootContainerSize;
 }
 
-void CCBAnimationManager::setRootContainerSize(const Size &rootContainerSize)
+void CCBAnimationManager::setRootContainerSize(const CCSize &rootContainerSize)
 {
     _rootContainerSize.setSize(rootContainerSize.width, rootContainerSize.height);
 }
@@ -202,7 +202,7 @@ const char* CCBAnimationManager::getRunningSequenceName()
     return nullptr;
 }
 
-const Size& CCBAnimationManager::getContainerSize(Node *pNode)
+const CCSize& CCBAnimationManager::getContainerSize(Node *pNode)
 {
     if (pNode)
     {
@@ -376,7 +376,7 @@ ActionInterval* CCBAnimationManager::getAction(CCBKeyframe *pKeyframe0, CCBKeyfr
         float x = value[0].asFloat();
         float y = value[1].asFloat();
         
-        Size containerSize = getContainerSize(pNode->getParent());
+        CCSize containerSize = getContainerSize(pNode->getParent());
         
         Vec2 absPos = getAbsolutePosition(Vec2(x,y), type, containerSize, propName);
         

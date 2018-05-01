@@ -97,9 +97,9 @@ static bool splitWithForm(const std::string& content, strArray& strs)
 
 // implement the functions
 
-Rect RectFromString(const std::string& str)
+CCRect RectFromString(const std::string& str)
 {
-    Rect result = Rect::ZERO;
+    CCRect result = CCRect::ZERO;
 
     do 
     {
@@ -140,7 +140,7 @@ Rect RectFromString(const std::string& str)
         float width  = (float) utils::atof(sizeInfo[0].c_str());
         float height = (float) utils::atof(sizeInfo[1].c_str());
 
-        result = Rect(x, y, width, height);
+        result = CCRect(x, y, width, height);
     } while (0);
 
     return result;
@@ -164,9 +164,9 @@ Vec2 PointFromString(const std::string& str)
     return ret;
 }
 
-Size SizeFromString(const std::string& pszContent)
+CCSize SizeFromString(const std::string& pszContent)
 {
-    Size ret = Size::ZERO;
+    CCSize ret = CCSize::ZERO;
 
     do 
     {
@@ -176,7 +176,7 @@ Size SizeFromString(const std::string& pszContent)
         float width  = (float) utils::atof(strs[0].c_str());
         float height = (float) utils::atof(strs[1].c_str());
 
-        ret = Size(width, height);
+        ret = CCSize(width, height);
     } while (0);
 
     return ret;

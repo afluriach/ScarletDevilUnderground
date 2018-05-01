@@ -61,7 +61,7 @@ SpritePolygon *SpritePolygon::create(const std::string& file, std::vector<cocos2
         return nullptr;
     }
 }
-SpritePolygon *SpritePolygon::create(const std::string& file, std::vector<cocos2d::Vec2>& verts,std::vector<unsigned short>& indices,  const cocos2d::Rect& rect)
+SpritePolygon *SpritePolygon::create(const std::string& file, std::vector<cocos2d::Vec2>& verts,std::vector<unsigned short>& indices,  const cocos2d::CCRect& rect)
 {
     SpritePolygon *ret = new (std::nothrow) SpritePolygon();
     if (ret && ret->initWithRect(file, verts, indices, rect))
@@ -75,7 +75,7 @@ SpritePolygon *SpritePolygon::create(const std::string& file, std::vector<cocos2
         return nullptr;
     }
 }
-SpritePolygon *SpritePolygon::create(const std::string& file, std::vector<cocos2d::Vec2>& verts,  const cocos2d::Rect& rect)
+SpritePolygon *SpritePolygon::create(const std::string& file, std::vector<cocos2d::Vec2>& verts,  const cocos2d::CCRect& rect)
 {
     SpritePolygon *ret = new (std::nothrow) SpritePolygon();
     if (ret && ret->initWithPoly2tri(file, verts, rect))
@@ -89,7 +89,7 @@ SpritePolygon *SpritePolygon::create(const std::string& file, std::vector<cocos2
         return nullptr;
     }
 }
-SpritePolygon *SpritePolygon::create(const std::string &file, const cocos2d::Rect &rect, float optimization)
+SpritePolygon *SpritePolygon::create(const std::string &file, const cocos2d::CCRect &rect, float optimization)
 {
     SpritePolygon *ret = new (std::nothrow) SpritePolygon();
     if (ret)
@@ -141,14 +141,14 @@ void SpritePolygon::calculateUVandContentSize()
     float texHeight = _texture->getPixelsHigh()/scaleFactor;
     
     // the texture rect in pixels, for example, an image is 32x32 pixels
-    Rect* textRect = &_polygonInfo->_rect;
+    CCRect* textRect = &_polygonInfo->_rect;
 
     
     bool needDelete = false;
-    if(textRect->equals(Rect::ZERO))
+    if(textRect->equals(CCRect::ZERO))
     {
         //zero sized rect specified, so it means the whole image, for our calculation, we need actual image rect
-        textRect = new Rect(0,0, texWidth, texHeight);
+        textRect = new CCRect(0,0, texWidth, texHeight);
         needDelete = true;
     }
     setContentSize(textRect->size);
@@ -232,9 +232,9 @@ bool SpritePolygon::initWithCache(const std::string &file, SpritePolygonInfo *in
     CCASSERT(texture, "texture was not loaded properly");
     _polygonInfo = info;
     initWithTexture(texture);
-    if(_polygonInfo->_rect.equals(Rect::ZERO))
+    if(_polygonInfo->_rect.equals(CCRect::ZERO))
     {
-        setContentSize(Size(texture->getPixelsWide(), texture->getPixelsHigh())/Director::getInstance()->getContentScaleFactor());
+        setContentSize(CCSize(texture->getPixelsWide(), texture->getPixelsHigh())/Director::getInstance()->getContentScaleFactor());
     }
     else
     {
@@ -245,7 +245,7 @@ bool SpritePolygon::initWithCache(const std::string &file, SpritePolygonInfo *in
     setAnchorPoint(Vec2(0.5,0.5));
     return true;
 }
-bool SpritePolygon::initWithMarching(const std::string &file, const cocos2d::Rect &rect, float optimization)
+bool SpritePolygon::initWithMarching(const std::string &file, const cocos2d::CCRect &rect, float optimization)
 {
     CCASSERT(file.size()>0, "Invalid filename for sprite");
     Texture2D *texture = Director::getInstance()->getTextureCache()->addImage(file);
@@ -274,7 +274,7 @@ bool SpritePolygon::initWithMarching(const std::string &file, const cocos2d::Rec
 #endif
     return true;
 }
-bool SpritePolygon::initWithPoly2tri(const std::string &filename, std::vector<cocos2d::Vec2> & verts, const cocos2d::Rect &Rect)
+bool SpritePolygon::initWithPoly2tri(const std::string &filename, std::vector<cocos2d::Vec2> & verts, const cocos2d::CCRect &Rect)
 {
     CCASSERT(filename.size()>0, "Invalid filename for sprite");
     Texture2D *texture = Director::getInstance()->getTextureCache()->addImage(filename);
@@ -288,7 +288,7 @@ bool SpritePolygon::initWithPoly2tri(const std::string &filename, std::vector<co
     #endif
     return true;
 }
-Rect SpritePolygon::getTextRectFromTriangles(std::vector<cocos2d::V3F_C4B_T2F>& _verts)
+CCRect SpritePolygon::getTextRectFromTriangles(std::vector<cocos2d::V3F_C4B_T2F>& _verts)
 {
 //    CCASSERT(_polygonInfo, "cannot get texture rect because triangles were not defined");
     auto text = getTexture();
@@ -318,7 +318,7 @@ Rect SpritePolygon::getTextRectFromTriangles(std::vector<cocos2d::V3F_C4B_T2F>& 
             top = v->texCoords.v;
         }
     }
-    return Rect(left*width, bot*height, right*width, top*height);
+    return CCRect(left*width, bot*height, right*width, top*height);
 }
 
 bool SpritePolygon::initWithVerts(const std::string& filename,std::vector<cocos2d::V3F_C4B_T2F>& verts, std::vector<unsigned short>& indices)
@@ -343,7 +343,7 @@ bool SpritePolygon::initWithVerts(const std::string& filename,std::vector<cocos2
     return true;
 }
 
-bool SpritePolygon::initWithRect(const std::string& filename, std::vector<cocos2d::Vec2>& verts, std::vector<unsigned short>& indices, const cocos2d::Rect& rect)
+bool SpritePolygon::initWithRect(const std::string& filename, std::vector<cocos2d::Vec2>& verts, std::vector<unsigned short>& indices, const cocos2d::CCRect& rect)
 {
     CCASSERT(filename.size()>0, "Invalid filename for sprite");
     Texture2D *texture = Director::getInstance()->getTextureCache()->addImage(filename);
