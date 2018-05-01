@@ -1095,8 +1095,9 @@
 				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",
+					"$(SRCROOT)/../glfw/include/GLFW",
 					"$(SRCROOT)/../cocos2d/cocos/platform/mac",
-					"$(SRCROOT)/../cocos2d/external/glfw3/include/mac",
+					"$(SRCROOT)/../gainput/include",
 				);
 				INFOPLIST_FILE = mac/Info.plist;
 				LIBRARY_SEARCH_PATHS = (
@@ -1136,8 +1137,8 @@
 				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",
+					"$(SRCROOT)/../glfw/include/GLFW",
 					"$(SRCROOT)/../cocos2d/cocos/platform/mac",
-					"$(SRCROOT)/../cocos2d/external/glfw3/include/mac",
 				);
 				INFOPLIST_FILE = mac/Info.plist;
 				LIBRARY_SEARCH_PATHS = (
@@ -1200,7 +1201,6 @@
 					"$(SRCROOT)/../cocos2d/chipmunkpp",
 					"$(SRCROOT)/../cocos2d/lua",
 					"$(SRCROOT)/../cocos2d/LuaBridge/**",
-					"$(SRCROOT)/../gainput/include",
 				);
 				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
 				MACOSX_DEPLOYMENT_TARGET = 10.7;
@@ -1252,7 +1252,6 @@
 					"$(SRCROOT)/../cocos2d/chipmunkpp",
 					"$(SRCROOT)/../cocos2d/lua",
 					"$(SRCROOT)/../cocos2d/LuaBridge/**",
-					"$(SRCROOT)/../gainput/include",
 				);
 				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
 				MACOSX_DEPLOYMENT_TARGET = 10.7;
