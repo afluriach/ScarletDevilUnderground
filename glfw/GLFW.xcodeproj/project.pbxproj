@@ -1,0 +1,1173 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		15EFA29E042D4309A8390118 /* input.c in Sources */ = {isa = PBXBuildFile; fileRef = 86D2E79A88AB44EB8E0850A0 /* input.c */; };
+		175A7D5671684C2BAD5DB666 /* cocoa_monitor.m in Sources */ = {isa = PBXBuildFile; fileRef = 5EBAAB4EE8064FF194A95FFD /* cocoa_monitor.m */; };
+		26B89047078A4543A9D36F25 /* window.c in Sources */ = {isa = PBXBuildFile; fileRef = 7558393C3E7F46689BF00528 /* window.c */; };
+		286F64D4F9194ECD9E2483F8 /* monitor.c in Sources */ = {isa = PBXBuildFile; fileRef = FE3BEB29EAC540FFBE36EFAB /* monitor.c */; };
+		3A3B5D1317A64771A25ECCB8 /* cocoa_window.m in Sources */ = {isa = PBXBuildFile; fileRef = 0EEE3264A7C44117961E1678 /* cocoa_window.m */; };
+		46B1A4BB850144508BED531A /* cocoa_joystick.m in Sources */ = {isa = PBXBuildFile; fileRef = 876FCEBDBEF74F60B01364A3 /* cocoa_joystick.m */; };
+		AADDEDE648A04061A506927D /* posix_tls.c in Sources */ = {isa = PBXBuildFile; fileRef = 3F214CFCD8B8453C820BB0EB /* posix_tls.c */; };
+		BCDFF839759D4D80B7332A4B /* cocoa_init.m in Sources */ = {isa = PBXBuildFile; fileRef = 6020546CEA704169A467BB99 /* cocoa_init.m */; };
+		D6AD2FBCF8B4465BAF74B89C /* init.c in Sources */ = {isa = PBXBuildFile; fileRef = D20B48EDA24B4017BB4F6C03 /* init.c */; };
+		E0226507F48446F39EC385D4 /* cocoa_time.c in Sources */ = {isa = PBXBuildFile; fileRef = 4ADA1D15117B429AB11CF5F2 /* cocoa_time.c */; };
+		EFAB8765EC234C15AC67C92F /* context.c in Sources */ = {isa = PBXBuildFile; fileRef = 162F168298104B38817E05CB /* context.c */; };
+		F7B3010116604A6FB3C5B69C /* vulkan.c in Sources */ = {isa = PBXBuildFile; fileRef = 160F5E9B81CF40B0B42C37F6 /* vulkan.c */; };
+		FEAA446D17BA44B3841788D2 /* nsgl_context.m in Sources */ = {isa = PBXBuildFile; fileRef = 1EC82096A9924A0799EAB5A0 /* nsgl_context.m */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXFileReference section */
+		068C4342E027475197998375 /* glad.c */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.c; fileEncoding = 4; name = glad.c; path = deps/glad.c; sourceTree = SOURCE_ROOT; };
+		0BF4D1BCCDA544289AF1AC93 /* glad.c */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.c; fileEncoding = 4; name = glad.c; path = deps/glad.c; sourceTree = SOURCE_ROOT; };
+		0EEE3264A7C44117961E1678 /* cocoa_window.m */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.objc; fileEncoding = 4; name = cocoa_window.m; path = src/cocoa_window.m; sourceTree = SOURCE_ROOT; };
+		0F220A21771E4ECD80E841C3 /* iconify.c */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.c; fileEncoding = 4; name = iconify.c; path = tests/iconify.c; sourceTree = SOURCE_ROOT; };
+		0F62B682C6EF4570A88243B6 /* glad.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.h; fileEncoding = 4; name = glad.h; path = deps/glad/glad.h; sourceTree = SOURCE_ROOT; };
+		14193B50FEE449E0BD66E090 /* libglfw3.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; path = libglfw3.a; sourceTree = BUILT_PRODUCTS_DIR; };
+		1434E224200540D2ABD95C64 /* glad.c */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.c; fileEncoding = 4; name = glad.c; path = deps/glad.c; sourceTree = SOURCE_ROOT; };
+		160F5E9B81CF40B0B42C37F6 /* vulkan.c */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.c; fileEncoding = 4; name = vulkan.c; path = src/vulkan.c; sourceTree = SOURCE_ROOT; };
+		161FE87D43AE41B2B235ECD9 /* glad.c */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.c; fileEncoding = 4; name = glad.c; path = deps/glad.c; sourceTree = SOURCE_ROOT; };
+		162F168298104B38817E05CB /* context.c */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.c; fileEncoding = 4; name = context.c; path = src/context.c; sourceTree = SOURCE_ROOT; };
+		1BE74C6183B943469FED06FC /* getopt.c */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.c; fileEncoding = 4; name = getopt.c; path = deps/getopt.c; sourceTree = SOURCE_ROOT; };
+		1E8E592A745149B8BE377763 /* nsgl_context.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.h; fileEncoding = 4; name = nsgl_context.h; path = src/nsgl_context.h; sourceTree = SOURCE_ROOT; };
+		1EC82096A9924A0799EAB5A0 /* nsgl_context.m */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.objc; fileEncoding = 4; name = nsgl_context.m; path = src/nsgl_context.m; sourceTree = SOURCE_ROOT; };
+		1EF0969D629F4AB095000D3B /* clipboard.c */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.c; fileEncoding = 4; name = clipboard.c; path = tests/clipboard.c; sourceTree = SOURCE_ROOT; };
+		1F3D4AD41544402A95506EB1 /* CMakeLists.txt */ = {isa = PBXFileReference; explicitFileType = sourcecode.text; fileEncoding = 4; lastKnownFileType = text; name = CMakeLists.txt; path = tests/CMakeLists.txt; sourceTree = SOURCE_ROOT; };
+		2039A8B3E86E4E73B3544617 /* CMakeLists.txt */ = {isa = PBXFileReference; explicitFileType = sourcecode.text; fileEncoding = 4; lastKnownFileType = text; name = CMakeLists.txt; path = tests/CMakeLists.txt; sourceTree = SOURCE_ROOT; };
+		24BB56F76B414E2C9DC95C82 /* CMakeLists.txt */ = {isa = PBXFileReference; explicitFileType = sourcecode.text; fileEncoding = 4; lastKnownFileType = text; name = CMakeLists.txt; path = tests/CMakeLists.txt; sourceTree = SOURCE_ROOT; };
+		2538EB263C8B492EBE633CFC /* tinycthread.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.h; fileEncoding = 4; name = tinycthread.h; path = deps/tinycthread.h; sourceTree = SOURCE_ROOT; };
+		268573867D79470D8CAA93FC /* glad.c */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.c; fileEncoding = 4; name = glad.c; path = deps/glad.c; sourceTree = SOURCE_ROOT; };
+		2B2C795865AA48C5854A1B68 /* Info.plist */ = {isa = PBXFileReference; explicitFileType = sourcecode.text.plist; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = Info.plist; path = tests/CMakeFiles/empty.dir/Info.plist; sourceTree = SOURCE_ROOT; };
+		2DAE542AB0A145D086C69605 /* glad.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.h; fileEncoding = 4; name = glad.h; path = deps/glad/glad.h; sourceTree = SOURCE_ROOT; };
+		2F9A08C119964F069281C6B5 /* CMakeLists.txt */ = {isa = PBXFileReference; explicitFileType = sourcecode.text; fileEncoding = 4; lastKnownFileType = text; name = CMakeLists.txt; path = tests/CMakeLists.txt; sourceTree = SOURCE_ROOT; };
+		31C53AF408C14354B913DDC7 /* glad.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.h; fileEncoding = 4; name = glad.h; path = deps/glad/glad.h; sourceTree = SOURCE_ROOT; };
+		36254C0ACFF0452C932B230B /* glad.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.h; fileEncoding = 4; name = glad.h; path = deps/glad/glad.h; sourceTree = SOURCE_ROOT; };
+		38696B939094479BB597DEDD /* CMakeLists.txt */ = {isa = PBXFileReference; explicitFileType = sourcecode.text; fileEncoding = 4; lastKnownFileType = text; name = CMakeLists.txt; path = tests/CMakeLists.txt; sourceTree = SOURCE_ROOT; };
+		3B365C614957452CADD89A66 /* getopt.c */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.c; fileEncoding = 4; name = getopt.c; path = deps/getopt.c; sourceTree = SOURCE_ROOT; };
+		3B90D302A7D1421EB3E2E94C /* CMakeLists.txt */ = {isa = PBXFileReference; explicitFileType = sourcecode.text; fileEncoding = 4; lastKnownFileType = text; name = CMakeLists.txt; path = tests/CMakeLists.txt; sourceTree = SOURCE_ROOT; };
+		3E4F6E97E50340FF88575B07 /* tinycthread.c */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.c; fileEncoding = 4; name = tinycthread.c; path = deps/tinycthread.c; sourceTree = SOURCE_ROOT; };
+		3F214CFCD8B8453C820BB0EB /* posix_tls.c */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.c; fileEncoding = 4; name = posix_tls.c; path = src/posix_tls.c; sourceTree = SOURCE_ROOT; };
+		3F94CF3E31A3425591B4473E /* CMakeLists.txt */ = {isa = PBXFileReference; explicitFileType = sourcecode.text; fileEncoding = 4; lastKnownFileType = text; path = CMakeLists.txt; sourceTree = SOURCE_ROOT; };
+		464DB9E262444082943CAACB /* glad.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.h; fileEncoding = 4; name = glad.h; path = deps/glad/glad.h; sourceTree = SOURCE_ROOT; };
+		48382887CC4F45A6AFD46CDB /* glad.c */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.c; fileEncoding = 4; name = glad.c; path = deps/glad.c; sourceTree = SOURCE_ROOT; };
+		4AB976712A4E443FADD86ECB /* CMakeLists.txt */ = {isa = PBXFileReference; explicitFileType = sourcecode.text; fileEncoding = 4; lastKnownFileType = text; name = CMakeLists.txt; path = tests/CMakeLists.txt; sourceTree = SOURCE_ROOT; };
+		4ADA1D15117B429AB11CF5F2 /* cocoa_time.c */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.c; fileEncoding = 4; name = cocoa_time.c; path = src/cocoa_time.c; sourceTree = SOURCE_ROOT; };
+		4BF0BE1D00DA4C18A309DE65 /* getopt.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.h; fileEncoding = 4; name = getopt.h; path = deps/getopt.h; sourceTree = SOURCE_ROOT; };
+		4C453706768C45F59F18C722 /* glad.c */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.c; fileEncoding = 4; name = glad.c; path = deps/glad.c; sourceTree = SOURCE_ROOT; };
+		4F7CFA8F10E14420A075D651 /* glad.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.h; fileEncoding = 4; name = glad.h; path = deps/glad/glad.h; sourceTree = SOURCE_ROOT; };
+		5617E55A308C4FEF8E05A075 /* glad.c */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.c; fileEncoding = 4; name = glad.c; path = deps/glad.c; sourceTree = SOURCE_ROOT; };
+		5670CDE814BA4CABBAE5FD58 /* glad.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.h; fileEncoding = 4; name = glad.h; path = deps/glad/glad.h; sourceTree = SOURCE_ROOT; };
+		56CF9F55FE66483E9618DE37 /* getopt.c */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.c; fileEncoding = 4; name = getopt.c; path = deps/getopt.c; sourceTree = SOURCE_ROOT; };
+		5725C7FFE81D4CD0BE0B2CBF /* monitors.c */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.c; fileEncoding = 4; name = monitors.c; path = tests/monitors.c; sourceTree = SOURCE_ROOT; };
+		5D6C148038594B06A055B804 /* Info.plist */ = {isa = PBXFileReference; explicitFileType = sourcecode.text.plist; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = Info.plist; path = tests/CMakeFiles/tearing.dir/Info.plist; sourceTree = SOURCE_ROOT; };
+		5D967F6E855D41D194FD1CA8 /* glad.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.h; fileEncoding = 4; name = glad.h; path = deps/glad/glad.h; sourceTree = SOURCE_ROOT; };
+		5EBAAB4EE8064FF194A95FFD /* cocoa_monitor.m */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.objc; fileEncoding = 4; name = cocoa_monitor.m; path = src/cocoa_monitor.m; sourceTree = SOURCE_ROOT; };
+		5FBE8BF334594B16AC97644F /* Info.plist */ = {isa = PBXFileReference; explicitFileType = sourcecode.text.plist; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = Info.plist; path = tests/CMakeFiles/title.dir/Info.plist; sourceTree = SOURCE_ROOT; };
+		5FE98978F9CD4D078B90368D /* glfwinfo.c */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.c; fileEncoding = 4; name = glfwinfo.c; path = tests/glfwinfo.c; sourceTree = SOURCE_ROOT; };
+		6020546CEA704169A467BB99 /* cocoa_init.m */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.objc; fileEncoding = 4; name = cocoa_init.m; path = src/cocoa_init.m; sourceTree = SOURCE_ROOT; };
+		603D4721C2E04FD3BF46E43E /* joysticks.c */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.c; fileEncoding = 4; name = joysticks.c; path = tests/joysticks.c; sourceTree = SOURCE_ROOT; };
+		613255D3A0884948B3C440C1 /* internal.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.h; fileEncoding = 4; name = internal.h; path = src/internal.h; sourceTree = SOURCE_ROOT; };
+		61AD17F3F9184DE19944CD95 /* glad.c */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.c; fileEncoding = 4; name = glad.c; path = deps/glad.c; sourceTree = SOURCE_ROOT; };
+		63E1B556193D4CDF9F446A19 /* getopt.c */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.c; fileEncoding = 4; name = getopt.c; path = deps/getopt.c; sourceTree = SOURCE_ROOT; };
+		6662F96771014E1483D5820B /* CMakeLists.txt */ = {isa = PBXFileReference; explicitFileType = sourcecode.text; fileEncoding = 4; lastKnownFileType = text; name = CMakeLists.txt; path = tests/CMakeLists.txt; sourceTree = SOURCE_ROOT; };
+		6CC28F5CCFC349BFACA529A5 /* cocoa_platform.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.h; fileEncoding = 4; name = cocoa_platform.h; path = src/cocoa_platform.h; sourceTree = SOURCE_ROOT; };
+		6E25CBCE9D2E490AB1171CE9 /* glad.c */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.c; fileEncoding = 4; name = glad.c; path = deps/glad.c; sourceTree = SOURCE_ROOT; };
+		6ED1F120E3F448488CBF54EB /* getopt.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.h; fileEncoding = 4; name = getopt.h; path = deps/getopt.h; sourceTree = SOURCE_ROOT; };
+		709044DD2A7E4817803F258B /* getopt.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.h; fileEncoding = 4; name = getopt.h; path = deps/getopt.h; sourceTree = SOURCE_ROOT; };
+		712F08C11CD044469AD436C2 /* cursor.c */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.c; fileEncoding = 4; name = cursor.c; path = tests/cursor.c; sourceTree = SOURCE_ROOT; };
+		7152D87F756D447589F1D6A7 /* CMakeLists.txt */ = {isa = PBXFileReference; explicitFileType = sourcecode.text; fileEncoding = 4; lastKnownFileType = text; name = CMakeLists.txt; path = tests/CMakeLists.txt; sourceTree = SOURCE_ROOT; };
+		71D39EE500274BC2B2D1335C /* glfw_config.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.h; fileEncoding = 4; name = glfw_config.h; path = src/glfw_config.h; sourceTree = SOURCE_ROOT; };
+		732DD9C0F29044888FB8CCAA /* glad.c */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.c; fileEncoding = 4; name = glad.c; path = deps/glad.c; sourceTree = SOURCE_ROOT; };
+		7558393C3E7F46689BF00528 /* window.c */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.c; fileEncoding = 4; name = window.c; path = src/window.c; sourceTree = SOURCE_ROOT; };
+		7976C981B8AA4868A383F6D7 /* glad.c */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.c; fileEncoding = 4; name = glad.c; path = deps/glad.c; sourceTree = SOURCE_ROOT; };
+		799B3D90C64F4AB196352BCA /* getopt.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.h; fileEncoding = 4; name = getopt.h; path = deps/getopt.h; sourceTree = SOURCE_ROOT; };
+		7A1D71C85F364A318E40CBC1 /* Info.plist */ = {isa = PBXFileReference; explicitFileType = sourcecode.text.plist; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = Info.plist; path = tests/CMakeFiles/icon.dir/Info.plist; sourceTree = SOURCE_ROOT; };
+		7B36B52A721B44E182C57DDA /* getopt.c */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.c; fileEncoding = 4; name = getopt.c; path = deps/getopt.c; sourceTree = SOURCE_ROOT; };
+		80C9CFC899B347F49C61436B /* CMakeLists.txt */ = {isa = PBXFileReference; explicitFileType = sourcecode.text; fileEncoding = 4; lastKnownFileType = text; name = CMakeLists.txt; path = tests/CMakeLists.txt; sourceTree = SOURCE_ROOT; };
+		836E0E5B95F3474DB8A09BAC /* title.c */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.c; fileEncoding = 4; name = title.c; path = tests/title.c; sourceTree = SOURCE_ROOT; };
+		8396317B59D54C94BD099D4E /* msaa.c */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.c; fileEncoding = 4; name = msaa.c; path = tests/msaa.c; sourceTree = SOURCE_ROOT; };
+		86D2E79A88AB44EB8E0850A0 /* input.c */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.c; fileEncoding = 4; name = input.c; path = src/input.c; sourceTree = SOURCE_ROOT; };
+		876FCEBDBEF74F60B01364A3 /* cocoa_joystick.m */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.objc; fileEncoding = 4; name = cocoa_joystick.m; path = src/cocoa_joystick.m; sourceTree = SOURCE_ROOT; };
+		8D216EC565514CF193F928B9 /* cocoa_joystick.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.h; fileEncoding = 4; name = cocoa_joystick.h; path = src/cocoa_joystick.h; sourceTree = SOURCE_ROOT; };
+		9006F0C9F1C04340B8C17D96 /* glad.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.h; fileEncoding = 4; name = glad.h; path = deps/glad/glad.h; sourceTree = SOURCE_ROOT; };
+		95A30E19E23243BF9C8A7C92 /* getopt.c */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.c; fileEncoding = 4; name = getopt.c; path = deps/getopt.c; sourceTree = SOURCE_ROOT; };
+		95EAEF155A7645C1897E40EA /* glad.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.h; fileEncoding = 4; name = glad.h; path = deps/glad/glad.h; sourceTree = SOURCE_ROOT; };
+		984C0DA5878D4431A49FB3E1 /* glad.c */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.c; fileEncoding = 4; name = glad.c; path = deps/glad.c; sourceTree = SOURCE_ROOT; };
+		995588BFDE9D4E6A8E15F420 /* glad.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.h; fileEncoding = 4; name = glad.h; path = deps/glad/glad.h; sourceTree = SOURCE_ROOT; };
+		9A7F35485CA141018E3D0876 /* glad.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.h; fileEncoding = 4; name = glad.h; path = deps/glad/glad.h; sourceTree = SOURCE_ROOT; };
+		9AEDDCA291574BFFBC5A7F11 /* glad.c */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.c; fileEncoding = 4; name = glad.c; path = deps/glad.c; sourceTree = SOURCE_ROOT; };
+		9C3BBE7122A64616BDCD1163 /* sharing.c */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.c; fileEncoding = 4; name = sharing.c; path = tests/sharing.c; sourceTree = SOURCE_ROOT; };
+		9DCCABD7C0304570A186E5F9 /* CMakeLists.txt */ = {isa = PBXFileReference; explicitFileType = sourcecode.text; fileEncoding = 4; lastKnownFileType = text; name = CMakeLists.txt; path = tests/CMakeLists.txt; sourceTree = SOURCE_ROOT; };
+		9EE0C061005C437382243B22 /* threads.c */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.c; fileEncoding = 4; name = threads.c; path = tests/threads.c; sourceTree = SOURCE_ROOT; };
+		A1EC8348132D49DF83E7B59F /* getopt.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.h; fileEncoding = 4; name = getopt.h; path = deps/getopt.h; sourceTree = SOURCE_ROOT; };
+		A8E28680BEB14BA298D7EC35 /* tinycthread.c */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.c; fileEncoding = 4; name = tinycthread.c; path = deps/tinycthread.c; sourceTree = SOURCE_ROOT; };
+		A95A67DE2D204FC5B754F4EC /* empty.c */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.c; fileEncoding = 4; name = empty.c; path = tests/empty.c; sourceTree = SOURCE_ROOT; };
+		AC275B2E9EEA4EB09CC9BC91 /* glad.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.h; fileEncoding = 4; name = glad.h; path = deps/glad/glad.h; sourceTree = SOURCE_ROOT; };
+		AD73CB7DA4514FDD8E8DBC02 /* getopt.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.h; fileEncoding = 4; name = getopt.h; path = deps/getopt.h; sourceTree = SOURCE_ROOT; };
+		AD8E6414E67C44B2BD3C939E /* tearing.c */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.c; fileEncoding = 4; name = tearing.c; path = tests/tearing.c; sourceTree = SOURCE_ROOT; };
+		B00C76875A2C4E5C94912E45 /* posix_tls.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.h; fileEncoding = 4; name = posix_tls.h; path = src/posix_tls.h; sourceTree = SOURCE_ROOT; };
+		B0B5134DFE364AA09E244733 /* icon.c */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.c; fileEncoding = 4; name = icon.c; path = tests/icon.c; sourceTree = SOURCE_ROOT; };
+		B11CC8B930E9486B8089A98F /* getopt.c */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.c; fileEncoding = 4; name = getopt.c; path = deps/getopt.c; sourceTree = SOURCE_ROOT; };
+		B293953090D4416DBA8DC15D /* getopt.c */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.c; fileEncoding = 4; name = getopt.c; path = deps/getopt.c; sourceTree = SOURCE_ROOT; };
+		B4776EACD4FC40EBA15B534A /* timeout.c */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.c; fileEncoding = 4; name = timeout.c; path = tests/timeout.c; sourceTree = SOURCE_ROOT; };
+		B4C24FCCCDDD4FA5A0C7B12D /* glad.c */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.c; fileEncoding = 4; name = glad.c; path = deps/glad.c; sourceTree = SOURCE_ROOT; };
+		B6BFAC73898E4A3A9320D060 /* CMakeLists.txt */ = {isa = PBXFileReference; explicitFileType = sourcecode.text; fileEncoding = 4; lastKnownFileType = text; name = CMakeLists.txt; path = tests/CMakeLists.txt; sourceTree = SOURCE_ROOT; };
+		BC5ECAE6E5794170AE8E61E6 /* reopen.c */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.c; fileEncoding = 4; name = reopen.c; path = tests/reopen.c; sourceTree = SOURCE_ROOT; };
+		BCBF03F4C1A1414B8E9152AD /* CMakeLists.txt */ = {isa = PBXFileReference; explicitFileType = sourcecode.text; fileEncoding = 4; lastKnownFileType = text; path = CMakeLists.txt; sourceTree = SOURCE_ROOT; };
+		BE5F7A45B2BB4FBD89E0AB3F /* glad.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.h; fileEncoding = 4; name = glad.h; path = deps/glad/glad.h; sourceTree = SOURCE_ROOT; };
+		BF0C9C347C1E4D3BA60792BD /* glfw3.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.h; fileEncoding = 4; name = glfw3.h; path = include/GLFW/glfw3.h; sourceTree = SOURCE_ROOT; };
+		C328719EF5D440E0891F8042 /* events.c */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.c; fileEncoding = 4; name = events.c; path = tests/events.c; sourceTree = SOURCE_ROOT; };
+		C40F0B6B32CB44598B0C5102 /* glfw3native.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.h; fileEncoding = 4; name = glfw3native.h; path = include/GLFW/glfw3native.h; sourceTree = SOURCE_ROOT; };
+		C53BCF814EFC48F1824AB7FA /* windows.c */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.c; fileEncoding = 4; name = windows.c; path = tests/windows.c; sourceTree = SOURCE_ROOT; };
+		C5525CBC148F406B9AB71385 /* CMakeLists.txt */ = {isa = PBXFileReference; explicitFileType = sourcecode.text; fileEncoding = 4; lastKnownFileType = text; name = CMakeLists.txt; path = tests/CMakeLists.txt; sourceTree = SOURCE_ROOT; };
+		C6311E2896184E709766ACB8 /* Info.plist */ = {isa = PBXFileReference; explicitFileType = sourcecode.text.plist; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = Info.plist; path = tests/CMakeFiles/sharing.dir/Info.plist; sourceTree = SOURCE_ROOT; };
+		CF8A0D6712EA4612BB13521D /* glad.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.h; fileEncoding = 4; name = glad.h; path = deps/glad/glad.h; sourceTree = SOURCE_ROOT; };
+		D08099E0C2874B26A89342E6 /* glad.c */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.c; fileEncoding = 4; name = glad.c; path = deps/glad.c; sourceTree = SOURCE_ROOT; };
+		D20B48EDA24B4017BB4F6C03 /* init.c */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.c; fileEncoding = 4; name = init.c; path = src/init.c; sourceTree = SOURCE_ROOT; };
+		D3021D9B466B419380E7C5E9 /* gamma.c */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.c; fileEncoding = 4; name = gamma.c; path = tests/gamma.c; sourceTree = SOURCE_ROOT; };
+		D41B1062846D443785DB0D33 /* CMakeLists.txt */ = {isa = PBXFileReference; explicitFileType = sourcecode.text; fileEncoding = 4; lastKnownFileType = text; name = CMakeLists.txt; path = tests/CMakeLists.txt; sourceTree = SOURCE_ROOT; };
+		D78C6359BD3246579D67DA65 /* getopt.c */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.c; fileEncoding = 4; name = getopt.c; path = deps/getopt.c; sourceTree = SOURCE_ROOT; };
+		E512D449420D4339A1A47006 /* getopt.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.h; fileEncoding = 4; name = getopt.h; path = deps/getopt.h; sourceTree = SOURCE_ROOT; };
+		E52B511263054E7AA75E369A /* CMakeLists.txt */ = {isa = PBXFileReference; explicitFileType = sourcecode.text; fileEncoding = 4; lastKnownFileType = text; name = CMakeLists.txt; path = tests/CMakeLists.txt; sourceTree = SOURCE_ROOT; };
+		E8CC85248BDD4DC6AAB6342D /* Info.plist */ = {isa = PBXFileReference; explicitFileType = sourcecode.text.plist; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = Info.plist; path = tests/CMakeFiles/threads.dir/Info.plist; sourceTree = SOURCE_ROOT; };
+		EC9DE432509E48F093F8FB8B /* CMakeLists.txt */ = {isa = PBXFileReference; explicitFileType = sourcecode.text; fileEncoding = 4; lastKnownFileType = text; path = CMakeLists.txt; sourceTree = SOURCE_ROOT; };
+		ED12C83FC7574511B1A28049 /* glad.c */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.c; fileEncoding = 4; name = glad.c; path = deps/glad.c; sourceTree = SOURCE_ROOT; };
+		EE7056D722E14022A8388D1D /* glad.c */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.c; fileEncoding = 4; name = glad.c; path = deps/glad.c; sourceTree = SOURCE_ROOT; };
+		F1FF9117B12748F6BD5C7CAD /* tinycthread.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.h; fileEncoding = 4; name = tinycthread.h; path = deps/tinycthread.h; sourceTree = SOURCE_ROOT; };
+		F2619AFBC6384CB2BF0E5646 /* CMakeLists.txt */ = {isa = PBXFileReference; explicitFileType = sourcecode.text; fileEncoding = 4; lastKnownFileType = text; name = CMakeLists.txt; path = tests/CMakeLists.txt; sourceTree = SOURCE_ROOT; };
+		F3CF55EB7D054E8A847AD130 /* glad.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.h; fileEncoding = 4; name = glad.h; path = deps/glad/glad.h; sourceTree = SOURCE_ROOT; };
+		F68FB1E5B20A4EB985551710 /* CMakeLists.txt */ = {isa = PBXFileReference; explicitFileType = sourcecode.text; fileEncoding = 4; lastKnownFileType = text; name = CMakeLists.txt; path = tests/CMakeLists.txt; sourceTree = SOURCE_ROOT; };
+		F79E7C5A39764FBC91ACC18F /* glad.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.h; fileEncoding = 4; name = glad.h; path = deps/glad/glad.h; sourceTree = SOURCE_ROOT; };
+		F9E0EFF219A54AC39242CF7F /* CMakeLists.txt */ = {isa = PBXFileReference; explicitFileType = sourcecode.text; fileEncoding = 4; lastKnownFileType = text; name = CMakeLists.txt; path = src/CMakeLists.txt; sourceTree = SOURCE_ROOT; };
+		FA58293A6D3F4DBB96A968EB /* glad.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.h; fileEncoding = 4; name = glad.h; path = deps/glad/glad.h; sourceTree = SOURCE_ROOT; };
+		FB6C2B92330A4396819B35B4 /* getopt.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.h; fileEncoding = 4; name = getopt.h; path = deps/getopt.h; sourceTree = SOURCE_ROOT; };
+		FB6DB4FAEA8F4B0C9C5AB799 /* Info.plist */ = {isa = PBXFileReference; explicitFileType = sourcecode.text.plist; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = Info.plist; path = tests/CMakeFiles/timeout.dir/Info.plist; sourceTree = SOURCE_ROOT; };
+		FC7AAF79D9D048218C27B5B8 /* CMakeLists.txt */ = {isa = PBXFileReference; explicitFileType = sourcecode.text; fileEncoding = 4; lastKnownFileType = text; name = CMakeLists.txt; path = tests/CMakeLists.txt; sourceTree = SOURCE_ROOT; };
+		FDBDD525E0044808A5C70E65 /* getopt.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.h; fileEncoding = 4; name = getopt.h; path = deps/getopt.h; sourceTree = SOURCE_ROOT; };
+		FE3BEB29EAC540FFBE36EFAB /* monitor.c */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.c; fileEncoding = 4; name = monitor.c; path = src/monitor.c; sourceTree = SOURCE_ROOT; };
+		FEF33F946B7C4EAC95E3E170 /* Info.plist */ = {isa = PBXFileReference; explicitFileType = sourcecode.text.plist; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = Info.plist; path = tests/CMakeFiles/windows.dir/Info.plist; sourceTree = SOURCE_ROOT; };
+/* End PBXFileReference section */
+
+/* Begin PBXGroup section */
+		03A49AFE4445469E8987E74B /* Source Files */ = {
+			isa = PBXGroup;
+			children = (
+				7B36B52A721B44E182C57DDA /* getopt.c */,
+				D08099E0C2874B26A89342E6 /* glad.c */,
+				0F220A21771E4ECD80E841C3 /* iconify.c */,
+			);
+			name = "Source Files";
+			sourceTree = "<group>";
+		};
+		04BFF5CBE9E24DA9907489B4 /* iconify */ = {
+			isa = PBXGroup;
+			children = (
+				03A49AFE4445469E8987E74B /* Source Files */,
+				B44431EF17904FD4A302764D /* Header Files */,
+				FC7AAF79D9D048218C27B5B8 /* CMakeLists.txt */,
+			);
+			name = iconify;
+			sourceTree = "<group>";
+		};
+		0B7A6FBE63094419A9AD6FA1 /* cursor */ = {
+			isa = PBXGroup;
+			children = (
+				AC4182CA59394179A52262B8 /* Source Files */,
+				23816E23151B4E74BB73254D /* Header Files */,
+				3B90D302A7D1421EB3E2E94C /* CMakeLists.txt */,
+			);
+			name = cursor;
+			sourceTree = "<group>";
+		};
+		0DF8356C6F30418581F998EF /* timeout */ = {
+			isa = PBXGroup;
+			children = (
+				FB987940C4D84810A0CA315C /* Source Files */,
+				65C1EE5475334D74A2808F89 /* Header Files */,
+				22F1B90CE4354A6BA9A3B4AC /* Resources */,
+				6662F96771014E1483D5820B /* CMakeLists.txt */,
+			);
+			name = timeout;
+			sourceTree = "<group>";
+		};
+		0E3933820CC3436EBEA64CAA /* Tests */ = {
+			isa = PBXGroup;
+			children = (
+				85FDA7B49BCD4397B29BA1C3 /* windows */,
+				91AB1E2CD797460FAAE4C2B3 /* title */,
+				0DF8356C6F30418581F998EF /* timeout */,
+				418E21ED77ED4AAAADF0C42E /* threads */,
+				8425049C387D40E29066696D /* tearing */,
+				301EDBCDAB7D4B0F8971743C /* icon */,
+				D7AD08E711BD461786E69FFD /* empty */,
+				1CA98968A62245C6ADBF0EB1 /* glfwinfo */,
+				0B7A6FBE63094419A9AD6FA1 /* cursor */,
+				46F768DE03F8403493B40B81 /* monitors */,
+				50929EDB259347A5A1F0BEAA /* reopen */,
+				C08941B7745A40F188EFB2CE /* joysticks */,
+				84DCBE29B68C4C0781B8ED94 /* events */,
+				04BFF5CBE9E24DA9907489B4 /* iconify */,
+				5A35FFCA0F9349A7A02FC147 /* gamma */,
+				BA9A39513C464D9FBF170117 /* sharing */,
+				C3AADB3274DB483383BBB2F8 /* msaa */,
+				7126D010021A4333B28DE9CC /* clipboard */,
+			);
+			name = Tests;
+			sourceTree = "<group>";
+		};
+		0F78A8D737C9494DBEEC1ECC /* Source Files */ = {
+			isa = PBXGroup;
+			children = (
+				B11CC8B930E9486B8089A98F /* getopt.c */,
+				9AEDDCA291574BFFBC5A7F11 /* glad.c */,
+				D3021D9B466B419380E7C5E9 /* gamma.c */,
+			);
+			name = "Source Files";
+			sourceTree = "<group>";
+		};
+		125031A38DC24053B85C06EB /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				E8CC85248BDD4DC6AAB6342D /* Info.plist */,
+			);
+			name = Resources;
+			sourceTree = "<group>";
+		};
+		161BBAEC36C84F05923B54D5 /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				FEF33F946B7C4EAC95E3E170 /* Info.plist */,
+			);
+			name = Resources;
+			sourceTree = "<group>";
+		};
+		1CA98968A62245C6ADBF0EB1 /* glfwinfo */ = {
+			isa = PBXGroup;
+			children = (
+				779C7C221B2F48B19DD1A881 /* Source Files */,
+				DFB9DAE9CC90442FA21C4B90 /* Header Files */,
+				B6BFAC73898E4A3A9320D060 /* CMakeLists.txt */,
+			);
+			name = glfwinfo;
+			sourceTree = "<group>";
+		};
+		22F1B90CE4354A6BA9A3B4AC /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				FB6DB4FAEA8F4B0C9C5AB799 /* Info.plist */,
+			);
+			name = Resources;
+			sourceTree = "<group>";
+		};
+		23816E23151B4E74BB73254D /* Header Files */ = {
+			isa = PBXGroup;
+			children = (
+				995588BFDE9D4E6A8E15F420 /* glad.h */,
+			);
+			name = "Header Files";
+			sourceTree = "<group>";
+		};
+		2BBB8584A7874D748A860FEE /* Header Files */ = {
+			isa = PBXGroup;
+			children = (
+				4BF0BE1D00DA4C18A309DE65 /* getopt.h */,
+				FA58293A6D3F4DBB96A968EB /* glad.h */,
+			);
+			name = "Header Files";
+			sourceTree = "<group>";
+		};
+		2F354B5F9FA04AA08E575836 /* Source Files */ = {
+			isa = PBXGroup;
+			children = (
+				1BE74C6183B943469FED06FC /* getopt.c */,
+				0BF4D1BCCDA544289AF1AC93 /* glad.c */,
+				8396317B59D54C94BD099D4E /* msaa.c */,
+			);
+			name = "Source Files";
+			sourceTree = "<group>";
+		};
+		301EDBCDAB7D4B0F8971743C /* icon */ = {
+			isa = PBXGroup;
+			children = (
+				DB0482C3BC0044AB936B01BA /* Source Files */,
+				89E41557787A4E4186DC9D1C /* Header Files */,
+				A5388B7EECBA4440AA88AC13 /* Resources */,
+				80C9CFC899B347F49C61436B /* CMakeLists.txt */,
+			);
+			name = icon;
+			sourceTree = "<group>";
+		};
+		30AC5C6706A3473FAB3037E5 /* Source Files */ = {
+			isa = PBXGroup;
+			children = (
+				6E25CBCE9D2E490AB1171CE9 /* glad.c */,
+				603D4721C2E04FD3BF46E43E /* joysticks.c */,
+			);
+			name = "Source Files";
+			sourceTree = "<group>";
+		};
+		35D69966E1C4421085F60328 /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				C6311E2896184E709766ACB8 /* Info.plist */,
+			);
+			name = Resources;
+			sourceTree = "<group>";
+		};
+		3E744C59C14647F69D9B2A3C /* Header Files */ = {
+			isa = PBXGroup;
+			children = (
+				95EAEF155A7645C1897E40EA /* glad.h */,
+			);
+			name = "Header Files";
+			sourceTree = "<group>";
+		};
+		418E21ED77ED4AAAADF0C42E /* threads */ = {
+			isa = PBXGroup;
+			children = (
+				929B0F092AB6474399D30077 /* Source Files */,
+				64031EC09A2A447389F5C662 /* Header Files */,
+				125031A38DC24053B85C06EB /* Resources */,
+				F68FB1E5B20A4EB985551710 /* CMakeLists.txt */,
+			);
+			name = threads;
+			sourceTree = "<group>";
+		};
+		431011C3CB3448558E99F69C /* Header Files */ = {
+			isa = PBXGroup;
+			children = (
+				F79E7C5A39764FBC91ACC18F /* glad.h */,
+				2538EB263C8B492EBE633CFC /* tinycthread.h */,
+			);
+			name = "Header Files";
+			sourceTree = "<group>";
+		};
+		46F768DE03F8403493B40B81 /* monitors */ = {
+			isa = PBXGroup;
+			children = (
+				C3915092F13041778C9C741E /* Source Files */,
+				85ABC4183C844A00A70BD892 /* Header Files */,
+				9DCCABD7C0304570A186E5F9 /* CMakeLists.txt */,
+			);
+			name = monitors;
+			sourceTree = "<group>";
+		};
+		479C9D203F6C4E2EB6C11979 /* Header Files */ = {
+			isa = PBXGroup;
+			children = (
+				6ED1F120E3F448488CBF54EB /* getopt.h */,
+				31C53AF408C14354B913DDC7 /* glad.h */,
+			);
+			name = "Header Files";
+			sourceTree = "<group>";
+		};
+		4ACFE8322D9F43B8B12EE47A /* Header Files */ = {
+			isa = PBXGroup;
+			children = (
+				E512D449420D4339A1A47006 /* getopt.h */,
+				AC275B2E9EEA4EB09CC9BC91 /* glad.h */,
+			);
+			name = "Header Files";
+			sourceTree = "<group>";
+		};
+		4D75F77FBFD9498A9EF1DF95 /* Header Files */ = {
+			isa = PBXGroup;
+			children = (
+				709044DD2A7E4817803F258B /* getopt.h */,
+				0F62B682C6EF4570A88243B6 /* glad.h */,
+			);
+			name = "Header Files";
+			sourceTree = "<group>";
+		};
+		50929EDB259347A5A1F0BEAA /* reopen */ = {
+			isa = PBXGroup;
+			children = (
+				8B7DC04B1C294ABCBBF41B5A /* Source Files */,
+				9F8B5229153E4A03B60ACDF9 /* Header Files */,
+				1F3D4AD41544402A95506EB1 /* CMakeLists.txt */,
+			);
+			name = reopen;
+			sourceTree = "<group>";
+		};
+		574AAFB484EF4835B9C6FC6F /* uninstall */ = {
+			isa = PBXGroup;
+			children = (
+				D35C67B8D9484FD799C5DC6D /* CMake Rules */,
+				3F94CF3E31A3425591B4473E /* CMakeLists.txt */,
+			);
+			name = uninstall;
+			sourceTree = "<group>";
+		};
+		595134DEEE38488FA633E2F1 /* Header Files */ = {
+			isa = PBXGroup;
+			children = (
+				AD73CB7DA4514FDD8E8DBC02 /* getopt.h */,
+				2DAE542AB0A145D086C69605 /* glad.h */,
+			);
+			name = "Header Files";
+			sourceTree = "<group>";
+		};
+		59B553D5B670439182086A40 /* CMake Rules */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = "CMake Rules";
+			sourceTree = "<group>";
+		};
+		59E5DD3142E14A83A67E8B0E = {
+			isa = PBXGroup;
+			children = (
+				574AAFB484EF4835B9C6FC6F /* uninstall */,
+				FD689F33833C46658291EA13 /* ALL_BUILD */,
+				AE01342E7D7841D0801E1DD2 /* ZERO_CHECK */,
+				CF04E4D4C9AF4B239ED38E67 /* GLFW3 */,
+				B70E05DBBA42460ABC69D841 /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		5A35FFCA0F9349A7A02FC147 /* gamma */ = {
+			isa = PBXGroup;
+			children = (
+				0F78A8D737C9494DBEEC1ECC /* Source Files */,
+				4D75F77FBFD9498A9EF1DF95 /* Header Files */,
+				38696B939094479BB597DEDD /* CMakeLists.txt */,
+			);
+			name = gamma;
+			sourceTree = "<group>";
+		};
+		62902B18D2A44DEA834A2E44 /* Source Files */ = {
+			isa = PBXGroup;
+			children = (
+				ED12C83FC7574511B1A28049 /* glad.c */,
+				836E0E5B95F3474DB8A09BAC /* title.c */,
+			);
+			name = "Source Files";
+			sourceTree = "<group>";
+		};
+		64031EC09A2A447389F5C662 /* Header Files */ = {
+			isa = PBXGroup;
+			children = (
+				36254C0ACFF0452C932B230B /* glad.h */,
+				F1FF9117B12748F6BD5C7CAD /* tinycthread.h */,
+			);
+			name = "Header Files";
+			sourceTree = "<group>";
+		};
+		65C1EE5475334D74A2808F89 /* Header Files */ = {
+			isa = PBXGroup;
+			children = (
+				464DB9E262444082943CAACB /* glad.h */,
+			);
+			name = "Header Files";
+			sourceTree = "<group>";
+		};
+		7126D010021A4333B28DE9CC /* clipboard */ = {
+			isa = PBXGroup;
+			children = (
+				BE74CA3CB4BC4D2BBA19BE03 /* Source Files */,
+				4ACFE8322D9F43B8B12EE47A /* Header Files */,
+				C5525CBC148F406B9AB71385 /* CMakeLists.txt */,
+			);
+			name = clipboard;
+			sourceTree = "<group>";
+		};
+		7757125953F5493F94C5640D /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				2B2C795865AA48C5854A1B68 /* Info.plist */,
+			);
+			name = Resources;
+			sourceTree = "<group>";
+		};
+		779C7C221B2F48B19DD1A881 /* Source Files */ = {
+			isa = PBXGroup;
+			children = (
+				3B365C614957452CADD89A66 /* getopt.c */,
+				48382887CC4F45A6AFD46CDB /* glad.c */,
+				5FE98978F9CD4D078B90368D /* glfwinfo.c */,
+			);
+			name = "Source Files";
+			sourceTree = "<group>";
+		};
+		8425049C387D40E29066696D /* tearing */ = {
+			isa = PBXGroup;
+			children = (
+				E0EB9629725946D28E8F1394 /* Source Files */,
+				A36E80BE25F044A392234D9D /* Header Files */,
+				90585EE43154427BB8A51831 /* Resources */,
+				7152D87F756D447589F1D6A7 /* CMakeLists.txt */,
+			);
+			name = tearing;
+			sourceTree = "<group>";
+		};
+		84DCBE29B68C4C0781B8ED94 /* events */ = {
+			isa = PBXGroup;
+			children = (
+				C50E7B9DC0564DF7954E51A7 /* Source Files */,
+				2BBB8584A7874D748A860FEE /* Header Files */,
+				2039A8B3E86E4E73B3544617 /* CMakeLists.txt */,
+			);
+			name = events;
+			sourceTree = "<group>";
+		};
+		85ABC4183C844A00A70BD892 /* Header Files */ = {
+			isa = PBXGroup;
+			children = (
+				FDBDD525E0044808A5C70E65 /* getopt.h */,
+				CF8A0D6712EA4612BB13521D /* glad.h */,
+			);
+			name = "Header Files";
+			sourceTree = "<group>";
+		};
+		85FDA7B49BCD4397B29BA1C3 /* windows */ = {
+			isa = PBXGroup;
+			children = (
+				FA2E8736D4E242A1B610E2FF /* Source Files */,
+				479C9D203F6C4E2EB6C11979 /* Header Files */,
+				161BBAEC36C84F05923B54D5 /* Resources */,
+				2F9A08C119964F069281C6B5 /* CMakeLists.txt */,
+			);
+			name = windows;
+			sourceTree = "<group>";
+		};
+		89E41557787A4E4186DC9D1C /* Header Files */ = {
+			isa = PBXGroup;
+			children = (
+				5D967F6E855D41D194FD1CA8 /* glad.h */,
+			);
+			name = "Header Files";
+			sourceTree = "<group>";
+		};
+		8B7DC04B1C294ABCBBF41B5A /* Source Files */ = {
+			isa = PBXGroup;
+			children = (
+				1434E224200540D2ABD95C64 /* glad.c */,
+				BC5ECAE6E5794170AE8E61E6 /* reopen.c */,
+			);
+			name = "Source Files";
+			sourceTree = "<group>";
+		};
+		90585EE43154427BB8A51831 /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				5D6C148038594B06A055B804 /* Info.plist */,
+			);
+			name = Resources;
+			sourceTree = "<group>";
+		};
+		91AB1E2CD797460FAAE4C2B3 /* title */ = {
+			isa = PBXGroup;
+			children = (
+				62902B18D2A44DEA834A2E44 /* Source Files */,
+				3E744C59C14647F69D9B2A3C /* Header Files */,
+				B908360BECD444398DC9A59C /* Resources */,
+				D41B1062846D443785DB0D33 /* CMakeLists.txt */,
+			);
+			name = title;
+			sourceTree = "<group>";
+		};
+		929B0F092AB6474399D30077 /* Source Files */ = {
+			isa = PBXGroup;
+			children = (
+				268573867D79470D8CAA93FC /* glad.c */,
+				3E4F6E97E50340FF88575B07 /* tinycthread.c */,
+				9EE0C061005C437382243B22 /* threads.c */,
+			);
+			name = "Source Files";
+			sourceTree = "<group>";
+		};
+		9F8B5229153E4A03B60ACDF9 /* Header Files */ = {
+			isa = PBXGroup;
+			children = (
+				4F7CFA8F10E14420A075D651 /* glad.h */,
+			);
+			name = "Header Files";
+			sourceTree = "<group>";
+		};
+		A36E80BE25F044A392234D9D /* Header Files */ = {
+			isa = PBXGroup;
+			children = (
+				A1EC8348132D49DF83E7B59F /* getopt.h */,
+				BE5F7A45B2BB4FBD89E0AB3F /* glad.h */,
+			);
+			name = "Header Files";
+			sourceTree = "<group>";
+		};
+		A5388B7EECBA4440AA88AC13 /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				7A1D71C85F364A318E40CBC1 /* Info.plist */,
+			);
+			name = Resources;
+			sourceTree = "<group>";
+		};
+		AC4182CA59394179A52262B8 /* Source Files */ = {
+			isa = PBXGroup;
+			children = (
+				5617E55A308C4FEF8E05A075 /* glad.c */,
+				712F08C11CD044469AD436C2 /* cursor.c */,
+			);
+			name = "Source Files";
+			sourceTree = "<group>";
+		};
+		AE01342E7D7841D0801E1DD2 /* ZERO_CHECK */ = {
+			isa = PBXGroup;
+			children = (
+				CF5898EC18A142A4A270209C /* CMake Rules */,
+				EC9DE432509E48F093F8FB8B /* CMakeLists.txt */,
+			);
+			name = ZERO_CHECK;
+			sourceTree = "<group>";
+		};
+		B15B33C76269407E8B085592 /* Source Files */ = {
+			isa = PBXGroup;
+			children = (
+				6020546CEA704169A467BB99 /* cocoa_init.m */,
+				876FCEBDBEF74F60B01364A3 /* cocoa_joystick.m */,
+				5EBAAB4EE8064FF194A95FFD /* cocoa_monitor.m */,
+				4ADA1D15117B429AB11CF5F2 /* cocoa_time.c */,
+				0EEE3264A7C44117961E1678 /* cocoa_window.m */,
+				162F168298104B38817E05CB /* context.c */,
+				D20B48EDA24B4017BB4F6C03 /* init.c */,
+				86D2E79A88AB44EB8E0850A0 /* input.c */,
+				FE3BEB29EAC540FFBE36EFAB /* monitor.c */,
+				1EC82096A9924A0799EAB5A0 /* nsgl_context.m */,
+				3F214CFCD8B8453C820BB0EB /* posix_tls.c */,
+				160F5E9B81CF40B0B42C37F6 /* vulkan.c */,
+				7558393C3E7F46689BF00528 /* window.c */,
+			);
+			name = "Source Files";
+			sourceTree = "<group>";
+		};
+		B44431EF17904FD4A302764D /* Header Files */ = {
+			isa = PBXGroup;
+			children = (
+				799B3D90C64F4AB196352BCA /* getopt.h */,
+				5670CDE814BA4CABBAE5FD58 /* glad.h */,
+			);
+			name = "Header Files";
+			sourceTree = "<group>";
+		};
+		B70E05DBBA42460ABC69D841 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				14193B50FEE449E0BD66E090 /* libglfw3.a */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		B908360BECD444398DC9A59C /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				5FBE8BF334594B16AC97644F /* Info.plist */,
+			);
+			name = Resources;
+			sourceTree = "<group>";
+		};
+		BA9A39513C464D9FBF170117 /* sharing */ = {
+			isa = PBXGroup;
+			children = (
+				E4860C31681E4A25A160E8D2 /* Source Files */,
+				F5928E4D6EBA422590630D7C /* Header Files */,
+				35D69966E1C4421085F60328 /* Resources */,
+				4AB976712A4E443FADD86ECB /* CMakeLists.txt */,
+			);
+			name = sharing;
+			sourceTree = "<group>";
+		};
+		BD0C06992E824DA1910BBDD3 /* Header Files */ = {
+			isa = PBXGroup;
+			children = (
+				BF0C9C347C1E4D3BA60792BD /* glfw3.h */,
+				C40F0B6B32CB44598B0C5102 /* glfw3native.h */,
+				8D216EC565514CF193F928B9 /* cocoa_joystick.h */,
+				6CC28F5CCFC349BFACA529A5 /* cocoa_platform.h */,
+				71D39EE500274BC2B2D1335C /* glfw_config.h */,
+				613255D3A0884948B3C440C1 /* internal.h */,
+				1E8E592A745149B8BE377763 /* nsgl_context.h */,
+				B00C76875A2C4E5C94912E45 /* posix_tls.h */,
+			);
+			name = "Header Files";
+			sourceTree = "<group>";
+		};
+		BE74CA3CB4BC4D2BBA19BE03 /* Source Files */ = {
+			isa = PBXGroup;
+			children = (
+				B293953090D4416DBA8DC15D /* getopt.c */,
+				068C4342E027475197998375 /* glad.c */,
+				1EF0969D629F4AB095000D3B /* clipboard.c */,
+			);
+			name = "Source Files";
+			sourceTree = "<group>";
+		};
+		BF140735D11F4236A84EA1D9 /* glfw */ = {
+			isa = PBXGroup;
+			children = (
+				B15B33C76269407E8B085592 /* Source Files */,
+				BD0C06992E824DA1910BBDD3 /* Header Files */,
+				F9E0EFF219A54AC39242CF7F /* CMakeLists.txt */,
+			);
+			name = glfw;
+			sourceTree = "<group>";
+		};
+		C08941B7745A40F188EFB2CE /* joysticks */ = {
+			isa = PBXGroup;
+			children = (
+				30AC5C6706A3473FAB3037E5 /* Source Files */,
+				E47C97DD26A74EA0BD1517EA /* Header Files */,
+				24BB56F76B414E2C9DC95C82 /* CMakeLists.txt */,
+			);
+			name = joysticks;
+			sourceTree = "<group>";
+		};
+		C3915092F13041778C9C741E /* Source Files */ = {
+			isa = PBXGroup;
+			children = (
+				63E1B556193D4CDF9F446A19 /* getopt.c */,
+				161FE87D43AE41B2B235ECD9 /* glad.c */,
+				5725C7FFE81D4CD0BE0B2CBF /* monitors.c */,
+			);
+			name = "Source Files";
+			sourceTree = "<group>";
+		};
+		C3AADB3274DB483383BBB2F8 /* msaa */ = {
+			isa = PBXGroup;
+			children = (
+				2F354B5F9FA04AA08E575836 /* Source Files */,
+				595134DEEE38488FA633E2F1 /* Header Files */,
+				E52B511263054E7AA75E369A /* CMakeLists.txt */,
+			);
+			name = msaa;
+			sourceTree = "<group>";
+		};
+		C50E7B9DC0564DF7954E51A7 /* Source Files */ = {
+			isa = PBXGroup;
+			children = (
+				56CF9F55FE66483E9618DE37 /* getopt.c */,
+				732DD9C0F29044888FB8CCAA /* glad.c */,
+				C328719EF5D440E0891F8042 /* events.c */,
+			);
+			name = "Source Files";
+			sourceTree = "<group>";
+		};
+		CF04E4D4C9AF4B239ED38E67 /* GLFW3 */ = {
+			isa = PBXGroup;
+			children = (
+				BF140735D11F4236A84EA1D9 /* glfw */,
+				0E3933820CC3436EBEA64CAA /* Tests */,
+			);
+			name = GLFW3;
+			sourceTree = "<group>";
+		};
+		CF5898EC18A142A4A270209C /* CMake Rules */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = "CMake Rules";
+			sourceTree = "<group>";
+		};
+		D2773AA7724C4098B2046542 /* Source Files */ = {
+			isa = PBXGroup;
+			children = (
+				7976C981B8AA4868A383F6D7 /* glad.c */,
+				A8E28680BEB14BA298D7EC35 /* tinycthread.c */,
+				A95A67DE2D204FC5B754F4EC /* empty.c */,
+			);
+			name = "Source Files";
+			sourceTree = "<group>";
+		};
+		D35C67B8D9484FD799C5DC6D /* CMake Rules */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = "CMake Rules";
+			sourceTree = "<group>";
+		};
+		D7AD08E711BD461786E69FFD /* empty */ = {
+			isa = PBXGroup;
+			children = (
+				D2773AA7724C4098B2046542 /* Source Files */,
+				431011C3CB3448558E99F69C /* Header Files */,
+				7757125953F5493F94C5640D /* Resources */,
+				F2619AFBC6384CB2BF0E5646 /* CMakeLists.txt */,
+			);
+			name = empty;
+			sourceTree = "<group>";
+		};
+		DB0482C3BC0044AB936B01BA /* Source Files */ = {
+			isa = PBXGroup;
+			children = (
+				B4C24FCCCDDD4FA5A0C7B12D /* glad.c */,
+				B0B5134DFE364AA09E244733 /* icon.c */,
+			);
+			name = "Source Files";
+			sourceTree = "<group>";
+		};
+		DFB9DAE9CC90442FA21C4B90 /* Header Files */ = {
+			isa = PBXGroup;
+			children = (
+				FB6C2B92330A4396819B35B4 /* getopt.h */,
+				9A7F35485CA141018E3D0876 /* glad.h */,
+			);
+			name = "Header Files";
+			sourceTree = "<group>";
+		};
+		E0EB9629725946D28E8F1394 /* Source Files */ = {
+			isa = PBXGroup;
+			children = (
+				95A30E19E23243BF9C8A7C92 /* getopt.c */,
+				4C453706768C45F59F18C722 /* glad.c */,
+				AD8E6414E67C44B2BD3C939E /* tearing.c */,
+			);
+			name = "Source Files";
+			sourceTree = "<group>";
+		};
+		E47C97DD26A74EA0BD1517EA /* Header Files */ = {
+			isa = PBXGroup;
+			children = (
+				F3CF55EB7D054E8A847AD130 /* glad.h */,
+			);
+			name = "Header Files";
+			sourceTree = "<group>";
+		};
+		E4860C31681E4A25A160E8D2 /* Source Files */ = {
+			isa = PBXGroup;
+			children = (
+				EE7056D722E14022A8388D1D /* glad.c */,
+				9C3BBE7122A64616BDCD1163 /* sharing.c */,
+			);
+			name = "Source Files";
+			sourceTree = "<group>";
+		};
+		F5928E4D6EBA422590630D7C /* Header Files */ = {
+			isa = PBXGroup;
+			children = (
+				9006F0C9F1C04340B8C17D96 /* glad.h */,
+			);
+			name = "Header Files";
+			sourceTree = "<group>";
+		};
+		FA2E8736D4E242A1B610E2FF /* Source Files */ = {
+			isa = PBXGroup;
+			children = (
+				D78C6359BD3246579D67DA65 /* getopt.c */,
+				61AD17F3F9184DE19944CD95 /* glad.c */,
+				C53BCF814EFC48F1824AB7FA /* windows.c */,
+			);
+			name = "Source Files";
+			sourceTree = "<group>";
+		};
+		FB987940C4D84810A0CA315C /* Source Files */ = {
+			isa = PBXGroup;
+			children = (
+				984C0DA5878D4431A49FB3E1 /* glad.c */,
+				B4776EACD4FC40EBA15B534A /* timeout.c */,
+			);
+			name = "Source Files";
+			sourceTree = "<group>";
+		};
+		FD689F33833C46658291EA13 /* ALL_BUILD */ = {
+			isa = PBXGroup;
+			children = (
+				59B553D5B670439182086A40 /* CMake Rules */,
+				BCBF03F4C1A1414B8E9152AD /* CMakeLists.txt */,
+			);
+			name = ALL_BUILD;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		4BDF3E8FD8494D29A55AC4FB /* glfw */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 6BFFAA22F1054105AA085440 /* Build configuration list for PBXNativeTarget "glfw" */;
+			buildPhases = (
+				2F41CEFDC0FA49CABC744929 /* Sources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = glfw;
+			productName = glfw;
+			productReference = 14193B50FEE449E0BD66E090 /* libglfw3.a */;
+			productType = "com.apple.product-type.library.static";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		226F02D3D84F41948A363440 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				BuildIndependentTargetsInParallel = YES;
+				LastUpgradeCheck = 0830;
+			};
+			buildConfigurationList = BBA7A97E7D1B48738C707DB4 /* Build configuration list for PBXProject "GLFW" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+			);
+			mainGroup = 59E5DD3142E14A83A67E8B0E;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				4BDF3E8FD8494D29A55AC4FB /* glfw */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXSourcesBuildPhase section */
+		2F41CEFDC0FA49CABC744929 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				BCDFF839759D4D80B7332A4B /* cocoa_init.m in Sources */,
+				46B1A4BB850144508BED531A /* cocoa_joystick.m in Sources */,
+				175A7D5671684C2BAD5DB666 /* cocoa_monitor.m in Sources */,
+				E0226507F48446F39EC385D4 /* cocoa_time.c in Sources */,
+				3A3B5D1317A64771A25ECCB8 /* cocoa_window.m in Sources */,
+				EFAB8765EC234C15AC67C92F /* context.c in Sources */,
+				D6AD2FBCF8B4465BAF74B89C /* init.c in Sources */,
+				15EFA29E042D4309A8390118 /* input.c in Sources */,
+				286F64D4F9194ECD9E2483F8 /* monitor.c in Sources */,
+				FEAA446D17BA44B3841788D2 /* nsgl_context.m in Sources */,
+				AADDEDE648A04061A506927D /* posix_tls.c in Sources */,
+				F7B3010116604A6FB3C5B69C /* vulkan.c in Sources */,
+				26B89047078A4543A9D36F25 /* window.c in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin XCBuildConfiguration section */
+		0BD2FF986E2040C68BA1233A /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COMBINE_HIDPI_IMAGES = YES;
+				EXECUTABLE_PREFIX = lib;
+				EXECUTABLE_SUFFIX = .a;
+				GCC_GENERATE_DEBUGGING_SYMBOLS = YES;
+				GCC_INLINES_ARE_PRIVATE_EXTERN = NO;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"'CMAKE_INTDIR=\"$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)\"'",
+					_GLFW_USE_CONFIG_H,
+				);
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				HEADER_SEARCH_PATHS = (
+					/Users/toni/Documents/Kouma/glfw/include,
+					/Users/toni/Documents/Kouma/glfw/src,
+				);
+				INSTALL_PATH = "";
+				LIBRARY_STYLE = STATIC;
+				OTHER_CFLAGS = (
+					"-fPIC",
+					"-Wall",
+				);
+				OTHER_LIBTOOLFLAGS = " ";
+				OTHER_REZFLAGS = "";
+				PRODUCT_NAME = glfw3;
+				SECTORDER_FLAGS = "";
+				SYMROOT = /Users/toni/Documents/Kouma/glfw/src;
+				USE_HEADERMAP = NO;
+				WARNING_CFLAGS = (
+					"-Wmost",
+					"-Wno-four-char-constants",
+					"-Wno-unknown-pragmas",
+					"$(inherited)",
+				);
+			};
+			name = Debug;
+		};
+		3DEDD5A356FF423CA5BEC15C /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.12.sdk;
+				SYMROOT = /Users/toni/Documents/Kouma/glfw/build;
+			};
+			name = Debug;
+		};
+		3FA28357E9A74903AB944217 /* RelWithDebInfo */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.12.sdk;
+				SYMROOT = /Users/toni/Documents/Kouma/glfw/build;
+			};
+			name = RelWithDebInfo;
+		};
+		47ABDEC7A33442408A5DE6B7 /* MinSizeRel */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COMBINE_HIDPI_IMAGES = YES;
+				EXECUTABLE_PREFIX = lib;
+				EXECUTABLE_SUFFIX = .a;
+				GCC_GENERATE_DEBUGGING_SYMBOLS = NO;
+				GCC_INLINES_ARE_PRIVATE_EXTERN = NO;
+				GCC_OPTIMIZATION_LEVEL = s;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"'CMAKE_INTDIR=\"$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)\"'",
+					_GLFW_USE_CONFIG_H,
+				);
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				HEADER_SEARCH_PATHS = (
+					/Users/toni/Documents/Kouma/glfw/include,
+					/Users/toni/Documents/Kouma/glfw/src,
+				);
+				INSTALL_PATH = "";
+				LIBRARY_STYLE = STATIC;
+				OTHER_CFLAGS = (
+					"-DNDEBUG",
+					"-fPIC",
+					"-Wall",
+				);
+				OTHER_LIBTOOLFLAGS = " ";
+				OTHER_REZFLAGS = "";
+				PRODUCT_NAME = glfw3;
+				SECTORDER_FLAGS = "";
+				SYMROOT = /Users/toni/Documents/Kouma/glfw/src;
+				USE_HEADERMAP = NO;
+				WARNING_CFLAGS = (
+					"-Wmost",
+					"-Wno-four-char-constants",
+					"-Wno-unknown-pragmas",
+					"$(inherited)",
+				);
+			};
+			name = MinSizeRel;
+		};
+		575AFD6623C3444091BA20A6 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COMBINE_HIDPI_IMAGES = YES;
+				EXECUTABLE_PREFIX = lib;
+				EXECUTABLE_SUFFIX = .a;
+				GCC_GENERATE_DEBUGGING_SYMBOLS = NO;
+				GCC_INLINES_ARE_PRIVATE_EXTERN = NO;
+				GCC_OPTIMIZATION_LEVEL = 3;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"'CMAKE_INTDIR=\"$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)\"'",
+					_GLFW_USE_CONFIG_H,
+				);
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				HEADER_SEARCH_PATHS = (
+					/Users/toni/Documents/Kouma/glfw/include,
+					/Users/toni/Documents/Kouma/glfw/src,
+				);
+				INSTALL_PATH = "";
+				LIBRARY_STYLE = STATIC;
+				OTHER_CFLAGS = (
+					"-DNDEBUG",
+					"-fPIC",
+					"-Wall",
+				);
+				OTHER_LIBTOOLFLAGS = " ";
+				OTHER_REZFLAGS = "";
+				PRODUCT_NAME = glfw3;
+				SECTORDER_FLAGS = "";
+				SYMROOT = /Users/toni/Documents/Kouma/glfw/src;
+				USE_HEADERMAP = NO;
+				WARNING_CFLAGS = (
+					"-Wmost",
+					"-Wno-four-char-constants",
+					"-Wno-unknown-pragmas",
+					"$(inherited)",
+				);
+			};
+			name = Release;
+		};
+		8E3F722524564A76A10D057C /* RelWithDebInfo */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COMBINE_HIDPI_IMAGES = YES;
+				EXECUTABLE_PREFIX = lib;
+				EXECUTABLE_SUFFIX = .a;
+				GCC_GENERATE_DEBUGGING_SYMBOLS = YES;
+				GCC_INLINES_ARE_PRIVATE_EXTERN = NO;
+				GCC_OPTIMIZATION_LEVEL = 2;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"'CMAKE_INTDIR=\"$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)\"'",
+					_GLFW_USE_CONFIG_H,
+				);
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				HEADER_SEARCH_PATHS = (
+					/Users/toni/Documents/Kouma/glfw/include,
+					/Users/toni/Documents/Kouma/glfw/src,
+				);
+				INSTALL_PATH = "";
+				LIBRARY_STYLE = STATIC;
+				OTHER_CFLAGS = (
+					"-DNDEBUG",
+					"-fPIC",
+					"-Wall",
+				);
+				OTHER_LIBTOOLFLAGS = " ";
+				OTHER_REZFLAGS = "";
+				PRODUCT_NAME = glfw3;
+				SECTORDER_FLAGS = "";
+				SYMROOT = /Users/toni/Documents/Kouma/glfw/src;
+				USE_HEADERMAP = NO;
+				WARNING_CFLAGS = (
+					"-Wmost",
+					"-Wno-four-char-constants",
+					"-Wno-unknown-pragmas",
+					"$(inherited)",
+				);
+			};
+			name = RelWithDebInfo;
+		};
+		95FFB7F0E2414B1EB0F60000 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.12.sdk;
+				SYMROOT = /Users/toni/Documents/Kouma/glfw/build;
+			};
+			name = Release;
+		};
+		B194F4651D704DBCAF32F8D1 /* MinSizeRel */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.12.sdk;
+				SYMROOT = /Users/toni/Documents/Kouma/glfw/build;
+			};
+			name = MinSizeRel;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		6BFFAA22F1054105AA085440 /* Build configuration list for PBXNativeTarget "glfw" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				0BD2FF986E2040C68BA1233A /* Debug */,
+				575AFD6623C3444091BA20A6 /* Release */,
+				47ABDEC7A33442408A5DE6B7 /* MinSizeRel */,
+				8E3F722524564A76A10D057C /* RelWithDebInfo */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
+		BBA7A97E7D1B48738C707DB4 /* Build configuration list for PBXProject "GLFW" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				3DEDD5A356FF423CA5BEC15C /* Debug */,
+				95FFB7F0E2414B1EB0F60000 /* Release */,
+				B194F4651D704DBCAF32F8D1 /* MinSizeRel */,
+				3FA28357E9A74903AB944217 /* RelWithDebInfo */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 226F02D3D84F41948A363440 /* Project object */;
+}

@@ -23,7 +23,15 @@ cocos2d/cocos/platform/android/java/bin
 proj.android/bin
 gen/
 
+##CMake
 CMakeFiles/
+CMakeCache.txt
+CMakeScripts/
+Makefile
+*.cmake
+*.app/
+glfw_config.h
+glfw3.pc
 
 ##Visual Studio
 .vs/
@@ -38,4 +46,3 @@ Release.win32/
 *.nativecodeanalysis.xml
 *.nativecodeanalysis.all.xml
 *.lastcodeanalysissucceeded
-CMakeCache.txt
