@@ -25,7 +25,7 @@
 
 #if defined(TARGET_OS_IOS)
     #define use_gamepad 0
-else
+#else
     #define use_gamepad 1
 #endif
 
