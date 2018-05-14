@@ -47,8 +47,10 @@ public:
      */
     enum class KeyCode
     {
-        KEY_NONE,
-        KEY_PAUSE,
+        KEY_NONE = 0,
+
+		begin = 1,
+        KEY_PAUSE = 1,
         KEY_SCROLL_LOCK,
         KEY_PRINT,
         KEY_SYSREQ,
@@ -174,7 +176,7 @@ public:
         KEY_BACK_SLASH,
         KEY_RIGHT_BRACKET,
         KEY_UNDERSCORE,
-        KEY_GRAVE,
+        KEY_BACKTICK,
         KEY_A,
         KEY_B,
         KEY_C,
@@ -216,7 +218,9 @@ public:
         KEY_DPAD_DOWN,
         KEY_DPAD_CENTER,
         KEY_ENTER,
-        KEY_PLAY
+        KEY_PLAY,
+
+		end
     };
     
     /** Constructor.

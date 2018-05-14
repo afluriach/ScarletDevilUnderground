@@ -8,7 +8,7 @@
 
 #include "Prefix.h"
 
-#include "macros.h"
+#include "enum.h"
 #include "Wall.hpp"
 
 PhysicsLayers Wall::getLayers() const{

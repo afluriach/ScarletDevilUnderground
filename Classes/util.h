@@ -85,34 +85,6 @@ Ret variadic_call(F f, Tuple && t)
     return detail::call_impl<Ret, F, Tuple, 0 == std::tuple_size<ttype>::value, std::tuple_size<ttype>::value>::call(f, std::forward<Tuple>(t));
 }
 
-//http://stackoverflow.com/a/17622468/807433
-struct enum_hash
-{
-    template <typename T>
-    inline
-    typename std::enable_if<std::is_enum<T>::value, std::size_t>::type
-    operator ()(T const value) const
-    {
-        return static_cast<std::size_t>(value);
-    }
-};
-
-template<typename E>
-inline list<E> expand_enum_bitfield(E input, E end)
-{
-    list<E> result;
-    unsigned int input_int = static_cast<unsigned int>(input);
-    
-    for(unsigned int i = 1, bit = 0; i < static_cast<unsigned int>(end); i *= 2, ++bit)
-    {
-        if( (input_int >> bit) & 1){
-            result.push_back(static_cast<E>(i));
-        }
-    }
-    
-    return result;
-}
-
 #define wrap_method(cls,method,This) wrapMethod<cls,&cls::method>(This)
 
 //Wrapper to call a method of a derived type with a base this.

@@ -9,6 +9,7 @@
 #include "Prefix.h"
 
 #include "Block.hpp"
+#include "enum.h"
 #include "macros.h"
 
 Block::Block(const ValueMap& args) :

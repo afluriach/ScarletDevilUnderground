@@ -205,6 +205,7 @@ xcopy "$(ProjectDir)..\Resources" "$(OutDir)" /D /E /I /F /Y</Command>
     <ClInclude Include="..\Classes\Collectibles.hpp" />
     <ClInclude Include="..\Classes\controls.h" />
     <ClInclude Include="..\Classes\Dialog.hpp" />
+    <ClInclude Include="..\Classes\enum.h" />
     <ClInclude Include="..\Classes\Facer.hpp" />
     <ClInclude Include="..\Classes\Flower.h" />
     <ClInclude Include="..\Classes\Follower.hpp" />

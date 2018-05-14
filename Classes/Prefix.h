@@ -33,6 +33,7 @@
 
 //C standard libraries
 #include <algorithm>
+#include <bitset>
 #include <cmath>
 #include <cstdlib>
 #include <functional>
