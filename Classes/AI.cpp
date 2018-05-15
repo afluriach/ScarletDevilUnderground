@@ -10,13 +10,13 @@
 
 #include "AI.hpp"
 #include "App.h"
+#include "enum.h"
 #include "Graphics.h"
 #include "GSpace.hpp"
 #include "GObject.hpp"
 #include "GObjectMixins.hpp"
 #include "macros.h"
 #include "Spell.hpp"
-#include "util.h"
 
 namespace ai{
 

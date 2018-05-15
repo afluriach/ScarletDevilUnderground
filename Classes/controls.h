@@ -9,29 +9,9 @@
 #ifndef controls_h
 #define controls_h
 
+#include "enum.h"
 #include "types.h"
 #include "util.h"
-
-enum class KeyboardKey
-{
-    w = 1,
-    s,
-    a,
-    d,
-    arrowUp,
-    arrowDown,
-    arrowLeft,
-    arrowRight,
-    z,
-    x,
-    backtick,
-    num1,
-    num2,
-    num3,
-    num4,
-    enter,
-	escape,
-};
 
 enum class GamepadButton
 {
@@ -46,90 +26,103 @@ enum class GamepadButton
 
 enum class ControlAction
 {
+	begin = 1,
     pause = 1,
-    scriptConsole = 2,
-    menuSelect = 4,
-    menuBack = 8,
-    menuUp = 16,
-    menuDown = 32,
-    dialogSkip = 64,
-    interact = 128,
-    enter = 256,
-    spell1 = 512,
-    spell2 = 1024,
-    spell3 = 2048,
-    spell4 = 4096,
-    end = 8192,
+    scriptConsole,
+
+    menuSelect,
+    menuBack,
+    menuUp,
+    menuDown,
+
+    dialogSkip,
+    interact,
+    enter,
+
+    spell1,
+    spell2,
+    spell3,
+    spell4,
+
+	move_pad_up,
+	move_pad_right,
+	move_pad_down,
+	move_pad_left,
+
+	aim_pad_up,
+	aim_pad_right,
+	aim_pad_down,
+	aim_pad_left,
+
+	end
 };
-
-typedef unordered_map<EventKeyboard::KeyCode, KeyboardKey, enum_hash> KeyCodeMap;
-#if use_gamepad
-typedef unordered_map<gainput::UserButtonId, GamepadButton> GamepadButtonMap;
-#endif
-
-typedef unordered_map<KeyboardKey, ControlAction, enum_hash> KeyActionMap;
-typedef unordered_map<GamepadButton, ControlAction, enum_hash> ButtonActionMap;
-
-typedef unordered_map<unsigned int, function<void()>> CallbackMap;
-typedef unordered_map<ControlAction, list<unsigned int>> ActionIDMap;
 
 //Tracks all key events. Used globally to poll key state.
 class ControlRegister
 {
 public:
+	typedef unsigned int callback_uuid;
+
     static const bool logKeyEvents;
     static const bool logButtons;
+	static const bool logActionState;
     static const float deadzone;
-    
-    static const KeyCodeMap watchedKeys;
-    #if use_gamepad
-    static const GamepadButtonMap watchedButtons;
-    #endif
-    
-    static const KeyActionMap keyActionMap;
-    static const ButtonActionMap buttonActionMap;
-    
+        
+    static const map<EventKeyboard::KeyCode, bitset<to_size_t(ControlAction::end)>> keyActionMap;
+#if use_gamepad
+    static const map<gainput::PadButton, bitset<to_size_t(ControlAction::end)>> buttonActionMap;
+#endif
+
     ControlRegister();
     ~ControlRegister();
     
     bool isControlAction(ControlAction action);
     bool isControlActionPressed(ControlAction action);
-    
+	bool isControlActionReleased(ControlAction action);
+
+	bool isKeyDown(EventKeyboard::KeyCode key_id);
+#if use_gamepad
+	bool isButtonDown(gainput::PadButton button_id);
+#endif
     inline SpaceVect getLeftVector(){ return left_vector;}
     inline SpaceVect getRightVector(){ return right_vector;}
     
-    unsigned int addPressListener(ControlAction action, function<void()> f);
-    unsigned int addReleaseListener(ControlAction action, function<void()> f);
-    void removeListener(unsigned int uuid);
+	callback_uuid addPressListener(ControlAction action, function<void()> f);
+	callback_uuid addReleaseListener(ControlAction action, function<void()> f);
+    void removeListener(callback_uuid uuid);
     
     void update();
 private:
     void onKeyDown(EventKeyboard::KeyCode, Event*);
     void onKeyUp(EventKeyboard::KeyCode, Event*);
     
+	SpaceVect getKeyboardMovePadVector();
+	SpaceVect getKeyboardAimPadVector();
+
     void pollGamepad();
     void updateVectors();
     void checkCallbacks();
     void updateActionState();
-    void setActions(ControlAction actions_bitfield);
-    void callCallbacks(ControlAction action, const ActionIDMap& id_Map, const CallbackMap& callback_map);
+    void setActions(bitset<to_size_t(ControlAction::end)> actions_bitfield);
     
     void logGamepadButtons();
     
     SpaceVect left_vector, right_vector;
     SpaceVect prev_left_vector, prev_right_vector;
     
-    unordered_map<KeyboardKey, bool, enum_hash> isKeyDown;
-    unordered_map<GamepadButton, bool, enum_hash> isButtonDown;
+    set<EventKeyboard::KeyCode> keysDown;
+#if use_gamepad
+	set<gainput::PadButton> buttonsDown;
+#endif
+
+	array<set<callback_uuid>,to_size_t(ControlAction::end)> onPressedID;
+	array<set<callback_uuid>, to_size_t(ControlAction::end)> onReleasedID;
     
-    ActionIDMap onPressedID;
-    ActionIDMap onReleasedID;
+	bitset<to_size_t(ControlAction::end)> wasActionPressed;
+	bitset<to_size_t(ControlAction::end)> isActionPressed;
     
-    unordered_map<ControlAction,bool> wasActionPressed;
-    unordered_map<ControlAction,bool> isActionPressed;
-    
-    CallbackMap onPressedCallback;
-    CallbackMap onReleasedCallback;
+	map<callback_uuid, function<void()>> onPressedCallback;
+	map<callback_uuid, function<void()>> onReleasedCallback;
 
     EventListenerKeyboard* keyListener;
     
@@ -141,7 +134,7 @@ private:
     bool gamepadInitialized = false;
     #endif
 
-    unsigned int nextListenerUUID = 1;
+    callback_uuid nextListenerUUID = 1;
 };
 
 //Conveince listener class that works similarly to KeyListener. Provides automatic
@@ -154,7 +147,7 @@ public:
     void addPressListener(ControlAction action, function<void()> f);
     void addReleaseListener(ControlAction action, function<void()> f);
 protected:
-    list<unsigned int> callback_IDs;
+    list<ControlRegister::callback_uuid> callback_IDs;
 };
 
 #endif /* controls_h */

@@ -180,8 +180,8 @@ static keyCodeItem g_keyCodeStructArray[] = {
     { GLFW_KEY_LEFT_BRACKET    , EventKeyboard::KeyCode::KEY_LEFT_BRACKET  },
     { GLFW_KEY_BACKSLASH       , EventKeyboard::KeyCode::KEY_BACK_SLASH    },
     { GLFW_KEY_RIGHT_BRACKET   , EventKeyboard::KeyCode::KEY_RIGHT_BRACKET },
-    { GLFW_KEY_GRAVE_ACCENT    , EventKeyboard::KeyCode::KEY_GRAVE         },
-    { GLFW_KEY_WORLD_1         , EventKeyboard::KeyCode::KEY_GRAVE         },
+    { GLFW_KEY_GRAVE_ACCENT    , EventKeyboard::KeyCode::KEY_BACKTICK      },
+    { GLFW_KEY_WORLD_1         , EventKeyboard::KeyCode::KEY_BACKTICK      },
     { GLFW_KEY_WORLD_2         , EventKeyboard::KeyCode::KEY_NONE          },
 
     /* Function keys */
