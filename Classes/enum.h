@@ -49,22 +49,6 @@ constexpr inline bitset<enum_size> make_enum_bitfield(E input)
 	return result;
 }
 
-template<typename E, size_t enum_size>
-inline bitset<enum_size> expand_enum_bitfield(E input)
-{
-	bitset<to_size_t(E::end)> result;
-	unsigned long long input_int = static_cast<unsigned long long>(input);
-
-	for (unsigned long long i = 1, bit = 0; i < static_cast<unsigned long long>(end); i *= 2, ++bit)
-	{
-		if ((input_int >> bit) & 1) {
-			result[bit] = true;
-		}
-	}
-
-	return result;
-}
-
 #define enum_increment(cls,lval) lval = static_cast<cls>( static_cast<int>(lval) + 1 )
 #define enum_foreach(cls,var_name,begin,end) for(cls var_name=cls::begin; var_name < cls::end; enum_increment(cls, var_name) )
 
