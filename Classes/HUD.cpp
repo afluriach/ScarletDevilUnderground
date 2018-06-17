@@ -149,11 +149,13 @@ void Counter::setIcon(const string& iconRes)
 
 void Counter::setVal(const int val)
 {
-    this->val = val;
-    counter->setString(boost::lexical_cast<string>(val));
-    
-    float counterWidth = counter->getContentSize().width;
-    counter->setPosition((spacing+counterWidth)/2, 0);
+    if(val != this->val){
+        this->val = val;
+        counter->setString(boost::lexical_cast<string>(val));
+        
+        float counterWidth = counter->getContentSize().width;
+        counter->setPosition((spacing+counterWidth)/2, 0);
+    }
 }
 
 
@@ -181,13 +183,15 @@ bool PowerMeter::init()
 
 void PowerMeter::setVal(int val)
 {
-    this->val = val;
-    counter->setString(
-        boost::str(boost::format("%.2f") % (val/100.0f) )
-    );
-    
-    float counterWidth = counter->getContentSize().width;
-    counter->setPosition((spacing+counterWidth)/2, 0);
+    if(val != this->val){
+        this->val = val;
+        counter->setString(
+            boost::str(boost::format("%.2f") % (val/100.0f) )
+        );
+        
+        float counterWidth = counter->getContentSize().width;
+        counter->setPosition((spacing+counterWidth)/2, 0);
+    }
 }
 
 void PowerMeter::runFlicker()
