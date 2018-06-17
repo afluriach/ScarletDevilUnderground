@@ -316,6 +316,8 @@
 		E244502D1C03A760006D78B0 /* scenes.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = scenes.cpp; path = scenes/scenes.cpp; sourceTree = "<group>"; };
 		E24450311C03D1DE006D78B0 /* SceneMapping.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = SceneMapping.cpp; sourceTree = "<group>"; };
 		E24620271CF77271007C2CB5 /* libboost_serialization.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libboost_serialization.a; path = ../../../../../../dev/boost_1_59_0/stage/lib/libboost_serialization.a; sourceTree = "<group>"; };
+		E259A5E120D6108F003288B5 /* enum.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = enum.h; sourceTree = "<group>"; };
+		E259A5E220D6108F003288B5 /* SceneUtil.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SceneUtil.h; sourceTree = "<group>"; };
 		E25DC0981C1EE2A400765415 /* LuaWrap.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = LuaWrap.cpp; sourceTree = "<group>"; };
 		E2610C461FE06A890079B36F /* libboost-combined.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = "libboost-combined.a"; path = "../../../lib/boost59/ios/libboost-combined.a"; sourceTree = "<group>"; };
 		E26147BB1C005A1B008CA1D0 /* scripts */ = {isa = PBXFileReference; lastKnownFileType = folder; path = scripts; sourceTree = "<group>"; };
@@ -527,6 +529,7 @@
 				E23F05591BD024040091BD6D /* controls.h */,
 				E23121FB1BF7FDA300FEA94B /* Dialog.cpp */,
 				E23121FC1BF7FDA300FEA94B /* Dialog.hpp */,
+				E259A5E120D6108F003288B5 /* enum.h */,
 				E2CDC5441C04F89D0017537B /* GAnimation.cpp */,
 				E2CDC5451C04F89D0017537B /* GAnimation.hpp */,
 				E223F3841CFCB75F00AD4133 /* Graph.cpp */,
@@ -606,6 +609,7 @@
 			isa = PBXGroup;
 			children = (
 				E244502C1C039CF0006D78B0 /* scenes.h */,
+				E259A5E220D6108F003288B5 /* SceneUtil.h */,
 				E244502D1C03A760006D78B0 /* scenes.cpp */,
 				E24450311C03D1DE006D78B0 /* SceneMapping.cpp */,
 				E268FC4E1C1CF234007A425B /* Collect.h */,
@@ -1139,6 +1143,7 @@
 					"$(inherited)",
 					"$(SRCROOT)/../glfw/include/GLFW",
 					"$(SRCROOT)/../cocos2d/cocos/platform/mac",
+					"$(SRCROOT)/../gainput/include",
 				);
 				INFOPLIST_FILE = mac/Info.plist;
 				LIBRARY_SEARCH_PATHS = (
