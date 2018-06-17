@@ -21,7 +21,7 @@ public:
 //    {}
     
     inline Wall(SpaceVect center, SpaceVect dimensions) :
-    GObject("wall",center),
+    GObject("wall",center,true),
     dimensions(dimensions)
     {}
     

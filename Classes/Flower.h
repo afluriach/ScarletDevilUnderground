@@ -16,7 +16,7 @@ class Flower : virtual public GObject, CircleBody, ImageSprite
 {
 public:
     inline Flower(const string& name, const string& color, const SpaceVect& pos):
-    GObject(name, pos),
+    GObject(name, pos, true),
     color(color){
     }
     inline Flower(const ValueMap& args):

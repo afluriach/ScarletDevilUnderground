@@ -31,13 +31,17 @@ GObject::GObject(const ValueMap& obj) :
         log("%s created at %.1f,%.1f.", name.c_str(),initialCenter.x, initialCenter.y);
 }
 
-GObject::GObject(const string& name, const SpaceVect& pos) :
+GObject::GObject(const string& name, const SpaceVect& pos, bool anonymous) :
 	name(name),
+    anonymous(anonymous),
 	uuid(nextUUID++),
-	ctx(make_unique<Lua::Inst>(boost::lexical_cast<string>(uuid) + "_" + name)),
 	initialCenter(pos)
 {
-    if(logCreateObjects)
+    if(!anonymous){
+        ctx = make_unique<Lua::Inst>(boost::lexical_cast<string>(uuid) + "_" + name);
+    }
+
+    if(logCreateObjects && !anonymous)
         log("%s created at %.1f,%.1f.", name.c_str(),initialCenter.x, initialCenter.y);
 }
 
@@ -152,27 +156,30 @@ GObject* GObject::constructByType(const string& type, const ValueMap& args )
 //BEGIN LUA
 
 string GObject::getScriptVal(string name) {
-    return ctx->getSerialized(name);
+    if_lua_ctx { return ctx->getSerialized(name); }
 }
 
 void GObject::setScriptVal(string field, string val) {
-    ctx->setSerialized(field, val);
+    if_lua_ctx { ctx->setSerialized(field, val); }
 }
 
 string GObject::_callScriptVal(string field, string args) {
-    return ctx->callSerialized(field, args);
+    if_lua_ctx { return ctx->callSerialized(field, args); }
 }
 
 void GObject::runLuaInit() {
-    ctx->callIfExistsNoReturn("init");
+    if_lua_ctx { ctx->callIfExistsNoReturn("init"); }
 }
 
 void GObject::runLuaUpdate() {
-    ctx->callIfExistsNoReturn("update");
+    if_lua_ctx { ctx->callIfExistsNoReturn("update"); }
 }
 
 void GObject::setupLuaContext()
 {
+    if(anonymous)
+        return;
+
 	//Push this as a global variable in the object's script context.
 	ctx->setGlobal(Lua::convert<GObject*>::convertToLua(this, ctx->state), "this");
 

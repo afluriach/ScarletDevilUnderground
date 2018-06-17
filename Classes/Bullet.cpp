@@ -30,7 +30,7 @@ radius(getFloatOrDefault(args, "radius", 0.3f))
 {}
 
 PlayerBaseBullet::PlayerBaseBullet(float angle, const SpaceVect& pos) :
-GObject("playerBaseBullet", pos)
+GObject("playerBaseBullet", pos, true)
 {
     setInitialVelocity(SpaceVect::ray(getMaxSpeed(), angle));
 }
@@ -40,7 +40,7 @@ const SpaceVect IllusionDialDagger::dimensions = SpaceVect(0.25f,1.0f);
 
 
 IllusionDialDagger::IllusionDialDagger(const SpaceVect& pos, float angular_velocity) :
-GObject("IllusionDialDagger", pos),
+GObject("IllusionDialDagger", pos, true),
 RectangleBullet(dimensions)
 {
     setInitialAngularVelocity(angular_velocity);

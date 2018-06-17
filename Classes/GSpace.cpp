@@ -161,26 +161,27 @@ void GSpace::processAdditions()
 {
     foreach(GObject* obj, toAdd)
     {
-        obj->initializeBody(*this);
-        obj->initializeRadar(*this);
-        obj->initializeGraphics(graphicsLayer);
-        
-        if(objByName.find(obj->name) != objByName.end() && !obj->isType<Wall>() && !obj->isType<Bullet>()){
+        if(!obj->anonymous && objByName.find(obj->name) != objByName.end()){
             log("Object %s, %d name is not unique!", obj->name.c_str(), obj->uuid);
+            delete obj;
+            continue;
         }
 
         if(objByUUID.find(obj->uuid) != objByUUID.end()){
             log("Object %s, %d UUID is not unique!", obj->name.c_str(), obj->uuid);
+            delete obj;
+            continue;
         }
+
+        obj->initializeBody(*this);
+        obj->initializeRadar(*this);
+        obj->initializeGraphics(graphicsLayer);
         
-        objByName[obj->name] = obj;
+        if(!obj->anonymous)
+            objByName[obj->name] = obj;
         objByUUID[obj->uuid] = obj;
 		currentContacts[obj] = list<contact>();
-    }
-    //move(toAdd.begin(), toAdd.end(), addedLastFrame.end());
-    //For some strange reason move fails with a memory error here.
-    foreach(GObject* obj, toAdd)
-    {
+        
         addedLastFrame.push_back(obj);
     }
     

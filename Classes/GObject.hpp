@@ -37,12 +37,13 @@ public:
 	
 	//Representation as a map object
     GObject(const ValueMap& args);
-    GObject(const string& name, const SpaceVect& pos);
+    GObject(const string& name, const SpaceVect& pos, bool anonymous);
     
     virtual ~GObject();
 
 	//object identification, init, and update
 	const string name;
+    const bool anonymous = false;
 	const unsigned int uuid;
 
 	util::multifunction<void(void)> multiInit;
@@ -128,6 +129,8 @@ public:
     
 	//BEGIN LUA
 	
+    #define if_lua_ctx if(!anonymous && ctx) 
+    
 	unique_ptr<Lua::Inst> ctx;
 
 	inline virtual string getScriptName() const { return ""; }

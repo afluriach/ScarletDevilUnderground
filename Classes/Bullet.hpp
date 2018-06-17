@@ -82,7 +82,7 @@ public:
 class FireBullet : virtual public CircleBullet, public LoopAnimationSprite
 {
 public:
-    inline FireBullet(const SpaceVect& pos) : GObject("stationaryFireBullet", pos) {
+    inline FireBullet(const SpaceVect& pos) : GObject("stationaryFireBullet", pos, true) {
     }
     inline FireBullet(const ValueMap& arg) : CircleBullet(arg), GObject(arg) {}
 
@@ -111,7 +111,7 @@ public:
     inline StarBullet(const SpaceVect& pos, float radius, const string& color) :
     CircleBullet(radius),
     color(color),
-    GObject("starBullet", pos)
+    GObject("starBullet", pos, true)
     {}
     
     const string color;
