@@ -278,8 +278,8 @@
 		E214CF5A1C0AD22E00FC8784 /* SpellMapping.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = SpellMapping.cpp; sourceTree = "<group>"; };
 		E21738F41FE609360045C4CB /* Agent.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Agent.cpp; path = ../Classes/objects/Agent.cpp; sourceTree = SOURCE_ROOT; };
 		E21738F51FE609360045C4CB /* Agent.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = Agent.hpp; path = ../Classes/objects/Agent.hpp; sourceTree = SOURCE_ROOT; };
-		E2198F7F205A2A1F00832E0C /* AIMixins.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = AIMixins.cpp; sourceTree = "<group>"; };
-		E2198F88205B64E800832E0C /* StateMapping.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = StateMapping.cpp; sourceTree = "<group>"; };
+		E2198F7F205A2A1F00832E0C /* AIMixins.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = AIMixins.cpp; path = ../Classes/ai/AIMixins.cpp; sourceTree = SOURCE_ROOT; };
+		E2198F88205B64E800832E0C /* StateMapping.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = StateMapping.cpp; path = ../Classes/ai/StateMapping.cpp; sourceTree = SOURCE_ROOT; };
 		E2198F8B206825BC00832E0C /* Facer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Facer.cpp; path = ../Classes/objects/Facer.cpp; sourceTree = SOURCE_ROOT; };
 		E2198F8C206825BC00832E0C /* Facer.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = Facer.hpp; path = ../Classes/objects/Facer.hpp; sourceTree = SOURCE_ROOT; };
 		E2198F8F206825D300832E0C /* Follower.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Follower.cpp; path = ../Classes/objects/Follower.cpp; sourceTree = SOURCE_ROOT; };
@@ -366,9 +366,9 @@
 		E2CDC5541C062D000017537B /* Prefix.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.h; fileEncoding = 4; path = Prefix.h; sourceTree = "<group>"; };
 		E2CDC5551C0631290017537B /* macros.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = macros.h; sourceTree = "<group>"; };
 		E2D9A6EA1FE06252008E6D48 /* libboost.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libboost.a; path = ../../../lib/boost59/ios/build/armv7/libboost.a; sourceTree = "<group>"; };
-		E2DD4BF6205A1CAE005A7870 /* AIMixins.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = AIMixins.hpp; sourceTree = "<group>"; };
-		E2E01EEB1C1DCA0D00330904 /* AI.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = AI.cpp; sourceTree = "<group>"; };
-		E2E01EEC1C1DCA0D00330904 /* AI.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = AI.hpp; sourceTree = "<group>"; };
+		E2DD4BF6205A1CAE005A7870 /* AIMixins.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = AIMixins.hpp; path = ../Classes/ai/AIMixins.hpp; sourceTree = SOURCE_ROOT; };
+		E2E01EEB1C1DCA0D00330904 /* AI.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = AI.cpp; path = ../Classes/ai/AI.cpp; sourceTree = SOURCE_ROOT; };
+		E2E01EEC1C1DCA0D00330904 /* AI.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = AI.hpp; path = ../Classes/ai/AI.hpp; sourceTree = SOURCE_ROOT; };
 		E2E846B41C16201F00E5ADBC /* HUD.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = HUD.cpp; sourceTree = "<group>"; };
 		E2E846B51C16201F00E5ADBC /* HUD.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = HUD.hpp; sourceTree = "<group>"; };
 		E2FC59E42097FB5700DA35D7 /* GLFW.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = GLFW.xcodeproj; path = ../glfw/GLFW.xcodeproj; sourceTree = "<group>"; };
@@ -516,15 +516,12 @@
 		46880B8319C43A87006E1F66 /* Classes */ = {
 			isa = PBXGroup;
 			children = (
+				E25E98D120E1B08D00146199 /* ai */,
 				E24157C01C0BD2420033B425 /* lua */,
 				E2CDC5511C056B6B0017537B /* objects */,
 				E23121FF1BFA746D00FEA94B /* scenes */,
 				46880B8419C43A87006E1F66 /* App.cpp */,
 				46880B8519C43A87006E1F66 /* App.h */,
-				E2E01EEB1C1DCA0D00330904 /* AI.cpp */,
-				E2E01EEC1C1DCA0D00330904 /* AI.hpp */,
-				E2198F7F205A2A1F00832E0C /* AIMixins.cpp */,
-				E2DD4BF6205A1CAE005A7870 /* AIMixins.hpp */,
 				E23F055D1BD0294A0091BD6D /* controls.cpp */,
 				E23F05591BD024040091BD6D /* controls.h */,
 				E23121FB1BF7FDA300FEA94B /* Dialog.cpp */,
@@ -553,7 +550,6 @@
 				E2A65A2C1C063341005761BB /* types.h */,
 				E28D89841BDFE7CD00F58903 /* util.cpp */,
 				E20A7D6C1BCD211D007F1A3B /* util.h */,
-				E2198F88205B64E800832E0C /* StateMapping.cpp */,
 			);
 			name = Classes;
 			path = ../Classes;
@@ -637,6 +633,18 @@
 				E24157BF1C0BD1120033B425 /* LuaWrap.h */,
 			);
 			name = lua;
+			sourceTree = "<group>";
+		};
+		E25E98D120E1B08D00146199 /* ai */ = {
+			isa = PBXGroup;
+			children = (
+				E2E01EEB1C1DCA0D00330904 /* AI.cpp */,
+				E2E01EEC1C1DCA0D00330904 /* AI.hpp */,
+				E2198F7F205A2A1F00832E0C /* AIMixins.cpp */,
+				E2DD4BF6205A1CAE005A7870 /* AIMixins.hpp */,
+				E2198F88205B64E800832E0C /* StateMapping.cpp */,
+			);
+			name = ai;
 			sourceTree = "<group>";
 		};
 		E2CDC5511C056B6B0017537B /* objects */ = {
