@@ -10,27 +10,24 @@
     <Filter Include="src">
       <UniqueIdentifier>{bb6c862e-70e9-49d9-81b7-3829a6f50471}</UniqueIdentifier>
     </Filter>
+    <Filter Include="src\ai">
+      <UniqueIdentifier>{1a6fb985-356d-48c0-bd2b-a6c778ad136f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\lua">
+      <UniqueIdentifier>{7f86818b-6b1d-40a9-a2e5-f5688e96eada}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\scenes">
+      <UniqueIdentifier>{6aaffd88-5736-4772-98f1-0f64e75daef6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\objects">
+      <UniqueIdentifier>{cbcab6aa-047c-45b1-a313-2da7873adb56}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
       <Filter>win32</Filter>
     </ClCompile>
-    <ClCompile Include="..\Classes\Agent.cpp">
-      <Filter>src</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Classes\AI.cpp">
-      <Filter>src</Filter>
-    </ClCompile>
-    <ClInclude Include="..\Classes\AIMixins.hpp">
-      <Filter>src</Filter>
-    </ClInclude>
     <ClCompile Include="..\Classes\App.cpp">
-      <Filter>src</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Classes\Block.cpp">
-      <Filter>src</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Classes\Bullet.cpp">
       <Filter>src</Filter>
     </ClCompile>
     <ClCompile Include="..\Classes\controls.cpp">
@@ -39,22 +36,7 @@
     <ClCompile Include="..\Classes\Dialog.cpp">
       <Filter>src</Filter>
     </ClCompile>
-    <ClInclude Include="..\Classes\Facer.hpp">
-      <Filter>src</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Classes\Follower.hpp">
-      <Filter>src</Filter>
-    </ClInclude>
     <ClCompile Include="..\Classes\GAnimation.cpp">
-      <Filter>src</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Classes\Garden.cpp">
-      <Filter>src</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Classes\Glyph.cpp">
-      <Filter>src</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Classes\GObject.cpp">
       <Filter>src</Filter>
     </ClCompile>
     <ClCompile Include="..\Classes\Graph.cpp">
@@ -72,43 +54,7 @@
     <ClCompile Include="..\Classes\HUD.cpp">
       <Filter>src</Filter>
     </ClCompile>
-    <ClCompile Include="..\Classes\InventoryObject.cpp">
-      <Filter>src</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Classes\Items.cpp">
-      <Filter>src</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Classes\LuaAPI.cpp">
-      <Filter>src</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Classes\LuaConvert.cpp">
-      <Filter>src</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Classes\LuaCWrappers.cpp">
-      <Filter>src</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Classes\LuaShell.cpp">
-      <Filter>src</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Classes\LuaWrap.cpp">
-      <Filter>src</Filter>
-    </ClCompile>
     <ClCompile Include="..\Classes\menu.cpp">
-      <Filter>src</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Classes\ObjectMapping.cpp">
-      <Filter>src</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Classes\Patchouli.cpp">
-      <Filter>src</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Classes\Player.cpp">
-      <Filter>src</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Classes\PlayScene.cpp">
-      <Filter>src</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Classes\SceneMapping.cpp">
       <Filter>src</Filter>
     </ClCompile>
     <ClCompile Include="..\Classes\Spell.cpp">
@@ -117,72 +63,114 @@
     <ClCompile Include="..\Classes\SpellMapping.cpp">
       <Filter>src</Filter>
     </ClCompile>
-    <ClCompile Include="..\Classes\Stalker.cpp">
-      <Filter>src</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Classes\Torch.cpp">
-      <Filter>src</Filter>
-    </ClCompile>
     <ClCompile Include="..\Classes\util.cpp">
-      <Filter>src</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Classes\scenes\scenes.cpp">
-      <Filter>src</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Classes\AIMixins.cpp">
-      <Filter>src</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Classes\StateMapping.cpp">
-      <Filter>src</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Classes\Facer.cpp">
-      <Filter>src</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Classes\Follower.cpp">
-      <Filter>src</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Classes\Wall.cpp">
-      <Filter>src</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Classes\Collectibles.cpp">
-      <Filter>src</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Classes\object_ref.cpp">
-      <Filter>src</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Classes\GObjectMixins.cpp">
-      <Filter>src</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Classes\Sakuya.cpp">
       <Filter>src</Filter>
     </ClCompile>
     <ClCompile Include="..\Classes\Prefix.cpp">
       <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\scenes\scenes.cpp">
+      <Filter>src\scenes</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\ai\AI.cpp">
+      <Filter>src\ai</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\ai\AIMixins.cpp">
+      <Filter>src\ai</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\ai\StateMapping.cpp">
+      <Filter>src\ai</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\lua\LuaAPI.cpp">
+      <Filter>src\lua</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\lua\LuaConvert.cpp">
+      <Filter>src\lua</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\lua\LuaCWrappers.cpp">
+      <Filter>src\lua</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\lua\LuaShell.cpp">
+      <Filter>src\lua</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\lua\LuaWrap.cpp">
+      <Filter>src\lua</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\objects\Agent.cpp">
+      <Filter>src\objects</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\objects\Block.cpp">
+      <Filter>src\objects</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\objects\Bullet.cpp">
+      <Filter>src\objects</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\objects\Collectibles.cpp">
+      <Filter>src\objects</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\objects\Facer.cpp">
+      <Filter>src\objects</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\objects\Follower.cpp">
+      <Filter>src\objects</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\objects\Glyph.cpp">
+      <Filter>src\objects</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\objects\GObject.cpp">
+      <Filter>src\objects</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\objects\GObjectMixins.cpp">
+      <Filter>src\objects</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\objects\InventoryObject.cpp">
+      <Filter>src\objects</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\objects\Items.cpp">
+      <Filter>src\objects</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\objects\object_ref.cpp">
+      <Filter>src\objects</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\objects\ObjectMapping.cpp">
+      <Filter>src\objects</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\objects\Patchouli.cpp">
+      <Filter>src\objects</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\objects\Player.cpp">
+      <Filter>src\objects</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\objects\Sakuya.cpp">
+      <Filter>src\objects</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\objects\Stalker.cpp">
+      <Filter>src\objects</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\objects\Torch.cpp">
+      <Filter>src\objects</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\objects\Wall.cpp">
+      <Filter>src\objects</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\scenes\Garden.cpp">
+      <Filter>src\scenes</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\scenes\PlayScene.cpp">
+      <Filter>src\scenes</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\scenes\SceneMapping.cpp">
+      <Filter>src\scenes</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="main.h">
       <Filter>win32</Filter>
     </ClInclude>
-    <ClInclude Include="..\Classes\AI.hpp">
-      <Filter>src</Filter>
-    </ClInclude>
     <ClInclude Include="..\Classes\AIMixins.hpp">
       <Filter>src</Filter>
     </ClInclude>
-    <ClInclude Include="..\Classes\Agent.hpp">
-      <Filter>src</Filter>
-    </ClInclude>
     <ClInclude Include="..\Classes\App.h">
-      <Filter>src</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Classes\Block.hpp">
-      <Filter>src</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Classes\Bullet.hpp">
-      <Filter>src</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Classes\CollectGlyph.hpp">
       <Filter>src</Filter>
     </ClInclude>
     <ClInclude Include="..\Classes\controls.h">
@@ -191,19 +179,7 @@
     <ClInclude Include="..\Classes\Dialog.hpp">
       <Filter>src</Filter>
     </ClInclude>
-    <ClInclude Include="..\Classes\Flower.h">
-      <Filter>src</Filter>
-    </ClInclude>
     <ClInclude Include="..\Classes\GAnimation.hpp">
-      <Filter>src</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Classes\Garden.hpp">
-      <Filter>src</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Classes\Glyph.hpp">
-      <Filter>src</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Classes\GObject.hpp">
       <Filter>src</Filter>
     </ClInclude>
     <ClInclude Include="..\Classes\Graph.hpp">
@@ -221,31 +197,7 @@
     <ClInclude Include="..\Classes\HUD.hpp">
       <Filter>src</Filter>
     </ClInclude>
-    <ClInclude Include="..\Classes\InventoryObject.hpp">
-      <Filter>src</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Classes\Items.hpp">
-      <Filter>src</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Classes\LuaAPI.hpp">
-      <Filter>src</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Classes\LuaConvert.h">
-      <Filter>src</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Classes\LuaError.h">
-      <Filter>src</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Classes\LuaShell.hpp">
-      <Filter>src</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Classes\LuaWrap.h">
-      <Filter>src</Filter>
-    </ClInclude>
     <ClInclude Include="..\Classes\macros.h">
-      <Filter>src</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Classes\Marisa.hpp">
       <Filter>src</Filter>
     </ClInclude>
     <ClInclude Include="..\Classes\menu.h">
@@ -254,34 +206,10 @@
     <ClInclude Include="..\Classes\multifunction.h">
       <Filter>src</Filter>
     </ClInclude>
-    <ClInclude Include="..\Classes\Patchouli.hpp">
-      <Filter>src</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Classes\Player.hpp">
-      <Filter>src</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Classes\PlayScene.hpp">
-      <Filter>src</Filter>
-    </ClInclude>
     <ClInclude Include="..\Classes\Prefix.h">
       <Filter>src</Filter>
     </ClInclude>
-    <ClInclude Include="..\Classes\Reimu.hpp">
-      <Filter>src</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Classes\scenes.h">
-      <Filter>src</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Classes\SceneUtil.h">
-      <Filter>src</Filter>
-    </ClInclude>
     <ClInclude Include="..\Classes\Spell.hpp">
-      <Filter>src</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Classes\Stalker.hpp">
-      <Filter>src</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Classes\Torch.hpp">
       <Filter>src</Filter>
     </ClInclude>
     <ClInclude Include="..\Classes\types.h">
@@ -290,29 +218,116 @@
     <ClInclude Include="..\Classes\util.h">
       <Filter>src</Filter>
     </ClInclude>
-    <ClInclude Include="..\Classes\Wall.hpp">
-      <Filter>src</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Classes\scenes\Collect.h">
-      <Filter>src</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Classes\scenes\LibraryOpening.h">
-      <Filter>src</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Classes\Collectibles.hpp">
-      <Filter>src</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Classes\object_ref.hpp">
-      <Filter>src</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Classes\GObjectMixins.hpp">
-      <Filter>src</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Classes\Sakuya.hpp">
-      <Filter>src</Filter>
-    </ClInclude>
     <ClInclude Include="..\Classes\enum.h">
       <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\AIMixins.hpp">
+      <Filter>src\ai</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\scenes\Collect.h">
+      <Filter>src\scenes</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\scenes\LibraryOpening.h">
+      <Filter>src\scenes</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\ai\AI.hpp">
+      <Filter>src\ai</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\ai\AIMixins.hpp">
+      <Filter>src\ai</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\lua\LuaAPI.hpp">
+      <Filter>src\lua</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\lua\LuaConvert.h">
+      <Filter>src\lua</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\lua\LuaError.h">
+      <Filter>src\lua</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\lua\LuaShell.hpp">
+      <Filter>src\lua</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\lua\LuaWrap.h">
+      <Filter>src\lua</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\objects\Agent.hpp">
+      <Filter>src\objects</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\objects\Block.hpp">
+      <Filter>src\objects</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\objects\Bullet.hpp">
+      <Filter>src\objects</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\objects\CollectGlyph.hpp">
+      <Filter>src\objects</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\objects\Collectibles.hpp">
+      <Filter>src\objects</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\objects\Facer.hpp">
+      <Filter>src\objects</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\objects\Flower.h">
+      <Filter>src\objects</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\objects\Follower.hpp">
+      <Filter>src\objects</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\objects\Glyph.hpp">
+      <Filter>src\objects</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\objects\GObject.hpp">
+      <Filter>src\objects</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\objects\GObjectMixins.hpp">
+      <Filter>src\objects</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\objects\InventoryObject.hpp">
+      <Filter>src\objects</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\objects\Items.hpp">
+      <Filter>src\objects</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\objects\Marisa.hpp">
+      <Filter>src\objects</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\objects\object_ref.hpp">
+      <Filter>src\objects</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\objects\Patchouli.hpp">
+      <Filter>src\objects</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\objects\Player.hpp">
+      <Filter>src\objects</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\objects\Reimu.hpp">
+      <Filter>src\objects</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\objects\Sakuya.hpp">
+      <Filter>src\objects</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\objects\Stalker.hpp">
+      <Filter>src\objects</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\objects\Torch.hpp">
+      <Filter>src\objects</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\objects\Wall.hpp">
+      <Filter>src\objects</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\scenes\Garden.hpp">
+      <Filter>src\scenes</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\scenes\PlayScene.hpp">
+      <Filter>src\scenes</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\scenes\scenes.h">
+      <Filter>src\scenes</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\scenes\SceneUtil.h">
+      <Filter>src\scenes</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
