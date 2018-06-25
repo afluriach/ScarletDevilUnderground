@@ -268,8 +268,8 @@
 		E2080BC31C0047A700EB78DF /* liblua.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = liblua.a; path = "../../../dev/lua-5.3.1/src/liblua.a"; sourceTree = "<group>"; };
 		E2080BC71C00486000EB78DF /* LuaAPI.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = LuaAPI.cpp; sourceTree = "<group>"; };
 		E2080BC81C00486000EB78DF /* LuaAPI.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = LuaAPI.hpp; sourceTree = "<group>"; };
-		E20A7D681BCD205E007F1A3B /* PlayScene.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = PlayScene.cpp; sourceTree = "<group>"; };
-		E20A7D691BCD205E007F1A3B /* PlayScene.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = PlayScene.hpp; sourceTree = "<group>"; };
+		E20A7D681BCD205E007F1A3B /* PlayScene.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = PlayScene.cpp; path = scenes/PlayScene.cpp; sourceTree = "<group>"; };
+		E20A7D691BCD205E007F1A3B /* PlayScene.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = PlayScene.hpp; path = scenes/PlayScene.hpp; sourceTree = "<group>"; };
 		E20A7D6C1BCD211D007F1A3B /* util.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = util.h; sourceTree = "<group>"; };
 		E20A7D6E1BCD27F0007F1A3B /* maps */ = {isa = PBXFileReference; lastKnownFileType = folder; path = maps; sourceTree = "<group>"; };
 		E20EAF011C64F13C0061B640 /* shaders */ = {isa = PBXFileReference; lastKnownFileType = folder; path = shaders; sourceTree = "<group>"; };
@@ -312,12 +312,12 @@
 		E23F055D1BD0294A0091BD6D /* controls.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = controls.cpp; sourceTree = "<group>"; };
 		E24157BF1C0BD1120033B425 /* LuaWrap.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LuaWrap.h; sourceTree = "<group>"; };
 		E24450231C02CFA8006D78B0 /* ObjectMapping.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ObjectMapping.cpp; sourceTree = "<group>"; };
-		E244502C1C039CF0006D78B0 /* scenes.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = scenes.h; sourceTree = "<group>"; };
+		E244502C1C039CF0006D78B0 /* scenes.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = scenes.h; path = scenes/scenes.h; sourceTree = "<group>"; };
 		E244502D1C03A760006D78B0 /* scenes.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = scenes.cpp; path = scenes/scenes.cpp; sourceTree = "<group>"; };
-		E24450311C03D1DE006D78B0 /* SceneMapping.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = SceneMapping.cpp; sourceTree = "<group>"; };
+		E24450311C03D1DE006D78B0 /* SceneMapping.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = SceneMapping.cpp; path = scenes/SceneMapping.cpp; sourceTree = "<group>"; };
 		E24620271CF77271007C2CB5 /* libboost_serialization.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libboost_serialization.a; path = ../../../../../../dev/boost_1_59_0/stage/lib/libboost_serialization.a; sourceTree = "<group>"; };
 		E259A5E120D6108F003288B5 /* enum.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = enum.h; sourceTree = "<group>"; };
-		E259A5E220D6108F003288B5 /* SceneUtil.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SceneUtil.h; sourceTree = "<group>"; };
+		E259A5E220D6108F003288B5 /* SceneUtil.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SceneUtil.h; path = scenes/SceneUtil.h; sourceTree = "<group>"; };
 		E25DC0981C1EE2A400765415 /* LuaWrap.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = LuaWrap.cpp; sourceTree = "<group>"; };
 		E2610C461FE06A890079B36F /* libboost-combined.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = "libboost-combined.a"; path = "../../../lib/boost59/ios/libboost-combined.a"; sourceTree = "<group>"; };
 		E26147BB1C005A1B008CA1D0 /* scripts */ = {isa = PBXFileReference; lastKnownFileType = folder; path = scripts; sourceTree = "<group>"; };
@@ -326,8 +326,8 @@
 		E268FC4F1C1CF2C1007A425B /* CollectGlyph.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = CollectGlyph.hpp; sourceTree = "<group>"; };
 		E270E0DB1CF777B6004A5DBB /* libboost_serialization.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libboost_serialization.dylib; path = ../../../../../../dev/boost_1_59_0/stage/lib/libboost_serialization.dylib; sourceTree = "<group>"; };
 		E27185361C0E0CF8006EA1EB /* Flower.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Flower.h; sourceTree = "<group>"; };
-		E27185371C0E252D006EA1EB /* Garden.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Garden.cpp; sourceTree = "<group>"; };
-		E27185381C0E252D006EA1EB /* Garden.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = Garden.hpp; sourceTree = "<group>"; };
+		E27185371C0E252D006EA1EB /* Garden.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Garden.cpp; path = scenes/Garden.cpp; sourceTree = "<group>"; };
+		E27185381C0E252D006EA1EB /* Garden.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = Garden.hpp; path = scenes/Garden.hpp; sourceTree = "<group>"; };
 		E27E85791BE0178800A94217 /* GSpace.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = GSpace.cpp; sourceTree = "<group>"; };
 		E27E857A1BE0178800A94217 /* GSpace.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = GSpace.hpp; sourceTree = "<group>"; };
 		E282936F1BC5CA65005363B0 /* Graphics.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Graphics.h; sourceTree = "<group>"; };
