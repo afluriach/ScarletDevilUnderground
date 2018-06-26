@@ -114,6 +114,7 @@
 		E244502F1C03A760006D78B0 /* scenes.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E244502D1C03A760006D78B0 /* scenes.cpp */; };
 		E24450321C03D1DE006D78B0 /* SceneMapping.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E24450311C03D1DE006D78B0 /* SceneMapping.cpp */; };
 		E24450331C03D1DE006D78B0 /* SceneMapping.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E24450311C03D1DE006D78B0 /* SceneMapping.cpp */; };
+		E2480E1120E1EADC0028E491 /* Agent.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E21738F41FE609360045C4CB /* Agent.cpp */; };
 		E25DC0991C1EE2A400765415 /* LuaWrap.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E25DC0981C1EE2A400765415 /* LuaWrap.cpp */; };
 		E25DC09A1C1EE2A400765415 /* LuaWrap.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E25DC0981C1EE2A400765415 /* LuaWrap.cpp */; };
 		E2610C471FE06A890079B36F /* libboost-combined.a in Frameworks */ = {isa = PBXBuildFile; fileRef = E2610C461FE06A890079B36F /* libboost-combined.a */; };
@@ -925,6 +926,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				E2480E1120E1EADC0028E491 /* Agent.cpp in Sources */,
 				E2A846801FE0CB0E001DFF88 /* Torch.cpp in Sources */,
 				E2B63AAA1BE0498C005695B0 /* Block.cpp in Sources */,
 				E20A7D6B1BCD205E007F1A3B /* PlayScene.cpp in Sources */,
