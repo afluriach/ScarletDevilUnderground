@@ -147,86 +147,135 @@ shared_ptr<Function> Function::constructState(const string& type, const ValueMap
     else return nullptr;
 }
 
+Thread::Thread(shared_ptr<Function> threadMain)
+{
+	if (!threadMain) {
+		log("thread created with null main!");
+		completed = true;
+	}
+	else {
+		push(threadMain);
+	}
+}
+
+void Thread::update(StateMachine& sm)
+{
+	if (call_stack.empty()) {
+		completed = true;
+		return;
+	}
+
+	Function* crnt = call_stack.back().get();
+
+	crnt->update(sm);
+}
+
+void Thread::push(shared_ptr<Function> newState)
+{
+	call_stack.push_back(newState);
+	newState->onEnter(*sm);
+}
+
+void Thread::pop()
+{
+	if (call_stack.empty())
+		return;
+	Function* crnt = call_stack.back().get();
+
+	crnt->onExit(*sm);
+	call_stack.pop_back();
+
+	if (!call_stack.empty())
+		call_stack.back()->onReturn(*sm);
+}
+
+void Thread::onDetect(StateMachine& sm, GObject* obj)
+{
+	if (!completed && !call_stack.empty())
+	{
+		call_stack.back()->onDetect(sm, obj);
+	}
+}
+
+void Thread::onEndDetect(StateMachine& sm, GObject* obj)
+{
+	if (!completed && !call_stack.empty())
+	{
+		call_stack.back()->onEndDetect(sm, obj);
+	}
+}
+
 StateMachine::StateMachine(GObject *const agent) :
 agent(agent)
 {
     frame = app->space->getFrame();
 }
 
-
 void StateMachine::update()
 {
-    if(call_stack.empty())
-        return;
-    Function* crnt = call_stack.back().get();
-    
-    crnt->update(*this);
+	removeCompletedThreads();
+
+	BOOST_FOREACH(shared_ptr<Thread> t, current_threads)
+	{
+		crntThread = t.get();
+		t->update(*this);
+	}
+	crntThread = nullptr;
+}
+
+void StateMachine::addThread(shared_ptr<Function> threadMain)
+{
+	if (threadMain) {
+		auto newThread = make_shared<Thread>(threadMain);
+		newThread->sm = this;
+		current_threads.push_back(newThread);
+	}
+	else {
+		log("null threadMain!");
+	}
+}
+
+void StateMachine::removeCompletedThreads()
+{
+	current_threads.remove_if(
+		[](shared_ptr<Thread> t) { return t->isCompleted(); }
+	);
 }
 
 void StateMachine::onDetect(GObject* obj)
 {
-	if (call_stack.empty())
-		return;
-	Function* crnt = call_stack.back().get();
-
-	crnt->onDetect(*this, obj);
+	BOOST_FOREACH(shared_ptr<Thread> t, current_threads)
+	{
+		crntThread = t.get();
+		t->onDetect(*this,obj);
+	}
+	crntThread = nullptr;
 }
 void StateMachine::onEndDetect(GObject* obj)
 {
-	if (call_stack.empty())
-		return;
-	Function* crnt = call_stack.back().get();
-
-	crnt->onEndDetect(*this, obj);
-}
-
-void StateMachine::setState(shared_ptr<Function> newState)
-{
-	clearState();
-	push(newState);
-}
-
-void StateMachine::clearState()
-{
-	while (!call_stack.empty())
+	BOOST_FOREACH(shared_ptr<Thread> t, current_threads)
 	{
-		pop();
+		crntThread = t.get();
+		t->onEndDetect(*this,obj);
 	}
+	crntThread = nullptr;
 }
 
-void StateMachine::clearSubstates()
+void StateMachine::push(shared_ptr<Function> f)
 {
-	while (call_stack.size() > 1)
-	{
-		pop();
-	}
-}
-
-void StateMachine::push(shared_ptr<Function> newState)
-{
-    call_stack.push_back(newState);
-    newState->onEnter(*this);
+	crntThread->push(f);
 }
 
 void StateMachine::pop()
 {
-    if(call_stack.empty())
-        return;
-    Function* crnt = call_stack.back().get();
-    
-    crnt->onExit(*this);
-    call_stack.pop_back();
-    
-    if(!call_stack.empty())
-        call_stack.back()->onReturn(*this);
+	crntThread->pop();
 }
-
 
 void Detect::onDetect(StateMachine& sm, GObject* obj)
 {
     if(obj->getName() == target_name)
     {
-        sm.push(nextState(obj));
+        sm.getCrntThread()->push(nextState(obj));
     }
 }
 
@@ -244,7 +293,7 @@ Seek::Seek(const ValueMap& args) {
 void Seek::onEndDetect(StateMachine& sm, GObject* other)
 {
     if(target == other){
-        sm.pop();
+        sm.getCrntThread()->pop();
     }
 }
 
@@ -260,7 +309,7 @@ void Seek::update(StateMachine& sm)
 		sm.agent->setDirection(toDirection(ai::directionToTarget(*sm.agent, *target.get())));
 	}
 	else{
-		sm.pop();
+		sm.getCrntThread()->pop();
     }
 }
 
@@ -310,7 +359,7 @@ Flee::Flee(const ValueMap& args) {
 
 void Flee::onEndDetect(StateMachine& sm, GObject* other)
 {
-	sm.pop();
+	sm.getCrntThread()->pop();
 }
 
 void Flee::update(StateMachine& sm)
@@ -325,7 +374,7 @@ void Flee::update(StateMachine& sm)
 		sm.agent->setDirection(toDirection(ai::directionToTarget(*sm.agent, *target.get())));
 	}
 	else{
-        sm.pop();
+        sm.getCrntThread()->pop();
     }
 
 }
@@ -358,7 +407,7 @@ IdleWait::IdleWait(const ValueMap& args)
 void IdleWait::update(StateMachine& fsm)
 {
 	if (remaining == 0)
-		fsm.pop();
+		fsm.getCrntThread()->pop();
 	--remaining;
 
 	ai::applyDesiredVelocity(*fsm.agent, SpaceVect::zero, fsm.agent->getMaxAcceleration());
@@ -515,12 +564,12 @@ void Cast::onExit(StateMachine& sm)
     }
 }
 
-void FacerState::onEnter(StateMachine& sm)
+void FacerMain::onEnter(StateMachine& sm)
 {
 	target = app->space->getObject("player");
 }
 
-void FacerState::update(StateMachine& sm)
+void FacerMain::update(StateMachine& sm)
 {
     if(target.isValid()){
         if (isFacingTarget(*sm.agent, *target.get())){
@@ -535,13 +584,13 @@ void FacerState::update(StateMachine& sm)
     }
 }
 
-void FollowerState::onEnter(StateMachine& sm)
+void FollowerMain::onEnter(StateMachine& sm)
 {
 	target = app->space->getObject("player");
 }
 
 
-void FollowerState::update(StateMachine& sm)
+void FollowerMain::update(StateMachine& sm)
 {
     if(target.isValid()){
         if (ai::isFacingTargetsBack(*sm.agent, *target.get())){
@@ -556,12 +605,12 @@ void FollowerState::update(StateMachine& sm)
     }
 }
 
-void SakuyaBase::onEnter(StateMachine& sm)
+void SakuyaMain::onEnter(StateMachine& sm)
 {
 
 }
 
-void SakuyaBase::update(StateMachine& sm)
+void SakuyaMain::update(StateMachine& sm)
 {
     sm.push(make_shared<Cast>("IllusionDial", ValueMap()));
 }
@@ -599,18 +648,5 @@ void IllusionDash::update(StateMachine& sm)
         sm.pop();
     }
 }
-
-#define compound_method(name, args1, args2) \
-void CompoundState::name args1 { \
-    stateA->name args2; \
-    stateB->name args2; \
-}
-
-
-compound_method(onEnter, (StateMachine& sm), (sm))
-compound_method(onExit, (StateMachine& sm), (sm))
-compound_method(update, (StateMachine& sm), (sm))
-compound_method(onDetect,(StateMachine& sm, GObject* obj), (sm,obj))
-compound_method(onEndDetect,(StateMachine& sm, GObject* obj), (sm,obj))
 
 }//end NS

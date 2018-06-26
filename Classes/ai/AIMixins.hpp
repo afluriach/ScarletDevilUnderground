@@ -24,18 +24,9 @@ public:
 		fsm.update();
 	}
 
-	inline void setState(shared_ptr<ai::Function> state) {
-		fsm.setState(state);
+	inline void addThread(shared_ptr<ai::Function> threadMain) {
+		fsm.addThread(threadMain);
 	}
-
-	inline void pushState(shared_ptr<ai::Function> state) {
-		fsm.push(state);
-	}
-
-	inline void clearState() {
-		fsm.clearState();
-	}
-
 
 protected:
 	ai::StateMachine fsm;

@@ -16,20 +16,9 @@
 class Agent : virtual public GObject, public PatchConSprite, public CircleBody, public StateMachineObject, public RadarObject, public Spellcaster, RegisterInit<Agent>
 {
 public:
-	inline Agent(const ValueMap& args) :
-		GObject(args),
-		PatchConSprite(args),
-		StateMachineObject(args),
-		RegisterInit<Agent>(this)
-	{}
+	Agent(const ValueMap& args);
 
-	inline void init() {
-		shared_ptr<ai::Function> startState = getStartState();
-
-		if (startState) {
-			fsm.push(startState);
-		}
-	}
+	void init();
 
 	//replaces functionality of RadarStateMachineObject by connecting sensor callbacks
 	inline virtual void onDetect(GObject* obj) {
@@ -57,18 +46,13 @@ public:
 	inline GraphicsLayer sceneLayer() const { return GraphicsLayer::ground; }
 
 	//AI interface
-	virtual inline shared_ptr<ai::Function> getStartState() { return nullptr; }
+	virtual inline void initStateMachine(ai::StateMachine& sm) {}
 };
 
 class GenericAgent : public Agent
 {
 public:
-    inline GenericAgent(const ValueMap& args) :
-	GObject(args),
-	Agent(args)
-    {
-        spriteName = args.at("sprite").asString();
-    }
+	GenericAgent(const ValueMap& args);
     
     virtual inline float getRadarRadius() const {return 3.0f;}
     virtual inline GType getRadarType() const { return GType::playerSensor;}
@@ -84,9 +68,7 @@ public:
     inline string imageSpritePath() const {return "sprites/"+spriteName+".png";}
     //inline GraphicsLayer sceneLayer() const {return GraphicsLayer::ground;}
 
-	virtual inline shared_ptr<ai::Function> getStartState() {
-		return make_shared<ai::WanderAndFleePlayer>(3.0f, this);
-	}
+	virtual void initStateMachine(ai::StateMachine& sm);
 protected:
     string spriteName;
 };

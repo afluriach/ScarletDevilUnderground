@@ -10,3 +10,10 @@
 #include "Stalker.hpp"
 
 const int Stalker::maxHP = 12;
+
+void Stalker::initStateMachine(ai::StateMachine& sm)
+{
+	sm.addThread(
+		make_shared<ai::DetectAndSeekPlayer>()
+	);
+}

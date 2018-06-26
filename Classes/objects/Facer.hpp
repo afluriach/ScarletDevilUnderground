@@ -31,8 +31,8 @@ public:
     virtual inline float getMaxSpeed() const {return 1.0f;}
     virtual inline float getMaxAcceleration() const {return 4.5f;}    
 
-	virtual inline shared_ptr<ai::Function> getStartState() {
-		return make_shared<ai::FacerState>();
+	virtual inline void initStateMachine(ai::StateMachine& sm) {
+		sm.addThread(make_shared<ai::FacerMain>());
 	}
 };
 

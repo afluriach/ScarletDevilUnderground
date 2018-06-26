@@ -37,9 +37,7 @@ public:
     virtual inline float getMaxSpeed() const {return 1.5f;}
     virtual inline float getMaxAcceleration() const {return 4.5f;}
 
-	virtual inline shared_ptr<ai::Function> getStartState() {
-		return make_shared<ai::DetectAndSeekPlayer>();
-	}        
+	virtual void initStateMachine(ai::StateMachine& sm);
 };
 
 #endif /* Stalker_hpp */

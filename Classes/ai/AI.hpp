@@ -64,6 +64,31 @@ public:
 	inline virtual void onEndDetect(StateMachine& sm, GObject* obj) {}
 };
 
+class Thread
+{
+public:
+	friend class StateMachine;
+
+	Thread(shared_ptr<Function> threadMain);
+
+	void update(StateMachine& sm);
+
+	void push(shared_ptr<Function> newState);
+	void pop();
+
+	void onDetect(StateMachine& sm, GObject* obj);
+	void onEndDetect(StateMachine& sm, GObject* obj);
+
+	inline bool isCompleted() {
+		return completed;
+	}
+
+protected:
+	list<shared_ptr<Function>> call_stack;
+	StateMachine* sm;
+	bool completed = false;
+};
+
 class StateMachine
 {
 public:
@@ -71,56 +96,30 @@ public:
 
     StateMachine(GObject *const agent);
 
-    void update();
+	void update();
+
+	void addThread(shared_ptr<Function> threadMain);
+	void removeCompletedThreads();
 
     void onDetect(GObject* obj);
 	void onEndDetect(GObject* obj);
 
-	void setState(shared_ptr<Function> newState);
-	void clearState();
-    void clearSubstates();
-    void push(shared_ptr<Function> newState);
-    void pop();
+	//wrappers for the current thread
+	void push(shared_ptr<Function> f);
+	void pop();
     
     inline unsigned int getFrame(){
         return frame;
     }
+
+	inline Thread* getCrntThread() {
+		return crntThread;
+	}
     
 protected:
-    list<shared_ptr<Function>> call_stack;
+	list<shared_ptr<Thread>> current_threads;
     unsigned int frame;
-};
-
-class Submachine : public Function{
-public:
-    inline Submachine(StateMachine fsm) : fsm(fsm) {}
-    inline Submachine(shared_ptr<Function> startState, GObject* agent) : fsm(agent) {
-        fsm.push(startState);
-    }
-    
-	inline virtual void update(StateMachine& sm) {fsm.update();}
-    inline virtual void onExit(StateMachine& sm) {fsm.clearState();}
-
-	inline virtual void onDetect(StateMachine& sm, GObject* obj) {fsm.onDetect(obj);}
-	inline virtual void onEndDetect(StateMachine& sm, GObject* obj) {fsm.onEndDetect(obj);}
-    
-    StateMachine fsm;
-};
-
-class CompoundState : public Function{
-public:
-    inline CompoundState(shared_ptr<Function> stateA, shared_ptr<Function> stateB) :
-    stateA(stateA), stateB(stateB)
-    {}
-        
-	virtual void onEnter(StateMachine& sm);
-	virtual void update(StateMachine& sm);
-	virtual void onExit(StateMachine& sm);
-
-	virtual void onDetect(StateMachine& sm, GObject* obj);
-	virtual void onEndDetect(StateMachine& sm, GObject* obj);
-protected:
-    shared_ptr<Function> stateA, stateB;
+	Thread* crntThread = nullptr;
 };
 
 class Detect : public Function{
@@ -247,29 +246,6 @@ protected:
     float minDist, maxDist;
 };
 
-class WanderAndFleePlayer : public CompoundState{
-public:
-    inline WanderAndFleePlayer(float distance, GObject* agent):
-    CompoundState(
-        make_shared<Submachine>(make_shared<Wander>(), agent),
-        make_shared<Detect>(
-            "player",
-            [=](GObject* target) -> shared_ptr<Function>{
-                return make_shared<Flee>(target, distance);
-            }
-        )
-    )
-    {}
-    
-    inline virtual void onReturn(StateMachine& sm){
-        //Upon returning from the flee state, Wander state needs to be reset
-        //by clearing substates
-        Submachine* wanderFSM = dynamic_cast<Submachine*>( stateA.get() );
-        wanderFSM->fsm.clearSubstates();
-    }
-    
-};
-
 class Operation : public Function {
 public:
     inline Operation(std::function<void(StateMachine&)> op) :
@@ -297,7 +273,7 @@ protected:
     ValueMap spell_args;
 };
 
-class FacerState : public Function {
+class FacerMain : public Function {
 public:
 	virtual void onEnter(StateMachine& sm);
 	virtual void update(StateMachine& sm);
@@ -305,7 +281,7 @@ protected:
 	gobject_ref target = nullptr;
 };
 
-class FollowerState : public Function {
+class FollowerMain : public Function {
 public:
 	virtual void onEnter(StateMachine& sm);
 	virtual void update(StateMachine& sm);
@@ -313,7 +289,7 @@ protected:
 	gobject_ref target = nullptr;
 };
 
-class SakuyaBase : public Function {
+class SakuyaMain : public Function {
 public:
 	virtual void onEnter(StateMachine& sm);
 	virtual void update(StateMachine& sm);

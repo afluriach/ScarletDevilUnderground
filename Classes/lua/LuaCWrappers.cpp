@@ -342,41 +342,6 @@ shared_ptr<ai::Function> constructState(string funcName, string stateName, Value
 	return state;
 }
 
-void setState(string objName, string stateName, ValueMap args)
-{
-	StateMachineObject* smo = getFSMObject("setState", objName);
-
-	if (smo) {
-		shared_ptr<ai::Function> state = constructState("setState", stateName, args);
-
-		if (state)
-			smo->setState(state);
-	}
-}
-
-void pushState(string objName, string stateName, ValueMap args)
-{
-	StateMachineObject* smo = getFSMObject("pushState", objName);
-
-	if (smo) {
-		shared_ptr<ai::Function> state = constructState("pushState", stateName, args);
-
-		if (state)
-			smo->pushState(state);
-	}
-
-}
-
-void clearState(string objName)
-{
-	StateMachineObject* smo = getFSMObject("clearState", objName);
-
-	if (smo) {
-		smo->clearState();
-	}
-
-}
-
 ///////////////////////////////////////////////////////////////////
 
 #define make_wrapper(name) \
@@ -439,9 +404,6 @@ make_wrapper(printGlDebug)
 make_wrapper(save)
 make_wrapper(getInventoryContents)
 make_wrapper(getPath)
-make_wrapper(setState)
-make_wrapper(pushState)
-make_wrapper(clearState)
 
 //Utility functions not specifically created for the scripting API
 make_wrapper(toDirection)
@@ -516,11 +478,6 @@ void Inst::installWrappers()
     install_wrapper(getInventoryContents)
     
     install_wrapper(getPath)
-
-	install_wrapper(setState)
-	install_wrapper(pushState)
-	install_wrapper(clearState)
-
     
     //Utility functions not specifically created for the scripting API
     install_wrapper(toDirection)
