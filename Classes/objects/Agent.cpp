@@ -30,13 +30,18 @@
 
  void GenericAgent::initStateMachine(ai::StateMachine& sm)
  {
-	 sm.addThread(make_shared<ai::Wander>());
 	 sm.addThread(
-		 make_shared<ai::Detect>(
-			 "player",
-			 [=](GObject* target) -> shared_ptr<ai::Function> {
-				 return make_shared<ai::Flee>(target, 3.0f);
-			 }
-	     )
-	 );
+        make_shared<ai::Wander>(),
+        0
+    );
+    
+    sm.addThread(
+        make_shared<ai::Detect>(
+            "player",
+            [=](GObject* target) -> shared_ptr<ai::Function> {
+                return make_shared<ai::Flee>(target, 3.0f);
+            }
+        ),
+        1
+    );
  }

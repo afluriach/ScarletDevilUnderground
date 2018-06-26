@@ -9,6 +9,7 @@
 #ifndef AI_hpp
 #define AI_hpp
 
+#include "enum.h"
 #include "object_ref.hpp"
 #include "types.h"
 
@@ -42,6 +43,17 @@ float distanceToTarget(const GObject& agent, const GObject& target);
 
 float viewAngleToTarget(const GObject& agent, const GObject& target);
 
+
+enum class ResourceLock
+{
+    begin = 0,
+    movement = 0,
+    
+    end,
+};
+
+constexpr size_t lockCount = to_size_t(ResourceLock::end);
+
 class StateMachine;
 
 class Function
@@ -62,11 +74,15 @@ public:
 
 	inline virtual void onDetect(StateMachine& sm, GObject* obj) {}
 	inline virtual void onEndDetect(StateMachine& sm, GObject* obj) {}
+    
+    inline virtual bitset<lockCount> getLockMask() { return bitset<lockCount>();}
 };
 
 class Thread
 {
 public:
+    typedef int priority_type;
+    
 	friend class StateMachine;
 
 	Thread(shared_ptr<Function> threadMain);
@@ -79,14 +95,11 @@ public:
 	void onDetect(StateMachine& sm, GObject* obj);
 	void onEndDetect(StateMachine& sm, GObject* obj);
 
-	inline bool isCompleted() {
-		return completed;
-	}
-
 protected:
 	list<shared_ptr<Function>> call_stack;
 	StateMachine* sm;
 	bool completed = false;
+    priority_type priority = 0;
 };
 
 class StateMachine
@@ -99,6 +112,7 @@ public:
 	void update();
 
 	void addThread(shared_ptr<Function> threadMain);
+    void addThread(shared_ptr<Function> threadMain, Thread::priority_type priority);
 	void removeCompletedThreads();
 
     void onDetect(GObject* obj);
@@ -117,7 +131,7 @@ public:
 	}
     
 protected:
-	list<shared_ptr<Thread>> current_threads;
+	vector<shared_ptr<Thread>> current_threads;
     unsigned int frame;
 	Thread* crntThread = nullptr;
 };
@@ -145,6 +159,10 @@ public:
     
 	virtual void update(StateMachine& sm);
 	virtual void onEndDetect(StateMachine& sm, GObject* target);
+    
+    inline virtual bitset<lockCount> getLockMask() {
+        return make_enum_bitfield(ResourceLock::movement);
+    }
 protected:
 	gobject_ref target;
 };
@@ -158,6 +176,10 @@ public:
     {}
     
 	virtual void update(StateMachine& sm);
+    
+    inline virtual bitset<lockCount> getLockMask() {
+        return make_enum_bitfield(ResourceLock::movement);
+    }
 protected:
 	gobject_ref target;
     float distance, margin;
@@ -173,6 +195,10 @@ public:
     
 	virtual void update(StateMachine& sm);
 	virtual void onEndDetect(StateMachine& sm, GObject* target);
+
+    inline virtual bitset<lockCount> getLockMask() {
+        return make_enum_bitfield(ResourceLock::movement);
+    }
 protected:
 	gobject_ref target;
     float distance;
@@ -200,6 +226,10 @@ class IdleWait : public Function{
         {}
     
 		virtual void update(StateMachine& fsm);
+    
+        inline virtual bitset<lockCount> getLockMask() {
+            return make_enum_bitfield(ResourceLock::movement);
+        }
     private:
         unsigned int remaining;
 };
@@ -213,6 +243,10 @@ public:
     {}
     
     virtual void update(StateMachine& fsm);
+
+    inline virtual bitset<lockCount> getLockMask() {
+        return make_enum_bitfield(ResourceLock::movement);
+    }
 protected:
     SpaceVect target;
 };
@@ -226,6 +260,11 @@ public:
 	{}
 
 	virtual void update(StateMachine& fsm);
+    
+    inline virtual bitset<lockCount> getLockMask() {
+        return make_enum_bitfield(ResourceLock::movement);
+    }
+    
 protected:
 	Path path;
 	size_t currentTarget = 0;
@@ -240,6 +279,10 @@ public:
     {}
 
     virtual void update(StateMachine& sm);
+
+    inline virtual bitset<lockCount> getLockMask() {
+        return make_enum_bitfield(ResourceLock::movement);
+    }
     
 protected:
     float minWait, maxWait;

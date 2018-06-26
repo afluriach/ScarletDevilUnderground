@@ -10,7 +10,6 @@
 
 #include "AI.hpp"
 #include "App.h"
-#include "enum.h"
 #include "Graphics.h"
 #include "GSpace.hpp"
 #include "GObject.hpp"
@@ -213,21 +212,50 @@ agent(agent)
 
 void StateMachine::update()
 {
+    bitset<lockCount> locks;
+    
 	removeCompletedThreads();
+    
+    //maintain Thread ordering according to priority
+    sort(
+        current_threads.begin(),
+        current_threads.end(),
+        [](shared_ptr<Thread> a, shared_ptr<Thread> b) -> bool{
+            return a->priority > b->priority;
+        }
+    );
+    
 
 	BOOST_FOREACH(shared_ptr<Thread> t, current_threads)
 	{
 		crntThread = t.get();
-		t->update(*this);
+        bitset<lockCount> lockMask = crntThread->call_stack.back()->getLockMask();
+        
+        if(!(locks & lockMask).any() )
+        {
+            //The current function in this thread does not require a lock that has
+            //already been acquired this frame.
+            
+            locks |= lockMask;
+            
+            t->update(*this);
+        }
+
 	}
 	crntThread = nullptr;
 }
 
 void StateMachine::addThread(shared_ptr<Function> threadMain)
 {
+    addThread(threadMain,0);
+}
+
+void StateMachine::addThread(shared_ptr<Function> threadMain, Thread::priority_type priority)
+{
 	if (threadMain) {
 		auto newThread = make_shared<Thread>(threadMain);
 		newThread->sm = this;
+        newThread->priority = priority;
 		current_threads.push_back(newThread);
 	}
 	else {
@@ -237,8 +265,10 @@ void StateMachine::addThread(shared_ptr<Function> threadMain)
 
 void StateMachine::removeCompletedThreads()
 {
-	current_threads.remove_if(
-		[](shared_ptr<Thread> t) { return t->isCompleted(); }
+	remove_if(
+        current_threads.begin(),
+        current_threads.end(),
+		[](shared_ptr<Thread> t) { return t->completed; }
 	);
 }
 
