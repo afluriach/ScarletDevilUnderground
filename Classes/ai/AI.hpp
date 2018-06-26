@@ -87,7 +87,7 @@ public:
     }
     
 protected:
-    list<shared_ptr<Function>> states;
+    list<shared_ptr<Function>> call_stack;
     unsigned int frame;
 };
 

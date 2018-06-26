@@ -156,26 +156,26 @@ agent(agent)
 
 void StateMachine::update()
 {
-    if(states.empty())
+    if(call_stack.empty())
         return;
-    Function* crnt = states.back().get();
+    Function* crnt = call_stack.back().get();
     
     crnt->update(*this);
 }
 
 void StateMachine::onDetect(GObject* obj)
 {
-	if (states.empty())
+	if (call_stack.empty())
 		return;
-	Function* crnt = states.back().get();
+	Function* crnt = call_stack.back().get();
 
 	crnt->onDetect(*this, obj);
 }
 void StateMachine::onEndDetect(GObject* obj)
 {
-	if (states.empty())
+	if (call_stack.empty())
 		return;
-	Function* crnt = states.back().get();
+	Function* crnt = call_stack.back().get();
 
 	crnt->onEndDetect(*this, obj);
 }
@@ -188,7 +188,7 @@ void StateMachine::setState(shared_ptr<Function> newState)
 
 void StateMachine::clearState()
 {
-	while (!states.empty())
+	while (!call_stack.empty())
 	{
 		pop();
 	}
@@ -196,7 +196,7 @@ void StateMachine::clearState()
 
 void StateMachine::clearSubstates()
 {
-	while (states.size() > 1)
+	while (call_stack.size() > 1)
 	{
 		pop();
 	}
@@ -204,21 +204,21 @@ void StateMachine::clearSubstates()
 
 void StateMachine::push(shared_ptr<Function> newState)
 {
-    states.push_back(newState);
+    call_stack.push_back(newState);
     newState->onEnter(*this);
 }
 
 void StateMachine::pop()
 {
-    if(states.empty())
+    if(call_stack.empty())
         return;
-    Function* crnt = states.back().get();
+    Function* crnt = call_stack.back().get();
     
     crnt->onExit(*this);
-    states.pop_back();
+    call_stack.pop_back();
     
-    if(!states.empty())
-        states.back()->onReturn(*this);
+    if(!call_stack.empty())
+        call_stack.back()->onReturn(*this);
 }
 
 
