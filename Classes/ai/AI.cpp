@@ -146,7 +146,20 @@ shared_ptr<Function> Function::constructState(const string& type, const ValueMap
     else return nullptr;
 }
 
-Thread::Thread(shared_ptr<Function> threadMain)
+Thread::Thread(shared_ptr<Function> threadMain, StateMachine* sm) :
+Thread(threadMain, sm, 0, bitset<lockCount>())
+{
+}
+
+Thread::Thread(
+    shared_ptr<Function> threadMain,
+    StateMachine* sm,
+    priority_type priority,
+    bitset<lockCount> lockMask
+) :
+priority(priority),
+lockMask(lockMask),
+sm(sm)
 {
 	if (!threadMain) {
 		log("thread created with null main!");
@@ -167,6 +180,16 @@ void Thread::update(StateMachine& sm)
 	Function* crnt = call_stack.back().get();
 
 	crnt->update(sm);
+}
+
+void Thread::onDelay(StateMachine& sm)
+{
+    if(resetOnBlock)
+    {
+        while(call_stack.size() > 1){
+            pop();
+        }
+    }
 }
 
 void Thread::push(shared_ptr<Function> newState)
@@ -229,7 +252,8 @@ void StateMachine::update()
 	BOOST_FOREACH(shared_ptr<Thread> t, current_threads)
 	{
 		crntThread = t.get();
-        bitset<lockCount> lockMask = crntThread->call_stack.back()->getLockMask();
+        //Take union of thread locks & current function locks
+        bitset<lockCount> lockMask = crntThread->lockMask | crntThread->call_stack.back()->getLockMask();
         
         if(!(locks & lockMask).any() )
         {
@@ -240,27 +264,35 @@ void StateMachine::update()
             
             t->update(*this);
         }
+        else
+        {
+            //Call the thread onDelay if there was a conflict with the thread
+            //lock bits.
+            if((locks & crntThread->lockMask).any()){
+                crntThread->onDelay(*this);
+            }
+            if((locks & crntThread->call_stack.back()->getLockMask()).any()){
+                crntThread->call_stack.back()->onDelay(*this);
+            }
+        }
 
 	}
 	crntThread = nullptr;
 }
 
-void StateMachine::addThread(shared_ptr<Function> threadMain)
+void StateMachine::addThread(shared_ptr<Thread> thread)
 {
-    addThread(threadMain,0);
+    current_threads.push_back(thread);
 }
 
-void StateMachine::addThread(shared_ptr<Function> threadMain, Thread::priority_type priority)
+void StateMachine::addThread(shared_ptr<Function> threadMain)
 {
-	if (threadMain) {
-		auto newThread = make_shared<Thread>(threadMain);
-		newThread->sm = this;
-        newThread->priority = priority;
-		current_threads.push_back(newThread);
-	}
-	else {
-		log("null threadMain!");
-	}
+    current_threads.push_back(make_shared<Thread>(
+        threadMain,
+        this,
+        9,
+        bitset<lockCount>()
+    ));
 }
 
 void StateMachine::removeCompletedThreads()

@@ -71,6 +71,8 @@ public:
     inline virtual void onReturn(StateMachine& sm) {}
 	inline virtual void update(StateMachine& sm) {}
 	inline virtual void onExit(StateMachine& sm) {}
+    
+    inline virtual void onDelay(StateMachine& sm) {}
 
 	inline virtual void onDetect(StateMachine& sm, GObject* obj) {}
 	inline virtual void onEndDetect(StateMachine& sm, GObject* obj) {}
@@ -85,21 +87,35 @@ public:
     
 	friend class StateMachine;
 
-	Thread(shared_ptr<Function> threadMain);
+	Thread(shared_ptr<Function> threadMain, StateMachine* sm);
+	Thread(
+        shared_ptr<Function> threadMain,
+        StateMachine* sm,
+        priority_type priority,
+        bitset<lockCount> lockMask
+    );
 
 	void update(StateMachine& sm);
+    
+    void onDelay(StateMachine& sm);
 
 	void push(shared_ptr<Function> newState);
 	void pop();
 
 	void onDetect(StateMachine& sm, GObject* obj);
 	void onEndDetect(StateMachine& sm, GObject* obj);
+    
+    inline void setResetOnBlock(bool reset){
+        resetOnBlock = reset;
+    }
 
 protected:
 	list<shared_ptr<Function>> call_stack;
 	StateMachine* sm;
 	bool completed = false;
+    bool resetOnBlock = false;
     priority_type priority = 0;
+    bitset<lockCount> lockMask;
 };
 
 class StateMachine
@@ -111,8 +127,8 @@ public:
 
 	void update();
 
-	void addThread(shared_ptr<Function> threadMain);
-    void addThread(shared_ptr<Function> threadMain, Thread::priority_type priority);
+	void addThread(shared_ptr<Thread> thread);
+    void addThread(shared_ptr<Function> threadMain);
 	void removeCompletedThreads();
 
     void onDetect(GObject* obj);

@@ -30,18 +30,27 @@
 
  void GenericAgent::initStateMachine(ai::StateMachine& sm)
  {
-	 sm.addThread(
+    auto wanderThread = make_shared<ai::Thread>(
         make_shared<ai::Wander>(),
-        0
+        &fsm,
+        0,
+        make_enum_bitfield(ai::ResourceLock::movement)
     );
     
-    sm.addThread(
+    auto detectThread = make_shared<ai::Thread>(
         make_shared<ai::Detect>(
             "player",
             [=](GObject* target) -> shared_ptr<ai::Function> {
                 return make_shared<ai::Flee>(target, 3.0f);
             }
         ),
-        1
+        &fsm,
+        1,
+        bitset<ai::lockCount>()
     );
+    
+    wanderThread->setResetOnBlock(true);
+    
+    fsm.addThread(wanderThread);
+    fsm.addThread(detectThread);
  }
