@@ -31,7 +31,7 @@ public:
     virtual inline float getMaxSpeed() const {return 1.0f;}
     virtual inline float getMaxAcceleration() const {return 4.5f;}    
 
-	virtual inline shared_ptr<ai::State> getStartState() {
+	virtual inline shared_ptr<ai::Function> getStartState() {
 		return make_shared<ai::FacerState>();
 	}
 };

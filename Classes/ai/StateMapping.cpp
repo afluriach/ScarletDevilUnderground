@@ -13,16 +13,16 @@
 using namespace ai;
 
 template <typename T>
-static State::AdapterType consAdapter()
+static Function::AdapterType consAdapter()
 {
-    return [](const ValueMap& args) -> shared_ptr<State> { return make_shared<T>(args); };
+    return [](const ValueMap& args) -> shared_ptr<Function> { return make_shared<T>(args); };
 }
 
 #define entry(name,cls) (name, consAdapter<cls>())
 //To make an entry where the name matches the class
 #define entry_same(cls) entry(#cls, cls)
 
-const unordered_map<string, State::AdapterType> State::adapters = boost::assign::map_list_of
+const unordered_map<string, Function::AdapterType> Function::adapters = boost::assign::map_list_of
     entry_same(Seek)
     entry_same(Flee)
     entry_same(IdleWait)

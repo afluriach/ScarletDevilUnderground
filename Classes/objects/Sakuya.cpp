@@ -15,7 +15,7 @@
 
 const int Sakuya::maxHP = 30;
 
-shared_ptr<ai::State> Sakuya::getStartState()
+shared_ptr<ai::Function> Sakuya::getStartState()
 {
     return make_shared<ai::SakuyaBase>();
 }        

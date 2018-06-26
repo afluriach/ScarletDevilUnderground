@@ -136,12 +136,12 @@ void flee(GObject& agent, const SpaceVect& target, float maxSpeed, float acceler
     applyDesiredVelocity(agent, displacement*maxSpeed, acceleration);
 }
 
-shared_ptr<State> State::constructState(const string& type, const ValueMap& args)
+shared_ptr<Function> Function::constructState(const string& type, const ValueMap& args)
 {
-    auto it = State::adapters.find(type);
+    auto it = Function::adapters.find(type);
 
-    if (it != State::adapters.end()) {
-        State::AdapterType adapter = it->second;
+    if (it != Function::adapters.end()) {
+        Function::AdapterType adapter = it->second;
         return adapter(args);
     }
     else return nullptr;
@@ -158,7 +158,7 @@ void StateMachine::update()
 {
     if(states.empty())
         return;
-    State* crnt = states.back().get();
+    Function* crnt = states.back().get();
     
     crnt->update(*this);
 }
@@ -167,7 +167,7 @@ void StateMachine::onDetect(GObject* obj)
 {
 	if (states.empty())
 		return;
-	State* crnt = states.back().get();
+	Function* crnt = states.back().get();
 
 	crnt->onDetect(*this, obj);
 }
@@ -175,12 +175,12 @@ void StateMachine::onEndDetect(GObject* obj)
 {
 	if (states.empty())
 		return;
-	State* crnt = states.back().get();
+	Function* crnt = states.back().get();
 
 	crnt->onEndDetect(*this, obj);
 }
 
-void StateMachine::setState(shared_ptr<State> newState)
+void StateMachine::setState(shared_ptr<Function> newState)
 {
 	clearState();
 	push(newState);
@@ -202,7 +202,7 @@ void StateMachine::clearSubstates()
 	}
 }
 
-void StateMachine::push(shared_ptr<State> newState)
+void StateMachine::push(shared_ptr<Function> newState)
 {
     states.push_back(newState);
     newState->onEnter(*this);
@@ -212,7 +212,7 @@ void StateMachine::pop()
 {
     if(states.empty())
         return;
-    State* crnt = states.back().get();
+    Function* crnt = states.back().get();
     
     crnt->onExit(*this);
     states.pop_back();

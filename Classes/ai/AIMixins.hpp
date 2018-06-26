@@ -18,17 +18,17 @@ class StateMachineObject : virtual public GObject, RegisterUpdate<StateMachineOb
 public:
 
     inline StateMachineObject(const ValueMap& args) : StateMachineObject(nullptr, args) {}
-	StateMachineObject(shared_ptr<ai::State> startState, const ValueMap& args);
+	StateMachineObject(shared_ptr<ai::Function> startState, const ValueMap& args);
 
 	inline void update() {
 		fsm.update();
 	}
 
-	inline void setState(shared_ptr<ai::State> state) {
+	inline void setState(shared_ptr<ai::Function> state) {
 		fsm.setState(state);
 	}
 
-	inline void pushState(shared_ptr<ai::State> state) {
+	inline void pushState(shared_ptr<ai::Function> state) {
 		fsm.push(state);
 	}
 

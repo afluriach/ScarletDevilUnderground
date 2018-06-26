@@ -39,7 +39,7 @@ public:
     virtual float getMaxSpeed() const;
     virtual inline float getMaxAcceleration() const {return 4.5f;}
 
-	virtual shared_ptr<ai::State> getStartState();
+	virtual shared_ptr<ai::Function> getStartState();
 };
 
 

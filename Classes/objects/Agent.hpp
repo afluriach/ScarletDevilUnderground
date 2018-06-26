@@ -24,7 +24,7 @@ public:
 	{}
 
 	inline void init() {
-		shared_ptr<ai::State> startState = getStartState();
+		shared_ptr<ai::Function> startState = getStartState();
 
 		if (startState) {
 			fsm.push(startState);
@@ -57,7 +57,7 @@ public:
 	inline GraphicsLayer sceneLayer() const { return GraphicsLayer::ground; }
 
 	//AI interface
-	virtual inline shared_ptr<ai::State> getStartState() { return nullptr; }
+	virtual inline shared_ptr<ai::Function> getStartState() { return nullptr; }
 };
 
 class GenericAgent : public Agent
@@ -84,7 +84,7 @@ public:
     inline string imageSpritePath() const {return "sprites/"+spriteName+".png";}
     //inline GraphicsLayer sceneLayer() const {return GraphicsLayer::ground;}
 
-	virtual inline shared_ptr<ai::State> getStartState() {
+	virtual inline shared_ptr<ai::Function> getStartState() {
 		return make_shared<ai::WanderAndFleePlayer>(3.0f, this);
 	}
 protected:

@@ -331,9 +331,9 @@ StateMachineObject* getFSMObject(string funcName,string objName)
 	return smo;
 }
 
-shared_ptr<ai::State> constructState(string funcName, string stateName, ValueMap args)
+shared_ptr<ai::Function> constructState(string funcName, string stateName, ValueMap args)
 {
-	shared_ptr<ai::State> state = ai::State::constructState(stateName, args);
+	shared_ptr<ai::Function> state = ai::Function::constructState(stateName, args);
 	if (!state) {
 		log("%s: Unknown state class %s", funcName.c_str(), stateName.c_str());
 		return nullptr;
@@ -347,7 +347,7 @@ void setState(string objName, string stateName, ValueMap args)
 	StateMachineObject* smo = getFSMObject("setState", objName);
 
 	if (smo) {
-		shared_ptr<ai::State> state = constructState("setState", stateName, args);
+		shared_ptr<ai::Function> state = constructState("setState", stateName, args);
 
 		if (state)
 			smo->setState(state);
@@ -359,7 +359,7 @@ void pushState(string objName, string stateName, ValueMap args)
 	StateMachineObject* smo = getFSMObject("pushState", objName);
 
 	if (smo) {
-		shared_ptr<ai::State> state = constructState("pushState", stateName, args);
+		shared_ptr<ai::Function> state = constructState("pushState", stateName, args);
 
 		if (state)
 			smo->pushState(state);

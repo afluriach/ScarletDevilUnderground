@@ -44,16 +44,16 @@ float viewAngleToTarget(const GObject& agent, const GObject& target);
 
 class StateMachine;
 
-class State
+class Function
 {
 public:
 
-	inline virtual ~State() {}
+	inline virtual ~Function() {}
 
-    typedef function<shared_ptr<State>(const ValueMap&) > AdapterType;
-    static const unordered_map<string, State::AdapterType> adapters;
+    typedef function<shared_ptr<Function>(const ValueMap&) > AdapterType;
+    static const unordered_map<string, Function::AdapterType> adapters;
     
-    static shared_ptr<State> constructState(const string& type, const ValueMap& args);
+    static shared_ptr<Function> constructState(const string& type, const ValueMap& args);
 
 	inline virtual void onEnter(StateMachine& sm) {}
     inline virtual void onReturn(StateMachine& sm) {}
@@ -76,10 +76,10 @@ public:
     void onDetect(GObject* obj);
 	void onEndDetect(GObject* obj);
 
-	void setState(shared_ptr<State> newState);
+	void setState(shared_ptr<Function> newState);
 	void clearState();
     void clearSubstates();
-    void push(shared_ptr<State> newState);
+    void push(shared_ptr<Function> newState);
     void pop();
     
     inline unsigned int getFrame(){
@@ -87,14 +87,14 @@ public:
     }
     
 protected:
-    list<shared_ptr<State>> states;
+    list<shared_ptr<Function>> states;
     unsigned int frame;
 };
 
-class Submachine : public State{
+class Submachine : public Function{
 public:
     inline Submachine(StateMachine fsm) : fsm(fsm) {}
-    inline Submachine(shared_ptr<State> startState, GObject* agent) : fsm(agent) {
+    inline Submachine(shared_ptr<Function> startState, GObject* agent) : fsm(agent) {
         fsm.push(startState);
     }
     
@@ -107,9 +107,9 @@ public:
     StateMachine fsm;
 };
 
-class CompoundState : public State{
+class CompoundState : public Function{
 public:
-    inline CompoundState(shared_ptr<State> stateA, shared_ptr<State> stateB) :
+    inline CompoundState(shared_ptr<Function> stateA, shared_ptr<Function> stateB) :
     stateA(stateA), stateB(stateB)
     {}
         
@@ -120,12 +120,12 @@ public:
 	virtual void onDetect(StateMachine& sm, GObject* obj);
 	virtual void onEndDetect(StateMachine& sm, GObject* obj);
 protected:
-    shared_ptr<State> stateA, stateB;
+    shared_ptr<Function> stateA, stateB;
 };
 
-class Detect : public State{
+class Detect : public Function{
 public:
-    typedef function<shared_ptr<State>(GObject* detected)> Generator;
+    typedef function<shared_ptr<Function>(GObject* detected)> Generator;
 
     inline Detect(const string& target_name, Generator nextState) :
     target_name(target_name),
@@ -138,7 +138,7 @@ protected:
     Generator nextState;
 };
 
-class Seek : public State {
+class Seek : public Function {
 public:
     inline Seek(GObject* target) : target(target)
     {}
@@ -150,7 +150,7 @@ protected:
 	gobject_ref target;
 };
 
-class MaintainDistance : public State {
+class MaintainDistance : public Function {
 public:
     inline MaintainDistance(gobject_ref target, float distance, float margin) :
     target(target),
@@ -164,7 +164,7 @@ protected:
     float distance, margin;
 };
 
-class Flee : public State {
+class Flee : public Function {
 public:
     inline Flee(GObject* target, float distance) :
     target(target),
@@ -184,7 +184,7 @@ public:
     inline DetectAndSeekPlayer() :
     Detect(
         "player",
-        [](GObject* target) -> shared_ptr<State>{
+        [](GObject* target) -> shared_ptr<Function>{
             return make_shared<Seek>(target);
         }
     )
@@ -192,7 +192,7 @@ public:
     
 };
 
-class IdleWait : public State{
+class IdleWait : public Function{
     public:
         IdleWait(const ValueMap& args);
 
@@ -205,7 +205,7 @@ class IdleWait : public State{
         unsigned int remaining;
 };
 
-class MoveToPoint : public State{
+class MoveToPoint : public Function{
 public:
     MoveToPoint(const ValueMap& args);
 
@@ -218,7 +218,7 @@ protected:
     SpaceVect target;
 };
 
-class FollowPath : public State {
+class FollowPath : public Function {
 public:
 	FollowPath(const ValueMap& args);
 	inline FollowPath(Path path, bool loop) :
@@ -233,7 +233,7 @@ protected:
 	bool loop = false;
 };
 
-class Wander : public State {
+class Wander : public Function {
 public:
     Wander(const ValueMap& args);
 
@@ -254,7 +254,7 @@ public:
         make_shared<Submachine>(make_shared<Wander>(), agent),
         make_shared<Detect>(
             "player",
-            [=](GObject* target) -> shared_ptr<State>{
+            [=](GObject* target) -> shared_ptr<Function>{
                 return make_shared<Flee>(target, distance);
             }
         )
@@ -270,7 +270,7 @@ public:
     
 };
 
-class Operation : public State {
+class Operation : public Function {
 public:
     inline Operation(std::function<void(StateMachine&)> op) :
     op(op)
@@ -285,7 +285,7 @@ protected:
     std::function<void(StateMachine&)> op;
 };
 
-class Cast : public State {
+class Cast : public Function {
 public:
     Cast(string _spell_name, const ValueMap& _spell_args);
 
@@ -297,7 +297,7 @@ protected:
     ValueMap spell_args;
 };
 
-class FacerState : public State {
+class FacerState : public Function {
 public:
 	virtual void onEnter(StateMachine& sm);
 	virtual void update(StateMachine& sm);
@@ -305,7 +305,7 @@ protected:
 	gobject_ref target = nullptr;
 };
 
-class FollowerState : public State {
+class FollowerState : public Function {
 public:
 	virtual void onEnter(StateMachine& sm);
 	virtual void update(StateMachine& sm);
@@ -313,13 +313,13 @@ protected:
 	gobject_ref target = nullptr;
 };
 
-class SakuyaBase : public State {
+class SakuyaBase : public Function {
 public:
 	virtual void onEnter(StateMachine& sm);
 	virtual void update(StateMachine& sm);
 };
 
-class IllusionDash : public State {
+class IllusionDash : public Function {
 public:
     IllusionDash(SpaceVect _target);
     IllusionDash(const ValueMap& args);
