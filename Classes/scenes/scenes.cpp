@@ -12,6 +12,7 @@
 #include "App.h"
 #include "controls.h"
 #include "Dialog.hpp"
+#include "functional.hpp"
 #include "GSpace.hpp"
 #include "LuaAPI.hpp"
 #include "macros.h"

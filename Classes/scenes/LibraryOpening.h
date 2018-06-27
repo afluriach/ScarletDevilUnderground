@@ -11,9 +11,9 @@
 
 #include "App.h"
 #include "Dialog.hpp"
+#include "functional.hpp"
 #include "multifunction.h"
 #include "scenes.h"
-#include "util.h"
 
 class LibraryOpening : public GScene
 {

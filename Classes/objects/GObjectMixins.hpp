@@ -9,6 +9,7 @@
 #ifndef GObjectMixins_hpp
 #define GObjectMixins_hpp
 
+#include "functional.hpp"
 #include "GObject.hpp"
 #include "multifunction.h"
 #include "util.h"

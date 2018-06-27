@@ -2,11 +2,11 @@
 
 #include "App.h"
 #include "controls.h"
+#include "functional.hpp"
 #include "macros.h"
 #include "menu.h"
 #include "GState.hpp"
 #include "scenes.h"
-#include "util.h"
 
 App* app;
 

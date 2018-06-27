@@ -10,6 +10,7 @@
 
 #include "App.h"
 #include "controls.h"
+#include "functional.hpp"
 #include "macros.h"
 #include "scenes.h"
 

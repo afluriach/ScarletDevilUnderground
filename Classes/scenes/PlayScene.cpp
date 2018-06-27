@@ -11,6 +11,7 @@
 #include "App.h"
 #include "controls.h"
 #include "Dialog.hpp"
+#include "functional.hpp"
 #include "GObject.hpp"
 #include "Graphics.h"
 #include "GSpace.hpp"

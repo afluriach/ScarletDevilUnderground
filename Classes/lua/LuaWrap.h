@@ -9,6 +9,7 @@
 #ifndef LuaWrap_h
 #define LuaWrap_h
 
+#include "functional.hpp"
 #include "LuaConvert.h"
 #include "util.h"
 
