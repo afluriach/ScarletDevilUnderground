@@ -113,6 +113,10 @@ public:
     
     string getStack();
     
+    inline string getMainFuncName(){
+        return call_stack.front()->getName();
+    }
+    
     inline void setResetOnBlock(bool reset){
         resetOnBlock = reset;
     }
@@ -139,6 +143,8 @@ public:
 	void addThread(shared_ptr<Thread> thread);
     void addThread(shared_ptr<Function> threadMain);
     void removeThread(unsigned int uuid);
+    //Remove thread(s) that have the given main function.
+    void removeThread(const string& mainName);
 	void removeCompletedThreads();
 
     void onDetect(GObject* obj);

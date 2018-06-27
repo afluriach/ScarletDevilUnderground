@@ -370,6 +370,35 @@ void printFSM(string name)
     }
 }
 
+unsigned int addThread(string objName, string mainFuncName, ValueMap args)
+{
+    StateMachineObject* smo = getFSMObject("addThread", objName);
+    
+    if(smo){
+        shared_ptr<ai::Function> f = constructState("addThread", mainFuncName, args);
+        smo->addThread(f);
+    }
+}
+
+void removeThread(string objName, unsigned int uuid)
+{
+    StateMachineObject* smo = getFSMObject("printFMS",objName);
+
+    if(smo){
+        smo->removeThread(uuid);
+    }
+}
+
+void removeThreadByName(string objName, string threadFuncName)
+{
+    StateMachineObject* smo = getFSMObject("printFMS",objName);
+
+    if(smo){
+        smo->removeThread(threadFuncName);
+    }
+}
+
+
 ///////////////////////////////////////////////////////////////////
 
 #define make_wrapper(name) \
@@ -437,6 +466,9 @@ make_wrapper(getPath)
 make_wrapper(runScene)
 
 make_wrapper(printFSM)
+make_wrapper(addThread)
+make_wrapper(removeThread)
+make_wrapper(removeThreadByName)
 
 //Utility functions not specifically created for the scripting API
 make_wrapper(toDirection)
@@ -517,6 +549,9 @@ void Inst::installWrappers()
     install_wrapper(runScene)
     
     install_wrapper(printFSM)
+    install_wrapper(addThread)
+    install_wrapper(removeThread)
+    install_wrapper(removeThreadByName)
     
     //Utility functions not specifically created for the scripting API
     install_wrapper(toDirection)

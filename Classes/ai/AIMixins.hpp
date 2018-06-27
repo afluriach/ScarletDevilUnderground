@@ -28,6 +28,14 @@ public:
 		fsm.addThread(threadMain);
 	}
     
+    inline void removeThread(unsigned int uuid){
+        fsm.removeThread(uuid);
+    }
+
+    inline void removeThread(const string& name){
+        fsm.removeThread(name);
+    }
+    
     inline void printFSM(){
         log("%s", fsm.toString().c_str());
     }

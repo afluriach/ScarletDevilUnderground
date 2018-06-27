@@ -322,6 +322,22 @@ void StateMachine::removeThread(unsigned int uuid)
     }
 }
 
+void StateMachine::removeThread(const string& mainName)
+{
+    list<unsigned int> toRemove;
+
+    for(auto it = current_threads.begin(); it != current_threads.end(); ++it)
+    {
+        if(it->second->getMainFuncName() == mainName){
+            toRemove.push_back(it->second->uuid);
+        }
+    }
+    
+    BOOST_FOREACH(unsigned int uuid,toRemove){
+        removeThread(uuid);
+    }
+}
+
 void StateMachine::removeCompletedThreads()
 {
     vector<unsigned int> toRemove;
