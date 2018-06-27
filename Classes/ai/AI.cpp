@@ -146,6 +146,8 @@ shared_ptr<Function> Function::constructState(const string& type, const ValueMap
     else return nullptr;
 }
 
+unsigned int Thread::nextUUID = 1;
+
 Thread::Thread(shared_ptr<Function> threadMain, StateMachine* sm) :
 Thread(threadMain, sm, 0, bitset<lockCount>())
 {
@@ -157,6 +159,7 @@ Thread::Thread(
     priority_type priority,
     bitset<lockCount> lockMask
 ) :
+uuid(nextUUID++),
 priority(priority),
 lockMask(lockMask),
 sm(sm)
@@ -239,55 +242,53 @@ void StateMachine::update()
     
 	removeCompletedThreads();
     
-    //maintain Thread ordering according to priority
-    sort(
-        current_threads.begin(),
-        current_threads.end(),
-        [](shared_ptr<Thread> a, shared_ptr<Thread> b) -> bool{
-            return a->priority > b->priority;
-        }
-    );
-    
-
-	BOOST_FOREACH(shared_ptr<Thread> t, current_threads)
-	{
-		crntThread = t.get();
-        //Take union of thread locks & current function locks
-        bitset<lockCount> lockMask = crntThread->lockMask | crntThread->call_stack.back()->getLockMask();
-        
-        if(!(locks & lockMask).any() )
+    for(auto priority_it = threads_by_priority.rbegin(); priority_it != threads_by_priority.rend(); ++priority_it)
+    {
+        BOOST_FOREACH(unsigned int uuid, priority_it->second)
         {
-            //The current function in this thread does not require a lock that has
-            //already been acquired this frame.
+            crntThread = current_threads[uuid].get();
             
-            locks |= lockMask;
+            //Take union of thread locks & current function locks
+            bitset<lockCount> lockMask = crntThread->lockMask | crntThread->call_stack.back()->getLockMask();
             
-            t->update(*this);
-        }
-        else
-        {
-            //Call the thread onDelay if there was a conflict with the thread
-            //lock bits.
-            if((locks & crntThread->lockMask).any()){
-                crntThread->onDelay(*this);
+            if(!(locks & lockMask).any() )
+            {
+                //The current function in this thread does not require a lock that has
+                //already been acquired this frame.
+                
+                locks |= lockMask;
+                
+                crntThread->update(*this);
             }
-            if((locks & crntThread->call_stack.back()->getLockMask()).any()){
-                crntThread->call_stack.back()->onDelay(*this);
+            else
+            {
+                //Call the thread onDelay if there was a conflict with the thread
+                //lock bits.
+                if((locks & crntThread->lockMask).any()){
+                    crntThread->onDelay(*this);
+                }
+                if((locks & crntThread->call_stack.back()->getLockMask()).any()){
+                    crntThread->call_stack.back()->onDelay(*this);
+                }
             }
+            crntThread = nullptr;
         }
-
-	}
-	crntThread = nullptr;
+    }
 }
 
 void StateMachine::addThread(shared_ptr<Thread> thread)
 {
-    current_threads.push_back(thread);
+    current_threads[thread->uuid] = thread;
+    
+    if(threads_by_priority.find(thread->priority) == threads_by_priority.end()){
+        threads_by_priority[thread->priority] = list<unsigned int>();
+    }
+    threads_by_priority[thread->priority].push_back(thread->uuid);
 }
 
 void StateMachine::addThread(shared_ptr<Function> threadMain)
 {
-    current_threads.push_back(make_shared<Thread>(
+   addThread(make_shared<Thread>(
         threadMain,
         this,
         9,
@@ -295,30 +296,45 @@ void StateMachine::addThread(shared_ptr<Function> threadMain)
     ));
 }
 
+void StateMachine::removeThread(unsigned int uuid)
+{
+    if(current_threads.find(uuid) != current_threads.end()){
+        auto t = current_threads[uuid];
+        threads_by_priority[t->priority].remove(uuid);
+        current_threads.erase(uuid);
+    }
+}
+
 void StateMachine::removeCompletedThreads()
 {
-	remove_if(
-        current_threads.begin(),
-        current_threads.end(),
-		[](shared_ptr<Thread> t) { return t->completed; }
-	);
+    vector<unsigned int> toRemove;
+    
+    for(auto it = current_threads.begin(); it != current_threads.end(); ++it){
+        if(it->second->completed){
+            toRemove.push_back(it->first);
+        }
+    }
+    
+    BOOST_FOREACH(unsigned int uuid,toRemove){
+        removeThread(uuid);
+    }
 }
 
 void StateMachine::onDetect(GObject* obj)
 {
-	BOOST_FOREACH(shared_ptr<Thread> t, current_threads)
+    for(auto it = current_threads.begin(); it != current_threads.end(); ++it)
 	{
-		crntThread = t.get();
-		t->onDetect(*this,obj);
+		crntThread = it->second.get();
+		it->second->onDetect(*this,obj);
 	}
 	crntThread = nullptr;
 }
 void StateMachine::onEndDetect(GObject* obj)
 {
-	BOOST_FOREACH(shared_ptr<Thread> t, current_threads)
+    for(auto it = current_threads.begin(); it != current_threads.end(); ++it)
 	{
-		crntThread = t.get();
-		t->onEndDetect(*this,obj);
+		crntThread = it->second.get();
+		it->second->onEndDetect(*this,obj);
 	}
 	crntThread = nullptr;
 }

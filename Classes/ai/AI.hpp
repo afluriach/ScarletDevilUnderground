@@ -86,6 +86,8 @@ public:
     typedef int priority_type;
     
 	friend class StateMachine;
+    
+    const unsigned int uuid;
 
 	Thread(shared_ptr<Function> threadMain, StateMachine* sm);
 	Thread(
@@ -116,6 +118,7 @@ protected:
     bool resetOnBlock = false;
     priority_type priority = 0;
     bitset<lockCount> lockMask;
+    static unsigned int nextUUID;
 };
 
 class StateMachine
@@ -129,6 +132,7 @@ public:
 
 	void addThread(shared_ptr<Thread> thread);
     void addThread(shared_ptr<Function> threadMain);
+    void removeThread(unsigned int uuid);
 	void removeCompletedThreads();
 
     void onDetect(GObject* obj);
@@ -147,7 +151,8 @@ public:
 	}
     
 protected:
-	vector<shared_ptr<Thread>> current_threads;
+	map<unsigned int,shared_ptr<Thread>> current_threads;
+    map<int, list<unsigned int>> threads_by_priority;
     unsigned int frame;
 	Thread* crntThread = nullptr;
 };
