@@ -56,6 +56,8 @@ constexpr size_t lockCount = to_size_t(ResourceLock::end);
 
 class StateMachine;
 
+#define FuncGetName(cls) inline virtual string getName() const {return #cls;}
+
 class Function
 {
 public:
@@ -76,6 +78,8 @@ public:
 
 	inline virtual void onDetect(StateMachine& sm, GObject* obj) {}
 	inline virtual void onEndDetect(StateMachine& sm, GObject* obj) {}
+    
+    inline virtual string getName() const {return "Function";}
     
     inline virtual bitset<lockCount> getLockMask() { return bitset<lockCount>();}
 };
@@ -106,6 +110,8 @@ public:
 
 	void onDetect(StateMachine& sm, GObject* obj);
 	void onEndDetect(StateMachine& sm, GObject* obj);
+    
+    string getStack();
     
     inline void setResetOnBlock(bool reset){
         resetOnBlock = reset;
@@ -150,6 +156,8 @@ public:
 		return crntThread;
 	}
     
+    string toString();
+    
 protected:
 	map<unsigned int,shared_ptr<Thread>> current_threads;
     map<int, list<unsigned int>> threads_by_priority;
@@ -167,6 +175,8 @@ public:
     {}
 
     virtual void onDetect(StateMachine& sm, GObject* obj);
+    
+    FuncGetName(Detect)
 protected:
     string target_name;
     Generator nextState;
@@ -184,6 +194,7 @@ public:
     inline virtual bitset<lockCount> getLockMask() {
         return make_enum_bitfield(ResourceLock::movement);
     }
+    FuncGetName(Seek)
 protected:
 	gobject_ref target;
 };
@@ -201,6 +212,8 @@ public:
     inline virtual bitset<lockCount> getLockMask() {
         return make_enum_bitfield(ResourceLock::movement);
     }
+    
+    FuncGetName(MaintainDistance)
 protected:
 	gobject_ref target;
     float distance, margin;
@@ -220,6 +233,8 @@ public:
     inline virtual bitset<lockCount> getLockMask() {
         return make_enum_bitfield(ResourceLock::movement);
     }
+    
+    FuncGetName(Flee)
 protected:
 	gobject_ref target;
     float distance;
@@ -236,6 +251,7 @@ public:
     )
     {}
     
+    FuncGetName(DetectAndSeekPlayer)
 };
 
 class IdleWait : public Function{
@@ -251,6 +267,8 @@ class IdleWait : public Function{
         inline virtual bitset<lockCount> getLockMask() {
             return make_enum_bitfield(ResourceLock::movement);
         }
+    
+        FuncGetName(IdleWait)
     private:
         unsigned int remaining;
 };
@@ -268,6 +286,7 @@ public:
     inline virtual bitset<lockCount> getLockMask() {
         return make_enum_bitfield(ResourceLock::movement);
     }
+    FuncGetName(MoveToPoint)
 protected:
     SpaceVect target;
 };
@@ -285,7 +304,7 @@ public:
     inline virtual bitset<lockCount> getLockMask() {
         return make_enum_bitfield(ResourceLock::movement);
     }
-    
+    FuncGetName(FollowPath)
 protected:
 	Path path;
 	size_t currentTarget = 0;
@@ -304,7 +323,7 @@ public:
     inline virtual bitset<lockCount> getLockMask() {
         return make_enum_bitfield(ResourceLock::movement);
     }
-    
+    FuncGetName(Wander)
 protected:
     float minWait, maxWait;
     float minDist, maxDist;
@@ -320,7 +339,7 @@ public:
         op(sm);
         sm.pop();
     }
-    
+    FuncGetName(Operation)
 protected:
     std::function<void(StateMachine&)> op;
 };
@@ -332,6 +351,8 @@ public:
     virtual void onEnter(StateMachine& sm);
     virtual void update(StateMachine& sm);
     virtual void onExit(StateMachine& sm);
+    
+    FuncGetName(Cast)
 protected:
     string spell_name;
     ValueMap spell_args;
@@ -341,6 +362,7 @@ class FacerMain : public Function {
 public:
 	virtual void onEnter(StateMachine& sm);
 	virtual void update(StateMachine& sm);
+    FuncGetName(FacerMain)
 protected:
 	gobject_ref target = nullptr;
 };
@@ -349,6 +371,7 @@ class FollowerMain : public Function {
 public:
 	virtual void onEnter(StateMachine& sm);
 	virtual void update(StateMachine& sm);
+    FuncGetName(FollowerMain)
 protected:
 	gobject_ref target = nullptr;
 };
@@ -357,6 +380,7 @@ class SakuyaMain : public Function {
 public:
 	virtual void onEnter(StateMachine& sm);
 	virtual void update(StateMachine& sm);
+    FuncGetName(SakuyaMain)
 };
 
 class IllusionDash : public Function {
@@ -369,6 +393,7 @@ public:
 
 	virtual void onEnter(StateMachine& sm);
     virtual void update(StateMachine& sm);
+    FuncGetName(IllusionDash)
 protected:
     SpaceVect target;
 };

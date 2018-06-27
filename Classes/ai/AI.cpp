@@ -230,6 +230,23 @@ void Thread::onEndDetect(StateMachine& sm, GObject* obj)
 	}
 }
 
+string Thread::getStack()
+{
+    stringstream ss;
+    
+    if(call_stack.size() == 0)
+        return "<empty>";
+    
+    auto it = call_stack.begin();
+    int i = 0;
+    for(; i < call_stack.size()-1; ++i, ++it){
+        ss << (*it)->getName() << " -> ";
+    }
+    ss << call_stack.back()->getName();
+    
+    return ss.str();
+}
+
 StateMachine::StateMachine(GObject *const agent) :
 agent(agent)
 {
@@ -347,6 +364,20 @@ void StateMachine::push(shared_ptr<Function> f)
 void StateMachine::pop()
 {
 	crntThread->pop();
+}
+
+string StateMachine::toString()
+{
+    stringstream ss;
+    
+    ss << "StateMachine for " << agent->getName() << ":\n";
+    
+    for(auto it = current_threads.begin(); it != current_threads.end(); ++it)
+    {
+        Thread* t = it->second.get();
+        ss << "thread " << t->uuid << ", pri " << t->priority << ", stack:  " << t->getStack() << "\n";
+    }
+    return ss.str();
 }
 
 void Detect::onDetect(StateMachine& sm, GObject* obj)

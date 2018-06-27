@@ -27,6 +27,10 @@ public:
 	inline void addThread(shared_ptr<ai::Function> threadMain) {
 		fsm.addThread(threadMain);
 	}
+    
+    inline void printFSM(){
+        log("%s", fsm.toString().c_str());
+    }
 
 protected:
 	ai::StateMachine fsm;

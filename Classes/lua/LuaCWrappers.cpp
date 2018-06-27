@@ -361,6 +361,15 @@ shared_ptr<ai::Function> constructState(string funcName, string stateName, Value
 	return state;
 }
 
+void printFSM(string name)
+{
+    StateMachineObject* smo = getFSMObject("printFMS",name);
+    
+    if(smo){
+        smo->printFSM();
+    }
+}
+
 ///////////////////////////////////////////////////////////////////
 
 #define make_wrapper(name) \
@@ -426,6 +435,8 @@ make_wrapper(getInventoryContents)
 make_wrapper(getPath)
 
 make_wrapper(runScene)
+
+make_wrapper(printFSM)
 
 //Utility functions not specifically created for the scripting API
 make_wrapper(toDirection)
@@ -504,6 +515,8 @@ void Inst::installWrappers()
     install_wrapper(getPath)
     
     install_wrapper(runScene)
+    
+    install_wrapper(printFSM)
     
     //Utility functions not specifically created for the scripting API
     install_wrapper(toDirection)
