@@ -33,6 +33,8 @@ float rectangleMomentOfInertia(float mass, const SpaceVect& dim);
 Scene* crntScene();
 
 void printValueMap(const ValueMap& obj);
+bool validateStringArg(const ValueMap& args, string name);
+
 float getFloat(const ValueMap& obj, const string& name);
 float getFloatOrDefault(const ValueMap& obj, const string& name, float def);
 

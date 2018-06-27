@@ -33,6 +33,13 @@ void printValueMap(const ValueMap& obj)
     }
 }
 
+bool validateStringArg(const ValueMap& args, string name)
+{
+    auto it = args.find(name);
+    
+    return ( it != args.end() && args.at(name).isString() && args.at(name).asString() != "" );
+}
+
 float dirToPhysicsAngle(Direction d)
 {
     if(d == Direction::none) return 0.0f;

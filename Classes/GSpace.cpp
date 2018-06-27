@@ -86,8 +86,14 @@ void GSpace::update()
 }
 
 //BEGIN OBJECT MANIPULATION
+
+const bool GSpace::logObjectArgs = false;
+
 GObject* GSpace::addObject(const ValueMap& obj)
 {
+    if(logObjectArgs)
+        printValueMap(obj);
+
     string type = obj.at("type").asString();
     GObject* gobj = GObject::constructByType(type, obj);
     

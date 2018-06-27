@@ -23,6 +23,21 @@ namespace Lua{
 unordered_map<string, Class> Class::classes;
 bool Class::init = false;
 
+GObject* createObject(ValueMap args)
+{
+    if(!app->space) throw lua_runtime_error("createObject: Cannot access objects in this scene.");
+    
+    GObject* gobj = app->space->addObject(args);
+    return gobj;
+}
+
+void removeObject(string name)
+{
+    if(!app->space) throw lua_runtime_error("removeObject: Cannot access objects in this scene.");
+    
+    app->space->removeObject(name);
+}
+
 void setpos(string name, float x, float y)
 {
     GObject* obj = app->space->getObject(name);
@@ -49,12 +64,11 @@ void sv(float v, float x, unsigned int y)
     log("%f, %f, %ud", v, x,y);
 }
 
-int getObjCount()
+int getObjectCount()
 {
-    GSpace* space = app->space;
-    
-    if(!space) return -1;
-    return space->getObjectCount();
+    if(!app->space) throw lua_runtime_error("createObject: Cannot access objects in this scene.");
+        
+    return app->space->getObjectCount();
 }
 
 unordered_map<int, string> getUUIDNameMap()
@@ -308,6 +322,11 @@ vector<pair<float,float>> getPath(pair<int,int> start, pair<int,int> end)
     return result;
 }
 
+void runScene(string name)
+{
+    GScene::runScene(name);
+}
+
 StateMachineObject* getFSMObject(string funcName,string objName)
 {
 	if (!app->space)
@@ -370,11 +389,12 @@ int name ## _wrapper(lua_State* L) \
 #define install_method_wrapper(cls,name) installFunction(name ## _wrapper, #cls "_" #name);
 #define add_method(cls,name) Class::addMethod(#cls, #name, name ## _wrapper);
 
-
+make_wrapper(createObject)
+make_wrapper(removeObject)
 make_wrapper(setpos)
 make_wrapper(setvel)
 make_wrapper(sv)
-make_wrapper(getObjCount)
+make_wrapper(getObjectCount)
 make_wrapper(getUUIDNameMap)
 make_wrapper(printMap)
 make_wrapper(addUpdate)
@@ -404,6 +424,8 @@ make_wrapper(printGlDebug)
 make_wrapper(save)
 make_wrapper(getInventoryContents)
 make_wrapper(getPath)
+
+make_wrapper(runScene)
 
 //Utility functions not specifically created for the scripting API
 make_wrapper(toDirection)
@@ -439,10 +461,12 @@ void Class::makeClasses()
 
 void Inst::installWrappers()
 {
+    install_wrapper(createObject)
+    install_wrapper(removeObject)
     install_wrapper(setpos)
     install_wrapper(setvel)
     install_wrapper(sv)
-    install_wrapper(getObjCount)
+    install_wrapper(getObjectCount)
     install_wrapper(getUUIDNameMap)
     install_wrapper(printMap)
     install_wrapper(addUpdate)
@@ -478,6 +502,8 @@ void Inst::installWrappers()
     install_wrapper(getInventoryContents)
     
     install_wrapper(getPath)
+    
+    install_wrapper(runScene)
     
     //Utility functions not specifically created for the scripting API
     install_wrapper(toDirection)

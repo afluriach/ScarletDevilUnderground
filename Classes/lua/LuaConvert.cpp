@@ -187,7 +187,6 @@ ValueMap convert<ValueMap>::convertFromLua(const string& name, int argNum, LuaRe
             vm[key] = Value(lval.cast<double>());
         else if(lval.isString())
             vm[key] = Value(lval.tostring());
-        //The only compound data type currently expected is a Vector2.
         else if(lval.isTable())
         {
             vm[key] = convertFromLua(name+"."+key, argNum,lval);

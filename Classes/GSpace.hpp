@@ -38,6 +38,8 @@ private:
     IntVec2 spaceSize;
 //BEGIN OBJECT MANIPULATION
 public:
+    static const bool logObjectArgs;
+
     GObject* addObject(const ValueMap& obj);
     GObject* addObject(GObject*);
     void addObjects(const ValueVector& objs);
