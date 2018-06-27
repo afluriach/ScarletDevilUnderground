@@ -9,6 +9,8 @@
 #ifndef Graphics_h
 #define Graphics_h
 
+#include "types.h"
+
 class Cursor : public Node
 {
 public:
@@ -57,66 +59,14 @@ protected:
     virtual void drawShape();
 };
 
-class InvertedSprite : public Sprite
-{
-public:
-    inline static InvertedSprite* create(const std::string& filename){
-        InvertedSprite *sprite = new (std::nothrow) InvertedSprite();
-        if (sprite && sprite->initWithFile(filename))
-        {
-            sprite->autorelease();
-            return sprite;
-        }
-        CC_SAFE_DELETE(sprite);
-        return nullptr;
-    }
-
-    virtual inline string getShaderName() const{
-        return "inverted";
-    }
-};
-
-class HueShiftLeftSprite : public Sprite
-{
-public:
-    inline static HueShiftLeftSprite* create(const std::string& filename){
-        HueShiftLeftSprite *sprite = new (std::nothrow) HueShiftLeftSprite();
-        if (sprite && sprite->initWithFile(filename))
-        {
-            sprite->autorelease();
-            return sprite;
-        }
-        CC_SAFE_DELETE(sprite);
-        return nullptr;
-    }
-    virtual inline string getShaderName() const{
-        return "hue_shift_left";
-    }
-};
-
-class HueShiftRightSprite : public Sprite
-{
-public:
-    inline static HueShiftRightSprite* create(const std::string& filename){
-        HueShiftRightSprite *sprite = new (std::nothrow) HueShiftRightSprite();
-        if (sprite && sprite->initWithFile(filename))
-        {
-            sprite->autorelease();
-            return sprite;
-        }
-        CC_SAFE_DELETE(sprite);
-        return nullptr;
-    }
-
-    virtual inline string getShaderName() const{
-        return "hue_shift_right";
-    }
-};
-
 Action* flickerAction(float interval, float length, float opacity);
 Action* flickerTintAction(float interval, float length, Color3B tint);
 Action* tintTo(Color3B tint, float length);
 Action* motionBlurStretch(float duration, float angle, float opacity, float scale);
+
+Sprite* loadImageSprite(const string& resPath, GraphicsLayer sceneLayer, Layer* dest, const Vec2& pos, float zoom);
+
+Label* createTextLabel(const string& text, int size);
 
 cocos2d::CCSize getScreenSize();
 

@@ -58,12 +58,6 @@ void setvel(string name, float x, float y)
         throw runtime_error("setvel: " + name + " not found");
 }
 
-//just for testing
-void sv(float v, float x, unsigned int y)
-{
-    log("%f, %f, %ud", v, x,y);
-}
-
 int getObjectCount()
 {
     if(!app->space) throw lua_runtime_error("createObject: Cannot access objects in this scene.");
@@ -138,6 +132,23 @@ vector<string> getObjectNames()
 bool isValidObject(GObject* object)
 {
     return object != nullptr;
+}
+
+void setSpriteShader(string objName, string shaderName)
+{
+	if (!app->space)
+	{
+		log("setSpriteShader: GSpace is not available in this scene!");
+		return;
+	}
+
+	GObject* obj = app->space->getObject(objName);
+	if (!obj) {
+		log("setSpriteShader: object %s not found!",  objName.c_str());
+		return;
+	}
+
+    obj->setSpriteShader(shaderName);
 }
 
 void showHealth(bool val)
@@ -431,7 +442,6 @@ make_wrapper(createObject)
 make_wrapper(removeObject)
 make_wrapper(setpos)
 make_wrapper(setvel)
-make_wrapper(sv)
 make_wrapper(getObjectCount)
 make_wrapper(getUUIDNameMap)
 make_wrapper(printMap)
@@ -442,6 +452,7 @@ make_wrapper(setFullscreen)
 make_wrapper(getObjByName)
 make_wrapper(getObjectNames)
 make_wrapper(isValidObject)
+make_wrapper(setSpriteShader)
 make_wrapper(runscript)
 make_wrapper(showHealth)
 make_wrapper(setPlayerHealth)
@@ -508,7 +519,6 @@ void Inst::installWrappers()
     install_wrapper(removeObject)
     install_wrapper(setpos)
     install_wrapper(setvel)
-    install_wrapper(sv)
     install_wrapper(getObjectCount)
     install_wrapper(getUUIDNameMap)
     install_wrapper(printMap)
@@ -518,6 +528,8 @@ void Inst::installWrappers()
     install_wrapper(setFullscreen)
     install_wrapper(getObjByName)
     install_wrapper(getObjectNames)
+
+    install_wrapper(setSpriteShader)
 
     install_wrapper(isValidObject)
     install_wrapper(runscript)

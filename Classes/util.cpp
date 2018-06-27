@@ -12,8 +12,6 @@
 #include "macros.h"
 #include "util.h"
 
-const string defaultFont = "Arial";
-
 const float primaryAngles[4] = {0.0f, float_pi * 0.5f, float_pi, float_pi * 1.5f};
 
 Scene* crntScene()
@@ -103,24 +101,6 @@ SpaceVect toChipmunk(const Vec2& rhs)
 SpaceVect toChipmunk(const cocos2d::CCSize& rhs)
 {
     return SpaceVect(rhs.width, rhs.height);
-}
-
-Sprite* loadImageSprite(const string& resPath, GraphicsLayer sceneLayer, Layer* dest, const Vec2& pos, float zoom)
-{
-    Sprite* node = Sprite::create(resPath);
-    
-    if(node)
-        dest->positionAndAddNode(node,static_cast<int>(sceneLayer),pos, zoom);
-    else
-        log("loadImageSprite: sprite %s not loaded", resPath.c_str());
-
-    return node;
-}
-
-Label* createTextLabel(const string& text, int size)
-{
-    Label *l = Label::createWithSystemFont(text, defaultFont, size);
-    return l;
 }
 
 string getRealPath(const string& path)

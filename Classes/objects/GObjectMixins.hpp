@@ -142,6 +142,7 @@ public:
     void loadImageSprite(const string& resPath, GraphicsLayer sceneLayer, Layer* dest);
     void initializeGraphics(Layer* layer);
     void update();
+    virtual void setSpriteShader(const string& shaderName);
 };
 
 class LoopAnimationSprite : public virtual GObject, RegisterUpdate<LoopAnimationSprite>
@@ -176,6 +177,7 @@ public:
     void update();
     
     void setSprite(const string& name);
+    virtual void setSpriteShader(const string& shaderName);
     
     virtual void setAngle(float a);
     void setDirection(Direction d);

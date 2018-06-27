@@ -458,6 +458,13 @@ public:
     virtual void setOpacityModifyRGB(bool modify) override;
     virtual bool isOpacityModifyRGB() const override;
     /// @}
+    
+    virtual std::string getShaderName() const{
+        return GLProgram::SHADER_NAME_POSITION_TEXTURE_COLOR_NO_MVP;
+    }
+    
+    void setShader(const std::string& name);
+
 
 CC_CONSTRUCTOR_ACCESS:
 	/**
@@ -551,10 +558,6 @@ CC_CONSTRUCTOR_ACCESS:
      */
     virtual bool initWithFile(const std::string& filename, const CCRect& rect);
     
-    virtual std::string getShaderName() const{
-        return GLProgram::SHADER_NAME_POSITION_TEXTURE_COLOR_NO_MVP;
-    }
-
 protected:
 
     void updateColor() override;

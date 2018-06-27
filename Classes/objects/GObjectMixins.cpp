@@ -169,6 +169,16 @@ void ImageSprite::update()
     }
 }
 
+void ImageSprite::setSpriteShader(const string& shaderName)
+{
+    if(sprite != nullptr){
+        Sprite* s = dynamic_cast<Sprite*>(sprite);
+        if(s){
+            s->setShader(shaderName);
+        }
+    }
+}
+
 void LoopAnimationSprite::initializeGraphics(Layer* layer)
 {
     anim = TimedLoopAnimation::create();
@@ -216,6 +226,16 @@ void PatchConSprite::initializeGraphics(Layer* layer)
 void PatchConSprite::setSprite(const string& name)
 {
     animSprite->loadAnimation("sprites/"+name+".png");
+}
+
+void PatchConSprite::setSpriteShader(const string& shaderName)
+{
+    if(sprite != nullptr){
+        PatchConAnimation* p = dynamic_cast<PatchConAnimation*>(sprite);
+        if(p){
+            p->setSpriteShader(shaderName);
+        }
+    }
 }
 
 void PatchConSprite::update()

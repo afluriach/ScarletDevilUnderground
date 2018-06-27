@@ -64,6 +64,10 @@ public:
     
     CREATE_FUNC(PatchConAnimation);
     
+    inline void setSpriteShader(const string& shader){
+        sprite->setShader(shader);
+    }
+    
     void loadAnimation(const string& path);    
     void accumulate(float dx);
     

@@ -154,6 +154,10 @@ public:
     inline virtual float zoom() const {return 1.0f;}
     void updateSprite();
 
+    inline virtual void setSpriteShader(const string& shaderName){
+        log("GObject::setSpriteShader: virtual base, no implementation for %s!", name.c_str());
+    }
+
     //END GRAPHICS
 };
 

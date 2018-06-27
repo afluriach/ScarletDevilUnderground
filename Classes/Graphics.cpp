@@ -10,6 +10,8 @@
 
 #include "Graphics.h"
 
+const string defaultFont = "Arial";
+
 //Qualify Size for ambiguity.
 cocos2d::CCSize getScreenSize()
 {
@@ -142,4 +144,22 @@ Action* motionBlurStretch(float duration, float angle, float opacity, float scal
    );
     
     return sequence;
+}
+
+Sprite* loadImageSprite(const string& resPath, GraphicsLayer sceneLayer, Layer* dest, const Vec2& pos, float zoom)
+{
+    Sprite* node = Sprite::create(resPath);
+    
+    if(node)
+        dest->positionAndAddNode(node,static_cast<int>(sceneLayer),pos, zoom);
+    else
+        log("loadImageSprite: sprite %s not loaded", resPath.c_str());
+
+    return node;
+}
+
+Label* createTextLabel(const string& text, int size)
+{
+    Label *l = Label::createWithSystemFont(text, defaultFont, size);
+    return l;
 }

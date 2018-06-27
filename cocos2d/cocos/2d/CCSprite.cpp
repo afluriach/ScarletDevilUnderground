@@ -1062,4 +1062,10 @@ std::string Sprite::getDescription() const
     return StringUtils::format("<Sprite | Tag = %d, TextureID = %d>", _tag, texture_id );
 }
 
+void Sprite::setShader(const std::string& name)
+{
+    // shader state
+    setGLProgramState(GLProgramState::getOrCreateWithGLProgramName(name));
+}
+
 NS_CC_END
