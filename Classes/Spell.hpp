@@ -61,18 +61,7 @@ protected:
 //Size variation, similarly, and the two should be inversely correlated.
 class StarlightTyphoon : public Spell{
 public:
-    inline StarlightTyphoon(Spellcaster* caster, const ValueMap& args):
-    Spell(caster, args)
-    {
-        set_float_arg(count, 30.0f)
-        set_float_arg(duration, 1.0f)
-        set_float_arg(speed, 6.0f)
-        set_float_arg(width, float_pi / 4.0f)
-        set_float_arg(angle, 0.0f)
-        set_float_arg(radius, 0.2f)
-        
-        shotsPerFrame = count / duration * App::secondsPerFrame;
-    }
+    StarlightTyphoon(Spellcaster* caster, const ValueMap& args);
     void init();
     void update();
     void end();

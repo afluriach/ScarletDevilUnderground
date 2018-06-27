@@ -23,13 +23,17 @@ static Function::AdapterType consAdapter()
 #define entry_same(cls) entry(#cls, cls)
 
 const unordered_map<string, Function::AdapterType> Function::adapters = boost::assign::map_list_of
+    entry_same(Detect)
     entry_same(Seek)
+    entry_same(MaintainDistance)
     entry_same(Flee)
+    entry_same(DetectAndSeekPlayer)
     entry_same(IdleWait)
     entry_same(MoveToPoint)
 	entry_same(FollowPath)
     entry_same(Wander)
 
+    entry_same(Cast)
     entry_same(IllusionDash)
 ;
 

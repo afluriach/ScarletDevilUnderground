@@ -17,6 +17,7 @@
 #include "scenes.h"
 #include "Spell.hpp"
 #include "util.h"
+#include "value_map.hpp"
 
 //LOGIC MIXINS
 

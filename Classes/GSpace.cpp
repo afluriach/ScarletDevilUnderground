@@ -16,6 +16,7 @@
 #include "macros.h"
 #include "Player.hpp"
 #include "util.h"
+#include "value_map.hpp"
 #include "Wall.hpp"
 
 class RadarObject;

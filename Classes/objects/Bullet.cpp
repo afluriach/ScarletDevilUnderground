@@ -13,7 +13,7 @@
 #include "Bullet.hpp"
 #include "GSpace.hpp"
 #include "macros.h"
-#include "util.h"
+#include "value_map.hpp"
 
 const vector<string> StarBullet::colors = boost::assign::list_of
     ("blue")

@@ -32,12 +32,6 @@ float rectangleMomentOfInertia(float mass, const SpaceVect& dim);
 
 Scene* crntScene();
 
-void printValueMap(const ValueMap& obj);
-bool validateStringArg(const ValueMap& args, string name);
-
-float getFloat(const ValueMap& obj, const string& name);
-float getFloatOrDefault(const ValueMap& obj, const string& name, float def);
-
 Sprite* loadImageSprite(const string& resPath, GraphicsLayer sceneLayer, Layer* dest, const Vec2& pos, float zoom);
 
 Label* createTextLabel(const string& text, int size);
@@ -114,9 +108,6 @@ typename std::common_type<
   else
     return vmin(val1, std::forward<Ts>(vs)...);
 }
-
-void convertToUnitSpace(ValueMap& arg);
-cocos2d::CCRect getUnitspaceRectangle(const ValueMap& tileMapObj);
 
 void checkCreateProfileSubfolder();
 string getProfilePath();

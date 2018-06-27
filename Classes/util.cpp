@@ -21,24 +21,6 @@ Scene* crntScene()
     return Director::getInstance()->getRunningScene();
 }
 
-void printValueMap(const ValueMap& obj)
-{
-    foreach(ValueMap::value_type entryPair, obj)
-    {
-        log(
-            "%s: %s.",
-            entryPair.first.c_str(),
-            entryPair.second.asString().c_str()
-        );
-    }
-}
-
-bool validateStringArg(const ValueMap& args, string name)
-{
-    auto it = args.find(name);
-    
-    return ( it != args.end() && args.at(name).isString() && args.at(name).asString() != "" );
-}
 
 float dirToPhysicsAngle(Direction d)
 {
@@ -102,17 +84,6 @@ Direction stringToDirection(string str)
     return Direction::none;
 }
 
-float getFloat(const ValueMap& args, const string& name)
-{
-    return args.at(name).asFloat();
-}
-
-float getFloatOrDefault(const ValueMap& args, const string& name, float def)
-{
-    if(args.find(name) != args.end())
-        return getFloat(args,name);
-    else return def;
-}
 
 IntVec2 toIntVector(const cocos2d::CCSize& rhs)
 {
@@ -133,7 +104,6 @@ SpaceVect toChipmunk(const cocos2d::CCSize& rhs)
 {
     return SpaceVect(rhs.width, rhs.height);
 }
-
 
 Sprite* loadImageSprite(const string& resPath, GraphicsLayer sceneLayer, Layer* dest, const Vec2& pos, float zoom)
 {
@@ -168,41 +138,6 @@ vector<string> splitString(const string& input,const string& sep)
     vector<string> output;
     boost::split(output, input,boost::is_any_of(sep));
     return output;
-}
-
-void convertToUnitSpace(ValueMap& arg)
-{
-    SpaceVect cornerPos(getFloat(arg, "x"), getFloat(arg, "y"));
-    cornerPos *= App::tilesPerPixel;
-    
-    SpaceVect dim(getFloat(arg, "width"), getFloat(arg, "height"));
-    dim *= App::tilesPerPixel;
-    
-    SpaceVect center = SpaceVect(cornerPos);
-    center += (dim*0.5);
-    
-    arg.erase("x");
-    arg.erase("y");
-
-    arg.erase("width");
-    arg.erase("height");
-    
-    arg["pos_x"] = Value(center.x);
-    arg["pos_y"] = Value(center.y);
-    
-    arg["dim_x"] = Value(dim.x);
-    arg["dim_y"] = Value(dim.y);
-}
-
-cocos2d::CCRect getUnitspaceRectangle(const ValueMap& tileMapObj)
-{
-    SpaceVect cornerPos(getFloat(tileMapObj, "x"), getFloat(tileMapObj, "y"));
-    cornerPos *= App::tilesPerPixel;
-    
-    SpaceVect dim(getFloat(tileMapObj, "width"), getFloat(tileMapObj, "height"));
-    dim *= App::tilesPerPixel;
-    
-    return cocos2d::CCRect(cornerPos.x, cornerPos.y, dim.x, dim.y);
 }
 
 void checkCreateProfileSubfolder()

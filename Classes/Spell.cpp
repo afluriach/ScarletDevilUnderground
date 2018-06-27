@@ -13,6 +13,7 @@
 #include "macros.h"
 #include "Player.hpp"
 #include "Spell.hpp"
+#include "value_map.hpp"
 
 void FireStarburst::runPeriodic()
 {
@@ -81,6 +82,20 @@ void ScriptedSpell::update(){
 void ScriptedSpell::end(){
     ctx.callIfExistsNoReturn("exit");
 }
+
+StarlightTyphoon::StarlightTyphoon(Spellcaster* caster, const ValueMap& args):
+Spell(caster, args)
+{
+    set_float_arg(count, 30.0f)
+    set_float_arg(duration, 1.0f)
+    set_float_arg(speed, 6.0f)
+    set_float_arg(width, float_pi / 4.0f)
+    set_float_arg(angle, 0.0f)
+    set_float_arg(radius, 0.2f)
+    
+    shotsPerFrame = count / duration * App::secondsPerFrame;
+}
+
 
 void StarlightTyphoon::init()
 {

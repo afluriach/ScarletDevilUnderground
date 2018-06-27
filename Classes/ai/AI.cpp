@@ -16,6 +16,7 @@
 #include "GObjectMixins.hpp"
 #include "macros.h"
 #include "Spell.hpp"
+#include "value_map.hpp"
 
 namespace ai{
 
@@ -396,6 +397,16 @@ string StateMachine::toString()
     return ss.str();
 }
 
+Detect::Detect(const string& target_name, Generator nextState) :
+target_name(target_name),
+nextState(nextState)
+{}
+
+Detect::Detect(const ValueMap& args)
+{
+    target_name = getStringOrDefault(args, "target_name", "player");
+}
+
 void Detect::onDetect(StateMachine& sm, GObject* obj)
 {
     if(obj->getName() == target_name)
@@ -405,14 +416,7 @@ void Detect::onDetect(StateMachine& sm, GObject* obj)
 }
 
 Seek::Seek(const ValueMap& args) {
-    if(args.find("target_name") == args.end()){
-        log("Seek::Seek: target_name missing.");
-    }
-    target = app->space->getObject(args.at("target_name").asString());
-    
-    if(!target.isValid()){
-        log("Seek::Seek: target object %s not found.", args.at("target_name").asString().c_str() );
-    }
+    target = getObjRefFromStringField(args, "target_name");
 }
 
 void Seek::onEndDetect(StateMachine& sm, GObject* other)
@@ -436,6 +440,19 @@ void Seek::update(StateMachine& sm)
 	else{
 		sm.getCrntThread()->pop();
     }
+}
+
+MaintainDistance::MaintainDistance(gobject_ref target, float distance, float margin) :
+target(target),
+distance(distance),
+margin(margin)
+{}
+
+MaintainDistance::MaintainDistance(const ValueMap& args)
+{
+    target = getObjRefFromStringField(args, "target");
+    distance = getFloat(args, "distance");
+    margin = getFloat(args, "margin");
 }
 
 void MaintainDistance::update(StateMachine& sm)
@@ -503,6 +520,19 @@ void Flee::update(StateMachine& sm)
     }
 
 }
+
+DetectAndSeekPlayer::DetectAndSeekPlayer() :
+Detect(
+    "player",
+    [](GObject* target) -> shared_ptr<Function>{
+        return make_shared<Seek>(target);
+    }
+)
+{}
+
+DetectAndSeekPlayer::DetectAndSeekPlayer(const ValueMap& args) :
+DetectAndSeekPlayer()
+{}
 
 IdleWait::IdleWait(const ValueMap& args)
 {
@@ -660,6 +690,13 @@ Cast::Cast(string _spell_name, const ValueMap& _spell_args) :
 spell_name(_spell_name),
 spell_args(_spell_args)
 {}
+
+Cast::Cast(const ValueMap& args)
+{
+    spell_name = getStringOrDefault(args, "spell_name", "");
+    spell_args = getMap(args, "spell_args");
+}
+
 
 void Cast::onEnter(StateMachine& sm)
 {

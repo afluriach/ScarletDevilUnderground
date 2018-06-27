@@ -12,6 +12,7 @@
 #include "GObject.hpp"
 #include "LuaAPI.hpp"
 #include "util.h"
+#include "value_map.hpp"
 
 unsigned int GObject::nextUUID = 1;
 

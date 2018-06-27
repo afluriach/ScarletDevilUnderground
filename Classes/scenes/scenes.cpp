@@ -18,6 +18,7 @@
 #include "PlayScene.hpp"
 #include "scenes.h"
 #include "types.h"
+#include "value_map.hpp"
 
 GScene* GScene::crntScene;
 string GScene::crntSceneName;

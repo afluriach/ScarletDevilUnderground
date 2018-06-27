@@ -17,6 +17,7 @@
 #include "macros.h"
 #include "multifunction.h"
 #include "PlayScene.hpp"
+#include "value_map.hpp"
 
 void printGroup(TMXObjectGroup* group)
 {

@@ -175,10 +175,8 @@ class Detect : public Function{
 public:
     typedef function<shared_ptr<Function>(GObject* detected)> Generator;
 
-    inline Detect(const string& target_name, Generator nextState) :
-    target_name(target_name),
-    nextState(nextState)
-    {}
+    Detect(const string& target_name, Generator nextState);
+    Detect(const ValueMap& args);
 
     virtual void onDetect(StateMachine& sm, GObject* obj);
     
@@ -207,11 +205,8 @@ protected:
 
 class MaintainDistance : public Function {
 public:
-    inline MaintainDistance(gobject_ref target, float distance, float margin) :
-    target(target),
-    distance(distance),
-    margin(margin)
-    {}
+    MaintainDistance(gobject_ref target, float distance, float margin);
+    MaintainDistance(const ValueMap& args);
     
 	virtual void update(StateMachine& sm);
     
@@ -248,14 +243,8 @@ protected:
 
 class DetectAndSeekPlayer : public Detect{
 public:
-    inline DetectAndSeekPlayer() :
-    Detect(
-        "player",
-        [](GObject* target) -> shared_ptr<Function>{
-            return make_shared<Seek>(target);
-        }
-    )
-    {}
+    DetectAndSeekPlayer();
+    DetectAndSeekPlayer(const ValueMap& args);
     
     FuncGetName(DetectAndSeekPlayer)
 };
@@ -353,6 +342,7 @@ protected:
 class Cast : public Function {
 public:
     Cast(string _spell_name, const ValueMap& _spell_args);
+    Cast(const ValueMap& _spell_args);
 
     virtual void onEnter(StateMachine& sm);
     virtual void update(StateMachine& sm);

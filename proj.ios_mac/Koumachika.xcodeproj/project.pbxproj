@@ -158,6 +158,8 @@
 		E2E01EEE1C1DCA0D00330904 /* AI.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E2E01EEB1C1DCA0D00330904 /* AI.cpp */; };
 		E2E846B61C16201F00E5ADBC /* HUD.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E2E846B41C16201F00E5ADBC /* HUD.cpp */; };
 		E2E846B71C16201F00E5ADBC /* HUD.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E2E846B41C16201F00E5ADBC /* HUD.cpp */; };
+		E2FB274A20E42CCA0035A5AF /* value_map.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E2FB274820E42CCA0035A5AF /* value_map.cpp */; };
+		E2FB274B20E436010035A5AF /* value_map.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E2FB274820E42CCA0035A5AF /* value_map.cpp */; };
 		E2FC5A292097FBF200DA35D7 /* libglfw3.a in Frameworks */ = {isa = PBXBuildFile; fileRef = E2FC59FF2097FB5800DA35D7 /* libglfw3.a */; };
 /* End PBXBuildFile section */
 
@@ -372,6 +374,8 @@
 		E2E01EEC1C1DCA0D00330904 /* AI.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = AI.hpp; path = ../Classes/ai/AI.hpp; sourceTree = SOURCE_ROOT; };
 		E2E846B41C16201F00E5ADBC /* HUD.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = HUD.cpp; sourceTree = "<group>"; };
 		E2E846B51C16201F00E5ADBC /* HUD.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = HUD.hpp; sourceTree = "<group>"; };
+		E2FB274820E42CCA0035A5AF /* value_map.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = value_map.cpp; sourceTree = "<group>"; };
+		E2FB274920E42CCA0035A5AF /* value_map.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = value_map.hpp; sourceTree = "<group>"; };
 		E2FC59E42097FB5700DA35D7 /* GLFW.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = GLFW.xcodeproj; path = ../glfw/GLFW.xcodeproj; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -551,6 +555,8 @@
 				E2A65A2C1C063341005761BB /* types.h */,
 				E28D89841BDFE7CD00F58903 /* util.cpp */,
 				E20A7D6C1BCD211D007F1A3B /* util.h */,
+				E2FB274820E42CCA0035A5AF /* value_map.cpp */,
+				E2FB274920E42CCA0035A5AF /* value_map.hpp */,
 			);
 			name = Classes;
 			path = ../Classes;
@@ -896,6 +902,7 @@
 				E2198F91206825D300832E0C /* Follower.cpp in Sources */,
 				E214CF5B1C0AD22E00FC8784 /* SpellMapping.cpp in Sources */,
 				E2CDC54F1C051FFC0017537B /* Bullet.cpp in Sources */,
+				E2FB274A20E42CCA0035A5AF /* value_map.cpp in Sources */,
 				E2249BC31CF740B300B1D666 /* Items.cpp in Sources */,
 				E2198F8D206825BC00832E0C /* Facer.cpp in Sources */,
 				503AE10017EB989F00D1A890 /* AppController.mm in Sources */,
@@ -958,6 +965,7 @@
 				E24450251C02CFA8006D78B0 /* ObjectMapping.cpp in Sources */,
 				E271853A1C0E252D006EA1EB /* Garden.cpp in Sources */,
 				E2E846B71C16201F00E5ADBC /* HUD.cpp in Sources */,
+				E2FB274B20E436010035A5AF /* value_map.cpp in Sources */,
 				E223F3871CFCB75F00AD4133 /* Graph.cpp in Sources */,
 				E23F055F1BD0294A0091BD6D /* controls.cpp in Sources */,
 				E2080BCA1C00486000EB78DF /* LuaAPI.cpp in Sources */,
