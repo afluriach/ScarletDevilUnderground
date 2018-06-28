@@ -383,12 +383,15 @@ void printFSM(string name)
 
 unsigned int addThread(string objName, string mainFuncName, ValueMap args)
 {
-    StateMachineObject* smo = getFSMObject("addThread", objName);
-    
-    if(smo){
-        shared_ptr<ai::Function> f = constructState("addThread", mainFuncName, args);
-        smo->addThread(f);
-    }
+	StateMachineObject* smo = getFSMObject("addThread", objName);
+
+	if (smo) {
+		shared_ptr<ai::Function> f = constructState("addThread", mainFuncName, args);
+		return smo->addThread(f);
+	}
+	else {
+		return 0;
+	}
 }
 
 void removeThread(string objName, unsigned int uuid)

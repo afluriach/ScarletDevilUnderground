@@ -141,7 +141,7 @@ public:
 	void update();
 
 	void addThread(shared_ptr<Thread> thread);
-    void addThread(shared_ptr<Function> threadMain);
+    unsigned int addThread(shared_ptr<Function> threadMain);
     void removeThread(unsigned int uuid);
     //Remove thread(s) that have the given main function.
     void removeThread(const string& mainName);

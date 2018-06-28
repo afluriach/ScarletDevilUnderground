@@ -304,14 +304,17 @@ void StateMachine::addThread(shared_ptr<Thread> thread)
     threads_by_priority[thread->priority].push_back(thread->uuid);
 }
 
-void StateMachine::addThread(shared_ptr<Function> threadMain)
+unsigned int StateMachine::addThread(shared_ptr<Function> threadMain)
 {
-   addThread(make_shared<Thread>(
-        threadMain,
-        this,
-        9,
-        bitset<lockCount>()
-    ));
+	auto t = make_shared<Thread>(
+		threadMain,
+		this,
+		9,
+		bitset<lockCount>()
+	);
+
+   addThread(t);
+   return t->uuid;
 }
 
 void StateMachine::removeThread(unsigned int uuid)

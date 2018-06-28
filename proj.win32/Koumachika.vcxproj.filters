@@ -162,13 +162,13 @@
     <ClCompile Include="..\Classes\scenes\SceneMapping.cpp">
       <Filter>src\scenes</Filter>
     </ClCompile>
+    <ClCompile Include="..\Classes\value_map.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="main.h">
       <Filter>win32</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Classes\AIMixins.hpp">
-      <Filter>src</Filter>
     </ClInclude>
     <ClInclude Include="..\Classes\App.h">
       <Filter>src</Filter>
@@ -328,6 +328,12 @@
     </ClInclude>
     <ClInclude Include="..\Classes\scenes\SceneUtil.h">
       <Filter>src\scenes</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\functional.hpp">
+      <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\value_map.hpp">
+      <Filter>src</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

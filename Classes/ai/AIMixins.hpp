@@ -24,8 +24,8 @@ public:
 		fsm.update();
 	}
 
-	inline void addThread(shared_ptr<ai::Function> threadMain) {
-		fsm.addThread(threadMain);
+	inline unsigned int addThread(shared_ptr<ai::Function> threadMain) {
+		return fsm.addThread(threadMain);
 	}
     
     inline void removeThread(unsigned int uuid){
