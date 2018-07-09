@@ -309,7 +309,7 @@ unsigned int StateMachine::addThread(shared_ptr<Function> threadMain)
 	auto t = make_shared<Thread>(
 		threadMain,
 		this,
-		9,
+		0,
 		bitset<lockCount>()
 	);
 
