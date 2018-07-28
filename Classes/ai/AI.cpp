@@ -347,7 +347,7 @@ void StateMachine::removeCompletedThreads()
     vector<unsigned int> toRemove;
     
     for(auto it = current_threads.begin(); it != current_threads.end(); ++it){
-        if(it->second->completed){
+        if(it->second->completed || it->second->call_stack.empty()){
             toRemove.push_back(it->first);
         }
     }
