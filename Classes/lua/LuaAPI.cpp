@@ -105,6 +105,27 @@ mutex Inst::queueLock;
         }
     }
     
+    int Inst::dispatch(lua_State* L)
+    {
+        string fname = lua_tostring(L,lua_upvalueindex(1));
+        auto it = cfunctions.find(fname);
+        
+        if(it != cfunctions.end()){
+            return it->second(L);
+        }
+        else{
+            log("Inst::dispatch: %s not found!", fname.c_str());
+            return 0;
+        }
+    }
+    
+    void Inst::installNameFunction(const string& name)
+    {
+        lua_pushstring(state, name.c_str());
+        lua_pushcclosure(state, &Inst::dispatch, 1);
+        lua_setglobal(state, name.c_str());
+    }
+    
     void Inst::installFunction(lua_CFunction func, const string& name)
     {
         lua_pushcfunction(state, func);

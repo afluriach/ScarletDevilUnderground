@@ -12,6 +12,7 @@
 using namespace luabridge;
 
 #include "LuaConvert.h"
+#include "LuaWrap.h"
 
 namespace Lua
 {
@@ -22,6 +23,20 @@ namespace Lua
         
     //C API function, runs a script using its simplied name in the app's Lua context.
     void runscript(string name);
+    
+    template<typename Ret, typename ... Args>
+    static inline function<int(lua_State*)> wrap_cfunction(const string& name, Ret (*func)(Args...))
+    {
+        return [=](lua_State* L) -> int {
+            try{
+                return wrap<Ret,Args...>::wrapFunc(name, func, L);
+            }
+            catch(runtime_error err){
+                Lua::error(L, err.what());
+                return 1;
+            }
+        };
+    }
 
     //Wraps a VM instance and interfaces with it.
     class Inst
@@ -32,6 +47,7 @@ namespace Lua
         
         const string name;
         
+        static const unordered_map<string,function<int(lua_State*)>> cfunctions;
         static const vector<string> luaIncludes;
         static const bool catchLuaPanic = false;
         static const bool logInst = false;
@@ -42,10 +58,12 @@ namespace Lua
         static mutex queueLock;
         static void runCommands();
         static void addCommand(const string& target, const string& script);
+        static int dispatch(lua_State* L);
     
         void installApi();
         void installWrappers();
         void loadLibraries();
+        void installNameFunction(const string& name);
         void installFunction(lua_CFunction func, const string& name);
         void setGlobal(LuaRef ref, const string& name);
         

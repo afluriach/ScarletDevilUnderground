@@ -415,16 +415,8 @@ void removeThreadByName(string objName, string threadFuncName)
 
 ///////////////////////////////////////////////////////////////////
 
-#define make_wrapper(name) \
-int name ## _wrapper(lua_State* L) \
-{ \
-    try{ \
-        return wrapper(#name, name, L);\
-    }catch(runtime_error err){ \
-        Lua::error(L, err.what()); \
-        return 1; \
-    } \
-}
+#define make_wrapper(name,f) (name, wrap_cfunction(name,f))
+#define make_wrapper_same(name) (#name, wrap_cfunction(#name,name))
 
 #define make_method_wrapper(cls, name) \
 int name ## _wrapper(lua_State* L) \
@@ -440,53 +432,6 @@ int name ## _wrapper(lua_State* L) \
 #define install_wrapper(name) installFunction(name ## _wrapper, #name);
 #define install_method_wrapper(cls,name) installFunction(name ## _wrapper, #cls "_" #name);
 #define add_method(cls,name) Class::addMethod(#cls, #name, name ## _wrapper);
-
-make_wrapper(createObject)
-make_wrapper(removeObject)
-make_wrapper(setpos)
-make_wrapper(setvel)
-make_wrapper(getObjectCount)
-make_wrapper(getUUIDNameMap)
-make_wrapper(printMap)
-make_wrapper(addUpdate)
-make_wrapper(setscreenscale)
-make_wrapper(setdpiscale)
-make_wrapper(setFullscreen)
-make_wrapper(getObjByName)
-make_wrapper(getObjectNames)
-make_wrapper(isValidObject)
-make_wrapper(setSpriteShader)
-make_wrapper(runscript)
-make_wrapper(showHealth)
-make_wrapper(setPlayerHealth)
-make_wrapper(setPlayerMaxHealth)
-make_wrapper(suppressGameOver)
-make_wrapper(setPaused)
-make_wrapper(getFrameNumber)
-make_wrapper(dostring_in_inst)
-make_wrapper(castSpell)
-make_wrapper(castSpellWithArgs)
-make_wrapper(stopSpell)
-make_wrapper(isObstacle)
-make_wrapper(startDialog)
-make_wrapper(stopDialog)
-make_wrapper(setObjectiveCounter)
-make_wrapper(showObjectiveCounter)
-make_wrapper(printGlDebug)
-make_wrapper(save)
-make_wrapper(getInventoryContents)
-make_wrapper(getPath)
-
-make_wrapper(runScene)
-
-make_wrapper(printFSM)
-make_wrapper(addThread)
-make_wrapper(removeThread)
-make_wrapper(removeThreadByName)
-
-//Utility functions not specifically created for the scripting API
-make_wrapper(toDirection)
-make_wrapper(stringToDirection)
 
 make_method_wrapper(GObject,getPos)
 make_method_wrapper(GObject,setPos)
@@ -518,60 +463,61 @@ void Class::makeClasses()
 
 void Inst::installWrappers()
 {
-    install_wrapper(createObject)
-    install_wrapper(removeObject)
-    install_wrapper(setpos)
-    install_wrapper(setvel)
-    install_wrapper(getObjectCount)
-    install_wrapper(getUUIDNameMap)
-    install_wrapper(printMap)
-    install_wrapper(addUpdate)
-    install_wrapper(setscreenscale)
-    install_wrapper(setdpiscale)
-    install_wrapper(setFullscreen)
-    install_wrapper(getObjByName)
-    install_wrapper(getObjectNames)
-
-    install_wrapper(setSpriteShader)
-
-    install_wrapper(isValidObject)
-    install_wrapper(runscript)
-    install_wrapper(showHealth)
-    install_wrapper(setPlayerHealth)
-    install_wrapper(setPlayerMaxHealth)
-    install_wrapper(suppressGameOver)
-    install_wrapper(setPaused)
-    install_wrapper(getFrameNumber)
-    install_wrapper(dostring_in_inst)
-    install_wrapper(castSpell)
-    install_wrapper(castSpellWithArgs)
-    install_wrapper(stopSpell)
-    install_wrapper(isObstacle)
-    install_wrapper(startDialog)
-    install_wrapper(stopDialog)
-    install_wrapper(printGlDebug)
-    
-    //HUD / UI
-    install_wrapper(setObjectiveCounter)
-    install_wrapper(showObjectiveCounter)
-    
-    install_wrapper(save)
-    
-    install_wrapper(getInventoryContents)
-    
-    install_wrapper(getPath)
-    
-    install_wrapper(runScene)
-    
-    install_wrapper(printFSM)
-    install_wrapper(addThread)
-    install_wrapper(removeThread)
-    install_wrapper(removeThreadByName)
-    
-    //Utility functions not specifically created for the scripting API
-    install_wrapper(toDirection)
+    for(auto it = cfunctions.begin(); it != cfunctions.end(); ++it)
+    {
+        installNameFunction(it->first);
+    }
     
     Class::installClasses(state);
 }
+
+const unordered_map<string,function<int(lua_State*)>> Inst::cfunctions = boost::assign::map_list_of
+make_wrapper_same(createObject)
+make_wrapper_same(removeObject)
+make_wrapper_same(setpos)
+make_wrapper_same(setvel)
+make_wrapper_same(getObjectCount)
+make_wrapper_same(getUUIDNameMap)
+make_wrapper_same(printMap)
+make_wrapper_same(addUpdate)
+make_wrapper_same(setscreenscale)
+make_wrapper_same(setdpiscale)
+make_wrapper_same(setFullscreen)
+make_wrapper_same(getObjByName)
+make_wrapper_same(getObjectNames)
+make_wrapper_same(isValidObject)
+make_wrapper_same(setSpriteShader)
+make_wrapper_same(runscript)
+make_wrapper_same(showHealth)
+make_wrapper_same(setPlayerHealth)
+make_wrapper_same(setPlayerMaxHealth)
+make_wrapper_same(suppressGameOver)
+make_wrapper_same(setPaused)
+make_wrapper_same(getFrameNumber)
+make_wrapper_same(dostring_in_inst)
+make_wrapper_same(castSpell)
+make_wrapper_same(castSpellWithArgs)
+make_wrapper_same(stopSpell)
+make_wrapper_same(isObstacle)
+make_wrapper_same(startDialog)
+make_wrapper_same(stopDialog)
+make_wrapper_same(setObjectiveCounter)
+make_wrapper_same(showObjectiveCounter)
+make_wrapper_same(printGlDebug)
+make_wrapper_same(save)
+make_wrapper_same(getInventoryContents)
+make_wrapper_same(getPath)
+
+make_wrapper_same(runScene)
+
+make_wrapper_same(printFSM)
+make_wrapper_same(addThread)
+make_wrapper_same(removeThread)
+make_wrapper_same(removeThreadByName)
+
+make_wrapper_same(toDirection)
+make_wrapper_same(stringToDirection)
+
+;
 
 }
