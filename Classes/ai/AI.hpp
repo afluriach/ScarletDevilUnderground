@@ -21,28 +21,18 @@ namespace ai{
 //Low-level movement functions.
 
 //Not strictly an AI function since it's used to control the player.
-void applyDesiredVelocity(GObject& obj, const SpaceVect& desired, float maxForce);
-
-void seek(GObject& agent, const GObject& target, float maxSpeed, float acceleration);
-void seek(GObject& agent, const SpaceVect& target, float maxSpeed, float acceleration);
-
-void flee(GObject& agent, const GObject& target, float maxSpeed, float acceleration);
-void flee(GObject& agent, const SpaceVect& target, float maxSpeed, float acceleration);
+void applyDesiredVelocity(GObject& obj, SpaceVect desired, float maxForce);
+void seek(GObject& agent, SpaceVect target, float maxSpeed, float acceleration);
+void flee(GObject& agent, SpaceVect target, float maxSpeed, float acceleration);
 
 bool isFacingTarget(const GObject& agent, const GObject& target);
 bool isFacingTargetsBack(const GObject& agent, const GObject& target);
 bool isLineOfSight(const GObject& agent, const GObject& target);
 
-SpaceVect directionToTarget(const GObject& agent, const GObject& target);
-SpaceVect directionToTarget(const GObject& agent, const SpaceVect& target);
-
-SpaceVect displacementToTarget(const GObject& agent, const SpaceVect& target);
-SpaceVect displacementToTarget(const GObject& agent, const GObject& target);
-
+SpaceVect directionToTarget(const GObject& agent, SpaceVect target);
+SpaceVect displacementToTarget(const GObject& agent, SpaceVect target);
 float distanceToTarget(const GObject& agent, const GObject& target);
-
 float viewAngleToTarget(const GObject& agent, const GObject& target);
-
 
 enum class ResourceLock
 {

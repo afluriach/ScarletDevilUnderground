@@ -188,6 +188,18 @@ struct convert<GObject*>{
     static LuaRef convertToLua(GObject* obj, lua_State* L);
 };
 
+template<>
+struct convert<GObject&>{
+    static GObject& convertFromLua(const string& name, int argNum, LuaRef ref);
+    static LuaRef convertToLua(GObject& obj, lua_State* L);
+};
+
+template<>
+struct convert<const GObject&>{
+    static const GObject& convertFromLua(const string& name, int argNum, LuaRef ref);
+    static LuaRef convertToLua(const GObject& obj, lua_State* L);
+};
+
 template<typename C>
 struct convert<C*>{
     inline static C* convertFromLua(const string& name, int argNum, LuaRef ref)

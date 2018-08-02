@@ -8,6 +8,7 @@
 
 #include "Prefix.h"
 
+#include "AI.hpp"
 #include "App.h"
 #include "GObject.hpp"
 #include "Graph.hpp"
@@ -416,6 +417,7 @@ void removeThreadByName(string objName, string threadFuncName)
 ///////////////////////////////////////////////////////////////////
 
 #define make_wrapper(name,f) (name, wrap_cfunction(name,f))
+#define make_package_wrapper(ns,name) (#name, wrap_cfunction(#name, ns::name))
 #define make_wrapper_same(name) (#name, wrap_cfunction(#name,name))
 
 #define make_method_wrapper(cls, name) \
@@ -517,6 +519,19 @@ make_wrapper_same(removeThreadByName)
 
 make_wrapper_same(toDirection)
 make_wrapper_same(stringToDirection)
+
+make_package_wrapper(ai,applyDesiredVelocity)
+make_package_wrapper(ai,seek)
+make_package_wrapper(ai,flee)
+
+make_package_wrapper(ai,isFacingTarget)
+make_package_wrapper(ai,isFacingTargetsBack)
+make_package_wrapper(ai,isLineOfSight)
+
+make_package_wrapper(ai,directionToTarget)
+make_package_wrapper(ai,displacementToTarget)
+make_package_wrapper(ai,distanceToTarget)
+make_package_wrapper(ai,viewAngleToTarget)
 
 ;
 

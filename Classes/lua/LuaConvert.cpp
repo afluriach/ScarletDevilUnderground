@@ -159,6 +159,52 @@ LuaRef convert<GObject*>::convertToLua(GObject* obj, lua_State* L)
     return ref;
 }
 
+//The ID field cannot be wrapped, as it is used to get the pointer to the actual object.
+GObject& convert<GObject&>::convertFromLua(const string& name, int argNum, LuaRef ref)
+{
+    unsigned int uuid = ref["uuid"].cast<unsigned int>();
+
+    if(uuid == 0){
+        throw runtime_error("lua::convert<GObject&>::convertFromLua(): Nil GObject reference!");
+    }
+    
+    GObject* obj = app->space->getObject(uuid);
+
+    if(obj){
+        return *obj;
+    }
+    else {
+        throw runtime_error(
+            "lua::convert<GObject&>::convertFromLua(): GObject reference " +
+            boost::lexical_cast<string>(uuid) +
+            " is no longer valid!"
+        );
+    }
+}
+LuaRef convert<GObject&>::convertToLua(GObject& obj, lua_State* L)
+{
+    return convert<GObject*>::convertToLua(&obj,L);
+}
+
+//The ID field cannot be wrapped, as it is used to get the pointer to the actual object.
+const GObject& convert<const GObject&>::convertFromLua(const string& name, int argNum, LuaRef ref)
+{
+    return convert<GObject&>::convertFromLua(name,argNum,ref);
+}
+LuaRef convert<const GObject&>::convertToLua(const GObject& obj, lua_State* L)
+{
+    lua_newtable(L);
+    lua_pushstring(L, "uuid");
+    lua_pushnumber(L, obj.uuid);
+    lua_settable(L, -3);
+    
+    Class::setMetatable("GObject", L);
+    
+    LuaRef ref(L);
+    ref.pop(L);
+    return ref;
+}
+
 //Check if the data is a name or an object
 [[deprecated("Does not use Class mapping")]]
 GObject* getObjectFromLuaData(LuaRef ref)

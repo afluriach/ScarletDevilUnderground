@@ -22,7 +22,7 @@ namespace ai{
 
 //It seems to better to base this on acceleration than force. In some cases mass may
 //just be a default value, in which case acceleration makes more sense.
-void applyDesiredVelocity(GObject& obj, const SpaceVect& desired, float acceleration)
+void applyDesiredVelocity(GObject& obj, SpaceVect desired, float acceleration)
 {
     //the desired velocity change
     SpaceVect vv = desired - obj.getVel();
@@ -66,24 +66,14 @@ bool isLineOfSight(const GObject& agent, const GObject& target)
     return app->space->lineOfSight(&agent, &target);
 }
 
-SpaceVect directionToTarget(const GObject& agent, const GObject& target)
-{
-    return directionToTarget(agent, target.getPos());
-}
-
-SpaceVect directionToTarget(const GObject& agent, const SpaceVect& target)
+SpaceVect directionToTarget(const GObject& agent, SpaceVect target)
 {
     return (target - agent.getPos()).normalize();
 }
 
-SpaceVect displacementToTarget(const GObject& agent, const SpaceVect& target)
+SpaceVect displacementToTarget(const GObject& agent, SpaceVect target)
 {
     return target - agent.getPos();
-}
-
-SpaceVect displacementToTarget(const GObject& agent, const GObject& target)
-{
-    return displacementToTarget(agent,target.getPos());
 }
 
 float distanceToTarget(const GObject& agent, const GObject& target)
@@ -101,12 +91,7 @@ float viewAngleToTarget(const GObject& agent, const GObject& target)
         return numeric_limits<float>::infinity();
 }
 
-void seek(GObject& agent, GObject& target, float maxSpeed, float acceleration)
-{
-	seek(agent, target.getPos(), maxSpeed, acceleration);
-}
-
-void seek(GObject& agent, const SpaceVect& target, float maxSpeed, float acceleration)
+void seek(GObject& agent, SpaceVect target, float maxSpeed, float acceleration)
 {
 	SpaceVect displacement = target - agent.getPos();
 
@@ -118,12 +103,7 @@ void seek(GObject& agent, const SpaceVect& target, float maxSpeed, float acceler
     applyDesiredVelocity(agent, direction*maxSpeed, acceleration);
 }
 
-void flee(GObject& agent, GObject& target, float maxSpeed, float acceleration)
-{
-	flee(agent, target.getPos(), maxSpeed, acceleration);
-}
-
-void flee(GObject& agent, const SpaceVect& target, float maxSpeed, float acceleration)
+void flee(GObject& agent, SpaceVect target, float maxSpeed, float acceleration)
 {
 	SpaceVect displacement = target - agent.getPos();
 
@@ -434,11 +414,16 @@ void Seek::update(StateMachine& sm)
 	if (target.isValid()) {
 		ai::seek(
 			*sm.agent,
-			*target.get(),
+			target.get()->getPos(),
 			sm.agent->getMaxSpeed(),
 			sm.agent->getMaxAcceleration()
 		);
-		sm.agent->setDirection(toDirection(ai::directionToTarget(*sm.agent, *target.get())));
+		sm.agent->setDirection(toDirection(
+            ai::directionToTarget(
+                *sm.agent,
+                target.get()->getPos()
+            )
+        ));
 	}
 	else{
 		sm.getCrntThread()->pop();
@@ -466,7 +451,7 @@ void MaintainDistance::update(StateMachine& sm)
         if(crnt_distance > distance + margin){
             ai::seek(
                 *sm.agent,
-                *target.get(),
+                target.get()->getPos(),
                 sm.agent->getMaxSpeed(),
                 sm.agent->getMaxAcceleration()
             );
@@ -474,7 +459,7 @@ void MaintainDistance::update(StateMachine& sm)
         else if(crnt_distance < distance + margin){
             ai::flee(
                 *sm.agent,
-                *target.get(),
+                target.get()->getPos(),
                 sm.agent->getMaxSpeed(),
                 sm.agent->getMaxAcceleration()
             );
@@ -512,11 +497,16 @@ void Flee::update(StateMachine& sm)
 	if (target.isValid()) {
 		ai::flee(
 			*sm.agent,
-			*target.get(),
+			target.get()->getPos(),
 			sm.agent->getMaxSpeed(),
 			sm.agent->getMaxAcceleration()
 		);
-		sm.agent->setDirection(toDirection(ai::directionToTarget(*sm.agent, *target.get())));
+		sm.agent->setDirection(toDirection(
+            ai::directionToTarget(
+                *sm.agent,
+                target.get()->getPos()
+            )
+        ));
 	}
 	else{
         sm.getCrntThread()->pop();
