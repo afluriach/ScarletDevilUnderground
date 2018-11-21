@@ -71,6 +71,10 @@ void GSpace::update()
     foreach(GObject* obj, objByUUID | boost::adaptors::map_values){
         obj->update();
     }
+
+	foreach(GObject* obj, objByUUID | boost::adaptors::map_values) {
+		obj->applyPhysicsProperties();
+	}
     
 	//Objects which will be removed this frame should have the end contact handlers called 
 	//before they are deleted.

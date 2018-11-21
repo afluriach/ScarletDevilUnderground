@@ -88,20 +88,58 @@ GObject* GObject::constructByType(const string& type, const ValueMap& args )
         return toCocos(centerPix);
     }
 
+	void GObject::applyPhysicsProperties()
+	{
+		if (physicsPropertiesToApply.setPos)
+			body->setPos(physicsPropertiesToApply.pos);
+
+		if (physicsPropertiesToApply.setAngle)
+			body->setAngle(physicsPropertiesToApply.angle);
+
+		if(physicsPropertiesToApply.setVel)
+			body->setVel(physicsPropertiesToApply.vel);
+
+		if (physicsPropertiesToApply.setAngularVel)
+			body->setAngularVel(physicsPropertiesToApply.angularVel);
+
+		physicsPropertiesToApply.setPos = false;
+		physicsPropertiesToApply.setAngle = false;
+		physicsPropertiesToApply.setVel = false;
+		physicsPropertiesToApply.setAngularVel = false;
+	}
+
      SpaceVect GObject::getPos() const {
         return body->getPos();
     }
 
      void GObject::setPos(float x, float y){
-        body->setPos(SpaceVect(x,y));
+		 if (physicsPropertiesToApply.setPos) {
+			 log(
+				 "%s has multi-set position, from %f,%f to %f,%f",
+				 name.c_str(),
+				 physicsPropertiesToApply.pos.x,
+				 physicsPropertiesToApply.pos.y,
+				 x,
+				 y
+			 );
+
+		 }
+		 physicsPropertiesToApply.setPos = true;
+         physicsPropertiesToApply.pos = SpaceVect(x,y);
     }
     
     void GObject::setAngle(float a){
-        if(!body){
-            log("GObject::setAngle: %s has no physics body!", name.c_str());
-            return;
-        }
-        body->setAngle(a);
+		if (physicsPropertiesToApply.setAngle) {
+			log(
+				"%s has multi-set angle, from %f to %f",
+				name.c_str(),
+				physicsPropertiesToApply.angle,
+				a
+			);
+		}
+
+		physicsPropertiesToApply.setAngle = true;
+		physicsPropertiesToApply.angle = a;
     }
     
      float GObject::getAngle() const {
@@ -122,15 +160,27 @@ GObject* GObject::constructByType(const string& type, const ValueMap& args )
     
     void GObject::setDirection(Direction d) {
         if(body && d != Direction::none)
-            body->setAngle(dirToPhysicsAngle(d));
+            setAngle(dirToPhysicsAngle(d));
     }
     
      SpaceVect GObject::getVel() const {
         return body->getVel();
     }
     
-     void GObject::setVel(SpaceVect v){
-        body->setVel(v);
+	 void GObject::setVel(SpaceVect v) {
+		 if (physicsPropertiesToApply.setVel) {
+			log(
+				"%s has multi-set velocity, from %f,%f to %f,%f",
+				name.c_str(),
+				physicsPropertiesToApply.vel.x,
+				physicsPropertiesToApply.vel.y,
+				v.x,
+				v.y
+			);
+		}
+
+		 physicsPropertiesToApply.setVel = true;
+		 physicsPropertiesToApply.vel = v;
     }
 
     float GObject::getAngularVel() const{
@@ -138,7 +188,17 @@ GObject* GObject::constructByType(const string& type, const ValueMap& args )
     }
     
      void GObject::setAngularVel(float w){
-        body->setAngularVel(w);
+		 if (physicsPropertiesToApply.setAngularVel) {
+			 log(
+				 "%s has multi-set angular velocity, from %f to %f",
+				 name.c_str(),
+				 physicsPropertiesToApply.angularVel,
+				 w
+			 );
+		 }
+
+		 physicsPropertiesToApply.setAngularVel = true;
+		 physicsPropertiesToApply.angularVel = w;
     }
 
      void GObject::applyForceForSingleFrame(SpaceVect f){

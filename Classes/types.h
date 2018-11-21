@@ -56,4 +56,18 @@ enum class PhysicsLayers{
     all = 7
 };
 
+struct PhysicsProperties
+{
+	bool setPos, setVel, setAngle, setAngularVel;
+
+	SpaceVect pos, vel;
+	float angle, angularVel;
+
+	inline PhysicsProperties() :
+		setPos(false), setVel(false), setAngle(false), setAngularVel(false),
+		pos(SpaceVect::zero), vel(SpaceVect::zero),
+		angle(0.0f), angularVel(0.0f)
+	{}
+};
+
 #endif /* types_h */

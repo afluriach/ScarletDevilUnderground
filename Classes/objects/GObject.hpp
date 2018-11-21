@@ -82,11 +82,15 @@ public:
 
     //Posiition where the object was loaded
     SpaceVect initialCenter;
+	//Tracks setting of physics properties, they will be applied before physics step.
+	PhysicsProperties physicsPropertiesToApply;
 
     void setInitialVelocity(const SpaceVect&& v);
     void setInitialAngle(float a);
     void setInitialAngularVelocity(float w);
     Vec2 getInitialCenterPix();
+
+	void applyPhysicsProperties();
 
     SpaceVect getPos() const;
     void setPos(float x, float y);

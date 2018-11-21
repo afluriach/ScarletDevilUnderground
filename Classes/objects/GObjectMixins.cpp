@@ -249,7 +249,7 @@ void PatchConSprite::setAngle(float a)
 {
     GObject::setAngle(a);
     
-    setDirection(angleToDirection(a));
+	animSprite->setDirection(angleToDirection(a));
 }
 
 void PatchConSprite::setDirection(Direction d)
