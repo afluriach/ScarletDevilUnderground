@@ -61,7 +61,7 @@ void IllusionDialDagger::launch()
     GObject* target = app->space->getObject("player");
 
     if(target){
-        setVel(ai::directionToTarget(*this, target->getPos())*speed);
+        setVel(SpaceVect::ray(speed, getAngle()));
         setAngularVel(0.0f);
     }
     else

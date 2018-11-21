@@ -86,7 +86,7 @@ float viewAngleToTarget(const GObject& agent, const GObject& target)
     SpaceVect displacement = target.getPos() - agent.getPos();
     
     if(displacement.lengthSq() > 0.01f)
-        return displacement.toAngle() - agent.getAngle();
+        return canonicalAngle(displacement.toAngle() - agent.getAngle());
     else
         return numeric_limits<float>::infinity();
 }

@@ -148,6 +148,9 @@ const float IllusionDial::arc_width = arc_end - arc_start;
 const float IllusionDial::arc_spacing = arc_width / (count-1);
 const float IllusionDial::angular_speed = float_pi * 2.0f / 3.0f;
 
+const float IllusionDial::max_angle_margin = float_pi / 12.0f;
+const float IllusionDial::min_fire_interval = 1.0f / 3.0f;
+
 IllusionDial::IllusionDial(Spellcaster* caster,const ValueMap& args) :
 Spell(caster,args),
 bullets(count),
@@ -173,30 +176,40 @@ void IllusionDial::init()
 
 void IllusionDial::runPeriodic()
 {
-    int best = -1;
-    float best_angle = float_pi;
-    
-    for_irange(i,0,count)
-    {
-        if(bullets[i].isValid() && !launch_flags[i]){
-            float crnt = bullets[i].get()->targetViewAngle();
-            
-            if(!isinf(crnt) && abs(crnt) < best_angle)
-                best = i;
-                best_angle = abs(crnt);
-        }
-    }
-    
-    if(best != -1)
-    {
-        bullets[best].get()->launch();
-        launch_flags[best] = true;
-    }
-    else
-    {
-        //Deactivate spell if all bullets are consumed.
-        active = false;
-    }
+	++framesSinceLastFire;
+
+	if (framesSinceLastFire*App::secondsPerFrame >= min_fire_interval)
+	{
+
+		int best = -1;
+		float best_angle = float_pi;
+		bool allBulletsConsumed = true;
+
+		for_irange(i, 0, count)
+		{
+			if (bullets[i].isValid() && !launch_flags[i]) {
+				allBulletsConsumed = false;
+
+				float crnt = bullets[i].get()->targetViewAngle();
+
+				if (!isinf(crnt) && abs(crnt) < best_angle)
+					best = i;
+				best_angle = abs(crnt);
+			}
+		}
+
+		if (best != -1 && best_angle < max_angle_margin)
+		{
+			bullets[best].get()->launch();
+			launch_flags[best] = true;
+			framesSinceLastFire = 0;
+		}
+		else if (allBulletsConsumed)
+		{
+			//Deactivate spell if all bullets are consumed.
+			active = false;
+		}
+	}
 }
 
 void IllusionDial::end()

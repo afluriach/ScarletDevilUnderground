@@ -93,12 +93,23 @@ public:
     virtual float interval() const = 0;
     virtual void runPeriodic() = 0;
     inline void update(){
-        timeSince += App::secondsPerFrame;
-        
-        if(timeSince >= interval()){
-            timeSince -= interval();
-            runPeriodic();
-        }
+
+		float _interval = interval();
+
+		if (_interval == 0.0f)
+		{
+			runPeriodic();
+		}
+
+		else
+		{
+			timeSince += App::secondsPerFrame;
+
+			if (timeSince >= _interval) {
+				timeSince -= _interval;
+				runPeriodic();
+			}
+		}
     }
 protected:
     float timeSince = 0;
@@ -152,15 +163,19 @@ public:
     static const float arc_width;
     static const float arc_spacing;
     static const float angular_speed;
-    
+
+	static const float max_angle_margin;
+	static const float min_fire_interval;
+
     static const int count;
     
     vector<object_ref<IllusionDialDagger>> bullets;
     vector<bool> launch_flags;
+	unsigned int framesSinceLastFire = 0;
 
     IllusionDial(Spellcaster* caster,const ValueMap& args);
     
-    inline virtual float interval() const {return 2.0f/3.0f;};
+    inline virtual float interval() const {return 0.0f;};
     
     virtual void init();
     virtual void runPeriodic();
