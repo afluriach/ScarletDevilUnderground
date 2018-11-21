@@ -11,6 +11,7 @@
 #include "App.h"
 #include "GObject.hpp"
 #include "LuaAPI.hpp"
+#include "macros.h"
 #include "util.h"
 #include "value_map.hpp"
 
@@ -30,6 +31,8 @@ GObject::GObject(const ValueMap& obj) :
     
     if(logCreateObjects)
         log("%s created at %.1f,%.1f.", name.c_str(),initialCenter.x, initialCenter.y);
+
+	setInitialAngle(float_pi / 2.0f);
 }
 
 GObject::GObject(const string& name, const SpaceVect& pos, bool anonymous) :
@@ -44,6 +47,8 @@ GObject::GObject(const string& name, const SpaceVect& pos, bool anonymous) :
 
     if(logCreateObjects && !anonymous)
         log("%s created at %.1f,%.1f.", name.c_str(),initialCenter.x, initialCenter.y);
+
+	setInitialAngle(float_pi / 2.0f);
 }
 
 GObject::~GObject()

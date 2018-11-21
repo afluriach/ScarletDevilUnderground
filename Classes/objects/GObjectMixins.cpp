@@ -165,7 +165,7 @@ void ImageSprite::initializeGraphics(Layer* layer)
 void ImageSprite::update()
 {
     if(sprite != nullptr){
-        sprite->setRotation(-toDegrees(getAngle()));
+        sprite->setRotation(90-toDegrees(getAngle()));
     }
 }
 
