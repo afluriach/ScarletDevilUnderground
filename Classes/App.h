@@ -47,7 +47,7 @@ public:
     
     static const int pixelsPerTile = 128;
     constexpr static float tilesPerPixel = 1.0f/pixelsPerTile;
-    constexpr static float viewWidth = 12.0f;
+    constexpr static float viewWidth = 22.5f;
     
     static const bool showStats = true;
     static const bool logSprites = false;
