@@ -33,6 +33,8 @@ SpaceVect directionToTarget(const GObject& agent, SpaceVect target);
 SpaceVect displacementToTarget(const GObject& agent, SpaceVect target);
 float distanceToTarget(const GObject& agent, const GObject& target);
 float viewAngleToTarget(const GObject& agent, const GObject& target);
+SpaceVect projectileEvasion(const GObject& bullet, const GObject& agent);
+
 
 enum class ResourceLock
 {
@@ -144,6 +146,8 @@ public:
 	void push(shared_ptr<Function> f);
 	void pop();
     
+	Agent* getAgent();
+
     inline unsigned int getFrame(){
         return frame;
     }
@@ -229,6 +233,22 @@ public:
 protected:
 	gobject_ref target;
     float distance;
+};
+
+class EvadePlayerProjectiles : public Function {
+public:
+	EvadePlayerProjectiles();
+	EvadePlayerProjectiles(const ValueMap& args);
+
+	virtual void update(StateMachine& sm);
+
+	inline virtual bitset<lockCount> getLockMask() {
+		return make_enum_bitfield(ResourceLock::movement);
+	}
+
+	FuncGetName(EvadePlayerProjectiles)
+protected:
+	list<unsigned int> bullets;
 };
 
 class DetectAndSeekPlayer : public Detect{

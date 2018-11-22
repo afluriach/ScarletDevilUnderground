@@ -8,6 +8,7 @@
 
 #include "Prefix.h"
 
+#include "Agent.hpp"
 #include "AI.hpp"
 #include "App.h"
 #include "Graphics.h"
@@ -64,6 +65,18 @@ bool isFacingTargetsBack(const GObject& agent, const GObject& target)
 bool isLineOfSight(const GObject& agent, const GObject& target)
 {
     return app->space->lineOfSight(&agent, &target);
+}
+
+//Trajectory represents direction/velocity of movement, but scaled to the same length as displacement.
+//The difference between these vectors is the distance between the two centers of the objects,
+//and thus an indicator of whether a collision will happen, or how the agent needs to move to prevent this.
+SpaceVect projectileEvasion(const GObject& bullet, const GObject& agent)
+{
+	SpaceVect displacementToTarget = agent.getPos() - bullet.getPos();
+
+	SpaceVect trajectoryScaled = bullet.getVel().normalizeSafe() * displacementToTarget.length();
+
+	return trajectoryScaled - displacementToTarget;
 }
 
 SpaceVect directionToTarget(const GObject& agent, SpaceVect target)
@@ -380,6 +393,10 @@ string StateMachine::toString()
     return ss.str();
 }
 
+Agent* StateMachine::getAgent() {
+	return dynamic_cast<Agent*>(agent);
+}
+
 Detect::Detect(const string& target_name, Generator nextState) :
 target_name(target_name),
 nextState(nextState)
@@ -512,6 +529,45 @@ void Flee::update(StateMachine& sm)
         sm.getCrntThread()->pop();
     }
 
+}
+
+EvadePlayerProjectiles::EvadePlayerProjectiles() {}
+
+EvadePlayerProjectiles::EvadePlayerProjectiles(const ValueMap& args) {}
+
+void EvadePlayerProjectiles::update(StateMachine& sm)
+{
+	list<GObject*> objs = sm.getAgent()->getSensedObjects();
+	
+	GObject* closest = nullptr;
+	float closestDistance = numeric_limits<float>::infinity();
+	 
+	foreach(GObject* obj, objs)
+	{
+		if (obj->getType() != GType::playerBullet)
+			continue;
+
+		float crntDist = distanceToTarget(*obj, *sm.agent);
+
+		if (crntDist < closestDistance) {
+			closestDistance = crntDist;
+			closest = obj;
+		}
+	}
+
+	if (closest != nullptr)
+	{
+		SpaceVect offset = projectileEvasion(*closest, *sm.agent);
+
+		if(offset.length() > closest->getRadius() + sm.agent->getRadius() )
+		{
+			sm.agent->setVel(SpaceVect::zero);
+		}
+		else
+		{
+			applyDesiredVelocity(*sm.agent, offset.normalize()*-1.0f * sm.agent->getMaxSpeed(), sm.agent->getMaxAcceleration());
+		}
+	}
 }
 
 DetectAndSeekPlayer::DetectAndSeekPlayer() :

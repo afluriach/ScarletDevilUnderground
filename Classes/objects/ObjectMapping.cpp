@@ -25,6 +25,7 @@
 #include "Reimu.hpp"
 #include "Sakuya.hpp"
 #include "Stalker.hpp"
+#include "Tewi.hpp"
 #include "Torch.hpp"
 
 //Adapters for mapping the name of a class to a factory adapter.
@@ -77,5 +78,6 @@ const unordered_map<string,GObject::AdapterType> GObject::adapters =
     entry_same(Follower)
     entry_same(Stalker)
     entry_same(GenericAgent)
+	entry_same(Tewi)
 
     entry_same(Player);

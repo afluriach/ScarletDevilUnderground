@@ -92,6 +92,9 @@ public:
     virtual void initializeBody(GSpace& space);    
     virtual inline SpaceVect getDimensions() const = 0;
     virtual float getMomentOfInertia() const;
+
+	inline virtual float getRadius() const { return max(getDimensions().x, getDimensions().y); }
+
 };
 
 class RectangleMapBody : public virtual RectangleBody
@@ -102,6 +105,7 @@ public:
     inline RectangleMapBody(const ValueMap& arg) : dim(getDimensionsFromMap(arg)) {}
     
     inline SpaceVect getDimensions() const { return dim;}
+	inline virtual float getRadius() const { return max(dim.x, dim.y); }
 
 private:
     //Rectular dimensions or BB dimensions if object is not actually rectangular.

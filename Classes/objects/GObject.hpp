@@ -114,6 +114,7 @@ public:
 
 	//A default of 0 signifies undefined. Using -1 to indicate static or positive for dynamic.
 	virtual float getMass() const = 0;
+	virtual float getRadius() const = 0;
     virtual float getMomentOfInertia() const = 0;
 	virtual GType getType() const = 0;
 	virtual inline bool getSensor() const { return false; }

@@ -338,6 +338,7 @@ void GSpace::addCollisionHandlers()
 	_addHandlerNoEnd(playerBullet, wall, bulletWall);
 	_addHandlerNoEnd(enemyBullet, wall, bulletWall);    
 	_addHandler(playerSensor, player, sensorStart, sensorEnd);
+	_addHandler(playerSensor, playerBullet, sensorStart, sensorEnd);
 	_addHandler(objectSensor, enemy, sensorStart, sensorEnd);
 	_addHandler(objectSensor, environment, sensorStart, sensorEnd);
     _addHandler(objectSensor, npc, sensorStart, sensorEnd);

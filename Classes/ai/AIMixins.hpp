@@ -68,6 +68,9 @@ public:
     
     //Find the [visible] object that the agent is most directly facing.
     GObject* getSensedObject();
+	list<GObject*> getSensedObjects() {
+		return list<GObject*>(visibleObjects.begin(), visibleObjects.end());
+	}
     
     void setFovAngle(float angle);
 

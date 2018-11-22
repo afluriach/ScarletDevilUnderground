@@ -165,6 +165,9 @@
     <ClCompile Include="..\Classes\value_map.cpp">
       <Filter>src</Filter>
     </ClCompile>
+    <ClCompile Include="..\Classes\objects\Tewi.cpp">
+      <Filter>src\objects</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="main.h">
@@ -334,6 +337,9 @@
     </ClInclude>
     <ClInclude Include="..\Classes\value_map.hpp">
       <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\objects\Tewi.hpp">
+      <Filter>src\objects</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
