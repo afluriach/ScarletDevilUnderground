@@ -22,6 +22,9 @@
     <Filter Include="src\objects">
       <UniqueIdentifier>{cbcab6aa-047c-45b1-a313-2da7873adb56}</UniqueIdentifier>
     </Filter>
+    <Filter Include="src\spells">
+      <UniqueIdentifier>{0ba2d5c8-0c6a-4af0-a239-94ab2900a7b0}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -55,12 +58,6 @@
       <Filter>src</Filter>
     </ClCompile>
     <ClCompile Include="..\Classes\menu.cpp">
-      <Filter>src</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Classes\Spell.cpp">
-      <Filter>src</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Classes\SpellMapping.cpp">
       <Filter>src</Filter>
     </ClCompile>
     <ClCompile Include="..\Classes\util.cpp">
@@ -168,6 +165,12 @@
     <ClCompile Include="..\Classes\objects\Tewi.cpp">
       <Filter>src\objects</Filter>
     </ClCompile>
+    <ClCompile Include="..\Classes\spells\Spell.cpp">
+      <Filter>src\spells</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\spells\SpellMapping.cpp">
+      <Filter>src\spells</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="main.h">
@@ -212,9 +215,6 @@
     <ClInclude Include="..\Classes\Prefix.h">
       <Filter>src</Filter>
     </ClInclude>
-    <ClInclude Include="..\Classes\Spell.hpp">
-      <Filter>src</Filter>
-    </ClInclude>
     <ClInclude Include="..\Classes\types.h">
       <Filter>src</Filter>
     </ClInclude>
@@ -223,9 +223,6 @@
     </ClInclude>
     <ClInclude Include="..\Classes\enum.h">
       <Filter>src</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Classes\AIMixins.hpp">
-      <Filter>src\ai</Filter>
     </ClInclude>
     <ClInclude Include="..\Classes\scenes\Collect.h">
       <Filter>src\scenes</Filter>
@@ -340,6 +337,9 @@
     </ClInclude>
     <ClInclude Include="..\Classes\objects\Tewi.hpp">
       <Filter>src\objects</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\spells\Spell.hpp">
+      <Filter>src\spells</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
