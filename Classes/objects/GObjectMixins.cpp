@@ -153,6 +153,11 @@ void FrictionObject::update()
         setAngularVel(0);
 }
 
+void DirectionalLaunch::init()
+{
+	setVel(SpaceVect::ray(getMaxSpeed(), getAngle()));
+}
+
 //END PHYSICS
 
 //GRAPHICS MIXINS

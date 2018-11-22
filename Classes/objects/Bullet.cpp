@@ -25,23 +25,8 @@ const vector<string> StarBullet::colors = boost::assign::list_of
     ("yellow")
 ;
 
-CircleBullet::CircleBullet(const ValueMap& args) :
-radius(getFloatOrDefault(args, "radius", 0.3f))
-{}
-
-PlayerBaseBullet::PlayerBaseBullet(float angle, const SpaceVect& pos) :
-GObject("playerBaseBullet", pos, true)
-{
-    setInitialVelocity(SpaceVect::ray(getMaxSpeed(), angle));
-}
-
-const float IllusionDialDagger::speed = 3.0f;
-const SpaceVect IllusionDialDagger::dimensions = SpaceVect(0.25f,1.0f);
-
-
 IllusionDialDagger::IllusionDialDagger(const SpaceVect& pos, float angular_velocity) :
-GObject("IllusionDialDagger", pos, true),
-RectangleBullet(dimensions)
+GObject("IllusionDialDagger", pos, true)
 {
     setInitialAngularVelocity(angular_velocity);
 }
@@ -61,9 +46,13 @@ void IllusionDialDagger::launch()
     GObject* target = app->space->getObject("player");
 
     if(target){
-        setVel(SpaceVect::ray(speed, getAngle()));
+        setVel(SpaceVect::ray(getMaxSpeed(), getAngle()));
         setAngularVel(0.0f);
     }
     else
         debug_log("player missing");
 }
+
+FlandreBigOrb1::FlandreBigOrb1(float angle, const SpaceVect& pos) :
+	GObject("bigOrb1", pos, angle, true)
+{}

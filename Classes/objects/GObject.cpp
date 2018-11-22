@@ -35,7 +35,7 @@ GObject::GObject(const ValueMap& obj) :
 	setInitialAngle(float_pi / 2.0f);
 }
 
-GObject::GObject(const string& name, const SpaceVect& pos, bool anonymous) :
+GObject::GObject(const string& name, const SpaceVect& pos, float angle, bool anonymous) :
 	name(name),
     anonymous(anonymous),
 	uuid(nextUUID++),
@@ -48,8 +48,12 @@ GObject::GObject(const string& name, const SpaceVect& pos, bool anonymous) :
     if(logCreateObjects && !anonymous)
         log("%s created at %.1f,%.1f.", name.c_str(),initialCenter.x, initialCenter.y);
 
-	setInitialAngle(float_pi / 2.0f);
+	setInitialAngle(angle);
 }
+
+GObject::GObject(const string& name, const SpaceVect& pos, bool anonymous) :
+	GObject(name, pos, float_pi / 2.0f, anonymous)
+{}
 
 GObject::~GObject()
 {

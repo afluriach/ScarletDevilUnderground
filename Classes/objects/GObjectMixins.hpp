@@ -131,6 +131,15 @@ public:
     void update();
 };
 
+//Object will automatically have its velocity set on init(), according to
+//its [facing] angle. Uses polymorphic getter getMaxSpeed().
+class DirectionalLaunch : virtual public GObject, public RegisterInit<DirectionalLaunch>
+{
+public:
+	inline DirectionalLaunch() : RegisterInit<DirectionalLaunch>(this) {}
+	void init();
+};
+
 //END PHYSICS
 
 //GRAPHICS MIXINS
@@ -236,5 +245,36 @@ public:
 };
 
 //END ENEMY
+
+//TYPE MIXINS
+
+class Bullet : virtual public GObject
+{
+public:
+	inline Bullet() {}
+
+	virtual inline bool getSensor() const { return true; }
+	virtual inline float getMass() const { return 0.1f; }
+	virtual inline GraphicsLayer sceneLayer() const { return GraphicsLayer::ground; }
+};
+
+class PlayerBullet : virtual public GObject, public Bullet
+{
+public:
+	inline PlayerBullet() {}
+
+	virtual inline GType getType() const { return GType::playerBullet; }
+};
+
+class EnemyBullet : virtual public GObject, public Bullet
+{
+public:
+	inline EnemyBullet() {}
+
+	virtual inline GType getType() const { return GType::enemyBullet; }
+};
+
+
+//END TYPE MIXINS
 
 #endif /* GObjectMixins_hpp */

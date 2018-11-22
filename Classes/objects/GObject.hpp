@@ -38,6 +38,7 @@ public:
 	//Representation as a map object
     GObject(const ValueMap& args);
     GObject(const string& name, const SpaceVect& pos, bool anonymous);
+	GObject(const string& name, const SpaceVect& pos, float angle, bool anonymous);
     
     virtual ~GObject();
 

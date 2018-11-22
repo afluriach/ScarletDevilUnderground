@@ -189,7 +189,7 @@ void Player::fire()
     SpaceVect pos = body->getPos();
     pos += SpaceVect::ray(fireDist,getAngle());
     
-    PlayerBaseBullet* bullet = new PlayerBaseBullet(getAngle(), pos);
+    GObject* bullet = new FlandreBigOrb1(getAngle(), pos);
     
     app->space->addObject(bullet);
 }
