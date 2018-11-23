@@ -56,3 +56,7 @@ void IllusionDialDagger::launch()
 FlandreBigOrb1::FlandreBigOrb1(float angle, const SpaceVect& pos) :
 	GObject("bigOrb1", pos, angle, true)
 {}
+
+FlandreFastOrb1::FlandreFastOrb1(float angle, const SpaceVect& pos) :
+	GObject("fastOrb1", pos, angle, true)
+{}

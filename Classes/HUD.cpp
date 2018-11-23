@@ -114,7 +114,12 @@ bool HUD::init()
     interactionIcon->setPosition(App::width - 64, App::height - 64);
     interactionIcon->setScale(0.5);
     addChild(interactionIcon);
-    
+
+	firePatternIcon = Sprite::create();
+	firePatternIcon->setPosition(App::width - 128, App::height - 64);
+	firePatternIcon->setScale(0.5);
+	addChild(firePatternIcon);
+
     return true;
 }
 

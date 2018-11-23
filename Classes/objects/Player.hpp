@@ -15,12 +15,14 @@
 #include "macros.h"
 
 class Collectible;
+class FirePattern;
 
 class Player : virtual public GObject,
 public PatchConSprite,
 public CircleBody,
 public RadarObject,
 public Spellcaster,
+RegisterInit<Player>,
 RegisterUpdate<Player>
 {
 public:
@@ -29,8 +31,6 @@ public:
     
     static const int batModeInitialCost;
     static const int batModeCostPerSecond;
-    
-    static const float fireDist;
     
     static const float interactCooldownTime;
     
@@ -41,11 +41,7 @@ public:
     static const float baseMaxSpeed;
     static const float batModeMaxSpeed;
 
-    inline Player(const ValueMap& args) :
-    GObject(args),
-    PatchConSprite(args),
-    RegisterUpdate<Player>(this)
-    {}
+	Player(const ValueMap& args);
     
     inline void setMaxSpeed(float s) {crntMaxSpeed = s;}
     virtual inline float getMaxSpeed() const{ return crntMaxSpeed;}
@@ -56,10 +52,6 @@ public:
 	inline virtual GType getRadarType() const { return GType::objectSensor; }
     inline virtual float getDefaultFovAngle() const { return float_pi / 4.0f;}
 
-    inline float getFireInterval() const {
-        return 0.6f;
-    }
-    
     void hit();
 
     inline int getHealth(){
@@ -100,21 +92,32 @@ public:
     inline string imageSpritePath() const {return "sprites/flandre.png";}
     inline GraphicsLayer sceneLayer() const {return GraphicsLayer::ground;}
     
+	void init();
     void update();
-    void updateFireTime();
     void updateHitTime();
     void checkBaseControls();
     void checkBatModeControls();
     void updateSpell();
-    void fireIfPossible();
-    void fire();
     
+	inline FirePattern* getFirePattern() {
+		if (firePatterns.empty())
+			return nullptr;
+
+		return firePatterns[crntFirePattern].get();
+	}
+
+	bool trySetFirePattern(int idx);
+	bool trySetFirePatternNext();
+	bool trySetFirePatternPrevious();
+
     void onCollectible(Collectible* coll);
 protected:
     float hitProtectionCountdown = 0.0f;
     float spellCooldown = 0.0f;
     float interactCooldown = 0.0f;
-    float lastFireTime = 0;
+
+	vector<unique_ptr<FirePattern>> firePatterns;
+	int crntFirePattern = 0;
     
     float crntMaxSpeed = baseMaxSpeed;
     

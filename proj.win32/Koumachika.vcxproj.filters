@@ -171,6 +171,9 @@
     <ClCompile Include="..\Classes\spells\SpellMapping.cpp">
       <Filter>src\spells</Filter>
     </ClCompile>
+    <ClCompile Include="..\Classes\spells\FirePattern.cpp">
+      <Filter>src\spells</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="main.h">
@@ -339,6 +342,9 @@
       <Filter>src\objects</Filter>
     </ClInclude>
     <ClInclude Include="..\Classes\spells\Spell.hpp">
+      <Filter>src\spells</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\spells\FirePattern.hpp">
       <Filter>src\spells</Filter>
     </ClInclude>
   </ItemGroup>

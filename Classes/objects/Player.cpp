@@ -13,6 +13,7 @@
 #include "Bullet.hpp"
 #include "Collectibles.hpp"
 #include "controls.h"
+#include "FirePattern.hpp"
 #include "GAnimation.hpp"
 #include "Graphics.h"
 #include "GSpace.hpp"
@@ -27,8 +28,6 @@ const int Player::defaultMaxPower = 500;
 const int Player::batModeInitialCost = 9;
 const int Player::batModeCostPerSecond = 5;
 
-const float Player::fireDist = 1.0f;
-
 const float Player::interactCooldownTime = 0.1f;
 
 const float Player::spellCooldownTime = 1.0f;
@@ -37,6 +36,21 @@ const float Player::hitFlickerInterval = 0.3f;
 
 const float Player::baseMaxSpeed = 3.0f;
 const float Player::batModeMaxSpeed = 5.0f;
+
+Player::Player(const ValueMap& args) :
+	GObject(args),
+	PatchConSprite(args),
+	RegisterInit<Player>(this),
+	RegisterUpdate<Player>(this)
+{}
+
+void Player::init()
+{
+	firePatterns.push_back(make_unique<FlandreBigOrbPattern>(this));
+	firePatterns.push_back(make_unique<FlandreFastOrbPattern>(this));
+
+	app->hud->firePatternIcon->setTexture(getFirePattern()->iconPath());
+}
 
 void Player::checkBatModeControls()
 {
@@ -115,11 +129,20 @@ void Player::checkBaseControls()
     if(facing.isZero() && body->getVel().lengthSq() > square(getMaxSpeed())/2){
         setDirection(toDirection(moveDir));
     }
-    
+
+	//Check controls for changing fire pattern.
+	if (getFirePattern() && !getFirePattern()->isInCooldown())
+	{
+		if(cr->isControlActionPressed(ControlAction::firePatternPrev))
+			trySetFirePatternPrevious();
+		else if (cr->isControlActionPressed(ControlAction::firePatternNext))
+			trySetFirePatternNext();
+	}
+
     //Fire if arrow key is pressed
-    if(!facing.isZero())
+    if(!facing.isZero() && getFirePattern())
     {
-        fireIfPossible();
+		getFirePattern()->fireIfPossible();
     }
 
     //Check item interaction
@@ -155,15 +178,12 @@ void Player::updateHitTime()
     }
 }
 
-void Player::updateFireTime()
-{
-    lastFireTime += App::secondsPerFrame;
-}
-
 void Player::update()
 {
+	if(getFirePattern())
+		getFirePattern()->update();
+
     if(!isSpellActive()){
-        updateFireTime();
         updateHitTime();
         checkBaseControls();
     }
@@ -171,27 +191,6 @@ void Player::update()
     
     if(health <= 0 && !app->suppressGameOver)
         app->playScene->triggerGameOver();
-}
-
-
-void Player::fireIfPossible()
-{
-    if(lastFireTime >= getFireInterval() && power > 0)
-    {
-        lastFireTime = 0;
-        consumePower(1);
-        fire();
-    }
-}
-
-void Player::fire()
-{
-    SpaceVect pos = body->getPos();
-    pos += SpaceVect::ray(fireDist,getAngle());
-    
-    GObject* bullet = new FlandreBigOrb1(getAngle(), pos);
-    
-    app->space->addObject(bullet);
 }
 
 void Player::hit(){
@@ -230,4 +229,32 @@ void Player::onCollectible(Collectible* coll)
         
         app->space->removeObject(coll);
     }
+}
+
+bool Player::trySetFirePattern(int idx)
+{
+	FirePattern* fp = getFirePattern();
+
+	if (fp->isInCooldown())
+		return false;
+
+	if (idx < 0 || idx >= firePatterns.size()) {
+		log("trySetFirePattern: invalid index %d", idx);
+		return false;
+	}
+	else {
+		crntFirePattern = idx;
+		app->hud->firePatternIcon->setTexture(getFirePattern()->iconPath());
+		return true;
+	}
+}
+
+bool Player::trySetFirePatternNext()
+{
+	return trySetFirePattern((crntFirePattern + 1) % firePatterns.size());
+}
+
+bool Player::trySetFirePatternPrevious()
+{
+	return trySetFirePattern((crntFirePattern - 1) % firePatterns.size());
 }

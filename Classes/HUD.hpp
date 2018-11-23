@@ -89,6 +89,7 @@ public:
     PowerMeter* power;
     Counter* objectiveCounter;    
     Sprite* interactionIcon;
+	Sprite* firePatternIcon;
     
     inline void showHealth(bool val)
     {

@@ -191,6 +191,7 @@ xcopy "$(ProjectDir)..\Resources" "$(OutDir)" /D /E /I /F /Y</Command>
     <ClCompile Include="..\Classes\scenes\PlayScene.cpp" />
     <ClCompile Include="..\Classes\scenes\SceneMapping.cpp" />
     <ClCompile Include="..\Classes\scenes\scenes.cpp" />
+    <ClCompile Include="..\Classes\spells\FirePattern.cpp" />
     <ClCompile Include="..\Classes\spells\Spell.cpp" />
     <ClCompile Include="..\Classes\spells\SpellMapping.cpp" />
     <ClCompile Include="..\Classes\util.cpp" />
@@ -249,6 +250,7 @@ xcopy "$(ProjectDir)..\Resources" "$(OutDir)" /D /E /I /F /Y</Command>
     <ClInclude Include="..\Classes\scenes\PlayScene.hpp" />
     <ClInclude Include="..\Classes\scenes\scenes.h" />
     <ClInclude Include="..\Classes\scenes\SceneUtil.h" />
+    <ClInclude Include="..\Classes\spells\FirePattern.hpp" />
     <ClInclude Include="..\Classes\spells\Spell.hpp" />
     <ClInclude Include="..\Classes\types.h" />
     <ClInclude Include="..\Classes\util.h" />

@@ -35,7 +35,10 @@ const map<EventKeyboard::KeyCode, bitset<to_size_t(ControlAction::end)>> Control
 	key_action_1(KEY_1,spell1)
 	key_action_1(KEY_2, spell2)
 	key_action_1(KEY_3, spell3)
-	key_action_1(KEY_4, spell4)	
+	key_action_1(KEY_4, spell4)
+
+	key_action_1(KEY_COMMA, firePatternPrev)
+	key_action_1(KEY_PERIOD, firePatternNext)
 	
 	key_action_2(KEY_W,move_pad_up,menuUp)
 	key_action_2(KEY_S, move_pad_down, menuDown)

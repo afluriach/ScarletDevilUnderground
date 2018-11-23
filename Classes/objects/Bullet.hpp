@@ -94,8 +94,23 @@ public:
 
 	FlandreBigOrb1(float angle, const SpaceVect& pos);
 
-	virtual inline float getMaxSpeed() const { return 6.0f; }
-	virtual inline float getRadius() const { return 0.3; }
+	virtual inline float getMaxSpeed() const { return 4.5f; }
+	virtual inline float getRadius() const { return 0.6f; }
+
+	virtual inline string imageSpritePath() const { return "sprites/flandre_bullet.png"; }
+
+	static constexpr float spriteBaseRadius = 0.83f;
+	inline virtual float zoom() const { return getRadius() / spriteBaseRadius * 2; }
+};
+
+class FlandreFastOrb1 : virtual public GObject, public PlayerBullet, public CircleBody, public ImageSprite, public DirectionalLaunch
+{
+public:
+
+	FlandreFastOrb1(float angle, const SpaceVect& pos);
+
+	virtual inline float getMaxSpeed() const { return 9.0f; }
+	virtual inline float getRadius() const { return 0.15f; }
 
 	virtual inline string imageSpritePath() const { return "sprites/flandre_bullet.png"; }
 
