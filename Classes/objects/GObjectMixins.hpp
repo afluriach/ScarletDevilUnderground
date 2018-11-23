@@ -60,26 +60,6 @@ class DialogEntity : public InteractibleObject
     }
 };
 
-class Spellcaster : public virtual GObject, RegisterUpdate<Spellcaster>
-{
-public:
-    Spellcaster();
-	virtual ~Spellcaster();
-    void cast(unique_ptr<Spell> spell);
-    void cast(const string& name, const ValueMap& args);
-//For Luabridge
-    void castByName(string name, const ValueMap& args);
-    void update();
-    void stop();
-    
-    bool isSpellActive() const{
-        return static_cast<bool>(crntSpell);
-    }
-    
-protected:
-    unique_ptr<Spell> crntSpell;
-};
-
 //END LOGIC
 
 //PHYSICS MIXINS

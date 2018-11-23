@@ -26,67 +26,6 @@ void DialogEntity::interact()
     GScene::crntScene->createDialog(getDialog(), false);
 }
 
-Spellcaster::Spellcaster() :
-RegisterUpdate(this)
-{}
-
-void Spellcaster::cast(unique_ptr<Spell> spell)
-{
-    if(crntSpell.get()){
-        crntSpell->end();
-    }
-    spell->init();
-    crntSpell = move(spell);
-}
-
-void Spellcaster::cast(const string& name, const ValueMap& args)
-{
-    auto it_adaptor = Spell::adapters.find(name);
-    
-    if(it_adaptor != Spell::adapters.end()){
-        //Check for a Spell class
-        cast(it_adaptor->second(this, args));
-        return;
-    }
-    auto it_script = Spell::scripts.find(name);
-    if(it_script != Spell::scripts.end()){
-        //Check for a spell script.
-        cast(make_unique<ScriptedSpell>(this, name, args));
-        return;
-    }
-    
-    log("Spell %s not available.", name.c_str());
-}
-
-void Spellcaster::castByName(string name, const ValueMap& args)
-{
-    cast(name, args);
-}
-
-void Spellcaster::stop()
-{
-    if(crntSpell.get())
-        crntSpell->end();
-    crntSpell.reset();
-}
-
-void Spellcaster::update()
-{
-    if(crntSpell.get()){
-        if(crntSpell->isActive())
-            crntSpell->update();
-        else
-            stop();
-    }
-}
-
-Spellcaster::~Spellcaster()
-{
-    if(crntSpell.get()){
-        crntSpell->end();
-    }
-}
-
 //END LOGIC
 
 //PHYSICS MIXINS

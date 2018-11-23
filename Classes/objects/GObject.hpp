@@ -64,17 +64,8 @@ public:
 
 	//Called on the first frame after it has been added, before update is called on it or any other
 	//objects in the same frame
-	inline void init(){
-		multiInit();
-        setupLuaContext();
-		runLuaInit();
-	}
-
-	inline void update(){
-		multiUpdate();
-		runLuaUpdate();
-        updateSprite();
-	}
+	void init();
+	void update();
     
 	//BEGIN PHYSICS
 
@@ -165,6 +156,24 @@ public:
     }
 
     //END GRAPHICS
+
+	//BEGIN SPELLS
+
+	void cast(unique_ptr<Spell> spell);
+	void cast(const string& name, const ValueMap& args);
+	//For Luabridge
+	void castByName(string name, const ValueMap& args);
+
+	void stopSpell();
+	void updateSpells();
+
+	inline bool isSpellActive() const {
+		return static_cast<bool>(crntSpell);
+	}
+
+	unique_ptr<Spell> crntSpell;
+
+	//END SPELLS
 };
 
 #endif /* GObject_hpp */

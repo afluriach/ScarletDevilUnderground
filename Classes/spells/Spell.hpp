@@ -17,18 +17,16 @@
 #include "types.h"
 #include "util.h"
 
-class Spellcaster;
-
-#define STANDARD_CONS(name) inline name(Spellcaster* caster,const ValueMap& args) : Spell(caster,args) {}
+#define STANDARD_CONS(name) inline name(GObject* caster,const ValueMap& args) : Spell(caster,args) {}
 
 class Spell
 {
 public:
-    typedef function<unique_ptr<Spell>(Spellcaster*,const ValueMap&)> AdapterType;
+    typedef function<unique_ptr<Spell>(GObject*,const ValueMap&)> AdapterType;
     static const unordered_map<string,AdapterType> adapters;
     static const set<string> scripts;
 
-    inline Spell(Spellcaster* caster,const ValueMap& args) : caster(caster){
+    inline Spell(GObject* caster,const ValueMap& args) : caster(caster){
     }
     
 	inline virtual ~Spell() {}
@@ -41,7 +39,7 @@ public:
     virtual void update() = 0;
     virtual void end() = 0;
 protected:
-    Spellcaster* caster;
+    GObject* caster;
     bool active = true;
 };
 
@@ -61,7 +59,7 @@ protected:
 //Size variation, similarly, and the two should be inversely correlated.
 class StarlightTyphoon : public Spell{
 public:
-    StarlightTyphoon(Spellcaster* caster, const ValueMap& args);
+    StarlightTyphoon(GObject* caster, const ValueMap& args);
     void init();
     void update();
     void end();
@@ -127,7 +125,7 @@ public:
 
 class ScriptedSpell : public Spell{
 public:
-    ScriptedSpell(Spellcaster* caster, const string& scriptRes, const ValueMap& args);
+    ScriptedSpell(GObject* caster, const string& scriptRes, const ValueMap& args);
     virtual void init();
     virtual void update();
     virtual void end();
@@ -173,7 +171,7 @@ public:
     vector<bool> launch_flags;
 	unsigned int framesSinceLastFire = 0;
 
-    IllusionDial(Spellcaster* caster,const ValueMap& args);
+    IllusionDial(GObject* caster,const ValueMap& args);
     
     inline virtual float interval() const {return 0.0f;};
     

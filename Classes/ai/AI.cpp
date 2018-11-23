@@ -749,30 +749,18 @@ Cast::Cast(const ValueMap& args)
 
 void Cast::onEnter(StateMachine& sm)
 {
-    Spellcaster* caster = dynamic_cast<Spellcaster*>(sm.agent);
-    
-    if(caster)
-    {
-        caster->cast(spell_name,spell_args);
-    }
+	sm.agent->cast(spell_name,spell_args);
 }
 
 void Cast::update(StateMachine& sm)
-{
-    Spellcaster* caster = dynamic_cast<Spellcaster*>(sm.agent);
-    
-    if(!caster->isSpellActive())
+{    
+    if(!sm.agent->isSpellActive())
         sm.pop();
 }
 
 void Cast::onExit(StateMachine& sm)
 {
-    Spellcaster* caster = dynamic_cast<Spellcaster*>(sm.agent);
-    
-    if(caster)
-    {
-        caster->stop();
-    }
+	sm.agent->stopSpell();
 }
 
 void FacerMain::onEnter(StateMachine& sm)

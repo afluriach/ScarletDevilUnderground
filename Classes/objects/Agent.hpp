@@ -13,7 +13,7 @@
 #include "AIMixins.hpp"
 #include "GObject.hpp"
 
-class Agent : virtual public GObject, public PatchConSprite, public CircleBody, public StateMachineObject, public RadarObject, public Spellcaster, RegisterInit<Agent>
+class Agent : virtual public GObject, public PatchConSprite, public CircleBody, public StateMachineObject, public RadarObject, RegisterInit<Agent>
 {
 public:
 	Agent(const ValueMap& args);

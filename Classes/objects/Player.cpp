@@ -75,14 +75,14 @@ void Player::checkBatModeControls()
 
 }
 
-void Player::updateSpell()
+void Player::updateSpellControls()
 {
     auto cr = app->control_register;
     
-    if(isSpellActive())
+    if(crntSpell.get())
     {
         if(cr->isControlActionPressed(ControlAction::spell1)){
-            stop();
+            stopSpell();
         }
     }
     else
@@ -98,10 +98,8 @@ void Player::updateSpell()
     }
 }
 
-void Player::stop()
+void Player::onSpellStop()
 {
-    Spellcaster::stop();
-
     spellCooldown = spellCooldownTime;
     app->hud->power->runFlicker();
 }
@@ -187,7 +185,7 @@ void Player::update()
         updateHitTime();
         checkBaseControls();
     }
-    updateSpell();
+    updateSpellControls();
     
     if(health <= 0 && !app->suppressGameOver)
         app->playScene->triggerGameOver();

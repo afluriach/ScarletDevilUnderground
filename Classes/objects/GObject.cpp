@@ -12,6 +12,7 @@
 #include "GObject.hpp"
 #include "LuaAPI.hpp"
 #include "macros.h"
+#include "Spell.hpp"
 #include "util.h"
 #include "value_map.hpp"
 
@@ -59,6 +60,9 @@ GObject::~GObject()
 {
     if(sprite)
         sprite->removeFromParent();
+
+	if (crntSpell.get())
+		crntSpell->end();
 }
 
 GObject* GObject::constructByType(const string& type, const ValueMap& args )
@@ -73,6 +77,21 @@ GObject* GObject::constructByType(const string& type, const ValueMap& args )
         log("Unknown object type %s!", type.c_str());
         return nullptr;
     }
+}
+
+void GObject::init()
+{
+	multiInit();
+	setupLuaContext();
+	runLuaInit();
+}
+
+void GObject::update()
+{
+	multiUpdate();
+	runLuaUpdate();
+	updateSprite();
+	updateSpells();
 }
 
 //BEGIN PHYSICS
@@ -273,3 +292,60 @@ void GObject::updateSprite()
 }
 
 //END GRAPHICS
+
+//BEGIN SPELLS
+
+void GObject::cast(unique_ptr<Spell> spell)
+{
+	if (crntSpell.get()) {
+		crntSpell->end();
+	}
+	spell->init();
+	crntSpell = move(spell);
+}
+
+void GObject::cast(const string& name, const ValueMap& args)
+{
+	auto it_adaptor = Spell::adapters.find(name);
+
+	if (it_adaptor != Spell::adapters.end()) {
+		//Check for a Spell class
+		cast(it_adaptor->second(this, args));
+		return;
+	}
+	auto it_script = Spell::scripts.find(name);
+	if (it_script != Spell::scripts.end()) {
+		//Check for a spell script.
+		cast(make_unique<ScriptedSpell>(this, name, args));
+		return;
+	}
+
+	log("Spell %s not available.", name.c_str());
+}
+
+void GObject::castByName(string name, const ValueMap& args)
+{
+	cast(name, args);
+}
+
+void GObject::stopSpell()
+{
+	if (crntSpell.get())
+		crntSpell->end();
+	crntSpell.reset();
+}
+
+void GObject::updateSpells()
+{
+	if (crntSpell.get()) {
+		if (crntSpell->isActive()) {
+			crntSpell->update();
+		}
+		else {
+			crntSpell->end();
+			crntSpell = nullptr;
+		}
+	}
+}
+
+//END SPELLS

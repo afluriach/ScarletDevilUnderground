@@ -21,7 +21,6 @@ class Player : virtual public GObject,
 public PatchConSprite,
 public CircleBody,
 public RadarObject,
-public Spellcaster,
 RegisterInit<Player>,
 RegisterUpdate<Player>
 {
@@ -81,8 +80,6 @@ public:
     inline bool isSpellProtectionMode() const {return spellProtectionMode;}
     inline void setSpellProtectionMode(bool mode) {spellProtectionMode = mode;}
     
-    virtual void stop();
-    
     void setMaxHealth(int val);
 
     virtual inline float getRadius() const {return 0.35f;}
@@ -97,7 +94,8 @@ public:
     void updateHitTime();
     void checkBaseControls();
     void checkBatModeControls();
-    void updateSpell();
+    void updateSpellControls();
+	void onSpellStop();
     
 	inline FirePattern* getFirePattern() {
 		if (firePatterns.empty())

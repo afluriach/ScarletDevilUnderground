@@ -61,7 +61,7 @@ void FlameFence::end()
     }
 }
 
-ScriptedSpell::ScriptedSpell(Spellcaster* caster, const string& scriptRes, const ValueMap& args):
+ScriptedSpell::ScriptedSpell(GObject* caster, const string& scriptRes, const ValueMap& args):
 Spell(caster, args),
 //luaArgs(Lua::convert<ValueMap>::convertToLua(args, ctx.state)),
 ctx(boost::lexical_cast<string>(caster->uuid) + "_" + scriptRes)
@@ -83,7 +83,7 @@ void ScriptedSpell::end(){
     ctx.callIfExistsNoReturn("exit");
 }
 
-StarlightTyphoon::StarlightTyphoon(Spellcaster* caster, const ValueMap& args):
+StarlightTyphoon::StarlightTyphoon(GObject* caster, const ValueMap& args):
 Spell(caster, args)
 {
     set_float_arg(count, 30.0f)
@@ -128,7 +128,7 @@ void StarlightTyphoon::update()
     }
     
     if(elapsed > duration){
-        caster->stop();
+        caster->stopSpell();
     }
 }
 void StarlightTyphoon::end()
@@ -151,7 +151,7 @@ const float IllusionDial::angular_speed = float_pi * 2.0f / 3.0f;
 const float IllusionDial::max_angle_margin = float_pi / 12.0f;
 const float IllusionDial::min_fire_interval = 1.0f / 3.0f;
 
-IllusionDial::IllusionDial(Spellcaster* caster,const ValueMap& args) :
+IllusionDial::IllusionDial(GObject* caster,const ValueMap& args) :
 Spell(caster,args),
 bullets(count),
 launch_flags(count, false)
@@ -250,4 +250,5 @@ void PlayerBatMode::end()
     p->setSpellProtectionMode(false);
     p->setSprite("flandre");
     p->setMaxSpeed(Player::baseMaxSpeed);
+	p->onSpellStop();
 }

@@ -216,10 +216,10 @@ void dostring_in_inst(string script, string inst_name)
 void castSpellWithArgs(string casterName, string spell, ValueMap args)
 {
     if(!app->space) throw lua_runtime_error("castSpellWithArgs: Cannot access objects in this scene.");
-    Spellcaster* caster = app->space->getObject<Spellcaster>(casterName);
+    GObject* caster = app->space->getObject(casterName);
 
     if(!caster){
-        throw lua_runtime_error("castSpell: Spellcaster " + casterName + " not found");
+        throw lua_runtime_error("castSpell: " + casterName + " not found");
     }
 
     caster->cast(spell, args);
@@ -233,13 +233,13 @@ void castSpell(string casterName, string spell)
 void stopSpell(string casterName)
 {
     if(!app->space) throw lua_runtime_error("stopSpell: Cannot access objects in this scene.");
-    Spellcaster* caster = app->space->getObject<Spellcaster>(casterName);
+    GObject* caster = app->space->getObject(casterName);
 
     if(!caster){
-        throw lua_runtime_error("castSpell: Spellcaster " + casterName + " not found");
+        throw lua_runtime_error("castSpell: " + casterName + " not found");
     }
 
-    caster->stop();
+    caster->stopSpell();
 }
 
 bool isObstacle(IntVec2 v)
