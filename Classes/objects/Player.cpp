@@ -39,7 +39,7 @@ const float Player::batModeMaxSpeed = 5.0f;
 
 Player::Player(const ValueMap& args) :
 	GObject(args),
-	PatchConSprite(args),
+	Agent(args),
 	RegisterInit<Player>(this),
 	RegisterUpdate<Player>(this)
 {}

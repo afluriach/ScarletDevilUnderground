@@ -9,6 +9,7 @@
 #ifndef Player_hpp
 #define Player_hpp
 
+#include "Agent.hpp"
 #include "AIMixins.hpp"
 #include "GObject.hpp"
 #include "GObjectMixins.hpp"
@@ -18,9 +19,7 @@ class Collectible;
 class FirePattern;
 
 class Player : virtual public GObject,
-public PatchConSprite,
-public CircleBody,
-public RadarObject,
+public Agent,
 RegisterInit<Player>,
 RegisterUpdate<Player>
 {
