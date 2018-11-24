@@ -323,6 +323,11 @@ void runScene(string name)
     GScene::runScene(name);
 }
 
+void setPlayer(int id)
+{
+	app->crntPC = static_cast<PlayerCharacter>(id);
+}
+
 StateMachineObject* getFSMObject(string funcName,string objName)
 {
 	if (!app->space)
@@ -476,6 +481,7 @@ make_wrapper_same(setSpriteShader)
 make_wrapper_same(runscript)
 make_wrapper_same(showHealth)
 make_wrapper_same(setPlayerHealth)
+make_wrapper_same(setPlayer)
 make_wrapper_same(suppressGameOver)
 make_wrapper_same(setPaused)
 make_wrapper_same(getFrameNumber)

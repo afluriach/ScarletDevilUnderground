@@ -40,12 +40,11 @@ Player::Player(const ValueMap& args) :
 
 void Player::init()
 {
-	firePatterns.push_back(make_unique<FlandreBigOrbPattern>(this));
-	firePatterns.push_back(make_unique<FlandreFastOrbPattern>(this));
+	setFirePatterns();
+	if(getFirePattern())
+		app->hud->firePatternIcon->setTexture(getFirePattern()->iconPath());
 
-	app->hud->firePatternIcon->setTexture(getFirePattern()->iconPath());
-
-	attributeSystem.baseAttributes = {5,500,3,9,2.4f};
+	attributeSystem.baseAttributes = getAttributes();
 
 	power = attributeSystem.getAdjustedValue(Attribute::power);
 	health = attributeSystem.getAdjustedValue(Attribute::health);
@@ -290,4 +289,46 @@ float Player::AttributeSystem::getAdjustedValue(Attribute id) const
 	}
 
 	return baseAttributes.at(to_size_t(id)) + modifiers.at(to_size_t(id));
+}
+
+FlandrePC::FlandrePC(const ValueMap& args) :
+	GObject(args),
+	Player(args)
+{}
+
+void FlandrePC::setFirePatterns()
+{
+	firePatterns.push_back(make_unique<FlandreBigOrbPattern>(this));
+	firePatterns.push_back(make_unique<FlandreFastOrbPattern>(this));
+}
+
+Player::AttributeSet FlandrePC::getAttributes() {
+	return { 5, 500, 3, 9, 2.4f };
+}
+
+RumiaPC::RumiaPC(const ValueMap& args) :
+	GObject(args),
+	Player(args)
+{}
+
+void RumiaPC::setFirePatterns()
+{
+}
+
+Player::AttributeSet RumiaPC::getAttributes() {
+	return { 3, 900, 4.5, 12, 1.5f };
+}
+
+
+CirnoPC::CirnoPC(const ValueMap& args) :
+	GObject(args),
+	Player(args)
+{}
+
+void CirnoPC::setFirePatterns()
+{
+}
+
+Player::AttributeSet CirnoPC::getAttributes() {
+	return { 9, 300, 2, 6, 3.3f };
 }

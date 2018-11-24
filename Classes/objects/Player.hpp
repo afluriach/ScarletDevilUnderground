@@ -60,6 +60,9 @@ public:
 
 	virtual float getMaxHealth() const;
 	virtual float getMaxPower() const;
+
+	virtual AttributeSet getAttributes() = 0;
+	virtual void setFirePatterns() = 0;
     
     //setting for player object sensing
 	inline virtual float getRadarRadius() const { return 2.5f; }
@@ -95,7 +98,6 @@ public:
     inline float getMass() const {return 20.0f;}
     virtual inline GType getType() const {return GType::player;}
     
-    inline string imageSpritePath() const {return "sprites/flandre.png";}
     inline GraphicsLayer sceneLayer() const {return GraphicsLayer::ground;}
     
 	void init();
@@ -134,6 +136,42 @@ protected:
     int power;
     
     bool spellProtectionMode = false;
+};
+
+class FlandrePC : public Player
+{
+public:
+	static const AttributeSet baseAttributeSet;
+
+	FlandrePC(const ValueMap& args);
+
+	virtual inline string imageSpritePath() const { return "sprites/flandre.png"; }
+	virtual void setFirePatterns();
+	virtual AttributeSet getAttributes();
+};
+
+class RumiaPC : public Player
+{
+public:
+	static const AttributeSet baseAttributeSet;
+
+	RumiaPC(const ValueMap& args);
+
+	virtual inline string imageSpritePath() const { return "sprites/marisa.png"; }
+	virtual void setFirePatterns();
+	virtual AttributeSet getAttributes();
+};
+
+class CirnoPC : public Player
+{
+public:
+	static const AttributeSet baseAttributeSet;
+
+	CirnoPC(const ValueMap& args);
+	
+	virtual inline string imageSpritePath() const { return "sprites/cirno.png"; }
+	virtual void setFirePatterns();
+	virtual AttributeSet getAttributes();
 };
 
 #endif /* Player_hpp */

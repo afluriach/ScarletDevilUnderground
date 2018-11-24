@@ -73,6 +73,7 @@ public:
     HUD* hud = nullptr;
     Lua::Inst lua;
     GSpace* space = nullptr;
+	PlayerCharacter crntPC = PlayerCharacter::flandre;
     PlayScene* playScene = nullptr;
 
     boost::random::uniform_01<float> randomFloat;

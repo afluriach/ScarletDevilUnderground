@@ -9,6 +9,7 @@
 #include "Prefix.h"
 
 #include "Agent.hpp"
+#include "App.h"
 #include "Block.hpp"
 #include "Bullet.hpp"
 #include "CollectGlyph.hpp"
@@ -47,6 +48,22 @@ static GObject::AdapterType itemAdapter(const string& name)
     };
 }
 
+GObject::AdapterType playerAdapter()
+{
+	return [](const ValueMap& args) -> GObject* {
+		switch (app->crntPC) {
+		case PlayerCharacter::flandre:
+			return new FlandrePC(args);
+		case PlayerCharacter::rumia:
+			return new RumiaPC(args);
+		case PlayerCharacter::cirno:
+			return new CirnoPC(args);
+		default:
+			return nullptr;
+		}
+	};
+}
+
 #define entry(name,cls) (name, consAdapter<cls>())
 //To make an entry where the name matches the class
 #define entry_same(cls) entry(#cls, cls)
@@ -80,4 +97,4 @@ const unordered_map<string,GObject::AdapterType> GObject::adapters =
     entry_same(GenericAgent)
 	entry_same(Tewi)
 
-    entry_same(Player);
+	("Player", playerAdapter());
