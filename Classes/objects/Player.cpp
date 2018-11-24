@@ -22,8 +22,6 @@
 #include "PlayScene.hpp"
 #include "Spell.hpp"
 
-const int Player::defaultMaxHealth = 5;
-const int Player::defaultMaxPower = 500;
 
 const int Player::batModeInitialCost = 9;
 const int Player::batModeCostPerSecond = 5;
@@ -31,11 +29,7 @@ const int Player::batModeCostPerSecond = 5;
 const float Player::interactCooldownTime = 0.1f;
 
 const float Player::spellCooldownTime = 1.0f;
-const float Player::hitProtectionTime = 2.4f;
 const float Player::hitFlickerInterval = 0.3f;
-
-const float Player::baseMaxSpeed = 3.0f;
-const float Player::batModeMaxSpeed = 5.0f;
 
 Player::Player(const ValueMap& args) :
 	GObject(args),
@@ -50,6 +44,13 @@ void Player::init()
 	firePatterns.push_back(make_unique<FlandreFastOrbPattern>(this));
 
 	app->hud->firePatternIcon->setTexture(getFirePattern()->iconPath());
+
+	attributeSystem.baseAttributes = {5,500,3,9,2.4f};
+
+	power = attributeSystem.getAdjustedValue(Attribute::power);
+	health = attributeSystem.getAdjustedValue(Attribute::health);
+
+	app->hud->health->setMax(health);
 }
 
 void Player::checkBatModeControls()
@@ -191,29 +192,47 @@ void Player::update()
         app->playScene->triggerGameOver();
 }
 
+void Player::applyAttributeModifier(Attribute id, float val)
+{
+	if (id >= Attribute::end) {
+		log("invalid attribute %d", id);
+		return;
+	}
+
+	attributeSystem.modifiers.at(to_size_t(id)) += val;
+}
+
 void Player::hit(){
     if(hitProtectionCountdown <= 0 && !spellProtectionMode){
-        hitProtectionCountdown = hitProtectionTime;
-        sprite->runAction(flickerAction(hitFlickerInterval, hitProtectionTime, 81.0f));
-        app->hud->health->runFlicker();
+        hitProtectionCountdown = attributeSystem.getAdjustedValue(Attribute::hitProtection);
+        sprite->runAction(flickerAction(hitFlickerInterval, hitProtectionCountdown, 81.0f));
+        app->hud->health->runFlicker(hitProtectionCountdown);
     
         health -= 1;
         if(health < 0) health = 0;
     }
 }
 
-void Player::setMaxHealth(int val){
-    maxHealth = val;
-    
-    if(health > maxHealth){
-        health = maxHealth;
-        if(app->hud)
-            app->hud->health->setValue(maxHealth);
-    }
-    
-    if(app->hud)
-        app->hud->health->setMax(maxHealth);
+float Player::getMaxSpeed() const
+{
+	return attributeSystem.getAdjustedValue(Attribute::speed);
 }
+
+float Player::getMaxAcceleration() const
+{
+	return attributeSystem.getAdjustedValue(Attribute::acceleration);
+}
+
+float Player::getMaxPower() const
+{
+	return attributeSystem.getAdjustedValue(Attribute::power);
+}
+
+float Player::getMaxHealth() const
+{
+	return attributeSystem.getAdjustedValue(Attribute::health);
+}
+
 
 void Player::onCollectible(Collectible* coll)
 {
@@ -222,8 +241,8 @@ void Player::onCollectible(Collectible* coll)
     if(p){
         power += 10;
         
-        if(power > maxPower)
-            power = maxPower;
+        if(power > attributeSystem.getAdjustedValue(Attribute::power))
+            power = attributeSystem.getAdjustedValue(Attribute::power);
         
         app->space->removeObject(coll);
     }
@@ -255,4 +274,20 @@ bool Player::trySetFirePatternNext()
 bool Player::trySetFirePatternPrevious()
 {
 	return trySetFirePattern((crntFirePattern - 1) % firePatterns.size());
+}
+
+Player::AttributeSystem::AttributeSystem()
+{
+	baseAttributes = { 0.0f,0.0f, 0.0f, 0.0f, 0.0f };
+	modifiers = { 0.0f,0.0f, 0.0f, 0.0f, 0.0f };
+}
+
+float Player::AttributeSystem::getAdjustedValue(Attribute id) const
+{
+	if (id >= Attribute::end) {
+		log("invalid attribute %d", id);
+		return 0.0f;
+	}
+
+	return baseAttributes.at(to_size_t(id)) + modifiers.at(to_size_t(id));
 }

@@ -21,7 +21,7 @@ public:
     CREATE_FUNC(HealthBar);
     void setMax(int);
     void setValue(int);
-    void runFlicker();
+    void runFlicker(float duration);
 protected:
     Vector<Sprite*> heartSprites;
     int crntVal = 0;

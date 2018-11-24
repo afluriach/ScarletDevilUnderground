@@ -48,11 +48,11 @@ void HealthBar::setValue(int v)
     crntVal = v;
 }
 
-void HealthBar::runFlicker()
+void HealthBar::runFlicker(float duration)
 {
     //TintTo action does not apply recursively.
     for_irange(i,0,heartSprites.size())
-        heartSprites.at(i)->runAction(flickerTintAction(Player::hitFlickerInterval, Player::hitProtectionTime,Color3B(127,127,127)));
+        heartSprites.at(i)->runAction(flickerTintAction(Player::hitFlickerInterval, duration,Color3B(127,127,127)));
 }
 
 //const Color4F HUD::backgroundColor = Color4F(0,0,0,0.75);
@@ -98,7 +98,7 @@ bool HUD::init()
     health = HealthBar::create();
     health->setPosition(32, App::height - height/2);
     addChild(health, 2);
-    health->setMax(Player::defaultMaxHealth);
+    health->setMax(1);
     
     power = PowerMeter::create();
     power->setPosition(App::width/2, App::height - height/2);

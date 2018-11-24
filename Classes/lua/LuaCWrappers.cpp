@@ -174,22 +174,6 @@ void setPlayerHealth(int val)
     p->setHealth(val);
 }
 
-void setPlayerMaxHealth(int val)
-{
-    if(!app->space) throw lua_runtime_error("setPlayerMaxHealth: Cannot access objects in this scene.");
-    
-    Player* p = app->space->getObject<Player>("player");
-    
-    if(!p)
-        throw lua_runtime_error("setPlayerMaxHealth: Player is not available.");
-    
-    if(val <= 0)
-        throw lua_runtime_error("setPlayerMaxHealth: value outside valid range.");
-    
-    p->setMaxHealth(val);
-
-}
-
 void suppressGameOver(bool b)
 {
     app->suppressGameOver = b;
@@ -492,7 +476,6 @@ make_wrapper_same(setSpriteShader)
 make_wrapper_same(runscript)
 make_wrapper_same(showHealth)
 make_wrapper_same(setPlayerHealth)
-make_wrapper_same(setPlayerMaxHealth)
 make_wrapper_same(suppressGameOver)
 make_wrapper_same(setPaused)
 make_wrapper_same(getFrameNumber)

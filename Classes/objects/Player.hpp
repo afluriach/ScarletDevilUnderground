@@ -23,27 +23,43 @@ public Agent,
 RegisterInit<Player>,
 RegisterUpdate<Player>
 {
-public:
-    static const int defaultMaxHealth;
-    static const int defaultMaxPower;
-    
-    static const int batModeInitialCost;
+public:    	
+	enum class Attribute {
+		health = 0,
+		power,
+		speed,
+		acceleration,
+		hitProtection,
+		
+		end,
+	};
+
+	typedef array<float, to_size_t(Player::Attribute::end)> AttributeSet;
+
+	struct AttributeSystem
+	{
+		AttributeSet baseAttributes;
+		AttributeSet modifiers;
+
+		AttributeSystem();
+		float getAdjustedValue(Attribute id) const;
+	};
+	
+	static const int batModeInitialCost;
     static const int batModeCostPerSecond;
     
     static const float interactCooldownTime;
     
     static const float spellCooldownTime;
-    static const float hitProtectionTime;
     static const float hitFlickerInterval;
     
-    static const float baseMaxSpeed;
-    static const float batModeMaxSpeed;
-
 	Player(const ValueMap& args);
     
-    inline void setMaxSpeed(float s) {crntMaxSpeed = s;}
-    virtual inline float getMaxSpeed() const{ return crntMaxSpeed;}
-    virtual inline float getMaxAcceleration() const {return 6.0f;}
+	virtual float getMaxSpeed() const;
+	virtual float getMaxAcceleration() const;
+
+	virtual float getMaxHealth() const;
+	virtual float getMaxPower() const;
     
     //setting for player object sensing
 	inline virtual float getRadarRadius() const { return 2.5f; }
@@ -59,11 +75,7 @@ public:
     inline void setHealth(int val){
         health = val;
     }
-    
-    inline int getMaxHealth(){
-        return maxHealth;
-    }
-    
+        
     inline int getPower(){
         return power;
     }
@@ -79,8 +91,6 @@ public:
     inline bool isSpellProtectionMode() const {return spellProtectionMode;}
     inline void setSpellProtectionMode(bool mode) {spellProtectionMode = mode;}
     
-    void setMaxHealth(int val);
-
     virtual inline float getRadius() const {return 0.35f;}
     inline float getMass() const {return 20.0f;}
     virtual inline GType getType() const {return GType::player;}
@@ -95,6 +105,8 @@ public:
     void checkBatModeControls();
     void updateSpellControls();
 	void onSpellStop();
+
+	void applyAttributeModifier(Attribute id, float val);
     
 	inline FirePattern* getFirePattern() {
 		if (firePatterns.empty())
@@ -109,6 +121,8 @@ public:
 
     void onCollectible(Collectible* coll);
 protected:
+	AttributeSystem attributeSystem;
+
     float hitProtectionCountdown = 0.0f;
     float spellCooldown = 0.0f;
     float interactCooldown = 0.0f;
@@ -116,13 +130,8 @@ protected:
 	vector<unique_ptr<FirePattern>> firePatterns;
 	int crntFirePattern = 0;
     
-    float crntMaxSpeed = baseMaxSpeed;
-    
-    int maxHealth = defaultMaxHealth;
-    int health = defaultMaxHealth;
-    
-    int maxPower = defaultMaxPower;
-    int power = 100;
+    int health;    
+    int power;
     
     bool spellProtectionMode = false;
 };

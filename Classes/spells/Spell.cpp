@@ -231,7 +231,7 @@ void PlayerBatMode::init()
 
     p->setSpellProtectionMode(true);
     p->setSprite("flandre_bat");
-    p->setMaxSpeed(Player::batModeMaxSpeed);
+	p->applyAttributeModifier(Player::Attribute::speed, 1.5f);
 }
 void PlayerBatMode::update()
 {
@@ -249,6 +249,6 @@ void PlayerBatMode::end()
 {
     p->setSpellProtectionMode(false);
     p->setSprite("flandre");
-    p->setMaxSpeed(Player::baseMaxSpeed);
+	p->applyAttributeModifier(Player::Attribute::speed, -1.5f);
 	p->onSpellStop();
 }
