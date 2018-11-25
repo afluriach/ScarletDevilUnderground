@@ -246,6 +246,7 @@ void GObject::update()
 
 string GObject::getScriptVal(string name) {
     if_lua_ctx { return ctx->getSerialized(name); }
+	else return "";
 }
 
 void GObject::setScriptVal(string field, string val) {
@@ -254,6 +255,7 @@ void GObject::setScriptVal(string field, string val) {
 
 string GObject::_callScriptVal(string field, string args) {
     if_lua_ctx { return ctx->callSerialized(field, args); }
+	else return "";
 }
 
 void GObject::runLuaInit() {
