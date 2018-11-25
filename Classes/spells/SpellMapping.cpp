@@ -25,6 +25,8 @@ const unordered_map<string,Spell::AdapterType> Spell::adapters = boost::assign::
     entry_same(FlameFence)
     entry_same(StarlightTyphoon)
 
+	entry_same(PlayerBatMode)
+
     entry_same(IllusionDial)
 ;
 

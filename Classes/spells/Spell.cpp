@@ -219,15 +219,15 @@ void IllusionDial::end()
 
 const int PlayerBatMode::framesPerDrain = App::framesPerSecond / Player::batModeCostPerSecond;
 
-PlayerBatMode::PlayerBatMode(Player* caster,const ValueMap& args) :
+PlayerBatMode::PlayerBatMode(GObject* caster,const ValueMap& args) :
 Spell(caster,args)
-{
-    p = caster;
-}
+{}
 
 void PlayerBatMode::init()
 {
-    p->consumePower(Player::batModeInitialCost);
+	Player* p = getCasterAs<Player>();
+	
+	p->consumePower(Player::batModeInitialCost);
 
     p->setSpellProtectionMode(true);
     p->setSprite("flandre_bat");
@@ -235,18 +235,22 @@ void PlayerBatMode::init()
 }
 void PlayerBatMode::update()
 {
-    if(framesSinceDrain >= framesPerDrain){
+	Player* p = getCasterAs<Player>();
+	
+	if(framesSinceDrain >= framesPerDrain){
         if(!p->consumePower(1)){
             active = false;
         }
         framesSinceDrain = 0;
     }
-    p->checkBatModeControls();
+	p->checkBatModeControls();
     ++framesSinceDrain;
 }
 
 void PlayerBatMode::end()
 {
+	Player* p = getCasterAs<Player>();
+
     p->setSpellProtectionMode(false);
     p->setSprite("flandre");
 	p->applyAttributeModifier(Player::Attribute::speed, -1.5f);

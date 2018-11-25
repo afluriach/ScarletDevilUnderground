@@ -35,6 +35,11 @@ public:
         return active;
     }
 
+	template<class T>
+	inline T* getCasterAs(){
+		return dynamic_cast<T*>(caster);
+	}
+
     virtual void init() = 0;
     virtual void update() = 0;
     virtual void end() = 0;
@@ -184,12 +189,11 @@ class PlayerBatMode : public Spell{
 public:
     static const int framesPerDrain;
 
-    PlayerBatMode(Player* caster, const ValueMap& args);
+    PlayerBatMode(GObject* caster, const ValueMap& args);
     virtual void init();
     virtual void update();
     virtual void end();
 protected:
-    Player* p = nullptr;
     int framesSinceDrain = 0;
 };
 
