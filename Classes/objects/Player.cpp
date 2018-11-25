@@ -306,7 +306,7 @@ Player::AttributeSet RumiaPC::getAttributes() {
 }
 
 void RumiaPC::equipSpells() {
-	//NO-OP
+	equippedSpell = Spell::spellDescriptors.find("PlayerDarkMist")->second;
 }
 
 

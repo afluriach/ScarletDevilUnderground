@@ -174,6 +174,15 @@ public:
 	unique_ptr<Spell> crntSpell;
 
 	//END SPELLS
+
+	//BEGIN SENSORY
+
+	bool isInvisible = false;
+
+	inline bool getInvisible() { return isInvisible; }
+	inline void setInvisible(bool val) { isInvisible = val; }
+	
+	//END SENSORY
 };
 
 #endif /* GObject_hpp */

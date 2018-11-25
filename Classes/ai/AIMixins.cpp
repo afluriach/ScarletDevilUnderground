@@ -91,6 +91,9 @@ void RadarObject::radarEndCollision(GObject* obj)
 
 bool RadarObject::isObjectVisible(GObject* other)
 {
+	if (other->getInvisible())
+		return false;
+
     if(fovAngle == 0.0f)
         return ai::isLineOfSight(*this, *other);
 

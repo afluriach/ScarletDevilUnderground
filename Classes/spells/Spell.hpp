@@ -234,4 +234,20 @@ protected:
     int framesSinceDrain = 0;
 };
 
+class PlayerDarkMist : virtual public Spell, public PlayerSpell {
+public:
+	static const string name;
+	static const string description;
+
+	static const int initialCost;
+	static const int costPerSecond;
+
+	PlayerDarkMist(GObject* caster, const ValueMap& args, SpellDesc* descriptor);
+	virtual void init();
+	virtual void end();
+protected:
+	int framesSinceDrain = 0;
+};
+
+
 #endif /* Spell_hpp */

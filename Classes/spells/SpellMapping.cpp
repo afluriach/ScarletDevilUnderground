@@ -27,6 +27,7 @@ const unordered_map<string,SpellDesc*> Spell::spellDescriptors = boost::assign::
     entry_same(StarlightTyphoon)
 
 	entry_same(PlayerBatMode)
+	entry_same(PlayerDarkMist)
 
     entry_same(IllusionDial)
 ;

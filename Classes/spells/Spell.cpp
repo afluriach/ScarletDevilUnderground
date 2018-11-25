@@ -274,3 +274,27 @@ void PlayerBatMode::end()
 	p->applyAttributeModifier(Player::Attribute::speed, -1.5f);
 	p->onSpellStop();
 }
+
+const string PlayerDarkMist::name = "PlayerDarkMist";
+const string PlayerDarkMist::description = "";
+
+const int PlayerDarkMist::initialCost = 10;
+const int PlayerDarkMist::costPerSecond = 5;
+
+PlayerDarkMist::PlayerDarkMist(GObject* caster, const ValueMap& args, SpellDesc* descriptor) :
+	Spell(caster, args, descriptor)
+{}
+
+void PlayerDarkMist::init()
+{
+	PlayerSpell::init();
+
+	caster->sprite->setOpacity(128);
+	caster->setInvisible(true);
+}
+
+void PlayerDarkMist::end()
+{
+	caster->sprite->setOpacity(255);
+	caster->setInvisible(false);
+}
