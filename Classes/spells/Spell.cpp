@@ -13,7 +13,14 @@
 #include "macros.h"
 #include "Player.hpp"
 #include "Spell.hpp"
+#include "SpellDescriptor.hpp"
 #include "value_map.hpp"
+
+const string FireStarburst::name = "FireStarburst";
+const string FireStarburst::description = "";
+
+const int FireStarburst::initialCost = 0;
+const int FireStarburst::costPerSecond = 0;
 
 void FireStarburst::runPeriodic()
 {
@@ -29,6 +36,12 @@ void FireStarburst::runPeriodic()
         app->space->addObject(bullet);
     }
 }
+
+const string FlameFence::name = "FlameFence";
+const string FlameFence::description = "";
+
+const int FlameFence::initialCost = 0;
+const int FlameFence::costPerSecond = 0;
 
 void FlameFence::init()
 {
@@ -61,30 +74,14 @@ void FlameFence::end()
     }
 }
 
-ScriptedSpell::ScriptedSpell(GObject* caster, const string& scriptRes, const ValueMap& args):
-Spell(caster, args),
-//luaArgs(Lua::convert<ValueMap>::convertToLua(args, ctx.state)),
-ctx(boost::lexical_cast<string>(caster->uuid) + "_" + scriptRes)
-{
-    ctx.runFile("scripts/spells/" + scriptRes + ".lua");
-    //Push caster and args as global variables in the script's context.
-    ctx.setGlobal<GObject*>(caster, "caster");
-    ctx.setGlobal(args, "args");
-}
+const string StarlightTyphoon::name = "StarlightTyphoon";
+const string StarlightTyphoon::description = "";
 
-void ScriptedSpell::init(){
-    //ctx.callIfExistsNoReturn("init", {luaArgs});
-    ctx.callIfExistsNoReturn("init");
-}
-void ScriptedSpell::update(){
-    ctx.callIfExistsNoReturn("update");
-}
-void ScriptedSpell::end(){
-    ctx.callIfExistsNoReturn("exit");
-}
+const int StarlightTyphoon::initialCost = 0;
+const int StarlightTyphoon::costPerSecond = 0;
 
-StarlightTyphoon::StarlightTyphoon(GObject* caster, const ValueMap& args):
-Spell(caster, args)
+StarlightTyphoon::StarlightTyphoon(GObject* caster, const ValueMap& args, SpellDesc* descriptor):
+Spell(caster, args,descriptor)
 {
     set_float_arg(count, 30.0f)
     set_float_arg(duration, 1.0f)
@@ -139,6 +136,12 @@ void StarlightTyphoon::end()
 //{
 //}
 
+const string IllusionDial::name = "IllusionDial";
+const string IllusionDial::description = "";
+
+const int IllusionDial::initialCost = 0;
+const int IllusionDial::costPerSecond = 0;
+
 const int IllusionDial::count = 16;
 
 const float IllusionDial::radius = 2.5f;
@@ -151,8 +154,8 @@ const float IllusionDial::angular_speed = float_pi * 2.0f / 3.0f;
 const float IllusionDial::max_angle_margin = float_pi / 12.0f;
 const float IllusionDial::min_fire_interval = 1.0f / 3.0f;
 
-IllusionDial::IllusionDial(GObject* caster,const ValueMap& args) :
-Spell(caster,args),
+IllusionDial::IllusionDial(GObject* caster,const ValueMap& args, SpellDesc* descriptor) :
+Spell(caster,args,descriptor),
 bullets(count),
 launch_flags(count, false)
 {}
@@ -217,34 +220,48 @@ void IllusionDial::end()
     //delete remaining bullets
 }
 
-const int PlayerBatMode::framesPerDrain = App::framesPerSecond / Player::batModeCostPerSecond;
+void PlayerSpell::init()
+{
+	Player* p = getCasterAs<Player>();
 
-PlayerBatMode::PlayerBatMode(GObject* caster,const ValueMap& args) :
-Spell(caster,args)
+	p->consumePower(getDescriptor()->getInitialCost());
+}
+
+void PlayerSpell::update()
+{
+	Player* p = getCasterAs<Player>();
+
+	powerDrainAccumulator += App::secondsPerFrame * getDescriptor()->getCostPerSecond();
+
+	while (powerDrainAccumulator >= 1.0f)
+	{
+		if (!p->consumePower(1)) {
+			active = false;
+		}
+		powerDrainAccumulator -= 1.0f;
+	}
+}
+
+const string PlayerBatMode::name = "PlayerBatMode";
+const string PlayerBatMode::description = "";
+
+const int PlayerBatMode::initialCost = 9;
+const int PlayerBatMode::costPerSecond = 5;
+
+PlayerBatMode::PlayerBatMode(GObject* caster,const ValueMap& args, SpellDesc* descriptor) :
+Spell(caster,args,descriptor)
 {}
 
 void PlayerBatMode::init()
 {
+	PlayerSpell::init();
+
 	Player* p = getCasterAs<Player>();
-	
-	p->consumePower(Player::batModeInitialCost);
 
     p->setSpellProtectionMode(true);
+	p->setFiringSuppressed(true);
     p->setSprite("flandre_bat");
 	p->applyAttributeModifier(Player::Attribute::speed, 1.5f);
-}
-void PlayerBatMode::update()
-{
-	Player* p = getCasterAs<Player>();
-	
-	if(framesSinceDrain >= framesPerDrain){
-        if(!p->consumePower(1)){
-            active = false;
-        }
-        framesSinceDrain = 0;
-    }
-	p->checkBatModeControls();
-    ++framesSinceDrain;
 }
 
 void PlayerBatMode::end()
@@ -252,6 +269,7 @@ void PlayerBatMode::end()
 	Player* p = getCasterAs<Player>();
 
     p->setSpellProtectionMode(false);
+	p->setFiringSuppressed(false);
     p->setSprite("flandre");
 	p->applyAttributeModifier(Player::Attribute::speed, -1.5f);
 	p->onSpellStop();

@@ -13,6 +13,7 @@
 #include "LuaAPI.hpp"
 #include "macros.h"
 #include "Spell.hpp"
+#include "SpellDescriptor.hpp"
 #include "util.h"
 #include "value_map.hpp"
 
@@ -58,11 +59,6 @@ GObject::GObject(const string& name, const SpaceVect& pos, bool anonymous) :
 
 GObject::~GObject()
 {
-    if(sprite)
-        sprite->removeFromParent();
-
-	if (crntSpell.get())
-		crntSpell->end();
 }
 
 GObject* GObject::constructByType(const string& type, const ValueMap& args )
@@ -308,17 +304,11 @@ void GObject::cast(unique_ptr<Spell> spell)
 
 void GObject::cast(const string& name, const ValueMap& args)
 {
-	auto it_adaptor = Spell::adapters.find(name);
+	auto it_adaptor = Spell::spellDescriptors.find(name);
 
-	if (it_adaptor != Spell::adapters.end()) {
+	if (it_adaptor != Spell::spellDescriptors.end()) {
 		//Check for a Spell class
-		cast(it_adaptor->second(this, args));
-		return;
-	}
-	auto it_script = Spell::scripts.find(name);
-	if (it_script != Spell::scripts.end()) {
-		//Check for a spell script.
-		cast(make_unique<ScriptedSpell>(this, name, args));
+		cast(it_adaptor->second->generate(this, args));
 		return;
 	}
 

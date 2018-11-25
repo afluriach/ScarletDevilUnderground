@@ -21,10 +21,7 @@
 #include "Player.hpp"
 #include "PlayScene.hpp"
 #include "Spell.hpp"
-
-
-const int Player::batModeInitialCost = 9;
-const int Player::batModeCostPerSecond = 5;
+#include "SpellDescriptor.hpp"
 
 const float Player::interactCooldownTime = 0.1f;
 
@@ -50,9 +47,11 @@ void Player::init()
 	health = attributeSystem.getAdjustedValue(Attribute::health);
 
 	app->hud->health->setMax(health);
+
+	equipSpells();
 }
 
-void Player::checkBatModeControls()
+void Player::checkMovementControls()
 {
     auto cr = app->control_register;
     
@@ -91,8 +90,8 @@ void Player::updateSpellControls()
         
         if(spellCooldown <= 0){
             if( cr->isControlActionPressed(ControlAction::spell1) &&
-                power > Player::batModeInitialCost){
-                    cast(make_unique<PlayerBatMode>(this, ValueMap()));
+                power > equippedSpell->getInitialCost()){
+				cast(equippedSpell->generate(this, {}));
             }
         }
     }
@@ -104,55 +103,38 @@ void Player::onSpellStop()
     app->hud->power->runFlicker();
 }
 
-void Player::checkBaseControls()
+void Player::checkFireControls()
 {
-    if(app->dialog)
-        return;
-
-    auto cr = app->control_register;
-    
-    SpaceVect moveDir = cr->getLeftVector();
-    
-    ai::applyDesiredVelocity(*this, moveDir*getMaxSpeed(), getMaxAcceleration());
-    
-    if(moveDir.isZero())
-         animSprite->reset();
-    
-    SpaceVect facing = cr->getRightVector();
-    
-    //Facing is not diagonal, horizontal direction will override.
-    setDirection(toDirection(facing));
-    
-    //Player will automatically face their movement direction if look keys are not pressed
-    if(facing.isZero() && body->getVel().lengthSq() > square(getMaxSpeed())/2){
-        setDirection(toDirection(moveDir));
-    }
+	auto cr = app->control_register;
 
 	//Check controls for changing fire pattern.
-	if (getFirePattern() && !getFirePattern()->isInCooldown())
+	if (!suppressFiring && getFirePattern() && !getFirePattern()->isInCooldown())
 	{
-		if(cr->isControlActionPressed(ControlAction::firePatternPrev))
+		if (cr->isControlActionPressed(ControlAction::firePatternPrev))
 			trySetFirePatternPrevious();
 		else if (cr->isControlActionPressed(ControlAction::firePatternNext))
 			trySetFirePatternNext();
 	}
 
-    //Fire if arrow key is pressed
-    if(!facing.isZero() && getFirePattern())
-    {
+	//Fire if arrow key is pressed
+	if (!suppressFiring && !cr->getRightVector().isZero() && getFirePattern())
+	{
 		getFirePattern()->fireIfPossible();
-    }
+	}
 
-    //Check item interaction
-    interactCooldown = max(interactCooldown - App::secondsPerFrame,0.0f);
-    GObject* item = getSensedObject();
-    InteractibleObject* interactible = dynamic_cast<InteractibleObject*>(item);
+}
 
-    if(interactible && interactible->canInteract())
+void Player::checkItemInteraction()
+{
+	interactCooldown = max(interactCooldown - App::secondsPerFrame, 0.0f);
+	GObject* item = getSensedObject();
+	InteractibleObject* interactible = dynamic_cast<InteractibleObject*>(item);
+	
+	if(interactible && interactible->canInteract())
     {
         app->hud->setInteractionIcon(interactible->interactionIcon());
 
-        if(cr->isControlActionPressed(ControlAction::interact) && interactCooldown <= 0.0f){
+        if(app->control_register->isControlActionPressed(ControlAction::interact) && interactCooldown <= 0.0f){
             interactible->interact();
             interactCooldown = interactCooldownTime;
         }
@@ -181,11 +163,11 @@ void Player::update()
 	if(getFirePattern())
 		getFirePattern()->update();
 
-    if(!isSpellActive()){
-        updateHitTime();
-        checkBaseControls();
-    }
-    updateSpellControls();
+	checkMovementControls();
+	checkFireControls();
+	updateSpellControls();
+
+	updateHitTime();
     
     if(health <= 0 && !app->suppressGameOver)
         app->playScene->triggerGameOver();
@@ -306,6 +288,10 @@ Player::AttributeSet FlandrePC::getAttributes() {
 	return { 5, 500, 3, 9, 2.4f };
 }
 
+void FlandrePC::equipSpells() {
+	equippedSpell = Spell::spellDescriptors.find("PlayerBatMode")->second;
+}
+
 RumiaPC::RumiaPC(const ValueMap& args) :
 	GObject(args),
 	Player(args)
@@ -317,6 +303,10 @@ void RumiaPC::setFirePatterns()
 
 Player::AttributeSet RumiaPC::getAttributes() {
 	return { 3, 900, 4.5, 12, 1.5f };
+}
+
+void RumiaPC::equipSpells() {
+	//NO-OP
 }
 
 
@@ -331,4 +321,8 @@ void CirnoPC::setFirePatterns()
 
 Player::AttributeSet CirnoPC::getAttributes() {
 	return { 9, 300, 2, 6, 3.3f };
+}
+
+void CirnoPC::equipSpells() {
+	//NO-OP
 }

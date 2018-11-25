@@ -9,18 +9,19 @@
 #include "Prefix.h"
 
 #include "Spell.hpp"
+#include "SpellDescriptor.hpp"
 
-#define entry(name,cls) (name, adapter<cls>())
+#define entry(name,cls) (name, createDesc<cls>())
 //To make an entry where the name matches the class
 #define entry_same(cls) entry(#cls, cls)
 
 template<typename T>
-Spell::AdapterType adapter()
+SpellDesc* createDesc()
 {
-    return [](GObject* caster, const ValueMap& args) -> unique_ptr<Spell> {return make_unique<T>(caster, args);};
+	return new SpellDescImpl<T>();
 }
 
-const unordered_map<string,Spell::AdapterType> Spell::adapters = boost::assign::map_list_of
+const unordered_map<string,SpellDesc*> Spell::spellDescriptors = boost::assign::map_list_of
     entry_same(FireStarburst)
     entry_same(FlameFence)
     entry_same(StarlightTyphoon)
@@ -28,9 +29,4 @@ const unordered_map<string,Spell::AdapterType> Spell::adapters = boost::assign::
 	entry_same(PlayerBatMode)
 
     entry_same(IllusionDial)
-;
-
-const set<string> Spell::scripts = boost::assign::list_of
-    ("Splash")
-    ("Test")
 ;

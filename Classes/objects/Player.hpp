@@ -17,6 +17,7 @@
 
 class Collectible;
 class FirePattern;
+class SpellDesc;
 
 class Player : virtual public GObject,
 public Agent,
@@ -44,10 +45,7 @@ public:
 		AttributeSystem();
 		float getAdjustedValue(Attribute id) const;
 	};
-	
-	static const int batModeInitialCost;
-    static const int batModeCostPerSecond;
-    
+	    
     static const float interactCooldownTime;
     
     static const float spellCooldownTime;
@@ -63,6 +61,7 @@ public:
 
 	virtual AttributeSet getAttributes() = 0;
 	virtual void setFirePatterns() = 0;
+	virtual void equipSpells() = 0;
     
     //setting for player object sensing
 	inline virtual float getRadarRadius() const { return 2.5f; }
@@ -93,7 +92,10 @@ public:
     
     inline bool isSpellProtectionMode() const {return spellProtectionMode;}
     inline void setSpellProtectionMode(bool mode) {spellProtectionMode = mode;}
-    
+
+	inline bool isFiringSuppressed() const { return suppressFiring; }
+	inline void setFiringSuppressed(bool mode) { suppressFiring = mode; }
+
     virtual inline float getRadius() const {return 0.35f;}
     inline float getMass() const {return 20.0f;}
     virtual inline GType getType() const {return GType::player;}
@@ -103,8 +105,9 @@ public:
 	void init();
     void update();
     void updateHitTime();
-    void checkBaseControls();
-    void checkBatModeControls();
+	void checkMovementControls();
+	void checkFireControls();
+	void checkItemInteraction();
     void updateSpellControls();
 	void onSpellStop();
 
@@ -131,11 +134,14 @@ protected:
 
 	vector<unique_ptr<FirePattern>> firePatterns;
 	int crntFirePattern = 0;
+
+	SpellDesc* equippedSpell = nullptr;
     
     int health;    
     int power;
     
     bool spellProtectionMode = false;
+	bool suppressFiring = false;
 };
 
 class FlandrePC : public Player
@@ -148,6 +154,7 @@ public:
 	virtual inline string imageSpritePath() const { return "sprites/flandre.png"; }
 	virtual void setFirePatterns();
 	virtual AttributeSet getAttributes();
+	virtual void equipSpells();
 };
 
 class RumiaPC : public Player
@@ -160,6 +167,7 @@ public:
 	virtual inline string imageSpritePath() const { return "sprites/marisa.png"; }
 	virtual void setFirePatterns();
 	virtual AttributeSet getAttributes();
+	virtual void equipSpells();
 };
 
 class CirnoPC : public Player
@@ -172,6 +180,7 @@ public:
 	virtual inline string imageSpritePath() const { return "sprites/cirno.png"; }
 	virtual void setFirePatterns();
 	virtual AttributeSet getAttributes();
+	virtual void equipSpells();
 };
 
 #endif /* Player_hpp */

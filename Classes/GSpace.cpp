@@ -12,9 +12,11 @@
 #include "App.h"
 #include "Bullet.hpp"
 #include "Collectibles.hpp"
+#include "GObject.hpp"
 #include "GSpace.hpp"
 #include "macros.h"
 #include "Player.hpp"
+#include "Spell.hpp"
 #include "util.h"
 #include "value_map.hpp"
 #include "Wall.hpp"
@@ -230,6 +232,13 @@ void GSpace::processRemoval(GObject* obj)
         obj->radar->removeShapes(space);
         space.remove(obj->radar);
     }
+
+	if (obj->crntSpell.get()) {
+		obj->crntSpell.get()->end();
+	}
+
+	if (obj->sprite)
+		obj->sprite->removeFromParent();
 
 	delete obj;
 }

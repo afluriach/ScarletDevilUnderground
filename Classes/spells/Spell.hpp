@@ -17,17 +17,19 @@
 #include "types.h"
 #include "util.h"
 
-#define STANDARD_CONS(name) inline name(GObject* caster,const ValueMap& args) : Spell(caster,args) {}
+#define STANDARD_CONS(name) inline name(GObject* caster,const ValueMap& args, SpellDesc* descriptor) : Spell(caster,args, descriptor) {}
+
+class SpellDesc;
 
 class Spell
 {
 public:
-    typedef function<unique_ptr<Spell>(GObject*,const ValueMap&)> AdapterType;
-    static const unordered_map<string,AdapterType> adapters;
-    static const set<string> scripts;
+    static const unordered_map<string,SpellDesc*> spellDescriptors;
 
-    inline Spell(GObject* caster,const ValueMap& args) : caster(caster){
-    }
+    inline Spell(GObject* caster,const ValueMap& args, SpellDesc* descriptor) :
+		caster(caster),
+		descriptor(descriptor)
+	{}
     
 	inline virtual ~Spell() {}
     
@@ -40,16 +42,27 @@ public:
 		return dynamic_cast<T*>(caster);
 	}
 
+	inline SpellDesc* getDescriptor() const {
+		return descriptor;
+	}
+
     virtual void init() = 0;
     virtual void update() = 0;
     virtual void end() = 0;
 protected:
+	SpellDesc * descriptor;
     GObject* caster;
     bool active = true;
 };
 
 class FlameFence : public Spell{
 public:
+	static const string name;
+	static const string description;
+
+	static const int initialCost;
+	static const int costPerSecond;
+
     STANDARD_CONS(FlameFence)
     void init();
     void update();
@@ -64,7 +77,13 @@ protected:
 //Size variation, similarly, and the two should be inversely correlated.
 class StarlightTyphoon : public Spell{
 public:
-    StarlightTyphoon(GObject* caster, const ValueMap& args);
+	static const string name;
+	static const string description;
+
+	static const int initialCost;
+	static const int costPerSecond;
+
+    StarlightTyphoon(GObject* caster, const ValueMap& args, SpellDesc* descriptor);
     void init();
     void update();
     void end();
@@ -93,6 +112,10 @@ protected:
 
 class PeriodicSpell : virtual public Spell{
 public:
+
+	inline PeriodicSpell() {}
+	inline virtual ~PeriodicSpell() {}
+
     virtual float interval() const = 0;
     virtual void runPeriodic() = 0;
     inline void update(){
@@ -120,26 +143,19 @@ protected:
 
 class FireStarburst : public PeriodicSpell{
 public:
+	static const string name;
+	static const string description;
+
+	static const int initialCost;
+	static const int costPerSecond;
+
     static constexpr float bulletSpeed = 6.0f;
+
     STANDARD_CONS(FireStarburst)
     no_op(init);
     inline float interval() const {return 0.5f;}
     void runPeriodic();
     no_op(end);
-};
-
-class ScriptedSpell : public Spell{
-public:
-    ScriptedSpell(GObject* caster, const string& scriptRes, const ValueMap& args);
-    virtual void init();
-    virtual void update();
-    virtual void end();
-
-protected:
-    Lua::Inst ctx;
-    string name;
-    //Would save the constructor argument for sending to init.
-    //LuaRef luaArgs;
 };
 
 //class PuppetryDoll : public Spell
@@ -160,6 +176,12 @@ class IllusionDialDagger;
 class IllusionDial : public PeriodicSpell
 {
 public:
+	static const string name;
+	static const string description;
+
+	static const int initialCost;
+	static const int costPerSecond;
+
     static const float radius;
     static const float arc_start;
     static const float arc_end;
@@ -176,7 +198,7 @@ public:
     vector<bool> launch_flags;
 	unsigned int framesSinceLastFire = 0;
 
-    IllusionDial(GObject* caster,const ValueMap& args);
+	IllusionDial(GObject* caster, const ValueMap& args, SpellDesc* descriptor);
     
     inline virtual float interval() const {return 0.0f;};
     
@@ -185,13 +207,28 @@ public:
     virtual void end();
 };
 
-class PlayerBatMode : public Spell{
+//Apply power drain and deactive spell if applicable
+class PlayerSpell : virtual public Spell {
 public:
-    static const int framesPerDrain;
+	inline PlayerSpell() {}
+	inline virtual ~PlayerSpell() {}
 
-    PlayerBatMode(GObject* caster, const ValueMap& args);
+	virtual void init();
+	virtual void update();
+protected:
+	float powerDrainAccumulator = 0.0f;
+};
+
+class PlayerBatMode : virtual public Spell, public PlayerSpell{
+public:
+	static const string name;
+	static const string description;
+
+	static const int initialCost;
+	static const int costPerSecond;
+
+	PlayerBatMode(GObject* caster, const ValueMap& args, SpellDesc* descriptor);
     virtual void init();
-    virtual void update();
     virtual void end();
 protected:
     int framesSinceDrain = 0;
