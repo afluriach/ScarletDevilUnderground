@@ -260,10 +260,10 @@ void GObject::updateFloorSegment()
 {
 	if (crntFloor != nextFloor)
 	{
-		if(crntFloor)
-			crntFloor->onEndContact(this);
-		if(nextFloor)
-			nextFloor->onContact(this);
+		if(crntFloor.isValid())
+			crntFloor.get()->onEndContact(this);
+		if(nextFloor.isValid())
+			nextFloor.get()->onContact(this);
 	}
 	crntFloor = nextFloor;
 }

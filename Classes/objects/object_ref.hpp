@@ -58,6 +58,14 @@ public:
         return this == &rhs;
     }
 
+	inline bool operator==(const object_ref<T>& rhs)const {
+		return this->uuid == rhs.uuid;
+	}
+
+	inline bool operator!=(const object_ref<T>& rhs)const {
+		return this->uuid != rhs.uuid;
+	}
+
 protected:
     unsigned int uuid;
 };

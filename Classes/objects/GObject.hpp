@@ -11,6 +11,7 @@
 
 #include "enum.h"
 #include "multifunction.h"
+#include "object_ref.hpp"
 #include "types.h"
 
 class Player;
@@ -80,9 +81,9 @@ public:
 	//Tracks setting of physics properties, they will be applied before physics step.
 	PhysicsProperties physicsPropertiesToApply;
 
-	FloorSegment* crntFloor = nullptr;
+	object_ref<FloorSegment> crntFloor;
 	//Set by the physics callback, effect will apply on next update.
-	FloorSegment* nextFloor = nullptr;
+	object_ref<FloorSegment> nextFloor;
 
     void setInitialVelocity(const SpaceVect&& v);
     void setInitialAngle(float a);

@@ -9,7 +9,6 @@
 #include "Prefix.h"
 
 #include "GSpace.hpp"
-#include "object_ref.hpp"
 #include "Sakuya.hpp"
 #include "scenes.h"
 

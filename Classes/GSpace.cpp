@@ -225,8 +225,8 @@ void GSpace::processRemoval(GObject* obj, bool removeSprite)
     objByUUID.erase(obj->uuid);
 	currentContacts.erase(obj);
     
-	if (obj->crntFloor)
-		obj->crntFloor->onEndContact(obj);
+	if (obj->crntFloor.get())
+		obj->crntFloor.get()->onEndContact(obj);
 
     obj->body->removeShapes(space);
     space.remove(obj->body);

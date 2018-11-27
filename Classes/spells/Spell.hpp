@@ -13,7 +13,6 @@
 #include "GObject.hpp"
 #include "LuaAPI.hpp"
 #include "macros.h"
-#include "object_ref.hpp"
 #include "types.h"
 #include "util.h"
 
