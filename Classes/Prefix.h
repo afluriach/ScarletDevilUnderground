@@ -29,8 +29,6 @@
     #define use_gamepad 1
 #endif
 
-//External includes should also be copied to build specific PCH.
-
 //C standard libraries
 #include <algorithm>
 #include <bitset>
@@ -67,6 +65,8 @@
 //Boost modules
 #include <boost/algorithm/string.hpp>
 #include <boost/algorithm/string/predicate.hpp>
+#include <boost/archive/binary_iarchive.hpp>
+#include <boost/archive/binary_oarchive.hpp>
 #include <boost/assign.hpp>
 #include <boost/bind.hpp>
 #include <boost/dynamic_bitset.hpp>
@@ -79,12 +79,9 @@
 #include <boost/random/uniform_int_distribution.hpp>
 #include <boost/range/adaptor/map.hpp>
 #include <boost/range/irange.hpp>
+#include <boost/serialization/set.hpp>
 #include <boost/unordered/unordered_map.hpp>
 #include <boost/unordered/unordered_set.hpp>
-
-#include <boost/archive/binary_oarchive.hpp>
-#include <boost/archive/binary_iarchive.hpp>
-#include <boost/serialization/set.hpp>
 
 using namespace std;
 USING_NS_CC;
