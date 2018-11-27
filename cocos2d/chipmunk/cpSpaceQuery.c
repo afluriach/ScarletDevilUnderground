@@ -35,7 +35,8 @@ static cpCollisionID
 PointQuery(struct PointQueryContext *context, cpShape *shape, cpCollisionID id, void *data)
 {
 	if(
-		!(shape->group && context->group == shape->group) && (context->layers&shape->layers) &&
+		(context->group == shape->group) &&
+		(context->layers & shape->layers) &&
 		cpShapePointQuery(shape, context->point)
 	){
 		context->func(shape, context->data);
@@ -59,7 +60,7 @@ cpSpacePointQuery(cpSpace *space, cpVect point, cpLayers layers, cpGroup group, 
 static void
 PointQueryFirst(cpShape *shape, cpShape **outShape)
 {
-	if(!shape->sensor) *outShape = shape;
+	*outShape = shape;
 }
 
 cpShape *

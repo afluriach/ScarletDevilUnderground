@@ -82,9 +82,7 @@ public:
 	PhysicsProperties physicsPropertiesToApply;
 
 	object_ref<FloorSegment> crntFloor;
-	//Set by the physics callback, effect will apply on next update.
-	object_ref<FloorSegment> nextFloor;
-
+	
     void setInitialVelocity(const SpaceVect&& v);
     void setInitialAngle(float a);
     void setInitialAngularVelocity(float w);
@@ -113,6 +111,7 @@ public:
     void applyForceForSingleFrame(SpaceVect f);
     void applyImpulse(float mag, float angle);
 
+	PhysicsLayers getCrntLayers();
 	void setLayers(PhysicsLayers layers);
 
 	//A default of 0 signifies undefined. Using -1 to indicate static or positive for dynamic.

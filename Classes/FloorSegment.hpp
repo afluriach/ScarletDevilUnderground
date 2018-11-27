@@ -37,17 +37,13 @@ public:
 	virtual void onEndContact(GObject* obj);
 };
 
-class Pitfall : public FloorSegment, RegisterUpdate<Pitfall>
+class Pitfall : public FloorSegment
 {
 public:
 	Pitfall(const ValueMap& args);
 
-	void update();
-
 	virtual void onContact(GObject* obj);
 	virtual void onEndContact(GObject* obj);
-protected:
-	unordered_set<GObject*> crntContacts;
 };
 
 #endif /* FloorSegment_hpp */

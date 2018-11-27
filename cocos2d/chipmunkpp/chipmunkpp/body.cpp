@@ -55,7 +55,17 @@ namespace cp {
     void Body::setAngularVel(float w){
         body->w = w;
     }
-    
+
+	Layers Body::getLayers()
+	{
+		unsigned int result = 0;
+
+		for (auto it = shapes.begin(); it != shapes.end(); ++it)
+			result |= static_cast<unsigned int>((*it)->getLayers());
+
+		return result;
+	}
+
 	void Body::setAllLayers(Layers layers)
 	{
 		for (auto it = shapes.begin(); it != shapes.end(); ++it)

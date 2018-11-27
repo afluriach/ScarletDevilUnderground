@@ -17,6 +17,8 @@ namespace cp {
 		Layers operator~() const;
 		Layers operator|(Layers rhs) const;
 		explicit operator cpLayers() const;
+
+		inline unsigned int get() const { return l; }
 	private:
 		cpLayers l;
 	};

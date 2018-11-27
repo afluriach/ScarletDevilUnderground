@@ -11,6 +11,7 @@
 
 #include "types.h"
 
+class FloorSegment;
 class GObject;
 
 #define OBJS_FROM_ARB \
@@ -108,6 +109,8 @@ public:
 
 	void addRoom(cocos2d::CCRect rect);
 	vector< cocos2d::CCRect> rooms;
+
+	FloorSegment* floorSegmentPointQuery(SpaceVect pos);
 
     inline boost::dynamic_bitset<>* getNavMask() const { return navMask;}
 private:
@@ -245,6 +248,8 @@ private:
 
 //BEGIN SENSORS
 public:
+	GObject * pointQuery(SpaceVect pos, GType type, PhysicsLayers layers);
+
     float distanceFeeler(const GObject * agent, SpaceVect feeler, GType gtype) const;
     float obstacleDistanceFeeler(const GObject * agent, SpaceVect feeler) const;
     float wallDistanceFeeler(const GObject * agent, SpaceVect feeler) const;

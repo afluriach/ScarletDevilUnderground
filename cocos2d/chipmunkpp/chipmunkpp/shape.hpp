@@ -28,6 +28,7 @@ namespace cp {
 		void setGroup(Group);
 		void setCollisionType(CollisionType);
 		CollisionType getCollisionType() const;
+		Layers getLayers();
 		void setLayers(Layers);
 		void setOwning(bool);
 		void setUserData(DataPointer);

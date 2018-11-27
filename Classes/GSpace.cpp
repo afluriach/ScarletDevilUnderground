@@ -317,6 +317,12 @@ const Path* GSpace::getPath(string name) const
 	return it != paths.end() ? &(it->second) : nullptr;
 }
 
+
+FloorSegment* GSpace::floorSegmentPointQuery(SpaceVect pos)
+{
+	return dynamic_cast<FloorSegment*>(pointQuery(pos, GType::floorSegment, PhysicsLayers::floor));
+}
+
 void GSpace::addNavObstacle(const SpaceVect& center, const SpaceVect& boundingDimensions)
 {
     for(float x = center.x - boundingDimensions.x/2; x < center.x + boundingDimensions.x/2; ++x)
@@ -379,11 +385,6 @@ void GSpace::addCollisionHandlers()
 	_addHandler(objectSensor, enemy, sensorStart, sensorEnd);
 	_addHandler(objectSensor, environment, sensorStart, sensorEnd);
     _addHandler(objectSensor, npc, sensorStart, sensorEnd);
-
-	_addHandler(floorSegment, player, floorObjectBegin, floorObjectEnd);
-	_addHandler(floorSegment, enemy, floorObjectBegin, floorObjectEnd);
-	_addHandler(floorSegment, environment, floorObjectBegin, floorObjectEnd);
-
 }
 
 const set<GType> GSpace::selfCollideTypes = boost::assign::list_of
@@ -687,28 +688,10 @@ int GSpace::sensorEnd(GObject* radarAgent, GObject* target)
     return 1;
 }
 
-int GSpace::floorObjectBegin(GObject* floorSegment, GObject* obj)
-{
-	FloorSegment* fs = dynamic_cast<FloorSegment*>(floorSegment);
-
-	if (fs) {
-		obj->nextFloor = fs;
-	}
-
-	return 1;
-}
-
-int GSpace::floorObjectEnd(GObject* floorSegment, GObject* obj)
-{
-	obj->nextFloor = nullptr;
-
-	return 1;
-}
-
-
 //END PHYSICS
 
 //BEGIN SENSORS
+
 float GSpace::distanceFeeler(const GObject * agent, SpaceVect _feeler, GType gtype) const
 {
     SpaceVect start = agent->getPos();
@@ -801,4 +784,19 @@ bool GSpace::lineOfSight(const GObject* agent, const GObject * target) const
            !feeler(agent, feeler_displacement, GType::wall,PhysicsLayers::eyeLevel)
     ;
 }
+
+GObject * GSpace::pointQuery(SpaceVect pos, GType type, PhysicsLayers layers)
+{
+	shared_ptr<Shape> result = space.pointQueryFirst(
+		pos,
+		static_cast<unsigned int>(layers),
+		static_cast<unsigned int>(type)
+	);
+
+	if (!result)
+		return nullptr;
+
+	return static_cast<GObject*>(result->getUserData());
+}
+
 //END SENSORS

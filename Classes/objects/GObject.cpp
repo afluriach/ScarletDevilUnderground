@@ -9,8 +9,10 @@
 #include "Prefix.h"
 
 #include "App.h"
+#include "enum.h"
 #include "FloorSegment.hpp"
 #include "GObject.hpp"
+#include "GSpace.hpp"
 #include "LuaAPI.hpp"
 #include "macros.h"
 #include "Spell.hpp"
@@ -250,6 +252,11 @@ void GObject::update()
         body->applyImpulse(v);
     }
 
+PhysicsLayers GObject::getCrntLayers()
+{
+	return static_cast<PhysicsLayers>(body->getLayers().get());
+}
+
 void GObject::setLayers(PhysicsLayers layers)
 {
 	physicsPropertiesToApply.layers = layers;
@@ -258,13 +265,22 @@ void GObject::setLayers(PhysicsLayers layers)
 
 void GObject::updateFloorSegment()
 {
+	if (dynamic_cast<FloorSegment*>(this))
+		return;
+
+	FloorSegment* nextFloor = nullptr;
+	
+	if(bitwise_and(PhysicsLayers, getCrntLayers(),PhysicsLayers::floor) != PhysicsLayers::none)
+		nextFloor = app->space->floorSegmentPointQuery(getPos());
+
 	if (crntFloor != nextFloor)
 	{
 		if(crntFloor.isValid())
 			crntFloor.get()->onEndContact(this);
-		if(nextFloor.isValid())
-			nextFloor.get()->onContact(this);
+		if(nextFloor)
+			nextFloor->onContact(this);
 	}
+
 	crntFloor = nextFloor;
 }
 

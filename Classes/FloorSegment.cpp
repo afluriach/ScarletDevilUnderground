@@ -41,34 +41,16 @@ void DirtFloorCave::onEndContact(GObject* obj)
 
 Pitfall::Pitfall(const ValueMap& args) : 
 GObject(args, true),
-RegisterUpdate<Pitfall>(this),
 FloorSegment(args)
 {
 }
 
-void Pitfall::update()
-{
-	SpaceVect pos = getPos();
-	SpaceVect dim = getDimensions();
-
-	for (auto it = crntContacts.begin(); it != crntContacts.end(); ++it)
-	{
-		SpaceVect objPos = (*it)->getPos();
-
-		//Check if center of object is on the pitfall.
-
-		if (abs(objPos.x - pos.x) < dim.x / 2 && abs(objPos.y - pos.y) < dim.y / 2) {
-			app->space->removeObjectWithAnimation(*it, pitfallShrinkAction());
-		}
-	}
-}
 
 void Pitfall::onContact(GObject* obj)
 {
-	crntContacts.insert(obj);
+	app->space->removeObjectWithAnimation(obj, pitfallShrinkAction());
 }
 
 void Pitfall::onEndContact(GObject* obj)
 {
-	crntContacts.erase(obj);
 }

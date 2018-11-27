@@ -51,6 +51,11 @@ namespace cp {
 		cpShapeSetLayers(shape, static_cast<cpLayers>(l));
 	}
 
+	Layers Shape::getLayers() {
+		return static_cast<Layers>(cpShapeGetLayers(shape));
+	}
+
+
 	void Shape::setUserData(DataPointer p) {
 		cpShapeSetUserData(shape, p);
 	}
