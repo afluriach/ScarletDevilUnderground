@@ -124,6 +124,15 @@ public:
 
 //GRAPHICS MIXINS
 
+class NoSprite : public virtual GObject
+{
+public:
+	inline NoSprite() {}
+
+	inline virtual void initializeGraphics(Layer* layer) {}
+};
+
+
 //Initialize graphics from a still image. Any class that uses this mixin has to implement interface to
 //provide the path to the image file.
 class ImageSprite : public virtual GObject, RegisterUpdate<ImageSprite>

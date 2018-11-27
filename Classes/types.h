@@ -43,6 +43,7 @@ enum class GType{
     objectSensor,
     collectible,
     npc,
+	floorSegment,
 	none,
 };
 
@@ -57,7 +58,10 @@ enum class PlayerCharacter {
 //Layers are interpreted as a bitmask.
 //For now, multilayer physics is not being used.
 enum class PhysicsLayers{
-    floor = 1,
+	none = 0,
+	//For objects which are in/on the floor, including the floor itself
+	//(FloorSegment), and objects touching the floor.
+	floor = 1, 
     ground = 2,
     eyeLevel = 4,
     
@@ -67,15 +71,17 @@ enum class PhysicsLayers{
 
 struct PhysicsProperties
 {
-	bool setPos, setVel, setAngle, setAngularVel;
+	bool setPos, setVel, setAngle, setAngularVel, setLayers;
 
 	SpaceVect pos, vel;
 	float angle, angularVel;
+	PhysicsLayers layers;
 
 	inline PhysicsProperties() :
-		setPos(false), setVel(false), setAngle(false), setAngularVel(false),
+		setPos(false), setVel(false), setAngle(false), setAngularVel(false), setLayers(false),
 		pos(SpaceVect::zero), vel(SpaceVect::zero),
-		angle(0.0f), angularVel(0.0f)
+		angle(0.0f), angularVel(0.0f),
+		layers(PhysicsLayers::none)
 	{}
 };
 

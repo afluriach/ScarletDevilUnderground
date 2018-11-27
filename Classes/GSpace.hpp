@@ -75,11 +75,13 @@ public:
     
     void removeObject(const string& name);
     void removeObject(GObject* obj);
+
+	void removeObjectWithAnimation(GObject* obj, FiniteTimeAction* action);
     
 private:
     void processRemovals();
     void initObjects();
-    void processRemoval(GObject* obj);
+    void processRemoval(GObject* obj, bool removeSprite);
     
     unordered_map<unsigned int, GObject*> objByUUID;
     unordered_map<string, GObject*> objByName;
@@ -92,6 +94,7 @@ private:
 
     //Objects which have been queued for removal. Will be removed at end of frame.
     vector<GObject*> toRemove;
+	vector<pair<GObject*, FiniteTimeAction*>> toRemoveWithAnimation;
 //END OBJECT MANIPULATION
 
 //BEGIN NAVIGATION
@@ -235,7 +238,10 @@ private:
 	int bulletWall(GObject* bullet, GObject* unused);
 	int sensorStart(GObject* radarAgent, GObject* target);
 	int sensorEnd(GObject* radarAgent, GObject* target);
-//END PHYSICS
+
+	int floorObjectBegin(GObject* floorSegment, GObject* obj);
+	int floorObjectEnd(GObject* floorSegment, GObject* obj);
+	//END PHYSICS
 
 //BEGIN SENSORS
 public:

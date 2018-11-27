@@ -63,6 +63,7 @@ Action* flickerAction(float interval, float length, float opacity);
 Action* flickerTintAction(float interval, float length, Color3B tint);
 Action* tintTo(Color3B tint, float length);
 Action* motionBlurStretch(float duration, float angle, float opacity, float scale);
+FiniteTimeAction* pitfallShrinkAction();
 
 Sprite* loadImageSprite(const string& resPath, GraphicsLayer sceneLayer, Layer* dest, const Vec2& pos, float zoom);
 

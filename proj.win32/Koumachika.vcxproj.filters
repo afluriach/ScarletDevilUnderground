@@ -177,6 +177,9 @@
     <ClCompile Include="..\Classes\spells\SpellDescriptor.cpp">
       <Filter>src\spells</Filter>
     </ClCompile>
+    <ClCompile Include="..\Classes\FloorSegment.cpp">
+      <Filter>src\objects</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="main.h">
@@ -352,6 +355,9 @@
     </ClInclude>
     <ClInclude Include="..\Classes\spells\SpellDescriptor.hpp">
       <Filter>src\spells</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\FloorSegment.hpp">
+      <Filter>src\objects</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

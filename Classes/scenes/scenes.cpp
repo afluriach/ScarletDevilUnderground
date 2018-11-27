@@ -225,6 +225,15 @@ void MapScene::loadRooms(const TMXTiledMap& map)
 	}
 }
 
+void MapScene::loadFloorSegments(const TMXTiledMap& map)
+{
+	TMXObjectGroup* floor = map.getObjectGroup("floor");
+	if (!floor)
+		return;
+
+	loadObjectGroup(map.getObjectGroup("floor"));
+}
+
 void MapScene::loadMap()
 {
     tileMap = TMXTiledMap::create(mapRes);
@@ -240,6 +249,7 @@ void MapScene::loadMap()
     );
 	loadPaths(*tileMap);
 	loadRooms(*tileMap);
+	loadFloorSegments(*tileMap);
     loadMapObjects(*tileMap);
     
     cocos2d::CCSize size = tileMap->getMapSize();

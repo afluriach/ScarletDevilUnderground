@@ -38,6 +38,8 @@ namespace cp {
         float getAngularVel() const;
         void setAngularVel(float);
 
+		void setAllLayers(Layers layers);
+
 		/// Velocity limit of the body. Defaults to INFINITY unless you set it specifically. Can be used to limit
 		/// falling speeds, etc.
 		Float getVelLimit() const;

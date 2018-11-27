@@ -12,6 +12,7 @@
 #include "App.h"
 #include "Bullet.hpp"
 #include "Collectibles.hpp"
+#include "FloorSegment.hpp"
 #include "GObject.hpp"
 #include "GSpace.hpp"
 #include "macros.h"
@@ -45,7 +46,7 @@ GSpace::~GSpace()
     }
     
     foreach(GObject* obj, objs){
-        processRemoval(obj);
+        processRemoval(obj, true);
     }
     
     if(navMask)
@@ -78,12 +79,6 @@ void GSpace::update()
 		obj->applyPhysicsProperties();
 	}
     
-	//Objects which will be removed this frame should have the end contact handlers called 
-	//before they are deleted.
-	foreach(GObject* obj, toRemove) {
-		processRemovalEndContact(obj);
-	}
-
     processRemovals();
     
     //process additions
@@ -219,12 +214,20 @@ void GSpace::removeObject(GObject* obj)
         toRemove.push_back(obj);
 }
 
-void GSpace::processRemoval(GObject* obj)
+void GSpace::removeObjectWithAnimation(GObject* obj, FiniteTimeAction* action)
+{
+	toRemoveWithAnimation.push_back(pair<GObject*, FiniteTimeAction*>(obj,action));
+}
+
+void GSpace::processRemoval(GObject* obj, bool removeSprite)
 {
     objByName.erase(obj->name);
     objByUUID.erase(obj->uuid);
 	currentContacts.erase(obj);
     
+	if (obj->crntFloor)
+		obj->crntFloor->onEndContact(obj);
+
     obj->body->removeShapes(space);
     space.remove(obj->body);
     
@@ -237,7 +240,7 @@ void GSpace::processRemoval(GObject* obj)
 		obj->crntSpell.get()->end();
 	}
 
-	if (obj->sprite)
+	if (removeSprite && obj->sprite)
 		obj->sprite->removeFromParent();
 
 	delete obj;
@@ -254,11 +257,30 @@ void GSpace::initObjects()
 
 void GSpace::processRemovals()
 {
+	//Objects which will be removed this frame should have the end contact handlers called 
+	//before they are deleted.
+	foreach(GObject* obj, toRemove) {
+		processRemovalEndContact(obj);
+	}
+
+	for (auto it = toRemoveWithAnimation.begin(); it != toRemoveWithAnimation.end(); ++it) {
+		processRemovalEndContact(it->first);
+	}
+
 	space.maskSeperateHandler = true;
-    BOOST_FOREACH(GObject* obj, toRemove){
-        processRemoval(obj);
+
+	BOOST_FOREACH(GObject* obj, toRemove){
+        processRemoval(obj, true);
     }
     toRemove.clear();
+
+	for (auto it = toRemoveWithAnimation.begin(); it != toRemoveWithAnimation.end(); ++it) {
+		Node* sprite = it->first->sprite;
+		processRemoval(it->first, false);
+		sprite->runAction(Sequence::createWithTwoActions(it->second, RemoveSelf::create() ));
+	}
+	toRemoveWithAnimation.clear();
+
 	space.maskSeperateHandler = false;
 }
 
@@ -351,11 +373,17 @@ void GSpace::addCollisionHandlers()
     _addHandlerNoEnd(player,npc,collide);
 	_addHandlerNoEnd(playerBullet, wall, bulletWall);
 	_addHandlerNoEnd(enemyBullet, wall, bulletWall);    
+
 	_addHandler(playerSensor, player, sensorStart, sensorEnd);
 	_addHandler(playerSensor, playerBullet, sensorStart, sensorEnd);
 	_addHandler(objectSensor, enemy, sensorStart, sensorEnd);
 	_addHandler(objectSensor, environment, sensorStart, sensorEnd);
     _addHandler(objectSensor, npc, sensorStart, sensorEnd);
+
+	_addHandler(floorSegment, player, floorObjectBegin, floorObjectEnd);
+	_addHandler(floorSegment, enemy, floorObjectBegin, floorObjectEnd);
+	_addHandler(floorSegment, environment, floorObjectBegin, floorObjectEnd);
+
 }
 
 const set<GType> GSpace::selfCollideTypes = boost::assign::list_of
@@ -658,6 +686,26 @@ int GSpace::sensorEnd(GObject* radarAgent, GObject* target)
 
     return 1;
 }
+
+int GSpace::floorObjectBegin(GObject* floorSegment, GObject* obj)
+{
+	FloorSegment* fs = dynamic_cast<FloorSegment*>(floorSegment);
+
+	if (fs) {
+		obj->nextFloor = fs;
+	}
+
+	return 1;
+}
+
+int GSpace::floorObjectEnd(GObject* floorSegment, GObject* obj)
+{
+	obj->nextFloor = nullptr;
+
+	return 1;
+}
+
+
 //END PHYSICS
 
 //BEGIN SENSORS

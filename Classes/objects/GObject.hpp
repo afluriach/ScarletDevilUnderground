@@ -9,6 +9,7 @@
 #ifndef GObject_hpp
 #define GObject_hpp
 
+#include "enum.h"
 #include "multifunction.h"
 #include "types.h"
 
@@ -17,6 +18,7 @@ class Bullet;
 class GSpace;
 namespace Lua{class Inst;}
 class Spell;
+class FloorSegment;
 
 class GObject
 {
@@ -37,7 +39,8 @@ public:
 	
 	//Representation as a map object
     GObject(const ValueMap& args);
-    GObject(const string& name, const SpaceVect& pos, bool anonymous);
+	GObject(const ValueMap& args, bool anonymous);
+	GObject(const string& name, const SpaceVect& pos, bool anonymous);
 	GObject(const string& name, const SpaceVect& pos, float angle, bool anonymous);
     
     virtual ~GObject();
@@ -77,12 +80,17 @@ public:
 	//Tracks setting of physics properties, they will be applied before physics step.
 	PhysicsProperties physicsPropertiesToApply;
 
+	FloorSegment* crntFloor = nullptr;
+	//Set by the physics callback, effect will apply on next update.
+	FloorSegment* nextFloor = nullptr;
+
     void setInitialVelocity(const SpaceVect&& v);
     void setInitialAngle(float a);
     void setInitialAngularVelocity(float w);
     Vec2 getInitialCenterPix();
 
 	void applyPhysicsProperties();
+	void updateFloorSegment();
 
     SpaceVect getPos() const;
     void setPos(float x, float y);
@@ -104,13 +112,15 @@ public:
     void applyForceForSingleFrame(SpaceVect f);
     void applyImpulse(float mag, float angle);
 
+	void setLayers(PhysicsLayers layers);
+
 	//A default of 0 signifies undefined. Using -1 to indicate static or positive for dynamic.
 	virtual float getMass() const = 0;
 	virtual float getRadius() const = 0;
     virtual float getMomentOfInertia() const = 0;
 	virtual GType getType() const = 0;
 	virtual inline bool getSensor() const { return false; }
-	virtual inline PhysicsLayers getLayers() const { return PhysicsLayers::ground; }
+	virtual inline PhysicsLayers getLayers() const { return enum_bitwise_or(PhysicsLayers,floor,ground) ; }
 
 	inline virtual float getMaxSpeed() const { return 0; }
 	inline virtual float getMaxAcceleration() const { return 0; }

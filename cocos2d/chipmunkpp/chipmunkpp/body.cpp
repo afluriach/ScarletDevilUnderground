@@ -56,6 +56,12 @@ namespace cp {
         body->w = w;
     }
     
+	void Body::setAllLayers(Layers layers)
+	{
+		for (auto it = shapes.begin(); it != shapes.end(); ++it)
+			(*it)->setLayers(layers);
+	}
+
     void Body::applyImpulse(Vect force){
         cpBodyApplyImpulse(body,force,Vect(0,0));
     }

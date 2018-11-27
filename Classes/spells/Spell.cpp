@@ -262,6 +262,7 @@ void PlayerBatMode::init()
 	p->setFiringSuppressed(true);
     p->setSprite("flandre_bat");
 	p->applyAttributeModifier(Player::Attribute::speed, 1.5f);
+	p->setLayers(PhysicsLayers::ground);
 }
 
 void PlayerBatMode::end()
@@ -272,6 +273,7 @@ void PlayerBatMode::end()
 	p->setFiringSuppressed(false);
     p->setSprite("flandre");
 	p->applyAttributeModifier(Player::Attribute::speed, -1.5f);
+	p->setLayers(enum_bitwise_or(PhysicsLayers, floor, ground));
 	p->onSpellStop();
 }
 

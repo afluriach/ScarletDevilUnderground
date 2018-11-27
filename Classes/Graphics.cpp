@@ -12,6 +12,8 @@
 
 const string defaultFont = "Arial";
 
+const float fallAnimationTime = 1.0f;
+
 //Qualify Size for ambiguity.
 cocos2d::CCSize getScreenSize()
 {
@@ -120,6 +122,11 @@ Action* flickerTintAction(float interval, float length, Color3B tint)
 Action* tintTo(Color3B tint, float length)
 {
     return TintTo::createRecursive(length,tint);
+}
+
+FiniteTimeAction* pitfallShrinkAction()
+{
+	return ScaleTo::create(fallAnimationTime, 0.0f);
 }
 
 Action* motionBlurStretch(float duration, float angle, float opacity, float scale)

@@ -9,6 +9,7 @@
 #include "Prefix.h"
 
 #include "App.h"
+#include "FloorSegment.hpp"
 #include "GObject.hpp"
 #include "LuaAPI.hpp"
 #include "macros.h"
@@ -19,19 +20,28 @@
 
 unsigned int GObject::nextUUID = 1;
 
-GObject::GObject(const ValueMap& obj) :
-	name(obj.at("name").asString()),
-	uuid(nextUUID++),
-	ctx(make_unique<Lua::Inst>(boost::lexical_cast<string>(uuid) + "_" + name))
+GObject::GObject(const ValueMap& args) :
+GObject(args, false)
 {
-    //Interpret coordinates as center, unit space.
-    initialCenter = SpaceVect(getFloat(obj, "pos_x"), getFloat(obj, "pos_y"));
-    
-    if(obj.find("vel_x") != obj.end() && obj.find("vel_y") != obj.end()){
-        setInitialVelocity(SpaceVect(getFloat(obj, "vel_x"), getFloat(obj, "vel_y")));
-    }
-    
-    if(logCreateObjects)
+}
+
+GObject::GObject(const ValueMap& obj, bool anonymous) :
+	name(!anonymous ? obj.at("name").asString() : ""),
+	uuid(nextUUID++),
+	anonymous(anonymous)
+{
+	//Interpret coordinates as center, unit space.
+	initialCenter = SpaceVect(getFloat(obj, "pos_x"), getFloat(obj, "pos_y"));
+
+	if (obj.find("vel_x") != obj.end() && obj.find("vel_y") != obj.end()) {
+		setInitialVelocity(SpaceVect(getFloat(obj, "vel_x"), getFloat(obj, "vel_y")));
+	}
+
+	if (!anonymous) {
+		ctx = make_unique<Lua::Inst>(boost::lexical_cast<string>(uuid) + "_" + name);
+	}
+
+    if(!anonymous && logCreateObjects)
         log("%s created at %.1f,%.1f.", name.c_str(),initialCenter.x, initialCenter.y);
 
 	setInitialAngle(float_pi / 2.0f);
@@ -88,6 +98,7 @@ void GObject::update()
 	runLuaUpdate();
 	updateSprite();
 	updateSpells();
+	updateFloorSegment();
 }
 
 //BEGIN PHYSICS
@@ -126,10 +137,14 @@ void GObject::update()
 		if (physicsPropertiesToApply.setAngularVel)
 			body->setAngularVel(physicsPropertiesToApply.angularVel);
 
+		if (physicsPropertiesToApply.setLayers)
+			body->setAllLayers(static_cast<unsigned int>(physicsPropertiesToApply.layers));
+
 		physicsPropertiesToApply.setPos = false;
 		physicsPropertiesToApply.setAngle = false;
 		physicsPropertiesToApply.setVel = false;
 		physicsPropertiesToApply.setAngularVel = false;
+		physicsPropertiesToApply.setLayers = false;
 	}
 
      SpaceVect GObject::getPos() const {
@@ -235,6 +250,23 @@ void GObject::update()
         body->applyImpulse(v);
     }
 
+void GObject::setLayers(PhysicsLayers layers)
+{
+	physicsPropertiesToApply.layers = layers;
+	physicsPropertiesToApply.setLayers = true;
+}
+
+void GObject::updateFloorSegment()
+{
+	if (crntFloor != nextFloor)
+	{
+		if(crntFloor)
+			crntFloor->onEndContact(this);
+		if(nextFloor)
+			nextFloor->onContact(this);
+	}
+	crntFloor = nextFloor;
+}
 
 //END PHYSICS
 
