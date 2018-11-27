@@ -28,6 +28,7 @@ enum class GraphicsLayer{
     foliage,
     floor,
     ground,
+	roomMask,
 };
 
 enum class GType{

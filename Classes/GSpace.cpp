@@ -283,6 +283,11 @@ void GSpace::addPath(string name, Path p)
 	paths[name] = p;
 }
 
+void GSpace::addRoom(cocos2d::CCRect rect)
+{
+	rooms.push_back(rect);
+}
+
 const Path* GSpace::getPath(string name) const
 {
 	auto it = paths.find(name);

@@ -103,6 +103,9 @@ public:
     void addPath(string name, Path p);
 	const Path* getPath(string name) const;
 
+	void addRoom(cocos2d::CCRect rect);
+	vector< cocos2d::CCRect> rooms;
+
     inline boost::dynamic_bitset<>* getNavMask() const { return navMask;}
 private:
     void markObstacleTile(int x, int y);

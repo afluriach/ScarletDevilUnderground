@@ -212,6 +212,19 @@ void MapScene::loadPaths(const TMXTiledMap& map)
 	}
 }
 
+void MapScene::loadRooms(const TMXTiledMap& map)
+{
+	TMXObjectGroup* rooms = map.getObjectGroup("rooms");
+	if (!rooms)
+		return;
+
+	foreach(Value obj, rooms->getObjects())
+	{
+		ValueMap& objAsMap = obj.asValueMap();
+		gspace->addRoom(getUnitspaceRectangle(objAsMap));
+	}
+}
+
 void MapScene::loadMap()
 {
     tileMap = TMXTiledMap::create(mapRes);
@@ -226,6 +239,7 @@ void MapScene::loadMap()
         static_cast<int>(GraphicsLayer::map)
     );
 	loadPaths(*tileMap);
+	loadRooms(*tileMap);
     loadMapObjects(*tileMap);
     
     cocos2d::CCSize size = tileMap->getMapSize();

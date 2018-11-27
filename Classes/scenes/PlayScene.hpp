@@ -28,6 +28,8 @@ public:
     //set player object. should be post load object init
     void trackPlayer();
     
+	void initRoomMask();
+	void updateRoomMask();
     void updateHUD();
     void updateCamera();
     void applyCameraControls();
@@ -47,6 +49,8 @@ public:
 	PauseMenu* pauseMenu = nullptr;
 private:    
     void addHUD();
+
+	vector<DrawNode*> roomMasks;
 
     const int cameraMovePixPerFrame = 3;
     gobject_ref cameraTarget;

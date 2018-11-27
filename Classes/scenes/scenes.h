@@ -34,6 +34,7 @@ public:
         //Running GSpace::loadAdditions, if applicable
         loadObjects,
         initHUD,
+		initRoomMask,
         //Objects that wish to query the GSpace, including looking up other objects that are expected
         //to be loaded.
         postLoadObjects,
@@ -47,6 +48,7 @@ public:
         sceneUpdate,
         moveCamera,
         hudUpdate,
+		roomMaskUpdate,
     };
     
     enum class sceneLayers{
@@ -54,6 +56,7 @@ public:
         //GraphicsLayer is used for z-ordering inside of this layer.
         //It is the only layer that moves with the camera
         space = 1,
+		roomMask,
         dialogBackground,
         dialog,
         hud,
@@ -157,7 +160,8 @@ protected:
     void loadMapObjects(const TMXTiledMap& map);
     //Add a map object layer to space.
 	void loadPaths(const TMXTiledMap& map);
-    void loadObjectGroup(TMXObjectGroup* group);
+	void loadRooms(const TMXTiledMap& map);
+	void loadObjectGroup(TMXObjectGroup* group);
     void loadWalls();
     
     //Run at init time.
