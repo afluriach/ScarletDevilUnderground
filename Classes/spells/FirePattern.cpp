@@ -59,3 +59,8 @@ GObject* FlandreFastOrbPattern::spawn(float angle, SpaceVect pos)
 {
 	return new FlandreFastOrb1(angle, pos);
 }
+
+GObject* CirnoLargeIceBulletPattern::spawn(float angle, SpaceVect pos)
+{
+	return new CirnoLargeIceBullet(angle, pos);
+}

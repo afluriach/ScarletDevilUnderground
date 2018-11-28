@@ -317,6 +317,7 @@ CirnoPC::CirnoPC(const ValueMap& args) :
 
 void CirnoPC::setFirePatterns()
 {
+	firePatterns.push_back(make_unique<CirnoLargeIceBulletPattern>(this));
 }
 
 Player::AttributeSet CirnoPC::getAttributes() {

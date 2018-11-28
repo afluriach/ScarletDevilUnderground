@@ -19,6 +19,7 @@ class Bullet;
 class GSpace;
 namespace Lua{class Inst;}
 class Spell;
+class MagicEffect;
 class FloorSegment;
 
 class GObject
@@ -182,6 +183,13 @@ public:
 	}
 
 	unique_ptr<Spell> crntSpell;
+
+	list<shared_ptr<MagicEffect>> magicEffects;
+	list<shared_ptr<MagicEffect>> magicEffectsToAdd;
+	list<shared_ptr<MagicEffect>> magicEffectsToRemove;
+
+	void addMagicEffect(shared_ptr<MagicEffect> effect);
+	void updateMagicEffects();
 
 	//END SPELLS
 

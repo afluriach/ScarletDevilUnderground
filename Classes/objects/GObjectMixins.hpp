@@ -245,6 +245,9 @@ public:
 	virtual inline bool getSensor() const { return true; }
 	virtual inline float getMass() const { return 0.1f; }
 	virtual inline GraphicsLayer sceneLayer() const { return GraphicsLayer::ground; }
+
+	//Interface
+	virtual inline shared_ptr<MagicEffect> getMagicEffect(gobject_ref target) { return nullptr; }
 };
 
 class PlayerBullet : virtual public GObject, public Bullet

@@ -118,4 +118,21 @@ public:
 	inline virtual float zoom() const { return getRadius() / spriteBaseRadius * 2; }
 };
 
+class CirnoLargeIceBullet : virtual public GObject, public PlayerBullet, public CircleBody, public ImageSprite, public DirectionalLaunch
+{
+public:
+
+	CirnoLargeIceBullet(float angle, const SpaceVect& pos);
+
+	virtual inline float getMaxSpeed() const { return 9.0f; }
+	virtual inline float getRadius() const { return 0.6; }
+
+	virtual inline string imageSpritePath() const { return "sprites/cirno_large_ice_bullet.png"; }
+
+	static constexpr float spriteBaseRadius = 0.83f;
+	inline virtual float zoom() const { return getRadius() / spriteBaseRadius * 2; }
+
+	virtual shared_ptr<MagicEffect> getMagicEffect(gobject_ref target);
+};
+
 #endif /* Bullet_hpp */

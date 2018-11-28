@@ -601,9 +601,17 @@ int GSpace::playerBulletEnemyBegin(GObject* a, GObject* b)
     if(!enemy)
         log("%s is not an Enemy", b->getName().c_str());
     
-    if(bullet && enemy)
-        enemy->onPlayerBulletHit(bullet);
-    
+	if (bullet && enemy)
+	{
+		enemy->onPlayerBulletHit(bullet);
+
+		shared_ptr<MagicEffect> effect = bullet->getMagicEffect(enemy);
+
+		if (effect) {
+			enemy->addMagicEffect(effect);
+		}
+	}
+
     if(logPhysicsHandlers)
         log("%s hit by %s", b->name.c_str(), a->name.c_str());
     

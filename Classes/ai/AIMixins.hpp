@@ -21,7 +21,8 @@ public:
 	StateMachineObject(shared_ptr<ai::Function> startState, const ValueMap& args);
 
 	inline void update() {
-		fsm.update();
+		if(!isFrozen)
+			fsm.update();
 	}
 
 	inline unsigned int addThread(shared_ptr<ai::Function> threadMain) {
@@ -40,8 +41,13 @@ public:
         log("%s", fsm.toString().c_str());
     }
 
+	inline void setFrozen(bool val) {
+		isFrozen = val;
+	}
+
 protected:
 	ai::StateMachine fsm;
+	bool isFrozen = false;
 };
 
 class RadarObject : virtual public GObject, RegisterInit<RadarObject>, RegisterUpdate<RadarObject>

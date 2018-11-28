@@ -70,4 +70,19 @@ protected:
 	int cooldownFramesRemaining = 0;
 };
 
+class CirnoLargeIceBulletPattern : public SingleBulletFixedIntervalPattern
+{
+public:
+	inline CirnoLargeIceBulletPattern(Player *const player) : SingleBulletFixedIntervalPattern(player) {}
+
+	virtual string iconPath() const { return "sprites/fire_patterns/cirno_large_ice_bullet.png"; }
+	virtual int powerCost() const { return 5; }
+
+	virtual inline int getCooldownFrames() { return 60; }
+	virtual GObject* spawn(float angle, SpaceVect pos);
+protected:
+	int cooldownFramesRemaining = 0;
+};
+
+
 #endif /* FirePattern_hpp */

@@ -180,6 +180,9 @@
     <ClCompile Include="..\Classes\FloorSegment.cpp">
       <Filter>src\objects</Filter>
     </ClCompile>
+    <ClCompile Include="..\Classes\spells\MagicEffect.cpp">
+      <Filter>src\spells</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="main.h">
@@ -358,6 +361,9 @@
     </ClInclude>
     <ClInclude Include="..\Classes\FloorSegment.hpp">
       <Filter>src\objects</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\spells\MagicEffect.hpp">
+      <Filter>src\spells</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

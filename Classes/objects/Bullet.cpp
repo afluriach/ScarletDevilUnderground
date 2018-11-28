@@ -13,6 +13,7 @@
 #include "Bullet.hpp"
 #include "GSpace.hpp"
 #include "macros.h"
+#include "MagicEffect.hpp"
 #include "value_map.hpp"
 
 const vector<string> StarBullet::colors = boost::assign::list_of
@@ -60,3 +61,13 @@ FlandreBigOrb1::FlandreBigOrb1(float angle, const SpaceVect& pos) :
 FlandreFastOrb1::FlandreFastOrb1(float angle, const SpaceVect& pos) :
 	GObject("fastOrb1", pos, angle, true)
 {}
+
+CirnoLargeIceBullet::CirnoLargeIceBullet(float angle, const SpaceVect& pos) :
+	GObject("bigIce1", pos, angle, true)
+{}
+
+shared_ptr<MagicEffect> CirnoLargeIceBullet::getMagicEffect(gobject_ref target)
+{
+	return make_shared<FrostStatusEffect>(target, 0.5f);
+}
+
