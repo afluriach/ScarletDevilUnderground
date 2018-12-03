@@ -12,15 +12,14 @@
 #include "Agent.hpp"
 #include "macros.h"
 
-class Tewi : public Agent, virtual HitPointsEnemy, virtual TouchDamageEnemy, virtual PlayerBulletDamage
+class Tewi : virtual public Agent, public TouchDamageEnemy, public BaseAttributes<Tewi>
 {
-	static const int maxHP;
-
 public:
+	static const AttributeMap baseAttributes;
+
 	inline Tewi(const ValueMap& args) :
 		GObject(args),
-		Agent(args),
-		HitPointsEnemy(maxHP)
+		Agent(args)
 	{}
 
 	virtual inline float getRadius() const { return 0.35f; }
@@ -33,9 +32,6 @@ public:
 
 	inline string imageSpritePath() const { return "sprites/tewi.png"; }
 	inline GraphicsLayer sceneLayer() const { return GraphicsLayer::ground; }
-
-	virtual inline float getMaxSpeed() const { return 2.4f; }
-	virtual inline float getMaxAcceleration() const { return 6.0f; }
 
 	virtual void initStateMachine(ai::StateMachine& sm);
 };

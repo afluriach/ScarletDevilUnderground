@@ -186,6 +186,9 @@
     <ClCompile Include="..\Classes\objects\Fairy.cpp">
       <Filter>src\objects</Filter>
     </ClCompile>
+    <ClCompile Include="..\Classes\Attributes.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="main.h">
@@ -370,6 +373,9 @@
     </ClInclude>
     <ClInclude Include="..\Classes\objects\Fairy.hpp">
       <Filter>src\objects</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\Attributes.hpp">
+      <Filter>src</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

@@ -12,13 +12,12 @@
 #include "Sakuya.hpp"
 #include "scenes.h"
 
-const int Sakuya::maxHP = 30;
+const AttributeMap Sakuya::baseAttributes = boost::assign::map_list_of
+	(Attribute::health, 30.0f)
+	(Attribute::speed, 3.0f)
+	(Attribute::acceleration, 4.5f)
+;
 
 void Sakuya::initStateMachine(ai::StateMachine& sm) {
 	addThread(make_shared<ai::SakuyaMain>());
-}
-
-float Sakuya::getMaxSpeed() const
-{
-    return 3.0f;
 }

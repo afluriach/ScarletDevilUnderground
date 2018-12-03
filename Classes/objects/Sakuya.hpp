@@ -12,17 +12,15 @@
 #include "Agent.hpp"
 
 class Sakuya :
-public Agent,
-virtual public HitPointsEnemy,
-virtual public PlayerBulletDamage
+virtual public Agent,
+public BaseAttributes<Sakuya>
 {
 public:
-    static const int maxHP;
+	static const AttributeMap baseAttributes;
 
     inline Sakuya(const ValueMap& args) :
 	GObject(args),
-    Agent(args),
-    HitPointsEnemy(maxHP)
+    Agent(args)
     {}
 
     virtual inline float getRadarRadius() const {return 6.0f;}
@@ -35,9 +33,6 @@ public:
 
     inline string imageSpritePath() const {return "sprites/sakuya.png";}
     inline GraphicsLayer sceneLayer() const {return GraphicsLayer::ground;}
-        
-    virtual float getMaxSpeed() const;
-    virtual inline float getMaxAcceleration() const {return 4.5f;}
 
 	virtual void initStateMachine(ai::StateMachine& sm);
 };

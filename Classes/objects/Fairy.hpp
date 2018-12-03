@@ -13,17 +13,15 @@
 #include "macros.h"
 
 class Fairy1 :
-	public Agent,
-	virtual public HitPointsEnemy,
-	virtual public PlayerBulletDamage
+virtual public Agent,
+public BaseAttributes<Fairy1>
 {
 public:
-	static const int maxHP;
+	static const AttributeMap baseAttributes;
 
 	inline Fairy1(const ValueMap& args) :
 		GObject(args),
-		Agent(args),
-		HitPointsEnemy(maxHP)
+		Agent(args)
 	{}
 
 	virtual inline float getRadarRadius() const { return 6.0f; }
@@ -36,25 +34,20 @@ public:
 
 	inline string imageSpritePath() const { return "sprites/melancholy.png"; }
 	inline GraphicsLayer sceneLayer() const { return GraphicsLayer::ground; }
-
-	virtual float getMaxSpeed() const;
-	virtual inline float getMaxAcceleration() const { return 4.5f; }
 
 	virtual void initStateMachine(ai::StateMachine& sm);
 };
 
 class Fairy2 :
-	public Agent,
-	virtual public HitPointsEnemy,
-	virtual public PlayerBulletDamage
+	virtual public Agent,
+	public BaseAttributes<Fairy2>
 {
 public:
-	static const int maxHP;
+	static const AttributeMap baseAttributes;
 
 	inline Fairy2(const ValueMap& args) :
 		GObject(args),
-		Agent(args),
-		HitPointsEnemy(maxHP)
+		Agent(args)
 	{}
 
 	virtual inline float getRadarRadius() const { return 6.0f; }
@@ -67,9 +60,6 @@ public:
 
 	inline string imageSpritePath() const { return "sprites/melancholy.png"; }
 	inline GraphicsLayer sceneLayer() const { return GraphicsLayer::ground; }
-
-	virtual float getMaxSpeed() const;
-	virtual inline float getMaxAcceleration() const { return 4.5f; }
 
 	virtual void initStateMachine(ai::StateMachine& sm);
 

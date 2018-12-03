@@ -11,7 +11,12 @@
 #include "Facer.hpp"
 #include "macros.h"
 
-void Facer::onPlayerBulletHit(Bullet* bullet)
+const AttributeMap Facer::baseAttributes = boost::assign::map_list_of
+	(Attribute::speed, 1.0f)
+	(Attribute::acceleration, 4.5f)
+;
+
+void Facer::hit(int damage, shared_ptr<MagicEffect> effect)
 {
     rotate(float_pi/2);
 }

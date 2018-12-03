@@ -10,7 +10,11 @@
 
 #include "Tewi.hpp"
 
-const int Tewi::maxHP = 5;
+const AttributeMap Tewi::baseAttributes = boost::assign::map_list_of
+	(Attribute::health, 5.0f)
+	(Attribute::speed, 2.4f)
+	(Attribute::acceleration, 6.0f)
+;
 
 void Tewi::initStateMachine(ai::StateMachine& sm) {
 	sm.addThread(make_shared<ai::EvadePlayerProjectiles>());

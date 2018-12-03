@@ -583,33 +583,31 @@ int GSpace::playerEnemyEnd(GObject* a, GObject* b)
 int GSpace::playerEnemyBulletBegin(GObject* playerObj, GObject* bullet)
 {
     Player* player = dynamic_cast<Player*>(playerObj);
-    
+	Bullet* _bullet = dynamic_cast<Bullet*>(bullet);
+
     if(logPhysicsHandlers)
         log("%s hit by %s", player->name.c_str(), bullet->name.c_str());
-    player->hit();
-    removeObject(bullet);
+
+	if (player && _bullet) {
+		player->hit(1, _bullet->getMagicEffect(playerObj));
+	}
+
+	removeObject(bullet);
     return 1;
 }
 
 int GSpace::playerBulletEnemyBegin(GObject* a, GObject* b)
 {    
     Bullet* bullet = dynamic_cast<Bullet*>(a);
-    Enemy* enemy = dynamic_cast<Enemy*>(b);
+    Agent* _enemy_agent = dynamic_cast<Agent*>(b);
     
     if(!bullet)
         log("%s is not a Bullet", a->getName().c_str());
-    if(!enemy)
+    if(!_enemy_agent)
         log("%s is not an Enemy", b->getName().c_str());
     
-	if (bullet && enemy)
-	{
-		enemy->onPlayerBulletHit(bullet);
-
-		shared_ptr<MagicEffect> effect = bullet->getMagicEffect(enemy);
-
-		if (effect) {
-			enemy->addMagicEffect(effect);
-		}
+	if (bullet && _enemy_agent){
+		_enemy_agent->hit(bullet->getDamage(), bullet->getMagicEffect(_enemy_agent));
 	}
 
     if(logPhysicsHandlers)

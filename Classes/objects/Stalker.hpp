@@ -12,15 +12,14 @@
 #include "Agent.hpp"
 #include "macros.h"
 
-class Stalker : public Agent, virtual HitPointsEnemy, virtual TouchDamageEnemy, virtual PlayerBulletDamage
+class Stalker : virtual public Agent, public TouchDamageEnemy, public BaseAttributes<Stalker>
 {
 public:
-    static const int maxHP;
+	static const AttributeMap baseAttributes;
 
     inline Stalker(const ValueMap& args) :
 	GObject(args),
-    Agent(args),
-    HitPointsEnemy(maxHP)
+    Agent(args)
     {}
 
     virtual inline float getRadarRadius() const {return 6.0f;}
@@ -33,9 +32,6 @@ public:
 
     inline string imageSpritePath() const {return "sprites/dark_cirno.png";}
     inline GraphicsLayer sceneLayer() const {return GraphicsLayer::ground;}
-        
-    virtual inline float getMaxSpeed() const {return 1.5f;}
-    virtual inline float getMaxAcceleration() const {return 4.5f;}
 
 	virtual void initStateMachine(ai::StateMachine& sm);
 };

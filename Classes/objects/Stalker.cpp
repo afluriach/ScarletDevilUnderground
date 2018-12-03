@@ -9,7 +9,11 @@
 #include "Prefix.h"
 #include "Stalker.hpp"
 
-const int Stalker::maxHP = 12;
+const AttributeMap Stalker::baseAttributes = boost::assign::map_list_of
+	(Attribute::health, 12.0f)
+	(Attribute::speed, 1.5f)
+	(Attribute::acceleration, 4.5f)
+;
 
 void Stalker::initStateMachine(ai::StateMachine& sm)
 {

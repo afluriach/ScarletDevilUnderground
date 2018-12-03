@@ -19,33 +19,12 @@ class Collectible;
 class FirePattern;
 class SpellDesc;
 
-class Player : virtual public GObject,
-public Agent,
-RegisterInit<Player>,
-RegisterUpdate<Player>
+class Player :
+virtual public Agent,
+public RegisterInit<Player>,
+public RegisterUpdate<Player>
 {
-public:    	
-	enum class Attribute {
-		health = 0,
-		power,
-		speed,
-		acceleration,
-		hitProtection,
-		
-		end,
-	};
-
-	typedef array<float, to_size_t(Player::Attribute::end)> AttributeSet;
-
-	struct AttributeSystem
-	{
-		AttributeSet baseAttributes;
-		AttributeSet modifiers;
-
-		AttributeSystem();
-		float getAdjustedValue(Attribute id) const;
-	};
-	    
+public:
     static const float interactCooldownTime;
     
     static const float spellCooldownTime;
@@ -53,13 +32,6 @@ public:
     
 	Player(const ValueMap& args);
     
-	virtual float getMaxSpeed() const;
-	virtual float getMaxAcceleration() const;
-
-	virtual float getMaxHealth() const;
-	virtual float getMaxPower() const;
-
-	virtual AttributeSet getAttributes() = 0;
 	virtual void setFirePatterns() = 0;
 	virtual void equipSpells() = 0;
     
@@ -68,7 +40,7 @@ public:
 	inline virtual GType getRadarType() const { return GType::objectSensor; }
     inline virtual float getDefaultFovAngle() const { return float_pi / 4.0f;}
 
-    void hit();
+    virtual void hit(int damage, shared_ptr<MagicEffect> effect);
 
     inline int getHealth(){
         return health;
@@ -97,7 +69,7 @@ public:
 	inline void setFiringSuppressed(bool mode) { suppressFiring = mode; }
 
     virtual inline float getRadius() const {return 0.35f;}
-    inline float getMass() const {return 20.0f;}
+    virtual inline float getMass() const {return 20.0f;}
     virtual inline GType getType() const {return GType::player;}
     
     inline GraphicsLayer sceneLayer() const {return GraphicsLayer::ground;}
@@ -126,8 +98,6 @@ public:
 
     void onCollectible(Collectible* coll);
 protected:
-	AttributeSystem attributeSystem;
-
     float hitProtectionCountdown = 0.0f;
     float spellCooldown = 0.0f;
     float interactCooldown = 0.0f;
@@ -136,50 +106,44 @@ protected:
 	int crntFirePattern = 0;
 
 	SpellDesc* equippedSpell = nullptr;
-    
-    int health;    
-    int power;
-    
+        
     bool spellProtectionMode = false;
 	bool suppressFiring = false;
 };
 
-class FlandrePC : public Player
+class FlandrePC : virtual public Player, public BaseAttributes<FlandrePC>
 {
 public:
-	static const AttributeSet baseAttributeSet;
+	static const AttributeMap baseAttributes;
 
 	FlandrePC(const ValueMap& args);
 
 	virtual inline string imageSpritePath() const { return "sprites/flandre.png"; }
 	virtual void setFirePatterns();
-	virtual AttributeSet getAttributes();
 	virtual void equipSpells();
 };
 
-class RumiaPC : public Player
+class RumiaPC : virtual public Player, public BaseAttributes<RumiaPC>
 {
 public:
-	static const AttributeSet baseAttributeSet;
+	static const AttributeMap baseAttributes;
 
 	RumiaPC(const ValueMap& args);
 
 	virtual inline string imageSpritePath() const { return "sprites/marisa.png"; }
 	virtual void setFirePatterns();
-	virtual AttributeSet getAttributes();
 	virtual void equipSpells();
 };
 
-class CirnoPC : public Player
+class CirnoPC : virtual public Player, public BaseAttributes<CirnoPC>
 {
 public:
-	static const AttributeSet baseAttributeSet;
+	static const AttributeMap baseAttributes;
 
 	CirnoPC(const ValueMap& args);
 	
 	virtual inline string imageSpritePath() const { return "sprites/cirno.png"; }
 	virtual void setFirePatterns();
-	virtual AttributeSet getAttributes();
 	virtual void equipSpells();
 };
 

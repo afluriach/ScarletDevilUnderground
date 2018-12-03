@@ -11,7 +11,7 @@
 
 #include "Agent.hpp"
 
-class Reimu : public Agent, public DialogEntity
+class Reimu : virtual public Agent, public DialogEntity, public NoAttributes
 {
 public:
     inline Reimu(const ValueMap& args) :

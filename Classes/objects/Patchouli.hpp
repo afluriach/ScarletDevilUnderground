@@ -11,7 +11,7 @@
 
 #include "Agent.hpp"
 
-class Patchouli : public Agent
+class Patchouli : virtual public Agent, public NoAttributes
 {
 public:
     inline Patchouli(const ValueMap& args) :

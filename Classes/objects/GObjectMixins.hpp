@@ -214,25 +214,6 @@ protected:
 	Player * hitTarget = nullptr;
 };
 
-class HitPointsEnemy : public virtual Enemy, RegisterUpdate<HitPointsEnemy>
-{
-    public:
-        inline HitPointsEnemy(int _hp) : hp(_hp), RegisterUpdate<HitPointsEnemy>(this) {}
-    
-        void update();
-    
-        void hit(int damage);
-    private:
-        int hp;
-};
-
-class PlayerBulletDamage : public virtual HitPointsEnemy
-{
-public:
-	inline PlayerBulletDamage() {}
-	virtual void onPlayerBulletHit(Bullet* bullet);
-};
-
 //END ENEMY
 
 //TYPE MIXINS
@@ -247,7 +228,10 @@ public:
 	virtual inline GraphicsLayer sceneLayer() const { return GraphicsLayer::ground; }
 
 	//Interface
+	inline int getDamage() const { return damage; }
 	virtual inline shared_ptr<MagicEffect> getMagicEffect(gobject_ref target) { return nullptr; }
+protected:
+	int damage = 1;
 };
 
 class PlayerBullet : virtual public GObject, public Bullet

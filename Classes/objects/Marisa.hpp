@@ -11,7 +11,7 @@
 
 #include "Agent.hpp"
 
-class Marisa : public Agent
+class Marisa : virtual public Agent, public NoAttributes
 {
 public:
     inline Marisa(const ValueMap& args) :

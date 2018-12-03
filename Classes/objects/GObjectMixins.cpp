@@ -229,19 +229,6 @@ void Enemy::runDamageFlicker()
 //		sprite->runAction(colorFlickerAction(0.3f, 4, Color3B(255, 0, 0)));
 }
 
-void HitPointsEnemy::hit(int damage)
-{
-	runDamageFlicker();
-    hp -= damage;
-}
-
-void HitPointsEnemy::update()
-{
-    if(hp == 0){
-        app->space->removeObject(this);
-    }
-}
-
 void TouchDamageEnemy::onTouchPlayer(Player* player){
 	hitTarget = player;
 }
@@ -255,12 +242,7 @@ void TouchDamageEnemy::endTouchPlayer()
 void TouchDamageEnemy::update()
 {
 	if(hitTarget)
-		hitTarget->hit();
-}
-
-void PlayerBulletDamage::onPlayerBulletHit(Bullet* bullet)
-{
-    hit(1);
+		hitTarget->hit(1, nullptr);
 }
 
 //END ENEMY

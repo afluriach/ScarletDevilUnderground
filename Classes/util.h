@@ -53,6 +53,18 @@ typename std::common_type<
     return vmin(val1, std::forward<Ts>(vs)...);
 }
 
+template<typename T, size_t Size>
+inline array<T,Size> getZeroArray()
+{
+	array<T, Size> result;
+
+	for (int i = 0; i < Size; ++i) {
+		result[i] = 0;
+	}
+
+	return result;
+}
+
 void checkCreateProfileSubfolder();
 string getProfilePath();
 

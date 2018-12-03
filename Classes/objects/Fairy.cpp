@@ -11,7 +11,11 @@
 #include "AI.hpp"
 #include "Fairy.hpp"
 
-const int Fairy1::maxHP = 5;
+const AttributeMap Fairy1::baseAttributes = boost::assign::map_list_of
+(Attribute::health, 5.0f)
+(Attribute::speed, 3.0f)
+(Attribute::acceleration, 4.5f)
+;
 
 void Fairy1::initStateMachine(ai::StateMachine& sm) {
 	addThread(make_shared<ai::Detect>(
@@ -22,12 +26,11 @@ void Fairy1::initStateMachine(ai::StateMachine& sm) {
 	));
 }
 
-float Fairy1::getMaxSpeed() const
-{
-	return 3.0f;
-}
-
-const int Fairy2::maxHP = 15;
+const AttributeMap Fairy2::baseAttributes = boost::assign::map_list_of
+(Attribute::health, 15.0f)
+(Attribute::speed, 4.5f)
+(Attribute::acceleration, 4.5f)
+;
 
 void Fairy2::initStateMachine(ai::StateMachine& sm) {
 	addThread(make_shared<ai::Detect>(
@@ -36,9 +39,4 @@ void Fairy2::initStateMachine(ai::StateMachine& sm) {
 			return make_shared<ai::MaintainDistance>(target, 3.0f, 1.0f);
 		}
 	));
-}
-
-float Fairy2::getMaxSpeed() const
-{
-	return 4.5f;
 }
