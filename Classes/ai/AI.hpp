@@ -14,6 +14,7 @@
 #include "types.h"
 
 class Agent;
+class FirePattern;
 class GObject;
 
 namespace ai{
@@ -48,6 +49,8 @@ enum class ResourceLock
 {
     begin = 0,
     movement = 0,
+	spellcasting,
+	fire,
     
     end,
 };
@@ -265,6 +268,11 @@ public:
     DetectAndSeekPlayer(const ValueMap& args);
     
     FuncGetName(DetectAndSeekPlayer)
+
+	inline virtual bitset<lockCount> getLockMask() {
+		return make_enum_bitfield(ResourceLock::movement);
+	}
+
 };
 
 class IdleWait : public Function{
@@ -367,9 +375,31 @@ public:
     virtual void onExit(StateMachine& sm);
     
     FuncGetName(Cast)
+
+	inline virtual bitset<lockCount> getLockMask() {
+		return make_enum_bitfield(ResourceLock::spellcasting);
+	}
+
 protected:
     string spell_name;
     ValueMap spell_args;
+};
+
+class FireAtTarget : public Function {
+public:
+	FireAtTarget(shared_ptr<FirePattern> pattern, gobject_ref target);
+
+	virtual void update(StateMachine& sm);
+
+	FuncGetName(FireAtTarget)
+	
+	inline virtual bitset<lockCount> getLockMask() {
+		return make_enum_bitfield(ResourceLock::fire);
+	}
+
+protected:
+	shared_ptr<FirePattern> pattern;
+	gobject_ref target;
 };
 
 class FacerMain : public Function {

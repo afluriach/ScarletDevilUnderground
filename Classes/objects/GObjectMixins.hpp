@@ -199,7 +199,6 @@ public:
 	inline Enemy() {}
 	inline virtual void onTouchPlayer(Player* target) {}
 	inline virtual void endTouchPlayer() {}
-	inline virtual void onPlayerBulletHit(Bullet* bullet) {}
 	void runDamageFlicker();
 };
 

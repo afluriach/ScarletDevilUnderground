@@ -25,7 +25,12 @@ AttributeSet getAttributeSet(const AttributeMap& input)
 
 AttributeSet getBlankAttributeSet()
 {
-	return getZeroArray<float, to_size_t(Attribute::end)>();
+	AttributeSet result = getZeroArray<float, to_size_t(Attribute::end)>();
+
+	//Sensitivity multiplier should be 1.0 by default.
+	result[to_size_t(Attribute::iceSensitivity)] = 1.0f;
+
+	return result;
 }
 
 AttributeSystem::AttributeSystem() :

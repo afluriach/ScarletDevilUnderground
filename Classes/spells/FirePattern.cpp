@@ -16,10 +16,10 @@
 
 bool SingleBulletFixedIntervalPattern::fireIfPossible()
 {
-	if (cooldownFramesRemaining <= 0 && powerCost() <= player->getPower())
+	if (cooldownFramesRemaining <= 0 && powerCost() <= agent->getPower())
 	{
 		cooldownFramesRemaining = getCooldownFrames();
-		player->consumePower(powerCost());
+		agent->consumePower(powerCost());
 		fire();
 
 		return true;
@@ -31,10 +31,10 @@ bool SingleBulletFixedIntervalPattern::fireIfPossible()
 
 void SingleBulletFixedIntervalPattern::fire()
 {
-	SpaceVect pos = player->getPos();
-	pos += SpaceVect::ray(getLaunchDistance(), player->getAngle());
+	SpaceVect pos = agent->getPos();
+	pos += SpaceVect::ray(getLaunchDistance(), agent->getAngle());
 
-	GObject* bullet = spawn(player->getAngle(), pos);
+	GObject* bullet = spawn(agent->getAngle(), pos);
 
 	if (bullet)
 		app->space->addObject(bullet);
@@ -64,3 +64,9 @@ GObject* CirnoLargeIceBulletPattern::spawn(float angle, SpaceVect pos)
 {
 	return new CirnoLargeIceBullet(angle, pos);
 }
+
+GObject* IceFairyBulletPattern::spawn(float angle, SpaceVect pos)
+{
+	return new IceFairyBullet(angle, pos);
+}
+

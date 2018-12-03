@@ -40,15 +40,37 @@ public:
 		RadarObject::onEndDetect(obj);
 	}
 
+	//Override checks for magic effect sensitivity
+	virtual void addMagicEffect(shared_ptr<MagicEffect> effect);
+
 	//attribute interface
 	virtual AttributeMap getBaseAttributes() const = 0;
-	float getCrntAttribute(Attribute id);
 
 	virtual float getMaxSpeed() const;
 	virtual float getMaxAcceleration() const;
 
 	virtual float getMaxHealth() const;
 	virtual float getMaxPower() const;
+
+	inline int getHealth() {
+		return health;
+	}
+
+	inline void setHealth(int val) {
+		health = val;
+	}
+
+	inline int getPower() {
+		return power;
+	}
+
+	inline bool consumePower(int val) {
+		if (power >= val) {
+			power -= val;
+			return true;
+		}
+		return false;
+	}
 
 	virtual void hit(int damage, shared_ptr<MagicEffect> effect);
 

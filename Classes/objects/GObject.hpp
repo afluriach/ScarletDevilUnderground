@@ -188,7 +188,7 @@ public:
 	list<shared_ptr<MagicEffect>> magicEffectsToAdd;
 	list<shared_ptr<MagicEffect>> magicEffectsToRemove;
 
-	void addMagicEffect(shared_ptr<MagicEffect> effect);
+	virtual void addMagicEffect(shared_ptr<MagicEffect> effect);
 	void updateMagicEffects();
 
 	//END SPELLS

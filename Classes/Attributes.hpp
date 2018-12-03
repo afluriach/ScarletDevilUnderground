@@ -17,6 +17,7 @@ enum class Attribute {
 	speed,
 	acceleration,
 	hitProtection,
+	iceSensitivity,
 
 	end,
 };

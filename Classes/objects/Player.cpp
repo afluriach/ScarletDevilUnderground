@@ -235,6 +235,7 @@ const AttributeMap FlandrePC::baseAttributes = boost::assign::map_list_of
 	(Attribute::speed, 3.0f)
 	(Attribute::acceleration, 9.0f)
 	(Attribute::hitProtection, 2.4f)
+	(Attribute::iceSensitivity, 2.0f)
 ;
 
 FlandrePC::FlandrePC(const ValueMap& args) :
@@ -259,6 +260,7 @@ const AttributeMap RumiaPC::baseAttributes = boost::assign::map_list_of
 (Attribute::speed, 4.5f)
 (Attribute::acceleration, 12.0f)
 (Attribute::hitProtection, 1.5f)
+(Attribute::iceSensitivity, 1.0f)
 ;
 
 RumiaPC::RumiaPC(const ValueMap& args) :
@@ -281,6 +283,7 @@ const AttributeMap CirnoPC::baseAttributes = boost::assign::map_list_of
 (Attribute::speed, 2.0f)
 (Attribute::acceleration, 6.0f)
 (Attribute::hitProtection, 3.3f)
+(Attribute::iceSensitivity, 0.0f)
 ;
 
 CirnoPC::CirnoPC(const ValueMap& args) :

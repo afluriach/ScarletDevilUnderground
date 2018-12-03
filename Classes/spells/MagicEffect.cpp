@@ -48,6 +48,13 @@ void FrostStatusEffect::update()
 		crntState = state::ending;
 		target.get()->addMagicEffect(make_shared<FreezeStatusEffect>(target, 3.0f));
 	}
+	else {
+		magnitude -= 0.1 * App::secondsPerFrame;
+
+		if (magnitude <= 0.0f) {
+			crntState = state::ending;
+		}
+	}
 }
 
 void FrostStatusEffect::end()
@@ -78,8 +85,12 @@ void FreezeStatusEffect::update()
 {
 	magnitude -= App::secondsPerFrame;
 
-	if (magnitude <= 0.0f)
+	if (magnitude <= 0.0f) {
 		crntState = state::ending;
+	}
+	else {
+		ai::applyDesiredVelocity(*target.get(), SpaceVect::zero, target.get()->getMaxAcceleration());
+	}
 }
 
 void FreezeStatusEffect::end()

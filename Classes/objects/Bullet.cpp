@@ -26,6 +26,14 @@ const vector<string> StarBullet::colors = boost::assign::list_of
     ("yellow")
 ;
 
+IceFairyBullet::IceFairyBullet(float angle, const SpaceVect& pos) :
+	GObject("IceFairyBullet", pos, angle, true)
+{}
+
+shared_ptr<MagicEffect> IceFairyBullet::getMagicEffect(gobject_ref target) {
+	return make_shared<FrostStatusEffect>(target, 0.25f);
+}
+
 IllusionDialDagger::IllusionDialDagger(const SpaceVect& pos, float angular_velocity) :
 GObject("IllusionDialDagger", pos, true)
 {

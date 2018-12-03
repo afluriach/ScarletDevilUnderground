@@ -11,6 +11,7 @@
 #include "Agent.hpp"
 #include "App.h"
 #include "GSpace.hpp"
+#include "MagicEffect.hpp"
 
  Agent::Agent(const ValueMap& args) :
 	GObject(args),
@@ -70,10 +71,25 @@
 	 }
  }
 
- const AttributeMap GenericAgent::baseAttributes = boost::assign::map_list_of
+void Agent::addMagicEffect(shared_ptr<MagicEffect> effect)
+{
+	if (dynamic_cast<FreezeStatusEffect*>(effect.get()) || dynamic_cast<FrostStatusEffect*>(effect.get())) {
+		effect->magnitude *= attributeSystem.getAdjustedValue(Attribute::iceSensitivity);
+
+		if (effect->magnitude != 0.0f) {
+			GObject::addMagicEffect(effect);
+		}
+	}
+	else
+	{
+		GObject::addMagicEffect(effect);
+	}
+}
+
+const AttributeMap GenericAgent::baseAttributes = boost::assign::map_list_of
 	(Attribute::speed, 1.5f)
 	(Attribute::acceleration, 6.0f)
-	 ;
+;
 
  GenericAgent::GenericAgent(const ValueMap& args) :
 	 GObject(args),

@@ -71,6 +71,25 @@ public:
     inline virtual float zoom() const {return getRadius()/spriteBaseRadius*2;}
 };
 
+class IceFairyBullet : virtual public GObject, public EnemyBullet, public CircleBody, public ImageSprite, public DirectionalLaunch
+{
+public:
+
+	IceFairyBullet(float angle, const SpaceVect& pos);
+
+	virtual inline float getMaxSpeed() const { return 6.0f; }
+	virtual inline float getRadius() const { return 0.3f; }
+
+	virtual inline string imageSpritePath() const { return "sprites/ice_fairy_bullet.png"; }
+
+	static constexpr float spriteBaseRadius = 0.83f;
+	inline virtual float zoom() const { return getRadius() / spriteBaseRadius * 2; }
+
+	virtual shared_ptr<MagicEffect> getMagicEffect(gobject_ref target);
+
+};
+
+
 class IllusionDialDagger : virtual public GObject, public EnemyBullet, public RectangleBody, public ImageSprite
 {
 public:

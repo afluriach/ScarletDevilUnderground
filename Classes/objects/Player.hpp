@@ -41,26 +41,6 @@ public:
     inline virtual float getDefaultFovAngle() const { return float_pi / 4.0f;}
 
     virtual void hit(int damage, shared_ptr<MagicEffect> effect);
-
-    inline int getHealth(){
-        return health;
-    }
-    
-    inline void setHealth(int val){
-        health = val;
-    }
-        
-    inline int getPower(){
-        return power;
-    }
-    
-    inline bool consumePower(int val){
-        if(power >= val){
-            power -= val;
-            return true;
-        }
-        return false;
-    }
     
     inline bool isSpellProtectionMode() const {return spellProtectionMode;}
     inline void setSpellProtectionMode(bool mode) {spellProtectionMode = mode;}

@@ -11,6 +11,7 @@
 #include "Agent.hpp"
 #include "AI.hpp"
 #include "App.h"
+#include "FirePattern.hpp"
 #include "Graphics.h"
 #include "GSpace.hpp"
 #include "GObject.hpp"
@@ -828,6 +829,17 @@ void Wander::update(StateMachine& fsm)
     
     int waitFrames = app->getRandomInt(minWait*App::framesPerSecond, maxWait*App::framesPerSecond);
     fsm.push(make_shared<IdleWait>(waitFrames));
+}
+
+FireAtTarget::FireAtTarget(shared_ptr<FirePattern> pattern, gobject_ref target) :
+	pattern(pattern),
+	target(target)
+{}
+
+void FireAtTarget::update(StateMachine& sm)
+{
+	pattern.get()->update();
+	pattern.get()->fireIfPossible();
 }
 
 Cast::Cast(string _spell_name, const ValueMap& _spell_args) :

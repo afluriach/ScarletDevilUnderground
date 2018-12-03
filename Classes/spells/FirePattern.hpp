@@ -9,10 +9,12 @@
 #ifndef FirePattern_hpp
 #define FirePattern_hpp
 
+class Agent;
+
 class FirePattern
 {
 public:
-	inline FirePattern(Player *const player) : player(player) {}
+	inline FirePattern(Agent *const agent) : agent(agent) {}
 
 	virtual bool fireIfPossible() = 0;
 	virtual void fire() = 0;
@@ -22,13 +24,13 @@ public:
 	virtual string iconPath() const = 0;
 	virtual int powerCost() const = 0;
 protected:
-	Player * const player;
+	Agent * const agent;
 };
 
 class SingleBulletFixedIntervalPattern : public FirePattern
 {
 public:
-	inline SingleBulletFixedIntervalPattern(Player *const player) : FirePattern(player) {}
+	inline SingleBulletFixedIntervalPattern(Agent *const agent) : FirePattern(agent) {}
 
 	virtual bool fireIfPossible();
 	virtual void fire();
@@ -45,7 +47,7 @@ protected:
 class FlandreBigOrbPattern : public SingleBulletFixedIntervalPattern
 {
 public:
-	inline FlandreBigOrbPattern(Player *const player) : SingleBulletFixedIntervalPattern(player) {}
+	inline FlandreBigOrbPattern(Agent *const agent) : SingleBulletFixedIntervalPattern(agent) {}
 
 	virtual string iconPath() const { return "sprites/fire_patterns/flandre_big_orb.png"; }
 	virtual int powerCost() const { return 5; }
@@ -59,7 +61,7 @@ protected:
 class FlandreFastOrbPattern : public SingleBulletFixedIntervalPattern
 {
 public:
-	inline FlandreFastOrbPattern(Player *const player) : SingleBulletFixedIntervalPattern(player) {}
+	inline FlandreFastOrbPattern(Agent *const agent) : SingleBulletFixedIntervalPattern(agent) {}
 
 	virtual string iconPath() const { return "sprites/fire_patterns/flandre_fast_orb.png"; }
 	virtual int powerCost() const { return 1; }
@@ -73,7 +75,7 @@ protected:
 class CirnoLargeIceBulletPattern : public SingleBulletFixedIntervalPattern
 {
 public:
-	inline CirnoLargeIceBulletPattern(Player *const player) : SingleBulletFixedIntervalPattern(player) {}
+	inline CirnoLargeIceBulletPattern(Agent *const agent) : SingleBulletFixedIntervalPattern(agent) {}
 
 	virtual string iconPath() const { return "sprites/fire_patterns/cirno_large_ice_bullet.png"; }
 	virtual int powerCost() const { return 5; }
@@ -83,6 +85,22 @@ public:
 protected:
 	int cooldownFramesRemaining = 0;
 };
+
+class IceFairyBulletPattern : public SingleBulletFixedIntervalPattern
+{
+public:
+	inline IceFairyBulletPattern(Agent *const agent) : SingleBulletFixedIntervalPattern(agent) {}
+
+	//not relevant for enemy fire patterns
+	virtual string iconPath() const { return ""; }
+	virtual int powerCost() const { return 0; }
+
+	virtual inline int getCooldownFrames() { return 60; }
+	virtual GObject* spawn(float angle, SpaceVect pos);
+protected:
+	int cooldownFramesRemaining = 0;
+};
+
 
 
 #endif /* FirePattern_hpp */
