@@ -1,0 +1,80 @@
+//
+//  Fairy.hpp
+//  Koumachika
+//
+//  Created by Toni on 11/30/18.
+//
+//
+
+#ifndef Fairy_hpp
+#define Fairy_hpp
+
+#include "Agent.hpp"
+#include "macros.h"
+
+class Fairy1 :
+	public Agent,
+	virtual public HitPointsEnemy,
+	virtual public PlayerBulletDamage
+{
+public:
+	static const int maxHP;
+
+	inline Fairy1(const ValueMap& args) :
+		GObject(args),
+		Agent(args),
+		HitPointsEnemy(maxHP)
+	{}
+
+	virtual inline float getRadarRadius() const { return 6.0f; }
+	virtual inline GType getRadarType() const { return GType::playerSensor; }
+	virtual inline float getDefaultFovAngle() const { return float_pi / 4.0f; }
+
+	virtual inline float getRadius() const { return 0.35f; }
+	inline float getMass() const { return 40.0f; }
+	virtual inline GType getType() const { return GType::enemy; }
+
+	inline string imageSpritePath() const { return "sprites/melancholy.png"; }
+	inline GraphicsLayer sceneLayer() const { return GraphicsLayer::ground; }
+
+	virtual float getMaxSpeed() const;
+	virtual inline float getMaxAcceleration() const { return 4.5f; }
+
+	virtual void initStateMachine(ai::StateMachine& sm);
+};
+
+class Fairy2 :
+	public Agent,
+	virtual public HitPointsEnemy,
+	virtual public PlayerBulletDamage
+{
+public:
+	static const int maxHP;
+
+	inline Fairy2(const ValueMap& args) :
+		GObject(args),
+		Agent(args),
+		HitPointsEnemy(maxHP)
+	{}
+
+	virtual inline float getRadarRadius() const { return 6.0f; }
+	virtual inline GType getRadarType() const { return GType::playerSensor; }
+	virtual inline float getDefaultFovAngle() const { return float_pi / 4.0f; }
+
+	virtual inline float getRadius() const { return 0.35f; }
+	inline float getMass() const { return 40.0f; }
+	virtual inline GType getType() const { return GType::enemy; }
+
+	inline string imageSpritePath() const { return "sprites/melancholy.png"; }
+	inline GraphicsLayer sceneLayer() const { return GraphicsLayer::ground; }
+
+	virtual float getMaxSpeed() const;
+	virtual inline float getMaxAcceleration() const { return 4.5f; }
+
+	virtual void initStateMachine(ai::StateMachine& sm);
+
+	void sendCoverRequest(object_ref<Fairy2> other);
+};
+
+
+#endif /* Fairy_hpp */

@@ -15,6 +15,7 @@
 #include "CollectGlyph.hpp"
 #include "Collectibles.hpp"
 #include "Facer.hpp"
+#include "Fairy.hpp"
 #include "Follower.hpp"
 #include "FloorSegment.hpp"
 #include "Flower.h"
@@ -97,6 +98,9 @@ const unordered_map<string,GObject::AdapterType> GObject::adapters =
     entry_same(Stalker)
     entry_same(GenericAgent)
 	entry_same(Tewi)
+
+	entry_same(Fairy1)
+	entry_same(Fairy2)
 
 	entry_same(DirtFloorCave)
 	entry_same(Pitfall)

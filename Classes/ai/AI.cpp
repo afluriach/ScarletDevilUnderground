@@ -67,6 +67,49 @@ bool isLineOfSight(const GObject& agent, const GObject& target)
     return app->space->lineOfSight(&agent, &target);
 }
 
+array<float, 4> obstacleFeelerQuad(GObject& agent, float distance)
+{
+	array<float, 4> results;
+
+	for (int i = 0; i < 4; ++i)
+	{
+		SpaceVect feeler = dirToVector(static_cast<Direction>(i+1)) * distance;
+		results[i] = app->space->obstacleDistanceFeeler(&agent, feeler);
+	}
+
+	return results;
+}
+
+array<float, 8> obstacleFeeler8(GObject& agent, float distance)
+{
+	array<float, 8> results;
+
+	for (int i = 0; i < 8; ++i)
+	{
+		SpaceVect feeler = SpaceVect::ray(distance, i* float_pi / 4.0f);
+		results[i] = app->space->obstacleDistanceFeeler(&agent, feeler);
+	}
+
+	return results;
+}
+
+int chooseBestDirection(const array<float, 8>& feelers, float desired_angle, float min_distance)
+{
+	int bestDirection = -1;
+	float bestAngleDistance = float_pi;
+
+	for (int i = 0; i < 8; ++i)
+	{
+		if (feelers[i] >= min_distance && abs(float_pi * i / 4.0f - desired_angle) < bestAngleDistance)
+		{
+			bestDirection = i;
+			bestAngleDistance = abs(float_pi * i / 4.0f - desired_angle);
+		}
+	}
+
+	return bestDirection;
+}
+
 //Trajectory represents direction/velocity of movement, but scaled to the same length as displacement.
 //The difference between these vectors is the distance between the two centers of the objects,
 //and thus an indicator of whether a collision will happen, or how the agent needs to move to prevent this.
@@ -118,16 +161,68 @@ void seek(GObject& agent, SpaceVect target, float maxSpeed, float acceleration)
 
 void flee(GObject& agent, SpaceVect target, float maxSpeed, float acceleration)
 {
-	SpaceVect displacement = target - agent.getPos();
-
-	if (displacement.lengthSq() < 1e-4)
-		return;
-
-    displacement = displacement.normalize();
-    displacement = displacement.rotate(float_pi);
+	SpaceVect displacement = fleeDirection(agent,target);
     
     applyDesiredVelocity(agent, displacement*maxSpeed, acceleration);
 }
+
+SpaceVect fleeDirection(GObject& agent, SpaceVect target)
+{
+	SpaceVect displacement = target - agent.getPos();
+
+	if (displacement.lengthSq() < 1e-4)
+		return SpaceVect::zero;
+
+	displacement = displacement.normalize();
+	displacement = displacement.rotate(float_pi);
+
+	return displacement;
+}
+
+void fleeWithObstacleAvoidance(GObject& agent, SpaceVect target, float maxSpeed, float acceleration)
+{
+	SpaceVect displacement = fleeDirection(agent, target);
+	float distanceMargin = getTurningRadius(agent.getVel().length(), acceleration) + agent.getRadius();
+
+	if (app->space->obstacleDistanceFeeler(&agent, displacement * distanceMargin) < distanceMargin)
+	{
+		//Choose an alternate direction to move.
+
+		array<float, 8> feelers = obstacleFeeler8(agent, distanceMargin);
+
+		int directionID = chooseBestDirection(feelers, displacement.toAngle(), distanceMargin);
+
+		if (directionID == -1) {
+			applyDesiredVelocity(agent, SpaceVect::zero, acceleration);
+		}
+		else {
+			applyDesiredVelocity(agent, SpaceVect::ray(maxSpeed, directionID* float_pi / 4.0f), acceleration);
+		}
+	}
+	else
+	{
+		flee(agent, target, maxSpeed, acceleration);
+	}
+}
+
+
+float getStoppingTime(float speed, float acceleration)
+{
+	return speed / acceleration;
+}
+
+float getStoppingDistance(float speed, float acceleration)
+{
+	float t = getStoppingTime(speed, acceleration);
+
+	return 0.5f * acceleration * t * t;
+}
+
+float getTurningRadius(float speed, float acceleration)
+{
+	return speed * speed / acceleration;
+}
+
 
 shared_ptr<Function> Function::constructState(const string& type, const ValueMap& args)
 {
@@ -474,7 +569,7 @@ void MaintainDistance::update(StateMachine& sm)
             );
         }
         else if(crnt_distance < distance + margin){
-            ai::flee(
+            ai::fleeWithObstacleAvoidance(
                 *sm.agent,
                 target.get()->getPos(),
                 sm.agent->getMaxSpeed(),
@@ -512,7 +607,7 @@ void Flee::onEndDetect(StateMachine& sm, GObject* other)
 void Flee::update(StateMachine& sm)
 {
 	if (target.isValid()) {
-		ai::flee(
+		ai::fleeWithObstacleAvoidance(
 			*sm.agent,
 			target.get()->getPos(),
 			sm.agent->getMaxSpeed(),

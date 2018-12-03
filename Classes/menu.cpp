@@ -74,6 +74,7 @@ const vector<string> SceneSelect::sceneTitles = boost::assign::list_of
 	("Facer Floor")
     ("SakuyaRoom")
     ("Library")
+	("FR1")
     ("Back")
 ;
 
@@ -93,6 +94,7 @@ const vector<TextListMenuLayer::listAction> SceneSelect::sceneActions = boost::a
 	(sceneLaunchAdapterByName("FacerFloor"))
     (sceneLaunchAdapterByName("SakuyaRoom"))
     (sceneLaunchAdapterByName("Library"))
+	(sceneLaunchAdapterByName("FR1"))
 	(SceneSelect::back)
 ;
 

@@ -23,11 +23,16 @@ namespace ai{
 //Not strictly an AI function since it's used to control the player.
 void applyDesiredVelocity(GObject& obj, SpaceVect desired, float maxForce);
 void seek(GObject& agent, SpaceVect target, float maxSpeed, float acceleration);
+SpaceVect fleeDirection(GObject& agent, SpaceVect target);
 void flee(GObject& agent, SpaceVect target, float maxSpeed, float acceleration);
 
 bool isFacingTarget(const GObject& agent, const GObject& target);
 bool isFacingTargetsBack(const GObject& agent, const GObject& target);
 bool isLineOfSight(const GObject& agent, const GObject& target);
+
+array<float, 4> obstacleFeelerQuad(GObject& agent, float distance);
+array<float, 8> obstacleFeeler8(GObject& agent, float distance);
+int chooseBestDirection(const array<float, 8>& feelers, float desired_angle, float min_distance);
 
 SpaceVect directionToTarget(const GObject& agent, SpaceVect target);
 SpaceVect displacementToTarget(const GObject& agent, SpaceVect target);
@@ -35,6 +40,9 @@ float distanceToTarget(const GObject& agent, const GObject& target);
 float viewAngleToTarget(const GObject& agent, const GObject& target);
 SpaceVect projectileEvasion(const GObject& bullet, const GObject& agent);
 
+float getStoppingTime(float speed, float acceleration);
+float getStoppingDistance(float speed, float accceleration);
+float getTurningRadius(float speed, float acceleration);
 
 enum class ResourceLock
 {
