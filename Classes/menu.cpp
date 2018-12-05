@@ -218,3 +218,14 @@ void GameOverMenu::goToTitle()
 	GScene::runScene("TitleMenu");
 }
 
+const string ChamberCompletedMenu::title = "COMPLETED!";
+
+const vector<string> ChamberCompletedMenu::entryNames = boost::assign::list_of
+("Retry")
+("Exit to title")
+;
+
+const vector<TextListMenuLayer::listAction> ChamberCompletedMenu::entryActions = boost::assign::list_of
+(PauseMenu::restart)
+(PauseMenu::goToTitle)
+;

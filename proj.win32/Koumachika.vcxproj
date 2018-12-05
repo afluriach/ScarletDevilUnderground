@@ -173,6 +173,7 @@ xcopy "$(ProjectDir)..\Resources" "$(OutDir)" /D /E /I /F /Y</Command>
     <ClCompile Include="..\Classes\objects\Fairy.cpp" />
     <ClCompile Include="..\Classes\objects\Follower.cpp" />
     <ClCompile Include="..\Classes\objects\Glyph.cpp" />
+    <ClCompile Include="..\Classes\objects\Goal.cpp" />
     <ClCompile Include="..\Classes\objects\GObject.cpp" />
     <ClCompile Include="..\Classes\objects\GObjectMixins.cpp" />
     <ClCompile Include="..\Classes\objects\InventoryObject.cpp" />
@@ -237,6 +238,7 @@ xcopy "$(ProjectDir)..\Resources" "$(OutDir)" /D /E /I /F /Y</Command>
     <ClInclude Include="..\Classes\objects\Flower.h" />
     <ClInclude Include="..\Classes\objects\Follower.hpp" />
     <ClInclude Include="..\Classes\objects\Glyph.hpp" />
+    <ClInclude Include="..\Classes\objects\Goal.hpp" />
     <ClInclude Include="..\Classes\objects\GObject.hpp" />
     <ClInclude Include="..\Classes\objects\GObjectMixins.hpp" />
     <ClInclude Include="..\Classes\objects\InventoryObject.hpp" />

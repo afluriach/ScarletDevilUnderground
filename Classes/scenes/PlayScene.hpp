@@ -44,7 +44,11 @@ public:
     
     void triggerGameOver();
     void showGameOverMenu(float unused);
-    
+
+	void triggerSceneCompleted();
+	void showSceneCompletedMenu(float unused);
+
+
     HUD* hud = nullptr;
 	PauseMenu* pauseMenu = nullptr;
 private:    

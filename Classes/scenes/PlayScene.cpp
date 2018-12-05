@@ -214,3 +214,32 @@ void PlayScene::triggerGameOver()
         "showGameOverMenu"
     );
 }
+
+void PlayScene::showSceneCompletedMenu(float unused)
+{
+	app->hud->setVisible(false);
+	if (app->dialog)
+		app->dialog->setVisible(false);
+
+	ChamberCompletedMenu* menu = ChamberCompletedMenu::create();
+
+	getLayer(sceneLayers::menu)->addChild(menu);
+}
+
+void PlayScene::triggerSceneCompleted()
+{
+	if (pauseMenu)
+		pauseMenu->setVisible(false);
+
+	setPaused(true);
+
+	Director::getInstance()->getScheduler()->schedule(
+		bind(&PlayScene::showSceneCompletedMenu, this, placeholders::_1),
+		this,
+		0.0f,
+		0,
+		fadeoutLength,
+		false,
+		"showSceneCompletedMenu"
+	);
+}

@@ -104,13 +104,6 @@ public:
     void end();
     
     //Methods for controlling the active scene; wraps calls to Director.
-    
-    template <typename T>
-    inline void pushScene()
-    {
-        Director::getInstance()->pushScene(createSceneFromLayer<T>());
-    }
-
     inline void popScene()
     {
         Director::getInstance()->popScene();

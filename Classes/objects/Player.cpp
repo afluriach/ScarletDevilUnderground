@@ -160,6 +160,7 @@ void Player::update()
 	checkMovementControls();
 	checkFireControls();
 	updateSpellControls();
+	checkItemInteraction();
 
 	updateHitTime();
     

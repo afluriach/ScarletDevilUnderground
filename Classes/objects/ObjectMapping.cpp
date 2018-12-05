@@ -19,6 +19,7 @@
 #include "Follower.hpp"
 #include "FloorSegment.hpp"
 #include "Flower.h"
+#include "Goal.hpp"
 #include "Glyph.hpp"
 #include "GState.hpp"
 #include "Items.hpp"
@@ -105,5 +106,7 @@ const unordered_map<string,GObject::AdapterType> GObject::adapters =
 
 	entry_same(DirtFloorCave)
 	entry_same(Pitfall)
+
+	entry_same(Goal)
 
 	("Player", playerAdapter());
