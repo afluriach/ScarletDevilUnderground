@@ -18,6 +18,7 @@
 #include "macros.h"
 #include "multifunction.h"
 #include "PlayScene.hpp"
+#include "util.h"
 #include "value_map.hpp"
 
 void printGroup(TMXObjectGroup* group)
@@ -50,7 +51,15 @@ ScriptedScene(name)
 		wrap_method(PlayScene, initRoomMask, this),
 		static_cast<int>(initOrder::initRoomMask)
 	);
+	multiInit.insertWithOrder(
+		wrap_method(PlayScene, initReplayData, this),
+		static_cast<int>(initOrder::core)
+	);
 
+	multiUpdate.insertWithOrder(
+		wrap_method(PlayScene, updateReplayData, this),
+		static_cast<int>(updateOrder::updateControls)
+	);
     multiUpdate.insertWithOrder(
         wrap_method(PlayScene,updateCamera,this),
         static_cast<int>(updateOrder::moveCamera)
@@ -66,6 +75,10 @@ ScriptedScene(name)
     );
     
     app->playScene = this;
+}
+
+PlayScene::~PlayScene()
+{
 }
 
 void PlayScene::trackPlayer(){
@@ -242,4 +255,60 @@ void PlayScene::triggerSceneCompleted()
 		false,
 		"showSceneCompletedMenu"
 	);
+}
+
+void PlayScene::initReplayData()
+{
+	controlReplay = make_unique<ControlReplay>();
+
+	controlReplay->scene_name = GScene::crntSceneName;
+}
+
+void PlayScene::updateReplayData()
+{
+	if (controlReplay && !isRunningReplay) {
+		controlReplay->control_data.push_back(app->control_register->getControlState());
+	}
+}
+
+bool PlayScene::loadReplayData(const string& filename)
+{
+	if (controlReplay && !isRunningReplay) {
+		log("PlayScene::loadReplayData: overwriting existing data.");
+	}
+	controlReplay = make_unique<ControlReplay>();
+
+	if (controlReplay->load(getReplayFolderPath() + filename + ".replay")) {
+		isRunningReplay = true;
+		return true;
+	}
+	return false;
+}
+
+bool PlayScene::saveReplayData(const string& filename)
+{
+	if (controlReplay && !isRunningReplay) {
+		return controlReplay->save(getReplayFolderPath() + filename + ".replay");
+	}
+	else {
+		log("PlayScene::saveReplayData: not available.");
+		return false;
+	}
+}
+
+ControlState PlayScene::getControlData()
+{
+	unsigned int crntFrame = app->space->getFrame();
+
+	if (isRunningReplay){
+		if (crntFrame > 0 && crntFrame < controlReplay->control_data.size()) {
+			return controlReplay->control_data[crntFrame];
+		}
+		else {
+			log("ControlReplay out of bounds, frame: %d", crntFrame);
+		}
+	}
+	else {
+		return app->control_register->getControlState();
+	}
 }

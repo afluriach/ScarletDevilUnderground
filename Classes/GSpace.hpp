@@ -242,9 +242,7 @@ private:
 	int sensorStart(GObject* radarAgent, GObject* target);
 	int sensorEnd(GObject* radarAgent, GObject* target);
 
-	int floorObjectBegin(GObject* floorSegment, GObject* obj);
-	int floorObjectEnd(GObject* floorSegment, GObject* obj);
-	//END PHYSICS
+//END PHYSICS
 
 //BEGIN SENSORS
 public:

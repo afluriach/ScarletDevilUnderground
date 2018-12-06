@@ -16,6 +16,7 @@
 #include "macros.h"
 
 class Collectible;
+class ControlState;
 class FirePattern;
 class SpellDesc;
 
@@ -57,10 +58,11 @@ public:
 	void init();
     void update();
     void updateHitTime();
-	void checkMovementControls();
-	void checkFireControls();
-	void checkItemInteraction();
-    void updateSpellControls();
+
+	void checkMovementControls(const ControlState& cs);
+	void checkFireControls(const ControlState& cs);
+	void checkItemInteraction(const ControlState& cs);
+    void updateSpellControls(const ControlState& cs);
 	void onSpellStop();
 
 	void applyAttributeModifier(Attribute id, float val);

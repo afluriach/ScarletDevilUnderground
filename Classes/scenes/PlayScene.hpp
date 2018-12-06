@@ -9,6 +9,7 @@
 #ifndef PlayScene_hpp
 #define PlayScene_hpp
 
+#include "controls.h"
 #include "object_ref.hpp"
 #include "HUD.hpp"
 #include "menu.h"
@@ -24,10 +25,18 @@ public:
     static const float fadeoutLength;
 
     PlayScene(const string& name);
-    
+
+	virtual ~PlayScene();
+
     //set player object. should be post load object init
     void trackPlayer();
-    
+
+	void initReplayData();
+	void updateReplayData();
+	bool loadReplayData(const string& filename);
+	bool saveReplayData(const string& filename);
+	ControlState getControlData();
+
 	void initRoomMask();
 	void updateRoomMask();
     void updateHUD();
@@ -48,7 +57,6 @@ public:
 	void triggerSceneCompleted();
 	void showSceneCompletedMenu(float unused);
 
-
     HUD* hud = nullptr;
 	PauseMenu* pauseMenu = nullptr;
 private:    
@@ -58,6 +66,9 @@ private:
 
     const int cameraMovePixPerFrame = 3;
     gobject_ref cameraTarget;
+
+	unique_ptr<ControlReplay> controlReplay;
+	bool isRunningReplay = false;
 };
 
 #define GenericPlayScene( name ) \

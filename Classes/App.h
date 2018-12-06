@@ -79,8 +79,6 @@ public:
     boost::random::uniform_01<float> randomFloat;
     boost::random::uniform_int_distribution<int> randomInt;
     boost::random::mt19937 randomEngine;
-    
-    PlayScene* getPlayScene();
 
     /**
     @brief    Implement Director and Scene init code here.

@@ -291,6 +291,16 @@ void save()
     GState::save();
 }
 
+bool saveCrntReplay(string filepath)
+{
+	return app->playScene->saveReplayData(filepath);
+}
+
+void loadReplay(string sceneName, string replayFilename)
+{
+	GScene::runSceneWithReplay(sceneName, replayFilename);
+}
+
 vector<string> getInventoryContents()
 {
     auto registry = GState::crntState.itemRegistry;
@@ -496,6 +506,8 @@ make_wrapper_same(setObjectiveCounter)
 make_wrapper_same(showObjectiveCounter)
 make_wrapper_same(printGlDebug)
 make_wrapper_same(save)
+make_wrapper_same(saveCrntReplay)
+make_wrapper_same(loadReplay)
 make_wrapper_same(getInventoryContents)
 make_wrapper_same(getPath)
 

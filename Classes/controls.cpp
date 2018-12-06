@@ -23,7 +23,7 @@ const float ControlRegister::deadzone = 0.3f;
 #define key_action_2(key_id,action1,action2) (EventKeyboard::KeyCode::key_id, make_enum_bitfield(ControlAction::action1) | make_enum_bitfield(ControlAction::action2))
 #define key_action_3(key_id,action1,action2,action3) (EventKeyboard::KeyCode::key_id, make_enum_bitfield(ControlAction::action1) | make_enum_bitfield(ControlAction::action2) | make_enum_bitfield(ControlAction::action3))
 
-const map<EventKeyboard::KeyCode, bitset<to_size_t(ControlAction::end)>> ControlRegister::keyActionMap = boost::assign::map_list_of
+const map<EventKeyboard::KeyCode, ControlActionState> ControlRegister::keyActionMap = boost::assign::map_list_of
 	key_action_2(KEY_ESCAPE,menuBack,pause)
 	key_action_1(KEY_BACKTICK,scriptConsole)
 	key_action_3(KEY_ENTER,menuSelect,interact,enter)
@@ -56,7 +56,7 @@ const map<EventKeyboard::KeyCode, bitset<to_size_t(ControlAction::end)>> Control
 #define button_action_1(button_id,action_id) (gainput::PadButton::button_id, make_enum_bitfield(ControlAction::action_id))
 #define button_action_2(button_id,action1,action2) (gainput::PadButton::button_id, make_enum_bitfield(ControlAction::action1) | make_enum_bitfield(ControlAction::action2))
 
-const map<gainput::PadButton, bitset<to_size_t(ControlAction::end)>> ControlRegister::buttonActionMap = boost::assign::map_list_of
+const map<gainput::PadButton, ControlActionState> ControlRegister::buttonActionMap = boost::assign::map_list_of
 	button_action_1(PadButtonStart, pause)
 	button_action_2(PadButtonA,interact,menuSelect)
 	button_action_2(PadButtonB, menuBack,dialogSkip)
@@ -223,6 +223,17 @@ void ControlRegister::updateVectors()
         bitset_enum_set(isActionPressed,ControlAction::menuDown,true);
 }
 
+ControlState ControlRegister::getControlState()
+{
+	ControlState result;
+
+	result.action_state = isActionPressed;
+	result.left_v = left_vector;
+	result.right_v = right_vector;
+
+	return result;
+}
+
 #define fixme
 void ControlRegister::updateActionState()
 {
@@ -247,7 +258,7 @@ void ControlRegister::updateActionState()
 #endif
 }
 
-void ControlRegister::setActions(bitset<to_size_t(ControlAction::end)> actions_bitfield)
+void ControlRegister::setActions(ControlActionState actions_bitfield)
 {
 	isActionPressed |= actions_bitfield;
 }
@@ -355,6 +366,52 @@ void ControlRegister::removeListener(callback_uuid uuid)
 
     onPressedCallback.erase(uuid);
     onReleasedCallback.erase(uuid);
+}
+
+bool ControlState::isControlActionPressed(ControlAction id) const
+{
+	return action_state[to_size_t(id)];
+}
+
+bool ControlReplay::load(const string& filepath)
+{
+	if (!FileUtils::getInstance()->isFileExist(filepath)) {
+		log("ControlReplay::load, invalid filepath: %s",filepath.c_str());
+		return false;
+	}
+
+	try {
+
+		ifstream ifs(filepath);
+		boost::archive::binary_iarchive ia(ifs);
+		ia >> (*this);
+		log("Replay loaded: \"%s\"", filepath.c_str());
+		return true;
+	}
+	catch(boost::archive::archive_exception e){
+		log("Invalid replay file: \"%s\"", filepath.c_str());
+		return false;
+	}
+}
+
+bool ControlReplay::save(const string& filepath)
+{
+	if (FileUtils::getInstance()->isFileExist(filepath)) {
+		log("ControlReplay::save, file already exists: \"%s\"", filepath.c_str());
+		return false;
+	}
+
+	try {
+		ofstream ofs(filepath);
+		boost::archive::binary_oarchive oa(ofs);
+		oa << (*this);
+		log("ControlReplay saved: \"%s\"", filepath.c_str());
+		return true;
+	}
+	catch (boost::archive::archive_exception e) {
+		log("Error while saving ControlReplay: \"%s\"", filepath.c_str());
+		return false;
+	}
 }
 
 ControlListener::~ControlListener()

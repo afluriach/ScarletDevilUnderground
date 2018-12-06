@@ -42,7 +42,8 @@ public:
     
     enum class updateOrder{
         //Update tick on GSpace and all objects, if applicable
-        runShellScript=1,
+		updateControls=1,
+		runShellScript,
         spaceUpdate,
         //General scene update logic
         sceneUpdate,
@@ -76,6 +77,7 @@ public:
 	unique_ptr<ControlListener> control_listener;
 
     static void runScene(const string& name);
+	static void runSceneWithReplay(const string& sceneName, const string& replayName);
 	static void restartScene();
 
 //Rather than managing overrides to the init method, a scene simply registers their own.

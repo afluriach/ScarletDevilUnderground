@@ -79,7 +79,9 @@
 #include <boost/random/uniform_int_distribution.hpp>
 #include <boost/range/adaptor/map.hpp>
 #include <boost/range/irange.hpp>
+#include <boost/serialization/bitset.hpp>
 #include <boost/serialization/set.hpp>
+#include <boost/serialization/vector.hpp>
 #include <boost/unordered/unordered_map.hpp>
 #include <boost/unordered/unordered_set.hpp>
 

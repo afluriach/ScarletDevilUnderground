@@ -14,6 +14,17 @@ typedef pair<int,int> IntVec2;
 typedef cp::Vect SpaceVect;
 typedef vector<SpaceVect> Path;
 
+namespace boost {
+	namespace serialization {
+		template<class Archive>
+		inline void serialize(Archive & ar, SpaceVect & v, const unsigned int version)
+		{
+			ar & v.x;
+			ar & v.y;
+		}
+	}
+}
+
 enum class Direction{
     none = 0,
     right,

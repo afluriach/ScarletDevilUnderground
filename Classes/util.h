@@ -67,5 +67,6 @@ inline array<T,Size> getZeroArray()
 
 void checkCreateProfileSubfolder();
 string getProfilePath();
+string getReplayFolderPath();
 
 #endif /* util_h */

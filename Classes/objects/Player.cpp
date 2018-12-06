@@ -45,18 +45,16 @@ void Player::init()
 	equipSpells();
 }
 
-void Player::checkMovementControls()
+void Player::checkMovementControls(const ControlState& cs)
 {
-    auto cr = app->control_register;
-    
-    SpaceVect moveDir = cr->getLeftVector();
+    SpaceVect moveDir = cs.left_v;
     
     ai::applyDesiredVelocity(*this, moveDir*getMaxSpeed(), getMaxAcceleration());
     
     if(moveDir.isZero())
          animSprite->reset();
     
-    SpaceVect facing = cr->getRightVector();
+    SpaceVect facing = cs.right_v;
     
     //Facing is not diagonal, horizontal direction will override.
     setDirection(toDirection(facing));
@@ -65,16 +63,13 @@ void Player::checkMovementControls()
     if(facing.isZero() && body->getVel().lengthSq() > square(getMaxSpeed())/2){
         setDirection(toDirection(moveDir));
     }
-
 }
 
-void Player::updateSpellControls()
+void Player::updateSpellControls(const ControlState& cs)
 {
-    auto cr = app->control_register;
-    
     if(crntSpell.get())
     {
-        if(cr->isControlActionPressed(ControlAction::spell1)){
+        if(cs.isControlActionPressed(ControlAction::spell1)){
             stopSpell();
         }
     }
@@ -83,7 +78,7 @@ void Player::updateSpellControls()
         spellCooldown = max(spellCooldown - App::secondsPerFrame, 0.0f);
         
         if(spellCooldown <= 0){
-            if( cr->isControlActionPressed(ControlAction::spell1) &&
+            if( cs.isControlActionPressed(ControlAction::spell1) &&
                 power > equippedSpell->getInitialCost()){
 				cast(equippedSpell->generate(this, {}));
             }
@@ -97,28 +92,26 @@ void Player::onSpellStop()
     app->hud->power->runFlicker();
 }
 
-void Player::checkFireControls()
+void Player::checkFireControls(const ControlState& cs)
 {
-	auto cr = app->control_register;
-
 	//Check controls for changing fire pattern.
 	if (!suppressFiring && getFirePattern() && !getFirePattern()->isInCooldown())
 	{
-		if (cr->isControlActionPressed(ControlAction::firePatternPrev))
+		if (cs.isControlActionPressed(ControlAction::firePatternPrev))
 			trySetFirePatternPrevious();
-		else if (cr->isControlActionPressed(ControlAction::firePatternNext))
+		else if (cs.isControlActionPressed(ControlAction::firePatternNext))
 			trySetFirePatternNext();
 	}
 
 	//Fire if arrow key is pressed
-	if (!suppressFiring && !cr->getRightVector().isZero() && getFirePattern())
+	if (!suppressFiring && !cs.right_v.isZero() && getFirePattern())
 	{
 		getFirePattern()->fireIfPossible();
 	}
 
 }
 
-void Player::checkItemInteraction()
+void Player::checkItemInteraction(const ControlState& cs)
 {
 	interactCooldown = max(interactCooldown - App::secondsPerFrame, 0.0f);
 	GObject* item = getSensedObject();
@@ -128,7 +121,7 @@ void Player::checkItemInteraction()
     {
         app->hud->setInteractionIcon(interactible->interactionIcon());
 
-        if(app->control_register->isControlActionPressed(ControlAction::interact) && interactCooldown <= 0.0f){
+        if(cs.isControlActionPressed(ControlAction::interact) && interactCooldown <= 0.0f){
             interactible->interact();
             interactCooldown = interactCooldownTime;
         }
@@ -157,10 +150,12 @@ void Player::update()
 	if(getFirePattern())
 		getFirePattern()->update();
 
-	checkMovementControls();
-	checkFireControls();
-	updateSpellControls();
-	checkItemInteraction();
+	ControlState cs = dynamic_cast<PlayScene*>(GScene::crntScene)->getControlData();
+
+	checkMovementControls(cs);
+	checkFireControls(cs);
+	updateSpellControls(cs);
+	checkItemInteraction(cs);
 
 	updateHitTime();
     

@@ -60,6 +60,30 @@ enum class ControlAction
 	end
 };
 
+typedef bitset<to_size_t(ControlAction::end)> ControlActionState;
+
+class ControlState
+{
+public:
+	friend class boost::serialization::access;
+
+	static const unsigned int version = 1;
+
+	ControlActionState action_state;
+	SpaceVect left_v, right_v;
+
+	template<class Archive>
+	inline void serialize(Archive& ar, const unsigned int version)
+	{
+		ar & action_state;
+		ar & left_v;
+		ar & right_v;
+	}
+
+	bool isControlActionPressed(ControlAction id) const;
+};
+
+
 //Tracks all key events. Used globally to poll key state.
 class ControlRegister
 {
@@ -71,9 +95,9 @@ public:
 	static const bool logActionState;
     static const float deadzone;
         
-    static const map<EventKeyboard::KeyCode, bitset<to_size_t(ControlAction::end)>> keyActionMap;
+    static const map<EventKeyboard::KeyCode, ControlActionState> keyActionMap;
 #if use_gamepad
-    static const map<gainput::PadButton, bitset<to_size_t(ControlAction::end)>> buttonActionMap;
+    static const map<gainput::PadButton, ControlActionState> buttonActionMap;
 #endif
 
     ControlRegister();
@@ -89,6 +113,8 @@ public:
 #endif
     inline SpaceVect getLeftVector(){ return left_vector;}
     inline SpaceVect getRightVector(){ return right_vector;}
+
+	ControlState getControlState();
     
 	callback_uuid addPressListener(ControlAction action, function<void()> f);
 	callback_uuid addReleaseListener(ControlAction action, function<void()> f);
@@ -106,7 +132,7 @@ private:
     void updateVectors();
     void checkCallbacks();
     void updateActionState();
-    void setActions(bitset<to_size_t(ControlAction::end)> actions_bitfield);
+    void setActions(ControlActionState actions_bitfield);
     
     void logGamepadButtons();
     
@@ -121,8 +147,8 @@ private:
 	array<set<callback_uuid>,to_size_t(ControlAction::end)> onPressedID;
 	array<set<callback_uuid>, to_size_t(ControlAction::end)> onReleasedID;
     
-	bitset<to_size_t(ControlAction::end)> wasActionPressed;
-	bitset<to_size_t(ControlAction::end)> isActionPressed;
+	ControlActionState wasActionPressed;
+	ControlActionState isActionPressed;
     
 	map<callback_uuid, function<void()>> onPressedCallback;
 	map<callback_uuid, function<void()>> onReleasedCallback;
@@ -138,6 +164,27 @@ private:
     #endif
 
     callback_uuid nextListenerUUID = 1;
+};
+
+class ControlReplay
+{
+public:
+	friend class boost::serialization::access;
+
+	static const unsigned int version = 1;
+
+	bool load(const string& filepath);
+	bool save(const string& filepath);
+
+	string scene_name;
+	vector<ControlState> control_data;
+
+	template<class Archive>
+	inline void serialize(Archive& ar, const unsigned int version)
+	{
+		ar & scene_name;
+		ar & control_data;
+	}
 };
 
 //Conveince listener class that works similarly to KeyListener. Provides automatic

@@ -135,6 +135,11 @@ string getProfilePath()
     return FileUtils::getInstance()->getWritablePath() + "koumachika/profile.dat";
 }
 
+string getReplayFolderPath()
+{
+	return FileUtils::getInstance()->getWritablePath() + "koumachika/replay/";
+}
+
 float canonicalAngle(float a)
 {
     return a - float_2pi * floor( a / float_2pi);

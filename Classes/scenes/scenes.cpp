@@ -33,9 +33,23 @@ void GScene::runScene(const string& name)
     }
     else
     {
-        it->second();
 		crntSceneName = name;
+		it->second();
     }
+}
+
+void GScene::runSceneWithReplay(const string& sceneName, const string& replayName)
+{
+	runScene(sceneName);
+
+	PlayScene* ps = dynamic_cast<PlayScene*>(GScene::crntScene);
+
+	if (ps) {
+		ps->loadReplayData(replayName);
+	}
+	else {
+		log("GScene::runSceneWithReplay: not a PlayScene!");
+	}
 }
 
 void GScene::restartScene()
