@@ -45,7 +45,7 @@ void Player::init()
 	equipSpells();
 }
 
-void Player::checkMovementControls(const ControlState& cs)
+void Player::checkMovementControls(const ControlInfo& cs)
 {
     SpaceVect moveDir = cs.left_v;
     
@@ -65,7 +65,7 @@ void Player::checkMovementControls(const ControlState& cs)
     }
 }
 
-void Player::updateSpellControls(const ControlState& cs)
+void Player::updateSpellControls(const ControlInfo& cs)
 {
     if(crntSpell.get())
     {
@@ -92,7 +92,7 @@ void Player::onSpellStop()
     app->hud->power->runFlicker();
 }
 
-void Player::checkFireControls(const ControlState& cs)
+void Player::checkFireControls(const ControlInfo& cs)
 {
 	//Check controls for changing fire pattern.
 	if (!suppressFiring && getFirePattern() && !getFirePattern()->isInCooldown())
@@ -111,7 +111,7 @@ void Player::checkFireControls(const ControlState& cs)
 
 }
 
-void Player::checkItemInteraction(const ControlState& cs)
+void Player::checkItemInteraction(const ControlInfo& cs)
 {
 	interactCooldown = max(interactCooldown - App::secondsPerFrame, 0.0f);
 	GObject* item = getSensedObject();
@@ -150,7 +150,7 @@ void Player::update()
 	if(getFirePattern())
 		getFirePattern()->update();
 
-	ControlState cs = dynamic_cast<PlayScene*>(GScene::crntScene)->getControlData();
+	ControlInfo cs = dynamic_cast<PlayScene*>(GScene::crntScene)->getControlData();
 
 	checkMovementControls(cs);
 	checkFireControls(cs);

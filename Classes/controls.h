@@ -62,6 +62,15 @@ enum class ControlAction
 
 typedef bitset<to_size_t(ControlAction::end)> ControlActionState;
 
+class ControlInfo
+{
+public:
+	bool isControlActionPressed(ControlAction id) const;
+
+	ControlActionState action_state_prev, action_state_crnt;
+	SpaceVect left_v, right_v;
+};
+
 class ControlState
 {
 public:
@@ -79,10 +88,7 @@ public:
 		ar & left_v;
 		ar & right_v;
 	}
-
-	bool isControlActionPressed(ControlAction id) const;
 };
-
 
 //Tracks all key events. Used globally to poll key state.
 class ControlRegister
@@ -115,6 +121,7 @@ public:
     inline SpaceVect getRightVector(){ return right_vector;}
 
 	ControlState getControlState();
+	ControlInfo getControlInfo();
     
 	callback_uuid addPressListener(ControlAction action, function<void()> f);
 	callback_uuid addReleaseListener(ControlAction action, function<void()> f);

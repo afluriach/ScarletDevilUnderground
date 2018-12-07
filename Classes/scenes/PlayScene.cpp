@@ -297,19 +297,27 @@ bool PlayScene::saveReplayData(const string& filename)
 	}
 }
 
-ControlState PlayScene::getControlData()
+ControlInfo PlayScene::getControlData()
 {
 	unsigned int crntFrame = gspace->getFrame();
 
 	if (isRunningReplay){
 		if (crntFrame > 0 && crntFrame < controlReplay->control_data.size()) {
-			return controlReplay->control_data[crntFrame];
+			ControlInfo result;
+
+			result.left_v = controlReplay->control_data[crntFrame].left_v;
+			result.right_v = controlReplay->control_data[crntFrame].right_v;
+			
+			result.action_state_crnt = controlReplay->control_data[crntFrame].action_state;
+			result.action_state_prev = controlReplay->control_data[crntFrame-1].action_state;
+
+			return result;
 		}
 		else {
 			log("ControlReplay out of bounds, frame: %d", crntFrame);
 		}
 	}
 	else {
-		return app->control_register->getControlState();
+		return app->control_register->getControlInfo();
 	}
 }

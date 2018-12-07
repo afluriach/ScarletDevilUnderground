@@ -223,6 +223,18 @@ void ControlRegister::updateVectors()
         bitset_enum_set(isActionPressed,ControlAction::menuDown,true);
 }
 
+ControlInfo ControlRegister::getControlInfo()
+{
+	ControlInfo result;
+
+	result.action_state_crnt = isActionPressed;
+	result.action_state_prev = wasActionPressed;
+	result.left_v = left_vector;
+	result.right_v = right_vector;
+
+	return result;
+}
+
 ControlState ControlRegister::getControlState()
 {
 	ControlState result;
@@ -368,9 +380,9 @@ void ControlRegister::removeListener(callback_uuid uuid)
     onReleasedCallback.erase(uuid);
 }
 
-bool ControlState::isControlActionPressed(ControlAction id) const
+bool ControlInfo::isControlActionPressed(ControlAction id) const
 {
-	return action_state[to_size_t(id)];
+	return action_state_crnt[to_size_t(id)] && !action_state_prev[to_size_t(id)];
 }
 
 bool ControlReplay::load(const string& filepath)

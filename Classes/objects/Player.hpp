@@ -11,6 +11,7 @@
 
 #include "Agent.hpp"
 #include "AIMixins.hpp"
+#include "controls.h"
 #include "GObject.hpp"
 #include "GObjectMixins.hpp"
 #include "macros.h"
@@ -59,10 +60,10 @@ public:
     void update();
     void updateHitTime();
 
-	void checkMovementControls(const ControlState& cs);
-	void checkFireControls(const ControlState& cs);
-	void checkItemInteraction(const ControlState& cs);
-    void updateSpellControls(const ControlState& cs);
+	void checkMovementControls(const ControlInfo& cs);
+	void checkFireControls(const ControlInfo& cs);
+	void checkItemInteraction(const ControlInfo& cs);
+    void updateSpellControls(const ControlInfo& cs);
 	void onSpellStop();
 
 	void applyAttributeModifier(Attribute id, float val);
