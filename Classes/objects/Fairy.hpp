@@ -19,9 +19,9 @@ public BaseAttributes<Fairy1>
 public:
 	static const AttributeMap baseAttributes;
 
-	inline Fairy1(const ValueMap& args) :
-		GObject(args),
-		Agent(args)
+	inline Fairy1(GSpace* space, ObjectIDType id, const ValueMap& args) :
+		MapObjForwarding(GObject),
+		MapObjForwarding(Agent)
 	{}
 
 	virtual inline float getRadarRadius() const { return 6.0f; }
@@ -45,9 +45,10 @@ class Fairy2 :
 public:
 	static const AttributeMap baseAttributes;
 
-	inline Fairy2(const ValueMap& args) :
-		GObject(args),
-		Agent(args)
+	inline Fairy2(GSpace* space, ObjectIDType id, const ValueMap& args) :
+		MapObjForwarding(GObject),
+		MapObjForwarding(Agent)
+
 	{}
 
 	virtual inline float getRadarRadius() const { return 6.0f; }
@@ -73,9 +74,9 @@ class IceFairy :
 public:
 	static const AttributeMap baseAttributes;
 
-	inline IceFairy(const ValueMap& args) :
-		GObject(args),
-		Agent(args)
+	inline IceFairy(GSpace* space, ObjectIDType id, const ValueMap& args) :
+		MapObjForwarding(GObject),
+		MapObjForwarding(Agent)
 	{}
 
 	virtual inline float getRadarRadius() const { return 6.0f; }

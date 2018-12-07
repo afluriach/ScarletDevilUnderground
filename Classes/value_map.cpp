@@ -71,12 +71,12 @@ ValueMap getMap(const ValueMap& args, const string& field)
         return ValueMap();
 }
 
-gobject_ref getObjRefFromStringField(const ValueMap& args, const string& fieldName)
+gobject_ref getObjRefFromStringField(GSpace* space, const ValueMap& args, const string& fieldName)
 {
     if(args.find(fieldName) == args.end()){
         return gobject_ref();
     }
-    gobject_ref target = app->space->getObject(args.at(fieldName).asString());
+    gobject_ref target = space->getObject(args.at(fieldName).asString());
     
     return target;
 }

@@ -15,9 +15,10 @@
 class Glyph : public virtual GObject, RectangleBody, ImageSprite, RegisterInit<Glyph>
 {
 public:
-    inline Glyph(const ValueMap& args) : GObject(args), RegisterInit<Glyph>(this)
-    {
-    }
+    inline Glyph(GSpace* space, ObjectIDType id, const ValueMap& args) :
+	MapObjForwarding(GObject),
+	RegisterInit<Glyph>(this)
+    {}
     
     void init();
     

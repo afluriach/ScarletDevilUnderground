@@ -12,5 +12,5 @@
 #include "Wall.hpp"
 
 PhysicsLayers Wall::getLayers() const{
-    return enum_bitwise_or(PhysicsLayers,ground,eyeLevel);
+    return PhysicsLayers::all;
 }

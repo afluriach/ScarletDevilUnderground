@@ -24,12 +24,11 @@ namespace Lua{
 unordered_map<string, Class> Class::classes;
 bool Class::init = false;
 
-GObject* createObject(ValueMap args)
+void createObject(ValueMap args)
 {
     if(!app->space) throw lua_runtime_error("createObject: Cannot access objects in this scene.");
     
-    GObject* gobj = app->space->addObject(args);
-    return gobj;
+    app->space->createObject(args);
 }
 
 void removeObject(string name)
@@ -52,7 +51,7 @@ void setpos(string name, float x, float y)
 void setvel(string name, float x, float y)
 {
     GObject* obj = app->space->getObject(name);
-    
+
     if(obj)
         obj->body->setVel(SpaceVect(x,y));
     else
@@ -361,9 +360,9 @@ StateMachineObject* getFSMObject(string funcName,string objName)
 	return smo;
 }
 
-shared_ptr<ai::Function> constructState(string funcName, string stateName, ValueMap args)
+shared_ptr<ai::Function> constructState(string funcName, string stateName, GSpace* space, ValueMap args)
 {
-	shared_ptr<ai::Function> state = ai::Function::constructState(stateName, args);
+	shared_ptr<ai::Function> state = ai::Function::constructState(stateName, space, args);
 	if (!state) {
 		log("%s: Unknown state class %s", funcName.c_str(), stateName.c_str());
 		return nullptr;
@@ -386,7 +385,7 @@ unsigned int addThread(string objName, string mainFuncName, ValueMap args)
 	StateMachineObject* smo = getFSMObject("addThread", objName);
 
 	if (smo) {
-		shared_ptr<ai::Function> f = constructState("addThread", mainFuncName, args);
+		shared_ptr<ai::Function> f = constructState("addThread", mainFuncName, smo->space, args);
 		return smo->addThread(f);
 	}
 	else {

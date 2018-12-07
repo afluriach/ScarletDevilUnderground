@@ -24,7 +24,7 @@ public RegisterInit<Agent>,
 public RegisterUpdate<Agent>
 {
 public:
-	Agent(const ValueMap& args);
+	MapObjCons(Agent);
 
 	void init();
 	void update();
@@ -123,8 +123,8 @@ class GenericAgent : virtual public Agent, public BaseAttributes<GenericAgent>
 public:
 	static const AttributeMap baseAttributes;
 
-	GenericAgent(const ValueMap& args);
-    
+	MapObjCons(GenericAgent);
+
     virtual inline float getRadarRadius() const {return 3.0f;}
     virtual inline GType getRadarType() const { return GType::playerSensor;}
     virtual inline float getDefaultFovAngle() const {return 0.0f;}

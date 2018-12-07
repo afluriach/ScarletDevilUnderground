@@ -14,9 +14,9 @@
 class GraveyardKey : public InventoryObject
 {
 public:
-    inline GraveyardKey(const ValueMap& args) : GObject(args)
-    {
-    }
+    inline GraveyardKey(GSpace* space, ObjectIDType id, const ValueMap& args) :
+	MapObjForwarding(GObject)
+	{}
 
     virtual inline string imageSpritePath() const {return "sprites/items/small grey key.png";}
     virtual inline string itemName() const {return "GraveyardKey";}

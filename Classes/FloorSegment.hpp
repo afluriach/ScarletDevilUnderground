@@ -16,7 +16,7 @@
 class FloorSegment : virtual public GObject, public NoSprite, public RectangleMapBody
 {
 public:
-	FloorSegment(const ValueMap& args);
+	MapObjCons(FloorSegment);
 	virtual ~FloorSegment();
 
 	virtual inline float getMass() const { return -1.0f; }
@@ -31,7 +31,7 @@ public:
 class DirtFloorCave : public FloorSegment
 {
 public:
-	DirtFloorCave(const ValueMap& args);
+	MapObjCons(DirtFloorCave);
 
 	virtual void onContact(GObject* obj);
 	virtual void onEndContact(GObject* obj);
@@ -40,7 +40,7 @@ public:
 class Pitfall : public FloorSegment
 {
 public:
-	Pitfall(const ValueMap& args);
+	MapObjCons(Pitfall);
 
 	virtual void onContact(GObject* obj);
 	virtual void onEndContact(GObject* obj);

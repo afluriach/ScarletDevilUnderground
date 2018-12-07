@@ -34,10 +34,7 @@ void SingleBulletFixedIntervalPattern::fire()
 	SpaceVect pos = agent->getPos();
 	pos += SpaceVect::ray(getLaunchDistance(), agent->getAngle());
 
-	GObject* bullet = spawn(agent->getAngle(), pos);
-
-	if (bullet)
-		app->space->addObject(bullet);
+	app->space->createObject(spawn(agent->getAngle(), pos));
 }
 
 void SingleBulletFixedIntervalPattern::update()
@@ -50,23 +47,23 @@ bool SingleBulletFixedIntervalPattern::isInCooldown()
 	return cooldownFramesRemaining > 0;
 }
 
-GObject* FlandreBigOrbPattern::spawn(float angle, SpaceVect pos)
+GObject::GeneratorType FlandreBigOrbPattern::spawn(float angle, SpaceVect pos)
 {
-	return new FlandreBigOrb1(angle, pos);
+	return GObject::make_object_factory<FlandreBigOrb1>(angle, pos);
 }
 
-GObject* FlandreFastOrbPattern::spawn(float angle, SpaceVect pos)
+GObject::GeneratorType FlandreFastOrbPattern::spawn(float angle, SpaceVect pos)
 {
-	return new FlandreFastOrb1(angle, pos);
+	return GObject::make_object_factory<FlandreFastOrb1>(angle, pos);
 }
 
-GObject* CirnoLargeIceBulletPattern::spawn(float angle, SpaceVect pos)
+GObject::GeneratorType CirnoLargeIceBulletPattern::spawn(float angle, SpaceVect pos)
 {
-	return new CirnoLargeIceBullet(angle, pos);
+	return GObject::make_object_factory<CirnoLargeIceBullet>(angle, pos);
 }
 
-GObject* IceFairyBulletPattern::spawn(float angle, SpaceVect pos)
+GObject::GeneratorType IceFairyBulletPattern::spawn(float angle, SpaceVect pos)
 {
-	return new IceFairyBullet(angle, pos);
+	return GObject::make_object_factory<IceFairyBullet>(angle, pos);
 }
 

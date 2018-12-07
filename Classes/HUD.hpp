@@ -78,8 +78,23 @@ public:
     
 //    static const Color4F backgroundColor;
 
-    CREATE_FUNC(HUD);
-    HUD();
+	static inline HUD * create(GSpace* space, object_ref<Player> player)
+	{
+		HUD *pRet = new(std::nothrow) HUD(space,player);
+		if (pRet && pRet->init())
+		{
+			pRet->autorelease();
+			return pRet;
+		}
+		else
+		{
+			delete pRet;
+			pRet = NULL;
+			return NULL;
+		}
+	}
+
+	HUD(GSpace* space, object_ref<Player> player);
     virtual ~HUD();
     //Not an override of Layer
     void update();
@@ -104,6 +119,7 @@ public:
     
 protected:
     object_ref<Player> player;
+	GSpace* space;
 };
 
 #endif /* HUD_hpp */

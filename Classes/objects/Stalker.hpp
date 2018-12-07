@@ -17,9 +17,9 @@ class Stalker : virtual public Agent, public TouchDamageEnemy, public BaseAttrib
 public:
 	static const AttributeMap baseAttributes;
 
-    inline Stalker(const ValueMap& args) :
-	GObject(args),
-    Agent(args)
+    inline Stalker(GSpace* space, ObjectIDType id, const ValueMap& args) :
+	MapObjForwarding(GObject),
+    MapObjForwarding(Agent)
     {}
 
     virtual inline float getRadarRadius() const {return 6.0f;}

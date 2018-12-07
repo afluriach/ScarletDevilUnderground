@@ -17,7 +17,9 @@ class WaterBullet : virtual public GObject, public EnemyBullet, public CircleBod
 {
 public:
 
-    inline WaterBullet(const ValueMap& arg) :  GObject(arg) {}
+    inline WaterBullet(GSpace* space, ObjectIDType id, const ValueMap& args) :
+	MapObjForwarding(GObject)
+	{}
 
     virtual inline float getMaxSpeed() const {return 6.0f;}
 	virtual inline float getRadius() const { return 0.3f; }
@@ -28,14 +30,14 @@ public:
     inline virtual float zoom() const {return getRadius()/spriteBaseRadius*2;}
 };
 
-class FireBullet : virtual public GObject, public EnemyBullet, public CircleBody, public LoopAnimationSprite
+class FireBullet : virtual public GObject, public EnemyBullet, public CircleBody, public LoopAnimationSprite, public DirectionalLaunch, public MaxSpeedImpl
 {
 public:
-    inline FireBullet(const SpaceVect& pos) : GObject("stationaryFireBullet", pos, true) {
-    }
-    inline FireBullet(const ValueMap& arg) : GObject(arg) {}
+    inline FireBullet(GSpace* space, ObjectIDType id, float angle, const SpaceVect& pos, float speed) :
+		GObject(space, id, "fireBullet", pos, angle, true),
+		MaxSpeedImpl(speed)
+	{}
 
-	virtual inline float getMaxSpeed() const { return 0.0f; }
 	virtual inline float getRadius() const { return 0.3f; }
 
     virtual string animationName() const {return "patchouli_fire";}
@@ -46,23 +48,19 @@ public:
     inline virtual float zoom() const {return getRadius()/spriteBaseRadius*2;}
 };
 
-class StarBullet : virtual public GObject, public EnemyBullet, public CircleBody, public ImageSprite
+class StarBullet : virtual public GObject, public EnemyBullet, public CircleBody, public ImageSprite, public MaxSpeedImpl, public DirectionalLaunch
 {
 public:
     static const vector<string> colors;
 
-    inline StarBullet(const ValueMap& arg) :
-    GObject(arg),
-    color(arg.at("color").asString())
-    {}
-    inline StarBullet(const SpaceVect& pos, float radius, const string& color) :
+    inline StarBullet(GSpace* space, ObjectIDType id, float angle, const SpaceVect& pos, float speed, float radius, const string& color) :
     color(color),
-    GObject("starBullet", pos, true)
+	MaxSpeedImpl(speed),
+    GObject(space,id,"starBullet", pos, angle,true)
     {}
     
     const string color;
 
-	virtual inline float getMaxSpeed() const { return 0.0f; }
 	virtual inline float getRadius() const { return 0.3f; }
 
     virtual inline string imageSpritePath() const {return "sprites/star-"+color+".png";}
@@ -75,7 +73,7 @@ class IceFairyBullet : virtual public GObject, public EnemyBullet, public Circle
 {
 public:
 
-	IceFairyBullet(float angle, const SpaceVect& pos);
+	IceFairyBullet(GSpace* space, ObjectIDType id, float angle, const SpaceVect& pos);
 
 	virtual inline float getMaxSpeed() const { return 6.0f; }
 	virtual inline float getRadius() const { return 0.3f; }
@@ -94,7 +92,7 @@ class IllusionDialDagger : virtual public GObject, public EnemyBullet, public Re
 {
 public:
     //IllusionDaggerBullet(const ValueMap& args);
-    IllusionDialDagger(const SpaceVect& pos, float anglar_velocity);
+    IllusionDialDagger(GSpace* space, ObjectIDType id, const SpaceVect& pos, float anglar_velocity);
 
 	virtual inline float getMaxSpeed() const { return 3.0f; }
 	virtual inline SpaceVect getDimensions() const { return SpaceVect(0.25f, 1.0f); }
@@ -111,7 +109,7 @@ class FlandreBigOrb1 : virtual public GObject, public PlayerBullet, public Circl
 {
 public:
 
-	FlandreBigOrb1(float angle, const SpaceVect& pos);
+	FlandreBigOrb1(GSpace* space, ObjectIDType id, float angle, const SpaceVect& pos);
 
 	virtual inline float getMaxSpeed() const { return 4.5f; }
 	virtual inline float getRadius() const { return 0.6f; }
@@ -126,7 +124,7 @@ class FlandreFastOrb1 : virtual public GObject, public PlayerBullet, public Circ
 {
 public:
 
-	FlandreFastOrb1(float angle, const SpaceVect& pos);
+	FlandreFastOrb1(GSpace* space, ObjectIDType id, float angle, const SpaceVect& pos);
 
 	virtual inline float getMaxSpeed() const { return 9.0f; }
 	virtual inline float getRadius() const { return 0.15f; }
@@ -141,7 +139,7 @@ class CirnoLargeIceBullet : virtual public GObject, public PlayerBullet, public 
 {
 public:
 
-	CirnoLargeIceBullet(float angle, const SpaceVect& pos);
+	CirnoLargeIceBullet(GSpace* space, ObjectIDType id, float angle, const SpaceVect& pos);
 
 	virtual inline float getMaxSpeed() const { return 9.0f; }
 	virtual inline float getRadius() const { return 0.6; }

@@ -14,9 +14,9 @@
 class CollectGlyph : public virtual GObject, RectangleBody, ImageSprite
 {
 public:
-    inline CollectGlyph(const ValueMap& args) : GObject(args)
-    {
-    }
+    inline CollectGlyph(GSpace* space, ObjectIDType id, const ValueMap& args) :
+	MapObjForwarding(GObject)
+    {}
     
     void init();
     

@@ -15,7 +15,7 @@
 class Goal: virtual public GObject, public RectangleBody, public ImageSprite, public InteractibleObject
 {
 public:
-    Goal(const ValueMap& args);
+	MapObjCons(Goal);
     
     virtual string imageSpritePath() const {return "sprites/goal.png";}
     virtual GraphicsLayer sceneLayer() const {return GraphicsLayer::ground;}

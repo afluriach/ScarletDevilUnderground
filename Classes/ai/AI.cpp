@@ -65,7 +65,7 @@ bool isFacingTargetsBack(const GObject& agent, const GObject& target)
 
 bool isLineOfSight(const GObject& agent, const GObject& target)
 {
-    return app->space->lineOfSight(&agent, &target);
+    return agent.space->lineOfSight(&agent, &target);
 }
 
 array<float, 4> obstacleFeelerQuad(GObject& agent, float distance)
@@ -75,7 +75,7 @@ array<float, 4> obstacleFeelerQuad(GObject& agent, float distance)
 	for (int i = 0; i < 4; ++i)
 	{
 		SpaceVect feeler = dirToVector(static_cast<Direction>(i+1)) * distance;
-		results[i] = app->space->obstacleDistanceFeeler(&agent, feeler);
+		results[i] = agent.space->obstacleDistanceFeeler(&agent, feeler);
 	}
 
 	return results;
@@ -88,7 +88,7 @@ array<float, 8> obstacleFeeler8(GObject& agent, float distance)
 	for (int i = 0; i < 8; ++i)
 	{
 		SpaceVect feeler = SpaceVect::ray(distance, i* float_pi / 4.0f);
-		results[i] = app->space->obstacleDistanceFeeler(&agent, feeler);
+		results[i] = agent.space->obstacleDistanceFeeler(&agent, feeler);
 	}
 
 	return results;
@@ -185,7 +185,7 @@ void fleeWithObstacleAvoidance(GObject& agent, SpaceVect target, float maxSpeed,
 	SpaceVect displacement = fleeDirection(agent, target);
 	float distanceMargin = getTurningRadius(agent.getVel().length(), acceleration) + agent.getRadius();
 
-	if (app->space->obstacleDistanceFeeler(&agent, displacement * distanceMargin) < distanceMargin)
+	if (agent.space->obstacleDistanceFeeler(&agent, displacement * distanceMargin) < distanceMargin)
 	{
 		//Choose an alternate direction to move.
 
@@ -225,13 +225,13 @@ float getTurningRadius(float speed, float acceleration)
 }
 
 
-shared_ptr<Function> Function::constructState(const string& type, const ValueMap& args)
+shared_ptr<Function> Function::constructState(const string& type, GSpace* space, const ValueMap& args)
 {
     auto it = Function::adapters.find(type);
 
     if (it != Function::adapters.end()) {
         Function::AdapterType adapter = it->second;
-        return adapter(args);
+        return adapter(space,args);
     }
     else return nullptr;
 }
@@ -340,7 +340,7 @@ string Thread::getStack()
 StateMachine::StateMachine(GObject *const agent) :
 agent(agent)
 {
-    frame = app->space->getFrame();
+    frame = agent->space->getFrame();
 }
 
 void StateMachine::update()
@@ -498,7 +498,7 @@ target_name(target_name),
 nextState(nextState)
 {}
 
-Detect::Detect(const ValueMap& args)
+Detect::Detect(GSpace* space, const ValueMap& args)
 {
     target_name = getStringOrDefault(args, "target_name", "player");
 }
@@ -511,8 +511,8 @@ void Detect::onDetect(StateMachine& sm, GObject* obj)
     }
 }
 
-Seek::Seek(const ValueMap& args) {
-    target = getObjRefFromStringField(args, "target_name");
+Seek::Seek(GSpace* space, const ValueMap& args) {
+    target = getObjRefFromStringField(space, args, "target_name");
 }
 
 void Seek::onEndDetect(StateMachine& sm, GObject* other)
@@ -549,9 +549,9 @@ distance(distance),
 margin(margin)
 {}
 
-MaintainDistance::MaintainDistance(const ValueMap& args)
+MaintainDistance::MaintainDistance(GSpace* space, const ValueMap& args)
 {
-    target = getObjRefFromStringField(args, "target");
+    target = getObjRefFromStringField(space, args, "target");
     distance = getFloat(args, "distance");
     margin = getFloat(args, "margin");
 }
@@ -582,7 +582,7 @@ void MaintainDistance::update(StateMachine& sm)
 		ai::applyDesiredVelocity(*sm.agent, SpaceVect::zero, sm.agent->getMaxAcceleration());
 }
 
-Flee::Flee(const ValueMap& args) {
+Flee::Flee(GSpace* space, const ValueMap& args) {
     if(args.find("target_name") == args.end()){
         log("Seek::Seek: target_name missing.");
     }
@@ -629,7 +629,7 @@ void Flee::update(StateMachine& sm)
 
 EvadePlayerProjectiles::EvadePlayerProjectiles() {}
 
-EvadePlayerProjectiles::EvadePlayerProjectiles(const ValueMap& args) {}
+EvadePlayerProjectiles::EvadePlayerProjectiles(GSpace* space, const ValueMap& args) {}
 
 void EvadePlayerProjectiles::update(StateMachine& sm)
 {
@@ -675,11 +675,11 @@ Detect(
 )
 {}
 
-DetectAndSeekPlayer::DetectAndSeekPlayer(const ValueMap& args) :
+DetectAndSeekPlayer::DetectAndSeekPlayer(GSpace* space, const ValueMap& args) :
 DetectAndSeekPlayer()
 {}
 
-IdleWait::IdleWait(const ValueMap& args)
+IdleWait::IdleWait(GSpace* space, const ValueMap& args)
 {
     auto it = args.find("waitTime");
     
@@ -713,7 +713,7 @@ void IdleWait::update(StateMachine& fsm)
 	ai::applyDesiredVelocity(*fsm.agent, SpaceVect::zero, fsm.agent->getMaxAcceleration());
 }
 
-MoveToPoint::MoveToPoint(const ValueMap& args)
+MoveToPoint::MoveToPoint(GSpace* space, const ValueMap& args)
 {
     auto xIter = args.find("target_x");
     auto yIter = args.find("target_y");
@@ -755,7 +755,7 @@ void MoveToPoint::update(StateMachine& fsm)
     seek(*fsm.agent, target, fsm.agent->getMaxSpeed(), fsm.agent->getMaxAcceleration());
 }
 
-FollowPath::FollowPath(const ValueMap& args)
+FollowPath::FollowPath(GSpace* space, const ValueMap& args)
 {
 	auto name_it = args.find("pathName");
 	auto loop_it = args.find("loop");
@@ -793,7 +793,7 @@ void FollowPath::update(StateMachine&  fsm)
 	}
 }
 
-Wander::Wander(const ValueMap& args) :
+Wander::Wander(GSpace* space, const ValueMap& args) :
     init_float_field(minWait,1.0f),
     init_float_field(maxWait,1.0f),
     init_float_field(minDist,1.0f),
@@ -810,7 +810,7 @@ void Wander::update(StateMachine& fsm)
     enum_foreach(Direction,d,right,end)
     {
         target = dirToVector(d)*dist;
-        if(!app->space->obstacleFeeler(fsm.agent, target)){
+        if(!fsm.agent->space->obstacleFeeler(fsm.agent, target)){
             directions.push_back(d);
         }
     }
@@ -847,7 +847,7 @@ spell_name(_spell_name),
 spell_args(_spell_args)
 {}
 
-Cast::Cast(const ValueMap& args)
+Cast::Cast(GSpace* space, const ValueMap& args)
 {
     spell_name = getStringOrDefault(args, "spell_name", "");
     spell_args = getMap(args, "spell_args");
@@ -872,7 +872,7 @@ void Cast::onExit(StateMachine& sm)
 
 void FacerMain::onEnter(StateMachine& sm)
 {
-	target = app->space->getObject("player");
+	target = sm.agent->space->getObject("player");
 }
 
 void FacerMain::update(StateMachine& sm)
@@ -892,7 +892,7 @@ void FacerMain::update(StateMachine& sm)
 
 void FollowerMain::onEnter(StateMachine& sm)
 {
-	target = app->space->getObject("player");
+	target = sm.agent->space->getObject("player");
 }
 
 
@@ -929,7 +929,7 @@ IllusionDash::IllusionDash(SpaceVect _target) :
 target(_target)
 {}
 
-IllusionDash::IllusionDash(const ValueMap& args)
+IllusionDash::IllusionDash(GSpace* space, const ValueMap& args)
 {
     auto t = args.at("target").asValueMap();
     

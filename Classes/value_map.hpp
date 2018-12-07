@@ -9,6 +9,8 @@
 #ifndef value_map_hpp
 #define value_map_hpp
 
+class GSpace;
+
 #include "object_ref.hpp"
 
 void printValueMap(const ValueMap& obj);
@@ -22,7 +24,7 @@ string getStringOrDefault(const ValueMap& args, const string& field, const strin
 
 ValueMap getMap(const ValueMap& args, const string& field);
 
-gobject_ref getObjRefFromStringField(const ValueMap& args, const string& fieldName);
+gobject_ref getObjRefFromStringField(GSpace* space, const ValueMap& args, const string& fieldName);
 
 void convertToUnitSpace(ValueMap& arg);
 cocos2d::CCRect getUnitspaceRectangle(const ValueMap& tileMapObj);

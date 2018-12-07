@@ -21,8 +21,8 @@ public:
 class PowerUp : public Collectible, public RectangleBody, public ImageSprite
 {
 public:
-    inline PowerUp(const ValueMap& args) :
-    GObject(args)
+    inline PowerUp(GSpace* space, ObjectIDType id, const ValueMap& args) :
+    MapObjForwarding(GObject)
     {}
     
     virtual inline float getMass() const {return -1;}

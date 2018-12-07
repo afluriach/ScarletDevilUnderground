@@ -36,7 +36,7 @@
 template <typename T>
 static GObject::AdapterType consAdapter()
 {
-    return [](const ValueMap& args) -> GObject* { return new T(args); };
+    return [](GSpace* space, ObjectIDType id, const ValueMap& args) -> GObject* { return new T(space,id,args); };
 }
 
 //Inventory adaptor: will return nullptr if the item has already been acquired,
@@ -44,23 +44,23 @@ static GObject::AdapterType consAdapter()
 template <typename T>
 static GObject::AdapterType itemAdapter(const string& name)
 {
-    return [=](const ValueMap& args) -> GObject* {
+    return [=](GSpace* space, ObjectIDType id, const ValueMap& args) -> GObject* {
         if(GState::crntState.itemRegistry.find(name) != GState::crntState.itemRegistry.end())
             return nullptr;
-        else return new T(args);
+        else return new T(space,id,args);
     };
 }
 
 GObject::AdapterType playerAdapter()
 {
-	return [](const ValueMap& args) -> GObject* {
+	return [](GSpace* space, ObjectIDType id, const ValueMap& args) -> GObject* {
 		switch (app->crntPC) {
 		case PlayerCharacter::flandre:
-			return new FlandrePC(args);
+			return new FlandrePC(space,id,args);
 		case PlayerCharacter::rumia:
-			return new RumiaPC(args);
+			return new RumiaPC(space,id,args);
 		case PlayerCharacter::cirno:
-			return new CirnoPC(args);
+			return new CirnoPC(space,id,args);
 		default:
 			return nullptr;
 		}
@@ -77,9 +77,6 @@ GObject::AdapterType playerAdapter()
 const unordered_map<string,GObject::AdapterType> GObject::adapters =
     boost::assign::map_list_of
     entry_same(Block)
-    entry_same(FireBullet)
-    entry_same(WaterBullet)
-    entry_same(StarBullet)
     entry_same(Flower)
     entry_same(Glyph)
     entry_same(Torch)

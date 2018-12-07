@@ -13,8 +13,8 @@
 #include "GSpace.hpp"
 #include "MagicEffect.hpp"
 
- Agent::Agent(const ValueMap& args) :
-	GObject(args),
+ Agent::Agent(GSpace* space, ObjectIDType id, const ValueMap& args) :
+	MapObjForwarding(GObject),
 	PatchConSprite(args),
 	StateMachineObject(args),
 	RegisterUpdate<Agent>(this),
@@ -67,7 +67,7 @@
  void Agent::update()
  {
 	 if (health <= 0 && getMaxHealth() != 0) {
-		 app->space->removeObject(this);
+		 space->removeObject(this);
 	 }
  }
 
@@ -91,9 +91,9 @@ const AttributeMap GenericAgent::baseAttributes = boost::assign::map_list_of
 	(Attribute::acceleration, 6.0f)
 ;
 
- GenericAgent::GenericAgent(const ValueMap& args) :
-	 GObject(args),
-	 Agent(args)
+ GenericAgent::GenericAgent(GSpace* space, ObjectIDType id, const ValueMap& args) :
+	 MapObjForwarding(GObject),
+	 MapObjForwarding(Agent)
  {
 	 spriteName = args.at("sprite").asString();
  }

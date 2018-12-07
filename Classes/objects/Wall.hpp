@@ -12,7 +12,7 @@
 #include "GObject.hpp"
 #include "GObjectMixins.hpp"
 
-class Wall : virtual public GObject, RectangleBody
+class Wall : virtual public GObject, public RectangleBody
 {
 public:
 //    inline Wall(const ValueMap& args) :
@@ -20,8 +20,8 @@ public:
 //    dimensions(RectangleMapBody::getDimensionsFromMap(args))
 //    {}
     
-    inline Wall(SpaceVect center, SpaceVect dimensions) :
-    GObject("wall",center,true),
+    inline Wall(GSpace* space, ObjectIDType id, SpaceVect center, SpaceVect dimensions) :
+    GObject(space,id,"wall",center,true),
     dimensions(dimensions)
     {}
     

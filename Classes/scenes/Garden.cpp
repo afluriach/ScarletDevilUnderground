@@ -37,6 +37,9 @@ void GardenBlooming::addFlower(const SpaceVect& pos){
     int index = app->randomInt(app->randomEngine) % colors.size();
     const string& color = colors[index];
     
-    Flower* f = new Flower(color + " flower", color, pos);
-    gspace->addObject(f);
+	gspace->createObject(
+		GObject::make_object_factory<Flower>(
+			color + " flower", color, pos
+		)
+	);
 }

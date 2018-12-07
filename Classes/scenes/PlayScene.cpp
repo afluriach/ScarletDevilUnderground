@@ -17,6 +17,7 @@
 #include "GSpace.hpp"
 #include "macros.h"
 #include "multifunction.h"
+#include "Player.hpp"
 #include "PlayScene.hpp"
 #include "util.h"
 #include "value_map.hpp"
@@ -153,7 +154,7 @@ void PlayScene::updateHUD()
 
 void PlayScene::addHUD()
 {
-    hud = HUD::create();
+    hud = HUD::create(gspace, gspace->getObjectRef<Player>("player"));
     getLayer(sceneLayers::hud)->addChild(hud);
     multiUpdate.insertWithOrder(
         wrap_method(PlayScene,updateHUD,this),
@@ -298,7 +299,7 @@ bool PlayScene::saveReplayData(const string& filename)
 
 ControlState PlayScene::getControlData()
 {
-	unsigned int crntFrame = app->space->getFrame();
+	unsigned int crntFrame = gspace->getFrame();
 
 	if (isRunningReplay){
 		if (crntFrame > 0 && crntFrame < controlReplay->control_data.size()) {

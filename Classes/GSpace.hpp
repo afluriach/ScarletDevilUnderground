@@ -9,6 +9,7 @@
 #ifndef GSpace_hpp
 #define GSpace_hpp
 
+#include "object_ref.hpp"
 #include "types.h"
 
 class FloorSegment;
@@ -22,6 +23,8 @@ class GObject;
 class GSpace
 {
 public:
+	typedef pair<ObjectGeneratorType, ObjectIDType> generator_pair;
+
     GSpace(Layer* graphicsLayer);    
     ~GSpace();
     
@@ -41,39 +44,42 @@ private:
 public:
     static const bool logObjectArgs;
 
-    GObject* addObject(const ValueMap& obj);
-    GObject* addObject(GObject*);
-    void addObjects(const ValueVector& objs);
-    void addWallBlock(SpaceVect ll,SpaceVect ur);
-    
-    template<typename T>
-    inline void addObjects(const vector<T*>& objects){
-        static_assert(
-            is_base_of<GObject, T>(),
-            "addObjects: not a GObject type"
-        );
+	void addWallBlock(SpaceVect ll, SpaceVect ur);
 
-        BOOST_FOREACH(T* o, objects)
-            addObject(o);
-    }
-    
+    gobject_ref createObject(const ValueMap& obj);
+	gobject_ref createObject(ObjectGeneratorType factory);
+	void createObjects(const ValueVector& objs);
+        
     bool isValid(unsigned int uuid) const;
     vector<string> getObjectNames() const;
     unordered_map<int,string> getUUIDNameMap() const;
     inline int getObjectCount() const { return objByUUID.size();}
-    
-    GObject* getObject(const string& name) const;
-    GObject* getObject(unsigned int uuid) const;
-    
+	unsigned int getAndIncrementObjectUUID();
+
+    gobject_ref getObjectRef(const string& name) const;
+    gobject_ref getObjectRef(unsigned int uuid) const;
+
+	GObject* getObject(const string& name) const;
+	GObject* getObject(unsigned int uuid) const;
+
     template<typename T>
-    inline T* getObject(const string& name) const{
+    inline object_ref<T> getObjectRef(const string& name) const{
         static_assert(
             is_base_of<GObject, T>(),
             "getObject: not a GObject type"
         );
-        return dynamic_cast<T*>(getObject(name));
+		return object_ref<T>(getObject(name));
     }
-    
+
+	template<typename T>
+	inline T* getObject(const string& name) const {
+		static_assert(
+			is_base_of<GObject, T>(),
+			"getObject: not a GObject type"
+			);
+		return dynamic_cast<T*>(getObject(name));
+	}
+
     void removeObject(const string& name);
     void removeObject(GObject* obj);
 
@@ -86,9 +92,13 @@ private:
     
     unordered_map<unsigned int, GObject*> objByUUID;
     unordered_map<string, GObject*> objByName;
+
+	unsigned int nextObjUUID = 1;
     
-    //Objects which have been queued for addition. Will be added at end of frame.
-    vector<GObject*> toAdd;
+    //"Objects" which have been queued for addition. The generator function, when added, is also
+	//paired to a UUID, i.e. the UUID is actually determined when the object generator is added,
+	//so that a ref can be returned in the same frame.
+    vector<generator_pair> toAdd;
     //Objects whose additions have been processsed last frame. Physics has been initialized but
     //init has not yet run; it will run at start of frame.
     vector<GObject*> addedLastFrame;

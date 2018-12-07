@@ -31,7 +31,7 @@ public:
     static const float spellCooldownTime;
     static const float hitFlickerInterval;
     
-	Player(const ValueMap& args);
+	MapObjCons(Player);
     
 	virtual void setFirePatterns() = 0;
 	virtual void equipSpells() = 0;
@@ -98,7 +98,7 @@ class FlandrePC : virtual public Player, public BaseAttributes<FlandrePC>
 public:
 	static const AttributeMap baseAttributes;
 
-	FlandrePC(const ValueMap& args);
+	MapObjCons(FlandrePC);
 
 	virtual inline string imageSpritePath() const { return "sprites/flandre.png"; }
 	virtual void setFirePatterns();
@@ -110,7 +110,7 @@ class RumiaPC : virtual public Player, public BaseAttributes<RumiaPC>
 public:
 	static const AttributeMap baseAttributes;
 
-	RumiaPC(const ValueMap& args);
+	MapObjCons(RumiaPC);
 
 	virtual inline string imageSpritePath() const { return "sprites/marisa.png"; }
 	virtual void setFirePatterns();
@@ -122,7 +122,7 @@ class CirnoPC : virtual public Player, public BaseAttributes<CirnoPC>
 public:
 	static const AttributeMap baseAttributes;
 
-	CirnoPC(const ValueMap& args);
+	MapObjCons(CirnoPC);
 	
 	virtual inline string imageSpritePath() const { return "sprites/cirno.png"; }
 	virtual void setFirePatterns();

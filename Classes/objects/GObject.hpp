@@ -22,35 +22,54 @@ class Spell;
 class MagicEffect;
 class FloorSegment;
 
+#define MapObjCons(cls) cls(GSpace* space, ObjectIDType id, const ValueMap& args)
+#define MapObjForwarding(cls) cls(space,id,args)
+
 class GObject
 {
 public:
-    typedef function<GObject*( const ValueMap&) > AdapterType;
-    
+	typedef function<GObject*(GSpace*, ObjectIDType, const ValueMap&) > AdapterType;
+	typedef function<GObject*(GSpace*, ObjectIDType)> GeneratorType;
+
     static constexpr bool logCreateObjects = false;
 	//Map each class name to a constructor adapter function.
 	static const unordered_map<string, AdapterType> adapters;
-	static unsigned int nextUUID;
 
-	static GObject* constructByType(const string& type, const ValueMap& args);
-    
+	static GObject* constructByType(GSpace* space, ObjectIDType id, const string& type, const ValueMap& args);
+	static GeneratorType factoryMethodByType(const string& type, const ValueMap& args);
+
+	template<class ObjectCls, typename... ConsArgs>
+	static inline GObject* create(GSpace* space, ObjectIDType id, ConsArgs...args)
+	{
+		return new ObjectCls(space,id,args...);
+	}
+
+	template<class ObjectCls, typename... ConsArgs>
+	static inline GeneratorType make_object_factory(ConsArgs... args)
+	{
+		return [args...](GSpace* space, ObjectIDType id) -> GObject* {
+			return create<ObjectCls, ConsArgs...>(space, id, args...);
+		};
+	}
+
     template<typename T>
     inline bool isType(){
         return dynamic_cast<T*>(this) != nullptr;
-    }
-	
+    }	
+
 	//Representation as a map object
-    GObject(const ValueMap& args);
-	GObject(const ValueMap& args, bool anonymous);
-	GObject(const string& name, const SpaceVect& pos, bool anonymous);
-	GObject(const string& name, const SpaceVect& pos, float angle, bool anonymous);
+    GObject(GSpace* space, ObjectIDType uuid, const ValueMap& args);
+	GObject(GSpace* space, ObjectIDType uuid, const ValueMap& args, bool anonymous);
+	GObject(GSpace* space, ObjectIDType uuid, const string& name, const SpaceVect& pos, bool anonymous);
+	GObject(GSpace* space, ObjectIDType uuid, const string& name, const SpaceVect& pos, float angle, bool anonymous);
     
     virtual ~GObject();
 
 	//object identification, init, and update
 	const string name;
     const bool anonymous = false;
-	const unsigned int uuid;
+	const ObjectIDType uuid;
+	GSpace *const space;
 
 	util::multifunction<void(void)> multiInit;
 	util::multifunction<void(void)> multiUpdate;
@@ -59,12 +78,8 @@ public:
 		return name;
 	}
 
-	inline unsigned int getUUID() const {
+	inline ObjectIDType getUUID() const {
 		return uuid;
-	}
-
-	inline static void resetObjectUUIDs() {
-		nextUUID = 1;
 	}
 
 	//Called on the first frame after it has been added, before update is called on it or any other

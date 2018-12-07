@@ -26,8 +26,6 @@ class RadarObject;
 
 GSpace::GSpace(Layer* graphicsLayer) : graphicsLayer(graphicsLayer)
 {
-    GObject::resetObjectUUIDs();
-
     space.setGravity(SpaceVect(0,0));
     addCollisionHandlers();
     app->space = this;
@@ -91,31 +89,31 @@ void GSpace::update()
 
 const bool GSpace::logObjectArgs = false;
 
-GObject* GSpace::addObject(const ValueMap& obj)
+gobject_ref GSpace::createObject(const ValueMap& obj)
 {
     if(logObjectArgs)
         printValueMap(obj);
 
     string type = obj.at("type").asString();
-    GObject* gobj = GObject::constructByType(type, obj);
-    
-    return addObject(gobj);
+	
+	return createObject(GObject::factoryMethodByType(type, obj));
 }
 
-GObject* GSpace::addObject(GObject* obj)
+gobject_ref GSpace::createObject(ObjectGeneratorType generator)
 {
-    if(obj)
-        toAdd.push_back(obj);
-    
-    return obj;
+	ObjectIDType id = getAndIncrementObjectUUID();
+
+    toAdd.push_back(make_pair(generator,id));
+
+	return gobject_ref(this,id);
 }
 
-void GSpace::addObjects(const ValueVector& objs)
+void GSpace::createObjects(const ValueVector& objs)
 {
     foreach(Value obj, objs)
     {
         const ValueMap& objAsMap = obj.asValueMap();
-        addObject(objAsMap);
+        createObject(objAsMap);
     }
 }
 
@@ -124,33 +122,35 @@ void GSpace::addWallBlock(SpaceVect ll,SpaceVect ur)
     SpaceVect center = (ll + ur) / 2;
     SpaceVect dim = ur - ll;
     
-    GObject* wall = new Wall(center,dim);
-    
-    shared_ptr<Body> wallBlock = createRectangleBody(
-        center,
-        dim,
-        -1,
-        GType::wall,
-        PhysicsLayers::all,
-        false,
-        wall
-    );
-    
-    space.add(wallBlock);
-    addObject(wall);
+	createObject(
+		GObject::make_object_factory<Wall>(center, dim)
+	);
 }
 
-GObject* GSpace::getObject(const string& name) const
+gobject_ref GSpace::getObjectRef(const string& name) const
 {
     auto it = objByName.find(name);
     return it != objByName.end() ? it->second : nullptr;
 }
 
-GObject* GSpace::getObject(unsigned int uuid) const
+gobject_ref GSpace::getObjectRef(unsigned int uuid) const
 {
     auto it = objByUUID.find(uuid);
     return it != objByUUID.end() ? it->second : nullptr;
 }
+
+GObject* GSpace::getObject(const string& name) const
+{
+	auto it = objByName.find(name);
+	return it != objByName.end() ? it->second : nullptr;
+}
+
+GObject* GSpace::getObject(unsigned int uuid) const
+{
+	auto it = objByUUID.find(uuid);
+	return it != objByUUID.end() ? it->second : nullptr;
+}
+
 
 bool GSpace::isValid(unsigned int uuid) const
 {
@@ -167,8 +167,10 @@ vector<string> GSpace::getObjectNames() const
 
 void GSpace::processAdditions()
 {
-    foreach(GObject* obj, toAdd)
+    foreach(generator_pair generator, toAdd)
     {
+		GObject* obj = generator.first(this, generator.second);
+
         if(!obj->anonymous && objByName.find(obj->name) != objByName.end()){
             log("Object %s, %d name is not unique!", obj->name.c_str(), obj->uuid);
             delete obj;
@@ -294,6 +296,12 @@ unordered_map<int,string> GSpace::getUUIDNameMap() const
     }
     return result;
 }
+
+unsigned int GSpace::getAndIncrementObjectUUID()
+{
+	return nextObjUUID++;
+}
+
 //END OBJECT MANIPULATION
 
 //BEGIN NAVIGATION

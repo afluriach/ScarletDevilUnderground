@@ -18,9 +18,9 @@ public BaseAttributes<Sakuya>
 public:
 	static const AttributeMap baseAttributes;
 
-    inline Sakuya(const ValueMap& args) :
-	GObject(args),
-    Agent(args)
+    inline Sakuya(GSpace* space, ObjectIDType id, const ValueMap& args) :
+	MapObjForwarding(GObject),
+    MapObjForwarding(Agent)
     {}
 
     virtual inline float getRadarRadius() const {return 6.0f;}

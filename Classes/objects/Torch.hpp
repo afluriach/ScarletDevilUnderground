@@ -15,9 +15,10 @@
 class Torch : public virtual GObject, RectangleBody, RegisterUpdate<Torch>
 {
 public:
-    inline Torch(const ValueMap& args) : GObject(args), RegisterUpdate<Torch>(this)
-    {
-    }
+    inline Torch(GSpace* space, ObjectIDType id, const ValueMap& args) :
+	MapObjForwarding(GObject),
+	RegisterUpdate<Torch>(this)
+    {}
 
     virtual inline float getMass() const {return -1;}
     virtual inline GType getType() const {return GType::environment;}

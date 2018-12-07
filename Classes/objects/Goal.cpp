@@ -12,8 +12,8 @@
 #include "Goal.hpp"
 #include "PlayScene.hpp"
 
-Goal::Goal(const ValueMap& args) :
-GObject(args)
+Goal::Goal(GSpace* space, ObjectIDType id, const ValueMap& args) :
+MapObjForwarding(GObject)
 {
 }
 

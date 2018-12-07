@@ -16,6 +16,7 @@
 class Agent;
 class FirePattern;
 class GObject;
+class GSpace;
 
 namespace ai{
 
@@ -67,10 +68,10 @@ public:
 
 	inline virtual ~Function() {}
 
-    typedef function<shared_ptr<Function>(const ValueMap&) > AdapterType;
+    typedef function<shared_ptr<Function>(GSpace* space, const ValueMap&) > AdapterType;
     static const unordered_map<string, Function::AdapterType> adapters;
     
-    static shared_ptr<Function> constructState(const string& type, const ValueMap& args);
+    static shared_ptr<Function> constructState(const string& type, GSpace* space, const ValueMap& args);
 
 	inline virtual void onEnter(StateMachine& sm) {}
     inline virtual void onReturn(StateMachine& sm) {}
@@ -181,7 +182,7 @@ public:
     typedef function<shared_ptr<Function>(GObject* detected)> Generator;
 
     Detect(const string& target_name, Generator nextState);
-    Detect(const ValueMap& args);
+    Detect(GSpace* space, const ValueMap& args);
 
     virtual void onDetect(StateMachine& sm, GObject* obj);
     
@@ -195,7 +196,7 @@ class Seek : public Function {
 public:
     inline Seek(GObject* target) : target(target)
     {}
-    Seek(const ValueMap& args);
+    Seek(GSpace* space, const ValueMap& args);
     
 	virtual void update(StateMachine& sm);
 	virtual void onEndDetect(StateMachine& sm, GObject* target);
@@ -211,7 +212,7 @@ protected:
 class MaintainDistance : public Function {
 public:
     MaintainDistance(gobject_ref target, float distance, float margin);
-    MaintainDistance(const ValueMap& args);
+    MaintainDistance(GSpace* space, const ValueMap& args);
     
 	virtual void update(StateMachine& sm);
     
@@ -231,7 +232,7 @@ public:
     target(target),
     distance(distance)
     {}
-    Flee(const ValueMap& args);
+    Flee(GSpace* space, const ValueMap& args);
     
 	virtual void update(StateMachine& sm);
 	virtual void onEndDetect(StateMachine& sm, GObject* target);
@@ -249,7 +250,7 @@ protected:
 class EvadePlayerProjectiles : public Function {
 public:
 	EvadePlayerProjectiles();
-	EvadePlayerProjectiles(const ValueMap& args);
+	EvadePlayerProjectiles(GSpace* space, const ValueMap& args);
 
 	virtual void update(StateMachine& sm);
 
@@ -265,7 +266,7 @@ protected:
 class DetectAndSeekPlayer : public Detect{
 public:
     DetectAndSeekPlayer();
-    DetectAndSeekPlayer(const ValueMap& args);
+    DetectAndSeekPlayer(GSpace* space, const ValueMap& args);
     
     FuncGetName(DetectAndSeekPlayer)
 
@@ -277,7 +278,7 @@ public:
 
 class IdleWait : public Function{
     public:
-        IdleWait(const ValueMap& args);
+        IdleWait(GSpace* space, const ValueMap& args);
 
         inline IdleWait(unsigned int frames) :
         remaining(frames)
@@ -296,7 +297,7 @@ class IdleWait : public Function{
 
 class MoveToPoint : public Function{
 public:
-    MoveToPoint(const ValueMap& args);
+    MoveToPoint(GSpace* space, const ValueMap& args);
 
     inline MoveToPoint(SpaceVect target) :
     target(target)
@@ -314,7 +315,7 @@ protected:
 
 class FollowPath : public Function {
 public:
-	FollowPath(const ValueMap& args);
+	FollowPath(GSpace* space, const ValueMap& args);
 	inline FollowPath(Path path, bool loop) :
 	path(path),
 	loop(loop)
@@ -334,7 +335,7 @@ protected:
 
 class Wander : public Function {
 public:
-    Wander(const ValueMap& args);
+    Wander(GSpace* space, const ValueMap& args);
 
     inline Wander() : minWait(1.0), maxWait(3.0), minDist(2.0), maxDist(4.0)
     {}
@@ -368,7 +369,7 @@ protected:
 class Cast : public Function {
 public:
     Cast(string _spell_name, const ValueMap& _spell_args);
-    Cast(const ValueMap& _spell_args);
+    Cast(GSpace* space, const ValueMap& _spell_args);
 
     virtual void onEnter(StateMachine& sm);
     virtual void update(StateMachine& sm);
@@ -430,7 +431,7 @@ public:
 class IllusionDash : public Function {
 public:
     IllusionDash(SpaceVect _target);
-    IllusionDash(const ValueMap& args);
+    IllusionDash(GSpace* space, const ValueMap& args);
     static const float scale;
     static const float opacity;
     static const float speed;

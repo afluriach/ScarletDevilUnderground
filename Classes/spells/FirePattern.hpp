@@ -39,7 +39,7 @@ public:
 
 	virtual float getLaunchDistance() const { return 1.0f; }
 	virtual int getCooldownFrames() = 0;
-	virtual GObject* spawn(float angle, SpaceVect pos) = 0;
+	virtual GObject::GeneratorType spawn(float angle, SpaceVect pos) = 0;
 protected:
 	int cooldownFramesRemaining = 0;
 };
@@ -53,7 +53,7 @@ public:
 	virtual int powerCost() const { return 5; }
 
 	virtual inline int getCooldownFrames() { return 60; }
-	virtual GObject* spawn(float angle, SpaceVect pos);
+	virtual GObject::GeneratorType spawn(float angle, SpaceVect pos);
 protected:
 	int cooldownFramesRemaining = 0;
 };
@@ -67,7 +67,7 @@ public:
 	virtual int powerCost() const { return 1; }
 
 	virtual inline int getCooldownFrames() { return 10; }
-	virtual GObject* spawn(float angle, SpaceVect pos);
+	virtual GObject::GeneratorType spawn(float angle, SpaceVect pos);
 protected:
 	int cooldownFramesRemaining = 0;
 };
@@ -81,7 +81,7 @@ public:
 	virtual int powerCost() const { return 5; }
 
 	virtual inline int getCooldownFrames() { return 60; }
-	virtual GObject* spawn(float angle, SpaceVect pos);
+	virtual GObject::GeneratorType spawn(float angle, SpaceVect pos);
 protected:
 	int cooldownFramesRemaining = 0;
 };
@@ -96,7 +96,7 @@ public:
 	virtual int powerCost() const { return 0; }
 
 	virtual inline int getCooldownFrames() { return 60; }
-	virtual GObject* spawn(float angle, SpaceVect pos);
+	virtual GObject::GeneratorType spawn(float angle, SpaceVect pos);
 protected:
 	int cooldownFramesRemaining = 0;
 };

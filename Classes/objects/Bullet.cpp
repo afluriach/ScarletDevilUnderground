@@ -26,23 +26,23 @@ const vector<string> StarBullet::colors = boost::assign::list_of
     ("yellow")
 ;
 
-IceFairyBullet::IceFairyBullet(float angle, const SpaceVect& pos) :
-	GObject("IceFairyBullet", pos, angle, true)
+IceFairyBullet::IceFairyBullet(GSpace* space, ObjectIDType id, float angle, const SpaceVect& pos) :
+	GObject(space, id, "IceFairyBullet", pos, angle, true)
 {}
 
 shared_ptr<MagicEffect> IceFairyBullet::getMagicEffect(gobject_ref target) {
 	return make_shared<FrostStatusEffect>(target, 0.25f);
 }
 
-IllusionDialDagger::IllusionDialDagger(const SpaceVect& pos, float angular_velocity) :
-GObject("IllusionDialDagger", pos, true)
+IllusionDialDagger::IllusionDialDagger(GSpace* space, ObjectIDType id, const SpaceVect& pos, float angular_velocity) :
+GObject(space,id,"IllusionDialDagger", pos, true)
 {
     setInitialAngularVelocity(angular_velocity);
 }
 
 float IllusionDialDagger::targetViewAngle()
 {
-    GObject* target = app->space->getObject("player");
+    GObject* target = space->getObject("player");
 
     if(target)
         return ai::viewAngleToTarget(*this,*target);
@@ -52,7 +52,7 @@ float IllusionDialDagger::targetViewAngle()
 
 void IllusionDialDagger::launch()
 {
-    GObject* target = app->space->getObject("player");
+    GObject* target = space->getObject("player");
 
     if(target){
         setVel(SpaceVect::ray(getMaxSpeed(), getAngle()));
@@ -62,16 +62,16 @@ void IllusionDialDagger::launch()
         debug_log("player missing");
 }
 
-FlandreBigOrb1::FlandreBigOrb1(float angle, const SpaceVect& pos) :
-	GObject("bigOrb1", pos, angle, true)
+FlandreBigOrb1::FlandreBigOrb1(GSpace* space, ObjectIDType id, float angle, const SpaceVect& pos) :
+	GObject(space,id,"bigOrb1", pos, angle, true)
 {}
 
-FlandreFastOrb1::FlandreFastOrb1(float angle, const SpaceVect& pos) :
-	GObject("fastOrb1", pos, angle, true)
+FlandreFastOrb1::FlandreFastOrb1(GSpace* space, ObjectIDType id, float angle, const SpaceVect& pos) :
+	GObject(space,id,"fastOrb1", pos, angle, true)
 {}
 
-CirnoLargeIceBullet::CirnoLargeIceBullet(float angle, const SpaceVect& pos) :
-	GObject("bigIce1", pos, angle, true)
+CirnoLargeIceBullet::CirnoLargeIceBullet(GSpace* space, ObjectIDType id, float angle, const SpaceVect& pos) :
+	GObject(space,id,"bigIce1", pos, angle, true)
 {}
 
 shared_ptr<MagicEffect> CirnoLargeIceBullet::getMagicEffect(gobject_ref target)

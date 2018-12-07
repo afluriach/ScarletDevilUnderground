@@ -120,6 +120,16 @@ public:
 	void init();
 };
 
+//Allow the speed of an object to be supplied as construction parameter.
+class MaxSpeedImpl : virtual public GObject
+{
+public:
+	inline MaxSpeedImpl(float speed) : speed(speed) {}
+	virtual inline float getMaxSpeed() const { return speed; }
+protected:
+	float speed;
+};
+
 //END PHYSICS
 
 //GRAPHICS MIXINS

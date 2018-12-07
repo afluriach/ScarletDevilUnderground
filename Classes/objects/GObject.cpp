@@ -21,16 +21,15 @@
 #include "util.h"
 #include "value_map.hpp"
 
-unsigned int GObject::nextUUID = 1;
-
-GObject::GObject(const ValueMap& args) :
-GObject(args, false)
+GObject::GObject(GSpace* space, ObjectIDType uuid, const ValueMap& args) :
+GObject(space, uuid, args, false)
 {
 }
 
-GObject::GObject(const ValueMap& obj, bool anonymous) :
+GObject::GObject(GSpace* space, ObjectIDType uuid, const ValueMap& obj, bool anonymous) :
+	space(space),
 	name(!anonymous ? obj.at("name").asString() : ""),
-	uuid(nextUUID++),
+	uuid(uuid),
 	anonymous(anonymous)
 {
 	//Interpret coordinates as center, unit space.
@@ -50,10 +49,11 @@ GObject::GObject(const ValueMap& obj, bool anonymous) :
 	setInitialAngle(float_pi / 2.0f);
 }
 
-GObject::GObject(const string& name, const SpaceVect& pos, float angle, bool anonymous) :
+GObject::GObject(GSpace* space, ObjectIDType uuid, const string& name, const SpaceVect& pos, float angle, bool anonymous) :
+	space(space),
 	name(name),
     anonymous(anonymous),
-	uuid(nextUUID++),
+	uuid(uuid),
 	initialCenter(pos)
 {
     if(!anonymous){
@@ -66,27 +66,35 @@ GObject::GObject(const string& name, const SpaceVect& pos, float angle, bool ano
 	setInitialAngle(angle);
 }
 
-GObject::GObject(const string& name, const SpaceVect& pos, bool anonymous) :
-	GObject(name, pos, float_pi / 2.0f, anonymous)
+GObject::GObject(GSpace* space, ObjectIDType uuid, const string& name, const SpaceVect& pos, bool anonymous) :
+	GObject(space, uuid, name, pos, float_pi / 2.0f, anonymous)
 {}
 
 GObject::~GObject()
 {
 }
 
-GObject* GObject::constructByType(const string& type, const ValueMap& args )
+GObject* GObject::constructByType(GSpace* space, ObjectIDType id, const string& type, const ValueMap& args )
 {
     auto it = adapters.find(type);
     
     if(it != adapters.end()){
         AdapterType adapter =  it->second;
-        return adapter(args);
+        return adapter(space, id, args);
     }
     else{
         log("Unknown object type %s!", type.c_str());
         return nullptr;
     }
 }
+
+GObject::GeneratorType GObject::factoryMethodByType(const string& type, const ValueMap& args)
+{
+	return [type,args](GSpace* space, ObjectIDType id) -> GObject* {
+		return constructByType(space, id, type, args);
+	};
+}
+
 
 void GObject::init()
 {

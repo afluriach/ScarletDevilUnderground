@@ -14,9 +14,9 @@
 class Marisa : virtual public Agent, public NoAttributes
 {
 public:
-    inline Marisa(const ValueMap& args) :
-	GObject(args),
-    Agent(args)
+    inline Marisa(GSpace* space, ObjectIDType id, const ValueMap& args) :
+	MapObjForwarding(GObject),
+    MapObjForwarding(Agent)
 	{}
     
     virtual inline float getRadarRadius() const {return 6.0f;}

@@ -19,5 +19,5 @@ void InventoryObject::interact()
     GState::crntState.itemRegistry.insert(itemName());
     
     //remove item object
-    app->space->removeObject(this);
+    space->removeObject(this);
 }

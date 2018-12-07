@@ -17,9 +17,9 @@ class Tewi : virtual public Agent, public TouchDamageEnemy, public BaseAttribute
 public:
 	static const AttributeMap baseAttributes;
 
-	inline Tewi(const ValueMap& args) :
-		GObject(args),
-		Agent(args)
+	inline Tewi(GSpace* space, ObjectIDType id, const ValueMap& args) :
+		MapObjForwarding(GObject),
+		MapObjForwarding(Agent)
 	{}
 
 	virtual inline float getRadius() const { return 0.35f; }

@@ -14,9 +14,9 @@
 class Reimu : virtual public Agent, public DialogEntity, public NoAttributes
 {
 public:
-    inline Reimu(const ValueMap& args) :
-	GObject(args),
-    Agent(args)
+    inline Reimu(GSpace* space, ObjectIDType id, const ValueMap& args) :
+	MapObjForwarding(GObject),
+    MapObjForwarding(Agent)
     {}
     
     virtual inline float getRadius() const {return 0.35f;}

@@ -16,9 +16,8 @@
 class StateMachineObject : virtual public GObject, RegisterUpdate<StateMachineObject>
 {
 public:
-
     inline StateMachineObject(const ValueMap& args) : StateMachineObject(nullptr, args) {}
-	StateMachineObject(shared_ptr<ai::Function> startState, const ValueMap& args);
+	StateMachineObject(shared_ptr<ai::Function> startState, const ValueMap& arg);
 
 	inline void update() {
 		if(!isFrozen)

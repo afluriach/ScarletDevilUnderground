@@ -13,30 +13,34 @@
 #include "GSpace.hpp"
 #include "object_ref.hpp"
 
-GObject* _object_ref_get_gobject(unsigned int uuid)
-{
-    GSpace * space = app->space;
-    
+GObject* _object_ref_get_gobject(GSpace* space, unsigned int uuid)
+{    
     if(!space)
         return nullptr;
     
     return space->getObject(uuid);
 }
 
-bool _object_ref_is_valid(unsigned int uuid)
-{
-    GSpace * space = app->space;
-    
+bool _object_ref_is_valid(GSpace* space, unsigned int uuid)
+{   
     if(!space)
         return false;
     
     return space->isValid(uuid);
 }
 
-unsigned int _object_ref_get_uuid(const GObject* obj)
+ObjectIDType _object_ref_get_uuid(const GObject* obj)
 {
     if(obj == nullptr)
         return 0;
     else
         return obj->getUUID();
+}
+
+GSpace* _object_ref_get_space(const GObject* obj)
+{
+	if (obj == nullptr)
+		return nullptr;
+	else
+		return obj->space;
 }

@@ -16,9 +16,9 @@ class Facer : virtual public Agent, public TouchDamageEnemy, public BaseAttribut
 public:
 	static const AttributeMap baseAttributes;
 
-    inline Facer(const ValueMap& args) :
-	GObject(args),
-    Agent(args)
+    inline Facer(GSpace* space, ObjectIDType id, const ValueMap& args) :
+	MapObjForwarding(GObject),
+    MapObjForwarding(Agent)
     {}
 
     virtual void hit(int damage, shared_ptr<MagicEffect> effect);

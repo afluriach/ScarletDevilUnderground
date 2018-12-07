@@ -14,9 +14,9 @@
 class Patchouli : virtual public Agent, public NoAttributes
 {
 public:
-    inline Patchouli(const ValueMap& args) :
-	GObject(args),
-    Agent(args)
+    inline Patchouli(GSpace* space, ObjectIDType id, const ValueMap& args) :
+	MapObjForwarding(GObject),
+    MapObjForwarding(Agent)
     {}
     
     virtual inline float getRadius() const {return 0.35f;}

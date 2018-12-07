@@ -12,8 +12,8 @@
 #include "enum.h"
 #include "macros.h"
 
-Block::Block(const ValueMap& args) :
-GObject(args),
+Block::Block(GSpace* space, ObjectIDType id, const ValueMap& args) :
+MapObjForwarding(GObject),
 isStatic(args.find("static") != args.end())
 {
     auto it = args.find("letter");

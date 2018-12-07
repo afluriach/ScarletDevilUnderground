@@ -17,7 +17,7 @@ class Block : virtual public GObject, RectangleBody, ImageSprite, FrictionObject
 public:
     const bool isStatic;
     const float mass = 40.0;
-    Block(const ValueMap& args);
+	MapObjCons(Block);
     
     virtual string imageSpritePath() const {return !letter.empty() ? "sprites/block "+letter+".png"  : "sprites/block.png";}
     virtual GraphicsLayer sceneLayer() const {return GraphicsLayer::ground;}

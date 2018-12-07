@@ -15,12 +15,12 @@
 class Flower : virtual public GObject, CircleBody, ImageSprite
 {
 public:
-    inline Flower(const string& name, const string& color, const SpaceVect& pos):
-    GObject(name, pos, true),
+    inline Flower(GSpace* space, ObjectIDType id, const string& name, const string& color, const SpaceVect& pos):
+    GObject(space,id,name, pos, true),
     color(color){
     }
-    inline Flower(const ValueMap& args):
-    GObject(args),
+    inline Flower(GSpace* space, ObjectIDType id, const ValueMap& args):
+    GObject(space,id,args),
     color(args.at("color").asString()){
     }    
     

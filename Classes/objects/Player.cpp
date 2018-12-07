@@ -28,8 +28,8 @@ const float Player::interactCooldownTime = 0.1f;
 const float Player::spellCooldownTime = 1.0f;
 const float Player::hitFlickerInterval = 0.3f;
 
-Player::Player(const ValueMap& args) :
-	Agent(args),
+Player::Player(GSpace* space, ObjectIDType id, const ValueMap& args) :
+	MapObjForwarding(Agent),
 	RegisterInit<Player>(this),
 	RegisterUpdate<Player>(this)
 {}
@@ -193,7 +193,7 @@ void Player::onCollectible(Collectible* coll)
         if(power > attributeSystem.getAdjustedValue(Attribute::power))
             power = attributeSystem.getAdjustedValue(Attribute::power);
         
-        app->space->removeObject(coll);
+        space->removeObject(coll);
     }
 }
 
@@ -234,10 +234,10 @@ const AttributeMap FlandrePC::baseAttributes = boost::assign::map_list_of
 	(Attribute::iceSensitivity, 2.0f)
 ;
 
-FlandrePC::FlandrePC(const ValueMap& args) :
-	GObject(args),
-	Agent(args),
-	Player(args)
+FlandrePC::FlandrePC(GSpace* space, ObjectIDType id, const ValueMap& args) :
+	MapObjForwarding(GObject),
+	MapObjForwarding(Agent),
+	MapObjForwarding(Player)
 {}
 
 void FlandrePC::setFirePatterns()
@@ -259,10 +259,10 @@ const AttributeMap RumiaPC::baseAttributes = boost::assign::map_list_of
 (Attribute::iceSensitivity, 1.0f)
 ;
 
-RumiaPC::RumiaPC(const ValueMap& args) :
-	GObject(args),
-	Agent(args),
-	Player(args)
+RumiaPC::RumiaPC(GSpace* space, ObjectIDType id, const ValueMap& args) :
+	MapObjForwarding(GObject),
+	MapObjForwarding(Agent),
+	MapObjForwarding(Player)
 {}
 
 void RumiaPC::setFirePatterns()
@@ -282,10 +282,10 @@ const AttributeMap CirnoPC::baseAttributes = boost::assign::map_list_of
 (Attribute::iceSensitivity, 0.0f)
 ;
 
-CirnoPC::CirnoPC(const ValueMap& args) :
-	GObject(args),
-	Agent(args),
-	Player(args)
+CirnoPC::CirnoPC(GSpace* space, ObjectIDType id, const ValueMap& args) :
+	MapObjForwarding(GObject),
+	MapObjForwarding(Agent),
+	MapObjForwarding(Player)
 {}
 
 void CirnoPC::setFirePatterns()

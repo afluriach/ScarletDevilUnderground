@@ -13,7 +13,7 @@
 #include "Graphics.h"
 #include "GSpace.hpp"
 
-FloorSegment::FloorSegment(const ValueMap& args) :
+FloorSegment::FloorSegment(GSpace* space, ObjectIDType id, const ValueMap& args) :
 RectangleMapBody(args)
 {
 
@@ -25,9 +25,9 @@ FloorSegment::~FloorSegment()
 }
 
 
-DirtFloorCave::DirtFloorCave(const ValueMap& args) :
-GObject(args, true),
-FloorSegment(args)
+DirtFloorCave::DirtFloorCave(GSpace* space, ObjectIDType id, const ValueMap& args) :
+GObject(space,id,args, true),
+FloorSegment(space,id,args)
 {
 }
 
@@ -39,16 +39,15 @@ void DirtFloorCave::onEndContact(GObject* obj)
 {
 }
 
-Pitfall::Pitfall(const ValueMap& args) : 
-GObject(args, true),
-FloorSegment(args)
+Pitfall::Pitfall(GSpace* space, ObjectIDType id, const ValueMap& args) :
+GObject(space,id,args, true),
+FloorSegment(space,id,args)
 {
 }
 
-
 void Pitfall::onContact(GObject* obj)
 {
-	app->space->removeObjectWithAnimation(obj, pitfallShrinkAction());
+	space->removeObjectWithAnimation(obj, pitfallShrinkAction());
 }
 
 void Pitfall::onEndContact(GObject* obj)

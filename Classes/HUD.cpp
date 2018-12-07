@@ -59,8 +59,9 @@ void HealthBar::runFlicker(float duration)
 
 const int HUD::fontSize = 32;
 
-HUD::HUD() :
-player(app->space->getObject<Player>("player"))
+HUD::HUD(GSpace* space, object_ref<Player> player) :
+player(player),
+space(space)
 {
     app->hud = this;
 }

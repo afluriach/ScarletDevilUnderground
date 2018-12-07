@@ -31,9 +31,9 @@ void FireStarburst::runPeriodic()
 
         SpaceVect crntPos = pos + SpaceVect::ray(1, angle);
 
-        FireBullet* bullet = new FireBullet(crntPos);
-        bullet->setInitialVelocity(SpaceVect::ray(bulletSpeed, angle));
-        app->space->addObject(bullet);
+		caster->space->createObject(
+			GObject::make_object_factory<FireBullet>(angle, pos, bulletSpeed)
+		);
     }
 }
 
@@ -55,9 +55,9 @@ void FlameFence::init()
             SpaceVect pos(center);
             pos += SpaceVect(x,y) + rowSkew;
             
-            FireBullet* bullet = new FireBullet(pos);
-            bullets.push_back(bullet);
-            app->space->addObject(bullet);
+			bullets.push_back(caster->space->createObject(
+				GObject::make_object_factory<FireBullet>(0.0f, pos, 0.0f)
+			));
         }
     }
 }
@@ -70,7 +70,7 @@ void FlameFence::end()
 {
     foreach(gobject_ref bullet, bullets){
         if(bullet.isValid())
-            app->space->removeObject(bullet.get());
+            caster->space->removeObject(bullet.get());
     }
 }
 
@@ -106,13 +106,13 @@ void StarlightTyphoon::fire()
     
     SpaceVect pos = caster->getPos() + SpaceVect::ray(offset, angle);
     
-    StarBullet* b = new StarBullet(
-        pos,
-        crntRadius,
-        StarBullet::colors[app->getRandomInt(0,StarBullet::colors.size()-1)]
-    );
-    b->setInitialVelocity(SpaceVect::ray(crntSpeed, arcPos + angle));
-    app->space->addObject(b);
+	caster->space->createObject(GObject::make_object_factory<StarBullet>(
+		arcPos,
+		pos,
+		crntSpeed,
+		radius,
+		StarBullet::colors[app->getRandomInt(0, StarBullet::colors.size() - 1)]
+	));
 }
 void StarlightTyphoon::update()
 {
@@ -167,13 +167,10 @@ void IllusionDial::init()
     
     for_irange(i,0,count)
     {
-  //      spawn_points[i] = SpaceVect::ray(radius, arc_start + i*arc_spacing);
-        IllusionDialDagger* bullet = new IllusionDialDagger(
-            caster->getPos() + SpaceVect::ray(radius, arc_start + i*arc_spacing),
-            i % 2 ? angular_speed : -angular_speed
-        );
-        app->space->addObject(bullet);
-        bullets[i] = object_ref<IllusionDialDagger>(bullet);
+		bullets[i] = caster->space->createObject(GObject::make_object_factory<IllusionDialDagger>(
+			caster->getPos() + SpaceVect::ray(radius, arc_start + i * arc_spacing),
+			i % 2 ? angular_speed : -angular_speed
+		));
     }
 }
 

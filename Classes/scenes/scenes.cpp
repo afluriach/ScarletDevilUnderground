@@ -165,7 +165,7 @@ void MapScene::loadObjectGroup(TMXObjectGroup* group)
     {
         ValueMap& objAsMap = obj.asValueMap();
         convertToUnitSpace(objAsMap);
-        gspace->addObject(objAsMap);
+        gspace->createObject(objAsMap);
     }
 }
 

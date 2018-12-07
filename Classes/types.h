@@ -9,10 +9,16 @@
 #ifndef types_h
 #define types_h
 
+class GObject;
+class GSpace;
+
 typedef pair<int,int> IntVec2;
 //Represents a Chipmunk physics unit space vector
 typedef cp::Vect SpaceVect;
 typedef vector<SpaceVect> Path;
+
+typedef unsigned int ObjectIDType;
+typedef function<GObject*(GSpace*, ObjectIDType)> ObjectGeneratorType;
 
 namespace boost {
 	namespace serialization {

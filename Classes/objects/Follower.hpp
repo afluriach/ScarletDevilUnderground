@@ -16,9 +16,9 @@ class Follower : virtual public Agent, public TouchDamageEnemy, public BaseAttri
 public:
 	static const AttributeMap baseAttributes;
 
-    inline Follower(const ValueMap& args) :
-	GObject(args),
-    Agent(args)
+    inline Follower(GSpace* space, ObjectIDType id, const ValueMap& args) :
+	GObject(space,id,args),
+    Agent(space,id,args)
     {}
     
     virtual void hit(int damage, shared_ptr<MagicEffect> effect);
