@@ -165,5 +165,24 @@ public:
 	static void restart();
 };
 
+class ReplayCompletedMenu : public TextListMenuLayer
+{
+public:
+	static const string title;
+	static const vector<string> entryNames;
+	static const vector<listAction> entryActions;
+
+	CREATE_FUNC(ReplayCompletedMenu);
+
+	inline ReplayCompletedMenu() : TextListMenuLayer(
+		title,
+		entryNames,
+		entryActions
+	)
+	{}
+
+	static void restartReplay();
+};
+
 
 #endif /* menu_h */

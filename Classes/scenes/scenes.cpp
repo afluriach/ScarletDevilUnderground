@@ -23,6 +23,7 @@
 
 GScene* GScene::crntScene;
 string GScene::crntSceneName;
+string GScene::crntReplayName;
 
 void GScene::runScene(const string& name)
 {
@@ -46,6 +47,7 @@ void GScene::runSceneWithReplay(const string& sceneName, const string& replayNam
 
 	if (ps) {
 		ps->loadReplayData(replayName);
+		crntReplayName = replayName;
 	}
 	else {
 		log("GScene::runSceneWithReplay: not a PlayScene!");
@@ -55,6 +57,11 @@ void GScene::runSceneWithReplay(const string& sceneName, const string& replayNam
 void GScene::restartScene()
 {
 	runScene(crntSceneName);
+}
+
+void GScene::restartReplayScene()
+{
+	runSceneWithReplay(crntSceneName,crntReplayName);
 }
 
 GScene::GScene() :

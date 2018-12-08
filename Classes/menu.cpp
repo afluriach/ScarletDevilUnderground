@@ -229,3 +229,20 @@ const vector<TextListMenuLayer::listAction> ChamberCompletedMenu::entryActions =
 (PauseMenu::restart)
 (PauseMenu::goToTitle)
 ;
+
+const string ReplayCompletedMenu::title = "End of replay";
+
+const vector<string> ReplayCompletedMenu::entryNames = boost::assign::list_of
+("Replay")
+("Exit to title")
+;
+
+const vector<TextListMenuLayer::listAction> ReplayCompletedMenu::entryActions = boost::assign::list_of
+(PauseMenu::restart)
+(ReplayCompletedMenu::restartReplay)
+;
+
+void ReplayCompletedMenu::restartReplay()
+{
+	GScene::restartReplayScene();
+}

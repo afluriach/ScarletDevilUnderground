@@ -258,6 +258,35 @@ void PlayScene::triggerSceneCompleted()
 	);
 }
 
+void PlayScene::showReplayCompletedMenu(float unused)
+{
+	app->hud->setVisible(false);
+	if (app->dialog)
+		app->dialog->setVisible(false);
+
+	ReplayCompletedMenu* menu = ReplayCompletedMenu::create();
+
+	getLayer(sceneLayers::menu)->addChild(menu);
+}
+
+void PlayScene::triggerReplayCompleted()
+{
+	if (pauseMenu)
+		pauseMenu->setVisible(false);
+
+	setPaused(true);
+
+	Director::getInstance()->getScheduler()->schedule(
+		bind(&PlayScene::showReplayCompletedMenu, this, placeholders::_1),
+		this,
+		0.0f,
+		0,
+		fadeoutLength,
+		false,
+		"showReplayCompletedMenu"
+	);
+}
+
 void PlayScene::initReplayData()
 {
 	controlReplay = make_unique<ControlReplay>();
@@ -267,7 +296,11 @@ void PlayScene::initReplayData()
 
 void PlayScene::updateReplayData()
 {
-	if (controlReplay && !isRunningReplay) {
+	if (controlReplay && isRunningReplay && gspace->getFrame() >= controlReplay->control_data.size()) {
+		triggerReplayCompleted();
+	}
+
+	else if (controlReplay && !isRunningReplay) {
 		controlReplay->control_data.push_back(app->control_register->getControlState());
 	}
 }

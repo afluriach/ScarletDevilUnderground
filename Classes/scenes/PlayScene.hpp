@@ -57,6 +57,10 @@ public:
 	void triggerSceneCompleted();
 	void showSceneCompletedMenu(float unused);
 
+	void triggerReplayCompleted();
+	void showReplayCompletedMenu(float unused);
+
+
     HUD* hud = nullptr;
 	PauseMenu* pauseMenu = nullptr;
 private:    

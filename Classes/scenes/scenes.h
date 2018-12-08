@@ -74,11 +74,13 @@ public:
     
     static GScene* crntScene;
 	static string crntSceneName;
+	static string crntReplayName;
 	unique_ptr<ControlListener> control_listener;
 
     static void runScene(const string& name);
 	static void runSceneWithReplay(const string& sceneName, const string& replayName);
 	static void restartScene();
+	static void restartReplayScene();
 
 //Rather than managing overrides to the init method, a scene simply registers their own.
 //Init methods must be installed at construction time.
