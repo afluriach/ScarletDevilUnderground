@@ -151,7 +151,7 @@ RegisterUpdate<PatchConSprite>(this)
 
 float PatchConSprite::zoom() const
 {
-    return App::pixelsPerTile / pixelWidth;
+    return 1.0f * App::pixelsPerTile / pixelWidth();
 }
 
 void PatchConSprite::init()

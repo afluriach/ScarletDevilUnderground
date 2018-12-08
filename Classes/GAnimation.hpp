@@ -26,7 +26,8 @@ class AnimationSpriteSequence
 public:
     static shared_ptr<AnimationSpriteSequence> loadFromRasterImage(const string& path, int cols, int rows);
     static shared_ptr<AnimationSpriteSequence> loadFromImageSequence(const string& name, int length);
-    
+	static shared_ptr<AnimationSpriteSequence> loadAgentAnimation(const string& name);
+
     inline AnimationSpriteSequence(Vector<SpriteFrame*> frames) : frames(frames) {}
     //Use cocos vector to manage object lifecycle.
     Vector<SpriteFrame*> frames;

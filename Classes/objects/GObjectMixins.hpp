@@ -176,14 +176,13 @@ protected:
 class PatchConSprite : virtual public GObject, RegisterInit<PatchConSprite>, RegisterUpdate<PatchConSprite>
 {
 public:
-    static const int pixelWidth = 32;
-
     PatchConSprite(const ValueMap& args);
     virtual string imageSpritePath() const = 0;
     virtual GraphicsLayer sceneLayer() const = 0;
     
     float zoom() const;
-    
+	virtual inline int pixelWidth() const { return 32; }
+
     void initializeGraphics(Layer* layer);
     void init();
     void update();

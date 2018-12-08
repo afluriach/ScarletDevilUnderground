@@ -70,6 +70,35 @@ shared_ptr<AnimationSpriteSequence> AnimationSpriteSequence::loadFromImageSequen
     return make_shared<AnimationSpriteSequence>(frames);
 }
 
+shared_ptr<AnimationSpriteSequence> AnimationSpriteSequence::loadAgentAnimation(const string& name)
+{
+	Vector<SpriteFrame*> frames;
+
+	frames.pushBack(Sprite::create(name + "up-1.png")->getSpriteFrame());
+	frames.pushBack(Sprite::create(name + "up-2.png")->getSpriteFrame());
+	frames.pushBack(Sprite::create(name + "up-3.png")->getSpriteFrame());
+	frames.pushBack(Sprite::create(name + "down-1.png")->getSpriteFrame());
+
+	frames.pushBack(Sprite::create()->getSpriteFrame());
+	frames.pushBack(Sprite::create()->getSpriteFrame());
+	frames.pushBack(Sprite::create()->getSpriteFrame());
+	frames.pushBack(Sprite::create(name + "down-2.png")->getSpriteFrame());
+
+	frames.pushBack(Sprite::create(name + "right-1.png")->getSpriteFrame());
+	frames.pushBack(Sprite::create(name + "right-2.png")->getSpriteFrame());
+	frames.pushBack(Sprite::create(name + "right-3.png")->getSpriteFrame());
+	frames.pushBack(Sprite::create(name + "down-3.png")->getSpriteFrame());
+
+	frames.pushBack(Sprite::create()->getSpriteFrame());
+	frames.pushBack(Sprite::create()->getSpriteFrame());
+	frames.pushBack(Sprite::create()->getSpriteFrame());
+	frames.pushBack(Sprite::create()->getSpriteFrame());
+
+	return make_shared<AnimationSpriteSequence>(frames);
+}
+
+
+
 void TimedLoopAnimation::loadAnimation(const string& name, int length, float animationInterval)
 {
     setName("TimedLoopAnimation");
@@ -101,9 +130,15 @@ void PatchConAnimation::loadAnimation(const string& path)
     if(sprite)
         sprite->removeFromParent();
     
-    sequence = AnimationSpriteSequence::loadFromRasterImage(path,4,4);
-    
-    sprite = Sprite::createWithSpriteFrame(sequence->frames.at(0));
+	if (path.back() == '/') {
+		sequence = AnimationSpriteSequence::loadAgentAnimation(path);
+		sprite = Sprite::createWithSpriteFrame(sequence->frames.at(0));
+	}
+	else {
+		sequence = AnimationSpriteSequence::loadFromRasterImage(path, 4, 4);
+		sprite = Sprite::createWithSpriteFrame(sequence->frames.at(0));
+	}
+
     addChild(sprite,1);
     sprite->useAntiAliasTexture(false);
     
