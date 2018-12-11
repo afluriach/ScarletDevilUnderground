@@ -20,7 +20,9 @@ class LibraryOpening : public GScene
 public:
     CREATE_FUNC(LibraryOpening);
     
-    inline LibraryOpening(){
+    inline LibraryOpening() :
+	GScene("")
+	{
         multiInit += wrap_method(LibraryOpening,start, this);
     }
     

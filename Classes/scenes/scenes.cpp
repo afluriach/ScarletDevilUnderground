@@ -21,6 +21,8 @@
 #include "types.h"
 #include "value_map.hpp"
 
+const int GScene::dialogEdgeMargin = 30;
+
 GScene* GScene::crntScene;
 string GScene::crntSceneName;
 string GScene::crntReplayName;
@@ -64,16 +66,39 @@ void GScene::restartReplayScene()
 	runSceneWithReplay(crntSceneName,crntReplayName);
 }
 
-GScene::GScene() :
+GScene::GScene(const string& mapName) :
+mapName(mapName),
+ctx(make_unique<Lua::Inst>("scene")),
 control_listener(make_unique<ControlListener>())
 {
-    //Updater has to be scheduled at init time.
+	crntScene = this;
+	
+	//Updater has to be scheduled at init time.
     multiInit.insertWithOrder(
-        wrap_method(GScene,initUpdate,this),
+        wrap_method(Node,scheduleUpdate,this),
         static_cast<int>(initOrder::core)
     );
+	multiInit.insertWithOrder(
+		wrap_method(GScene, processAdditions, this),
+		static_cast<int>(initOrder::loadObjects)
+	);
+	multiInit.insertWithOrder(
+		wrap_method(GScene, loadMap, this),
+		static_cast<int>(initOrder::mapLoad)
+	);
+	multiInit.insertWithOrder(
+		wrap_method(GScene, runScriptInit, this),
+		static_cast<int>(initOrder::postLoadObjects)
+	);
 
-    crntScene = this;
+	multiUpdate.insertWithOrder(
+		wrap_method(GScene, updateSpace, this),
+		static_cast<int>(updateOrder::spaceUpdate)
+	);
+	multiUpdate.insertWithOrder(
+		wrap_method(GScene, runScriptUpdate, this),
+		static_cast<int>(updateOrder::sceneUpdate)
+	);
     
     //Create the sublayers at construction (so they are available to mixins at construction time).
     //But do not add sublayers until init time.
@@ -81,9 +106,22 @@ control_listener(make_unique<ControlListener>())
         Layer* l = Layer::create();
         layers.insert(i, l);
     }
+
+	gspace = new GSpace(getLayer(sceneLayers::space));
+
+	string scriptPath = "scripts/scenes/" + mapName + ".lua";
+
+	if (!FileUtils::getInstance()->isFileExist(scriptPath))
+		log("GScene: %s script does not exist.", mapName.c_str());
+	else
+		ctx->runFile(scriptPath);
+
 }
 
-GScene::~GScene() {}
+GScene::~GScene()
+{
+	delete gspace;
+}
 
 bool GScene::init()
 {
@@ -115,83 +153,111 @@ void GScene::setPaused(bool p){
     isPaused = p;
 }
 
+void GScene::createDialog(const string& res, bool autoAdvance)
+{
+	app->dialog = Dialog::create();
+	app->dialog->setDialog(res);
+	app->dialog->setPosition(dialogPosition());
+	getLayer(sceneLayers::dialog)->addChild(app->dialog);
+
+	//This options are not actually mutually exclusive, but for simplicity just use a flag
+	//to choose one.
+	app->dialog->setAutoAdvance(autoAdvance);
+	app->dialog->setManualAdvance(!autoAdvance);
+
+	app->dialog->setEndHandler([=]() -> void {
+		getLayer(sceneLayers::dialog)->removeChild(app->dialog);
+		app->dialog = nullptr;
+	});
+}
+
+void GScene::stopDialog()
+{
+	if (app->dialog) {
+		getLayer(sceneLayers::dialog)->removeChild(app->dialog);
+		app->dialog = nullptr;
+	}
+}
+
 Vec2 GScene::dialogPosition()
 {
     return Vec2(App::width/2, Dialog::height/2 + dialogEdgeMargin);
 }
 
-GSpaceScene::GSpaceScene()
+void GScene::updateSpace()
 {
-    gspace = new GSpace(getLayer(sceneLayers::space));
-
-    multiInit.insertWithOrder(
-        wrap_method(GSpaceScene,processAdditions,this),
-        static_cast<int>(initOrder::loadObjects)
-    );
-    multiUpdate.insertWithOrder(
-        wrap_method(GSpaceScene,updateSpace,this),
-        static_cast<int>(updateOrder::spaceUpdate)
-    );
+	gspace->update();
 }
 
-GSpaceScene::~GSpaceScene()
+void GScene::processAdditions()
 {
-    delete gspace;
+	gspace->processAdditions();
 }
 
-void GSpaceScene::updateSpace()
+void GScene::move(const Vec2& w)
 {
-    gspace->update();
+	Vec2 v = w * spaceZoom;
+	Vec2 pos = getLayer(sceneLayers::space)->getPosition();
+
+	getLayer(sceneLayers::space)->setPosition(pos - v);
 }
 
-void GSpaceScene::processAdditions()
+void GScene::setUnitPosition(const SpaceVect& v)
 {
-    gspace->processAdditions();
+	getLayer(sceneLayers::space)->setPosition(
+		(-App::pixelsPerTile*v.x + App::width / 2)*spaceZoom,
+		(-App::pixelsPerTile*v.y + App::height / 2)*spaceZoom
+	);
 }
 
-MapScene::MapScene(const string& res) :
-mapRes("maps/"+res+".tmx")
+SpaceVect GScene::getMapSize()
 {
-    multiInit.insertWithOrder(
-        wrap_method(MapScene,loadMap,this),
-        static_cast<int>(initOrder::mapLoad)
-    );
+	return toChipmunk(tileMap->getMapSize());
 }
 
-SpaceVect MapScene::getMapSize()
+Layer* GScene::getLayer(sceneLayers layer)
 {
-    return toChipmunk(tileMap->getMapSize());
+	auto it = layers.find(static_cast<int>(layer));
+	if (it == layers.end()) return nullptr;
+	return it->second;
 }
 
-
-void MapScene::loadObjectGroup(TMXObjectGroup* group)
+void GScene::loadMap()
 {
-    const ValueVector& objects = group->getObjects();
-    
-    foreach(Value obj, objects)
-    {
-        ValueMap& objAsMap = obj.asValueMap();
-        convertToUnitSpace(objAsMap);
-        gspace->createObject(objAsMap);
-    }
+	string mapResPath = "maps/" + mapName + ".tmx";
+
+	if (!mapName.empty() && FileUtils::getInstance()->isFileExist(mapResPath)) {
+		tileMap = TMXTiledMap::create(mapResPath);
+	}
+
+	if (tileMap) {
+		log("Map %s loaded.", mapResPath.c_str());
+	}
+	else {
+		log("Map %s not found.", mapResPath.c_str());
+		return;
+	}
+
+	getLayer(sceneLayers::space)->addChild(
+		tileMap,
+		static_cast<int>(GraphicsLayer::map)
+	);
+	loadPaths(*tileMap);
+	loadRooms(*tileMap);
+	loadFloorSegments(*tileMap);
+	loadMapObjects(*tileMap);
+
+	cocos2d::CCSize size = tileMap->getMapSize();
+	gspace->setSize(size.width, size.height);
+
+	loadWalls();
+	gspace->addWallBlock(SpaceVect(-1, 0), SpaceVect(0, size.height));
+	gspace->addWallBlock(SpaceVect(size.width, 0), SpaceVect(size.width + 1, size.height));
+	gspace->addWallBlock(SpaceVect(0, size.height), SpaceVect(size.width, size.height + 1));
+	gspace->addWallBlock(SpaceVect(0, -1), SpaceVect(size.width, 0));
 }
 
-void MapScene::loadWalls()
-{
-    TMXObjectGroup* walls = tileMap->getObjectGroup("walls");
-    if(!walls)
-        return;
-    
-    foreach(Value obj, walls->getObjects())
-    {
-        ValueMap& objAsMap = obj.asValueMap();
-        cocos2d::CCRect area = getUnitspaceRectangle(objAsMap);
-        gspace->addWallBlock(toChipmunk(area.origin), toChipmunk(area.getUpperCorner()));
-    }
-}
-
-
-void MapScene::loadMapObjects(const TMXTiledMap& map)
+void GScene::loadMapObjects(const TMXTiledMap& map)
 {
     Vector<TMXObjectGroup*> objLayers = map.getObjectGroups();
     
@@ -203,7 +269,7 @@ void MapScene::loadMapObjects(const TMXTiledMap& map)
     }
 }
 
-void MapScene::loadPaths(const TMXTiledMap& map)
+void GScene::loadPaths(const TMXTiledMap& map)
 {
 	Vector<TMXObjectGroup*> objLayers = map.getObjectGroups();
 
@@ -233,7 +299,7 @@ void MapScene::loadPaths(const TMXTiledMap& map)
 	}
 }
 
-void MapScene::loadRooms(const TMXTiledMap& map)
+void GScene::loadRooms(const TMXTiledMap& map)
 {
 	TMXObjectGroup* rooms = map.getObjectGroup("rooms");
 	if (!rooms)
@@ -246,7 +312,7 @@ void MapScene::loadRooms(const TMXTiledMap& map)
 	}
 }
 
-void MapScene::loadFloorSegments(const TMXTiledMap& map)
+void GScene::loadFloorSegments(const TMXTiledMap& map)
 {
 	TMXObjectGroup* floor = map.getObjectGroup("floor");
 	if (!floor)
@@ -255,104 +321,37 @@ void MapScene::loadFloorSegments(const TMXTiledMap& map)
 	loadObjectGroup(map.getObjectGroup("floor"));
 }
 
-void MapScene::loadMap()
+void GScene::loadObjectGroup(TMXObjectGroup* group)
 {
-    tileMap = TMXTiledMap::create(mapRes);
-    
-    if(tileMap)
-        log("Map %s loaded.", mapRes.c_str());
-    else
-        log("Map %s not found.", mapRes.c_str());
-    
-    getLayer(sceneLayers::space)->addChild(
-        tileMap,
-        static_cast<int>(GraphicsLayer::map)
-    );
-	loadPaths(*tileMap);
-	loadRooms(*tileMap);
-	loadFloorSegments(*tileMap);
-    loadMapObjects(*tileMap);
-    
-    cocos2d::CCSize size = tileMap->getMapSize();
-    gspace->setSize(size.width, size.height);
-    
-    loadWalls();
-    gspace->addWallBlock(SpaceVect(-1,0), SpaceVect(0,size.height));
-    gspace->addWallBlock(SpaceVect(size.width,0), SpaceVect(size.width+1,size.height));
-    gspace->addWallBlock(SpaceVect(0,size.height), SpaceVect(size.width,size.height+1));
-    gspace->addWallBlock(SpaceVect(0,-1), SpaceVect(size.width,0));
+	const ValueVector& objects = group->getObjects();
+
+	foreach(Value obj, objects)
+	{
+		ValueMap& objAsMap = obj.asValueMap();
+		convertToUnitSpace(objAsMap);
+		gspace->createObject(objAsMap);
+	}
 }
 
-ScriptedScene::ScriptedScene(const string& res) :
-ctx(make_unique<Lua::Inst>("scene"))
+void GScene::loadWalls()
 {
-    multiInit.insertWithOrder(
-        wrap_method(ScriptedScene, runInit,this),
-        static_cast<int>(initOrder::postLoadObjects)
-    );
-    multiUpdate.insertWithOrder(
-        wrap_method(ScriptedScene,runUpdate,this),
-        static_cast<int>(updateOrder::sceneUpdate)
-    );
-    
-    if(!res.empty())
-    {
-        string path = "scripts/scenes/"+res+".lua";
-    
-        if(!FileUtils::getInstance()->isFileExist(path))
-            log("ScriptedScene: %s script does not exist.", res.c_str());
-        else
-            ctx->runFile(path);
-    }
+	TMXObjectGroup* walls = tileMap->getObjectGroup("walls");
+	if (!walls)
+		return;
+
+	foreach(Value obj, walls->getObjects())
+	{
+		ValueMap& objAsMap = obj.asValueMap();
+		cocos2d::CCRect area = getUnitspaceRectangle(objAsMap);
+		gspace->addWallBlock(toChipmunk(area.origin), toChipmunk(area.getUpperCorner()));
+	}
 }
 
-void GScene::move(const Vec2& w)
-{
-    Vec2 v = w * spaceZoom;
-    Vec2 pos = getLayer(sceneLayers::space)->getPosition();
-    
-    getLayer(sceneLayers::space)->setPosition(pos - v);
-}
-
-void GScene::setUnitPosition(const SpaceVect& v)
-{
-    getLayer(sceneLayers::space)->setPosition(
-        (-App::pixelsPerTile*v.x+App::width/2)*spaceZoom,
-        (-App::pixelsPerTile*v.y+App::height/2)*spaceZoom
-    );
-}
-
-void GScene::createDialog(const string& res, bool autoAdvance)
-{
-    app->dialog = Dialog::create();
-    app->dialog->setDialog(res);
-    app->dialog->setPosition(dialogPosition());
-    getLayer(sceneLayers::dialog)->addChild(app->dialog);
-    
-    //This options are not actually mutually exclusive, but for simplicity just use a flag
-    //to choose one.
-    app->dialog->setAutoAdvance(autoAdvance);
-    app->dialog->setManualAdvance(!autoAdvance);
-    
-    app->dialog->setEndHandler([=]() -> void {
-        getLayer(sceneLayers::dialog)->removeChild(app->dialog);
-        app->dialog = nullptr;
-    });
-}
-
-void GScene::stopDialog()
-{
-    if(app->dialog){
-        getLayer(sceneLayers::dialog)->removeChild(app->dialog);
-        app->dialog = nullptr;
-    }
-}
-
-void ScriptedScene::runInit()
+void GScene::runScriptInit()
 {
     ctx->callIfExistsNoReturn("init");
 }
-void ScriptedScene::runUpdate()
+void GScene::runScriptUpdate()
 {
     ctx->callIfExistsNoReturn("update");
 }

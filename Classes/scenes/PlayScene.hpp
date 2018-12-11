@@ -18,7 +18,7 @@
 class GObject;
 class PauseMenu;
 
-class PlayScene : virtual public GScene, public MapScene, public ScriptedScene
+class PlayScene : public GScene
 {
 public:
     static const Color3B fadeoutColor;

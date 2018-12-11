@@ -53,7 +53,6 @@ const unordered_map<string,GScene::AdapterType> GScene::adapters = boost::assign
     entry_same(GardenPath)
     entry_same(Library)
     entry_same(LibraryOpening)
-    entry_same(MapScene)
     entry_same(TitleMenu)
 
     entry_same(Clearing)

@@ -37,8 +37,7 @@ const Color3B PlayScene::fadeoutColor = Color3B(128,0,0);
 const float PlayScene::fadeoutLength = 3.0f;
 
 PlayScene::PlayScene(const string& name) :
-MapScene(name),
-ScriptedScene(name)
+GScene(name)
 {
     multiInit.insertWithOrder(
         wrap_method(PlayScene,trackPlayer,this),

@@ -66,122 +66,79 @@ public:
         end
     };
 
-    const int dialogEdgeMargin = 30;
-
     typedef function<void () > AdapterType;
+
     //Map each class name to a constructor adapter function.
+	//Defined in SceneMapping.cpp.
     static const unordered_map<string,AdapterType> adapters;
-    
+
+	static const int dialogEdgeMargin;
+
     static GScene* crntScene;
 	static string crntSceneName;
 	static string crntReplayName;
-	unique_ptr<ControlListener> control_listener;
 
-    static void runScene(const string& name);
+	static void runScene(const string& name);
 	static void runSceneWithReplay(const string& sceneName, const string& replayName);
 	static void restartScene();
 	static void restartReplayScene();
 
-//Rather than managing overrides to the init method, a scene simply registers their own.
-//Init methods must be installed at construction time.
-
-    GScene();
+    GScene(const string& mapName);
     virtual ~GScene();
     bool init();
     void update(float dt);
     
     void setPaused(bool p);
-    
+	inline virtual void enterPause() {}
+	inline virtual void exitPause() {}
+
+	void createDialog(const string& res, bool autoAdvance);
+	void stopDialog();
+	Vec2 dialogPosition();
+
+	void updateSpace();
+	void processAdditions();
+
     void move(const Vec2& v);
     //The different vector type is intentional, as Chipmunk vector implies
     //unit space as opposed to pixel space.
     void setUnitPosition(const SpaceVect& v);
-    
+	SpaceVect getMapSize();
+
+	Layer* getLayer(sceneLayers layer);
+
     util::multifunction<void(void)> multiInit;
     util::multifunction<void(void)> multiUpdate;
-    
-    //Wrapper to call a method of a derived type with a GScene this.
-    //template<typename Derived, void (Derived::*Method)(void)>
-    //function<void(GScene*)> wrap()
-    //{
-    //    return wrapAsBaseMethod<GScene, Derived, Method>();
-    //}
-    
-    inline Layer* getLayer(sceneLayers layer){
-        auto it = layers.find(static_cast<int>(layer));
-        if(it == layers.end()) return nullptr;
-        return it->second;
-    }
-    
-    //Nodes should not be directly added to a GScene, but rather use one of the defined layers.
-    inline void addChild(Node* n, int z) {throw runtime_error("addChild: Node should not be added directly to GScene.");}
-    inline void addChild(Node* n) {throw runtime_error("addChild: Node should not be added directly to GScene.");};
-    
-    void createDialog(const string& res, bool autoAdvance);
-    void stopDialog();
-    Vec2 dialogPosition();
-    
-    inline virtual void enterPause(){}
-	inline virtual void exitPause(){}
-protected:    
-    bool isPaused = false;
 
-    //Make sure to use a cocos map so cocos refcounting works.
-    cocos2d::Map<int,Layer*> layers;
-    //the scale applied to the space layer
-    float spaceZoom = 1;
-    inline void initUpdate()
-    {
-        scheduleUpdate();
-    }
-};
-
-class GSpaceScene : virtual public GScene
-{
-public:
-    GSpace* gspace;
-
-    GSpaceScene();
-    virtual ~GSpaceScene();
-    
-    void updateSpace();
-    //Process added objects so they are availible to anything that queries the GSpace.
-    //This is needed for any scene init code that wishes to access loaded objects.
-    void processAdditions();
-};
-
-class MapScene : virtual public GSpaceScene
-{
-public:
-    MapScene(const string& res);
-    SpaceVect getMapSize();
-
+	unique_ptr<ControlListener> control_listener;
 protected:
-    string mapRes;
-    Layer* mapLayer;
-    TMXTiledMap* tileMap;
-    
-    void loadMapObjects(const TMXTiledMap& map);
-    //Add a map object layer to space.
+	//Run at init time. It will call the following load methods.
+	void loadMap();
+
+	void loadMapObjects(const TMXTiledMap& map);
+	//Add a map object layer to space.
 	void loadPaths(const TMXTiledMap& map);
 	void loadRooms(const TMXTiledMap& map);
 	void loadFloorSegments(const TMXTiledMap& map);
 	void loadObjectGroup(TMXObjectGroup* group);
-    void loadWalls();
-    
-    //Run at init time.
-    void loadMap();
-};
+	void loadWalls();
 
-class ScriptedScene : virtual public GScene
-{
-public:
-    ScriptedScene(const string& res);
+	void runScriptInit();
+	void runScriptUpdate();
 
-    void runInit();
-    void runUpdate();
-    
-    unique_ptr<Lua::Inst> ctx;
+	//Make sure to use a cocos map so cocos refcounting works.
+	cocos2d::Map<int, Layer*> layers;
+	GSpace* gspace;
+	//the scale applied to the space layer
+	float spaceZoom = 1;
+
+	string mapName;
+	Layer* mapLayer = nullptr;
+	TMXTiledMap* tileMap = nullptr;
+
+	unique_ptr<Lua::Inst> ctx;
+
+	bool isPaused = false;
 };
 
 #endif /* scenes_h */
