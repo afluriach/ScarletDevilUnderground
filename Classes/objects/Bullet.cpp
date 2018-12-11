@@ -30,6 +30,10 @@ IceFairyBullet::IceFairyBullet(GSpace* space, ObjectIDType id, float angle, cons
 	GObject(space, id, "IceFairyBullet", pos, angle, true)
 {}
 
+LauncherBullet::LauncherBullet(GSpace* space, ObjectIDType id, float angle, const SpaceVect& pos) :
+	GObject(space, id, "LauncherBullet", pos, angle, true)
+{}
+
 shared_ptr<MagicEffect> IceFairyBullet::getMagicEffect(gobject_ref target) {
 	return make_shared<FrostStatusEffect>(target, 0.25f);
 }

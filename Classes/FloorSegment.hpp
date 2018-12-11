@@ -11,6 +11,7 @@
 
 #include "GObject.hpp"
 #include "GObjectMixins.hpp"
+#include "object_ref.hpp"
 #include "types.h"
 
 class FloorSegment : virtual public GObject, public NoSprite, public RectangleMapBody
@@ -35,6 +36,30 @@ public:
 
 	virtual void onContact(GObject* obj);
 	virtual void onEndContact(GObject* obj);
+};
+
+class MineFloor : public FloorSegment
+{
+public:
+	MapObjCons(MineFloor);
+
+	virtual void onContact(GObject* obj);
+	virtual void onEndContact(GObject* obj);
+};
+
+class PressurePlate : public FloorSegment, public RegisterInit<PressurePlate>
+{
+public:
+	MapObjCons(PressurePlate);
+
+	void init();
+
+	virtual void onContact(GObject* obj);
+	virtual void onEndContact(GObject* obj);
+protected:
+	set<gobject_ref> crntContacts;
+	vector<string> targetNames;
+	vector<object_ref<ActivateableObject>> target;
 };
 
 class Pitfall : public FloorSegment

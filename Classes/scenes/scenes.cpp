@@ -66,8 +66,20 @@ void GScene::restartReplayScene()
 	runSceneWithReplay(crntSceneName,crntReplayName);
 }
 
+vector<GScene::MapEntry> GScene::singleMapEntry(const string& mapName)
+{
+	return {
+		{mapName, IntVec2(0,0)}
+	};
+}
+
 GScene::GScene(const string& mapName) :
-mapName(mapName),
+GScene(mapName, singleMapEntry(mapName))
+{
+}
+
+GScene::GScene(const string& sceneName, const vector<MapEntry>& maps) :
+maps(maps),
 ctx(make_unique<Lua::Inst>("scene")),
 control_listener(make_unique<ControlListener>())
 {
@@ -83,7 +95,7 @@ control_listener(make_unique<ControlListener>())
 		static_cast<int>(initOrder::loadObjects)
 	);
 	multiInit.insertWithOrder(
-		wrap_method(GScene, loadMap, this),
+		wrap_method(GScene, loadMaps, this),
 		static_cast<int>(initOrder::mapLoad)
 	);
 	multiInit.insertWithOrder(
@@ -109,10 +121,10 @@ control_listener(make_unique<ControlListener>())
 
 	gspace = new GSpace(getLayer(sceneLayers::space));
 
-	string scriptPath = "scripts/scenes/" + mapName + ".lua";
+	string scriptPath = "scripts/scenes/" + sceneName + ".lua";
 
 	if (!FileUtils::getInstance()->isFileExist(scriptPath))
-		log("GScene: %s script does not exist.", mapName.c_str());
+		log("GScene: %s script does not exist.", sceneName.c_str());
 	else
 		ctx->runFile(scriptPath);
 
@@ -212,7 +224,7 @@ void GScene::setUnitPosition(const SpaceVect& v)
 
 SpaceVect GScene::getMapSize()
 {
-	return toChipmunk(tileMap->getMapSize());
+	return SpaceVect(dimensions.first, dimensions.second);
 }
 
 Layer* GScene::getLayer(sceneLayers layer)
@@ -222,11 +234,27 @@ Layer* GScene::getLayer(sceneLayers layer)
 	return it->second;
 }
 
-void GScene::loadMap()
+void GScene::loadMaps()
 {
-	string mapResPath = "maps/" + mapName + ".tmx";
+	for(MapEntry entry : maps)
+	{
+		loadMap(entry);
+	}
 
-	if (!mapName.empty() && FileUtils::getInstance()->isFileExist(mapResPath)) {
+	gspace->setSize(dimensions.first, dimensions.second);
+
+	gspace->addWallBlock(SpaceVect(-1, 0), SpaceVect(0, dimensions.second));
+	gspace->addWallBlock(SpaceVect(dimensions.first, 0), SpaceVect(dimensions.first + 1, dimensions.second));
+	gspace->addWallBlock(SpaceVect(0, dimensions.second), SpaceVect(dimensions.first, dimensions.second + 1));
+	gspace->addWallBlock(SpaceVect(0, -1), SpaceVect(dimensions.first, 0));
+}
+
+void GScene::loadMap(const MapEntry& mapEntry)
+{
+	string mapResPath = "maps/" + mapEntry.first + ".tmx";
+	TMXTiledMap* tileMap = nullptr;
+
+	if (FileUtils::getInstance()->isFileExist(mapResPath)) {
 		tileMap = TMXTiledMap::create(mapResPath);
 	}
 
@@ -238,26 +266,28 @@ void GScene::loadMap()
 		return;
 	}
 
-	getLayer(sceneLayers::space)->addChild(
+	getLayer(sceneLayers::space)->positionAndAddNode(
 		tileMap,
-		static_cast<int>(GraphicsLayer::map)
+		static_cast<int>(GraphicsLayer::map),
+		toCocos(mapEntry.second) * App::pixelsPerTile,
+		1.0f
 	);
-	loadPaths(*tileMap);
-	loadRooms(*tileMap);
-	loadFloorSegments(*tileMap);
-	loadMapObjects(*tileMap);
+
+	loadPaths(*tileMap, mapEntry.second);
+	loadRooms(*tileMap, mapEntry.second);
+	loadFloorSegments(*tileMap, mapEntry.second);
+	loadMapObjects(*tileMap, mapEntry.second);
+	loadWalls(*tileMap, mapEntry.second);
 
 	cocos2d::CCSize size = tileMap->getMapSize();
-	gspace->setSize(size.width, size.height);
 
-	loadWalls();
-	gspace->addWallBlock(SpaceVect(-1, 0), SpaceVect(0, size.height));
-	gspace->addWallBlock(SpaceVect(size.width, 0), SpaceVect(size.width + 1, size.height));
-	gspace->addWallBlock(SpaceVect(0, size.height), SpaceVect(size.width, size.height + 1));
-	gspace->addWallBlock(SpaceVect(0, -1), SpaceVect(size.width, 0));
+	dimensions = IntVec2(
+		max(dimensions.first, static_cast<int>(size.width)),
+		max(dimensions.second, static_cast<int>(size.height))
+	);
 }
 
-void GScene::loadMapObjects(const TMXTiledMap& map)
+void GScene::loadMapObjects(const TMXTiledMap& map, IntVec2 offset)
 {
     Vector<TMXObjectGroup*> objLayers = map.getObjectGroups();
     
@@ -265,11 +295,11 @@ void GScene::loadMapObjects(const TMXTiledMap& map)
         log("Objects group missing.");
     }
     else{
-        loadObjectGroup(map.getObjectGroup("objects"));
+        loadObjectGroup(map.getObjectGroup("objects"), offset);
     }
 }
 
-void GScene::loadPaths(const TMXTiledMap& map)
+void GScene::loadPaths(const TMXTiledMap& map, IntVec2 offset)
 {
 	Vector<TMXObjectGroup*> objLayers = map.getObjectGroups();
 
@@ -286,7 +316,7 @@ void GScene::loadPaths(const TMXTiledMap& map)
 
 		string name = asMap.at("name").asString();
 		ValueVector points = asMap.at("polylinePoints").asValueVector();
-		SpaceVect origin(asMap.at("x").asFloat(), asMap.at("y").asFloat());
+		SpaceVect origin(asMap.at("x").asFloat() + offset.first, asMap.at("y").asFloat() + offset.second);
 
 		foreach(Value point, points)
 		{
@@ -299,7 +329,7 @@ void GScene::loadPaths(const TMXTiledMap& map)
 	}
 }
 
-void GScene::loadRooms(const TMXTiledMap& map)
+void GScene::loadRooms(const TMXTiledMap& map, IntVec2 offset)
 {
 	TMXObjectGroup* rooms = map.getObjectGroup("rooms");
 	if (!rooms)
@@ -308,41 +338,41 @@ void GScene::loadRooms(const TMXTiledMap& map)
 	foreach(Value obj, rooms->getObjects())
 	{
 		ValueMap& objAsMap = obj.asValueMap();
-		gspace->addRoom(getUnitspaceRectangle(objAsMap));
+		gspace->addRoom(getUnitspaceRectangle(objAsMap,offset));
 	}
 }
 
-void GScene::loadFloorSegments(const TMXTiledMap& map)
+void GScene::loadFloorSegments(const TMXTiledMap& map, IntVec2 offset)
 {
 	TMXObjectGroup* floor = map.getObjectGroup("floor");
 	if (!floor)
 		return;
 
-	loadObjectGroup(map.getObjectGroup("floor"));
+	loadObjectGroup(map.getObjectGroup("floor"), offset);
 }
 
-void GScene::loadObjectGroup(TMXObjectGroup* group)
+void GScene::loadObjectGroup(TMXObjectGroup* group, IntVec2 offset)
 {
 	const ValueVector& objects = group->getObjects();
 
 	foreach(Value obj, objects)
 	{
 		ValueMap& objAsMap = obj.asValueMap();
-		convertToUnitSpace(objAsMap);
+		convertToUnitSpace(objAsMap, offset);
 		gspace->createObject(objAsMap);
 	}
 }
 
-void GScene::loadWalls()
+void GScene::loadWalls(const TMXTiledMap& map, IntVec2 offset)
 {
-	TMXObjectGroup* walls = tileMap->getObjectGroup("walls");
+	TMXObjectGroup* walls = map.getObjectGroup("walls");
 	if (!walls)
 		return;
 
 	foreach(Value obj, walls->getObjects())
 	{
 		ValueMap& objAsMap = obj.asValueMap();
-		cocos2d::CCRect area = getUnitspaceRectangle(objAsMap);
+		cocos2d::CCRect area = getUnitspaceRectangle(objAsMap, offset);
 		gspace->addWallBlock(toChipmunk(area.origin), toChipmunk(area.getUpperCorner()));
 	}
 }

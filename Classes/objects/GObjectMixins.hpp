@@ -45,6 +45,13 @@ public:
     virtual string interactionIcon() = 0;
 };
 
+class ActivateableObject : public virtual GObject
+{
+public:
+	virtual void activate() = 0;
+	virtual void deactivate() = 0;
+};
+
 class DialogEntity : public InteractibleObject
 {
     virtual bool isDialogAvailable() = 0;
@@ -233,6 +240,8 @@ public:
 
 	virtual inline bool getSensor() const { return true; }
 	virtual inline float getMass() const { return 0.1f; }
+	virtual inline PhysicsLayers getLayers() const { return PhysicsLayers::ground; }
+
 	virtual inline GraphicsLayer sceneLayer() const { return GraphicsLayer::ground; }
 
 	//Interface

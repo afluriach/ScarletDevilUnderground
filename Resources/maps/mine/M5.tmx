@@ -1,0 +1,142 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.0" tiledversion="1.0.3" orientation="orthogonal" renderorder="right-down" width="17" height="17" tilewidth="128" tileheight="128" nextobjectid="66">
+ <tileset firstgid="1" name="grey stone wall" tilewidth="128" tileheight="128" tilecount="4" columns="2">
+  <image source="grey stone wall grain.png" width="256" height="256"/>
+ </tileset>
+ <tileset firstgid="5" name="mine floor" tilewidth="128" tileheight="128" tilecount="4" columns="2">
+  <image source="mine floor.png" width="256" height="256"/>
+ </tileset>
+ <layer name="floor" width="17" height="17">
+  <data encoding="base64" compression="zlib">
+   eJxjYGBgYANiVjJpEGAHYg4G7ICDSHlk89ABun245EfdMeqOUXfQ1x3o9pFTfgAAqCkDYA==
+  </data>
+ </layer>
+ <layer name="wall_tiles" width="17" height="17">
+  <data encoding="base64" compression="zlib">
+   eJxjYGBgYARiJhw0AxHyzAyUARYks8gFTKPuGHXHqDvo7g4YzYyDJkYeAA//AJQ=
+  </data>
+ </layer>
+ <objectgroup name="floor">
+  <object id="38" type="MineFloor" x="896" y="1664" width="384" height="384"/>
+  <object id="39" type="Pitfall" x="256" y="128" width="640" height="1920"/>
+  <object id="40" type="Pitfall" x="1280" y="128" width="640" height="1920"/>
+  <object id="42" name="plate1" type="PressurePlate" x="896" y="1536" width="384" height="128">
+   <properties>
+    <property name="target" value="launcher1 launcher2 launcher3 launcher4 launcher5 launcher6"/>
+   </properties>
+  </object>
+  <object id="43" type="PressurePlate" x="896" y="512" width="384" height="128">
+   <properties>
+    <property name="target" value="launcher13 launcher14 launcher15 launcher16 launcher17 launcher18"/>
+   </properties>
+  </object>
+  <object id="44" type="PressurePlate" x="896" y="1024" width="384" height="128">
+   <properties>
+    <property name="target" value="launcher7 launcher8 launcher9 launcher10 launcher11 launcher12"/>
+   </properties>
+  </object>
+  <object id="45" type="MineFloor" x="896" y="640" width="384" height="384"/>
+  <object id="46" type="MineFloor" x="896" y="1152" width="384" height="384"/>
+  <object id="47" type="MineFloor" x="896" y="128" width="384" height="384"/>
+ </objectgroup>
+ <objectgroup name="walls">
+  <object id="26" x="128" y="0" width="896" height="128"/>
+  <object id="28" x="128" y="2048" width="896" height="128"/>
+  <object id="29" x="0" y="128" width="128" height="1920"/>
+  <object id="30" x="1152" y="2048" width="896" height="128"/>
+  <object id="31" x="2048" y="128" width="128" height="1920"/>
+  <object id="37" x="1152" y="0" width="896" height="128"/>
+ </objectgroup>
+ <objectgroup name="objects">
+  <object id="48" name="launcher14" type="Launcher" x="128" y="512" width="128" height="128">
+   <properties>
+    <property name="direction" value="right"/>
+   </properties>
+  </object>
+  <object id="49" name="launcher15" type="Launcher" x="128" y="384" width="128" height="128">
+   <properties>
+    <property name="direction" value="right"/>
+   </properties>
+  </object>
+  <object id="50" name="launcher9" type="Launcher" x="128" y="896" width="128" height="128">
+   <properties>
+    <property name="direction" value="right"/>
+   </properties>
+  </object>
+  <object id="51" name="launcher13" type="Launcher" x="128" y="640" width="128" height="128">
+   <properties>
+    <property name="direction" value="right"/>
+   </properties>
+  </object>
+  <object id="52" name="launcher8" type="Launcher" x="128" y="1024" width="128" height="128">
+   <properties>
+    <property name="direction" value="right"/>
+   </properties>
+  </object>
+  <object id="53" name="launcher7" type="Launcher" x="128" y="1152" width="128" height="128">
+   <properties>
+    <property name="direction" value="right"/>
+   </properties>
+  </object>
+  <object id="54" name="launcher2" type="Launcher" x="128" y="1536" width="128" height="128">
+   <properties>
+    <property name="direction" value="right"/>
+   </properties>
+  </object>
+  <object id="55" name="launcher3" type="Launcher" x="128" y="1408" width="128" height="128">
+   <properties>
+    <property name="direction" value="right"/>
+   </properties>
+  </object>
+  <object id="56" name="launcher1" type="Launcher" x="128" y="1664" width="128" height="128">
+   <properties>
+    <property name="direction" value="right"/>
+   </properties>
+  </object>
+  <object id="57" name="launcher17" type="Launcher" x="1920" y="512" width="128" height="128">
+   <properties>
+    <property name="direction" value="left"/>
+   </properties>
+  </object>
+  <object id="58" name="launcher18" type="Launcher" x="1920" y="384" width="128" height="128">
+   <properties>
+    <property name="direction" value="left"/>
+   </properties>
+  </object>
+  <object id="59" name="launcher16" type="Launcher" x="1920" y="640" width="128" height="128">
+   <properties>
+    <property name="direction" value="left"/>
+   </properties>
+  </object>
+  <object id="60" name="launcher12" type="Launcher" x="1920" y="896" width="128" height="128">
+   <properties>
+    <property name="direction" value="left"/>
+   </properties>
+  </object>
+  <object id="61" name="launcher11" type="Launcher" x="1920" y="1024" width="128" height="128">
+   <properties>
+    <property name="direction" value="left"/>
+   </properties>
+  </object>
+  <object id="62" name="launcher10" type="Launcher" x="1920" y="1152" width="128" height="128">
+   <properties>
+    <property name="direction" value="left"/>
+   </properties>
+  </object>
+  <object id="63" name="launcher6" type="Launcher" x="1920" y="1408" width="128" height="128">
+   <properties>
+    <property name="direction" value="left"/>
+   </properties>
+  </object>
+  <object id="64" name="launcher5" type="Launcher" x="1920" y="1536" width="128" height="128">
+   <properties>
+    <property name="direction" value="left"/>
+   </properties>
+  </object>
+  <object id="65" name="launcher4" type="Launcher" x="1920" y="1664" width="128" height="128">
+   <properties>
+    <property name="direction" value="left"/>
+   </properties>
+  </object>
+ </objectgroup>
+</map>

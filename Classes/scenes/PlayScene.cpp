@@ -36,8 +36,12 @@ void printGroup(TMXObjectGroup* group)
 const Color3B PlayScene::fadeoutColor = Color3B(128,0,0);
 const float PlayScene::fadeoutLength = 3.0f;
 
-PlayScene::PlayScene(const string& name) :
-GScene(name)
+PlayScene::PlayScene(const string& mapName) :
+	PlayScene(mapName, singleMapEntry(mapName))
+{}
+
+PlayScene::PlayScene(const string& sceneName, const vector<MapEntry>& maps) :
+GScene(sceneName, maps)
 {
     multiInit.insertWithOrder(
         wrap_method(PlayScene,trackPlayer,this),
@@ -347,6 +351,7 @@ ControlInfo PlayScene::getControlData()
 		}
 		else {
 			log("ControlReplay out of bounds, frame: %d", crntFrame);
+			return ControlInfo();
 		}
 	}
 	else {

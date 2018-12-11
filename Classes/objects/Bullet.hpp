@@ -87,6 +87,21 @@ public:
 
 };
 
+class LauncherBullet : virtual public GObject, public EnemyBullet, public CircleBody, public ImageSprite, public DirectionalLaunch
+{
+public:
+	LauncherBullet(GSpace* space, ObjectIDType id, float angle, const SpaceVect& pos);
+
+	virtual inline float getMaxSpeed() const { return 10.0f; }
+	virtual inline float getRadius() const { return 0.3f; }
+
+	virtual inline string imageSpritePath() const { return "sprites/launcher_bullet.png"; }
+
+	static constexpr float spriteBaseRadius = 0.83f;
+	inline virtual float zoom() const { return getRadius() / spriteBaseRadius * 2; }
+
+	virtual inline shared_ptr<MagicEffect> getMagicEffect(gobject_ref target) { return nullptr; }
+};
 
 class IllusionDialDagger : virtual public GObject, public EnemyBullet, public RectangleBody, public ImageSprite
 {

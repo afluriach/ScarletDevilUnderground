@@ -25,6 +25,7 @@ public:
     static const float fadeoutLength;
 
     PlayScene(const string& name);
+	PlayScene(const string& sceneName, const vector<MapEntry>& maps);
 
 	virtual ~PlayScene();
 

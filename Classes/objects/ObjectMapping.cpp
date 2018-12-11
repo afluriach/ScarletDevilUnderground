@@ -23,6 +23,7 @@
 #include "Glyph.hpp"
 #include "GState.hpp"
 #include "Items.hpp"
+#include "Launcher.hpp"
 #include "Marisa.hpp"
 #include "Patchouli.hpp"
 #include "Player.hpp"
@@ -82,6 +83,8 @@ const unordered_map<string,GObject::AdapterType> GObject::adapters =
     entry_same(Torch)
     entry_same(CollectGlyph)
 
+	entry_same(Launcher)
+
     entry_same(PowerUp)
 
     item_entry_same(GraveyardKey)
@@ -102,7 +105,9 @@ const unordered_map<string,GObject::AdapterType> GObject::adapters =
 	entry_same(IceFairy)
 
 	entry_same(DirtFloorCave)
+	entry_same(MineFloor)
 	entry_same(Pitfall)
+	entry_same(PressurePlate)
 
 	entry_same(Goal)
 

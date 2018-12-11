@@ -67,6 +67,7 @@ public:
     };
 
     typedef function<void () > AdapterType;
+	typedef pair<string, IntVec2> MapEntry;
 
     //Map each class name to a constructor adapter function.
 	//Defined in SceneMapping.cpp.
@@ -83,7 +84,11 @@ public:
 	static void restartScene();
 	static void restartReplayScene();
 
-    GScene(const string& mapName);
+	vector<MapEntry> singleMapEntry(const string& mapName);
+
+	GScene(const string& mapName);
+	GScene(const string& sceneName, const vector<MapEntry>& maps);
+
     virtual ~GScene();
     bool init();
     void update(float dt);
@@ -113,15 +118,16 @@ public:
 	unique_ptr<ControlListener> control_listener;
 protected:
 	//Run at init time. It will call the following load methods.
-	void loadMap();
+	void loadMaps();
+	void loadMap(const MapEntry& mapEntry);
 
-	void loadMapObjects(const TMXTiledMap& map);
+	void loadMapObjects(const TMXTiledMap& map, IntVec2 offset);
 	//Add a map object layer to space.
-	void loadPaths(const TMXTiledMap& map);
-	void loadRooms(const TMXTiledMap& map);
-	void loadFloorSegments(const TMXTiledMap& map);
-	void loadObjectGroup(TMXObjectGroup* group);
-	void loadWalls();
+	void loadPaths(const TMXTiledMap& map, IntVec2 offset);
+	void loadRooms(const TMXTiledMap& map, IntVec2 offset);
+	void loadFloorSegments(const TMXTiledMap& map, IntVec2 offset);
+	void loadObjectGroup(TMXObjectGroup* group, IntVec2 offset);
+	void loadWalls(const TMXTiledMap& map, IntVec2 offset);
 
 	void runScriptInit();
 	void runScriptUpdate();
@@ -132,9 +138,8 @@ protected:
 	//the scale applied to the space layer
 	float spaceZoom = 1;
 
-	string mapName;
-	Layer* mapLayer = nullptr;
-	TMXTiledMap* tileMap = nullptr;
+	vector<MapEntry> maps;
+	IntVec2 dimensions;
 
 	unique_ptr<Lua::Inst> ctx;
 

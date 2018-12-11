@@ -11,6 +11,7 @@
 #include "Collect.h"
 #include "Garden.hpp"
 #include "LibraryOpening.h"
+#include "Mine.hpp"
 #include "PlayScene.hpp"
 
 #define entry(name,cls) (name, adapter<cls>())
@@ -54,6 +55,8 @@ const unordered_map<string,GScene::AdapterType> GScene::adapters = boost::assign
     entry_same(Library)
     entry_same(LibraryOpening)
     entry_same(TitleMenu)
+
+	entry_same(Mine)
 
     entry_same(Clearing)
     entry_same(ClearingPath)

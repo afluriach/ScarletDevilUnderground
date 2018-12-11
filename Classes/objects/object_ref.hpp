@@ -74,6 +74,10 @@ public:
 		return this->space != rhs.space || this->uuid != rhs.uuid;
 	}
 
+	inline bool operator<(const object_ref<T>& rhs) const {
+		return this->uuid < rhs.uuid;
+	}
+
 	inline ObjectIDType getID() const {
 		return uuid;
 	}

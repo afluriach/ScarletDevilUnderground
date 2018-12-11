@@ -171,6 +171,9 @@ void GSpace::processAdditions()
     {
 		GObject* obj = generator.first(this, generator.second);
 
+		if (!obj)
+			continue;
+
         if(!obj->anonymous && objByName.find(obj->name) != objByName.end()){
             log("Object %s, %d name is not unique!", obj->name.c_str(), obj->uuid);
             delete obj;

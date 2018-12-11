@@ -81,10 +81,11 @@ gobject_ref getObjRefFromStringField(GSpace* space, const ValueMap& args, const 
     return target;
 }
 
-void convertToUnitSpace(ValueMap& arg)
+void convertToUnitSpace(ValueMap& arg, IntVec2 offset)
 {
     SpaceVect cornerPos(getFloat(arg, "x"), getFloat(arg, "y"));
     cornerPos *= App::tilesPerPixel;
+	cornerPos += SpaceVect(offset.first, offset.second);
     
     SpaceVect dim(getFloat(arg, "width"), getFloat(arg, "height"));
     dim *= App::tilesPerPixel;
@@ -105,10 +106,11 @@ void convertToUnitSpace(ValueMap& arg)
     arg["dim_y"] = Value(dim.y);
 }
 
-cocos2d::CCRect getUnitspaceRectangle(const ValueMap& tileMapObj)
+cocos2d::CCRect getUnitspaceRectangle(const ValueMap& tileMapObj, IntVec2 offset)
 {
     SpaceVect cornerPos(getFloat(tileMapObj, "x"), getFloat(tileMapObj, "y"));
     cornerPos *= App::tilesPerPixel;
+	cornerPos += SpaceVect(offset.first, offset.second);
     
     SpaceVect dim(getFloat(tileMapObj, "width"), getFloat(tileMapObj, "height"));
     dim *= App::tilesPerPixel;

@@ -178,6 +178,7 @@ xcopy "$(ProjectDir)..\Resources" "$(OutDir)" /D /E /I /F /Y</Command>
     <ClCompile Include="..\Classes\objects\GObjectMixins.cpp" />
     <ClCompile Include="..\Classes\objects\InventoryObject.cpp" />
     <ClCompile Include="..\Classes\objects\Items.cpp" />
+    <ClCompile Include="..\Classes\objects\Launcher.cpp" />
     <ClCompile Include="..\Classes\objects\ObjectMapping.cpp" />
     <ClCompile Include="..\Classes\objects\object_ref.cpp" />
     <ClCompile Include="..\Classes\objects\Patchouli.cpp" />
@@ -192,6 +193,7 @@ xcopy "$(ProjectDir)..\Resources" "$(OutDir)" /D /E /I /F /Y</Command>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
     </ClCompile>
     <ClCompile Include="..\Classes\scenes\Garden.cpp" />
+    <ClCompile Include="..\Classes\scenes\Mine.cpp" />
     <ClCompile Include="..\Classes\scenes\PlayScene.cpp" />
     <ClCompile Include="..\Classes\scenes\SceneMapping.cpp" />
     <ClCompile Include="..\Classes\scenes\scenes.cpp" />
@@ -243,6 +245,7 @@ xcopy "$(ProjectDir)..\Resources" "$(OutDir)" /D /E /I /F /Y</Command>
     <ClInclude Include="..\Classes\objects\GObjectMixins.hpp" />
     <ClInclude Include="..\Classes\objects\InventoryObject.hpp" />
     <ClInclude Include="..\Classes\objects\Items.hpp" />
+    <ClInclude Include="..\Classes\objects\Launcher.hpp" />
     <ClInclude Include="..\Classes\objects\Marisa.hpp" />
     <ClInclude Include="..\Classes\objects\object_ref.hpp" />
     <ClInclude Include="..\Classes\objects\Patchouli.hpp" />
@@ -257,6 +260,7 @@ xcopy "$(ProjectDir)..\Resources" "$(OutDir)" /D /E /I /F /Y</Command>
     <ClInclude Include="..\Classes\scenes\Collect.h" />
     <ClInclude Include="..\Classes\scenes\Garden.hpp" />
     <ClInclude Include="..\Classes\scenes\LibraryOpening.h" />
+    <ClInclude Include="..\Classes\scenes\Mine.hpp" />
     <ClInclude Include="..\Classes\scenes\PlayScene.hpp" />
     <ClInclude Include="..\Classes\scenes\scenes.h" />
     <ClInclude Include="..\Classes\scenes\SceneUtil.h" />

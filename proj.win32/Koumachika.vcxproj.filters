@@ -192,6 +192,12 @@
     <ClCompile Include="..\Classes\objects\Goal.cpp">
       <Filter>src\objects</Filter>
     </ClCompile>
+    <ClCompile Include="..\Classes\scenes\Mine.cpp">
+      <Filter>src\scenes</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\objects\Launcher.cpp">
+      <Filter>src\objects</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="main.h">
@@ -381,6 +387,12 @@
       <Filter>src</Filter>
     </ClInclude>
     <ClInclude Include="..\Classes\objects\Goal.hpp">
+      <Filter>src\objects</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\scenes\Mine.hpp">
+      <Filter>src\scenes</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\objects\Launcher.hpp">
       <Filter>src\objects</Filter>
     </ClInclude>
   </ItemGroup>

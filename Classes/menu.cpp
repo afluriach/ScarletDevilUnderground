@@ -13,6 +13,7 @@
 #include "LibraryOpening.h"
 #include "macros.h"
 #include "menu.h"
+#include "Mine.hpp"
 #include "PlayScene.hpp"
 #include "scenes.h"
 
@@ -75,6 +76,7 @@ const vector<string> SceneSelect::sceneTitles = boost::assign::list_of
     ("SakuyaRoom")
     ("Library")
 	("FR1")
+	("Mine")
     ("Back")
 ;
 
@@ -95,6 +97,7 @@ const vector<TextListMenuLayer::listAction> SceneSelect::sceneActions = boost::a
     (sceneLaunchAdapterByName("SakuyaRoom"))
     (sceneLaunchAdapterByName("Library"))
 	(sceneLaunchAdapterByName("FR1"))
+	(sceneLaunchAdapterByName("Mine"))
 	(SceneSelect::back)
 ;
 

@@ -93,6 +93,12 @@ Vec2 toCocos(const SpaceVect& rhs)
     return Vec2(expand_vector2(rhs));
 }
 
+Vec2 toCocos(const IntVec2& rhs)
+{
+	return Vec2(rhs.first, rhs.second);
+}
+
+
 SpaceVect toChipmunk(const Vec2& rhs)
 {
     return SpaceVect(expand_vector2(rhs));
