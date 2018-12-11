@@ -282,8 +282,8 @@ void GScene::loadMap(const MapEntry& mapEntry)
 	cocos2d::CCSize size = tileMap->getMapSize();
 
 	dimensions = IntVec2(
-		max(dimensions.first, static_cast<int>(size.width)),
-		max(dimensions.second, static_cast<int>(size.height))
+		max(dimensions.first, static_cast<int>(size.width) + mapEntry.second.first),
+		max(dimensions.second, static_cast<int>(size.height) + mapEntry.second.second)
 	);
 }
 
