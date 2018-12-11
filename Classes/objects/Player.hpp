@@ -20,6 +20,7 @@ class Collectible;
 class ControlState;
 class FirePattern;
 class SpellDesc;
+class PlayScene;
 
 class Player :
 virtual public Agent,
@@ -89,7 +90,9 @@ protected:
 	int crntFirePattern = 0;
 
 	SpellDesc* equippedSpell = nullptr;
-        
+
+	PlayScene* playScene = nullptr;
+
     bool spellProtectionMode = false;
 	bool suppressFiring = false;
 };

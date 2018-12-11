@@ -30,6 +30,7 @@ const float Player::hitFlickerInterval = 0.3f;
 
 Player::Player(GSpace* space, ObjectIDType id, const ValueMap& args) :
 	MapObjForwarding(Agent),
+	playScene(dynamic_cast<PlayScene*>(GScene::crntScene)),
 	RegisterInit<Player>(this),
 	RegisterUpdate<Player>(this)
 {}
@@ -150,12 +151,14 @@ void Player::update()
 	if(getFirePattern())
 		getFirePattern()->update();
 
-	ControlInfo cs = dynamic_cast<PlayScene*>(GScene::crntScene)->getControlData();
+	if (playScene) {
+		ControlInfo cs = playScene->getControlData();
 
-	checkMovementControls(cs);
-	checkFireControls(cs);
-	updateSpellControls(cs);
-	checkItemInteraction(cs);
+		checkMovementControls(cs);
+		checkFireControls(cs);
+		updateSpellControls(cs);
+		checkItemInteraction(cs);
+	}
 
 	updateHitTime();
     
