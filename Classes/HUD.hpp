@@ -18,7 +18,6 @@ class HealthBar : public Node
 public:
     static const int heartSize = 32;
 
-    CREATE_FUNC(HealthBar);
     void setMax(int);
     void setValue(int);
     void runFlicker(float duration);
@@ -36,25 +35,21 @@ public:
     //Distance between icon and counter label.
     static const int spacing = 16;
 
-    inline Counter(const string& iconRes, const int val)
-    {
-        init(iconRes, val);
-        autorelease();
-    }
-    void init(const string& iconRes, const int val);
+	Counter(const string& iconRes, const int val);
+
+    virtual bool init();
     void setVal(const int val);
     void setIcon(const string& iconRes);
 private:
     Sprite* icon;
     Label* counter;
     int val;
+	string iconRes;
 };
 
 class PowerMeter : public Node
 {
 public:
-    CREATE_FUNC(PowerMeter);
-
     static const int iconSize = 64;
     
     //Distance between icon and counter label.
@@ -77,22 +72,6 @@ public:
     static const int fontSize;
     
 //    static const Color4F backgroundColor;
-
-	static inline HUD * create(GSpace* space, object_ref<Player> player)
-	{
-		HUD *pRet = new(std::nothrow) HUD(space,player);
-		if (pRet && pRet->init())
-		{
-			pRet->autorelease();
-			return pRet;
-		}
-		else
-		{
-			delete pRet;
-			pRet = NULL;
-			return NULL;
-		}
-	}
 
 	HUD(GSpace* space, object_ref<Player> player);
     virtual ~HUD();

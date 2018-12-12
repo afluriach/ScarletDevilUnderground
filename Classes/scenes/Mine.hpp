@@ -19,8 +19,6 @@ public:
 
 	static const IntVec2 getRoomOffset(int roomGridX, int roomGridY);
 
-	CREATE_FUNC(Mine)
-
 	Mine();
 	inline virtual ~Mine() {}
 };

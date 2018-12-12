@@ -167,7 +167,7 @@ void GScene::setPaused(bool p){
 
 void GScene::createDialog(const string& res, bool autoAdvance)
 {
-	app->dialog = Dialog::create();
+	app->dialog = Node::ccCreate<Dialog>();
 	app->dialog->setDialog(res);
 	app->dialog->setPosition(dialogPosition());
 	getLayer(sceneLayers::dialog)->addChild(app->dialog);

@@ -125,7 +125,7 @@ void ImageSprite::setSpriteShader(const string& shaderName)
 
 void LoopAnimationSprite::initializeGraphics(Layer* layer)
 {
-    anim = TimedLoopAnimation::create();
+    anim = Node::ccCreate<TimedLoopAnimation>();
     anim->loadAnimation(animationName(), animationSize(), animationDuration());
     
     layer->positionAndAddNode(anim, sceneLayerAsInt(), getInitialCenterPix(), zoom());
@@ -161,7 +161,7 @@ void PatchConSprite::init()
 
 void PatchConSprite::initializeGraphics(Layer* layer)
 {
-    animSprite = PatchConAnimation::create();
+    animSprite = Node::ccCreate<PatchConAnimation>();
     animSprite->loadAnimation(imageSpritePath());
     layer->positionAndAddNode(animSprite, sceneLayerAsInt(), getInitialCenterPix(), zoom());
     sprite = animSprite;

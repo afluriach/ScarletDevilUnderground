@@ -123,6 +123,22 @@ public:
      */
     static Node * create();
 
+	template<typename T, typename... ConsArgs>
+	static inline T* ccCreate(ConsArgs ...args)
+	{
+		T* result = new T(args...);
+		bool isInit = result->init();
+
+		if (isInit) {
+			result->autorelease();
+			return result;
+		}
+		else {
+			delete result;
+			return nullptr;
+		}
+	}
+
     /**
      * Gets the description string. It makes debugging easier.
      * @return A string

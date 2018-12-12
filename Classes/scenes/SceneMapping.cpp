@@ -18,48 +18,35 @@
 //To make an entry where the name matches the class
 #define entry_same(cls) entry(#cls, cls)
 
+#define PlaySceneMapName(cls) (#cls, playSceneAdapter(#cls)) 
+
 template<typename T>
 GScene::AdapterType adapter()
 {
     return []() -> void {app->runScene<T>();};
 }
 
-GenericPlayScene(BlockRoom)
-GenericPlayScene(StalkerRoom)
-GenericPlayScene(FacerFloor)
-GenericPlayScene(B1)
-GenericPlayScene(Wander)
-GenericPlayScene(FR1)
-
-GenericPlayScene(Clearing)
-GenericPlayScene(ClearingPath)
-
-GenericPlayScene(GardenEmpty)
-GenericPlayScene(GardenPath)
-
-GenericPlayScene(SakuyaRoom)
-
-GenericPlayScene(Library)
+GScene::AdapterType playSceneAdapter(const string& name)
+{
+	return [name]() -> void {app->runScene<PlayScene>(name); };
+}
 
 const unordered_map<string,GScene::AdapterType> GScene::adapters = boost::assign::map_list_of
-    entry_same(BlockRoom)
-    entry_same(Collect)
-    entry_same(StalkerRoom)
-    entry_same(FacerFloor)
-    entry_same(Wander)
-    entry_same(B1)
-	entry_same(FR1)
+	PlaySceneMapName(B1)
+	PlaySceneMapName(BlockRoom)
+	PlaySceneMapName(Clearing)
+	PlaySceneMapName(ClearingPath)
+	entry_same(Collect)
+	PlaySceneMapName(FacerFloor)
+	PlaySceneMapName(FR1)
     entry_same(GardenBlooming)
-    entry_same(GardenEmpty)
-    entry_same(GardenPath)
-    entry_same(Library)
+	PlaySceneMapName(GardenEmpty)
+	PlaySceneMapName(GardenPath)
+	PlaySceneMapName(Library)
     entry_same(LibraryOpening)
-    entry_same(TitleMenu)
-
 	entry_same(Mine)
-
-    entry_same(Clearing)
-    entry_same(ClearingPath)
-
-    entry_same(SakuyaRoom)
+	PlaySceneMapName(SakuyaRoom)
+	PlaySceneMapName(StalkerRoom)
+	entry_same(TitleMenu)
+	PlaySceneMapName(Wander)
 ;

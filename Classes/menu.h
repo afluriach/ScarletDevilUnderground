@@ -73,10 +73,7 @@ private:
 
 class TitleMenu : public TextListMenuLayer
 {
-public:
-    CREATE_FUNC(TitleMenu);
-    
-protected:
+public:    
     TitleMenu();
 private:
     static void start();
@@ -90,7 +87,6 @@ public:
     static const vector<string> sceneTitles;
     static const vector<listAction> sceneActions;
     
-    CREATE_FUNC(SceneSelect);
     
     inline SceneSelect() :
     TextListMenuLayer(
@@ -111,8 +107,7 @@ public:
 	static const vector<string> entryNames;
 	static const vector<listAction> entryActions;
 
-	CREATE_FUNC(PauseMenu);
-
+	
 	inline PauseMenu() : TextListMenuLayer(
 		title,
 		entryNames,
@@ -132,8 +127,7 @@ public:
 	static const vector<string> entryNames;
 	static const vector<listAction> entryActions;
 
-	CREATE_FUNC(GameOverMenu);
-
+	
 	inline GameOverMenu() : TextListMenuLayer(
 		title,
 		entryNames,
@@ -152,8 +146,6 @@ public:
 	static const vector<string> entryNames;
 	static const vector<listAction> entryActions;
 
-	CREATE_FUNC(ChamberCompletedMenu);
-
 	inline ChamberCompletedMenu() : TextListMenuLayer(
 		title,
 		entryNames,
@@ -171,8 +163,6 @@ public:
 	static const string title;
 	static const vector<string> entryNames;
 	static const vector<listAction> entryActions;
-
-	CREATE_FUNC(ReplayCompletedMenu);
 
 	inline ReplayCompletedMenu() : TextListMenuLayer(
 		title,

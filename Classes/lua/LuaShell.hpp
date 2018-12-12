@@ -12,7 +12,6 @@
 class LuaShell : public Layer
 {
 public:
-    CREATE_FUNC(LuaShell);
     static constexpr int width = 700;
     static constexpr int height = 250;
     static const Color4F backgroundColor;

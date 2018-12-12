@@ -72,7 +72,7 @@ bool Dialog::init()
 
     setMsg("");    
     
-    cursor = DownTriangleCursor::create();
+    cursor = Node::ccCreate<DownTriangleCursor>();
     cursor->setPosition(Vec2(width/2 - textMargin,-height/2));
     cursor->setScale(cursorScale);
     cursor->setVisible(false);

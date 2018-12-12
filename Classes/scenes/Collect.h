@@ -19,8 +19,6 @@ public:
     {
         createDialog("dialogs/collect_opening", true);
     }
-
-    CREATE_FUNC(Collect);
 };
 
 #endif /* CollectScene_h */

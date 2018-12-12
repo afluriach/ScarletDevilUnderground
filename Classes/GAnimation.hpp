@@ -44,7 +44,6 @@ public:
 
 class TimedLoopAnimation : public GAnimation {
 public:
-   CREATE_FUNC(TimedLoopAnimation);
    void loadAnimation(const string& name, int length, float animationInterval);
    void update();
 protected:
@@ -63,7 +62,6 @@ public:
     static constexpr float stepSize = 0.4f;
     static constexpr float midstepSize = 0.2f;
     
-    CREATE_FUNC(PatchConAnimation);
     
     inline void setSpriteShader(const string& shader){
         sprite->setShader(shader);

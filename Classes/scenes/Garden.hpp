@@ -15,7 +15,6 @@
 class GardenBlooming : public PlayScene
 {
 public:
-    CREATE_FUNC(GardenBlooming);
     inline GardenBlooming() : PlayScene("GardenBlooming"){
         multiInit += bind(&GardenBlooming::generateFlowers, this);
     }

@@ -132,7 +132,7 @@ void App::checkPendingScript()
 
 void App::installLuaShell(GScene* gscene)
 {
-    luaShell = LuaShell::create();
+    luaShell = Node::ccCreate<LuaShell>();
     luaShell->setVisible(false);
     gscene->control_listener->addPressListener(
         ControlAction::scriptConsole,

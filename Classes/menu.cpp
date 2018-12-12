@@ -127,7 +127,7 @@ bool TextListMenuLayer::init()
         log("added %s", labelText.c_str());
     }
     
-    cursor = DiamondCursor::create();
+    cursor = Node::ccCreate<DiamondCursor>();
     addChild(cursor);
     cursor->setPositionX(leftMargin/2);
     updateCursor();

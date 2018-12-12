@@ -107,10 +107,10 @@ public:
         Director::getInstance()->popScene();
     }
 
-    template <typename T>
-    inline void runScene()
+    template <typename T, typename... Args>
+    inline void runScene(Args... args)
     {
-        Director::getInstance()->runScene(createSceneFromLayer<T>());
+        Director::getInstance()->runScene(createSceneFromLayer<T>(args...));
     }
     
     //Generate [min,max)
@@ -135,10 +135,10 @@ protected:
     
     Scene* createSceneFromLayer(Layer* layer);
 
-    template <typename T>
-    inline Scene* createSceneFromLayer()
+    template <typename T, typename... Args>
+    inline Scene* createSceneFromLayer(Args... args)
     {
-        return createSceneFromLayer(T::create());
+        return createSceneFromLayer(Node::ccCreate<T>(args...));
     }
     
     void installLuaShell(GScene* scene);

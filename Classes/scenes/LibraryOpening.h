@@ -17,9 +17,7 @@
 
 class LibraryOpening : public GScene
 {
-public:
-    CREATE_FUNC(LibraryOpening);
-    
+public:    
     inline LibraryOpening() :
 	GScene("")
 	{

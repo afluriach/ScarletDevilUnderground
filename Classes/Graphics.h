@@ -43,7 +43,6 @@ class DiamondCursor : public Cursor
 {
 public:
     virtual void onEnter();
-    CREATE_FUNC(DiamondCursor);
 protected:
     //Y scale.
     const float ratio = 1.5;
@@ -54,7 +53,6 @@ protected:
 class DownTriangleCursor : public Cursor
 {
 public:
-    CREATE_FUNC(DownTriangleCursor);
 protected:
     virtual void drawShape();
 };

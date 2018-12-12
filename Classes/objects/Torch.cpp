@@ -23,7 +23,7 @@ void Torch::initializeGraphics(Layer* layer)
 
     Sprite* base = Sprite::create("sprites/blue_torch.png");
     
-    flame = TimedLoopAnimation::create();
+    flame = Node::ccCreate<TimedLoopAnimation>();
     flame->loadAnimation("blue_flame", 8, 1.0);
     
     sprite = Node::create();

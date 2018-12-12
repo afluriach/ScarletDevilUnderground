@@ -76,13 +76,4 @@ private:
 	bool isRunningReplay = false;
 };
 
-#define GenericPlayScene( name ) \
-class name : public PlayScene \
-{ \
-public: \
-    CREATE_FUNC(name); \
-    inline name() : PlayScene(#name){ \
-    } \
-};
-
 #endif /* PlayScene_hpp */

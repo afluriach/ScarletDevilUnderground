@@ -25,7 +25,6 @@ class Dialog : public Node
 public:
     Dialog();
 
-    CREATE_FUNC(Dialog);
     virtual bool init();
     virtual void update(float dt);
     

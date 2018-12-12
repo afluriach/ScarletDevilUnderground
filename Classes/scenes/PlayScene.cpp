@@ -157,7 +157,7 @@ void PlayScene::updateHUD()
 
 void PlayScene::addHUD()
 {
-    hud = HUD::create(gspace, gspace->getObjectRef<Player>("player"));
+    hud = Node::ccCreate<HUD>(gspace, gspace->getObjectRef<Player>("player"));
     getLayer(sceneLayers::hud)->addChild(hud);
     multiUpdate.insertWithOrder(
         wrap_method(PlayScene,updateHUD,this),
@@ -175,7 +175,7 @@ void PlayScene::onPausePressed()
 
 void PlayScene::enterPause()
 {
-	pauseMenu = PauseMenu::create();
+	pauseMenu = Node::ccCreate<PauseMenu>();
 	getLayer(sceneLayers::menu)->addChild(pauseMenu);
     pauseAnimations();
 	setPaused(true);
@@ -207,7 +207,7 @@ void PlayScene::showGameOverMenu(float unused)
 	if(app->dialog)
         app->dialog->setVisible(false);
 
-	GameOverMenu* gom = GameOverMenu::create();
+	GameOverMenu* gom = Node::ccCreate<GameOverMenu>();
 
     getLayer(sceneLayers::menu)->addChild(gom);
 }
@@ -238,7 +238,7 @@ void PlayScene::showSceneCompletedMenu(float unused)
 	if (app->dialog)
 		app->dialog->setVisible(false);
 
-	ChamberCompletedMenu* menu = ChamberCompletedMenu::create();
+	ChamberCompletedMenu* menu = Node::ccCreate<ChamberCompletedMenu>();
 
 	getLayer(sceneLayers::menu)->addChild(menu);
 }
@@ -267,7 +267,7 @@ void PlayScene::showReplayCompletedMenu(float unused)
 	if (app->dialog)
 		app->dialog->setVisible(false);
 
-	ReplayCompletedMenu* menu = ReplayCompletedMenu::create();
+	ReplayCompletedMenu* menu = Node::ccCreate<ReplayCompletedMenu>();
 
 	getLayer(sceneLayers::menu)->addChild(menu);
 }

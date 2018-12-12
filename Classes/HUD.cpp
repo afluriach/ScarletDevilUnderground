@@ -96,12 +96,12 @@ bool HUD::init()
 //        backgroundColor
 //    );
     
-    health = HealthBar::create();
+    health = Node::ccCreate<HealthBar>();
     health->setPosition(32, App::height - height/2);
     addChild(health, 2);
     health->setMax(1);
     
-    power = PowerMeter::create();
+    power = Node::ccCreate<PowerMeter>();
     power->setPosition(App::width/2, App::height - height/2);
     addChild(power,2);
     power->setVal(0);
@@ -124,7 +124,12 @@ bool HUD::init()
     return true;
 }
 
-void Counter::init(const string& iconRes, const int val)
+Counter::Counter(const string& iconRes, const int val) :
+val(val),
+iconRes(iconRes)
+{}
+
+bool Counter::init()
 {
     Node::init();
     
@@ -143,6 +148,8 @@ void Counter::init(const string& iconRes, const int val)
     if(!iconRes.empty())
         setIcon(iconRes);
     setVal(val);
+
+	return true;
 }
 
 void Counter::setIcon(const string& iconRes)
