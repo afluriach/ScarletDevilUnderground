@@ -9,9 +9,10 @@
 #include "Prefix.h"
 
 #include "GAnimation.hpp"
+#include "SpaceLayer.h"
 #include "Torch.hpp"
 
-void Torch::initializeGraphics(Layer* layer)
+void Torch::initializeGraphics(SpaceLayer* layer)
 {
 //    Sprite* baseSprite = ::loadImageSprite(
 //        "sprites/blue_torch.png",
@@ -30,7 +31,7 @@ void Torch::initializeGraphics(Layer* layer)
     sprite->addChild(base, 1);
     sprite->addChild(flame, 2);
     
-    layer->positionAndAddNode(sprite, sceneLayerAsInt(), getInitialCenterPix(), 4.0);
+    layer->getLayer(sceneLayer())->positionAndAddNode(sprite, 1, getInitialCenterPix(), 4.0);
 }
 
 void Torch::setActive(bool active)

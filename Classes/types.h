@@ -41,11 +41,14 @@ enum class Direction{
 };
 
 enum class GraphicsLayer{
+	begin = 1,
     map = 1,
     foliage,
     floor,
     ground,
 	roomMask,
+
+	end
 };
 
 enum class GType{

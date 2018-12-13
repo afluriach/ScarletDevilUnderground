@@ -19,6 +19,8 @@
 #include "multifunction.h"
 #include "Player.hpp"
 #include "PlayScene.hpp"
+#include "scenes.h"
+#include "SpaceLayer.h"
 #include "util.h"
 #include "value_map.hpp"
 
@@ -91,14 +93,14 @@ void PlayScene::trackPlayer(){
 
 void PlayScene::initRoomMask()
 {
-	Layer* layer = GScene::crntScene->getLayer(GScene::sceneLayers::space);
+	Layer* layer = GScene::crntScene->getSpaceLayer()->getLayer(GraphicsLayer::roomMask);
 
 	for (int i = 0; i<gspace->rooms.size(); ++i)
 	{
 		CCRect rect = gspace->rooms.at(i);
 
 		DrawNode* dn = DrawNode::create();
-		layer->positionAndAddNode(dn, static_cast<int>(GraphicsLayer::roomMask), Vec2(rect.getMidX(), rect.getMidY()) * App::pixelsPerTile, 1.0f);
+		layer->positionAndAddNode(dn, 1, Vec2(rect.getMidX(), rect.getMidY()) * App::pixelsPerTile, 1.0f);
 
 		Vec2 halfDim(rect.getMaxX() - rect.getMinX(), rect.getMaxY() - rect.getMinY());
 		halfDim *= App::pixelsPerTile * 0.5f;
@@ -191,13 +193,13 @@ void PlayScene::exitPause()
 
 void PlayScene::pauseAnimations()
 {
-    getLayer(sceneLayers::space)->pauseRecursive();
+    spaceLayer->pauseRecursive();
     getLayer(sceneLayers::hud)->pauseRecursive();
 }
 
 void PlayScene::resumeAnimations()
 {
-    getLayer(sceneLayers::space)->resumeRecursive();
+    spaceLayer->resumeRecursive();
     getLayer(sceneLayers::hud)->resumeRecursive();
 }
 

@@ -18,6 +18,7 @@
 #include "macros.h"
 #include "PlayScene.hpp"
 #include "scenes.h"
+#include "SpaceLayer.h"
 #include "types.h"
 #include "value_map.hpp"
 
@@ -121,14 +122,16 @@ control_listener(make_unique<ControlListener>())
 		static_cast<int>(updateOrder::runShellScript)
 	);
     
+	spaceLayer = Node::ccCreate<SpaceLayer>();
+
     //Create the sublayers at construction (so they are available to mixins at construction time).
     //But do not add sublayers until init time.
-    for_irange(i,1,sceneLayers::end){
+    for_irange(i,2,sceneLayers::end){
         Layer* l = Layer::create();
         layers.insert(i, l);
     }
 
-	gspace = new GSpace(getLayer(sceneLayers::space));
+	gspace = new GSpace(spaceLayer);
 
 	string scriptPath = "scripts/scenes/" + sceneName + ".lua";
 
@@ -147,8 +150,10 @@ GScene::~GScene()
 bool GScene::init()
 {
     Scene::init();
+
+	addChild(spaceLayer, 1);
     
-    for_irange(i,1,sceneLayers::end){
+    for_irange(i,2,sceneLayers::end){
         Layer* l = layers.at(i);
         addChild(l,i);
     }
@@ -157,7 +162,7 @@ bool GScene::init()
     float baseViewWidth = App::width * App::tilesPerPixel;
     spaceZoom = baseViewWidth / App::viewWidth;
     //Only apply zoom to space layer.
-    getLayer(sceneLayers::space)->setScale(spaceZoom);
+    spaceLayer->setScale(spaceZoom);
     
     multiInit();
     
@@ -224,14 +229,14 @@ void GScene::processAdditions()
 void GScene::move(const Vec2& w)
 {
 	Vec2 v = w * spaceZoom;
-	Vec2 pos = getLayer(sceneLayers::space)->getPosition();
+	Vec2 pos = spaceLayer->getPosition();
 
-	getLayer(sceneLayers::space)->setPosition(pos - v);
+	spaceLayer->setPosition(pos - v);
 }
 
 void GScene::setUnitPosition(const SpaceVect& v)
 {
-	getLayer(sceneLayers::space)->setPosition(
+	spaceLayer->setPosition(
 		(-App::pixelsPerTile*v.x + App::width / 2)*spaceZoom,
 		(-App::pixelsPerTile*v.y + App::height / 2)*spaceZoom
 	);
@@ -281,9 +286,9 @@ void GScene::loadMap(const MapEntry& mapEntry)
 		return;
 	}
 
-	getLayer(sceneLayers::space)->positionAndAddNode(
+	spaceLayer->getLayer(GraphicsLayer::map)->positionAndAddNode(
 		tileMap,
-		static_cast<int>(GraphicsLayer::map),
+		1,
 		toCocos(mapEntry.second) * App::pixelsPerTile,
 		1.0f
 	);

@@ -146,7 +146,7 @@ class NoSprite : public virtual GObject
 public:
 	inline NoSprite() {}
 
-	inline virtual void initializeGraphics(Layer* layer) {}
+	inline virtual void initializeGraphics(SpaceLayer* layer) {}
 };
 
 
@@ -159,7 +159,7 @@ public:
 
     virtual string imageSpritePath() const = 0;
     void loadImageSprite(const string& resPath, GraphicsLayer sceneLayer, Layer* dest);
-    void initializeGraphics(Layer* layer);
+    void initializeGraphics(SpaceLayer* layer);
     void update();
     virtual void setSpriteShader(const string& shaderName);
 };
@@ -174,7 +174,7 @@ public:
     virtual int animationSize() const = 0;
     virtual float animationDuration() const = 0;
     
-    virtual void initializeGraphics(Layer* layer);
+    virtual void initializeGraphics(SpaceLayer* layer);
     void update();
 protected:
     TimedLoopAnimation* anim;
@@ -185,12 +185,11 @@ class PatchConSprite : virtual public GObject, RegisterInit<PatchConSprite>, Reg
 public:
     PatchConSprite(const ValueMap& args);
     virtual string imageSpritePath() const = 0;
-    virtual GraphicsLayer sceneLayer() const = 0;
     
     float zoom() const;
 	virtual inline int pixelWidth() const { return 32; }
 
-    void initializeGraphics(Layer* layer);
+    void initializeGraphics(SpaceLayer* layer);
     void init();
     void update();
     

@@ -12,7 +12,7 @@
 #include "GObject.hpp"
 #include "GObjectMixins.hpp"
 
-class Wall : virtual public GObject, public RectangleBody
+class Wall : virtual public GObject, public RectangleBody, public NoSprite
 {
 public:
 //    inline Wall(const ValueMap& args) :
@@ -28,9 +28,7 @@ public:
     virtual inline float getMass() const { return -1.0f;}
     virtual inline GType getType() const {return GType::wall;}
     virtual inline SpaceVect getDimensions() const {return dimensions;}
-    virtual PhysicsLayers getLayers() const;
-    
-    inline virtual void initializeGraphics(Layer* layer){};
+    virtual PhysicsLayers getLayers() const;    
 private:
     SpaceVect dimensions;
 };

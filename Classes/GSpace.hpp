@@ -14,6 +14,7 @@
 
 class FloorSegment;
 class GObject;
+class SpaceLayer;
 
 #define OBJS_FROM_ARB \
     GObject* a = static_cast<GObject*>(arb.getBodyA().getUserData()); \
@@ -25,7 +26,7 @@ class GSpace
 public:
 	typedef pair<ObjectGeneratorType, ObjectIDType> generator_pair;
 
-    GSpace(Layer* graphicsLayer);    
+    GSpace(SpaceLayer* spaceLayer);    
     ~GSpace();
     
     inline IntVec2 getSize() const {return spaceSize;}
@@ -37,7 +38,7 @@ public:
     void processAdditions();
 private:
     //The graphics destination to use for all objects constructed in this space.
-    Layer* graphicsLayer;
+    SpaceLayer* spaceLayer;
     unsigned int frame = 1;
     IntVec2 spaceSize;
 //BEGIN OBJECT MANIPULATION

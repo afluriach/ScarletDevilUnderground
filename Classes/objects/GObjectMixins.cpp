@@ -14,6 +14,7 @@
 #include "Graphics.h"
 #include "GSpace.hpp"
 #include "Player.hpp"
+#include "SpaceLayer.h"
 #include "scenes.h"
 #include "Spell.hpp"
 #include "util.h"
@@ -101,9 +102,9 @@ void DirectionalLaunch::init()
 
 //GRAPHICS MIXINS
 
-void ImageSprite::initializeGraphics(Layer* layer)
+void ImageSprite::initializeGraphics(SpaceLayer* spaceLayer)
 {
-    loadImageSprite(imageSpritePath(), sceneLayer(), layer);
+    loadImageSprite(imageSpritePath(), sceneLayer(), spaceLayer->getLayer(sceneLayer()));
 }
 
 void ImageSprite::update()
@@ -123,12 +124,12 @@ void ImageSprite::setSpriteShader(const string& shaderName)
     }
 }
 
-void LoopAnimationSprite::initializeGraphics(Layer* layer)
+void LoopAnimationSprite::initializeGraphics(SpaceLayer* layer)
 {
     anim = Node::ccCreate<TimedLoopAnimation>();
     anim->loadAnimation(animationName(), animationSize(), animationDuration());
     
-    layer->positionAndAddNode(anim, sceneLayerAsInt(), getInitialCenterPix(), zoom());
+    layer->getLayer(sceneLayer())->positionAndAddNode(anim, 1, getInitialCenterPix(), zoom());
     sprite = anim;
 }
 
@@ -159,7 +160,7 @@ void PatchConSprite::init()
     setDirection(startingDirection);
 }
 
-void PatchConSprite::initializeGraphics(Layer* layer)
+void PatchConSprite::initializeGraphics(SpaceLayer* layer)
 {
     animSprite = Node::ccCreate<PatchConAnimation>();
     animSprite->loadAnimation(imageSpritePath());

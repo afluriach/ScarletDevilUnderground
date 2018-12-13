@@ -18,6 +18,7 @@ class GSpace;
 class HUD;
 class LuaShell;
 class PlayScene;
+class SpaceLayer;
 
 namespace Lua{
     class Inst;
@@ -113,6 +114,7 @@ public:
 	SpaceVect getMapSize();
 
 	Layer* getLayer(sceneLayers layer);
+	inline SpaceLayer* getSpaceLayer() const { return spaceLayer; }
 
     util::multifunction<void(void)> multiInit;
     util::multifunction<void(void)> multiUpdate;
@@ -138,6 +140,7 @@ protected:
 
 	//Make sure to use a cocos map so cocos refcounting works.
 	cocos2d::Map<int, Layer*> layers;
+	SpaceLayer* spaceLayer = nullptr;
 	GSpace* gspace;
 	//the scale applied to the space layer
 	float spaceZoom = 1;

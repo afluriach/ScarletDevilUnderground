@@ -24,7 +24,7 @@
 
 class RadarObject;
 
-GSpace::GSpace(Layer* graphicsLayer) : graphicsLayer(graphicsLayer)
+GSpace::GSpace(SpaceLayer* spaceLayer) : spaceLayer(spaceLayer)
 {
     space.setGravity(SpaceVect(0,0));
     addCollisionHandlers();
@@ -188,7 +188,7 @@ void GSpace::processAdditions()
 
         obj->initializeBody(*this);
         obj->initializeRadar(*this);
-        obj->initializeGraphics(graphicsLayer);
+        obj->initializeGraphics(spaceLayer);
         
         if(!obj->anonymous)
             objByName[obj->name] = obj;
