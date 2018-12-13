@@ -28,10 +28,9 @@ public RegisterInit<Player>,
 public RegisterUpdate<Player>
 {
 public:
-    static const float interactCooldownTime;
-    
-    static const float spellCooldownTime;
-    static const float hitFlickerInterval;
+    static const boost::rational<int> interactCooldownTime;
+    static const boost::rational<int> spellCooldownTime;
+    static const boost::rational<int> hitFlickerInterval;
     
 	MapObjCons(Player);
     
@@ -82,9 +81,9 @@ public:
 
     void onCollectible(Collectible* coll);
 protected:
-    float hitProtectionCountdown = 0.0f;
-    float spellCooldown = 0.0f;
-    float interactCooldown = 0.0f;
+    boost::rational<int> hitProtectionCountdown = 0;
+	boost::rational<int> spellCooldown = 0;
+	boost::rational<int> interactCooldown = 0;
 
 	vector<unique_ptr<FirePattern>> firePatterns;
 	int crntFirePattern = 0;

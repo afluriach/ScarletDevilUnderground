@@ -51,8 +51,15 @@ void HealthBar::setValue(int v)
 void HealthBar::runFlicker(float duration)
 {
     //TintTo action does not apply recursively.
-    for_irange(i,0,heartSprites.size())
-        heartSprites.at(i)->runAction(flickerTintAction(Player::hitFlickerInterval, duration,Color3B(127,127,127)));
+	for_irange(i, 0, heartSprites.size()) {
+		heartSprites.at(i)->runAction(
+			flickerTintAction(
+				boost::rational_cast<float>(Player::hitFlickerInterval),
+				duration,
+				Color3B(127, 127, 127)
+			)
+		);
+	}
 }
 
 //const Color4F HUD::backgroundColor = Color4F(0,0,0,0.75);
@@ -214,8 +221,8 @@ void PowerMeter::setVal(int val)
 void PowerMeter::runFlicker()
 {
     icon->runAction(flickerTintAction(
-        Player::hitFlickerInterval,
-        Player::spellCooldownTime,
+        boost::rational_cast<float>(Player::hitFlickerInterval),
+        boost::rational_cast<float>(Player::spellCooldownTime),
         Color3B(127,127,127)
     ));
 }

@@ -31,6 +31,8 @@ float toDegrees(float a);
 float circleMomentOfInertia(float mass, float radius);
 float rectangleMomentOfInertia(float mass, const SpaceVect& dim);
 
+void timerDecrement(boost::rational<int>& x);
+
 Scene* crntScene();
 
 string getRealPath(const string& path);

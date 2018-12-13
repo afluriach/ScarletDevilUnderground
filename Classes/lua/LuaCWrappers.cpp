@@ -120,6 +120,13 @@ void setResolution(unsigned int width, unsigned int height)
 	App::height = height;
 }
 
+void setFramerate(unsigned int fps)
+{
+	App::framesPerSecond = fps;
+	App::secondsPerFrame = 1.0 / fps;
+	App::secondsPerFrameRational = boost::rational<int>(1, fps);
+}
+
 GObject* getObjByName(string name)
 {
     if(!app->space) throw lua_runtime_error("getObjByName: Cannot access objects in this scene.");
@@ -490,6 +497,7 @@ make_wrapper_same(setscreenscale)
 make_wrapper_same(setdpiscale)
 make_wrapper_same(setFullscreen)
 make_wrapper_same(setResolution)
+make_wrapper_same(setFramerate)
 make_wrapper_same(getObjByName)
 make_wrapper_same(getObjectNames)
 make_wrapper_same(isValidObject)

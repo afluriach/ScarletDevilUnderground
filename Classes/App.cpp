@@ -22,6 +22,10 @@ const vector<string> App::shaderFiles = boost::assign::list_of
 unsigned int App::width = 1600;
 unsigned int App::height = 1000;
 
+unsigned int App::framesPerSecond = 60;
+double App::secondsPerFrame = 1.0 / App::framesPerSecond;
+boost::rational<int> App::secondsPerFrameRational(1,App::framesPerSecond);
+
 float App::getScale()
 {
 	return 1.0f * width / baseWidth;

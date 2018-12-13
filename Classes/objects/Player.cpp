@@ -23,10 +23,9 @@
 #include "Spell.hpp"
 #include "SpellDescriptor.hpp"
 
-const float Player::interactCooldownTime = 0.1f;
-
-const float Player::spellCooldownTime = 1.0f;
-const float Player::hitFlickerInterval = 0.3f;
+const boost::rational<int> Player::interactCooldownTime = boost::rational<int>(1,10);
+const boost::rational<int> Player::spellCooldownTime = 1;
+const boost::rational<int> Player::hitFlickerInterval = boost::rational<int>(1,3);
 
 Player::Player(GSpace* space, ObjectIDType id, const ValueMap& args) :
 	MapObjForwarding(Agent),
@@ -76,7 +75,7 @@ void Player::updateSpellControls(const ControlInfo& cs)
     }
     else
     {
-        spellCooldown = max(spellCooldown - App::secondsPerFrame, 0.0f);
+		timerDecrement(spellCooldown);
         
         if(spellCooldown <= 0){
             if( cs.isControlActionPressed(ControlAction::spell1) &&
@@ -114,7 +113,7 @@ void Player::checkFireControls(const ControlInfo& cs)
 
 void Player::checkItemInteraction(const ControlInfo& cs)
 {
-	interactCooldown = max(interactCooldown - App::secondsPerFrame, 0.0f);
+	timerDecrement(interactCooldown);
 	GObject* item = getSensedObject();
 	InteractibleObject* interactible = dynamic_cast<InteractibleObject*>(item);
 	
@@ -178,9 +177,17 @@ void Player::applyAttributeModifier(Attribute id, float val)
 
 void Player::hit(int damage, shared_ptr<MagicEffect> effect){
     if(hitProtectionCountdown <= 0 && !spellProtectionMode){
+
         hitProtectionCountdown = attributeSystem.getAdjustedValue(Attribute::hitProtection);
-        sprite->runAction(flickerAction(hitFlickerInterval, hitProtectionCountdown, 81.0f));
-        app->hud->health->runFlicker(hitProtectionCountdown);
+
+        sprite->runAction(
+			flickerAction(
+				boost::rational_cast<float>(hitFlickerInterval),
+				boost::rational_cast<float>(hitProtectionCountdown),
+				81.0f
+			)
+		);
+        app->hud->health->runFlicker(boost::rational_cast<float>(hitProtectionCountdown));
 
 		Agent::hit(damage, effect);
     }

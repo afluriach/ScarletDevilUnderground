@@ -8,11 +8,13 @@
 
 #include "Prefix.h"
 
+#include "App.h"
 #include "Bullet.hpp"
 #include "GSpace.hpp"
 #include "Launcher.hpp"
+#include "util.h"
 
-const int Launcher::fireInterval = 15;
+const boost::rational<int> Launcher::fireInterval(1,4);
 
 Launcher::Launcher(GSpace* space, ObjectIDType id, const ValueMap& args) :
 	MapObjForwarding(GObject),
@@ -28,15 +30,15 @@ Launcher::Launcher(GSpace* space, ObjectIDType id, const ValueMap& args) :
 
 void Launcher::update()
 {
-	cooldownFrames = max(cooldownFrames - 1, 0);
+	timerDecrement(cooldownTime);
 
-	if (isActive && cooldownFrames <= 0) {
+	if (isActive && cooldownTime <= 0) {
 		SpaceVect pos = getPos();
 		pos += SpaceVect::ray(1.0f, getAngle());
 
 		space->createObject(
 			GObject::make_object_factory<LauncherBullet>(getAngle(), pos)
 		);
-		cooldownFrames = fireInterval;
+		cooldownTime = fireInterval;
 	}
 }

@@ -33,6 +33,10 @@ public:
     static unsigned int width;
     static unsigned int height;
 
+	static unsigned int framesPerSecond;
+	static double secondsPerFrame;
+	static boost::rational<int> secondsPerFrameRational;
+
 	static const unsigned int baseWidth = 1600;
     
     //Game options set through the script API
@@ -41,9 +45,6 @@ public:
     bool fullscreen = false;
     
     bool suppressGameOver = false;
-    
-    static const int framesPerSecond = 60;
-    constexpr static float secondsPerFrame = 1.0f / framesPerSecond;
     
     constexpr static float Gaccel = 9.8f;
     

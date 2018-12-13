@@ -38,10 +38,10 @@ public:
 	virtual void update();
 
 	virtual float getLaunchDistance() const { return 1.0f; }
-	virtual int getCooldownFrames() = 0;
+	virtual boost::rational<int> getCooldownTime() = 0;
 	virtual GObject::GeneratorType spawn(float angle, SpaceVect pos) = 0;
 protected:
-	int cooldownFramesRemaining = 0;
+	boost::rational<int> cooldownTimeRemaining = 0;
 };
 
 class FlandreBigOrbPattern : public SingleBulletFixedIntervalPattern
@@ -52,10 +52,8 @@ public:
 	virtual string iconPath() const { return "sprites/fire_patterns/flandre_big_orb.png"; }
 	virtual int powerCost() const { return 5; }
 
-	virtual inline int getCooldownFrames() { return 60; }
+	virtual boost::rational<int> getCooldownTime() { return 1; }
 	virtual GObject::GeneratorType spawn(float angle, SpaceVect pos);
-protected:
-	int cooldownFramesRemaining = 0;
 };
 
 class FlandreFastOrbPattern : public SingleBulletFixedIntervalPattern
@@ -66,10 +64,8 @@ public:
 	virtual string iconPath() const { return "sprites/fire_patterns/flandre_fast_orb.png"; }
 	virtual int powerCost() const { return 1; }
 
-	virtual inline int getCooldownFrames() { return 10; }
+	virtual boost::rational<int> getCooldownTime() { return boost::rational<int>(1,6); }
 	virtual GObject::GeneratorType spawn(float angle, SpaceVect pos);
-protected:
-	int cooldownFramesRemaining = 0;
 };
 
 class CirnoLargeIceBulletPattern : public SingleBulletFixedIntervalPattern
@@ -80,10 +76,8 @@ public:
 	virtual string iconPath() const { return "sprites/fire_patterns/cirno_large_ice_bullet.png"; }
 	virtual int powerCost() const { return 5; }
 
-	virtual inline int getCooldownFrames() { return 60; }
+	virtual boost::rational<int> getCooldownTime() { return 1; }
 	virtual GObject::GeneratorType spawn(float angle, SpaceVect pos);
-protected:
-	int cooldownFramesRemaining = 0;
 };
 
 class IceFairyBulletPattern : public SingleBulletFixedIntervalPattern
@@ -95,10 +89,8 @@ public:
 	virtual string iconPath() const { return ""; }
 	virtual int powerCost() const { return 0; }
 
-	virtual inline int getCooldownFrames() { return 60; }
+	virtual boost::rational<int> getCooldownTime() { return 1; }
 	virtual GObject::GeneratorType spawn(float angle, SpaceVect pos);
-protected:
-	int cooldownFramesRemaining = 0;
 };
 
 

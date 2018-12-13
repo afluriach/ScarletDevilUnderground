@@ -155,3 +155,8 @@ float toDegrees(float a)
 {
  return a / float_pi * 180.0f;
 }
+
+void timerDecrement(boost::rational<int>& x)
+{
+	x = max(x - App::secondsPerFrameRational, boost::rational<int>(0));
+}

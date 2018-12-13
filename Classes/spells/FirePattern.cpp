@@ -16,9 +16,9 @@
 
 bool SingleBulletFixedIntervalPattern::fireIfPossible()
 {
-	if (cooldownFramesRemaining <= 0 && powerCost() <= agent->getPower())
+	if (cooldownTimeRemaining <= 0 && powerCost() <= agent->getPower())
 	{
-		cooldownFramesRemaining = getCooldownFrames();
+		cooldownTimeRemaining = getCooldownTime();
 		agent->consumePower(powerCost());
 		fire();
 
@@ -39,12 +39,12 @@ void SingleBulletFixedIntervalPattern::fire()
 
 void SingleBulletFixedIntervalPattern::update()
 {
-	cooldownFramesRemaining = max(cooldownFramesRemaining - 1, 0);
+	timerDecrement(cooldownTimeRemaining);
 }
 
 bool SingleBulletFixedIntervalPattern::isInCooldown()
 {
-	return cooldownFramesRemaining > 0;
+	return cooldownTimeRemaining > 0;
 }
 
 GObject::GeneratorType FlandreBigOrbPattern::spawn(float angle, SpaceVect pos)
