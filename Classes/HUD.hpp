@@ -84,17 +84,12 @@ public:
     Counter* objectiveCounter;    
     Sprite* interactionIcon;
 	Sprite* firePatternIcon;
+
+	void setObjectiveCounter(string iconRes, int val);
+	void setObjectiveCounterVisible(bool val);
     
-    inline void showHealth(bool val)
-    {
-        health->setVisible(val);
-    }
-    
-    inline void setInteractionIcon(const string& val)
-    {
-        interactionIcon->setVisible(!val.empty());
-        interactionIcon->setTexture(val);
-    }
+	void showHealth(bool val);    
+	void setInteractionIcon(const string& val);
     
 protected:
     object_ref<Player> player;

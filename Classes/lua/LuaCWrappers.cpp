@@ -163,22 +163,6 @@ void stopDialog()
     GScene::crntScene->stopDialog();
 }
 
-void setObjectiveCounter(string iconRes, int val)
-{
-    if(!app->hud) throw lua_runtime_error("setObjectiveCounter: HUD is not available!");
-    
-    app->hud->objectiveCounter->setVisible(true);
-    app->hud->objectiveCounter->setVal(val);
-    app->hud->objectiveCounter->setIcon(iconRes);
-}
-
-void showObjectiveCounter(bool val)
-{
-    if(!app->hud) throw lua_runtime_error("setObjectiveCounter: HUD is not available!");
-
-    app->hud->objectiveCounter->setVisible(val);
-}
-
 void printGlDebug()
 {
     //print the program, vertex, and fragment log for each custom shader.
@@ -396,8 +380,6 @@ make_wrapper_same(stopSpell)
 make_wrapper_same(isObstacle)
 make_wrapper_same(startDialog)
 make_wrapper_same(stopDialog)
-make_wrapper_same(setObjectiveCounter)
-make_wrapper_same(showObjectiveCounter)
 make_wrapper_same(printGlDebug)
 make_wrapper_same(save)
 make_wrapper_same(saveCrntReplay)

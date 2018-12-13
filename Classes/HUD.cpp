@@ -135,6 +135,30 @@ bool HUD::init()
     return true;
 }
 
+void HUD::setObjectiveCounter(string iconRes, int val)
+{
+	objectiveCounter->setVisible(true);
+	objectiveCounter->setVal(val);
+	objectiveCounter->setIcon(iconRes);
+}
+
+void HUD::setObjectiveCounterVisible(bool val)
+{
+	objectiveCounter->setVisible(val);
+}
+
+void HUD::showHealth(bool val)
+{
+	health->setVisible(val);
+}
+
+void HUD::setInteractionIcon(const string& val)
+{
+	interactionIcon->setVisible(!val.empty());
+	interactionIcon->setTexture(val);
+}
+
+
 Counter::Counter(const string& iconRes, const int val) :
 val(val),
 iconRes(iconRes)

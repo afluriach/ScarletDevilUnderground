@@ -357,6 +357,8 @@ mutex Inst::queueLock;
 			
 		.beginClass<HUD>("HUD")
 			.addFunction("showHealth", &HUD::showHealth)
+			.addFunction("setObjectiveCounter", &HUD::setObjectiveCounter)
+			.addFunction("setObjectiveCounterVisible", &HUD::setObjectiveCounterVisible)
 		.endClass();
     }
 }
