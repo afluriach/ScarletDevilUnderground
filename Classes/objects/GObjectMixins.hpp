@@ -9,6 +9,7 @@
 #ifndef GObjectMixins_hpp
 #define GObjectMixins_hpp
 
+#include "Attributes.hpp"
 #include "functional.hpp"
 #include "GObject.hpp"
 #include "multifunction.h"
@@ -244,7 +245,7 @@ public:
 	virtual inline GraphicsLayer sceneLayer() const { return GraphicsLayer::ground; }
 
 	//Interface
-	inline int getDamage() const { return damage; }
+	virtual inline AttributeMap getAttributeEffect() const { return AttributeMap(); }
 	virtual inline shared_ptr<MagicEffect> getMagicEffect(gobject_ref target) { return nullptr; }
 protected:
 	int damage = 1;

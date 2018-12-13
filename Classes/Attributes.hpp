@@ -12,12 +12,22 @@
 #include "enum.h"
 
 enum class Attribute {
-	health = 0,
+	begin = 0,
+	hp = 0,
+	mp,
 	power,
+
+	maxHP,
+	maxMP,
+	maxPower,
+
 	speed,
 	acceleration,
+
 	hitProtection,
 	iceSensitivity,
+
+	iceDamage,
 
 	end,
 };
@@ -25,8 +35,11 @@ enum class Attribute {
 typedef array<float, to_size_t(Attribute::end)> AttributeSet;
 typedef map<Attribute, float> AttributeMap;
 
- AttributeSet getAttributeSet(const AttributeMap& input);
- AttributeSet getBlankAttributeSet();
+AttributeSet getAttributeSet(const AttributeMap& input);
+AttributeMap getAttributeMap(Attribute id, float val);
+AttributeSet getBlankAttributeSet();
+
+extern const float maxElementDamage;
 
 class AttributeSystem
 {
@@ -39,6 +52,15 @@ public:
 	AttributeSystem(const AttributeMap& baseAttributesMap);
 
 	float getAdjustedValue(Attribute id) const;
+	void modifyAttribute(Attribute id, float x);
+
+	void setFullHP();
+	void setFullMP();
+	void setEmptyMP();
+	void setFullPower();
+	void setEmptyPower();
+
+	float getWithinRange(float input, float min, float max);
 };
 
 

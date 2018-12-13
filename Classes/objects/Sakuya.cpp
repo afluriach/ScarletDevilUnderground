@@ -13,7 +13,7 @@
 #include "scenes.h"
 
 const AttributeMap Sakuya::baseAttributes = boost::assign::map_list_of
-	(Attribute::health, 30.0f)
+	(Attribute::maxHP, 30.0f)
 	(Attribute::speed, 3.0f)
 	(Attribute::acceleration, 4.5f)
 ;

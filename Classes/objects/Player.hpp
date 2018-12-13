@@ -42,7 +42,7 @@ public:
 	inline virtual GType getRadarType() const { return GType::objectSensor; }
     inline virtual float getDefaultFovAngle() const { return float_pi / 4.0f;}
 
-    virtual void hit(int damage, shared_ptr<MagicEffect> effect);
+    virtual void hit(AttributeMap attributeEffect, shared_ptr<MagicEffect> effect);
     
     inline bool isSpellProtectionMode() const {return spellProtectionMode;}
     inline void setSpellProtectionMode(bool mode) {spellProtectionMode = mode;}

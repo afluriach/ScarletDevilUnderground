@@ -600,7 +600,7 @@ int GSpace::playerEnemyBulletBegin(GObject* playerObj, GObject* bullet)
         log("%s hit by %s", player->name.c_str(), bullet->name.c_str());
 
 	if (player && _bullet) {
-		player->hit(1, _bullet->getMagicEffect(playerObj));
+		player->hit(_bullet->getAttributeEffect(), _bullet->getMagicEffect(playerObj));
 	}
 
 	removeObject(bullet);
@@ -618,7 +618,7 @@ int GSpace::playerBulletEnemyBegin(GObject* a, GObject* b)
         log("%s is not an Enemy", b->getName().c_str());
     
 	if (bullet && _enemy_agent){
-		_enemy_agent->hit(bullet->getDamage(), bullet->getMagicEffect(_enemy_agent));
+		_enemy_agent->hit(bullet->getAttributeEffect(), bullet->getMagicEffect(_enemy_agent));
 	}
 
     if(logPhysicsHandlers)

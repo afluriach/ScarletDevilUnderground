@@ -83,8 +83,8 @@ public:
 	static constexpr float spriteBaseRadius = 0.83f;
 	inline virtual float zoom() const { return getRadius() / spriteBaseRadius * 2; }
 
+	virtual AttributeMap getAttributeEffect() const;
 	virtual shared_ptr<MagicEffect> getMagicEffect(gobject_ref target);
-
 };
 
 class LauncherBullet : virtual public GObject, public EnemyBullet, public CircleBody, public ImageSprite, public DirectionalLaunch
@@ -164,6 +164,7 @@ public:
 	static constexpr float spriteBaseRadius = 0.83f;
 	inline virtual float zoom() const { return getRadius() / spriteBaseRadius * 2; }
 
+	virtual AttributeMap getAttributeEffect() const;
 	virtual shared_ptr<MagicEffect> getMagicEffect(gobject_ref target);
 };
 

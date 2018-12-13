@@ -30,21 +30,12 @@ public:
 	void update();
 
 	//replaces functionality of RadarStateMachineObject by connecting sensor callbacks
-	inline virtual void onDetect(GObject* obj) {
-		fsm.onDetect(obj);
-		RadarObject::onDetect(obj);
-	}
-
-	inline virtual void onEndDetect(GObject* obj) {
-		fsm.onEndDetect(obj);
-		RadarObject::onEndDetect(obj);
-	}
-
-	//Override checks for magic effect sensitivity
-	virtual void addMagicEffect(shared_ptr<MagicEffect> effect);
+	virtual void onDetect(GObject* obj);
+	virtual void onEndDetect(GObject* obj);
 
 	//attribute interface
 	virtual AttributeMap getBaseAttributes() const = 0;
+	float getAttribute(Attribute id) const;
 
 	virtual float getMaxSpeed() const;
 	virtual float getMaxAcceleration() const;
@@ -52,27 +43,11 @@ public:
 	virtual float getMaxHealth() const;
 	virtual float getMaxPower() const;
 
-	inline int getHealth() {
-		return health;
-	}
+	int getHealth();
+	int getPower();
+	bool consumePower(int val);
 
-	inline void setHealth(int val) {
-		health = val;
-	}
-
-	inline int getPower() {
-		return power;
-	}
-
-	inline bool consumePower(int val) {
-		if (power >= val) {
-			power -= val;
-			return true;
-		}
-		return false;
-	}
-
-	virtual void hit(int damage, shared_ptr<MagicEffect> effect);
+	virtual void hit(AttributeMap attributeEffects, shared_ptr<MagicEffect> effect);
 
 	//sensor interface
 	virtual float getRadarRadius() const { return 1.0f; }
@@ -92,9 +67,6 @@ public:
 	virtual inline void initStateMachine(ai::StateMachine& sm) {}
 protected:
 	AttributeSystem attributeSystem;
-
-	int health;
-	int power;
 };
 
 template<class T>
@@ -115,6 +87,7 @@ public:
 
 	inline virtual AttributeMap getBaseAttributes() const {
 		return {};
+		return AttributeMap();
 	}
 };
 

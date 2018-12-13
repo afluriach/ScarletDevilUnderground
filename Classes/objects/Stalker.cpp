@@ -10,7 +10,7 @@
 #include "Stalker.hpp"
 
 const AttributeMap Stalker::baseAttributes = boost::assign::map_list_of
-	(Attribute::health, 12.0f)
+	(Attribute::maxHP, 12.0f)
 	(Attribute::speed, 1.5f)
 	(Attribute::acceleration, 4.5f)
 ;

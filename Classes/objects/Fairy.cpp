@@ -13,7 +13,7 @@
 #include "FirePattern.hpp"
 
 const AttributeMap Fairy1::baseAttributes = boost::assign::map_list_of
-(Attribute::health, 5.0f)
+(Attribute::maxHP, 5.0f)
 (Attribute::speed, 3.0f)
 (Attribute::acceleration, 4.5f)
 ;
@@ -28,7 +28,7 @@ void Fairy1::initStateMachine(ai::StateMachine& sm) {
 }
 
 const AttributeMap Fairy2::baseAttributes = boost::assign::map_list_of
-(Attribute::health, 15.0f)
+(Attribute::maxHP, 15.0f)
 (Attribute::speed, 4.5f)
 (Attribute::acceleration, 4.5f)
 ;
@@ -43,7 +43,7 @@ void Fairy2::initStateMachine(ai::StateMachine& sm) {
 }
 
 const AttributeMap IceFairy::baseAttributes = boost::assign::map_list_of
-(Attribute::health, 15.0f)
+(Attribute::maxHP, 15.0f)
 (Attribute::speed, 4.5f)
 (Attribute::acceleration, 4.5f)
 (Attribute::iceSensitivity, 0.0f)

@@ -243,7 +243,7 @@ void TouchDamageEnemy::endTouchPlayer()
 void TouchDamageEnemy::update()
 {
 	if(hitTarget)
-		hitTarget->hit(1, nullptr);
+		hitTarget->hit(getAttributeMap(Attribute::hp, -1), nullptr);
 }
 
 //END ENEMY

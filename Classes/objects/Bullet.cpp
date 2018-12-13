@@ -34,8 +34,15 @@ LauncherBullet::LauncherBullet(GSpace* space, ObjectIDType id, float angle, cons
 	GObject(space, id, "LauncherBullet", pos, angle, true)
 {}
 
+AttributeMap IceFairyBullet::getAttributeEffect() const{
+	return {
+		{ Attribute::hp, -1 },
+		{ Attribute::iceDamage, 25 }
+	};
+}
+
 shared_ptr<MagicEffect> IceFairyBullet::getMagicEffect(gobject_ref target) {
-	return make_shared<FrostStatusEffect>(target, 0.25f);
+	return nullptr;
 }
 
 IllusionDialDagger::IllusionDialDagger(GSpace* space, ObjectIDType id, const SpaceVect& pos, float angular_velocity) :
@@ -78,8 +85,15 @@ CirnoLargeIceBullet::CirnoLargeIceBullet(GSpace* space, ObjectIDType id, float a
 	GObject(space,id,"bigIce1", pos, angle, true)
 {}
 
+AttributeMap CirnoLargeIceBullet::getAttributeEffect() const {
+	return {
+		{Attribute::hp, -1},
+		{Attribute::iceDamage, 50}
+	};
+}
+
 shared_ptr<MagicEffect> CirnoLargeIceBullet::getMagicEffect(gobject_ref target)
 {
-	return make_shared<FrostStatusEffect>(target, 0.5f);
+	return nullptr;
 }
 

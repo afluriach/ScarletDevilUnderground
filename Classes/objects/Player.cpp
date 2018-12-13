@@ -40,7 +40,7 @@ void Player::init()
 	if(getFirePattern())
 		app->hud->firePatternIcon->setTexture(getFirePattern()->iconPath());
 
-	app->hud->health->setMax(health);
+	app->hud->health->setMax(attributeSystem.getAdjustedValue(Attribute::maxHP));
 
 	equipSpells();
 }
@@ -79,7 +79,7 @@ void Player::updateSpellControls(const ControlInfo& cs)
         
         if(spellCooldown <= 0){
             if( cs.isControlActionPressed(ControlAction::spell1) &&
-                power > equippedSpell->getInitialCost()){
+                attributeSystem.getAdjustedValue(Attribute::power) >= equippedSpell->getInitialCost()){
 				cast(equippedSpell->generate(this, {}));
             }
         }
@@ -161,7 +161,7 @@ void Player::update()
 
 	updateHitTime();
     
-    if(health <= 0 && !app->suppressGameOver)
+    if(attributeSystem.getAdjustedValue(Attribute::hp) <= 0 && !app->suppressGameOver)
         app->playScene->triggerGameOver();
 }
 
@@ -175,7 +175,7 @@ void Player::applyAttributeModifier(Attribute id, float val)
 	attributeSystem.modifiers.at(to_size_t(id)) += val;
 }
 
-void Player::hit(int damage, shared_ptr<MagicEffect> effect){
+void Player::hit(AttributeMap attributeEffect, shared_ptr<MagicEffect> effect){
     if(hitProtectionCountdown <= 0 && !spellProtectionMode){
 
         hitProtectionCountdown = attributeSystem.getAdjustedValue(Attribute::hitProtection);
@@ -189,7 +189,7 @@ void Player::hit(int damage, shared_ptr<MagicEffect> effect){
 		);
         app->hud->health->runFlicker(boost::rational_cast<float>(hitProtectionCountdown));
 
-		Agent::hit(damage, effect);
+		Agent::hit(attributeEffect, effect);
     }
 }
 
@@ -198,11 +198,8 @@ void Player::onCollectible(Collectible* coll)
     PowerUp* p = dynamic_cast<PowerUp*>(coll);
     
     if(p){
-        power += 10;
-        
-        if(power > attributeSystem.getAdjustedValue(Attribute::power))
-            power = attributeSystem.getAdjustedValue(Attribute::power);
-        
+		attributeSystem.modifyAttribute(Attribute::power, 10);
+                
         space->removeObject(coll);
     }
 }
@@ -236,8 +233,8 @@ bool Player::trySetFirePatternPrevious()
 }
 
 const AttributeMap FlandrePC::baseAttributes = boost::assign::map_list_of
-	(Attribute::health, 5.0f)
-	(Attribute::power, 500.0f)
+	(Attribute::maxHP, 5.0f)
+	(Attribute::maxPower, 500.0f)
 	(Attribute::speed, 3.0f)
 	(Attribute::acceleration, 9.0f)
 	(Attribute::hitProtection, 2.4f)
@@ -261,8 +258,8 @@ void FlandrePC::equipSpells() {
 }
 
 const AttributeMap RumiaPC::baseAttributes = boost::assign::map_list_of
-(Attribute::health, 3.0f)
-(Attribute::power, 900.0f)
+(Attribute::maxHP, 3.0f)
+(Attribute::maxPower, 900.0f)
 (Attribute::speed, 4.5f)
 (Attribute::acceleration, 12.0f)
 (Attribute::hitProtection, 1.5f)
@@ -284,8 +281,8 @@ void RumiaPC::equipSpells() {
 }
 
 const AttributeMap CirnoPC::baseAttributes = boost::assign::map_list_of
-(Attribute::health, 9.0f)
-(Attribute::power, 300.0f)
+(Attribute::maxHP, 9.0f)
+(Attribute::maxPower, 300.0f)
 (Attribute::speed, 2.0f)
 (Attribute::acceleration, 6.0f)
 (Attribute::hitProtection, 3.3f)

@@ -414,14 +414,6 @@ void GObject::updateMagicEffects()
 			continue;
 		}
 
-		//Check for MagicEffect of the same type already on this object.
-		for (shared_ptr<MagicEffect> crntEffect : magicEffects)
-		{
-			if (crntEffect->combine(newEffect)) {
-				continue;
-			}
-		}
-
 		magicEffects.push_back(newEffect);
 	}
 

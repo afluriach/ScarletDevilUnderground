@@ -8,6 +8,7 @@
 
 #include "Prefix.h"
 
+#include "Agent.hpp"
 #include "AIMixins.hpp"
 #include "App.h"
 #include "GObject.hpp"
@@ -20,50 +21,8 @@ magnitude(magnitude),
 crntState(state::created)
 {}
 
-bool MagicEffect::combine(shared_ptr<MagicEffect> rhs) {
-	MagicEffect* _rhs = rhs.get();
-
-	if(_rhs && typeid(this) == typeid(_rhs)){
-		magnitude += _rhs->magnitude;
-		return true;
-	}
-	return false;
-}
-
-FrostStatusEffect::FrostStatusEffect(gobject_ref target, float magnitude) :
-	MagicEffectImpl<FrostStatusEffect>(target, magnitude)
-{}
-
-void FrostStatusEffect::init()
-{
-	//apply attribute debuff, if applicable
-}
-
-void FrostStatusEffect::update()
-{
-	//if magnitude of effect is high effect, convert to Freeze effect
-
-	if (magnitude >= 1.0f)
-	{
-		crntState = state::ending;
-		target.get()->addMagicEffect(make_shared<FreezeStatusEffect>(target, 3.0f));
-	}
-	else {
-		magnitude -= 0.1 * App::secondsPerFrame;
-
-		if (magnitude <= 0.0f) {
-			crntState = state::ending;
-		}
-	}
-}
-
-void FrostStatusEffect::end()
-{
-	//remove attribute debuff, if applicable
-}
-
-FreezeStatusEffect::FreezeStatusEffect(gobject_ref target, float magnitude) :
-	MagicEffectImpl<FreezeStatusEffect>(target, magnitude)
+FreezeStatusEffect::FreezeStatusEffect(gobject_ref target) :
+	MagicEffectImpl<FreezeStatusEffect>(target, 0.0f)
 {}
 
 void FreezeStatusEffect::init()
@@ -83,11 +42,17 @@ void FreezeStatusEffect::init()
 
 void FreezeStatusEffect::update()
 {
-	magnitude -= App::secondsPerFrame;
+	Agent* _target = dynamic_cast<Agent*>(target.get());
 
-	if (magnitude <= 0.0f) {
+	if (!_target) {
+		crntState = state::ending;
+		return;
+	}
+
+	if (_target->getAttribute(Attribute::iceDamage) < 75.0f) {
 		crntState = state::ending;
 	}
+
 	else {
 		ai::applyDesiredVelocity(*target.get(), SpaceVect::zero, target.get()->getMaxAcceleration());
 	}

@@ -11,7 +11,7 @@
 #include "Tewi.hpp"
 
 const AttributeMap Tewi::baseAttributes = boost::assign::map_list_of
-	(Attribute::health, 5.0f)
+	(Attribute::maxHP, 5.0f)
 	(Attribute::speed, 2.4f)
 	(Attribute::acceleration, 6.0f)
 ;

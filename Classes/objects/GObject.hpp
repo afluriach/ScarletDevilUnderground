@@ -207,6 +207,17 @@ public:
 	virtual void addMagicEffect(shared_ptr<MagicEffect> effect);
 	void updateMagicEffects();
 
+	template<class T>
+	inline bool hasMagicEffect()
+	{
+		for (auto it = magicEffects.begin(); it != magicEffects.end(); ++it) {
+			if (dynamic_cast<T*>(it->get())) {
+				return true;
+			}
+		}
+		return false;
+	}
+
 	//END SPELLS
 
 	//BEGIN SENSORY

@@ -30,8 +30,6 @@ public:
 	virtual void update() = 0;
 	virtual void end() = 0;
 
-	bool combine(shared_ptr<MagicEffect> rhs);
-
 	gobject_ref target;
 	float magnitude;
 	state crntState;
@@ -48,20 +46,10 @@ public:
 	{}
 };
 
-class FrostStatusEffect : public MagicEffectImpl<FrostStatusEffect>
-{
-public:
-	FrostStatusEffect(gobject_ref target, float magnitude);
-
-	virtual inline void init();
-	virtual void update();
-	virtual void end();
-};
-
 class FreezeStatusEffect : public MagicEffectImpl<FreezeStatusEffect>
 {
 public:
-	FreezeStatusEffect(gobject_ref target, float magnitude);
+	FreezeStatusEffect(gobject_ref target);
 
 	virtual inline void init();
 	virtual void update();
