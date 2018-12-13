@@ -23,6 +23,8 @@ protected:
     const float interval = 0.5;
     //Base size of shape.
     const int halfSize = 20;
+
+	int scaledSize();
     
     Color4F colors[6] = {
         Color4F(1.0f,0.0f,0.0f,1.0f),

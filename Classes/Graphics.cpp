@@ -8,6 +8,7 @@
 
 #include "Prefix.h"
 
+#include "App.h"
 #include "Graphics.h"
 
 const string defaultFont = "Arial";
@@ -71,6 +72,11 @@ void Cursor::reset()
     drawShape();
 }
 
+int Cursor::scaledSize()
+{
+	return halfSize * App::getScale();
+}
+
 void DiamondCursor::onEnter()
 {
     Cursor::onEnter();
@@ -80,17 +86,19 @@ void DiamondCursor::onEnter()
 
 void DiamondCursor::drawShape()
 {
+	float hSize = scaledSize();
     drawNode->clear();
-    drawNode->drawSolidRect(Vec2(-halfSize,-halfSize), Vec2(halfSize,halfSize), colors[crntColor]);
+    drawNode->drawSolidRect(Vec2(-hSize,-hSize), Vec2(hSize, hSize), colors[crntColor]);
 }
 
 void DownTriangleCursor::drawShape()
 {
-    drawNode->clear();
+	float hSize = scaledSize();
+	drawNode->clear();
     
-    Vec2 left(-halfSize,halfSize);
-    Vec2 right(halfSize,halfSize);
-    Vec2 bottom(0,-halfSize);
+    Vec2 left(-hSize, hSize);
+    Vec2 right(hSize, hSize);
+    Vec2 bottom(0,-hSize);
     
     drawNode->drawTriangle(left,right,bottom,colors[crntColor]);
 }

@@ -30,8 +30,10 @@ public:
         KeyRegisterEvent,
     };
     
-    static const int width = 1600;
-    static const int height = 1000;
+    static unsigned int width;
+    static unsigned int height;
+
+	static const unsigned int baseWidth = 1600;
     
     //Game options set through the script API
     float screenscale = 1;
@@ -60,6 +62,8 @@ public:
         return Vec2(width/2, height/2);
     }
     
+	static float getScale();
+
     App();
     virtual ~App();
 

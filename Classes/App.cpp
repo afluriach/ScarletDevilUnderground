@@ -19,6 +19,14 @@ const vector<string> App::shaderFiles = boost::assign::list_of
 ("hue_shift_right")
 ;
 
+unsigned int App::width = 1600;
+unsigned int App::height = 1000;
+
+float App::getScale()
+{
+	return 1.0f * width / baseWidth;
+}
+
 App::App() : lua("app")
 {
     app = this;

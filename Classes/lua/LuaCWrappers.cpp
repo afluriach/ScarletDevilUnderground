@@ -114,6 +114,12 @@ void setFullscreen(bool fs)
     app->fullscreen = fs;
 }
 
+void setResolution(unsigned int width, unsigned int height)
+{
+	App::width = width;
+	App::height = height;
+}
+
 GObject* getObjByName(string name)
 {
     if(!app->space) throw lua_runtime_error("getObjByName: Cannot access objects in this scene.");
@@ -483,6 +489,7 @@ make_wrapper_same(addUpdate)
 make_wrapper_same(setscreenscale)
 make_wrapper_same(setdpiscale)
 make_wrapper_same(setFullscreen)
+make_wrapper_same(setResolution)
 make_wrapper_same(getObjByName)
 make_wrapper_same(getObjectNames)
 make_wrapper_same(isValidObject)

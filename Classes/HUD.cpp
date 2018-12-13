@@ -95,16 +95,20 @@ bool HUD::init()
 //        Vec2(App::width, App::height),
 //        backgroundColor
 //    );
+
+	float scale = App::getScale();
     
     health = Node::ccCreate<HealthBar>();
-    health->setPosition(32, App::height - height/2);
+    health->setPosition(32*scale, App::height - height/2);
     addChild(health, 2);
     health->setMax(1);
-    
+	health->setScale(scale);
+
     power = Node::ccCreate<PowerMeter>();
     power->setPosition(App::width/2, App::height - height/2);
     addChild(power,2);
     power->setVal(0);
+	power->setScale(scale);
     
     objectiveCounter = new Counter("", 0);
     objectiveCounter->setPosition(Counter::spacing/2 + Counter::iconSize + 8, Counter::iconSize/2 + 8);
@@ -112,13 +116,13 @@ bool HUD::init()
     objectiveCounter->setVisible(false);
     
     interactionIcon = Sprite::create();
-    interactionIcon->setPosition(App::width - 64, App::height - 64);
-    interactionIcon->setScale(0.5);
+    interactionIcon->setPosition(App::width - 64*scale, App::height - 64*scale);
+    interactionIcon->setScale(0.5*scale);
     addChild(interactionIcon);
 
 	firePatternIcon = Sprite::create();
-	firePatternIcon->setPosition(App::width - 128, App::height - 64);
-	firePatternIcon->setScale(0.5);
+	firePatternIcon->setPosition(App::width - 128*scale, App::height - 64*scale);
+	firePatternIcon->setScale(0.5*scale);
 	addChild(firePatternIcon);
 
     return true;
