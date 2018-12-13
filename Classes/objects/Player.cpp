@@ -207,6 +207,12 @@ void Player::onCollectible(Collectible* coll)
     }
 }
 
+void Player::applyGraze(int p)
+{
+	attributeSystem.modifyAttribute(Attribute::power, p);
+}
+
+
 bool Player::trySetFirePattern(int idx)
 {
 	FirePattern* fp = getFirePattern();

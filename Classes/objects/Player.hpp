@@ -82,6 +82,7 @@ public:
 	bool trySetFirePatternPrevious();
 
     void onCollectible(Collectible* coll);
+	void applyGraze(int p);
 protected:
     boost::rational<int> hitProtectionCountdown = 0;
 	boost::rational<int> spellCooldown = 0;

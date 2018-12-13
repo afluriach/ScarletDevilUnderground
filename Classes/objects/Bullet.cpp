@@ -27,6 +27,7 @@ const vector<string> StarBullet::colors = boost::assign::list_of
 ;
 
 IceFairyBullet::IceFairyBullet(GSpace* space, ObjectIDType id, float angle, const SpaceVect& pos) :
+	Grazeable(0.6f,5),
 	GObject(space, id, "IceFairyBullet", pos, angle, true)
 {}
 

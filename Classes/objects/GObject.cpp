@@ -108,6 +108,7 @@ void GObject::update()
 	multiUpdate();
 	runLuaUpdate();
 	updateSprite();
+	updateRadarPos();
 	updateSpells();
 	updateMagicEffects();
 	updateFloorSegment();
@@ -293,6 +294,13 @@ void GObject::updateFloorSegment()
 
 	crntFloor = nextFloor;
 }
+
+void GObject::updateRadarPos()
+{
+	if(radar && body)
+		radar->setPos(body->getPos());
+}
+
 
 //END PHYSICS
 

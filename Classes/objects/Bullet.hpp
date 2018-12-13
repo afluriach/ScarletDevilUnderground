@@ -69,7 +69,13 @@ public:
     inline virtual float zoom() const {return getRadius()/spriteBaseRadius*2;}
 };
 
-class IceFairyBullet : virtual public GObject, public EnemyBullet, public CircleBody, public ImageSprite, public DirectionalLaunch
+class IceFairyBullet :
+	virtual public GObject,
+	public EnemyBullet,
+	public Grazeable,
+	public CircleBody,
+	public ImageSprite,
+	public DirectionalLaunch
 {
 public:
 

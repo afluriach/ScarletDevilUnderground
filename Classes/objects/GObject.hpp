@@ -146,6 +146,8 @@ public:
 	virtual void initializeBody(GSpace& space) = 0;
 	inline virtual void initializeRadar(GSpace& space) {};
 
+	void updateRadarPos();
+
 	//END PHYSICS
     
 	//BEGIN LUA

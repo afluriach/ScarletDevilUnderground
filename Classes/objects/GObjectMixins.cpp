@@ -247,3 +247,43 @@ void TouchDamageEnemy::update()
 }
 
 //END ENEMY
+
+//TYPE MIXINS
+
+Grazeable::Grazeable(float grazeRadius, int grazeBonus) :
+grazeRadius(grazeRadius),
+grazeBonus(grazeBonus)
+{}
+
+void Grazeable::onGrazeTouch(object_ref<Player> p)
+{
+	grazeTarget = p;
+}
+
+void Grazeable::invalidateGraze()
+{
+	grazeValid = false;
+}
+
+void Grazeable::onGrazeCleared(object_ref<Player> p)
+{
+	if(grazeTarget == p && p.isValid() && grazeValid)
+	{
+		p.get()->applyGraze(grazeBonus);
+	}
+}
+
+void Grazeable::initializeRadar(GSpace& space)
+{
+	radar = space.createCircleBody(
+		initialCenter,
+		grazeRadius,
+		0.1f,
+		GType::enemyBulletRadar,
+		PhysicsLayers::all,
+		true,
+		this
+	);
+}
+
+//END TYPE

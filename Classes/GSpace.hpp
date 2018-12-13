@@ -243,6 +243,8 @@ private:
 	int playerEnemyBegin(GObject* a, GObject* b);
 	int playerEnemyEnd(GObject* a, GObject* b);
 	int playerEnemyBulletBegin(GObject* playerObj, GObject* bullet);
+	int playerEnemyBulletRadarBegin(GObject* playerObj, GObject* bullet);
+	int playerEnemyBulletRadarEnd(GObject* playerObj, GObject* bullet);
 	int playerBulletEnemyBegin(GObject* a, GObject* b);
 	int playerFlowerBegin(GObject* a, GObject* b);
     int playerCollectibleBegin(GObject* a, GObject* b);

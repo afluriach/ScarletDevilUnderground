@@ -267,6 +267,25 @@ public:
 	virtual inline GType getType() const { return GType::enemyBullet; }
 };
 
+class Grazeable : virtual public GObject, public EnemyBullet
+{
+public:
+	Grazeable(float grazeRadius, int grazeBonus);
+
+	//The bullet's graze "radar" has collided with Player.
+	void onGrazeTouch(object_ref<Player> obj);
+	//Effect is applied after the graze "radar" loses contact.
+	void onGrazeCleared(object_ref<Player> obj);
+	void invalidateGraze();
+
+	virtual void initializeRadar(GSpace& space);
+
+protected:
+	object_ref<Player> grazeTarget;
+	bool grazeValid = true;
+	const float grazeRadius;
+	const int grazeBonus;
+};
 
 //END TYPE MIXINS
 

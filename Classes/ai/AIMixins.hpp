@@ -84,12 +84,7 @@ public:
     
     bool isObjectVisible(GObject* otther);
 
-    void update();
-    void updateVisibleObjects();
-    
-	inline void updateRadarPos() {
-		radar->setPos(body->getPos());
-	}
+    void update();    
 protected:
     unordered_set<GObject*> objectsInRange;
     unordered_set<GObject*> visibleObjects;

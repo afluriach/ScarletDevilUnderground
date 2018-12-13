@@ -61,12 +61,6 @@ void RadarObject::initializeRadar(GSpace& space)
     );
 }
 
-void RadarObject::update()
-{
-    updateRadarPos();
-    updateVisibleObjects();
-}
-
 //Objects that gain/lose visibility because they enter/exit sensor range will be
 //processed during the next update.
 void RadarObject::radarCollision(GObject* obj)
@@ -115,7 +109,7 @@ void RadarObject::setFovAngle(float angle)
     }
 }
 
-void RadarObject::updateVisibleObjects()
+void RadarObject::update()
 {
     BOOST_FOREACH(GObject* obj, objectsInRange)
     {

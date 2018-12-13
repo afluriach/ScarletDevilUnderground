@@ -56,6 +56,7 @@ enum class GType{
     playerBullet,
     enemy,
     enemyBullet,
+	enemyBulletRadar,
     environment,
     foliage,
     wall,
