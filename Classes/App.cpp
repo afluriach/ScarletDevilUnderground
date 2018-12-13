@@ -91,7 +91,7 @@ bool App::applicationDidFinishLaunching() {
     );
     
     //Create title menu scene and run it.
-    runScene<TitleMenu>();
+    runTitleScene();
     lua.runFile("scripts/title.lua");
 
     return true;
@@ -113,54 +113,9 @@ void App::applicationWillEnterForeground() {
     // SimpleAudioEngine::getInstance()->resumeBackgroundMusic();
 }
 
-Scene* App::createSceneFromLayer(Layer* layer)
-{
-    Scene* scene  = Scene::create();
-    scene->addChild(layer,1);
-    
-    GScene* gscene = dynamic_cast<GScene*>(layer);
-    if(gscene)
-        installLuaShell(gscene);
-    else
-        log("createSceneFromLayer: Lua shell not installed for non-GScene.");
-    
-    return scene;
-}
-
-
 void App::end()
 {
     Director::getInstance()->end();
-}
-
-void App::checkPendingScript()
-{
-    if(!pendingScript.empty()){
-        lua.runString(pendingScript);
-        pendingScript.clear();
-    }
-    Lua::Inst::runCommands();
-}
-
-void App::installLuaShell(GScene* gscene)
-{
-    luaShell = Node::ccCreate<LuaShell>();
-    luaShell->setVisible(false);
-    gscene->control_listener->addPressListener(
-        ControlAction::scriptConsole,
-        [=]() -> void {luaShell->toggleVisible();}
-    );
-	gscene->control_listener->addPressListener(
-        ControlAction::enter,
-        [=]() -> void {if(luaShell->isVisible()) pendingScript = luaShell->getText();}
-    );
-    
-    gscene->multiUpdate.insertWithOrder(
-        bind(&App::checkPendingScript,this),
-        static_cast<int>(GScene::updateOrder::runShellScript)
-    );
-    
-    gscene->getLayer(GScene::sceneLayers::luaShell)->addChild(luaShell, 1);
 }
 
 void App::loadShaders()
@@ -170,8 +125,31 @@ void App::loadShaders()
     }
 }
 
+void App::runTitleScene()
+{
+	runScene<TitleMenuScene>();
+}
+
+GScene* App::getCrntScene()
+{
+	return dynamic_cast<GScene*>(Director::getInstance()->getRunningScene());
+}
+
+void App::restartScene()
+{
+	GScene* crntScene = getCrntScene();
+
+	if (crntScene)
+		Director::getInstance()->runScene(crntScene->getReplacementScene());
+}
+
+void App::popScene()
+{
+	Director::getInstance()->popScene();
+}
+
+
 void App::update(float dt)
 {
-    checkPendingScript();
     control_register->update();
 }

@@ -290,6 +290,11 @@ void PlayScene::triggerReplayCompleted()
 	);
 }
 
+GScene* PlayScene::getReplacementScene()
+{
+	return Node::ccCreate<PlayScene>(sceneName, maps);
+}
+
 void PlayScene::initReplayData()
 {
 	controlReplay = make_unique<ControlReplay>();

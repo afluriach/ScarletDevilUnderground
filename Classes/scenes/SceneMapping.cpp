@@ -47,6 +47,6 @@ const unordered_map<string,GScene::AdapterType> GScene::adapters = boost::assign
 	entry_same(Mine)
 	PlaySceneMapName(SakuyaRoom)
 	PlaySceneMapName(StalkerRoom)
-	entry_same(TitleMenu)
+	entry_same(TitleMenuScene)
 	PlaySceneMapName(Wander)
 ;

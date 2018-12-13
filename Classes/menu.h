@@ -10,6 +10,7 @@
 #define menu_h
 
 #include "Graphics.h"
+#include "scenes.h"
 
 class ControlListener;
 class SceneSelect;
@@ -71,6 +72,13 @@ private:
     }
 };
 
+class TitleMenuScene : public GScene
+{
+public:
+	TitleMenuScene();
+	virtual bool init();
+};
+
 class TitleMenu : public TextListMenuLayer
 {
 public:    
@@ -78,7 +86,13 @@ public:
 private:
     static void start();
     static void sceneSelect();
-    static void exit();
+};
+
+class SceneSelectScene : public GScene
+{
+public:
+	SceneSelectScene();
+	virtual bool init();
 };
 
 class SceneSelect : public TextListMenuLayer
@@ -86,7 +100,6 @@ class SceneSelect : public TextListMenuLayer
 public:
     static const vector<string> sceneTitles;
     static const vector<listAction> sceneActions;
-    
     
     inline SceneSelect() :
     TextListMenuLayer(
@@ -107,7 +120,6 @@ public:
 	static const vector<string> entryNames;
 	static const vector<listAction> entryActions;
 
-	
 	inline PauseMenu() : TextListMenuLayer(
 		title,
 		entryNames,
@@ -115,8 +127,6 @@ public:
 	)
 	{}
 
-	static void goToTitle();
-	static void restart();
 	static void resumeScene();
 };
 
@@ -127,16 +137,12 @@ public:
 	static const vector<string> entryNames;
 	static const vector<listAction> entryActions;
 
-	
 	inline GameOverMenu() : TextListMenuLayer(
 		title,
 		entryNames,
 		entryActions
 	)
 	{}
-
-	static void goToTitle();
-	static void restart();
 };
 
 class ChamberCompletedMenu : public TextListMenuLayer
@@ -152,9 +158,6 @@ public:
 		entryActions
 	)
 	{}
-
-	static void goToTitle();
-	static void restart();
 };
 
 class ReplayCompletedMenu : public TextListMenuLayer

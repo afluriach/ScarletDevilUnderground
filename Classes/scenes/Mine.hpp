@@ -21,6 +21,8 @@ public:
 
 	Mine();
 	inline virtual ~Mine() {}
+
+	virtual GScene* getReplacementScene();
 };
 
 #endif /* Mine_hpp */

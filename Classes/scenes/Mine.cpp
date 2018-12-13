@@ -40,3 +40,8 @@ PlayScene("Mine", rooms)
 {
 
 }
+
+GScene* Mine::getReplacementScene()
+{
+	return Node::ccCreate<Mine>();
+}

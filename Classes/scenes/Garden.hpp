@@ -24,6 +24,10 @@ public:
     static constexpr float weight = 0.3f;
     void generateFlowers();
     void addFlower(const SpaceVect& pos);
+
+	virtual inline GScene* getReplacementScene() {
+		return Node::ccCreate<GardenBlooming>();
+	}
 };
 
 #endif /* Garden_hpp */

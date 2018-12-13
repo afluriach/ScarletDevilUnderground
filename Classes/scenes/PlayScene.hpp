@@ -61,9 +61,11 @@ public:
 	void triggerReplayCompleted();
 	void showReplayCompletedMenu(float unused);
 
+	virtual GScene* getReplacementScene();
 
     HUD* hud = nullptr;
 	PauseMenu* pauseMenu = nullptr;
+
 private:    
     void addHUD();
 

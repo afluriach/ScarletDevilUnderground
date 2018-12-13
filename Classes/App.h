@@ -65,6 +65,22 @@ public:
     
 	static float getScale();
 
+	//Methods for controlling the active scene; wraps calls to Director.
+	static void runTitleScene();
+	static void restartScene();
+	static GScene* getCrntScene();
+	static inline void popScene();
+
+	template <typename T, typename... Args>
+	static inline void runScene(Args... args)
+	{
+		Director::getInstance()->runScene(
+			Node::ccCreate<T>(args...)
+		);
+	}
+
+	static void end();
+
     App();
     virtual ~App();
 
@@ -103,21 +119,7 @@ public:
     @param  the pointer of the application
     */
     virtual void applicationWillEnterForeground();
-    
-    void end();
-    
-    //Methods for controlling the active scene; wraps calls to Director.
-    inline void popScene()
-    {
-        Director::getInstance()->popScene();
-    }
-
-    template <typename T, typename... Args>
-    inline void runScene(Args... args)
-    {
-        Director::getInstance()->runScene(createSceneFromLayer<T>(args...));
-    }
-    
+            
     //Generate [min,max)
     inline float getRandomFloat(float min, float max){
         float u01 = randomFloat(randomEngine);
@@ -130,23 +132,8 @@ public:
         return randomInt(randomEngine, boost::random::uniform_int_distribution<int>::param_type(min,max));
     }
     
-    void checkPendingScript();
 protected:
     void update(float dt);
-
-    //The shell that is installed in the current scene.
-    LuaShell* luaShell;
-    string pendingScript;
-    
-    Scene* createSceneFromLayer(Layer* layer);
-
-    template <typename T, typename... Args>
-    inline Scene* createSceneFromLayer(Args... args)
-    {
-        return createSceneFromLayer(Node::ccCreate<T>(args...));
-    }
-    
-    void installLuaShell(GScene* scene);
 };
 
 #endif // _APP_DELEGATE_H_

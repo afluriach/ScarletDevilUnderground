@@ -33,6 +33,10 @@ public:
         
         createDialog("dialogs/library_opening", false);
     }
+
+	inline virtual GScene* getReplacementScene() {
+		return Node::ccCreate<LibraryOpening>();
+	}
 };
 
 #endif /* LibraryOpening_h */

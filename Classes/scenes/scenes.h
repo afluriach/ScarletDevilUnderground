@@ -12,17 +12,18 @@
 #include "multifunction.h"
 #include "types.h"
 
+class ControlListener;
 class Dialog;
 class GSpace;
 class HUD;
-class ControlListener;
+class LuaShell;
 class PlayScene;
 
 namespace Lua{
     class Inst;
 }
 
-class GScene : public Layer
+class GScene : public Scene
 {
 public:
     //The order of initialization events, as performed by GScene and it's various dervied classes.
@@ -90,9 +91,10 @@ public:
 	GScene(const string& sceneName, const vector<MapEntry>& maps);
 
     virtual ~GScene();
-    bool init();
+    virtual bool init();
     void update(float dt);
-    
+	virtual GScene* getReplacementScene();
+
     void setPaused(bool p);
 	inline virtual void enterPause() {}
 	inline virtual void exitPause() {}
@@ -129,6 +131,8 @@ protected:
 	void loadObjectGroup(TMXObjectGroup* group, IntVec2 offset);
 	void loadWalls(const TMXTiledMap& map, IntVec2 offset);
 
+	void installLuaShell();
+	void checkPendingScript();
 	void runScriptInit();
 	void runScriptUpdate();
 
@@ -138,10 +142,14 @@ protected:
 	//the scale applied to the space layer
 	float spaceZoom = 1;
 
+	string sceneName;
 	vector<MapEntry> maps;
 	IntVec2 dimensions;
 
 	unique_ptr<Lua::Inst> ctx;
+	//The shell that is installed in the current scene.
+	LuaShell* luaShell;
+	string pendingScript;
 
 	bool isPaused = false;
 };

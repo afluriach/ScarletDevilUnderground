@@ -67,7 +67,6 @@ void TextListMenuLayer::downReleased()
     downHeld = false;
 }
 
-
 const vector<string> SceneSelect::sceneTitles = boost::assign::list_of
 	("Collect")
 	("Stalker Room")
@@ -143,10 +142,37 @@ bool TextListMenuLayer::init()
     return true;
 }
 
+TitleMenuScene::TitleMenuScene() :
+GScene("")
+{}
+
+bool TitleMenuScene::init()
+{
+	GScene::init();
+
+	addChild(Node::ccCreate<TitleMenu>());
+
+	return true;
+}
+
+SceneSelectScene::SceneSelectScene() :
+	GScene("")
+{}
+
+bool SceneSelectScene::init()
+{
+	GScene::init();
+
+	addChild(Node::ccCreate<SceneSelect>());
+
+	return true;
+}
+
+
 TitleMenu::TitleMenu() : TextListMenuLayer(
         App::title,
         list_of_typed( ("Start")("Scene Select")("Exit"), vector<string>),
-        list_of_typed( (start)(sceneSelect)(exit), vector<listAction>)
+        list_of_typed( (start)(sceneSelect)(&App::end), vector<listAction>)
 )
 {}
                                   
@@ -157,17 +183,12 @@ void TitleMenu::start()
 
 void TitleMenu::sceneSelect()
 {
-    app->runScene<SceneSelect>();
-}
-
-void TitleMenu::exit()
-{
-    app->end();
+	app->runScene<SceneSelectScene>();
 }
 
 void SceneSelect::back()
 {
-    app->runScene<TitleMenu>();
+    app->runScene<TitleMenuScene>();
 }
 
 const string PauseMenu::title = "-PAUSED-";
@@ -180,23 +201,13 @@ const vector<string> PauseMenu::entryNames = boost::assign::list_of
 
 const vector<TextListMenuLayer::listAction> PauseMenu::entryActions = boost::assign::list_of
 	(PauseMenu::resumeScene)
-	(PauseMenu::restart)
-	(PauseMenu::goToTitle)
+	(&App::restartScene)
+	(&App::runTitleScene)
 ;
 
 void PauseMenu::resumeScene()
 {
-	GScene::crntScene->exitPause();
-}
-
-void PauseMenu::restart()
-{
-	GScene::restartScene();
-}
-
-void PauseMenu::goToTitle()
-{
-	GScene::runScene("TitleMenu");
+	App::getCrntScene()->exitPause();
 }
 
 const string GameOverMenu::title = "GAME OVER";
@@ -207,19 +218,9 @@ const vector<string> GameOverMenu::entryNames = boost::assign::list_of
 ;
 
 const vector<TextListMenuLayer::listAction> GameOverMenu::entryActions = boost::assign::list_of
-	(PauseMenu::restart)
-	(PauseMenu::goToTitle)
+	(&App::restartScene)
+	(&App::runTitleScene)
 ;
-
-void GameOverMenu::restart()
-{
-	GScene::restartScene();
-}
-
-void GameOverMenu::goToTitle()
-{
-	GScene::runScene("TitleMenu");
-}
 
 const string ChamberCompletedMenu::title = "COMPLETED!";
 
@@ -229,20 +230,20 @@ const vector<string> ChamberCompletedMenu::entryNames = boost::assign::list_of
 ;
 
 const vector<TextListMenuLayer::listAction> ChamberCompletedMenu::entryActions = boost::assign::list_of
-(PauseMenu::restart)
-(PauseMenu::goToTitle)
+	(&App::restartScene)
+	(&App::runTitleScene)
 ;
 
 const string ReplayCompletedMenu::title = "End of replay";
 
 const vector<string> ReplayCompletedMenu::entryNames = boost::assign::list_of
-("Replay")
-("Exit to title")
+	("Replay")
+	("Exit to title")
 ;
 
 const vector<TextListMenuLayer::listAction> ReplayCompletedMenu::entryActions = boost::assign::list_of
-(PauseMenu::restart)
-(ReplayCompletedMenu::restartReplay)
+	(&App::restartScene)
+	(&App::runTitleScene)
 ;
 
 void ReplayCompletedMenu::restartReplay()

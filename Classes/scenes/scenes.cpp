@@ -80,11 +80,16 @@ GScene(mapName, singleMapEntry(mapName))
 
 GScene::GScene(const string& sceneName, const vector<MapEntry>& maps) :
 maps(maps),
+sceneName(sceneName),
 ctx(make_unique<Lua::Inst>("scene")),
 control_listener(make_unique<ControlListener>())
 {
 	crntScene = this;
 	
+	multiInit.insertWithOrder(
+		wrap_method(GScene, installLuaShell, this),
+		static_cast<int>(initOrder::core)
+	);
 	//Updater has to be scheduled at init time.
     multiInit.insertWithOrder(
         wrap_method(Node,scheduleUpdate,this),
@@ -110,6 +115,10 @@ control_listener(make_unique<ControlListener>())
 	multiUpdate.insertWithOrder(
 		wrap_method(GScene, runScriptUpdate, this),
 		static_cast<int>(updateOrder::sceneUpdate)
+	);
+	multiUpdate.insertWithOrder(
+		wrap_method(GScene,checkPendingScript, this),
+		static_cast<int>(updateOrder::runShellScript)
 	);
     
     //Create the sublayers at construction (so they are available to mixins at construction time).
@@ -137,11 +146,11 @@ GScene::~GScene()
 
 bool GScene::init()
 {
-    Layer::init();
+    Scene::init();
     
     for_irange(i,1,sceneLayers::end){
         Layer* l = layers.at(i);
-        Node::addChild(l,i);
+        addChild(l,i);
     }
     
     //Apply zoom to adjust viewable area size.
@@ -160,6 +169,12 @@ void GScene::update(float dt)
     if(!isPaused)
         multiUpdate();
 }
+
+GScene* GScene::getReplacementScene()
+{
+	return Node::ccCreate<GScene>(sceneName, maps);
+}
+
 
 void GScene::setPaused(bool p){
     isPaused = p;
@@ -375,6 +390,33 @@ void GScene::loadWalls(const TMXTiledMap& map, IntVec2 offset)
 		cocos2d::CCRect area = getUnitspaceRectangle(objAsMap, offset);
 		gspace->addWallBlock(toChipmunk(area.origin), toChipmunk(area.getUpperCorner()));
 	}
+}
+
+void GScene::installLuaShell()
+{
+	luaShell = Node::ccCreate<LuaShell>();
+	luaShell->setVisible(false);
+
+	control_listener->addPressListener(
+		ControlAction::scriptConsole,
+		[=]() -> void {luaShell->toggleVisible(); }
+	);
+	
+	control_listener->addPressListener(
+		ControlAction::enter,
+		[=]() -> void {if (luaShell->isVisible()) pendingScript = luaShell->getText(); }
+	);
+
+	getLayer(GScene::sceneLayers::luaShell)->addChild(luaShell, 1);
+}
+
+void GScene::checkPendingScript()
+{
+	if (!pendingScript.empty()) {
+		app->lua.runString(pendingScript);
+		pendingScript.clear();
+	}
+	Lua::Inst::runCommands();
 }
 
 void GScene::runScriptInit()
