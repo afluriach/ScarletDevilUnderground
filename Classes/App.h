@@ -53,11 +53,7 @@ public:
     
     static const vector<string> shaderFiles;
     
-    static inline Vec2 getScreenCenter()
-    {
-        return Vec2(width/2, height/2);
-    }
-    
+	static Vec2 getScreenCenter();    
 	static float getScale();
 
 	static void setFullscreen(bool fs);
@@ -102,36 +98,14 @@ public:
     boost::random::uniform_int_distribution<int> randomInt;
     boost::random::mt19937 randomEngine;
 
-    /**
-    @brief    Implement Director and Scene init code here.
-    @return true    Initialize success, app continue.
-    @return false   Initialize failed, app terminate.
-    */
     virtual bool applicationDidFinishLaunching();
-
-    /**
-    @brief  The function be called when the application enter background
-    @param  the pointer of the application
-    */
     virtual void applicationDidEnterBackground();
-
-    /**
-    @brief  The function be called when the application enter foreground
-    @param  the pointer of the application
-    */
     virtual void applicationWillEnterForeground();
             
     //Generate [min,max)
-    inline float getRandomFloat(float min, float max){
-        float u01 = randomFloat(randomEngine);
-        
-        return (min + u01*(max-min));
-    }
-    
+	float getRandomFloat(float min, float max);
     //Generate [min,max]
-    inline int getRandomInt(int min, int max){
-        return randomInt(randomEngine, boost::random::uniform_int_distribution<int>::param_type(min,max));
-    }
+	int getRandomInt(int min, int max);
     
 protected:
     void update(float dt);

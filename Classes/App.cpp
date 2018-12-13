@@ -46,6 +46,12 @@ void App::setFramerate(unsigned int fps)
 	secondsPerFrameRational = boost::rational<int>(1, fps);
 }
 
+Vec2 App::getScreenCenter()
+{
+	return Vec2(width / 2, height / 2);
+}
+
+
 float App::getScale()
 {
 	return 1.0f * width / baseWidth;
@@ -172,6 +178,19 @@ void App::setPlayer(int id)
 {
 	crntPC = static_cast<PlayerCharacter>(id);
 }
+
+//Generate [min,max)
+float App::getRandomFloat(float min, float max) {
+	float u01 = randomFloat(randomEngine);
+
+	return (min + u01 * (max - min));
+}
+
+//Generate [min,max]
+int App::getRandomInt(int min, int max) {
+	return randomInt(randomEngine, boost::random::uniform_int_distribution<int>::param_type(min, max));
+}
+
 
 void App::update(float dt)
 {
