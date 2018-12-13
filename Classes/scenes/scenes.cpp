@@ -27,6 +27,7 @@ const int GScene::dialogEdgeMargin = 30;
 GScene* GScene::crntScene;
 string GScene::crntSceneName;
 string GScene::crntReplayName;
+bool GScene::suppressGameOver = false;
 
 void GScene::runScene(const string& name)
 {

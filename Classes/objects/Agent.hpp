@@ -33,6 +33,8 @@ public:
 	virtual void onDetect(GObject* obj);
 	virtual void onEndDetect(GObject* obj);
 
+	virtual void onZeroHP();
+
 	//attribute interface
 	virtual AttributeMap getBaseAttributes() const = 0;
 	float getAttribute(Attribute id) const;

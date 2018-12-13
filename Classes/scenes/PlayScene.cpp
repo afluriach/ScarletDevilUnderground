@@ -221,7 +221,7 @@ void PlayScene::triggerGameOver()
     
     setPaused(true);
     
-    getLayer(sceneLayers::space)->runAction(tintTo(fadeoutColor,fadeoutLength));
+    spaceLayer->runAction(tintTo(fadeoutColor,fadeoutLength));
 
     Director::getInstance()->getScheduler()->schedule(
         bind(&PlayScene::showGameOverMenu, this, placeholders::_1),

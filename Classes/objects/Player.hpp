@@ -60,6 +60,8 @@ public:
     void update();
     void updateHitTime();
 
+	virtual void onZeroHP();
+
 	void checkMovementControls(const ControlInfo& cs);
 	void checkFireControls(const ControlInfo& cs);
 	void checkItemInteraction(const ControlInfo& cs);

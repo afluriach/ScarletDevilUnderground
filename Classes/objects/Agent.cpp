@@ -34,7 +34,7 @@ void Agent::init()
 void Agent::update()
 {
 	if (attributeSystem.getAdjustedValue(Attribute::hp) <= 0 && getMaxHealth() != 0) {
-		space->removeObject(this);
+		onZeroHP();
 	}
 
 	if (attributeSystem.getAdjustedValue(Attribute::iceDamage) >= 100.0f && !hasMagicEffect<FreezeStatusEffect>()) {
@@ -56,6 +56,11 @@ void Agent::onEndDetect(GObject* obj)
 {
 	fsm.onEndDetect(obj);
 	RadarObject::onEndDetect(obj);
+}
+
+void Agent::onZeroHP()
+{
+	space->removeObject(this);
 }
 
 float Agent::getAttribute(Attribute id) const

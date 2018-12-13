@@ -136,13 +136,19 @@ void Player::updateHitTime()
 {
     if(hitProtectionCountdown > 0)
     {
-        hitProtectionCountdown -= App::secondsPerFrame;
+        hitProtectionCountdown -= App::secondsPerFrameRational;
         
-        if(hitProtectionCountdown < 0){
+        if(hitProtectionCountdown <= 0){
             sprite->setOpacity(255);
             hitProtectionCountdown = 0;
         }
     }
+}
+
+void Player::onZeroHP()
+{
+	if(!GScene::suppressGameOver)
+		playScene->triggerGameOver();
 }
 
 void Player::update()
@@ -159,10 +165,7 @@ void Player::update()
 		checkItemInteraction(cs);
 	}
 
-	updateHitTime();
-    
-    if(attributeSystem.getAdjustedValue(Attribute::hp) <= 0 && !app->suppressGameOver)
-        app->playScene->triggerGameOver();
+	updateHitTime();    
 }
 
 void Player::applyAttributeModifier(Attribute id, float val)

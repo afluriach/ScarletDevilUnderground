@@ -33,19 +33,14 @@ public:
     static unsigned int width;
     static unsigned int height;
 
+	static bool fullscreen;
+	
 	static unsigned int framesPerSecond;
 	static double secondsPerFrame;
 	static boost::rational<int> secondsPerFrameRational;
 
 	static const unsigned int baseWidth = 1600;
-    
-    //Game options set through the script API
-    float screenscale = 1;
-    float dpiscale = 1;
-    bool fullscreen = false;
-    
-    bool suppressGameOver = false;
-    
+     
     constexpr static float Gaccel = 9.8f;
     
     static const int pixelsPerTile = 128;
@@ -64,6 +59,10 @@ public:
     }
     
 	static float getScale();
+
+	static void setFullscreen(bool fs);
+	static void setResolution(unsigned int width, unsigned int height);
+	static void setFramerate(unsigned int fps);
 
 	//Methods for controlling the active scene; wraps calls to Director.
 	static void runTitleScene();
@@ -87,6 +86,8 @@ public:
     virtual void initGLContextAttrs();
     
     void loadShaders();
+
+	void setPlayer(int id);
     
     //globals exposed by app
     ControlRegister* control_register = nullptr;

@@ -22,9 +22,29 @@ const vector<string> App::shaderFiles = boost::assign::list_of
 unsigned int App::width = 1600;
 unsigned int App::height = 1000;
 
+bool App::fullscreen = false;
+
 unsigned int App::framesPerSecond = 60;
 double App::secondsPerFrame = 1.0 / App::framesPerSecond;
 boost::rational<int> App::secondsPerFrameRational(1,App::framesPerSecond);
+
+void App::setFullscreen(bool fs)
+{
+	fullscreen = fs;
+}
+
+void App::setResolution(unsigned int width, unsigned int height)
+{
+	App::width = width;
+	App::height = height;
+}
+
+void App::setFramerate(unsigned int fps)
+{
+	framesPerSecond = fps;
+	secondsPerFrame = 1.0 / fps;
+	secondsPerFrameRational = boost::rational<int>(1, fps);
+}
 
 float App::getScale()
 {
@@ -62,11 +82,11 @@ bool App::applicationDidFinishLaunching() {
     if(!glview) {
         glview = fullscreen ?
             GLViewImpl::createWithFullScreen(App::title) :
-            GLViewImpl::createWithRect(App::title, cocos2d::CCRect(0,0,App::width, App::height),screenscale)
+            GLViewImpl::createWithRect(App::title, cocos2d::CCRect(0,0,App::width, App::height))
         ;
         
         director->setOpenGLView(glview);
-        director->setContentScaleFactor(screenscale*dpiscale);
+        //director->setContentScaleFactor(1.0f);
         
         glview->setDesignResolutionSize(width, height, ResolutionPolicy::SHOW_ALL);
     }
@@ -148,6 +168,10 @@ void App::popScene()
 	Director::getInstance()->popScene();
 }
 
+void App::setPlayer(int id)
+{
+	crntPC = static_cast<PlayerCharacter>(id);
+}
 
 void App::update(float dt)
 {

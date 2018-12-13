@@ -36,8 +36,8 @@ bool LuaShell::init()
 void LuaShell::createEditBox()
 {
     //The coordinates used by the edit box do not obey the window scaling
-    editBox = ui::EditBox::create(cocos2d::CCSize(width,height)*app->screenscale,nullptr);
-    editBox->setPosition(Vec2(App::width, height)/2*app->screenscale);
+    editBox = ui::EditBox::create(cocos2d::CCSize(width,height),nullptr);
+    editBox->setPosition(Vec2(App::width, height)/2);
     //Return type shouldn't matter for desktop UI.
     editBox->setInputMode(ui::EditBox::InputMode::ANY);
     editBox->setFontName("Courier");

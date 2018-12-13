@@ -80,6 +80,7 @@ public:
     static GScene* crntScene;
 	static string crntSceneName;
 	static string crntReplayName;
+	static bool suppressGameOver;
 
 	static void runScene(const string& name);
 	static void runSceneWithReplay(const string& sceneName, const string& replayName);

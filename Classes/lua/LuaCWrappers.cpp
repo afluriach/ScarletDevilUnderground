@@ -58,22 +58,6 @@ void setvel(string name, float x, float y)
         throw runtime_error("setvel: " + name + " not found");
 }
 
-int getObjectCount()
-{
-    if(!app->space) throw lua_runtime_error("createObject: Cannot access objects in this scene.");
-        
-    return app->space->getObjectCount();
-}
-
-unordered_map<int, string> getUUIDNameMap()
-{
-    GSpace* space = app->space;
-    
-    if(!space) return unordered_map<int,string>();
-    
-    return space->getUUIDNameMap();
-}
-
 void printMap(unordered_map<string,string> m)
 {
     for(auto it = m.begin(); it != m.end(); ++it){
@@ -89,42 +73,6 @@ void addUpdate(function<void()> f, int order)
         },
         order
     );
-}
-
-//Increase window size and scale up content to match.
-void setscreenscale(float f)
-{
-    if(f <= 0) throw lua_runtime_error("setscreenscale: must be positive");
-
-    app->screenscale = f;
-}
-
-//Scales graphics content resoltuion without changing window resolution;
-//for systems where the window resolution does not actually match content resolution
-//(e.g. Retina displays).
-void setdpiscale(float f)
-{
-    if(f <= 0) throw lua_runtime_error("setdpiscale: must be positive");
-
-    app->dpiscale = f;
-}
-
-void setFullscreen(bool fs)
-{
-    app->fullscreen = fs;
-}
-
-void setResolution(unsigned int width, unsigned int height)
-{
-	App::width = width;
-	App::height = height;
-}
-
-void setFramerate(unsigned int fps)
-{
-	App::framesPerSecond = fps;
-	App::secondsPerFrame = 1.0 / fps;
-	App::secondsPerFrameRational = boost::rational<int>(1, fps);
 }
 
 GObject* getObjByName(string name)
@@ -162,31 +110,6 @@ void setSpriteShader(string objName, string shaderName)
 	}
 
     obj->setSpriteShader(shaderName);
-}
-
-void showHealth(bool val)
-{
-    if(!app->hud) throw lua_runtime_error("showHealth: HUD is not available!");
-    
-    app->hud->showHealth(val);
-}
-
-void suppressGameOver(bool b)
-{
-    app->suppressGameOver = b;
-}
-
-void setPaused(bool val)
-{
-    GScene::crntScene->setPaused(val);
-}
-
-unsigned int getFrameNumber()
-{
-    GSpace* space = app->space;
-    if(!space) throw lua_runtime_error("getFrameNumber: Cannot access frame number in this scene.");
-    
-    return space->getFrame();
 }
 
 void dostring_in_inst(string script, string inst_name)
@@ -293,11 +216,6 @@ bool saveCrntReplay(string filepath)
 	return app->playScene->saveReplayData(filepath);
 }
 
-void loadReplay(string sceneName, string replayFilename)
-{
-	GScene::runSceneWithReplay(sceneName, replayFilename);
-}
-
 vector<string> getInventoryContents()
 {
     auto registry = GState::crntState.itemRegistry;
@@ -323,16 +241,6 @@ vector<pair<float,float>> getPath(pair<int,int> start, pair<int,int> end)
     }
     
     return result;
-}
-
-void runScene(string name)
-{
-    GScene::runScene(name);
-}
-
-void setPlayer(int id)
-{
-	app->crntPC = static_cast<PlayerCharacter>(id);
 }
 
 StateMachineObject* getFSMObject(string funcName,string objName)
@@ -474,25 +382,13 @@ make_wrapper_same(createObject)
 make_wrapper_same(removeObject)
 make_wrapper_same(setpos)
 make_wrapper_same(setvel)
-make_wrapper_same(getObjectCount)
-make_wrapper_same(getUUIDNameMap)
 make_wrapper_same(printMap)
 make_wrapper_same(addUpdate)
-make_wrapper_same(setscreenscale)
-make_wrapper_same(setdpiscale)
-make_wrapper_same(setFullscreen)
-make_wrapper_same(setResolution)
-make_wrapper_same(setFramerate)
 make_wrapper_same(getObjByName)
 make_wrapper_same(getObjectNames)
 make_wrapper_same(isValidObject)
 make_wrapper_same(setSpriteShader)
 make_wrapper_same(runscript)
-make_wrapper_same(showHealth)
-make_wrapper_same(setPlayer)
-make_wrapper_same(suppressGameOver)
-make_wrapper_same(setPaused)
-make_wrapper_same(getFrameNumber)
 make_wrapper_same(dostring_in_inst)
 make_wrapper_same(castSpell)
 make_wrapper_same(castSpellWithArgs)
@@ -505,11 +401,8 @@ make_wrapper_same(showObjectiveCounter)
 make_wrapper_same(printGlDebug)
 make_wrapper_same(save)
 make_wrapper_same(saveCrntReplay)
-make_wrapper_same(loadReplay)
 make_wrapper_same(getInventoryContents)
 make_wrapper_same(getPath)
-
-make_wrapper_same(runScene)
 
 make_wrapper_same(printFSM)
 make_wrapper_same(addThread)

@@ -10,6 +10,7 @@
 
 #include "App.h"
 #include "GSpace.hpp"
+#include "HUD.hpp"
 #include "LuaAPI.hpp"
 #include "macros.h"
 #include "scenes.h"
@@ -327,5 +328,35 @@ mutex Inst::queueLock;
     
     void Inst::installApi()
     {
+		getGlobalNamespace(state)
+
+		.beginClass<App>("App")
+			.addStaticData("width", &App::width)
+			.addStaticData("height", &App::height)
+			.addStaticData("app", &app)
+			.addStaticFunction("setFullscreen", &App::setFullscreen)
+			.addStaticFunction("setResolution", &App::setResolution)
+			.addStaticFunction("setFramerate", &App::setFramerate)
+			.addFunction("setPlayer", &App::setPlayer)
+			.addData("space", &App::space)
+		.endClass()
+
+		.beginClass<GScene>("GScene")
+			.addStaticFunction("runScene", &GScene::runScene)
+			.addStaticFunction("runSceneWithReplay", &GScene::runSceneWithReplay)
+			.addStaticData("crntScene", &GScene::crntScene)
+			.addStaticData("suppressGameOver", &GScene::suppressGameOver)
+			.addFunction("setPaused", &GScene::setPaused)
+		.endClass()
+
+		.beginClass<GSpace>("GSpace")
+			.addFunction("getFrame", &GSpace::getFrame)
+			.addFunction("getObjectCount", &GSpace::getObjectCount)
+			.addFunction("getUUIDNameMap", &GSpace::getUUIDNameMap)
+		.endClass()	
+			
+		.beginClass<HUD>("HUD")
+			.addFunction("showHealth", &HUD::showHealth)
+		.endClass();
     }
 }
