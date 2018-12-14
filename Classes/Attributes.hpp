@@ -44,13 +44,13 @@ extern const float maxElementDamage;
 class AttributeSystem
 {
 public:
-	AttributeSet attributes;
-
 	AttributeSystem();
 	AttributeSystem(const AttributeSet& baseAttributes);
 	AttributeSystem(const AttributeMap& baseAttributesMap);
 
 	float getAdjustedValue(Attribute id) const;
+	void modifyIncidentAttribute(Attribute id, Attribute maxID, float x);
+	void applyElementalDamage(Attribute id, Attribute maxID, float x);
 	void modifyAttribute(Attribute id, float x);
 
 	void setFullHP();
@@ -60,6 +60,8 @@ public:
 	void setEmptyPower();
 
 	float getWithinRange(float input, float min, float max);
+protected:
+	AttributeSet attributes;
 };
 
 

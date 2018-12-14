@@ -104,22 +104,38 @@ void AttributeSystem::setEmptyPower()
 	attributes.at(to_size_t(Attribute::power)) = 0;
 }
 
+void AttributeSystem::modifyIncidentAttribute(Attribute id, Attribute maxID, float x)
+{
+	attributes.at(to_size_t(id)) = getWithinRange(attributes.at(to_size_t(id)) + x, 0, attributes.at(to_size_t(maxID)));
+}
+
+void AttributeSystem::applyElementalDamage(Attribute id, Attribute sensitivity, float x)
+{
+	//If applying damage, the amount is scaled proportional to sensitivity
+	if (x > 0) {
+		attributes.at(to_size_t(id)) = getWithinRange(attributes.at(to_size_t(id)) + x * getAdjustedValue(sensitivity), 0, maxElementDamage);
+	}
+	else if (x < 0) {
+		attributes.at(to_size_t(id)) = getWithinRange(attributes.at(to_size_t(id)) + x, 0, maxElementDamage);
+	}
+}
+
 void AttributeSystem::modifyAttribute(Attribute id, float x)
 {
 	switch (id)
 	{
 	case Attribute::hp:
-		attributes.at(to_size_t(id)) = getWithinRange(attributes.at(to_size_t(id)) + x, 0, attributes.at(to_size_t(Attribute::maxHP)));
+		modifyIncidentAttribute(Attribute::hp, Attribute::maxHP, x);
 		break;
 	case Attribute::mp:
-		attributes.at(to_size_t(id)) = getWithinRange(attributes.at(to_size_t(id)) + x, 0, attributes.at(to_size_t(Attribute::maxMP)));
+		modifyIncidentAttribute(Attribute::mp, Attribute::maxMP, x);
 		break;
 	case Attribute::power:
-		attributes.at(to_size_t(id)) = getWithinRange(attributes.at(to_size_t(id)) + x, 0, attributes.at(to_size_t(Attribute::maxPower)));
+		modifyIncidentAttribute(Attribute::power, Attribute::maxPower, x);
 		break;
 
 	case Attribute::iceDamage:
-		attributes.at(to_size_t(id)) = getWithinRange(attributes.at(to_size_t(id)) + x*getAdjustedValue(Attribute::iceSensitivity), 0, maxElementDamage);
+		applyElementalDamage(Attribute::iceDamage, Attribute::iceSensitivity, x);
 		break;
 
 	default:
