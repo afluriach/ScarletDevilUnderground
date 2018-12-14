@@ -138,6 +138,8 @@ public:
 
 	static constexpr float spriteBaseRadius = 0.83f;
 	inline virtual float zoom() const { return getRadius() / spriteBaseRadius * 2; }
+
+	virtual AttributeMap getAttributeEffect() const;
 };
 
 class FlandreFastOrb1 : virtual public GObject, public PlayerBullet, public CircleBody, public ImageSprite, public DirectionalLaunch
@@ -153,6 +155,8 @@ public:
 
 	static constexpr float spriteBaseRadius = 0.83f;
 	inline virtual float zoom() const { return getRadius() / spriteBaseRadius * 2; }
+
+	virtual AttributeMap getAttributeEffect() const;
 };
 
 class CirnoLargeIceBullet : virtual public GObject, public PlayerBullet, public CircleBody, public ImageSprite, public DirectionalLaunch

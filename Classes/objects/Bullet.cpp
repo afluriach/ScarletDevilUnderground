@@ -78,9 +78,21 @@ FlandreBigOrb1::FlandreBigOrb1(GSpace* space, ObjectIDType id, float angle, cons
 	GObject(space,id,"bigOrb1", pos, angle, true)
 {}
 
+AttributeMap FlandreBigOrb1::getAttributeEffect() const {
+	return {
+		{ Attribute::hp, -3 }
+	};
+}
+
 FlandreFastOrb1::FlandreFastOrb1(GSpace* space, ObjectIDType id, float angle, const SpaceVect& pos) :
 	GObject(space,id,"fastOrb1", pos, angle, true)
 {}
+
+AttributeMap FlandreFastOrb1::getAttributeEffect() const {
+	return {
+		{ Attribute::hp, -1 }
+	};
+}
 
 CirnoLargeIceBullet::CirnoLargeIceBullet(GSpace* space, ObjectIDType id, float angle, const SpaceVect& pos) :
 	GObject(space,id,"bigIce1", pos, angle, true)
