@@ -262,15 +262,8 @@ public:
 class EnemyBullet : virtual public GObject, public Bullet
 {
 public:
-	inline EnemyBullet() {}
-
-	virtual inline GType getType() const { return GType::enemyBullet; }
-};
-
-class Grazeable : virtual public GObject, public EnemyBullet
-{
-public:
-	Grazeable(float grazeRadius, int grazeBonus);
+	inline EnemyBullet() : EnemyBullet(0.0f,0) {}
+	EnemyBullet(float grazeRadius, int grazeBonus);
 
 	//The bullet's graze "radar" has collided with Player.
 	void onGrazeTouch(object_ref<Player> obj);
@@ -280,6 +273,7 @@ public:
 
 	virtual void initializeRadar(GSpace& space);
 
+	virtual inline GType getType() const { return GType::enemyBullet; }
 protected:
 	object_ref<Player> grazeTarget;
 	bool grazeValid = true;

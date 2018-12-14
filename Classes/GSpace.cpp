@@ -595,18 +595,14 @@ int GSpace::playerEnemyEnd(GObject* a, GObject* b)
 int GSpace::playerEnemyBulletBegin(GObject* playerObj, GObject* bullet)
 {
     Player* player = dynamic_cast<Player*>(playerObj);
-	Bullet* _bullet = dynamic_cast<Bullet*>(bullet);
-	Grazeable* _grazeable = dynamic_cast<Grazeable*>(bullet);
+	EnemyBullet* _bullet = dynamic_cast<EnemyBullet*>(bullet);
 
     if(logPhysicsHandlers)
         log("%s hit by %s", player->name.c_str(), bullet->name.c_str());
 
 	if (player && _bullet) {
 		player->hit(_bullet->getAttributeEffect(), _bullet->getMagicEffect(playerObj));
-	}
-
-	if (_grazeable) {
-		_grazeable->invalidateGraze();
+		_bullet->invalidateGraze();
 	}
 
 	removeObject(bullet);
@@ -616,7 +612,7 @@ int GSpace::playerEnemyBulletBegin(GObject* playerObj, GObject* bullet)
 int GSpace::playerEnemyBulletRadarBegin(GObject* playerObj, GObject* bullet)
 {
 	Player* player = dynamic_cast<Player*>(playerObj);
-	Grazeable* _bullet = dynamic_cast<Grazeable*>(bullet);
+	EnemyBullet* _bullet = dynamic_cast<EnemyBullet*>(bullet);
 
 	if (player && _bullet) {
 		_bullet->onGrazeTouch(player);
@@ -628,7 +624,7 @@ int GSpace::playerEnemyBulletRadarBegin(GObject* playerObj, GObject* bullet)
 int GSpace::playerEnemyBulletRadarEnd(GObject* playerObj, GObject* bullet)
 {
 	Player* player = dynamic_cast<Player*>(playerObj);
-	Grazeable* _bullet = dynamic_cast<Grazeable*>(bullet);
+	EnemyBullet* _bullet = dynamic_cast<EnemyBullet*>(bullet);
 
 	if (player && _bullet) {
 		_bullet->onGrazeCleared (player);

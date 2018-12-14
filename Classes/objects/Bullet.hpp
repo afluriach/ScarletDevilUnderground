@@ -72,7 +72,6 @@ public:
 class IceFairyBullet :
 	virtual public GObject,
 	public EnemyBullet,
-	public Grazeable,
 	public CircleBody,
 	public ImageSprite,
 	public DirectionalLaunch

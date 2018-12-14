@@ -250,22 +250,22 @@ void TouchDamageEnemy::update()
 
 //TYPE MIXINS
 
-Grazeable::Grazeable(float grazeRadius, int grazeBonus) :
+EnemyBullet::EnemyBullet(float grazeRadius, int grazeBonus) :
 grazeRadius(grazeRadius),
 grazeBonus(grazeBonus)
 {}
 
-void Grazeable::onGrazeTouch(object_ref<Player> p)
+void EnemyBullet::onGrazeTouch(object_ref<Player> p)
 {
 	grazeTarget = p;
 }
 
-void Grazeable::invalidateGraze()
+void EnemyBullet::invalidateGraze()
 {
 	grazeValid = false;
 }
 
-void Grazeable::onGrazeCleared(object_ref<Player> p)
+void EnemyBullet::onGrazeCleared(object_ref<Player> p)
 {
 	if(grazeTarget == p && p.isValid() && grazeValid)
 	{
@@ -273,8 +273,11 @@ void Grazeable::onGrazeCleared(object_ref<Player> p)
 	}
 }
 
-void Grazeable::initializeRadar(GSpace& space)
+void EnemyBullet::initializeRadar(GSpace& space)
 {
+	if (grazeRadius <= 0.0f)
+		return;
+
 	radar = space.createCircleBody(
 		initialCenter,
 		grazeRadius,

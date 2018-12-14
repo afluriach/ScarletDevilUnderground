@@ -175,7 +175,7 @@ void Player::applyAttributeModifier(Attribute id, float val)
 		return;
 	}
 
-	attributeSystem.modifiers.at(to_size_t(id)) += val;
+	attributeSystem.modifyAttribute(id, val);
 }
 
 void Player::hit(AttributeMap attributeEffect, shared_ptr<MagicEffect> effect){
