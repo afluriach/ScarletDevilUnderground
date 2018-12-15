@@ -44,7 +44,7 @@ void RectangleBody::initializeBody(GSpace& space)
     ));
 }
 
-float RectangleBody::getMomentOfInertia() const{
+SpaceFloat RectangleBody::getMomentOfInertia() const{
     return rectangleMomentOfInertia(getMass(), getDimensions());
 }
 
@@ -66,7 +66,7 @@ void CircleBody::initializeBody(GSpace& space)
     ));
 }
 
-float CircleBody::getMomentOfInertia() const{
+SpaceFloat CircleBody::getMomentOfInertia() const{
     return circleMomentOfInertia(getMass(), getRadius());
 }
 
@@ -74,7 +74,7 @@ void FrictionObject::update()
 {
     //linear
     SpaceVect vel = getVel();
-    float force = getMass() * App::Gaccel * uk();
+	SpaceFloat force = getMass() * App::Gaccel * uk();
     
     //if acceleraion, dv/dt, or change in velocity over one frame is greater
     //than current velocity, apply stop instead
@@ -84,8 +84,8 @@ void FrictionObject::update()
         setVel(SpaceVect::zero);
     
     //rotational
-    float angularVel = getAngularVel();
-    float angularImpulse = getMomentOfInertia() * App::Gaccel * uk() * App::secondsPerFrame;
+	SpaceFloat angularVel = getAngularVel();
+	SpaceFloat angularImpulse = getMomentOfInertia() * App::Gaccel * uk() * App::secondsPerFrame;
     
     if(angularImpulse < angularVel)
         setAngularVel(angularVel - angularImpulse);
@@ -190,7 +190,7 @@ void PatchConSprite::update()
     animSprite->accumulate(dist.length());
 }
 
-void PatchConSprite::setAngle(float a)
+void PatchConSprite::setAngle(SpaceFloat a)
 {
     GObject::setAngle(a);
     
@@ -250,7 +250,7 @@ void TouchDamageEnemy::update()
 
 //TYPE MIXINS
 
-EnemyBullet::EnemyBullet(float grazeRadius, int grazeBonus) :
+EnemyBullet::EnemyBullet(SpaceFloat grazeRadius, int grazeBonus) :
 grazeRadius(grazeRadius),
 grazeBonus(grazeBonus)
 {}
@@ -275,13 +275,13 @@ void EnemyBullet::onGrazeCleared(object_ref<Player> p)
 
 void EnemyBullet::initializeRadar(GSpace& space)
 {
-	if (grazeRadius <= 0.0f)
+	if (grazeRadius <= 0.0)
 		return;
 
 	radar = space.createCircleBody(
 		initialCenter,
 		grazeRadius,
-		0.1f,
+		0.1,
 		GType::enemyBulletRadar,
 		PhysicsLayers::all,
 		true,

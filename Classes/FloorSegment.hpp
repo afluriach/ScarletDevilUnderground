@@ -20,7 +20,7 @@ public:
 	MapObjCons(FloorSegment);
 	virtual ~FloorSegment();
 
-	virtual inline float getMass() const { return -1.0f; }
+	virtual inline SpaceFloat getMass() const { return -1.0; }
 	virtual inline GType getType() const { return GType::floorSegment; }
 	virtual PhysicsLayers getLayers() const { return PhysicsLayers::floor; }
 	virtual inline bool getSensor() const { return true; }

@@ -47,22 +47,22 @@ bool SingleBulletFixedIntervalPattern::isInCooldown()
 	return cooldownTimeRemaining > 0;
 }
 
-GObject::GeneratorType FlandreBigOrbPattern::spawn(float angle, SpaceVect pos)
+GObject::GeneratorType FlandreBigOrbPattern::spawn(SpaceFloat angle, SpaceVect pos)
 {
 	return GObject::make_object_factory<FlandreBigOrb1>(angle, pos);
 }
 
-GObject::GeneratorType FlandreFastOrbPattern::spawn(float angle, SpaceVect pos)
+GObject::GeneratorType FlandreFastOrbPattern::spawn(SpaceFloat angle, SpaceVect pos)
 {
 	return GObject::make_object_factory<FlandreFastOrb1>(angle, pos);
 }
 
-GObject::GeneratorType CirnoLargeIceBulletPattern::spawn(float angle, SpaceVect pos)
+GObject::GeneratorType CirnoLargeIceBulletPattern::spawn(SpaceFloat angle, SpaceVect pos)
 {
 	return GObject::make_object_factory<CirnoLargeIceBullet>(angle, pos);
 }
 
-GObject::GeneratorType IceFairyBulletPattern::spawn(float angle, SpaceVect pos)
+GObject::GeneratorType IceFairyBulletPattern::spawn(SpaceFloat angle, SpaceVect pos)
 {
 	return GObject::make_object_factory<IceFairyBullet>(angle, pos);
 }

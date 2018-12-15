@@ -38,9 +38,9 @@ public:
 	virtual void equipSpells() = 0;
     
     //setting for player object sensing
-	inline virtual float getRadarRadius() const { return 2.5f; }
+	inline virtual SpaceFloat getRadarRadius() const { return 2.5; }
 	inline virtual GType getRadarType() const { return GType::objectSensor; }
-    inline virtual float getDefaultFovAngle() const { return float_pi / 4.0f;}
+    inline virtual SpaceFloat getDefaultFovAngle() const { return float_pi / 4.0;}
 
     virtual void hit(AttributeMap attributeEffect, shared_ptr<MagicEffect> effect);
     
@@ -50,8 +50,8 @@ public:
 	inline bool isFiringSuppressed() const { return suppressFiring; }
 	inline void setFiringSuppressed(bool mode) { suppressFiring = mode; }
 
-    virtual inline float getRadius() const {return 0.35f;}
-    virtual inline float getMass() const {return 20.0f;}
+	virtual inline SpaceFloat getRadius() const { return 0.35; }
+	virtual inline SpaceFloat getMass() const { return 20.0; }
     virtual inline GType getType() const {return GType::player;}
     
     inline GraphicsLayer sceneLayer() const {return GraphicsLayer::ground;}

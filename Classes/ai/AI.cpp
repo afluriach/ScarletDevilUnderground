@@ -24,16 +24,16 @@ namespace ai{
 
 //It seems to better to base this on acceleration than force. In some cases mass may
 //just be a default value, in which case acceleration makes more sense.
-void applyDesiredVelocity(GObject& obj, SpaceVect desired, float acceleration)
+void applyDesiredVelocity(GObject& obj, SpaceVect desired, SpaceFloat acceleration)
 {
     //the desired velocity change
     SpaceVect vv = desired - obj.getVel();
     //the scalar amount of velocity change in one frame
-    float dv = acceleration * App::secondsPerFrame;
+	SpaceFloat dv = acceleration * App::secondsPerFrame;
 
     //Default case, apply maximum acceleration
     if(square(dv) < vv.lengthSq()){
-        float f = obj.body->getMass() * acceleration;
+		SpaceFloat f = obj.body->getMass() * acceleration;
         SpaceVect ff = f * vv.normalizeSafe();
         obj.applyForceForSingleFrame(ff);
     }
@@ -68,9 +68,9 @@ bool isLineOfSight(const GObject& agent, const GObject& target)
     return agent.space->lineOfSight(&agent, &target);
 }
 
-array<float, 4> obstacleFeelerQuad(GObject& agent, float distance)
+array<SpaceFloat, 4> obstacleFeelerQuad(GObject& agent, SpaceFloat distance)
 {
-	array<float, 4> results;
+	array<SpaceFloat, 4> results;
 
 	for (int i = 0; i < 4; ++i)
 	{
@@ -81,30 +81,30 @@ array<float, 4> obstacleFeelerQuad(GObject& agent, float distance)
 	return results;
 }
 
-array<float, 8> obstacleFeeler8(GObject& agent, float distance)
+array<SpaceFloat, 8> obstacleFeeler8(GObject& agent, SpaceFloat distance)
 {
-	array<float, 8> results;
+	array<SpaceFloat, 8> results;
 
 	for (int i = 0; i < 8; ++i)
 	{
-		SpaceVect feeler = SpaceVect::ray(distance, i* float_pi / 4.0f);
+		SpaceVect feeler = SpaceVect::ray(distance, i* float_pi / 4.0);
 		results[i] = agent.space->obstacleDistanceFeeler(&agent, feeler);
 	}
 
 	return results;
 }
 
-int chooseBestDirection(const array<float, 8>& feelers, float desired_angle, float min_distance)
+int chooseBestDirection(const array<SpaceFloat, 8>& feelers, SpaceFloat desired_angle, SpaceFloat min_distance)
 {
 	int bestDirection = -1;
-	float bestAngleDistance = float_pi;
+	SpaceFloat bestAngleDistance = float_pi;
 
 	for (int i = 0; i < 8; ++i)
 	{
-		if (feelers[i] >= min_distance && abs(float_pi * i / 4.0f - desired_angle) < bestAngleDistance)
+		if (feelers[i] >= min_distance && abs(float_pi * i / 4.0 - desired_angle) < bestAngleDistance)
 		{
 			bestDirection = i;
-			bestAngleDistance = abs(float_pi * i / 4.0f - desired_angle);
+			bestAngleDistance = abs(float_pi * i / 4.0 - desired_angle);
 		}
 	}
 
@@ -133,22 +133,22 @@ SpaceVect displacementToTarget(const GObject& agent, SpaceVect target)
     return target - agent.getPos();
 }
 
-float distanceToTarget(const GObject& agent, const GObject& target)
+SpaceFloat distanceToTarget(const GObject& agent, const GObject& target)
 {
     return (target.getPos() - agent.getPos()).length();
 }
 
-float viewAngleToTarget(const GObject& agent, const GObject& target)
+SpaceFloat viewAngleToTarget(const GObject& agent, const GObject& target)
 {
     SpaceVect displacement = target.getPos() - agent.getPos();
     
-    if(displacement.lengthSq() > 0.01f)
+    if(displacement.lengthSq() > 0.01)
         return canonicalAngle(displacement.toAngle() - agent.getAngle());
     else
-        return numeric_limits<float>::infinity();
+        return numeric_limits<SpaceFloat>::infinity();
 }
 
-void seek(GObject& agent, SpaceVect target, float maxSpeed, float acceleration)
+void seek(GObject& agent, SpaceVect target, SpaceFloat maxSpeed, SpaceFloat acceleration)
 {
 	SpaceVect displacement = target - agent.getPos();
 
@@ -160,7 +160,7 @@ void seek(GObject& agent, SpaceVect target, float maxSpeed, float acceleration)
     applyDesiredVelocity(agent, direction*maxSpeed, acceleration);
 }
 
-void flee(GObject& agent, SpaceVect target, float maxSpeed, float acceleration)
+void flee(GObject& agent, SpaceVect target, SpaceFloat maxSpeed, SpaceFloat acceleration)
 {
 	SpaceVect displacement = fleeDirection(agent,target);
     
@@ -180,16 +180,16 @@ SpaceVect fleeDirection(GObject& agent, SpaceVect target)
 	return displacement;
 }
 
-void fleeWithObstacleAvoidance(GObject& agent, SpaceVect target, float maxSpeed, float acceleration)
+void fleeWithObstacleAvoidance(GObject& agent, SpaceVect target, SpaceFloat maxSpeed, SpaceFloat acceleration)
 {
 	SpaceVect displacement = fleeDirection(agent, target);
-	float distanceMargin = getTurningRadius(agent.getVel().length(), acceleration) + agent.getRadius();
+	SpaceFloat distanceMargin = getTurningRadius(agent.getVel().length(), acceleration) + agent.getRadius();
 
 	if (agent.space->obstacleDistanceFeeler(&agent, displacement * distanceMargin) < distanceMargin)
 	{
 		//Choose an alternate direction to move.
 
-		array<float, 8> feelers = obstacleFeeler8(agent, distanceMargin);
+		array<SpaceFloat, 8> feelers = obstacleFeeler8(agent, distanceMargin);
 
 		int directionID = chooseBestDirection(feelers, displacement.toAngle(), distanceMargin);
 
@@ -197,7 +197,7 @@ void fleeWithObstacleAvoidance(GObject& agent, SpaceVect target, float maxSpeed,
 			applyDesiredVelocity(agent, SpaceVect::zero, acceleration);
 		}
 		else {
-			applyDesiredVelocity(agent, SpaceVect::ray(maxSpeed, directionID* float_pi / 4.0f), acceleration);
+			applyDesiredVelocity(agent, SpaceVect::ray(maxSpeed, directionID* float_pi / 4.0), acceleration);
 		}
 	}
 	else
@@ -207,19 +207,19 @@ void fleeWithObstacleAvoidance(GObject& agent, SpaceVect target, float maxSpeed,
 }
 
 
-float getStoppingTime(float speed, float acceleration)
+SpaceFloat getStoppingTime(SpaceFloat speed, SpaceFloat acceleration)
 {
 	return speed / acceleration;
 }
 
-float getStoppingDistance(float speed, float acceleration)
+SpaceFloat getStoppingDistance(SpaceFloat speed, SpaceFloat acceleration)
 {
-	float t = getStoppingTime(speed, acceleration);
+	SpaceFloat t = getStoppingTime(speed, acceleration);
 
-	return 0.5f * acceleration * t * t;
+	return 0.5 * acceleration * t * t;
 }
 
-float getTurningRadius(float speed, float acceleration)
+SpaceFloat getTurningRadius(SpaceFloat speed, SpaceFloat acceleration)
 {
 	return speed * speed / acceleration;
 }
@@ -328,7 +328,7 @@ string Thread::getStack()
         return "<empty>";
     
     auto it = call_stack.begin();
-    int i = 0;
+    size_t i = 0;
     for(; i < call_stack.size()-1; ++i, ++it){
         ss << (*it)->getName() << " -> ";
     }
@@ -543,7 +543,7 @@ void Seek::update(StateMachine& sm)
     }
 }
 
-MaintainDistance::MaintainDistance(gobject_ref target, float distance, float margin) :
+MaintainDistance::MaintainDistance(gobject_ref target, SpaceFloat distance, SpaceFloat margin) :
 target(target),
 distance(distance),
 margin(margin)
@@ -559,7 +559,7 @@ MaintainDistance::MaintainDistance(GSpace* space, const ValueMap& args)
 void MaintainDistance::update(StateMachine& sm)
 {
 	if (target.get()) {
-        float crnt_distance = distanceToTarget(*sm.agent,*target.get());
+        SpaceFloat crnt_distance = distanceToTarget(*sm.agent,*target.get());
     
         if(crnt_distance > distance + margin){
             ai::seek(
@@ -594,6 +594,7 @@ Flee::Flee(GSpace* space, const ValueMap& args) {
     
     if(args.find("flee_distance") == args.end()){
         log("Flee::Flee: flee_distance missing.");
+		distance = 0.0;
     }
     else{
         distance = args.at("flee_distance").asFloat();
@@ -636,14 +637,14 @@ void EvadePlayerProjectiles::update(StateMachine& sm)
 	list<GObject*> objs = sm.getAgent()->getSensedObjects();
 	
 	GObject* closest = nullptr;
-	float closestDistance = numeric_limits<float>::infinity();
+	SpaceFloat closestDistance = numeric_limits<SpaceFloat>::infinity();
 	 
 	foreach(GObject* obj, objs)
 	{
 		if (obj->getType() != GType::playerBullet)
 			continue;
 
-		float crntDist = distanceToTarget(*obj, *sm.agent);
+		SpaceFloat crntDist = distanceToTarget(*obj, *sm.agent);
 
 		if (crntDist < closestDistance) {
 			closestDistance = crntDist;
@@ -701,7 +702,7 @@ IdleWait::IdleWait(GSpace* space, const ValueMap& args)
         return;
     }
     
-    float waitSeconds = getFloat(args, "waitTime");
+    SpaceFloat waitSeconds = getFloat(args, "waitTime");
     remaining = App::framesPerSecond * waitSeconds;
 }
 void IdleWait::update(StateMachine& fsm)
@@ -745,7 +746,7 @@ MoveToPoint::MoveToPoint(GSpace* space, const ValueMap& args)
 
 void MoveToPoint::update(StateMachine& fsm)
 {
-    float dist2 = (fsm.agent->getPos() - target).lengthSq();
+    SpaceFloat dist2 = (fsm.agent->getPos() - target).lengthSq();
     
     if(dist2 < 0.25*0.25){
         fsm.pop();
@@ -803,7 +804,7 @@ Wander::Wander(GSpace* space, const ValueMap& args) :
 
 void Wander::update(StateMachine& fsm)
 {
-    float dist = app->getRandomFloat(minDist, maxDist);
+    SpaceFloat dist = app->getRandomFloat(minDist, maxDist);
     vector<Direction> directions;
     SpaceVect target;
     
@@ -921,9 +922,9 @@ void SakuyaMain::update(StateMachine& sm)
     sm.push(make_shared<Cast>("IllusionDial", ValueMap()));
 }
 
-const float IllusionDash::scale = 2.5f;
-const float IllusionDash::opacity = 0.25f;
-const float IllusionDash::speed = 10.0f;
+const SpaceFloat IllusionDash::scale = 2.5;
+const SpaceFloat IllusionDash::opacity = 0.25;
+const SpaceFloat IllusionDash::speed = 10.0;
 
 IllusionDash::IllusionDash(SpaceVect _target) :
 target(_target)

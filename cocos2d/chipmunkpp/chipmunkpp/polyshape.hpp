@@ -18,13 +18,13 @@ namespace cp {
         
         static inline std::shared_ptr<PolyShape> rectangle(std::shared_ptr<Body> body, const Vect& dim)
         {
-            float hw = dim.x / 2;
-            float hh = dim.y / 2;
+            Float hw = dim.x / 2;
+            Float hh = dim.y / 2;
             
-            float l = -hw;
-            float r = hw;
-            float b = -hh;
-            float t = hh;
+            Float l = -hw;
+            Float r = hw;
+            Float b = -hh;
+            Float t = hh;
             
             std::vector<Vect> verts = {
                 Vect(l,b),

@@ -166,7 +166,7 @@ namespace cp {
 		return Vect(x * v.x + y * v.y, y * v.x - x * v.y);
 	}
     
-    Vect Vect::rotate(float angleRadians) const {
+    Vect Vect::rotate(Float angleRadians) const {
         double _cos = cos(angleRadians);
         double _sin = sin(angleRadians);
         return Vect(

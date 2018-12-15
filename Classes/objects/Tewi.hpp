@@ -22,13 +22,13 @@ public:
 		MapObjForwarding(Agent)
 	{}
 
-	virtual inline float getRadius() const { return 0.35f; }
-	inline float getMass() const { return 40.0f; }
+	virtual inline SpaceFloat getRadius() const { return 0.35; }
+	inline SpaceFloat getMass() const { return 40.0; }
 	virtual inline GType getType() const { return GType::enemy; }
 
-	virtual inline float getRadarRadius() const { return 6.0f; }
+	virtual inline SpaceFloat getRadarRadius() const { return 6.0; }
 	virtual inline GType getRadarType() const { return GType::playerSensor; }
-	virtual inline float getDefaultFovAngle() const { return float_pi * 0.75f; }
+	virtual inline SpaceFloat getDefaultFovAngle() const { return float_pi * 0.75; }
 
 	inline string imageSpritePath() const { return "sprites/tewi.png"; }
 	inline GraphicsLayer sceneLayer() const { return GraphicsLayer::ground; }

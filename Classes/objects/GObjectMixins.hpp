@@ -79,9 +79,9 @@ public:
     //Create body and add it to space. This assumes BB is rectangle dimensions
     virtual void initializeBody(GSpace& space);    
     virtual inline SpaceVect getDimensions() const = 0;
-    virtual float getMomentOfInertia() const;
+    virtual SpaceFloat getMomentOfInertia() const;
 
-	inline virtual float getRadius() const { return max(getDimensions().x, getDimensions().y); }
+	inline virtual SpaceFloat getRadius() const { return max(getDimensions().x, getDimensions().y); }
 
 };
 
@@ -93,7 +93,7 @@ public:
     inline RectangleMapBody(const ValueMap& arg) : dim(getDimensionsFromMap(arg)) {}
     
     inline SpaceVect getDimensions() const { return dim;}
-	inline virtual float getRadius() const { return max(dim.x, dim.y); }
+	inline virtual SpaceFloat getRadius() const { return max(dim.x, dim.y); }
 
 private:
     //Rectular dimensions or BB dimensions if object is not actually rectangular.
@@ -103,8 +103,8 @@ private:
 class CircleBody : public virtual GObject
 {
 public:
-    virtual float getRadius() const = 0;
-    virtual float getMomentOfInertia() const;
+    virtual SpaceFloat getRadius() const = 0;
+    virtual SpaceFloat getMomentOfInertia() const;
 
     //Create body and add it to space. This assumes BB is rectangle dimensions
     virtual void initializeBody(GSpace& space);
@@ -115,7 +115,7 @@ class FrictionObject : public virtual GObject, RegisterUpdate<FrictionObject>
 public:
     inline FrictionObject() : RegisterUpdate(this) {}
 
-    virtual float uk() const = 0;
+    virtual SpaceFloat uk() const = 0;
     void update();
 };
 
@@ -132,10 +132,10 @@ public:
 class MaxSpeedImpl : virtual public GObject
 {
 public:
-	inline MaxSpeedImpl(float speed) : speed(speed) {}
-	virtual inline float getMaxSpeed() const { return speed; }
+	inline MaxSpeedImpl(SpaceFloat speed) : speed(speed) {}
+	virtual inline SpaceFloat getMaxSpeed() const { return speed; }
 protected:
-	float speed;
+	SpaceFloat speed;
 };
 
 //END PHYSICS
@@ -197,7 +197,7 @@ public:
     void setSprite(const string& name);
     virtual void setSpriteShader(const string& shaderName);
     
-    virtual void setAngle(float a);
+    virtual void setAngle(SpaceFloat a);
     void setDirection(Direction d);
     Direction getDirection()const;
 protected:
@@ -239,7 +239,7 @@ public:
 	inline Bullet() {}
 
 	virtual inline bool getSensor() const { return true; }
-	virtual inline float getMass() const { return 0.1f; }
+	virtual inline SpaceFloat getMass() const { return 0.1; }
 	virtual inline PhysicsLayers getLayers() const { return PhysicsLayers::ground; }
 
 	virtual inline GraphicsLayer sceneLayer() const { return GraphicsLayer::ground; }
@@ -262,8 +262,8 @@ public:
 class EnemyBullet : virtual public GObject, public Bullet
 {
 public:
-	inline EnemyBullet() : EnemyBullet(0.0f,0) {}
-	EnemyBullet(float grazeRadius, int grazeBonus);
+	inline EnemyBullet() : EnemyBullet(0.0,0) {}
+	EnemyBullet(SpaceFloat grazeRadius, int grazeBonus);
 
 	//The bullet's graze "radar" has collided with Player.
 	void onGrazeTouch(object_ref<Player> obj);
@@ -277,7 +277,7 @@ public:
 protected:
 	object_ref<Player> grazeTarget;
 	bool grazeValid = true;
-	const float grazeRadius;
+	const SpaceFloat grazeRadius;
 	const int grazeBonus;
 };
 

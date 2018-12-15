@@ -16,14 +16,14 @@ class Block : virtual public GObject, RectangleBody, ImageSprite, FrictionObject
 {
 public:
     const bool isStatic;
-    const float mass = 40.0;
+    const SpaceFloat mass = 40.0;
 	MapObjCons(Block);
     
     virtual string imageSpritePath() const {return !letter.empty() ? "sprites/block "+letter+".png"  : "sprites/block.png";}
     virtual GraphicsLayer sceneLayer() const {return GraphicsLayer::ground;}
     
-    virtual inline float getMass() const { return isStatic ? -1 : mass;}
-    virtual inline float uk() const {return 0.5;}
+    virtual inline SpaceFloat getMass() const { return isStatic ? -1.0 : mass;}
+    virtual inline SpaceFloat uk() const {return 0.5;}
     virtual inline GType getType() const {return GType::environment;}
     virtual PhysicsLayers getLayers() const;
     virtual inline SpaceVect getDimensions() const {return SpaceVect(1,1);}

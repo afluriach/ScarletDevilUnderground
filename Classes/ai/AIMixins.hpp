@@ -61,9 +61,9 @@ public:
         setFovAngle(getDefaultFovAngle());
     }
 
-	virtual float getRadarRadius() const = 0;
+	virtual SpaceFloat getRadarRadius() const = 0;
 	virtual GType getRadarType() const = 0;
-    virtual inline float getDefaultFovAngle() const {return 0.0f;}
+    virtual inline SpaceFloat getDefaultFovAngle() const {return 0.0;}
 
 	virtual void onDetect(GObject* other);
 	virtual void onEndDetect(GObject* other);
@@ -77,7 +77,7 @@ public:
 		return list<GObject*>(visibleObjects.begin(), visibleObjects.end());
 	}
     
-    void setFovAngle(float angle);
+    void setFovAngle(SpaceFloat angle);
 
 	//Create body and add it to space. This assumes BB is rectangle dimensions
 	virtual void initializeRadar(GSpace& space);
@@ -92,8 +92,8 @@ protected:
     //Field of view angle in radians. This is the maximum angle from the facing
     //direction to any visible target, i.e. half of the actual FOV width.
     //If 0, FOV is not considered and this is a radius sensor.
-    float fovAngle = 0.0f;
-    float fovScalar = 0.0f;
+	SpaceFloat fovAngle = 0.0;
+	SpaceFloat fovScalar = 0.0;
 };
 
 #endif /* AIMixins_hpp */

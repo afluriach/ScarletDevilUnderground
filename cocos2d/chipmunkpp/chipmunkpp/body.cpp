@@ -30,13 +30,13 @@ namespace cp {
 		return cpBodyGetPos(body);
 	}
 
-	void Body::setAngle(float angle){
+	void Body::setAngle(Float angle){
 	    body->a = angle;
 	    body->rot = cpvforangle(angle);
 	    cpBodyAssertSane(body);
 	}
 	
-	float Body::getAngle() const{
+	Float Body::getAngle() const{
 	    return body->a;
 	}
 
@@ -48,11 +48,11 @@ namespace cp {
 		cpBodySetVel(body, velocity);
 	}
     
-    float Body::getAngularVel() const{
+    Float Body::getAngularVel() const{
         return body->w;
     }
     
-    void Body::setAngularVel(float w){
+    void Body::setAngularVel(Float w){
         body->w = w;
     }
 

@@ -39,8 +39,8 @@ public:
 	virtual AttributeMap getBaseAttributes() const = 0;
 	float getAttribute(Attribute id) const;
 
-	virtual float getMaxSpeed() const;
-	virtual float getMaxAcceleration() const;
+	virtual SpaceFloat getMaxSpeed() const;
+	virtual SpaceFloat getMaxAcceleration() const;
 
 	virtual float getMaxHealth() const;
 	virtual float getMaxPower() const;
@@ -52,13 +52,13 @@ public:
 	virtual void hit(AttributeMap attributeEffects, shared_ptr<MagicEffect> effect);
 
 	//sensor interface
-	virtual float getRadarRadius() const { return 1.0f; }
+	virtual SpaceFloat getRadarRadius() const { return 1.0; }
 	virtual GType getRadarType() const { return GType::none; }
-	virtual float getDefaultFovAngle() const { return 0.0f; }
+	virtual SpaceFloat getDefaultFovAngle() const { return 0.0; }
 
 	//physics/motor interface
-	virtual inline float getRadius() const { return 0.35f; }
-	virtual float getMass() const = 0;
+	virtual inline SpaceFloat getRadius() const { return 0.35; }
+	virtual SpaceFloat getMass() const = 0;
 	virtual GType getType() const = 0;
 
 	//graphics interface
@@ -100,12 +100,11 @@ public:
 
 	MapObjCons(GenericAgent);
 
-    virtual inline float getRadarRadius() const {return 3.0f;}
+	virtual inline SpaceFloat getRadarRadius() const { return 3.0;  }
     virtual inline GType getRadarType() const { return GType::playerSensor;}
-    virtual inline float getDefaultFovAngle() const {return 0.0f;}
+	virtual inline SpaceFloat getDefaultFovAngle() const { return 0.0; }
     
-    //virtual inline float getRadius() const {return 0.35f;}
-    inline float getMass() const {return 20.0f;}
+	inline SpaceFloat getMass() const { return 20.0; }
     virtual inline GType getType() const {return GType::npc;}
         
     inline string imageSpritePath() const {return "sprites/"+spriteName+".png";}

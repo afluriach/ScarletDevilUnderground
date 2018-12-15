@@ -27,7 +27,7 @@ void FireStarburst::runPeriodic()
     SpaceVect pos = caster->body->getPos();
     for_irange(i,0,8)
     {
-        float angle = float_pi * i / 4;
+        SpaceFloat angle = float_pi * i / 4.0;
 
         SpaceVect crntPos = pos + SpaceVect::ray(1, angle);
 
@@ -182,7 +182,7 @@ void IllusionDial::runPeriodic()
 	{
 
 		int best = -1;
-		float best_angle = float_pi;
+		SpaceFloat best_angle = float_pi;
 		bool allBulletsConsumed = true;
 
 		for_irange(i, 0, count)
@@ -190,7 +190,7 @@ void IllusionDial::runPeriodic()
 			if (bullets[i].isValid() && !launch_flags[i]) {
 				allBulletsConsumed = false;
 
-				float crnt = bullets[i].get()->targetViewAngle();
+				SpaceFloat crnt = bullets[i].get()->targetViewAngle();
 
 				if (!isinf(crnt) && abs(crnt) < best_angle)
 					best = i;
@@ -255,23 +255,27 @@ void PlayerBatMode::init()
 
 	Player* p = getCasterAs<Player>();
 
-    p->setSpellProtectionMode(true);
-	p->setFiringSuppressed(true);
-    p->setSprite("flandre_bat");
-	p->applyAttributeModifier(Attribute::speed, 1.5f);
-	p->setLayers(PhysicsLayers::ground);
+	if (p) {
+		p->setSpellProtectionMode(true);
+		p->setFiringSuppressed(true);
+		p->setSprite("flandre_bat");
+		p->applyAttributeModifier(Attribute::speed, 1.5f);
+		p->setLayers(PhysicsLayers::ground);
+	}
 }
 
 void PlayerBatMode::end()
 {
 	Player* p = getCasterAs<Player>();
 
-    p->setSpellProtectionMode(false);
-	p->setFiringSuppressed(false);
-    p->setSprite("flandre");
-	p->applyAttributeModifier(Attribute::speed, -1.5f);
-	p->setLayers(enum_bitwise_or(PhysicsLayers, floor, ground));
-	p->onSpellStop();
+	if (p) {
+		p->setSpellProtectionMode(false);
+		p->setFiringSuppressed(false);
+		p->setSprite("flandre");
+		p->applyAttributeModifier(Attribute::speed, -1.5f);
+		p->setLayers(enum_bitwise_or(PhysicsLayers, floor, ground));
+		p->onSpellStop();
+	}
 }
 
 const string PlayerDarkMist::name = "PlayerDarkMist";

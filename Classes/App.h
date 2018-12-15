@@ -41,7 +41,7 @@ public:
 
 	static const unsigned int baseWidth = 1600;
      
-    constexpr static float Gaccel = 9.8f;
+    constexpr static SpaceFloat Gaccel = 9.806;
     
     static const int pixelsPerTile = 128;
     constexpr static float tilesPerPixel = 1.0f/pixelsPerTile;

@@ -44,14 +44,14 @@ public:
 
 class TimedLoopAnimation : public GAnimation {
 public:
-   void loadAnimation(const string& name, int length, float animationInterval);
+   void loadAnimation(const string& name, int length, SpaceFloat animationInterval);
    void update();
 protected:
     shared_ptr<AnimationSpriteSequence> sequence;
-    float frameInterval;
-    float timeInFrame = 0;
+    SpaceFloat frameInterval;
+    SpaceFloat timeInFrame = 0.0;
     int crntFrame = 0;
-    Sprite* sprite;
+    Sprite* sprite = nullptr;
 };
 
 //Sprite frames are loaded raster order. So all directions are encompassed with a single sprite frame set.
@@ -59,8 +59,8 @@ protected:
 class PatchConAnimation : public GAnimation {
 public:
     //One pace is 1 unit, with the middle state representing a small distance between steps.
-    static constexpr float stepSize = 0.4f;
-    static constexpr float midstepSize = 0.2f;
+    static constexpr SpaceFloat stepSize = 0.4;
+    static constexpr SpaceFloat midstepSize = 0.2;
     
     
     inline void setSpriteShader(const string& shader){
@@ -68,7 +68,7 @@ public:
     }
     
     void loadAnimation(const string& path);    
-    void accumulate(float dx);
+    void accumulate(SpaceFloat dx);
     
     //Reset to standing. Implicitly removes run effect.
     void reset();
@@ -81,7 +81,7 @@ protected:
     shared_ptr<AnimationSpriteSequence> sequence;
 
     Sprite* sprite = nullptr;
-    float distanceAccumulated = 0;
+    SpaceFloat distanceAccumulated = 0.0;
     unsigned char crntFrame = 1;
     Direction direction = Direction::up;
     //Which foot to use for the first step after the animation has been standing still.

@@ -23,12 +23,12 @@ public:
     MapObjForwarding(Agent)
     {}
 
-    virtual inline float getRadarRadius() const {return 6.0f;}
+    virtual inline SpaceFloat getRadarRadius() const {return 6.0;}
     virtual inline GType getRadarType() const { return GType::playerSensor;}
-    virtual inline float getDefaultFovAngle() const {return 0.0f;}
+    virtual inline SpaceFloat getDefaultFovAngle() const {return 0.0;}
 
-    virtual inline float getRadius() const {return 0.35f;}
-    inline float getMass() const {return 40.0f;}
+    virtual inline SpaceFloat getRadius() const {return 0.35;}
+    inline SpaceFloat getMass() const {return 40.0;}
     virtual inline GType getType() const {return GType::enemy;}
 
     inline string imageSpritePath() const {return "sprites/sakuya.png";}

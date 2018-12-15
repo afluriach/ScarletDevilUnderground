@@ -28,15 +28,15 @@ namespace cp {
 		Vect getPos() const;
 		void setPos(Vect);
 		
-		void setAngle(float);
-		float getAngle() const;
+		void setAngle(Float);
+		Float getAngle() const;
 
 		/// Linear velocity of the center of gravity of the body.
 		Vect getVel() const;
 		void setVel(Vect velocity);
         
-        float getAngularVel() const;
-        void setAngularVel(float);
+		Float getAngularVel() const;
+        void setAngularVel(Float);
 
 		Layers getLayers();
 		void setAllLayers(Layers layers);
@@ -53,7 +53,7 @@ namespace cp {
             shapes.push_back(shape);
         }
         
-        inline float getMass() const {
+        inline Float getMass() const {
             return body->m;
         }
         

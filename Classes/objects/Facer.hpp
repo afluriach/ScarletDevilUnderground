@@ -23,8 +23,8 @@ public:
 
     virtual void hit(int damage, shared_ptr<MagicEffect> effect);
 
-    virtual inline float getRadius() const {return 0.35f;}
-    inline float getMass() const {return 40.0f;}
+    virtual inline SpaceFloat getRadius() const {return 0.35;}
+    inline SpaceFloat getMass() const {return 40.0;}
     virtual inline GType getType() const {return GType::enemy;}
 
     inline string imageSpritePath() const {return "sprites/tewi.png";}

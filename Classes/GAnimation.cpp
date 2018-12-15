@@ -99,7 +99,7 @@ shared_ptr<AnimationSpriteSequence> AnimationSpriteSequence::loadAgentAnimation(
 
 
 
-void TimedLoopAnimation::loadAnimation(const string& name, int length, float animationInterval)
+void TimedLoopAnimation::loadAnimation(const string& name, int length, SpaceFloat animationInterval)
 {
     setName("TimedLoopAnimation");
     sequence = AnimationSpriteSequence::loadFromImageSequence(name, length);
@@ -146,7 +146,7 @@ void PatchConAnimation::loadAnimation(const string& path)
 }
 
 
-void PatchConAnimation::accumulate(float dx)
+void PatchConAnimation::accumulate(SpaceFloat dx)
 {
     distanceAccumulated += dx;
     checkAdvanceAnimation();

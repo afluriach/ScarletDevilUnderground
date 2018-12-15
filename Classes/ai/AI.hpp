@@ -23,28 +23,28 @@ namespace ai{
 //Low-level movement functions.
 
 //Not strictly an AI function since it's used to control the player.
-void applyDesiredVelocity(GObject& obj, SpaceVect desired, float maxForce);
-void seek(GObject& agent, SpaceVect target, float maxSpeed, float acceleration);
+void applyDesiredVelocity(GObject& obj, SpaceVect desired, SpaceFloat maxForce);
+void seek(GObject& agent, SpaceVect target, SpaceFloat maxSpeed, SpaceFloat acceleration);
 SpaceVect fleeDirection(GObject& agent, SpaceVect target);
-void flee(GObject& agent, SpaceVect target, float maxSpeed, float acceleration);
+void flee(GObject& agent, SpaceVect target, SpaceFloat maxSpeed, SpaceFloat acceleration);
 
 bool isFacingTarget(const GObject& agent, const GObject& target);
 bool isFacingTargetsBack(const GObject& agent, const GObject& target);
 bool isLineOfSight(const GObject& agent, const GObject& target);
 
-array<float, 4> obstacleFeelerQuad(GObject& agent, float distance);
-array<float, 8> obstacleFeeler8(GObject& agent, float distance);
-int chooseBestDirection(const array<float, 8>& feelers, float desired_angle, float min_distance);
+array<SpaceFloat, 4> obstacleFeelerQuad(GObject& agent, SpaceFloat distance);
+array<SpaceFloat, 8> obstacleFeeler8(GObject& agent, SpaceFloat distance);
+int chooseBestDirection(const array<SpaceFloat, 8>& feelers, SpaceFloat desired_angle, SpaceFloat min_distance);
 
 SpaceVect directionToTarget(const GObject& agent, SpaceVect target);
 SpaceVect displacementToTarget(const GObject& agent, SpaceVect target);
-float distanceToTarget(const GObject& agent, const GObject& target);
-float viewAngleToTarget(const GObject& agent, const GObject& target);
+SpaceFloat distanceToTarget(const GObject& agent, const GObject& target);
+SpaceFloat viewAngleToTarget(const GObject& agent, const GObject& target);
 SpaceVect projectileEvasion(const GObject& bullet, const GObject& agent);
 
-float getStoppingTime(float speed, float acceleration);
-float getStoppingDistance(float speed, float accceleration);
-float getTurningRadius(float speed, float acceleration);
+SpaceFloat getStoppingTime(SpaceFloat speed, SpaceFloat acceleration);
+SpaceFloat getStoppingDistance(SpaceFloat speed, SpaceFloat accceleration);
+SpaceFloat getTurningRadius(SpaceFloat speed, SpaceFloat acceleration);
 
 enum class ResourceLock
 {
@@ -211,7 +211,7 @@ protected:
 
 class MaintainDistance : public Function {
 public:
-    MaintainDistance(gobject_ref target, float distance, float margin);
+    MaintainDistance(gobject_ref target, SpaceFloat distance, SpaceFloat margin);
     MaintainDistance(GSpace* space, const ValueMap& args);
     
 	virtual void update(StateMachine& sm);
@@ -223,12 +223,12 @@ public:
     FuncGetName(MaintainDistance)
 protected:
 	gobject_ref target;
-    float distance, margin;
+    SpaceFloat distance, margin;
 };
 
 class Flee : public Function {
 public:
-    inline Flee(GObject* target, float distance) :
+    inline Flee(GObject* target, SpaceFloat distance) :
     target(target),
     distance(distance)
     {}
@@ -244,7 +244,7 @@ public:
     FuncGetName(Flee)
 protected:
 	gobject_ref target;
-    float distance;
+    SpaceFloat distance;
 };
 
 class EvadePlayerProjectiles : public Function {
@@ -347,8 +347,8 @@ public:
     }
     FuncGetName(Wander)
 protected:
-    float minWait, maxWait;
-    float minDist, maxDist;
+    SpaceFloat minWait, maxWait;
+    SpaceFloat minDist, maxDist;
 };
 
 class Operation : public Function {
@@ -432,9 +432,9 @@ class IllusionDash : public Function {
 public:
     IllusionDash(SpaceVect _target);
     IllusionDash(GSpace* space, const ValueMap& args);
-    static const float scale;
-    static const float opacity;
-    static const float speed;
+    static const SpaceFloat scale;
+    static const SpaceFloat opacity;
+    static const SpaceFloat speed;
 
 	virtual void onEnter(StateMachine& sm);
     virtual void update(StateMachine& sm);

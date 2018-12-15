@@ -336,9 +336,9 @@ FloorSegment* GSpace::floorSegmentPointQuery(SpaceVect pos)
 
 void GSpace::addNavObstacle(const SpaceVect& center, const SpaceVect& boundingDimensions)
 {
-    for(float x = center.x - boundingDimensions.x/2; x < center.x + boundingDimensions.x/2; ++x)
+    for(SpaceFloat x = center.x - boundingDimensions.x/2.0; x < center.x + boundingDimensions.x/2.0; ++x)
     {
-        for(float y = center.y - boundingDimensions.y/2; y < center.y + boundingDimensions.y/2; ++y)
+        for(SpaceFloat y = center.y - boundingDimensions.y/2.0; y < center.y + boundingDimensions.y/2.0; ++y)
         {
             markObstacleTile(x,y);
         }
@@ -424,8 +424,8 @@ void setShapeProperties(shared_ptr<Shape> shape, PhysicsLayers layers, GType typ
 
 shared_ptr<Body> GSpace::createCircleBody(
     const SpaceVect& center,
-    float radius,
-    float mass,
+    SpaceFloat radius,
+    SpaceFloat mass,
     GType type,
     PhysicsLayers layers,
     bool sensor,
@@ -445,7 +445,7 @@ shared_ptr<Body> GSpace::createCircleBody(
     if(mass < 0){
         body = space.makeStaticBody();
         if(type == GType::environment)
-            addNavObstacle(center, SpaceVect(radius*2, radius*2));
+            addNavObstacle(center, SpaceVect(radius*2.0, radius*2.0));
     }
     else{
         body = make_shared<Body>(mass, circleMomentOfInertia(mass, radius));
@@ -469,7 +469,7 @@ shared_ptr<Body> GSpace::createCircleBody(
 shared_ptr<Body> GSpace::createRectangleBody(
     const SpaceVect& center,
     const SpaceVect& dim,
-    float mass,
+    SpaceFloat mass,
     GType type,
     PhysicsLayers layers,
     bool sensor,
@@ -735,18 +735,18 @@ int GSpace::sensorEnd(GObject* radarAgent, GObject* target)
 
 //BEGIN SENSORS
 
-float GSpace::distanceFeeler(const GObject * agent, SpaceVect _feeler, GType gtype) const
+SpaceFloat GSpace::distanceFeeler(const GObject * agent, SpaceVect _feeler, GType gtype) const
 {
     SpaceVect start = agent->getPos();
     SpaceVect end = start + _feeler;
     
     //Distance along the segment is scaled [0,1].
-    float closest = 1.0f;
+    SpaceFloat closest = 1.0;
     
     auto queryCallback = [&closest,agent] (std::shared_ptr<Shape> shape, cp::Float distance, cp::Vect vect) -> void {
         
         if(shape->getUserData() != agent){
-            closest = min<float>(closest, distance);
+            closest = min<SpaceFloat>(closest, distance);
         }
     };
     
@@ -760,12 +760,12 @@ float GSpace::distanceFeeler(const GObject * agent, SpaceVect _feeler, GType gty
     return closest*_feeler.length();
 }
 
-float GSpace::wallDistanceFeeler(const GObject * agent, SpaceVect feeler) const
+SpaceFloat GSpace::wallDistanceFeeler(const GObject * agent, SpaceVect feeler) const
 {
     return distanceFeeler(agent, feeler, GType::wall);
 }
 
-float GSpace::obstacleDistanceFeeler(const GObject * agent, SpaceVect _feeler) const
+SpaceFloat GSpace::obstacleDistanceFeeler(const GObject * agent, SpaceVect _feeler) const
 {
     return vmin(
         wallDistanceFeeler(agent, _feeler),

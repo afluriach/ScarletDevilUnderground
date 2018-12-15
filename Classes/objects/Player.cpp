@@ -77,7 +77,7 @@ void Player::updateSpellControls(const ControlInfo& cs)
     {
 		timerDecrement(spellCooldown);
         
-        if(spellCooldown <= 0){
+        if(spellCooldown <= 0 && equippedSpell){
             if( cs.isControlActionPressed(ControlAction::spell1) &&
                 attributeSystem.getAdjustedValue(Attribute::power) >= equippedSpell->getInitialCost()){
 				cast(equippedSpell->generate(this, {}));

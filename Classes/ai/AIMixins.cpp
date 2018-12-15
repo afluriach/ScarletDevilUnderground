@@ -53,7 +53,7 @@ void RadarObject::initializeRadar(GSpace& space)
     radar = space.createCircleBody(
         initialCenter,
         getRadarRadius(),
-        0.1f,
+        0.1,
         getRadarType(),
         PhysicsLayers::all,
         true,
@@ -93,16 +93,16 @@ bool RadarObject::isObjectVisible(GObject* other)
 
 	SpaceVect facingUnit = SpaceVect::ray(1.0f, getAngle());
     SpaceVect displacementUnit = (other->getPos() - getPos()).normalize();
-    float scalar = SpaceVect::dot(facingUnit,displacementUnit);
+    SpaceFloat scalar = SpaceVect::dot(facingUnit,displacementUnit);
     
     return scalar >= fovScalar && ai::isLineOfSight(*this, *other);
 }
 
-void RadarObject::setFovAngle(float angle)
+void RadarObject::setFovAngle(SpaceFloat angle)
 {
-    if(angle == 0.0f){
-        fovAngle = 0.0f;
-        fovScalar = 0.0f;
+    if(angle == 0.0){
+        fovAngle = 0.0;
+        fovScalar = 0.0;
     } else {
         fovScalar = cos(angle);
         fovAngle = angle;
@@ -131,14 +131,14 @@ GObject* RadarObject::getSensedObject()
 {
 	SpaceVect facingUnit = SpaceVect::ray(1, getAngle());
 
-	float bestScalar = -1;
+	SpaceFloat bestScalar = -1.0;
 	GObject* bestObj = nullptr;
 
 	BOOST_FOREACH(GObject* obj, visibleObjects)
 	{
 		SpaceVect displacementUnit = (obj->getPos() - getPos()).normalize();
 
-		float dot = SpaceVect::dot(facingUnit, displacementUnit);
+		SpaceFloat dot = SpaceVect::dot(facingUnit, displacementUnit);
 
 		if (dot > bestScalar)
 		{

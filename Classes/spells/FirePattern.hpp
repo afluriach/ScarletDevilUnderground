@@ -37,9 +37,9 @@ public:
 	virtual bool isInCooldown();
 	virtual void update();
 
-	virtual float getLaunchDistance() const { return 1.0f; }
+	virtual SpaceFloat getLaunchDistance() const { return 1.0; }
 	virtual boost::rational<int> getCooldownTime() = 0;
-	virtual GObject::GeneratorType spawn(float angle, SpaceVect pos) = 0;
+	virtual GObject::GeneratorType spawn(SpaceFloat angle, SpaceVect pos) = 0;
 protected:
 	boost::rational<int> cooldownTimeRemaining = 0;
 };
@@ -53,7 +53,7 @@ public:
 	virtual int powerCost() const { return 5; }
 
 	virtual boost::rational<int> getCooldownTime() { return 1; }
-	virtual GObject::GeneratorType spawn(float angle, SpaceVect pos);
+	virtual GObject::GeneratorType spawn(SpaceFloat angle, SpaceVect pos);
 };
 
 class FlandreFastOrbPattern : public SingleBulletFixedIntervalPattern
@@ -65,7 +65,7 @@ public:
 	virtual int powerCost() const { return 1; }
 
 	virtual boost::rational<int> getCooldownTime() { return boost::rational<int>(1,6); }
-	virtual GObject::GeneratorType spawn(float angle, SpaceVect pos);
+	virtual GObject::GeneratorType spawn(SpaceFloat angle, SpaceVect pos);
 };
 
 class CirnoLargeIceBulletPattern : public SingleBulletFixedIntervalPattern
@@ -77,7 +77,7 @@ public:
 	virtual int powerCost() const { return 5; }
 
 	virtual boost::rational<int> getCooldownTime() { return 1; }
-	virtual GObject::GeneratorType spawn(float angle, SpaceVect pos);
+	virtual GObject::GeneratorType spawn(SpaceFloat angle, SpaceVect pos);
 };
 
 class IceFairyBulletPattern : public SingleBulletFixedIntervalPattern
@@ -90,7 +90,7 @@ public:
 	virtual int powerCost() const { return 0; }
 
 	virtual boost::rational<int> getCooldownTime() { return 1; }
-	virtual GObject::GeneratorType spawn(float angle, SpaceVect pos);
+	virtual GObject::GeneratorType spawn(SpaceFloat angle, SpaceVect pos);
 };
 
 

@@ -145,8 +145,8 @@ public:
     
     shared_ptr<Body> createCircleBody(
         const SpaceVect& center,
-        float radius,
-        float mass,
+        SpaceFloat radius,
+        SpaceFloat mass,
         GType type,
         PhysicsLayers layers,
         bool sensor,
@@ -155,7 +155,7 @@ public:
     shared_ptr<Body> createRectangleBody(
         const SpaceVect& center,
         const SpaceVect& dim,
-        float mass,
+        SpaceFloat mass,
         GType type,
         PhysicsLayers layers,
         bool sensor,
@@ -261,9 +261,9 @@ private:
 public:
 	GObject * pointQuery(SpaceVect pos, GType type, PhysicsLayers layers);
 
-    float distanceFeeler(const GObject * agent, SpaceVect feeler, GType gtype) const;
-    float obstacleDistanceFeeler(const GObject * agent, SpaceVect feeler) const;
-    float wallDistanceFeeler(const GObject * agent, SpaceVect feeler) const;
+    SpaceFloat distanceFeeler(const GObject * agent, SpaceVect feeler, GType gtype) const;
+    SpaceFloat obstacleDistanceFeeler(const GObject * agent, SpaceVect feeler) const;
+    SpaceFloat wallDistanceFeeler(const GObject * agent, SpaceVect feeler) const;
     
     bool feeler(const GObject * agent, SpaceVect feeler, GType gtype) const;
     bool feeler(const GObject * agent, SpaceVect feeler, GType gtype, PhysicsLayers layers) const;

@@ -11,7 +11,7 @@
 
 #ifdef _WIN32
 //"Inherited via dominance" warning
-#pragma warning(disable : 4250)	
+#pragma warning(disable : 4250)
 #endif
 
 #if defined(TARGET_OS_OSX) && defined(__OBJC__)

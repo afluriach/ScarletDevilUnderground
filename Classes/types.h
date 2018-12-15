@@ -15,6 +15,7 @@ class GSpace;
 typedef pair<int,int> IntVec2;
 //Represents a Chipmunk physics unit space vector
 typedef cp::Vect SpaceVect;
+typedef cp::Float SpaceFloat;
 typedef vector<SpaceVect> Path;
 
 typedef unsigned int ObjectIDType;
@@ -95,7 +96,7 @@ struct PhysicsProperties
 	bool setPos, setVel, setAngle, setAngularVel, setLayers;
 
 	SpaceVect pos, vel;
-	float angle, angularVel;
+	SpaceFloat angle, angularVel;
 	PhysicsLayers layers;
 
 	inline PhysicsProperties() :

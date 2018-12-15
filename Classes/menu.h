@@ -63,7 +63,7 @@ private:
     vector<Label*> menuItemLabels;
     
     Node* cursor;
-    int selected = 0;
+    size_t selected = 0;
     
     void updateCursor()
     {

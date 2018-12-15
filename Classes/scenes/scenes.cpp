@@ -264,10 +264,10 @@ void GScene::loadMaps()
 
 	gspace->setSize(dimensions.first, dimensions.second);
 
-	gspace->addWallBlock(SpaceVect(-1, 0), SpaceVect(0, dimensions.second));
-	gspace->addWallBlock(SpaceVect(dimensions.first, 0), SpaceVect(dimensions.first + 1, dimensions.second));
-	gspace->addWallBlock(SpaceVect(0, dimensions.second), SpaceVect(dimensions.first, dimensions.second + 1));
-	gspace->addWallBlock(SpaceVect(0, -1), SpaceVect(dimensions.first, 0));
+	gspace->addWallBlock(SpaceVect(-1.0, 0.0), SpaceVect(0.0, dimensions.second));
+	gspace->addWallBlock(SpaceVect(dimensions.first, 0.0), SpaceVect(dimensions.first + 1.0, dimensions.second));
+	gspace->addWallBlock(SpaceVect(0.0, dimensions.second), SpaceVect(dimensions.first, dimensions.second + 1.0));
+	gspace->addWallBlock(SpaceVect(0.0, -1.0), SpaceVect(dimensions.first, 0.0));
 }
 
 void GScene::loadMap(const MapEntry& mapEntry)

@@ -95,7 +95,7 @@ void PlayScene::initRoomMask()
 {
 	Layer* layer = GScene::crntScene->getSpaceLayer()->getLayer(GraphicsLayer::roomMask);
 
-	for (int i = 0; i<gspace->rooms.size(); ++i)
+	for (size_t i = 0; i<gspace->rooms.size(); ++i)
 	{
 		CCRect rect = gspace->rooms.at(i);
 
@@ -118,7 +118,7 @@ void PlayScene::updateRoomMask()
 		return;
 	}
 
-	for (int i=0;i<gspace->rooms.size(); ++i)
+	for (size_t i=0;i<gspace->rooms.size(); ++i)
 	{
 		CCRect rect = gspace->rooms.at(i);
 

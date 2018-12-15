@@ -27,7 +27,7 @@ public:
 
 	Launcher(GSpace* space, ObjectIDType id, const ValueMap& args);
 
-    virtual inline float getMass() const {return -1;}
+    virtual inline SpaceFloat getMass() const {return -1.0;}
     virtual inline GType getType() const {return GType::environment;}
     virtual inline SpaceVect getDimensions() const {return SpaceVect(1,1);}
 

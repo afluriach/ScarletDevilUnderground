@@ -35,9 +35,8 @@ void TextListMenuLayer::upPressed()
     upHeld = true;
     if(downHeld) return;
     
-    --selected;
-    if(selected < 0)
-        selected += options.size();
+	if(selected > 0)
+	    --selected;
 
     updateCursor();
 }
@@ -47,9 +46,8 @@ void TextListMenuLayer::downPressed()
     downHeld = true;
     if(upHeld) return;
     
-    ++selected;
-    if(selected >= options.size())
-        selected = 0;
+	if(selected < options.size() - 1)
+	    ++selected;
     
     updateCursor();
 }

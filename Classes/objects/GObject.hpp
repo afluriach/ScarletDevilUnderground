@@ -62,7 +62,7 @@ public:
     GObject(GSpace* space, ObjectIDType uuid, const ValueMap& args);
 	GObject(GSpace* space, ObjectIDType uuid, const ValueMap& args, bool anonymous);
 	GObject(GSpace* space, ObjectIDType uuid, const string& name, const SpaceVect& pos, bool anonymous);
-	GObject(GSpace* space, ObjectIDType uuid, const string& name, const SpaceVect& pos, float angle, bool anonymous);
+	GObject(GSpace* space, ObjectIDType uuid, const string& name, const SpaceVect& pos, SpaceFloat angle, bool anonymous);
     
     virtual ~GObject();
 
@@ -101,46 +101,46 @@ public:
 	object_ref<FloorSegment> crntFloor;
 	
     void setInitialVelocity(const SpaceVect&& v);
-    void setInitialAngle(float a);
-    void setInitialAngularVelocity(float w);
+    void setInitialAngle(SpaceFloat a);
+    void setInitialAngularVelocity(SpaceFloat w);
     Vec2 getInitialCenterPix();
 
 	void applyPhysicsProperties();
 	void updateFloorSegment();
 
     SpaceVect getPos() const;
-    void setPos(float x, float y);
+    void setPos(SpaceFloat x, SpaceFloat y);
 
-    virtual void setAngle(float a);
-    float getAngle() const;
+    virtual void setAngle(SpaceFloat a);
+	SpaceFloat getAngle() const;
     
-    void rotate(float a);
+    void rotate(SpaceFloat a);
     SpaceVect getFacingVector() const;
     virtual void setDirection(Direction d);
     
     SpaceVect getVel() const;
     void setVel(SpaceVect v);
     
-    float getAngularVel()const;
-    void setAngularVel(float w);
+	SpaceFloat getAngularVel()const;
+    void setAngularVel(SpaceFloat w);
     
     //Apply a force as impulse where t = frame length.
     void applyForceForSingleFrame(SpaceVect f);
-    void applyImpulse(float mag, float angle);
+    void applyImpulse(SpaceFloat mag, SpaceFloat angle);
 
 	PhysicsLayers getCrntLayers();
 	void setLayers(PhysicsLayers layers);
 
 	//A default of 0 signifies undefined. Using -1 to indicate static or positive for dynamic.
-	virtual float getMass() const = 0;
-	virtual float getRadius() const = 0;
-    virtual float getMomentOfInertia() const = 0;
+	virtual SpaceFloat getMass() const = 0;
+	virtual SpaceFloat getRadius() const = 0;
+    virtual SpaceFloat getMomentOfInertia() const = 0;
 	virtual GType getType() const = 0;
 	virtual inline bool getSensor() const { return false; }
 	virtual inline PhysicsLayers getLayers() const { return enum_bitwise_or(PhysicsLayers,floor,ground) ; }
 
-	inline virtual float getMaxSpeed() const { return 0; }
-	inline virtual float getMaxAcceleration() const { return 0; }
+	inline virtual SpaceFloat getMaxSpeed() const { return 0; }
+	inline virtual SpaceFloat getMaxAcceleration() const { return 0; }
 
 	//Called before adding the the object to space.
 	virtual void initializeBody(GSpace& space) = 0;

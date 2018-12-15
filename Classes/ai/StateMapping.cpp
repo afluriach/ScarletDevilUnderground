@@ -13,7 +13,7 @@
 using namespace ai;
 
 template <typename T>
-static Function::AdapterType consAdapter()
+static constexpr Function::AdapterType consAdapter()
 {
     return [](GSpace* space, const ValueMap& args) -> shared_ptr<Function> { return make_shared<T>(space, args); };
 }

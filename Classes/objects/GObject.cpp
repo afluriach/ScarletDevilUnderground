@@ -49,7 +49,7 @@ GObject::GObject(GSpace* space, ObjectIDType uuid, const ValueMap& obj, bool ano
 	setInitialAngle(float_pi / 2.0f);
 }
 
-GObject::GObject(GSpace* space, ObjectIDType uuid, const string& name, const SpaceVect& pos, float angle, bool anonymous) :
+GObject::GObject(GSpace* space, ObjectIDType uuid, const string& name, const SpaceVect& pos, SpaceFloat angle, bool anonymous) :
 	space(space),
 	name(name),
     anonymous(anonymous),
@@ -120,11 +120,11 @@ void GObject::update()
         multiInit += [=]() -> void{ this->body->setVel(v);};
     }
 
-    void GObject::setInitialAngle(float a){
+    void GObject::setInitialAngle(SpaceFloat a){
         multiInit += [=]() -> void{ this->body->setAngle(a);};
     }
 
-    void GObject::setInitialAngularVelocity(float w){
+    void GObject::setInitialAngularVelocity(SpaceFloat w){
         multiInit += [=]() -> void{ this->body->setAngularVel(w);};
     }
 
@@ -164,7 +164,7 @@ void GObject::update()
         return body->getPos();
     }
 
-     void GObject::setPos(float x, float y){
+     void GObject::setPos(SpaceFloat x, SpaceFloat y){
 		 if (physicsPropertiesToApply.setPos) {
 			 log(
 				 "%s has multi-set position, from %f,%f to %f,%f",
@@ -180,7 +180,7 @@ void GObject::update()
          physicsPropertiesToApply.pos = SpaceVect(x,y);
     }
     
-    void GObject::setAngle(float a){
+    void GObject::setAngle(SpaceFloat a){
 		if (physicsPropertiesToApply.setAngle) {
 			log(
 				"%s has multi-set angle, from %f to %f",
@@ -194,7 +194,7 @@ void GObject::update()
 		physicsPropertiesToApply.angle = a;
     }
     
-     float GObject::getAngle() const {
+	SpaceFloat GObject::getAngle() const {
         if(!body){
             log("GObject::getAngle: %s has no physics body!", name.c_str());
             return 0.0;
@@ -202,7 +202,7 @@ void GObject::update()
         return canonicalAngle(body->getAngle());
     }
     
-     void GObject::rotate(float a){
+     void GObject::rotate(SpaceFloat a){
         setAngle(canonicalAngle(getAngle() + a) );
     }
     
@@ -235,11 +235,11 @@ void GObject::update()
 		 physicsPropertiesToApply.vel = v;
     }
 
-    float GObject::getAngularVel() const{
+	 SpaceFloat GObject::getAngularVel() const{
         return body->getAngularVel();
     }
     
-     void GObject::setAngularVel(float w){
+     void GObject::setAngularVel(SpaceFloat w){
 		 if (physicsPropertiesToApply.setAngularVel) {
 			 log(
 				 "%s has multi-set angular velocity, from %f to %f",
@@ -257,7 +257,7 @@ void GObject::update()
         body->applyImpulse(f * App::secondsPerFrame);
     }
     
-     void GObject::applyImpulse(float mag, float angle){
+     void GObject::applyImpulse(SpaceFloat mag, SpaceFloat angle){
         SpaceVect v = SpaceVect::ray(mag,angle);
         
         body->applyImpulse(v);

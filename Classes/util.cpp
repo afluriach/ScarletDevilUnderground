@@ -12,7 +12,7 @@
 #include "macros.h"
 #include "util.h"
 
-const float primaryAngles[4] = {0.0f, float_pi * 0.5f, float_pi, float_pi * 1.5f};
+const SpaceFloat primaryAngles[4] = {0.0, float_pi * 0.5, float_pi, float_pi * 1.5};
 
 Scene* crntScene()
 {
@@ -20,36 +20,36 @@ Scene* crntScene()
 }
 
 
-float dirToPhysicsAngle(Direction d)
+SpaceFloat dirToPhysicsAngle(Direction d)
 {
-    if(d == Direction::none) return 0.0f;
+    if(d == Direction::none) return 0.0;
     
     return primaryAngles[static_cast<int>(d)-1];
 }
 
 SpaceVect dirToVector(Direction d)
 {
-    return SpaceVect::ray(1.0f, dirToPhysicsAngle(d));
+    return SpaceVect::ray(1.0, dirToPhysicsAngle(d));
 }
 
 //cocos Vector uses atan2, which returns angle in range [-pi,pi]
 Direction toDirection(SpaceVect v)
 {
-    if(v.x == 0 && v.y == 0)
+    if(v.x == 0.0 && v.y == 0.0)
         return Direction::none;
     
     return angleToDirection(toCocos(v).getAngle());
 }
 
 //round to nearest primary direction
-Direction angleToDirection(float a)
+Direction angleToDirection(SpaceFloat a)
 {
     int closest = 0;
-    float distance = float_pi;
-    float angle = canonicalAngle(a);
+    SpaceFloat distance = float_pi;
+    SpaceFloat angle = canonicalAngle(a);
     
     for_irange(i,0,4){
-        float crnt = abs(angle - primaryAngles[i]);
+        SpaceFloat crnt = abs(angle - primaryAngles[i]);
         
         if(crnt < distance){
             closest = i;
@@ -60,12 +60,12 @@ Direction angleToDirection(float a)
     return static_cast<Direction>(closest+1);
 }
 
-float circleMomentOfInertia(float mass, float radius)
+SpaceFloat circleMomentOfInertia(SpaceFloat mass, SpaceFloat radius)
 {
     return float_pi/2*pow(radius,4);
 }
 
-float rectangleMomentOfInertia(float mass, const SpaceVect& dim)
+SpaceFloat rectangleMomentOfInertia(SpaceFloat mass, const SpaceVect& dim)
 {
     return mass*(dim.x*dim.x+dim.y*dim.y)/12;
 }
@@ -146,14 +146,14 @@ string getReplayFolderPath()
 	return FileUtils::getInstance()->getWritablePath() + "koumachika/replay/";
 }
 
-float canonicalAngle(float a)
+SpaceFloat canonicalAngle(SpaceFloat a)
 {
     return a - float_2pi * floor( a / float_2pi);
 }
 
-float toDegrees(float a)
+SpaceFloat toDegrees(SpaceFloat a)
 {
- return a / float_pi * 180.0f;
+	return a / float_pi * 180.0;
 }
 
 void timerDecrement(boost::rational<int>& x)

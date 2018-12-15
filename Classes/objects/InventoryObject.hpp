@@ -18,8 +18,8 @@
 class InventoryObject : virtual public GObject, public CircleBody, public ImageSprite, public InteractibleObject
 {
 public:
-    virtual inline float getRadius() const {return 0.5;}
-    virtual inline float getMass() const {return -1;}
+    virtual inline SpaceFloat getRadius() const {return 0.5;}
+    virtual inline SpaceFloat getMass() const {return -1.0;}
     virtual inline GType getType() const {return GType::environment;}
     
     virtual inline GraphicsLayer sceneLayer() const {return GraphicsLayer::floor;}

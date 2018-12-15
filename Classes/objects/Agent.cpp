@@ -68,12 +68,12 @@ float Agent::getAttribute(Attribute id) const
 	return attributeSystem.getAdjustedValue(id);
 }
 
-float Agent::getMaxSpeed() const
+SpaceFloat Agent::getMaxSpeed() const
 {
 	return attributeSystem.getAdjustedValue(Attribute::speed);
 }
 
-float Agent::getMaxAcceleration() const
+SpaceFloat Agent::getMaxAcceleration() const
 {
 	return attributeSystem.getAdjustedValue(Attribute::acceleration);
 }
