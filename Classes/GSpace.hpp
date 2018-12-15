@@ -246,6 +246,8 @@ private:
 	int playerEnemyBulletRadarBegin(GObject* playerObj, GObject* bullet);
 	int playerEnemyBulletRadarEnd(GObject* playerObj, GObject* bullet);
 	int playerBulletEnemyBegin(GObject* a, GObject* b);
+	int agentEffectAreaBegin(GObject* a, GObject* b);
+	int agentEffectAreaEnd(GObject* a, GObject* b);
 	int playerFlowerBegin(GObject* a, GObject* b);
     int playerCollectibleBegin(GObject* a, GObject* b);
 	int bulletEnvironment(GObject* a, GObject* b);

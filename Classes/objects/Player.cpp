@@ -248,6 +248,7 @@ const AttributeMap FlandrePC::baseAttributes = boost::assign::map_list_of
 	(Attribute::acceleration, 9.0f)
 	(Attribute::hitProtection, 2.4f)
 	(Attribute::iceSensitivity, 2.0f)
+	(Attribute::sunSensitivity, 5.0f)
 ;
 
 FlandrePC::FlandrePC(GSpace* space, ObjectIDType id, const ValueMap& args) :
@@ -273,6 +274,7 @@ const AttributeMap RumiaPC::baseAttributes = boost::assign::map_list_of
 (Attribute::acceleration, 12.0f)
 (Attribute::hitProtection, 1.5f)
 (Attribute::iceSensitivity, 1.0f)
+(Attribute::sunSensitivity, 0.0f)
 ;
 
 RumiaPC::RumiaPC(GSpace* space, ObjectIDType id, const ValueMap& args) :
@@ -296,6 +298,7 @@ const AttributeMap CirnoPC::baseAttributes = boost::assign::map_list_of
 (Attribute::acceleration, 6.0f)
 (Attribute::hitProtection, 3.3f)
 (Attribute::iceSensitivity, 0.0f)
+(Attribute::sunSensitivity, 1.0f)
 ;
 
 CirnoPC::CirnoPC(GSpace* space, ObjectIDType id, const ValueMap& args) :

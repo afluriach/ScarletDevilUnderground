@@ -50,6 +50,7 @@ public:
 	bool consumePower(int val);
 
 	virtual void hit(AttributeMap attributeEffects, shared_ptr<MagicEffect> effect);
+	void applyAttributeEffects(AttributeMap attributeEffects);
 
 	//sensor interface
 	virtual SpaceFloat getRadarRadius() const { return 1.0; }

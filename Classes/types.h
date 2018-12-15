@@ -47,6 +47,7 @@ enum class GraphicsLayer{
     foliage,
     floor,
     ground,
+	overhead,
 	roomMask,
 
 	end
@@ -61,6 +62,7 @@ enum class GType{
     environment,
     foliage,
     wall,
+	effectArea,
     playerSensor,
     objectSensor,
     collectible,

@@ -40,9 +40,15 @@ void Agent::update()
 	if (attributeSystem.getAdjustedValue(Attribute::iceDamage) >= 100.0f && !hasMagicEffect<FreezeStatusEffect>()) {
 		addMagicEffect(make_shared<FreezeStatusEffect>(this));
 	}
+	if (attributeSystem.getAdjustedValue(Attribute::sunDamage) >= 100.0f ) {
+		onZeroHP();
+	}
 
 	if (attributeSystem.getAdjustedValue(Attribute::iceDamage) > 0 && attributeSystem.getAdjustedValue(Attribute::iceSensitivity) != 0) {
 		attributeSystem.modifyAttribute(Attribute::iceDamage, -App::secondsPerFrame);
+	}
+	if (attributeSystem.getAdjustedValue(Attribute::sunDamage) > 0 && attributeSystem.getAdjustedValue(Attribute::sunSensitivity) != 0) {
+		attributeSystem.modifyAttribute(Attribute::sunDamage, -App::secondsPerFrame);
 	}
 }
 
@@ -123,6 +129,13 @@ void Agent::hit(AttributeMap attributeEffect, shared_ptr<MagicEffect> effect)
 		_enemy->runDamageFlicker();
 }
 
+void Agent::applyAttributeEffects(AttributeMap attributeEffect)
+{
+	for (auto& entry : attributeEffect)
+	{
+		attributeSystem.modifyAttribute(entry.first, entry.second);
+	}
+}
 
 const AttributeMap GenericAgent::baseAttributes = boost::assign::map_list_of
 	(Attribute::speed, 1.5f)

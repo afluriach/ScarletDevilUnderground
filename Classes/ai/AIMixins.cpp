@@ -88,10 +88,10 @@ bool RadarObject::isObjectVisible(GObject* other)
 	if (other->getInvisible())
 		return false;
 
-    if(fovAngle == 0.0f)
+    if(fovAngle == 0.0)
         return ai::isLineOfSight(*this, *other);
 
-	SpaceVect facingUnit = SpaceVect::ray(1.0f, getAngle());
+	SpaceVect facingUnit = SpaceVect::ray(1.0, getAngle());
     SpaceVect displacementUnit = (other->getPos() - getPos()).normalize();
     SpaceFloat scalar = SpaceVect::dot(facingUnit,displacementUnit);
     

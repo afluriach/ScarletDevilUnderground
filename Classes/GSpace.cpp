@@ -12,6 +12,7 @@
 #include "App.h"
 #include "Bullet.hpp"
 #include "Collectibles.hpp"
+#include "EffectArea.hpp"
 #include "FloorSegment.hpp"
 #include "GObject.hpp"
 #include "GSpace.hpp"
@@ -397,6 +398,9 @@ void GSpace::addCollisionHandlers()
 	_addHandler(objectSensor, enemy, sensorStart, sensorEnd);
 	_addHandler(objectSensor, environment, sensorStart, sensorEnd);
     _addHandler(objectSensor, npc, sensorStart, sensorEnd);
+
+	_addHandler(player, effectArea, agentEffectAreaBegin, agentEffectAreaEnd);
+	_addHandler(enemy, effectArea, agentEffectAreaBegin, agentEffectAreaEnd);
 }
 
 const set<GType> GSpace::selfCollideTypes = boost::assign::list_of
@@ -652,6 +656,29 @@ int GSpace::playerBulletEnemyBegin(GObject* a, GObject* b)
     
     removeObject(a);
     return 1;
+}
+
+int GSpace::agentEffectAreaBegin(GObject* a, GObject* b)
+{
+	Agent* agent = dynamic_cast<Agent*>(a);
+	EffectArea* area = dynamic_cast<EffectArea*>(b);
+
+	if (agent && area) {
+		area->onContact(agent);
+	}
+
+	return 1;
+}
+int GSpace::agentEffectAreaEnd(GObject* a, GObject* b)
+{
+	Agent* agent = dynamic_cast<Agent*>(a);
+	EffectArea* area = dynamic_cast<EffectArea*>(b);
+
+	if (agent && area) {
+		area->onEndContact(agent);
+	}
+
+	return 1;
 }
 
 int GSpace::playerFlowerBegin(GObject* a, GObject* b)

@@ -201,6 +201,15 @@
     <ClCompile Include="..\Classes\SpaceLayer.cpp">
       <Filter>src</Filter>
     </ClCompile>
+    <ClCompile Include="..\Classes\objects\EffectArea.cpp">
+      <Filter>src\objects</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\scenes\Desert.cpp">
+      <Filter>src\scenes</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\objects\Pyramid.cpp">
+      <Filter>src\objects</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="main.h">
@@ -400,6 +409,15 @@
     </ClInclude>
     <ClInclude Include="..\Classes\SpaceLayer.h">
       <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\objects\EffectArea.hpp">
+      <Filter>src\objects</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\scenes\Desert.hpp">
+      <Filter>src\scenes</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\objects\Pyramid.hpp">
+      <Filter>src\objects</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

@@ -169,6 +169,7 @@ xcopy "$(ProjectDir)..\Resources" "$(OutDir)" /D /E /I /F /Y</Command>
     <ClCompile Include="..\Classes\objects\Block.cpp" />
     <ClCompile Include="..\Classes\objects\Bullet.cpp" />
     <ClCompile Include="..\Classes\objects\Collectibles.cpp" />
+    <ClCompile Include="..\Classes\objects\EffectArea.cpp" />
     <ClCompile Include="..\Classes\objects\Facer.cpp" />
     <ClCompile Include="..\Classes\objects\Fairy.cpp" />
     <ClCompile Include="..\Classes\objects\Follower.cpp" />
@@ -183,6 +184,7 @@ xcopy "$(ProjectDir)..\Resources" "$(OutDir)" /D /E /I /F /Y</Command>
     <ClCompile Include="..\Classes\objects\object_ref.cpp" />
     <ClCompile Include="..\Classes\objects\Patchouli.cpp" />
     <ClCompile Include="..\Classes\objects\Player.cpp" />
+    <ClCompile Include="..\Classes\objects\Pyramid.cpp" />
     <ClCompile Include="..\Classes\objects\Sakuya.cpp" />
     <ClCompile Include="..\Classes\objects\Stalker.cpp" />
     <ClCompile Include="..\Classes\objects\Tewi.cpp" />
@@ -192,6 +194,7 @@ xcopy "$(ProjectDir)..\Resources" "$(OutDir)" /D /E /I /F /Y</Command>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
     </ClCompile>
+    <ClCompile Include="..\Classes\scenes\Desert.cpp" />
     <ClCompile Include="..\Classes\scenes\Garden.cpp" />
     <ClCompile Include="..\Classes\scenes\Mine.cpp" />
     <ClCompile Include="..\Classes\scenes\PlayScene.cpp" />
@@ -236,6 +239,7 @@ xcopy "$(ProjectDir)..\Resources" "$(OutDir)" /D /E /I /F /Y</Command>
     <ClInclude Include="..\Classes\objects\Bullet.hpp" />
     <ClInclude Include="..\Classes\objects\CollectGlyph.hpp" />
     <ClInclude Include="..\Classes\objects\Collectibles.hpp" />
+    <ClInclude Include="..\Classes\objects\EffectArea.hpp" />
     <ClInclude Include="..\Classes\objects\Facer.hpp" />
     <ClInclude Include="..\Classes\objects\Fairy.hpp" />
     <ClInclude Include="..\Classes\objects\Flower.h" />
@@ -251,6 +255,7 @@ xcopy "$(ProjectDir)..\Resources" "$(OutDir)" /D /E /I /F /Y</Command>
     <ClInclude Include="..\Classes\objects\object_ref.hpp" />
     <ClInclude Include="..\Classes\objects\Patchouli.hpp" />
     <ClInclude Include="..\Classes\objects\Player.hpp" />
+    <ClInclude Include="..\Classes\objects\Pyramid.hpp" />
     <ClInclude Include="..\Classes\objects\Reimu.hpp" />
     <ClInclude Include="..\Classes\objects\Sakuya.hpp" />
     <ClInclude Include="..\Classes\objects\Stalker.hpp" />
@@ -259,6 +264,7 @@ xcopy "$(ProjectDir)..\Resources" "$(OutDir)" /D /E /I /F /Y</Command>
     <ClInclude Include="..\Classes\objects\Wall.hpp" />
     <ClInclude Include="..\Classes\Prefix.h" />
     <ClInclude Include="..\Classes\scenes\Collect.h" />
+    <ClInclude Include="..\Classes\scenes\Desert.hpp" />
     <ClInclude Include="..\Classes\scenes\Garden.hpp" />
     <ClInclude Include="..\Classes\scenes\LibraryOpening.h" />
     <ClInclude Include="..\Classes\scenes\Mine.hpp" />

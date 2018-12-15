@@ -14,6 +14,7 @@
 #include "Bullet.hpp"
 #include "CollectGlyph.hpp"
 #include "Collectibles.hpp"
+#include "EffectArea.hpp"
 #include "Facer.hpp"
 #include "Fairy.hpp"
 #include "Follower.hpp"
@@ -27,6 +28,7 @@
 #include "Marisa.hpp"
 #include "Patchouli.hpp"
 #include "Player.hpp"
+#include "Pyramid.hpp"
 #include "Reimu.hpp"
 #include "Sakuya.hpp"
 #include "Stalker.hpp"
@@ -84,6 +86,7 @@ const unordered_map<string,GObject::AdapterType> GObject::adapters =
     entry_same(CollectGlyph)
 
 	entry_same(Launcher)
+	entry_same(Pyramid)
 
     entry_same(PowerUp)
 
@@ -108,6 +111,8 @@ const unordered_map<string,GObject::AdapterType> GObject::adapters =
 	entry_same(MineFloor)
 	entry_same(Pitfall)
 	entry_same(PressurePlate)
+
+	entry_same(SunArea)
 
 	entry_same(Goal)
 

@@ -137,7 +137,9 @@ void AttributeSystem::modifyAttribute(Attribute id, float x)
 	case Attribute::iceDamage:
 		applyElementalDamage(Attribute::iceDamage, Attribute::iceSensitivity, x);
 		break;
-
+	case Attribute::sunDamage:
+		applyElementalDamage(Attribute::sunDamage, Attribute::sunSensitivity, x);
+		break;
 	default:
 		attributes.at(to_size_t(id)) += x;
 		break;

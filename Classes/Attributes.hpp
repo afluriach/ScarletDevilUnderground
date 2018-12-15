@@ -26,8 +26,10 @@ enum class Attribute {
 
 	hitProtection,
 	iceSensitivity,
+	sunSensitivity,
 
 	iceDamage,
+	sunDamage,
 
 	end,
 };

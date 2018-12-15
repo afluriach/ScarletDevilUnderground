@@ -9,6 +9,7 @@
 #include "Prefix.h"
 
 #include "Collect.h"
+#include "Desert.hpp"
 #include "Garden.hpp"
 #include "LibraryOpening.h"
 #include "Mine.hpp"
@@ -37,6 +38,7 @@ const unordered_map<string,GScene::AdapterType> GScene::adapters = boost::assign
 	PlaySceneMapName(Clearing)
 	PlaySceneMapName(ClearingPath)
 	entry_same(Collect)
+	entry_same(Desert)
 	PlaySceneMapName(FacerFloor)
 	PlaySceneMapName(FR1)
     entry_same(GardenBlooming)
