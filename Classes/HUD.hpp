@@ -9,6 +9,7 @@
 #ifndef HUD_hpp
 #define HUD_hpp
 
+#include "Attributes.hpp"
 #include "object_ref.hpp"
 
 class Player;
@@ -22,6 +23,8 @@ public:
 
 	void setMax(int);
 	void setValue(int);
+	void setElementalValue(float val);
+
 	void runFlicker(float duration, float interval);
 protected:
 	Vector<Sprite*> iconSprites;
@@ -43,6 +46,20 @@ class MagicBar : public IconMeter
 public:
 	static const int iconSize = 32;
 	MagicBar();
+};
+
+class IceDamageBar : public IconMeter
+{
+public:
+	static const int iconSize = 32;
+	IceDamageBar();
+};
+
+class SunDamageBar : public IconMeter
+{
+public:
+	static const int iconSize = 32;
+	SunDamageBar();
 };
 
 
@@ -88,7 +105,7 @@ class HUD : public Layer
 {
 public:
     static const int height = 50;
-    
+
     static const int fontSize;
     
 //    static const Color4F backgroundColor;
@@ -102,6 +119,9 @@ public:
     HealthBar* health;
 	MagicBar* magic;
     PowerMeter* power;
+
+	IceDamageBar* iceDamage;
+	SunDamageBar* sunDamage;
 
 	Counter* objectiveCounter;    
     Sprite* interactionIcon;

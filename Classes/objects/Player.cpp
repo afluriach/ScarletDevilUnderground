@@ -165,6 +165,9 @@ void Player::update()
 		checkItemInteraction(cs);
 	}
 
+	app->hud->iceDamage->setElementalValue(attributeSystem.getAdjustedValue(Attribute::iceDamage) / 25.0f);
+	app->hud->sunDamage->setElementalValue(attributeSystem.getAdjustedValue(Attribute::sunDamage) / 25.0f);
+
 	updateHitTime();    
 }
 

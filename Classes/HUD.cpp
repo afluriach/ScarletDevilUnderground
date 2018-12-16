@@ -57,6 +57,8 @@ void IconMeter::setValue(int v)
     
     if(v < 0) v = 0;
 
+	if (v > maxVal) v = maxVal;
+
     for(int i=0;i<v; ++i){
         iconSprites.at(i)->setTexture(filledIcon);
     }
@@ -64,6 +66,19 @@ void IconMeter::setValue(int v)
         iconSprites.at(i)->setTexture(emptyIcon);
     }
     crntVal = v;
+}
+
+void IconMeter::setElementalValue(float value)
+{
+	if (value == 0.0f) {
+		setValue(0);
+		setVisible(false);
+	}
+	else
+	{
+		setValue(floor(value));
+		setVisible(true);
+	}
 }
 
 void IconMeter::runFlicker(float duration, float interval)
@@ -99,6 +114,28 @@ IconMeter(
 	0,
 	0
 )
+{
+}
+
+IceDamageBar::IceDamageBar() :
+	IconMeter(
+		HealthBar::heartSize,
+		"sprites/ui/snowflake.png",
+		"sprites/ui/snowflake_empty.png",
+		0,
+		4
+	)
+{
+}
+
+SunDamageBar::SunDamageBar() :
+	IconMeter(
+		HealthBar::heartSize,
+		"sprites/ui/sun.png",
+		"sprites/ui/sun_empty.png",
+		0,
+		4
+	)
 {
 }
 
@@ -165,6 +202,16 @@ bool HUD::init()
     power->setVal(0);
 	power->setScale(scale);
     
+	iceDamage = Node::ccCreate<IceDamageBar>();
+	iceDamage->setPosition(scale*(-64 + App::width * 3 / 4), App::height - height / 2);
+	addChild(iceDamage, 2);
+	iceDamage->setScale(scale);
+
+	sunDamage = Node::ccCreate<SunDamageBar>();
+	sunDamage->setPosition(scale*(64 + App::width * 3 / 4), App::height - height / 2);
+	addChild(sunDamage, 2);
+	sunDamage->setScale(scale);
+
     objectiveCounter = Node::ccCreate<Counter>("", 0);
     objectiveCounter->setPosition(Counter::spacing/2 + Counter::iconSize + 8, Counter::iconSize/2 + 8);
     addChild(objectiveCounter, 2);
