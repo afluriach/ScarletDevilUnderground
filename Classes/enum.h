@@ -27,18 +27,6 @@ void bitset_enum_set(bitset<bitset_size> _b, E e, bool value)
 	_b[to_size_t(e)] = value;
 }
 
-//http://stackoverflow.com/a/17622468/807433
-struct enum_hash
-{
-	template <typename T>
-	inline
-		typename std::enable_if<std::is_enum<T>::value, std::size_t>::type
-		operator ()(T const value) const
-	{
-		return static_cast<std::size_t>(value);
-	}
-};
-
 template<typename E, size_t enum_size = to_size_t(E::end)>
 constexpr inline bitset<enum_size> make_enum_bitfield(E input)
 {

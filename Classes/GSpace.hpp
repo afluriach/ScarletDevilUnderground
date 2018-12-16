@@ -164,9 +164,9 @@ public:
 private:
     Space space;
 
-	boost::unordered_map<GObject*,list<contact>> currentContacts;
-	boost::unordered_map<collision_type, int(GSpace::*)(GObject*, GObject*)> beginContactHandlers;
-	boost::unordered_map<collision_type, int(GSpace::*)(GObject*, GObject*)> endContactHandlers;
+	unordered_map<GObject*,list<contact>> currentContacts;
+	unordered_map<collision_type, int(GSpace::*)(GObject*, GObject*), boost::hash<collision_type>> beginContactHandlers;
+	unordered_map<collision_type, int(GSpace::*)(GObject*, GObject*), boost::hash<collision_type>> endContactHandlers;
 
 	void addContact(contact c);
 	void removeContact(contact c);
