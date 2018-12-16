@@ -14,16 +14,9 @@
 
 class Wall : virtual public GObject, public RectangleBody, public NoSprite
 {
-public:
-//    inline Wall(const ValueMap& args) :
-//    GObject("wall", SpaceVect(getFloat(args, "pos_x"), getFloat(args, "pos_y"))),
-//    dimensions(RectangleMapBody::getDimensionsFromMap(args))
-//    {}
-    
-    inline Wall(GSpace* space, ObjectIDType id, SpaceVect center, SpaceVect dimensions) :
-    GObject(space,id,"wall",center,true),
-    dimensions(dimensions)
-    {}
+public: 
+	MapObjCons(Wall);
+	Wall(GSpace* space, ObjectIDType id, SpaceVect center, SpaceVect dimensions);
     
     virtual inline SpaceFloat getMass() const { return -1.0;}
     virtual inline GType getType() const {return GType::wall;}

@@ -11,6 +11,15 @@
 #include "enum.h"
 #include "Wall.hpp"
 
+Wall::Wall(GSpace* space, ObjectIDType id, const ValueMap& args) :
+	GObject(space,id,args,true)
+{}
+
+Wall::Wall(GSpace* space, ObjectIDType id, SpaceVect center, SpaceVect dimensions) :
+	GObject(space, id, "wall", center, true),
+	dimensions(dimensions)
+{}
+
 PhysicsLayers Wall::getLayers() const{
     return PhysicsLayers::all;
 }

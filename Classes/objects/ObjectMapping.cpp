@@ -34,6 +34,7 @@
 #include "Stalker.hpp"
 #include "Tewi.hpp"
 #include "Torch.hpp"
+#include "Wall.hpp"
 
 //Adapters for mapping the name of a class to a factory adapter.
 template <typename T>
@@ -105,6 +106,7 @@ const unordered_map<string, GObject::AdapterType> GObject::adapters = {
 	entry_same(SunArea),
 	entry_same(Tewi),
 	entry_same(Torch),
+	entry_same(Wall),
 
 	{ "Player", playerAdapter() }
 };
