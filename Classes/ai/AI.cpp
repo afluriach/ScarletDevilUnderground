@@ -352,7 +352,7 @@ void StateMachine::update()
     
     for(auto priority_it = threads_by_priority.rbegin(); priority_it != threads_by_priority.rend(); ++priority_it)
     {
-        BOOST_FOREACH(unsigned int uuid, priority_it->second)
+        for(unsigned int uuid: priority_it->second)
         {
             crntThread = current_threads[uuid].get();
             
@@ -427,7 +427,7 @@ void StateMachine::removeThread(const string& mainName)
         }
     }
     
-    BOOST_FOREACH(unsigned int uuid,toRemove){
+    for(unsigned int uuid: toRemove){
         removeThread(uuid);
     }
 }
@@ -442,7 +442,7 @@ void StateMachine::removeCompletedThreads()
         }
     }
     
-    BOOST_FOREACH(unsigned int uuid,toRemove){
+    for(unsigned int uuid: toRemove){
         removeThread(uuid);
     }
 }
@@ -640,7 +640,7 @@ void EvadePlayerProjectiles::update(StateMachine& sm)
 	GObject* closest = nullptr;
 	SpaceFloat closestDistance = numeric_limits<SpaceFloat>::infinity();
 	 
-	foreach(GObject* obj, objs)
+	for(GObject* obj: objs)
 	{
 		if (obj->getType() != GType::playerBullet)
 			continue;

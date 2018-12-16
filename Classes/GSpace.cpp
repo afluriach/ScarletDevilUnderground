@@ -40,12 +40,12 @@ GSpace::~GSpace()
 
     //Process removal modified objByUUID.
     vector<GObject*> objs;
-    
-    for(auto it = objByUUID.begin(); it != objByUUID.end(); ++it){
-        objs.push_back(it->second);
-    }
-    
-    foreach(GObject* obj, objs){
+
+	for (GObject* obj : objByUUID | boost::adaptors::map_values) {
+		objs.push_back(obj);
+	}
+        
+    for(GObject* obj: objs){
         processRemoval(obj, true);
     }
     
@@ -71,11 +71,11 @@ void GSpace::update()
     //physics step
     space.step(App::secondsPerFrame);
     
-    foreach(GObject* obj, objByUUID | boost::adaptors::map_values){
+    for(GObject* obj: objByUUID | boost::adaptors::map_values){
         obj->update();
     }
 
-	foreach(GObject* obj, objByUUID | boost::adaptors::map_values) {
+	for(GObject* obj: objByUUID | boost::adaptors::map_values) {
 		obj->applyPhysicsProperties();
 	}
     
@@ -112,7 +112,7 @@ gobject_ref GSpace::createObject(ObjectGeneratorType generator)
 
 void GSpace::createObjects(const ValueVector& objs)
 {
-    foreach(Value obj, objs)
+    for(const Value& obj: objs)
     {
         const ValueMap& objAsMap = obj.asValueMap();
         createObject(objAsMap);
@@ -169,7 +169,7 @@ vector<string> GSpace::getObjectNames() const
 
 void GSpace::processAdditions()
 {
-    foreach(generator_pair generator, toAdd)
+    for(const generator_pair& generator: toAdd)
     {
 		GObject* obj = generator.first(this, generator.second);
 
@@ -255,7 +255,7 @@ void GSpace::processRemoval(GObject* obj, bool removeSprite)
 
 void GSpace::initObjects()
 {
-    foreach(GObject* obj, addedLastFrame)
+    for(GObject* obj: addedLastFrame)
     {
         obj->init();
     }
@@ -266,17 +266,17 @@ void GSpace::processRemovals()
 {
 	//Objects which will be removed this frame should have the end contact handlers called 
 	//before they are deleted.
-	foreach(GObject* obj, toRemove) {
+	for(GObject* obj: toRemove) {
 		processRemovalEndContact(obj);
 	}
-
-	for (auto it = toRemoveWithAnimation.begin(); it != toRemoveWithAnimation.end(); ++it) {
-		processRemovalEndContact(it->first);
+	
+	for (GObject *obj : toRemoveWithAnimation | boost::adaptors::map_keys) {
+		processRemovalEndContact(obj);
 	}
 
 	space.maskSeperateHandler = true;
 
-	BOOST_FOREACH(GObject* obj, toRemove){
+	for(GObject* obj: toRemove){
         processRemoval(obj, true);
     }
     toRemove.clear();
@@ -383,7 +383,7 @@ vector<SpaceVect> GSpace::pathToTile(IntVec2 begin, IntVec2 end)
 	);
 
 	//Convert to center position
-	foreach(auto tile, tileCoords) {
+	for(auto const& tile: tileCoords) {
 		result.push_back(SpaceVect(tile.first + 0.5, tile.second + 0.5));
 	}
 
@@ -560,7 +560,7 @@ void GSpace::processRemovalEndContact(GObject* obj)
 {
 	list<contact> contactList = currentContacts[obj];
 
-	foreach(contact c, contactList) {
+	for(const contact& c: contactList) {
 		auto itt = endContactHandlers.find(c.second);
 		if (itt != endContactHandlers.end() && itt->second) {
 			int(GSpace::*end_method)(GObject*, GObject*) = itt->second;

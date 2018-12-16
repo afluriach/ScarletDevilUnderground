@@ -428,7 +428,7 @@ bool ControlReplay::save(const string& filepath)
 
 ControlListener::~ControlListener()
 {
-    BOOST_FOREACH(ControlRegister::callback_uuid id, callback_IDs){
+    for(ControlRegister::callback_uuid id: callback_IDs){
         app->control_register->removeListener(id);
     }
 }

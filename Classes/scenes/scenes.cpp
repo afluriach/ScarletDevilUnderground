@@ -332,16 +332,16 @@ void GScene::loadPaths(const TMXTiledMap& map, IntVec2 offset)
 
 	ValueVector paths = map.getObjectGroup("paths")->getObjects();
 
-	foreach(Value value, paths)
+	for(const Value& value: paths)
 	{
 		Path crntPath;
-		ValueMap& asMap = value.asValueMap();
+		ValueMap asMap = value.asValueMap();
 
 		string name = asMap.at("name").asString();
 		ValueVector points = asMap.at("polylinePoints").asValueVector();
 		SpaceVect origin(asMap.at("x").asFloat() + offset.first, asMap.at("y").asFloat() + offset.second);
 
-		foreach(Value point, points)
+		for(auto const& point: points)
 		{
 			crntPath.push_back(SpaceVect(
 				(origin.x + point.asValueMap().at("x").asFloat()) / App::pixelsPerTile,
@@ -358,9 +358,9 @@ void GScene::loadRooms(const TMXTiledMap& map, IntVec2 offset)
 	if (!rooms)
 		return;
 
-	foreach(Value obj, rooms->getObjects())
+	for(const Value& obj: rooms->getObjects())
 	{
-		ValueMap& objAsMap = obj.asValueMap();
+		ValueMap objAsMap = obj.asValueMap();
 		gspace->addRoom(getUnitspaceRectangle(objAsMap,offset));
 	}
 }
@@ -378,9 +378,9 @@ void GScene::loadObjectGroup(TMXObjectGroup* group, IntVec2 offset)
 {
 	const ValueVector& objects = group->getObjects();
 
-	foreach(Value obj, objects)
+	for(const Value& obj: objects)
 	{
-		ValueMap& objAsMap = obj.asValueMap();
+		ValueMap objAsMap = obj.asValueMap();
 		convertToUnitSpace(objAsMap, offset);
 		gspace->createObject(objAsMap);
 	}
@@ -392,9 +392,9 @@ void GScene::loadWalls(const TMXTiledMap& map, IntVec2 offset)
 	if (!walls)
 		return;
 
-	foreach(Value obj, walls->getObjects())
+	for(const Value& obj: walls->getObjects())
 	{
-		ValueMap& objAsMap = obj.asValueMap();
+		const ValueMap& objAsMap = obj.asValueMap();
 		cocos2d::CCRect area = getUnitspaceRectangle(objAsMap, offset);
 		gspace->addWallBlock(toChipmunk(area.origin), toChipmunk(area.getUpperCorner()));
 	}

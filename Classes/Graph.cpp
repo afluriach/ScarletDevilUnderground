@@ -140,7 +140,7 @@ vector<position> gridAStar(const boost::dynamic_bitset<>& obstacleMask, position
 
 		if (debug) {
 			log("Generating final path:");
-			foreach(auto p, path) {
+			for(auto p: path) {
 				log("%d,%d", p.first, p.second);
 			}
 		}

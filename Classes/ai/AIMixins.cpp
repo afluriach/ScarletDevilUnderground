@@ -111,7 +111,7 @@ void RadarObject::setFovAngle(SpaceFloat angle)
 
 void RadarObject::update()
 {
-    BOOST_FOREACH(GObject* obj, objectsInRange)
+    for(GObject* obj: objectsInRange)
     {
         bool currentlyVisible = isObjectVisible(obj);
         bool previouslyVisible = visibleObjects.find(obj) != visibleObjects.end();
@@ -134,7 +134,7 @@ GObject* RadarObject::getSensedObject()
 	SpaceFloat bestScalar = -1.0;
 	GObject* bestObj = nullptr;
 
-	BOOST_FOREACH(GObject* obj, visibleObjects)
+	for(GObject* obj: visibleObjects)
 	{
 		SpaceVect displacementUnit = (obj->getPos() - getPos()).normalize();
 

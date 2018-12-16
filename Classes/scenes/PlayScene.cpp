@@ -28,7 +28,7 @@ void printGroup(TMXObjectGroup* group)
 {
     const ValueVector& objects = group->getObjects();
     
-    foreach(Value obj, objects)
+    for(const Value& obj: objects)
     {
         const ValueMap& objAsMap = obj.asValueMap();
         printValueMap(objAsMap);

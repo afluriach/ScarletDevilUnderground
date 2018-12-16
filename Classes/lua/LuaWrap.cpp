@@ -22,7 +22,7 @@ void Class::installClass(lua_State* L)
     //Get metatable
     lua_getglobal(L, name.c_str());
 
-    foreach(auto methodEntry, methods){
+    for(auto const& methodEntry: methods){
         string name = methodEntry.first;
         lua_CFunction wrapper = methodEntry.second;
         
@@ -73,7 +73,7 @@ void Class::installClasses(lua_State* L)
         init = true;
     }
 
-    foreach(auto classEntry, classes){
+    for(auto classEntry: classes){
         classEntry.second.installClass(L);
     }
 }

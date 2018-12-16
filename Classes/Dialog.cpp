@@ -192,7 +192,7 @@ void Dialog::processDialogFile(const string& text)
     vector<string> lines = splitString(text, "\n");
         
     dialog = vector<DialogFrame>();
-    foreach(string line, lines)
+    for(const string& line: lines)
     {
         //Check for directives
         if(boost::starts_with(line, ":")){

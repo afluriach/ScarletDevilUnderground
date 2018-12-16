@@ -169,7 +169,7 @@ void printGlDebug()
     
     log("printGlDebug:");
     
-    BOOST_FOREACH(string name, App::shaderFiles){
+    for(const string& name: App::shaderFiles){
         log("%s", name.c_str());
         GLProgram* p = GLProgramCache::getInstance()->getGLProgram(name);
         

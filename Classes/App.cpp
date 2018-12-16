@@ -146,7 +146,7 @@ void App::end()
 
 void App::loadShaders()
 {
-    BOOST_FOREACH(string name, shaderFiles){
+    for(const string& name: shaderFiles){
         GLProgramCache::getInstance()->loadGLProgram(name, "shaders/"+name+".vert", "shaders/"+name+".frag");
     }
 }

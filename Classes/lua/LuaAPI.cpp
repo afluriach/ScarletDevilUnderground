@@ -101,7 +101,7 @@ mutex Inst::queueLock;
     
     void Inst::loadLibraries()
     {
-        BOOST_FOREACH(auto s, luaIncludes){
+		for(auto const& s : luaIncludes){
             runFile("scripts/"+s+".lua");
         }
     }
@@ -150,7 +150,7 @@ mutex Inst::queueLock;
     {
         queueLock.lock();
         
-        BOOST_FOREACH(auto command, commandQueue)
+        for(auto const &command: commandQueue)
         {
             auto it = Inst::instances.find(command.first);
         
@@ -244,7 +244,7 @@ mutex Inst::queueLock;
         //Remove global table after pushing function to call
         lua_remove(state, -2);
         
-        foreach(LuaRef r, params)
+        for(auto const& r: params)
         {
             r.push(state);
         }

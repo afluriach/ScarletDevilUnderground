@@ -245,7 +245,7 @@ LuaRef convert<ValueMap>::convertToLua(ValueMap map, lua_State* L)
 {
     LuaRef table = newTable(L);
     
-    foreach(auto entry, map)
+    for(auto const& entry: map)
     {
         if(entry.second.isNumber()){
             table[entry.first] = entry.second.asDouble();
