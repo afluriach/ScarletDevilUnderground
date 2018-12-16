@@ -12,7 +12,7 @@
 #include "menu_scenes.h"
 
 TitleMenuScene::TitleMenuScene() :
-	GScene("")
+	GScene("TitleMenuScene", {})
 {}
 
 bool TitleMenuScene::init()
@@ -25,7 +25,7 @@ bool TitleMenuScene::init()
 }
 
 SceneSelectScene::SceneSelectScene() :
-	GScene("")
+	GScene("SceneSelectScene", {})
 {}
 
 bool SceneSelectScene::init()

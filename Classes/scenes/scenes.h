@@ -89,7 +89,6 @@ public:
 
 	vector<MapEntry> singleMapEntry(const string& mapName);
 
-	GScene(const string& mapName);
 	GScene(const string& sceneName, const vector<MapEntry>& maps);
 
     virtual ~GScene();

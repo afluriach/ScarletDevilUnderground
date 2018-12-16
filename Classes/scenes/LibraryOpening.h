@@ -19,7 +19,7 @@ class LibraryOpening : public GScene
 {
 public:    
     inline LibraryOpening() :
-	GScene("")
+		GScene("LibraryOpening", {})
 	{
         multiInit += wrap_method(LibraryOpening,start, this);
     }

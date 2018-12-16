@@ -75,11 +75,6 @@ vector<GScene::MapEntry> GScene::singleMapEntry(const string& mapName)
 	};
 }
 
-GScene::GScene(const string& mapName) :
-GScene(mapName, singleMapEntry(mapName))
-{
-}
-
 GScene::GScene(const string& sceneName, const vector<MapEntry>& maps) :
 maps(maps),
 sceneName(sceneName),
@@ -134,13 +129,15 @@ control_listener(make_unique<ControlListener>())
 
 	gspace = new GSpace(spaceLayer);
 
-	string scriptPath = "scripts/scenes/" + sceneName + ".lua";
+	if (!sceneName.empty())
+	{
+		string scriptPath = "scripts/scenes/" + sceneName + ".lua";
 
-	if (!FileUtils::getInstance()->isFileExist(scriptPath))
-		log("GScene: %s script does not exist.", sceneName.c_str());
-	else
-		ctx->runFile(scriptPath);
-
+		if (!FileUtils::getInstance()->isFileExist(scriptPath))
+			log("GScene: %s script does not exist.", sceneName.c_str());
+		else
+			ctx->runFile(scriptPath);
+	}
 }
 
 GScene::~GScene()

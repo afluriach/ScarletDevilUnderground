@@ -79,8 +79,6 @@ bool TextListMenuLayer::init()
     titleLabel->setPosition(screenSize.width/2, screenSize.height - titleMargin);
     addChild(titleLabel);
     
-    log("added title: %s", title.c_str());
-    
     for(size_t i=0;i<options.size(); ++i)
     {
         string labelText = options[i];
@@ -90,8 +88,6 @@ bool TextListMenuLayer::init()
         menuItemLabels.push_back(label);
         label->setPosition(leftMargin + label->getContentSize().width/2, yPos);
         addChild(label);
-        
-        log("added %s", labelText.c_str());
     }
     
     cursor = Node::ccCreate<DiamondCursor>();
