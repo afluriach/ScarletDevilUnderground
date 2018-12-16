@@ -13,18 +13,38 @@
 
 class Player;
 
-class HealthBar : public Node
+class IconMeter : public Node
+{
+public:
+	IconMeter(int iconSize, const string& filledIcon, const string& emptyIcon, int val, int maxVal);
+
+	virtual bool init();
+
+	void setMax(int);
+	void setValue(int);
+	void runFlicker(float duration, float interval);
+protected:
+	Vector<Sprite*> iconSprites;
+	int crntVal = 0;
+	int maxVal = 0;
+	int iconSize = 0;
+	string filledIcon, emptyIcon;
+};
+
+class HealthBar : public IconMeter
 {
 public:
     static const int heartSize = 32;
-
-    void setMax(int);
-    void setValue(int);
-    void runFlicker(float duration);
-protected:
-    Vector<Sprite*> heartSprites;
-    int crntVal = 0;
+	HealthBar();
 };
+
+class MagicBar : public IconMeter
+{
+public:
+	static const int iconSize = 32;
+	MagicBar();
+};
+
 
 //An icon with a numeric counter next to it.
 class Counter : public Node
@@ -80,8 +100,10 @@ public:
     virtual bool init();
 
     HealthBar* health;
+	MagicBar* magic;
     PowerMeter* power;
-    Counter* objectiveCounter;    
+
+	Counter* objectiveCounter;    
     Sprite* interactionIcon;
 	Sprite* firePatternIcon;
 

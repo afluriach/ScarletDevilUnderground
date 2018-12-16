@@ -17,50 +17,91 @@
 #include "scenes.h"
 #include "util.h"
 
-void HealthBar::setMax(int m)
+IconMeter::IconMeter(int iconSize, const string& filledIcon, const string& emptyIcon, int val, int maxVal) :
+iconSize(iconSize),
+filledIcon(filledIcon),
+emptyIcon(emptyIcon),
+crntVal(val),
+maxVal(maxVal)
 {
-    for_irange(i,0,heartSprites.size())
-        removeChild(heartSprites.at(i));
-    heartSprites.clear();
+}
+
+bool IconMeter::init()
+{
+	Node::init();
+
+	setMax(maxVal);
+
+	return true;
+}
+
+void IconMeter::setMax(int m)
+{
+    for_irange(i,0,iconSprites.size())
+        removeChild(iconSprites.at(i));
+    iconSprites.clear();
     
     for_irange(i,0,m)
     {
-        Sprite* s = Sprite::create("sprites/heart.png");
+        Sprite* s = Sprite::create(filledIcon);
         s->setPosition(32*i, 0);
-        s->setScale(heartSize / s->getContentSize().width);
-        heartSprites.pushBack(s);
+        s->setScale(iconSize / s->getContentSize().width);
+        iconSprites.pushBack(s);
         addChild(s);
     }
 }
 
-void HealthBar::setValue(int v)
+void IconMeter::setValue(int v)
 {
     if(v == crntVal) return;
     
     if(v < 0) v = 0;
 
     for(int i=0;i<v; ++i){
-        heartSprites.at(i)->setTexture("sprites/heart.png");
+        iconSprites.at(i)->setTexture(filledIcon);
     }
-    for(int i=v; i<heartSprites.size(); ++i){
-        heartSprites.at(i)->setTexture("sprites/heart_empty.png");
+    for(int i=v; i<iconSprites.size(); ++i){
+        iconSprites.at(i)->setTexture(emptyIcon);
     }
     crntVal = v;
 }
 
-void HealthBar::runFlicker(float duration)
+void IconMeter::runFlicker(float duration, float interval)
 {
     //TintTo action does not apply recursively.
-	for_irange(i, 0, heartSprites.size()) {
-		heartSprites.at(i)->runAction(
+	for_irange(i, 0, iconSprites.size()) {
+		iconSprites.at(i)->runAction(
 			flickerTintAction(
-				boost::rational_cast<float>(Player::hitFlickerInterval),
+				interval,
 				duration,
 				Color3B(127, 127, 127)
 			)
 		);
 	}
 }
+
+HealthBar::HealthBar() :
+IconMeter(
+	HealthBar::heartSize,
+	"sprites/heart.png",
+	"sprites/heart_empty.png",
+	0,
+	0
+)
+{
+}
+
+MagicBar::MagicBar() :
+IconMeter(
+	HealthBar::heartSize,
+	"sprites/magic_card.png",
+	"sprites/magic_card_empty.png",
+	0,
+	0
+)
+{
+}
+
 
 //const Color4F HUD::backgroundColor = Color4F(0,0,0,0.75);
 
@@ -111,16 +152,24 @@ bool HUD::init()
     health->setMax(1);
 	health->setScale(scale);
 
+	magic = Node::ccCreate<MagicBar>();
+	magic->setPosition(scale*(32 + App::width / 4), App::height - height / 2);
+	addChild(magic, 2);
+	magic->setScale(scale);
+	magic->setMax(5);
+	magic->setValue(3);
+
     power = Node::ccCreate<PowerMeter>();
     power->setPosition(App::width/2, App::height - height/2);
     addChild(power,2);
     power->setVal(0);
 	power->setScale(scale);
     
-    objectiveCounter = new Counter("", 0);
+    objectiveCounter = Node::ccCreate<Counter>("", 0);
     objectiveCounter->setPosition(Counter::spacing/2 + Counter::iconSize + 8, Counter::iconSize/2 + 8);
     addChild(objectiveCounter, 2);
     objectiveCounter->setVisible(false);
+	objectiveCounter->setScale(scale);
     
     interactionIcon = Sprite::create();
     interactionIcon->setPosition(App::width - 64*scale, App::height - 64*scale);

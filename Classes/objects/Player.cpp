@@ -190,7 +190,7 @@ void Player::hit(AttributeMap attributeEffect, shared_ptr<MagicEffect> effect){
 				81.0f
 			)
 		);
-        app->hud->health->runFlicker(boost::rational_cast<float>(hitProtectionCountdown));
+        app->hud->health->runFlicker(boost::rational_cast<float>(hitProtectionCountdown), boost::rational_cast<float>(hitFlickerInterval));
 
 		Agent::hit(attributeEffect, effect);
     }

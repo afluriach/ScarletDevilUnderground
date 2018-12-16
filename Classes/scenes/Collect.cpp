@@ -34,11 +34,16 @@ void Collect::initTargets()
 	for (const string& tname : targets) {
 		activationTargets.insert(gspace->getObjectRef(tname));
 	}
+
+	hud->setObjectiveCounter("sprites/ui/glyph.png", activationTargets.size());
+	hud->setObjectiveCounterVisible(true);
 }
 
 void Collect::registerActivation(gobject_ref target)
 {
 	activationTargets.erase(target);
+	
+	hud->setObjectiveCounter("sprites/ui/glyph.png", activationTargets.size());
 
 	if (activationTargets.empty()) {
 		triggerSceneCompleted();
