@@ -76,6 +76,7 @@ public:
     static const unordered_map<string,AdapterType> adapters;
 
 	static const int dialogEdgeMargin;
+	static const bool scriptLog;
 
     static GScene* crntScene;
 	static string crntSceneName;

@@ -23,6 +23,7 @@
 #include "value_map.hpp"
 
 const int GScene::dialogEdgeMargin = 30;
+const bool GScene::scriptLog = false;
 
 GScene* GScene::crntScene;
 string GScene::crntSceneName;
@@ -133,10 +134,12 @@ control_listener(make_unique<ControlListener>())
 	{
 		string scriptPath = "scripts/scenes/" + sceneName + ".lua";
 
-		if (!FileUtils::getInstance()->isFileExist(scriptPath))
+		if (!FileUtils::getInstance()->isFileExist(scriptPath) && scriptLog) {
 			log("GScene: %s script does not exist.", sceneName.c_str());
-		else
+		}
+		else {
 			ctx->runFile(scriptPath);
+		}
 	}
 }
 

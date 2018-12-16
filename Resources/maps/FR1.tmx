@@ -57,7 +57,7 @@
     <property name="direction" value="left"/>
    </properties>
   </object>
-  <object id="14" name="fairy4" type="Fairy2" x="128" y="128" width="128" height="128"/>
+  <object id="14" name="fairy10" type="Fairy2" x="128" y="128" width="128" height="128"/>
   <object id="15" name="fairy5" type="Fairy2" x="384" y="128" width="128" height="128"/>
   <object id="16" name="fairy6" type="Fairy2" x="640" y="128" width="128" height="128"/>
   <object id="18" name="fairy7" type="IceFairy" x="256" y="640" width="128" height="128"/>
