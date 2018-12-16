@@ -423,11 +423,11 @@ void GSpace::addCollisionHandlers()
 	_addHandler(enemy, effectArea, agentEffectAreaBegin, agentEffectAreaEnd);
 }
 
-const set<GType> GSpace::selfCollideTypes = boost::assign::list_of
-    (GType::enemy)
-    (GType::environment)
-    (GType::npc)
-;
+const set<GType> GSpace::selfCollideTypes = {
+	GType::enemy,
+	GType::environment,
+	GType::npc
+};
 
 const bool GSpace::logBodyCreation = false;
 const bool GSpace::logPhysicsHandlers = false;

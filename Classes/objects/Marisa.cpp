@@ -13,11 +13,11 @@
 #include "Marisa.hpp"
 #include "util.h"
 
-const AttributeMap Marisa::baseAttributes = boost::assign::map_list_of
-	(Attribute::maxHP, 100.0f)
-	(Attribute::speed, 3.0f)
-	(Attribute::acceleration, 6.0f)
-;
+const AttributeMap Marisa::baseAttributes = {
+	{Attribute::maxHP, 100.0f},
+	{Attribute::speed, 3.0f},
+	{Attribute::acceleration, 6.0f}
+};
 
 void Marisa::initStateMachine(ai::StateMachine& sm)
 {

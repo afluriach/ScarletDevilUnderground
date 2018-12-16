@@ -11,23 +11,21 @@
 #include "Spell.hpp"
 #include "SpellDescriptor.hpp"
 
-#define entry(name,cls) (name, createDesc<cls>())
+#define entry(name,cls) {name, createDesc<cls>()}
 //To make an entry where the name matches the class
 #define entry_same(cls) entry(#cls, cls)
 
 template<typename T>
-SpellDesc* createDesc()
+constexpr shared_ptr<SpellDesc> createDesc()
 {
-	return new SpellDescImpl<T>();
+	return make_shared<SpellDescImpl<T>>();
 }
 
-const unordered_map<string,SpellDesc*> Spell::spellDescriptors = boost::assign::map_list_of
-    entry_same(FireStarburst)
-    entry_same(FlameFence)
-    entry_same(StarlightTyphoon)
-
-	entry_same(PlayerBatMode)
-	entry_same(PlayerDarkMist)
-
-    entry_same(IllusionDial)
-;
+const unordered_map<string, shared_ptr<SpellDesc>> Spell::spellDescriptors = {
+	entry_same(FireStarburst),
+	entry_same(FlameFence),
+	entry_same(IllusionDial),
+	entry_same(PlayerBatMode),
+	entry_same(PlayerDarkMist),
+	entry_same(StarlightTyphoon)
+};

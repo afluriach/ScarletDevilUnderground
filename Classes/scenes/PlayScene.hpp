@@ -12,7 +12,7 @@
 #include "controls.h"
 #include "object_ref.hpp"
 #include "HUD.hpp"
-#include "menu.h"
+#include "menu_layers.h"
 #include "scenes.h"
 
 class GObject;

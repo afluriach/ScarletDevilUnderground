@@ -16,15 +16,15 @@
 #include "MagicEffect.hpp"
 #include "value_map.hpp"
 
-const vector<string> StarBullet::colors = boost::assign::list_of
-    ("blue")
-    ("green")
-    ("grey")
-    ("indigo")
-    ("purple")
-    ("red")
-    ("yellow")
-;
+const vector<string> StarBullet::colors = {
+	"blue",
+	"green",
+	"grey",
+	"indigo",
+	"purple",
+	"red",
+	"yellow"
+};
 
 IceFairyBullet::IceFairyBullet(GSpace* space, ObjectIDType id, SpaceFloat angle, const SpaceVect& pos) :
 	EnemyBullet(0.6,5),

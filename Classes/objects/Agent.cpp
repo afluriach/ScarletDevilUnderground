@@ -137,10 +137,10 @@ void Agent::applyAttributeEffects(AttributeMap attributeEffect)
 	}
 }
 
-const AttributeMap GenericAgent::baseAttributes = boost::assign::map_list_of
-	(Attribute::speed, 1.5f)
-	(Attribute::acceleration, 6.0f)
-;
+const AttributeMap GenericAgent::baseAttributes = {
+	{Attribute::speed, 1.5f },
+	{Attribute::acceleration, 6.0f }
+};
 
 GenericAgent::GenericAgent(GSpace* space, ObjectIDType id, const ValueMap& args) :
 	MapObjForwarding(GObject),

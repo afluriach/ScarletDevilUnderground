@@ -14,13 +14,14 @@
 #include "GSpace.hpp"
 #include "macros.h"
 
-const vector<string> GardenBlooming::colors = boost::assign::list_of
-("blue")
-("gold")
-("magenta")
-("red")
-("sky")
-("violet");
+const vector<string> GardenBlooming::colors = {
+	"blue",
+	"gold",
+	"magenta",
+	"red",
+	"sky",
+	"violet"
+};
 
 void GardenBlooming::generateFlowers(){
     SpaceVect size = getMapSize();

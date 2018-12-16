@@ -11,10 +11,10 @@
 #include "Follower.hpp"
 #include "macros.h"
 
-const AttributeMap Follower::baseAttributes = boost::assign::map_list_of
-(Attribute::speed, 1.0f)
-(Attribute::acceleration, 4.5f)
-;
+const AttributeMap Follower::baseAttributes = {
+	{Attribute::speed, 1.0f },
+	{Attribute::acceleration, 4.5f}
+};
 
 void Follower::hit(int damage, shared_ptr<MagicEffect> effect)
 {

@@ -67,7 +67,6 @@
 #include <boost/algorithm/string/predicate.hpp>
 #include <boost/archive/binary_iarchive.hpp>
 #include <boost/archive/binary_oarchive.hpp>
-#include <boost/assign.hpp>
 #include <boost/bind.hpp>
 #include <boost/dynamic_bitset.hpp>
 #include <boost/foreach.hpp>

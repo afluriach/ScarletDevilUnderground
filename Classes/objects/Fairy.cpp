@@ -12,11 +12,11 @@
 #include "Fairy.hpp"
 #include "FirePattern.hpp"
 
-const AttributeMap Fairy1::baseAttributes = boost::assign::map_list_of
-(Attribute::maxHP, 5.0f)
-(Attribute::speed, 3.0f)
-(Attribute::acceleration, 4.5f)
-;
+const AttributeMap Fairy1::baseAttributes = {
+	{Attribute::maxHP, 5.0f},
+	{Attribute::speed, 3.0f},
+	{Attribute::acceleration, 4.5f}
+};
 
 void Fairy1::initStateMachine(ai::StateMachine& sm) {
 	addThread(make_shared<ai::Detect>(
@@ -27,11 +27,11 @@ void Fairy1::initStateMachine(ai::StateMachine& sm) {
 	));
 }
 
-const AttributeMap Fairy2::baseAttributes = boost::assign::map_list_of
-(Attribute::maxHP, 15.0f)
-(Attribute::speed, 4.5f)
-(Attribute::acceleration, 4.5f)
-;
+const AttributeMap Fairy2::baseAttributes = {
+	{Attribute::maxHP, 15.0f},
+	{Attribute::speed, 4.5f},
+	{Attribute::acceleration, 4.5f}
+};
 
 void Fairy2::initStateMachine(ai::StateMachine& sm) {
 	addThread(make_shared<ai::Detect>(
@@ -42,12 +42,12 @@ void Fairy2::initStateMachine(ai::StateMachine& sm) {
 	));
 }
 
-const AttributeMap IceFairy::baseAttributes = boost::assign::map_list_of
-(Attribute::maxHP, 15.0f)
-(Attribute::speed, 4.5f)
-(Attribute::acceleration, 4.5f)
-(Attribute::iceSensitivity, 0.0f)
-;
+const AttributeMap IceFairy::baseAttributes = {
+	{Attribute::maxHP, 15.0f},
+	{Attribute::speed, 4.5f},
+	{Attribute::acceleration, 4.5f},
+	{Attribute::iceSensitivity, 0.0f}
+};
 
 void IceFairy::initStateMachine(ai::StateMachine& sm) {
 	addThread(make_shared<ai::Detect>(

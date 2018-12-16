@@ -23,7 +23,7 @@ class SpellDesc;
 class Spell
 {
 public:
-    static const unordered_map<string,SpellDesc*> spellDescriptors;
+    static const unordered_map<string,shared_ptr<SpellDesc>> spellDescriptors;
 
     inline Spell(GObject* caster,const ValueMap& args, SpellDesc* descriptor) :
 		caster(caster),

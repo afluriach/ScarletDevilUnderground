@@ -64,6 +64,7 @@ public:
 	static void runTitleScene();
 	static void restartScene();
 	static GScene* getCrntScene();
+	static void resumeScene();
 	static inline void popScene();
 
 	template <typename T, typename... Args>

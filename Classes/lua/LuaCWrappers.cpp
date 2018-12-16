@@ -285,9 +285,9 @@ void removeThreadByName(string objName, string threadFuncName)
 
 ///////////////////////////////////////////////////////////////////
 
-#define make_wrapper(name,f) (name, wrap_cfunction(name,f))
-#define make_package_wrapper(ns,name) (#name, wrap_cfunction(#name, ns::name))
-#define make_wrapper_same(name) (#name, wrap_cfunction(#name,name))
+#define make_wrapper(name,f) {name, wrap_cfunction(name,f)}
+#define make_package_wrapper(ns,name) {#name, wrap_cfunction(#name, ns::name)}
+#define make_wrapper_same(name) {#name, wrap_cfunction(#name,name)}
 
 #define make_method_wrapper(cls, name) \
 int name ## _wrapper(lua_State* L) \
@@ -342,51 +342,51 @@ void Inst::installWrappers()
     Class::installClasses(state);
 }
 
-const unordered_map<string,function<int(lua_State*)>> Inst::cfunctions = boost::assign::map_list_of
-make_wrapper_same(createObject)
-make_wrapper_same(removeObject)
-make_wrapper_same(setpos)
-make_wrapper_same(setvel)
-make_wrapper_same(printMap)
-make_wrapper_same(addUpdate)
-make_wrapper_same(getObjByName)
-make_wrapper_same(getObjectNames)
-make_wrapper_same(isValidObject)
-make_wrapper_same(setSpriteShader)
-make_wrapper_same(runscript)
-make_wrapper_same(dostring_in_inst)
-make_wrapper_same(castSpell)
-make_wrapper_same(castSpellWithArgs)
-make_wrapper_same(stopSpell)
-make_wrapper_same(isObstacle)
-make_wrapper_same(startDialog)
-make_wrapper_same(stopDialog)
-make_wrapper_same(printGlDebug)
-make_wrapper_same(save)
-make_wrapper_same(saveCrntReplay)
-make_wrapper_same(getInventoryContents)
+const unordered_map<string, function<int(lua_State*)>> Inst::cfunctions = {
+	make_wrapper_same(createObject),
+	make_wrapper_same(removeObject),
+	make_wrapper_same(setpos),
+	make_wrapper_same(setvel),
+	make_wrapper_same(printMap),
+	make_wrapper_same(addUpdate),
+	make_wrapper_same(getObjByName),
+	make_wrapper_same(getObjectNames),
+	make_wrapper_same(isValidObject),
+	make_wrapper_same(setSpriteShader),
+	make_wrapper_same(runscript),
+	make_wrapper_same(dostring_in_inst),
+	make_wrapper_same(castSpell),
+	make_wrapper_same(castSpellWithArgs),
+	make_wrapper_same(stopSpell),
+	make_wrapper_same(isObstacle),
+	make_wrapper_same(startDialog),
+	make_wrapper_same(stopDialog),
+	make_wrapper_same(printGlDebug),
+	make_wrapper_same(save),
+	make_wrapper_same(saveCrntReplay),
+	make_wrapper_same(getInventoryContents),
 
-make_wrapper_same(printFSM)
-make_wrapper_same(addThread)
-make_wrapper_same(removeThread)
-make_wrapper_same(removeThreadByName)
+	make_wrapper_same(printFSM),
+	make_wrapper_same(addThread),
+	make_wrapper_same(removeThread),
+	make_wrapper_same(removeThreadByName),
 
-make_wrapper_same(toDirection)
-make_wrapper_same(stringToDirection)
+	make_wrapper_same(toDirection),
+	make_wrapper_same(stringToDirection),
 
-make_package_wrapper(ai,applyDesiredVelocity)
-make_package_wrapper(ai,seek)
-make_package_wrapper(ai,flee)
+	make_package_wrapper(ai,applyDesiredVelocity),
+	make_package_wrapper(ai,seek),
+	make_package_wrapper(ai,flee),
 
-make_package_wrapper(ai,isFacingTarget)
-make_package_wrapper(ai,isFacingTargetsBack)
-make_package_wrapper(ai,isLineOfSight)
+	make_package_wrapper(ai,isFacingTarget),
+	make_package_wrapper(ai,isFacingTargetsBack),
+	make_package_wrapper(ai,isLineOfSight),
 
-make_package_wrapper(ai,directionToTarget)
-make_package_wrapper(ai,displacementToTarget)
-make_package_wrapper(ai,distanceToTarget)
-make_package_wrapper(ai,viewAngleToTarget)
+	make_package_wrapper(ai,directionToTarget),
+	make_package_wrapper(ai,displacementToTarget),
+	make_package_wrapper(ai,distanceToTarget),
+	make_package_wrapper(ai,viewAngleToTarget)
 
-;
+};
 
 }

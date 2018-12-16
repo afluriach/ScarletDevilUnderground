@@ -12,9 +12,9 @@
 
 const IntVec2 Desert::roomSize = IntVec2(17,17);
 
-const vector<GScene::MapEntry> Desert::rooms = boost::assign::list_of
-	(make_pair("desert/D0", getRoomOffset(0, 0)))
-;
+const vector<GScene::MapEntry> Desert::rooms = {
+	{make_pair("desert/D0", getRoomOffset(0, 0))}
+};
 
 const IntVec2 Desert::getRoomOffset(int roomGridX, int roomGridY)
 {

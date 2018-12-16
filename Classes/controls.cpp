@@ -19,53 +19,53 @@ const bool ControlRegister::logButtons = false;
 const bool ControlRegister::logActionState = false;
 const float ControlRegister::deadzone = 0.3f;
 
-#define key_action_1(key_id,action_id) (EventKeyboard::KeyCode::key_id, make_enum_bitfield(ControlAction::action_id))
-#define key_action_2(key_id,action1,action2) (EventKeyboard::KeyCode::key_id, make_enum_bitfield(ControlAction::action1) | make_enum_bitfield(ControlAction::action2))
-#define key_action_3(key_id,action1,action2,action3) (EventKeyboard::KeyCode::key_id, make_enum_bitfield(ControlAction::action1) | make_enum_bitfield(ControlAction::action2) | make_enum_bitfield(ControlAction::action3))
+#define key_action_1(key_id,action_id) {EventKeyboard::KeyCode::key_id, make_enum_bitfield(ControlAction::action_id)}
+#define key_action_2(key_id,action1,action2) {EventKeyboard::KeyCode::key_id, make_enum_bitfield(ControlAction::action1) | make_enum_bitfield(ControlAction::action2)}
+#define key_action_3(key_id,action1,action2,action3) {EventKeyboard::KeyCode::key_id, make_enum_bitfield(ControlAction::action1) | make_enum_bitfield(ControlAction::action2) | make_enum_bitfield(ControlAction::action3)}
 
-const map<EventKeyboard::KeyCode, ControlActionState> ControlRegister::keyActionMap = boost::assign::map_list_of
-	key_action_2(KEY_ESCAPE,menuBack,pause)
-	key_action_1(KEY_BACKTICK,scriptConsole)
-	key_action_3(KEY_ENTER,menuSelect,interact,enter)
-	key_action_3(KEY_KP_ENTER, menuSelect, interact, enter)
+const map<EventKeyboard::KeyCode, ControlActionState> ControlRegister::keyActionMap = {
+	key_action_2(KEY_ESCAPE,menuBack,pause),
+	key_action_1(KEY_BACKTICK,scriptConsole),
+	key_action_3(KEY_ENTER,menuSelect,interact,enter),
+	key_action_3(KEY_KP_ENTER, menuSelect, interact, enter),
 
-	key_action_2(KEY_Z,menuSelect,interact)
-    key_action_1(KEY_X,dialogSkip)
+	key_action_2(KEY_Z,menuSelect,interact),
+	key_action_1(KEY_X,dialogSkip),
 
-	key_action_1(KEY_1,spell1)
-	key_action_1(KEY_2, spell2)
-	key_action_1(KEY_3, spell3)
-	key_action_1(KEY_4, spell4)
+	key_action_1(KEY_1,spell1),
+	key_action_1(KEY_2, spell2),
+	key_action_1(KEY_3, spell3),
+	key_action_1(KEY_4, spell4),
 
-	key_action_1(KEY_COMMA, firePatternPrev)
-	key_action_1(KEY_PERIOD, firePatternNext)
-	
-	key_action_2(KEY_W,move_pad_up,menuUp)
-	key_action_2(KEY_S, move_pad_down, menuDown)
-	key_action_1(KEY_A, move_pad_left)
-	key_action_1(KEY_D, move_pad_right)
+	key_action_1(KEY_COMMA, firePatternPrev),
+	key_action_1(KEY_PERIOD, firePatternNext),
 
-	key_action_2(KEY_UP_ARROW, aim_pad_up,menuUp)
-	key_action_2(KEY_DOWN_ARROW, aim_pad_down,menuDown)
-	key_action_1(KEY_LEFT_ARROW, aim_pad_left)
+	key_action_2(KEY_W,move_pad_up,menuUp),
+	key_action_2(KEY_S, move_pad_down, menuDown),
+	key_action_1(KEY_A, move_pad_left),
+	key_action_1(KEY_D, move_pad_right),
+
+	key_action_2(KEY_UP_ARROW, aim_pad_up,menuUp),
+	key_action_2(KEY_DOWN_ARROW, aim_pad_down,menuDown),
+	key_action_1(KEY_LEFT_ARROW, aim_pad_left),
 	key_action_1(KEY_RIGHT_ARROW, aim_pad_right)
-;
+};
 
 #if use_gamepad
 
-#define button_action_1(button_id,action_id) (gainput::PadButton::button_id, make_enum_bitfield(ControlAction::action_id))
-#define button_action_2(button_id,action1,action2) (gainput::PadButton::button_id, make_enum_bitfield(ControlAction::action1) | make_enum_bitfield(ControlAction::action2))
+#define button_action_1(button_id,action_id) {gainput::PadButton::button_id, make_enum_bitfield(ControlAction::action_id)}
+#define button_action_2(button_id,action1,action2) {gainput::PadButton::button_id, make_enum_bitfield(ControlAction::action1) | make_enum_bitfield(ControlAction::action2)}
 
-const map<gainput::PadButton, ControlActionState> ControlRegister::buttonActionMap = boost::assign::map_list_of
-	button_action_1(PadButtonStart, pause)
-	button_action_2(PadButtonA,interact,menuSelect)
-	button_action_2(PadButtonB, menuBack,dialogSkip)
+const map<gainput::PadButton, ControlActionState> ControlRegister::buttonActionMap = {
+	button_action_1(PadButtonStart, pause),
+	button_action_2(PadButtonA,interact,menuSelect),
+	button_action_2(PadButtonB, menuBack,dialogSkip),
 
-	button_action_1(PadButtonUp, spell1)
-	button_action_1(PadButtonRight, spell2)
-	button_action_1(PadButtonDown, spell3)
-	button_action_1(PadButtonLeft, spell4)
-;
+	button_action_1(PadButtonUp, spell1),
+	button_action_1(PadButtonRight, spell2),
+	button_action_1(PadButtonDown, spell3),
+	button_action_1(PadButtonLeft, spell4),
+};
 #endif
 
 ControlRegister::ControlRegister()

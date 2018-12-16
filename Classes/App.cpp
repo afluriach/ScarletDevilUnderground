@@ -4,7 +4,7 @@
 #include "controls.h"
 #include "functional.hpp"
 #include "macros.h"
-#include "menu.h"
+#include "menu_scenes.h"
 #include "GState.hpp"
 #include "scenes.h"
 
@@ -12,12 +12,12 @@ App* app;
 
 const string App::title = "Kouma";
 
-const vector<string> App::shaderFiles = boost::assign::list_of
-("sprite")
-("inverted")
-("hue_shift_left")
-("hue_shift_right")
-;
+const vector<string> App::shaderFiles = {
+	"sprite",
+	"inverted",
+	"hue_shift_left",
+	"hue_shift_right" 
+};
 
 unsigned int App::width = 1600;
 unsigned int App::height = 1000;
@@ -173,6 +173,12 @@ void App::popScene()
 {
 	Director::getInstance()->popScene();
 }
+
+void App::resumeScene()
+{
+	getCrntScene()->exitPause();
+}
+
 
 void App::setPlayer(int id)
 {

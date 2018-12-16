@@ -165,6 +165,7 @@ xcopy "$(ProjectDir)..\Resources" "$(OutDir)" /D /E /I /F /Y</Command>
     <ClCompile Include="..\Classes\lua\LuaShell.cpp" />
     <ClCompile Include="..\Classes\lua\LuaWrap.cpp" />
     <ClCompile Include="..\Classes\menu.cpp" />
+    <ClCompile Include="..\Classes\menu_layers.cpp" />
     <ClCompile Include="..\Classes\objects\Agent.cpp" />
     <ClCompile Include="..\Classes\objects\Block.cpp" />
     <ClCompile Include="..\Classes\objects\Bullet.cpp" />
@@ -199,6 +200,7 @@ xcopy "$(ProjectDir)..\Resources" "$(OutDir)" /D /E /I /F /Y</Command>
     <ClCompile Include="..\Classes\scenes\Collect.cpp" />
     <ClCompile Include="..\Classes\scenes\Desert.cpp" />
     <ClCompile Include="..\Classes\scenes\Garden.cpp" />
+    <ClCompile Include="..\Classes\scenes\menu_scenes.cpp" />
     <ClCompile Include="..\Classes\scenes\Mine.cpp" />
     <ClCompile Include="..\Classes\scenes\PlayScene.cpp" />
     <ClCompile Include="..\Classes\scenes\SceneMapping.cpp" />
@@ -236,6 +238,7 @@ xcopy "$(ProjectDir)..\Resources" "$(OutDir)" /D /E /I /F /Y</Command>
     <ClInclude Include="..\Classes\lua\LuaWrap.h" />
     <ClInclude Include="..\Classes\macros.h" />
     <ClInclude Include="..\Classes\menu.h" />
+    <ClInclude Include="..\Classes\menu_layers.h" />
     <ClInclude Include="..\Classes\multifunction.h" />
     <ClInclude Include="..\Classes\objects\Agent.hpp" />
     <ClInclude Include="..\Classes\objects\Block.hpp" />
@@ -270,6 +273,7 @@ xcopy "$(ProjectDir)..\Resources" "$(OutDir)" /D /E /I /F /Y</Command>
     <ClInclude Include="..\Classes\scenes\Desert.hpp" />
     <ClInclude Include="..\Classes\scenes\Garden.hpp" />
     <ClInclude Include="..\Classes\scenes\LibraryOpening.h" />
+    <ClInclude Include="..\Classes\scenes\menu_scenes.h" />
     <ClInclude Include="..\Classes\scenes\Mine.hpp" />
     <ClInclude Include="..\Classes\scenes\PlayScene.hpp" />
     <ClInclude Include="..\Classes\scenes\scenes.h" />

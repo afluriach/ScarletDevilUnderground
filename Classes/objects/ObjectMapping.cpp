@@ -37,7 +37,7 @@
 
 //Adapters for mapping the name of a class to a factory adapter.
 template <typename T>
-static GObject::AdapterType consAdapter()
+constexpr GObject::AdapterType consAdapter()
 {
     return [](GSpace* space, ObjectIDType id, const ValueMap& args) -> GObject* { return new T(space,id,args); };
 }
@@ -45,7 +45,7 @@ static GObject::AdapterType consAdapter()
 //Inventory adaptor: will return nullptr if the item has already been acquired,
 //meaning item will not be added.
 template <typename T>
-static GObject::AdapterType itemAdapter(const string& name)
+constexpr GObject::AdapterType itemAdapter(const string& name)
 {
     return [=](GSpace* space, ObjectIDType id, const ValueMap& args) -> GObject* {
         if(GState::crntState.itemRegistry.find(name) != GState::crntState.itemRegistry.end())
@@ -70,50 +70,40 @@ GObject::AdapterType playerAdapter()
 	};
 }
 
-#define entry(name,cls) (name, consAdapter<cls>())
+#define entry(name,cls) {name, consAdapter<cls>()}
 //To make an entry where the name matches the class
 #define entry_same(cls) entry(#cls, cls)
 
-#define item_entry(name,cls,itemKey) (name, itemAdapter<cls>(#itemKey))
+#define item_entry(name,cls,itemKey) {name, itemAdapter<cls>(#itemKey)}
 #define item_entry_same(cls) item_entry(#cls,cls,cls)
 
-const unordered_map<string,GObject::AdapterType> GObject::adapters =
-    boost::assign::map_list_of
-    entry_same(Block)
-    entry_same(Flower)
-    entry_same(Glyph)
-    entry_same(Torch)
-    entry_same(CollectGlyph)
+const unordered_map<string, GObject::AdapterType> GObject::adapters = {
+	entry_same(CollectGlyph),
+	entry_same(Block),
+	entry_same(DirtFloorCave),
+	entry_same(Facer),
+	entry_same(Fairy1),
+	entry_same(Fairy2),
+	entry_same(Flower),
+	entry_same(Follower),
+	entry_same(GenericAgent),
+	entry_same(Glyph),
+	item_entry_same(GraveyardKey),
+	entry_same(IceFairy),
+	entry_same(Launcher),
+	entry_same(Marisa),
+	entry_same(MineFloor),
+	entry_same(Patchouli),
+	entry_same(Pitfall),
+	entry_same(PowerUp),
+	entry_same(PressurePlate),
+	entry_same(Pyramid),
+	entry_same(Reimu),
+	entry_same(Sakuya),
+	entry_same(Stalker),
+	entry_same(SunArea),
+	entry_same(Tewi),
+	entry_same(Torch),
 
-	entry_same(Launcher)
-	entry_same(Pyramid)
-
-    entry_same(PowerUp)
-
-    item_entry_same(GraveyardKey)
-
-    entry_same(Marisa)
-    entry_same(Patchouli)
-    entry_same(Reimu)
-    entry_same(Sakuya)
-
-    entry_same(Facer)
-    entry_same(Follower)
-    entry_same(Stalker)
-    entry_same(GenericAgent)
-	entry_same(Tewi)
-
-	entry_same(Fairy1)
-	entry_same(Fairy2)
-	entry_same(IceFairy)
-
-	entry_same(DirtFloorCave)
-	entry_same(MineFloor)
-	entry_same(Pitfall)
-	entry_same(PressurePlate)
-
-	entry_same(SunArea)
-
-	entry_same(Goal)
-
-	("Player", playerAdapter());
+	{ "Player", playerAdapter() }
+};

@@ -9,9 +9,6 @@
 #ifndef menu_h
 #define menu_h
 
-#include "Graphics.h"
-#include "scenes.h"
-
 class ControlListener;
 class SceneSelect;
 
@@ -19,6 +16,14 @@ class TextListMenuLayer : public Layer
 {
 public:
     typedef function<void(void)> listAction;
+
+	TextListMenuLayer(
+		const string& title,
+		const vector<string>& options,
+		const vector<listAction>& optionActions
+	);
+
+	virtual ~TextListMenuLayer();
 
     virtual bool init();
     
@@ -30,15 +35,7 @@ protected:
 	unique_ptr<ControlListener> control_listener;
     bool upHeld = false;
     bool downHeld = false;
-    
-    TextListMenuLayer(
-        const string& title,
-        const vector<string>& options,
-        const vector<listAction>& optionActions
-    );
-    
-    virtual ~TextListMenuLayer();
-    
+        
     void upPressed();
     void downPressed();
     void selectPressed();
@@ -65,117 +62,20 @@ private:
     Node* cursor;
     size_t selected = 0;
     
-    void updateCursor()
-    {
-        int yPos = getScreenSize().height - titleMargin - menuStartMargin - selected*menuItemSpacing;
-        cursor->setPositionY(yPos);
-    }
+	void updateCursor();
 };
 
-class TitleMenuScene : public GScene
+template<class C>
+class TextListMenuImpl : public TextListMenuLayer
 {
 public:
-	TitleMenuScene();
-	virtual bool init();
-};
-
-class TitleMenu : public TextListMenuLayer
-{
-public:    
-    TitleMenu();
-private:
-    static void start();
-    static void sceneSelect();
-};
-
-class SceneSelectScene : public GScene
-{
-public:
-	SceneSelectScene();
-	virtual bool init();
-};
-
-class SceneSelect : public TextListMenuLayer
-{
-public:
-    static const vector<string> sceneTitles;
-    static const vector<listAction> sceneActions;
-    
-    inline SceneSelect() :
-    TextListMenuLayer(
-        "Scene Select",
-        sceneTitles,
-        sceneActions
-    )
-    {}
-    
-protected:    
-    static void back();
-};
-
-class PauseMenu : public TextListMenuLayer
-{
-public:
-	static const string title;
-	static const vector<string> entryNames;
-	static const vector<listAction> entryActions;
-
-	inline PauseMenu() : TextListMenuLayer(
-		title,
-		entryNames,
-		entryActions
-	)
-	{}
-
-	static void resumeScene();
-};
-
-class GameOverMenu : public TextListMenuLayer
-{
-public:
-	static const string title;
-	static const vector<string> entryNames;
-	static const vector<listAction> entryActions;
-
-	inline GameOverMenu() : TextListMenuLayer(
-		title,
-		entryNames,
-		entryActions
+	inline TextListMenuImpl() :
+	TextListMenuLayer(
+		C::title,
+		C::entries,
+		C::entryActions
 	)
 	{}
 };
-
-class ChamberCompletedMenu : public TextListMenuLayer
-{
-public:
-	static const string title;
-	static const vector<string> entryNames;
-	static const vector<listAction> entryActions;
-
-	inline ChamberCompletedMenu() : TextListMenuLayer(
-		title,
-		entryNames,
-		entryActions
-	)
-	{}
-};
-
-class ReplayCompletedMenu : public TextListMenuLayer
-{
-public:
-	static const string title;
-	static const vector<string> entryNames;
-	static const vector<listAction> entryActions;
-
-	inline ReplayCompletedMenu() : TextListMenuLayer(
-		title,
-		entryNames,
-		entryActions
-	)
-	{}
-
-	static void restartReplay();
-};
-
 
 #endif /* menu_h */

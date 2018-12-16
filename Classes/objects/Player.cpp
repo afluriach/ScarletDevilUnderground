@@ -244,15 +244,15 @@ bool Player::trySetFirePatternPrevious()
 	return trySetFirePattern((crntFirePattern - 1) % firePatterns.size());
 }
 
-const AttributeMap FlandrePC::baseAttributes = boost::assign::map_list_of
-	(Attribute::maxHP, 5.0f)
-	(Attribute::maxPower, 500.0f)
-	(Attribute::speed, 3.0f)
-	(Attribute::acceleration, 9.0f)
-	(Attribute::hitProtection, 2.4f)
-	(Attribute::iceSensitivity, 2.0f)
-	(Attribute::sunSensitivity, 5.0f)
-;
+const AttributeMap FlandrePC::baseAttributes = {
+	{Attribute::maxHP, 5.0f},
+	{Attribute::maxPower, 500.0f},
+	{Attribute::speed, 3.0f},
+	{Attribute::acceleration, 9.0f},
+	{Attribute::hitProtection, 2.4f},
+	{Attribute::iceSensitivity, 2.0f},
+	{Attribute::sunSensitivity, 5.0f}
+};
 
 FlandrePC::FlandrePC(GSpace* space, ObjectIDType id, const ValueMap& args) :
 	MapObjForwarding(GObject),
@@ -267,18 +267,18 @@ void FlandrePC::setFirePatterns()
 }
 
 void FlandrePC::equipSpells() {
-	equippedSpell = Spell::spellDescriptors.find("PlayerBatMode")->second;
+	equippedSpell = Spell::spellDescriptors.find("PlayerBatMode")->second.get();
 }
 
-const AttributeMap RumiaPC::baseAttributes = boost::assign::map_list_of
-(Attribute::maxHP, 3.0f)
-(Attribute::maxPower, 900.0f)
-(Attribute::speed, 4.5f)
-(Attribute::acceleration, 12.0f)
-(Attribute::hitProtection, 1.5f)
-(Attribute::iceSensitivity, 1.0f)
-(Attribute::sunSensitivity, 0.0f)
-;
+const AttributeMap RumiaPC::baseAttributes = {
+	{Attribute::maxHP, 3.0f },
+	{Attribute::maxPower, 900.0f },
+	{Attribute::speed, 4.5f },
+	{Attribute::acceleration, 12.0f },
+	{Attribute::hitProtection, 1.5f },
+	{Attribute::iceSensitivity, 1.0f },
+	{Attribute::sunSensitivity, 0.0f }
+};
 
 RumiaPC::RumiaPC(GSpace* space, ObjectIDType id, const ValueMap& args) :
 	MapObjForwarding(GObject),
@@ -291,18 +291,18 @@ void RumiaPC::setFirePatterns()
 }
 
 void RumiaPC::equipSpells() {
-	equippedSpell = Spell::spellDescriptors.find("PlayerDarkMist")->second;
+	equippedSpell = Spell::spellDescriptors.find("PlayerDarkMist")->second.get();
 }
 
-const AttributeMap CirnoPC::baseAttributes = boost::assign::map_list_of
-(Attribute::maxHP, 9.0f)
-(Attribute::maxPower, 300.0f)
-(Attribute::speed, 2.0f)
-(Attribute::acceleration, 6.0f)
-(Attribute::hitProtection, 3.3f)
-(Attribute::iceSensitivity, 0.0f)
-(Attribute::sunSensitivity, 1.0f)
-;
+const AttributeMap CirnoPC::baseAttributes = {
+	{Attribute::maxHP, 9.0f },
+	{Attribute::maxPower, 300.0f},
+	{Attribute::speed, 2.0f},
+	{Attribute::acceleration, 6.0f},
+	{Attribute::hitProtection, 3.3f},
+	{Attribute::iceSensitivity, 0.0f},
+	{Attribute::sunSensitivity, 1.0f}
+};
 
 CirnoPC::CirnoPC(GSpace* space, ObjectIDType id, const ValueMap& args) :
 	MapObjForwarding(GObject),
