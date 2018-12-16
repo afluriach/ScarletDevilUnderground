@@ -53,13 +53,13 @@ public:
     void resumeAnimations();
     
     void triggerGameOver();
-    void showGameOverMenu(float unused);
+    void showGameOverMenu();
 
 	void triggerSceneCompleted();
-	void showSceneCompletedMenu(float unused);
+	void showSceneCompletedMenu();
 
 	void triggerReplayCompleted();
-	void showReplayCompletedMenu(float unused);
+	void showReplayCompletedMenu();
 
 	virtual GScene* getReplacementScene();
 

@@ -203,7 +203,7 @@ void PlayScene::resumeAnimations()
     getLayer(sceneLayers::hud)->resumeRecursive();
 }
 
-void PlayScene::showGameOverMenu(float unused)
+void PlayScene::showGameOverMenu()
 {
     app->hud->setVisible(false);
 	if(app->dialog)
@@ -224,7 +224,7 @@ void PlayScene::triggerGameOver()
     spaceLayer->runAction(tintTo(fadeoutColor,fadeoutLength));
 
     Director::getInstance()->getScheduler()->schedule(
-        bind(&PlayScene::showGameOverMenu, this, placeholders::_1),
+        bind(&PlayScene::showGameOverMenu, this),
         this,
         0.0f,
         0,
@@ -234,7 +234,7 @@ void PlayScene::triggerGameOver()
     );
 }
 
-void PlayScene::showSceneCompletedMenu(float unused)
+void PlayScene::showSceneCompletedMenu()
 {
 	app->hud->setVisible(false);
 	if (app->dialog)
@@ -253,7 +253,7 @@ void PlayScene::triggerSceneCompleted()
 	setPaused(true);
 
 	Director::getInstance()->getScheduler()->schedule(
-		bind(&PlayScene::showSceneCompletedMenu, this, placeholders::_1),
+		bind(&PlayScene::showSceneCompletedMenu, this),
 		this,
 		0.0f,
 		0,
@@ -263,7 +263,7 @@ void PlayScene::triggerSceneCompleted()
 	);
 }
 
-void PlayScene::showReplayCompletedMenu(float unused)
+void PlayScene::showReplayCompletedMenu()
 {
 	app->hud->setVisible(false);
 	if (app->dialog)
@@ -282,7 +282,7 @@ void PlayScene::triggerReplayCompleted()
 	setPaused(true);
 
 	Director::getInstance()->getScheduler()->schedule(
-		bind(&PlayScene::showReplayCompletedMenu, this, placeholders::_1),
+		bind(&PlayScene::showReplayCompletedMenu, this),
 		this,
 		0.0f,
 		0,

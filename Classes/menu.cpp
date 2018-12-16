@@ -99,13 +99,13 @@ bool TextListMenuLayer::init()
     cursor->setPositionX(leftMargin/2);
     updateCursor();
     
-    control_listener->addPressListener(ControlAction::menuUp, boost::bind( &TextListMenuLayer::upPressed, this));
-    control_listener->addPressListener(ControlAction::menuDown, boost::bind( &TextListMenuLayer::downPressed, this));
+    control_listener->addPressListener(ControlAction::menuUp, bind( &TextListMenuLayer::upPressed, this));
+    control_listener->addPressListener(ControlAction::menuDown, bind( &TextListMenuLayer::downPressed, this));
 
-    control_listener->addPressListener(ControlAction::menuSelect, boost::bind( &TextListMenuLayer::selectPressed, this));
+    control_listener->addPressListener(ControlAction::menuSelect, bind( &TextListMenuLayer::selectPressed, this));
     
-    control_listener->addReleaseListener(ControlAction::menuUp, boost::bind( &TextListMenuLayer::upReleased, this));
-    control_listener->addReleaseListener(ControlAction::menuDown, boost::bind( &TextListMenuLayer::downReleased, this));
+    control_listener->addReleaseListener(ControlAction::menuUp, bind( &TextListMenuLayer::upReleased, this));
+    control_listener->addReleaseListener(ControlAction::menuDown, bind( &TextListMenuLayer::downReleased, this));
     
     return true;
 }
