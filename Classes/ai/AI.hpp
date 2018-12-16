@@ -315,6 +315,8 @@ protected:
 
 class FollowPath : public Function {
 public:
+	static shared_ptr<FollowPath> pathToTarget(GSpace* space, gobject_ref agent, gobject_ref target);
+
 	FollowPath(GSpace* space, const ValueMap& args);
 	inline FollowPath(Path path, bool loop) :
 	path(path),

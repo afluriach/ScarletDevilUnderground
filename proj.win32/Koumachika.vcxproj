@@ -168,6 +168,7 @@ xcopy "$(ProjectDir)..\Resources" "$(OutDir)" /D /E /I /F /Y</Command>
     <ClCompile Include="..\Classes\objects\Agent.cpp" />
     <ClCompile Include="..\Classes\objects\Block.cpp" />
     <ClCompile Include="..\Classes\objects\Bullet.cpp" />
+    <ClCompile Include="..\Classes\objects\CollectGlyph.cpp" />
     <ClCompile Include="..\Classes\objects\Collectibles.cpp" />
     <ClCompile Include="..\Classes\objects\EffectArea.cpp" />
     <ClCompile Include="..\Classes\objects\Facer.cpp" />
@@ -180,6 +181,7 @@ xcopy "$(ProjectDir)..\Resources" "$(OutDir)" /D /E /I /F /Y</Command>
     <ClCompile Include="..\Classes\objects\InventoryObject.cpp" />
     <ClCompile Include="..\Classes\objects\Items.cpp" />
     <ClCompile Include="..\Classes\objects\Launcher.cpp" />
+    <ClCompile Include="..\Classes\objects\Marisa.cpp" />
     <ClCompile Include="..\Classes\objects\ObjectMapping.cpp" />
     <ClCompile Include="..\Classes\objects\object_ref.cpp" />
     <ClCompile Include="..\Classes\objects\Patchouli.cpp" />
@@ -194,6 +196,7 @@ xcopy "$(ProjectDir)..\Resources" "$(OutDir)" /D /E /I /F /Y</Command>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
     </ClCompile>
+    <ClCompile Include="..\Classes\scenes\Collect.cpp" />
     <ClCompile Include="..\Classes\scenes\Desert.cpp" />
     <ClCompile Include="..\Classes\scenes\Garden.cpp" />
     <ClCompile Include="..\Classes\scenes\Mine.cpp" />

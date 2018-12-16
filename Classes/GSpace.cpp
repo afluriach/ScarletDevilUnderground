@@ -15,6 +15,7 @@
 #include "EffectArea.hpp"
 #include "FloorSegment.hpp"
 #include "GObject.hpp"
+#include "Graph.hpp"
 #include "GSpace.hpp"
 #include "macros.h"
 #include "Player.hpp"
@@ -368,6 +369,25 @@ bool GSpace::isObstacleTile(int x, int y) const
         }
     }
     return false;
+}
+
+vector<SpaceVect> GSpace::pathToTile(IntVec2 begin, IntVec2 end)
+{
+	vector<SpaceVect> result;
+
+	vector<pair<int, int>> tileCoords = graph::gridAStar(
+		*navMask,
+		begin,
+		end,
+		getSize()
+	);
+
+	//Convert to center position
+	foreach(auto tile, tileCoords) {
+		result.push_back(SpaceVect(tile.first + 0.5, tile.second + 0.5));
+	}
+
+	return result;
 }
 
 //END NAVIGATION

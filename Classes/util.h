@@ -17,6 +17,7 @@ Vec2 toCocos(const IntVec2& rhs);
 SpaceVect toChipmunk(const Vec2& rhs);
 SpaceVect toChipmunk(const cocos2d::CCSize& rhs);
 IntVec2 toIntVector(const cocos2d::CCSize& rhs);
+IntVec2 toIntVector(const SpaceVect& rhs);
 
 SpaceFloat dirToPhysicsAngle(Direction d);
 SpaceVect dirToVector(Direction d);

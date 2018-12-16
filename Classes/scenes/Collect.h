@@ -9,16 +9,19 @@
 #ifndef CollectScene_h
 #define CollectScene_h
 
+#include "object_ref.hpp"
 #include "PlayScene.hpp"
 
 class Collect : public PlayScene
 {
 public:
-    inline Collect() :
-    PlayScene("Collect")
-    {
-        createDialog("dialogs/collect_opening", true);
-    }
+	static const vector<string> targets;
+	Collect();
+
+	void initTargets();
+	void registerActivation(gobject_ref target);
+protected:
+	set<gobject_ref> activationTargets;
 };
 
 #endif /* CollectScene_h */

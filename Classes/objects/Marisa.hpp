@@ -10,10 +10,14 @@
 #define Marisa_h
 
 #include "Agent.hpp"
+#include "object_ref.hpp"
+#include "Player.hpp"
 
-class Marisa : virtual public Agent, public NoAttributes
+class Marisa : virtual public Agent, public BaseAttributes<Marisa>
 {
 public:
+	static const AttributeMap baseAttributes;
+
     inline Marisa(GSpace* space, ObjectIDType id, const ValueMap& args) :
 	MapObjForwarding(GObject),
     MapObjForwarding(Agent)
@@ -24,12 +28,19 @@ public:
     
     virtual inline SpaceFloat getRadius() const {return 0.35;}
     inline SpaceFloat getMass() const {return 33.0;}
-    virtual inline GType getType() const {return GType::npc;}
+    virtual inline GType getType() const {return GType::enemy;}
     
     inline string imageSpritePath() const {return "sprites/marisa.png";}
     inline GraphicsLayer sceneLayer() const {return GraphicsLayer::ground;}
 
-	inline virtual string getScriptName() const { return "marisa"; }
+	virtual void initStateMachine(ai::StateMachine& sm);
+};
+
+class MarisaMain : public ai::Function {
+public:
+	virtual void onEnter(ai::StateMachine& sm);
+	virtual void update(ai::StateMachine& sm);
+	FuncGetName(MarisaMain)
 };
 
 #endif /* Marisa_h */

@@ -208,25 +208,6 @@ vector<string> getInventoryContents()
     return items;
 }
 
-vector<pair<float,float>> getPath(pair<int,int> start, pair<int,int> end)
-{
-    vector<pair<float,float>> result;
-
-    vector<pair<int,int>> tileCoords = graph::gridAStar(
-        *app->space->getNavMask(),
-        start,
-        end,
-        app->space->getSize()
-    );
-    
-    //Convert to center position
-    foreach(auto tile, tileCoords){
-        result.push_back(pair<float,float>(tile.first+0.5, tile.second+0.5));
-    }
-    
-    return result;
-}
-
 StateMachineObject* getFSMObject(string funcName,string objName)
 {
 	if (!app->space)
@@ -384,7 +365,6 @@ make_wrapper_same(printGlDebug)
 make_wrapper_same(save)
 make_wrapper_same(saveCrntReplay)
 make_wrapper_same(getInventoryContents)
-make_wrapper_same(getPath)
 
 make_wrapper_same(printFSM)
 make_wrapper_same(addThread)

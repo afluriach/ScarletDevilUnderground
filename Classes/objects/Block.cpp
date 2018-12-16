@@ -13,7 +13,7 @@
 #include "macros.h"
 
 Block::Block(GSpace* space, ObjectIDType id, const ValueMap& args) :
-MapObjForwarding(GObject),
+GObject(space,id,args,true),
 isStatic(args.find("static") != args.end())
 {
     auto it = args.find("letter");

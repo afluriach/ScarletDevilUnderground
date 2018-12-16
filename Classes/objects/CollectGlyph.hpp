@@ -10,8 +10,13 @@
 #define CollectGlyph_h
 
 #include "GObject.hpp"
+#include "GObjectMixins.hpp"
 
-class CollectGlyph : public virtual GObject, RectangleBody, ImageSprite
+class CollectGlyph :
+public virtual GObject,
+public RectangleBody,
+public ImageSprite,
+public InteractibleObject
 {
 public:
     inline CollectGlyph(GSpace* space, ObjectIDType id, const ValueMap& args) :
@@ -28,6 +33,12 @@ public:
     virtual inline GType getType() const {return GType::environment;}
     
     virtual inline SpaceVect getDimensions() const {return SpaceVect(1,1);}
+
+	virtual bool canInteract();
+	virtual void interact();
+	virtual string interactionIcon();
+protected:
+	bool hasInteracted = false;
 };
 
 

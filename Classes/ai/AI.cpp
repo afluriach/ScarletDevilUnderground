@@ -18,6 +18,7 @@
 #include "GObjectMixins.hpp"
 #include "macros.h"
 #include "Spell.hpp"
+#include "util.h"
 #include "value_map.hpp"
 
 namespace ai{
@@ -518,8 +519,8 @@ Seek::Seek(GSpace* space, const ValueMap& args) {
 void Seek::onEndDetect(StateMachine& sm, GObject* other)
 {
     if(target == other){
-        sm.getCrntThread()->pop();
-    }
+	sm.getCrntThread()->pop();
+}
 }
 
 void Seek::update(StateMachine& sm)
@@ -754,6 +755,20 @@ void MoveToPoint::update(StateMachine& fsm)
     }
     
     seek(*fsm.agent, target, fsm.agent->getMaxSpeed(), fsm.agent->getMaxAcceleration());
+}
+
+shared_ptr<FollowPath> FollowPath::pathToTarget(GSpace* space, gobject_ref agent, gobject_ref target)
+{
+	if (!agent.isValid() || !target.isValid()) {
+		return nullptr;
+	}
+
+	return make_shared<ai::FollowPath>(
+		space->pathToTile(
+			toIntVector(agent.get()->getPos()), toIntVector(target.get()->getPos())
+		),
+		false
+	);
 }
 
 FollowPath::FollowPath(GSpace* space, const ValueMap& args)

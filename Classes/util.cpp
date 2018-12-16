@@ -88,6 +88,12 @@ IntVec2 toIntVector(const cocos2d::CCSize& rhs)
     return IntVec2(rhs.width,rhs.height);
 }
 
+IntVec2 toIntVector(const SpaceVect& rhs)
+{
+	return IntVec2(rhs.x, rhs.y);
+}
+
+
 Vec2 toCocos(const SpaceVect& rhs)
 {
     return Vec2(expand_vector2(rhs));
