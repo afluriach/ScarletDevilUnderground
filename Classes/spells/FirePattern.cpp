@@ -34,7 +34,7 @@ void SingleBulletFixedIntervalPattern::fire()
 	SpaceVect pos = agent->getPos();
 	pos += SpaceVect::ray(getLaunchDistance(), agent->getAngle());
 
-	app->space->createObject(spawn(agent->getAngle(), pos));
+	agent->space->createObject(spawn(agent->getAngle(), pos));
 }
 
 void SingleBulletFixedIntervalPattern::update()

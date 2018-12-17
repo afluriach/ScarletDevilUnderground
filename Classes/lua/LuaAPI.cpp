@@ -8,7 +8,9 @@
 
 #include "Prefix.h"
 
+#include "AIMixins.hpp"
 #include "App.h"
+#include "GObject.hpp"
 #include "GSpace.hpp"
 #include "HUD.hpp"
 #include "LuaAPI.hpp"
@@ -338,7 +340,22 @@ mutex Inst::queueLock;
 			.addStaticFunction("setResolution", &App::setResolution)
 			.addStaticFunction("setFramerate", &App::setFramerate)
 			.addFunction("setPlayer", &App::setPlayer)
-			.addData("space", &App::space)
+		.endClass()
+
+		.beginClass<GObject>("GObject")
+			.addFunction("cast", static_cast<void(GObject::*)(const string&, const ValueMap&)>(&GObject::cast))
+			.addFunction("setPos", &GObject::setPos)
+			.addFunction("setSpriteShader", &GObject::setSpriteShader)
+			.addFunction("setVel", &GObject::setPos)
+			.addFunction("stopSpell", &GObject::stopSpell)
+
+		.endClass()
+
+		.deriveClass<StateMachineObject, GObject>("StateMachineObject")
+			.addFunction("addThread", &StateMachineObject::addThread)
+			.addFunction("printFSM", &StateMachineObject::printFSM)
+			.addFunction("removeThreadByID", static_cast<void(StateMachineObject::*)(unsigned int)>(&StateMachineObject::removeThread))
+			.addFunction("removeThreadByName", static_cast<void(StateMachineObject::*)(const string&)>(&StateMachineObject::removeThread))
 		.endClass()
 
 		.beginClass<GScene>("GScene")
@@ -346,19 +363,34 @@ mutex Inst::queueLock;
 			.addStaticFunction("runSceneWithReplay", &GScene::runSceneWithReplay)
 			.addStaticData("crntScene", &GScene::crntScene)
 			.addStaticData("suppressGameOver", &GScene::suppressGameOver)
+			.addFunction("createDialog", &GScene::createDialog)
+			.addFunction("getSpace", &GScene::getSpace)
 			.addFunction("setPaused", &GScene::setPaused)
+			.addFunction("stopDialog", &GScene::stopDialog)
 		.endClass()
 
 		.beginClass<GSpace>("GSpace")
+			.addFunction("createObject", static_cast<gobject_ref (GSpace::*)(const ValueMap&)>(&GSpace::createObject))
 			.addFunction("getFrame", &GSpace::getFrame)
+			.addFunction("getObjectByName", static_cast<GObject*(GSpace::*)(const string&) const>(&GSpace::getObject))
+			.addFunction("getObjectAsSMO", &GSpace::getObjectAs<StateMachineObject>)
 			.addFunction("getObjectCount", &GSpace::getObjectCount)
+			.addFunction("getObjectNames", &GSpace::getObjectNames)
 			.addFunction("getUUIDNameMap", &GSpace::getUUIDNameMap)
-		.endClass()	
+			.addFunction("isObstacle", &GSpace::isObstacle)
+			.addFunction("removeObject", static_cast<void(GSpace::*)(const string&)>(&GSpace::removeObject))
+		.endClass()
 			
 		.beginClass<HUD>("HUD")
 			.addFunction("showHealth", &HUD::showHealth)
 			.addFunction("setObjectiveCounter", &HUD::setObjectiveCounter)
 			.addFunction("setObjectiveCounterVisible", &HUD::setObjectiveCounterVisible)
+		.endClass()
+
+		.beginClass<SpaceVect>("SpaceVect")
+			.addConstructor<void(*)(double,double)>()
+			.addData("x", &SpaceVect::x)
+			.addData("y", &SpaceVect::y)
 		.endClass();
     }
 }

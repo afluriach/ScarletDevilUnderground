@@ -24,40 +24,6 @@ namespace Lua{
 unordered_map<string, Class> Class::classes;
 bool Class::init = false;
 
-void createObject(ValueMap args)
-{
-    if(!app->space) throw lua_runtime_error("createObject: Cannot access objects in this scene.");
-    
-    app->space->createObject(args);
-}
-
-void removeObject(string name)
-{
-    if(!app->space) throw lua_runtime_error("removeObject: Cannot access objects in this scene.");
-    
-    app->space->removeObject(name);
-}
-
-void setpos(string name, float x, float y)
-{
-    GObject* obj = app->space->getObject(name);
-    
-    if(obj)
-        obj->body->setPos(SpaceVect(x,y));
-    else
-        throw runtime_error("setpos: " + name + " not found");
-}
-
-void setvel(string name, float x, float y)
-{
-    GObject* obj = app->space->getObject(name);
-
-    if(obj)
-        obj->body->setVel(SpaceVect(x,y));
-    else
-        throw runtime_error("setvel: " + name + " not found");
-}
-
 void printMap(unordered_map<string,string> m)
 {
     for(auto it = m.begin(); it != m.end(); ++it){
@@ -75,92 +41,9 @@ void addUpdate(function<void()> f, int order)
     );
 }
 
-GObject* getObjByName(string name)
-{
-    if(!app->space) throw lua_runtime_error("getObjByName: Cannot access objects in this scene.");
-    
-    return app->space->getObject(name);
-}
-
-vector<string> getObjectNames()
-{
-    if(!app->space) throw lua_runtime_error("getObjectNames: Cannot access objects in this scene.");
-
-    return app->space->getObjectNames();
-}
-
-//The Lua conversion template will convert the wrapper object to a valid pointer or null.
-bool isValidObject(GObject* object)
-{
-    return object != nullptr;
-}
-
-void setSpriteShader(string objName, string shaderName)
-{
-	if (!app->space)
-	{
-		log("setSpriteShader: GSpace is not available in this scene!");
-		return;
-	}
-
-	GObject* obj = app->space->getObject(objName);
-	if (!obj) {
-		log("setSpriteShader: object %s not found!",  objName.c_str());
-		return;
-	}
-
-    obj->setSpriteShader(shaderName);
-}
-
 void dostring_in_inst(string script, string inst_name)
 {
     Inst::addCommand(inst_name, script);
-}
-
-void castSpellWithArgs(string casterName, string spell, ValueMap args)
-{
-    if(!app->space) throw lua_runtime_error("castSpellWithArgs: Cannot access objects in this scene.");
-    GObject* caster = app->space->getObject(casterName);
-
-    if(!caster){
-        throw lua_runtime_error("castSpell: " + casterName + " not found");
-    }
-
-    caster->cast(spell, args);
-}
-    
-void castSpell(string casterName, string spell)
-{
-    castSpellWithArgs(casterName, spell, ValueMap());
-}
-
-void stopSpell(string casterName)
-{
-    if(!app->space) throw lua_runtime_error("stopSpell: Cannot access objects in this scene.");
-    GObject* caster = app->space->getObject(casterName);
-
-    if(!caster){
-        throw lua_runtime_error("castSpell: " + casterName + " not found");
-    }
-
-    caster->stopSpell();
-}
-
-bool isObstacle(IntVec2 v)
-{
-    if(!app->space) throw lua_runtime_error("isObstacle: Cannot access objects in this scene.");
-
-    return app->space->isObstacle(v);
-}
-
-void startDialog(string res, bool _auto)
-{
-    GScene::crntScene->createDialog(res, _auto);
-}
-
-void stopDialog()
-{
-    GScene::crntScene->stopDialog();
 }
 
 void printGlDebug()
@@ -197,7 +80,7 @@ void save()
 
 bool saveCrntReplay(string filepath)
 {
-	return app->playScene->saveReplayData(filepath);
+	return App::getCrntSceneAs<PlayScene>()->saveReplayData(filepath);
 }
 
 vector<string> getInventoryContents()
@@ -206,29 +89,6 @@ vector<string> getInventoryContents()
     vector<string> items(registry.begin(), registry.end());
     
     return items;
-}
-
-StateMachineObject* getFSMObject(string funcName,string objName)
-{
-	if (!app->space)
-	{
-		log("%s: GSpace is not available in this scene!", funcName.c_str());
-		return nullptr;
-	}
-
-	GObject* obj = app->space->getObject(objName);
-	if (!obj) {
-		log("%s: object %s not found!", funcName.c_str(), objName.c_str());
-		return nullptr;
-	}
-
-	StateMachineObject* smo = dynamic_cast<StateMachineObject*>(obj);
-	if (!smo) {
-		log("%s: %s is not a StateMachineObject!", funcName.c_str(), objName.c_str());
-		return nullptr;
-	}
-
-	return smo;
 }
 
 shared_ptr<ai::Function> constructState(string funcName, string stateName, GSpace* space, ValueMap args)
@@ -241,47 +101,6 @@ shared_ptr<ai::Function> constructState(string funcName, string stateName, GSpac
 
 	return state;
 }
-
-void printFSM(string name)
-{
-    StateMachineObject* smo = getFSMObject("printFMS",name);
-    
-    if(smo){
-        smo->printFSM();
-    }
-}
-
-unsigned int addThread(string objName, string mainFuncName, ValueMap args)
-{
-	StateMachineObject* smo = getFSMObject("addThread", objName);
-
-	if (smo) {
-		shared_ptr<ai::Function> f = constructState("addThread", mainFuncName, smo->space, args);
-		return smo->addThread(f);
-	}
-	else {
-		return 0;
-	}
-}
-
-void removeThread(string objName, unsigned int uuid)
-{
-    StateMachineObject* smo = getFSMObject("printFMS",objName);
-
-    if(smo){
-        smo->removeThread(uuid);
-    }
-}
-
-void removeThreadByName(string objName, string threadFuncName)
-{
-    StateMachineObject* smo = getFSMObject("printFMS",objName);
-
-    if(smo){
-        smo->removeThread(threadFuncName);
-    }
-}
-
 
 ///////////////////////////////////////////////////////////////////
 
@@ -343,33 +162,14 @@ void Inst::installWrappers()
 }
 
 const unordered_map<string, function<int(lua_State*)>> Inst::cfunctions = {
-	make_wrapper_same(createObject),
-	make_wrapper_same(removeObject),
-	make_wrapper_same(setpos),
-	make_wrapper_same(setvel),
 	make_wrapper_same(printMap),
 	make_wrapper_same(addUpdate),
-	make_wrapper_same(getObjByName),
-	make_wrapper_same(getObjectNames),
-	make_wrapper_same(isValidObject),
-	make_wrapper_same(setSpriteShader),
 	make_wrapper_same(runscript),
 	make_wrapper_same(dostring_in_inst),
-	make_wrapper_same(castSpell),
-	make_wrapper_same(castSpellWithArgs),
-	make_wrapper_same(stopSpell),
-	make_wrapper_same(isObstacle),
-	make_wrapper_same(startDialog),
-	make_wrapper_same(stopDialog),
 	make_wrapper_same(printGlDebug),
 	make_wrapper_same(save),
 	make_wrapper_same(saveCrntReplay),
 	make_wrapper_same(getInventoryContents),
-
-	make_wrapper_same(printFSM),
-	make_wrapper_same(addThread),
-	make_wrapper_same(removeThread),
-	make_wrapper_same(removeThreadByName),
 
 	make_wrapper_same(toDirection),
 	make_wrapper_same(stringToDirection),

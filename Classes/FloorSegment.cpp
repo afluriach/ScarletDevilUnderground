@@ -67,7 +67,7 @@ void PressurePlate::init()
 {
 	for (string _name : targetNames)
 	{
-		target.push_back(space->getObjectRef<ActivateableObject>(_name));
+		target.push_back(space->getObjectRefAs<ActivateableObject>(_name));
 	}
 	
 	targetNames.clear();

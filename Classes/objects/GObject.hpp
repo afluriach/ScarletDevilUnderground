@@ -109,7 +109,7 @@ public:
 	void updateFloorSegment();
 
     SpaceVect getPos() const;
-    void setPos(SpaceFloat x, SpaceFloat y);
+    void setPos(SpaceVect p);
 
     virtual void setAngle(SpaceFloat a);
 	SpaceFloat getAngle() const;

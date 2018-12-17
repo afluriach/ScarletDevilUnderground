@@ -148,7 +148,6 @@ HUD::HUD(GSpace* space, object_ref<Player> player) :
 player(player),
 space(space)
 {
-    app->hud = this;
 }
 
 HUD::~HUD()

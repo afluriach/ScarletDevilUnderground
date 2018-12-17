@@ -37,10 +37,15 @@ Player::Player(GSpace* space, ObjectIDType id, const ValueMap& args) :
 void Player::init()
 {
 	setFirePatterns();
-	if(getFirePattern())
-		app->hud->firePatternIcon->setTexture(getFirePattern()->iconPath());
 
-	app->hud->health->setMax(attributeSystem.getAdjustedValue(Attribute::maxHP));
+	if (playScene) {
+		playScene->hud->health->setValue(attributeSystem.getAdjustedValue(Attribute::hp));
+		playScene->hud->health->setMax(attributeSystem.getAdjustedValue(Attribute::maxHP));
+
+		if (getFirePattern()) {
+			playScene->hud->firePatternIcon->setTexture(getFirePattern()->iconPath());
+		}
+	}
 
 	equipSpells();
 }
@@ -89,7 +94,10 @@ void Player::updateSpellControls(const ControlInfo& cs)
 void Player::onSpellStop()
 {
     spellCooldown = spellCooldownTime;
-    app->hud->power->runFlicker();
+
+	if (playScene) {
+		playScene->hud->power->runFlicker();
+	}
 }
 
 void Player::checkFireControls(const ControlInfo& cs)
@@ -119,8 +127,9 @@ void Player::checkItemInteraction(const ControlInfo& cs)
 	
 	if(interactible && interactible->canInteract())
     {
-        app->hud->setInteractionIcon(interactible->interactionIcon());
-
+		if (playScene) {
+			playScene->hud->setInteractionIcon(interactible->interactionIcon());
+		}
         if(cs.isControlActionPressed(ControlAction::interact) && interactCooldown <= 0.0f){
             interactible->interact();
             interactCooldown = interactCooldownTime;
@@ -128,7 +137,9 @@ void Player::checkItemInteraction(const ControlInfo& cs)
     }
     else
     {
-        app->hud->setInteractionIcon("");
+		if (playScene) {
+			playScene->hud->setInteractionIcon("");
+		}
     }
 }
 
@@ -163,10 +174,10 @@ void Player::update()
 		checkFireControls(cs);
 		updateSpellControls(cs);
 		checkItemInteraction(cs);
-	}
 
-	app->hud->iceDamage->setElementalValue(attributeSystem.getAdjustedValue(Attribute::iceDamage) / 25.0f);
-	app->hud->sunDamage->setElementalValue(attributeSystem.getAdjustedValue(Attribute::sunDamage) / 25.0f);
+		playScene->hud->iceDamage->setElementalValue(attributeSystem.getAdjustedValue(Attribute::iceDamage) / 25.0f);
+		playScene->hud->sunDamage->setElementalValue(attributeSystem.getAdjustedValue(Attribute::sunDamage) / 25.0f);
+	}
 
 	updateHitTime();    
 }
@@ -193,7 +204,10 @@ void Player::hit(AttributeMap attributeEffect, shared_ptr<MagicEffect> effect){
 				81.0f
 			)
 		);
-        app->hud->health->runFlicker(boost::rational_cast<float>(hitProtectionCountdown), boost::rational_cast<float>(hitFlickerInterval));
+
+		if (playScene) {
+			playScene->hud->health->runFlicker(boost::rational_cast<float>(hitProtectionCountdown), boost::rational_cast<float>(hitFlickerInterval));
+		}
 
 		Agent::hit(attributeEffect, effect);
     }
@@ -229,7 +243,10 @@ bool Player::trySetFirePattern(int idx)
 	}
 	else {
 		crntFirePattern = idx;
-		app->hud->firePatternIcon->setTexture(getFirePattern()->iconPath());
+
+		if (playScene) {
+			playScene->hud->firePatternIcon->setTexture(getFirePattern()->iconPath());
+		}
 		return true;
 	}
 }

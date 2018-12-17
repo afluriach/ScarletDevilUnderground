@@ -64,7 +64,7 @@ public:
 	GObject* getObject(unsigned int uuid) const;
 
     template<typename T>
-    inline object_ref<T> getObjectRef(const string& name) const{
+    inline object_ref<T> getObjectRefAs(const string& name) const{
         static_assert(
             is_base_of<GObject, T>(),
             "getObject: not a GObject type"
@@ -73,7 +73,7 @@ public:
     }
 
 	template<typename T>
-	inline T* getObject(const string& name) const {
+	inline T* getObjectAs(const string& name) const {
 		static_assert(
 			is_base_of<GObject, T>(),
 			"getObject: not a GObject type"

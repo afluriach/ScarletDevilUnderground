@@ -24,5 +24,12 @@ bool Goal::canInteract()
 
 void Goal::interact()
 {
-	app->playScene->triggerSceneCompleted();
+	PlayScene* ps = App::getCrntSceneAs<PlayScene>();
+
+	if (ps) {
+		ps->triggerSceneCompleted();
+	}
+	else {
+		log("Goal::interact: not in a PlayScene!");
+	}
 }

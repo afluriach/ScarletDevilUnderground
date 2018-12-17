@@ -96,6 +96,7 @@ public:
     virtual bool init();
     void update(float dt);
 	virtual GScene* getReplacementScene();
+	GSpace* getSpace();
 
     void setPaused(bool p);
 	inline virtual void enterPause() {}
@@ -104,6 +105,7 @@ public:
 	void createDialog(const string& res, bool autoAdvance);
 	void stopDialog();
 	Vec2 dialogPosition();
+	bool isDialogActive();
 
 	void updateSpace();
 	void processAdditions();
@@ -145,6 +147,8 @@ protected:
 	GSpace* gspace;
 	//the scale applied to the space layer
 	float spaceZoom = 1;
+
+	Dialog* dialog = nullptr;
 
 	string sceneName;
 	vector<MapEntry> maps;

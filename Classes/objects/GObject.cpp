@@ -164,20 +164,20 @@ void GObject::update()
         return body->getPos();
     }
 
-     void GObject::setPos(SpaceFloat x, SpaceFloat y){
+     void GObject::setPos(SpaceVect p){
 		 if (physicsPropertiesToApply.setPos) {
 			 log(
 				 "%s has multi-set position, from %f,%f to %f,%f",
 				 name.c_str(),
 				 physicsPropertiesToApply.pos.x,
 				 physicsPropertiesToApply.pos.y,
-				 x,
-				 y
+				 p.x,
+				 p.y
 			 );
 
 		 }
 		 physicsPropertiesToApply.setPos = true;
-         physicsPropertiesToApply.pos = SpaceVect(x,y);
+         physicsPropertiesToApply.pos = p;
     }
     
     void GObject::setAngle(SpaceFloat a){
@@ -282,7 +282,7 @@ void GObject::updateFloorSegment()
 	FloorSegment* nextFloor = nullptr;
 	
 	if(bitwise_and(PhysicsLayers, getCrntLayers(),PhysicsLayers::floor) != PhysicsLayers::none)
-		nextFloor = app->space->floorSegmentPointQuery(getPos());
+		nextFloor = space->floorSegmentPointQuery(getPos());
 
 	if (crntFloor != nextFloor)
 	{

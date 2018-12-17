@@ -587,7 +587,7 @@ Flee::Flee(GSpace* space, const ValueMap& args) {
     if(args.find("target_name") == args.end()){
         log("Seek::Seek: target_name missing.");
     }
-    target = app->space->getObject(args.at("target_name").asString());
+    target = space->getObject(args.at("target_name").asString());
     
     if(!target.isValid()){
         log("Flee::Flee: target object %s not found.", args.at("target_name").asString().c_str() );
@@ -780,7 +780,7 @@ FollowPath::FollowPath(GSpace* space, const ValueMap& args)
 		log("FollowPath: pathName not provided!");
 	}
 
-	Path const* p = app->space->getPath(name_it->second.asString());
+	Path const* p = space->getPath(name_it->second.asString());
 
 	if (!p) {
 		log("FollowPath: pathName %s not found!", name_it->second.asString().c_str());

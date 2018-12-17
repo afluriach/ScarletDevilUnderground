@@ -181,6 +181,10 @@ GScene* GScene::getReplacementScene()
 	return Node::ccCreate<GScene>(sceneName, maps);
 }
 
+GSpace* GScene::getSpace()
+{
+	return gspace;
+}
 
 void GScene::setPaused(bool p){
     isPaused = p;
@@ -188,33 +192,38 @@ void GScene::setPaused(bool p){
 
 void GScene::createDialog(const string& res, bool autoAdvance)
 {
-	app->dialog = Node::ccCreate<Dialog>();
-	app->dialog->setDialog(res);
-	app->dialog->setPosition(dialogPosition());
-	getLayer(sceneLayers::dialog)->addChild(app->dialog);
+	dialog = Node::ccCreate<Dialog>();
+	dialog->setDialog(res);
+	dialog->setPosition(dialogPosition());
+	getLayer(sceneLayers::dialog)->addChild(dialog);
 
 	//This options are not actually mutually exclusive, but for simplicity just use a flag
 	//to choose one.
-	app->dialog->setAutoAdvance(autoAdvance);
-	app->dialog->setManualAdvance(!autoAdvance);
+	dialog->setAutoAdvance(autoAdvance);
+	dialog->setManualAdvance(!autoAdvance);
 
-	app->dialog->setEndHandler([=]() -> void {
-		getLayer(sceneLayers::dialog)->removeChild(app->dialog);
-		app->dialog = nullptr;
+	dialog->setEndHandler([=]() -> void {
+		getLayer(sceneLayers::dialog)->removeChild(dialog);
+		dialog = nullptr;
 	});
 }
 
 void GScene::stopDialog()
 {
-	if (app->dialog) {
-		getLayer(sceneLayers::dialog)->removeChild(app->dialog);
-		app->dialog = nullptr;
+	if (dialog) {
+		getLayer(sceneLayers::dialog)->removeChild(dialog);
+		dialog = nullptr;
 	}
 }
 
 Vec2 GScene::dialogPosition()
 {
     return Vec2(App::width/2, Dialog::height/2 + dialogEdgeMargin);
+}
+
+bool GScene::isDialogActive()
+{
+	return dialog != nullptr;
 }
 
 void GScene::updateSpace()

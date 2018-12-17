@@ -30,7 +30,6 @@ GSpace::GSpace(SpaceLayer* spaceLayer) : spaceLayer(spaceLayer)
 {
     space.setGravity(SpaceVect(0,0));
     addCollisionHandlers();
-    app->space = this;
 }
 
 GSpace::~GSpace()

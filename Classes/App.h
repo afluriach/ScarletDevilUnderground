@@ -75,6 +75,11 @@ public:
 		);
 	}
 
+	template<typename T>
+	static inline T* getCrntSceneAs() {
+		return dynamic_cast<T*>(Director::getInstance()->getRunningScene());
+	}
+
 	static void end();
 
     App();
@@ -88,12 +93,8 @@ public:
     
     //globals exposed by app
     ControlRegister* control_register = nullptr;
-    Dialog* dialog = nullptr;
-    HUD* hud = nullptr;
     Lua::Inst lua;
-    GSpace* space = nullptr;
 	PlayerCharacter crntPC = PlayerCharacter::flandre;
-    PlayScene* playScene = nullptr;
 
     boost::random::uniform_01<float> randomFloat;
     boost::random::uniform_int_distribution<int> randomInt;
