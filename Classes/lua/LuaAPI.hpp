@@ -19,8 +19,6 @@ namespace Lua
     //Raise Lua exception
     void error(lua_State* L, const string& msg);
     
-    int luaContextPanic(lua_State* L);
-        
     //C API function, runs a script using its simplied name in the app's Lua context.
     void runscript(string name);
     
@@ -49,7 +47,6 @@ namespace Lua
         
         static const unordered_map<string,function<int(lua_State*)>> cfunctions;
         static const vector<string> luaIncludes;
-        static const bool catchLuaPanic = false;
         static const bool logInst = false;
         
         static unordered_map<string, Inst*> instances;

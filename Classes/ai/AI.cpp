@@ -25,71 +25,71 @@ namespace ai{
 
 //It seems to better to base this on acceleration than force. In some cases mass may
 //just be a default value, in which case acceleration makes more sense.
-void applyDesiredVelocity(GObject& obj, SpaceVect desired, SpaceFloat acceleration)
+void applyDesiredVelocity(GObject* obj, SpaceVect desired, SpaceFloat acceleration)
 {
     //the desired velocity change
-    SpaceVect vv = desired - obj.getVel();
+    SpaceVect vv = desired - obj->getVel();
     //the scalar amount of velocity change in one frame
 	SpaceFloat dv = acceleration * App::secondsPerFrame;
 
     //Default case, apply maximum acceleration
     if(square(dv) < vv.lengthSq()){
-		SpaceFloat f = obj.body->getMass() * acceleration;
+		SpaceFloat f = obj->body->getMass() * acceleration;
         SpaceVect ff = f * vv.normalizeSafe();
-        obj.applyForceForSingleFrame(ff);
+        obj->applyForceForSingleFrame(ff);
     }
     else{
-        obj.setVel(desired);
+        obj->setVel(desired);
     }
 }
 
-bool isFacingTarget(const GObject& agent, const GObject& target)
+bool isFacingTarget(const GObject* agent, const GObject* target)
 {
-    SpaceVect targetDirection = (target.getPos() - agent.getPos()).normalize();
-    SpaceVect agentFacingVector = agent.getFacingVector();
-    bool facing = SpaceVect::dot(agentFacingVector, target.getFacingVector()) < 0;
+    SpaceVect targetDirection = (target->getPos() - agent->getPos()).normalize();
+    SpaceVect agentFacingVector = agent->getFacingVector();
+    bool facing = SpaceVect::dot(agentFacingVector, target->getFacingVector()) < 0;
     bool targetInFrontOfAgent = SpaceVect::dot(agentFacingVector, targetDirection) > 0;
 
     return facing && targetInFrontOfAgent;
 }
 
-bool isFacingTargetsBack(const GObject& agent, const GObject& target)
+bool isFacingTargetsBack(const GObject* agent, const GObject* target)
 {
-    SpaceVect targetDirection = (target.getPos() - agent.getPos()).normalize();
-    SpaceVect agentFacingVector = agent.getFacingVector();
+    SpaceVect targetDirection = (target->getPos() - agent->getPos()).normalize();
+    SpaceVect agentFacingVector = agent->getFacingVector();
 
-    bool facingBack = SpaceVect::dot(agentFacingVector, target.getFacingVector()) > 0;
+    bool facingBack = SpaceVect::dot(agentFacingVector, target->getFacingVector()) > 0;
     bool targetInFrontOfAgent = SpaceVect::dot(agentFacingVector, targetDirection) > 0;
     
     return facingBack && targetInFrontOfAgent;
 }
 
-bool isLineOfSight(const GObject& agent, const GObject& target)
+bool isLineOfSight(const GObject* agent, const GObject* target)
 {
-    return agent.space->lineOfSight(&agent, &target);
+    return agent->space->lineOfSight(agent, target);
 }
 
-array<SpaceFloat, 4> obstacleFeelerQuad(GObject& agent, SpaceFloat distance)
+array<SpaceFloat, 4> obstacleFeelerQuad(const GObject* agent, SpaceFloat distance)
 {
 	array<SpaceFloat, 4> results;
 
 	for (int i = 0; i < 4; ++i)
 	{
 		SpaceVect feeler = dirToVector(static_cast<Direction>(i+1)) * distance;
-		results[i] = agent.space->obstacleDistanceFeeler(&agent, feeler);
+		results[i] = agent->space->obstacleDistanceFeeler(agent, feeler);
 	}
 
 	return results;
 }
 
-array<SpaceFloat, 8> obstacleFeeler8(GObject& agent, SpaceFloat distance)
+array<SpaceFloat, 8> obstacleFeeler8(const GObject* agent, SpaceFloat distance)
 {
 	array<SpaceFloat, 8> results;
 
 	for (int i = 0; i < 8; ++i)
 	{
 		SpaceVect feeler = SpaceVect::ray(distance, i* float_pi / 4.0);
-		results[i] = agent.space->obstacleDistanceFeeler(&agent, feeler);
+		results[i] = agent->space->obstacleDistanceFeeler(agent, feeler);
 	}
 
 	return results;
@@ -115,43 +115,43 @@ int chooseBestDirection(const array<SpaceFloat, 8>& feelers, SpaceFloat desired_
 //Trajectory represents direction/velocity of movement, but scaled to the same length as displacement.
 //The difference between these vectors is the distance between the two centers of the objects,
 //and thus an indicator of whether a collision will happen, or how the agent needs to move to prevent this.
-SpaceVect projectileEvasion(const GObject& bullet, const GObject& agent)
+SpaceVect projectileEvasion(const GObject* bullet, const GObject* agent)
 {
-	SpaceVect displacementToTarget = agent.getPos() - bullet.getPos();
+	SpaceVect displacementToTarget = agent->getPos() - bullet->getPos();
 
-	SpaceVect trajectoryScaled = bullet.getVel().normalizeSafe() * displacementToTarget.length();
+	SpaceVect trajectoryScaled = bullet->getVel().normalizeSafe() * displacementToTarget.length();
 
 	return trajectoryScaled - displacementToTarget;
 }
 
-SpaceVect directionToTarget(const GObject& agent, SpaceVect target)
+SpaceVect directionToTarget(const GObject* agent, SpaceVect target)
 {
-    return (target - agent.getPos()).normalize();
+    return (target - agent->getPos()).normalize();
 }
 
-SpaceVect displacementToTarget(const GObject& agent, SpaceVect target)
+SpaceVect displacementToTarget(const GObject* agent, SpaceVect target)
 {
-    return target - agent.getPos();
+    return target - agent->getPos();
 }
 
-SpaceFloat distanceToTarget(const GObject& agent, const GObject& target)
+SpaceFloat distanceToTarget(const GObject* agent, const GObject* target)
 {
-    return (target.getPos() - agent.getPos()).length();
+    return (target->getPos() - agent->getPos()).length();
 }
 
-SpaceFloat viewAngleToTarget(const GObject& agent, const GObject& target)
+SpaceFloat viewAngleToTarget(const GObject* agent, const GObject* target)
 {
-    SpaceVect displacement = target.getPos() - agent.getPos();
+    SpaceVect displacement = target->getPos() - agent->getPos();
     
     if(displacement.lengthSq() > 0.01)
-        return canonicalAngle(displacement.toAngle() - agent.getAngle());
+        return canonicalAngle(displacement.toAngle() - agent->getAngle());
     else
         return numeric_limits<SpaceFloat>::infinity();
 }
 
-void seek(GObject& agent, SpaceVect target, SpaceFloat maxSpeed, SpaceFloat acceleration)
+void seek(GObject* agent, SpaceVect target, SpaceFloat maxSpeed, SpaceFloat acceleration)
 {
-	SpaceVect displacement = target - agent.getPos();
+	SpaceVect displacement = target - agent->getPos();
 
 	if (displacement.lengthSq() < 1e-4)
 		return;
@@ -161,16 +161,16 @@ void seek(GObject& agent, SpaceVect target, SpaceFloat maxSpeed, SpaceFloat acce
     applyDesiredVelocity(agent, direction*maxSpeed, acceleration);
 }
 
-void flee(GObject& agent, SpaceVect target, SpaceFloat maxSpeed, SpaceFloat acceleration)
+void flee(GObject* agent, SpaceVect target, SpaceFloat maxSpeed, SpaceFloat acceleration)
 {
 	SpaceVect displacement = fleeDirection(agent,target);
     
     applyDesiredVelocity(agent, displacement*maxSpeed, acceleration);
 }
 
-SpaceVect fleeDirection(GObject& agent, SpaceVect target)
+SpaceVect fleeDirection(const GObject* agent, SpaceVect target)
 {
-	SpaceVect displacement = target - agent.getPos();
+	SpaceVect displacement = target - agent->getPos();
 
 	if (displacement.lengthSq() < 1e-4)
 		return SpaceVect::zero;
@@ -181,12 +181,12 @@ SpaceVect fleeDirection(GObject& agent, SpaceVect target)
 	return displacement;
 }
 
-void fleeWithObstacleAvoidance(GObject& agent, SpaceVect target, SpaceFloat maxSpeed, SpaceFloat acceleration)
+void fleeWithObstacleAvoidance(GObject* agent, SpaceVect target, SpaceFloat maxSpeed, SpaceFloat acceleration)
 {
 	SpaceVect displacement = fleeDirection(agent, target);
-	SpaceFloat distanceMargin = getTurningRadius(agent.getVel().length(), acceleration) + agent.getRadius();
+	SpaceFloat distanceMargin = getTurningRadius(agent->getVel().length(), acceleration) + agent->getRadius();
 
-	if (agent.space->obstacleDistanceFeeler(&agent, displacement * distanceMargin) < distanceMargin)
+	if (agent->space->obstacleDistanceFeeler(agent, displacement * distanceMargin) < distanceMargin)
 	{
 		//Choose an alternate direction to move.
 
@@ -527,14 +527,14 @@ void Seek::update(StateMachine& sm)
 {
 	if (target.isValid()) {
 		ai::seek(
-			*sm.agent,
+			sm.agent,
 			target.get()->getPos(),
 			sm.agent->getMaxSpeed(),
 			sm.agent->getMaxAcceleration()
 		);
 		sm.agent->setDirection(toDirection(
             ai::directionToTarget(
-                *sm.agent,
+                sm.agent,
                 target.get()->getPos()
             )
         ));
@@ -560,11 +560,11 @@ MaintainDistance::MaintainDistance(GSpace* space, const ValueMap& args)
 void MaintainDistance::update(StateMachine& sm)
 {
 	if (target.get()) {
-        SpaceFloat crnt_distance = distanceToTarget(*sm.agent,*target.get());
+        SpaceFloat crnt_distance = distanceToTarget(sm.agent,target.get());
     
         if(crnt_distance > distance + margin){
             ai::seek(
-                *sm.agent,
+                sm.agent,
                 target.get()->getPos(),
                 sm.agent->getMaxSpeed(),
                 sm.agent->getMaxAcceleration()
@@ -572,7 +572,7 @@ void MaintainDistance::update(StateMachine& sm)
         }
         else if(crnt_distance < distance + margin){
             ai::fleeWithObstacleAvoidance(
-                *sm.agent,
+                sm.agent,
                 target.get()->getPos(),
                 sm.agent->getMaxSpeed(),
                 sm.agent->getMaxAcceleration()
@@ -580,7 +580,7 @@ void MaintainDistance::update(StateMachine& sm)
         }
 	}
 	else
-		ai::applyDesiredVelocity(*sm.agent, SpaceVect::zero, sm.agent->getMaxAcceleration());
+		ai::applyDesiredVelocity(sm.agent, SpaceVect::zero, sm.agent->getMaxAcceleration());
 }
 
 Flee::Flee(GSpace* space, const ValueMap& args) {
@@ -611,14 +611,14 @@ void Flee::update(StateMachine& sm)
 {
 	if (target.isValid()) {
 		ai::fleeWithObstacleAvoidance(
-			*sm.agent,
+			sm.agent,
 			target.get()->getPos(),
 			sm.agent->getMaxSpeed(),
 			sm.agent->getMaxAcceleration()
 		);
 		sm.agent->setDirection(toDirection(
             ai::directionToTarget(
-                *sm.agent,
+                sm.agent,
                 target.get()->getPos()
             )
         ));
@@ -645,7 +645,7 @@ void EvadePlayerProjectiles::update(StateMachine& sm)
 		if (obj->getType() != GType::playerBullet)
 			continue;
 
-		SpaceFloat crntDist = distanceToTarget(*obj, *sm.agent);
+		SpaceFloat crntDist = distanceToTarget(obj, sm.agent);
 
 		if (crntDist < closestDistance) {
 			closestDistance = crntDist;
@@ -655,7 +655,7 @@ void EvadePlayerProjectiles::update(StateMachine& sm)
 
 	if (closest != nullptr)
 	{
-		SpaceVect offset = projectileEvasion(*closest, *sm.agent);
+		SpaceVect offset = projectileEvasion(closest, sm.agent);
 
 		if(offset.length() > closest->getRadius() + sm.agent->getRadius() )
 		{
@@ -663,7 +663,7 @@ void EvadePlayerProjectiles::update(StateMachine& sm)
 		}
 		else
 		{
-			applyDesiredVelocity(*sm.agent, offset.normalize()*-1.0f * sm.agent->getMaxSpeed(), sm.agent->getMaxAcceleration());
+			applyDesiredVelocity(sm.agent, offset.normalize()*-1.0f * sm.agent->getMaxSpeed(), sm.agent->getMaxAcceleration());
 		}
 	}
 }
@@ -712,7 +712,7 @@ void IdleWait::update(StateMachine& fsm)
 		fsm.getCrntThread()->pop();
 	--remaining;
 
-	ai::applyDesiredVelocity(*fsm.agent, SpaceVect::zero, fsm.agent->getMaxAcceleration());
+	ai::applyDesiredVelocity(fsm.agent, SpaceVect::zero, fsm.agent->getMaxAcceleration());
 }
 
 MoveToPoint::MoveToPoint(GSpace* space, const ValueMap& args)
@@ -754,7 +754,7 @@ void MoveToPoint::update(StateMachine& fsm)
 		return;
     }
     
-    seek(*fsm.agent, target, fsm.agent->getMaxSpeed(), fsm.agent->getMaxAcceleration());
+    seek(fsm.agent, target, fsm.agent->getMaxSpeed(), fsm.agent->getMaxAcceleration());
 }
 
 shared_ptr<FollowPath> FollowPath::pathToTarget(GSpace* space, gobject_ref agent, gobject_ref target)
@@ -797,7 +797,7 @@ FollowPath::FollowPath(GSpace* space, const ValueMap& args)
 void FollowPath::update(StateMachine&  fsm)
 {
 	if (currentTarget < path.size()) {
-		fsm.agent->setDirection(toDirection(ai::directionToTarget(*fsm.agent, path[currentTarget])));
+		fsm.agent->setDirection(toDirection(ai::directionToTarget(fsm.agent, path[currentTarget])));
 		fsm.push(make_shared<MoveToPoint>(path[currentTarget]));
 		++currentTarget;
 	}
@@ -894,7 +894,7 @@ void FacerMain::onEnter(StateMachine& sm)
 void FacerMain::update(StateMachine& sm)
 {
     if(target.isValid()){
-        if (isFacingTarget(*sm.agent, *target.get())){
+        if (isFacingTarget(sm.agent, target.get())){
             sm.agent->setVel(SpaceVect::ray(sm.agent->getMaxSpeed(), sm.agent->getAngle()));
         }
         else{
@@ -915,7 +915,7 @@ void FollowerMain::onEnter(StateMachine& sm)
 void FollowerMain::update(StateMachine& sm)
 {
     if(target.isValid()){
-        if (ai::isFacingTargetsBack(*sm.agent, *target.get())){
+        if (ai::isFacingTargetsBack(sm.agent, target.get())){
             sm.agent->setVel(SpaceVect::ray(sm.agent->getMaxSpeed(), sm.agent->getAngle()));
         }
         else{
@@ -954,7 +954,7 @@ IllusionDash::IllusionDash(GSpace* space, const ValueMap& args)
 
 void IllusionDash::onEnter(StateMachine& sm)
 {
-    SpaceVect disp = displacementToTarget(*sm.agent, target);
+    SpaceVect disp = displacementToTarget(sm.agent, target);
     
     sm.agent->setVel(disp.normalizeSafe()*speed);
     sm.agent->sprite->runAction(motionBlurStretch(disp.length()/speed, disp.toAngle(), opacity, scale));
@@ -962,7 +962,7 @@ void IllusionDash::onEnter(StateMachine& sm)
 
 void IllusionDash::update(StateMachine& sm)
 {
-    SpaceVect disp = displacementToTarget(*sm.agent, target);
+    SpaceVect disp = displacementToTarget(sm.agent, target);
     sm.agent->setVel(disp.normalizeSafe()*speed);
     
     if(disp.lengthSq() < 0.125f){

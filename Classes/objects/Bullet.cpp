@@ -57,7 +57,7 @@ SpaceFloat IllusionDialDagger::targetViewAngle()
     GObject* target = space->getObject("player");
 
     if(target)
-        return ai::viewAngleToTarget(*this,*target);
+        return ai::viewAngleToTarget(this,target);
     else
         return numeric_limits<SpaceFloat>::infinity();
 }

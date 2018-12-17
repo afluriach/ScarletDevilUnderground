@@ -80,6 +80,7 @@ public:
 		return dynamic_cast<T*>(Director::getInstance()->getRunningScene());
 	}
 
+	static void printGlDebug();
 	static void end();
 
     App();

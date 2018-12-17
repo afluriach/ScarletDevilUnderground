@@ -46,33 +46,6 @@ void dostring_in_inst(string script, string inst_name)
     Inst::addCommand(inst_name, script);
 }
 
-void printGlDebug()
-{
-    //print the program, vertex, and fragment log for each custom shader.
-    
-    log("printGlDebug:");
-    
-    for(const string& name: App::shaderFiles){
-        log("%s", name.c_str());
-        GLProgram* p = GLProgramCache::getInstance()->getGLProgram(name);
-        
-        string logtext;
-        
-        logtext = p->getProgramLog();
-        if(!logtext.empty())
-            log("%s program log: \n%s", name.c_str(), logtext.c_str());
-
-        logtext = p->getVertexShaderLog();
-        if(!logtext.empty())
-            log("%s vertex log: \n%s", name.c_str(), logtext.c_str());
-
-        logtext = p->getFragmentShaderLog();
-        if(!logtext.empty())
-            log("%s fragment log: \n%s", name.c_str(), logtext.c_str());
-
-    }
-}
-
 void save()
 {
     GState::save();
@@ -123,32 +96,8 @@ int name ## _wrapper(lua_State* L) \
 #define install_method_wrapper(cls,name) installFunction(name ## _wrapper, #cls "_" #name);
 #define add_method(cls,name) Class::addMethod(#cls, #name, name ## _wrapper);
 
-make_method_wrapper(GObject,getPos)
-make_method_wrapper(GObject,setPos)
-make_method_wrapper(GObject,getVel)
-make_method_wrapper(GObject,setVel)
-make_method_wrapper(GObject, setDirection)
-make_method_wrapper(GObject,getUUID)
-make_method_wrapper(GObject,getName)
-make_method_wrapper(GObject,setScriptVal)
-make_method_wrapper(GObject,getScriptVal)
-make_method_wrapper(GObject,_callScriptVal)
-
 void Class::makeClasses()
 {
-    Class::makeClass("GObject");
-//    Class::makeClass("Spellcaster");
-    
-    add_method(GObject,getPos)
-    add_method(GObject,setPos)
-    add_method(GObject,getVel)
-    add_method(GObject,setVel)
-    add_method(GObject, setDirection)
-    add_method(GObject,getUUID)
-    add_method(GObject,getName)
-    add_method(GObject,setScriptVal)
-    add_method(GObject,getScriptVal)
-    add_method(GObject,_callScriptVal)
 }
 
 void Inst::installWrappers()
@@ -166,27 +115,12 @@ const unordered_map<string, function<int(lua_State*)>> Inst::cfunctions = {
 	make_wrapper_same(addUpdate),
 	make_wrapper_same(runscript),
 	make_wrapper_same(dostring_in_inst),
-	make_wrapper_same(printGlDebug),
 	make_wrapper_same(save),
 	make_wrapper_same(saveCrntReplay),
 	make_wrapper_same(getInventoryContents),
 
 	make_wrapper_same(toDirection),
-	make_wrapper_same(stringToDirection),
-
-	make_package_wrapper(ai,applyDesiredVelocity),
-	make_package_wrapper(ai,seek),
-	make_package_wrapper(ai,flee),
-
-	make_package_wrapper(ai,isFacingTarget),
-	make_package_wrapper(ai,isFacingTargetsBack),
-	make_package_wrapper(ai,isLineOfSight),
-
-	make_package_wrapper(ai,directionToTarget),
-	make_package_wrapper(ai,displacementToTarget),
-	make_package_wrapper(ai,distanceToTarget),
-	make_package_wrapper(ai,viewAngleToTarget)
-
+	make_wrapper_same(stringToDirection)
 };
 
 }

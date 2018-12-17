@@ -139,6 +139,33 @@ void App::applicationWillEnterForeground() {
     // SimpleAudioEngine::getInstance()->resumeBackgroundMusic();
 }
 
+void App::printGlDebug()
+{
+	//print the program, vertex, and fragment log for each custom shader.
+
+	log("printGlDebug:");
+
+	for (const string& name : App::shaderFiles) {
+		log("%s", name.c_str());
+		GLProgram* p = GLProgramCache::getInstance()->getGLProgram(name);
+
+		string logtext;
+
+		logtext = p->getProgramLog();
+		if (!logtext.empty())
+			log("%s program log: \n%s", name.c_str(), logtext.c_str());
+
+		logtext = p->getVertexShaderLog();
+		if (!logtext.empty())
+			log("%s vertex log: \n%s", name.c_str(), logtext.c_str());
+
+		logtext = p->getFragmentShaderLog();
+		if (!logtext.empty())
+			log("%s fragment log: \n%s", name.c_str(), logtext.c_str());
+
+	}
+}
+
 void App::end()
 {
     Director::getInstance()->end();

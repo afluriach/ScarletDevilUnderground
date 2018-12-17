@@ -9,20 +9,9 @@
 #ifndef macros_h
 #define macros_h
 
-#define foreach BOOST_FOREACH
-
 #define for_irange(var,start,end) for(int var : boost::irange(static_cast<int>(start),static_cast<int>(end)))
 
 #define debug_log(s) log("%s, %d: %s", __FUNCTION__, __LINE__, s);
-
-//Despite its name, it could map to another method of a different name
-//with the same signature in the same class.
-//Otherwise, superMethod identifier includes class name scope.
-#define CallSuper(method, superMethod, ret, signature, args) \
-inline ret method( signature ) \
-{ \
-    return superMethod(args); \
-} \
 
 #define no_op(method) inline void method() {}
 

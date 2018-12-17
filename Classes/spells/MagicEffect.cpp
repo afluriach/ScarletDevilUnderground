@@ -54,7 +54,7 @@ void FreezeStatusEffect::update()
 	}
 
 	else {
-		ai::applyDesiredVelocity(*target.get(), SpaceVect::zero, target.get()->getMaxAcceleration());
+		ai::applyDesiredVelocity(target.get(), SpaceVect::zero, target.get()->getMaxAcceleration());
 	}
 }
 

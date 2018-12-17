@@ -8,6 +8,7 @@
 
 #include "Prefix.h"
 
+#include "AI.hpp"
 #include "AIMixins.hpp"
 #include "App.h"
 #include "GObject.hpp"
@@ -81,9 +82,6 @@ mutex Inst::queueLock;
         installWrappers();
         loadLibraries();
         
-        if(catchLuaPanic)
-            lua_atpanic(state, luaContextPanic);
-
         if(logInst)
             cocos2d::log("Lua Inst created: %s.", name.c_str());
         
@@ -280,54 +278,6 @@ mutex Inst::queueLock;
         }
     };
     
-    #define NARGS int nArgs = lua_gettop(L);
-
-    char errorbuf[128];
-    #define check_args(target)\
-    if(nArgs != target){ \
-        snprintf(errorbuf, 128, "%s: %d parameters required, %d found", crntFuncName, target, nArgs); \
-        error(L, errorbuf); \
-        return 1; \
-    }
-    
-    #define get_gspace \
-    GSpace* gspace = app->space; \
-    if(!gspace){ \
-        snprintf(errorbuf, 128, "%s: cannot use in current scene.", crntFuncName); \
-        error(L, errorbuf); \
-        return 1; \
-    } \
-
-    #define arg(name) \
-    LuaRef name(L); \
-    name.pop(L);
-    
-    //Create LuaRef from value stored in table under the same name.
-    #define ref_from_table(table, name) LuaRef name = table[#name];
-    
-    #define func(name) \
-    int name(lua_State* L) \
-    { \
-    const char* crntFuncName = #name;
-    
-    #define push_error(errorMsg) {\
-    snprintf(errorbuf, 128, "%s: %s", crntFuncName, errorMsg); \
-    error(L, errorbuf); \
-    return 1; }
-
-    #define c_string(string_expr) string(string_expr).c_str()
-        
-    //Lua API functions:
-    
-    func(luaContextPanic)
-
-        throw lua_runtime_error("Lua Panic.");
-        
-        return 0;
-    }
-
-    #define install(name) installFunction(name, #name)
-    
     void Inst::installApi()
     {
 		getGlobalNamespace(state)
@@ -336,6 +286,7 @@ mutex Inst::queueLock;
 			.addStaticData("width", &App::width)
 			.addStaticData("height", &App::height)
 			.addStaticData("app", &app)
+			.addStaticFunction("printGlDebug", &App::printGlDebug)
 			.addStaticFunction("setFullscreen", &App::setFullscreen)
 			.addStaticFunction("setResolution", &App::setResolution)
 			.addStaticFunction("setFramerate", &App::setFramerate)
@@ -391,6 +342,20 @@ mutex Inst::queueLock;
 			.addConstructor<void(*)(double,double)>()
 			.addData("x", &SpaceVect::x)
 			.addData("y", &SpaceVect::y)
-		.endClass();
+		.endClass()
+			
+		.beginNamespace("ai")
+			.addFunction("applyDesiredVelocity",&ai::applyDesiredVelocity)
+			.addFunction("seek", &ai::seek)
+			.addFunction("flee", &ai::flee)
+			.addFunction("isFacingTarget", &ai::isFacingTarget)
+			.addFunction("isFacingTargetsBack", &ai::isFacingTargetsBack)
+			.addFunction("isLineOfSight", &ai::isLineOfSight)
+			.addFunction("directionToTarget", &ai::directionToTarget)
+			.addFunction("displacementToTarget", &ai::displacementToTarget)
+			.addFunction("distanceToTarget", &ai::distanceToTarget)
+			.addFunction("viewAngleToTarget", &ai::viewAngleToTarget)
+		.endNamespace()
+		;
     }
 }

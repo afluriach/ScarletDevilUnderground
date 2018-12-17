@@ -58,7 +58,7 @@ void Player::checkMovementControls(const ControlInfo& cs)
 	
     SpaceVect moveDir = cs.left_v;
     
-    ai::applyDesiredVelocity(*this, moveDir*getMaxSpeed() + floorVel, getMaxAcceleration());
+    ai::applyDesiredVelocity(this, moveDir*getMaxSpeed() + floorVel, getMaxAcceleration());
     
     if(moveDir.isZero())
          animSprite->reset();

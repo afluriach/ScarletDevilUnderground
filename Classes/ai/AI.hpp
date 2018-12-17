@@ -23,24 +23,25 @@ namespace ai{
 //Low-level movement functions.
 
 //Not strictly an AI function since it's used to control the player.
-void applyDesiredVelocity(GObject& obj, SpaceVect desired, SpaceFloat maxForce);
-void seek(GObject& agent, SpaceVect target, SpaceFloat maxSpeed, SpaceFloat acceleration);
-SpaceVect fleeDirection(GObject& agent, SpaceVect target);
-void flee(GObject& agent, SpaceVect target, SpaceFloat maxSpeed, SpaceFloat acceleration);
+void applyDesiredVelocity(GObject* obj, SpaceVect desired, SpaceFloat maxForce);
+void seek(GObject* agent, SpaceVect target, SpaceFloat maxSpeed, SpaceFloat acceleration);
+SpaceVect fleeDirection(const GObject* agent, SpaceVect target);
+void flee(GObject* agent, SpaceVect target, SpaceFloat maxSpeed, SpaceFloat acceleration);
+void fleeWithObstacleAvoidance(GObject* agent, SpaceVect target, SpaceFloat maxSpeed, SpaceFloat acceleration);
 
-bool isFacingTarget(const GObject& agent, const GObject& target);
-bool isFacingTargetsBack(const GObject& agent, const GObject& target);
-bool isLineOfSight(const GObject& agent, const GObject& target);
+bool isFacingTarget(const GObject* agent, const GObject* target);
+bool isFacingTargetsBack(const GObject* agent, const GObject* target);
+bool isLineOfSight(const GObject* agent, const GObject* target);
 
-array<SpaceFloat, 4> obstacleFeelerQuad(GObject& agent, SpaceFloat distance);
-array<SpaceFloat, 8> obstacleFeeler8(GObject& agent, SpaceFloat distance);
+array<SpaceFloat, 4> obstacleFeelerQuad(const GObject* agent, SpaceFloat distance);
+array<SpaceFloat, 8> obstacleFeeler8(const GObject* agent, SpaceFloat distance);
 int chooseBestDirection(const array<SpaceFloat, 8>& feelers, SpaceFloat desired_angle, SpaceFloat min_distance);
 
-SpaceVect directionToTarget(const GObject& agent, SpaceVect target);
-SpaceVect displacementToTarget(const GObject& agent, SpaceVect target);
-SpaceFloat distanceToTarget(const GObject& agent, const GObject& target);
-SpaceFloat viewAngleToTarget(const GObject& agent, const GObject& target);
-SpaceVect projectileEvasion(const GObject& bullet, const GObject& agent);
+SpaceVect directionToTarget(const GObject* agent, SpaceVect target);
+SpaceVect displacementToTarget(const GObject* agent, SpaceVect target);
+SpaceFloat distanceToTarget(const GObject* agent, const GObject* target);
+SpaceFloat viewAngleToTarget(const GObject* agent, const GObject* target);
+SpaceVect projectileEvasion(const GObject* bullet, const GObject* agent);
 
 SpaceFloat getStoppingTime(SpaceFloat speed, SpaceFloat acceleration);
 SpaceFloat getStoppingDistance(SpaceFloat speed, SpaceFloat accceleration);
