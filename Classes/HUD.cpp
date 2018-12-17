@@ -43,12 +43,21 @@ void IconMeter::setMax(int m)
     
     for_irange(i,0,m)
     {
-        Sprite* s = Sprite::create(filledIcon);
+        Sprite* s = Sprite::create(emptyIcon);
         s->setPosition(32*i, 0);
         s->setScale(iconSize / s->getContentSize().width);
         iconSprites.pushBack(s);
         addChild(s);
     }
+
+	maxVal = m;
+
+	if (crntVal > maxVal)
+		crntVal = maxVal;
+
+	for (int i = 0; i<crntVal; ++i) {
+		iconSprites.at(i)->setTexture(filledIcon);
+	}
 }
 
 void IconMeter::setValue(int v)

@@ -24,7 +24,6 @@ class PlayScene;
 
 class Player :
 virtual public Agent,
-public RegisterInit<Player>,
 public RegisterUpdate<Player>
 {
 public:

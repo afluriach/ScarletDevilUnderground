@@ -32,6 +32,13 @@ public:
 	typedef function<GObject*(GSpace*, ObjectIDType, const ValueMap&) > AdapterType;
 	typedef function<GObject*(GSpace*, ObjectIDType)> GeneratorType;
 
+	enum class initOrder {
+		base=1,
+		loadAttributes,
+		postLoadAttributes,
+		initFSM
+	};
+
     static constexpr bool logCreateObjects = false;
 	//Map each class name to a constructor adapter function.
 	static const unordered_map<string, AdapterType> adapters;

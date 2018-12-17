@@ -30,17 +30,18 @@ const boost::rational<int> Player::hitFlickerInterval = boost::rational<int>(1,3
 Player::Player(GSpace* space, ObjectIDType id, const ValueMap& args) :
 	MapObjForwarding(Agent),
 	playScene(dynamic_cast<PlayScene*>(GScene::crntScene)),
-	RegisterInit<Player>(this),
 	RegisterUpdate<Player>(this)
-{}
+{
+	multiInit.insertWithOrder(wrap_method(Player, init, this), static_cast<int>(GObject::initOrder::postLoadAttributes));
+}
 
 void Player::init()
 {
 	setFirePatterns();
 
 	if (playScene) {
-		playScene->hud->health->setValue(attributeSystem.getAdjustedValue(Attribute::hp));
 		playScene->hud->health->setMax(attributeSystem.getAdjustedValue(Attribute::maxHP));
+		playScene->hud->health->setValue(attributeSystem.getAdjustedValue(Attribute::hp));
 
 		if (getFirePattern()) {
 			playScene->hud->firePatternIcon->setTexture(getFirePattern()->iconPath());

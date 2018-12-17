@@ -17,14 +17,19 @@ Agent::Agent(GSpace* space, ObjectIDType id, const ValueMap& args) :
 	MapObjForwarding(GObject),
 	PatchConSprite(args),
 	StateMachineObject(args),
-	RegisterUpdate<Agent>(this),
-	RegisterInit<Agent>(this)
-{}
+	RegisterUpdate<Agent>(this)
+{
+	multiInit.insertWithOrder(wrap_method(Agent, initFSM, this), static_cast<int>(GObject::initOrder::initFSM));
+	multiInit.insertWithOrder(wrap_method(Agent, initAttributes, this), static_cast<int>(GObject::initOrder::loadAttributes));
+}
 
-void Agent::init()
+void Agent::initFSM()
 {
 	initStateMachine(fsm);
+}
 
+void Agent::initAttributes()
+{
 	attributeSystem = getBaseAttributes();
 
 	attributeSystem.setFullHP();

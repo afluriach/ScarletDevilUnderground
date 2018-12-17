@@ -20,13 +20,13 @@ public PatchConSprite,
 public CircleBody,
 public StateMachineObject, 
 public RadarObject,
-public RegisterInit<Agent>,
 public RegisterUpdate<Agent>
 {
 public:
 	MapObjCons(Agent);
 
-	void init();
+	void initFSM();
+	void initAttributes();
 	void update();
 
 	//replaces functionality of RadarStateMachineObject by connecting sensor callbacks
