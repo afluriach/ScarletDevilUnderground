@@ -202,9 +202,8 @@ void GScene::createDialog(const string& res, bool autoAdvance)
 	dialog->setAutoAdvance(autoAdvance);
 	dialog->setManualAdvance(!autoAdvance);
 
-	dialog->setEndHandler([=]() -> void {
-		getLayer(sceneLayers::dialog)->removeChild(dialog);
-		dialog = nullptr;
+	dialog->setEndHandler([this]() -> void {
+		stopDialog();
 	});
 }
 

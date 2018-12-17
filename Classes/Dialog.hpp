@@ -14,6 +14,7 @@
 //It can also change the title or dialog colors.
 
 #include "Graphics.h"
+#include "multifunction.h"
 
 class Dialog;
 class ControlListener;
@@ -45,19 +46,9 @@ public:
     
     //Enabled by default, allows cursor to appear and listen for action
     //button to advance frame.
-    inline void setManualAdvance(bool manual){
-        manualAdvance = manual;
-        if(!manual)
-            cursor->setVisible(false);
-    }
-    
-    inline void setAutoAdvance(bool _auto){
-        autoAdvance = _auto;
-    }
-    
-    inline void setEndHandler(function<void()> f){
-        onEnd = f;
-    }
+	void setManualAdvance(bool manual);
+	void setAutoAdvance(bool _auto);
+	void setEndHandler(function<void()> f);
     
     template<typename... Args>
     inline DialogFrame makeAction(void (Dialog::*method)(Args...), Args... args)
@@ -107,9 +98,7 @@ private:
     bool manualAdvance = true;
     bool autoAdvance = false;
 //Events
-    function<void()> onEnd;
-    //The scene to run after the current dialog has completed
-    string nextScene;
+    util::multifunction<void()> onEnd;
 };
 
 #endif /* Dialog_hpp */

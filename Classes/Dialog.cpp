@@ -37,6 +37,25 @@ void Dialog::setDialog(const string& res)
     runFrame();
 }
 
+//Enabled by default, allows cursor to appear and listen for action
+//button to advance frame.
+void Dialog::setManualAdvance(bool manual)
+{
+	manualAdvance = manual;
+	if (!manual)
+		cursor->setVisible(false);
+}
+
+void Dialog::setAutoAdvance(bool _auto)
+{
+	autoAdvance = _auto;
+}
+
+void Dialog::setEndHandler(function<void()> f)
+{
+	onEnd += f;
+}
+
 
 //This will advance the dialog based on time.
 void Dialog::checkTimedAdvance()
@@ -108,9 +127,10 @@ void Dialog::runLuaScript(const string& script)
 
 void Dialog::setNextScene(const string& next)
 {
-    nextScene = next;
+	onEnd += [next]() -> void {
+		GScene::runScene(next);
+	};
 }
-
 
 void Dialog::drawBackground()
 {
@@ -152,10 +172,7 @@ void Dialog::advanceFrame(bool resetCursor)
         }
     }
     else{
-        if(onEnd)
-            onEnd();
-        if(!nextScene.empty())
-            GScene::runScene(nextScene);
+		onEnd();
     }
 }
 
@@ -212,10 +229,7 @@ void Dialog::processDialogFile(const string& text)
                     log("invalid nextScene directive: %s.", line.c_str());
                     continue;
                 }
-                if(!nextScene.empty())
-                    log("Warning, old nextScene overridden: %s.", nextScene.c_str());
-                nextScene = tokens[1];
-                
+				setNextScene(tokens[1]);                
             }
         }
         else{
