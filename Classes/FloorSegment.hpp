@@ -14,7 +14,7 @@
 #include "object_ref.hpp"
 #include "types.h"
 
-class FloorSegment : virtual public GObject, public NoSprite, public RectangleMapBody
+class FloorSegment : virtual public GObject, public RectangleMapBody
 {
 public:
 	MapObjCons(FloorSegment);
@@ -29,7 +29,40 @@ public:
 	virtual void onEndContact(GObject* obj) = 0;
 };
 
-class DirtFloorCave : public FloorSegment
+class MovingPlatform:
+public FloorSegment,
+public ImageSprite,
+public MaxSpeedImpl,
+public RegisterInit<MovingPlatform>, 
+public RegisterUpdate<MovingPlatform>
+{
+public:
+	static const SpaceFloat defaultSpeed;
+
+	MapObjCons(MovingPlatform);
+	virtual ~MovingPlatform();
+
+	void init();
+	void update();
+
+	void setWaypoint(size_t idx);
+	void setNextWaypoint();
+
+	virtual inline string imageSpritePath() const { return "sprites/moving_platform.png"; }
+	virtual inline float zoom() const { return 3.0f; }
+
+	virtual inline SpaceFloat getMass() const { return 1.0; }
+
+	virtual void onContact(GObject* obj) {};
+	virtual void onEndContact(GObject* obj) {};
+protected:
+	string pathName = "";
+	const Path * path = nullptr;
+	size_t crntSegment = 0;
+	SpaceFloat distanceToTarget = 0.0;
+};
+
+class DirtFloorCave : public FloorSegment, public NoSprite
 {
 public:
 	MapObjCons(DirtFloorCave);
@@ -38,7 +71,7 @@ public:
 	virtual void onEndContact(GObject* obj);
 };
 
-class MineFloor : public FloorSegment
+class MineFloor : public FloorSegment, public NoSprite
 {
 public:
 	MapObjCons(MineFloor);
@@ -47,7 +80,7 @@ public:
 	virtual void onEndContact(GObject* obj);
 };
 
-class PressurePlate : public FloorSegment, public RegisterInit<PressurePlate>
+class PressurePlate : public FloorSegment, public RegisterInit<PressurePlate>, public NoSprite
 {
 public:
 	MapObjCons(PressurePlate);
@@ -62,13 +95,15 @@ protected:
 	vector<object_ref<ActivateableObject>> target;
 };
 
-class Pitfall : public FloorSegment
+class Pitfall : public FloorSegment, public NoSprite
 {
 public:
 	MapObjCons(Pitfall);
 
 	virtual void onContact(GObject* obj);
 	virtual void onEndContact(GObject* obj);
+
+	virtual PhysicsLayers getLayers() const { return PhysicsLayers::belowFloor; }
 };
 
 #endif /* FloorSegment_hpp */

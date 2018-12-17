@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.0" tiledversion="1.0.3" orientation="orthogonal" renderorder="right-down" width="17" height="17" tilewidth="128" tileheight="128" nextobjectid="72">
+<map version="1.0" tiledversion="1.0.3" orientation="orthogonal" renderorder="right-down" width="17" height="17" tilewidth="128" tileheight="128" nextobjectid="76">
  <tileset firstgid="1" name="grey stone wall" tilewidth="128" tileheight="128" tilecount="4" columns="2">
   <image source="grey stone wall grain.png" width="256" height="256"/>
  </tileset>
@@ -39,5 +39,24 @@
   <object id="55" x="1152" y="2048" width="896" height="128"/>
   <object id="56" x="1152" y="0" width="896" height="128"/>
  </objectgroup>
- <objectgroup name="objects"/>
+ <objectgroup name="objects">
+  <object id="72" name="platform1" type="MovingPlatform" x="512" y="128" width="384" height="384">
+   <properties>
+    <property name="path" value="path1"/>
+   </properties>
+  </object>
+  <object id="75" name="platform2" type="MovingPlatform" x="1280" y="1664" width="384" height="384">
+   <properties>
+    <property name="path" value="path2"/>
+   </properties>
+  </object>
+ </objectgroup>
+ <objectgroup name="paths">
+  <object id="73" name="path1" x="704" y="320">
+   <polyline points="0,0 0,1536"/>
+  </object>
+  <object id="74" name="path2" x="1472" y="1856">
+   <polyline points="0,0 0,-1536"/>
+  </object>
+ </objectgroup>
 </map>

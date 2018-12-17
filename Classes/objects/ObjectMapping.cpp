@@ -95,6 +95,7 @@ const unordered_map<string, GObject::AdapterType> GObject::adapters = {
 	entry_same(Launcher),
 	entry_same(Marisa),
 	entry_same(MineFloor),
+	entry_same(MovingPlatform),
 	entry_same(Patchouli),
 	entry_same(Pitfall),
 	entry_same(PowerUp),

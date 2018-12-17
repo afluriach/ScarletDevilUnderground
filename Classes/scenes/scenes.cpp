@@ -347,13 +347,13 @@ void GScene::loadPaths(const TMXTiledMap& map, IntVec2 offset)
 
 		string name = asMap.at("name").asString();
 		ValueVector points = asMap.at("polylinePoints").asValueVector();
-		SpaceVect origin(asMap.at("x").asFloat() + offset.first, asMap.at("y").asFloat() + offset.second);
+		SpaceVect origin(asMap.at("x").asFloat(), asMap.at("y").asFloat());
 
 		for(auto const& point: points)
 		{
 			crntPath.push_back(SpaceVect(
-				(origin.x + point.asValueMap().at("x").asFloat()) / App::pixelsPerTile,
-				(origin.y - point.asValueMap().at("y").asFloat()) / App::pixelsPerTile
+				(origin.x + point.asValueMap().at("x").asFloat()) / App::pixelsPerTile + offset.first,
+				(origin.y - point.asValueMap().at("y").asFloat()) / App::pixelsPerTile + offset.second
 			));
 		}
 		gspace->addPath(name, crntPath);

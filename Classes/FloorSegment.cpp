@@ -25,6 +25,74 @@ FloorSegment::~FloorSegment()
 
 }
 
+const SpaceFloat MovingPlatform::defaultSpeed = 1.0;
+
+MovingPlatform::MovingPlatform(GSpace* space, ObjectIDType id, const ValueMap& args) :
+	MapObjForwarding(GObject),
+	MapObjForwarding(FloorSegment),
+	MaxSpeedImpl(getFloatOrDefault(args, "speed", defaultSpeed)),
+	RegisterInit<MovingPlatform>(this),
+	RegisterUpdate<MovingPlatform>(this)
+{
+	pathName = getStringOrDefault(args, "path", "");
+}
+
+MovingPlatform::~MovingPlatform()
+{
+}
+
+void MovingPlatform::init()
+{
+	if (!pathName.empty()) {
+		path = space->getPath(pathName);
+		pathName.clear();
+	}
+	else {
+		log("MovingPlatform::init: path name not provided!");
+	}
+
+	if (path && path->size() > 1)
+	{
+		setWaypoint(0);
+	}
+	else {
+		log("MovingPlatform::init: empty path!");
+	}
+
+}
+
+void MovingPlatform::update()
+{
+	distanceToTarget -= App::secondsPerFrame * getMaxSpeed();
+
+	if (path && distanceToTarget <= 0) {
+		setNextWaypoint();
+	}
+}
+
+void MovingPlatform::setNextWaypoint()
+{
+	size_t next = crntSegment + 1;
+	if (next >= path->size())
+		next = 0;
+
+	setWaypoint(next);
+}
+
+void MovingPlatform::setWaypoint(size_t idx)
+{
+	crntSegment = idx;
+
+	size_t next = crntSegment + 1;
+	if (next >= path->size())
+		next = 0;
+
+	distanceToTarget = (path->at(next) - path->at(crntSegment)).length();
+
+	SpaceVect dir = (path->at(next) - path->at(crntSegment)).normalizeSafe();
+	setPos(path->at(idx));
+	setVel(dir*getMaxSpeed());
+}
 
 DirtFloorCave::DirtFloorCave(GSpace* space, ObjectIDType id, const ValueMap& args) :
 GObject(space,id,args, true),

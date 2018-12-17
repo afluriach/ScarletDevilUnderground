@@ -14,6 +14,7 @@
 #include "Collectibles.hpp"
 #include "controls.h"
 #include "FirePattern.hpp"
+#include "FloorSegment.hpp"
 #include "GAnimation.hpp"
 #include "Graphics.h"
 #include "GSpace.hpp"
@@ -53,9 +54,11 @@ void Player::init()
 
 void Player::checkMovementControls(const ControlInfo& cs)
 {
+	SpaceVect floorVel = crntFloor.isValid() ? crntFloor.get()->getVel() : SpaceVect::zero;
+	
     SpaceVect moveDir = cs.left_v;
     
-    ai::applyDesiredVelocity(*this, moveDir*getMaxSpeed(), getMaxAcceleration());
+    ai::applyDesiredVelocity(*this, moveDir*getMaxSpeed() + floorVel, getMaxAcceleration());
     
     if(moveDir.isZero())
          animSprite->reset();

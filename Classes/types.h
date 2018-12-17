@@ -85,12 +85,13 @@ enum class PhysicsLayers{
 	none = 0,
 	//For objects which are in/on the floor, including the floor itself
 	//(FloorSegment), and objects touching the floor.
-	floor = 1, 
-    ground = 2,
-    eyeLevel = 4,
+	belowFloor = 1,
+	floor = 2, 
+    ground = 4,
+    eyeLevel = 8,
     
     //must be the bitwise or of all layers
-    all = 7
+    all = 15
 };
 
 struct PhysicsProperties
