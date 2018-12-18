@@ -180,7 +180,7 @@ void App::loadShaders()
 
 void App::runTitleScene()
 {
-	runScene<TitleMenuScene>();
+	createAndRunScene<TitleMenuScene>();
 }
 
 GScene* App::getCrntScene()
@@ -206,6 +206,10 @@ void App::resumeScene()
 	getCrntScene()->exitPause();
 }
 
+void App::runScene(GScene* scene)
+{
+	Director::getInstance()->runScene(scene);
+}
 
 void App::setPlayer(int id)
 {

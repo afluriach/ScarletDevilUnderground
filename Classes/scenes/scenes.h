@@ -68,7 +68,7 @@ public:
         end
     };
 
-    typedef function<void () > AdapterType;
+    typedef function<GScene* () > AdapterType;
 	typedef pair<string, IntVec2> MapEntry;
 
     //Map each class name to a constructor adapter function.
@@ -78,12 +78,11 @@ public:
 	static const int dialogEdgeMargin;
 	static const bool scriptLog;
 
-    static GScene* crntScene;
 	static string crntSceneName;
 	static string crntReplayName;
 	static bool suppressGameOver;
 
-	static void runScene(const string& name);
+	static GScene* runScene(const string& name);
 	static void runSceneWithReplay(const string& sceneName, const string& replayName);
 	static void restartScene();
 	static void restartReplayScene();

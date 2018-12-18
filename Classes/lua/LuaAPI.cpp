@@ -16,6 +16,7 @@
 #include "HUD.hpp"
 #include "LuaAPI.hpp"
 #include "macros.h"
+#include "PlayScene.hpp"
 #include "scenes.h"
 #include "util.h"
 
@@ -312,12 +313,15 @@ mutex Inst::queueLock;
 		.beginClass<GScene>("GScene")
 			.addStaticFunction("runScene", &GScene::runScene)
 			.addStaticFunction("runSceneWithReplay", &GScene::runSceneWithReplay)
-			.addStaticData("crntScene", &GScene::crntScene)
 			.addStaticData("suppressGameOver", &GScene::suppressGameOver)
 			.addFunction("createDialog", &GScene::createDialog)
 			.addFunction("getSpace", &GScene::getSpace)
 			.addFunction("setPaused", &GScene::setPaused)
 			.addFunction("stopDialog", &GScene::stopDialog)
+		.endClass()
+
+		.deriveClass<PlayScene,GScene>("PlayScene")
+			.addFunction("saveReplayData", &PlayScene::saveReplayData)
 		.endClass()
 
 		.beginClass<GSpace>("GSpace")

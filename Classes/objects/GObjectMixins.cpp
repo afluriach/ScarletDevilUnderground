@@ -24,7 +24,7 @@
 
 void DialogEntity::interact()
 {
-    GScene::crntScene->createDialog(getDialog(), false);
+	space->getScene()->createDialog(getDialog(), false);
 }
 
 //END LOGIC

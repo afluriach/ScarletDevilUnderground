@@ -14,6 +14,7 @@
 
 class FloorSegment;
 class GObject;
+class GScene;
 class SpaceLayer;
 
 #define OBJS_FROM_ARB \
@@ -26,19 +27,26 @@ class GSpace
 public:
 	typedef pair<ObjectGeneratorType, ObjectIDType> generator_pair;
 
-    GSpace(SpaceLayer* spaceLayer);    
+    GSpace(SpaceLayer* spaceLayer, GScene* gscene);    
     ~GSpace();
     
-    inline IntVec2 getSize() const {return spaceSize;}
+	IntVec2 getSize() const;
     void setSize(int x, int y);
     
-    inline unsigned int getFrame(){ return frame;}
- 
+	unsigned int getFrame() const;
+	GScene* getScene();
+
+	template<class C>
+	C* getSceneAs() {
+		return dynamic_cast<C*>(getScene());
+	}
+
     void update();
     void processAdditions();
 private:
-    //The graphics destination to use for all objects constructed in this space.
-    SpaceLayer* spaceLayer;
+	//The graphics destination to use for all objects constructed in this space.
+	SpaceLayer * spaceLayer;
+	GScene *const gscene;
     unsigned int frame = 1;
     IntVec2 spaceSize;
 //BEGIN OBJECT MANIPULATION

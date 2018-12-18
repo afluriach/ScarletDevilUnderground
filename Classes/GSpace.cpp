@@ -26,7 +26,7 @@
 
 class RadarObject;
 
-GSpace::GSpace(SpaceLayer* spaceLayer) : spaceLayer(spaceLayer)
+GSpace::GSpace(SpaceLayer* spaceLayer, GScene* gscene) : spaceLayer(spaceLayer), gscene(gscene)
 {
     space.setGravity(SpaceVect(0,0));
     addCollisionHandlers();
@@ -54,12 +54,25 @@ GSpace::~GSpace()
     cp::Space::maskSeperateHandler = false;
 }
 
+IntVec2 GSpace::getSize() const {
+	return spaceSize;
+}
+
 void GSpace::setSize(int x, int y)
 {
     spaceSize = IntVec2(x,y);
     if(navMask)
         delete navMask;
     navMask = new boost::dynamic_bitset<>(x*y);
+}
+
+unsigned int GSpace::getFrame() const{
+	return frame;
+}
+
+GScene* GSpace::getScene()
+{
+	return gscene;
 }
 
 void GSpace::update()

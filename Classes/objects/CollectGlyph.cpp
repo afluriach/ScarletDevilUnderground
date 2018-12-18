@@ -8,20 +8,29 @@
 
 #include "Prefix.h"
 
+#include "App.h"
 #include "Collect.h"
 #include "CollectGlyph.hpp"
+#include "GSpace.hpp"
+
+CollectGlyph::CollectGlyph(GSpace* space, ObjectIDType id, const ValueMap& args) :
+	MapObjForwarding(GObject)
+{
+	collectScene = space->getSceneAs<Collect>();
+
+	if (!collectScene) {
+		throw runtime_error("CollectGlyph created outside of Collect scene!");
+	}
+}
+
 
 bool CollectGlyph::canInteract() {
 	return !hasInteracted;
 }
 
 void CollectGlyph::interact() {
-	Collect* cs = dynamic_cast<Collect*>(GScene::crntScene);
-
-	if (cs) {
-		cs->registerActivation(this);
-		hasInteracted = true;
-	}
+	collectScene->registerActivation(this);
+	hasInteracted = true;
 }
 
 string CollectGlyph::interactionIcon() {

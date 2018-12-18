@@ -91,7 +91,7 @@ void PlayScene::trackPlayer(){
 
 void PlayScene::initRoomMask()
 {
-	Layer* layer = GScene::crntScene->getSpaceLayer()->getLayer(GraphicsLayer::roomMask);
+	Layer* layer = getSpaceLayer()->getLayer(GraphicsLayer::roomMask);
 
 	for (size_t i = 0; i<gspace->rooms.size(); ++i)
 	{

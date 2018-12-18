@@ -25,30 +25,30 @@
 const int GScene::dialogEdgeMargin = 30;
 const bool GScene::scriptLog = false;
 
-GScene* GScene::crntScene;
 string GScene::crntSceneName;
 string GScene::crntReplayName;
 bool GScene::suppressGameOver = false;
 
-void GScene::runScene(const string& name)
+GScene* GScene::runScene(const string& name)
 {
     auto it = adapters.find(name);
     
     if(it == adapters.end()){
         log("runScene: %s not found", name.c_str());
+		return nullptr;
     }
     else
     {
 		crntSceneName = name;
-		it->second();
+		return it->second();
     }
 }
 
 void GScene::runSceneWithReplay(const string& sceneName, const string& replayName)
 {
-	runScene(sceneName);
+	GScene* _scene = runScene(sceneName);
 
-	PlayScene* ps = dynamic_cast<PlayScene*>(GScene::crntScene);
+	PlayScene* ps = dynamic_cast<PlayScene*>(_scene);
 
 	if (ps) {
 		ps->loadReplayData(replayName);
@@ -82,7 +82,6 @@ sceneName(sceneName),
 ctx(make_unique<Lua::Inst>("scene")),
 control_listener(make_unique<ControlListener>())
 {
-	crntScene = this;
 	
 	multiInit.insertWithOrder(
 		wrap_method(GScene, installLuaShell, this),
@@ -128,7 +127,7 @@ control_listener(make_unique<ControlListener>())
         layers.insert(i, l);
     }
 
-	gspace = new GSpace(spaceLayer);
+	gspace = new GSpace(spaceLayer, this);
 
 	if (!sceneName.empty())
 	{

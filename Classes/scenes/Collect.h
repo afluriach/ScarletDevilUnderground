@@ -20,6 +20,8 @@ public:
 
 	void initTargets();
 	void registerActivation(gobject_ref target);
+
+	inline virtual GScene* getReplacementScene() { return Node::ccCreate<Collect>(); }
 protected:
 	set<gobject_ref> activationTargets;
 };

@@ -12,6 +12,8 @@
 #include "GObject.hpp"
 #include "GObjectMixins.hpp"
 
+class Collect;
+
 class CollectGlyph :
 public virtual GObject,
 public RectangleBody,
@@ -19,10 +21,8 @@ public ImageSprite,
 public InteractibleObject
 {
 public:
-    inline CollectGlyph(GSpace* space, ObjectIDType id, const ValueMap& args) :
-	MapObjForwarding(GObject)
-    {}
-    
+	MapObjCons(CollectGlyph);
+
     void init();
     
     virtual inline float zoom() const {return 0.75;}
@@ -39,6 +39,7 @@ public:
 	virtual string interactionIcon();
 protected:
 	bool hasInteracted = false;
+	Collect* collectScene = nullptr;
 };
 
 

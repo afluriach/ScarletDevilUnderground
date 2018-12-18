@@ -65,19 +65,15 @@ public:
 	static void restartScene();
 	static GScene* getCrntScene();
 	static void resumeScene();
-	static inline void popScene();
+	static void popScene();
+	static void runScene(GScene* scene);
 
 	template <typename T, typename... Args>
-	static inline void runScene(Args... args)
+	static inline GScene* createAndRunScene(Args... args)
 	{
-		Director::getInstance()->runScene(
-			Node::ccCreate<T>(args...)
-		);
-	}
-
-	template<typename T>
-	static inline T* getCrntSceneAs() {
-		return dynamic_cast<T*>(Director::getInstance()->getRunningScene());
+		GScene* result = Node::ccCreate<T>(args...);
+		Director::getInstance()->runScene(result);
+		return result;
 	}
 
 	static void printGlDebug();

@@ -31,16 +31,6 @@ void printMap(unordered_map<string,string> m)
     }
 }
 
-void addUpdate(function<void()> f, int order)
-{
-    GScene::crntScene->multiUpdate.insertWithOrder(
-        [=]() -> void{
-            f();
-        },
-        order
-    );
-}
-
 void dostring_in_inst(string script, string inst_name)
 {
     Inst::addCommand(inst_name, script);
@@ -49,11 +39,6 @@ void dostring_in_inst(string script, string inst_name)
 void save()
 {
     GState::save();
-}
-
-bool saveCrntReplay(string filepath)
-{
-	return App::getCrntSceneAs<PlayScene>()->saveReplayData(filepath);
 }
 
 vector<string> getInventoryContents()
@@ -112,11 +97,9 @@ void Inst::installWrappers()
 
 const unordered_map<string, function<int(lua_State*)>> Inst::cfunctions = {
 	make_wrapper_same(printMap),
-	make_wrapper_same(addUpdate),
 	make_wrapper_same(runscript),
 	make_wrapper_same(dostring_in_inst),
 	make_wrapper_same(save),
-	make_wrapper_same(saveCrntReplay),
 	make_wrapper_same(getInventoryContents),
 
 	make_wrapper_same(toDirection),

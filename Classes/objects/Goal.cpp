@@ -10,11 +10,17 @@
 
 #include "App.h"
 #include "Goal.hpp"
+#include "GSpace.hpp"
 #include "PlayScene.hpp"
 
 Goal::Goal(GSpace* space, ObjectIDType id, const ValueMap& args) :
 MapObjForwarding(GObject)
 {
+	playScene = space->getSceneAs<PlayScene>();
+
+	if (!playScene) {
+		throw runtime_error("Goal created outside of PlayScene!");
+	}
 }
 
 bool Goal::canInteract()
@@ -24,12 +30,5 @@ bool Goal::canInteract()
 
 void Goal::interact()
 {
-	PlayScene* ps = App::getCrntSceneAs<PlayScene>();
-
-	if (ps) {
-		ps->triggerSceneCompleted();
-	}
-	else {
-		log("Goal::interact: not in a PlayScene!");
-	}
+	playScene->triggerSceneCompleted();
 }

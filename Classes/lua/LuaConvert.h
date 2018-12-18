@@ -24,8 +24,6 @@ function<void()> makeFunctorFromLuaFunction(LuaRef ref);
 list<LuaRef> getArgs(lua_State* L);
 unordered_map<string,string> getStringMapFromTable(LuaRef table, lua_State* state);
 float getFloat(LuaRef r);
-LuaRef convertObjectUserdata(GObject* o, const string& typeStr, lua_State* L);
-GObject* getObjectFromLuaData(LuaRef ref);
 
 void check_integer_value(LuaRef ref);
 
@@ -180,24 +178,6 @@ struct convert<ValueMap>{
     static ValueMap convertFromLua(const string& name, int argNum, LuaRef ref);
     static LuaRef convertToLua(ValueMap obj, lua_State* L);
 
-};
-
-template<>
-struct convert<GObject*>{
-    static GObject* convertFromLua(const string& name, int argNum, LuaRef ref);
-    static LuaRef convertToLua(GObject* obj, lua_State* L);
-};
-
-template<>
-struct convert<GObject&>{
-    static GObject& convertFromLua(const string& name, int argNum, LuaRef ref);
-    static LuaRef convertToLua(GObject& obj, lua_State* L);
-};
-
-template<>
-struct convert<const GObject&>{
-    static const GObject& convertFromLua(const string& name, int argNum, LuaRef ref);
-    static LuaRef convertToLua(const GObject& obj, lua_State* L);
 };
 
 template<typename C>

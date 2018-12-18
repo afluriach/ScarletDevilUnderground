@@ -28,6 +28,8 @@ public:
 	virtual bool canInteract();
 	virtual void interact();
 	virtual inline string interactionIcon() { return "sprites/ui/goal.png"; }
+protected:
+	PlayScene * playScene = nullptr;
 };
 
 #endif /* Goal_hpp */
