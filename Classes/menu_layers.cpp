@@ -42,7 +42,7 @@ void TitleMenu::start()
 
 void TitleMenu::sceneSelect()
 {
-	app->runScene<SceneSelectScene>();
+	app->createAndRunScene<SceneSelectScene>();
 }
 
 const string SceneSelect::title = "Scene Select";
@@ -76,7 +76,7 @@ const vector<TextListMenuLayer::listAction> SceneSelect::entryActions = {
 
 void SceneSelect::back()
 {
-	app->runScene<TitleMenuScene>();
+	app->createAndRunScene<TitleMenuScene>();
 }
 
 const string PauseMenu::title = "-PAUSED-";
