@@ -14,6 +14,8 @@
 class Cursor : public Node
 {
 public:
+	static const Color4F colors[6];
+
     virtual void onEnter();
     virtual void update(float dt);
     void reset();
@@ -25,16 +27,7 @@ protected:
     const int halfSize = 20;
 
 	int scaledSize();
-    
-    Color4F colors[6] = {
-        Color4F(1.0f,0.0f,0.0f,1.0f),
-        Color4F(0.8f,0.4f,0.0f,1.0f),
-        Color4F(0.8f,0.8f,0.0f,1.0f),
-        Color4F(0.0f,0.8f,0.0f,1.0f),
-        Color4F(0.0f,0.0f,1.0f,1.0f),
-        Color4F(0.6f,0.0f,0.6f,1.0f)
-    };
-    
+        
     DrawNode * drawNode;
     bool expanding=false;
     float scale = 1;
@@ -44,18 +37,16 @@ protected:
 class DiamondCursor : public Cursor
 {
 public:
+	//Y scale, with is also y/x ratio
+	static const float ratio;
     virtual void onEnter();
 protected:
-    //Y scale.
-    const float ratio = 1.5;
-
     virtual void drawShape();
 };
 
 class DownTriangleCursor : public Cursor
 {
 public:
-protected:
     virtual void drawShape();
 };
 

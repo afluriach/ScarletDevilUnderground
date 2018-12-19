@@ -28,7 +28,7 @@ public:
     static shared_ptr<AnimationSpriteSequence> loadFromImageSequence(const string& name, int length);
 	static shared_ptr<AnimationSpriteSequence> loadAgentAnimation(const string& name);
 
-    inline AnimationSpriteSequence(Vector<SpriteFrame*> frames) : frames(frames) {}
+	AnimationSpriteSequence(Vector<SpriteFrame*> frames);
     //Use cocos vector to manage object lifecycle.
     Vector<SpriteFrame*> frames;
 };
@@ -63,19 +63,14 @@ public:
     static constexpr SpaceFloat midstepSize = 0.2;
     
     
-    inline void setSpriteShader(const string& shader){
-        sprite->setShader(shader);
-    }
-    
+	void setSpriteShader(const string& shader);
     void loadAnimation(const string& path);    
     void accumulate(SpaceFloat dx);
     
     //Reset to standing. Implicitly removes run effect.
     void reset();
     void setDirection(Direction dir);
-    inline Direction getDirection()const{
-        return direction;
-    }
+	Direction getDirection()const;
     void checkAdvanceAnimation();
 protected:
     shared_ptr<AnimationSpriteSequence> sequence;

@@ -22,6 +22,15 @@ cocos2d::CCSize getScreenSize()
     return Director::getInstance()->getVisibleSize();
 }
 
+const Color4F Cursor::colors[6] = {
+	Color4F(1.0f,0.0f,0.0f,1.0f),
+	Color4F(0.8f,0.4f,0.0f,1.0f),
+	Color4F(0.8f,0.8f,0.0f,1.0f),
+	Color4F(0.0f,0.8f,0.0f,1.0f),
+	Color4F(0.0f,0.0f,1.0f,1.0f),
+	Color4F(0.6f,0.0f,0.6f,1.0f)
+};
+
 void Cursor::onEnter()
 {
     Node::onEnter();
@@ -77,6 +86,8 @@ int Cursor::scaledSize()
 {
 	return halfSize * App::getScale();
 }
+
+const float DiamondCursor::ratio = 1.5f;
 
 void DiamondCursor::onEnter()
 {

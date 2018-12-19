@@ -97,6 +97,7 @@ shared_ptr<AnimationSpriteSequence> AnimationSpriteSequence::loadAgentAnimation(
 	return make_shared<AnimationSpriteSequence>(frames);
 }
 
+AnimationSpriteSequence::AnimationSpriteSequence(Vector<SpriteFrame*> frames) : frames(frames) {}
 
 
 void TimedLoopAnimation::loadAnimation(const string& name, int length, SpaceFloat animationInterval)
@@ -124,6 +125,11 @@ void TimedLoopAnimation::update()
     
     sprite->setSpriteFrame(sequence->frames.at(crntFrame));
 }
+
+void PatchConAnimation::setSpriteShader(const string& shader) {
+	sprite->setShader(shader);
+}
+
 
 void PatchConAnimation::loadAnimation(const string& path)
 {
@@ -172,6 +178,11 @@ void PatchConAnimation::setDirection(Direction dir)
     //update sprite frame
     setFrame(crntFrame);
 }
+
+Direction PatchConAnimation::getDirection()const {
+	return direction;
+}
+
 
 void PatchConAnimation::checkAdvanceAnimation()
 {
