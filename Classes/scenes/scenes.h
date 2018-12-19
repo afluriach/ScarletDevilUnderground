@@ -110,6 +110,7 @@ public:
 	void processAdditions();
 
 	void addAction(function<void(void)>, updateOrder order);
+	void addAction(pair<function<void(void)>, updateOrder> entry);
 
     void move(const Vec2& v);
     //The different vector type is intentional, as Chipmunk vector implies

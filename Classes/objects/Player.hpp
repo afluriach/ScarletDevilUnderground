@@ -15,6 +15,7 @@
 #include "GObject.hpp"
 #include "GObjectMixins.hpp"
 #include "macros.h"
+#include "scenes.h"
 
 class Collectible;
 class ControlState;
@@ -69,12 +70,7 @@ public:
 
 	void applyAttributeModifier(Attribute id, float val);
     
-	inline FirePattern* getFirePattern() {
-		if (firePatterns.empty())
-			return nullptr;
-
-		return firePatterns[crntFirePattern].get();
-	}
+	FirePattern* getFirePattern();
 
 	bool trySetFirePattern(int idx);
 	bool trySetFirePatternNext();
@@ -83,6 +79,12 @@ public:
     void onCollectible(Collectible* coll);
 	void applyGraze(int p);
 protected:
+	template<typename...Args>
+	inline pair<function<void(void)>, GScene::updateOrder> make_hud_action(void (HUD::*m)(Args...), Args ...args)
+	{
+		return pair<function<void(void)>, GScene::updateOrder>(generate_action(playScene->hud, m, args...), GScene::updateOrder::hudUpdate);
+	}
+
     boost::rational<int> hitProtectionCountdown = 0;
 	boost::rational<int> spellCooldown = 0;
 	boost::rational<int> interactCooldown = 0;

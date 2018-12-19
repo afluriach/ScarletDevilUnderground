@@ -256,12 +256,47 @@ void HUD::showHealth(bool val)
 	health->setVisible(val);
 }
 
-void HUD::setInteractionIcon(const string& val)
+void HUD::setInteractionIcon(string val)
 {
 	interactionIcon->setVisible(!val.empty());
 	interactionIcon->setTexture(val);
 }
 
+void HUD::setFirePatternIcon(string val)
+{
+	firePatternIcon->setVisible(!val.empty());
+	firePatternIcon->setTexture(val);
+}
+
+void HUD::setHP(int v)
+{
+	health->setValue(v);
+}
+
+void HUD::setMaxHP(int v)
+{
+	health->setMax(v);
+}
+
+void HUD::runHealthFlicker(float length, float interval)
+{
+	health->runFlicker(length, interval);
+}
+
+void HUD::runPowerFlicker()
+{
+	power->runFlicker();
+}
+
+void HUD::setIceDamage(float v)
+{
+	iceDamage->setElementalValue(v);
+}
+
+void HUD::setSunDamage(float v)
+{
+	sunDamage->setElementalValue(v);
+}
 
 Counter::Counter(const string& iconRes, const int val) :
 val(val),

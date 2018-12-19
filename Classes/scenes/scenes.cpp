@@ -243,6 +243,12 @@ void GScene::addAction(function<void(void)> f, updateOrder order)
 	actions.push_back(pair<function<void(void)>, updateOrder>(f, order));
 }
 
+void GScene::addAction(pair<function<void(void)>, updateOrder> entry)
+{
+	actions.push_back(entry);
+}
+
+
 void GScene::move(const Vec2& w)
 {
 	Vec2 v = w * spaceZoom;

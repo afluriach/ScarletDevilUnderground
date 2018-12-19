@@ -47,33 +47,21 @@ void Player::init()
 	setFirePatterns();
 
 	if (playScene) {
-		space->getScene()->addAction(
-			bind(
-				&IconMeter::setMax,
-				playScene->hud->health,
-				attributeSystem.getAdjustedValue(Attribute::maxHP)
-			),
-			GScene::updateOrder::hudUpdate
-		);
+		space->getScene()->addAction(make_hud_action(
+			&HUD::setMaxHP,
+			to_int(attributeSystem.getAdjustedValue(Attribute::maxHP))
+		));
 
-		space->getScene()->addAction(
-			bind(
-				&IconMeter::setValue,
-				playScene->hud->health,
-				attributeSystem.getAdjustedValue(Attribute::hp)
-			),
-			GScene::updateOrder::hudUpdate
-		);
+		space->getScene()->addAction(make_hud_action(
+			&HUD::setHP,
+			to_int(attributeSystem.getAdjustedValue(Attribute::hp))
+		));
 
 		if (getFirePattern()) {
-			space->getScene()->addAction(
-				bind(
-					static_cast<void(Sprite::*)(const string&)>(&Sprite::setTexture),
-					playScene->hud->firePatternIcon,
-					getFirePattern()->iconPath()
-				),
-				GScene::updateOrder::hudUpdate
-			);
+			space->getScene()->addAction(make_hud_action(
+				&HUD::setFirePatternIcon,
+				getFirePattern()->iconPath()
+			));
 		}
 	}
 
@@ -169,14 +157,10 @@ void Player::checkItemInteraction(const ControlInfo& cs)
         }
     }
 
-	space->getScene()->addAction(
-		bind(
-			&HUD::setInteractionIcon,
-			playScene->hud,
-			interactible && interactible->canInteract() ? interactible->interactionIcon() : ""
-		),
-		GScene::updateOrder::hudUpdate
-	);
+	space->getScene()->addAction(make_hud_action(
+		&HUD::setInteractionIcon,
+		interactible && interactible->canInteract() ? interactible->interactionIcon() : ""
+	));
 }
 
 void Player::updateHitTime()
@@ -211,23 +195,15 @@ void Player::update()
 		updateSpellControls(cs);
 		checkItemInteraction(cs);
 
-		space->getScene()->addAction(
-			bind(
-				&IconMeter::setElementalValue,
-				playScene->hud->iceDamage,
-				attributeSystem.getAdjustedValue(Attribute::iceDamage) / 25.0f
-			),
-			GScene::updateOrder::hudUpdate
-		);
+		space->getScene()->addAction(make_hud_action(
+			&HUD::setIceDamage,
+			attributeSystem.getAdjustedValue(Attribute::iceDamage) / 25.0f
+		));
 
-		space->getScene()->addAction(
-			bind(
-				&IconMeter::setElementalValue,
-				playScene->hud->sunDamage,
-				attributeSystem.getAdjustedValue(Attribute::sunDamage) / 25.0f
-			),
-			GScene::updateOrder::hudUpdate
-		);
+		space->getScene()->addAction(make_hud_action(
+			&HUD::setSunDamage,
+			attributeSystem.getAdjustedValue(Attribute::sunDamage) / 25.0f
+		));
 	}
 
 	updateHitTime();    
@@ -243,6 +219,14 @@ void Player::applyAttributeModifier(Attribute id, float val)
 	attributeSystem.modifyAttribute(id, val);
 }
 
+FirePattern* Player::getFirePattern()
+{
+	if (firePatterns.empty())
+		return nullptr;
+
+	return firePatterns[crntFirePattern].get();
+}
+
 void Player::hit(AttributeMap attributeEffect, shared_ptr<MagicEffect> effect){
     if(hitProtectionCountdown <= 0 && !spellProtectionMode){
 
@@ -256,15 +240,11 @@ void Player::hit(AttributeMap attributeEffect, shared_ptr<MagicEffect> effect){
 			)
 		);
 
-		space->getScene()->addAction(
-			bind(
-				&HealthBar::runFlicker,
-				playScene->hud->health,
-				boost::rational_cast<float>(hitProtectionCountdown),
-				boost::rational_cast<float>(hitFlickerInterval)
-			),
-			GScene::updateOrder::hudUpdate
-		);
+		space->getScene()->addAction(make_hud_action(
+			&HUD::runHealthFlicker,
+			boost::rational_cast<float>(hitProtectionCountdown),
+			boost::rational_cast<float>(hitFlickerInterval)
+		));
 
 		Agent::hit(attributeEffect, effect);
     }
@@ -301,14 +281,10 @@ bool Player::trySetFirePattern(int idx)
 	else {
 		crntFirePattern = idx;
 
-		space->getScene()->addAction(
-			bind(
-				static_cast<void(Sprite::*)(const string&)>(&Sprite::setTexture),
-				playScene->hud->firePatternIcon,
-				getFirePattern()->iconPath()
-			),
-			GScene::updateOrder::hudUpdate
-		);
+		space->getScene()->addAction(make_hud_action(
+			&HUD::setFirePatternIcon,
+			getFirePattern()->iconPath()
+		));
 
 		return true;
 	}

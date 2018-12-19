@@ -127,11 +127,21 @@ public:
     Sprite* interactionIcon;
 	Sprite* firePatternIcon;
 
+	void setHP(int);
+	void setMaxHP(int);
+
+	void runHealthFlicker(float length, float interval);
+	void runPowerFlicker();
+
+	void setIceDamage(float);
+	void setSunDamage(float);
+
 	void setObjectiveCounter(string iconRes, int val);
 	void setObjectiveCounterVisible(bool val);
     
 	void showHealth(bool val);    
-	void setInteractionIcon(const string& val);
+	void setInteractionIcon(string val);
+	void setFirePatternIcon(string val);
     
 protected:
     object_ref<Player> player;
