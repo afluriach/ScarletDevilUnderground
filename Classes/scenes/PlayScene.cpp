@@ -47,32 +47,32 @@ GScene(sceneName, maps)
 {
     multiInit.insertWithOrder(
         wrap_method(PlayScene,trackPlayer,this),
-        static_cast<int>(initOrder::postLoadObjects)
+        to_int(initOrder::postLoadObjects)
     );
     multiInit.insertWithOrder(
         wrap_method(PlayScene,addHUD,this),
-        static_cast<int>(initOrder::initHUD)
+        to_int(initOrder::initHUD)
     );
 	multiInit.insertWithOrder(
 		wrap_method(PlayScene, initRoomMask, this),
-		static_cast<int>(initOrder::initRoomMask)
+		to_int(initOrder::initRoomMask)
 	);
 	multiInit.insertWithOrder(
 		wrap_method(PlayScene, initReplayData, this),
-		static_cast<int>(initOrder::core)
+		to_int(initOrder::core)
 	);
 
 	multiUpdate.insertWithOrder(
 		wrap_method(PlayScene, updateReplayData, this),
-		static_cast<int>(updateOrder::updateControls)
+		to_int(updateOrder::updateControls)
 	);
     multiUpdate.insertWithOrder(
         wrap_method(PlayScene,updateCamera,this),
-        static_cast<int>(updateOrder::moveCamera)
+        to_int(updateOrder::moveCamera)
     );
 	multiUpdate.insertWithOrder(
 		wrap_method(PlayScene, updateRoomMask, this),
-		static_cast<int>(updateOrder::roomMaskUpdate)
+		to_int(updateOrder::roomMaskUpdate)
 	);
 
     control_listener->addPressListener(
@@ -161,7 +161,7 @@ void PlayScene::addHUD()
     getLayer(sceneLayers::hud)->addChild(hud);
     multiUpdate.insertWithOrder(
         wrap_method(PlayScene,updateHUD,this),
-        static_cast<int>(updateOrder::hudUpdate)
+        to_int(updateOrder::hudUpdate)
     );
 }
 

@@ -10,6 +10,7 @@
 #define LuaConvert_h
 
 #include "LuaError.h"
+#include "macros.h"
 #include "types.h"
 
 class GObject;
@@ -106,7 +107,7 @@ struct convert<T, typename enable_if<is_enum<T>::value>::type>{
     }
     inline static LuaRef convertToLua(const T& t, lua_State* L)
     {
-        return LuaRef(L, static_cast<int>(t));
+        return LuaRef(L, to_int(t));
     }
 };
 

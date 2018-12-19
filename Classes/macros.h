@@ -9,9 +9,8 @@
 #ifndef macros_h
 #define macros_h
 
-#define for_irange(var,start,end) for(int var : boost::irange(static_cast<int>(start),static_cast<int>(end)))
-
 #define to_int(x) static_cast<int>(x)
+#define for_irange(var,start,end) for(int var : boost::irange(to_int(start),to_int(end)))
 
 #define debug_log(s) log("%s, %d: %s", __FUNCTION__, __LINE__, s);
 

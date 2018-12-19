@@ -348,6 +348,18 @@ void GObject::setupLuaContext()
 
 //BEGIN GRAPHICS
 
+GraphicsLayer GObject::sceneLayer() const {
+	return GraphicsLayer::ground;
+}
+
+int GObject::sceneLayerAsInt() const {
+	return to_int(sceneLayer());
+};
+
+float GObject::zoom() const {
+	return 1.0f;
+}
+
 void GObject::updateSprite()
 {
     if(sprite != nullptr){

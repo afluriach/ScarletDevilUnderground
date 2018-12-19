@@ -85,41 +85,41 @@ control_listener(make_unique<ControlListener>())
 	
 	multiInit.insertWithOrder(
 		wrap_method(GScene, installLuaShell, this),
-		static_cast<int>(initOrder::core)
+		to_int(initOrder::core)
 	);
 	//Updater has to be scheduled at init time.
     multiInit.insertWithOrder(
         wrap_method(Node,scheduleUpdate,this),
-        static_cast<int>(initOrder::core)
+        to_int(initOrder::core)
     );
 	multiInit.insertWithOrder(
 		wrap_method(GScene, processAdditions, this),
-		static_cast<int>(initOrder::loadObjects)
+		to_int(initOrder::loadObjects)
 	);
 	multiInit.insertWithOrder(
 		wrap_method(GScene, loadMaps, this),
-		static_cast<int>(initOrder::mapLoad)
+		to_int(initOrder::mapLoad)
 	);
 	multiInit.insertWithOrder(
 		wrap_method(GScene, runScriptInit, this),
-		static_cast<int>(initOrder::postLoadObjects)
+		to_int(initOrder::postLoadObjects)
 	);
 
 	multiUpdate.insertWithOrder(
 		wrap_method(GScene, updateSpace, this),
-		static_cast<int>(updateOrder::spaceUpdate)
+		to_int(updateOrder::spaceUpdate)
 	);
 	multiUpdate.insertWithOrder(
 		wrap_method(GScene, runScriptUpdate, this),
-		static_cast<int>(updateOrder::sceneUpdate)
+		to_int(updateOrder::sceneUpdate)
 	);
 	multiUpdate.insertWithOrder(
 		wrap_method(GScene,checkPendingScript, this),
-		static_cast<int>(updateOrder::runShellScript)
+		to_int(updateOrder::runShellScript)
 	);
 	multiUpdate.insertWithOrder(
 		bind(&GScene::runActionsWithOrder, this, updateOrder::hudUpdate),
-		static_cast<int>(updateOrder::hudUpdate)
+		to_int(updateOrder::hudUpdate)
 	);
 
 	spaceLayer = Node::ccCreate<SpaceLayer>();
@@ -272,7 +272,7 @@ SpaceVect GScene::getMapSize()
 
 Layer* GScene::getLayer(sceneLayers layer)
 {
-	auto it = layers.find(static_cast<int>(layer));
+	auto it = layers.find(to_int(layer));
 	if (it == layers.end()) return nullptr;
 	return it->second;
 }
@@ -327,8 +327,8 @@ void GScene::loadMap(const MapEntry& mapEntry)
 	cocos2d::CCSize size = tileMap->getMapSize();
 
 	dimensions = IntVec2(
-		max(dimensions.first, static_cast<int>(size.width) + mapEntry.second.first),
-		max(dimensions.second, static_cast<int>(size.height) + mapEntry.second.second)
+		max(dimensions.first, to_int(size.width) + mapEntry.second.first),
+		max(dimensions.second, to_int(size.height) + mapEntry.second.second)
 	);
 }
 

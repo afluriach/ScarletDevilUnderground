@@ -82,7 +82,7 @@ gamepad(manager.GetDevice(gamepad_id))
 
     Director::getInstance()->getEventDispatcher()->addEventListenerWithFixedPriority(
         keyListener,
-        static_cast<int>(App::EventPriorities::KeyRegisterEvent)
+        to_int(App::EventPriorities::KeyRegisterEvent)
     );
     
     #if use_gamepad

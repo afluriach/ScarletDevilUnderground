@@ -19,7 +19,7 @@ AttributeSet getAttributeSet(const AttributeMap& input)
 
 	for (map<Attribute, float>::const_iterator it = input.cbegin(); it != input.cend(); ++it)
 	{
-		result[static_cast<size_t>(it->first)] = it->second;
+		result[to_size_t(it->first)] = it->second;
 	}
 
 	return result;

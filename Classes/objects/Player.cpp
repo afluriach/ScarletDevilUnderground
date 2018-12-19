@@ -33,7 +33,7 @@ Player::Player(GSpace* space, ObjectIDType id, const ValueMap& args) :
 	MapObjForwarding(Agent),
 	RegisterUpdate<Player>(this)
 {
-	multiInit.insertWithOrder(wrap_method(Player, init, this), static_cast<int>(GObject::initOrder::postLoadAttributes));
+	multiInit.insertWithOrder(wrap_method(Player, init, this), to_int(GObject::initOrder::postLoadAttributes));
 
 	playScene = space->getSceneAs<PlayScene>();
 

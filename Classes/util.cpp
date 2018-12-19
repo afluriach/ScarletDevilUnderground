@@ -24,7 +24,7 @@ SpaceFloat dirToPhysicsAngle(Direction d)
 {
     if(d == Direction::none) return 0.0;
     
-    return primaryAngles[static_cast<int>(d)-1];
+    return primaryAngles[to_int(d)-1];
 }
 
 SpaceVect dirToVector(Direction d)

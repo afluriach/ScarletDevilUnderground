@@ -10,6 +10,7 @@
 
 #include "App.h"
 #include "Graphics.h"
+#include "macros.h"
 
 const string defaultFont = "Arial";
 
@@ -166,7 +167,7 @@ Sprite* loadImageSprite(const string& resPath, GraphicsLayer sceneLayer, Layer* 
     Sprite* node = Sprite::create(resPath);
     
     if(node)
-        dest->positionAndAddNode(node,static_cast<int>(sceneLayer),pos, zoom);
+        dest->positionAndAddNode(node,to_int(sceneLayer),pos, zoom);
     else
         log("loadImageSprite: sprite %s not loaded", resPath.c_str());
 

@@ -11,6 +11,7 @@
 #include "Agent.hpp"
 #include "App.h"
 #include "GSpace.hpp"
+#include "macros.h"
 #include "MagicEffect.hpp"
 
 Agent::Agent(GSpace* space, ObjectIDType id, const ValueMap& args) :
@@ -19,8 +20,8 @@ Agent::Agent(GSpace* space, ObjectIDType id, const ValueMap& args) :
 	StateMachineObject(args),
 	RegisterUpdate<Agent>(this)
 {
-	multiInit.insertWithOrder(wrap_method(Agent, initFSM, this), static_cast<int>(GObject::initOrder::initFSM));
-	multiInit.insertWithOrder(wrap_method(Agent, initAttributes, this), static_cast<int>(GObject::initOrder::loadAttributes));
+	multiInit.insertWithOrder(wrap_method(Agent, initFSM, this), to_int(GObject::initOrder::initFSM));
+	multiInit.insertWithOrder(wrap_method(Agent, initAttributes, this), to_int(GObject::initOrder::loadAttributes));
 }
 
 void Agent::initFSM()

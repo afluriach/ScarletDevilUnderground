@@ -179,9 +179,9 @@ public:
     Node* sprite = nullptr;
     
         //The Z-order used by Cocos2D.
-    virtual GraphicsLayer sceneLayer() const {return GraphicsLayer::ground;}
-    inline int sceneLayerAsInt(){return static_cast<int>(sceneLayer());};
-    inline virtual float zoom() const {return 1.0f;}
+	virtual GraphicsLayer sceneLayer() const;
+	int sceneLayerAsInt() const;
+	virtual float zoom() const;
     void updateSprite();
 
 	//Create Node which graphically reprensets this object and adds it to Layer

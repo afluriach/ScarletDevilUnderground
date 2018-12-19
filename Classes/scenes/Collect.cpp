@@ -11,6 +11,7 @@
 #include "Collect.h"
 #include "functional.hpp"
 #include "GSpace.hpp"
+#include "macros.h"
 
 const vector<string> Collect::targets = {
 	"glyph1",
@@ -25,7 +26,7 @@ PlayScene("Collect")
 {
 	multiInit.insertWithOrder(
 		wrap_method(Collect, initTargets, this),
-		static_cast<int>(initOrder::postLoadObjects)
+		to_int(initOrder::postLoadObjects)
 	);
 }
 

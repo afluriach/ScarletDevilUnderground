@@ -30,7 +30,7 @@ bool SpaceLayer::init()
 
 Layer* SpaceLayer::getLayer(GraphicsLayer layer)
 {
-	auto it = layers.find(static_cast<int>(layer));
+	auto it = layers.find(to_int(layer));
 	if (it == layers.end()) return nullptr;
 	return it->second;
 }
