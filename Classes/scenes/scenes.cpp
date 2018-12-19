@@ -117,7 +117,11 @@ control_listener(make_unique<ControlListener>())
 		wrap_method(GScene,checkPendingScript, this),
 		static_cast<int>(updateOrder::runShellScript)
 	);
-    
+	multiUpdate.insertWithOrder(
+		bind(&GScene::runActionsWithOrder, this, updateOrder::hudUpdate),
+		static_cast<int>(updateOrder::hudUpdate)
+	);
+
 	spaceLayer = Node::ccCreate<SpaceLayer>();
 
     //Create the sublayers at construction (so they are available to mixins at construction time).
@@ -232,6 +236,11 @@ void GScene::updateSpace()
 void GScene::processAdditions()
 {
 	gspace->processAdditions();
+}
+
+void GScene::addAction(function<void(void)> f, updateOrder order)
+{
+	actions.push_back(pair<function<void(void)>, updateOrder>(f, order));
 }
 
 void GScene::move(const Vec2& w)
@@ -441,4 +450,20 @@ void GScene::runScriptInit()
 void GScene::runScriptUpdate()
 {
     ctx->callIfExistsNoReturn("update");
+}
+
+void GScene::runActionsWithOrder(updateOrder order)
+{
+	for (auto it = actions.begin(); it != actions.end();)
+	{
+		if (it->second == order)
+		{
+			it->first();
+			it = actions.erase(it);
+		}
+		else
+		{
+			++it;
+		}
+	}
 }

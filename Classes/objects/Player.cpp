@@ -15,6 +15,7 @@
 #include "controls.h"
 #include "FirePattern.hpp"
 #include "FloorSegment.hpp"
+#include "functional.hpp"
 #include "GAnimation.hpp"
 #include "Graphics.h"
 #include "GSpace.hpp"
@@ -46,11 +47,33 @@ void Player::init()
 	setFirePatterns();
 
 	if (playScene) {
-		playScene->hud->health->setMax(attributeSystem.getAdjustedValue(Attribute::maxHP));
-		playScene->hud->health->setValue(attributeSystem.getAdjustedValue(Attribute::hp));
+		space->getScene()->addAction(
+			bind(
+				&IconMeter::setMax,
+				playScene->hud->health,
+				attributeSystem.getAdjustedValue(Attribute::maxHP)
+			),
+			GScene::updateOrder::hudUpdate
+		);
+
+		space->getScene()->addAction(
+			bind(
+				&IconMeter::setValue,
+				playScene->hud->health,
+				attributeSystem.getAdjustedValue(Attribute::hp)
+			),
+			GScene::updateOrder::hudUpdate
+		);
 
 		if (getFirePattern()) {
-			playScene->hud->firePatternIcon->setTexture(getFirePattern()->iconPath());
+			space->getScene()->addAction(
+				bind(
+					static_cast<void(Sprite::*)(const string&)>(&Sprite::setTexture),
+					playScene->hud->firePatternIcon,
+					getFirePattern()->iconPath()
+				),
+				GScene::updateOrder::hudUpdate
+			);
 		}
 	}
 
@@ -104,9 +127,13 @@ void Player::onSpellStop()
 {
     spellCooldown = spellCooldownTime;
 
-	if (playScene) {
-		playScene->hud->power->runFlicker();
-	}
+	space->getScene()->addAction(
+		bind(
+			&PowerMeter::runFlicker,
+			playScene->hud->power
+		),
+		GScene::updateOrder::hudUpdate
+	);
 }
 
 void Player::checkFireControls(const ControlInfo& cs)
@@ -136,20 +163,20 @@ void Player::checkItemInteraction(const ControlInfo& cs)
 	
 	if(interactible && interactible->canInteract())
     {
-		if (playScene) {
-			playScene->hud->setInteractionIcon(interactible->interactionIcon());
-		}
         if(cs.isControlActionPressed(ControlAction::interact) && interactCooldown <= 0.0f){
             interactible->interact();
             interactCooldown = interactCooldownTime;
         }
     }
-    else
-    {
-		if (playScene) {
-			playScene->hud->setInteractionIcon("");
-		}
-    }
+
+	space->getScene()->addAction(
+		bind(
+			&HUD::setInteractionIcon,
+			playScene->hud,
+			interactible && interactible->canInteract() ? interactible->interactionIcon() : ""
+		),
+		GScene::updateOrder::hudUpdate
+	);
 }
 
 void Player::updateHitTime()
@@ -184,8 +211,23 @@ void Player::update()
 		updateSpellControls(cs);
 		checkItemInteraction(cs);
 
-		playScene->hud->iceDamage->setElementalValue(attributeSystem.getAdjustedValue(Attribute::iceDamage) / 25.0f);
-		playScene->hud->sunDamage->setElementalValue(attributeSystem.getAdjustedValue(Attribute::sunDamage) / 25.0f);
+		space->getScene()->addAction(
+			bind(
+				&IconMeter::setElementalValue,
+				playScene->hud->iceDamage,
+				attributeSystem.getAdjustedValue(Attribute::iceDamage) / 25.0f
+			),
+			GScene::updateOrder::hudUpdate
+		);
+
+		space->getScene()->addAction(
+			bind(
+				&IconMeter::setElementalValue,
+				playScene->hud->sunDamage,
+				attributeSystem.getAdjustedValue(Attribute::sunDamage) / 25.0f
+			),
+			GScene::updateOrder::hudUpdate
+		);
 	}
 
 	updateHitTime();    
@@ -214,9 +256,15 @@ void Player::hit(AttributeMap attributeEffect, shared_ptr<MagicEffect> effect){
 			)
 		);
 
-		if (playScene) {
-			playScene->hud->health->runFlicker(boost::rational_cast<float>(hitProtectionCountdown), boost::rational_cast<float>(hitFlickerInterval));
-		}
+		space->getScene()->addAction(
+			bind(
+				&HealthBar::runFlicker,
+				playScene->hud->health,
+				boost::rational_cast<float>(hitProtectionCountdown),
+				boost::rational_cast<float>(hitFlickerInterval)
+			),
+			GScene::updateOrder::hudUpdate
+		);
 
 		Agent::hit(attributeEffect, effect);
     }
@@ -253,9 +301,15 @@ bool Player::trySetFirePattern(int idx)
 	else {
 		crntFirePattern = idx;
 
-		if (playScene) {
-			playScene->hud->firePatternIcon->setTexture(getFirePattern()->iconPath());
-		}
+		space->getScene()->addAction(
+			bind(
+				static_cast<void(Sprite::*)(const string&)>(&Sprite::setTexture),
+				playScene->hud->firePatternIcon,
+				getFirePattern()->iconPath()
+			),
+			GScene::updateOrder::hudUpdate
+		);
+
 		return true;
 	}
 }

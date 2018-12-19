@@ -61,4 +61,12 @@ inline function<void()> wrapMethod(Class* This)
     };
 }
 
+template<typename T, typename... Args>
+inline function<void(void)> generate_action(T* _this, void (T::*m)(Args...), Args ...args)
+{
+	return [=](void) -> void {
+		invoke(m, _this, args...);
+	};
+}
+
 #endif /* functional_h */

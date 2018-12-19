@@ -109,6 +109,8 @@ public:
 	void updateSpace();
 	void processAdditions();
 
+	void addAction(function<void(void)>, updateOrder order);
+
     void move(const Vec2& v);
     //The different vector type is intentional, as Chipmunk vector implies
     //unit space as opposed to pixel space.
@@ -140,12 +142,16 @@ protected:
 	void runScriptInit();
 	void runScriptUpdate();
 
+	void runActionsWithOrder(updateOrder order);
+
 	//Make sure to use a cocos map so cocos refcounting works.
 	cocos2d::Map<int, Layer*> layers;
 	SpaceLayer* spaceLayer = nullptr;
 	GSpace* gspace;
 	//the scale applied to the space layer
 	float spaceZoom = 1;
+
+	list<pair<function<void(void)>, updateOrder>> actions;
 
 	Dialog* dialog = nullptr;
 
