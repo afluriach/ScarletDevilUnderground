@@ -203,91 +203,34 @@ void PlayScene::resumeAnimations()
 
 void PlayScene::showGameOverMenu()
 {
-    hud->setVisible(false);
-	if(dialog)
-        dialog->setVisible(false);
-
-	GameOverMenu* gom = Node::ccCreate<GameOverMenu>();
-
-    getLayer(sceneLayers::menu)->addChild(gom);
+	showMenu(Node::ccCreate<GameOverMenu>());
 }
 
 void PlayScene::triggerGameOver()
 {
-    if(pauseMenu)
-        pauseMenu->setVisible(false);
-    
-    setPaused(true);
-    
-    spaceLayer->runAction(tintTo(fadeoutColor,fadeoutLength));
+	spaceLayer->runAction(tintTo(fadeoutColor, fadeoutLength));
 
-    Director::getInstance()->getScheduler()->schedule(
-        bind(&PlayScene::showGameOverMenu, this),
-        this,
-        0.0f,
-        0,
-        fadeoutLength,
-        false,
-        "showGameOverMenu"
-    );
+	triggerMenu(&PlayScene::showGameOverMenu);
 }
 
 void PlayScene::showSceneCompletedMenu()
 {
-	hud->setVisible(false);
-	if (dialog)
-		dialog->setVisible(false);
-
-	ChamberCompletedMenu* menu = Node::ccCreate<ChamberCompletedMenu>();
-
-	getLayer(sceneLayers::menu)->addChild(menu);
+	showMenu(Node::ccCreate<ChamberCompletedMenu>());
 }
 
 void PlayScene::triggerSceneCompleted()
 {
-	if (pauseMenu)
-		pauseMenu->setVisible(false);
-
-	setPaused(true);
-
-	Director::getInstance()->getScheduler()->schedule(
-		bind(&PlayScene::showSceneCompletedMenu, this),
-		this,
-		0.0f,
-		0,
-		fadeoutLength,
-		false,
-		"showSceneCompletedMenu"
-	);
+	triggerMenu(&PlayScene::showSceneCompletedMenu);
 }
 
 void PlayScene::showReplayCompletedMenu()
 {
-	hud->setVisible(false);
-	if (dialog)
-		dialog->setVisible(false);
-
-	ReplayCompletedMenu* menu = Node::ccCreate<ReplayCompletedMenu>();
-
-	getLayer(sceneLayers::menu)->addChild(menu);
+	showMenu(Node::ccCreate<ReplayCompletedMenu>());
 }
 
 void PlayScene::triggerReplayCompleted()
 {
-	if (pauseMenu)
-		pauseMenu->setVisible(false);
-
-	setPaused(true);
-
-	Director::getInstance()->getScheduler()->schedule(
-		bind(&PlayScene::showReplayCompletedMenu, this),
-		this,
-		0.0f,
-		0,
-		fadeoutLength,
-		false,
-		"showReplayCompletedMenu"
-	);
+	triggerMenu(&PlayScene::showReplayCompletedMenu);
 }
 
 GScene* PlayScene::getReplacementScene()
@@ -362,4 +305,31 @@ ControlInfo PlayScene::getControlData()
 	else {
 		return app->control_register->getControlInfo();
 	}
+}
+
+void PlayScene::showMenu(Layer* menu)
+{
+	hud->setVisible(false);
+	if (dialog)
+		dialog->setVisible(false);
+
+	getLayer(sceneLayers::menu)->addChild(menu);
+}
+
+void PlayScene::triggerMenu(void (PlayScene::*m)(void))
+{
+	if (pauseMenu)
+		pauseMenu->setVisible(false);
+
+	setPaused(true);
+
+	Director::getInstance()->getScheduler()->schedule(
+		bind(m, this),
+		this,
+		0.0f,
+		0,
+		fadeoutLength,
+		false,
+		"showMenu"
+	);
 }

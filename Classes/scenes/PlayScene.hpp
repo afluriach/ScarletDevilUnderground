@@ -68,6 +68,8 @@ public:
 
 private:    
     void addHUD();
+	void showMenu(Layer* menu);
+	void triggerMenu( void (PlayScene::*m)(void) );
 
 	vector<DrawNode*> roomMasks;
 
