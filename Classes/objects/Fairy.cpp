@@ -40,6 +40,7 @@ void Fairy2::initStateMachine(ai::StateMachine& sm) {
 			return make_shared<ai::MaintainDistance>(target, 3.0f, 1.0f);
 		}
 	));
+	addThread(make_shared<ai::TrackByType<Fairy2>>());
 }
 
 const AttributeMap IceFairy::baseAttributes = {

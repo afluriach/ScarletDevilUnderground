@@ -10,6 +10,7 @@
 #define AI_hpp
 
 #include "enum.h"
+#include "GSpace.hpp"
 #include "object_ref.hpp"
 #include "types.h"
 
@@ -192,6 +193,39 @@ protected:
     string target_name;
     Generator nextState;
 };
+
+template<typename T>
+class TrackByType : public Function {
+public:
+	//typedef function<shared_ptr<Function>(GObject* detected)> Generator;
+
+	inline TrackByType() {}
+	inline TrackByType(GSpace* space, const ValueMap& args) {}
+
+	inline virtual void onEnter(StateMachine& sm) {
+		targets = sm.agent->space->getObjectsByTypeAs<T>();
+	}
+	inline virtual void update(StateMachine& sm) {
+		for (auto it = targets.begin(); it != targets.end(); ) {
+			if (!it->isValid())
+				it = targets.erase(it);
+			else
+				++it;
+		}
+	}
+
+	inline virtual string getName() const {
+		return
+			string("TrackByType<")  + 
+			string(type_index(typeid(T)).name()) +
+			string(">")
+		;
+	}
+protected:
+	vector<object_ref<T>> targets;
+//	Generator nextState;
+};
+
 
 class Seek : public Function {
 public:

@@ -43,6 +43,8 @@
 #include <set>
 #include <thread>
 #include <type_traits>
+#include <typeindex>
+#include <typeinfo>
 #include <unordered_set>
 #include <utility>
 #include <vector>

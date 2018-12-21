@@ -21,6 +21,12 @@ class SpaceLayer;
     GObject* a = static_cast<GObject*>(arb.getBodyA().getUserData()); \
     GObject* b = static_cast<GObject*>(arb.getBodyB().getUserData());
 
+template<class D>
+constexpr bool isObjectCls() {
+	return is_base_of<GObject, D>();
+}
+
+#define assert_gobject(cls) static_assert( isObjectCls<cls>(),"Not a GObject type!");
 
 class GSpace
 {
@@ -52,6 +58,7 @@ private:
 //BEGIN OBJECT MANIPULATION
 public:
     static const bool logObjectArgs;
+	static const set<type_index> trackedTypes;
 
 	void addWallBlock(SpaceVect ll, SpaceVect ur);
 
@@ -71,22 +78,34 @@ public:
 	GObject* getObject(const string& name) const;
 	GObject* getObject(unsigned int uuid) const;
 
+	const set<GObject*>* getObjecstByType(type_index t) const;
+
     template<typename T>
     inline object_ref<T> getObjectRefAs(const string& name) const{
-        static_assert(
-            is_base_of<GObject, T>(),
-            "getObject: not a GObject type"
-        );
+		assert_gobject(T);
 		return object_ref<T>(getObject(name));
     }
 
 	template<typename T>
 	inline T* getObjectAs(const string& name) const {
-		static_assert(
-			is_base_of<GObject, T>(),
-			"getObject: not a GObject type"
-			);
+		assert_gobject(T);
 		return dynamic_cast<T*>(getObject(name));
+	}
+
+	template<typename T>
+	inline vector<object_ref<T>> getObjectsByTypeAs() const {
+		assert_gobject(T);
+		const set<GObject*>* base = getObjecstByType(typeid(T));
+		vector<object_ref<T>> result;
+		result.reserve(base->size());
+		
+		if (!base) return vector<object_ref<T>>();
+
+		for (GObject* basePtr : *base) {
+			result.push_back(dynamic_cast<T*>(basePtr));
+		}
+
+		return result;
 	}
 
     void removeObject(const string& name);
@@ -101,6 +120,7 @@ private:
     
     unordered_map<unsigned int, GObject*> objByUUID;
     unordered_map<string, GObject*> objByName;
+	unordered_map<type_index, set<GObject*>> objByType;
 
 	unsigned int nextObjUUID = 1;
     

@@ -22,6 +22,7 @@
 #include "Flower.h"
 #include "Goal.hpp"
 #include "Glyph.hpp"
+#include "GSpace.hpp"
 #include "GState.hpp"
 #include "Items.hpp"
 #include "Launcher.hpp"
@@ -110,4 +111,8 @@ const unordered_map<string, GObject::AdapterType> GObject::adapters = {
 	entry_same(Wall),
 
 	{ "Player", playerAdapter() }
+};
+
+const set<type_index> GSpace::trackedTypes = {
+	typeid(Fairy2)
 };

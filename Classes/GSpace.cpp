@@ -30,6 +30,10 @@ GSpace::GSpace(SpaceLayer* spaceLayer, GScene* gscene) : spaceLayer(spaceLayer),
 {
     space.setGravity(SpaceVect(0,0));
     addCollisionHandlers();
+
+	for (type_index t : trackedTypes) {
+		objByType[t] = set<GObject*>();
+	}
 }
 
 GSpace::~GSpace()
@@ -165,6 +169,15 @@ GObject* GSpace::getObject(unsigned int uuid) const
 	return it != objByUUID.end() ? it->second : nullptr;
 }
 
+const set<GObject*>* GSpace::getObjecstByType(type_index t) const
+{
+	if (trackedTypes.find(t) == trackedTypes.end()) {
+		log("%s is not a tracked type.", t.name());
+		return nullptr;
+	}
+
+	return &(objByType.at(t));
+}
 
 bool GSpace::isValid(unsigned int uuid) const
 {
@@ -204,6 +217,10 @@ void GSpace::processAdditions()
         obj->initializeRadar(*this);
         obj->initializeGraphics(spaceLayer);
         
+		if (trackedTypes.find(typeid(*obj)) != trackedTypes.end()) {
+			objByType[typeid(*obj)].insert(obj);
+		}
+
         if(!obj->anonymous)
             objByName[obj->name] = obj;
         objByUUID[obj->uuid] = obj;
@@ -242,6 +259,11 @@ void GSpace::processRemoval(GObject* obj, bool removeSprite)
 {
     objByName.erase(obj->name);
     objByUUID.erase(obj->uuid);
+
+	if (trackedTypes.find(typeid(*obj)) != trackedTypes.end()) {
+		objByType[typeid(*obj)].erase(obj);
+	}
+
 	currentContacts.erase(obj);
     
 	if (obj->crntFloor.get())
