@@ -443,10 +443,9 @@ void GScene::installLuaShell()
 void GScene::checkPendingScript()
 {
 	if (!pendingScript.empty()) {
-		app->lua.runString(pendingScript);
+		App::lua->runString(pendingScript);
 		pendingScript.clear();
 	}
-	Lua::Inst::runCommands();
 }
 
 void GScene::runScriptInit()

@@ -100,9 +100,9 @@ void StarlightTyphoon::init()
 void StarlightTyphoon::fire()
 {
     //The angle variation, will be added to the base direction.
-    float arcPos = app->getRandomFloat(-width, width);
-    float crntSpeed = app->getRandomFloat(speed*0.5, speed*1.5);
-    float crntRadius = app->getRandomFloat(radius*0.7, radius*1.3);
+    float arcPos = App::getRandomFloat(-width, width);
+    float crntSpeed = App::getRandomFloat(speed*0.5, speed*1.5);
+    float crntRadius = App::getRandomFloat(radius*0.7, radius*1.3);
     
     SpaceVect pos = caster->getPos() + SpaceVect::ray(offset, angle);
     
@@ -111,7 +111,7 @@ void StarlightTyphoon::fire()
 		pos,
 		crntSpeed,
 		radius,
-		StarBullet::colors[app->getRandomInt(0, StarBullet::colors.size() - 1)]
+		StarBullet::colors[App::getRandomInt(0, StarBullet::colors.size() - 1)]
 	));
 }
 void StarlightTyphoon::update()

@@ -31,11 +31,6 @@ void printMap(unordered_map<string,string> m)
     }
 }
 
-void dostring_in_inst(string script, string inst_name)
-{
-    Inst::addCommand(inst_name, script);
-}
-
 void save()
 {
     GState::save();
@@ -98,7 +93,6 @@ void Inst::installWrappers()
 const unordered_map<string, function<int(lua_State*)>> Inst::cfunctions = {
 	make_wrapper_same(printMap),
 	make_wrapper_same(runscript),
-	make_wrapper_same(dostring_in_inst),
 	make_wrapper_same(save),
 	make_wrapper_same(getInventoryContents),
 

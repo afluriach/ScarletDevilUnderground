@@ -25,12 +25,12 @@
 template<typename T>
 constexpr GScene::AdapterType adapter()
 {
-    return []() -> GScene* { return app->createAndRunScene<T>();};
+    return []() -> GScene* { return App::createAndRunScene<T>();};
 }
 
 GScene::AdapterType playSceneAdapter(const string& name)
 {
-	return [name]() -> GScene* {return app->createAndRunScene<PlayScene>(name); };
+	return [name]() -> GScene* {return App::createAndRunScene<PlayScene>(name); };
 }
 
 const unordered_map<string, GScene::AdapterType> GScene::adapters = {

@@ -19,8 +19,6 @@ class HUD;
 class KeyRegister;
 class PlayScene;
 
-extern App* app;
-
 class  App : private Application
 {
 public:
@@ -59,6 +57,7 @@ public:
 	static void setFullscreen(bool fs);
 	static void setResolution(unsigned int width, unsigned int height);
 	static void setFramerate(unsigned int fps);
+	static void setPlayer(int id);
 
 	//Methods for controlling the active scene; wraps calls to Director.
 	static void runTitleScene();
@@ -85,28 +84,28 @@ public:
     virtual void initGLContextAttrs();
     
     void loadShaders();
-
-	void setPlayer(int id);
     
     //globals exposed by app
-    ControlRegister* control_register = nullptr;
-    Lua::Inst lua;
-	PlayerCharacter crntPC = PlayerCharacter::flandre;
-
-    boost::random::uniform_01<float> randomFloat;
-    boost::random::uniform_int_distribution<int> randomInt;
-    boost::random::mt19937 randomEngine;
-
-    virtual bool applicationDidFinishLaunching();
-    virtual void applicationDidEnterBackground();
-    virtual void applicationWillEnterForeground();
+    static unique_ptr<ControlRegister> control_register;
+    static unique_ptr<Lua::Inst> lua;
+	static PlayerCharacter crntPC;
             
     //Generate [min,max)
-	float getRandomFloat(float min, float max);
+	static float getRandomFloat(float min, float max);
     //Generate [min,max]
-	int getRandomInt(int min, int max);
+	static int getRandomInt(int min, int max);
     
 protected:
+	static App* appInst;
+
+	boost::random::uniform_01<float> randomFloat;
+	boost::random::uniform_int_distribution<int> randomInt;
+	boost::random::mt19937 randomEngine;
+
+	virtual bool applicationDidFinishLaunching();
+	virtual void applicationDidEnterBackground();
+	virtual void applicationWillEnterForeground();
+
     void update(float dt);
 };
 

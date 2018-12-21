@@ -58,7 +58,7 @@ constexpr GObject::AdapterType itemAdapter(const string& name)
 GObject::AdapterType playerAdapter()
 {
 	return [](GSpace* space, ObjectIDType id, const ValueMap& args) -> GObject* {
-		switch (app->crntPC) {
+		switch (App::crntPC) {
 		case PlayerCharacter::flandre:
 			return new FlandrePC(space,id,args);
 		case PlayerCharacter::rumia:

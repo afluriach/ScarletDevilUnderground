@@ -8,8 +8,6 @@
 #include "GState.hpp"
 #include "scenes.h"
 
-App* app;
-
 const string App::title = "Kouma";
 
 const vector<string> App::shaderFiles = {
@@ -27,6 +25,12 @@ bool App::fullscreen = false;
 unsigned int App::framesPerSecond = 60;
 double App::secondsPerFrame = 1.0 / App::framesPerSecond;
 boost::rational<int> App::secondsPerFrameRational(1,App::framesPerSecond);
+
+unique_ptr<ControlRegister> App::control_register;
+unique_ptr<Lua::Inst> App::lua;
+PlayerCharacter App::crntPC = PlayerCharacter::flandre;
+
+App* App::appInst;
 
 void App::setFullscreen(bool fs)
 {
@@ -57,17 +61,18 @@ float App::getScale()
 	return 1.0f * width / baseWidth;
 }
 
-App::App() : lua("app")
+App::App()
 {
-    app = this;
+    appInst = this;
     //Initialize Lua
-    lua.runFile("scripts/init.lua");    
+	lua = make_unique<Lua::Inst>("app");
+	lua->runFile("scripts/init.lua");    
 }
 
 App::~App() 
 {
-    delete_if(control_register);
-        
+	control_register = nullptr;
+
     log("app exiting");
 }
 
@@ -103,7 +108,7 @@ bool App::applicationDidFinishLaunching() {
     loadShaders();
 
     //Activate key register.
-    control_register = new ControlRegister();
+    control_register = make_unique<ControlRegister>();
     
     //Load profile data
     GState::load();
@@ -118,7 +123,7 @@ bool App::applicationDidFinishLaunching() {
     
     //Create title menu scene and run it.
     runTitleScene();
-    lua.runFile("scripts/title.lua");
+    lua->runFile("scripts/title.lua");
 
     return true;
 }
@@ -218,14 +223,14 @@ void App::setPlayer(int id)
 
 //Generate [min,max)
 float App::getRandomFloat(float min, float max) {
-	float u01 = randomFloat(randomEngine);
+	float u01 = appInst->randomFloat(appInst->randomEngine);
 
 	return (min + u01 * (max - min));
 }
 
 //Generate [min,max]
 int App::getRandomInt(int min, int max) {
-	return randomInt(randomEngine, boost::random::uniform_int_distribution<int>::param_type(min, max));
+	return appInst->randomInt(appInst->randomEngine, boost::random::uniform_int_distribution<int>::param_type(min, max));
 }
 
 

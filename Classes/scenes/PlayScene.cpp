@@ -143,7 +143,7 @@ void PlayScene::trackCameraTarget()
 
 void PlayScene::applyCameraControls()
 {
-    Vec2 arrowState = toCocos(app->control_register->getRightVector());
+    Vec2 arrowState = toCocos(App::control_register->getRightVector());
     if(!arrowState.isZero()){
         move(arrowState * cameraMovePixPerFrame);
     }
@@ -252,7 +252,7 @@ void PlayScene::updateReplayData()
 	}
 
 	else if (controlReplay && !isRunningReplay) {
-		controlReplay->control_data.push_back(app->control_register->getControlState());
+		controlReplay->control_data.push_back(App::control_register->getControlState());
 	}
 }
 
@@ -303,7 +303,7 @@ ControlInfo PlayScene::getControlData()
 		}
 	}
 	else {
-		return app->control_register->getControlInfo();
+		return App::control_register->getControlInfo();
 	}
 }
 

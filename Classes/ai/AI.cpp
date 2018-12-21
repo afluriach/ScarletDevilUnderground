@@ -819,7 +819,7 @@ Wander::Wander(GSpace* space, const ValueMap& args) :
 
 void Wander::update(StateMachine& fsm)
 {
-    SpaceFloat dist = app->getRandomFloat(minDist, maxDist);
+    SpaceFloat dist = App::getRandomFloat(minDist, maxDist);
     vector<Direction> directions;
     SpaceVect target;
     
@@ -834,7 +834,7 @@ void Wander::update(StateMachine& fsm)
     if(directions.empty())
         return;
 
-    int randomIdx = app->getRandomInt(0, directions.size()-1);
+    int randomIdx = App::getRandomInt(0, directions.size()-1);
     
     fsm.push(make_shared<MoveToPoint>(fsm.agent->getPos()+dirToVector(directions[randomIdx])*dist));
     
@@ -843,7 +843,7 @@ void Wander::update(StateMachine& fsm)
             sm.agent->setDirection(directions[randomIdx]);
     }));
     
-    int waitFrames = app->getRandomInt(minWait*App::framesPerSecond, maxWait*App::framesPerSecond);
+    int waitFrames = App::getRandomInt(minWait*App::framesPerSecond, maxWait*App::framesPerSecond);
     fsm.push(make_shared<IdleWait>(waitFrames));
 }
 

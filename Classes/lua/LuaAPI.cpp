@@ -36,11 +36,6 @@ const vector<string> Inst::luaIncludes = {
 	"ai"
 };
 
-unordered_map<string, Inst*> Inst::instances;
-
-vector<pair<string,string>> Inst::commandQueue;
-mutex Inst::queueLock;
-
     //Raise Lua exception
     void error(lua_State* L, const string& msg)
     {
@@ -49,7 +44,7 @@ mutex Inst::queueLock;
     }
     
     void runscript(string name){
-        app->lua.runFile("scripts/"+name+".lua");
+        App::lua->runFile("scripts/"+name+".lua");
     }
 
     void requireType(lua_State* L, const string& name, LuaRef ref, int typeID)
@@ -84,17 +79,12 @@ mutex Inst::queueLock;
         loadLibraries();
         
         if(logInst)
-            cocos2d::log("Lua Inst created: %s.", name.c_str());
-        
-        if(instances.find(name) != instances.end())
-            cocos2d::log("Lua Inst with duplicate name: %s.", name.c_str());
-        instances[name] = this;
+            cocos2d::log("Lua Inst created: %s.", name.c_str());        
     }
     
     Inst::~Inst()
     {
         lua_close(state);
-        instances.erase(name);
         
         if(logInst)
             cocos2d::log("Lua Inst closed: %s.", name.c_str());
@@ -139,35 +129,7 @@ mutex Inst::queueLock;
         ref.push(state);
         lua_setglobal(state, name.c_str());
     }
-    
-    void Inst::addCommand(const string& target, const string& script)
-    {
-        queueLock.lock();
-        commandQueue.push_back(pair<string,string>(target,script));
-        queueLock.unlock();
-    }
-    
-    void Inst::runCommands()
-    {
-        queueLock.lock();
         
-        for(auto const &command: commandQueue)
-        {
-            auto it = Inst::instances.find(command.first);
-        
-            if(it != Inst::instances.end()){
-                it->second->runString(command.second);
-            }
-            else{
-                cocos2d::log("runCommands: instance %s not found.", command.first.c_str());
-            }
-        }
-        
-        commandQueue.clear();
-        
-        queueLock.unlock();
-    }
-    
     void Inst::runString(const string& str)
     {        
         int error = luaL_dostring(state, str.c_str());
@@ -286,13 +248,12 @@ mutex Inst::queueLock;
 		.beginClass<App>("App")
 			.addStaticData("width", &App::width)
 			.addStaticData("height", &App::height)
-			.addStaticData("app", &app)
 			.addStaticFunction("getCrntScene", &App::getCrntScene)
 			.addStaticFunction("printGlDebug", &App::printGlDebug)
 			.addStaticFunction("setFullscreen", &App::setFullscreen)
 			.addStaticFunction("setResolution", &App::setResolution)
 			.addStaticFunction("setFramerate", &App::setFramerate)
-			.addFunction("setPlayer", &App::setPlayer)
+			.addStaticFunction("setPlayer", &App::setPlayer)
 		.endClass()
 
 		.beginClass<GObject>("GObject")
@@ -363,4 +324,17 @@ mutex Inst::queueLock;
 		.endNamespace()
 		;
     }
+
+	string Inst::getSerialized(const string& name) {
+		return callOneReturn("get_serialized", makeArgs(name), "");
+	}
+
+	void Inst::setSerialized(const string& name, const string& val) {
+		call("set_serialized", makeArgs(name, val));
+	}
+
+	string Inst::callSerialized(const string& name, const string& args) {
+		return callOneReturn("call_serialized", makeArgs(name, args), "");
+	}
+
 }

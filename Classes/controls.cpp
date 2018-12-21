@@ -429,17 +429,17 @@ bool ControlReplay::save(const string& filepath)
 ControlListener::~ControlListener()
 {
     for(ControlRegister::callback_uuid id: callback_IDs){
-        app->control_register->removeListener(id);
+        App::control_register->removeListener(id);
     }
 }
 
 void ControlListener::addPressListener(ControlAction action, function<void()> f)
 {
-	ControlRegister::callback_uuid uuid = app->control_register->addPressListener(action, f);
+	ControlRegister::callback_uuid uuid = App::control_register->addPressListener(action, f);
     callback_IDs.push_back(uuid);
 }
 void ControlListener::addReleaseListener(ControlAction action, function<void()> f)
 {
-	ControlRegister::callback_uuid uuid = app->control_register->addReleaseListener(action, f);
+	ControlRegister::callback_uuid uuid = App::control_register->addReleaseListener(action, f);
     callback_IDs.push_back(uuid);
 }

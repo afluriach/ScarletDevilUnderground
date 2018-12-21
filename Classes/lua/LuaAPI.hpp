@@ -49,12 +49,6 @@ namespace Lua
         static const vector<string> luaIncludes;
         static const bool logInst = false;
         
-        static unordered_map<string, Inst*> instances;
-        
-        static vector<pair<string,string>> commandQueue;
-        static mutex queueLock;
-        static void runCommands();
-        static void addCommand(const string& target, const string& script);
         static int dispatch(lua_State* L);
     
         void installApi();
@@ -106,17 +100,9 @@ namespace Lua
                 return defaultReturn;
         }
 
-        inline string getSerialized(const string& name){
-            return callOneReturn("get_serialized", makeArgs(name), "");
-        }
-        
-        inline void setSerialized(const string& name, const string& val){
-            call("set_serialized", makeArgs(name, val));
-        }
-        
-        inline string callSerialized(const string& name, const string& args){
-            return callOneReturn("call_serialized", makeArgs(name, args), "");
-        }
+		string getSerialized(const string& name);
+		void setSerialized(const string& name, const string& val);
+		string callSerialized(const string& name, const string& args);
         
         //Helper for making Lua data, since LuaRef requires the lua state.
         template<typename T>

@@ -28,14 +28,14 @@ void GardenBlooming::generateFlowers(){
     
     for_irange(y,0,size.y){
         for_irange(x,0,size.x){
-            if(app->randomFloat(app->randomEngine) < weight){
+            if(App::getRandomFloat(0.0f,1.0f) < weight){
                 addFlower(SpaceVect(0.5+x,0.5+y));
             }
         }
     }
 }
 void GardenBlooming::addFlower(const SpaceVect& pos){
-    int index = app->randomInt(app->randomEngine) % colors.size();
+    int index = App::getRandomInt(0,colors.size()-1);
     const string& color = colors[index];
     
 	gspace->createObject(

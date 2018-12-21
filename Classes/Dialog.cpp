@@ -121,7 +121,7 @@ void Dialog::setColor(const Color3B& color)
 
 void Dialog::runLuaScript(const string& script)
 {
-    app->lua.runString(script);
+    App::lua->runString(script);
     advanceFrame(false);
 }
 
@@ -146,7 +146,7 @@ void Dialog::update(float dt)
 {
     timeInFrame += dt;
     
-    if(app->control_register->isControlAction(ControlAction::dialogSkip)){
+    if(App::control_register->isControlAction(ControlAction::dialogSkip)){
         checkSkipAdvance();
     }
         

@@ -15,6 +15,6 @@ int __stdcall _tWinMain(HINSTANCE hInstance,
     UNREFERENCED_PARAMETER(lpCmdLine);
 
     // create the application instance
-	App inst;
+	unique_ptr<App> inst = make_unique<App>();
     return Application::getInstance()->run();
 }
