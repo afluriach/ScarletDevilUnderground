@@ -95,15 +95,18 @@ void Pyramid::onEndDetect(GObject* other)
 
 void Pyramid::initializeGraphics(SpaceLayer* layer)
 {
-	Sprite* base = Sprite::create(imageSpritePath());
+	base = Sprite::create(imageSpritePath());
 	drawNode = DrawNode::create();
 
-	sprite = Node::create();
-	sprite->addChild(base, 1);
-	sprite->addChild(drawNode, 2);
+	layer->getLayer(GraphicsLayer::ground)->positionAndAddNode(
+		base,
+		1,
+		getInitialCenterPix(),
+		1.0f
+	);
 
 	layer->getLayer(GraphicsLayer::overhead)->positionAndAddNode(
-		sprite,
+		drawNode,
 		1,
 		getInitialCenterPix(),
 		1.0f

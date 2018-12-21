@@ -56,7 +56,8 @@ public:
 
 	void initStateMachine(ai::StateMachine& sm);
 protected:
-	DrawNode* drawNode;
+	Sprite* base = nullptr;
+	DrawNode* drawNode = nullptr;
 	set<object_ref<Agent>> targets;
 };
 #endif /* Pyramid_hpp */
