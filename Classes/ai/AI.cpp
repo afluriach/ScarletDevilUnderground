@@ -715,6 +715,24 @@ void IdleWait::update(StateMachine& fsm)
 	ai::applyDesiredVelocity(fsm.agent, SpaceVect::zero, fsm.agent->getMaxAcceleration());
 }
 
+LookAround::LookAround(boost::rational<int> secondsPerDirection, bool clockwise) :
+secondsPerDirection(secondsPerDirection),
+timeRemaining(secondsPerDirection),
+clockwise(clockwise)
+{
+
+}
+
+void LookAround::update(StateMachine& fsm)
+{
+	timerDecrement(timeRemaining);
+
+	if (timeRemaining <= 0) {
+		fsm.agent->rotate(float_pi / 2.0 * (clockwise ? 1.0 : -1.0));
+		timeRemaining = secondsPerDirection;
+	}
+}
+
 MoveToPoint::MoveToPoint(GSpace* space, const ValueMap& args)
 {
     auto xIter = args.find("target_x");

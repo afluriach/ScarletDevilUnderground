@@ -296,6 +296,24 @@ class IdleWait : public Function{
         unsigned int remaining;
 };
 
+class LookAround : public Function {
+public:
+	LookAround(boost::rational<int> secondsPerDirection, bool clockwise);
+
+	virtual void update(StateMachine& fsm);
+
+	inline virtual bitset<lockCount> getLockMask() {
+		return make_enum_bitfield(ResourceLock::movement);
+	}
+
+	FuncGetName(LookAround)
+private:
+	boost::rational<int> secondsPerDirection;
+	boost::rational<int> timeRemaining;
+	bool clockwise;
+};
+
+
 class MoveToPoint : public Function{
 public:
     MoveToPoint(GSpace* space, const ValueMap& args);

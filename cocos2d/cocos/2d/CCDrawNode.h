@@ -235,6 +235,8 @@ public:
      */
     void drawSolidCircle(const Vec2& center, float radius, float angle, unsigned int segments, const Color4F& color);
     
+	void drawSolidCone(const Vec2& center, float radius, float startAngle, float endAngle, unsigned int segments, const Color4F &color);
+
     /** draw a segment with a radius and color. 
      *
      * @param from The segment origin.
