@@ -76,6 +76,11 @@ vector<GScene::MapEntry> GScene::singleMapEntry(const string& mapName)
 	};
 }
 
+const IntVec2 GScene::getRoomOffset(IntVec2 roomSize, int roomGridX, int roomGridY)
+{
+	return IntVec2(roomGridX * roomSize.first, roomGridY * roomSize.second);
+}
+
 GScene::GScene(const string& sceneName, const vector<MapEntry>& maps) :
 maps(maps),
 sceneName(sceneName),

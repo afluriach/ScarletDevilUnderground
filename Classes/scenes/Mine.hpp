@@ -17,8 +17,6 @@ public:
 	static const IntVec2 roomSize;
 	static const vector<MapEntry> rooms;
 
-	static const IntVec2 getRoomOffset(int roomGridX, int roomGridY);
-
 	Mine();
 	inline virtual ~Mine() {}
 

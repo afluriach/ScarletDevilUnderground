@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.0" tiledversion="1.0.3" orientation="orthogonal" renderorder="right-down" width="17" height="17" tilewidth="128" tileheight="128" nextobjectid="43">
+ <tileset firstgid="1" name="ice_wall" tilewidth="128" tileheight="128" tilecount="4" columns="2">
+  <image source="ice_wall.png" width="256" height="256"/>
+ </tileset>
+ <tileset firstgid="5" name="dark_ice_floor" tilewidth="128" tileheight="128" tilecount="1" columns="1">
+  <image source="dark_ice.png" width="128" height="128"/>
+ </tileset>
+ <layer name="floor" width="17" height="17">
+  <data encoding="base64" compression="zlib">
+   eJxjYGBgYANiVjJpEGBnwA9YCcizE6GGGPlRd9DGHZTi4RYeo+5AuAMEKC0/AGG0Ae4=
+  </data>
+ </layer>
+ <layer name="wall_tiles" width="17" height="17">
+  <data encoding="base64" compression="zlib">
+   eJxjYGBgYARiJhw0AxHyzAyUARYks8gFTKPuoIk7qAGGU3iMugPVHTCaGQdNjDwACVMAkQ==
+  </data>
+ </layer>
+ <objectgroup name="floor">
+  <object id="33" type="IceFloor" x="0" y="1024" width="1024" height="128"/>
+  <object id="35" type="IceFloor" x="1024" y="0" width="128" height="2176"/>
+  <object id="36" type="IceFloor" x="1152" y="1024" width="1024" height="128"/>
+  <object id="39" type="Pitfall" x="128" y="128" width="896" height="896"/>
+  <object id="40" type="Pitfall" x="1152" y="128" width="896" height="896"/>
+  <object id="41" type="Pitfall" x="128" y="1152" width="896" height="896"/>
+  <object id="42" type="Pitfall" x="1152" y="1152" width="896" height="896"/>
+ </objectgroup>
+ <objectgroup name="walls">
+  <object id="26" x="128" y="0" width="896" height="128"/>
+  <object id="27" x="2048" y="128" width="128" height="896"/>
+  <object id="28" x="128" y="2048" width="896" height="128"/>
+  <object id="29" x="0" y="1152" width="128" height="896"/>
+  <object id="30" x="1152" y="2048" width="896" height="128"/>
+  <object id="31" x="2048" y="1152" width="128" height="896"/>
+  <object id="32" x="0" y="128" width="128" height="896"/>
+  <object id="37" x="1152" y="0" width="896" height="128"/>
+ </objectgroup>
+ <objectgroup name="objects"/>
+</map>

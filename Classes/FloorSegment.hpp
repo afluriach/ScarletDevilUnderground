@@ -25,6 +25,8 @@ public:
 	virtual PhysicsLayers getLayers() const { return PhysicsLayers::floor; }
 	virtual inline bool getSensor() const { return true; }
 
+	virtual inline SpaceFloat getFrictionCoeff() const { return 1.0; }
+
 	virtual void onContact(GObject* obj) = 0;
 	virtual void onEndContact(GObject* obj) = 0;
 };
@@ -78,6 +80,19 @@ public:
 
 	virtual void onContact(GObject* obj);
 	virtual void onEndContact(GObject* obj);
+};
+
+class IceFloor : public FloorSegment, public NoSprite
+{
+public:
+	static const SpaceFloat frictionCoeff;
+
+	MapObjCons(IceFloor);
+
+	virtual void onContact(GObject* obj);
+	virtual void onEndContact(GObject* obj);
+
+	virtual inline SpaceFloat getFrictionCoeff() const { return 0.25; }
 };
 
 class PressurePlate : public FloorSegment, public RegisterInit<PressurePlate>, public NoSprite

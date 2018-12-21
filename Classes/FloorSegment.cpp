@@ -123,6 +123,21 @@ void MineFloor::onEndContact(GObject* obj)
 {
 }
 
+IceFloor::IceFloor(GSpace* space, ObjectIDType id, const ValueMap& args) :
+	GObject(space, id, args, true),
+	FloorSegment(space, id, args)
+{
+}
+
+void IceFloor::onContact(GObject* obj)
+{
+}
+
+void IceFloor::onEndContact(GObject* obj)
+{
+}
+
+
 PressurePlate::PressurePlate(GSpace* space, ObjectIDType id, const ValueMap& args) :
 	GObject(space, id, args, true),
 	FloorSegment(space, id, args),

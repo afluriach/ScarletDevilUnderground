@@ -93,6 +93,7 @@ const unordered_map<string, GObject::AdapterType> GObject::adapters = {
 	entry_same(Goal),
 	item_entry_same(GraveyardKey),
 	entry_same(IceFairy),
+	entry_same(IceFloor),
 	entry_same(Launcher),
 	entry_same(Marisa),
 	entry_same(MineFloor),

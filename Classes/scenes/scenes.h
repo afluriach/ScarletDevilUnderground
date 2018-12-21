@@ -88,6 +88,7 @@ public:
 	static void restartReplayScene();
 
 	vector<MapEntry> singleMapEntry(const string& mapName);
+	static const IntVec2 getRoomOffset(IntVec2 roomSize, int roomGridX, int roomGridY);
 
 	GScene(const string& sceneName, const vector<MapEntry>& maps);
 

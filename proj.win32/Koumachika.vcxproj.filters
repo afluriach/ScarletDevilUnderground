@@ -225,6 +225,9 @@
     <ClCompile Include="..\Classes\scenes\menu_scenes.cpp">
       <Filter>src\scenes</Filter>
     </ClCompile>
+    <ClCompile Include="..\Classes\scenes\IceCave.cpp">
+      <Filter>src\scenes</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="main.h">
@@ -438,6 +441,9 @@
       <Filter>src</Filter>
     </ClInclude>
     <ClInclude Include="..\Classes\scenes\menu_scenes.h">
+      <Filter>src\scenes</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\scenes\IceCave.hpp">
       <Filter>src\scenes</Filter>
     </ClInclude>
   </ItemGroup>
