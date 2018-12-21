@@ -287,6 +287,7 @@ mutex Inst::queueLock;
 			.addStaticData("width", &App::width)
 			.addStaticData("height", &App::height)
 			.addStaticData("app", &app)
+			.addStaticFunction("getCrntScene", &App::getCrntScene)
 			.addStaticFunction("printGlDebug", &App::printGlDebug)
 			.addStaticFunction("setFullscreen", &App::setFullscreen)
 			.addStaticFunction("setResolution", &App::setResolution)

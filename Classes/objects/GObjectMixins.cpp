@@ -221,12 +221,14 @@ void ImageSprite::loadImageSprite(const string& resPath, GraphicsLayer sceneLaye
         log("%s sprite %s added at %.1f,%.1f, layer %d", name.c_str(), resPath.c_str(), expand_vector2(centerPix), sceneLayer);
 }
 
+//END GRAPHICS
+
 //ENEMY MIXINS
 
 void Enemy::runDamageFlicker()
 {
 	if (sprite)
-		sprite->runAction(flickerAction(0.3f, 1.2f, 81.0f));
+		sprite->runAction(flickerAction(0.3f, 1.2f, 81));
 //		sprite->runAction(colorFlickerAction(0.3f, 4, Color3B(255, 0, 0)));
 }
 

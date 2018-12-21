@@ -198,7 +198,8 @@ public:
     virtual void setSpriteShader(const string& shaderName);
     
     virtual void setAngle(SpaceFloat a);
-    void setDirection(Direction d);
+    virtual void setDirection(Direction d);
+	void updateDirection(Direction d);
     Direction getDirection()const;
 protected:
     PatchConAnimation* animSprite;

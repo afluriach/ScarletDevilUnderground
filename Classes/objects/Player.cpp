@@ -170,7 +170,6 @@ void Player::updateHitTime()
         hitProtectionCountdown -= App::secondsPerFrameRational;
         
         if(hitProtectionCountdown <= 0){
-            sprite->setOpacity(255);
             hitProtectionCountdown = 0;
         }
     }
@@ -236,7 +235,7 @@ void Player::hit(AttributeMap attributeEffect, shared_ptr<MagicEffect> effect){
 			flickerAction(
 				boost::rational_cast<float>(hitFlickerInterval),
 				boost::rational_cast<float>(hitProtectionCountdown),
-				81.0f
+				81
 			)
 		);
 

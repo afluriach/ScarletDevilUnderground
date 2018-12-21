@@ -115,17 +115,17 @@ void DownTriangleCursor::drawShape()
     drawNode->drawTriangle(left,right,bottom,colors[crntColor]);
 }
 
-Action* flickerAction(float interval, float length, float opacity)
+FiniteTimeAction* flickerAction(float interval, float length, unsigned char opacity)
 {
     int nCycles = length / interval;
     
-    Sequence* flicker = Sequence::createWithTwoActions(FadeTo::create(interval/2, opacity*255), FadeTo::create(interval/2, 255));
+    Sequence* flicker = Sequence::createWithTwoActions(FadeTo::create(interval/2, opacity), FadeTo::create(interval/2, 255));
     Repeat* loop = Repeat::create(flicker, nCycles);
     
     return loop;
 }
 
-Action* flickerTintAction(float interval, float length, Color3B tint)
+FiniteTimeAction* flickerTintAction(float interval, float length, Color3B tint)
 {
     int nCycles = length / interval;
     
@@ -139,7 +139,7 @@ Action* flickerTintAction(float interval, float length, Color3B tint)
     return loop;
 }
 
-Action* tintTo(Color3B tint, float length)
+FiniteTimeAction* tintTo(Color3B tint, float length)
 {
     return TintTo::createRecursive(length,tint);
 }
@@ -149,7 +149,7 @@ FiniteTimeAction* pitfallShrinkAction()
 	return ScaleTo::create(fallAnimationTime, 0.0f);
 }
 
-Action* motionBlurStretch(float duration, float angle, float opacity, float scale)
+FiniteTimeAction* motionBlurStretch(float duration, float angle, float opacity, float scale)
 {
 //    float scaleX = 1 + cos(angle)*(scale-1);
 //    float scaleY = 1 + sin(angle)*(scale-1);
