@@ -18,6 +18,9 @@ class GSpace;
 class HUD;
 class KeyRegister;
 class PlayScene;
+class TimerSystem;
+
+#define USE_TIMERS 1
 
 class  App : private Application
 {
@@ -75,6 +78,8 @@ public:
 		return result;
 	}
 
+	static void setLogTimers(bool);
+	static void printTimerInfo();
 	static void printGlDebug();
 	static void end();
 
@@ -88,6 +93,10 @@ public:
     //globals exposed by app
     static unique_ptr<ControlRegister> control_register;
     static unique_ptr<Lua::Inst> lua;
+#if USE_TIMERS
+	static unique_ptr<TimerSystem> timerSystem;
+	static boost::rational<int> timerPrintAccumulator;
+#endif
 	static PlayerCharacter crntPC;
             
     //Generate [min,max)
@@ -97,6 +106,7 @@ public:
     
 protected:
 	static App* appInst;
+	static bool logTimers;
 
 	boost::random::uniform_01<float> randomFloat;
 	boost::random::uniform_int_distribution<int> randomInt;
@@ -107,6 +117,9 @@ protected:
 	virtual void applicationWillEnterForeground();
 
     void update(float dt);
+#if USE_TIMERS
+	void updateTimerSystem();
+#endif
 };
 
 #endif // _APP_DELEGATE_H_

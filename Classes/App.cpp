@@ -7,6 +7,7 @@
 #include "menu_scenes.h"
 #include "GState.hpp"
 #include "scenes.h"
+#include "util.h"
 
 const string App::title = "Kouma";
 
@@ -30,7 +31,13 @@ unique_ptr<ControlRegister> App::control_register;
 unique_ptr<Lua::Inst> App::lua;
 PlayerCharacter App::crntPC = PlayerCharacter::flandre;
 
+#if USE_TIMERS
+unique_ptr<TimerSystem> App::timerSystem;
+boost::rational<int> App::timerPrintAccumulator(1);
+#endif
+
 App* App::appInst;
+bool App::logTimers = false;
 
 void App::setFullscreen(bool fs)
 {
@@ -67,6 +74,10 @@ App::App()
     //Initialize Lua
 	lua = make_unique<Lua::Inst>("app");
 	lua->runFile("scripts/init.lua");    
+
+#if USE_TIMERS
+	timerSystem = make_unique<TimerSystem>();
+#endif
 }
 
 App::~App() 
@@ -237,4 +248,41 @@ int App::getRandomInt(int min, int max) {
 void App::update(float dt)
 {
     control_register->update();
+
+#if USE_TIMERS
+	updateTimerSystem();
+#endif
+}
+
+#if USE_TIMERS
+void App::updateTimerSystem()
+{
+	timerDecrement(timerPrintAccumulator);
+
+	if (timerPrintAccumulator <= 0) {
+		if(logTimers)
+			printTimerInfo();
+		timerPrintAccumulator = boost::rational<int>(1);
+	}
+}
+
+#endif
+
+void App::setLogTimers(bool b)
+{
+	logTimers = b;
+}
+
+void App::printTimerInfo()
+{
+	if (!timerSystem) {
+		log("App::printTimerInfo: timer system not available!");
+		return;
+	}
+
+	boost::circular_buffer<std::chrono::duration<long, std::micro>> _render = Director::getInstance()->getRenderTimes();
+
+	TimerSystem::printTimerStats(timerSystem->getStats(TimerType::gobject), "Object Update");
+	TimerSystem::printTimerStats(timerSystem->getStats(TimerType::physics), "Physics");
+	TimerSystem::printTimerStats(TimerSystem::getBufferStats(_render), "Render");
 }

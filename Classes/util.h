@@ -73,4 +73,18 @@ void checkCreateProfileSubfolder();
 string getProfilePath();
 string getReplayFolderPath();
 
+class TimerSystem
+{
+public:
+	static void printTimerStats(tuple<long,long,long>,string);
+	static tuple<long, long, long> getBufferStats(const boost::circular_buffer<chrono::duration<long, micro>>&);
+
+	TimerSystem();
+
+	void addEntry(TimerType, chrono::duration<long, micro>);
+	tuple<long, long, long> getStats(TimerType);
+
+	map<TimerType, list<chrono::duration<long, micro>>> timerBuffer;
+};
+
 #endif /* util_h */

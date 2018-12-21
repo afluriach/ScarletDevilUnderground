@@ -33,6 +33,7 @@
 #include <algorithm>
 #include <bitset>
 #include <cmath>
+#include <chrono>
 #include <cstdlib>
 #include <functional>
 #include <fstream>
@@ -42,6 +43,7 @@
 #include <mutex>
 #include <set>
 #include <thread>
+#include <tuple>
 #include <type_traits>
 #include <typeindex>
 #include <typeinfo>

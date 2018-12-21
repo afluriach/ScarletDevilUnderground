@@ -28,7 +28,10 @@ THE SOFTWARE.
 #ifndef __CCDIRECTOR_H__
 #define __CCDIRECTOR_H__
 
+#include <chrono>
 #include <stack>
+
+#include <boost/circular_buffer.hpp>
 
 #include "platform/CCPlatformMacros.h"
 #include "base/CCRef.h"
@@ -159,6 +162,10 @@ public:
     
     /** Get seconds per frame. */
     inline float getSecondsPerFrame() { return _secondsPerFrame; }
+
+	inline const boost::circular_buffer<std::chrono::duration<long, std::micro>>& getRenderTimes() {
+		return renderTimesBuffer;
+	}
 
     /** 
      * Get the GLView.
@@ -504,7 +511,7 @@ protected:
     void createStatsLabel();
     void calculateMPF();
     void getFPSImageData(unsigned char** datapointer, ssize_t* length);
-    
+
     /** calculates delta time since last time it was called */    
     void calculateDeltaTime();
 
@@ -553,6 +560,7 @@ protected:
     bool _displayStats;
     float _accumDt;
     float _frameRate;
+	boost::circular_buffer<std::chrono::duration<long, std::micro>> renderTimesBuffer;
     
     LabelAtlas *_FPSLabel;
     LabelAtlas *_drawnBatchesLabel;

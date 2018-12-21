@@ -9,6 +9,7 @@
 #include "Prefix.h"
 
 #include "App.h"
+#include "enum.h"
 #include "macros.h"
 #include "util.h"
 
@@ -165,4 +166,79 @@ SpaceFloat toDegrees(SpaceFloat a)
 void timerDecrement(boost::rational<int>& x)
 {
 	x = max(x - App::secondsPerFrameRational, boost::rational<int>(0));
+}
+
+TimerSystem::TimerSystem()
+{
+	enum_foreach(TimerType, _type, begin, end)
+	{
+		timerBuffer.insert_or_assign(_type, list<chrono::duration<long, micro>>());
+	}
+}
+
+void TimerSystem::printTimerStats(tuple<long, long, long> _data, string name)
+{
+	log("Timer type %s: min: %ld, avg: %ld, max: %ld.", name.c_str(), get<0>(_data), get<1>(_data), get<2>(_data));
+}
+
+void TimerSystem::addEntry(TimerType _type, chrono::duration<long, micro> _us)
+{
+	list<chrono::duration<long, micro>>& _l = timerBuffer.at(_type);
+
+	while (_l.size() >= App::framesPerSecond) {
+		_l.pop_front();
+	}
+	_l.push_back(_us);
+}
+
+tuple<long, long, long> TimerSystem::getBufferStats(const boost::circular_buffer<chrono::duration<long, micro>>& buffer)
+{
+	chrono::microseconds accumulator(0);
+	chrono::microseconds _min(1000000);
+	chrono::microseconds _max(0);
+
+	for (chrono::microseconds entry : buffer) {
+		accumulator += entry;
+
+		if (entry < _min)
+			_min = entry;
+		if (entry > _max)
+			_max = entry;
+	}
+
+	if (accumulator != chrono::microseconds(0) && buffer.size() > 0) {
+		accumulator /= buffer.size();
+	}
+
+	return tuple<long, long, long>(
+		chrono::duration_cast<chrono::microseconds>(_min).count(),
+		chrono::duration_cast<chrono::microseconds>(accumulator).count(),
+		chrono::duration_cast<chrono::microseconds>(_max).count()
+	);
+}
+
+tuple<long, long, long> TimerSystem::getStats(TimerType _type)
+{
+	chrono::microseconds accumulator(0);
+	chrono::microseconds _min(1000000);
+	chrono::microseconds _max(0);
+
+	for (chrono::microseconds entry : timerBuffer.at(_type)) {
+		accumulator += entry;
+
+		if (entry < _min)
+			_min = entry;
+		if (entry > _max)
+			_max = entry;
+	}
+
+	if (accumulator != chrono::microseconds(0) && timerBuffer.at(_type).size() > 0) {
+		accumulator /= timerBuffer.at(_type).size();
+	}
+
+	return tuple<long, long, long>(
+		chrono::duration_cast<chrono::microseconds>(_min).count(),
+		chrono::duration_cast<chrono::microseconds>(accumulator).count(),
+		chrono::duration_cast<chrono::microseconds>(_max).count()
+	);
 }

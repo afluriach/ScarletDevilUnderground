@@ -81,12 +81,24 @@ GScene* GSpace::getScene()
 
 void GSpace::update()
 {
+#if USE_TIMERS
+	chrono::steady_clock::time_point t1 = chrono::steady_clock::now();
+#endif
+
     //Run inits for recently added objects
     initObjects();
     
+#if USE_TIMERS
+	chrono::steady_clock::time_point t2 = chrono::steady_clock::now();
+#endif
+
     //physics step
     space.step(App::secondsPerFrame);
     
+#if USE_TIMERS
+	chrono::steady_clock::time_point t3 = chrono::steady_clock::now();
+#endif
+
     for(GObject* obj: objByUUID | boost::adaptors::map_values){
         obj->update();
     }
@@ -100,6 +112,18 @@ void GSpace::update()
     //process additions
     processAdditions();
     
+#if USE_TIMERS
+	chrono::steady_clock::time_point t4 = chrono::steady_clock::now();
+
+	chrono::duration<long, micro> _physics = chrono::duration_cast<chrono::microseconds>(t3 - t2);
+	chrono::duration<long, micro> _total = chrono::duration_cast<chrono::microseconds>(t4 - t1);
+	chrono::duration<long, micro> _objects = _total - _physics;
+
+	App::timerSystem->addEntry(TimerType::physics, _physics);
+	App::timerSystem->addEntry(TimerType::gobject, _objects);
+
+#endif
+
     ++frame;
 }
 

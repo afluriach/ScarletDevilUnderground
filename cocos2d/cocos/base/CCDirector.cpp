@@ -107,7 +107,8 @@ Director* Director::getInstance()
 }
 
 Director::Director()
-: _isStatusLabelUpdated(true)
+: _isStatusLabelUpdated(true),
+renderTimesBuffer(60)
 {
 }
 
@@ -256,6 +257,8 @@ void Director::setGLDefaultValues()
 // Draw the Scene
 void Director::drawScene()
 {
+	chrono::steady_clock::time_point start = chrono::steady_clock::now();
+
     // calculate "global" dt
     calculateDeltaTime();
     
@@ -329,6 +332,10 @@ void Director::drawScene()
     {
         calculateMPF();
     }
+
+	chrono::steady_clock::time_point end = chrono::steady_clock::now();
+	long _us = std::chrono::duration_cast<std::chrono::microseconds>(end - start).count();
+	renderTimesBuffer.push_back(std::chrono::duration<long,std::micro>(_us));
 }
 
 void Director::calculateDeltaTime()

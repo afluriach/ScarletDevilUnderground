@@ -110,4 +110,13 @@ struct PhysicsProperties
 	{}
 };
 
+enum class TimerType {
+	begin = 0,
+	gobject = 0,
+	draw,
+	physics,
+
+	end
+};
+
 #endif /* types_h */

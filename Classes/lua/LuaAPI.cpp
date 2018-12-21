@@ -250,6 +250,8 @@ const vector<string> Inst::luaIncludes = {
 			.addStaticData("height", &App::height)
 			.addStaticFunction("getCrntScene", &App::getCrntScene)
 			.addStaticFunction("printGlDebug", &App::printGlDebug)
+			.addStaticFunction("printTimerInfo", &App::printTimerInfo)
+			.addStaticFunction("setLogTimers", &App::setLogTimers)
 			.addStaticFunction("setFullscreen", &App::setFullscreen)
 			.addStaticFunction("setResolution", &App::setResolution)
 			.addStaticFunction("setFramerate", &App::setFramerate)
