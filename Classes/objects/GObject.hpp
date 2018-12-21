@@ -81,6 +81,7 @@ public:
 
 	util::multifunction<void(void)> multiInit;
 	util::multifunction<void(void)> multiUpdate;
+	util::multifunction<void(void)> messages;
 
 	inline string getName() const {
 		return name;
@@ -94,6 +95,15 @@ public:
 	//objects in the same frame
 	void init();
 	void update();
+	void updateMessages();
+
+	template<typename D, typename...Args>
+	inline void message(D* _this, void (D::*m)(Args...), Args ...args)
+	{
+		messages += [_this,m,args...](void) -> void {
+			invoke(m, _this, args...);
+		};
+	}
     
 	//BEGIN PHYSICS
 

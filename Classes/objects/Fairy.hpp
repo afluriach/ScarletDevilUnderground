@@ -40,15 +40,17 @@ public:
 
 class Fairy2 :
 	virtual public Agent,
+	public RegisterUpdate<Fairy2>,
 	public BaseAttributes<Fairy2>
 {
 public:
 	static const AttributeMap baseAttributes;
+	static const boost::rational<int> lowHealthRatio;
 
 	inline Fairy2(GSpace* space, ObjectIDType id, const ValueMap& args) :
 		MapObjForwarding(GObject),
-		MapObjForwarding(Agent)
-
+		MapObjForwarding(Agent),
+		RegisterUpdate<Fairy2>(this)
 	{}
 
 	virtual inline SpaceFloat getRadarRadius() const { return 6.0; }
@@ -64,7 +66,12 @@ public:
 
 	virtual void initStateMachine(ai::StateMachine& sm);
 
-	void sendCoverRequest(object_ref<Fairy2> other);
+	void update();
+
+	void requestHandler(object_ref<Fairy2> other);
+protected:
+	shared_ptr<ai::TrackByType<Fairy2>> trackFunction;
+	bool requestSent = false;
 };
 
 class IceFairy :

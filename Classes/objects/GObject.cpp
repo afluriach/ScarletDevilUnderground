@@ -106,12 +106,19 @@ void GObject::init()
 void GObject::update()
 {
 	multiUpdate();
+	updateMessages();
 	runLuaUpdate();
 	updateSprite();
 	updateRadarPos();
 	updateSpells();
 	updateMagicEffects();
 	updateFloorSegment();
+}
+
+void GObject::updateMessages()
+{
+	messages();
+	messages.clear();
 }
 
 //BEGIN PHYSICS

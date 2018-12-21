@@ -204,6 +204,14 @@ public:
 
 	inline virtual void onEnter(StateMachine& sm) {
 		targets = sm.agent->space->getObjectsByTypeAs<T>();
+
+		for (auto it = targets.begin(); it != targets.end(); ) {
+			if (it->get() == sm.agent)
+				it = targets.erase(it);
+			else
+				++it;
+		}
+
 	}
 	inline virtual void update(StateMachine& sm) {
 		for (auto it = targets.begin(); it != targets.end(); ) {
@@ -221,6 +229,19 @@ public:
 			string(">")
 		;
 	}
+
+	template<typename...Args>
+	inline void messageTargets(void (T::*m)(Args...), Args ...args)
+	{
+		for (object_ref<T> _ref : targets) {
+			T* t = _ref.get();
+			if (t) {
+				t->message(t,m,args...);
+			}
+		}
+	}
+
+
 protected:
 	vector<object_ref<T>> targets;
 //	Generator nextState;

@@ -85,6 +85,11 @@ public:
     multifunction& operator =(multifunction&&) = default;
     ~multifunction() = default;
 
+	inline void clear() {
+		listeners.clear();
+		token_lookup.clear();
+	}
+
     template <typename F>
     function_token operator +=(F listener) {
         listeners.push_back(listener);

@@ -33,6 +33,8 @@ const AttributeMap Fairy2::baseAttributes = {
 	{Attribute::acceleration, 4.5f}
 };
 
+const boost::rational<int> Fairy2::lowHealthRatio = boost::rational<int>(1, 3);
+
 void Fairy2::initStateMachine(ai::StateMachine& sm) {
 	addThread(make_shared<ai::Detect>(
 		"player",
@@ -40,8 +42,24 @@ void Fairy2::initStateMachine(ai::StateMachine& sm) {
 			return make_shared<ai::MaintainDistance>(target, 3.0f, 1.0f);
 		}
 	));
-	addThread(make_shared<ai::TrackByType<Fairy2>>());
+	trackFunction = make_shared<ai::TrackByType<Fairy2>>();
+	addThread(trackFunction);
 }
+
+void Fairy2::update()
+{
+	if (getHealth() / getMaxHealth() <= lowHealthRatio && !requestSent){
+		trackFunction->messageTargets(&Fairy2::requestHandler, object_ref<Fairy2>(this));
+		requestSent = true;
+	}
+}
+
+void Fairy2::requestHandler(object_ref<Fairy2> other)
+{
+	if(other.isValid())
+		log("Request received by %s.", other.get()->getName().c_str());
+}
+
 
 const AttributeMap IceFairy::baseAttributes = {
 	{Attribute::maxHP, 15.0f},
