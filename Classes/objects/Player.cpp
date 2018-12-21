@@ -70,12 +70,9 @@ void Player::init()
 
 void Player::checkMovementControls(const ControlInfo& cs)
 {
-	SpaceVect floorVel = crntFloor.isValid() ? crntFloor.get()->getVel() : SpaceVect::zero;
-	SpaceFloat traction = crntFloor.isValid() ? crntFloor.get()->getFrictionCoeff() : 1.0;
-
     SpaceVect moveDir = cs.left_v;
     
-    ai::applyDesiredVelocity(this, moveDir*getMaxSpeed() + floorVel, getMaxAcceleration());
+    ai::applyDesiredVelocity(this, moveDir*getMaxSpeed(), getMaxAcceleration());
     
     if(moveDir.isZero())
          animSprite->reset();

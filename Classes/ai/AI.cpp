@@ -12,6 +12,7 @@
 #include "AI.hpp"
 #include "App.h"
 #include "FirePattern.hpp"
+#include "FloorSegment.hpp"
 #include "Graphics.h"
 #include "GSpace.hpp"
 #include "GObject.hpp"
@@ -27,6 +28,12 @@ namespace ai{
 //just be a default value, in which case acceleration makes more sense.
 void applyDesiredVelocity(GObject* obj, SpaceVect desired, SpaceFloat acceleration)
 {
+	SpaceVect floorVel = obj->crntFloor.isValid() ? obj->crntFloor.get()->getVel() : SpaceVect::zero;
+	SpaceFloat traction = obj->crntFloor.isValid() ? obj->crntFloor.get()->getFrictionCoeff() : 1.0;
+
+	desired += floorVel;
+	acceleration *= traction;
+
     //the desired velocity change
     SpaceVect vv = desired - obj->getVel();
     //the scalar amount of velocity change in one frame
