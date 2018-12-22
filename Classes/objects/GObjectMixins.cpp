@@ -9,10 +9,12 @@
 #include "Prefix.h"
 
 #include "App.h"
+#include "FloorSegment.hpp"
 #include "GAnimation.hpp"
 #include "GObjectMixins.hpp"
 #include "Graphics.h"
 #include "GSpace.hpp"
+#include "object_ref.hpp"
 #include "Player.hpp"
 #include "SpaceLayer.h"
 #include "scenes.h"
@@ -72,20 +74,22 @@ SpaceFloat CircleBody::getMomentOfInertia() const{
 
 void FrictionObject::update()
 {
+	SpaceFloat frictionCoeff = crntFloor.isValid() ? crntFloor.get()->getFrictionCoeff() : 1.0;
+
     //linear
     SpaceVect vel = getVel();
-	SpaceFloat force = getMass() * App::Gaccel * uk();
+	SpaceFloat force = getMass() * App::Gaccel * uk() * frictionCoeff;
     
     //if acceleraion, dv/dt, or change in velocity over one frame is greater
     //than current velocity, apply stop instead
-    if(App::Gaccel * uk() * App::secondsPerFrame < vel.length())
+    if(App::Gaccel * uk() * frictionCoeff * App::secondsPerFrame < vel.length())
         applyForceForSingleFrame(vel * -force);
     else
         setVel(SpaceVect::zero);
     
     //rotational
 	SpaceFloat angularVel = getAngularVel();
-	SpaceFloat angularImpulse = getMomentOfInertia() * App::Gaccel * uk() * App::secondsPerFrame;
+	SpaceFloat angularImpulse = getMomentOfInertia() * App::Gaccel * uk() * frictionCoeff * App::secondsPerFrame;
     
     if(angularImpulse < angularVel)
         setAngularVel(angularVel - angularImpulse);

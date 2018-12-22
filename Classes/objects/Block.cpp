@@ -24,5 +24,5 @@ isStatic(args.find("static") != args.end())
 }
 
 PhysicsLayers Block::getLayers() const{
-    return enum_bitwise_or(PhysicsLayers,ground,eyeLevel);
+    return enum_bitwise_or3(PhysicsLayers,floor,ground,eyeLevel);
 }
