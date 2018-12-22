@@ -71,21 +71,15 @@ void Player::init()
 void Player::checkMovementControls(const ControlInfo& cs)
 {
     SpaceVect moveDir = cs.left_v;
-    
+	SpaceVect facing = cs.right_v;
+
     ai::applyDesiredVelocity(this, moveDir*getMaxSpeed(), getMaxAcceleration());
     
     if(moveDir.isZero())
          animSprite->reset();
     
-    SpaceVect facing = cs.right_v;
-    
     //Facing is not diagonal, horizontal direction will override.
     setDirection(toDirection(facing));
-    
-    //Player will automatically face their movement direction if look keys are not pressed
-    if(facing.isZero() && body->getVel().lengthSq() > square(getMaxSpeed())/2){
-        setDirection(toDirection(moveDir));
-    }
 }
 
 void Player::updateSpellControls(const ControlInfo& cs)
