@@ -37,16 +37,16 @@ enum class Attribute {
 typedef array<float, to_size_t(Attribute::end)> AttributeSet;
 typedef map<Attribute, float> AttributeMap;
 
-AttributeSet getAttributeSet(const AttributeMap& input);
-AttributeMap getAttributeMap(Attribute id, float val);
-AttributeSet getBlankAttributeSet();
-
-extern const float maxElementDamage;
-
 class AttributeSystem
 {
 public:
 	static AttributeMap scale(const AttributeMap& input, float scale);
+	static AttributeSet getAttributeSet(const AttributeMap& input);
+	static AttributeMap getAttributeMap(Attribute id, float val);
+	static AttributeSet getBlankAttributeSet();
+	AttributeSet getZeroAttributeSet();
+
+	static const float maxElementDamage;
 
 	AttributeSystem();
 	AttributeSystem(const AttributeSet& baseAttributes);

@@ -11,9 +11,9 @@
 #include "Attributes.hpp"
 #include "util.h"
 
-const float maxElementDamage = 100.0f;
+const float AttributeSystem::maxElementDamage = 100.0f;
 
-AttributeSet getAttributeSet(const AttributeMap& input)
+AttributeSet AttributeSystem::getAttributeSet(const AttributeMap& input)
 {
 	AttributeSet result = getBlankAttributeSet();
 
@@ -25,12 +25,12 @@ AttributeSet getAttributeSet(const AttributeMap& input)
 	return result;
 }
 
-AttributeMap getAttributeMap(Attribute id, float val)
+AttributeMap AttributeSystem::getAttributeMap(Attribute id, float val)
 {
 	return { {id,val} };
 }
 
-AttributeSet getBlankAttributeSet()
+AttributeSet AttributeSystem::getBlankAttributeSet()
 {
 	AttributeSet result = getZeroArray<float, to_size_t(Attribute::end)>();
 
@@ -40,7 +40,7 @@ AttributeSet getBlankAttributeSet()
 	return result;
 }
 
-AttributeSet getZeroAttributeSet()
+AttributeSet AttributeSystem::getZeroAttributeSet()
 {
 	AttributeSet result = getZeroArray<float, to_size_t(Attribute::end)>();
 
