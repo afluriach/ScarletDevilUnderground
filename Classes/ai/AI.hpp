@@ -152,6 +152,8 @@ public:
     //Remove thread(s) that have the given main function.
     void removeThread(const string& mainName);
 	void removeCompletedThreads();
+	void applyAddThreads();
+	void applyRemoveThreads();
 
     void onDetect(GObject* obj);
 	void onEndDetect(GObject* obj);
@@ -173,6 +175,9 @@ public:
     string toString();
     
 protected:
+	set<unsigned int> threadsToRemove;
+	list<shared_ptr<Thread>> threadsToAdd;
+
 	map<unsigned int,shared_ptr<Thread>> current_threads;
     map<int, list<unsigned int>> threads_by_priority;
     unsigned int frame;

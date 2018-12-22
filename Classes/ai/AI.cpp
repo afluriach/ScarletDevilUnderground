@@ -356,6 +356,8 @@ void StateMachine::update()
     bitset<lockCount> locks;
     
 	removeCompletedThreads();
+	applyRemoveThreads();
+	applyAddThreads();
     
     for(auto priority_it = threads_by_priority.rbegin(); priority_it != threads_by_priority.rend(); ++priority_it)
     {
@@ -393,12 +395,7 @@ void StateMachine::update()
 
 void StateMachine::addThread(shared_ptr<Thread> thread)
 {
-    current_threads[thread->uuid] = thread;
-    
-    if(threads_by_priority.find(thread->priority) == threads_by_priority.end()){
-        threads_by_priority[thread->priority] = list<unsigned int>();
-    }
-    threads_by_priority[thread->priority].push_back(thread->uuid);
+	threadsToAdd.push_back(thread);
 }
 
 unsigned int StateMachine::addThread(shared_ptr<Function> threadMain)
@@ -414,28 +411,32 @@ unsigned int StateMachine::addThread(shared_ptr<Function> threadMain)
    return t->uuid;
 }
 
+void StateMachine::applyAddThreads()
+{
+	for (shared_ptr<Thread> thread : threadsToAdd)
+	{
+		current_threads[thread->uuid] = thread;
+
+		if (threads_by_priority.find(thread->priority) == threads_by_priority.end()) {
+			threads_by_priority[thread->priority] = list<unsigned int>();
+		}
+		threads_by_priority[thread->priority].push_back(thread->uuid);
+	}
+	threadsToAdd.clear();
+}
+
 void StateMachine::removeThread(unsigned int uuid)
 {
-    if(current_threads.find(uuid) != current_threads.end()){
-        auto t = current_threads[uuid];
-        threads_by_priority[t->priority].remove(uuid);
-        current_threads.erase(uuid);
-    }
+	threadsToRemove.insert(uuid);
 }
 
 void StateMachine::removeThread(const string& mainName)
 {
-    list<unsigned int> toRemove;
-
     for(auto it = current_threads.begin(); it != current_threads.end(); ++it)
     {
         if(it->second->getMainFuncName() == mainName){
-            toRemove.push_back(it->second->uuid);
+            threadsToRemove.insert(it->second->uuid);
         }
-    }
-    
-    for(unsigned int uuid: toRemove){
-        removeThread(uuid);
     }
 }
 
@@ -452,6 +453,19 @@ void StateMachine::removeCompletedThreads()
     for(unsigned int uuid: toRemove){
         removeThread(uuid);
     }
+}
+
+void StateMachine::applyRemoveThreads()
+{
+	for (unsigned int uuid : threadsToRemove)
+	{
+		if (current_threads.find(uuid) != current_threads.end()) {
+			auto t = current_threads[uuid];
+			threads_by_priority[t->priority].remove(uuid);
+			current_threads.erase(uuid);
+		}
+	}
+	threadsToRemove.clear();
 }
 
 void StateMachine::onDetect(GObject* obj)
