@@ -40,11 +40,15 @@ StateMachineObject::StateMachineObject(shared_ptr<ai::Function> startState, cons
 }
 
     void RadarObject::onDetect(GObject* other) {
+#if GOBJECT_LUA
 		ctx->callIfExistsNoReturn("onDetect", ctx->makeArgs(other));
+#endif
 	}
 
 	void RadarObject::onEndDetect(GObject* other) {
+#if GOBJECT_LUA
 		ctx->callIfExistsNoReturn("onEndDetect", ctx->makeArgs(other));
+#endif
 	}
 
 

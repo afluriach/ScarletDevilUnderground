@@ -23,6 +23,8 @@ class Spell;
 class MagicEffect;
 class FloorSegment;
 
+#define GOBJECT_LUA 0
+
 #define MapObjCons(cls) cls(GSpace* space, ObjectIDType id, const ValueMap& args)
 #define MapObjForwarding(cls) cls(space,id,args)
 
@@ -172,6 +174,7 @@ public:
 	//END PHYSICS
     
 	//BEGIN LUA
+#if GOBJECT_LUA
 	
     #define if_lua_ctx if(!anonymous && ctx) 
     
@@ -187,6 +190,7 @@ public:
 	void setupLuaContext();
 
 	//END LUA
+#endif GOBJECT_LUA
     
     //BEGIN GRAPHICS
     

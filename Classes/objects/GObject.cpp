@@ -38,10 +38,11 @@ GObject::GObject(GSpace* space, ObjectIDType uuid, const ValueMap& obj, bool ano
 	if (obj.find("vel_x") != obj.end() && obj.find("vel_y") != obj.end()) {
 		setInitialVelocity(SpaceVect(getFloat(obj, "vel_x"), getFloat(obj, "vel_y")));
 	}
-
+#if GOBJECT_LUA
 	if (!anonymous) {
 		ctx = make_unique<Lua::Inst>(boost::lexical_cast<string>(uuid) + "_" + name);
 	}
+#endif
 
     if(!anonymous && logCreateObjects)
         log("%s created at %.1f,%.1f.", name.c_str(),initialCenter.x, initialCenter.y);
@@ -56,9 +57,11 @@ GObject::GObject(GSpace* space, ObjectIDType uuid, const string& name, const Spa
 	uuid(uuid),
 	initialCenter(pos)
 {
+#if GOBJECT_LUA
     if(!anonymous){
         ctx = make_unique<Lua::Inst>(boost::lexical_cast<string>(uuid) + "_" + name);
     }
+#endif
 
     if(logCreateObjects && !anonymous)
         log("%s created at %.1f,%.1f.", name.c_str(),initialCenter.x, initialCenter.y);
@@ -99,15 +102,19 @@ GObject::GeneratorType GObject::factoryMethodByType(const string& type, const Va
 void GObject::init()
 {
 	multiInit();
+#if GOBJECT_LUA
 	setupLuaContext();
 	runLuaInit();
+#endif
 }
 
 void GObject::update()
 {
 	multiUpdate();
 	updateMessages();
+#if GOBJECT_LUA
 	runLuaUpdate();
+#endif
 	updateSprite();
 	updateRadarPos();
 	updateSpells();
@@ -356,6 +363,8 @@ void GObject::updateRadarPos()
 
 //BEGIN LUA
 
+#if GOBJECT_LUA
+
 string GObject::getScriptVal(string name) {
     if_lua_ctx { return ctx->getSerialized(name); }
 	else return "";
@@ -393,6 +402,8 @@ void GObject::setupLuaContext()
 		ctx->runFile(scriptPath);
 	}
 }
+
+#endif
 
 //END LUA
 
