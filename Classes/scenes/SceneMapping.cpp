@@ -49,6 +49,7 @@ const unordered_map<string, GScene::AdapterType> GScene::adapters = {
 	entry_same(IceCave),
 	PlaySceneMapName(Library),
 	entry_same(LibraryOpening),
+	PlaySceneMapName(MarisaRoom),
 	entry_same(Mine),
 	PlaySceneMapName(SakuyaRoom),
 	PlaySceneMapName(StalkerRoom),

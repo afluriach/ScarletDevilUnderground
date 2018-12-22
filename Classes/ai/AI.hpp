@@ -368,6 +368,21 @@ private:
 	bool clockwise;
 };
 
+class AimAtTarget : public Function {
+public:
+	AimAtTarget(gobject_ref target);
+
+	virtual void update(StateMachine& fsm);
+
+	inline virtual bitset<lockCount> getLockMask() {
+		return make_enum_bitfield(ResourceLock::movement);
+	}
+
+	FuncGetName(AimAtTarget)
+private:
+	gobject_ref target;
+};
+
 
 class MoveToPoint : public Function{
 public:

@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.0" tiledversion="1.0.3" orientation="orthogonal" renderorder="right-down" width="17" height="17" tilewidth="128" tileheight="128" nextobjectid="13">
+ <tileset firstgid="1" name="grass" tilewidth="128" tileheight="128" tilecount="4" columns="2">
+  <image source="grass.png" width="256" height="256"/>
+ </tileset>
+ <tileset firstgid="5" name="dirt path horizontal" tilewidth="128" tileheight="128" tilecount="1" columns="1">
+  <image source="dirt path horizontal.png" width="128" height="128"/>
+ </tileset>
+ <tileset firstgid="6" name="tree" tilewidth="128" tileheight="128" tilecount="4" columns="2">
+  <image source="tree.png" width="256" height="256"/>
+ </tileset>
+ <tileset firstgid="10" name="spatter" tilewidth="128" tileheight="128" tilecount="4" columns="4">
+  <image source="spatter.png" width="512" height="128"/>
+ </tileset>
+ <layer name="grass" width="17" height="17">
+  <data encoding="base64" compression="zlib">
+   eJxjZGBgYAJiRgpoZiBmoZCmxP6h5I6R4s+h5o6h5t7h5A4AH5oCug==
+  </data>
+ </layer>
+ <objectgroup name="objects">
+  <object id="10" name="player" type="Player" x="1888" y="1056" width="128" height="128"/>
+  <object id="12" name="marisa" type="ForestMarisa" x="896" y="896" width="128" height="128"/>
+ </objectgroup>
+</map>

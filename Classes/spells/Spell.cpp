@@ -87,9 +87,10 @@ Spell(caster, args,descriptor)
     set_float_arg(duration, 1.0f)
     set_float_arg(speed, 6.0f)
     set_float_arg(width, float_pi / 4.0f)
-    set_float_arg(angle, 0.0f)
     set_float_arg(radius, 0.2f)
     
+	angle = getFloatOrDefault(args, "angle", caster->getAngle());
+
     shotsPerFrame = count / duration * App::secondsPerFrame;
 }
 
@@ -100,9 +101,9 @@ void StarlightTyphoon::init()
 void StarlightTyphoon::fire()
 {
     //The angle variation, will be added to the base direction.
-    float arcPos = App::getRandomFloat(-width, width);
-    float crntSpeed = App::getRandomFloat(speed*0.5, speed*1.5);
-    float crntRadius = App::getRandomFloat(radius*0.7, radius*1.3);
+    SpaceFloat arcPos = App::getRandomFloat(-width, width) + caster->getAngle();
+	SpaceFloat crntSpeed = App::getRandomFloat(speed*0.5, speed*1.5);
+	SpaceFloat crntRadius = App::getRandomFloat(radius*0.7, radius*1.3);
     
     SpaceVect pos = caster->getPos() + SpaceVect::ray(offset, angle);
     

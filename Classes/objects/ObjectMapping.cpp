@@ -81,6 +81,7 @@ GObject::AdapterType playerAdapter()
 
 const unordered_map<string, GObject::AdapterType> GObject::adapters = {
 	entry_same(CollectGlyph),
+	entry_same(CollectMarisa),
 	entry_same(Block),
 	entry_same(DirtFloorCave),
 	entry_same(Facer),
@@ -88,6 +89,7 @@ const unordered_map<string, GObject::AdapterType> GObject::adapters = {
 	entry_same(Fairy2),
 	entry_same(Flower),
 	entry_same(Follower),
+	entry_same(ForestMarisa),
 	entry_same(GenericAgent),
 	entry_same(Glyph),
 	entry_same(Goal),
@@ -95,7 +97,6 @@ const unordered_map<string, GObject::AdapterType> GObject::adapters = {
 	entry_same(IceFairy),
 	entry_same(IceFloor),
 	entry_same(Launcher),
-	entry_same(Marisa),
 	entry_same(MineFloor),
 	entry_same(MovingPlatform),
 	entry_same(Patchouli),

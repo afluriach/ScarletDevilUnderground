@@ -18,10 +18,7 @@ class Marisa : virtual public Agent, public BaseAttributes<Marisa>
 public:
 	static const AttributeMap baseAttributes;
 
-    inline Marisa(GSpace* space, ObjectIDType id, const ValueMap& args) :
-	MapObjForwarding(GObject),
-    MapObjForwarding(Agent)
-	{}
+	MapObjCons(Marisa);
     
     virtual inline SpaceFloat getRadarRadius() const {return 6.0;}
     virtual inline GType getRadarType() const { return GType::playerSensor;}
@@ -33,14 +30,32 @@ public:
     inline string imageSpritePath() const {return "sprites/marisa.png";}
     inline GraphicsLayer sceneLayer() const {return GraphicsLayer::ground;}
 
+};
+
+class CollectMarisa : public Marisa {
+public:
+	MapObjCons(CollectMarisa);
 	virtual void initStateMachine(ai::StateMachine& sm);
 };
 
-class MarisaMain : public ai::Function {
+class ForestMarisa : public Marisa {
+public:
+	MapObjCons(ForestMarisa);
+	virtual void initStateMachine(ai::StateMachine& sm);
+};
+
+class MarisaCollectMain : public ai::Function {
 public:
 	virtual void onEnter(ai::StateMachine& sm);
 	virtual void update(ai::StateMachine& sm);
-	FuncGetName(MarisaMain)
+	FuncGetName(MarisaCollectMain)
+};
+
+class MarisaForestMain : public ai::Function {
+public:
+	virtual void onEnter(ai::StateMachine& sm);
+	virtual void update(ai::StateMachine& sm);
+	FuncGetName(MarisaForestMain)
 };
 
 #endif /* Marisa_h */

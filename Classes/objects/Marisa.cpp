@@ -19,18 +19,29 @@ const AttributeMap Marisa::baseAttributes = {
 	{Attribute::acceleration, 6.0f}
 };
 
-void Marisa::initStateMachine(ai::StateMachine& sm)
+Marisa::Marisa(GSpace* space, ObjectIDType id, const ValueMap& args) :
+	MapObjForwarding(GObject),
+	MapObjForwarding(Agent)
+{}
+
+CollectMarisa::CollectMarisa(GSpace* space, ObjectIDType id, const ValueMap& args) :
+	MapObjForwarding(GObject),
+	MapObjForwarding(Agent),
+	MapObjForwarding(Marisa)
+{}
+
+void CollectMarisa::initStateMachine(ai::StateMachine& sm)
 {
 	gobject_ref player = space->getObjectRef("player");
 
-	sm.addThread(make_shared<MarisaMain>());
+	sm.addThread(make_shared<MarisaCollectMain>());
 }
 
-void MarisaMain::onEnter(ai::StateMachine& sm)
+void MarisaCollectMain::onEnter(ai::StateMachine& sm)
 {
 }
 
-void MarisaMain::update(ai::StateMachine& sm)
+void MarisaCollectMain::update(ai::StateMachine& sm)
 {
 	GObject* player = sm.agent->space->getObject("player");
 
@@ -38,4 +49,26 @@ void MarisaMain::update(ai::StateMachine& sm)
 		return;
 
 	sm.push(ai::FollowPath::pathToTarget(sm.agent->space, sm.agent, player));
+}
+
+ForestMarisa::ForestMarisa(GSpace* space, ObjectIDType id, const ValueMap& args) :
+MapObjForwarding(GObject),
+MapObjForwarding(Agent),
+MapObjForwarding(Marisa)
+{}
+
+void ForestMarisa::initStateMachine(ai::StateMachine& sm)
+{
+	sm.addThread(make_shared<MarisaForestMain>());
+}
+
+void MarisaForestMain::onEnter(ai::StateMachine& sm)
+{
+	gobject_ref player = sm.agent->space->getObjectRef("player");
+	sm.addThread(make_shared<ai::AimAtTarget>(player));
+}
+
+void MarisaForestMain::update(ai::StateMachine& sm)
+{
+	sm.push(make_shared<ai::Cast>("StarlightTyphoon", ValueMap()));
 }

@@ -26,6 +26,12 @@ const vector<string> StarBullet::colors = {
 	"yellow"
 };
 
+AttributeMap StarBullet::getAttributeEffect() const {
+	return {
+		{ Attribute::hp, -1 }
+	};
+}
+
 IceFairyBullet::IceFairyBullet(GSpace* space, ObjectIDType id, SpaceFloat angle, const SpaceVect& pos) :
 	EnemyBullet(0.6,5),
 	GObject(space, id, "IceFairyBullet", pos, angle, true)

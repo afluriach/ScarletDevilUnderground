@@ -61,6 +61,8 @@ public:
     
     const string color;
 
+	virtual AttributeMap getAttributeEffect() const;
+
 	virtual inline SpaceFloat getRadius() const { return 0.3; }
 
     virtual inline string imageSpritePath() const {return "sprites/star-"+color+".png";}

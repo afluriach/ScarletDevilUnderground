@@ -740,6 +740,19 @@ void LookAround::update(StateMachine& fsm)
 	}
 }
 
+AimAtTarget::AimAtTarget(gobject_ref target) :
+target(target)
+{
+}
+
+void AimAtTarget::update(StateMachine& fsm)
+{
+	if (!target.isValid())
+		return;
+
+	fsm.agent->setAngle(directionToTarget(fsm.agent, target.get()->getPos()).toAngle());
+}
+
 MoveToPoint::MoveToPoint(GSpace* space, const ValueMap& args)
 {
     auto xIter = args.find("target_x");
