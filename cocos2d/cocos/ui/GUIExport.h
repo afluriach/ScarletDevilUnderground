@@ -10,9 +10,9 @@
         #define CC_GUI_DLL
     #else
         #if defined(_USEGUIDLL)
-            #define CC_GUI_DLL     __declspec(dllexport)
+            #define CC_GUI_DLL     
         #else
-            #define CC_GUI_DLL     __declspec(dllimport)
+            #define CC_GUI_DLL     
         #endif
     #endif
 

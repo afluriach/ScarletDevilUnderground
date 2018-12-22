@@ -36,9 +36,9 @@ THE SOFTWARE.
     #define CC_DLL
 #else
 #if defined(_USRDLL)
-    #define CC_DLL     __declspec(dllexport)
+    #define CC_DLL     
 #else         /* use a DLL library */
-    #define CC_DLL     __declspec(dllimport)
+    #define CC_DLL     
 #endif
 #endif
 
