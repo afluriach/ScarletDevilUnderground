@@ -94,6 +94,13 @@ void MovingPlatform::setWaypoint(size_t idx)
 	setVel(dir*getMaxSpeed());
 }
 
+IcePlatform::IcePlatform(GSpace* space, ObjectIDType id, const ValueMap& args) :
+GObject(space, id, args, true),
+MovingPlatform(space, id, args)
+{
+}
+
+
 DirtFloorCave::DirtFloorCave(GSpace* space, ObjectIDType id, const ValueMap& args) :
 GObject(space,id,args, true),
 FloorSegment(space,id,args)

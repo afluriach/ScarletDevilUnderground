@@ -64,6 +64,16 @@ protected:
 	SpaceFloat distanceToTarget = 0.0;
 };
 
+class IcePlatform : public MovingPlatform
+{
+public:
+	MapObjCons(IcePlatform);
+	virtual inline string imageSpritePath() const { return "sprites/ice_platform.png"; }
+	virtual inline float zoom() const { return 2.0f; }
+
+	virtual inline SpaceFloat getFrictionCoeff() const { return 0.2; }
+};
+
 class DirtFloorCave : public FloorSegment, public NoSprite
 {
 public:
