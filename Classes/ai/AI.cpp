@@ -604,6 +604,27 @@ void MaintainDistance::update(StateMachine& sm)
 		ai::applyDesiredVelocity(sm.agent, SpaceVect::zero, sm.agent->getMaxAcceleration());
 }
 
+OccupyMidpoint::OccupyMidpoint(gobject_ref target1, gobject_ref target2) :
+target1(target1),
+target2(target2)
+{
+}
+
+void OccupyMidpoint::update(StateMachine& sm)
+{
+	GObject* t1 = target1.get();
+	GObject* t2 = target2.get();
+
+	if (!t1 || !t2) {
+		sm.pop();
+		return;
+	}
+
+	SpaceVect midpoint = (t1->getPos() + t2->getPos()) / 2.0;
+
+	seek(sm.agent, midpoint, sm.agent->getMaxSpeed(), sm.agent->getMaxAcceleration());
+}
+
 Flee::Flee(GSpace* space, const ValueMap& args) {
     if(args.find("target_name") == args.end()){
         log("Seek::Seek: target_name missing.");

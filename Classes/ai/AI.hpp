@@ -287,6 +287,22 @@ protected:
     SpaceFloat distance, margin;
 };
 
+class OccupyMidpoint : public Function {
+public:
+	OccupyMidpoint(gobject_ref target1, gobject_ref target2);
+
+	virtual void update(StateMachine& sm);
+
+	inline virtual bitset<lockCount> getLockMask() {
+		return make_enum_bitfield(ResourceLock::movement);
+	}
+
+	FuncGetName(OccupyMidpoint)
+protected:
+	gobject_ref target1, target2;
+};
+
+
 class Flee : public Function {
 public:
     inline Flee(GObject* target, SpaceFloat distance) :

@@ -56,8 +56,19 @@ void Fairy2::update()
 
 void Fairy2::requestHandler(object_ref<Fairy2> other)
 {
-	if(other.isValid())
-		log("Request received by %s.", other.get()->getName().c_str());
+	gobject_ref player = space->getObjectRef("player");
+
+	if (other.isValid() && player.isValid())
+	{
+		auto t = make_shared<ai::Thread>(
+			make_shared<ai::OccupyMidpoint>(other.getBaseRef(), player),
+			&fsm,
+			playerShieldPriority,
+			bitset<ai::lockCount>()
+		);
+
+		fsm.addThread(t);
+	}
 }
 
 

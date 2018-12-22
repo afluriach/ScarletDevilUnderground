@@ -46,6 +46,7 @@ class Fairy2 :
 public:
 	static const AttributeMap baseAttributes;
 	static const boost::rational<int> lowHealthRatio;
+	static const int playerShieldPriority = 3;
 
 	inline Fairy2(GSpace* space, ObjectIDType id, const ValueMap& args) :
 		MapObjForwarding(GObject),

@@ -51,6 +51,10 @@ public:
         return get();
     }
 
+	inline object_ref<GObject> getBaseRef() const {
+		return get();
+	}
+
     inline bool isValid()const{
         return _object_ref_is_valid(space,uuid);
     }
