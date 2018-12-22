@@ -115,7 +115,8 @@ public:
 	//Tracks setting of physics properties, they will be applied before physics step.
 	PhysicsProperties physicsPropertiesToApply;
 
-	object_ref<FloorSegment> crntFloor;
+	object_ref<FloorSegment> crntFloorCenterContact;
+	set<object_ref<FloorSegment>> crntFloorContacts;
 	
     void setInitialVelocity(const SpaceVect&& v);
     void setInitialAngle(SpaceFloat a);
@@ -123,7 +124,10 @@ public:
     Vec2 getInitialCenterPix();
 
 	void applyPhysicsProperties();
+	bool isOnFloor();
 	void updateFloorSegment();
+	void onContactFloorSegment(object_ref<FloorSegment> fs);
+	void onEndContactFloorSegment(object_ref<FloorSegment> fs);
 
     SpaceVect getPos() const;
     void setPos(SpaceVect p);

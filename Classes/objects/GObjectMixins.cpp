@@ -74,7 +74,7 @@ SpaceFloat CircleBody::getMomentOfInertia() const{
 
 void FrictionObject::update()
 {
-	SpaceFloat frictionCoeff = crntFloor.isValid() ? crntFloor.get()->getFrictionCoeff() : 1.0;
+	SpaceFloat frictionCoeff = crntFloorCenterContact.isValid() ? crntFloorCenterContact.get()->getFrictionCoeff() : 1.0;
 
     //linear
     SpaceVect vel = getVel();

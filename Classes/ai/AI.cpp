@@ -28,8 +28,8 @@ namespace ai{
 //just be a default value, in which case acceleration makes more sense.
 void applyDesiredVelocity(GObject* obj, SpaceVect desired, SpaceFloat acceleration)
 {
-	SpaceVect floorVel = obj->crntFloor.isValid() ? obj->crntFloor.get()->getVel() : SpaceVect::zero;
-	SpaceFloat traction = obj->crntFloor.isValid() ? obj->crntFloor.get()->getFrictionCoeff() : 1.0;
+	SpaceVect floorVel = obj->crntFloorCenterContact.isValid() ? obj->crntFloorCenterContact.get()->getVel() : SpaceVect::zero;
+	SpaceFloat traction = obj->crntFloorCenterContact.isValid() ? obj->crntFloorCenterContact.get()->getFrictionCoeff() : 1.0;
 
 	desired += floorVel;
 	acceleration *= traction;

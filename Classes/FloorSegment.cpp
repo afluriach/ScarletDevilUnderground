@@ -201,9 +201,13 @@ FloorSegment(space,id,args)
 
 void Pitfall::onContact(GObject* obj)
 {
-	space->removeObjectWithAnimation(obj, pitfallShrinkAction());
 }
 
 void Pitfall::onEndContact(GObject* obj)
 {
+}
+
+void Pitfall::exclusiveFloorEffect(GObject* obj)
+{
+	space->removeObjectWithAnimation(obj, pitfallShrinkAction());
 }

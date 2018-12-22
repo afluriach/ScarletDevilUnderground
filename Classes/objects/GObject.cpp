@@ -281,25 +281,68 @@ void GObject::setLayers(PhysicsLayers layers)
 	physicsPropertiesToApply.setLayers = true;
 }
 
+bool GObject::isOnFloor()
+{
+	return bitwise_and(PhysicsLayers, getCrntLayers(), PhysicsLayers::floor) != PhysicsLayers::none;
+}
+
 void GObject::updateFloorSegment()
 {
 	if (dynamic_cast<FloorSegment*>(this))
 		return;
 
-	FloorSegment* nextFloor = nullptr;
-	
-	if(bitwise_and(PhysicsLayers, getCrntLayers(),PhysicsLayers::floor) != PhysicsLayers::none)
-		nextFloor = space->floorSegmentPointQuery(getPos());
-
-	if (crntFloor != nextFloor)
-	{
-		if(crntFloor.isValid())
-			crntFloor.get()->onEndContact(this);
-		if(nextFloor)
-			nextFloor->onContact(this);
+	if (!isOnFloor()) {
+		for (auto ref : crntFloorContacts) {
+			if (ref.isValid()) {
+				ref.get()->onEndContactFloorSegment(this);
+			}
+		}
+		crntFloorContacts.clear();
+		crntFloorCenterContact = nullptr;
+		return;
 	}
 
-	crntFloor = nextFloor;
+	crntFloorCenterContact = space->floorSegmentPointQuery(getPos());
+
+	//If not on floor(s), also use point query for belowFloor.
+	if (crntFloorContacts.size() == 0)
+	{
+		if (crntFloorCenterContact.isValid()) {
+			crntFloorCenterContact.get()->exclusiveFloorEffect(this);
+		}
+	}
+
+	else if (crntFloorContacts.size() == 1) {
+		crntFloorContacts.begin()->get()->exclusiveFloorEffect(this);
+	}
+}
+
+void GObject::onContactFloorSegment(object_ref<FloorSegment> fs)
+{
+	if (fs.isValid() && isOnFloor())
+	{
+		if (crntFloorContacts.find(fs) != crntFloorContacts.end()) {
+			log("onContactFloorSegment duplicate add attempted for floor ID %d", fs.getID());
+			return;
+		}
+
+		fs.get()->onContact(this);
+		crntFloorContacts.insert(fs);
+	}
+}
+
+void GObject::onEndContactFloorSegment(object_ref<FloorSegment> fs)
+{
+	if (fs.isValid() && isOnFloor())
+	{
+		if (crntFloorContacts.find(fs) == crntFloorContacts.end()) {
+			log("onEndContactFloorSegment floor ID %d not found", fs.getID());
+			return;
+		}
+
+		fs.get()->onEndContact(this);
+		crntFloorContacts.erase(fs);
+	}
 }
 
 void GObject::updateRadarPos()

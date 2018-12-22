@@ -290,8 +290,12 @@ void GSpace::processRemoval(GObject* obj, bool removeSprite)
 
 	currentContacts.erase(obj);
     
-	if (obj->crntFloor.get())
-		obj->crntFloor.get()->onEndContact(obj);
+	for (object_ref<FloorSegment> fs_ref : obj->crntFloorContacts) {
+		FloorSegment* fs = fs_ref.get();
+		if (fs) {
+			fs->onEndContact(obj);
+		}
+	}
 
     obj->body->removeShapes(space);
     space.remove(obj->body);
@@ -483,6 +487,12 @@ void GSpace::addCollisionHandlers()
 	_addHandler(objectSensor, enemy, sensorStart, sensorEnd);
 	_addHandler(objectSensor, environment, sensorStart, sensorEnd);
     _addHandler(objectSensor, npc, sensorStart, sensorEnd);
+
+	_addHandler(floorSegment, player, floorObjectBegin, floorObjectEnd);
+	_addHandler(floorSegment, enemy, floorObjectBegin, floorObjectEnd);
+	_addHandler(floorSegment, npc, floorObjectBegin, floorObjectEnd);
+	_addHandler(floorSegment, collectible, floorObjectBegin, floorObjectEnd);
+	_addHandler(floorSegment, environment, floorObjectBegin, floorObjectEnd);
 
 	_addHandler(player, effectArea, agentEffectAreaBegin, agentEffectAreaEnd);
 	_addHandler(enemy, effectArea, agentEffectAreaBegin, agentEffectAreaEnd);
@@ -842,6 +852,45 @@ int GSpace::sensorEnd(GObject* radarAgent, GObject* target)
 
     return 1;
 }
+
+int GSpace::floorObjectBegin(GObject* floorSegment, GObject* obj)
+{
+	FloorSegment* fs = dynamic_cast<FloorSegment*>(floorSegment);
+
+	if (dynamic_cast<FloorSegment*>(obj)) {
+		log("GSpace::floorObjectBegin: FloorSegment should not collide with another one.");
+		return 0;
+	}
+
+	else if (!fs || !obj) {
+		return 0;
+	}
+
+	else{
+		obj->message<GObject>(obj, &GObject::onContactFloorSegment, object_ref<FloorSegment>(fs));
+		return 1;
+	}
+}
+
+int GSpace::floorObjectEnd(GObject* floorSegment, GObject* obj)
+{
+	FloorSegment* fs = dynamic_cast<FloorSegment*>(floorSegment);
+
+	if (dynamic_cast<FloorSegment*>(obj)) {
+		log("GSpace::floorObjectEnd: FloorSegment should not collide with another one.");
+		return 0;
+	}
+
+	else if (!fs || !obj) {
+		return 0;
+	}
+
+	else {
+		obj->message<GObject>(obj, &GObject::onEndContactFloorSegment, object_ref<FloorSegment>(fs));
+		return 1;
+	}
+}
+
 
 //END PHYSICS
 

@@ -284,6 +284,8 @@ private:
 	int bulletWall(GObject* bullet, GObject* unused);
 	int sensorStart(GObject* radarAgent, GObject* target);
 	int sensorEnd(GObject* radarAgent, GObject* target);
+	int floorObjectBegin(GObject* floorSegment, GObject* obj);
+	int floorObjectEnd(GObject* floorSegment, GObject* obj);
 
 //END PHYSICS
 

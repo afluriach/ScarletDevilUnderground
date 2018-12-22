@@ -29,6 +29,7 @@ public:
 
 	virtual void onContact(GObject* obj) = 0;
 	virtual void onEndContact(GObject* obj) = 0;
+	virtual inline void exclusiveFloorEffect(GObject* obj) {}
 };
 
 class MovingPlatform:
@@ -127,6 +128,7 @@ public:
 
 	virtual void onContact(GObject* obj);
 	virtual void onEndContact(GObject* obj);
+	virtual void exclusiveFloorEffect(GObject* obj);
 
 	virtual PhysicsLayers getLayers() const { return PhysicsLayers::belowFloor; }
 };
