@@ -27,7 +27,7 @@ void EffectArea::update()
 		Agent* agent = ref.get();
 
 		if (agent) {
-			agent->applyAttributeEffects(getAttributeEffect());
+			agent->applyAttributeEffects(AttributeSystem::scale(getAttributeEffect(), App::secondsPerFrame));
 		}
 	}
 }
@@ -73,6 +73,6 @@ GraphicsLayer SunArea::sceneLayer() const{
 
 AttributeMap SunArea::getAttributeEffect() {
 	return {
-		{ Attribute::sunDamage, 5.0 * App::secondsPerFrame }
+		{ Attribute::sunDamage, 5.0  }
 	};
 }

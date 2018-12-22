@@ -46,6 +46,8 @@ extern const float maxElementDamage;
 class AttributeSystem
 {
 public:
+	static AttributeMap scale(const AttributeMap& input, float scale);
+
 	AttributeSystem();
 	AttributeSystem(const AttributeSet& baseAttributes);
 	AttributeSystem(const AttributeMap& baseAttributesMap);

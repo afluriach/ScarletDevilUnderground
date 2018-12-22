@@ -47,6 +47,16 @@ AttributeSet getZeroAttributeSet()
 	return result;
 }
 
+AttributeMap AttributeSystem::scale(const AttributeMap& input, float scale)
+{
+	AttributeMap result = input;
+
+	for (auto entry : input) {
+		entry.second *= scale;
+	}
+	
+	return result;
+}
 
 AttributeSystem::AttributeSystem() :
 attributes(getBlankAttributeSet())
