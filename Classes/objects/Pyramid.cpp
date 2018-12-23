@@ -20,7 +20,7 @@ const unsigned int Pyramid::coneSegments = 128;
 const Color4F Pyramid::coneColor = Color4F(0.75f, 0.6f, 0.4f, 0.7f);
 
 const AttributeMap Pyramid::lightConeEffect = {
-	{Attribute::sunDamage, 25.0f }
+	{Attribute::sunDamage, 5.0f }
 };
 
 
@@ -116,5 +116,5 @@ void Pyramid::initializeGraphics(SpaceLayer* layer)
 }
 
 void Pyramid::initStateMachine(ai::StateMachine& sm) {
-	addThread(std::make_shared<ai::LookAround>(boost::rational<int>(3,2),true));
+	addThread(std::make_shared<ai::QuadDirectionLookAround>(boost::rational<int>(3,2),true));
 }

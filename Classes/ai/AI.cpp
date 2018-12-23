@@ -757,7 +757,7 @@ void IdleWait::update(StateMachine& fsm)
 	ai::applyDesiredVelocity(fsm.agent, SpaceVect::zero, fsm.agent->getMaxAcceleration());
 }
 
-LookAround::LookAround(boost::rational<int> secondsPerDirection, bool clockwise) :
+QuadDirectionLookAround::QuadDirectionLookAround(boost::rational<int> secondsPerDirection, bool clockwise) :
 secondsPerDirection(secondsPerDirection),
 timeRemaining(secondsPerDirection),
 clockwise(clockwise)
@@ -765,7 +765,7 @@ clockwise(clockwise)
 
 }
 
-void LookAround::update(StateMachine& fsm)
+void QuadDirectionLookAround::update(StateMachine& fsm)
 {
 	timerDecrement(timeRemaining);
 

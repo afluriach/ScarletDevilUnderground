@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.0" tiledversion="1.0.3" orientation="orthogonal" renderorder="right-down" width="17" height="17" tilewidth="128" tileheight="128" nextobjectid="47">
+ <tileset firstgid="1" name="desert wall" tilewidth="128" tileheight="128" tilecount="4" columns="2">
+  <image source="desert wall.png" width="256" height="256"/>
+ </tileset>
+ <tileset firstgid="5" name="sand" tilewidth="128" tileheight="128" tilecount="16" columns="4">
+  <image source="sand.png" width="512" height="512"/>
+ </tileset>
+ <layer name="floor" width="17" height="17">
+  <data encoding="base64" compression="zlib">
+   eJzt0LsBwCAMA1E3DhC+Cew/KzeDahevuFJyM3uQkOFCF7yoaGJ3DEwssT/82DhiK/vjj/gj/tD/uEtaDZ4=
+  </data>
+ </layer>
+ <layer name="wall_tiles" width="17" height="17">
+  <data encoding="base64" compression="zlib">
+   eJxjYGBgYARiJjJpEGBmoAywIJlFLmAadQdN3EENMJzCY9QdqO6A0cxk0iAAABKHAJY=
+  </data>
+ </layer>
+ <objectgroup name="floor">
+  <object id="35" type="MineFloor" x="128" y="128" width="1920" height="1920"/>
+ </objectgroup>
+ <objectgroup name="walls">
+  <object id="26" x="128" y="0" width="1920" height="128"/>
+  <object id="27" x="2048" y="128" width="128" height="896"/>
+  <object id="28" x="128" y="2048" width="1920" height="128"/>
+  <object id="29" x="0" y="1152" width="128" height="896"/>
+  <object id="31" x="2048" y="1152" width="128" height="896"/>
+  <object id="32" x="0" y="128" width="128" height="896"/>
+ </objectgroup>
+ <objectgroup name="objects">
+  <object id="38" name="sunarea2" type="SunArea" x="768" y="768" width="640" height="640"/>
+  <object id="41" name="pyramid6" type="Pyramid" x="1024" y="128" width="128" height="128">
+   <properties>
+    <property name="direction" value="down"/>
+   </properties>
+  </object>
+  <object id="42" name="pyramid5" type="Pyramid" x="1024" y="1920" width="128" height="128">
+   <properties>
+    <property name="direction" value="up"/>
+   </properties>
+  </object>
+  <object id="43" name="pyramid4" type="Pyramid" x="1664" y="1408" width="128" height="128">
+   <properties>
+    <property name="direction" value="up"/>
+   </properties>
+  </object>
+  <object id="44" name="pyramid3" type="Pyramid" x="1664" y="640" width="128" height="128">
+   <properties>
+    <property name="direction" value="down"/>
+   </properties>
+  </object>
+  <object id="45" name="pyramid2" type="Pyramid" x="384" y="640" width="128" height="128">
+   <properties>
+    <property name="direction" value="down"/>
+   </properties>
+  </object>
+  <object id="46" name="pyramid7" type="Pyramid" x="384" y="1408" width="128" height="128">
+   <properties>
+    <property name="direction" value="up"/>
+   </properties>
+  </object>
+ </objectgroup>
+</map>

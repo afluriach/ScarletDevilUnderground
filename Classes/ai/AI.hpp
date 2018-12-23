@@ -372,9 +372,9 @@ class IdleWait : public Function{
         unsigned int remaining;
 };
 
-class LookAround : public Function {
+class QuadDirectionLookAround : public Function {
 public:
-	LookAround(boost::rational<int> secondsPerDirection, bool clockwise);
+	QuadDirectionLookAround(boost::rational<int> secondsPerDirection, bool clockwise);
 
 	virtual void update(StateMachine& fsm);
 
@@ -382,7 +382,7 @@ public:
 		return make_enum_bitfield(ResourceLock::movement);
 	}
 
-	FuncGetName(LookAround)
+	FuncGetName(QuadDirectionLookAround)
 private:
 	boost::rational<int> secondsPerDirection;
 	boost::rational<int> timeRemaining;

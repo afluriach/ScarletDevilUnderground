@@ -13,7 +13,8 @@
 const IntVec2 Desert::roomSize = IntVec2(17,17);
 
 const vector<GScene::MapEntry> Desert::rooms = {
-	{make_pair("desert/D0", getRoomOffset(roomSize, 0, 0))}
+	{make_pair("desert/D0", getRoomOffset(roomSize, 0, 0))},
+	{make_pair("desert/D1", getRoomOffset(roomSize, 1, 0))}
 };
 
 Desert::Desert() :
