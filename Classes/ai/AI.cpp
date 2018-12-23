@@ -757,6 +757,16 @@ void IdleWait::update(StateMachine& fsm)
 	ai::applyDesiredVelocity(fsm.agent, SpaceVect::zero, fsm.agent->getMaxAcceleration());
 }
 
+LookAround::LookAround(SpaceFloat angularVelocity) :
+angularVelocity(angularVelocity)
+{
+}
+
+void LookAround::update(StateMachine& fsm)
+{
+	fsm.agent->rotate(angularVelocity * App::secondsPerFrame);
+}
+
 QuadDirectionLookAround::QuadDirectionLookAround(boost::rational<int> secondsPerDirection, bool clockwise) :
 secondsPerDirection(secondsPerDirection),
 timeRemaining(secondsPerDirection),

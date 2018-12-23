@@ -24,8 +24,9 @@ public RectangleMapBody
 public:
 	static const SpaceFloat coneLength;
 	static const SpaceFloat coneAngle;
-	static const unsigned int Pyramid::coneSegments;
-	static const Color4F Pyramid::coneColor;
+	static const unsigned int coneSegments;
+	static const Color4F coneColor;
+	static const Color4F coneActiveColor;
 
 	static const AttributeMap lightConeEffect;
 
@@ -34,8 +35,6 @@ public:
 	void init();
 	void update();
 	void redrawLightCone();
-
-	virtual void setAngle(SpaceFloat a);
 
     virtual string imageSpritePath() const {return "sprites/pyramid_base.png";}
     virtual GraphicsLayer sceneLayer() const {return GraphicsLayer::ground;}
@@ -59,5 +58,7 @@ protected:
 	Sprite* base = nullptr;
 	DrawNode* drawNode = nullptr;
 	set<object_ref<Agent>> targets;
+	SpaceFloat angular_speed = 0.0;
+	boost::rational<int> discrete_look = 0;
 };
 #endif /* Pyramid_hpp */

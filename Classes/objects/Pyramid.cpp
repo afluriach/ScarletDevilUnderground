@@ -13,11 +13,13 @@
 #include "macros.h"
 #include "Pyramid.hpp"
 #include "SpaceLayer.h"
+#include "value_map.hpp"
 
 const SpaceFloat Pyramid::coneLength = 4.0;
 const SpaceFloat Pyramid::coneAngle = float_pi / 2.0;
 const unsigned int Pyramid::coneSegments = 128;
 const Color4F Pyramid::coneColor = Color4F(0.75f, 0.6f, 0.4f, 0.7f);
+const Color4F Pyramid::coneActiveColor = Color4F(0.9f, 0.75f, 0.5f, 0.7f);
 
 const AttributeMap Pyramid::lightConeEffect = {
 	{Attribute::sunDamage, 5.0f }
@@ -31,6 +33,12 @@ RegisterUpdate<Pyramid>(this),
 RectangleMapBody(args),
 StateMachineObject(args)
 {
+	angular_speed = getFloatOrDefault(args, "angular_speed", 0.0f) / 180.0 * float_pi;
+
+	string discrete = getStringOrDefault(args, "discrete_look", "");
+	if (!discrete.empty()) {
+		discrete_look = boost::lexical_cast<boost::rational<int>>(discrete);
+	}
 }
 
 void Pyramid::init()
@@ -41,6 +49,7 @@ void Pyramid::init()
 void Pyramid::update()
 {
 	fsm.update();
+	redrawLightCone();
 
 	for (object_ref<Agent> agent_ref : targets)
 	{
@@ -59,18 +68,11 @@ void Pyramid::redrawLightCone()
 	drawNode->drawSolidCone( 
 		Vec2::ZERO,
 		coneLength * App::pixelsPerTile,
-		a - coneAngle / 2.0 + float_pi / 2.0,
-		a + coneAngle / 2.0 + float_pi / 2.0,
+		a - coneAngle / 2.0,
+		a + coneAngle / 2.0,
 		coneSegments,
-		coneColor
+		targets.empty() ? coneColor : coneActiveColor
 	);
-}
-
-void Pyramid::setAngle(SpaceFloat a)
-{
-	GObject::setAngle(a);
-
-	redrawLightCone();
 }
 
 PhysicsLayers Pyramid::getLayers() const{
@@ -116,5 +118,8 @@ void Pyramid::initializeGraphics(SpaceLayer* layer)
 }
 
 void Pyramid::initStateMachine(ai::StateMachine& sm) {
-	addThread(std::make_shared<ai::QuadDirectionLookAround>(boost::rational<int>(3,2),true));
+	if(angular_speed != 0.0)
+		addThread(std::make_shared<ai::LookAround>(angular_speed));
+	else if(discrete_look != 0)
+		addThread(std::make_shared<ai::QuadDirectionLookAround>(abs(discrete_look), discrete_look > 0));
 }

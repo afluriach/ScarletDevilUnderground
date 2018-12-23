@@ -372,6 +372,21 @@ class IdleWait : public Function{
         unsigned int remaining;
 };
 
+class LookAround : public Function {
+public:
+	LookAround(SpaceFloat angularVelocity);
+
+	virtual void update(StateMachine& fsm);
+
+	inline virtual bitset<lockCount> getLockMask() {
+		return make_enum_bitfield(ResourceLock::movement);
+	}
+
+	FuncGetName(LookAround)
+private:
+	SpaceFloat angularVelocity;
+};
+
 class QuadDirectionLookAround : public Function {
 public:
 	QuadDirectionLookAround(boost::rational<int> secondsPerDirection, bool clockwise);
