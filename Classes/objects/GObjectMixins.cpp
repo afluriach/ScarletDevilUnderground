@@ -8,6 +8,7 @@
 
 #include "Prefix.h"
 
+#include "Agent.hpp"
 #include "App.h"
 #include "FloorSegment.hpp"
 #include "GAnimation.hpp"
@@ -21,6 +22,7 @@
 #include "Spell.hpp"
 #include "util.h"
 #include "value_map.hpp"
+#include "Wall.hpp"
 
 //LOGIC MIXINS
 
@@ -255,6 +257,22 @@ void TouchDamageEnemy::update()
 //END ENEMY
 
 //TYPE MIXINS
+
+void Bullet::onWallCollide(Wall* wall)
+{
+	space->removeObject(this);
+}
+
+void Bullet::onEnvironmentCollide(GObject* obj)
+{
+	space->removeObject(this);
+}
+
+void Bullet::onAgentCollide(Agent* agent)
+{
+	agent->hit(getAttributeEffect(), getMagicEffect(agent));
+	space->removeObject(this);
+}
 
 EnemyBullet::EnemyBullet(SpaceFloat grazeRadius, int grazeBonus) :
 grazeRadius(grazeRadius),

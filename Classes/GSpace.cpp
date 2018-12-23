@@ -702,11 +702,10 @@ int GSpace::playerEnemyBulletBegin(GObject* playerObj, GObject* bullet)
         log("%s hit by %s", player->name.c_str(), bullet->name.c_str());
 
 	if (player && _bullet) {
-		player->hit(_bullet->getAttributeEffect(), _bullet->getMagicEffect(playerObj));
+		_bullet->onAgentCollide(player);
 		_bullet->invalidateGraze();
 	}
 
-	removeObject(bullet);
     return 1;
 }
 
@@ -745,13 +744,12 @@ int GSpace::playerBulletEnemyBegin(GObject* a, GObject* b)
         log("%s is not an Enemy", b->getName().c_str());
     
 	if (bullet && _enemy_agent){
-		_enemy_agent->hit(bullet->getAttributeEffect(), bullet->getMagicEffect(_enemy_agent));
+		bullet->onAgentCollide(_enemy_agent);
 	}
 
     if(logPhysicsHandlers)
         log("%s hit by %s", b->name.c_str(), a->name.c_str());
     
-    removeObject(a);
     return 1;
 }
 
@@ -798,12 +796,14 @@ int GSpace::playerCollectibleBegin(GObject* a, GObject* b)
     return 0;
 }
 
-int GSpace::bulletEnvironment(GObject* a, GObject* b)
+int GSpace::bulletEnvironment(GObject* bullet, GObject* environment)
 {
-    if(logPhysicsHandlers)
-        log("%s hit object %s",  a->name.c_str(), b->name.c_str());
+	Bullet* _b = dynamic_cast<Bullet*>(bullet);
+
+	if (_b && environment) {
+		_b->onEnvironmentCollide(environment);
+	}
     
-    removeObject(a);
     return 1;
 }
 
@@ -817,9 +817,15 @@ int GSpace::collide(GObject* a, GObject* b)
     return 1;
 }
 
-int GSpace::bulletWall(GObject* bullet, GObject* unused)
+int GSpace::bulletWall(GObject* bullet, GObject* wall)
 {
-    removeObject(bullet);
+	Bullet* _b = dynamic_cast<Bullet*>(bullet);
+	Wall* _w = dynamic_cast<Wall*>(wall);
+
+	if (_b && _w) {
+		_b->onWallCollide(_w);
+	}
+
     return 1;
 }
 

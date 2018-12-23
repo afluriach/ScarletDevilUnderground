@@ -15,8 +15,10 @@
 #include "multifunction.h"
 #include "util.h"
 
+class Agent;
 class PatchConAnimation;
 class TimedLoopAnimation;
+class Wall;
 
 //LOGIC MIXINS
 
@@ -260,6 +262,10 @@ public:
 	//Interface
 	virtual inline AttributeMap getAttributeEffect() const { return AttributeMap(); }
 	virtual inline shared_ptr<MagicEffect> getMagicEffect(gobject_ref target) { return nullptr; }
+
+	virtual void onWallCollide(Wall* wall);
+	virtual void onEnvironmentCollide(GObject* obj);
+	virtual void onAgentCollide(Agent* agent);
 protected:
 	int damage = 1;
 };
