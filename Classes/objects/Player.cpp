@@ -243,13 +243,8 @@ void Player::hit(AttributeMap attributeEffect, shared_ptr<MagicEffect> effect){
 
 void Player::onCollectible(Collectible* coll)
 {
-    PowerUp* p = dynamic_cast<PowerUp*>(coll);
-    
-    if(p){
-		attributeSystem.modifyAttribute(Attribute::power, 10);
-                
-        space->removeObject(coll);
-    }
+	applyAttributeEffects(coll->getEffect());
+    space->removeObject(coll);
 }
 
 void Player::applyGraze(int p)

@@ -98,6 +98,7 @@ public:
 	void init();
 	void update();
 	void updateMessages();
+	inline virtual void onRemove() {}
 
 	template<typename D, typename...Args>
 	inline void message(D* _this, void (D::*m)(Args...), Args ...args)

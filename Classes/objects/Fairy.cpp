@@ -18,6 +18,11 @@ const AttributeMap Fairy1::baseAttributes = {
 	{Attribute::acceleration, 4.5f}
 };
 
+Fairy1::Fairy1(GSpace* space, ObjectIDType id, const ValueMap& args) :
+	MapObjForwarding(GObject),
+	MapObjForwarding(Agent)
+{}
+
 void Fairy1::initStateMachine(ai::StateMachine& sm) {
 	addThread(make_shared<ai::Detect>(
 		"player",
@@ -34,6 +39,13 @@ const AttributeMap Fairy2::baseAttributes = {
 };
 
 const boost::rational<int> Fairy2::lowHealthRatio = boost::rational<int>(1, 3);
+
+Fairy2::Fairy2(GSpace* space, ObjectIDType id, const ValueMap& args) :
+	MapObjForwarding(GObject),
+	MapObjForwarding(Agent),
+	RegisterUpdate<Fairy2>(this)
+{}
+
 
 void Fairy2::initStateMachine(ai::StateMachine& sm) {
 	addThread(make_shared<ai::Detect>(

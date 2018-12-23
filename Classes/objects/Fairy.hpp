@@ -10,19 +10,18 @@
 #define Fairy_hpp
 
 #include "Agent.hpp"
+#include "Collectibles.hpp"
 #include "macros.h"
 
 class Fairy1 :
 virtual public Agent,
+public CollectibleDrop<Power1>,
 public BaseAttributes<Fairy1>
 {
 public:
 	static const AttributeMap baseAttributes;
 
-	inline Fairy1(GSpace* space, ObjectIDType id, const ValueMap& args) :
-		MapObjForwarding(GObject),
-		MapObjForwarding(Agent)
-	{}
+	Fairy1(GSpace* space, ObjectIDType id, const ValueMap& args);
 
 	virtual inline SpaceFloat getRadarRadius() const { return 6.0; }
 	virtual inline GType getRadarType() const { return GType::playerSensor; }
@@ -40,6 +39,7 @@ public:
 
 class Fairy2 :
 	virtual public Agent,
+	public CollectibleDrop<Power2>,
 	public RegisterUpdate<Fairy2>,
 	public BaseAttributes<Fairy2>
 {
@@ -48,11 +48,7 @@ public:
 	static const boost::rational<int> lowHealthRatio;
 	static const int playerShieldPriority = 3;
 
-	inline Fairy2(GSpace* space, ObjectIDType id, const ValueMap& args) :
-		MapObjForwarding(GObject),
-		MapObjForwarding(Agent),
-		RegisterUpdate<Fairy2>(this)
-	{}
+	Fairy2(GSpace* space, ObjectIDType id, const ValueMap& args);
 
 	virtual inline SpaceFloat getRadarRadius() const { return 6.0; }
 	virtual inline GType getRadarType() const { return GType::playerSensor; }

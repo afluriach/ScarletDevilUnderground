@@ -281,6 +281,8 @@ void GSpace::removeObjectWithAnimation(GObject* obj, FiniteTimeAction* action)
 
 void GSpace::processRemoval(GObject* obj, bool removeSprite)
 {
+	obj->onRemove();
+
     objByName.erase(obj->name);
     objByUUID.erase(obj->uuid);
 

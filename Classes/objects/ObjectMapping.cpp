@@ -102,7 +102,6 @@ const unordered_map<string, GObject::AdapterType> GObject::adapters = {
 	entry_same(MovingPlatform),
 	entry_same(Patchouli),
 	entry_same(Pitfall),
-	entry_same(PowerUp),
 	entry_same(PressurePlate),
 	entry_same(Pyramid),
 	entry_same(Reimu),
