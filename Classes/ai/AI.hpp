@@ -52,6 +52,7 @@ enum class ResourceLock
 {
     begin = 0,
     movement = 0,
+	look,
 	spellcasting,
 	fire,
     
@@ -379,7 +380,7 @@ public:
 	virtual void update(StateMachine& fsm);
 
 	inline virtual bitset<lockCount> getLockMask() {
-		return make_enum_bitfield(ResourceLock::movement);
+		return make_enum_bitfield(ResourceLock::look);
 	}
 
 	FuncGetName(LookAround)
@@ -394,7 +395,7 @@ public:
 	virtual void update(StateMachine& fsm);
 
 	inline virtual bitset<lockCount> getLockMask() {
-		return make_enum_bitfield(ResourceLock::movement);
+		return make_enum_bitfield(ResourceLock::look);
 	}
 
 	FuncGetName(QuadDirectionLookAround)
@@ -411,7 +412,7 @@ public:
 	virtual void update(StateMachine& fsm);
 
 	inline virtual bitset<lockCount> getLockMask() {
-		return make_enum_bitfield(ResourceLock::movement);
+		return make_enum_bitfield(ResourceLock::look);
 	}
 
 	FuncGetName(AimAtTarget)
@@ -522,7 +523,7 @@ public:
 	FuncGetName(FireAtTarget)
 	
 	inline virtual bitset<lockCount> getLockMask() {
-		return make_enum_bitfield(ResourceLock::fire);
+		return make_enum_bitfield(ResourceLock::look) | make_enum_bitfield(ResourceLock::fire);
 	}
 
 protected:

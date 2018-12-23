@@ -937,6 +937,14 @@ FireAtTarget::FireAtTarget(shared_ptr<FirePattern> pattern, gobject_ref target) 
 
 void FireAtTarget::update(StateMachine& sm)
 {
+	if (!target.isValid()) {
+		sm.pop();
+	}
+
+	sm.agent->setAngle(
+		directionToTarget(sm.agent, target.get()->getPos()).toAngle()
+	);
+
 	pattern.get()->update();
 	pattern.get()->fireIfPossible();
 }
