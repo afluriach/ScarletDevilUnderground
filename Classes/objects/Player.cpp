@@ -188,12 +188,12 @@ void Player::update()
 
 		space->getScene()->addAction(make_hud_action(
 			&HUD::setIceDamage,
-			attributeSystem.getAdjustedValue(Attribute::iceDamage) / 25.0f
+			attributeSystem.getAdjustedValue(Attribute::iceDamage)
 		));
 
 		space->getScene()->addAction(make_hud_action(
 			&HUD::setSunDamage,
-			attributeSystem.getAdjustedValue(Attribute::sunDamage) / 25.0f
+			attributeSystem.getAdjustedValue(Attribute::sunDamage)
 		));
 	}
 

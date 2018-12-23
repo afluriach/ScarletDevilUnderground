@@ -9,6 +9,7 @@
 #include "Prefix.h"
 
 #include "App.h"
+#include "Attributes.hpp"
 #include "Graphics.h"
 #include "GSpace.hpp"
 #include "HUD.hpp"
@@ -104,6 +105,69 @@ void IconMeter::runFlicker(float duration, float interval)
 	}
 }
 
+RadialMeter::RadialMeter(RadialMeterSettings settings) :
+RadialMeter(get<0>(settings), get<1>(settings), get<2>(settings))
+{
+}
+
+RadialMeter::RadialMeter(string iconName, Color4F empty, Color4F filled) :
+iconName(iconName),
+filled(filled),
+empty(empty)
+{
+}
+
+void RadialMeter::setValue(float v)
+{
+	if (v < 0 || v > 1.0) {
+		log("RadialMeter::setValue: value %f out of range!", v);
+		return;
+	}
+
+	if (v != crntValue) {
+		crntValue = v;
+		redraw();
+	}
+}
+
+bool RadialMeter::init()
+{
+	Node::init();
+	
+	drawNode = DrawNode::create();
+	addChild(drawNode, 1);
+
+	icon = Sprite::create(iconName);
+	addChild(icon, 2);
+
+	redraw();
+
+	return true;
+}
+
+void RadialMeter::redraw()
+{
+	drawNode->clear();
+
+	drawNode->drawSolidCone(
+		Vec2::ZERO,
+		boundingSize - radiusMargin,
+		0.0f,
+		float_pi * 2.0 * crntValue,
+		segments,
+		filled
+	);
+
+	drawNode->drawSolidCone(
+		Vec2::ZERO,
+		boundingSize - radiusMargin,
+		float_pi * 2.0 * crntValue,
+		float_pi * 2.0,
+		segments,
+		empty
+	);
+}
+
 HealthBar::HealthBar() :
 IconMeter(
 	HealthBar::heartSize,
@@ -150,6 +214,18 @@ SunDamageBar::SunDamageBar() :
 
 
 //const Color4F HUD::backgroundColor = Color4F(0,0,0,0.75);
+
+const RadialMeterSettings HUD::iceDamageSettings = {
+	"sprites/ui/snowflake.png", 
+	Color4F(0.2,0.33,0.7,0.5),
+	Color4F(0.16, 0.2, 0.9, 1.0)
+};
+
+const RadialMeterSettings HUD::sunDamageSettings = {
+	"sprites/ui/sun.png",
+	Color4F(.3f,.3f,.12f,.5f),
+	Color4F(.4f,.4f,.3f,1.0f)
+};
 
 const int HUD::fontSize = 32;
 
@@ -211,15 +287,15 @@ bool HUD::init()
     power->setVal(0);
 	power->setScale(scale);
     
-	iceDamage = Node::ccCreate<IceDamageBar>();
-	iceDamage->setPosition(scale*(-64 + App::width * 3 / 4), App::height - height / 2);
+	iceDamage = Node::ccCreate<RadialMeter>(iceDamageSettings);
 	addChild(iceDamage, 2);
-	iceDamage->setScale(scale);
+	iceDamage->setPosition(scale*(-64 + App::width * 3 / 4), App::height - height / 2);
+	iceDamage->setScale(scale / 2.0f);
 
-	sunDamage = Node::ccCreate<SunDamageBar>();
+	sunDamage = Node::ccCreate<RadialMeter>(sunDamageSettings);
 	sunDamage->setPosition(scale*(64 + App::width * 3 / 4), App::height - height / 2);
 	addChild(sunDamage, 2);
-	sunDamage->setScale(scale);
+	sunDamage->setScale(scale / 2.0f);
 
     objectiveCounter = Node::ccCreate<Counter>("", 0);
     objectiveCounter->setPosition(Counter::spacing/2 + Counter::iconSize + 8, Counter::iconSize/2 + 8);
@@ -301,12 +377,12 @@ void HUD::runPowerFlicker()
 
 void HUD::setIceDamage(float v)
 {
-	iceDamage->setElementalValue(v);
+	iceDamage->setValue(v / AttributeSystem::maxElementDamage);
 }
 
 void HUD::setSunDamage(float v)
 {
-	sunDamage->setElementalValue(v);
+	sunDamage->setValue(v / AttributeSystem::maxElementDamage);
 }
 
 Counter::Counter(const string& iconRes, const int val) :
