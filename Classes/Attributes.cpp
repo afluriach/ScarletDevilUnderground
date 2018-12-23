@@ -49,10 +49,10 @@ AttributeSet AttributeSystem::getZeroAttributeSet()
 
 AttributeMap AttributeSystem::scale(const AttributeMap& input, float scale)
 {
-	AttributeMap result = input;
+	AttributeMap result;
 
 	for (auto entry : input) {
-		entry.second *= scale;
+		result[entry.first] = entry.second * scale;
 	}
 	
 	return result;
