@@ -59,5 +59,22 @@ public:
 	Power2(GSpace* space, ObjectIDType id, SpaceVect pos);
 };
 
+class Magic1 : public CollectibleImpl<Magic1>
+{
+public:
+	static const AttributeMap effect;
+	static const string spriteName;
+
+	Magic1(GSpace* space, ObjectIDType id, SpaceVect pos);
+};
+
+class Magic2 : public CollectibleImpl<Magic2>
+{
+public:
+	static const AttributeMap effect;
+	static const string spriteName;
+
+	Magic2(GSpace* space, ObjectIDType id, SpaceVect pos);
+};
 
 #endif /* Collectibles_hpp */

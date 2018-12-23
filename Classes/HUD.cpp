@@ -169,6 +169,7 @@ void HUD::update()
         Player* p = player.get();
         health->setValue(p->getHealth());
         power->setVal(p->getPower());
+		magic->setValue(p->getMagic());
     }
     else{
         setVisible(false);
@@ -276,6 +277,16 @@ void HUD::setHP(int v)
 void HUD::setMaxHP(int v)
 {
 	health->setMax(v);
+}
+
+void HUD::setMP(int v)
+{
+	magic->setValue(v);
+}
+
+void HUD::setMaxMP(int v)
+{
+	magic->setMax(v);
 }
 
 void HUD::runHealthFlicker(float length, float interval)

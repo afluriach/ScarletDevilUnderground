@@ -47,6 +47,7 @@ public:
 
 	int getHealth();
 	int getPower();
+	int getMagic();
 	bool consumePower(int val);
 
 	virtual void hit(AttributeMap attributeEffects, shared_ptr<MagicEffect> effect);

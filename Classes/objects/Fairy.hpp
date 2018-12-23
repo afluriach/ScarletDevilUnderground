@@ -73,6 +73,7 @@ protected:
 
 class IceFairy :
 	virtual public Agent,
+	public CollectibleDrop<Magic2>,
 	public BaseAttributes<IceFairy>
 {
 public:

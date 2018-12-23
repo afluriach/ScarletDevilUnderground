@@ -10,9 +10,10 @@
 #define Stalker_hpp
 
 #include "Agent.hpp"
+#include "Collectibles.hpp"
 #include "macros.h"
 
-class Stalker : virtual public Agent, public TouchDamageEnemy, public BaseAttributes<Stalker>
+class Stalker : virtual public Agent, public TouchDamageEnemy, public BaseAttributes<Stalker>, public CollectibleDrop<Magic1>
 {
 public:
 	static const AttributeMap baseAttributes;

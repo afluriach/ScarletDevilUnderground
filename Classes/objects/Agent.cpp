@@ -110,6 +110,12 @@ int Agent::getPower()
 	return attributeSystem.getAdjustedValue(Attribute::power);
 }
 
+int Agent::getMagic()
+{
+	return attributeSystem.getAdjustedValue(Attribute::mp);
+}
+
+
 bool Agent::consumePower(int val)
 {
 	if (getPower() >= val) {

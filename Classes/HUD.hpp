@@ -130,6 +130,9 @@ public:
 	void setHP(int);
 	void setMaxHP(int);
 
+	void setMP(int);
+	void setMaxMP(int);
+
 	void runHealthFlicker(float length, float interval);
 	void runPowerFlicker();
 

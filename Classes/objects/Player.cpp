@@ -288,6 +288,7 @@ bool Player::trySetFirePatternPrevious()
 
 const AttributeMap FlandrePC::baseAttributes = {
 	{Attribute::maxHP, 5.0f},
+	{Attribute::maxMP, 5.0f },
 	{Attribute::maxPower, 500.0f},
 	{Attribute::speed, 3.0f},
 	{Attribute::acceleration, 9.0f},
@@ -314,6 +315,7 @@ void FlandrePC::equipSpells() {
 
 const AttributeMap RumiaPC::baseAttributes = {
 	{Attribute::maxHP, 3.0f },
+	{Attribute::maxMP, 3.0f },
 	{Attribute::maxPower, 900.0f },
 	{Attribute::speed, 4.5f },
 	{Attribute::acceleration, 12.0f },
@@ -338,6 +340,7 @@ void RumiaPC::equipSpells() {
 
 const AttributeMap CirnoPC::baseAttributes = {
 	{Attribute::maxHP, 9.0f },
+	{Attribute::maxMP, 3.0f },
 	{Attribute::maxPower, 300.0f},
 	{Attribute::speed, 2.0f},
 	{Attribute::acceleration, 6.0f},
