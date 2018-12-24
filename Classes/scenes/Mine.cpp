@@ -13,7 +13,7 @@
 const IntVec2 Mine::roomSize = IntVec2(17,17);
 
 const vector<GScene::MapEntry> Mine::rooms = {
-	{make_pair("mine/M9", getRoomOffset(roomSize, 0, 0))},
+	{make_pair("mine/M10", getRoomOffset(roomSize, 0, 0))},
 	{make_pair("mine/M9", getRoomOffset(roomSize, 2, 0))},
 
 	{make_pair("mine/M2", getRoomOffset(roomSize, 0, 1))},
