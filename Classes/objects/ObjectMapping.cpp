@@ -32,6 +32,7 @@
 #include "Pyramid.hpp"
 #include "Reimu.hpp"
 #include "Sakuya.hpp"
+#include "Scorpion.hpp"
 #include "Slime.hpp"
 #include "Stalker.hpp"
 #include "Tewi.hpp"
@@ -107,6 +108,7 @@ const unordered_map<string, GObject::AdapterType> GObject::adapters = {
 	entry_same(Pyramid),
 	entry_same(Reimu),
 	entry_same(Sakuya),
+	entry_same(Scorpion1),
 	entry_same(Slime1),
 	entry_same(Slime2),
 	entry_same(Stalker),
