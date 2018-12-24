@@ -10,6 +10,7 @@
 
 #include "Agent.hpp"
 #include "App.h"
+#include "Enemy.hpp"
 #include "GSpace.hpp"
 #include "macros.h"
 #include "MagicEffect.hpp"

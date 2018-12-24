@@ -9,9 +9,9 @@
 #ifndef Facer_hpp
 #define Facer_hpp
 
-#include "Agent.hpp"
+#include "Enemy.hpp"
 
-class Facer : virtual public Agent, public TouchDamageEnemy, public BaseAttributes<Facer>
+class Facer : public Enemy, public BaseAttributes<Facer>
 {
 public:
 	static const AttributeMap baseAttributes;
@@ -23,12 +23,9 @@ public:
 
     virtual void hit(int damage, shared_ptr<MagicEffect> effect);
 
-    virtual inline SpaceFloat getRadius() const {return 0.35;}
     inline SpaceFloat getMass() const {return 40.0;}
-    virtual inline GType getType() const {return GType::enemy;}
 
     inline string imageSpritePath() const {return "sprites/tewi.png";}
-    inline GraphicsLayer sceneLayer() const {return GraphicsLayer::ground;}
  
 	virtual inline void initStateMachine(ai::StateMachine& sm) {
 		sm.addThread(make_shared<ai::FacerMain>());

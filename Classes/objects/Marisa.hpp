@@ -9,11 +9,11 @@
 #ifndef Marisa_h
 #define Marisa_h
 
-#include "Agent.hpp"
+#include "Enemy.hpp"
 #include "object_ref.hpp"
 #include "Player.hpp"
 
-class Marisa : virtual public Agent, public BaseAttributes<Marisa>
+class Marisa : public Enemy, public BaseAttributes<Marisa>
 {
 public:
 	static const AttributeMap baseAttributes;
@@ -21,15 +21,11 @@ public:
 	MapObjCons(Marisa);
     
     virtual inline SpaceFloat getRadarRadius() const {return 6.0;}
-    virtual inline GType getRadarType() const { return GType::playerSensor;}
     
     virtual inline SpaceFloat getRadius() const {return 0.35;}
     inline SpaceFloat getMass() const {return 33.0;}
-    virtual inline GType getType() const {return GType::enemy;}
     
     inline string imageSpritePath() const {return "sprites/marisa.png";}
-    inline GraphicsLayer sceneLayer() const {return GraphicsLayer::ground;}
-
 };
 
 class CollectMarisa : public Marisa {

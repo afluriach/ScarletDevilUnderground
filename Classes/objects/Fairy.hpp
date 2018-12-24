@@ -9,12 +9,12 @@
 #ifndef Fairy_hpp
 #define Fairy_hpp
 
-#include "Agent.hpp"
 #include "Collectibles.hpp"
+#include "Enemy.hpp"
 #include "macros.h"
 
 class Fairy1 :
-virtual public Agent,
+public Enemy,
 public CollectibleDrop<Power1>,
 public BaseAttributes<Fairy1>
 {
@@ -24,21 +24,17 @@ public:
 	Fairy1(GSpace* space, ObjectIDType id, const ValueMap& args);
 
 	virtual inline SpaceFloat getRadarRadius() const { return 6.0; }
-	virtual inline GType getRadarType() const { return GType::playerSensor; }
 	virtual inline SpaceFloat getDefaultFovAngle() const { return float_pi / 4.0; }
 
-	virtual inline SpaceFloat getRadius() const { return 0.35; }
 	inline SpaceFloat getMass() const { return 40.0; }
-	virtual inline GType getType() const { return GType::enemy; }
 
 	inline string imageSpritePath() const { return "sprites/melancholy.png"; }
-	inline GraphicsLayer sceneLayer() const { return GraphicsLayer::ground; }
 
 	virtual void initStateMachine(ai::StateMachine& sm);
 };
 
 class Fairy2 :
-	virtual public Agent,
+	public Enemy,
 	public CollectibleDrop<Power2>,
 	public RegisterUpdate<Fairy2>,
 	public BaseAttributes<Fairy2>
@@ -64,15 +60,11 @@ public:
 	Fairy2(GSpace* space, ObjectIDType id, const ValueMap& args);
 
 	virtual inline SpaceFloat getRadarRadius() const { return 6.0; }
-	virtual inline GType getRadarType() const { return GType::playerSensor; }
 	virtual inline SpaceFloat getDefaultFovAngle() const { return float_pi / 4.0; }
 
-	virtual inline SpaceFloat getRadius() const { return 0.35; }
 	inline SpaceFloat getMass() const { return 40.0; }
-	virtual inline GType getType() const { return GType::enemy; }
 
 	inline string imageSpritePath() const { return "sprites/melancholy.png"; }
-	inline GraphicsLayer sceneLayer() const { return GraphicsLayer::ground; }
 
 	virtual void initStateMachine(ai::StateMachine& sm);
 
@@ -88,7 +80,7 @@ protected:
 };
 
 class IceFairy :
-	virtual public Agent,
+	public Enemy,
 	public CollectibleDrop<Magic2>,
 	public BaseAttributes<IceFairy>
 {
@@ -101,15 +93,11 @@ public:
 	{}
 
 	virtual inline SpaceFloat getRadarRadius() const { return 6.0; }
-	virtual inline GType getRadarType() const { return GType::playerSensor; }
 	virtual inline SpaceFloat getDefaultFovAngle() const { return float_pi / 4.0; }
 
-	virtual inline SpaceFloat getRadius() const { return 0.35; }
 	inline SpaceFloat getMass() const { return 40.0; }
-	virtual inline GType getType() const { return GType::enemy; }
 
 	inline string imageSpritePath() const { return "sprites/dark_cirno.png"; }
-	inline GraphicsLayer sceneLayer() const { return GraphicsLayer::ground; }
 
 	virtual void initStateMachine(ai::StateMachine& sm);
 };

@@ -229,33 +229,6 @@ void ImageSprite::loadImageSprite(const string& resPath, GraphicsLayer sceneLaye
 
 //END GRAPHICS
 
-//ENEMY MIXINS
-
-void Enemy::runDamageFlicker()
-{
-	if (sprite)
-		sprite->runAction(flickerAction(0.3f, 1.2f, 81));
-//		sprite->runAction(colorFlickerAction(0.3f, 4, Color3B(255, 0, 0)));
-}
-
-void TouchDamageEnemy::onTouchPlayer(Player* player){
-	hitTarget = player;
-}
-
-void TouchDamageEnemy::endTouchPlayer()
-{
-	hitTarget = nullptr;
-}
-
-//hit will be registered every frame, in case contact is maintained for longer than the hit protection time.
-void TouchDamageEnemy::update()
-{
-	if(hitTarget)
-		hitTarget->hit(AttributeSystem::getAttributeMap(Attribute::hp, -1), nullptr);
-}
-
-//END ENEMY
-
 //TYPE MIXINS
 
 void Bullet::onWallCollide(Wall* wall)

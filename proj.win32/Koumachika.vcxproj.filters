@@ -231,6 +231,9 @@
     <ClCompile Include="..\Classes\objects\Slime.cpp">
       <Filter>src\objects</Filter>
     </ClCompile>
+    <ClCompile Include="..\Classes\objects\Enemy.cpp">
+      <Filter>src\objects</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="main.h">
@@ -450,6 +453,9 @@
       <Filter>src\scenes</Filter>
     </ClInclude>
     <ClInclude Include="..\Classes\objects\Slime.hpp">
+      <Filter>src\objects</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\objects\Enemy.hpp">
       <Filter>src\objects</Filter>
     </ClInclude>
   </ItemGroup>

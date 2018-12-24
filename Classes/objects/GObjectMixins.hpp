@@ -222,30 +222,6 @@ protected:
 
 //END GRAPHICS
 
-//ENEMY MIXINS
-
-class Enemy : virtual public GObject
-{
-public:
-	inline Enemy() {}
-	inline virtual void onTouchPlayer(Player* target) {}
-	inline virtual void endTouchPlayer() {}
-	void runDamageFlicker();
-};
-
-class TouchDamageEnemy : public virtual Enemy, RegisterUpdate<TouchDamageEnemy>
-{
-public:
-	inline TouchDamageEnemy() : RegisterUpdate<TouchDamageEnemy>(this) {}
-    virtual void onTouchPlayer(Player* player);
-	virtual void endTouchPlayer();
-	void update();
-protected:
-	Player * hitTarget = nullptr;
-};
-
-//END ENEMY
-
 //TYPE MIXINS
 
 class Bullet : virtual public GObject

@@ -13,6 +13,7 @@
 #include "Bullet.hpp"
 #include "Collectibles.hpp"
 #include "EffectArea.hpp"
+#include "Enemy.hpp"
 #include "FloorSegment.hpp"
 #include "GObject.hpp"
 #include "Graph.hpp"
