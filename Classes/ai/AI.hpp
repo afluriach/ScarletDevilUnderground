@@ -247,6 +247,17 @@ public:
 		}
 	}
 
+	template<typename Sender, typename R, typename...Args>
+	inline void messageTargetsWithResponse(R (T::*m)(Args...), Sender* sender, void(Sender::*response)(R), Args ...args)
+	{
+		for (object_ref<T> _ref : targets) {
+			T* t = _ref.get();
+			if (t) {
+				t->messageWithResponse<T, Sender, R>(t, sender, m, response, args...);
+			}
+		}
+	}
+
 
 protected:
 	vector<object_ref<T>> targets;

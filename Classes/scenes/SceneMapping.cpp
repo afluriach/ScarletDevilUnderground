@@ -41,6 +41,7 @@ const unordered_map<string, GScene::AdapterType> GScene::adapters = {
 	PlaySceneMapName(ClearingPath),
 	entry_same(Collect),
 	entry_same(Desert),
+	PlaySceneMapName(F2),
 	PlaySceneMapName(FacerFloor),
 	PlaySceneMapName(FR1),
 	entry_same(GardenBlooming),

@@ -44,9 +44,22 @@ class Fairy2 :
 	public BaseAttributes<Fairy2>
 {
 public:
+
+	enum class ai_state {
+		normal,
+		flee,
+		fleeWithSupport,
+		supporting
+	};
+
+	enum class ai_priority {
+		engage,
+		support,
+		flee,
+	};
+
 	static const AttributeMap baseAttributes;
 	static const boost::rational<int> lowHealthRatio;
-	static const int playerShieldPriority = 3;
 
 	Fairy2(GSpace* space, ObjectIDType id, const ValueMap& args);
 
@@ -65,10 +78,13 @@ public:
 
 	void update();
 
-	void requestHandler(object_ref<Fairy2> other);
+	object_ref<Fairy2> requestHandler(object_ref<Fairy2> other);
+	void responseHandler(object_ref<Fairy2> supporting);
+	void cancelRequest();
 protected:
 	shared_ptr<ai::TrackByType<Fairy2>> trackFunction;
-	bool requestSent = false;
+	ai_state crntState = ai_state::normal;
+	unsigned int supportThread = 0;
 };
 
 class IceFairy :

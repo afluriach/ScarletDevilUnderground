@@ -107,7 +107,17 @@ public:
 			invoke(m, _this, args...);
 		};
 	}
-    
+
+	template<typename D1, typename D2, typename R, typename...Args>
+	inline void messageWithResponse(D1* _this, D2* _sender, R (D1::*handler)(Args...), void (D2::*response)(R), Args ...args)
+	{
+		messages += [_this, _sender, handler, response, args...](void) -> void {
+			R result = invoke(handler, _this, args...);
+
+			_sender->message<D2>(_sender, response, result);
+		};
+	}
+
 	//BEGIN PHYSICS
 
 	shared_ptr<Body> body;
