@@ -34,33 +34,6 @@ protected:
 	string filledIcon, emptyIcon;
 };
 
-typedef tuple<string, Color4F, Color4F> RadialMeterSettings;
-
-class RadialMeter : public Node
-{
-public:
-	static const unsigned int boundingSize = 128;
-	static const unsigned int radiusMargin = 16;
-	static const int segments = 128;
-	//static const int iconSize = 96;
-
-	RadialMeter(RadialMeterSettings settings);
-	RadialMeter(string iconName, Color4F empty, Color4F filled);
-	void setValue(float v);
-
-	virtual bool init();
-protected:
-	void redraw();
-
-	string iconName;
-	Color4F filled, empty;
-
-	DrawNode* drawNode;
-	Sprite* icon;
-
-	float crntValue = 0.0f;
-};
-
 class HealthBar : public IconMeter
 {
 public:
@@ -131,13 +104,10 @@ private:
 class HUD : public Layer
 {
 public:
-    static const int height = 64;
+    static const int height = 50;
 
     static const int fontSize;
-
-	static const RadialMeterSettings iceDamageSettings;
-	static const RadialMeterSettings sunDamageSettings;
-
+    
 //    static const Color4F backgroundColor;
 
 	HUD(GSpace* space, object_ref<Player> player);
@@ -150,11 +120,8 @@ public:
 	MagicBar* magic;
     PowerMeter* power;
 
-	RadialMeter* iceDamage;
-	RadialMeter* sunDamage;
-
-	//IceDamageBar* iceDamage;
-	//SunDamageBar* sunDamage;
+	IceDamageBar* iceDamage;
+	SunDamageBar* sunDamage;
 
 	Counter* objectiveCounter;    
     Sprite* interactionIcon;
