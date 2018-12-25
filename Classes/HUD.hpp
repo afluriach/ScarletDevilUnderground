@@ -99,7 +99,7 @@ public:
 
 	MagicEffects();
 
-	void setElementalDamage(Attribute element, int val);
+	void setPercentValue(Attribute element, int p);
 	void reorganize();
 
 	virtual bool init();
@@ -180,7 +180,7 @@ public:
 	void runHealthFlicker(float length, float interval);
 	void runPowerFlicker(float duration);
 
-	void setElementalDamage(Attribute element, int val);
+	void setPercentValue(Attribute element, int val);
 
 	void setObjectiveCounter(string iconRes, int val);
 	void setObjectiveCounterVisible(bool val);

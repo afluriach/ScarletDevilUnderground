@@ -162,13 +162,14 @@ RadialMeter::RadialMeter(string iconName, Color4F empty, Color4F filled) :
 
 void RadialMeter::setValue(float v)
 {
-	if (v < 0 || v > 1.0) {
-		log("RadialMeter::setValue: value %f out of range!", v);
-		return;
+	float _v = v;
+
+	if (_v < 0 || _v > 1.0) {
+		_v = 1.0f;
 	}
 
-	if (v != crntValue) {
-		crntValue = v;
+	if (_v != crntValue) {
+		crntValue = _v;
 		redraw();
 	}
 }
@@ -214,6 +215,12 @@ void RadialMeter::redraw()
 const int MagicEffects::spacing = 128;
 
 const map<Attribute, RadialMeterSettings> MagicEffects::meterSettings = {
+	{ Attribute::hitProtection,
+		{"sprites/ui/hit_protection.png",Color4F(.42f,.29f,.29f,1.0f),Color4F(.86f,.16f,.19f,1.0f) }
+	},
+	{ Attribute::spellCooldown,
+		{"sprites/ui/spell_cooldown.png",Color4F(.4f,.4f,.4f,1.0f),Color4F(.37f,.56f,.57f,1.0f) }
+	},
 	{Attribute::iceDamage,
 		{"sprites/ui/snowflake.png",Color4F(0.2,0.33,0.7,0.5),Color4F(0.16, 0.2, 0.9, 1.0)}
 	},
@@ -251,7 +258,7 @@ bool MagicEffects::init()
 	return true;
 }
 
-void MagicEffects::setElementalDamage(Attribute element, int val)
+void MagicEffects::setPercentValue(Attribute element, int val)
 {
 	int prev = values.find(element)->second;
 	RadialMeter* m = meters.find(element)->second;
@@ -428,8 +435,8 @@ void HUD::runPowerFlicker(float duration)
 	power->runFlicker(duration);
 }
 
-void HUD::setElementalDamage(Attribute element, int val) {
-	magicEffects->setElementalDamage(element, val);
+void HUD::setPercentValue(Attribute element, int val) {
+	magicEffects->setPercentValue(element, val);
 }
 
 Counter::Counter(const string& iconRes, const int val) :

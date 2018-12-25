@@ -79,6 +79,9 @@ public:
     void onCollectible(Collectible* coll);
 	void applyGraze(int p);
 protected:
+	void setHudEffect(Attribute id,int pVal);
+	void updateHudAttribute(Attribute id);
+
 	template<typename...Args>
 	inline pair<function<void(void)>, GScene::updateOrder> make_hud_action(void (HUD::*m)(Args...), Args ...args)
 	{

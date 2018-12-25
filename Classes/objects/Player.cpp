@@ -176,30 +176,22 @@ void Player::update()
 		updateSpellControls(cs);
 		checkItemInteraction(cs);
 
-		space->getScene()->addAction(make_hud_action(
-			&HUD::setElementalDamage,
-			Attribute::iceDamage,
-			static_cast<int>(attributeSystem.getAdjustedValue(Attribute::iceDamage))
-		));
+		if (getAttribute(Attribute::hitProtectionInterval) > 0.0f) {
+			setHudEffect(
+				Attribute::hitProtection,
+				to_int(getAttribute(Attribute::hitProtection) / getAttribute(Attribute::hitProtectionInterval) * 100.0f)
+			);
+		}
 
-		space->getScene()->addAction(make_hud_action(
-			&HUD::setElementalDamage,
-			Attribute::sunDamage,
-			static_cast<int>(attributeSystem.getAdjustedValue(Attribute::sunDamage))
-		));
+		setHudEffect(
+			Attribute::spellCooldown,
+			to_int(getAttribute(Attribute::spellCooldown) / spellCooldownTime * 100.0f)
+		);
 
-		space->getScene()->addAction(make_hud_action(
-			&HUD::setElementalDamage,
-			Attribute::poisonDamage,
-			static_cast<int>(attributeSystem.getAdjustedValue(Attribute::poisonDamage))
-		));
-
-		space->getScene()->addAction(make_hud_action(
-			&HUD::setElementalDamage,
-			Attribute::slimeDamage,
-			static_cast<int>(attributeSystem.getAdjustedValue(Attribute::slimeDamage))
-		));
-
+		updateHudAttribute(Attribute::iceDamage);
+		updateHudAttribute(Attribute::sunDamage);
+		updateHudAttribute(Attribute::poisonDamage);
+		updateHudAttribute(Attribute::slimeDamage);
 	}
 
 	updateHitTime();    
@@ -304,6 +296,25 @@ bool Player::trySetFirePatternPrevious()
 {
 	return trySetFirePattern((crntFirePattern - 1) % firePatterns.size());
 }
+
+void Player::setHudEffect(Attribute id,int pVal)
+{
+	space->getScene()->addAction(make_hud_action(
+		&HUD::setPercentValue,
+		id,
+		pVal
+	));
+}
+
+void Player::updateHudAttribute(Attribute id)
+{
+	space->getScene()->addAction(make_hud_action(
+		&HUD::setPercentValue,
+		id,
+		static_cast<int>(attributeSystem.getAdjustedValue(id))
+	));
+}
+
 
 const AttributeMap FlandrePC::baseAttributes = {
 	{Attribute::maxHP, 5.0f},
