@@ -119,6 +119,10 @@ control_listener(make_unique<ControlListener>())
 		to_int(updateOrder::sceneUpdate)
 	);
 	multiUpdate.insertWithOrder(
+		wrap_method(GScene, updateMapVisibility, this),
+		to_int(updateOrder::sceneUpdate)
+	);
+	multiUpdate.insertWithOrder(
 		wrap_method(GScene,checkPendingScript, this),
 		to_int(updateOrder::runShellScript)
 	);
@@ -253,17 +257,16 @@ void GScene::addAction(pair<function<void(void)>, updateOrder> entry)
 	actions.push_back(entry);
 }
 
-
-void GScene::move(const Vec2& w)
-{
-	Vec2 v = w * spaceZoom;
-	Vec2 pos = spaceLayer->getPosition();
-
-	spaceLayer->setPosition(pos - v);
-}
-
 void GScene::setUnitPosition(const SpaceVect& v)
 {
+	float heightRatio = 1.0f * App::height / App::width;
+	cameraArea.setRect(
+		v.x - App::viewWidth / 2,
+		v.y - App::viewWidth*heightRatio / 2,
+		App::viewWidth,
+		App::viewWidth*heightRatio
+	);
+
 	spaceLayer->setPosition(
 		(-App::pixelsPerTile*v.x + App::width / 2)*spaceZoom,
 		(-App::pixelsPerTile*v.y + App::height / 2)*spaceZoom
@@ -273,6 +276,11 @@ void GScene::setUnitPosition(const SpaceVect& v)
 SpaceVect GScene::getMapSize()
 {
 	return SpaceVect(dimensions.first, dimensions.second);
+}
+
+CCRect GScene::getCameraArea()
+{
+	return cameraArea;
 }
 
 Layer* GScene::getLayer(sceneLayers layer)
@@ -316,10 +324,17 @@ void GScene::loadMap(const MapEntry& mapEntry)
 		return;
 	}
 
+	Vec2 llCorner = toCocos(mapEntry.second);
+	CCSize mapSize = tileMap->getMapSize();
+	CCRect mapRect(llCorner.x, llCorner.y, mapSize.width, mapSize.height);
+
+	tilemaps.pushBack(tileMap);
+	mapAreas.push_back(mapRect);
+
 	spaceLayer->getLayer(GraphicsLayer::map)->positionAndAddNode(
 		tileMap,
 		1,
-		toCocos(mapEntry.second) * App::pixelsPerTile,
+		llCorner * App::pixelsPerTile,
 		1.0f
 	);
 
@@ -424,6 +439,13 @@ void GScene::loadWalls(const TMXTiledMap& map, IntVec2 offset)
 		const ValueMap& objAsMap = obj.asValueMap();
 		cocos2d::CCRect area = getUnitspaceRectangle(objAsMap, offset);
 		gspace->addWallBlock(toChipmunk(area.origin), toChipmunk(area.getUpperCorner()));
+	}
+}
+
+void GScene::updateMapVisibility()
+{
+	for (int i = 0; i < tilemaps.size() && mapAreas.size(); ++i){
+		tilemaps.at(i)->setVisible(cameraArea.intersectsRect(mapAreas.at(i)));
 	}
 }
 

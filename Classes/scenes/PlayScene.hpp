@@ -73,7 +73,7 @@ private:
 
 	vector<DrawNode*> roomMasks;
 
-    const int cameraMovePixPerFrame = 3;
+	SpaceFloat cameraMoveTilesPerSecond = 3.0;
     gobject_ref cameraTarget;
 
 	unique_ptr<ControlReplay> controlReplay;

@@ -113,11 +113,11 @@ public:
 	void addAction(function<void(void)>, updateOrder order);
 	void addAction(pair<function<void(void)>, updateOrder> entry);
 
-    void move(const Vec2& v);
     //The different vector type is intentional, as Chipmunk vector implies
     //unit space as opposed to pixel space.
     void setUnitPosition(const SpaceVect& v);
 	SpaceVect getMapSize();
+	CCRect getCameraArea();
 
 	Layer* getLayer(sceneLayers layer);
 	inline SpaceLayer* getSpaceLayer() const { return spaceLayer; }
@@ -139,6 +139,8 @@ protected:
 	void loadObjectGroup(TMXObjectGroup* group, IntVec2 offset);
 	void loadWalls(const TMXTiledMap& map, IntVec2 offset);
 
+	void updateMapVisibility();
+
 	void installLuaShell();
 	void checkPendingScript();
 	void runScriptInit();
@@ -149,6 +151,7 @@ protected:
 	//Make sure to use a cocos map so cocos refcounting works.
 	cocos2d::Map<int, Layer*> layers;
 	SpaceLayer* spaceLayer = nullptr;
+	Vector<TMXTiledMap*> tilemaps;
 	GSpace* gspace;
 	//the scale applied to the space layer
 	float spaceZoom = 1;
@@ -158,8 +161,10 @@ protected:
 	Dialog* dialog = nullptr;
 
 	string sceneName;
-	vector<MapEntry> maps;
 	IntVec2 dimensions;
+	vector<MapEntry> maps;
+	vector<CCRect> mapAreas;
+	CCRect cameraArea;
 
 	unique_ptr<Lua::Inst> ctx;
 	//The shell that is installed in the current scene.
