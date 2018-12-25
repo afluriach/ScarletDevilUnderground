@@ -257,7 +257,7 @@ void PlayerBatMode::init()
 	Player* p = getCasterAs<Player>();
 
 	if (p) {
-		p->setSpellProtectionMode(true);
+		p->setProtection();
 		p->setFiringSuppressed(true);
 		p->setSprite("flandre_bat");
 		p->applyAttributeModifier(Attribute::speed, 1.5f);
@@ -270,7 +270,7 @@ void PlayerBatMode::end()
 	Player* p = getCasterAs<Player>();
 
 	if (p) {
-		p->setSpellProtectionMode(false);
+		p->resetProtection();
 		p->setFiringSuppressed(false);
 		p->setSprite("flandre");
 		p->applyAttributeModifier(Attribute::speed, -1.5f);

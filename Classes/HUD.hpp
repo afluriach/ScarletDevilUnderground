@@ -139,7 +139,7 @@ public:
 
     bool init();
     void setVal(int val);
-    void runFlicker();
+    void runFlicker(float duration);
 private:
     Sprite* icon;
     Label* counter;
@@ -178,7 +178,7 @@ public:
 	void setMaxMP(int);
 
 	void runHealthFlicker(float length, float interval);
-	void runPowerFlicker();
+	void runPowerFlicker(float duration);
 
 	void setElementalDamage(Attribute element, int val);
 

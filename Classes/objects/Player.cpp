@@ -25,9 +25,9 @@
 #include "Spell.hpp"
 #include "SpellDescriptor.hpp"
 
-const boost::rational<int> Player::interactCooldownTime = boost::rational<int>(1,10);
-const boost::rational<int> Player::spellCooldownTime = 1;
-const boost::rational<int> Player::hitFlickerInterval = boost::rational<int>(1,3);
+const float Player::interactCooldownTime = 0.1f;
+const float Player::spellCooldownTime = 1.0f;
+const float Player::hitFlickerInterval = 0.333f;
 
 Player::Player(GSpace* space, ObjectIDType id, const ValueMap& args) :
 	MapObjForwarding(Agent),
@@ -92,9 +92,9 @@ void Player::updateSpellControls(const ControlInfo& cs)
     }
     else
     {
-		timerDecrement(spellCooldown);
+		attributeSystem.timerDecrement(Attribute::spellCooldown);
         
-        if(spellCooldown <= 0 && equippedSpell){
+        if(!attributeSystem.isNonzero(Attribute::spellCooldown) && equippedSpell){
             if( cs.isControlActionPressed(ControlAction::spell1) &&
                 attributeSystem.getAdjustedValue(Attribute::power) >= equippedSpell->getInitialCost()){
 				cast(equippedSpell->generate(this, {}));
@@ -105,15 +105,12 @@ void Player::updateSpellControls(const ControlInfo& cs)
 
 void Player::onSpellStop()
 {
-    spellCooldown = spellCooldownTime;
+	attributeSystem.modifyAttribute(Attribute::spellCooldown, spellCooldownTime);
 
-	space->getScene()->addAction(
-		bind(
-			&PowerMeter::runFlicker,
-			playScene->hud->power
-		),
-		GScene::updateOrder::hudUpdate
-	);
+	space->getScene()->addAction(make_hud_action(
+		&HUD::runPowerFlicker,
+		spellCooldownTime
+	));
 }
 
 void Player::checkFireControls(const ControlInfo& cs)
@@ -157,14 +154,7 @@ void Player::checkItemInteraction(const ControlInfo& cs)
 
 void Player::updateHitTime()
 {
-    if(hitProtectionCountdown > 0)
-    {
-        hitProtectionCountdown -= App::secondsPerFrameRational;
-        
-        if(hitProtectionCountdown <= 0){
-            hitProtectionCountdown = 0;
-        }
-    }
+	attributeSystem.timerDecrement(Attribute::hitProtection);
 }
 
 void Player::onZeroHP()
@@ -235,29 +225,38 @@ FirePattern* Player::getFirePattern()
 
 bool Player::isProtected() const
 {
-	return hitProtectionCountdown > 0 || spellProtectionMode;
+	return attributeSystem.getAdjustedValue(Attribute::hitProtection) != 0.0f;
 }
+
+void Player::setProtection()
+{
+	attributeSystem.setProtection();
+}
+
+void Player::resetProtection()
+{
+	attributeSystem.resetProtection();;
+}
+
 
 void Player::hit(AttributeMap attributeEffect, shared_ptr<MagicEffect> effect){
     if(!isProtected()){
-
-        hitProtectionCountdown = attributeSystem.getAdjustedValue(Attribute::hitProtection);
+		Agent::hit(attributeEffect, effect);
+		attributeSystem.setHitProtection();
 
         sprite->runAction(
 			flickerAction(
-				boost::rational_cast<float>(hitFlickerInterval),
-				boost::rational_cast<float>(hitProtectionCountdown),
+				hitFlickerInterval,
+				attributeSystem.getAdjustedValue(Attribute::hitProtectionInterval),
 				81
 			)
 		);
 
 		space->getScene()->addAction(make_hud_action(
 			&HUD::runHealthFlicker,
-			boost::rational_cast<float>(hitProtectionCountdown),
-			boost::rational_cast<float>(hitFlickerInterval)
+			attributeSystem.getAdjustedValue(Attribute::hitProtectionInterval),
+			hitFlickerInterval
 		));
-
-		Agent::hit(attributeEffect, effect);
     }
 }
 
@@ -312,7 +311,7 @@ const AttributeMap FlandrePC::baseAttributes = {
 	{Attribute::maxPower, 500.0f},
 	{Attribute::speed, 3.0f},
 	{Attribute::acceleration, 9.0f},
-	{Attribute::hitProtection, 2.4f},
+	{Attribute::hitProtectionInterval, 2.4f},
 	{Attribute::iceSensitivity, 2.0f},
 	{Attribute::sunSensitivity, 5.0f}
 };
@@ -339,7 +338,7 @@ const AttributeMap RumiaPC::baseAttributes = {
 	{Attribute::maxPower, 900.0f },
 	{Attribute::speed, 4.5f },
 	{Attribute::acceleration, 12.0f },
-	{Attribute::hitProtection, 1.5f },
+	{Attribute::hitProtectionInterval, 1.5f },
 	{Attribute::iceSensitivity, 1.0f },
 	{Attribute::sunSensitivity, 0.0f }
 };
@@ -364,7 +363,7 @@ const AttributeMap CirnoPC::baseAttributes = {
 	{Attribute::maxPower, 300.0f},
 	{Attribute::speed, 2.0f},
 	{Attribute::acceleration, 6.0f},
-	{Attribute::hitProtection, 3.3f},
+	{Attribute::hitProtectionInterval, 3.3f},
 	{Attribute::iceSensitivity, 0.0f},
 	{Attribute::sunSensitivity, 1.0f}
 };

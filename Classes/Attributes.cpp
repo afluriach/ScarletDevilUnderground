@@ -8,7 +8,9 @@
 
 #include "Prefix.h"
 
+#include "App.h"
 #include "Attributes.hpp"
+#include "macros.h"
 #include "util.h"
 
 const float AttributeSystem::maxElementDamage = 100.0f;
@@ -117,6 +119,11 @@ void AttributeSystem::setEmptyPower()
 	attributes.at(to_size_t(Attribute::power)) = 0;
 }
 
+void AttributeSystem::setHitProtection()
+{
+	attributes.at(to_size_t(Attribute::hitProtection)) = attributes.at(to_size_t(Attribute::hitProtectionInterval));
+}
+
 void AttributeSystem::modifyIncidentAttribute(Attribute id, Attribute maxID, float x)
 {
 	attributes.at(to_size_t(id)) = getWithinRange(attributes.at(to_size_t(id)) + x, 0, attributes.at(to_size_t(maxID)));
@@ -163,4 +170,29 @@ void AttributeSystem::modifyAttribute(Attribute id, float x)
 		attributes.at(to_size_t(id)) += x;
 		break;
 	}
+}
+
+void AttributeSystem::timerDecrement(Attribute id)
+{
+	float& crnt_val = attributes.at(to_size_t(id));
+
+	if (crnt_val != -1.0f) {
+		crnt_val -= to_float(App::secondsPerFrame);
+		crnt_val = max(crnt_val, 0.0f);
+	}
+}
+
+bool AttributeSystem::isNonzero(Attribute id)
+{
+	return attributes.at(to_size_t(id)) != 0.0f;
+}
+
+void AttributeSystem::setProtection()
+{
+	attributes.at(to_size_t(Attribute::hitProtection)) = -1.0f;
+}
+
+void AttributeSystem::resetProtection()
+{
+	attributes.at(to_size_t(Attribute::hitProtection)) = 0.0f;
 }

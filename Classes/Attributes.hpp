@@ -13,18 +13,21 @@
 
 enum class Attribute {
 	begin = 0,
+
 	hp = 0,
 	mp,
 	power,
+	hitProtection,
+	spellCooldown,
 
 	maxHP,
 	maxMP,
 	maxPower,
+	hitProtectionInterval,
 
 	speed,
 	acceleration,
 
-	hitProtection,
 	iceSensitivity,
 	sunSensitivity,
 	poisonSensitivity,
@@ -60,12 +63,17 @@ public:
 	void modifyIncidentAttribute(Attribute id, Attribute maxID, float x);
 	void applyElementalDamage(Attribute id, Attribute maxID, float x);
 	void modifyAttribute(Attribute id, float x);
+	void timerDecrement(Attribute id);
+	bool isNonzero(Attribute id);
+	void setProtection();
+	void resetProtection();
 
 	void setFullHP();
 	void setFullMP();
 	void setEmptyMP();
 	void setFullPower();
 	void setEmptyPower();
+	void setHitProtection();
 
 	float getWithinRange(float input, float min, float max);
 protected:

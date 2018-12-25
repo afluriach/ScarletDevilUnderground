@@ -28,10 +28,10 @@ virtual public Agent,
 public RegisterUpdate<Player>
 {
 public:
-    static const boost::rational<int> interactCooldownTime;
-    static const boost::rational<int> spellCooldownTime;
-    static const boost::rational<int> hitFlickerInterval;
-    
+    static const float interactCooldownTime;
+    static const float hitFlickerInterval;
+	static const float spellCooldownTime;
+
 	MapObjCons(Player);
     
 	virtual void setFirePatterns() = 0;
@@ -43,10 +43,9 @@ public:
     inline virtual SpaceFloat getDefaultFovAngle() const { return float_pi / 4.0;}
 
 	bool isProtected() const;
+	void setProtection();
+	void resetProtection();
     virtual void hit(AttributeMap attributeEffect, shared_ptr<MagicEffect> effect);
-    
-    inline bool isSpellProtectionMode() const {return spellProtectionMode;}
-    inline void setSpellProtectionMode(bool mode) {spellProtectionMode = mode;}
 
 	inline bool isFiringSuppressed() const { return suppressFiring; }
 	inline void setFiringSuppressed(bool mode) { suppressFiring = mode; }
@@ -86,8 +85,6 @@ protected:
 		return pair<function<void(void)>, GScene::updateOrder>(generate_action(playScene->hud, m, args...), GScene::updateOrder::hudUpdate);
 	}
 
-    boost::rational<int> hitProtectionCountdown = 0;
-	boost::rational<int> spellCooldown = 0;
 	boost::rational<int> interactCooldown = 0;
 
 	vector<unique_ptr<FirePattern>> firePatterns;
@@ -97,7 +94,6 @@ protected:
 
 	PlayScene* playScene = nullptr;
 
-    bool spellProtectionMode = false;
 	bool suppressFiring = false;
 };
 

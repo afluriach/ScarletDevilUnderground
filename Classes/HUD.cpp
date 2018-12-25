@@ -423,9 +423,9 @@ void HUD::runHealthFlicker(float length, float interval)
 	health->runFlicker(length, interval);
 }
 
-void HUD::runPowerFlicker()
+void HUD::runPowerFlicker(float duration)
 {
-	power->runFlicker();
+	power->runFlicker(duration);
 }
 
 void HUD::setElementalDamage(Attribute element, int val) {
@@ -515,11 +515,11 @@ void PowerMeter::setVal(int val)
     }
 }
 
-void PowerMeter::runFlicker()
+void PowerMeter::runFlicker(float duration)
 {
     icon->runAction(flickerTintAction(
-        boost::rational_cast<float>(Player::hitFlickerInterval),
-        boost::rational_cast<float>(Player::spellCooldownTime),
+        Player::hitFlickerInterval,
+        duration,
         Color3B(127,127,127)
     ));
 }
