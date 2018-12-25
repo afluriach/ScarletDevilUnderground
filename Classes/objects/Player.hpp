@@ -30,7 +30,6 @@ public RegisterUpdate<Player>
 public:
     static const float interactCooldownTime;
     static const float hitFlickerInterval;
-	static const float spellCooldownTime;
 
 	MapObjCons(Player);
     
@@ -79,7 +78,7 @@ public:
     void onCollectible(Collectible* coll);
 	void applyGraze(int p);
 protected:
-	void setHudEffect(Attribute id,int pVal);
+	void setHudEffect(Attribute id, Attribute max_id);
 	void updateHudAttribute(Attribute id);
 
 	template<typename...Args>

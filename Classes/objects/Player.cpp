@@ -26,7 +26,6 @@
 #include "SpellDescriptor.hpp"
 
 const float Player::interactCooldownTime = 0.1f;
-const float Player::spellCooldownTime = 1.0f;
 const float Player::hitFlickerInterval = 0.333f;
 
 Player::Player(GSpace* space, ObjectIDType id, const ValueMap& args) :
@@ -105,11 +104,11 @@ void Player::updateSpellControls(const ControlInfo& cs)
 
 void Player::onSpellStop()
 {
-	attributeSystem.modifyAttribute(Attribute::spellCooldown, spellCooldownTime);
+	attributeSystem.setSpellCooldown();
 
 	space->getScene()->addAction(make_hud_action(
 		&HUD::runPowerFlicker,
-		spellCooldownTime
+		getAttribute(Attribute::spellCooldownInterval)
 	));
 }
 
@@ -176,17 +175,8 @@ void Player::update()
 		updateSpellControls(cs);
 		checkItemInteraction(cs);
 
-		if (getAttribute(Attribute::hitProtectionInterval) > 0.0f) {
-			setHudEffect(
-				Attribute::hitProtection,
-				to_int(getAttribute(Attribute::hitProtection) / getAttribute(Attribute::hitProtectionInterval) * 100.0f)
-			);
-		}
-
-		setHudEffect(
-			Attribute::spellCooldown,
-			to_int(getAttribute(Attribute::spellCooldown) / spellCooldownTime * 100.0f)
-		);
+		setHudEffect(Attribute::hitProtection, Attribute::hitProtectionInterval);
+		setHudEffect(Attribute::spellCooldown, Attribute::spellCooldownInterval);
 
 		updateHudAttribute(Attribute::iceDamage);
 		updateHudAttribute(Attribute::sunDamage);
@@ -297,12 +287,16 @@ bool Player::trySetFirePatternPrevious()
 	return trySetFirePattern((crntFirePattern - 1) % firePatterns.size());
 }
 
-void Player::setHudEffect(Attribute id,int pVal)
+void Player::setHudEffect(Attribute id, Attribute max_id)
 {
+	float val = getAttribute(id);
+	float maxVal = getAttribute(max_id);
+	int percent = (val >= 0.0f  && maxVal > 0.0f ? val / maxVal * 100.0f : 100);
+
 	space->getScene()->addAction(make_hud_action(
 		&HUD::setPercentValue,
 		id,
-		pVal
+		percent
 	));
 }
 
@@ -315,7 +309,6 @@ void Player::updateHudAttribute(Attribute id)
 	));
 }
 
-
 const AttributeMap FlandrePC::baseAttributes = {
 	{Attribute::maxHP, 5.0f},
 	{Attribute::maxMP, 5.0f },
@@ -323,6 +316,7 @@ const AttributeMap FlandrePC::baseAttributes = {
 	{Attribute::speed, 3.0f},
 	{Attribute::acceleration, 9.0f},
 	{Attribute::hitProtectionInterval, 2.4f},
+	{Attribute::spellCooldownInterval, 1.0f },
 	{Attribute::iceSensitivity, 2.0f},
 	{Attribute::sunSensitivity, 5.0f}
 };
@@ -350,6 +344,7 @@ const AttributeMap RumiaPC::baseAttributes = {
 	{Attribute::speed, 4.5f },
 	{Attribute::acceleration, 12.0f },
 	{Attribute::hitProtectionInterval, 1.5f },
+	{ Attribute::spellCooldownInterval, 1.0f },
 	{Attribute::iceSensitivity, 1.0f },
 	{Attribute::sunSensitivity, 0.0f }
 };
@@ -375,6 +370,7 @@ const AttributeMap CirnoPC::baseAttributes = {
 	{Attribute::speed, 2.0f},
 	{Attribute::acceleration, 6.0f},
 	{Attribute::hitProtectionInterval, 3.3f},
+	{Attribute::spellCooldownInterval, 1.0f},
 	{Attribute::iceSensitivity, 0.0f},
 	{Attribute::sunSensitivity, 1.0f}
 };
