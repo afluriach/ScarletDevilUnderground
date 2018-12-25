@@ -120,6 +120,7 @@ private:
     
     unordered_map<unsigned int, GObject*> objByUUID;
     unordered_map<string, GObject*> objByName;
+	unordered_set<string> warningNames;
 	unordered_map<type_index, set<GObject*>> objByType;
 
 	unsigned int nextObjUUID = 1;

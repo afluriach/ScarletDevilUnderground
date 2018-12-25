@@ -185,6 +185,11 @@ gobject_ref GSpace::getObjectRef(unsigned int uuid) const
 GObject* GSpace::getObject(const string& name) const
 {
 	auto it = objByName.find(name);
+
+	if (it != objByName.end() && warningNames.find(name) != warningNames.end()) {
+		log("Warning: object name %s is not unique!");
+	}
+
 	return it != objByName.end() ? it->second : nullptr;
 }
 
@@ -227,9 +232,7 @@ void GSpace::processAdditions()
 			continue;
 
         if(!obj->anonymous && objByName.find(obj->name) != objByName.end()){
-            log("Object %s, %d name is not unique!", obj->name.c_str(), obj->uuid);
-            delete obj;
-            continue;
+			warningNames.insert(obj->name);
         }
 
         if(objByUUID.find(obj->uuid) != objByUUID.end()){
