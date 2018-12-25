@@ -62,6 +62,51 @@ public:
 	SunDamageBar();
 };
 
+typedef tuple<string, Color4F, Color4F> RadialMeterSettings;
+
+class RadialMeter : public Node
+{
+public:
+	static const unsigned int boundingSize = 128;
+	static const unsigned int radiusMargin = 16;
+	static const int segments = 128;
+	//static const int iconSize = 96;
+
+	RadialMeter(RadialMeterSettings settings);
+	RadialMeter(string iconName, Color4F empty, Color4F filled);
+	void setValue(float v);
+
+	virtual bool init();
+protected:
+	void redraw();
+
+	string iconName;
+	Color4F filled, empty;
+
+	DrawNode* drawNode;
+	Sprite* icon;
+
+	float crntValue = 0.0f;
+};
+
+class MagicEffects : public Node
+{
+public:
+	//Radial Meters are scaled down by 1/2
+	static const int spacing;
+
+	static const map<Attribute, RadialMeterSettings> meterSettings;
+
+	MagicEffects();
+
+	void setElementalDamage(Attribute element, int val);
+	void reorganize();
+
+	virtual bool init();
+	Map<Attribute,RadialMeter*> meters;
+	map<Attribute, int> values;
+};
+
 
 //An icon with a numeric counter next to it.
 class Counter : public Node
@@ -120,8 +165,7 @@ public:
 	MagicBar* magic;
     PowerMeter* power;
 
-	IceDamageBar* iceDamage;
-	SunDamageBar* sunDamage;
+	MagicEffects* magicEffects;
 
 	Counter* objectiveCounter;    
     Sprite* interactionIcon;
@@ -136,8 +180,7 @@ public:
 	void runHealthFlicker(float length, float interval);
 	void runPowerFlicker();
 
-	void setIceDamage(float);
-	void setSunDamage(float);
+	void setElementalDamage(Attribute element, int val);
 
 	void setObjectiveCounter(string iconRes, int val);
 	void setObjectiveCounterVisible(bool val);

@@ -900,11 +900,14 @@ void DrawNode::drawSolidCone(const Vec2& center, float radius, float startAngle,
 {
 	const float coef = (endAngle - startAngle) / segments;
 
-	Vec2 *vertices = new (std::nothrow) Vec2[segments];
+	Vec2 *vertices = new (std::nothrow) Vec2[segments+2];
 	if (!vertices)
 		return;
 
-	for (unsigned int i = 0; i < segments - 1; i++)
+	vertices[0].x = center.x;
+	vertices[0].y = center.y;
+
+	for (unsigned int i = 1; i < segments + 1; i++)
 	{
 		float rads = i * coef;
 		GLfloat j = radius * cosf(rads + startAngle) + center.x;
@@ -914,8 +917,8 @@ void DrawNode::drawSolidCone(const Vec2& center, float radius, float startAngle,
 		vertices[i].y = k;
 	}
 
-	vertices[segments - 1].x = center.x;
-	vertices[segments - 1].y = center.y;
+	vertices[segments + 1].x = center.x;
+	vertices[segments + 1].y = center.y;
 
 	drawSolidPoly(vertices, segments, color);
 

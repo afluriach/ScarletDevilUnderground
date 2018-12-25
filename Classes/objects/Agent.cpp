@@ -57,6 +57,13 @@ void Agent::update()
 	if (attributeSystem.getAdjustedValue(Attribute::sunDamage) > 0 && attributeSystem.getAdjustedValue(Attribute::sunSensitivity) != 0) {
 		attributeSystem.modifyAttribute(Attribute::sunDamage, -App::secondsPerFrame);
 	}
+	if (attributeSystem.getAdjustedValue(Attribute::poisonDamage) > 0 && attributeSystem.getAdjustedValue(Attribute::poisonSensitivity) != 0) {
+		attributeSystem.modifyAttribute(Attribute::poisonDamage, -App::secondsPerFrame);
+	}
+	if (attributeSystem.getAdjustedValue(Attribute::slimeDamage) > 0 && attributeSystem.getAdjustedValue(Attribute::slimeSensitivity) != 0) {
+		attributeSystem.modifyAttribute(Attribute::slimeDamage, -App::secondsPerFrame);
+	}
+
 }
 
 void Agent::onDetect(GObject* obj)
@@ -79,6 +86,21 @@ void Agent::onZeroHP()
 float Agent::getAttribute(Attribute id) const
 {
 	return attributeSystem.getAdjustedValue(id);
+}
+
+void Agent::modifyAttribute(Attribute id, float val) 
+{
+	attributeSystem.modifyAttribute(id,val);
+}
+
+float Agent::_getAttribute(int id) const
+{
+	return getAttribute(static_cast<Attribute>(id));
+}
+
+void Agent::_modifyAttribute(int id, float val)
+{
+	attributeSystem.modifyAttribute(static_cast<Attribute>(id), val);
 }
 
 SpaceFloat Agent::getMaxSpeed() const

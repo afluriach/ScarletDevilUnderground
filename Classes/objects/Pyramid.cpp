@@ -17,7 +17,7 @@
 
 const SpaceFloat Pyramid::coneLength = 4.0;
 const SpaceFloat Pyramid::coneAngle = float_pi / 2.0;
-const unsigned int Pyramid::coneSegments = 128;
+const unsigned int Pyramid::coneSegments = 32;
 const Color4F Pyramid::coneColor = Color4F(0.75f, 0.6f, 0.4f, 0.7f);
 const Color4F Pyramid::coneActiveColor = Color4F(0.9f, 0.75f, 0.5f, 0.7f);
 

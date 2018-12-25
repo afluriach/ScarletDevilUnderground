@@ -36,6 +36,9 @@ AttributeSet AttributeSystem::getBlankAttributeSet()
 
 	//Sensitivity multiplier should be 1.0 by default.
 	result[to_size_t(Attribute::iceSensitivity)] = 1.0f;
+	result[to_size_t(Attribute::sunDamage)] = 1.0f;
+	result[to_size_t(Attribute::poisonSensitivity)] = 1.0f;
+	result[to_size_t(Attribute::slimeSensitivity)] = 1.0f;
 
 	return result;
 }
@@ -149,6 +152,12 @@ void AttributeSystem::modifyAttribute(Attribute id, float x)
 		break;
 	case Attribute::sunDamage:
 		applyElementalDamage(Attribute::sunDamage, Attribute::sunSensitivity, x);
+		break;
+	case Attribute::poisonDamage:
+		applyElementalDamage(Attribute::poisonDamage, Attribute::poisonSensitivity, x);
+		break;
+	case Attribute::slimeDamage:
+		applyElementalDamage(Attribute::slimeDamage, Attribute::slimeSensitivity, x);
 		break;
 	default:
 		attributes.at(to_size_t(id)) += x;

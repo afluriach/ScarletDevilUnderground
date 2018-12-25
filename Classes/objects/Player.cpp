@@ -187,14 +187,29 @@ void Player::update()
 		checkItemInteraction(cs);
 
 		space->getScene()->addAction(make_hud_action(
-			&HUD::setIceDamage,
-			attributeSystem.getAdjustedValue(Attribute::iceDamage) / 25.0f
+			&HUD::setElementalDamage,
+			Attribute::iceDamage,
+			static_cast<int>(attributeSystem.getAdjustedValue(Attribute::iceDamage))
 		));
 
 		space->getScene()->addAction(make_hud_action(
-			&HUD::setSunDamage,
-			attributeSystem.getAdjustedValue(Attribute::sunDamage) / 25.0f
+			&HUD::setElementalDamage,
+			Attribute::sunDamage,
+			static_cast<int>(attributeSystem.getAdjustedValue(Attribute::sunDamage))
 		));
+
+		space->getScene()->addAction(make_hud_action(
+			&HUD::setElementalDamage,
+			Attribute::poisonDamage,
+			static_cast<int>(attributeSystem.getAdjustedValue(Attribute::poisonDamage))
+		));
+
+		space->getScene()->addAction(make_hud_action(
+			&HUD::setElementalDamage,
+			Attribute::slimeDamage,
+			static_cast<int>(attributeSystem.getAdjustedValue(Attribute::slimeDamage))
+		));
+
 	}
 
 	updateHitTime();    
@@ -218,8 +233,13 @@ FirePattern* Player::getFirePattern()
 	return firePatterns[crntFirePattern].get();
 }
 
+bool Player::isProtected() const
+{
+	return hitProtectionCountdown > 0 || spellProtectionMode;
+}
+
 void Player::hit(AttributeMap attributeEffect, shared_ptr<MagicEffect> effect){
-    if(hitProtectionCountdown <= 0 && !spellProtectionMode){
+    if(!isProtected()){
 
         hitProtectionCountdown = attributeSystem.getAdjustedValue(Attribute::hitProtection);
 

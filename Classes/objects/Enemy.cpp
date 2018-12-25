@@ -36,6 +36,14 @@ void Enemy::endTouchPlayer()
 //hit will be registered every frame, in case contact is maintained for longer than the hit protection time.
 void Enemy::update()
 {
-	if (touchTarget.isValid())
-		touchTarget.get()->hit(AttributeSystem::getAttributeMap(Attribute::hp, -1), nullptr);
+	if (touchTarget.isValid() && !touchTarget.get()->isProtected()) {
+		touchTarget.get()->hit(touchEffect(), nullptr);
+	}
+}
+
+AttributeMap Enemy::touchEffect()
+{
+	return {
+		{Attribute::hp, -1.0f}
+	};
 }

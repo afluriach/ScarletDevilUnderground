@@ -22,6 +22,8 @@ public:
 	void runDamageFlicker();
 	void update();
 
+	virtual AttributeMap touchEffect();
+
 	virtual inline GType getType() const { return GType::enemy; }
 	virtual inline GType getRadarType() const { return GType::playerSensor; }
 

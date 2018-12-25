@@ -8,6 +8,7 @@
 
 #include "Prefix.h"
 
+#include "Agent.hpp"
 #include "AI.hpp"
 #include "AIMixins.hpp"
 #include "App.h"
@@ -274,6 +275,11 @@ const vector<string> Inst::luaIncludes = {
 
 		.endClass()
 
+		.deriveClass<Agent,GObject>("Agent")
+			.addFunction("getAttribute", &Agent::_getAttribute)
+			.addFunction("modifyAttribute", &Agent::_modifyAttribute)
+		.endClass()
+
 		.deriveClass<StateMachineObject, GObject>("StateMachineObject")
 			.addFunction("addThread", &StateMachineObject::addThread)
 			.addFunction("printFSM", &StateMachineObject::printFSM)
@@ -300,6 +306,7 @@ const vector<string> Inst::luaIncludes = {
 			.addFunction("getFrame", &GSpace::getFrame)
 			.addFunction("getObjectByName", static_cast<GObject*(GSpace::*)(const string&) const>(&GSpace::getObject))
 			.addFunction("getObjectAsSMO", &GSpace::getObjectAs<StateMachineObject>)
+			.addFunction("getObjectAsAgent", &GSpace::getObjectAs<Agent>)
 			.addFunction("getObjectCount", &GSpace::getObjectCount)
 			.addFunction("getObjectNames", &GSpace::getObjectNames)
 			.addFunction("getUUIDNameMap", &GSpace::getUUIDNameMap)

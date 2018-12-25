@@ -148,6 +148,140 @@ SunDamageBar::SunDamageBar() :
 {
 }
 
+RadialMeter::RadialMeter(RadialMeterSettings settings) :
+	RadialMeter(get<0>(settings), get<1>(settings), get<2>(settings))
+{
+}
+
+RadialMeter::RadialMeter(string iconName, Color4F empty, Color4F filled) :
+	iconName(iconName),
+	filled(filled),
+	empty(empty)
+{
+}
+
+void RadialMeter::setValue(float v)
+{
+	if (v < 0 || v > 1.0) {
+		log("RadialMeter::setValue: value %f out of range!", v);
+		return;
+	}
+
+	if (v != crntValue) {
+		crntValue = v;
+		redraw();
+	}
+}
+
+bool RadialMeter::init()
+{
+	Node::init();
+
+	drawNode = DrawNode::create();
+	addChild(drawNode, 1);
+
+	icon = Sprite::create(iconName);
+	addChild(icon, 2);
+
+	redraw();
+
+	return true;
+}
+
+void RadialMeter::redraw()
+{
+	drawNode->clear();
+
+	drawNode->drawSolidCone(
+		Vec2::ZERO,
+		boundingSize - radiusMargin,
+		0.0f,
+		float_pi * 2.0 * crntValue,
+		segments,
+		filled
+	);
+
+	drawNode->drawSolidCone(
+		Vec2::ZERO,
+		boundingSize - radiusMargin,
+		float_pi * 2.0 * crntValue,
+		float_pi * 2.0,
+		segments,
+		empty
+	);
+}
+
+const int MagicEffects::spacing = 128;
+
+const map<Attribute, RadialMeterSettings> MagicEffects::meterSettings = {
+	{Attribute::iceDamage,
+		{"sprites/ui/snowflake.png",Color4F(0.2,0.33,0.7,0.5),Color4F(0.16, 0.2, 0.9, 1.0)}
+	},
+	{ Attribute::sunDamage,
+		{ "sprites/ui/sun.png", Color4F(.3f,.3f,.12f,.5f), Color4F(.4f,.4f,.3f,1.0f) }
+	},
+	{ Attribute::poisonDamage,
+		{ "sprites/ui/poison.png", Color4F(.11f,.52f,.74f,1.0f), Color4F(.29f,.11f,.62f,1.0f) }
+	},
+	{ Attribute::slimeDamage,
+		{ "sprites/ui/slime.png", Color4F(.34f,.61f,.075f,1.0f), Color4F(.75f,.996f,.34f,1.0f) }
+	}
+};
+
+MagicEffects::MagicEffects()
+{
+
+}
+
+bool MagicEffects::init()
+{
+	Node::init();
+
+	for (auto entry : meterSettings)
+	{
+		RadialMeter* rm = Node::ccCreate<RadialMeter>(entry.second);
+		rm->setScale(0.5f);
+		rm->setVisible(false);
+		addChild(rm);
+		meters.insert(entry.first, rm);
+
+		values.insert_or_assign(entry.first, 0);
+	}
+
+	return true;
+}
+
+void MagicEffects::setElementalDamage(Attribute element, int val)
+{
+	int prev = values.find(element)->second;
+	RadialMeter* m = meters.find(element)->second;
+	m->setValue(val / 100.0f);
+
+	values.insert_or_assign(element, val);
+
+	if (prev == 0 && val != 0 || prev != 0 && val == 0){
+		reorganize();
+	}
+}
+
+void MagicEffects::reorganize()
+{
+	int ypos = 0;
+
+	for (auto entry : meters)
+	{
+		RadialMeter* m = entry.second;
+		int val = values.find(entry.first)->second;
+
+		m->setVisible(val != 0);
+
+		if(val != 0) {
+			m->setPosition(Vec2(0, ypos));
+			ypos -= spacing;
+		}
+
+	}
+}
 
 //const Color4F HUD::backgroundColor = Color4F(0,0,0,0.75);
 
@@ -211,15 +345,10 @@ bool HUD::init()
     power->setVal(0);
 	power->setScale(scale);
     
-	iceDamage = Node::ccCreate<IceDamageBar>();
-	iceDamage->setPosition(scale*(-64 + App::width * 3 / 4), App::height - height / 2);
-	addChild(iceDamage, 2);
-	iceDamage->setScale(scale);
-
-	sunDamage = Node::ccCreate<SunDamageBar>();
-	sunDamage->setPosition(scale*(64 + App::width * 3 / 4), App::height - height / 2);
-	addChild(sunDamage, 2);
-	sunDamage->setScale(scale);
+	magicEffects = Node::ccCreate<MagicEffects>();
+	magicEffects->setPosition(App::width - 64 * scale, App::height - 64 * scale);
+	addChild(magicEffects, 2);
+	magicEffects->setScale(scale);
 
     objectiveCounter = Node::ccCreate<Counter>("", 0);
     objectiveCounter->setPosition(Counter::spacing/2 + Counter::iconSize + 8, Counter::iconSize/2 + 8);
@@ -228,12 +357,12 @@ bool HUD::init()
 	objectiveCounter->setScale(scale);
     
     interactionIcon = Sprite::create();
-    interactionIcon->setPosition(App::width - 64*scale, App::height - 64*scale);
+    interactionIcon->setPosition(App::width - 256*scale, App::height - 64*scale);
     interactionIcon->setScale(0.5*scale);
     addChild(interactionIcon);
 
 	firePatternIcon = Sprite::create();
-	firePatternIcon->setPosition(App::width - 128*scale, App::height - 64*scale);
+	firePatternIcon->setPosition(App::width - 384*scale, App::height - 64*scale);
 	firePatternIcon->setScale(0.5*scale);
 	addChild(firePatternIcon);
 
@@ -299,14 +428,8 @@ void HUD::runPowerFlicker()
 	power->runFlicker();
 }
 
-void HUD::setIceDamage(float v)
-{
-	iceDamage->setElementalValue(v);
-}
-
-void HUD::setSunDamage(float v)
-{
-	sunDamage->setElementalValue(v);
+void HUD::setElementalDamage(Attribute element, int val) {
+	magicEffects->setElementalDamage(element, val);
 }
 
 Counter::Counter(const string& iconRes, const int val) :

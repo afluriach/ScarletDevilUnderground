@@ -33,6 +33,13 @@ void Slime1::initStateMachine(ai::StateMachine& sm)
 	fsm.addThread(detectMain);
 }
 
+AttributeMap Slime1::touchEffect() {
+	return {
+		{ Attribute::hp, -1.0f },
+		{ Attribute::slimeDamage, 5.0f }
+	};
+}
+
 Slime2::Slime2(GSpace* space, ObjectIDType id, const ValueMap& args) :
 	MapObjForwarding(GObject),
 	MapObjForwarding(Agent)
@@ -54,4 +61,11 @@ void Slime2::initStateMachine(ai::StateMachine& sm)
 		}
 	);
 	fsm.addThread(detectMain);
+}
+
+AttributeMap Slime2::touchEffect() {
+	return {
+		{ Attribute::hp, -1.0f },
+		{ Attribute::slimeDamage, 25.0f }
+	};
 }

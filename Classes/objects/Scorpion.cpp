@@ -33,3 +33,9 @@ void Scorpion1::initStateMachine(ai::StateMachine& sm)
 	fsm.addThread(detectMain);
 }
 
+AttributeMap Scorpion1::touchEffect() {
+	return {
+		{Attribute::hp, -1.0f },
+		{Attribute::poisonDamage, 5.0f}
+	};
+}

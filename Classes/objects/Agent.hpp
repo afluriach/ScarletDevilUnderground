@@ -38,6 +38,10 @@ public:
 	//attribute interface
 	virtual AttributeMap getBaseAttributes() const = 0;
 	float getAttribute(Attribute id) const;
+	void modifyAttribute(Attribute id, float val);
+	float _getAttribute(int id) const;
+	void _modifyAttribute(int id, float val);
+
 
 	virtual SpaceFloat getMaxSpeed() const;
 	virtual SpaceFloat getMaxAcceleration() const;

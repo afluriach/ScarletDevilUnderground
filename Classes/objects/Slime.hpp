@@ -23,6 +23,8 @@ public:
 
 	Slime1(GSpace* space, ObjectIDType id, const ValueMap& args);
 
+	virtual AttributeMap touchEffect();
+
 	virtual inline SpaceFloat getRadarRadius() const { return 6.0; }
 	virtual inline SpaceFloat getDefaultFovAngle() const { return float_pi / 4.0; }
 
@@ -44,6 +46,8 @@ public:
 	static const AttributeMap baseAttributes;
 
 	Slime2(GSpace* space, ObjectIDType id, const ValueMap& args);
+
+	virtual AttributeMap touchEffect();
 
 	virtual inline SpaceFloat getRadarRadius() const { return 6.0; }
 	virtual inline SpaceFloat getDefaultFovAngle() const { return float_pi / 4.0; }
