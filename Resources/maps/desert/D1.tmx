@@ -31,38 +31,38 @@
   <object id="38" name="sunarea2" type="SunArea" x="768" y="768" width="640" height="640"/>
   <object id="41" name="pyramid6" type="Pyramid" x="1024" y="128" width="128" height="128">
    <properties>
+    <property name="angular_speed" value="90"/>
     <property name="direction" value="down"/>
-    <property name="discrete_look" value="-3/2"/>
    </properties>
   </object>
   <object id="42" name="pyramid5" type="Pyramid" x="1024" y="1920" width="128" height="128">
    <properties>
+    <property name="angular_speed" value="-90"/>
     <property name="direction" value="up"/>
-    <property name="discrete_look" value="3/2"/>
    </properties>
   </object>
   <object id="43" name="pyramid4" type="Pyramid" x="1664" y="1408" width="128" height="128">
    <properties>
+    <property name="angular_speed" value="60"/>
     <property name="direction" value="up"/>
-    <property name="discrete_look" value="3/2"/>
    </properties>
   </object>
   <object id="44" name="pyramid3" type="Pyramid" x="1664" y="640" width="128" height="128">
    <properties>
+    <property name="angular_speed" value="-60"/>
     <property name="direction" value="down"/>
-    <property name="discrete_look" value="-3/2"/>
    </properties>
   </object>
   <object id="45" name="pyramid2" type="Pyramid" x="384" y="640" width="128" height="128">
    <properties>
+    <property name="angular_speed" value="-60"/>
     <property name="direction" value="down"/>
-    <property name="discrete_look" value="-3/2"/>
    </properties>
   </object>
   <object id="46" name="pyramid7" type="Pyramid" x="384" y="1408" width="128" height="128">
    <properties>
+    <property name="angular_speed" value="60"/>
     <property name="direction" value="up"/>
-    <property name="discrete_look" value="3/2"/>
    </properties>
   </object>
  </objectgroup>

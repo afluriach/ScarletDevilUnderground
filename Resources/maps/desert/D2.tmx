@@ -8,12 +8,12 @@
  </tileset>
  <layer name="floor" width="17" height="17">
   <data encoding="base64" compression="zlib">
-   eJzt0LsBwCAMA1E3DhC+Cew/KzeDahevuFJyM3uQkOFCF7yoaGJ3DEwssT/82DhiK/vjj/gj/tD/uEtaDZ4=
+   eJzt0DkSgCAQRNFOWEXA5f5n9ZObMIYyVS/44bQkeQREuMkel5CxoRh7R0VDN/aBExduY8/+/9Zrj7XHX/bQxz3GPR4KDYo=
   </data>
  </layer>
  <layer name="wall_tiles" width="17" height="17">
   <data encoding="base64" compression="zlib">
-   eJxjYGBgYARiJjJpEGBmoAywIJlFLmAadQdN3EENMJzCY9QdqO6A0cxk0iAAABKHAJY=
+   eJxjYGBgYARiJjJpEGBmoAywIJlFLmAadcegdAfDIHHHYAmP4eYOGM1MJg0CABTrAJc=
   </data>
  </layer>
  <objectgroup name="floor">
@@ -23,9 +23,8 @@
   <object id="26" x="128" y="0" width="1920" height="128"/>
   <object id="27" x="2048" y="128" width="128" height="896"/>
   <object id="28" x="128" y="2048" width="1920" height="128"/>
-  <object id="29" x="0" y="1152" width="128" height="896"/>
   <object id="31" x="2048" y="1152" width="128" height="896"/>
-  <object id="32" x="0" y="128" width="128" height="896"/>
+  <object id="32" x="0" y="128" width="128" height="1920"/>
  </objectgroup>
  <objectgroup name="objects">
   <object id="41" name="pyramid13" type="Pyramid" x="1024" y="128" width="128" height="128">

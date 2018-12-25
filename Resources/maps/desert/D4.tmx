@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.0" tiledversion="1.0.3" orientation="orthogonal" renderorder="right-down" width="17" height="17" tilewidth="128" tileheight="128" nextobjectid="45">
+<map version="1.0" tiledversion="1.0.3" orientation="orthogonal" renderorder="right-down" width="17" height="17" tilewidth="128" tileheight="128" nextobjectid="50">
  <tileset firstgid="1" name="desert wall" tilewidth="128" tileheight="128" tilecount="4" columns="2">
   <image source="desert wall.png" width="256" height="256"/>
  </tileset>
@@ -13,30 +13,23 @@
  </layer>
  <layer name="wall_tiles" width="17" height="17">
   <data encoding="base64" compression="zlib">
-   eJxjYGBgYARiJjJpEGBmoAywIJlFLmAadQdN3EENMJzCY9QdqO6A0cxk0iAAABKHAJY=
+   eJxjYGBgYARiJiw0MsAmzwiVY2agDLAgmUUuYBp1B03cQSkYbuEx6g5Ud8BoZjJpEAAABT8AlA==
   </data>
  </layer>
  <objectgroup name="floor">
   <object id="35" type="MineFloor" x="128" y="128" width="1920" height="1920"/>
  </objectgroup>
  <objectgroup name="walls">
-  <object id="26" x="128" y="0" width="1920" height="128"/>
-  <object id="27" x="2048" y="128" width="128" height="896"/>
+  <object id="26" x="128" y="0" width="768" height="128"/>
+  <object id="27" x="2048" y="128" width="128" height="1920"/>
   <object id="28" x="128" y="2048" width="1920" height="128"/>
   <object id="29" x="0" y="1152" width="128" height="896"/>
-  <object id="31" x="2048" y="1152" width="128" height="896"/>
   <object id="32" x="0" y="128" width="128" height="896"/>
+  <object id="47" x="1280" y="0" width="768" height="128"/>
  </objectgroup>
  <objectgroup name="objects">
-  <object id="37" name="player" type="Player" x="1024" y="1792" width="128" height="128"/>
-  <object id="38" name="sunarea7" type="SunArea" x="128" y="128" width="640" height="640"/>
-  <object id="41" name="pyramid1" type="Pyramid" x="1024" y="1024" width="128" height="128">
-   <properties>
-    <property name="angular_speed" value="90"/>
-   </properties>
-  </object>
-  <object id="42" name="sunarea1" type="SunArea" x="1408" y="129" width="640" height="640"/>
-  <object id="43" name="sunarea9" type="SunArea" x="129" y="1408" width="640" height="640"/>
-  <object id="44" name="sunarea8" type="SunArea" x="1408" y="1408" width="640" height="640"/>
+  <object id="38" name="sunarea6" type="SunArea" x="128" y="384" width="1536" height="256"/>
+  <object id="48" name="sunarea5" type="SunArea" x="512" y="896" width="1536" height="256"/>
+  <object id="49" name="sunarea4" type="SunArea" x="128" y="1408" width="1536" height="256"/>
  </objectgroup>
 </map>
