@@ -898,7 +898,7 @@ void DrawNode::drawSolidCircle( const Vec2& center, float radius, float angle, u
 //https://stackoverflow.com/questions/24474879/cocos2d-v3-how-do-you-draw-an-arc
 void DrawNode::drawSolidCone(const Vec2& center, float radius, float startAngle, float endAngle, unsigned int segments, const Color4F &color)
 {
-	const float coef = (endAngle - startAngle) / segments;
+	const double coef = (endAngle - startAngle) / (segments-1);
 
 	Vec2 *vertices = new (std::nothrow) Vec2[segments+2];
 	if (!vertices)
@@ -907,14 +907,14 @@ void DrawNode::drawSolidCone(const Vec2& center, float radius, float startAngle,
 	vertices[0].x = center.x;
 	vertices[0].y = center.y;
 
-	for (unsigned int i = 1; i < segments + 1; i++)
+	for (unsigned int i = 0; i < segments; i++)
 	{
-		float rads = i * coef;
-		GLfloat j = radius * cosf(rads + startAngle) + center.x;
-		GLfloat k = radius * sinf(rads + startAngle) + center.y;
+		double rads = i * coef;
+		GLfloat j = radius * cos(rads + startAngle) + center.x;
+		GLfloat k = radius * sin(rads + startAngle) + center.y;
 
-		vertices[i].x = j;
-		vertices[i].y = k;
+		vertices[i+1].x = j;
+		vertices[i+1].y = k;
 	}
 
 	vertices[segments + 1].x = center.x;
