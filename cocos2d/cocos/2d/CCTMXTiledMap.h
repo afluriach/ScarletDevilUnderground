@@ -135,6 +135,7 @@ public:
      * @return The TMXLayer for the specific layer.
      */
     TMXLayer* getLayer(const std::string& layerName) const;
+	std::vector<TMXLayer*> getLayers() const;
     /**
      * @js NA
      * @lua NA
