@@ -37,7 +37,7 @@ const vector <TextListMenuLayer::listAction > TitleMenu::entryActions = {
 
 void TitleMenu::start()
 {
-	GScene::runScene("BlockRoom");
+	GScene::runScene("Mansion");
 }
 
 void TitleMenu::sceneSelect()

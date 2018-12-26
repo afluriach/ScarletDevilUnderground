@@ -13,6 +13,7 @@
 #include "Garden.hpp"
 #include "IceCave.hpp"
 #include "LibraryOpening.h"
+#include "Mansion.hpp"
 #include "menu_scenes.h"
 #include "Mine.hpp"
 #include "PlayScene.hpp"
@@ -50,6 +51,7 @@ const unordered_map<string, GScene::AdapterType> GScene::adapters = {
 	entry_same(IceCave),
 	PlaySceneMapName(Library),
 	entry_same(LibraryOpening),
+	entry_same(Mansion),
 	PlaySceneMapName(MarisaRoom),
 	entry_same(Mine),
 	PlaySceneMapName(SakuyaRoom),

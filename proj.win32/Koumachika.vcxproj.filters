@@ -237,6 +237,9 @@
     <ClCompile Include="..\Classes\objects\Scorpion.cpp">
       <Filter>src\objects</Filter>
     </ClCompile>
+    <ClCompile Include="..\Classes\scenes\Mansion.cpp">
+      <Filter>src\scenes</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="main.h">
@@ -463,6 +466,9 @@
     </ClInclude>
     <ClInclude Include="..\Classes\objects\Scorpion.hpp">
       <Filter>src\objects</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\scenes\Mansion.hpp">
+      <Filter>src\scenes</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
