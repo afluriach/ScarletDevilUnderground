@@ -33,6 +33,7 @@ SpaceFloat circleMomentOfInertia(SpaceFloat mass, SpaceFloat radius);
 SpaceFloat rectangleMomentOfInertia(SpaceFloat mass, const SpaceVect& dim);
 
 void timerDecrement(boost::rational<int>& x);
+void timerDecrement(float& x);
 
 Scene* crntScene();
 

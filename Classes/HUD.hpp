@@ -95,7 +95,7 @@ public:
 	//Radial Meters are scaled down by 1/2
 	static const int spacing;
 
-	static const map<Attribute, RadialMeterSettings> meterSettings;
+	static const vector<pair<Attribute, RadialMeterSettings>> meterSettings;
 
 	MagicEffects();
 
@@ -103,8 +103,10 @@ public:
 	void reorganize();
 
 	virtual bool init();
+	void update();
 	Map<Attribute,RadialMeter*> meters;
 	map<Attribute, int> values;
+	map<Attribute, float> cooldownTimers;
 };
 
 

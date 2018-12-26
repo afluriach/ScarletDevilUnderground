@@ -214,13 +214,7 @@ void RadialMeter::redraw()
 
 const int MagicEffects::spacing = 128;
 
-const map<Attribute, RadialMeterSettings> MagicEffects::meterSettings = {
-	{ Attribute::hitProtection,
-		{"sprites/ui/hit_protection.png",Color4F(.42f,.29f,.29f,1.0f),Color4F(.86f,.16f,.19f,1.0f) }
-	},
-	{ Attribute::spellCooldown,
-		{"sprites/ui/spell_cooldown.png",Color4F(.4f,.4f,.4f,1.0f),Color4F(.37f,.56f,.57f,1.0f) }
-	},
+const vector<pair<Attribute, RadialMeterSettings>> MagicEffects::meterSettings = {
 	{Attribute::iceDamage,
 		{"sprites/ui/snowflake.png",Color4F(0.2,0.33,0.7,0.5),Color4F(0.16, 0.2, 0.9, 1.0)}
 	},
@@ -232,6 +226,12 @@ const map<Attribute, RadialMeterSettings> MagicEffects::meterSettings = {
 	},
 	{ Attribute::slimeDamage,
 		{ "sprites/ui/slime.png", Color4F(.34f,.61f,.075f,1.0f), Color4F(.75f,.996f,.34f,1.0f) }
+	},
+	{ Attribute::hitProtection,
+		{ "sprites/ui/hit_protection.png",Color4F(.42f,.29f,.29f,1.0f),Color4F(.86f,.16f,.19f,1.0f) }
+	},
+	{ Attribute::spellCooldown,
+		{ "sprites/ui/spell_cooldown.png",Color4F(.4f,.4f,.4f,1.0f),Color4F(.37f,.56f,.57f,1.0f) }
 	}
 };
 
@@ -253,9 +253,33 @@ bool MagicEffects::init()
 		meters.insert(entry.first, rm);
 
 		values.insert_or_assign(entry.first, 0);
+		cooldownTimers.insert_or_assign(entry.first, 0.0f);
 	}
 
 	return true;
+}
+
+void MagicEffects::update()
+{
+	bool _reorganize = false;
+
+	for (auto entry : meterSettings)
+	{
+		int val = values.find(entry.first)->second;
+		float& timer = cooldownTimers.at(entry.first);
+
+		if (val == 0 && timer != 0.0f) {
+			timerDecrement(timer);
+
+			if (timer == 0.0f) {
+				_reorganize = true;
+			}
+		}
+	}
+
+	if (_reorganize) {
+		reorganize();
+	}
 }
 
 void MagicEffects::setPercentValue(Attribute element, int val)
@@ -267,6 +291,7 @@ void MagicEffects::setPercentValue(Attribute element, int val)
 	values.insert_or_assign(element, val);
 
 	if (prev == 0 && val != 0 || prev != 0 && val == 0){
+		cooldownTimers.insert_or_assign(element,1.0f);
 		reorganize();
 	}
 }
@@ -275,14 +300,16 @@ void MagicEffects::reorganize()
 {
 	int ypos = 0;
 
-	for (auto entry : meters)
+	for (auto entry : meterSettings)
 	{
-		RadialMeter* m = entry.second;
+		RadialMeter* m = meters.at(entry.first);
 		int val = values.find(entry.first)->second;
+		float& timer = cooldownTimers.at(entry.first);
+		bool visible = val != 0 || timer > 0.0f;
 
-		m->setVisible(val != 0);
+		m->setVisible(visible);
 
-		if(val != 0) {
+		if(visible) {
 			m->setPosition(Vec2(0, ypos));
 			ypos -= spacing;
 		}
@@ -315,6 +342,10 @@ void HUD::update()
     else{
         setVisible(false);
     }
+
+	if (magicEffects) {
+		magicEffects->update();
+	}
 }
 
 bool HUD::init()

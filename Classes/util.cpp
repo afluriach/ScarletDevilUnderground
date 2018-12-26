@@ -168,6 +168,11 @@ void timerDecrement(boost::rational<int>& x)
 	x = max(x - App::secondsPerFrameRational, boost::rational<int>(0));
 }
 
+void timerDecrement(float& x)
+{
+	x = max(x - to_float(App::secondsPerFrame), 0.0f);
+}
+
 TimerSystem::TimerSystem()
 {
 	enum_foreach(TimerType, _type, begin, end)
