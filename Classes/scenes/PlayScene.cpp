@@ -177,10 +177,14 @@ void PlayScene::onPausePressed()
 
 void PlayScene::enterPause()
 {
+	if (isShowingMenu)
+		return;
+
 	pauseMenu = Node::ccCreate<PauseMenu>();
 	getLayer(sceneLayers::menu)->addChild(pauseMenu);
     pauseAnimations();
 	setPaused(true);
+	isShowingMenu = true;
 }
 
 void PlayScene::exitPause()
@@ -189,6 +193,7 @@ void PlayScene::exitPause()
 	pauseMenu = nullptr;
     resumeAnimations();
 	setPaused(false);
+	isShowingMenu = false;
 }
 
 void PlayScene::pauseAnimations()
@@ -320,10 +325,11 @@ void PlayScene::showMenu(Layer* menu)
 
 void PlayScene::triggerMenu(void (PlayScene::*m)(void))
 {
-	if (pauseMenu)
-		pauseMenu->setVisible(false);
+	if (isShowingMenu)
+		return;
 
 	setPaused(true);
+	isShowingMenu = true;
 
 	Director::getInstance()->getScheduler()->schedule(
 		bind(m, this),

@@ -78,6 +78,7 @@ private:
 
 	unique_ptr<ControlReplay> controlReplay;
 	bool isRunningReplay = false;
+	bool isShowingMenu = false;
 };
 
 #endif /* PlayScene_hpp */
