@@ -190,3 +190,8 @@ Label* createTextLabel(const string& text, int size)
     Label *l = Label::createWithSystemFont(text, defaultFont, size);
     return l;
 }
+
+Color4F opacityScale(const Color4F& color, GLubyte opacity)
+{
+	return Color4F(color.r, color.g, color.b, color.a * opacity / 255);
+}

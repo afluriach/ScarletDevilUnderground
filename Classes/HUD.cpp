@@ -184,13 +184,23 @@ bool RadialMeter::init()
 	icon = Sprite::create(iconName);
 	addChild(icon, 2);
 
+	setCascadeOpacityEnabled(true);
+
 	redraw();
 
 	return true;
 }
 
+void RadialMeter::setOpacity(GLubyte ch)
+{
+	Node::setOpacity(ch);
+	redraw();
+}
+
 void RadialMeter::redraw()
 {
+	GLubyte alpha = _displayedOpacity;
+
 	drawNode->clear();
 
 	drawNode->drawSolidCone(
@@ -199,7 +209,7 @@ void RadialMeter::redraw()
 		0.0f,
 		float_pi * 2.0 * crntValue,
 		segments,
-		filled
+		opacityScale(filled, alpha)
 	);
 
 	drawNode->drawSolidCone(
@@ -208,11 +218,14 @@ void RadialMeter::redraw()
 		float_pi * 2.0 * crntValue,
 		float_pi * 2.0,
 		segments,
-		empty
+		opacityScale(empty, alpha)
 	);
 }
 
 const int MagicEffects::spacing = 128;
+
+const float MagicEffects::totalAutohideTime = 1.5f;
+const float MagicEffects::fadeoutTime = 0.75f;
 
 const vector<pair<Attribute, RadialMeterSettings>> MagicEffects::meterSettings = {
 	{Attribute::iceDamage,
@@ -254,6 +267,7 @@ bool MagicEffects::init()
 
 		values.insert_or_assign(entry.first, 0);
 		cooldownTimers.insert_or_assign(entry.first, 0.0f);
+		fadeoutFlags.insert_or_assign(entry.first, false);
 	}
 
 	return true;
@@ -270,6 +284,11 @@ void MagicEffects::update()
 
 		if (val == 0 && timer != 0.0f) {
 			timerDecrement(timer);
+
+			if (timer < fadeoutTime && !fadeoutFlags.at(entry.first)) {
+				meters.at(entry.first)->runAction(FadeOut::create(fadeoutTime));
+				fadeoutFlags.insert_or_assign(entry.first, true);
+			}
 
 			if (timer == 0.0f) {
 				_reorganize = true;
@@ -290,8 +309,20 @@ void MagicEffects::setPercentValue(Attribute element, int val)
 
 	values.insert_or_assign(element, val);
 
-	if (prev == 0 && val != 0 || prev != 0 && val == 0){
-		cooldownTimers.insert_or_assign(element,1.0f);
+	bool activated = prev == 0 && val != 0;
+	bool deactivated = prev != 0 && val == 0;
+
+	if (activated) {
+		meters.at(element)->stopAllActions();
+		meters.at(element)->setOpacity(255);
+		fadeoutFlags.insert_or_assign(element, false);
+	}
+
+	if (deactivated) {
+		cooldownTimers.insert_or_assign(element, totalAutohideTime);
+	}
+
+	if (activated || deactivated){
 		reorganize();
 	}
 }

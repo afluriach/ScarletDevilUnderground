@@ -77,6 +77,7 @@ public:
 	void setValue(float v);
 
 	virtual bool init();
+	virtual void setOpacity(GLubyte ch);
 protected:
 	void redraw();
 
@@ -94,6 +95,8 @@ class MagicEffects : public Node
 public:
 	//Radial Meters are scaled down by 1/2
 	static const int spacing;
+	static const float totalAutohideTime;
+	static const float fadeoutTime;
 
 	static const vector<pair<Attribute, RadialMeterSettings>> meterSettings;
 
@@ -107,6 +110,7 @@ public:
 	Map<Attribute,RadialMeter*> meters;
 	map<Attribute, int> values;
 	map<Attribute, float> cooldownTimers;
+	map<Attribute, bool> fadeoutFlags;
 };
 
 

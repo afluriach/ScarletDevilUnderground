@@ -62,4 +62,6 @@ Label* createTextLabel(const string& text, int size);
 
 cocos2d::CCSize getScreenSize();
 
+Color4F opacityScale(const Color4F& color, GLubyte opacity);
+
 #endif /* Graphics_h */
