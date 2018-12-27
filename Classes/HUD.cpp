@@ -203,6 +203,14 @@ void RadialMeter::redraw()
 
 	drawNode->clear();
 
+	drawNode->drawSolidCircle(
+		Vec2::ZERO,
+		boundingSize - radiusMargin / 2, 
+		0.0f,
+		segments,
+		opacityScale(Color4F::BLACK, alpha / 2)
+	);
+
 	drawNode->drawSolidCone(
 		Vec2::ZERO,
 		boundingSize - radiusMargin,
