@@ -43,9 +43,7 @@ Player::Player(GSpace* space, ObjectIDType id, const ValueMap& args) :
 
 void Player::init()
 {
-	setFirePatterns();
-
-	if (playScene) {
+	if (playScene && !playScene->getSuppressAction()) {
 		space->getScene()->addAction(make_hud_action(
 			&HUD::setMaxHP,
 			to_int(attributeSystem.getAdjustedValue(Attribute::maxHP))
@@ -56,15 +54,17 @@ void Player::init()
 			to_int(attributeSystem.getAdjustedValue(Attribute::hp))
 		));
 
+		setFirePatterns();
+
 		if (getFirePattern()) {
 			space->getScene()->addAction(make_hud_action(
 				&HUD::setFirePatternIcon,
 				getFirePattern()->iconPath()
 			));
 		}
-	}
 
-	equipSpells();
+		equipSpells();
+	}
 }
 
 void Player::checkMovementControls(const ControlInfo& cs)
@@ -164,27 +164,30 @@ void Player::onZeroHP()
 
 void Player::update()
 {
-	if(getFirePattern())
-		getFirePattern()->update();
-
 	if (playScene) {
 		ControlInfo cs = playScene->getControlData();
 
 		checkMovementControls(cs);
-		checkFireControls(cs);
-		updateSpellControls(cs);
 		checkItemInteraction(cs);
 
-		setHudEffect(Attribute::hitProtection, Attribute::hitProtectionInterval);
-		setHudEffect(Attribute::spellCooldown, Attribute::spellCooldownInterval);
+		if (!playScene->getSuppressAction()) {
+			checkFireControls(cs);
+			updateSpellControls(cs);
 
-		updateHudAttribute(Attribute::iceDamage);
-		updateHudAttribute(Attribute::sunDamage);
-		updateHudAttribute(Attribute::poisonDamage);
-		updateHudAttribute(Attribute::slimeDamage);
+			if (getFirePattern())
+				getFirePattern()->update();
+
+			updateHitTime();
+
+			setHudEffect(Attribute::hitProtection, Attribute::hitProtectionInterval);
+			setHudEffect(Attribute::spellCooldown, Attribute::spellCooldownInterval);
+
+			updateHudAttribute(Attribute::iceDamage);
+			updateHudAttribute(Attribute::sunDamage);
+			updateHudAttribute(Attribute::poisonDamage);
+			updateHudAttribute(Attribute::slimeDamage);
+		}
 	}
-
-	updateHitTime();    
 }
 
 void Player::applyAttributeModifier(Attribute id, float val)
@@ -357,6 +360,7 @@ RumiaPC::RumiaPC(GSpace* space, ObjectIDType id, const ValueMap& args) :
 
 void RumiaPC::setFirePatterns()
 {
+	firePatterns.push_back(make_unique<RumiaFastOrbPattern>(this));
 }
 
 void RumiaPC::equipSpells() {

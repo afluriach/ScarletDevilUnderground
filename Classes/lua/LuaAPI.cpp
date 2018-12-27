@@ -315,7 +315,7 @@ const vector<string> Inst::luaIncludes = {
 		.endClass()
 			
 		.beginClass<HUD>("HUD")
-			.addFunction("showHealth", &HUD::showHealth)
+			.addFunction("setMansionMode", &HUD::setMansionMode)
 			.addFunction("setObjectiveCounter", &HUD::setObjectiveCounter)
 			.addFunction("setObjectiveCounterVisible", &HUD::setObjectiveCounterVisible)
 		.endClass()

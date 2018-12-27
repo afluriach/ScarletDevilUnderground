@@ -8,6 +8,7 @@
 
 #include "Prefix.h"
 
+#include "macros.h"
 #include "Mansion.hpp"
 
 const IntVec2 Mansion::roomSize = IntVec2(17,9);
@@ -27,7 +28,16 @@ const vector<GScene::MapEntry> Mansion::rooms = {
 Mansion::Mansion() :
 PlayScene("Mansion", rooms)
 {
+	multiInit.insertWithOrder(
+		bind(&Mansion::initHUD, this),
+		to_int(initOrder::postInitHUD)
+	);
+}
 
+void Mansion::initHUD()
+{
+	hud->setMansionMode(true);
+	setSuppressAction(true);
 }
 
 GScene* Mansion::getReplacementScene()

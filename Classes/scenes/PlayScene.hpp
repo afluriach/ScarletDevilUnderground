@@ -44,6 +44,8 @@ public:
     void updateCamera();
     void applyCameraControls();
     void trackCameraTarget();
+	void setSuppressAction(bool val);
+	bool getSuppressAction();
 
 	void onPausePressed();
 	virtual void enterPause();
@@ -79,6 +81,7 @@ private:
 	unique_ptr<ControlReplay> controlReplay;
 	bool isRunningReplay = false;
 	bool isShowingMenu = false;
+	bool isSuppressAction = false;
 };
 
 #endif /* PlayScene_hpp */

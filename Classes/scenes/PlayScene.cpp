@@ -151,6 +151,17 @@ void PlayScene::applyCameraControls()
     }
 }
 
+bool PlayScene::getSuppressAction()
+{
+	return isSuppressAction;
+}
+
+
+void PlayScene::setSuppressAction(bool val)
+{
+	isSuppressAction = val;
+}
+
 //Rather than making an updater by capturing hud, just wrap it in a method to access hud from the supplied this.
 void PlayScene::updateHUD()
 {

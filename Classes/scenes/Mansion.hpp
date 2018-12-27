@@ -20,6 +20,8 @@ public:
 	Mansion();
 	inline virtual ~Mansion() {}
 
+	void initHUD();
+
 	virtual GScene* getReplacementScene();
 };
 

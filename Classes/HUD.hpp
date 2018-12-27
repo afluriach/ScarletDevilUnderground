@@ -191,13 +191,14 @@ public:
 	void setObjectiveCounter(string iconRes, int val);
 	void setObjectiveCounterVisible(bool val);
     
-	void showHealth(bool val);    
+	void setMansionMode(bool val);    
 	void setInteractionIcon(string val);
 	void setFirePatternIcon(string val);
     
 protected:
     object_ref<Player> player;
 	GSpace* space;
+	bool isMansionMode = false;
 };
 
 #endif /* HUD_hpp */

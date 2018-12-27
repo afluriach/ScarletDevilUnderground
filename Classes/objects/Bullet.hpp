@@ -161,6 +161,24 @@ public:
 	virtual AttributeMap getAttributeEffect() const;
 };
 
+class RumiaFastOrb1 : virtual public GObject, public PlayerBullet, public CircleBody, public ImageSprite, public DirectionalLaunch
+{
+public:
+
+	RumiaFastOrb1(GSpace* space, ObjectIDType id, SpaceFloat angle, const SpaceVect& pos);
+
+	virtual inline SpaceFloat getMaxSpeed() const { return 9.0; }
+	virtual inline SpaceFloat getRadius() const { return 0.15; }
+
+	virtual inline string imageSpritePath() const { return "sprites/rumia_bullet.png"; }
+
+	static constexpr float spriteBaseRadius = 0.83f;
+	inline virtual float zoom() const { return getRadius() / spriteBaseRadius * 2; }
+
+	virtual AttributeMap getAttributeEffect() const;
+};
+
+
 class CirnoLargeIceBullet : virtual public GObject, public PlayerBullet, public CircleBody, public ImageSprite, public DirectionalLaunch
 {
 public:

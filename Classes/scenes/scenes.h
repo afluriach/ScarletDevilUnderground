@@ -36,6 +36,7 @@ public:
         //Running GSpace::loadAdditions, if applicable
         loadObjects,
         initHUD,
+		postInitHUD,
 		initRoomMask,
         //Objects that wish to query the GSpace, including looking up other objects that are expected
         //to be loaded.

@@ -100,6 +100,16 @@ AttributeMap FlandreFastOrb1::getAttributeEffect() const {
 	};
 }
 
+RumiaFastOrb1::RumiaFastOrb1(GSpace* space, ObjectIDType id, SpaceFloat angle, const SpaceVect& pos) :
+	GObject(space, id, "fastOrb1", pos, angle, true)
+{}
+
+AttributeMap RumiaFastOrb1::getAttributeEffect() const {
+	return {
+		{ Attribute::hp, -1 }
+	};
+}
+
 CirnoLargeIceBullet::CirnoLargeIceBullet(GSpace* space, ObjectIDType id, SpaceFloat angle, const SpaceVect& pos) :
 	GObject(space,id,"bigIce1", pos, angle, true)
 {}

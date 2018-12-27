@@ -57,6 +57,11 @@ GObject::GeneratorType FlandreFastOrbPattern::spawn(SpaceFloat angle, SpaceVect 
 	return GObject::make_object_factory<FlandreFastOrb1>(angle, pos);
 }
 
+GObject::GeneratorType RumiaFastOrbPattern::spawn(SpaceFloat angle, SpaceVect pos)
+{
+	return GObject::make_object_factory<RumiaFastOrb1>(angle, pos);
+}
+
 GObject::GeneratorType CirnoLargeIceBulletPattern::spawn(SpaceFloat angle, SpaceVect pos)
 {
 	return GObject::make_object_factory<CirnoLargeIceBullet>(angle, pos);

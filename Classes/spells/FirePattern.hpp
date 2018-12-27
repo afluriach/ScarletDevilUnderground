@@ -68,6 +68,18 @@ public:
 	virtual GObject::GeneratorType spawn(SpaceFloat angle, SpaceVect pos);
 };
 
+class RumiaFastOrbPattern : public SingleBulletFixedIntervalPattern
+{
+public:
+	inline RumiaFastOrbPattern(Agent *const agent) : SingleBulletFixedIntervalPattern(agent) {}
+
+	virtual string iconPath() const { return "sprites/fire_patterns/rumia_fast_orb.png"; }
+	virtual int powerCost() const { return 1; }
+
+	virtual boost::rational<int> getCooldownTime() { return boost::rational<int>(1, 6); }
+	virtual GObject::GeneratorType spawn(SpaceFloat angle, SpaceVect pos);
+};
+
 class CirnoLargeIceBulletPattern : public SingleBulletFixedIntervalPattern
 {
 public:

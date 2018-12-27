@@ -458,9 +458,15 @@ void HUD::setObjectiveCounterVisible(bool val)
 	objectiveCounter->setVisible(val);
 }
 
-void HUD::showHealth(bool val)
+void HUD::setMansionMode(bool val)
 {
-	health->setVisible(val);
+	isMansionMode = val;
+
+	health->setVisible(!val);
+	magic->setVisible(!val);
+	power->setVisible(!val);
+
+	firePatternIcon->setVisible(!val);
 }
 
 void HUD::setInteractionIcon(string val)
@@ -471,7 +477,7 @@ void HUD::setInteractionIcon(string val)
 
 void HUD::setFirePatternIcon(string val)
 {
-	firePatternIcon->setVisible(!val.empty());
+	firePatternIcon->setVisible(!val.empty() && !isMansionMode);
 	firePatternIcon->setTexture(val);
 }
 
