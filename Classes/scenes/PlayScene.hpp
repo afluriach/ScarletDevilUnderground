@@ -56,6 +56,7 @@ public:
     
     void triggerGameOver();
     void showGameOverMenu();
+	inline bool getGameOver() { return isGameOver; }
 
 	void triggerSceneCompleted();
 	void showSceneCompletedMenu();
@@ -82,6 +83,7 @@ private:
 	bool isRunningReplay = false;
 	bool isShowingMenu = false;
 	bool isSuppressAction = false;
+	bool isGameOver = false;
 };
 
 #endif /* PlayScene_hpp */

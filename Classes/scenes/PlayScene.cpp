@@ -221,11 +221,13 @@ void PlayScene::resumeAnimations()
 
 void PlayScene::showGameOverMenu()
 {
+	setPaused(true);
 	showMenu(Node::ccCreate<GameOverMenu>());
 }
 
 void PlayScene::triggerGameOver()
 {
+	isGameOver = true;
 	spaceLayer->runAction(tintTo(fadeoutColor, fadeoutLength));
 
 	triggerMenu(&PlayScene::showGameOverMenu);
@@ -238,6 +240,7 @@ void PlayScene::showSceneCompletedMenu()
 
 void PlayScene::triggerSceneCompleted()
 {
+	setPaused(true);
 	triggerMenu(&PlayScene::showSceneCompletedMenu);
 }
 
@@ -248,6 +251,7 @@ void PlayScene::showReplayCompletedMenu()
 
 void PlayScene::triggerReplayCompleted()
 {
+	setPaused(true);
 	triggerMenu(&PlayScene::showReplayCompletedMenu);
 }
 
@@ -339,7 +343,6 @@ void PlayScene::triggerMenu(void (PlayScene::*m)(void))
 	if (isShowingMenu)
 		return;
 
-	setPaused(true);
 	isShowingMenu = true;
 
 	Director::getInstance()->getScheduler()->schedule(

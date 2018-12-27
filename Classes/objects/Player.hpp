@@ -33,6 +33,8 @@ public:
 
 	MapObjCons(Player);
     
+	virtual void onPitfall();
+
 	virtual void setFirePatterns() = 0;
 	virtual void equipSpells() = 0;
     

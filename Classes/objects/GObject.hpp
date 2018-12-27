@@ -98,6 +98,7 @@ public:
 	void init();
 	void update();
 	void updateMessages();
+	virtual void onPitfall();
 	inline virtual void onRemove() {}
 
 	template<typename D, typename...Args>

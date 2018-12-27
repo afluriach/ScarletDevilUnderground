@@ -12,6 +12,7 @@
 #include "enum.h"
 #include "FloorSegment.hpp"
 #include "GObject.hpp"
+#include "Graphics.h"
 #include "GSpace.hpp"
 #include "LuaAPI.hpp"
 #include "macros.h"
@@ -126,6 +127,11 @@ void GObject::updateMessages()
 {
 	messages();
 	messages.clear();
+}
+
+void GObject::onPitfall()
+{
+	space->removeObjectWithAnimation(this, pitfallShrinkAction());
 }
 
 //BEGIN PHYSICS

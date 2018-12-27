@@ -10,7 +10,6 @@
 
 #include "App.h"
 #include "FloorSegment.hpp"
-#include "Graphics.h"
 #include "GSpace.hpp"
 #include "value_map.hpp"
 
@@ -209,5 +208,5 @@ void Pitfall::onEndContact(GObject* obj)
 
 void Pitfall::exclusiveFloorEffect(GObject* obj)
 {
-	space->removeObjectWithAnimation(obj, pitfallShrinkAction());
+	obj->onPitfall();
 }

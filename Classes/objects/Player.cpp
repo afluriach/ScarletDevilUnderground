@@ -41,6 +41,14 @@ Player::Player(GSpace* space, ObjectIDType id, const ValueMap& args) :
 	}
 }
 
+void Player::onPitfall()
+{
+	if (playScene) {
+		playScene->triggerGameOver();
+	}
+	GObject::onPitfall();
+}
+
 void Player::init()
 {
 	if (playScene && !playScene->getSuppressAction()) {
@@ -164,7 +172,7 @@ void Player::onZeroHP()
 
 void Player::update()
 {
-	if (playScene) {
+	if (playScene && !playScene->getGameOver()) {
 		ControlInfo cs = playScene->getControlData();
 
 		checkMovementControls(cs);
