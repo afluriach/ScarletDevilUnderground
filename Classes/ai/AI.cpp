@@ -1028,6 +1028,17 @@ void SakuyaMain::update(StateMachine& sm)
     sm.push(make_shared<Cast>("IllusionDial", ValueMap()));
 }
 
+void SakuyaNPC1::onEnter(StateMachine& sm)
+{
+
+}
+
+void SakuyaNPC1::update(StateMachine& sm)
+{
+	const Path* path = sm.agent->space->getPath("sakuya1_path");
+	sm.push(make_shared<FollowPath>(*path,true));
+}
+
 const SpaceFloat IllusionDash::scale = 2.5;
 const SpaceFloat IllusionDash::opacity = 0.25;
 const SpaceFloat IllusionDash::speed = 10.0;

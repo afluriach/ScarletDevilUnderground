@@ -567,6 +567,14 @@ public:
     FuncGetName(SakuyaMain)
 };
 
+class SakuyaNPC1 : public Function {
+public:
+	virtual void onEnter(StateMachine& sm);
+	virtual void update(StateMachine& sm);
+	FuncGetName(SakuyaMain)
+};
+
+
 class IllusionDash : public Function {
 public:
     IllusionDash(SpaceVect _target);
