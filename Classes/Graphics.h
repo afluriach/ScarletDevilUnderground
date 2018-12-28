@@ -11,6 +11,17 @@
 
 #include "types.h"
 
+enum class cocos_action_tag
+{
+	illusion_dash,
+	damage_flicker,
+	object_fade,
+	hit_protection_flicker,
+	freeze_status,
+
+	game_over_tint,
+};
+
 class Cursor : public Node
 {
 public:

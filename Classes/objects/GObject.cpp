@@ -23,6 +23,10 @@
 #include "util.h"
 #include "value_map.hpp"
 
+const float GObject::objectFadeOutTime = 1.5f;
+const float GObject::objectFadeInTime = 0.5f;
+const GLubyte GObject::objectFadeOpacity = 0;
+
 GObject::GObject(GSpace* space, ObjectIDType uuid, const ValueMap& args) :
 GObject(space, uuid, args, false)
 {
@@ -433,10 +437,27 @@ void GObject::updateSprite()
     if(sprite != nullptr){
         sprite->setPosition(toCocos(body->getPos())*App::pixelsPerTile);
 
-		sprite->setVisible(
-			space->getScene()->isInCameraArea(getBoundingBox()) && 
-			space->getScene()->isInPlayerRoom(getPos())
-		);
+		bool visible = space->getScene()->isInCameraArea(getBoundingBox()) &&
+			space->getScene()->isInPlayerRoom(getPos());
+
+		if (!visible && !isInFade) {
+			sprite->stopActionByTag(to_int(cocos_action_tag::object_fade));
+
+			FiniteTimeAction* action = FadeTo::create(objectFadeOutTime, objectFadeOpacity);
+			action->setTag(to_int(cocos_action_tag::object_fade));
+			sprite->runAction(action);
+
+			isInFade = true;
+		}
+		else if (visible && isInFade) {
+			sprite->stopActionByTag(to_int(cocos_action_tag::object_fade));
+
+			FiniteTimeAction* action = FadeTo::create(objectFadeInTime, 255);
+			action->setTag(to_int(cocos_action_tag::object_fade));
+			sprite->runAction(action);
+
+			isInFade = false;
+		}
     }
 }
 

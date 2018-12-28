@@ -45,6 +45,10 @@ public:
 	//Map each class name to a constructor adapter function.
 	static const unordered_map<string, AdapterType> adapters;
 
+	static const float objectFadeInTime;
+	static const float objectFadeOutTime;
+	static const GLubyte objectFadeOpacity;
+
 	static GObject* constructByType(GSpace* space, ObjectIDType id, const string& type, const ValueMap& args);
 	static GeneratorType factoryMethodByType(const string& type, const ValueMap& args);
 
@@ -209,6 +213,7 @@ public:
     //BEGIN GRAPHICS
     
     Node* sprite = nullptr;
+	bool isInFade = false;
     
         //The Z-order used by Cocos2D.
 	virtual GraphicsLayer sceneLayer() const;
