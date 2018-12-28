@@ -143,6 +143,8 @@ public:
 	void onContactFloorSegment(object_ref<FloorSegment> fs);
 	void onEndContactFloorSegment(object_ref<FloorSegment> fs);
 
+	virtual CCRect getBoundingBox() = 0;
+
     SpaceVect getPos() const;
     void setPos(SpaceVect p);
 

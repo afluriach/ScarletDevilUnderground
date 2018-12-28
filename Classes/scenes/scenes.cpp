@@ -13,9 +13,11 @@
 #include "controls.h"
 #include "Dialog.hpp"
 #include "functional.hpp"
+#include "GObject.hpp"
 #include "GSpace.hpp"
 #include "LuaAPI.hpp"
 #include "macros.h"
+#include "Player.hpp"
 #include "PlayScene.hpp"
 #include "scenes.h"
 #include "SpaceLayer.h"
@@ -283,6 +285,21 @@ CCRect GScene::getCameraArea()
 	return cameraArea;
 }
 
+bool GScene::isInCameraArea(CCRect r)
+{
+	return cameraArea.intersectsRect(r);
+}
+
+bool GScene::isInPlayerRoom(SpaceVect v)
+{
+	if (crntMap == -1) {
+		return true;
+	}
+
+	CCRect mapArea = mapAreas.at(crntMap);
+	return mapArea.containsPoint(Vec2(v.x, v.y));
+}
+
 Layer* GScene::getLayer(sceneLayers layer)
 {
 	auto it = layers.find(to_int(layer));
@@ -444,8 +461,16 @@ void GScene::loadWalls(const TMXTiledMap& map, IntVec2 offset)
 
 void GScene::updateMapVisibility()
 {
+	Player* p = gspace->getObjectAs<Player>("player");
+	SpaceVect _pos = p ? p->getPos() : SpaceVect::zero;
+	Vec2 pos(_pos.x, _pos.y);
+
 	for (int i = 0; i < tilemaps.size() && mapAreas.size(); ++i){
-		tilemaps.at(i)->setVisible(cameraArea.intersectsRect(mapAreas.at(i)));
+		tilemaps.at(i)->setVisible(isInCameraArea(mapAreas.at(i)));
+
+		if (p && mapAreas.at(i).containsPoint(pos)) {
+			crntMap = i;
+		}
 	}
 }
 

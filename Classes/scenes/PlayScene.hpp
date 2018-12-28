@@ -74,8 +74,6 @@ private:
 	void showMenu(Layer* menu);
 	void triggerMenu( void (PlayScene::*m)(void) );
 
-	vector<DrawNode*> roomMasks;
-
 	SpaceFloat cameraMoveTilesPerSecond = 3.0;
     gobject_ref cameraTarget;
 

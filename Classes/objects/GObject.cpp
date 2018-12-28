@@ -17,6 +17,7 @@
 #include "LuaAPI.hpp"
 #include "macros.h"
 #include "MagicEffect.hpp"
+#include "scenes.h"
 #include "Spell.hpp"
 #include "SpellDescriptor.hpp"
 #include "util.h"
@@ -431,6 +432,11 @@ void GObject::updateSprite()
 {
     if(sprite != nullptr){
         sprite->setPosition(toCocos(body->getPos())*App::pixelsPerTile);
+
+		sprite->setVisible(
+			space->getScene()->isInCameraArea(getBoundingBox()) && 
+			space->getScene()->isInPlayerRoom(getPos())
+		);
     }
 }
 

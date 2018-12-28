@@ -119,6 +119,8 @@ public:
     void setUnitPosition(const SpaceVect& v);
 	SpaceVect getMapSize();
 	CCRect getCameraArea();
+	bool isInCameraArea(CCRect r);
+	bool isInPlayerRoom(SpaceVect v);
 
 	Layer* getLayer(sceneLayers layer);
 	inline SpaceLayer* getSpaceLayer() const { return spaceLayer; }
@@ -166,6 +168,7 @@ protected:
 	vector<MapEntry> maps;
 	vector<CCRect> mapAreas;
 	CCRect cameraArea;
+	int crntMap = -1;
 
 	unique_ptr<Lua::Inst> ctx;
 	//The shell that is installed in the current scene.

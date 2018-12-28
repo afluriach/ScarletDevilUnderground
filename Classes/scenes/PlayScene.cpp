@@ -54,10 +54,6 @@ GScene(sceneName, maps)
         to_int(initOrder::initHUD)
     );
 	multiInit.insertWithOrder(
-		wrap_method(PlayScene, initRoomMask, this),
-		to_int(initOrder::initRoomMask)
-	);
-	multiInit.insertWithOrder(
 		wrap_method(PlayScene, initReplayData, this),
 		to_int(initOrder::core)
 	);
@@ -70,10 +66,6 @@ GScene(sceneName, maps)
         wrap_method(PlayScene,updateCamera,this),
         to_int(updateOrder::moveCamera)
     );
-	multiUpdate.insertWithOrder(
-		wrap_method(PlayScene, updateRoomMask, this),
-		to_int(updateOrder::roomMaskUpdate)
-	);
 
     control_listener->addPressListener(
         ControlAction::pause,
@@ -87,42 +79,6 @@ PlayScene::~PlayScene()
 
 void PlayScene::trackPlayer(){
     cameraTarget = gspace->getObject("player");
-}
-
-void PlayScene::initRoomMask()
-{
-	Layer* layer = getSpaceLayer()->getLayer(GraphicsLayer::roomMask);
-
-	for (size_t i = 0; i<gspace->rooms.size(); ++i)
-	{
-		CCRect rect = gspace->rooms.at(i);
-
-		DrawNode* dn = DrawNode::create();
-		layer->positionAndAddNode(dn, 1, Vec2(rect.getMidX(), rect.getMidY()) * App::pixelsPerTile, 1.0f);
-
-		Vec2 halfDim(rect.getMaxX() - rect.getMinX(), rect.getMaxY() - rect.getMinY());
-		halfDim *= App::pixelsPerTile * 0.5f;
-		dn->drawSolidRect(-halfDim, halfDim, Color4F(0.0f, 0.0f, 0.0f, 1.0f));
-
-		roomMasks.push_back(dn);
-	}
-}
-
-void PlayScene::updateRoomMask()
-{
-	GObject* player = gspace->getObject("player");
-
-	if (gspace->rooms.size() == 0 || !player) {
-		return;
-	}
-
-	for (size_t i=0;i<gspace->rooms.size(); ++i)
-	{
-		CCRect rect = gspace->rooms.at(i);
-
-		roomMasks.at(i)->setVisible(!rect.intersectsCircle(toCocos(player->getPos()), player->getRadius()));
-	}
-
 }
 
 void PlayScene::updateCamera()

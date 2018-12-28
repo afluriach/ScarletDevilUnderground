@@ -52,6 +52,16 @@ SpaceFloat RectangleBody::getMomentOfInertia() const{
     return rectangleMomentOfInertia(getMass(), getDimensions());
 }
 
+CCRect RectangleBody::getBoundingBox()
+{
+	SpaceVect pos = getPos();
+	SpaceVect dim = getDimensions();
+	CCRect result(pos.x - dim.x/2, pos.y - dim.y/2, dim.x, dim.y);
+
+	return result;
+}
+
+
 SpaceVect RectangleMapBody::getDimensionsFromMap(const ValueMap& arg)
 {
     return SpaceVect(getFloat(arg, "dim_x"), getFloat(arg, "dim_y"));
@@ -72,6 +82,16 @@ void CircleBody::initializeBody(GSpace& space)
 
 SpaceFloat CircleBody::getMomentOfInertia() const{
     return circleMomentOfInertia(getMass(), getRadius());
+}
+
+CCRect CircleBody::getBoundingBox()
+{
+	SpaceVect pos = getPos();
+	SpaceFloat radius = getRadius();
+	SpaceVect dim(radius*2, radius*2);
+	CCRect result(pos.x - dim.x / 2, pos.y - dim.y / 2, dim.x, dim.y);
+
+	return result;
 }
 
 void FrictionObject::update()
