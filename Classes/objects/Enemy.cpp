@@ -26,6 +26,8 @@ void Enemy::runDamageFlicker()
 
 void Enemy::onTouchPlayer(Player* player) {
 	touchTarget = player;
+
+	onDetect(player);
 }
 
 void Enemy::endTouchPlayer()
