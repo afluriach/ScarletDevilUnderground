@@ -147,6 +147,9 @@ public:
     void addPath(string name, Path p);
 	const Path* getPath(string name) const;
 
+	void addWaypoint(string name, SpaceVect w);
+	SpaceVect getWaypoint(string name) const;
+
 	void addRoom(cocos2d::CCRect rect);
 	vector< cocos2d::CCRect> rooms;
 
@@ -158,6 +161,7 @@ private:
     bool isObstacleTile(int x, int y) const;
     
 	unordered_map<string, Path> paths;
+	unordered_map<string, SpaceVect> waypoints;
     boost::dynamic_bitset<>* navMask = nullptr;
 //END NAVIGATION
     
@@ -293,6 +297,7 @@ private:
 //BEGIN SENSORS
 public:
 	GObject * pointQuery(SpaceVect pos, GType type, PhysicsLayers layers);
+	bool rectangleQuery(SpaceVect center, SpaceVect dimensions, GType type, PhysicsLayers layers);
 
     SpaceFloat distanceFeeler(const GObject * agent, SpaceVect feeler, GType gtype) const;
     SpaceFloat obstacleDistanceFeeler(const GObject * agent, SpaceVect feeler) const;

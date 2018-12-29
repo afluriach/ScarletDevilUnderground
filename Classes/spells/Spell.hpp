@@ -18,12 +18,16 @@
 
 #define STANDARD_CONS(name) inline name(GObject* caster,const ValueMap& args, SpellDesc* descriptor) : Spell(caster,args, descriptor) {}
 
+typedef function<unique_ptr<Spell>(GObject*)> SpellGeneratorType;
+
 class SpellDesc;
 
 class Spell
 {
 public:
     static const unordered_map<string,shared_ptr<SpellDesc>> spellDescriptors;
+
+	static shared_ptr<SpellDesc> getDescriptor(const string& name);
 
     inline Spell(GObject* caster,const ValueMap& args, SpellDesc* descriptor) :
 		caster(caster),
@@ -69,6 +73,27 @@ public:
 protected:
     vector<gobject_ref> bullets;
 };
+
+class Teleport : public Spell {
+public:
+	static const string name;
+	static const string description;
+
+	static const int initialCost;
+	static const int costPerSecond;
+
+	static SpellGeneratorType make_generator(const vector<SpaceVect>& targets);
+
+	STANDARD_CONS(Teleport); //Do not use.
+	Teleport(GObject* caster, const vector<SpaceVect>& targets);
+		
+	virtual void init();
+	virtual void update();
+	virtual void end();
+protected:
+	vector<SpaceVect> targets;
+};
+
 
 //A somewhat conical, but mostly focused attack.
 //Most of the shots to be within half of the cone width.

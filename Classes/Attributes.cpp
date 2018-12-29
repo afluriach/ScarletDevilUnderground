@@ -129,6 +129,12 @@ void AttributeSystem::setSpellCooldown()
 	attributes.at(to_size_t(Attribute::spellCooldown)) = attributes.at(to_size_t(Attribute::spellCooldownInterval));
 }
 
+void AttributeSystem::setFullStamina()
+{
+	attributes.at(to_size_t(Attribute::stamina)) = attributes.at(to_size_t(Attribute::maxStamina));
+}
+
+
 void AttributeSystem::modifyIncidentAttribute(Attribute id, Attribute maxID, float x)
 {
 	attributes.at(to_size_t(id)) = getWithinRange(attributes.at(to_size_t(id)) + x, 0, attributes.at(to_size_t(maxID)));

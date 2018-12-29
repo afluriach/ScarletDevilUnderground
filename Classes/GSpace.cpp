@@ -398,6 +398,23 @@ const Path* GSpace::getPath(string name) const
 	return it != paths.end() ? &(it->second) : nullptr;
 }
 
+void GSpace::addWaypoint(string name, SpaceVect w)
+{
+	waypoints.insert_or_assign(name, w);
+}
+
+SpaceVect GSpace::getWaypoint(string name) const
+{
+	auto it = waypoints.find(name);
+
+	if (it == waypoints.end()) {
+		log("Unknown waypoint %s.", name.c_str());
+		return SpaceVect(0, 0);
+	}
+	else {
+		return it->second;
+	}
+}
 
 FloorSegment* GSpace::floorSegmentPointQuery(SpaceVect pos)
 {
@@ -1013,6 +1030,41 @@ GObject * GSpace::pointQuery(SpaceVect pos, GType type, PhysicsLayers layers)
 		return nullptr;
 
 	return static_cast<GObject*>(result->getUserData());
+}
+
+bool GSpace::rectangleQuery(SpaceVect center, SpaceVect dimensions, GType type, PhysicsLayers layers)
+{
+	bool collision = false;
+
+	auto queryCallback = [&collision,center,dimensions](std::shared_ptr<Shape> shape) -> void {
+		GObject* obj = static_cast<GObject*>(shape->getUserData());
+
+		if (obj) {
+			SpaceVect pos = obj->getPos();
+
+			//Physics engine registers collisions with objects that aren't even close to the query area.
+			if (pos.x >= center.x - dimensions.x / 2 && pos.x <= center.x + dimensions.x / 2 &&
+				pos.y >= center.y - dimensions.y / 2 && pos.y <= center.y + dimensions.y / 2) {
+				collision = true;
+			}
+		}
+	};
+
+	shared_ptr<Body> _body = space.makeStaticBody();
+	_body->setPos(center);
+
+	shared_ptr<PolyShape> area = PolyShape::rectangle(_body, dimensions);
+	area->setBody(_body);
+	_body->addShape(area);
+
+	setShapeProperties(area, layers, type, true);
+
+	space.shapeQuery(
+		area,
+		queryCallback
+	);
+
+	return collision;
 }
 
 //END SENSORS

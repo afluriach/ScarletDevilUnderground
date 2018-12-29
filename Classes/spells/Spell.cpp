@@ -16,6 +16,16 @@
 #include "SpellDescriptor.hpp"
 #include "value_map.hpp"
 
+shared_ptr<SpellDesc> Spell::getDescriptor(const string& name)
+{
+	auto it = spellDescriptors.find(name);
+
+	if (it != spellDescriptors.end())
+		return it->second;
+	else
+		return nullptr;
+}
+
 const string FireStarburst::name = "FireStarburst";
 const string FireStarburst::description = "";
 
@@ -72,6 +82,51 @@ void FlameFence::end()
         if(bullet.isValid())
             caster->space->removeObject(bullet.get());
     }
+}
+
+const string Teleport::name = "Teleport";
+const string Teleport::description = "";
+
+const int Teleport::initialCost = 0;
+const int Teleport::costPerSecond = 0;
+
+SpellGeneratorType Teleport::make_generator(const vector<SpaceVect>& targets)
+{
+	return [targets](GObject* caster) -> unique_ptr<Spell> {
+		return make_unique<Teleport>(caster, targets);
+	};
+}
+
+Teleport::Teleport(GObject* caster, const vector<SpaceVect>& targets) :
+	Spell(caster, {}, Spell::getDescriptor("Teleport").get()),
+	targets(targets)
+{
+}
+
+
+void Teleport::init()
+{
+}
+
+void Teleport::update()
+{
+	bool success = false;
+	for (SpaceVect target : targets)
+	{
+		if (!caster->space->rectangleQuery(target, caster->getDimensions(), caster->getType(), caster->getCrntLayers())) {
+			caster->teleport(target);
+			success = true;
+			break;
+		}
+	}
+
+	if (success) {
+		caster->stopSpell();
+	}
+}
+
+void Teleport::end()
+{
 }
 
 const string StarlightTyphoon::name = "StarlightTyphoon";

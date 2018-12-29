@@ -137,6 +137,7 @@ protected:
 	void loadMapObjects(const TMXTiledMap& map, IntVec2 offset);
 	//Add a map object layer to space.
 	void loadPaths(const TMXTiledMap& map, IntVec2 offset);
+	void loadWaypoints(const TMXTiledMap& map, IntVec2 offset);
 	void loadRooms(const TMXTiledMap& map, IntVec2 offset);
 	void loadFloorSegments(const TMXTiledMap& map, IntVec2 offset);
 	void loadObjectGroup(TMXObjectGroup* group, IntVec2 offset);

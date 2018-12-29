@@ -64,6 +64,10 @@ namespace cp {
 		return cpShapeGetUserData(shape);
 	}
 
+	std::shared_ptr<Body> Shape::getBody() {
+		return body;
+	}
+
 	void Shape::setBody(std::shared_ptr<Body> b) {
 		cpShapeSetBody(shape, b ? (*b) : (cpBody*)0);
 		body = b;

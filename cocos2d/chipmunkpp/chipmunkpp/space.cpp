@@ -82,6 +82,16 @@ namespace cp {
 		d->func(d->self->findPtr(shape), t, n);
 	}
 
+	void Space::shapeQueryFunc(cpShape *shape, cpContactPointSet *points, void *data) {
+		auto d = reinterpret_cast<ShapeQueryData*>(data);
+		d->func(d->self->findPtr(shape));
+	}
+
+	void Space::shapeQuery(shared_ptr<Shape> queryArea, ShapeQueryFunc func) {
+		ShapeQueryData data = { this,func };
+		cpSpaceShapeQuery(space, queryArea->shape, shapeQueryFunc, &data);
+	}
+
 	void Space::segmentQuery(Vect a, Vect b, Layers layers, Group group,
 	                         SegmentQueryFunc func) const {
 		SegmentQueryData data = { this, func };

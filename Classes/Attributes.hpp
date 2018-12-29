@@ -26,6 +26,9 @@ enum class Attribute {
 	hitProtectionInterval,
 	spellCooldownInterval,
 
+	stamina,
+	maxStamina,
+
 	speed,
 	acceleration,
 
@@ -76,6 +79,8 @@ public:
 	void setEmptyPower();
 	void setHitProtection();
 	void setSpellCooldown();
+
+	void setFullStamina();
 
 	float getWithinRange(float input, float min, float max);
 protected:

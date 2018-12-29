@@ -12,6 +12,8 @@
 #include "enum.h"
 #include "GSpace.hpp"
 #include "object_ref.hpp"
+#include "Spell.hpp"
+#include "SpellDescriptor.hpp"
 #include "types.h"
 
 class Agent;
@@ -62,12 +64,14 @@ enum class ResourceLock
 constexpr size_t lockCount = to_size_t(ResourceLock::end);
 
 class StateMachine;
+class Thread;
 
 #define FuncGetName(cls) inline virtual string getName() const {return #cls;}
 
 class Function
 {
 public:
+	friend class Thread;
 
 	inline virtual ~Function() {}
 
@@ -89,6 +93,8 @@ public:
     inline virtual string getName() const {return "Function";}
     
     inline virtual bitset<lockCount> getLockMask() { return bitset<lockCount>();}
+protected:
+	bool hasRunInit = false;
 };
 
 class Thread
@@ -523,6 +529,24 @@ public:
 protected:
     string spell_name;
     ValueMap spell_args;
+};
+
+class Cast1 : public Function {
+public:
+	Cast1(SpellGeneratorType spell_generator);
+
+	virtual void onEnter(StateMachine& sm);
+	virtual void update(StateMachine& sm);
+	virtual void onExit(StateMachine& sm);
+
+	FuncGetName(Cast)
+
+	inline virtual bitset<lockCount> getLockMask() {
+		return make_enum_bitfield(ResourceLock::spellcasting);
+	}
+
+protected:
+	SpellGeneratorType spell_generator;
 };
 
 class FireAtTarget : public Function {

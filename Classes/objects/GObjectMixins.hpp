@@ -80,7 +80,6 @@ public:
 	inline RectangleBody(){}
     //Create body and add it to space. This assumes BB is rectangle dimensions
     virtual void initializeBody(GSpace& space);    
-    virtual inline SpaceVect getDimensions() const = 0;
     virtual SpaceFloat getMomentOfInertia() const;
 
 	inline virtual SpaceFloat getRadius() const { return max(getDimensions().x, getDimensions().y); }
@@ -113,6 +112,7 @@ public:
     virtual void initializeBody(GSpace& space);
 
 	virtual CCRect getBoundingBox();
+	virtual SpaceVect getDimensions() const;
 };
 
 class FrictionObject : public virtual GObject, RegisterUpdate<FrictionObject>

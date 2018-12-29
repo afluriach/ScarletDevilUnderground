@@ -141,6 +141,8 @@ public:
     void setInitialAngularVelocity(SpaceFloat w);
     Vec2 getInitialCenterPix();
 
+	virtual inline void teleport(SpaceVect pos) { setPos(pos); }
+
 	void applyPhysicsProperties();
 	bool isOnFloor();
 	void updateFloorSegment();
@@ -148,6 +150,7 @@ public:
 	void onEndContactFloorSegment(object_ref<FloorSegment> fs);
 
 	virtual CCRect getBoundingBox() = 0;
+	virtual SpaceVect getDimensions() const = 0;
 
     SpaceVect getPos() const;
     void setPos(SpaceVect p);

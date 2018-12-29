@@ -280,6 +280,11 @@ void Thread::update(StateMachine& sm)
 
 	Function* crnt = call_stack.back().get();
 
+	if (!crnt->hasRunInit) {
+		crnt->onEnter(sm);
+		crnt->hasRunInit = true;
+	}
+
 	crnt->update(sm);
 }
 
@@ -296,7 +301,6 @@ void Thread::onDelay(StateMachine& sm)
 void Thread::push(shared_ptr<Function> newState)
 {
 	call_stack.push_back(newState);
-	newState->onEnter(*sm);
 }
 
 void Thread::pop()
@@ -973,6 +977,27 @@ void Cast::update(StateMachine& sm)
 }
 
 void Cast::onExit(StateMachine& sm)
+{
+	sm.agent->stopSpell();
+}
+
+Cast1::Cast1(SpellGeneratorType spell_generator) :
+spell_generator(spell_generator)
+{
+}
+
+void Cast1::onEnter(StateMachine& sm)
+{
+	sm.agent->cast(spell_generator(sm.agent));
+}
+
+void Cast1::update(StateMachine& sm)
+{
+	if (!sm.agent->isSpellActive())
+		sm.pop();
+}
+
+void Cast1::onExit(StateMachine& sm)
 {
 	sm.agent->stopSpell();
 }

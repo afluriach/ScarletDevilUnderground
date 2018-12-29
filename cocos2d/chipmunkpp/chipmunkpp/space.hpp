@@ -12,6 +12,7 @@
 #endif
 namespace cp {
 	typedef std::function<void(std::shared_ptr<Shape>, Float, Vect)> SegmentQueryFunc;
+	typedef std::function<void(std::shared_ptr<Shape>)> ShapeQueryFunc;
 
 	class Body;
 	class Arbiter;
@@ -36,6 +37,7 @@ namespace cp {
 		void setGravity(const Vect&);
 
 		void step(Float);
+		void shapeQuery(std::shared_ptr<Shape> queryArea, ShapeQueryFunc);
 		void segmentQuery(Vect a, Vect b, Layers, Group, SegmentQueryFunc) const;
 		std::shared_ptr<Shape> segmentQueryFirst(Vect a, Vect b, Layers, Group, SegmentQueryInfo* = nullptr) const;
 		std::shared_ptr<Shape> pointQueryFirst(Vect p, Layers, Group) const;
@@ -52,6 +54,7 @@ namespace cp {
 		Space(const Space&);
 		const Space& operator=(const Space&);
 		static void segmentQueryFunc(cpShape*, cpFloat, cpVect, void*);
+		static void shapeQueryFunc(cpShape *shape, cpContactPointSet *points, void *data);
 		std::shared_ptr<Shape> findPtr(cpShape*) const;
 
 		cpSpace* space;
@@ -61,6 +64,11 @@ namespace cp {
 		struct SegmentQueryData {
 			const Space* const self;
 			SegmentQueryFunc& func;
+		};
+
+		struct ShapeQueryData {
+			const Space* const self;
+			ShapeQueryFunc& func;
 		};
 
 		struct CallbackData {

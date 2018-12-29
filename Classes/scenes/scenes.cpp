@@ -356,6 +356,7 @@ void GScene::loadMap(const MapEntry& mapEntry)
 	);
 
 	loadPaths(*tileMap, mapEntry.second);
+	loadWaypoints(*tileMap, mapEntry.second);
 	loadRooms(*tileMap, mapEntry.second);
 	loadFloorSegments(*tileMap, mapEntry.second);
 	loadMapObjects(*tileMap, mapEntry.second);
@@ -410,6 +411,28 @@ void GScene::loadPaths(const TMXTiledMap& map, IntVec2 offset)
 		gspace->addPath(name, crntPath);
 	}
 }
+
+void GScene::loadWaypoints(const TMXTiledMap& map, IntVec2 offset)
+{
+	Vector<TMXObjectGroup*> objLayers = map.getObjectGroups();
+
+	if (!map.getObjectGroup("waypoints")) {
+		return;
+	}
+
+	ValueVector waypoints = map.getObjectGroup("waypoints")->getObjects();
+
+	for (const Value& value : waypoints)
+	{
+		ValueMap asMap = value.asValueMap();
+		CCRect rect = getUnitspaceRectangle(asMap, offset);
+
+		string name = asMap.at("name").asString();
+
+		gspace->addWaypoint(name, SpaceVect(rect.getMidX(), rect.getMidY()));
+	}
+}
+
 
 void GScene::loadRooms(const TMXTiledMap& map, IntVec2 offset)
 {

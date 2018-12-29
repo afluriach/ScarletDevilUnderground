@@ -94,6 +94,11 @@ CCRect CircleBody::getBoundingBox()
 	return result;
 }
 
+SpaceVect CircleBody::getDimensions() const
+{
+	return SpaceVect(getRadius()*2, getRadius()*2);
+}
+
 void FrictionObject::update()
 {
 	SpaceFloat frictionCoeff = crntFloorCenterContact.isValid() ? crntFloorCenterContact.get()->getFrictionCoeff() : 1.0;
