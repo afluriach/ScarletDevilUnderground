@@ -64,6 +64,7 @@ enum class GType{
     wall,
 	effectArea,
 	teleportPad,
+	spawner,
     playerSensor,
     objectSensor,
     collectible,

@@ -20,6 +20,7 @@
 #include "GSpace.hpp"
 #include "macros.h"
 #include "Player.hpp"
+#include "Spawner.hpp"
 #include "Spell.hpp"
 #include "TeleportPad.hpp"
 #include "util.h"
@@ -522,6 +523,10 @@ void GSpace::addCollisionHandlers()
 	_addHandler(teleportPad, enemy, teleportPadObjectBegin, teleportPadObjectEnd);
 	_addHandler(teleportPad, environment, teleportPadObjectBegin, teleportPadObjectEnd);
 
+	_addHandler(spawner, player, spawnerObjectBegin, spawnerObjectEnd);
+	_addHandler(spawner, enemy, spawnerObjectBegin, spawnerObjectEnd);
+	_addHandler(spawner, environment, spawnerObjectBegin, spawnerObjectEnd);
+
 	_addHandler(player, effectArea, agentEffectAreaBegin, agentEffectAreaEnd);
 	_addHandler(enemy, effectArea, agentEffectAreaBegin, agentEffectAreaEnd);
 }
@@ -946,6 +951,29 @@ int GSpace::teleportPadObjectEnd(GObject* teleportPad, GObject* obj)
 
 	return 1;
 }
+
+int GSpace::spawnerObjectBegin(GObject* spawner, GObject* obj)
+{
+	Spawner* _s = dynamic_cast<Spawner*>(spawner);
+
+	if (_s && obj) {
+		_s->onContact(obj);
+	}
+
+	return 1;
+}
+
+int GSpace::spawnerObjectEnd(GObject* spawner, GObject* obj)
+{
+	Spawner* _s = dynamic_cast<Spawner*>(spawner);
+
+	if (_s && obj) {
+		_s->onEndContact(obj);
+	}
+
+	return 1;
+}
+
 
 //END PHYSICS
 

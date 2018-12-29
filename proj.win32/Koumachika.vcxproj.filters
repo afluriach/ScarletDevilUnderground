@@ -246,6 +246,9 @@
     <ClCompile Include="..\Classes\objects\TeleportPad.cpp">
       <Filter>src\objects</Filter>
     </ClCompile>
+    <ClCompile Include="..\Classes\objects\Spawner.cpp">
+      <Filter>src\objects</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="main.h">
@@ -480,6 +483,9 @@
       <Filter>src\objects</Filter>
     </ClInclude>
     <ClInclude Include="..\Classes\objects\TeleportPad.hpp">
+      <Filter>src\objects</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\objects\Spawner.hpp">
       <Filter>src\objects</Filter>
     </ClInclude>
   </ItemGroup>

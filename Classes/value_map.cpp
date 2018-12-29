@@ -39,6 +39,16 @@ bool validateMapArg(const ValueMap& args, string name)
     return ( it != args.end() && args.at(name).isMap() );
 }
 
+ValueMap getSpawnArgs(const ValueMap& args)
+{
+	ValueMap result = args;
+
+	result.insert_or_assign("type", args.at("spawn_type"));
+	result.insert_or_assign("name", args.at("spawn_name"));
+
+	return result;
+}
+
 float getFloat(const ValueMap& args, const string& name)
 {
     return args.at(name).asFloat();

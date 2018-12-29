@@ -293,6 +293,9 @@ private:
 	int floorObjectEnd(GObject* floorSegment, GObject* obj);
 	int teleportPadObjectBegin(GObject* teleportPad, GObject* obj);
 	int teleportPadObjectEnd(GObject* teleportPad, GObject* obj);
+	int spawnerObjectBegin(GObject* spawner, GObject* obj);
+	int spawnerObjectEnd(GObject* spawner, GObject* obj);
+
 
 //END PHYSICS
 

@@ -17,6 +17,8 @@ void printValueMap(const ValueMap& obj);
 bool validateStringArg(const ValueMap& args, string name);
 bool validateMapArg(const ValueMap& args, string name);
 
+ValueMap getSpawnArgs(const ValueMap& args);
+
 float getFloat(const ValueMap& obj, const string& name);
 float getFloatOrDefault(const ValueMap& obj, const string& name, float def);
 
