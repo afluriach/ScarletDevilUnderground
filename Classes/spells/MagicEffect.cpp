@@ -14,6 +14,7 @@
 #include "GObject.hpp"
 #include "MagicEffect.hpp"
 #include "object_ref.hpp"
+#include "Player.hpp"
 
 MagicEffect::MagicEffect(gobject_ref target, float magnitude) :
 target(target),
@@ -28,6 +29,7 @@ FreezeStatusEffect::FreezeStatusEffect(gobject_ref target) :
 void FreezeStatusEffect::init()
 {
 	GObject* _target = target.get();
+	Player* _player = dynamic_cast<Player*>(_target);
 	StateMachineObject* smo = dynamic_cast<StateMachineObject*>(_target);
 
 	if (_target->sprite){
@@ -37,6 +39,11 @@ void FreezeStatusEffect::init()
 
 	if (smo) {
 		smo->setFrozen(true);
+	}
+
+	if (_player) {
+		_player->setFiringSuppressed(true);
+		_player->setMovementSuppressed(true);
 	}
 }
 
@@ -61,6 +68,7 @@ void FreezeStatusEffect::update()
 void FreezeStatusEffect::end()
 {
 	GObject* _target = target.get();
+	Player* _player = dynamic_cast<Player*>(_target);
 	StateMachineObject* smo = dynamic_cast<StateMachineObject*>(_target);
 
 	//Stop sprite effect, assuming the effect ended early.
@@ -71,5 +79,10 @@ void FreezeStatusEffect::end()
 
 	if (smo) {
 		smo->setFrozen(false);
+	}
+
+	if (_player) {
+		_player->setFiringSuppressed(false);
+		_player->setMovementSuppressed(false);
 	}
 }

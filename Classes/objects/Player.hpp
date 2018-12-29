@@ -51,6 +51,9 @@ public:
 	inline bool isFiringSuppressed() const { return suppressFiring; }
 	inline void setFiringSuppressed(bool mode) { suppressFiring = mode; }
 
+	inline bool isMovementSuppressed() const { return suppressMovement; }
+	inline void setMovementSuppressed(bool mode) { suppressMovement = mode; }
+
 	virtual inline SpaceFloat getRadius() const { return 0.35; }
 	virtual inline SpaceFloat getMass() const { return 20.0; }
     virtual inline GType getType() const {return GType::player;}
@@ -99,6 +102,7 @@ protected:
 	PlayScene* playScene = nullptr;
 
 	bool suppressFiring = false;
+	bool suppressMovement = false;
 };
 
 class FlandrePC : virtual public Player, public BaseAttributes<FlandrePC>

@@ -77,6 +77,10 @@ void Player::init()
 
 void Player::checkMovementControls(const ControlInfo& cs)
 {
+	if (suppressMovement){
+		return;
+	}
+
     SpaceVect moveDir = cs.left_v;
 	SpaceVect facing = cs.right_v;
 
