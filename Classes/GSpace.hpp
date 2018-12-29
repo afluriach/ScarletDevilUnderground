@@ -291,6 +291,8 @@ private:
 	int sensorEnd(GObject* radarAgent, GObject* target);
 	int floorObjectBegin(GObject* floorSegment, GObject* obj);
 	int floorObjectEnd(GObject* floorSegment, GObject* obj);
+	int teleportPadObjectBegin(GObject* teleportPad, GObject* obj);
+	int teleportPadObjectEnd(GObject* teleportPad, GObject* obj);
 
 //END PHYSICS
 

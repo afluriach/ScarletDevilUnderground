@@ -44,7 +44,7 @@ public:
 
 class StalkerTeleport : public ai::Cast1 {
 public:
-	StalkerTeleport(const vector<SpaceVect>& targets);
+	StalkerTeleport(const vector<object_ref<TeleportPad>>& targets);
 	FuncGetName(StalkerMain)
 };
 

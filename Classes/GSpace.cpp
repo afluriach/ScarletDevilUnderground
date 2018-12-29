@@ -21,6 +21,7 @@
 #include "macros.h"
 #include "Player.hpp"
 #include "Spell.hpp"
+#include "TeleportPad.hpp"
 #include "util.h"
 #include "value_map.hpp"
 #include "Wall.hpp"
@@ -517,6 +518,10 @@ void GSpace::addCollisionHandlers()
 	_addHandler(floorSegment, collectible, floorObjectBegin, floorObjectEnd);
 	_addHandler(floorSegment, environment, floorObjectBegin, floorObjectEnd);
 
+	_addHandler(teleportPad, player, teleportPadObjectBegin, teleportPadObjectEnd);
+	_addHandler(teleportPad, enemy, teleportPadObjectBegin, teleportPadObjectEnd);
+	_addHandler(teleportPad, environment, teleportPadObjectBegin, teleportPadObjectEnd);
+
 	_addHandler(player, effectArea, agentEffectAreaBegin, agentEffectAreaEnd);
 	_addHandler(enemy, effectArea, agentEffectAreaBegin, agentEffectAreaEnd);
 }
@@ -920,6 +925,27 @@ int GSpace::floorObjectEnd(GObject* floorSegment, GObject* obj)
 	}
 }
 
+int GSpace::teleportPadObjectBegin(GObject* teleportPad, GObject* obj)
+{
+	TeleportPad* _tp = dynamic_cast<TeleportPad*>(teleportPad);
+
+	if (_tp && obj) {
+		_tp->onContact(obj);
+	}
+
+	return 1;
+}
+
+int GSpace::teleportPadObjectEnd(GObject* teleportPad, GObject* obj)
+{
+	TeleportPad* _tp = dynamic_cast<TeleportPad*>(teleportPad);
+
+	if (_tp && obj) {
+		_tp->onEndContact(obj);
+	}
+
+	return 1;
+}
 
 //END PHYSICS
 

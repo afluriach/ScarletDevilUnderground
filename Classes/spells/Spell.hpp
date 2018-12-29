@@ -21,6 +21,7 @@
 typedef function<unique_ptr<Spell>(GObject*)> SpellGeneratorType;
 
 class SpellDesc;
+class TeleportPad;
 
 class Spell
 {
@@ -82,16 +83,17 @@ public:
 	static const int initialCost;
 	static const int costPerSecond;
 
-	static SpellGeneratorType make_generator(const vector<SpaceVect>& targets);
+	static SpellGeneratorType make_generator(const vector<object_ref<TeleportPad>>& targets);
 
 	STANDARD_CONS(Teleport); //Do not use.
-	Teleport(GObject* caster, const vector<SpaceVect>& targets);
+	Teleport(GObject* caster, const vector<object_ref<TeleportPad>>& targets);
 		
 	virtual void init();
 	virtual void update();
 	virtual void end();
 protected:
-	vector<SpaceVect> targets;
+	vector<object_ref<TeleportPad>> targets;
+	object_ref<TeleportPad> toUse;
 };
 
 

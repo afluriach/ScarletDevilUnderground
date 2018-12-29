@@ -243,6 +243,9 @@
     <ClCompile Include="..\Classes\objects\SakuyaNPC.cpp">
       <Filter>src\objects</Filter>
     </ClCompile>
+    <ClCompile Include="..\Classes\objects\TeleportPad.cpp">
+      <Filter>src\objects</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="main.h">
@@ -474,6 +477,9 @@
       <Filter>src\scenes</Filter>
     </ClInclude>
     <ClInclude Include="..\Classes\objects\SakuyaNPC.hpp">
+      <Filter>src\objects</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\objects\TeleportPad.hpp">
       <Filter>src\objects</Filter>
     </ClInclude>
   </ItemGroup>

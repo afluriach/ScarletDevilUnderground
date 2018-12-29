@@ -63,6 +63,7 @@ enum class GType{
     foliage,
     wall,
 	effectArea,
+	teleportPad,
     playerSensor,
     objectSensor,
     collectible,

@@ -36,6 +36,7 @@
 #include "Scorpion.hpp"
 #include "Slime.hpp"
 #include "Stalker.hpp"
+#include "TeleportPad.hpp"
 #include "Tewi.hpp"
 #include "Torch.hpp"
 #include "Wall.hpp"
@@ -115,6 +116,7 @@ const unordered_map<string, GObject::AdapterType> GObject::adapters = {
 	entry_same(Slime2),
 	entry_same(Stalker),
 	entry_same(SunArea),
+	entry_same(TeleportPad),
 	entry_same(Tewi),
 	entry_same(Torch),
 	entry_same(Wall),
@@ -123,5 +125,6 @@ const unordered_map<string, GObject::AdapterType> GObject::adapters = {
 };
 
 const set<type_index> GSpace::trackedTypes = {
-	typeid(Fairy2)
+	typeid(Fairy2),
+	typeid(TeleportPad)
 };

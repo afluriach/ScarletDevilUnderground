@@ -14,6 +14,7 @@
 #include "Player.hpp"
 #include "Spell.hpp"
 #include "SpellDescriptor.hpp"
+#include "TeleportPad.hpp"
 #include "value_map.hpp"
 
 shared_ptr<SpellDesc> Spell::getDescriptor(const string& name)
@@ -90,14 +91,14 @@ const string Teleport::description = "";
 const int Teleport::initialCost = 0;
 const int Teleport::costPerSecond = 0;
 
-SpellGeneratorType Teleport::make_generator(const vector<SpaceVect>& targets)
+SpellGeneratorType Teleport::make_generator(const vector<object_ref<TeleportPad>>& targets)
 {
 	return [targets](GObject* caster) -> unique_ptr<Spell> {
 		return make_unique<Teleport>(caster, targets);
 	};
 }
 
-Teleport::Teleport(GObject* caster, const vector<SpaceVect>& targets) :
+Teleport::Teleport(GObject* caster, const vector<object_ref<TeleportPad>>& targets) :
 	Spell(caster, {}, Spell::getDescriptor("Teleport").get()),
 	targets(targets)
 {
@@ -111,22 +112,29 @@ void Teleport::init()
 void Teleport::update()
 {
 	bool success = false;
-	for (SpaceVect target : targets)
+
+	for (auto ref : targets)
 	{
-		if (!caster->space->rectangleQuery(target, caster->getDimensions(), caster->getType(), caster->getCrntLayers())) {
-			caster->teleport(target);
+		if (ref.isValid() && !ref.get()->isObstructed()) {
+			log("%s teleported to %s.", caster->getName().c_str(), ref.get()->getName().c_str());
+			caster->teleport(ref.get()->getPos());
+			ref.get()->setTeleportActive(true);
 			success = true;
+			toUse = ref;
 			break;
 		}
 	}
 
 	if (success) {
-		caster->stopSpell();
+		active = false;
 	}
 }
 
 void Teleport::end()
 {
+	if (toUse.isValid()) {
+		toUse.get()->setTeleportActive(false);
+	}
 }
 
 const string StarlightTyphoon::name = "StarlightTyphoon";

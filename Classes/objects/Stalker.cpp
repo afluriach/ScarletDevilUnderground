@@ -9,6 +9,7 @@
 #include "Prefix.h"
 
 #include "Stalker.hpp"
+#include "TeleportPad.hpp"
 
 const AttributeMap Stalker::baseAttributes = {
 	{Attribute::maxHP, 12.0f},
@@ -67,17 +68,12 @@ void StalkerMain::onEnter(ai::StateMachine& sm)
 void StalkerMain::update(ai::StateMachine& sm)
 {
 	if (sm.getAgent()->getAttribute(Attribute::stamina) <= 0.0f) {
-		vector<SpaceVect> teleport_targets;
-		int waitFrames = App::getRandomInt(60, 180);
-
-		teleport_targets.push_back(sm.agent->space->getWaypoint("w1"));
-		teleport_targets.push_back(sm.agent->space->getWaypoint("w2"));
-
+		vector<object_ref<TeleportPad>> teleport_targets = sm.agent->space->getObjectsByTypeAs<TeleportPad>();
 		sm.push(make_shared<StalkerTeleport>(teleport_targets));
 	}
 }
 
-StalkerTeleport::StalkerTeleport(const vector<SpaceVect>& targets) :
+StalkerTeleport::StalkerTeleport(const vector<object_ref<TeleportPad>>& targets) :
 ai::Cast1(Teleport::make_generator(targets))
 {
 }
