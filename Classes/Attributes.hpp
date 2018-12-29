@@ -66,6 +66,7 @@ public:
 	float getAdjustedValue(Attribute id) const;
 	void modifyIncidentAttribute(Attribute id, Attribute maxID, float x);
 	void applyElementalDamage(Attribute id, Attribute maxID, float x);
+	bool canApplyAttribute(Attribute id, float x);
 	void modifyAttribute(Attribute id, float x);
 	void timerDecrement(Attribute id);
 	bool isNonzero(Attribute id);

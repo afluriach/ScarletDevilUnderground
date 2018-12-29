@@ -151,6 +151,22 @@ void AttributeSystem::applyElementalDamage(Attribute id, Attribute sensitivity, 
 	}
 }
 
+bool AttributeSystem::canApplyAttribute(Attribute id, float x)
+{
+	switch (id)
+	{
+	case Attribute::hp:
+		return attributes.at(to_size_t(Attribute::hp)) + x <= attributes.at(to_size_t(Attribute::maxHP));
+	case Attribute::mp:
+		return attributes.at(to_size_t(Attribute::mp)) + x <= attributes.at(to_size_t(Attribute::maxMP));
+	case Attribute::power:
+		return attributes.at(to_size_t(Attribute::power)) + x <= attributes.at(to_size_t(Attribute::maxPower));
+	default:
+		log("AttributeSystem::canApplyAttribute: invalid attribute %d.", id);
+		return true;
+	}
+}
+
 void AttributeSystem::modifyAttribute(Attribute id, float x)
 {
 	switch (id)

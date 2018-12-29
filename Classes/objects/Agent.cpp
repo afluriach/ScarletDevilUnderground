@@ -164,6 +164,18 @@ void Agent::hit(AttributeMap attributeEffect, shared_ptr<MagicEffect> effect)
 		_enemy->runDamageFlicker();
 }
 
+bool Agent::canApplyAttributeEffects(AttributeMap attributeEffect)
+{
+	for (auto& entry : attributeEffect)
+	{
+		if (!attributeSystem.canApplyAttribute(entry.first, entry.second)) {
+			return false;
+		}
+	}
+	return true;
+}
+
+
 void Agent::applyAttributeEffects(AttributeMap attributeEffect)
 {
 	for (auto& entry : attributeEffect)

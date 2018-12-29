@@ -255,8 +255,10 @@ void Player::hit(AttributeMap attributeEffect, shared_ptr<MagicEffect> effect){
 
 void Player::onCollectible(Collectible* coll)
 {
-	applyAttributeEffects(coll->getEffect());
-    space->removeObject(coll);
+	if (canApplyAttributeEffects(coll->getEffect())) {
+		applyAttributeEffects(coll->getEffect());
+		space->removeObject(coll);
+	}
 }
 
 void Player::applyGraze(int p)

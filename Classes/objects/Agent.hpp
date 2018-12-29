@@ -55,6 +55,7 @@ public:
 	bool consumePower(int val);
 
 	virtual void hit(AttributeMap attributeEffects, shared_ptr<MagicEffect> effect);
+	bool canApplyAttributeEffects(AttributeMap attributeEffect);
 	void applyAttributeEffects(AttributeMap attributeEffects);
 
 	//sensor interface

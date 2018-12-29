@@ -17,6 +17,9 @@ enum class collectible_id
 {
 	nil,
 
+	health1,
+	health2,
+
 	power1,
 	power2,
 
@@ -90,5 +93,24 @@ public:
 
 	Magic2(GSpace* space, ObjectIDType id, SpaceVect pos);
 };
+
+class Health1 : public CollectibleImpl<Health1>
+{
+public:
+	static const AttributeMap effect;
+	static const string spriteName;
+
+	Health1(GSpace* space, ObjectIDType id, SpaceVect pos);
+};
+
+class Health2 : public CollectibleImpl<Health2>
+{
+public:
+	static const AttributeMap effect;
+	static const string spriteName;
+
+	Health2(GSpace* space, ObjectIDType id, SpaceVect pos);
+};
+
 
 #endif /* Collectibles_hpp */
