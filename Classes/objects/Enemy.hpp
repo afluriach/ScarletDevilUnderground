@@ -10,17 +10,20 @@
 #define Enemy_hpp
 
 #include "Agent.hpp"
+#include "Collectibles.hpp"
 
 class Enemy : virtual public Agent, public RegisterUpdate<Enemy>
 {
 public:
-	Enemy();
+	Enemy(collectible_id drop_id);
 
 	void onTouchPlayer(Player* target);
 	void endTouchPlayer();
 
 	void runDamageFlicker();
 	void update();
+
+	virtual void onRemove();
 
 	virtual AttributeMap touchEffect();
 
@@ -29,6 +32,7 @@ public:
 
 protected:
 	object_ref<Player> touchTarget;
+	collectible_id drop_id = collectible_id::nil;
 };
 
 #endif /* Enemy_hpp */

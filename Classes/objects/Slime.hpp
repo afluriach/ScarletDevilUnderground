@@ -15,7 +15,6 @@
 
 class Slime1 :
 public Enemy,
-public CollectibleDrop<Power1>,
 public BaseAttributes<Slime1>
 {
 public:
@@ -39,7 +38,6 @@ public:
 
 class Slime2 :
 	public Enemy,
-	public CollectibleDrop<Power1>,
 	public BaseAttributes<Slime2>
 {
 public:

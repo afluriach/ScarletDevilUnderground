@@ -10,6 +10,26 @@
 
 #include "Collectibles.hpp"
 
+template<class C>
+function<ObjectGeneratorType(SpaceVect) > createAdapter()
+{
+	return [](SpaceVect& pos) -> ObjectGeneratorType {
+		return GObject::make_object_factory<C>(pos);
+	};
+}
+
+const map<collectible_id, function<ObjectGeneratorType(SpaceVect)>> Collectible::factories = {
+	{collectible_id::magic1, createAdapter<Magic1>() },
+	{collectible_id::magic2, createAdapter<Magic2>() },
+	{collectible_id::power1, createAdapter<Power1>() },
+	{collectible_id::power2, createAdapter<Power2>() },
+};
+
+ObjectGeneratorType Collectible::create(collectible_id id, SpaceVect pos)
+{
+	return factories.at(id)(pos);
+}
+
 Collectible::Collectible(GSpace* space, ObjectIDType id, SpaceVect pos) :
 GObject(space,id,"spriteName",pos,true)
 {

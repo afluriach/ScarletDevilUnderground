@@ -15,7 +15,6 @@
 
 class Fairy1 :
 public Enemy,
-public CollectibleDrop<Power1>,
 public BaseAttributes<Fairy1>
 {
 public:
@@ -35,7 +34,6 @@ public:
 
 class Fairy2 :
 	public Enemy,
-	public CollectibleDrop<Power2>,
 	public RegisterUpdate<Fairy2>,
 	public BaseAttributes<Fairy2>
 {
@@ -81,7 +79,6 @@ protected:
 
 class IceFairy :
 	public Enemy,
-	public CollectibleDrop<Magic2>,
 	public BaseAttributes<IceFairy>
 {
 public:
@@ -89,7 +86,8 @@ public:
 
 	inline IceFairy(GSpace* space, ObjectIDType id, const ValueMap& args) :
 		MapObjForwarding(GObject),
-		MapObjForwarding(Agent)
+		MapObjForwarding(Agent),
+		Enemy(collectible_id::power1)
 	{}
 
 	virtual inline SpaceFloat getRadarRadius() const { return 6.0; }

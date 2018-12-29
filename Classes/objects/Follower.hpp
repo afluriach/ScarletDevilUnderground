@@ -18,7 +18,8 @@ public:
 
     inline Follower(GSpace* space, ObjectIDType id, const ValueMap& args) :
 	GObject(space,id,args),
-    Agent(space,id,args)
+    Agent(space,id,args),
+	Enemy(collectible_id::nil)
     {}
     
     virtual void hit(int damage, shared_ptr<MagicEffect> effect);

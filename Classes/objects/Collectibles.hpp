@@ -13,9 +13,23 @@
 #include "GObject.hpp"
 #include "GObjectMixins.hpp"
 
+enum class collectible_id
+{
+	nil,
+
+	power1,
+	power2,
+
+	magic1,
+	magic2,
+};
+
 class Collectible : virtual public GObject, public RectangleBody, public ImageSprite
 {
 public:
+	static ObjectGeneratorType create(collectible_id id, SpaceVect pos);
+	static const map<collectible_id, function<ObjectGeneratorType(SpaceVect)>> factories;
+
 	Collectible(GSpace* space, ObjectIDType id, SpaceVect pos);
 
 	virtual inline SpaceFloat getMass() const { return -1.0; }

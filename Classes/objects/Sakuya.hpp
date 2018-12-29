@@ -20,7 +20,8 @@ public:
 
     inline Sakuya(GSpace* space, ObjectIDType id, const ValueMap& args) :
 	MapObjForwarding(GObject),
-    MapObjForwarding(Agent)
+    MapObjForwarding(Agent),
+	Enemy(collectible_id::nil)
     {}
 
     virtual inline SpaceFloat getRadarRadius() const {return 6.0;}

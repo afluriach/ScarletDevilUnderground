@@ -55,18 +55,6 @@ public:
 	virtual void deactivate() = 0;
 };
 
-template<class C>
-class CollectibleDrop : public virtual GObject
-{
-public:
-	inline CollectibleDrop() {}
-
-	inline virtual void onRemove()
-	{
-		space->createObject(GObject::make_object_factory<C>(getPos()));
-	}
-};
-
 class DialogEntity : public InteractibleObject
 {
     virtual bool isDialogAvailable() = 0;

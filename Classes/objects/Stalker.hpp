@@ -13,14 +13,15 @@
 #include "Enemy.hpp"
 #include "macros.h"
 
-class Stalker : public Enemy, public BaseAttributes<Stalker>, public CollectibleDrop<Magic1>
+class Stalker : public Enemy, public BaseAttributes<Stalker>
 {
 public:
 	static const AttributeMap baseAttributes;
 
     inline Stalker(GSpace* space, ObjectIDType id, const ValueMap& args) :
 	MapObjForwarding(GObject),
-    MapObjForwarding(Agent)
+    MapObjForwarding(Agent),
+	Enemy(collectible_id::magic1)
     {}
 
     virtual inline SpaceFloat getRadarRadius() const {return 6.0;}

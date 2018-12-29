@@ -15,7 +15,6 @@
 
 class Scorpion1 :
 public Enemy,
-public CollectibleDrop<Power1>,
 public BaseAttributes<Scorpion1>
 {
 public:

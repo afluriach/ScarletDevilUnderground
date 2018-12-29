@@ -12,7 +12,8 @@
 #include "Graphics.h"
 #include "Player.hpp"
 
-Enemy::Enemy() :
+Enemy::Enemy(collectible_id drop_id) :
+drop_id(drop_id),
 RegisterUpdate<Enemy>(this)
 {
 }
@@ -42,6 +43,14 @@ void Enemy::update()
 		touchTarget.get()->hit(touchEffect(), nullptr);
 	}
 }
+
+void Enemy::onRemove()
+{
+	if(drop_id != collectible_id::nil){
+		space->createObject(Collectible::create(drop_id, getPos()));
+	}
+}
+
 
 AttributeMap Enemy::touchEffect()
 {

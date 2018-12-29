@@ -19,7 +19,8 @@ public:
 
 	inline Tewi(GSpace* space, ObjectIDType id, const ValueMap& args) :
 		MapObjForwarding(GObject),
-		MapObjForwarding(Agent)
+		MapObjForwarding(Agent),
+		Enemy(collectible_id::nil)
 	{}
 
 	inline SpaceFloat getMass() const { return 40.0; }

@@ -21,7 +21,8 @@ const AttributeMap Marisa::baseAttributes = {
 
 Marisa::Marisa(GSpace* space, ObjectIDType id, const ValueMap& args) :
 	MapObjForwarding(GObject),
-	MapObjForwarding(Agent)
+	MapObjForwarding(Agent),
+	Enemy(collectible_id::nil)
 {}
 
 CollectMarisa::CollectMarisa(GSpace* space, ObjectIDType id, const ValueMap& args) :

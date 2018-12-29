@@ -12,7 +12,8 @@
 
 Scorpion1::Scorpion1(GSpace* space, ObjectIDType id, const ValueMap& args) :
 	MapObjForwarding(GObject),
-	MapObjForwarding(Agent)
+	MapObjForwarding(Agent),
+	Enemy(collectible_id::power1)
 {
 }
 

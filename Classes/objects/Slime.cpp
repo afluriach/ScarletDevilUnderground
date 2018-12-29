@@ -12,7 +12,8 @@
 
 Slime1::Slime1(GSpace* space, ObjectIDType id, const ValueMap& args) :
 	MapObjForwarding(GObject),
-	MapObjForwarding(Agent)
+	MapObjForwarding(Agent),
+	Enemy(collectible_id::power1)
 {
 }
 
@@ -42,7 +43,8 @@ AttributeMap Slime1::touchEffect() {
 
 Slime2::Slime2(GSpace* space, ObjectIDType id, const ValueMap& args) :
 	MapObjForwarding(GObject),
-	MapObjForwarding(Agent)
+	MapObjForwarding(Agent),
+	Enemy(collectible_id::power1)
 {
 }
 

@@ -20,7 +20,8 @@ const AttributeMap Fairy1::baseAttributes = {
 
 Fairy1::Fairy1(GSpace* space, ObjectIDType id, const ValueMap& args) :
 	MapObjForwarding(GObject),
-	MapObjForwarding(Agent)
+	MapObjForwarding(Agent),
+	Enemy(collectible_id::power1)
 {}
 
 void Fairy1::initStateMachine(ai::StateMachine& sm) {
@@ -43,6 +44,7 @@ const boost::rational<int> Fairy2::lowHealthRatio = boost::rational<int>(1, 3);
 Fairy2::Fairy2(GSpace* space, ObjectIDType id, const ValueMap& args) :
 	MapObjForwarding(GObject),
 	MapObjForwarding(Agent),
+	Enemy(collectible_id::power2),
 	RegisterUpdate<Fairy2>(this)
 {}
 
