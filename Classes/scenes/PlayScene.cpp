@@ -183,7 +183,7 @@ void PlayScene::showGameOverMenu()
 
 void PlayScene::triggerGameOver()
 {
-	isGameOver = true;
+	setPaused(true);
 	spaceLayer->runAction(tintTo(fadeoutColor, fadeoutLength));
 
 	triggerMenu(&PlayScene::showGameOverMenu);
