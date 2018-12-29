@@ -108,7 +108,9 @@ public:
 
 	MapObjCons(FlandrePC);
 
-	virtual inline string imageSpritePath() const { return "sprites/flandre.png"; }
+	virtual inline string imageSpritePath() const { return "sprites/flandre/"; }
+	virtual inline int pixelWidth() const { return 256; }
+
 	virtual void setFirePatterns();
 	virtual void equipSpells();
 };
