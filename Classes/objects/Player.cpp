@@ -22,11 +22,15 @@
 #include "HUD.hpp"
 #include "Player.hpp"
 #include "PlayScene.hpp"
+#include "SpaceLayer.h"
 #include "Spell.hpp"
 #include "SpellDescriptor.hpp"
 
 const float Player::interactCooldownTime = 0.1f;
 const float Player::hitFlickerInterval = 0.333f;
+
+const SpaceFloat Player::sprintSpeedRatio = 1.5;
+const SpaceFloat Player::focusSpeedRatio = 0.5;
 
 Player::Player(GSpace* space, ObjectIDType id, const ValueMap& args) :
 	MapObjForwarding(Agent),
@@ -39,6 +43,17 @@ Player::Player(GSpace* space, ObjectIDType id, const ValueMap& args) :
 	if (!playScene) {
 		throw runtime_error("Player created outside of PlayScene!");
 	}
+}
+
+void Player::initializeGraphics(SpaceLayer* layer)
+{
+	PatchConSprite::initializeGraphics(layer);
+
+	drawNode = DrawNode::create();
+
+	drawNode->drawSolidCircle(Vec2::ZERO, App::pixelsPerTile*getRadius(), 0.0f, 64, Color4F(192, 96, 96, 0.7));
+
+	layer->getLayer(GraphicsLayer::agentOverlay)->addChild(drawNode);
 }
 
 void Player::onPitfall()
@@ -81,10 +96,14 @@ void Player::checkMovementControls(const ControlInfo& cs)
 		return;
 	}
 
+	setFocusMode(cs.isControlActionDown(ControlAction::walk));
+	setSprintMode(cs.isControlActionDown(ControlAction::sprint));
+
     SpaceVect moveDir = cs.left_v;
 	SpaceVect facing = cs.right_v;
+	SpaceFloat speedRatio = getSpeedMultiplier();
 
-    ai::applyDesiredVelocity(this, moveDir*getMaxSpeed(), getMaxAcceleration());
+    ai::applyDesiredVelocity(this, moveDir*getMaxSpeed() * speedRatio, getMaxAcceleration());
     
     if(moveDir.isZero())
          animSprite->reset();
@@ -176,6 +195,10 @@ void Player::onZeroHP()
 
 void Player::update()
 {
+	if (drawNode) {
+		drawNode->setPosition(toCocos(body->getPos())*App::pixelsPerTile);
+	}
+
 	if (playScene && !playScene->getGameOver()) {
 		ControlInfo cs = playScene->getControlData();
 
@@ -200,6 +223,30 @@ void Player::update()
 			updateHudAttribute(Attribute::slimeDamage);
 		}
 	}
+}
+
+SpaceFloat Player::getSpeedMultiplier()
+{
+	if (isSprintActive) {
+		return sprintSpeedRatio;
+	}
+	else if (isFocusActive) {
+		return focusSpeedRatio;
+	}
+	else {
+		return 1.0;
+	}
+}
+
+void Player::setFocusMode(bool b)
+{
+	isFocusActive = b;
+	drawNode->setVisible(b);
+}
+
+void Player::setSprintMode(bool b)
+{
+	isSprintActive = b;
 }
 
 void Player::applyAttributeModifier(Attribute id, float val)

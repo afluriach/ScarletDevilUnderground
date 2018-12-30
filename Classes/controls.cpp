@@ -48,7 +48,10 @@ const map<EventKeyboard::KeyCode, ControlActionState> ControlRegister::keyAction
 	key_action_2(KEY_UP_ARROW, aim_pad_up,menuUp),
 	key_action_2(KEY_DOWN_ARROW, aim_pad_down,menuDown),
 	key_action_1(KEY_LEFT_ARROW, aim_pad_left),
-	key_action_1(KEY_RIGHT_ARROW, aim_pad_right)
+	key_action_1(KEY_RIGHT_ARROW, aim_pad_right),
+
+	key_action_1(KEY_ALT, sprint),
+	key_action_1(KEY_SHIFT, walk),
 };
 
 #if use_gamepad
@@ -383,6 +386,11 @@ void ControlRegister::removeListener(callback_uuid uuid)
 bool ControlInfo::isControlActionPressed(ControlAction id) const
 {
 	return action_state_crnt[to_size_t(id)] && !action_state_prev[to_size_t(id)];
+}
+
+bool ControlInfo::isControlActionDown(ControlAction id) const
+{
+	return action_state_crnt[to_size_t(id)];
 }
 
 bool ControlReplay::load(const string& filepath)

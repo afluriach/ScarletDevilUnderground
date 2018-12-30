@@ -47,6 +47,7 @@ enum class GraphicsLayer{
     foliage,
     floor,
     ground,
+	agentOverlay,
 	overhead,
 	roomMask,
 

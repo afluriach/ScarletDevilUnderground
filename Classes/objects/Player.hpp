@@ -31,12 +31,17 @@ public:
     static const float interactCooldownTime;
     static const float hitFlickerInterval;
 
+	static const SpaceFloat sprintSpeedRatio;
+	static const SpaceFloat focusSpeedRatio;
+
 	MapObjCons(Player);
     
 	virtual void onPitfall();
 
 	virtual void setFirePatterns() = 0;
 	virtual void equipSpells() = 0;
+
+	virtual void initializeGraphics(SpaceLayer* layer);
     
     //setting for player object sensing
 	inline virtual SpaceFloat getRadarRadius() const { return 2.5; }
@@ -72,6 +77,10 @@ public:
     void updateSpellControls(const ControlInfo& cs);
 	void onSpellStop();
 
+	SpaceFloat getSpeedMultiplier();
+	void setFocusMode(bool b);
+	void setSprintMode(bool b);
+
 	void applyAttributeModifier(Attribute id, float val);
     
 	FirePattern* getFirePattern();
@@ -83,6 +92,8 @@ public:
     void onCollectible(Collectible* coll);
 	void applyGraze(int p);
 protected:
+	DrawNode * drawNode;
+
 	void setHudEffect(Attribute id, Attribute max_id);
 	void updateHudAttribute(Attribute id);
 
@@ -103,6 +114,8 @@ protected:
 
 	bool suppressFiring = false;
 	bool suppressMovement = false;
+	bool isSprintActive = false;
+	bool isFocusActive = false;
 };
 
 class FlandrePC : virtual public Player, public BaseAttributes<FlandrePC>

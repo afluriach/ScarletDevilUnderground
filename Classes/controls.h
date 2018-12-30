@@ -57,6 +57,9 @@ enum class ControlAction
 	aim_pad_down,
 	aim_pad_left,
 
+	sprint,
+	walk,
+
 	end
 };
 
@@ -66,6 +69,7 @@ class ControlInfo
 {
 public:
 	bool isControlActionPressed(ControlAction id) const;
+	bool isControlActionDown(ControlAction id) const;
 
 	ControlActionState action_state_prev, action_state_crnt;
 	SpaceVect left_v, right_v;
