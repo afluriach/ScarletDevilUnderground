@@ -42,6 +42,7 @@ public:
 	float _getAttribute(int id) const;
 	void _modifyAttribute(int id, float val);
 
+	virtual SpaceFloat getTraction() const;
 
 	virtual SpaceFloat getMaxSpeed() const;
 	virtual SpaceFloat getMaxAcceleration() const;

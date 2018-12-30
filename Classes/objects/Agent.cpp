@@ -103,6 +103,21 @@ void Agent::_modifyAttribute(int id, float val)
 	attributeSystem.modifyAttribute(static_cast<Attribute>(id), val);
 }
 
+SpaceFloat Agent::getTraction() const
+{
+	if (getAttribute(Attribute::iceSensitivity) >= 1.0f) {
+		return GObject::getTraction();
+	}
+	else
+	{
+		SpaceFloat traction = GObject::getTraction();
+
+		traction += (1.0 - traction) * (1.0 - getAttribute(Attribute::iceSensitivity));
+
+		return traction;
+	}
+}
+
 SpaceFloat Agent::getMaxSpeed() const
 {
 	return attributeSystem.getAdjustedValue(Attribute::speed);

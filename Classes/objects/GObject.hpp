@@ -151,6 +151,7 @@ public:
 
 	virtual CCRect getBoundingBox() = 0;
 	virtual SpaceVect getDimensions() const = 0;
+	virtual SpaceFloat getTraction() const;
 
     SpaceVect getPos() const;
     void setPos(SpaceVect p);

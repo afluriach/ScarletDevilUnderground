@@ -369,6 +369,10 @@ void GObject::updateRadarPos()
 		radar->setPos(body->getPos());
 }
 
+SpaceFloat GObject::getTraction() const
+{
+	return crntFloorCenterContact.isValid() ? crntFloorCenterContact.get()->getFrictionCoeff() : 1.0;
+}
 
 //END PHYSICS
 

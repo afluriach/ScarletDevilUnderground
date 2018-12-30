@@ -29,7 +29,7 @@ namespace ai{
 void applyDesiredVelocity(GObject* obj, SpaceVect desired, SpaceFloat acceleration)
 {
 	SpaceVect floorVel = obj->crntFloorCenterContact.isValid() ? obj->crntFloorCenterContact.get()->getVel() : SpaceVect::zero;
-	SpaceFloat traction = obj->crntFloorCenterContact.isValid() ? obj->crntFloorCenterContact.get()->getFrictionCoeff() : 1.0;
+	SpaceFloat traction = obj->getTraction();
 
 	desired += floorVel;
 	acceleration *= traction;
