@@ -126,3 +126,13 @@ shared_ptr<MagicEffect> CirnoLargeIceBullet::getMagicEffect(gobject_ref target)
 	return nullptr;
 }
 
+CirnoIceShieldBullet::CirnoIceShieldBullet(GSpace* space, ObjectIDType id, SpaceFloat angle, const SpaceVect& pos) :
+	GObject(space, id, "", pos, angle, true)
+{}
+
+AttributeMap CirnoIceShieldBullet::getAttributeEffect() const {
+	return {
+		{ Attribute::hp, -1 },
+		{ Attribute::iceDamage, 50 }
+	};
+}

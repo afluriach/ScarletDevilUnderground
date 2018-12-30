@@ -272,6 +272,21 @@ void Bullet::onAgentCollide(Agent* agent)
 	space->removeObject(this);
 }
 
+void PlayerShield::onWallCollide(Wall* wall)
+{
+	//NO-OP
+}
+
+void PlayerShield::onEnvironmentCollide(GObject* obj)
+{
+	//NO-OP
+}
+
+void PlayerShield::onAgentCollide(Agent* agent)
+{
+	agent->hit(getAttributeEffect(), getMagicEffect(agent));
+}
+
 EnemyBullet::EnemyBullet(SpaceFloat grazeRadius, int grazeBonus) :
 grazeRadius(grazeRadius),
 grazeBonus(grazeBonus)

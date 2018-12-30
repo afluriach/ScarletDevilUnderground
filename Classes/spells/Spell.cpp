@@ -365,3 +365,77 @@ void PlayerDarkMist::end()
 	caster->sprite->setOpacity(255);
 	caster->setInvisible(false);
 }
+
+const string PlayerIceShield::name = "PlayerIceShield";
+const string PlayerIceShield::description = "";
+
+const int PlayerIceShield::initialCost = 1;
+const int PlayerIceShield::costPerSecond = 0;
+
+const SpaceFloat PlayerIceShield::speed = 9.0;
+
+const SpaceFloat PlayerIceShield::distance = 3.0;
+const SpaceFloat PlayerIceShield::circumference = 2.0 * float_pi * distance;
+const SpaceFloat PlayerIceShield::inv_circumference = 1.0 / circumference;
+
+PlayerIceShield::PlayerIceShield(GObject* caster, const ValueMap& args, SpellDesc* descriptor) :
+	Spell(caster, args, descriptor)
+{}
+
+void PlayerIceShield::init()
+{
+	PlayerSpell::init();
+
+	SpaceVect origin = caster->getPos();
+
+	for_irange(i,0,bulletCount)
+	{
+		SpaceFloat angle = (1.0 * i / bulletCount) * (float_pi * 2.0);
+		SpaceVect pos = SpaceVect::ray(distance, angle);
+		
+		bullets[i] = caster->space->createObject(
+			GObject::make_object_factory<CirnoIceShieldBullet>(
+				angle - float_pi / 2.0,
+				origin + pos
+			)
+		);
+	}
+}
+
+void PlayerIceShield::update()
+{
+	PlayerSpell::update();
+
+	//Update angle based on linear speed
+	SpaceFloat dp = App::secondsPerFrame * speed;
+	crntAngle += dp * inv_circumference * float_pi * 2.0;
+
+	if (crntAngle >= 2.0*float_pi) {
+		crntAngle -= 2.0*float_pi;
+	}
+
+	SpaceVect origin = caster->getPos();
+
+	for_irange(i, 0, bulletCount)
+	{
+		SpaceFloat angle = (1.0 * i / bulletCount) * (float_pi * 2.0) + crntAngle;
+		SpaceVect pos = SpaceVect::ray(distance, angle);
+		SpaceVect vel = SpaceVect::ray(speed, angle - float_pi/2.0); 
+
+		if (bullets[i].isValid()) {
+			bullets[i].get()->setPos(origin + pos);
+			bullets[i].get()->setVel(vel);
+		}
+	}
+}
+
+void PlayerIceShield::end()
+{
+	for (auto ref : bullets)
+	{
+		if (ref.isValid()) {
+			caster->space->removeObject(ref.get());
+		}
+	}
+}
+

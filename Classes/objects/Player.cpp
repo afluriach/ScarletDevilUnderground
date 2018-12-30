@@ -406,4 +406,5 @@ void CirnoPC::setFirePatterns()
 
 void CirnoPC::equipSpells() {
 	//NO-OP
+	equippedSpell = Spell::spellDescriptors.find("PlayerIceShield")->second.get();
 }

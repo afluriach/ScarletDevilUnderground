@@ -13,6 +13,7 @@
 #include "GObject.hpp"
 #include "LuaAPI.hpp"
 #include "macros.h"
+#include "object_ref.hpp"
 #include "types.h"
 #include "util.h"
 
@@ -20,6 +21,7 @@
 
 typedef function<unique_ptr<Spell>(GObject*)> SpellGeneratorType;
 
+class CirnoIceShieldBullet;
 class SpellDesc;
 class TeleportPad;
 
@@ -275,5 +277,30 @@ protected:
 	int framesSinceDrain = 0;
 };
 
+class PlayerIceShield : virtual public Spell, public PlayerSpell {
+public:
+	static const string name;
+	static const string description;
+
+	static const int initialCost;
+	static const int costPerSecond;
+
+	static constexpr size_t bulletCount = 8;
+	static const SpaceFloat speed;
+	static const SpaceFloat distance;
+	static const SpaceFloat circumference;
+	static const SpaceFloat inv_circumference;
+
+	PlayerIceShield(GObject* caster, const ValueMap& args, SpellDesc* descriptor);
+	virtual void init();
+	virtual void update();
+	virtual void end();
+
+	virtual inline SpaceFloat getMass() const { return 99.0; }
+
+protected:
+	array<object_ref<CirnoIceShieldBullet>, bulletCount> bullets;
+	SpaceFloat crntAngle = 0.0;
+};
 
 #endif /* Spell_hpp */

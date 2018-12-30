@@ -245,6 +245,20 @@ public:
 	virtual inline GType getType() const { return GType::playerBullet; }
 };
 
+class PlayerShield : virtual public GObject, public Bullet
+{
+public:
+	inline PlayerShield() {}
+
+	virtual inline GType getType() const { return GType::playerBullet; }
+
+	//Shield bullet is no-collide with normal obstacles, and is not consumed
+	//upon contactwith an enemy.
+	virtual void onWallCollide(Wall* wall);
+	virtual void onEnvironmentCollide(GObject* obj);
+	virtual void onAgentCollide(Agent* agent);
+};
+
 class EnemyBullet : virtual public GObject, public Bullet
 {
 public:
