@@ -28,6 +28,7 @@ namespace ai{
 //Not strictly an AI function since it's used to control the player.
 void applyDesiredVelocity(GObject* obj, SpaceVect desired, SpaceFloat maxForce);
 void seek(GObject* agent, SpaceVect target, SpaceFloat maxSpeed, SpaceFloat acceleration);
+void arrive(GObject* agent, SpaceVect target);
 SpaceVect fleeDirection(const GObject* agent, SpaceVect target);
 void flee(GObject* agent, SpaceVect target, SpaceFloat maxSpeed, SpaceFloat acceleration);
 void fleeWithObstacleAvoidance(GObject* agent, SpaceVect target, SpaceFloat maxSpeed, SpaceFloat acceleration);

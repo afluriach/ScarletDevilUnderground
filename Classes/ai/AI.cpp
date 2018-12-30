@@ -168,6 +168,20 @@ void seek(GObject* agent, SpaceVect target, SpaceFloat maxSpeed, SpaceFloat acce
     applyDesiredVelocity(agent, direction*maxSpeed, acceleration);
 }
 
+void arrive(GObject* agent, SpaceVect target)
+{
+	SpaceVect displacement = target - agent->getPos();
+	SpaceFloat distance = displacement.length();
+	SpaceFloat arrivalTime = distance / agent->getVel().length();
+	SpaceFloat accelMag = 2.0 * distance / arrivalTime / arrivalTime;
+	SpaceVect direction = displacement.normalizeSafe();
+
+	if (displacement.lengthSq() < 1e-4)
+		return;
+
+	applyDesiredVelocity(agent, SpaceVect::zero, accelMag);
+}
+
 void flee(GObject* agent, SpaceVect target, SpaceFloat maxSpeed, SpaceFloat acceleration)
 {
 	SpaceVect displacement = fleeDirection(agent,target);
@@ -868,13 +882,17 @@ MoveToPoint::MoveToPoint(GSpace* space, const ValueMap& args)
 void MoveToPoint::update(StateMachine& fsm)
 {
     SpaceFloat dist2 = (fsm.agent->getPos() - target).lengthSq();
-    
-    if(dist2 < 0.25*0.25){
-        fsm.pop();
-		return;
-    }
-    
-    seek(fsm.agent, target, fsm.agent->getMaxSpeed(), fsm.agent->getMaxAcceleration());
+	SpaceFloat stoppingDist2 = getStoppingDistance(fsm.agent->getVel().length(), fsm.agent->getMaxAcceleration());
+
+	if (dist2 < 0.0625) {
+		fsm.pop();
+	}
+	else if (dist2 <= stoppingDist2) {
+		arrive(fsm.agent, target);
+	}
+	else {
+		seek(fsm.agent, target, fsm.agent->getMaxSpeed(), fsm.agent->getMaxAcceleration());
+	}    
 }
 
 shared_ptr<FollowPath> FollowPath::pathToTarget(GSpace* space, gobject_ref agent, gobject_ref target)
