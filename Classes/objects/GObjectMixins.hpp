@@ -233,6 +233,7 @@ public:
 	virtual void onWallCollide(Wall* wall);
 	virtual void onEnvironmentCollide(GObject* obj);
 	virtual void onAgentCollide(Agent* agent);
+	virtual void onBulletCollide(Bullet* bullet);
 protected:
 	int damage = 1;
 };
@@ -257,6 +258,9 @@ public:
 	virtual void onWallCollide(Wall* wall);
 	virtual void onEnvironmentCollide(GObject* obj);
 	virtual void onAgentCollide(Agent* agent);
+	virtual void onBulletCollide(Bullet* bullet);
+
+	virtual SpaceFloat getKnockbackForce() const = 0;
 };
 
 class EnemyBullet : virtual public GObject, public Bullet

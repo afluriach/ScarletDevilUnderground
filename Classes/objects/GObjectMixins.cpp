@@ -272,6 +272,11 @@ void Bullet::onAgentCollide(Agent* agent)
 	space->removeObject(this);
 }
 
+void Bullet::onBulletCollide(Bullet* bullet)
+{
+	//NO-OP
+}
+
 void PlayerShield::onWallCollide(Wall* wall)
 {
 	//NO-OP
@@ -285,6 +290,17 @@ void PlayerShield::onEnvironmentCollide(GObject* obj)
 void PlayerShield::onAgentCollide(Agent* agent)
 {
 	agent->hit(getAttributeEffect(), getMagicEffect(agent));
+
+	SpaceFloat force = getKnockbackForce();
+
+	if (force > 0.0) {
+		agent->applyImpulse(force, getAngle() + float_pi / 2.0);
+	}
+}
+
+void PlayerShield::onBulletCollide(Bullet* bullet)
+{
+	space->removeObject(bullet);
 }
 
 EnemyBullet::EnemyBullet(SpaceFloat grazeRadius, int grazeBonus) :

@@ -425,6 +425,7 @@ void PlayerIceShield::update()
 		if (bullets[i].isValid()) {
 			bullets[i].get()->setPos(origin + pos);
 			bullets[i].get()->setVel(vel);
+			bullets[i].get()->setAngle(angle);
 		}
 	}
 }

@@ -215,6 +215,8 @@ public:
 	inline virtual float zoom() const { return getRadius() / spriteBaseRadius * 2; }
 
 	virtual AttributeMap getAttributeEffect() const;
+
+	inline virtual SpaceFloat getKnockbackForce() const { return 99.0; }
 };
 
 #endif /* Bullet_hpp */

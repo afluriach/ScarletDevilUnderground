@@ -500,7 +500,7 @@ void GSpace::addCollisionHandlers()
 	_addHandlerNoEnd(enemyBullet, environment, bulletEnvironment);
 	_addHandlerNoEnd(playerBullet, foliage, noCollide);
 	_addHandlerNoEnd(enemyBullet, foliage, noCollide);
-	_addHandlerNoEnd(playerBullet, enemyBullet, noCollide);
+	_addHandlerNoEnd(playerBullet, enemyBullet, bulletBulletBegin);
 	_addHandlerNoEnd(player, foliage, playerFlowerBegin);
     _addHandlerNoEnd(player,collectible,playerCollectibleBegin);
     _addHandlerNoEnd(player,npc,collide);
@@ -783,6 +783,20 @@ int GSpace::playerBulletEnemyBegin(GObject* a, GObject* b)
     
     return 1;
 }
+
+int GSpace::bulletBulletBegin(GObject* a, GObject* b)
+{
+	Bullet* _a = dynamic_cast<Bullet*>(a);
+	Bullet* _b = dynamic_cast<Bullet*>(b);
+
+	if (_a && _b) {
+		_a->onBulletCollide(_b);
+		_b->onBulletCollide(_a);
+	}
+
+	return 0;
+}
+
 
 int GSpace::agentEffectAreaBegin(GObject* a, GObject* b)
 {
