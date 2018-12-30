@@ -18,8 +18,8 @@ Scorpion1::Scorpion1(GSpace* space, ObjectIDType id, const ValueMap& args) :
 }
 
 const AttributeMap Scorpion1::baseAttributes = {
-	{ Attribute::maxHP, 15.0f },
-	{ Attribute::speed, 4.5f },
+	{ Attribute::maxHP, 25.0f },
+	{ Attribute::speed, 2.0f },
 	{ Attribute::acceleration, 6.0f }
 };
 
@@ -27,8 +27,12 @@ void Scorpion1::initStateMachine(ai::StateMachine& sm)
 {
 	auto detectMain = make_shared<ai::Detect>(
 		"player",
-		[](GObject* target) -> shared_ptr<ai::Function> {
-			return make_shared<ai::Seek>(target);
+		[sm](GObject* target) -> shared_ptr<ai::Function> {
+			return make_shared<ai::Scurry>(
+				target->space,
+				ai::directionToTarget(sm.agent, target->getPos()).rotate(float_pi/2.0) * 3.0,
+				-1.0
+			);
 		}
 	);
 	fsm.addThread(detectMain);

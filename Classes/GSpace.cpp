@@ -995,6 +995,11 @@ int GSpace::spawnerObjectEnd(GObject* spawner, GObject* obj)
 
 SpaceFloat GSpace::distanceFeeler(const GObject * agent, SpaceVect _feeler, GType gtype) const
 {
+	return distanceFeeler(agent, _feeler, gtype, PhysicsLayers::all);
+}
+
+SpaceFloat GSpace::distanceFeeler(const GObject * agent, SpaceVect _feeler, GType gtype, PhysicsLayers layers) const
+{
     SpaceVect start = agent->getPos();
     SpaceVect end = start + _feeler;
     
@@ -1011,7 +1016,7 @@ SpaceFloat GSpace::distanceFeeler(const GObject * agent, SpaceVect _feeler, GTyp
     space.segmentQuery(
         start,
         end,
-        static_cast<unsigned int>(PhysicsLayers::all),
+        static_cast<unsigned int>(layers),
         static_cast<unsigned int>(gtype),
         queryCallback);
     
@@ -1026,10 +1031,16 @@ SpaceFloat GSpace::wallDistanceFeeler(const GObject * agent, SpaceVect feeler) c
 SpaceFloat GSpace::obstacleDistanceFeeler(const GObject * agent, SpaceVect _feeler) const
 {
     return vmin(
+		trapFloorDistanceFeeler(agent,_feeler),
         wallDistanceFeeler(agent, _feeler),
         distanceFeeler(agent, _feeler, GType::environment),
         distanceFeeler(agent, _feeler, GType::enemy)
     );
+}
+
+SpaceFloat GSpace::trapFloorDistanceFeeler(const GObject* agent, SpaceVect feeler) const
+{
+	return distanceFeeler(agent, feeler, GType::floorSegment, PhysicsLayers::belowFloor);
 }
 
 bool GSpace::feeler(const GObject * agent, SpaceVect _feeler, GType gtype) const

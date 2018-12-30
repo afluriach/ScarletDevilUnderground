@@ -629,6 +629,39 @@ void OccupyMidpoint::update(StateMachine& sm)
 	seek(sm.agent, midpoint, sm.agent->getMaxSpeed(), sm.agent->getMaxAcceleration());
 }
 
+Scurry::Scurry(GSpace* space, SpaceVect displacement, SpaceFloat length) :
+displacement(displacement)
+{
+	startFrame = space->getFrame();
+
+	if (length > 0.0)
+		endFrame = startFrame + App::framesPerSecond*length;
+	else
+		endFrame = 0;
+}
+
+void Scurry::update(StateMachine& sm)
+{
+	if (endFrame != 0 && sm.agent->space->getFrame() >= endFrame) {
+		sm.pop();
+	}
+
+	SpaceFloat angle = displacement.toAngle();
+	if (!scurryLeft) {
+		angle += float_pi;
+	}
+	scurryLeft = !scurryLeft;
+
+	array<SpaceFloat, 8> obstacleFeelers = obstacleFeeler8(sm.agent, displacement.length());
+	int direction = chooseBestDirection(obstacleFeelers, angle, displacement.length());
+
+	if (direction != -1) {
+		sm.push(make_shared <MoveToPoint>(
+			sm.agent->getPos() + SpaceVect::ray(displacement.length(), direction * float_pi / 4.0)
+		));
+	}
+}
+
 Flee::Flee(GSpace* space, const ValueMap& args) {
     if(args.find("target_name") == args.end()){
         log("Seek::Seek: target_name missing.");

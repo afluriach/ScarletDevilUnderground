@@ -306,9 +306,12 @@ public:
 	bool rectangleQuery(SpaceVect center, SpaceVect dimensions, GType type, PhysicsLayers layers);
 
     SpaceFloat distanceFeeler(const GObject * agent, SpaceVect feeler, GType gtype) const;
+	SpaceFloat distanceFeeler(const GObject * agent, SpaceVect _feeler, GType gtype, PhysicsLayers layers) const;
+
     SpaceFloat obstacleDistanceFeeler(const GObject * agent, SpaceVect feeler) const;
     SpaceFloat wallDistanceFeeler(const GObject * agent, SpaceVect feeler) const;
-    
+	SpaceFloat trapFloorDistanceFeeler(const GObject* agent, SpaceVect feeler) const;
+
     bool feeler(const GObject * agent, SpaceVect feeler, GType gtype) const;
     bool feeler(const GObject * agent, SpaceVect feeler, GType gtype, PhysicsLayers layers) const;
     bool obstacleFeeler(const GObject * agent, SpaceVect feeler) const;

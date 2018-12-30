@@ -320,6 +320,23 @@ protected:
 	gobject_ref target1, target2;
 };
 
+class Scurry : public Function {
+public:
+	Scurry(GSpace* space, SpaceVect displacement, SpaceFloat length);
+
+	virtual void update(StateMachine& sm);
+
+	inline virtual bitset<lockCount> getLockMask() {
+		return make_enum_bitfield(ResourceLock::movement);
+	}
+
+	FuncGetName(Scurry)
+protected:
+	unsigned int startFrame, endFrame;
+	SpaceVect displacement;
+	bool scurryLeft = true;
+};
+
 
 class Flee : public Function {
 public:
