@@ -17,6 +17,11 @@
 #include "SpaceLayer.h"
 #include "value_map.hpp"
 
+WaterBullet::WaterBullet(GSpace* space, ObjectIDType id, SpaceFloat angle, const SpaceVect& pos, SpaceFloat speed) :
+	GObject(space, id, "", pos, angle, true),
+	MaxSpeedImpl(speed)
+{}
+
 const vector<string> StarBullet::colors = {
 	"blue",
 	"green",

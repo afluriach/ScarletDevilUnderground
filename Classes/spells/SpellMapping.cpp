@@ -28,5 +28,6 @@ const unordered_map<string, shared_ptr<SpellDesc>> Spell::spellDescriptors = {
 	entry_same(PlayerBatMode),
 	entry_same(PlayerDarkMist),
 	entry_same(PlayerIceShield),
-	entry_same(StarlightTyphoon)
+	entry_same(StarlightTyphoon),
+	entry_same(Whirlpool),
 };

@@ -15,6 +15,7 @@
 #include "Spell.hpp"
 #include "SpellDescriptor.hpp"
 #include "TeleportPad.hpp"
+#include "util.h"
 #include "value_map.hpp"
 
 shared_ptr<SpellDesc> Spell::getDescriptor(const string& name)
@@ -88,6 +89,64 @@ void FlameFence::end()
         if(bullet.isValid())
             caster->space->removeObject(bullet.get());
     }
+}
+
+const string Whirlpool::name = "Whirlpool";
+const string Whirlpool::description = "";
+
+const int Whirlpool::initialCost = 0;
+const int Whirlpool::costPerSecond = 0;
+
+const int Whirlpool::shotsPerSecond = 4;
+
+const SpaceFloat Whirlpool::angularSpeed = float_pi / 6.0;
+const SpaceFloat Whirlpool::angularOffset = float_pi / 12.0;
+const SpaceFloat Whirlpool::bulletSpeed = 6.0;
+
+Whirlpool::Whirlpool(GObject* caster) :
+	Spell(caster, {}, Spell::getDescriptor("Whirlpool").get())
+{
+}
+
+void Whirlpool::init()
+{
+	caster->setAngularVel(angularSpeed);
+}
+
+void Whirlpool::update()
+{
+	timerDecrement(shotTimer);
+
+	SpaceFloat angle = caster->getAngle();
+	SpaceVect pos = caster->getPos();
+
+	array<SpaceFloat, 6> angles;
+
+	angles[0] = angle - angularOffset;
+	angles[1] = angle;
+	angles[2] = angle + angularOffset;
+
+	angles[3] = float_pi + angle - angularOffset;
+	angles[4] = float_pi + angle;
+	angles[5] = float_pi + angle + angularOffset;
+
+	if (shotTimer <= 0.0) {
+
+		for_irange(i, 0, 6) {
+			caster->space->createObject(GObject::make_object_factory<WaterBullet>(
+				angles[i],
+				pos + SpaceVect::ray(1.0, angles[i]),
+				bulletSpeed
+			));
+		}
+
+		shotTimer = 1.0 / shotsPerSecond;
+	}
+}
+
+void Whirlpool::end()
+{
+
 }
 
 const string Teleport::name = "Teleport";

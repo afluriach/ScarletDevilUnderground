@@ -13,13 +13,17 @@
 #include "GObjectMixins.hpp"
 #include "types.h"
 
-class WaterBullet : virtual public GObject, public EnemyBullet, public CircleBody, public ImageSprite
+class WaterBullet :
+virtual public GObject,
+public EnemyBullet,
+public CircleBody,
+public ImageSprite,
+public MaxSpeedImpl,
+public DirectionalLaunch
 {
 public:
 
-    inline WaterBullet(GSpace* space, ObjectIDType id, const ValueMap& args) :
-	MapObjForwarding(GObject)
-	{}
+	WaterBullet(GSpace* space, ObjectIDType id, SpaceFloat angle, const SpaceVect& pos, SpaceFloat speed);
 
     virtual inline SpaceFloat getMaxSpeed() const {return 6.0;}
 	virtual inline SpaceFloat getRadius() const { return 0.3; }

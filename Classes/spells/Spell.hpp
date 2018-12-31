@@ -87,6 +87,31 @@ protected:
     vector<gobject_ref> bullets;
 };
 
+class Whirlpool : public Spell {
+public:
+	static const string name;
+	static const string description;
+
+	static const int initialCost;
+	static const int costPerSecond;
+
+	static const int shotsPerSecond;
+
+	static const SpaceFloat angularSpeed;
+	static const SpaceFloat angularOffset;
+	static const SpaceFloat bulletSpeed;
+
+	STANDARD_CONS(Whirlpool)
+	Whirlpool(GObject* caster);
+
+	void init();
+	void update();
+	void end();
+protected:
+	SpaceFloat shotTimer = 0.0;
+};
+
+
 class Teleport : public Spell {
 public:
 	static const string name;
