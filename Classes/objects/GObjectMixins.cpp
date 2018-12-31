@@ -303,43 +303,12 @@ void PlayerShield::onBulletCollide(Bullet* bullet)
 	space->removeObject(bullet);
 }
 
-EnemyBullet::EnemyBullet(SpaceFloat grazeRadius, int grazeBonus) :
-grazeRadius(grazeRadius),
-grazeBonus(grazeBonus)
+EnemyBullet::EnemyBullet()
 {}
-
-void EnemyBullet::onGrazeTouch(object_ref<Player> p)
-{
-	grazeTarget = p;
-}
 
 void EnemyBullet::invalidateGraze()
 {
 	grazeValid = false;
-}
-
-void EnemyBullet::onGrazeCleared(object_ref<Player> p)
-{
-	if(grazeTarget == p && p.isValid() && grazeValid)
-	{
-		p.get()->applyGraze(grazeBonus);
-	}
-}
-
-void EnemyBullet::initializeRadar(GSpace& space)
-{
-	if (grazeRadius <= 0.0)
-		return;
-
-	radar = space.createCircleBody(
-		initialCenter,
-		grazeRadius,
-		0.1,
-		GType::enemyBulletRadar,
-		PhysicsLayers::all,
-		true,
-		this
-	);
 }
 
 //END TYPE

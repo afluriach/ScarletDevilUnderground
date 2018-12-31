@@ -33,7 +33,6 @@ AttributeMap StarBullet::getAttributeEffect() const {
 }
 
 IceFairyBullet::IceFairyBullet(GSpace* space, ObjectIDType id, SpaceFloat angle, const SpaceVect& pos) :
-	EnemyBullet(0.6,5),
 	GObject(space, id, "IceFairyBullet", pos, angle, true)
 {}
 

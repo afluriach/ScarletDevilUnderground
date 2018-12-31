@@ -32,6 +32,9 @@ const float Player::hitFlickerInterval = 0.333f;
 const SpaceFloat Player::sprintSpeedRatio = 1.5;
 const SpaceFloat Player::focusSpeedRatio = 0.5;
 
+const SpaceFloat Player::interactDistance = 1.25;
+const SpaceFloat Player::grazeRadius = 0.7;
+
 Player::Player(GSpace* space, ObjectIDType id, const ValueMap& args) :
 	MapObjForwarding(Agent),
 	RegisterUpdate<Player>(this)
@@ -62,6 +65,11 @@ void Player::onPitfall()
 		playScene->triggerGameOver();
 	}
 	GObject::onPitfall();
+}
+
+SpaceVect Player::getInteractFeeler() const
+{
+	return SpaceVect::ray(interactDistance, getAngle());
 }
 
 void Player::init()
@@ -165,8 +173,8 @@ void Player::checkFireControls(const ControlInfo& cs)
 void Player::checkItemInteraction(const ControlInfo& cs)
 {
 	timerDecrement(interactCooldown);
-	GObject* item = getSensedObject();
-	InteractibleObject* interactible = dynamic_cast<InteractibleObject*>(item);
+
+	InteractibleObject* interactible = space->interactibleObjectFeeler(this, getInteractFeeler());
 	
 	if(interactible && interactible->canInteract())
     {
@@ -312,11 +320,26 @@ void Player::onCollectible(Collectible* coll)
 	}
 }
 
+void Player::onGrazeTouch(object_ref<EnemyBullet> bullet)
+{
+	if (bullet.isValid() && bullet.get()->grazeValid) {
+		grazeContacts.insert(bullet);
+	}
+}
+
+//Effect is applied after the graze "radar" loses contact.
+void Player::onGrazeCleared(object_ref<EnemyBullet> bullet)
+{
+	if (bullet.isValid() && bullet.get()->grazeValid) {
+		grazeContacts.erase(bullet);
+		applyGraze(1);
+	}
+}
+
 void Player::applyGraze(int p)
 {
 	attributeSystem.modifyAttribute(Attribute::power, p);
 }
-
 
 bool Player::trySetFirePattern(int idx)
 {

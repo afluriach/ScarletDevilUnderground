@@ -494,7 +494,7 @@ void GSpace::addCollisionHandlers()
 {
 	_addHandler(player, enemy, playerEnemyBegin, playerEnemyEnd);
 	_addHandlerNoEnd(player, enemyBullet, playerEnemyBulletBegin);
-	_addHandler(player, enemyBulletRadar, playerEnemyBulletRadarBegin,playerEnemyBulletRadarEnd);
+	_addHandler(playerGrazeRadar, enemyBullet, playerGrazeRadarBegin,playerGrazeRadarEnd);
 	_addHandlerNoEnd(playerBullet, enemy, playerBulletEnemyBegin);
 	_addHandlerNoEnd(playerBullet, environment, bulletEnvironment);
 	_addHandlerNoEnd(enemyBullet, environment, bulletEnvironment);
@@ -509,9 +509,6 @@ void GSpace::addCollisionHandlers()
 
 	_addHandler(playerSensor, player, sensorStart, sensorEnd);
 	_addHandler(playerSensor, playerBullet, sensorStart, sensorEnd);
-	_addHandler(objectSensor, enemy, sensorStart, sensorEnd);
-	_addHandler(objectSensor, environment, sensorStart, sensorEnd);
-    _addHandler(objectSensor, npc, sensorStart, sensorEnd);
 
 	_addHandler(floorSegment, player, floorObjectBegin, floorObjectEnd);
 	_addHandler(floorSegment, enemy, floorObjectBegin, floorObjectEnd);
@@ -740,25 +737,25 @@ int GSpace::playerEnemyBulletBegin(GObject* playerObj, GObject* bullet)
     return 1;
 }
 
-int GSpace::playerEnemyBulletRadarBegin(GObject* playerObj, GObject* bullet)
+int GSpace::playerGrazeRadarBegin(GObject* playerRadar, GObject* bullet)
 {
-	Player* player = dynamic_cast<Player*>(playerObj);
+	Player* player = dynamic_cast<Player*>(playerRadar);
 	EnemyBullet* _bullet = dynamic_cast<EnemyBullet*>(bullet);
 
 	if (player && _bullet) {
-		_bullet->onGrazeTouch(player);
+		player->onGrazeTouch(_bullet);
 	}
 
 	return 1;
 }
 
-int GSpace::playerEnemyBulletRadarEnd(GObject* playerObj, GObject* bullet)
+int GSpace::playerGrazeRadarEnd(GObject* playerRadar, GObject* bullet)
 {
-	Player* player = dynamic_cast<Player*>(playerObj);
+	Player* player = dynamic_cast<Player*>(playerRadar);
 	EnemyBullet* _bullet = dynamic_cast<EnemyBullet*>(bullet);
 
 	if (player && _bullet) {
-		_bullet->onGrazeCleared (player);
+		player->onGrazeCleared(_bullet);
 	}
 
 	return 1;
@@ -1072,6 +1069,34 @@ bool GSpace::feeler(const GObject * agent, SpaceVect _feeler, GType gtype, Physi
     return collision;
 }
 
+GObject* GSpace::objectFeeler(const GObject * agent, SpaceVect feeler, GType gtype, PhysicsLayers layers) const
+{
+	SpaceVect start = agent->getPos();
+	SpaceVect end = start + feeler;
+
+	GObject* bestResult = nullptr;
+	SpaceFloat bestDistance = feeler.length();
+
+	auto queryCallback = [agent, &bestResult, &bestDistance](std::shared_ptr<Shape> shape, cp::Float distance, cp::Vect vect) -> void {
+
+		GObject* _crntObj = static_cast<GObject*>(shape->getUserData());
+
+		if (_crntObj && _crntObj != agent && distance < bestDistance) {
+			bestResult = _crntObj;
+			bestDistance = distance;
+		}
+	};
+
+	space.segmentQuery(
+		start,
+		end,
+		static_cast<unsigned int>(layers),
+		static_cast<unsigned int>(gtype),
+		queryCallback);
+
+	return bestResult;
+}
+
 bool GSpace::wallFeeler(const GObject * agent, SpaceVect _feeler) const
 {
     return feeler(agent, _feeler, GType::wall);
@@ -1086,6 +1111,24 @@ bool GSpace::obstacleFeeler(const GObject * agent, SpaceVect _feeler) const
         feeler(agent, _feeler, GType::player) ||
         feeler(agent, _feeler, GType::enemy)
     ;
+}
+
+InteractibleObject* GSpace::interactibleObjectFeeler(const GObject* agent, SpaceVect feeler) const
+{
+	array<GObject*, 3> objects;
+	objects[0] = objectFeeler(agent, feeler, GType::npc, PhysicsLayers::all);
+	objects[1] = objectFeeler(agent, feeler, GType::enemy, PhysicsLayers::all);
+	objects[2] = objectFeeler(agent, feeler, GType::environment, PhysicsLayers::all);
+
+	for (GObject* obj : objects) {
+		InteractibleObject* _interact = dynamic_cast<InteractibleObject*>(obj);
+
+		if (_interact) {
+			return _interact;
+		}
+	}
+
+	return nullptr;
 }
 
 bool GSpace::lineOfSight(const GObject* agent, const GObject * target) const

@@ -15,6 +15,7 @@
 class FloorSegment;
 class GObject;
 class GScene;
+class InteractibleObject;
 class SpaceLayer;
 
 #define OBJS_FROM_ARB \
@@ -276,8 +277,8 @@ private:
 	int playerEnemyBegin(GObject* a, GObject* b);
 	int playerEnemyEnd(GObject* a, GObject* b);
 	int playerEnemyBulletBegin(GObject* playerObj, GObject* bullet);
-	int playerEnemyBulletRadarBegin(GObject* playerObj, GObject* bullet);
-	int playerEnemyBulletRadarEnd(GObject* playerObj, GObject* bullet);
+	int playerGrazeRadarBegin(GObject* playerObj, GObject* bullet);
+	int playerGrazeRadarEnd(GObject* playerObj, GObject* bullet);
 	int playerBulletEnemyBegin(GObject* a, GObject* b);
 	int bulletBulletBegin(GObject* a, GObject* b);
 	int agentEffectAreaBegin(GObject* a, GObject* b);
@@ -314,9 +315,11 @@ public:
 
     bool feeler(const GObject * agent, SpaceVect feeler, GType gtype) const;
     bool feeler(const GObject * agent, SpaceVect feeler, GType gtype, PhysicsLayers layers) const;
-    bool obstacleFeeler(const GObject * agent, SpaceVect feeler) const;
+	GObject* objectFeeler(const GObject * agent, SpaceVect feeler, GType gtype, PhysicsLayers layers) const;
+	bool obstacleFeeler(const GObject * agent, SpaceVect feeler) const;
     bool wallFeeler(const GObject * agent, SpaceVect feeler) const;
-    
+	InteractibleObject* interactibleObjectFeeler(const GObject* agent, SpaceVect feeler) const;
+
     bool lineOfSight(const GObject * agent, const GObject * target) const;
 //END SENSORS
 };

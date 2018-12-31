@@ -15,6 +15,7 @@
 #include "GObject.hpp"
 #include "GObjectMixins.hpp"
 #include "macros.h"
+#include "object_ref.hpp"
 #include "scenes.h"
 
 class Collectible;
@@ -33,6 +34,9 @@ public:
 
 	static const SpaceFloat sprintSpeedRatio;
 	static const SpaceFloat focusSpeedRatio;
+	
+	static const SpaceFloat interactDistance;
+	static const SpaceFloat grazeRadius;
 
 	MapObjCons(Player);
     
@@ -44,8 +48,8 @@ public:
 	virtual void initializeGraphics(SpaceLayer* layer);
     
     //setting for player object sensing
-	inline virtual SpaceFloat getRadarRadius() const { return 2.5; }
-	inline virtual GType getRadarType() const { return GType::objectSensor; }
+	inline virtual SpaceFloat getRadarRadius() const { return grazeRadius; }
+	inline virtual GType getRadarType() const { return GType::playerGrazeRadar; }
     inline virtual SpaceFloat getDefaultFovAngle() const { return float_pi / 4.0;}
 
 	bool isProtected() const;
@@ -65,6 +69,8 @@ public:
     
     inline GraphicsLayer sceneLayer() const {return GraphicsLayer::ground;}
     
+	SpaceVect getInteractFeeler() const;
+
 	void init();
     void update();
     void updateHitTime();
@@ -90,9 +96,16 @@ public:
 	bool trySetFirePatternPrevious();
 
     void onCollectible(Collectible* coll);
-	void applyGraze(int p);
+
+	//The bullet's graze "radar" has collided with Player.
+	void onGrazeTouch(object_ref<EnemyBullet> bullet);
+	//Effect is applied after the graze "radar" loses contact.
+	void onGrazeCleared(object_ref<EnemyBullet> bullet);
+	void invalidateGraze(object_ref<EnemyBullet> bullet);
 protected:
 	DrawNode * drawNode;
+
+	void applyGraze(int p);
 
 	void setHudEffect(Attribute id, Attribute max_id);
 	void updateHudAttribute(Attribute id);
@@ -102,6 +115,8 @@ protected:
 	{
 		return pair<function<void(void)>, GScene::updateOrder>(generate_action(playScene->hud, m, args...), GScene::updateOrder::hudUpdate);
 	}
+
+	set<object_ref<EnemyBullet>> grazeContacts;
 
 	boost::rational<int> interactCooldown = 0;
 
