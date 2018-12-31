@@ -54,6 +54,11 @@ const string FlameFence::description = "";
 const int FlameFence::initialCost = 0;
 const int FlameFence::costPerSecond = 0;
 
+FlameFence::FlameFence(GObject* caster) :
+Spell(caster, {}, Spell::getDescriptor("FlameFence").get())
+{
+}
+
 void FlameFence::init()
 {
     SpaceVect center = caster->body->getPos();

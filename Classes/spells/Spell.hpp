@@ -61,6 +61,14 @@ protected:
     bool active = true;
 };
 
+template<class C>
+inline static SpellGeneratorType make_spell_generator()
+{
+	return [](GObject* caster) -> unique_ptr<Spell> {
+		return make_unique<C>(caster);
+	};
+}
+
 class FlameFence : public Spell{
 public:
 	static const string name;
@@ -69,8 +77,10 @@ public:
 	static const int initialCost;
 	static const int costPerSecond;
 
-    STANDARD_CONS(FlameFence)
-    void init();
+	STANDARD_CONS(FlameFence)
+	FlameFence(GObject* caster);
+    
+	void init();
     void update();
     void end();
 protected:

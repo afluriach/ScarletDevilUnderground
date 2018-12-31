@@ -106,6 +106,7 @@ const unordered_map<string, GObject::AdapterType> GObject::adapters = {
 	entry_same(MineFloor),
 	entry_same(MovingPlatform),
 	entry_same(Patchouli),
+	entry_same(PatchouliEnemy),
 	entry_same(Pitfall),
 	entry_same(PressurePlate),
 	entry_same(Pyramid),
