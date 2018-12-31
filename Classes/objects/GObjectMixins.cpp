@@ -277,6 +277,13 @@ void Bullet::onBulletCollide(Bullet* bullet)
 	//NO-OP
 }
 
+void Bullet::setBodyVisible(bool b)
+{
+	if (drawNode) {
+		drawNode->setVisible(b);
+	}
+}
+
 void PlayerShield::onWallCollide(Wall* wall)
 {
 	//NO-OP

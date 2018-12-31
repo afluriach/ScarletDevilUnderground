@@ -217,6 +217,7 @@ public:
     //BEGIN GRAPHICS
     
     Node* sprite = nullptr;
+	DrawNode* drawNode = nullptr;
 	bool isInFade = false;
     
         //The Z-order used by Cocos2D.

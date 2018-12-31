@@ -14,6 +14,7 @@
 #include "GSpace.hpp"
 #include "macros.h"
 #include "MagicEffect.hpp"
+#include "SpaceLayer.h"
 #include "value_map.hpp"
 
 const vector<string> StarBullet::colors = {
@@ -52,7 +53,8 @@ shared_ptr<MagicEffect> IceFairyBullet::getMagicEffect(gobject_ref target) {
 }
 
 IllusionDialDagger::IllusionDialDagger(GSpace* space, ObjectIDType id, const SpaceVect& pos, SpaceFloat angular_velocity) :
-GObject(space,id,"IllusionDialDagger", pos, true)
+GObject(space,id,"IllusionDialDagger", pos, true),
+RegisterUpdate<IllusionDialDagger>(this)
 {
     setInitialAngularVelocity(angular_velocity);
 }
@@ -77,6 +79,28 @@ void IllusionDialDagger::launch()
     }
     else
         debug_log("player missing");
+}
+
+void IllusionDialDagger::update()
+{
+	if (drawNode) {
+		drawNode->setRotation(-toDegrees(getAngle()));
+	}
+}
+
+void IllusionDialDagger::initializeGraphics(SpaceLayer* layer)
+{
+	ImageSprite::initializeGraphics(layer);
+
+	SpaceVect _dim = getDimensions();
+	float hWidth = _dim.x / 2.0 * App::pixelsPerTile;
+	float hHeight = _dim.y / 2.0 * App::pixelsPerTile;
+	drawNode = DrawNode::create();
+	drawNode->drawSolidRect(Vec2(-hWidth,-hHeight), Vec2(hWidth,hHeight), Color4F(96, 192, 96, 0.7));
+
+	layer->getLayer(GraphicsLayer::agentOverlay)->addChild(drawNode);
+	drawNode->setVisible(false);
+
 }
 
 FlandreBigOrb1::FlandreBigOrb1(GSpace* space, ObjectIDType id, SpaceFloat angle, const SpaceVect& pos) :

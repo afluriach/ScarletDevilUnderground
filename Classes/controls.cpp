@@ -388,6 +388,12 @@ bool ControlInfo::isControlActionPressed(ControlAction id) const
 	return action_state_crnt[to_size_t(id)] && !action_state_prev[to_size_t(id)];
 }
 
+bool ControlInfo::isControlActionReleased(ControlAction id) const
+{
+	return !action_state_crnt[to_size_t(id)] && action_state_prev[to_size_t(id)];
+}
+
+
 bool ControlInfo::isControlActionDown(ControlAction id) const
 {
 	return action_state_crnt[to_size_t(id)];

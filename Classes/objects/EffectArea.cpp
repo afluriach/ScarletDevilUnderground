@@ -54,17 +54,15 @@ SunArea::SunArea(GSpace* space, ObjectIDType id, const ValueMap& args) :
 
 void SunArea::initializeGraphics(SpaceLayer* layer)
 {
-	DrawNode* dn = DrawNode::create();
+	DrawNode* drawNode = DrawNode::create();
 	SpaceVect dim = getDimensions();
-	dn->drawSolidRect(
+	drawNode->drawSolidRect(
 		Vec2(-dim.x, -dim.y) * App::pixelsPerTile / 2.0,
 		Vec2(dim.x, dim.y) * App::pixelsPerTile / 2.0,
 		Color4F(.75f, .75f, .33f, .25f)
 	);
 
-	layer->getLayer(sceneLayer())->positionAndAddNode(dn, 1, getInitialCenterPix(), 1.0f);
-	
-	sprite = dn;	
+	layer->getLayer(sceneLayer())->positionAndAddNode(drawNode, 1, getInitialCenterPix(), 1.0f);	
 }
 
 GraphicsLayer SunArea::sceneLayer() const{

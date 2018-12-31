@@ -234,6 +234,8 @@ public:
 	virtual void onEnvironmentCollide(GObject* obj);
 	virtual void onAgentCollide(Agent* agent);
 	virtual void onBulletCollide(Bullet* bullet);
+
+	void setBodyVisible(bool b);
 protected:
 	int damage = 1;
 };

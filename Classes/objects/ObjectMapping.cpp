@@ -128,5 +128,8 @@ const unordered_map<string, GObject::AdapterType> GObject::adapters = {
 
 const set<type_index> GSpace::trackedTypes = {
 	typeid(Fairy2),
-	typeid(TeleportPad)
+	typeid(TeleportPad),
+
+	//virtual tracked types
+	typeid(EnemyBullet),
 };

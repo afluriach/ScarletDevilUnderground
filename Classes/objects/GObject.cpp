@@ -438,11 +438,11 @@ float GObject::zoom() const {
 
 void GObject::updateSprite()
 {
+	bool visible = space->getScene()->isInCameraArea(getBoundingBox()) &&
+		space->getScene()->isInPlayerRoom(getPos());
+
     if(sprite != nullptr){
         sprite->setPosition(toCocos(body->getPos())*App::pixelsPerTile);
-
-		bool visible = space->getScene()->isInCameraArea(getBoundingBox()) &&
-			space->getScene()->isInPlayerRoom(getPos());
 
 		if (!visible && !isInFade) {
 			sprite->stopActionByTag(to_int(cocos_action_tag::object_fade));
@@ -463,6 +463,10 @@ void GObject::updateSprite()
 			isInFade = false;
 		}
     }
+	if (drawNode && visible && !isInFade)
+	{
+		drawNode->setPosition(toCocos(body->getPos())*App::pixelsPerTile);
+	}
 }
 
 //END GRAPHICS

@@ -54,7 +54,8 @@ void Player::initializeGraphics(SpaceLayer* layer)
 
 	drawNode = DrawNode::create();
 
-	drawNode->drawSolidCircle(Vec2::ZERO, App::pixelsPerTile*getRadius(), 0.0f, 64, Color4F(192, 96, 96, 0.7));
+	drawNode->drawSolidCircle(Vec2::ZERO, App::pixelsPerTile*grazeRadius, 0.0f, 64, Color4F(0.5f, 0.5f, 0.5f, 0.5f));
+	drawNode->drawSolidCircle(Vec2::ZERO, App::pixelsPerTile*getRadius(), 0.0f, 64, Color4F(0.5f, 0.5f, 0.5f, 0.5f));
 
 	layer->getLayer(GraphicsLayer::agentOverlay)->addChild(drawNode);
 }
@@ -102,6 +103,13 @@ void Player::checkMovementControls(const ControlInfo& cs)
 {
 	if (suppressMovement){
 		return;
+	}
+
+	if (cs.isControlActionPressed(ControlAction::walk)) {
+		space->setBulletBodiesVisible(true);
+	}
+	else if (cs.isControlActionReleased(ControlAction::walk)) {
+		space->setBulletBodiesVisible(false);
 	}
 
 	setFocusMode(cs.isControlActionDown(ControlAction::walk));
@@ -203,10 +211,6 @@ void Player::onZeroHP()
 
 void Player::update()
 {
-	if (drawNode) {
-		drawNode->setPosition(toCocos(body->getPos())*App::pixelsPerTile);
-	}
-
 	if (playScene && !playScene->getGameOver()) {
 		ControlInfo cs = playScene->getControlData();
 

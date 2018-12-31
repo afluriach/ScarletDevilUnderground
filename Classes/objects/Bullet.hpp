@@ -110,21 +110,31 @@ public:
 	virtual inline shared_ptr<MagicEffect> getMagicEffect(gobject_ref target) { return nullptr; }
 };
 
-class IllusionDialDagger : virtual public GObject, public EnemyBullet, public RectangleBody, public ImageSprite
+class IllusionDialDagger :
+virtual public GObject,
+public EnemyBullet,
+public RectangleBody,
+public ImageSprite,
+public RegisterUpdate<IllusionDialDagger>
 {
 public:
     //IllusionDaggerBullet(const ValueMap& args);
     IllusionDialDagger(GSpace* space, ObjectIDType id, const SpaceVect& pos, SpaceFloat anglar_velocity);
 
 	virtual inline SpaceFloat getMaxSpeed() const { return 3.0; }
-	virtual inline SpaceVect getDimensions() const { return SpaceVect(0.25, 1.0); }
+
+	virtual inline SpaceVect getDimensions() const { return SpaceVect(0.8, 0.175); }
     
     virtual inline string imageSpritePath() const {return "sprites/knife green.png";}
+
+	virtual void initializeGraphics(SpaceLayer* layer);
     
     inline virtual float zoom() const {return 1.0f;}
     
     SpaceFloat targetViewAngle();
     void launch();
+
+	void update();
 };
 
 class FlandreBigOrb1 : virtual public GObject, public PlayerBullet, public CircleBody, public ImageSprite, public DirectionalLaunch

@@ -251,6 +251,10 @@ void GSpace::processAdditions()
 			objByType[typeid(*obj)].insert(obj);
 		}
 
+		if (dynamic_cast<EnemyBullet*>(obj)) {
+			objByType[typeid(EnemyBullet)].insert(obj);
+		}
+
         if(!obj->anonymous)
             objByName[obj->name] = obj;
         objByUUID[obj->uuid] = obj;
@@ -285,6 +289,16 @@ void GSpace::removeObjectWithAnimation(GObject* obj, FiniteTimeAction* action)
 	toRemoveWithAnimation.push_back(pair<GObject*, FiniteTimeAction*>(obj,action));
 }
 
+void GSpace::setBulletBodiesVisible(bool b)
+{
+	vector<object_ref<EnemyBullet>> bullets = getObjectsByTypeAs<EnemyBullet>();
+
+	for (auto ref : bullets)
+	{
+		ref.get()->setBodyVisible(b);
+	}
+}
+
 void GSpace::processRemoval(GObject* obj, bool removeSprite)
 {
 	obj->onRemove();
@@ -294,6 +308,10 @@ void GSpace::processRemoval(GObject* obj, bool removeSprite)
 
 	if (trackedTypes.find(typeid(*obj)) != trackedTypes.end()) {
 		objByType[typeid(*obj)].erase(obj);
+	}
+
+	if (dynamic_cast<EnemyBullet*>(obj)) {
+		objByType[typeid(EnemyBullet)].erase(obj);
 	}
 
 	currentContacts.erase(obj);
@@ -319,6 +337,8 @@ void GSpace::processRemoval(GObject* obj, bool removeSprite)
 
 	if (removeSprite && obj->sprite)
 		obj->sprite->removeFromParent();
+	if (obj->drawNode)
+		obj->drawNode->removeFromParent();
 
 	delete obj;
 }

@@ -56,7 +56,6 @@ public:
 	void initStateMachine(ai::StateMachine& sm);
 protected:
 	Sprite* base = nullptr;
-	DrawNode* drawNode = nullptr;
 	set<object_ref<Agent>> targets;
 	SpaceFloat angular_speed = 0.0;
 	boost::rational<int> discrete_look = 0;

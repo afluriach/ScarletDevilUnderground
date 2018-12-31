@@ -103,8 +103,6 @@ public:
 	void onGrazeCleared(object_ref<EnemyBullet> bullet);
 	void invalidateGraze(object_ref<EnemyBullet> bullet);
 protected:
-	DrawNode * drawNode;
-
 	void applyGraze(int p);
 
 	void setHudEffect(Attribute id, Attribute max_id);

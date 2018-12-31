@@ -114,6 +114,8 @@ public:
 
 	void removeObjectWithAnimation(GObject* obj, FiniteTimeAction* action);
     
+	void setBulletBodiesVisible(bool b);
+
 private:
     void processRemovals();
     void initObjects();

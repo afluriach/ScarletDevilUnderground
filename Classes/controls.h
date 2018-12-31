@@ -69,6 +69,7 @@ class ControlInfo
 {
 public:
 	bool isControlActionPressed(ControlAction id) const;
+	bool isControlActionReleased(ControlAction id) const;
 	bool isControlActionDown(ControlAction id) const;
 
 	ControlActionState action_state_prev, action_state_crnt;
