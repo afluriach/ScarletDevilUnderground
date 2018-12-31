@@ -119,6 +119,9 @@ public:
     void setUnitPosition(const SpaceVect& v);
 	SpaceVect getMapSize();
 	CCRect getCameraArea();
+	const vector<CCRect>& getMapAreas();
+	const vector<bool>& getMapAreasVisited();
+	int getMapLocation(CCRect r);
 	bool isInCameraArea(CCRect r);
 	bool isInPlayerRoom(SpaceVect v);
 
@@ -168,6 +171,7 @@ protected:
 	IntVec2 dimensions;
 	vector<MapEntry> maps;
 	vector<CCRect> mapAreas;
+	vector<bool> mapAreasVisited;
 	CCRect cameraArea;
 	int crntMap = -1;
 

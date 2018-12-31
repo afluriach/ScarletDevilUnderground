@@ -285,6 +285,27 @@ CCRect GScene::getCameraArea()
 	return cameraArea;
 }
 
+const vector<CCRect>& GScene::getMapAreas()
+{
+	return mapAreas;
+}
+
+const vector<bool>& GScene::getMapAreasVisited()
+{
+	return mapAreasVisited;
+}
+
+int GScene::getMapLocation(CCRect r)
+{
+	for_irange(i, 0, mapAreas.size())
+	{
+		if (mapAreas.at(i).intersectsRect(r)) {
+			return i;
+		}
+	}
+	return -1;
+}
+
 bool GScene::isInCameraArea(CCRect r)
 {
 	return cameraArea.intersectsRect(r);
@@ -347,6 +368,7 @@ void GScene::loadMap(const MapEntry& mapEntry)
 
 	tilemaps.pushBack(tileMap);
 	mapAreas.push_back(mapRect);
+	mapAreasVisited.push_back(false);
 
 	spaceLayer->getLayer(GraphicsLayer::map)->positionAndAddNode(
 		tileMap,
@@ -489,10 +511,14 @@ void GScene::updateMapVisibility()
 	Vec2 pos(_pos.x, _pos.y);
 
 	for (int i = 0; i < tilemaps.size() && mapAreas.size(); ++i){
-		tilemaps.at(i)->setVisible(isInCameraArea(mapAreas.at(i)));
+		tilemaps.at(i)->setVisible(
+			isInCameraArea(mapAreas.at(i)) &&
+			mapAreasVisited.at(i)
+		);
 
 		if (p && mapAreas.at(i).containsPoint(pos)) {
 			crntMap = i;
+			mapAreasVisited.at(i) = true;
 		}
 	}
 }

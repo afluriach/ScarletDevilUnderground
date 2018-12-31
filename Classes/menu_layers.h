@@ -93,7 +93,8 @@ public:
 protected:
 	unique_ptr<ControlListener> controlListener;
 	PlayScene* playScene = nullptr;
-	DrawNode* drawNode = nullptr;
+	DrawNode* backgroundNode;
+	DrawNode* drawNode;
 	float _pixelsPerTile = 1.0f;
 
 	void drawMaps();

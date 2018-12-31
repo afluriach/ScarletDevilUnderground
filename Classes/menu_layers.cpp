@@ -158,9 +158,12 @@ bool MapMenu::init()
 	Vec2 size = getScreenSize();
 	SpaceVect areaSize = playScene->getMapSize();
 
+	backgroundNode = DrawNode::create();
 	drawNode = DrawNode::create();
-	addChild(drawNode);
-	drawNode->drawSolidRect(
+	addChild(backgroundNode,1);
+	addChild(drawNode, 2);
+
+	backgroundNode->drawSolidRect(
 		Vec2(margin, margin),
 		Vec2(size.x - margin, size.y - margin),
 		backgroundColor
@@ -181,17 +184,22 @@ void MapMenu::close()
 void MapMenu::drawMaps()
 {
 	vector<object_ref<Wall>> walls = playScene->getSpace()->getObjectsByTypeAs<Wall>();
+	const vector<CCRect>& mapAreas = playScene->getMapAreas();
+	const vector<bool>& mapAreasVisited = playScene->getMapAreasVisited();
 
 	for (auto ref : walls)
 	{
 		Wall* wall = ref.get();
 
 		CCRect rect = wall->getBoundingBox();
+		int mapId = playScene->getMapLocation(rect);
 
-		drawNode->drawSolidRect(
-			Vec2(rect.getMinX(), rect.getMinY()) * _pixelsPerTile + Vec2(margin,margin),
-			Vec2(rect.getMaxX(), rect.getMaxY()) * _pixelsPerTile + Vec2(margin,margin),
-			wallColor
-		);
+		if (mapId != -1 && mapAreasVisited.at(mapId)) {
+			drawNode->drawSolidRect(
+				Vec2(rect.getMinX(), rect.getMinY()) * _pixelsPerTile + Vec2(margin, margin),
+				Vec2(rect.getMaxX(), rect.getMaxY()) * _pixelsPerTile + Vec2(margin, margin),
+				wallColor
+			);
+		}
 	}
 }
