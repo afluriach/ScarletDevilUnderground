@@ -34,6 +34,7 @@ enum class ControlAction
     menuBack,
     menuUp,
     menuDown,
+	mapMenu,
 
     dialogSkip,
     interact,

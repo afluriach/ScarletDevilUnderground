@@ -254,6 +254,9 @@ void GSpace::processAdditions()
 		if (dynamic_cast<EnemyBullet*>(obj)) {
 			objByType[typeid(EnemyBullet)].insert(obj);
 		}
+		if (dynamic_cast<Wall*>(obj)) {
+			objByType[typeid(Wall)].insert(obj);
+		}
 
         if(!obj->anonymous)
             objByName[obj->name] = obj;
@@ -312,6 +315,9 @@ void GSpace::processRemoval(GObject* obj, bool removeSprite)
 
 	if (dynamic_cast<EnemyBullet*>(obj)) {
 		objByType[typeid(EnemyBullet)].erase(obj);
+	}
+	if (dynamic_cast<Wall*>(obj)) {
+		objByType[typeid(Wall)].erase(obj);
 	}
 
 	currentContacts.erase(obj);

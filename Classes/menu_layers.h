@@ -11,6 +11,8 @@
 
 #include "menu.h"
 
+class PlayScene;
+
 class TitleMenu : public TextListMenuImpl<TitleMenu>
 {
 public:
@@ -74,6 +76,27 @@ public:
 	static const vector<listAction> entryActions;
 
 	inline ReplayCompletedMenu() {}
+};
+
+class MapMenu : public Layer
+{
+public:
+	static const int margin;
+	static const Color4F backgroundColor;
+	static const Color4F wallColor;
+
+	MapMenu(PlayScene* playScene);
+
+	virtual bool init();
+
+	void close();
+protected:
+	unique_ptr<ControlListener> controlListener;
+	PlayScene* playScene = nullptr;
+	DrawNode* drawNode = nullptr;
+	float _pixelsPerTile = 1.0f;
+
+	void drawMaps();
 };
 
 #endif /* menu_layers_h */

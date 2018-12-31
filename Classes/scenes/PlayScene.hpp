@@ -12,10 +12,10 @@
 #include "controls.h"
 #include "object_ref.hpp"
 #include "HUD.hpp"
-#include "menu_layers.h"
 #include "scenes.h"
 
 class GObject;
+class MapMenu;
 class PauseMenu;
 
 class PlayScene : public GScene
@@ -51,6 +51,10 @@ public:
 	virtual void enterPause();
 	virtual void exitPause();
     
+	void onMapPressed();
+	void enterMap();
+	void exitMap();
+
     void pauseAnimations();
     void resumeAnimations();
     
@@ -68,6 +72,7 @@ public:
 
     HUD* hud = nullptr;
 	PauseMenu* pauseMenu = nullptr;
+	MapMenu* mapMenu = nullptr;
 
 private:    
     void addHUD();

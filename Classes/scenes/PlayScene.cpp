@@ -16,6 +16,7 @@
 #include "Graphics.h"
 #include "GSpace.hpp"
 #include "macros.h"
+#include "menu_layers.h"
 #include "multifunction.h"
 #include "Player.hpp"
 #include "PlayScene.hpp"
@@ -71,6 +72,11 @@ GScene(sceneName, maps)
         ControlAction::pause,
         [=]()-> void {onPausePressed(); }
     );
+
+	control_listener->addPressListener(
+		ControlAction::mapMenu,
+		[=]()-> void {onMapPressed(); }
+	);
 }
 
 PlayScene::~PlayScene()
@@ -142,6 +148,15 @@ void PlayScene::onPausePressed()
 		enterPause();
 }
 
+void PlayScene::onMapPressed()
+{
+	if (mapMenu)
+		exitMap();
+	else
+		enterMap();
+}
+
+
 void PlayScene::enterPause()
 {
 	if (isShowingMenu)
@@ -209,6 +224,27 @@ void PlayScene::triggerReplayCompleted()
 {
 	setPaused(true);
 	triggerMenu(&PlayScene::showReplayCompletedMenu);
+}
+
+void PlayScene::enterMap()
+{
+	if (isShowingMenu)
+		return;
+
+	mapMenu = Node::ccCreate<MapMenu>(this);
+	getLayer(sceneLayers::menu)->addChild(mapMenu);
+	pauseAnimations();
+	setPaused(true);
+	isShowingMenu = true;
+}
+
+void PlayScene::exitMap()
+{
+	getLayer(sceneLayers::menu)->removeChild(mapMenu);
+	mapMenu = nullptr;
+	resumeAnimations();
+	setPaused(false);
+	isShowingMenu = false;
 }
 
 GScene* PlayScene::getReplacementScene()

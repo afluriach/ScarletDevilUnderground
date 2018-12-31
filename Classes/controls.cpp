@@ -31,6 +31,7 @@ const map<EventKeyboard::KeyCode, ControlActionState> ControlRegister::keyAction
 
 	key_action_2(KEY_Z,menuSelect,interact),
 	key_action_1(KEY_X,dialogSkip),
+	key_action_1(KEY_M,mapMenu),
 
 	key_action_1(KEY_1,spell1),
 	key_action_1(KEY_2, spell2),

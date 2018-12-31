@@ -132,4 +132,5 @@ const set<type_index> GSpace::trackedTypes = {
 
 	//virtual tracked types
 	typeid(EnemyBullet),
+	typeid(Wall),
 };
