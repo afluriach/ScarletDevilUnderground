@@ -71,13 +71,16 @@ public:
 	void timerDecrement(Attribute id);
 	bool isNonzero(Attribute id);
 	void setProtection();
+	void setTimedProtection(float seconds);
 	void resetProtection();
 
 	void setFullHP();
 	void setFullMP();
 	void setEmptyMP();
+	void setStartMP();
 	void setFullPower();
 	void setEmptyPower();
+	void setStartPower();
 	void setHitProtection();
 	void setSpellCooldown();
 

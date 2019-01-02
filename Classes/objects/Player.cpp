@@ -68,6 +68,18 @@ void Player::onPitfall()
 	GObject::onPitfall();
 }
 
+SpaceFloat Player::getSpellLength()
+{
+	PlayerSpell* ps = dynamic_cast<PlayerSpell*>(crntSpell.get());
+
+	if (!isSpellActive() || !ps) {
+		return 0.0;
+	}
+	else {
+		return ps->getLength();
+	}
+}
+
 SpaceVect Player::getInteractFeeler() const
 {
 	return SpaceVect::ray(interactDistance, getAngle());
@@ -85,6 +97,17 @@ void Player::init()
 			&HUD::setHP,
 			to_int(attributeSystem.getAdjustedValue(Attribute::hp))
 		));
+
+		space->getScene()->addAction(make_hud_action(
+			&HUD::setMaxMP,
+			to_int(attributeSystem.getAdjustedValue(Attribute::maxMP))
+		));
+
+		space->getScene()->addAction(make_hud_action(
+			&HUD::setMP,
+			to_int(attributeSystem.getAdjustedValue(Attribute::mp))
+		));
+
 
 		setFirePatterns();
 
@@ -140,12 +163,15 @@ void Player::updateSpellControls(const ControlInfo& cs)
     {
 		attributeSystem.timerDecrement(Attribute::spellCooldown);
         
-        if(!attributeSystem.isNonzero(Attribute::spellCooldown) && equippedSpell){
-            if( cs.isControlActionPressed(ControlAction::spell1) &&
-                attributeSystem.getAdjustedValue(Attribute::power) >= equippedSpell->getInitialCost()){
-				cast(equippedSpell->generate(this, {}));
-            }
-        }
+		if (
+			cs.isControlActionPressed(ControlAction::spell1) &&
+			equippedSpell &&
+			!attributeSystem.isNonzero(Attribute::spellCooldown) &&
+			attributeSystem.isNonzero(Attribute::mp)
+		) {
+			attributeSystem.modifyAttribute(Attribute::mp, -1.0f);
+			cast(equippedSpell->generate(this, {}));		
+		}
     }
 }
 
@@ -154,8 +180,9 @@ void Player::onSpellStop()
 	attributeSystem.setSpellCooldown();
 
 	space->getScene()->addAction(make_hud_action(
-		&HUD::runPowerFlicker,
-		getAttribute(Attribute::spellCooldownInterval)
+		&HUD::runMagicFlicker,
+		getAttribute(Attribute::spellCooldownInterval),
+		hitFlickerInterval
 	));
 }
 
@@ -226,7 +253,13 @@ void Player::update()
 
 			updateHitTime();
 
-			setHudEffect(Attribute::hitProtection, Attribute::hitProtectionInterval);
+			if (!isSpellActive()) {
+				setHudEffect(Attribute::hitProtection, Attribute::hitProtectionInterval);
+			}
+			else {
+				setHudEffect(Attribute::hitProtection, getSpellLength());
+			}
+
 			setHudEffect(Attribute::spellCooldown, Attribute::spellCooldownInterval);
 
 			updateHudAttribute(Attribute::iceDamage);
@@ -287,6 +320,11 @@ bool Player::isProtected() const
 void Player::setProtection()
 {
 	attributeSystem.setProtection();
+}
+
+void Player::setTimedProtection(SpaceFloat seconds)
+{
+	attributeSystem.setTimedProtection(seconds);
 }
 
 void Player::resetProtection()
@@ -391,6 +429,19 @@ void Player::setHudEffect(Attribute id, Attribute max_id)
 	));
 }
 
+void Player::setHudEffect(Attribute id, float maxVal)
+{
+	float val = getAttribute(id);
+	int percent = (val >= 0.0f  && maxVal > 0.0f ? val / maxVal * 100.0f : 100);
+
+	space->getScene()->addAction(make_hud_action(
+		&HUD::setPercentValue,
+		id,
+		percent
+	));
+}
+
+
 void Player::updateHudAttribute(Attribute id)
 {
 	space->getScene()->addAction(make_hud_action(
@@ -402,7 +453,7 @@ void Player::updateHudAttribute(Attribute id)
 
 const AttributeMap FlandrePC::baseAttributes = {
 	{Attribute::maxHP, 5.0f},
-	{Attribute::maxMP, 5.0f },
+	{Attribute::maxMP, 4.0f },
 	{Attribute::maxPower, 500.0f},
 	{Attribute::speed, 3.0f},
 	{Attribute::acceleration, 9.0f},
@@ -430,7 +481,7 @@ void FlandrePC::equipSpells() {
 
 const AttributeMap RumiaPC::baseAttributes = {
 	{Attribute::maxHP, 3.0f },
-	{Attribute::maxMP, 3.0f },
+	{Attribute::maxMP, 4.0f },
 	{Attribute::maxPower, 900.0f },
 	{Attribute::speed, 4.5f },
 	{Attribute::acceleration, 12.0f },
@@ -457,7 +508,7 @@ void RumiaPC::equipSpells() {
 
 const AttributeMap CirnoPC::baseAttributes = {
 	{Attribute::maxHP, 9.0f },
-	{Attribute::maxMP, 3.0f },
+	{Attribute::maxMP, 4.0f },
 	{Attribute::maxPower, 300.0f},
 	{Attribute::speed, 2.0f},
 	{Attribute::acceleration, 6.0f},

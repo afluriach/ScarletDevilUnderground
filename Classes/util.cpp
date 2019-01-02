@@ -178,6 +178,11 @@ void timerDecrement(SpaceFloat& x)
 	x = max(x - App::secondsPerFrame, 0.0);
 }
 
+void timerIncrement(SpaceFloat& x)
+{
+	x += App::secondsPerFrame;
+}
+
 TimerSystem::TimerSystem()
 {
 	enum_foreach(TimerType, _type, begin, end)

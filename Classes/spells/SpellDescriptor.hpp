@@ -20,9 +20,6 @@ public:
 	virtual inline string getName() const = 0;
 	virtual inline string getDescription() const = 0;
 
-	virtual inline int getInitialCost() const = 0;
-	virtual inline int getCostPerSecond() const = 0;
-
 	virtual inline unique_ptr<Spell> generate(GObject* caster) = 0;
 	virtual inline unique_ptr<Spell> generate(GObject* caster, const ValueMap& args) = 0;
 };
@@ -34,9 +31,6 @@ class SpellDescImpl : public SpellDesc
 public:
 	virtual inline string getName() const { return T::name; }
 	virtual inline string getDescription() const { return T::description; }
-
-	virtual inline int getInitialCost() const { return T::initialCost; }
-	virtual inline int getCostPerSecond() const { return T::costPerSecond; }
 
 	virtual inline unique_ptr<Spell> generate(GObject* caster)
 	{

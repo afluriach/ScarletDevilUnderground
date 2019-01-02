@@ -31,9 +31,6 @@ shared_ptr<SpellDesc> Spell::getDescriptor(const string& name)
 const string FireStarburst::name = "FireStarburst";
 const string FireStarburst::description = "";
 
-const int FireStarburst::initialCost = 0;
-const int FireStarburst::costPerSecond = 0;
-
 void FireStarburst::runPeriodic()
 {
     SpaceVect pos = caster->body->getPos();
@@ -51,9 +48,6 @@ void FireStarburst::runPeriodic()
 
 const string FlameFence::name = "FlameFence";
 const string FlameFence::description = "";
-
-const int FlameFence::initialCost = 0;
-const int FlameFence::costPerSecond = 0;
 
 FlameFence::FlameFence(GObject* caster) :
 Spell(caster, {}, Spell::getDescriptor("FlameFence").get())
@@ -93,9 +87,6 @@ void FlameFence::end()
 
 const string Whirlpool1::name = "Whirlpool1";
 const string Whirlpool1::description = "";
-
-const int Whirlpool1::initialCost = 0;
-const int Whirlpool1::costPerSecond = 0;
 
 const int Whirlpool1::shotsPerSecond = 4;
 
@@ -151,9 +142,6 @@ void Whirlpool1::end()
 
 const string Whirlpool2::name = "Whirlpool2";
 const string Whirlpool2::description = "";
-
-const int Whirlpool2::initialCost = 0;
-const int Whirlpool2::costPerSecond = 0;
 
 const int Whirlpool2::shotsPerSecond = 6;
 
@@ -219,9 +207,6 @@ void Whirlpool2::end()
 const string Teleport::name = "Teleport";
 const string Teleport::description = "";
 
-const int Teleport::initialCost = 0;
-const int Teleport::costPerSecond = 0;
-
 SpellGeneratorType Teleport::make_generator(const vector<object_ref<TeleportPad>>& targets)
 {
 	return [targets](GObject* caster) -> unique_ptr<Spell> {
@@ -270,9 +255,6 @@ void Teleport::end()
 
 const string StarlightTyphoon::name = "StarlightTyphoon";
 const string StarlightTyphoon::description = "";
-
-const int StarlightTyphoon::initialCost = 0;
-const int StarlightTyphoon::costPerSecond = 0;
 
 StarlightTyphoon::StarlightTyphoon(GObject* caster, const ValueMap& args, SpellDesc* descriptor):
 Spell(caster, args,descriptor)
@@ -333,9 +315,6 @@ void StarlightTyphoon::end()
 
 const string IllusionDial::name = "IllusionDial";
 const string IllusionDial::description = "";
-
-const int IllusionDial::initialCost = 0;
-const int IllusionDial::costPerSecond = 0;
 
 const int IllusionDial::count = 16;
 
@@ -416,29 +395,33 @@ void PlayerSpell::init()
 {
 	Player* p = getCasterAs<Player>();
 
-	p->consumePower(getDescriptor()->getInitialCost());
+	if (p) {
+		p->setTimedProtection(getLength());
+	}
 }
 
 void PlayerSpell::update()
 {
-	Player* p = getCasterAs<Player>();
+	timerIncrement(timeInSpell);
 
-	powerDrainAccumulator += App::secondsPerFrame * getDescriptor()->getCostPerSecond();
-
-	while (powerDrainAccumulator >= 1.0f)
-	{
-		if (!p->consumePower(1)) {
-			active = false;
-		}
-		powerDrainAccumulator -= 1.0f;
+	if (timeInSpell > getLength()) {
+		active = false;
 	}
 }
 
+void PlayerSpell::end()
+{
+	Player* p = getCasterAs<Player>();
+
+	if (p) {
+		p->resetProtection();
+		p->onSpellStop();
+	}
+}
+
+
 const string PlayerBatMode::name = "PlayerBatMode";
 const string PlayerBatMode::description = "";
-
-const int PlayerBatMode::initialCost = 9;
-const int PlayerBatMode::costPerSecond = 5;
 
 PlayerBatMode::PlayerBatMode(GObject* caster,const ValueMap& args, SpellDesc* descriptor) :
 Spell(caster,args,descriptor)
@@ -451,7 +434,6 @@ void PlayerBatMode::init()
 	Player* p = getCasterAs<Player>();
 
 	if (p) {
-		p->setProtection();
 		p->setFiringSuppressed(true);
 		p->setSprite("flandre_bat");
 		p->applyAttributeModifier(Attribute::speed, 1.5f);
@@ -461,23 +443,20 @@ void PlayerBatMode::init()
 
 void PlayerBatMode::end()
 {
+	PlayerSpell::end();
+
 	Player* p = getCasterAs<Player>();
 
 	if (p) {
-		p->resetProtection();
 		p->setFiringSuppressed(false);
 		p->setSprite("flandre");
 		p->applyAttributeModifier(Attribute::speed, -1.5f);
 		p->setLayers(enum_bitwise_or(PhysicsLayers, floor, ground));
-		p->onSpellStop();
 	}
 }
 
 const string PlayerDarkMist::name = "PlayerDarkMist";
 const string PlayerDarkMist::description = "";
-
-const int PlayerDarkMist::initialCost = 10;
-const int PlayerDarkMist::costPerSecond = 5;
 
 PlayerDarkMist::PlayerDarkMist(GObject* caster, const ValueMap& args, SpellDesc* descriptor) :
 	Spell(caster, args, descriptor)
@@ -493,15 +472,14 @@ void PlayerDarkMist::init()
 
 void PlayerDarkMist::end()
 {
+	PlayerSpell::end();
+
 	caster->sprite->setOpacity(255);
 	caster->setInvisible(false);
 }
 
 const string PlayerIceShield::name = "PlayerIceShield";
 const string PlayerIceShield::description = "";
-
-const int PlayerIceShield::initialCost = 1;
-const int PlayerIceShield::costPerSecond = 0;
 
 const SpaceFloat PlayerIceShield::speed = 9.0;
 
@@ -563,6 +541,8 @@ void PlayerIceShield::update()
 
 void PlayerIceShield::end()
 {
+	PlayerSpell::end();
+
 	for (auto ref : bullets)
 	{
 		if (ref.isValid()) {

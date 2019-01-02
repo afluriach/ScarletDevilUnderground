@@ -184,6 +184,7 @@ public:
 	void setMaxMP(int);
 
 	void runHealthFlicker(float length, float interval);
+	void runMagicFlicker(float length, float interval);
 	void runPowerFlicker(float duration);
 
 	void setPercentValue(Attribute element, int val);

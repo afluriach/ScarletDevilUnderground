@@ -506,6 +506,11 @@ void HUD::runHealthFlicker(float length, float interval)
 	health->runFlicker(length, interval);
 }
 
+void HUD::runMagicFlicker(float length, float interval)
+{
+	magic->runFlicker(length, interval);
+}
+
 void HUD::runPowerFlicker(float duration)
 {
 	power->runFlicker(duration);

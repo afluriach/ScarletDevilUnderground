@@ -74,9 +74,6 @@ public:
 	static const string name;
 	static const string description;
 
-	static const int initialCost;
-	static const int costPerSecond;
-
 	STANDARD_CONS(FlameFence)
 	FlameFence(GObject* caster);
     
@@ -91,9 +88,6 @@ class Whirlpool1 : public Spell {
 public:
 	static const string name;
 	static const string description;
-
-	static const int initialCost;
-	static const int costPerSecond;
 
 	static const int shotsPerSecond;
 
@@ -115,9 +109,6 @@ class Whirlpool2 : public Spell {
 public:
 	static const string name;
 	static const string description;
-
-	static const int initialCost;
-	static const int costPerSecond;
 
 	static const int shotsPerSecond;
 
@@ -141,9 +132,6 @@ public:
 	static const string name;
 	static const string description;
 
-	static const int initialCost;
-	static const int costPerSecond;
-
 	static SpellGeneratorType make_generator(const vector<object_ref<TeleportPad>>& targets);
 
 	STANDARD_CONS(Teleport); //Do not use.
@@ -166,9 +154,6 @@ class StarlightTyphoon : public Spell{
 public:
 	static const string name;
 	static const string description;
-
-	static const int initialCost;
-	static const int costPerSecond;
 
     StarlightTyphoon(GObject* caster, const ValueMap& args, SpellDesc* descriptor);
     void init();
@@ -233,9 +218,6 @@ public:
 	static const string name;
 	static const string description;
 
-	static const int initialCost;
-	static const int costPerSecond;
-
     static constexpr float bulletSpeed = 6.0f;
 
     STANDARD_CONS(FireStarburst)
@@ -265,9 +247,6 @@ class IllusionDial : public PeriodicSpell
 public:
 	static const string name;
 	static const string description;
-
-	static const int initialCost;
-	static const int costPerSecond;
 
     static const float radius;
     static const float arc_start;
@@ -302,8 +281,11 @@ public:
 
 	virtual void init();
 	virtual void update();
+	virtual void end();
+
+	virtual SpaceFloat getLength() const = 0;
 protected:
-	float powerDrainAccumulator = 0.0f;
+	SpaceFloat timeInSpell = 0.0;
 };
 
 class PlayerBatMode : virtual public Spell, public PlayerSpell{
@@ -311,14 +293,11 @@ public:
 	static const string name;
 	static const string description;
 
-	static const int initialCost;
-	static const int costPerSecond;
-
 	PlayerBatMode(GObject* caster, const ValueMap& args, SpellDesc* descriptor);
     virtual void init();
     virtual void end();
-protected:
-    int framesSinceDrain = 0;
+
+	inline virtual SpaceFloat getLength() const { return 5.0; }
 };
 
 class PlayerDarkMist : virtual public Spell, public PlayerSpell {
@@ -326,23 +305,17 @@ public:
 	static const string name;
 	static const string description;
 
-	static const int initialCost;
-	static const int costPerSecond;
-
 	PlayerDarkMist(GObject* caster, const ValueMap& args, SpellDesc* descriptor);
 	virtual void init();
 	virtual void end();
-protected:
-	int framesSinceDrain = 0;
+
+	inline virtual SpaceFloat getLength() const { return 7.5; }
 };
 
 class PlayerIceShield : virtual public Spell, public PlayerSpell {
 public:
 	static const string name;
 	static const string description;
-
-	static const int initialCost;
-	static const int costPerSecond;
 
 	static constexpr size_t bulletCount = 8;
 	static const SpaceFloat speed;
@@ -355,8 +328,7 @@ public:
 	virtual void update();
 	virtual void end();
 
-	virtual inline SpaceFloat getMass() const { return 99.0; }
-
+	inline virtual SpaceFloat getLength() const { return 5.0; }
 protected:
 	array<object_ref<CirnoIceShieldBullet>, bulletCount> bullets;
 	SpaceFloat crntAngle = 0.0;

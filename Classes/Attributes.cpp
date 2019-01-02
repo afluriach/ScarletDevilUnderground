@@ -109,6 +109,11 @@ void AttributeSystem::setEmptyMP()
 	attributes.at(to_size_t(Attribute::mp)) = 0;
 }
 
+void AttributeSystem::setStartMP()
+{
+	attributes.at(to_size_t(Attribute::mp)) = floor(attributes.at(to_size_t(Attribute::maxMP)) / 2.0);
+}
+
 void AttributeSystem::setFullPower()
 {
 	attributes.at(to_size_t(Attribute::power)) = attributes.at(to_size_t(Attribute::maxPower));
@@ -118,6 +123,12 @@ void AttributeSystem::setEmptyPower()
 {
 	attributes.at(to_size_t(Attribute::power)) = 0;
 }
+
+void AttributeSystem::setStartPower()
+{
+	attributes.at(to_size_t(Attribute::power)) = floor(attributes.at(to_size_t(Attribute::maxPower)) / 2.0);
+}
+
 
 void AttributeSystem::setHitProtection()
 {
@@ -217,6 +228,11 @@ bool AttributeSystem::isNonzero(Attribute id)
 void AttributeSystem::setProtection()
 {
 	attributes.at(to_size_t(Attribute::hitProtection)) = -1.0f;
+}
+
+void AttributeSystem::setTimedProtection(float seconds)
+{
+	attributes.at(to_size_t(Attribute::hitProtection)) = seconds;
 }
 
 void AttributeSystem::resetProtection()

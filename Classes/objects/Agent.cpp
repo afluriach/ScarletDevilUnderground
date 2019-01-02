@@ -35,7 +35,8 @@ void Agent::initAttributes()
 	attributeSystem = getBaseAttributes();
 
 	attributeSystem.setFullHP();
-	attributeSystem.setFullPower();
+	attributeSystem.setStartPower();
+	attributeSystem.setStartMP();
 }
 
 void Agent::update()

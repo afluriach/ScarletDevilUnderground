@@ -44,6 +44,7 @@ public:
 
 	virtual void setFirePatterns() = 0;
 	virtual void equipSpells() = 0;
+	SpaceFloat getSpellLength();
 
 	virtual void initializeGraphics(SpaceLayer* layer);
     
@@ -54,7 +55,9 @@ public:
 
 	bool isProtected() const;
 	void setProtection();
+	void setTimedProtection(SpaceFloat seconds);
 	void resetProtection();
+
     virtual void hit(AttributeMap attributeEffect, shared_ptr<MagicEffect> effect);
 
 	inline bool isFiringSuppressed() const { return suppressFiring; }
@@ -106,6 +109,7 @@ protected:
 	void applyGraze(int p);
 
 	void setHudEffect(Attribute id, Attribute max_id);
+	void setHudEffect(Attribute id, float maxVal);
 	void updateHudAttribute(Attribute id);
 
 	template<typename...Args>
