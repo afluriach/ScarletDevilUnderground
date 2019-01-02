@@ -455,6 +455,74 @@ void PlayerBatMode::end()
 	}
 }
 
+const string PlayerCounterClock::name = "PlayerCounterClock";
+const string PlayerCounterClock::description = "";
+
+const SpaceFloat PlayerCounterClock::offset = 0.75;
+const SpaceFloat PlayerCounterClock::angular_speed = 9.0;
+
+PlayerCounterClock::PlayerCounterClock(GObject* caster, const ValueMap& args, SpellDesc* descriptor) :
+	Spell(caster, args, descriptor)
+{}
+
+void PlayerCounterClock::init()
+{
+	PlayerSpell::init();
+
+	Player* p = getCasterAs<Player>();
+	SpaceVect pos = caster->getPos();
+
+	if (p) {
+		p->setFiringSuppressed(true);
+	}
+
+	for_irange(i, 0, 4)
+	{
+		SpaceVect disp = SpaceVect::ray(2.0 + offset, (i/2.0) * float_pi);
+
+		bullets[i] = caster->space->createObject(GObject::make_object_factory<FlandreCounterClockBullet>(
+			(i / 2.0) * float_pi,
+			pos + disp
+		));
+	}
+}
+
+void PlayerCounterClock::update()
+{
+	PlayerSpell::update();
+	angular_pos += angular_speed * App::secondsPerFrame;
+
+	SpaceVect pos = caster->getPos();
+
+	for_irange(i, 0, 4)
+	{
+		SpaceVect disp = SpaceVect::ray(2.0 + offset, (i / 2.0) * float_pi + angular_pos);
+
+		if (bullets[i].isValid()) {
+			bullets[i].get()->setPos(pos + disp);
+			bullets[i].get()->setAngle((i / 2.0) * float_pi + angular_pos);
+		}
+	}
+}
+
+void PlayerCounterClock::end()
+{
+	PlayerSpell::end();
+
+	Player* p = getCasterAs<Player>();
+
+	if (p) {
+		p->setFiringSuppressed(false);
+	}
+
+	for (auto ref : bullets)
+	{
+		if (ref.isValid()) {
+			caster->space->removeObject(ref.get());
+		}
+	}
+}
+
 const string PlayerDarkMist::name = "PlayerDarkMist";
 const string PlayerDarkMist::description = "";
 

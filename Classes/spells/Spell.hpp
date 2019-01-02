@@ -22,6 +22,7 @@
 typedef function<unique_ptr<Spell>(GObject*)> SpellGeneratorType;
 
 class CirnoIceShieldBullet;
+class FlandreCounterClockBullet;
 class SpellDesc;
 class TeleportPad;
 
@@ -298,6 +299,25 @@ public:
     virtual void end();
 
 	inline virtual SpaceFloat getLength() const { return 5.0; }
+};
+
+class PlayerCounterClock : virtual public Spell, public PlayerSpell {
+public:
+	static const string name;
+	static const string description;
+
+	static const SpaceFloat offset;
+	static const SpaceFloat angular_speed;
+
+	PlayerCounterClock(GObject* caster, const ValueMap& args, SpellDesc* descriptor);
+	virtual void init();
+	virtual void update();
+	virtual void end();
+
+	inline virtual SpaceFloat getLength() const { return 5.0; }
+protected:
+	array<object_ref<FlandreCounterClockBullet>, 4> bullets;
+	SpaceFloat angular_pos = 0.0;
 };
 
 class PlayerDarkMist : virtual public Spell, public PlayerSpell {

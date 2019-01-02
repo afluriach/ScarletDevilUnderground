@@ -128,6 +128,16 @@ AttributeMap FlandreFastOrb1::getAttributeEffect() const {
 	};
 }
 
+FlandreCounterClockBullet::FlandreCounterClockBullet(GSpace* space, ObjectIDType id, SpaceFloat angle, const SpaceVect& pos) :
+	GObject(space, id, "", pos, angle, true)
+{}
+
+AttributeMap FlandreCounterClockBullet::getAttributeEffect() const {
+	return {
+		{ Attribute::hp, -1 }
+	};
+}
+
 RumiaFastOrb1::RumiaFastOrb1(GSpace* space, ObjectIDType id, SpaceFloat angle, const SpaceVect& pos) :
 	GObject(space, id, "fastOrb1", pos, angle, true)
 {}

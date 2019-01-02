@@ -175,6 +175,24 @@ public:
 	virtual AttributeMap getAttributeEffect() const;
 };
 
+class FlandreCounterClockBullet :
+virtual public GObject,
+public PlayerShield,
+public RectangleBody,
+public ImageSprite
+{
+public:
+	FlandreCounterClockBullet(GSpace* space, ObjectIDType id, SpaceFloat angle, const SpaceVect& pos);
+
+	virtual inline SpaceVect getDimensions() const { return SpaceVect(4.0, 0.5); }
+	virtual inline string imageSpritePath() const { return "sprites/counter_clock_bullet.png"; }
+	virtual inline float zoom() const { return 0.25f; }
+
+	virtual AttributeMap getAttributeEffect() const;
+	virtual inline SpaceFloat getKnockbackForce() const { return 0.0; }
+};
+
+
 class RumiaFastOrb1 : virtual public GObject, public PlayerBullet, public CircleBody, public ImageSprite, public DirectionalLaunch
 {
 public:
