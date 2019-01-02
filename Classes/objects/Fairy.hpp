@@ -27,7 +27,8 @@ public:
 
 	inline SpaceFloat getMass() const { return 40.0; }
 
-	inline string imageSpritePath() const { return "sprites/melancholy.png"; }
+	inline string imageSpritePath() const { return "sprites/fairy/"; }
+	virtual inline int pixelWidth() const { return 512; }
 
 	virtual void initStateMachine(ai::StateMachine& sm);
 };
@@ -62,7 +63,8 @@ public:
 
 	inline SpaceFloat getMass() const { return 40.0; }
 
-	inline string imageSpritePath() const { return "sprites/melancholy.png"; }
+	inline string imageSpritePath() const { return "sprites/fairy/"; }
+	virtual inline int pixelWidth() const { return 512; }
 
 	virtual void initStateMachine(ai::StateMachine& sm);
 

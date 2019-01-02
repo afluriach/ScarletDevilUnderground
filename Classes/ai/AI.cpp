@@ -146,6 +146,11 @@ SpaceFloat distanceToTarget(const GObject* agent, const GObject* target)
     return (target->getPos() - agent->getPos()).length();
 }
 
+SpaceFloat distanceToTarget(const GObject* agent, SpaceVect target)
+{
+	return (target - agent->getPos()).length();
+}
+
 SpaceFloat viewAngleToTarget(const GObject* agent, const GObject* target)
 {
     SpaceVect displacement = target->getPos() - agent->getPos();
@@ -600,8 +605,16 @@ void MaintainDistance::update(StateMachine& sm)
 {
 	if (target.get()) {
         SpaceFloat crnt_distance = distanceToTarget(sm.agent,target.get());
+		SpaceFloat stop_dist = getStoppingDistance(sm.agent->getMaxSpeed(), sm.agent->getMaxAcceleration());
     
-        if(crnt_distance > distance + margin){
+		if (abs(crnt_distance - distance) < stop_dist) {
+			ai::arrive(
+				sm.agent,
+				SpaceVect::ray(distance, float_pi + directionToTarget(sm.agent, target.get()->getPos()).toAngle())
+			);
+		}
+
+        else if(crnt_distance > distance + margin){
             ai::seek(
                 sm.agent,
                 target.get()->getPos(),
@@ -618,8 +631,9 @@ void MaintainDistance::update(StateMachine& sm)
             );
         }
 	}
-	else
+	else {
 		ai::applyDesiredVelocity(sm.agent, SpaceVect::zero, sm.agent->getMaxAcceleration());
+	}
 }
 
 OccupyMidpoint::OccupyMidpoint(gobject_ref target1, gobject_ref target2) :
@@ -639,8 +653,15 @@ void OccupyMidpoint::update(StateMachine& sm)
 	}
 
 	SpaceVect midpoint = (t1->getPos() + t2->getPos()) / 2.0;
+	SpaceFloat crnt_distance = distanceToTarget(sm.agent, midpoint);
+	SpaceFloat stop_dist = getStoppingDistance(sm.agent->getMaxSpeed(), sm.agent->getMaxAcceleration());
 
-	seek(sm.agent, midpoint, sm.agent->getMaxSpeed(), sm.agent->getMaxAcceleration());
+	if (crnt_distance > stop_dist) {
+		seek(sm.agent, midpoint, sm.agent->getMaxSpeed(), sm.agent->getMaxAcceleration());
+	}
+	else {
+		arrive(sm.agent, midpoint);
+	}
 }
 
 Scurry::Scurry(GSpace* space, SpaceVect displacement, SpaceFloat length) :

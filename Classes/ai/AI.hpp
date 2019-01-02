@@ -44,6 +44,7 @@ int chooseBestDirection(const array<SpaceFloat, 8>& feelers, SpaceFloat desired_
 SpaceVect directionToTarget(const GObject* agent, SpaceVect target);
 SpaceVect displacementToTarget(const GObject* agent, SpaceVect target);
 SpaceFloat distanceToTarget(const GObject* agent, const GObject* target);
+SpaceFloat distanceToTarget(const GObject* agent, SpaceVect target);
 SpaceFloat viewAngleToTarget(const GObject* agent, const GObject* target);
 SpaceVect projectileEvasion(const GObject* bullet, const GObject* agent);
 

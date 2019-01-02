@@ -335,7 +335,7 @@ const vector<string> Inst::luaIncludes = {
 			.addFunction("isLineOfSight", &ai::isLineOfSight)
 			.addFunction("directionToTarget", &ai::directionToTarget)
 			.addFunction("displacementToTarget", &ai::displacementToTarget)
-			.addFunction("distanceToTarget", &ai::distanceToTarget)
+			.addFunction("distanceToTarget", static_cast<SpaceFloat(*)(const GObject*, const GObject*)>(&ai::distanceToTarget))
 			.addFunction("viewAngleToTarget", &ai::viewAngleToTarget)
 		.endNamespace()
 		;
