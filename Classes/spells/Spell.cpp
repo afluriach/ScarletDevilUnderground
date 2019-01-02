@@ -91,29 +91,29 @@ void FlameFence::end()
     }
 }
 
-const string Whirlpool::name = "Whirlpool";
-const string Whirlpool::description = "";
+const string Whirlpool1::name = "Whirlpool1";
+const string Whirlpool1::description = "";
 
-const int Whirlpool::initialCost = 0;
-const int Whirlpool::costPerSecond = 0;
+const int Whirlpool1::initialCost = 0;
+const int Whirlpool1::costPerSecond = 0;
 
-const int Whirlpool::shotsPerSecond = 4;
+const int Whirlpool1::shotsPerSecond = 4;
 
-const SpaceFloat Whirlpool::angularSpeed = float_pi / 6.0;
-const SpaceFloat Whirlpool::angularOffset = float_pi / 12.0;
-const SpaceFloat Whirlpool::bulletSpeed = 6.0;
+const SpaceFloat Whirlpool1::angularSpeed = float_pi / 6.0;
+const SpaceFloat Whirlpool1::angularOffset = float_pi / 12.0;
+const SpaceFloat Whirlpool1::bulletSpeed = 6.0;
 
-Whirlpool::Whirlpool(GObject* caster) :
-	Spell(caster, {}, Spell::getDescriptor("Whirlpool").get())
+Whirlpool1::Whirlpool1(GObject* caster) :
+	Spell(caster, {}, Spell::getDescriptor("Whirlpool1").get())
 {
 }
 
-void Whirlpool::init()
+void Whirlpool1::init()
 {
 	caster->setAngularVel(angularSpeed);
 }
 
-void Whirlpool::update()
+void Whirlpool1::update()
 {
 	timerDecrement(shotTimer);
 
@@ -144,7 +144,74 @@ void Whirlpool::update()
 	}
 }
 
-void Whirlpool::end()
+void Whirlpool1::end()
+{
+
+}
+
+const string Whirlpool2::name = "Whirlpool2";
+const string Whirlpool2::description = "";
+
+const int Whirlpool2::initialCost = 0;
+const int Whirlpool2::costPerSecond = 0;
+
+const int Whirlpool2::shotsPerSecond = 6;
+
+const SpaceFloat Whirlpool2::angularSpeed = float_pi / 5.0;
+const SpaceFloat Whirlpool2::angularOffset = float_pi / 10.0;
+const SpaceFloat Whirlpool2::bulletSpeed = 7.5;
+
+Whirlpool2::Whirlpool2(GObject* caster) :
+Spell(caster, {}, Spell::getDescriptor("Whirlpool2").get())
+{
+}
+
+void Whirlpool2::init()
+{
+	caster->setAngularVel(angularSpeed);
+}
+
+void Whirlpool2::update()
+{
+	timerDecrement(shotTimer);
+
+	SpaceFloat angle = caster->getAngle();
+	SpaceVect pos = caster->getPos();
+
+	array<SpaceFloat, 12> angles;
+
+	angles[0] = angle - angularOffset;
+	angles[1] = angle;
+	angles[2] = angle + angularOffset;
+
+	angles[3] = (float_pi / 2.0) + angle - angularOffset;
+	angles[4] = (float_pi / 2.0) + angle;
+	angles[5] = (float_pi / 2.0) + angle + angularOffset;
+
+	angles[6] = float_pi + angle - angularOffset;
+	angles[7] = float_pi + angle;
+	angles[8] = float_pi + angle + angularOffset;
+
+	angles[9] = (float_pi * 1.5) + angle - angularOffset;
+	angles[10] = (float_pi * 1.5) + angle;
+	angles[11] = (float_pi * 1.5) + angle + angularOffset;
+
+
+	if (shotTimer <= 0.0) {
+
+		for_irange(i, 0, 12) {
+			caster->space->createObject(GObject::make_object_factory<WaterBullet>(
+				angles[i],
+				pos + SpaceVect::ray(1.0, angles[i]),
+				bulletSpeed
+				));
+		}
+
+		shotTimer = 1.0 / shotsPerSecond;
+	}
+}
+
+void Whirlpool2::end()
 {
 
 }

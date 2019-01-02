@@ -28,6 +28,12 @@ const AttributeMap PatchouliEnemy::baseAttributes = {
 	{ Attribute::acceleration, 4.0f }
 };
 
+const vector<SpellGeneratorType> PatchouliEnemy::spells = {
+	make_spell_generator<FlameFence>(),
+	make_spell_generator<Whirlpool1>(),
+	make_spell_generator<Whirlpool2>(),
+};
+
 PatchouliEnemy::PatchouliEnemy(GSpace* space, ObjectIDType id, const ValueMap& args) :
 	MapObjForwarding(GObject),
 	MapObjForwarding(Agent),
@@ -53,7 +59,8 @@ void PatchouliMain::update(ai::StateMachine& sm)
 	if (prevHP - crntHP >= castInterval) {
 		prevHP = crntHP;
 
-		sm.push(make_shared<ai::Cast1>(make_spell_generator<FlameFence>()));
-//		sm.push(make_shared<ai::Cast>("FlameFence", ValueMap()));
+		sm.push(make_shared<ai::HPCast>(PatchouliEnemy::spells[spellIdx], castInterval));
+		
+		spellIdx = (spellIdx + 1) % PatchouliEnemy::spells.size();
 	}
 }

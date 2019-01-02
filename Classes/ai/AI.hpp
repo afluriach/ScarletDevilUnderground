@@ -567,6 +567,27 @@ protected:
 	SpellGeneratorType spell_generator;
 };
 
+class HPCast : public Function {
+public:
+	HPCast(SpellGeneratorType spell_generator, float hp_difference);
+
+	virtual void onEnter(StateMachine& sm);
+	virtual void update(StateMachine& sm);
+	virtual void onExit(StateMachine& sm);
+
+	FuncGetName(HPCast)
+
+	inline virtual bitset<lockCount> getLockMask() {
+		return make_enum_bitfield(ResourceLock::spellcasting);
+	}
+
+protected:
+	SpellGeneratorType spell_generator;
+	float caster_starting;
+	float hp_difference;
+};
+
+
 class FireAtTarget : public Function {
 public:
 	FireAtTarget(shared_ptr<FirePattern> pattern, gobject_ref target);

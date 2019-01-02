@@ -1053,6 +1053,35 @@ void Cast1::onExit(StateMachine& sm)
 	sm.agent->stopSpell();
 }
 
+HPCast::HPCast(SpellGeneratorType spell_generator, float hp_difference) :
+	spell_generator(spell_generator),
+	hp_difference(hp_difference)
+{
+}
+
+void HPCast::onEnter(StateMachine& sm)
+{
+	caster_starting = sm.getAgent()->getHealth();
+	sm.agent->cast(spell_generator(sm.agent));
+}
+
+void HPCast::update(StateMachine& sm)
+{
+	if (sm.getAgent()->getHealth() < (caster_starting - hp_difference)) {
+		sm.agent->stopSpell();
+	}
+
+	if (!sm.agent->isSpellActive()) {
+		sm.pop();
+	}
+}
+
+void HPCast::onExit(StateMachine& sm)
+{
+	sm.agent->stopSpell();
+}
+
+
 void FacerMain::onEnter(StateMachine& sm)
 {
 	target = sm.agent->space->getObject("player");

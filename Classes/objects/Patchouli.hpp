@@ -31,6 +31,7 @@ class PatchouliEnemy : public Enemy, public BaseAttributes<PatchouliEnemy>
 {
 public:
 	static const AttributeMap baseAttributes;
+	static const vector<SpellGeneratorType> spells;
 
 	PatchouliEnemy(GSpace* space, ObjectIDType id, const ValueMap& args);
 
@@ -51,6 +52,7 @@ public:
 	FuncGetName(PatchouliMain)
 protected:
 	float prevHP;
+	size_t spellIdx = 0;
 };
 
 #endif /* Patchouli_hpp */
