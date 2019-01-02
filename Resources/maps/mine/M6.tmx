@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.0" tiledversion="1.0.3" orientation="orthogonal" renderorder="right-down" width="17" height="17" tilewidth="128" tileheight="128" nextobjectid="45">
+<map version="1.0" tiledversion="1.0.3" orientation="orthogonal" renderorder="right-down" width="17" height="17" tilewidth="128" tileheight="128" nextobjectid="52">
  <tileset firstgid="1" name="grey stone wall" tilewidth="128" tileheight="128" tilecount="4" columns="2">
   <image source="grey stone wall grain.png" width="256" height="256"/>
  </tileset>
@@ -23,6 +23,13 @@
   <object id="41" type="Pitfall" x="128" y="1920" width="896" height="128"/>
   <object id="42" type="Pitfall" x="1280" y="1280" width="256" height="768"/>
   <object id="44" type="Pitfall" x="1536" y="1280" width="512" height="256"/>
+  <object id="45" type="MineFloor" x="896" y="896" width="1024" height="384"/>
+  <object id="46" type="MineFloor" x="896" y="1280" width="384" height="640"/>
+  <object id="47" type="MineFloor" x="1024" y="1920" width="128" height="256"/>
+  <object id="48" type="MineFloor" x="1152" y="1920" width="128" height="128"/>
+  <object id="49" type="MineFloor" x="1536" y="1536" width="512" height="512"/>
+  <object id="50" type="MineFloor" x="1920" y="1024" width="128" height="256"/>
+  <object id="51" type="MineFloor" x="2048" y="1024" width="128" height="128"/>
  </objectgroup>
  <objectgroup name="walls">
   <object id="26" x="128" y="0" width="1920" height="128"/>
