@@ -38,7 +38,7 @@ AttributeSet AttributeSystem::getBlankAttributeSet()
 
 	//Sensitivity multiplier should be 1.0 by default.
 	result[to_size_t(Attribute::iceSensitivity)] = 1.0f;
-	result[to_size_t(Attribute::sunDamage)] = 1.0f;
+	result[to_size_t(Attribute::sunSensitivity)] = 1.0f;
 	result[to_size_t(Attribute::poisonSensitivity)] = 1.0f;
 	result[to_size_t(Attribute::slimeSensitivity)] = 1.0f;
 
