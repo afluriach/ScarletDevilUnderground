@@ -237,7 +237,7 @@ const float MagicEffects::fadeoutTime = 0.75f;
 
 const vector<pair<Attribute, RadialMeterSettings>> MagicEffects::meterSettings = {
 	{Attribute::iceDamage,
-		{"sprites/ui/snowflake.png",Color4F(0.2,0.33,0.7,0.5),Color4F(0.16, 0.2, 0.9, 1.0)}
+		{"sprites/ui/snowflake.png",Color4F(0.2f,0.33f,0.7f,0.5f),Color4F(0.16f, 0.2f, 0.9f, 1.0f)}
 	},
 	{ Attribute::sunDamage,
 		{ "sprites/ui/sun.png", Color4F(.3f,.3f,.12f,.5f), Color4F(.4f,.4f,.3f,1.0f) }

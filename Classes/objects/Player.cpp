@@ -54,8 +54,8 @@ void Player::initializeGraphics(SpaceLayer* layer)
 
 	drawNode = DrawNode::create();
 
-	drawNode->drawSolidCircle(Vec2::ZERO, App::pixelsPerTile*grazeRadius, 0.0f, 64, Color4F(0.5f, 0.5f, 0.5f, 0.5f));
-	drawNode->drawSolidCircle(Vec2::ZERO, App::pixelsPerTile*getRadius(), 0.0f, 64, Color4F(0.5f, 0.5f, 0.5f, 0.5f));
+	drawNode->drawSolidCircle(Vec2::ZERO, to_float(App::pixelsPerTile*grazeRadius), 0.0f, 64, Color4F(0.5f, 0.5f, 0.5f, 0.5f));
+	drawNode->drawSolidCircle(Vec2::ZERO, to_float(App::pixelsPerTile*getRadius()), 0.0f, 64, Color4F(0.5f, 0.5f, 0.5f, 0.5f));
 
 	layer->getLayer(GraphicsLayer::agentOverlay)->addChild(drawNode);
 }
@@ -383,14 +383,14 @@ void Player::applyGraze(int p)
 	attributeSystem.modifyAttribute(Attribute::power, p);
 }
 
-bool Player::trySetFirePattern(int idx)
+bool Player::trySetFirePattern(size_t idx)
 {
 	FirePattern* fp = getFirePattern();
 
 	if (fp->isInCooldown())
 		return false;
 
-	if (idx < 0 || idx >= firePatterns.size()) {
+	if (idx >= firePatterns.size()) {
 		log("trySetFirePattern: invalid index %d", idx);
 		return false;
 	}

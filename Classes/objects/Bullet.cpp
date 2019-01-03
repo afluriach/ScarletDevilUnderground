@@ -98,10 +98,10 @@ void IllusionDialDagger::initializeGraphics(SpaceLayer* layer)
 	ImageSprite::initializeGraphics(layer);
 
 	SpaceVect _dim = getDimensions();
-	float hWidth = _dim.x / 2.0 * App::pixelsPerTile;
-	float hHeight = _dim.y / 2.0 * App::pixelsPerTile;
+	float hWidth = to_float(_dim.x / 2.0 * App::pixelsPerTile);
+	float hHeight = to_float(_dim.y / 2.0 * App::pixelsPerTile);
 	drawNode = DrawNode::create();
-	drawNode->drawSolidRect(Vec2(-hWidth,-hHeight), Vec2(hWidth,hHeight), Color4F(96, 192, 96, 0.7));
+	drawNode->drawSolidRect(Vec2(-hWidth,-hHeight), Vec2(hWidth,hHeight), Color4F(.66f, .75f, .66f, .7f));
 
 	layer->getLayer(GraphicsLayer::agentOverlay)->addChild(drawNode);
 	drawNode->setVisible(false);

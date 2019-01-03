@@ -50,3 +50,5 @@ Release.win32/
 *.nativecodeanalysis.xml
 *.nativecodeanalysis.all.xml
 *.lastcodeanalysissucceeded
+*.ib_pdb_index
+proj.win32/PredictedInputCache_Debug_Win32.dat

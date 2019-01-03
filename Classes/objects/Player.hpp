@@ -94,7 +94,7 @@ public:
     
 	FirePattern* getFirePattern();
 
-	bool trySetFirePattern(int idx);
+	bool trySetFirePattern(size_t idx);
 	bool trySetFirePatternNext();
 	bool trySetFirePatternPrevious();
 
@@ -123,7 +123,7 @@ protected:
 	boost::rational<int> interactCooldown = 0;
 
 	vector<unique_ptr<FirePattern>> firePatterns;
-	int crntFirePattern = 0;
+	size_t crntFirePattern = 0;
 
 	SpellDesc* equippedSpell = nullptr;
 
