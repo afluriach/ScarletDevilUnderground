@@ -471,8 +471,8 @@ FlandrePC::FlandrePC(GSpace* space, ObjectIDType id, const ValueMap& args) :
 
 void FlandrePC::setFirePatterns()
 {
-	firePatterns.push_back(make_unique<FlandreBigOrbPattern>(this));
 	firePatterns.push_back(make_unique<FlandreFastOrbPattern>(this));
+	firePatterns.push_back(make_unique<FlandreWideAnglePattern>(this));
 }
 
 void FlandrePC::equipSpells() {
@@ -499,7 +499,7 @@ RumiaPC::RumiaPC(GSpace* space, ObjectIDType id, const ValueMap& args) :
 
 void RumiaPC::setFirePatterns()
 {
-	firePatterns.push_back(make_unique<RumiaFastOrbPattern>(this));
+	firePatterns.push_back(make_unique<RumiaParallelPattern>(this));
 }
 
 void RumiaPC::equipSpells() {
