@@ -194,6 +194,7 @@ public:
     
     float zoom() const;
 	virtual inline int pixelWidth() const { return 32; }
+	virtual bool isAgentAnimation() const { return false; }
 
     void initializeGraphics(SpaceLayer* layer);
     void init();

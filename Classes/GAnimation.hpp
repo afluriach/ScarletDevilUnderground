@@ -29,7 +29,7 @@ public:
     static AnimationSpriteSequence loadFromRasterImage(const string& path, int cols, int rows);
 	static AnimationSpriteSequence loadFromImageSequence(const string& name, int length);
 	static array<AnimationSpriteSequence, 4> loadPatchconSpriteSheet(const string& path);
-	static array<AnimationSpriteSequence, 4> loadAgentAnimation(const string& name);
+	static array<AnimationSpriteSequence, 4> loadAgentAnimation(const string& path);
 
 	AnimationSpriteSequence();
 	AnimationSpriteSequence(Vector<SpriteFrame*> frames);
@@ -68,7 +68,7 @@ public:
     static constexpr SpaceFloat midstepSize = 0.2;
     
 	void setSpriteShader(const string& shader);
-    void loadAnimation(const string& path);    
+    void loadAnimation(const string& path, bool agentAnimation);    
     void accumulate(SpaceFloat dx);
     
     //Reset to standing. Implicitly removes run effect.

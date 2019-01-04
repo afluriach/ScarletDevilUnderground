@@ -98,20 +98,16 @@ SpriteFrame* loadSpriteFrame(const string& path)
 	return SpriteFrame::createWithTexture(t, CCRect(0, 0, t->getPixelsWide(), t->getPixelsHigh()));
 }
 
-array<AnimationSpriteSequence, 4> AnimationSpriteSequence::loadAgentAnimation(const string& name)
+array<AnimationSpriteSequence, 4> AnimationSpriteSequence::loadAgentAnimation(const string& path)
 {
 	array<AnimationSpriteSequence, 4> result;
-	Vector<SpriteFrame*> crntFrames;
+	AnimationSpriteSequence spriteSheet = loadFromRasterImage(path, 3, 4);
 
-	enum_foreach(Direction, dir, right, end)
-	{
-		string dirString = directionToString(dir);
-
-		for_irange(i, 1, 4){
-			crntFrames.pushBack(loadSpriteFrame(name + dirString + "-"+to_string(i)+".png"));
+	for_irange(row, 0, 4){
+		result[row] = AnimationSpriteSequence();
+		for_irange(col, 0, 3){
+			result[row].frames.pushBack(spriteSheet.frames.at(row * 3 + col));
 		}
-		result[to_size_t(dir) - 1] = AnimationSpriteSequence(crntFrames);
-		crntFrames.clear();
 	}
 
 	return result;
@@ -159,12 +155,12 @@ void PatchConAnimation::setSpriteShader(const string& shader) {
 }
 
 
-void PatchConAnimation::loadAnimation(const string& path)
+void PatchConAnimation::loadAnimation(const string& path, bool agentAnimation)
 {
-    if(sprite)
+	if(sprite)
         sprite->removeFromParent();
-    
-	if (path.back() == '/') {
+
+	if (agentAnimation) {
 		walkAnimations = AnimationSpriteSequence::loadAgentAnimation(path);
 	}
 	else {

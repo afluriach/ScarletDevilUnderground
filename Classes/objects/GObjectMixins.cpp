@@ -194,14 +194,14 @@ void PatchConSprite::init()
 void PatchConSprite::initializeGraphics(SpaceLayer* layer)
 {
     animSprite = Node::ccCreate<PatchConAnimation>();
-    animSprite->loadAnimation(imageSpritePath());
+    animSprite->loadAnimation(imageSpritePath(), isAgentAnimation());
     layer->positionAndAddNode(animSprite, sceneLayerAsInt(), getInitialCenterPix(), zoom());
     sprite = animSprite;
 }
 
 void PatchConSprite::setSprite(const string& name)
 {
-    animSprite->loadAnimation("sprites/"+name+".png");
+    animSprite->loadAnimation("sprites/"+name+".png", isAgentAnimation());
 }
 
 void PatchConSprite::setSpriteShader(const string& shaderName)

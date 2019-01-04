@@ -29,7 +29,8 @@ public:
 
 	inline SpaceFloat getMass() const { return 10.0; }
 
-	inline string imageSpritePath() const { return "sprites/scorpion/"; }
+	inline string imageSpritePath() const { return "sprites/scorpion.png"; }
+	virtual bool isAgentAnimation() const { return true; }
 	virtual inline int pixelWidth() const { return 512; }
 
 	virtual void initStateMachine(ai::StateMachine& sm);

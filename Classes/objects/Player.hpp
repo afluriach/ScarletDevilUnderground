@@ -142,7 +142,8 @@ public:
 
 	MapObjCons(FlandrePC);
 
-	virtual inline string imageSpritePath() const { return "sprites/flandre/"; }
+	virtual inline string imageSpritePath() const { return "sprites/flandre.png"; }
+	virtual bool isAgentAnimation() const { return true; }
 	virtual inline int pixelWidth() const { return 512; }
 
 	virtual void setFirePatterns();
@@ -156,7 +157,8 @@ public:
 
 	MapObjCons(RumiaPC);
 
-	virtual inline string imageSpritePath() const { return "sprites/rumia/"; }
+	virtual inline string imageSpritePath() const { return "sprites/rumia.png"; }
+	virtual bool isAgentAnimation() const { return true; }
 	virtual inline int pixelWidth() const { return 512; }
 
 	virtual void setFirePatterns();

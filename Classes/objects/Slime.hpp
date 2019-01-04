@@ -30,7 +30,8 @@ public:
 	virtual inline SpaceFloat getRadius() const { return 0.875; }
 	inline SpaceFloat getMass() const { return 40.0; }
 
-	inline string imageSpritePath() const { return "sprites/slime/"; }
+	inline string imageSpritePath() const { return "sprites/slime.png"; }
+	virtual bool isAgentAnimation() const { return true; }
 	virtual inline int pixelWidth() const { return 256; }
 
 	virtual void initStateMachine(ai::StateMachine& sm);
@@ -53,7 +54,8 @@ public:
 	virtual inline SpaceFloat getRadius() const { return 1.75; }
 	inline SpaceFloat getMass() const { return 200.0; }
 
-	inline string imageSpritePath() const { return "sprites/slime/"; }
+	inline string imageSpritePath() const { return "sprites/slime.png"; }
+	virtual bool isAgentAnimation() const { return true; }
 	virtual inline int pixelWidth() const { return 128; }
 
 	virtual void initStateMachine(ai::StateMachine& sm);
