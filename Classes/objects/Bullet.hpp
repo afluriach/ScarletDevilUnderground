@@ -210,6 +210,27 @@ public:
 	virtual AttributeMap getAttributeEffect() const;
 };
 
+class CirnoSmallIceBullet : virtual public GObject, public PlayerBullet, public CircleBody, public ImageSprite, public DirectionalLaunch
+{
+public:
+	CirnoSmallIceBullet(GSpace* space, ObjectIDType id, SpaceFloat angle, const SpaceVect& pos);
+
+	virtual inline SpaceFloat getMaxSpeed() const { return 9.0; }
+	virtual inline SpaceFloat getRadius() const { return 0.3; }
+
+	virtual inline string imageSpritePath() const { return "sprites/cirno_large_ice_bullet.png"; }
+
+	static constexpr float spriteBaseRadius = 0.83f;
+	inline virtual float zoom() const { return getRadius() / spriteBaseRadius * 2; }
+
+	virtual void onAgentCollide(Agent* agent);
+
+	virtual AttributeMap getAttributeEffect() const;
+	virtual shared_ptr<MagicEffect> getMagicEffect(gobject_ref target);
+protected:
+	int hitsRemaining = 3;
+};
+
 
 class CirnoLargeIceBullet : virtual public GObject, public PlayerBullet, public CircleBody, public ImageSprite, public DirectionalLaunch
 {

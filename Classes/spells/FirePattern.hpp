@@ -121,6 +121,18 @@ public:
 	virtual GObject::GeneratorType spawn(SpaceFloat angle, SpaceVect pos);
 };
 
+class CirnoSmallIceBulletPattern : public SingleBulletFixedIntervalPattern
+{
+public:
+	inline CirnoSmallIceBulletPattern(Agent *const agent) : SingleBulletFixedIntervalPattern(agent) {}
+
+	virtual string iconPath() const { return "sprites/fire_patterns/cirno_large_ice_bullet.png"; }
+
+	virtual boost::rational<int> getCooldownTime() { return boost::rational<int>(1,4); }
+	virtual GObject::GeneratorType spawn(SpaceFloat angle, SpaceVect pos);
+};
+
+
 class IceFairyBulletPattern : public SingleBulletFixedIntervalPattern
 {
 public:

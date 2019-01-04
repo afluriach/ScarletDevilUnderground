@@ -526,7 +526,7 @@ CirnoPC::CirnoPC(GSpace* space, ObjectIDType id, const ValueMap& args) :
 
 void CirnoPC::setFirePatterns()
 {
-	firePatterns.push_back(make_unique<CirnoLargeIceBulletPattern>(this));
+	firePatterns.push_back(make_unique<CirnoSmallIceBulletPattern>(this));
 }
 
 void CirnoPC::equipSpells() {

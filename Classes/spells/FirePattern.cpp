@@ -136,6 +136,11 @@ GObject::GeneratorType CirnoLargeIceBulletPattern::spawn(SpaceFloat angle, Space
 	return GObject::make_object_factory<CirnoLargeIceBullet>(angle, pos);
 }
 
+GObject::GeneratorType CirnoSmallIceBulletPattern::spawn(SpaceFloat angle, SpaceVect pos)
+{
+	return GObject::make_object_factory<CirnoSmallIceBullet>(angle, pos);
+}
+
 GObject::GeneratorType IceFairyBulletPattern::spawn(SpaceFloat angle, SpaceVect pos)
 {
 	return GObject::make_object_factory<IceFairyBullet>(angle, pos);

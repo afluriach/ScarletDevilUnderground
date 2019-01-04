@@ -8,6 +8,7 @@
 
 #include "Prefix.h"
 
+#include "Agent.hpp"
 #include "AI.hpp"
 #include "App.h"
 #include "Bullet.hpp"
@@ -146,6 +147,33 @@ AttributeMap RumiaFastOrb1::getAttributeEffect() const {
 	return {
 		{ Attribute::hp, -1 }
 	};
+}
+
+CirnoSmallIceBullet::CirnoSmallIceBullet(GSpace* space, ObjectIDType id, SpaceFloat angle, const SpaceVect& pos) :
+	GObject(space, id, "", pos, angle, true)
+{}
+
+void CirnoSmallIceBullet::onAgentCollide(Agent* agent)
+{
+	agent->hit(getAttributeEffect(), getMagicEffect(agent));
+	
+	--hitsRemaining;
+
+	if (hitsRemaining <= 0) {
+		space->removeObject(this);
+	}
+}
+
+AttributeMap CirnoSmallIceBullet::getAttributeEffect() const {
+	return {
+		{ Attribute::hp, -1 },
+		{ Attribute::iceDamage, 50 }
+	};
+}
+
+shared_ptr<MagicEffect> CirnoSmallIceBullet::getMagicEffect(gobject_ref target)
+{
+	return nullptr;
 }
 
 CirnoLargeIceBullet::CirnoLargeIceBullet(GSpace* space, ObjectIDType id, SpaceFloat angle, const SpaceVect& pos) :
