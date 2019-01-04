@@ -299,7 +299,10 @@ int GScene::getMapLocation(CCRect r)
 {
 	for_irange(i, 0, mapAreas.size())
 	{
-		if (mapAreas.at(i).intersectsRect(r)) {
+		CCRect mapArea = mapAreas.at(i);
+
+		if (r.getMinX() >= mapArea.getMinX() && r.getMaxX() <= mapArea.getMaxX() &&
+			r.getMinY() >= mapArea.getMinY() && r.getMaxY() <= mapArea.getMaxY()) {
 			return i;
 		}
 	}

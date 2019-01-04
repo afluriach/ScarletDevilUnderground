@@ -99,6 +99,7 @@ protected:
 	float _pixelsPerTile = 1.0f;
 
 	void drawMaps();
+	void drawObject(CCRect area, Color4F color);
 };
 
 #endif /* menu_layers_h */

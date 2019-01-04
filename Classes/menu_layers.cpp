@@ -190,40 +190,31 @@ void MapMenu::drawMaps()
 	const vector<CCRect>& mapAreas = playScene->getMapAreas();
 	const vector<bool>& mapAreasVisited = playScene->getMapAreasVisited();
 
-	for (auto ref : walls)
-	{
-		Wall* wall = ref.get();
-
-		CCRect rect = wall->getBoundingBox();
-		int mapId = playScene->getMapLocation(rect);
-
-		if (mapId != -1 && mapAreasVisited.at(mapId)) {
-			drawNode->drawSolidRect(
-				Vec2(rect.getMinX(), rect.getMinY()) * _pixelsPerTile + Vec2(margin, margin),
-				Vec2(rect.getMaxX(), rect.getMaxY()) * _pixelsPerTile + Vec2(margin, margin),
-				wallColor
-			);
-		}
-	}
-
 	for (auto ref : floors)
 	{
 		FloorSegment* floor = ref.get();
-
 		if (dynamic_cast<MovingPlatform*>(floor) || dynamic_cast<Pitfall*>(floor)) {
 			continue;
 		}
 
-		CCRect rect = floor->getBoundingBox();
-		int mapId = playScene->getMapLocation(rect);
-
-		if (mapId != -1 && mapAreasVisited.at(mapId)) {
-			drawNode->drawSolidRect(
-				Vec2(rect.getMinX(), rect.getMinY()) * _pixelsPerTile + Vec2(margin, margin),
-				Vec2(rect.getMaxX(), rect.getMaxY()) * _pixelsPerTile + Vec2(margin, margin),
-				floorColor
-			);
-		}
+		drawObject(floor->getBoundingBox(), floorColor);
 	}
 
+	for (auto ref : walls){
+		drawObject(ref.get()->getBoundingBox(), wallColor);
+	}
 }
+
+void MapMenu::drawObject(CCRect rect, Color4F color)
+{
+	int mapId = playScene->getMapLocation(rect);
+
+	if (mapId != -1 && playScene->getMapAreasVisited().at(mapId)) {
+		drawNode->drawSolidRect(
+			Vec2(rect.getMinX(), rect.getMinY()) * _pixelsPerTile + Vec2(margin, margin),
+			Vec2(rect.getMaxX(), rect.getMaxY()) * _pixelsPerTile + Vec2(margin, margin),
+			color
+		);
+	}
+}
+
