@@ -25,6 +25,8 @@ SpaceVect dirToVector(Direction d);
 Direction toDirection(SpaceVect);
 Direction angleToDirection(SpaceFloat a);
 Direction stringToDirection(string str);
+string directionToString(Direction d);
+
 SpaceFloat canonicalAngle(SpaceFloat a);
 
 SpaceFloat toDegrees(SpaceFloat a);

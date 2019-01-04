@@ -8,16 +8,17 @@
 
 #include "Prefix.h"
 
+#include "enum.h"
 #include "GAnimation.hpp"
 #include "macros.h"
 
-shared_ptr<AnimationSpriteSequence> AnimationSpriteSequence::loadFromRasterImage(const string& path, int cols, int rows)
+AnimationSpriteSequence AnimationSpriteSequence::loadFromRasterImage(const string& path, int cols, int rows)
 {
     Texture2D* texture = Director::getInstance()->getTextureCache()->addImage(path);
     
     if(!texture){
         log("AnimationSpriteSequence: texture %s not loaded!", path.c_str());
-        return shared_ptr<AnimationSpriteSequence>(nullptr);
+        return AnimationSpriteSequence();
     }
     
     Vector<SpriteFrame*> frames;
@@ -48,10 +49,31 @@ shared_ptr<AnimationSpriteSequence> AnimationSpriteSequence::loadFromRasterImage
         }
     }
     
-    return make_shared<AnimationSpriteSequence>(frames);
+    return AnimationSpriteSequence(frames);
 }
 
-shared_ptr<AnimationSpriteSequence> AnimationSpriteSequence::loadFromImageSequence(const string& name, int length)
+array<AnimationSpriteSequence, 4> AnimationSpriteSequence::loadPatchconSpriteSheet(const string& path)
+{
+	array<AnimationSpriteSequence, 4> result;
+	AnimationSpriteSequence spriteSheet = loadFromRasterImage(path, 4, 4);
+
+	result[0] = AnimationSpriteSequence(spriteSheet.frames.begin()+8, spriteSheet.frames.begin() + 11);
+	result[1] = AnimationSpriteSequence(spriteSheet.frames.begin(), spriteSheet.frames.begin() + 3);
+
+	result[2] = AnimationSpriteSequence();
+	result[2].frames.pushBack(spriteSheet.frames.at(10));
+	result[2].frames.pushBack(spriteSheet.frames.at(9));
+	result[2].frames.pushBack(spriteSheet.frames.at(8));
+
+	result[3] = AnimationSpriteSequence();
+	result[3].frames.pushBack(spriteSheet.frames.at(3));
+	result[3].frames.pushBack(spriteSheet.frames.at(7));
+	result[3].frames.pushBack(spriteSheet.frames.at(11));
+
+	return result;
+}
+
+AnimationSpriteSequence AnimationSpriteSequence::loadFromImageSequence(const string& name, int length)
 {
     Vector<SpriteFrame*> frames;
     
@@ -61,44 +83,50 @@ shared_ptr<AnimationSpriteSequence> AnimationSpriteSequence::loadFromImageSequen
         
         if(!FileUtils::getInstance()->isFileExist(path)){
             log("loadFromImageSequence: %s not found", path.c_str());
-            return nullptr;
+            return AnimationSpriteSequence();
         }
         
         frames.pushBack(Sprite::create(path)->getSpriteFrame());
     }
     
-    return make_shared<AnimationSpriteSequence>(frames);
+    return AnimationSpriteSequence(frames);
 }
 
-shared_ptr<AnimationSpriteSequence> AnimationSpriteSequence::loadAgentAnimation(const string& name)
+SpriteFrame* loadSpriteFrame(const string& path)
 {
-	Vector<SpriteFrame*> frames;
+	Texture2D* t = Director::getInstance()->getTextureCache()->addImage(path);
+	return SpriteFrame::createWithTexture(t, CCRect(0, 0, t->getPixelsWide(), t->getPixelsHigh()));
+}
 
-	frames.pushBack(Sprite::create(name + "up-1.png")->getSpriteFrame());
-	frames.pushBack(Sprite::create(name + "up-2.png")->getSpriteFrame());
-	frames.pushBack(Sprite::create(name + "up-3.png")->getSpriteFrame());
-	frames.pushBack(Sprite::create(name + "down-1.png")->getSpriteFrame());
+array<AnimationSpriteSequence, 4> AnimationSpriteSequence::loadAgentAnimation(const string& name)
+{
+	array<AnimationSpriteSequence, 4> result;
+	Vector<SpriteFrame*> crntFrames;
 
-	frames.pushBack(Sprite::create()->getSpriteFrame());
-	frames.pushBack(Sprite::create()->getSpriteFrame());
-	frames.pushBack(Sprite::create()->getSpriteFrame());
-	frames.pushBack(Sprite::create(name + "down-2.png")->getSpriteFrame());
+	enum_foreach(Direction, dir, right, end)
+	{
+		string dirString = directionToString(dir);
 
-	frames.pushBack(Sprite::create(name + "right-1.png")->getSpriteFrame());
-	frames.pushBack(Sprite::create(name + "right-2.png")->getSpriteFrame());
-	frames.pushBack(Sprite::create(name + "right-3.png")->getSpriteFrame());
-	frames.pushBack(Sprite::create(name + "down-3.png")->getSpriteFrame());
+		for_irange(i, 1, 4){
+			crntFrames.pushBack(loadSpriteFrame(name + dirString + "-"+to_string(i)+".png"));
+		}
+		result[to_size_t(dir) - 1] = AnimationSpriteSequence(crntFrames);
+		crntFrames.clear();
+	}
 
-	frames.pushBack(Sprite::create()->getSpriteFrame());
-	frames.pushBack(Sprite::create()->getSpriteFrame());
-	frames.pushBack(Sprite::create()->getSpriteFrame());
-	frames.pushBack(Sprite::create()->getSpriteFrame());
-
-	return make_shared<AnimationSpriteSequence>(frames);
+	return result;
 }
 
 AnimationSpriteSequence::AnimationSpriteSequence(Vector<SpriteFrame*> frames) : frames(frames) {}
 
+AnimationSpriteSequence::AnimationSpriteSequence() {}
+
+AnimationSpriteSequence::AnimationSpriteSequence(Vector<SpriteFrame*>::iterator begin, Vector<SpriteFrame*>::iterator end)
+{
+	for (auto it = begin; it != end; ++it) {
+		frames.pushBack(*it);
+	}
+}
 
 void TimedLoopAnimation::loadAnimation(const string& name, int length, SpaceFloat animationInterval)
 {
@@ -106,7 +134,7 @@ void TimedLoopAnimation::loadAnimation(const string& name, int length, SpaceFloa
     sequence = AnimationSpriteSequence::loadFromImageSequence(name, length);
     frameInterval = animationInterval / length;
     
-    sprite = Sprite::createWithSpriteFrame(sequence->frames.at(0));
+    sprite = Sprite::createWithSpriteFrame(sequence.frames.at(0));
     sprite->setName("TimedLoopAnimation sprite");
     addChild(sprite,1);
 }
@@ -118,12 +146,12 @@ void TimedLoopAnimation::update()
     while(timeInFrame >= frameInterval){
         ++crntFrame;
         timeInFrame -= frameInterval;
-        if(crntFrame >= sequence->frames.size()){
+        if(crntFrame >= sequence.frames.size()){
             crntFrame = 0;
         }
     }
     
-    sprite->setSpriteFrame(sequence->frames.at(crntFrame));
+    sprite->setSpriteFrame(sequence.frames.at(crntFrame));
 }
 
 void PatchConAnimation::setSpriteShader(const string& shader) {
@@ -137,14 +165,14 @@ void PatchConAnimation::loadAnimation(const string& path)
         sprite->removeFromParent();
     
 	if (path.back() == '/') {
-		sequence = AnimationSpriteSequence::loadAgentAnimation(path);
-		sprite = Sprite::createWithSpriteFrame(sequence->frames.at(0));
+		walkAnimations = AnimationSpriteSequence::loadAgentAnimation(path);
 	}
 	else {
-		sequence = AnimationSpriteSequence::loadFromRasterImage(path, 4, 4);
-		sprite = Sprite::createWithSpriteFrame(sequence->frames.at(0));
+		walkAnimations = AnimationSpriteSequence::loadPatchconSpriteSheet(path);
+		useFlipX = true;
 	}
 
+	sprite = Sprite::create();
     addChild(sprite,1);
     sprite->useAntiAliasTexture(false);
     
@@ -171,8 +199,6 @@ void PatchConAnimation::reset()
 
 void PatchConAnimation::setDirection(Direction dir)
 {
-    //flip or unflip sprite as needed
-    sprite->setFlippedX(dir == Direction::left);
     direction = dir;
     
     //update sprite frame
@@ -218,15 +244,13 @@ void PatchConAnimation::checkAdvanceAnimation()
 void PatchConAnimation::setFrame(int animFrame)
 {
     crntFrame = animFrame;
-    int index = 0;
-    //set crnt frame, and set sprite's frame to match
-    switch(direction)
-    {
-    case Direction::up: index = animFrame; break;
-    case Direction::left: case Direction::right: index = 8+ animFrame; break;
-    case Direction::down: index = animFrame*4+3; break;
-	case Direction::none: break;
-    }
-    sprite->setSpriteFrame(sequence->frames.at(index));
+
+	if (direction != Direction::none){
+		sprite->setSpriteFrame(walkAnimations.at(to_size_t(direction) - 1).frames.at(animFrame));
+	}
+
+	if (useFlipX) {
+		sprite->setFlippedX(direction == Direction::left);
+	}
 }
 

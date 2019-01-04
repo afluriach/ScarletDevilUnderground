@@ -83,6 +83,18 @@ Direction stringToDirection(string str)
     return Direction::none;
 }
 
+const array<string, to_size_t(Direction::end)> directionNames = {
+	"none",
+	"right",
+	"up",
+	"left",
+	"down"
+};
+
+string directionToString(Direction d)
+{
+	return (d >= Direction::none && d < Direction::end) ? directionNames[to_size_t(d)] : "";
+}
 
 IntVec2 toIntVector(const cocos2d::CCSize& rhs)
 {

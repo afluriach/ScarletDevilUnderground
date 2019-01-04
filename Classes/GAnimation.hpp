@@ -13,6 +13,8 @@
 #include "types.h"
 #include "util.h"
 
+SpriteFrame* loadSpriteFrame(const string& path);
+
 //The set of sprites frames used for a single animation. Since the sprite frames are
 //stateless and do not contain any logic representing an animation, only one needs to exist.
 //However, since SpriteFrames are a relatively lightweight wrapper (and since Textures
@@ -24,12 +26,15 @@
 class AnimationSpriteSequence
 {
 public:
-    static shared_ptr<AnimationSpriteSequence> loadFromRasterImage(const string& path, int cols, int rows);
-    static shared_ptr<AnimationSpriteSequence> loadFromImageSequence(const string& name, int length);
-	static shared_ptr<AnimationSpriteSequence> loadAgentAnimation(const string& name);
+    static AnimationSpriteSequence loadFromRasterImage(const string& path, int cols, int rows);
+	static AnimationSpriteSequence loadFromImageSequence(const string& name, int length);
+	static array<AnimationSpriteSequence, 4> loadPatchconSpriteSheet(const string& path);
+	static array<AnimationSpriteSequence, 4> loadAgentAnimation(const string& name);
 
+	AnimationSpriteSequence();
 	AnimationSpriteSequence(Vector<SpriteFrame*> frames);
-    //Use cocos vector to manage object lifecycle.
+	AnimationSpriteSequence(Vector<SpriteFrame*>::iterator begin, Vector<SpriteFrame*>::iterator end);
+
     Vector<SpriteFrame*> frames;
 };
 
@@ -47,7 +52,7 @@ public:
    void loadAnimation(const string& name, int length, SpaceFloat animationInterval);
    void update();
 protected:
-    shared_ptr<AnimationSpriteSequence> sequence;
+    AnimationSpriteSequence sequence;
     SpaceFloat frameInterval;
     SpaceFloat timeInFrame = 0.0;
     int crntFrame = 0;
@@ -62,7 +67,6 @@ public:
     static constexpr SpaceFloat stepSize = 0.4;
     static constexpr SpaceFloat midstepSize = 0.2;
     
-    
 	void setSpriteShader(const string& shader);
     void loadAnimation(const string& path);    
     void accumulate(SpaceFloat dx);
@@ -73,7 +77,9 @@ public:
 	Direction getDirection()const;
     void checkAdvanceAnimation();
 protected:
-    shared_ptr<AnimationSpriteSequence> sequence;
+	bool useFlipX = false;
+
+	array<AnimationSpriteSequence, 4> walkAnimations;
 
     Sprite* sprite = nullptr;
     SpaceFloat distanceAccumulated = 0.0;

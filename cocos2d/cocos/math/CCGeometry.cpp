@@ -167,6 +167,16 @@ float CCRect::getMinY() const
     return origin.y;
 }
 
+float CCRect::getWidth() const
+{
+	return size.width;
+}
+
+float CCRect::getHeight() const
+{
+	return size.height;
+}
+
 bool CCRect::containsPoint(const Vec2& point) const
 {
     bool bRet = false;

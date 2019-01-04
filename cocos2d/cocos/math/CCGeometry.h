@@ -185,6 +185,10 @@ public:
      * @js NA
      */
     float getMaxY() const; /// return the topmost y-value of current rect
+
+	float getWidth() const;
+	float getHeight() const;
+
     /**
     Compare two rects.
      * @js NA
