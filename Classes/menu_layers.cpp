@@ -10,6 +10,7 @@
 
 #include "App.h"
 #include "controls.h"
+#include "FloorSegment.hpp"
 #include "Graphics.h"
 #include "GSpace.hpp"
 #include "menu_layers.h"
@@ -142,6 +143,7 @@ const int MapMenu::margin = 64;
 
 const Color4F MapMenu::backgroundColor(0.5f, 0.5f, 0.5f, 0.5f);
 const Color4F MapMenu::wallColor(0.3f, 0.3f, 0.7f, 1.0f);
+const Color4F MapMenu::floorColor(0.45f, 0.45f, 0.85f, 1.0f);
 
 MapMenu::MapMenu(PlayScene* playScene) :
 	playScene(playScene),
@@ -184,6 +186,7 @@ void MapMenu::close()
 void MapMenu::drawMaps()
 {
 	vector<object_ref<Wall>> walls = playScene->getSpace()->getObjectsByTypeAs<Wall>();
+	vector<object_ref<FloorSegment>> floors = playScene->getSpace()->getObjectsByTypeAs<FloorSegment>();
 	const vector<CCRect>& mapAreas = playScene->getMapAreas();
 	const vector<bool>& mapAreasVisited = playScene->getMapAreasVisited();
 
@@ -202,4 +205,25 @@ void MapMenu::drawMaps()
 			);
 		}
 	}
+
+	for (auto ref : floors)
+	{
+		FloorSegment* floor = ref.get();
+
+		if (dynamic_cast<MovingPlatform*>(floor) || dynamic_cast<Pitfall*>(floor)) {
+			continue;
+		}
+
+		CCRect rect = floor->getBoundingBox();
+		int mapId = playScene->getMapLocation(rect);
+
+		if (mapId != -1 && mapAreasVisited.at(mapId)) {
+			drawNode->drawSolidRect(
+				Vec2(rect.getMinX(), rect.getMinY()) * _pixelsPerTile + Vec2(margin, margin),
+				Vec2(rect.getMaxX(), rect.getMaxY()) * _pixelsPerTile + Vec2(margin, margin),
+				floorColor
+			);
+		}
+	}
+
 }

@@ -84,6 +84,7 @@ public:
 	static const int margin;
 	static const Color4F backgroundColor;
 	static const Color4F wallColor;
+	static const Color4F floorColor;
 
 	MapMenu(PlayScene* playScene);
 

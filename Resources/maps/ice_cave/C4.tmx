@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.0" tiledversion="1.0.3" orientation="orthogonal" renderorder="right-down" width="17" height="17" tilewidth="128" tileheight="128" nextobjectid="54">
+<map version="1.0" tiledversion="1.0.3" orientation="orthogonal" renderorder="right-down" width="17" height="17" tilewidth="128" tileheight="128" nextobjectid="55">
  <tileset firstgid="1" name="ice_wall" tilewidth="128" tileheight="128" tilecount="4" columns="2">
   <image source="ice_wall.png" width="256" height="256"/>
  </tileset>
@@ -55,10 +55,10 @@
   </object>
  </objectgroup>
  <objectgroup name="walls">
-  <object id="26" x="128" y="0" width="1920" height="128"/>
-  <object id="27" x="2048" y="128" width="128" height="1920"/>
-  <object id="28" x="128" y="2048" width="1920" height="128"/>
-  <object id="29" x="0" y="1152" width="128" height="896"/>
+  <object id="26" x="0" y="0" width="2048" height="128"/>
+  <object id="27" x="2048" y="0" width="128" height="2048"/>
+  <object id="28" x="128" y="2048" width="2048" height="128"/>
+  <object id="29" x="0" y="1152" width="128" height="1024"/>
   <object id="32" x="0" y="128" width="128" height="896"/>
  </objectgroup>
  <objectgroup name="objects"/>
