@@ -324,7 +324,7 @@ protected:
 
 class Scurry : public Function {
 public:
-	Scurry(GSpace* space, SpaceVect displacement, SpaceFloat length);
+	Scurry(GSpace* space, GObject* _target, SpaceFloat distance, SpaceFloat length);
 
 	virtual void update(StateMachine& sm);
 
@@ -335,8 +335,9 @@ public:
 	FuncGetName(Scurry)
 protected:
 	unsigned int startFrame, endFrame;
-	SpaceVect displacement;
+	SpaceFloat distance;
 	bool scurryLeft = true;
+	gobject_ref target;
 };
 
 

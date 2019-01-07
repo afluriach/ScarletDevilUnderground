@@ -30,7 +30,8 @@ void Scorpion1::initStateMachine(ai::StateMachine& sm)
 		[sm](GObject* target) -> shared_ptr<ai::Function> {
 			return make_shared<ai::Scurry>(
 				target->space,
-				ai::directionToTarget(sm.agent, target->getPos()).rotate(float_pi/2.0) * 3.0,
+				target,
+				3.0,
 				-1.0
 			);
 		}

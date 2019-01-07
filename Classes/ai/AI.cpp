@@ -664,8 +664,9 @@ void OccupyMidpoint::update(StateMachine& sm)
 	}
 }
 
-Scurry::Scurry(GSpace* space, SpaceVect displacement, SpaceFloat length) :
-displacement(displacement)
+Scurry::Scurry(GSpace* space, GObject* _target, SpaceFloat _distance, SpaceFloat length) :
+distance(_distance),
+target(_target)
 {
 	startFrame = space->getFrame();
 
@@ -677,9 +678,11 @@ displacement(displacement)
 
 void Scurry::update(StateMachine& sm)
 {
-	if (endFrame != 0 && sm.agent->space->getFrame() >= endFrame) {
+	if (!target.isValid() || endFrame != 0 && sm.agent->space->getFrame() >= endFrame) {
 		sm.pop();
 	}
+
+	SpaceVect displacement = displacementToTarget(sm.agent, target.get()->getPos());
 
 	SpaceFloat angle = displacement.toAngle();
 	if (!scurryLeft) {
@@ -692,7 +695,7 @@ void Scurry::update(StateMachine& sm)
 
 	if (direction != -1) {
 		sm.push(make_shared <MoveToPoint>(
-			sm.agent->getPos() + SpaceVect::ray(displacement.length(), direction * float_pi / 4.0)
+			sm.agent->getPos() + SpaceVect::ray(distance, direction * float_pi / 4.0)
 		));
 	}
 }
