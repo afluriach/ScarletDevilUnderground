@@ -39,6 +39,33 @@ StateMachineObject::StateMachineObject(shared_ptr<ai::Function> startState, cons
         fsm.push(startState);
 }
 
+StateMachineObject::StateMachineObject(const ValueMap& args) : StateMachineObject(nullptr, args) {}
+
+void StateMachineObject::update() {
+	if (!isFrozen)
+		fsm.update();
+}
+
+unsigned int StateMachineObject::addThread(shared_ptr<ai::Function> threadMain) {
+	return fsm.addThread(threadMain);
+}
+
+void StateMachineObject::removeThread(unsigned int uuid) {
+	fsm.removeThread(uuid);
+}
+
+void StateMachineObject::removeThread(const string& name) {
+	fsm.removeThread(name);
+}
+
+void StateMachineObject::printFSM() {
+	log("%s", fsm.toString().c_str());
+}
+
+void StateMachineObject::setFrozen(bool val) {
+	isFrozen = val;
+}
+
     void RadarObject::onDetect(GObject* other) {
 #if GOBJECT_LUA
 		ctx->callIfExistsNoReturn("onDetect", ctx->makeArgs(other));

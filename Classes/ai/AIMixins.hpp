@@ -16,33 +16,15 @@
 class StateMachineObject : virtual public GObject, RegisterUpdate<StateMachineObject>
 {
 public:
-    inline StateMachineObject(const ValueMap& args) : StateMachineObject(nullptr, args) {}
+	StateMachineObject(const ValueMap& args);
 	StateMachineObject(shared_ptr<ai::Function> startState, const ValueMap& arg);
 
-	inline void update() {
-		if(!isFrozen)
-			fsm.update();
-	}
-
-	inline unsigned int addThread(shared_ptr<ai::Function> threadMain) {
-		return fsm.addThread(threadMain);
-	}
-    
-    inline void removeThread(unsigned int uuid){
-        fsm.removeThread(uuid);
-    }
-
-    inline void removeThread(const string& name){
-        fsm.removeThread(name);
-    }
-    
-    inline void printFSM(){
-        log("%s", fsm.toString().c_str());
-    }
-
-	inline void setFrozen(bool val) {
-		isFrozen = val;
-	}
+	void update();
+	unsigned int addThread(shared_ptr<ai::Function> threadMain);
+	void removeThread(unsigned int uuid);
+	void removeThread(const string& name);
+	void printFSM();
+	void setFrozen(bool val);
 
 protected:
 	ai::StateMachine fsm;

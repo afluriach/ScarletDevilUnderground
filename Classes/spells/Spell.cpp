@@ -18,6 +18,21 @@
 #include "util.h"
 #include "value_map.hpp"
 
+Spell::Spell(GObject* caster, const ValueMap& args, SpellDesc* descriptor) :
+	caster(caster),
+	descriptor(descriptor)
+{}
+
+Spell::~Spell() {}
+
+bool Spell::isActive() const {
+	return active;
+}
+
+SpellDesc* Spell::getDescriptor() const {
+	return descriptor;
+}
+
 shared_ptr<SpellDesc> Spell::getDescriptor(const string& name)
 {
 	auto it = spellDescriptors.find(name);

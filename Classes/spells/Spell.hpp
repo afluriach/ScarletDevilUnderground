@@ -33,25 +33,17 @@ public:
 
 	static shared_ptr<SpellDesc> getDescriptor(const string& name);
 
-    inline Spell(GObject* caster,const ValueMap& args, SpellDesc* descriptor) :
-		caster(caster),
-		descriptor(descriptor)
-	{}
+	Spell(GObject* caster, const ValueMap& args, SpellDesc* descriptor);
+	virtual ~Spell();
     
-	inline virtual ~Spell() {}
-    
-    inline bool isActive() const{
-        return active;
-    }
+	bool isActive() const;
 
 	template<class T>
 	inline T* getCasterAs(){
 		return dynamic_cast<T*>(caster);
 	}
 
-	inline SpellDesc* getDescriptor() const {
-		return descriptor;
-	}
+	SpellDesc* getDescriptor() const;
 
     virtual void init() = 0;
     virtual void update() = 0;
