@@ -176,10 +176,10 @@ void PatchConAnimation::loadAnimation(const string& path, bool agentAnimation)
 }
 
 
-void PatchConAnimation::accumulate(SpaceFloat dx)
+bool PatchConAnimation::accumulate(SpaceFloat dx)
 {
     distanceAccumulated += dx;
-    checkAdvanceAnimation();
+    return checkAdvanceAnimation();
 }
 
 //Reset to standing. Implicitly removes run effect.
@@ -206,8 +206,10 @@ Direction PatchConAnimation::getDirection()const {
 }
 
 
-void PatchConAnimation::checkAdvanceAnimation()
+bool PatchConAnimation::checkAdvanceAnimation()
 {
+	bool advance = false;
+
     //TODO cases are symmetrical, should be able to optimize
     switch(crntFrame)
     {
@@ -215,6 +217,7 @@ void PatchConAnimation::checkAdvanceAnimation()
         if(distanceAccumulated >= stepSize)
         {
             setFrame(1);
+			advance = true;
             distanceAccumulated -= stepSize;
             nextStepIsLeft = false;
         }
@@ -223,7 +226,8 @@ void PatchConAnimation::checkAdvanceAnimation()
         if(distanceAccumulated >= stepSize)
         {
             setFrame(1);
-            distanceAccumulated -= stepSize;
+			advance = true;
+			distanceAccumulated -= stepSize;
             nextStepIsLeft = true;
         }
     break;
@@ -235,6 +239,8 @@ void PatchConAnimation::checkAdvanceAnimation()
         }
     break;
     }
+
+	return advance;
 }
 
 void PatchConAnimation::setFrame(int animFrame)

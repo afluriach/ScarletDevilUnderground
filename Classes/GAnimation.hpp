@@ -69,13 +69,13 @@ public:
     
 	void setSpriteShader(const string& shader);
     void loadAnimation(const string& path, bool agentAnimation);    
-    void accumulate(SpaceFloat dx);
+    bool accumulate(SpaceFloat dx);
     
     //Reset to standing. Implicitly removes run effect.
     void reset();
     void setDirection(Direction dir);
 	Direction getDirection()const;
-    void checkAdvanceAnimation();
+    bool checkAdvanceAnimation();
 protected:
 	bool useFlipX = false;
 

@@ -195,3 +195,9 @@ GObject(space, id, args, true),
 FloorSegment(space, id, args)
 {
 }
+
+SandFloor::SandFloor(GSpace* space, ObjectIDType id, const ValueMap& args) :
+	GObject(space, id, args, true),
+	FloorSegment(space, id, args)
+{
+}

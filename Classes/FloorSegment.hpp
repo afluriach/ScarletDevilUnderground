@@ -26,6 +26,8 @@ public:
 	virtual inline bool getSensor() const { return true; }
 
 	virtual inline SpaceFloat getFrictionCoeff() const { return 1.0; }
+	
+	virtual inline string getFootstepSfx() const { return ""; }
 
 	virtual void onContact(GObject* obj) {};
 	virtual void onEndContact(GObject* obj) {};
@@ -69,6 +71,8 @@ public:
 	virtual inline string imageSpritePath() const { return "sprites/ice_platform.png"; }
 	virtual inline float zoom() const { return 2.0f; }
 
+	virtual inline string getFootstepSfx() const { return "sfx/footstep_ice.wav"; }
+
 	virtual inline SpaceFloat getFrictionCoeff() const { return 0.2; }
 };
 
@@ -82,6 +86,8 @@ class MineFloor : public FloorSegment, public NoSprite
 {
 public:
 	MapObjCons(MineFloor);
+
+	virtual inline string getFootstepSfx() const { return "sfx/footstep_cave.wav"; }
 };
 
 class IceFloor : public FloorSegment, public NoSprite
@@ -90,6 +96,8 @@ public:
 	static const SpaceFloat frictionCoeff;
 
 	MapObjCons(IceFloor);
+
+	virtual inline string getFootstepSfx() const { return "sfx/footstep_ice.wav"; }
 
 	virtual inline SpaceFloat getFrictionCoeff() const { return 0.25; }
 };
@@ -125,12 +133,25 @@ class GrassFloor : public FloorSegment, public NoSprite
 {
 public:
 	MapObjCons(GrassFloor);
+
+	virtual inline string getFootstepSfx() const { return "sfx/footstep_grass.wav"; }
 };
 
 class StoneFloor : public FloorSegment, public NoSprite
 {
 public:
 	MapObjCons(StoneFloor);
+
+	virtual inline string getFootstepSfx() const { return "sfx/footstep_stone.wav"; }
 };
+
+class SandFloor : public FloorSegment, public NoSprite
+{
+public:
+	MapObjCons(SandFloor);
+
+	virtual inline string getFootstepSfx() const { return "sfx/footstep_sand.wav"; }
+};
+
 
 #endif /* FloorSegment_hpp */

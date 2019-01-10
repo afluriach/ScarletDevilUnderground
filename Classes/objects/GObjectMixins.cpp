@@ -218,7 +218,14 @@ void PatchConSprite::update()
 {
     SpaceVect dist = body->getVel()*App::secondsPerFrame;
     
-    animSprite->accumulate(dist.length());
+    bool advance = animSprite->accumulate(dist.length());
+
+	if (advance && crntFloorCenterContact.isValid()) {
+		string sfxRes = crntFloorCenterContact.get()->getFootstepSfx();
+		if (!sfxRes.empty()) {
+			App::playSound(sfxRes);
+		}
+	}
 }
 
 void PatchConSprite::setAngle(SpaceFloat a)
