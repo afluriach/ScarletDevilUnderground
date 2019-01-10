@@ -77,7 +77,7 @@
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
       <Optimization>Disabled</Optimization>
-      <AdditionalIncludeDirectories>C:\Users\toni\git\kouma\gainput\include;D:\dev\boost_1_59_0;C:\Users\toni\git\kouma\Classes\ai;C:\Users\toni\git\kouma\Classes\lua;C:\Users\toni\git\kouma\Classes\spells;C:\Users\toni\git\kouma\Classes\objects;C:\Users\toni\git\kouma\Classes\scenes;$(EngineRoot)cocos\audio\include;$(EngineRoot)external;C:\Users\toni\git\kouma\cocos2d\LuaBridge;C:\Users\toni\git\kouma\cocos2d\LuaBridge\detail;C:\Users\toni\git\kouma\cocos2d\lua;C:\Users\toni\git\kouma\cocos2d\chipmunk\constraints;C:\Users\toni\git\kouma\cocos2d\chipmunkpp;C:\Users\toni\git\kouma\cocos2d\chipmunk;$(EngineRoot)extensions;..\Classes;..;%(AdditionalIncludeDirectories);$(_COCOS_HEADER_WIN32_BEGIN);$(_COCOS_HEADER_WIN32_END)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>C:\Program Files (x86)\FMOD SoundSystem\FMOD Studio API Windows\api\lowlevel\inc;C:\Users\toni\git\kouma\gainput\include;D:\dev\boost_1_59_0;C:\Users\toni\git\kouma\Classes\ai;C:\Users\toni\git\kouma\Classes\lua;C:\Users\toni\git\kouma\Classes\spells;C:\Users\toni\git\kouma\Classes\objects;C:\Users\toni\git\kouma\Classes\scenes;$(EngineRoot)cocos\audio\include;$(EngineRoot)external;C:\Users\toni\git\kouma\cocos2d\LuaBridge;C:\Users\toni\git\kouma\cocos2d\LuaBridge\detail;C:\Users\toni\git\kouma\cocos2d\lua;C:\Users\toni\git\kouma\cocos2d\chipmunk\constraints;C:\Users\toni\git\kouma\cocos2d\chipmunkpp;C:\Users\toni\git\kouma\cocos2d\chipmunk;$(EngineRoot)extensions;..\Classes;..;%(AdditionalIncludeDirectories);$(_COCOS_HEADER_WIN32_BEGIN);$(_COCOS_HEADER_WIN32_END)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>CC_STATIC=1;GLEW_STATIC=1;WIN32;_DEBUG;_WINDOWS;_USE_MATH_DEFINES;GL_GLEXT_PROTOTYPES;CC_ENABLE_CHIPMUNK_INTEGRATION=1;COCOS2D_DEBUG=1;_CRT_SECURE_NO_WARNINGS;_SCL_SECURE_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <MinimalRebuild>false</MinimalRebuild>
       <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
@@ -91,9 +91,9 @@
       <PrecompiledHeaderFile>Prefix.h</PrecompiledHeaderFile>
     </ClCompile>
     <Link>
-      <AdditionalDependencies>Lua.lib;Chipmunk.lib;ChipmunkPlusPlus.lib;libcocos2d.lib;xinput.lib;legacy_stdio_definitions.lib;glew32.lib;gainputstatic-debug.lib;%(AdditionalDependencies);$(_COCOS_LIB_WIN32_BEGIN);$(_COCOS_LIB_WIN32_END)</AdditionalDependencies>
+      <AdditionalDependencies>Lua.lib;Chipmunk.lib;ChipmunkPlusPlus.lib;libcocos2d.lib;xinput.lib;legacy_stdio_definitions.lib;glew32.lib;fmod_vc.lib;gainputstatic-debug.lib;%(AdditionalDependencies);$(_COCOS_LIB_WIN32_BEGIN);$(_COCOS_LIB_WIN32_END)</AdditionalDependencies>
       <OutputFile>$(OutDir)$(ProjectName).exe</OutputFile>
-      <AdditionalLibraryDirectories>C:\Users\toni\git\kouma\cocos2d\external\win32-specific\gles\prebuilt;D:\dev\boost_1_59_0\lib-vc140\;$(OutDir);%(AdditionalLibraryDirectories);$(_COCOS_LIB_PATH_WIN32_BEGIN);$(_COCOS_LIB_PATH_WIN32_END);C:\Users\toni\git\kouma\gainput\lib\win32</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>C:\Program Files (x86)\FMOD SoundSystem\FMOD Studio API Windows\api\lowlevel\lib;C:\Users\toni\git\kouma\cocos2d\external\win32-specific\gles\prebuilt;D:\dev\boost_1_59_0\lib-vc140\;$(OutDir);%(AdditionalLibraryDirectories);$(_COCOS_LIB_PATH_WIN32_BEGIN);$(_COCOS_LIB_PATH_WIN32_END);C:\Users\toni\git\kouma\gainput\lib\win32</AdditionalLibraryDirectories>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <SubSystem>Windows</SubSystem>
       <TargetMachine>MachineX86</TargetMachine>
@@ -112,7 +112,7 @@ xcopy "$(ProjectDir)..\Resources" "$(OutDir)" /D /E /I /F /Y</Command>
     <ClCompile>
       <Optimization>MaxSpeed</Optimization>
       <IntrinsicFunctions>true</IntrinsicFunctions>
-      <AdditionalIncludeDirectories>D:\dev\boost_1_59_0;C:\Users\toni\git\kouma\Classes\ai;C:\Users\toni\git\kouma\Classes\lua;C:\Users\toni\git\kouma\Classes\objects;C:\Users\toni\git\kouma\Classes\spells;C:\Users\toni\git\kouma\Classes\scenes;$(EngineRoot)cocos\audio\include;$(EngineRoot)external;C:\Users\toni\git\kouma\cocos2d\LuaBridge;C:\Users\toni\git\kouma\cocos2d\LuaBridge\detail;C:\Users\toni\git\kouma\cocos2d\lua;C:\Users\toni\git\kouma\cocos2d\chipmunk\constraints;C:\Users\toni\git\kouma\cocos2d\chipmunkpp;C:\Users\toni\git\kouma\cocos2d\chipmunk;$(EngineRoot)extensions;..\Classes;..;%(AdditionalIncludeDirectories);$(_COCOS_HEADER_WIN32_BEGIN);$(_COCOS_HEADER_WIN32_END);C:\Users\toni\git\kouma\gainput\include</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>C:\Program Files (x86)\FMOD SoundSystem\FMOD Studio API Windows\api\lowlevel\inc;D:\dev\boost_1_59_0;C:\Users\toni\git\kouma\Classes\ai;C:\Users\toni\git\kouma\Classes\lua;C:\Users\toni\git\kouma\Classes\objects;C:\Users\toni\git\kouma\Classes\spells;C:\Users\toni\git\kouma\Classes\scenes;$(EngineRoot)cocos\audio\include;$(EngineRoot)external;C:\Users\toni\git\kouma\cocos2d\LuaBridge;C:\Users\toni\git\kouma\cocos2d\LuaBridge\detail;C:\Users\toni\git\kouma\cocos2d\lua;C:\Users\toni\git\kouma\cocos2d\chipmunk\constraints;C:\Users\toni\git\kouma\cocos2d\chipmunkpp;C:\Users\toni\git\kouma\cocos2d\chipmunk;$(EngineRoot)extensions;..\Classes;..;%(AdditionalIncludeDirectories);$(_COCOS_HEADER_WIN32_BEGIN);$(_COCOS_HEADER_WIN32_END);C:\Users\toni\git\kouma\gainput\include</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>CC_STATIC=1;GLEW_STATIC=1;WIN32;NDEBUG;_WINDOWS;_USE_MATH_DEFINES;GL_GLEXT_PROTOTYPES;CC_ENABLE_CHIPMUNK_INTEGRATION=1;_CRT_SECURE_NO_WARNINGS;_SCL_SECURE_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
       <FunctionLevelLinking>true</FunctionLevelLinking>
@@ -125,9 +125,9 @@ xcopy "$(ProjectDir)..\Resources" "$(OutDir)" /D /E /I /F /Y</Command>
       <PrecompiledHeaderFile>Prefix.h</PrecompiledHeaderFile>
     </ClCompile>
     <Link>
-      <AdditionalDependencies>Lua.lib;Chipmunk.lib;ChipmunkPlusPlus.lib;libcocos2d.lib;xinput.lib;legacy_stdio_definitions.lib;glew32.lib;gainputstatic-release.lib;libcurl_imp.lib;websockets.lib;%(AdditionalDependencies);$(_COCOS_LIB_WIN32_BEGIN);$(_COCOS_LIB_WIN32_END)</AdditionalDependencies>
+      <AdditionalDependencies>Lua.lib;Chipmunk.lib;ChipmunkPlusPlus.lib;libcocos2d.lib;xinput.lib;legacy_stdio_definitions.lib;glew32.lib;fmod_vc.lib;gainputstatic-release.lib;libcurl_imp.lib;websockets.lib;%(AdditionalDependencies);$(_COCOS_LIB_WIN32_BEGIN);$(_COCOS_LIB_WIN32_END)</AdditionalDependencies>
       <OutputFile>$(OutDir)$(ProjectName).exe</OutputFile>
-      <AdditionalLibraryDirectories>C:\Users\toni\git\kouma\cocos2d\external\win32-specific\gles\prebuilt;D:\dev\boost_1_59_0\lib-x64;$(OutDir);%(AdditionalLibraryDirectories);$(_COCOS_LIB_PATH_WIN32_BEGIN);$(_COCOS_LIB_PATH_WIN32_END);C:\Users\toni\git\kouma\gainput\lib\win32</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>C:\Program Files (x86)\FMOD SoundSystem\FMOD Studio API Windows\api\lowlevel\lib;C:\Users\toni\git\kouma\cocos2d\external\win32-specific\gles\prebuilt;D:\dev\boost_1_59_0\lib-x64;$(OutDir);%(AdditionalLibraryDirectories);$(_COCOS_LIB_PATH_WIN32_BEGIN);$(_COCOS_LIB_PATH_WIN32_END);C:\Users\toni\git\kouma\gainput\lib\win32</AdditionalLibraryDirectories>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <SubSystem>Windows</SubSystem>
       <OptimizeReferences>true</OptimizeReferences>

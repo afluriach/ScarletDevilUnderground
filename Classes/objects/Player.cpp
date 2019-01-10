@@ -171,7 +171,7 @@ void Player::updateSpellControls(const ControlInfo& cs)
 		) {
 			attributeSystem.modifyAttribute(Attribute::mp, -1.0f);
 			cast(equippedSpell->generate(this, {}));		
-			App::playSound("sfx/player_spellcard.wav");
+			App::playSound("sfx/player_spellcard.wav", 1.0f);
 		}
     }
 }
@@ -239,6 +239,8 @@ void Player::onZeroHP()
 
 void Player::update()
 {
+	App::setSoundListenerPos(getPos(), getVel(), float_pi/2.0);
+
 	if (playScene && !playScene->getGameOver()) {
 		ControlInfo cs = playScene->getControlData();
 
@@ -353,7 +355,7 @@ void Player::hit(AttributeMap attributeEffect, shared_ptr<MagicEffect> effect){
 			hitFlickerInterval
 		));
 
-		App::playSound("sfx/player_hit.wav");
+		App::playSound("sfx/player_hit.wav", 1.0f);
     }
 }
 
@@ -384,7 +386,7 @@ void Player::onGrazeCleared(object_ref<EnemyBullet> bullet)
 void Player::applyGraze(int p)
 {
 	attributeSystem.modifyAttribute(Attribute::power, p);
-	App::playSound("sfx/graze.wav");
+	App::playSound("sfx/graze.wav", 1.0f);
 }
 
 bool Player::trySetFirePattern(size_t idx)

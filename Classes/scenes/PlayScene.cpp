@@ -77,6 +77,8 @@ GScene(sceneName, maps)
 		ControlAction::mapMenu,
 		[=]()-> void {onMapPressed(); }
 	);
+
+	App::resumeSounds();
 }
 
 PlayScene::~PlayScene()
@@ -165,7 +167,7 @@ void PlayScene::enterPause()
 	pauseMenu = Node::ccCreate<PauseMenu>();
 	getLayer(sceneLayers::menu)->addChild(pauseMenu);
     pauseAnimations();
-	CocosDenshion::SimpleAudioEngine::getInstance()->pauseAllEffects();
+	App::pauseSounds();
 	setPaused(true);
 	isShowingMenu = true;
 }
@@ -175,7 +177,7 @@ void PlayScene::exitPause()
 	getLayer(sceneLayers::menu)->removeChild(pauseMenu);
 	pauseMenu = nullptr;
     resumeAnimations();
-	CocosDenshion::SimpleAudioEngine::getInstance()->resumeAllEffects();
+	App::resumeSounds();
 	setPaused(false);
 	isShowingMenu = false;
 }

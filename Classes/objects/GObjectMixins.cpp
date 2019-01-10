@@ -220,10 +220,16 @@ void PatchConSprite::update()
     
     bool advance = animSprite->accumulate(dist.length());
 
-	if (advance && crntFloorCenterContact.isValid()) {
+	if (advance && crntFloorCenterContact.isValid() ) {
 		string sfxRes = crntFloorCenterContact.get()->getFootstepSfx();
 		if (!sfxRes.empty()) {
-			App::playSound(sfxRes);
+
+			if (dynamic_cast<Player*>(this)) {
+				App::playSound(sfxRes, 0.25f);
+			}
+			else {
+				App::playSoundSpatial(sfxRes, getPos(), getVel());
+			}
 		}
 	}
 }

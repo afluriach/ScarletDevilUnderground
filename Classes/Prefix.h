@@ -55,9 +55,9 @@
 #include "chipmunk.hpp"
 #include "cocos2d.h"
 #include "ui/CocosGUI.h"
-#include "SimpleAudioEngine.h"
 #include "lua.hpp"
 #include "LuaBridge.h"
+#include "fmod.hpp"
 
 #if use_gamepad
     #include "gainput/gainput.h"

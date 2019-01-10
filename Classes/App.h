@@ -48,6 +48,8 @@ public:
     constexpr static float tilesPerPixel = 1.0f/pixelsPerTile;
     constexpr static float viewWidth = 22.5f;
     
+	static const int maxAudioChannels = 128;
+
     static const bool showStats = true;
     static const bool logSprites = false;
     static const string title;
@@ -83,7 +85,11 @@ public:
 	static void printGlDebug();
 	static void end();
 
-	static void playSound(const string& path);
+	static void playSound(const string& path, float volume);
+	static void playSoundSpatial(const string& path, SpaceVect pos, SpaceVect vel);
+	static void pauseSounds();
+	static void resumeSounds();
+	static void setSoundListenerPos(SpaceVect pos, SpaceVect vel, SpaceFloat angle);
 
     App();
     virtual ~App();
@@ -113,6 +119,11 @@ protected:
 	boost::random::uniform_01<float> randomFloat;
 	boost::random::uniform_int_distribution<int> randomInt;
 	boost::random::mt19937 randomEngine;
+
+	FMOD::System* audioSystem = nullptr;
+	map<string, FMOD::Sound*> loadedAudio;
+	map<string, FMOD::Sound*> loadedSpatialAudio;
+
 
 	virtual bool applicationDidFinishLaunching();
 	virtual void applicationDidEnterBackground();

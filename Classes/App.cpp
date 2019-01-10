@@ -68,9 +68,85 @@ float App::getScale()
 	return 1.0f * width / baseWidth;
 }
 
-void App::playSound(const string& path)
+void App::playSound(const string& path, float volume)
 {
-	CocosDenshion::SimpleAudioEngine::getInstance()->playEffect(path.c_str());
+	auto it = appInst->loadedAudio.find(path);
+
+	if (it == appInst->loadedAudio.end()) {
+		FMOD::Sound *audio;
+		FMOD_RESULT result = appInst->audioSystem->createSound(path.c_str(), FMOD_DEFAULT, 0, &audio);
+
+		if (result == FMOD_OK) {
+			appInst->loadedAudio.insert_or_assign(path, audio);
+		}
+		else {
+			log("Failed to create sound %s!", path.c_str());
+		}
+	}
+
+	FMOD::Channel* ch;
+	appInst->audioSystem->playSound(appInst->loadedAudio.at(path), nullptr, true, &ch);
+	ch->setVolume(volume);
+	ch->setPaused(false);
+}
+
+
+void App::playSoundSpatial(const string& path, SpaceVect pos, SpaceVect vel)
+{
+	auto it = appInst->loadedSpatialAudio.find(path);
+
+	if (it == appInst->loadedSpatialAudio.end()) {
+		FMOD::Sound *audio;
+		FMOD_RESULT result = appInst->audioSystem->createSound(path.c_str(), FMOD_3D, 0, &audio);
+		audio->set3DMinMaxDistance(0.5f, 15.0f);
+
+		if (result == FMOD_OK) {
+			appInst->loadedSpatialAudio.insert_or_assign(path, audio);
+		}
+		else {
+			log("Failed to create sound %s!", path.c_str());
+		}
+	}
+
+	FMOD::Channel* ch;
+	FMOD_VECTOR _pos = { pos.x, pos.y, 0.0f };
+	FMOD_VECTOR _vel = { vel.x, vel.y, 0.0f };
+
+	appInst->audioSystem->playSound(appInst->loadedSpatialAudio.at(path), nullptr, true, &ch);
+	ch->set3DAttributes(&_pos, &_vel);
+	ch->setPaused(false);
+}
+
+void App::pauseSounds()
+{
+	if (appInst->audioSystem) {
+		FMOD::ChannelGroup* cg;
+		appInst->audioSystem->getMasterChannelGroup(&cg);
+
+		cg->setPaused(true);
+	}
+}
+
+void App::resumeSounds()
+{
+	if (appInst->audioSystem) {
+		FMOD::ChannelGroup* cg;
+		appInst->audioSystem->getMasterChannelGroup(&cg);
+
+		cg->setPaused(false);
+	}
+}
+
+void App::setSoundListenerPos(SpaceVect pos, SpaceVect vel, SpaceFloat angle)
+{
+	FMOD_VECTOR _pos = {pos.x, pos.y, 0.0f};
+	FMOD_VECTOR _vel = {vel.x, vel.y, 0.0f};
+	FMOD_VECTOR facing = {0.0f, -1.0f, 0.0f};
+	FMOD_VECTOR up = {0.0f, 0.0f, 1.0f};
+
+	if (appInst->audioSystem) {
+		appInst->audioSystem->set3DListenerAttributes(0, &_pos, &_vel, &facing, &up);
+	}
 }
 
 App::App()
@@ -136,7 +212,22 @@ bool App::applicationDidFinishLaunching() {
         false,
         "app_update"
     );
-    
+
+	FMOD_RESULT result = FMOD::System_Create(&audioSystem);
+
+	if (result == FMOD_OK)
+	{
+		result = audioSystem->init(maxAudioChannels, FMOD_INIT_NORMAL, 0);
+
+		if (result != FMOD_OK) {
+			log("FMOD system failed to initialize!");
+		}
+	}
+	else
+	{
+		log("FMOD ssytem failed to create!");
+	}
+
     //Create title menu scene and run it.
     runTitleScene();
     lua->runFile("scripts/title.lua");
@@ -189,6 +280,15 @@ void App::printGlDebug()
 
 void App::end()
 {
+	if (appInst->audioSystem) {
+
+		for (auto entry : appInst->loadedAudio) {
+			entry.second->release();
+		}
+
+		appInst->audioSystem->release();
+	}
+
     Director::getInstance()->end();
 }
 
@@ -253,6 +353,10 @@ int App::getRandomInt(int min, int max) {
 void App::update(float dt)
 {
     control_register->update();
+
+	if (audioSystem) {
+		audioSystem->update();
+	}
 
 #if USE_TIMERS
 	updateTimerSystem();
