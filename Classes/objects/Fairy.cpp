@@ -11,6 +11,7 @@
 #include "AI.hpp"
 #include "Fairy.hpp"
 #include "FirePattern.hpp"
+#include "value_map.hpp"
 
 const AttributeMap Fairy1::baseAttributes = {
 	{Attribute::maxHP, 5.0f},
@@ -53,6 +54,31 @@ void Fairy1A::initStateMachine(ai::StateMachine& sm) {
 	));
 }
 
+const AttributeMap Fairy1B::baseAttributes = {
+	{ Attribute::maxHP, 30.0f },
+	{ Attribute::speed, .1f },
+	{ Attribute::acceleration, 4.5f }
+};
+
+Fairy1B::Fairy1B(GSpace* space, ObjectIDType id, const ValueMap& args) :
+	MapObjForwarding(GObject),
+	MapObjForwarding(Agent),
+	Enemy(collectible_id::power1),
+	waypointName(getStringOrDefault(args, "waypoint", ""))
+{}
+
+void Fairy1B::initStateMachine(ai::StateMachine& sm) {
+	if (!waypointName.empty()){
+		SpaceVect waypoint = space->getWaypoint(waypointName);
+		SpaceFloat angularPos = ai::directionToTarget(this, waypoint).toAngle() + float_pi;
+		addThread(make_shared<ai::CircleAround>(waypoint, angularPos, float_pi / 4.0));
+	}
+
+	addThread(make_shared<ai::FireIfTargetVisible>(
+		make_shared<Fairy1ABulletPattern>(this),
+		sm.agent->space->getObjectRef("player")
+	));
+}
 
 const AttributeMap Fairy2::baseAttributes = {
 	{Attribute::maxHP, 15.0f},

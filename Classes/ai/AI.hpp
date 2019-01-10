@@ -425,6 +425,25 @@ private:
 	SpaceFloat angularVelocity;
 };
 
+class CircleAround : public Function {
+public:
+	CircleAround(SpaceVect center, SpaceFloat startingAngularPos, SpaceFloat angularSpeed);
+
+	virtual void init(StateMachine& fsm);
+	virtual void update(StateMachine& fsm);
+
+	inline virtual bitset<lockCount> getLockMask() {
+		return make_enum_bitfield(ResourceLock::look);
+	}
+
+	FuncGetName(CircleAround)
+private:
+	SpaceVect center;
+	SpaceFloat angularSpeed;
+	SpaceFloat angularPosition;
+};
+
+
 class QuadDirectionLookAround : public Function {
 public:
 	QuadDirectionLookAround(boost::rational<int> secondsPerDirection, bool clockwise);

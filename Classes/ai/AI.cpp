@@ -844,6 +844,30 @@ void LookAround::update(StateMachine& fsm)
 	fsm.agent->rotate(angularVelocity * App::secondsPerFrame);
 }
 
+CircleAround::CircleAround(SpaceVect center, SpaceFloat startingAngularPos, SpaceFloat angularSpeed) :
+center(center),
+angularPosition(startingAngularPos),
+angularSpeed(angularSpeed)
+{
+}
+
+void CircleAround::init(StateMachine& fsm)
+{
+}
+
+void CircleAround::update(StateMachine& fsm)
+{
+	SpaceFloat radius = distanceToTarget(fsm.agent, center);
+	SpaceFloat angleDelta = angularSpeed * App::secondsPerFrame;
+
+	angularPosition += angleDelta;
+
+	SpaceVect agentPos = center + SpaceVect::ray(radius, angularPosition);
+
+	fsm.agent->setPos(agentPos);
+	fsm.agent->setAngle(angularPosition);
+}
+
 QuadDirectionLookAround::QuadDirectionLookAround(boost::rational<int> secondsPerDirection, bool clockwise) :
 secondsPerDirection(secondsPerDirection),
 timeRemaining(secondsPerDirection),

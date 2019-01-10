@@ -55,6 +55,29 @@ public:
 	virtual void initStateMachine(ai::StateMachine& sm);
 };
 
+class Fairy1B :
+	public Enemy,
+	public BaseAttributes<Fairy1B>
+{
+public:
+	static const AttributeMap baseAttributes;
+
+	Fairy1B(GSpace* space, ObjectIDType id, const ValueMap& args);
+
+	virtual inline SpaceFloat getRadarRadius() const { return 6.0; }
+	virtual inline SpaceFloat getDefaultFovAngle() const { return float_pi / 4.0; }
+
+	inline SpaceFloat getMass() const { return 40.0; }
+
+	inline string imageSpritePath() const { return "sprites/fairy-green.png"; }
+	virtual bool isAgentAnimation() const { return true; }
+	virtual inline int pixelWidth() const { return 512; }
+
+	virtual void initStateMachine(ai::StateMachine& sm);
+protected:
+	string waypointName;
+};
+
 class Fairy2 :
 	public Enemy,
 	public RegisterUpdate<Fairy2>,
