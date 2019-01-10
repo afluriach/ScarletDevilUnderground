@@ -366,6 +366,7 @@ void Player::onCollectible(Collectible* coll)
 	if (canApplyAttributeEffects(coll->getEffect())) {
 		applyAttributeEffects(coll->getEffect());
 		space->removeObject(coll);
+		App::playSound("sfx/powerup.wav", 1.0f);
 	}
 }
 
