@@ -15,6 +15,13 @@
 
 const float AttributeSystem::maxElementDamage = 100.0f;
 
+const array<pair<float, float>, 4> AttributeSystem::agilityMap = {
+	make_pair<float,float>(1.0f,1.0f),
+	make_pair<float,float>(2.0f,6.0f),
+	make_pair<float,float>(3.0f,9.0f),
+	make_pair<float,float>(4.5f,12.0f),
+};
+
 AttributeSet AttributeSystem::getAttributeSet(const AttributeMap& input)
 {
 	AttributeSet result = getBlankAttributeSet();
@@ -22,6 +29,16 @@ AttributeSet AttributeSystem::getAttributeSet(const AttributeMap& input)
 	for (map<Attribute, float>::const_iterator it = input.cbegin(); it != input.cend(); ++it)
 	{
 		result[to_size_t(it->first)] = it->second;
+	}
+
+	if (result[to_size_t(Attribute::speed)] == 0.0f && result[to_size_t(Attribute::acceleration)] == 0.0f)
+	{
+		size_t agility = result[to_size_t(Attribute::agility)];
+
+		if (agility < agilityMap.size()) {
+			result[to_size_t(Attribute::speed)] = agilityMap[agility].first;
+			result[to_size_t(Attribute::acceleration)] = agilityMap[agility].second;
+		}
 	}
 
 	return result;

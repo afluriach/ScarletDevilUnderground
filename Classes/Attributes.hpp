@@ -29,6 +29,7 @@ enum class Attribute {
 	stamina,
 	maxStamina,
 
+	agility,
 	speed,
 	acceleration,
 
@@ -58,6 +59,7 @@ public:
 	AttributeSet getZeroAttributeSet();
 
 	static const float maxElementDamage;
+	static const array<pair<float, float>, 4> agilityMap;
 
 	AttributeSystem();
 	AttributeSystem(const AttributeSet& baseAttributes);
