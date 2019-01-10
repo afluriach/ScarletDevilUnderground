@@ -158,7 +158,8 @@ public:
 
     virtual void setAngle(SpaceFloat a);
 	SpaceFloat getAngle() const;
-    
+	SpaceFloat getCrntAngle() const;
+
     void rotate(SpaceFloat a);
     SpaceVect getFacingVector() const;
     virtual void setDirection(Direction d);

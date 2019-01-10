@@ -1,5 +1,5 @@
 //
-//  Mine.cpp
+//  Desert.cpp
 //  Koumachika
 //
 //  Created by Toni on 12/11/18.

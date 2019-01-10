@@ -75,6 +75,29 @@ public:
     inline virtual float zoom() const {return getRadius()/spriteBaseRadius*2;}
 };
 
+class Fairy1Bullet :
+	virtual public GObject,
+	public EnemyBullet,
+	public CircleBody,
+	public ImageSprite,
+	public DirectionalLaunch
+{
+public:
+	Fairy1Bullet(GSpace* space, ObjectIDType id, SpaceFloat angle, const SpaceVect& pos);
+
+	virtual inline SpaceFloat getMaxSpeed() const { return 6.0; }
+	virtual inline SpaceFloat getRadius() const { return 0.3; }
+
+	virtual inline string imageSpritePath() const { return "sprites/ice_fairy_bullet.png"; }
+
+	static constexpr float spriteBaseRadius = 0.83f;
+	inline virtual float zoom() const { return getRadius() / spriteBaseRadius * 2; }
+
+	virtual AttributeMap getAttributeEffect() const;
+	inline virtual shared_ptr<MagicEffect> getMagicEffect(gobject_ref target) { return nullptr; }
+};
+
+
 class IceFairyBullet :
 	virtual public GObject,
 	public EnemyBullet,

@@ -91,6 +91,7 @@ const unordered_map<string, GObject::AdapterType> GObject::adapters = {
 	entry_same(DirtFloorCave),
 	entry_same(Facer),
 	entry_same(Fairy1),
+	entry_same(Fairy1A),
 	entry_same(Fairy2),
 	entry_same(Flower),
 	entry_same(Follower),

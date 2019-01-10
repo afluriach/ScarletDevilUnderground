@@ -23,4 +23,4 @@ public:
 	virtual GScene* getReplacementScene();
 };
 
-#endif /* Mine_hpp */
+#endif /* Desert_hpp */

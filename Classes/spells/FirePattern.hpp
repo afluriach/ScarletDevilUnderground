@@ -43,6 +43,25 @@ protected:
 	boost::rational<int> cooldownTimeRemaining = 0;
 };
 
+class MultiBulletFixedIntervalPattern : public FirePattern
+{
+public:
+	inline MultiBulletFixedIntervalPattern(Agent *const agent) : FirePattern(agent) {}
+
+	virtual bool fireIfPossible();
+	virtual bool isInCooldown();
+	virtual void update();
+
+	void fire();
+
+	virtual SpaceFloat getLaunchDistance() const { return 1.0; }
+	virtual boost::rational<int> getCooldownTime() = 0;
+	virtual list<GObject::GeneratorType> spawn(SpaceFloat angle, SpaceVect pos) = 0;
+protected:
+	boost::rational<int> cooldownTimeRemaining = 0;
+};
+
+
 class FlandreBigOrbPattern : public SingleBulletFixedIntervalPattern
 {
 public:
@@ -143,6 +162,18 @@ public:
 
 	virtual boost::rational<int> getCooldownTime() { return 1; }
 	virtual GObject::GeneratorType spawn(SpaceFloat angle, SpaceVect pos);
+};
+
+class Fairy1ABulletPattern : public MultiBulletFixedIntervalPattern
+{
+public:
+	inline Fairy1ABulletPattern(Agent *const agent) : MultiBulletFixedIntervalPattern(agent) {}
+
+	//not relevant for enemy fire patterns
+	virtual string iconPath() const { return ""; }
+
+	virtual boost::rational<int> getCooldownTime() { return 1; }
+	virtual list<GObject::GeneratorType> spawn(SpaceFloat angle, SpaceVect pos);
 };
 
 #endif /* FirePattern_hpp */

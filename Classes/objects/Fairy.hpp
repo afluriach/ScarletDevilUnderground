@@ -27,7 +27,28 @@ public:
 
 	inline SpaceFloat getMass() const { return 40.0; }
 
-	inline string imageSpritePath() const { return "sprites/fairy.png"; }
+	inline string imageSpritePath() const { return "sprites/fairy-blue.png"; }
+	virtual bool isAgentAnimation() const { return true; }
+	virtual inline int pixelWidth() const { return 512; }
+
+	virtual void initStateMachine(ai::StateMachine& sm);
+};
+
+class Fairy1A :
+	public Enemy,
+	public BaseAttributes<Fairy1A>
+{
+public:
+	static const AttributeMap baseAttributes;
+
+	Fairy1A(GSpace* space, ObjectIDType id, const ValueMap& args);
+
+	virtual inline SpaceFloat getRadarRadius() const { return 6.0; }
+	virtual inline SpaceFloat getDefaultFovAngle() const { return float_pi / 4.0; }
+
+	inline SpaceFloat getMass() const { return 40.0; }
+
+	inline string imageSpritePath() const { return "sprites/fairy-gold.png"; }
 	virtual bool isAgentAnimation() const { return true; }
 	virtual inline int pixelWidth() const { return 512; }
 
@@ -64,7 +85,7 @@ public:
 
 	inline SpaceFloat getMass() const { return 40.0; }
 
-	inline string imageSpritePath() const { return "sprites/fairy.png"; }
+	inline string imageSpritePath() const { return "sprites/fairy2-red.png"; }
 	virtual bool isAgentAnimation() const { return true; }
 	virtual inline int pixelWidth() const { return 512; }
 
@@ -99,7 +120,9 @@ public:
 
 	inline SpaceFloat getMass() const { return 40.0; }
 
-	inline string imageSpritePath() const { return "sprites/dark_cirno.png"; }
+	inline string imageSpritePath() const { return "sprites/fairy2-blue.png"; }
+	virtual bool isAgentAnimation() const { return true; }
+	virtual inline int pixelWidth() const { return 512; }
 
 	virtual void initStateMachine(ai::StateMachine& sm);
 };

@@ -65,6 +65,7 @@ const vector<string> SceneSelect::entries = {
 	"Desert",
 	"Mine",
 	"Ice Cave",
+	"Forest",
 	"Back"
 };
 
@@ -80,6 +81,8 @@ const vector<TextListMenuLayer::listAction> SceneSelect::entryActions = {
 	{ sceneLaunchAdapterByName("Desert") },
 	{ sceneLaunchAdapterByName("Mine") },
 	{ sceneLaunchAdapterByName("IceCave") },
+	{ sceneLaunchAdapterByName("Forest") },
+
 	{ SceneSelect::back }
 };
 

@@ -249,6 +249,9 @@
     <ClCompile Include="..\Classes\objects\Spawner.cpp">
       <Filter>src\objects</Filter>
     </ClCompile>
+    <ClCompile Include="..\Classes\scenes\Forest.cpp">
+      <Filter>src\scenes</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="main.h">
@@ -487,6 +490,9 @@
     </ClInclude>
     <ClInclude Include="..\Classes\objects\Spawner.hpp">
       <Filter>src\objects</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\scenes\Forest.hpp">
+      <Filter>src\scenes</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

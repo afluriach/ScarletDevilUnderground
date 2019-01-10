@@ -189,7 +189,7 @@ GObject* GSpace::getObject(const string& name) const
 	auto it = objByName.find(name);
 
 	if (it != objByName.end() && warningNames.find(name) != warningNames.end()) {
-		log("Warning: object name %s is not unique!");
+		log("Warning: object name %s is not unique!", name.c_str());
 	}
 
 	return it != objByName.end() ? it->second : nullptr;

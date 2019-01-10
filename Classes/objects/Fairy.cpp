@@ -33,6 +33,27 @@ void Fairy1::initStateMachine(ai::StateMachine& sm) {
 	));
 }
 
+const AttributeMap Fairy1A::baseAttributes = {
+	{ Attribute::maxHP, 30.0f },
+	{ Attribute::speed, 3.0f },
+	{ Attribute::acceleration, 4.5f }
+};
+
+Fairy1A::Fairy1A(GSpace* space, ObjectIDType id, const ValueMap& args) :
+	MapObjForwarding(GObject),
+	MapObjForwarding(Agent),
+	Enemy(collectible_id::power1)
+{}
+
+void Fairy1A::initStateMachine(ai::StateMachine& sm) {
+	addThread(make_shared<ai::LookAround>(float_pi / 4.0));
+	addThread(make_shared<ai::FireIfTargetVisible>(
+		make_shared<Fairy1ABulletPattern>(this),
+		sm.agent->space->getObjectRef("player")
+	));
+}
+
+
 const AttributeMap Fairy2::baseAttributes = {
 	{Attribute::maxHP, 15.0f},
 	{Attribute::speed, 4.5f},

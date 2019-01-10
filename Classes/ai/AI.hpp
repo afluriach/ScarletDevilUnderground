@@ -589,7 +589,6 @@ protected:
 	float hp_difference;
 };
 
-
 class FireAtTarget : public Function {
 public:
 	FireAtTarget(shared_ptr<FirePattern> pattern, gobject_ref target);
@@ -606,6 +605,24 @@ protected:
 	shared_ptr<FirePattern> pattern;
 	gobject_ref target;
 };
+
+class FireIfTargetVisible : public Function {
+public:
+	FireIfTargetVisible(shared_ptr<FirePattern> pattern, gobject_ref target);
+
+	virtual void update(StateMachine& sm);
+
+	FuncGetName(FireIfTargets)
+
+	inline virtual bitset<lockCount> getLockMask() {
+		return make_enum_bitfield(ResourceLock::fire);
+	}
+
+protected:
+	shared_ptr<FirePattern> pattern;
+	gobject_ref target;
+};
+
 
 class FacerMain : public Function {
 public:

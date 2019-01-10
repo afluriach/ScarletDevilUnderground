@@ -10,6 +10,7 @@
 
 #include "Agent.hpp"
 #include "AI.hpp"
+#include "AIMixins.hpp"
 #include "App.h"
 #include "FirePattern.hpp"
 #include "FloorSegment.hpp"
@@ -18,6 +19,7 @@
 #include "GObject.hpp"
 #include "GObjectMixins.hpp"
 #include "macros.h"
+#include "scenes.h"
 #include "Spell.hpp"
 #include "util.h"
 #include "value_map.hpp"
@@ -1026,6 +1028,28 @@ void FireAtTarget::update(StateMachine& sm)
 
 	pattern.get()->update();
 	pattern.get()->fireIfPossible();
+}
+
+FireIfTargetVisible::FireIfTargetVisible(shared_ptr<FirePattern> pattern, gobject_ref target) :
+	pattern(pattern),
+	target(target)
+{}
+
+void FireIfTargetVisible::update(StateMachine& sm)
+{
+	RadarObject* ro = dynamic_cast<RadarObject*>(sm.agent);
+
+	if (!ro || !target.isValid()) {
+		sm.pop();
+		return;
+	}
+	
+	pattern.get()->update();
+
+	if (ro->isObjectVisible(target.get()) && sm.agent->space->getScene()->isInPlayerRoom(sm.agent->getPos()))
+	{
+		pattern.get()->fireIfPossible();
+	}
 }
 
 Cast::Cast(string _spell_name, const ValueMap& _spell_args) :

@@ -226,9 +226,20 @@ void GObject::onPitfall()
         }
         return canonicalAngle(body->getAngle());
     }
-    
+
+	SpaceFloat GObject::getCrntAngle() const {
+		if (!body) {
+			log("GObject::getAngle: %s has no physics body!", name.c_str());
+			return 0.0;
+		}
+
+		SpaceFloat a = physicsPropertiesToApply.setAngle ? physicsPropertiesToApply.angle : getAngle();
+
+		return a;
+	}
+
      void GObject::rotate(SpaceFloat a){
-        setAngle(canonicalAngle(getAngle() + a) );
+        setAngle(canonicalAngle(getCrntAngle() + a) );
     }
     
      SpaceVect GObject::getFacingVector() const{

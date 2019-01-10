@@ -46,6 +46,41 @@ bool SingleBulletFixedIntervalPattern::isInCooldown()
 	return cooldownTimeRemaining > 0;
 }
 
+bool MultiBulletFixedIntervalPattern::fireIfPossible()
+{
+	if (cooldownTimeRemaining <= 0)
+	{
+		cooldownTimeRemaining = getCooldownTime();
+		fire();
+
+		return true;
+	}
+	else {
+		return false;
+	}
+}
+
+void MultiBulletFixedIntervalPattern::fire()
+{
+	SpaceVect pos = agent->getPos();
+
+	list<ObjectGeneratorType> spawns = spawn(agent->getAngle(), agent->getPos());
+
+	for (auto gen : spawns) {
+		agent->space->createObject(gen);
+	}
+}
+
+void MultiBulletFixedIntervalPattern::update()
+{
+	timerDecrement(cooldownTimeRemaining);
+}
+
+bool MultiBulletFixedIntervalPattern::isInCooldown()
+{
+	return cooldownTimeRemaining > 0;
+}
+
 GObject::GeneratorType FlandreBigOrbPattern::spawn(SpaceFloat angle, SpaceVect pos)
 {
 	return GObject::make_object_factory<FlandreBigOrb1>(angle, pos);
@@ -146,3 +181,24 @@ GObject::GeneratorType IceFairyBulletPattern::spawn(SpaceFloat angle, SpaceVect 
 	return GObject::make_object_factory<IceFairyBullet>(angle, pos);
 }
 
+list<GObject::GeneratorType> Fairy1ABulletPattern::spawn(SpaceFloat angle, SpaceVect pos)
+{
+	list<GObject::GeneratorType> result;
+
+	result.push_back(GObject::make_object_factory<Fairy1Bullet>(
+		angle - float_pi / 6.0,
+		pos + SpaceVect::ray(getLaunchDistance(), angle - float_pi / 6.0)
+	));
+
+	result.push_back(GObject::make_object_factory<Fairy1Bullet>(
+		angle,
+		pos + SpaceVect::ray(getLaunchDistance(), angle)
+	));
+
+	result.push_back(GObject::make_object_factory<Fairy1Bullet>(
+		angle + float_pi / 6.0,
+		pos + SpaceVect::ray(getLaunchDistance(), angle + float_pi / 6.0)
+	));
+
+	return result;
+}

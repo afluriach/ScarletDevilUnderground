@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.0" tiledversion="1.0.3" orientation="orthogonal" renderorder="right-down" width="17" height="17" tilewidth="128" tileheight="128" nextobjectid="42">
+ <tileset firstgid="1" name="tree wall" tilewidth="128" tileheight="128" tilecount="4" columns="2">
+  <image source="tree-wall.png" width="256" height="256"/>
+ </tileset>
+ <tileset firstgid="5" name="grass floor" tilewidth="128" tileheight="128" tilecount="4" columns="2">
+  <image source="grass-floor.png" width="256" height="256"/>
+ </tileset>
+ <layer name="floor" width="17" height="17">
+  <data encoding="base64" compression="zlib">
+   eJxjYGBgYANiVjJpEGAHYg4KaXLtR6ZH3THqjlF30NcdDBS6AwQAPlgHKg==
+  </data>
+ </layer>
+ <layer name="wall_tiles" width="17" height="17">
+  <data encoding="base64" compression="zlib">
+   eJxjYmBgYARiJgpoFiBmppCGmUUOgOmFmUUOGHUHdndQAwwWv4y6A7s7KKEpzfcgGgCKDgEj
+  </data>
+ </layer>
+ <objectgroup name="floor">
+  <object id="35" type="GrassFloor" x="0" y="128" width="2176" height="1920"/>
+ </objectgroup>
+ <objectgroup name="walls">
+  <object id="26" x="0" y="0" width="2048" height="256"/>
+  <object id="27" x="1920" y="0" width="256" height="1024"/>
+  <object id="28" x="0" y="1920" width="2176" height="256"/>
+  <object id="29" x="0" y="1152" width="256" height="1024"/>
+  <object id="31" x="1920" y="1152" width="256" height="896"/>
+  <object id="32" x="0" y="128" width="256" height="896"/>
+ </objectgroup>
+ <objectgroup name="objects">
+  <object id="37" name="player" type="Player" x="1024" y="1024" width="128" height="128"/>
+ </objectgroup>
+</map>
