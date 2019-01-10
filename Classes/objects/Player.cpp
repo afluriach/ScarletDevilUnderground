@@ -171,6 +171,7 @@ void Player::updateSpellControls(const ControlInfo& cs)
 		) {
 			attributeSystem.modifyAttribute(Attribute::mp, -1.0f);
 			cast(equippedSpell->generate(this, {}));		
+			App::playSound("sfx/player_spellcard.wav");
 		}
     }
 }
@@ -351,6 +352,8 @@ void Player::hit(AttributeMap attributeEffect, shared_ptr<MagicEffect> effect){
 			attributeSystem.getAdjustedValue(Attribute::hitProtectionInterval),
 			hitFlickerInterval
 		));
+
+		App::playSound("sfx/player_hit.wav");
     }
 }
 
@@ -381,6 +384,7 @@ void Player::onGrazeCleared(object_ref<EnemyBullet> bullet)
 void Player::applyGraze(int p)
 {
 	attributeSystem.modifyAttribute(Attribute::power, p);
+	App::playSound("sfx/graze.wav");
 }
 
 bool Player::trySetFirePattern(size_t idx)

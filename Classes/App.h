@@ -83,6 +83,8 @@ public:
 	static void printGlDebug();
 	static void end();
 
+	static void playSound(const string& path);
+
     App();
     virtual ~App();
 

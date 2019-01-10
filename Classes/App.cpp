@@ -68,6 +68,11 @@ float App::getScale()
 	return 1.0f * width / baseWidth;
 }
 
+void App::playSound(const string& path)
+{
+	CocosDenshion::SimpleAudioEngine::getInstance()->playEffect(path.c_str());
+}
+
 App::App()
 {
     appInst = this;
