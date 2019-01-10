@@ -201,7 +201,9 @@ void Player::checkFireControls(const ControlInfo& cs)
 	//Fire if arrow key is pressed
 	if (!suppressFiring && !cs.right_v.isZero() && getFirePattern())
 	{
-		getFirePattern()->fireIfPossible();
+		if (getFirePattern()->fireIfPossible()) {
+			App::playSound("sfx/shot.wav", 1.0f);
+		}
 	}
 
 }

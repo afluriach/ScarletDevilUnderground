@@ -1051,7 +1051,10 @@ void FireAtTarget::update(StateMachine& sm)
 	);
 
 	pattern.get()->update();
-	pattern.get()->fireIfPossible();
+
+	if (pattern.get()->fireIfPossible()) {
+		App::playSoundSpatial("sfx/shot.wav", sm.agent->getPos(), sm.agent->getVel());
+	}
 }
 
 FireIfTargetVisible::FireIfTargetVisible(shared_ptr<FirePattern> pattern, gobject_ref target) :
@@ -1072,7 +1075,9 @@ void FireIfTargetVisible::update(StateMachine& sm)
 
 	if (ro->isObjectVisible(target.get()) && sm.agent->space->getScene()->isInPlayerRoom(sm.agent->getPos()))
 	{
-		pattern.get()->fireIfPossible();
+		if (pattern.get()->fireIfPossible()) {
+			App::playSoundSpatial("sfx/shot.wav", sm.agent->getPos(), sm.agent->getVel());
+		}
 	}
 }
 
