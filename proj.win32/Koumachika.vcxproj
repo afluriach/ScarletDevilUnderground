@@ -207,6 +207,7 @@ xcopy "$(ProjectDir)..\Resources" "$(OutDir)" /D /E /I /F /Y</Command>
     <ClCompile Include="..\Classes\scenes\Desert.cpp" />
     <ClCompile Include="..\Classes\scenes\Forest.cpp" />
     <ClCompile Include="..\Classes\scenes\Garden.cpp" />
+    <ClCompile Include="..\Classes\scenes\Graveyard.cpp" />
     <ClCompile Include="..\Classes\scenes\IceCave.cpp" />
     <ClCompile Include="..\Classes\scenes\Mansion.cpp" />
     <ClCompile Include="..\Classes\scenes\menu_scenes.cpp" />
@@ -288,6 +289,7 @@ xcopy "$(ProjectDir)..\Resources" "$(OutDir)" /D /E /I /F /Y</Command>
     <ClInclude Include="..\Classes\scenes\Desert.hpp" />
     <ClInclude Include="..\Classes\scenes\Forest.hpp" />
     <ClInclude Include="..\Classes\scenes\Garden.hpp" />
+    <ClInclude Include="..\Classes\scenes\Graveyard.hpp" />
     <ClInclude Include="..\Classes\scenes\IceCave.hpp" />
     <ClInclude Include="..\Classes\scenes\LibraryOpening.h" />
     <ClInclude Include="..\Classes\scenes\Mansion.hpp" />

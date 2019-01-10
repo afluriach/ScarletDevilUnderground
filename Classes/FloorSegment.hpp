@@ -27,8 +27,8 @@ public:
 
 	virtual inline SpaceFloat getFrictionCoeff() const { return 1.0; }
 
-	virtual void onContact(GObject* obj) = 0;
-	virtual void onEndContact(GObject* obj) = 0;
+	virtual void onContact(GObject* obj) {};
+	virtual void onEndContact(GObject* obj) {};
 	virtual inline void exclusiveFloorEffect(GObject* obj) {}
 };
 
@@ -55,9 +55,6 @@ public:
 	virtual inline float zoom() const { return 3.0f; }
 
 	virtual inline SpaceFloat getMass() const { return 1.0; }
-
-	virtual void onContact(GObject* obj) {};
-	virtual void onEndContact(GObject* obj) {};
 protected:
 	string pathName = "";
 	const Path * path = nullptr;
@@ -79,18 +76,12 @@ class DirtFloorCave : public FloorSegment, public NoSprite
 {
 public:
 	MapObjCons(DirtFloorCave);
-
-	virtual void onContact(GObject* obj);
-	virtual void onEndContact(GObject* obj);
 };
 
 class MineFloor : public FloorSegment, public NoSprite
 {
 public:
 	MapObjCons(MineFloor);
-
-	virtual void onContact(GObject* obj);
-	virtual void onEndContact(GObject* obj);
 };
 
 class IceFloor : public FloorSegment, public NoSprite
@@ -99,9 +90,6 @@ public:
 	static const SpaceFloat frictionCoeff;
 
 	MapObjCons(IceFloor);
-
-	virtual void onContact(GObject* obj);
-	virtual void onEndContact(GObject* obj);
 
 	virtual inline SpaceFloat getFrictionCoeff() const { return 0.25; }
 };
@@ -131,6 +119,18 @@ public:
 	virtual void exclusiveFloorEffect(GObject* obj);
 
 	virtual PhysicsLayers getLayers() const { return PhysicsLayers::belowFloor; }
+};
+
+class GrassFloor : public FloorSegment, public NoSprite
+{
+public:
+	MapObjCons(GrassFloor);
+};
+
+class StoneFloor : public FloorSegment, public NoSprite
+{
+public:
+	MapObjCons(StoneFloor);
 };
 
 #endif /* FloorSegment_hpp */

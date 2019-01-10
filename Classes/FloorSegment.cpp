@@ -99,18 +99,9 @@ MovingPlatform(space, id, args)
 {
 }
 
-
 DirtFloorCave::DirtFloorCave(GSpace* space, ObjectIDType id, const ValueMap& args) :
 GObject(space,id,args, true),
 FloorSegment(space,id,args)
-{
-}
-
-void DirtFloorCave::onContact(GObject* obj)
-{
-}
-
-void DirtFloorCave::onEndContact(GObject* obj)
 {
 }
 
@@ -120,29 +111,11 @@ MineFloor::MineFloor(GSpace* space, ObjectIDType id, const ValueMap& args) :
 {
 }
 
-
-void MineFloor::onContact(GObject* obj)
-{
-}
-
-void MineFloor::onEndContact(GObject* obj)
-{
-}
-
 IceFloor::IceFloor(GSpace* space, ObjectIDType id, const ValueMap& args) :
 	GObject(space, id, args, true),
 	FloorSegment(space, id, args)
 {
 }
-
-void IceFloor::onContact(GObject* obj)
-{
-}
-
-void IceFloor::onEndContact(GObject* obj)
-{
-}
-
 
 PressurePlate::PressurePlate(GSpace* space, ObjectIDType id, const ValueMap& args) :
 	GObject(space, id, args, true),
@@ -209,4 +182,16 @@ void Pitfall::onEndContact(GObject* obj)
 void Pitfall::exclusiveFloorEffect(GObject* obj)
 {
 	obj->onPitfall();
+}
+
+GrassFloor::GrassFloor(GSpace* space, ObjectIDType id, const ValueMap& args) :
+GObject(space, id, args, true),
+FloorSegment(space, id, args)
+{
+}
+
+StoneFloor::StoneFloor(GSpace* space, ObjectIDType id, const ValueMap& args) :
+GObject(space, id, args, true),
+FloorSegment(space, id, args)
+{
 }
