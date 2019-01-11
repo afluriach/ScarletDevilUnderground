@@ -16,6 +16,7 @@ Vec2 toCocos(const SpaceVect& rhs);
 Vec2 toCocos(const IntVec2& rhs);
 SpaceVect toChipmunk(const Vec2& rhs);
 SpaceVect toChipmunk(const cocos2d::CCSize& rhs);
+FMOD_VECTOR toFmod(const SpaceVect& rhs);
 IntVec2 toIntVector(const cocos2d::CCSize& rhs);
 IntVec2 toIntVector(const SpaceVect& rhs);
 

@@ -128,6 +128,11 @@ SpaceVect toChipmunk(const cocos2d::CCSize& rhs)
     return SpaceVect(rhs.width, rhs.height);
 }
 
+FMOD_VECTOR toFmod(const SpaceVect& rhs)
+{
+	return { to_float(rhs.x), to_float(rhs.y), 0.0f };
+}
+
 string getRealPath(const string& path)
 {
     return FileUtils::getInstance()->fullPathForFilename(path);

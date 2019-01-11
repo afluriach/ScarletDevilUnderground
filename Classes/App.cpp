@@ -109,8 +109,8 @@ void App::playSoundSpatial(const string& path, SpaceVect pos, SpaceVect vel)
 	}
 
 	FMOD::Channel* ch;
-	FMOD_VECTOR _pos = { pos.x, pos.y, 0.0f };
-	FMOD_VECTOR _vel = { vel.x, vel.y, 0.0f };
+	FMOD_VECTOR _pos = toFmod(pos);
+	FMOD_VECTOR _vel = toFmod(vel);
 
 	appInst->audioSystem->playSound(appInst->loadedSpatialAudio.at(path), nullptr, true, &ch);
 	ch->set3DAttributes(&_pos, &_vel);
@@ -139,8 +139,8 @@ void App::resumeSounds()
 
 void App::setSoundListenerPos(SpaceVect pos, SpaceVect vel, SpaceFloat angle)
 {
-	FMOD_VECTOR _pos = {pos.x, pos.y, 0.0f};
-	FMOD_VECTOR _vel = {vel.x, vel.y, 0.0f};
+	FMOD_VECTOR _pos = toFmod(pos);
+	FMOD_VECTOR _vel = toFmod(vel);
 	FMOD_VECTOR facing = {0.0f, -1.0f, 0.0f};
 	FMOD_VECTOR up = {0.0f, 0.0f, 1.0f};
 
