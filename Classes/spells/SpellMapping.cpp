@@ -8,6 +8,7 @@
 
 #include "Prefix.h"
 
+#include "PlayerSpell.hpp"
 #include "Spell.hpp"
 #include "SpellDescriptor.hpp"
 

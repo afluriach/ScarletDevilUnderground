@@ -21,9 +21,9 @@
 #include "GSpace.hpp"
 #include "HUD.hpp"
 #include "Player.hpp"
+#include "PlayerSpell.hpp"
 #include "PlayScene.hpp"
 #include "SpaceLayer.h"
-#include "Spell.hpp"
 #include "SpellDescriptor.hpp"
 
 const float Player::interactCooldownTime = 0.1f;
