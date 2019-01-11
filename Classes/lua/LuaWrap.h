@@ -15,50 +15,6 @@
 
 namespace Lua{
 
-class Class
-{
-private:
-    static unordered_map<string, Class> classes;
-    static bool init;
-    
-    const string name;
-    unordered_map<string, lua_CFunction> methods;
-public:
-    static void makeClasses();
-    static void installClasses(lua_State* L);
-    static void setMetatable(const string& name, lua_State* L);
-    
-    inline static void makeClass(string name)
-    {
-        classes.insert(make_pair(name, Class(name)));
-    }
-
-    inline static void addMethod(string clsName, string methodName, lua_CFunction wrapper)
-    {
-        classes.at(clsName).methods.insert(make_pair(methodName, wrapper));
-    }
-
-    inline Class(const string& name) : name(name)
-    {
-    }
-
-    inline Class(const Class& other) noexcept :
-    name(other.name),
-    methods(other.methods)
-    {
-    }
-    
-    inline Class(Class&& c) :
-    name(move(c.name)),
-    methods(move(c.methods))
-    {
-    }
-    
-    void installClass(lua_State* L);
-    void makeMetatable(lua_State* L);
-    
-};
-
 //conversion helper
 template<typename T>
 T convertLuaArg(const string& name, int argNum, LuaRef ref)

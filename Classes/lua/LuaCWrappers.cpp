@@ -21,9 +21,6 @@
 
 namespace Lua{
 
-unordered_map<string, Class> Class::classes;
-bool Class::init = false;
-
 void printMap(unordered_map<string,string> m)
 {
     for(auto it = m.begin(); it != m.end(); ++it){
@@ -76,18 +73,12 @@ int name ## _wrapper(lua_State* L) \
 #define install_method_wrapper(cls,name) installFunction(name ## _wrapper, #cls "_" #name);
 #define add_method(cls,name) Class::addMethod(#cls, #name, name ## _wrapper);
 
-void Class::makeClasses()
-{
-}
-
 void Inst::installWrappers()
 {
     for(auto it = cfunctions.begin(); it != cfunctions.end(); ++it)
     {
         installNameFunction(it->first);
-    }
-    
-    Class::installClasses(state);
+    }    
 }
 
 const unordered_map<string, function<int(lua_State*)>> Inst::cfunctions = {

@@ -238,7 +238,7 @@ public:
 
 	//BEGIN SPELLS
 
-	void cast(unique_ptr<Spell> spell);
+	void cast(shared_ptr<Spell> spell);
 	void cast(const string& name, const ValueMap& args);
 	//For Luabridge
 	void castByName(string name, const ValueMap& args);
@@ -250,7 +250,7 @@ public:
 		return static_cast<bool>(crntSpell);
 	}
 
-	unique_ptr<Spell> crntSpell;
+	shared_ptr<Spell> crntSpell;
 
 	list<shared_ptr<MagicEffect>> magicEffects;
 	list<shared_ptr<MagicEffect>> magicEffectsToAdd;

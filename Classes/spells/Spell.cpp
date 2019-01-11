@@ -224,8 +224,8 @@ const string Teleport::description = "";
 
 SpellGeneratorType Teleport::make_generator(const vector<object_ref<TeleportPad>>& targets)
 {
-	return [targets](GObject* caster) -> unique_ptr<Spell> {
-		return make_unique<Teleport>(caster, targets);
+	return [targets](GObject* caster) -> shared_ptr<Spell> {
+		return make_shared<Teleport>(caster, targets);
 	};
 }
 

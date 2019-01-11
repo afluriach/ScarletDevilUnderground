@@ -484,13 +484,13 @@ void GObject::updateSprite()
 
 //BEGIN SPELLS
 
-void GObject::cast(unique_ptr<Spell> spell)
+void GObject::cast(shared_ptr<Spell> spell)
 {
 	if (crntSpell.get()) {
 		crntSpell->end();
 	}
 	spell->init();
-	crntSpell = move(spell);
+	crntSpell = spell;
 }
 
 void GObject::cast(const string& name, const ValueMap& args)

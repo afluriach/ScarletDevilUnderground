@@ -19,7 +19,7 @@
 
 #define STANDARD_CONS(name) inline name(GObject* caster,const ValueMap& args, SpellDesc* descriptor) : Spell(caster,args, descriptor) {}
 
-typedef function<unique_ptr<Spell>(GObject*)> SpellGeneratorType;
+typedef function<shared_ptr<Spell>(GObject*)> SpellGeneratorType;
 
 class CirnoIceShieldBullet;
 class FlandreCounterClockBullet;
@@ -57,8 +57,8 @@ protected:
 template<class C>
 inline static SpellGeneratorType make_spell_generator()
 {
-	return [](GObject* caster) -> unique_ptr<Spell> {
-		return make_unique<C>(caster);
+	return [](GObject* caster) -> shared_ptr<Spell> {
+		return make_shared<C>(caster);
 	};
 }
 
@@ -118,7 +118,6 @@ public:
 protected:
 	SpaceFloat shotTimer = 0.0;
 };
-
 
 class Teleport : public Spell {
 public:
