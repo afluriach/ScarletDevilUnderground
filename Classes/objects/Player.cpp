@@ -236,8 +236,10 @@ void Player::updateHitTime()
 
 void Player::onZeroHP()
 {
-	if(!GScene::suppressGameOver)
+	if (!GScene::suppressGameOver) {
+		App::playSound("sfx/player_death.wav", 0.5f);
 		playScene->triggerGameOver();
+	}
 }
 
 void Player::update()
@@ -358,7 +360,7 @@ void Player::hit(AttributeMap attributeEffect, shared_ptr<MagicEffect> effect){
 			hitFlickerInterval
 		));
 
-		App::playSound("sfx/player_hit.wav", 1.0f);
+		App::playSound("sfx/player_damage.wav", 1.0f);
     }
 }
 

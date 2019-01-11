@@ -51,6 +51,9 @@ void Agent::update()
 	if (attributeSystem.getAdjustedValue(Attribute::sunDamage) >= 100.0f ) {
 		onZeroHP();
 	}
+	if (attributeSystem.getAdjustedValue(Attribute::poisonDamage) >= 100.0f) {
+		onZeroHP();
+	}
 
 	if (attributeSystem.getAdjustedValue(Attribute::iceDamage) > 0 && attributeSystem.getAdjustedValue(Attribute::iceSensitivity) != 0) {
 		attributeSystem.modifyAttribute(Attribute::iceDamage, -App::secondsPerFrame);
@@ -176,8 +179,10 @@ void Agent::hit(AttributeMap attributeEffect, shared_ptr<MagicEffect> effect)
 
 	Enemy* _enemy = dynamic_cast<Enemy*>(this);
 
-	if (_enemy)
+	if (_enemy) {
 		_enemy->runDamageFlicker();
+		App::playSoundSpatial("sfx/enemy_damage.wav", getPos(), getVel());
+	}
 }
 
 bool Agent::canApplyAttributeEffects(AttributeMap attributeEffect)

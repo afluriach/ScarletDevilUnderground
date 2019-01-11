@@ -118,6 +118,7 @@ const unordered_map<string, GObject::AdapterType> GObject::adapters = {
 	entry_same(SakuyaNPC),
 	entry_same(SandFloor),
 	entry_same(Scorpion1),
+	entry_same(Scorpion2),
 	entry_same(Slime1),
 	entry_same(Slime2),
 	entry_same(Spawner),
@@ -153,6 +154,7 @@ const set<type_index> GSpace::enemyTypes = {
 	typeid(Sakuya),
 
 	typeid(Scorpion1),
+	typeid(Scorpion2),
 	typeid(Slime1),
 	typeid(Slime2),
 	typeid(Stalker),

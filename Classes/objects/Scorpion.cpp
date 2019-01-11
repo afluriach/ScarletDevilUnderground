@@ -45,3 +45,36 @@ AttributeMap Scorpion1::touchEffect() {
 		{Attribute::poisonDamage, 5.0f}
 	};
 }
+
+Scorpion2::Scorpion2(GSpace* space, ObjectIDType id, const ValueMap& args) :
+	MapObjForwarding(GObject),
+	MapObjForwarding(Agent),
+	Enemy(collectible_id::power2)
+{
+}
+
+const AttributeMap Scorpion2::baseAttributes = {
+	{ Attribute::maxHP, 50.0f },
+	{ Attribute::speed, 3.0f },
+	{ Attribute::acceleration, 9.0f }
+};
+
+void Scorpion2::initStateMachine(ai::StateMachine& sm)
+{
+	auto detectMain = make_shared<ai::Detect>(
+		"player",
+		[sm](GObject* target) -> shared_ptr<ai::Function> {
+			return make_shared<ai::Flank>(
+				target
+			);
+		}
+	);
+	fsm.addThread(detectMain);
+}
+
+AttributeMap Scorpion2::touchEffect() {
+	return {
+		{ Attribute::hp, -1.0f },
+		{ Attribute::poisonDamage, 33.3f }
+	};
+}

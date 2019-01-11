@@ -868,6 +868,48 @@ void CircleAround::update(StateMachine& fsm)
 	fsm.agent->setAngle(angularPosition);
 }
 
+Flank::Flank(gobject_ref target) :
+target(target)
+{
+}
+
+void Flank::init(StateMachine& fsm)
+{
+}
+
+void Flank::update(StateMachine& fsm)
+{
+	if (!target.isValid()) {
+		fsm.pop();
+	}
+
+	SpaceVect pos = target.get()->getPos();
+	SpaceFloat angle = target.get()->getAngle();
+	SpaceFloat this_angle = viewAngleToTarget(target.get(), fsm.agent);
+
+	if (abs(this_angle) < float_pi / 4.0) {
+		//move to side flank
+
+		if (this_angle < 0) {
+			fsm.push(make_shared<MoveToPoint>(
+				SpaceVect::ray(1.0, angle - float_pi / 2.0) + pos
+			));
+		}
+		else {
+			fsm.push(make_shared<MoveToPoint>(
+				SpaceVect::ray(1.0, angle + float_pi / 2.0) + pos
+			));
+		}
+	}
+	else
+	{
+		//move to rear flank
+		fsm.push(make_shared<MoveToPoint>(
+			SpaceVect::ray(1.0, angle + float_pi ) + pos
+		));
+	}
+}
+
 QuadDirectionLookAround::QuadDirectionLookAround(boost::rational<int> secondsPerDirection, bool clockwise) :
 secondsPerDirection(secondsPerDirection),
 timeRemaining(secondsPerDirection),

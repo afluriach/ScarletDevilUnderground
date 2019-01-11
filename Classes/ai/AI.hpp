@@ -443,6 +443,21 @@ private:
 	SpaceFloat angularPosition;
 };
 
+class Flank : public Function {
+public:
+	Flank(gobject_ref target);
+
+	virtual void init(StateMachine& fsm);
+	virtual void update(StateMachine& fsm);
+
+	inline virtual bitset<lockCount> getLockMask() {
+		return make_enum_bitfield(ResourceLock::movement);
+	}
+
+	FuncGetName(Flank)
+private:
+	gobject_ref target;
+};
 
 class QuadDirectionLookAround : public Function {
 public:
