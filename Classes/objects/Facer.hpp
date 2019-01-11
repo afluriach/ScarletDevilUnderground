@@ -16,22 +16,24 @@ class Facer : public Enemy, public BaseAttributes<Facer>
 public:
 	static const AttributeMap baseAttributes;
 
-    inline Facer(GSpace* space, ObjectIDType id, const ValueMap& args) :
-	MapObjForwarding(GObject),
-    MapObjForwarding(Agent),
-	Enemy(collectible_id::nil)
-    {}
+	MapObjCons(Facer);
 
-    virtual void hit(int damage, shared_ptr<MagicEffect> effect);
+	virtual void hit(AttributeMap attributeEffects, shared_ptr<MagicEffect> effect);
 
     inline SpaceFloat getMass() const {return 40.0;}
 
     inline string imageSpritePath() const {return "sprites/tewi.png";}
  
-	virtual inline void initStateMachine(ai::StateMachine& sm) {
-		sm.addThread(make_shared<ai::FacerMain>());
-	}
+	virtual void initStateMachine(ai::StateMachine& sm);
 };
 
+class FacerMain : public ai::Function {
+public:
+	virtual void onEnter(ai::StateMachine& sm);
+	virtual void update(ai::StateMachine& sm);
+	FuncGetName(FacerMain)
+protected:
+	gobject_ref target = nullptr;
+};
 
 #endif /* Facer_hpp */

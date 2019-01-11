@@ -15,6 +15,22 @@ const AttributeMap SakuyaNPC::baseAttributes = {
 	{Attribute::acceleration, 4.5f}
 };
 
+SakuyaNPC::SakuyaNPC(GSpace* space, ObjectIDType id, const ValueMap& args) :
+	MapObjForwarding(GObject),
+	MapObjForwarding(Agent)
+{}
+
 void SakuyaNPC::initStateMachine(ai::StateMachine& sm) {
-	addThread(make_shared<ai::SakuyaNPC1>());
+	addThread(make_shared<SakuyaNPC1>());
+}
+
+void SakuyaNPC1::onEnter(ai::StateMachine& sm)
+{
+
+}
+
+void SakuyaNPC1::update(ai::StateMachine& sm)
+{
+	const Path* path = sm.agent->space->getPath("sakuya1_path");
+	sm.push(make_shared<ai::FollowPath>(*path, true));
 }

@@ -16,7 +16,37 @@ const AttributeMap Follower::baseAttributes = {
 	{Attribute::acceleration, 4.5f}
 };
 
-void Follower::hit(int damage, shared_ptr<MagicEffect> effect)
+Follower::Follower(GSpace* space, ObjectIDType id, const ValueMap& args) :
+	GObject(space, id, args),
+	Agent(space, id, args),
+	Enemy(collectible_id::nil)
+{}
+
+void Follower::hit(AttributeMap attributeEffects, shared_ptr<MagicEffect> effect)
 {
     rotate(-0.5f*float_pi);
+}
+
+void Follower::initStateMachine(ai::StateMachine& sm) {
+	sm.addThread(make_shared<FollowerMain>());
+}
+
+void FollowerMain::onEnter(ai::StateMachine& sm)
+{
+	target = sm.agent->space->getObject("player");
+}
+
+void FollowerMain::update(ai::StateMachine& sm)
+{
+	if (target.isValid()) {
+		if (ai::isFacingTargetsBack(sm.agent, target.get())) {
+			sm.agent->setVel(SpaceVect::ray(sm.agent->getMaxSpeed(), sm.agent->getAngle()));
+		}
+		else {
+			sm.agent->setVel(SpaceVect::zero);
+		}
+	}
+	else {
+		sm.pop();
+	}
 }

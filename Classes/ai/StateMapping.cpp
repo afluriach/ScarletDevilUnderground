@@ -29,7 +29,6 @@ const unordered_map<string, Function::AdapterType> Function::adapters = {
 	entry_same(Flee),
 	entry_same(FollowPath),
 	entry_same(IdleWait),
-	entry_same(IllusionDash),
 	entry_same(MaintainDistance),
 	entry_same(MoveToPoint),
 	entry_same(Seek),

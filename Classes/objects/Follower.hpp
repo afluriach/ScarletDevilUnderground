@@ -16,26 +16,27 @@ class Follower : public Enemy, public BaseAttributes<Follower>
 public:
 	static const AttributeMap baseAttributes;
 
-    inline Follower(GSpace* space, ObjectIDType id, const ValueMap& args) :
-	GObject(space,id,args),
-    Agent(space,id,args),
-	Enemy(collectible_id::nil)
-    {}
-    
-    virtual void hit(int damage, shared_ptr<MagicEffect> effect);
+	MapObjCons(Follower);
+
+	virtual void hit(AttributeMap attributeEffects, shared_ptr<MagicEffect> effect);
 
     inline SpaceFloat getMass() const {return 40.0;}
 
     inline string imageSpritePath() const {return "sprites/reisen.png";}
         
-	virtual inline void initStateMachine(ai::StateMachine& sm) {
-		sm.addThread(make_shared<ai::FollowerMain>());
-	}
-
-    GObject* target = nullptr;
+	virtual void initStateMachine(ai::StateMachine& sm);
     
     void init();
     void update();
+};
+
+class FollowerMain : public ai::Function {
+public:
+	virtual void onEnter(ai::StateMachine& sm);
+	virtual void update(ai::StateMachine& sm);
+	FuncGetName(FollowerMain)
+protected:
+	gobject_ref target = nullptr;
 };
 
 #endif /* Follower_hpp */

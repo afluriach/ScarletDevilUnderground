@@ -16,10 +16,7 @@ class SakuyaNPC : virtual public Agent, public BaseAttributes<SakuyaNPC>
 public:
 	static const AttributeMap baseAttributes;
 
-    inline SakuyaNPC(GSpace* space, ObjectIDType id, const ValueMap& args) :
-	MapObjForwarding(GObject),
-    MapObjForwarding(Agent)
-    {}
+	MapObjCons(SakuyaNPC);
 
 	virtual inline GType getType() const { return GType::npc; }
     virtual inline SpaceFloat getRadarRadius() const {return 6.0;}
@@ -33,5 +30,11 @@ public:
 	virtual void initStateMachine(ai::StateMachine& sm);
 };
 
+class SakuyaNPC1 : public ai::Function {
+public:
+	virtual void onEnter(ai::StateMachine& sm);
+	virtual void update(ai::StateMachine& sm);
+	FuncGetName(SakuyaMain)
+};
 
 #endif /* SakuyaNPC_hpp */

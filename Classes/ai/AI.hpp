@@ -657,55 +657,6 @@ protected:
 	gobject_ref target;
 };
 
-
-class FacerMain : public Function {
-public:
-	virtual void onEnter(StateMachine& sm);
-	virtual void update(StateMachine& sm);
-    FuncGetName(FacerMain)
-protected:
-	gobject_ref target = nullptr;
-};
-
-class FollowerMain : public Function {
-public:
-	virtual void onEnter(StateMachine& sm);
-	virtual void update(StateMachine& sm);
-    FuncGetName(FollowerMain)
-protected:
-	gobject_ref target = nullptr;
-};
-
-class SakuyaMain : public Function {
-public:
-	virtual void onEnter(StateMachine& sm);
-	virtual void update(StateMachine& sm);
-    FuncGetName(SakuyaMain)
-};
-
-class SakuyaNPC1 : public Function {
-public:
-	virtual void onEnter(StateMachine& sm);
-	virtual void update(StateMachine& sm);
-	FuncGetName(SakuyaMain)
-};
-
-
-class IllusionDash : public Function {
-public:
-    IllusionDash(SpaceVect _target);
-    IllusionDash(GSpace* space, const ValueMap& args);
-    static const SpaceFloat scale;
-    static const SpaceFloat opacity;
-    static const SpaceFloat speed;
-
-	virtual void onEnter(StateMachine& sm);
-    virtual void update(StateMachine& sm);
-    FuncGetName(IllusionDash)
-protected:
-    SpaceVect target;
-};
-
 } //end NS
 
 #endif /* AI_hpp */
