@@ -146,9 +146,10 @@ void Player::checkMovementControls(const ControlInfo& cs)
     
     if(moveDir.isZero())
          animSprite->reset();
-    
-    //Facing is not diagonal, horizontal direction will override.
-    setDirection(toDirection(facing));
+    	
+	if (facing.lengthSq() > 0.0) {
+		setAngle(facing.toAngle());
+	}
 }
 
 void Player::updateSpellControls(const ControlInfo& cs)
