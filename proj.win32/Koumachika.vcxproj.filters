@@ -258,6 +258,9 @@
     <ClCompile Include="..\Classes\spells\PlayerSpell.cpp">
       <Filter>src\spells</Filter>
     </ClCompile>
+    <ClCompile Include="..\Classes\spells\PatchouliSpell.cpp">
+      <Filter>src\spells</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="main.h">
@@ -504,6 +507,9 @@
       <Filter>src\scenes</Filter>
     </ClInclude>
     <ClInclude Include="..\Classes\spells\PlayerSpell.hpp">
+      <Filter>src\spells</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\spells\PatchouliSpell.hpp">
       <Filter>src\spells</Filter>
     </ClInclude>
   </ItemGroup>

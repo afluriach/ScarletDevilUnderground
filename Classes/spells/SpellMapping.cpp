@@ -8,6 +8,7 @@
 
 #include "Prefix.h"
 
+#include "PatchouliSpell.hpp"
 #include "PlayerSpell.hpp"
 #include "Spell.hpp"
 #include "SpellDescriptor.hpp"

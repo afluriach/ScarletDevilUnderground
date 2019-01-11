@@ -11,6 +11,9 @@
 
 #include "Spell.hpp"
 
+class CirnoIceShieldBullet;
+class FlandreCounterClockBullet;
+
 //Apply power drain and deactive spell if applicable
 class PlayerSpell : virtual public Spell {
 public:

@@ -9,7 +9,7 @@
 #include "Prefix.h"
 
 #include "Patchouli.hpp"
-#include "Spell.hpp"
+#include "PatchouliSpell.hpp"
 
 Patchouli::Patchouli(GSpace* space, ObjectIDType id, const ValueMap& args) :
 	MapObjForwarding(GObject),
