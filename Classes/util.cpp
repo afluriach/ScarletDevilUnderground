@@ -130,7 +130,7 @@ SpaceVect toChipmunk(const cocos2d::CCSize& rhs)
 
 FMOD_VECTOR toFmod(const SpaceVect& rhs)
 {
-	return { to_float(rhs.x), to_float(rhs.y), 0.0f };
+	return { to_float(rhs.x), 0.0f, to_float(rhs.y) };
 }
 
 string getRealPath(const string& path)

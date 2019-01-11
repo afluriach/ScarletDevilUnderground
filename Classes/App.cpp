@@ -141,8 +141,8 @@ void App::setSoundListenerPos(SpaceVect pos, SpaceVect vel, SpaceFloat angle)
 {
 	FMOD_VECTOR _pos = toFmod(pos);
 	FMOD_VECTOR _vel = toFmod(vel);
-	FMOD_VECTOR facing = {0.0f, -1.0f, 0.0f};
-	FMOD_VECTOR up = {0.0f, 0.0f, 1.0f};
+	FMOD_VECTOR facing = {0.0f, 0.0f, 1.0f};
+	FMOD_VECTOR up = {0.0f, 1.0f, 0.0f};
 
 	if (appInst->audioSystem) {
 		appInst->audioSystem->set3DListenerAttributes(0, &_pos, &_vel, &facing, &up);

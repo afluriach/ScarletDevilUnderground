@@ -223,11 +223,7 @@ void PatchConSprite::update()
 	if (advance && crntFloorCenterContact.isValid() ) {
 		string sfxRes = crntFloorCenterContact.get()->getFootstepSfx();
 		if (!sfxRes.empty()) {
-
-			if (dynamic_cast<Player*>(this)) {
-				App::playSound(sfxRes, 0.25f);
-			}
-			else {
+			if (!dynamic_cast<Player*>(this)) {
 				App::playSoundSpatial(sfxRes, getPos(), getVel());
 			}
 		}
