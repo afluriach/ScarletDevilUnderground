@@ -692,8 +692,8 @@ void Scurry::update(StateMachine& sm)
 	}
 	scurryLeft = !scurryLeft;
 
-	array<SpaceFloat, 8> obstacleFeelers = obstacleFeeler8(sm.agent, displacement.length());
-	int direction = chooseBestDirection(obstacleFeelers, angle, displacement.length());
+	array<SpaceFloat, 8> obstacleFeelers = obstacleFeeler8(sm.agent, distance);
+	int direction = chooseBestDirection(obstacleFeelers, angle, distance);
 
 	if (direction != -1) {
 		sm.push(make_shared <MoveToPoint>(
