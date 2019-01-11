@@ -62,8 +62,13 @@ const map<EventKeyboard::KeyCode, ControlActionState> ControlRegister::keyAction
 
 const map<gainput::PadButton, ControlActionState> ControlRegister::buttonActionMap = {
 	button_action_1(PadButtonStart, pause),
+	button_action_1(PadButtonSelect, mapMenu),
+
 	button_action_2(PadButtonA,interact,menuSelect),
 	button_action_2(PadButtonB, menuBack,dialogSkip),
+
+	button_action_1(PadButtonL1, walk),
+	button_action_1(PadButtonR1, sprint),
 
 	button_action_1(PadButtonUp, spell1),
 	button_action_1(PadButtonRight, spell2),
@@ -190,19 +195,8 @@ void ControlRegister::onKeyUp(EventKeyboard::KeyCode code, Event* event)
 	keysDown.erase(code);
 }
 
-#define add_key(key,padbutton) input_map.MapBool( \
-    static_cast<gainput::UserButtonId>(Keys::key), \
-    gamepad_id, \
-    gainput::padbutton \
-); \
-\
-wasKeyDown[Keys::key] = false;
-
 void ControlRegister::updateVectors()
 {
-    prev_left_vector = left_vector;
-    prev_right_vector = right_vector;
-
     SpaceVect left_stick,right_stick;
     
     #if use_gamepad
@@ -331,6 +325,8 @@ void ControlRegister::update()
 #if use_gamepad
 void ControlRegister::pollGamepad()
 {
+	buttonsDown.clear();
+
 	enum_foreach(gainput::PadButton,button_id, PadButtonAxisCount_,PadButtonMax_)
 	{
 		if (input_map.GetBool(static_cast<gainput::UserButtonId>(button_id)) ) {

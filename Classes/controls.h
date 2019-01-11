@@ -150,7 +150,6 @@ private:
     void logGamepadButtons();
     
     SpaceVect left_vector, right_vector;
-    SpaceVect prev_left_vector, prev_right_vector;
     
     set<EventKeyboard::KeyCode> keysDown;
 #if use_gamepad
