@@ -22,7 +22,7 @@ bool bitset_enum_index(bitset<bitset_size> _b, E e)
 }
 
 template<typename E, size_t bitset_size>
-void bitset_enum_set(bitset<bitset_size> _b, E e, bool value)
+void bitset_enum_set(bitset<bitset_size>& _b, E e, bool value)
 {
 	_b[to_size_t(e)] = value;
 }
