@@ -9,7 +9,7 @@
 #include "Prefix.h"
 
 #include "App.h"
-#include "Bullet.hpp"
+#include "EnemyBullet.hpp"
 #include "GSpace.hpp"
 #include "Launcher.hpp"
 #include "util.h"

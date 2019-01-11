@@ -15,6 +15,7 @@
 #include "CollectGlyph.hpp"
 #include "Collectibles.hpp"
 #include "EffectArea.hpp"
+#include "EnemyBullet.hpp"
 #include "Facer.hpp"
 #include "Fairy.hpp"
 #include "Follower.hpp"

@@ -8,7 +8,7 @@
 
 #include "Prefix.h"
 
-#include "Bullet.hpp"
+#include "EnemyBullet.hpp"
 #include "GSpace.hpp"
 #include "PatchouliSpell.hpp"
 

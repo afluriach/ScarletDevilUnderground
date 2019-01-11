@@ -9,8 +9,8 @@
 #include "Prefix.h"
 
 #include "AI.hpp"
+#include "EnemyFirePattern.hpp"
 #include "Fairy.hpp"
-#include "FirePattern.hpp"
 #include "value_map.hpp"
 
 const AttributeMap Fairy1::baseAttributes = {

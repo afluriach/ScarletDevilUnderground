@@ -173,6 +173,7 @@ xcopy "$(ProjectDir)..\Resources" "$(OutDir)" /D /E /I /F /Y</Command>
     <ClCompile Include="..\Classes\objects\Collectibles.cpp" />
     <ClCompile Include="..\Classes\objects\EffectArea.cpp" />
     <ClCompile Include="..\Classes\objects\Enemy.cpp" />
+    <ClCompile Include="..\Classes\objects\EnemyBullet.cpp" />
     <ClCompile Include="..\Classes\objects\Facer.cpp" />
     <ClCompile Include="..\Classes\objects\Fairy.cpp" />
     <ClCompile Include="..\Classes\objects\Follower.cpp" />
@@ -188,6 +189,7 @@ xcopy "$(ProjectDir)..\Resources" "$(OutDir)" /D /E /I /F /Y</Command>
     <ClCompile Include="..\Classes\objects\object_ref.cpp" />
     <ClCompile Include="..\Classes\objects\Patchouli.cpp" />
     <ClCompile Include="..\Classes\objects\Player.cpp" />
+    <ClCompile Include="..\Classes\objects\PlayerBullet.cpp" />
     <ClCompile Include="..\Classes\objects\Pyramid.cpp" />
     <ClCompile Include="..\Classes\objects\Sakuya.cpp" />
     <ClCompile Include="..\Classes\objects\SakuyaNPC.cpp" />
@@ -216,9 +218,11 @@ xcopy "$(ProjectDir)..\Resources" "$(OutDir)" /D /E /I /F /Y</Command>
     <ClCompile Include="..\Classes\scenes\SceneMapping.cpp" />
     <ClCompile Include="..\Classes\scenes\scenes.cpp" />
     <ClCompile Include="..\Classes\SpaceLayer.cpp" />
+    <ClCompile Include="..\Classes\spells\EnemyFirePattern.cpp" />
     <ClCompile Include="..\Classes\spells\FirePattern.cpp" />
     <ClCompile Include="..\Classes\spells\MagicEffect.cpp" />
     <ClCompile Include="..\Classes\spells\PatchouliSpell.cpp" />
+    <ClCompile Include="..\Classes\spells\PlayerFirePattern.cpp" />
     <ClCompile Include="..\Classes\spells\PlayerSpell.cpp" />
     <ClCompile Include="..\Classes\spells\Spell.cpp" />
     <ClCompile Include="..\Classes\spells\SpellDescriptor.cpp" />
@@ -259,6 +263,7 @@ xcopy "$(ProjectDir)..\Resources" "$(OutDir)" /D /E /I /F /Y</Command>
     <ClInclude Include="..\Classes\objects\Collectibles.hpp" />
     <ClInclude Include="..\Classes\objects\EffectArea.hpp" />
     <ClInclude Include="..\Classes\objects\Enemy.hpp" />
+    <ClInclude Include="..\Classes\objects\EnemyBullet.hpp" />
     <ClInclude Include="..\Classes\objects\Facer.hpp" />
     <ClInclude Include="..\Classes\objects\Fairy.hpp" />
     <ClInclude Include="..\Classes\objects\Flower.h" />
@@ -274,6 +279,7 @@ xcopy "$(ProjectDir)..\Resources" "$(OutDir)" /D /E /I /F /Y</Command>
     <ClInclude Include="..\Classes\objects\object_ref.hpp" />
     <ClInclude Include="..\Classes\objects\Patchouli.hpp" />
     <ClInclude Include="..\Classes\objects\Player.hpp" />
+    <ClInclude Include="..\Classes\objects\PlayerBullet.hpp" />
     <ClInclude Include="..\Classes\objects\Pyramid.hpp" />
     <ClInclude Include="..\Classes\objects\Reimu.hpp" />
     <ClInclude Include="..\Classes\objects\Sakuya.hpp" />
@@ -301,9 +307,11 @@ xcopy "$(ProjectDir)..\Resources" "$(OutDir)" /D /E /I /F /Y</Command>
     <ClInclude Include="..\Classes\scenes\scenes.h" />
     <ClInclude Include="..\Classes\scenes\SceneUtil.h" />
     <ClInclude Include="..\Classes\SpaceLayer.h" />
+    <ClInclude Include="..\Classes\spells\EnemyFirePattern.hpp" />
     <ClInclude Include="..\Classes\spells\FirePattern.hpp" />
     <ClInclude Include="..\Classes\spells\MagicEffect.hpp" />
     <ClInclude Include="..\Classes\spells\PatchouliSpell.hpp" />
+    <ClInclude Include="..\Classes\spells\PlayerFirePattern.hpp" />
     <ClInclude Include="..\Classes\spells\PlayerSpell.hpp" />
     <ClInclude Include="..\Classes\spells\Spell.hpp" />
     <ClInclude Include="..\Classes\spells\SpellDescriptor.hpp" />

@@ -8,8 +8,8 @@
 
 #include "Prefix.h"
 
-#include "Bullet.hpp"
 #include "Player.hpp"
+#include "PlayerBullet.hpp"
 #include "PlayerSpell.hpp"
 
 void PlayerSpell::init()

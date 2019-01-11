@@ -261,6 +261,18 @@
     <ClCompile Include="..\Classes\spells\PatchouliSpell.cpp">
       <Filter>src\spells</Filter>
     </ClCompile>
+    <ClCompile Include="..\Classes\objects\PlayerBullet.cpp">
+      <Filter>src\objects</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\spells\EnemyFirePattern.cpp">
+      <Filter>src\spells</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\spells\PlayerFirePattern.cpp">
+      <Filter>src\spells</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\objects\EnemyBullet.cpp">
+      <Filter>src\objects</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="main.h">
@@ -511,6 +523,18 @@
     </ClInclude>
     <ClInclude Include="..\Classes\spells\PatchouliSpell.hpp">
       <Filter>src\spells</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\objects\PlayerBullet.hpp">
+      <Filter>src\objects</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\spells\EnemyFirePattern.hpp">
+      <Filter>src\spells</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\spells\PlayerFirePattern.hpp">
+      <Filter>src\spells</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\objects\EnemyBullet.hpp">
+      <Filter>src\objects</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

@@ -10,10 +10,10 @@
 
 #include "AIMixins.hpp"
 #include "App.h"
-#include "Bullet.hpp"
 #include "Collectibles.hpp"
 #include "EffectArea.hpp"
 #include "Enemy.hpp"
+#include "EnemyBullet.hpp"
 #include "FloorSegment.hpp"
 #include "GObject.hpp"
 #include "Graph.hpp"

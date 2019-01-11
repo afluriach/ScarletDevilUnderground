@@ -20,6 +20,7 @@
 
 class Collectible;
 class ControlState;
+class EnemyBullet;
 class FirePattern;
 class SpellDesc;
 class PlayScene;
