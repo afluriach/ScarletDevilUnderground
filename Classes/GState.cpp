@@ -18,7 +18,7 @@ void GState::load()
     string profilePath = getProfilePath();
     if(!FileUtils::getInstance()->isFileExist(profilePath))
     {
-        log("Profile does not exist, creating a new one at \"%s\".", profilePath.c_str() );
+        log("Profile does not exist, loading new one.");
     }
     else
     {
