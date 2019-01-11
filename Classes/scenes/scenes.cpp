@@ -100,18 +100,26 @@ control_listener(make_unique<ControlListener>())
         to_int(initOrder::core)
     );
 	multiInit.insertWithOrder(
-		wrap_method(GScene, processAdditions, this),
-		to_int(initOrder::loadObjects)
-	);
-	multiInit.insertWithOrder(
 		wrap_method(GScene, loadMaps, this),
 		to_int(initOrder::mapLoad)
+	);
+	multiInit.insertWithOrder(
+		wrap_method(GScene, processAdditions, this),
+		to_int(initOrder::loadObjects)
 	);
 	multiInit.insertWithOrder(
 		wrap_method(GScene, runScriptInit, this),
 		to_int(initOrder::postLoadObjects)
 	);
+	multiInit.insertWithOrder(
+		wrap_method(GScene, initEnemyStats, this),
+		to_int(initOrder::postLoadObjects)
+	);
 
+	multiUpdate.insertWithOrder(
+		wrap_method(GScene, checkPendingScript, this),
+		to_int(updateOrder::runShellScript)
+	);
 	multiUpdate.insertWithOrder(
 		wrap_method(GScene, updateSpace, this),
 		to_int(updateOrder::spaceUpdate)
@@ -123,10 +131,6 @@ control_listener(make_unique<ControlListener>())
 	multiUpdate.insertWithOrder(
 		wrap_method(GScene, updateMapVisibility, this),
 		to_int(updateOrder::sceneUpdate)
-	);
-	multiUpdate.insertWithOrder(
-		wrap_method(GScene,checkPendingScript, this),
-		to_int(updateOrder::runShellScript)
 	);
 	multiUpdate.insertWithOrder(
 		bind(&GScene::runActionsWithOrder, this, updateOrder::hudUpdate),
@@ -505,6 +509,11 @@ void GScene::loadWalls(const TMXTiledMap& map, IntVec2 offset)
 		cocos2d::CCRect area = getUnitspaceRectangle(objAsMap, offset);
 		gspace->addWallBlock(toChipmunk(area.origin), toChipmunk(area.getUpperCorner()));
 	}
+}
+
+void GScene::initEnemyStats()
+{
+	gspace->setInitialObjectCount();
 }
 
 void GScene::updateMapVisibility()

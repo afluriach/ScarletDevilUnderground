@@ -66,6 +66,7 @@ public:
 
 	//Methods for controlling the active scene; wraps calls to Director.
 	static void runTitleScene();
+	static void runOverworldScene();
 	static void restartScene();
 	static GScene* getCrntScene();
 	static void resumeScene();

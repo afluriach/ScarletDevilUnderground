@@ -210,7 +210,7 @@ void PlayScene::triggerGameOver()
 
 void PlayScene::showSceneCompletedMenu()
 {
-	showMenu(Node::ccCreate<ChamberCompletedMenu>());
+	showMenu(Node::ccCreate<ChamberCompletedMenu>(this));
 }
 
 void PlayScene::triggerSceneCompleted()

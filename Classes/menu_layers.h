@@ -22,7 +22,6 @@ public:
 
 	inline TitleMenu() {}
 private:
-	static void start();
 	static void sceneSelect();
 };
 
@@ -65,7 +64,14 @@ public:
 	static const vector<string> entries;
 	static const vector<listAction> entryActions;
 
-	inline ChamberCompletedMenu() {}
+	inline ChamberCompletedMenu(PlayScene* playScene) : playScene(playScene) {}
+
+	virtual bool init();
+protected:
+	string enemyStatsMsg();
+
+	Label * text = nullptr;
+	PlayScene* playScene;
 };
 
 class ReplayCompletedMenu : public TextListMenuImpl<ReplayCompletedMenu>

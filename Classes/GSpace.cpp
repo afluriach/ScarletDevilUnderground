@@ -37,6 +37,10 @@ GSpace::GSpace(SpaceLayer* spaceLayer, GScene* gscene) : spaceLayer(spaceLayer),
 	for (type_index t : trackedTypes) {
 		objByType[t] = set<GObject*>();
 	}
+
+	for (type_index t : enemyTypes) {
+		objByType[t] = set<GObject*>();
+	}
 }
 
 GSpace::~GSpace()
@@ -203,7 +207,7 @@ GObject* GSpace::getObject(unsigned int uuid) const
 
 const set<GObject*>* GSpace::getObjecstByType(type_index t) const
 {
-	if (trackedTypes.find(t) == trackedTypes.end()) {
+	if (trackedTypes.find(t) == trackedTypes.end() && enemyTypes.find(t) == enemyTypes.end()) {
 		log("%s is not a tracked type.", t.name());
 		return nullptr;
 	}
@@ -248,6 +252,9 @@ void GSpace::processAdditions()
         obj->initializeGraphics(spaceLayer);
         
 		if (trackedTypes.find(typeid(*obj)) != trackedTypes.end()) {
+			objByType[typeid(*obj)].insert(obj);
+		}
+		if (enemyTypes.find(typeid(*obj)) != enemyTypes.end()) {
 			objByType[typeid(*obj)].insert(obj);
 		}
 
@@ -313,6 +320,9 @@ void GSpace::processRemoval(GObject* obj, bool removeSprite)
     objByUUID.erase(obj->uuid);
 
 	if (trackedTypes.find(typeid(*obj)) != trackedTypes.end()) {
+		objByType[typeid(*obj)].erase(obj);
+	}
+	if (enemyTypes.find(typeid(*obj)) != enemyTypes.end()) {
 		objByType[typeid(*obj)].erase(obj);
 	}
 
@@ -407,6 +417,33 @@ unordered_map<int,string> GSpace::getUUIDNameMap() const
 unsigned int GSpace::getAndIncrementObjectUUID()
 {
 	return nextObjUUID++;
+}
+
+void GSpace::setInitialObjectCount()
+{
+	for (auto entry : objByType)
+	{
+		initialObjectCount[entry.first] = entry.second.size();
+	}
+}
+
+map<type_index, pair<unsigned int, unsigned int>> GSpace::getEnemyStats()
+{
+	map<type_index, pair<unsigned int, unsigned int>> result;
+
+	for (type_index t : enemyTypes)
+	{
+		if (initialObjectCount[t] == 0) {
+			continue;
+		}
+
+		result[t] = pair<unsigned int, unsigned int>(
+			initialObjectCount[t] - objByType[t].size(),
+			initialObjectCount[t]
+		);
+	}
+
+	return result;
 }
 
 //END OBJECT MANIPULATION

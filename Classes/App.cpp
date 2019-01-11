@@ -4,6 +4,7 @@
 #include "controls.h"
 #include "functional.hpp"
 #include "macros.h"
+#include "Mansion.hpp"
 #include "menu_scenes.h"
 #include "GState.hpp"
 #include "scenes.h"
@@ -302,6 +303,11 @@ void App::loadShaders()
 void App::runTitleScene()
 {
 	createAndRunScene<TitleMenuScene>();
+}
+
+void App::runOverworldScene()
+{
+	createAndRunScene<Mansion>();
 }
 
 GScene* App::getCrntScene()

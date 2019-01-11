@@ -36,15 +36,10 @@ const vector<string> TitleMenu::entries = {
 };
 
 const vector <TextListMenuLayer::listAction > TitleMenu::entryActions = {
-	start,
+	&App::runOverworldScene,
 	sceneSelect,
 	&App::end
 };
-
-void TitleMenu::start()
-{
-	GScene::runScene("Mansion");
-}
 
 void TitleMenu::sceneSelect()
 {
@@ -123,14 +118,47 @@ const vector<TextListMenuLayer::listAction> GameOverMenu::entryActions = {
 const string ChamberCompletedMenu::title = "COMPLETED!";
 
 const vector<string> ChamberCompletedMenu::entries = {
+	"Continue",
 	"Retry",
 	"Exit to title"
 };
 
 const vector<TextListMenuLayer::listAction> ChamberCompletedMenu::entryActions = {
+	&App::runOverworldScene,
 	&App::restartScene,
 	&App::runTitleScene
 };
+
+bool ChamberCompletedMenu::init()
+{
+	TextListMenuLayer::init();
+
+	text = createTextLabel(enemyStatsMsg(),24);
+	addChild(text, 0);
+	text->setPosition(Vec2(App::width / 2.0f, App::height / 2.0f));
+
+	return true;
+}
+
+string ChamberCompletedMenu::enemyStatsMsg()
+{
+	map<type_index, pair<unsigned int, unsigned int>> enemyStats = playScene->getSpace()->getEnemyStats();
+	string result;
+
+	result += "Enemies defeated:";
+
+	for (auto entry : enemyStats)
+	{
+		result +=
+			"\n" +
+			string(entry.first.name()) + " : " + 
+			boost::lexical_cast<string>(entry.second.first)  + " / " +
+			boost::lexical_cast<string>(entry.second.second)
+		;
+	}
+
+	return result;
+}
 
 const string ReplayCompletedMenu::title = "End of replay";
 

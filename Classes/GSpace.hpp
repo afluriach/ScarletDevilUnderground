@@ -60,6 +60,7 @@ private:
 public:
     static const bool logObjectArgs;
 	static const set<type_index> trackedTypes;
+	static const set<type_index> enemyTypes;
 
 	void addWallBlock(SpaceVect ll, SpaceVect ur);
 
@@ -97,10 +98,11 @@ public:
 	inline vector<object_ref<T>> getObjectsByTypeAs() const {
 		assert_gobject(T);
 		const set<GObject*>* base = getObjecstByType(typeid(T));
-		vector<object_ref<T>> result;
-		result.reserve(base->size());
 		
 		if (!base) return vector<object_ref<T>>();
+
+		vector<object_ref<T>> result;
+		result.reserve(base->size());
 
 		for (GObject* basePtr : *base) {
 			result.push_back(dynamic_cast<T*>(basePtr));
@@ -116,6 +118,9 @@ public:
     
 	void setBulletBodiesVisible(bool b);
 
+	void setInitialObjectCount();
+	map<type_index, pair<unsigned int, unsigned int>> getEnemyStats();
+
 private:
     void processRemovals();
     void initObjects();
@@ -125,6 +130,7 @@ private:
     unordered_map<string, GObject*> objByName;
 	unordered_set<string> warningNames;
 	unordered_map<type_index, set<GObject*>> objByType;
+	unordered_map<type_index, unsigned int> initialObjectCount;
 
 	unsigned int nextObjUUID = 1;
     

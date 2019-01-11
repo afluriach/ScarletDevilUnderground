@@ -133,11 +133,27 @@ const unordered_map<string, GObject::AdapterType> GObject::adapters = {
 };
 
 const set<type_index> GSpace::trackedTypes = {
-	typeid(Fairy2),
 	typeid(TeleportPad),
 
 	//virtual tracked types
 	typeid(EnemyBullet),
 	typeid(FloorSegment),
 	typeid(Wall),
+};
+
+const set<type_index> GSpace::enemyTypes = {
+	typeid(Fairy1),
+	typeid(Fairy1A),
+	typeid(Fairy1B),
+	typeid(Fairy2),
+	typeid(IceFairy),
+	
+	typeid(ForestMarisa),
+	typeid(PatchouliEnemy),
+	typeid(Sakuya),
+
+	typeid(Scorpion1),
+	typeid(Slime1),
+	typeid(Slime2),
+	typeid(Stalker),
 };

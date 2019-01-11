@@ -146,6 +146,8 @@ protected:
 	void loadObjectGroup(TMXObjectGroup* group, IntVec2 offset);
 	void loadWalls(const TMXTiledMap& map, IntVec2 offset);
 
+	void initEnemyStats();
+
 	void updateMapVisibility();
 
 	void installLuaShell();
