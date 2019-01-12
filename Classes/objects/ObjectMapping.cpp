@@ -14,6 +14,7 @@
 #include "Bullet.hpp"
 #include "CollectGlyph.hpp"
 #include "Collectibles.hpp"
+#include "Door.hpp"
 #include "EffectArea.hpp"
 #include "EnemyBullet.hpp"
 #include "Facer.hpp"
@@ -92,6 +93,7 @@ const unordered_map<string, GObject::AdapterType> GObject::adapters = {
 	entry_same(CollectMarisa),
 	entry_same(Block),
 	entry_same(DirtFloorCave),
+	entry_same(Door),
 	entry_same(Facer),
 	entry_same(Fairy1),
 	entry_same(Fairy1A),
@@ -140,6 +142,7 @@ const unordered_map<string, GObject::AdapterType> GObject::adapters = {
 };
 
 const set<type_index> GSpace::trackedTypes = {
+	typeid(Door),
 	typeid(TeleportPad),
 
 	//virtual tracked types

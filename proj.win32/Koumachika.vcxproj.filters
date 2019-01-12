@@ -279,6 +279,9 @@
     <ClCompile Include="..\Classes\objects\Upgrade.cpp">
       <Filter>src\objects</Filter>
     </ClCompile>
+    <ClCompile Include="..\Classes\objects\Door.cpp">
+      <Filter>src\objects</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="main.h">
@@ -546,6 +549,9 @@
       <Filter>src</Filter>
     </ClInclude>
     <ClInclude Include="..\Classes\objects\Upgrade.hpp">
+      <Filter>src\objects</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\objects\Door.hpp">
       <Filter>src\objects</Filter>
     </ClInclude>
   </ItemGroup>

@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.0" tiledversion="1.0.3" orientation="orthogonal" renderorder="right-down" width="17" height="17" tilewidth="128" tileheight="128" nextobjectid="38">
+<map version="1.0" tiledversion="1.0.3" orientation="orthogonal" renderorder="right-down" width="17" height="17" tilewidth="128" tileheight="128" nextobjectid="40">
  <tileset firstgid="1" name="ice_wall" tilewidth="128" tileheight="128" tilecount="4" columns="2">
   <image source="ice_wall.png" width="256" height="256"/>
  </tileset>
@@ -29,5 +29,17 @@
  </objectgroup>
  <objectgroup name="objects">
   <object id="37" name="player" type="Player" x="1024" y="1024" width="128" height="128"/>
+  <object id="38" name="door-c0-west" type="Door" x="0" y="1024" width="128" height="128">
+   <properties>
+    <property name="dest" value="door-c6-east"/>
+    <property name="dir" value="right"/>
+   </properties>
+  </object>
+  <object id="39" name="door-c0-east" type="Door" x="2048" y="1024" width="128" height="128">
+   <properties>
+    <property name="dest" value="door-c4-west"/>
+    <property name="dir" value="left"/>
+   </properties>
+  </object>
  </objectgroup>
 </map>

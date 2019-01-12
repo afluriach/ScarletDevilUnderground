@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.0" tiledversion="1.0.3" orientation="orthogonal" renderorder="right-down" width="17" height="17" tilewidth="128" tileheight="128" nextobjectid="55">
+<map version="1.0" tiledversion="1.0.3" orientation="orthogonal" renderorder="right-down" width="17" height="17" tilewidth="128" tileheight="128" nextobjectid="57">
  <tileset firstgid="1" name="ice_wall" tilewidth="128" tileheight="128" tilecount="4" columns="2">
   <image source="ice_wall.png" width="256" height="256"/>
  </tileset>
@@ -42,6 +42,18 @@
   <object id="45" name="platform1" type="IcePlatform" x="1280" y="1792" width="256" height="256">
    <properties>
     <property name="path" value="path1"/>
+   </properties>
+  </object>
+  <object id="55" name="door-c6-south" type="Door" x="1024" y="2048" width="128" height="128">
+   <properties>
+    <property name="dest" value="door-c9-north"/>
+    <property name="dir" value="up"/>
+   </properties>
+  </object>
+  <object id="56" name="door-c6-east" type="Door" x="2048" y="1024" width="128" height="128">
+   <properties>
+    <property name="dest" value="door-c0-west"/>
+    <property name="dir" value="left"/>
    </properties>
   </object>
  </objectgroup>
