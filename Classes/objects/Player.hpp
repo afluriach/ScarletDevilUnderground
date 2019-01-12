@@ -123,7 +123,7 @@ protected:
 
 	boost::rational<int> interactCooldown = 0;
 
-	vector<unique_ptr<FirePattern>> firePatterns;
+	vector<shared_ptr<FirePattern>> firePatterns;
 	size_t crntFirePattern = 0;
 
 	SpellDesc* equippedSpell = nullptr;

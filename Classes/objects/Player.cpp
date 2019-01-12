@@ -482,8 +482,8 @@ FlandrePC::FlandrePC(GSpace* space, ObjectIDType id, const ValueMap& args) :
 
 void FlandrePC::setFirePatterns()
 {
-	firePatterns.push_back(make_unique<FlandreFastOrbPattern>(this));
-	firePatterns.push_back(make_unique<FlandreWideAnglePattern>(this));
+	firePatterns.push_back(make_shared<FlandreFastOrbPattern>(this));
+	firePatterns.push_back(make_shared<FlandreWideAnglePattern>(this));
 }
 
 void FlandrePC::equipSpells() {
@@ -509,7 +509,7 @@ RumiaPC::RumiaPC(GSpace* space, ObjectIDType id, const ValueMap& args) :
 
 void RumiaPC::setFirePatterns()
 {
-	firePatterns.push_back(make_unique<RumiaParallelPattern>(this));
+	firePatterns.push_back(make_shared<RumiaParallelPattern>(this));
 }
 
 void RumiaPC::equipSpells() {
@@ -535,7 +535,7 @@ CirnoPC::CirnoPC(GSpace* space, ObjectIDType id, const ValueMap& args) :
 
 void CirnoPC::setFirePatterns()
 {
-	firePatterns.push_back(make_unique<CirnoSmallIceBulletPattern>(this));
+	firePatterns.push_back(make_shared<CirnoSmallIceBulletPattern>(this));
 }
 
 void CirnoPC::equipSpells() {
