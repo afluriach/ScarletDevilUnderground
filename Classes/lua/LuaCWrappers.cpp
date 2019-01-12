@@ -28,19 +28,6 @@ void printMap(unordered_map<string,string> m)
     }
 }
 
-void save()
-{
-    GState::save();
-}
-
-vector<string> getInventoryContents()
-{
-    auto registry = GState::crntState.itemRegistry;
-    vector<string> items(registry.begin(), registry.end());
-    
-    return items;
-}
-
 shared_ptr<ai::Function> constructState(string funcName, string stateName, GSpace* space, ValueMap args)
 {
 	shared_ptr<ai::Function> state = ai::Function::constructState(stateName, space, args);
@@ -84,8 +71,6 @@ void Inst::installWrappers()
 const unordered_map<string, function<int(lua_State*)>> Inst::cfunctions = {
 	make_wrapper_same(printMap),
 	make_wrapper_same(runscript),
-	make_wrapper_same(save),
-	make_wrapper_same(getInventoryContents),
 
 	make_wrapper_same(toDirection),
 	make_wrapper_same(stringToDirection)

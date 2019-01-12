@@ -35,7 +35,7 @@ public:
 	void initReplayData();
 	void updateReplayData();
 	bool loadReplayData(const string& filename);
-	bool saveReplayData(const string& filename);
+	void saveReplayData(const string& filename);
 	ControlInfo getControlData();
 
 	void initRoomMask();

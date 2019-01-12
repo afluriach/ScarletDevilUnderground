@@ -15,6 +15,7 @@ class ControlRegister;
 class Dialog;
 class GScene;
 class GSpace;
+class GState;
 class HUD;
 class KeyRegister;
 class PlayScene;
@@ -81,6 +82,9 @@ public:
 		return result;
 	}
 
+	static bool loadProfile(const string& name);
+	static bool saveProfile(const string& name);
+
 	static void setLogTimers(bool);
 	static void printTimerInfo();
 	static void printGlDebug();
@@ -101,6 +105,7 @@ public:
     
     //globals exposed by app
     static unique_ptr<ControlRegister> control_register;
+	static unique_ptr<GState> crntState;
     static unique_ptr<Lua::Inst> lua;
 #if USE_TIMERS
 	static unique_ptr<TimerSystem> timerSystem;
@@ -113,9 +118,13 @@ public:
     //Generate [min,max]
 	static int getRandomInt(int min, int max);
     
+	static const string& getBaseDataPath();
+
 protected:
 	static App* appInst;
 	static bool logTimers;
+
+	string baseDataPath;
 
 	boost::random::uniform_01<float> randomFloat;
 	boost::random::uniform_int_distribution<int> randomInt;

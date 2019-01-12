@@ -11,6 +11,7 @@
 #include "App.h"
 #include "controls.h"
 #include "Dialog.hpp"
+#include "FileIO.hpp"
 #include "functional.hpp"
 #include "GObject.hpp"
 #include "Graphics.h"
@@ -279,23 +280,16 @@ bool PlayScene::loadReplayData(const string& filename)
 	if (controlReplay && !isRunningReplay) {
 		log("PlayScene::loadReplayData: overwriting existing data.");
 	}
-	controlReplay = make_unique<ControlReplay>();
+	controlReplay = io::getControlReplay(filename);
 
-	if (controlReplay->load(getReplayFolderPath() + filename + ".replay")) {
-		isRunningReplay = true;
-		return true;
-	}
-	return false;
+	isRunningReplay = controlReplay != nullptr;
+	return controlReplay != nullptr;
 }
 
-bool PlayScene::saveReplayData(const string& filename)
+void PlayScene::saveReplayData(const string& filename)
 {
 	if (controlReplay && !isRunningReplay) {
-		return controlReplay->save(getReplayFolderPath() + filename + ".replay");
-	}
-	else {
-		log("PlayScene::saveReplayData: not available.");
-		return false;
+		io::saveControlReplay(filename, controlReplay.get());
 	}
 }
 

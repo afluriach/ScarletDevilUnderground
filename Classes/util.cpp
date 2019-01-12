@@ -150,26 +150,6 @@ vector<string> splitString(const string& input,const string& sep)
     return output;
 }
 
-void checkCreateProfileSubfolder()
-{
-    auto* fu = FileUtils::getInstance();
-    
-    if(!fu->isDirectoryExist(fu->getWritablePath() + "koumachika")){
-        fu->createDirectory(fu->getWritablePath() + "koumachika");
-        log("profile directory created");
-    }
-}
-
-string getProfilePath()
-{
-    return FileUtils::getInstance()->getWritablePath() + "koumachika/profile.dat";
-}
-
-string getReplayFolderPath()
-{
-	return FileUtils::getInstance()->getWritablePath() + "koumachika/replay/";
-}
-
 SpaceFloat canonicalAngle(SpaceFloat a)
 {
     return a - float_2pi * floor( a / float_2pi);

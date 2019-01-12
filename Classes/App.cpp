@@ -2,6 +2,7 @@
 
 #include "App.h"
 #include "controls.h"
+#include "FileIO.hpp"
 #include "functional.hpp"
 #include "macros.h"
 #include "Mansion.hpp"
@@ -29,6 +30,7 @@ double App::secondsPerFrame = 1.0 / App::framesPerSecond;
 boost::rational<int> App::secondsPerFrameRational(1,App::framesPerSecond);
 
 unique_ptr<ControlRegister> App::control_register;
+unique_ptr<GState> App::crntState;
 unique_ptr<Lua::Inst> App::lua;
 PlayerCharacter App::crntPC = PlayerCharacter::flandre;
 
@@ -160,6 +162,8 @@ App::App()
 #if USE_TIMERS
 	timerSystem = make_unique<TimerSystem>();
 #endif
+
+	baseDataPath = FileUtils::getInstance()->getWritablePath();
 }
 
 App::~App() 
@@ -202,10 +206,10 @@ bool App::applicationDidFinishLaunching() {
 
     //Activate key register.
     control_register = make_unique<ControlRegister>();
-    
-    //Load profile data
-    GState::load();
-    
+   
+	crntState = make_unique<GState>();
+	io::getProfiles();
+
     Director::getInstance()->getScheduler()->schedule(
         bindMethod(&App::update, this),
         this,
@@ -338,6 +342,60 @@ void App::runScene(GScene* scene)
 	Director::getInstance()->runScene(scene);
 }
 
+bool App::loadProfile(const string& name)
+{
+	string profilePath = io::getProfilePath() + name + ".profile";
+	if (!FileUtils::getInstance()->isFileExist(profilePath))
+	{
+		log("Profile %s does not exist!", name.c_str());
+		return false;
+	}
+	else
+	{
+		try {
+			ifstream ifs(profilePath);
+			boost::archive::binary_iarchive ia(ifs);
+			crntState = make_unique<GState>();
+			ia >> *crntState;
+			log("Profile %s loaded.", profilePath.c_str());
+			return true;
+		}
+		catch (boost::archive::archive_exception e) {
+			log("Error while loading: %s", e.what());
+			return false;
+		}
+	}
+}
+
+bool App::saveProfile(const string& name)
+{
+	io::checkCreateSubfolders();
+	string profilePath = io::getProfilePath() + name + ".profile";
+	bool exists = FileUtils::getInstance()->isFileExist(profilePath);
+
+	if (!crntState) {
+		return false;
+	}
+
+	try {
+		ofstream ofs(profilePath);
+		boost::archive::binary_oarchive oa(ofs);
+		oa << *crntState;
+
+		if (exists) {
+			log("Profile %s overwritten.", name.c_str());
+		}
+		else {
+			log("Profile %s saved.", name.c_str());
+		}
+		return true;
+	}
+	catch (boost::archive::archive_exception e) {
+		log("Error while saving: %s", e.what());
+		return false;
+	}
+}
+
 void App::setPlayer(int id)
 {
 	crntPC = static_cast<PlayerCharacter>(id);
@@ -353,6 +411,10 @@ float App::getRandomFloat(float min, float max) {
 //Generate [min,max]
 int App::getRandomInt(int min, int max) {
 	return appInst->randomInt(appInst->randomEngine, boost::random::uniform_int_distribution<int>::param_type(min, max));
+}
+
+const string& App::getBaseDataPath() {
+	return appInst->baseDataPath;
 }
 
 

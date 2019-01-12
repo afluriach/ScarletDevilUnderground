@@ -396,47 +396,6 @@ bool ControlInfo::isControlActionDown(ControlAction id) const
 	return action_state_crnt[to_size_t(id)];
 }
 
-bool ControlReplay::load(const string& filepath)
-{
-	if (!FileUtils::getInstance()->isFileExist(filepath)) {
-		log("ControlReplay::load, invalid filepath: %s",filepath.c_str());
-		return false;
-	}
-
-	try {
-
-		ifstream ifs(filepath);
-		boost::archive::binary_iarchive ia(ifs);
-		ia >> (*this);
-		log("Replay loaded: \"%s\"", filepath.c_str());
-		return true;
-	}
-	catch(boost::archive::archive_exception e){
-		log("Invalid replay file: \"%s\"", filepath.c_str());
-		return false;
-	}
-}
-
-bool ControlReplay::save(const string& filepath)
-{
-	if (FileUtils::getInstance()->isFileExist(filepath)) {
-		log("ControlReplay::save, file already exists: \"%s\"", filepath.c_str());
-		return false;
-	}
-
-	try {
-		ofstream ofs(filepath);
-		boost::archive::binary_oarchive oa(ofs);
-		oa << (*this);
-		log("ControlReplay saved: \"%s\"", filepath.c_str());
-		return true;
-	}
-	catch (boost::archive::archive_exception e) {
-		log("Error while saving ControlReplay: \"%s\"", filepath.c_str());
-		return false;
-	}
-}
-
 ControlListener::~ControlListener()
 {
     for(ControlRegister::callback_uuid id: callback_IDs){

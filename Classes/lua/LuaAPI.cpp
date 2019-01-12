@@ -257,6 +257,8 @@ const vector<string> Inst::luaIncludes = {
 			.addStaticFunction("setResolution", &App::setResolution)
 			.addStaticFunction("setFramerate", &App::setFramerate)
 			.addStaticFunction("setPlayer", &App::setPlayer)
+			.addStaticFunction("loadProfile", &App::loadProfile)
+			.addStaticFunction("saveProfile", &App::saveProfile)
 		.endClass()
 
 		.beginClass<GObject>("GObject")

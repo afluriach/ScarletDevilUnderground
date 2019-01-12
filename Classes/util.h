@@ -75,10 +75,6 @@ inline array<T,Size> getZeroArray()
 	return result;
 }
 
-void checkCreateProfileSubfolder();
-string getProfilePath();
-string getReplayFolderPath();
-
 class TimerSystem
 {
 public:

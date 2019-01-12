@@ -152,6 +152,7 @@ xcopy "$(ProjectDir)..\Resources" "$(OutDir)" /D /E /I /F /Y</Command>
     <ClCompile Include="..\Classes\Attributes.cpp" />
     <ClCompile Include="..\Classes\controls.cpp" />
     <ClCompile Include="..\Classes\Dialog.cpp" />
+    <ClCompile Include="..\Classes\FileIO.cpp" />
     <ClCompile Include="..\Classes\FloorSegment.cpp" />
     <ClCompile Include="..\Classes\GAnimation.cpp" />
     <ClCompile Include="..\Classes\Graph.cpp" />
@@ -239,6 +240,7 @@ xcopy "$(ProjectDir)..\Resources" "$(OutDir)" /D /E /I /F /Y</Command>
     <ClInclude Include="..\Classes\controls.h" />
     <ClInclude Include="..\Classes\Dialog.hpp" />
     <ClInclude Include="..\Classes\enum.h" />
+    <ClInclude Include="..\Classes\FileIO.hpp" />
     <ClInclude Include="..\Classes\FloorSegment.hpp" />
     <ClInclude Include="..\Classes\functional.hpp" />
     <ClInclude Include="..\Classes\GAnimation.hpp" />

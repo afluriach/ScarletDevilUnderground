@@ -14,11 +14,7 @@ class GState
 {
 public:
     static const unsigned int version = 1;
-    static GState crntState;
     
-    static void load();
-    static void save();
-
     friend class boost::serialization::access;
 
     set<string> itemRegistry;
