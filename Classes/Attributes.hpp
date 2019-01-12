@@ -52,14 +52,22 @@ typedef map<Attribute, float> AttributeMap;
 class AttributeSystem
 {
 public:
+	static pair<float, float> calculateAgilityAttributes(float agility);
+
 	static AttributeMap scale(const AttributeMap& input, float scale);
 	static AttributeSet getAttributeSet(const AttributeMap& input);
 	static AttributeMap getAttributeMap(Attribute id, float val);
 	static AttributeSet getBlankAttributeSet();
-	AttributeSet getZeroAttributeSet();
+	static AttributeSet getZeroAttributeSet();
+
+	static size_t getUpgradeAttributeIndex(Attribute id);
 
 	static const float maxElementDamage;
-	static const array<pair<float, float>, 4> agilityMap;
+	
+	static constexpr size_t upgradeCount = 4;
+	static constexpr size_t upgradeAttributesCount = 4;
+
+	static const array<Attribute, AttributeSystem::upgradeAttributesCount> upgradeAttributes;
 
 	AttributeSystem();
 	AttributeSystem(const AttributeSet& baseAttributes);
@@ -87,6 +95,8 @@ public:
 	void setSpellCooldown();
 
 	void setFullStamina();
+
+	void modifyAgility(float dx);
 
 	float getWithinRange(float input, float min, float max);
 protected:

@@ -293,6 +293,7 @@ private:
 	int agentEffectAreaEnd(GObject* a, GObject* b);
 	int playerFlowerBegin(GObject* a, GObject* b);
     int playerCollectibleBegin(GObject* a, GObject* b);
+	int playerUpgradeBegin(GObject* a, GObject* b);
 	int bulletEnvironment(GObject* a, GObject* b);
 	int noCollide(GObject* a, GObject* b);
 	int collide(GObject* a, GObject* b);

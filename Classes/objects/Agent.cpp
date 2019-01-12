@@ -33,6 +33,7 @@ void Agent::initFSM()
 void Agent::initAttributes()
 {
 	attributeSystem = getBaseAttributes();
+	applyAttributeEffects(getAttributeUpgrades());
 
 	attributeSystem.setFullHP();
 	attributeSystem.setStartPower();

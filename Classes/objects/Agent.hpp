@@ -37,6 +37,7 @@ public:
 
 	//attribute interface
 	virtual AttributeMap getBaseAttributes() const = 0;
+	virtual inline AttributeMap getAttributeUpgrades() const { return AttributeMap(); }
 	float getAttribute(Attribute id) const;
 	void modifyAttribute(Attribute id, float val);
 	float _getAttribute(int id) const;

@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.0" tiledversion="1.0.3" orientation="orthogonal" renderorder="right-down" width="17" height="17" tilewidth="128" tileheight="128" nextobjectid="56">
+<map version="1.0" tiledversion="1.0.3" orientation="orthogonal" renderorder="right-down" width="17" height="17" tilewidth="128" tileheight="128" nextobjectid="58">
  <tileset firstgid="1" name="grey stone wall" tilewidth="128" tileheight="128" tilecount="4" columns="2">
   <image source="grey stone wall grain.png" width="256" height="256"/>
  </tileset>
@@ -32,7 +32,11 @@
   <object id="50" name="slime10" type="Slime2" x="1536" y="1024" width="256" height="256"/>
   <object id="51" name="slime11" type="Slime2" x="960" y="448" width="256" height="256"/>
   <object id="52" name="slime12" type="Slime2" x="1536" y="1536" width="256" height="256"/>
-  <object id="53" name="slime13" type="Slime2" x="960" y="1024" width="256" height="256"/>
   <object id="54" name="slime14" type="Slime2" x="384" y="1024" width="256" height="256"/>
+  <object id="57" type="HPUpgrade" x="1024" y="1024" width="128" height="128">
+   <properties>
+    <property name="id" value="0"/>
+   </properties>
+  </object>
  </objectgroup>
 </map>

@@ -68,6 +68,7 @@ enum class GType{
     playerSensor,
     playerGrazeRadar,
     collectible,
+	upgrade,
     npc,
 	floorSegment,
 	none,

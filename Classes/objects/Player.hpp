@@ -24,6 +24,7 @@ class EnemyBullet;
 class FirePattern;
 class SpellDesc;
 class PlayScene;
+class Upgrade;
 
 class Player :
 virtual public Agent,
@@ -91,6 +92,7 @@ public:
 	void setFocusMode(bool b);
 	void setSprintMode(bool b);
 
+	virtual AttributeMap getAttributeUpgrades() const;
 	void applyAttributeModifier(Attribute id, float val);
     
 	FirePattern* getFirePattern();
@@ -100,6 +102,7 @@ public:
 	bool trySetFirePatternPrevious();
 
     void onCollectible(Collectible* coll);
+	void applyUpgrade(Upgrade* up);
 
 	//The bullet's graze "radar" has collided with Player.
 	void onGrazeTouch(object_ref<EnemyBullet> bullet);

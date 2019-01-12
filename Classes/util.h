@@ -75,6 +75,14 @@ inline array<T,Size> getZeroArray()
 	return result;
 }
 
+template<size_t size>
+constexpr inline bitset<size> make_bitfield(size_t idx)
+{
+	bitset<size> result;
+	result[idx] = true;
+	return result;
+}
+
 class TimerSystem
 {
 public:

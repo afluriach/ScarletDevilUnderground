@@ -41,6 +41,7 @@
 #include "TeleportPad.hpp"
 #include "Tewi.hpp"
 #include "Torch.hpp"
+#include "Upgrade.hpp"
 #include "Wall.hpp"
 
 //Adapters for mapping the name of a class to a factory adapter.
@@ -86,6 +87,7 @@ GObject::AdapterType playerAdapter()
 #define item_entry_same(cls) item_entry(#cls,cls,cls)
 
 const unordered_map<string, GObject::AdapterType> GObject::adapters = {
+	entry_same(AgilityUpgrade),
 	entry_same(CollectGlyph),
 	entry_same(CollectMarisa),
 	entry_same(Block),
@@ -103,15 +105,18 @@ const unordered_map<string, GObject::AdapterType> GObject::adapters = {
 	entry_same(Goal),
 	entry_same(GrassFloor),
 	item_entry_same(GraveyardKey),
+	entry_same(HPUpgrade),
 	entry_same(IceFairy),
 	entry_same(IceFloor),
 	entry_same(IcePlatform),
 	entry_same(Launcher),
 	entry_same(MineFloor),
 	entry_same(MovingPlatform),
+	entry_same(MPUpgrade),
 	entry_same(Patchouli),
 	entry_same(PatchouliEnemy),
 	entry_same(Pitfall),
+	entry_same(PowerUpgrade),
 	entry_same(PressurePlate),
 	entry_same(Pyramid),
 	entry_same(Reimu),

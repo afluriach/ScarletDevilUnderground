@@ -15,12 +15,24 @@
 
 const float AttributeSystem::maxElementDamage = 100.0f;
 
-const array<pair<float, float>, 4> AttributeSystem::agilityMap = {
-	make_pair<float,float>(1.0f,1.0f),
-	make_pair<float,float>(2.0f,6.0f),
-	make_pair<float,float>(3.0f,9.0f),
-	make_pair<float,float>(4.5f,12.0f),
+const array<Attribute, AttributeSystem::upgradeAttributesCount> AttributeSystem::upgradeAttributes = {
+	Attribute::maxHP,
+	Attribute::maxMP,
+	Attribute::maxPower,
+
+	Attribute::agility,
 };
+
+pair<float, float> AttributeSystem::calculateAgilityAttributes(float agility)
+{
+	if (agility == 0.0f) {
+		return pair<float, float>(1.0f, 1.0f);
+	}
+	else {
+		float speed = 2.0f * powf(1.33, agility - 1);
+		return pair<float, float>(speed, speed*speed);
+	}
+}
 
 AttributeSet AttributeSystem::getAttributeSet(const AttributeMap& input)
 {
@@ -33,12 +45,11 @@ AttributeSet AttributeSystem::getAttributeSet(const AttributeMap& input)
 
 	if (result[to_size_t(Attribute::speed)] == 0.0f && result[to_size_t(Attribute::acceleration)] == 0.0f)
 	{
-		size_t agility = result[to_size_t(Attribute::agility)];
+		float agility = result[to_size_t(Attribute::agility)];
+		pair<float, float> speedAccel = calculateAgilityAttributes(agility);
 
-		if (agility < agilityMap.size()) {
-			result[to_size_t(Attribute::speed)] = agilityMap[agility].first;
-			result[to_size_t(Attribute::acceleration)] = agilityMap[agility].second;
-		}
+		result[to_size_t(Attribute::speed)] = speedAccel.first;
+		result[to_size_t(Attribute::acceleration)] = speedAccel.second;
 	}
 
 	return result;
@@ -67,6 +78,17 @@ AttributeSet AttributeSystem::getZeroAttributeSet()
 	AttributeSet result = getZeroArray<float, to_size_t(Attribute::end)>();
 
 	return result;
+}
+
+size_t AttributeSystem::getUpgradeAttributeIndex(Attribute id)
+{
+	for (size_t i = 0; i < upgradeAttributes.size(); ++i) {
+		if (upgradeAttributes.at(i) == id) {
+			return i;
+		}
+	}
+
+	throw runtime_error("Not an upgrade attribute.");
 }
 
 AttributeMap AttributeSystem::scale(const AttributeMap& input, float scale)
@@ -162,6 +184,16 @@ void AttributeSystem::setFullStamina()
 	attributes.at(to_size_t(Attribute::stamina)) = attributes.at(to_size_t(Attribute::maxStamina));
 }
 
+void AttributeSystem::modifyAgility(float dx)
+{
+	attributes.at(to_size_t(Attribute::agility)) += dx;
+
+	float agility = attributes.at(to_size_t(Attribute::agility));
+	pair<float, float> speedAccel = calculateAgilityAttributes(agility);
+
+	attributes.at(to_size_t(Attribute::speed)) = speedAccel.first;
+	attributes.at(to_size_t(Attribute::acceleration)) = speedAccel.second;
+}
 
 void AttributeSystem::modifyIncidentAttribute(Attribute id, Attribute maxID, float x)
 {
@@ -207,6 +239,10 @@ void AttributeSystem::modifyAttribute(Attribute id, float x)
 		break;
 	case Attribute::power:
 		modifyIncidentAttribute(Attribute::power, Attribute::maxPower, x);
+		break;
+
+	case Attribute::agility:
+		modifyAgility(x);
 		break;
 
 	case Attribute::iceDamage:

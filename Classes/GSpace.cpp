@@ -23,6 +23,7 @@
 #include "Spawner.hpp"
 #include "Spell.hpp"
 #include "TeleportPad.hpp"
+#include "Upgrade.hpp"
 #include "util.h"
 #include "value_map.hpp"
 #include "Wall.hpp"
@@ -574,6 +575,7 @@ void GSpace::addCollisionHandlers()
 	_addHandlerNoEnd(playerBullet, enemyBullet, bulletBulletBegin);
 	_addHandlerNoEnd(player, foliage, playerFlowerBegin);
     _addHandlerNoEnd(player,collectible,playerCollectibleBegin);
+	_addHandlerNoEnd(player, upgrade, playerUpgradeBegin);
     _addHandlerNoEnd(player,npc,collide);
 	_addHandlerNoEnd(playerBullet, wall, bulletWall);
 	_addHandlerNoEnd(enemyBullet, wall, bulletWall);    
@@ -908,6 +910,19 @@ int GSpace::playerCollectibleBegin(GObject* a, GObject* b)
     
     return 0;
 }
+
+int GSpace::playerUpgradeBegin(GObject* a, GObject* b)
+{
+	Player* p = dynamic_cast<Player*>(a);
+	Upgrade* u = dynamic_cast<Upgrade*>(b);
+
+	if (p && u) {
+		p->applyUpgrade(u);
+	}
+
+	return 0;
+}
+
 
 int GSpace::bulletEnvironment(GObject* bullet, GObject* environment)
 {

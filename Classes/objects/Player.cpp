@@ -18,6 +18,7 @@
 #include "GAnimation.hpp"
 #include "Graphics.h"
 #include "GSpace.hpp"
+#include "GState.hpp"
 #include "HUD.hpp"
 #include "Player.hpp"
 #include "PlayerFirePattern.hpp"
@@ -25,6 +26,7 @@
 #include "PlayScene.hpp"
 #include "SpaceLayer.h"
 #include "SpellDescriptor.hpp"
+#include "Upgrade.hpp"
 
 const float Player::interactCooldownTime = 0.1f;
 const float Player::hitFlickerInterval = 0.333f;
@@ -302,6 +304,22 @@ void Player::setSprintMode(bool b)
 	isSprintActive = b;
 }
 
+AttributeMap Player::getAttributeUpgrades() const
+{
+	AttributeMap result;
+
+	//static const array<Attribute, AttributeSystem::upgradeAttributesCount> upgradeAttributes;
+
+	for (size_t upgradeIndex = 0; upgradeIndex < AttributeSystem::upgradeAttributesCount; ++upgradeIndex)
+	{
+		Attribute at = AttributeSystem::upgradeAttributes[upgradeIndex];
+
+		result.insert_or_assign(at, App::crntState->getUpgradeLevel(App::crntPC, at));
+	}
+
+	return result;
+}
+
 void Player::applyAttributeModifier(Attribute id, float val)
 {
 	if (id >= Attribute::end) {
@@ -371,6 +389,15 @@ void Player::onCollectible(Collectible* coll)
 		space->removeObject(coll);
 		App::playSound("sfx/powerup.wav", 1.0f);
 	}
+}
+
+void Player::applyUpgrade(Upgrade* up)
+{
+	Attribute at = up->attribute;
+	attributeSystem.modifyAttribute(at, 1.0f);
+
+	App::crntState->registerUpgrade(App::crntPC, at, up->upgrade_id);
+	space->removeObject(up);
 }
 
 void Player::onGrazeTouch(object_ref<EnemyBullet> bullet)
@@ -464,9 +491,9 @@ void Player::updateHudAttribute(Attribute id)
 }
 
 const AttributeMap FlandrePC::baseAttributes = {
-	{Attribute::maxHP, 5.0f},
+	{Attribute::maxHP, 4.0f},
 	{Attribute::maxMP, 4.0f },
-	{Attribute::maxPower, 500.0f},
+	{Attribute::maxPower, 200.0f},
 	{Attribute::agility, 2.0f},
 	{Attribute::hitProtectionInterval, 2.4f},
 	{Attribute::spellCooldownInterval, 1.0f },
@@ -493,7 +520,7 @@ void FlandrePC::equipSpells() {
 const AttributeMap RumiaPC::baseAttributes = {
 	{Attribute::maxHP, 3.0f },
 	{Attribute::maxMP, 4.0f },
-	{Attribute::maxPower, 900.0f },
+	{Attribute::maxPower, 300.0f },
 	{Attribute::agility, 3.0f },
 	{Attribute::hitProtectionInterval, 1.5f },
 	{ Attribute::spellCooldownInterval, 1.0f },
@@ -517,9 +544,9 @@ void RumiaPC::equipSpells() {
 }
 
 const AttributeMap CirnoPC::baseAttributes = {
-	{Attribute::maxHP, 9.0f },
+	{Attribute::maxHP, 5.0f },
 	{Attribute::maxMP, 4.0f },
-	{Attribute::maxPower, 300.0f},
+	{Attribute::maxPower, 200.0f},
 	{Attribute::agility, 1.0f},
 	{Attribute::hitProtectionInterval, 3.3f},
 	{Attribute::spellCooldownInterval, 1.0f},

@@ -49,6 +49,11 @@ ValueMap getSpawnArgs(const ValueMap& args)
 	return result;
 }
 
+int getInt(const ValueMap& args, const string& name)
+{
+	return args.at(name).asInt();
+}
+
 float getFloat(const ValueMap& args, const string& name)
 {
     return args.at(name).asFloat();
