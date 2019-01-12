@@ -22,8 +22,24 @@ public:
 
 	inline TitleMenu() {}
 private:
+	static void loadGame();
 	static void sceneSelect();
 };
+
+class LoadProfileMenu : public TextListMenuImpl<LoadProfileMenu>
+{
+public:
+	static const string title;
+
+	LoadProfileMenu();
+private:
+	static vector<string> getProfiles();
+	static vector<listAction> getLoadActions();
+
+	static void loadProfile(string name);
+	static void back();
+};
+
 
 class SceneSelect : public TextListMenuImpl<SceneSelect>
 {

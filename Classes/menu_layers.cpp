@@ -10,6 +10,7 @@
 
 #include "App.h"
 #include "controls.h"
+#include "FileIO.hpp"
 #include "FloorSegment.hpp"
 #include "Graphics.h"
 #include "GSpace.hpp"
@@ -30,20 +31,74 @@ TextListMenuLayer::listAction sceneLaunchAdapterByName(const string& name) {
 const string TitleMenu::title = App::title;
 
 const vector<string> TitleMenu::entries = {
-	"Start",
+	"New Game",
+	"Load Game",
 	"Scene Select",
 	"Exit"
 };
 
 const vector <TextListMenuLayer::listAction > TitleMenu::entryActions = {
 	&App::runOverworldScene,
+	loadGame,
 	sceneSelect,
 	&App::end
 };
 
+void TitleMenu::loadGame()
+{
+	App::createAndRunScene<LoadProfileScene>();
+}
+
 void TitleMenu::sceneSelect()
 {
 	App::createAndRunScene<SceneSelectScene>();
+}
+
+const string LoadProfileMenu::title = "Load Game";
+
+LoadProfileMenu::LoadProfileMenu() :
+	TextListMenuImpl<LoadProfileMenu>(getProfiles(), getLoadActions())
+{
+
+}
+
+vector<string> LoadProfileMenu::getProfiles()
+{
+	vector<string> result;
+
+	auto profiles = io::getProfiles();
+
+	for (string s : profiles) {
+		result.push_back(s);
+	}
+	result.push_back("Back");
+
+	return result;
+}
+
+vector<TextListMenuLayer::listAction> LoadProfileMenu::getLoadActions()
+{
+	vector<listAction> result;
+
+	auto profiles = io::getProfiles();
+
+	for (string s : profiles) {
+		result.push_back(bind(&LoadProfileMenu::loadProfile, s));
+	}
+	result.push_back(&LoadProfileMenu::back);
+
+	return result;
+}
+
+void LoadProfileMenu::loadProfile(string name)
+{
+	App::loadProfile(name);
+	App::runOverworldScene();
+}
+
+void LoadProfileMenu::back()
+{
+	App::createAndRunScene<TitleMenuScene>();
 }
 
 const string SceneSelect::title = "Scene Select";

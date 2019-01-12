@@ -76,6 +76,15 @@ public:
 		C::entryActions
 	)
 	{}
+
+	inline TextListMenuImpl(const vector<string>& options, const vector<listAction>& optionActions) :
+		TextListMenuLayer(
+			C::title,
+			options,
+			optionActions
+		)
+	{}
+
 };
 
 #endif /* menu_h */

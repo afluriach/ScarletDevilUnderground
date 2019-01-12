@@ -18,6 +18,13 @@ public:
 	virtual bool init();
 };
 
+class LoadProfileScene : public GScene
+{
+public:
+	LoadProfileScene();
+	virtual bool init();
+};
+
 
 class SceneSelectScene : public GScene
 {

@@ -24,6 +24,13 @@ string pathString(const boost::filesystem::path& p)
 	return ss.str();
 }
 
+string removeExtension(const string& filename)
+{
+	size_t dotIdx = filename.find_last_of(".");
+	
+	return dotIdx != string::npos ? filename.substr(0, dotIdx) : filename;
+}
+
 set<string> getProfiles()
 {
 	set<string> result;
@@ -45,9 +52,10 @@ set<string> getProfiles()
 
 		for (directory_entry& entry : directory_iterator(profileDir))
 		{
-			string s = pathString(entry.path());
+			string s = entry.path().filename().generic_string();
+
 			log("%s", s.c_str());
-			result.insert(s);
+			result.insert(removeExtension(s));
 		}
 	}
 	catch (const filesystem_error& ex) {
