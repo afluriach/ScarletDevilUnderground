@@ -171,7 +171,7 @@ void Player::updateSpellControls(const ControlInfo& cs)
 			attributeSystem.isNonzero(Attribute::mp)
 		) {
 			attributeSystem.modifyAttribute(Attribute::mp, -1.0f);
-			cast(equippedSpell->generate(this, {}));		
+			cast(equippedSpell->generate(this));		
 			App::playSound("sfx/player_spellcard.wav", 1.0f);
 		}
     }

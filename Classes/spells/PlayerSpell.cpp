@@ -43,8 +43,8 @@ void PlayerSpell::end()
 const string PlayerBatMode::name = "PlayerBatMode";
 const string PlayerBatMode::description = "";
 
-PlayerBatMode::PlayerBatMode(GObject* caster,const ValueMap& args, SpellDesc* descriptor) :
-Spell(caster,args,descriptor)
+PlayerBatMode::PlayerBatMode(GObject* caster) :
+	PlayerSpell(caster)
 {}
 
 void PlayerBatMode::init()
@@ -81,8 +81,8 @@ const string PlayerCounterClock::description = "";
 const SpaceFloat PlayerCounterClock::offset = 0.75;
 const SpaceFloat PlayerCounterClock::angular_speed = 9.0;
 
-PlayerCounterClock::PlayerCounterClock(GObject* caster, const ValueMap& args, SpellDesc* descriptor) :
-	Spell(caster, args, descriptor)
+PlayerCounterClock::PlayerCounterClock(GObject* caster) :
+	PlayerSpell(caster)
 {}
 
 void PlayerCounterClock::init()
@@ -146,8 +146,8 @@ void PlayerCounterClock::end()
 const string PlayerDarkMist::name = "PlayerDarkMist";
 const string PlayerDarkMist::description = "";
 
-PlayerDarkMist::PlayerDarkMist(GObject* caster, const ValueMap& args, SpellDesc* descriptor) :
-	Spell(caster, args, descriptor)
+PlayerDarkMist::PlayerDarkMist(GObject* caster) :
+	PlayerSpell(caster)
 {}
 
 void PlayerDarkMist::init()
@@ -175,8 +175,8 @@ const SpaceFloat PlayerIceShield::distance = 3.0;
 const SpaceFloat PlayerIceShield::circumference = 2.0 * float_pi * distance;
 const SpaceFloat PlayerIceShield::inv_circumference = 1.0 / circumference;
 
-PlayerIceShield::PlayerIceShield(GObject* caster, const ValueMap& args, SpellDesc* descriptor) :
-	Spell(caster, args, descriptor)
+PlayerIceShield::PlayerIceShield(GObject* caster) :
+	PlayerSpell(caster)
 {}
 
 void PlayerIceShield::init()

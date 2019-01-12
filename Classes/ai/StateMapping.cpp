@@ -23,7 +23,6 @@ static constexpr Function::AdapterType consAdapter()
 #define entry_same(cls) entry(#cls, cls)
 
 const unordered_map<string, Function::AdapterType> Function::adapters = {
-	entry_same(Cast),
 	entry_same(Detect),
 	entry_same(DetectAndSeekPlayer),
 	entry_same(Flee),

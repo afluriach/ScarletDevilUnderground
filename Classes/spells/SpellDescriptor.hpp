@@ -20,8 +20,8 @@ public:
 	virtual inline string getName() const = 0;
 	virtual inline string getDescription() const = 0;
 
-	virtual inline unique_ptr<Spell> generate(GObject* caster) = 0;
-	virtual inline unique_ptr<Spell> generate(GObject* caster, const ValueMap& args) = 0;
+	virtual shared_ptr<Spell> generate(GObject* caster) = 0;
+	virtual SpellGeneratorType getGenerator() = 0;
 };
 
 //Use CRTP to get static constants from Spell class.
@@ -32,14 +32,14 @@ public:
 	virtual inline string getName() const { return T::name; }
 	virtual inline string getDescription() const { return T::description; }
 
-	virtual inline unique_ptr<Spell> generate(GObject* caster)
+	virtual inline shared_ptr<Spell> generate(GObject* caster)
 	{
-		return generate(caster, {});
+		return make_shared<T>(caster);
 	}
 
-	virtual inline unique_ptr<Spell> generate(GObject* caster, const ValueMap& args)
+	virtual inline SpellGeneratorType getGenerator()
 	{
-		return make_unique<T>(caster, args, this);
+		return make_spell_generator<T>();
 	}
 };
 

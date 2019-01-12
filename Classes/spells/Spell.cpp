@@ -17,9 +17,8 @@
 #include "util.h"
 #include "value_map.hpp"
 
-Spell::Spell(GObject* caster, const ValueMap& args, SpellDesc* descriptor) :
-	caster(caster),
-	descriptor(descriptor)
+Spell::Spell(GObject* caster) :
+	caster(caster)
 {}
 
 Spell::~Spell() {}
@@ -28,11 +27,7 @@ bool Spell::isActive() const {
 	return active;
 }
 
-SpellDesc* Spell::getDescriptor() const {
-	return descriptor;
-}
-
-shared_ptr<SpellDesc> Spell::getDescriptor(const string& name)
+shared_ptr<SpellDesc> Spell::getDescriptorByName(const string& name)
 {
 	auto it = spellDescriptors.find(name);
 
@@ -45,19 +40,11 @@ shared_ptr<SpellDesc> Spell::getDescriptor(const string& name)
 const string Teleport::name = "Teleport";
 const string Teleport::description = "";
 
-SpellGeneratorType Teleport::make_generator(const vector<object_ref<TeleportPad>>& targets)
-{
-	return [targets](GObject* caster) -> shared_ptr<Spell> {
-		return make_shared<Teleport>(caster, targets);
-	};
-}
-
-Teleport::Teleport(GObject* caster, const vector<object_ref<TeleportPad>>& targets) :
-	Spell(caster, {}, Spell::getDescriptor("Teleport").get()),
-	targets(targets)
+Teleport::Teleport(GObject* caster) :
+	Spell(caster),
+	targets(caster->space->getObjectsByTypeAs<TeleportPad>())
 {
 }
-
 
 void Teleport::init()
 {
@@ -94,16 +81,18 @@ void Teleport::end()
 const string StarlightTyphoon::name = "StarlightTyphoon";
 const string StarlightTyphoon::description = "";
 
-StarlightTyphoon::StarlightTyphoon(GObject* caster, const ValueMap& args, SpellDesc* descriptor):
-Spell(caster, args,descriptor)
-{
-    set_float_arg(count, 30.0f)
-    set_float_arg(duration, 1.0f)
-    set_float_arg(speed, 6.0f)
-    set_float_arg(width, float_pi / 4.0f)
-    set_float_arg(radius, 0.2f)
-    
-	angle = getFloatOrDefault(args, "angle", caster->getAngle());
+const SpaceFloat StarlightTyphoon::speed = 6.0;
+const SpaceFloat StarlightTyphoon::width = float_pi / 4.0;
+const SpaceFloat StarlightTyphoon::radius = 0.2;
+const SpaceFloat StarlightTyphoon::duration = 1.0;
+const SpaceFloat StarlightTyphoon::offset = 0.7;
+
+const unsigned int StarlightTyphoon::count = 30;
+
+StarlightTyphoon::StarlightTyphoon(GObject* caster):
+Spell(caster)
+{    
+	angle = caster->getAngle();
 
     shotsPerFrame = count / duration * App::secondsPerFrame;
 }
@@ -166,8 +155,8 @@ const float IllusionDial::angular_speed = float_pi * 2.0f / 3.0f;
 const float IllusionDial::max_angle_margin = float_pi / 12.0f;
 const float IllusionDial::min_fire_interval = 1.0f / 3.0f;
 
-IllusionDial::IllusionDial(GObject* caster,const ValueMap& args, SpellDesc* descriptor) :
-Spell(caster,args,descriptor),
+IllusionDial::IllusionDial(GObject* caster) :
+Spell(caster),
 bullets(count),
 launch_flags(count, false)
 {}
@@ -186,7 +175,7 @@ void IllusionDial::init()
     }
 }
 
-void IllusionDial::runPeriodic()
+void IllusionDial::update()
 {
 	++framesSinceLastFire;
 
@@ -226,5 +215,29 @@ void IllusionDial::runPeriodic()
 
 void IllusionDial::end()
 {
-    //delete remaining bullets
+	for (auto ref : bullets) {
+		if (ref.isValid()) {
+			caster->space->removeObject(ref.get());
+		}
+	}
+}
+
+void PeriodicSpell::update() {
+
+	float _interval = interval();
+
+	if (_interval == 0.0f)
+	{
+		runPeriodic();
+	}
+
+	else
+	{
+		timeSince += App::secondsPerFrame;
+
+		if (timeSince >= _interval) {
+			timeSince -= _interval;
+			runPeriodic();
+		}
+	}
 }

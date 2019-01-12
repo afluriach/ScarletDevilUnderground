@@ -493,22 +493,17 @@ void GObject::cast(shared_ptr<Spell> spell)
 	crntSpell = spell;
 }
 
-void GObject::cast(const string& name, const ValueMap& args)
+void GObject::cast(const string& name)
 {
 	auto it_adaptor = Spell::spellDescriptors.find(name);
 
 	if (it_adaptor != Spell::spellDescriptors.end()) {
 		//Check for a Spell class
-		cast(it_adaptor->second->generate(this, args));
+		cast(it_adaptor->second->generate(this));
 		return;
 	}
 
 	log("Spell %s not available.", name.c_str());
-}
-
-void GObject::castByName(string name, const ValueMap& args)
-{
-	cast(name, args);
 }
 
 void GObject::stopSpell()

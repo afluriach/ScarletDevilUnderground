@@ -35,7 +35,7 @@ void SakuyaMain::onEnter(ai::StateMachine& sm)
 
 void SakuyaMain::update(ai::StateMachine& sm)
 {
-	sm.push(make_shared<ai::Cast>("IllusionDial", ValueMap()));
+	sm.push(make_shared<ai::Cast>(make_spell_generator<IllusionDial>()));
 }
 
 const SpaceFloat IllusionDash::scale = 2.5;

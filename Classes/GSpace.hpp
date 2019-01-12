@@ -143,8 +143,8 @@ private:
     vector<GObject*> addedLastFrame;
 
     //Objects which have been queued for removal. Will be removed at end of frame.
-    vector<GObject*> toRemove;
-	vector<pair<GObject*, FiniteTimeAction*>> toRemoveWithAnimation;
+    list<GObject*> toRemove;
+	list<pair<GObject*, FiniteTimeAction*>> toRemoveWithAnimation;
 //END OBJECT MANIPULATION
 
 //BEGIN NAVIGATION

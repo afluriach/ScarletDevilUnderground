@@ -567,27 +567,7 @@ protected:
 
 class Cast : public Function {
 public:
-    Cast(string _spell_name, const ValueMap& _spell_args);
-    Cast(GSpace* space, const ValueMap& _spell_args);
-
-    virtual void onEnter(StateMachine& sm);
-    virtual void update(StateMachine& sm);
-    virtual void onExit(StateMachine& sm);
-    
-    FuncGetName(Cast)
-
-	inline virtual bitset<lockCount> getLockMask() {
-		return make_enum_bitfield(ResourceLock::spellcasting);
-	}
-
-protected:
-    string spell_name;
-    ValueMap spell_args;
-};
-
-class Cast1 : public Function {
-public:
-	Cast1(SpellGeneratorType spell_generator);
+	Cast(SpellGeneratorType spell_generator);
 
 	virtual void onEnter(StateMachine& sm);
 	virtual void update(StateMachine& sm);

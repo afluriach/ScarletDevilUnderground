@@ -18,11 +18,14 @@ public:
 
 	static constexpr float bulletSpeed = 6.0f;
 
-	STANDARD_CONS(FireStarburst)
-		no_op(init);
-	inline float interval() const { return 0.5f; }
-	void runPeriodic();
-	no_op(end);
+	inline FireStarburst(GObject* caster) : PeriodicSpell(caster) {}
+
+	GET_DESC(FireStarburst)
+	inline virtual void init() {}
+	inline virtual void end() {}
+
+	inline virtual float interval() const { return 0.5f; }
+	virtual void runPeriodic();
 };
 
 class FlameFence : public Spell {
@@ -30,12 +33,12 @@ public:
 	static const string name;
 	static const string description;
 
-	STANDARD_CONS(FlameFence)
-		FlameFence(GObject* caster);
+	FlameFence(GObject* caster);
 
-	void init();
-	void update();
-	void end();
+	GET_DESC(FlameFence)
+	virtual void init();
+	virtual void update();
+	virtual void end();
 protected:
 	vector<gobject_ref> bullets;
 };
@@ -51,12 +54,12 @@ public:
 	static const SpaceFloat angularOffset;
 	static const SpaceFloat bulletSpeed;
 
-	STANDARD_CONS(Whirlpool1)
-		Whirlpool1(GObject* caster);
+	Whirlpool1(GObject* caster);
 
-	void init();
-	void update();
-	void end();
+	GET_DESC(Whirlpool1)
+	virtual void init();
+	virtual void update();
+	virtual void end();
 protected:
 	SpaceFloat shotTimer = 0.0;
 };
@@ -72,12 +75,12 @@ public:
 	static const SpaceFloat angularOffset;
 	static const SpaceFloat bulletSpeed;
 
-	STANDARD_CONS(Whirlpool2)
-		Whirlpool2(GObject* caster);
+	Whirlpool2(GObject* caster);
 
-	void init();
-	void update();
-	void end();
+	GET_DESC(Whirlpool2)
+	virtual void init();
+	virtual void update();
+	virtual void end();
 protected:
 	SpaceFloat shotTimer = 0.0;
 };

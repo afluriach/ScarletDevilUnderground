@@ -68,12 +68,11 @@ void StalkerMain::onEnter(ai::StateMachine& sm)
 void StalkerMain::update(ai::StateMachine& sm)
 {
 	if (sm.getAgent()->getAttribute(Attribute::stamina) <= 0.0f) {
-		vector<object_ref<TeleportPad>> teleport_targets = sm.agent->space->getObjectsByTypeAs<TeleportPad>();
-		sm.push(make_shared<StalkerTeleport>(teleport_targets));
+		sm.push(make_shared<StalkerTeleport>());
 	}
 }
 
-StalkerTeleport::StalkerTeleport(const vector<object_ref<TeleportPad>>& targets) :
-ai::Cast1(Teleport::make_generator(targets))
+StalkerTeleport::StalkerTeleport() :
+ai::Cast(make_spell_generator<Teleport>())
 {
 }

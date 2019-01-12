@@ -17,7 +17,8 @@
 #include "types.h"
 #include "util.h"
 
-#define STANDARD_CONS(name) inline name(GObject* caster,const ValueMap& args, SpellDesc* descriptor) : Spell(caster,args, descriptor) {}
+#define STANDARD_CONS(name) inline name(GObject* caster) : Spell(caster) {}
+#define GET_DESC(name) virtual inline shared_ptr<SpellDesc> getDescriptor() { return Spell::getDescriptorByName(#name); }
 
 typedef function<shared_ptr<Spell>(GObject*)> SpellGeneratorType;
 
@@ -29,9 +30,9 @@ class Spell
 public:
     static const unordered_map<string,shared_ptr<SpellDesc>> spellDescriptors;
 
-	static shared_ptr<SpellDesc> getDescriptor(const string& name);
+	static shared_ptr<SpellDesc> getDescriptorByName(const string& name);
 
-	Spell(GObject* caster, const ValueMap& args, SpellDesc* descriptor);
+	Spell(GObject* caster);
 	virtual ~Spell();
     
 	bool isActive() const;
@@ -41,13 +42,12 @@ public:
 		return dynamic_cast<T*>(caster);
 	}
 
-	SpellDesc* getDescriptor() const;
+	virtual shared_ptr<SpellDesc> getDescriptor() = 0;
 
     virtual void init() = 0;
     virtual void update() = 0;
     virtual void end() = 0;
 protected:
-	SpellDesc * descriptor;
     GObject* caster;
     bool active = true;
 };
@@ -60,17 +60,14 @@ inline static SpellGeneratorType make_spell_generator()
 	};
 }
 
-
 class Teleport : public Spell {
 public:
 	static const string name;
 	static const string description;
 
-	static SpellGeneratorType make_generator(const vector<object_ref<TeleportPad>>& targets);
+	Teleport(GObject* caster);
 
-	STANDARD_CONS(Teleport); //Do not use.
-	Teleport(GObject* caster, const vector<object_ref<TeleportPad>>& targets);
-		
+	GET_DESC(Teleport)
 	virtual void init();
 	virtual void update();
 	virtual void end();
@@ -78,7 +75,6 @@ protected:
 	vector<object_ref<TeleportPad>> targets;
 	object_ref<TeleportPad> toUse;
 };
-
 
 //A somewhat conical, but mostly focused attack.
 //Most of the shots to be within half of the cone width.
@@ -89,60 +85,38 @@ public:
 	static const string name;
 	static const string description;
 
-    StarlightTyphoon(GObject* caster, const ValueMap& args, SpellDesc* descriptor);
-    void init();
-    void update();
-    void end();
+	static const SpaceFloat speed;
+	static const SpaceFloat width;
+	static const SpaceFloat radius;
+	static const SpaceFloat duration;
+	static const SpaceFloat offset;
+
+	static const unsigned int count;
+
+    StarlightTyphoon(GObject* caster);
+
+	GET_DESC(StarlightTyphoon)
+    virtual void init();
+    virtual void update();
+    virtual void end();
+
     void fire();
 protected:
-    //Distance from caster
-    const float offset = 0.7f;
-    
-    float elapsed = 0.0f;
-    float shotsPerFrame;
-    float accumulator = 0.0f;
-
-    //Projectiles will be uniformly generated over the time period.
-    float count;
-    float duration;
-
-    //Average speed.
-    float speed;
-    //Width of the cone.
-    float width;
-    //Direction
-    float angle;
-    //Average bullet radius
-    float radius;
+    SpaceFloat elapsed = 0.0;
+    SpaceFloat shotsPerFrame;
+    SpaceFloat accumulator = 0.0;
+	SpaceFloat angle;
 };
 
-class PeriodicSpell : virtual public Spell{
+class PeriodicSpell : public Spell{
 public:
 
-	inline PeriodicSpell() {}
+	inline PeriodicSpell(GObject* caster) : Spell(caster) {}
 	inline virtual ~PeriodicSpell() {}
 
     virtual float interval() const = 0;
     virtual void runPeriodic() = 0;
-    inline void update(){
-
-		float _interval = interval();
-
-		if (_interval == 0.0f)
-		{
-			runPeriodic();
-		}
-
-		else
-		{
-			timeSince += App::secondsPerFrame;
-
-			if (timeSince >= _interval) {
-				timeSince -= _interval;
-				runPeriodic();
-			}
-		}
-    }
+	void update();
 protected:
     float timeSince = 0;
 };
@@ -162,7 +136,7 @@ protected:
 
 class IllusionDialDagger;
 
-class IllusionDial : public PeriodicSpell
+class IllusionDial : public Spell
 {
 public:
 	static const string name;
@@ -184,12 +158,12 @@ public:
     vector<bool> launch_flags;
 	unsigned int framesSinceLastFire = 0;
 
-	IllusionDial(GObject* caster, const ValueMap& args, SpellDesc* descriptor);
+	IllusionDial(GObject* caster);
     
-    inline virtual float interval() const {return 0.0f;};
-    
+	virtual void update();
+
+	GET_DESC(IllusionDial)
     virtual void init();
-    virtual void runPeriodic();
     virtual void end();
 };
 

@@ -1123,51 +1123,23 @@ void FireIfTargetVisible::update(StateMachine& sm)
 	}
 }
 
-Cast::Cast(string _spell_name, const ValueMap& _spell_args) :
-spell_name(_spell_name),
-spell_args(_spell_args)
-{}
-
-Cast::Cast(GSpace* space, const ValueMap& args)
-{
-    spell_name = getStringOrDefault(args, "spell_name", "");
-    spell_args = getMap(args, "spell_args");
-}
-
-
-void Cast::onEnter(StateMachine& sm)
-{
-	sm.agent->cast(spell_name,spell_args);
-}
-
-void Cast::update(StateMachine& sm)
-{    
-    if(!sm.agent->isSpellActive())
-        sm.pop();
-}
-
-void Cast::onExit(StateMachine& sm)
-{
-	sm.agent->stopSpell();
-}
-
-Cast1::Cast1(SpellGeneratorType spell_generator) :
+Cast::Cast(SpellGeneratorType spell_generator) :
 spell_generator(spell_generator)
 {
 }
 
-void Cast1::onEnter(StateMachine& sm)
+void Cast::onEnter(StateMachine& sm)
 {
 	sm.agent->cast(spell_generator(sm.agent));
 }
 
-void Cast1::update(StateMachine& sm)
+void Cast::update(StateMachine& sm)
 {
 	if (!sm.agent->isSpellActive())
 		sm.pop();
 }
 
-void Cast1::onExit(StateMachine& sm)
+void Cast::onExit(StateMachine& sm)
 {
 	sm.agent->stopSpell();
 }

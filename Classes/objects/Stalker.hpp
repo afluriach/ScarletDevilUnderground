@@ -41,12 +41,10 @@ public:
 	FuncGetName(StalkerMain)
 };
 
-
-class StalkerTeleport : public ai::Cast1 {
+class StalkerTeleport : public ai::Cast {
 public:
-	StalkerTeleport(const vector<object_ref<TeleportPad>>& targets);
-	FuncGetName(StalkerMain)
+	StalkerTeleport();
+	FuncGetName(StalkerTeleport)
 };
-
 
 #endif /* Stalker_hpp */

@@ -15,9 +15,9 @@ class CirnoIceShieldBullet;
 class FlandreCounterClockBullet;
 
 //Apply power drain and deactive spell if applicable
-class PlayerSpell : virtual public Spell {
+class PlayerSpell : public Spell {
 public:
-	inline PlayerSpell() {}
+	inline PlayerSpell(GObject* caster) : Spell(caster) {}
 	inline virtual ~PlayerSpell() {}
 
 	virtual void init();
@@ -29,19 +29,21 @@ protected:
 	SpaceFloat timeInSpell = 0.0;
 };
 
-class PlayerBatMode : virtual public Spell, public PlayerSpell{
+class PlayerBatMode : public PlayerSpell{
 public:
 	static const string name;
 	static const string description;
 
-	PlayerBatMode(GObject* caster, const ValueMap& args, SpellDesc* descriptor);
+	PlayerBatMode(GObject* caster);
+
+	GET_DESC(PlayerBatMode)
     virtual void init();
     virtual void end();
 
 	inline virtual SpaceFloat getLength() const { return 5.0; }
 };
 
-class PlayerCounterClock : virtual public Spell, public PlayerSpell {
+class PlayerCounterClock : public PlayerSpell {
 public:
 	static const string name;
 	static const string description;
@@ -49,7 +51,9 @@ public:
 	static const SpaceFloat offset;
 	static const SpaceFloat angular_speed;
 
-	PlayerCounterClock(GObject* caster, const ValueMap& args, SpellDesc* descriptor);
+	PlayerCounterClock(GObject* caster);
+
+	GET_DESC(PlayerCounterClock)
 	virtual void init();
 	virtual void update();
 	virtual void end();
@@ -60,19 +64,21 @@ protected:
 	SpaceFloat angular_pos = 0.0;
 };
 
-class PlayerDarkMist : virtual public Spell, public PlayerSpell {
+class PlayerDarkMist : public PlayerSpell {
 public:
 	static const string name;
 	static const string description;
 
-	PlayerDarkMist(GObject* caster, const ValueMap& args, SpellDesc* descriptor);
+	PlayerDarkMist(GObject* caster);
+
+	GET_DESC(PlayerDarkMist)
 	virtual void init();
 	virtual void end();
 
 	inline virtual SpaceFloat getLength() const { return 7.5; }
 };
 
-class PlayerIceShield : virtual public Spell, public PlayerSpell {
+class PlayerIceShield : public PlayerSpell {
 public:
 	static const string name;
 	static const string description;
@@ -83,7 +89,9 @@ public:
 	static const SpaceFloat circumference;
 	static const SpaceFloat inv_circumference;
 
-	PlayerIceShield(GObject* caster, const ValueMap& args, SpellDesc* descriptor);
+	PlayerIceShield(GObject* caster);
+
+	GET_DESC(PlayerIceShield)
 	virtual void init();
 	virtual void update();
 	virtual void end();

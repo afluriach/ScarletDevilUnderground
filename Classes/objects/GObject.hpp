@@ -239,9 +239,7 @@ public:
 	//BEGIN SPELLS
 
 	void cast(shared_ptr<Spell> spell);
-	void cast(const string& name, const ValueMap& args);
-	//For Luabridge
-	void castByName(string name, const ValueMap& args);
+	void cast(const string& name);
 
 	void stopSpell();
 	void updateSpells();

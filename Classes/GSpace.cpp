@@ -376,29 +376,31 @@ void GSpace::initObjects()
 
 void GSpace::processRemovals()
 {
-	//Objects which will be removed this frame should have the end contact handlers called 
-	//before they are deleted.
-	for(GObject* obj: toRemove) {
-		processRemovalEndContact(obj);
-	}
-	
-	for (GObject *obj : toRemoveWithAnimation | boost::adaptors::map_keys) {
-		processRemovalEndContact(obj);
-	}
-
 	space.maskSeperateHandler = true;
 
-	for(GObject* obj: toRemove){
-        processRemoval(obj, true);
-    }
-    toRemove.clear();
+	while (!toRemove.empty())
+	{
+		GObject* obj = toRemove.front();
+		toRemove.pop_front();
 
-	for (auto it = toRemoveWithAnimation.begin(); it != toRemoveWithAnimation.end(); ++it) {
-		Node* sprite = it->first->sprite;
-		processRemoval(it->first, false);
-		sprite->runAction(Sequence::createWithTwoActions(it->second, RemoveSelf::create() ));
+		//Objects which will be removed this frame should have the end contact handlers called 
+		//before they are deleted.
+		processRemovalEndContact(obj);
+		processRemoval(obj, true);
 	}
-	toRemoveWithAnimation.clear();
+
+	while (!toRemoveWithAnimation.empty())
+	{
+		auto entry = toRemoveWithAnimation.front();
+		toRemoveWithAnimation.pop_front();
+
+		Node* sprite = entry.first->sprite;
+
+		processRemovalEndContact(entry.first);
+		processRemoval(entry.first, false);
+
+		sprite->runAction(Sequence::createWithTwoActions(entry.second, RemoveSelf::create()));
+	}
 
 	space.maskSeperateHandler = false;
 }

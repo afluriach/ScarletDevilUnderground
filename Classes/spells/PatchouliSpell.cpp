@@ -34,7 +34,7 @@ const string FlameFence::name = "FlameFence";
 const string FlameFence::description = "";
 
 FlameFence::FlameFence(GObject* caster) :
-	Spell(caster, {}, Spell::getDescriptor("FlameFence").get())
+	Spell(caster)
 {
 }
 
@@ -79,7 +79,7 @@ const SpaceFloat Whirlpool1::angularOffset = float_pi / 12.0;
 const SpaceFloat Whirlpool1::bulletSpeed = 6.0;
 
 Whirlpool1::Whirlpool1(GObject* caster) :
-	Spell(caster, {}, Spell::getDescriptor("Whirlpool1").get())
+	Spell(caster)
 {
 }
 
@@ -134,7 +134,7 @@ const SpaceFloat Whirlpool2::angularOffset = float_pi / 10.0;
 const SpaceFloat Whirlpool2::bulletSpeed = 7.5;
 
 Whirlpool2::Whirlpool2(GObject* caster) :
-	Spell(caster, {}, Spell::getDescriptor("Whirlpool2").get())
+	Spell(caster)
 {
 }
 

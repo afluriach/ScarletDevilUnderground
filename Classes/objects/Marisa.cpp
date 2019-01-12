@@ -71,5 +71,5 @@ void MarisaForestMain::onEnter(ai::StateMachine& sm)
 
 void MarisaForestMain::update(ai::StateMachine& sm)
 {
-	sm.push(make_shared<ai::Cast>("StarlightTyphoon", ValueMap()));
+	sm.push(make_shared<ai::Cast>(make_spell_generator<StarlightTyphoon>()));
 }
