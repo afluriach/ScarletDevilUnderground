@@ -11,16 +11,12 @@
 #include "Block.hpp"
 #include "enum.h"
 #include "macros.h"
+#include "value_map.hpp"
 
 Block::Block(GSpace* space, ObjectIDType id, const ValueMap& args) :
 GObject(space,id,args,true),
-isStatic(args.find("static") != args.end())
+MassImpl(getFloatOrDefault(args,"mass",40.0))
 {
-    auto it = args.find("letter");
-    if(it != args.end())
-        letter = it->second.asString();
-//        else
-//            log("%s: letter undefined", name.c_str());
 }
 
 PhysicsLayers Block::getLayers() const{

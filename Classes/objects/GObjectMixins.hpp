@@ -124,6 +124,16 @@ public:
     void update();
 };
 
+class MassImpl : public virtual GObject
+{
+public:
+	inline MassImpl(SpaceFloat mass) : mass(mass) {}
+	
+	virtual inline SpaceFloat getMass() const { return mass; }
+
+	const SpaceFloat mass;
+};
+
 //Object will automatically have its velocity set on init(), according to
 //its [facing] angle. Uses polymorphic getter getMaxSpeed().
 class DirectionalLaunch : virtual public GObject, public RegisterInit<DirectionalLaunch>

@@ -12,22 +12,22 @@
 #include "GObject.hpp"
 #include "GObjectMixins.hpp"
 
-class Block : virtual public GObject, RectangleBody, ImageSprite, FrictionObject
+class Block :
+	virtual public GObject,
+	public RectangleBody,
+	public ImageSprite,
+	public FrictionObject,
+	public MassImpl
 {
 public:
-    const bool isStatic;
-    const SpaceFloat mass = 40.0;
 	MapObjCons(Block);
     
-    virtual string imageSpritePath() const {return !letter.empty() ? "sprites/block "+letter+".png"  : "sprites/block.png";}
+    virtual string imageSpritePath() const {return "sprites/block.png";}
     virtual GraphicsLayer sceneLayer() const {return GraphicsLayer::ground;}
     
-    virtual inline SpaceFloat getMass() const { return isStatic ? -1.0 : mass;}
     virtual inline SpaceFloat uk() const {return 0.5;}
     virtual inline GType getType() const {return GType::environment;}
     virtual PhysicsLayers getLayers() const;
     virtual inline SpaceVect getDimensions() const {return SpaceVect(1,1);}
-private:
-    string letter;
 };
 #endif /* Block_hpp */
