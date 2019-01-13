@@ -11,7 +11,9 @@
 #include "AreaSensor.hpp"
 #include "Door.hpp"
 #include "Enemy.hpp"
+#include "GSpace.hpp"
 #include "Player.hpp"
+#include "PlayScene.hpp"
 #include "SpaceLayer.h"
 #include "value_map.hpp"
 
@@ -76,5 +78,38 @@ void TrapRoomSensor::update()
 			ref.get()->setLocked(false);
 		}
 		isLocked = false;
+	}
+}
+
+BossRoomSensor::BossRoomSensor(GSpace* space, ObjectIDType id, const ValueMap& args) :
+	GObject(space, id, args),
+	AreaSensor(space, id, args),
+	RegisterInit(this),
+	RegisterUpdate(this)
+{
+	bossName = getStringOrDefault(args, "boss", "");
+}
+
+void BossRoomSensor::init()
+{
+	boss = space->getObjectRefAs<Enemy>(bossName);
+}
+
+void BossRoomSensor::update()
+{
+	if (!activated)
+	{
+		if (boss.isValid() && player.isValid()) {
+			space->getSceneAs<PlayScene>()->hud->setEnemyInfo(boss);
+			activated = true;
+		}
+	}
+	else
+	{
+		//If the player ref is not valid, this means the player left the room sensor.
+
+		if (!boss.isValid() ) {
+			space->getSceneAs<PlayScene>()->hud->setEnemyInfo(nullptr);
+		}
 	}
 }

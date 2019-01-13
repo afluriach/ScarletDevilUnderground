@@ -9,6 +9,7 @@
 #include "Prefix.h"
 
 #include "App.h"
+#include "Enemy.hpp"
 #include "Graphics.h"
 #include "GSpace.hpp"
 #include "HUD.hpp"
@@ -356,6 +357,52 @@ void MagicEffects::reorganize()
 	}
 }
 
+EnemyInfo::EnemyInfo()
+{}
+
+bool EnemyInfo::init()
+{
+	Node::init();
+
+	name = createTextLabel("", 24);
+	name->setPosition(Vec2(0, 16));
+	addChild(name);
+
+	healthBar = DrawNode::create();
+	healthBar->setPosition(Vec2(0, 16));
+	addChild(healthBar);
+
+	return true;
+}
+
+void EnemyInfo::update()
+{
+	if (!enemy.isValid()) {
+		return;
+	}
+
+	healthBar->clear();
+
+	float hpRatio = enemy.get()->getHealthRatio();
+	healthBar->drawSolidRect(Vec2(-64, -16), Vec2(64, 16), Color4F(0.0f, 0.0f, 0.0f, 1.0f));
+	healthBar->drawSolidRect(Vec2(-64, -16), Vec2(-64  + 128*hpRatio , 16), Color4F(1.0f, 0.0f, 0.0f, 1.0f));
+}
+
+void EnemyInfo::setEnemy(object_ref<Enemy> e)
+{
+	enemy = e;
+
+	removeChild(name);
+	name = createTextLabel(e.isValid() ? e.get()->getName() : "", 24);
+	name->setPosition(Vec2(0, 16));
+	addChild(name);
+}
+
+bool EnemyInfo::isValid()
+{
+	return enemy.isValid();
+}
+
 //const Color4F HUD::backgroundColor = Color4F(0,0,0,0.75);
 
 const int HUD::fontSize = 32;
@@ -385,6 +432,9 @@ void HUD::update()
 	if (magicEffects) {
 		magicEffects->update();
 	}
+
+	enemyInfo->setVisible(enemyInfo->isValid());
+	enemyInfo->update();
 }
 
 bool HUD::init()
@@ -442,6 +492,11 @@ bool HUD::init()
 	firePatternIcon->setPosition(App::width - 384*scale, App::height - 64*scale);
 	firePatternIcon->setScale(0.5*scale);
 	addChild(firePatternIcon);
+
+	enemyInfo = Node::ccCreate<EnemyInfo>();
+	enemyInfo->setPosition(App::width - 72*scale, 24*scale);
+	enemyInfo->setScale(scale);
+	addChild(enemyInfo);
 
     return true;
 }
@@ -518,6 +573,11 @@ void HUD::runPowerFlicker(float duration)
 
 void HUD::setPercentValue(Attribute element, int val) {
 	magicEffects->setPercentValue(element, val);
+}
+
+void HUD::setEnemyInfo(object_ref<Enemy> e)
+{
+	enemyInfo->setEnemy(e);
 }
 
 Counter::Counter(const string& iconRes, const int val) :

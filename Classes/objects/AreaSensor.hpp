@@ -55,4 +55,21 @@ protected:
 	bool isLocked = false;
 };
 
+class BossRoomSensor :
+	public AreaSensor,
+	public RegisterInit<BossRoomSensor>,
+	public RegisterUpdate<BossRoomSensor>
+{
+public:
+	BossRoomSensor(GSpace* space, ObjectIDType id, const ValueMap& args);
+
+	void init();
+	void update();
+protected:
+	string bossName;
+	object_ref<Enemy> boss;
+	bool activated = false;
+};
+
+
 #endif /* AreaSensor_hpp */

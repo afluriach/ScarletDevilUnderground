@@ -12,6 +12,7 @@
 #include "Attributes.hpp"
 #include "object_ref.hpp"
 
+class Enemy;
 class Player;
 
 class IconMeter : public Node
@@ -152,6 +153,21 @@ private:
     int val;
 };
 
+class EnemyInfo : public Node
+{
+public:
+	EnemyInfo();
+
+	virtual bool init();
+	void update();
+	void setEnemy(object_ref<Enemy>);
+	bool isValid();
+protected:
+	object_ref<Enemy> enemy;
+	DrawNode* healthBar;
+	Label* name;
+};
+
 class HUD : public Layer
 {
 public:
@@ -177,6 +193,8 @@ public:
     Sprite* interactionIcon;
 	Sprite* firePatternIcon;
 
+	EnemyInfo* enemyInfo;
+
 	void setHP(int);
 	void setMaxHP(int);
 
@@ -195,6 +213,8 @@ public:
 	void setMansionMode(bool val);    
 	void setInteractionIcon(string val);
 	void setFirePatternIcon(string val);
+
+	void setEnemyInfo(object_ref<Enemy>);
     
 protected:
     object_ref<Player> player;

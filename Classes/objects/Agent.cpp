@@ -148,6 +148,15 @@ int Agent::getHealth()
 	return attributeSystem.getAdjustedValue(Attribute::hp);
 }
 
+SpaceFloat Agent::getHealthRatio()
+{
+	if (attributeSystem.getAdjustedValue(Attribute::maxHP) == 0.0f){
+		return 0.0;
+	}
+
+	return attributeSystem.getAdjustedValue(Attribute::hp) / attributeSystem.getAdjustedValue(Attribute::maxHP);
+}
+
 int Agent::getPower()
 {
 	return attributeSystem.getAdjustedValue(Attribute::power);

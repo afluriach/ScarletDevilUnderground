@@ -52,6 +52,7 @@ public:
 	virtual float getMaxPower() const;
 
 	int getHealth();
+	SpaceFloat getHealthRatio();
 	int getPower();
 	int getMagic();
 	bool consumePower(int val);
