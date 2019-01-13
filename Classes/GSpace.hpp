@@ -319,7 +319,10 @@ private:
 	int teleportPadObjectEnd(GObject* teleportPad, GObject* obj);
 	int spawnerObjectBegin(GObject* spawner, GObject* obj);
 	int spawnerObjectEnd(GObject* spawner, GObject* obj);
-
+	int playerAreaSensorBegin(GObject* a, GObject *b);
+	int playerAreaSensorEnd(GObject* a, GObject *b);
+	int enemyAreaSensorBegin(GObject* a, GObject *b);
+	int enemyAreaSensorEnd(GObject* a, GObject *b);
 
 //END PHYSICS
 

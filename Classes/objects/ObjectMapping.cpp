@@ -10,6 +10,7 @@
 
 #include "Agent.hpp"
 #include "App.h"
+#include "AreaSensor.hpp"
 #include "Block.hpp"
 #include "Bullet.hpp"
 #include "CollectGlyph.hpp"
@@ -136,6 +137,7 @@ const unordered_map<string, GObject::AdapterType> GObject::adapters = {
 	entry_same(TeleportPad),
 	entry_same(Tewi),
 	entry_same(Torch),
+	entry_same(TrapRoomSensor),
 	entry_same(Wall),
 
 	{ "Player", playerAdapter() }

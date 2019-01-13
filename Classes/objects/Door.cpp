@@ -39,3 +39,13 @@ void Door::interact()
 		p->setDirection(dest->entryDirection);
 	}
 }
+
+void Door::setLocked(bool b)
+{
+	locked = b;
+
+	Sprite* s = dynamic_cast<Sprite*>(sprite);
+	if (s) {
+		s->setTexture(locked ? "sprites/door_locked.png" : "sprites/door.png");
+	}
+}

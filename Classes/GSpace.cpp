@@ -10,6 +10,7 @@
 
 #include "AIMixins.hpp"
 #include "App.h"
+#include "AreaSensor.hpp"
 #include "Collectibles.hpp"
 #include "EffectArea.hpp"
 #include "Enemy.hpp"
@@ -599,6 +600,9 @@ void GSpace::addCollisionHandlers()
 
 	_addHandler(player, effectArea, agentEffectAreaBegin, agentEffectAreaEnd);
 	_addHandler(enemy, effectArea, agentEffectAreaBegin, agentEffectAreaEnd);
+
+	_addHandler(player, areaSensor, playerAreaSensorBegin, playerAreaSensorEnd);
+	_addHandler(enemy, areaSensor, enemyAreaSensorBegin, enemyAreaSensorEnd);
 }
 
 const set<GType> GSpace::selfCollideTypes = {
@@ -1071,6 +1075,49 @@ int GSpace::spawnerObjectEnd(GObject* spawner, GObject* obj)
 	return 1;
 }
 
+int GSpace::playerAreaSensorBegin(GObject* a, GObject *b)
+{
+	Player* p = dynamic_cast<Player*>(a);
+	AreaSensor* as = dynamic_cast<AreaSensor*>(b);
+
+	if (p && as) {
+		as->onPlayerContact(p);
+	}
+	return 1;
+}
+
+int GSpace::playerAreaSensorEnd(GObject* a, GObject *b)
+{
+	Player* p = dynamic_cast<Player*>(a);
+	AreaSensor* as = dynamic_cast<AreaSensor*>(b);
+
+	if (p && as) {
+		as->onPlayerEndContact(p);
+	}
+	return 1;
+}
+
+int GSpace::enemyAreaSensorBegin(GObject* a, GObject *b)
+{
+	Enemy* e = dynamic_cast<Enemy*>(a);
+	AreaSensor* as = dynamic_cast<AreaSensor*>(b);
+
+	if (e && as) {
+		as->onEnemyContact(e);
+	}
+	return 1;
+}
+
+int GSpace::enemyAreaSensorEnd(GObject* a, GObject *b)
+{
+	Enemy* e = dynamic_cast<Enemy*>(a);
+	AreaSensor* as = dynamic_cast<AreaSensor*>(b);
+
+	if (e && as) {
+		as->onEnemyEndContact(e);
+	}
+	return 1;
+}
 
 //END PHYSICS
 

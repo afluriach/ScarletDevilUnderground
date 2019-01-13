@@ -30,12 +30,15 @@ public:
     virtual PhysicsLayers getLayers() const;
     virtual inline SpaceVect getDimensions() const {return SpaceVect(1,1);}
 
-	virtual inline bool canInteract() { return true; }
+	virtual inline bool canInteract() { return !locked; }
 	virtual void interact();
 	virtual inline string interactionIcon() { return "sprites/door.png"; }
+
+	void setLocked(bool b);
 protected:
 	//the angle/offset when this door is used as a destination
 	Direction entryDirection;
 	string destination;
+	bool locked = false;
 };
 #endif /* Door_hpp */

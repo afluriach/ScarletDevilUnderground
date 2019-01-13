@@ -282,6 +282,9 @@
     <ClCompile Include="..\Classes\objects\Door.cpp">
       <Filter>src\objects</Filter>
     </ClCompile>
+    <ClCompile Include="..\Classes\objects\AreaSensor.cpp">
+      <Filter>src\objects</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="main.h">
@@ -552,6 +555,9 @@
       <Filter>src\objects</Filter>
     </ClInclude>
     <ClInclude Include="..\Classes\objects\Door.hpp">
+      <Filter>src\objects</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\objects\AreaSensor.hpp">
       <Filter>src\objects</Filter>
     </ClInclude>
   </ItemGroup>
