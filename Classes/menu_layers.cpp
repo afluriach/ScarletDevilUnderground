@@ -189,7 +189,7 @@ bool ChamberCompletedMenu::init()
 {
 	TextListMenuLayer::init();
 
-	text = createTextLabel(enemyStatsMsg(),24);
+	text = createTextLabel(enemyStatsMsg(),24, "fonts/coiny.ttf");
 	addChild(text, 0);
 	text->setPosition(Vec2(App::width / 2.0f, App::height / 2.0f));
 

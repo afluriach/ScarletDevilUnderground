@@ -70,6 +70,7 @@ FiniteTimeAction* pitfallShrinkAction();
 Sprite* loadImageSprite(const string& resPath, GraphicsLayer sceneLayer, Layer* dest, const Vec2& pos, float zoom);
 
 Label* createTextLabel(const string& text, int size);
+Label* createTextLabel(const string& text, int size, const string& fontRes);
 
 cocos2d::CCSize getScreenSize();
 

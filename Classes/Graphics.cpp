@@ -187,8 +187,12 @@ Sprite* loadImageSprite(const string& resPath, GraphicsLayer sceneLayer, Layer* 
 
 Label* createTextLabel(const string& text, int size)
 {
-    Label *l = Label::createWithSystemFont(text, defaultFont, size);
-    return l;
+    return Label::createWithTTF(text, "fonts/comfortaa.ttf", size);
+}
+
+Label* createTextLabel(const string& text, int size, const string& fontRes)
+{
+	return Label::createWithTTF(text, fontRes, size);
 }
 
 Color4F opacityScale(const Color4F& color, GLubyte opacity)
