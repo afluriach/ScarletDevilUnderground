@@ -80,7 +80,7 @@ public:
 	GObject* getObject(const string& name) const;
 	GObject* getObject(unsigned int uuid) const;
 
-	const set<GObject*>* getObjecstByType(type_index t) const;
+	const set<GObject*>* getObjectsByType(type_index t) const;
 
     template<typename T>
     inline object_ref<T> getObjectRefAs(const string& name) const{
@@ -97,7 +97,7 @@ public:
 	template<typename T>
 	inline vector<object_ref<T>> getObjectsByTypeAs() const {
 		assert_gobject(T);
-		const set<GObject*>* base = getObjecstByType(typeid(T));
+		const set<GObject*>* base = getObjectsByType(typeid(T));
 		
 		if (!base) return vector<object_ref<T>>();
 
@@ -109,6 +109,19 @@ public:
 		}
 
 		return result;
+	}
+
+	template<class TargetCls, class SenderCls, typename R, typename...Args>
+	inline void messageAll(SenderCls* sender, R(TargetCls::*handler)(Args...), void (SenderCls::*response)(R), Args ...args)
+	{
+		const set<GObject*>* objects = getObjectsByType(typeid(TargetCls));
+
+		for (GObject* objBase : *objects) {
+			TargetCls* obj = dynamic_cast<TargetCls*>(objBase);
+			if (obj) {
+				obj->messageWithResponse(obj, sender, handler, response, args...);
+			}
+		}
 	}
 
     void removeObject(const string& name);

@@ -89,6 +89,7 @@ public:
 		normal,
 		flee,
 		fleeWithSupport,
+		supportOffered,
 		supporting
 	};
 
@@ -113,16 +114,20 @@ public:
 	virtual inline int pixelWidth() const { return 512; }
 
 	virtual void initStateMachine(ai::StateMachine& sm);
+	void addFleeThread();
+	void addSupportThread(object_ref<Fairy2> other);
+	void removeSupportThread();
 
 	void update();
 
+	void requestSupport();
 	object_ref<Fairy2> requestHandler(object_ref<Fairy2> other);
 	void responseHandler(object_ref<Fairy2> supporting);
-	void cancelRequest();
+	void acknowledgeHandaler(object_ref<Fairy2> supportTarget);
 protected:
-	shared_ptr<ai::TrackByType<Fairy2>> trackFunction;
 	ai_state crntState = ai_state::normal;
 	unsigned int supportThread = 0;
+	object_ref<Fairy2> supportingAgent;
 };
 
 class IceFairy :

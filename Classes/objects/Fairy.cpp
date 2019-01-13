@@ -111,40 +111,27 @@ void Fairy2::initStateMachine(ai::StateMachine& sm) {
 		bitset<ai::lockCount>()
 	);
 
-	trackFunction = make_shared<ai::TrackByType<Fairy2>>();
-	fsm.addThread(trackFunction);
 	fsm.addThread(detectThread);
 }
 
-void Fairy2::update()
+void Fairy2::addFleeThread()
 {
-	if (getHealth() / getMaxHealth() <= lowHealthRatio && (crntState == ai_state::normal || crntState == ai_state::supporting)){
-		trackFunction->messageTargetsWithResponse(&Fairy2::requestHandler, this, &Fairy2::responseHandler, object_ref<Fairy2>(this));
-		crntState = ai_state::flee;
-
-		GObject* player = space->getObject("player");
-		auto fleeThread = make_shared<ai::Thread>(
-			make_shared<ai::Flee>(player,5.0f),
-			&fsm,
-			to_int(ai_priority::flee),
-			bitset<ai::lockCount>()
+	GObject* player = space->getObject("player");
+	auto fleeThread = make_shared<ai::Thread>(
+		make_shared<ai::Flee>(player, 5.0f),
+		&fsm,
+		to_int(ai_priority::flee),
+		bitset<ai::lockCount>()
 		);
-		fsm.addThread(fleeThread);
-
-		//log("%s is fleeing", getName().c_str());
-	}
+	fsm.addThread(fleeThread);
 }
 
-object_ref<Fairy2> Fairy2::requestHandler(object_ref<Fairy2> other)
+void Fairy2::addSupportThread(object_ref<Fairy2> other)
 {
 	gobject_ref player = space->getObjectRef("player");
 
-	if (!other.isValid() || !player.isValid()) {
-		return nullptr;
-	}
-
-	if (crntState != ai_state::normal) {
-		return nullptr;
+	if (!player.isValid()) {
+		return;
 	}
 
 	auto t = make_shared<ai::Thread>(
@@ -156,33 +143,50 @@ object_ref<Fairy2> Fairy2::requestHandler(object_ref<Fairy2> other)
 	supportThread = t->uuid;
 
 	fsm.addThread(t);
-
-	//log("%s is supporting %s.", getName().c_str(), other.get()->getName().c_str());
-
-	crntState = ai_state::supporting;
-	return this;
 }
 
-void Fairy2::responseHandler(object_ref<Fairy2> supporting)
-{
-	if (supporting.isValid())
-	{
-		if (crntState == ai_state::fleeWithSupport) {
-			//cancel duplicate request
-			supporting.get()->message<Fairy2>(supporting.get(), &Fairy2::cancelRequest);
-		}
-
-		crntState = ai_state::fleeWithSupport;
-	}
-}
-
-void Fairy2::cancelRequest()
+void Fairy2::removeSupportThread()
 {
 	if (supportThread != 0) {
 		fsm.removeThread(supportThread);
 		supportThread = 0;
 	}
-	crntState = ai_state::normal;
+}
+
+void Fairy2::update()
+{
+	if (getHealth() / getMaxHealth() <= lowHealthRatio && (crntState == ai_state::normal || crntState == ai_state::supporting)){
+		space->messageAll(this, &Fairy2::requestHandler, &Fairy2::responseHandler, object_ref<Fairy2>(this));
+
+		crntState = ai_state::flee;
+		addFleeThread();
+	}
+}
+
+object_ref<Fairy2> Fairy2::requestHandler(object_ref<Fairy2> other)
+{
+	if (other.isValid() && crntState == ai_state::normal) {
+		crntState = ai_state::supportOffered;
+		return this;
+	}
+	else {
+		return nullptr;
+	}
+}
+
+void Fairy2::responseHandler(object_ref<Fairy2> supporting)
+{
+	if (supporting.isValid() && crntState == ai_state::flee)
+	{
+		crntState = ai_state::fleeWithSupport;
+		supporting.get()->message(supporting.get(), &Fairy2::acknowledgeHandaler, object_ref<Fairy2>(this));
+	}
+}
+
+void Fairy2::acknowledgeHandaler(object_ref<Fairy2> supportTarget)
+{
+	crntState = ai_state::supporting;
+	addSupportThread(supportTarget);
 }
 
 const AttributeMap IceFairy::baseAttributes = {

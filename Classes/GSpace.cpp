@@ -206,7 +206,7 @@ GObject* GSpace::getObject(unsigned int uuid) const
 	return it != objByUUID.end() ? it->second : nullptr;
 }
 
-const set<GObject*>* GSpace::getObjecstByType(type_index t) const
+const set<GObject*>* GSpace::getObjectsByType(type_index t) const
 {
 	if (trackedTypes.find(t) == trackedTypes.end() && enemyTypes.find(t) == enemyTypes.end()) {
 		log("%s is not a tracked type.", t.name());
