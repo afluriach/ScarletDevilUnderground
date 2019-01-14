@@ -106,12 +106,15 @@ public:
 	static const int margin;
 	static const Color4F backgroundColor;
 	static const Color4F wallColor;
+	static const Color4F wallColorCrnt;
 	static const Color4F floorColor;
+	static const Color4F floorColorCrnt;
 	static const Color4F doorColor;
 
 	MapMenu(PlayScene* playScene);
 
 	virtual bool init();
+	virtual void update(float dt);
 
 	void close();
 protected:
@@ -121,8 +124,12 @@ protected:
 	DrawNode* drawNode;
 	float _pixelsPerTile = 1.0f;
 
+	int playerRoom;
+	float highlightTimer = 1.0f;
+	bool isHighlight = false;
+
 	void drawMaps();
-	void drawObject(CCRect area, Color4F color);
+	void drawObject(CCRect area, Color4F color, Color4F colorCrnt);
 };
 
 #endif /* menu_layers_h */

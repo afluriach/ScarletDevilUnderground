@@ -328,6 +328,11 @@ bool GScene::isInPlayerRoom(SpaceVect v)
 	return mapArea.containsPoint(Vec2(v.x, v.y));
 }
 
+int GScene::getPlayerRoom()
+{
+	return crntMap;
+}
+
 Layer* GScene::getLayer(sceneLayers layer)
 {
 	auto it = layers.find(to_int(layer));

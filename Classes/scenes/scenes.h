@@ -124,6 +124,7 @@ public:
 	int getMapLocation(CCRect r);
 	bool isInCameraArea(CCRect r);
 	bool isInPlayerRoom(SpaceVect v);
+	int getPlayerRoom();
 
 	Layer* getLayer(sceneLayers layer);
 	inline SpaceLayer* getSpaceLayer() const { return spaceLayer; }

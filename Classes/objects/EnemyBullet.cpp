@@ -63,6 +63,12 @@ LauncherBullet::LauncherBullet(GSpace* space, ObjectIDType id, SpaceFloat angle,
 	GObject(space, id, "LauncherBullet", pos, angle, true)
 {}
 
+AttributeMap LauncherBullet::getAttributeEffect() const {
+	return {
+		{ Attribute::hp, -1 }
+	};
+}
+
 AttributeMap IceFairyBullet::getAttributeEffect() const{
 	return {
 		{ Attribute::hp, -1 },

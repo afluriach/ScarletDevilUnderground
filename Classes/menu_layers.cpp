@@ -232,7 +232,9 @@ const int MapMenu::margin = 64;
 
 const Color4F MapMenu::backgroundColor(0.5f, 0.5f, 0.5f, 0.5f);
 const Color4F MapMenu::wallColor(0.3f, 0.3f, 0.7f, 1.0f);
+const Color4F MapMenu::wallColorCrnt(0.45f, 0.45f, 0.85f, 1.0f);
 const Color4F MapMenu::floorColor(0.45f, 0.45f, 0.85f, 1.0f);
+const Color4F MapMenu::floorColorCrnt(0.6f, 0.6f, 0.9f, 1.0f);
 const Color4F MapMenu::doorColor(0.61f,0.55f,0.39f,1.0f);
 
 MapMenu::MapMenu(PlayScene* playScene) :
@@ -246,13 +248,17 @@ bool MapMenu::init()
 	Layer::init();
 
 	controlListener->addPressListener(ControlAction::menuBack, bind(&MapMenu::close, this));
+	scheduleUpdateWithPriority(0);
 
 	Vec2 size = getScreenSize();
 	SpaceVect areaSize = playScene->getMapSize();
+	size_t roomCount = playScene->getMapAreas().size();
+
+	playerRoom = playScene->getPlayerRoom();
 
 	backgroundNode = DrawNode::create();
-	drawNode = DrawNode::create();
 	addChild(backgroundNode,1);
+	drawNode = DrawNode::create();
 	addChild(drawNode, 2);
 
 	backgroundNode->drawSolidRect(
@@ -266,6 +272,19 @@ bool MapMenu::init()
 	drawMaps();
 
 	return true;
+}
+
+void MapMenu::update(float dt)
+{
+	timerDecrement(highlightTimer);
+
+	if (highlightTimer == 0.0) {
+		isHighlight = !isHighlight;
+		highlightTimer = 1.0;
+
+		drawNode->clear();
+		drawMaps();
+	}
 }
 
 void MapMenu::close()
@@ -285,23 +304,28 @@ void MapMenu::drawMaps()
 	for (auto ref : floors)
 	{
 		FloorSegment* floor = ref.get();
-		if (dynamic_cast<MovingPlatform*>(floor) || dynamic_cast<Pitfall*>(floor)) {
+
+		if (dynamic_cast<MovingPlatform*>(floor)) {
 			continue;
 		}
-
-		drawObject(floor->getBoundingBox(), floorColor);
+		else if(dynamic_cast<Pitfall*>(floor)) {
+			drawObject(floor->getBoundingBox(), Color4F::BLACK, Color4F::BLACK);
+		}
+		else {
+			drawObject(floor->getBoundingBox(), floorColor, floorColorCrnt);
+		}
 	}
 
 	for (auto ref : walls){
-		drawObject(ref.get()->getBoundingBox(), wallColor);
+		drawObject(ref.get()->getBoundingBox(), wallColor, wallColorCrnt);
 	}
 
 	for (auto ref : doors) {
-		drawObject(ref.get()->getBoundingBox(), doorColor);
+		drawObject(ref.get()->getBoundingBox(), doorColor, doorColor);
 	}
 }
 
-void MapMenu::drawObject(CCRect rect, Color4F color)
+void MapMenu::drawObject(CCRect rect, Color4F color, Color4F colorCrnt)
 {
 	int mapId = playScene->getMapLocation(rect);
 
@@ -309,7 +333,7 @@ void MapMenu::drawObject(CCRect rect, Color4F color)
 		drawNode->drawSolidRect(
 			Vec2(rect.getMinX(), rect.getMinY()) * _pixelsPerTile + Vec2(margin, margin),
 			Vec2(rect.getMaxX(), rect.getMaxY()) * _pixelsPerTile + Vec2(margin, margin),
-			color
+			mapId == playerRoom && isHighlight ? colorCrnt : color
 		);
 	}
 }

@@ -136,6 +136,7 @@ public:
 	static constexpr float spriteBaseRadius = 0.83f;
 	inline virtual float zoom() const { return getRadius() / spriteBaseRadius * 2; }
 
+	virtual AttributeMap getAttributeEffect() const;
 	virtual inline shared_ptr<MagicEffect> getMagicEffect(gobject_ref target) { return nullptr; }
 };
 
