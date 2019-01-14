@@ -12,6 +12,7 @@
 #include "App.h"
 #include "Collectibles.hpp"
 #include "controls.h"
+#include "Door.hpp"
 #include "EnemyBullet.hpp"
 #include "FloorSegment.hpp"
 #include "functional.hpp"
@@ -64,10 +65,19 @@ void Player::initializeGraphics(SpaceLayer* layer)
 
 void Player::onPitfall()
 {
-	if (playScene) {
+	if (isRespawnActive || respawnMaskTimer > 0.0) {
+		return;
+	}
+
+	attributeSystem.modifyAttribute(Attribute::hp, -1.0f);
+
+	if (getHealth() == 0.0f && playScene) {
 		playScene->triggerGameOver();
 	}
-	GObject::onPitfall();
+	else {
+		sprite->runAction(pitfallShrinkAction());
+		startRespawn();
+	}
 }
 
 SpaceFloat Player::getSpellLength()
@@ -121,6 +131,9 @@ void Player::init()
 		}
 
 		equipSpells();
+
+		respawnPos = getPos();
+		respawnAngle = getAngle();
 	}
 }
 
@@ -277,6 +290,13 @@ void Player::update()
 			updateHudAttribute(Attribute::poisonDamage);
 			updateHudAttribute(Attribute::slimeDamage);
 		}
+
+		timerDecrement(respawnTimer);
+		timerDecrement(respawnMaskTimer);
+
+		if (respawnTimer <= 0.0 && isRespawnActive) {
+			applyRespawn();
+		}
 	}
 }
 
@@ -391,6 +411,21 @@ void Player::onCollectible(Collectible* coll)
 	}
 }
 
+void Player::useDoor(Door* d)
+{
+	Door* dest = d->getDestination();
+
+	if (dest)
+	{
+		setPos(dest->getEntryPosition());
+		setVel(SpaceVect::zero);
+		setDirection(dest->getEntryDirection());
+
+		respawnPos = dest->getEntryPosition();
+		respawnAngle = dirToPhysicsAngle(dest->getEntryDirection());
+	}
+}
+
 void Player::applyUpgrade(Upgrade* up)
 {
 	Attribute at = up->attribute;
@@ -420,6 +455,31 @@ void Player::applyGraze(int p)
 {
 	attributeSystem.modifyAttribute(Attribute::power, p);
 	App::playSound("sfx/graze.wav", 1.0f);
+}
+
+void Player::startRespawn()
+{
+	isRespawnActive = true;
+	respawnTimer = fallAnimationTime;
+
+	suppressFiring = true;
+	suppressMovement = true;
+	setVel(SpaceVect::zero);
+}
+
+void Player::applyRespawn()
+{
+	setPos(respawnPos);
+	setAngle(respawnAngle);
+
+	sprite->stopAllActions();
+	sprite->setScale(zoom());
+
+	isRespawnActive = false;
+	suppressFiring = false;
+	suppressMovement = false;
+
+	respawnMaskTimer = 0.25;
 }
 
 bool Player::trySetFirePattern(size_t idx)

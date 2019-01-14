@@ -22,6 +22,8 @@ enum class cocos_action_tag
 	game_over_tint,
 };
 
+extern const float fallAnimationTime;
+
 class Cursor : public Node
 {
 public:

@@ -35,6 +35,9 @@ public:
 	virtual inline string interactionIcon() { return "sprites/door.png"; }
 
 	void setLocked(bool b);
+	Door* getDestination();
+	SpaceVect getEntryPosition();
+	Direction getEntryDirection();
 protected:
 	//the angle/offset when this door is used as a destination
 	Direction entryDirection;

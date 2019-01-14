@@ -20,6 +20,7 @@
 
 class Collectible;
 class ControlState;
+class Door;
 class EnemyBullet;
 class FirePattern;
 class SpellDesc;
@@ -102,6 +103,7 @@ public:
 	bool trySetFirePatternPrevious();
 
     void onCollectible(Collectible* coll);
+	void useDoor(Door* d);
 	void applyUpgrade(Upgrade* up);
 
 	//The bullet's graze "radar" has collided with Player.
@@ -111,6 +113,8 @@ public:
 	void invalidateGraze(object_ref<EnemyBullet> bullet);
 protected:
 	void applyGraze(int p);
+	void startRespawn();
+	void applyRespawn();
 
 	void setHudEffect(Attribute id, Attribute max_id);
 	void setHudEffect(Attribute id, float maxVal);
@@ -121,6 +125,11 @@ protected:
 	{
 		return pair<function<void(void)>, GScene::updateOrder>(generate_action(playScene->hud, m, args...), GScene::updateOrder::hudUpdate);
 	}
+
+	SpaceVect respawnPos;
+	SpaceFloat respawnAngle;
+	SpaceFloat respawnTimer = 0.0;
+	SpaceFloat respawnMaskTimer = 0.0;
 
 	set<object_ref<EnemyBullet>> grazeContacts;
 
@@ -137,6 +146,7 @@ protected:
 	bool suppressMovement = false;
 	bool isSprintActive = false;
 	bool isFocusActive = false;
+	bool isRespawnActive = false;
 };
 
 class FlandrePC : virtual public Player, public BaseAttributes<FlandrePC>

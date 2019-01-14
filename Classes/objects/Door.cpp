@@ -12,6 +12,7 @@
 #include "enum.h"
 #include "GSpace.hpp"
 #include "macros.h"
+#include "Player.hpp"
 #include "value_map.hpp"
 
 Door::Door(GSpace* space, ObjectIDType id, const ValueMap& args) :
@@ -27,16 +28,10 @@ PhysicsLayers Door::getLayers() const{
 
 void Door::interact()
 {
-	Door* dest = space->getObjectAs<Door>(destination);
+	Player* p = space->getObjectAs<Player>("player");
 
-	if (dest)
-	{
-		GObject* p = space->getObject("player");
-
-		SpaceVect pos = dest->getPos() + SpaceVect::ray(1.0, dirToPhysicsAngle(dest->entryDirection));
-
-		p->setPos(pos);
-		p->setDirection(dest->entryDirection);
+	if (p) {
+		p->useDoor(this);
 	}
 }
 
@@ -48,4 +43,19 @@ void Door::setLocked(bool b)
 	if (s) {
 		s->setTexture(locked ? "sprites/door_locked.png" : "sprites/door.png");
 	}
+}
+
+Door* Door::getDestination()
+{
+	return space->getObjectAs<Door>(destination);
+}
+
+SpaceVect Door::getEntryPosition()
+{
+	return getPos() + SpaceVect::ray(1.0, dirToPhysicsAngle(entryDirection));
+}
+
+Direction Door::getEntryDirection()
+{
+	return entryDirection;
 }
