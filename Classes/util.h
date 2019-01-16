@@ -20,6 +20,8 @@ FMOD_VECTOR toFmod(const SpaceVect& rhs);
 IntVec2 toIntVector(const cocos2d::CCSize& rhs);
 IntVec2 toIntVector(const SpaceVect& rhs);
 
+CCRect operator*(const CCRect& lhs, float rhs);
+
 SpaceFloat dirToPhysicsAngle(Direction d);
 SpaceVect dirToVector(Direction d);
 //Cannot be overloaded since it is exposed in the Lua API.

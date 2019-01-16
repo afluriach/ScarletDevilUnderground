@@ -114,8 +114,10 @@ public:
 	void addAction(function<void(void)>, updateOrder order);
 	void addAction(pair<function<void(void)>, updateOrder> entry);
 
-	void addLightSource(CircleLightArea light);
-	void addLightSource(AmbientLightArea light);
+	unsigned int addLightSource(CircleLightArea light);
+	unsigned int addLightSource(AmbientLightArea light);
+	void removeLightSource(unsigned int id);
+	void setLightSourcePosition(unsigned int id, SpaceVect pos);
 
     //The different vector type is intentional, as Chipmunk vector implies
     //unit space as opposed to pixel space.
@@ -137,6 +139,8 @@ public:
 
 	unique_ptr<ControlListener> control_listener;
 protected:
+	static unsigned int nextLightID;
+
 	//Run at init time. It will call the following load methods.
 	void loadMaps();
 	void loadMap(const MapEntry& mapEntry);
@@ -154,6 +158,7 @@ protected:
 
 	void updateMapVisibility();
 	void renderSpace();
+	void redrawLightmap();
 
 	void installLuaShell();
 	void checkPendingScript();
@@ -170,10 +175,11 @@ protected:
 	//the scale applied to the space layer
 	float spaceZoom = 1;
 
+	Color4F ambientLight = Color4F::WHITE;
 	RenderTexture* lightmapRender = nullptr;
 	DrawNode* lightmapDrawNode = nullptr;
-	vector<AmbientLightArea> ambientLights;
-	vector<CircleLightArea> circleLights;
+	map<unsigned int, AmbientLightArea> ambientLights;
+	map<unsigned int, CircleLightArea> circleLights;
 
 	list<pair<function<void(void)>, updateOrder>> actions;
 

@@ -115,6 +115,16 @@ void DownTriangleCursor::drawShape()
     drawNode->drawTriangle(left,right,bottom,colors[crntColor]);
 }
 
+Color4F toColor4F(Color3B color)
+{
+	return Color4F(color.r / 255.0f, color.g / 255.0f, color.b / 255.0f, 1.0f);
+}
+
+Color4F operator*(const Color4F& lhs, float rhs)
+{
+	return Color4F(lhs.r * rhs, lhs.g * rhs, lhs.b * rhs, lhs.a);
+}
+
 FiniteTimeAction* flickerAction(float interval, float length, unsigned char opacity)
 {
     int nCycles = length / interval;

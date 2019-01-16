@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.0" tiledversion="1.0.3" orientation="orthogonal" renderorder="right-down" width="17" height="17" tilewidth="128" tileheight="128" nextobjectid="53">
+<map version="1.0" tiledversion="1.0.3" orientation="orthogonal" renderorder="right-down" width="17" height="17" tilewidth="128" tileheight="128" nextobjectid="54">
  <tileset firstgid="1" name="grey stone wall" tilewidth="128" tileheight="128" tilecount="4" columns="2">
   <image source="grey stone wall grain.png" width="256" height="256"/>
  </tileset>
@@ -41,6 +41,13 @@
   <object id="52" type="MPUpgrade" x="1664" y="1664" width="128" height="128">
    <properties>
     <property name="id" value="0"/>
+   </properties>
+  </object>
+  <object id="53" type="Torch" x="896" y="896" width="128" height="128">
+   <properties>
+    <property name="active" value="true"/>
+    <property name="color" value="yellow"/>
+    <property name="radius" value="3"/>
    </properties>
   </object>
  </objectgroup>

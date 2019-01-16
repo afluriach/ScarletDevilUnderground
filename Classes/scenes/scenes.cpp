@@ -30,6 +30,8 @@ string GScene::crntSceneName;
 string GScene::crntReplayName;
 bool GScene::suppressGameOver = false;
 
+unsigned int GScene::nextLightID = 1;
+
 GScene* GScene::runScene(const string& name)
 {
     auto it = adapters.find(name);
@@ -279,35 +281,40 @@ void GScene::addAction(pair<function<void(void)>, updateOrder> entry)
 	actions.push_back(entry);
 }
 
-void GScene::addLightSource(CircleLightArea light)
+unsigned int GScene::addLightSource(CircleLightArea light)
 {
-	circleLights.push_back(light);
-
-	Color4F color(
-		light.color.r / 255.0f * (light.intensity / 255.0f),
-		light.color.g / 255.0f * (light.intensity / 255.0f),
-		light.color.b / 255.0f * (light.intensity / 255.0f),
-		1.0f
-	);
-
-	lightmapDrawNode->drawSolidCircle(toCocos(light.origin) * App::pixelsPerTile, light.radius * App::pixelsPerTile, 0.0f, 128, color);
+	unsigned int id = nextLightID++;
+	circleLights.insert_or_assign(id,light);
+	return id;
 }
 
-void GScene::addLightSource(AmbientLightArea light)
+unsigned int GScene::addLightSource(AmbientLightArea light)
 {
-	ambientLights.push_back(light);
+	unsigned int id = nextLightID++;
+	ambientLights.insert_or_assign(id,light);
+	return id;
+}
 
-	Color4F color(
-		light.color.r / 255.0f * (light.intensity / 255.0f),
-		light.color.g / 255.0f * (light.intensity / 255.0f),
-		light.color.b / 255.0f * (light.intensity / 255.0f),
-		1.0f
-	);
+void GScene::removeLightSource(unsigned int id)
+{
+	circleLights.erase(id);
+	ambientLights.erase(id);
+}
 
-	Vec2 halfDim = toCocos(light.dimensions) / 2.0f * App::pixelsPerTile;
-	Vec2 center = toCocos(light.origin) * App::pixelsPerTile;
-
-	lightmapDrawNode->drawSolidRect(center - halfDim, center + halfDim, color);
+void GScene::setLightSourcePosition(unsigned int id, SpaceVect pos)
+{
+	{
+		auto it = circleLights.find(id);
+		if (it != circleLights.end()) {
+			it->second.origin = pos;
+		}
+	}
+	{
+		auto it = ambientLights.find(id);
+		if (it != ambientLights.end()) {
+			it->second.origin = pos;
+		}
+	}
 }
 
 void GScene::setUnitPosition(const SpaceVect& v)
@@ -453,12 +460,6 @@ void GScene::loadMap(const MapEntry& mapEntry)
 		max(dimensions.first, to_int(size.width) + mapEntry.second.first),
 		max(dimensions.second, to_int(size.height) + mapEntry.second.second)
 	);
-
-	lightmapDrawNode->drawSolidRect(
-		Vec2::ZERO,
-		Vec2(dimensions.first, dimensions.second)*App::pixelsPerTile,
-		Color4F(0.0f, 0.0f, 0.0f, 1.0f)
-	);
 }
 
 void GScene::loadMapObjects(const TMXTiledMap& map, IntVec2 offset)
@@ -599,6 +600,8 @@ void GScene::updateMapVisibility()
 
 void GScene::renderSpace()
 {
+	redrawLightmap();
+
 	Layer* spaceLayer = getSpaceLayer();
 	spaceLayer->setVisible(true);
 
@@ -616,6 +619,41 @@ void GScene::renderSpace()
 	lightmapRender->end();
 
 	lightmapLayer->setVisible(false);
+}
+
+void GScene::redrawLightmap()
+{
+	lightmapDrawNode->clear();
+
+	CCRect cameraPix = getCameraArea() * App::pixelsPerTile;
+
+	lightmapDrawNode->drawSolidRect(
+		cameraPix.getLowerCorner(),
+		cameraPix.getUpperCorner(),
+		ambientLight
+	);
+
+	for (CircleLightArea light : circleLights | boost::adaptors::map_values)
+	{
+		Color4F color = toColor4F(light.color) * light.intensity;		
+		Vec2 originPix = toCocos(light.origin) * App::pixelsPerTile;
+		float radiusPix = light.radius * App::pixelsPerTile;
+
+		if (cameraPix.intersectsCircle(originPix, radiusPix)) {
+			lightmapDrawNode->drawSolidCircle(originPix, radiusPix, 0.0f, 128, color);
+		}
+	}
+
+	for (AmbientLightArea light : ambientLights | boost::adaptors::map_values)
+	{
+		Color4F color = toColor4F(light.color) * light.intensity;
+		Vec2 halfDim = toCocos(light.dimensions) / 2.0f * App::pixelsPerTile;
+		Vec2 center = toCocos(light.origin) * App::pixelsPerTile;
+
+		if (cameraPix.intersectsRect(CCRect(center.x - halfDim.x, center.y - halfDim.y, halfDim.x * 2.0f, halfDim.y * 2.0f))) {
+			lightmapDrawNode->drawSolidRect(center - halfDim, center + halfDim, color);
+		}
+	}
 }
 
 void GScene::installLuaShell()

@@ -223,6 +223,10 @@ public:
     inline Vec2 getUpperCorner() const {
         return Vec2(origin.x+size.width, origin.y + size.height);
     }
+
+	inline Vec2 getLowerCorner() const {
+		return Vec2(origin.x, origin.y);
+	}
 };
 
 NS_CC_END

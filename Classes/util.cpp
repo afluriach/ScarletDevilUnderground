@@ -133,6 +133,11 @@ FMOD_VECTOR toFmod(const SpaceVect& rhs)
 	return { to_float(rhs.x), 0.0f, to_float(rhs.y) };
 }
 
+CCRect operator*(const CCRect& lhs, float rhs)
+{
+	return CCRect(lhs.getMinX()*rhs, lhs.getMinY()*rhs, lhs.getWidth()*rhs, lhs.getHeight()*rhs);
+}
+
 string getRealPath(const string& path)
 {
     return FileUtils::getInstance()->fullPathForFilename(path);

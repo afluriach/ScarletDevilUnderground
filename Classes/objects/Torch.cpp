@@ -9,7 +9,33 @@
 #include "Prefix.h"
 
 #include "GAnimation.hpp"
+#include "GSpace.hpp"
+#include "scenes.h"
 #include "Torch.hpp"
+#include "value_map.hpp"
+
+const unordered_map<string, Color3B> Torch::colorMap = {
+	{ "blue", Color3B(24,48,160) },
+	{ "yellow", Color3B(192, 192, 82) },
+	{ "white", Color3B(255,255,255) }
+};
+
+Torch::Torch(GSpace* space, ObjectIDType id, const ValueMap& args) :
+	MapObjForwarding(GObject),
+	RegisterUpdate<Torch>(this)
+{
+	isActive = getBoolOrDefault(args, "active", false);
+	intensity = getFloatOrDefault(args, "intensity", intensity);
+	lightRadius = getFloatOrDefault(args, "radius", lightRadius);
+
+	string colorName = getStringOrDefault(args, "color", "");
+	if (!colorName.empty()) {
+		auto it = colorMap.find(colorName);
+		if (it != colorMap.end()) {
+			color = it->second;
+		}
+	}
+}
 
 void Torch::initializeGraphics(Layer* layer)
 {
@@ -25,19 +51,32 @@ void Torch::initializeGraphics(Layer* layer)
     
     flame = Node::ccCreate<TimedLoopAnimation>();
     flame->loadAnimation("blue_flame", 8, 1.0);
+	flame->setVisible(isActive);
     
     sprite = Node::create();
     sprite->addChild(base, 1);
     sprite->addChild(flame, 2);
     
     layer->positionAndAddNode(sprite, sceneLayerAsInt(), getInitialCenterPix(), 4.0);
+
+	if (isActive) {
+		lightSourceID = space->getScene()->addLightSource(CircleLightArea{ getPos(),5.0,color,intensity });
+	}
 }
 
 void Torch::setActive(bool active)
 {
     isActive = active;
     
-    flame->setOpacity(active ? 255 : 0);
+    flame->setVisible(active);
+
+	if (active && lightSourceID == 0) {
+		lightSourceID = space->getScene()->addLightSource(CircleLightArea{getPos(),5.0,color,intensity});
+	}
+	else if(lightSourceID != 0) {
+		space->getScene()->removeLightSource(lightSourceID);
+		lightSourceID = 0;
+	}
 }
 
 bool Torch::getActive()
@@ -48,4 +87,9 @@ bool Torch::getActive()
 void Torch::update()
 {
     flame->update();
+}
+
+void Torch::interact()
+{
+	setActive(!isActive);
 }

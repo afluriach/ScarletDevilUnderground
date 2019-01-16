@@ -23,7 +23,7 @@ const vector<GScene::MapEntry> Desert::rooms = {
 Desert::Desert() :
 PlayScene("Desert", rooms)
 {
-
+	ambientLight = Color4F(.7f, .7f, .3f,1.0f);
 }
 
 GScene* Desert::getReplacementScene()

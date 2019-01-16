@@ -76,6 +76,17 @@ string getStringOrDefault(const ValueMap& args, const string& field, const strin
     return it->second.asString();
 }
 
+bool getBoolOrDefault(const ValueMap& args, const string& field, bool val)
+{
+	auto it = args.find(field);
+
+	if (it == args.end()) {
+		return val;
+	}
+
+	return it->second.asBool();
+}
+
 ValueMap getMap(const ValueMap& args, const string& field)
 {
     auto it = args.find(field);

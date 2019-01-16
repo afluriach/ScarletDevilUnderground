@@ -33,7 +33,7 @@ const vector<GScene::MapEntry> Mine::rooms = {
 Mine::Mine() :
 PlayScene("Mine", rooms)
 {
-
+	ambientLight = Color4F(.4f, .4f, .6f, 1.0f);
 }
 
 GScene* Mine::getReplacementScene()

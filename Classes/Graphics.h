@@ -28,7 +28,7 @@ struct AmbientLightArea
 {
 	SpaceVect origin, dimensions;
 	Color3B color;
-	unsigned char intensity;
+	float intensity;
 };
 
 struct CircleLightArea
@@ -36,7 +36,7 @@ struct CircleLightArea
 	SpaceVect origin;
 	SpaceFloat radius;
 	Color3B color;
-	unsigned char intensity;
+	float intensity;
 };
 
 class Cursor : public Node
@@ -77,6 +77,10 @@ class DownTriangleCursor : public Cursor
 public:
     virtual void drawShape();
 };
+
+Color4F toColor4F(Color3B);
+
+Color4F operator*(const Color4F& lhs, float rhs);
 
 FiniteTimeAction* flickerAction(float interval, float length, unsigned char opacity);
 FiniteTimeAction* flickerTintAction(float interval, float length, Color3B tint);

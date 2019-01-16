@@ -26,6 +26,8 @@ float getFloatOrDefault(const ValueMap& obj, const string& name, float def);
 
 string getStringOrDefault(const ValueMap& args, const string& field, const string& _default);
 
+bool getBoolOrDefault(const ValueMap& args, const string& field, bool val);
+
 ValueMap getMap(const ValueMap& args, const string& field);
 
 gobject_ref getObjRefFromStringField(GSpace* space, const ValueMap& args, const string& fieldName);
