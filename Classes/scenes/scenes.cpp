@@ -132,6 +132,10 @@ control_listener(make_unique<ControlListener>())
 		to_int(updateOrder::sceneUpdate)
 	);
 	multiUpdate.insertWithOrder(
+		wrap_method(GScene, renderSpace, this),
+		to_int(updateOrder::renderSpace)
+	);
+	multiUpdate.insertWithOrder(
 		bind(&GScene::runActionsWithOrder, this, updateOrder::hudUpdate),
 		to_int(updateOrder::hudUpdate)
 	);
@@ -172,15 +176,13 @@ bool GScene::init()
 	spaceZoom = baseViewWidth / App::viewWidth;
 
 	spaceRender = RenderTexture::create(App::width, App::height);
-	spaceRender->setClearColor(Color4F::BLACK);
-	spaceRender->setAutoDraw(true);
 	spaceRender->setPosition(App::width / 2.0f, App::height / 2.0f);
 	addChild(spaceRender, to_int(sceneLayers::space));
 
 	getLayer(sceneLayers::space)->setScale(spaceZoom);
-	spaceRender->addChild(getLayer(sceneLayers::space));
+	getLayer(sceneLayers::space)->setVisible(false);
 
-    for_irange(i,to_int(sceneLayers::space)+1,sceneLayers::end){
+    for_irange(i,to_int(sceneLayers::begin),sceneLayers::end){
         Layer* l = layers.at(i);
         addChild(l,i);
     }
@@ -276,8 +278,8 @@ void GScene::setUnitPosition(const SpaceVect& v)
 	);
 
 	getSpaceLayer()->setPosition(
-		(-App::pixelsPerTile*v.x + App::width / 2)*spaceZoom - App::width/2,
-		(-App::pixelsPerTile*v.y + App::height / 2)*spaceZoom - App::height/2
+		(-App::pixelsPerTile*v.x + App::width / 2)*spaceZoom,
+		(-App::pixelsPerTile*v.y + App::height / 2)*spaceZoom
 	);
 }
 
@@ -540,6 +542,18 @@ void GScene::updateMapVisibility()
 			mapAreasVisited.at(i) = true;
 		}
 	}
+}
+
+void GScene::renderSpace()
+{
+	Layer* spaceLayer = getSpaceLayer();
+	spaceLayer->setVisible(true);
+
+	spaceRender->beginWithClear(0.0f, 0.0f, 0.0f, 0.0f);
+	spaceLayer->visit();
+	spaceRender->end();
+
+	spaceLayer->setVisible(false);
 }
 
 void GScene::installLuaShell()

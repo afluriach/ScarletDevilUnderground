@@ -49,6 +49,7 @@ public:
         //General scene update logic
         sceneUpdate,
         moveCamera,
+		renderSpace,
         hudUpdate,
     };
     
@@ -147,6 +148,7 @@ protected:
 	void initEnemyStats();
 
 	void updateMapVisibility();
+	void renderSpace();
 
 	void installLuaShell();
 	void checkPendingScript();
