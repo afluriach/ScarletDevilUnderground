@@ -12,7 +12,6 @@
 #include "App.h"
 #include "macros.h"
 #include "Pyramid.hpp"
-#include "SpaceLayer.h"
 #include "value_map.hpp"
 
 const SpaceFloat Pyramid::coneLength = 4.0;
@@ -95,21 +94,21 @@ void Pyramid::onEndDetect(GObject* other)
 		targets.erase(agent);
 }
 
-void Pyramid::initializeGraphics(SpaceLayer* layer)
+void Pyramid::initializeGraphics(Layer* layer)
 {
 	base = Sprite::create(imageSpritePath());
 	drawNode = DrawNode::create();
 
-	layer->getLayer(GraphicsLayer::ground)->positionAndAddNode(
+	layer->positionAndAddNode(
 		base,
-		1,
+		to_int(GraphicsLayer::ground),
 		getInitialCenterPix(),
 		1.0f
 	);
 
-	layer->getLayer(GraphicsLayer::overhead)->positionAndAddNode(
+	layer->positionAndAddNode(
 		drawNode,
-		1,
+		to_int(GraphicsLayer::overhead),
 		getInitialCenterPix(),
 		1.0f
 	);

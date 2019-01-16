@@ -49,7 +49,6 @@ enum class GraphicsLayer{
     ground,
 	agentOverlay,
 	overhead,
-	roomMask,
 
 	end
 };

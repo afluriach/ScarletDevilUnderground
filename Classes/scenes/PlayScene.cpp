@@ -22,7 +22,6 @@
 #include "Player.hpp"
 #include "PlayScene.hpp"
 #include "scenes.h"
-#include "SpaceLayer.h"
 #include "util.h"
 #include "value_map.hpp"
 
@@ -185,13 +184,13 @@ void PlayScene::exitPause()
 
 void PlayScene::pauseAnimations()
 {
-    spaceLayer->pauseRecursive();
+    getSpaceLayer()->pauseRecursive();
     getLayer(sceneLayers::hud)->pauseRecursive();
 }
 
 void PlayScene::resumeAnimations()
 {
-    spaceLayer->resumeRecursive();
+    getSpaceLayer()->resumeRecursive();
     getLayer(sceneLayers::hud)->resumeRecursive();
 }
 
@@ -204,7 +203,7 @@ void PlayScene::showGameOverMenu()
 void PlayScene::triggerGameOver()
 {
 	setPaused(true);
-	spaceLayer->runAction(tintTo(fadeoutColor, fadeoutLength));
+	getSpaceLayer()->runAction(tintTo(fadeoutColor, fadeoutLength));
 
 	triggerMenu(&PlayScene::showGameOverMenu);
 }

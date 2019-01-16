@@ -31,7 +31,7 @@
 
 class RadarObject;
 
-GSpace::GSpace(SpaceLayer* spaceLayer, GScene* gscene) : spaceLayer(spaceLayer), gscene(gscene)
+GSpace::GSpace(GScene* gscene) : gscene(gscene)
 {
     space.setGravity(SpaceVect(0,0));
     addCollisionHandlers();
@@ -251,7 +251,7 @@ void GSpace::processAdditions()
 
         obj->initializeBody(*this);
         obj->initializeRadar(*this);
-        obj->initializeGraphics(spaceLayer);
+        obj->initializeGraphics(gscene->getSpaceLayer());
         
 		if (trackedTypes.find(typeid(*obj)) != trackedTypes.end()) {
 			objByType[typeid(*obj)].insert(obj);

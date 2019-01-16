@@ -25,7 +25,6 @@
 #include "PlayerFirePattern.hpp"
 #include "PlayerSpell.hpp"
 #include "PlayScene.hpp"
-#include "SpaceLayer.h"
 #include "SpellDescriptor.hpp"
 #include "Upgrade.hpp"
 
@@ -51,7 +50,7 @@ Player::Player(GSpace* space, ObjectIDType id, const ValueMap& args) :
 	}
 }
 
-void Player::initializeGraphics(SpaceLayer* layer)
+void Player::initializeGraphics(Layer* layer)
 {
 	PatchConSprite::initializeGraphics(layer);
 
@@ -60,7 +59,7 @@ void Player::initializeGraphics(SpaceLayer* layer)
 	drawNode->drawSolidCircle(Vec2::ZERO, to_float(App::pixelsPerTile*grazeRadius), 0.0f, 64, Color4F(0.5f, 0.5f, 0.5f, 0.5f));
 	drawNode->drawSolidCircle(Vec2::ZERO, to_float(App::pixelsPerTile*getRadius()), 0.0f, 64, Color4F(0.5f, 0.5f, 0.5f, 0.5f));
 
-	layer->getLayer(GraphicsLayer::agentOverlay)->addChild(drawNode);
+	layer->addChild(drawNode, to_int(GraphicsLayer::agentOverlay));
 }
 
 void Player::onPitfall()

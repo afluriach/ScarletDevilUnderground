@@ -11,7 +11,6 @@
 #include "Agent.hpp"
 #include "App.h"
 #include "EffectArea.hpp"
-#include "SpaceLayer.h"
 
 EffectArea::EffectArea(GSpace* space, ObjectIDType id, const ValueMap& args) :
 MapObjForwarding(GObject),
@@ -52,7 +51,7 @@ SunArea::SunArea(GSpace* space, ObjectIDType id, const ValueMap& args) :
 {
 }
 
-void SunArea::initializeGraphics(SpaceLayer* layer)
+void SunArea::initializeGraphics(Layer* layer)
 {
 	DrawNode* drawNode = DrawNode::create();
 	SpaceVect dim = getDimensions();
@@ -62,7 +61,7 @@ void SunArea::initializeGraphics(SpaceLayer* layer)
 		Color4F(.75f, .75f, .33f, .25f)
 	);
 
-	layer->getLayer(sceneLayer())->positionAndAddNode(drawNode, 1, getInitialCenterPix(), 1.0f);	
+	layer->positionAndAddNode(drawNode, sceneLayerAsInt(), getInitialCenterPix(), 1.0f);	
 }
 
 GraphicsLayer SunArea::sceneLayer() const{

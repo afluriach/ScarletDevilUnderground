@@ -162,7 +162,7 @@ class NoSprite : public virtual GObject
 public:
 	inline NoSprite() {}
 
-	inline virtual void initializeGraphics(SpaceLayer* layer) {}
+	inline virtual void initializeGraphics(Layer* layer) {}
 };
 
 
@@ -175,7 +175,7 @@ public:
 
     virtual string imageSpritePath() const = 0;
     void loadImageSprite(const string& resPath, GraphicsLayer sceneLayer, Layer* dest);
-    void initializeGraphics(SpaceLayer* layer);
+    void initializeGraphics(Layer* layer);
     void update();
     virtual void setSpriteShader(const string& shaderName);
 };
@@ -190,7 +190,7 @@ public:
     virtual int animationSize() const = 0;
     virtual float animationDuration() const = 0;
     
-    virtual void initializeGraphics(SpaceLayer* layer);
+    virtual void initializeGraphics(Layer* layer);
     void update();
 protected:
     TimedLoopAnimation* anim;
@@ -206,7 +206,7 @@ public:
 	virtual inline int pixelWidth() const { return 32; }
 	virtual bool isAgentAnimation() const { return false; }
 
-    void initializeGraphics(SpaceLayer* layer);
+    void initializeGraphics(Layer* layer);
     void init();
     void update();
     

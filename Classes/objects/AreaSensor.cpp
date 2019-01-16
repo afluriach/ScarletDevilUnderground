@@ -14,7 +14,6 @@
 #include "GSpace.hpp"
 #include "Player.hpp"
 #include "PlayScene.hpp"
-#include "SpaceLayer.h"
 #include "value_map.hpp"
 
 AreaSensor::AreaSensor(GSpace* space, ObjectIDType id, const ValueMap& args) :

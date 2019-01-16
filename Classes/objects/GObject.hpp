@@ -18,7 +18,6 @@ class Player;
 class Bullet;
 class GSpace;
 namespace Lua{class Inst;}
-class SpaceLayer;
 class Spell;
 class MagicEffect;
 class FloorSegment;
@@ -228,7 +227,7 @@ public:
     void updateSprite();
 
 	//Create Node which graphically reprensets this object and adds it to Layer
-	virtual void initializeGraphics(SpaceLayer* layer) = 0;
+	virtual void initializeGraphics(Layer* layer) = 0;
 	
 	inline virtual void setSpriteShader(const string& shaderName){
         log("GObject::setSpriteShader: virtual base, no implementation for %s!", name.c_str());

@@ -198,9 +198,6 @@
     <ClCompile Include="..\Classes\objects\Launcher.cpp">
       <Filter>src\objects</Filter>
     </ClCompile>
-    <ClCompile Include="..\Classes\SpaceLayer.cpp">
-      <Filter>src</Filter>
-    </ClCompile>
     <ClCompile Include="..\Classes\objects\EffectArea.cpp">
       <Filter>src\objects</Filter>
     </ClCompile>
@@ -481,9 +478,6 @@
     </ClInclude>
     <ClInclude Include="..\Classes\objects\Launcher.hpp">
       <Filter>src\objects</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Classes\SpaceLayer.h">
-      <Filter>src</Filter>
     </ClInclude>
     <ClInclude Include="..\Classes\objects\EffectArea.hpp">
       <Filter>src\objects</Filter>

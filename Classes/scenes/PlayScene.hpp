@@ -38,8 +38,6 @@ public:
 	void saveReplayData(const string& filename);
 	ControlInfo getControlData();
 
-	void initRoomMask();
-	void updateRoomMask();
     void updateHUD();
     void updateCamera();
     void applyCameraControls();

@@ -25,7 +25,7 @@ public:
     virtual inline SpaceVect getDimensions() const {return SpaceVect(1,1);}
     virtual inline GraphicsLayer sceneLayer() const {return GraphicsLayer::ground;}
 
-    virtual void initializeGraphics(SpaceLayer* layer);
+    virtual void initializeGraphics(Layer* layer);
     
     void setActive(bool active);
     bool getActive();

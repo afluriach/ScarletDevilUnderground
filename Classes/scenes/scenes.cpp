@@ -20,7 +20,6 @@
 #include "Player.hpp"
 #include "PlayScene.hpp"
 #include "scenes.h"
-#include "SpaceLayer.h"
 #include "types.h"
 #include "value_map.hpp"
 
@@ -137,16 +136,14 @@ control_listener(make_unique<ControlListener>())
 		to_int(updateOrder::hudUpdate)
 	);
 
-	spaceLayer = Node::ccCreate<SpaceLayer>();
-
     //Create the sublayers at construction (so they are available to mixins at construction time).
     //But do not add sublayers until init time.
-    for_irange(i,2,sceneLayers::end){
+    for_irange(i,sceneLayers::begin,sceneLayers::end){
         Layer* l = Layer::create();
         layers.insert(i, l);
     }
 
-	gspace = new GSpace(spaceLayer, this);
+	gspace = new GSpace(this);
 
 	if (!sceneName.empty())
 	{
@@ -169,10 +166,8 @@ GScene::~GScene()
 bool GScene::init()
 {
     Scene::init();
-
-	addChild(spaceLayer, 1);
     
-    for_irange(i,2,sceneLayers::end){
+    for_irange(i,sceneLayers::begin,sceneLayers::end){
         Layer* l = layers.at(i);
         addChild(l,i);
     }
@@ -181,8 +176,8 @@ bool GScene::init()
     float baseViewWidth = App::width * App::tilesPerPixel;
     spaceZoom = baseViewWidth / App::viewWidth;
     //Only apply zoom to space layer.
-    spaceLayer->setScale(spaceZoom);
-    
+	getLayer(sceneLayers::space)->setScale(spaceZoom);
+
     multiInit();
     
     return true;
@@ -273,7 +268,7 @@ void GScene::setUnitPosition(const SpaceVect& v)
 		App::viewWidth*heightRatio
 	);
 
-	spaceLayer->setPosition(
+	getSpaceLayer()->setPosition(
 		(-App::pixelsPerTile*v.x + App::width / 2)*spaceZoom,
 		(-App::pixelsPerTile*v.y + App::height / 2)*spaceZoom
 	);
@@ -382,9 +377,9 @@ void GScene::loadMap(const MapEntry& mapEntry)
 	mapAreas.push_back(mapRect);
 	mapAreasVisited.push_back(false);
 
-	spaceLayer->getLayer(GraphicsLayer::map)->positionAndAddNode(
+	getSpaceLayer()->positionAndAddNode(
 		tileMap,
-		1,
+		to_int(GraphicsLayer::map),
 		llCorner * App::pixelsPerTile,
 		1.0f
 	);

@@ -13,7 +13,6 @@
 #include "EnemyBullet.hpp"
 #include "GSpace.hpp"
 #include "MagicEffect.hpp"
-#include "SpaceLayer.h"
 
 EnemyBullet::EnemyBullet()
 {}
@@ -127,7 +126,7 @@ void IllusionDialDagger::update()
 	}
 }
 
-void IllusionDialDagger::initializeGraphics(SpaceLayer* layer)
+void IllusionDialDagger::initializeGraphics(Layer* layer)
 {
 	ImageSprite::initializeGraphics(layer);
 
@@ -137,7 +136,7 @@ void IllusionDialDagger::initializeGraphics(SpaceLayer* layer)
 	drawNode = DrawNode::create();
 	drawNode->drawSolidRect(Vec2(-hWidth,-hHeight), Vec2(hWidth,hHeight), Color4F(.66f, .75f, .66f, .7f));
 
-	layer->getLayer(GraphicsLayer::agentOverlay)->addChild(drawNode);
+	layer->addChild(drawNode, to_int(GraphicsLayer::agentOverlay));
 	drawNode->setVisible(false);
 
 }

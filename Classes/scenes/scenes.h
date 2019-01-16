@@ -18,7 +18,6 @@ class GSpace;
 class HUD;
 class LuaShell;
 class PlayScene;
-class SpaceLayer;
 
 namespace Lua{
     class Inst;
@@ -37,7 +36,6 @@ public:
         loadObjects,
         initHUD,
 		postInitHUD,
-		initRoomMask,
         //Objects that wish to query the GSpace, including looking up other objects that are expected
         //to be loaded.
         postLoadObjects,
@@ -52,15 +50,14 @@ public:
         sceneUpdate,
         moveCamera,
         hudUpdate,
-		roomMaskUpdate,
     };
     
     enum class sceneLayers{
         //Represents the world and objects in it (map and all gspace objects).
         //GraphicsLayer is used for z-ordering inside of this layer.
         //It is the only layer that moves with the camera
+		begin = 1,
         space = 1,
-		roomMask,
         dialogBackground,
         dialog,
         hud,
@@ -127,7 +124,7 @@ public:
 	int getPlayerRoom();
 
 	Layer* getLayer(sceneLayers layer);
-	inline SpaceLayer* getSpaceLayer() const { return spaceLayer; }
+	inline Layer* getSpaceLayer() { return getLayer(sceneLayers::space); }
 
     util::multifunction<void(void)> multiInit;
     util::multifunction<void(void)> multiUpdate;
@@ -160,7 +157,6 @@ protected:
 
 	//Make sure to use a cocos map so cocos refcounting works.
 	cocos2d::Map<int, Layer*> layers;
-	SpaceLayer* spaceLayer = nullptr;
 	Vector<TMXTiledMap*> tilemaps;
 	GSpace* gspace;
 	//the scale applied to the space layer

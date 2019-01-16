@@ -51,7 +51,7 @@ public:
 	virtual void onDetect(GObject* other);
 	virtual void onEndDetect(GObject* other);
 
-	virtual void initializeGraphics(SpaceLayer* layer);
+	virtual void initializeGraphics(Layer* layer);
 
 	void initStateMachine(ai::StateMachine& sm);
 protected:
