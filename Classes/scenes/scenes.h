@@ -9,6 +9,7 @@
 #ifndef scenes_h
 #define scenes_h
 
+#include "Graphics.h"
 #include "multifunction.h"
 #include "types.h"
 
@@ -59,6 +60,7 @@ public:
         //It is the only layer that moves with the camera
 		begin = 1,
         space = 1,
+		lightmap,
         dialogBackground,
         dialog,
         hud,
@@ -112,6 +114,9 @@ public:
 	void addAction(function<void(void)>, updateOrder order);
 	void addAction(pair<function<void(void)>, updateOrder> entry);
 
+	void addLightSource(CircleLightArea light);
+	void addLightSource(AmbientLightArea light);
+
     //The different vector type is intentional, as Chipmunk vector implies
     //unit space as opposed to pixel space.
     void setUnitPosition(const SpaceVect& v);
@@ -164,6 +169,11 @@ protected:
 	GSpace* gspace;
 	//the scale applied to the space layer
 	float spaceZoom = 1;
+
+	RenderTexture* lightmapRender = nullptr;
+	DrawNode* lightmapDrawNode = nullptr;
+	vector<AmbientLightArea> ambientLights;
+	vector<CircleLightArea> circleLights;
 
 	list<pair<function<void(void)>, updateOrder>> actions;
 

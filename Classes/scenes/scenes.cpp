@@ -171,6 +171,15 @@ bool GScene::init()
 {
     Scene::init();
 
+	lightmapRender = RenderTexture::create(App::width, App::height);
+	lightmapRender->setPosition(App::width / 2.0f, App::height / 2.0f);
+	addChild(lightmapRender, to_int(sceneLayers::lightmap));
+	lightmapRender->getSprite()->setBlendFunc(BlendFunc{ GL_DST_COLOR,GL_ONE_MINUS_SRC_ALPHA });
+
+	lightmapDrawNode = DrawNode::create();
+	lightmapDrawNode->setBlendFunc(BlendFunc{ GL_ONE,GL_ONE });
+	getLayer(sceneLayers::lightmap)->addChild(lightmapDrawNode);
+
 	//Apply zoom to adjust viewable area size.
 	float baseViewWidth = App::width * App::tilesPerPixel;
 	spaceZoom = baseViewWidth / App::viewWidth;
@@ -181,6 +190,9 @@ bool GScene::init()
 
 	getLayer(sceneLayers::space)->setScale(spaceZoom);
 	getLayer(sceneLayers::space)->setVisible(false);
+
+	getLayer(sceneLayers::lightmap)->setScale(spaceZoom);
+	getLayer(sceneLayers::lightmap)->setVisible(false);
 
     for_irange(i,to_int(sceneLayers::begin),sceneLayers::end){
         Layer* l = layers.at(i);
@@ -267,6 +279,37 @@ void GScene::addAction(pair<function<void(void)>, updateOrder> entry)
 	actions.push_back(entry);
 }
 
+void GScene::addLightSource(CircleLightArea light)
+{
+	circleLights.push_back(light);
+
+	Color4F color(
+		light.color.r / 255.0f * (light.intensity / 255.0f),
+		light.color.g / 255.0f * (light.intensity / 255.0f),
+		light.color.b / 255.0f * (light.intensity / 255.0f),
+		1.0f
+	);
+
+	lightmapDrawNode->drawSolidCircle(toCocos(light.origin) * App::pixelsPerTile, light.radius * App::pixelsPerTile, 0.0f, 128, color);
+}
+
+void GScene::addLightSource(AmbientLightArea light)
+{
+	ambientLights.push_back(light);
+
+	Color4F color(
+		light.color.r / 255.0f * (light.intensity / 255.0f),
+		light.color.g / 255.0f * (light.intensity / 255.0f),
+		light.color.b / 255.0f * (light.intensity / 255.0f),
+		1.0f
+	);
+
+	Vec2 halfDim = toCocos(light.dimensions) / 2.0f * App::pixelsPerTile;
+	Vec2 center = toCocos(light.origin) * App::pixelsPerTile;
+
+	lightmapDrawNode->drawSolidRect(center - halfDim, center + halfDim, color);
+}
+
 void GScene::setUnitPosition(const SpaceVect& v)
 {
 	float heightRatio = 1.0f * App::height / App::width;
@@ -278,6 +321,10 @@ void GScene::setUnitPosition(const SpaceVect& v)
 	);
 
 	getSpaceLayer()->setPosition(
+		(-App::pixelsPerTile*v.x + App::width / 2)*spaceZoom,
+		(-App::pixelsPerTile*v.y + App::height / 2)*spaceZoom
+	);
+	getLayer(sceneLayers::lightmap)->setPosition(
 		(-App::pixelsPerTile*v.x + App::width / 2)*spaceZoom,
 		(-App::pixelsPerTile*v.y + App::height / 2)*spaceZoom
 	);
@@ -405,6 +452,12 @@ void GScene::loadMap(const MapEntry& mapEntry)
 	dimensions = IntVec2(
 		max(dimensions.first, to_int(size.width) + mapEntry.second.first),
 		max(dimensions.second, to_int(size.height) + mapEntry.second.second)
+	);
+
+	lightmapDrawNode->drawSolidRect(
+		Vec2::ZERO,
+		Vec2(dimensions.first, dimensions.second)*App::pixelsPerTile,
+		Color4F(0.0f, 0.0f, 0.0f, 1.0f)
 	);
 }
 
@@ -554,6 +607,15 @@ void GScene::renderSpace()
 	spaceRender->end();
 
 	spaceLayer->setVisible(false);
+
+	Layer* lightmapLayer = getLayer(sceneLayers::lightmap);
+	lightmapLayer->setVisible(true);
+
+	lightmapRender->beginWithClear(0.0f, 0.0f, 0.0, 0.0f);
+	lightmapLayer->visit();
+	lightmapRender->end();
+
+	lightmapLayer->setVisible(false);
 }
 
 void GScene::installLuaShell()

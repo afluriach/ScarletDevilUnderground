@@ -24,6 +24,21 @@ enum class cocos_action_tag
 
 extern const float fallAnimationTime;
 
+struct AmbientLightArea
+{
+	SpaceVect origin, dimensions;
+	Color3B color;
+	unsigned char intensity;
+};
+
+struct CircleLightArea
+{
+	SpaceVect origin;
+	SpaceFloat radius;
+	Color3B color;
+	unsigned char intensity;
+};
+
 class Cursor : public Node
 {
 public:
