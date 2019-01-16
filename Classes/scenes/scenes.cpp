@@ -166,18 +166,25 @@ GScene::~GScene()
 bool GScene::init()
 {
     Scene::init();
-    
-    for_irange(i,sceneLayers::begin,sceneLayers::end){
+
+	//Apply zoom to adjust viewable area size.
+	float baseViewWidth = App::width * App::tilesPerPixel;
+	spaceZoom = baseViewWidth / App::viewWidth;
+
+	spaceRender = RenderTexture::create(App::width, App::height);
+	spaceRender->setClearColor(Color4F::BLACK);
+	spaceRender->setAutoDraw(true);
+	spaceRender->setPosition(App::width / 2.0f, App::height / 2.0f);
+	addChild(spaceRender, to_int(sceneLayers::space));
+
+	getLayer(sceneLayers::space)->setScale(spaceZoom);
+	spaceRender->addChild(getLayer(sceneLayers::space));
+
+    for_irange(i,to_int(sceneLayers::space)+1,sceneLayers::end){
         Layer* l = layers.at(i);
         addChild(l,i);
     }
     
-    //Apply zoom to adjust viewable area size.
-    float baseViewWidth = App::width * App::tilesPerPixel;
-    spaceZoom = baseViewWidth / App::viewWidth;
-    //Only apply zoom to space layer.
-	getLayer(sceneLayers::space)->setScale(spaceZoom);
-
     multiInit();
     
     return true;
@@ -269,8 +276,8 @@ void GScene::setUnitPosition(const SpaceVect& v)
 	);
 
 	getSpaceLayer()->setPosition(
-		(-App::pixelsPerTile*v.x + App::width / 2)*spaceZoom,
-		(-App::pixelsPerTile*v.y + App::height / 2)*spaceZoom
+		(-App::pixelsPerTile*v.x + App::width / 2)*spaceZoom - App::width/2,
+		(-App::pixelsPerTile*v.y + App::height / 2)*spaceZoom - App::height/2
 	);
 }
 

@@ -157,6 +157,7 @@ protected:
 
 	//Make sure to use a cocos map so cocos refcounting works.
 	cocos2d::Map<int, Layer*> layers;
+	RenderTexture* spaceRender = nullptr;
 	Vector<TMXTiledMap*> tilemaps;
 	GSpace* gspace;
 	//the scale applied to the space layer
