@@ -639,7 +639,7 @@ void GScene::redrawLightmap()
 		Vec2 originPix = toCocos(light.origin) * App::pixelsPerTile;
 		float radiusPix = light.radius * App::pixelsPerTile;
 
-		if (cameraPix.intersectsCircle(originPix, radiusPix)) {
+		if (isInPlayerRoom(light.origin) && cameraPix.intersectsCircle(originPix, radiusPix)) {
 			lightmapDrawNode->drawSolidCircle(originPix, radiusPix, 0.0f, 128, color);
 		}
 	}
@@ -650,7 +650,7 @@ void GScene::redrawLightmap()
 		Vec2 halfDim = toCocos(light.dimensions) / 2.0f * App::pixelsPerTile;
 		Vec2 center = toCocos(light.origin) * App::pixelsPerTile;
 
-		if (cameraPix.intersectsRect(CCRect(center.x - halfDim.x, center.y - halfDim.y, halfDim.x * 2.0f, halfDim.y * 2.0f))) {
+		if (isInPlayerRoom(light.origin) && cameraPix.intersectsRect(CCRect(center.x - halfDim.x, center.y - halfDim.y, halfDim.x * 2.0f, halfDim.y * 2.0f))) {
 			lightmapDrawNode->drawSolidRect(center - halfDim, center + halfDim, color);
 		}
 	}
