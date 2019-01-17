@@ -96,7 +96,7 @@ void IconMeter::runFlicker(float duration, float interval)
     //TintTo action does not apply recursively.
 	for_irange(i, 0, iconSprites.size()) {
 		iconSprites.at(i)->runAction(
-			flickerTintAction(
+			flickerTint(
 				interval,
 				duration,
 				Color3B(127, 127, 127)
@@ -665,7 +665,7 @@ void PowerMeter::setVal(int val)
 
 void PowerMeter::runFlicker(float duration)
 {
-    icon->runAction(flickerTintAction(
+    icon->runAction(flickerTint(
         Player::hitFlickerInterval,
         duration,
         Color3B(127,127,127)

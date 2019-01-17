@@ -215,9 +215,8 @@ public:
 #endif GOBJECT_LUA
     
     //BEGIN GRAPHICS
-    
-    Node* sprite = nullptr;
-	DrawNode* drawNode = nullptr;
+	unsigned int spriteID = 0;
+	unsigned int drawNodeID = 0;
 	bool isInFade = false;
     
         //The Z-order used by Cocos2D.
@@ -227,7 +226,7 @@ public:
     void updateSprite();
 
 	//Create Node which graphically reprensets this object and adds it to Layer
-	virtual void initializeGraphics(Layer* layer) = 0;
+	virtual void initializeGraphics() = 0;
 	
 	inline virtual void setSpriteShader(const string& shaderName){
         log("GObject::setSpriteShader: virtual base, no implementation for %s!", name.c_str());

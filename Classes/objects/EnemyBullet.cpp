@@ -13,6 +13,7 @@
 #include "EnemyBullet.hpp"
 #include "GSpace.hpp"
 #include "MagicEffect.hpp"
+#include "scenes.h"
 
 EnemyBullet::EnemyBullet()
 {}
@@ -121,22 +122,20 @@ void IllusionDialDagger::launch()
 
 void IllusionDialDagger::update()
 {
-	if (drawNode) {
-		drawNode->setRotation(-toDegrees(getAngle()));
+	if (drawNodeID != 0) {
+		space->getScene()->setSpriteAngle(drawNodeID, -toDegrees(getAngle()));
 	}
 }
 
-void IllusionDialDagger::initializeGraphics(Layer* layer)
+void IllusionDialDagger::initializeGraphics()
 {
-	ImageSprite::initializeGraphics(layer);
+	ImageSprite::initializeGraphics();
 
 	SpaceVect _dim = getDimensions();
 	float hWidth = to_float(_dim.x / 2.0 * App::pixelsPerTile);
 	float hHeight = to_float(_dim.y / 2.0 * App::pixelsPerTile);
-	drawNode = DrawNode::create();
-	drawNode->drawSolidRect(Vec2(-hWidth,-hHeight), Vec2(hWidth,hHeight), Color4F(.66f, .75f, .66f, .7f));
-
-	layer->addChild(drawNode, to_int(GraphicsLayer::agentOverlay));
-	drawNode->setVisible(false);
-
+	
+	drawNodeID = space->getScene()->createDrawNode(GraphicsLayer::agentOverlay, getInitialCenterPix(), 1.0f);
+	space->getScene()->drawSolidRect(drawNodeID, Vec2(-hWidth, -hHeight), Vec2(hWidth, hHeight), Color4F(.66f, .75f, .66f, .7f));
+	space->getScene()->setSpriteVisible(drawNodeID, false);
 }

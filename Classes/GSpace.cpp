@@ -251,7 +251,7 @@ void GSpace::processAdditions()
 
         obj->initializeBody(*this);
         obj->initializeRadar(*this);
-        obj->initializeGraphics(gscene->getSpaceLayer());
+        obj->initializeGraphics();
         
 		if (trackedTypes.find(typeid(*obj)) != trackedTypes.end()) {
 			objByType[typeid(*obj)].insert(obj);
@@ -299,9 +299,9 @@ void GSpace::removeObject(GObject* obj)
         toRemove.push_back(obj);
 }
 
-void GSpace::removeObjectWithAnimation(GObject* obj, FiniteTimeAction* action)
+void GSpace::removeObjectWithAnimation(GObject* obj, ActionGeneratorType action)
 {
-	toRemoveWithAnimation.push_back(pair<GObject*, FiniteTimeAction*>(obj,action));
+	toRemoveWithAnimation.push_back(pair<GObject*, ActionGeneratorType>(obj,action));
 }
 
 void GSpace::setBulletBodiesVisible(bool b)
@@ -359,10 +359,12 @@ void GSpace::processRemoval(GObject* obj, bool removeSprite)
 		obj->crntSpell.get()->end();
 	}
 
-	if (removeSprite && obj->sprite)
-		obj->sprite->removeFromParent();
-	if (obj->drawNode)
-		obj->drawNode->removeFromParent();
+	if (removeSprite && obj->spriteID != 0) {
+		gscene->removeSprite(obj->spriteID);
+	}
+	if (obj->drawNodeID != 0) {
+		gscene->removeSprite(obj->drawNodeID);
+	}
 
 	delete obj;
 }
@@ -396,12 +398,12 @@ void GSpace::processRemovals()
 		auto entry = toRemoveWithAnimation.front();
 		toRemoveWithAnimation.pop_front();
 
-		Node* sprite = entry.first->sprite;
+		unsigned int spriteID = entry.first->spriteID;
 
 		processRemovalEndContact(entry.first);
 		processRemoval(entry.first, false);
 
-		sprite->runAction(Sequence::createWithTwoActions(entry.second, RemoveSelf::create()));
+		gscene->removeSpriteWithAnimation(spriteID, entry.second);
 	}
 
 	space.maskSeperateHandler = false;

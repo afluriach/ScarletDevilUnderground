@@ -44,7 +44,7 @@ class SunArea : public EffectArea
 public:
 	MapObjCons(SunArea);
 
-	virtual void initializeGraphics(Layer* layer);
+	virtual void initializeGraphics();
 	virtual GraphicsLayer sceneLayer() const;
 	virtual AttributeMap getAttributeEffect();
 };

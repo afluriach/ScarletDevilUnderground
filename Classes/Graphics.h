@@ -113,11 +113,17 @@ Color4F toColor4F(Color3B);
 
 Color4F operator*(const Color4F& lhs, float rhs);
 
-FiniteTimeAction* flickerAction(float interval, float length, unsigned char opacity);
-FiniteTimeAction* flickerTintAction(float interval, float length, Color3B tint);
 FiniteTimeAction* tintTo(Color3B tint, float length);
-FiniteTimeAction* motionBlurStretch(float duration, float angle, float opacity, float scale);
-FiniteTimeAction* pitfallShrinkAction();
+FiniteTimeAction* flickerTint(float interval, float length, Color3B tint);
+
+ActionGeneratorType flickerAction(float interval, float length, unsigned char opacity);
+ActionGeneratorType flickerTintAction(float interval, float length, Color3B tint);
+ActionGeneratorType tintToAction(Color3B tint, float length);
+ActionGeneratorType motionBlurStretch(float duration, float angle, float opacity, float scale);
+ActionGeneratorType pitfallShrinkAction();
+ActionGeneratorType freezeEffectAction();
+ActionGeneratorType freezeEffectEndAction();
+ActionGeneratorType objectFadeOut(float duration, unsigned char targetOpacity);
 
 Sprite* loadImageSprite(const string& resPath, GraphicsLayer sceneLayer, Layer* dest, const Vec2& pos, float zoom);
 

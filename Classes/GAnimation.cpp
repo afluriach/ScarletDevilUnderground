@@ -131,11 +131,6 @@ void TimedLoopAnimation::update()
     sprite->setSpriteFrame(sequence.frames.at(crntFrame));
 }
 
-void PatchConAnimation::setSpriteShader(const string& shader) {
-	sprite->setShader(shader);
-}
-
-
 void PatchConAnimation::loadAnimation(const string& path, bool agentAnimation)
 {
 	if(sprite)
@@ -156,24 +151,6 @@ void PatchConAnimation::loadAnimation(const string& path, bool agentAnimation)
     this->setCascadeOpacityEnabled(true);
 }
 
-
-bool PatchConAnimation::accumulate(SpaceFloat dx)
-{
-    distanceAccumulated += dx;
-    return checkAdvanceAnimation();
-}
-
-//Reset to standing. Implicitly removes run effect.
-void PatchConAnimation::reset()
-{
-    setFrame(1);
-    distanceAccumulated = 0;
-    
-    nextStepIsLeft = firstStepIsLeft;
-    //Toggle which foot will be used to take the first step next time.
-    firstStepIsLeft = !firstStepIsLeft;
-}
-
 void PatchConAnimation::setDirection(Direction dir)
 {
     direction = dir;
@@ -184,44 +161,6 @@ void PatchConAnimation::setDirection(Direction dir)
 
 Direction PatchConAnimation::getDirection()const {
 	return direction;
-}
-
-
-bool PatchConAnimation::checkAdvanceAnimation()
-{
-	bool advance = false;
-
-    //TODO cases are symmetrical, should be able to optimize
-    switch(crntFrame)
-    {
-    case 0:
-        if(distanceAccumulated >= stepSize)
-        {
-            setFrame(1);
-			advance = true;
-            distanceAccumulated -= stepSize;
-            nextStepIsLeft = false;
-        }
-    break;
-    case 2:
-        if(distanceAccumulated >= stepSize)
-        {
-            setFrame(1);
-			advance = true;
-			distanceAccumulated -= stepSize;
-            nextStepIsLeft = true;
-        }
-    break;
-    case 1:
-        if(distanceAccumulated >= midstepSize)
-        {
-            setFrame(nextStepIsLeft ? 0 : 2);
-            distanceAccumulated -= midstepSize;
-        }
-    break;
-    }
-
-	return advance;
 }
 
 void PatchConAnimation::setFrame(int animFrame)

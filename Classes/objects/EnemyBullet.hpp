@@ -157,7 +157,7 @@ public:
     
     virtual inline string imageSpritePath() const {return "sprites/knife green.png";}
 
-	virtual void initializeGraphics(Layer* layer);
+	virtual void initializeGraphics();
     
     inline virtual float zoom() const {return 1.0f;}
     

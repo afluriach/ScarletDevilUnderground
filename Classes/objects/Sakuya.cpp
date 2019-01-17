@@ -58,7 +58,7 @@ void IllusionDash::onEnter(ai::StateMachine& sm)
 	SpaceVect disp = ai::displacementToTarget(sm.agent, target);
 
 	sm.agent->setVel(disp.normalizeSafe()*speed);
-	sm.agent->sprite->runAction(motionBlurStretch(disp.length() / speed, disp.toAngle(), opacity, scale));
+	sm.agent->space->getScene()->runSpriteAction(sm.agent->spriteID, motionBlurStretch(disp.length() / speed, disp.toAngle(), opacity, scale));
 }
 
 void IllusionDash::update(ai::StateMachine& sm)

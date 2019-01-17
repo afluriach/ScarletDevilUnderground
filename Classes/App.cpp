@@ -444,7 +444,6 @@ void App::updateTimerSystem()
 	}
 }
 
-#endif
 
 void App::setLogTimers(bool b)
 {
@@ -464,3 +463,4 @@ void App::printTimerInfo()
 	TimerSystem::printTimerStats(timerSystem->getStats(TimerType::physics), "Physics");
 	TimerSystem::printTimerStats(TimerSystem::getBufferStats(_render), "Render");
 }
+#endif

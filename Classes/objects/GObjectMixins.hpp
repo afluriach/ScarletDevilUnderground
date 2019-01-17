@@ -162,7 +162,7 @@ class NoSprite : public virtual GObject
 public:
 	inline NoSprite() {}
 
-	inline virtual void initializeGraphics(Layer* layer) {}
+	inline virtual void initializeGraphics() {}
 };
 
 
@@ -174,31 +174,31 @@ public:
     ImageSprite() : RegisterUpdate<ImageSprite>(this) {}
 
     virtual string imageSpritePath() const = 0;
-    void loadImageSprite(const string& resPath, GraphicsLayer sceneLayer, Layer* dest);
-    void initializeGraphics(Layer* layer);
+    void loadImageSprite(const string& resPath, GraphicsLayer sceneLayer);
+    void initializeGraphics();
     void update();
-    virtual void setSpriteShader(const string& shaderName);
 };
 
-class LoopAnimationSprite : public virtual GObject, RegisterUpdate<LoopAnimationSprite>
+class LoopAnimationSprite : public virtual GObject
 {
 public:
-    inline LoopAnimationSprite() : RegisterUpdate<LoopAnimationSprite>(this){
-    }
+	inline LoopAnimationSprite() {}
 
     virtual string animationName() const = 0;
     virtual int animationSize() const = 0;
     virtual float animationDuration() const = 0;
     
-    virtual void initializeGraphics(Layer* layer);
-    void update();
+    virtual void initializeGraphics();
 protected:
-    TimedLoopAnimation* anim;
+    unsigned int animID = 0;
 };
 
 class PatchConSprite : virtual public GObject, RegisterInit<PatchConSprite>, RegisterUpdate<PatchConSprite>
 {
 public:
+	static constexpr SpaceFloat stepSize = 0.4;
+	static constexpr SpaceFloat midstepSize = 0.2;
+
     PatchConSprite(const ValueMap& args);
     virtual string imageSpritePath() const = 0;
     
@@ -206,20 +206,25 @@ public:
 	virtual inline int pixelWidth() const { return 32; }
 	virtual bool isAgentAnimation() const { return false; }
 
-    void initializeGraphics(Layer* layer);
+    void initializeGraphics();
     void init();
     void update();
     
     void setSprite(const string& name);
-    virtual void setSpriteShader(const string& shaderName);
     
     virtual void setAngle(SpaceFloat a);
     virtual void setDirection(Direction d);
-	void updateDirection(Direction d);
-    Direction getDirection()const;
+
+	bool accumulate(SpaceFloat dx);
+	bool checkAdvanceAnimation();
+	void reset();
 protected:
-    PatchConAnimation* animSprite;
+	SpaceFloat accumulator = 0.0;
     Direction startingDirection = Direction::down;
+	int crntFrame = 1;
+	bool firstStepIsLeft = false;
+	//Which step is coming next
+	bool nextStepIsLeft = true;
 };
 
 //END GRAPHICS

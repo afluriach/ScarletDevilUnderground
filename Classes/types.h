@@ -21,6 +21,8 @@ typedef vector<SpaceVect> Path;
 typedef unsigned int ObjectIDType;
 typedef function<GObject*(GSpace*, ObjectIDType)> ObjectGeneratorType;
 
+typedef function<FiniteTimeAction*()> ActionGeneratorType;
+
 namespace boost {
 	namespace serialization {
 		template<class Archive>

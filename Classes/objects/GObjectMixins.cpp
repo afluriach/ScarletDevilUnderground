@@ -132,40 +132,22 @@ void DirectionalLaunch::init()
 
 //GRAPHICS MIXINS
 
-void ImageSprite::initializeGraphics(Layer* spaceLayer)
+void ImageSprite::initializeGraphics()
 {
-    loadImageSprite(imageSpritePath(), sceneLayer(), spaceLayer);
+    loadImageSprite(imageSpritePath(), sceneLayer());
 }
 
 void ImageSprite::update()
 {
-    if(sprite != nullptr){
-        sprite->setRotation(90-toDegrees(getAngle()));
+    if(spriteID != 0){
+		space->getScene()->setSpriteAngle(spriteID, 90 - toDegrees(getAngle()));
     }
 }
 
-void ImageSprite::setSpriteShader(const string& shaderName)
+void LoopAnimationSprite::initializeGraphics()
 {
-    if(sprite != nullptr){
-        Sprite* s = dynamic_cast<Sprite*>(sprite);
-        if(s){
-            s->setShader(shaderName);
-        }
-    }
-}
-
-void LoopAnimationSprite::initializeGraphics(Layer* layer)
-{
-    anim = Node::ccCreate<TimedLoopAnimation>();
-    anim->loadAnimation(animationName(), animationSize(), animationDuration());
-    
-    layer->positionAndAddNode(anim, sceneLayerAsInt(), getInitialCenterPix(), zoom());
-    sprite = anim;
-}
-
-void LoopAnimationSprite::update()
-{
-    anim->update();
+	animID = space->getScene()->createLoopAnimation(animationName(), animationSize(), animationDuration(), sceneLayer(), getInitialCenterPix(), zoom());
+	spriteID = animID;
 }
 
 PatchConSprite::PatchConSprite(const ValueMap& args) :
@@ -190,34 +172,23 @@ void PatchConSprite::init()
     setDirection(startingDirection);
 }
 
-void PatchConSprite::initializeGraphics(Layer* layer)
+void PatchConSprite::initializeGraphics()
 {
-    animSprite = Node::ccCreate<PatchConAnimation>();
-    animSprite->loadAnimation(imageSpritePath(), isAgentAnimation());
-    layer->positionAndAddNode(animSprite, sceneLayerAsInt(), getInitialCenterPix(), zoom());
-    sprite = animSprite;
+	spriteID = space->getScene()->createAgentSprite(imageSpritePath(), isAgentAnimation(), sceneLayer(), getInitialCenterPix(), zoom());
 }
 
 void PatchConSprite::setSprite(const string& name)
 {
-    animSprite->loadAnimation("sprites/"+name+".png", isAgentAnimation());
-}
-
-void PatchConSprite::setSpriteShader(const string& shaderName)
-{
-    if(sprite != nullptr){
-        PatchConAnimation* p = dynamic_cast<PatchConAnimation*>(sprite);
-        if(p){
-            p->setSpriteShader(shaderName);
-        }
-    }
+	if (spriteID != 0) {
+		space->getScene()->loadAgentAnimation(spriteID, "sprites/" + name + ".png", isAgentAnimation());
+	}
 }
 
 void PatchConSprite::update()
 {
     SpaceVect dist = body->getVel()*App::secondsPerFrame;
     
-    bool advance = animSprite->accumulate(dist.length());
+    bool advance = accumulate(dist.length());
 
 	if (advance && crntFloorCenterContact.isValid() ) {
 		string sfxRes = crntFloorCenterContact.get()->getFootstepSfx();
@@ -232,8 +203,8 @@ void PatchConSprite::update()
 void PatchConSprite::setAngle(SpaceFloat a)
 {
     GObject::setAngle(a);
-    
-	animSprite->setDirection(angleToDirection(a));
+
+	space->getScene()->setAgentAnimationDirection(spriteID, angleToDirection(a));
 }
 
 void PatchConSprite::setDirection(Direction d)
@@ -241,23 +212,68 @@ void PatchConSprite::setDirection(Direction d)
     GObject::setDirection(d);
     if(d == Direction::none) return;
 
-    animSprite->setDirection(d);
+	space->getScene()->setAgentAnimationDirection(spriteID, d);
 }
 
-Direction PatchConSprite::getDirection() const
+bool PatchConSprite::accumulate(SpaceFloat dx)
 {
-    return animSprite->getDirection();
+	accumulator += dx;
+	return checkAdvanceAnimation();
 }
 
-void ImageSprite::loadImageSprite(const string& resPath, GraphicsLayer sceneLayer, Layer* dest)
+bool PatchConSprite::checkAdvanceAnimation()
 {
-    Vec2 centerPix = getInitialCenterPix();
-    sprite = ::loadImageSprite(resPath,sceneLayer,dest, centerPix, zoom());
-    
-    if(sprite == nullptr)
-        log("%s sprite not loaded", name.c_str());
-    else if(App::logSprites)
-        log("%s sprite %s added at %.1f,%.1f, layer %d", name.c_str(), resPath.c_str(), expand_vector2(centerPix), sceneLayer);
+	bool advance = false;
+
+	//TODO cases are symmetrical, should be able to optimize
+	switch (crntFrame)
+	{
+	case 0:
+		if (accumulator >= stepSize)
+		{
+			space->getScene()->setAgentAnimationFrame(spriteID, 1);
+			crntFrame = 1;
+			advance = true;
+			accumulator -= stepSize;
+			nextStepIsLeft = false;
+		}
+		break;
+	case 2:
+		if (accumulator >= stepSize)
+		{
+			space->getScene()->setAgentAnimationFrame(spriteID, 1);
+			crntFrame = 1;
+			advance = true;
+			accumulator -= stepSize;
+			nextStepIsLeft = true;
+		}
+		break;
+	case 1:
+		if (accumulator >= midstepSize)
+		{
+			crntFrame = (nextStepIsLeft ? 0 : 2);
+			space->getScene()->setAgentAnimationFrame(spriteID, crntFrame);
+			accumulator -= midstepSize;
+		}
+		break;
+	}
+
+	return advance;
+}
+
+void PatchConSprite::reset()
+{
+	space->getScene()->setAgentAnimationFrame(spriteID, 1);
+	accumulator = 0.0;
+
+	nextStepIsLeft = firstStepIsLeft;
+	//Toggle which foot will be used to take the first step next time.
+	firstStepIsLeft = !firstStepIsLeft;
+}
+
+void ImageSprite::loadImageSprite(const string& resPath, GraphicsLayer sceneLayer)
+{
+	spriteID = space->getScene()->createSprite(resPath, sceneLayer, getInitialCenterPix(), zoom());
 }
 
 //END GRAPHICS

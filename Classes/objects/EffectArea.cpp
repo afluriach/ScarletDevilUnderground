@@ -53,7 +53,7 @@ SunArea::SunArea(GSpace* space, ObjectIDType id, const ValueMap& args) :
 {
 }
 
-void SunArea::initializeGraphics(Layer* layer)
+void SunArea::initializeGraphics()
 {
 	space->getScene()->addLightSource(AmbientLightArea{
 		getPos(),

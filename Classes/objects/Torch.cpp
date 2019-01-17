@@ -38,19 +38,13 @@ Torch::Torch(GSpace* space, ObjectIDType id, const ValueMap& args) :
 	}
 }
 
-void Torch::initializeGraphics(Layer* layer)
+void Torch::initializeGraphics()
 {
-    Sprite* base = Sprite::create("sprites/torch.png");
-    
-    flame = Node::ccCreate<TimedLoopAnimation>();
-    flame->loadAnimation(colorName+"_flame", 8, 1.0);
-	flame->setVisible(isActive);
-    
-    sprite = Node::create();
-    sprite->addChild(base, 1);
-    sprite->addChild(flame, 2);
-    
-    layer->positionAndAddNode(sprite, sceneLayerAsInt(), getInitialCenterPix(), 4.0);
+	//	unsigned int createLoopAnimation(string path, int frameCount, float duration, GraphicsLayer sceneLayer, Vec2 pos, float zoom);
+
+	baseSpriteID = space->getScene()->createSprite("sprites/torch.png", GraphicsLayer::ground, getInitialCenterPix(), 4.0f);
+	flameSpriteID = space->getScene()->createLoopAnimation(colorName + "_flame", 8, 1.0f, GraphicsLayer::overhead, getInitialCenterPix(), 4.0f);
+	space->getScene()->setSpriteVisible(flameSpriteID, isActive);
 
 	if (isActive) {
 		lightSourceID = space->getScene()->addLightSource(CircleLightArea{ getPos(),5.0,color,intensity,flood });
@@ -60,8 +54,8 @@ void Torch::initializeGraphics(Layer* layer)
 void Torch::setActive(bool active)
 {
     isActive = active;
-    
-    flame->setVisible(active);
+
+	space->getScene()->setSpriteVisible(flameSpriteID, active);
 
 	if (active && lightSourceID == 0) {
 		lightSourceID = space->getScene()->addLightSource(CircleLightArea{getPos(),5.0,color,intensity});
@@ -79,7 +73,6 @@ bool Torch::getActive()
 
 void Torch::update()
 {
-    flame->update();
 }
 
 void Torch::interact()

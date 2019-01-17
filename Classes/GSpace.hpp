@@ -125,7 +125,7 @@ public:
     void removeObject(const string& name);
     void removeObject(GObject* obj);
 
-	void removeObjectWithAnimation(GObject* obj, FiniteTimeAction* action);
+	void removeObjectWithAnimation(GObject* obj, ActionGeneratorType action);
     
 	void setBulletBodiesVisible(bool b);
 
@@ -155,7 +155,7 @@ private:
 
     //Objects which have been queued for removal. Will be removed at end of frame.
     list<GObject*> toRemove;
-	list<pair<GObject*, FiniteTimeAction*>> toRemoveWithAnimation;
+	list<pair<GObject*, ActionGeneratorType>> toRemoveWithAnimation;
 //END OBJECT MANIPULATION
 
 //BEGIN NAVIGATION

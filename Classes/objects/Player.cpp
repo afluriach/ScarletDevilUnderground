@@ -50,16 +50,14 @@ Player::Player(GSpace* space, ObjectIDType id, const ValueMap& args) :
 	}
 }
 
-void Player::initializeGraphics(Layer* layer)
+void Player::initializeGraphics()
 {
-	PatchConSprite::initializeGraphics(layer);
+	PatchConSprite::initializeGraphics();
 
-	drawNode = DrawNode::create();
+	drawNodeID = space->getScene()->createDrawNode(GraphicsLayer::agentOverlay, getInitialCenterPix(), 1.0f);
 
-	drawNode->drawSolidCircle(Vec2::ZERO, to_float(App::pixelsPerTile*grazeRadius), 0.0f, 64, Color4F(0.5f, 0.5f, 0.5f, 0.5f));
-	drawNode->drawSolidCircle(Vec2::ZERO, to_float(App::pixelsPerTile*getRadius()), 0.0f, 64, Color4F(0.5f, 0.5f, 0.5f, 0.5f));
-
-	layer->addChild(drawNode, to_int(GraphicsLayer::agentOverlay));
+	space->getScene()->drawSolidCircle(drawNodeID, Vec2::ZERO, to_float(App::pixelsPerTile*grazeRadius), 0.0f, 64, Color4F(0.5f, 0.5f, 0.5f, 0.5f));
+	space->getScene()->drawSolidCircle(drawNodeID, Vec2::ZERO, to_float(App::pixelsPerTile*getRadius()), 0.0f, 64, Color4F(0.5f, 0.5f, 0.5f, 0.5f));
 }
 
 void Player::onPitfall()
@@ -74,7 +72,7 @@ void Player::onPitfall()
 		playScene->triggerGameOver();
 	}
 	else {
-		sprite->runAction(pitfallShrinkAction());
+		space->getScene()->runSpriteAction(spriteID, pitfallShrinkAction());
 		startRespawn();
 	}
 }
@@ -158,8 +156,9 @@ void Player::checkMovementControls(const ControlInfo& cs)
 
     ai::applyDesiredVelocity(this, moveDir*getMaxSpeed() * speedRatio, getMaxAcceleration());
     
-    if(moveDir.isZero())
-         animSprite->reset();
+	if (moveDir.isZero()) {
+		reset();
+	}
     	
 	if (facing.lengthSq() > 0.0) {
 		setAngle(facing.toAngle());
@@ -315,7 +314,7 @@ SpaceFloat Player::getSpeedMultiplier()
 void Player::setFocusMode(bool b)
 {
 	isFocusActive = b;
-	drawNode->setVisible(b);
+	space->getScene()->setSpriteVisible(drawNodeID, b);
 }
 
 void Player::setSprintMode(bool b)
@@ -382,8 +381,9 @@ void Player::hit(AttributeMap attributeEffect, shared_ptr<MagicEffect> effect){
     if(!isProtected()){
 		Agent::hit(attributeEffect, effect);
 		attributeSystem.setHitProtection();
-
-        sprite->runAction(
+		
+		space->getScene()->runSpriteAction(
+			spriteID,
 			flickerAction(
 				hitFlickerInterval,
 				attributeSystem.getAdjustedValue(Attribute::hitProtectionInterval),
@@ -471,8 +471,8 @@ void Player::applyRespawn()
 	setPos(respawnPos);
 	setAngle(respawnAngle);
 
-	sprite->stopAllActions();
-	sprite->setScale(zoom());
+	space->getScene()->stopAllSpriteActions(spriteID);
+	space->getScene()->setSpriteZoom(spriteID, zoom());
 
 	isRespawnActive = false;
 	suppressFiring = false;

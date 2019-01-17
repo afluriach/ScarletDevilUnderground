@@ -68,13 +68,10 @@ public:
     
 	void setSpriteShader(const string& shader);
     void loadAnimation(const string& path, bool agentAnimation);    
-    bool accumulate(SpaceFloat dx);
-    
-    //Reset to standing. Implicitly removes run effect.
-    void reset();
+
+	void setFrame(int animFrame);
     void setDirection(Direction dir);
 	Direction getDirection()const;
-    bool checkAdvanceAnimation();
 protected:
 	bool useFlipX = false;
 
@@ -84,13 +81,6 @@ protected:
     SpaceFloat distanceAccumulated = 0.0;
     unsigned char crntFrame = 1;
     Direction direction = Direction::up;
-    //Which foot to use for the first step after the animation has been standing still.
-    //Represents first step that will be used next time, so it should be toggled immediately after use.
-    bool firstStepIsLeft = false;
-    //Which step is coming next
-    bool nextStepIsLeft = true;
-    
-    void setFrame(int animFrame);
 };
 
 

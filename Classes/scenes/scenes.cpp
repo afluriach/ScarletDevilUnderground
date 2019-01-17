@@ -13,6 +13,7 @@
 #include "controls.h"
 #include "Dialog.hpp"
 #include "functional.hpp"
+#include "GAnimation.hpp"
 #include "GObject.hpp"
 #include "GSpace.hpp"
 #include "LuaAPI.hpp"
@@ -122,10 +123,6 @@ control_listener(make_unique<ControlListener>())
 		to_int(updateOrder::runShellScript)
 	);
 	multiUpdate.insertWithOrder(
-		wrap_method(GScene, updateSpace, this),
-		to_int(updateOrder::spaceUpdate)
-	);
-	multiUpdate.insertWithOrder(
 		wrap_method(GScene, runScriptUpdate, this),
 		to_int(updateOrder::sceneUpdate)
 	);
@@ -166,6 +163,9 @@ control_listener(make_unique<ControlListener>())
 
 GScene::~GScene()
 {
+	isExit = true;
+	spaceUpdateThread->join();
+
 	delete gspace;
 }
 
@@ -203,13 +203,18 @@ bool GScene::init()
     
     multiInit();
     
+	spaceUpdatesToRun.store(0);
+	spaceUpdateThread = make_unique<thread>(&GScene::spaceUpdateMain, this);
+
     return true;
 }
 
 void GScene::update(float dt)
-{
-    if(!isPaused)
-        multiUpdate();
+{	
+	if (!isPaused) {
+		spaceUpdatesToRun.fetch_add(1);
+		multiUpdate();
+	}
 }
 
 GScene* GScene::getReplacementScene()
@@ -261,11 +266,6 @@ bool GScene::isDialogActive()
 	return dialog != nullptr;
 }
 
-void GScene::updateSpace()
-{
-	gspace->update();
-}
-
 void GScene::processAdditions()
 {
 	gspace->processAdditions();
@@ -273,12 +273,16 @@ void GScene::processAdditions()
 
 void GScene::addAction(function<void(void)> f, updateOrder order)
 {
+	actionsMutex.lock();
 	actions.push_back(pair<function<void(void)>, updateOrder>(f, order));
+	actionsMutex.unlock();
 }
 
 void GScene::addAction(pair<function<void(void)>, updateOrder> entry)
 {
+	actionsMutex.lock();
 	actions.push_back(entry);
+	actionsMutex.unlock();
 }
 
 unsigned int GScene::addLightSource(CircleLightArea light)
@@ -337,6 +341,324 @@ void GScene::setLightSourcePosition(unsigned int id, SpaceVect pos)
 			it->second.origin = pos;
 		}
 	}
+}
+
+unsigned int GScene::createSprite(string path, GraphicsLayer sceneLayer, Vec2 pos, float zoom)
+{
+	spriteActionsMutex.lock();
+	unsigned int id = nextSpriteID++;
+
+	spriteActions.push_back([this, id,path,sceneLayer,pos,zoom]() -> void {
+		Sprite* s = Sprite::create(path);
+		getSpaceLayer()->positionAndAddNode(s, to_int(sceneLayer), pos, zoom);
+		crntSprites.insert_or_assign(id, s);
+	});
+	spriteActionsMutex.unlock();
+	return id;
+}
+
+unsigned int GScene::createLoopAnimation(string name, int frameCount, float duration, GraphicsLayer sceneLayer, Vec2 pos, float zoom)
+{
+	spriteActionsMutex.lock();
+	unsigned int id = nextSpriteID++;
+
+	spriteActions.push_back([this, id, name, frameCount, duration, sceneLayer, pos, zoom]() -> void {
+		TimedLoopAnimation* anim = Node::ccCreate<TimedLoopAnimation>();
+		anim->loadAnimation(name, frameCount, duration);
+		getSpaceLayer()->positionAndAddNode(anim, to_int(sceneLayer), pos, zoom);
+		animationSprites.insert_or_assign(id, anim);
+	});
+	spriteActionsMutex.unlock();
+	return id;
+}
+
+unsigned int GScene::createDrawNode(GraphicsLayer sceneLayer, Vec2 pos, float zoom)
+{
+	spriteActionsMutex.lock();
+	unsigned int id = nextSpriteID++;
+
+	spriteActions.push_back([this, id, sceneLayer, pos, zoom]() -> void {
+		DrawNode* dn = DrawNode::create();
+		drawNodes.insert_or_assign(id, dn);
+		getSpaceLayer()->positionAndAddNode(dn, to_int(sceneLayer), pos, zoom);
+	});
+	spriteActionsMutex.unlock();
+	return id;
+}
+
+unsigned int GScene::createAgentSprite(string path, bool isAgentAnimation, GraphicsLayer sceneLayer, Vec2 pos, float zoom)
+{
+	spriteActionsMutex.lock();
+	unsigned int id = nextSpriteID++;
+
+	spriteActions.push_back([this, id, path, isAgentAnimation, sceneLayer, pos, zoom]() -> void {
+		PatchConAnimation* anim = Node::ccCreate<PatchConAnimation>();
+		anim->loadAnimation(path, isAgentAnimation);
+		agentSprites.insert_or_assign(id, anim);
+		getSpaceLayer()->positionAndAddNode(anim, to_int(sceneLayer), pos, zoom);
+	});
+	spriteActionsMutex.unlock();
+	return id;
+}
+
+void GScene::loadAgentAnimation(unsigned int id, string path, bool isAgentAnimation)
+{
+	spriteActionsMutex.lock();
+	spriteActions.push_back([this, id, path, isAgentAnimation]() -> void {
+		auto it = agentSprites.find(id);
+		if (it != agentSprites.end()) {
+			PatchConAnimation* anim = it->second;
+			anim->loadAnimation(path, isAgentAnimation);
+		}
+	});
+	spriteActionsMutex.unlock();
+}
+
+void GScene::setAgentAnimationDirection(unsigned int id, Direction d)
+{
+	spriteActionsMutex.lock();
+	spriteActions.push_back([this, id, d]() -> void {
+		auto it = agentSprites.find(id);
+		if (it != agentSprites.end()) {
+			PatchConAnimation* anim = it->second;
+			anim->setDirection(d);
+		}
+	});
+	spriteActionsMutex.unlock();
+}
+
+void GScene::setAgentAnimationFrame(unsigned int id, int frame)
+{
+	spriteActionsMutex.lock();
+	spriteActions.push_back([this, id, frame]() -> void {
+		auto it = agentSprites.find(id);
+		if (it != agentSprites.end()) {
+			PatchConAnimation* anim = it->second;
+			anim->setFrame(frame);
+		}
+	});
+	spriteActionsMutex.unlock();
+}
+
+void GScene::clearDrawNode(unsigned int id)
+{
+	spriteActionsMutex.lock();
+	spriteActions.push_back([this, id]() -> void {
+		auto it = drawNodes.find(id);
+		if (it != drawNodes.end()) {
+			it->second->clear();
+		}
+	});
+	spriteActionsMutex.unlock();
+}
+
+void GScene::drawSolidRect(unsigned int id, Vec2 lowerLeft, Vec2 upperRight, Color4F color)
+{
+	spriteActionsMutex.lock();
+	spriteActions.push_back([this, id, lowerLeft, upperRight, color]() -> void {
+		auto it = drawNodes.find(id);
+		if (it != drawNodes.end()) {
+			it->second->drawSolidRect(lowerLeft, upperRight, color);
+		}
+	});
+	spriteActionsMutex.unlock();
+}
+
+void GScene::drawSolidCone(unsigned int id, const Vec2& center, float radius, float startAngle, float endAngle, unsigned int segments, const Color4F &color)
+{
+	spriteActionsMutex.lock();
+	spriteActions.push_back([this, id, center, radius, startAngle, endAngle, segments, color]() -> void {
+		auto it = drawNodes.find(id);
+		if (it != drawNodes.end()) {
+			it->second->drawSolidCone(center, radius, startAngle, endAngle, segments, color);
+		}
+	});
+	spriteActionsMutex.unlock();
+}
+
+void GScene::drawSolidCircle(unsigned int id, const Vec2& center, float radius, float angle, unsigned int segments, const Color4F& color)
+{
+	spriteActionsMutex.lock();
+	spriteActions.push_back([this, id, center, radius, angle, segments, color]() -> void {
+		auto it = drawNodes.find(id);
+		if (it != drawNodes.end()) {
+			it->second->drawSolidCircle(center, radius, angle, segments, color);
+		}
+	});
+	spriteActionsMutex.unlock();
+}
+
+void GScene::runSpriteAction(unsigned int id, ActionGeneratorType generator)
+{
+	spriteActionsMutex.lock();
+	spriteActions.push_back([this, id, generator]() -> void {
+		Node* node = getSpriteAsNode(id);
+		if (node) {
+			node->runAction(generator());
+		}
+	});
+	spriteActionsMutex.unlock();
+}
+
+void GScene::stopSpriteAction(unsigned int id, cocos_action_tag action)
+{
+	spriteActionsMutex.lock();
+	spriteActions.push_back([this, id, action]() -> void {
+		Node* node = getSpriteAsNode(id);
+		if (node) {
+			node->stopActionByTag(to_int(action));
+		}
+	});
+	spriteActionsMutex.unlock();
+}
+
+void GScene::stopAllSpriteActions(unsigned int id)
+{
+	spriteActionsMutex.lock();
+	spriteActions.push_back([this, id]() -> void {
+		Node* node = getSpriteAsNode(id);
+		if (node) {
+			node->stopAllActions();
+		}
+	});
+	spriteActionsMutex.unlock();
+}
+
+void GScene::removeSprite(unsigned int id)
+{
+	spriteActionsMutex.lock();
+	spriteActions.push_back([this, id]() -> void {
+		Node* node = getSpriteAsNode(id);
+		if (node) {
+			node->removeFromParent();
+			_removeSprite(id);
+		}
+	});
+	spriteActionsMutex.unlock();
+}
+
+void GScene::removeSpriteWithAnimation(unsigned int id, ActionGeneratorType generator)
+{
+	spriteActionsMutex.lock();
+	spriteActions.push_back([this, id, generator]() -> void {
+		Node* node = getSpriteAsNode(id);
+		if (node) {
+			node->runAction(Sequence::createWithTwoActions(generator(), RemoveSelf::create()));
+		}
+	});
+	spriteActionsMutex.unlock();
+}
+
+void GScene::setSpriteVisible(unsigned int id, bool val)
+{
+	spriteActionsMutex.lock();
+	spriteActions.push_back([this, id, val]() -> void {
+		Node* node = getSpriteAsNode(id);
+		if (node) {
+			node->setVisible(val);
+		}
+	});
+	spriteActionsMutex.unlock();
+}
+
+void GScene::setSpriteOpacity(unsigned int id, unsigned char op)
+{
+	spriteActionsMutex.lock();
+	spriteActions.push_back([this, id, op]() -> void {
+		Node* node = getSpriteAsNode(id);
+		if (node) {
+			node->setOpacity(op);
+		}
+	});
+	spriteActionsMutex.unlock();
+}
+
+void GScene::setSpriteTexture(unsigned int id, string path)
+{
+	spriteActionsMutex.lock();
+	spriteActions.push_back([this,id, path]()->void {
+		auto it = crntSprites.find(id);
+		if (it != crntSprites.end()) {
+			Sprite* s = dynamic_cast<Sprite*>(it->second);
+			if (s) {
+				s->setTexture(path);
+			}
+		}
+	});
+	spriteActionsMutex.unlock();
+}
+
+void GScene::setSpriteAngle(unsigned int id, float cocosAngle)
+{
+	spriteActionsMutex.lock();
+	spriteActions.push_back([this, id, cocosAngle]() -> void {
+		Node* node = getSpriteAsNode(id);
+		if (node) {
+			node->setRotation(cocosAngle);
+		}
+	});
+	spriteActionsMutex.unlock();
+}
+
+void GScene::setSpritePosition(unsigned int id, Vec2 pos)
+{
+	spriteActionsMutex.lock();
+	spriteActions.push_back([this, id, pos]() -> void {
+		Node* node = getSpriteAsNode(id);
+		if (node) {
+			node->setPosition(pos);
+		}
+	});
+	spriteActionsMutex.unlock();
+}
+
+void GScene::setSpriteZoom(unsigned int id, float zoom)
+{
+	spriteActionsMutex.lock();
+	spriteActions.push_back([this, id, zoom]() -> void {
+		Node* node = getSpriteAsNode(id);
+		if (node) {
+			node->setScale(zoom);
+		}
+	});
+	spriteActionsMutex.unlock();
+}
+
+Node* GScene::getSpriteAsNode(unsigned int id)
+{
+	{
+		auto it = crntSprites.find(id);
+		if (it != crntSprites.end()) {
+			return it->second;
+		}
+	}
+	{
+		auto it = drawNodes.find(id);
+		if (it != drawNodes.end()) {
+			return it->second;
+		}
+	}
+	{
+		auto it = animationSprites.find(id);
+		if (it != animationSprites.end()) {
+			return it->second;
+		}
+	}
+	{
+		auto it = agentSprites.find(id);
+		if (it != agentSprites.end()) {
+			return it->second;
+		}
+	}
+	return nullptr;
+}
+
+void GScene::_removeSprite(unsigned int id)
+{
+	crntSprites.erase(id);
+	drawNodes.erase(id);
+	animationSprites.erase(id);
+	agentSprites.erase(id);
 }
 
 void GScene::setUnitPosition(const SpaceVect& v)
@@ -601,6 +923,20 @@ void GScene::initEnemyStats()
 	gspace->setInitialObjectCount();
 }
 
+void GScene::spaceUpdateMain()
+{
+	while (!isExit)
+	{
+		while (!isExit && !isPaused && spaceUpdatesToRun.load() > 0) {
+			gspace->update();
+			spaceUpdatesToRun.fetch_sub(1);
+		}
+
+		this_thread::sleep_for(chrono::duration<int,milli>(1));
+	}
+}
+
+
 void GScene::updateMapVisibility()
 {
 	Player* p = gspace->getObjectAs<Player>("player");
@@ -622,6 +958,17 @@ void GScene::updateMapVisibility()
 
 void GScene::renderSpace()
 {
+	spriteActionsMutex.lock();
+	for (auto f : spriteActions) {
+		f();
+	}
+	spriteActions.clear();
+
+	for (TimedLoopAnimation* anim : animationSprites | boost::adaptors::map_values) {
+		anim->update();
+	}
+	spriteActionsMutex.unlock();
+
 	redrawLightmap();
 
 	Layer* spaceLayer = getSpaceLayer();
@@ -714,6 +1061,7 @@ void GScene::runScriptUpdate()
 
 void GScene::runActionsWithOrder(updateOrder order)
 {
+	actionsMutex.lock();
 	for (auto it = actions.begin(); it != actions.end();)
 	{
 		if (it->second == order)
@@ -726,4 +1074,5 @@ void GScene::runActionsWithOrder(updateOrder order)
 			++it;
 		}
 	}
+	actionsMutex.unlock();
 }

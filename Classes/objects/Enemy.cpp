@@ -10,7 +10,9 @@
 
 #include "Enemy.hpp"
 #include "Graphics.h"
+#include "GSpace.hpp"
 #include "Player.hpp"
+#include "scenes.h"
 
 Enemy::Enemy(collectible_id drop_id) :
 drop_id(drop_id),
@@ -20,9 +22,9 @@ RegisterUpdate<Enemy>(this)
 
 void Enemy::runDamageFlicker()
 {
-	if (sprite)
-		sprite->runAction(flickerAction(0.3f, 1.2f, 81));
-	//		sprite->runAction(colorFlickerAction(0.3f, 4, Color3B(255, 0, 0)));
+	if (spriteID != 0) {
+		space->getScene()->runSpriteAction(spriteID, flickerAction(0.3f, 1.2f, 81));
+	}
 }
 
 void Enemy::onTouchPlayer(Player* player) {

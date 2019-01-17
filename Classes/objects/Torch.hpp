@@ -32,18 +32,17 @@ public:
 	virtual void interact();
 	virtual inline string interactionIcon() { return "sprites/blue_torch.png"; }
 
-    virtual void initializeGraphics(Layer* layer);
+    virtual void initializeGraphics();
     
     void setActive(bool active);
     bool getActive();
     
-    void update();
-    
-    TimedLoopAnimation* flame;
-    
+    void update();    
 protected:
 	string colorName;
 	unsigned int lightSourceID = 0;
+	unsigned int baseSpriteID = 0;
+	unsigned int flameSpriteID = 0;
 	Color3B color = Color3B(255,255,255);
 	float intensity = 1.0f;
 	//The ratio of radius where the light is at full intensity.

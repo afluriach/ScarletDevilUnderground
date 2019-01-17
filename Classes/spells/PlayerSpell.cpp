@@ -8,9 +8,11 @@
 
 #include "Prefix.h"
 
+#include "GSpace.hpp"
 #include "Player.hpp"
 #include "PlayerBullet.hpp"
 #include "PlayerSpell.hpp"
+#include "scenes.h"
 
 void PlayerSpell::init()
 {
@@ -154,7 +156,7 @@ void PlayerDarkMist::init()
 {
 	PlayerSpell::init();
 
-	caster->sprite->setOpacity(128);
+	caster->space->getScene()->setSpriteOpacity(caster->spriteID, 128);
 	caster->setInvisible(true);
 }
 
@@ -162,7 +164,7 @@ void PlayerDarkMist::end()
 {
 	PlayerSpell::end();
 
-	caster->sprite->setOpacity(255);
+	caster->space->getScene()->setSpriteOpacity(caster->spriteID, 255);
 	caster->setInvisible(false);
 }
 

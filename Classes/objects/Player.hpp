@@ -49,7 +49,7 @@ public:
 	virtual void equipSpells() = 0;
 	SpaceFloat getSpellLength();
 
-	virtual void initializeGraphics(Layer* layer);
+	virtual void initializeGraphics();
     
     //setting for player object sensing
 	inline virtual SpaceFloat getRadarRadius() const { return grazeRadius; }

@@ -199,62 +199,107 @@ Color4F operator*(const Color4F& lhs, float rhs)
 	return Color4F(lhs.r * rhs, lhs.g * rhs, lhs.b * rhs, lhs.a);
 }
 
-FiniteTimeAction* flickerAction(float interval, float length, unsigned char opacity)
+FiniteTimeAction* flickerTint(float interval, float length, Color3B tint)
 {
-    int nCycles = length / interval;
-    
-    Sequence* flicker = Sequence::createWithTwoActions(FadeTo::create(interval/2, opacity), FadeTo::create(interval/2, 255));
-    Repeat* loop = Repeat::create(flicker, nCycles);
-    
-    return loop;
+	int nCycles = length / interval;
+
+	Sequence* flicker = Sequence::createWithTwoActions(
+		TintTo::create(interval / 2, tint.r, tint.g, tint.b),
+		TintTo::create(interval / 2, 255, 255, 255)
+	);
+
+	Repeat* loop = Repeat::create(flicker, nCycles);
+
+	return loop;
 }
 
-FiniteTimeAction* flickerTintAction(float interval, float length, Color3B tint)
+ActionGeneratorType flickerAction(float interval, float length, unsigned char opacity)
 {
-    int nCycles = length / interval;
-    
-    Sequence* flicker = Sequence::createWithTwoActions(
-        TintTo::create(interval/2, tint.r, tint.g,tint.b),
-        TintTo::create(interval/2, 255,255,255)
-    );
-    
-    Repeat* loop = Repeat::create(flicker, nCycles);
-    
-    return loop;
+	return [interval,length,opacity]() -> FiniteTimeAction* {
+		int nCycles = length / interval;
+
+		Sequence* flicker = Sequence::createWithTwoActions(FadeTo::create(interval / 2, opacity), FadeTo::create(interval / 2, 255));
+		Repeat* loop = Repeat::create(flicker, nCycles);
+
+		return loop;
+	};
+}
+
+ActionGeneratorType flickerTintAction(float interval, float length, Color3B tint)
+{
+	return [interval,length,tint]() -> FiniteTimeAction* {
+		int nCycles = length / interval;
+
+		Sequence* flicker = Sequence::createWithTwoActions(
+			TintTo::create(interval / 2, tint.r, tint.g, tint.b),
+			TintTo::create(interval / 2, 255, 255, 255)
+		);
+
+		Repeat* loop = Repeat::create(flicker, nCycles);
+
+		return loop;
+	};
 }
 
 FiniteTimeAction* tintTo(Color3B tint, float length)
 {
-    return TintTo::createRecursive(length,tint);
+	return TintTo::createRecursive(length, tint);
 }
 
-FiniteTimeAction* pitfallShrinkAction()
+ActionGeneratorType tintToAction(Color3B tint, float length)
 {
-	return ScaleTo::create(fallAnimationTime, 0.0f);
+	return [tint, length]() -> FiniteTimeAction* {
+		return TintTo::createRecursive(length, tint);
+	};
 }
 
-FiniteTimeAction* motionBlurStretch(float duration, float angle, float opacity, float scale)
-{
-//    float scaleX = 1 + cos(angle)*(scale-1);
-//    float scaleY = 1 + sin(angle)*(scale-1);
-//
-//    Sequence* sequence = Sequence::create(
-//        ScaleBy::create(0.0f, scaleX, scaleY),
-//        FadeTo::create(0.0f,opacity*255),
-//        DelayTime::create(duration),
-//        ScaleBy::create(0.0f, 1.0f/scaleX, 1.0f/scaleY),
-//        FadeTo::create(0.0f,255),
-//        nullptr
-//   );
 
-    Sequence* sequence = Sequence::create(
-        FadeTo::create(0.0f,opacity*255),
-        DelayTime::create(duration),
-        FadeTo::create(0.0f,255),
-        nullptr
-   );
-    
-    return sequence;
+ActionGeneratorType pitfallShrinkAction()
+{
+	return []() -> FiniteTimeAction* {
+		return ScaleTo::create(fallAnimationTime, 0.0f);
+	};
+}
+
+ActionGeneratorType motionBlurStretch(float duration, float angle, float opacity, float scale)
+{
+	return [duration,angle,opacity,scale]() -> FiniteTimeAction* {
+		Sequence* sequence = Sequence::create(
+			FadeTo::create(0.0f, opacity * 255),
+			DelayTime::create(duration),
+			FadeTo::create(0.0f, 255),
+			nullptr
+		);
+
+		return sequence;
+	};
+}
+
+ActionGeneratorType freezeEffectAction()
+{
+	return []() -> FiniteTimeAction* {
+		FiniteTimeAction* action = TintTo::createRecursive(0.5f, Color3B(64, 64, 255));
+		action->setTag(to_int(cocos_action_tag::freeze_status));
+		return action;
+	};
+}
+
+ActionGeneratorType freezeEffectEndAction()
+{
+	return []() -> FiniteTimeAction* {
+		FiniteTimeAction* action = TintTo::createRecursive(0.5f, Color3B(255, 255, 255));
+		action->setTag(to_int(cocos_action_tag::freeze_status));
+		return action;
+	};
+}
+
+ActionGeneratorType objectFadeOut(float duration, unsigned char targetOpacity)
+{
+	return [duration,targetOpacity]() -> FiniteTimeAction* {
+		FiniteTimeAction* action = FadeTo::create(duration, targetOpacity);
+		action->setTag(to_int(cocos_action_tag::object_fade));
+		return action;
+	};
 }
 
 Sprite* loadImageSprite(const string& resPath, GraphicsLayer sceneLayer, Layer* dest, const Vec2& pos, float zoom)

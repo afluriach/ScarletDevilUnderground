@@ -85,8 +85,10 @@ public:
 	static bool loadProfile(const string& name);
 	static bool saveProfile(const string& name);
 
+#if USE_TIMERS
 	static void setLogTimers(bool);
 	static void printTimerInfo();
+#endif
 	static void printGlDebug();
 	static void end();
 

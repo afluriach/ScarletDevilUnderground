@@ -54,8 +54,6 @@ public:
 	virtual inline void init();
 	virtual void update();
 	virtual void end();
-
-	Action* spriteEffectAction = nullptr;
 };
 
 #endif /* MagicEffect_hpp */

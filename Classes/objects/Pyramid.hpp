@@ -51,11 +51,10 @@ public:
 	virtual void onDetect(GObject* other);
 	virtual void onEndDetect(GObject* other);
 
-	virtual void initializeGraphics(Layer* layer);
+	virtual void initializeGraphics();
 
 	void initStateMachine(ai::StateMachine& sm);
 protected:
-	Sprite* base = nullptr;
 	set<object_ref<Agent>> targets;
 	SpaceFloat angular_speed = 0.0;
 	boost::rational<int> discrete_look = 0;

@@ -452,31 +452,24 @@ void GObject::updateSprite()
 	bool visible = space->getScene()->isInCameraArea(getBoundingBox()) &&
 		space->getScene()->isInPlayerRoom(getPos());
 
-    if(sprite != nullptr){
-        sprite->setPosition(toCocos(body->getPos())*App::pixelsPerTile);
+    if(spriteID != 0){
+		space->getScene()->setSpritePosition(spriteID, toCocos(body->getPos())*App::pixelsPerTile);
 
 		if (!visible && !isInFade) {
-			sprite->stopActionByTag(to_int(cocos_action_tag::object_fade));
-
-			FiniteTimeAction* action = FadeTo::create(objectFadeOutTime, objectFadeOpacity);
-			action->setTag(to_int(cocos_action_tag::object_fade));
-			sprite->runAction(action);
-
+			space->getScene()->stopSpriteAction(spriteID, cocos_action_tag::object_fade);
+			space->getScene()->runSpriteAction(spriteID, objectFadeOut(objectFadeOutTime, objectFadeOpacity));
 			isInFade = true;
 		}
 		else if (visible && isInFade) {
-			sprite->stopActionByTag(to_int(cocos_action_tag::object_fade));
-
-			FiniteTimeAction* action = FadeTo::create(objectFadeInTime, 255);
-			action->setTag(to_int(cocos_action_tag::object_fade));
-			sprite->runAction(action);
+			space->getScene()->stopSpriteAction(spriteID, cocos_action_tag::object_fade);
+			space->getScene()->runSpriteAction(spriteID, objectFadeOut(objectFadeInTime, 255));
 
 			isInFade = false;
 		}
     }
-	if (drawNode && visible && !isInFade)
+	if (drawNodeID != 0 && visible && !isInFade)
 	{
-		drawNode->setPosition(toCocos(body->getPos())*App::pixelsPerTile);
+		space->getScene()->setSpritePosition(drawNodeID, toCocos(body->getPos())*App::pixelsPerTile);
 	}
 }
 

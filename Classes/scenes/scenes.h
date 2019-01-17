@@ -18,7 +18,9 @@ class Dialog;
 class GSpace;
 class HUD;
 class LuaShell;
+class PatchConAnimation;
 class PlayScene;
+class TimedLoopAnimation;
 
 namespace Lua{
     class Inst;
@@ -108,7 +110,6 @@ public:
 	Vec2 dialogPosition();
 	bool isDialogActive();
 
-	void updateSpace();
 	void processAdditions();
 
 	void addAction(function<void(void)>, updateOrder order);
@@ -118,6 +119,32 @@ public:
 	unsigned int addLightSource(AmbientLightArea light);
 	void removeLightSource(unsigned int id);
 	void setLightSourcePosition(unsigned int id, SpaceVect pos);
+
+	unsigned int createSprite(string path, GraphicsLayer sceneLayer, Vec2 pos, float zoom);
+	unsigned int createLoopAnimation(string name, int frameCount, float duration, GraphicsLayer sceneLayer, Vec2 pos, float zoom);
+	unsigned int createDrawNode(GraphicsLayer sceneLayer, Vec2 pos, float zoom);
+	unsigned int createAgentSprite(string path, bool isAgentAnimation, GraphicsLayer sceneLayer, Vec2 pos, float zoom);
+
+	void loadAgentAnimation(unsigned int id, string path, bool isAgentAnimation);
+	void setAgentAnimationDirection(unsigned int id, Direction d);
+	void setAgentAnimationFrame(unsigned int id, int frame);
+
+	void clearDrawNode(unsigned int id);
+	void drawSolidRect(unsigned int id, Vec2 lowerLeft, Vec2 upperRight, Color4F color);
+	void drawSolidCone(unsigned int id, const Vec2& center, float radius, float startAngle, float endAngle, unsigned int segments, const Color4F &color);
+	void drawSolidCircle(unsigned int id, const Vec2& center, float radius, float angle, unsigned int segments, const Color4F& color);
+
+	void runSpriteAction(unsigned int id, ActionGeneratorType generator);
+	void stopSpriteAction(unsigned int id, cocos_action_tag action);
+	void stopAllSpriteActions(unsigned int id);
+	void removeSprite(unsigned int id);
+	void removeSpriteWithAnimation(unsigned int id, ActionGeneratorType generator);
+	void setSpriteVisible(unsigned int id, bool val);
+	void setSpriteOpacity(unsigned int id, unsigned char op);
+	void setSpriteTexture(unsigned int id, string path);
+	void setSpriteAngle(unsigned int id, float cocosAngle);
+	void setSpritePosition(unsigned int id, Vec2 pos);
+	void setSpriteZoom(unsigned int id, float zoom);
 
     //The different vector type is intentional, as Chipmunk vector implies
     //unit space as opposed to pixel space.
@@ -155,6 +182,7 @@ protected:
 	void loadWalls(const TMXTiledMap& map, IntVec2 offset);
 
 	void initEnemyStats();
+	void spaceUpdateMain();
 
 	void updateMapVisibility();
 	void renderSpace();
@@ -167,6 +195,9 @@ protected:
 
 	void runActionsWithOrder(updateOrder order);
 
+	Node* getSpriteAsNode(unsigned int id);
+	void _removeSprite(unsigned int id);
+
 	//Make sure to use a cocos map so cocos refcounting works.
 	cocos2d::Map<int, Layer*> layers;
 	RenderTexture* spaceRender = nullptr;
@@ -174,6 +205,16 @@ protected:
 	GSpace* gspace;
 	//the scale applied to the space layer
 	float spaceZoom = 1;
+	unique_ptr<thread> spaceUpdateThread;
+	atomic_int spaceUpdatesToRun;
+
+	unsigned int nextSpriteID = 1;
+	map<unsigned int, Node*> crntSprites;
+	map<unsigned int, DrawNode*> drawNodes;
+	map<unsigned int, TimedLoopAnimation*> animationSprites;
+	map<unsigned int, PatchConAnimation*> agentSprites;
+	vector<function<void()>> spriteActions;
+	mutex spriteActionsMutex;
 
 	Color4F ambientLight = Color4F::WHITE;
 	RenderTexture* lightmapRender = nullptr;
@@ -183,6 +224,7 @@ protected:
 	map<unsigned int, RadialGradient*> lightmapRadials;
 
 	list<pair<function<void(void)>, updateOrder>> actions;
+	mutex actionsMutex;
 
 	Dialog* dialog = nullptr;
 
@@ -200,6 +242,7 @@ protected:
 	string pendingScript;
 
 	bool isPaused = false;
+	bool isExit = false;
 };
 
 #endif /* scenes_h */
