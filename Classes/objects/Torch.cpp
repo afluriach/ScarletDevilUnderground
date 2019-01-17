@@ -27,6 +27,7 @@ Torch::Torch(GSpace* space, ObjectIDType id, const ValueMap& args) :
 	isActive = getBoolOrDefault(args, "active", false);
 	intensity = getFloatOrDefault(args, "intensity", intensity);
 	lightRadius = getFloatOrDefault(args, "radius", lightRadius);
+	flood = getFloatOrDefault(args, "flood", flood);
 
 	string colorName = getStringOrDefault(args, "color", "");
 	if (!colorName.empty()) {
@@ -39,14 +40,6 @@ Torch::Torch(GSpace* space, ObjectIDType id, const ValueMap& args) :
 
 void Torch::initializeGraphics(Layer* layer)
 {
-//    Sprite* baseSprite = ::loadImageSprite(
-//        "sprites/blue_torch.png",
-//        sceneLayer(),
-//        layer,
-//        getInitialCenterPix(),
-//        4.0
-//    );
-
     Sprite* base = Sprite::create("sprites/blue_torch.png");
     
     flame = Node::ccCreate<TimedLoopAnimation>();
@@ -60,7 +53,7 @@ void Torch::initializeGraphics(Layer* layer)
     layer->positionAndAddNode(sprite, sceneLayerAsInt(), getInitialCenterPix(), 4.0);
 
 	if (isActive) {
-		lightSourceID = space->getScene()->addLightSource(CircleLightArea{ getPos(),5.0,color,intensity });
+		lightSourceID = space->getScene()->addLightSource(CircleLightArea{ getPos(),5.0,color,intensity,flood });
 	}
 }
 

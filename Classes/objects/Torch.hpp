@@ -45,6 +45,8 @@ protected:
 	unsigned int lightSourceID = 0;
 	Color3B color = Color3B(255,255,255);
 	float intensity = 1.0f;
+	//The ratio of radius where the light is at full intensity.
+	float flood = 0.5f;
 	float lightRadius = 3.0f;
 	bool isActive = false;
 };

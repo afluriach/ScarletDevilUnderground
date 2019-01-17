@@ -290,7 +290,7 @@ unsigned int GScene::addLightSource(CircleLightArea light)
 		Color4F(0.0f, 0.0f, 0.0f, 1.0f),
 		light.radius * App::pixelsPerTile,
 		Vec2::ZERO,
-		0.0f
+		light.flood
 	);
 
 	g->setPosition(toCocos(light.origin) * App::pixelsPerTile);

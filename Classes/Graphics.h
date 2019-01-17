@@ -37,6 +37,7 @@ struct CircleLightArea
 	SpaceFloat radius;
 	Color3B color;
 	float intensity;
+	float flood;
 };
 
 class RadialGradient : public Node
