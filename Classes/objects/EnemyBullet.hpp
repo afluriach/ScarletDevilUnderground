@@ -51,7 +51,7 @@ public:
 	virtual inline SpaceFloat getRadius() const { return 0.3; }
 
     virtual string animationName() const {return "patchouli_fire";}
-    virtual int animationSize() const {return 5.0f;}
+    virtual int animationSize() const {return 5;}
     virtual float animationDuration() const {return 0.3f;}
     
     static constexpr float spriteBaseRadius = 0.83f;

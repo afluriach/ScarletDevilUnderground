@@ -73,25 +73,6 @@ array<AnimationSpriteSequence, 4> AnimationSpriteSequence::loadPatchconSpriteShe
 	return result;
 }
 
-AnimationSpriteSequence AnimationSpriteSequence::loadFromImageSequence(const string& name, int length)
-{
-    Vector<SpriteFrame*> frames;
-    
-    for(int i=1; i<= length; ++i)
-    {
-        string path = "sprites/" + name + boost::lexical_cast<string>(i) + ".png";
-        
-        if(!FileUtils::getInstance()->isFileExist(path)){
-            log("loadFromImageSequence: %s not found", path.c_str());
-            return AnimationSpriteSequence();
-        }
-        
-        frames.pushBack(Sprite::create(path)->getSpriteFrame());
-    }
-    
-    return AnimationSpriteSequence(frames);
-}
-
 SpriteFrame* loadSpriteFrame(const string& path)
 {
 	Texture2D* t = Director::getInstance()->getTextureCache()->addImage(path);
@@ -127,7 +108,7 @@ AnimationSpriteSequence::AnimationSpriteSequence(Vector<SpriteFrame*>::iterator 
 void TimedLoopAnimation::loadAnimation(const string& name, int length, SpaceFloat animationInterval)
 {
     setName("TimedLoopAnimation");
-    sequence = AnimationSpriteSequence::loadFromImageSequence(name, length);
+    sequence = AnimationSpriteSequence::loadFromRasterImage("sprites/"+name+".png", length, 1);
     frameInterval = animationInterval / length;
     
     sprite = Sprite::createWithSpriteFrame(sequence.frames.at(0));

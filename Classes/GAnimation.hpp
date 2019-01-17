@@ -27,7 +27,6 @@ class AnimationSpriteSequence
 {
 public:
     static AnimationSpriteSequence loadFromRasterImage(const string& path, int cols, int rows);
-	static AnimationSpriteSequence loadFromImageSequence(const string& name, int length);
 	static array<AnimationSpriteSequence, 4> loadPatchconSpriteSheet(const string& path);
 	static array<AnimationSpriteSequence, 4> loadAgentAnimation(const string& path);
 

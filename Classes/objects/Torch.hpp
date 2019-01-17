@@ -42,6 +42,7 @@ public:
     TimedLoopAnimation* flame;
     
 protected:
+	string colorName;
 	unsigned int lightSourceID = 0;
 	Color3B color = Color3B(255,255,255);
 	float intensity = 1.0f;

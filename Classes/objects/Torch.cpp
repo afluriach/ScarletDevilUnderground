@@ -29,7 +29,7 @@ Torch::Torch(GSpace* space, ObjectIDType id, const ValueMap& args) :
 	lightRadius = getFloatOrDefault(args, "radius", lightRadius);
 	flood = getFloatOrDefault(args, "flood", flood);
 
-	string colorName = getStringOrDefault(args, "color", "");
+	colorName = getStringOrDefault(args, "color", "white");
 	if (!colorName.empty()) {
 		auto it = colorMap.find(colorName);
 		if (it != colorMap.end()) {
@@ -40,10 +40,10 @@ Torch::Torch(GSpace* space, ObjectIDType id, const ValueMap& args) :
 
 void Torch::initializeGraphics(Layer* layer)
 {
-    Sprite* base = Sprite::create("sprites/blue_torch.png");
+    Sprite* base = Sprite::create("sprites/torch.png");
     
     flame = Node::ccCreate<TimedLoopAnimation>();
-    flame->loadAnimation("blue_flame", 8, 1.0);
+    flame->loadAnimation(colorName+"_flame", 8, 1.0);
 	flame->setVisible(isActive);
     
     sprite = Node::create();
