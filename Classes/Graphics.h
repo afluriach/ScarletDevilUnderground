@@ -39,6 +39,36 @@ struct CircleLightArea
 	float intensity;
 };
 
+class RadialGradient : public Node
+{
+public:
+	RadialGradient(const Color4F& startColor, const Color4F& endColor, float radius, const Vec2& center, float expand);
+
+	virtual bool init();
+	virtual void draw(Renderer *renderer, const Mat4 &transform, uint32_t flags) override;
+	virtual void setContentSize(const CCSize& size) override;
+
+	inline void setBlendFunc(BlendFunc b) { _blendFunc = b; }
+
+protected:
+	void onDraw(const Mat4& transform, uint32_t flags);
+
+	Vec2 _center;
+	Vec2 _vertices[4];
+	Color4F _startColor, _endColor;
+	float _radius;
+	float _expand;
+
+	CustomCommand _customCommand;
+	BlendFunc _blendFunc = BlendFunc::ALPHA_NON_PREMULTIPLIED;
+
+	GLint _uniformLocationStartColor;
+	GLint _uniformLocationEndColor;
+	GLint _uniformLocationCenter;
+	GLint _uniformLocationRadius;
+	GLint _uniformLocationExpand;
+};
+
 class Cursor : public Node
 {
 public:

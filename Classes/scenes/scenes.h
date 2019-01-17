@@ -180,6 +180,7 @@ protected:
 	DrawNode* lightmapDrawNode = nullptr;
 	map<unsigned int, AmbientLightArea> ambientLights;
 	map<unsigned int, CircleLightArea> circleLights;
+	map<unsigned int, RadialGradient*> lightmapRadials;
 
 	list<pair<function<void(void)>, updateOrder>> actions;
 

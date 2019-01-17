@@ -284,7 +284,22 @@ void GScene::addAction(pair<function<void(void)>, updateOrder> entry)
 unsigned int GScene::addLightSource(CircleLightArea light)
 {
 	unsigned int id = nextLightID++;
+
+	RadialGradient* g = Node::ccCreate<RadialGradient>(
+		toColor4F(light.color) * light.intensity,
+		Color4F(0.0f, 0.0f, 0.0f, 1.0f),
+		light.radius * App::pixelsPerTile,
+		Vec2::ZERO,
+		0.0f
+	);
+
+	g->setPosition(toCocos(light.origin) * App::pixelsPerTile);
+	g->setBlendFunc(BlendFunc{ GL_ONE,GL_ONE });
+	g->setContentSize(CCSize(light.radius * 2.0f * App::pixelsPerTile, light.radius * 2.0f * App::pixelsPerTile));
+	getLayer(sceneLayers::lightmap)->addChild(g);
+
 	circleLights.insert_or_assign(id,light);
+	lightmapRadials.insert_or_assign(id, g);
 	return id;
 }
 
@@ -297,6 +312,12 @@ unsigned int GScene::addLightSource(AmbientLightArea light)
 
 void GScene::removeLightSource(unsigned int id)
 {
+	auto it = lightmapRadials.find(id);
+	if (it != lightmapRadials.end()) {
+		getLayer(sceneLayers::lightmap)->removeChild(it->second);
+		lightmapRadials.erase(it);
+	}
+
 	circleLights.erase(id);
 	ambientLights.erase(id);
 }
@@ -307,6 +328,7 @@ void GScene::setLightSourcePosition(unsigned int id, SpaceVect pos)
 		auto it = circleLights.find(id);
 		if (it != circleLights.end()) {
 			it->second.origin = pos;
+			lightmapRadials.at(it->first)->setPosition(toCocos(pos) * App::pixelsPerTile);
 		}
 	}
 	{
@@ -633,15 +655,14 @@ void GScene::redrawLightmap()
 		ambientLight
 	);
 
-	for (CircleLightArea light : circleLights | boost::adaptors::map_values)
+	for (pair<unsigned int,CircleLightArea> lightEntry : circleLights)
 	{
-		Color4F color = toColor4F(light.color) * light.intensity;		
-		Vec2 originPix = toCocos(light.origin) * App::pixelsPerTile;
-		float radiusPix = light.radius * App::pixelsPerTile;
+		Vec2 originPix = toCocos(lightEntry.second.origin) * App::pixelsPerTile;
+		float radiusPix = lightEntry.second.radius * App::pixelsPerTile;
 
-		if (isInPlayerRoom(light.origin) && cameraPix.intersectsCircle(originPix, radiusPix)) {
-			lightmapDrawNode->drawSolidCircle(originPix, radiusPix, 0.0f, 128, color);
-		}
+		lightmapRadials.at(lightEntry.first)->setVisible(
+			isInPlayerRoom(lightEntry.second.origin) && cameraPix.intersectsCircle(originPix, radiusPix)
+		);
 	}
 
 	for (AmbientLightArea light : ambientLights | boost::adaptors::map_values)

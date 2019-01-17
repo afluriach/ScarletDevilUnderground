@@ -14,6 +14,7 @@
 const string App::title = "Kouma";
 
 const vector<string> App::shaderFiles = {
+	"radial_gradient",
 	"sprite",
 	"inverted",
 	"hue_shift_left",

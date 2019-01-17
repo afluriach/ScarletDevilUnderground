@@ -22,6 +22,80 @@ cocos2d::CCSize getScreenSize()
     return Director::getInstance()->getVisibleSize();
 }
 
+RadialGradient::RadialGradient(const Color4F& startColor, const Color4F& endColor, float radius, const Vec2& center, float expand) :
+	_startColor(startColor),
+	_endColor(endColor),
+	_radius(radius),
+	_center(center),
+	_expand(expand)
+{
+}
+
+bool RadialGradient::init()
+{
+	_blendFunc = BlendFunc::ALPHA_NON_PREMULTIPLIED;
+
+	for (int i = 0; i < 4; ++i)
+		_vertices[i] = { 0.0f, 0.0f };
+
+	Node::init();
+
+	setGLProgramState(GLProgramState::getOrCreateWithGLProgramName("radial_gradient"));
+	auto program = getGLProgram();
+	_uniformLocationStartColor = program->getUniformLocation("u_startColor");
+	_uniformLocationEndColor = program->getUniformLocation("u_endColor");
+	_uniformLocationExpand = program->getUniformLocation("u_expand");
+	_uniformLocationRadius = program->getUniformLocation("u_radius");
+	_uniformLocationCenter = program->getUniformLocation("u_center");
+
+	return true;
+}
+
+void RadialGradient::draw(Renderer *renderer, const Mat4 &transform, uint32_t flags)
+{
+	_customCommand.init(_globalZOrder, transform, flags);
+	_customCommand.func = CC_CALLBACK_0(RadialGradient::onDraw, this, transform, flags);
+	renderer->addCommand(&_customCommand);
+}
+
+void RadialGradient::setContentSize(const CCSize& size)
+{
+	_vertices[0] = Vec2(-size.width / 2, -size.height / 2);
+	_vertices[1] = Vec2(size.width / 2, -size.height / 2);
+	_vertices[2] = Vec2(-size.width / 2, size.height / 2);
+	_vertices[3] = Vec2(size.width / 2, size.height / 2);
+
+	Node::setContentSize(size);
+}
+
+void RadialGradient::onDraw(const Mat4& transform, uint32_t flags)
+{
+	auto program = getGLProgram();
+	program->use();
+	program->setUniformsForBuiltins(transform);
+	program->setUniformLocationWith4f(_uniformLocationStartColor, _startColor.r,
+		_startColor.g, _startColor.b, _startColor.a);
+	program->setUniformLocationWith4f(_uniformLocationEndColor, _endColor.r,
+		_endColor.g, _endColor.b, _endColor.a);
+	program->setUniformLocationWith2f(_uniformLocationCenter, _center.x, _center.y);
+	program->setUniformLocationWith1f(_uniformLocationRadius, _radius);
+	program->setUniformLocationWith1f(_uniformLocationExpand, _expand);
+
+	GL::enableVertexAttribs(GL::VERTEX_ATTRIB_FLAG_POSITION);
+
+	//
+	// Attributes
+	//
+	glBindBuffer(GL_ARRAY_BUFFER, 0);
+	glVertexAttribPointer(GLProgram::VERTEX_ATTRIB_POSITION, 2, GL_FLOAT, GL_FALSE, 0, _vertices);
+
+	GL::blendFunc(_blendFunc.src, _blendFunc.dst);
+
+	glDrawArrays(GL_TRIANGLE_STRIP, 0, 4);
+
+	CC_INCREMENT_GL_DRAWN_BATCHES_AND_VERTICES(1, 4);
+}
+
 const Color4F Cursor::colors[6] = {
 	Color4F(1.0f,0.0f,0.0f,1.0f),
 	Color4F(0.8f,0.4f,0.0f,1.0f),
