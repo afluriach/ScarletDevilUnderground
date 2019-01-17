@@ -475,7 +475,7 @@ bool HUD::init()
 	magicEffects = Node::ccCreate<MagicEffects>();
 	magicEffects->setPosition(App::width - 64 * scale, App::height - 64 * scale);
 	addChild(magicEffects, 2);
-	magicEffects->setScale(scale);
+	magicEffects->setScale(0.75f*scale);
 
     objectiveCounter = Node::ccCreate<Counter>("", 0);
     objectiveCounter->setPosition(Counter::spacing/2 + Counter::iconSize + 8, Counter::iconSize/2 + 8);
