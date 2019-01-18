@@ -29,6 +29,7 @@ enum class ControlAction
 	begin = 1,
     pause = 1,
     scriptConsole,
+	displayMode,
 
     menuSelect,
     menuBack,

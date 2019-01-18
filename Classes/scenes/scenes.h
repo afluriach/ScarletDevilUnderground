@@ -62,6 +62,7 @@ public:
         //It is the only layer that moves with the camera
 		begin = 1,
         space = 1,
+		lightmapBackground,
 		lightmap,
         dialogBackground,
         dialog,
@@ -70,6 +71,15 @@ public:
         luaShell,
         end
     };
+
+	enum class displayMode {
+		begin = 0,
+		base = 0,
+		lightmap,
+		combined,
+
+		end
+	};
 
     typedef function<GScene* () > AdapterType;
 	typedef pair<string, IntVec2> MapEntry;
@@ -189,6 +199,7 @@ protected:
 	void updateMapVisibility();
 	void renderSpace();
 	void redrawLightmap();
+	void cycleDisplayMode();
 
 	void installLuaShell();
 	void checkPendingScript();
@@ -216,9 +227,11 @@ protected:
 	vector<function<void()>> spriteActions;
 	mutex spriteActionsMutex;
 
+	displayMode display = displayMode::combined;
 	Color4F ambientLight = Color4F::WHITE;
 	RenderTexture* lightmapRender = nullptr;
 	DrawNode* lightmapDrawNode = nullptr;
+	DrawNode* lightmapBackground = nullptr;
 	map<unsigned int, AmbientLightArea> ambientLights;
 	map<unsigned int, CircleLightArea> circleLights;
 	map<unsigned int, RadialGradient*> lightmapRadials;

@@ -159,6 +159,8 @@ control_listener(make_unique<ControlListener>())
 			ctx->runFile(scriptPath);
 		}
 	}
+
+	control_listener->addPressListener(ControlAction::displayMode, bind(&GScene::cycleDisplayMode, this));
 }
 
 GScene::~GScene()
@@ -181,6 +183,11 @@ bool GScene::init()
 	lightmapDrawNode = DrawNode::create();
 	lightmapDrawNode->setBlendFunc(BlendFunc{ GL_ONE,GL_ONE });
 	getLayer(sceneLayers::lightmap)->addChild(lightmapDrawNode);
+
+	lightmapBackground = DrawNode::create();
+	getLayer(sceneLayers::lightmapBackground)->addChild(lightmapBackground);
+	lightmapBackground->setVisible(false);
+	lightmapBackground->drawSolidRect(Vec2::ZERO, Vec2(App::width, App::height), Color4F::WHITE);
 
 	//Apply zoom to adjust viewable area size.
 	float baseViewWidth = App::width * App::tilesPerPixel;
@@ -958,6 +965,10 @@ void GScene::updateMapVisibility()
 
 void GScene::renderSpace()
 {
+	spaceRender->setVisible(display != displayMode::lightmap);
+	lightmapRender->setVisible(display != displayMode::base);
+	lightmapBackground->setVisible(display == displayMode::lightmap);
+
 	spriteActionsMutex.lock();
 	for (auto f : spriteActions) {
 		f();
@@ -1021,6 +1032,14 @@ void GScene::redrawLightmap()
 		if (isInPlayerRoom(light.origin) && cameraPix.intersectsRect(CCRect(center.x - halfDim.x, center.y - halfDim.y, halfDim.x * 2.0f, halfDim.y * 2.0f))) {
 			lightmapDrawNode->drawSolidRect(center - halfDim, center + halfDim, color);
 		}
+	}
+}
+
+void GScene::cycleDisplayMode()
+{
+	enum_increment(displayMode, display);
+	if (display == displayMode::end) {
+		display = displayMode::begin;
 	}
 }
 

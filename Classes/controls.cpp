@@ -26,6 +26,7 @@ const float ControlRegister::deadzone = 0.3f;
 const map<EventKeyboard::KeyCode, ControlActionState> ControlRegister::keyActionMap = {
 	key_action_2(KEY_ESCAPE,menuBack,pause),
 	key_action_1(KEY_BACKTICK,scriptConsole),
+	key_action_1(KEY_L,displayMode),
 	key_action_3(KEY_ENTER,menuSelect,interact,enter),
 	key_action_3(KEY_KP_ENTER, menuSelect, interact, enter),
 
