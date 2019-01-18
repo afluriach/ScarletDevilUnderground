@@ -260,6 +260,12 @@ void Player::update()
 	App::setSoundListenerPos(getPos(), getVel(), float_pi/2.0);
 
 	if (playScene && !playScene->getGameOver()) {
+		
+		space->getScene()->addAction(
+			bind(&GScene::setUnitPosition, playScene, getPos()),
+			GScene::updateOrder::moveCamera
+		);
+
 		ControlInfo cs = playScene->getControlData();
 
 		checkMovementControls(cs);

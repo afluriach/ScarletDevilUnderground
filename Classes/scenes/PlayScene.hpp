@@ -29,9 +29,6 @@ public:
 
 	virtual ~PlayScene();
 
-    //set player object. should be post load object init
-    void trackPlayer();
-
 	void initReplayData();
 	void updateReplayData();
 	bool loadReplayData(const string& filename);
@@ -39,9 +36,7 @@ public:
 	ControlInfo getControlData();
 
     void updateHUD();
-    void updateCamera();
     void applyCameraControls();
-    void trackCameraTarget();
 	void setSuppressAction(bool val);
 	bool getSuppressAction();
 
@@ -78,7 +73,6 @@ private:
 	void triggerMenu( void (PlayScene::*m)(void) );
 
 	SpaceFloat cameraMoveTilesPerSecond = 3.0;
-    gobject_ref cameraTarget;
 
 	unique_ptr<ControlReplay> controlReplay;
 	bool isRunningReplay = false;

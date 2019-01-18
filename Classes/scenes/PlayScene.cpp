@@ -47,10 +47,6 @@ PlayScene::PlayScene(const string& sceneName, const vector<MapEntry>& maps) :
 GScene(sceneName, maps)
 {
     multiInit.insertWithOrder(
-        wrap_method(PlayScene,trackPlayer,this),
-        to_int(initOrder::postLoadObjects)
-    );
-    multiInit.insertWithOrder(
         wrap_method(PlayScene,addHUD,this),
         to_int(initOrder::initHUD)
     );
@@ -63,10 +59,11 @@ GScene(sceneName, maps)
 		wrap_method(PlayScene, updateReplayData, this),
 		to_int(updateOrder::updateControls)
 	);
-    multiUpdate.insertWithOrder(
-        wrap_method(PlayScene,updateCamera,this),
-        to_int(updateOrder::moveCamera)
-    );
+
+	multiUpdate.insertWithOrder(
+		bind(&GScene::runActionsWithOrder, this, updateOrder::moveCamera),
+		to_int(updateOrder::moveCamera)
+	);
 
     control_listener->addPressListener(
         ControlAction::pause,
@@ -83,26 +80,6 @@ GScene(sceneName, maps)
 
 PlayScene::~PlayScene()
 {
-}
-
-void PlayScene::trackPlayer(){
-    cameraTarget = gspace->getObject("player");
-}
-
-void PlayScene::updateCamera()
-{
-    if(cameraTarget.isValid()){
-        trackCameraTarget();
-    }
-    else{
-        applyCameraControls();
-    }
-}
-
-void PlayScene::trackCameraTarget()
-{
-    const SpaceVect& pos = cameraTarget.get()->body->getPos();
-    setUnitPosition(pos);
 }
 
 void PlayScene::applyCameraControls()

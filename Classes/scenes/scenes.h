@@ -115,6 +115,8 @@ public:
 	void addAction(function<void(void)>, updateOrder order);
 	void addAction(pair<function<void(void)>, updateOrder> entry);
 
+	void runActionsWithOrder(updateOrder order);
+
 	unsigned int addLightSource(CircleLightArea light);
 	unsigned int addLightSource(AmbientLightArea light);
 	void removeLightSource(unsigned int id);
@@ -192,8 +194,6 @@ protected:
 	void checkPendingScript();
 	void runScriptInit();
 	void runScriptUpdate();
-
-	void runActionsWithOrder(updateOrder order);
 
 	Node* getSpriteAsNode(unsigned int id);
 	void _removeSprite(unsigned int id);
