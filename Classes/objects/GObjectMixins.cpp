@@ -17,7 +17,6 @@
 #include "GSpace.hpp"
 #include "object_ref.hpp"
 #include "Player.hpp"
-#include "scenes.h"
 #include "Spell.hpp"
 #include "util.h"
 #include "value_map.hpp"
@@ -140,13 +139,13 @@ void ImageSprite::initializeGraphics()
 void ImageSprite::update()
 {
     if(spriteID != 0){
-		space->getScene()->setSpriteAngle(spriteID, 90 - toDegrees(getAngle()));
+		space->setSpriteAngle(spriteID, 90 - toDegrees(getAngle()));
     }
 }
 
 void LoopAnimationSprite::initializeGraphics()
 {
-	animID = space->getScene()->createLoopAnimation(animationName(), animationSize(), animationDuration(), sceneLayer(), getInitialCenterPix(), zoom());
+	animID = space->createLoopAnimation(animationName(), animationSize(), animationDuration(), sceneLayer(), getInitialCenterPix(), zoom());
 	spriteID = animID;
 }
 
@@ -174,13 +173,13 @@ void PatchConSprite::init()
 
 void PatchConSprite::initializeGraphics()
 {
-	spriteID = space->getScene()->createAgentSprite(imageSpritePath(), isAgentAnimation(), sceneLayer(), getInitialCenterPix(), zoom());
+	spriteID = space->createAgentSprite(imageSpritePath(), isAgentAnimation(), sceneLayer(), getInitialCenterPix(), zoom());
 }
 
 void PatchConSprite::setSprite(const string& name)
 {
 	if (spriteID != 0) {
-		space->getScene()->loadAgentAnimation(spriteID, "sprites/" + name + ".png", isAgentAnimation());
+		space->loadAgentAnimation(spriteID, "sprites/" + name + ".png", isAgentAnimation());
 	}
 }
 
@@ -204,7 +203,7 @@ void PatchConSprite::setAngle(SpaceFloat a)
 {
     GObject::setAngle(a);
 
-	space->getScene()->setAgentAnimationDirection(spriteID, angleToDirection(a));
+	space->setAgentAnimationDirection(spriteID, angleToDirection(a));
 }
 
 void PatchConSprite::setDirection(Direction d)
@@ -212,7 +211,7 @@ void PatchConSprite::setDirection(Direction d)
     GObject::setDirection(d);
     if(d == Direction::none) return;
 
-	space->getScene()->setAgentAnimationDirection(spriteID, d);
+	space->setAgentAnimationDirection(spriteID, d);
 }
 
 bool PatchConSprite::accumulate(SpaceFloat dx)
@@ -231,7 +230,7 @@ bool PatchConSprite::checkAdvanceAnimation()
 	case 0:
 		if (accumulator >= stepSize)
 		{
-			space->getScene()->setAgentAnimationFrame(spriteID, 1);
+			space->setAgentAnimationFrame(spriteID, 1);
 			crntFrame = 1;
 			advance = true;
 			accumulator -= stepSize;
@@ -241,7 +240,7 @@ bool PatchConSprite::checkAdvanceAnimation()
 	case 2:
 		if (accumulator >= stepSize)
 		{
-			space->getScene()->setAgentAnimationFrame(spriteID, 1);
+			space->setAgentAnimationFrame(spriteID, 1);
 			crntFrame = 1;
 			advance = true;
 			accumulator -= stepSize;
@@ -252,7 +251,7 @@ bool PatchConSprite::checkAdvanceAnimation()
 		if (accumulator >= midstepSize)
 		{
 			crntFrame = (nextStepIsLeft ? 0 : 2);
-			space->getScene()->setAgentAnimationFrame(spriteID, crntFrame);
+			space->setAgentAnimationFrame(spriteID, crntFrame);
 			accumulator -= midstepSize;
 		}
 		break;
@@ -263,7 +262,7 @@ bool PatchConSprite::checkAdvanceAnimation()
 
 void PatchConSprite::reset()
 {
-	space->getScene()->setAgentAnimationFrame(spriteID, 1);
+	space->setAgentAnimationFrame(spriteID, 1);
 	accumulator = 0.0;
 
 	nextStepIsLeft = firstStepIsLeft;
@@ -273,7 +272,7 @@ void PatchConSprite::reset()
 
 void ImageSprite::loadImageSprite(const string& resPath, GraphicsLayer sceneLayer)
 {
-	spriteID = space->getScene()->createSprite(resPath, sceneLayer, getInitialCenterPix(), zoom());
+	spriteID = space->createSprite(resPath, sceneLayer, getInitialCenterPix(), zoom());
 }
 
 //END GRAPHICS

@@ -16,7 +16,6 @@
 #include "MagicEffect.hpp"
 #include "object_ref.hpp"
 #include "Player.hpp"
-#include "scenes.h"
 
 MagicEffect::MagicEffect(gobject_ref target, float magnitude) :
 target(target),
@@ -35,7 +34,7 @@ void FreezeStatusEffect::init()
 	StateMachineObject* smo = dynamic_cast<StateMachineObject*>(_target);
 
 	if (_target->spriteID != 0){
-		_target->space->getScene()->runSpriteAction(_target->spriteID, freezeEffectAction());
+		_target->space->runSpriteAction(_target->spriteID, freezeEffectAction());
 	}
 
 	if (smo) {
@@ -74,8 +73,8 @@ void FreezeStatusEffect::end()
 
 	//Stop sprite effect, assuming the effect ended early.
 	if (_target->spriteID != 0) {
-		_target->space->getScene()->stopSpriteAction(_target->spriteID, cocos_action_tag::freeze_status);
-		_target->space->getScene()->runSpriteAction(_target->spriteID, freezeEffectEndAction());
+		_target->space->stopSpriteAction(_target->spriteID, cocos_action_tag::freeze_status);
+		_target->space->runSpriteAction(_target->spriteID, freezeEffectEndAction());
 	}
 
 	if (smo) {

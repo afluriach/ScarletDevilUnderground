@@ -42,9 +42,9 @@ void Torch::initializeGraphics()
 {
 	//	unsigned int createLoopAnimation(string path, int frameCount, float duration, GraphicsLayer sceneLayer, Vec2 pos, float zoom);
 
-	baseSpriteID = space->getScene()->createSprite("sprites/torch.png", GraphicsLayer::ground, getInitialCenterPix(), 4.0f);
-	flameSpriteID = space->getScene()->createLoopAnimation(colorName + "_flame", 8, 1.0f, GraphicsLayer::overhead, getInitialCenterPix(), 4.0f);
-	space->getScene()->setSpriteVisible(flameSpriteID, isActive);
+	baseSpriteID = space->createSprite("sprites/torch.png", GraphicsLayer::ground, getInitialCenterPix(), 4.0f);
+	flameSpriteID = space->createLoopAnimation(colorName + "_flame", 8, 1.0f, GraphicsLayer::overhead, getInitialCenterPix(), 4.0f);
+	space->setSpriteVisible(flameSpriteID, isActive);
 
 	if (isActive) {
 		lightSourceID = space->getScene()->addLightSource(CircleLightArea{ getPos(),5.0,color,intensity,flood });
@@ -55,7 +55,7 @@ void Torch::setActive(bool active)
 {
     isActive = active;
 
-	space->getScene()->setSpriteVisible(flameSpriteID, active);
+	space->setSpriteVisible(flameSpriteID, active);
 
 	if (active && lightSourceID == 0) {
 		lightSourceID = space->getScene()->addLightSource(CircleLightArea{getPos(),5.0,color,intensity});

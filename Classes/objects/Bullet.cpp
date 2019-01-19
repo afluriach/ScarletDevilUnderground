@@ -13,7 +13,6 @@
 #include "Bullet.hpp"
 #include "GSpace.hpp"
 #include "MagicEffect.hpp"
-#include "scenes.h"
 
 void Bullet::onWallCollide(Wall* wall)
 {
@@ -39,6 +38,6 @@ void Bullet::onBulletCollide(Bullet* bullet)
 void Bullet::setBodyVisible(bool b)
 {
 	if (drawNodeID != 0) {
-		space->getScene()->setSpriteVisible(drawNodeID, b);
+		space->setSpriteVisible(drawNodeID, b);
 	}
 }

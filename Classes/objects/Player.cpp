@@ -54,10 +54,10 @@ void Player::initializeGraphics()
 {
 	PatchConSprite::initializeGraphics();
 
-	drawNodeID = space->getScene()->createDrawNode(GraphicsLayer::agentOverlay, getInitialCenterPix(), 1.0f);
+	drawNodeID = space->createDrawNode(GraphicsLayer::agentOverlay, getInitialCenterPix(), 1.0f);
 
-	space->getScene()->drawSolidCircle(drawNodeID, Vec2::ZERO, to_float(App::pixelsPerTile*grazeRadius), 0.0f, 64, Color4F(0.5f, 0.5f, 0.5f, 0.5f));
-	space->getScene()->drawSolidCircle(drawNodeID, Vec2::ZERO, to_float(App::pixelsPerTile*getRadius()), 0.0f, 64, Color4F(0.5f, 0.5f, 0.5f, 0.5f));
+	space->drawSolidCircle(drawNodeID, Vec2::ZERO, to_float(App::pixelsPerTile*grazeRadius), 0.0f, 64, Color4F(0.5f, 0.5f, 0.5f, 0.5f));
+	space->drawSolidCircle(drawNodeID, Vec2::ZERO, to_float(App::pixelsPerTile*getRadius()), 0.0f, 64, Color4F(0.5f, 0.5f, 0.5f, 0.5f));
 }
 
 void Player::onPitfall()
@@ -72,7 +72,7 @@ void Player::onPitfall()
 		playScene->triggerGameOver();
 	}
 	else {
-		space->getScene()->runSpriteAction(spriteID, pitfallShrinkAction());
+		space->runSpriteAction(spriteID, pitfallShrinkAction());
 		startRespawn();
 	}
 }
@@ -320,7 +320,7 @@ SpaceFloat Player::getSpeedMultiplier()
 void Player::setFocusMode(bool b)
 {
 	isFocusActive = b;
-	space->getScene()->setSpriteVisible(drawNodeID, b);
+	space->setSpriteVisible(drawNodeID, b);
 }
 
 void Player::setSprintMode(bool b)
@@ -388,7 +388,7 @@ void Player::hit(AttributeMap attributeEffect, shared_ptr<MagicEffect> effect){
 		Agent::hit(attributeEffect, effect);
 		attributeSystem.setHitProtection();
 		
-		space->getScene()->runSpriteAction(
+		space->runSpriteAction(
 			spriteID,
 			flickerAction(
 				hitFlickerInterval,
@@ -477,8 +477,8 @@ void Player::applyRespawn()
 	setPos(respawnPos);
 	setAngle(respawnAngle);
 
-	space->getScene()->stopAllSpriteActions(spriteID);
-	space->getScene()->setSpriteZoom(spriteID, zoom());
+	space->stopAllSpriteActions(spriteID);
+	space->setSpriteZoom(spriteID, zoom());
 
 	isRespawnActive = false;
 	suppressFiring = false;

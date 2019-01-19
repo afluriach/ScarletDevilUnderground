@@ -11,7 +11,6 @@
 #include "Graphics.h"
 #include "GSpace.hpp"
 #include "Sakuya.hpp"
-#include "scenes.h"
 
 const AttributeMap Sakuya::baseAttributes = {
 	{Attribute::maxHP, 30.0f },
@@ -58,7 +57,7 @@ void IllusionDash::onEnter(ai::StateMachine& sm)
 	SpaceVect disp = ai::displacementToTarget(sm.agent, target);
 
 	sm.agent->setVel(disp.normalizeSafe()*speed);
-	sm.agent->space->getScene()->runSpriteAction(sm.agent->spriteID, motionBlurStretch(disp.length() / speed, disp.toAngle(), opacity, scale));
+	sm.agent->space->runSpriteAction(sm.agent->spriteID, motionBlurStretch(disp.length() / speed, disp.toAngle(), opacity, scale));
 }
 
 void IllusionDash::update(ai::StateMachine& sm)

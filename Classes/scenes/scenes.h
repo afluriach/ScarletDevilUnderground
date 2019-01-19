@@ -126,6 +126,7 @@ public:
 	void addAction(pair<function<void(void)>, updateOrder> entry);
 
 	void runActionsWithOrder(updateOrder order);
+	void addSpriteActions(const vector<function<void()>>& v);
 
 	unsigned int addLightSource(CircleLightArea light);
 	unsigned int addLightSource(AmbientLightArea light);
@@ -226,6 +227,7 @@ protected:
 	map<unsigned int, PatchConAnimation*> agentSprites;
 	vector<function<void()>> spriteActions;
 	mutex spriteActionsMutex;
+	mutex lightmapMutex;
 
 	displayMode display = displayMode::combined;
 	Color4F ambientLight = Color4F::WHITE;

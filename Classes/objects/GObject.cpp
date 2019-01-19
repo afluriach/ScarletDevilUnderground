@@ -369,23 +369,23 @@ void GObject::updateSprite()
 		space->getScene()->isInPlayerRoom(getPos());
 
     if(spriteID != 0){
-		space->getScene()->setSpritePosition(spriteID, toCocos(body->getPos())*App::pixelsPerTile);
+		space->setSpritePosition(spriteID, toCocos(body->getPos())*App::pixelsPerTile);
 
 		if (!visible && !isInFade) {
-			space->getScene()->stopSpriteAction(spriteID, cocos_action_tag::object_fade);
-			space->getScene()->runSpriteAction(spriteID, objectFadeOut(objectFadeOutTime, objectFadeOpacity));
+			space->stopSpriteAction(spriteID, cocos_action_tag::object_fade);
+			space->runSpriteAction(spriteID, objectFadeOut(objectFadeOutTime, objectFadeOpacity));
 			isInFade = true;
 		}
 		else if (visible && isInFade) {
-			space->getScene()->stopSpriteAction(spriteID, cocos_action_tag::object_fade);
-			space->getScene()->runSpriteAction(spriteID, objectFadeOut(objectFadeInTime, 255));
+			space->stopSpriteAction(spriteID, cocos_action_tag::object_fade);
+			space->runSpriteAction(spriteID, objectFadeOut(objectFadeInTime, 255));
 
 			isInFade = false;
 		}
     }
 	if (drawNodeID != 0 && visible && !isInFade)
 	{
-		space->getScene()->setSpritePosition(drawNodeID, toCocos(body->getPos())*App::pixelsPerTile);
+		space->setSpritePosition(drawNodeID, toCocos(body->getPos())*App::pixelsPerTile);
 	}
 }
 

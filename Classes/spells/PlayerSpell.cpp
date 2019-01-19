@@ -12,7 +12,6 @@
 #include "Player.hpp"
 #include "PlayerBullet.hpp"
 #include "PlayerSpell.hpp"
-#include "scenes.h"
 
 void PlayerSpell::init()
 {
@@ -156,7 +155,7 @@ void PlayerDarkMist::init()
 {
 	PlayerSpell::init();
 
-	caster->space->getScene()->setSpriteOpacity(caster->spriteID, 128);
+	caster->space->setSpriteOpacity(caster->spriteID, 128);
 	caster->setInvisible(true);
 }
 
@@ -164,7 +163,7 @@ void PlayerDarkMist::end()
 {
 	PlayerSpell::end();
 
-	caster->space->getScene()->setSpriteOpacity(caster->spriteID, 255);
+	caster->space->setSpriteOpacity(caster->spriteID, 255);
 	caster->setInvisible(false);
 }
 

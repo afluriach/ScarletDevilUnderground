@@ -13,7 +13,6 @@
 #include "EnemyBullet.hpp"
 #include "GSpace.hpp"
 #include "MagicEffect.hpp"
-#include "scenes.h"
 
 EnemyBullet::EnemyBullet()
 {}
@@ -123,7 +122,7 @@ void IllusionDialDagger::launch()
 void IllusionDialDagger::update()
 {
 	if (drawNodeID != 0) {
-		space->getScene()->setSpriteAngle(drawNodeID, -toDegrees(getAngle()));
+		space->setSpriteAngle(drawNodeID, -toDegrees(getAngle()));
 	}
 }
 
@@ -135,7 +134,7 @@ void IllusionDialDagger::initializeGraphics()
 	float hWidth = to_float(_dim.x / 2.0 * App::pixelsPerTile);
 	float hHeight = to_float(_dim.y / 2.0 * App::pixelsPerTile);
 	
-	drawNodeID = space->getScene()->createDrawNode(GraphicsLayer::agentOverlay, getInitialCenterPix(), 1.0f);
-	space->getScene()->drawSolidRect(drawNodeID, Vec2(-hWidth, -hHeight), Vec2(hWidth, hHeight), Color4F(.66f, .75f, .66f, .7f));
-	space->getScene()->setSpriteVisible(drawNodeID, false);
+	drawNodeID = space->createDrawNode(GraphicsLayer::agentOverlay, getInitialCenterPix(), 1.0f);
+	space->drawSolidRect(drawNodeID, Vec2(-hWidth, -hHeight), Vec2(hWidth, hHeight), Color4F(.66f, .75f, .66f, .7f));
+	space->setSpriteVisible(drawNodeID, false);
 }

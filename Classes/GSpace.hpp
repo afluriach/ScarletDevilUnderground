@@ -9,6 +9,7 @@
 #ifndef GSpace_hpp
 #define GSpace_hpp
 
+#include "Graphics.h"
 #include "object_ref.hpp"
 #include "types.h"
 
@@ -157,6 +158,41 @@ private:
     list<GObject*> toRemove;
 	list<pair<GObject*, ActionGeneratorType>> toRemoveWithAnimation;
 //END OBJECT MANIPULATION
+
+//BEGIN GRAPHICS
+
+public:
+	//Since the scene controls the mapping of ID -> cocos2d::Node, these functions will call the corresponding scene method immediately.
+	unsigned int createSprite(string path, GraphicsLayer sceneLayer, Vec2 pos, float zoom);
+	unsigned int createLoopAnimation(string name, int frameCount, float duration, GraphicsLayer sceneLayer, Vec2 pos, float zoom);
+	unsigned int createDrawNode(GraphicsLayer sceneLayer, Vec2 pos, float zoom);
+	unsigned int createAgentSprite(string path, bool isAgentAnimation, GraphicsLayer sceneLayer, Vec2 pos, float zoom);
+
+	void loadAgentAnimation(unsigned int id, string path, bool isAgentAnimation);
+	void setAgentAnimationDirection(unsigned int id, Direction d);
+	void setAgentAnimationFrame(unsigned int id, int frame);
+
+	void clearDrawNode(unsigned int id);
+	void drawSolidRect(unsigned int id, Vec2 lowerLeft, Vec2 upperRight, Color4F color);
+	void drawSolidCone(unsigned int id, const Vec2& center, float radius, float startAngle, float endAngle, unsigned int segments, const Color4F &color);
+	void drawSolidCircle(unsigned int id, const Vec2& center, float radius, float angle, unsigned int segments, const Color4F& color);
+
+	void runSpriteAction(unsigned int id, ActionGeneratorType generator);
+	void stopSpriteAction(unsigned int id, cocos_action_tag action);
+	void stopAllSpriteActions(unsigned int id);
+	void removeSprite(unsigned int id);
+	void removeSpriteWithAnimation(unsigned int id, ActionGeneratorType generator);
+	void setSpriteVisible(unsigned int id, bool val);
+	void setSpriteOpacity(unsigned int id, unsigned char op);
+	void setSpriteTexture(unsigned int id, string path);
+	void setSpriteAngle(unsigned int id, float cocosAngle);
+	void setSpritePosition(unsigned int id, Vec2 pos);
+	void setSpriteZoom(unsigned int id, float zoom);
+protected:
+	vector<function<void()>> spriteActions;
+
+//END GRAPHICS
+
 
 //BEGIN NAVIGATION
 public:

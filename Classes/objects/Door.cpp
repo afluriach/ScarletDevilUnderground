@@ -13,7 +13,6 @@
 #include "GSpace.hpp"
 #include "macros.h"
 #include "Player.hpp"
-#include "scenes.h"
 #include "value_map.hpp"
 
 Door::Door(GSpace* space, ObjectIDType id, const ValueMap& args) :
@@ -41,7 +40,7 @@ void Door::setLocked(bool b)
 	locked = b;
 
 	if (spriteID != 0) {
-		space->getScene()->setSpriteTexture(spriteID, b ? "sprites/door_locked.png" : "sprites/door.png");
+		space->setSpriteTexture(spriteID, b ? "sprites/door_locked.png" : "sprites/door.png");
 	}
 }
 

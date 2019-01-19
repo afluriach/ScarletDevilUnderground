@@ -13,7 +13,6 @@
 #include "GSpace.hpp"
 #include "macros.h"
 #include "Pyramid.hpp"
-#include "scenes.h"
 #include "value_map.hpp"
 
 const SpaceFloat Pyramid::coneLength = 4.0;
@@ -63,10 +62,10 @@ void Pyramid::update()
 
 void Pyramid::redrawLightCone()
 {
-	space->getScene()->clearDrawNode(drawNodeID);
+	space->clearDrawNode(drawNodeID);
 	SpaceFloat a = getAngle();
 	
-	space->getScene()->drawSolidCone(
+	space->drawSolidCone(
 		drawNodeID,
 		Vec2::ZERO,
 		coneLength * App::pixelsPerTile,
@@ -99,8 +98,8 @@ void Pyramid::onEndDetect(GObject* other)
 
 void Pyramid::initializeGraphics()
 {
-	spriteID = space->getScene()->createSprite(imageSpritePath(), GraphicsLayer::ground, getInitialCenterPix(), 1.0f);
-	drawNodeID = space->getScene()->createDrawNode(GraphicsLayer::overhead, getInitialCenterPix(), 1.0f);
+	spriteID = space->createSprite(imageSpritePath(), GraphicsLayer::ground, getInitialCenterPix(), 1.0f);
+	drawNodeID = space->createDrawNode(GraphicsLayer::overhead, getInitialCenterPix(), 1.0f);
 
 	redrawLightCone();
 }
