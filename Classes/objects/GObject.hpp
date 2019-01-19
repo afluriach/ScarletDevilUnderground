@@ -129,8 +129,6 @@ public:
 
     //Posiition where the object was loaded
     SpaceVect initialCenter;
-	//Tracks setting of physics properties, they will be applied before physics step.
-	PhysicsProperties physicsPropertiesToApply;
 
 	object_ref<FloorSegment> crntFloorCenterContact;
 	set<object_ref<FloorSegment>> crntFloorContacts;
@@ -142,7 +140,6 @@ public:
 
 	virtual inline void teleport(SpaceVect pos) { setPos(pos); }
 
-	void applyPhysicsProperties();
 	bool isOnFloor();
 	void updateFloorSegment();
 	void onContactFloorSegment(object_ref<FloorSegment> fs);
@@ -157,7 +154,6 @@ public:
 
     virtual void setAngle(SpaceFloat a);
 	SpaceFloat getAngle() const;
-	SpaceFloat getCrntAngle() const;
 
     void rotate(SpaceFloat a);
     SpaceVect getFacingVector() const;

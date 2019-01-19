@@ -99,22 +99,6 @@ enum class PhysicsLayers{
     all = 15
 };
 
-struct PhysicsProperties
-{
-	bool setPos, setVel, setAngle, setAngularVel, setLayers;
-
-	SpaceVect pos, vel;
-	SpaceFloat angle, angularVel;
-	PhysicsLayers layers;
-
-	inline PhysicsProperties() :
-		setPos(false), setVel(false), setAngle(false), setAngularVel(false), setLayers(false),
-		pos(SpaceVect::zero), vel(SpaceVect::zero),
-		angle(0.0f), angularVel(0.0f),
-		layers(PhysicsLayers::none)
-	{}
-};
-
 enum class TimerType {
 	begin = 0,
 	gobject = 0,

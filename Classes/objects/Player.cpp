@@ -551,7 +551,7 @@ void Player::updateHudAttribute(Attribute id)
 	space->getScene()->addAction(make_hud_action(
 		&HUD::setPercentValue,
 		id,
-		static_cast<int>(attributeSystem.getAdjustedValue(id))
+		to_int(attributeSystem.getAdjustedValue(id))
 	));
 }
 

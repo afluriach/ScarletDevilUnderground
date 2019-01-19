@@ -141,163 +141,80 @@ void GObject::onPitfall()
 
 //BEGIN PHYSICS
 
-     void GObject::setInitialVelocity(const SpaceVect&& v){
-        multiInit += [=]() -> void{ this->body->setVel(v);};
-    }
+void GObject::setInitialVelocity(const SpaceVect&& v){
+    multiInit += [=]() -> void{ this->body->setVel(v);};
+}
 
-    void GObject::setInitialAngle(SpaceFloat a){
-        multiInit += [=]() -> void{ this->body->setAngle(a);};
-    }
+void GObject::setInitialAngle(SpaceFloat a){
+    multiInit += [=]() -> void{ this->body->setAngle(a);};
+}
 
-    void GObject::setInitialAngularVelocity(SpaceFloat w){
-        multiInit += [=]() -> void{ this->body->setAngularVel(w);};
-    }
+void GObject::setInitialAngularVelocity(SpaceFloat w){
+    multiInit += [=]() -> void{ this->body->setAngularVel(w);};
+}
 
-    Vec2 GObject::getInitialCenterPix()
-    {
-        SpaceVect centerPix(initialCenter);
-        centerPix *= App::pixelsPerTile;
+Vec2 GObject::getInitialCenterPix()
+{
+    SpaceVect centerPix(initialCenter);
+    centerPix *= App::pixelsPerTile;
         
-        return toCocos(centerPix);
-    }
+    return toCocos(centerPix);
+}
 
-	void GObject::applyPhysicsProperties()
-	{
-		if (physicsPropertiesToApply.setPos)
-			body->setPos(physicsPropertiesToApply.pos);
+SpaceVect GObject::getPos() const {
+    return body->getPos();
+}
 
-		if (physicsPropertiesToApply.setAngle)
-			body->setAngle(physicsPropertiesToApply.angle);
-
-		if(physicsPropertiesToApply.setVel)
-			body->setVel(physicsPropertiesToApply.vel);
-
-		if (physicsPropertiesToApply.setAngularVel)
-			body->setAngularVel(physicsPropertiesToApply.angularVel);
-
-		if (physicsPropertiesToApply.setLayers)
-			body->setAllLayers(static_cast<unsigned int>(physicsPropertiesToApply.layers));
-
-		physicsPropertiesToApply.setPos = false;
-		physicsPropertiesToApply.setAngle = false;
-		physicsPropertiesToApply.setVel = false;
-		physicsPropertiesToApply.setAngularVel = false;
-		physicsPropertiesToApply.setLayers = false;
-	}
-
-     SpaceVect GObject::getPos() const {
-        return body->getPos();
-    }
-
-     void GObject::setPos(SpaceVect p){
-		 if (physicsPropertiesToApply.setPos) {
-			 log(
-				 "%s has multi-set position, from %f,%f to %f,%f",
-				 name.c_str(),
-				 physicsPropertiesToApply.pos.x,
-				 physicsPropertiesToApply.pos.y,
-				 p.x,
-				 p.y
-			 );
-
-		 }
-		 physicsPropertiesToApply.setPos = true;
-         physicsPropertiesToApply.pos = p;
-    }
+void GObject::setPos(SpaceVect p){
+	body->setPos(p);
+}
     
-    void GObject::setAngle(SpaceFloat a){
-		if (physicsPropertiesToApply.setAngle) {
-			log(
-				"%s has multi-set angle, from %f to %f",
-				name.c_str(),
-				physicsPropertiesToApply.angle,
-				a
-			);
-		}
-
-		physicsPropertiesToApply.setAngle = true;
-		physicsPropertiesToApply.angle = a;
-    }
+void GObject::setAngle(SpaceFloat a){
+	body->setAngle(a);
+}
     
-	SpaceFloat GObject::getAngle() const {
-        if(!body){
-            log("GObject::getAngle: %s has no physics body!", name.c_str());
-            return 0.0;
-        }
-        return canonicalAngle(body->getAngle());
-    }
+SpaceFloat GObject::getAngle() const {
+    return canonicalAngle(body->getAngle());
+}
 
-	SpaceFloat GObject::getCrntAngle() const {
-		if (!body) {
-			log("GObject::getAngle: %s has no physics body!", name.c_str());
-			return 0.0;
-		}
-
-		SpaceFloat a = physicsPropertiesToApply.setAngle ? physicsPropertiesToApply.angle : getAngle();
-
-		return a;
-	}
-
-     void GObject::rotate(SpaceFloat a){
-        setAngle(canonicalAngle(getCrntAngle() + a) );
-    }
+void GObject::rotate(SpaceFloat a){
+    setAngle(canonicalAngle(getAngle() + a) );
+}
     
-     SpaceVect GObject::getFacingVector() const{
-        return SpaceVect::ray(1.0f, getAngle());
-    }
+SpaceVect GObject::getFacingVector() const{
+    return SpaceVect::ray(1.0, getAngle());
+}
     
-    void GObject::setDirection(Direction d) {
-        if(body && d != Direction::none)
-            setAngle(dirToPhysicsAngle(d));
-    }
+void GObject::setDirection(Direction d) {
+    if(body && d != Direction::none)
+        setAngle(dirToPhysicsAngle(d));
+}
     
-     SpaceVect GObject::getVel() const {
-        return body->getVel();
-    }
+SpaceVect GObject::getVel() const {
+    return body->getVel();
+}
     
-	 void GObject::setVel(SpaceVect v) {
-		 if (physicsPropertiesToApply.setVel) {
-			log(
-				"%s has multi-set velocity, from %f,%f to %f,%f",
-				name.c_str(),
-				physicsPropertiesToApply.vel.x,
-				physicsPropertiesToApply.vel.y,
-				v.x,
-				v.y
-			);
-		}
+void GObject::setVel(SpaceVect v) {
+	body->setVel(v);
+}
 
-		 physicsPropertiesToApply.setVel = true;
-		 physicsPropertiesToApply.vel = v;
-    }
-
-	 SpaceFloat GObject::getAngularVel() const{
-        return body->getAngularVel();
-    }
+SpaceFloat GObject::getAngularVel() const{
+    return body->getAngularVel();
+}
     
-     void GObject::setAngularVel(SpaceFloat w){
-		 if (physicsPropertiesToApply.setAngularVel) {
-			 log(
-				 "%s has multi-set angular velocity, from %f to %f",
-				 name.c_str(),
-				 physicsPropertiesToApply.angularVel,
-				 w
-			 );
-		 }
+void GObject::setAngularVel(SpaceFloat w){
+	body->setAngularVel(w);
+}
 
-		 physicsPropertiesToApply.setAngularVel = true;
-		 physicsPropertiesToApply.angularVel = w;
-    }
-
-     void GObject::applyForceForSingleFrame(SpaceVect f){
-        body->applyImpulse(f * App::secondsPerFrame);
-    }
+void GObject::applyForceForSingleFrame(SpaceVect f){
+    body->applyImpulse(f * App::secondsPerFrame);
+}
     
-     void GObject::applyImpulse(SpaceFloat mag, SpaceFloat angle){
-        SpaceVect v = SpaceVect::ray(mag,angle);
+void GObject::applyImpulse(SpaceFloat mag, SpaceFloat angle){
+    SpaceVect v = SpaceVect::ray(mag,angle);
         
-        body->applyImpulse(v);
-    }
+    body->applyImpulse(v);
+}
 
 PhysicsLayers GObject::getCrntLayers()
 {
@@ -306,8 +223,7 @@ PhysicsLayers GObject::getCrntLayers()
 
 void GObject::setLayers(PhysicsLayers layers)
 {
-	physicsPropertiesToApply.layers = layers;
-	physicsPropertiesToApply.setLayers = true;
+	body->setAllLayers(to_uint(layers));
 }
 
 bool GObject::isOnFloor()

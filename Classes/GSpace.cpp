@@ -111,10 +111,6 @@ void GSpace::update()
     for(GObject* obj: objByUUID | boost::adaptors::map_values){
         obj->update();
     }
-
-	for(GObject* obj: objByUUID | boost::adaptors::map_values) {
-		obj->applyPhysicsProperties();
-	}
     
     processRemovals();
     
@@ -623,9 +619,9 @@ bool isSelfCollideType(GType t)
 
 void setShapeProperties(shared_ptr<Shape> shape, PhysicsLayers layers, GType type, bool sensor)
 {
-    shape->setLayers(static_cast<unsigned int>(layers));
-    shape->setGroup(static_cast<unsigned int>(type));
-    shape->setCollisionType(static_cast<unsigned int>(type));
+    shape->setLayers(to_uint(layers));
+    shape->setGroup(to_uint(type));
+    shape->setCollisionType(to_uint(type));
     shape->setSensor(sensor);
     shape->setSelfCollide(isSelfCollideType(type));
 }
@@ -1148,8 +1144,8 @@ SpaceFloat GSpace::distanceFeeler(const GObject * agent, SpaceVect _feeler, GTyp
     space.segmentQuery(
         start,
         end,
-        static_cast<unsigned int>(layers),
-        static_cast<unsigned int>(gtype),
+        to_uint(layers),
+        to_uint(gtype),
         queryCallback);
     
     return closest*_feeler.length();
@@ -1197,8 +1193,8 @@ bool GSpace::feeler(const GObject * agent, SpaceVect _feeler, GType gtype, Physi
     space.segmentQuery(
         start,
         end,
-        static_cast<unsigned int>(layers),
-        static_cast<unsigned int>(gtype),
+        to_uint(layers),
+        to_uint(gtype),
         queryCallback);
     
     return collision;
@@ -1225,8 +1221,8 @@ GObject* GSpace::objectFeeler(const GObject * agent, SpaceVect feeler, GType gty
 	space.segmentQuery(
 		start,
 		end,
-		static_cast<unsigned int>(layers),
-		static_cast<unsigned int>(gtype),
+		to_uint(layers),
+		to_uint(gtype),
 		queryCallback);
 
 	return bestResult;
@@ -1279,8 +1275,8 @@ GObject * GSpace::pointQuery(SpaceVect pos, GType type, PhysicsLayers layers)
 {
 	shared_ptr<Shape> result = space.pointQueryFirst(
 		pos,
-		static_cast<unsigned int>(layers),
-		static_cast<unsigned int>(type)
+		to_uint(layers),
+		to_uint(type)
 	);
 
 	if (!result)
