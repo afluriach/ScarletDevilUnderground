@@ -92,17 +92,6 @@ void PlayScene::applyCameraControls()
     }
 }
 
-bool PlayScene::getSuppressAction()
-{
-	return isSuppressAction;
-}
-
-
-void PlayScene::setSuppressAction(bool val)
-{
-	isSuppressAction = val;
-}
-
 //Rather than making an updater by capturing hud, just wrap it in a method to access hud from the supplied this.
 void PlayScene::updateHUD()
 {
@@ -187,6 +176,12 @@ void PlayScene::triggerGameOver()
 
 void PlayScene::showSceneCompletedMenu()
 {
+	//Since the ChamberCompletedMenu directly accesses gspace for object data,ensure that
+	//gspace update is not currently running before creating it.
+	while (spaceUpdatesToRun.load() > 0) {
+		this_thread::sleep_for(chrono::duration<int, milli>(1));
+	}
+
 	showMenu(Node::ccCreate<ChamberCompletedMenu>(this));
 }
 
@@ -212,11 +207,18 @@ void PlayScene::enterMap()
 	if (isShowingMenu)
 		return;
 
-	mapMenu = Node::ccCreate<MapMenu>(this);
-	getLayer(sceneLayers::menu)->addChild(mapMenu);
 	pauseAnimations();
 	setPaused(true);
 	isShowingMenu = true;
+
+	//Since the MapMenu directly accesses gspace for object data, ensure that
+	//gspace update is not currently running before creating it.
+	while (spaceUpdatesToRun.load() > 0) {
+		this_thread::sleep_for(chrono::duration<int, milli>(1));
+	}
+
+	mapMenu = Node::ccCreate<MapMenu>(this);
+	getLayer(sceneLayers::menu)->addChild(mapMenu);
 }
 
 void PlayScene::exitMap()

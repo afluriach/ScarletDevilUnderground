@@ -67,15 +67,8 @@ void Player::onPitfall()
 		return;
 	}
 
-	attributeSystem.modifyAttribute(Attribute::hp, -1.0f);
-
-	if (getHealth() == 0.0f && playScene) {
-		playScene->triggerGameOver();
-	}
-	else {
-		space->runSpriteAction(spriteID, pitfallShrinkAction());
-		startRespawn();
-	}
+	space->runSpriteAction(spriteID, pitfallShrinkAction());
+	startRespawn();
 }
 
 SpaceFloat Player::getSpellLength()
@@ -97,7 +90,7 @@ SpaceVect Player::getInteractFeeler() const
 
 void Player::init()
 {
-	if (playScene && !playScene->getSuppressAction()) {
+	if (playScene && !space->getSuppressAction()) {
 		space->getScene()->addAction(make_hud_action(
 			&HUD::setMaxHP,
 			to_int(attributeSystem.getAdjustedValue(Attribute::maxHP))
@@ -252,7 +245,11 @@ void Player::onZeroHP()
 {
 	if (!GScene::suppressGameOver) {
 		App::playSound("sfx/player_death.wav", 0.5f);
-		playScene->triggerGameOver();
+
+		playScene->addAction(
+			[=]()->void { playScene->triggerGameOver();},
+			GScene::updateOrder::sceneUpdate
+		);
 	}
 }
 
@@ -260,7 +257,7 @@ void Player::update()
 {
 	App::setSoundListenerPos(getPos(), getVel(), float_pi/2.0);
 
-	if (playScene && !playScene->getGameOver()) {
+	if (playScene) {
 		
 		space->getScene()->addAction(
 			bind(&GScene::setUnitPosition, playScene, getPos()),
@@ -277,7 +274,7 @@ void Player::update()
 		checkMovementControls(cs);
 		checkItemInteraction(cs);
 
-		if (!playScene->getSuppressAction()) {
+		if (!space->getSuppressAction()) {
 			checkFireControls(cs);
 			updateSpellControls(cs);
 
@@ -498,6 +495,8 @@ void Player::applyRespawn()
 	suppressMovement = false;
 
 	respawnMaskTimer = 0.25;
+
+	hit({ { Attribute::hp, -1.0f } }, nullptr);
 }
 
 bool Player::trySetFirePattern(size_t idx)

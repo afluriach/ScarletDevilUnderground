@@ -37,8 +37,6 @@ public:
 
     void updateHUD();
     void applyCameraControls();
-	void setSuppressAction(bool val);
-	bool getSuppressAction();
 
 	void onPausePressed();
 	virtual void enterPause();
@@ -53,7 +51,6 @@ public:
     
     void triggerGameOver();
     void showGameOverMenu();
-	inline bool getGameOver() { return isGameOver; }
 
 	void triggerSceneCompleted();
 	void showSceneCompletedMenu();
@@ -77,8 +74,6 @@ private:
 	unique_ptr<ControlReplay> controlReplay;
 	bool isRunningReplay = false;
 	bool isShowingMenu = false;
-	bool isSuppressAction = false;
-	bool isGameOver = false;
 };
 
 #endif /* PlayScene_hpp */

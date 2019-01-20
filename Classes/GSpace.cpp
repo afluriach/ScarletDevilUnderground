@@ -476,6 +476,16 @@ void GSpace::teleportPlayerToDoor(string doorName)
 	}
 }
 
+void GSpace::setSuppressAction(bool b)
+{
+	suppressAction = b;
+}
+
+bool GSpace::getSuppressAction()
+{
+	return suppressAction;
+}
+
 //END OBJECT MANIPULATION
 
 //BEGIN GRAPHICS

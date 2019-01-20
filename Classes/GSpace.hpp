@@ -136,7 +136,8 @@ public:
 	void addObjectAction(function<void()> f);
 
 	void teleportPlayerToDoor(string doorName);
-
+	void setSuppressAction(bool b);
+	bool getSuppressAction();
 private:
     void processRemovals();
     void initObjects();
@@ -150,6 +151,8 @@ private:
 	
 	vector<function<void()>> objectActions;
 	mutex objectActionsMutex;
+
+	bool suppressAction = false;
 
 	unsigned int nextObjUUID = 1;
     

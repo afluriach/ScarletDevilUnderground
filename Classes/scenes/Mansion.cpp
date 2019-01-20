@@ -8,6 +8,7 @@
 
 #include "Prefix.h"
 
+#include "GSpace.hpp"
 #include "macros.h"
 #include "Mansion.hpp"
 
@@ -37,7 +38,10 @@ PlayScene("Mansion", rooms)
 void Mansion::initHUD()
 {
 	hud->setMansionMode(true);
-	setSuppressAction(true);
+
+	gspace->addObjectAction([=]()->void {
+		gspace->setSuppressAction(true);
+	});
 }
 
 GScene* Mansion::getReplacementScene()

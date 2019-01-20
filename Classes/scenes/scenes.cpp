@@ -897,7 +897,7 @@ void GScene::spaceUpdateMain()
 {
 	while (!isExit)
 	{
-		while (!isExit && !isPaused && spaceUpdatesToRun.load() > 0) {
+		while (!isExit && spaceUpdatesToRun.load() > 0) {
 			gspace->update();
 			spaceUpdatesToRun.fetch_sub(1);
 		}
