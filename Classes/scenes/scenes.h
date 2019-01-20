@@ -130,6 +130,8 @@ public:
 
 	unsigned int addLightSource(CircleLightArea light);
 	unsigned int addLightSource(AmbientLightArea light);
+	unsigned int addLightSource(ConeLightArea light);
+	void updateLightSource(unsigned int id, ConeLightArea light);
 	void removeLightSource(unsigned int id);
 	void setLightSourcePosition(unsigned int id, SpaceVect pos);
 
@@ -236,6 +238,7 @@ protected:
 	DrawNode* lightmapBackground = nullptr;
 	map<unsigned int, AmbientLightArea> ambientLights;
 	map<unsigned int, CircleLightArea> circleLights;
+	map<unsigned int, ConeLightArea> coneLights;
 	map<unsigned int, RadialGradient*> lightmapRadials;
 
 	list<pair<function<void(void)>, updateOrder>> actions;

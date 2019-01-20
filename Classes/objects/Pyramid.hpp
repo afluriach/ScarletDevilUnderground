@@ -57,6 +57,7 @@ public:
 protected:
 	set<object_ref<Agent>> targets;
 	SpaceFloat angular_speed = 0.0;
+	unsigned int coneLightID;
 	boost::rational<int> discrete_look = 0;
 };
 #endif /* Pyramid_hpp */

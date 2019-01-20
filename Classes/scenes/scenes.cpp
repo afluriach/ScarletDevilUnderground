@@ -328,6 +328,24 @@ unsigned int GScene::addLightSource(AmbientLightArea light)
 	return id;
 }
 
+unsigned int GScene::addLightSource(ConeLightArea light)
+{
+	unsigned int id = nextLightID++;
+	lightmapMutex.lock();
+
+	coneLights.insert_or_assign(id, light);
+
+	lightmapMutex.unlock();
+	return id;
+}
+
+void GScene::updateLightSource(unsigned int id, ConeLightArea light)
+{
+	lightmapMutex.lock();
+	coneLights.insert_or_assign(id, light);
+	lightmapMutex.unlock();
+}
+
 void GScene::removeLightSource(unsigned int id)
 {
 	lightmapMutex.lock();
@@ -973,6 +991,25 @@ void GScene::redrawLightmap()
 			lightmapDrawNode->drawSolidRect(center - halfDim, center + halfDim, color);
 		}
 	}
+
+	for (ConeLightArea light : coneLights | boost::adaptors::map_values)
+	{
+		Color4F color = toColor4F(light.color) * light.intensity;
+		Vec2 center = toCocos(light.origin) * App::pixelsPerTile;
+		float diameter = light.radius * 2.0f * App::pixelsPerTile;
+
+		CCRect bounds(
+			(light.origin.x - light.radius) * App::pixelsPerTile,
+			(light.origin.y - light.radius) * App::pixelsPerTile,
+			diameter,
+			diameter
+		);
+
+		if (isInPlayerRoom(light.origin) && cameraPix.intersectsRect(bounds)) {
+			lightmapDrawNode->drawSolidCone(center, light.radius*App::pixelsPerTile, light.startAngle, light.endAngle, 128, color);
+		}
+	}
+
 	lightmapMutex.unlock();
 }
 

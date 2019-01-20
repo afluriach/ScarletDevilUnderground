@@ -40,6 +40,15 @@ struct CircleLightArea
 	float flood;
 };
 
+struct ConeLightArea
+{
+	SpaceVect origin;
+	SpaceFloat radius;
+	Color3B color;
+	float intensity;
+	float startAngle, endAngle;
+};
+
 class RadialGradient : public Node
 {
 public:
@@ -109,6 +118,7 @@ public:
     virtual void drawShape();
 };
 
+Color3B toColor3B(const Color4F& color);
 Color4F toColor4F(Color3B);
 
 Color4F operator*(const Color4F& lhs, float rhs);

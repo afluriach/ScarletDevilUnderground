@@ -13,6 +13,7 @@
 #include "GSpace.hpp"
 #include "macros.h"
 #include "Pyramid.hpp"
+#include "scenes.h"
 #include "value_map.hpp"
 
 const SpaceFloat Pyramid::coneLength = 4.0;
@@ -62,18 +63,16 @@ void Pyramid::update()
 
 void Pyramid::redrawLightCone()
 {
-	space->clearDrawNode(drawNodeID);
-	SpaceFloat a = getAngle();
+	float a = getAngle();
 	
-	space->drawSolidCone(
-		drawNodeID,
-		Vec2::ZERO,
-		coneLength * App::pixelsPerTile,
-		a - coneAngle / 2.0,
-		a + coneAngle / 2.0,
-		coneSegments,
-		targets.empty() ? coneColor : coneActiveColor
-	);
+	space->getScene()->updateLightSource(coneLightID, ConeLightArea{
+		getPos(),
+		coneLength,
+		toColor3B(targets.empty() ? coneColor : coneActiveColor),
+		1.0f,
+		to_float(a - coneAngle / 2.0f),
+		to_float(a + coneAngle / 2.0f) 
+	});
 }
 
 PhysicsLayers Pyramid::getLayers() const{
@@ -98,10 +97,16 @@ void Pyramid::onEndDetect(GObject* other)
 
 void Pyramid::initializeGraphics()
 {
+	SpaceFloat a = getAngle();
 	spriteID = space->createSprite(imageSpritePath(), GraphicsLayer::ground, getInitialCenterPix(), 1.0f);
-	drawNodeID = space->createDrawNode(GraphicsLayer::overhead, getInitialCenterPix(), 1.0f);
-
-	redrawLightCone();
+	coneLightID = space->getScene()->addLightSource(ConeLightArea{
+		getPos(),
+		coneLength,
+		toColor3B(coneColor),
+		1.0f,
+		to_float(a - coneAngle/2.0f),
+		to_float(a+coneAngle/2.0f)
+	});
 }
 
 void Pyramid::initStateMachine(ai::StateMachine& sm) {

@@ -189,6 +189,11 @@ void DownTriangleCursor::drawShape()
     drawNode->drawTriangle(left,right,bottom,colors[crntColor]);
 }
 
+Color3B toColor3B(const Color4F& color)
+{
+	return Color3B(color.r * 255, color.g * 255, color.b * 255);
+}
+
 Color4F toColor4F(Color3B color)
 {
 	return Color4F(color.r / 255.0f, color.g / 255.0f, color.b / 255.0f, 1.0f);
