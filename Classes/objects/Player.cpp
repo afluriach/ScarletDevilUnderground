@@ -267,6 +267,11 @@ void Player::update()
 			GScene::updateOrder::moveCamera
 		);
 
+		space->getScene()->addAction(
+			bind(&GScene::updateMapVisibility, playScene, getPos()),
+			GScene::updateOrder::sceneUpdate
+		);
+
 		ControlInfo cs = playScene->getControlData();
 
 		checkMovementControls(cs);

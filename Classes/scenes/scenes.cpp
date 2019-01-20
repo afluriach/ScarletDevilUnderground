@@ -18,7 +18,6 @@
 #include "GSpace.hpp"
 #include "LuaAPI.hpp"
 #include "macros.h"
-#include "Player.hpp"
 #include "PlayScene.hpp"
 #include "scenes.h"
 #include "types.h"
@@ -127,12 +126,12 @@ control_listener(make_unique<ControlListener>())
 		to_int(updateOrder::sceneUpdate)
 	);
 	multiUpdate.insertWithOrder(
-		wrap_method(GScene, updateMapVisibility, this),
-		to_int(updateOrder::sceneUpdate)
-	);
-	multiUpdate.insertWithOrder(
 		wrap_method(GScene, renderSpace, this),
 		to_int(updateOrder::renderSpace)
+	);
+	multiUpdate.insertWithOrder(
+		bind(&GScene::runActionsWithOrder, this, updateOrder::sceneUpdate),
+		to_int(updateOrder::sceneUpdate)
 	);
 	multiUpdate.insertWithOrder(
 		bind(&GScene::runActionsWithOrder, this, updateOrder::hudUpdate),
@@ -907,12 +906,9 @@ void GScene::spaceUpdateMain()
 	}
 }
 
-
-void GScene::updateMapVisibility()
+void GScene::updateMapVisibility(SpaceVect playerPos)
 {
-	Player* p = gspace->getObjectAs<Player>("player");
-	SpaceVect _pos = p ? p->getPos() : SpaceVect::zero;
-	Vec2 pos(_pos.x, _pos.y);
+	Vec2 pos(playerPos.x, playerPos.y);
 
 	for (int i = 0; i < tilemaps.size() && mapAreas.size(); ++i){
 		tilemaps.at(i)->setVisible(
@@ -920,7 +916,7 @@ void GScene::updateMapVisibility()
 			mapAreasVisited.at(i)
 		);
 
-		if (p && mapAreas.at(i).containsPoint(pos)) {
+		if (mapAreas.at(i).containsPoint(pos)) {
 			crntMap = i;
 			mapAreasVisited.at(i) = true;
 		}

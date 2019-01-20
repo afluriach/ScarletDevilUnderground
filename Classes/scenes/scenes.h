@@ -173,6 +173,8 @@ public:
 	bool isInPlayerRoom(SpaceVect v);
 	int getPlayerRoom();
 
+	void updateMapVisibility(SpaceVect playerPos);
+	
 	void teleportToDoor(string name);
 
 	Layer* getLayer(sceneLayers layer);
@@ -201,7 +203,6 @@ protected:
 	void initEnemyStats();
 	void spaceUpdateMain();
 
-	void updateMapVisibility();
 	void renderSpace();
 	void redrawLightmap();
 	void cycleDisplayMode();
