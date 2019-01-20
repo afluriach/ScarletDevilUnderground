@@ -104,7 +104,8 @@ public:
 	bool trySetFirePatternPrevious();
 
     void onCollectible(Collectible* coll);
-	void useDoor(Door* d);
+	void useDoor(Door* interactTarget);
+	void moveToDestinationDoor(Door* dest);
 	void applyUpgrade(Upgrade* up);
 
 	//The bullet's graze "radar" has collided with Player.

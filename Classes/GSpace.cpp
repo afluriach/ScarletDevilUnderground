@@ -12,6 +12,7 @@
 #include "App.h"
 #include "AreaSensor.hpp"
 #include "Collectibles.hpp"
+#include "Door.hpp"
 #include "EffectArea.hpp"
 #include "Enemy.hpp"
 #include "EnemyBullet.hpp"
@@ -111,6 +112,13 @@ void GSpace::update()
     for(GObject* obj: objByUUID | boost::adaptors::map_values){
         obj->update();
     }
+
+	objectActionsMutex.lock();
+	for (auto f : objectActions) {
+		f();
+	}
+	objectActions.clear();
+	objectActionsMutex.unlock();
     
     processRemovals();
     
@@ -449,6 +457,23 @@ map<type_index, pair<unsigned int, unsigned int>> GSpace::getEnemyStats()
 	}
 
 	return result;
+}
+
+void GSpace::addObjectAction(function<void()> f)
+{
+	objectActionsMutex.lock();
+	objectActions.push_back(f);
+	objectActionsMutex.unlock();
+}
+
+void GSpace::teleportPlayerToDoor(string doorName)
+{
+	Door* d = getObjectAs<Door>(doorName);
+	Player* p = getObjectAs<Player>("player");
+
+	if (d && p) {
+		p->moveToDestinationDoor(d);
+	}
 }
 
 //END OBJECT MANIPULATION

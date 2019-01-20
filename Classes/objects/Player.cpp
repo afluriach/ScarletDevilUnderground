@@ -419,19 +419,24 @@ void Player::onCollectible(Collectible* coll)
 	}
 }
 
-void Player::useDoor(Door* d)
+void Player::useDoor(Door* interactTarget)
 {
-	Door* dest = d->getDestination();
+	Door* dest = interactTarget->getDestination();
 
 	if (dest)
 	{
-		setPos(dest->getEntryPosition());
-		setVel(SpaceVect::zero);
-		setDirection(dest->getEntryDirection());
-
-		respawnPos = dest->getEntryPosition();
-		respawnAngle = dirToPhysicsAngle(dest->getEntryDirection());
+		moveToDestinationDoor(dest);
 	}
+}
+
+void Player::moveToDestinationDoor(Door* dest)
+{
+	setPos(dest->getEntryPosition());
+	setVel(SpaceVect::zero);
+	setDirection(dest->getEntryDirection());
+
+	respawnPos = dest->getEntryPosition();
+	respawnAngle = dirToPhysicsAngle(dest->getEntryDirection());
 }
 
 void Player::applyUpgrade(Upgrade* up)

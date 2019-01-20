@@ -173,6 +173,8 @@ public:
 	bool isInPlayerRoom(SpaceVect v);
 	int getPlayerRoom();
 
+	void teleportToDoor(string name);
+
 	Layer* getLayer(sceneLayers layer);
 	inline Layer* getSpaceLayer() { return getLayer(sceneLayers::space); }
 

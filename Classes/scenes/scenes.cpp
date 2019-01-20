@@ -699,6 +699,13 @@ int GScene::getPlayerRoom()
 	return crntMap;
 }
 
+void GScene::teleportToDoor(string name)
+{
+	gspace->addObjectAction([=]()->void {
+		gspace->teleportPlayerToDoor(name);
+	});
+}
+
 Layer* GScene::getLayer(sceneLayers layer)
 {
 	auto it = layers.find(to_int(layer));

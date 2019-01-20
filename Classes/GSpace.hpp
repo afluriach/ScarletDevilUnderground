@@ -133,6 +133,10 @@ public:
 	void setInitialObjectCount();
 	map<type_index, pair<unsigned int, unsigned int>> getEnemyStats();
 
+	void addObjectAction(function<void()> f);
+
+	void teleportPlayerToDoor(string doorName);
+
 private:
     void processRemovals();
     void initObjects();
@@ -143,6 +147,9 @@ private:
 	unordered_set<string> warningNames;
 	unordered_map<type_index, set<GObject*>> objByType;
 	unordered_map<type_index, unsigned int> initialObjectCount;
+	
+	vector<function<void()>> objectActions;
+	mutex objectActionsMutex;
 
 	unsigned int nextObjUUID = 1;
     
