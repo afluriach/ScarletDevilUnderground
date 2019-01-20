@@ -136,6 +136,15 @@ public:
 
 	void addObjectAction(function<void()> f);
 
+	void updatePlayerMapLocation(const SpaceVect& pos);
+	void addMapArea(const SpaceRect& area);
+	SpaceRect getCameraArea();
+	const vector<SpaceRect>& getMapAreas();
+	int getMapLocation(SpaceRect r);
+	bool isInCameraArea(SpaceRect r);
+	bool isInPlayerRoom(SpaceVect v);
+	int getPlayerRoom();
+
 	void teleportPlayerToDoor(string doorName);
 	void setSuppressAction(bool b);
 	bool getSuppressAction();
@@ -149,6 +158,10 @@ private:
 	unordered_set<string> warningNames;
 	unordered_map<type_index, set<GObject*>> objByType;
 	unordered_map<type_index, unsigned int> initialObjectCount;
+
+	SpaceRect cameraArea;
+	int crntMap = -1;
+	vector<SpaceRect> mapAreas;
 	
 	vector<function<void()>> objectActions;
 	mutex objectActionsMutex;

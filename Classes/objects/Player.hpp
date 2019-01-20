@@ -122,12 +122,6 @@ protected:
 	void setHudEffect(Attribute id, float maxVal);
 	void updateHudAttribute(Attribute id);
 
-	template<typename...Args>
-	inline pair<function<void(void)>, GScene::updateOrder> make_hud_action(void (HUD::*m)(Args...), Args ...args)
-	{
-		return pair<function<void(void)>, GScene::updateOrder>(generate_action(playScene->hud, m, args...), GScene::updateOrder::hudUpdate);
-	}
-
 	LightID light = 0;
 
 	SpaceVect respawnPos;

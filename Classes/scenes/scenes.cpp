@@ -626,8 +626,7 @@ void GScene::_removeSprite(SpriteID id)
 
 void GScene::setUnitPosition(const SpaceVect& v)
 {
-	SpaceFloat heightRatio = 1.0f * App::height / App::width;
-	cameraArea = SpaceRect(v, SpaceVect(App::viewWidth,App::viewWidth*heightRatio));
+	cameraArea = calculateCameraArea(v);
 		
 	getSpaceLayer()->setPosition(
 		(-App::pixelsPerTile*v.x + App::width / 2)*spaceZoom,
@@ -661,16 +660,7 @@ const vector<bool>& GScene::getMapAreasVisited()
 
 int GScene::getMapLocation(SpaceRect r)
 {
-	for_irange(i, 0, mapAreas.size())
-	{
-		SpaceRect mapArea = mapAreas.at(i);
-
-		if (r.getMinX() >= mapArea.getMinX() && r.getMaxX() <= mapArea.getMaxX() &&
-			r.getMinY() >= mapArea.getMinY() && r.getMaxY() <= mapArea.getMaxY()) {
-			return i;
-		}
-	}
-	return -1;
+	return getAreaIndex(mapAreas, r);
 }
 
 bool GScene::isInCameraArea(SpaceRect r)
@@ -680,12 +670,7 @@ bool GScene::isInCameraArea(SpaceRect r)
 
 bool GScene::isInPlayerRoom(SpaceVect v)
 {
-	if (crntMap == -1) {
-		return true;
-	}
-
-	SpaceRect mapArea = mapAreas.at(crntMap);
-	return mapArea.containsPoint(v);
+	return isInArea(mapAreas, v, crntMap);
 }
 
 int GScene::getPlayerRoom()
@@ -747,6 +732,7 @@ void GScene::loadMap(const MapEntry& mapEntry)
 
 	tilemaps.pushBack(tileMap);
 	mapAreas.push_back(mapRect);
+	gspace->addMapArea(mapRect);
 	mapAreasVisited.push_back(false);
 
 	getSpaceLayer()->positionAndAddNode(

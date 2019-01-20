@@ -365,8 +365,8 @@ float GObject::zoom() const {
 
 void GObject::updateSprite()
 {
-	bool visible = space->getScene()->isInCameraArea(getBoundingBox()) &&
-		space->getScene()->isInPlayerRoom(getPos());
+	bool visible = space->isInCameraArea(getBoundingBox()) &&
+		space->isInPlayerRoom(getPos());
 
     if(spriteID != 0){
 		space->setSpritePosition(spriteID, toCocos(body->getPos())*App::pixelsPerTile);

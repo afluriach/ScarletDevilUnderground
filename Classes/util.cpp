@@ -155,6 +155,42 @@ vector<string> splitString(const string& input,const string& sep)
     return output;
 }
 
+bool isInArea(const vector<SpaceRect>& areas, const SpaceVect& target, int index)
+{
+	if (index == -1) {
+		return true;
+	}
+
+	SpaceRect mapArea = areas.at(index);
+	return mapArea.containsPoint(target);
+}
+
+int getAreaIndex(const vector<SpaceRect>& areas, const SpaceRect& target)
+{
+	SpaceVect targetLL = target.getLLCorner();
+	SpaceVect targetUR = target.getURCorner();
+
+	for_irange(i, 0, areas.size())
+	{
+		SpaceRect mapArea = areas.at(i);
+
+		SpaceVect crntLL = mapArea.getLLCorner();
+		SpaceVect crntUR = mapArea.getURCorner();
+
+		if (targetLL.x >= crntLL.x && targetUR.x <= crntUR.x &&
+			targetLL.y >= crntLL.y && targetUR.y <= crntUR.y) {
+			return i;
+		}
+	}
+	return -1;
+}
+
+SpaceRect calculateCameraArea(const SpaceVect& pos)
+{
+	SpaceFloat heightRatio = 1.0f * App::height / App::width;
+	return SpaceRect(pos, SpaceVect(App::viewWidth, App::viewWidth*heightRatio));
+}
+
 SpaceFloat canonicalAngle(SpaceFloat a)
 {
     return a - float_2pi * floor( a / float_2pi);

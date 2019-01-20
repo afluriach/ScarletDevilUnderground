@@ -160,10 +160,11 @@ public:
 
 	virtual bool init();
 	void update();
-	void setEnemy(object_ref<Enemy>);
+	void setEnemy(string _name, float _hp, float _maxHP);
+	void setEnemyHealth(float _hp);
 	bool isValid();
 protected:
-	object_ref<Enemy> enemy;
+	float hp = 0.0f, maxHP = 0.0f;
 	DrawNode* healthBar;
 	Label* name;
 };
@@ -214,8 +215,10 @@ public:
 	void setInteractionIcon(string val);
 	void setFirePatternIcon(string val);
 
-	void setEnemyInfo(object_ref<Enemy>);
-    
+	void setEnemyInfo(string name, float hp, float maxHP);
+	void updateEnemyInfo(float hp);
+	void clearEnemyInfo();
+
 protected:
     object_ref<Player> player;
 	GSpace* space;

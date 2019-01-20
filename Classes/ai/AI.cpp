@@ -1115,7 +1115,7 @@ void FireIfTargetVisible::update(StateMachine& sm)
 	
 	pattern.get()->update();
 
-	if (ro->isObjectVisible(target.get()) && sm.agent->space->getScene()->isInPlayerRoom(sm.agent->getPos()))
+	if (ro->isObjectVisible(target.get()) && sm.agent->space->isInPlayerRoom(sm.agent->getPos()))
 	{
 		if (pattern.get()->fireIfPossible()) {
 			App::playSoundSpatial("sfx/shot.wav", sm.agent->getPos(), sm.agent->getVel());

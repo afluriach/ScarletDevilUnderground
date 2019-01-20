@@ -377,30 +377,34 @@ bool EnemyInfo::init()
 
 void EnemyInfo::update()
 {
-	if (!enemy.isValid()) {
-		return;
-	}
-
 	healthBar->clear();
 
-	float hpRatio = enemy.get()->getHealthRatio();
-	healthBar->drawSolidRect(Vec2(-64, -16), Vec2(64, 16), Color4F(0.0f, 0.0f, 0.0f, 1.0f));
-	healthBar->drawSolidRect(Vec2(-64, -16), Vec2(-64  + 128*hpRatio , 16), Color4F(1.0f, 0.0f, 0.0f, 1.0f));
+	if (maxHP > 0.0f) {
+		float hpRatio = hp / maxHP;
+		healthBar->drawSolidRect(Vec2(-64, -16), Vec2(64, 16), Color4F(0.0f, 0.0f, 0.0f, 1.0f));
+		healthBar->drawSolidRect(Vec2(-64, -16), Vec2(-64 + 128 * hpRatio, 16), Color4F(1.0f, 0.0f, 0.0f, 1.0f));
+	}
 }
 
-void EnemyInfo::setEnemy(object_ref<Enemy> e)
+void EnemyInfo::setEnemy(string _name, float _hp, float _maxHP)
 {
-	enemy = e;
+	hp = _hp;
+	maxHP = _maxHP;
 
 	removeChild(name);
-	name = createTextLabel(e.isValid() ? e.get()->getName() : "", 24);
+	name = createTextLabel(_name, 24);
 	name->setPosition(Vec2(0, 16));
 	addChild(name);
 }
 
+void EnemyInfo::setEnemyHealth(float _hp)
+{
+	hp = _hp;
+}
+
 bool EnemyInfo::isValid()
 {
-	return enemy.isValid();
+	return hp > 0.0f;
 }
 
 //const Color4F HUD::backgroundColor = Color4F(0,0,0,0.75);
@@ -575,9 +579,20 @@ void HUD::setPercentValue(Attribute element, int val) {
 	magicEffects->setPercentValue(element, val);
 }
 
-void HUD::setEnemyInfo(object_ref<Enemy> e)
+void HUD::setEnemyInfo(string name, float hp, float maxHP)
 {
-	enemyInfo->setEnemy(e);
+	enemyInfo->setVisible(true);
+	enemyInfo->setEnemy(name, hp, maxHP);
+}
+
+void HUD::updateEnemyInfo(float hp)
+{
+	enemyInfo->setEnemyHealth(hp);
+}
+
+void HUD::clearEnemyInfo()
+{
+	enemyInfo->setVisible(false);
 }
 
 Counter::Counter(const string& iconRes, const int val) :

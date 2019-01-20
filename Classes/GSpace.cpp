@@ -16,6 +16,7 @@
 #include "EffectArea.hpp"
 #include "Enemy.hpp"
 #include "EnemyBullet.hpp"
+#include "enum.h"
 #include "FloorSegment.hpp"
 #include "GObject.hpp"
 #include "Graph.hpp"
@@ -487,6 +488,63 @@ bool GSpace::getSuppressAction()
 {
 	return suppressAction;
 }
+
+void GSpace::updatePlayerMapLocation(const SpaceVect& pos)
+{
+	for (int i = 0; i < mapAreas.size(); ++i) {
+		if (mapAreas.at(i).containsPoint(pos)) {
+			crntMap = i;
+		}
+	}
+
+	cameraArea = calculateCameraArea(pos);
+
+	gscene->addAction(
+		bind(&GScene::updateMapVisibility, gscene, pos),
+		GScene::updateOrder::sceneUpdate
+	);
+
+	gscene->addAction(
+		bind(&GScene::setUnitPosition, gscene, pos),
+		GScene::updateOrder::moveCamera
+	);
+}
+
+void GSpace::addMapArea(const SpaceRect& area)
+{
+	mapAreas.push_back(area);
+}
+
+SpaceRect GSpace::getCameraArea()
+{
+	return cameraArea;
+}
+
+const vector<SpaceRect>& GSpace::getMapAreas()
+{
+	return mapAreas;
+}
+
+int GSpace::getMapLocation(SpaceRect r)
+{
+	return getAreaIndex(mapAreas, r);
+}
+
+bool GSpace::isInCameraArea(SpaceRect r)
+{
+	return cameraArea.intersectsRect(r);
+}
+
+bool GSpace::isInPlayerRoom(SpaceVect v)
+{
+	return isInArea(mapAreas, v, crntMap);
+}
+
+int GSpace::getPlayerRoom()
+{
+	return crntMap;
+}
+
 
 //END OBJECT MANIPULATION
 

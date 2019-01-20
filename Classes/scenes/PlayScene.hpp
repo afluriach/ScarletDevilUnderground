@@ -76,4 +76,10 @@ private:
 	bool isShowingMenu = false;
 };
 
+template<typename...Args>
+inline pair<function<void(void)>, GScene::updateOrder> make_hud_action(void (HUD::*m)(Args...), PlayScene* playScene, Args ...args)
+{
+	return pair<function<void(void)>, GScene::updateOrder>(generate_action(playScene->hud, m, args...), GScene::updateOrder::hudUpdate);
+}
+
 #endif /* PlayScene_hpp */

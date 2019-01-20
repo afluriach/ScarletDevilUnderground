@@ -30,6 +30,10 @@ Direction angleToDirection(SpaceFloat a);
 Direction stringToDirection(string str);
 string directionToString(Direction d);
 
+bool isInArea(const vector<SpaceRect>& areas, const SpaceVect& target, int index);
+int getAreaIndex(const vector<SpaceRect>& areas, const SpaceRect& target);
+SpaceRect calculateCameraArea(const SpaceVect& pos);
+
 SpaceFloat canonicalAngle(SpaceFloat a);
 
 SpaceFloat toDegrees(SpaceFloat a);
