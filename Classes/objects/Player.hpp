@@ -47,6 +47,7 @@ public:
 
 	virtual void setFirePatterns() = 0;
 	virtual void equipSpells() = 0;
+	virtual CircleLightArea getLight() = 0;
 	SpaceFloat getSpellLength();
 
 	virtual void initializeGraphics();
@@ -126,6 +127,8 @@ protected:
 		return pair<function<void(void)>, GScene::updateOrder>(generate_action(playScene->hud, m, args...), GScene::updateOrder::hudUpdate);
 	}
 
+	LightID light = 0;
+
 	SpaceVect respawnPos;
 	SpaceFloat respawnAngle;
 	SpaceFloat respawnTimer = 0.0;
@@ -160,6 +163,7 @@ public:
 	virtual bool isAgentAnimation() const { return true; }
 	virtual inline int pixelWidth() const { return 512; }
 
+	virtual CircleLightArea getLight();
 	virtual void setFirePatterns();
 	virtual void equipSpells();
 };
@@ -175,6 +179,7 @@ public:
 	virtual bool isAgentAnimation() const { return true; }
 	virtual inline int pixelWidth() const { return 512; }
 
+	virtual CircleLightArea getLight();
 	virtual void setFirePatterns();
 	virtual void equipSpells();
 };
@@ -187,6 +192,7 @@ public:
 	MapObjCons(CirnoPC);
 	
 	virtual inline string imageSpritePath() const { return "sprites/cirno.png"; }
+	virtual CircleLightArea getLight();
 	virtual void setFirePatterns();
 	virtual void equipSpells();
 };

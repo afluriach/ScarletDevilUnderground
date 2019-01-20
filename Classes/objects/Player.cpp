@@ -55,6 +55,7 @@ void Player::initializeGraphics()
 	PatchConSprite::initializeGraphics();
 
 	drawNodeID = space->createDrawNode(GraphicsLayer::agentOverlay, getInitialCenterPix(), 1.0f);
+	light = space->getScene()->addLightSource(getLight());
 
 	space->drawSolidCircle(drawNodeID, Vec2::ZERO, to_float(App::pixelsPerTile*grazeRadius), 0.0f, 64, Color4F(0.5f, 0.5f, 0.5f, 0.5f));
 	space->drawSolidCircle(drawNodeID, Vec2::ZERO, to_float(App::pixelsPerTile*getRadius()), 0.0f, 64, Color4F(0.5f, 0.5f, 0.5f, 0.5f));
@@ -301,6 +302,8 @@ void Player::update()
 		if (respawnTimer <= 0.0 && isRespawnActive) {
 			applyRespawn();
 		}
+
+		playScene->setLightSourcePosition(light, getPos());
 	}
 }
 
@@ -572,6 +575,17 @@ FlandrePC::FlandrePC(GSpace* space, ObjectIDType id, const ValueMap& args) :
 	MapObjForwarding(Player)
 {}
 
+CircleLightArea FlandrePC::getLight()
+{
+	return CircleLightArea{
+		getPos(),
+		4.0,
+		Color3B(240,120,120),
+		0.75f,
+		0.5f
+	};
+}
+
 void FlandrePC::setFirePatterns()
 {
 	firePatterns.push_back(make_shared<FlandreFastOrbPattern>(this));
@@ -599,6 +613,18 @@ RumiaPC::RumiaPC(GSpace* space, ObjectIDType id, const ValueMap& args) :
 	MapObjForwarding(Player)
 {}
 
+CircleLightArea RumiaPC::getLight()
+{
+	return CircleLightArea{
+		getPos(),
+		3.0,
+		Color3B(120,240,240),
+		0.5f,
+		0.5f
+	};
+}
+
+
 void RumiaPC::setFirePatterns()
 {
 	firePatterns.push_back(make_shared<RumiaParallelPattern>(this));
@@ -624,6 +650,17 @@ CirnoPC::CirnoPC(GSpace* space, ObjectIDType id, const ValueMap& args) :
 	MapObjForwarding(Agent),
 	MapObjForwarding(Player)
 {}
+
+CircleLightArea CirnoPC::getLight()
+{
+	return CircleLightArea{
+		getPos(),
+		5.0,
+		Color3B(120,120,240),
+		1.0f,
+		0.75f
+	};
+}
 
 void CirnoPC::setFirePatterns()
 {
