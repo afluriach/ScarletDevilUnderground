@@ -33,6 +33,6 @@ ValueMap getMap(const ValueMap& args, const string& field);
 gobject_ref getObjRefFromStringField(GSpace* space, const ValueMap& args, const string& fieldName);
 
 void convertToUnitSpace(ValueMap& arg, IntVec2 offset);
-cocos2d::CCRect getUnitspaceRectangle(const ValueMap& tileMapObj, IntVec2 offset);
+SpaceRect getUnitspaceRectangle(const ValueMap& tileMapObj, IntVec2 offset);
 
 #endif /* value_map_hpp */

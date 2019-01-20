@@ -36,15 +36,6 @@
   <object id="38" x="640" y="4736" width="640" height="128"/>
   <object id="39" x="2432" y="128" width="128" height="5888"/>
  </objectgroup>
- <objectgroup name="rooms">
-  <object id="43" name="r1" x="0" y="0" width="1344" height="832"/>
-  <object id="44" name="r2" x="256" y="832" width="576" height="1408"/>
-  <object id="45" name="r3" x="0" y="2240" width="1344" height="1152"/>
-  <object id="46" name="r4" x="0" y="3392" width="1408" height="1408"/>
-  <object id="47" name="r5" x="0" y="4800" width="1344" height="1216"/>
-  <object id="50" name="r6" x="1344" y="0" width="1216" height="6016"/>
-  <object id="51" name="r7" x="832" y="832" width="512" height="1408"/>
- </objectgroup>
  <objectgroup name="floor">
   <object id="52" type="DirtFloorCave" x="128" y="128" width="1152" height="640"/>
   <object id="53" type="DirtFloorCave" x="512" y="768" width="128" height="128"/>

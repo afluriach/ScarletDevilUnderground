@@ -626,14 +626,9 @@ void GScene::_removeSprite(SpriteID id)
 
 void GScene::setUnitPosition(const SpaceVect& v)
 {
-	float heightRatio = 1.0f * App::height / App::width;
-	cameraArea.setRect(
-		v.x - App::viewWidth / 2,
-		v.y - App::viewWidth*heightRatio / 2,
-		App::viewWidth,
-		App::viewWidth*heightRatio
-	);
-
+	SpaceFloat heightRatio = 1.0f * App::height / App::width;
+	cameraArea = SpaceRect(v, SpaceVect(App::viewWidth,App::viewWidth*heightRatio));
+		
 	getSpaceLayer()->setPosition(
 		(-App::pixelsPerTile*v.x + App::width / 2)*spaceZoom,
 		(-App::pixelsPerTile*v.y + App::height / 2)*spaceZoom
@@ -649,12 +644,12 @@ SpaceVect GScene::getMapSize()
 	return SpaceVect(dimensions.first, dimensions.second);
 }
 
-CCRect GScene::getCameraArea()
+SpaceRect GScene::getCameraArea()
 {
 	return cameraArea;
 }
 
-const vector<CCRect>& GScene::getMapAreas()
+const vector<SpaceRect>& GScene::getMapAreas()
 {
 	return mapAreas;
 }
@@ -664,11 +659,11 @@ const vector<bool>& GScene::getMapAreasVisited()
 	return mapAreasVisited;
 }
 
-int GScene::getMapLocation(CCRect r)
+int GScene::getMapLocation(SpaceRect r)
 {
 	for_irange(i, 0, mapAreas.size())
 	{
-		CCRect mapArea = mapAreas.at(i);
+		SpaceRect mapArea = mapAreas.at(i);
 
 		if (r.getMinX() >= mapArea.getMinX() && r.getMaxX() <= mapArea.getMaxX() &&
 			r.getMinY() >= mapArea.getMinY() && r.getMaxY() <= mapArea.getMaxY()) {
@@ -678,7 +673,7 @@ int GScene::getMapLocation(CCRect r)
 	return -1;
 }
 
-bool GScene::isInCameraArea(CCRect r)
+bool GScene::isInCameraArea(SpaceRect r)
 {
 	return cameraArea.intersectsRect(r);
 }
@@ -689,8 +684,8 @@ bool GScene::isInPlayerRoom(SpaceVect v)
 		return true;
 	}
 
-	CCRect mapArea = mapAreas.at(crntMap);
-	return mapArea.containsPoint(Vec2(v.x, v.y));
+	SpaceRect mapArea = mapAreas.at(crntMap);
+	return mapArea.containsPoint(v);
 }
 
 int GScene::getPlayerRoom()
@@ -748,7 +743,7 @@ void GScene::loadMap(const MapEntry& mapEntry)
 
 	Vec2 llCorner = toCocos(mapEntry.second);
 	CCSize mapSize = tileMap->getMapSize();
-	CCRect mapRect(llCorner.x, llCorner.y, mapSize.width, mapSize.height);
+	SpaceRect mapRect(llCorner.x, llCorner.y, mapSize.width, mapSize.height);
 
 	tilemaps.pushBack(tileMap);
 	mapAreas.push_back(mapRect);
@@ -763,7 +758,6 @@ void GScene::loadMap(const MapEntry& mapEntry)
 
 	loadPaths(*tileMap, mapEntry.second);
 	loadWaypoints(*tileMap, mapEntry.second);
-	loadRooms(*tileMap, mapEntry.second);
 	loadFloorSegments(*tileMap, mapEntry.second);
 	loadMapObjects(*tileMap, mapEntry.second);
 	loadWalls(*tileMap, mapEntry.second);
@@ -831,25 +825,11 @@ void GScene::loadWaypoints(const TMXTiledMap& map, IntVec2 offset)
 	for (const Value& value : waypoints)
 	{
 		ValueMap asMap = value.asValueMap();
-		CCRect rect = getUnitspaceRectangle(asMap, offset);
+		SpaceRect rect = getUnitspaceRectangle(asMap, offset);
 
 		string name = asMap.at("name").asString();
 
-		gspace->addWaypoint(name, SpaceVect(rect.getMidX(), rect.getMidY()));
-	}
-}
-
-
-void GScene::loadRooms(const TMXTiledMap& map, IntVec2 offset)
-{
-	TMXObjectGroup* rooms = map.getObjectGroup("rooms");
-	if (!rooms)
-		return;
-
-	for(const Value& obj: rooms->getObjects())
-	{
-		ValueMap objAsMap = obj.asValueMap();
-		gspace->addRoom(getUnitspaceRectangle(objAsMap,offset));
+		gspace->addWaypoint(name, rect.center);
 	}
 }
 
@@ -883,8 +863,8 @@ void GScene::loadWalls(const TMXTiledMap& map, IntVec2 offset)
 	for(const Value& obj: walls->getObjects())
 	{
 		const ValueMap& objAsMap = obj.asValueMap();
-		cocos2d::CCRect area = getUnitspaceRectangle(objAsMap, offset);
-		gspace->addWallBlock(toChipmunk(area.origin), toChipmunk(area.getUpperCorner()));
+		SpaceRect area = getUnitspaceRectangle(objAsMap, offset);
+		gspace->addWallBlock(area);
 	}
 }
 
@@ -908,15 +888,13 @@ void GScene::spaceUpdateMain()
 
 void GScene::updateMapVisibility(SpaceVect playerPos)
 {
-	Vec2 pos(playerPos.x, playerPos.y);
-
 	for (int i = 0; i < tilemaps.size() && mapAreas.size(); ++i){
 		tilemaps.at(i)->setVisible(
 			isInCameraArea(mapAreas.at(i)) &&
 			mapAreasVisited.at(i)
 		);
 
-		if (mapAreas.at(i).containsPoint(pos)) {
+		if (mapAreas.at(i).containsPoint(playerPos)) {
 			crntMap = i;
 			mapAreasVisited.at(i) = true;
 		}
@@ -966,7 +944,7 @@ void GScene::redrawLightmap()
 	lightmapMutex.lock();
 	lightmapDrawNode->clear();
 
-	CCRect cameraPix = getCameraArea() * App::pixelsPerTile;
+	CCRect cameraPix = getCameraArea().toPixelspace();
 
 	lightmapDrawNode->drawSolidRect(
 		cameraPix.getLowerCorner(),
@@ -1001,13 +979,8 @@ void GScene::redrawLightmap()
 		Vec2 center = toCocos(light.origin) * App::pixelsPerTile;
 		float diameter = light.radius * 2.0f * App::pixelsPerTile;
 
-		CCRect bounds(
-			(light.origin.x - light.radius) * App::pixelsPerTile,
-			(light.origin.y - light.radius) * App::pixelsPerTile,
-			diameter,
-			diameter
-		);
-
+		CCRect bounds = SpaceRect(light.origin, SpaceVect(light.radius * 2.0, light.radius * 2.0)).toPixelspace();
+		
 		if (isInPlayerRoom(light.origin) && cameraPix.intersectsRect(bounds)) {
 			lightmapDrawNode->drawSolidCone(center, light.radius*App::pixelsPerTile, light.startAngle, light.endAngle, 128, color);
 		}

@@ -84,7 +84,7 @@ public:
 
 	inline virtual SpaceFloat getRadius() const { return max(getDimensions().x, getDimensions().y); }
 
-	virtual CCRect getBoundingBox();
+	virtual SpaceRect getBoundingBox();
 };
 
 class RectangleMapBody : public virtual RectangleBody
@@ -111,7 +111,7 @@ public:
     //Create body and add it to space. This assumes BB is rectangle dimensions
     virtual void initializeBody(GSpace& space);
 
-	virtual CCRect getBoundingBox();
+	virtual SpaceRect getBoundingBox();
 	virtual SpaceVect getDimensions() const;
 };
 

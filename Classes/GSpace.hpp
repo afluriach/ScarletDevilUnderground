@@ -61,7 +61,8 @@ public:
 	static const set<type_index> trackedTypes;
 	static const set<type_index> enemyTypes;
 
-	void addWallBlock(SpaceVect ll, SpaceVect ur);
+	void addWallBlock(const SpaceVect& ll, const SpaceVect& ur);
+	void addWallBlock(const SpaceRect& area);
 
     gobject_ref createObject(const ValueMap& obj);
 	gobject_ref createObject(ObjectGeneratorType factory);
@@ -215,9 +216,6 @@ public:
 
 	void addWaypoint(string name, SpaceVect w);
 	SpaceVect getWaypoint(string name) const;
-
-	void addRoom(cocos2d::CCRect rect);
-	vector< cocos2d::CCRect> rooms;
 
 	FloorSegment* floorSegmentPointQuery(SpaceVect pos);
 

@@ -230,6 +230,7 @@ xcopy "$(ProjectDir)..\Resources" "$(OutDir)" /D /E /I /F /Y</Command>
     <ClCompile Include="..\Classes\spells\Spell.cpp" />
     <ClCompile Include="..\Classes\spells\SpellDescriptor.cpp" />
     <ClCompile Include="..\Classes\spells\SpellMapping.cpp" />
+    <ClCompile Include="..\Classes\types.cpp" />
     <ClCompile Include="..\Classes\util.cpp" />
     <ClCompile Include="..\Classes\value_map.cpp" />
     <ClCompile Include="main.cpp" />

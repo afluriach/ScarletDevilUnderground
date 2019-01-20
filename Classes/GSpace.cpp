@@ -175,13 +175,15 @@ void GSpace::createObjects(const ValueVector& objs)
     }
 }
 
-void GSpace::addWallBlock(SpaceVect ll,SpaceVect ur)
+void GSpace::addWallBlock(const SpaceVect& ll, const SpaceVect& ur)
 {
-    SpaceVect center = (ll + ur) / 2;
-    SpaceVect dim = ur - ll;
-    
+	addWallBlock(SpaceRect(ll.x, ll.y, ur.x - ll.x, ur.y - ll.y));
+}
+
+void GSpace::addWallBlock(const SpaceRect& area)
+{
 	createObject(
-		GObject::make_object_factory<Wall>(center, dim)
+		GObject::make_object_factory<Wall>(area.center, area.dimensions)
 	);
 }
 
@@ -645,11 +647,6 @@ void GSpace::addPath(string name, Path p)
 		log("Duplicate path name %s!", name.c_str());
 	}
 	paths[name] = p;
-}
-
-void GSpace::addRoom(cocos2d::CCRect rect)
-{
-	rooms.push_back(rect);
 }
 
 const Path* GSpace::getPath(string name) const

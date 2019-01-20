@@ -50,15 +50,10 @@ SpaceFloat RectangleBody::getMomentOfInertia() const{
     return rectangleMomentOfInertia(getMass(), getDimensions());
 }
 
-CCRect RectangleBody::getBoundingBox()
+SpaceRect RectangleBody::getBoundingBox()
 {
-	SpaceVect pos = getPos();
-	SpaceVect dim = getDimensions();
-	CCRect result(pos.x - dim.x/2, pos.y - dim.y/2, dim.x, dim.y);
-
-	return result;
+	return SpaceRect(getPos(), getDimensions());
 }
-
 
 SpaceVect RectangleMapBody::getDimensionsFromMap(const ValueMap& arg)
 {
@@ -82,14 +77,10 @@ SpaceFloat CircleBody::getMomentOfInertia() const{
     return circleMomentOfInertia(getMass(), getRadius());
 }
 
-CCRect CircleBody::getBoundingBox()
+SpaceRect CircleBody::getBoundingBox()
 {
-	SpaceVect pos = getPos();
 	SpaceFloat radius = getRadius();
-	SpaceVect dim(radius*2, radius*2);
-	CCRect result(pos.x - dim.x / 2, pos.y - dim.y / 2, dim.x, dim.y);
-
-	return result;
+	return SpaceRect(getPos(), SpaceVect(radius*2.0, radius*2.0));
 }
 
 SpaceVect CircleBody::getDimensions() const

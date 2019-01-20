@@ -145,7 +145,7 @@ public:
 	void onContactFloorSegment(object_ref<FloorSegment> fs);
 	void onEndContactFloorSegment(object_ref<FloorSegment> fs);
 
-	virtual CCRect getBoundingBox() = 0;
+	virtual SpaceRect getBoundingBox() = 0;
 	virtual SpaceVect getDimensions() const = 0;
 	virtual SpaceFloat getTraction() const;
 

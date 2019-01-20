@@ -37,6 +37,29 @@ namespace boost {
 	}
 }
 
+class SpaceRect
+{
+public:
+	SpaceRect();
+	SpaceRect(SpaceVect center, SpaceVect dimensions);
+	SpaceRect(SpaceFloat llX, SpaceFloat llY, SpaceFloat width, SpaceFloat height);
+
+	CCRect toPixelspace() const;
+
+	double getMinX() const;
+	double getMinY() const;
+	double getMaxX() const;
+	double getMaxY() const;
+
+	SpaceVect getLLCorner() const;
+	SpaceVect getURCorner() const;
+
+	bool intersectsRect(const SpaceRect& rect) const;
+	bool containsPoint(const SpaceVect& point) const;
+
+	SpaceVect center, dimensions;
+};
+
 enum class Direction{
     none = 0,
     right,

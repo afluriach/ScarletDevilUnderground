@@ -10,6 +10,7 @@
 #define menu_Layers_h
 
 #include "menu.h"
+#include "types.h"
 
 class PlayScene;
 
@@ -129,7 +130,7 @@ protected:
 	bool isHighlight = false;
 
 	void drawMaps();
-	void drawObject(CCRect area, Color4F color, Color4F colorCrnt);
+	void drawObject(SpaceRect area, Color4F color, Color4F colorCrnt);
 };
 
 #endif /* menu_layers_h */

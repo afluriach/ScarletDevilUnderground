@@ -86,7 +86,7 @@ void PlayScene::applyCameraControls()
 {
     Vec2 arrowState = toCocos(App::control_register->getRightVector());
     if(!arrowState.isZero()){
-		Vec2 cameraPos = Vec2(cameraArea.getMidX(), cameraArea.getMidY());
+		Vec2 cameraPos = Vec2(cameraArea.center.x, cameraArea.center.y);
 
 		setUnitPosition(toChipmunk(cameraPos + arrowState * cameraMoveTilesPerSecond * App::secondsPerFrame));
     }

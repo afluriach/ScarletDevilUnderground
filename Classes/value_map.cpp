@@ -132,7 +132,7 @@ void convertToUnitSpace(ValueMap& arg, IntVec2 offset)
     arg["dim_y"] = Value(dim.y);
 }
 
-cocos2d::CCRect getUnitspaceRectangle(const ValueMap& tileMapObj, IntVec2 offset)
+SpaceRect getUnitspaceRectangle(const ValueMap& tileMapObj, IntVec2 offset)
 {
     SpaceVect cornerPos(getFloat(tileMapObj, "x"), getFloat(tileMapObj, "y"));
     cornerPos *= App::tilesPerPixel;
@@ -141,5 +141,5 @@ cocos2d::CCRect getUnitspaceRectangle(const ValueMap& tileMapObj, IntVec2 offset
     SpaceVect dim(getFloat(tileMapObj, "width"), getFloat(tileMapObj, "height"));
     dim *= App::tilesPerPixel;
     
-    return cocos2d::CCRect(cornerPos.x, cornerPos.y, dim.x, dim.y);
+    return SpaceRect(cornerPos.x, cornerPos.y, dim.x, dim.y);
 }

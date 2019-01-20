@@ -165,11 +165,11 @@ public:
     //unit space as opposed to pixel space.
     void setUnitPosition(const SpaceVect& v);
 	SpaceVect getMapSize();
-	CCRect getCameraArea();
-	const vector<CCRect>& getMapAreas();
+	SpaceRect getCameraArea();
+	const vector<SpaceRect>& getMapAreas();
 	const vector<bool>& getMapAreasVisited();
-	int getMapLocation(CCRect r);
-	bool isInCameraArea(CCRect r);
+	int getMapLocation(SpaceRect r);
+	bool isInCameraArea(SpaceRect r);
 	bool isInPlayerRoom(SpaceVect v);
 	int getPlayerRoom();
 
@@ -195,7 +195,6 @@ protected:
 	//Add a map object layer to space.
 	void loadPaths(const TMXTiledMap& map, IntVec2 offset);
 	void loadWaypoints(const TMXTiledMap& map, IntVec2 offset);
-	void loadRooms(const TMXTiledMap& map, IntVec2 offset);
 	void loadFloorSegments(const TMXTiledMap& map, IntVec2 offset);
 	void loadObjectGroup(TMXObjectGroup* group, IntVec2 offset);
 	void loadWalls(const TMXTiledMap& map, IntVec2 offset);
@@ -252,9 +251,9 @@ protected:
 	string sceneName;
 	IntVec2 dimensions;
 	vector<MapEntry> maps;
-	vector<CCRect> mapAreas;
+	vector<SpaceRect> mapAreas;
 	vector<bool> mapAreasVisited;
-	CCRect cameraArea;
+	SpaceRect cameraArea;
 	int crntMap = -1;
 
 	unique_ptr<Lua::Inst> ctx;

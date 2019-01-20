@@ -298,7 +298,7 @@ void MapMenu::drawMaps()
 	vector<object_ref<FloorSegment>> floors = playScene->getSpace()->getObjectsByTypeAs<FloorSegment>();
 	vector<object_ref<Door>> doors = playScene->getSpace()->getObjectsByTypeAs<Door>();
 
-	const vector<CCRect>& mapAreas = playScene->getMapAreas();
+	const vector<SpaceRect>& mapAreas = playScene->getMapAreas();
 	const vector<bool>& mapAreasVisited = playScene->getMapAreasVisited();
 
 	for (auto ref : floors)
@@ -325,7 +325,7 @@ void MapMenu::drawMaps()
 	}
 }
 
-void MapMenu::drawObject(CCRect rect, Color4F color, Color4F colorCrnt)
+void MapMenu::drawObject(SpaceRect rect, Color4F color, Color4F colorCrnt)
 {
 	int mapId = playScene->getMapLocation(rect);
 
