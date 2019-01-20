@@ -128,38 +128,38 @@ public:
 	void runActionsWithOrder(updateOrder order);
 	void addSpriteActions(const vector<function<void()>>& v);
 
-	unsigned int addLightSource(CircleLightArea light);
-	unsigned int addLightSource(AmbientLightArea light);
-	unsigned int addLightSource(ConeLightArea light);
-	void updateLightSource(unsigned int id, ConeLightArea light);
-	void removeLightSource(unsigned int id);
-	void setLightSourcePosition(unsigned int id, SpaceVect pos);
+	LightID addLightSource(CircleLightArea light);
+	LightID addLightSource(AmbientLightArea light);
+	LightID addLightSource(ConeLightArea light);
+	void updateLightSource(LightID id, ConeLightArea light);
+	void removeLightSource(LightID id);
+	void setLightSourcePosition(LightID id, SpaceVect pos);
 
-	unsigned int createSprite(string path, GraphicsLayer sceneLayer, Vec2 pos, float zoom);
-	unsigned int createLoopAnimation(string name, int frameCount, float duration, GraphicsLayer sceneLayer, Vec2 pos, float zoom);
-	unsigned int createDrawNode(GraphicsLayer sceneLayer, Vec2 pos, float zoom);
-	unsigned int createAgentSprite(string path, bool isAgentAnimation, GraphicsLayer sceneLayer, Vec2 pos, float zoom);
+	SpriteID createSprite(string path, GraphicsLayer sceneLayer, Vec2 pos, float zoom);
+	SpriteID createLoopAnimation(string name, int frameCount, float duration, GraphicsLayer sceneLayer, Vec2 pos, float zoom);
+	SpriteID createDrawNode(GraphicsLayer sceneLayer, Vec2 pos, float zoom);
+	SpriteID createAgentSprite(string path, bool isAgentAnimation, GraphicsLayer sceneLayer, Vec2 pos, float zoom);
 
-	void loadAgentAnimation(unsigned int id, string path, bool isAgentAnimation);
-	void setAgentAnimationDirection(unsigned int id, Direction d);
-	void setAgentAnimationFrame(unsigned int id, int frame);
+	void loadAgentAnimation(SpriteID id, string path, bool isAgentAnimation);
+	void setAgentAnimationDirection(SpriteID id, Direction d);
+	void setAgentAnimationFrame(SpriteID id, int frame);
 
-	void clearDrawNode(unsigned int id);
-	void drawSolidRect(unsigned int id, Vec2 lowerLeft, Vec2 upperRight, Color4F color);
-	void drawSolidCone(unsigned int id, const Vec2& center, float radius, float startAngle, float endAngle, unsigned int segments, const Color4F &color);
-	void drawSolidCircle(unsigned int id, const Vec2& center, float radius, float angle, unsigned int segments, const Color4F& color);
+	void clearDrawNode(SpriteID id);
+	void drawSolidRect(SpriteID id, Vec2 lowerLeft, Vec2 upperRight, Color4F color);
+	void drawSolidCone(SpriteID id, const Vec2& center, float radius, float startAngle, float endAngle, unsigned int segments, const Color4F &color);
+	void drawSolidCircle(SpriteID id, const Vec2& center, float radius, float angle, unsigned int segments, const Color4F& color);
 
-	void runSpriteAction(unsigned int id, ActionGeneratorType generator);
-	void stopSpriteAction(unsigned int id, cocos_action_tag action);
-	void stopAllSpriteActions(unsigned int id);
-	void removeSprite(unsigned int id);
-	void removeSpriteWithAnimation(unsigned int id, ActionGeneratorType generator);
-	void setSpriteVisible(unsigned int id, bool val);
-	void setSpriteOpacity(unsigned int id, unsigned char op);
-	void setSpriteTexture(unsigned int id, string path);
-	void setSpriteAngle(unsigned int id, float cocosAngle);
-	void setSpritePosition(unsigned int id, Vec2 pos);
-	void setSpriteZoom(unsigned int id, float zoom);
+	void runSpriteAction(SpriteID id, ActionGeneratorType generator);
+	void stopSpriteAction(SpriteID id, cocos_action_tag action);
+	void stopAllSpriteActions(SpriteID id);
+	void removeSprite(SpriteID id);
+	void removeSpriteWithAnimation(SpriteID id, ActionGeneratorType generator);
+	void setSpriteVisible(SpriteID id, bool val);
+	void setSpriteOpacity(SpriteID id, unsigned char op);
+	void setSpriteTexture(SpriteID id, string path);
+	void setSpriteAngle(SpriteID id, float cocosAngle);
+	void setSpritePosition(SpriteID id, Vec2 pos);
+	void setSpriteZoom(SpriteID id, float zoom);
 
     //The different vector type is intentional, as Chipmunk vector implies
     //unit space as opposed to pixel space.
@@ -209,8 +209,8 @@ protected:
 	void runScriptInit();
 	void runScriptUpdate();
 
-	Node* getSpriteAsNode(unsigned int id);
-	void _removeSprite(unsigned int id);
+	Node* getSpriteAsNode(SpriteID id);
+	void _removeSprite(SpriteID id);
 
 	//Make sure to use a cocos map so cocos refcounting works.
 	cocos2d::Map<int, Layer*> layers;

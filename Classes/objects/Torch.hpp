@@ -40,9 +40,9 @@ public:
     void update();    
 protected:
 	string colorName;
-	unsigned int lightSourceID = 0;
-	unsigned int baseSpriteID = 0;
-	unsigned int flameSpriteID = 0;
+	LightID lightSourceID = 0;
+	SpriteID baseSpriteID = 0;
+	SpriteID flameSpriteID = 0;
 	Color3B color = Color3B(255,255,255);
 	float intensity = 1.0f;
 	//The ratio of radius where the light is at full intensity.

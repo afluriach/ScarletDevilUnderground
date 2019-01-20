@@ -292,9 +292,9 @@ void GScene::addAction(pair<function<void(void)>, updateOrder> entry)
 	actionsMutex.unlock();
 }
 
-unsigned int GScene::addLightSource(CircleLightArea light)
+LightID GScene::addLightSource(CircleLightArea light)
 {
-	unsigned int id = nextLightID++;
+	LightID id = nextLightID++;
 	lightmapMutex.lock();
 
 	RadialGradient* g = Node::ccCreate<RadialGradient>(
@@ -317,9 +317,9 @@ unsigned int GScene::addLightSource(CircleLightArea light)
 	return id;
 }
 
-unsigned int GScene::addLightSource(AmbientLightArea light)
+LightID GScene::addLightSource(AmbientLightArea light)
 {
-	unsigned int id = nextLightID++;
+	LightID id = nextLightID++;
 	lightmapMutex.lock();
 
 	ambientLights.insert_or_assign(id,light);
@@ -328,9 +328,9 @@ unsigned int GScene::addLightSource(AmbientLightArea light)
 	return id;
 }
 
-unsigned int GScene::addLightSource(ConeLightArea light)
+LightID GScene::addLightSource(ConeLightArea light)
 {
-	unsigned int id = nextLightID++;
+	LightID id = nextLightID++;
 	lightmapMutex.lock();
 
 	coneLights.insert_or_assign(id, light);
@@ -339,14 +339,14 @@ unsigned int GScene::addLightSource(ConeLightArea light)
 	return id;
 }
 
-void GScene::updateLightSource(unsigned int id, ConeLightArea light)
+void GScene::updateLightSource(SpriteID id, ConeLightArea light)
 {
 	lightmapMutex.lock();
 	coneLights.insert_or_assign(id, light);
 	lightmapMutex.unlock();
 }
 
-void GScene::removeLightSource(unsigned int id)
+void GScene::removeLightSource(SpriteID id)
 {
 	lightmapMutex.lock();
 	auto it = lightmapRadials.find(id);
@@ -360,7 +360,7 @@ void GScene::removeLightSource(unsigned int id)
 	lightmapMutex.unlock();
 }
 
-void GScene::setLightSourcePosition(unsigned int id, SpaceVect pos)
+void GScene::setLightSourcePosition(SpriteID id, SpaceVect pos)
 {
 	lightmapMutex.lock();
 	{
@@ -379,10 +379,10 @@ void GScene::setLightSourcePosition(unsigned int id, SpaceVect pos)
 	lightmapMutex.unlock();
 }
 
-unsigned int GScene::createSprite(string path, GraphicsLayer sceneLayer, Vec2 pos, float zoom)
+SpriteID GScene::createSprite(string path, GraphicsLayer sceneLayer, Vec2 pos, float zoom)
 {
 	spriteActionsMutex.lock();
-	unsigned int id = nextSpriteID++;
+	SpriteID id = nextSpriteID++;
 
 	spriteActions.push_back([this, id,path,sceneLayer,pos,zoom]() -> void {
 		Sprite* s = Sprite::create(path);
@@ -393,10 +393,10 @@ unsigned int GScene::createSprite(string path, GraphicsLayer sceneLayer, Vec2 po
 	return id;
 }
 
-unsigned int GScene::createLoopAnimation(string name, int frameCount, float duration, GraphicsLayer sceneLayer, Vec2 pos, float zoom)
+SpriteID GScene::createLoopAnimation(string name, int frameCount, float duration, GraphicsLayer sceneLayer, Vec2 pos, float zoom)
 {
 	spriteActionsMutex.lock();
-	unsigned int id = nextSpriteID++;
+	SpriteID id = nextSpriteID++;
 
 	spriteActions.push_back([this, id, name, frameCount, duration, sceneLayer, pos, zoom]() -> void {
 		TimedLoopAnimation* anim = Node::ccCreate<TimedLoopAnimation>();
@@ -408,10 +408,10 @@ unsigned int GScene::createLoopAnimation(string name, int frameCount, float dura
 	return id;
 }
 
-unsigned int GScene::createDrawNode(GraphicsLayer sceneLayer, Vec2 pos, float zoom)
+SpriteID GScene::createDrawNode(GraphicsLayer sceneLayer, Vec2 pos, float zoom)
 {
 	spriteActionsMutex.lock();
-	unsigned int id = nextSpriteID++;
+	SpriteID id = nextSpriteID++;
 
 	spriteActions.push_back([this, id, sceneLayer, pos, zoom]() -> void {
 		DrawNode* dn = DrawNode::create();
@@ -422,10 +422,10 @@ unsigned int GScene::createDrawNode(GraphicsLayer sceneLayer, Vec2 pos, float zo
 	return id;
 }
 
-unsigned int GScene::createAgentSprite(string path, bool isAgentAnimation, GraphicsLayer sceneLayer, Vec2 pos, float zoom)
+SpriteID GScene::createAgentSprite(string path, bool isAgentAnimation, GraphicsLayer sceneLayer, Vec2 pos, float zoom)
 {
 	spriteActionsMutex.lock();
-	unsigned int id = nextSpriteID++;
+	SpriteID id = nextSpriteID++;
 
 	spriteActions.push_back([this, id, path, isAgentAnimation, sceneLayer, pos, zoom]() -> void {
 		PatchConAnimation* anim = Node::ccCreate<PatchConAnimation>();
@@ -437,7 +437,7 @@ unsigned int GScene::createAgentSprite(string path, bool isAgentAnimation, Graph
 	return id;
 }
 
-void GScene::loadAgentAnimation(unsigned int id, string path, bool isAgentAnimation)
+void GScene::loadAgentAnimation(SpriteID id, string path, bool isAgentAnimation)
 {
 	auto it = agentSprites.find(id);
 	if (it != agentSprites.end()) {
@@ -446,7 +446,7 @@ void GScene::loadAgentAnimation(unsigned int id, string path, bool isAgentAnimat
 	}
 }
 
-void GScene::setAgentAnimationDirection(unsigned int id, Direction d)
+void GScene::setAgentAnimationDirection(SpriteID id, Direction d)
 {
 	auto it = agentSprites.find(id);
 	if (it != agentSprites.end()) {
@@ -455,7 +455,7 @@ void GScene::setAgentAnimationDirection(unsigned int id, Direction d)
 	}
 }
 
-void GScene::setAgentAnimationFrame(unsigned int id, int frame)
+void GScene::setAgentAnimationFrame(SpriteID id, int frame)
 {
 	auto it = agentSprites.find(id);
 	if (it != agentSprites.end()) {
@@ -464,7 +464,7 @@ void GScene::setAgentAnimationFrame(unsigned int id, int frame)
 	}
 }
 
-void GScene::clearDrawNode(unsigned int id)
+void GScene::clearDrawNode(SpriteID id)
 {
 	auto it = drawNodes.find(id);
 	if (it != drawNodes.end()) {
@@ -472,7 +472,7 @@ void GScene::clearDrawNode(unsigned int id)
 	}
 }
 
-void GScene::drawSolidRect(unsigned int id, Vec2 lowerLeft, Vec2 upperRight, Color4F color)
+void GScene::drawSolidRect(SpriteID id, Vec2 lowerLeft, Vec2 upperRight, Color4F color)
 {
 	auto it = drawNodes.find(id);
 	if (it != drawNodes.end()) {
@@ -480,7 +480,7 @@ void GScene::drawSolidRect(unsigned int id, Vec2 lowerLeft, Vec2 upperRight, Col
 	}
 }
 
-void GScene::drawSolidCone(unsigned int id, const Vec2& center, float radius, float startAngle, float endAngle, unsigned int segments, const Color4F &color)
+void GScene::drawSolidCone(SpriteID id, const Vec2& center, float radius, float startAngle, float endAngle, unsigned int segments, const Color4F &color)
 {
 	auto it = drawNodes.find(id);
 	if (it != drawNodes.end()) {
@@ -488,7 +488,7 @@ void GScene::drawSolidCone(unsigned int id, const Vec2& center, float radius, fl
 	}
 }
 
-void GScene::drawSolidCircle(unsigned int id, const Vec2& center, float radius, float angle, unsigned int segments, const Color4F& color)
+void GScene::drawSolidCircle(SpriteID id, const Vec2& center, float radius, float angle, unsigned int segments, const Color4F& color)
 {
 	auto it = drawNodes.find(id);
 	if (it != drawNodes.end()) {
@@ -496,7 +496,7 @@ void GScene::drawSolidCircle(unsigned int id, const Vec2& center, float radius, 
 	}
 }
 
-void GScene::runSpriteAction(unsigned int id, ActionGeneratorType generator)
+void GScene::runSpriteAction(SpriteID id, ActionGeneratorType generator)
 {
 	Node* node = getSpriteAsNode(id);
 	if (node) {
@@ -504,7 +504,7 @@ void GScene::runSpriteAction(unsigned int id, ActionGeneratorType generator)
 	}
 }
 
-void GScene::stopSpriteAction(unsigned int id, cocos_action_tag action)
+void GScene::stopSpriteAction(SpriteID id, cocos_action_tag action)
 {
 	Node* node = getSpriteAsNode(id);
 	if (node) {
@@ -512,7 +512,7 @@ void GScene::stopSpriteAction(unsigned int id, cocos_action_tag action)
 	}
 }
 
-void GScene::stopAllSpriteActions(unsigned int id)
+void GScene::stopAllSpriteActions(SpriteID id)
 {
 	Node* node = getSpriteAsNode(id);
 	if (node) {
@@ -520,7 +520,7 @@ void GScene::stopAllSpriteActions(unsigned int id)
 	}
 }
 
-void GScene::removeSprite(unsigned int id)
+void GScene::removeSprite(SpriteID id)
 {
 	Node* node = getSpriteAsNode(id);
 	if (node) {
@@ -529,7 +529,7 @@ void GScene::removeSprite(unsigned int id)
 	}
 }
 
-void GScene::removeSpriteWithAnimation(unsigned int id, ActionGeneratorType generator)
+void GScene::removeSpriteWithAnimation(SpriteID id, ActionGeneratorType generator)
 {
 	Node* node = getSpriteAsNode(id);
 	if (node) {
@@ -537,7 +537,7 @@ void GScene::removeSpriteWithAnimation(unsigned int id, ActionGeneratorType gene
 	}
 }
 
-void GScene::setSpriteVisible(unsigned int id, bool val)
+void GScene::setSpriteVisible(SpriteID id, bool val)
 {
 	Node* node = getSpriteAsNode(id);
 	if (node) {
@@ -545,7 +545,7 @@ void GScene::setSpriteVisible(unsigned int id, bool val)
 	}
 }
 
-void GScene::setSpriteOpacity(unsigned int id, unsigned char op)
+void GScene::setSpriteOpacity(SpriteID id, unsigned char op)
 {
 	Node* node = getSpriteAsNode(id);
 	if (node) {
@@ -553,7 +553,7 @@ void GScene::setSpriteOpacity(unsigned int id, unsigned char op)
 	}
 }
 
-void GScene::setSpriteTexture(unsigned int id, string path)
+void GScene::setSpriteTexture(SpriteID id, string path)
 {
 	auto it = crntSprites.find(id);
 	if (it != crntSprites.end()) {
@@ -564,7 +564,7 @@ void GScene::setSpriteTexture(unsigned int id, string path)
 	}
 }
 
-void GScene::setSpriteAngle(unsigned int id, float cocosAngle)
+void GScene::setSpriteAngle(SpriteID id, float cocosAngle)
 {
 	Node* node = getSpriteAsNode(id);
 	if (node) {
@@ -572,7 +572,7 @@ void GScene::setSpriteAngle(unsigned int id, float cocosAngle)
 	}
 }
 
-void GScene::setSpritePosition(unsigned int id, Vec2 pos)
+void GScene::setSpritePosition(SpriteID id, Vec2 pos)
 {
 	Node* node = getSpriteAsNode(id);
 	if (node) {
@@ -580,7 +580,7 @@ void GScene::setSpritePosition(unsigned int id, Vec2 pos)
 	}
 }
 
-void GScene::setSpriteZoom(unsigned int id, float zoom)
+void GScene::setSpriteZoom(SpriteID id, float zoom)
 {
 	Node* node = getSpriteAsNode(id);
 	if (node) {
@@ -588,7 +588,7 @@ void GScene::setSpriteZoom(unsigned int id, float zoom)
 	}
 }
 
-Node* GScene::getSpriteAsNode(unsigned int id)
+Node* GScene::getSpriteAsNode(SpriteID id)
 {
 	{
 		auto it = crntSprites.find(id);
@@ -617,7 +617,7 @@ Node* GScene::getSpriteAsNode(unsigned int id)
 	return nullptr;
 }
 
-void GScene::_removeSprite(unsigned int id)
+void GScene::_removeSprite(SpriteID id)
 {
 	crntSprites.erase(id);
 	drawNodes.erase(id);

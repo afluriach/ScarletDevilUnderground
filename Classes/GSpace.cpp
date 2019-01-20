@@ -455,146 +455,146 @@ map<type_index, pair<unsigned int, unsigned int>> GSpace::getEnemyStats()
 
 //BEGIN GRAPHICS
 
-unsigned int GSpace::createSprite(string path, GraphicsLayer sceneLayer, Vec2 pos, float zoom)
+SpriteID GSpace::createSprite(string path, GraphicsLayer sceneLayer, Vec2 pos, float zoom)
 {
 	return gscene->createSprite(path, sceneLayer, pos, zoom);
 }
 
-unsigned int GSpace::createLoopAnimation(string name, int frameCount, float duration, GraphicsLayer sceneLayer, Vec2 pos, float zoom)
+SpriteID GSpace::createLoopAnimation(string name, int frameCount, float duration, GraphicsLayer sceneLayer, Vec2 pos, float zoom)
 {
 	return gscene->createLoopAnimation(name, frameCount, duration, sceneLayer, pos, zoom);
 }
 
-unsigned int GSpace::createDrawNode(GraphicsLayer sceneLayer, Vec2 pos, float zoom)
+SpriteID GSpace::createDrawNode(GraphicsLayer sceneLayer, Vec2 pos, float zoom)
 {
 	return gscene->createDrawNode(sceneLayer, pos, zoom);
 }
 
-unsigned int GSpace::createAgentSprite(string path, bool isAgentAnimation, GraphicsLayer sceneLayer, Vec2 pos, float zoom)
+SpriteID GSpace::createAgentSprite(string path, bool isAgentAnimation, GraphicsLayer sceneLayer, Vec2 pos, float zoom)
 {
 	return gscene->createAgentSprite(path, isAgentAnimation, sceneLayer, pos, zoom);
 }
 
-void GSpace::loadAgentAnimation(unsigned int id, string path, bool isAgentAnimation)
+void GSpace::loadAgentAnimation(SpriteID id, string path, bool isAgentAnimation)
 {
 	spriteActions.push_back([this, id, path, isAgentAnimation]() -> void {
 		gscene->loadAgentAnimation(id, path, isAgentAnimation);
 	});
 }
 
-void GSpace::setAgentAnimationDirection(unsigned int id, Direction d)
+void GSpace::setAgentAnimationDirection(SpriteID id, Direction d)
 {
 	spriteActions.push_back([this, id, d]() -> void {
 		gscene->setAgentAnimationDirection(id, d);
 	});
 }
 
-void GSpace::setAgentAnimationFrame(unsigned int id, int frame)
+void GSpace::setAgentAnimationFrame(SpriteID id, int frame)
 {
 	spriteActions.push_back([this, id, frame]() -> void {
 		gscene->setAgentAnimationFrame(id, frame);
 	});
 }
 
-void GSpace::clearDrawNode(unsigned int id)
+void GSpace::clearDrawNode(SpriteID id)
 {
 	spriteActions.push_back([this, id]() -> void {
 		gscene->clearDrawNode(id);
 	});
 }
 
-void GSpace::drawSolidRect(unsigned int id, Vec2 lowerLeft, Vec2 upperRight, Color4F color)
+void GSpace::drawSolidRect(SpriteID id, Vec2 lowerLeft, Vec2 upperRight, Color4F color)
 {
 	spriteActions.push_back([this, id, lowerLeft, upperRight, color]() -> void {
 		gscene->drawSolidRect(id, lowerLeft, upperRight, color);
 	});
 }
 
-void GSpace::drawSolidCone(unsigned int id, const Vec2& center, float radius, float startAngle, float endAngle, unsigned int segments, const Color4F &color)
+void GSpace::drawSolidCone(SpriteID id, const Vec2& center, float radius, float startAngle, float endAngle, unsigned int segments, const Color4F &color)
 {
 	spriteActions.push_back([this, id, center, radius, startAngle, endAngle, segments, color]() -> void {
 		gscene->drawSolidCone(id, center, radius, startAngle, endAngle, segments, color);
 	});
 }
 
-void GSpace::drawSolidCircle(unsigned int id, const Vec2& center, float radius, float angle, unsigned int segments, const Color4F& color)
+void GSpace::drawSolidCircle(SpriteID id, const Vec2& center, float radius, float angle, unsigned int segments, const Color4F& color)
 {
 	spriteActions.push_back([this, id, center, radius, angle, segments, color]() -> void {
 		gscene->drawSolidCircle(id, center, radius, angle, segments, color);
 	});
 }
 
-void GSpace::runSpriteAction(unsigned int id, ActionGeneratorType generator)
+void GSpace::runSpriteAction(SpriteID id, ActionGeneratorType generator)
 {
 	spriteActions.push_back([this, id, generator]() -> void {
 		gscene->runSpriteAction(id, generator);
 	});
 }
 
-void GSpace::stopSpriteAction(unsigned int id, cocos_action_tag action)
+void GSpace::stopSpriteAction(SpriteID id, cocos_action_tag action)
 {
 	spriteActions.push_back([this, id, action]() -> void {
 		gscene->stopSpriteAction(id, action);
 	});
 }
 
-void GSpace::stopAllSpriteActions(unsigned int id)
+void GSpace::stopAllSpriteActions(SpriteID id)
 {
 	spriteActions.push_back([this, id]() -> void {
 		gscene->stopAllSpriteActions(id);
 	});
 }
 
-void GSpace::removeSprite(unsigned int id)
+void GSpace::removeSprite(SpriteID id)
 {
 	spriteActions.push_back([this, id]() -> void {
 		gscene->removeSprite(id);
 	});
 }
 
-void GSpace::removeSpriteWithAnimation(unsigned int id, ActionGeneratorType generator)
+void GSpace::removeSpriteWithAnimation(SpriteID id, ActionGeneratorType generator)
 {
 	spriteActions.push_back([this, id, generator]() -> void {
 		gscene->removeSpriteWithAnimation(id, generator);
 	});
 }
 
-void GSpace::setSpriteVisible(unsigned int id, bool val)
+void GSpace::setSpriteVisible(SpriteID id, bool val)
 {
 	spriteActions.push_back([this, id, val]() -> void {
 		gscene->setSpriteVisible(id, val);
 	});
 }
 
-void GSpace::setSpriteOpacity(unsigned int id, unsigned char op)
+void GSpace::setSpriteOpacity(SpriteID id, unsigned char op)
 {
 	spriteActions.push_back([this, id, op]() -> void {
 		gscene->setSpriteOpacity(id, op);
 	});
 }
 
-void GSpace::setSpriteTexture(unsigned int id, string path)
+void GSpace::setSpriteTexture(SpriteID id, string path)
 {
 	spriteActions.push_back([this, id, path]()->void {
 		gscene->setSpriteTexture(id, path);
 	});
 }
 
-void GSpace::setSpriteAngle(unsigned int id, float cocosAngle)
+void GSpace::setSpriteAngle(SpriteID id, float cocosAngle)
 {
 	spriteActions.push_back([this, id, cocosAngle]() -> void {
 		gscene->setSpriteAngle(id, cocosAngle);
 	});
 }
 
-void GSpace::setSpritePosition(unsigned int id, Vec2 pos)
+void GSpace::setSpritePosition(SpriteID id, Vec2 pos)
 {
 	spriteActions.push_back([this, id, pos]() -> void {
 		gscene->setSpritePosition(id, pos);
 	});
 }
 
-void GSpace::setSpriteZoom(unsigned int id, float zoom)
+void GSpace::setSpriteZoom(SpriteID id, float zoom)
 {
 	spriteActions.push_back([this, id, zoom]() -> void {
 		gscene->setSpriteZoom(id, zoom);

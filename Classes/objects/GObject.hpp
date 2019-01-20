@@ -211,8 +211,8 @@ public:
 #endif GOBJECT_LUA
     
     //BEGIN GRAPHICS
-	unsigned int spriteID = 0;
-	unsigned int drawNodeID = 0;
+	SpriteID spriteID = 0;
+	SpriteID drawNodeID = 0;
 	bool isInFade = false;
     
         //The Z-order used by Cocos2D.

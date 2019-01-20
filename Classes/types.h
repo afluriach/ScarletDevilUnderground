@@ -18,6 +18,9 @@ typedef cp::Vect SpaceVect;
 typedef cp::Float SpaceFloat;
 typedef vector<SpaceVect> Path;
 
+typedef unsigned int LightID;
+typedef unsigned int SpriteID;
+
 typedef unsigned int ObjectIDType;
 typedef function<GObject*(GSpace*, ObjectIDType)> ObjectGeneratorType;
 

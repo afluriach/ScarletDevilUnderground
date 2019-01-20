@@ -190,7 +190,7 @@ public:
     
     virtual void initializeGraphics();
 protected:
-    unsigned int animID = 0;
+    SpriteID animID = 0;
 };
 
 class PatchConSprite : virtual public GObject, RegisterInit<PatchConSprite>, RegisterUpdate<PatchConSprite>
