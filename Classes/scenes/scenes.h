@@ -64,6 +64,7 @@ public:
         space = 1,
 		lightmapBackground,
 		lightmap,
+		screenspaceColorFilter,
         dialogBackground,
         dialog,
         hud,
@@ -127,6 +128,8 @@ public:
 
 	void runActionsWithOrder(updateOrder order);
 	void addSpriteActions(const vector<function<void()>>& v);
+
+	void setColorFilter(const Color4F& color);
 
 	LightID addLightSource(CircleLightArea light);
 	LightID addLightSource(AmbientLightArea light);
@@ -223,6 +226,9 @@ protected:
 	float spaceZoom = 1;
 	unique_ptr<thread> spaceUpdateThread;
 	atomic_int spaceUpdatesToRun;
+
+	RenderTexture* colorFilterRender = nullptr;
+	DrawNode* colorFilterDraw = nullptr;
 
 	unsigned int nextSpriteID = 1;
 	map<unsigned int, Node*> crntSprites;

@@ -36,7 +36,7 @@ void printGroup(TMXObjectGroup* group)
     }
 }
 
-const Color3B PlayScene::fadeoutColor = Color3B(128,0,0);
+const Color3B PlayScene::fadeoutColor = Color3B(192,96,96);
 const float PlayScene::fadeoutLength = 3.0f;
 
 PlayScene::PlayScene(const string& mapName) :
@@ -169,7 +169,8 @@ void PlayScene::showGameOverMenu()
 void PlayScene::triggerGameOver()
 {
 	setPaused(true);
-	getSpaceLayer()->runAction(tintTo(fadeoutColor, fadeoutLength));
+
+	setColorFilter(toColor4F(fadeoutColor));
 
 	triggerMenu(&PlayScene::showGameOverMenu);
 }

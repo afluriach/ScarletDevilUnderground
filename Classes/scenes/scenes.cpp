@@ -192,6 +192,18 @@ bool GScene::init()
 	lightmapBackground->setVisible(false);
 	lightmapBackground->drawSolidRect(Vec2::ZERO, Vec2(App::width, App::height), Color4F::WHITE);
 
+	colorFilterRender = RenderTexture::create(App::width, App::height);
+	colorFilterRender->setPosition(App::width / 2.0f, App::height / 2.0f);
+	addChild(colorFilterRender, to_int(sceneLayers::screenspaceColorFilter));
+	colorFilterRender->getSprite()->setBlendFunc(BlendFunc{ GL_DST_COLOR,GL_ONE_MINUS_SRC_ALPHA });
+	colorFilterRender->setClearColor(Color4F(0.0f, 0.0f, 0.0f, 0.0f));
+	colorFilterRender->setAutoDraw(true);
+	colorFilterRender->setClearFlags(GL_COLOR_BUFFER_BIT);
+
+	colorFilterDraw = DrawNode::create();
+	setColorFilter(Color4F::WHITE);
+	colorFilterRender->addChild(colorFilterDraw);
+
 	//Apply zoom to adjust viewable area size.
 	float baseViewWidth = App::width * App::tilesPerPixel;
 	spaceZoom = baseViewWidth / App::viewWidth;
@@ -208,7 +220,7 @@ bool GScene::init()
 	getLayer(sceneLayers::lightmap)->setScale(spaceZoom);
 
     for_irange(i,to_int(sceneLayers::begin),sceneLayers::end){
-		if (i != to_int(sceneLayers::space) && i != to_int(sceneLayers::lightmap)) {
+		if (i != to_int(sceneLayers::space) && i != to_int(sceneLayers::lightmap) && i != to_int(sceneLayers::screenspaceColorFilter)) {
 			addChild(layers.at(i), i);
 		}
 		else {
@@ -1036,4 +1048,10 @@ void GScene::addSpriteActions(const vector<function<void()>>& v)
 		spriteActions.push_back(f);
 	}
 	spriteActionsMutex.unlock();
+}
+
+void GScene::setColorFilter(const Color4F& color)
+{
+	colorFilterDraw->clear();
+	colorFilterDraw->drawSolidRect(-1.0f*Vec2(App::width/2, App::height/2), Vec2(App::width/2, App::height/2), color);
 }
