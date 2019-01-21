@@ -208,6 +208,8 @@ protected:
 	void renderSpace();
 	void redrawLightmap();
 	void cycleDisplayMode();
+	RenderTexture* initRenderTexture(sceneLayers sceneLayer, BlendFunc blend);
+	RenderTexture* initRenderTexture(sceneLayers sceneLayer);
 
 	void installLuaShell();
 	void checkPendingScript();

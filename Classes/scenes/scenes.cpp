@@ -174,14 +174,9 @@ bool GScene::init()
 {
     Scene::init();
 
-	lightmapRender = RenderTexture::create(App::width, App::height);
-	lightmapRender->setPosition(App::width / 2.0f, App::height / 2.0f);
-	addChild(lightmapRender, to_int(sceneLayers::lightmap));
-	lightmapRender->getSprite()->setBlendFunc(BlendFunc{ GL_DST_COLOR,GL_ONE_MINUS_SRC_ALPHA });
-	lightmapRender->addChild(getLayer(sceneLayers::lightmap));
-	lightmapRender->setClearColor(Color4F(0.0f, 0.0f, 0.0f, 0.0f));
-	lightmapRender->setAutoDraw(true);
-	lightmapRender->setClearFlags(GL_COLOR_BUFFER_BIT);
+	lightmapRender = initRenderTexture(sceneLayers::lightmap, BlendFunc{ GL_DST_COLOR,GL_ONE_MINUS_SRC_ALPHA });
+	colorFilterRender = initRenderTexture(sceneLayers::screenspaceColorFilter, BlendFunc{ GL_DST_COLOR,GL_ONE_MINUS_SRC_ALPHA });
+	spaceRender = initRenderTexture(sceneLayers::space);
 
 	lightmapDrawNode = DrawNode::create();
 	lightmapDrawNode->setBlendFunc(BlendFunc{ GL_ONE,GL_ONE });
@@ -192,29 +187,13 @@ bool GScene::init()
 	lightmapBackground->setVisible(false);
 	lightmapBackground->drawSolidRect(Vec2::ZERO, Vec2(App::width, App::height), Color4F::WHITE);
 
-	colorFilterRender = RenderTexture::create(App::width, App::height);
-	colorFilterRender->setPosition(App::width / 2.0f, App::height / 2.0f);
-	addChild(colorFilterRender, to_int(sceneLayers::screenspaceColorFilter));
-	colorFilterRender->getSprite()->setBlendFunc(BlendFunc{ GL_DST_COLOR,GL_ONE_MINUS_SRC_ALPHA });
-	colorFilterRender->setClearColor(Color4F(0.0f, 0.0f, 0.0f, 0.0f));
-	colorFilterRender->setAutoDraw(true);
-	colorFilterRender->setClearFlags(GL_COLOR_BUFFER_BIT);
-
 	colorFilterDraw = DrawNode::create();
 	setColorFilter(Color4F::WHITE);
-	colorFilterRender->addChild(colorFilterDraw);
+	getLayer(sceneLayers::screenspaceColorFilter)->addChild(colorFilterDraw);
 
 	//Apply zoom to adjust viewable area size.
 	float baseViewWidth = App::width * App::tilesPerPixel;
 	spaceZoom = baseViewWidth / App::viewWidth;
-
-	spaceRender = RenderTexture::create(App::width, App::height);
-	spaceRender->setPosition(App::width / 2.0f, App::height / 2.0f);
-	addChild(spaceRender, to_int(sceneLayers::space));
-	spaceRender->addChild(getLayer(sceneLayers::space));
-	spaceRender->setClearColor(Color4F(0.0f, 0.0f, 0.0f, 0.0f));
-	spaceRender->setAutoDraw(true);
-	spaceRender->setClearFlags(GL_COLOR_BUFFER_BIT);
 
 	getLayer(sceneLayers::space)->setScale(spaceZoom);
 	getLayer(sceneLayers::lightmap)->setScale(spaceZoom);
@@ -986,6 +965,25 @@ void GScene::cycleDisplayMode()
 	if (display == displayMode::end) {
 		display = displayMode::begin;
 	}
+}
+
+RenderTexture* GScene::initRenderTexture(sceneLayers sceneLayer, BlendFunc blend)
+{
+	RenderTexture* rt = initRenderTexture(sceneLayer);
+	rt->getSprite()->setBlendFunc(blend);
+	return rt;
+}
+
+RenderTexture* GScene::initRenderTexture(sceneLayers sceneLayer)
+{
+	RenderTexture* rt = RenderTexture::create(App::width, App::height);
+	rt->setPosition(App::width / 2.0f, App::height / 2.0f);
+	addChild(rt, to_int(sceneLayer));
+	rt->addChild(getLayer(sceneLayer));
+	rt->setClearColor(Color4F(0.0f, 0.0f, 0.0f, 0.0f));
+	rt->setAutoDraw(true);
+	rt->setClearFlags(GL_COLOR_BUFFER_BIT);
+	return rt;
 }
 
 void GScene::installLuaShell()
