@@ -324,7 +324,7 @@ void GSpace::setBulletBodiesVisible(bool b)
 	}
 }
 
-void GSpace::processRemoval(GObject* obj, bool removeSprite)
+void GSpace::processRemoval(GObject* obj, bool _removeSprite)
 {
 	obj->onRemove();
 
@@ -369,11 +369,11 @@ void GSpace::processRemoval(GObject* obj, bool removeSprite)
 		obj->crntSpell.get()->end();
 	}
 
-	if (removeSprite && obj->spriteID != 0) {
-		gscene->removeSprite(obj->spriteID);
+	if (_removeSprite && obj->spriteID != 0) {
+		removeSprite(obj->spriteID);
 	}
 	if (obj->drawNodeID != 0) {
-		gscene->removeSprite(obj->drawNodeID);
+		removeSprite(obj->drawNodeID);
 	}
 
 	delete obj;

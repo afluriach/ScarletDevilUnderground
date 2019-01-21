@@ -178,6 +178,10 @@ bool GScene::init()
 	lightmapRender->setPosition(App::width / 2.0f, App::height / 2.0f);
 	addChild(lightmapRender, to_int(sceneLayers::lightmap));
 	lightmapRender->getSprite()->setBlendFunc(BlendFunc{ GL_DST_COLOR,GL_ONE_MINUS_SRC_ALPHA });
+	lightmapRender->addChild(getLayer(sceneLayers::lightmap));
+	lightmapRender->setClearColor(Color4F(0.0f, 0.0f, 0.0f, 0.0f));
+	lightmapRender->setAutoDraw(true);
+	lightmapRender->setClearFlags(GL_COLOR_BUFFER_BIT);
 
 	lightmapDrawNode = DrawNode::create();
 	lightmapDrawNode->setBlendFunc(BlendFunc{ GL_ONE,GL_ONE });
@@ -195,17 +199,24 @@ bool GScene::init()
 	spaceRender = RenderTexture::create(App::width, App::height);
 	spaceRender->setPosition(App::width / 2.0f, App::height / 2.0f);
 	addChild(spaceRender, to_int(sceneLayers::space));
+	spaceRender->addChild(getLayer(sceneLayers::space));
+	spaceRender->setClearColor(Color4F(0.0f, 0.0f, 0.0f, 0.0f));
+	spaceRender->setAutoDraw(true);
+	spaceRender->setClearFlags(GL_COLOR_BUFFER_BIT);
 
 	getLayer(sceneLayers::space)->setScale(spaceZoom);
-	getLayer(sceneLayers::space)->setVisible(false);
-
 	getLayer(sceneLayers::lightmap)->setScale(spaceZoom);
-	getLayer(sceneLayers::lightmap)->setVisible(false);
 
     for_irange(i,to_int(sceneLayers::begin),sceneLayers::end){
-        Layer* l = layers.at(i);
-        addChild(l,i);
-    }
+		if (i != to_int(sceneLayers::space) && i != to_int(sceneLayers::lightmap)) {
+			addChild(layers.at(i), i);
+		}
+		else {
+			layers.at(i)->setActionManager(Director::getInstance()->getActionManager());
+			layers.at(i)->setEventDispatcher(Director::getInstance()->getEventDispatcher());
+			layers.at(i)->setScheduler(Director::getInstance()->getScheduler());
+		}
+	}
     
     multiInit();
     
@@ -629,12 +640,12 @@ void GScene::setUnitPosition(const SpaceVect& v)
 	cameraArea = calculateCameraArea(v);
 		
 	getSpaceLayer()->setPosition(
-		(-App::pixelsPerTile*v.x + App::width / 2)*spaceZoom,
-		(-App::pixelsPerTile*v.y + App::height / 2)*spaceZoom
+		(-App::pixelsPerTile*v.x + App::width / 2)*spaceZoom - App::width/2,
+		(-App::pixelsPerTile*v.y + App::height / 2)*spaceZoom - App::height/2
 	);
 	getLayer(sceneLayers::lightmap)->setPosition(
-		(-App::pixelsPerTile*v.x + App::width / 2)*spaceZoom,
-		(-App::pixelsPerTile*v.y + App::height / 2)*spaceZoom
+		(-App::pixelsPerTile*v.x + App::width / 2)*spaceZoom - App::width/2,
+		(-App::pixelsPerTile*v.y + App::height / 2)*spaceZoom - App::height/2
 	);
 }
 
@@ -905,24 +916,6 @@ void GScene::renderSpace()
 	spriteActionsMutex.unlock();
 
 	redrawLightmap();
-
-	Layer* spaceLayer = getSpaceLayer();
-	spaceLayer->setVisible(true);
-
-	spaceRender->beginWithClear(0.0f, 0.0f, 0.0f, 0.0f);
-	spaceLayer->visit();
-	spaceRender->end();
-
-	spaceLayer->setVisible(false);
-
-	Layer* lightmapLayer = getLayer(sceneLayers::lightmap);
-	lightmapLayer->setVisible(true);
-
-	lightmapRender->beginWithClear(0.0f, 0.0f, 0.0, 0.0f);
-	lightmapLayer->visit();
-	lightmapRender->end();
-
-	lightmapLayer->setVisible(false);
 }
 
 void GScene::redrawLightmap()
