@@ -411,8 +411,7 @@ bool EnemyInfo::isValid()
 
 const int HUD::fontSize = 32;
 
-HUD::HUD(GSpace* space, object_ref<Player> player) :
-player(player),
+HUD::HUD(GSpace* space) :
 space(space)
 {
 }
@@ -423,16 +422,6 @@ HUD::~HUD()
 
 void HUD::update()
 {
-    if(player.isValid()){
-        Player* p = player.get();
-        health->setValue(p->getHealth());
-        power->setVal(p->getPower());
-		magic->setValue(p->getMagic());
-    }
-    else{
-        setVisible(false);
-    }
-
 	if (magicEffects) {
 		magicEffects->update();
 	}
@@ -558,6 +547,11 @@ void HUD::setMP(int v)
 void HUD::setMaxMP(int v)
 {
 	magic->setMax(v);
+}
+
+void HUD::setPower(int v)
+{
+	power->setVal(v);
 }
 
 void HUD::runHealthFlicker(float length, float interval)

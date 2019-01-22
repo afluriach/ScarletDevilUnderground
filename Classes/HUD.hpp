@@ -10,7 +10,6 @@
 #define HUD_hpp
 
 #include "Attributes.hpp"
-#include "object_ref.hpp"
 
 class Enemy;
 class Player;
@@ -178,7 +177,7 @@ public:
     
 //    static const Color4F backgroundColor;
 
-	HUD(GSpace* space, object_ref<Player> player);
+	HUD(GSpace* space);
     virtual ~HUD();
     //Not an override of Layer
     void update();
@@ -202,6 +201,9 @@ public:
 	void setMP(int);
 	void setMaxMP(int);
 
+	void setPower(int);
+	//void setMaxPower(int);
+
 	void runHealthFlicker(float length, float interval);
 	void runMagicFlicker(float length, float interval);
 	void runPowerFlicker(float duration);
@@ -220,7 +222,6 @@ public:
 	void clearEnemyInfo();
 
 protected:
-    object_ref<Player> player;
 	GSpace* space;
 	bool isMansionMode = false;
 };

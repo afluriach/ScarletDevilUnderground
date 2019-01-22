@@ -29,7 +29,11 @@ bool CollectGlyph::canInteract() {
 }
 
 void CollectGlyph::interact() {
-	collectScene->registerActivation(this);
+	space->addSceneAction(
+		bind(&Collect::registerActivation, collectScene, gobject_ref(this)),
+		GScene::updateOrder::sceneUpdate
+	);
+
 	hasInteracted = true;
 }
 

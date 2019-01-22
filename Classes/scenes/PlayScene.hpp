@@ -10,7 +10,6 @@
 #define PlayScene_hpp
 
 #include "controls.h"
-#include "object_ref.hpp"
 #include "HUD.hpp"
 #include "scenes.h"
 

@@ -100,7 +100,7 @@ void PlayScene::updateHUD()
 
 void PlayScene::addHUD()
 {
-    hud = Node::ccCreate<HUD>(gspace, gspace->getObjectRefAs<Player>("player"));
+    hud = Node::ccCreate<HUD>(gspace);
     getLayer(sceneLayers::hud)->addChild(hud);
     multiUpdate.insertWithOrder(
         wrap_method(PlayScene,updateHUD,this),

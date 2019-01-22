@@ -115,6 +115,11 @@ void Player::init()
 			to_int(attributeSystem.getAdjustedValue(Attribute::mp))
 		));
 
+		space->addSceneAction(make_hud_action(
+			&HUD::setPower,
+			playScene,
+			to_int(attributeSystem.getAdjustedValue(Attribute::power))
+		));
 
 		setFirePatterns();
 
@@ -294,6 +299,22 @@ void Player::update()
 			updateHudAttribute(Attribute::sunDamage);
 			updateHudAttribute(Attribute::poisonDamage);
 			updateHudAttribute(Attribute::slimeDamage);
+
+			space->addSceneAction(make_hud_action(
+				&HUD::setHP,
+				playScene,
+				to_int(attributeSystem.getAdjustedValue(Attribute::hp))
+			));
+			space->addSceneAction(make_hud_action(
+				&HUD::setMP,
+				playScene,
+				to_int(attributeSystem.getAdjustedValue(Attribute::mp))
+			));
+			space->addSceneAction(make_hud_action(
+				&HUD::setPower,
+				playScene,
+				to_int(attributeSystem.getAdjustedValue(Attribute::power))
+			));
 		}
 
 		timerDecrement(respawnTimer);
