@@ -248,8 +248,6 @@ public:
 	typedef pair<GType, GType> collision_type;
 	typedef pair<object_pair, collision_type> contact;
 
-    static const set<GType> selfCollideTypes;
-
     static const bool logBodyCreation;
     static const bool logPhysicsHandlers;
     

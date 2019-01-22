@@ -298,7 +298,7 @@ cpSpaceAddStaticShape(cpSpace *space, cpShape *shape)
 cpBody *
 cpSpaceAddBody(cpSpace *space, cpBody *body)
 {
-//	cpAssertHard(!cpBodyIsStatic(body), "Do not add static bodies to a space. Static bodies do not move and should not be simulated.");
+	cpAssertHard(!cpBodyIsStatic(body), "Do not add static bodies to a space. Static bodies do not move and should not be simulated.");
 	cpAssertHard(body->space != space, "You have already added this body to this space. You must not add it a second time.");
 	cpAssertHard(!body->space, "You have already added this body to another space. You cannot add it to a second.");
 	cpAssertSpaceUnlocked(space);

@@ -77,6 +77,11 @@ namespace cp {
 		return *it;
 	}
 
+	void Space::pointQueryFunc(cpShape* shape, void* data) {
+		auto d = reinterpret_cast<PointQueryData*>(data);
+		d->func(d->self->findPtr(shape));
+	}
+
 	void Space::segmentQueryFunc(cpShape* shape, cpFloat t, cpVect n, void* data) {
 		auto d = reinterpret_cast<SegmentQueryData*>(data);
 		d->func(d->self->findPtr(shape), t, n);
@@ -107,6 +112,11 @@ namespace cp {
 			info->n = i.n;
 		}
 		return findPtr(rtn);
+	}
+
+	void Space::pointQuery(Vect p, Layers layers, Group group, PointQueryFunc func) const {
+		PointQueryData data = { this, func };
+		cpSpacePointQuery(space, p, static_cast<cpLayers>(layers), static_cast<cpGroup>(group), pointQueryFunc, &data);
 	}
 
 	shared_ptr<Shape> Space::pointQueryFirst(Vect p, Layers layers, Group group) const {

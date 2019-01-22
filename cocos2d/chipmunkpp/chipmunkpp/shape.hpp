@@ -36,7 +36,6 @@ namespace cp {
 		void setBody(std::shared_ptr<Body> body);
 		DataPointer getUserData() const;
 		void setSensor(bool);
-        void setSelfCollide(bool);
 	private:
 		Shape(const Shape&);
 		const Shape& operator=(const Shape&);

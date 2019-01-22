@@ -13,6 +13,7 @@
 namespace cp {
 	typedef std::function<void(std::shared_ptr<Shape>, Float, Vect)> SegmentQueryFunc;
 	typedef std::function<void(std::shared_ptr<Shape>)> ShapeQueryFunc;
+	typedef std::function<void(std::shared_ptr<Shape>)> PointQueryFunc;
 
 	class Body;
 	class Arbiter;
@@ -40,6 +41,7 @@ namespace cp {
 		void shapeQuery(std::shared_ptr<Shape> queryArea, ShapeQueryFunc);
 		void segmentQuery(Vect a, Vect b, Layers, Group, SegmentQueryFunc) const;
 		std::shared_ptr<Shape> segmentQueryFirst(Vect a, Vect b, Layers, Group, SegmentQueryInfo* = nullptr) const;
+		void pointQuery(Vect p, Layers layers, Group group, PointQueryFunc func) const;
 		std::shared_ptr<Shape> pointQueryFirst(Vect p, Layers, Group) const;
 
         //If set, handler will not be called.
@@ -53,6 +55,7 @@ namespace cp {
 	private:
 		Space(const Space&);
 		const Space& operator=(const Space&);
+		static void pointQueryFunc(cpShape* shape, void* data);
 		static void segmentQueryFunc(cpShape*, cpFloat, cpVect, void*);
 		static void shapeQueryFunc(cpShape *shape, cpContactPointSet *points, void *data);
 		std::shared_ptr<Shape> findPtr(cpShape*) const;
@@ -60,6 +63,11 @@ namespace cp {
 		cpSpace* space;
 		std::vector<std::shared_ptr<Shape>> shapes;
 		std::vector<std::shared_ptr<Body>> bodies;
+
+		struct PointQueryData {
+			const Space* const self;
+			PointQueryFunc& func;
+		};
 
 		struct SegmentQueryData {
 			const Space* const self;

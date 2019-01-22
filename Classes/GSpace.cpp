@@ -358,7 +358,10 @@ void GSpace::processRemoval(GObject* obj, bool _removeSprite)
 	}
 
     obj->body->removeShapes(space);
-    space.remove(obj->body);
+
+	if (obj->getMass() > 0.0) {
+		space.remove(obj->body);
+	}
     
     if(obj->radar){
         obj->radar->removeShapes(space);
@@ -822,6 +825,10 @@ void GSpace::addCollisionHandlers()
 	_addHandlerNoEnd(playerBullet, wall, bulletWall);
 	_addHandlerNoEnd(enemyBullet, wall, bulletWall);    
 
+	_addHandlerNoEnd(enemy, enemy, collide);
+	_addHandlerNoEnd(environment, environment, collide);
+	_addHandlerNoEnd(npc, npc, collide);
+
 	_addHandler(playerSensor, player, sensorStart, sensorEnd);
 	_addHandler(playerSensor, playerBullet, sensorStart, sensorEnd);
 
@@ -846,27 +853,15 @@ void GSpace::addCollisionHandlers()
 	_addHandler(enemy, areaSensor, enemyAreaSensorBegin, enemyAreaSensorEnd);
 }
 
-const set<GType> GSpace::selfCollideTypes = {
-	GType::enemy,
-	GType::environment,
-	GType::npc
-};
-
 const bool GSpace::logBodyCreation = false;
 const bool GSpace::logPhysicsHandlers = false;
-
-bool isSelfCollideType(GType t)
-{
-    return GSpace::selfCollideTypes.find(t) != GSpace::selfCollideTypes.end();
-}
 
 void setShapeProperties(shared_ptr<Shape> shape, PhysicsLayers layers, GType type, bool sensor)
 {
     shape->setLayers(to_uint(layers));
-    shape->setGroup(to_uint(type));
+    shape->setGroup(0);
     shape->setCollisionType(to_uint(type));
     shape->setSensor(sensor);
-    shape->setSelfCollide(isSelfCollideType(type));
 }
 
 shared_ptr<Body> GSpace::createCircleBody(
@@ -1377,9 +1372,9 @@ SpaceFloat GSpace::distanceFeeler(const GObject * agent, SpaceVect _feeler, GTyp
     //Distance along the segment is scaled [0,1].
     SpaceFloat closest = 1.0;
     
-    auto queryCallback = [&closest,agent] (std::shared_ptr<Shape> shape, cp::Float distance, cp::Vect vect) -> void {
-        
-        if(shape->getUserData() != agent){
+    auto queryCallback = [&closest,agent, gtype] (std::shared_ptr<Shape> shape, cp::Float distance, cp::Vect vect) -> void {
+		GObject* obj = to_gobject(shape->getUserData());
+        if(obj && obj->getType() == gtype && obj != agent){
             closest = min<SpaceFloat>(closest, distance);
         }
     };
@@ -1388,8 +1383,9 @@ SpaceFloat GSpace::distanceFeeler(const GObject * agent, SpaceVect _feeler, GTyp
         start,
         end,
         to_uint(layers),
-        to_uint(gtype),
-        queryCallback);
+        0,
+        queryCallback
+	);
     
     return closest*_feeler.length();
 }
@@ -1426,9 +1422,9 @@ bool GSpace::feeler(const GObject * agent, SpaceVect _feeler, GType gtype, Physi
     
     bool collision = false;
     
-    auto queryCallback = [agent, &collision] (std::shared_ptr<Shape> shape, cp::Float distance, cp::Vect vect) -> void {
-        
-        if(shape->getUserData() != agent){
+    auto queryCallback = [agent, gtype, &collision] (std::shared_ptr<Shape> shape, cp::Float distance, cp::Vect vect) -> void {
+		GObject* obj = to_gobject(shape->getUserData());
+        if(obj && obj->getType() == gtype && obj != agent){
             collision = true;
         }
     };
@@ -1437,8 +1433,9 @@ bool GSpace::feeler(const GObject * agent, SpaceVect _feeler, GType gtype, Physi
         start,
         end,
         to_uint(layers),
-        to_uint(gtype),
-        queryCallback);
+        0,
+        queryCallback
+	);
     
     return collision;
 }
@@ -1451,11 +1448,11 @@ GObject* GSpace::objectFeeler(const GObject * agent, SpaceVect feeler, GType gty
 	GObject* bestResult = nullptr;
 	SpaceFloat bestDistance = feeler.length();
 
-	auto queryCallback = [agent, &bestResult, &bestDistance](std::shared_ptr<Shape> shape, cp::Float distance, cp::Vect vect) -> void {
+	auto queryCallback = [agent, gtype, &bestResult, &bestDistance](std::shared_ptr<Shape> shape, cp::Float distance, cp::Vect vect) -> void {
 
 		GObject* _crntObj = static_cast<GObject*>(shape->getUserData());
 
-		if (_crntObj && _crntObj != agent && distance < bestDistance) {
+		if (_crntObj && _crntObj->getType() == gtype && _crntObj != agent && distance < bestDistance) {
 			bestResult = _crntObj;
 			bestDistance = distance;
 		}
@@ -1465,8 +1462,9 @@ GObject* GSpace::objectFeeler(const GObject * agent, SpaceVect feeler, GType gty
 		start,
 		end,
 		to_uint(layers),
-		to_uint(gtype),
-		queryCallback);
+		0,
+		queryCallback
+	);
 
 	return bestResult;
 }
@@ -1516,44 +1514,46 @@ bool GSpace::lineOfSight(const GObject* agent, const GObject * target) const
 
 GObject * GSpace::pointQuery(SpaceVect pos, GType type, PhysicsLayers layers)
 {
-	shared_ptr<Shape> result = space.pointQueryFirst(
+	GObject* result = nullptr;
+
+	auto queryCallback = [&result, type](std::shared_ptr<Shape> shape) -> void {
+		GObject* obj = to_gobject(shape->getUserData());
+
+		if (obj && obj->getType() == type) {
+			result = obj;
+		}
+	};
+
+	space.pointQuery(
 		pos,
 		to_uint(layers),
-		to_uint(type)
+		0,
+		queryCallback
 	);
 
-	if (!result)
-		return nullptr;
-
-	return static_cast<GObject*>(result->getUserData());
+	return result;
 }
 
 bool GSpace::rectangleQuery(SpaceVect center, SpaceVect dimensions, GType type, PhysicsLayers layers)
 {
 	bool collision = false;
 
-	auto queryCallback = [&collision,center,dimensions](std::shared_ptr<Shape> shape) -> void {
-		GObject* obj = static_cast<GObject*>(shape->getUserData());
+	auto queryCallback = [&collision,center,dimensions,type](std::shared_ptr<Shape> shape) -> void {
+		GObject* obj = to_gobject(shape->getUserData());
 
-		if (obj) {
-			SpaceVect pos = obj->getPos();
-
-			//Physics engine registers collisions with objects that aren't even close to the query area.
-			if (pos.x >= center.x - dimensions.x / 2 && pos.x <= center.x + dimensions.x / 2 &&
-				pos.y >= center.y - dimensions.y / 2 && pos.y <= center.y + dimensions.y / 2) {
-				collision = true;
-			}
+		if (obj && obj->getType() == type) {
+			collision = true;
 		}
 	};
 
-	shared_ptr<Body> _body = space.makeStaticBody();
+	shared_ptr<Body> _body = make_shared<Body>(0.1, 0.1);
 	_body->setPos(center);
 
 	shared_ptr<PolyShape> area = PolyShape::rectangle(_body, dimensions);
 	area->setBody(_body);
 	_body->addShape(area);
 
-	setShapeProperties(area, layers, type, true);
+	setShapeProperties(area, layers, GType::none, false);
 
 	space.shapeQuery(
 		area,
