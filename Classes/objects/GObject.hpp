@@ -213,6 +213,7 @@ public:
     //BEGIN GRAPHICS
 	SpriteID spriteID = 0;
 	SpriteID drawNodeID = 0;
+	LightID lightID = 0;
 	bool isInFade = false;
     
         //The Z-order used by Cocos2D.

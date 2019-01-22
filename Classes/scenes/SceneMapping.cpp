@@ -14,6 +14,7 @@
 #include "Garden.hpp"
 #include "Graveyard.hpp"
 #include "IceCave.hpp"
+#include "Library.hpp"
 #include "LibraryOpening.h"
 #include "Mansion.hpp"
 #include "menu_scenes.h"
@@ -53,7 +54,7 @@ const unordered_map<string, GScene::AdapterType> GScene::adapters = {
 	PlaySceneMapName(GardenPath),
 	entry_same(Graveyard),
 	entry_same(IceCave),
-	PlaySceneMapName(Library),
+	entry_same(Library),
 	entry_same(LibraryOpening),
 	entry_same(Mansion),
 	PlaySceneMapName(MarisaRoom),

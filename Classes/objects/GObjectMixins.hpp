@@ -12,6 +12,7 @@
 #include "Attributes.hpp"
 #include "functional.hpp"
 #include "GObject.hpp"
+#include "Graphics.h"
 #include "multifunction.h"
 #include "util.h"
 
@@ -225,6 +226,17 @@ protected:
 	bool firstStepIsLeft = false;
 	//Which step is coming next
 	bool nextStepIsLeft = true;
+};
+
+class RadialLightObject : virtual public GObject, public RegisterInit<RadialLightObject>, public RegisterUpdate<RadialLightObject>
+{
+public:
+	RadialLightObject();
+
+	virtual CircleLightArea getLightSource() const = 0;
+
+	void init();
+	void update();
 };
 
 //END GRAPHICS

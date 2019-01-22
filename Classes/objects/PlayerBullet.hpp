@@ -59,16 +59,12 @@ class FlandreFastOrb1 :
 	public CircleBody,
 	public ImageSprite,
 	public DirectionalLaunch,
-	public RegisterInit<FlandreFastOrb1>,
-	public RegisterUpdate<FlandreFastOrb1>
+	public RadialLightObject
 {
 public:
 	FlandreFastOrb1(GSpace* space, ObjectIDType id, SpaceFloat angle, const SpaceVect& pos);
 
-	void init();
-	void update();
-
-	virtual void onRemove();
+	virtual inline CircleLightArea getLightSource() const { return CircleLightArea{ getPos(), 2.0, Color3B::RED, 0.5, 0.0 }; }
 
 	virtual inline SpaceFloat getMaxSpeed() const { return 9.0; }
 	virtual inline SpaceFloat getRadius() const { return 0.15; }
@@ -79,8 +75,6 @@ public:
 	inline virtual float zoom() const { return getRadius() / spriteBaseRadius * 2; }
 
 	virtual AttributeMap getAttributeEffect() const;
-protected:
-	LightID lightID = 0;
 };
 
 class FlandreCounterClockBullet :

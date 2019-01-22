@@ -48,25 +48,8 @@ AttributeMap FlandreBigOrb1::getAttributeEffect() const {
 }
 
 FlandreFastOrb1::FlandreFastOrb1(GSpace* space, ObjectIDType id, SpaceFloat angle, const SpaceVect& pos) :
-	GObject(space,id,"fastOrb1", pos, angle, true),
-	RegisterInit<FlandreFastOrb1>(this),
-	RegisterUpdate<FlandreFastOrb1>(this)
+	GObject(space,id,"fastOrb1", pos, angle, true)
 {}
-
-void FlandreFastOrb1::init()
-{
-	lightID = space->addLightSource(CircleLightArea{getPos(), 2.0, Color3B::RED, 0.5, 0.0});
-}
-
-void FlandreFastOrb1::update()
-{
-	space->setLightSourcePosition(lightID, getPos());
-}
-
-void FlandreFastOrb1::onRemove()
-{
-	space->removeLightSource(lightID);
-}
 
 AttributeMap FlandreFastOrb1::getAttributeEffect() const {
 	return {

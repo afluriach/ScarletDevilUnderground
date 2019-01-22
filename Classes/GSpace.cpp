@@ -375,8 +375,11 @@ void GSpace::processRemoval(GObject* obj, bool _removeSprite)
 	if (_removeSprite && obj->spriteID != 0) {
 		removeSprite(obj->spriteID);
 	}
-	if (obj->drawNodeID != 0) {
+	if (_removeSprite && obj->drawNodeID != 0) {
 		removeSprite(obj->drawNodeID);
+	}
+	if (_removeSprite && obj->lightID != 0) {
+		removeLightSource(obj->lightID);
 	}
 
 	delete obj;

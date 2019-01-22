@@ -266,4 +266,19 @@ void ImageSprite::loadImageSprite(const string& resPath, GraphicsLayer sceneLaye
 	spriteID = space->createSprite(resPath, sceneLayer, getInitialCenterPix(), zoom());
 }
 
+RadialLightObject::RadialLightObject() :
+	RegisterInit<RadialLightObject>(this),
+	RegisterUpdate<RadialLightObject>(this)
+{}
+
+void RadialLightObject::init()
+{
+	lightID = space->addLightSource(getLightSource());
+}
+
+void RadialLightObject::update()
+{
+	space->setLightSourcePosition(lightID, getPos());
+}
+
 //END GRAPHICS
