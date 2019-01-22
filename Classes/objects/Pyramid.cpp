@@ -99,7 +99,7 @@ void Pyramid::initializeGraphics()
 {
 	SpaceFloat a = getAngle();
 	spriteID = space->createSprite(imageSpritePath(), GraphicsLayer::ground, getInitialCenterPix(), 1.0f);
-	coneLightID = space->getScene()->addLightSource(ConeLightArea{
+	coneLightID = space->addLightSource(ConeLightArea{
 		getPos(),
 		coneLength,
 		toColor3B(coneColor),

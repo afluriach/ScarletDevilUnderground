@@ -190,8 +190,18 @@ private:
 //BEGIN GRAPHICS
 
 public:
-	//Since the scene controls the mapping of ID -> cocos2d::Node, these functions will call the corresponding scene method immediately.
-	unsigned int createSprite(string path, GraphicsLayer sceneLayer, Vec2 pos, float zoom);
+	//Since the scene controls the mapping of ID -> cocos2d::Node, these functions
+	//will call the corresponding scene method immediately to retrieve the ID.
+	//However, nextSpriteID/nextLightID is an atomic integer, so it will not use a mutex.
+
+	LightID addLightSource(CircleLightArea light);
+	LightID addLightSource(AmbientLightArea light);
+	LightID addLightSource(ConeLightArea light);
+	void updateLightSource(LightID id, ConeLightArea light);
+	void removeLightSource(LightID id);
+	void setLightSourcePosition(LightID id, SpaceVect pos);
+
+	SpriteID createSprite(string path, GraphicsLayer sceneLayer, Vec2 pos, float zoom);
 	SpriteID createLoopAnimation(string name, int frameCount, float duration, GraphicsLayer sceneLayer, Vec2 pos, float zoom);
 	SpriteID createDrawNode(GraphicsLayer sceneLayer, Vec2 pos, float zoom);
 	SpriteID createAgentSprite(string path, bool isAgentAnimation, GraphicsLayer sceneLayer, Vec2 pos, float zoom);
@@ -217,7 +227,8 @@ public:
 	void setSpritePosition(SpriteID id, Vec2 pos);
 	void setSpriteZoom(SpriteID id, float zoom);
 protected:
-	vector<function<void()>> spriteActions;
+	void addLightmapAction(function<void()> f);
+	void addSpriteAction(function<void()> f);
 
 //END GRAPHICS
 

@@ -55,7 +55,7 @@ SunArea::SunArea(GSpace* space, ObjectIDType id, const ValueMap& args) :
 
 void SunArea::initializeGraphics()
 {
-	space->getScene()->addLightSource(AmbientLightArea{
+	space->addLightSource(AmbientLightArea{
 		getPos(),
 		getDimensions(),
 		Color3B(192, 192, 82),

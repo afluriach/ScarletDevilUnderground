@@ -54,6 +54,8 @@ public:
         //General scene update logic
         sceneUpdate,
         moveCamera,
+		spriteUpdate,
+		lightmapUpdate,
 		renderSpace,
         hudUpdate,
 
@@ -130,21 +132,23 @@ public:
 	void addActions(const vector<pair<function<void(void)>, updateOrder>>& _actions);
 
 	void runActionsWithOrder(updateOrder order);
-	void addSpriteActions(const vector<function<void()>>& v);
 
 	void setColorFilter(const Color4F& color);
 
-	LightID addLightSource(CircleLightArea light);
-	LightID addLightSource(AmbientLightArea light);
-	LightID addLightSource(ConeLightArea light);
+	SpriteID getSpriteID();
+	LightID getLightID();
+
+	void addLightSource(LightID id, CircleLightArea light);
+	void addLightSource(LightID id, AmbientLightArea light);
+	void addLightSource(LightID id, ConeLightArea light);
 	void updateLightSource(LightID id, ConeLightArea light);
 	void removeLightSource(LightID id);
 	void setLightSourcePosition(LightID id, SpaceVect pos);
 
-	SpriteID createSprite(string path, GraphicsLayer sceneLayer, Vec2 pos, float zoom);
-	SpriteID createLoopAnimation(string name, int frameCount, float duration, GraphicsLayer sceneLayer, Vec2 pos, float zoom);
-	SpriteID createDrawNode(GraphicsLayer sceneLayer, Vec2 pos, float zoom);
-	SpriteID createAgentSprite(string path, bool isAgentAnimation, GraphicsLayer sceneLayer, Vec2 pos, float zoom);
+	void createSprite(SpriteID id, string path, GraphicsLayer sceneLayer, Vec2 pos, float zoom);
+	void createLoopAnimation(SpriteID id, string name, int frameCount, float duration, GraphicsLayer sceneLayer, Vec2 pos, float zoom);
+	void createDrawNode(SpriteID id, GraphicsLayer sceneLayer, Vec2 pos, float zoom);
+	void createAgentSprite(SpriteID id, string path, bool isAgentAnimation, GraphicsLayer sceneLayer, Vec2 pos, float zoom);
 
 	void loadAgentAnimation(SpriteID id, string path, bool isAgentAnimation);
 	void setAgentAnimationDirection(SpriteID id, Direction d);
@@ -191,7 +195,7 @@ public:
 
 	unique_ptr<ControlListener> control_listener;
 protected:
-	static unsigned int nextLightID;
+	atomic_uint nextLightID;
 
 	//Run at init time. It will call the following load methods.
 	void loadMaps();
@@ -237,14 +241,11 @@ protected:
 	RenderTexture* colorFilterRender = nullptr;
 	DrawNode* colorFilterDraw = nullptr;
 
-	unsigned int nextSpriteID = 1;
+	atomic_uint nextSpriteID = 1;
 	map<unsigned int, Node*> crntSprites;
 	map<unsigned int, DrawNode*> drawNodes;
 	map<unsigned int, TimedLoopAnimation*> animationSprites;
 	map<unsigned int, PatchConAnimation*> agentSprites;
-	vector<function<void()>> spriteActions;
-	mutex spriteActionsMutex;
-	mutex lightmapMutex;
 
 	displayMode display = displayMode::combined;
 	Color4F ambientLight = Color4F::WHITE;

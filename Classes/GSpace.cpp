@@ -125,9 +125,6 @@ void GSpace::update()
     
     //process additions
     processAdditions();
-
-	gscene->addSpriteActions(spriteActions);
-	spriteActions.clear();
     
 	gscene->addActions(sceneActions);
 	sceneActions.clear();
@@ -566,150 +563,235 @@ int GSpace::getPlayerRoom()
 
 //BEGIN GRAPHICS
 
+LightID GSpace::addLightSource(CircleLightArea light)
+{
+	LightID id = gscene->getLightID();
+
+	addLightmapAction([this, id, light]()->void {
+		gscene->addLightSource(id, light);
+	});
+	return id;
+}
+
+LightID GSpace::addLightSource(AmbientLightArea light)
+{
+	LightID id = gscene->getLightID();
+
+	addLightmapAction([this, id, light]()->void {
+		gscene->addLightSource(id, light);
+	});
+	return id;
+}
+
+LightID GSpace::addLightSource(ConeLightArea light)
+{
+	LightID id = gscene->getLightID();
+
+	addLightmapAction([this, id, light]()->void {
+		gscene->addLightSource(id, light);
+	});
+	return id;
+}
+
+void GSpace::updateLightSource(LightID id, ConeLightArea light)
+{
+	addLightmapAction([this, id, light]()->void {
+		gscene->updateLightSource(id, light);
+	});
+}
+
+void GSpace::removeLightSource(LightID id)
+{
+	addLightmapAction([this, id]()->void {
+		gscene->removeLightSource(id);
+	});
+}
+
+void GSpace::setLightSourcePosition(LightID id, SpaceVect pos)
+{
+	addLightmapAction([this, id, pos]()->void {
+		gscene->setLightSourcePosition(id, pos);
+	});
+}
+
 SpriteID GSpace::createSprite(string path, GraphicsLayer sceneLayer, Vec2 pos, float zoom)
 {
-	return gscene->createSprite(path, sceneLayer, pos, zoom);
+	SpriteID id = gscene->getSpriteID();
+
+	addSpriteAction([this, id, path, sceneLayer, pos, zoom]() -> void {
+		gscene->createSprite(id, path, sceneLayer, pos, zoom);
+	});
+
+	return id;
 }
 
 SpriteID GSpace::createLoopAnimation(string name, int frameCount, float duration, GraphicsLayer sceneLayer, Vec2 pos, float zoom)
 {
-	return gscene->createLoopAnimation(name, frameCount, duration, sceneLayer, pos, zoom);
+	SpriteID id = gscene->getSpriteID();
+
+	addSpriteAction([this, id, name, frameCount, duration, sceneLayer, pos, zoom]() -> void {
+		gscene->createLoopAnimation(id, name, frameCount, duration, sceneLayer, pos, zoom);
+	});
+
+	return id;
 }
 
 SpriteID GSpace::createDrawNode(GraphicsLayer sceneLayer, Vec2 pos, float zoom)
 {
-	return gscene->createDrawNode(sceneLayer, pos, zoom);
+	SpriteID id = gscene->getSpriteID();
+
+	addSpriteAction([this, id, sceneLayer, pos, zoom]() -> void {
+		gscene->createDrawNode(id, sceneLayer, pos, zoom);
+	});
+
+	return id;
 }
 
 SpriteID GSpace::createAgentSprite(string path, bool isAgentAnimation, GraphicsLayer sceneLayer, Vec2 pos, float zoom)
 {
-	return gscene->createAgentSprite(path, isAgentAnimation, sceneLayer, pos, zoom);
+	SpriteID id = gscene->getSpriteID();
+
+	addSpriteAction([this, id, path, isAgentAnimation, sceneLayer, pos, zoom]() -> void {
+		gscene->createAgentSprite(id, path, isAgentAnimation, sceneLayer, pos, zoom);
+	});
+
+	return id;
 }
 
 void GSpace::loadAgentAnimation(SpriteID id, string path, bool isAgentAnimation)
 {
-	spriteActions.push_back([this, id, path, isAgentAnimation]() -> void {
+	addSpriteAction([this, id, path, isAgentAnimation]() -> void {
 		gscene->loadAgentAnimation(id, path, isAgentAnimation);
 	});
 }
 
 void GSpace::setAgentAnimationDirection(SpriteID id, Direction d)
 {
-	spriteActions.push_back([this, id, d]() -> void {
+	addSpriteAction([this, id, d]() -> void {
 		gscene->setAgentAnimationDirection(id, d);
 	});
 }
 
 void GSpace::setAgentAnimationFrame(SpriteID id, int frame)
 {
-	spriteActions.push_back([this, id, frame]() -> void {
+	addSpriteAction([this, id, frame]() -> void {
 		gscene->setAgentAnimationFrame(id, frame);
 	});
 }
 
 void GSpace::clearDrawNode(SpriteID id)
 {
-	spriteActions.push_back([this, id]() -> void {
+	addSpriteAction([this, id]() -> void {
 		gscene->clearDrawNode(id);
 	});
 }
 
 void GSpace::drawSolidRect(SpriteID id, Vec2 lowerLeft, Vec2 upperRight, Color4F color)
 {
-	spriteActions.push_back([this, id, lowerLeft, upperRight, color]() -> void {
+	addSpriteAction([this, id, lowerLeft, upperRight, color]() -> void {
 		gscene->drawSolidRect(id, lowerLeft, upperRight, color);
 	});
 }
 
 void GSpace::drawSolidCone(SpriteID id, const Vec2& center, float radius, float startAngle, float endAngle, unsigned int segments, const Color4F &color)
 {
-	spriteActions.push_back([this, id, center, radius, startAngle, endAngle, segments, color]() -> void {
+	addSpriteAction([this, id, center, radius, startAngle, endAngle, segments, color]() -> void {
 		gscene->drawSolidCone(id, center, radius, startAngle, endAngle, segments, color);
 	});
 }
 
 void GSpace::drawSolidCircle(SpriteID id, const Vec2& center, float radius, float angle, unsigned int segments, const Color4F& color)
 {
-	spriteActions.push_back([this, id, center, radius, angle, segments, color]() -> void {
+	addSpriteAction([this, id, center, radius, angle, segments, color]() -> void {
 		gscene->drawSolidCircle(id, center, radius, angle, segments, color);
 	});
 }
 
 void GSpace::runSpriteAction(SpriteID id, ActionGeneratorType generator)
 {
-	spriteActions.push_back([this, id, generator]() -> void {
+	addSpriteAction([this, id, generator]() -> void {
 		gscene->runSpriteAction(id, generator);
 	});
 }
 
 void GSpace::stopSpriteAction(SpriteID id, cocos_action_tag action)
 {
-	spriteActions.push_back([this, id, action]() -> void {
+	addSpriteAction([this, id, action]() -> void {
 		gscene->stopSpriteAction(id, action);
 	});
 }
 
 void GSpace::stopAllSpriteActions(SpriteID id)
 {
-	spriteActions.push_back([this, id]() -> void {
+	addSpriteAction([this, id]() -> void {
 		gscene->stopAllSpriteActions(id);
 	});
 }
 
 void GSpace::removeSprite(SpriteID id)
 {
-	spriteActions.push_back([this, id]() -> void {
+	addSpriteAction([this, id]() -> void {
 		gscene->removeSprite(id);
 	});
 }
 
 void GSpace::removeSpriteWithAnimation(SpriteID id, ActionGeneratorType generator)
 {
-	spriteActions.push_back([this, id, generator]() -> void {
+	addSpriteAction([this, id, generator]() -> void {
 		gscene->removeSpriteWithAnimation(id, generator);
 	});
 }
 
 void GSpace::setSpriteVisible(SpriteID id, bool val)
 {
-	spriteActions.push_back([this, id, val]() -> void {
+	addSpriteAction([this, id, val]() -> void {
 		gscene->setSpriteVisible(id, val);
 	});
 }
 
 void GSpace::setSpriteOpacity(SpriteID id, unsigned char op)
 {
-	spriteActions.push_back([this, id, op]() -> void {
+	addSpriteAction([this, id, op]() -> void {
 		gscene->setSpriteOpacity(id, op);
 	});
 }
 
 void GSpace::setSpriteTexture(SpriteID id, string path)
 {
-	spriteActions.push_back([this, id, path]()->void {
+	addSpriteAction([this, id, path]()->void {
 		gscene->setSpriteTexture(id, path);
 	});
 }
 
 void GSpace::setSpriteAngle(SpriteID id, float cocosAngle)
 {
-	spriteActions.push_back([this, id, cocosAngle]() -> void {
+	addSpriteAction([this, id, cocosAngle]() -> void {
 		gscene->setSpriteAngle(id, cocosAngle);
 	});
 }
 
 void GSpace::setSpritePosition(SpriteID id, Vec2 pos)
 {
-	spriteActions.push_back([this, id, pos]() -> void {
+	addSpriteAction([this, id, pos]() -> void {
 		gscene->setSpritePosition(id, pos);
 	});
 }
 
 void GSpace::setSpriteZoom(SpriteID id, float zoom)
 {
-	spriteActions.push_back([this, id, zoom]() -> void {
+	addSpriteAction([this, id, zoom]() -> void {
 		gscene->setSpriteZoom(id, zoom);
 	});
+}
+
+void GSpace::addLightmapAction(function<void()> f)
+{
+	sceneActions.push_back(make_pair(f, GScene::updateOrder::lightmapUpdate));
+}
+
+void GSpace::addSpriteAction(function<void()> f)
+{
+	sceneActions.push_back(make_pair(f, GScene::updateOrder::spriteUpdate));
 }
 
 //END GRAPHICS

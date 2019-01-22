@@ -30,8 +30,6 @@ string GScene::crntSceneName;
 string GScene::crntReplayName;
 bool GScene::suppressGameOver = false;
 
-unsigned int GScene::nextLightID = 1;
-
 GScene* GScene::runScene(const string& name)
 {
     auto it = adapters.find(name);
@@ -128,6 +126,14 @@ control_listener(make_unique<ControlListener>())
 	multiUpdate.insertWithOrder(
 		wrap_method(GScene, runScriptUpdate, this),
 		to_int(updateOrder::sceneUpdate)
+	);
+	multiUpdate.insertWithOrder(
+		bind(&GScene::runActionsWithOrder, this, updateOrder::spriteUpdate),
+		to_int(updateOrder::spriteUpdate)
+	);
+	multiUpdate.insertWithOrder(
+		bind(&GScene::runActionsWithOrder, this, updateOrder::lightmapUpdate),
+		to_int(updateOrder::lightmapUpdate)
 	);
 	multiUpdate.insertWithOrder(
 		wrap_method(GScene, renderSpace, this),
@@ -299,11 +305,18 @@ void GScene::addActions(const vector<pair<function<void(void)>, updateOrder>>& _
 	actionsMutex.unlock();
 }
 
-LightID GScene::addLightSource(CircleLightArea light)
+SpriteID GScene::getSpriteID()
 {
-	LightID id = nextLightID++;
-	lightmapMutex.lock();
+	return nextSpriteID.fetch_add(1);
+}
 
+LightID GScene::getLightID()
+{
+	return nextLightID.fetch_add(1);
+}
+
+void GScene::addLightSource(LightID id, CircleLightArea light)
+{
 	RadialGradient* g = Node::ccCreate<RadialGradient>(
 		toColor4F(light.color) * light.intensity,
 		Color4F(0.0f, 0.0f, 0.0f, 1.0f),
@@ -319,43 +332,25 @@ LightID GScene::addLightSource(CircleLightArea light)
 
 	circleLights.insert_or_assign(id,light);
 	lightmapRadials.insert_or_assign(id, g);
-
-	lightmapMutex.unlock();
-	return id;
 }
 
-LightID GScene::addLightSource(AmbientLightArea light)
+void GScene::addLightSource(LightID id, AmbientLightArea light)
 {
-	LightID id = nextLightID++;
-	lightmapMutex.lock();
-
 	ambientLights.insert_or_assign(id,light);
-
-	lightmapMutex.unlock();
-	return id;
 }
 
-LightID GScene::addLightSource(ConeLightArea light)
+void GScene::addLightSource(LightID id, ConeLightArea light)
 {
-	LightID id = nextLightID++;
-	lightmapMutex.lock();
-
 	coneLights.insert_or_assign(id, light);
-
-	lightmapMutex.unlock();
-	return id;
 }
 
-void GScene::updateLightSource(SpriteID id, ConeLightArea light)
+void GScene::updateLightSource(LightID id, ConeLightArea light)
 {
-	lightmapMutex.lock();
 	coneLights.insert_or_assign(id, light);
-	lightmapMutex.unlock();
 }
 
-void GScene::removeLightSource(SpriteID id)
+void GScene::removeLightSource(LightID id)
 {
-	lightmapMutex.lock();
 	auto it = lightmapRadials.find(id);
 	if (it != lightmapRadials.end()) {
 		getLayer(sceneLayers::lightmap)->removeChild(it->second);
@@ -364,12 +359,10 @@ void GScene::removeLightSource(SpriteID id)
 
 	circleLights.erase(id);
 	ambientLights.erase(id);
-	lightmapMutex.unlock();
 }
 
-void GScene::setLightSourcePosition(SpriteID id, SpaceVect pos)
+void GScene::setLightSourcePosition(LightID id, SpaceVect pos)
 {
-	lightmapMutex.lock();
 	{
 		auto it = circleLights.find(id);
 		if (it != circleLights.end()) {
@@ -383,65 +376,36 @@ void GScene::setLightSourcePosition(SpriteID id, SpaceVect pos)
 			it->second.origin = pos;
 		}
 	}
-	lightmapMutex.unlock();
 }
 
-SpriteID GScene::createSprite(string path, GraphicsLayer sceneLayer, Vec2 pos, float zoom)
+void GScene::createSprite(SpriteID id, string path, GraphicsLayer sceneLayer, Vec2 pos, float zoom)
 {
-	spriteActionsMutex.lock();
-	SpriteID id = nextSpriteID++;
-
-	spriteActions.push_back([this, id,path,sceneLayer,pos,zoom]() -> void {
-		Sprite* s = Sprite::create(path);
-		getSpaceLayer()->positionAndAddNode(s, to_int(sceneLayer), pos, zoom);
-		crntSprites.insert_or_assign(id, s);
-	});
-	spriteActionsMutex.unlock();
-	return id;
+	Sprite* s = Sprite::create(path);
+	getSpaceLayer()->positionAndAddNode(s, to_int(sceneLayer), pos, zoom);
+	crntSprites.insert_or_assign(id, s);
 }
 
-SpriteID GScene::createLoopAnimation(string name, int frameCount, float duration, GraphicsLayer sceneLayer, Vec2 pos, float zoom)
+void GScene::createLoopAnimation(SpriteID id, string name, int frameCount, float duration, GraphicsLayer sceneLayer, Vec2 pos, float zoom)
 {
-	spriteActionsMutex.lock();
-	SpriteID id = nextSpriteID++;
-
-	spriteActions.push_back([this, id, name, frameCount, duration, sceneLayer, pos, zoom]() -> void {
-		TimedLoopAnimation* anim = Node::ccCreate<TimedLoopAnimation>();
-		anim->loadAnimation(name, frameCount, duration);
-		getSpaceLayer()->positionAndAddNode(anim, to_int(sceneLayer), pos, zoom);
-		animationSprites.insert_or_assign(id, anim);
-	});
-	spriteActionsMutex.unlock();
-	return id;
+	TimedLoopAnimation* anim = Node::ccCreate<TimedLoopAnimation>();
+	anim->loadAnimation(name, frameCount, duration);
+	getSpaceLayer()->positionAndAddNode(anim, to_int(sceneLayer), pos, zoom);
+	animationSprites.insert_or_assign(id, anim);
 }
 
-SpriteID GScene::createDrawNode(GraphicsLayer sceneLayer, Vec2 pos, float zoom)
+void GScene::createDrawNode(SpriteID id, GraphicsLayer sceneLayer, Vec2 pos, float zoom)
 {
-	spriteActionsMutex.lock();
-	SpriteID id = nextSpriteID++;
-
-	spriteActions.push_back([this, id, sceneLayer, pos, zoom]() -> void {
-		DrawNode* dn = DrawNode::create();
-		drawNodes.insert_or_assign(id, dn);
-		getSpaceLayer()->positionAndAddNode(dn, to_int(sceneLayer), pos, zoom);
-	});
-	spriteActionsMutex.unlock();
-	return id;
+	DrawNode* dn = DrawNode::create();
+	drawNodes.insert_or_assign(id, dn);
+	getSpaceLayer()->positionAndAddNode(dn, to_int(sceneLayer), pos, zoom);
 }
 
-SpriteID GScene::createAgentSprite(string path, bool isAgentAnimation, GraphicsLayer sceneLayer, Vec2 pos, float zoom)
+void GScene::createAgentSprite(SpriteID id, string path, bool isAgentAnimation, GraphicsLayer sceneLayer, Vec2 pos, float zoom)
 {
-	spriteActionsMutex.lock();
-	SpriteID id = nextSpriteID++;
-
-	spriteActions.push_back([this, id, path, isAgentAnimation, sceneLayer, pos, zoom]() -> void {
-		PatchConAnimation* anim = Node::ccCreate<PatchConAnimation>();
-		anim->loadAnimation(path, isAgentAnimation);
-		agentSprites.insert_or_assign(id, anim);
-		getSpaceLayer()->positionAndAddNode(anim, to_int(sceneLayer), pos, zoom);
-	});
-	spriteActionsMutex.unlock();
-	return id;
+	PatchConAnimation* anim = Node::ccCreate<PatchConAnimation>();
+	anim->loadAnimation(path, isAgentAnimation);
+	agentSprites.insert_or_assign(id, anim);
+	getSpaceLayer()->positionAndAddNode(anim, to_int(sceneLayer), pos, zoom);
 }
 
 void GScene::loadAgentAnimation(SpriteID id, string path, bool isAgentAnimation)
@@ -901,23 +865,15 @@ void GScene::renderSpace()
 	lightmapRender->setVisible(display != displayMode::base);
 	lightmapBackground->setVisible(display == displayMode::lightmap);
 
-	spriteActionsMutex.lock();
-	for (auto f : spriteActions) {
-		f();
-	}
-	spriteActions.clear();
-
 	for (TimedLoopAnimation* anim : animationSprites | boost::adaptors::map_values) {
 		anim->update();
 	}
-	spriteActionsMutex.unlock();
 
 	redrawLightmap();
 }
 
 void GScene::redrawLightmap()
 {
-	lightmapMutex.lock();
 	lightmapDrawNode->clear();
 
 	CCRect cameraPix = getCameraArea().toPixelspace();
@@ -961,8 +917,6 @@ void GScene::redrawLightmap()
 			lightmapDrawNode->drawSolidCone(center, light.radius*App::pixelsPerTile, light.startAngle, light.endAngle, 128, color);
 		}
 	}
-
-	lightmapMutex.unlock();
 }
 
 void GScene::cycleDisplayMode()
@@ -1049,15 +1003,6 @@ void GScene::runActionsWithOrder(updateOrder order)
 		(*it)();
 	}
 	_actions.clear();
-}
-
-void GScene::addSpriteActions(const vector<function<void()>>& v)
-{
-	spriteActionsMutex.lock();
-	for (auto f : v) {
-		spriteActions.push_back(f);
-	}
-	spriteActionsMutex.unlock();
 }
 
 void GScene::setColorFilter(const Color4F& color)

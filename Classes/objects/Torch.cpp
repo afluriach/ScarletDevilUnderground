@@ -47,7 +47,7 @@ void Torch::initializeGraphics()
 	space->setSpriteVisible(flameSpriteID, isActive);
 
 	if (isActive) {
-		lightSourceID = space->getScene()->addLightSource(CircleLightArea{ getPos(),5.0,color,intensity,flood });
+		lightSourceID = space->addLightSource(CircleLightArea{ getPos(),5.0,color,intensity,flood });
 	}
 }
 
@@ -58,7 +58,7 @@ void Torch::setActive(bool active)
 	space->setSpriteVisible(flameSpriteID, active);
 
 	if (active && lightSourceID == 0) {
-		lightSourceID = space->getScene()->addLightSource(CircleLightArea{getPos(),5.0,color,intensity});
+		lightSourceID = space->addLightSource(CircleLightArea{getPos(),5.0,color,intensity});
 	}
 	else if(lightSourceID != 0) {
 		space->getScene()->removeLightSource(lightSourceID);
