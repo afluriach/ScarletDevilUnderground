@@ -53,11 +53,22 @@ public:
 	virtual AttributeMap getAttributeEffect() const;
 };
 
-class FlandreFastOrb1 : virtual public GObject, public PlayerBullet, public CircleBody, public ImageSprite, public DirectionalLaunch
+class FlandreFastOrb1 :
+	virtual public GObject,
+	public PlayerBullet,
+	public CircleBody,
+	public ImageSprite,
+	public DirectionalLaunch,
+	public RegisterInit<FlandreFastOrb1>,
+	public RegisterUpdate<FlandreFastOrb1>
 {
 public:
-
 	FlandreFastOrb1(GSpace* space, ObjectIDType id, SpaceFloat angle, const SpaceVect& pos);
+
+	void init();
+	void update();
+
+	virtual void onRemove();
 
 	virtual inline SpaceFloat getMaxSpeed() const { return 9.0; }
 	virtual inline SpaceFloat getRadius() const { return 0.15; }
@@ -68,6 +79,8 @@ public:
 	inline virtual float zoom() const { return getRadius() / spriteBaseRadius * 2; }
 
 	virtual AttributeMap getAttributeEffect() const;
+protected:
+	LightID lightID = 0;
 };
 
 class FlandreCounterClockBullet :
