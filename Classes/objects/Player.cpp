@@ -466,6 +466,29 @@ void Player::applyUpgrade(Upgrade* up)
 	Attribute at = up->attribute;
 	attributeSystem.modifyAttribute(at, 1.0f);
 
+	switch (at)
+	{
+	case Attribute::maxHP:
+		attributeSystem.modifyAttribute(Attribute::hp, 1.0f);
+		space->addSceneAction(make_hud_action(
+			&HUD::setMaxHP,
+			playScene,
+			to_int(attributeSystem.getAdjustedValue(Attribute::maxHP))
+		));
+	break;
+	case Attribute::maxMP:
+		attributeSystem.modifyAttribute(Attribute::mp, 1.0f);
+		space->addSceneAction(make_hud_action(
+			&HUD::setMaxMP,
+			playScene,
+			to_int(attributeSystem.getAdjustedValue(Attribute::maxMP))
+		));
+	break;
+	case Attribute::maxPower:
+		attributeSystem.modifyAttribute(Attribute::power, 0.5f);
+	break;
+	}
+
 	App::crntState->registerUpgrade(App::crntPC, at, up->upgrade_id);
 	space->removeObject(up);
 }
