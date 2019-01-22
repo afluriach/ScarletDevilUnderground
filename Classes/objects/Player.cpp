@@ -91,25 +91,25 @@ SpaceVect Player::getInteractFeeler() const
 void Player::init()
 {
 	if (playScene && !space->getSuppressAction()) {
-		playScene->addAction(make_hud_action(
+		space->addSceneAction(make_hud_action(
 			&HUD::setMaxHP,
 			playScene,
 			to_int(attributeSystem.getAdjustedValue(Attribute::maxHP))
 		));
 
-		playScene->addAction(make_hud_action(
+		space->addSceneAction(make_hud_action(
 			&HUD::setHP,
 			playScene,
 			to_int(attributeSystem.getAdjustedValue(Attribute::hp))
 		));
 
-		playScene->addAction(make_hud_action(
+		space->addSceneAction(make_hud_action(
 			&HUD::setMaxMP,
 			playScene,
 			to_int(attributeSystem.getAdjustedValue(Attribute::maxMP))
 		));
 
-		playScene->addAction(make_hud_action(
+		space->addSceneAction(make_hud_action(
 			&HUD::setMP,
 			playScene,
 			to_int(attributeSystem.getAdjustedValue(Attribute::mp))
@@ -119,7 +119,7 @@ void Player::init()
 		setFirePatterns();
 
 		if (getFirePattern()) {
-			playScene->addAction(make_hud_action(
+			space->addSceneAction(make_hud_action(
 				&HUD::setFirePatternIcon,
 				playScene,
 				getFirePattern()->iconPath()
@@ -193,7 +193,7 @@ void Player::onSpellStop()
 {
 	attributeSystem.setSpellCooldown();
 
-	playScene->addAction(make_hud_action(
+	space->addSceneAction(make_hud_action(
 		&HUD::runMagicFlicker,
 		playScene,
 		getAttribute(Attribute::spellCooldownInterval),
@@ -236,7 +236,7 @@ void Player::checkItemInteraction(const ControlInfo& cs)
         }
     }
 
-	playScene->addAction(make_hud_action(
+	space->addSceneAction(make_hud_action(
 		&HUD::setInteractionIcon,
 		playScene,
 		interactible && interactible->canInteract() ? interactible->interactionIcon() : ""
@@ -253,7 +253,7 @@ void Player::onZeroHP()
 	if (!GScene::suppressGameOver) {
 		App::playSound("sfx/player_death.wav", 0.5f);
 
-		playScene->addAction(
+		space->addSceneAction(
 			[=]()->void { playScene->triggerGameOver();},
 			GScene::updateOrder::sceneUpdate
 		);
@@ -400,7 +400,7 @@ void Player::hit(AttributeMap attributeEffect, shared_ptr<MagicEffect> effect){
 			)
 		);
 
-		playScene->addAction(make_hud_action(
+		space->addSceneAction(make_hud_action(
 			&HUD::runHealthFlicker,
 			playScene,
 			attributeSystem.getAdjustedValue(Attribute::hitProtectionInterval),
@@ -512,7 +512,7 @@ bool Player::trySetFirePattern(size_t idx)
 	else {
 		crntFirePattern = idx;
 
-		playScene->addAction(make_hud_action(
+		space->addSceneAction(make_hud_action(
 			&HUD::setFirePatternIcon,
 			playScene,
 			getFirePattern()->iconPath()
@@ -538,7 +538,7 @@ void Player::setHudEffect(Attribute id, Attribute max_id)
 	float maxVal = getAttribute(max_id);
 	int percent = (val >= 0.0f  && maxVal > 0.0f ? val / maxVal * 100.0f : 100);
 
-	playScene->addAction(make_hud_action(
+	space->addSceneAction(make_hud_action(
 		&HUD::setPercentValue,
 		playScene,
 		id,
@@ -551,7 +551,7 @@ void Player::setHudEffect(Attribute id, float maxVal)
 	float val = getAttribute(id);
 	int percent = (val >= 0.0f  && maxVal > 0.0f ? val / maxVal * 100.0f : 100);
 
-	playScene->addAction(make_hud_action(
+	space->addSceneAction(make_hud_action(
 		&HUD::setPercentValue,
 		playScene,
 		id,
@@ -562,7 +562,7 @@ void Player::setHudEffect(Attribute id, float maxVal)
 
 void Player::updateHudAttribute(Attribute id)
 {
-	playScene->addAction(make_hud_action(
+	space->addSceneAction(make_hud_action(
 		&HUD::setPercentValue,
 		playScene,
 		id,

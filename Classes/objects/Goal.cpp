@@ -30,7 +30,7 @@ bool Goal::canInteract()
 
 void Goal::interact()
 {
-	playScene->addAction(
+	space->addSceneAction(
 		[=]()->void { playScene->triggerSceneCompleted(); },
 		GScene::updateOrder::sceneUpdate
 	);

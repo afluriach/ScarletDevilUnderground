@@ -11,6 +11,7 @@
 
 #include "Graphics.h"
 #include "object_ref.hpp"
+#include "scenes.h"
 #include "types.h"
 
 class FloorSegment;
@@ -135,6 +136,8 @@ public:
 	map<type_index, pair<unsigned int, unsigned int>> getEnemyStats();
 
 	void addObjectAction(function<void()> f);
+	void addSceneAction(pair<function<void(void)>, GScene::updateOrder> entry);
+	void addSceneAction(function<void(void)> f, GScene::updateOrder order);
 
 	void updatePlayerMapLocation(const SpaceVect& pos);
 	void addMapArea(const SpaceRect& area);
@@ -163,6 +166,7 @@ private:
 	int crntMap = -1;
 	vector<SpaceRect> mapAreas;
 	
+	vector<pair<function<void(void)>, GScene::updateOrder>> sceneActions;
 	vector<function<void()>> objectActions;
 	mutex objectActionsMutex;
 

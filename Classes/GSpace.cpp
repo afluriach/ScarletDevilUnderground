@@ -129,6 +129,9 @@ void GSpace::update()
 	gscene->addSpriteActions(spriteActions);
 	spriteActions.clear();
     
+	gscene->addActions(sceneActions);
+	sceneActions.clear();
+
 #if USE_TIMERS
 	chrono::steady_clock::time_point t4 = chrono::steady_clock::now();
 
@@ -472,6 +475,16 @@ void GSpace::addObjectAction(function<void()> f)
 	objectActionsMutex.unlock();
 }
 
+void GSpace::addSceneAction(pair<function<void(void)>, GScene::updateOrder> entry)
+{
+	sceneActions.push_back(entry);
+}
+
+void GSpace::addSceneAction(function<void(void)> f, GScene::updateOrder order)
+{
+	sceneActions.push_back(make_pair(f,order));
+}
+
 void GSpace::teleportPlayerToDoor(string doorName)
 {
 	Door* d = getObjectAs<Door>(doorName);
@@ -502,12 +515,12 @@ void GSpace::updatePlayerMapLocation(const SpaceVect& pos)
 
 	cameraArea = calculateCameraArea(pos);
 
-	gscene->addAction(
+	addSceneAction(
 		bind(&GScene::updateMapVisibility, gscene, pos),
 		GScene::updateOrder::sceneUpdate
 	);
 
-	gscene->addAction(
+	addSceneAction(
 		bind(&GScene::setUnitPosition, gscene, pos),
 		GScene::updateOrder::moveCamera
 	);

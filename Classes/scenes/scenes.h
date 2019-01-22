@@ -46,7 +46,9 @@ public:
     
     enum class updateOrder{
         //Update tick on GSpace and all objects, if applicable
-		updateControls=1,
+		begin = 0,
+		queueActions = 0,
+		updateControls,
 		runShellScript,
         spaceUpdate,
         //General scene update logic
@@ -54,6 +56,8 @@ public:
         moveCamera,
 		renderSpace,
         hudUpdate,
+
+		end
     };
     
     enum class sceneLayers{
@@ -123,8 +127,7 @@ public:
 
 	void processAdditions();
 
-	void addAction(function<void(void)>, updateOrder order);
-	void addAction(pair<function<void(void)>, updateOrder> entry);
+	void addActions(const vector<pair<function<void(void)>, updateOrder>>& _actions);
 
 	void runActionsWithOrder(updateOrder order);
 	void addSpriteActions(const vector<function<void()>>& v);
@@ -216,6 +219,8 @@ protected:
 	void runScriptInit();
 	void runScriptUpdate();
 
+	void queueActions();
+
 	Node* getSpriteAsNode(SpriteID id);
 	void _removeSprite(SpriteID id);
 
@@ -251,7 +256,8 @@ protected:
 	map<unsigned int, ConeLightArea> coneLights;
 	map<unsigned int, RadialGradient*> lightmapRadials;
 
-	list<pair<function<void(void)>, updateOrder>> actions;
+	unordered_map<updateOrder, vector<function<void(void)>>> actions;
+	vector<pair<function<void(void)>, updateOrder>> actionsToAdd;
 	mutex actionsMutex;
 
 	Dialog* dialog = nullptr;

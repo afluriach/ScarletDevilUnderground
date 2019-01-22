@@ -118,6 +118,10 @@ control_listener(make_unique<ControlListener>())
 	);
 
 	multiUpdate.insertWithOrder(
+		wrap_method(GScene, queueActions, this),
+		to_int(updateOrder::queueActions)
+	);
+	multiUpdate.insertWithOrder(
 		wrap_method(GScene, checkPendingScript, this),
 		to_int(updateOrder::runShellScript)
 	);
@@ -137,6 +141,11 @@ control_listener(make_unique<ControlListener>())
 		bind(&GScene::runActionsWithOrder, this, updateOrder::hudUpdate),
 		to_int(updateOrder::hudUpdate)
 	);
+
+	enum_foreach(updateOrder, order, begin, end)
+	{
+		actions.insert_or_assign(order, vector<function<void()>>());
+	}
 
     //Create the sublayers at construction (so they are available to mixins at construction time).
     //But do not add sublayers until init time.
@@ -279,17 +288,14 @@ void GScene::processAdditions()
 	gspace->processAdditions();
 }
 
-void GScene::addAction(function<void(void)> f, updateOrder order)
+void GScene::addActions(const vector<pair<function<void(void)>, updateOrder>>& _actions)
 {
 	actionsMutex.lock();
-	actions.push_back(pair<function<void(void)>, updateOrder>(f, order));
-	actionsMutex.unlock();
-}
 
-void GScene::addAction(pair<function<void(void)>, updateOrder> entry)
-{
-	actionsMutex.lock();
-	actions.push_back(entry);
+	for (auto entry : _actions) {
+		actionsToAdd.push_back(entry);
+	}
+
 	actionsMutex.unlock();
 }
 
@@ -1021,22 +1027,28 @@ void GScene::runScriptUpdate()
     ctx->callIfExistsNoReturn("update");
 }
 
-void GScene::runActionsWithOrder(updateOrder order)
+void GScene::queueActions()
 {
 	actionsMutex.lock();
-	for (auto it = actions.begin(); it != actions.end();)
+
+	for (auto entry : actionsToAdd)
 	{
-		if (it->second == order)
-		{
-			it->first();
-			it = actions.erase(it);
-		}
-		else
-		{
-			++it;
-		}
+		actions.at(entry.second).push_back(entry.first);
 	}
+	actionsToAdd.clear();
+
 	actionsMutex.unlock();
+}
+
+void GScene::runActionsWithOrder(updateOrder order)
+{
+	vector<function<void(void)>>& _actions = actions.at(order);
+
+	for (auto it = _actions.begin(); it != _actions.end();++it)
+	{
+		(*it)();
+	}
+	_actions.clear();
 }
 
 void GScene::addSpriteActions(const vector<function<void()>>& v)

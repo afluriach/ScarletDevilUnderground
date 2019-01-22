@@ -101,7 +101,7 @@ void BossRoomSensor::update()
 	if (!activated)
 	{
 		if (boss.isValid() && player.isValid()) {
-			playScene->addAction(make_hud_action(
+			space->addSceneAction(make_hud_action(
 				&HUD::setEnemyInfo,
 				playScene,
 				boss.get()->getName(),
@@ -117,7 +117,7 @@ void BossRoomSensor::update()
 		//If the player ref is not valid, this means the player left the room sensor.
 
 		if (boss.isValid() && player.isValid()) {
-			playScene->addAction(make_hud_action(
+			space->addSceneAction(make_hud_action(
 				&HUD::updateEnemyInfo,
 				playScene,
 				boss.get()->getAttribute(Attribute::hp)
@@ -125,7 +125,7 @@ void BossRoomSensor::update()
 		}
 
 		else {
-			playScene->addAction(make_hud_action(
+			space->addSceneAction(make_hud_action(
 				&HUD::clearEnemyInfo,
 				playScene
 			));
