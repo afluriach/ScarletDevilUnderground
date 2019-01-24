@@ -23,7 +23,8 @@ class AreaSensor :
 {
 public:
 	AreaSensor(GSpace* space, ObjectIDType id, const ValueMap& args);
-    
+	inline virtual ~AreaSensor() {}
+
     virtual inline SpaceFloat getMass() const { return -1.0;}
 	virtual inline bool getSensor() const { return true; }
     virtual inline GType getType() const {return GType::areaSensor;}

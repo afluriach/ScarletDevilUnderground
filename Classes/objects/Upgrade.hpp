@@ -18,6 +18,7 @@ class Upgrade : virtual public GObject, public CircleBody, public ImageSprite, p
 {
 public:
 	Upgrade(unsigned int id, Attribute attribute);
+	virtual inline ~Upgrade() {}
 
 	virtual inline SpaceFloat getMass() const { return -1.0; }
 	virtual inline GType getType() const { return GType::upgrade; }

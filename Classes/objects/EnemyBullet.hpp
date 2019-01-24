@@ -16,6 +16,7 @@ class EnemyBullet : virtual public GObject, public Bullet
 {
 public:
 	EnemyBullet();
+	inline virtual ~EnemyBullet() {}
 
 	void invalidateGraze();
 	virtual inline GType getType() const { return GType::enemyBullet; }

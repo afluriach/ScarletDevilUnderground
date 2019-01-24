@@ -16,6 +16,7 @@ class Enemy : virtual public Agent, public RegisterUpdate<Enemy>
 {
 public:
 	Enemy(collectible_id drop_id);
+	inline virtual ~Enemy() {}
 
 	void onTouchPlayer(Player* target);
 	void endTouchPlayer();

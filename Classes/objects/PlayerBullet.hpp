@@ -15,6 +15,7 @@ class PlayerBullet : virtual public GObject, public Bullet
 {
 public:
 	inline PlayerBullet() {}
+	inline virtual ~PlayerBullet() {}
 
 	virtual inline GType getType() const { return GType::playerBullet; }
 };
@@ -23,6 +24,7 @@ class PlayerShield : virtual public GObject, public Bullet
 {
 public:
 	inline PlayerShield() {}
+	inline virtual ~PlayerShield() {}
 
 	virtual inline GType getType() const { return GType::playerBullet; }
 

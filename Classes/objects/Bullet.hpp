@@ -20,6 +20,7 @@ class Bullet : virtual public GObject
 {
 public:
 	inline Bullet() {}
+	inline virtual ~Bullet() {}
 
 	virtual inline bool getSensor() const { return true; }
 	virtual inline SpaceFloat getMass() const { return 0.1; }

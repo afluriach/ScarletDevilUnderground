@@ -22,6 +22,7 @@ public RegisterUpdate<EffectArea>
 {
 public:
 	MapObjCons(EffectArea);
+	inline virtual ~EffectArea(){}
     
     virtual inline SpaceFloat getMass() const { return -1.0;}
 	virtual inline bool getSensor() const { return true; }

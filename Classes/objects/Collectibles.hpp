@@ -34,6 +34,7 @@ public:
 	static const map<collectible_id, function<ObjectGeneratorType(SpaceVect)>> factories;
 
 	Collectible(GSpace* space, ObjectIDType id, SpaceVect pos);
+	inline virtual ~Collectible() {}
 
 	virtual inline SpaceFloat getMass() const { return -1.0; }
 	virtual inline GType getType() const { return GType::collectible; }

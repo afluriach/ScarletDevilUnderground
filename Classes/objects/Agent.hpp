@@ -24,6 +24,7 @@ public RegisterUpdate<Agent>
 {
 public:
 	MapObjCons(Agent);
+	inline virtual ~Agent() {}
 
 	void initFSM();
 	void initAttributes();

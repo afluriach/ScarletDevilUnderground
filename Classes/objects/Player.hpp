@@ -42,6 +42,7 @@ public:
 	static const SpaceFloat grazeRadius;
 
 	MapObjCons(Player);
+	inline virtual ~Player() {}
     
 	virtual void onPitfall();
 
