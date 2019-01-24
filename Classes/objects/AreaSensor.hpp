@@ -30,13 +30,19 @@ public:
     virtual inline GType getType() const {return GType::areaSensor;}
     virtual PhysicsLayers getLayers() const;
 
+	virtual bool isObstructed() const;
+
 	void onPlayerContact(Player*);
 	void onPlayerEndContact(Player*);
 
 	void onEnemyContact(Enemy*);
 	void onEnemyEndContact(Enemy*);
+
+	void onEnvironmentalObjectContact(GObject*);
+	void onEnvironmentalObjectEndContact(GObject*);
 protected:
 	set<object_ref<Enemy>> enemies;
+	set<gobject_ref> environmentalObjects;
 	object_ref<Player> player;
 };
 

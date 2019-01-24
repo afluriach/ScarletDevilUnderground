@@ -90,8 +90,6 @@ enum class GType{
     foliage,
     wall,
 	areaSensor,
-	teleportPad,
-	spawner,
     playerSensor,
     playerGrazeRadar,
     collectible,

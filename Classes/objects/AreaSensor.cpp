@@ -26,9 +26,15 @@ PhysicsLayers AreaSensor::getLayers() const{
     return PhysicsLayers::all;
 }
 
+bool AreaSensor::isObstructed() const
+{
+	return !player.isValid() && enemies.empty() && environmentalObjects.empty();
+}
+
 void AreaSensor::onPlayerContact(Player* p) {
 	player = p;
 }
+
 void AreaSensor::onPlayerEndContact(Player* p) {
 	player = nullptr;
 }
@@ -39,6 +45,14 @@ void AreaSensor::onEnemyContact(Enemy*e) {
 
 void AreaSensor::onEnemyEndContact(Enemy* e) {
 	enemies.erase(e);
+}
+
+void AreaSensor::onEnvironmentalObjectContact(GObject* obj) {
+	environmentalObjects.insert(obj);
+}
+
+void AreaSensor::onEnvironmentalObjectEndContact(GObject* obj) {
+	environmentalObjects.erase(obj);
 }
 
 TrapRoomSensor::TrapRoomSensor(GSpace* space, ObjectIDType id, const ValueMap& args) :

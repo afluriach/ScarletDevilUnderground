@@ -925,16 +925,9 @@ void GSpace::addCollisionHandlers()
 	_addHandler(floorSegment, collectible, floorObjectBegin, floorObjectEnd);
 	_addHandler(floorSegment, environment, floorObjectBegin, floorObjectEnd);
 
-	_addHandler(teleportPad, player, teleportPadObjectBegin, teleportPadObjectEnd);
-	_addHandler(teleportPad, enemy, teleportPadObjectBegin, teleportPadObjectEnd);
-	_addHandler(teleportPad, environment, teleportPadObjectBegin, teleportPadObjectEnd);
-
-	_addHandler(spawner, player, spawnerObjectBegin, spawnerObjectEnd);
-	_addHandler(spawner, enemy, spawnerObjectBegin, spawnerObjectEnd);
-	_addHandler(spawner, environment, spawnerObjectBegin, spawnerObjectEnd);
-
 	_addHandler(player, areaSensor, playerAreaSensorBegin, playerAreaSensorEnd);
 	_addHandler(enemy, areaSensor, enemyAreaSensorBegin, enemyAreaSensorEnd);
+	_addHandler(environment, areaSensor, environmentAreaSensorBegin, environmentAreaSensorEnd);
 }
 
 const bool GSpace::logBodyCreation = false;
@@ -1292,50 +1285,6 @@ int GSpace::floorObjectEnd(GObject* floorSegment, GObject* obj)
 	}
 }
 
-int GSpace::teleportPadObjectBegin(GObject* teleportPad, GObject* obj)
-{
-	TeleportPad* _tp = dynamic_cast<TeleportPad*>(teleportPad);
-
-	if (_tp && obj) {
-		_tp->onContact(obj);
-	}
-
-	return 1;
-}
-
-int GSpace::teleportPadObjectEnd(GObject* teleportPad, GObject* obj)
-{
-	TeleportPad* _tp = dynamic_cast<TeleportPad*>(teleportPad);
-
-	if (_tp && obj) {
-		_tp->onEndContact(obj);
-	}
-
-	return 1;
-}
-
-int GSpace::spawnerObjectBegin(GObject* spawner, GObject* obj)
-{
-	Spawner* _s = dynamic_cast<Spawner*>(spawner);
-
-	if (_s && obj) {
-		_s->onContact(obj);
-	}
-
-	return 1;
-}
-
-int GSpace::spawnerObjectEnd(GObject* spawner, GObject* obj)
-{
-	Spawner* _s = dynamic_cast<Spawner*>(spawner);
-
-	if (_s && obj) {
-		_s->onEndContact(obj);
-	}
-
-	return 1;
-}
-
 int GSpace::playerAreaSensorBegin(GObject* a, GObject *b)
 {
 	Player* p = dynamic_cast<Player*>(a);
@@ -1377,6 +1326,28 @@ int GSpace::enemyAreaSensorEnd(GObject* a, GObject *b)
 	if (e && as) {
 		as->onEnemyEndContact(e);
 	}
+	return 1;
+}
+
+int GSpace::environmentAreaSensorBegin(GObject* obj, GObject* areaSensor)
+{
+	AreaSensor* _s = dynamic_cast<AreaSensor*>(areaSensor);
+
+	if (_s && obj) {
+		_s->onEnvironmentalObjectContact(obj);
+	}
+
+	return 1;
+}
+
+int GSpace::environmentAreaSensorEnd(GObject* areaSensor, GObject* obj)
+{
+	AreaSensor* _s = dynamic_cast<AreaSensor*>(areaSensor);
+
+	if (_s && obj) {
+		_s->onEnvironmentalObjectEndContact(obj);
+	}
+
 	return 1;
 }
 

@@ -12,26 +12,12 @@
 
 TeleportPad::TeleportPad(GSpace* space, ObjectIDType id, const ValueMap& args) :
 MapObjForwarding(GObject),
-RectangleMapBody(args)
+MapObjForwarding(AreaSensor)
 {
-}
-
-PhysicsLayers TeleportPad::getLayers() const{
-    return PhysicsLayers::ground;
-}
-
-void TeleportPad::onContact(GObject* obj)
-{
-	contacts.insert(obj);
-}
-
-void TeleportPad::onEndContact(GObject* obj)
-{
-	contacts.erase(obj);
 }
 
 bool TeleportPad::isObstructed() const {
-	return !contacts.empty() || teleportActive;
+	return AreaSensor::isObstructed() || teleportActive;
 }
 
 void TeleportPad::setTeleportActive(bool b) {

@@ -385,14 +385,12 @@ private:
 	int sensorEnd(GObject* radarAgent, GObject* target);
 	int floorObjectBegin(GObject* floorSegment, GObject* obj);
 	int floorObjectEnd(GObject* floorSegment, GObject* obj);
-	int teleportPadObjectBegin(GObject* teleportPad, GObject* obj);
-	int teleportPadObjectEnd(GObject* teleportPad, GObject* obj);
-	int spawnerObjectBegin(GObject* spawner, GObject* obj);
-	int spawnerObjectEnd(GObject* spawner, GObject* obj);
 	int playerAreaSensorBegin(GObject* a, GObject *b);
 	int playerAreaSensorEnd(GObject* a, GObject *b);
 	int enemyAreaSensorBegin(GObject* a, GObject *b);
 	int enemyAreaSensorEnd(GObject* a, GObject *b);
+	int environmentAreaSensorBegin(GObject* obj, GObject* areaSensor);
+	int environmentAreaSensorEnd(GObject* obj, GObject* areaSensor);
 
 //END PHYSICS
 

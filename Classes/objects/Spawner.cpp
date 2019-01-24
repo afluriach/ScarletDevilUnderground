@@ -14,27 +14,13 @@
 
 Spawner::Spawner(GSpace* space, ObjectIDType id, const ValueMap& args) :
 MapObjForwarding(GObject),
-RectangleMapBody(args),
+MapObjForwarding(AreaSensor),
 spawn_args(getSpawnArgs(args))
 {
 }
 
-PhysicsLayers Spawner::getLayers() const{
-    return PhysicsLayers::ground;
-}
-
-void Spawner::onContact(GObject* obj)
-{
-	contacts.insert(obj);
-}
-
-void Spawner::onEndContact(GObject* obj)
-{
-	contacts.erase(obj);
-}
-
 bool Spawner::isObstructed() const {
-	return !contacts.empty() || lastSpawnFrame == space->getFrame();
+	return AreaSensor::isObstructed() || lastSpawnFrame == space->getFrame();
 }
 
 void Spawner::activate()
