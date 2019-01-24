@@ -10,6 +10,7 @@
 #define GSpace_hpp
 
 #include "Graphics.h"
+#include "macros.h"
 #include "object_ref.hpp"
 #include "scenes.h"
 #include "types.h"
@@ -20,8 +21,8 @@ class GScene;
 class InteractibleObject;
 
 #define OBJS_FROM_ARB \
-    GObject* a = static_cast<GObject*>(arb.getBodyA().getUserData()); \
-    GObject* b = static_cast<GObject*>(arb.getBodyB().getUserData());
+    GObject* a = static_cast<GObject*>(arb->body_a_private->data); \
+    GObject* b = static_cast<GObject*>(arb->body_b_private->data);
 
 template<class D>
 constexpr bool isObjectCls() {
@@ -295,72 +296,90 @@ private:
 	void removeContact(contact c);
     void addCollisionHandlers();
     void processRemovalEndContact(GObject* obj);
+	void processContactHandler(GType typeA, GType typeB, GObject* a, GObject* b);
     
-    template<GType TypeA, GType TypeB>
-	inline int beginContact(Arbiter arb, Space& space)
+	static inline int beginContact(cpArbiter* arb, cpSpace* space, void* data)
 	{
 		OBJS_FROM_ARB
 
-		auto it = beginContactHandlers.find(collision_type(TypeA, TypeB));
+		GSpace* _this = static_cast<GSpace*>(data);
+
+		GType typeA = static_cast<GType>(arb->a_private->collision_type);
+		GType typeB = static_cast<GType>(arb->b_private->collision_type);
+
+		auto it = _this->beginContactHandlers.find(collision_type(typeA, typeB));
+
+		if (it == _this->beginContactHandlers.end()) {
+			it = _this->beginContactHandlers.find(collision_type(typeB, typeA));
+			swap(a, b);
+		}
 
 		//No collide;
-		if(it == beginContactHandlers.end())
+		if(it == _this->beginContactHandlers.end())
 			return 0;
 
 		if (a && b && it->second) {
 			int(GSpace::*begin_method)(GObject*, GObject*) = it->second;
-			(this->*begin_method)(a, b);
+			(_this->*begin_method)(a, b);
 			contact c = contact(
 				object_pair(a,b),
-				collision_type(TypeA,TypeB)
+				collision_type(typeA,typeB)
 			);
-			addContact(c);
+			_this->addContact(c);
 		}
 
 		return 1;
 	}
 
-	template<GType TypeA, GType TypeB>
-	inline int endContact(Arbiter arb, Space& space)
+	static inline void endContact(cpArbiter* arb, cpSpace* space, void* data)
 	{
 		OBJS_FROM_ARB
 
-		auto it = endContactHandlers.find(collision_type(TypeA, TypeB));
+		GSpace* _this = static_cast<GSpace*>(data);
 
-		//No collide
-		if (it == endContactHandlers.end())
-			return 0;
+		GType typeA = static_cast<GType>(arb->a_private->collision_type);
+		GType typeB = static_cast<GType>(arb->b_private->collision_type);
+
+		auto it = _this->endContactHandlers.find(collision_type(typeA, typeB));
+
+		if (it == _this->endContactHandlers.end()) {
+			it = _this->endContactHandlers.find(collision_type(typeB, typeA));
+			swap(a, b);
+		}
+
+		if (it == _this->endContactHandlers.end())
+			return;
 
 		if (a && b && it->second) {
 			int(GSpace::*end_method)(GObject*, GObject*) = it->second;
-			(this->*end_method)(a, b);
+			(_this->*end_method)(a, b);
 			contact c = contact(
 				object_pair(a, b),
-				collision_type(TypeA, TypeB)
+				collision_type(typeA, typeB)
 			);
-			removeContact(c);
+			_this->removeContact(c);
 		}
-
-		return 1;
 	}
 
 	template<GType TypeA, GType TypeB>
 	inline void AddHandler(int(GSpace::*begin)(GObject*, GObject*), int(GSpace::*end)(GObject*, GObject*))
 	{
-		space.addCollisionHandler(
-			static_cast<CollisionType>(TypeA), 
-			static_cast<CollisionType>(TypeB), 
-			bind(&GSpace::beginContact<TypeA, TypeB>, this, placeholders::_1, placeholders::_2), 
-			nullptr, 
-			nullptr, 
-			bind(&GSpace::endContact<TypeA, TypeB>, this, placeholders::_1, placeholders::_2) 
-		); 
+		cpSpaceAddCollisionHandler(
+			space,
+			to_uint(TypeA),
+			to_uint(TypeB),
+			&GSpace::beginContact,
+			static_cast<cpCollisionPreSolveFunc>(nullptr),
+			static_cast<cpCollisionPostSolveFunc>(nullptr),
+			&GSpace::endContact,
+			this
+		);
 
 		beginContactHandlers[collision_type(TypeA, TypeB)] = begin;
 		endContactHandlers[collision_type(TypeA,TypeB)] = end;
 	}
     
-    void logHandler(const string& base, Arbiter& arb);
+    void logHandler(const string& base, cpArbiter* arb);
     void logHandler(const string& name, GObject* a, GObject* b);
     
 	int playerEnemyBegin(GObject* a, GObject* b);
@@ -397,7 +416,7 @@ private:
 //BEGIN SENSORS
 public:
 	GObject * pointQuery(SpaceVect pos, GType type, PhysicsLayers layers);
-	bool rectangleQuery(SpaceVect center, SpaceVect dimensions, GType type, PhysicsLayers layers);
+//	bool rectangleQuery(SpaceVect center, SpaceVect dimensions, GType type, PhysicsLayers layers);
 
     SpaceFloat distanceFeeler(const GObject * agent, SpaceVect feeler, GType gtype) const;
 	SpaceFloat distanceFeeler(const GObject * agent, SpaceVect _feeler, GType gtype, PhysicsLayers layers) const;

@@ -17,7 +17,7 @@ const string FireStarburst::description = "";
 
 void FireStarburst::runPeriodic()
 {
-	SpaceVect pos = caster->body->getPos();
+	SpaceVect pos = caster->getPos();
 	for_irange(i, 0, 8)
 	{
 		SpaceFloat angle = float_pi * i / 4.0;
@@ -40,7 +40,7 @@ FlameFence::FlameFence(GObject* caster) :
 
 void FlameFence::init()
 {
-	SpaceVect center = caster->body->getPos();
+	SpaceVect center = caster->getPos();
 
 	for (int y = -10; y < 10; y += 2)
 	{

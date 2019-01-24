@@ -142,15 +142,15 @@ void GObject::onPitfall()
 //BEGIN PHYSICS
 
 void GObject::setInitialVelocity(const SpaceVect&& v){
-    multiInit += [=]() -> void{ this->body->setVel(v);};
+	multiInit += [=]() -> void { cpBodySetVel(body, v); };
 }
 
 void GObject::setInitialAngle(SpaceFloat a){
-    multiInit += [=]() -> void{ this->body->setAngle(a);};
+	multiInit += [=]() -> void { cpBodySetAngle(body, a); };
 }
 
 void GObject::setInitialAngularVelocity(SpaceFloat w){
-    multiInit += [=]() -> void{ this->body->setAngularVel(w);};
+    multiInit += [=]() -> void{ cpBodySetAngVel(body, w);};
 }
 
 Vec2 GObject::getInitialCenterPix()
@@ -162,19 +162,19 @@ Vec2 GObject::getInitialCenterPix()
 }
 
 SpaceVect GObject::getPos() const {
-    return body->getPos();
+    return cpBodyGetPos(body);
 }
 
 void GObject::setPos(SpaceVect p){
-	body->setPos(p);
+	cpBodySetPos(body, p);
 }
     
 void GObject::setAngle(SpaceFloat a){
-	body->setAngle(a);
+	cpBodySetAngle(body, a);
 }
     
 SpaceFloat GObject::getAngle() const {
-    return canonicalAngle(body->getAngle());
+    return cpBodyGetAngle(body);
 }
 
 void GObject::rotate(SpaceFloat a){
@@ -191,39 +191,38 @@ void GObject::setDirection(Direction d) {
 }
     
 SpaceVect GObject::getVel() const {
-    return body->getVel();
+    return cpBodyGetVel(body);
 }
     
 void GObject::setVel(SpaceVect v) {
-	body->setVel(v);
+	cpBodySetVel(body, v);
 }
 
 SpaceFloat GObject::getAngularVel() const{
-    return body->getAngularVel();
+    return cpBodyGetAngVel(body);
 }
     
 void GObject::setAngularVel(SpaceFloat w){
-	body->setAngularVel(w);
+	cpBodySetAngVel(body, w);
 }
 
 void GObject::applyForceForSingleFrame(SpaceVect f){
-    body->applyImpulse(f * App::secondsPerFrame);
+	cpBodyApplyImpulse(body, f * App::secondsPerFrame, SpaceVect::zero);
 }
     
 void GObject::applyImpulse(SpaceFloat mag, SpaceFloat angle){
     SpaceVect v = SpaceVect::ray(mag,angle);
-        
-    body->applyImpulse(v);
+	cpBodyApplyImpulse(body, v, SpaceVect::zero);
 }
 
 PhysicsLayers GObject::getCrntLayers()
 {
-	return static_cast<PhysicsLayers>(body->getLayers().get());
+	return static_cast<PhysicsLayers>(bodyShape->layers);
 }
 
 void GObject::setLayers(PhysicsLayers layers)
 {
-	body->setAllLayers(to_uint(layers));
+	bodyShape->layers = to_uint(layers);
 }
 
 bool GObject::isOnFloor()
@@ -292,8 +291,8 @@ void GObject::onEndContactFloorSegment(object_ref<FloorSegment> fs)
 
 void GObject::updateRadarPos()
 {
-	if(radar && body)
-		radar->setPos(body->getPos());
+	if (radar && body)
+		cpBodySetPos(radar, cpBodyGetPos(body));
 }
 
 SpaceFloat GObject::getTraction() const
@@ -369,7 +368,7 @@ void GObject::updateSprite()
 		space->isInPlayerRoom(getPos());
 
     if(spriteID != 0){
-		space->setSpritePosition(spriteID, toCocos(body->getPos())*App::pixelsPerTile);
+		space->setSpritePosition(spriteID, toCocos(getPos())*App::pixelsPerTile);
 
 		if (!visible && !isInFade) {
 			space->stopSpriteAction(spriteID, cocos_action_tag::object_fade);
@@ -385,7 +384,7 @@ void GObject::updateSprite()
     }
 	if (drawNodeID != 0 && visible && !isInFade)
 	{
-		space->setSpritePosition(drawNodeID, toCocos(body->getPos())*App::pixelsPerTile);
+		space->setSpritePosition(drawNodeID, toCocos(getPos())*App::pixelsPerTile);
 	}
 }
 

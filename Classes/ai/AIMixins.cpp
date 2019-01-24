@@ -81,7 +81,7 @@ void StateMachineObject::setFrozen(bool val) {
 
 void RadarObject::initializeRadar(GSpace& space)
 {
-    radar = space.createCircleBody(
+    tie(radarShape,radar) = space.createCircleBody(
         initialCenter,
         getRadarRadius(),
         0.1,

@@ -35,7 +35,7 @@ void DialogEntity::interact()
 
 void RectangleBody::initializeBody(GSpace& space)
 {
-    body = move(space.createRectangleBody(
+	tie(bodyShape, body) = space.createRectangleBody(
         initialCenter,
         getDimensions(),
         getMass(),
@@ -43,7 +43,7 @@ void RectangleBody::initializeBody(GSpace& space)
         getLayers(),
         getSensor(),
         this
-    ));
+    );
 }
 
 SpaceFloat RectangleBody::getMomentOfInertia() const{
@@ -62,7 +62,7 @@ SpaceVect RectangleMapBody::getDimensionsFromMap(const ValueMap& arg)
 
 void CircleBody::initializeBody(GSpace& space)
 {
-    body = move(space.createCircleBody(
+    tie(bodyShape, body) = space.createCircleBody(
         initialCenter,
         getRadius(),
         getMass(),
@@ -70,7 +70,7 @@ void CircleBody::initializeBody(GSpace& space)
         getLayers(),
         getSensor(),
         this
-    ));
+    );
 }
 
 SpaceFloat CircleBody::getMomentOfInertia() const{
@@ -176,7 +176,7 @@ void PatchConSprite::setSprite(const string& name)
 
 void PatchConSprite::update()
 {
-    SpaceVect dist = body->getVel()*App::secondsPerFrame;
+    SpaceVect dist = getVel()*App::secondsPerFrame;
     
     bool advance = accumulate(dist.length());
 

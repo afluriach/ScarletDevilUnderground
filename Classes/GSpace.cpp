@@ -358,15 +358,25 @@ void GSpace::processRemoval(GObject* obj, bool _removeSprite)
 		}
 	}
 
-	if (obj->radarShape)
+	if (obj->radarShape) {
+		cpSpaceRemoveShape(space, obj->radarShape);
 		cpShapeFree(obj->radarShape);
-	if (obj->radar)
+	}
+	if (obj->radar) {
+		cpSpaceRemoveBody(space, obj->radar);
 		cpBodyFree(obj->radar);
+	}
 
-	if (obj->bodyShape)
+	if (obj->bodyShape) {
+		cpSpaceRemoveShape(space, obj->bodyShape);
 		cpShapeFree(obj->bodyShape);
-	if (obj->body)
+	}
+	if (obj->body) {
+		if (obj->getMass() > 0.0) {
+			cpSpaceRemoveBody(space, obj->body);
+		}
 		cpBodyFree(obj->body);
+	}
 
 	if (obj->crntSpell.get()) {
 		obj->crntSpell.get()->end();
@@ -983,9 +993,9 @@ pair<cpShape*, cpBody*> GSpace::createCircleBody(
     }
     else{
         body = cpBodyNew(mass, circleMomentOfInertia(mass, radius));
-    }
+		cpSpaceAddBody(space, body);
+	}
 
-	cpSpaceAddBody(space, body);
 	cpBodySetPos(body, center);
 
     shape = cpCircleShapeNew(body, radius, cpvzero);
@@ -1031,9 +1041,9 @@ pair<cpShape*, cpBody*> GSpace::createRectangleBody(
 	}
 	else {
 		body = cpBodyNew(mass, rectangleMomentOfInertia(mass, dim));
+		cpSpaceAddBody(space, body);
 	}
     
-	cpSpaceAddBody(space, body);
 	cpBodySetPos(body, center);
 
 	shape = cpBoxShapeNew(body, dim.x, dim.y);
@@ -1084,7 +1094,7 @@ void GSpace::processRemovalEndContact(GObject* obj)
 }
 
 
-void GSpace::logHandler(const string& base, Arbiter& arb)
+void GSpace::logHandler(const string& base, cpArbiter* arb)
 {
     if(logPhysicsHandlers){
         OBJS_FROM_ARB
@@ -1451,6 +1461,48 @@ int GSpace::enemyAreaSensorEnd(GObject* a, GObject *b)
 
 //BEGIN SENSORS
 
+struct FeelerData
+{
+	//input data
+	const GObject* agent = nullptr;
+	GType gtype;
+
+	//output data
+	double distance = 1.0;
+	GObject* result = nullptr;
+};
+
+void feelerCallback(cpShape *shape, cpFloat t, cpVect n, void *data)
+{
+	FeelerData* queryData = static_cast<FeelerData*>(data);
+
+	GObject* obj = to_gobject(shape->data);
+	if (obj && obj->getType() == queryData->gtype && obj != queryData->agent) {
+		queryData->distance = min<SpaceFloat>(queryData->distance, t);
+		queryData->result = obj;
+	}
+}
+
+struct PointQueryData
+{
+	//input data
+	const GObject* agent;
+	GType gtype;
+
+	//output
+	GObject* result = nullptr;
+};
+
+void pointQueryCallback(cpShape *shape, void *data)
+{
+	PointQueryData* queryData = static_cast<PointQueryData*>(data);
+	GObject* obj = to_gobject(shape->data);
+
+	if (obj && obj->getType() == queryData->gtype) {
+		queryData->result = obj;
+	}
+}
+
 SpaceFloat GSpace::distanceFeeler(const GObject * agent, SpaceVect _feeler, GType gtype) const
 {
 	return distanceFeeler(agent, _feeler, gtype, PhysicsLayers::all);
@@ -1460,28 +1512,11 @@ SpaceFloat GSpace::distanceFeeler(const GObject * agent, SpaceVect _feeler, GTyp
 {
     SpaceVect start = agent->getPos();
     SpaceVect end = start + _feeler;
-    
-    //Distance along the segment is scaled [0,1].
-    SpaceFloat closest = 1.0;
-    
-    auto queryCallback = [&closest,agent, gtype] (std::shared_ptr<Shape> shape, cp::Float distance, cp::Vect vect) -> void {
-		GObject* obj = to_gobject(shape->getUserData());
-        if(obj && obj->getType() == gtype && obj != agent){
-            closest = min<SpaceFloat>(closest, distance);
-        }
-    };
+	FeelerData queryData = { agent, gtype };
 
-	cpSpaceSegmentQuery(space, start, end, to_uint(layers), 0, )
-    
-    space.segmentQuery(
-        start,
-        end,
-        to_uint(layers),
-        0,
-        queryCallback
-	);
-    
-    return closest*_feeler.length();
+	cpSpaceSegmentQuery(space, start, end, to_uint(layers), 0, feelerCallback, &queryData);
+        
+    return queryData.distance*_feeler.length();
 }
 
 SpaceFloat GSpace::wallDistanceFeeler(const GObject * agent, SpaceVect feeler) const
@@ -1513,54 +1548,22 @@ bool GSpace::feeler(const GObject * agent, SpaceVect _feeler, GType gtype, Physi
 {
     SpaceVect start = agent->getPos();
     SpaceVect end = start + _feeler;
-    
-    bool collision = false;
-    
-    auto queryCallback = [agent, gtype, &collision] (std::shared_ptr<Shape> shape, cp::Float distance, cp::Vect vect) -> void {
-		GObject* obj = to_gobject(shape->getUserData());
-        if(obj && obj->getType() == gtype && obj != agent){
-            collision = true;
-        }
-    };
-    
-    space.segmentQuery(
-        start,
-        end,
-        to_uint(layers),
-        0,
-        queryCallback
-	);
-    
-    return collision;
+	FeelerData queryData = { agent, gtype };
+
+	cpSpaceSegmentQuery(space, start, end, to_uint(layers), 0, feelerCallback, &queryData);
+
+    return queryData.distance < 1.0;
 }
 
 GObject* GSpace::objectFeeler(const GObject * agent, SpaceVect feeler, GType gtype, PhysicsLayers layers) const
 {
 	SpaceVect start = agent->getPos();
 	SpaceVect end = start + feeler;
+	FeelerData queryData = { agent, gtype };
 
-	GObject* bestResult = nullptr;
-	SpaceFloat bestDistance = feeler.length();
+	cpSpaceSegmentQuery(space, start, end, to_uint(layers), 0, feelerCallback, &queryData);
 
-	auto queryCallback = [agent, gtype, &bestResult, &bestDistance](std::shared_ptr<Shape> shape, cp::Float distance, cp::Vect vect) -> void {
-
-		GObject* _crntObj = static_cast<GObject*>(shape->getUserData());
-
-		if (_crntObj && _crntObj->getType() == gtype && _crntObj != agent && distance < bestDistance) {
-			bestResult = _crntObj;
-			bestDistance = distance;
-		}
-	};
-
-	space.segmentQuery(
-		start,
-		end,
-		to_uint(layers),
-		0,
-		queryCallback
-	);
-
-	return bestResult;
+	return queryData.result;
 }
 
 bool GSpace::wallFeeler(const GObject * agent, SpaceVect _feeler) const
@@ -1608,53 +1611,40 @@ bool GSpace::lineOfSight(const GObject* agent, const GObject * target) const
 
 GObject * GSpace::pointQuery(SpaceVect pos, GType type, PhysicsLayers layers)
 {
-	GObject* result = nullptr;
+	PointQueryData queryData = { nullptr, type };
 
-	auto queryCallback = [&result, type](std::shared_ptr<Shape> shape) -> void {
-		GObject* obj = to_gobject(shape->getUserData());
+	cpSpacePointQuery(space, pos, to_uint(layers), 0, pointQueryCallback, &queryData);
 
-		if (obj && obj->getType() == type) {
-			result = obj;
-		}
-	};
-
-	space.pointQuery(
-		pos,
-		to_uint(layers),
-		0,
-		queryCallback
-	);
-
-	return result;
+	return queryData.result;
 }
 
-bool GSpace::rectangleQuery(SpaceVect center, SpaceVect dimensions, GType type, PhysicsLayers layers)
-{
-	bool collision = false;
-
-	auto queryCallback = [&collision,center,dimensions,type](std::shared_ptr<Shape> shape) -> void {
-		GObject* obj = to_gobject(shape->getUserData());
-
-		if (obj && obj->getType() == type) {
-			collision = true;
-		}
-	};
-
-	shared_ptr<Body> _body = make_shared<Body>(0.1, 0.1);
-	_body->setPos(center);
-
-	shared_ptr<PolyShape> area = PolyShape::rectangle(_body, dimensions);
-	area->setBody(_body);
-	_body->addShape(area);
-
-	setShapeProperties(area, layers, GType::none, false);
-
-	space.shapeQuery(
-		area,
-		queryCallback
-	);
-
-	return collision;
-}
+//bool GSpace::rectangleQuery(SpaceVect center, SpaceVect dimensions, GType type, PhysicsLayers layers)
+//{
+//	bool collision = false;
+//
+//	auto queryCallback = [&collision,center,dimensions,type](std::shared_ptr<Shape> shape) -> void {
+//		GObject* obj = to_gobject(shape->getUserData());
+//
+//		if (obj && obj->getType() == type) {
+//			collision = true;
+//		}
+//	};
+//
+//	shared_ptr<Body> _body = make_shared<Body>(0.1, 0.1);
+//	_body->setPos(center);
+//
+//	shared_ptr<PolyShape> area = PolyShape::rectangle(_body, dimensions);
+//	area->setBody(_body);
+//	_body->addShape(area);
+//
+//	setShapeProperties(area, layers, GType::none, false);
+//
+//	space.shapeQuery(
+//		area,
+//		queryCallback
+//	);
+//
+//	return collision;
+//}
 
 //END SENSORS
