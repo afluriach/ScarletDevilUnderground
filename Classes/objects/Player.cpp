@@ -324,7 +324,7 @@ void Player::update()
 			applyRespawn();
 		}
 
-		playScene->setLightSourcePosition(light, getPos());
+		space->setLightSourcePosition(light, getPos());
 	}
 }
 
