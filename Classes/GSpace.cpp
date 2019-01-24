@@ -50,9 +50,6 @@ GSpace::GSpace(GScene* gscene) : gscene(gscene)
 
 GSpace::~GSpace()
 {
-    //Avoid calling seperation (or "end contact") handlers.
-    cp::Space::maskSeperateHandler = true;
-
     //Process removal modified objByUUID.
     vector<GObject*> objs;
 
@@ -67,7 +64,7 @@ GSpace::~GSpace()
     if(navMask)
         delete navMask;
 
-    cp::Space::maskSeperateHandler = false;
+	cpSpaceFree(space);
 }
 
 IntVec2 GSpace::getSize() const {
@@ -284,7 +281,6 @@ void GSpace::processAdditions()
         if(!obj->anonymous)
             objByName[obj->name] = obj;
         objByUUID[obj->uuid] = obj;
-		currentContacts[obj] = list<contact>();
         
         addedLastFrame.push_back(obj);
     }
@@ -348,16 +344,7 @@ void GSpace::processRemoval(GObject* obj, bool _removeSprite)
 	if (dynamic_cast<Wall*>(obj)) {
 		objByType[typeid(Wall)].erase(obj);
 	}
-
-	currentContacts.erase(obj);
     
-	for (object_ref<FloorSegment> fs_ref : obj->crntFloorContacts) {
-		FloorSegment* fs = fs_ref.get();
-		if (fs) {
-			fs->onEndContact(obj);
-		}
-	}
-
 	if (obj->radarShape) {
 		cpSpaceRemoveShape(space, obj->radarShape);
 		cpShapeFree(obj->radarShape);
@@ -1056,43 +1043,6 @@ pair<cpShape*, cpBody*> GSpace::createRectangleBody(
 
 	return make_pair(shape, body);
 }
-
-void GSpace::addContact(contact c)
-{
-	currentContacts[c.first.first].push_back(c);
-	currentContacts[c.first.second].push_back(c);
-}
-
-void GSpace::removeContact(contact c)
-{
-	currentContacts[c.first.first].remove(c);
-	currentContacts[c.first.second].remove(c);
-}
-
-//By making a copy of the current object's contact list, we can mutate the lists stored in the map  
-//inside of the list foreach i.e. removeContact will also mutate the current object's list.
-//
-//After the contact is processed, remove it from both objects' contact lists.
-//This will prevent a double call to the end contact handler in case both are removed in the same frame.
-//
-//The contact list of the object being processed should be empty when finished.
-void GSpace::processRemovalEndContact(GObject* obj)
-{
-	list<contact> contactList = currentContacts[obj];
-
-	for(const contact& c: contactList) {
-		auto itt = endContactHandlers.find(c.second);
-		if (itt != endContactHandlers.end() && itt->second) {
-			int(GSpace::*end_method)(GObject*, GObject*) = itt->second;
-			(this->*end_method)(c.first.first, c.first.second);
-		}
-		removeContact(c);
-	}
-
-	if (currentContacts[obj].size() != 0)
-		log("processRemovalEndContact: object %s problem!", obj->getName().c_str());
-}
-
 
 void GSpace::logHandler(const string& base, cpArbiter* arb)
 {

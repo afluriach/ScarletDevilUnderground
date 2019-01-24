@@ -288,15 +288,10 @@ public:
 private:
     cpSpace *space = nullptr;
 
-	unordered_map<GObject*,list<contact>> currentContacts;
 	unordered_map<collision_type, int(GSpace::*)(GObject*, GObject*), boost::hash<collision_type>> beginContactHandlers;
 	unordered_map<collision_type, int(GSpace::*)(GObject*, GObject*), boost::hash<collision_type>> endContactHandlers;
 
-	void addContact(contact c);
-	void removeContact(contact c);
     void addCollisionHandlers();
-    void processRemovalEndContact(GObject* obj);
-	void processContactHandler(GType typeA, GType typeB, GObject* a, GObject* b);
     
 	static inline int beginContact(cpArbiter* arb, cpSpace* space, void* data)
 	{
@@ -321,11 +316,6 @@ private:
 		if (a && b && it->second) {
 			int(GSpace::*begin_method)(GObject*, GObject*) = it->second;
 			(_this->*begin_method)(a, b);
-			contact c = contact(
-				object_pair(a,b),
-				collision_type(typeA,typeB)
-			);
-			_this->addContact(c);
 		}
 
 		return 1;
@@ -353,11 +343,6 @@ private:
 		if (a && b && it->second) {
 			int(GSpace::*end_method)(GObject*, GObject*) = it->second;
 			(_this->*end_method)(a, b);
-			contact c = contact(
-				object_pair(a, b),
-				collision_type(typeA, typeB)
-			);
-			_this->removeContact(c);
 		}
 	}
 
