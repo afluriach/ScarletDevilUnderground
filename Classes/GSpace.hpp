@@ -401,7 +401,7 @@ private:
 //BEGIN SENSORS
 public:
 	GObject * pointQuery(SpaceVect pos, GType type, PhysicsLayers layers);
-//	bool rectangleQuery(SpaceVect center, SpaceVect dimensions, GType type, PhysicsLayers layers);
+	bool rectangleQuery(SpaceVect center, SpaceVect dimensions, GType type, PhysicsLayers layers);
 
     SpaceFloat distanceFeeler(const GObject * agent, SpaceVect feeler, GType gtype) const;
 	SpaceFloat distanceFeeler(const GObject * agent, SpaceVect _feeler, GType gtype, PhysicsLayers layers) const;

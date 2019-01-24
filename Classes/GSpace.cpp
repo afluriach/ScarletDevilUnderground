@@ -1453,6 +1453,25 @@ void pointQueryCallback(cpShape *shape, void *data)
 	}
 }
 
+struct ShapeQueryData
+{
+	const GObject* agent;
+	GType gtype;
+
+	set<GObject*> results;
+};
+
+void shapeQueryCallback(cpShape *shape, cpContactPointSet *points, void *data)
+{
+	ShapeQueryData* queryData = static_cast<ShapeQueryData*>(data);
+	GObject* obj = to_gobject(shape->data);
+
+	if (obj && obj->getType() == queryData->gtype) {
+		queryData->results.insert(obj);
+	}
+}
+
+
 SpaceFloat GSpace::distanceFeeler(const GObject * agent, SpaceVect _feeler, GType gtype) const
 {
 	return distanceFeeler(agent, _feeler, gtype, PhysicsLayers::all);
@@ -1568,33 +1587,18 @@ GObject * GSpace::pointQuery(SpaceVect pos, GType type, PhysicsLayers layers)
 	return queryData.result;
 }
 
-//bool GSpace::rectangleQuery(SpaceVect center, SpaceVect dimensions, GType type, PhysicsLayers layers)
-//{
-//	bool collision = false;
-//
-//	auto queryCallback = [&collision,center,dimensions,type](std::shared_ptr<Shape> shape) -> void {
-//		GObject* obj = to_gobject(shape->getUserData());
-//
-//		if (obj && obj->getType() == type) {
-//			collision = true;
-//		}
-//	};
-//
-//	shared_ptr<Body> _body = make_shared<Body>(0.1, 0.1);
-//	_body->setPos(center);
-//
-//	shared_ptr<PolyShape> area = PolyShape::rectangle(_body, dimensions);
-//	area->setBody(_body);
-//	_body->addShape(area);
-//
-//	setShapeProperties(area, layers, GType::none, false);
-//
-//	space.shapeQuery(
-//		area,
-//		queryCallback
-//	);
-//
-//	return collision;
-//}
+bool GSpace::rectangleQuery(SpaceVect center, SpaceVect dimensions, GType type, PhysicsLayers layers)
+{
+	ShapeQueryData data = { nullptr, type };
+	cpBody* body = cpBodyNewStatic();
+	cpShape* area = cpBoxShapeNew(body, dimensions.x, dimensions.y);
+
+	cpBodySetPos(body, center);
+	setShapeProperties(area, layers, GType::none, false);
+
+	cpSpaceShapeQuery(space, area, shapeQueryCallback, &data);
+
+	return !data.results.empty();
+}
 
 //END SENSORS
