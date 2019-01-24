@@ -286,6 +286,9 @@ public:
         GObject* obj
     );
 private:
+	static int beginContact(cpArbiter* arb, cpSpace* space, void* data);
+	static void endContact(cpArbiter* arb, cpSpace* space, void* data);
+
     cpSpace *space = nullptr;
 
 	unordered_map<collision_type, int(GSpace::*)(GObject*, GObject*), boost::hash<collision_type>> beginContactHandlers;
@@ -293,59 +296,6 @@ private:
 
     void addCollisionHandlers();
     
-	static inline int beginContact(cpArbiter* arb, cpSpace* space, void* data)
-	{
-		OBJS_FROM_ARB
-
-		GSpace* _this = static_cast<GSpace*>(data);
-
-		GType typeA = static_cast<GType>(arb->a_private->collision_type);
-		GType typeB = static_cast<GType>(arb->b_private->collision_type);
-
-		auto it = _this->beginContactHandlers.find(collision_type(typeA, typeB));
-
-		if (it == _this->beginContactHandlers.end()) {
-			it = _this->beginContactHandlers.find(collision_type(typeB, typeA));
-			swap(a, b);
-		}
-
-		//No collide;
-		if(it == _this->beginContactHandlers.end())
-			return 0;
-
-		if (a && b && it->second) {
-			int(GSpace::*begin_method)(GObject*, GObject*) = it->second;
-			(_this->*begin_method)(a, b);
-		}
-
-		return 1;
-	}
-
-	static inline void endContact(cpArbiter* arb, cpSpace* space, void* data)
-	{
-		OBJS_FROM_ARB
-
-		GSpace* _this = static_cast<GSpace*>(data);
-
-		GType typeA = static_cast<GType>(arb->a_private->collision_type);
-		GType typeB = static_cast<GType>(arb->b_private->collision_type);
-
-		auto it = _this->endContactHandlers.find(collision_type(typeA, typeB));
-
-		if (it == _this->endContactHandlers.end()) {
-			it = _this->endContactHandlers.find(collision_type(typeB, typeA));
-			swap(a, b);
-		}
-
-		if (it == _this->endContactHandlers.end())
-			return;
-
-		if (a && b && it->second) {
-			int(GSpace::*end_method)(GObject*, GObject*) = it->second;
-			(_this->*end_method)(a, b);
-		}
-	}
-
 	template<GType TypeA, GType TypeB>
 	inline void AddHandler(int(GSpace::*begin)(GObject*, GObject*), int(GSpace::*end)(GObject*, GObject*))
 	{
