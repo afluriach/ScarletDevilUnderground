@@ -374,8 +374,6 @@ private:
 	int playerGrazeRadarEnd(GObject* playerObj, GObject* bullet);
 	int playerBulletEnemyBegin(GObject* a, GObject* b);
 	int bulletBulletBegin(GObject* a, GObject* b);
-	int agentEffectAreaBegin(GObject* a, GObject* b);
-	int agentEffectAreaEnd(GObject* a, GObject* b);
 	int playerFlowerBegin(GObject* a, GObject* b);
     int playerCollectibleBegin(GObject* a, GObject* b);
 	int playerUpgradeBegin(GObject* a, GObject* b);

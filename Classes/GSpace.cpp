@@ -933,9 +933,6 @@ void GSpace::addCollisionHandlers()
 	_addHandler(spawner, enemy, spawnerObjectBegin, spawnerObjectEnd);
 	_addHandler(spawner, environment, spawnerObjectBegin, spawnerObjectEnd);
 
-	_addHandler(player, effectArea, agentEffectAreaBegin, agentEffectAreaEnd);
-	_addHandler(enemy, effectArea, agentEffectAreaBegin, agentEffectAreaEnd);
-
 	_addHandler(player, areaSensor, playerAreaSensorBegin, playerAreaSensorEnd);
 	_addHandler(enemy, areaSensor, enemyAreaSensorBegin, enemyAreaSensorEnd);
 }
@@ -1157,30 +1154,6 @@ int GSpace::bulletBulletBegin(GObject* a, GObject* b)
 	}
 
 	return 0;
-}
-
-
-int GSpace::agentEffectAreaBegin(GObject* a, GObject* b)
-{
-	Agent* agent = dynamic_cast<Agent*>(a);
-	EffectArea* area = dynamic_cast<EffectArea*>(b);
-
-	if (agent && area) {
-		area->onContact(agent);
-	}
-
-	return 1;
-}
-int GSpace::agentEffectAreaEnd(GObject* a, GObject* b)
-{
-	Agent* agent = dynamic_cast<Agent*>(a);
-	EffectArea* area = dynamic_cast<EffectArea*>(b);
-
-	if (agent && area) {
-		area->onEndContact(agent);
-	}
-
-	return 1;
 }
 
 int GSpace::playerFlowerBegin(GObject* a, GObject* b)

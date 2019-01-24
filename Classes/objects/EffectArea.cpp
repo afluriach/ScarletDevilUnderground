@@ -12,39 +12,22 @@
 #include "App.h"
 #include "EffectArea.hpp"
 #include "GSpace.hpp"
+#include "Player.hpp"
 #include "scenes.h"
 
 EffectArea::EffectArea(GSpace* space, ObjectIDType id, const ValueMap& args) :
 MapObjForwarding(GObject),
-RegisterUpdate<EffectArea>(this),
-RectangleMapBody(args)
+MapObjForwarding(AreaSensor),
+RegisterUpdate<EffectArea>(this)
 {
 }
 
 void EffectArea::update()
 {
-	for (auto ref : contacts)
+	if (player.isValid())
 	{
-		Agent* agent = ref.get();
-
-		if (agent) {
-			agent->applyAttributeEffects(AttributeSystem::scale(getAttributeEffect(), App::secondsPerFrame));
-		}
+		player.get()->applyAttributeEffects(AttributeSystem::scale(getAttributeEffect(), App::secondsPerFrame));
 	}
-}
-
-void EffectArea::onContact(Agent* agent)
-{
-	contacts.insert(agent);
-}
-
-void EffectArea::onEndContact(Agent* agent)
-{
-	contacts.erase(agent);
-}
-
-PhysicsLayers EffectArea::getLayers() const{
-    return PhysicsLayers::ground;
 }
 
 SunArea::SunArea(GSpace* space, ObjectIDType id, const ValueMap& args) :

@@ -89,7 +89,6 @@ enum class GType{
     environment,
     foliage,
     wall,
-	effectArea,
 	areaSensor,
 	teleportPad,
 	spawner,

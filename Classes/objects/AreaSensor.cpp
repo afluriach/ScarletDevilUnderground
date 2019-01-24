@@ -23,7 +23,7 @@ AreaSensor::AreaSensor(GSpace* space, ObjectIDType id, const ValueMap& args) :
 }
 
 PhysicsLayers AreaSensor::getLayers() const{
-    return PhysicsLayers::ground;
+    return PhysicsLayers::all;
 }
 
 void AreaSensor::onPlayerContact(Player* p) {
