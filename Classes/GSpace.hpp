@@ -266,7 +266,7 @@ public:
     static const bool logBodyCreation;
     static const bool logPhysicsHandlers;
     
-    shared_ptr<Body> createCircleBody(
+   pair<cpShape*,cpBody*> createCircleBody(
         const SpaceVect& center,
         SpaceFloat radius,
         SpaceFloat mass,
@@ -275,7 +275,7 @@ public:
         bool sensor,
         GObject* obj
     );
-    shared_ptr<Body> createRectangleBody(
+   pair<cpShape*, cpBody*> createRectangleBody(
         const SpaceVect& center,
         const SpaceVect& dim,
         SpaceFloat mass,
@@ -285,7 +285,7 @@ public:
         GObject* obj
     );
 private:
-    Space space;
+    cpSpace *space = nullptr;
 
 	unordered_map<GObject*,list<contact>> currentContacts;
 	unordered_map<collision_type, int(GSpace::*)(GObject*, GObject*), boost::hash<collision_type>> beginContactHandlers;

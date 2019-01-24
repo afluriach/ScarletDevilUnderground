@@ -124,8 +124,11 @@ public:
 
 	//BEGIN PHYSICS
 
-	shared_ptr<Body> body;
-	shared_ptr<Body> radar;
+	cpBody* body = nullptr;
+	cpBody* radar = nullptr;
+
+	cpShape* bodyShape = nullptr;
+	cpShape* radarShape = nullptr;
 
     //Posiition where the object was loaded
     SpaceVect initialCenter;

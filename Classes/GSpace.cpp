@@ -35,7 +35,8 @@ class RadarObject;
 
 GSpace::GSpace(GScene* gscene) : gscene(gscene)
 {
-    space.setGravity(SpaceVect(0,0));
+	space = cpSpaceNew();
+    cpSpaceSetGravity(space, cpv(0,0));
     addCollisionHandlers();
 
 	for (type_index t : trackedTypes) {
@@ -104,7 +105,7 @@ void GSpace::update()
 #endif
 
     //physics step
-    space.step(App::secondsPerFrame);
+	cpSpaceStep(space, App::secondsPerFrame);
     
 #if USE_TIMERS
 	chrono::steady_clock::time_point t3 = chrono::steady_clock::now();
@@ -357,16 +358,15 @@ void GSpace::processRemoval(GObject* obj, bool _removeSprite)
 		}
 	}
 
-    obj->body->removeShapes(space);
+	if (obj->radarShape)
+		cpShapeFree(obj->radarShape);
+	if (obj->radar)
+		cpBodyFree(obj->radar);
 
-	if (obj->getMass() > 0.0) {
-		space.remove(obj->body);
-	}
-    
-    if(obj->radar){
-        obj->radar->removeShapes(space);
-        space.remove(obj->radar);
-    }
+	if (obj->bodyShape)
+		cpShapeFree(obj->bodyShape);
+	if (obj->body)
+		cpBodyFree(obj->body);
 
 	if (obj->crntSpell.get()) {
 		obj->crntSpell.get()->end();
@@ -396,16 +396,11 @@ void GSpace::initObjects()
 
 void GSpace::processRemovals()
 {
-	space.maskSeperateHandler = true;
-
 	while (!toRemove.empty())
 	{
 		GObject* obj = toRemove.front();
 		toRemove.pop_front();
 
-		//Objects which will be removed this frame should have the end contact handlers called 
-		//before they are deleted.
-		processRemovalEndContact(obj);
 		processRemoval(obj, true);
 	}
 
@@ -416,13 +411,10 @@ void GSpace::processRemovals()
 
 		unsigned int spriteID = entry.first->spriteID;
 
-		processRemovalEndContact(entry.first);
 		processRemoval(entry.first, false);
 
 		gscene->removeSpriteWithAnimation(spriteID, entry.second);
 	}
-
-	space.maskSeperateHandler = false;
 }
 
 unordered_map<int,string> GSpace::getUUIDNameMap() const
@@ -954,15 +946,15 @@ void GSpace::addCollisionHandlers()
 const bool GSpace::logBodyCreation = false;
 const bool GSpace::logPhysicsHandlers = false;
 
-void setShapeProperties(shared_ptr<Shape> shape, PhysicsLayers layers, GType type, bool sensor)
+void setShapeProperties(cpShape* shape, PhysicsLayers layers, GType type, bool sensor)
 {
-    shape->setLayers(to_uint(layers));
-    shape->setGroup(0);
-    shape->setCollisionType(to_uint(type));
-    shape->setSensor(sensor);
+    shape->layers = to_uint(layers);
+    shape->group = 0;
+	shape->collision_type = to_uint(type);
+	shape->sensor = sensor;
 }
 
-shared_ptr<Body> GSpace::createCircleBody(
+pair<cpShape*, cpBody*> GSpace::createCircleBody(
     const SpaceVect& center,
     SpaceFloat radius,
     SpaceFloat mass,
@@ -981,32 +973,33 @@ shared_ptr<Body> GSpace::createCircleBody(
     if(radius == 0)
         log("createCircleBody: zero radius for %s.", obj->name.c_str());
     
-    shared_ptr<Body> body;
-    if(mass < 0){
-        body = space.makeStaticBody();
+	cpBody* body;
+	cpShape* shape;
+
+    if(mass <= 0.0){
+        body = cpBodyNewStatic();
         if(type == GType::environment)
             addNavObstacle(center, SpaceVect(radius*2.0, radius*2.0));
     }
     else{
-        body = make_shared<Body>(mass, circleMomentOfInertia(mass, radius));
-        space.add(body);
+        body = cpBodyNew(mass, circleMomentOfInertia(mass, radius));
     }
-    body->setPos(center);
-    
-    shared_ptr<CircleShape> shape = make_shared<CircleShape>(body, radius);
-    shape->setBody(body);
-    space.add(shape);
+
+	cpSpaceAddBody(space, body);
+	cpBodySetPos(body, center);
+
+    shape = cpCircleShapeNew(body, radius, cpvzero);
+	cpSpaceAddShape(space, shape);
     
     setShapeProperties(shape, layers, type, sensor);
     
-    shape->setUserData(obj);
-    body->setUserData(obj);
-    body->addShape(shape);
-    
-    return body;
+	shape->data = obj;
+	body->data = obj;
+
+    return make_pair(shape,body);
 }
 
-shared_ptr<Body> GSpace::createRectangleBody(
+pair<cpShape*, cpBody*> GSpace::createRectangleBody(
     const SpaceVect& center,
     const SpaceVect& dim,
     SpaceFloat mass,
@@ -1027,30 +1020,31 @@ shared_ptr<Body> GSpace::createRectangleBody(
         log("createRectangleBody: zero width for %s.", obj->name.c_str());
     if(dim.y == 0 && obj)
         log("createRectangleBody: zero height for %s.", obj->name.c_str());
+
+	cpBody* body;
+	cpShape* shape;
+
+	if (mass <= 0.0) {
+		body = cpBodyNewStatic();
+		if (type == GType::environment)
+			addNavObstacle(center, dim);
+	}
+	else {
+		body = cpBodyNew(mass, rectangleMomentOfInertia(mass, dim));
+	}
     
-    shared_ptr<Body> body;
-    if(mass < 0){
-        body = space.makeStaticBody();
-        if(type == GType::environment)
-            addNavObstacle(center,dim);
-    }
-    else{
-        body = make_shared<Body>(mass, rectangleMomentOfInertia(mass, dim));
-        space.add(body);
-    }
-    body->setPos(center);
-    
-    shared_ptr<PolyShape> shape = PolyShape::rectangle(body, dim);
-    shape->setBody(body);
-    space.add(shape);
-    
-    setShapeProperties(shape, layers, type, sensor);
-    
-    shape->setUserData(obj);
-    body->setUserData(obj);
-    body->addShape(shape);
-    
-    return body;
+	cpSpaceAddBody(space, body);
+	cpBodySetPos(body, center);
+
+	shape = cpBoxShapeNew(body, dim.x, dim.y);
+	cpSpaceAddShape(space, shape);
+
+	setShapeProperties(shape, layers, type, sensor);
+
+	shape->data = obj;
+	body->data = obj;
+
+	return make_pair(shape, body);
 }
 
 void GSpace::addContact(contact c)
@@ -1476,6 +1470,8 @@ SpaceFloat GSpace::distanceFeeler(const GObject * agent, SpaceVect _feeler, GTyp
             closest = min<SpaceFloat>(closest, distance);
         }
     };
+
+	cpSpaceSegmentQuery(space, start, end, to_uint(layers), 0, )
     
     space.segmentQuery(
         start,
