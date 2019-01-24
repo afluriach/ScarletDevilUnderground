@@ -256,6 +256,8 @@ void GScene::setPaused(bool p){
 
 void GScene::createDialog(const string& res, bool autoAdvance)
 {
+	stopDialog();
+
 	dialog = Node::ccCreate<Dialog>();
 	dialog->setDialog(res);
 	dialog->setPosition(dialogPosition());
@@ -265,6 +267,8 @@ void GScene::createDialog(const string& res, bool autoAdvance)
 	//to choose one.
 	dialog->setAutoAdvance(autoAdvance);
 	dialog->setManualAdvance(!autoAdvance);
+
+	isPaused = !autoAdvance;
 
 	dialog->setEndHandler([this]() -> void {
 		stopDialog();
@@ -276,6 +280,7 @@ void GScene::stopDialog()
 	if (dialog) {
 		getLayer(sceneLayers::dialog)->removeChild(dialog);
 		dialog = nullptr;
+		isPaused = false;
 	}
 }
 

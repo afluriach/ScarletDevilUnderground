@@ -132,7 +132,7 @@ protected:
 
 	set<object_ref<EnemyBullet>> grazeContacts;
 
-	boost::rational<int> interactCooldown = 0;
+	float interactCooldown = 0.0f;
 
 	vector<shared_ptr<FirePattern>> firePatterns;
 	size_t crntFirePattern = 0;

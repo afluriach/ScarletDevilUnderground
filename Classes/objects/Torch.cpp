@@ -10,7 +10,6 @@
 
 #include "GAnimation.hpp"
 #include "GSpace.hpp"
-#include "scenes.h"
 #include "Torch.hpp"
 #include "value_map.hpp"
 
@@ -61,7 +60,7 @@ void Torch::setActive(bool active)
 		lightSourceID = space->addLightSource(CircleLightArea{getPos(),5.0,color,intensity});
 	}
 	else if(lightSourceID != 0) {
-		space->getScene()->removeLightSource(lightSourceID);
+		space->removeLightSource(lightSourceID);
 		lightSourceID = 0;
 	}
 }

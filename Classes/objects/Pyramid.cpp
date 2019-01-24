@@ -13,7 +13,6 @@
 #include "GSpace.hpp"
 #include "macros.h"
 #include "Pyramid.hpp"
-#include "scenes.h"
 #include "value_map.hpp"
 
 const SpaceFloat Pyramid::coneLength = 4.0;
@@ -65,7 +64,7 @@ void Pyramid::redrawLightCone()
 {
 	float a = getAngle();
 	
-	space->getScene()->updateLightSource(coneLightID, ConeLightArea{
+	space->updateLightSource(coneLightID, ConeLightArea{
 		getPos(),
 		coneLength,
 		toColor3B(targets.empty() ? coneColor : coneActiveColor),
