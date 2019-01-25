@@ -370,6 +370,14 @@ string Thread::getStack()
     return ss.str();
 }
 
+string Thread::getMainFuncName() {
+	return call_stack.front()->getName();
+}
+
+void Thread::setResetOnBlock(bool reset) {
+	resetOnBlock = reset;
+}
+
 StateMachine::StateMachine(GObject *const agent) :
 agent(agent)
 {
@@ -540,6 +548,14 @@ Agent* StateMachine::getAgent() {
 	return dynamic_cast<Agent*>(agent);
 }
 
+unsigned int StateMachine::getFrame() {
+	return frame;
+}
+
+Thread* StateMachine::getCrntThread() {
+	return crntThread;
+}
+
 Detect::Detect(const string& target_name, Generator nextState) :
 target_name(target_name),
 nextState(nextState)
@@ -562,11 +578,15 @@ Seek::Seek(GSpace* space, const ValueMap& args) {
     target = getObjRefFromStringField(space, args, "target_name");
 }
 
+Seek::Seek(GObject* target) : target(target)
+{}
+
+
 void Seek::onEndDetect(StateMachine& sm, GObject* other)
 {
     if(target == other){
-	sm.getCrntThread()->pop();
-}
+		sm.getCrntThread()->pop();
+	}
 }
 
 void Seek::update(StateMachine& sm)
@@ -702,6 +722,12 @@ void Scurry::update(StateMachine& sm)
 	}
 }
 
+Flee::Flee(GObject* target, SpaceFloat distance) :
+	target(target),
+	distance(distance)
+{}
+
+
 Flee::Flee(GSpace* space, const ValueMap& args) {
     if(args.find("target_name") == args.end()){
         log("Seek::Seek: target_name missing.");
@@ -825,6 +851,12 @@ IdleWait::IdleWait(GSpace* space, const ValueMap& args)
     SpaceFloat waitSeconds = getFloat(args, "waitTime");
     remaining = App::framesPerSecond * waitSeconds;
 }
+
+IdleWait::IdleWait(unsigned int frames) :
+	remaining(frames)
+{}
+
+
 void IdleWait::update(StateMachine& fsm)
 {
 	if (remaining == 0)
@@ -971,6 +1003,10 @@ MoveToPoint::MoveToPoint(GSpace* space, const ValueMap& args)
     target  = SpaceVect(x.asFloat(), y.asFloat());
 }
 
+MoveToPoint::MoveToPoint(SpaceVect target) :
+	target(target)
+{}
+
 void MoveToPoint::update(StateMachine& fsm)
 {
     SpaceFloat dist2 = (fsm.agent->getPos() - target).lengthSq();
@@ -1000,6 +1036,12 @@ shared_ptr<FollowPath> FollowPath::pathToTarget(GSpace* space, gobject_ref agent
 		false
 	);
 }
+
+
+FollowPath::FollowPath(Path path, bool loop) :
+	path(path),
+	loop(loop)
+{}
 
 FollowPath::FollowPath(GSpace* space, const ValueMap& args)
 {
@@ -1046,6 +1088,8 @@ Wander::Wander(GSpace* space, const ValueMap& args) :
     init_float_field(maxDist,1.0f)
 {}
 
+Wander::Wander() : minWait(1.0), maxWait(3.0), minDist(2.0), maxDist(4.0)
+{}
 
 void Wander::update(StateMachine& fsm)
 {
@@ -1121,6 +1165,15 @@ void FireIfTargetVisible::update(StateMachine& sm)
 			App::playSoundSpatial("sfx/shot.wav", sm.agent->getPos(), sm.agent->getVel());
 		}
 	}
+}
+
+Operation::Operation(std::function<void(StateMachine&)> op) :
+	op(op)
+{}
+
+void Operation::update(StateMachine& sm) {
+	op(sm);
+	sm.pop();
 }
 
 Cast::Cast(SpellGeneratorType spell_generator) :

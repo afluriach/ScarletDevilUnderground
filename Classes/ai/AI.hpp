@@ -128,13 +128,8 @@ public:
     
     string getStack();
     
-    inline string getMainFuncName(){
-        return call_stack.front()->getName();
-    }
-    
-    inline void setResetOnBlock(bool reset){
-        resetOnBlock = reset;
-    }
+	string getMainFuncName();
+	void setResetOnBlock(bool reset);
 
 protected:
 	list<shared_ptr<Function>> call_stack;
@@ -172,17 +167,9 @@ public:
 	void pop();
     
 	Agent* getAgent();
-
-    inline unsigned int getFrame(){
-        return frame;
-    }
-
-	inline Thread* getCrntThread() {
-		return crntThread;
-	}
-    
+	unsigned int getFrame();
+	Thread* getCrntThread();
     string toString();
-    
 protected:
 	set<unsigned int> threadsToRemove;
 	list<shared_ptr<Thread>> threadsToAdd;
@@ -210,8 +197,7 @@ protected:
 
 class Seek : public Function {
 public:
-    inline Seek(GObject* target) : target(target)
-    {}
+	Seek(GObject* target);
     Seek(GSpace* space, const ValueMap& args);
     
 	virtual void update(StateMachine& sm);
@@ -278,10 +264,7 @@ protected:
 
 class Flee : public Function {
 public:
-    inline Flee(GObject* target, SpaceFloat distance) :
-    target(target),
-    distance(distance)
-    {}
+	Flee(GObject* target, SpaceFloat distance);
     Flee(GSpace* space, const ValueMap& args);
     
 	virtual void update(StateMachine& sm);
@@ -327,22 +310,19 @@ public:
 };
 
 class IdleWait : public Function{
-    public:
-        IdleWait(GSpace* space, const ValueMap& args);
-
-        inline IdleWait(unsigned int frames) :
-        remaining(frames)
-        {}
+public:
+    IdleWait(GSpace* space, const ValueMap& args);
+	IdleWait(unsigned int frames);
     
-		virtual void update(StateMachine& fsm);
+	virtual void update(StateMachine& fsm);
     
-        inline virtual bitset<lockCount> getLockMask() {
-            return make_enum_bitfield(ResourceLock::movement);
-        }
+    inline virtual bitset<lockCount> getLockMask() {
+        return make_enum_bitfield(ResourceLock::movement);
+    }
     
-        FuncGetName(IdleWait)
-    private:
-        unsigned int remaining;
+    FuncGetName(IdleWait)
+private:
+    unsigned int remaining;
 };
 
 class LookAround : public Function {
@@ -430,10 +410,7 @@ private:
 class MoveToPoint : public Function{
 public:
     MoveToPoint(GSpace* space, const ValueMap& args);
-
-    inline MoveToPoint(SpaceVect target) :
-    target(target)
-    {}
+	MoveToPoint(SpaceVect target);
     
     virtual void update(StateMachine& fsm);
 
@@ -450,10 +427,7 @@ public:
 	static shared_ptr<FollowPath> pathToTarget(GSpace* space, gobject_ref agent, gobject_ref target);
 
 	FollowPath(GSpace* space, const ValueMap& args);
-	inline FollowPath(Path path, bool loop) :
-	path(path),
-	loop(loop)
-	{}
+	FollowPath(Path path, bool loop);
 
 	virtual void update(StateMachine& fsm);
     
@@ -470,9 +444,7 @@ protected:
 class Wander : public Function {
 public:
     Wander(GSpace* space, const ValueMap& args);
-
-    inline Wander() : minWait(1.0), maxWait(3.0), minDist(2.0), maxDist(4.0)
-    {}
+	Wander();
 
     virtual void update(StateMachine& sm);
 
@@ -487,15 +459,11 @@ protected:
 
 class Operation : public Function {
 public:
-    inline Operation(std::function<void(StateMachine&)> op) :
-    op(op)
-    {}
-
-    inline virtual void update(StateMachine& sm){
-        op(sm);
-        sm.pop();
-    }
-    FuncGetName(Operation)
+	Operation(std::function<void(StateMachine&)> op);
+	
+	virtual void update(StateMachine& sm);
+    
+	FuncGetName(Operation)
 protected:
     std::function<void(StateMachine&)> op;
 };
@@ -561,7 +529,7 @@ public:
 
 	virtual void update(StateMachine& sm);
 
-	FuncGetName(FireIfTargets)
+	FuncGetName(FireIfTargetsVisible)
 
 	inline virtual bitset<lockCount> getLockMask() {
 		return make_enum_bitfield(ResourceLock::fire);
