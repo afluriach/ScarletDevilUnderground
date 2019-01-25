@@ -26,6 +26,8 @@ typedef function<GObject*(GSpace*, ObjectIDType)> ObjectGeneratorType;
 
 typedef function<FiniteTimeAction*()> ActionGeneratorType;
 
+typedef tuple<long, long, long> TimerTriplet;
+
 namespace boost {
 	namespace serialization {
 		template<class Archive>

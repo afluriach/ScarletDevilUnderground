@@ -229,9 +229,19 @@ TimerSystem::TimerSystem()
 	}
 }
 
-void TimerSystem::printTimerStats(tuple<long, long, long> _data, string name)
+void TimerSystem::printTimerStats(TimerTriplet _data, string name)
 {
 	log("Timer type %s: min: %ld, avg: %ld, max: %ld.", name.c_str(), get<0>(_data), get<1>(_data), get<2>(_data));
+}
+
+string TimerSystem::timerStatString(TimerTriplet _data, string name)
+{
+	stringstream ss;
+	ss.precision(1);
+
+	ss << fixed << name << ": " << get<0>(_data)/1000.0f <<  " / " << get<1>(_data) / 1000.0f << " / " << get<2>(_data) / 1000.0f;
+
+	return ss.str();
 }
 
 void TimerSystem::addEntry(TimerType _type, chrono::duration<long, micro> _us)
@@ -244,7 +254,7 @@ void TimerSystem::addEntry(TimerType _type, chrono::duration<long, micro> _us)
 	_l.push_back(_us);
 }
 
-tuple<long, long, long> TimerSystem::getBufferStats(const boost::circular_buffer<chrono::duration<long, micro>>& buffer)
+TimerTriplet TimerSystem::getBufferStats(const boost::circular_buffer<chrono::duration<long, micro>>& buffer)
 {
 	chrono::microseconds accumulator(0);
 	chrono::microseconds _min(1000000);
@@ -263,15 +273,19 @@ tuple<long, long, long> TimerSystem::getBufferStats(const boost::circular_buffer
 		accumulator /= buffer.size();
 	}
 
-	return tuple<long, long, long>(
+	return TimerTriplet(
 		chrono::duration_cast<chrono::microseconds>(_min).count(),
 		chrono::duration_cast<chrono::microseconds>(accumulator).count(),
 		chrono::duration_cast<chrono::microseconds>(_max).count()
 	);
 }
 
-tuple<long, long, long> TimerSystem::getStats(TimerType _type)
+TimerTriplet TimerSystem::getStats(TimerType _type)
 {
+	if (timerBuffer.at(_type).empty()) {
+		return TimerTriplet(0, 0, 0);
+	}
+
 	chrono::microseconds accumulator(0);
 	chrono::microseconds _min(1000000);
 	chrono::microseconds _max(0);
@@ -285,13 +299,9 @@ tuple<long, long, long> TimerSystem::getStats(TimerType _type)
 			_max = entry;
 	}
 
-	if (accumulator != chrono::microseconds(0) && timerBuffer.at(_type).size() > 0) {
-		accumulator /= timerBuffer.at(_type).size();
-	}
-
-	return tuple<long, long, long>(
+	return TimerTriplet(
 		chrono::duration_cast<chrono::microseconds>(_min).count(),
-		chrono::duration_cast<chrono::microseconds>(accumulator).count(),
+		chrono::duration_cast<chrono::microseconds>(accumulator).count() / timerBuffer.at(_type).size(),
 		chrono::duration_cast<chrono::microseconds>(_max).count()
 	);
 }

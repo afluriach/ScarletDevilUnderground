@@ -195,6 +195,8 @@ public:
 
 	EnemyInfo* enemyInfo;
 
+	Label* performanceStats = nullptr;
+
 	void setHP(int);
 	void setMaxHP(int);
 
@@ -213,6 +215,9 @@ public:
 	void setObjectiveCounter(string iconRes, int val);
 	void setObjectiveCounterVisible(bool val);
     
+	void setPerformanceStats(TimerTriplet objects, TimerTriplet physics);
+	void clearPerformanceStats();
+
 	void setMansionMode(bool val);    
 	void setInteractionIcon(string val);
 	void setFirePatternIcon(string val);

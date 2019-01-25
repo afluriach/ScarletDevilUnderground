@@ -506,6 +506,32 @@ void HUD::setObjectiveCounterVisible(bool val)
 	objectiveCounter->setVisible(val);
 }
 
+void HUD::setPerformanceStats(TimerTriplet objects, TimerTriplet physics)
+{
+	if (!performanceStats) {
+		performanceStats = Label::createWithTTF("", "fonts/comfortaa.ttf", 18);
+		performanceStats->setWidth(300);
+		performanceStats->setPosition(160, 90);
+		addChild(performanceStats);
+	}
+
+	stringstream ss;
+
+	ss << TimerSystem::timerStatString(objects, "Object update") << "\n";
+	ss << TimerSystem::timerStatString(physics, "Physics") << "\n";
+
+	performanceStats->setString(ss.str());
+}
+
+void HUD::clearPerformanceStats()
+{
+	if (performanceStats) {
+		removeChild(performanceStats);
+		performanceStats = nullptr;
+	}
+}
+
+
 void HUD::setMansionMode(bool val)
 {
 	isMansionMode = val;

@@ -92,13 +92,14 @@ constexpr inline bitset<size> make_bitfield(size_t idx)
 class TimerSystem
 {
 public:
-	static void printTimerStats(tuple<long,long,long>,string);
-	static tuple<long, long, long> getBufferStats(const boost::circular_buffer<chrono::duration<long, micro>>&);
+	static void printTimerStats(TimerTriplet,string);
+	static string timerStatString(TimerTriplet _data, string name);
+	static TimerTriplet getBufferStats(const boost::circular_buffer<chrono::duration<long, micro>>&);
 
 	TimerSystem();
 
 	void addEntry(TimerType, chrono::duration<long, micro>);
-	tuple<long, long, long> getStats(TimerType);
+	TimerTriplet getStats(TimerType);
 
 	map<TimerType, list<chrono::duration<long, micro>>> timerBuffer;
 };

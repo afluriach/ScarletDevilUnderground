@@ -23,6 +23,7 @@
 #include "GSpace.hpp"
 #include "macros.h"
 #include "Player.hpp"
+#include "PlayScene.hpp"
 #include "Spawner.hpp"
 #include "Spell.hpp"
 #include "TeleportPad.hpp"
@@ -136,6 +137,20 @@ void GSpace::update()
 
 	App::timerSystem->addEntry(TimerType::physics, _physics);
 	App::timerSystem->addEntry(TimerType::gobject, _objects);
+
+	PlayScene* ps = dynamic_cast<PlayScene*>(gscene);
+
+	if (ps && frame % 60 == 0) {
+		addSceneAction(
+			[ps]()->void {
+				ps->hud->setPerformanceStats(
+					App::timerSystem->getStats(TimerType::gobject),
+					App::timerSystem->getStats(TimerType::physics)
+				);
+			},
+			GScene::updateOrder::hudUpdate
+		);
+	}
 
 #endif
 
