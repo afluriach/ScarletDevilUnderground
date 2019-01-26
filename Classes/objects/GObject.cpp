@@ -215,7 +215,7 @@ void GObject::applyImpulse(SpaceFloat mag, SpaceFloat angle){
 	cpBodyApplyImpulse(body, v, SpaceVect::zero);
 }
 
-PhysicsLayers GObject::getCrntLayers()
+PhysicsLayers GObject::getCrntLayers() const
 {
 	return static_cast<PhysicsLayers>(bodyShape->layers);
 }
@@ -225,7 +225,7 @@ void GObject::setLayers(PhysicsLayers layers)
 	bodyShape->layers = to_uint(layers);
 }
 
-bool GObject::isOnFloor()
+bool GObject::isOnFloor() const
 {
 	return bitwise_and(PhysicsLayers, getCrntLayers(), PhysicsLayers::floor) != PhysicsLayers::none;
 }

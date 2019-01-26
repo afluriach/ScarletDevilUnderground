@@ -143,7 +143,7 @@ public:
 
 	virtual inline void teleport(SpaceVect pos) { setPos(pos); }
 
-	bool isOnFloor();
+	bool isOnFloor() const;
 	void updateFloorSegment();
 	void onContactFloorSegment(object_ref<FloorSegment> fs);
 	void onEndContactFloorSegment(object_ref<FloorSegment> fs);
@@ -172,7 +172,7 @@ public:
     void applyForceForSingleFrame(SpaceVect f);
     void applyImpulse(SpaceFloat mag, SpaceFloat angle);
 
-	PhysicsLayers getCrntLayers();
+	PhysicsLayers getCrntLayers() const;
 	void setLayers(PhysicsLayers layers);
 
 	//A default of 0 signifies undefined. Using -1 to indicate static or positive for dynamic.

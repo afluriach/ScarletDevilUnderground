@@ -84,21 +84,25 @@ enum class GraphicsLayer{
 };
 
 enum class GType{
-    player=1,
-    playerBullet,
-    enemy,
-    enemyBullet,
-    environment,
-    foliage,
-    wall,
-	areaSensor,
-    playerSensor,
-    playerGrazeRadar,
-    collectible,
-	upgrade,
-    npc,
-	floorSegment,
-	none,
+	none = 0x0,
+	
+	player = 0x1,
+    playerBullet = 0x2,
+    enemy = 0x4,
+    enemyBullet = 0x8,
+    environment = 0x10,
+    foliage = 0x20,
+    wall = 0x40,
+	areaSensor = 0x80,
+    playerSensor = 0x100,
+    playerGrazeRadar = 0x200,
+    collectible = 0x400,
+	upgrade = 0x800,
+    npc = 0x1000,
+	floorSegment = 0x2000,
+
+	all = 0x3FFF,
+	end = 0x4000
 };
 
 enum class PlayerCharacter {

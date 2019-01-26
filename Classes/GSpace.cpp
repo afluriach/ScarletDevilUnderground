@@ -1421,7 +1421,7 @@ struct FeelerData
 {
 	//input data
 	const GObject* agent = nullptr;
-	GType gtype;
+	unsigned int gtype;
 
 	//output data
 	double distance = 1.0;
@@ -1431,10 +1431,10 @@ struct FeelerData
 void feelerCallback(cpShape *shape, cpFloat t, cpVect n, void *data)
 {
 	FeelerData* queryData = static_cast<FeelerData*>(data);
-
 	GObject* obj = to_gobject(shape->data);
-	if (obj && obj->getType() == queryData->gtype && obj != queryData->agent) {
-		queryData->distance = min<SpaceFloat>(queryData->distance, t);
+
+	if (obj && (to_uint(obj->getType()) & queryData->gtype) && obj != queryData->agent && t < queryData->distance && t != 0.0) {
+		queryData->distance = t;
 		queryData->result = obj;
 	}
 }
@@ -1443,7 +1443,7 @@ struct PointQueryData
 {
 	//input data
 	const GObject* agent;
-	GType gtype;
+	unsigned int gtype;
 
 	//output
 	GObject* result = nullptr;
@@ -1454,7 +1454,7 @@ void pointQueryCallback(cpShape *shape, void *data)
 	PointQueryData* queryData = static_cast<PointQueryData*>(data);
 	GObject* obj = to_gobject(shape->data);
 
-	if (obj && obj->getType() == queryData->gtype) {
+	if (obj && (to_uint(obj->getType()) & queryData->gtype)) {
 		queryData->result = obj;
 	}
 }
@@ -1462,7 +1462,7 @@ void pointQueryCallback(cpShape *shape, void *data)
 struct ShapeQueryData
 {
 	const GObject* agent;
-	GType gtype;
+	unsigned gtype;
 
 	set<GObject*> results;
 };
@@ -1472,7 +1472,7 @@ void shapeQueryCallback(cpShape *shape, cpContactPointSet *points, void *data)
 	ShapeQueryData* queryData = static_cast<ShapeQueryData*>(data);
 	GObject* obj = to_gobject(shape->data);
 
-	if (obj && obj->getType() == queryData->gtype) {
+	if (obj && (to_uint(obj->getType()) & queryData->gtype)) {
 		queryData->results.insert(obj);
 	}
 }
@@ -1487,7 +1487,7 @@ SpaceFloat GSpace::distanceFeeler(const GObject * agent, SpaceVect _feeler, GTyp
 {
     SpaceVect start = agent->getPos();
     SpaceVect end = start + _feeler;
-	FeelerData queryData = { agent, gtype };
+	FeelerData queryData = { agent, to_uint(gtype) };
 
 	cpSpaceSegmentQuery(space, start, end, to_uint(layers), 0, feelerCallback, &queryData);
         
@@ -1501,12 +1501,14 @@ SpaceFloat GSpace::wallDistanceFeeler(const GObject * agent, SpaceVect feeler) c
 
 SpaceFloat GSpace::obstacleDistanceFeeler(const GObject * agent, SpaceVect _feeler) const
 {
-    return vmin(
-		trapFloorDistanceFeeler(agent,_feeler),
-        wallDistanceFeeler(agent, _feeler),
-        distanceFeeler(agent, _feeler, GType::environment),
-        distanceFeeler(agent, _feeler, GType::enemy)
-    );
+	SpaceFloat d = distanceFeeler(
+		agent,
+		_feeler,
+		enum_bitwise_or3(GType, wall, enemy, environment),
+		agent->getCrntLayers()
+	);
+
+    return min(d, agent->isOnFloor() ? trapFloorDistanceFeeler(agent,_feeler) : _feeler.length());
 }
 
 SpaceFloat GSpace::trapFloorDistanceFeeler(const GObject* agent, SpaceVect feeler) const
@@ -1523,7 +1525,7 @@ bool GSpace::feeler(const GObject * agent, SpaceVect _feeler, GType gtype, Physi
 {
     SpaceVect start = agent->getPos();
     SpaceVect end = start + _feeler;
-	FeelerData queryData = { agent, gtype };
+	FeelerData queryData = { agent, to_uint(gtype) };
 
 	cpSpaceSegmentQuery(space, start, end, to_uint(layers), 0, feelerCallback, &queryData);
 
@@ -1534,7 +1536,7 @@ GObject* GSpace::objectFeeler(const GObject * agent, SpaceVect feeler, GType gty
 {
 	SpaceVect start = agent->getPos();
 	SpaceVect end = start + feeler;
-	FeelerData queryData = { agent, gtype };
+	FeelerData queryData = { agent, to_uint(gtype) };
 
 	cpSpaceSegmentQuery(space, start, end, to_uint(layers), 0, feelerCallback, &queryData);
 
@@ -1548,45 +1550,41 @@ bool GSpace::wallFeeler(const GObject * agent, SpaceVect _feeler) const
 
 bool GSpace::obstacleFeeler(const GObject * agent, SpaceVect _feeler) const
 {
-    return
-        wallFeeler(agent, _feeler) ||
-        feeler(agent, _feeler, GType::environment) ||
-        feeler(agent, _feeler, GType::npc) ||
-        feeler(agent, _feeler, GType::player) ||
-        feeler(agent, _feeler, GType::enemy)
-    ;
+	return feeler(
+		agent,
+		_feeler,
+		enum_bitwise_or5(GType, wall, enemy, environment, npc, player),
+		agent->getCrntLayers()
+	);
 }
 
 InteractibleObject* GSpace::interactibleObjectFeeler(const GObject* agent, SpaceVect feeler) const
 {
-	array<GObject*, 3> objects;
-	objects[0] = objectFeeler(agent, feeler, GType::npc, PhysicsLayers::all);
-	objects[1] = objectFeeler(agent, feeler, GType::enemy, PhysicsLayers::all);
-	objects[2] = objectFeeler(agent, feeler, GType::environment, PhysicsLayers::all);
+	GObject* obj = objectFeeler(
+		agent,
+		feeler,
+		enum_bitwise_or3(GType,enemy, npc, environment),
+		agent->getCrntLayers()
+	);
 
-	for (GObject* obj : objects) {
-		InteractibleObject* _interact = dynamic_cast<InteractibleObject*>(obj);
-
-		if (_interact) {
-			return _interact;
-		}
-	}
-
-	return nullptr;
+	return dynamic_cast<InteractibleObject*>(obj);
 }
 
 bool GSpace::lineOfSight(const GObject* agent, const GObject * target) const
 {
     SpaceVect feeler_displacement = target->getPos() - agent->getPos();
-    
-    return !feeler(agent, feeler_displacement, GType::environment,PhysicsLayers::eyeLevel) &&
-           !feeler(agent, feeler_displacement, GType::wall,PhysicsLayers::eyeLevel)
-    ;
+
+	return !feeler(
+		agent,
+		feeler_displacement,
+		enum_bitwise_or(GType,environment, wall),
+		PhysicsLayers::eyeLevel
+	);
 }
 
 GObject * GSpace::pointQuery(SpaceVect pos, GType type, PhysicsLayers layers)
 {
-	PointQueryData queryData = { nullptr, type };
+	PointQueryData queryData = { nullptr, to_uint(type) };
 
 	cpSpacePointQuery(space, pos, to_uint(layers), 0, pointQueryCallback, &queryData);
 
@@ -1595,7 +1593,7 @@ GObject * GSpace::pointQuery(SpaceVect pos, GType type, PhysicsLayers layers)
 
 bool GSpace::rectangleQuery(SpaceVect center, SpaceVect dimensions, GType type, PhysicsLayers layers)
 {
-	ShapeQueryData data = { nullptr, type };
+	ShapeQueryData data = { nullptr, to_uint(type) };
 	cpBody* body = cpBodyNewStatic();
 	cpShape* area = cpBoxShapeNew(body, dimensions.x, dimensions.y);
 
