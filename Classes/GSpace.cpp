@@ -839,14 +839,7 @@ SpaceVect GSpace::getWaypoint(string name) const
 
 FloorSegment* GSpace::floorSegmentPointQuery(SpaceVect pos)
 {
-	FloorSegment* result = nullptr;
-
-	result = dynamic_cast<FloorSegment*>(pointQuery(pos, GType::floorSegment, PhysicsLayers::floor));
-
-	if (!result)
-		result = dynamic_cast<FloorSegment*>(pointQuery(pos, GType::floorSegment, PhysicsLayers::belowFloor));
-
-	return result;
+	return dynamic_cast<FloorSegment*>(pointQuery(pos, GType::floorSegment, PhysicsLayers::belowFloor));
 }
 
 void GSpace::addNavObstacle(const SpaceVect& center, const SpaceVect& boundingDimensions)

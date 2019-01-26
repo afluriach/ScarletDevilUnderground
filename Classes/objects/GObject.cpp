@@ -232,32 +232,30 @@ bool GObject::isOnFloor()
 
 void GObject::updateFloorSegment()
 {
-	if (dynamic_cast<FloorSegment*>(this))
-		return;
-
-	if (!isOnFloor()) {
-		for (auto ref : crntFloorContacts) {
-			if (ref.isValid()) {
-				ref.get()->onEndContactFloorSegment(this);
-			}
-		}
-		crntFloorContacts.clear();
-		crntFloorCenterContact = nullptr;
+	if (getMass() <= 0.0 || !isOnFloor() || dynamic_cast<FloorSegment*>(this)) {
 		return;
 	}
 
-	crntFloorCenterContact = space->floorSegmentPointQuery(getPos());
+	crntFloorCenterContact = nullptr;
 
-	//If not on floor(s), also use point query for belowFloor.
-	if (crntFloorContacts.size() == 0)
+	for (auto ref : crntFloorContacts)
 	{
-		if (crntFloorCenterContact.isValid()) {
-			crntFloorCenterContact.get()->exclusiveFloorEffect(this);
+		SpaceVect local = cpBodyWorld2Local(ref.get()->body, getPos());
+		SpaceVect dim = ref.get()->getDimensions();
+		if (abs(local.x) <= dim.x / 2.0 && abs(local.y) <= dim.y / 2.0) {
+			crntFloorCenterContact = ref;
+			break;
 		}
 	}
 
-	else if (crntFloorContacts.size() == 1) {
-		crntFloorContacts.begin()->get()->exclusiveFloorEffect(this);
+	//If not on floor(s), use point query to detect belowFloor segment.
+	if (!crntFloorCenterContact.isValid())
+	{
+		crntFloorCenterContact = space->floorSegmentPointQuery(getPos());
+	}
+
+	if (crntFloorContacts.size() == 0 && crntFloorCenterContact.isValid()) {
+		crntFloorCenterContact.get()->exclusiveFloorEffect(this);
 	}
 }
 
