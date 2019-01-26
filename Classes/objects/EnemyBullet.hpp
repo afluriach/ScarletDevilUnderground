@@ -36,7 +36,7 @@ public:
 
 	WaterBullet(GSpace* space, ObjectIDType id, SpaceFloat angle, const SpaceVect& pos, SpaceFloat speed);
 
-	virtual inline CircleLightArea getLightSource() const { return CircleLightArea{ getPos(), 2.0, Color3B(64,192,192), 0.5, 0.0 }; }
+	virtual inline CircleLightArea getLightSource() const { return CircleLightArea{ getPos(), 2.0, Color4F(.375f,.75f,.75f,.5f), 0.0 }; }
 
     virtual inline SpaceFloat getMaxSpeed() const {return 6.0;}
 	virtual inline SpaceFloat getRadius() const { return 0.3; }

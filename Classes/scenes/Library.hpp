@@ -17,7 +17,7 @@ class Library : public PlayScene
 public:
 	Library();
 
-	inline virtual Color3B getDefaultAmbientLight() const { return toColor3B(Color4F(0.5f, 0.5f, 0.2f, 1.0f)); }
+	inline virtual Color4F getDefaultAmbientLight() const { return Color4F(0.5f, 0.5f, 0.2f, 1.0f); }
 	virtual inline GScene* getReplacementScene() { return Node::ccCreate<Library>(); }
 };
 

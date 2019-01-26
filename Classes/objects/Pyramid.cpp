@@ -67,8 +67,7 @@ void Pyramid::redrawLightCone()
 	space->updateLightSource(coneLightID, ConeLightArea{
 		getPos(),
 		coneLength,
-		toColor3B(targets.empty() ? coneColor : coneActiveColor),
-		1.0f,
+		targets.empty() ? coneColor : coneActiveColor,
 		to_float(a - coneAngle / 2.0f),
 		to_float(a + coneAngle / 2.0f) 
 	});
@@ -101,8 +100,7 @@ void Pyramid::initializeGraphics()
 	coneLightID = space->addLightSource(ConeLightArea{
 		getPos(),
 		coneLength,
-		toColor3B(coneColor),
-		1.0f,
+		coneColor,
 		to_float(a - coneAngle/2.0f),
 		to_float(a+coneAngle/2.0f)
 	});

@@ -38,6 +38,7 @@ public:
     bool getActive();
     
     void update();    
+	void addLightSource();
 protected:
 	string colorName;
 	LightID lightSourceID = 0;

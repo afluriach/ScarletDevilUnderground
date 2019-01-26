@@ -636,8 +636,7 @@ CircleLightArea FlandrePC::getLight()
 	return CircleLightArea{
 		getPos(),
 		4.0,
-		Color3B(240,120,120),
-		0.75f,
+		Color4F(.9f, .5f, .5f, .75f),
 		0.5f
 	};
 }
@@ -674,9 +673,7 @@ CircleLightArea RumiaPC::getLight()
 	return CircleLightArea{
 		getPos(),
 		3.0,
-		Color3B(120,240,240),
-		0.5f,
-		0.5f
+		Color4F(.5f,.2f,.5f,.5f)
 	};
 }
 
@@ -712,9 +709,7 @@ CircleLightArea CirnoPC::getLight()
 	return CircleLightArea{
 		getPos(),
 		5.0,
-		Color3B(120,120,240),
-		1.0f,
-		0.75f
+		Color4F(.4f,.45f,.7f,1.0f),
 	};
 }
 

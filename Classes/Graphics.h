@@ -27,16 +27,14 @@ extern const float fallAnimationTime;
 struct AmbientLightArea
 {
 	SpaceVect origin, dimensions;
-	Color3B color;
-	float intensity;
+	Color4F color;
 };
 
 struct CircleLightArea
 {
 	SpaceVect origin;
 	SpaceFloat radius;
-	Color3B color;
-	float intensity;
+	Color4F color;
 	float flood;
 };
 
@@ -44,8 +42,7 @@ struct ConeLightArea
 {
 	SpaceVect origin;
 	SpaceFloat radius;
-	Color3B color;
-	float intensity;
+	Color4F color;
 	float startAngle, endAngle;
 };
 

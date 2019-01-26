@@ -20,7 +20,7 @@ public:
 	Mine();
 	inline virtual ~Mine() {}
 
-	inline virtual Color3B getDefaultAmbientLight() const { return toColor3B(Color4F(.4f, .4f, .6f, 1.0f)); }
+	inline virtual Color4F getDefaultAmbientLight() const { return Color4F(.4f, .4f, .6f, 1.0f); }
 	virtual GScene* getReplacementScene();
 };
 

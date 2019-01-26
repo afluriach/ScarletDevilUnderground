@@ -66,7 +66,7 @@ class FlandreFastOrb1 :
 public:
 	FlandreFastOrb1(GSpace* space, ObjectIDType id, SpaceFloat angle, const SpaceVect& pos);
 
-	virtual inline CircleLightArea getLightSource() const { return CircleLightArea{ getPos(), 2.0, Color3B::RED, 0.5, 0.0 }; }
+	virtual inline CircleLightArea getLightSource() const { return CircleLightArea{ getPos(), 2.0, Color4F::RED*0.5f, 0.0 }; }
 
 	virtual inline SpaceFloat getMaxSpeed() const { return 9.0; }
 	virtual inline SpaceFloat getRadius() const { return 0.15; }

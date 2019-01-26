@@ -41,8 +41,7 @@ void SunArea::initializeGraphics()
 	space->addLightSource(AmbientLightArea{
 		getPos(),
 		getDimensions(),
-		Color3B(192, 192, 82),
-		1.0f
+		toColor4F(Color3B(192, 192, 82))
 	});
 }
 

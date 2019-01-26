@@ -323,8 +323,8 @@ LightID GScene::getLightID()
 void GScene::addLightSource(LightID id, CircleLightArea light)
 {
 	RadialGradient* g = Node::ccCreate<RadialGradient>(
-		toColor4F(light.color) * light.intensity,
-		Color4F(0.0f, 0.0f, 0.0f, 1.0f),
+		light.color,
+		Color4F::BLACK,
 		light.radius * App::pixelsPerTile,
 		Vec2::ZERO,
 		light.flood
@@ -835,10 +835,10 @@ void GScene::loadWalls(const TMXTiledMap& map, IntVec2 offset)
 void GScene::loadLights(const TMXTiledMap& map, IntVec2 offset)
 {
 	string ambient = getStringOrDefault(map.getPropertiesConst(), "ambient_light", "");
-	Color3B color;
+	Color4F color;
 	
 	if (!ambient.empty()) {
-		color = toColor3B(ambient);
+		color = toColor4F(toColor3B(ambient));
 	}
 	else {
 		color = getDefaultAmbientLight();
@@ -849,7 +849,7 @@ void GScene::loadLights(const TMXTiledMap& map, IntVec2 offset)
 	SpaceVect dimensions = toChipmunk(map.getMapSize());
 	SpaceVect center = toChipmunk(offset) + dimensions / 2.0;
 
-	addLightSource(id, AmbientLightArea{ center, dimensions, color, 1.0f });
+	addLightSource(id, AmbientLightArea{ center, dimensions, color});
 	ambientMapLights.push_back(id);
 }
 
@@ -925,7 +925,7 @@ void GScene::redrawLightmap()
 
 	for (AmbientLightArea light : ambientLights | boost::adaptors::map_values)
 	{
-		Color4F color = toColor4F(light.color) * light.intensity;
+		Color4F color = light.color;
 		Vec2 halfDim = toCocos(light.dimensions) / 2.0f * App::pixelsPerTile;
 		Vec2 center = toCocos(light.origin) * App::pixelsPerTile;
 
@@ -936,7 +936,7 @@ void GScene::redrawLightmap()
 
 	for (ConeLightArea light : coneLights | boost::adaptors::map_values)
 	{
-		Color4F color = toColor4F(light.color) * light.intensity;
+		Color4F color = light.color;
 		Vec2 center = toCocos(light.origin) * App::pixelsPerTile;
 		float diameter = light.radius * 2.0f * App::pixelsPerTile;
 
