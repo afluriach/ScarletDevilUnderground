@@ -10,6 +10,11 @@
 
 #include "Glyph.hpp"
 
+Glyph::Glyph(GSpace* space, ObjectIDType id, const ValueMap& args) :
+	MapObjForwarding(GObject),
+	RegisterInit<Glyph>(this)
+{}
+
 void Glyph::init()
 {
     setVel(SpaceVect(0,-6));

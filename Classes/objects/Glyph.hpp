@@ -12,13 +12,14 @@
 #include "GObject.hpp"
 #include "GObjectMixins.hpp"
 
-class Glyph : public virtual GObject, RectangleBody, ImageSprite, RegisterInit<Glyph>
+class Glyph :
+	public virtual GObject,
+	public RectangleBody,
+	public ImageSprite,
+	public RegisterInit<Glyph>
 {
 public:
-    inline Glyph(GSpace* space, ObjectIDType id, const ValueMap& args) :
-	MapObjForwarding(GObject),
-	RegisterInit<Glyph>(this)
-    {}
+	MapObjCons(Glyph);
     
     void init();
     
@@ -27,8 +28,6 @@ public:
     
     virtual inline SpaceFloat getMass() const {return 40.0;}
     virtual inline GType getType() const {return GType::environment;}
-    
-    virtual inline SpaceVect getDimensions() const {return SpaceVect(1,1);}
 };
 
 #endif /* Glyph_hpp */

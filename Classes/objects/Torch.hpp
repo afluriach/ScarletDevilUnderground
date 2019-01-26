@@ -25,7 +25,6 @@ public:
 
     virtual inline SpaceFloat getMass() const {return -1.0;}
     virtual inline GType getType() const {return GType::environment;}
-    virtual inline SpaceVect getDimensions() const {return SpaceVect(1,1);}
     virtual inline GraphicsLayer sceneLayer() const {return GraphicsLayer::ground;}
 
 	virtual inline bool canInteract() { return true; }

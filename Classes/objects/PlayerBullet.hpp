@@ -88,7 +88,6 @@ class FlandreCounterClockBullet :
 public:
 	FlandreCounterClockBullet(GSpace* space, ObjectIDType id, SpaceFloat angle, const SpaceVect& pos);
 
-	virtual inline SpaceVect getDimensions() const { return SpaceVect(4.0, 0.5); }
 	virtual inline string imageSpritePath() const { return "sprites/counter_clock_bullet.png"; }
 	virtual inline float zoom() const { return 0.25f; }
 

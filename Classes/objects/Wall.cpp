@@ -17,7 +17,7 @@ Wall::Wall(GSpace* space, ObjectIDType id, const ValueMap& args) :
 
 Wall::Wall(GSpace* space, ObjectIDType id, SpaceVect center, SpaceVect dimensions) :
 	GObject(space, id, "wall", center, true),
-	dimensions(dimensions)
+	RectangleBody(dimensions)
 {}
 
 PhysicsLayers Wall::getLayers() const{

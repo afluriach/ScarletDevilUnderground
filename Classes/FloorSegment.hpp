@@ -14,7 +14,7 @@
 #include "object_ref.hpp"
 #include "types.h"
 
-class FloorSegment : virtual public GObject, public RectangleMapBody
+class FloorSegment : virtual public GObject, public RectangleBody
 {
 public:
 	MapObjCons(FloorSegment);

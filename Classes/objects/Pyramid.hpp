@@ -19,7 +19,7 @@ public StateMachineObject,
 public RegisterInit<Pyramid>,
 public RegisterUpdate<Pyramid>,
 public RadarObject,
-public RectangleMapBody
+public RectangleBody
 {
 public:
 	static const SpaceFloat coneLength;
@@ -42,7 +42,6 @@ public:
     virtual inline SpaceFloat getMass() const { return -1.0;}
     virtual inline GType getType() const {return GType::environment;}
     virtual PhysicsLayers getLayers() const;
-    virtual inline SpaceVect getDimensions() const {return SpaceVect(1,1);}
 
 	virtual inline SpaceFloat getRadarRadius() const { return coneLength; }
 	virtual inline GType getRadarType() const { return GType::playerSensor; }

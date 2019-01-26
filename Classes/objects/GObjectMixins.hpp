@@ -78,29 +78,21 @@ class DialogEntity : public InteractibleObject
 class RectangleBody : public virtual GObject
 {
 public:
-	inline RectangleBody(){}
+	static SpaceVect getDimensionsFromMap(const ValueMap& arg);
+
+	inline RectangleBody() : dim(SpaceVect(1, 1)) {}
+	inline RectangleBody(SpaceVect dim) : dim(dim) {}
+	inline RectangleBody(const ValueMap& arg) : dim(getDimensionsFromMap(arg)) {}
+
     //Create body and add it to space. This assumes BB is rectangle dimensions
     virtual void initializeBody(GSpace& space);    
     virtual SpaceFloat getMomentOfInertia() const;
 
-	inline virtual SpaceFloat getRadius() const { return max(getDimensions().x, getDimensions().y); }
-
-	virtual SpaceRect getBoundingBox();
-};
-
-class RectangleMapBody : public virtual RectangleBody
-{
-public:
-    static SpaceVect getDimensionsFromMap(const ValueMap& arg);
-
-    inline RectangleMapBody(const ValueMap& arg) : dim(getDimensionsFromMap(arg)) {}
-    
-    inline SpaceVect getDimensions() const { return dim;}
+	inline virtual SpaceVect getDimensions() const { return dim; }
 	inline virtual SpaceFloat getRadius() const { return max(dim.x, dim.y); }
+	virtual SpaceRect getBoundingBox();
 
-private:
-    //Rectular dimensions or BB dimensions if object is not actually rectangular.
-    SpaceVect dim;
+	const SpaceVect dim;
 };
 
 class CircleBody : public virtual GObject

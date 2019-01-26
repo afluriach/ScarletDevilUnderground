@@ -28,6 +28,5 @@ public:
     virtual inline SpaceFloat uk() const {return 0.5;}
     virtual inline GType getType() const {return GType::environment;}
     virtual PhysicsLayers getLayers() const;
-    virtual inline SpaceVect getDimensions() const {return SpaceVect(1,1);}
 };
 #endif /* Block_hpp */

@@ -58,7 +58,7 @@ SpaceRect RectangleBody::getBoundingBox()
 	return SpaceRect(getPos(), getDimensions());
 }
 
-SpaceVect RectangleMapBody::getDimensionsFromMap(const ValueMap& arg)
+SpaceVect RectangleBody::getDimensionsFromMap(const ValueMap& arg)
 {
     return SpaceVect(getFloat(arg, "dim_x"), getFloat(arg, "dim_y"));
 }

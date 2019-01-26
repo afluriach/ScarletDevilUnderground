@@ -33,7 +33,8 @@ ObjectGeneratorType Collectible::create(collectible_id id, SpaceVect pos)
 }
 
 Collectible::Collectible(GSpace* space, ObjectIDType id, SpaceVect pos) :
-GObject(space,id,"spriteName",pos,true)
+GObject(space,id,"spriteName",pos,true),
+RectangleBody(SpaceVect(0.5f, 0.5f))
 {
 }
 

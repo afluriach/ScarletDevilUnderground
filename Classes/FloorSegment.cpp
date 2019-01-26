@@ -14,7 +14,7 @@
 #include "value_map.hpp"
 
 FloorSegment::FloorSegment(GSpace* space, ObjectIDType id, const ValueMap& args) :
-RectangleMapBody(args)
+RectangleBody(args)
 {
 
 }

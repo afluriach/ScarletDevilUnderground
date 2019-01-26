@@ -92,6 +92,7 @@ shared_ptr<MagicEffect> IceFairyBullet::getMagicEffect(gobject_ref target) {
 
 IllusionDialDagger::IllusionDialDagger(GSpace* space, ObjectIDType id, const SpaceVect& pos, SpaceFloat angular_velocity) :
 GObject(space,id,"IllusionDialDagger", pos, true),
+RectangleBody(SpaceVect(0.8, 0.175)),
 RegisterUpdate<IllusionDialDagger>(this)
 {
     setInitialAngularVelocity(angular_velocity);

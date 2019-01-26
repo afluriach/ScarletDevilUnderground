@@ -18,11 +18,13 @@ class Enemy;
 
 class AreaSensor :
 	virtual public GObject,
-	public RectangleMapBody,
+	public RectangleBody,
 	public NoSprite
 {
 public:
 	AreaSensor(GSpace* space, ObjectIDType id, const ValueMap& args);
+	AreaSensor(GSpace* space, ObjectIDType id, SpaceVect center, SpaceVect dim);
+
 	inline virtual ~AreaSensor() {}
 
     virtual inline SpaceFloat getMass() const { return -1.0;}

@@ -30,7 +30,6 @@ Pyramid::Pyramid(GSpace* space, ObjectIDType id, const ValueMap& args) :
 MapObjForwarding(GObject),
 RegisterInit<Pyramid>(this),
 RegisterUpdate<Pyramid>(this),
-RectangleMapBody(args),
 StateMachineObject(args)
 {
 	angular_speed = getFloatOrDefault(args, "angular_speed", 0.0f) / 180.0 * float_pi;

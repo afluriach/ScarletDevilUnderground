@@ -156,8 +156,6 @@ public:
     IllusionDialDagger(GSpace* space, ObjectIDType id, const SpaceVect& pos, SpaceFloat anglar_velocity);
 
 	virtual inline SpaceFloat getMaxSpeed() const { return 3.0; }
-
-	virtual inline SpaceVect getDimensions() const { return SpaceVect(0.8, 0.175); }
     
     virtual inline string imageSpritePath() const {return "sprites/knife green.png";}
 

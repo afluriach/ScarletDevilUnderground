@@ -23,7 +23,6 @@ public:
     virtual inline SpaceFloat getMass() const { return -1.0;}
     virtual inline GType getType() const {return GType::environment;}
 	virtual inline PhysicsLayers getLayers() const { return PhysicsLayers::ground; }
-    virtual inline SpaceVect getDimensions() const {return SpaceVect(1,1);}
 
 	virtual bool canInteract();
 	virtual void interact();

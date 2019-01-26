@@ -18,7 +18,13 @@
 
 AreaSensor::AreaSensor(GSpace* space, ObjectIDType id, const ValueMap& args) :
 	GObject(space, id, args),
-	RectangleMapBody(args)
+	RectangleBody(args)
+{
+}
+
+AreaSensor::AreaSensor(GSpace* space, ObjectIDType id, SpaceVect center, SpaceVect dim) :
+	GObject(space,id,"",center,true),
+	RectangleBody(dim)
 {
 }
 

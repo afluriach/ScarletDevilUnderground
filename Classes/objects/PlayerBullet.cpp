@@ -58,7 +58,8 @@ AttributeMap FlandreFastOrb1::getAttributeEffect() const {
 }
 
 FlandreCounterClockBullet::FlandreCounterClockBullet(GSpace* space, ObjectIDType id, SpaceFloat angle, const SpaceVect& pos) :
-	GObject(space, id, "", pos, angle, true)
+	GObject(space, id, "", pos, angle, true),
+	RectangleBody(SpaceVect(4.0, 0.5))
 {}
 
 AttributeMap FlandreCounterClockBullet::getAttributeEffect() const {

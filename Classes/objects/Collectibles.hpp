@@ -39,7 +39,6 @@ public:
 	virtual inline SpaceFloat getMass() const { return -1.0; }
 	virtual inline GType getType() const { return GType::collectible; }
 	virtual inline bool getSensor() const { return true; }
-	virtual inline SpaceVect getDimensions() const { return SpaceVect(0.5f, 0.5f); }
 
 	virtual inline GraphicsLayer sceneLayer() const { return GraphicsLayer::floor; }
 
