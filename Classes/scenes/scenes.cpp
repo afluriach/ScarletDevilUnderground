@@ -724,6 +724,7 @@ void GScene::loadMap(const MapEntry& mapEntry)
 	loadFloorSegments(*tileMap, mapEntry.second);
 	loadMapObjects(*tileMap, mapEntry.second);
 	loadWalls(*tileMap, mapEntry.second);
+	loadLights(*tileMap, mapEntry.second);
 
 	cocos2d::CCSize size = tileMap->getMapSize();
 
@@ -831,6 +832,27 @@ void GScene::loadWalls(const TMXTiledMap& map, IntVec2 offset)
 	}
 }
 
+void GScene::loadLights(const TMXTiledMap& map, IntVec2 offset)
+{
+	string ambient = getStringOrDefault(map.getPropertiesConst(), "ambient_light", "");
+	Color3B color;
+	
+	if (!ambient.empty()) {
+		color = toColor3B(ambient);
+	}
+	else {
+		color = getDefaultAmbientLight();
+	}
+
+	LightID id = getLightID();
+
+	SpaceVect dimensions = toChipmunk(map.getMapSize());
+	SpaceVect center = toChipmunk(offset) + dimensions / 2.0;
+
+	addLightSource(id, AmbientLightArea{ center, dimensions, color, 1.0f });
+	ambientMapLights.push_back(id);
+}
+
 void GScene::initEnemyStats()
 {
 	gspace->setInitialObjectCount();
@@ -883,11 +905,13 @@ void GScene::redrawLightmap()
 
 	CCRect cameraPix = getCameraArea().toPixelspace();
 
-	lightmapDrawNode->drawSolidRect(
-		cameraPix.getLowerCorner(),
-		cameraPix.getUpperCorner(),
-		ambientLight
-	);
+	if (display == displayMode::lightmap) {
+		lightmapDrawNode->drawSolidRect(
+			cameraPix.getLowerCorner(),
+			cameraPix.getUpperCorner(),
+			Color4F::BLACK
+		);
+	}
 
 	for (pair<unsigned int,CircleLightArea> lightEntry : circleLights)
 	{
@@ -895,7 +919,7 @@ void GScene::redrawLightmap()
 		float radiusPix = lightEntry.second.radius * App::pixelsPerTile;
 
 		lightmapRadials.at(lightEntry.first)->setVisible(
-			isInPlayerRoom(lightEntry.second.origin) && cameraPix.intersectsCircle(originPix, radiusPix)
+			cameraPix.intersectsCircle(originPix, radiusPix)
 		);
 	}
 
@@ -905,7 +929,7 @@ void GScene::redrawLightmap()
 		Vec2 halfDim = toCocos(light.dimensions) / 2.0f * App::pixelsPerTile;
 		Vec2 center = toCocos(light.origin) * App::pixelsPerTile;
 
-		if (isInPlayerRoom(light.origin) && cameraPix.intersectsRect(CCRect(center.x - halfDim.x, center.y - halfDim.y, halfDim.x * 2.0f, halfDim.y * 2.0f))) {
+		if (cameraPix.intersectsRect(CCRect(center.x - halfDim.x, center.y - halfDim.y, halfDim.x * 2.0f, halfDim.y * 2.0f))) {
 			lightmapDrawNode->drawSolidRect(center - halfDim, center + halfDim, color);
 		}
 	}
@@ -918,7 +942,7 @@ void GScene::redrawLightmap()
 
 		CCRect bounds = SpaceRect(light.origin, SpaceVect(light.radius * 2.0, light.radius * 2.0)).toPixelspace();
 		
-		if (isInPlayerRoom(light.origin) && cameraPix.intersectsRect(bounds)) {
+		if (cameraPix.intersectsRect(bounds)) {
 			lightmapDrawNode->drawSolidCone(center, light.radius*App::pixelsPerTile, light.startAngle, light.endAngle, 128, color);
 		}
 	}

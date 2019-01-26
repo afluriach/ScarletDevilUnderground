@@ -20,6 +20,8 @@ public:
 	Graveyard();
 	inline virtual ~Graveyard() {}
 
+	inline virtual Color3B getDefaultAmbientLight() const { return toColor3B(Color4F(.3f, .45f, .45f, 1.0f)); }
+
 	virtual GScene* getReplacementScene();
 };
 

@@ -239,7 +239,9 @@ public:
      * @return Properties.
      */
     inline ValueMap& getProperties() { return _properties; };
-    
+
+	inline const ValueMap& getPropertiesConst() const { return _properties; };
+
     /** Set the properties.
      *
      * @param properties A  Type of ValueMap to set the properties.

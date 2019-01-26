@@ -16,6 +16,7 @@ Vec2 toCocos(const SpaceVect& rhs);
 Vec2 toCocos(const IntVec2& rhs);
 SpaceVect toChipmunk(const Vec2& rhs);
 SpaceVect toChipmunk(const cocos2d::CCSize& rhs);
+SpaceVect toChipmunk(const IntVec2& ivec);
 FMOD_VECTOR toFmod(const SpaceVect& rhs);
 IntVec2 toIntVector(const cocos2d::CCSize& rhs);
 IntVec2 toIntVector(const SpaceVect& rhs);
@@ -29,6 +30,8 @@ Direction toDirection(SpaceVect);
 Direction angleToDirection(SpaceFloat a);
 Direction stringToDirection(string str);
 string directionToString(Direction d);
+
+Color3B toColor3B(const string& s);
 
 bool isInArea(const vector<SpaceRect>& areas, const SpaceVect& target, int index);
 int getAreaIndex(const vector<SpaceRect>& areas, const SpaceRect& target);

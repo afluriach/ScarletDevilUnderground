@@ -122,6 +122,8 @@ public:
 	inline virtual void enterPause() {}
 	inline virtual void exitPause() {}
 
+	inline virtual Color3B getDefaultAmbientLight() const { return Color3B(128, 128, 128); }
+
 	void createDialog(const string& res, bool autoAdvance);
 	void stopDialog();
 	Vec2 dialogPosition();
@@ -208,6 +210,7 @@ protected:
 	void loadFloorSegments(const TMXTiledMap& map, IntVec2 offset);
 	void loadObjectGroup(TMXObjectGroup* group, IntVec2 offset);
 	void loadWalls(const TMXTiledMap& map, IntVec2 offset);
+	void loadLights(const TMXTiledMap& map, IntVec2 offset);
 
 	void initEnemyStats();
 	void spaceUpdateMain();
@@ -231,7 +234,6 @@ protected:
 	//Make sure to use a cocos map so cocos refcounting works.
 	cocos2d::Map<int, Layer*> layers;
 	RenderTexture* spaceRender = nullptr;
-	Vector<TMXTiledMap*> tilemaps;
 	GSpace* gspace;
 	//the scale applied to the space layer
 	float spaceZoom = 1;
@@ -248,7 +250,6 @@ protected:
 	map<unsigned int, PatchConAnimation*> agentSprites;
 
 	displayMode display = displayMode::combined;
-	Color4F ambientLight = Color4F::WHITE;
 	RenderTexture* lightmapRender = nullptr;
 	DrawNode* lightmapDrawNode = nullptr;
 	DrawNode* lightmapBackground = nullptr;
@@ -265,8 +266,11 @@ protected:
 
 	string sceneName;
 	IntVec2 dimensions;
+
+	Vector<TMXTiledMap*> tilemaps;
 	vector<MapEntry> maps;
 	vector<SpaceRect> mapAreas;
+	vector<LightID> ambientMapLights;
 	vector<bool> mapAreasVisited;
 	SpaceRect cameraArea;
 	int crntMap = -1;

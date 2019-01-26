@@ -20,6 +20,8 @@ public:
 	Desert();
 	inline virtual ~Desert() {}
 
+	inline virtual Color3B getDefaultAmbientLight() const { return toColor3B(Color4F(.7f, .7f, .3f, 1.0f)); }
+
 	virtual GScene* getReplacementScene();
 };
 

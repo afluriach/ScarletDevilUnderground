@@ -128,6 +128,11 @@ SpaceVect toChipmunk(const cocos2d::CCSize& rhs)
     return SpaceVect(rhs.width, rhs.height);
 }
 
+SpaceVect toChipmunk(const IntVec2& ivec)
+{
+	return SpaceVect(ivec.first, ivec.second);
+}
+
 FMOD_VECTOR toFmod(const SpaceVect& rhs)
 {
 	return { to_float(rhs.x), 0.0f, to_float(rhs.y) };
@@ -153,6 +158,17 @@ vector<string> splitString(const string& input,const string& sep)
     vector<string> output;
     boost::split(output, input,boost::is_any_of(sep));
     return output;
+}
+
+Color3B toColor3B(const string& s)
+{
+	vector<string> tokens = splitString(s, ",");
+
+	return Color3B(
+		boost::lexical_cast<int>(tokens[0]),
+		boost::lexical_cast<int>(tokens[1]),
+		boost::lexical_cast<int>(tokens[2])
+	);
 }
 
 bool isInArea(const vector<SpaceRect>& areas, const SpaceVect& target, int index)

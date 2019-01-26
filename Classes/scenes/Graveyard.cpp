@@ -19,7 +19,6 @@ const vector<GScene::MapEntry> Graveyard::rooms = {
 Graveyard::Graveyard() :
 PlayScene("Graveyard", rooms)
 {
-	ambientLight = Color4F(.3f, .45f, .45f,1.0f);
 }
 
 GScene* Graveyard::getReplacementScene()
