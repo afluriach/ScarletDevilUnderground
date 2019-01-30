@@ -48,6 +48,7 @@ enum class Attribute {
 
 typedef array<float, to_size_t(Attribute::end)> AttributeSet;
 typedef map<Attribute, float> AttributeMap;
+typedef map<string, AttributeMap> AttributePackageMap;
 
 class AttributeSystem
 {

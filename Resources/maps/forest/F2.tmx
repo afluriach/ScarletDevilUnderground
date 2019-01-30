@@ -45,6 +45,7 @@
   <object id="44" type="Fairy1" x="1280" y="1024" width="128" height="128">
    <properties>
     <property name="ai_package" value="circle_around_point"/>
+    <property name="attributes_package" value="high_hp"/>
     <property name="direction" value="right"/>
     <property name="waypoint" value="wp1"/>
    </properties>
@@ -52,6 +53,7 @@
   <object id="45" type="Fairy1" x="1024" y="1280" width="128" height="128">
    <properties>
     <property name="ai_package" value="circle_around_point"/>
+    <property name="attributes_package" value="high_hp"/>
     <property name="direction" value="down"/>
     <property name="waypoint" value="wp1"/>
    </properties>

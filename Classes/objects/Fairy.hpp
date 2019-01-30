@@ -16,10 +16,11 @@
 class Fairy1 :
 public Enemy,
 public AIPackage<Fairy1>,
-public BaseAttributes<Fairy1>
+public AttributesPackage<Fairy1>
 {
 public:
 	static const AttributeMap baseAttributes;
+	static const AttributePackageMap attributePackages;
 	static const AIPackage<Fairy1>::AIPackageMap aiPackages;
 
 	Fairy1(GSpace* space, ObjectIDType id, const ValueMap& args);

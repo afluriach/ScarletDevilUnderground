@@ -19,15 +19,33 @@ const AttributeMap Fairy1::baseAttributes = {
 	{ Attribute::acceleration, 4.5f }
 };
 
+AttributeMap low_hp = {
+	{ Attribute::maxHP, 20.0f },
+	{ Attribute::speed, 3.0f },
+	{ Attribute::acceleration, 4.5f }
+};
+
+AttributeMap high_hp = {
+	{ Attribute::maxHP, 40.0f },
+	{ Attribute::speed, 3.0f },
+	{ Attribute::acceleration, 4.5f }
+};
+
 const AIPackage<Fairy1>::AIPackageMap Fairy1::aiPackages = {
 	{"maintain_distance", &Fairy1::maintain_distance},
 	{"circle_and_fire", &Fairy1::circle_and_fire},
 	{"circle_around_point", &Fairy1::circle_around_point}
 };
 
+const AttributePackageMap Fairy1::attributePackages = {
+	{"low_hp", low_hp},
+	{"high_hp", high_hp }
+};
+
 Fairy1::Fairy1(GSpace* space, ObjectIDType id, const ValueMap& args) :
 	MapObjForwarding(GObject),
 	MapObjForwarding(Agent),
+	AttributesPackage<Fairy1>(this, args),
 	AIPackage<Fairy1>(this, args, "maintain_distance"),
 	Enemy(collectible_id::power1)
 {}
