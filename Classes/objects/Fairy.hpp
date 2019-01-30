@@ -15,54 +15,14 @@
 
 class Fairy1 :
 public Enemy,
+public AIPackage<Fairy1>,
 public BaseAttributes<Fairy1>
 {
 public:
 	static const AttributeMap baseAttributes;
+	static const AIPackage<Fairy1>::AIPackageMap aiPackages;
 
 	Fairy1(GSpace* space, ObjectIDType id, const ValueMap& args);
-
-	virtual inline SpaceFloat getRadarRadius() const { return 6.0; }
-	virtual inline SpaceFloat getDefaultFovAngle() const { return float_pi / 4.0; }
-
-	inline SpaceFloat getMass() const { return 40.0; }
-
-	inline string imageSpritePath() const { return "sprites/fairy-blue.png"; }
-	virtual bool isAgentAnimation() const { return true; }
-	virtual inline int pixelWidth() const { return 512; }
-
-	virtual void initStateMachine(ai::StateMachine& sm);
-};
-
-class Fairy1A :
-	public Enemy,
-	public BaseAttributes<Fairy1A>
-{
-public:
-	static const AttributeMap baseAttributes;
-
-	Fairy1A(GSpace* space, ObjectIDType id, const ValueMap& args);
-
-	virtual inline SpaceFloat getRadarRadius() const { return 6.0; }
-	virtual inline SpaceFloat getDefaultFovAngle() const { return float_pi / 4.0; }
-
-	inline SpaceFloat getMass() const { return 40.0; }
-
-	inline string imageSpritePath() const { return "sprites/fairy-gold.png"; }
-	virtual bool isAgentAnimation() const { return true; }
-	virtual inline int pixelWidth() const { return 512; }
-
-	virtual void initStateMachine(ai::StateMachine& sm);
-};
-
-class Fairy1B :
-	public Enemy,
-	public BaseAttributes<Fairy1B>
-{
-public:
-	static const AttributeMap baseAttributes;
-
-	Fairy1B(GSpace* space, ObjectIDType id, const ValueMap& args);
 
 	virtual inline SpaceFloat getRadarRadius() const { return 6.0; }
 	virtual inline SpaceFloat getDefaultFovAngle() const { return float_pi / 4.0; }
@@ -73,9 +33,9 @@ public:
 	virtual bool isAgentAnimation() const { return true; }
 	virtual inline int pixelWidth() const { return 512; }
 
-	virtual void initStateMachine(ai::StateMachine& sm);
-protected:
-	string waypointName;
+	void maintain_distance(ai::StateMachine& sm, const ValueMap& args);
+	void circle_and_fire(ai::StateMachine& sm, const ValueMap& args);
+	void circle_around_point(ai::StateMachine& sm, const ValueMap& args);
 };
 
 class Fairy2 :

@@ -28,23 +28,27 @@
   <object id="32" x="0" y="128" width="256" height="896"/>
  </objectgroup>
  <objectgroup name="objects">
-  <object id="42" type="Fairy1A" x="1024" y="896" width="128" height="128">
+  <object id="42" type="Fairy1" x="1024" y="896" width="128" height="128">
    <properties>
+    <property name="ai_package" value="circle_and_fire"/>
     <property name="direction" value="up"/>
    </properties>
   </object>
-  <object id="43" type="Fairy1A" x="896" y="1024" width="128" height="128">
+  <object id="43" type="Fairy1" x="896" y="1024" width="128" height="128">
    <properties>
+    <property name="ai_package" value="circle_and_fire"/>
     <property name="direction" value="left"/>
    </properties>
   </object>
-  <object id="44" type="Fairy1A" x="1152" y="1024" width="128" height="128">
+  <object id="44" type="Fairy1" x="1152" y="1024" width="128" height="128">
    <properties>
+    <property name="ai_package" value="circle_and_fire"/>
     <property name="direction" value="right"/>
    </properties>
   </object>
-  <object id="45" type="Fairy1A" x="1024" y="1152" width="128" height="128">
+  <object id="45" type="Fairy1" x="1024" y="1152" width="128" height="128">
    <properties>
+    <property name="ai_package" value="circle_and_fire"/>
     <property name="direction" value="down"/>
    </properties>
   </object>

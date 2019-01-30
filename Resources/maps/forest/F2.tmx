@@ -28,26 +28,30 @@
   <object id="32" x="0" y="128" width="256" height="896"/>
  </objectgroup>
  <objectgroup name="objects">
-  <object id="42" type="Fairy1B" x="1024" y="768" width="128" height="128">
+  <object id="42" type="Fairy1" x="1024" y="768" width="128" height="128">
    <properties>
+    <property name="ai_package" value="circle_around_point"/>
     <property name="direction" value="up"/>
     <property name="waypoint" value="wp1"/>
    </properties>
   </object>
-  <object id="43" type="Fairy1B" x="768" y="1024" width="128" height="128">
+  <object id="43" type="Fairy1" x="768" y="1024" width="128" height="128">
    <properties>
+    <property name="ai_package" value="circle_around_point"/>
     <property name="direction" value="left"/>
     <property name="waypoint" value="wp1"/>
    </properties>
   </object>
-  <object id="44" type="Fairy1B" x="1280" y="1024" width="128" height="128">
+  <object id="44" type="Fairy1" x="1280" y="1024" width="128" height="128">
    <properties>
+    <property name="ai_package" value="circle_around_point"/>
     <property name="direction" value="right"/>
     <property name="waypoint" value="wp1"/>
    </properties>
   </object>
-  <object id="45" type="Fairy1B" x="1024" y="1280" width="128" height="128">
+  <object id="45" type="Fairy1" x="1024" y="1280" width="128" height="128">
    <properties>
+    <property name="ai_package" value="circle_around_point"/>
     <property name="direction" value="down"/>
     <property name="waypoint" value="wp1"/>
    </properties>

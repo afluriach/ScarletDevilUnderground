@@ -104,6 +104,36 @@ public:
 	}
 };
 
+template<class C>
+class AIPackage : virtual public Agent
+{
+public: 
+	using fsmInitFunction = void(C::*)(ai::StateMachine&, const ValueMap& args);
+
+	typedef map<string, fsmInitFunction> AIPackageMap;
+
+	inline AIPackage(C* agent, const ValueMap& args, string _default) :
+	agent(agent),
+	args(args)
+	{
+		packageName = getStringOrDefault(args, "ai_package", _default);
+	}
+
+	inline virtual void initStateMachine(ai::StateMachine& sm)
+	{
+		auto it = C::aiPackages.find(packageName);
+		if (it != C::aiPackages.end()){
+			fsmInitFunction f = it->second;
+			(agent->*f)(sm, args);
+		}
+		args.clear();
+	}
+protected:
+	string packageName;
+	C* agent;
+	ValueMap args;
+};
+
 class GenericAgent : virtual public Agent, public BaseAttributes<GenericAgent>
 {
 public:

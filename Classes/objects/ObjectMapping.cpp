@@ -98,8 +98,6 @@ const unordered_map<string, GObject::AdapterType> GObject::adapters = {
 	entry_same(Door),
 	entry_same(Facer),
 	entry_same(Fairy1),
-	entry_same(Fairy1A),
-	entry_same(Fairy1B),
 	entry_same(Fairy2),
 	entry_same(Flower),
 	entry_same(Follower),
@@ -156,8 +154,6 @@ const set<type_index> GSpace::trackedTypes = {
 
 const set<type_index> GSpace::enemyTypes = {
 	typeid(Fairy1),
-	typeid(Fairy1A),
-	typeid(Fairy1B),
 	typeid(Fairy2),
 	typeid(IceFairy),
 	

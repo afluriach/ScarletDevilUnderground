@@ -14,18 +14,25 @@
 #include "value_map.hpp"
 
 const AttributeMap Fairy1::baseAttributes = {
-	{Attribute::maxHP, 5.0f},
-	{Attribute::speed, 3.0f},
-	{Attribute::acceleration, 4.5f}
+	{ Attribute::maxHP, 30.0f },
+	{ Attribute::speed, 3.0f },
+	{ Attribute::acceleration, 4.5f }
+};
+
+const AIPackage<Fairy1>::AIPackageMap Fairy1::aiPackages = {
+	{"maintain_distance", &Fairy1::maintain_distance},
+	{"circle_and_fire", &Fairy1::circle_and_fire},
+	{"circle_around_point", &Fairy1::circle_around_point}
 };
 
 Fairy1::Fairy1(GSpace* space, ObjectIDType id, const ValueMap& args) :
 	MapObjForwarding(GObject),
 	MapObjForwarding(Agent),
+	AIPackage<Fairy1>(this, args, "maintain_distance"),
 	Enemy(collectible_id::power1)
 {}
 
-void Fairy1::initStateMachine(ai::StateMachine& sm) {
+void Fairy1::maintain_distance(ai::StateMachine& sm, const ValueMap& args) {
 	addThread(make_shared<ai::Detect>(
 		"player",
 		[](GObject* target) -> shared_ptr<ai::Function> {
@@ -34,19 +41,7 @@ void Fairy1::initStateMachine(ai::StateMachine& sm) {
 	));
 }
 
-const AttributeMap Fairy1A::baseAttributes = {
-	{ Attribute::maxHP, 30.0f },
-	{ Attribute::speed, 3.0f },
-	{ Attribute::acceleration, 4.5f }
-};
-
-Fairy1A::Fairy1A(GSpace* space, ObjectIDType id, const ValueMap& args) :
-	MapObjForwarding(GObject),
-	MapObjForwarding(Agent),
-	Enemy(collectible_id::power1)
-{}
-
-void Fairy1A::initStateMachine(ai::StateMachine& sm) {
+void Fairy1::circle_and_fire(ai::StateMachine& sm, const ValueMap& args) {
 	addThread(make_shared<ai::LookAround>(float_pi / 4.0));
 	addThread(make_shared<ai::FireIfTargetVisible>(
 		make_shared<Fairy1ABulletPattern>(this),
@@ -54,20 +49,9 @@ void Fairy1A::initStateMachine(ai::StateMachine& sm) {
 	));
 }
 
-const AttributeMap Fairy1B::baseAttributes = {
-	{ Attribute::maxHP, 30.0f },
-	{ Attribute::speed, .1f },
-	{ Attribute::acceleration, 4.5f }
-};
+void Fairy1::circle_around_point(ai::StateMachine& sm, const ValueMap& args) {
+	string waypointName = getStringOrDefault(args, "waypoint", "");
 
-Fairy1B::Fairy1B(GSpace* space, ObjectIDType id, const ValueMap& args) :
-	MapObjForwarding(GObject),
-	MapObjForwarding(Agent),
-	Enemy(collectible_id::power1),
-	waypointName(getStringOrDefault(args, "waypoint", ""))
-{}
-
-void Fairy1B::initStateMachine(ai::StateMachine& sm) {
 	if (!waypointName.empty()){
 		SpaceVect waypoint = space->getWaypoint(waypointName);
 		SpaceFloat angularPos = ai::directionToTarget(this, waypoint).toAngle() + float_pi;
