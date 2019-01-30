@@ -34,10 +34,7 @@ const map<EventKeyboard::KeyCode, ControlActionState> ControlRegister::keyAction
 	key_action_1(KEY_X,dialogSkip),
 	key_action_1(KEY_M,mapMenu),
 
-	key_action_1(KEY_1,spell1),
-	key_action_1(KEY_2, spell2),
-	key_action_1(KEY_3, spell3),
-	key_action_1(KEY_4, spell4),
+	key_action_1(KEY_1, spell),
 
 	key_action_1(KEY_COMMA, firePatternPrev),
 	key_action_1(KEY_PERIOD, firePatternNext),
@@ -71,10 +68,7 @@ const map<gainput::PadButton, ControlActionState> ControlRegister::buttonActionM
 	button_action_1(PadButtonL1, walk),
 	button_action_1(PadButtonR1, sprint),
 
-	button_action_1(PadButtonUp, spell1),
-	button_action_1(PadButtonRight, spell2),
-	button_action_1(PadButtonDown, spell3),
-	button_action_1(PadButtonLeft, spell4),
+	button_action_1(PadButtonX, spell),
 };
 #endif
 

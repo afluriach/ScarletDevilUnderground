@@ -171,18 +171,12 @@ void Player::checkMovementControls(const ControlInfo& cs)
 
 void Player::updateSpellControls(const ControlInfo& cs)
 {
-    if(crntSpell.get())
-    {
-        if(cs.isControlActionPressed(ControlAction::spell1)){
-            stopSpell();
-        }
-    }
-    else
+    if(!crntSpell.get())
     {
 		attributeSystem.timerDecrement(Attribute::spellCooldown);
         
 		if (
-			cs.isControlActionPressed(ControlAction::spell1) &&
+			cs.isControlActionPressed(ControlAction::spell) &&
 			equippedSpell &&
 			!attributeSystem.isNonzero(Attribute::spellCooldown) &&
 			attributeSystem.isNonzero(Attribute::mp)

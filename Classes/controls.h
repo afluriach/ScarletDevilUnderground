@@ -41,10 +41,7 @@ enum class ControlAction
     interact,
     enter,
 
-    spell1,
-    spell2,
-    spell3,
-    spell4,
+    spell,
 
 	firePatternPrev,
 	firePatternNext,
