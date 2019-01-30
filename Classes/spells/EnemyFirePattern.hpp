@@ -19,7 +19,7 @@ public:
 	//not relevant for enemy fire patterns
 	virtual string iconPath() const { return ""; }
 
-	virtual boost::rational<int> getCooldownTime() { return 1; }
+	virtual boost::rational<int> getCooldownTime() { return 2.0; }
 	virtual GObject::GeneratorType spawn(SpaceFloat angle, SpaceVect pos);
 };
 
@@ -31,7 +31,7 @@ public:
 	//not relevant for enemy fire patterns
 	virtual string iconPath() const { return ""; }
 
-	virtual boost::rational<int> getCooldownTime() { return 1; }
+	virtual boost::rational<int> getCooldownTime() { return 1.5; }
 	virtual list<GObject::GeneratorType> spawn(SpaceFloat angle, SpaceVect pos);
 };
 
