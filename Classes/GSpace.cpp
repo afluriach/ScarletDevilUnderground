@@ -456,16 +456,32 @@ void GSpace::setInitialObjectCount()
 map<type_index, pair<unsigned int, unsigned int>> GSpace::getEnemyStats()
 {
 	map<type_index, pair<unsigned int, unsigned int>> result;
+	map<type_index, pair<unsigned int, unsigned int>> spawnerEnemyCount;
+
+	set<GObject*> _objs = objByType[typeid(Spawner)];
+	for (GObject* _obj : _objs)
+	{
+		Spawner* s = dynamic_cast<Spawner*>(_obj);
+		type_index t = s->getSpawnType();
+		
+		auto it = spawnerEnemyCount.find(t);
+		if (it == spawnerEnemyCount.end()) {
+			spawnerEnemyCount.insert_or_assign(t, pair<unsigned int, unsigned int>(0, 0));
+		}
+
+		spawnerEnemyCount.at(t).first += s->getSpawnCount();
+		spawnerEnemyCount.at(t).second += s->getSpawnLimit();
+	}
 
 	for (type_index t : enemyTypes)
 	{
-		if (initialObjectCount[t] == 0) {
+		if (initialObjectCount[t] == 0 && spawnerEnemyCount[t].second == 0) {
 			continue;
 		}
 
 		result[t] = pair<unsigned int, unsigned int>(
-			initialObjectCount[t] - objByType[t].size(),
-			initialObjectCount[t]
+			initialObjectCount[t] + spawnerEnemyCount[t].first - objByType[t].size(),
+			initialObjectCount[t] + spawnerEnemyCount[t].second
 		);
 	}
 

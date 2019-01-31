@@ -90,7 +90,6 @@ GObject::AdapterType playerAdapter()
 
 const unordered_map<string, GObject::AdapterType> GObject::adapters = {
 	entry_same(AgilityUpgrade),
-	entry_same(BossRoomSensor),
 	entry_same(BreakableWall),
 	entry_same(CollectGlyph),
 	entry_same(CollectMarisa),
@@ -137,7 +136,6 @@ const unordered_map<string, GObject::AdapterType> GObject::adapters = {
 	entry_same(TeleportPad),
 	entry_same(Tewi),
 	entry_same(Torch),
-	entry_same(TrapRoomSensor),
 	entry_same(Wall),
 
 	{ "Player", playerAdapter() }
@@ -145,6 +143,7 @@ const unordered_map<string, GObject::AdapterType> GObject::adapters = {
 
 const set<type_index> GSpace::trackedTypes = {
 	typeid(Door),
+	typeid(Spawner),
 	typeid(TeleportPad),
 
 	//virtual tracked types
@@ -167,4 +166,18 @@ const set<type_index> GSpace::enemyTypes = {
 	typeid(Slime1),
 	typeid(Slime2),
 	typeid(Stalker),
+};
+
+#define _nameTypeEntry(cls) {#cls, typeid(cls)}
+
+const map<string,type_index> GSpace::enemyNameTypeMap = {
+	_nameTypeEntry(Fairy1),
+	_nameTypeEntry(Fairy2),
+	_nameTypeEntry(IceFairy),
+
+	_nameTypeEntry(Scorpion1),
+	_nameTypeEntry(Scorpion2),
+	_nameTypeEntry(Slime1),
+	_nameTypeEntry(Slime2),
+	_nameTypeEntry(Stalker),
 };

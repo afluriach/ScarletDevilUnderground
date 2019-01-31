@@ -1,5 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <map version="1.0" tiledversion="1.0.3" orientation="orthogonal" renderorder="right-down" width="17" height="17" tilewidth="128" tileheight="128" nextobjectid="59">
+ <properties>
+  <property name="room_type" value="trap_room"/>
+  <property name="trap_doors" value="door-c9-north"/>
+ </properties>
  <tileset firstgid="1" name="ice_wall" tilewidth="128" tileheight="128" tilecount="4" columns="2">
   <image source="ice_wall.png" width="256" height="256"/>
  </tileset>
@@ -57,10 +61,5 @@
   <object id="55" type="Scorpion1" x="384" y="1408" width="128" height="128"/>
   <object id="56" type="Scorpion1" x="1664" y="1408" width="128" height="128"/>
   <object id="57" type="Scorpion1" x="1664" y="768" width="128" height="128"/>
-  <object id="58" type="TrapRoomSensor" x="128" y="128" width="1920" height="1920">
-   <properties>
-    <property name="doors" value="door-c9-north"/>
-   </properties>
-  </object>
  </objectgroup>
 </map>

@@ -62,6 +62,7 @@ public:
     static const bool logObjectArgs;
 	static const set<type_index> trackedTypes;
 	static const set<type_index> enemyTypes;
+	static const map<string, type_index> enemyNameTypeMap;
 
 	void addWallBlock(const SpaceVect& ll, const SpaceVect& ur);
 	void addWallBlock(const SpaceRect& area);

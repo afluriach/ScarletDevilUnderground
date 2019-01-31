@@ -10,6 +10,7 @@
 
 
 #include "App.h"
+#include "AreaSensor.hpp"
 #include "controls.h"
 #include "Dialog.hpp"
 #include "functional.hpp"
@@ -741,6 +742,38 @@ void GScene::loadMap(const MapEntry& mapEntry)
 		max(dimensions.first, to_int(size.width) + mapEntry.second.first),
 		max(dimensions.second, to_int(size.height) + mapEntry.second.second)
 	);
+
+	const ValueMap& props = tileMap->getProperties();
+	string roomType = getStringOrDefault(props, "room_type", "");
+
+	if (roomType == "boss_room")
+	{
+		gspace->createObject(GObject::make_object_factory<BossRoomSensor>(
+			mapRect.center,
+			mapRect.dimensions,
+			tilemaps.size() - 1,
+			props
+		));
+	}
+	else if (roomType == "trap_room")
+	{
+		gspace->createObject(GObject::make_object_factory<TrapRoomSensor>(
+			mapRect.center,
+			mapRect.dimensions,
+			tilemaps.size() - 1,
+			props
+			));
+	}
+	else
+	{
+		gspace->createObject(GObject::make_object_factory<RoomSensor>(
+			mapRect.center,
+			mapRect.dimensions,
+			tilemaps.size() - 1,
+			props
+			));
+	}
+
 }
 
 void GScene::loadMapObjects(const TMXTiledMap& map, IntVec2 offset)

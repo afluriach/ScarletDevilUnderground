@@ -34,8 +34,8 @@ public:
 
 	virtual bool isObstructed() const;
 
-	void onPlayerContact(Player*);
-	void onPlayerEndContact(Player*);
+	virtual void onPlayerContact(Player*);
+	virtual void onPlayerEndContact(Player*);
 
 	void onEnemyContact(Enemy*);
 	void onEnemyEndContact(Enemy*);
@@ -48,13 +48,24 @@ protected:
 	object_ref<Player> player;
 };
 
+class RoomSensor : public AreaSensor
+{
+public:
+	RoomSensor(GSpace* space, ObjectIDType id, SpaceVect center, SpaceVect dimensions, int mapID, const ValueMap& props);
+
+	virtual void onPlayerContact(Player* p);
+	virtual void onPlayerEndContact(Player* p);
+
+	const int mapID;
+};
+
 class TrapRoomSensor :
-	public AreaSensor,
+	public RoomSensor,
 	public RegisterInit<TrapRoomSensor>,
 	public RegisterUpdate<TrapRoomSensor>
 {
 public:
-	TrapRoomSensor(GSpace* space, ObjectIDType id, const ValueMap& args);
+	TrapRoomSensor(GSpace* space, ObjectIDType id, SpaceVect center, SpaceVect dimensions, int mapID, const ValueMap& props);
 
 	void init();
 	void update();
@@ -65,12 +76,12 @@ protected:
 };
 
 class BossRoomSensor :
-	public AreaSensor,
+	public RoomSensor,
 	public RegisterInit<BossRoomSensor>,
 	public RegisterUpdate<BossRoomSensor>
 {
 public:
-	BossRoomSensor(GSpace* space, ObjectIDType id, const ValueMap& args);
+	BossRoomSensor(GSpace* space, ObjectIDType id, SpaceVect center, SpaceVect dimensions, int mapID, const ValueMap& props);
 
 	void init();
 	void update();

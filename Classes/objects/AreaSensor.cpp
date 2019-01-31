@@ -34,7 +34,7 @@ PhysicsLayers AreaSensor::getLayers() const{
 
 bool AreaSensor::isObstructed() const
 {
-	return !player.isValid() && enemies.empty() && environmentalObjects.empty();
+	return player.isValid() || !enemies.empty() || !environmentalObjects.empty();
 }
 
 void AreaSensor::onPlayerContact(Player* p) {
@@ -61,13 +61,34 @@ void AreaSensor::onEnvironmentalObjectEndContact(GObject* obj) {
 	environmentalObjects.erase(obj);
 }
 
-TrapRoomSensor::TrapRoomSensor(GSpace* space, ObjectIDType id, const ValueMap& args) :
-	GObject(space,id,args),
-	AreaSensor(space,id,args),
-	RegisterInit(this),
-	RegisterUpdate(this)
+RoomSensor::RoomSensor(GSpace* space, ObjectIDType id, SpaceVect center, SpaceVect dimensions, int mapID, const ValueMap& props) :
+	GObject(space, id, "", center, 0.0f, true),
+	AreaSensor(space,id,center,dimensions),
+	mapID(mapID)
 {
-	doorNames = splitString(getStringOrDefault(args,"doors",""), " ");
+
+}
+
+void RoomSensor::onPlayerContact(Player* p)
+{
+	AreaSensor::onPlayerContact(p);
+	log("Player entered room %d.", mapID);
+}
+
+void RoomSensor::onPlayerEndContact(Player* p)
+{
+	AreaSensor::onPlayerEndContact(p);
+	log("Player left room %d.", mapID);
+}
+
+
+TrapRoomSensor::TrapRoomSensor(GSpace* space, ObjectIDType id, SpaceVect center, SpaceVect dimensions, int mapID, const ValueMap& props) :
+	GObject(space, id, "", center, 0.0f, true),
+	RoomSensor(space,id,center,dimensions, mapID, props),
+	RegisterInit(this),
+	RegisterUpdate<TrapRoomSensor>(this)
+{
+	doorNames = splitString(getStringOrDefault(props,"trap_doors",""), " ");
 }
 
 void TrapRoomSensor::init()
@@ -100,13 +121,13 @@ void TrapRoomSensor::update()
 	}
 }
 
-BossRoomSensor::BossRoomSensor(GSpace* space, ObjectIDType id, const ValueMap& args) :
-	GObject(space, id, args),
-	AreaSensor(space, id, args),
+BossRoomSensor::BossRoomSensor(GSpace* space, ObjectIDType id, SpaceVect center, SpaceVect dimensions, int mapID, const ValueMap& props) :
+	GObject(space, id, "", center, 0.0f, true),
+	RoomSensor(space, id, center,dimensions, mapID, props),
 	RegisterInit(this),
 	RegisterUpdate(this)
 {
-	bossName = getStringOrDefault(args, "boss", "");
+	bossName = getStringOrDefault(props, "boss", "");
 }
 
 void BossRoomSensor::init()
