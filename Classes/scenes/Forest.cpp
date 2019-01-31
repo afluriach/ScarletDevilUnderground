@@ -13,10 +13,10 @@
 const IntVec2 Forest::roomSize = IntVec2(17,17);
 
 const vector<GScene::MapEntry> Forest::rooms = {
-	{make_pair("forest/F3", getRoomOffset(roomSize, 0, 0))},
-	{make_pair("forest/F0", getRoomOffset(roomSize, 1, 0))},
-	{make_pair("forest/F1", getRoomOffset(roomSize, 2, 0))},
-	{make_pair("forest/F2", getRoomOffset(roomSize, 3, 0))},
+	{make_pair("forest/F3", IntVec2(0,1))},
+	{make_pair("forest/F0", IntVec2(53,16))},
+	{make_pair("forest/F1", IntVec2(70,16))},
+	{make_pair("forest/F2", IntVec2(87,16))},
 };
 
 Forest::Forest() :

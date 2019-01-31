@@ -655,6 +655,15 @@ int GScene::getPlayerRoom()
 	return crntMap;
 }
 
+void GScene::eraseTile(int mapID, IntVec2 pos, string layer)
+{
+	TMXTiledMap* map = tilemaps.at(mapID);
+
+	TMXLayer* _layer = map->getLayer(layer);
+
+	_layer->setTileGID(0, Vec2(pos.first, pos.second));
+}
+
 void GScene::teleportToDoor(string name)
 {
 	gspace->addObjectAction([=]()->void {
@@ -826,9 +835,17 @@ void GScene::loadWalls(const TMXTiledMap& map, IntVec2 offset)
 
 	for(const Value& obj: walls->getObjects())
 	{
-		const ValueMap& objAsMap = obj.asValueMap();
-		SpaceRect area = getUnitspaceRectangle(objAsMap, offset);
-		gspace->addWallBlock(area);
+		ValueMap objAsMap = obj.asValueMap();
+		string _type = objAsMap.at("type").asString();
+
+		if (_type.empty()) {
+			SpaceRect area = getUnitspaceRectangle(objAsMap, offset);
+			gspace->addWallBlock(area);
+		}
+		else {
+			convertToUnitSpace(objAsMap, offset);
+			gspace->createObject(objAsMap);
+		}
 	}
 }
 

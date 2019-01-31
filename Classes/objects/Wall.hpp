@@ -23,4 +23,16 @@ public:
     virtual PhysicsLayers getLayers() const;    
 };
 
+class BreakableWall : public Wall
+{
+public:
+	static const int defaultHP;
+
+	MapObjCons(BreakableWall);
+	void onCollide(Bullet* b);
+protected:
+	int hp;
+};
+
+
 #endif /* Wall_hpp */

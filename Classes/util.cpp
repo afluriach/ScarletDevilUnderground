@@ -201,6 +201,19 @@ int getAreaIndex(const vector<SpaceRect>& areas, const SpaceRect& target)
 	return -1;
 }
 
+int getAreaIndex(const vector<SpaceRect>& areas, const SpaceVect& target)
+{
+	for_irange(i, 0, areas.size())
+	{
+		SpaceRect mapArea = areas.at(i);
+
+		if (mapArea.containsPoint(target)) {
+			return i;
+		}
+	}
+	return -1;
+}
+
 SpaceRect calculateCameraArea(const SpaceVect& pos)
 {
 	SpaceFloat heightRatio = 1.0f * App::height / App::width;

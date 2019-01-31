@@ -91,6 +91,7 @@ GObject::AdapterType playerAdapter()
 const unordered_map<string, GObject::AdapterType> GObject::adapters = {
 	entry_same(AgilityUpgrade),
 	entry_same(BossRoomSensor),
+	entry_same(BreakableWall),
 	entry_same(CollectGlyph),
 	entry_same(CollectMarisa),
 	entry_same(Block),

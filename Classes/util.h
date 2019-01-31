@@ -35,6 +35,7 @@ Color3B toColor3B(const string& s);
 
 bool isInArea(const vector<SpaceRect>& areas, const SpaceVect& target, int index);
 int getAreaIndex(const vector<SpaceRect>& areas, const SpaceRect& target);
+int getAreaIndex(const vector<SpaceRect>& areas, const SpaceVect& p);
 SpaceRect calculateCameraArea(const SpaceVect& pos);
 
 SpaceFloat canonicalAngle(SpaceFloat a);

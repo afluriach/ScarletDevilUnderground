@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.0" tiledversion="1.0.3" orientation="orthogonal" renderorder="right-down" width="17" height="17" tilewidth="128" tileheight="128" nextobjectid="46">
+<map version="1.0" tiledversion="1.0.3" orientation="orthogonal" renderorder="right-down" width="17" height="17" tilewidth="128" tileheight="128" nextobjectid="47">
  <tileset firstgid="1" name="tree wall" tilewidth="128" tileheight="128" tilecount="4" columns="2">
   <image source="tree-wall.png" width="256" height="256"/>
  </tileset>
@@ -54,6 +54,12 @@
     <property name="ai_package" value="circle_and_fire"/>
     <property name="attributes_package" value="low_hp"/>
     <property name="direction" value="down"/>
+   </properties>
+  </object>
+  <object id="46" name="door-f1-west" type="Door" x="0" y="1024" width="128" height="128">
+   <properties>
+    <property name="dest" value="door-f0-east"/>
+    <property name="dir" value="right"/>
    </properties>
   </object>
  </objectgroup>

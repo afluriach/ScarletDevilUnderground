@@ -20,6 +20,7 @@ bool validateMapArg(const ValueMap& args, string name);
 ValueMap getSpawnArgs(const ValueMap& args);
 
 int getInt(const ValueMap& obj, const string& name);
+int getIntOrDefault(const ValueMap& obj, const string& name, int def);
 
 float getFloat(const ValueMap& obj, const string& name);
 float getFloatOrDefault(const ValueMap& obj, const string& name, float def);

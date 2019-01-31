@@ -509,6 +509,24 @@ bool GSpace::getSuppressAction()
 	return suppressAction;
 }
 
+void GSpace::eraseTile(const SpaceVect& p, string layer)
+{
+	pair<int, IntVec2> tile = getTilePosition(p);
+
+	if (tile.first != -1)
+	{
+		eraseTile(tile.first, tile.second, layer);
+	}
+}
+
+void GSpace::eraseTile(int mapID, IntVec2 pos, string layer)
+{
+	addSceneAction(
+		bind(&GScene::eraseTile, gscene, mapID, pos, layer),
+		GScene::updateOrder::sceneUpdate
+	);
+}
+
 void GSpace::updatePlayerMapLocation(const SpaceVect& pos)
 {
 	for (int i = 0; i < mapAreas.size(); ++i) {
@@ -558,6 +576,20 @@ bool GSpace::isInCameraArea(SpaceRect r)
 bool GSpace::isInPlayerRoom(SpaceVect v)
 {
 	return isInArea(mapAreas, v, crntMap);
+}
+
+pair<int, IntVec2> GSpace::getTilePosition(SpaceVect p)
+{
+	int mapID = getAreaIndex(mapAreas, p);
+
+	if (mapID == -1) {
+		return make_pair(-1, IntVec2(0, 0));
+	}
+
+	SpaceRect map = mapAreas.at(mapID);
+	IntVec2 mapPos(floor(p.x) - map.getMinX(), map.getMaxY() - ceil(p.y));
+
+	return make_pair(mapID,mapPos);
 }
 
 int GSpace::getPlayerRoom()
@@ -1269,9 +1301,15 @@ int GSpace::bulletWall(GObject* bullet, GObject* wall)
 {
 	Bullet* _b = dynamic_cast<Bullet*>(bullet);
 	Wall* _w = dynamic_cast<Wall*>(wall);
+	BreakableWall* _bw = dynamic_cast<BreakableWall*>(wall);
+	bool _sensor = cpShapeGetSensor(wall->bodyShape);
 
-	if (_b && _w) {
+	if (_b && _w && !_sensor) {
 		_b->onWallCollide(_w);
+	}
+
+	if (_b && _bw && !_sensor) {
+		_bw->onCollide(_b);
 	}
 
     return 1;

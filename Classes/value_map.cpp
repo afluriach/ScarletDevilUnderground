@@ -54,6 +54,18 @@ int getInt(const ValueMap& args, const string& name)
 	return args.at(name).asInt();
 }
 
+int getIntOrDefault(const ValueMap& obj, const string& name, int def)
+{
+	auto it = obj.find(name);
+
+	if (it != obj.end()) {
+		return it->second.asInt();
+	}
+	else {
+		return def;
+	}
+}
+
 float getFloat(const ValueMap& args, const string& name)
 {
     return args.at(name).asFloat();

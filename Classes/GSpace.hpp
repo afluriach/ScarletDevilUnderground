@@ -140,11 +140,14 @@ public:
 	void addSceneAction(pair<function<void(void)>, GScene::updateOrder> entry);
 	void addSceneAction(function<void(void)> f, GScene::updateOrder order);
 
+	void eraseTile(const SpaceVect& p, string layer);
+	void eraseTile(int mapID, IntVec2 pos, string layer);
 	void updatePlayerMapLocation(const SpaceVect& pos);
 	void addMapArea(const SpaceRect& area);
 	SpaceRect getCameraArea();
 	const vector<SpaceRect>& getMapAreas();
 	int getMapLocation(SpaceRect r);
+	pair<int, IntVec2> getTilePosition(SpaceVect p);
 	bool isInCameraArea(SpaceRect r);
 	bool isInPlayerRoom(SpaceVect v);
 	int getPlayerRoom();

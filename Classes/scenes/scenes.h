@@ -184,6 +184,7 @@ public:
 	bool isInCameraArea(SpaceRect r);
 	bool isInPlayerRoom(SpaceVect v);
 	int getPlayerRoom();
+	void eraseTile(int mapID, IntVec2 pos, string layer);
 
 	void updateMapVisibility(SpaceVect playerPos);
 	

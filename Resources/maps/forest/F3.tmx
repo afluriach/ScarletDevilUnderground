@@ -1,84 +1,68 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.0" tiledversion="1.0.3" orientation="orthogonal" renderorder="right-down" width="17" height="17" tilewidth="128" tileheight="128" nextobjectid="54">
- <tileset firstgid="1" name="tree wall" tilewidth="128" tileheight="128" tilecount="4" columns="2">
-  <image source="tree-wall.png" width="256" height="256"/>
+<map version="1.0" tiledversion="1.0.3" orientation="orthogonal" renderorder="right-down" width="53" height="37" tilewidth="128" tileheight="128" nextobjectid="104">
+ <tileset firstgid="1" name="dirt1" tilewidth="128" tileheight="128" tilecount="4" columns="2">
+  <image source="dirt1.png" width="256" height="256"/>
  </tileset>
- <tileset firstgid="5" name="grass floor" tilewidth="128" tileheight="128" tilecount="4" columns="2">
-  <image source="grass-floor.png" width="256" height="256"/>
+ <tileset firstgid="5" name="forest_dirt_wall" tilewidth="128" tileheight="128" tilecount="4" columns="4">
+  <image source="forest_dirt_wall.png" width="512" height="128"/>
  </tileset>
- <layer name="floor" width="17" height="17">
+ <layer name="floor" width="53" height="37">
   <data encoding="base64" compression="zlib">
-   eJxjYGBgYANiVjJpEGAHYg4KaXLtR6ZH3THqjlF30NcdDBS6AwQAPlgHKg==
+   eJzt00EOgCAMRFFQ739m8QCGKVH4JfMT0g0s7Iul6F3tnPAZ7Winwmc0goOd+hEc7NSP4DDq9PbNBAfVSb1PcFCd1PsEB8Up8obgoDhF3hAc7GQn6tzRqdpp+f79P+3lpJbJKRLB4UunJ4KDnfoRHOw01p87XNXsHc7ITjmyU47slCM75YjodAM4lQz7
   </data>
  </layer>
- <layer name="wall_tiles" width="17" height="17">
+ <layer name="wall_tiles" width="53" height="37">
   <data encoding="base64" compression="zlib">
-   eJxjYmBgYARiJgpoFiBmppCGmUUOgOmFmUUOGHUHdndQAwwWv4y6A7s7KKEpzfcgGgCKDgEj
+   eJztl90KgCAMRtdF5fs/cXkhQVD7aThn34FdzS1PwiwiGdsZuzBIsdY7itCnOVnyT8/g+nnXWXrBCU4edZZef3J6mk9cP2tdeanV9uLyvahO0r1I7qcR0DplAE45gFMOFprPacZzglMOtE4rEyNQnbh9tsj0vScFThfceXvnI/4J7+u883Cy5eHU30k696PjC9r5rXmHUcAJTlHACU5RwCmPk+Z+7+V0AO1gB50=
   </data>
  </layer>
- <objectgroup name="floor">
-  <object id="35" type="GrassFloor" x="0" y="0" width="2176" height="2176"/>
- </objectgroup>
+ <objectgroup name="floor"/>
  <objectgroup name="walls">
-  <object id="26" x="0" y="0" width="2048" height="256"/>
-  <object id="27" x="1920" y="0" width="256" height="1024"/>
-  <object id="28" x="0" y="1920" width="2176" height="256"/>
-  <object id="29" x="0" y="1152" width="256" height="1024"/>
-  <object id="31" x="1920" y="1152" width="256" height="896"/>
-  <object id="32" x="0" y="128" width="256" height="896"/>
+  <object id="57" x="0" y="896" width="128" height="1664"/>
+  <object id="58" x="128" y="2432" width="1152" height="128"/>
+  <object id="60" x="128" y="896" width="1152" height="128"/>
+  <object id="61" x="1280" y="0" width="128" height="1664"/>
+  <object id="62" x="1280" y="1792" width="128" height="1664"/>
+  <object id="63" x="1408" y="3328" width="1280" height="128"/>
+  <object id="64" x="2816" y="3328" width="3968" height="128"/>
+  <object id="66" x="6656" y="1792" width="128" height="1536"/>
+  <object id="67" x="6656" y="0" width="128" height="1664"/>
+  <object id="68" x="2816" y="0" width="3840" height="128"/>
+  <object id="69" x="3072" y="128" width="128" height="768"/>
+  <object id="70" x="3200" y="768" width="768" height="128"/>
+  <object id="72" x="3840" y="128" width="128" height="640"/>
+  <object id="73" x="4864" y="128" width="128" height="768"/>
+  <object id="76" x="4992" y="768" width="768" height="128"/>
+  <object id="77" x="5632" y="128" width="128" height="640"/>
+  <object id="78" x="6144" y="2688" width="512" height="128"/>
+  <object id="79" x="6144" y="2816" width="128" height="512"/>
+  <object id="80" x="5632" y="2688" width="128" height="640"/>
+  <object id="81" x="5120" y="2688" width="512" height="128"/>
+  <object id="83" x="5120" y="2816" width="128" height="512"/>
+  <object id="85" x="4608" y="2688" width="128" height="640"/>
+  <object id="86" x="4096" y="2688" width="512" height="128"/>
+  <object id="88" x="4096" y="2816" width="128" height="512"/>
+  <object id="89" x="3584" y="2688" width="128" height="640"/>
+  <object id="91" x="3072" y="2688" width="512" height="128"/>
+  <object id="93" x="3072" y="2816" width="128" height="512"/>
+  <object id="94" x="1408" y="2304" width="1024" height="128"/>
+  <object id="95" x="2304" y="2432" width="128" height="896"/>
+  <object id="96" x="1920" y="3456" width="128" height="1280"/>
+  <object id="97" x="2048" y="4608" width="1536" height="128"/>
+  <object id="98" x="3456" y="3456" width="128" height="1152"/>
+  <object id="99" type="BreakableWall" x="1280" y="1664" width="128" height="128"/>
+  <object id="100" type="BreakableWall" x="2688" y="3328" width="128" height="128"/>
+  <object id="101" x="1408" y="1024" width="1024" height="128"/>
+  <object id="102" x="2304" y="128" width="128" height="896"/>
+  <object id="103" x="1408" y="0" width="1280" height="128"/>
  </objectgroup>
  <objectgroup name="objects">
-  <object id="42" type="Fairy1" x="1664" y="384" width="128" height="128">
+  <object id="55" name="door-f3-east" type="Door" x="6656" y="1664" width="128" height="128">
    <properties>
-    <property name="ai_package" value="maintain_distance"/>
-    <property name="attributes_package" value="low_hp"/>
-    <property name="direction" value="down"/>
+    <property name="dest" value="door-f0-west"/>
+    <property name="dir" value="left"/>
    </properties>
   </object>
-  <object id="43" type="Fairy1" x="768" y="640" width="128" height="128">
-   <properties>
-    <property name="ai_package" value="circle_and_fire"/>
-    <property name="direction" value="left"/>
-   </properties>
-  </object>
-  <object id="46" type="Fairy1" x="384" y="384" width="128" height="128">
-   <properties>
-    <property name="ai_package" value="maintain_distance"/>
-    <property name="attributes_package" value="low_hp"/>
-    <property name="direction" value="down"/>
-   </properties>
-  </object>
-  <object id="48" type="Fairy1" x="1280" y="640" width="128" height="128">
-   <properties>
-    <property name="ai_package" value="circle_and_fire"/>
-    <property name="direction" value="right"/>
-   </properties>
-  </object>
-  <object id="49" type="Fairy1" x="384" y="1664" width="128" height="128">
-   <properties>
-    <property name="ai_package" value="maintain_distance"/>
-    <property name="attributes_package" value="low_hp"/>
-    <property name="direction" value="up"/>
-   </properties>
-  </object>
-  <object id="50" type="Fairy1" x="1280" y="1408" width="128" height="128">
-   <properties>
-    <property name="ai_package" value="circle_and_fire"/>
-    <property name="direction" value="right"/>
-   </properties>
-  </object>
-  <object id="52" type="Fairy1" x="1664" y="1664" width="128" height="128">
-   <properties>
-    <property name="ai_package" value="maintain_distance"/>
-    <property name="attributes_package" value="low_hp"/>
-    <property name="direction" value="up"/>
-   </properties>
-  </object>
-  <object id="53" type="Fairy1" x="768" y="1408" width="128" height="128">
-   <properties>
-    <property name="ai_package" value="circle_and_fire"/>
-    <property name="direction" value="left"/>
-   </properties>
-  </object>
+  <object id="56" name="door-f3-north" type="Door" x="2688" y="0" width="128" height="128"/>
  </objectgroup>
 </map>
