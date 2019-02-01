@@ -872,13 +872,11 @@ void GScene::loadWalls(const TMXTiledMap& map, IntVec2 offset)
 		string _type = objAsMap.at("type").asString();
 
 		if (_type.empty()) {
-			SpaceRect area = getUnitspaceRectangle(objAsMap, offset);
-			gspace->addWallBlock(area);
+			objAsMap.insert_or_assign("type", "Wall");
 		}
-		else {
-			convertToUnitSpace(objAsMap, offset);
-			gspace->createObject(objAsMap);
-		}
+
+		convertToUnitSpace(objAsMap, offset);
+		gspace->createObject(objAsMap);
 	}
 }
 

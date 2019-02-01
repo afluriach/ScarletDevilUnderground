@@ -305,7 +305,7 @@ void MapMenu::drawMaps()
 	{
 		FloorSegment* floor = ref.get();
 
-		if (dynamic_cast<MovingPlatform*>(floor)) {
+		if (dynamic_cast<MovingPlatform*>(floor) || floor->hidden) {
 			continue;
 		}
 		else if(dynamic_cast<Pitfall*>(floor)) {
@@ -317,7 +317,9 @@ void MapMenu::drawMaps()
 	}
 
 	for (auto ref : walls){
-		drawObject(ref.get()->getBoundingBox(), wallColor, wallColorCrnt);
+		if (!ref.get()->hidden) {
+			drawObject(ref.get()->getBoundingBox(), wallColor, wallColorCrnt);
+		}
 	}
 
 	for (auto ref : doors) {

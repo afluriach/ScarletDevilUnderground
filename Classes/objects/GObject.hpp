@@ -81,6 +81,7 @@ public:
 	//object identification, init, and update
 	const string name;
     const bool anonymous = false;
+	bool hidden = false;
 	const ObjectIDType uuid;
 	GSpace *const space;
 

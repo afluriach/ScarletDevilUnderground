@@ -36,6 +36,7 @@ GObject::GObject(GSpace* space, ObjectIDType uuid, const ValueMap& obj, bool ano
 	space(space),
 	name(!anonymous ? obj.at("name").asString() : ""),
 	uuid(uuid),
+	hidden(getBoolOrDefault(obj,"hidden", false)),
 	anonymous(anonymous)
 {
 	//Interpret coordinates as center, unit space.

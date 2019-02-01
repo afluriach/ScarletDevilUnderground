@@ -14,7 +14,8 @@
 #include "Wall.hpp"
 
 Wall::Wall(GSpace* space, ObjectIDType id, const ValueMap& args) :
-	GObject(space,id,args,true)
+	GObject(space,id,args,true),
+	RectangleBody(args)
 {}
 
 Wall::Wall(GSpace* space, ObjectIDType id, SpaceVect center, SpaceVect dimensions) :
@@ -41,5 +42,6 @@ void BreakableWall::onCollide(Bullet* b)
 	if (hp == 0) {
 		cpShapeSetSensor(bodyShape, true);
 		space->eraseTile(getPos(), "wall_tiles");
+		hidden = true;
 	}
 }
