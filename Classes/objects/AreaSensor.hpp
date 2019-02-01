@@ -48,6 +48,19 @@ protected:
 	object_ref<Player> player;
 };
 
+class HiddenSubroomSensor :
+	public AreaSensor,
+	public RegisterUpdate<HiddenSubroomSensor>
+{
+public:
+	HiddenSubroomSensor(GSpace* space, ObjectIDType id, const ValueMap& args);
+
+	void update();
+protected:
+	int roomID;
+	bool activated = false;
+};
+
 class RoomSensor : public AreaSensor
 {
 public:

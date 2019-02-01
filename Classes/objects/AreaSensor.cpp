@@ -61,6 +61,24 @@ void AreaSensor::onEnvironmentalObjectEndContact(GObject* obj) {
 	environmentalObjects.erase(obj);
 }
 
+HiddenSubroomSensor::HiddenSubroomSensor(GSpace* space, ObjectIDType id, const ValueMap& args) :
+	MapObjForwarding(GObject),
+	MapObjForwarding(AreaSensor),
+	roomID(getIntOrDefault(args, "id", -1)),
+	RegisterUpdate<HiddenSubroomSensor>(this)
+{
+
+}
+
+void HiddenSubroomSensor::update()
+{
+	if (player.isValid() && roomID != -1 && !activated)
+	{
+		space->clearSubroomMask(roomID);
+		activated = true;
+	}
+}
+
 RoomSensor::RoomSensor(GSpace* space, ObjectIDType id, SpaceVect center, SpaceVect dimensions, int mapID, const ValueMap& props) :
 	GObject(space, id, "", center, 0.0f, true),
 	AreaSensor(space,id,center,dimensions),

@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.0" tiledversion="1.0.3" orientation="orthogonal" renderorder="right-down" width="44" height="38" tilewidth="128" tileheight="128" nextobjectid="122">
+<map version="1.0" tiledversion="1.0.3" orientation="orthogonal" renderorder="right-down" width="44" height="38" tilewidth="128" tileheight="128" nextobjectid="135">
  <tileset firstgid="1" name="dirt1" tilewidth="128" tileheight="128" tilecount="4" columns="2">
   <image source="dirt1.png" width="256" height="256"/>
  </tileset>
@@ -8,30 +8,85 @@
  </tileset>
  <layer name="floor" width="44" height="38">
   <data encoding="base64" compression="zlib">
-   eJzt0DkKwDAAA0Hn+P+b43K7QBxczYJQP2N875q7N/xfHXPn5l9pl29/Jb58G1++jS/fxpdv48u38eXb+PJtfPk2vnwbX76NL9/G9/0fDiUKpw==
+   eJztlYEKwyAMBTX6/9+8FRI4wgYppQ0b70BircLjanWPMezdtrejX2X5mrsriYzm78/knT7/yRpep7d1Iu9Tflkjp6FV6fAb2flcpcvvL+3f6G/UKh1+wzH3cpUOv/ZhLM6Nlfr5m3T45X+WzwqOzbR2jx6/kTnvEd53OXuHV2bjHmbGcMj7JN8vHX55RnzzbWlOV71Ch98ryK/8EvmVXyK/8kvkV36J/MovkV/5JfIrv0R+/8/vC74zC8A=
   </data>
  </layer>
  <layer name="wall_tiles" width="44" height="38">
   <data encoding="base64" compression="zlib">
-   eJztzjEOwCAQxMBrAvz/xYGCEiIdchpsaattJiJf6auLxebLrh1Yp/fP9LLpZdPLppdNL5teNr1setn0sull08uml00vm142vWx62fSy3eZ9Nvv6MxveF1QvA0w=
+   eJzt2DEOgCAQAEEalf+/WAsbC5DcZUGTneQqQthQULCXp1rG7dccjSmdtejU+8xM70z2suxl2ctq9Y6+h1/onbE3asWZGX+93y0wq3oz7O2zl2Uvy16WvSx7Wfay7GXZy7KXZS/LXla2t/ef8rYe/aM5Af/fBHs=
   </data>
  </layer>
  <objectgroup name="floor">
   <object id="110" type="GrassFloor" x="2048" y="0" width="3456" height="4736"/>
+  <object id="125" type="GrassFloor" x="128" y="0" width="384" height="1536">
+   <properties>
+    <property name="hidden" value="true"/>
+   </properties>
+  </object>
+  <object id="126" type="GrassFloor" x="512" y="1152" width="1408" height="384">
+   <properties>
+    <property name="hidden" value="true"/>
+   </properties>
+  </object>
  </objectgroup>
  <objectgroup name="walls">
   <object id="111" x="2944" y="4736" width="2688" height="128"/>
   <object id="116" x="2048" y="4736" width="768" height="128"/>
-  <object id="117" x="1920" y="128" width="128" height="4736"/>
+  <object id="117" x="1920" y="1408" width="128" height="3456"/>
   <object id="119" x="1920" y="0" width="896" height="128"/>
   <object id="120" x="2944" y="0" width="2688" height="128"/>
   <object id="121" x="5504" y="128" width="128" height="4608"/>
+  <object id="122" x="1920" y="128" width="128" height="1152"/>
+  <object id="127" x="512" y="0" width="128" height="1152">
+   <properties>
+    <property name="hidden" value="true"/>
+   </properties>
+  </object>
+  <object id="128" x="640" y="1024" width="1152" height="128">
+   <properties>
+    <property name="hidden" value="true"/>
+   </properties>
+  </object>
+  <object id="129" x="-96" y="0" width="224" height="1664">
+   <properties>
+    <property name="hidden" value="true"/>
+   </properties>
+  </object>
+  <object id="130" x="128" y="1536" width="1664" height="128">
+   <properties>
+    <property name="hidden" value="true"/>
+   </properties>
+  </object>
+  <object id="131" x="1792" y="1024" width="128" height="256">
+   <properties>
+    <property name="hidden" value="true"/>
+   </properties>
+  </object>
+  <object id="133" x="1792" y="1408" width="128" height="256">
+   <properties>
+    <property name="hidden" value="true"/>
+   </properties>
+  </object>
+ </objectgroup>
+ <objectgroup name="subrooms">
+  <object id="134" x="0" y="0" width="1920" height="1664"/>
  </objectgroup>
  <objectgroup name="objects">
   <object id="108" name="door-f4-south" type="Door" x="2816" y="4736" width="128" height="128">
    <properties>
     <property name="dest" value="door-f0-north"/>
     <property name="dir" value="up"/>
+   </properties>
+  </object>
+  <object id="123" name="door-f4-west" type="Door" x="1920" y="1280" width="128" height="128">
+   <properties>
+    <property name="dir" value="right"/>
+   </properties>
+  </object>
+  <object id="124" name="door-f4-west1" type="Door" x="1792" y="1280" width="128" height="128">
+   <properties>
+    <property name="dest" value="door-f4-west"/>
+    <property name="hidden" value="true"/>
    </properties>
   </object>
  </objectgroup>

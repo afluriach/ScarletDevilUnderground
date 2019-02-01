@@ -839,6 +839,13 @@ void GSpace::setSpriteZoom(SpriteID id, float zoom)
 	});
 }
 
+void GSpace::clearSubroomMask(unsigned int roomID)
+{
+	addSpriteAction([this, roomID]() -> void {
+		gscene->clearSubroomMask(roomID);
+	});
+}
+
 void GSpace::addLightmapAction(function<void()> f)
 {
 	sceneActions.push_back(make_pair(f, GScene::updateOrder::lightmapUpdate));

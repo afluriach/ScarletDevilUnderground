@@ -323,7 +323,9 @@ void MapMenu::drawMaps()
 	}
 
 	for (auto ref : doors) {
-		drawObject(ref.get()->getBoundingBox(), doorColor, doorColor);
+		if (!ref.get()->hidden) {
+			drawObject(ref.get()->getBoundingBox(), doorColor, doorColor);
+		}
 	}
 }
 

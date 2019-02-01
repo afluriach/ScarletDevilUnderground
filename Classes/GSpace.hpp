@@ -231,6 +231,8 @@ public:
 	void setSpriteAngle(SpriteID id, float cocosAngle);
 	void setSpritePosition(SpriteID id, Vec2 pos);
 	void setSpriteZoom(SpriteID id, float zoom);
+
+	void clearSubroomMask(unsigned int roomID);
 protected:
 	void addLightmapAction(function<void()> f);
 	void addSpriteAction(function<void()> f);

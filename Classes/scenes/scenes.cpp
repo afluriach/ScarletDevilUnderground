@@ -565,6 +565,11 @@ void GScene::setSpriteZoom(SpriteID id, float zoom)
 	}
 }
 
+void GScene::clearSubroomMask(unsigned int roomID)
+{
+	roomMasks.at(roomID)->setVisible(false);
+}
+
 Node* GScene::getSpriteAsNode(SpriteID id)
 {
 	{
@@ -733,6 +738,7 @@ void GScene::loadMap(const MapEntry& mapEntry)
 	loadWaypoints(*tileMap, mapEntry.second);
 	loadFloorSegments(*tileMap, mapEntry.second);
 	loadMapObjects(*tileMap, mapEntry.second);
+	loadSubrooms(*tileMap, mapEntry.second);
 	loadWalls(*tileMap, mapEntry.second);
 	loadLights(*tileMap, mapEntry.second);
 
@@ -859,6 +865,43 @@ void GScene::loadObjectGroup(TMXObjectGroup* group, IntVec2 offset)
 		gspace->createObject(objAsMap);
 	}
 }
+
+void GScene::loadSubrooms(const TMXTiledMap& map, IntVec2 offset)
+{
+	TMXObjectGroup* subrooms = map.getObjectGroup("subrooms");
+	if (!subrooms)
+		return;
+
+	for (const Value& obj : subrooms->getObjects())
+	{
+		ValueMap objAsMap = obj.asValueMap();
+		SpaceRect area = getUnitspaceRectangle(objAsMap, offset);
+
+		objAsMap.insert_or_assign("type", "HiddenSubroomSensor");
+		objAsMap.insert_or_assign("id", to_int(roomMasks.size()));
+
+		convertToUnitSpace(objAsMap, offset);
+		gspace->createObject(objAsMap);
+
+		DrawNode* dn = DrawNode::create();
+
+		dn->drawSolidRect(
+			toCocos(area.getLLCorner()) * App::pixelsPerTile,
+			toCocos(area.getURCorner()) * App::pixelsPerTile,
+			Color4F::BLACK
+		);
+
+		getSpaceLayer()->positionAndAddNode(
+			dn,
+			to_int(GraphicsLayer::roomMask),
+			Vec2::ZERO,
+			1.0f
+		);
+
+		roomMasks.push_back(dn);
+	}
+}
+
 
 void GScene::loadWalls(const TMXTiledMap& map, IntVec2 offset)
 {

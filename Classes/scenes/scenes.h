@@ -173,6 +173,8 @@ public:
 	void setSpritePosition(SpriteID id, Vec2 pos);
 	void setSpriteZoom(SpriteID id, float zoom);
 
+	void clearSubroomMask(unsigned int roomID);
+
     //The different vector type is intentional, as Chipmunk vector implies
     //unit space as opposed to pixel space.
     void setUnitPosition(const SpaceVect& v);
@@ -210,6 +212,7 @@ protected:
 	void loadWaypoints(const TMXTiledMap& map, IntVec2 offset);
 	void loadFloorSegments(const TMXTiledMap& map, IntVec2 offset);
 	void loadObjectGroup(TMXObjectGroup* group, IntVec2 offset);
+	void loadSubrooms(const TMXTiledMap& map, IntVec2 offset);
 	void loadWalls(const TMXTiledMap& map, IntVec2 offset);
 	void loadLights(const TMXTiledMap& map, IntVec2 offset);
 
@@ -268,6 +271,7 @@ protected:
 	string sceneName;
 	IntVec2 dimensions;
 
+	vector<DrawNode*> roomMasks;
 	Vector<TMXTiledMap*> tilemaps;
 	vector<MapEntry> maps;
 	vector<SpaceRect> mapAreas;
