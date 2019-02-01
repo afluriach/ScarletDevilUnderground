@@ -111,6 +111,7 @@ public:
 	static const Color4F floorColor;
 	static const Color4F floorColorCrnt;
 	static const Color4F doorColor;
+	static const Color4F goalColor;
 
 	MapMenu(PlayScene* playScene);
 

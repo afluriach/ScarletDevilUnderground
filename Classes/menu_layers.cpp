@@ -236,6 +236,7 @@ const Color4F MapMenu::wallColorCrnt(0.45f, 0.45f, 0.85f, 1.0f);
 const Color4F MapMenu::floorColor(0.45f, 0.45f, 0.85f, 1.0f);
 const Color4F MapMenu::floorColorCrnt(0.6f, 0.6f, 0.9f, 1.0f);
 const Color4F MapMenu::doorColor(0.61f,0.55f,0.39f,1.0f);
+const Color4F MapMenu::goalColor(0.73f, 0.77f, 0.45f, 1.0f);
 
 MapMenu::MapMenu(PlayScene* playScene) :
 	playScene(playScene),
@@ -298,6 +299,8 @@ void MapMenu::drawMaps()
 	vector<object_ref<FloorSegment>> floors = playScene->getSpace()->getObjectsByTypeAs<FloorSegment>();
 	vector<object_ref<Door>> doors = playScene->getSpace()->getObjectsByTypeAs<Door>();
 	vector<object_ref<LockedDoor>> lockedDoors = playScene->getSpace()->getObjectsByTypeAs<LockedDoor>();
+	GObject* goal = playScene->getSpace()->getObject("goal");
+	GObject* player = playScene->getSpace()->getObject("player");
 
 	const vector<SpaceRect>& mapAreas = playScene->getMapAreas();
 	const vector<bool>& mapAreasVisited = playScene->getMapAreasVisited();
@@ -332,6 +335,14 @@ void MapMenu::drawMaps()
 	for (auto ref : lockedDoors) {
 		Color4F color = ref.get()->isKeyUsed() ? doorColor : Color4F::RED;
 		drawObject(ref.get()->getBoundingBox(), color, color);
+	}
+
+	if (goal) {
+		drawObject(goal->getBoundingBox(), goalColor, goalColor);
+	}
+
+	if (player) {
+		drawObject(player->getBoundingBox(), Color4F::GRAY, Color4F::WHITE);
 	}
 }
 
