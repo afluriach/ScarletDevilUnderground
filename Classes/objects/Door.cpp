@@ -58,3 +58,38 @@ Direction Door::getEntryDirection()
 {
 	return entryDirection;
 }
+
+LockedDoor::LockedDoor(GSpace* space, ObjectIDType id, const ValueMap& args) :
+	MapObjForwarding(GObject),
+	MapObjForwarding(Door)
+{
+}
+
+bool LockedDoor::canInteract()
+{
+	if (keyUsed) {
+		return Door::canInteract();
+	}
+	else {
+		Player* p = space->getObjectAs<Player>("player");
+
+		return p->getKeyCount() > 0;
+	}
+}
+
+void LockedDoor::interact()
+{
+	if (keyUsed) {
+		Door::interact();
+	}
+	else {
+		Player* p = space->getObjectAs<Player>("player");
+		p->useKey();
+		keyUsed = true;
+	}
+}
+
+string LockedDoor::interactionIcon()
+{
+	return keyUsed ? Door::interactionIcon() : "sprites/key.png";
+}

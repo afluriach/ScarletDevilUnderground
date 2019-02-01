@@ -465,6 +465,11 @@ bool HUD::init()
     power->setVal(0);
 	power->setScale(scale);
     
+	keyMeter = Node::ccCreate<KeyMeter>();
+	keyMeter->setPosition(App::width / 2, App::height - height * 1.5f);
+	addChild(keyMeter, 2);
+	keyMeter->setScale(scale);
+
 	magicEffects = Node::ccCreate<MagicEffects>();
 	magicEffects->setPosition(App::width - 64 * scale, App::height - 64 * scale);
 	addChild(magicEffects, 2);
@@ -578,6 +583,11 @@ void HUD::setMaxMP(int v)
 void HUD::setPower(int v)
 {
 	power->setVal(v);
+}
+
+void HUD::setKeyCount(int count)
+{
+	keyMeter->setVal(count);
 }
 
 void HUD::runHealthFlicker(float length, float interval)
@@ -706,3 +716,40 @@ void PowerMeter::runFlicker(float duration)
         Color3B(127,127,127)
     ));
 }
+
+bool KeyMeter::init()
+{
+	Node::init();
+
+	icon = Sprite::create();
+	counter = createTextLabel("0", HUD::fontSize);
+
+	//The center of the node will be the mid-point between the icon and the label.
+	//This will avoid the visual distraction of moving the Counter node and thus the
+	//icon if the width of the text label changes.
+	addChild(icon);
+	icon->setPosition(-(spacing + iconSize) / 2, 0);
+	icon->setScale(0.5f);
+
+	//Label position will be set when its contents is set.
+	addChild(counter);
+
+	icon->setTexture("sprites/key.png");
+	setVal(0);
+
+	return true;
+}
+
+void KeyMeter::setVal(int val)
+{
+	if (val != this->val) {
+		this->val = val;
+		counter->setString(
+			boost::str(boost::format("%d") % (val))
+		);
+
+		float counterWidth = counter->getContentSize().width;
+		counter->setPosition((spacing + counterWidth) / 2, 0);
+	}
+}
+

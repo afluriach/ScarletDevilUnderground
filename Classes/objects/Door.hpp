@@ -43,4 +43,19 @@ protected:
 	string destination;
 	bool locked = false;
 };
+
+class LockedDoor : public Door
+{
+public:
+	MapObjCons(LockedDoor);
+
+	virtual bool canInteract();
+	virtual void interact();
+	virtual string interactionIcon();
+
+	inline bool isKeyUsed() const { return keyUsed; }
+protected:
+	bool keyUsed = false;
+};
+
 #endif /* Door_hpp */

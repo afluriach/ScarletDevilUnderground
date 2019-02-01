@@ -9,6 +9,7 @@
 #include "Prefix.h"
 
 #include "Collectibles.hpp"
+#include "value_map.hpp"
 
 template<class C>
 function<ObjectGeneratorType(SpaceVect) > createAdapter()
@@ -109,4 +110,24 @@ Health2::Health2(GSpace* space, ObjectIDType id, SpaceVect pos) :
 	GObject(space, id, "health2", pos, true),
 	CollectibleImpl<Health2>(space, id, pos)
 {
+}
+
+const AttributeMap Key::effect = {
+	{Attribute::keys, 1.0f}
+};
+
+const string Key::spriteName = "key";
+
+Key::Key(GSpace* space, ObjectIDType id, const ValueMap& args) :
+	MapObjForwarding(GObject),
+	CollectibleImpl<Key>(space, id, SpaceVect(getFloat(args, "pos_x"), getFloat(args, "pos_y")))
+{
+
+}
+
+Key::Key(GSpace* space, ObjectIDType id, SpaceVect pos) :
+	GObject(space,id,"key", pos, true),
+	CollectibleImpl<Key>(space,id,pos)
+{
+
 }

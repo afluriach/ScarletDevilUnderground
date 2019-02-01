@@ -95,6 +95,9 @@ public:
 	void setFocusMode(bool b);
 	void setSprintMode(bool b);
 
+	unsigned int getKeyCount() const;
+	void useKey();
+
 	virtual AttributeMap getAttributeUpgrades() const;
 	void applyAttributeModifier(Attribute id, float val);
     

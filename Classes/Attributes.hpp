@@ -20,6 +20,8 @@ enum class Attribute {
 	hitProtection,
 	spellCooldown,
 
+	keys,
+
 	maxHP,
 	maxMP,
 	maxPower,

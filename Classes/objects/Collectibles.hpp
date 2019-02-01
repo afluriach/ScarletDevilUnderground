@@ -112,5 +112,14 @@ public:
 	Health2(GSpace* space, ObjectIDType id, SpaceVect pos);
 };
 
+class Key : public CollectibleImpl<Key>
+{
+public:
+	static const AttributeMap effect;
+	static const string spriteName;
+
+	Key(GSpace* space, ObjectIDType id, const ValueMap& args);
+	Key(GSpace* space, ObjectIDType id, SpaceVect pos);
+};
 
 #endif /* Collectibles_hpp */

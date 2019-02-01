@@ -152,6 +152,24 @@ private:
     int val;
 };
 
+class KeyMeter : public Node
+{
+public:
+	static const int iconSize = 64;
+
+	//Distance between icon and counter label.
+	static const int spacing = 32;
+
+	bool init();
+	void setVal(int val);
+	void runFlicker(float duration);
+private:
+	Sprite * icon;
+	Label* counter;
+	int val;
+};
+
+
 class EnemyInfo : public Node
 {
 public:
@@ -187,6 +205,8 @@ public:
 	MagicBar* magic;
     PowerMeter* power;
 
+	KeyMeter* keyMeter;
+
 	MagicEffects* magicEffects;
 
 	Counter* objectiveCounter;    
@@ -205,6 +225,8 @@ public:
 
 	void setPower(int);
 	//void setMaxPower(int);
+
+	void setKeyCount(int);
 
 	void runHealthFlicker(float length, float interval);
 	void runMagicFlicker(float length, float interval);

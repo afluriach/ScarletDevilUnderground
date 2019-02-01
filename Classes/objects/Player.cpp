@@ -309,6 +309,11 @@ void Player::update()
 				playScene,
 				to_int(attributeSystem.getAdjustedValue(Attribute::power))
 			));
+			space->addSceneAction(make_hud_action(
+				&HUD::setKeyCount,
+				playScene,
+				to_int(attributeSystem.getAdjustedValue(Attribute::keys))
+			));
 		}
 
 		timerDecrement(respawnTimer);
@@ -344,6 +349,18 @@ void Player::setFocusMode(bool b)
 void Player::setSprintMode(bool b)
 {
 	isSprintActive = b;
+}
+
+unsigned int Player::getKeyCount() const
+{
+	return attributeSystem.getAdjustedValue(Attribute::keys);
+}
+
+void Player::useKey()
+{
+	if (getKeyCount() > 0) {
+		attributeSystem.modifyAttribute(Attribute::keys, -1.0f);
+	}
 }
 
 AttributeMap Player::getAttributeUpgrades() const

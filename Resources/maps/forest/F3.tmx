@@ -8,12 +8,12 @@
  </tileset>
  <layer name="floor" width="53" height="37">
   <data encoding="base64" compression="zlib">
-   eJzt00EOgCAMRFFQ739m8QCGKVH4JfMT0g0s7Iul6F3tnPAZ7Winwmc0goOd+hEc7NSP4DDq9PbNBAfVSb1PcFCd1PsEB8Up8obgoDhF3hAc7GQn6tzRqdpp+f79P+3lpJbJKRLB4UunJ4KDnfoRHOw01p87XNXsHc7ITjmyU47slCM75YjodAM4lQz7
+   eJzt00EOgCAMRFFQ739m8QCGKVH4JfMT0g0s7Iul6F3tnPAZ7Winwmc0goOd+hEc7NSP4DDq9PbNBAfVSb1PcFCd1PsEB8Up8obgoDhF3hAc7LSHU7XT8v37f7ITee7qpJbJKRLB4UunJ4KDnfoRHOw01p87XNXsHc7ITjmyU47slCM75YjodAM6PQz7
   </data>
  </layer>
  <layer name="wall_tiles" width="53" height="37">
   <data encoding="base64" compression="zlib">
-   eJztl90KgCAMRtdF5fs/cXkhQVD7aThn34FdzS1PwiwiGdsZuzBIsdY7itCnOVnyT8/g+nnXWXrBCU4edZZef3J6mk9cP2tdeanV9uLyvahO0r1I7qcR0DplAE45gFMOFprPacZzglMOtE4rEyNQnbh9tsj0vScFThfceXvnI/4J7+u883Cy5eHU30k696PjC9r5rXmHUcAJTlHACU5RwCmPk+Z+7+V0AO1gB50=
+   eJztl90KgCAMRr2pfP8nLi8kCGw/jc3Zd2BXc8uTMKsUHvsVBzOKYK11VKZPd9LkR8+g+lnXaXrBCU4WdZpef3IazSeqn7auvtRKe1F5L5oTdy+c+2kGpE4ZgFMO4JSH1ZxWPCc45UDqtBExA82J2mePTN97XOB0Q523dT7in/C5zjoPJ10eTv5O3LkfHV+Qzm/JO4wCTnCKAk5wigJOeZwk97uX0wnaUAec
   </data>
  </layer>
  <objectgroup name="floor">
