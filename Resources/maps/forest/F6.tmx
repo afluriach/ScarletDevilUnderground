@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.0" tiledversion="1.0.3" orientation="orthogonal" renderorder="right-down" width="21" height="21" tilewidth="128" tileheight="128" nextobjectid="121">
+ <tileset firstgid="1" name="dirt1" tilewidth="128" tileheight="128" tilecount="4" columns="2">
+  <image source="dirt1.png" width="256" height="256"/>
+ </tileset>
+ <tileset firstgid="5" name="forest_dirt_wall" tilewidth="128" tileheight="128" tilecount="4" columns="4">
+  <image source="forest_dirt_wall.png" width="512" height="128"/>
+ </tileset>
+ <layer name="floor" width="21" height="21">
+  <data encoding="base64" compression="zlib">
+   eJxjZGBgYAJiRirSzEDMQmWamu4bdeeoO0fdOerOUXeODHcCAHoCBDA=
+  </data>
+ </layer>
+ <layer name="wall_tiles" width="21" height="21">
+  <data encoding="base64" compression="zlib">
+   eJxjZ2BgYCcCMxCpDoTZGKgLOEbNHDVz1MxRM0fNHBFmshKBGYhUBzITAFhFAf8=
+  </data>
+ </layer>
+ <objectgroup name="floor">
+  <object id="110" type="GrassFloor" x="128" y="128" width="2432" height="2432"/>
+ </objectgroup>
+ <objectgroup name="walls">
+  <object id="112" x="0" y="0" width="1280" height="128"/>
+  <object id="113" x="1408" y="0" width="1280" height="128"/>
+  <object id="114" x="2560" y="128" width="128" height="1152"/>
+  <object id="115" x="1408" y="2560" width="1152" height="128"/>
+  <object id="117" x="0" y="2560" width="1280" height="128"/>
+  <object id="118" x="0" y="128" width="128" height="2432"/>
+  <object id="119" x="2560" y="1408" width="128" height="1280"/>
+  <object id="120" type="BreakableWall" x="2560" y="1280" width="128" height="128"/>
+ </objectgroup>
+ <objectgroup name="objects">
+  <object id="108" name="door-f6-south" type="Door" x="1280" y="2560" width="128" height="128">
+   <properties>
+    <property name="dest" value="door-f5-north"/>
+    <property name="dir" value="up"/>
+   </properties>
+  </object>
+  <object id="109" name="door-f6-north" type="Door" x="1280" y="0" width="128" height="128">
+   <properties>
+    <property name="dest" value="door-f7-south"/>
+    <property name="dir" value="down"/>
+   </properties>
+  </object>
+ </objectgroup>
+</map>

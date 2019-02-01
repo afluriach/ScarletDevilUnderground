@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.0" tiledversion="1.0.3" orientation="orthogonal" renderorder="right-down" width="44" height="38" tilewidth="128" tileheight="128" nextobjectid="122">
+ <tileset firstgid="1" name="dirt1" tilewidth="128" tileheight="128" tilecount="4" columns="2">
+  <image source="dirt1.png" width="256" height="256"/>
+ </tileset>
+ <tileset firstgid="5" name="forest_dirt_wall" tilewidth="128" tileheight="128" tilecount="4" columns="4">
+  <image source="forest_dirt_wall.png" width="512" height="128"/>
+ </tileset>
+ <layer name="floor" width="44" height="38">
+  <data encoding="base64" compression="zlib">
+   eJzt0DkKwDAAA0Hn+P+b43K7QBxczYJQP2N875q7N/xfHXPn5l9pl29/Jb58G1++jS/fxpdv48u38eXb+PJtfPk2vnwbX76NL9/G9/0fDiUKpw==
+  </data>
+ </layer>
+ <layer name="wall_tiles" width="44" height="38">
+  <data encoding="base64" compression="zlib">
+   eJztzjEOwCAQxMBrAvz/xYGCEiIdchpsaattJiJf6auLxebLrh1Yp/fP9LLpZdPLppdNL5teNr1setn0sull08uml00vm142vWx62fSy3eZ9Nvv6MxveF1QvA0w=
+  </data>
+ </layer>
+ <objectgroup name="floor">
+  <object id="110" type="GrassFloor" x="2048" y="0" width="3456" height="4736"/>
+ </objectgroup>
+ <objectgroup name="walls">
+  <object id="111" x="2944" y="4736" width="2688" height="128"/>
+  <object id="116" x="2048" y="4736" width="768" height="128"/>
+  <object id="117" x="1920" y="128" width="128" height="4736"/>
+  <object id="119" x="1920" y="0" width="896" height="128"/>
+  <object id="120" x="2944" y="0" width="2688" height="128"/>
+  <object id="121" x="5504" y="128" width="128" height="4608"/>
+ </objectgroup>
+ <objectgroup name="objects">
+  <object id="108" name="door-f4-south" type="Door" x="2816" y="4736" width="128" height="128">
+   <properties>
+    <property name="dest" value="door-f0-north"/>
+    <property name="dir" value="up"/>
+   </properties>
+  </object>
+ </objectgroup>
+</map>

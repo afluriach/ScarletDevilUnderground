@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.0" tiledversion="1.0.3" orientation="orthogonal" renderorder="right-down" width="39" height="39" tilewidth="128" tileheight="128" nextobjectid="125">
+ <tileset firstgid="1" name="dirt1" tilewidth="128" tileheight="128" tilecount="4" columns="2">
+  <image source="dirt1.png" width="256" height="256"/>
+ </tileset>
+ <tileset firstgid="5" name="forest_dirt_wall" tilewidth="128" tileheight="128" tilecount="4" columns="4">
+  <image source="forest_dirt_wall.png" width="512" height="128"/>
+ </tileset>
+ <layer name="floor" width="39" height="39">
+  <data encoding="base64" compression="zlib">
+   eJzt0DkKADAMA8Fc/39zDKrSqbId2AWhfsbwmrGV/G47dpLfDTfccFO44Yabwu39Cg/3Kzxww63jd/DBDbcO38HnRze3Cjc33HDDTeGGG26qwu0Cg3oMFw==
+  </data>
+ </layer>
+ <layer name="wall_tiles" width="39" height="39">
+  <data encoding="base64" compression="zlib">
+   eJzt1r0KgDAMAOEs/rz/E2umLoLJoRXkDrKV8tGliai1nrMVJxpn7+6p2ma2N85qG2ljaWNpY2ljaWOl7Y294Clb9T2+eDdt/bSxtLG0sbSx0rY0ZratmjvSSBtLG0sbSxvrT7bOv9v5p68mbQeUngQU
+  </data>
+ </layer>
+ <objectgroup name="floor">
+  <object id="123" type="GrassFloor" x="1408" y="128" width="3456" height="4736"/>
+  <object id="124" type="GrassFloor" x="128" y="1920" width="1152" height="1408">
+   <properties>
+    <property name="hidden" value="true"/>
+   </properties>
+  </object>
+ </objectgroup>
+ <objectgroup name="walls">
+  <object id="110" x="2816" y="4864" width="2176" height="128"/>
+  <object id="112" x="4864" y="0" width="128" height="4864"/>
+  <object id="113" x="1280" y="4864" width="1408" height="128"/>
+  <object id="114" x="1280" y="2688" width="128" height="2176"/>
+  <object id="115" x="1280" y="0" width="128" height="2560"/>
+  <object id="116" x="0" y="1792" width="1280" height="128">
+   <properties>
+    <property name="hidden" value="true"/>
+   </properties>
+  </object>
+  <object id="118" x="0" y="1920" width="128" height="1536">
+   <properties>
+    <property name="hidden" value="true"/>
+   </properties>
+  </object>
+  <object id="119" x="128" y="3328" width="1152" height="128">
+   <properties>
+    <property name="hidden" value="true"/>
+   </properties>
+  </object>
+  <object id="120" type="BreakableWall" x="1280" y="2560" width="128" height="128"/>
+  <object id="121" x="1408" y="0" width="1280" height="128"/>
+  <object id="122" x="2816" y="0" width="2048" height="128"/>
+ </objectgroup>
+ <objectgroup name="objects">
+  <object id="108" name="door-f5-south" type="Door" x="2688" y="4864" width="128" height="128">
+   <properties>
+    <property name="dest" value="door-f3-north"/>
+    <property name="dir" value="up"/>
+   </properties>
+  </object>
+  <object id="109" name="door-f5-north" type="Door" x="2688" y="0" width="128" height="128">
+   <properties>
+    <property name="dest" value="door-f6-south"/>
+    <property name="dir" value="down"/>
+   </properties>
+  </object>
+ </objectgroup>
+</map>
