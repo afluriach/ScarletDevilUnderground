@@ -23,12 +23,12 @@ void EnemyBullet::invalidateGraze()
 }
 
 FireBullet::FireBullet(GSpace* space, ObjectIDType id, SpaceFloat angle, const SpaceVect& pos, SpaceFloat speed) :
-	GObject(space, id, "fireBullet", pos, angle, true),
+	GObject(space, id, "", pos, angle),
 	MaxSpeedImpl(speed)
 {}
 
 WaterBullet::WaterBullet(GSpace* space, ObjectIDType id, SpaceFloat angle, const SpaceVect& pos, SpaceFloat speed) :
-	GObject(space, id, "", pos, angle, true),
+	GObject(space, id, "", pos, angle),
 	MaxSpeedImpl(speed)
 {}
 
@@ -45,7 +45,7 @@ const vector<string> StarBullet::colors = {
 StarBullet::StarBullet(GSpace* space, ObjectIDType id, SpaceFloat angle, const SpaceVect& pos, SpaceFloat speed, SpaceFloat radius, const string& color) :
 	color(color),
 	MaxSpeedImpl(speed),
-	GObject(space, id, "starBullet", pos, angle, true)
+	GObject(space, id, "", pos, angle)
 {}
 
 AttributeMap StarBullet::getAttributeEffect() const {
@@ -55,11 +55,11 @@ AttributeMap StarBullet::getAttributeEffect() const {
 }
 
 IceFairyBullet::IceFairyBullet(GSpace* space, ObjectIDType id, SpaceFloat angle, const SpaceVect& pos) :
-	GObject(space, id, "IceFairyBullet", pos, angle, true)
+	GObject(space, id, "", pos, angle)
 {}
 
 LauncherBullet::LauncherBullet(GSpace* space, ObjectIDType id, SpaceFloat angle, const SpaceVect& pos) :
-	GObject(space, id, "LauncherBullet", pos, angle, true)
+	GObject(space, id, "", pos, angle)
 {}
 
 AttributeMap LauncherBullet::getAttributeEffect() const {
@@ -76,7 +76,7 @@ AttributeMap IceFairyBullet::getAttributeEffect() const{
 }
 
 Fairy1Bullet::Fairy1Bullet(GSpace* space, ObjectIDType id, SpaceFloat angle, const SpaceVect& pos) :
-	GObject(space, id, "", pos, angle, true)
+	GObject(space, id, "", pos, angle)
 {}
 
 AttributeMap Fairy1Bullet::getAttributeEffect() const {
@@ -91,7 +91,7 @@ shared_ptr<MagicEffect> IceFairyBullet::getMagicEffect(gobject_ref target) {
 }
 
 IllusionDialDagger::IllusionDialDagger(GSpace* space, ObjectIDType id, const SpaceVect& pos, SpaceFloat angular_velocity) :
-GObject(space,id,"IllusionDialDagger", pos, true),
+GObject(space,id,"", pos, 0.0),
 RectangleBody(SpaceVect(0.8, 0.175)),
 RegisterUpdate<IllusionDialDagger>(this)
 {

@@ -27,11 +27,6 @@ const float GObject::objectFadeOutTime = 1.5f;
 const float GObject::objectFadeInTime = 0.5f;
 const GLubyte GObject::objectFadeOpacity = 0;
 
-GObject::GObject(GSpace* space, ObjectIDType uuid, const ValueMap& args) :
-GObject(space, uuid, args, false)
-{
-}
-
 GObject::GObject(GSpace* space, ObjectIDType uuid, const ValueMap& obj, bool anonymous) :
 	space(space),
 	name(!anonymous ? obj.at("name").asString() : ""),
@@ -57,10 +52,10 @@ GObject::GObject(GSpace* space, ObjectIDType uuid, const ValueMap& obj, bool ano
 	setInitialAngle(float_pi / 2.0f);
 }
 
-GObject::GObject(GSpace* space, ObjectIDType uuid, const string& name, const SpaceVect& pos, SpaceFloat angle, bool anonymous) :
+GObject::GObject(GSpace* space, ObjectIDType uuid, const string& name, const SpaceVect& pos, SpaceFloat angle) :
 	space(space),
 	name(name),
-    anonymous(anonymous),
+    anonymous(name.empty()),
 	uuid(uuid),
 	initialCenter(pos)
 {
@@ -75,10 +70,6 @@ GObject::GObject(GSpace* space, ObjectIDType uuid, const string& name, const Spa
 
 	setInitialAngle(angle);
 }
-
-GObject::GObject(GSpace* space, ObjectIDType uuid, const string& name, const SpaceVect& pos, bool anonymous) :
-	GObject(space, uuid, name, pos, float_pi / 2.0f, anonymous)
-{}
 
 GObject::~GObject()
 {

@@ -38,7 +38,7 @@ void PlayerShield::onBulletCollide(Bullet* bullet)
 }
 
 FlandreBigOrb1::FlandreBigOrb1(GSpace* space, ObjectIDType id, SpaceFloat angle, const SpaceVect& pos) :
-	GObject(space,id,"bigOrb1", pos, angle, true)
+	GObject(space,id,"", pos, angle)
 {}
 
 AttributeMap FlandreBigOrb1::getAttributeEffect() const {
@@ -48,7 +48,7 @@ AttributeMap FlandreBigOrb1::getAttributeEffect() const {
 }
 
 FlandreFastOrb1::FlandreFastOrb1(GSpace* space, ObjectIDType id, SpaceFloat angle, const SpaceVect& pos) :
-	GObject(space,id,"fastOrb1", pos, angle, true)
+	GObject(space,id,"", pos, angle)
 {}
 
 AttributeMap FlandreFastOrb1::getAttributeEffect() const {
@@ -58,7 +58,7 @@ AttributeMap FlandreFastOrb1::getAttributeEffect() const {
 }
 
 FlandreCounterClockBullet::FlandreCounterClockBullet(GSpace* space, ObjectIDType id, SpaceFloat angle, const SpaceVect& pos) :
-	GObject(space, id, "", pos, angle, true),
+	GObject(space, id, "", pos, angle),
 	RectangleBody(SpaceVect(4.0, 0.5))
 {}
 
@@ -69,7 +69,7 @@ AttributeMap FlandreCounterClockBullet::getAttributeEffect() const {
 }
 
 RumiaFastOrb1::RumiaFastOrb1(GSpace* space, ObjectIDType id, SpaceFloat angle, const SpaceVect& pos) :
-	GObject(space, id, "fastOrb1", pos, angle, true)
+	GObject(space, id, "", pos, angle)
 {}
 
 AttributeMap RumiaFastOrb1::getAttributeEffect() const {
@@ -79,7 +79,7 @@ AttributeMap RumiaFastOrb1::getAttributeEffect() const {
 }
 
 CirnoSmallIceBullet::CirnoSmallIceBullet(GSpace* space, ObjectIDType id, SpaceFloat angle, const SpaceVect& pos) :
-	GObject(space, id, "", pos, angle, true)
+	GObject(space, id, "", pos, angle)
 {}
 
 void CirnoSmallIceBullet::onAgentCollide(Agent* agent)
@@ -106,7 +106,7 @@ shared_ptr<MagicEffect> CirnoSmallIceBullet::getMagicEffect(gobject_ref target)
 }
 
 CirnoLargeIceBullet::CirnoLargeIceBullet(GSpace* space, ObjectIDType id, SpaceFloat angle, const SpaceVect& pos) :
-	GObject(space,id,"bigIce1", pos, angle, true)
+	GObject(space,id,"", pos, angle)
 {}
 
 AttributeMap CirnoLargeIceBullet::getAttributeEffect() const {
@@ -122,7 +122,7 @@ shared_ptr<MagicEffect> CirnoLargeIceBullet::getMagicEffect(gobject_ref target)
 }
 
 CirnoIceShieldBullet::CirnoIceShieldBullet(GSpace* space, ObjectIDType id, SpaceFloat angle, const SpaceVect& pos) :
-	GObject(space, id, "", pos, angle, true)
+	GObject(space, id, "", pos, angle)
 {}
 
 AttributeMap CirnoIceShieldBullet::getAttributeEffect() const {

@@ -34,8 +34,8 @@ ObjectGeneratorType Collectible::create(collectible_id id, SpaceVect pos)
 }
 
 Collectible::Collectible(GSpace* space, ObjectIDType id, SpaceVect pos) :
-GObject(space,id,"spriteName",pos,true),
-RectangleBody(SpaceVect(0.5f, 0.5f))
+GObject(space,id,"",pos, float_pi / 2.0),
+RectangleBody(SpaceVect(0.5, 0.5))
 {
 }
 
@@ -46,7 +46,7 @@ const AttributeMap Power1::effect = {
 const string Power1::spriteName = "power1";
 
 Power1::Power1(GSpace* space, ObjectIDType id, SpaceVect pos):
-GObject(space, id, "Power1", pos, true),
+GObject(space, id, "", pos, float_pi / 2.0),
 CollectibleImpl<Power1>(space,id,pos)
 {
 }
@@ -59,7 +59,7 @@ const string Power2::spriteName = "power2";
 
 
 Power2::Power2(GSpace* space, ObjectIDType id, SpaceVect pos) :
-	GObject(space, id, "Power2", pos, true),
+	GObject(space, id, "", pos, float_pi / 2.0),
 	CollectibleImpl<Power2>(space, id, pos)
 {
 }
@@ -71,7 +71,7 @@ const AttributeMap Magic1::effect = {
 const string Magic1::spriteName = "magic1";
 
 Magic1::Magic1(GSpace* space, ObjectIDType id, SpaceVect pos) :
-	GObject(space, id, "Magic1", pos, true),
+	GObject(space, id, "", pos, float_pi / 2.0),
 	CollectibleImpl<Magic1>(space, id, pos)
 {
 }
@@ -83,7 +83,7 @@ const AttributeMap Magic2::effect = {
 const string Magic2::spriteName = "magic2";
 
 Magic2::Magic2(GSpace* space, ObjectIDType id, SpaceVect pos) :
-	GObject(space, id, "Magic2", pos, true),
+	GObject(space, id, "", pos, float_pi / 2.0),
 	CollectibleImpl<Magic2>(space, id, pos)
 {
 }
@@ -95,7 +95,7 @@ const AttributeMap Health1::effect = {
 const string Health1::spriteName = "health1";
 
 Health1::Health1(GSpace* space, ObjectIDType id, SpaceVect pos) :
-	GObject(space, id, "health1", pos, true),
+	GObject(space, id, "", pos, float_pi / 2.0),
 	CollectibleImpl<Health1>(space, id, pos)
 {
 }
@@ -107,7 +107,7 @@ const AttributeMap Health2::effect = {
 const string Health2::spriteName = "health2";
 
 Health2::Health2(GSpace* space, ObjectIDType id, SpaceVect pos) :
-	GObject(space, id, "health2", pos, true),
+	GObject(space, id, "", pos, float_pi / 2.0),
 	CollectibleImpl<Health2>(space, id, pos)
 {
 }
@@ -126,7 +126,7 @@ Key::Key(GSpace* space, ObjectIDType id, const ValueMap& args) :
 }
 
 Key::Key(GSpace* space, ObjectIDType id, SpaceVect pos) :
-	GObject(space,id,"key", pos, true),
+	GObject(space,id,"", pos, float_pi / 2.0),
 	CollectibleImpl<Key>(space,id,pos)
 {
 

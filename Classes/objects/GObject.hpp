@@ -71,10 +71,8 @@ public:
     }	
 
 	//Representation as a map object
-    GObject(GSpace* space, ObjectIDType uuid, const ValueMap& args);
-	GObject(GSpace* space, ObjectIDType uuid, const ValueMap& args, bool anonymous);
-	GObject(GSpace* space, ObjectIDType uuid, const string& name, const SpaceVect& pos, bool anonymous);
-	GObject(GSpace* space, ObjectIDType uuid, const string& name, const SpaceVect& pos, SpaceFloat angle, bool anonymous);
+	GObject(GSpace* space, ObjectIDType uuid, const ValueMap& args, bool anonymous = false);
+	GObject(GSpace* space, ObjectIDType uuid, const string& name, const SpaceVect& pos, SpaceFloat angle);
     
     virtual ~GObject();
 

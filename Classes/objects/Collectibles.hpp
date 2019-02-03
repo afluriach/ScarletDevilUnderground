@@ -12,6 +12,7 @@
 #include "Attributes.hpp"
 #include "GObject.hpp"
 #include "GObjectMixins.hpp"
+#include "macros.h"
 
 enum class collectible_id
 {
@@ -50,7 +51,7 @@ class CollectibleImpl : public Collectible
 {
 public:
 	inline CollectibleImpl(GSpace* space, ObjectIDType id, SpaceVect pos) :
-		GObject(space, id, "", pos, true),
+		GObject(space, id, "", pos, float_pi / 2.0),
 		Collectible(space, id, pos)
 	{}
 

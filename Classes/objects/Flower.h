@@ -16,7 +16,7 @@ class Flower : virtual public GObject, CircleBody, ImageSprite
 {
 public:
     inline Flower(GSpace* space, ObjectIDType id, const string& name, const string& color, const SpaceVect& pos):
-    GObject(space,id,name, pos, true),
+    GObject(space,id,name, pos, float_pi / 2.0),
     color(color){
     }
     inline Flower(GSpace* space, ObjectIDType id, const ValueMap& args):

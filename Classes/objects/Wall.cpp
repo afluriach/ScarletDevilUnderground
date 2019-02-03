@@ -19,7 +19,7 @@ Wall::Wall(GSpace* space, ObjectIDType id, const ValueMap& args) :
 {}
 
 Wall::Wall(GSpace* space, ObjectIDType id, SpaceVect center, SpaceVect dimensions) :
-	GObject(space, id, "wall", center, true),
+	GObject(space, id, "", center, 0.0),
 	RectangleBody(dimensions)
 {}
 

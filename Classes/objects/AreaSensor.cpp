@@ -23,7 +23,7 @@ AreaSensor::AreaSensor(GSpace* space, ObjectIDType id, const ValueMap& args) :
 }
 
 AreaSensor::AreaSensor(GSpace* space, ObjectIDType id, SpaceVect center, SpaceVect dim) :
-	GObject(space,id,"",center,true),
+	GObject(space,id,"",center,0.0),
 	RectangleBody(dim)
 {
 }
@@ -80,7 +80,7 @@ void HiddenSubroomSensor::update()
 }
 
 RoomSensor::RoomSensor(GSpace* space, ObjectIDType id, SpaceVect center, SpaceVect dimensions, int mapID, const ValueMap& props) :
-	GObject(space, id, "", center, 0.0f, true),
+	GObject(space, id, "", center, 0.0),
 	AreaSensor(space,id,center,dimensions),
 	mapID(mapID)
 {
@@ -101,7 +101,7 @@ void RoomSensor::onPlayerEndContact(Player* p)
 
 
 TrapRoomSensor::TrapRoomSensor(GSpace* space, ObjectIDType id, SpaceVect center, SpaceVect dimensions, int mapID, const ValueMap& props) :
-	GObject(space, id, "", center, 0.0f, true),
+	GObject(space, id, "", center, 0.0),
 	RoomSensor(space,id,center,dimensions, mapID, props),
 	RegisterInit(this),
 	RegisterUpdate<TrapRoomSensor>(this)
@@ -140,7 +140,7 @@ void TrapRoomSensor::update()
 }
 
 BossRoomSensor::BossRoomSensor(GSpace* space, ObjectIDType id, SpaceVect center, SpaceVect dimensions, int mapID, const ValueMap& props) :
-	GObject(space, id, "", center, 0.0f, true),
+	GObject(space, id, "", center, 0.0),
 	RoomSensor(space, id, center,dimensions, mapID, props),
 	RegisterInit(this),
 	RegisterUpdate(this)

@@ -14,7 +14,7 @@
 #include "value_map.hpp"
 
 Block::Block(GSpace* space, ObjectIDType id, const ValueMap& args) :
-GObject(space,id,args,true),
+GObject(space,id,args,float_pi / 2.0),
 MassImpl(getFloatOrDefault(args,"mass",40.0))
 {
 }
