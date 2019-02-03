@@ -23,6 +23,8 @@ const vector<GScene::MapEntry> Forest::rooms = {
 	{make_pair("forest/F7", IntVec2(11,98))},
 	{make_pair("forest/F8", IntVec2(44,77))},
 	{make_pair("forest/F9", IntVec2(87,98))},
+	{make_pair("forest/F10", IntVec2(104,16))},
+	{make_pair("forest/F11", IntVec2(83,57))},
 };
 
 Forest::Forest() :

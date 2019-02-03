@@ -300,6 +300,7 @@ const vector<string> Inst::luaIncludes = {
 			.addFunction("setPaused", &GScene::setPaused)
 			.addFunction("stopDialog", &GScene::stopDialog)
 			.addFunction("teleportToDoor", &GScene::teleportToDoor)
+			.addFunction("unlockAllRooms", &GScene::unlockAllRooms)
 		.endClass()
 
 		.deriveClass<PlayScene,GScene>("PlayScene")

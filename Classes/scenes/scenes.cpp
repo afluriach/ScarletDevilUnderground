@@ -977,6 +977,14 @@ void GScene::updateMapVisibility(SpaceVect playerPos)
 	}
 }
 
+void GScene::unlockAllRooms()
+{
+	for_irange(i, 0, mapAreasVisited.size())
+	{
+		mapAreasVisited.at(i) = true;
+	}
+}
+
 void GScene::renderSpace()
 {
 	spaceRender->setVisible(display != displayMode::lightmap);

@@ -1,65 +1,95 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.0" tiledversion="1.0.3" orientation="orthogonal" renderorder="right-down" width="17" height="17" tilewidth="128" tileheight="128" nextobjectid="47">
- <tileset firstgid="1" name="tree wall" tilewidth="128" tileheight="128" tilecount="4" columns="2">
-  <image source="tree-wall.png" width="256" height="256"/>
- </tileset>
- <tileset firstgid="5" name="grass floor" tilewidth="128" tileheight="128" tilecount="4" columns="2">
+<map version="1.0" tiledversion="1.0.3" orientation="orthogonal" renderorder="right-down" width="17" height="17" tilewidth="128" tileheight="128" nextobjectid="61">
+ <tileset firstgid="1" name="grass floor" tilewidth="128" tileheight="128" tilecount="4" columns="2">
   <image source="grass-floor.png" width="256" height="256"/>
+ </tileset>
+ <tileset firstgid="5" name="forest_dirt_wall" tilewidth="128" tileheight="128" tilecount="4" columns="4">
+  <image source="forest_dirt_wall.png" width="512" height="128"/>
  </tileset>
  <layer name="floor" width="17" height="17">
   <data encoding="base64" compression="zlib">
-   eJxjYGBgYANiVjJpEGAHYg4KaXLtR6ZH3THqjlF30NcdDBS6AwQAPlgHKg==
+   eJx9k0EOxCAMAwnJ/9+8PRRpNDV7sKAljh0Saq01D/pBPdgvCuiw3y/vxI4456yB859n1Bysx9PGWkGTfjvsqc86K3DmD5/c8826ecZ6N+JZH2su6bp+xgxgz6X4Clzn913c+jjSqPXtEetuad76wZy8G3qzb/duFONY8ybw00zRuzkpV4Jz+L009Fi378tz5L6lOU56XOnP2rfcaU4c4/nf2NP30fwBQNICwg==
   </data>
  </layer>
  <layer name="wall_tiles" width="17" height="17">
   <data encoding="base64" compression="zlib">
-   eJxjYmBgYARiJgpoFiBmppCGmUUOgOmFmUUOGHUHdndQAwwWv4y6A7s7KKEpzfcgGgCKDgEj
+   eJxjZ2BgYKcQszFQBjhGzRi0ZlADDBa/jJpBGzNYKcQA0/UBkg==
   </data>
  </layer>
  <objectgroup name="floor">
-  <object id="35" type="GrassFloor" x="0" y="128" width="2176" height="1920"/>
+  <object id="35" type="GrassFloor" x="128" y="128" width="1920" height="1920"/>
  </objectgroup>
  <objectgroup name="walls">
-  <object id="26" x="0" y="0" width="2048" height="256"/>
-  <object id="27" x="1920" y="0" width="256" height="1024"/>
-  <object id="28" x="0" y="1920" width="2176" height="256"/>
-  <object id="29" x="0" y="1152" width="256" height="1024"/>
-  <object id="31" x="1920" y="1152" width="256" height="896"/>
-  <object id="32" x="0" y="128" width="256" height="896"/>
+  <object id="27" x="2048" y="0" width="128" height="1024"/>
+  <object id="28" x="128" y="2048" width="2048" height="128"/>
+  <object id="29" x="0" y="1152" width="128" height="1024"/>
+  <object id="31" x="2048" y="1152" width="128" height="896"/>
+  <object id="32" x="0" y="0" width="128" height="1024"/>
+  <object id="49" x="128" y="0" width="1920" height="128"/>
  </objectgroup>
  <objectgroup name="objects">
-  <object id="42" type="Fairy1" x="1024" y="768" width="128" height="128">
+  <object id="42" name="door-f2-west" type="Door" x="0" y="1024" width="128" height="128">
+   <properties>
+    <property name="dest" value="door-f0-east"/>
+    <property name="dir" value="right"/>
+   </properties>
+  </object>
+  <object id="43" name="door-f2-east" type="Door" x="2048" y="1024" width="128" height="128">
+   <properties>
+    <property name="dest" value="door-f10-west"/>
+    <property name="dir" value="left"/>
+   </properties>
+  </object>
+  <object id="52" type="Fairy1" x="1024" y="768" width="128" height="128">
    <properties>
     <property name="ai_package" value="circle_around_point"/>
     <property name="direction" value="up"/>
-    <property name="waypoint" value="wp1"/>
+    <property name="waypoint" value="wp2"/>
    </properties>
   </object>
-  <object id="43" type="Fairy1" x="768" y="1024" width="128" height="128">
+  <object id="53" type="Fairy1" x="1280" y="1024" width="128" height="128">
+   <properties>
+    <property name="ai_package" value="circle_around_point"/>
+    <property name="direction" value="right"/>
+    <property name="waypoint" value="wp2"/>
+   </properties>
+  </object>
+  <object id="55" type="Fairy1" x="768" y="1024" width="128" height="128">
    <properties>
     <property name="ai_package" value="circle_around_point"/>
     <property name="direction" value="left"/>
-    <property name="waypoint" value="wp1"/>
+    <property name="waypoint" value="wp2"/>
    </properties>
   </object>
-  <object id="44" type="Fairy1" x="1280" y="1024" width="128" height="128">
+  <object id="56" type="Fairy1" x="1024" y="1280" width="128" height="128">
    <properties>
     <property name="ai_package" value="circle_around_point"/>
-    <property name="attributes_package" value="high_hp"/>
-    <property name="direction" value="right"/>
-    <property name="waypoint" value="wp1"/>
-   </properties>
-  </object>
-  <object id="45" type="Fairy1" x="1024" y="1280" width="128" height="128">
-   <properties>
-    <property name="ai_package" value="circle_around_point"/>
-    <property name="attributes_package" value="high_hp"/>
     <property name="direction" value="down"/>
-    <property name="waypoint" value="wp1"/>
+    <property name="waypoint" value="wp2"/>
+   </properties>
+  </object>
+  <object id="57" type="Fairy1" x="256" y="256" width="128" height="128">
+   <properties>
+    <property name="direction" value="down"/>
+   </properties>
+  </object>
+  <object id="58" type="Fairy1" x="1792" y="256" width="128" height="128">
+   <properties>
+    <property name="direction" value="down"/>
+   </properties>
+  </object>
+  <object id="59" type="Fairy1" x="1792" y="1792" width="128" height="128">
+   <properties>
+    <property name="direction" value="up"/>
+   </properties>
+  </object>
+  <object id="60" type="Fairy1" x="256" y="1792" width="128" height="128">
+   <properties>
+    <property name="direction" value="up"/>
    </properties>
   </object>
  </objectgroup>
  <objectgroup name="waypoints">
-  <object id="46" name="wp1" x="1024" y="1024" width="128" height="128"/>
+  <object id="54" name="wp2" x="1024" y="1024" width="128" height="128"/>
  </objectgroup>
 </map>

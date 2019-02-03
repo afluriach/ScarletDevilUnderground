@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.0" tiledversion="1.0.3" orientation="orthogonal" renderorder="right-down" width="46" height="17" tilewidth="128" tileheight="128" nextobjectid="70">
+ <tileset firstgid="1" name="grass floor" tilewidth="128" tileheight="128" tilecount="4" columns="2">
+  <image source="grass-floor.png" width="256" height="256"/>
+ </tileset>
+ <tileset firstgid="5" name="forest_dirt_wall" tilewidth="128" tileheight="128" tilecount="4" columns="4">
+  <image source="forest_dirt_wall.png" width="512" height="128"/>
+ </tileset>
+ <layer name="floor" width="46" height="17">
+  <data encoding="base64" compression="zlib">
+   eJzNlgsKwzAMQ5vP/c/crkTwEC50bFQVmKRrxp4dxdm2Pa92xDxirHlf0RCjmPf1vf488ilxk1M8A6HP+U78CbFu4hpgU+1nMddzQmQjr4IearZOOSR0xUxePdNTfJcQ/Stu+piemFjHfBKin8k1Ee7vVqy/O/5L3HuxsOaVt73/fPNbPM+/jPRDs/feW+gp7lFCYqn6CPNgjtyDJDd97LWkb3yt5gmxbs5c3TPi554kxDvE+atw7jf8P1EOCj+Dfhbe4BPW2P3hnvExIe691/gqH+/jCVVcfvd732d//KzbAW7PAvA=
+  </data>
+ </layer>
+ <layer name="wall_tiles" width="46" height="17">
+  <data encoding="base64" compression="zlib">
+   eJxjYKA/YKcCHgjARqF+Dqq4gnQw6m76gpHsblLyMLX8Se/wpkb5xU4ld7MSiQcTIDa8ifUbsXgk58uBAKPupi8YdTd9wVB2N6G6glBZCgCNKQL+
+  </data>
+ </layer>
+ <objectgroup name="floor">
+  <object id="35" type="GrassFloor" x="3840" y="128" width="1920" height="1920"/>
+  <object id="61" type="GrassFloor" x="1280" y="1024" width="2560" height="128"/>
+  <object id="65" type="GrassFloor" x="0" y="896" width="1408" height="128"/>
+ </objectgroup>
+ <objectgroup name="walls">
+  <object id="27" x="5760" y="0" width="128" height="2048"/>
+  <object id="28" x="4864" y="2048" width="1024" height="128"/>
+  <object id="29" x="3712" y="1152" width="128" height="1024"/>
+  <object id="32" x="3712" y="0" width="128" height="1024"/>
+  <object id="49" x="3840" y="0" width="1920" height="128"/>
+  <object id="59" x="1408" y="896" width="2304" height="128"/>
+  <object id="60" x="1152" y="1152" width="2560" height="128"/>
+  <object id="63" x="0" y="768" width="1536" height="128"/>
+  <object id="64" x="0" y="1024" width="1280" height="128"/>
+  <object id="69" x="3840" y="2048" width="896" height="128"/>
+ </objectgroup>
+ <objectgroup name="objects">
+  <object id="42" name="door-f11-south" type="Door" x="4736" y="2048" width="128" height="128">
+   <properties>
+    <property name="dest" value="door-f10-north"/>
+    <property name="dir" value="up"/>
+   </properties>
+  </object>
+  <object id="66" name="door-f11-west" type="Door" x="0" y="896" width="128" height="128">
+   <properties>
+    <property name="dest" value="door-f4-east"/>
+   </properties>
+  </object>
+ </objectgroup>
+ <objectgroup name="waypoints"/>
+</map>

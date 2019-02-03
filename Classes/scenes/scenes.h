@@ -189,6 +189,7 @@ public:
 	void eraseTile(int mapID, IntVec2 pos, string layer);
 
 	void updateMapVisibility(SpaceVect playerPos);
+	void unlockAllRooms();
 	
 	void teleportToDoor(string name);
 
