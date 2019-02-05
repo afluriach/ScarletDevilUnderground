@@ -64,6 +64,8 @@ AttributeSet AttributeSystem::getBlankAttributeSet()
 {
 	AttributeSet result = getZeroArray<float, to_size_t(Attribute::end)>();
 
+	result[to_size_t(Attribute::attack)] = 1.0f;
+
 	//Sensitivity multiplier should be 1.0 by default.
 	result[to_size_t(Attribute::iceSensitivity)] = 1.0f;
 	result[to_size_t(Attribute::sunSensitivity)] = 1.0f;
@@ -124,6 +126,23 @@ float AttributeSystem::getAdjustedValue(Attribute id) const
 	return attributes.at(to_size_t(id));
 }
 
+float AttributeSystem::getAttackMultiplier() const
+{
+	return attributes.at(to_size_t(Attribute::attack));
+}
+
+AttributeMap AttributeSystem::scaleBulletAttributes(const AttributeMap& bulletAttributes) const
+{
+	AttributeMap result = bulletAttributes;
+
+	auto hp_it = result.find(Attribute::hp);
+	if (hp_it != result.end()) {
+		hp_it->second *= getAttackMultiplier();
+	}
+
+	return result;
+}
+
 float AttributeSystem::getWithinRange(float input, float min, float max)
 {
 	if (input < min)
@@ -177,6 +196,11 @@ void AttributeSystem::setHitProtection()
 void AttributeSystem::setSpellCooldown()
 {
 	attributes.at(to_size_t(Attribute::spellCooldown)) = attributes.at(to_size_t(Attribute::spellCooldownInterval));
+}
+
+void AttributeSystem::resetCombo()
+{
+	attributes.at(to_size_t(Attribute::combo)) = 0.0f;
 }
 
 void AttributeSystem::setFullStamina()
@@ -243,6 +267,10 @@ void AttributeSystem::modifyAttribute(Attribute id, float x)
 
 	case Attribute::agility:
 		modifyAgility(x);
+		break;
+
+	case Attribute::combo:
+		attributes.at(to_size_t(Attribute::combo)) = getWithinRange(attributes.at(to_size_t(Attribute::combo)) + x, 0, 100.0f);
 		break;
 
 	case Attribute::iceDamage:

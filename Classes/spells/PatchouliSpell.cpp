@@ -8,6 +8,7 @@
 
 #include "Prefix.h"
 
+#include "Agent.hpp"
 #include "EnemyBullet.hpp"
 #include "GSpace.hpp"
 #include "PatchouliSpell.hpp"
@@ -25,7 +26,7 @@ void FireStarburst::runPeriodic()
 		SpaceVect crntPos = pos + SpaceVect::ray(1, angle);
 
 		caster->space->createObject(
-			GObject::make_object_factory<FireBullet>(angle, pos, bulletSpeed)
+			GObject::make_object_factory<FireBullet>(dynamic_cast<Agent*>(caster), angle, pos, bulletSpeed)
 		);
 	}
 }
@@ -51,7 +52,7 @@ void FlameFence::init()
 			pos += SpaceVect(x, y) + rowSkew;
 
 			bullets.push_back(caster->space->createObject(
-				GObject::make_object_factory<FireBullet>(0.0f, pos, 0.0f)
+				GObject::make_object_factory<FireBullet>(dynamic_cast<Agent*>(caster), 0.0f, pos, 0.0f)
 			));
 		}
 	}
@@ -109,10 +110,11 @@ void Whirlpool1::update()
 
 		for_irange(i, 0, 6) {
 			caster->space->createObject(GObject::make_object_factory<WaterBullet>(
+				dynamic_cast<Agent*>(caster),
 				angles[i],
 				pos + SpaceVect::ray(1.0, angles[i]),
 				bulletSpeed
-				));
+			));
 		}
 
 		shotTimer = 1.0 / shotsPerSecond;
@@ -173,10 +175,11 @@ void Whirlpool2::update()
 
 		for_irange(i, 0, 12) {
 			caster->space->createObject(GObject::make_object_factory<WaterBullet>(
+				dynamic_cast<Agent*>(caster),
 				angles[i],
 				pos + SpaceVect::ray(1.0, angles[i]),
 				bulletSpeed
-				));
+			));
 		}
 
 		shotTimer = 1.0 / shotsPerSecond;

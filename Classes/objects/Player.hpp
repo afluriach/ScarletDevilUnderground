@@ -82,6 +82,7 @@ public:
 	void init();
     void update();
     void updateHitTime();
+	void updateCombo();
 
 	virtual void onZeroHP();
 
@@ -111,6 +112,9 @@ public:
 	void useDoor(Door* interactTarget);
 	void moveToDestinationDoor(Door* dest);
 	void applyUpgrade(Upgrade* up);
+
+	float getComboMultiplier();
+	void applyCombo(int b);
 
 	//The bullet's graze "radar" has collided with Player.
 	void onGrazeTouch(object_ref<EnemyBullet> bullet);
@@ -149,6 +153,7 @@ protected:
 	bool isSprintActive = false;
 	bool isFocusActive = false;
 	bool isRespawnActive = false;
+	bool isComboActive = false;
 };
 
 class FlandrePC : virtual public Player, public BaseAttributes<FlandrePC>

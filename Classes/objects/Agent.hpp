@@ -43,6 +43,7 @@ public:
 	void modifyAttribute(Attribute id, float val);
 	float _getAttribute(int id) const;
 	void _modifyAttribute(int id, float val);
+	inline const AttributeSystem& getAttributeSystem() const { return attributeSystem; }
 
 	virtual SpaceFloat getTraction() const;
 

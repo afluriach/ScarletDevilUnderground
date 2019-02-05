@@ -249,6 +249,9 @@ const vector<pair<Attribute, RadialMeterSettings>> MagicEffects::meterSettings =
 	{ Attribute::slimeDamage,
 		{ "sprites/ui/slime.png", Color4F(.34f,.61f,.075f,1.0f), Color4F(.75f,.996f,.34f,1.0f) }
 	},
+	{ Attribute::combo,
+		{ "sprites/power1.png",Color4F(.42f,.29f,.29f,1.0f),Color4F(.86f,.16f,.19f,1.0f) }
+	},
 	{ Attribute::hitProtection,
 		{ "sprites/ui/hit_protection.png",Color4F(.42f,.29f,.29f,1.0f),Color4F(.86f,.16f,.19f,1.0f) }
 	},

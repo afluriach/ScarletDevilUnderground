@@ -8,6 +8,7 @@
 
 #include "Prefix.h"
 
+#include "Agent.hpp"
 #include "EnemyBullet.hpp"
 #include "GSpace.hpp"
 #include "macros.h"
@@ -111,6 +112,7 @@ void StarlightTyphoon::fire()
     SpaceVect pos = caster->getPos() + SpaceVect::ray(offset, angle);
     
 	caster->space->createObject(GObject::make_object_factory<StarBullet>(
+		dynamic_cast<Agent*>(caster),
 		arcPos,
 		pos,
 		crntSpeed,
@@ -169,6 +171,7 @@ void IllusionDial::init()
     for_irange(i,0,count)
     {
 		bullets[i] = caster->space->createObject(GObject::make_object_factory<IllusionDialDagger>(
+			dynamic_cast<Agent*>(caster),
 			caster->getPos() + SpaceVect::ray(radius, arc_start + i * arc_spacing),
 			i % 2 ? angular_speed : -angular_speed
 		));

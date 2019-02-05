@@ -15,7 +15,7 @@
 class EnemyBullet : virtual public GObject, public Bullet
 {
 public:
-	EnemyBullet();
+	EnemyBullet(Agent* agent);
 	inline virtual ~EnemyBullet() {}
 
 	void invalidateGraze();
@@ -34,7 +34,7 @@ public DirectionalLaunch
 {
 public:
 
-	WaterBullet(GSpace* space, ObjectIDType id, SpaceFloat angle, const SpaceVect& pos, SpaceFloat speed);
+	WaterBullet(GSpace* space, ObjectIDType id, Agent* agent, SpaceFloat angle, const SpaceVect& pos, SpaceFloat speed);
 
 	virtual inline CircleLightArea getLightSource() const { return CircleLightArea{ getPos(), 2.0, Color4F(.375f,.75f,.75f,.5f), 0.0 }; }
 
@@ -50,7 +50,7 @@ public:
 class FireBullet : virtual public GObject, public EnemyBullet, public CircleBody, public LoopAnimationSprite, public DirectionalLaunch, public MaxSpeedImpl
 {
 public:
-	FireBullet(GSpace* space, ObjectIDType id, SpaceFloat angle, const SpaceVect& pos, SpaceFloat speed);
+	FireBullet(GSpace* space, ObjectIDType id, Agent* agent, SpaceFloat angle, const SpaceVect& pos, SpaceFloat speed);
 
 	virtual inline SpaceFloat getRadius() const { return 0.3; }
 
@@ -67,7 +67,7 @@ class StarBullet : virtual public GObject, public EnemyBullet, public CircleBody
 public:
     static const vector<string> colors;
 
-	StarBullet(GSpace* space, ObjectIDType id, SpaceFloat angle, const SpaceVect& pos, SpaceFloat speed, SpaceFloat radius, const string& color);
+	StarBullet(GSpace* space, ObjectIDType id, Agent* agent, SpaceFloat angle, const SpaceVect& pos, SpaceFloat speed, SpaceFloat radius, const string& color);
 
     const string color;
 
@@ -89,7 +89,7 @@ class Fairy1Bullet :
 	public DirectionalLaunch
 {
 public:
-	Fairy1Bullet(GSpace* space, ObjectIDType id, SpaceFloat angle, const SpaceVect& pos);
+	Fairy1Bullet(GSpace* space, ObjectIDType id, Agent* agent, SpaceFloat angle, const SpaceVect& pos);
 
 	virtual inline SpaceFloat getMaxSpeed() const { return 6.0; }
 	virtual inline SpaceFloat getRadius() const { return 0.3; }
@@ -113,7 +113,7 @@ class IceFairyBullet :
 {
 public:
 
-	IceFairyBullet(GSpace* space, ObjectIDType id, SpaceFloat angle, const SpaceVect& pos);
+	IceFairyBullet(GSpace* space, ObjectIDType id, Agent* agent, SpaceFloat angle, const SpaceVect& pos);
 
 	virtual inline SpaceFloat getMaxSpeed() const { return 6.0; }
 	virtual inline SpaceFloat getRadius() const { return 0.3; }
@@ -153,7 +153,7 @@ public RegisterUpdate<IllusionDialDagger>
 {
 public:
     //IllusionDaggerBullet(const ValueMap& args);
-    IllusionDialDagger(GSpace* space, ObjectIDType id, const SpaceVect& pos, SpaceFloat anglar_velocity);
+    IllusionDialDagger(GSpace* space, ObjectIDType id, Agent* agent, const SpaceVect& pos, SpaceFloat anglar_velocity);
 
 	virtual inline SpaceFloat getMaxSpeed() const { return 3.0; }
     

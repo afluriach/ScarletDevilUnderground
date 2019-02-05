@@ -15,7 +15,7 @@
 
 GObject::GeneratorType IceFairyBulletPattern::spawn(SpaceFloat angle, SpaceVect pos)
 {
-	return GObject::make_object_factory<IceFairyBullet>(angle, pos);
+	return GObject::make_object_factory<IceFairyBullet>(agent, angle, pos);
 }
 
 list<GObject::GeneratorType> Fairy1ABulletPattern::spawn(SpaceFloat angle, SpaceVect pos)
@@ -23,16 +23,19 @@ list<GObject::GeneratorType> Fairy1ABulletPattern::spawn(SpaceFloat angle, Space
 	list<GObject::GeneratorType> result;
 
 	result.push_back(GObject::make_object_factory<Fairy1Bullet>(
+		agent,
 		angle - float_pi / 6.0,
 		pos + SpaceVect::ray(getLaunchDistance(), angle - float_pi / 6.0)
 	));
 
 	result.push_back(GObject::make_object_factory<Fairy1Bullet>(
+		agent,
 		angle,
 		pos + SpaceVect::ray(getLaunchDistance(), angle)
 	));
 
 	result.push_back(GObject::make_object_factory<Fairy1Bullet>(
+		agent,
 		angle + float_pi / 6.0,
 		pos + SpaceVect::ray(getLaunchDistance(), angle + float_pi / 6.0)
 	));

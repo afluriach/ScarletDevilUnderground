@@ -9,7 +9,25 @@
 #include "Prefix.h"
 
 #include "Agent.hpp"
+#include "Player.hpp"
 #include "PlayerBullet.hpp"
+
+PlayerBullet::PlayerBullet(Agent* agent) :
+	Bullet(agent)
+{
+}
+
+void PlayerBullet::onAgentCollide(Agent* agent)
+{
+	Bullet::onAgentCollide(agent);
+	Player* p = space->getObjectAs<Player>("player");
+	p->applyCombo(8);
+}
+
+PlayerShield::PlayerShield(Agent* agent) :
+	Bullet(agent)
+{
+}
 
 void PlayerShield::onWallCollide(Wall* wall)
 {
@@ -37,8 +55,9 @@ void PlayerShield::onBulletCollide(Bullet* bullet)
 	space->removeObject(bullet);
 }
 
-FlandreBigOrb1::FlandreBigOrb1(GSpace* space, ObjectIDType id, SpaceFloat angle, const SpaceVect& pos) :
-	GObject(space,id,"", pos, angle)
+FlandreBigOrb1::FlandreBigOrb1(GSpace* space, ObjectIDType id, Agent* agent, SpaceFloat angle, const SpaceVect& pos) :
+	GObject(space,id,"", pos, angle),
+	PlayerBullet(agent)
 {}
 
 AttributeMap FlandreBigOrb1::getAttributeEffect() const {
@@ -47,8 +66,9 @@ AttributeMap FlandreBigOrb1::getAttributeEffect() const {
 	};
 }
 
-FlandreFastOrb1::FlandreFastOrb1(GSpace* space, ObjectIDType id, SpaceFloat angle, const SpaceVect& pos) :
-	GObject(space,id,"", pos, angle)
+FlandreFastOrb1::FlandreFastOrb1(GSpace* space, ObjectIDType id, Agent* agent, SpaceFloat angle, const SpaceVect& pos) :
+	GObject(space,id,"", pos, angle),
+	PlayerBullet(agent)
 {}
 
 AttributeMap FlandreFastOrb1::getAttributeEffect() const {
@@ -57,8 +77,9 @@ AttributeMap FlandreFastOrb1::getAttributeEffect() const {
 	};
 }
 
-FlandreCounterClockBullet::FlandreCounterClockBullet(GSpace* space, ObjectIDType id, SpaceFloat angle, const SpaceVect& pos) :
+FlandreCounterClockBullet::FlandreCounterClockBullet(GSpace* space, ObjectIDType id, Agent* agent, SpaceFloat angle, const SpaceVect& pos) :
 	GObject(space, id, "", pos, angle),
+	PlayerShield(agent),
 	RectangleBody(SpaceVect(4.0, 0.5))
 {}
 
@@ -68,8 +89,9 @@ AttributeMap FlandreCounterClockBullet::getAttributeEffect() const {
 	};
 }
 
-RumiaFastOrb1::RumiaFastOrb1(GSpace* space, ObjectIDType id, SpaceFloat angle, const SpaceVect& pos) :
-	GObject(space, id, "", pos, angle)
+RumiaFastOrb1::RumiaFastOrb1(GSpace* space, ObjectIDType id, Agent* agent, SpaceFloat angle, const SpaceVect& pos) :
+	GObject(space, id, "", pos, angle),
+	PlayerBullet(agent)
 {}
 
 AttributeMap RumiaFastOrb1::getAttributeEffect() const {
@@ -78,8 +100,9 @@ AttributeMap RumiaFastOrb1::getAttributeEffect() const {
 	};
 }
 
-CirnoSmallIceBullet::CirnoSmallIceBullet(GSpace* space, ObjectIDType id, SpaceFloat angle, const SpaceVect& pos) :
-	GObject(space, id, "", pos, angle)
+CirnoSmallIceBullet::CirnoSmallIceBullet(GSpace* space, ObjectIDType id, Agent* agent, SpaceFloat angle, const SpaceVect& pos) :
+	GObject(space, id, "", pos, angle),
+	PlayerBullet(agent)
 {}
 
 void CirnoSmallIceBullet::onAgentCollide(Agent* agent)
@@ -105,8 +128,9 @@ shared_ptr<MagicEffect> CirnoSmallIceBullet::getMagicEffect(gobject_ref target)
 	return nullptr;
 }
 
-CirnoLargeIceBullet::CirnoLargeIceBullet(GSpace* space, ObjectIDType id, SpaceFloat angle, const SpaceVect& pos) :
-	GObject(space,id,"", pos, angle)
+CirnoLargeIceBullet::CirnoLargeIceBullet(GSpace* space, ObjectIDType id, Agent* agent, SpaceFloat angle, const SpaceVect& pos) :
+	GObject(space,id,"", pos, angle),
+	PlayerBullet(agent)
 {}
 
 AttributeMap CirnoLargeIceBullet::getAttributeEffect() const {
@@ -121,8 +145,9 @@ shared_ptr<MagicEffect> CirnoLargeIceBullet::getMagicEffect(gobject_ref target)
 	return nullptr;
 }
 
-CirnoIceShieldBullet::CirnoIceShieldBullet(GSpace* space, ObjectIDType id, SpaceFloat angle, const SpaceVect& pos) :
-	GObject(space, id, "", pos, angle)
+CirnoIceShieldBullet::CirnoIceShieldBullet(GSpace* space, ObjectIDType id, Agent* agent, SpaceFloat angle, const SpaceVect& pos) :
+	GObject(space, id, "", pos, angle),
+	PlayerShield(agent)
 {}
 
 AttributeMap CirnoIceShieldBullet::getAttributeEffect() const {

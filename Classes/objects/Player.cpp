@@ -183,6 +183,7 @@ void Player::updateSpellControls(const ControlInfo& cs)
 		) {
 			attributeSystem.modifyAttribute(Attribute::mp, -1.0f);
 			cast(equippedSpell->generate(this));		
+			attributeSystem.resetCombo();
 			App::playSound("sfx/player_spellcard.wav", 1.0f);
 		}
     }
@@ -247,6 +248,20 @@ void Player::updateHitTime()
 	attributeSystem.timerDecrement(Attribute::hitProtection);
 }
 
+void Player::updateCombo()
+{
+	if (attributeSystem.getAdjustedValue(Attribute::combo) >= 100.0f) {
+		isComboActive = true;
+	}
+	else if (!attributeSystem.isNonzero(Attribute::combo)) {
+		isComboActive = false;
+	}
+
+	if (attributeSystem.getAdjustedValue(Attribute::combo) > 0) {
+		attributeSystem.modifyAttribute(Attribute::combo, -App::secondsPerFrame * 20.0f);
+	}
+}
+
 void Player::onZeroHP()
 {
 	if (!GScene::suppressGameOver) {
@@ -279,6 +294,7 @@ void Player::update()
 				getFirePattern()->update();
 
 			updateHitTime();
+			updateCombo();
 
 			if (!isSpellActive()) {
 				setHudEffect(Attribute::hitProtection, Attribute::hitProtectionInterval);
@@ -289,6 +305,7 @@ void Player::update()
 
 			setHudEffect(Attribute::spellCooldown, Attribute::spellCooldownInterval);
 
+			updateHudAttribute(Attribute::combo);
 			updateHudAttribute(Attribute::iceDamage);
 			updateHudAttribute(Attribute::sunDamage);
 			updateHudAttribute(Attribute::poisonDamage);
@@ -504,6 +521,11 @@ void Player::applyUpgrade(Upgrade* up)
 	space->removeObject(up);
 }
 
+float Player::getComboMultiplier()
+{
+	return isComboActive ? 1.25f : 1.0f;
+}
+
 void Player::onGrazeTouch(object_ref<EnemyBullet> bullet)
 {
 	if (bullet.isValid() && bullet.get()->grazeValid) {
@@ -522,8 +544,14 @@ void Player::onGrazeCleared(object_ref<EnemyBullet> bullet)
 
 void Player::applyGraze(int p)
 {
-	attributeSystem.modifyAttribute(Attribute::power, p);
+	attributeSystem.modifyAttribute(Attribute::power, isComboActive ? p* 2 : p);
+	applyCombo(p*8);
 	App::playSound("sfx/graze.wav", 1.0f);
+}
+
+void Player::applyCombo(int b)
+{
+	attributeSystem.modifyAttribute(Attribute::combo, b);
 }
 
 void Player::startRespawn()

@@ -21,6 +21,9 @@ enum class Attribute {
 	spellCooldown,
 
 	keys,
+	combo,
+
+	attack,
 
 	maxHP,
 	maxMP,
@@ -77,6 +80,8 @@ public:
 	AttributeSystem(const AttributeMap& baseAttributesMap);
 
 	float getAdjustedValue(Attribute id) const;
+	float getAttackMultiplier() const;
+	AttributeMap scaleBulletAttributes(const AttributeMap& bulletAttributes) const;
 	void modifyIncidentAttribute(Attribute id, Attribute maxID, float x);
 	void applyElementalDamage(Attribute id, Attribute maxID, float x);
 	bool canApplyAttribute(Attribute id, float x);
@@ -96,6 +101,7 @@ public:
 	void setStartPower();
 	void setHitProtection();
 	void setSpellCooldown();
+	void resetCombo();
 
 	void setFullStamina();
 

@@ -14,8 +14,10 @@
 class PlayerBullet : virtual public GObject, public Bullet
 {
 public:
-	inline PlayerBullet() {}
+	PlayerBullet(Agent* agent);
 	inline virtual ~PlayerBullet() {}
+
+	virtual void onAgentCollide(Agent* agent);
 
 	virtual inline GType getType() const { return GType::playerBullet; }
 };
@@ -23,7 +25,7 @@ public:
 class PlayerShield : virtual public GObject, public Bullet
 {
 public:
-	inline PlayerShield() {}
+	PlayerShield(Agent* agent);
 	inline virtual ~PlayerShield() {}
 
 	virtual inline GType getType() const { return GType::playerBullet; }
@@ -42,7 +44,7 @@ class FlandreBigOrb1 : virtual public GObject, public PlayerBullet, public Circl
 {
 public:
 
-	FlandreBigOrb1(GSpace* space, ObjectIDType id, SpaceFloat angle, const SpaceVect& pos);
+	FlandreBigOrb1(GSpace* space, ObjectIDType id, Agent* agent, SpaceFloat angle, const SpaceVect& pos);
 
 	virtual inline SpaceFloat getMaxSpeed() const { return 4.5; }
 	virtual inline SpaceFloat getRadius() const { return 0.6; }
@@ -64,7 +66,7 @@ class FlandreFastOrb1 :
 	public RadialLightObject
 {
 public:
-	FlandreFastOrb1(GSpace* space, ObjectIDType id, SpaceFloat angle, const SpaceVect& pos);
+	FlandreFastOrb1(GSpace* space, ObjectIDType id, Agent* agent, SpaceFloat angle, const SpaceVect& pos);
 
 	virtual inline CircleLightArea getLightSource() const { return CircleLightArea{ getPos(), 2.0, Color4F::RED*0.5f, 0.0 }; }
 
@@ -86,7 +88,7 @@ class FlandreCounterClockBullet :
 	public ImageSprite
 {
 public:
-	FlandreCounterClockBullet(GSpace* space, ObjectIDType id, SpaceFloat angle, const SpaceVect& pos);
+	FlandreCounterClockBullet(GSpace* space, ObjectIDType id, Agent* agent, SpaceFloat angle, const SpaceVect& pos);
 
 	virtual inline string imageSpritePath() const { return "sprites/counter_clock_bullet.png"; }
 	virtual inline float zoom() const { return 0.25f; }
@@ -99,7 +101,7 @@ class RumiaFastOrb1 : virtual public GObject, public PlayerBullet, public Circle
 {
 public:
 
-	RumiaFastOrb1(GSpace* space, ObjectIDType id, SpaceFloat angle, const SpaceVect& pos);
+	RumiaFastOrb1(GSpace* space, ObjectIDType id, Agent* agent, SpaceFloat angle, const SpaceVect& pos);
 
 	virtual inline SpaceFloat getMaxSpeed() const { return 9.0; }
 	virtual inline SpaceFloat getRadius() const { return 0.15; }
@@ -115,7 +117,7 @@ public:
 class CirnoSmallIceBullet : virtual public GObject, public PlayerBullet, public CircleBody, public ImageSprite, public DirectionalLaunch
 {
 public:
-	CirnoSmallIceBullet(GSpace* space, ObjectIDType id, SpaceFloat angle, const SpaceVect& pos);
+	CirnoSmallIceBullet(GSpace* space, ObjectIDType id, Agent* agent, SpaceFloat angle, const SpaceVect& pos);
 
 	virtual inline SpaceFloat getMaxSpeed() const { return 9.0; }
 	virtual inline SpaceFloat getRadius() const { return 0.3; }
@@ -138,7 +140,7 @@ class CirnoLargeIceBullet : virtual public GObject, public PlayerBullet, public 
 {
 public:
 
-	CirnoLargeIceBullet(GSpace* space, ObjectIDType id, SpaceFloat angle, const SpaceVect& pos);
+	CirnoLargeIceBullet(GSpace* space, ObjectIDType id, Agent* agent, SpaceFloat angle, const SpaceVect& pos);
 
 	virtual inline SpaceFloat getMaxSpeed() const { return 9.0; }
 	virtual inline SpaceFloat getRadius() const { return 0.6; }
@@ -159,7 +161,7 @@ class CirnoIceShieldBullet :
 	public ImageSprite
 {
 public:
-	CirnoIceShieldBullet(GSpace* space, ObjectIDType id, SpaceFloat angle, const SpaceVect& pos);
+	CirnoIceShieldBullet(GSpace* space, ObjectIDType id, Agent* agent, SpaceFloat angle, const SpaceVect& pos);
 
 	virtual inline SpaceFloat getMaxSpeed() const { return 9.0; }
 	virtual inline SpaceFloat getRadius() const { return 0.3; }

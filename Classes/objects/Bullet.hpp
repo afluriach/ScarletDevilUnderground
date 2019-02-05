@@ -19,7 +19,7 @@ class Wall;
 class Bullet : virtual public GObject
 {
 public:
-	inline Bullet() {}
+	Bullet(Agent* agent);
 	inline virtual ~Bullet() {}
 
 	virtual inline bool getSensor() const { return true; }
@@ -39,7 +39,7 @@ public:
 
 	void setBodyVisible(bool b);
 protected:
-	int damage = 1;
+	AttributeSystem agentAttributes;
 };
 
 #endif /* Bullet_hpp */

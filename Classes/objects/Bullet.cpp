@@ -14,6 +14,13 @@
 #include "GSpace.hpp"
 #include "MagicEffect.hpp"
 
+Bullet::Bullet(Agent* agent)
+{
+	if (agent) {
+		agentAttributes = agent->getAttributeSystem();
+	}
+}
+
 void Bullet::onWallCollide(Wall* wall)
 {
 	space->removeObject(this);

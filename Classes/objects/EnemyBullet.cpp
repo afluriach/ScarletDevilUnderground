@@ -14,7 +14,8 @@
 #include "GSpace.hpp"
 #include "MagicEffect.hpp"
 
-EnemyBullet::EnemyBullet()
+EnemyBullet::EnemyBullet(Agent* agent) :
+	Bullet(agent)
 {}
 
 void EnemyBullet::invalidateGraze()
@@ -22,13 +23,15 @@ void EnemyBullet::invalidateGraze()
 	grazeValid = false;
 }
 
-FireBullet::FireBullet(GSpace* space, ObjectIDType id, SpaceFloat angle, const SpaceVect& pos, SpaceFloat speed) :
+FireBullet::FireBullet(GSpace* space, ObjectIDType id, Agent* agent, SpaceFloat angle, const SpaceVect& pos, SpaceFloat speed) :
 	GObject(space, id, "", pos, angle),
+	EnemyBullet(agent),
 	MaxSpeedImpl(speed)
 {}
 
-WaterBullet::WaterBullet(GSpace* space, ObjectIDType id, SpaceFloat angle, const SpaceVect& pos, SpaceFloat speed) :
+WaterBullet::WaterBullet(GSpace* space, ObjectIDType id, Agent* agent, SpaceFloat angle, const SpaceVect& pos, SpaceFloat speed) :
 	GObject(space, id, "", pos, angle),
+	EnemyBullet(agent),
 	MaxSpeedImpl(speed)
 {}
 
@@ -42,10 +45,11 @@ const vector<string> StarBullet::colors = {
 	"yellow"
 };
 
-StarBullet::StarBullet(GSpace* space, ObjectIDType id, SpaceFloat angle, const SpaceVect& pos, SpaceFloat speed, SpaceFloat radius, const string& color) :
-	color(color),
+StarBullet::StarBullet(GSpace* space, ObjectIDType id, Agent* agent, SpaceFloat angle, const SpaceVect& pos, SpaceFloat speed, SpaceFloat radius, const string& color) :
+	GObject(space, id, "", pos, angle),
+	EnemyBullet(agent),
 	MaxSpeedImpl(speed),
-	GObject(space, id, "", pos, angle)
+	color(color)
 {}
 
 AttributeMap StarBullet::getAttributeEffect() const {
@@ -54,12 +58,14 @@ AttributeMap StarBullet::getAttributeEffect() const {
 	};
 }
 
-IceFairyBullet::IceFairyBullet(GSpace* space, ObjectIDType id, SpaceFloat angle, const SpaceVect& pos) :
-	GObject(space, id, "", pos, angle)
+IceFairyBullet::IceFairyBullet(GSpace* space, ObjectIDType id, Agent* agent, SpaceFloat angle, const SpaceVect& pos) :
+	GObject(space, id, "", pos, angle),
+	EnemyBullet(agent)
 {}
 
 LauncherBullet::LauncherBullet(GSpace* space, ObjectIDType id, SpaceFloat angle, const SpaceVect& pos) :
-	GObject(space, id, "", pos, angle)
+	GObject(space, id, "", pos, angle),
+	EnemyBullet(nullptr)
 {}
 
 AttributeMap LauncherBullet::getAttributeEffect() const {
@@ -75,8 +81,9 @@ AttributeMap IceFairyBullet::getAttributeEffect() const{
 	};
 }
 
-Fairy1Bullet::Fairy1Bullet(GSpace* space, ObjectIDType id, SpaceFloat angle, const SpaceVect& pos) :
-	GObject(space, id, "", pos, angle)
+Fairy1Bullet::Fairy1Bullet(GSpace* space, ObjectIDType id, Agent* agent, SpaceFloat angle, const SpaceVect& pos) :
+	GObject(space, id, "", pos, angle),
+	EnemyBullet(agent)
 {}
 
 AttributeMap Fairy1Bullet::getAttributeEffect() const {
@@ -90,8 +97,9 @@ shared_ptr<MagicEffect> IceFairyBullet::getMagicEffect(gobject_ref target) {
 	return nullptr;
 }
 
-IllusionDialDagger::IllusionDialDagger(GSpace* space, ObjectIDType id, const SpaceVect& pos, SpaceFloat angular_velocity) :
+IllusionDialDagger::IllusionDialDagger(GSpace* space, ObjectIDType id, Agent* agent, const SpaceVect& pos, SpaceFloat angular_velocity) :
 GObject(space,id,"", pos, 0.0),
+EnemyBullet(agent),
 RectangleBody(SpaceVect(0.8, 0.175)),
 RegisterUpdate<IllusionDialDagger>(this)
 {
