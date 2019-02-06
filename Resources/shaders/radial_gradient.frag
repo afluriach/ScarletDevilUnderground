@@ -17,19 +17,15 @@ varying vec4 v_position;
 void main()
 {
     float d = distance(v_position.xy, u_center) / u_radius;
-    if (d <= 1.0)
-    {
-        if (d <= u_expand)
-        {
-            gl_FragColor = u_startColor;
-        }
-        else
-        {
-            gl_FragColor = mix(u_startColor, u_endColor, (d - u_expand) / (1.0 - u_expand));
-        }
-    }
-    else
-    {
-        gl_FragColor = vec4(0.0, 0.0, 0.0, 0.0);
-    }
+	float co = 1.0 - step(1.0, d);
+	
+    gl_FragColor = mix(
+		vec4(0.0, 0.0, 0.0, 0.0),
+		mix(
+			u_startColor,
+			u_endColor,
+			max(d - u_expand, 0.0) / (1.0 - u_expand)
+		),
+		co
+	);
 }
