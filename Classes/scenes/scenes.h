@@ -18,6 +18,7 @@ class Dialog;
 class GSpace;
 class HUD;
 class LuaShell;
+class MenuLayer;
 class PatchConAnimation;
 class PlayScene;
 class TimedLoopAnimation;
@@ -196,6 +197,9 @@ public:
 	Layer* getLayer(sceneLayers layer);
 	inline Layer* getSpaceLayer() { return getLayer(sceneLayers::space); }
 
+	void pushMenu(MenuLayer* layer);
+	void popMenu();
+
     util::multifunction<void(void)> multiInit;
     util::multifunction<void(void)> multiUpdate;
 
@@ -267,6 +271,7 @@ protected:
 	vector<pair<function<void(void)>, updateOrder>> actionsToAdd;
 	mutex actionsMutex;
 
+	vector<MenuLayer*> menuStack;
 	Dialog* dialog = nullptr;
 
 	string sceneName;

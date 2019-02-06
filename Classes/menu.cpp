@@ -14,12 +14,21 @@
 #include "menu.h"
 #include "scenes.h"
 
+MenuLayer::MenuLayer() :
+	control_listener(make_unique<ControlListener>())
+{
+}
+
+void MenuLayer::setControlsActive(bool b)
+{
+	control_listener->setActive(b);
+}
+
 TextListMenuLayer::TextListMenuLayer(
     const string& title,
     const vector<string>& options,
     const vector<listAction>& optionActions
 ) :
-control_listener(make_unique<ControlListener>()),
 title(title),
 options(options),
 optionActions(optionActions)
@@ -29,9 +38,6 @@ TextListMenuLayer::~TextListMenuLayer() {}
 
 void TextListMenuLayer::upPressed()
 {
-    upHeld = true;
-    if(downHeld) return;
-    
 	if(selected > 0)
 	    --selected;
 
@@ -40,9 +46,6 @@ void TextListMenuLayer::upPressed()
 
 void TextListMenuLayer::downPressed()
 {
-    downHeld = true;
-    if(upHeld) return;
-    
 	if(selected < options.size() - 1)
 	    ++selected;
     
@@ -51,15 +54,6 @@ void TextListMenuLayer::downPressed()
 void TextListMenuLayer::selectPressed()
 {
     optionActions[selected]();
-}
-
-void TextListMenuLayer::upReleased()
-{
-    upHeld = false;
-}
-void TextListMenuLayer::downReleased()
-{
-    downHeld = false;
 }
 
 void TextListMenuLayer::updateCursor()
@@ -99,9 +93,6 @@ bool TextListMenuLayer::init()
     control_listener->addPressListener(ControlAction::menuDown, bind( &TextListMenuLayer::downPressed, this));
 
     control_listener->addPressListener(ControlAction::menuSelect, bind( &TextListMenuLayer::selectPressed, this));
-    
-    control_listener->addReleaseListener(ControlAction::menuUp, bind( &TextListMenuLayer::upReleased, this));
-    control_listener->addReleaseListener(ControlAction::menuDown, bind( &TextListMenuLayer::downReleased, this));
     
     return true;
 }

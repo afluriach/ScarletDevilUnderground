@@ -15,6 +15,7 @@
 
 class GObject;
 class MapMenu;
+class MenuLayer;
 class PauseMenu;
 
 class PlayScene : public GScene
@@ -65,7 +66,7 @@ public:
 
 private:    
     void addHUD();
-	void showMenu(Layer* menu);
+	void showMenu(MenuLayer* menu);
 	void triggerMenu( void (PlayScene::*m)(void) );
 
 	SpaceFloat cameraMoveTilesPerSecond = 3.0;

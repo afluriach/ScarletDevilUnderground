@@ -35,6 +35,7 @@ const vector<string> TitleMenu::entries = {
 	"New Game",
 	"Load Game",
 	"Scene Select",
+	"World Select",
 	"Exit"
 };
 
@@ -42,6 +43,7 @@ const vector <TextListMenuLayer::listAction > TitleMenu::entryActions = {
 	&App::runOverworldScene,
 	loadGame,
 	sceneSelect,
+	worldSelect,
 	&App::end
 };
 
@@ -53,6 +55,11 @@ void TitleMenu::loadGame()
 void TitleMenu::sceneSelect()
 {
 	App::createAndRunScene<SceneSelectScene>();
+}
+
+void TitleMenu::worldSelect()
+{
+	App::getCrntScene()->pushMenu(Node::ccCreate<WorldSelect>());
 }
 
 const string LoadProfileMenu::title = "Load Game";
@@ -145,19 +152,89 @@ void SceneSelect::back()
 	App::createAndRunScene<TitleMenuScene>();
 }
 
+TextListMenuLayer::listAction menuPushAdapter(string sceneName) {
+	return [sceneName]() -> void {
+		GScene* scene = App::getCrntScene();
+		WorldSelect::nextScene = sceneName;
+		scene->pushMenu(Node::ccCreate<CharacterSelect>());
+	};
+}
+
+const string WorldSelect::title = "Select World";
+
+const vector<string> WorldSelect::entries = {
+	"Graveyard",
+	"Forest",
+	"Desert",
+	"Mine",
+	"Back"
+};
+
+const vector<TextListMenuLayer::listAction> WorldSelect::entryActions = {
+	menuPushAdapter("Graveyard"),
+	menuPushAdapter("Forest"),
+	menuPushAdapter("Desert"),
+	menuPushAdapter("Mine"),
+	&WorldSelect::back
+};
+
+string WorldSelect::nextScene = "";
+
+void WorldSelect::back()
+{
+	GScene* scene = App::getCrntScene();
+	scene->popMenu();
+}
+
+TextListMenuLayer::listAction characterSelectAdapter(PlayerCharacter pc) {
+	return [pc]() -> void {
+		App::crntPC = pc;
+		GScene::runScene(WorldSelect::nextScene);
+	};
+}
+
+const string CharacterSelect::title = "Select Character";
+
+const vector<string> CharacterSelect::entries = {
+	"Flandre",
+	"Rumia",
+	"Cirno",
+	"Back"
+};
+
+const vector<TextListMenuLayer::listAction> CharacterSelect::entryActions = {
+	characterSelectAdapter(PlayerCharacter::flandre),
+	characterSelectAdapter(PlayerCharacter::rumia),
+	characterSelectAdapter(PlayerCharacter::cirno),
+	&CharacterSelect::back
+};
+
+void CharacterSelect::back()
+{
+	GScene* scene = App::getCrntScene();
+	scene->popMenu();
+}
+
 const string PauseMenu::title = "-PAUSED-";
 
 const vector<string> PauseMenu::entries = {
 	"Resume",
 	"Restart",
+	"World Select",
 	"Exit to title"
 };
 
 const vector<TextListMenuLayer::listAction> PauseMenu::entryActions = {
 	&App::resumeScene,
 	&App::restartScene,
+	&PauseMenu::worldSelect,
 	&App::runTitleScene
 };
+
+void PauseMenu::worldSelect()
+{
+	App::getCrntScene()->pushMenu(Node::ccCreate<WorldSelect>());
+}
 
 const string GameOverMenu::title = "GAME OVER";
 
@@ -239,8 +316,7 @@ const Color4F MapMenu::doorColor(0.61f,0.55f,0.39f,1.0f);
 const Color4F MapMenu::goalColor(0.73f, 0.77f, 0.45f, 1.0f);
 
 MapMenu::MapMenu(PlayScene* playScene) :
-	playScene(playScene),
-	controlListener(make_unique<ControlListener>())
+	playScene(playScene)
 {
 }
 
@@ -248,7 +324,7 @@ bool MapMenu::init()
 {
 	Layer::init();
 
-	controlListener->addPressListener(ControlAction::menuBack, bind(&MapMenu::close, this));
+	control_listener->addPressListener(ControlAction::menuBack, bind(&MapMenu::close, this));
 	scheduleUpdateWithPriority(0);
 
 	Vec2 size = getScreenSize();

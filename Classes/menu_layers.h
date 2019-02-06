@@ -25,6 +25,7 @@ public:
 private:
 	static void loadGame();
 	static void sceneSelect();
+	static void worldSelect();
 };
 
 class LoadProfileMenu : public TextListMenuImpl<LoadProfileMenu>
@@ -41,7 +42,6 @@ private:
 	static void back();
 };
 
-
 class SceneSelect : public TextListMenuImpl<SceneSelect>
 {
 public:
@@ -54,12 +54,41 @@ protected:
 	static void back();
 };
 
+class WorldSelect : public TextListMenuImpl<WorldSelect>
+{
+public:
+	static const string title;
+	static const vector<string> entries;
+	static const vector<listAction> entryActions;
+
+	static string nextScene;
+
+	inline WorldSelect() {}
+
+protected:
+	static void back();
+};
+
+class CharacterSelect : public TextListMenuImpl<CharacterSelect>
+{
+public:
+	static const string title;
+	static const vector<string> entries;
+	static const vector<listAction> entryActions;
+
+	inline CharacterSelect() {}
+protected:
+	static void back();
+};
+
 class PauseMenu : public TextListMenuImpl<PauseMenu>
 {
 public:
 	static const string title;
 	static const vector<string> entries;
 	static const vector<listAction> entryActions;
+
+	static void worldSelect();
 
 	inline PauseMenu() {}
 };
@@ -101,7 +130,7 @@ public:
 	inline ReplayCompletedMenu() {}
 };
 
-class MapMenu : public Layer
+class MapMenu : public MenuLayer
 {
 public:
 	static const int margin;
@@ -120,7 +149,6 @@ public:
 
 	void close();
 protected:
-	unique_ptr<ControlListener> controlListener;
 	PlayScene* playScene = nullptr;
 	DrawNode* backgroundNode;
 	DrawNode* drawNode;

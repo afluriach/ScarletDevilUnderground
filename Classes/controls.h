@@ -130,6 +130,7 @@ public:
 	callback_uuid addPressListener(ControlAction action, function<void()> f);
 	callback_uuid addReleaseListener(ControlAction action, function<void()> f);
     void removeListener(callback_uuid uuid);
+	void setCallbacksActive(const list<callback_uuid>& list, bool b);
     
     void update();
 private:
@@ -162,6 +163,7 @@ private:
     
 	map<callback_uuid, function<void()>> onPressedCallback;
 	map<callback_uuid, function<void()>> onReleasedCallback;
+	map<callback_uuid, bool> isCallbackActive;
 
     EventListenerKeyboard* keyListener;
     
@@ -206,8 +208,11 @@ public:
     
     void addPressListener(ControlAction action, function<void()> f);
     void addReleaseListener(ControlAction action, function<void()> f);
+
+	void setActive(bool b);
 protected:
     list<ControlRegister::callback_uuid> callback_IDs;
+	bool isActive = true;
 };
 
 #endif /* controls_h */

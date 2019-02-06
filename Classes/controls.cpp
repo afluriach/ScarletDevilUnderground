@@ -281,7 +281,8 @@ void ControlRegister::checkCallbacks()
 			for (auto it = s.begin(); it != s.end(); ++it) {
 				if (logActionState)
 					log("Calling on press callback %ud.", *it);
-				onPressedCallback[*it]();
+				if(isCallbackActive.at(*it))
+					onPressedCallback[*it]();
 			}
         }
         
@@ -293,7 +294,8 @@ void ControlRegister::checkCallbacks()
 			for (auto it = s.begin(); it != s.end(); ++it) {
 				if (logActionState)
 					log("Calling on release callback %ud.", *it);
-				onReleasedCallback[*it]();
+				if (isCallbackActive.at(*it))
+					onReleasedCallback[*it]();
 			}
 		}
     }
@@ -348,6 +350,8 @@ ControlRegister::callback_uuid ControlRegister::addPressListener(ControlAction a
     onPressedID[to_size_t(action)].insert(uuid);
     onPressedCallback[uuid] = f;
     
+	isCallbackActive.insert_or_assign(uuid, true);
+
     return uuid;
 }
 
@@ -358,6 +362,8 @@ ControlRegister::callback_uuid ControlRegister::addReleaseListener(ControlAction
     onReleasedID[to_size_t(action)].insert(uuid);
     onReleasedCallback[uuid] = f;
     
+	isCallbackActive.insert_or_assign(uuid, true);
+
     return uuid;
 }
 
@@ -373,6 +379,15 @@ void ControlRegister::removeListener(callback_uuid uuid)
 
     onPressedCallback.erase(uuid);
     onReleasedCallback.erase(uuid);
+
+	isCallbackActive.erase(uuid);
+}
+
+void ControlRegister::setCallbacksActive(const list<callback_uuid>& list, bool b)
+{
+	for (callback_uuid id : list) {
+		isCallbackActive.insert_or_assign(id, b);
+	}
 }
 
 bool ControlInfo::isControlActionPressed(ControlAction id) const
@@ -407,4 +422,10 @@ void ControlListener::addReleaseListener(ControlAction action, function<void()> 
 {
 	ControlRegister::callback_uuid uuid = App::control_register->addReleaseListener(action, f);
     callback_IDs.push_back(uuid);
+}
+
+void ControlListener::setActive(bool b)
+{
+	isActive = b;
+	App::control_register->setCallbacksActive(callback_IDs, b);
 }

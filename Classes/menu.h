@@ -12,7 +12,21 @@
 class ControlListener;
 class SceneSelect;
 
-class TextListMenuLayer : public Layer
+class MenuLayer : public Layer
+{
+public:
+	MenuLayer();
+
+	inline virtual void upPressed() {};
+	inline virtual void downPressed() {};
+	inline virtual void selectPressed() {};
+
+	void setControlsActive(bool b);
+protected:
+	unique_ptr<ControlListener> control_listener;
+};
+
+class TextListMenuLayer : public MenuLayer
 {
 public:
     typedef function<void(void)> listAction;
@@ -27,20 +41,14 @@ public:
 
     virtual bool init();
     
+	virtual void upPressed();
+	virtual void downPressed();
+	virtual void selectPressed();
+
 protected:
     string title;
     vector<string> options;
     vector<listAction> optionActions;
-    
-	unique_ptr<ControlListener> control_listener;
-    bool upHeld = false;
-    bool downHeld = false;
-        
-    void upPressed();
-    void downPressed();
-    void selectPressed();
-    void upReleased();
-    void downReleased();
 
 private:
     

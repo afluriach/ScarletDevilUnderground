@@ -19,7 +19,7 @@ bool TitleMenuScene::init()
 {
 	GScene::init();
 
-	addChild(Node::ccCreate<TitleMenu>());
+	pushMenu(Node::ccCreate<TitleMenu>());
 
 	return true;
 }
@@ -32,7 +32,7 @@ bool LoadProfileScene::init()
 {
 	GScene::init();
 
-	addChild(Node::ccCreate<LoadProfileMenu>());
+	pushMenu(Node::ccCreate<LoadProfileMenu>());
 
 	return true;
 }
@@ -45,7 +45,7 @@ bool SceneSelectScene::init()
 {
 	GScene::init();
 
-	addChild(Node::ccCreate<SceneSelect>());
+	pushMenu(Node::ccCreate<SceneSelect>());
 
 	return true;
 }

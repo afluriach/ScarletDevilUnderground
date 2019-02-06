@@ -110,10 +110,12 @@ void PlayScene::addHUD()
 
 void PlayScene::onPausePressed()
 {
-	if (isPaused)
-		exitPause();
-	else
+	if (!isPaused) {
 		enterPause();
+	}
+	else if (isPaused && menuStack.size() == 1) {
+		exitPause();
+	}
 }
 
 void PlayScene::onMapPressed()
@@ -131,7 +133,7 @@ void PlayScene::enterPause()
 		return;
 
 	pauseMenu = Node::ccCreate<PauseMenu>();
-	getLayer(sceneLayers::menu)->addChild(pauseMenu);
+	pushMenu(pauseMenu);
     pauseAnimations();
 	App::pauseSounds();
 	setPaused(true);
@@ -140,7 +142,7 @@ void PlayScene::enterPause()
 
 void PlayScene::exitPause()
 {
-	getLayer(sceneLayers::menu)->removeChild(pauseMenu);
+	popMenu();
 	pauseMenu = nullptr;
     resumeAnimations();
 	App::resumeSounds();
@@ -219,12 +221,12 @@ void PlayScene::enterMap()
 	}
 
 	mapMenu = Node::ccCreate<MapMenu>(this);
-	getLayer(sceneLayers::menu)->addChild(mapMenu);
+	pushMenu(mapMenu);
 }
 
 void PlayScene::exitMap()
 {
-	getLayer(sceneLayers::menu)->removeChild(mapMenu);
+	popMenu();
 	mapMenu = nullptr;
 	resumeAnimations();
 	setPaused(false);
@@ -298,13 +300,13 @@ ControlInfo PlayScene::getControlData()
 	}
 }
 
-void PlayScene::showMenu(Layer* menu)
+void PlayScene::showMenu(MenuLayer* menu)
 {
 	hud->setVisible(false);
 	if (dialog)
 		dialog->setVisible(false);
 
-	getLayer(sceneLayers::menu)->addChild(menu);
+	pushMenu(menu);
 }
 
 void PlayScene::triggerMenu(void (PlayScene::*m)(void))

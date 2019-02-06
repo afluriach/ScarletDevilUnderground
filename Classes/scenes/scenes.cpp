@@ -19,6 +19,7 @@
 #include "GSpace.hpp"
 #include "LuaAPI.hpp"
 #include "macros.h"
+#include "menu.h"
 #include "PlayScene.hpp"
 #include "scenes.h"
 #include "types.h"
@@ -682,6 +683,31 @@ Layer* GScene::getLayer(sceneLayers layer)
 	auto it = layers.find(to_int(layer));
 	if (it == layers.end()) return nullptr;
 	return it->second;
+}
+
+void GScene::pushMenu(MenuLayer* layer)
+{
+	if (!menuStack.empty()) {
+		menuStack.back()->setVisible(false);
+		menuStack.back()->setControlsActive(false);
+	}
+
+	menuStack.push_back(layer);
+	getLayer(sceneLayers::menu)->addChild(layer);
+}
+
+void GScene::popMenu()
+{
+	if (!menuStack.empty()) {
+		Layer* l = menuStack.back();
+		getLayer(sceneLayers::menu)->removeChild(l);
+		menuStack.pop_back();
+	}
+
+	if (!menuStack.empty()) {
+		menuStack.back()->setVisible(true);
+		menuStack.back()->setControlsActive(true);
+	}
 }
 
 void GScene::loadMaps()
