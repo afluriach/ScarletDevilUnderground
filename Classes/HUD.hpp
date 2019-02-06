@@ -11,6 +11,7 @@
 
 #include "Attributes.hpp"
 
+class Cone;
 class Enemy;
 class Player;
 
@@ -67,10 +68,8 @@ typedef tuple<string, Color4F, Color4F> RadialMeterSettings;
 class RadialMeter : public Node
 {
 public:
-	static const unsigned int boundingSize = 128;
-	static const unsigned int radiusMargin = 16;
-	static const int segments = 128;
-	//static const int iconSize = 96;
+	static const unsigned int boundingSize = 256;
+	static const unsigned int radiusMargin = 32;
 
 	RadialMeter(RadialMeterSettings settings);
 	RadialMeter(string iconName, Color4F empty, Color4F filled);
@@ -84,7 +83,7 @@ protected:
 	string iconName;
 	Color4F filled, empty;
 
-	DrawNode* drawNode;
+	Cone* cone;
 	Sprite* icon;
 
 	float crntValue = 0.0f;

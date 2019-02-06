@@ -179,8 +179,15 @@ bool RadialMeter::init()
 {
 	Node::init();
 
-	drawNode = DrawNode::create();
-	addChild(drawNode, 1);
+	cone = Node::ccCreate<Cone>(
+		filled,
+		empty, 
+		(boundingSize - radiusMargin) / 2,
+		Vec2::ZERO,
+		0.0f
+	);
+	cone->setContentSize(CCSize(boundingSize - radiusMargin, boundingSize - radiusMargin));
+	addChild(cone, 1);
 
 	icon = Sprite::create(iconName);
 	addChild(icon, 2);
@@ -202,33 +209,8 @@ void RadialMeter::redraw()
 {
 	GLubyte alpha = _displayedOpacity;
 
-	drawNode->clear();
-
-	drawNode->drawSolidCircle(
-		Vec2::ZERO,
-		boundingSize - radiusMargin / 2, 
-		0.0f,
-		segments,
-		opacityScale(Color4F::BLACK, alpha / 2)
-	);
-
-	drawNode->drawSolidCone(
-		Vec2::ZERO,
-		boundingSize - radiusMargin,
-		0.0f,
-		float_pi * 2.0 * crntValue,
-		segments,
-		opacityScale(filled, alpha)
-	);
-
-	drawNode->drawSolidCone(
-		Vec2::ZERO,
-		boundingSize - radiusMargin,
-		float_pi * 2.0 * crntValue,
-		float_pi * 2.0,
-		segments,
-		opacityScale(empty, alpha)
-	);
+	cone->setAngle(float_pi*2.0 * crntValue);
+	cone->setColors(opacityScale(filled, alpha), opacityScale(empty, alpha));
 }
 
 const int MagicEffects::spacing = 128;

@@ -46,28 +46,40 @@ struct ConeLightArea
 	float startAngle, endAngle;
 };
 
-class RadialGradient : public Node
+class ShaderNode : public Node
 {
 public:
-	RadialGradient(const Color4F& startColor, const Color4F& endColor, float radius, const Vec2& center, float expand);
-
 	virtual bool init();
-	virtual void draw(Renderer *renderer, const Mat4 &transform, uint32_t flags) override;
 	virtual void setContentSize(const CCSize& size) override;
+	virtual void draw(Renderer *renderer, const Mat4 &transform, uint32_t flags) override;
 
 	inline void setBlendFunc(BlendFunc b) { _blendFunc = b; }
 
+	virtual string getShaderName() const = 0;
+	virtual void initUniforms() = 0;
+	virtual void updateUniforms() = 0;
 protected:
 	void onDraw(const Mat4& transform, uint32_t flags);
 
 	Vec2 _center;
 	Vec2 _vertices[4];
+	CustomCommand _customCommand;
+	BlendFunc _blendFunc = BlendFunc::ALPHA_NON_PREMULTIPLIED;
+};
+
+class RadialGradient : public ShaderNode
+{
+public:
+	RadialGradient(const Color4F& startColor, const Color4F& endColor, float radius, const Vec2& center, float expand);
+
+	inline virtual string getShaderName() const { return "radial_gradient"; }
+	virtual void initUniforms();
+	virtual void updateUniforms();
+
+protected:
 	Color4F _startColor, _endColor;
 	float _radius;
 	float _expand;
-
-	CustomCommand _customCommand;
-	BlendFunc _blendFunc = BlendFunc::ALPHA_NON_PREMULTIPLIED;
 
 	GLint _uniformLocationStartColor;
 	GLint _uniformLocationEndColor;
@@ -75,6 +87,31 @@ protected:
 	GLint _uniformLocationRadius;
 	GLint _uniformLocationExpand;
 };
+
+class Cone : public ShaderNode
+{
+public:
+	Cone(const Color4F& fillColor, const Color4F& emptyColor, float radius, const Vec2& center, float angle);
+
+	void setAngle(float angle);
+	void setColors(Color4F fill, Color4F empty);
+
+	inline virtual string getShaderName() const { return "cone"; }
+	virtual void initUniforms();
+	virtual void updateUniforms();
+
+protected:
+	Color4F _fillColor, _emptyColor;
+	float _radius;
+	float _angle;
+
+	GLint _uniformLocationFillColor;
+	GLint _uniformLocationEmptyColor;
+	GLint _uniformLocationCenter;
+	GLint _uniformLocationRadius;
+	GLint _uniformLocationAngle;
+};
+
 
 class Cursor : public Node
 {

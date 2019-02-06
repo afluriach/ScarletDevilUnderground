@@ -22,43 +22,18 @@ cocos2d::CCSize getScreenSize()
     return Director::getInstance()->getVisibleSize();
 }
 
-RadialGradient::RadialGradient(const Color4F& startColor, const Color4F& endColor, float radius, const Vec2& center, float expand) :
-	_startColor(startColor),
-	_endColor(endColor),
-	_radius(radius),
-	_center(center),
-	_expand(expand)
+bool ShaderNode::init()
 {
-}
-
-bool RadialGradient::init()
-{
-	_blendFunc = BlendFunc::ALPHA_NON_PREMULTIPLIED;
-
-	for (int i = 0; i < 4; ++i)
-		_vertices[i] = { 0.0f, 0.0f };
-
 	Node::init();
 
-	setGLProgramState(GLProgramState::getOrCreateWithGLProgramName("radial_gradient"));
+	setGLProgramState(GLProgramState::getOrCreateWithGLProgramName(getShaderName()));
 	auto program = getGLProgram();
-	_uniformLocationStartColor = program->getUniformLocation("u_startColor");
-	_uniformLocationEndColor = program->getUniformLocation("u_endColor");
-	_uniformLocationExpand = program->getUniformLocation("u_expand");
-	_uniformLocationRadius = program->getUniformLocation("u_radius");
-	_uniformLocationCenter = program->getUniformLocation("u_center");
+	initUniforms();
 
 	return true;
 }
 
-void RadialGradient::draw(Renderer *renderer, const Mat4 &transform, uint32_t flags)
-{
-	_customCommand.init(_globalZOrder, transform, flags);
-	_customCommand.func = CC_CALLBACK_0(RadialGradient::onDraw, this, transform, flags);
-	renderer->addCommand(&_customCommand);
-}
-
-void RadialGradient::setContentSize(const CCSize& size)
+void ShaderNode::setContentSize(const CCSize& size)
 {
 	_vertices[0] = Vec2(-size.width / 2, -size.height / 2);
 	_vertices[1] = Vec2(size.width / 2, -size.height / 2);
@@ -68,18 +43,20 @@ void RadialGradient::setContentSize(const CCSize& size)
 	Node::setContentSize(size);
 }
 
-void RadialGradient::onDraw(const Mat4& transform, uint32_t flags)
+void ShaderNode::draw(Renderer *renderer, const Mat4 &transform, uint32_t flags)
+{
+	_customCommand.init(_globalZOrder, transform, flags);
+	_customCommand.func = CC_CALLBACK_0(ShaderNode::onDraw, this, transform, flags);
+	renderer->addCommand(&_customCommand);
+}
+
+void ShaderNode::onDraw(const Mat4& transform, uint32_t flags)
 {
 	auto program = getGLProgram();
 	program->use();
 	program->setUniformsForBuiltins(transform);
-	program->setUniformLocationWith4f(_uniformLocationStartColor, _startColor.r,
-		_startColor.g, _startColor.b, _startColor.a);
-	program->setUniformLocationWith4f(_uniformLocationEndColor, _endColor.r,
-		_endColor.g, _endColor.b, _endColor.a);
-	program->setUniformLocationWith2f(_uniformLocationCenter, _center.x, _center.y);
-	program->setUniformLocationWith1f(_uniformLocationRadius, _radius);
-	program->setUniformLocationWith1f(_uniformLocationExpand, _expand);
+
+	updateUniforms();
 
 	GL::enableVertexAttribs(GL::VERTEX_ATTRIB_FLAG_POSITION);
 
@@ -94,6 +71,81 @@ void RadialGradient::onDraw(const Mat4& transform, uint32_t flags)
 	glDrawArrays(GL_TRIANGLE_STRIP, 0, 4);
 
 	CC_INCREMENT_GL_DRAWN_BATCHES_AND_VERTICES(1, 4);
+}
+
+
+RadialGradient::RadialGradient(const Color4F& startColor, const Color4F& endColor, float radius, const Vec2& center, float expand) :
+	_startColor(startColor),
+	_endColor(endColor),
+	_radius(radius),
+	_expand(expand)
+{
+	_center = center;
+}
+
+void RadialGradient::initUniforms()
+{
+	auto program = getGLProgram();
+	_uniformLocationStartColor = program->getUniformLocation("u_startColor");
+	_uniformLocationEndColor = program->getUniformLocation("u_endColor");
+	_uniformLocationExpand = program->getUniformLocation("u_expand");
+	_uniformLocationRadius = program->getUniformLocation("u_radius");
+	_uniformLocationCenter = program->getUniformLocation("u_center");
+}
+
+void RadialGradient::updateUniforms()
+{
+	auto program = getGLProgram();
+	program->setUniformLocationWith4f(_uniformLocationStartColor, _startColor.r,
+		_startColor.g, _startColor.b, _startColor.a);
+	program->setUniformLocationWith4f(_uniformLocationEndColor, _endColor.r,
+		_endColor.g, _endColor.b, _endColor.a);
+	program->setUniformLocationWith2f(_uniformLocationCenter, _center.x, _center.y);
+	program->setUniformLocationWith1f(_uniformLocationRadius, _radius);
+	program->setUniformLocationWith1f(_uniformLocationExpand, _expand);
+
+}
+
+Cone::Cone(const Color4F& fillColor, const Color4F& emptyColor, float radius, const Vec2& center, float angle) :
+	_fillColor(fillColor),
+	_emptyColor(emptyColor),
+	_radius(radius),
+	_angle(angle)
+{
+	_center = center;
+}
+
+void Cone::initUniforms()
+{
+	auto program = getGLProgram();
+	_uniformLocationFillColor = program->getUniformLocation("u_fillColor");
+	_uniformLocationEmptyColor = program->getUniformLocation("u_emptyColor");
+	_uniformLocationAngle = program->getUniformLocation("u_angle");
+	_uniformLocationRadius = program->getUniformLocation("u_radius");
+	_uniformLocationCenter = program->getUniformLocation("u_center");
+}
+
+void Cone::updateUniforms()
+{
+	auto program = getGLProgram();
+	program->setUniformLocationWith4f(_uniformLocationFillColor, _fillColor.r,
+		_fillColor.g, _fillColor.b, _fillColor.a);
+	program->setUniformLocationWith4f(_uniformLocationEmptyColor, _emptyColor.r,
+		_emptyColor.g, _emptyColor.b, _emptyColor.a);
+	program->setUniformLocationWith2f(_uniformLocationCenter, _center.x, _center.y);
+	program->setUniformLocationWith1f(_uniformLocationRadius, _radius);
+	program->setUniformLocationWith1f(_uniformLocationAngle, _angle);
+}
+
+void Cone::setAngle(float angle)
+{
+	_angle = angle;
+}
+
+void Cone::setColors(Color4F fill, Color4F empty)
+{
+	_fillColor = fill;
+	_emptyColor = empty;
 }
 
 const Color4F Cursor::colors[6] = {
