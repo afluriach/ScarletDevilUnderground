@@ -39,7 +39,7 @@ public:
 
 	void setBodyVisible(bool b);
 protected:
-	AttributeSystem agentAttributes;
+	float agentAttackMultiplier = 1.0f;
 };
 
 #endif /* Bullet_hpp */

@@ -17,7 +17,7 @@
 Bullet::Bullet(Agent* agent)
 {
 	if (agent) {
-		agentAttributes = agent->getAttributeSystem();
+		agentAttackMultiplier = agent->getAttributeSystem().getAttackMultiplier();
 	}
 }
 
@@ -33,7 +33,7 @@ void Bullet::onEnvironmentCollide(GObject* obj)
 
 void Bullet::onAgentCollide(Agent* agent)
 {
-	agent->hit(getAttributeEffect(), getMagicEffect(agent));
+	agent->hit(AttributeSystem::scale(getAttributeEffect(), agentAttackMultiplier), getMagicEffect(agent));
 	space->removeObject(this);
 }
 
