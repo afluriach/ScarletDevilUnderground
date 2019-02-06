@@ -49,14 +49,9 @@ void FreezeStatusEffect::init()
 
 void FreezeStatusEffect::update()
 {
-	Agent* _target = dynamic_cast<Agent*>(target.get());
+	timerIncrement(timer);
 
-	if (!_target) {
-		crntState = state::ending;
-		return;
-	}
-
-	if (_target->getAttribute(Attribute::iceDamage) < 75.0f) {
+	if (timer >= 5.0f) {
 		crntState = state::ending;
 	}
 

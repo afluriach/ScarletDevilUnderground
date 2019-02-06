@@ -545,7 +545,7 @@ void Player::onGrazeCleared(object_ref<EnemyBullet> bullet)
 void Player::applyGraze(int p)
 {
 	attributeSystem.modifyAttribute(Attribute::power, isComboActive ? p* 2 : p);
-	applyCombo(p*8);
+	applyCombo(p*6);
 	App::playSound("sfx/graze.wav", 1.0f);
 }
 
@@ -654,7 +654,7 @@ void Player::updateHudAttribute(Attribute id)
 }
 
 const AttributeMap FlandrePC::baseAttributes = {
-	{Attribute::maxHP, 4.0f},
+	{Attribute::maxHP, 8.0f},
 	{Attribute::maxMP, 4.0f },
 	{Attribute::maxPower, 200.0f},
 	{Attribute::agility, 2.0f},
@@ -691,7 +691,7 @@ void FlandrePC::equipSpells() {
 }
 
 const AttributeMap RumiaPC::baseAttributes = {
-	{Attribute::maxHP, 3.0f },
+	{Attribute::maxHP, 6.0f },
 	{Attribute::maxMP, 4.0f },
 	{Attribute::maxPower, 300.0f },
 	{Attribute::agility, 3.0f },
@@ -727,7 +727,7 @@ void RumiaPC::equipSpells() {
 }
 
 const AttributeMap CirnoPC::baseAttributes = {
-	{Attribute::maxHP, 5.0f },
+	{Attribute::maxHP, 10.0f },
 	{Attribute::maxMP, 4.0f },
 	{Attribute::maxPower, 200.0f},
 	{Attribute::agility, 1.0f},

@@ -245,6 +245,11 @@ void timerDecrement(SpaceFloat& x)
 	x = max(x - App::secondsPerFrame, 0.0);
 }
 
+void timerIncrement(float& x)
+{
+	x += App::secondsPerFrame;
+}
+
 void timerIncrement(SpaceFloat& x)
 {
 	x += App::secondsPerFrame;

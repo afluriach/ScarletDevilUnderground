@@ -46,29 +46,21 @@ void Agent::update()
 		onZeroHP();
 	}
 
-	if (attributeSystem.getAdjustedValue(Attribute::iceDamage) >= 100.0f && !hasMagicEffect<FreezeStatusEffect>()) {
+	if (attributeSystem.getAdjustedValue(Attribute::iceDamage) >= AttributeSystem::maxElementDamage && !hasMagicEffect<FreezeStatusEffect>()) {
 		addMagicEffect(make_shared<FreezeStatusEffect>(this));
+		attributeSystem.modifyAttribute(Attribute::iceDamage, -AttributeSystem::maxElementDamage);
 	}
-	if (attributeSystem.getAdjustedValue(Attribute::sunDamage) >= 100.0f ) {
+	if (attributeSystem.getAdjustedValue(Attribute::sunDamage) >= AttributeSystem::maxElementDamage) {
 		onZeroHP();
 	}
-	if (attributeSystem.getAdjustedValue(Attribute::poisonDamage) >= 100.0f) {
+	if (attributeSystem.getAdjustedValue(Attribute::poisonDamage) >= AttributeSystem::maxElementDamage) {
 		onZeroHP();
 	}
 
-	if (attributeSystem.getAdjustedValue(Attribute::iceDamage) > 0 && attributeSystem.getAdjustedValue(Attribute::iceSensitivity) != 0) {
-		attributeSystem.modifyAttribute(Attribute::iceDamage, -App::secondsPerFrame);
-	}
-	if (attributeSystem.getAdjustedValue(Attribute::sunDamage) > 0 && attributeSystem.getAdjustedValue(Attribute::sunSensitivity) != 0) {
-		attributeSystem.modifyAttribute(Attribute::sunDamage, -App::secondsPerFrame);
-	}
-	if (attributeSystem.getAdjustedValue(Attribute::poisonDamage) > 0 && attributeSystem.getAdjustedValue(Attribute::poisonSensitivity) != 0) {
-		attributeSystem.modifyAttribute(Attribute::poisonDamage, -App::secondsPerFrame);
-	}
-	if (attributeSystem.getAdjustedValue(Attribute::slimeDamage) > 0 && attributeSystem.getAdjustedValue(Attribute::slimeSensitivity) != 0) {
-		attributeSystem.modifyAttribute(Attribute::slimeDamage, -App::secondsPerFrame);
-	}
-
+	attributeSystem.timerDecrement(Attribute::iceDamage);
+	attributeSystem.timerDecrement(Attribute::sunDamage);
+	attributeSystem.timerDecrement(Attribute::poisonDamage);
+	attributeSystem.timerDecrement(Attribute::slimeDamage);
 }
 
 void Agent::onDetect(GObject* obj)

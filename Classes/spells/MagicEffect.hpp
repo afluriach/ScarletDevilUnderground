@@ -36,7 +36,6 @@ public:
 };
 
 template<typename Derived>
-
 class MagicEffectImpl : public MagicEffect
 {
 public:
@@ -54,6 +53,8 @@ public:
 	virtual inline void init();
 	virtual void update();
 	virtual void end();
+protected:
+	float timer = 0.0f;
 };
 
 #endif /* MagicEffect_hpp */
