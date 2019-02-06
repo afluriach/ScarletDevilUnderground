@@ -14,6 +14,8 @@
 #include "util.h"
 
 const float AttributeSystem::maxElementDamage = 100.0f;
+const float AttributeSystem::maxComboPoints = 75.0f;
+const float AttributeSystem::comboPointsDrainPerSecond = 15.0f;
 
 const array<Attribute, AttributeSystem::upgradeAttributesCount> AttributeSystem::upgradeAttributes = {
 	Attribute::maxHP,
@@ -270,7 +272,7 @@ void AttributeSystem::modifyAttribute(Attribute id, float x)
 		break;
 
 	case Attribute::combo:
-		attributes.at(to_size_t(Attribute::combo)) = getWithinRange(attributes.at(to_size_t(Attribute::combo)) + x, 0, 100.0f);
+		attributes.at(to_size_t(Attribute::combo)) = getWithinRange(attributes.at(to_size_t(Attribute::combo)) + x, 0, maxComboPoints);
 		break;
 
 	case Attribute::iceDamage:

@@ -250,7 +250,7 @@ void Player::updateHitTime()
 
 void Player::updateCombo()
 {
-	if (attributeSystem.getAdjustedValue(Attribute::combo) >= 100.0f) {
+	if (attributeSystem.getAdjustedValue(Attribute::combo) >= AttributeSystem::maxComboPoints) {
 		isComboActive = true;
 	}
 	else if (!attributeSystem.isNonzero(Attribute::combo)) {
@@ -258,7 +258,7 @@ void Player::updateCombo()
 	}
 
 	if (attributeSystem.getAdjustedValue(Attribute::combo) > 0) {
-		attributeSystem.modifyAttribute(Attribute::combo, -App::secondsPerFrame * 20.0f);
+		attributeSystem.modifyAttribute(Attribute::combo, -App::secondsPerFrame * 15.0f);
 	}
 }
 
@@ -304,8 +304,8 @@ void Player::update()
 			}
 
 			setHudEffect(Attribute::spellCooldown, Attribute::spellCooldownInterval);
+			setHudEffect(Attribute::combo, AttributeSystem::maxComboPoints);
 
-			updateHudAttribute(Attribute::combo);
 			updateHudAttribute(Attribute::iceDamage);
 			updateHudAttribute(Attribute::sunDamage);
 			updateHudAttribute(Attribute::poisonDamage);

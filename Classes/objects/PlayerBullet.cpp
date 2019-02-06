@@ -21,7 +21,7 @@ void PlayerBullet::onAgentCollide(Agent* agent)
 {
 	Bullet::onAgentCollide(agent);
 	Player* p = space->getObjectAs<Player>("player");
-	p->applyCombo(8);
+	p->applyCombo(6);
 }
 
 PlayerShield::PlayerShield(Agent* agent) :

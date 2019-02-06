@@ -69,7 +69,9 @@ public:
 	static size_t getUpgradeAttributeIndex(Attribute id);
 
 	static const float maxElementDamage;
-	
+	static const float maxComboPoints;
+	static const float comboPointsDrainPerSecond;
+
 	static constexpr size_t upgradeCount = 4;
 	static constexpr size_t upgradeAttributesCount = 4;
 
