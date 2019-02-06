@@ -18,19 +18,4 @@ public:
 	virtual bool init();
 };
 
-class LoadProfileScene : public GScene
-{
-public:
-	LoadProfileScene();
-	virtual bool init();
-};
-
-
-class SceneSelectScene : public GScene
-{
-public:
-	SceneSelectScene();
-	virtual bool init();
-};
-
 #endif /* menu_scenes_h */

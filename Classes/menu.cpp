@@ -8,6 +8,7 @@
 
 #include "Prefix.h"
 
+#include "App.h"
 #include "controls.h"
 #include "Graphics.h"
 #include "macros.h"
@@ -17,6 +18,19 @@
 MenuLayer::MenuLayer() :
 	control_listener(make_unique<ControlListener>())
 {
+}
+
+bool MenuLayer::init()
+{
+	Layer::init();
+
+	control_listener->addPressListener(ControlAction::menuUp, bind(&MenuLayer::upPressed, this));
+	control_listener->addPressListener(ControlAction::menuDown, bind(&MenuLayer::downPressed, this));
+
+	control_listener->addPressListener(ControlAction::menuSelect, bind(&MenuLayer::selectPressed, this));
+	control_listener->addPressListener(ControlAction::menuBack, bind(&MenuLayer::backPressed, this));
+
+	return true;
 }
 
 void MenuLayer::setControlsActive(bool b)
@@ -51,9 +65,15 @@ void TextListMenuLayer::downPressed()
     
     updateCursor();
 }
+
 void TextListMenuLayer::selectPressed()
 {
     optionActions[selected]();
+}
+
+void TextListMenuLayer::backPressed()
+{
+	App::getCrntScene()->popMenuIfNonroot();
 }
 
 void TextListMenuLayer::updateCursor()
@@ -64,7 +84,7 @@ void TextListMenuLayer::updateCursor()
 
 bool TextListMenuLayer::init()
 {
-    Layer::init();
+    MenuLayer::init();
     
     cocos2d::CCSize screenSize = getScreenSize();
     
@@ -88,11 +108,6 @@ bool TextListMenuLayer::init()
     addChild(cursor);
     cursor->setPositionX(leftMargin/2);
     updateCursor();
-    
-    control_listener->addPressListener(ControlAction::menuUp, bind( &TextListMenuLayer::upPressed, this));
-    control_listener->addPressListener(ControlAction::menuDown, bind( &TextListMenuLayer::downPressed, this));
-
-    control_listener->addPressListener(ControlAction::menuSelect, bind( &TextListMenuLayer::selectPressed, this));
     
     return true;
 }

@@ -710,6 +710,18 @@ void GScene::popMenu()
 	}
 }
 
+void GScene::popMenuIfNonroot()
+{
+	if (menuStack.size() > 1) {
+		Layer* l = menuStack.back();
+		getLayer(sceneLayers::menu)->removeChild(l);
+		menuStack.pop_back();
+	}
+
+	menuStack.back()->setVisible(true);
+	menuStack.back()->setControlsActive(true);
+}
+
 void GScene::loadMaps()
 {
 	for(MapEntry entry : maps)

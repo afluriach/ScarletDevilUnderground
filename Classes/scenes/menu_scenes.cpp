@@ -23,29 +23,3 @@ bool TitleMenuScene::init()
 
 	return true;
 }
-
-LoadProfileScene::LoadProfileScene() :
-	GScene("LoadProfileScene", {})
-{}
-
-bool LoadProfileScene::init()
-{
-	GScene::init();
-
-	pushMenu(Node::ccCreate<LoadProfileMenu>());
-
-	return true;
-}
-
-SceneSelectScene::SceneSelectScene() :
-	GScene("SceneSelectScene", {})
-{}
-
-bool SceneSelectScene::init()
-{
-	GScene::init();
-
-	pushMenu(Node::ccCreate<SceneSelect>());
-
-	return true;
-}

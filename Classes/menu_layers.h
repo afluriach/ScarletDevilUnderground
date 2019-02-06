@@ -147,7 +147,7 @@ public:
 	virtual bool init();
 	virtual void update(float dt);
 
-	void close();
+	void backPressed();
 protected:
 	PlayScene* playScene = nullptr;
 	DrawNode* backgroundNode;

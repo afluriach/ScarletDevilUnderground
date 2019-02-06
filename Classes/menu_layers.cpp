@@ -49,12 +49,12 @@ const vector <TextListMenuLayer::listAction > TitleMenu::entryActions = {
 
 void TitleMenu::loadGame()
 {
-	App::createAndRunScene<LoadProfileScene>();
+	App::getCrntScene()->pushMenu(Node::ccCreate<LoadProfileMenu>());
 }
 
 void TitleMenu::sceneSelect()
 {
-	App::createAndRunScene<SceneSelectScene>();
+	App::getCrntScene()->pushMenu(Node::ccCreate<SceneSelect>());
 }
 
 void TitleMenu::worldSelect()
@@ -322,9 +322,8 @@ MapMenu::MapMenu(PlayScene* playScene) :
 
 bool MapMenu::init()
 {
-	Layer::init();
+	MenuLayer::init();
 
-	control_listener->addPressListener(ControlAction::menuBack, bind(&MapMenu::close, this));
 	scheduleUpdateWithPriority(0);
 
 	Vec2 size = getScreenSize();
@@ -364,7 +363,7 @@ void MapMenu::update(float dt)
 	}
 }
 
-void MapMenu::close()
+void MapMenu::backPressed()
 {
 	playScene->exitMap();
 }

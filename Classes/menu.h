@@ -17,9 +17,12 @@ class MenuLayer : public Layer
 public:
 	MenuLayer();
 
+	virtual bool init();
+
 	inline virtual void upPressed() {};
 	inline virtual void downPressed() {};
 	inline virtual void selectPressed() {};
+	inline virtual void backPressed() {};
 
 	void setControlsActive(bool b);
 protected:
@@ -44,6 +47,7 @@ public:
 	virtual void upPressed();
 	virtual void downPressed();
 	virtual void selectPressed();
+	virtual void backPressed();
 
 protected:
     string title;

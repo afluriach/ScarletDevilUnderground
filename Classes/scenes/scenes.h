@@ -199,6 +199,7 @@ public:
 
 	void pushMenu(MenuLayer* layer);
 	void popMenu();
+	void popMenuIfNonroot();
 
     util::multifunction<void(void)> multiInit;
     util::multifunction<void(void)> multiUpdate;
