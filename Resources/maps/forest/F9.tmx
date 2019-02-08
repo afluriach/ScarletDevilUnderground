@@ -1,5 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.0" tiledversion="1.0.3" orientation="orthogonal" renderorder="right-down" width="32" height="33" tilewidth="128" tileheight="128" nextobjectid="189">
+<map version="1.0" tiledversion="1.0.3" orientation="orthogonal" renderorder="right-down" width="32" height="33" tilewidth="128" tileheight="128" nextobjectid="191">
+ <properties>
+  <property name="boss" value="fairy1"/>
+  <property name="trap_doors" value="barrier-f9 door-f9-west"/>
+ </properties>
  <tileset firstgid="1" name="dirt1" tilewidth="128" tileheight="128" tilecount="4" columns="2">
   <image source="dirt1.png" width="256" height="256"/>
  </tileset>
@@ -41,6 +45,13 @@
  </objectgroup>
  <objectgroup name="objects">
   <object id="167" name="goal" type="Goal" x="256" y="768" width="128" height="128"/>
-  <object id="169" name="door-f9-west" type="Door" x="0" y="3840" width="128" height="128"/>
+  <object id="169" name="door-f9-west" type="Door" x="0" y="3840" width="128" height="128">
+   <properties>
+    <property name="dest" value="door-f8-east"/>
+    <property name="dir" value="right"/>
+   </properties>
+  </object>
+  <object id="189" name="barrier-f9" type="Barrier" x="640" y="768" width="128" height="128"/>
+  <object id="190" name="fairy1" type="Fairy1" x="1376" y="1152" width="128" height="128"/>
  </objectgroup>
 </map>

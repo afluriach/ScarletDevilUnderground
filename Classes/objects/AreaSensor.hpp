@@ -81,7 +81,7 @@ public:
 	const int mapID;
 protected:
 	vector<string> trapDoorNames;
-	set<object_ref<Door>> doors;
+	set<object_ref<ActivateableObject>> doors;
 	bool isTrapActive = false;
 
 	string bossName;

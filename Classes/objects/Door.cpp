@@ -85,3 +85,36 @@ Direction Door::getEntryDirection()
 {
 	return entryDirection;
 }
+
+Barrier::Barrier(GSpace* space, ObjectIDType id, const ValueMap& args) :
+	MapObjForwarding(GObject),
+	RegisterInit<Barrier>(this)
+{
+	sealed = getBoolOrDefault(args, "sealed", false);
+}
+
+void Barrier::init()
+{
+	setSealed(sealed);
+}
+
+PhysicsLayers Barrier::getLayers() const
+{
+	return PhysicsLayers::all;
+}
+
+void Barrier::setSealed(bool b)
+{
+	cpShapeSetSensor(bodyShape, !b);
+	space->setSpriteVisible(spriteID, b);
+}
+
+void Barrier::activate()
+{
+	setSealed(true);
+}
+
+void Barrier::deactivate()
+{
+	setSealed(false);
+}

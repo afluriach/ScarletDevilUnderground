@@ -93,6 +93,7 @@ const unordered_map<string, GObject::AdapterType> GObject::adapters = {
 	entry_same(BreakableWall),
 	entry_same(CollectGlyph),
 	entry_same(CollectMarisa),
+	entry_same(Barrier),
 	entry_same(Block),
 	entry_same(DirtFloorCave),
 	entry_same(Door),

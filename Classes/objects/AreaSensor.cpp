@@ -86,7 +86,7 @@ RoomSensor::RoomSensor(GSpace* space, ObjectIDType id, SpaceVect center, SpaceVe
 	RegisterUpdate<RoomSensor>(this),
 	mapID(mapID)
 {
-	trapDoorNames = splitString(getStringOrDefault(props, "trap_doors", ""), "");
+	trapDoorNames = splitString(getStringOrDefault(props, "trap_doors", ""), " ");
 	bossName = getStringOrDefault(props, "boss", "");
 }
 
@@ -105,7 +105,10 @@ void RoomSensor::onPlayerEndContact(Player* p)
 void RoomSensor::init()
 {
 	for (string name : trapDoorNames) {
-		Door* d = space->getObjectAs<Door>(name);
+		if (name.empty())
+			continue;
+
+		ActivateableObject* d = space->getObjectAs<ActivateableObject>(name);
 		if (d) {
 			doors.insert(d);
 		}

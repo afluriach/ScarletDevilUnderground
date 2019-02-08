@@ -51,4 +51,31 @@ protected:
 	bool locked = false;
 };
 
+class Barrier :
+	virtual public GObject,
+	public RectangleBody,
+	public ImageSprite,
+	public ActivateableObject,
+	public RegisterInit<Barrier>
+{
+public:
+	MapObjCons(Barrier);
+
+	virtual inline string imageSpritePath() const { return "sprites/barrier.png"; }
+	virtual inline GraphicsLayer sceneLayer() const { return GraphicsLayer::ground; }
+	virtual inline float zoom() const { return 0.5f; }
+
+	virtual inline SpaceFloat getMass() const { return -1.0; }
+	virtual inline GType getType() const { return GType::environment; }
+	virtual PhysicsLayers getLayers() const;
+
+	virtual void activate();
+	virtual void deactivate();
+
+	void setSealed(bool b);
+	void init();
+protected:
+	bool sealed = false;
+};
+
 #endif /* Door_hpp */
