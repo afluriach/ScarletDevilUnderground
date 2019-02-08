@@ -25,13 +25,18 @@ const AttributeMap Slime1::baseAttributes = {
 
 void Slime1::initStateMachine(ai::StateMachine& sm)
 {
-	auto detectMain = make_shared<ai::Detect>(
-		"player",
-		[](GObject* target) -> shared_ptr<ai::Function> {
-			return make_shared<ai::Seek>(target);
+	sm.addDetectFunction(
+		GType::player,
+		[](ai::StateMachine& sm, GObject* target) -> void {
+			sm.addThread(make_shared<ai::Seek>(target));
 		}
 	);
-	fsm.addThread(detectMain);
+	sm.addEndDetectFunction(
+		GType::player,
+		[](ai::StateMachine& sm, GObject* target) -> void {
+			sm.removeThread("Seek");
+		}
+	);
 }
 
 AttributeMap Slime1::touchEffect() {
@@ -56,13 +61,18 @@ const AttributeMap Slime2::baseAttributes = {
 
 void Slime2::initStateMachine(ai::StateMachine& sm)
 {
-	auto detectMain = make_shared<ai::Detect>(
-		"player",
-		[](GObject* target) -> shared_ptr<ai::Function> {
-			return make_shared<ai::Seek>(target);
+	sm.addDetectFunction(
+		GType::player,
+		[](ai::StateMachine& sm, GObject* target) -> void {
+			sm.addThread(make_shared<ai::Seek>(target));
 		}
 	);
-	fsm.addThread(detectMain);
+	sm.addEndDetectFunction(
+		GType::player,
+		[](ai::StateMachine& sm, GObject* target) -> void {
+			sm.removeThread("Seek");
+		}
+	);
 }
 
 AttributeMap Slime2::touchEffect() {

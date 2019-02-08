@@ -95,7 +95,7 @@ enum class GType{
     foliage = 0x20,
     wall = 0x40,
 	areaSensor = 0x80,
-    playerSensor = 0x100,
+    enemySensor = 0x100,
     playerGrazeRadar = 0x200,
     collectible = 0x400,
 	upgrade = 0x800,

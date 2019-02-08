@@ -25,18 +25,24 @@ const AttributeMap Scorpion1::baseAttributes = {
 
 void Scorpion1::initStateMachine(ai::StateMachine& sm)
 {
-	auto detectMain = make_shared<ai::Detect>(
-		"player",
-		[sm](GObject* target) -> shared_ptr<ai::Function> {
-			return make_shared<ai::Scurry>(
+	sm.addDetectFunction(
+		GType::player,
+		[](ai::StateMachine& sm, GObject* target) -> void {
+			sm.addThread(make_shared<ai::Scurry>(
 				target->space,
 				target,
 				3.0,
 				-1.0
-			);
+			));
 		}
 	);
-	fsm.addThread(detectMain);
+	sm.addEndDetectFunction(
+		GType::player,
+		[](ai::StateMachine& sm, GObject* target) -> void {
+			sm.removeThread("Scurry");
+		}
+	);
+
 }
 
 AttributeMap Scorpion1::touchEffect() {
@@ -61,15 +67,19 @@ const AttributeMap Scorpion2::baseAttributes = {
 
 void Scorpion2::initStateMachine(ai::StateMachine& sm)
 {
-	auto detectMain = make_shared<ai::Detect>(
-		"player",
-		[sm](GObject* target) -> shared_ptr<ai::Function> {
-			return make_shared<ai::Flank>(
-				target
-			);
+	sm.addDetectFunction(
+		GType::player,
+		[](ai::StateMachine& sm, GObject* target) -> void {
+			sm.addThread(make_shared<ai::Flank>(target));
 		}
 	);
-	fsm.addThread(detectMain);
+	sm.addEndDetectFunction(
+		GType::player,
+		[](ai::StateMachine& sm, GObject* target) -> void {
+			sm.removeThread("Flank");
+		}
+	);
+
 }
 
 AttributeMap Scorpion2::touchEffect() {

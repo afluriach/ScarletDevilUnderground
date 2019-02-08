@@ -56,7 +56,7 @@ public:
     //setting for player object sensing
 	inline virtual SpaceFloat getRadarRadius() const { return grazeRadius; }
 	inline virtual GType getRadarType() const { return GType::playerGrazeRadar; }
-    inline virtual SpaceFloat getDefaultFovAngle() const { return float_pi / 4.0;}
+    inline virtual SpaceFloat getDefaultFovAngle() const { return 0.0;}
 
 	bool isProtected() const;
 	void setProtection();

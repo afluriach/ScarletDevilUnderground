@@ -66,13 +66,11 @@ void Agent::update()
 void Agent::onDetect(GObject* obj)
 {
 	fsm.onDetect(obj);
-	RadarObject::onDetect(obj);
 }
 
 void Agent::onEndDetect(GObject* obj)
 {
 	fsm.onEndDetect(obj);
-	RadarObject::onEndDetect(obj);
 }
 
 void Agent::onZeroHP()
@@ -221,27 +219,27 @@ GenericAgent::GenericAgent(GSpace* space, ObjectIDType id, const ValueMap& args)
 
 void GenericAgent::initStateMachine(ai::StateMachine& sm)
 {
-auto wanderThread = make_shared<ai::Thread>(
-    make_shared<ai::Wander>(),
-    &fsm,
-    0,
-    make_enum_bitfield(ai::ResourceLock::movement)
-);
-    
-auto detectThread = make_shared<ai::Thread>(
-    make_shared<ai::Detect>(
-        "player",
-        [=](GObject* target) -> shared_ptr<ai::Function> {
-            return make_shared<ai::Flee>(target, 3.0f);
-        }
-    ),
-    &fsm,
-    1,
-    bitset<ai::lockCount>()
-);
-    
-wanderThread->setResetOnBlock(true);
-    
-fsm.addThread(wanderThread);
-fsm.addThread(detectThread);
+	auto wanderThread = make_shared<ai::Thread>(
+		make_shared<ai::Wander>(),
+		&fsm,
+		0,
+		make_enum_bitfield(ai::ResourceLock::movement)
+	);
+
+	sm.addDetectFunction(
+		GType::player,
+		[=](ai::StateMachine& sm, GObject* target) -> void {
+			 sm.addThread(make_shared<ai::Flee>(target, 3.0f), 1);
+		}
+	);
+
+	sm.addEndDetectFunction(
+		GType::player,
+		[=](ai::StateMachine& sm, GObject* target) -> void {
+			sm.removeThread("Flee");
+		}
+	);
+
+	wanderThread->setResetOnBlock(true);    
+	fsm.addThread(wanderThread);
 }

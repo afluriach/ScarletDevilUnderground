@@ -44,7 +44,7 @@ public:
     virtual PhysicsLayers getLayers() const;
 
 	virtual inline SpaceFloat getRadarRadius() const { return coneLength; }
-	virtual inline GType getRadarType() const { return GType::playerSensor; }
+	virtual inline GType getRadarType() const { return GType::enemySensor; }
 	virtual inline SpaceFloat getDefaultFovAngle() const { return coneAngle/2.0; }
 
 	virtual void onDetect(GObject* other);

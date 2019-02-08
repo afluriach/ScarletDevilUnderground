@@ -34,31 +34,24 @@ protected:
 class RadarObject : virtual public GObject, RegisterInit<RadarObject>, RegisterUpdate<RadarObject>
 {
 public:
-    inline RadarObject() :
-    RegisterInit(this),
-    RegisterUpdate(this)
-    {}
-    
-    inline void init(){
-        setFovAngle(getDefaultFovAngle());
-    }
-
+	RadarObject();
+	
+	void init();
+	
 	virtual SpaceFloat getRadarRadius() const = 0;
 	virtual GType getRadarType() const = 0;
     virtual inline SpaceFloat getDefaultFovAngle() const {return 0.0;}
 
-	virtual void onDetect(GObject* other);
-	virtual void onEndDetect(GObject* other);
+	virtual void onDetect(GObject* other) = 0;
+	virtual void onEndDetect(GObject* other) = 0;
 
     void radarCollision(GObject* other);
     void radarEndCollision(GObject* other);
     
     //Find the [visible] object that the agent is most directly facing.
     GObject* getSensedObject();
-	list<GObject*> getSensedObjects() {
-		return list<GObject*>(visibleObjects.begin(), visibleObjects.end());
-	}
-    
+	list<GObject*> getSensedObjects();
+
     void setFovAngle(SpaceFloat angle);
 
 	//Create body and add it to space. This assumes BB is rectangle dimensions

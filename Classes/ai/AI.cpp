@@ -337,22 +337,6 @@ void Thread::pop()
 		call_stack.back()->onReturn(*sm);
 }
 
-void Thread::onDetect(StateMachine& sm, GObject* obj)
-{
-	if (!completed && !call_stack.empty())
-	{
-		call_stack.back()->onDetect(sm, obj);
-	}
-}
-
-void Thread::onEndDetect(StateMachine& sm, GObject* obj)
-{
-	if (!completed && !call_stack.empty())
-	{
-		call_stack.back()->onEndDetect(sm, obj);
-	}
-}
-
 string Thread::getStack()
 {
     stringstream ss;
@@ -431,12 +415,12 @@ void StateMachine::addThread(shared_ptr<Thread> thread)
 	threadsToAdd.push_back(thread);
 }
 
-unsigned int StateMachine::addThread(shared_ptr<Function> threadMain)
+unsigned int StateMachine::addThread(shared_ptr<Function> threadMain, Thread::priority_type priority)
 {
 	auto t = make_shared<Thread>(
 		threadMain,
 		this,
-		0,
+		priority,
 		bitset<lockCount>()
 	);
 
@@ -503,21 +487,27 @@ void StateMachine::applyRemoveThreads()
 
 void StateMachine::onDetect(GObject* obj)
 {
-    for(auto it = current_threads.begin(); it != current_threads.end(); ++it)
-	{
-		crntThread = it->second.get();
-		it->second->onDetect(*this,obj);
+	auto it = detectHandlers.find(obj->getType());
+	if (it != detectHandlers.end()) {
+		it->second(*this, obj);
 	}
-	crntThread = nullptr;
 }
 void StateMachine::onEndDetect(GObject* obj)
 {
-    for(auto it = current_threads.begin(); it != current_threads.end(); ++it)
-	{
-		crntThread = it->second.get();
-		it->second->onEndDetect(*this,obj);
+	auto it = endDetectHandlers.find(obj->getType());
+	if (it != endDetectHandlers.end()) {
+		it->second(*this, obj);
 	}
-	crntThread = nullptr;
+}
+
+void StateMachine::addDetectFunction(GType t, detect_function f)
+{
+	detectHandlers.insert_or_assign(t, f);
+}
+
+void StateMachine::addEndDetectFunction(GType t, detect_function f)
+{
+	endDetectHandlers.insert_or_assign(t, f);
 }
 
 void StateMachine::push(shared_ptr<Function> f)
@@ -556,38 +546,12 @@ Thread* StateMachine::getCrntThread() {
 	return crntThread;
 }
 
-Detect::Detect(const string& target_name, Generator nextState) :
-target_name(target_name),
-nextState(nextState)
-{}
-
-Detect::Detect(GSpace* space, const ValueMap& args)
-{
-    target_name = getStringOrDefault(args, "target_name", "player");
-}
-
-void Detect::onDetect(StateMachine& sm, GObject* obj)
-{
-    if(obj->getName() == target_name)
-    {
-        sm.getCrntThread()->push(nextState(obj));
-    }
-}
-
 Seek::Seek(GSpace* space, const ValueMap& args) {
     target = getObjRefFromStringField(space, args, "target_name");
 }
 
 Seek::Seek(GObject* target) : target(target)
 {}
-
-
-void Seek::onEndDetect(StateMachine& sm, GObject* other)
-{
-    if(target == other){
-		sm.getCrntThread()->pop();
-	}
-}
 
 void Seek::update(StateMachine& sm)
 {
@@ -747,11 +711,6 @@ Flee::Flee(GSpace* space, const ValueMap& args) {
     }
 }
 
-void Flee::onEndDetect(StateMachine& sm, GObject* other)
-{
-	sm.getCrntThread()->pop();
-}
-
 void Flee::update(StateMachine& sm)
 {
 	if (target.isValid()) {
@@ -812,19 +771,6 @@ void EvadePlayerProjectiles::update(StateMachine& sm)
 		}
 	}
 }
-
-DetectAndSeekPlayer::DetectAndSeekPlayer() :
-Detect(
-    "player",
-    [](GObject* target) -> shared_ptr<Function>{
-        return make_shared<Seek>(target);
-    }
-)
-{}
-
-DetectAndSeekPlayer::DetectAndSeekPlayer(GSpace* space, const ValueMap& args) :
-DetectAndSeekPlayer()
-{}
 
 IdleWait::IdleWait(GSpace* space, const ValueMap& args)
 {

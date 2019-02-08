@@ -171,7 +171,7 @@ public:
 	MapObjCons(GenericAgent);
 
 	virtual inline SpaceFloat getRadarRadius() const { return 3.0;  }
-    virtual inline GType getRadarType() const { return GType::playerSensor;}
+    virtual inline GType getRadarType() const { return GType::enemySensor;}
 	virtual inline SpaceFloat getDefaultFovAngle() const { return 0.0; }
     
 	inline SpaceFloat getMass() const { return 20.0; }

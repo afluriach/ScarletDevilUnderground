@@ -66,18 +66,14 @@ void StateMachineObject::setFrozen(bool val) {
 	isFrozen = val;
 }
 
-    void RadarObject::onDetect(GObject* other) {
-#if GOBJECT_LUA
-		ctx->callIfExistsNoReturn("onDetect", ctx->makeArgs(other));
-#endif
-	}
+RadarObject::RadarObject() :
+	RegisterInit(this),
+	RegisterUpdate(this)
+{}
 
-	void RadarObject::onEndDetect(GObject* other) {
-#if GOBJECT_LUA
-		ctx->callIfExistsNoReturn("onEndDetect", ctx->makeArgs(other));
-#endif
-	}
-
+void RadarObject::init() {
+	setFovAngle(getDefaultFovAngle());
+}
 
 void RadarObject::initializeRadar(GSpace& space)
 {
@@ -179,4 +175,9 @@ GObject* RadarObject::getSensedObject()
 	}
 
 	return bestObj;
+}
+
+list<GObject*> RadarObject::getSensedObjects()
+{
+	return list<GObject*>(visibleObjects.begin(), visibleObjects.end());
 }

@@ -33,16 +33,20 @@ void Stalker::initStateMachine(ai::StateMachine& sm)
 		1,
 		bitset<ai::lockCount>()
 	);
-
-	auto t2 = make_shared<ai::Thread>(
-		make_shared<ai::DetectAndSeekPlayer>(),
-		&sm,
-		0,
-		bitset<ai::lockCount>()
-	);
-
 	sm.addThread(t1);
-	sm.addThread(t2);
+
+	sm.addDetectFunction(
+		GType::player,
+		[](ai::StateMachine& sm, GObject* target) -> void {
+			sm.addThread(make_shared<ai::Seek>(target));
+		}
+	);
+	sm.addEndDetectFunction(
+		GType::player,
+		[](ai::StateMachine& sm, GObject* target) -> void {
+			sm.removeThread("Seek");
+		}
+	);
 
 	attributeSystem.setFullStamina();
 }

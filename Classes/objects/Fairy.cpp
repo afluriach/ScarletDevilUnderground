@@ -51,12 +51,18 @@ Fairy1::Fairy1(GSpace* space, ObjectIDType id, const ValueMap& args) :
 {}
 
 void Fairy1::maintain_distance(ai::StateMachine& sm, const ValueMap& args) {
-	addThread(make_shared<ai::Detect>(
-		"player",
-		[](GObject* target) -> shared_ptr<ai::Function> {
-			return make_shared<ai::MaintainDistance>(target, 4.5f, 1.5f);
+	sm.addDetectFunction(
+		GType::player,
+		[](ai::StateMachine& sm, GObject* target) -> void {
+			sm.addThread(make_shared<ai::MaintainDistance>(target, 4.5f, 1.5f));
 		}
-	));
+	);
+	sm.addEndDetectFunction(
+		GType::player,
+		[](ai::StateMachine& sm, GObject* target) -> void {
+			sm.removeThread("MaintainDistance");
+		}
+	);
 }
 
 void Fairy1::circle_and_fire(ai::StateMachine& sm, const ValueMap& args) {
@@ -99,21 +105,18 @@ Fairy2::Fairy2(GSpace* space, ObjectIDType id, const ValueMap& args) :
 
 
 void Fairy2::initStateMachine(ai::StateMachine& sm) {
-	auto detectMain = make_shared<ai::Detect>(
-		"player",
-		[](GObject* target) -> shared_ptr<ai::Function> {
-			return make_shared<ai::MaintainDistance>(target, 3.0f, 1.0f);
+	sm.addDetectFunction(
+		GType::player,
+		[](ai::StateMachine& sm, GObject* target) -> void {
+			sm.addThread(make_shared<ai::MaintainDistance>(target, 3.0f, 1.0f), to_int(ai_priority::engage));
 		}
 	);
-
-	auto detectThread = make_shared<ai::Thread>(
-		detectMain,
-		&fsm,
-		to_int(ai_priority::engage),
-		bitset<ai::lockCount>()
+	sm.addEndDetectFunction(
+		GType::player,
+		[](ai::StateMachine& sm, GObject* target) -> void {
+			sm.removeThread("MaintainDistance");
+		}
 	);
-
-	fsm.addThread(detectThread);
 }
 
 void Fairy2::addFleeThread()
@@ -124,7 +127,7 @@ void Fairy2::addFleeThread()
 		&fsm,
 		to_int(ai_priority::flee),
 		bitset<ai::lockCount>()
-		);
+	);
 	fsm.addThread(fleeThread);
 }
 
@@ -199,20 +202,21 @@ const AttributeMap IceFairy::baseAttributes = {
 };
 
 void IceFairy::initStateMachine(ai::StateMachine& sm) {
-	addThread(make_shared<ai::Detect>(
-		"player",
-		[](GObject* target) -> shared_ptr<ai::Function> {
-		return make_shared<ai::MaintainDistance>(target, 3.0f, 1.0f);
-	}
-	));
-
 	Agent *const _agent = sm.getAgent();
 
-	addThread(make_shared<ai::Detect>(
-		"player",
-		[_agent](GObject* target) -> shared_ptr<ai::FireAtTarget> {
-		return make_shared<ai::FireAtTarget>(make_shared<IceFairyBulletPattern>(_agent), target);
-	}
-	));
+	sm.addDetectFunction(
+		GType::player,
+		[_agent](ai::StateMachine& sm, GObject* target) -> void {
+			sm.addThread(make_shared<ai::FireAtTarget>(make_shared<IceFairyBulletPattern>(_agent), target));
+			sm.addThread(make_shared<ai::MaintainDistance>(target, 3.0f, 1.0f));
+		}
+	);
 
+	sm.addEndDetectFunction(
+		GType::player,
+		[](ai::StateMachine& sm, GObject* target) -> void {
+			sm.removeThread("FireAtTarget");
+			sm.removeThread("MaintainDistance");
+		}
+	);
 }

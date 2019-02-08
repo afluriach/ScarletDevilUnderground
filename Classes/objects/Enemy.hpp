@@ -29,7 +29,7 @@ public:
 	virtual AttributeMap touchEffect();
 
 	virtual inline GType getType() const { return GType::enemy; }
-	virtual inline GType getRadarType() const { return GType::playerSensor; }
+	virtual inline GType getRadarType() const { return GType::enemySensor; }
 
 protected:
 	object_ref<Player> touchTarget;

@@ -68,6 +68,8 @@ constexpr size_t lockCount = to_size_t(ResourceLock::end);
 class StateMachine;
 class Thread;
 
+typedef function<void(StateMachine&, GObject*)> detect_function;
+
 #define FuncGetName(cls) inline virtual string getName() const {return #cls;}
 
 class Function
@@ -88,9 +90,6 @@ public:
 	inline virtual void onExit(StateMachine& sm) {}
     
     inline virtual void onDelay(StateMachine& sm) {}
-
-	inline virtual void onDetect(StateMachine& sm, GObject* obj) {}
-	inline virtual void onEndDetect(StateMachine& sm, GObject* obj) {}
     
     inline virtual string getName() const {return "Function";}
     
@@ -122,9 +121,6 @@ public:
 
 	void push(shared_ptr<Function> newState);
 	void pop();
-
-	void onDetect(StateMachine& sm, GObject* obj);
-	void onEndDetect(StateMachine& sm, GObject* obj);
     
     string getStack();
     
@@ -151,7 +147,7 @@ public:
 	void update();
 
 	void addThread(shared_ptr<Thread> thread);
-    unsigned int addThread(shared_ptr<Function> threadMain);
+    unsigned int addThread(shared_ptr<Function> threadMain, Thread::priority_type priority = 0);
     void removeThread(unsigned int uuid);
     //Remove thread(s) that have the given main function.
     void removeThread(const string& mainName);
@@ -161,6 +157,9 @@ public:
 
     void onDetect(GObject* obj);
 	void onEndDetect(GObject* obj);
+
+	void addDetectFunction(GType t, detect_function f);
+	void addEndDetectFunction(GType t, detect_function f);
 
 	//wrappers for the current thread
 	void push(shared_ptr<Function> f);
@@ -174,25 +173,13 @@ protected:
 	set<unsigned int> threadsToRemove;
 	list<shared_ptr<Thread>> threadsToAdd;
 
+	unordered_map<GType, detect_function> detectHandlers;
+	unordered_map<GType, detect_function> endDetectHandlers;
+
 	map<unsigned int,shared_ptr<Thread>> current_threads;
     map<int, list<unsigned int>> threads_by_priority;
     unsigned int frame;
 	Thread* crntThread = nullptr;
-};
-
-class Detect : public Function{
-public:
-    typedef function<shared_ptr<Function>(GObject* detected)> Generator;
-
-    Detect(const string& target_name, Generator nextState);
-    Detect(GSpace* space, const ValueMap& args);
-
-    virtual void onDetect(StateMachine& sm, GObject* obj);
-    
-    FuncGetName(Detect)
-protected:
-    string target_name;
-    Generator nextState;
 };
 
 class Seek : public Function {
@@ -201,7 +188,6 @@ public:
     Seek(GSpace* space, const ValueMap& args);
     
 	virtual void update(StateMachine& sm);
-	virtual void onEndDetect(StateMachine& sm, GObject* target);
     
     inline virtual bitset<lockCount> getLockMask() {
         return make_enum_bitfield(ResourceLock::movement);
@@ -268,7 +254,6 @@ public:
     Flee(GSpace* space, const ValueMap& args);
     
 	virtual void update(StateMachine& sm);
-	virtual void onEndDetect(StateMachine& sm, GObject* target);
 
     inline virtual bitset<lockCount> getLockMask() {
         return make_enum_bitfield(ResourceLock::movement);
@@ -294,19 +279,6 @@ public:
 	FuncGetName(EvadePlayerProjectiles)
 protected:
 	list<unsigned int> bullets;
-};
-
-class DetectAndSeekPlayer : public Detect{
-public:
-    DetectAndSeekPlayer();
-    DetectAndSeekPlayer(GSpace* space, const ValueMap& args);
-    
-    FuncGetName(DetectAndSeekPlayer)
-
-	inline virtual bitset<lockCount> getLockMask() {
-		return make_enum_bitfield(ResourceLock::movement);
-	}
-
 };
 
 class IdleWait : public Function{
