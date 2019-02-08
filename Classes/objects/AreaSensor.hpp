@@ -15,6 +15,7 @@
 
 class Door;
 class Enemy;
+class Spawner;
 
 class AreaSensor :
 	virtual public GObject,
@@ -77,11 +78,14 @@ public:
 
 	void updateTrapDoors();
 	void updateBoss();
+	void updateSpawners();
 	
 	const int mapID;
 protected:
 	vector<string> trapDoorNames;
+	vector<string> spawnerNames;
 	set<object_ref<ActivateableObject>> doors;
+	set<object_ref<Spawner>> spawners;
 	bool isTrapActive = false;
 
 	string bossName;

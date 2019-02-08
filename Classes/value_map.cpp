@@ -44,7 +44,7 @@ ValueMap getSpawnArgs(const ValueMap& args)
 	ValueMap result = args;
 
 	result.insert_or_assign("type", args.at("spawn_type"));
-	result.insert_or_assign("name", args.at("spawn_name"));
+	result.insert_or_assign("name", getStringOrDefault(args, "name", ""));
 
 	return result;
 }

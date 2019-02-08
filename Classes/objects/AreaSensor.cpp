@@ -14,6 +14,7 @@
 #include "GSpace.hpp"
 #include "Player.hpp"
 #include "PlayScene.hpp"
+#include "Spawner.hpp"
 #include "value_map.hpp"
 
 AreaSensor::AreaSensor(GSpace* space, ObjectIDType id, const ValueMap& args) :
@@ -87,6 +88,7 @@ RoomSensor::RoomSensor(GSpace* space, ObjectIDType id, SpaceVect center, SpaceVe
 	mapID(mapID)
 {
 	trapDoorNames = splitString(getStringOrDefault(props, "trap_doors", ""), " ");
+	spawnerNames = splitString(getStringOrDefault(props, "spawners", ""), " ");
 	bossName = getStringOrDefault(props, "boss", "");
 }
 
@@ -113,10 +115,24 @@ void RoomSensor::init()
 			doors.insert(d);
 		}
 		else {
-			log("TrapRoomSensor: unknown door %s.", name.c_str());
+			log("RoomSensor: unknown trap door %s.", name.c_str());
 		}
 	}
 	trapDoorNames.clear();
+
+	for (string name : spawnerNames) {
+		if (name.empty())
+			continue;
+
+		Spawner* s = space->getObjectAs<Spawner>(name);
+		if (s) {
+			spawners.insert(s);
+		}
+		else {
+			log("RoomSensor: unknown spawner %s.", name.c_str());
+		}
+	}
+	spawnerNames.clear();
 
 	boss = space->getObjectRefAs<Enemy>(bossName);
 }
@@ -127,6 +143,8 @@ void RoomSensor::update()
 		updateBoss();
 	if(doors.size() > 0)
 		updateTrapDoors();
+	if (spawners.size() > 0)
+		updateSpawners();
 }
 
 void RoomSensor::updateTrapDoors()
@@ -181,6 +199,20 @@ void RoomSensor::updateBoss()
 				&HUD::clearEnemyInfo,
 				playScene
 			));
+		}
+	}
+}
+
+void RoomSensor::updateSpawners()
+{
+	if (enemies.size() == 0)
+	{
+		for (auto ref : spawners)
+		{
+			Spawner* s = ref.get();
+
+			if (s->getRemainingSpawns() > 0)
+				s->activate();
 		}
 	}
 }
