@@ -130,14 +130,14 @@ void RoomSensor::updateTrapDoors()
 {
 	if (!isTrapActive && player.isValid() && enemies.size() > 0) {
 		for (auto ref : doors) {
-			ref.get()->setLocked(true);
+			ref.get()->activate();
 		}
 		isTrapActive = true;
 	}
 	else if (isTrapActive && enemies.empty())
 	{
 		for (auto ref : doors) {
-			ref.get()->setLocked(false);
+			ref.get()->deactivate();
 		}
 		isTrapActive = false;
 	}

@@ -16,6 +16,7 @@ class Door :
 	virtual public GObject,
 	public RectangleBody,
 	public ImageSprite,
+	public ActivateableObject,
 	public InteractibleObject
 {
 public:
@@ -29,33 +30,25 @@ public:
     virtual inline GType getType() const {return GType::environment;}
     virtual PhysicsLayers getLayers() const;
 
-	virtual inline bool canInteract() { return !locked; }
-	virtual void interact();
-	virtual inline string interactionIcon() { return "sprites/door.png"; }
-
-	void setLocked(bool b);
-	Door* getDestination();
-	SpaceVect getEntryPosition();
-	Direction getEntryDirection();
-protected:
-	//the angle/offset when this door is used as a destination
-	Direction entryDirection;
-	string destination;
-	bool locked = false;
-};
-
-class LockedDoor : public Door
-{
-public:
-	MapObjCons(LockedDoor);
-
 	virtual bool canInteract();
 	virtual void interact();
 	virtual string interactionIcon();
 
-	inline bool isKeyUsed() const { return keyUsed; }
+	virtual void activate();
+	virtual void deactivate();
+	void setSealed(bool b);
+
+	Door* getDestination();
+	SpaceVect getEntryPosition();
+	Direction getEntryDirection();
+
+	inline bool isLocked() const { return locked; }
 protected:
-	bool keyUsed = false;
+	//the angle/offset when this door is used as a destination
+	Direction entryDirection;
+	string destination;
+	bool sealed = false;
+	bool locked = false;
 };
 
 #endif /* Door_hpp */

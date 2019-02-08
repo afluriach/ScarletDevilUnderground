@@ -114,7 +114,6 @@ const unordered_map<string, GObject::AdapterType> GObject::adapters = {
 	entry_same(IcePlatform),
 	entry_same(Key),
 	entry_same(Launcher),
-	entry_same(LockedDoor),
 	entry_same(MineFloor),
 	entry_same(MovingPlatform),
 	entry_same(MPUpgrade),
@@ -146,7 +145,6 @@ const unordered_map<string, GObject::AdapterType> GObject::adapters = {
 
 const set<type_index> GSpace::trackedTypes = {
 	typeid(Door),
-	typeid(LockedDoor),
 	typeid(Spawner),
 	typeid(TeleportPad),
 

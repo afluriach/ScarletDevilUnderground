@@ -18,6 +18,7 @@
 Door::Door(GSpace* space, ObjectIDType id, const ValueMap& args) :
 	MapObjForwarding(GObject)
 {
+	locked = getBoolOrDefault(args, "locked", false);
 	entryDirection = stringToDirection(getStringOrDefault(args, "dir", "none"));
 	destination = getStringOrDefault(args, "dest", "");
 }
@@ -26,18 +27,44 @@ PhysicsLayers Door::getLayers() const{
 	return PhysicsLayers::all;
 }
 
+bool Door::canInteract()
+{
+	Player* p = space->getObjectAs<Player>("player");
+
+	return getDestination() && !sealed && (!locked || p->getKeyCount() > 0);
+}
+
 void Door::interact()
 {
 	Player* p = space->getObjectAs<Player>("player");
 
-	if (p) {
+	if (!locked && !sealed) {
 		p->useDoor(this);
+	}
+	else if(locked){
+		p->useKey();
+		locked = false;
 	}
 }
 
-void Door::setLocked(bool b)
+string Door::interactionIcon()
 {
-	locked = b;
+	return locked ? "sprites/key.png" : "sprites/door.png";
+}
+
+void Door::activate()
+{
+	setSealed(true);
+}
+
+void Door::deactivate()
+{
+	setSealed(false);
+}
+
+void Door::setSealed(bool b)
+{
+	sealed = b;
 
 	if (spriteID != 0) {
 		space->setSpriteTexture(spriteID, b ? "sprites/door_locked.png" : "sprites/door.png");
@@ -57,39 +84,4 @@ SpaceVect Door::getEntryPosition()
 Direction Door::getEntryDirection()
 {
 	return entryDirection;
-}
-
-LockedDoor::LockedDoor(GSpace* space, ObjectIDType id, const ValueMap& args) :
-	MapObjForwarding(GObject),
-	MapObjForwarding(Door)
-{
-}
-
-bool LockedDoor::canInteract()
-{
-	if (keyUsed) {
-		return Door::canInteract();
-	}
-	else {
-		Player* p = space->getObjectAs<Player>("player");
-
-		return p->getKeyCount() > 0;
-	}
-}
-
-void LockedDoor::interact()
-{
-	if (keyUsed) {
-		Door::interact();
-	}
-	else {
-		Player* p = space->getObjectAs<Player>("player");
-		p->useKey();
-		keyUsed = true;
-	}
-}
-
-string LockedDoor::interactionIcon()
-{
-	return keyUsed ? Door::interactionIcon() : "sprites/key.png";
 }

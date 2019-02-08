@@ -90,10 +90,11 @@
     <property name="hidden" value="true"/>
    </properties>
   </object>
-  <object id="135" name="door-f4-north" type="LockedDoor" x="3328" y="0" width="128" height="128">
+  <object id="135" name="door-f4-north" type="Door" x="3328" y="0" width="128" height="128">
    <properties>
     <property name="dest" value="door-f8-south"/>
     <property name="dir" value="down"/>
+    <property name="locked" value="true"/>
    </properties>
   </object>
   <object id="137" name="door-f4-east" type="Door" x="5504" y="1280" width="128" height="128">

@@ -373,7 +373,6 @@ void MapMenu::drawMaps()
 	vector<object_ref<Wall>> walls = playScene->getSpace()->getObjectsByTypeAs<Wall>();
 	vector<object_ref<FloorSegment>> floors = playScene->getSpace()->getObjectsByTypeAs<FloorSegment>();
 	vector<object_ref<Door>> doors = playScene->getSpace()->getObjectsByTypeAs<Door>();
-	vector<object_ref<LockedDoor>> lockedDoors = playScene->getSpace()->getObjectsByTypeAs<LockedDoor>();
 	GObject* goal = playScene->getSpace()->getObject("goal");
 	GObject* player = playScene->getSpace()->getObject("player");
 
@@ -403,13 +402,12 @@ void MapMenu::drawMaps()
 
 	for (auto ref : doors) {
 		if (!ref.get()->hidden) {
-			drawObject(ref.get()->getBoundingBox(), doorColor, doorColor);
+			drawObject(
+				ref.get()->getBoundingBox(),
+				ref.get()->isLocked() ? Color4F::RED : doorColor,
+				ref.get()->isLocked() ? Color4F::RED : doorColor
+			);
 		}
-	}
-
-	for (auto ref : lockedDoors) {
-		Color4F color = ref.get()->isKeyUsed() ? doorColor : Color4F::RED;
-		drawObject(ref.get()->getBoundingBox(), color, color);
 	}
 
 	if (goal) {
