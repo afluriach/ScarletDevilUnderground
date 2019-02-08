@@ -61,7 +61,10 @@ protected:
 	bool activated = false;
 };
 
-class RoomSensor : public AreaSensor
+class RoomSensor :
+	public AreaSensor,
+	public RegisterInit<RoomSensor>,
+	public RegisterUpdate<RoomSensor>
 {
 public:
 	RoomSensor(GSpace* space, ObjectIDType id, SpaceVect center, SpaceVect dimensions, int mapID, const ValueMap& props);
@@ -69,40 +72,21 @@ public:
 	virtual void onPlayerContact(Player* p);
 	virtual void onPlayerEndContact(Player* p);
 
+	void init();
+	void update();
+
+	void updateTrapDoors();
+	void updateBoss();
+	
 	const int mapID;
-};
-
-class TrapRoomSensor :
-	public RoomSensor,
-	public RegisterInit<TrapRoomSensor>,
-	public RegisterUpdate<TrapRoomSensor>
-{
-public:
-	TrapRoomSensor(GSpace* space, ObjectIDType id, SpaceVect center, SpaceVect dimensions, int mapID, const ValueMap& props);
-
-	void init();
-	void update();
 protected:
-	vector<string> doorNames;
+	vector<string> trapDoorNames;
 	set<object_ref<Door>> doors;
-	bool isLocked = false;
-};
+	bool isTrapActive = false;
 
-class BossRoomSensor :
-	public RoomSensor,
-	public RegisterInit<BossRoomSensor>,
-	public RegisterUpdate<BossRoomSensor>
-{
-public:
-	BossRoomSensor(GSpace* space, ObjectIDType id, SpaceVect center, SpaceVect dimensions, int mapID, const ValueMap& props);
-
-	void init();
-	void update();
-protected:
 	string bossName;
 	object_ref<Enemy> boss;
-	bool activated = false;
+	bool isBossActive = false;
 };
-
 
 #endif /* AreaSensor_hpp */

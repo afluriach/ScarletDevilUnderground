@@ -2,7 +2,6 @@
 <map version="1.0" tiledversion="1.0.3" orientation="orthogonal" renderorder="right-down" width="17" height="17" tilewidth="128" tileheight="128" nextobjectid="14">
  <properties>
   <property name="boss" value="marisa"/>
-  <property name="room_type" value="boss_room"/>
  </properties>
  <tileset firstgid="1" name="grass" tilewidth="128" tileheight="128" tilecount="4" columns="2">
   <image source="grass.png" width="256" height="256"/>

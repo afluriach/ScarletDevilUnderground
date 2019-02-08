@@ -82,9 +82,12 @@ void HiddenSubroomSensor::update()
 RoomSensor::RoomSensor(GSpace* space, ObjectIDType id, SpaceVect center, SpaceVect dimensions, int mapID, const ValueMap& props) :
 	GObject(space, id, "", center, 0.0),
 	AreaSensor(space,id,center,dimensions),
+	RegisterInit<RoomSensor>(this),
+	RegisterUpdate<RoomSensor>(this),
 	mapID(mapID)
 {
-
+	trapDoorNames = splitString(getStringOrDefault(props, "trap_doors", ""), "");
+	bossName = getStringOrDefault(props, "boss", "");
 }
 
 void RoomSensor::onPlayerContact(Player* p)
@@ -99,19 +102,9 @@ void RoomSensor::onPlayerEndContact(Player* p)
 	log("Player left room %d.", mapID);
 }
 
-
-TrapRoomSensor::TrapRoomSensor(GSpace* space, ObjectIDType id, SpaceVect center, SpaceVect dimensions, int mapID, const ValueMap& props) :
-	GObject(space, id, "", center, 0.0),
-	RoomSensor(space,id,center,dimensions, mapID, props),
-	RegisterInit(this),
-	RegisterUpdate<TrapRoomSensor>(this)
+void RoomSensor::init()
 {
-	doorNames = splitString(getStringOrDefault(props,"trap_doors",""), " ");
-}
-
-void TrapRoomSensor::init()
-{
-	for (string name : doorNames) {
+	for (string name : trapDoorNames) {
 		Door* d = space->getObjectAs<Door>(name);
 		if (d) {
 			doors.insert(d);
@@ -120,44 +113,41 @@ void TrapRoomSensor::init()
 			log("TrapRoomSensor: unknown door %s.", name.c_str());
 		}
 	}
+	trapDoorNames.clear();
+
+	boss = space->getObjectRefAs<Enemy>(bossName);
 }
 
-void TrapRoomSensor::update()
+void RoomSensor::update()
 {
-	if (!isLocked && player.isValid() && enemies.size() > 0) {
+	if(!bossName.empty())
+		updateBoss();
+	if(doors.size() > 0)
+		updateTrapDoors();
+}
+
+void RoomSensor::updateTrapDoors()
+{
+	if (!isTrapActive && player.isValid() && enemies.size() > 0) {
 		for (auto ref : doors) {
 			ref.get()->setLocked(true);
 		}
-		isLocked = true;
+		isTrapActive = true;
 	}
-	else if(isLocked && enemies.empty())
+	else if (isTrapActive && enemies.empty())
 	{
 		for (auto ref : doors) {
 			ref.get()->setLocked(false);
 		}
-		isLocked = false;
+		isTrapActive = false;
 	}
 }
 
-BossRoomSensor::BossRoomSensor(GSpace* space, ObjectIDType id, SpaceVect center, SpaceVect dimensions, int mapID, const ValueMap& props) :
-	GObject(space, id, "", center, 0.0),
-	RoomSensor(space, id, center,dimensions, mapID, props),
-	RegisterInit(this),
-	RegisterUpdate(this)
-{
-	bossName = getStringOrDefault(props, "boss", "");
-}
-
-void BossRoomSensor::init()
-{
-	boss = space->getObjectRefAs<Enemy>(bossName);
-}
-
-void BossRoomSensor::update()
+void RoomSensor::updateBoss()
 {
 	PlayScene* playScene = space->getSceneAs<PlayScene>();
 
-	if (!activated)
+	if (!isBossActive)
 	{
 		if (boss.isValid() && player.isValid()) {
 			space->addSceneAction(make_hud_action(
@@ -168,7 +158,7 @@ void BossRoomSensor::update()
 				boss.get()->getAttribute(Attribute::maxHP)
 			));
 
-			activated = true;
+			isBossActive = true;
 		}
 	}
 	else

@@ -2,7 +2,6 @@
 <map version="1.0" tiledversion="1.0.3" orientation="orthogonal" renderorder="right-down" width="17" height="17" tilewidth="128" tileheight="128" nextobjectid="25">
  <properties>
   <property name="boss" value="sakuya"/>
-  <property name="room_type" value="boss_room"/>
  </properties>
  <tileset firstgid="1" name="scarlet carpet texture" tilewidth="128" tileheight="128" tilecount="1" columns="1">
   <image source="scarlet carpet texture.png" width="128" height="128"/>
