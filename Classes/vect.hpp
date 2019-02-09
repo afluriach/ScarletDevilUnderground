@@ -39,6 +39,7 @@ public:
 	cpFloat lengthSq() const;
         
 	SpaceVect limit(cpFloat _limit) const;
+	SpaceVect setMag(cpFloat mag) const;
 
     bool isZero() const;
 

@@ -647,10 +647,9 @@ void Flock::update(StateMachine& sm)
 	SpaceVect _align = align(sm.getAgent());
 	SpaceVect _cohesion = cohesion(sm.getAgent());
 
-	//sm.agent->applyForceForSingleFrame(separate(sm.getAgent()));
-	//sm.agent->applyForceForSingleFrame(align(sm.getAgent()));
-	//sm.agent->applyForceForSingleFrame(cohesion(sm.getAgent()));
-	sm.agent->applyForceForSingleFrame(_separate + _align + _cohesion);
+	SpaceVect sum = _separate + _align + _cohesion;
+
+	sm.agent->applyForceForSingleFrame(sum.setMag(sm.getAgent()->getMaxAcceleration()) );
 }
 
 void Flock::onDetectNeighbor(Agent* agent)

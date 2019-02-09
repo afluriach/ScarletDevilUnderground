@@ -130,6 +130,15 @@ SpaceVect SpaceVect::limit(cpFloat _limit) const
 	}
 }
 
+SpaceVect SpaceVect::setMag(cpFloat mag) const
+{
+	if (isZero())
+		return *this;
+	else {
+		return normalizeSafe() * mag;
+	}
+}
+
 bool SpaceVect::isZero() const {
     return x == 0 && y == 0;
 }
