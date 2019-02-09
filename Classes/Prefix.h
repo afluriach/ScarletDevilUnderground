@@ -53,7 +53,7 @@
 #include <vector>
 
 //All external libraries used by this app.
-#include "chipmunk.hpp"
+#include "chipmunk.h"
 #include "cocos2d.h"
 #include "ui/CocosGUI.h"
 #include "lua.hpp"
@@ -91,7 +91,6 @@
 
 using namespace std;
 USING_NS_CC;
-using namespace cp;
 using namespace luabridge;
 
 #endif /* Prefix_h */

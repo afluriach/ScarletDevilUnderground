@@ -27,7 +27,7 @@
 #define set_float_arg(field, def) field = getFloatOrDefault(args, #field, def);
 #define init_float_field(field,default) field(getFloatOrDefault(args, #field, default))
 
-#define float_pi boost::math::constants::pi<cp::Float>()
+#define float_pi boost::math::constants::pi<cpFloat>()
 #define float_2pi (float_pi * 2.0f)
 
 #define delete_if(ptr) if(ptr) { delete ptr; ptr = nullptr; }

@@ -288,6 +288,9 @@
     <ClCompile Include="..\Classes\scenes\Library.cpp">
       <Filter>src\scenes</Filter>
     </ClCompile>
+    <ClCompile Include="..\Classes\vect.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="main.h">
@@ -562,6 +565,9 @@
     </ClInclude>
     <ClInclude Include="..\Classes\scenes\Library.hpp">
       <Filter>src\scenes</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\vect.hpp">
+      <Filter>src</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

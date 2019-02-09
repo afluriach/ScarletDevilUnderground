@@ -234,6 +234,7 @@ xcopy "$(ProjectDir)..\Resources" "$(OutDir)" /D /E /I /F /Y</Command>
     <ClCompile Include="..\Classes\types.cpp" />
     <ClCompile Include="..\Classes\util.cpp" />
     <ClCompile Include="..\Classes\value_map.cpp" />
+    <ClCompile Include="..\Classes\vect.cpp" />
     <ClCompile Include="main.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -327,6 +328,7 @@ xcopy "$(ProjectDir)..\Resources" "$(OutDir)" /D /E /I /F /Y</Command>
     <ClInclude Include="..\Classes\types.h" />
     <ClInclude Include="..\Classes\util.h" />
     <ClInclude Include="..\Classes\value_map.hpp" />
+    <ClInclude Include="..\Classes\vect.hpp" />
     <ClInclude Include="main.h" />
   </ItemGroup>
   <ItemGroup>
