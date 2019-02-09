@@ -26,6 +26,8 @@ enum class collectible_id
 
 	magic1,
 	magic2,
+
+	key,
 };
 
 class Collectible : virtual public GObject, public RectangleBody, public ImageSprite
@@ -119,7 +121,6 @@ public:
 	static const AttributeMap effect;
 	static const string spriteName;
 
-	Key(GSpace* space, ObjectIDType id, const ValueMap& args);
 	Key(GSpace* space, ObjectIDType id, SpaceVect pos);
 };
 

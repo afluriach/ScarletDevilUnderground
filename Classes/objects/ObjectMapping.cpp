@@ -81,12 +81,23 @@ GObject::AdapterType playerAdapter()
 	};
 }
 
+template<class C>
+GObject::AdapterType collectibleAdapter(collectible_id id)
+{
+	return [=](GSpace* space, ObjectIDType id, const ValueMap& args) -> GObject* {
+		SpaceVect pos = SpaceVect(getFloat(args, "pos_x"), getFloat(args, "pos_y"));
+		return new C(space, id, pos);
+	};
+}
+
 #define entry(name,cls) {name, consAdapter<cls>()}
 //To make an entry where the name matches the class
 #define entry_same(cls) entry(#cls, cls)
 
 #define item_entry(name,cls,itemKey) {name, itemAdapter<cls>(#itemKey)}
 #define item_entry_same(cls) item_entry(#cls,cls,cls)
+
+#define collectible_entry(name,id) {#name, collectibleAdapter<name>(collectible_id::id)}
 
 const unordered_map<string, GObject::AdapterType> GObject::adapters = {
 	entry_same(AgilityUpgrade),
@@ -108,19 +119,25 @@ const unordered_map<string, GObject::AdapterType> GObject::adapters = {
 	entry_same(Goal),
 	entry_same(GrassFloor),
 	item_entry_same(GraveyardKey),
+	collectible_entry(Health1, health1),
+	collectible_entry(Health2, health2),
 	entry_same(HiddenSubroomSensor),
 	entry_same(HPUpgrade),
 	entry_same(IceFairy),
 	entry_same(IceFloor),
 	entry_same(IcePlatform),
-	entry_same(Key),
+	collectible_entry(Key, key),
 	entry_same(Launcher),
+	collectible_entry(Magic1, magic1),
+	collectible_entry(Magic2, magic2),
 	entry_same(MineFloor),
 	entry_same(MovingPlatform),
 	entry_same(MPUpgrade),
 	entry_same(Patchouli),
 	entry_same(PatchouliEnemy),
 	entry_same(Pitfall),
+	collectible_entry(Power1, power1),
+	collectible_entry(Power2, power2),
 	entry_same(PowerUpgrade),
 	entry_same(PressurePlate),
 	entry_same(Pyramid),

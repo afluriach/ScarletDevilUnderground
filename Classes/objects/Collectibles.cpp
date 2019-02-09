@@ -26,6 +26,7 @@ const map<collectible_id, function<ObjectGeneratorType(SpaceVect)>> Collectible:
 	{collectible_id::power2, createAdapter<Power2>() },
 	{collectible_id::health1, createAdapter<Health1>() },
 	{collectible_id::health2, createAdapter<Health2>() },
+	{collectible_id::key, createAdapter<Key>() },
 };
 
 ObjectGeneratorType Collectible::create(collectible_id id, SpaceVect pos)
@@ -117,13 +118,6 @@ const AttributeMap Key::effect = {
 };
 
 const string Key::spriteName = "key";
-
-Key::Key(GSpace* space, ObjectIDType id, const ValueMap& args) :
-	MapObjForwarding(GObject),
-	CollectibleImpl<Key>(space, id, SpaceVect(getFloat(args, "pos_x"), getFloat(args, "pos_y")))
-{
-
-}
 
 Key::Key(GSpace* space, ObjectIDType id, SpaceVect pos) :
 	GObject(space,id,"", pos, float_pi / 2.0),

@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.0" tiledversion="1.0.3" orientation="orthogonal" renderorder="right-down" width="17" height="17" tilewidth="128" tileheight="128" nextobjectid="57">
+<map version="1.0" tiledversion="1.0.3" orientation="orthogonal" renderorder="right-down" width="17" height="17" tilewidth="128" tileheight="128" nextobjectid="61">
  <tileset firstgid="1" name="grass floor" tilewidth="128" tileheight="128" tilecount="4" columns="2">
   <image source="grass-floor.png" width="256" height="256"/>
  </tileset>
@@ -68,6 +68,10 @@
     <property name="waypoint" value="wp1"/>
    </properties>
   </object>
+  <object id="57" type="Power1" x="256" y="256" width="128" height="128"/>
+  <object id="58" type="Power1" x="1792" y="256" width="128" height="128"/>
+  <object id="59" type="Power1" x="256" y="1792" width="128" height="128"/>
+  <object id="60" type="Power1" x="1792" y="1792" width="128" height="128"/>
  </objectgroup>
  <objectgroup name="waypoints">
   <object id="54" name="wp1" x="1024" y="1024" width="128" height="128"/>
