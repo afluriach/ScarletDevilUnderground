@@ -104,6 +104,19 @@ array<SpaceFloat, 8> obstacleFeeler8(const GObject* agent, SpaceFloat distance)
 	return results;
 }
 
+array<SpaceFloat, 8> wallFeeler8(const GObject* agent, SpaceFloat distance)
+{
+	array<SpaceFloat, 8> results;
+
+	for (int i = 0; i < 8; ++i)
+	{
+		SpaceVect feeler = SpaceVect::ray(distance, i* float_pi / 4.0);
+		results[i] = agent->space->wallDistanceFeeler(agent, feeler);
+	}
+
+	return results;
+}
+
 int chooseBestDirection(const array<SpaceFloat, 8>& feelers, SpaceFloat desired_angle, SpaceFloat min_distance)
 {
 	int bestDirection = -1;
@@ -643,9 +656,9 @@ Flock::Flock()
 
 void Flock::update(StateMachine& sm)
 {
-	SpaceVect _separate = separate(sm.getAgent());
-	SpaceVect _align = align(sm.getAgent());
-	SpaceVect _cohesion = cohesion(sm.getAgent());
+	SpaceVect _separate = separate(sm.getAgent()) * 1.5;
+	SpaceVect _align = align(sm.getAgent()) * 0.75;
+	SpaceVect _cohesion = cohesion(sm.getAgent()) * 0.75;
 
 	SpaceVect sum = _separate + _align + _cohesion;
 
@@ -685,6 +698,17 @@ SpaceVect Flock::separate(Agent* _agent)
 		steer_acc -= _agent->getVel();
 		steer_acc.limit(_agent->getMaxAcceleration());
 
+	}
+
+	array<SpaceFloat, 8> walls = ai::wallFeeler8(_agent, separationDesired);
+
+	for (size_t i = 0; i < 8; ++i) {
+		if (walls[i] < separationDesired) {
+			SpaceVect v = SpaceVect::ray(1.0 / walls[i], i * float_pi / 4.0).rotate(float_pi);
+
+			steer_acc += v;
+			++count;
+		}
 	}
 
 	return steer_acc;
