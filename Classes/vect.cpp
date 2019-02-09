@@ -120,6 +120,16 @@ cpFloat SpaceVect::length() const {
 	return sqrt(lengthSq());
 }
     
+SpaceVect SpaceVect::limit(cpFloat _limit) const
+{
+	if (lengthSq() > _limit*_limit) {
+		return normalizeSafe() * _limit;
+	}
+	else {
+		return *this;
+	}
+}
+
 bool SpaceVect::isZero() const {
     return x == 0 && y == 0;
 }

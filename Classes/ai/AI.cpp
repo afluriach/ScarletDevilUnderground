@@ -163,6 +163,19 @@ SpaceFloat viewAngleToTarget(const GObject* agent, const GObject* target)
         return numeric_limits<SpaceFloat>::infinity();
 }
 
+SpaceVect compute_seek(Agent* agent, SpaceVect target)
+{
+	SpaceVect displacement = target - agent->getPos();
+
+	if (displacement.lengthSq() < 1e-4)
+		return SpaceVect::zero;
+
+	SpaceVect direction = directionToTarget(agent, target);
+
+	SpaceVect v = direction*agent->getMaxSpeed();
+	return (v - agent->getVel()).limit(agent->getMaxAcceleration());
+}
+
 void seek(GObject* agent, SpaceVect target, SpaceFloat maxSpeed, SpaceFloat acceleration)
 {
 	SpaceVect displacement = target - agent->getPos();
@@ -619,6 +632,111 @@ void MaintainDistance::update(StateMachine& sm)
 	}
 	else {
 		ai::applyDesiredVelocity(sm.agent, SpaceVect::zero, sm.agent->getMaxAcceleration());
+	}
+}
+
+const SpaceFloat Flock::separationDesired = 5.0;
+
+Flock::Flock()
+{
+}
+
+void Flock::update(StateMachine& sm)
+{
+	SpaceVect _separate = separate(sm.getAgent());
+	SpaceVect _align = align(sm.getAgent());
+	SpaceVect _cohesion = cohesion(sm.getAgent());
+
+	//sm.agent->applyForceForSingleFrame(separate(sm.getAgent()));
+	//sm.agent->applyForceForSingleFrame(align(sm.getAgent()));
+	//sm.agent->applyForceForSingleFrame(cohesion(sm.getAgent()));
+	sm.agent->applyForceForSingleFrame(_separate + _align + _cohesion);
+}
+
+void Flock::onDetectNeighbor(Agent* agent)
+{
+	neighbors.insert(agent);
+}
+
+void Flock::endDetectNeighbor(Agent* agent)
+{
+	neighbors.erase(agent);
+}
+
+SpaceVect Flock::separate(Agent* _agent)
+{
+	SpaceVect steer_acc;
+	int count = 0;
+
+	for (auto ref : neighbors)
+	{
+		Agent* other = ref.get();
+		SpaceVect disp = _agent->getPos() - other->getPos();
+
+		//Actual magnitude added from interaction is 1/x.
+		if (disp.lengthSq() < separationDesired*separationDesired) {
+			steer_acc += disp.normalizeSafe() / disp.length();
+			++count;
+		}
+	}
+
+	if (count > 0) {
+		steer_acc /= count;
+		steer_acc = steer_acc.normalize() * _agent->getMaxSpeed();
+		steer_acc -= _agent->getVel();
+		steer_acc.limit(_agent->getMaxAcceleration());
+
+	}
+
+	return steer_acc;
+}
+
+//Calculate average velocity of neighbors
+SpaceVect Flock::align(Agent* _agent)
+{
+	SpaceVect sum;
+	int count = 0;
+
+	for (auto ref : neighbors)
+	{
+		Agent* other = ref.get();
+
+		sum += other->getVel();
+		++count;
+	}
+
+	if (count > 0) {
+		sum /= count;
+
+		SpaceVect vel = sum.normalizeSafe() * _agent->getMaxSpeed();
+		SpaceVect steer = vel - _agent->getVel();
+
+		return steer.limit(_agent->getMaxAcceleration());
+	}
+	else {
+		return SpaceVect::zero;
+	}
+}
+
+//Calculate average position of neighbors;
+SpaceVect Flock::cohesion(Agent* _agent)
+{
+	SpaceVect sum;
+	int count = 0;
+
+	for (auto ref : neighbors)
+	{
+		Agent* other = ref.get();
+
+		sum += other->getPos();
+		++count;
+	}
+
+	if (count > 0) {
+		return compute_seek(_agent, sum / count);
+	}
+	else {
+		return SpaceVect::zero;
 	}
 }
 

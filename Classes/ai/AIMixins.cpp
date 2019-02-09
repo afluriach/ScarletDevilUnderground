@@ -92,6 +92,9 @@ void RadarObject::initializeRadar(GSpace& space)
 //processed during the next update.
 void RadarObject::radarCollision(GObject* obj)
 {
+	if (this == obj)
+		return;
+
 	objectsInRange.insert(obj);
 
 	if (isObjectVisible(obj)) {
@@ -102,6 +105,9 @@ void RadarObject::radarCollision(GObject* obj)
 }
 void RadarObject::radarEndCollision(GObject* obj)
 {
+	if (this == obj)
+		return;
+
 	objectsInRange.erase(obj);
 
 	if (isObjectVisible(obj)) {

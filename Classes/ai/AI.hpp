@@ -27,6 +27,7 @@ namespace ai{
 
 //Not strictly an AI function since it's used to control the player.
 void applyDesiredVelocity(GObject* obj, SpaceVect desired, SpaceFloat maxForce);
+SpaceVect compute_seek(Agent* agent, SpaceVect target);
 void seek(GObject* agent, SpaceVect target, SpaceFloat maxSpeed, SpaceFloat acceleration);
 void arrive(GObject* agent, SpaceVect target);
 SpaceVect fleeDirection(const GObject* agent, SpaceVect target);
@@ -213,6 +214,31 @@ protected:
 	gobject_ref target;
     SpaceFloat distance, margin;
 };
+
+class Flock : public Function {
+public:
+	static const SpaceFloat separationDesired;
+
+	Flock();
+
+	virtual void update(StateMachine& sm);
+
+	inline virtual bitset<lockCount> getLockMask() {
+		return make_enum_bitfield(ResourceLock::movement) | make_enum_bitfield(ResourceLock::look);
+	}
+
+	void onDetectNeighbor(Agent* agent);
+	void endDetectNeighbor(Agent* agent);
+
+	SpaceVect separate(Agent* _agent);
+	SpaceVect align(Agent* _agent);
+	SpaceVect cohesion(Agent* _agent);
+
+	FuncGetName(Flock)
+protected:
+	set<object_ref<Agent>> neighbors;
+};
+
 
 class OccupyMidpoint : public Function {
 public:

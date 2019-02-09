@@ -38,6 +38,8 @@ public:
 	/// Returns the squared length. Faster than SpaceVect::length() when you only need to compare lengths.
 	cpFloat lengthSq() const;
         
+	SpaceVect limit(cpFloat _limit) const;
+
     bool isZero() const;
 
 	/// Returns a perpendicular vector. (90 degree rotation)

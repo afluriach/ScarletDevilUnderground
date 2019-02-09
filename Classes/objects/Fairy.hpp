@@ -26,7 +26,7 @@ public:
 	Fairy1(GSpace* space, ObjectIDType id, const ValueMap& args);
 
 	virtual inline SpaceFloat getRadarRadius() const { return 6.0; }
-	virtual inline SpaceFloat getDefaultFovAngle() const { return float_pi / 4.0; }
+	virtual inline SpaceFloat getDefaultFovAngle() const { return 0.0; }
 
 	inline SpaceFloat getMass() const { return 40.0; }
 
@@ -37,6 +37,7 @@ public:
 	void maintain_distance(ai::StateMachine& sm, const ValueMap& args);
 	void circle_and_fire(ai::StateMachine& sm, const ValueMap& args);
 	void circle_around_point(ai::StateMachine& sm, const ValueMap& args);
+	void flock(ai::StateMachine& sm, const ValueMap& args);
 };
 
 class Fairy2 :

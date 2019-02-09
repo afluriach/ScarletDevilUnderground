@@ -31,13 +31,21 @@ AttributeMap high_hp = {
 	{ Attribute::acceleration, 4.5f }
 };
 
+AttributeMap high_agility = {
+	{ Attribute::maxHP, 30.0f },
+	{ Attribute::speed, 6.0f },
+	{ Attribute::acceleration, 36.0f }
+};
+
 const AIPackage<Fairy1>::AIPackageMap Fairy1::aiPackages = {
 	{"maintain_distance", &Fairy1::maintain_distance},
+	{"flock", &Fairy1::flock},
 	{"circle_and_fire", &Fairy1::circle_and_fire},
 	{"circle_around_point", &Fairy1::circle_around_point}
 };
 
 const AttributePackageMap Fairy1::attributePackages = {
+	{"high_agility", high_agility},
 	{"low_hp", low_hp},
 	{"high_hp", high_hp }
 };
@@ -87,6 +95,28 @@ void Fairy1::circle_around_point(ai::StateMachine& sm, const ValueMap& args) {
 		sm.agent->space->getObjectRef("player")
 	));
 }
+
+void Fairy1::flock(ai::StateMachine& sm, const ValueMap& args) {
+	
+	shared_ptr<ai::Flock> flock = make_shared<ai::Flock>();
+
+	sm.addThread(flock);
+
+	sm.addDetectFunction(
+		GType::enemy,
+		[this, flock](ai::StateMachine& sm, GObject* target) -> void {
+			flock->onDetectNeighbor(dynamic_cast<Agent*>(target));
+		}
+	);
+
+	sm.addEndDetectFunction(
+		GType::enemy,
+		[this, flock](ai::StateMachine& sm, GObject* target) -> void {
+			flock->endDetectNeighbor(dynamic_cast<Agent*>(target));
+		}
+	);
+}
+
 
 const AttributeMap Fairy2::baseAttributes = {
 	{Attribute::maxHP, 15.0f},
