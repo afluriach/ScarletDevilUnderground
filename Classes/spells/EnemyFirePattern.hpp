@@ -9,30 +9,34 @@
 #ifndef EnemyFirePattern_hpp
 #define EnemyFirePattern_hpp
 
+#include "EnemyBullet.hpp"
 #include "FirePattern.hpp"
 
-class IceFairyBulletPattern : public SingleBulletFixedIntervalPattern
+class IceFairyBulletPattern : public SingleBulletFixedIntervalPattern, public FirePatternImpl<IceFairyBullet>
 {
 public:
-	inline IceFairyBulletPattern(Agent *const agent) : SingleBulletFixedIntervalPattern(agent) {}
+	IceFairyBulletPattern(Agent *const agent);
 
 	//not relevant for enemy fire patterns
-	virtual string iconPath() const { return ""; }
+	inline virtual string iconPath() const { return ""; }
 
-	virtual boost::rational<int> getCooldownTime() { return 2.0; }
-	virtual GObject::GeneratorType spawn(SpaceFloat angle, SpaceVect pos);
+	inline virtual boost::rational<int> getCooldownTime() { return 2.0; }
 };
 
-class Fairy1ABulletPattern : public MultiBulletFixedIntervalPattern
+class Fairy1BulletPattern : public MultiBulletSpreadPattern, public FirePatternImpl<Fairy1Bullet>
 {
 public:
-	inline Fairy1ABulletPattern(Agent *const agent) : MultiBulletFixedIntervalPattern(agent) {}
+	Fairy1BulletPattern(
+		Agent *const agent,
+		boost::rational<int> fireInterval,
+		SpaceFloat sideAngleSpread,
+		int bulletCount
+	);
 
 	//not relevant for enemy fire patterns
-	virtual string iconPath() const { return ""; }
+	inline virtual string iconPath() const { return ""; }
 
-	virtual boost::rational<int> getCooldownTime() { return 1.5; }
-	virtual list<GObject::GeneratorType> spawn(SpaceFloat angle, SpaceVect pos);
+	inline virtual boost::rational<int> getCooldownTime() { return 1.5; }
 };
 
 #endif /* EnemyFirePattern_hpp */

@@ -9,36 +9,22 @@
 #include "Prefix.h"
 
 #include "App.h"
-#include "EnemyBullet.hpp"
 #include "EnemyFirePattern.hpp"
 #include "GSpace.hpp"
 
-GObject::GeneratorType IceFairyBulletPattern::spawn(SpaceFloat angle, SpaceVect pos)
+IceFairyBulletPattern::IceFairyBulletPattern(Agent *const agent) :
+	SingleBulletFixedIntervalPattern(agent),
+	FirePattern(agent)
 {
-	return GObject::make_object_factory<IceFairyBullet>(agent, angle, pos);
 }
 
-list<GObject::GeneratorType> Fairy1ABulletPattern::spawn(SpaceFloat angle, SpaceVect pos)
+Fairy1BulletPattern::Fairy1BulletPattern(
+	Agent *const agent,
+	boost::rational<int> fireInterval,
+	SpaceFloat sideAngleSpread,
+	int bulletCount
+) :
+	MultiBulletSpreadPattern(agent, fireInterval, sideAngleSpread, bulletCount),
+	FirePattern(agent)
 {
-	list<GObject::GeneratorType> result;
-
-	result.push_back(GObject::make_object_factory<Fairy1Bullet>(
-		agent,
-		angle - float_pi / 6.0,
-		pos + SpaceVect::ray(getLaunchDistance(), angle - float_pi / 6.0)
-	));
-
-	result.push_back(GObject::make_object_factory<Fairy1Bullet>(
-		agent,
-		angle,
-		pos + SpaceVect::ray(getLaunchDistance(), angle)
-	));
-
-	result.push_back(GObject::make_object_factory<Fairy1Bullet>(
-		agent,
-		angle + float_pi / 6.0,
-		pos + SpaceVect::ray(getLaunchDistance(), angle + float_pi / 6.0)
-	));
-
-	return result;
 }

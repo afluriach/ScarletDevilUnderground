@@ -14,12 +14,12 @@
 #include "GSpace.hpp"
 #include "Player.hpp"
 
-bool SingleBulletFixedIntervalPattern::fireIfPossible()
+bool FirePattern::fireIfPossible()
 {
 	if (cooldownTimeRemaining <= 0)
 	{
-		cooldownTimeRemaining = getCooldownTime();
 		fire();
+		cooldownTimeRemaining = getCooldownTime();
 
 		return true;
 	}
@@ -28,55 +28,56 @@ bool SingleBulletFixedIntervalPattern::fireIfPossible()
 	}
 }
 
-void SingleBulletFixedIntervalPattern::fire()
+
+bool FirePattern::isInCooldown()
 {
+	return cooldownTimeRemaining > 0;
+}
+
+void FirePattern::update()
+{
+	timerDecrement(cooldownTimeRemaining);
+}
+
+bool SingleBulletFixedIntervalPattern::fire()
+{
+	if (isInCooldown())
+		return false;
+
 	SpaceVect pos = agent->getPos();
 	pos += SpaceVect::ray(getLaunchDistance(), agent->getAngle());
 
-	agent->space->createObject(spawn(agent->getAngle(), pos));
+	agent->space->createObject(spawn(agent->getAngle()));
+
+	return true;
 }
 
-void SingleBulletFixedIntervalPattern::update()
+MultiBulletSpreadPattern::MultiBulletSpreadPattern(
+	Agent *const agent,
+	boost::rational<int> fireInterval,
+	SpaceFloat sideAngleSpread,
+	int bulletCount
+) :
+	FirePattern(agent),
+	fireInterval(fireInterval),
+	sideAngleSpread(sideAngleSpread),
+	bulletCount(bulletCount)
 {
-	timerDecrement(cooldownTimeRemaining);
 }
 
-bool SingleBulletFixedIntervalPattern::isInCooldown()
+bool MultiBulletSpreadPattern::fire()
 {
-	return cooldownTimeRemaining > 0;
-}
-
-bool MultiBulletFixedIntervalPattern::fireIfPossible()
-{
-	if (cooldownTimeRemaining <= 0)
-	{
-		cooldownTimeRemaining = getCooldownTime();
-		fire();
-
-		return true;
-	}
-	else {
+	if (isInCooldown())
 		return false;
+
+	SpaceFloat angle = agent->getAngle();
+	SpaceFloat spread = sideAngleSpread * 2.0;
+	SpaceFloat angleStep = spread / (bulletCount - 1);
+
+	for_irange(i, 0, bulletCount)
+	{
+		agent->space->createObject(spawn(angle - sideAngleSpread + angleStep*i));
 	}
-}
 
-void MultiBulletFixedIntervalPattern::fire()
-{
-	SpaceVect pos = agent->getPos();
-
-	list<ObjectGeneratorType> spawns = spawn(agent->getAngle(), agent->getPos());
-
-	for (auto gen : spawns) {
-		agent->space->createObject(gen);
-	}
-}
-
-void MultiBulletFixedIntervalPattern::update()
-{
-	timerDecrement(cooldownTimeRemaining);
-}
-
-bool MultiBulletFixedIntervalPattern::isInCooldown()
-{
-	return cooldownTimeRemaining > 0;
+	return true;
 }

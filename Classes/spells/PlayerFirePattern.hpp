@@ -10,94 +10,79 @@
 #define PlayerFirePattern_hpp
 
 #include "FirePattern.hpp"
+#include "PlayerBullet.hpp"
 
-class FlandreBigOrbPattern : public SingleBulletFixedIntervalPattern
+class FlandreBigOrbPattern : public SingleBulletFixedIntervalPattern, public FirePatternImpl<FlandreBigOrb1>
 {
 public:
-	inline FlandreBigOrbPattern(Agent *const agent) : SingleBulletFixedIntervalPattern(agent) {}
+	FlandreBigOrbPattern(Agent *const agent);
 
 	virtual string iconPath() const { return "sprites/fire_patterns/flandre_big_orb.png"; }
 
 	virtual boost::rational<int> getCooldownTime() { return 1; }
-	virtual GObject::GeneratorType spawn(SpaceFloat angle, SpaceVect pos);
 };
 
-class FlandreFastOrbPattern : public SingleBulletFixedIntervalPattern
+class FlandreFastOrbPattern : public SingleBulletFixedIntervalPattern, public FirePatternImpl<FlandreFastOrb1>
 {
 public:
-	inline FlandreFastOrbPattern(Agent *const agent) : SingleBulletFixedIntervalPattern(agent) {}
+	FlandreFastOrbPattern(Agent *const agent);
 
 	virtual string iconPath() const { return "sprites/fire_patterns/flandre_fast_orb.png"; }
 
 	virtual boost::rational<int> getCooldownTime() { return boost::rational<int>(1,6); }
-	virtual GObject::GeneratorType spawn(SpaceFloat angle, SpaceVect pos);
 };
 
-class FlandreWideAnglePattern : public FirePattern
-{
-public:
-	static const boost::rational<int> primaryCooldown;
-	static const boost::rational<int> sideCooldown;
-
-	inline FlandreWideAnglePattern(Agent *const agent) : FirePattern(agent) {}
-
-	inline virtual string iconPath() const { return "sprites/fire_patterns/flandre_fast_orb.png"; }
-
-	virtual bool fireIfPossible();
-	virtual bool isInCooldown();
-	virtual void update();
-protected:
-	boost::rational<int> crntPrimaryCooldown;
-	boost::rational<int> crntSideCooldown;
-};
-
-class RumiaFastOrbPattern : public SingleBulletFixedIntervalPattern
-{
-public:
-	inline RumiaFastOrbPattern(Agent *const agent) : SingleBulletFixedIntervalPattern(agent) {}
-
-	virtual string iconPath() const { return "sprites/fire_patterns/rumia_fast_orb.png"; }
-
-	virtual boost::rational<int> getCooldownTime() { return boost::rational<int>(1, 6); }
-	virtual GObject::GeneratorType spawn(SpaceFloat angle, SpaceVect pos);
-};
-
-class RumiaParallelPattern : public FirePattern
+class FlandreWideAnglePattern : public MultiBulletSpreadPattern, public FirePatternImpl<FlandreFastOrb1>
 {
 public:
 	static const boost::rational<int> cooldown;
 
-	inline RumiaParallelPattern(Agent *const agent) : FirePattern(agent) {}
+	FlandreWideAnglePattern(Agent *const agent);
 
-	inline virtual string iconPath() const { return "sprites/fire_patterns/rumia_fast_orb.png"; }
-
-	virtual bool fireIfPossible();
-	virtual bool isInCooldown();
-	virtual void update();
-protected:
-	boost::rational<int> crntCooldown;
+	inline virtual string iconPath() const { return "sprites/fire_patterns/flandre_fast_orb.png"; }
 };
 
-class CirnoLargeIceBulletPattern : public SingleBulletFixedIntervalPattern
+class RumiaFastOrbPattern : public SingleBulletFixedIntervalPattern, public FirePatternImpl<RumiaFastOrb1>
 {
 public:
-	inline CirnoLargeIceBulletPattern(Agent *const agent) : SingleBulletFixedIntervalPattern(agent) {}
+	RumiaFastOrbPattern(Agent *const agent);
+
+	virtual string iconPath() const { return "sprites/fire_patterns/rumia_fast_orb.png"; }
+
+	virtual boost::rational<int> getCooldownTime() { return boost::rational<int>(1, 6); }
+};
+
+class RumiaParallelPattern : public FirePatternImpl<RumiaFastOrb1>
+{
+public:
+	static const boost::rational<int> cooldown;
+
+	RumiaParallelPattern(Agent *const agent);
+
+	inline virtual string iconPath() const { return "sprites/fire_patterns/rumia_fast_orb.png"; }
+	inline virtual boost::rational<int> getCooldownTime() { return cooldown; }
+
+	virtual bool fire();
+};
+
+class CirnoLargeIceBulletPattern : public SingleBulletFixedIntervalPattern, public FirePatternImpl<CirnoLargeIceBullet>
+{
+public:
+	CirnoLargeIceBulletPattern(Agent *const agent);
 
 	virtual string iconPath() const { return "sprites/fire_patterns/cirno_large_ice_bullet.png"; }
 
 	virtual boost::rational<int> getCooldownTime() { return 1; }
-	virtual GObject::GeneratorType spawn(SpaceFloat angle, SpaceVect pos);
 };
 
-class CirnoSmallIceBulletPattern : public SingleBulletFixedIntervalPattern
+class CirnoSmallIceBulletPattern : public SingleBulletFixedIntervalPattern, public FirePatternImpl<CirnoSmallIceBullet>
 {
 public:
-	inline CirnoSmallIceBulletPattern(Agent *const agent) : SingleBulletFixedIntervalPattern(agent) {}
+	CirnoSmallIceBulletPattern(Agent *const agent);
 
 	virtual string iconPath() const { return "sprites/fire_patterns/cirno_large_ice_bullet.png"; }
 
 	virtual boost::rational<int> getCooldownTime() { return boost::rational<int>(1,4); }
-	virtual GObject::GeneratorType spawn(SpaceFloat angle, SpaceVect pos);
 };
 
 #endif /* PlayerFirePattern_hpp */

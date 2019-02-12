@@ -9,56 +9,71 @@
 #ifndef FirePattern_hpp
 #define FirePattern_hpp
 
-class Agent;
+#include "Agent.hpp"
 
 class FirePattern
 {
 public:
 	inline FirePattern(Agent *const agent) : agent(agent) {}
+	virtual inline ~FirePattern() {}
 
-	virtual bool fireIfPossible() = 0;
-	virtual bool isInCooldown() = 0;
-	virtual void update() = 0;
+	virtual bool fireIfPossible();
+	virtual bool isInCooldown();
+	virtual void update();
+	virtual SpaceFloat getLaunchDistance() const { return 1.0; }
 
+	virtual bool fire() = 0;
+	virtual GObject::GeneratorType spawn(SpaceFloat angle) = 0;
+	virtual boost::rational<int> getCooldownTime() = 0;
 	virtual string iconPath() const = 0;
 protected:
+	boost::rational<int> cooldownTimeRemaining = 0;
 	Agent * const agent;
 };
 
-class SingleBulletFixedIntervalPattern : public FirePattern
+template<class C>
+class FirePatternImpl : virtual public FirePattern
+{
+public:
+	inline FirePatternImpl() {}
+	virtual inline ~FirePatternImpl() {}
+
+	inline virtual GObject::GeneratorType spawn(SpaceFloat angle)
+	{
+		return GObject::make_object_factory<C>(
+			agent,
+			angle,
+			agent->getPos()+ SpaceVect::ray(getLaunchDistance(), angle)
+		);
+	}
+};
+
+class SingleBulletFixedIntervalPattern : virtual public FirePattern
 {
 public:
 	inline SingleBulletFixedIntervalPattern(Agent *const agent) : FirePattern(agent) {}
+	virtual inline ~SingleBulletFixedIntervalPattern() {}
 
-	virtual bool fireIfPossible();
-	virtual bool isInCooldown();
-	virtual void update();
-
-	void fire();
-
-	virtual SpaceFloat getLaunchDistance() const { return 1.0; }
-	virtual boost::rational<int> getCooldownTime() = 0;
-	virtual GObject::GeneratorType spawn(SpaceFloat angle, SpaceVect pos) = 0;
-protected:
-	boost::rational<int> cooldownTimeRemaining = 0;
+	virtual bool fire();
 };
 
-class MultiBulletFixedIntervalPattern : public FirePattern
+class MultiBulletSpreadPattern : virtual public FirePattern
 {
 public:
-	inline MultiBulletFixedIntervalPattern(Agent *const agent) : FirePattern(agent) {}
+	MultiBulletSpreadPattern(
+		Agent *const agent,
+		boost::rational<int> fireInterval, 
+		SpaceFloat sideAngleSpread,
+		int bulletCount
+	);
+	virtual inline ~MultiBulletSpreadPattern() {}
 
-	virtual bool fireIfPossible();
-	virtual bool isInCooldown();
-	virtual void update();
-
-	void fire();
-
-	virtual SpaceFloat getLaunchDistance() const { return 1.0; }
-	virtual boost::rational<int> getCooldownTime() = 0;
-	virtual list<GObject::GeneratorType> spawn(SpaceFloat angle, SpaceVect pos) = 0;
+	virtual bool fire();
+	inline virtual boost::rational<int> getCooldownTime() { return fireInterval; }
 protected:
-	boost::rational<int> cooldownTimeRemaining = 0;
+	SpaceFloat sideAngleSpread;
+	int bulletCount;
+	boost::rational<int> fireInterval;
 };
 
 #endif /* FirePattern_hpp */

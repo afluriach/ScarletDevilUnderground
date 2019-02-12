@@ -76,7 +76,7 @@ void Fairy1::maintain_distance(ai::StateMachine& sm, const ValueMap& args) {
 void Fairy1::circle_and_fire(ai::StateMachine& sm, const ValueMap& args) {
 	addThread(make_shared<ai::LookAround>(float_pi / 4.0));
 	addThread(make_shared<ai::FireIfTargetVisible>(
-		make_shared<Fairy1ABulletPattern>(this),
+		make_shared<Fairy1BulletPattern>(this, 1.5, float_pi / 6.0, 3),
 		sm.agent->space->getObjectRef("player")
 	));
 }
@@ -91,7 +91,7 @@ void Fairy1::circle_around_point(ai::StateMachine& sm, const ValueMap& args) {
 	}
 
 	addThread(make_shared<ai::FireIfTargetVisible>(
-		make_shared<Fairy1ABulletPattern>(this),
+		make_shared<Fairy1BulletPattern>(this, 1.0, float_pi / 6.0, 3),
 		sm.agent->space->getObjectRef("player")
 	));
 }
