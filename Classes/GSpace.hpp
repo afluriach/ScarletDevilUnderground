@@ -354,6 +354,8 @@ private:
 public:
 	GObject * pointQuery(SpaceVect pos, GType type, PhysicsLayers layers);
 	bool rectangleQuery(SpaceVect center, SpaceVect dimensions, GType type, PhysicsLayers layers);
+	bool obstacleRadiusQuery(const GObject* agent, SpaceVect center, SpaceFloat radius, GType type, PhysicsLayers layers);
+	set<GObject*> radiusQuery(const GObject* agent, SpaceVect center, SpaceFloat radius, GType type, PhysicsLayers layers);
 
     SpaceFloat distanceFeeler(const GObject * agent, SpaceVect feeler, GType gtype) const;
 	SpaceFloat distanceFeeler(const GObject * agent, SpaceVect _feeler, GType gtype, PhysicsLayers layers) const;

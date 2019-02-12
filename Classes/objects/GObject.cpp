@@ -201,10 +201,13 @@ void GObject::setAngularVel(SpaceFloat w){
 void GObject::applyForceForSingleFrame(SpaceVect f){
 	cpBodyApplyImpulse(body, f * App::secondsPerFrame, SpaceVect::zero);
 }
-    
+
+void GObject::applyImpulse(SpaceVect i) {
+	cpBodyApplyImpulse(body, i, SpaceVect::zero);
+}
+
 void GObject::applyImpulse(SpaceFloat mag, SpaceFloat angle){
-    SpaceVect v = SpaceVect::ray(mag,angle);
-	cpBodyApplyImpulse(body, v, SpaceVect::zero);
+   applyImpulse(SpaceVect::ray(mag,angle));
 }
 
 PhysicsLayers GObject::getCrntLayers() const

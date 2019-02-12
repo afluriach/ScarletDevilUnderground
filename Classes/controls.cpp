@@ -35,6 +35,7 @@ const map<EventKeyboard::KeyCode, ControlActionState> ControlRegister::keyAction
 	key_action_1(KEY_M,mapMenu),
 
 	key_action_1(KEY_1, spell),
+	key_action_1(KEY_B, bomb),
 
 	key_action_1(KEY_COMMA, firePatternPrev),
 	key_action_1(KEY_PERIOD, firePatternNext),
@@ -57,13 +58,14 @@ const map<EventKeyboard::KeyCode, ControlActionState> ControlRegister::keyAction
 
 #define button_action_1(button_id,action_id) {gainput::PadButton::button_id, make_enum_bitfield(ControlAction::action_id)}
 #define button_action_2(button_id,action1,action2) {gainput::PadButton::button_id, make_enum_bitfield(ControlAction::action1) | make_enum_bitfield(ControlAction::action2)}
+#define button_action_3(button_id,action1,action2,action3) {gainput::PadButton::button_id, make_enum_bitfield(ControlAction::action1) | make_enum_bitfield(ControlAction::action2) | make_enum_bitfield(ControlAction::action3)}
 
 const map<gainput::PadButton, ControlActionState> ControlRegister::buttonActionMap = {
 	button_action_1(PadButtonStart, pause),
 	button_action_1(PadButtonSelect, mapMenu),
 
 	button_action_2(PadButtonA,interact,menuSelect),
-	button_action_2(PadButtonB, menuBack,dialogSkip),
+	button_action_3(PadButtonB, menuBack,dialogSkip, bomb),
 
 	button_action_1(PadButtonL1, walk),
 	button_action_1(PadButtonR1, sprint),

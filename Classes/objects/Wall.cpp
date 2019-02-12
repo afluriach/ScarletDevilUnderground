@@ -27,21 +27,19 @@ PhysicsLayers Wall::getLayers() const{
     return PhysicsLayers::all;
 }
 
-const int BreakableWall::defaultHP = 15;
-
 BreakableWall::BreakableWall(GSpace* space, ObjectIDType id, const ValueMap& args) :
 	MapObjForwarding(GObject),
-	MapObjForwarding(Wall),
-	hp(getIntOrDefault(args, "hp", defaultHP))
+	MapObjForwarding(Wall)
 {}
 
-void BreakableWall::onCollide(Bullet* b)
+void BreakableWall::hit()
 {
-	--hp;
+	applyBreak();
+}
 
-	if (hp == 0) {
-		cpShapeSetSensor(bodyShape, true);
-		space->eraseTile(getPos(), "wall_tiles");
-		hidden = true;
-	}
+void BreakableWall::applyBreak()
+{
+	cpShapeSetSensor(bodyShape, true);
+	space->eraseTile(getPos(), "wall_tiles");
+	hidden = true;
 }

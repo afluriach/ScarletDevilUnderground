@@ -102,9 +102,9 @@ enum class GType{
 	upgrade = 0x800,
     npc = 0x1000,
 	floorSegment = 0x2000,
+	bomb = 0x4000,
 
-	all = 0x3FFF,
-	end = 0x4000
+	all = 0x7FFF
 };
 
 enum class PlayerCharacter {

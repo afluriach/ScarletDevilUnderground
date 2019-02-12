@@ -10,6 +10,7 @@
 
 #include "AI.hpp"
 #include "App.h"
+#include "Bomb.hpp"
 #include "Collectibles.hpp"
 #include "controls.h"
 #include "Door.hpp"
@@ -29,6 +30,8 @@
 #include "Upgrade.hpp"
 
 const float Player::interactCooldownTime = 0.1f;
+const float Player::bombCooldownTime = 1.0f;
+
 const float Player::hitFlickerInterval = 0.333f;
 
 const SpaceFloat Player::sprintSpeedRatio = 1.5;
@@ -36,6 +39,10 @@ const SpaceFloat Player::focusSpeedRatio = 0.5;
 
 const SpaceFloat Player::interactDistance = 1.25;
 const SpaceFloat Player::grazeRadius = 0.7;
+
+const float Player::bombPowerCost = 25.0f;
+
+const GType Player::bombObstacles = enum_bitwise_or4(GType, enemy, environment, wall, bomb);
 
 Player::Player(GSpace* space, ObjectIDType id, const ValueMap& args) :
 	MapObjForwarding(Agent),
@@ -222,6 +229,24 @@ void Player::checkFireControls(const ControlInfo& cs)
 
 }
 
+void Player::checkBombControls(const ControlInfo& cs)
+{
+	timerDecrement(bombCooldown);
+
+	if (!suppressFiring &&
+		cs.isControlActionPressed(ControlAction::bomb) &&
+		bombCooldown <= 0.0f &&
+		attributeSystem.getAdjustedValue(Attribute::power) >= bombPowerCost)
+	{
+		SpaceVect bombPos = getPos() + SpaceVect::ray(1.5, getAngle());
+		if (canPlaceBomb(bombPos)) {
+			space->createObject(GObject::make_object_factory<PlayerBomb>(bombPos));
+			attributeSystem.modifyAttribute(Attribute::power, -bombPowerCost);
+			bombCooldown = bombCooldownTime;
+		}
+	}
+}
+
 void Player::checkItemInteraction(const ControlInfo& cs)
 {
 	timerDecrement(interactCooldown);
@@ -288,6 +313,7 @@ void Player::update()
 
 		if (!space->getSuppressAction()) {
 			checkFireControls(cs);
+			checkBombControls(cs);
 			updateSpellControls(cs);
 
 			if (getFirePattern())
@@ -652,6 +678,12 @@ void Player::updateHudAttribute(Attribute id)
 		to_int(attributeSystem.getAdjustedValue(id))
 	));
 }
+
+bool Player::canPlaceBomb(SpaceVect pos)
+{
+	return !space->obstacleRadiusQuery(this, pos, 0.5, bombObstacles, PhysicsLayers::ground);
+}
+
 
 const AttributeMap FlandrePC::baseAttributes = {
 	{Attribute::maxHP, 8.0f},

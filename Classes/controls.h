@@ -13,17 +13,6 @@
 #include "types.h"
 #include "util.h"
 
-enum class GamepadButton
-{
-    start = 1,
-    a,
-    b,
-    dpadUp,
-    dpadRight,
-    dpadDown,
-    dpadLeft,
-};
-
 enum class ControlAction
 {
 	begin = 1,
@@ -42,6 +31,7 @@ enum class ControlAction
     enter,
 
     spell,
+	bomb,
 
 	firePatternPrev,
 	firePatternNext,

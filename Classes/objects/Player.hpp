@@ -33,6 +33,7 @@ public RegisterUpdate<Player>
 {
 public:
     static const float interactCooldownTime;
+	static const float bombCooldownTime;
     static const float hitFlickerInterval;
 
 	static const SpaceFloat sprintSpeedRatio;
@@ -40,6 +41,10 @@ public:
 	
 	static const SpaceFloat interactDistance;
 	static const SpaceFloat grazeRadius;
+
+	static const float bombPowerCost;
+
+	static const GType bombObstacles;
 
 	MapObjCons(Player);
 	inline virtual ~Player() {}
@@ -88,6 +93,7 @@ public:
 
 	void checkMovementControls(const ControlInfo& cs);
 	void checkFireControls(const ControlInfo& cs);
+	void checkBombControls(const ControlInfo& cs);
 	void checkItemInteraction(const ControlInfo& cs);
     void updateSpellControls(const ControlInfo& cs);
 	void onSpellStop();
@@ -130,6 +136,8 @@ protected:
 	void setHudEffect(Attribute id, float maxVal);
 	void updateHudAttribute(Attribute id);
 
+	bool canPlaceBomb(SpaceVect pos);
+
 	LightID light = 0;
 
 	SpaceVect respawnPos;
@@ -140,6 +148,7 @@ protected:
 	set<object_ref<EnemyBullet>> grazeContacts;
 
 	float interactCooldown = 0.0f;
+	float bombCooldown = 0.0f;
 
 	vector<shared_ptr<FirePattern>> firePatterns;
 	size_t crntFirePattern = 0;

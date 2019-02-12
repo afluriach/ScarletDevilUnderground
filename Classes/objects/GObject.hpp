@@ -169,7 +169,8 @@ public:
     
     //Apply a force as impulse where t = frame length.
     void applyForceForSingleFrame(SpaceVect f);
-    void applyImpulse(SpaceFloat mag, SpaceFloat angle);
+	void applyImpulse(SpaceVect i);
+	void applyImpulse(SpaceFloat mag, SpaceFloat angle);
 
 	PhysicsLayers getCrntLayers() const;
 	void setLayers(PhysicsLayers layers);

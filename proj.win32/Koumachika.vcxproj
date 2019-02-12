@@ -170,6 +170,7 @@ xcopy "$(ProjectDir)..\Resources" "$(OutDir)" /D /E /I /F /Y</Command>
     <ClCompile Include="..\Classes\objects\Agent.cpp" />
     <ClCompile Include="..\Classes\objects\AreaSensor.cpp" />
     <ClCompile Include="..\Classes\objects\Block.cpp" />
+    <ClCompile Include="..\Classes\objects\Bomb.cpp" />
     <ClCompile Include="..\Classes\objects\Bullet.cpp" />
     <ClCompile Include="..\Classes\objects\CollectGlyph.cpp" />
     <ClCompile Include="..\Classes\objects\Collectibles.cpp" />
@@ -266,6 +267,7 @@ xcopy "$(ProjectDir)..\Resources" "$(OutDir)" /D /E /I /F /Y</Command>
     <ClInclude Include="..\Classes\objects\Agent.hpp" />
     <ClInclude Include="..\Classes\objects\AreaSensor.hpp" />
     <ClInclude Include="..\Classes\objects\Block.hpp" />
+    <ClInclude Include="..\Classes\objects\Bomb.hpp" />
     <ClInclude Include="..\Classes\objects\Bullet.hpp" />
     <ClInclude Include="..\Classes\objects\CollectGlyph.hpp" />
     <ClInclude Include="..\Classes\objects\Collectibles.hpp" />

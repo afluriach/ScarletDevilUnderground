@@ -1325,15 +1325,10 @@ int GSpace::bulletWall(GObject* bullet, GObject* wall)
 {
 	Bullet* _b = dynamic_cast<Bullet*>(bullet);
 	Wall* _w = dynamic_cast<Wall*>(wall);
-	BreakableWall* _bw = dynamic_cast<BreakableWall*>(wall);
 	bool _sensor = cpShapeGetSensor(wall->bodyShape);
 
 	if (_b && _w && !_sensor) {
 		_b->onWallCollide(_w);
-	}
-
-	if (_b && _bw && !_sensor) {
-		_bw->onCollide(_b);
 	}
 
     return 1;
@@ -1534,7 +1529,7 @@ void shapeQueryCallback(cpShape *shape, cpContactPointSet *points, void *data)
 	ShapeQueryData* queryData = static_cast<ShapeQueryData*>(data);
 	GObject* obj = to_gobject(shape->data);
 
-	if (obj && (to_uint(obj->getType()) & queryData->gtype)) {
+	if (obj && obj != queryData->agent && (to_uint(obj->getType()) & queryData->gtype)) {
 		queryData->results.insert(obj);
 	}
 }
@@ -1663,8 +1658,29 @@ bool GSpace::rectangleQuery(SpaceVect center, SpaceVect dimensions, GType type, 
 	setShapeProperties(area, layers, GType::none, false);
 
 	cpSpaceShapeQuery(space, area, shapeQueryCallback, &data);
+	cpBodyFree(body);
 
 	return !data.results.empty();
+}
+
+bool GSpace::obstacleRadiusQuery(const GObject* agent, SpaceVect center, SpaceFloat radius, GType type, PhysicsLayers layers)
+{
+	return radiusQuery(agent, center, radius, type, layers).size() > 0;
+}
+
+set<GObject*> GSpace::radiusQuery(const GObject* agent, SpaceVect center, SpaceFloat radius, GType type, PhysicsLayers layers)
+{
+	ShapeQueryData data = { agent, to_uint(type) };
+	cpBody* body = cpBodyNewStatic();
+	cpShape* circle = cpCircleShapeNew(body, radius, SpaceVect::zero);
+
+	cpBodySetPos(body, center);
+	setShapeProperties(circle, layers, GType::none, false);
+
+	cpSpaceShapeQuery(space, circle, shapeQueryCallback, &data);
+	cpBodyFree(body);
+
+	return data.results;
 }
 
 //END SENSORS
