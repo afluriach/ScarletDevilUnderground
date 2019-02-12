@@ -52,7 +52,7 @@ public:
 	virtual boost::rational<int> getCooldownTime() { return boost::rational<int>(1, 6); }
 };
 
-class RumiaParallelPattern : public FirePatternImpl<RumiaFastOrb1>
+class RumiaParallelPattern : public MultiBulletParallelPattern, FirePatternImpl<RumiaFastOrb1>
 {
 public:
 	static const boost::rational<int> cooldown;
@@ -60,9 +60,6 @@ public:
 	RumiaParallelPattern(Agent *const agent);
 
 	inline virtual string iconPath() const { return "sprites/fire_patterns/rumia_fast_orb.png"; }
-	inline virtual boost::rational<int> getCooldownTime() { return cooldown; }
-
-	virtual bool fire();
 };
 
 class CirnoLargeIceBulletPattern : public SingleBulletFixedIntervalPattern, public FirePatternImpl<CirnoLargeIceBullet>

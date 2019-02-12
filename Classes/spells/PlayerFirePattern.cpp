@@ -41,24 +41,9 @@ RumiaFastOrbPattern::RumiaFastOrbPattern(Agent *const agent) :
 const boost::rational<int> RumiaParallelPattern::cooldown = boost::rational<int>(1, 6);
 
 RumiaParallelPattern::RumiaParallelPattern(Agent *const agent) :
+	MultiBulletParallelPattern(agent, cooldown, 1.0, 3),
 	FirePattern(agent)
 {}
-
-bool RumiaParallelPattern::fire()
-{
-	if (isInCooldown())
-		return false;
-
-	SpaceVect pos = agent->getPos();
-	SpaceVect facing = SpaceVect::ray(1.0, agent->getAngle());
-	SpaceVect perp = SpaceVect::ray(1.0, agent->getAngle() + float_pi / 2.0);
-
-	agent->space->createObject(GObject::make_object_factory<RumiaFastOrb1>(agent, agent->getAngle(), pos + facing));
-	agent->space->createObject(GObject::make_object_factory<RumiaFastOrb1>(agent, agent->getAngle(), pos + facing + perp));
-	agent->space->createObject(GObject::make_object_factory<RumiaFastOrb1>(agent, agent->getAngle(), pos + facing - perp));
-
-	return true;
-}
 
 CirnoLargeIceBulletPattern::CirnoLargeIceBulletPattern(Agent *const agent) :
 	SingleBulletFixedIntervalPattern(agent),

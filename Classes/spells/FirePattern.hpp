@@ -24,6 +24,7 @@ public:
 
 	virtual bool fire() = 0;
 	virtual GObject::GeneratorType spawn(SpaceFloat angle) = 0;
+	virtual GObject::GeneratorType spawn(SpaceVect posOffset, SpaceFloat angle) = 0;
 	virtual boost::rational<int> getCooldownTime() = 0;
 	virtual string iconPath() const = 0;
 protected:
@@ -46,6 +47,16 @@ public:
 			agent->getPos()+ SpaceVect::ray(getLaunchDistance(), angle)
 		);
 	}
+
+	inline virtual GObject::GeneratorType spawn(SpaceVect posOffset, SpaceFloat angle)
+	{
+		return GObject::make_object_factory<C>(
+			agent,
+			angle,
+			agent->getPos() + SpaceVect::ray(getLaunchDistance(), angle) + posOffset
+		);
+	}
+
 };
 
 class SingleBulletFixedIntervalPattern : virtual public FirePattern
@@ -75,5 +86,25 @@ protected:
 	int bulletCount;
 	boost::rational<int> fireInterval;
 };
+
+class MultiBulletParallelPattern : virtual public FirePattern
+{
+public:
+	MultiBulletParallelPattern(
+		Agent *const agent,
+		boost::rational<int> fireInterval,
+		SpaceFloat bulletSpacing,
+		int bulletCount
+	);
+	virtual inline ~MultiBulletParallelPattern() {}
+
+	virtual bool fire();
+	inline virtual boost::rational<int> getCooldownTime() { return fireInterval; }
+protected:
+	SpaceFloat bulletSpacing;
+	int bulletCount;
+	boost::rational<int> fireInterval;
+};
+
 
 #endif /* FirePattern_hpp */

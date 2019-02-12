@@ -81,3 +81,33 @@ bool MultiBulletSpreadPattern::fire()
 
 	return true;
 }
+
+MultiBulletParallelPattern::MultiBulletParallelPattern(
+	Agent *const agent,
+	boost::rational<int> fireInterval,
+	SpaceFloat bulletSpacing,
+	int bulletCount
+) :
+	FirePattern(agent),
+	fireInterval(fireInterval),
+	bulletSpacing(bulletSpacing),
+	bulletCount(bulletCount)
+{
+}
+
+bool MultiBulletParallelPattern::fire()
+{
+	if (isInCooldown())
+		return false;
+
+	SpaceFloat width = bulletSpacing * (bulletCount - 1);
+	SpaceVect startOffset = SpaceVect::ray(width/2.0, agent->getAngle() - float_pi / 2.0);
+	SpaceVect perp = SpaceVect::ray(bulletSpacing, agent->getAngle() + float_pi / 2.0);
+
+	for_irange(i, 0, bulletCount)
+	{
+		agent->space->createObject(spawn(startOffset + perp*i, agent->getAngle()));
+	}
+
+	return true;
+}
