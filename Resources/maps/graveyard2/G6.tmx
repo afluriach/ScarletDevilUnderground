@@ -43,18 +43,17 @@
  <objectgroup name="objects">
   <object id="73" name="door-g6-north" type="Door" x="1024" y="0" width="128" height="128">
    <properties>
-    <property name="dest" value="door-g2-south"/>
     <property name="dir" value="down"/>
    </properties>
   </object>
   <object id="74" name="door-g6-south" type="Door" x="1024" y="2048" width="128" height="128">
    <properties>
     <property name="dir" value="up"/>
+    <property name="door_type" value="one_way_destination"/>
    </properties>
   </object>
   <object id="75" name="door-g6-east" type="Door" x="2048" y="1024" width="128" height="128">
    <properties>
-    <property name="dest" value="door-g7-west"/>
     <property name="dir" value="left"/>
    </properties>
   </object>

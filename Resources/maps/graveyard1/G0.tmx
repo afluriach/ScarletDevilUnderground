@@ -43,14 +43,12 @@
  <objectgroup name="objects">
   <object id="63" name="door-g0-east" type="Door" x="2048" y="1024" width="128" height="128">
    <properties>
-    <property name="dest" value="door-g1-west"/>
     <property name="dir" value="left"/>
    </properties>
   </object>
   <object id="66" name="player" type="Player" x="1024" y="1024" width="128" height="128"/>
   <object id="74" name="door-g0-south" type="Door" x="1024" y="2048" width="128" height="128">
    <properties>
-    <property name="dest" value="door-g4-north"/>
     <property name="dir" value="up"/>
    </properties>
   </object>

@@ -42,7 +42,7 @@
   </object>
   <object id="66" name="door-f11-west" type="Door" x="0" y="896" width="128" height="128">
    <properties>
-    <property name="dest" value="door-f4-east"/>
+    <property name="door_type" value="one_way_source"/>
    </properties>
   </object>
  </objectgroup>

@@ -47,7 +47,6 @@
   <object id="167" name="goal" type="Goal" x="256" y="768" width="128" height="128"/>
   <object id="169" name="door-f9-west" type="Door" x="0" y="3840" width="128" height="128">
    <properties>
-    <property name="dest" value="door-f8-east"/>
     <property name="dir" value="right"/>
    </properties>
   </object>

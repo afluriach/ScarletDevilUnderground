@@ -46,13 +46,11 @@
   </object>
   <object id="55" name="door-c6-south" type="Door" x="1024" y="2048" width="128" height="128">
    <properties>
-    <property name="dest" value="door-c9-north"/>
     <property name="dir" value="up"/>
    </properties>
   </object>
   <object id="56" name="door-c6-east" type="Door" x="2048" y="1024" width="128" height="128">
    <properties>
-    <property name="dest" value="door-c0-west"/>
     <property name="dir" value="left"/>
    </properties>
   </object>

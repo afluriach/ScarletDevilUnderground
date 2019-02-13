@@ -32,7 +32,6 @@
  <objectgroup name="objects">
   <object id="49" name="door-c9-north" type="Door" x="1024" y="0" width="128" height="128">
    <properties>
-    <property name="dest" value="door-c6-south"/>
     <property name="dir" value="down"/>
    </properties>
   </object>

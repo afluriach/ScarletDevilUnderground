@@ -566,6 +566,14 @@ void GScene::setSpriteZoom(SpriteID id, float zoom)
 	}
 }
 
+void GScene::setSpriteColor(SpriteID id, Color3B color)
+{
+	Node* node = getSpriteAsNode(id);
+	if (node) {
+		node->setColor(color);
+	}
+}
+
 void GScene::clearSubroomMask(unsigned int roomID)
 {
 	roomMasks.at(roomID)->setVisible(false);

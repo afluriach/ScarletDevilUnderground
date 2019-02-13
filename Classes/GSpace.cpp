@@ -839,6 +839,13 @@ void GSpace::setSpriteZoom(SpriteID id, float zoom)
 	});
 }
 
+void GSpace::setSpriteColor(SpriteID id, Color3B color)
+{
+	addSpriteAction([this, id, color]()->void {
+		gscene->setSpriteColor(id, color);
+	});
+}
+
 void GSpace::clearSubroomMask(unsigned int roomID)
 {
 	addSpriteAction([this, roomID]() -> void {

@@ -222,7 +222,17 @@ SpaceRect calculateCameraArea(const SpaceVect& pos)
 
 SpaceFloat canonicalAngle(SpaceFloat a)
 {
-    return a - float_2pi * floor( a / float_2pi);
+	SpaceFloat result = a;
+
+	while (result < 0)
+		result += float_pi * 2.0;
+	while (result >= float_pi * 2.0)
+		result -= float_pi * 2.0;
+
+	return result;
+
+//   return a - float_2pi * floor( a / float_2pi);
+//	return fmod(a, float_pi*2.0);
 }
 
 SpaceFloat toDegrees(SpaceFloat a)

@@ -82,13 +82,11 @@
  <objectgroup name="objects">
   <object id="55" name="door-f3-east" type="Door" x="6656" y="1664" width="128" height="128">
    <properties>
-    <property name="dest" value="door-f0-west"/>
     <property name="dir" value="left"/>
    </properties>
   </object>
   <object id="56" name="door-f3-north" type="Door" x="2688" y="0" width="128" height="128">
    <properties>
-    <property name="dest" value="door-f5-south"/>
     <property name="dir" value="down"/>
    </properties>
   </object>

@@ -44,17 +44,16 @@
   <object id="58" name="door-g1-west" type="Door" x="0" y="1024" width="128" height="128">
    <properties>
     <property name="dir" value="right"/>
+    <property name="door_type" value="one_way_destination"/>
    </properties>
   </object>
   <object id="63" name="door-g1-east" type="Door" x="2048" y="1024" width="128" height="128">
    <properties>
-    <property name="dest" value="door-g2-west"/>
     <property name="dir" value="left"/>
    </properties>
   </object>
   <object id="65" name="door-g1-south" type="Door" x="1024" y="2048" width="128" height="128">
    <properties>
-    <property name="dest" value="door-g5-north"/>
     <property name="dir" value="up"/>
    </properties>
   </object>

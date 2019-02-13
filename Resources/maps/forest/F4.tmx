@@ -75,24 +75,23 @@
  <objectgroup name="objects">
   <object id="108" name="door-f4-south" type="Door" x="2816" y="4736" width="128" height="128">
    <properties>
-    <property name="dest" value="door-f0-north"/>
     <property name="dir" value="up"/>
    </properties>
   </object>
   <object id="123" name="door-f4-west" type="Door" x="1920" y="1280" width="128" height="128">
    <properties>
     <property name="dir" value="right"/>
+    <property name="door_type" value="one_way_destination"/>
    </properties>
   </object>
   <object id="124" name="door-f4-west1" type="Door" x="1792" y="1280" width="128" height="128">
    <properties>
-    <property name="dest" value="door-f4-west"/>
+    <property name="door_type" value="one_way_source"/>
     <property name="hidden" value="true"/>
    </properties>
   </object>
   <object id="135" name="door-f4-north" type="Door" x="3328" y="0" width="128" height="128">
    <properties>
-    <property name="dest" value="door-f8-south"/>
     <property name="dir" value="down"/>
     <property name="locked" value="true"/>
    </properties>
@@ -100,6 +99,7 @@
   <object id="137" name="door-f4-east" type="Door" x="5504" y="1280" width="128" height="128">
    <properties>
     <property name="dir" value="left"/>
+    <property name="door_type" value="one_way_destination"/>
    </properties>
   </object>
  </objectgroup>

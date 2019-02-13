@@ -31,13 +31,11 @@
   <object id="37" name="player" type="Player" x="1024" y="1024" width="128" height="128"/>
   <object id="38" name="door-c0-west" type="Door" x="0" y="1024" width="128" height="128">
    <properties>
-    <property name="dest" value="door-c6-east"/>
     <property name="dir" value="right"/>
    </properties>
   </object>
   <object id="39" name="door-c0-east" type="Door" x="2048" y="1024" width="128" height="128">
    <properties>
-    <property name="dest" value="door-c4-west"/>
     <property name="dir" value="left"/>
    </properties>
   </object>

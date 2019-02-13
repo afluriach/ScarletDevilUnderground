@@ -497,7 +497,7 @@ void Player::onCollectible(Collectible* coll)
 
 void Player::useDoor(Door* interactTarget)
 {
-	Door* dest = interactTarget->getDestination();
+	Door* dest = interactTarget->getAdjacent();
 
 	if (dest)
 	{

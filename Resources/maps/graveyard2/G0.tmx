@@ -42,12 +42,13 @@
  <objectgroup name="objects">
   <object id="63" name="door-g0-east" type="Door" x="2048" y="1024" width="128" height="128">
    <properties>
-    <property name="dest" value="door-g1-west"/>
+    <property name="door_type" value="one_way_source"/>
    </properties>
   </object>
   <object id="74" name="door-g0-south" type="Door" x="1024" y="2048" width="128" height="128">
    <properties>
     <property name="dir" value="up"/>
+    <property name="door_type" value="one_way_destination"/>
    </properties>
   </object>
   <object id="75" type="Key" x="1024" y="1024" width="128" height="128"/>

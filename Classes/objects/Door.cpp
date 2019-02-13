@@ -16,22 +16,79 @@
 #include "value_map.hpp"
 
 Door::Door(GSpace* space, ObjectIDType id, const ValueMap& args) :
-	MapObjForwarding(GObject)
+	MapObjForwarding(GObject),
+	RegisterInit<Door>(this)
 {
 	locked = getBoolOrDefault(args, "locked", false);
 	entryDirection = stringToDirection(getStringOrDefault(args, "dir", "none"));
 	destination = getStringOrDefault(args, "dest", "");
+	
+	string _type = getStringOrDefault(args, "door_type", "pair");
+	if (_type == "one_way_source")
+		doorType = door_type::one_way_source;
+	else if (_type == "one_way_destination")
+		doorType = door_type::one_way_destination;
+	else
+		doorType = door_type::pair;
+
+}
+
+void Door::init()
+{
+	if (!destination.empty()) {
+		adjacent = space->getObjectAs<Door>(destination);
+
+		if (!adjacent.isValid()) {
+			log("Door %s, unknown destination %s.", getName().c_str(), destination.c_str());
+		}
+	}
+
+	if (!adjacent.isValid()) {
+		adjacent = dynamic_cast<Door*>(space->queryAdjacentTiles(
+			getPos(),
+			GType::environment,
+			PhysicsLayers::all,
+			type_index(typeid(Door))
+		));
+	}
+
+	if (locked) {
+		space->setSpriteColor(spriteID, Color3B::RED);
+	}
+
+	if ((doorType == door_type::one_way_destination || doorType == door_type::one_way_source) && adjacent.isValid()) {
+		space->setSpriteTexture(spriteID, "sprites/door_oneway_" + getDoorDirection() + ".png");
+	}
+
 }
 
 PhysicsLayers Door::getLayers() const{
 	return PhysicsLayers::all;
 }
 
+string Door::getDoorDirection() const
+{
+	if (doorType == door_type::one_way_source) {
+		Direction d = toDirection(ai::directionToTarget(this, adjacent.get()->getPos()));
+		return directionToString(d);
+	}
+	else if (doorType == door_type::one_way_destination) {
+		Direction d = toDirection(ai::directionToTarget(this, adjacent.get()->getPos()).rotate(float_pi));
+		return directionToString(d);
+	}
+	return "";
+}
+
+string Door::imageSpritePath() const {
+	return "sprites/door.png";
+}
+
+
 bool Door::canInteract()
 {
 	Player* p = space->getObjectAs<Player>("player");
 
-	return getDestination() && !sealed && (!locked || p->getKeyCount() > 0);
+	return doorType != door_type::one_way_destination && adjacent.isValid() && !sealed && (!locked || p->getKeyCount() > 0);
 }
 
 void Door::interact()
@@ -44,6 +101,7 @@ void Door::interact()
 	else if(locked){
 		p->useKey();
 		locked = false;
+		space->setSpriteColor(spriteID, Color3B::WHITE);
 	}
 }
 
@@ -71,9 +129,9 @@ void Door::setSealed(bool b)
 	}
 }
 
-Door* Door::getDestination()
+Door* Door::getAdjacent()
 {
-	return space->getObjectAs<Door>(destination);
+	return adjacent.get();
 }
 
 SpaceVect Door::getEntryPosition()

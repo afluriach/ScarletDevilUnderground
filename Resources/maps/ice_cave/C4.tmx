@@ -64,7 +64,6 @@
   <object id="47" name="block1" type="Block" x="1792" y="256" width="128" height="128"/>
   <object id="55" name="door-c4-west" type="Door" x="0" y="1024" width="128" height="128">
    <properties>
-    <property name="dest" value="door-c0-east"/>
     <property name="dir" value="right"/>
    </properties>
   </object>

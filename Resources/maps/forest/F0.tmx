@@ -37,19 +37,16 @@
   <object id="37" name="player" type="Player" x="1024" y="1792" width="128" height="128"/>
   <object id="42" name="door-f0-west" type="Door" x="0" y="1792" width="128" height="128">
    <properties>
-    <property name="dest" value="door-f3-east"/>
     <property name="dir" value="right"/>
    </properties>
   </object>
   <object id="43" name="door-f0-east" type="Door" x="2048" y="1792" width="128" height="128">
    <properties>
-    <property name="dest" value="door-f1-west"/>
     <property name="dir" value="left"/>
    </properties>
   </object>
   <object id="45" name="door-f0-north" type="Door" x="1024" y="0" width="128" height="128">
    <properties>
-    <property name="dest" value="door-f4-south"/>
     <property name="dir" value="down"/>
    </properties>
   </object>

@@ -173,6 +173,7 @@ public:
 	void setSpriteAngle(SpriteID id, float cocosAngle);
 	void setSpritePosition(SpriteID id, Vec2 pos);
 	void setSpriteZoom(SpriteID id, float zoom);
+	void setSpriteColor(SpriteID id, Color3B color);
 
 	void clearSubroomMask(unsigned int roomID);
 
