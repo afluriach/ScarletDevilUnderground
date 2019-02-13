@@ -120,11 +120,8 @@ const vector<string> SceneSelect::entries = {
 	"Marisa Room",
 	"Library",
 	"FR1",
-	"Desert",
-	"Mine",
 	"Ice Cave",
 	"Forest",
-	"Graveyard",
 	"Back"
 };
 
@@ -137,11 +134,8 @@ const vector<TextListMenuLayer::listAction> SceneSelect::entryActions = {
 	{ sceneLaunchAdapterByName("MarisaRoom") },
 	{ sceneLaunchAdapterByName("Library") },
 	{ sceneLaunchAdapterByName("FR1") },
-	{ sceneLaunchAdapterByName("Desert") },
-	{ sceneLaunchAdapterByName("Mine") },
 	{ sceneLaunchAdapterByName("IceCave") },
 	{ sceneLaunchAdapterByName("Forest") },
-	{ sceneLaunchAdapterByName("Graveyard") },
 
 	{ SceneSelect::back }
 };
@@ -163,7 +157,8 @@ TextListMenuLayer::listAction menuPushAdapter(string sceneName) {
 const string WorldSelect::title = "Select World";
 
 const vector<string> WorldSelect::entries = {
-	"Graveyard",
+	"Graveyard1",
+	"Graveyard2",
 	"Forest",
 	"Desert",
 	"Mine",
@@ -171,7 +166,8 @@ const vector<string> WorldSelect::entries = {
 };
 
 const vector<TextListMenuLayer::listAction> WorldSelect::entryActions = {
-	menuPushAdapter("Graveyard"),
+	menuPushAdapter("Graveyard1"),
+	menuPushAdapter("Graveyard2"),
 	menuPushAdapter("Forest"),
 	menuPushAdapter("Desert"),
 	menuPushAdapter("Mine"),
