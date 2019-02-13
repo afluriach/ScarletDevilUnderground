@@ -352,6 +352,7 @@ private:
 
 //BEGIN SENSORS
 public:
+	GObject * queryAdjacentTiles(SpaceVect pos, GType type, PhysicsLayers layers, type_index t);
 	GObject * pointQuery(SpaceVect pos, GType type, PhysicsLayers layers);
 	bool rectangleQuery(SpaceVect center, SpaceVect dimensions, GType type, PhysicsLayers layers);
 	bool obstacleRadiusQuery(const GObject* agent, SpaceVect center, SpaceFloat radius, GType type, PhysicsLayers layers);

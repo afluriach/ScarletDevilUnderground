@@ -1639,6 +1639,20 @@ bool GSpace::lineOfSight(const GObject* agent, const GObject * target) const
 	);
 }
 
+GObject * GSpace::queryAdjacentTiles(SpaceVect pos, GType type, PhysicsLayers layers, type_index t)
+{
+	enum_foreach(Direction, d, right, end)
+	{
+		GObject* result = pointQuery(pos + dirToVector(d), type, layers);
+
+		if (result && type_index(typeid(*result)) == t) {
+			return result;
+		}
+	}
+
+	return nullptr;
+}
+
 GObject * GSpace::pointQuery(SpaceVect pos, GType type, PhysicsLayers layers)
 {
 	PointQueryData queryData = { nullptr, to_uint(type) };

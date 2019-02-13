@@ -35,6 +35,17 @@ BreakableWall::BreakableWall(GSpace* space, ObjectIDType id, const ValueMap& arg
 void BreakableWall::hit()
 {
 	applyBreak();
+
+	BreakableWall* adj = dynamic_cast<BreakableWall*>(space->queryAdjacentTiles(
+		getPos(),
+		GType::wall,
+		PhysicsLayers::all,
+		typeid(BreakableWall)
+	));
+
+	if (adj && !adj->hidden) {
+		adj->applyBreak();
+	}
 }
 
 void BreakableWall::applyBreak()
