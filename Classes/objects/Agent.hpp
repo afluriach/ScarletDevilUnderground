@@ -14,6 +14,8 @@
 #include "Attributes.hpp"
 #include "GObject.hpp"
 
+class FirePattern;
+
 class Agent :
 virtual public GObject,
 public PatchConSprite,
@@ -44,6 +46,7 @@ public:
 	float _getAttribute(int id) const;
 	void _modifyAttribute(int id, float val);
 	inline const AttributeSystem& getAttributeSystem() const { return attributeSystem; }
+	inline FirePattern* getFirePattern() const { return firePattern.get(); }
 
 	virtual SpaceFloat getTraction() const;
 
@@ -81,6 +84,7 @@ public:
 	virtual inline void initStateMachine(ai::StateMachine& sm) {}
 protected:
 	AttributeSystem attributeSystem;
+	shared_ptr<FirePattern> firePattern;
 };
 
 template<class T>

@@ -17,7 +17,6 @@
 #include "types.h"
 
 class Agent;
-class FirePattern;
 class GObject;
 class GSpace;
 
@@ -507,7 +506,7 @@ protected:
 
 class FireAtTarget : public Function {
 public:
-	FireAtTarget(shared_ptr<FirePattern> pattern, gobject_ref target);
+	FireAtTarget(gobject_ref target);
 
 	virtual void update(StateMachine& sm);
 
@@ -518,13 +517,12 @@ public:
 	}
 
 protected:
-	shared_ptr<FirePattern> pattern;
 	gobject_ref target;
 };
 
 class FireIfTargetVisible : public Function {
 public:
-	FireIfTargetVisible(shared_ptr<FirePattern> pattern, gobject_ref target);
+	FireIfTargetVisible(gobject_ref target);
 
 	virtual void update(StateMachine& sm);
 
@@ -535,7 +533,6 @@ public:
 	}
 
 protected:
-	shared_ptr<FirePattern> pattern;
 	gobject_ref target;
 };
 

@@ -1208,14 +1208,14 @@ void Wander::update(StateMachine& fsm)
     fsm.push(make_shared<IdleWait>(waitFrames));
 }
 
-FireAtTarget::FireAtTarget(shared_ptr<FirePattern> pattern, gobject_ref target) :
-	pattern(pattern),
+FireAtTarget::FireAtTarget(gobject_ref target) :
 	target(target)
 {}
 
 void FireAtTarget::update(StateMachine& sm)
 {
-	if (!target.isValid()) {
+	FirePattern* fp = sm.getAgent()->getFirePattern();
+	if (!target.isValid() || !fp) {
 		sm.pop();
 	}
 
@@ -1223,32 +1223,32 @@ void FireAtTarget::update(StateMachine& sm)
 		directionToTarget(sm.agent, target.get()->getPos()).toAngle()
 	);
 
-	pattern.get()->update();
+	fp->update();
 
-	if (pattern.get()->fireIfPossible()) {
+	if (fp->fireIfPossible()) {
 		App::playSoundSpatial("sfx/shot.wav", sm.agent->getPos(), sm.agent->getVel());
 	}
 }
 
-FireIfTargetVisible::FireIfTargetVisible(shared_ptr<FirePattern> pattern, gobject_ref target) :
-	pattern(pattern),
+FireIfTargetVisible::FireIfTargetVisible(gobject_ref target) :
 	target(target)
 {}
 
 void FireIfTargetVisible::update(StateMachine& sm)
 {
 	RadarObject* ro = dynamic_cast<RadarObject*>(sm.agent);
+	FirePattern* fp = sm.getAgent()->getFirePattern();
 
-	if (!ro || !target.isValid()) {
+	if (!ro || !fp || !target.isValid()) {
 		sm.pop();
 		return;
 	}
 	
-	pattern.get()->update();
+	fp->update();
 
 	if (ro->isObjectVisible(target.get()) && sm.agent->space->isInPlayerRoom(sm.agent->getPos()))
 	{
-		if (pattern.get()->fireIfPossible()) {
+		if (fp->fireIfPossible()) {
 			App::playSoundSpatial("sfx/shot.wav", sm.agent->getPos(), sm.agent->getVel());
 		}
 	}

@@ -210,15 +210,6 @@ void Player::onSpellStop()
 
 void Player::checkFireControls(const ControlInfo& cs)
 {
-	//Check controls for changing fire pattern.
-	if (!suppressFiring && getFirePattern() && !getFirePattern()->isInCooldown())
-	{
-		if (cs.isControlActionPressed(ControlAction::firePatternPrev))
-			trySetFirePatternPrevious();
-		else if (cs.isControlActionPressed(ControlAction::firePatternNext))
-			trySetFirePatternNext();
-	}
-
 	//Fire if arrow key is pressed
 	if (!suppressFiring && !cs.right_v.isZero() && getFirePattern())
 	{
@@ -226,7 +217,6 @@ void Player::checkFireControls(const ControlInfo& cs)
 			App::playSound("sfx/shot.wav", 1.0f);
 		}
 	}
-
 }
 
 void Player::checkBombControls(const ControlInfo& cs)
@@ -432,14 +422,6 @@ void Player::applyAttributeModifier(Attribute id, float val)
 	attributeSystem.modifyAttribute(id, val);
 }
 
-FirePattern* Player::getFirePattern()
-{
-	if (firePatterns.empty())
-		return nullptr;
-
-	return firePatterns[crntFirePattern].get();
-}
-
 bool Player::isProtected() const
 {
 	return attributeSystem.getAdjustedValue(Attribute::hitProtection) != 0.0f;
@@ -459,7 +441,6 @@ void Player::resetProtection()
 {
 	attributeSystem.resetProtection();;
 }
-
 
 void Player::hit(AttributeMap attributeEffect, shared_ptr<MagicEffect> effect){
     if(!isProtected()){
@@ -607,40 +588,6 @@ void Player::applyRespawn()
 	hit({ { Attribute::hp, -1.0f } }, nullptr);
 }
 
-bool Player::trySetFirePattern(size_t idx)
-{
-	FirePattern* fp = getFirePattern();
-
-	if (fp->isInCooldown())
-		return false;
-
-	if (idx >= firePatterns.size()) {
-		log("trySetFirePattern: invalid index %d", idx);
-		return false;
-	}
-	else {
-		crntFirePattern = idx;
-
-		space->addSceneAction(make_hud_action(
-			&HUD::setFirePatternIcon,
-			playScene,
-			getFirePattern()->iconPath()
-		));
-
-		return true;
-	}
-}
-
-bool Player::trySetFirePatternNext()
-{
-	return trySetFirePattern((crntFirePattern + 1) % firePatterns.size());
-}
-
-bool Player::trySetFirePatternPrevious()
-{
-	return trySetFirePattern((crntFirePattern - 1) % firePatterns.size());
-}
-
 void Player::setHudEffect(Attribute id, Attribute max_id)
 {
 	float val = getAttribute(id);
@@ -668,7 +615,6 @@ void Player::setHudEffect(Attribute id, float maxVal)
 	));
 }
 
-
 void Player::updateHudAttribute(Attribute id)
 {
 	space->addSceneAction(make_hud_action(
@@ -683,7 +629,6 @@ bool Player::canPlaceBomb(SpaceVect pos)
 {
 	return !space->obstacleRadiusQuery(this, pos, 0.5, bombObstacles, PhysicsLayers::ground);
 }
-
 
 const AttributeMap FlandrePC::baseAttributes = {
 	{Attribute::maxHP, 8.0f},
@@ -714,8 +659,7 @@ CircleLightArea FlandrePC::getLight()
 
 void FlandrePC::setFirePatterns()
 {
-	firePatterns.push_back(make_shared<FlandreFastOrbPattern>(this));
-	firePatterns.push_back(make_shared<FlandreWideAnglePattern>(this));
+	firePattern = make_shared<FlandreWideAnglePattern>(this);
 }
 
 void FlandrePC::equipSpells() {
@@ -728,7 +672,7 @@ const AttributeMap RumiaPC::baseAttributes = {
 	{Attribute::maxPower, 300.0f },
 	{Attribute::agility, 3.0f },
 	{Attribute::hitProtectionInterval, 1.5f },
-	{ Attribute::spellCooldownInterval, 1.0f },
+	{Attribute::spellCooldownInterval, 1.0f },
 	{Attribute::iceSensitivity, 1.0f },
 	{Attribute::sunSensitivity, 0.0f }
 };
@@ -748,10 +692,9 @@ CircleLightArea RumiaPC::getLight()
 	};
 }
 
-
 void RumiaPC::setFirePatterns()
 {
-	firePatterns.push_back(make_shared<RumiaParallelPattern>(this));
+	firePattern = make_shared<RumiaParallelPattern>(this);
 }
 
 void RumiaPC::equipSpells() {
@@ -786,7 +729,7 @@ CircleLightArea CirnoPC::getLight()
 
 void CirnoPC::setFirePatterns()
 {
-	firePatterns.push_back(make_shared<CirnoSmallIceBulletPattern>(this));
+	firePattern = make_shared<CirnoSmallIceBulletPattern>(this);
 }
 
 void CirnoPC::equipSpells() {

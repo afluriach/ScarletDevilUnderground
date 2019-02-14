@@ -56,7 +56,9 @@ Fairy1::Fairy1(GSpace* space, ObjectIDType id, const ValueMap& args) :
 	AttributesPackage<Fairy1>(this, args),
 	AIPackage<Fairy1>(this, args, "maintain_distance"),
 	Enemy(collectible_id::power1)
-{}
+{
+	firePattern = make_shared<Fairy1BulletPattern>(this, 1.5, float_pi / 6.0, 3);
+}
 
 void Fairy1::maintain_distance(ai::StateMachine& sm, const ValueMap& args) {
 	sm.addDetectFunction(
@@ -76,7 +78,6 @@ void Fairy1::maintain_distance(ai::StateMachine& sm, const ValueMap& args) {
 void Fairy1::circle_and_fire(ai::StateMachine& sm, const ValueMap& args) {
 	addThread(make_shared<ai::LookAround>(float_pi / 4.0));
 	addThread(make_shared<ai::FireIfTargetVisible>(
-		make_shared<Fairy1BulletPattern>(this, 1.5, float_pi / 6.0, 3),
 		sm.agent->space->getObjectRef("player")
 	));
 }
@@ -91,7 +92,6 @@ void Fairy1::circle_around_point(ai::StateMachine& sm, const ValueMap& args) {
 	}
 
 	addThread(make_shared<ai::FireIfTargetVisible>(
-		make_shared<Fairy1BulletPattern>(this, 1.0, float_pi / 6.0, 3),
 		sm.agent->space->getObjectRef("player")
 	));
 }
@@ -231,13 +231,21 @@ const AttributeMap IceFairy::baseAttributes = {
 	{Attribute::iceSensitivity, 0.0f}
 };
 
+IceFairy::IceFairy(GSpace* space, ObjectIDType id, const ValueMap& args) :
+	MapObjForwarding(GObject),
+	MapObjForwarding(Agent),
+	Enemy(collectible_id::power1)
+{
+	firePattern = make_shared<IceFairyBulletPattern>(this);
+}
+
 void IceFairy::initStateMachine(ai::StateMachine& sm) {
 	Agent *const _agent = sm.getAgent();
 
 	sm.addDetectFunction(
 		GType::player,
 		[_agent](ai::StateMachine& sm, GObject* target) -> void {
-			sm.addThread(make_shared<ai::FireAtTarget>(make_shared<IceFairyBulletPattern>(_agent), target));
+			sm.addThread(make_shared<ai::FireAtTarget>(target));
 			sm.addThread(make_shared<ai::MaintainDistance>(target, 3.0f, 1.0f));
 		}
 	);

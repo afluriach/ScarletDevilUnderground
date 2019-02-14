@@ -99,11 +99,7 @@ class IceFairy :
 public:
 	static const AttributeMap baseAttributes;
 
-	inline IceFairy(GSpace* space, ObjectIDType id, const ValueMap& args) :
-		MapObjForwarding(GObject),
-		MapObjForwarding(Agent),
-		Enemy(collectible_id::power1)
-	{}
+	IceFairy(GSpace* space, ObjectIDType id, const ValueMap& args);
 
 	virtual inline SpaceFloat getRadarRadius() const { return 6.0; }
 	virtual inline SpaceFloat getDefaultFovAngle() const { return float_pi / 4.0; }

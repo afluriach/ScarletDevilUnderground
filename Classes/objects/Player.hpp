@@ -108,12 +108,6 @@ public:
 	virtual AttributeMap getAttributeUpgrades() const;
 	void applyAttributeModifier(Attribute id, float val);
     
-	FirePattern* getFirePattern();
-
-	bool trySetFirePattern(size_t idx);
-	bool trySetFirePatternNext();
-	bool trySetFirePatternPrevious();
-
     void onCollectible(Collectible* coll);
 	void useDoor(Door* interactTarget);
 	void moveToDestinationDoor(Door* dest);
@@ -149,9 +143,6 @@ protected:
 
 	float interactCooldown = 0.0f;
 	float bombCooldown = 0.0f;
-
-	vector<shared_ptr<FirePattern>> firePatterns;
-	size_t crntFirePattern = 0;
 
 	SpellDesc* equippedSpell = nullptr;
 
