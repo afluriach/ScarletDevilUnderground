@@ -21,6 +21,7 @@ public:
 
 	Stalker(GSpace* space, ObjectIDType id, const ValueMap& args);
 
+	virtual inline bool hasEssenceRadar() const { return true; }
     virtual inline SpaceFloat getRadarRadius() const {return 6.0;}
     virtual inline SpaceFloat getMass() const {return 40.0;}
 

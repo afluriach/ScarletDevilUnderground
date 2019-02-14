@@ -176,6 +176,25 @@ SpaceFloat viewAngleToTarget(const GObject* agent, const GObject* target)
         return numeric_limits<SpaceFloat>::infinity();
 }
 
+bool isInFieldOfView(GObject* agent, SpaceVect target, SpaceFloat fovAngleScalarProduct)
+{
+	SpaceVect facingUnit = SpaceVect::ray(1.0, agent->getAngle());
+	SpaceVect displacementUnit = (target - agent->getPos()).normalize();
+	SpaceFloat scalar = SpaceVect::dot(facingUnit, displacementUnit);
+
+	return scalar >= fovAngleScalarProduct;
+}
+
+bool isObstacle(Agent* agent, SpaceVect target)
+{
+	SpaceFloat maxSpeed = agent->getMaxSpeed();
+	SpaceFloat acceleration = agent->getMaxAcceleration();
+	SpaceVect displacement = compute_seek(agent, target).normalizeSafe();
+	SpaceFloat distanceMargin = getTurningRadius(agent->getVel().length(), acceleration) + agent->getRadius();
+
+	return (agent->space->obstacleDistanceFeeler(agent, displacement * distanceMargin) < distanceMargin);
+}
+
 SpaceVect compute_seek(Agent* agent, SpaceVect target)
 {
 	SpaceVect displacement = target - agent->getPos();
@@ -213,6 +232,24 @@ void arrive(GObject* agent, SpaceVect target)
 		return;
 
 	applyDesiredVelocity(agent, SpaceVect::zero, accelMag);
+}
+
+bool moveToPoint(GObject* agent, SpaceVect target, SpaceFloat arrivalMargin)
+{
+	SpaceFloat dist2 = (agent->getPos() - target).lengthSq();
+	SpaceFloat stoppingDist = getStoppingDistance(agent->getVel().length(), agent->getMaxAcceleration());
+
+	if (dist2 < arrivalMargin*arrivalMargin) {
+		return true;
+	}
+	else if (dist2 <= stoppingDist*stoppingDist) {
+		arrive(agent, target);
+		return false;
+	}
+	else {
+		seek(agent, target, agent->getMaxSpeed(), agent->getMaxAcceleration());
+		return false;
+	}
 }
 
 void flee(GObject* agent, SpaceVect target, SpaceFloat maxSpeed, SpaceFloat acceleration)
@@ -260,7 +297,6 @@ void fleeWithObstacleAvoidance(GObject* agent, SpaceVect target, SpaceFloat maxS
 		flee(agent, target, maxSpeed, acceleration);
 	}
 }
-
 
 SpaceFloat getStoppingTime(SpaceFloat speed, SpaceFloat acceleration)
 {
@@ -538,11 +574,13 @@ void StateMachine::addEndDetectFunction(GType t, detect_function f)
 
 void StateMachine::push(shared_ptr<Function> f)
 {
+	log("%s FSM pushing %s.", agent->getName().c_str(), f->getName().c_str());
 	crntThread->push(f);
 }
 
 void StateMachine::pop()
 {
+	log("%s FSM popping %s.", agent->getName().c_str(), crntThread->call_stack.back()->getName().c_str());
 	crntThread->pop();
 }
 
@@ -576,18 +614,25 @@ Seek::Seek(GSpace* space, const ValueMap& args) {
     target = getObjRefFromStringField(space, args, "target_name");
 }
 
-Seek::Seek(GObject* target) : target(target)
+Seek::Seek(GObject* target, bool usePathfinding) :
+	target(target),
+	usePathfinding(usePathfinding)
 {}
 
 void Seek::update(StateMachine& sm)
 {
 	if (target.isValid()) {
-		ai::seek(
-			sm.agent,
-			target.get()->getPos(),
-			sm.agent->getMaxSpeed(),
-			sm.agent->getMaxAcceleration()
-		);
+		if (usePathfinding && isObstacle(sm.getAgent(), target.get()->getPos())) {
+			sm.push(ai::PathToTarget::create(sm.agent, target.get()));
+		}
+		else {
+			seek(
+				sm.agent,
+				target.get()->getPos(),
+				sm.agent->getMaxSpeed(),
+				sm.agent->getMaxAcceleration()
+			);
+		}
 		sm.agent->setDirection(toDirection(
             ai::directionToTarget(
                 sm.agent,
@@ -1060,6 +1105,8 @@ void AimAtTarget::update(StateMachine& fsm)
 	fsm.agent->setAngle(directionToTarget(fsm.agent, target.get()->getPos()).toAngle());
 }
 
+const double MoveToPoint::arrivalMargin = 0.125;
+
 MoveToPoint::MoveToPoint(GSpace* space, const ValueMap& args)
 {
     auto xIter = args.find("target_x");
@@ -1096,18 +1143,11 @@ MoveToPoint::MoveToPoint(SpaceVect target) :
 
 void MoveToPoint::update(StateMachine& fsm)
 {
-    SpaceFloat dist2 = (fsm.agent->getPos() - target).lengthSq();
-	SpaceFloat stoppingDist2 = getStoppingDistance(fsm.agent->getVel().length(), fsm.agent->getMaxAcceleration());
-
-	if (dist2 < 0.0625) {
+	bool arrived = moveToPoint(fsm.agent, target, arrivalMargin);
+	
+	if (arrived) {
 		fsm.pop();
 	}
-	else if (dist2 <= stoppingDist2) {
-		arrive(fsm.agent, target);
-	}
-	else {
-		seek(fsm.agent, target, fsm.agent->getMaxSpeed(), fsm.agent->getMaxAcceleration());
-	}    
 }
 
 shared_ptr<FollowPath> FollowPath::pathToTarget(GSpace* space, gobject_ref agent, gobject_ref target)
@@ -1118,12 +1158,12 @@ shared_ptr<FollowPath> FollowPath::pathToTarget(GSpace* space, gobject_ref agent
 
 	return make_shared<ai::FollowPath>(
 		space->pathToTile(
-			toIntVector(agent.get()->getPos()), toIntVector(target.get()->getPos())
+			toIntVector(agent.get()->getPos()),
+			toIntVector(target.get()->getPos())
 		),
 		false
 	);
 }
-
 
 FollowPath::FollowPath(Path path, bool loop) :
 	path(path),
@@ -1157,14 +1197,40 @@ void FollowPath::update(StateMachine&  fsm)
 {
 	if (currentTarget < path.size()) {
 		fsm.agent->setDirection(toDirection(ai::directionToTarget(fsm.agent, path[currentTarget])));
-		fsm.push(make_shared<MoveToPoint>(path[currentTarget]));
-		++currentTarget;
+		bool arrived = moveToPoint(fsm.agent, path[currentTarget], MoveToPoint::arrivalMargin);
+		currentTarget += arrived;
 	}
 	else if (loop && path.size() > 0) {
 		currentTarget = 0;
 	}
 	else {
 		fsm.pop();
+	}
+}
+
+shared_ptr<PathToTarget> PathToTarget::create(GObject* agent, GObject* target)
+{
+	Path p = agent->space->pathToTile(
+		toIntVector(agent->getPos()),
+		toIntVector(target->getPos())
+	);
+
+	return make_shared<PathToTarget>(p, target);
+}
+
+PathToTarget::PathToTarget(Path path, gobject_ref target) :
+	FollowPath(path, false),
+	target(target)
+{
+}
+
+void PathToTarget::update(StateMachine& fsm)
+{
+	if (ai::isLineOfSight(fsm.agent, target.get())) {
+		fsm.pop();
+	}
+	else {
+		FollowPath::update(fsm);
 	}
 }
 

@@ -121,14 +121,10 @@ bool RadarObject::isObjectVisible(GObject* other)
 	if (other->getInvisible())
 		return false;
 
-    if(fovAngle == 0.0)
-        return ai::isLineOfSight(this, other);
+	bool isFov = fovAngle == 0.0 ? true : ai::isInFieldOfView(this, other->getPos(), fovScalar);
+	bool isLos = hasEssenceRadar() ? true : ai::isLineOfSight(this, other);
 
-	SpaceVect facingUnit = SpaceVect::ray(1.0, getAngle());
-    SpaceVect displacementUnit = (other->getPos() - getPos()).normalize();
-    SpaceFloat scalar = SpaceVect::dot(facingUnit,displacementUnit);
-    
-    return scalar >= fovScalar && ai::isLineOfSight(this, other);
+	return isFov && isLos;
 }
 
 void RadarObject::setFovAngle(SpaceFloat angle)

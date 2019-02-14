@@ -950,9 +950,33 @@ vector<SpaceVect> GSpace::pathToTile(IntVec2 begin, IntVec2 end)
 		getSize()
 	);
 
-	//Convert to center position
-	for(auto const& tile: tileCoords) {
-		result.push_back(SpaceVect(tile.first + 0.5, tile.second + 0.5));
+	if (tileCoords.size() < 2) {
+		return result;
+	}
+
+	result.push_back(toChipmunkWithCentering(tileCoords[0]));
+	result.push_back(toChipmunkWithCentering(tileCoords[1]));
+	SpaceVect direction = toChipmunkWithCentering(tileCoords[1]) - toChipmunkWithCentering(tileCoords[0]);
+
+	for_irange(i, 2, tileCoords.size())
+	{
+		SpaceVect crntTile = toChipmunkWithCentering(tileCoords[i]);
+		SpaceVect crntDirection = crntTile - result.back();
+
+		if (SpaceVect::fuzzyMatch(direction, crntDirection)){
+			result.back() = crntTile;
+		}
+		else {
+			result.push_back(crntTile);
+			direction = crntDirection;
+		}
+	}
+
+	SpaceVect endPoint = toChipmunkWithCentering(tileCoords.back());
+
+	//Endpoint will not be added loop unless it happens to be a turn (i.e. not colinear with the previous tile coord)
+	if (!SpaceVect::fuzzyMatch(result.back(), endPoint)) {
+		result.push_back(endPoint);
 	}
 
 	return result;
@@ -1090,7 +1114,7 @@ pair<cpShape*, cpBody*> GSpace::createCircleBody(
 
     if(mass <= 0.0){
         body = cpBodyNewStatic();
-        if(type == GType::environment)
+        if(type == GType::environment || type == GType::wall)
             addNavObstacle(center, SpaceVect(radius*2.0, radius*2.0));
     }
     else{
@@ -1138,7 +1162,7 @@ pair<cpShape*, cpBody*> GSpace::createRectangleBody(
 
 	if (mass <= 0.0) {
 		body = cpBodyNewStatic();
-		if (type == GType::environment)
+		if (type == GType::environment || type == GType::wall)
 			addNavObstacle(center, dim);
 	}
 	else {

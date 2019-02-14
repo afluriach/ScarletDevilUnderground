@@ -41,6 +41,7 @@ public:
 	virtual SpaceFloat getRadarRadius() const = 0;
 	virtual GType getRadarType() const = 0;
     virtual inline SpaceFloat getDefaultFovAngle() const {return 0.0;}
+	virtual inline bool hasEssenceRadar() const { return false; }
 
 	virtual void onDetect(GObject* other) = 0;
 	virtual void onEndDetect(GObject* other) = 0;

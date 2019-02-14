@@ -226,6 +226,10 @@ cpFloat SpaceVect::distSq(SpaceVect v1, SpaceVect v2) {
 	return (v1-v2).lengthSq();
 }
 
+bool SpaceVect::fuzzyMatch(SpaceVect v1, SpaceVect v2) {
+	return distSq(v1, v2) < 1e-4;
+}
+
 SpaceVect SpaceVect::forAngle(cpFloat a) {
 	return SpaceVect(cpfcos(a), cpfsin(a));
 }

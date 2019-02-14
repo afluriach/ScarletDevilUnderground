@@ -32,10 +32,12 @@ void arrive(GObject* agent, SpaceVect target);
 SpaceVect fleeDirection(const GObject* agent, SpaceVect target);
 void flee(GObject* agent, SpaceVect target, SpaceFloat maxSpeed, SpaceFloat acceleration);
 void fleeWithObstacleAvoidance(GObject* agent, SpaceVect target, SpaceFloat maxSpeed, SpaceFloat acceleration);
+bool moveToPoint(GObject* agent, SpaceVect target, SpaceFloat arrivalMargin);
 
 bool isFacingTarget(const GObject* agent, const GObject* target);
 bool isFacingTargetsBack(const GObject* agent, const GObject* target);
 bool isLineOfSight(const GObject* agent, const GObject* target);
+bool isObstacle(Agent* agent, SpaceVect target);
 
 array<SpaceFloat, 8> wallFeeler8(const GObject* agent, SpaceFloat distance);
 array<SpaceFloat, 4> obstacleFeelerQuad(const GObject* agent, SpaceFloat distance);
@@ -48,6 +50,7 @@ SpaceFloat distanceToTarget(const GObject* agent, const GObject* target);
 SpaceFloat distanceToTarget(const GObject* agent, SpaceVect target);
 SpaceFloat viewAngleToTarget(const GObject* agent, const GObject* target);
 SpaceVect projectileEvasion(const GObject* bullet, const GObject* agent);
+bool isInFieldOfView(GObject* agent, SpaceVect target, SpaceFloat fovAngleScalarProduct);
 
 SpaceFloat getStoppingTime(SpaceFloat speed, SpaceFloat acceleration);
 SpaceFloat getStoppingDistance(SpaceFloat speed, SpaceFloat accceleration);
@@ -185,7 +188,7 @@ protected:
 
 class Seek : public Function {
 public:
-	Seek(GObject* target);
+	Seek(GObject* target, bool usePathfinding);
     Seek(GSpace* space, const ValueMap& args);
     
 	virtual void update(StateMachine& sm);
@@ -196,6 +199,7 @@ public:
     FuncGetName(Seek)
 protected:
 	gobject_ref target;
+	bool usePathfinding;
 };
 
 class MaintainDistance : public Function {
@@ -404,9 +408,10 @@ private:
 	gobject_ref target;
 };
 
-
 class MoveToPoint : public Function{
 public:
+	static const SpaceFloat arrivalMargin;
+
     MoveToPoint(GSpace* space, const ValueMap& args);
 	MoveToPoint(SpaceVect target);
     
@@ -419,7 +424,6 @@ public:
 protected:
     SpaceVect target;
 };
-
 class FollowPath : public Function {
 public:
 	static shared_ptr<FollowPath> pathToTarget(GSpace* space, gobject_ref agent, gobject_ref target);
@@ -437,6 +441,17 @@ protected:
 	Path path;
 	size_t currentTarget = 0;
 	bool loop = false;
+};
+
+class PathToTarget : public FollowPath {
+public:
+	static shared_ptr<PathToTarget> create(GObject* agent, GObject* target);
+
+	PathToTarget(Path path, gobject_ref target);
+
+	virtual void update(StateMachine& sm);
+protected:
+	gobject_ref target;
 };
 
 class Wander : public Function {

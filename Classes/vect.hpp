@@ -111,7 +111,8 @@ public:
 	/// Returns the squared distance between v1 and v2. Faster than SpaceVect::dist when you only need to compare
 	/// distances.
 	static cpFloat distSq(SpaceVect v1, SpaceVect v2);
-        
+	static bool fuzzyMatch(SpaceVect v1, SpaceVect v2);
+
     static const SpaceVect zero;
     static const SpaceVect unit_square;
 };

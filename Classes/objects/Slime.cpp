@@ -28,7 +28,7 @@ void Slime1::initStateMachine(ai::StateMachine& sm)
 	sm.addDetectFunction(
 		GType::player,
 		[](ai::StateMachine& sm, GObject* target) -> void {
-			sm.addThread(make_shared<ai::Seek>(target));
+			sm.addThread(make_shared<ai::Seek>(target, false));
 		}
 	);
 	sm.addEndDetectFunction(
@@ -64,7 +64,7 @@ void Slime2::initStateMachine(ai::StateMachine& sm)
 	sm.addDetectFunction(
 		GType::player,
 		[](ai::StateMachine& sm, GObject* target) -> void {
-			sm.addThread(make_shared<ai::Seek>(target));
+			sm.addThread(make_shared<ai::Seek>(target, true));
 		}
 	);
 	sm.addEndDetectFunction(
