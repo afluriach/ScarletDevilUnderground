@@ -355,15 +355,19 @@ private:
 public:
 	GObject * queryAdjacentTiles(SpaceVect pos, GType type, PhysicsLayers layers, type_index t);
 	GObject * pointQuery(SpaceVect pos, GType type, PhysicsLayers layers);
-	bool rectangleQuery(SpaceVect center, SpaceVect dimensions, GType type, PhysicsLayers layers);
+	bool rectangleQuery(SpaceVect center, SpaceVect dimensions, GType type, PhysicsLayers layers, SpaceFloat angle = 0.0);
+	SpaceFloat rectangleFeelerQuery(const GObject* agent, SpaceVect center, SpaceVect dimensions, GType type, PhysicsLayers layers, SpaceFloat angle) const;
 	bool obstacleRadiusQuery(const GObject* agent, SpaceVect center, SpaceFloat radius, GType type, PhysicsLayers layers);
 	set<GObject*> radiusQuery(const GObject* agent, SpaceVect center, SpaceFloat radius, GType type, PhysicsLayers layers);
 
     SpaceFloat distanceFeeler(const GObject * agent, SpaceVect feeler, GType gtype) const;
 	SpaceFloat distanceFeeler(const GObject * agent, SpaceVect _feeler, GType gtype, PhysicsLayers layers) const;
 
-    SpaceFloat obstacleDistanceFeeler(const GObject * agent, SpaceVect feeler) const;
-    SpaceFloat wallDistanceFeeler(const GObject * agent, SpaceVect feeler) const;
+	//uses rectangle query (width should be diameter of agent)
+	SpaceFloat obstacleDistanceFeeler(const GObject * agent, SpaceVect feeler, SpaceFloat width) const;
+	//uses line/ray query
+	SpaceFloat obstacleDistanceFeeler(const GObject * agent, SpaceVect feeler) const;
+	SpaceFloat wallDistanceFeeler(const GObject * agent, SpaceVect feeler) const;
 	SpaceFloat trapFloorDistanceFeeler(const GObject* agent, SpaceVect feeler) const;
 
     bool feeler(const GObject * agent, SpaceVect feeler, GType gtype) const;

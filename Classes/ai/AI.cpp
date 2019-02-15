@@ -85,7 +85,7 @@ array<SpaceFloat, 4> obstacleFeelerQuad(const GObject* agent, SpaceFloat distanc
 	for (int i = 0; i < 4; ++i)
 	{
 		SpaceVect feeler = dirToVector(static_cast<Direction>(i+1)) * distance;
-		results[i] = agent->space->obstacleDistanceFeeler(agent, feeler);
+		results[i] = agent->space->obstacleDistanceFeeler(agent, feeler, agent->getRadius()*2.0);
 	}
 
 	return results;
@@ -98,7 +98,7 @@ array<SpaceFloat, 8> obstacleFeeler8(const GObject* agent, SpaceFloat distance)
 	for (int i = 0; i < 8; ++i)
 	{
 		SpaceVect feeler = SpaceVect::ray(distance, i* float_pi / 4.0);
-		results[i] = agent->space->obstacleDistanceFeeler(agent, feeler);
+		results[i] = agent->space->obstacleDistanceFeeler(agent, feeler, agent->getRadius()*2.0);
 	}
 
 	return results;
@@ -192,7 +192,7 @@ bool isObstacle(Agent* agent, SpaceVect target)
 	SpaceVect displacement = compute_seek(agent, target).normalizeSafe();
 	SpaceFloat distanceMargin = getTurningRadius(agent->getVel().length(), acceleration) + agent->getRadius();
 
-	return (agent->space->obstacleDistanceFeeler(agent, displacement * distanceMargin) < distanceMargin);
+	return (agent->space->obstacleDistanceFeeler(agent, displacement * distanceMargin, agent->getRadius()*2.0) < distanceMargin);
 }
 
 SpaceVect compute_seek(Agent* agent, SpaceVect target)
@@ -277,7 +277,7 @@ void fleeWithObstacleAvoidance(GObject* agent, SpaceVect target, SpaceFloat maxS
 	SpaceVect displacement = fleeDirection(agent, target);
 	SpaceFloat distanceMargin = getTurningRadius(agent->getVel().length(), acceleration) + agent->getRadius();
 
-	if (agent->space->obstacleDistanceFeeler(agent, displacement * distanceMargin) < distanceMargin)
+	if (agent->space->obstacleDistanceFeeler(agent, displacement * distanceMargin, agent->getRadius()*2.0) < distanceMargin)
 	{
 		//Choose an alternate direction to move.
 

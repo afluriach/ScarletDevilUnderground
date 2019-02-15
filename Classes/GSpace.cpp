@@ -1565,6 +1565,27 @@ void shapeQueryCallback(cpShape *shape, cpContactPointSet *points, void *data)
 	}
 }
 
+struct FeelerQueryData
+{
+	const GObject* agent;
+	unsigned int gtype;
+	cpBody* queryBody;
+
+	SpaceFloat distance = 0.0;
+};
+
+void feelerQueryCallback(cpShape* shape, cpContactPointSet* points, void* data)
+{
+	FeelerQueryData* queryData = static_cast<FeelerQueryData*>(data);
+	GObject* obj = to_gobject(shape->data);
+
+	if (obj && obj != queryData->agent && (to_uint(obj->getType()) & queryData->gtype)) {
+		for_irange(i, 0, points->count) {
+			SpaceVect local = cpBodyWorld2Local(queryData->queryBody, points->points[i].point);
+			queryData->distance = min(queryData->distance, local.x);
+		}
+	}
+}
 
 SpaceFloat GSpace::distanceFeeler(const GObject * agent, SpaceVect _feeler, GType gtype) const
 {
@@ -1597,6 +1618,22 @@ SpaceFloat GSpace::obstacleDistanceFeeler(const GObject * agent, SpaceVect _feel
 	);
 
     return min(d, agent->isOnFloor() ? trapFloorDistanceFeeler(agent,_feeler) : _feeler.length());
+}
+
+SpaceFloat GSpace::obstacleDistanceFeeler(const GObject * agent, SpaceVect feeler, SpaceFloat width) const
+{
+	SpaceVect start = agent->getPos();
+	SpaceVect center = agent->getPos() + feeler*0.5;
+	SpaceVect dimensions(feeler.length(), width);
+
+	return rectangleFeelerQuery(
+		agent,
+		center,
+		dimensions,
+		enum_bitwise_or3(GType, wall, enemy, environment),
+		PhysicsLayers::all,
+		feeler.toAngle()
+	);
 }
 
 SpaceFloat GSpace::trapFloorDistanceFeeler(const GObject* agent, SpaceVect feeler) const
@@ -1693,19 +1730,36 @@ GObject * GSpace::pointQuery(SpaceVect pos, GType type, PhysicsLayers layers)
 	return queryData.result;
 }
 
-bool GSpace::rectangleQuery(SpaceVect center, SpaceVect dimensions, GType type, PhysicsLayers layers)
+bool GSpace::rectangleQuery(SpaceVect center, SpaceVect dimensions, GType type, PhysicsLayers layers, SpaceFloat angle)
 {
 	ShapeQueryData data = { nullptr, to_uint(type) };
 	cpBody* body = cpBodyNewStatic();
 	cpShape* area = cpBoxShapeNew(body, dimensions.x, dimensions.y);
 
 	cpBodySetPos(body, center);
+	cpBodySetAngle(body, angle);
 	setShapeProperties(area, layers, GType::none, false);
 
 	cpSpaceShapeQuery(space, area, shapeQueryCallback, &data);
 	cpBodyFree(body);
 
 	return !data.results.empty();
+}
+
+SpaceFloat GSpace::rectangleFeelerQuery(const GObject* agent, SpaceVect center, SpaceVect dimensions, GType type, PhysicsLayers layers, SpaceFloat angle) const
+{
+	cpBody* body = cpBodyNewStatic();
+	FeelerQueryData data = { agent, to_uint(type), body, dimensions.x };
+	cpShape* area = cpBoxShapeNew(body, dimensions.x, dimensions.y);
+
+	cpBodySetPos(body, center);
+	cpBodySetAngle(body, angle);
+	setShapeProperties(area, layers, GType::none, false);
+
+	cpSpaceShapeQuery(space, area, feelerQueryCallback, &data);
+	cpBodyFree(body);
+
+	return data.distance;
 }
 
 bool GSpace::obstacleRadiusQuery(const GObject* agent, SpaceVect center, SpaceFloat radius, GType type, PhysicsLayers layers)
