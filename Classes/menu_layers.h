@@ -9,10 +9,12 @@
 #ifndef menu_layers_h
 #define menu_Layers_h
 
+#include "Attributes.hpp"
 #include "menu.h"
 #include "types.h"
 
 class PlayScene;
+class Player;
 
 class TitleMenu : public TextListMenuImpl<TitleMenu>
 {
@@ -90,7 +92,9 @@ public:
 
 	static void worldSelect();
 
-	inline PauseMenu() {}
+	PauseMenu(Player* player);
+protected:
+	Player * player;
 };
 
 class GameOverMenu : public TextListMenuImpl<GameOverMenu>
@@ -160,6 +164,18 @@ protected:
 
 	void drawMaps();
 	void drawObject(SpaceRect area, Color4F color, Color4F colorCrnt);
+};
+
+class PlayerInfo : public Node
+{
+public:
+	static const vector<pair<Attribute, string>> displayAttributes;
+
+	PlayerInfo(const AttributeSystem* stats);
+
+	virtual bool init();
+protected:
+	const AttributeSystem* stats;
 };
 
 #endif /* menu_layers_h */

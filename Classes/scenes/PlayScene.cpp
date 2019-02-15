@@ -132,12 +132,17 @@ void PlayScene::enterPause()
 	if (isShowingMenu)
 		return;
 
-	pauseMenu = Node::ccCreate<PauseMenu>();
-	pushMenu(pauseMenu);
     pauseAnimations();
 	App::pauseSounds();
 	setPaused(true);
 	isShowingMenu = true;
+
+	while (spaceUpdatesToRun.load() > 0) {
+		this_thread::sleep_for(chrono::duration<int, milli>(1));
+	}
+
+	pauseMenu = Node::ccCreate<PauseMenu>(gspace->getObjectAs<Player>("player"));
+	pushMenu(pauseMenu);
 }
 
 void PlayScene::exitPause()
@@ -211,6 +216,7 @@ void PlayScene::enterMap()
 		return;
 
 	pauseAnimations();
+	App::pauseSounds();
 	setPaused(true);
 	isShowingMenu = true;
 
@@ -229,6 +235,7 @@ void PlayScene::exitMap()
 	popMenu();
 	mapMenu = nullptr;
 	resumeAnimations();
+	App::resumeSounds();
 	setPaused(false);
 	isShowingMenu = false;
 }

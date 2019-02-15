@@ -18,6 +18,7 @@
 #include "menu_layers.h"
 #include "menu_scenes.h"
 #include "PlayScene.hpp"
+#include "Player.hpp"
 #include "Wall.hpp"
 
 template <typename T>
@@ -227,6 +228,14 @@ const vector<TextListMenuLayer::listAction> PauseMenu::entryActions = {
 	&App::runTitleScene
 };
 
+PauseMenu::PauseMenu(Player* player) :
+	player(player)
+{
+	PlayerInfo* info = Node::ccCreate<PlayerInfo>(&player->getAttributeSystem());
+	info->setPosition(App::width * 0.75f, App::height * 0.5f);
+	addChild(info, 3);
+}
+
 void PauseMenu::worldSelect()
 {
 	App::getCrntScene()->pushMenu(Node::ccCreate<WorldSelect>());
@@ -428,3 +437,33 @@ void MapMenu::drawObject(SpaceRect rect, Color4F color, Color4F colorCrnt)
 	}
 }
 
+const vector<pair<Attribute, string>> PlayerInfo::displayAttributes = {
+	{Attribute::maxHP, "HP"},
+	{Attribute::maxMP, "MP"},
+	{Attribute::maxPower, "Power"},
+	{Attribute::agility, "Agility"},
+};
+
+PlayerInfo::PlayerInfo(const AttributeSystem* stats) :
+	stats(stats)
+{
+}
+
+bool PlayerInfo::init()
+{
+	Node::init();
+
+	//base and upgrade values - only the player can have them - and the bases are constant data.
+	//get playscene/crntplayer and get base stats for that player.
+
+	for_irange(i, 0, displayAttributes.size())
+	{
+		string str = boost::str(boost::format("%s: %.1f") % displayAttributes[i].second.c_str() % stats->getAdjustedValue(displayAttributes[i].first));
+		Label* label = createTextLabel(str, 32);
+		label->setPosition(0.0f, -64.0f * i);
+		label->setAlignment(TextHAlignment::RIGHT);
+		addChild(label);
+	}
+
+	return true;
+}
