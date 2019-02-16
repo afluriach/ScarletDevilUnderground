@@ -1,5 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.0" tiledversion="1.0.3" orientation="orthogonal" renderorder="right-down" width="17" height="17" tilewidth="128" tileheight="128" nextobjectid="79">
+<map version="1.0" tiledversion="1.0.3" orientation="orthogonal" renderorder="right-down" width="17" height="17" tilewidth="128" tileheight="128" nextobjectid="85">
+ <properties>
+  <property name="key_drop" value="key-g14"/>
+ </properties>
  <tileset firstgid="1" name="wall" tilewidth="128" tileheight="128" tilecount="4" columns="2">
   <image source="fence.png" width="256" height="256"/>
  </tileset>
@@ -57,6 +60,13 @@
     <property name="dir" value="left"/>
    </properties>
   </object>
-  <object id="78" type="Key" x="1024" y="1024" width="128" height="128"/>
+  <object id="80" type="GreenFairy" x="768" y="896" width="128" height="128"/>
+  <object id="81" type="GreenFairy" x="768" y="512" width="128" height="128"/>
+  <object id="82" type="GreenFairy" x="1792" y="512" width="128" height="128"/>
+  <object id="83" type="GreenFairy" x="1792" y="1664" width="128" height="128"/>
+  <object id="84" type="GreenFairy" x="384" y="1664" width="128" height="128"/>
+ </objectgroup>
+ <objectgroup name="waypoints">
+  <object id="78" name="key-g14" x="1024" y="1024" width="128" height="128"/>
  </objectgroup>
 </map>

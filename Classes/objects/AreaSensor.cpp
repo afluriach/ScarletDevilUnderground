@@ -90,6 +90,8 @@ RoomSensor::RoomSensor(GSpace* space, ObjectIDType id, SpaceVect center, SpaceVe
 	trapDoorNames = splitString(getStringOrDefault(props, "trap_doors", ""), " ");
 	spawnerNames = splitString(getStringOrDefault(props, "spawners", ""), " ");
 	bossName = getStringOrDefault(props, "boss", "");
+	keyWaypointName = getStringOrDefault(props, "key_drop", "");
+	isKeyDrop = !keyWaypointName.empty();
 }
 
 void RoomSensor::onPlayerContact(Player* p)
@@ -145,6 +147,10 @@ void RoomSensor::update()
 		updateTrapDoors();
 	if (spawners.size() > 0)
 		updateSpawners();
+
+	if (isKeyDrop && !keyWaypointName.empty() && player.isValid() && enemies.empty()) {
+		spawnKey();
+	}
 }
 
 void RoomSensor::updateTrapDoors()
@@ -215,4 +221,11 @@ void RoomSensor::updateSpawners()
 				s->activate();
 		}
 	}
+}
+
+void RoomSensor::spawnKey()
+{
+	SpaceVect point = space->getWaypoint(keyWaypointName);
+	space->createObject(Collectible::create(collectible_id::key, point));
+	isKeyDrop = false;
 }

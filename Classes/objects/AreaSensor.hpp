@@ -79,6 +79,8 @@ public:
 	void updateTrapDoors();
 	void updateBoss();
 	void updateSpawners();
+
+	void spawnKey();
 	
 	const int mapID;
 protected:
@@ -91,6 +93,9 @@ protected:
 	string bossName;
 	object_ref<Enemy> boss;
 	bool isBossActive = false;
+
+	string keyWaypointName;
+	bool isKeyDrop = false;
 };
 
 #endif /* AreaSensor_hpp */
