@@ -15,6 +15,7 @@
 #include "Spell.hpp"
 #include "SpellDescriptor.hpp"
 #include "TeleportPad.hpp"
+#include "Torch.hpp"
 #include "util.h"
 #include "value_map.hpp"
 
@@ -241,6 +242,56 @@ void PeriodicSpell::update() {
 		if (timeSince >= _interval) {
 			timeSince -= _interval;
 			runPeriodic();
+		}
+	}
+}
+
+const SpaceFloat TorchDarkness::radius = 2.5f;
+const float TorchDarkness::effectTime = 1.0f;
+
+TorchDarkness::TorchDarkness(GObject* caster) :
+	Spell(caster)
+{};
+
+void TorchDarkness::update()
+{
+	set<Torch*> crntTorches = caster->space->radiusQueryByType<Torch>(
+		caster,
+		caster->getPos(),
+		radius,
+		GType::environment,
+		PhysicsLayers::all
+	);
+
+	for (auto it = torches.begin(); it != torches.end(); )
+	{
+		pair<Torch*, float> entry = *it;
+
+		if (crntTorches.find(it->first) == crntTorches.end())
+		{
+			it = torches.erase(it);
+		}
+		else
+		{
+			timerDecrement(it->second);
+
+			if (it->second <= 0.0f)
+			{
+				it->first->setActive(false);
+				it = torches.erase(it);
+			}
+			else
+			{
+				++it;
+			}
+		}
+	}
+
+	for (Torch* crnt : crntTorches)
+	{
+		if (crnt->getActive() && torches.find(crnt) == torches.end())
+		{
+			torches.insert_or_assign(crnt, effectTime);
 		}
 	}
 }

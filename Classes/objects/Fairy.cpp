@@ -224,6 +224,43 @@ void GreenFairy::initStateMachine(ai::StateMachine& sm)
 	sm.setBulletHitFunction(ai::buildStressFromHits(0.5f));
 }
 
+const AttributeMap ZombieFairy::baseAttributes = {
+	{ Attribute::maxHP, 75.0f },
+	{ Attribute::speed, 2.0f },
+	{ Attribute::acceleration, 10.0f }
+};
+
+ZombieFairy::ZombieFairy(GSpace* space, ObjectIDType id, const ValueMap& args) :
+	MapObjForwarding(GObject),
+	MapObjForwarding(Agent),
+	Enemy(collectible_id::health2),
+	RegisterInit<ZombieFairy>(this)
+{
+}
+
+void ZombieFairy::init()
+{
+	cast(make_shared<TorchDarkness>(this));
+}
+
+void ZombieFairy::initStateMachine(ai::StateMachine& sm)
+{
+	sm.addThread(make_shared<ai::Wander>(), 1);
+
+	sm.addDetectFunction(
+		GType::player,
+		[](ai::StateMachine& sm, GObject* target) -> void {
+			sm.addThread(make_shared<ai::Seek>(target, true), 2);
+		}
+	);
+	sm.addEndDetectFunction(
+		GType::player,
+		[](ai::StateMachine& sm, GObject* target) -> void {
+			sm.removeThread("Seek");
+		}
+	);
+}
+
 const AttributeMap Fairy2::baseAttributes = {
 	{Attribute::maxHP, 15.0f},
 	{Attribute::speed, 4.5f},

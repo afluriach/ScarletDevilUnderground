@@ -160,6 +160,7 @@ const unordered_map<string, GObject::AdapterType> GObject::adapters = {
 	entry_same(Tewi),
 	entry_same(Torch),
 	entry_same(Wall),
+	entry_same(ZombieFairy),
 
 	{ "Player", playerAdapter() }
 };

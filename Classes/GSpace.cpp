@@ -1523,7 +1523,7 @@ void feelerCallback(cpShape *shape, cpFloat t, cpVect n, void *data)
 	FeelerData* queryData = static_cast<FeelerData*>(data);
 	GObject* obj = to_gobject(shape->data);
 
-	if (obj && (to_uint(obj->getType()) & queryData->gtype) && obj != queryData->agent && t < queryData->distance && t != 0.0) {
+	if (!shape->sensor && obj && (to_uint(obj->getType()) & queryData->gtype) && obj != queryData->agent && t < queryData->distance && t != 0.0) {
 		queryData->distance = t;
 		queryData->result = obj;
 	}
@@ -1544,7 +1544,7 @@ void pointQueryCallback(cpShape *shape, void *data)
 	PointQueryData* queryData = static_cast<PointQueryData*>(data);
 	GObject* obj = to_gobject(shape->data);
 
-	if (obj && (to_uint(obj->getType()) & queryData->gtype)) {
+	if (!shape->sensor && obj && (to_uint(obj->getType()) & queryData->gtype)) {
 		queryData->result = obj;
 	}
 }
@@ -1562,7 +1562,7 @@ void shapeQueryCallback(cpShape *shape, cpContactPointSet *points, void *data)
 	ShapeQueryData* queryData = static_cast<ShapeQueryData*>(data);
 	GObject* obj = to_gobject(shape->data);
 
-	if (obj && obj != queryData->agent && (to_uint(obj->getType()) & queryData->gtype)) {
+	if (!shape->sensor && obj && obj != queryData->agent && (to_uint(obj->getType()) & queryData->gtype)) {
 		queryData->results.insert(obj);
 	}
 }
@@ -1581,7 +1581,7 @@ void feelerQueryCallback(cpShape* shape, cpContactPointSet* points, void* data)
 	FeelerQueryData* queryData = static_cast<FeelerQueryData*>(data);
 	GObject* obj = to_gobject(shape->data);
 
-	if (obj && obj != queryData->agent && (to_uint(obj->getType()) & queryData->gtype)) {
+	if (!shape->sensor && obj && obj != queryData->agent && (to_uint(obj->getType()) & queryData->gtype)) {
 		for_irange(i, 0, points->count) {
 			SpaceVect local = cpBodyWorld2Local(queryData->queryBody, points->points[i].point);
 			queryData->distance = min(queryData->distance, local.x);

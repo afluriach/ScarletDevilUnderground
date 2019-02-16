@@ -24,6 +24,7 @@ typedef function<shared_ptr<Spell>(GObject*)> SpellGeneratorType;
 
 class SpellDesc;
 class TeleportPad;
+class Torch;
 
 class Spell
 {
@@ -165,6 +166,22 @@ public:
 	GET_DESC(IllusionDial)
     virtual void init();
     virtual void end();
+};
+
+class TorchDarkness : public Spell
+{
+public:
+	static const SpaceFloat radius;
+	static const float effectTime;
+
+	TorchDarkness(GObject* caster);
+
+	GET_DESC(TorchDarkness)
+	inline virtual void init() {}
+	virtual void update();
+	inline virtual void end() {}
+protected:
+	map<Torch*, float> torches;
 };
 
 #endif /* Spell_hpp */

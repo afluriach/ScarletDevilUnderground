@@ -360,6 +360,19 @@ public:
 	bool obstacleRadiusQuery(const GObject* agent, SpaceVect center, SpaceFloat radius, GType type, PhysicsLayers layers);
 	set<GObject*> radiusQuery(const GObject* agent, SpaceVect center, SpaceFloat radius, GType type, PhysicsLayers layers);
 
+	template<class C>
+	inline set<C*> radiusQueryByType(const GObject* agent, SpaceVect center, SpaceFloat radius, GType type, PhysicsLayers layers)
+	{
+		set<GObject*> objects = radiusQuery(agent, center, radius, type, layers);
+		set<C*> result;
+
+		for (GObject* obj : objects) {
+			C* c = dynamic_cast<C*>(obj);
+			if (c) result.insert(c);
+		}
+		return result;
+	}
+
     SpaceFloat distanceFeeler(const GObject * agent, SpaceVect feeler, GType gtype) const;
 	SpaceFloat distanceFeeler(const GObject * agent, SpaceVect _feeler, GType gtype, PhysicsLayers layers) const;
 

@@ -34,7 +34,7 @@ public:
 	Graveyard2();
 	inline virtual ~Graveyard2() {}
 
-	inline virtual Color4F getDefaultAmbientLight() const { return Color4F(.3f, .45f, .45f, 1.0f); }
+	inline virtual Color4F getDefaultAmbientLight() const { return Color4F(.225f, .333f, .333f, 1.0f); }
 
 	virtual GScene* getReplacementScene();
 };

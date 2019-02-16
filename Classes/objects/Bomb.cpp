@@ -36,7 +36,7 @@ void Bomb::update()
 
 void Bomb::detonate()
 {
-	set<GObject*> targets = space->radiusQuery(
+	set<Agent*> targets = space->radiusQueryByType<Agent>(
 		this,
 		getPos(),
 		getBlastRadius(),
@@ -46,26 +46,23 @@ void Bomb::detonate()
 
 	AttributeMap baseEffect = getAttributeEffect();
 
-	for (GObject* obj : targets)
+	for (Agent* target : targets)
 	{
-		Agent* a = dynamic_cast<Agent*>(obj);
-		float scale = getScale(obj);
+		float scale = getScale(target);
 		SpaceFloat knockback = baseEffect.at(Attribute::hp) * -2.0f * scale;
 
-		if (obj->getType() == GType::player) {
-			a->hit({ {Attribute::hp, -1.0f} }, getMagicEffect(obj));
-			applyKnockback(obj, knockback);
+		if (target->getType() == GType::player) {
+			target->hit({ {Attribute::hp, -1.0f} }, getMagicEffect(target));
+			applyKnockback(target, knockback);
 		}
-		else if (obj->getType() == GType::wall) {
-			BreakableWall* bw = dynamic_cast<BreakableWall*>(obj);
-			if (bw) {
-				bw->hit();
-			}
+		else if (target->getType() == GType::wall) {
+			BreakableWall* bw = dynamic_cast<BreakableWall*>(target);
+			if (bw) bw->hit();
 		}
-		else if (obj->getType() == GType::enemy) {
-			a->hit(AttributeSystem::scale(baseEffect, scale), getMagicEffect(obj));
-			log("Hit %s at magnitude %f.", obj->getName().c_str(), scale);
-			applyKnockback(obj, knockback);
+		else if (target->getType() == GType::enemy) {
+			target->hit(AttributeSystem::scale(baseEffect, scale), getMagicEffect(target));
+			log("Hit %s at magnitude %f.", target->getName().c_str(), scale);
+			applyKnockback(target, knockback);
 		}
 	}
 
