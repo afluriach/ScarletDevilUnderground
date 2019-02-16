@@ -11,23 +11,25 @@
 
 #include "vect.hpp"
 
+namespace ai { class StateMachine; }
+class Bullet;
 class GObject;
 class GSpace;
 
 typedef pair<int,int> IntVec2;
-//Represents a Chipmunk physics unit space vector
+typedef tuple<long, long, long> TimerTriplet;
 typedef cpFloat SpaceFloat;
 typedef vector<SpaceVect> Path;
 
 typedef unsigned int LightID;
 typedef unsigned int SpriteID;
-
 typedef unsigned int ObjectIDType;
-typedef function<GObject*(GSpace*, ObjectIDType)> ObjectGeneratorType;
 
+typedef function<GObject*(GSpace*, ObjectIDType)> ObjectGeneratorType;
 typedef function<FiniteTimeAction*()> ActionGeneratorType;
 
-typedef tuple<long, long, long> TimerTriplet;
+typedef function<void(ai::StateMachine&, GObject*)> detect_function;
+typedef function<void(ai::StateMachine&, Bullet*)> bullet_collide_function;
 
 namespace boost {
 	namespace serialization {

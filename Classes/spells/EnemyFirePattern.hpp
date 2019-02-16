@@ -39,4 +39,19 @@ public:
 	inline virtual boost::rational<int> getCooldownTime() { return 1.5; }
 };
 
+class GreenFairyBulletPattern : public RadiusPattern, public FirePatternImpl<GreenFairyBullet>
+{
+public:
+	GreenFairyBulletPattern(
+		Agent *const agent,
+		boost::rational<int> fireInterval,
+		int bulletCount
+	);
+
+	//not relevant for enemy fire patterns
+	inline virtual string iconPath() const { return ""; }
+
+	inline virtual boost::rational<int> getCooldownTime() { return 1.5; }
+};
+
 #endif /* EnemyFirePattern_hpp */

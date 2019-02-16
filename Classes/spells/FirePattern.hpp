@@ -68,6 +68,23 @@ public:
 	virtual bool fire();
 };
 
+class RadiusPattern : virtual public FirePattern
+{
+public:
+	RadiusPattern(
+		Agent *const agent,
+		boost::rational<int> fireInterval,
+		int bulletCount
+	);
+	virtual inline ~RadiusPattern() {}
+
+	virtual bool fire();
+	inline virtual boost::rational<int> getCooldownTime() { return fireInterval; }
+protected:
+	int bulletCount;
+	boost::rational<int> fireInterval;
+};
+
 class MultiBulletSpreadPattern : virtual public FirePattern
 {
 public:

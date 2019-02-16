@@ -31,6 +31,8 @@ enum class Attribute {
 	hitProtectionInterval,
 	spellCooldownInterval,
 
+	stress,
+
 	stamina,
 	maxStamina,
 

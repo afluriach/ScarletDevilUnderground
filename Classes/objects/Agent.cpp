@@ -10,7 +10,9 @@
 
 #include "Agent.hpp"
 #include "App.h"
+#include "Bullet.hpp"
 #include "Enemy.hpp"
+#include "FirePattern.hpp"
 #include "GSpace.hpp"
 #include "macros.h"
 #include "MagicEffect.hpp"
@@ -61,6 +63,10 @@ void Agent::update()
 	attributeSystem.timerDecrement(Attribute::sunDamage);
 	attributeSystem.timerDecrement(Attribute::poisonDamage);
 	attributeSystem.timerDecrement(Attribute::slimeDamage);
+
+	if (firePattern) {
+		firePattern->update();
+	}
 }
 
 void Agent::onDetect(GObject* obj)
@@ -165,6 +171,12 @@ bool Agent::consumePower(int val)
 		return true;
 	}
 	return false;
+}
+
+void Agent::onBulletCollide(Bullet* b)
+{
+	hit(AttributeSystem::scale(b->getAttributeEffect(), b->agentAttackMultiplier), b->getMagicEffect(this));
+	fsm.onBulletHit(b);
 }
 
 void Agent::hit(AttributeMap attributeEffect, shared_ptr<MagicEffect> effect)

@@ -40,6 +40,27 @@ public:
 	void flock(ai::StateMachine& sm, const ValueMap& args);
 };
 
+class GreenFairy :
+	public Enemy,
+	public BaseAttributes<GreenFairy>
+{
+public:
+	static const AttributeMap baseAttributes;
+
+	GreenFairy(GSpace* space, ObjectIDType id, const ValueMap& args);
+
+	virtual inline SpaceFloat getRadarRadius() const { return 6.0; }
+	virtual inline SpaceFloat getDefaultFovAngle() const { return 0.0; }
+
+	inline SpaceFloat getMass() const { return 25.0; }
+
+	inline string imageSpritePath() const { return "sprites/fairy-green.png"; }
+	virtual bool isAgentAnimation() const { return true; }
+	virtual inline int pixelWidth() const { return 512; }
+
+	virtual void initStateMachine(ai::StateMachine& sm);
+};
+
 class Fairy2 :
 	public Enemy,
 	public RegisterUpdate<Fairy2>,

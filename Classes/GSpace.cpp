@@ -1235,6 +1235,7 @@ int GSpace::playerEnemyBulletBegin(GObject* playerObj, GObject* bullet)
 
 	if (player && _bullet) {
 		_bullet->onAgentCollide(player);
+		player->onBulletCollide(_bullet);
 		_bullet->invalidateGraze();
 	}
 
@@ -1277,6 +1278,7 @@ int GSpace::playerBulletEnemyBegin(GObject* a, GObject* b)
     
 	if (bullet && _enemy_agent){
 		bullet->onAgentCollide(_enemy_agent);
+		_enemy_agent->onBulletCollide(bullet);
 	}
 
     if(logPhysicsHandlers)

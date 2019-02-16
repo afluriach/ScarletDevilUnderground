@@ -12,6 +12,7 @@
 #include "AI.hpp"
 #include "AIMixins.hpp"
 #include "App.h"
+#include "Bullet.hpp"
 #include "FirePattern.hpp"
 #include "FloorSegment.hpp"
 #include "Graphics.h"
@@ -315,6 +316,14 @@ SpaceFloat getTurningRadius(SpaceFloat speed, SpaceFloat acceleration)
 	return speed * speed / acceleration;
 }
 
+bullet_collide_function buildStressFromHits(float hpStressScale)
+{
+	return [hpStressScale](StateMachine& sm, Bullet* b)->void {
+		Agent* a = sm.getAgent();
+		float hp = b->getAttributeEffect().at(Attribute::hp);
+		a->modifyAttribute(Attribute::stress, -1.0f * hp * hpStressScale);
+	};
+}
 
 shared_ptr<Function> Function::constructState(const string& type, GSpace* space, const ValueMap& args)
 {
@@ -562,6 +571,13 @@ void StateMachine::onEndDetect(GObject* obj)
 	}
 }
 
+void StateMachine::onBulletHit(Bullet* b)
+{
+	if (bulletHandler) {
+		bulletHandler(*this, b);
+	}
+}
+
 void StateMachine::addDetectFunction(GType t, detect_function f)
 {
 	detectHandlers.insert_or_assign(t, f);
@@ -570,6 +586,11 @@ void StateMachine::addDetectFunction(GType t, detect_function f)
 void StateMachine::addEndDetectFunction(GType t, detect_function f)
 {
 	endDetectHandlers.insert_or_assign(t, f);
+}
+
+void StateMachine::setBulletHitFunction(bullet_collide_function f)
+{
+	bulletHandler = f;
 }
 
 void StateMachine::push(shared_ptr<Function> f)
@@ -1289,8 +1310,6 @@ void FireAtTarget::update(StateMachine& sm)
 		directionToTarget(sm.agent, target.get()->getPos()).toAngle()
 	);
 
-	fp->update();
-
 	if (fp->fireIfPossible()) {
 		App::playSoundSpatial("sfx/shot.wav", sm.agent->getPos(), sm.agent->getVel());
 	}
@@ -1310,8 +1329,6 @@ void FireIfTargetVisible::update(StateMachine& sm)
 		return;
 	}
 	
-	fp->update();
-
 	if (ro->isObjectVisible(target.get()) && sm.agent->space->isInPlayerRoom(sm.agent->getPos()))
 	{
 		if (fp->fireIfPossible()) {
@@ -1376,6 +1393,20 @@ void HPCast::update(StateMachine& sm)
 void HPCast::onExit(StateMachine& sm)
 {
 	sm.agent->stopSpell();
+}
+
+FireOnStress::FireOnStress()
+{
+}
+
+void FireOnStress::update(StateMachine& sm)
+{
+	Agent* a = sm.getAgent();
+
+	if (a->getAttribute(Attribute::stress) > 5.0f) {
+		a->getFirePattern()->fireIfPossible();
+		a->modifyAttribute(Attribute::stress, -5.0f);
+	}
 }
 
 }//end NS

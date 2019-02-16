@@ -33,7 +33,6 @@ void Bullet::onEnvironmentCollide(GObject* obj)
 
 void Bullet::onAgentCollide(Agent* agent)
 {
-	agent->hit(AttributeSystem::scale(getAttributeEffect(), agentAttackMultiplier), getMagicEffect(agent));
 	space->removeObject(this);
 }
 

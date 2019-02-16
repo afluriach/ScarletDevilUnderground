@@ -56,6 +56,8 @@ SpaceFloat getStoppingTime(SpaceFloat speed, SpaceFloat acceleration);
 SpaceFloat getStoppingDistance(SpaceFloat speed, SpaceFloat accceleration);
 SpaceFloat getTurningRadius(SpaceFloat speed, SpaceFloat acceleration);
 
+bullet_collide_function buildStressFromHits(float hpStressScale);
+
 enum class ResourceLock
 {
     begin = 0,
@@ -69,10 +71,7 @@ enum class ResourceLock
 
 constexpr size_t lockCount = to_size_t(ResourceLock::end);
 
-class StateMachine;
 class Thread;
-
-typedef function<void(StateMachine&, GObject*)> detect_function;
 
 #define FuncGetName(cls) inline virtual string getName() const {return #cls;}
 
@@ -162,8 +161,11 @@ public:
     void onDetect(GObject* obj);
 	void onEndDetect(GObject* obj);
 
+	void onBulletHit(Bullet* b);
+
 	void addDetectFunction(GType t, detect_function f);
 	void addEndDetectFunction(GType t, detect_function f);
+	void setBulletHitFunction(bullet_collide_function f);
 
 	//wrappers for the current thread
 	void push(shared_ptr<Function> f);
@@ -177,6 +179,7 @@ protected:
 	set<unsigned int> threadsToRemove;
 	list<shared_ptr<Thread>> threadsToAdd;
 
+	bullet_collide_function bulletHandler;
 	unordered_map<GType, detect_function> detectHandlers;
 	unordered_map<GType, detect_function> endDetectHandlers;
 
@@ -517,6 +520,18 @@ protected:
 	SpellGeneratorType spell_generator;
 	float caster_starting;
 	float hp_difference;
+};
+
+class FireOnStress : public Function {
+public:
+	FireOnStress();
+
+	virtual void update(StateMachine& sm);
+	FuncGetName(FireOnStress)
+
+	inline virtual bitset<lockCount> getLockMask() {
+		return make_enum_bitfield(ResourceLock::fire);
+	}
 };
 
 class FireAtTarget : public Function {

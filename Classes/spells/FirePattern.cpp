@@ -52,6 +52,33 @@ bool SingleBulletFixedIntervalPattern::fire()
 	return true;
 }
 
+RadiusPattern::RadiusPattern(
+	Agent *const agent,
+	boost::rational<int> fireInterval,
+	int bulletCount
+) :
+	FirePattern(agent),
+	fireInterval(fireInterval),
+	bulletCount(bulletCount)
+{
+}
+
+bool RadiusPattern::fire()
+{
+	if (isInCooldown())
+		return false;
+
+	SpaceFloat angleStep = float_pi * 2.0 / bulletCount;
+
+	for_irange(i, 0, bulletCount)
+	{
+		agent->space->createObject(spawn(angleStep * i));
+	}
+
+	return true;
+}
+
+
 MultiBulletSpreadPattern::MultiBulletSpreadPattern(
 	Agent *const agent,
 	boost::rational<int> fireInterval,

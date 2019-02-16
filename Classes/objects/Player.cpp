@@ -306,9 +306,6 @@ void Player::update()
 			checkBombControls(cs);
 			updateSpellControls(cs);
 
-			if (getFirePattern())
-				getFirePattern()->update();
-
 			updateHitTime();
 			updateCombo();
 

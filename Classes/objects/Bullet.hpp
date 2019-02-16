@@ -38,7 +38,6 @@ public:
 	virtual void onBulletCollide(Bullet* bullet);
 
 	void setBodyVisible(bool b);
-protected:
 	float agentAttackMultiplier = 1.0f;
 };
 

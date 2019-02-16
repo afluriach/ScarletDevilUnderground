@@ -119,6 +119,7 @@ const unordered_map<string, GObject::AdapterType> GObject::adapters = {
 	entry_same(Goal),
 	entry_same(GrassFloor),
 	item_entry_same(GraveyardKey),
+	entry_same(GreenFairy),
 	collectible_entry(Health1, health1),
 	collectible_entry(Health2, health2),
 	entry_same(HiddenSubroomSensor),

@@ -117,6 +117,26 @@ void Fairy1::flock(ai::StateMachine& sm, const ValueMap& args) {
 	);
 }
 
+const AttributeMap GreenFairy::baseAttributes = {
+	{ Attribute::maxHP, 30.0f },
+	{ Attribute::speed, 3.0f },
+	{ Attribute::acceleration, 4.5f }
+};
+
+GreenFairy::GreenFairy(GSpace* space, ObjectIDType id, const ValueMap& args) :
+	MapObjForwarding(GObject),
+	MapObjForwarding(Agent),
+	Enemy(collectible_id::power1)
+{
+	firePattern = make_shared<GreenFairyBulletPattern>(this, 1.5, 8);
+}
+
+void GreenFairy::initStateMachine(ai::StateMachine& sm)
+{
+	sm.addThread(make_shared<ai::Wander>());
+	sm.addThread(make_shared<ai::FireOnStress>());
+	sm.setBulletHitFunction(ai::buildStressFromHits(0.5f));
+}
 
 const AttributeMap Fairy2::baseAttributes = {
 	{Attribute::maxHP, 15.0f},

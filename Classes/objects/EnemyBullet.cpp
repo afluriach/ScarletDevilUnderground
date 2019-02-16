@@ -92,6 +92,16 @@ AttributeMap Fairy1Bullet::getAttributeEffect() const {
 	};
 }
 
+GreenFairyBullet::GreenFairyBullet(GSpace* space, ObjectIDType id, Agent* agent, SpaceFloat angle, const SpaceVect& pos) :
+	GObject(space, id, "", pos, angle),
+	EnemyBullet(agent)
+{}
+
+AttributeMap GreenFairyBullet::getAttributeEffect() const {
+	return {
+		{ Attribute::hp, -1 }
+	};
+}
 
 shared_ptr<MagicEffect> IceFairyBullet::getMagicEffect(gobject_ref target) {
 	return nullptr;

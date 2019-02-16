@@ -28,3 +28,13 @@ Fairy1BulletPattern::Fairy1BulletPattern(
 	FirePattern(agent)
 {
 }
+
+GreenFairyBulletPattern::GreenFairyBulletPattern(
+	Agent *const agent,
+	boost::rational<int> fireInterval,
+	int bulletCount
+) :
+	RadiusPattern(agent, fireInterval, bulletCount),
+	FirePattern(agent)
+{
+}
