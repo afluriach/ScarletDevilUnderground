@@ -1764,6 +1764,22 @@ SpaceFloat GSpace::rectangleFeelerQuery(const GObject* agent, SpaceVect center, 
 	return data.distance;
 }
 
+set<GObject*> GSpace::rectangleObjectQuery(SpaceVect center, SpaceVect dimensions, GType type, PhysicsLayers layers, SpaceFloat angle)
+{
+	ShapeQueryData data = { nullptr, to_uint(type) };
+	cpBody* body = cpBodyNewStatic();
+	cpShape* area = cpBoxShapeNew(body, dimensions.x, dimensions.y);
+
+	cpBodySetPos(body, center);
+	cpBodySetAngle(body, angle);
+	setShapeProperties(area, layers, GType::none, false);
+
+	cpSpaceShapeQuery(space, area, shapeQueryCallback, &data);
+	cpBodyFree(body);
+
+	return data.results;
+}
+
 bool GSpace::obstacleRadiusQuery(const GObject* agent, SpaceVect center, SpaceFloat radius, GType type, PhysicsLayers layers)
 {
 	return radiusQuery(agent, center, radius, type, layers).size() > 0;

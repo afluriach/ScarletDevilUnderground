@@ -37,4 +37,21 @@ public:
 	virtual AttributeMap getAttributeEffect();
 };
 
+class DarknessArea :
+	public EffectArea,
+	public RegisterInit<DarknessArea>,
+	public RegisterUpdate<DarknessArea>
+{
+public:
+	MapObjCons(DarknessArea);
+
+	void init();
+	void update();
+
+	virtual AttributeMap getAttributeEffect();
+protected:
+	set<Torch*> torches;
+	bool active = false;
+};
+
 #endif /* EffectArea_hpp */

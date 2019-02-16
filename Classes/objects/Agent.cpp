@@ -55,12 +55,16 @@ void Agent::update()
 	if (attributeSystem.getAdjustedValue(Attribute::sunDamage) >= AttributeSystem::maxElementDamage) {
 		onZeroHP();
 	}
+	if (attributeSystem.getAdjustedValue(Attribute::darknessDamage) >= AttributeSystem::maxElementDamage) {
+		onZeroHP();
+	}
 	if (attributeSystem.getAdjustedValue(Attribute::poisonDamage) >= AttributeSystem::maxElementDamage) {
 		onZeroHP();
 	}
 
 	attributeSystem.timerDecrement(Attribute::iceDamage);
 	attributeSystem.timerDecrement(Attribute::sunDamage);
+	attributeSystem.timerDecrement(Attribute::darknessDamage);
 	attributeSystem.timerDecrement(Attribute::poisonDamage);
 	attributeSystem.timerDecrement(Attribute::slimeDamage);
 

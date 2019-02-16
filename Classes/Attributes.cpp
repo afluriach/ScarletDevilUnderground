@@ -72,6 +72,7 @@ AttributeSet AttributeSystem::getBlankAttributeSet()
 	//Sensitivity multiplier should be 1.0 by default.
 	result[to_size_t(Attribute::iceSensitivity)] = 1.0f;
 	result[to_size_t(Attribute::sunSensitivity)] = 1.0f;
+	result[to_size_t(Attribute::darknessSensitivity)] = 1.0f;
 	result[to_size_t(Attribute::poisonSensitivity)] = 1.0f;
 	result[to_size_t(Attribute::slimeSensitivity)] = 1.0f;
 
@@ -281,6 +282,9 @@ void AttributeSystem::modifyAttribute(Attribute id, float x)
 		break;
 	case Attribute::sunDamage:
 		applyElementalDamage(Attribute::sunDamage, Attribute::sunSensitivity, x);
+		break;
+	case Attribute::darknessDamage:
+		applyElementalDamage(Attribute::darknessDamage, Attribute::darknessSensitivity, x);
 		break;
 	case Attribute::poisonDamage:
 		applyElementalDamage(Attribute::poisonDamage, Attribute::poisonSensitivity, x);

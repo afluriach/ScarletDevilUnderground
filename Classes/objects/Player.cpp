@@ -321,6 +321,7 @@ void Player::update()
 
 			updateHudAttribute(Attribute::iceDamage);
 			updateHudAttribute(Attribute::sunDamage);
+			updateHudAttribute(Attribute::darknessDamage);
 			updateHudAttribute(Attribute::poisonDamage);
 			updateHudAttribute(Attribute::slimeDamage);
 
@@ -671,7 +672,8 @@ const AttributeMap RumiaPC::baseAttributes = {
 	{Attribute::hitProtectionInterval, 1.5f },
 	{Attribute::spellCooldownInterval, 1.0f },
 	{Attribute::iceSensitivity, 1.0f },
-	{Attribute::sunSensitivity, 0.0f }
+	{Attribute::sunSensitivity, 0.0f },
+	{Attribute::darknessSensitivity, 0.0f },
 };
 
 RumiaPC::RumiaPC(GSpace* space, ObjectIDType id, const ValueMap& args) :

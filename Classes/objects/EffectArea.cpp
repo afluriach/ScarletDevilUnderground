@@ -14,6 +14,7 @@
 #include "GSpace.hpp"
 #include "Player.hpp"
 #include "scenes.h"
+#include "Torch.hpp"
 
 EffectArea::EffectArea(GSpace* space, ObjectIDType id, const ValueMap& args) :
 MapObjForwarding(GObject),
@@ -52,5 +53,40 @@ GraphicsLayer SunArea::sceneLayer() const{
 AttributeMap SunArea::getAttributeEffect() {
 	return {
 		{ Attribute::sunDamage, 5.0  }
+	};
+}
+
+DarknessArea::DarknessArea(GSpace* space, ObjectIDType id, const ValueMap& args) :
+	MapObjForwarding(GObject),
+	MapObjForwarding(EffectArea),
+	RegisterInit<DarknessArea>(this),
+	RegisterUpdate<DarknessArea>(this)
+{
+}
+
+void DarknessArea::init()
+{
+	torches = space->rectangleQueryByType<Torch>(
+		getPos(),
+		getDimensions(),
+		GType::environment,
+		PhysicsLayers::all
+	);
+}
+
+void DarknessArea::update()
+{
+	active = true;
+	for (Torch* t : torches) {
+		if (t->getActive()) {
+			active = false;
+			break;
+		}
+	}
+}
+
+AttributeMap DarknessArea::getAttributeEffect() {
+	return {
+		{ Attribute::darknessDamage, 5.0 * active }
 	};
 }

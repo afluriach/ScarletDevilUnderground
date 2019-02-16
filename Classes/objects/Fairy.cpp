@@ -227,7 +227,8 @@ void GreenFairy::initStateMachine(ai::StateMachine& sm)
 const AttributeMap ZombieFairy::baseAttributes = {
 	{ Attribute::maxHP, 75.0f },
 	{ Attribute::speed, 2.0f },
-	{ Attribute::acceleration, 10.0f }
+	{ Attribute::acceleration, 10.0f },
+	{ Attribute::darknessSensitivity, 0.0f }
 };
 
 ZombieFairy::ZombieFairy(GSpace* space, ObjectIDType id, const ValueMap& args) :

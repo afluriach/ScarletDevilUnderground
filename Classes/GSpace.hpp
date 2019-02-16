@@ -357,6 +357,7 @@ public:
 	GObject * pointQuery(SpaceVect pos, GType type, PhysicsLayers layers);
 	bool rectangleQuery(SpaceVect center, SpaceVect dimensions, GType type, PhysicsLayers layers, SpaceFloat angle = 0.0);
 	SpaceFloat rectangleFeelerQuery(const GObject* agent, SpaceVect center, SpaceVect dimensions, GType type, PhysicsLayers layers, SpaceFloat angle) const;
+	set<GObject*> rectangleObjectQuery(SpaceVect center, SpaceVect dimensions, GType type, PhysicsLayers layers, SpaceFloat angle = 0.0);
 	bool obstacleRadiusQuery(const GObject* agent, SpaceVect center, SpaceFloat radius, GType type, PhysicsLayers layers);
 	set<GObject*> radiusQuery(const GObject* agent, SpaceVect center, SpaceFloat radius, GType type, PhysicsLayers layers);
 
@@ -364,6 +365,19 @@ public:
 	inline set<C*> radiusQueryByType(const GObject* agent, SpaceVect center, SpaceFloat radius, GType type, PhysicsLayers layers)
 	{
 		set<GObject*> objects = radiusQuery(agent, center, radius, type, layers);
+		set<C*> result;
+
+		for (GObject* obj : objects) {
+			C* c = dynamic_cast<C*>(obj);
+			if (c) result.insert(c);
+		}
+		return result;
+	}
+
+	template<class C>
+	set<C*> rectangleQueryByType(SpaceVect center, SpaceVect dimensions, GType type, PhysicsLayers layers, SpaceFloat angle = 0.0)
+	{
+		set<GObject*> objects = rectangleObjectQuery(center, dimensions, type, layers, angle);
 		set<C*> result;
 
 		for (GObject* obj : objects) {

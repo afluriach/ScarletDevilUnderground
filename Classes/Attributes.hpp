@@ -43,11 +43,13 @@ enum class Attribute {
 
 	iceSensitivity,
 	sunSensitivity,
+	darknessSensitivity,
 	poisonSensitivity,
 	slimeSensitivity,
 
 	iceDamage,
 	sunDamage,
+	darknessDamage,
 	poisonDamage,
 	slimeDamage,
 
