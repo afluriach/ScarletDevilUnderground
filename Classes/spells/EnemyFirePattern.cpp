@@ -20,7 +20,7 @@ IceFairyBulletPattern::IceFairyBulletPattern(Agent *const agent) :
 
 Fairy1BulletPattern::Fairy1BulletPattern(
 	Agent *const agent,
-	boost::rational<int> fireInterval,
+	float fireInterval,
 	SpaceFloat sideAngleSpread,
 	int bulletCount
 ) :
@@ -31,7 +31,7 @@ Fairy1BulletPattern::Fairy1BulletPattern(
 
 GreenFairyBulletPattern::GreenFairyBulletPattern(
 	Agent *const agent,
-	boost::rational<int> fireInterval,
+	float fireInterval,
 	int bulletCount
 ) :
 	RadiusPattern(agent, fireInterval, bulletCount),

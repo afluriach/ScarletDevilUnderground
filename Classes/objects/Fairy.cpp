@@ -159,6 +159,50 @@ void BlueFairy::follow_path(ai::StateMachine& sm, const ValueMap& args)
 	sm.addThread(make_shared<ai::LookTowardsFire>(), 2);
 }
 
+const AttributeMap RedFairy::baseAttributes = {
+	{ Attribute::maxHP, 50.0f },
+	{ Attribute::speed, 2.0f },
+	{ Attribute::acceleration, 6.0f }
+};
+
+RedFairy::RedFairy(GSpace* space, ObjectIDType id, const ValueMap& args) :
+	MapObjForwarding(GObject),
+	MapObjForwarding(Agent),
+	Enemy(collectible_id::health1),
+	RegisterUpdate<RedFairy>(this)
+{
+	firePattern = make_shared<Fairy1BulletPattern>(this, 3.0, float_pi / 6.0, 2);
+}
+
+void RedFairy::update()
+{
+	//set fire rate and damage based on stress
+	attributeSystem.timerDecrement(Attribute::stress);
+	attributeSystem.setAttribute(Attribute::attackSpeed, 1.0f + max(25.0f, getAttribute(Attribute::stress))/25.0f);
+}
+
+void RedFairy::initStateMachine(ai::StateMachine& sm)
+{
+	sm.addThread(make_shared<ai::Wander>(), 0);
+	sm.setBulletHitFunction(ai::buildStressFromHits(1.0f));
+
+	sm.addDetectFunction(
+		GType::player,
+		[](ai::StateMachine& sm, GObject* target) -> void {
+			sm.addThread(make_shared<ai::FireAtTarget>(target), 1);
+			sm.addThread(make_shared<ai::MaintainDistance>(target, 3.0f, 0.5f), 1);
+		}
+	);
+
+	sm.addEndDetectFunction(
+		GType::player,
+		[](ai::StateMachine& sm, GObject* target) -> void {
+			sm.removeThread("FireAtTarget");
+			sm.removeThread("MaintainDistance");
+		}
+	);
+}
+
 const AttributeMap GreenFairy::baseAttributes = {
 	{ Attribute::maxHP, 30.0f },
 	{ Attribute::speed, 3.0f },

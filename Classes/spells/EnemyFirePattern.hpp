@@ -20,7 +20,7 @@ public:
 	//not relevant for enemy fire patterns
 	inline virtual string iconPath() const { return ""; }
 
-	inline virtual boost::rational<int> getCooldownTime() { return 2.0; }
+	inline virtual float getCooldownTime() { return 2.0f; }
 };
 
 class Fairy1BulletPattern : public MultiBulletSpreadPattern, public FirePatternImpl<Fairy1Bullet>
@@ -28,7 +28,7 @@ class Fairy1BulletPattern : public MultiBulletSpreadPattern, public FirePatternI
 public:
 	Fairy1BulletPattern(
 		Agent *const agent,
-		boost::rational<int> fireInterval,
+		float fireInterval,
 		SpaceFloat sideAngleSpread,
 		int bulletCount
 	);
@@ -36,7 +36,7 @@ public:
 	//not relevant for enemy fire patterns
 	inline virtual string iconPath() const { return ""; }
 
-	inline virtual boost::rational<int> getCooldownTime() { return 1.5; }
+	inline virtual float getCooldownTime() { return 1.5f; }
 };
 
 class GreenFairyBulletPattern : public RadiusPattern, public FirePatternImpl<GreenFairyBullet>
@@ -44,14 +44,14 @@ class GreenFairyBulletPattern : public RadiusPattern, public FirePatternImpl<Gre
 public:
 	GreenFairyBulletPattern(
 		Agent *const agent,
-		boost::rational<int> fireInterval,
+		float fireInterval,
 		int bulletCount
 	);
 
 	//not relevant for enemy fire patterns
 	inline virtual string iconPath() const { return ""; }
 
-	inline virtual boost::rational<int> getCooldownTime() { return 1.5; }
+	inline virtual float getCooldownTime() { return 1.5f; }
 };
 
 #endif /* EnemyFirePattern_hpp */

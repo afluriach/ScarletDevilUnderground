@@ -67,6 +67,7 @@ AttributeSet AttributeSystem::getBlankAttributeSet()
 	AttributeSet result = getZeroArray<float, to_size_t(Attribute::end)>();
 
 	result[to_size_t(Attribute::attack)] = 1.0f;
+	result[to_size_t(Attribute::attackSpeed)] = 1.0f;
 
 	//Sensitivity multiplier should be 1.0 by default.
 	result[to_size_t(Attribute::iceSensitivity)] = 1.0f;
@@ -291,6 +292,11 @@ void AttributeSystem::modifyAttribute(Attribute id, float x)
 		attributes.at(to_size_t(id)) += x;
 		break;
 	}
+}
+
+void AttributeSystem::setAttribute(Attribute id, float x)
+{
+	attributes.at(to_size_t(id)) = x;
 }
 
 void AttributeSystem::timerDecrement(Attribute id)

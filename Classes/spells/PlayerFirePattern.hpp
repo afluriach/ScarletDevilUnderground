@@ -19,7 +19,7 @@ public:
 
 	virtual string iconPath() const { return "sprites/fire_patterns/flandre_big_orb.png"; }
 
-	virtual boost::rational<int> getCooldownTime() { return 1; }
+	virtual float getCooldownTime() { return 1.0f; }
 };
 
 class FlandreFastOrbPattern : public SingleBulletFixedIntervalPattern, public FirePatternImpl<FlandreFastOrb1>
@@ -29,13 +29,13 @@ public:
 
 	virtual string iconPath() const { return "sprites/fire_patterns/flandre_fast_orb.png"; }
 
-	virtual boost::rational<int> getCooldownTime() { return boost::rational<int>(1,6); }
+	virtual float getCooldownTime() { return 1.0f / 6.0f; }
 };
 
 class FlandreWideAnglePattern : public MultiBulletSpreadPattern, public FirePatternImpl<FlandreFastOrb1>
 {
 public:
-	static const boost::rational<int> cooldown;
+	static const float cooldown;
 
 	FlandreWideAnglePattern(Agent *const agent);
 
@@ -49,13 +49,13 @@ public:
 
 	virtual string iconPath() const { return "sprites/fire_patterns/rumia_fast_orb.png"; }
 
-	virtual boost::rational<int> getCooldownTime() { return boost::rational<int>(1, 6); }
+	virtual float getCooldownTime() { return 1.0f / 6.0f; }
 };
 
 class RumiaParallelPattern : public MultiBulletParallelPattern, FirePatternImpl<RumiaFastOrb1>
 {
 public:
-	static const boost::rational<int> cooldown;
+	static const float cooldown;
 
 	RumiaParallelPattern(Agent *const agent);
 
@@ -69,7 +69,7 @@ public:
 
 	virtual string iconPath() const { return "sprites/fire_patterns/cirno_large_ice_bullet.png"; }
 
-	virtual boost::rational<int> getCooldownTime() { return 1; }
+	virtual float getCooldownTime() { return 1.0f; }
 };
 
 class CirnoSmallIceBulletPattern : public SingleBulletFixedIntervalPattern, public FirePatternImpl<CirnoSmallIceBullet>
@@ -79,7 +79,7 @@ public:
 
 	virtual string iconPath() const { return "sprites/fire_patterns/cirno_large_ice_bullet.png"; }
 
-	virtual boost::rational<int> getCooldownTime() { return boost::rational<int>(1,4); }
+	virtual float getCooldownTime() { return 0.25f; }
 };
 
 #endif /* PlayerFirePattern_hpp */

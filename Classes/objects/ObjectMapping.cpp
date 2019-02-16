@@ -143,6 +143,7 @@ const unordered_map<string, GObject::AdapterType> GObject::adapters = {
 	entry_same(PowerUpgrade),
 	entry_same(PressurePlate),
 	entry_same(Pyramid),
+	entry_same(RedFairy),
 	entry_same(Reimu),
 	entry_same(Sakuya),
 	entry_same(SakuyaNPC),

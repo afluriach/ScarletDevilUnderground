@@ -24,6 +24,7 @@ enum class Attribute {
 	combo,
 
 	attack,
+	attackSpeed,
 
 	maxHP,
 	maxMP,
@@ -90,6 +91,7 @@ public:
 	void applyElementalDamage(Attribute id, Attribute maxID, float x);
 	bool canApplyAttribute(Attribute id, float x);
 	void modifyAttribute(Attribute id, float x);
+	void setAttribute(Attribute id, float x);
 	void timerDecrement(Attribute id);
 	bool isNonzero(Attribute id);
 	void setProtection();

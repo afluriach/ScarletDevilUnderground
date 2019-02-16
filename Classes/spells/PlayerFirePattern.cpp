@@ -26,7 +26,7 @@ FlandreFastOrbPattern::FlandreFastOrbPattern(Agent *const agent) :
 {
 }
 
-const boost::rational<int> FlandreWideAnglePattern::cooldown = boost::rational<int>(1,4);
+const float FlandreWideAnglePattern::cooldown = 0.25f;
 
 FlandreWideAnglePattern::FlandreWideAnglePattern(Agent *const agent) :
 	MultiBulletSpreadPattern(agent, cooldown, float_pi / 4.0, 3),
@@ -38,7 +38,7 @@ RumiaFastOrbPattern::RumiaFastOrbPattern(Agent *const agent) :
 	FirePattern(agent)
 {}
 
-const boost::rational<int> RumiaParallelPattern::cooldown = boost::rational<int>(1, 6);
+const float RumiaParallelPattern::cooldown = 1.0f / 6.0f;
 
 RumiaParallelPattern::RumiaParallelPattern(Agent *const agent) :
 	MultiBulletParallelPattern(agent, cooldown, 1.0, 3),

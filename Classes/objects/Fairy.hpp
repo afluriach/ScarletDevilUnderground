@@ -63,6 +63,28 @@ public:
 	void follow_path(ai::StateMachine& sm, const ValueMap& args);
 };
 
+class RedFairy :
+	public Enemy,
+	public BaseAttributes<RedFairy>,
+	public RegisterUpdate<RedFairy>
+{
+public:
+	static const AttributeMap baseAttributes;
+
+	RedFairy(GSpace* space, ObjectIDType id, const ValueMap& args);
+
+	void update();
+
+	virtual inline SpaceFloat getRadarRadius() const { return 3.0; }
+	virtual inline SpaceFloat getDefaultFovAngle() const { return 0.0; }
+	inline SpaceFloat getMass() const { return 25.0; }
+
+	inline string imageSpritePath() const { return "sprites/fairy-red.png"; }
+	virtual bool isAgentAnimation() const { return true; }
+	virtual inline int pixelWidth() const { return 512; }
+
+	virtual void initStateMachine(ai::StateMachine& sm);
+};
 
 class GreenFairy :
 	public Enemy,

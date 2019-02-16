@@ -19,7 +19,7 @@ bool FirePattern::fireIfPossible()
 	if (cooldownTimeRemaining <= 0)
 	{
 		fire();
-		cooldownTimeRemaining = getCooldownTime();
+		cooldownTimeRemaining = getCooldownTime() / agent->getAttribute(Attribute::attackSpeed);
 
 		return true;
 	}
@@ -54,7 +54,7 @@ bool SingleBulletFixedIntervalPattern::fire()
 
 RadiusPattern::RadiusPattern(
 	Agent *const agent,
-	boost::rational<int> fireInterval,
+	float fireInterval,
 	int bulletCount
 ) :
 	FirePattern(agent),
@@ -81,7 +81,7 @@ bool RadiusPattern::fire()
 
 MultiBulletSpreadPattern::MultiBulletSpreadPattern(
 	Agent *const agent,
-	boost::rational<int> fireInterval,
+	float fireInterval,
 	SpaceFloat sideAngleSpread,
 	int bulletCount
 ) :
@@ -111,7 +111,7 @@ bool MultiBulletSpreadPattern::fire()
 
 MultiBulletParallelPattern::MultiBulletParallelPattern(
 	Agent *const agent,
-	boost::rational<int> fireInterval,
+	float fireInterval,
 	SpaceFloat bulletSpacing,
 	int bulletCount
 ) :

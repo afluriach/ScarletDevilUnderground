@@ -255,6 +255,11 @@ void timerDecrement(float& x)
 	x = max(x - to_float(App::secondsPerFrame), 0.0f);
 }
 
+void timerDecrement(float& x, float scale)
+{
+	x = max(x - to_float(App::secondsPerFrame*scale), 0.0f);
+}
+
 void timerDecrement(SpaceFloat& x)
 {
 	x = max(x - App::secondsPerFrame, 0.0);

@@ -25,10 +25,10 @@ public:
 	virtual bool fire() = 0;
 	virtual GObject::GeneratorType spawn(SpaceFloat angle) = 0;
 	virtual GObject::GeneratorType spawn(SpaceVect posOffset, SpaceFloat angle) = 0;
-	virtual boost::rational<int> getCooldownTime() = 0;
+	virtual float getCooldownTime() = 0;
 	virtual string iconPath() const = 0;
 protected:
-	boost::rational<int> cooldownTimeRemaining = 0;
+	float cooldownTimeRemaining = 0;
 	Agent * const agent;
 };
 
@@ -73,16 +73,16 @@ class RadiusPattern : virtual public FirePattern
 public:
 	RadiusPattern(
 		Agent *const agent,
-		boost::rational<int> fireInterval,
+		float fireInterval,
 		int bulletCount
 	);
 	virtual inline ~RadiusPattern() {}
 
 	virtual bool fire();
-	inline virtual boost::rational<int> getCooldownTime() { return fireInterval; }
+	inline virtual float getCooldownTime() { return fireInterval; }
 protected:
 	int bulletCount;
-	boost::rational<int> fireInterval;
+	float fireInterval;
 };
 
 class MultiBulletSpreadPattern : virtual public FirePattern
@@ -90,18 +90,18 @@ class MultiBulletSpreadPattern : virtual public FirePattern
 public:
 	MultiBulletSpreadPattern(
 		Agent *const agent,
-		boost::rational<int> fireInterval, 
+		float fireInterval, 
 		SpaceFloat sideAngleSpread,
 		int bulletCount
 	);
 	virtual inline ~MultiBulletSpreadPattern() {}
 
 	virtual bool fire();
-	inline virtual boost::rational<int> getCooldownTime() { return fireInterval; }
+	inline virtual float getCooldownTime() { return fireInterval; }
 protected:
 	SpaceFloat sideAngleSpread;
 	int bulletCount;
-	boost::rational<int> fireInterval;
+	float fireInterval;
 };
 
 class MultiBulletParallelPattern : virtual public FirePattern
@@ -109,18 +109,18 @@ class MultiBulletParallelPattern : virtual public FirePattern
 public:
 	MultiBulletParallelPattern(
 		Agent *const agent,
-		boost::rational<int> fireInterval,
+		float fireInterval,
 		SpaceFloat bulletSpacing,
 		int bulletCount
 	);
 	virtual inline ~MultiBulletParallelPattern() {}
 
 	virtual bool fire();
-	inline virtual boost::rational<int> getCooldownTime() { return fireInterval; }
+	inline virtual float getCooldownTime() { return fireInterval; }
 protected:
 	SpaceFloat bulletSpacing;
 	int bulletCount;
-	boost::rational<int> fireInterval;
+	float fireInterval;
 };
 
 
