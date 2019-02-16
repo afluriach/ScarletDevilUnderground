@@ -411,6 +411,30 @@ private:
 	gobject_ref target;
 };
 
+class LookTowardsFire : public Function {
+public:
+	static constexpr float hitCost = 0.375f;
+	static constexpr float lookThresh = 1.0f;
+	static constexpr float timeCoeff = 0.5f;
+	static constexpr float lookTimeCoeff = 0.125f;
+
+	LookTowardsFire();
+
+	virtual void onEnter(StateMachine& fsm);
+	virtual void update(StateMachine& fsm);
+	virtual void onExit(StateMachine& fsm);
+
+	void onBulletCollide(StateMachine& fsm, Bullet* b);
+
+	virtual bitset<lockCount> getLockMask();
+
+	FuncGetName(LookTowardsFire)
+protected:
+	float hitAccumulator = 0.0f;
+	SpaceVect directionAccumulator;
+	bool looking = false;
+};
+
 class MoveToPoint : public Function{
 public:
 	static const SpaceFloat arrivalMargin;
@@ -437,7 +461,7 @@ public:
 	virtual void update(StateMachine& fsm);
     
     inline virtual bitset<lockCount> getLockMask() {
-        return make_enum_bitfield(ResourceLock::movement);
+        return make_enum_bitfield(ResourceLock::movement) | make_enum_bitfield(ResourceLock::look);
     }
     FuncGetName(FollowPath)
 protected:

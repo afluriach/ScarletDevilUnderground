@@ -1126,6 +1126,57 @@ void AimAtTarget::update(StateMachine& fsm)
 	fsm.agent->setAngle(directionToTarget(fsm.agent, target.get()->getPos()).toAngle());
 }
 
+LookTowardsFire::LookTowardsFire()
+{
+}
+
+void LookTowardsFire::onEnter(StateMachine& fsm)
+{
+	fsm.setBulletHitFunction(bind(&LookTowardsFire::onBulletCollide, this, placeholders::_1, placeholders::_2));
+}
+
+void LookTowardsFire::update(StateMachine& fsm)
+{
+	hitAccumulator -= (looking*lookTimeCoeff + (1-looking)*timeCoeff)* App::secondsPerFrame;
+	hitAccumulator = max(hitAccumulator, 0.0f);
+
+	if (hitAccumulator == 0.0f) {
+		directionAccumulator = SpaceVect::zero;
+		looking = false;
+	}
+	else if (!looking && hitAccumulator >= 1.0f) {
+		fsm.agent->setAngle(directionAccumulator.toAngle());
+		looking = true;
+	}
+
+	if (looking) {
+		applyDesiredVelocity(fsm.agent, SpaceVect::zero, fsm.getAgent()->getMaxAcceleration());
+	}
+}
+
+void LookTowardsFire::onExit(StateMachine& fsm)
+{
+	//should remove the collision handler function here
+}
+
+void LookTowardsFire::onBulletCollide(StateMachine& fsm, Bullet* b)
+{
+	hitAccumulator += hitCost;
+	directionAccumulator += directionToTarget(fsm.agent, b->getPos());
+
+	if (looking) {
+		fsm.agent->setAngle(directionToTarget(fsm.agent, b->getPos()).toAngle());
+	}
+}
+
+bitset<lockCount> LookTowardsFire::getLockMask()
+{
+	return looking ?
+		make_enum_bitfield(ResourceLock::movement) | make_enum_bitfield(ResourceLock::look) :
+		bitset<lockCount>()
+	;
+}
+
 const double MoveToPoint::arrivalMargin = 0.125;
 
 MoveToPoint::MoveToPoint(GSpace* space, const ValueMap& args)

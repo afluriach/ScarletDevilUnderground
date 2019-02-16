@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.0" tiledversion="1.0.3" orientation="orthogonal" renderorder="right-down" width="17" height="17" tilewidth="128" tileheight="128" nextobjectid="74">
+<map version="1.0" tiledversion="1.0.3" orientation="orthogonal" renderorder="right-down" width="17" height="17" tilewidth="128" tileheight="128" nextobjectid="81">
  <tileset firstgid="1" name="wall" tilewidth="128" tileheight="128" tilecount="4" columns="2">
   <image source="fence.png" width="256" height="256"/>
  </tileset>
@@ -24,6 +24,17 @@
    eJxjYWBgYKQQszBQBphGzRi0ZlADDBa/jJpBfTOYKcQgMwAluwCb
   </data>
  </layer>
+ <objectgroup name="paths">
+  <object id="74" name="path-g1-1" x="320" y="1856">
+   <polyline points="0,0 0,-1536 256,-1536 256,0"/>
+  </object>
+  <object id="75" name="path-g1-2" x="832" y="320">
+   <polyline points="0,0 256,0 256,1536 0,1536"/>
+  </object>
+  <object id="76" name="path-g1-3" x="1600" y="320">
+   <polyline points="0,0 0,1536 -256,1536 -256,0"/>
+  </object>
+ </objectgroup>
  <objectgroup name="floor">
   <object id="35" type="GrassFloor" x="0" y="0" width="2176" height="1024"/>
   <object id="42" type="GrassFloor" x="0" y="1152" width="2176" height="1024"/>
@@ -46,6 +57,24 @@
   <object id="71" name="door-g1-west" type="Door" x="0" y="1024" width="128" height="128">
    <properties>
     <property name="dir" value="right"/>
+   </properties>
+  </object>
+  <object id="78" name="g1-bf1" type="BlueFairy" x="256" y="1792" width="128" height="128">
+   <properties>
+    <property name="ai_package" value="follow_path"/>
+    <property name="pathName" value="path-g1-1"/>
+   </properties>
+  </object>
+  <object id="79" name="g1-bf2" type="BlueFairy" x="768" y="256" width="128" height="128">
+   <properties>
+    <property name="ai_package" value="follow_path"/>
+    <property name="pathName" value="path-g1-2"/>
+   </properties>
+  </object>
+  <object id="80" name="g1-bf3" type="BlueFairy" x="1536" y="256" width="128" height="128">
+   <properties>
+    <property name="ai_package" value="follow_path"/>
+    <property name="pathName" value="path-g1-3"/>
    </properties>
   </object>
  </objectgroup>

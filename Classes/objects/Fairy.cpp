@@ -117,6 +117,48 @@ void Fairy1::flock(ai::StateMachine& sm, const ValueMap& args) {
 	);
 }
 
+const AIPackage<BlueFairy>::AIPackageMap BlueFairy::aiPackages = {
+	{ "follow_path", &BlueFairy::follow_path },
+};
+
+const AttributeMap BlueFairy::baseAttributes = {
+	{ Attribute::maxHP, 30.0f },
+	{ Attribute::speed, 3.0f },
+	{ Attribute::acceleration, 4.5f }
+};
+
+BlueFairy::BlueFairy(GSpace* space, ObjectIDType id, const ValueMap& args) :
+	MapObjForwarding(GObject),
+	MapObjForwarding(Agent),
+	AIPackage(this, args, ""),
+	Enemy(collectible_id::power1)
+{
+	firePattern = make_shared<Fairy1BulletPattern>(this, 1.5, float_pi / 6.0, 3);
+}
+
+void BlueFairy::onBulletCollide(Bullet* b)
+{
+	SpaceVect d = ai::directionToTarget(this, b->getPos());
+	SpaceVect v = SpaceVect::ray(1.0, getAngle());
+
+	if (SpaceVect::dot(d, v) < boost::math::double_constants::one_div_root_two) {
+		hit(AttributeSystem::scale(b->getAttributeEffect(), b->agentAttackMultiplier), b->getMagicEffect(this));
+	}
+
+	fsm.onBulletHit(b);
+}
+
+void BlueFairy::follow_path(ai::StateMachine& sm, const ValueMap& args)
+{
+	const Path* p = space->getPath(getStringOrDefault(args, "pathName", ""));
+
+	if (p) {
+		sm.addThread(make_shared<ai::FollowPath>(*p, true), 1);
+	}
+
+	sm.addThread(make_shared<ai::LookTowardsFire>(), 2);
+}
+
 const AttributeMap GreenFairy::baseAttributes = {
 	{ Attribute::maxHP, 30.0f },
 	{ Attribute::speed, 3.0f },

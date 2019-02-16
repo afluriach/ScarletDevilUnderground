@@ -27,8 +27,7 @@ public:
 
 	virtual inline SpaceFloat getRadarRadius() const { return 6.0; }
 	virtual inline SpaceFloat getDefaultFovAngle() const { return 0.0; }
-
-	inline SpaceFloat getMass() const { return 40.0; }
+	virtual inline SpaceFloat getMass() const { return 40.0; }
 
 	inline string imageSpritePath() const { return "sprites/fairy-green.png"; }
 	virtual bool isAgentAnimation() const { return true; }
@@ -39,6 +38,31 @@ public:
 	void circle_around_point(ai::StateMachine& sm, const ValueMap& args);
 	void flock(ai::StateMachine& sm, const ValueMap& args);
 };
+
+class BlueFairy :
+	public Enemy,
+	public AIPackage<BlueFairy>,
+	public BaseAttributes<BlueFairy>
+{
+public:
+	static const AIPackage<BlueFairy>::AIPackageMap aiPackages;
+	static const AttributeMap baseAttributes;
+
+	BlueFairy(GSpace* space, ObjectIDType id, const ValueMap& args);
+
+	virtual void onBulletCollide(Bullet* b);
+
+	virtual inline SpaceFloat getRadarRadius() const { return 5.0; }
+	virtual inline SpaceFloat getDefaultFovAngle() const { return 0.0; }
+	virtual inline SpaceFloat getMass() const { return 25.0; }
+
+	inline string imageSpritePath() const { return "sprites/fairy-blue.png"; }
+	virtual bool isAgentAnimation() const { return true; }
+	virtual inline int pixelWidth() const { return 512; }
+
+	void follow_path(ai::StateMachine& sm, const ValueMap& args);
+};
+
 
 class GreenFairy :
 	public Enemy,

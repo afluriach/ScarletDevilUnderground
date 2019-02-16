@@ -101,6 +101,7 @@ GObject::AdapterType collectibleAdapter(collectible_id id)
 
 const unordered_map<string, GObject::AdapterType> GObject::adapters = {
 	entry_same(AgilityUpgrade),
+	entry_same(BlueFairy),
 	entry_same(BreakableWall),
 	entry_same(CollectGlyph),
 	entry_same(CollectMarisa),
