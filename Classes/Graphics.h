@@ -165,6 +165,7 @@ ActionGeneratorType flickerTintAction(float interval, float length, Color3B tint
 ActionGeneratorType tintToAction(Color3B tint, float length);
 ActionGeneratorType motionBlurStretch(float duration, float angle, float opacity, float scale);
 ActionGeneratorType pitfallShrinkAction();
+ActionGeneratorType bombAnimationAction(float expand_ratio);
 ActionGeneratorType freezeEffectAction();
 ActionGeneratorType freezeEffectEndAction();
 ActionGeneratorType objectFadeOut(float duration, unsigned char targetOpacity);

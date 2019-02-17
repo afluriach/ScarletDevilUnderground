@@ -310,11 +310,29 @@ ActionGeneratorType tintToAction(Color3B tint, float length)
 	};
 }
 
-
 ActionGeneratorType pitfallShrinkAction()
 {
 	return []() -> FiniteTimeAction* {
 		return ScaleTo::create(fallAnimationTime, 0.0f);
+	};
+}
+
+ActionGeneratorType bombAnimationAction(float expand_ratio)
+{
+	return [expand_ratio]() -> FiniteTimeAction* {
+
+		FadeTo* fade = FadeTo::create(0.0f, 64);
+		ScaleTo* expand = ScaleTo::create(0.125f, expand_ratio);
+
+		Sequence* flicker = Sequence::createWithTwoActions(FadeTo::create(0.125f, 0), FadeTo::create(0.125f, 64));
+		Repeat* loop = Repeat::create(flicker, 4);
+
+		return Sequence::create(
+			fade,
+			expand,
+			loop,
+			nullptr
+		);
 	};
 }
 

@@ -61,7 +61,7 @@ public:
 
 	virtual SpaceFloat getFuseTime() const { return 3.0; }
 	virtual SpaceFloat getRadius() const { return 0.5; }
-	virtual SpaceFloat getBlastRadius() const { return 6.0; }
+	virtual SpaceFloat getBlastRadius() const { return 4.0; }
 };
 
 #endif /* Bomb_hpp */

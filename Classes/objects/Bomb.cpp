@@ -49,7 +49,7 @@ void Bomb::detonate()
 	for (Agent* target : targets)
 	{
 		float scale = getScale(target);
-		SpaceFloat knockback = baseEffect.at(Attribute::hp) * -2.0f * scale;
+		SpaceFloat knockback = baseEffect.at(Attribute::hp) * -5.0f * scale;
 
 		if (target->getType() == GType::player) {
 			target->hit({ {Attribute::hp, -1.0f} }, getMagicEffect(target));
@@ -66,7 +66,7 @@ void Bomb::detonate()
 		}
 	}
 
-	space->removeObject(this);
+	space->removeObjectWithAnimation(this, bombAnimationAction(getBlastRadius() / getRadius()));
 }
 
 float Bomb::getScale(const GObject* target)
