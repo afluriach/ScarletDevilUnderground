@@ -1507,6 +1507,9 @@ int GSpace::environmentAreaSensorEnd(GObject* areaSensor, GObject* obj)
 
 //BEGIN SENSORS
 
+const GType GSpace::interactibleObjects = enum_bitwise_or(GType, npc, environment);
+const GType GSpace::obstacles = enum_bitwise_or5(GType, wall, enemy, environment, npc, player);
+
 struct FeelerData
 {
 	//input data
@@ -1615,7 +1618,7 @@ SpaceFloat GSpace::obstacleDistanceFeeler(const GObject * agent, SpaceVect _feel
 	SpaceFloat d = distanceFeeler(
 		agent,
 		_feeler,
-		enum_bitwise_or3(GType, wall, enemy, environment),
+		obstacles,
 		agent->getCrntLayers()
 	);
 
@@ -1632,7 +1635,7 @@ SpaceFloat GSpace::obstacleDistanceFeeler(const GObject * agent, SpaceVect feele
 		agent,
 		center,
 		dimensions,
-		enum_bitwise_or3(GType, wall, enemy, environment),
+		obstacles,
 		PhysicsLayers::all,
 		feeler.toAngle()
 	);
@@ -1675,12 +1678,17 @@ bool GSpace::wallFeeler(const GObject * agent, SpaceVect _feeler) const
     return feeler(agent, _feeler, GType::wall);
 }
 
+bool GSpace::obstacleFeeler(const GObject * agent, SpaceVect feeler, SpaceFloat width) const
+{
+	return obstacleDistanceFeeler(agent, feeler, width) < feeler.length();
+}
+
 bool GSpace::obstacleFeeler(const GObject * agent, SpaceVect _feeler) const
 {
 	return feeler(
 		agent,
 		_feeler,
-		enum_bitwise_or5(GType, wall, enemy, environment, npc, player),
+		obstacles,
 		agent->getCrntLayers()
 	);
 }
@@ -1690,7 +1698,7 @@ InteractibleObject* GSpace::interactibleObjectFeeler(const GObject* agent, Space
 	GObject* obj = objectFeeler(
 		agent,
 		feeler,
-		enum_bitwise_or3(GType,enemy, npc, environment),
+		interactibleObjects,
 		agent->getCrntLayers()
 	);
 

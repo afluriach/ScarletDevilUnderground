@@ -153,7 +153,7 @@ void BlueFairy::follow_path(ai::StateMachine& sm, const ValueMap& args)
 	const Path* p = space->getPath(getStringOrDefault(args, "pathName", ""));
 
 	if (p) {
-		sm.addThread(make_shared<ai::FollowPath>(*p, true), 1);
+		sm.addThread(make_shared<ai::FollowPath>(*p, true, true), 1);
 	}
 
 	sm.addThread(make_shared<ai::LookTowardsFire>(), 2);

@@ -32,5 +32,5 @@ void SakuyaNPC1::onEnter(ai::StateMachine& sm)
 void SakuyaNPC1::update(ai::StateMachine& sm)
 {
 	const Path* path = sm.agent->space->getPath("sakuya1_path");
-	sm.push(make_shared<ai::FollowPath>(*path, true));
+	sm.push(make_shared<ai::FollowPath>(*path, true, true));
 }

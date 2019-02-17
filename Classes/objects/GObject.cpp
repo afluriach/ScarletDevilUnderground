@@ -162,15 +162,15 @@ void GObject::setPos(SpaceVect p){
 }
     
 void GObject::setAngle(SpaceFloat a){
-	cpBodySetAngle(body, a);
+	cpBodySetAngle(body, canonicalAngle(a));
 }
     
 SpaceFloat GObject::getAngle() const {
-    return cpBodyGetAngle(body);
+    return canonicalAngle(cpBodyGetAngle(body));
 }
 
 void GObject::rotate(SpaceFloat a){
-    setAngle(canonicalAngle(getAngle() + a) );
+    setAngle(getAngle() + a );
 }
     
 SpaceVect GObject::getFacingVector() const{

@@ -32,7 +32,7 @@ void arrive(GObject* agent, SpaceVect target);
 SpaceVect fleeDirection(const GObject* agent, SpaceVect target);
 void flee(GObject* agent, SpaceVect target, SpaceFloat maxSpeed, SpaceFloat acceleration);
 void fleeWithObstacleAvoidance(GObject* agent, SpaceVect target, SpaceFloat maxSpeed, SpaceFloat acceleration);
-bool moveToPoint(GObject* agent, SpaceVect target, SpaceFloat arrivalMargin);
+bool moveToPoint(GObject* agent, SpaceVect target, SpaceFloat arrivalMargin, bool stopForObstacle);
 
 bool isFacingTarget(const GObject* agent, const GObject* target);
 bool isFacingTargetsBack(const GObject* agent, const GObject* target);
@@ -456,7 +456,7 @@ public:
 	static shared_ptr<FollowPath> pathToTarget(GSpace* space, gobject_ref agent, gobject_ref target);
 
 	FollowPath(GSpace* space, const ValueMap& args);
-	FollowPath(Path path, bool loop);
+	FollowPath(Path path, bool loop, bool stopForObstacle);
 
 	virtual void update(StateMachine& fsm);
     
@@ -468,6 +468,7 @@ protected:
 	Path path;
 	size_t currentTarget = 0;
 	bool loop = false;
+	bool stopForObstacle = false;
 };
 
 class PathToTarget : public FollowPath {

@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.0" tiledversion="1.0.3" orientation="orthogonal" renderorder="right-down" width="17" height="9" tilewidth="128" tileheight="128" nextobjectid="13">
+<map version="1.0" tiledversion="1.0.3" orientation="orthogonal" renderorder="right-down" width="17" height="9" tilewidth="128" tileheight="128" nextobjectid="20">
  <tileset firstgid="1" name="scarlet carpet texture" tilewidth="128" tileheight="128" tilecount="1" columns="1">
   <image source="scarlet carpet texture.png" width="128" height="128"/>
  </tileset>
@@ -11,16 +11,31 @@
    eJxjZGBgYBzFo5iGGAC6eACa
   </data>
  </layer>
- <layer name="wall" width="17" height="9">
+ <layer name="wall_tiles" width="17" height="9">
   <data encoding="base64" compression="zlib">
-   eJxjYmBgYKICpgSMmjG4zSAmzvGpAwB1DABb
+   eJxjYmBgYKICpgSMmjG4zSAU74TUAAB1nABf
   </data>
  </layer>
+ <objectgroup name="walls">
+  <object id="14" x="0" y="0" width="128" height="1152"/>
+  <object id="15" x="128" y="1024" width="896" height="128"/>
+  <object id="16" x="1152" y="1024" width="1024" height="128"/>
+  <object id="17" x="2048" y="128" width="128" height="896"/>
+  <object id="18" x="128" y="0" width="2048" height="128"/>
+ </objectgroup>
  <objectgroup name="objects">
+  <properties>
+   <property name="dir" value="up"/>
+  </properties>
   <object id="11" type="Desk" x="1920" y="384" width="128" height="384"/>
   <object id="12" name="player" type="Player" x="1536" y="512" width="128" height="128">
    <properties>
     <property name="direction" value="right"/>
+   </properties>
+  </object>
+  <object id="19" name="door-m3" type="Door" x="1024" y="1024" width="128" height="128">
+   <properties>
+    <property name="dir" value="up"/>
    </properties>
   </object>
  </objectgroup>

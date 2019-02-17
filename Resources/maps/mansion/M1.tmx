@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.0" tiledversion="1.0.3" orientation="orthogonal" renderorder="right-down" width="17" height="9" tilewidth="128" tileheight="128" nextobjectid="9">
+<map version="1.0" tiledversion="1.0.3" orientation="orthogonal" renderorder="right-down" width="17" height="9" tilewidth="128" tileheight="128" nextobjectid="15">
  <tileset firstgid="1" name="scarlet carpet texture" tilewidth="128" tileheight="128" tilecount="1" columns="1">
   <image source="scarlet carpet texture.png" width="128" height="128"/>
  </tileset>
@@ -11,10 +11,18 @@
    eJxjZGBgYBzFo5iGGAC6eACa
   </data>
  </layer>
- <layer name="wall" width="17" height="9">
+ <layer name="wall_tiles" width="17" height="9">
   <data encoding="base64" compression="zlib">
    eJxjYmBgYKICpgRQy4zhBAZLmFIDAwBndABV
   </data>
  </layer>
+ <objectgroup name="walls">
+  <object id="9" x="0" y="0" width="128" height="384"/>
+  <object id="10" x="0" y="768" width="128" height="384"/>
+  <object id="11" x="2048" y="768" width="128" height="384"/>
+  <object id="12" x="2048" y="0" width="128" height="384"/>
+  <object id="13" x="128" y="0" width="1920" height="128"/>
+  <object id="14" x="128" y="1024" width="1920" height="128"/>
+ </objectgroup>
  <objectgroup name="objects"/>
 </map>

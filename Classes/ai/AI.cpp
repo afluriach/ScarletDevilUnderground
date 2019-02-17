@@ -235,12 +235,16 @@ void arrive(GObject* agent, SpaceVect target)
 	applyDesiredVelocity(agent, SpaceVect::zero, accelMag);
 }
 
-bool moveToPoint(GObject* agent, SpaceVect target, SpaceFloat arrivalMargin)
+bool moveToPoint(GObject* agent, SpaceVect target, SpaceFloat arrivalMargin, bool stopForObstacle)
 {
 	SpaceFloat dist2 = (agent->getPos() - target).lengthSq();
 	SpaceFloat stoppingDist = getStoppingDistance(agent->getVel().length(), agent->getMaxAcceleration());
 
-	if (dist2 < arrivalMargin*arrivalMargin) {
+	if (stopForObstacle && agent->space->obstacleFeeler(agent, SpaceVect::ray(stoppingDist+0.5, agent->getAngle()), agent->getRadius()*2.0)) {
+		applyDesiredVelocity(agent, SpaceVect::zero, agent->getMaxAcceleration());
+		return false;
+	}
+	else if (dist2 < arrivalMargin*arrivalMargin) {
 		return true;
 	}
 	else if (dist2 <= stoppingDist*stoppingDist) {
@@ -1161,11 +1165,12 @@ void LookTowardsFire::onExit(StateMachine& fsm)
 
 void LookTowardsFire::onBulletCollide(StateMachine& fsm, Bullet* b)
 {
+	SpaceVect bulletDirection = b->getVel().normalize().rotate(float_pi);
 	hitAccumulator += hitCost;
-	directionAccumulator += directionToTarget(fsm.agent, b->getPos());
+	directionAccumulator += bulletDirection;
 
 	if (looking) {
-		fsm.agent->setAngle(directionToTarget(fsm.agent, b->getPos()).toAngle());
+		fsm.agent->setAngle(bulletDirection.toAngle());
 	}
 }
 
@@ -1215,7 +1220,7 @@ MoveToPoint::MoveToPoint(SpaceVect target) :
 
 void MoveToPoint::update(StateMachine& fsm)
 {
-	bool arrived = moveToPoint(fsm.agent, target, arrivalMargin);
+	bool arrived = moveToPoint(fsm.agent, target, arrivalMargin, false);
 	
 	if (arrived) {
 		fsm.pop();
@@ -1233,13 +1238,15 @@ shared_ptr<FollowPath> FollowPath::pathToTarget(GSpace* space, gobject_ref agent
 			toIntVector(agent.get()->getPos()),
 			toIntVector(target.get()->getPos())
 		),
+		false,
 		false
 	);
 }
 
-FollowPath::FollowPath(Path path, bool loop) :
+FollowPath::FollowPath(Path path, bool loop, bool stopForObstacle) :
 	path(path),
-	loop(loop)
+	loop(loop),
+	stopForObstacle(stopForObstacle)
 {}
 
 FollowPath::FollowPath(GSpace* space, const ValueMap& args)
@@ -1269,7 +1276,7 @@ void FollowPath::update(StateMachine&  fsm)
 {
 	if (currentTarget < path.size()) {
 		fsm.agent->setDirection(toDirection(ai::directionToTarget(fsm.agent, path[currentTarget])));
-		bool arrived = moveToPoint(fsm.agent, path[currentTarget], MoveToPoint::arrivalMargin);
+		bool arrived = moveToPoint(fsm.agent, path[currentTarget], MoveToPoint::arrivalMargin, stopForObstacle);
 		currentTarget += arrived;
 	}
 	else if (loop && path.size() > 0) {
@@ -1291,7 +1298,7 @@ shared_ptr<PathToTarget> PathToTarget::create(GObject* agent, GObject* target)
 }
 
 PathToTarget::PathToTarget(Path path, gobject_ref target) :
-	FollowPath(path, false),
+	FollowPath(path, false, false),
 	target(target)
 {
 }
