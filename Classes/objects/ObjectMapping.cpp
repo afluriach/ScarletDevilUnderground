@@ -37,6 +37,7 @@
 #include "Sakuya.hpp"
 #include "SakuyaNPC.hpp"
 #include "Scorpion.hpp"
+#include "Sign.hpp"
 #include "Slime.hpp"
 #include "Spawner.hpp"
 #include "Stalker.hpp"
@@ -151,6 +152,7 @@ const unordered_map<string, GObject::AdapterType> GObject::adapters = {
 	entry_same(SandFloor),
 	entry_same(Scorpion1),
 	entry_same(Scorpion2),
+	entry_same(Sign),
 	entry_same(Slime1),
 	entry_same(Slime2),
 	entry_same(Spawner),

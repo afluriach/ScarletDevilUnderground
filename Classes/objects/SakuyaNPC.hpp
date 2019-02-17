@@ -11,7 +11,7 @@
 
 #include "Agent.hpp"
 
-class SakuyaNPC : virtual public Agent, public BaseAttributes<SakuyaNPC>
+class SakuyaNPC : virtual public Agent, public BaseAttributes<SakuyaNPC>, public DialogEntity
 {
 public:
 	static const AttributeMap baseAttributes;
@@ -28,6 +28,9 @@ public:
     inline string imageSpritePath() const {return "sprites/sakuya.png";}
 
 	virtual void initStateMachine(ai::StateMachine& sm);
+
+	inline virtual bool isDialogAvailable() { return true; }
+	inline virtual string getDialog() { return "dialogs/sakuya1"; }
 };
 
 class SakuyaNPC1 : public ai::Function {

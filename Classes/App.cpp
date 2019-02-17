@@ -4,10 +4,11 @@
 #include "controls.h"
 #include "FileIO.hpp"
 #include "functional.hpp"
+#include "GState.hpp"
 #include "macros.h"
 #include "Mansion.hpp"
 #include "menu_scenes.h"
-#include "GState.hpp"
+#include "OpeningScene.hpp"
 #include "scenes.h"
 #include "util.h"
 
@@ -313,7 +314,7 @@ void App::runTitleScene()
 
 void App::runOverworldScene()
 {
-	createAndRunScene<Mansion>();
+	createAndRunScene<OpeningScene>();
 }
 
 GScene* App::getCrntScene()

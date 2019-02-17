@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.0" tiledversion="1.0.3" orientation="orthogonal" renderorder="right-down" width="17" height="9" tilewidth="128" tileheight="128" nextobjectid="15">
+<map version="1.0" tiledversion="1.0.3" orientation="orthogonal" renderorder="right-down" width="17" height="9" tilewidth="128" tileheight="128" nextobjectid="16">
  <tileset firstgid="1" name="scarlet carpet texture" tilewidth="128" tileheight="128" tilecount="1" columns="1">
   <image source="scarlet carpet texture.png" width="128" height="128"/>
  </tileset>
@@ -24,5 +24,10 @@
  <objectgroup name="objects">
   <object id="12" name="d4" type="Door" x="896" y="1024" width="384" height="128"/>
   <object id="14" name="sakuya" type="SakuyaNPC" x="1792" y="256" width="128" height="128"/>
+  <object id="15" type="Sign" x="1280" y="128" width="128" height="128">
+   <properties>
+    <property name="dialog" value="sign_flans_room"/>
+   </properties>
+  </object>
  </objectgroup>
 </map>

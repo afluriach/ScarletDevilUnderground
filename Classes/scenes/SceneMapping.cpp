@@ -19,6 +19,7 @@
 #include "Mansion.hpp"
 #include "menu_scenes.h"
 #include "Mine.hpp"
+#include "OpeningScene.hpp"
 #include "PlayScene.hpp"
 
 #define entry(name,cls) {name, adapter<cls>()}
@@ -61,6 +62,7 @@ const unordered_map<string, GScene::AdapterType> GScene::adapters = {
 	entry_same(Mansion),
 	PlaySceneMapName(MarisaRoom),
 	entry_same(Mine),
+	entry_same(OpeningScene),
 	PlaySceneMapName(SakuyaRoom),
 	PlaySceneMapName(StalkerRoom),
 	entry_same(TitleMenuScene),

@@ -198,6 +198,7 @@ xcopy "$(ProjectDir)..\Resources" "$(OutDir)" /D /E /I /F /Y</Command>
     <ClCompile Include="..\Classes\objects\Sakuya.cpp" />
     <ClCompile Include="..\Classes\objects\SakuyaNPC.cpp" />
     <ClCompile Include="..\Classes\objects\Scorpion.cpp" />
+    <ClCompile Include="..\Classes\objects\Sign.cpp" />
     <ClCompile Include="..\Classes\objects\Slime.cpp" />
     <ClCompile Include="..\Classes\objects\Spawner.cpp" />
     <ClCompile Include="..\Classes\objects\Stalker.cpp" />
@@ -220,6 +221,7 @@ xcopy "$(ProjectDir)..\Resources" "$(OutDir)" /D /E /I /F /Y</Command>
     <ClCompile Include="..\Classes\scenes\Mansion.cpp" />
     <ClCompile Include="..\Classes\scenes\menu_scenes.cpp" />
     <ClCompile Include="..\Classes\scenes\Mine.cpp" />
+    <ClCompile Include="..\Classes\scenes\OpeningScene.cpp" />
     <ClCompile Include="..\Classes\scenes\PlayScene.cpp" />
     <ClCompile Include="..\Classes\scenes\SceneMapping.cpp" />
     <ClCompile Include="..\Classes\scenes\scenes.cpp" />
@@ -296,6 +298,7 @@ xcopy "$(ProjectDir)..\Resources" "$(OutDir)" /D /E /I /F /Y</Command>
     <ClInclude Include="..\Classes\objects\Sakuya.hpp" />
     <ClInclude Include="..\Classes\objects\SakuyaNPC.hpp" />
     <ClInclude Include="..\Classes\objects\Scorpion.hpp" />
+    <ClInclude Include="..\Classes\objects\Sign.hpp" />
     <ClInclude Include="..\Classes\objects\Slime.hpp" />
     <ClInclude Include="..\Classes\objects\Spawner.hpp" />
     <ClInclude Include="..\Classes\objects\Stalker.hpp" />
@@ -316,6 +319,7 @@ xcopy "$(ProjectDir)..\Resources" "$(OutDir)" /D /E /I /F /Y</Command>
     <ClInclude Include="..\Classes\scenes\Mansion.hpp" />
     <ClInclude Include="..\Classes\scenes\menu_scenes.h" />
     <ClInclude Include="..\Classes\scenes\Mine.hpp" />
+    <ClInclude Include="..\Classes\scenes\OpeningScene.hpp" />
     <ClInclude Include="..\Classes\scenes\PlayScene.hpp" />
     <ClInclude Include="..\Classes\scenes\scenes.h" />
     <ClInclude Include="..\Classes\scenes\SceneUtil.h" />
