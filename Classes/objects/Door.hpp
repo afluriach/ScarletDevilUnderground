@@ -68,6 +68,7 @@ protected:
 	door_type doorType;
 	bool sealed = false;
 	bool locked = false;
+	bool stairs = false;
 };
 
 class Barrier :

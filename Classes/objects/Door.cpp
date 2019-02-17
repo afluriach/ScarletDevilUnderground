@@ -20,6 +20,7 @@ Door::Door(GSpace* space, ObjectIDType id, const ValueMap& args) :
 	RegisterInit<Door>(this)
 {
 	locked = getBoolOrDefault(args, "locked", false);
+	stairs = getBoolOrDefault(args, "stairs", false);
 	entryDirection = stringToDirection(getStringOrDefault(args, "dir", "none"));
 	destination = getStringOrDefault(args, "dest", "");
 	
@@ -59,7 +60,9 @@ void Door::init()
 	if ((doorType == door_type::one_way_destination || doorType == door_type::one_way_source) && adjacent.isValid()) {
 		space->setSpriteTexture(spriteID, "sprites/door_oneway_" + getDoorDirection() + ".png");
 	}
-
+	else if (stairs) {
+		space->setSpriteTexture(spriteID, "sprites/stairs.png" );
+	}
 }
 
 PhysicsLayers Door::getLayers() const{
@@ -107,7 +110,12 @@ void Door::interact()
 
 string Door::interactionIcon()
 {
-	return locked ? "sprites/key.png" : "sprites/door.png";
+	if (stairs)
+		return "sprites/stairs.png";
+	else if (locked)
+		return "sprites/key.png";
+	else
+		return "sprites/door.png";
 }
 
 void Door::activate()

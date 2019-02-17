@@ -237,11 +237,14 @@ void arrive(GObject* agent, SpaceVect target)
 
 bool moveToPoint(GObject* agent, SpaceVect target, SpaceFloat arrivalMargin, bool stopForObstacle)
 {
+	SpaceFloat _accel = agent->getMaxAcceleration();
 	SpaceFloat dist2 = (agent->getPos() - target).lengthSq();
-	SpaceFloat stoppingDist = getStoppingDistance(agent->getVel().length(), agent->getMaxAcceleration());
+	SpaceFloat stoppingDist = getStoppingDistance(agent->getVel().length(), _accel);
+	SpaceFloat radius = agent->getRadius();
+	SpaceFloat angle = agent->getAngle();
 
-	if (stopForObstacle && agent->space->obstacleFeeler(agent, SpaceVect::ray(stoppingDist+0.5, agent->getAngle()), agent->getRadius()*2.0)) {
-		applyDesiredVelocity(agent, SpaceVect::zero, agent->getMaxAcceleration());
+	if (stopForObstacle && agent->space->obstacleFeeler(agent, SpaceVect::ray(stoppingDist+radius, angle), radius*2.0)) {
+		applyDesiredVelocity(agent, SpaceVect::zero, _accel);
 		return false;
 	}
 	else if (dist2 < arrivalMargin*arrivalMargin) {
@@ -252,7 +255,7 @@ bool moveToPoint(GObject* agent, SpaceVect target, SpaceFloat arrivalMargin, boo
 		return false;
 	}
 	else {
-		seek(agent, target, agent->getMaxSpeed(), agent->getMaxAcceleration());
+		seek(agent, target, agent->getMaxSpeed(), _accel);
 		return false;
 	}
 }

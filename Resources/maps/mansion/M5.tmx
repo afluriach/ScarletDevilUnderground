@@ -20,6 +20,7 @@
   <object id="12" name="door-m5" type="Door" x="1024" y="0" width="128" height="128">
    <properties>
     <property name="dir" value="down"/>
+    <property name="stairs" value="true"/>
    </properties>
   </object>
  </objectgroup>

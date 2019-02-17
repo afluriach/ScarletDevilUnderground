@@ -532,6 +532,7 @@ void HUD::setMansionMode(bool val)
 	health->setVisible(!val);
 	magic->setVisible(!val);
 	power->setVisible(!val);
+	keyMeter->setVisible(!val);
 
 	firePatternIcon->setVisible(!val);
 }

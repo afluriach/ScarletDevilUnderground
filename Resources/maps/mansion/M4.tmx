@@ -25,6 +25,7 @@
   <object id="12" name="door-m4-south" type="Door" x="1024" y="1024" width="128" height="128">
    <properties>
     <property name="dir" value="up"/>
+    <property name="stairs" value="true"/>
    </properties>
   </object>
   <object id="14" name="sakuya" type="SakuyaNPC" x="1792" y="256" width="128" height="128"/>
