@@ -141,7 +141,7 @@ void PlayScene::enterPause()
 		this_thread::sleep_for(chrono::duration<int, milli>(1));
 	}
 
-	pauseMenu = Node::ccCreate<PauseMenu>(gspace->getObjectAs<Player>("player"));
+	pauseMenu = Node::ccCreate<PauseMenu>(isOverworld, gspace->getObjectAs<Player>("player"));
 	pushMenu(pauseMenu);
 }
 

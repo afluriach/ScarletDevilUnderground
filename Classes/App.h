@@ -68,6 +68,7 @@ public:
 	//Methods for controlling the active scene; wraps calls to Director.
 	static void runTitleScene();
 	static void runOverworldScene();
+	static void runOpeningScene();
 	static void restartScene();
 	static GScene* getCrntScene();
 	static void resumeScene();
@@ -83,6 +84,7 @@ public:
 	}
 
 	static bool loadProfile(const string& name);
+	static bool saveCrntProfile();
 	static bool saveProfile(const string& name);
 
 #if USE_TIMERS
@@ -108,6 +110,7 @@ public:
     //globals exposed by app
     static unique_ptr<ControlRegister> control_register;
 	static unique_ptr<GState> crntState;
+	static string crntProfileName;
     static unique_ptr<Lua::Inst> lua;
 #if USE_TIMERS
 	static unique_ptr<TimerSystem> timerSystem;

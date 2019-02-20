@@ -87,16 +87,18 @@ protected:
 	static void back();
 };
 
-class PauseMenu : public TextListMenuImpl<PauseMenu>
+class PauseMenu : public TextListMenuLayer
 {
 public:
 	static const string title;
-	static const vector<string> entries;
-	static const vector<listAction> entryActions;
+	static const vector<string> overworldEntries;
+	static const vector<listAction> overworldEntryActions;
+	static const vector<string> chamberEntries;
+	static const vector<listAction> chamberEntryActions;
 
 	static void worldSelect();
 
-	PauseMenu(Player* player);
+	PauseMenu(bool overworld, Player* player);
 protected:
 	Player * player;
 };

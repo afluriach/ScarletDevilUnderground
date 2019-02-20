@@ -36,6 +36,7 @@ PlayScene("Mansion", rooms)
 
 void Mansion::initHUD()
 {
+	setIsOverworld(true);
 	hud->setMansionMode(true);
 
 	gspace->addObjectAction([=]()->void {

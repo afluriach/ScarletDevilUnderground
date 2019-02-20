@@ -42,7 +42,7 @@ const vector<string> TitleMenu::entries = {
 };
 
 const vector <TextListMenuLayer::listAction > TitleMenu::entryActions = {
-	&App::runOverworldScene,
+	&App::runOpeningScene,
 	loadGame,
 	sceneSelect,
 	worldSelect,
@@ -268,21 +268,38 @@ void CharacterSelect::back()
 
 const string PauseMenu::title = "-PAUSED-";
 
-const vector<string> PauseMenu::entries = {
+const vector<string> PauseMenu::overworldEntries = {
 	"Resume",
-	"Restart",
-	"World Select",
+	"Dream World Select",
+	"Save",
 	"Exit to title"
 };
 
-const vector<TextListMenuLayer::listAction> PauseMenu::entryActions = {
+const vector<TextListMenuLayer::listAction> PauseMenu::overworldEntryActions = {
 	&App::resumeScene,
-	&App::restartScene,
 	&PauseMenu::worldSelect,
+	&App::saveCrntProfile,
 	&App::runTitleScene
 };
 
-PauseMenu::PauseMenu(Player* player) :
+const vector<string> PauseMenu::chamberEntries = {
+	"Resume",
+	"Restart",
+	"Exit to Overworld"
+};
+
+const vector<TextListMenuLayer::listAction> PauseMenu::chamberEntryActions = {
+	&App::resumeScene,
+	&App::restartScene,
+	&App::runOverworldScene
+};
+
+PauseMenu::PauseMenu(bool overworld, Player* player) :
+	TextListMenuLayer(
+		title,
+		overworld ? overworldEntries : chamberEntries,
+		overworld ? overworldEntryActions : chamberEntryActions
+	),
 	player(player)
 {
 	PlayerInfo* info = Node::ccCreate<PlayerInfo>(&player->getAttributeSystem());

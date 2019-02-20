@@ -34,6 +34,7 @@ boost::rational<int> App::secondsPerFrameRational(1,App::framesPerSecond);
 
 unique_ptr<ControlRegister> App::control_register;
 unique_ptr<GState> App::crntState;
+string App::crntProfileName;
 unique_ptr<Lua::Inst> App::lua;
 PlayerCharacter App::crntPC = PlayerCharacter::flandre;
 
@@ -312,9 +313,14 @@ void App::runTitleScene()
 	createAndRunScene<TitleMenuScene>();
 }
 
-void App::runOverworldScene()
+void App::runOpeningScene()
 {
 	createAndRunScene<OpeningScene>();
+}
+
+void App::runOverworldScene()
+{
+	createAndRunScene<Mansion>();
 }
 
 GScene* App::getCrntScene()
@@ -360,6 +366,7 @@ bool App::loadProfile(const string& name)
 			boost::archive::binary_iarchive ia(ifs);
 			crntState = make_unique<GState>();
 			ia >> *crntState;
+			crntProfileName = name;
 			log("Profile %s loaded.", profilePath.c_str());
 			return true;
 		}
@@ -368,6 +375,11 @@ bool App::loadProfile(const string& name)
 			return false;
 		}
 	}
+}
+
+bool App::saveCrntProfile()
+{
+	return saveProfile(crntProfileName);
 }
 
 bool App::saveProfile(const string& name)

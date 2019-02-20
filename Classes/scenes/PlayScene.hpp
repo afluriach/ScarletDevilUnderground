@@ -63,6 +63,8 @@ public:
 
 	virtual GScene* getReplacementScene();
 
+	inline void setIsOverworld(bool val) { isOverworld = val; }
+
     HUD* hud = nullptr;
 	PauseMenu* pauseMenu = nullptr;
 	MapMenu* mapMenu = nullptr;
@@ -77,6 +79,7 @@ private:
 	unique_ptr<ControlReplay> controlReplay;
 	bool isRunningReplay = false;
 	bool isShowingMenu = false;
+	bool isOverworld = false;
 };
 
 template<typename...Args>
