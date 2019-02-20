@@ -81,6 +81,34 @@ public:
 	virtual AttributeMap getAttributeEffect() const;
 };
 
+class FlandrePolarMotionOrb :
+	virtual public GObject,
+	public PlayerBullet,
+	public CircleBody,
+	public ImageSprite,
+	public DirectionalLaunch,
+	public RadialLightObject,
+	public RegisterUpdate<FlandrePolarMotionOrb>
+{
+public:
+	FlandrePolarMotionOrb(GSpace* space, ObjectIDType id, Agent* agent, SpaceFloat angle, const SpaceVect& pos);
+
+	void update();
+
+	virtual inline CircleLightArea getLightSource() const { return CircleLightArea{ getPos(), 2.0, Color4F::RED*0.5f, 0.0 }; }
+
+	virtual inline SpaceFloat getMass() const { return 1.0; }
+	virtual inline SpaceFloat getMaxSpeed() const { return 9.0; }
+	virtual inline SpaceFloat getRadius() const { return 0.15; }
+
+	virtual inline string imageSpritePath() const { return "sprites/flandre_bullet.png"; }
+
+	static constexpr float spriteBaseRadius = 0.83f;
+	inline virtual float zoom() const { return getRadius() / spriteBaseRadius * 2; }
+
+	virtual AttributeMap getAttributeEffect() const;
+};
+
 class FlandreCounterClockBullet :
 	virtual public GObject,
 	public PlayerShield,

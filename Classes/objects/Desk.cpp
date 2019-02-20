@@ -14,8 +14,9 @@
 #include "PlayScene.hpp"
 
 Desk::Desk(GSpace* space, ObjectIDType id, const ValueMap& args) :
-GObject(space,id,args,float_pi / 2.0)
+GObject(space,id,args)
 {
+	setInitialAngle(float_pi / 2.0);
 }
 
 void Desk::interact()

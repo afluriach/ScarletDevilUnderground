@@ -32,6 +32,7 @@ enum class ControlAction
 
     spell,
 	bomb,
+	powerAttack,
 
 	firePatternPrev,
 	firePatternNext,

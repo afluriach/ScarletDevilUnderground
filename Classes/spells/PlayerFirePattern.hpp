@@ -42,6 +42,16 @@ public:
 	inline virtual string iconPath() const { return "sprites/fire_patterns/flandre_fast_orb.png"; }
 };
 
+class FlandreWhirlShotPattern : public RadiusPattern, public FirePatternImpl<FlandrePolarMotionOrb>
+{
+public:
+	FlandreWhirlShotPattern(Agent *const agent);
+
+	virtual float getCooldownTime() { return 1.0f; }
+
+	inline virtual string iconPath() const { return ""; }
+};
+
 class RumiaFastOrbPattern : public SingleBulletFixedIntervalPattern, public FirePatternImpl<RumiaFastOrb1>
 {
 public:

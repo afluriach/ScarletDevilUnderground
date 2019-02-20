@@ -77,6 +77,24 @@ AttributeMap FlandreFastOrb1::getAttributeEffect() const {
 	};
 }
 
+FlandrePolarMotionOrb::FlandrePolarMotionOrb(GSpace* space, ObjectIDType id, Agent* agent, SpaceFloat angle, const SpaceVect& pos) :
+	GObject(space, id, "", pos, angle),
+	PlayerBullet(agent),
+	RegisterUpdate<FlandrePolarMotionOrb>(this)
+{}
+
+void FlandrePolarMotionOrb::update()
+{
+	applyForceForSingleFrame(SpaceVect::ray(20.0, getAngle() + float_pi / 2.0));
+	rotate(App::secondsPerFrame * float_pi);
+}
+
+AttributeMap FlandrePolarMotionOrb::getAttributeEffect() const {
+	return {
+		{ Attribute::hp, -1 }
+	};
+}
+
 FlandreCounterClockBullet::FlandreCounterClockBullet(GSpace* space, ObjectIDType id, Agent* agent, SpaceFloat angle, const SpaceVect& pos) :
 	GObject(space, id, "", pos, angle),
 	PlayerShield(agent),

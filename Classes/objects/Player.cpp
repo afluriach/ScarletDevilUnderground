@@ -41,6 +41,7 @@ const SpaceFloat Player::interactDistance = 1.25;
 const SpaceFloat Player::grazeRadius = 0.7;
 
 const float Player::bombPowerCost = 25.0f;
+const float Player::powerAttackCost = 25.0f;
 
 const GType Player::bombObstacles = enum_bitwise_or4(GType, enemy, environment, wall, bomb);
 
@@ -217,6 +218,17 @@ void Player::checkFireControls(const ControlInfo& cs)
 			App::playSound("sfx/shot.wav", 1.0f);
 		}
 	}
+	else if (
+		!suppressFiring &&
+		cs.isControlActionPressed(ControlAction::powerAttack) &&
+		powerAttack &&
+		getPower() >= powerAttackCost)
+	{
+		if (powerAttack->fireIfPossible()) {
+			App::playSound("sfx/shot.wav", 1.0f);
+			attributeSystem.modifyAttribute(Attribute::power, -powerAttackCost);
+		}
+	}
 }
 
 void Player::checkBombControls(const ControlInfo& cs)
@@ -352,6 +364,10 @@ void Player::update()
 
 		if (respawnTimer <= 0.0 && isRespawnActive) {
 			applyRespawn();
+		}
+
+		if (powerAttack) {
+			powerAttack->update();
 		}
 
 		space->setLightSourcePosition(light, getPos());
@@ -658,6 +674,7 @@ CircleLightArea FlandrePC::getLight()
 void FlandrePC::setFirePatterns()
 {
 	firePattern = make_shared<FlandreWideAnglePattern>(this);
+	powerAttack = make_shared<FlandreWhirlShotPattern>(this);
 }
 
 void FlandrePC::equipSpells() {

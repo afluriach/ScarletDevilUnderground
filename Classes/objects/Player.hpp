@@ -42,6 +42,7 @@ public:
 	static const SpaceFloat interactDistance;
 	static const SpaceFloat grazeRadius;
 
+	static const float powerAttackCost;
 	static const float bombPowerCost;
 
 	static const GType bombObstacles;
@@ -144,6 +145,7 @@ protected:
 	float interactCooldown = 0.0f;
 	float bombCooldown = 0.0f;
 
+	shared_ptr<FirePattern> powerAttack = nullptr;
 	SpellDesc* equippedSpell = nullptr;
 
 	PlayScene* playScene = nullptr;
