@@ -11,6 +11,27 @@
 #include "GState.hpp"
 #include "util.h"
 
+void GState::registerChamberAvailable(ChamberID id)
+{
+	if (id > ChamberID::invalid_id && id < ChamberID::end) {
+		chambersAvailable.at(to_size_t(id)) = true;
+	}
+	else {
+		log("GState::registerChamberAvailable: invalid ID %d", id);
+	}
+}
+
+bool GState::isChamberAvailable(ChamberID id)
+{
+	if (id > ChamberID::invalid_id && id < ChamberID::end) {
+		return chambersAvailable.at(to_size_t(id));
+	}
+	else {
+		log("GState::isChamberAvailable: invalid ID %d", id);
+		return false;
+	}
+}
+
 void GState::registerUpgrade(PlayerCharacter pc, Attribute at, unsigned int id)
 {
 	size_t upgradeIndex = AttributeSystem::getUpgradeAttributeIndex(at);

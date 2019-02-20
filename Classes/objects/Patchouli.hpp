@@ -13,7 +13,7 @@
 #include "Agent.hpp"
 #include "Enemy.hpp"
 
-class Patchouli : virtual public Agent, public NoAttributes
+class Patchouli : virtual public Agent, public NoAttributes, public DialogEntity
 {
 public:
 	Patchouli(GSpace* space, ObjectIDType id, const ValueMap& args);
@@ -23,6 +23,9 @@ public:
     
     inline string imageSpritePath() const {return "sprites/patchouli.png";}
     inline GraphicsLayer sceneLayer() const {return GraphicsLayer::ground;}
+
+	virtual bool isDialogAvailable() { return true; }
+	virtual inline string getDialog() { return "dialogs/patchouli1"; }
 
 	virtual void initStateMachine(ai::StateMachine& sm);
 };

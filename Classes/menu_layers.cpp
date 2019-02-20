@@ -15,6 +15,7 @@
 #include "FloorSegment.hpp"
 #include "Graphics.h"
 #include "GSpace.hpp"
+#include "GState.hpp"
 #include "menu_layers.h"
 #include "menu_scenes.h"
 #include "PlayScene.hpp"
@@ -60,7 +61,7 @@ void TitleMenu::sceneSelect()
 
 void TitleMenu::worldSelect()
 {
-	App::getCrntScene()->pushMenu(Node::ccCreate<WorldSelect>());
+	App::getCrntScene()->pushMenu(Node::ccCreate<WorldSelect>(true));
 }
 
 const string LoadProfileMenu::title = "Load Game";
@@ -175,12 +176,65 @@ const vector<TextListMenuLayer::listAction> WorldSelect::entryActions = {
 	&WorldSelect::back
 };
 
+const vector<ChamberID> WorldSelect::chamberIDs = {
+	ChamberID::graveyard1,
+	ChamberID::graveyard2,
+	ChamberID::forest1,
+	ChamberID::desert1,
+	ChamberID::mine1,
+};
+
 string WorldSelect::nextScene = "";
+
+vector<string> WorldSelect::getAvailableChambers()
+{
+	vector<string> result;
+	GState* state = App::crntState.get();
+
+	for_irange(i, 0, entries.size() - 1) {
+		if (state->isChamberAvailable(chamberIDs.at(i))) {
+			result.push_back(entries.at(i));
+		}
+	}
+	result.push_back(entries.back());
+
+	return result;
+}
+
+vector<TextListMenuLayer::listAction> WorldSelect::getAvailableChamberActions()
+{
+	vector<listAction> result;
+	GState* state = App::crntState.get();
+
+	for_irange(i, 0, entryActions.size() - 1) {
+		if (state->isChamberAvailable(chamberIDs.at(i))) {
+			result.push_back(entryActions.at(i));
+		}
+	}
+	result.push_back(entryActions.back());
+
+	return result;
+}
+
+WorldSelect::WorldSelect(bool showAll) :
+	TextListMenuLayer(
+		"WorldSelect",
+		showAll ? entries : getAvailableChambers(),
+		showAll ? entryActions : getAvailableChamberActions()
+	)
+{}
 
 void WorldSelect::back()
 {
 	GScene* scene = App::getCrntScene();
-	scene->popMenu();
+	PlayScene* ps = dynamic_cast<PlayScene*>(scene);
+
+	if (ps) {
+		ps->exitWorldSelect();
+	}
+	else {
+		scene->popMenu();
+	}
 }
 
 TextListMenuLayer::listAction characterSelectAdapter(PlayerCharacter pc) {
@@ -238,7 +292,7 @@ PauseMenu::PauseMenu(Player* player) :
 
 void PauseMenu::worldSelect()
 {
-	App::getCrntScene()->pushMenu(Node::ccCreate<WorldSelect>());
+	App::getCrntScene()->pushMenu(Node::ccCreate<WorldSelect>(false));
 }
 
 const string GameOverMenu::title = "GAME OVER";

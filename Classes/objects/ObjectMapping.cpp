@@ -15,6 +15,7 @@
 #include "Bullet.hpp"
 #include "CollectGlyph.hpp"
 #include "Collectibles.hpp"
+#include "Desk.hpp"
 #include "Door.hpp"
 #include "EffectArea.hpp"
 #include "EnemyBullet.hpp"
@@ -109,6 +110,7 @@ const unordered_map<string, GObject::AdapterType> GObject::adapters = {
 	entry_same(Barrier),
 	entry_same(Block),
 	entry_same(DarknessArea),
+	entry_same(Desk),
 	entry_same(DirtFloorCave),
 	entry_same(Door),
 	entry_same(Facer),
@@ -116,11 +118,13 @@ const unordered_map<string, GObject::AdapterType> GObject::adapters = {
 	entry_same(Fairy2),
 	entry_same(Flower),
 	entry_same(Follower),
+	item_entry_same(ForestBook1),
 	entry_same(ForestMarisa),
 	entry_same(GenericAgent),
 	entry_same(Glyph),
 	entry_same(Goal),
 	entry_same(GrassFloor),
+	item_entry_same(GraveyardBook1),
 	item_entry_same(GraveyardKey),
 	entry_same(GreenFairy),
 	collectible_entry(Health1, health1),

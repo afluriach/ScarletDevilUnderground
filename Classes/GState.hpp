@@ -34,13 +34,17 @@ public:
 
     set<string> itemRegistry;
 	array<CharacterUpgrade, to_size_t(PlayerCharacter::end)> upgrades;
-    
+	array<bool, to_size_t(ChamberID::end)> chambersAvailable;
+
     template<class Archive>
     void serialize(Archive& ar, const unsigned int version)
     {
         ar & itemRegistry;
 		ar & upgrades;
     }
+
+	void registerChamberAvailable(ChamberID id);
+	bool isChamberAvailable(ChamberID id);
 
 	void registerUpgrade(PlayerCharacter pc, Attribute at, unsigned int id);
 	bool isUpgradeAcquired(PlayerCharacter pc, Attribute at, unsigned int id);

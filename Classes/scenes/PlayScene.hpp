@@ -46,6 +46,9 @@ public:
 	void enterMap();
 	void exitMap();
 
+	void enterWorldSelect();
+	void exitWorldSelect();
+
     void pauseAnimations();
     void resumeAnimations();
     

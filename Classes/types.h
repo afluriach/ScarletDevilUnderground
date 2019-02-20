@@ -65,6 +65,18 @@ public:
 	SpaceVect center, dimensions;
 };
 
+enum class ChamberID
+{
+	invalid_id = 0,
+	graveyard1 = 1,
+	graveyard2,
+	forest1,
+	desert1,
+	mine1,
+
+	end
+};
+
 enum class Direction{
     none = 0,
     right,

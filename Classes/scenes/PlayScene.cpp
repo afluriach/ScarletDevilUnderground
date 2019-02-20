@@ -240,6 +240,32 @@ void PlayScene::exitMap()
 	isShowingMenu = false;
 }
 
+void PlayScene::enterWorldSelect()
+{
+	if (isShowingMenu)
+		return;
+
+	pauseAnimations();
+	App::pauseSounds();
+	setPaused(true);
+	isShowingMenu = true;
+
+	while (spaceUpdatesToRun.load() > 0) {
+		this_thread::sleep_for(chrono::duration<int, milli>(1));
+	}
+
+	pushMenu(Node::ccCreate<WorldSelect>(false));
+}
+
+void PlayScene::exitWorldSelect()
+{
+	popMenu();
+	resumeAnimations();
+	App::resumeSounds();
+	setPaused(false);
+	isShowingMenu = false;
+}
+
 GScene* PlayScene::getReplacementScene()
 {
 	return Node::ccCreate<PlayScene>(sceneName, maps);

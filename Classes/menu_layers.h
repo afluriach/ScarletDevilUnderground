@@ -56,16 +56,20 @@ protected:
 	static void back();
 };
 
-class WorldSelect : public TextListMenuImpl<WorldSelect>
+class WorldSelect : public TextListMenuLayer
 {
 public:
 	static const string title;
+	static const vector<ChamberID> chamberIDs;
 	static const vector<string> entries;
 	static const vector<listAction> entryActions;
 
 	static string nextScene;
 
-	inline WorldSelect() {}
+	static vector<string> getAvailableChambers();
+	static vector<listAction> getAvailableChamberActions();
+
+	WorldSelect(bool showAll);
 
 protected:
 	static void back();

@@ -300,6 +300,9 @@
     <ClCompile Include="..\Classes\objects\Sign.cpp">
       <Filter>src\objects</Filter>
     </ClCompile>
+    <ClCompile Include="..\Classes\objects\Desk.cpp">
+      <Filter>src\objects</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="main.h">
@@ -585,6 +588,9 @@
       <Filter>src\scenes</Filter>
     </ClInclude>
     <ClInclude Include="..\Classes\objects\Sign.hpp">
+      <Filter>src\objects</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\objects\Desk.hpp">
       <Filter>src\objects</Filter>
     </ClInclude>
   </ItemGroup>
