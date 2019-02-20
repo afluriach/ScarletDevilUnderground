@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.0" tiledversion="1.0.3" orientation="orthogonal" renderorder="right-down" width="17" height="17" tilewidth="128" tileheight="128" nextobjectid="76">
+<map version="1.0" tiledversion="1.0.3" orientation="orthogonal" renderorder="right-down" width="17" height="17" tilewidth="128" tileheight="128" nextobjectid="79">
  <tileset firstgid="1" name="grey stone wall" tilewidth="128" tileheight="128" tilecount="4" columns="2">
   <image source="grey stone wall grain.png" width="256" height="256"/>
  </tileset>
@@ -50,6 +50,9 @@
     <property name="path" value="path2"/>
    </properties>
   </object>
+  <object id="78" type="Bat" x="1792" y="1792" width="128" height="128"/>
+  <object id="77" type="Bat" x="256" y="1024" width="128" height="128"/>
+  <object id="76" type="Bat" x="1792" y="256" width="128" height="128"/>
  </objectgroup>
  <objectgroup name="paths">
   <object id="73" name="path1" x="704" y="320">

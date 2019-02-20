@@ -11,6 +11,7 @@
 #include "Agent.hpp"
 #include "App.h"
 #include "AreaSensor.hpp"
+#include "Bat.hpp"
 #include "Block.hpp"
 #include "Bullet.hpp"
 #include "CollectGlyph.hpp"
@@ -103,6 +104,7 @@ GObject::AdapterType collectibleAdapter(collectible_id id)
 
 const unordered_map<string, GObject::AdapterType> GObject::adapters = {
 	entry_same(AgilityUpgrade),
+	entry_same(Bat),
 	entry_same(BlueFairy),
 	entry_same(BreakableWall),
 	entry_same(CollectGlyph),

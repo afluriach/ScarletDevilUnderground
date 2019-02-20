@@ -275,6 +275,11 @@ void timerIncrement(SpaceFloat& x)
 	x += App::secondsPerFrame;
 }
 
+void timerIncrement(SpaceFloat& x, const SpaceFloat& scale)
+{
+	x += App::secondsPerFrame*scale;
+}
+
 TimerSystem::TimerSystem()
 {
 	enum_foreach(TimerType, _type, begin, end)

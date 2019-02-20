@@ -56,6 +56,9 @@ SpaceFloat getStoppingTime(SpaceFloat speed, SpaceFloat acceleration);
 SpaceFloat getStoppingDistance(SpaceFloat speed, SpaceFloat accceleration);
 SpaceFloat getTurningRadius(SpaceFloat speed, SpaceFloat acceleration);
 
+SpaceVect bezier(array<SpaceVect, 3> points, SpaceFloat t);
+SpaceVect bezierAcceleration(array<SpaceVect, 3> points);
+
 bullet_collide_function buildStressFromHits(float hpStressScale);
 
 enum class ResourceLock
@@ -451,6 +454,23 @@ public:
 protected:
     SpaceVect target;
 };
+
+class BezierMove : public Function {
+public:
+	BezierMove(array<SpaceVect, 3> points, SpaceFloat rate);
+
+	virtual void update(StateMachine& fsm);
+
+	inline virtual bitset<lockCount> getLockMask() {
+		return make_enum_bitfield(ResourceLock::movement);
+	}
+	FuncGetName(BezierMove)
+protected:
+	array<SpaceVect, 3> points;
+	SpaceFloat rate;
+	SpaceFloat t = 0.0;
+};
+
 class FollowPath : public Function {
 public:
 	static shared_ptr<FollowPath> pathToTarget(GSpace* space, gobject_ref agent, gobject_ref target);

@@ -32,6 +32,7 @@ Door::Door(GSpace* space, ObjectIDType id, const ValueMap& args) :
 	else
 		doorType = door_type::pair;
 
+	setInitialAngle(float_pi / 2.0);
 }
 
 void Door::init()

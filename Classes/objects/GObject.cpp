@@ -48,8 +48,6 @@ GObject::GObject(GSpace* space, ObjectIDType uuid, const ValueMap& obj, bool ano
 
     if(!anonymous && logCreateObjects)
         log("%s created at %.1f,%.1f.", name.c_str(),initialCenter.x, initialCenter.y);
-
-	setInitialAngle(float_pi / 2.0f);
 }
 
 GObject::GObject(GSpace* space, ObjectIDType uuid, const string& name, const SpaceVect& pos, SpaceFloat angle) :
@@ -232,10 +230,12 @@ void GObject::updateFloorSegment()
 	}
 
 	crntFloorCenterContact = nullptr;
+	SpaceVect p = getPos();
 
 	for (auto ref : crntFloorContacts)
 	{
-		SpaceVect local = cpBodyWorld2Local(ref.get()->body, getPos());
+		//SpaceVect local = cpBodyWorld2Local(ref.get()->body, getPos());
+		SpaceVect local = p - ref.get()->getPos();
 		SpaceVect dim = ref.get()->getDimensions();
 		if (abs(local.x) <= dim.x / 2.0 && abs(local.y) <= dim.y / 2.0) {
 			crntFloorCenterContact = ref;
@@ -246,7 +246,7 @@ void GObject::updateFloorSegment()
 	//If not on floor(s), use point query to detect belowFloor segment.
 	if (!crntFloorCenterContact.isValid())
 	{
-		crntFloorCenterContact = space->floorSegmentPointQuery(getPos());
+		crntFloorCenterContact = space->floorSegmentPointQuery(p);
 	}
 
 	if (crntFloorContacts.size() == 0 && crntFloorCenterContact.isValid()) {

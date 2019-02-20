@@ -323,6 +323,17 @@ SpaceFloat getTurningRadius(SpaceFloat speed, SpaceFloat acceleration)
 	return speed * speed / acceleration;
 }
 
+SpaceVect bezier(array<SpaceVect, 3> points, SpaceFloat t)
+{
+	SpaceFloat u = 1.0 - t;
+	return u * u*points[0] + 2.0*u*t*points[1] + t * t*points[2];
+}
+
+SpaceVect bezierAcceleration(array<SpaceVect, 3> points)
+{
+	return 2.0 * (points[2] - 2.0*points[1] - points[0]);
+}
+
 bullet_collide_function buildStressFromHits(float hpStressScale)
 {
 	return [hpStressScale](StateMachine& sm, Bullet* b)->void {
@@ -1226,6 +1237,23 @@ void MoveToPoint::update(StateMachine& fsm)
 	bool arrived = moveToPoint(fsm.agent, target, arrivalMargin, false);
 	
 	if (arrived) {
+		fsm.pop();
+	}
+}
+
+BezierMove::BezierMove(array<SpaceVect, 3> points, SpaceFloat rate) :
+	points(points),
+	rate(rate)
+{
+}
+
+void BezierMove::update(StateMachine& fsm)
+{
+	fsm.agent->setPos(bezier(points, t));
+
+	timerIncrement(t, rate);
+	if (t >= 1.0) {
+		fsm.agent->setPos(bezier(points, 1.0));
 		fsm.pop();
 	}
 }
