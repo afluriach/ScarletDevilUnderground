@@ -42,12 +42,17 @@ const vector<string> TitleMenu::entries = {
 };
 
 const vector <TextListMenuLayer::listAction > TitleMenu::entryActions = {
-	&App::runOpeningScene,
+	newGame,
 	loadGame,
 	sceneSelect,
 	worldSelect,
 	&App::end
 };
+
+void TitleMenu::newGame()
+{
+	App::getCrntScene()->pushMenu(Node::ccCreate<NewProfileMenu>());
+}
 
 void TitleMenu::loadGame()
 {
@@ -62,6 +67,55 @@ void TitleMenu::sceneSelect()
 void TitleMenu::worldSelect()
 {
 	App::getCrntScene()->pushMenu(Node::ccCreate<WorldSelect>(true));
+}
+
+const string NewProfileMenu::title = "New Game Profile";
+
+NewProfileMenu::NewProfileMenu() :
+	TextListMenuLayer(title, getProfileSlots(), getSelectionActions())
+{}
+
+vector<string> NewProfileMenu::getProfileSlots()
+{
+	vector<string> result;
+
+	for (int i = 1; i <= GState::maxProfiles; ++i)
+	{
+		result.push_back(boost::str(
+			boost::format("%d: %s") %
+			i %
+			(GState::profileSlotsInUse.at(i - 1) ? "In Use" : "Empty")
+		));
+	}
+
+	return result;
+}
+
+vector<TextListMenuLayer::listAction> NewProfileMenu::getSelectionActions()
+{
+	vector<listAction> result;
+
+	for (int i = 1; i <= GState::maxProfiles; ++i)
+	{
+		result.push_back(bind(
+			&NewProfileMenu::selectProfile,
+			string(boost::str(boost::format("profile%d") % i))
+		));
+	}
+
+	return result;
+}
+
+void NewProfileMenu::selectProfile(string name)
+{
+	App::crntProfileName = name;
+	log("Profile %s selected.", name.c_str());
+	App::runOpeningScene();
+}
+
+void NewProfileMenu::back()
+{
+	App::getCrntScene()->popMenu();
 }
 
 const string LoadProfileMenu::title = "Load Game";

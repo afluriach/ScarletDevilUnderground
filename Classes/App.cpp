@@ -168,6 +168,7 @@ App::App()
 #endif
 
 	baseDataPath = FileUtils::getInstance()->getWritablePath();
+	GState::initProfiles();
 }
 
 App::~App() 

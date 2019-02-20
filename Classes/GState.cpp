@@ -8,8 +8,22 @@
 
 #include "Prefix.h"
 
+#include "FileIO.hpp"
 #include "GState.hpp"
 #include "util.h"
+
+vector<bool> GState::profileSlotsInUse;
+
+void GState::initProfiles()
+{
+	set<string> profiles = io::getProfiles();
+	profileSlotsInUse.clear();
+
+	for (int i = 1; i <= maxProfiles; ++i)
+	{
+		profileSlotsInUse.push_back(profiles.find(string(boost::str(boost::format("profile%d") % i))) != profiles.end());
+	}
+}
 
 void GState::registerChamberAvailable(ChamberID id)
 {

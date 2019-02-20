@@ -27,10 +27,15 @@ struct CharacterUpgrade
 //All of the persistent state associated with a single profile.
 class GState
 {
-public:
-    static const unsigned int version = 1;
-    
+public:    
     friend class boost::serialization::access;
+
+	static const unsigned int version = 1;
+	static const unsigned int maxProfiles = 9;
+
+	static vector<bool> profileSlotsInUse;
+
+	static void initProfiles();
 
     set<string> itemRegistry;
 	array<CharacterUpgrade, to_size_t(PlayerCharacter::end)> upgrades;
@@ -41,6 +46,7 @@ public:
     {
         ar & itemRegistry;
 		ar & upgrades;
+		ar & chambersAvailable;
     }
 
 	void registerChamberAvailable(ChamberID id);
