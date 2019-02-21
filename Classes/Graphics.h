@@ -169,6 +169,7 @@ ActionGeneratorType bombAnimationAction(float expand_ratio);
 ActionGeneratorType freezeEffectAction();
 ActionGeneratorType freezeEffectEndAction();
 ActionGeneratorType objectFadeOut(float duration, unsigned char targetOpacity);
+ActionGeneratorType damageIndicatorAction(const Vec2& start_pos);
 
 Sprite* loadImageSprite(const string& resPath, GraphicsLayer sceneLayer, Layer* dest, const Vec2& pos, float zoom);
 

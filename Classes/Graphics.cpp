@@ -377,6 +377,18 @@ ActionGeneratorType objectFadeOut(float duration, unsigned char targetOpacity)
 	};
 }
 
+ActionGeneratorType damageIndicatorAction(const Vec2& start_pos)
+{
+	Vec2 end_pos = start_pos + Vec2(0.0f, App::pixelsPerTile);
+	return [end_pos]() -> FiniteTimeAction* {
+		MoveTo* moveTo = MoveTo::create(1.0f, end_pos);
+		FadeOut* fadeOut = FadeOut::create(0.5f);
+		RemoveSelf* removeSelf = RemoveSelf::create();
+
+		return Sequence::create(moveTo, fadeOut, removeSelf, nullptr);
+	};
+}
+
 Sprite* loadImageSprite(const string& resPath, GraphicsLayer sceneLayer, Layer* dest, const Vec2& pos, float zoom)
 {
     Sprite* node = Sprite::create(resPath);

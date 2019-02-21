@@ -415,6 +415,17 @@ void GScene::createAgentSprite(SpriteID id, string path, bool isAgentAnimation, 
 	getSpaceLayer()->positionAndAddNode(anim, to_int(sceneLayer), pos, zoom);
 }
 
+void GScene::createDamageIndicator(float val, SpaceVect pos)
+{
+	Label* label = createTextLabel(boost::lexical_cast<string>(static_cast<int>(val)), 18);
+	Vec2 startPos = toCocos(pos + SpaceVect(0.0, 0.5)) * App::pixelsPerTile;
+	label->setPosition(startPos);
+	label->setScale(2.0f);
+
+	getSpaceLayer()->addChild(label, to_uint(GraphicsLayer::agentOverlay));
+	label->runAction(damageIndicatorAction(startPos)());
+}
+
 void GScene::loadAgentAnimation(SpriteID id, string path, bool isAgentAnimation)
 {
 	auto it = agentSprites.find(id);

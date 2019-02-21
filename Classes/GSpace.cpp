@@ -713,6 +713,13 @@ SpriteID GSpace::createAgentSprite(string path, bool isAgentAnimation, GraphicsL
 	return id;
 }
 
+void GSpace::createDamageIndicator(float val, SpaceVect pos)
+{
+	addSpriteAction([this, val, pos]()->void {
+		gscene->createDamageIndicator(val, pos);
+	});
+}
+
 void GSpace::loadAgentAnimation(SpriteID id, string path, bool isAgentAnimation)
 {
 	addSpriteAction([this, id, path, isAgentAnimation]() -> void {

@@ -152,6 +152,7 @@ public:
 	void createLoopAnimation(SpriteID id, string name, int frameCount, float duration, GraphicsLayer sceneLayer, Vec2 pos, float zoom);
 	void createDrawNode(SpriteID id, GraphicsLayer sceneLayer, Vec2 pos, float zoom);
 	void createAgentSprite(SpriteID id, string path, bool isAgentAnimation, GraphicsLayer sceneLayer, Vec2 pos, float zoom);
+	void createDamageIndicator(float val, SpaceVect pos);
 
 	void loadAgentAnimation(SpriteID id, string path, bool isAgentAnimation);
 	void setAgentAnimationDirection(SpriteID id, Direction d);
