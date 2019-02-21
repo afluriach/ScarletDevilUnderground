@@ -1043,7 +1043,7 @@ void GSpace::endContact(cpArbiter* arb, cpSpace* space, void* data)
 		return;
 
 	if (a && b && it->second) {
-		int(GSpace::*end_method)(GObject*, GObject*) = it->second;
+		void(GSpace::*end_method)(GObject*, GObject*) = it->second;
 		(_this->*end_method)(a, b);
 	}
 }
@@ -1221,7 +1221,7 @@ int GSpace::playerEnemyBegin(GObject* a, GObject* b)
     return 1;
 }
 
-int GSpace::playerEnemyEnd(GObject* a, GObject* b)
+void GSpace::playerEnemyEnd(GObject* a, GObject* b)
 {
 	Enemy* e = dynamic_cast<Enemy*>(b);
 
@@ -1229,7 +1229,6 @@ int GSpace::playerEnemyEnd(GObject* a, GObject* b)
 		e->endTouchPlayer();
     
 	logHandler("playerEnemyEnd", a,b);
-    return 1;
 }
 
 int GSpace::playerEnemyBulletBegin(GObject* playerObj, GObject* bullet)
@@ -1261,7 +1260,7 @@ int GSpace::playerGrazeRadarBegin(GObject* playerRadar, GObject* bullet)
 	return 1;
 }
 
-int GSpace::playerGrazeRadarEnd(GObject* playerRadar, GObject* bullet)
+void GSpace::playerGrazeRadarEnd(GObject* playerRadar, GObject* bullet)
 {
 	Player* player = dynamic_cast<Player*>(playerRadar);
 	EnemyBullet* _bullet = dynamic_cast<EnemyBullet*>(bullet);
@@ -1269,8 +1268,6 @@ int GSpace::playerGrazeRadarEnd(GObject* playerRadar, GObject* bullet)
 	if (player && _bullet) {
 		player->onGrazeCleared(_bullet);
 	}
-
-	return 1;
 }
 
 int GSpace::playerBulletEnemyBegin(GObject* a, GObject* b)
@@ -1390,7 +1387,7 @@ int GSpace::sensorStart(GObject* radarAgent, GObject* target)
 	return 1;
 }
 
-int GSpace::sensorEnd(GObject* radarAgent, GObject* target)
+void GSpace::sensorEnd(GObject* radarAgent, GObject* target)
 {
     RadarObject* radarObject = dynamic_cast<RadarObject*>(radarAgent);
     
@@ -1402,8 +1399,6 @@ int GSpace::sensorEnd(GObject* radarAgent, GObject* target)
 	else {
 		log("sensorEnd: %s is not a radar object", radarAgent->name.c_str());
 	}
-
-    return 1;
 }
 
 int GSpace::floorObjectBegin(GObject* floorSegment, GObject* obj)
@@ -1425,22 +1420,21 @@ int GSpace::floorObjectBegin(GObject* floorSegment, GObject* obj)
 	}
 }
 
-int GSpace::floorObjectEnd(GObject* floorSegment, GObject* obj)
+void GSpace::floorObjectEnd(GObject* floorSegment, GObject* obj)
 {
 	FloorSegment* fs = dynamic_cast<FloorSegment*>(floorSegment);
 
 	if (dynamic_cast<FloorSegment*>(obj)) {
 		log("GSpace::floorObjectEnd: FloorSegment should not collide with another one.");
-		return 0;
+		return;
 	}
 
 	else if (!fs || !obj) {
-		return 0;
+		return;
 	}
 
 	else {
 		obj->message<GObject>(obj, &GObject::onEndContactFloorSegment, object_ref<FloorSegment>(fs));
-		return 1;
 	}
 }
 
@@ -1455,7 +1449,7 @@ int GSpace::playerAreaSensorBegin(GObject* a, GObject *b)
 	return 1;
 }
 
-int GSpace::playerAreaSensorEnd(GObject* a, GObject *b)
+void GSpace::playerAreaSensorEnd(GObject* a, GObject *b)
 {
 	Player* p = dynamic_cast<Player*>(a);
 	AreaSensor* as = dynamic_cast<AreaSensor*>(b);
@@ -1463,7 +1457,6 @@ int GSpace::playerAreaSensorEnd(GObject* a, GObject *b)
 	if (p && as) {
 		as->onPlayerEndContact(p);
 	}
-	return 1;
 }
 
 int GSpace::enemyAreaSensorBegin(GObject* a, GObject *b)
@@ -1477,7 +1470,7 @@ int GSpace::enemyAreaSensorBegin(GObject* a, GObject *b)
 	return 1;
 }
 
-int GSpace::enemyAreaSensorEnd(GObject* a, GObject *b)
+void GSpace::enemyAreaSensorEnd(GObject* a, GObject *b)
 {
 	Enemy* e = dynamic_cast<Enemy*>(a);
 	AreaSensor* as = dynamic_cast<AreaSensor*>(b);
@@ -1485,7 +1478,6 @@ int GSpace::enemyAreaSensorEnd(GObject* a, GObject *b)
 	if (e && as) {
 		as->onEnemyEndContact(e);
 	}
-	return 1;
 }
 
 int GSpace::environmentAreaSensorBegin(GObject* obj, GObject* areaSensor)
@@ -1499,15 +1491,13 @@ int GSpace::environmentAreaSensorBegin(GObject* obj, GObject* areaSensor)
 	return 1;
 }
 
-int GSpace::environmentAreaSensorEnd(GObject* areaSensor, GObject* obj)
+void GSpace::environmentAreaSensorEnd(GObject* areaSensor, GObject* obj)
 {
 	AreaSensor* _s = dynamic_cast<AreaSensor*>(areaSensor);
 
 	if (_s && obj) {
 		_s->onEnvironmentalObjectEndContact(obj);
 	}
-
-	return 1;
 }
 
 //END PHYSICS

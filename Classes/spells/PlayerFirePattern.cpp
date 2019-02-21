@@ -32,10 +32,17 @@ FlandreWhirlShotPattern::FlandreWhirlShotPattern(Agent *const agent) :
 {
 }
 
-const float FlandreWideAnglePattern::cooldown = 0.25f;
+const float FlandreWideAnglePattern1::cooldown = 0.25f;
 
-FlandreWideAnglePattern::FlandreWideAnglePattern(Agent *const agent) :
-	MultiBulletSpreadPattern(agent, cooldown, float_pi / 4.0, 3),
+FlandreWideAnglePattern1::FlandreWideAnglePattern1(Agent *const agent) :
+	MultiBulletSpreadPattern(agent, cooldown, float_pi / 8.0, 3),
+	FirePattern(agent)
+{}
+
+const float FlandreWideAnglePattern2::cooldown = 0.25f;
+
+FlandreWideAnglePattern2::FlandreWideAnglePattern2(Agent *const agent) :
+	MultiBulletSpreadPattern(agent, cooldown, float_pi / 4.0, 5),
 	FirePattern(agent)
 {}
 

@@ -300,12 +300,12 @@ private:
     cpSpace *space = nullptr;
 
 	unordered_map<collision_type, int(GSpace::*)(GObject*, GObject*), boost::hash<collision_type>> beginContactHandlers;
-	unordered_map<collision_type, int(GSpace::*)(GObject*, GObject*), boost::hash<collision_type>> endContactHandlers;
+	unordered_map<collision_type, void(GSpace::*)(GObject*, GObject*), boost::hash<collision_type>> endContactHandlers;
 
     void addCollisionHandlers();
     
 	template<GType TypeA, GType TypeB>
-	inline void AddHandler(int(GSpace::*begin)(GObject*, GObject*), int(GSpace::*end)(GObject*, GObject*))
+	inline void AddHandler(int(GSpace::*begin)(GObject*, GObject*), void(GSpace::*end)(GObject*, GObject*))
 	{
 		cpSpaceAddCollisionHandler(
 			space,
@@ -317,19 +317,21 @@ private:
 			&GSpace::endContact,
 			this
 		);
-
-		beginContactHandlers[collision_type(TypeA, TypeB)] = begin;
-		endContactHandlers[collision_type(TypeA,TypeB)] = end;
+		
+		if(begin)
+			beginContactHandlers[collision_type(TypeA, TypeB)] = begin;
+		if(end)
+			endContactHandlers[collision_type(TypeA,TypeB)] = end;
 	}
     
     void logHandler(const string& base, cpArbiter* arb);
     void logHandler(const string& name, GObject* a, GObject* b);
     
 	int playerEnemyBegin(GObject* a, GObject* b);
-	int playerEnemyEnd(GObject* a, GObject* b);
+	void playerEnemyEnd(GObject* a, GObject* b);
 	int playerEnemyBulletBegin(GObject* playerObj, GObject* bullet);
 	int playerGrazeRadarBegin(GObject* playerObj, GObject* bullet);
-	int playerGrazeRadarEnd(GObject* playerObj, GObject* bullet);
+	void playerGrazeRadarEnd(GObject* playerObj, GObject* bullet);
 	int playerBulletEnemyBegin(GObject* a, GObject* b);
 	int bulletBulletBegin(GObject* a, GObject* b);
 	int playerFlowerBegin(GObject* a, GObject* b);
@@ -340,15 +342,15 @@ private:
 	int collide(GObject* a, GObject* b);
 	int bulletWall(GObject* bullet, GObject* unused);
 	int sensorStart(GObject* radarAgent, GObject* target);
-	int sensorEnd(GObject* radarAgent, GObject* target);
+	void sensorEnd(GObject* radarAgent, GObject* target);
 	int floorObjectBegin(GObject* floorSegment, GObject* obj);
-	int floorObjectEnd(GObject* floorSegment, GObject* obj);
+	void floorObjectEnd(GObject* floorSegment, GObject* obj);
 	int playerAreaSensorBegin(GObject* a, GObject *b);
-	int playerAreaSensorEnd(GObject* a, GObject *b);
+	void playerAreaSensorEnd(GObject* a, GObject *b);
 	int enemyAreaSensorBegin(GObject* a, GObject *b);
-	int enemyAreaSensorEnd(GObject* a, GObject *b);
+	void enemyAreaSensorEnd(GObject* a, GObject *b);
 	int environmentAreaSensorBegin(GObject* obj, GObject* areaSensor);
-	int environmentAreaSensorEnd(GObject* obj, GObject* areaSensor);
+	void environmentAreaSensorEnd(GObject* obj, GObject* areaSensor);
 
 //END PHYSICS
 

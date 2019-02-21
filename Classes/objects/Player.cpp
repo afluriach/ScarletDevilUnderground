@@ -674,7 +674,7 @@ CircleLightArea FlandrePC::getLight()
 
 void FlandrePC::setFirePatterns()
 {
-	firePattern = make_shared<FlandreWideAnglePattern>(this);
+	firePattern = make_shared<FlandreWideAnglePattern1>(this);
 	powerAttack = make_shared<FlandreWhirlShotPattern>(this);
 }
 

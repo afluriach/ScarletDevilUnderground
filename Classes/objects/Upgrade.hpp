@@ -41,7 +41,9 @@ public:
 	inline UpgradeImpl(GSpace* space, ObjectIDType id, const ValueMap& args) :
 		MapObjForwarding(GObject),
 		Upgrade(getInt(args, "id"), D::attribute)
-	{}
+	{
+		setInitialAngle(float_pi / 2.0);
+	}
 
 	virtual inline string imageSpritePath() const { return "sprites/" + D::spriteName + ".png"; }
 };

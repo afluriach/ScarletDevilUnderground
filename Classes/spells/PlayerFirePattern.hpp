@@ -32,12 +32,22 @@ public:
 	virtual float getCooldownTime() { return 1.0f / 6.0f; }
 };
 
-class FlandreWideAnglePattern : public MultiBulletSpreadPattern, public FirePatternImpl<FlandreFastOrb1>
+class FlandreWideAnglePattern1 : public MultiBulletSpreadPattern, public FirePatternImpl<FlandreFastOrb1>
 {
 public:
 	static const float cooldown;
 
-	FlandreWideAnglePattern(Agent *const agent);
+	FlandreWideAnglePattern1(Agent *const agent);
+
+	inline virtual string iconPath() const { return "sprites/fire_patterns/flandre_fast_orb.png"; }
+};
+
+class FlandreWideAnglePattern2 : public MultiBulletSpreadPattern, public FirePatternImpl<FlandreFastOrb1>
+{
+public:
+	static const float cooldown;
+
+	FlandreWideAnglePattern2(Agent *const agent);
 
 	inline virtual string iconPath() const { return "sprites/fire_patterns/flandre_fast_orb.png"; }
 };
