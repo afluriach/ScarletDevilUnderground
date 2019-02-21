@@ -661,6 +661,7 @@ Thread* StateMachine::getCrntThread() {
 
 Seek::Seek(GSpace* space, const ValueMap& args) {
     target = getObjRefFromStringField(space, args, "target_name");
+	usePathfinding = getBoolOrDefault(args, "use_pathfinding", false);
 }
 
 Seek::Seek(GObject* target, bool usePathfinding) :
@@ -1361,7 +1362,8 @@ Wander::Wander(SpaceFloat minWait, SpaceFloat maxWait, SpaceFloat minDist, Space
 {
 }
 
-Wander::Wander(SpaceFloat waitInterval, SpaceFloat moveDist)
+Wander::Wander(SpaceFloat waitInterval, SpaceFloat moveDist) :
+	Wander(waitInterval, waitInterval, moveDist, moveDist)
 {}
 
 Wander::Wander() : 
@@ -1431,6 +1433,7 @@ void FireAtTarget::update(StateMachine& sm)
 	FirePattern* fp = sm.getAgent()->getFirePattern();
 	if (!target.isValid() || !fp) {
 		sm.pop();
+		return;
 	}
 
 	sm.agent->setAngle(

@@ -227,6 +227,7 @@ cpVect cpBodyGetVelAtLocalPoint(cpBody *body, cpVect point);
 /// Get the kinetic energy of a body.
 static inline cpFloat cpBodyKineticEnergy(const cpBody *body)
 {
+	if (!body) return 0.0f;
 	// Need to do some fudging to avoid NaNs
 	cpFloat vsq = cpvdot(body->v, body->v);
 	cpFloat wsq = body->w*body->w;
