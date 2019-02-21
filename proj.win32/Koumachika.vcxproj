@@ -158,6 +158,8 @@ xcopy "$(ProjectDir)..\Resources" "$(OutDir)" /D /E /I /F /Y</Command>
     <ClCompile Include="..\Classes\Graph.cpp" />
     <ClCompile Include="..\Classes\Graphics.cpp" />
     <ClCompile Include="..\Classes\GSpace.cpp" />
+    <ClCompile Include="..\Classes\GSpace_graphics.cpp" />
+    <ClCompile Include="..\Classes\GSpace_physics.cpp" />
     <ClCompile Include="..\Classes\GState.cpp" />
     <ClCompile Include="..\Classes\HUD.cpp" />
     <ClCompile Include="..\Classes\lua\LuaAPI.cpp" />
