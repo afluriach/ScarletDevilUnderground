@@ -110,7 +110,7 @@ void RadarObject::radarEndCollision(GObject* obj)
 
 	objectsInRange.erase(obj);
 
-	if (isObjectVisible(obj)) {
+	if (visibleObjects.find(obj) != visibleObjects.end()) {
 		onEndDetect(obj);
 		visibleObjects.erase(obj);
 	}
@@ -182,4 +182,15 @@ GObject* RadarObject::getSensedObject()
 list<GObject*> RadarObject::getSensedObjects()
 {
 	return list<GObject*>(visibleObjects.begin(), visibleObjects.end());
+}
+
+list<GObject*> RadarObject::getSensedObjectsByGtype(GType type)
+{
+	list<GObject*> result;
+
+	for (GObject* obj : visibleObjects) {
+		if (obj->getType() == type) result.push_back(obj);
+	}
+
+	return result;
 }

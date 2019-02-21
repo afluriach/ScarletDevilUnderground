@@ -1,5 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.0" tiledversion="1.0.3" orientation="orthogonal" renderorder="right-down" width="53" height="37" tilewidth="128" tileheight="128" nextobjectid="111">
+<map version="1.0" tiledversion="1.0.3" orientation="orthogonal" renderorder="right-down" width="53" height="37" tilewidth="128" tileheight="128" nextobjectid="122">
+ <properties>
+  <property name="spawners" value="spawner-f3-1 spawner-f3-2 spawner-f3-3"/>
+  <property name="trap_doors" value="door-f3-north door-f3-east"/>
+ </properties>
  <tileset firstgid="1" name="dirt1" tilewidth="128" tileheight="128" tilecount="4" columns="2">
   <image source="dirt1.png" width="256" height="256"/>
  </tileset>
@@ -88,6 +92,40 @@
   <object id="56" name="door-f3-north" type="Door" x="2688" y="0" width="128" height="128">
    <properties>
     <property name="dir" value="down"/>
+   </properties>
+  </object>
+  <object id="111" type="GreenFairy" x="2688" y="768" width="128" height="128">
+   <properties>
+    <property name="direction" value="down"/>
+   </properties>
+  </object>
+  <object id="112" type="GreenFairy" x="2304" y="1664" width="128" height="128">
+   <properties>
+    <property name="direction" value="right"/>
+   </properties>
+  </object>
+  <object id="113" type="GreenFairy" x="2688" y="2688" width="128" height="128"/>
+  <object id="116" type="GreenFairy" x="4352" y="768" width="128" height="128">
+   <properties>
+    <property name="direction" value="down"/>
+   </properties>
+  </object>
+  <object id="118" name="spawner-f3-1" type="Spawner" x="3840" y="2688" width="128" height="128">
+   <properties>
+    <property name="spawn_limit" value="1"/>
+    <property name="spawn_type" value="GreenFairy"/>
+   </properties>
+  </object>
+  <object id="120" name="spawner-f3-2" type="Spawner" x="4864" y="2688" width="128" height="128">
+   <properties>
+    <property name="spawn_limit" value="1"/>
+    <property name="spawn_type" value="GreenFairy"/>
+   </properties>
+  </object>
+  <object id="121" name="spawner-f3-3" type="Spawner" x="5888" y="2688" width="128" height="128">
+   <properties>
+    <property name="spawn_limit" value="1"/>
+    <property name="spawn_type" value="GreenFairy"/>
    </properties>
   </object>
  </objectgroup>

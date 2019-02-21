@@ -183,7 +183,7 @@ void RedFairy::update()
 
 void RedFairy::initStateMachine(ai::StateMachine& sm)
 {
-	sm.addThread(make_shared<ai::Wander>(), 0);
+	sm.addThread(make_shared<ai::Wander>(1.5, 2.5, 2.0, 3.0), 0);
 	sm.setBulletHitFunction(ai::buildStressFromHits(1.0f));
 
 	sm.addDetectFunction(
@@ -219,8 +219,10 @@ GreenFairy::GreenFairy(GSpace* space, ObjectIDType id, const ValueMap& args) :
 
 void GreenFairy::initStateMachine(ai::StateMachine& sm)
 {
-	sm.addThread(make_shared<ai::Wander>());
-	sm.addThread(make_shared<ai::FireOnStress>());
+	sm.addThread(make_shared<ai::Wander>(0.75, 1.5, 2.0, 4.0), 0);
+	sm.addThread(make_shared<ai::EvadePlayerProjectiles>(), 1);
+	sm.addThread(make_shared<ai::FireOnStress>(5.0f));
+	sm.addThread(make_shared<ai::BuildStressFromPlayerProjectiles>(0.25f));
 	sm.setBulletHitFunction(ai::buildStressFromHits(0.5f));
 }
 
@@ -246,7 +248,7 @@ void ZombieFairy::init()
 
 void ZombieFairy::initStateMachine(ai::StateMachine& sm)
 {
-	sm.addThread(make_shared<ai::Wander>(), 1);
+	sm.addThread(make_shared<ai::Wander>(2.0, 3.0, 1.5, 3.0), 1);
 
 	sm.addDetectFunction(
 		GType::player,

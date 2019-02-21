@@ -606,6 +606,16 @@ void StateMachine::addEndDetectFunction(GType t, detect_function f)
 	endDetectHandlers.insert_or_assign(t, f);
 }
 
+void StateMachine::removeDetectFunction(GType t)
+{
+	detectHandlers.erase(t);
+}
+
+void StateMachine::removeEndDetectFunction(GType t)
+{
+	endDetectHandlers.erase(t);
+}
+
 void StateMachine::setBulletHitFunction(bullet_collide_function f)
 {
 	bulletHandler = f;
@@ -964,16 +974,13 @@ EvadePlayerProjectiles::EvadePlayerProjectiles(GSpace* space, const ValueMap& ar
 
 void EvadePlayerProjectiles::update(StateMachine& sm)
 {
-	list<GObject*> objs = sm.getAgent()->getSensedObjects();
+	list<GObject*> objs = sm.getAgent()->getSensedObjectsByGtype(GType::playerBullet);
 	
 	GObject* closest = nullptr;
 	SpaceFloat closestDistance = numeric_limits<SpaceFloat>::infinity();
 	 
 	for(GObject* obj: objs)
 	{
-		if (obj->getType() != GType::playerBullet)
-			continue;
-
 		SpaceFloat crntDist = distanceToTarget(obj, sm.agent);
 
 		if (crntDist < closestDistance) {
@@ -982,18 +989,13 @@ void EvadePlayerProjectiles::update(StateMachine& sm)
 		}
 	}
 
+	active = closest != nullptr;
+
 	if (closest != nullptr)
 	{
 		SpaceVect offset = projectileEvasion(closest, sm.agent);
-
-		if(offset.length() > closest->getRadius() + sm.agent->getRadius() )
-		{
-			sm.agent->setVel(SpaceVect::zero);
-		}
-		else
-		{
+		if(!offset.isZero())
 			applyDesiredVelocity(sm.agent, offset.normalize()*-1.0f * sm.agent->getMaxSpeed(), sm.agent->getMaxAcceleration());
-		}
 	}
 }
 
@@ -1351,37 +1353,73 @@ Wander::Wander(GSpace* space, const ValueMap& args) :
     init_float_field(maxDist,1.0f)
 {}
 
-Wander::Wander() : minWait(1.0), maxWait(3.0), minDist(2.0), maxDist(4.0)
+Wander::Wander(SpaceFloat minWait, SpaceFloat maxWait, SpaceFloat minDist, SpaceFloat maxDist) :
+	minWait(minWait),
+	maxWait(maxWait),
+	minDist(minDist),
+	maxDist(maxDist)
+{
+}
+
+Wander::Wander(SpaceFloat waitInterval, SpaceFloat moveDist)
 {}
+
+Wander::Wander() : 
+	Wander(1.0, 1.0, 1.0, 1.0)
+{}
+
+pair<Direction, SpaceFloat> Wander::chooseMovement(StateMachine& fsm)
+{
+	array<SpaceFloat, 4> feelers = ai::obstacleFeelerQuad(fsm.agent, maxDist);
+	vector<Direction> directions;
+	directions.reserve(4);
+
+	//First, select a direction that allows maximum movement, if possible.
+	enum_foreach(Direction, d, right, end)
+	{
+		if (feelers[to_int(d) - 1] == maxDist) {
+			directions.push_back(d);
+		}
+	}
+
+	if (!directions.empty()) {
+		return make_pair(directions.at(App::getRandomInt(0, directions.size()-1)), maxDist);
+	}
+
+	//Select a direction that allows at least minimum desired distance.
+	enum_foreach(Direction, d, right, end)
+	{
+		if (feelers[to_int(d) - 1] >= minDist) {
+			directions.push_back(d);
+		}
+	}
+
+	if (!directions.empty()) {
+		int idx = App::getRandomInt(0, directions.size() - 1);
+		return make_pair(directions.at(idx), feelers[idx]);
+	}
+
+	return make_pair(Direction::none, 0.0);
+}
 
 void Wander::update(StateMachine& fsm)
 {
-    SpaceFloat dist = App::getRandomFloat(minDist, maxDist);
-    vector<Direction> directions;
-    SpaceVect target;
-    
-    enum_foreach(Direction,d,right,end)
-    {
-        target = dirToVector(d)*dist;
-        if(!fsm.agent->space->obstacleFeeler(fsm.agent, target)){
-            directions.push_back(d);
-        }
-    }
+	timerDecrement(waitTimer);
 
-    if(directions.empty())
-        return;
+	if (waitTimer <= 0.0) {
+		pair<Direction, SpaceFloat> movement = chooseMovement(fsm);
 
-    int randomIdx = App::getRandomInt(0, directions.size()-1);
-    
-    fsm.push(make_shared<MoveToPoint>(fsm.agent->getPos()+dirToVector(directions[randomIdx])*dist));
-    
-    fsm.push(make_shared<Operation>(
-        [=](StateMachine& sm) -> void {
-            sm.agent->setDirection(directions[randomIdx]);
-    }));
-    
-    int waitFrames = App::getRandomInt(minWait*App::framesPerSecond, maxWait*App::framesPerSecond);
-    fsm.push(make_shared<IdleWait>(waitFrames));
+		if (movement.first != Direction::none && movement.second > 0.0) {
+			fsm.agent->setDirection(movement.first);
+			fsm.push(make_shared<MoveToPoint>(
+				fsm.agent->getPos() + dirToVector(movement.first)*movement.second
+			));
+			waitTimer = App::getRandomFloat(minWait, maxWait);
+		}
+	}
+	else {
+		applyDesiredVelocity(fsm.agent, SpaceVect::zero, fsm.agent->getMaxAcceleration());
+	}
 }
 
 FireAtTarget::FireAtTarget(gobject_ref target) :
@@ -1484,7 +1522,28 @@ void HPCast::onExit(StateMachine& sm)
 	sm.agent->stopSpell();
 }
 
-FireOnStress::FireOnStress()
+BuildStressFromPlayerProjectiles::BuildStressFromPlayerProjectiles(float scale) :
+	scale(scale)
+{
+}
+
+void BuildStressFromPlayerProjectiles::onEnter(StateMachine& sm)
+{
+	sm.addDetectFunction(
+		GType::playerBullet,
+		[this](ai::StateMachine& sm, GObject* target) -> void {
+			sm.getAgent()->modifyAttribute(Attribute::stress, scale);
+		}
+	);
+}
+
+void BuildStressFromPlayerProjectiles::onExit(StateMachine& sm)
+{
+	sm.removeDetectFunction(GType::playerBullet);
+}
+
+FireOnStress::FireOnStress(float stressPerShot) :
+	stressPerShot(stressPerShot)
 {
 }
 
@@ -1492,9 +1551,8 @@ void FireOnStress::update(StateMachine& sm)
 {
 	Agent* a = sm.getAgent();
 
-	if (a->getAttribute(Attribute::stress) > 5.0f) {
-		a->getFirePattern()->fireIfPossible();
-		a->modifyAttribute(Attribute::stress, -5.0f);
+	if (a->getAttribute(Attribute::stress) >= stressPerShot && a->getFirePattern()->fireIfPossible()) {
+		a->modifyAttribute(Attribute::stress, -stressPerShot);
 	}
 }
 

@@ -52,6 +52,20 @@ public:
     //Find the [visible] object that the agent is most directly facing.
     GObject* getSensedObject();
 	list<GObject*> getSensedObjects();
+	list<GObject*> getSensedObjectsByGtype(GType type);
+
+	template<class C>
+	inline list<C*> getSensedObjectsByType()
+	{
+		list<C*> result;
+
+		for (GObject* obj : visibleObjects) {
+			C* c = dynamic_cast<C*>(obj);
+			if (c) result.push_back(c);
+		}
+
+		return result;
+	}
 
     void setFovAngle(SpaceFloat angle);
 

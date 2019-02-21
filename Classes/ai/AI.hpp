@@ -168,6 +168,8 @@ public:
 
 	void addDetectFunction(GType t, detect_function f);
 	void addEndDetectFunction(GType t, detect_function f);
+	void removeDetectFunction(GType t);
+	void removeEndDetectFunction(GType t);
 	void setBulletHitFunction(bullet_collide_function f);
 
 	//wrappers for the current thread
@@ -309,12 +311,12 @@ public:
 	virtual void update(StateMachine& sm);
 
 	inline virtual bitset<lockCount> getLockMask() {
-		return make_enum_bitfield(ResourceLock::movement);
+		return active ? make_enum_bitfield(ResourceLock::movement) : bitset<lockCount>();
 	}
 
 	FuncGetName(EvadePlayerProjectiles)
 protected:
-	list<unsigned int> bullets;
+	bool active = false;
 };
 
 class IdleWait : public Function{
@@ -505,7 +507,11 @@ protected:
 class Wander : public Function {
 public:
     Wander(GSpace* space, const ValueMap& args);
+	Wander(SpaceFloat minWait, SpaceFloat maxWait, SpaceFloat minDist, SpaceFloat maxDist);
+	Wander(SpaceFloat waitInterval, SpaceFloat moveDist);
 	Wander();
+
+	pair<Direction, SpaceFloat> chooseMovement(StateMachine& fsm);
 
     virtual void update(StateMachine& sm);
 
@@ -516,6 +522,7 @@ public:
 protected:
     SpaceFloat minWait, maxWait;
     SpaceFloat minDist, maxDist;
+	SpaceFloat waitTimer = 0.0;
 };
 
 class Operation : public Function {
@@ -567,9 +574,24 @@ protected:
 	float hp_difference;
 };
 
+class BuildStressFromPlayerProjectiles: public Function
+{
+public:
+	BuildStressFromPlayerProjectiles(float scale);
+
+	virtual void onEnter(StateMachine& sm);
+	virtual void onExit(StateMachine& sm);
+
+	FuncGetName(BuildStressFromPlayerProjectiles)
+
+	inline virtual bitset<lockCount> getLockMask() { return bitset<lockCount>(); }
+protected:
+	float scale;
+};
+
 class FireOnStress : public Function {
 public:
-	FireOnStress();
+	FireOnStress(float stressPerShot);
 
 	virtual void update(StateMachine& sm);
 	FuncGetName(FireOnStress)
@@ -577,6 +599,8 @@ public:
 	inline virtual bitset<lockCount> getLockMask() {
 		return make_enum_bitfield(ResourceLock::fire);
 	}
+protected:
+	float stressPerShot;
 };
 
 class FireAtTarget : public Function {

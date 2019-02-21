@@ -236,7 +236,7 @@ GenericAgent::GenericAgent(GSpace* space, ObjectIDType id, const ValueMap& args)
 void GenericAgent::initStateMachine(ai::StateMachine& sm)
 {
 	auto wanderThread = make_shared<ai::Thread>(
-		make_shared<ai::Wander>(),
+		make_shared<ai::Wander>(1.0, 3.0, 2.0, 4.0),
 		&fsm,
 		0,
 		make_enum_bitfield(ai::ResourceLock::movement)
