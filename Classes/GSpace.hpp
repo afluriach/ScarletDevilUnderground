@@ -299,13 +299,13 @@ private:
 
     cpSpace *space = nullptr;
 
-	unordered_map<collision_type, int(GSpace::*)(GObject*, GObject*), boost::hash<collision_type>> beginContactHandlers;
-	unordered_map<collision_type, void(GSpace::*)(GObject*, GObject*), boost::hash<collision_type>> endContactHandlers;
+	unordered_map<collision_type, int(GSpace::*)(GObject*, GObject*, cpArbiter*), boost::hash<collision_type>> beginContactHandlers;
+	unordered_map<collision_type, void(GSpace::*)(GObject*, GObject*, cpArbiter*), boost::hash<collision_type>> endContactHandlers;
 
     void addCollisionHandlers();
     
 	template<GType TypeA, GType TypeB>
-	inline void AddHandler(int(GSpace::*begin)(GObject*, GObject*), void(GSpace::*end)(GObject*, GObject*))
+	inline void AddHandler(int(GSpace::*begin)(GObject*, GObject*, cpArbiter*), void(GSpace::*end)(GObject*, GObject*, cpArbiter*))
 	{
 		cpSpaceAddCollisionHandler(
 			space,
@@ -327,30 +327,30 @@ private:
     void logHandler(const string& base, cpArbiter* arb);
     void logHandler(const string& name, GObject* a, GObject* b);
     
-	int playerEnemyBegin(GObject* a, GObject* b);
-	void playerEnemyEnd(GObject* a, GObject* b);
-	int playerEnemyBulletBegin(GObject* playerObj, GObject* bullet);
-	int playerGrazeRadarBegin(GObject* playerObj, GObject* bullet);
-	void playerGrazeRadarEnd(GObject* playerObj, GObject* bullet);
-	int playerBulletEnemyBegin(GObject* a, GObject* b);
-	int bulletBulletBegin(GObject* a, GObject* b);
-	int playerFlowerBegin(GObject* a, GObject* b);
-    int playerCollectibleBegin(GObject* a, GObject* b);
-	int playerUpgradeBegin(GObject* a, GObject* b);
-	int bulletEnvironment(GObject* a, GObject* b);
-	int noCollide(GObject* a, GObject* b);
-	int collide(GObject* a, GObject* b);
-	int bulletWall(GObject* bullet, GObject* unused);
-	int sensorStart(GObject* radarAgent, GObject* target);
-	void sensorEnd(GObject* radarAgent, GObject* target);
-	int floorObjectBegin(GObject* floorSegment, GObject* obj);
-	void floorObjectEnd(GObject* floorSegment, GObject* obj);
-	int playerAreaSensorBegin(GObject* a, GObject *b);
-	void playerAreaSensorEnd(GObject* a, GObject *b);
-	int enemyAreaSensorBegin(GObject* a, GObject *b);
-	void enemyAreaSensorEnd(GObject* a, GObject *b);
-	int environmentAreaSensorBegin(GObject* obj, GObject* areaSensor);
-	void environmentAreaSensorEnd(GObject* obj, GObject* areaSensor);
+	int playerEnemyBegin(GObject* a, GObject* b, cpArbiter* arb);
+	void playerEnemyEnd(GObject* a, GObject* b, cpArbiter* arb);
+	int playerEnemyBulletBegin(GObject* playerObj, GObject* bullet, cpArbiter* arb);
+	int playerGrazeRadarBegin(GObject* playerObj, GObject* bullet, cpArbiter* arb);
+	void playerGrazeRadarEnd(GObject* playerObj, GObject* bullet, cpArbiter* arb);
+	int playerBulletEnemyBegin(GObject* a, GObject* b, cpArbiter* arb);
+	int bulletBulletBegin(GObject* a, GObject* b, cpArbiter* arb);
+	int playerFlowerBegin(GObject* a, GObject* b, cpArbiter* arb);
+    int playerCollectibleBegin(GObject* a, GObject* b, cpArbiter* arb);
+	int playerUpgradeBegin(GObject* a, GObject* b, cpArbiter* arb);
+	int bulletEnvironment(GObject* a, GObject* b, cpArbiter* arb);
+	int noCollide(GObject* a, GObject* b, cpArbiter* arb);
+	int collide(GObject* a, GObject* b, cpArbiter* arb);
+	int bulletWall(GObject* bullet, GObject* unused, cpArbiter* arb);
+	int sensorStart(GObject* radarAgent, GObject* target, cpArbiter* arb);
+	void sensorEnd(GObject* radarAgent, GObject* target, cpArbiter* arb);
+	int floorObjectBegin(GObject* floorSegment, GObject* obj, cpArbiter* arb);
+	void floorObjectEnd(GObject* floorSegment, GObject* obj, cpArbiter* arb);
+	int playerAreaSensorBegin(GObject* a, GObject *b, cpArbiter* arb);
+	void playerAreaSensorEnd(GObject* a, GObject *b, cpArbiter* arb);
+	int enemyAreaSensorBegin(GObject* a, GObject *b, cpArbiter* arb);
+	void enemyAreaSensorEnd(GObject* a, GObject *b, cpArbiter* arb);
+	int environmentAreaSensorBegin(GObject* obj, GObject* areaSensor, cpArbiter* arb);
+	void environmentAreaSensorEnd(GObject* obj, GObject* areaSensor, cpArbiter* arb);
 
 //END PHYSICS
 

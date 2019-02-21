@@ -41,6 +41,17 @@ void Bullet::onBulletCollide(Bullet* bullet)
 	//NO-OP
 }
 
+bool Bullet::applyRicochet(SpaceVect n)
+{
+	if (ricochetCount == 0) return false;
+	if (ricochetCount > 0) --ricochetCount;
+
+	SpaceVect v = getVel();
+	setVel(-2.0 * (SpaceVect::dot(v,n))*n + v);
+
+	return true;
+}
+
 void Bullet::setBodyVisible(bool b)
 {
 	if (drawNodeID != 0) {

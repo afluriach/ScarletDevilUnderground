@@ -37,8 +37,11 @@ public:
 	virtual void onAgentCollide(Agent* agent);
 	virtual void onBulletCollide(Bullet* bullet);
 
+	bool applyRicochet(SpaceVect n);
+
 	void setBodyVisible(bool b);
 	float agentAttackMultiplier = 1.0f;
+	int ricochetCount = 0;
 };
 
 #endif /* Bullet_hpp */

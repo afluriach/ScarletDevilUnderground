@@ -69,7 +69,9 @@ AttributeMap FlandreBigOrb1::getAttributeEffect() const {
 FlandreFastOrb1::FlandreFastOrb1(GSpace* space, ObjectIDType id, Agent* agent, SpaceFloat angle, const SpaceVect& pos) :
 	GObject(space,id,"", pos, angle),
 	PlayerBullet(agent)
-{}
+{
+	ricochetCount = 3;
+}
 
 AttributeMap FlandreFastOrb1::getAttributeEffect() const {
 	return {
