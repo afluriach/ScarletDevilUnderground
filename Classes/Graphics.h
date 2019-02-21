@@ -17,6 +17,7 @@ enum class cocos_action_tag
 	damage_flicker,
 	object_fade,
 	hit_protection_flicker,
+	combo_mode_flicker,
 	freeze_status,
 
 	game_over_tint,
@@ -162,6 +163,7 @@ FiniteTimeAction* flickerTint(float interval, float length, Color3B tint);
 
 ActionGeneratorType flickerAction(float interval, float length, unsigned char opacity);
 ActionGeneratorType flickerTintAction(float interval, float length, Color3B tint);
+ActionGeneratorType comboFlickerTintAction();
 ActionGeneratorType tintToAction(Color3B tint, float length);
 ActionGeneratorType motionBlurStretch(float duration, float angle, float opacity, float scale);
 ActionGeneratorType pitfallShrinkAction();

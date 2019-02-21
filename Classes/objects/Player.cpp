@@ -242,7 +242,7 @@ void Player::checkBombControls(const ControlInfo& cs)
 	{
 		SpaceVect bombPos = getPos() + SpaceVect::ray(1.5, getAngle());
 		if (canPlaceBomb(bombPos)) {
-			space->createObject(GObject::make_object_factory<PlayerBomb>(bombPos));
+			space->createObject(GObject::make_object_factory<PlayerBomb>(bombPos, getVel()));
 			attributeSystem.modifyAttribute(Attribute::power, -bombPowerCost);
 			bombCooldown = bombCooldownTime;
 		}
@@ -277,11 +277,16 @@ void Player::updateHitTime()
 
 void Player::updateCombo()
 {
-	if (attributeSystem.getAdjustedValue(Attribute::combo) >= AttributeSystem::maxComboPoints) {
+	if (attributeSystem.getAdjustedValue(Attribute::combo) >= AttributeSystem::maxComboPoints && !isComboActive) {
 		isComboActive = true;
+		attributeSystem.modifyAttribute(Attribute::attack, 0.25f);
+		space->runSpriteAction(spriteID, comboFlickerTintAction());
 	}
-	else if (!attributeSystem.isNonzero(Attribute::combo)) {
+	else if (!attributeSystem.isNonzero(Attribute::combo) && isComboActive) {
 		isComboActive = false;
+		attributeSystem.modifyAttribute(Attribute::attack, -0.25f);
+		space->stopSpriteAction(spriteID, cocos_action_tag::combo_mode_flicker);
+		space->setSpriteColor(spriteID, Color3B::WHITE);
 	}
 
 	if (attributeSystem.getAdjustedValue(Attribute::combo) > 0) {
@@ -460,7 +465,8 @@ void Player::hit(AttributeMap attributeEffect, shared_ptr<MagicEffect> effect){
     if(!isProtected()){
 		Agent::hit(attributeEffect, effect);
 		attributeSystem.setHitProtection();
-		
+		attributeSystem.setAttribute(Attribute::combo, 0.0f);
+
 		space->runSpriteAction(
 			spriteID,
 			flickerAction(
@@ -540,11 +546,6 @@ void Player::applyUpgrade(Upgrade* up)
 
 	App::crntState->registerUpgrade(App::crntPC, at, up->upgrade_id);
 	space->removeObject(up);
-}
-
-float Player::getComboMultiplier()
-{
-	return isComboActive ? 1.25f : 1.0f;
 }
 
 void Player::onGrazeTouch(object_ref<EnemyBullet> bullet)

@@ -21,7 +21,7 @@ class Bomb :
 	public RegisterUpdate<Bomb>
 {
 public:
-	Bomb(GSpace* space, ObjectIDType id, const SpaceVect& pos);
+	Bomb(GSpace* space, ObjectIDType id, const SpaceVect& pos, const SpaceVect& vel);
 	inline virtual ~Bomb() {}
 
 	virtual inline SpaceFloat uk() const { return 0.0625; }
@@ -49,7 +49,7 @@ protected:
 class PlayerBomb : public Bomb, public ImageSprite
 {
 public:
-	PlayerBomb(GSpace* space, ObjectIDType id, const SpaceVect& pos);
+	PlayerBomb(GSpace* space, ObjectIDType id, const SpaceVect& pos, const SpaceVect& vel);
 
 	virtual inline string imageSpritePath() const { return "sprites/flandre_bullet.png"; }
 	static constexpr float spriteBaseRadius = 0.83f;

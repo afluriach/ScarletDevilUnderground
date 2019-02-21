@@ -114,7 +114,6 @@ public:
 	void moveToDestinationDoor(Door* dest);
 	void applyUpgrade(Upgrade* up);
 
-	float getComboMultiplier();
 	void applyCombo(int b);
 
 	//The bullet's graze "radar" has collided with Player.

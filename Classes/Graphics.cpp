@@ -298,6 +298,22 @@ ActionGeneratorType flickerTintAction(float interval, float length, Color3B tint
 	};
 }
 
+ActionGeneratorType comboFlickerTintAction()
+{
+	return []() -> FiniteTimeAction* {
+
+		Sequence* flicker = Sequence::createWithTwoActions(
+			TintTo::createRecursive(0.125f, Color3B(192, 160, 96)),
+			TintTo::createRecursive(0.125f, Color3B::WHITE)
+		);
+
+		RepeatForever* loop = RepeatForever::create(flicker);
+		loop->setTag(to_int(cocos_action_tag::combo_mode_flicker));
+
+		return loop;
+	};
+}
+
 FiniteTimeAction* tintTo(Color3B tint, float length)
 {
 	return TintTo::createRecursive(length, tint);

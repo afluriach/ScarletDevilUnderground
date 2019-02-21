@@ -417,7 +417,9 @@ void GScene::createAgentSprite(SpriteID id, string path, bool isAgentAnimation, 
 
 void GScene::createDamageIndicator(float val, SpaceVect pos)
 {
-	Label* label = createTextLabel(boost::lexical_cast<string>(static_cast<int>(val)), 18);
+	float roundedVal = floor(val * 4.0f) / 4.0f;
+
+	Label* label = createTextLabel(boost::lexical_cast<string>(roundedVal), 18);
 	Vec2 startPos = toCocos(pos + SpaceVect(0.0, 0.5)) * App::pixelsPerTile;
 	label->setPosition(startPos);
 	label->setScale(2.0f);

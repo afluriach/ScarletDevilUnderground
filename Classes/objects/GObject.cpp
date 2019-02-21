@@ -131,7 +131,7 @@ void GObject::onPitfall()
 
 //BEGIN PHYSICS
 
-void GObject::setInitialVelocity(const SpaceVect&& v){
+void GObject::setInitialVelocity(const SpaceVect& v){
 	multiInit += [=]() -> void { cpBodySetVel(body, v); };
 }
 

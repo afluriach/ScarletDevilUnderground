@@ -13,11 +13,14 @@
 #include "GSpace.hpp"
 #include "Wall.hpp"
 
-Bomb::Bomb(GSpace* space, ObjectIDType id, const SpaceVect& pos) :
+Bomb::Bomb(GSpace* space, ObjectIDType id, const SpaceVect& pos, const SpaceVect& vel) :
 	GObject(space, id, "", pos, 0.0),
 	RegisterInit<Bomb>(this),
 	RegisterUpdate<Bomb>(this)
 {
+	if (!vel.isZero()) {
+		setInitialVelocity(vel);
+	}
 }
 
 void Bomb::init()
@@ -88,8 +91,8 @@ void Bomb::applyKnockback(GObject* target, SpaceFloat mag)
 	target->applyImpulse(d * mag);
 }
 
-PlayerBomb::PlayerBomb(GSpace* space, ObjectIDType id, const SpaceVect& pos) :
+PlayerBomb::PlayerBomb(GSpace* space, ObjectIDType id, const SpaceVect& pos, const SpaceVect& vel) :
 	GObject(space, id, "", pos, 0.0),
-	Bomb(space, id, pos)
+	Bomb(space, id, pos, vel)
 {
 }
