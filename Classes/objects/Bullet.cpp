@@ -57,7 +57,7 @@ bool Bullet::applyRicochet(SpaceVect n)
 	if (ricochetCount > 0) --ricochetCount;
 
 	SpaceVect v = getVel();
-	setVel(-2.0 * (SpaceVect::dot(v,n))*n + v);
+	message<GObject>(this,&GObject::setVel, -2.0 * (SpaceVect::dot(v,n))*n + v);
 
 	return true;
 }

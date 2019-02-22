@@ -35,8 +35,7 @@ void ReimuEnemy::onZeroHP()
 {
 	space->createDialog("dialogs/reimu_forest_post_fight", false);
 	unlockDoors();
-	if (yin.isValid()) space->removeObject(yin.get());
-	if (yang.isValid()) space->removeObject(yang.get());
+	removeOrbs();
 	Agent::onZeroHP();
 }
 
@@ -66,6 +65,23 @@ void ReimuEnemy::unlockDoors()
 	}
 }
 
+void ReimuEnemy::spawnOrbs()
+{
+	for_irange(i, 0, orbCount)
+	{
+		SpaceFloat angle = float_pi * (0.25 + i*0.5);
+		orbs[i] = space->createObject(GObject::make_object_factory<YinYangOrb>(this, getPos() + SpaceVect::ray(1.5, angle), angle));
+	}
+}
+
+void ReimuEnemy::removeOrbs()
+{
+	for_irange(i, 0, orbCount)
+	{
+		space->removeObject(orbs[i].get());
+	}
+}
+
 void ReimuEnemy::initStateMachine(ai::StateMachine& fsm)
 {
 	fsm.addDetectFunction(
@@ -74,8 +90,7 @@ void ReimuEnemy::initStateMachine(ai::StateMachine& fsm)
 			if (!sm.isThreadRunning("ReimuMain")) {
 				sm.agent->space->createDialog("dialogs/reimu_forest_pre_fight", false);
 				this->lockDoors();
-				yin = space->createObject(GObject::make_object_factory<YinOrb>(sm.getAgent(), sm.agent->getPos() + SpaceVect(1.0, 0.0)));
-				yang = space->createObject(GObject::make_object_factory<YangOrb>(sm.getAgent(), sm.agent->getPos() + SpaceVect(-1.0, 0.0)));
+				this->spawnOrbs();
 				sm.addThread(make_shared<ReimuMain>());
 			}
 		}

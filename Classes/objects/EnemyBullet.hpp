@@ -190,7 +190,7 @@ public:
 	void update();
 };
 
-class YinOrb :
+class YinYangOrb :
 	virtual public GObject,
 	public EnemyBullet,
 	public DirectionalLaunch,
@@ -198,7 +198,7 @@ class YinOrb :
 	public ImageSprite
 {
 public:
-	YinOrb(GSpace* space, ObjectIDType id, Agent* agent, const SpaceVect& pos);
+	YinYangOrb(GSpace* space, ObjectIDType id, Agent* agent, const SpaceVect& pos, SpaceFloat angle);
 
 	virtual inline SpaceFloat getRadius() const { return 0.5; }
 	virtual inline SpaceFloat getMaxSpeed() const { return 4.5; }
@@ -207,22 +207,5 @@ public:
 
 	virtual AttributeMap getAttributeEffect() const;
 };
-
-class YangOrb : 
-	virtual public GObject,
-	public EnemyBullet,
-	public DirectionalLaunch,
-	public CircleBody,
-	public ImageSprite
-{
-public:
-	YangOrb(GSpace* space, ObjectIDType id, Agent* agent, const SpaceVect& pos);
-
-	virtual inline SpaceFloat getRadius() const { return 0.5; }
-	virtual inline SpaceFloat getMaxSpeed() const { return 4.5; }
-	virtual inline string imageSpritePath() const { return "sprites/yin-yang-orb.png"; }
-	virtual inline float zoom() const { return 1.0f; }
-};
-
 
 #endif /* Bullet_hpp */

@@ -49,8 +49,12 @@
     <property name="dir" value="right"/>
    </properties>
   </object>
-  <object id="189" name="barrier-f9-4" type="Barrier" x="640" y="768" width="128" height="128"/>
-  <object id="190" name="reimu" type="ReimuEnemy" x="1408" y="1408" width="128" height="128">
+  <object id="189" name="barrier-f9-4" type="Barrier" x="640" y="768" width="128" height="128">
+   <properties>
+    <property name="sealed" value="true"/>
+   </properties>
+  </object>
+  <object id="190" name="reimu" type="ReimuEnemy" x="2304" y="1216" width="128" height="128">
    <properties>
     <property name="activations" value="barrier-f9-1 barrier-f9-2 barrier-f9-3 barrier-f9-4"/>
    </properties>

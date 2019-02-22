@@ -32,12 +32,15 @@ public:
 class ReimuEnemy : public Enemy, public BaseAttributes<ReimuEnemy>
 {
 public:
+	static constexpr int orbCount = 4;
 	static const AttributeMap baseAttributes;
 
 	MapObjCons(ReimuEnemy);
 
 	void lockDoors();
 	void unlockDoors();
+	void spawnOrbs();
+	void removeOrbs();
 
 	virtual void onZeroHP();
 
@@ -55,7 +58,7 @@ public:
 	virtual void initStateMachine(ai::StateMachine& fsm);
 protected:
 	string activations;
-	gobject_ref yin, yang;
+	array<gobject_ref, orbCount> orbs;
 };
 
 class ReimuMain : public ai::Function
