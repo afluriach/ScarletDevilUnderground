@@ -9,15 +9,12 @@
 #ifndef Reimu_h
 #define Reimu_h
 
-#include "Agent.hpp"
+#include "Enemy.hpp"
 
 class Reimu : virtual public Agent, public DialogEntity, public NoAttributes
 {
 public:
-    inline Reimu(GSpace* space, ObjectIDType id, const ValueMap& args) :
-	MapObjForwarding(GObject),
-    MapObjForwarding(Agent)
-    {}
+	MapObjCons(Reimu);
     
     virtual inline SpaceFloat getRadius() const {return 0.35;}
     inline SpaceFloat getMass() const {return -1.0;}
@@ -30,6 +27,35 @@ public:
     inline virtual string getDialog(){
         return "dialogs/warning_about_rumia";
     }
+};
+
+class ReimuEnemy : public Enemy, public BaseAttributes<ReimuEnemy>
+{
+public:
+	static const AttributeMap baseAttributes;
+
+	MapObjCons(ReimuEnemy);
+
+	virtual inline SpaceFloat getRadarRadius() const { return 5.0; }
+	virtual GType getRadarType() const { return GType::enemySensor; }
+	virtual inline SpaceFloat getDefaultFovAngle() const { return 0.0; }
+
+	virtual inline SpaceFloat getRadius() const { return 0.35; }
+	virtual inline SpaceFloat getMass() const { return 40.0; }
+	virtual inline GType getType() const { return GType::enemy; }
+
+	virtual inline string imageSpritePath() const { return "sprites/reimu.png"; }
+	virtual inline GraphicsLayer sceneLayer() const { return GraphicsLayer::ground; }
+
+	virtual void initStateMachine(ai::StateMachine& fsm);
+};
+
+class ReimuMain : public ai::Function
+{
+public:
+	virtual void onEnter(ai::StateMachine& sm);
+	virtual void update(ai::StateMachine& sm);
+	FuncGetName(ReimuMain)
 };
 
 #endif /* Reimu_h */

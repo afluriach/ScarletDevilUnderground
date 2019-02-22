@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <map version="1.0" tiledversion="1.0.3" orientation="orthogonal" renderorder="right-down" width="32" height="33" tilewidth="128" tileheight="128" nextobjectid="191">
  <properties>
-  <property name="boss" value="fairy1"/>
+  <property name="boss" value="reimu"/>
   <property name="trap_doors" value="barrier-f9 door-f9-west"/>
  </properties>
  <tileset firstgid="1" name="dirt1" tilewidth="128" tileheight="128" tilecount="4" columns="2">
@@ -51,6 +51,6 @@
    </properties>
   </object>
   <object id="189" name="barrier-f9" type="Barrier" x="640" y="768" width="128" height="128"/>
-  <object id="190" name="fairy1" type="Fairy1" x="1376" y="1152" width="128" height="128"/>
+  <object id="190" name="reimu" type="ReimuEnemy" x="1408" y="1664" width="128" height="128"/>
  </objectgroup>
 </map>

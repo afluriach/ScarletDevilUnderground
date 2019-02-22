@@ -93,16 +93,16 @@ GObject::AdapterType collectibleAdapter(collectible_id id)
 	};
 }
 
-#define entry(name,cls) {name, consAdapter<cls>()}
+#define entry(name,cls) {name, GObject::object_info{consAdapter<cls>(), type_index(typeid(cls))}}
 //To make an entry where the name matches the class
 #define entry_same(cls) entry(#cls, cls)
 
-#define item_entry(name,cls,itemKey) {name, itemAdapter<cls>(#itemKey)}
+#define item_entry(name,cls,itemKey) {name, GObject::object_info{itemAdapter<cls>(#itemKey), type_index(typeid(cls))}}
 #define item_entry_same(cls) item_entry(#cls,cls,cls)
 
-#define collectible_entry(name,id) {#name, collectibleAdapter<name>(collectible_id::id)}
+#define collectible_entry(name,id) {#name, GObject::object_info{collectibleAdapter<name>(collectible_id::id), type_index(typeid(name))}}
 
-const unordered_map<string, GObject::AdapterType> GObject::adapters = {
+const unordered_map<string, GObject::object_info> GObject::objectInfo = {
 	entry_same(AgilityUpgrade),
 	entry_same(Bat),
 	entry_same(BlueFairy),
@@ -153,6 +153,7 @@ const unordered_map<string, GObject::AdapterType> GObject::adapters = {
 	entry_same(Pyramid),
 	entry_same(RedFairy),
 	entry_same(Reimu),
+	entry_same(ReimuEnemy),
 	entry_same(Sakuya),
 	entry_same(SakuyaNPC),
 	entry_same(SandFloor),
@@ -171,7 +172,7 @@ const unordered_map<string, GObject::AdapterType> GObject::adapters = {
 	entry_same(Wall),
 	entry_same(ZombieFairy),
 
-	{ "Player", playerAdapter() }
+	{ "Player", object_info{playerAdapter(), type_index(typeid(Player))} }
 };
 
 const set<type_index> GSpace::trackedTypes = {
@@ -189,9 +190,15 @@ const set<type_index> GSpace::enemyTypes = {
 	typeid(Fairy1),
 	typeid(Fairy2),
 	typeid(IceFairy),
+
+	typeid(RedFairy),
+	typeid(GreenFairy),
+	typeid(BlueFairy),
+	typeid(ZombieFairy),
 	
 	typeid(ForestMarisa),
 	typeid(PatchouliEnemy),
+	typeid(ReimuEnemy),
 	typeid(Sakuya),
 
 	typeid(Scorpion1),
@@ -202,15 +209,3 @@ const set<type_index> GSpace::enemyTypes = {
 };
 
 #define _nameTypeEntry(cls) {#cls, typeid(cls)}
-
-const map<string,type_index> GSpace::enemyNameTypeMap = {
-	_nameTypeEntry(Fairy1),
-	_nameTypeEntry(Fairy2),
-	_nameTypeEntry(IceFairy),
-
-	_nameTypeEntry(Scorpion1),
-	_nameTypeEntry(Scorpion2),
-	_nameTypeEntry(Slime1),
-	_nameTypeEntry(Slime2),
-	_nameTypeEntry(Stalker),
-};

@@ -24,6 +24,7 @@ public:
 	static const vector<listAction> entryActions;
 
 	inline TitleMenu() {}
+	inline virtual ~TitleMenu() {}
 private:
 	static void newGame();
 	static void loadGame();
@@ -37,6 +38,7 @@ public:
 	static const string title;
 
 	NewProfileMenu();
+	inline virtual ~NewProfileMenu() {}
 private:
 	static vector<string> getProfileSlots();
 	static vector<listAction> getSelectionActions();
@@ -52,6 +54,7 @@ public:
 	static const string title;
 
 	LoadProfileMenu();
+	inline virtual ~LoadProfileMenu() {}
 private:
 	static vector<string> getProfiles();
 	static vector<listAction> getLoadActions();
@@ -68,6 +71,7 @@ public:
 	static const vector<listAction> entryActions;
 
 	inline SceneSelect() {}
+	inline virtual ~SceneSelect() {}
 protected:
 	static void back();
 };
@@ -86,6 +90,7 @@ public:
 	static vector<listAction> getAvailableChamberActions();
 
 	WorldSelect(bool showAll);
+	inline virtual ~WorldSelect() {}
 
 protected:
 	static void back();
@@ -99,6 +104,7 @@ public:
 	static const vector<listAction> entryActions;
 
 	inline CharacterSelect() {}
+	inline virtual ~CharacterSelect() {}
 protected:
 	static void back();
 };
@@ -115,6 +121,7 @@ public:
 	static void worldSelect();
 
 	PauseMenu(bool overworld, Player* player);
+	inline virtual ~PauseMenu() {}
 protected:
 	Player * player;
 };
@@ -127,6 +134,7 @@ public:
 	static const vector<listAction> entryActions;
 
 	inline GameOverMenu() {}
+	inline virtual ~GameOverMenu() {}
 };
 
 class ChamberCompletedMenu : public TextListMenuImpl<ChamberCompletedMenu>
@@ -137,6 +145,7 @@ public:
 	static const vector<listAction> entryActions;
 
 	inline ChamberCompletedMenu(PlayScene* playScene) : playScene(playScene) {}
+	inline virtual ~ChamberCompletedMenu() {}
 
 	virtual bool init();
 protected:
@@ -154,6 +163,7 @@ public:
 	static const vector<listAction> entryActions;
 
 	inline ReplayCompletedMenu() {}
+	inline virtual ~ReplayCompletedMenu() {}
 };
 
 class MapMenu : public MenuLayer
@@ -169,6 +179,7 @@ public:
 	static const Color4F goalColor;
 
 	MapMenu(PlayScene* playScene);
+	inline virtual ~MapMenu() {}
 
 	virtual bool init();
 	virtual void update(float dt);
@@ -194,6 +205,7 @@ public:
 	static const vector<pair<Attribute, string>> displayAttributes;
 
 	PlayerInfo(const AttributeSystem* stats);
+	inline virtual ~PlayerInfo() {}
 
 	virtual bool init();
 protected:

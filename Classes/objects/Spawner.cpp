@@ -24,7 +24,15 @@ spawnLimit(getIntOrDefault(args, "spawn_limit", defaultSpawnLimit))
 
 type_index Spawner::getSpawnType() const
 {
-	return GSpace::enemyNameTypeMap.find(spawn_args.at("type").asString())->second;
+	string type = spawn_args.at("type").asString();
+	auto it = GObject::objectInfo.find(type);
+	if (it != GObject::objectInfo.end()) {
+		return it->second.type;
+	}
+	else {
+		log("Spawner::getSpawnType(): unknown enemy type %s.", type.c_str());
+		return typeid(Spawner);
+	}
 }
 
 int Spawner::getRemainingSpawns() const

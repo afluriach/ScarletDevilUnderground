@@ -40,9 +40,15 @@ public:
 		initFSM
 	};
 
+	struct object_info
+	{
+		AdapterType consAdapter;
+		type_index type;
+	};
+
     static constexpr bool logCreateObjects = false;
 	//Map each class name to a constructor adapter function.
-	static const unordered_map<string, AdapterType> adapters;
+	static const unordered_map<string, object_info> objectInfo;
 
 	static const float objectFadeInTime;
 	static const float objectFadeOutTime;

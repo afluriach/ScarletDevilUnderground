@@ -62,7 +62,6 @@ public:
     static const bool logObjectArgs;
 	static const set<type_index> trackedTypes;
 	static const set<type_index> enemyTypes;
-	static const map<string, type_index> enemyNameTypeMap;
 
 	void addWallBlock(const SpaceVect& ll, const SpaceVect& ur);
 	void addWallBlock(const SpaceRect& area);
@@ -71,6 +70,7 @@ public:
 	gobject_ref createObject(ObjectGeneratorType factory);
 	void createObjects(const ValueVector& objs);
         
+	bool isTrackedType(type_index t) const;
     bool isValid(unsigned int uuid) const;
     vector<string> getObjectNames() const;
     unordered_map<int,string> getUUIDNameMap() const;
@@ -161,6 +161,22 @@ private:
     void initObjects();
     void processRemoval(GObject* obj, bool removeSprite);
     
+	template<class C>
+	inline void addVirtualTrack(GObject* obj)
+	{
+		if (dynamic_cast<C*>(obj)) {
+			objByType[typeid(C)].insert(obj);
+		}
+	}
+
+	template<class C>
+	inline void removeVirtualTrack(GObject* obj)
+	{
+		if (dynamic_cast<C*>(obj)) {
+			objByType[typeid(C)].erase(obj);
+		}
+	}
+
     unordered_map<unsigned int, GObject*> objByUUID;
     unordered_map<string, GObject*> objByName;
 	unordered_set<string> warningNames;

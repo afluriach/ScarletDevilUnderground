@@ -20,6 +20,8 @@ MenuLayer::MenuLayer() :
 {
 }
 
+MenuLayer::~MenuLayer() {}
+
 bool MenuLayer::init()
 {
 	Layer::init();

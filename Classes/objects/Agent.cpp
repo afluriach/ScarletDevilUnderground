@@ -200,9 +200,10 @@ void Agent::hit(AttributeMap attributeEffect, shared_ptr<MagicEffect> effect)
 		App::playSoundSpatial("sfx/enemy_damage.wav", getPos(), getVel());
 	}
 
-	if (attributeEffect.at(Attribute::hp) != 0.0f) {
-		space->createDamageIndicator(-attributeEffect.at(Attribute::hp), getPos());
-	}
+	auto hp_it = attributeEffect.find(Attribute::hp);
+	float hp = hp_it == attributeEffect.end() ? 0.0f : hp_it->second;
+
+	space->createDamageIndicator(-hp, getPos());
 }
 
 bool Agent::canApplyAttributeEffects(AttributeMap attributeEffect)

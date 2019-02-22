@@ -34,14 +34,17 @@ public:
 
 	virtual void onWallCollide(Wall* wall);
 	virtual void onEnvironmentCollide(GObject* obj);
-	virtual void onAgentCollide(Agent* agent);
+	virtual void onAgentCollide(Agent* agent, SpaceVect n);
 	virtual void onBulletCollide(Bullet* bullet);
 
 	bool applyRicochet(SpaceVect n);
 
 	void setBodyVisible(bool b);
+
+	SpaceFloat knockback = 0.0;
 	float agentAttackMultiplier = 1.0f;
 	int ricochetCount = 0;
+	int hitCount = 1;
 };
 
 #endif /* Bullet_hpp */

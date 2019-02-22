@@ -269,7 +269,7 @@ int GSpace::playerEnemyBulletBegin(GObject* playerObj, GObject* bullet, cpArbite
         log("%s hit by %s", player->name.c_str(), bullet->name.c_str());
 
 	if (player && _bullet) {
-		_bullet->onAgentCollide(player);
+		_bullet->onAgentCollide(player, cpArbiterGetNormal(arb, 0));
 		player->onBulletCollide(_bullet);
 		_bullet->invalidateGraze();
 	}
@@ -310,7 +310,7 @@ int GSpace::playerBulletEnemyBegin(GObject* a, GObject* b, cpArbiter* arb)
         log("%s is not an Enemy", b->getName().c_str());
     
 	if (bullet && _enemy_agent){
-		bullet->onAgentCollide(_enemy_agent);
+		bullet->onAgentCollide(_enemy_agent, cpArbiterGetNormal(arb, 0));
 		_enemy_agent->onBulletCollide(bullet);
 	}
 

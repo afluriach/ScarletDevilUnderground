@@ -242,6 +242,17 @@ void GScene::update(float dt)
 	}
 }
 
+void GScene::onExit()
+{
+	while (!menuStack.empty()) popMenu();
+
+	while (spaceUpdatesToRun.load() > 0) {
+		this_thread::sleep_for(chrono::duration<int, milli>(1));
+	}
+
+	Node::onExit();
+}
+
 GScene* GScene::getReplacementScene()
 {
 	return Node::ccCreate<GScene>(sceneName, maps);

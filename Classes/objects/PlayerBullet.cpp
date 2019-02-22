@@ -17,9 +17,9 @@ PlayerBullet::PlayerBullet(Agent* agent) :
 {
 }
 
-void PlayerBullet::onAgentCollide(Agent* agent)
+void PlayerBullet::onAgentCollide(Agent* agent, SpaceVect n)
 {
-	Bullet::onAgentCollide(agent);
+	Bullet::onAgentCollide(agent, n);
 	Player* p = space->getObjectAs<Player>("player");
 	p->applyCombo(6);
 }
@@ -39,7 +39,7 @@ void PlayerShield::onEnvironmentCollide(GObject* obj)
 	//NO-OP
 }
 
-void PlayerShield::onAgentCollide(Agent* agent)
+void PlayerShield::onAgentCollide(Agent* agent, SpaceVect n)
 {
 	agent->hit(getAttributeEffect(), getMagicEffect(agent));
 
@@ -123,17 +123,8 @@ AttributeMap RumiaFastOrb1::getAttributeEffect() const {
 CirnoSmallIceBullet::CirnoSmallIceBullet(GSpace* space, ObjectIDType id, Agent* agent, SpaceFloat angle, const SpaceVect& pos) :
 	GObject(space, id, "", pos, angle),
 	PlayerBullet(agent)
-{}
-
-void CirnoSmallIceBullet::onAgentCollide(Agent* agent)
 {
-	agent->hit(getAttributeEffect(), getMagicEffect(agent));
-	
-	--hitsRemaining;
-
-	if (hitsRemaining <= 0) {
-		space->removeObject(this);
-	}
+	hitCount = 3;
 }
 
 AttributeMap CirnoSmallIceBullet::getAttributeEffect() const {

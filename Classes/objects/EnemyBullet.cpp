@@ -157,3 +157,30 @@ void IllusionDialDagger::initializeGraphics()
 	space->drawSolidRect(drawNodeID, Vec2(-hWidth, -hHeight), Vec2(hWidth, hHeight), Color4F(.66f, .75f, .66f, .7f));
 	space->setSpriteVisible(drawNodeID, false);
 }
+
+YinOrb::YinOrb(GSpace* space, ObjectIDType id, Agent* agent, const SpaceVect& pos) :
+	GObject(space, id, "", pos, float_pi / 4.0),
+	EnemyBullet(agent)
+{
+	ricochetCount = -1;
+	hitCount = -1;
+	knockback = 300.0;
+
+	setInitialAngularVelocity(float_pi);
+}
+
+AttributeMap YinOrb::getAttributeEffect() const
+{
+	return { { Attribute::hp, -1 } };
+}
+
+YangOrb::YangOrb(GSpace* space, ObjectIDType id, Agent* agent, const SpaceVect& pos) :
+	GObject(space, id, "", pos, float_pi * 0.75),
+	EnemyBullet(agent)
+{
+	ricochetCount = -1;
+	hitCount = -1;
+	knockback = 300.0;
+
+	setInitialAngularVelocity(-float_pi);
+}

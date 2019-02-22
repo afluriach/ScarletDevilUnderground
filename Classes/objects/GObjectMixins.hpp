@@ -98,6 +98,8 @@ public:
 class CircleBody : public virtual GObject
 {
 public:
+	inline CircleBody() {}
+
     virtual SpaceFloat getRadius() const = 0;
     virtual SpaceFloat getMomentOfInertia() const;
 

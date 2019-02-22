@@ -217,12 +217,17 @@ GObject* GSpace::getObject(unsigned int uuid) const
 
 const set<GObject*>* GSpace::getObjectsByType(type_index t) const
 {
-	if (trackedTypes.find(t) == trackedTypes.end() && enemyTypes.find(t) == enemyTypes.end()) {
+	if(!isTrackedType(t)){
 		log("%s is not a tracked type.", t.name());
 		return nullptr;
 	}
 
 	return &(objByType.at(t));
+}
+
+bool GSpace::isTrackedType(type_index t) const
+{
+	return trackedTypes.find(t) != trackedTypes.end() || enemyTypes.find(t) != enemyTypes.end();
 }
 
 bool GSpace::isValid(unsigned int uuid) const
@@ -260,23 +265,14 @@ void GSpace::processAdditions()
         obj->initializeBody(*this);
         obj->initializeRadar(*this);
         obj->initializeGraphics();
-        
-		if (trackedTypes.find(typeid(*obj)) != trackedTypes.end()) {
-			objByType[typeid(*obj)].insert(obj);
-		}
-		if (enemyTypes.find(typeid(*obj)) != enemyTypes.end()) {
+
+		if (isTrackedType(typeid(*obj))) {
 			objByType[typeid(*obj)].insert(obj);
 		}
 
-		if (dynamic_cast<EnemyBullet*>(obj)) {
-			objByType[typeid(EnemyBullet)].insert(obj);
-		}
-		if (dynamic_cast<FloorSegment*>(obj)) {
-			objByType[typeid(FloorSegment)].insert(obj);
-		}
-		if (dynamic_cast<Wall*>(obj)) {
-			objByType[typeid(Wall)].insert(obj);
-		}
+		addVirtualTrack<EnemyBullet>(obj);
+		addVirtualTrack<FloorSegment>(obj);
+		addVirtualTrack<Wall>(obj);
 
         if(!obj->anonymous)
             objByName[obj->name] = obj;
@@ -328,22 +324,13 @@ void GSpace::processRemoval(GObject* obj, bool _removeSprite)
     objByName.erase(obj->name);
     objByUUID.erase(obj->uuid);
 
-	if (trackedTypes.find(typeid(*obj)) != trackedTypes.end()) {
-		objByType[typeid(*obj)].erase(obj);
-	}
-	if (enemyTypes.find(typeid(*obj)) != enemyTypes.end()) {
+	if (isTrackedType(typeid(*obj))) {
 		objByType[typeid(*obj)].erase(obj);
 	}
 
-	if (dynamic_cast<EnemyBullet*>(obj)) {
-		objByType[typeid(EnemyBullet)].erase(obj);
-	}
-	if (dynamic_cast<FloorSegment*>(obj)) {
-		objByType[typeid(FloorSegment)].erase(obj);
-	}
-	if (dynamic_cast<Wall*>(obj)) {
-		objByType[typeid(Wall)].erase(obj);
-	}
+	removeVirtualTrack<EnemyBullet>(obj);
+	removeVirtualTrack<FloorSegment>(obj);
+	removeVirtualTrack<Wall>(obj);
     
 	if (obj->radarShape) {
 		cpSpaceRemoveShape(space, obj->radarShape);

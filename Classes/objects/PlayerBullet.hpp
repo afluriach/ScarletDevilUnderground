@@ -17,7 +17,7 @@ public:
 	PlayerBullet(Agent* agent);
 	inline virtual ~PlayerBullet() {}
 
-	virtual void onAgentCollide(Agent* agent);
+	virtual void onAgentCollide(Agent* agent, SpaceVect n);
 
 	virtual inline GType getType() const { return GType::playerBullet; }
 };
@@ -34,7 +34,7 @@ public:
 	//upon contactwith an enemy.
 	virtual void onWallCollide(Wall* wall);
 	virtual void onEnvironmentCollide(GObject* obj);
-	virtual void onAgentCollide(Agent* agent);
+	virtual void onAgentCollide(Agent* agent, SpaceVect n);
 	virtual void onBulletCollide(Bullet* bullet);
 
 	virtual SpaceFloat getKnockbackForce() const = 0;
@@ -155,12 +155,8 @@ public:
 	static constexpr float spriteBaseRadius = 0.83f;
 	inline virtual float zoom() const { return getRadius() / spriteBaseRadius * 2; }
 
-	virtual void onAgentCollide(Agent* agent);
-
 	virtual AttributeMap getAttributeEffect() const;
 	virtual shared_ptr<MagicEffect> getMagicEffect(gobject_ref target);
-protected:
-	int hitsRemaining = 3;
 };
 
 

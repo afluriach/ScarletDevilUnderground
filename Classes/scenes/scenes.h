@@ -116,6 +116,7 @@ public:
     virtual ~GScene();
     virtual bool init();
     void update(float dt);
+	virtual void onExit();
 	virtual GScene* getReplacementScene();
 	GSpace* getSpace();
 

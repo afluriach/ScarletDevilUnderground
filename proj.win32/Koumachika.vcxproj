@@ -199,6 +199,7 @@ xcopy "$(ProjectDir)..\Resources" "$(OutDir)" /D /E /I /F /Y</Command>
     <ClCompile Include="..\Classes\objects\Player.cpp" />
     <ClCompile Include="..\Classes\objects\PlayerBullet.cpp" />
     <ClCompile Include="..\Classes\objects\Pyramid.cpp" />
+    <ClCompile Include="..\Classes\objects\Reimu.cpp" />
     <ClCompile Include="..\Classes\objects\Sakuya.cpp" />
     <ClCompile Include="..\Classes\objects\SakuyaNPC.cpp" />
     <ClCompile Include="..\Classes\objects\Scorpion.cpp" />

@@ -31,9 +31,19 @@ void Bullet::onEnvironmentCollide(GObject* obj)
 	space->removeObject(this);
 }
 
-void Bullet::onAgentCollide(Agent* agent)
+void Bullet::onAgentCollide(Agent* agent, SpaceVect n)
 {
-	space->removeObject(this);
+	if (hitCount > 0) --hitCount;
+
+	agent->hit(getAttributeEffect(), getMagicEffect(agent));
+
+	if (knockback != 0.0) {
+		agent->applyImpulse(-n * knockback);
+	}
+
+	if (hitCount == 0) {
+		space->removeObject(this);
+	}
 }
 
 void Bullet::onBulletCollide(Bullet* bullet)

@@ -8,6 +8,7 @@
 
 #include "Prefix.h"
 
+#include "App.h"
 #include "GSpace.hpp"
 #include "macros.h"
 #include "Mansion.hpp"
@@ -32,6 +33,7 @@ PlayScene("Mansion", rooms)
 		bind(&Mansion::initHUD, this),
 		to_int(initOrder::postInitHUD)
 	);
+	App::crntPC = PlayerCharacter::flandre;
 }
 
 void Mansion::initHUD()

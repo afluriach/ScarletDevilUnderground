@@ -158,6 +158,7 @@ public:
     //Remove thread(s) that have the given main function.
     void removeThread(const string& mainName);
 	void removeCompletedThreads();
+	bool isThreadRunning(const string& mainName);
 	void applyAddThreads();
 	void applyRemoveThreads();
 

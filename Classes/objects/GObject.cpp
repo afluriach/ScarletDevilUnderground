@@ -75,10 +75,10 @@ GObject::~GObject()
 
 GObject* GObject::constructByType(GSpace* space, ObjectIDType id, const string& type, const ValueMap& args )
 {
-    auto it = adapters.find(type);
+    auto it = objectInfo.find(type);
     
-    if(it != adapters.end()){
-        AdapterType adapter =  it->second;
+    if(it != objectInfo.end()){
+        AdapterType adapter =  it->second.consAdapter;
         return adapter(space, id, args);
     }
     else{

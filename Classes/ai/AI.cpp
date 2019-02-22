@@ -561,6 +561,15 @@ void StateMachine::removeCompletedThreads()
     }
 }
 
+bool StateMachine::isThreadRunning(const string& mainName)
+{
+	for (auto it = current_threads.begin(); it != current_threads.end(); ++it)
+	{
+		if (it->second->getMainFuncName() == mainName) return true;
+	}
+	return false;
+}
+
 void StateMachine::applyRemoveThreads()
 {
 	for (unsigned int uuid : threadsToRemove)

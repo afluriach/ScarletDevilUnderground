@@ -16,6 +16,7 @@ class MenuLayer : public Layer
 {
 public:
 	MenuLayer();
+	virtual ~MenuLayer();
 
 	virtual bool init();
 
@@ -97,6 +98,7 @@ public:
 		)
 	{}
 
+	inline virtual ~TextListMenuImpl() {}
 };
 
 #endif /* menu_h */
