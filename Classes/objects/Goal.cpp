@@ -16,6 +16,7 @@
 Goal::Goal(GSpace* space, ObjectIDType id, const ValueMap& args) :
 MapObjForwarding(GObject)
 {
+	setInitialAngle(float_pi / 2.0);
 	playScene = space->getSceneAs<PlayScene>();
 
 	if (!playScene) {

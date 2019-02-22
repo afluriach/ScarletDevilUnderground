@@ -26,10 +26,7 @@
 
 void DialogEntity::interact()
 {
-	space->addSceneAction(
-		[this]() ->void { space->getScene()->createDialog(getDialog(), false); },
-		GScene::updateOrder::sceneUpdate
-	);
+	space->createDialog(getDialog(), false);
 }
 
 //END LOGIC

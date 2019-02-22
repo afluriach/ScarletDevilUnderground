@@ -164,7 +164,7 @@ YinOrb::YinOrb(GSpace* space, ObjectIDType id, Agent* agent, const SpaceVect& po
 {
 	ricochetCount = -1;
 	hitCount = -1;
-	knockback = 300.0;
+	knockback = 125.0;
 
 	setInitialAngularVelocity(float_pi);
 }
@@ -180,7 +180,7 @@ YangOrb::YangOrb(GSpace* space, ObjectIDType id, Agent* agent, const SpaceVect& 
 {
 	ricochetCount = -1;
 	hitCount = -1;
-	knockback = 300.0;
+	knockback = 200.0;
 
 	setInitialAngularVelocity(-float_pi);
 }

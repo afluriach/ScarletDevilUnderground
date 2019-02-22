@@ -369,8 +369,9 @@ int GSpace::playerUpgradeBegin(GObject* a, GObject* b, cpArbiter* arb)
 int GSpace::bulletEnvironment(GObject* bullet, GObject* environment, cpArbiter* arb)
 {
 	Bullet* _b = dynamic_cast<Bullet*>(bullet);
+	bool _sensor = cpShapeGetSensor(environment->bodyShape);
 
-	if (_b && environment) {
+	if (_b && environment && !_sensor) {
 		if (!_b->applyRicochet(cpArbiterGetNormal(arb, 0)))
 			_b->onEnvironmentCollide(environment);
 	}

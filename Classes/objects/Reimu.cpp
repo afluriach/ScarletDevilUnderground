@@ -10,6 +10,7 @@
 
 #include "EnemyBullet.hpp"
 #include "Reimu.hpp"
+#include "value_map.hpp"
 
 Reimu::Reimu(GSpace* space, ObjectIDType id, const ValueMap& args) :
 	MapObjForwarding(GObject),
@@ -26,24 +27,63 @@ const AttributeMap ReimuEnemy::baseAttributes = {
 ReimuEnemy::ReimuEnemy(GSpace* space, ObjectIDType id, const ValueMap& args) :
 	MapObjForwarding(GObject),
 	MapObjForwarding(Agent),
-	Enemy(collectible_id::magic2)
+	Enemy(collectible_id::magic2),
+	activations(getStringOrDefault(args, "activations", ""))
 {}
+
+void ReimuEnemy::onZeroHP()
+{
+	space->createDialog("dialogs/reimu_forest_post_fight", false);
+	unlockDoors();
+	if (yin.isValid()) space->removeObject(yin.get());
+	if (yang.isValid()) space->removeObject(yang.get());
+	Agent::onZeroHP();
+}
+
+void ReimuEnemy::lockDoors()
+{
+	vector<string> names = splitString(activations, " ");
+
+	for (string name : names)
+	{
+		ActivateableObject* ao = space->getObjectAs<ActivateableObject>(name);
+		if (ao) {
+			ao->activate();
+		}
+	}
+}
+
+void ReimuEnemy::unlockDoors()
+{
+	vector<string> names = splitString(activations, " ");
+
+	for (string name : names)
+	{
+		ActivateableObject* ao = space->getObjectAs<ActivateableObject>(name);
+		if (ao) {
+			ao->deactivate();
+		}
+	}
+}
 
 void ReimuEnemy::initStateMachine(ai::StateMachine& fsm)
 {
 	fsm.addDetectFunction(
 		GType::player,
-		[](ai::StateMachine& sm, GObject* target) -> void {
-			if(!sm.isThreadRunning("ReimuMain"))
+		[this](ai::StateMachine& sm, GObject* target) -> void {
+			if (!sm.isThreadRunning("ReimuMain")) {
+				sm.agent->space->createDialog("dialogs/reimu_forest_pre_fight", false);
+				this->lockDoors();
+				yin = space->createObject(GObject::make_object_factory<YinOrb>(sm.getAgent(), sm.agent->getPos() + SpaceVect(1.0, 0.0)));
+				yang = space->createObject(GObject::make_object_factory<YangOrb>(sm.getAgent(), sm.agent->getPos() + SpaceVect(-1.0, 0.0)));
 				sm.addThread(make_shared<ReimuMain>());
+			}
 		}
 	);
 }
 
 void ReimuMain::onEnter(ai::StateMachine& sm)
 {
-	sm.agent->space->createObject(GObject::make_object_factory<YinOrb>(sm.getAgent(), sm.agent->getPos() + SpaceVect(1.0, 0.0)));
-	sm.agent->space->createObject(GObject::make_object_factory<YangOrb>(sm.getAgent(), sm.agent->getPos() + SpaceVect(-1.0, 0.0)));
 }
 
 void ReimuMain::update(ai::StateMachine& sm)
@@ -51,3 +91,6 @@ void ReimuMain::update(ai::StateMachine& sm)
 
 }
 
+void ReimuMain::onExit(ai::StateMachine& sm)
+{
+}

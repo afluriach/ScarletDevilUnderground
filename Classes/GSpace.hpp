@@ -140,6 +140,7 @@ public:
 	void addObjectAction(function<void()> f);
 	void addSceneAction(pair<function<void(void)>, GScene::updateOrder> entry);
 	void addSceneAction(function<void(void)> f, GScene::updateOrder order);
+	void createDialog(string res, bool autoAdvance);
 
 	void eraseTile(const SpaceVect& p, string layer);
 	void eraseTile(int mapID, IntVec2 pos, string layer);

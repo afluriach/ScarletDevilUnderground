@@ -158,6 +158,7 @@ Barrier::Barrier(GSpace* space, ObjectIDType id, const ValueMap& args) :
 	RegisterInit<Barrier>(this)
 {
 	sealed = getBoolOrDefault(args, "sealed", false);
+	setInitialAngle(float_pi / 2.0);
 }
 
 void Barrier::init()

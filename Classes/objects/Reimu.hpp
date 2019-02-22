@@ -36,6 +36,11 @@ public:
 
 	MapObjCons(ReimuEnemy);
 
+	void lockDoors();
+	void unlockDoors();
+
+	virtual void onZeroHP();
+
 	virtual inline SpaceFloat getRadarRadius() const { return 5.0; }
 	virtual GType getRadarType() const { return GType::enemySensor; }
 	virtual inline SpaceFloat getDefaultFovAngle() const { return 0.0; }
@@ -48,6 +53,9 @@ public:
 	virtual inline GraphicsLayer sceneLayer() const { return GraphicsLayer::ground; }
 
 	virtual void initStateMachine(ai::StateMachine& fsm);
+protected:
+	string activations;
+	gobject_ref yin, yang;
 };
 
 class ReimuMain : public ai::Function
@@ -55,6 +63,7 @@ class ReimuMain : public ai::Function
 public:
 	virtual void onEnter(ai::StateMachine& sm);
 	virtual void update(ai::StateMachine& sm);
+	virtual void onExit(ai::StateMachine& sm);
 	FuncGetName(ReimuMain)
 };
 

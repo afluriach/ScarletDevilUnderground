@@ -1,8 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.0" tiledversion="1.0.3" orientation="orthogonal" renderorder="right-down" width="32" height="33" tilewidth="128" tileheight="128" nextobjectid="191">
+<map version="1.0" tiledversion="1.0.3" orientation="orthogonal" renderorder="right-down" width="32" height="33" tilewidth="128" tileheight="128" nextobjectid="194">
  <properties>
   <property name="boss" value="reimu"/>
-  <property name="trap_doors" value="barrier-f9 door-f9-west"/>
  </properties>
  <tileset firstgid="1" name="dirt1" tilewidth="128" tileheight="128" tilecount="4" columns="2">
   <image source="dirt1.png" width="256" height="256"/>
@@ -50,7 +49,14 @@
     <property name="dir" value="right"/>
    </properties>
   </object>
-  <object id="189" name="barrier-f9" type="Barrier" x="640" y="768" width="128" height="128"/>
-  <object id="190" name="reimu" type="ReimuEnemy" x="1408" y="1664" width="128" height="128"/>
+  <object id="189" name="barrier-f9-4" type="Barrier" x="640" y="768" width="128" height="128"/>
+  <object id="190" name="reimu" type="ReimuEnemy" x="1408" y="1408" width="128" height="128">
+   <properties>
+    <property name="activations" value="barrier-f9-1 barrier-f9-2 barrier-f9-3 barrier-f9-4"/>
+   </properties>
+  </object>
+  <object id="191" name="barrier-f9-3" type="Barrier" x="1280" y="2432" width="128" height="128"/>
+  <object id="192" name="barrier-f9-2" type="Barrier" x="1408" y="2432" width="128" height="128"/>
+  <object id="193" name="barrier-f9-1" type="Barrier" x="1536" y="2432" width="128" height="128"/>
  </objectgroup>
 </map>
