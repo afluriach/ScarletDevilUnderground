@@ -16,7 +16,7 @@
 #include "value_map.hpp"
 
 const SpaceFloat Pyramid::coneLength = 4.0;
-const SpaceFloat Pyramid::coneAngle = float_pi / 2.0;
+const SpaceFloat Pyramid::coneWidth = float_pi / 2.0;
 const unsigned int Pyramid::coneSegments = 32;
 const Color4F Pyramid::coneColor = Color4F(0.75f, 0.6f, 0.4f, 0.7f);
 const Color4F Pyramid::coneActiveColor = Color4F(0.9f, 0.75f, 0.5f, 0.7f);
@@ -28,26 +28,22 @@ const AttributeMap Pyramid::lightConeEffect = {
 
 Pyramid::Pyramid(GSpace* space, ObjectIDType id, const ValueMap& args) :
 MapObjForwarding(GObject),
-RegisterInit<Pyramid>(this),
-RegisterUpdate<Pyramid>(this),
-StateMachineObject(args)
+RegisterUpdate<Pyramid>(this)
 {
 	angular_speed = getFloatOrDefault(args, "angular_speed", 0.0f) / 180.0 * float_pi;
 
-	string discrete = getStringOrDefault(args, "discrete_look", "");
-	if (!discrete.empty()) {
-		discrete_look = boost::lexical_cast<boost::rational<int>>(discrete);
+	auto it = args.find("direction");
+	if (it != args.end()) {
+		Direction dir = stringToDirection(it->second.asString());
+		if (dir != Direction::none)
+			coneAngle = dirToPhysicsAngle(dir);
 	}
-}
-
-void Pyramid::init()
-{
-	initStateMachine(fsm);
 }
 
 void Pyramid::update()
 {
-	fsm.update();
+	coneAngle = canonicalAngle(coneAngle + angular_speed * App::secondsPerFrame);
+
 	redrawLightCone();
 
 	for (object_ref<Agent> agent_ref : targets)
@@ -60,15 +56,13 @@ void Pyramid::update()
 }
 
 void Pyramid::redrawLightCone()
-{
-	float a = getAngle();
-	
+{	
 	space->updateLightSource(coneLightID, ConeLightArea{
 		getPos(),
 		coneLength,
 		targets.empty() ? coneColor : coneActiveColor,
-		to_float(canonicalAngle(a - coneAngle / 2.0f)),
-		to_float(canonicalAngle(a + coneAngle / 2.0f)) 
+		to_float(canonicalAngle(coneAngle - coneWidth / 2.0)),
+		to_float(canonicalAngle(coneAngle + coneWidth / 2.0)) 
 	});
 }
 
@@ -103,11 +97,4 @@ void Pyramid::initializeGraphics()
 		to_float(a - coneAngle/2.0f),
 		to_float(a+coneAngle/2.0f)
 	});
-}
-
-void Pyramid::initStateMachine(ai::StateMachine& sm) {
-	if(angular_speed != 0.0)
-		addThread(std::make_shared<ai::LookAround>(angular_speed));
-	else if(discrete_look != 0)
-		addThread(std::make_shared<ai::QuadDirectionLookAround>(abs(discrete_look), discrete_look > 0));
 }

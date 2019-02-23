@@ -15,15 +15,13 @@
 
 class Pyramid :
 virtual public GObject,
-public StateMachineObject,
-public RegisterInit<Pyramid>,
 public RegisterUpdate<Pyramid>,
 public RadarObject,
 public RectangleBody
 {
 public:
 	static const SpaceFloat coneLength;
-	static const SpaceFloat coneAngle;
+	static const SpaceFloat coneWidth;
 	static const unsigned int coneSegments;
 	static const Color4F coneColor;
 	static const Color4F coneActiveColor;
@@ -32,7 +30,6 @@ public:
 
 	MapObjCons(Pyramid);
     
-	void init();
 	void update();
 	void redrawLightCone();
 
@@ -45,18 +42,16 @@ public:
 
 	virtual inline SpaceFloat getRadarRadius() const { return coneLength; }
 	virtual inline GType getRadarType() const { return GType::enemySensor; }
-	virtual inline SpaceFloat getDefaultFovAngle() const { return coneAngle/2.0; }
+	virtual inline SpaceFloat getDefaultFovAngle() const { return coneWidth/2.0; }
 
 	virtual void onDetect(GObject* other);
 	virtual void onEndDetect(GObject* other);
 
 	virtual void initializeGraphics();
-
-	void initStateMachine(ai::StateMachine& sm);
 protected:
 	set<object_ref<Agent>> targets;
 	SpaceFloat angular_speed = 0.0;
+	SpaceFloat coneAngle = 0.0;
 	LightID coneLightID;
-	boost::rational<int> discrete_look = 0;
 };
 #endif /* Pyramid_hpp */
