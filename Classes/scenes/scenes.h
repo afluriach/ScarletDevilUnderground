@@ -274,6 +274,7 @@ protected:
 	map<LightID, SpriteLightArea> spriteLights;
 	map<LightID, RadialGradient*> lightmapRadials;
 	map<LightID, Sprite*> lightmapSprites;
+	map<LightID, ConeShader*> lightmapCones;
 
 	unordered_map<updateOrder, vector<function<void(void)>>> actions;
 	vector<pair<function<void(void)>, updateOrder>> actionsToAdd;

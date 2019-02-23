@@ -97,15 +97,15 @@ protected:
 	GLint _uniformLocationExpand;
 };
 
-class Cone : public ShaderNode
+class RadialMeterShader : public ShaderNode
 {
 public:
-	Cone(const Color4F& fillColor, const Color4F& emptyColor, float radius, const Vec2& center, float angle);
+	RadialMeterShader(const Color4F& fillColor, const Color4F& emptyColor, float radius, const Vec2& center, float angle);
 
 	void setAngle(float angle);
 	void setColors(Color4F fill, Color4F empty);
 
-	inline virtual string getShaderName() const { return "cone"; }
+	inline virtual string getShaderName() const { return "radial_meter"; }
 	virtual void initUniforms();
 	virtual void updateUniforms();
 
@@ -121,6 +121,29 @@ protected:
 	GLint _uniformLocationAngle;
 };
 
+class ConeShader : public ShaderNode
+{
+public:
+	ConeShader(const Color4F& color, float radius, const Vec2& center, float startAngle, float endAngle);
+
+	void setAngles(float startAngle, float endAngle);
+	void setColor(Color4F color);
+
+	inline virtual string getShaderName() const { return "cone"; }
+	virtual void initUniforms();
+	virtual void updateUniforms();
+
+protected:
+	Color4F _color;
+	float _radius;
+	float _startAngle, _endAngle;
+
+	GLint _uniformLocationColor;
+	GLint _uniformLocationCenter;
+	GLint _uniformLocationRadius;
+	GLint _uniformLocationStartAngle;
+	GLint _uniformLocationEndAngle;
+};
 
 class Cursor : public Node
 {

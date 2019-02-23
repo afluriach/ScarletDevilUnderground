@@ -16,11 +16,12 @@ const string App::title = "Kouma";
 
 const vector<string> App::shaderFiles = {
 	"cone",
-	"radial_gradient",
-	"sprite",
-	"inverted",
 	"hue_shift_left",
-	"hue_shift_right" 
+	"hue_shift_right", 
+	"inverted",
+	"radial_gradient",
+	"radial_meter",
+	"sprite",
 };
 
 unsigned int App::width = 1600;

@@ -106,7 +106,7 @@ void RadialGradient::updateUniforms()
 
 }
 
-Cone::Cone(const Color4F& fillColor, const Color4F& emptyColor, float radius, const Vec2& center, float angle) :
+RadialMeterShader::RadialMeterShader(const Color4F& fillColor, const Color4F& emptyColor, float radius, const Vec2& center, float angle) :
 	_fillColor(fillColor),
 	_emptyColor(emptyColor),
 	_radius(radius),
@@ -115,7 +115,7 @@ Cone::Cone(const Color4F& fillColor, const Color4F& emptyColor, float radius, co
 	_center = center;
 }
 
-void Cone::initUniforms()
+void RadialMeterShader::initUniforms()
 {
 	auto program = getGLProgram();
 	_uniformLocationFillColor = program->getUniformLocation("u_fillColor");
@@ -125,7 +125,7 @@ void Cone::initUniforms()
 	_uniformLocationCenter = program->getUniformLocation("u_center");
 }
 
-void Cone::updateUniforms()
+void RadialMeterShader::updateUniforms()
 {
 	auto program = getGLProgram();
 	program->setUniformLocationWith4f(_uniformLocationFillColor, _fillColor.r,
@@ -137,15 +137,56 @@ void Cone::updateUniforms()
 	program->setUniformLocationWith1f(_uniformLocationAngle, _angle);
 }
 
-void Cone::setAngle(float angle)
+void RadialMeterShader::setAngle(float angle)
 {
 	_angle = angle;
 }
 
-void Cone::setColors(Color4F fill, Color4F empty)
+void RadialMeterShader::setColors(Color4F fill, Color4F empty)
 {
 	_fillColor = fill;
 	_emptyColor = empty;
+}
+
+ConeShader::ConeShader(const Color4F& color, float radius, const Vec2& center, float startAngle, float endAngle) :
+	_color(color),
+	_radius(radius),
+	_startAngle(startAngle),
+	_endAngle(endAngle)
+{
+	_center = center;
+}
+
+void ConeShader::initUniforms()
+{
+	auto program = getGLProgram();
+	_uniformLocationColor = program->getUniformLocation("u_color");
+	_uniformLocationStartAngle = program->getUniformLocation("u_startAngle");
+	_uniformLocationEndAngle = program->getUniformLocation("u_endAngle");
+	_uniformLocationRadius = program->getUniformLocation("u_radius");
+	_uniformLocationCenter = program->getUniformLocation("u_center");
+}
+
+void ConeShader::updateUniforms()
+{
+	auto program = getGLProgram();
+	program->setUniformLocationWith4f(_uniformLocationColor, _color.r,
+		_color.g, _color.b, _color.a);
+	program->setUniformLocationWith2f(_uniformLocationCenter, _center.x, _center.y);
+	program->setUniformLocationWith1f(_uniformLocationRadius, _radius);
+	program->setUniformLocationWith1f(_uniformLocationStartAngle, _startAngle);
+	program->setUniformLocationWith1f(_uniformLocationEndAngle, _endAngle);
+}
+
+void ConeShader::setAngles(float startAngle, float endAngle)
+{
+	_startAngle = startAngle;
+	_endAngle = endAngle;
+}
+
+void ConeShader::setColor(Color4F color)
+{
+	_color = color;
 }
 
 const Color4F Cursor::colors[6] = {

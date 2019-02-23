@@ -67,8 +67,8 @@ void Pyramid::redrawLightCone()
 		getPos(),
 		coneLength,
 		targets.empty() ? coneColor : coneActiveColor,
-		to_float(a - coneAngle / 2.0f),
-		to_float(a + coneAngle / 2.0f) 
+		to_float(canonicalAngle(a - coneAngle / 2.0f)),
+		to_float(canonicalAngle(a + coneAngle / 2.0f)) 
 	});
 }
 

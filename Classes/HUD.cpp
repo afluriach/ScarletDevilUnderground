@@ -179,7 +179,7 @@ bool RadialMeter::init()
 {
 	Node::init();
 
-	cone = Node::ccCreate<Cone>(
+	cone = Node::ccCreate<RadialMeterShader>(
 		filled,
 		empty, 
 		(boundingSize - radiusMargin) / 2,

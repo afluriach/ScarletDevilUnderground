@@ -11,7 +11,7 @@
 
 #include "Attributes.hpp"
 
-class Cone;
+class RadialMeterShader;
 class Enemy;
 class Player;
 
@@ -83,7 +83,7 @@ protected:
 	string iconName;
 	Color4F filled, empty;
 
-	Cone* cone;
+	RadialMeterShader* cone;
 	Sprite* icon;
 
 	float crntValue = 0.0f;
