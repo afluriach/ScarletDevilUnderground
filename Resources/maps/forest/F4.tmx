@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.0" tiledversion="1.0.3" orientation="orthogonal" renderorder="right-down" width="44" height="38" tilewidth="128" tileheight="128" nextobjectid="138">
+<map version="1.0" tiledversion="1.0.3" orientation="orthogonal" renderorder="right-down" width="44" height="38" tilewidth="128" tileheight="128" nextobjectid="165">
  <tileset firstgid="1" name="dirt1" tilewidth="128" tileheight="128" tilecount="4" columns="2">
   <image source="dirt1.png" width="256" height="256"/>
  </tileset>
@@ -102,5 +102,23 @@
     <property name="door_type" value="one_way_destination"/>
    </properties>
   </object>
+  <object id="138" type="Sapling" x="4096" y="1408" width="256" height="256"/>
+  <object id="142" type="Sapling" x="2560" y="3968" width="256" height="256"/>
+  <object id="143" type="Sapling" x="3072" y="3456" width="256" height="256"/>
+  <object id="144" type="Sapling" x="3584" y="2944" width="256" height="256"/>
+  <object id="149" type="Sapling" x="4096" y="2432" width="256" height="256"/>
+  <object id="150" type="Sapling" x="4608" y="896" width="256" height="256"/>
+  <object id="151" type="Sapling" x="3584" y="1920" width="256" height="256"/>
+  <object id="152" type="Sapling" x="3072" y="2432" width="256" height="256"/>
+  <object id="153" type="Sapling" x="2592" y="2944" width="256" height="256"/>
+  <object id="154" type="Sapling" x="4608" y="2944" width="256" height="256"/>
+  <object id="155" type="Sapling" x="4096" y="3456" width="256" height="256"/>
+  <object id="156" type="Sapling" x="3584" y="3968" width="256" height="256"/>
+  <object id="158" type="Sapling" x="4608" y="3968" width="256" height="256"/>
+  <object id="160" type="Sapling" x="3072" y="1408" width="256" height="256"/>
+  <object id="161" type="Sapling" x="2560" y="1920" width="256" height="256"/>
+  <object id="162" type="Sapling" x="3584" y="896" width="256" height="256"/>
+  <object id="163" type="Sapling" x="2560" y="896" width="256" height="256"/>
+  <object id="164" type="Sapling" x="4608" y="1888" width="256" height="256"/>
  </objectgroup>
 </map>

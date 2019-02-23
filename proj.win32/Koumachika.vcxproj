@@ -182,6 +182,7 @@ xcopy "$(ProjectDir)..\Resources" "$(OutDir)" /D /E /I /F /Y</Command>
     <ClCompile Include="..\Classes\objects\EffectArea.cpp" />
     <ClCompile Include="..\Classes\objects\Enemy.cpp" />
     <ClCompile Include="..\Classes\objects\EnemyBullet.cpp" />
+    <ClCompile Include="..\Classes\objects\EnvironmentalObjects.cpp" />
     <ClCompile Include="..\Classes\objects\Facer.cpp" />
     <ClCompile Include="..\Classes\objects\Fairy.cpp" />
     <ClCompile Include="..\Classes\objects\Follower.cpp" />
@@ -284,6 +285,7 @@ xcopy "$(ProjectDir)..\Resources" "$(OutDir)" /D /E /I /F /Y</Command>
     <ClInclude Include="..\Classes\objects\EffectArea.hpp" />
     <ClInclude Include="..\Classes\objects\Enemy.hpp" />
     <ClInclude Include="..\Classes\objects\EnemyBullet.hpp" />
+    <ClInclude Include="..\Classes\objects\EnvironmentalObjects.hpp" />
     <ClInclude Include="..\Classes\objects\Facer.hpp" />
     <ClInclude Include="..\Classes\objects\Fairy.hpp" />
     <ClInclude Include="..\Classes\objects\Flower.h" />

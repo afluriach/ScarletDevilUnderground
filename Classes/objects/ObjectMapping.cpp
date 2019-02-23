@@ -20,6 +20,7 @@
 #include "Door.hpp"
 #include "EffectArea.hpp"
 #include "EnemyBullet.hpp"
+#include "EnvironmentalObjects.hpp"
 #include "Facer.hpp"
 #include "Fairy.hpp"
 #include "Follower.hpp"
@@ -129,6 +130,7 @@ const unordered_map<string, GObject::object_info> GObject::objectInfo = {
 	item_entry_same(GraveyardBook1),
 	item_entry_same(GraveyardKey),
 	entry_same(GreenFairy),
+	entry_same(Headstone),
 	collectible_entry(Health1, health1),
 	collectible_entry(Health2, health2),
 	entry_same(HiddenSubroomSensor),
@@ -157,6 +159,7 @@ const unordered_map<string, GObject::object_info> GObject::objectInfo = {
 	entry_same(Sakuya),
 	entry_same(SakuyaNPC),
 	entry_same(SandFloor),
+	entry_same(Sapling),
 	entry_same(Scorpion1),
 	entry_same(Scorpion2),
 	entry_same(Sign),

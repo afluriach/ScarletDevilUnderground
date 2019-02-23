@@ -315,6 +315,9 @@
     <ClCompile Include="..\Classes\objects\Reimu.cpp">
       <Filter>src\objects</Filter>
     </ClCompile>
+    <ClCompile Include="..\Classes\objects\EnvironmentalObjects.cpp">
+      <Filter>src\objects</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="main.h">
@@ -606,6 +609,9 @@
       <Filter>src\objects</Filter>
     </ClInclude>
     <ClInclude Include="..\Classes\objects\Bat.hpp">
+      <Filter>src\objects</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\objects\EnvironmentalObjects.hpp">
       <Filter>src\objects</Filter>
     </ClInclude>
   </ItemGroup>

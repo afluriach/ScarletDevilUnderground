@@ -143,6 +143,7 @@ public:
 	
     void setInitialVelocity(const SpaceVect& v);
     void setInitialAngle(SpaceFloat a);
+	void setInitialDirectionOrDefault(const ValueMap& args, Direction d);
     void setInitialAngularVelocity(SpaceFloat w);
     Vec2 getInitialCenterPix();
 

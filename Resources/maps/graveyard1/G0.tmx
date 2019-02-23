@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.0" tiledversion="1.0.3" orientation="orthogonal" renderorder="right-down" width="17" height="17" tilewidth="128" tileheight="128" nextobjectid="75">
+<map version="1.0" tiledversion="1.0.3" orientation="orthogonal" renderorder="right-down" width="17" height="17" tilewidth="128" tileheight="128" nextobjectid="81">
  <tileset firstgid="1" name="wall" tilewidth="128" tileheight="128" tilecount="4" columns="2">
   <image source="fence.png" width="256" height="256"/>
  </tileset>
@@ -50,6 +50,26 @@
   <object id="74" name="door-g0-south" type="Door" x="1024" y="2048" width="128" height="128">
    <properties>
     <property name="dir" value="up"/>
+   </properties>
+  </object>
+  <object id="76" type="Headstone" x="128" y="1792" width="256" height="256">
+   <properties>
+    <property name="direction" value="left"/>
+   </properties>
+  </object>
+  <object id="78" type="Headstone" x="128" y="128" width="256" height="256">
+   <properties>
+    <property name="direction" value="left"/>
+   </properties>
+  </object>
+  <object id="79" type="Headstone" x="1792" y="128" width="256" height="256">
+   <properties>
+    <property name="direction" value="right"/>
+   </properties>
+  </object>
+  <object id="80" type="Headstone" x="1792" y="1792" width="256" height="256">
+   <properties>
+    <property name="direction" value="right"/>
    </properties>
   </object>
  </objectgroup>

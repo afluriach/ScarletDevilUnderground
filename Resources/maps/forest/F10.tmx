@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.0" tiledversion="1.0.3" orientation="orthogonal" renderorder="right-down" width="33" height="41" tilewidth="128" tileheight="128" nextobjectid="90">
+<map version="1.0" tiledversion="1.0.3" orientation="orthogonal" renderorder="right-down" width="33" height="41" tilewidth="128" tileheight="128" nextobjectid="96">
  <properties>
+  <property name="ambient_light" value="80,80,80"/>
   <property name="trap_doors" value="door-f10-west door-f10-north"/>
  </properties>
  <tileset firstgid="1" name="grass floor" tilewidth="128" tileheight="128" tilecount="4" columns="2">
@@ -63,6 +64,12 @@
   <object id="87" type="Health2" x="896" y="4352" width="128" height="128"/>
   <object id="88" type="Magic2" x="896" y="3840" width="128" height="128"/>
   <object id="89" type="Magic2" x="640" y="4352" width="128" height="128"/>
+  <object id="90" type="Sapling" x="512" y="1600" width="256" height="256"/>
+  <object id="91" type="Sapling" x="512" y="2112" width="256" height="256"/>
+  <object id="92" type="Sapling" x="512" y="2624" width="256" height="256"/>
+  <object id="93" type="Sapling" x="3456" y="2368" width="256" height="256"/>
+  <object id="94" type="Sapling" x="3456" y="3392" width="256" height="256"/>
+  <object id="95" type="Sapling" x="3456" y="2880" width="256" height="256"/>
  </objectgroup>
  <objectgroup name="waypoints"/>
 </map>

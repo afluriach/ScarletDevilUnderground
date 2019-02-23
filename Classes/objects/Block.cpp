@@ -14,9 +14,10 @@
 #include "value_map.hpp"
 
 Block::Block(GSpace* space, ObjectIDType id, const ValueMap& args) :
-GObject(space,id,args,float_pi / 2.0),
+GObject(space,id,args),
 MassImpl(getFloatOrDefault(args,"mass",40.0))
 {
+	setInitialAngle(float_pi / 2.0);
 }
 
 PhysicsLayers Block::getLayers() const{

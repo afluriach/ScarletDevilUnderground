@@ -143,6 +143,20 @@ void GObject::setInitialAngularVelocity(SpaceFloat w){
     multiInit += [=]() -> void{ cpBodySetAngVel(body, w);};
 }
 
+void GObject::setInitialDirectionOrDefault(const ValueMap& args, Direction d)
+{
+	Direction result = d;
+
+	auto it = args.find("direction");
+	if (it != args.end()) {
+		Direction dir = stringToDirection(it->second.asString());
+		if (dir != Direction::none)
+			result = dir;
+	}
+
+	setInitialAngle(dirToPhysicsAngle(result));
+}
+
 Vec2 GObject::getInitialCenterPix()
 {
     SpaceVect centerPix(initialCenter);
