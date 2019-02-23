@@ -15,6 +15,7 @@ namespace ai { class StateMachine; }
 class Bullet;
 class GObject;
 class GSpace;
+class Player;
 
 typedef pair<int,int> IntVec2;
 typedef tuple<long, long, long> TimerTriplet;
@@ -28,6 +29,7 @@ typedef unsigned int ObjectIDType;
 typedef function<GObject*(GSpace*, ObjectIDType)> ObjectGeneratorType;
 typedef function<FiniteTimeAction*()> ActionGeneratorType;
 
+typedef function<void(ai::StateMachine&, Player*)> alert_function;
 typedef function<void(ai::StateMachine&, GObject*)> detect_function;
 typedef function<void(ai::StateMachine&, Bullet*)> bullet_collide_function;
 

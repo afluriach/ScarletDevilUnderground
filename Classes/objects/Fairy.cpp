@@ -11,6 +11,7 @@
 #include "AI.hpp"
 #include "EnemyFirePattern.hpp"
 #include "Fairy.hpp"
+#include "Player.hpp"
 #include "value_map.hpp"
 
 const AttributeMap Fairy1::baseAttributes = {
@@ -76,24 +77,30 @@ void Fairy1::maintain_distance(ai::StateMachine& sm, const ValueMap& args) {
 }
 
 void Fairy1::circle_and_fire(ai::StateMachine& sm, const ValueMap& args) {
-	addThread(make_shared<ai::LookAround>(float_pi / 4.0));
-	addThread(make_shared<ai::FireIfTargetVisible>(
-		sm.agent->space->getObjectRef("player")
-	));
+	sm.setAlertFunction([](ai::StateMachine& sm, Player* p)->void {
+		sm.addThread(make_shared<ai::LookAround>(float_pi / 4.0));
+		sm.addThread(make_shared<ai::FireIfTargetVisible>(p));
+	});
 }
 
 void Fairy1::circle_around_point(ai::StateMachine& sm, const ValueMap& args) {
 	string waypointName = getStringOrDefault(args, "waypoint", "");
+	SpaceVect waypoint;
+	SpaceFloat angularPos;
+	bool waypointValid = false;
 
 	if (!waypointName.empty()){
-		SpaceVect waypoint = space->getWaypoint(waypointName);
-		SpaceFloat angularPos = ai::directionToTarget(this, waypoint).toAngle() + float_pi;
-		addThread(make_shared<ai::CircleAround>(waypoint, angularPos, float_pi / 4.0));
+		waypoint = space->getWaypoint(waypointName);
+		angularPos = ai::directionToTarget(this, waypoint).toAngle() + float_pi;
+		waypointValid = true;
 	}
 
-	addThread(make_shared<ai::FireIfTargetVisible>(
-		sm.agent->space->getObjectRef("player")
-	));
+	sm.setAlertFunction([waypoint,angularPos,waypointValid](ai::StateMachine& sm, Player* p)->void {
+		if (waypointValid) {
+			sm.addThread(make_shared<ai::CircleAround>(waypoint, angularPos, float_pi / 4.0));
+		}
+		sm.addThread(make_shared<ai::FireIfTargetVisible>(p));
+	});
 }
 
 void Fairy1::flock(ai::StateMachine& sm, const ValueMap& args) {
@@ -150,13 +157,14 @@ void BlueFairy::onBulletCollide(Bullet* b)
 
 void BlueFairy::follow_path(ai::StateMachine& sm, const ValueMap& args)
 {
-	const Path* p = space->getPath(getStringOrDefault(args, "pathName", ""));
+	const Path* path = space->getPath(getStringOrDefault(args, "pathName", ""));
 
-	if (p) {
-		sm.addThread(make_shared<ai::FollowPath>(*p, true, true), 1);
+	if (path) {
+		sm.setAlertFunction([path](ai::StateMachine& sm, Player* p) -> void {
+			sm.addThread(make_shared<ai::FollowPath>(*path, true, true), 1);
+			sm.addThread(make_shared<ai::LookTowardsFire>(), 2);
+		});
 	}
-
-	sm.addThread(make_shared<ai::LookTowardsFire>(), 2);
 }
 
 const AttributeMap RedFairy::baseAttributes = {
@@ -183,7 +191,10 @@ void RedFairy::update()
 
 void RedFairy::initStateMachine(ai::StateMachine& sm)
 {
-	sm.addThread(make_shared<ai::Wander>(1.5, 2.5, 2.0, 3.0), 0);
+	sm.setAlertFunction([](ai::StateMachine& sm, Player* p)->void {
+		sm.addThread(make_shared<ai::Wander>(1.5, 2.5, 2.0, 3.0), 0);
+	});
+
 	sm.setBulletHitFunction(ai::buildStressFromHits(1.0f));
 
 	sm.addDetectFunction(
@@ -219,10 +230,13 @@ GreenFairy::GreenFairy(GSpace* space, ObjectIDType id, const ValueMap& args) :
 
 void GreenFairy::initStateMachine(ai::StateMachine& sm)
 {
-	sm.addThread(make_shared<ai::Wander>(0.75, 1.5, 2.0, 4.0), 0);
-	sm.addThread(make_shared<ai::EvadePlayerProjectiles>(), 1);
-	sm.addThread(make_shared<ai::FireOnStress>(5.0f));
-	sm.addThread(make_shared<ai::BuildStressFromPlayerProjectiles>(0.25f));
+	sm.setAlertFunction([](ai::StateMachine& sm, Player* p)->void {
+		sm.addThread(make_shared<ai::Wander>(0.75, 1.5, 2.0, 4.0), 0);
+		sm.addThread(make_shared<ai::EvadePlayerProjectiles>(), 1);
+		sm.addThread(make_shared<ai::FireOnStress>(5.0f));
+		sm.addThread(make_shared<ai::BuildStressFromPlayerProjectiles>(0.25f));
+	});
+
 	sm.setBulletHitFunction(ai::buildStressFromHits(0.5f));
 }
 
@@ -248,7 +262,9 @@ void ZombieFairy::init()
 
 void ZombieFairy::initStateMachine(ai::StateMachine& sm)
 {
-	sm.addThread(make_shared<ai::Wander>(2.0, 3.0, 1.5, 3.0), 1);
+	sm.setAlertFunction([](ai::StateMachine& sm, Player* p)->void {
+		sm.addThread(make_shared<ai::Wander>(2.0, 3.0, 1.5, 3.0), 1);
+	});
 
 	sm.addDetectFunction(
 		GType::player,

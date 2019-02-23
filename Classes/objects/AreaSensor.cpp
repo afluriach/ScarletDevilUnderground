@@ -48,6 +48,10 @@ void AreaSensor::onPlayerEndContact(Player* p) {
 
 void AreaSensor::onEnemyContact(Enemy*e) {
 	enemies.insert(e);
+
+	if (player.isValid()) {
+		e->sendAlert(player.get());
+	}
 }
 
 void AreaSensor::onEnemyEndContact(Enemy* e) {
@@ -98,6 +102,11 @@ void RoomSensor::onPlayerContact(Player* p)
 {
 	AreaSensor::onPlayerContact(p);
 	log("Player entered room %d.", mapID);
+
+	for (auto ref : enemies)
+	{
+		ref.get()->sendAlert(p);
+	}
 }
 
 void RoomSensor::onPlayerEndContact(Player* p)

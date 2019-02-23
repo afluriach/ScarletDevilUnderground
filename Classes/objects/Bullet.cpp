@@ -14,7 +14,7 @@
 #include "GSpace.hpp"
 #include "MagicEffect.hpp"
 
-const bool Bullet::logRicochets = true;
+const bool Bullet::logRicochets = false;
 
 Bullet::Bullet(Agent* agent)
 {

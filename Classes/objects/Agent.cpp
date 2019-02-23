@@ -73,6 +73,11 @@ void Agent::update()
 	}
 }
 
+void Agent::sendAlert(Player* p)
+{
+	fsm.onAlert(p);
+}
+
 void Agent::onDetect(GObject* obj)
 {
 	fsm.onDetect(obj);

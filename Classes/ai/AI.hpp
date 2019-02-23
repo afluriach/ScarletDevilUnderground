@@ -166,12 +166,14 @@ public:
 	void onEndDetect(GObject* obj);
 
 	void onBulletHit(Bullet* b);
+	void onAlert(Player* p);
 
 	void addDetectFunction(GType t, detect_function f);
 	void addEndDetectFunction(GType t, detect_function f);
 	void removeDetectFunction(GType t);
 	void removeEndDetectFunction(GType t);
 	void setBulletHitFunction(bullet_collide_function f);
+	void setAlertFunction(alert_function f);
 
 	//wrappers for the current thread
 	void push(shared_ptr<Function> f);
@@ -186,6 +188,7 @@ protected:
 	list<shared_ptr<Thread>> threadsToAdd;
 
 	bullet_collide_function bulletHandler;
+	alert_function alertHandler;
 	unordered_map<GType, detect_function> detectHandlers;
 	unordered_map<GType, detect_function> endDetectHandlers;
 
@@ -193,6 +196,7 @@ protected:
     map<int, list<unsigned int>> threads_by_priority;
     unsigned int frame;
 	Thread* crntThread = nullptr;
+	bool alerted = false;
 };
 
 class Seek : public Function {

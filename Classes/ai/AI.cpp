@@ -605,6 +605,15 @@ void StateMachine::onBulletHit(Bullet* b)
 	}
 }
 
+void StateMachine::onAlert(Player* p)
+{
+	if (!alerted && alertHandler) {
+		alertHandler(*this, p);
+	}
+	alerted = true;
+}
+
+
 void StateMachine::addDetectFunction(GType t, detect_function f)
 {
 	detectHandlers.insert_or_assign(t, f);
@@ -628,6 +637,11 @@ void StateMachine::removeEndDetectFunction(GType t)
 void StateMachine::setBulletHitFunction(bullet_collide_function f)
 {
 	bulletHandler = f;
+}
+
+void StateMachine::setAlertFunction(alert_function f)
+{
+	alertHandler = f;
 }
 
 void StateMachine::push(shared_ptr<Function> f)

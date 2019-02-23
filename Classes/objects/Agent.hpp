@@ -32,6 +32,8 @@ public:
 	void initAttributes();
 	void update();
 
+	void sendAlert(Player* p);
+
 	//replaces functionality of RadarStateMachineObject by connecting sensor callbacks
 	virtual void onDetect(GObject* obj);
 	virtual void onEndDetect(GObject* obj);
