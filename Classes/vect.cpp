@@ -8,6 +8,7 @@
 
 #include "Prefix.h"
 
+#include "macros.h"
 #include "vect.hpp"
 
 bool operator==(const SpaceVect& lhs, const SpaceVect& rhs) {
@@ -190,7 +191,29 @@ SpaceVect SpaceVect::rotate(SpaceVect v) const {
 SpaceVect SpaceVect::unrotate(SpaceVect v) const {
 	return SpaceVect(x * v.x + y * v.y, y * v.x - x * v.y);
 }
-    
+
+SpaceVect SpaceVect::roundToNearestDirection(int numSlices) const{
+	double _len = length();
+	double _step = 1.0 / numSlices;
+
+	int closest = -1;
+	double distance = _len * 2.0;
+
+	for_irange(i, 0, numSlices)
+	{
+		SpaceVect v = ray(_len, float_pi*2.0 * i * _step);
+
+		double dist = (*this - v).length();
+		if (dist < distance) {
+			distance = dist;
+			closest = i;
+		}
+	}
+
+	if (closest == -1) return SpaceVect::zero;
+	else return ray(_len, float_pi*2.0 * closest * _step);
+}
+
 SpaceVect SpaceVect::rotate(cpFloat angleRadians) const {
     double _cos = cos(angleRadians);
     double _sin = sin(angleRadians);

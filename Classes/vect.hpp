@@ -70,6 +70,9 @@ public:
 	/// Inverse of SpaceVect::rotate.
 	SpaceVect unrotate(SpaceVect v) const;
 
+	//Create a vector with the same length, with angle rounded to nearest discrete step.
+	SpaceVect roundToNearestDirection(int numSlices) const;
+
 	/// x component
 	cpFloat x;
 

@@ -14,6 +14,8 @@
 #include "GSpace.hpp"
 #include "MagicEffect.hpp"
 
+const bool Bullet::logRicochets = true;
+
 Bullet::Bullet(Agent* agent)
 {
 	if (agent) {
@@ -53,11 +55,29 @@ void Bullet::onBulletCollide(Bullet* bullet)
 
 bool Bullet::applyRicochet(SpaceVect n)
 {
+	SpaceVect v = getVel();
+	SpaceVect _n = n.roundToNearestDirection(8);
+
+	if (SpaceVect::dot(_n, v) <= 0.0) return ricochetCount != 0;
+
 	if (ricochetCount == 0) return false;
 	if (ricochetCount > 0) --ricochetCount;
 
-	SpaceVect v = getVel();
-	message<GObject>(this,&GObject::setVel, -2.0 * (SpaceVect::dot(v,n))*n + v);
+	SpaceVect vv = ricochetVelocity(v, _n, 1.0);
+
+	setVel(vv);
+
+	if (logRicochets) {
+		log(
+			"%s, %d velocity from %f,%f to %f,%f",
+			getName().c_str(),
+			space->getFrame(),
+			v.length(),
+			v.toAngle(),
+			vv.length(),
+			vv.toAngle()
+		);
+	}
 
 	return true;
 }

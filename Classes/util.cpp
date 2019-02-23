@@ -71,6 +71,11 @@ SpaceFloat rectangleMomentOfInertia(SpaceFloat mass, const SpaceVect& dim)
     return mass*(dim.x*dim.x+dim.y*dim.y)/12;
 }
 
+SpaceVect ricochetVelocity(SpaceVect v, SpaceVect n, SpaceFloat scale)
+{
+	return (-2.0 * (SpaceVect::dot(v, n))*n + v)*scale;
+}
+
 #define enum_strcmp(val) if(str == #val) return Direction::val;
 Direction stringToDirection(string str)
 {

@@ -19,6 +19,8 @@ class Wall;
 class Bullet : virtual public GObject
 {
 public:
+	static const bool logRicochets;
+
 	Bullet(Agent* agent);
 	inline virtual ~Bullet() {}
 

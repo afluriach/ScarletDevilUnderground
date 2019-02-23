@@ -45,6 +45,7 @@ SpaceFloat toDegrees(SpaceFloat a);
 
 SpaceFloat circleMomentOfInertia(SpaceFloat mass, SpaceFloat radius);
 SpaceFloat rectangleMomentOfInertia(SpaceFloat mass, const SpaceVect& dim);
+SpaceVect ricochetVelocity(SpaceVect v, SpaceVect n, SpaceFloat scale);
 
 void timerDecrement(boost::rational<int>& x);
 void timerDecrement(float& x);

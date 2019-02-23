@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.0" tiledversion="1.0.3" orientation="orthogonal" renderorder="right-down" width="32" height="33" tilewidth="128" tileheight="128" nextobjectid="195">
+ <properties>
+  <property name="boss" value="reimu"/>
+ </properties>
+ <tileset firstgid="1" name="dirt1" tilewidth="128" tileheight="128" tilecount="4" columns="2">
+  <image source="forest/dirt1.png" width="256" height="256"/>
+ </tileset>
+ <tileset firstgid="5" name="forest_dirt_wall" tilewidth="128" tileheight="128" tilecount="4" columns="4">
+  <image source="forest/forest_dirt_wall.png" width="512" height="128"/>
+ </tileset>
+ <layer name="floor" width="32" height="33">
+  <data encoding="base64" compression="zlib">
+   eJzt1NsKABAQRVG3//9m3o2SOCP2rmleLUUIfaVNFm2r1CaKttVPfpVztFVO/Hf6rXj/+PHjx+/jn7kPZavn3hV+/K/6d/5bK538t2bC7+uv4o0Gtw==
+  </data>
+ </layer>
+ <layer name="wall_tiles" width="32" height="33">
+  <data encoding="base64" compression="zlib">
+   eJzt18EOABEMBFAXdv//izeus0jTmCJmkl44vBQhUvrnCaq3YdeUzrgnPWM0d5NfLdyXaB+z2p+ZE/rPUDedf/ny5cvfycf7OBvmvWUJrseoJ0bky5fP8a1/NZbvuWuj15/pr+6f+W5Y8gHF4QQz
+  </data>
+ </layer>
+ <objectgroup name="floor">
+  <object id="185" type="GrassFloor" x="128" y="3712" width="1536" height="384"/>
+  <object id="186" type="GrassFloor" x="1280" y="2432" width="384" height="1280"/>
+  <object id="187" type="GrassFloor" x="768" y="128" width="3200" height="2304"/>
+  <object id="188" type="GrassFloor" x="128" y="640" width="640" height="384"/>
+ </objectgroup>
+ <objectgroup name="walls">
+  <object id="170" x="128" y="3584" width="1152" height="128"/>
+  <object id="171" x="1152" y="2432" width="128" height="1152"/>
+  <object id="172" x="640" y="2432" width="512" height="128"/>
+  <object id="173" x="640" y="896" width="128" height="1536"/>
+  <object id="174" x="0" y="1024" width="640" height="128"/>
+  <object id="175" x="0" y="512" width="128" height="512"/>
+  <object id="176" x="128" y="512" width="512" height="128"/>
+  <object id="177" x="640" y="0" width="128" height="768"/>
+  <object id="178" x="768" y="0" width="2432" height="128"/>
+  <object id="179" x="3072" y="128" width="128" height="2304"/>
+  <object id="180" x="1664" y="2432" width="1536" height="128"/>
+  <object id="181" x="1664" y="2560" width="128" height="1664"/>
+  <object id="182" x="128" y="4096" width="1536" height="128"/>
+  <object id="183" x="0" y="3584" width="128" height="256"/>
+  <object id="184" x="0" y="3968" width="128" height="256"/>
+ </objectgroup>
+ <objectgroup name="objects">
+  <object id="167" name="goal" type="Goal" x="256" y="768" width="128" height="128"/>
+  <object id="169" name="door-f9-west" type="Door" x="0" y="3840" width="128" height="128">
+   <properties>
+    <property name="dir" value="right"/>
+   </properties>
+  </object>
+  <object id="189" name="barrier-f9-4" type="Barrier" x="640" y="768" width="128" height="128">
+   <properties>
+    <property name="sealed" value="true"/>
+   </properties>
+  </object>
+  <object id="190" name="reimu" type="ReimuEnemy" x="1856" y="1216" width="128" height="128">
+   <properties>
+    <property name="activations" value="barrier-f9-1 barrier-f9-2 barrier-f9-3 barrier-f9-4"/>
+   </properties>
+  </object>
+  <object id="191" name="barrier-f9-3" type="Barrier" x="1280" y="2432" width="128" height="128"/>
+  <object id="192" name="barrier-f9-2" type="Barrier" x="1408" y="2432" width="128" height="128"/>
+  <object id="193" name="barrier-f9-1" type="Barrier" x="1536" y="2432" width="128" height="128"/>
+  <object id="194" name="player" type="Player" x="1920" y="2304" width="160" height="128"/>
+ </objectgroup>
+</map>
