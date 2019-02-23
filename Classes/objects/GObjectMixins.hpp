@@ -233,6 +233,18 @@ public:
 	void update();
 };
 
+class SpriteLightObject : virtual public GObject, public RegisterInit<SpriteLightObject>, public RegisterUpdate<SpriteLightObject>
+{
+public:
+	SpriteLightObject();
+
+	virtual SpriteLightArea getLightSource() const = 0;
+
+	void init();
+	void update();
+};
+
+
 //END GRAPHICS
 
 #endif /* GObjectMixins_hpp */

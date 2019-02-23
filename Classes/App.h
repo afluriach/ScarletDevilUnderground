@@ -115,6 +115,7 @@ public:
 #if USE_TIMERS
 	static unique_ptr<TimerSystem> timerSystem;
 	static boost::rational<int> timerPrintAccumulator;
+	static mutex timerMutex;
 #endif
 	static PlayerCharacter crntPC;
             

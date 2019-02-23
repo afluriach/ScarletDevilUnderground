@@ -145,9 +145,11 @@ public:
 	void addLightSource(LightID id, CircleLightArea light);
 	void addLightSource(LightID id, AmbientLightArea light);
 	void addLightSource(LightID id, ConeLightArea light);
+	void addLightSource(LightID id, SpriteLightArea light);
 	void updateLightSource(LightID id, ConeLightArea light);
 	void removeLightSource(LightID id);
 	void setLightSourcePosition(LightID id, SpaceVect pos);
+	void setLightSourceAngle(LightID id, SpaceFloat a);
 
 	void createSprite(SpriteID id, string path, GraphicsLayer sceneLayer, Vec2 pos, float zoom);
 	void createLoopAnimation(SpriteID id, string name, int frameCount, float duration, GraphicsLayer sceneLayer, Vec2 pos, float zoom);
@@ -257,19 +259,21 @@ protected:
 	DrawNode* colorFilterDraw = nullptr;
 
 	atomic_uint nextSpriteID = 1;
-	map<unsigned int, Node*> crntSprites;
-	map<unsigned int, DrawNode*> drawNodes;
-	map<unsigned int, TimedLoopAnimation*> animationSprites;
-	map<unsigned int, PatchConAnimation*> agentSprites;
+	map<SpriteID, Node*> crntSprites;
+	map<SpriteID, DrawNode*> drawNodes;
+	map<SpriteID, TimedLoopAnimation*> animationSprites;
+	map<SpriteID, PatchConAnimation*> agentSprites;
 
 	displayMode display = displayMode::combined;
 	RenderTexture* lightmapRender = nullptr;
 	DrawNode* lightmapDrawNode = nullptr;
 	DrawNode* lightmapBackground = nullptr;
-	map<unsigned int, AmbientLightArea> ambientLights;
-	map<unsigned int, CircleLightArea> circleLights;
-	map<unsigned int, ConeLightArea> coneLights;
-	map<unsigned int, RadialGradient*> lightmapRadials;
+	map<LightID, AmbientLightArea> ambientLights;
+	map<LightID, CircleLightArea> circleLights;
+	map<LightID, ConeLightArea> coneLights;
+	map<LightID, SpriteLightArea> spriteLights;
+	map<LightID, RadialGradient*> lightmapRadials;
+	map<LightID, Sprite*> lightmapSprites;
 
 	unordered_map<updateOrder, vector<function<void(void)>>> actions;
 	vector<pair<function<void(void)>, updateOrder>> actionsToAdd;

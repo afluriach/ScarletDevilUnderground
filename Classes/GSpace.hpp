@@ -219,9 +219,11 @@ public:
 	LightID addLightSource(CircleLightArea light);
 	LightID addLightSource(AmbientLightArea light);
 	LightID addLightSource(ConeLightArea light);
+	LightID addLightSource(SpriteLightArea light);
 	void updateLightSource(LightID id, ConeLightArea light);
 	void removeLightSource(LightID id);
 	void setLightSourcePosition(LightID id, SpaceVect pos);
+	void setLightSourceAngle(LightID id, SpaceFloat a);
 
 	SpriteID createSprite(string path, GraphicsLayer sceneLayer, Vec2 pos, float zoom);
 	SpriteID createLoopAnimation(string name, int frameCount, float duration, GraphicsLayer sceneLayer, Vec2 pos, float zoom);

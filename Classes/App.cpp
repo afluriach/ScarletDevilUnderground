@@ -41,6 +41,7 @@ PlayerCharacter App::crntPC = PlayerCharacter::flandre;
 #if USE_TIMERS
 unique_ptr<TimerSystem> App::timerSystem;
 boost::rational<int> App::timerPrintAccumulator(1);
+mutex App::timerMutex;
 #endif
 
 App* App::appInst;
@@ -450,15 +451,18 @@ void App::update(float dt)
 #if USE_TIMERS
 void App::updateTimerSystem()
 {
-	timerDecrement(timerPrintAccumulator);
+	if (logTimers)
+	{
+		timerDecrement(timerPrintAccumulator);
 
-	if (timerPrintAccumulator <= 0) {
-		if(logTimers)
+		if (timerPrintAccumulator <= 0) {
+			timerMutex.lock();
 			printTimerInfo();
-		timerPrintAccumulator = boost::rational<int>(1);
+			timerMutex.unlock();
+			timerPrintAccumulator = boost::rational<int>(1);
+		}
 	}
 }
-
 
 void App::setLogTimers(bool b)
 {

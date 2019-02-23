@@ -281,4 +281,21 @@ void RadialLightObject::update()
 	space->setLightSourcePosition(lightID, getPos());
 }
 
+SpriteLightObject::SpriteLightObject() :
+	RegisterInit<SpriteLightObject>(this),
+	RegisterUpdate<SpriteLightObject>(this)
+{}
+
+void SpriteLightObject::init()
+{
+	lightID = space->addLightSource(getLightSource());
+}
+
+void SpriteLightObject::update()
+{
+	space->setLightSourcePosition(lightID, getPos());
+	space->setLightSourceAngle(lightID, getAngle());
+}
+
+
 //END GRAPHICS

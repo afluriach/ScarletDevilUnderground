@@ -1083,8 +1083,9 @@ void CircleAround::update(StateMachine& fsm)
 	fsm.agent->setAngle(angularPosition);
 }
 
-Flank::Flank(gobject_ref target) :
-target(target)
+Flank::Flank(gobject_ref target, SpaceFloat desiredDistance) :
+target(target),
+desiredDistance(desiredDistance)
 {
 }
 
@@ -1107,12 +1108,12 @@ void Flank::update(StateMachine& fsm)
 
 		if (this_angle < 0) {
 			fsm.push(make_shared<MoveToPoint>(
-				SpaceVect::ray(1.0, angle - float_pi / 2.0) + pos
+				SpaceVect::ray(desiredDistance, angle - float_pi / 2.0) + pos
 			));
 		}
 		else {
 			fsm.push(make_shared<MoveToPoint>(
-				SpaceVect::ray(1.0, angle + float_pi / 2.0) + pos
+				SpaceVect::ray(desiredDistance, angle + float_pi / 2.0) + pos
 			));
 		}
 	}
@@ -1120,7 +1121,7 @@ void Flank::update(StateMachine& fsm)
 	{
 		//move to rear flank
 		fsm.push(make_shared<MoveToPoint>(
-			SpaceVect::ray(1.0, angle + float_pi ) + pos
+			SpaceVect::ray(desiredDistance, angle + float_pi ) + pos
 		));
 	}
 }

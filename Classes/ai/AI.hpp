@@ -371,7 +371,7 @@ private:
 
 class Flank : public Function {
 public:
-	Flank(gobject_ref target);
+	Flank(gobject_ref target, SpaceFloat desiredDistance);
 
 	virtual void init(StateMachine& fsm);
 	virtual void update(StateMachine& fsm);
@@ -383,6 +383,7 @@ public:
 	FuncGetName(Flank)
 private:
 	gobject_ref target;
+	SpaceFloat desiredDistance;
 };
 
 class QuadDirectionLookAround : public Function {

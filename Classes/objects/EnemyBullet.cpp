@@ -169,6 +169,16 @@ YinYangOrb::YinYangOrb(GSpace* space, ObjectIDType id, Agent* agent, const Space
 	setInitialAngularVelocity(float_pi);
 }
 
+SpriteLightArea YinYangOrb::getLightSource() const
+{
+	return SpriteLightArea{
+		getPos(),
+		imageSpritePath(),
+		Color4F(0.5f, 0.25f, 0.25f, 1.0f),
+		3.0f
+	};
+}
+
 AttributeMap YinYangOrb::getAttributeEffect() const
 {
 	return { { Attribute::hp, -1 } };

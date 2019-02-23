@@ -123,17 +123,24 @@ void GSpace::update()
 	chrono::duration<long, micro> _total = chrono::duration_cast<chrono::microseconds>(t4 - t1);
 	chrono::duration<long, micro> _objects = _total - _physics;
 
+	App::timerMutex.lock();
+
 	App::timerSystem->addEntry(TimerType::physics, _physics);
 	App::timerSystem->addEntry(TimerType::gobject, _objects);
+
+	TimerTriplet objectUpdate = App::timerSystem->getStats(TimerType::gobject);
+	TimerTriplet physicsUpdate = App::timerSystem->getStats(TimerType::physics);
+
+	App::timerMutex.unlock();
 
 	PlayScene* ps = dynamic_cast<PlayScene*>(gscene);
 
 	if (ps && frame % 60 == 0) {
 		addSceneAction(
-			[ps]()->void {
+			[ps, objectUpdate, physicsUpdate]()->void {
 				ps->hud->setPerformanceStats(
-					App::timerSystem->getStats(TimerType::gobject),
-					App::timerSystem->getStats(TimerType::physics)
+					objectUpdate,
+					physicsUpdate
 				);
 			},
 			GScene::updateOrder::hudUpdate

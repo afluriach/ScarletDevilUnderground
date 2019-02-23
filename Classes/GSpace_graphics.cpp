@@ -43,6 +43,16 @@ LightID GSpace::addLightSource(ConeLightArea light)
 	return id;
 }
 
+LightID GSpace::addLightSource(SpriteLightArea light)
+{
+	LightID id = gscene->getLightID();
+
+	addLightmapAction([this, id, light]()->void {
+		gscene->addLightSource(id, light);
+	});
+	return id;
+}
+
 void GSpace::updateLightSource(LightID id, ConeLightArea light)
 {
 	addLightmapAction([this, id, light]()->void {
@@ -61,6 +71,13 @@ void GSpace::setLightSourcePosition(LightID id, SpaceVect pos)
 {
 	addLightmapAction([this, id, pos]()->void {
 		gscene->setLightSourcePosition(id, pos);
+	});
+}
+
+void GSpace::setLightSourceAngle(LightID id, SpaceFloat a)
+{
+	addLightmapAction([this, id, a]()->void {
+		gscene->setLightSourceAngle(id, a);
 	});
 }
 

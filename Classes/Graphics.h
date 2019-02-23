@@ -47,6 +47,14 @@ struct ConeLightArea
 	float startAngle, endAngle;
 };
 
+struct SpriteLightArea
+{
+	SpaceVect origin;
+	string texName;
+	Color4F color = Color4F::WHITE;
+	float scale = 1.0f;
+};
+
 class ShaderNode : public Node
 {
 public:

@@ -362,6 +362,20 @@ void GScene::addLightSource(LightID id, ConeLightArea light)
 	coneLights.insert_or_assign(id, light);
 }
 
+void GScene::addLightSource(LightID id, SpriteLightArea light)
+{
+	Sprite* s = Sprite::create(light.texName);
+
+	s->setPosition(toCocos(light.origin) * App::pixelsPerTile);
+	s->setBlendFunc(BlendFunc{ GL_ONE,GL_ONE });
+	s->setScale(light.scale);
+	s->setColor(toColor3B(light.color));
+	getLayer(sceneLayers::lightmap)->addChild(s);
+
+	spriteLights.insert_or_assign(id, light);
+	lightmapSprites.insert_or_assign(id, s);
+}
+
 void GScene::updateLightSource(LightID id, ConeLightArea light)
 {
 	coneLights.insert_or_assign(id, light);
@@ -375,8 +389,16 @@ void GScene::removeLightSource(LightID id)
 		lightmapRadials.erase(it);
 	}
 
+	auto it1 = lightmapSprites.find(id);
+	if (it1 != lightmapSprites.end()) {
+		getLayer(sceneLayers::lightmap)->removeChild(it1->second);
+		lightmapSprites.erase(it1);
+	}
+
 	circleLights.erase(id);
 	ambientLights.erase(id);
+	coneLights.erase(id);
+	spriteLights.erase(id);
 }
 
 void GScene::setLightSourcePosition(LightID id, SpaceVect pos)
@@ -389,9 +411,26 @@ void GScene::setLightSourcePosition(LightID id, SpaceVect pos)
 		}
 	}
 	{
+		auto it = spriteLights.find(id);
+		if (it != spriteLights.end()) {
+			it->second.origin = pos;
+			lightmapSprites.at(it->first)->setPosition(toCocos(pos) * App::pixelsPerTile);
+		}
+	}
+	{
 		auto it = ambientLights.find(id);
 		if (it != ambientLights.end()) {
 			it->second.origin = pos;
+		}
+	}
+}
+
+void GScene::setLightSourceAngle(LightID id, SpaceFloat a)
+{
+	{
+		auto it = spriteLights.find(id);
+		if (it != spriteLights.end()) {
+			lightmapSprites.at(it->first)->setRotation(90 - toDegrees(a));
 		}
 	}
 }

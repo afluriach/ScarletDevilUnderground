@@ -195,6 +195,7 @@ class YinYangOrb :
 	public EnemyBullet,
 	public DirectionalLaunch,
 	public CircleBody,
+	public SpriteLightObject,
 	public ImageSprite
 {
 public:
@@ -204,6 +205,7 @@ public:
 	virtual inline SpaceFloat getMaxSpeed() const { return 4.5; }
 	virtual inline string imageSpritePath() const { return "sprites/yin-yang-orb.png"; }
 	virtual inline float zoom() const { return 1.0f; }
+	virtual SpriteLightArea getLightSource() const;
 
 	virtual AttributeMap getAttributeEffect() const;
 };
