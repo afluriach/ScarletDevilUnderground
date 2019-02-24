@@ -149,9 +149,12 @@ public:
 
 	virtual bool init();
 protected:
+	string statsMsg();
 	string enemyStatsMsg();
+	pair<unsigned int, unsigned int> totalEnemyCount();
 
-	Label * text = nullptr;
+	unsigned int frameCount;
+	EnemyStatsMap enemyStats;
 	PlayScene* playScene;
 };
 

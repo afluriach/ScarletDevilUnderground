@@ -19,6 +19,7 @@ class Player;
 
 typedef pair<int,int> IntVec2;
 typedef tuple<long, long, long> TimerTriplet;
+typedef map<type_index, pair<unsigned int, unsigned int>> EnemyStatsMap;
 typedef cpFloat SpaceFloat;
 typedef vector<SpaceVect> Path;
 

@@ -435,10 +435,10 @@ void GSpace::setInitialObjectCount()
 	}
 }
 
-map<type_index, pair<unsigned int, unsigned int>> GSpace::getEnemyStats()
+EnemyStatsMap GSpace::getEnemyStats()
 {
-	map<type_index, pair<unsigned int, unsigned int>> result;
-	map<type_index, pair<unsigned int, unsigned int>> spawnerEnemyCount;
+	EnemyStatsMap result;
+	EnemyStatsMap spawnerEnemyCount;
 
 	set<GObject*> _objs = objByType[typeid(Spawner)];
 	for (GObject* _obj : _objs)

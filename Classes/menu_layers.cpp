@@ -397,16 +397,40 @@ bool ChamberCompletedMenu::init()
 {
 	TextListMenuLayer::init();
 
-	text = createTextLabel(enemyStatsMsg(),24, "fonts/coiny.ttf");
-	addChild(text, 0);
-	text->setPosition(Vec2(App::width / 2.0f, App::height / 2.0f));
+	enemyStats = playScene->getSpace()->getEnemyStats();
+	frameCount = playScene->getSpace()->getFrame();
+
+	Label* enemyStatsLabel = createTextLabel(enemyStatsMsg(),24, "fonts/coiny.ttf");
+	addChild(enemyStatsLabel, 0);
+	enemyStatsLabel->setPosition(Vec2(App::width * 0.75f, App::height * 0.5f));
+
+	Label* statsLabel = createTextLabel(statsMsg(), 24, "fonts/coiny.ttf");
+	addChild(statsLabel, 0);
+	statsLabel->setPosition(Vec2(App::width * 0.5f, App::height * 0.5f));
 
 	return true;
 }
 
+string ChamberCompletedMenu::statsMsg()
+{
+	int seconds = frameCount / App::framesPerSecond;
+	int minutes = seconds / 60;
+	seconds %= 60;
+	int hundredth = frameCount - App::framesPerSecond*(seconds - minutes*60);
+
+	pair<unsigned int, unsigned int> enemyTotals = totalEnemyCount();
+
+	return boost::str(boost::format("Clear time: %02d:%02d.%02d\nEnemies defeated: %d / %d") %
+		minutes %
+		seconds %
+		hundredth %
+		enemyTotals.first %
+		enemyTotals.second
+	);
+}
+
 string ChamberCompletedMenu::enemyStatsMsg()
 {
-	map<type_index, pair<unsigned int, unsigned int>> enemyStats = playScene->getSpace()->getEnemyStats();
 	string result;
 
 	result += "Enemies defeated:";
@@ -419,6 +443,18 @@ string ChamberCompletedMenu::enemyStatsMsg()
 			boost::lexical_cast<string>(entry.second.first)  + " / " +
 			boost::lexical_cast<string>(entry.second.second)
 		;
+	}
+
+	return result;
+}
+
+pair<unsigned int, unsigned int> ChamberCompletedMenu::totalEnemyCount()
+{
+	pair<unsigned int, unsigned int> result = make_pair(0u,0u);
+
+	for (auto entry : enemyStats) {
+		result.first += entry.second.first;
+		result.second += entry.second.second;
 	}
 
 	return result;

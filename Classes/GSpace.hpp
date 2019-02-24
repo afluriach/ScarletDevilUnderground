@@ -135,7 +135,7 @@ public:
 	void setBulletBodiesVisible(bool b);
 
 	void setInitialObjectCount();
-	map<type_index, pair<unsigned int, unsigned int>> getEnemyStats();
+	EnemyStatsMap getEnemyStats();
 
 	void addObjectAction(function<void()> f);
 	void addSceneAction(pair<function<void(void)>, GScene::updateOrder> entry);
