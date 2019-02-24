@@ -1,5 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.0" tiledversion="1.0.3" orientation="orthogonal" renderorder="right-down" width="43" height="38" tilewidth="128" tileheight="128" nextobjectid="167">
+<map version="1.0" tiledversion="1.0.3" orientation="orthogonal" renderorder="right-down" width="43" height="38" tilewidth="128" tileheight="128" nextobjectid="183">
+ <properties>
+  <property name="trap_doors" value="door-f8-south door-f8-east"/>
+ </properties>
  <tileset firstgid="1" name="dirt1" tilewidth="128" tileheight="128" tilecount="4" columns="2">
   <image source="dirt1.png" width="256" height="256"/>
  </tileset>
@@ -57,6 +60,43 @@
    <properties>
     <property name="dir" value="left"/>
    </properties>
+  </object>
+  <object id="172" type="BlueFairy" x="1152" y="256" width="128" height="128">
+   <properties>
+    <property name="ai_package" value="follow_path"/>
+    <property name="pathName" value="path-f8-1"/>
+   </properties>
+  </object>
+  <object id="174" type="BlueFairy" x="3712" y="2304" width="128" height="128">
+   <properties>
+    <property name="ai_package" value="follow_path"/>
+    <property name="pathName" value="path-f8-2"/>
+   </properties>
+  </object>
+  <object id="173" type="BlueFairy" x="1664" y="1280" width="128" height="128">
+   <properties>
+    <property name="ai_package" value="follow_path"/>
+    <property name="pathName" value="path-f8-3"/>
+   </properties>
+  </object>
+  <object id="175" type="GreenFairy" x="640" y="3328" width="128" height="128"/>
+  <object id="176" type="RedFairy" x="640" y="2304" width="128" height="128"/>
+  <object id="177" type="RedFairy" x="640" y="256" width="128" height="128"/>
+  <object id="178" type="GreenFairy" x="640" y="1280" width="128" height="128"/>
+  <object id="179" type="RedFairy" x="4736" y="256" width="128" height="128"/>
+  <object id="180" type="RedFairy" x="4736" y="2304" width="128" height="128"/>
+  <object id="181" type="GreenFairy" x="4736" y="3328" width="128" height="128"/>
+  <object id="182" type="GreenFairy" x="4736" y="1280" width="128" height="128"/>
+ </objectgroup>
+ <objectgroup name="paths">
+  <object id="168" name="path-f8-1" x="1216" y="320">
+   <polyline points="0,0 0,3072 3072,3072 3072,0"/>
+  </object>
+  <object id="169" name="path-f8-3" x="1728" y="1344">
+   <polyline points="0,0 2048,0"/>
+  </object>
+  <object id="171" name="path-f8-2" x="3776" y="2368">
+   <polyline points="0,0 -2048,0"/>
   </object>
  </objectgroup>
 </map>

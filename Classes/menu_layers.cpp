@@ -11,6 +11,7 @@
 #include "App.h"
 #include "controls.h"
 #include "Door.hpp"
+#include "Enemy.hpp"
 #include "FileIO.hpp"
 #include "FloorSegment.hpp"
 #include "Graphics.h"
@@ -444,6 +445,7 @@ const Color4F MapMenu::floorColor(0.45f, 0.45f, 0.85f, 1.0f);
 const Color4F MapMenu::floorColorCrnt(0.6f, 0.6f, 0.9f, 1.0f);
 const Color4F MapMenu::doorColor(0.61f,0.55f,0.39f,1.0f);
 const Color4F MapMenu::goalColor(0.73f, 0.77f, 0.45f, 1.0f);
+const Color4F MapMenu::enemyColor(1.0f, 0.0f, 0.0f, 1.0f);
 
 MapMenu::MapMenu(PlayScene* playScene) :
 	playScene(playScene)
@@ -503,6 +505,7 @@ void MapMenu::drawMaps()
 	vector<object_ref<Wall>> walls = playScene->getSpace()->getObjectsByTypeAs<Wall>();
 	vector<object_ref<FloorSegment>> floors = playScene->getSpace()->getObjectsByTypeAs<FloorSegment>();
 	vector<object_ref<Door>> doors = playScene->getSpace()->getObjectsByTypeAs<Door>();
+	vector<object_ref<Enemy>> enemies = playScene->getSpace()->getObjectsByTypeAs<Enemy>();
 	GObject* goal = playScene->getSpace()->getObject("goal");
 	GObject* player = playScene->getSpace()->getObject("player");
 
@@ -527,6 +530,12 @@ void MapMenu::drawMaps()
 	for (auto ref : walls){
 		if (!ref.get()->hidden) {
 			drawObject(ref.get()->getBoundingBox(), wallColor, wallColorCrnt);
+		}
+	}
+
+	for (auto ref : enemies) {
+		if (!ref.get()->hidden) {
+			drawObject(ref.get()->getBoundingBox(), enemyColor, enemyColor);
 		}
 	}
 

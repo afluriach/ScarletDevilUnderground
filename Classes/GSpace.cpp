@@ -11,6 +11,7 @@
 #include "AreaSensor.hpp"
 #include "Collectibles.hpp"
 #include "Door.hpp"
+#include "Enemy.hpp"
 #include "EnemyBullet.hpp"
 #include "FloorSegment.hpp"
 #include "Graph.hpp"
@@ -277,6 +278,7 @@ void GSpace::processAdditions()
 			objByType[typeid(*obj)].insert(obj);
 		}
 
+		addVirtualTrack<Enemy>(obj);
 		addVirtualTrack<EnemyBullet>(obj);
 		addVirtualTrack<FloorSegment>(obj);
 		addVirtualTrack<Wall>(obj);
@@ -335,6 +337,7 @@ void GSpace::processRemoval(GObject* obj, bool _removeSprite)
 		objByType[typeid(*obj)].erase(obj);
 	}
 
+	removeVirtualTrack<Enemy>(obj);
 	removeVirtualTrack<EnemyBullet>(obj);
 	removeVirtualTrack<FloorSegment>(obj);
 	removeVirtualTrack<Wall>(obj);

@@ -37,8 +37,6 @@ void Bullet::onAgentCollide(Agent* agent, SpaceVect n)
 {
 	if (hitCount > 0) --hitCount;
 
-	agent->hit(getAttributeEffect(), getMagicEffect(agent));
-
 	if (knockback != 0.0) {
 		agent->applyImpulse(-n * knockback);
 	}

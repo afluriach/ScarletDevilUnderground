@@ -145,7 +145,7 @@ BlueFairy::BlueFairy(GSpace* space, ObjectIDType id, const ValueMap& args) :
 
 void BlueFairy::onBulletCollide(Bullet* b)
 {
-	SpaceVect d = ai::directionToTarget(this, b->getPos());
+	SpaceVect d = -1.0 * b->getVel().normalizeSafe() ;
 	SpaceVect v = SpaceVect::ray(1.0, getAngle());
 
 	if (SpaceVect::dot(d, v) < boost::math::double_constants::one_div_root_two) {

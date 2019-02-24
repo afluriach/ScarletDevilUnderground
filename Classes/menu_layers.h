@@ -177,6 +177,7 @@ public:
 	static const Color4F floorColorCrnt;
 	static const Color4F doorColor;
 	static const Color4F goalColor;
+	static const Color4F enemyColor;
 
 	MapMenu(PlayScene* playScene);
 	inline virtual ~MapMenu() {}

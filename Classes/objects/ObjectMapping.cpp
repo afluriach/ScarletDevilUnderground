@@ -184,6 +184,7 @@ const set<type_index> GSpace::trackedTypes = {
 	typeid(TeleportPad),
 
 	//virtual tracked types
+	typeid(Enemy),
 	typeid(EnemyBullet),
 	typeid(FloorSegment),
 	typeid(Wall),
