@@ -258,7 +258,7 @@ bool MagicEffects::init()
 	{
 		RadialMeter* rm = Node::ccCreate<RadialMeter>(entry.second);
 		rm->setScale(0.5f);
-		rm->setVisible(false);
+		rm->setVisible(HUD::showAll);
 		addChild(rm);
 		meters.insert(entry.first, rm);
 
@@ -266,6 +266,8 @@ bool MagicEffects::init()
 		cooldownTimers.insert_or_assign(entry.first, 0.0f);
 		fadeoutFlags.insert_or_assign(entry.first, false);
 	}
+
+	if (HUD::showAll) reorganize();
 
 	return true;
 }
@@ -335,13 +337,12 @@ void MagicEffects::reorganize()
 		float& timer = cooldownTimers.at(entry.first);
 		bool visible = val != 0 || timer > 0.0f;
 
-		m->setVisible(visible);
+		m->setVisible(visible || HUD::showAll);
 
-		if(visible) {
+		if(visible || HUD::showAll) {
 			m->setPosition(Vec2(0, ypos));
 			ypos -= spacing;
 		}
-
 	}
 }
 
@@ -435,28 +436,28 @@ bool HUD::init()
 	float scale = App::getScale();
     
     health = Node::ccCreate<HealthBar>();
-    health->setPosition(32*scale, App::height - height/2);
+    health->setPosition(64*scale, App::height - height*scale);
     addChild(health, 2);
     health->setMax(1);
 	health->setScale(scale);
 
 	magic = Node::ccCreate<MagicBar>();
-	magic->setPosition(scale*(32 + App::width / 4), App::height - height / 2);
+	magic->setPosition(scale*32 + App::width*0.33f, App::height - height*scale);
 	addChild(magic, 2);
 	magic->setScale(scale);
 	magic->setMax(5);
 	magic->setValue(3);
 
     power = Node::ccCreate<PowerMeter>();
-    power->setPosition(App::width/2, App::height - height/2);
+    power->setPosition(App::width/2, App::height - height*scale);
     addChild(power,2);
     power->setVal(0);
-	power->setScale(scale);
-    
+	power->setScale(scale*0.8f);
+
 	keyMeter = Node::ccCreate<KeyMeter>();
-	keyMeter->setPosition(App::width / 2, App::height - height * 1.5f);
+	keyMeter->setPosition(App::width / 2, App::height - height * 2.25f * scale);
 	addChild(keyMeter, 2);
-	keyMeter->setScale(scale);
+	keyMeter->setScale(scale*0.8f);
 
 	magicEffects = Node::ccCreate<MagicEffects>();
 	magicEffects->setPosition(App::width - 64 * scale, App::height - 64 * scale);
@@ -464,25 +465,29 @@ bool HUD::init()
 	magicEffects->setScale(0.75f*scale);
 
     objectiveCounter = Node::ccCreate<Counter>("", 0);
-    objectiveCounter->setPosition(Counter::spacing/2 + Counter::iconSize + 8, Counter::iconSize/2 + 8);
+    objectiveCounter->setPosition((Counter::spacing/2 + Counter::iconSize + 8)*scale, (Counter::iconSize/2 + 8)*scale);
     addChild(objectiveCounter, 2);
-    objectiveCounter->setVisible(false);
+    objectiveCounter->setVisible(showAll);
 	objectiveCounter->setScale(scale);
     
     interactionIcon = Sprite::create();
     interactionIcon->setPosition(App::width - 256*scale, App::height - 64*scale);
-    interactionIcon->setScale(0.5*scale);
+    interactionIcon->setScale(0.33*scale);
     addChild(interactionIcon);
 
 	firePatternIcon = Sprite::create();
 	firePatternIcon->setPosition(App::width - 384*scale, App::height - 64*scale);
-	firePatternIcon->setScale(0.5*scale);
+	firePatternIcon->setScale(0.3f*scale);
 	addChild(firePatternIcon);
 
 	enemyInfo = Node::ccCreate<EnemyInfo>();
 	enemyInfo->setPosition(App::width - 72*scale, 24*scale);
 	enemyInfo->setScale(scale);
 	addChild(enemyInfo);
+
+	if (showAll){
+		setEnemyInfo("Enemy III", 50.0f, 100.0f);
+	}
 
     return true;
 }
@@ -539,8 +544,8 @@ void HUD::setMansionMode(bool val)
 
 void HUD::setInteractionIcon(string val)
 {
-	interactionIcon->setVisible(!val.empty());
-	interactionIcon->setTexture(val);
+	interactionIcon->setVisible(!val.empty() || showAll);
+	interactionIcon->setTexture(showAll && val.empty() ? "sprites/ui/dialog.png" : "");
 }
 
 void HUD::setFirePatternIcon(string val)
@@ -678,7 +683,7 @@ bool PowerMeter::init()
     //Label position will be set when its contents is set.
     addChild(counter);
 
-    icon->setTexture("sprites/power_up.png");
+    icon->setTexture("sprites/power2.png");
     setVal(0);
     
     return true;

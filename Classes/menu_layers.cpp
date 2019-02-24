@@ -399,12 +399,13 @@ bool ChamberCompletedMenu::init()
 
 	enemyStats = playScene->getSpace()->getEnemyStats();
 	frameCount = playScene->getSpace()->getFrame();
+	float scale = App::getScale();
 
-	Label* enemyStatsLabel = createTextLabel(enemyStatsMsg(),24, "fonts/coiny.ttf");
+	Label* enemyStatsLabel = createTextLabel(enemyStatsMsg(),24*scale, "fonts/coiny.ttf");
 	addChild(enemyStatsLabel, 0);
 	enemyStatsLabel->setPosition(Vec2(App::width * 0.75f, App::height * 0.5f));
 
-	Label* statsLabel = createTextLabel(statsMsg(), 24, "fonts/coiny.ttf");
+	Label* statsLabel = createTextLabel(statsMsg(), 24*scale, "fonts/coiny.ttf");
 	addChild(statsLabel, 0);
 	statsLabel->setPosition(Vec2(App::width * 0.5f, App::height * 0.5f));
 
@@ -625,12 +626,13 @@ bool PlayerInfo::init()
 
 	//base and upgrade values - only the player can have them - and the bases are constant data.
 	//get playscene/crntplayer and get base stats for that player.
+	float scale = App::getScale();
 
 	for_irange(i, 0, displayAttributes.size())
 	{
 		string str = boost::str(boost::format("%s: %.1f") % displayAttributes[i].second.c_str() % stats->getAdjustedValue(displayAttributes[i].first));
-		Label* label = createTextLabel(str, 32);
-		label->setPosition(0.0f, -64.0f * i);
+		Label* label = createTextLabel(str, 32*scale);
+		label->setPosition(0.0f, -64.0f * i * scale);
 		label->setAlignment(TextHAlignment::RIGHT);
 		addChild(label);
 	}

@@ -80,35 +80,42 @@ void TextListMenuLayer::backPressed()
 
 void TextListMenuLayer::updateCursor()
 {
-	int yPos = getScreenSize().height - titleMargin - menuStartMargin - selected * menuItemSpacing;
+	int yPos = yPosition(selected);
 	cursor->setPositionY(yPos);
+}
+
+int TextListMenuLayer::yPosition(int idx)
+{
+	return screenSize.height - (titleMargin + menuStartMargin + idx * menuItemSpacing)*scale;
 }
 
 bool TextListMenuLayer::init()
 {
     MenuLayer::init();
     
-    cocos2d::CCSize screenSize = getScreenSize();
+    screenSize = getScreenSize();
+	scale = App::getScale();
     
-    titleLabel = createTextLabel(title, titleSize);
+    titleLabel = createTextLabel(title, titleSize*scale);
     
-    titleLabel->setPosition(screenSize.width/2, screenSize.height - titleMargin);
+    titleLabel->setPosition(screenSize.width/2, screenSize.height - titleMargin*scale);
     addChild(titleLabel);
     
     for(size_t i=0;i<options.size(); ++i)
     {
         string labelText = options[i];
-        int yPos = screenSize.height - titleMargin - menuStartMargin - i*menuItemSpacing;
+        int yPos = yPosition(i);
         
-        Label* label = createTextLabel(labelText, menuItemSize);
+        Label* label = createTextLabel(labelText, menuItemSize*scale);
         menuItemLabels.push_back(label);
-        label->setPosition(leftMargin + label->getContentSize().width/2, yPos);
+        label->setPosition(leftMargin*1.5f*scale + label->getContentSize().width/2, yPos);
         addChild(label);
     }
     
     cursor = Node::ccCreate<DiamondCursor>();
+	cursor->setScale(0.5f*scale);
     addChild(cursor);
-    cursor->setPositionX(leftMargin/2);
+    cursor->setPositionX(leftMargin*0.75f*scale);
     updateCursor();
     
     return true;

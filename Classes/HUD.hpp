@@ -188,6 +188,8 @@ protected:
 class HUD : public Layer
 {
 public:
+	static constexpr bool showAll = false;
+
     static const int height = 50;
 
     static const int fontSize;

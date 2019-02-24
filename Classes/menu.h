@@ -58,7 +58,7 @@ protected:
 private:
     
     //Space from top of screen to title label;
-    const int titleMargin = 32;
+    const int titleMargin = 48;
     const int titleSize = 48;
     //Space from title label to first item in menu.
     const int menuStartMargin = 100;
@@ -72,10 +72,14 @@ private:
     Label* titleLabel;
     vector<Label*> menuItemLabels;
     
+	CCSize screenSize;
+	float scale;
+
     Node* cursor;
     size_t selected = 0;
     
 	void updateCursor();
+	int yPosition(int idx);
 };
 
 template<class C>
