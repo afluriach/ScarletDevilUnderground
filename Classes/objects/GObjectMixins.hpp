@@ -71,6 +71,17 @@ class DialogEntity : public InteractibleObject
     }
 };
 
+class DialogImpl : public DialogEntity
+{
+public:
+	DialogImpl(const ValueMap& args);
+
+	inline virtual bool isDialogAvailable() { return !dialogName.empty(); }
+	inline virtual string getDialog() { return "dialogs/"+dialogName; }
+protected:
+	string dialogName;
+};
+
 //END LOGIC
 
 //PHYSICS MIXINS

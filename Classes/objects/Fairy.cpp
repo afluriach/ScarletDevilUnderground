@@ -124,6 +124,51 @@ void Fairy1::flock(ai::StateMachine& sm, const ValueMap& args) {
 	);
 }
 
+const AttributeMap FairyMaid::baseAttributes = {
+	{ Attribute::speed, 3.0f },
+	{ Attribute::acceleration, 4.5f }
+};
+
+const AIPackage<FairyMaid>::AIPackageMap FairyMaid::aiPackages = {
+	{ "flee_player", &FairyMaid::flee_player },
+	{ "idle", &FairyMaid::idle },
+	{ "wander", &FairyMaid::wander },
+};
+
+FairyMaid::FairyMaid(GSpace* space, ObjectIDType id, const ValueMap& args) :
+	MapObjForwarding(GObject),
+	MapObjForwarding(Agent),
+	DialogImpl(args),
+	AIPackage<FairyMaid>(this, args, "idle")
+{
+}
+
+void FairyMaid::flee_player(ai::StateMachine& sm, const ValueMap& args) {
+	sm.addDetectFunction(
+		GType::player,
+		[](ai::StateMachine& sm, GObject* target) -> void {
+			sm.addThread(make_shared<ai::Flee>(target, 1.5), 1);
+		}
+	);
+	sm.addEndDetectFunction(
+		GType::player,
+		[](ai::StateMachine& sm, GObject* target) -> void {
+			sm.removeThread("Flee");
+		}
+	);
+	sm.addThread(make_shared<ai::IdleWait>(), 0);
+}
+
+void FairyMaid::idle(ai::StateMachine& sm, const ValueMap& args)
+{
+	sm.addThread(make_shared<ai::IdleWait>());
+}
+
+void FairyMaid::wander(ai::StateMachine& sm, const ValueMap& args)
+{
+	sm.addThread(make_shared<ai::Wander>());
+}
+
 const AIPackage<BlueFairy>::AIPackageMap BlueFairy::aiPackages = {
 	{ "follow_path", &BlueFairy::follow_path },
 };

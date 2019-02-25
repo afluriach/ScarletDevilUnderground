@@ -29,6 +29,11 @@ void DialogEntity::interact()
 	space->createDialog(getDialog(), false);
 }
 
+DialogImpl::DialogImpl(const ValueMap& args)
+{
+	dialogName = getStringOrDefault(args, "dialog", "");
+}
+
 //END LOGIC
 
 //PHYSICS MIXINS

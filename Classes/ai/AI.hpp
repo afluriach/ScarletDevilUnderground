@@ -327,8 +327,9 @@ protected:
 class IdleWait : public Function{
 public:
     IdleWait(GSpace* space, const ValueMap& args);
-	IdleWait(unsigned int frames);
-    
+	IdleWait(int frames);
+	IdleWait();
+
 	virtual void update(StateMachine& fsm);
     
     inline virtual bitset<lockCount> getLockMask() {
@@ -337,7 +338,7 @@ public:
     
     FuncGetName(IdleWait)
 private:
-    unsigned int remaining;
+    int remaining;
 };
 
 class LookAround : public Function {

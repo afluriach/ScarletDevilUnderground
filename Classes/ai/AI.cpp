@@ -1049,10 +1049,13 @@ IdleWait::IdleWait(GSpace* space, const ValueMap& args)
     remaining = App::framesPerSecond * waitSeconds;
 }
 
-IdleWait::IdleWait(unsigned int frames) :
+IdleWait::IdleWait(int frames) :
 	remaining(frames)
 {}
 
+IdleWait::IdleWait() :
+	remaining(-1)
+{}
 
 void IdleWait::update(StateMachine& fsm)
 {

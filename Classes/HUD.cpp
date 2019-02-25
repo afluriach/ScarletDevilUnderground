@@ -545,7 +545,7 @@ void HUD::setMansionMode(bool val)
 void HUD::setInteractionIcon(string val)
 {
 	interactionIcon->setVisible(!val.empty() || showAll);
-	interactionIcon->setTexture(showAll && val.empty() ? "sprites/ui/dialog.png" : "");
+	interactionIcon->setTexture(showAll && val.empty() ? "sprites/ui/dialog.png" : val);
 }
 
 void HUD::setFirePatternIcon(string val)

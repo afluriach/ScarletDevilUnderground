@@ -119,6 +119,7 @@ const unordered_map<string, GObject::object_info> GObject::objectInfo = {
 	entry_same(Facer),
 	entry_same(Fairy1),
 	entry_same(Fairy2),
+	entry_same(FairyMaid),
 	entry_same(Flower),
 	entry_same(Follower),
 	item_entry_same(ForestBook1),

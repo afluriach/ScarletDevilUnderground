@@ -13,6 +13,33 @@
 #include "Enemy.hpp"
 #include "macros.h"
 
+class FairyMaid :
+	virtual public Agent,
+	public DialogImpl,
+	public AIPackage<FairyMaid>,
+	public BaseAttributes<FairyMaid>
+{
+public:
+	static const AttributeMap baseAttributes;
+	static const AIPackage<FairyMaid>::AIPackageMap aiPackages;
+
+	FairyMaid(GSpace* space, ObjectIDType id, const ValueMap& args);
+
+	virtual inline SpaceFloat getRadarRadius() const { return 3.0; }
+	virtual inline SpaceFloat getDefaultFovAngle() const { return 0.0; }
+	virtual inline SpaceFloat getMass() const { return 10.0; }
+	virtual inline GType getType() const { return GType::npc; }
+	virtual inline GType getRadarType() const { return GType::enemySensor; }
+
+	inline string imageSpritePath() const { return "sprites/fairy-blue.png"; }
+	virtual bool isAgentAnimation() const { return true; }
+	virtual inline int pixelWidth() const { return 512; }
+
+	void flee_player(ai::StateMachine& sm, const ValueMap& args);
+	void idle(ai::StateMachine& sm, const ValueMap& args);
+	void wander(ai::StateMachine& sm, const ValueMap& args);
+};
+
 class Fairy1 :
 public Enemy,
 public AIPackage<Fairy1>,
