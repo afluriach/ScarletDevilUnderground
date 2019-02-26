@@ -25,6 +25,7 @@ public RadarObject,
 public RegisterUpdate<Agent>
 {
 public:
+	Agent(GSpace* space, ObjectIDType id, const string& name, const SpaceVect& pos, Direction d);
 	MapObjCons(Agent);
 	inline virtual ~Agent() {}
 

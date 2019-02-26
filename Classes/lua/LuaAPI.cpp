@@ -249,6 +249,7 @@ const vector<string> Inst::luaIncludes = {
 		.beginClass<App>("App")
 			.addStaticData("width", &App::width)
 			.addStaticData("height", &App::height)
+			.addStaticFunction("runOverworldScene", static_cast<GScene*(*)(string,string)>(&App::runOverworldScene))
 			.addStaticFunction("getCrntScene", &App::getCrntScene)
 			.addStaticFunction("printGlDebug", &App::printGlDebug)
 #if USE_TIMERS

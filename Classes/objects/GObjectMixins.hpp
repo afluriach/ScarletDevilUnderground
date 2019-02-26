@@ -206,6 +206,8 @@ public:
 	static constexpr SpaceFloat midstepSize = 0.2;
 
     PatchConSprite(const ValueMap& args);
+	PatchConSprite(Direction startingDirection = Direction::up);
+
     virtual string imageSpritePath() const = 0;
     
     float zoom() const;

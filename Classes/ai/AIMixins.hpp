@@ -16,6 +16,7 @@
 class StateMachineObject : virtual public GObject, RegisterUpdate<StateMachineObject>
 {
 public:
+	StateMachineObject();
 	StateMachineObject(const ValueMap& args);
 	StateMachineObject(shared_ptr<ai::Function> startState, const ValueMap& arg);
 

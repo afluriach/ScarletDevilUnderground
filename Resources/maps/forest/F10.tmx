@@ -5,10 +5,10 @@
   <property name="trap_doors" value="door-f10-west door-f10-north"/>
  </properties>
  <tileset firstgid="1" name="grass floor" tilewidth="128" tileheight="128" tilecount="4" columns="2">
-  <image source="grass-floor.png" width="256" height="256"/>
+  <image source="../grass-floor.png" width="256" height="256"/>
  </tileset>
  <tileset firstgid="5" name="forest_dirt_wall" tilewidth="128" tileheight="128" tilecount="4" columns="4">
-  <image source="forest_dirt_wall.png" width="512" height="128"/>
+  <image source="../forest_dirt_wall.png" width="512" height="128"/>
  </tileset>
  <layer name="floor" width="33" height="41">
   <data encoding="base64" compression="zlib">

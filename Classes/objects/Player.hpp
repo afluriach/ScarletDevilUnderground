@@ -47,6 +47,7 @@ public:
 
 	static const GType bombObstacles;
 
+	Player(GSpace* space, ObjectIDType id, const SpaceVect& pos, Direction d);
 	MapObjCons(Player);
 	inline virtual ~Player() {}
     
@@ -163,6 +164,7 @@ public:
 	static const AttributeMap baseAttributes;
 
 	MapObjCons(FlandrePC);
+	FlandrePC(GSpace* space, ObjectIDType id, const SpaceVect& pos, Direction d);
 
 	virtual inline string imageSpritePath() const { return "sprites/flandre.png"; }
 	virtual bool isAgentAnimation() const { return true; }

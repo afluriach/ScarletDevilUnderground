@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <map version="1.0" orientation="orthogonal" renderorder="right-down" width="17" height="17" tilewidth="128" tileheight="128" nextobjectid="13">
  <tileset firstgid="1" name="grass" tilewidth="128" tileheight="128">
-  <image source="grass.png" width="256" height="256"/>
+  <image source="grass-floor.png" width="256" height="256"/>
  </tileset>
  <tileset firstgid="5" name="dirt path horizontal" tilewidth="128" tileheight="128">
   <image source="dirt path horizontal.png" width="128" height="128"/>

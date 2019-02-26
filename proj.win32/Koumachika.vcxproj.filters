@@ -234,9 +234,6 @@
     <ClCompile Include="..\Classes\objects\Scorpion.cpp">
       <Filter>src\objects</Filter>
     </ClCompile>
-    <ClCompile Include="..\Classes\scenes\Mansion.cpp">
-      <Filter>src\scenes</Filter>
-    </ClCompile>
     <ClCompile Include="..\Classes\objects\SakuyaNPC.cpp">
       <Filter>src\objects</Filter>
     </ClCompile>
@@ -317,6 +314,9 @@
     </ClCompile>
     <ClCompile Include="..\Classes\objects\EnvironmentalObjects.cpp">
       <Filter>src\objects</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\scenes\OverworldScene.cpp">
+      <Filter>src\scenes</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -542,9 +542,6 @@
     <ClInclude Include="..\Classes\objects\Scorpion.hpp">
       <Filter>src\objects</Filter>
     </ClInclude>
-    <ClInclude Include="..\Classes\scenes\Mansion.hpp">
-      <Filter>src\scenes</Filter>
-    </ClInclude>
     <ClInclude Include="..\Classes\objects\SakuyaNPC.hpp">
       <Filter>src\objects</Filter>
     </ClInclude>
@@ -613,6 +610,9 @@
     </ClInclude>
     <ClInclude Include="..\Classes\objects\EnvironmentalObjects.hpp">
       <Filter>src\objects</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\scenes\OverworldScene.hpp">
+      <Filter>src\scenes</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

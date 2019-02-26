@@ -12,6 +12,12 @@
 #include "GSpace.hpp"
 #include "LuaAPI.hpp"
 
+StateMachineObject::StateMachineObject() :
+	RegisterUpdate(this),
+	fsm(this)
+{
+}
+
 StateMachineObject::StateMachineObject(shared_ptr<ai::Function> startState, const ValueMap& args) :
     RegisterUpdate(this),
     fsm(this)

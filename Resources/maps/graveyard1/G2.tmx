@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <map version="1.0" tiledversion="1.0.3" orientation="orthogonal" renderorder="right-down" width="17" height="17" tilewidth="128" tileheight="128" nextobjectid="73">
  <tileset firstgid="1" name="wall" tilewidth="128" tileheight="128" tilecount="4" columns="2">
-  <image source="fence.png" width="256" height="256"/>
+  <image source="../fence.png" width="256" height="256"/>
  </tileset>
  <tileset firstgid="5" name="dirt floor" tilewidth="128" tileheight="128" tilecount="4" columns="2">
-  <image source="dirt1.png" width="256" height="256"/>
+  <image source="../dirt1.png" width="256" height="256"/>
  </tileset>
  <tileset firstgid="9" name="stone" tilewidth="128" tileheight="128" tilecount="4" columns="2">
-  <image source="stone.png" width="256" height="256"/>
+  <image source="../stone.png" width="256" height="256"/>
  </tileset>
  <layer name="floor" width="17" height="17">
   <data encoding="base64" compression="zlib">

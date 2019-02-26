@@ -16,7 +16,6 @@
 #include "IceCave.hpp"
 #include "Library.hpp"
 #include "LibraryOpening.h"
-#include "Mansion.hpp"
 #include "menu_scenes.h"
 #include "Mine.hpp"
 #include "OpeningScene.hpp"
@@ -59,7 +58,7 @@ const unordered_map<string, GScene::AdapterType> GScene::adapters = {
 	entry_same(IceCave),
 	entry_same(Library),
 	entry_same(LibraryOpening),
-	entry_same(Mansion),
+	{"Mansion", []()->GScene* { return App::runOverworldScene(); }},
 	PlaySceneMapName(MarisaRoom),
 	entry_same(Mine),
 	entry_same(OpeningScene),

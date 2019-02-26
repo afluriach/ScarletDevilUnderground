@@ -13,6 +13,11 @@
 #include "Marisa.hpp"
 #include "util.h"
 
+MarisaNPC::MarisaNPC(GSpace* space, ObjectIDType id, const ValueMap& args) :
+	MapObjForwarding(GObject),
+	MapObjForwarding(Agent)
+{}
+
 const AttributeMap Marisa::baseAttributes = {
 	{Attribute::maxHP, 100.0f},
 	{Attribute::speed, 3.0f},

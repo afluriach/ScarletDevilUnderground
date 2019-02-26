@@ -1,0 +1,134 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.0" tiledversion="1.0.3" orientation="orthogonal" renderorder="right-down" width="48" height="48" tilewidth="128" tileheight="128" nextobjectid="59">
+ <tileset firstgid="1" name="grass" tilewidth="128" tileheight="128" tilecount="4" columns="2">
+  <image source="../grass-floor.png" width="256" height="256"/>
+ </tileset>
+ <tileset firstgid="5" name="dirt path horizontal" tilewidth="128" tileheight="128" tilecount="1" columns="1">
+  <image source="../dirt path horizontal.png" width="128" height="128"/>
+ </tileset>
+ <tileset firstgid="6" name="tree" tilewidth="128" tileheight="128" tilecount="4" columns="2">
+  <image source="../tree.png" width="256" height="256"/>
+ </tileset>
+ <tileset firstgid="10" name="spatter" tilewidth="128" tileheight="128" tilecount="4" columns="4">
+  <image source="../spatter.png" width="512" height="128"/>
+ </tileset>
+ <tileset firstgid="14" name="dirt path vertical" tilewidth="128" tileheight="128" tilecount="1" columns="1">
+  <image source="../dirt path vertical.png" width="128" height="128"/>
+ </tileset>
+ <tileset firstgid="15" name="block_wall_dark_grey" tilewidth="128" tileheight="128" tilecount="16" columns="4">
+  <image source="../block_wall_dark_grey.png" width="512" height="512"/>
+ </tileset>
+ <tileset firstgid="31" name="fence" tilewidth="128" tileheight="128" tilecount="4" columns="2">
+  <image source="../fence.png" width="256" height="256"/>
+ </tileset>
+ <layer name="grass" width="48" height="48">
+  <data encoding="base64" compression="zlib">
+   eJzt1EEKwCAQBME18f9v1g8YBA8zE1tY+ryl2KrqmdNC+87pwVX74e/hiH9m1X74ezjin1m1n0Md7uGkaj/8PRz/5r+7g9pv1d1d1c7465xXJ8X/66T78/9nVO2Hv4djor/D/id1eH/451bth7+HI/6ZVfvh7+GIf2bVfvh7ON7qPwBYlRYr
+  </data>
+ </layer>
+ <layer name="mansion_wall" width="48" height="48">
+  <data encoding="base64" compression="zlib">
+   eJzt0rENAEAIAkA3cP9t3eCrL8TcJfSEUAUAAABs148kS++fLmX/q/8HAAAA+GUArFcA8Q==
+  </data>
+ </layer>
+ <layer name="gate" width="48" height="48">
+  <data encoding="base64" compression="zlib">
+   eJzt0NEJACAMQ8FuIrr/kA5RsAbuIP+PVAEAAPDSai7dmQ5o0j8rvT9d+v/6Z0337+YAAADgZxe48wUR
+  </data>
+ </layer>
+ <layer name="path v" width="48" height="48">
+  <data encoding="base64" compression="zlib">
+   eJzt0sENACEMxEAquP7LvRpgI7xI9j/JCLFWTx8NCNPPpp9NP5t+tkZ/o2kn/Wz62fSz6WfTz6bfkl5/f/1s+tn0s7X4Tx36Z9LP3E/n9c/s0c/cn5pPa/Tv7NQ/380/Sf//NP1srf4f6/MDnQ==
+  </data>
+ </layer>
+ <layer name="path h" width="48" height="48">
+  <data encoding="base64" compression="zlib">
+   eJzt1yEOADAIA0AM///yPjBDlyyIu6QSV1GqAICtOsz0FgCAf9KN9xIAAIAb/wfb6BrkDjo9Aa8=
+  </data>
+ </layer>
+ <layer name="trees1" width="48" height="48">
+  <data encoding="base64" compression="zlib">
+   eJztWlsOgzAM69ce97/wmDakCZW0cZxH0SyhVmIhxUtdF2jtg9t23JP7DYjb28d2PL/nsvoNiOvFR6HHfUQsCxbu9tjM+2DkzqwfS+7RvR/nt1eLjO2NUf0c57dXK41tBpn1Y0EF/TkDo34y8a+fXCD1E6GLvTH2PBlSPxG6KOVtTTdur/qJqksv/ZnlkJU3S3+seSvrzwwqr18aZNUPe88cBfZ+Oxqr+pWr4Ep6wZjDmXww5vDq8ymLf2texGv/xln9v/V/R/0Dy/+zgPKPntf+bhQvaVIvx+h+tfsvFNL+TaoFFv8sSL7Ok3+rtxz5wLOxsPi3esue/kTyzwLKv1X/z8B4fiRdy1v/mc+PVvBGWv6rANWfKkD1pxpW5Z/1HjAL7PeAWdCuQ97foGj72nXI+xsUbf8F8wQQww==
+  </data>
+ </layer>
+ <layer name="trees2" width="48" height="48">
+  <data encoding="base64" compression="zlib">
+   eJztmsEKgzAQRD219v9/WD0E2mDKZqY4Q50HQi6S3fHFqLgsnzz24ykY9yDnHKz78RKMkToq/SiYqelbBioqNTnm3qjU1np07GPGCaU/THYOuY+yiz/+OObeiD/+OOWO1KL2531exgGVP+y8Tv4gOPnDEH80uNz30Xdml/zRd2ZV/i65obh4e1f69ffLb15X0K8/dP2q+2DJOuJgr7/aH/b6xx+O+KP3x2lfQmD2Jdd+q144+POPxJ9wBa7+VIk/Wu7gz6hH1T8qs89Lox5V/6icjTer/QiP
+  </data>
+ </layer>
+ <objectgroup name="walls">
+  <object id="2" x="256" y="0" width="4096" height="256"/>
+  <object id="7" x="0" y="3328" width="256" height="2816"/>
+  <object id="8" x="1792" y="3712" width="768" height="256"/>
+  <object id="13" x="0" y="0" width="256" height="2688"/>
+  <object id="14" x="256" y="5888" width="896" height="256"/>
+  <object id="15" x="1536" y="5888" width="4608" height="256"/>
+  <object id="16" x="4736" y="0" width="1408" height="256"/>
+  <object id="17" x="5888" y="256" width="256" height="2560"/>
+  <object id="18" x="5888" y="3200" width="256" height="2688"/>
+  <object id="21" x="2560" y="1664" width="256" height="512"/>
+  <object id="22" x="256" y="1664" width="2304" height="256"/>
+  <object id="23" x="768" y="768" width="3456" height="256"/>
+  <object id="24" x="3968" y="256" width="256" height="512"/>
+  <object id="25" x="3840" y="3200" width="2048" height="256"/>
+  <object id="26" x="3840" y="2560" width="2048" height="256"/>
+  <object id="27" x="3584" y="2688" width="256" height="768"/>
+  <object id="29" x="3840" y="3584" width="256" height="1024"/>
+  <object id="30" x="4096" y="4352" width="512" height="256"/>
+  <object id="31" x="4608" y="4352" width="256" height="768"/>
+  <object id="32" x="3840" y="1664" width="256" height="768"/>
+  <object id="33" x="4096" y="1664" width="640" height="256"/>
+  <object id="34" x="4736" y="256" width="256" height="1536"/>
+  <object id="35" x="2560" y="3712" width="256" height="1280"/>
+  <object id="36" x="1536" y="4736" width="1024" height="256"/>
+  <object id="37" x="1536" y="3712" width="256" height="1024"/>
+  <object id="38" x="896" y="4096" width="256" height="1792"/>
+  <object id="39" x="384" y="4096" width="512" height="256"/>
+  <object id="40" x="384" y="4352" width="256" height="1280"/>
+  <object id="47" x="768" y="2688" width="128" height="256"/>
+  <object id="48" x="768" y="3072" width="128" height="256"/>
+  <object id="49" x="0" y="3200" width="768" height="128"/>
+  <object id="50" x="0" y="2688" width="768" height="128"/>
+  <object id="53" x="256" y="2304" width="2048" height="128"/>
+  <object id="54" x="2304" y="2432" width="128" height="512"/>
+  <object id="55" x="2304" y="3072" width="128" height="512"/>
+  <object id="56" x="256" y="3584" width="2048" height="128"/>
+ </objectgroup>
+ <objectgroup name="objects">
+  <object id="28" type="Sign" x="3392" y="3136" width="128" height="128">
+   <properties>
+    <property name="msg" value="demo_msg"/>
+   </properties>
+  </object>
+  <object id="42" type="Sign" x="4288" y="960" width="128" height="128">
+   <properties>
+    <property name="msg" value="to_forest"/>
+   </properties>
+  </object>
+  <object id="45" type="Sign" x="1536" y="5632" width="128" height="128">
+   <properties>
+    <property name="msg" value="to_graveyard"/>
+   </properties>
+  </object>
+  <object id="46" type="Sign" x="2496" y="2752" width="128" height="128">
+   <properties>
+    <property name="msg" value="to_sdm"/>
+   </properties>
+  </object>
+  <object id="51" name="mansion_door" type="Door" x="768" y="2944" width="128" height="128">
+   <properties>
+    <property name="dest" value="door5"/>
+    <property name="dest_map" value="mansion_f1"/>
+    <property name="dir" value="right"/>
+   </properties>
+  </object>
+  <object id="58" name="forest_path" type="Door" x="4352" y="0" width="384" height="256">
+   <properties>
+    <property name="dest" value="clearing_path"/>
+    <property name="dest_map" value="forest"/>
+    <property name="dir" value="down"/>
+    <property name="path" value="true"/>
+   </properties>
+  </object>
+ </objectgroup>
+</map>

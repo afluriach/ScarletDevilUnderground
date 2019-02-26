@@ -51,8 +51,11 @@ public:
 	Door* getAdjacent();
 	SpaceVect getEntryPosition();
 	Direction getEntryDirection();
-	string getDoorDirection() const;
+	Direction getDoorDirection() const;
+	string getDoorDirectionString() const;
 
+	inline string getDestination() const { return destination; }
+	inline string getDestinationMap() const { return destinationMap; }
 	inline bool isLocked() const { return locked; }
 	inline bool isSource() const { return doorType == door_type::one_way_source; }
 	inline bool isDestination() const { return doorType == door_type::one_way_destination; }
@@ -64,11 +67,14 @@ protected:
 	//the angle/offset when this door is used as a destination
 	Direction entryDirection;
 	string destination;
+	string destinationMap;
 	object_ref<Door> adjacent;
 	door_type doorType;
 	bool sealed = false;
 	bool locked = false;
+	
 	bool stairs = false;
+	bool path = false;
 };
 
 class Barrier :

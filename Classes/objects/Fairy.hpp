@@ -40,6 +40,25 @@ public:
 	void wander(ai::StateMachine& sm, const ValueMap& args);
 };
 
+class BlueFairyNPC :
+	virtual public Agent,
+	public NoAttributes,
+	public DialogEntity
+{
+public:
+	BlueFairyNPC(GSpace* space, ObjectIDType id, const ValueMap& args);
+
+	virtual inline SpaceFloat getMass() const { return -1.0; }
+	virtual inline GType getType() const { return GType::npc; }
+
+	inline string imageSpritePath() const { return "sprites/fairy-blue.png"; }
+	virtual bool isAgentAnimation() const { return true; }
+	virtual inline int pixelWidth() const { return 512; }
+
+	inline virtual bool isDialogAvailable() { return true; }
+	virtual string getDialog();
+};
+
 class Fairy1 :
 public Enemy,
 public AIPackage<Fairy1>,

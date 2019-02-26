@@ -93,6 +93,14 @@ void MovingPlatform::setWaypoint(size_t idx)
 	setVel(dir*getMaxSpeed());
 }
 
+float MovingPlatform::zoom() const {
+	SpaceVect dim = getDimensions();
+	if (dim.x != dim.y) {
+		log("MovingPlatform %s is not square!", name.c_str());
+	}
+	return dim.x;
+}
+
 IcePlatform::IcePlatform(GSpace* space, ObjectIDType id, const ValueMap& args) :
 GObject(space, id, args, true),
 MovingPlatform(space, id, args)
@@ -102,6 +110,12 @@ MovingPlatform(space, id, args)
 DirtFloorCave::DirtFloorCave(GSpace* space, ObjectIDType id, const ValueMap& args) :
 GObject(space,id,args, true),
 FloorSegment(space,id,args)
+{
+}
+
+BridgeFloor::BridgeFloor(GSpace* space, ObjectIDType id, const ValueMap& args) :
+	GObject(space, id, args, true),
+	FloorSegment(space, id, args)
 {
 }
 
@@ -183,6 +197,26 @@ void Pitfall::exclusiveFloorEffect(GObject* obj)
 {
 	obj->onPitfall();
 }
+
+WaterFloor::WaterFloor(GSpace* space, ObjectIDType id, const ValueMap& args) :
+	GObject(space, id, args, true),
+	FloorSegment(space, id, args)
+{
+}
+
+void WaterFloor::onContact(GObject* obj)
+{
+}
+
+void WaterFloor::onEndContact(GObject* obj)
+{
+}
+
+void WaterFloor::exclusiveFloorEffect(GObject* obj)
+{
+	obj->onPitfall();
+}
+
 
 GrassFloor::GrassFloor(GSpace* space, ObjectIDType id, const ValueMap& args) :
 GObject(space, id, args, true),

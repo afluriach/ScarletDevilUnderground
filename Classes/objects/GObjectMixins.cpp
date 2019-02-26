@@ -146,15 +146,15 @@ void LoopAnimationSprite::initializeGraphics()
 }
 
 PatchConSprite::PatchConSprite(const ValueMap& args) :
-RegisterInit<PatchConSprite>(this),
-RegisterUpdate<PatchConSprite>(this)
+	PatchConSprite(getDirectionOrDefault(args, Direction::up))
 {
-    auto it = args.find("direction");
-    if(it != args.end()){
-        Direction dir = stringToDirection(it->second.asString());
-        if(dir != Direction::none)
-            startingDirection = dir;
-    }
+}
+
+PatchConSprite::PatchConSprite(Direction startingDirection) :
+	RegisterInit<PatchConSprite>(this),
+	RegisterUpdate<PatchConSprite>(this),
+	startingDirection(startingDirection)
+{
 }
 
 float PatchConSprite::zoom() const

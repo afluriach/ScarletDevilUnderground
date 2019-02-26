@@ -4,7 +4,7 @@
   <property name="boss" value="marisa"/>
  </properties>
  <tileset firstgid="1" name="grass" tilewidth="128" tileheight="128" tilecount="4" columns="2">
-  <image source="grass.png" width="256" height="256"/>
+  <image source="grass-floor.png" width="256" height="256"/>
  </tileset>
  <tileset firstgid="5" name="dirt path horizontal" tilewidth="128" tileheight="128" tilecount="1" columns="1">
   <image source="dirt path horizontal.png" width="128" height="128"/>

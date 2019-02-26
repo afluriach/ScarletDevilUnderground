@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.0" tiledversion="1.0.3" orientation="orthogonal" renderorder="right-down" width="31" height="25" tilewidth="128" tileheight="128" nextobjectid="43">
+ <tileset firstgid="1" name="scarlet carpet texture" tilewidth="128" tileheight="128" tilecount="1" columns="1">
+  <image source="../scarlet carpet texture.png" width="128" height="128"/>
+ </tileset>
+ <tileset firstgid="2" name="block_wall_dark_grey" tilewidth="128" tileheight="128" tilecount="16" columns="4">
+  <image source="../block_wall_dark_grey.png" width="512" height="512"/>
+ </tileset>
+ <layer name="floor" width="31" height="25">
+  <data encoding="base64" compression="zlib">
+   eJxjYMANGKmAyQWjdo/aPWo35XZTw/xRPIpH8ShGx/gArc0ftXvU7lG7aWs3ABlPAig=
+  </data>
+ </layer>
+ <layer name="wall_tiles" width="31" height="25">
+  <data encoding="base64" compression="zlib">
+   eJxjYMANmKiAyQWU6KVU/6jdo3YPF7vR8yKpeZdS9QMBRu0eOPsHyt6RbPdA5W9CbqMEDOYyddTuUbsHi920bJ8DAEFOAQc=
+  </data>
+ </layer>
+ <objectgroup name="walls">
+  <object id="14" x="896" y="0" width="128" height="1152"/>
+  <object id="15" x="1024" y="1024" width="896" height="128"/>
+  <object id="16" x="2048" y="1024" width="1024" height="128"/>
+  <object id="17" x="2944" y="128" width="128" height="896"/>
+  <object id="18" x="1024" y="0" width="2048" height="128"/>
+  <object id="27" x="512" y="1024" width="384" height="128"/>
+  <object id="28" x="0" y="1024" width="384" height="128"/>
+  <object id="30" x="0" y="1152" width="128" height="1024"/>
+  <object id="31" x="128" y="2048" width="256" height="128"/>
+  <object id="32" x="512" y="2048" width="1408" height="128"/>
+  <object id="33" x="2048" y="2048" width="1408" height="128"/>
+  <object id="34" x="3072" y="1024" width="384" height="128"/>
+  <object id="35" x="3584" y="1024" width="384" height="128"/>
+  <object id="36" x="3584" y="2048" width="384" height="128"/>
+  <object id="37" x="3840" y="1152" width="128" height="384"/>
+  <object id="38" x="896" y="2176" width="128" height="1024"/>
+  <object id="39" x="1024" y="3072" width="2048" height="128"/>
+  <object id="40" x="2944" y="2176" width="128" height="896"/>
+  <object id="41" x="3840" y="1664" width="128" height="384"/>
+ </objectgroup>
+ <objectgroup name="objects">
+  <properties>
+   <property name="dir" value="up"/>
+  </properties>
+  <object id="21" name="door1" type="Door" x="384" y="1024" width="128" height="128">
+   <properties>
+    <property name="dest" value="door1"/>
+    <property name="dest_map" value="mansion_b1"/>
+    <property name="dir" value="down"/>
+    <property name="stairs" value="true"/>
+   </properties>
+  </object>
+  <object id="22" name="door2" type="Door" x="3456" y="1024" width="128" height="128">
+   <properties>
+    <property name="dest" value="door2"/>
+    <property name="dest_map" value="mansion_b1"/>
+    <property name="dir" value="down"/>
+    <property name="stairs" value="true"/>
+   </properties>
+  </object>
+  <object id="23" name="door3" type="Door" x="384" y="2048" width="128" height="128">
+   <properties>
+    <property name="dest" value="door1"/>
+    <property name="dest_map" value="mansion_f2"/>
+    <property name="dir" value="up"/>
+    <property name="stairs" value="true"/>
+   </properties>
+  </object>
+  <object id="24" name="door4" type="Door" x="3456" y="2048" width="128" height="128">
+   <properties>
+    <property name="dest" value="door2"/>
+    <property name="dest_map" value="mansion_f2"/>
+    <property name="dir" value="up"/>
+    <property name="stairs" value="true"/>
+   </properties>
+  </object>
+  <object id="26" type="Sign" x="2112" y="1152" width="128" height="128">
+   <properties>
+    <property name="msg" value="practice_room"/>
+   </properties>
+  </object>
+  <object id="42" name="door5" type="Door" x="3840" y="1536" width="128" height="128">
+   <properties>
+    <property name="dest" value="mansion_door"/>
+    <property name="dest_map" value="clearing"/>
+    <property name="dir" value="left"/>
+   </properties>
+  </object>
+ </objectgroup>
+</map>

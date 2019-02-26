@@ -54,7 +54,7 @@ public:
 	void setNextWaypoint();
 
 	virtual inline string imageSpritePath() const { return "sprites/moving_platform.png"; }
-	virtual inline float zoom() const { return 3.0f; }
+	virtual float zoom() const;
 
 	virtual inline SpaceFloat getMass() const { return 1.0; }
 protected:
@@ -80,6 +80,12 @@ class DirtFloorCave : public FloorSegment, public NoSprite
 {
 public:
 	MapObjCons(DirtFloorCave);
+};
+
+class BridgeFloor : public FloorSegment, public NoSprite
+{
+public:
+	MapObjCons(BridgeFloor);
 };
 
 class MineFloor : public FloorSegment, public NoSprite
@@ -128,6 +134,19 @@ public:
 
 	virtual PhysicsLayers getLayers() const { return PhysicsLayers::belowFloor; }
 };
+
+class WaterFloor : public FloorSegment, public NoSprite
+{
+public:
+	MapObjCons(WaterFloor);
+
+	virtual void onContact(GObject* obj);
+	virtual void onEndContact(GObject* obj);
+	virtual void exclusiveFloorEffect(GObject* obj);
+
+	virtual PhysicsLayers getLayers() const { return PhysicsLayers::belowFloor; }
+};
+
 
 class GrassFloor : public FloorSegment, public NoSprite
 {

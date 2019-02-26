@@ -21,8 +21,10 @@ Door::Door(GSpace* space, ObjectIDType id, const ValueMap& args) :
 {
 	locked = getBoolOrDefault(args, "locked", false);
 	stairs = getBoolOrDefault(args, "stairs", false);
+	path = getBoolOrDefault(args, "path", false);
 	entryDirection = stringToDirection(getStringOrDefault(args, "dir", "none"));
 	destination = getStringOrDefault(args, "dest", "");
+	destinationMap = getStringOrDefault(args, "dest_map", "");
 	
 	string _type = getStringOrDefault(args, "door_type", "pair");
 	if (_type == "one_way_source")
@@ -37,7 +39,7 @@ Door::Door(GSpace* space, ObjectIDType id, const ValueMap& args) :
 
 void Door::init()
 {
-	if (!destination.empty()) {
+	if (!destination.empty() && destinationMap.empty()) {
 		adjacent = space->getObjectAs<Door>(destination);
 
 		if (!adjacent.isValid()) {
@@ -45,7 +47,7 @@ void Door::init()
 		}
 	}
 
-	if (!adjacent.isValid()) {
+	if (!adjacent.isValid() && destinationMap.empty()) {
 		adjacent = dynamic_cast<Door*>(space->queryAdjacentTiles(
 			getPos(),
 			GType::environment,
@@ -59,10 +61,13 @@ void Door::init()
 	}
 
 	if ((doorType == door_type::one_way_destination || doorType == door_type::one_way_source) && adjacent.isValid()) {
-		space->setSpriteTexture(spriteID, "sprites/door_oneway_" + getDoorDirection() + ".png");
+		space->setSpriteTexture(spriteID, "sprites/door_oneway_" + getDoorDirectionString() + ".png");
 	}
 	else if (stairs) {
 		space->setSpriteTexture(spriteID, "sprites/stairs.png" );
+	}
+	else if (path) {
+		space->setSpriteVisible(spriteID, false);
 	}
 }
 
@@ -70,27 +75,33 @@ PhysicsLayers Door::getLayers() const{
 	return PhysicsLayers::all;
 }
 
-string Door::getDoorDirection() const
+Direction Door::getDoorDirection() const
 {
 	if (doorType == door_type::one_way_source) {
-		Direction d = toDirection(ai::directionToTarget(this, adjacent.get()->getPos()));
-		return directionToString(d);
+		return toDirection(ai::directionToTarget(this, adjacent.get()->getPos()));
 	}
 	else if (doorType == door_type::one_way_destination) {
-		Direction d = toDirection(ai::directionToTarget(this, adjacent.get()->getPos()).rotate(float_pi));
-		return directionToString(d);
+		return toDirection(ai::directionToTarget(this, adjacent.get()->getPos()).rotate(float_pi));
 	}
-	return "";
+	else {
+		return Direction::none;
+	}
+}
+
+string Door::getDoorDirectionString() const
+{
+	return directionToString(getDoorDirection());
 }
 
 string Door::imageSpritePath() const {
 	return "sprites/door.png";
 }
 
-
 bool Door::canInteract()
 {
 	Player* p = space->getObjectAs<Player>("player");
+
+	if (!destinationMap.empty()) return true;
 
 	return doorType != door_type::one_way_destination && adjacent.isValid() && !sealed && (!locked || p->getKeyCount() > 0);
 }
@@ -113,6 +124,8 @@ string Door::interactionIcon()
 {
 	if (stairs)
 		return "sprites/stairs.png";
+	else if (path)
+		return "sprites/dirt_path.png";
 	else if (locked)
 		return "sprites/key.png";
 	else

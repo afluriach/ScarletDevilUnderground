@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.0" tiledversion="1.0.3" orientation="orthogonal" renderorder="right-down" width="31" height="36" tilewidth="128" tileheight="128" nextobjectid="57">
+ <tileset firstgid="1" name="scarlet carpet texture" tilewidth="128" tileheight="128" tilecount="1" columns="1">
+  <image source="../scarlet carpet texture.png" width="128" height="128"/>
+ </tileset>
+ <tileset firstgid="2" name="block_wall_dark_grey" tilewidth="128" tileheight="128" tilecount="16" columns="4">
+  <image source="../block_wall_dark_grey.png" width="512" height="512"/>
+ </tileset>
+ <tileset firstgid="18" name="book_shelf" tilewidth="128" tileheight="128" tilecount="1" columns="1">
+  <image source="../book_shelf.png" width="128" height="128"/>
+ </tileset>
+ <layer name="floor" width="31" height="36">
+  <data encoding="base64" compression="zlib">
+   eJztzbkNAAAIAzHYf2kmoOApHcltLqJfPthOW1v73v74BwAAYK4AVTkD7Q==
+  </data>
+ </layer>
+ <layer name="bookshelf" width="31" height="36">
+  <data encoding="base64" compression="zlib">
+   eJztz7EJADAIRUFncP9hs0BQSGXwDqz8zYsAAOAXebnq97KfSLfu6qdbd7efaGv3Jge0qQpX
+  </data>
+ </layer>
+ <layer name="wall_tiles" width="31" height="36">
+  <data encoding="base64" compression="zlib">
+   eJzt0zEKACAMA8Di/x/tLohohYJeoFvDTYmYp12402S62T6b/Yo9bnF3u9n/irDZP9n2zWaz2Ww2m722q64Dre0BUQ==
+  </data>
+ </layer>
+ <objectgroup name="walls">
+  <object id="14" x="896" y="0" width="128" height="1152"/>
+  <object id="15" x="1024" y="1024" width="896" height="128"/>
+  <object id="16" x="2048" y="1024" width="1024" height="128"/>
+  <object id="17" x="2944" y="128" width="128" height="896"/>
+  <object id="18" x="1024" y="0" width="2048" height="128"/>
+  <object id="23" x="512" y="1024" width="384" height="128"/>
+  <object id="24" x="0" y="1024" width="384" height="128"/>
+  <object id="25" x="0" y="1152" width="128" height="3456"/>
+  <object id="26" x="3072" y="1024" width="384" height="128"/>
+  <object id="27" x="3584" y="1024" width="384" height="128"/>
+  <object id="28" x="128" y="2048" width="256" height="128"/>
+  <object id="29" x="512" y="2048" width="1408" height="128"/>
+  <object id="30" x="2048" y="2048" width="1408" height="128"/>
+  <object id="31" x="3584" y="2048" width="256" height="128"/>
+  <object id="32" x="128" y="4480" width="3840" height="128"/>
+  <object id="33" x="3840" y="1152" width="128" height="3328"/>
+  <object id="34" x="384" y="2560" width="640" height="128"/>
+  <object id="35" x="384" y="2816" width="640" height="128"/>
+  <object id="36" x="384" y="3072" width="640" height="128"/>
+  <object id="37" x="384" y="3328" width="640" height="128"/>
+  <object id="38" x="384" y="3584" width="640" height="128"/>
+  <object id="39" x="384" y="3840" width="640" height="128"/>
+  <object id="40" x="384" y="4096" width="640" height="128"/>
+  <object id="41" x="2816" y="2560" width="768" height="128"/>
+  <object id="42" x="2816" y="2816" width="768" height="128"/>
+  <object id="43" x="2816" y="3072" width="768" height="128"/>
+  <object id="44" x="2816" y="3328" width="768" height="128"/>
+  <object id="45" x="2816" y="3584" width="768" height="128"/>
+  <object id="46" x="2816" y="3840" width="768" height="128"/>
+  <object id="47" x="2816" y="4096" width="768" height="128"/>
+  <object id="48" x="1280" y="2560" width="1280" height="128"/>
+  <object id="49" x="1280" y="2816" width="1280" height="128"/>
+  <object id="50" x="1280" y="3072" width="1280" height="128"/>
+  <object id="51" x="1280" y="3328" width="1280" height="128"/>
+  <object id="52" x="1280" y="3584" width="1280" height="128"/>
+  <object id="53" x="1280" y="3840" width="1280" height="128"/>
+  <object id="54" x="1280" y="4096" width="1280" height="128"/>
+ </objectgroup>
+ <objectgroup name="objects">
+  <properties>
+   <property name="dir" value="up"/>
+  </properties>
+  <object id="11" type="Desk" x="2816" y="384" width="128" height="384"/>
+  <object id="20" name="patchouli" type="Patchouli" x="2304" y="2304" width="128" height="128"/>
+  <object id="21" name="door1" type="Door" x="384" y="1024" width="128" height="128">
+   <properties>
+    <property name="dest" value="door1"/>
+    <property name="dest_map" value="mansion_f1"/>
+    <property name="stairs" value="true"/>
+   </properties>
+  </object>
+  <object id="22" name="door2" type="Door" x="3456" y="1024" width="128" height="128">
+   <properties>
+    <property name="dest" value="door2"/>
+    <property name="dest_map" value="mansion_f1"/>
+    <property name="stairs" value="true"/>
+   </properties>
+  </object>
+  <object id="55" type="Sign" x="2112" y="1152" width="128" height="128">
+   <properties>
+    <property name="msg" value="sign_flans_room"/>
+   </properties>
+  </object>
+  <object id="56" type="Sign" x="1728" y="1920" width="128" height="128">
+   <properties>
+    <property name="msg" value="sign_library"/>
+   </properties>
+  </object>
+ </objectgroup>
+ <objectgroup name="waypoints">
+  <object id="12" name="player_start" x="1920" y="512" width="128" height="128"/>
+ </objectgroup>
+</map>

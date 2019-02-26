@@ -44,4 +44,21 @@ public:
 	virtual inline SpaceFloat getMass() const { return -1.0; }
 };
 
+class Mushroom :
+	virtual public GObject,
+	public RectangleBody,
+	public ImageSprite
+{
+public:
+	MapObjCons(Mushroom);
+
+	virtual string imageSpritePath() const { return "sprites/mushroom.png"; }
+	virtual GraphicsLayer sceneLayer() const { return GraphicsLayer::ground; }
+
+	virtual inline GType getType() const { return GType::environment; }
+	virtual inline PhysicsLayers getLayers() const { return PhysicsLayers::all; }
+	virtual inline SpaceFloat getMass() const { return -1.0; }
+};
+
+
 #endif /* EnvironmentalObjects_hpp */

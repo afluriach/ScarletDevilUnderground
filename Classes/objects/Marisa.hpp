@@ -13,6 +13,20 @@
 #include "object_ref.hpp"
 #include "Player.hpp"
 
+class MarisaNPC : virtual public Agent, public NoAttributes, public DialogEntity
+{
+public:
+	MapObjCons(MarisaNPC);
+
+	virtual inline GType getType() const { return GType::npc; }
+	virtual inline SpaceFloat getRadius() const { return 0.35; }
+	inline SpaceFloat getMass() const { return -1.0; }
+	inline string imageSpritePath() const { return "sprites/marisa.png"; }
+
+	inline virtual bool isDialogAvailable() { return true; }
+	inline virtual string getDialog() { return "dialogs/marisa1"; }
+};
+
 class Marisa : public Enemy, public BaseAttributes<Marisa>
 {
 public:

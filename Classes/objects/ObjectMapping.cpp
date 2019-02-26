@@ -107,6 +107,7 @@ const unordered_map<string, GObject::object_info> GObject::objectInfo = {
 	entry_same(AgilityUpgrade),
 	entry_same(Bat),
 	entry_same(BlueFairy),
+	entry_same(BlueFairyNPC),
 	entry_same(BreakableWall),
 	entry_same(CollectGlyph),
 	entry_same(CollectMarisa),
@@ -143,9 +144,11 @@ const unordered_map<string, GObject::object_info> GObject::objectInfo = {
 	entry_same(Launcher),
 	collectible_entry(Magic1, magic1),
 	collectible_entry(Magic2, magic2),
+	entry_same(MarisaNPC),
 	entry_same(MineFloor),
 	entry_same(MovingPlatform),
 	entry_same(MPUpgrade),
+	entry_same(Mushroom),
 	entry_same(Patchouli),
 	entry_same(PatchouliEnemy),
 	entry_same(Pitfall),
@@ -174,6 +177,7 @@ const unordered_map<string, GObject::object_info> GObject::objectInfo = {
 	entry_same(Tewi),
 	entry_same(Torch),
 	entry_same(Wall),
+	entry_same(WaterFloor),
 	entry_same(ZombieFairy),
 
 	{ "Player", object_info{playerAdapter(), type_index(typeid(Player))} }

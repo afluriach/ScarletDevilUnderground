@@ -6,9 +6,9 @@
 #include "functional.hpp"
 #include "GState.hpp"
 #include "macros.h"
-#include "Mansion.hpp"
 #include "menu_scenes.h"
 #include "OpeningScene.hpp"
+#include "OverworldScene.hpp"
 #include "scenes.h"
 #include "util.h"
 
@@ -321,9 +321,14 @@ void App::runOpeningScene()
 	createAndRunScene<OpeningScene>();
 }
 
-void App::runOverworldScene()
+GScene* App::runOverworldScene()
 {
-	createAndRunScene<Mansion>();
+	return runOverworldScene("mansion_b1", "player_start");
+}
+
+GScene* App::runOverworldScene(string mapName, string start)
+{
+	return createAndRunScene<OverworldScene>("overworld/"+mapName, start);
 }
 
 GScene* App::getCrntScene()

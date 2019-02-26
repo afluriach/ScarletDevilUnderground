@@ -1,0 +1,126 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.0" tiledversion="1.0.3" orientation="orthogonal" renderorder="right-down" width="64" height="37" tilewidth="128" tileheight="128" nextobjectid="125">
+ <tileset firstgid="1" name="grass floor" tilewidth="128" tileheight="128" tilecount="4" columns="2">
+  <image source="../grass-floor.png" width="256" height="256"/>
+ </tileset>
+ <tileset firstgid="5" name="forest_dirt_wall" tilewidth="128" tileheight="128" tilecount="4" columns="4">
+  <image source="../forest_dirt_wall.png" width="512" height="128"/>
+ </tileset>
+ <tileset firstgid="9" name="dirt path vertical" tilewidth="128" tileheight="128" tilecount="1" columns="1">
+  <image source="../dirt path vertical.png" width="128" height="128"/>
+ </tileset>
+ <layer name="grass_floor" width="64" height="37">
+  <data encoding="base64" compression="zlib">
+   eJztlksOwCAIBW3t/c/cdufC4AdBHjKJeRvTGkfBlHTI33iYicz1jZuZyIR/fP85zXvw4n/Wgwf/P978r/DS482q/xVeeryd7p+inK+Nln+Kcr72+tH9c9d3uv8a0ueBylEk/id9HkZ9UIR/+/4l8VD/OSDUf8u5655byd37vzvj/uu9/yT6A0L/b32XA0L/l3wfIPiXrA/hH6f+W/R/ev23fr9bIPmXIPyH/9X9v4a2V2toe7VG+Pfp/wViDw0I
+  </data>
+ </layer>
+ <layer name="path v" width="64" height="37">
+  <data encoding="base64" compression="zlib">
+   eJzt2DERAAAIAzFW/BvGAht3NFHQX1sFsNPXA47pz6YfAAAAAAD+Sf+/9WfTn+1b/wBCygBk
+  </data>
+ </layer>
+ <layer name="wall_tiles" width="64" height="37">
+  <data encoding="base64" compression="zlib">
+   eJztmdEOwiAMRXkR/f8v1j0swQak9LalICchWTKonGhbNlPyIX/GExwrk8H1L5VdzOP4Y0Twvx0kezn+GMffBkkPkqyJ6o/uq8e970dncOdo4+XP2cOMHF/dHzlX5rSHv5RrrXWuRffXjkm5nLg9AvXn5AKd34vpiYa/xnzt77/X15C8W8HfkpYPzQXOHIt3DTP9Odce/Q997yOpZ1H8PYnoP1r/RkeZw1H9LeHU8F/Xnuc/i1qL+o/ElFD61+Kiv48yJlIXWzFRaP2v3UcY9Yl2/t3dn9b/2n2Elg/tEa35nuc/6/yXnP89+1+t3/yTvwXcft7KhZ38JWuPv+zdBHeNhz/y/DDyOSUR/o/z5Ph/c/z34A3MYwpN
+  </data>
+ </layer>
+ <objectgroup name="floor"/>
+ <objectgroup name="walls">
+  <object id="63" x="1280" y="4224" width="128" height="512"/>
+  <object id="65" x="0" y="4096" width="1408" height="128"/>
+  <object id="66" x="0" y="3456" width="128" height="640"/>
+  <object id="67" x="128" y="3456" width="640" height="128"/>
+  <object id="68" x="640" y="2816" width="128" height="640"/>
+  <object id="69" x="0" y="2816" width="640" height="128"/>
+  <object id="70" x="0" y="2176" width="128" height="640"/>
+  <object id="71" x="128" y="2176" width="640" height="128"/>
+  <object id="72" x="640" y="1536" width="128" height="640"/>
+  <object id="73" x="0" y="1536" width="640" height="128"/>
+  <object id="74" x="0" y="896" width="128" height="640"/>
+  <object id="75" x="128" y="896" width="1408" height="128"/>
+  <object id="76" x="1408" y="512" width="128" height="384"/>
+  <object id="77" x="1664" y="512" width="128" height="512"/>
+  <object id="78" x="1792" y="896" width="1408" height="128"/>
+  <object id="79" x="3072" y="1024" width="128" height="768"/>
+  <object id="80" x="3200" y="1664" width="1152" height="128"/>
+  <object id="81" x="4224" y="1024" width="128" height="640"/>
+  <object id="82" x="3328" y="1024" width="896" height="128"/>
+  <object id="83" x="3328" y="0" width="128" height="1024"/>
+  <object id="84" x="3456" y="0" width="2048" height="128"/>
+  <object id="85" x="5376" y="128" width="128" height="1024"/>
+  <object id="86" x="4480" y="1024" width="896" height="128"/>
+  <object id="87" x="4480" y="1152" width="128" height="896"/>
+  <object id="88" x="3072" y="1920" width="1408" height="128"/>
+  <object id="89" x="3072" y="2048" width="128" height="384"/>
+  <object id="90" x="3200" y="2304" width="3072" height="128"/>
+  <object id="92" x="6144" y="1280" width="128" height="1024"/>
+  <object id="93" x="6272" y="1280" width="1920" height="128"/>
+  <object id="94" x="1792" y="4096" width="128" height="640"/>
+  <object id="97" x="1920" y="4096" width="1280" height="128"/>
+  <object id="98" x="3072" y="3328" width="128" height="768"/>
+  <object id="99" x="3200" y="3328" width="384" height="128"/>
+  <object id="100" x="3456" y="3456" width="128" height="256"/>
+  <object id="102" x="3584" y="3584" width="640" height="128"/>
+  <object id="103" x="4096" y="2816" width="128" height="768"/>
+  <object id="105" x="3456" y="2816" width="640" height="128"/>
+  <object id="106" x="3456" y="2944" width="128" height="256"/>
+  <object id="107" x="3072" y="3072" width="384" height="128"/>
+  <object id="108" x="3072" y="2560" width="128" height="512"/>
+  <object id="109" x="3200" y="2560" width="3072" height="128"/>
+  <object id="110" x="6144" y="2688" width="128" height="1536"/>
+  <object id="111" x="6272" y="4096" width="1952" height="128"/>
+  <object id="112" x="8064" y="1408" width="128" height="2688"/>
+  <object id="113" x="6912" y="3328" width="512" height="128"/>
+  <object id="114" x="7296" y="2176" width="128" height="1152"/>
+  <object id="116" x="6912" y="2048" width="512" height="128"/>
+  <object id="117" x="6912" y="2176" width="128" height="896"/>
+  <object id="118" x="6528" y="2944" width="384" height="128"/>
+  <object id="119" x="6528" y="3072" width="128" height="768"/>
+  <object id="120" x="6656" y="3712" width="1152" height="128"/>
+  <object id="121" x="7680" y="1664" width="128" height="2048"/>
+  <object id="122" x="6528" y="1664" width="1152" height="128"/>
+  <object id="123" x="6528" y="1792" width="128" height="768"/>
+  <object id="124" x="6272" y="2560" width="384" height="128"/>
+ </objectgroup>
+ <objectgroup name="objects">
+  <object id="52" type="Mushroom" x="320" y="3776" width="128" height="128"/>
+  <object id="53" type="BlueFairyNPC" x="3072" y="3200" width="128" height="128">
+   <properties>
+    <property name="direction" value="left"/>
+   </properties>
+  </object>
+  <object id="55" type="Mushroom" x="7040" y="2176" width="128" height="128"/>
+  <object id="56" type="BlueFairyNPC" x="4352" y="1024" width="128" height="128">
+   <properties>
+    <property name="direction" value="down"/>
+   </properties>
+  </object>
+  <object id="57" type="MarisaNPC" x="4864" y="512" width="128" height="128">
+   <properties>
+    <property name="direction" value="left"/>
+   </properties>
+  </object>
+  <object id="58" type="Mushroom" x="3584" y="256" width="128" height="128"/>
+  <object id="59" type="BlueFairyNPC" x="1536" y="896" width="128" height="128">
+   <properties>
+    <property name="direction" value="down"/>
+   </properties>
+  </object>
+  <object id="60" name="clearing_path" type="Door" x="1408" y="4480" width="384" height="256">
+   <properties>
+    <property name="dest" value="forest_path"/>
+    <property name="dest_map" value="clearing"/>
+    <property name="dir" value="up"/>
+    <property name="path" value="true"/>
+   </properties>
+  </object>
+  <object id="61" name="forest_lake_path" type="Door" x="1536" y="512" width="128" height="128">
+   <properties>
+    <property name="dest" value="forest_path"/>
+    <property name="dest_map" value="forest_lake"/>
+    <property name="dir" value="down"/>
+    <property name="path" value="true"/>
+   </properties>
+  </object>
+ </objectgroup>
+</map>

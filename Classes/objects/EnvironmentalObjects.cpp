@@ -24,3 +24,10 @@ Sapling::Sapling(GSpace* space, ObjectIDType id, const ValueMap& args) :
 {
 	setInitialAngle(float_pi / 2.0);
 }
+
+Mushroom::Mushroom(GSpace* space, ObjectIDType id, const ValueMap& args) :
+	GObject(space, id, args),
+	RectangleBody(args)
+{
+	setInitialAngle(float_pi / 2.0);
+}

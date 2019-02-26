@@ -107,6 +107,21 @@ bool getBoolOrDefault(const ValueMap& args, const string& field, bool val)
 	return it->second.asBool();
 }
 
+Direction getDirectionOrDefault(const ValueMap& args, Direction d)
+{
+	auto it = args.find("direction");
+	if (it != args.end()) {
+		Direction dir = stringToDirection(it->second.asString());
+		if (dir != Direction::none)
+			return dir;
+		else
+			return d;
+	}
+	else {
+		return d;
+	}
+}
+
 ValueMap getMap(const ValueMap& args, const string& field)
 {
     auto it = args.find(field);

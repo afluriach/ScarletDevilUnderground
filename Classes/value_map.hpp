@@ -29,6 +29,8 @@ string getStringOrDefault(const ValueMap& args, const string& field, const strin
 
 bool getBoolOrDefault(const ValueMap& args, const string& field, bool val);
 
+Direction getDirectionOrDefault(const ValueMap& args, Direction d);
+
 ValueMap getMap(const ValueMap& args, const string& field);
 
 gobject_ref getObjRefFromStringField(GSpace* space, const ValueMap& args, const string& fieldName);

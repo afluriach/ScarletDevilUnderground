@@ -169,6 +169,18 @@ void FairyMaid::wander(ai::StateMachine& sm, const ValueMap& args)
 	sm.addThread(make_shared<ai::Wander>());
 }
 
+BlueFairyNPC::BlueFairyNPC(GSpace* space, ObjectIDType id, const ValueMap& args) :
+	MapObjForwarding(GObject),
+	MapObjForwarding(Agent)
+{
+
+}
+
+string BlueFairyNPC::getDialog()
+{
+	return "";
+}
+
 const AIPackage<BlueFairy>::AIPackageMap BlueFairy::aiPackages = {
 	{ "follow_path", &BlueFairy::follow_path },
 };

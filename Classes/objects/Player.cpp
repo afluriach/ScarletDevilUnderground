@@ -45,6 +45,13 @@ const float Player::powerAttackCost = 25.0f;
 
 const GType Player::bombObstacles = enum_bitwise_or4(GType, enemy, environment, wall, bomb);
 
+Player::Player(GSpace* space, ObjectIDType id, const SpaceVect& pos, Direction d) :
+	Agent(space, id, "player", pos,d),
+	RegisterUpdate<Player>(this)
+{
+
+}
+
 Player::Player(GSpace* space, ObjectIDType id, const ValueMap& args) :
 	MapObjForwarding(Agent),
 	RegisterUpdate<Player>(this)
@@ -141,9 +148,10 @@ void Player::init()
 
 		equipSpells();
 
-		respawnPos = getPos();
-		respawnAngle = getAngle();
 	}
+
+	respawnPos = getPos();
+	respawnAngle = getAngle();
 }
 
 void Player::checkMovementControls(const ControlInfo& cs)
@@ -498,11 +506,21 @@ void Player::onCollectible(Collectible* coll)
 
 void Player::useDoor(Door* interactTarget)
 {
-	Door* dest = interactTarget->getAdjacent();
+	string destMap = interactTarget->getDestinationMap();
+	string dest = interactTarget->getDestination();
 
-	if (dest)
+	if (destMap.empty()) {
+		Door* dest = interactTarget->getAdjacent();
+		if (dest){
+			moveToDestinationDoor(dest);
+		}
+	}
+	else
 	{
-		moveToDestinationDoor(dest);
+		space->addSceneAction(
+			[destMap, dest]()->void { App::runOverworldScene(destMap, dest); },
+			GScene::updateOrder::sceneUpdate
+		);
 	}
 }
 
@@ -661,6 +679,20 @@ FlandrePC::FlandrePC(GSpace* space, ObjectIDType id, const ValueMap& args) :
 	MapObjForwarding(Agent),
 	MapObjForwarding(Player)
 {}
+
+FlandrePC::FlandrePC(GSpace* space, ObjectIDType id, const SpaceVect& pos, Direction d) :
+	GObject(space, id, "player", pos, dirToPhysicsAngle(d)),
+	Agent(space, id, "player", pos, d),
+	Player(space, id, pos, d)
+{
+	multiInit.insertWithOrder(wrap_method(Player, init, this), to_int(GObject::initOrder::postLoadAttributes));
+
+	playScene = space->getSceneAs<PlayScene>();
+
+	if (!playScene) {
+		throw runtime_error("Player created outside of PlayScene!");
+	}
+}
 
 CircleLightArea FlandrePC::getLight()
 {

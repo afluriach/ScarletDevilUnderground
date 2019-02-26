@@ -346,7 +346,7 @@ const vector<string> PauseMenu::chamberEntries = {
 const vector<TextListMenuLayer::listAction> PauseMenu::chamberEntryActions = {
 	&App::resumeScene,
 	&App::restartScene,
-	&App::runOverworldScene
+	static_cast<GScene*(*)(void)>(&App::runOverworldScene)
 };
 
 PauseMenu::PauseMenu(bool overworld, Player* player) :
@@ -388,7 +388,7 @@ const vector<string> ChamberCompletedMenu::entries = {
 };
 
 const vector<TextListMenuLayer::listAction> ChamberCompletedMenu::entryActions = {
-	&App::runOverworldScene,
+	static_cast<GScene*(*)(void)>(&App::runOverworldScene),
 	&App::restartScene,
 	&App::runTitleScene
 };
