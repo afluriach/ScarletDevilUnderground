@@ -24,6 +24,21 @@ const vector<string> App::shaderFiles = {
 	"sprite",
 };
 
+const vector<string> App::soundFiles = {
+	"sfx/enemy_damage.wav",
+	"sfx/footstep_cave.wav",
+	"sfx/footstep_grass.wav",
+	"sfx/footstep_ice.wav",
+	"sfx/footstep_sand.wav",
+	"sfx/footstep_stone.wav",
+	"sfx/graze.wav",
+	"sfx/player_damage.wav",
+	"sfx/player_death.wav",
+	"sfx/player_spellcard.wav",
+	"sfx/powerup.wav",
+	"sfx/shot.wav",
+};
+
 unsigned int App::width = 1600;
 unsigned int App::height = 1000;
 
@@ -77,52 +92,78 @@ float App::getScale()
 	return 1.0f * width / baseWidth;
 }
 
+void App::initAudio()
+{
+	FMOD_RESULT result = FMOD::System_Create(&appInst->audioSystem);
+
+	if (result != FMOD_OK) {
+		log("FMOD system failed to create!");
+		return;
+	}
+
+	result = appInst->audioSystem->init(maxAudioChannels, FMOD_INIT_NORMAL, 0);
+
+	if (result != FMOD_OK) {
+		log("FMOD system failed to initialize!");
+		return;
+	}
+
+	for (string sound : soundFiles)
+	{
+		loadSound(sound);
+	}
+}
+
+void App::loadSound(const string& path)
+{
+	FMOD::Sound *audio;
+	FMOD_RESULT result = appInst->audioSystem->createSound(path.c_str(), FMOD_DEFAULT, 0, &audio);
+
+	if (result == FMOD_OK) {
+		appInst->loadedAudio.insert_or_assign(path, audio);
+	}
+	else {
+		log("Failed to create sound %s, error code %d.", path.c_str(), to_int(result));
+	}
+}
+
 void App::playSound(const string& path, float volume)
 {
 	auto it = appInst->loadedAudio.find(path);
 
 	if (it == appInst->loadedAudio.end()) {
-		FMOD::Sound *audio;
-		FMOD_RESULT result = appInst->audioSystem->createSound(path.c_str(), FMOD_DEFAULT, 0, &audio);
-
-		if (result == FMOD_OK) {
-			appInst->loadedAudio.insert_or_assign(path, audio);
-		}
-		else {
-			log("Failed to create sound %s!", path.c_str());
-		}
+		log("Unknown sound %s!", path.c_str());
+		return;
 	}
 
 	FMOD::Channel* ch;
-	appInst->audioSystem->playSound(appInst->loadedAudio.at(path), nullptr, true, &ch);
+	appInst->audioSystem->playSound(it->second, nullptr, true, &ch);
+	
+	ch->setMode(FMOD_DEFAULT);
 	ch->setVolume(volume);
 	ch->setPaused(false);
 }
 
-
 void App::playSoundSpatial(const string& path, SpaceVect pos, SpaceVect vel)
 {
-	auto it = appInst->loadedSpatialAudio.find(path);
+	playSoundSpatial(path, toFmod(pos), toFmod(vel));
+}
 
-	if (it == appInst->loadedSpatialAudio.end()) {
-		FMOD::Sound *audio;
-		FMOD_RESULT result = appInst->audioSystem->createSound(path.c_str(), FMOD_3D, 0, &audio);
-		audio->set3DMinMaxDistance(0.5f, 15.0f);
+void App::playSoundSpatial(const string& path, FMOD_VECTOR pos, FMOD_VECTOR vel)
+{
+	auto it = appInst->loadedAudio.find(path);
 
-		if (result == FMOD_OK) {
-			appInst->loadedSpatialAudio.insert_or_assign(path, audio);
-		}
-		else {
-			log("Failed to create sound %s!", path.c_str());
-		}
+	if (it == appInst->loadedAudio.end()) {
+		log("Unknown sound %s!", path.c_str());
+		return;
 	}
 
 	FMOD::Channel* ch;
-	FMOD_VECTOR _pos = toFmod(pos);
-	FMOD_VECTOR _vel = toFmod(vel);
-
-	appInst->audioSystem->playSound(appInst->loadedSpatialAudio.at(path), nullptr, true, &ch);
-	ch->set3DAttributes(&_pos, &_vel);
+	appInst->audioSystem->playSound(it->second, nullptr, true, &ch);
+	
+	ch->setMode(FMOD_3D);
+	ch->set3DMinMaxDistance(0.5f, 15.0f);
+	ch->set3DAttributes(&pos, &vel);
 	ch->setPaused(false);
 }
 
@@ -225,20 +266,7 @@ bool App::applicationDidFinishLaunching() {
         "app_update"
     );
 
-	FMOD_RESULT result = FMOD::System_Create(&audioSystem);
-
-	if (result == FMOD_OK)
-	{
-		result = audioSystem->init(maxAudioChannels, FMOD_INIT_NORMAL, 0);
-
-		if (result != FMOD_OK) {
-			log("FMOD system failed to initialize!");
-		}
-	}
-	else
-	{
-		log("FMOD ssytem failed to create!");
-	}
+	initAudio();
 
     //Create title menu scene and run it.
     runTitleScene();

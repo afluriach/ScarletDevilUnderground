@@ -56,6 +56,7 @@ public:
     static const string title;
     
     static const vector<string> shaderFiles;
+	static const vector<string> soundFiles;
     
 	static Vec2 getScreenCenter();    
 	static float getScale();
@@ -95,8 +96,11 @@ public:
 	static void printGlDebug();
 	static void end();
 
+	static void initAudio();
+	static void loadSound(const string& path);
 	static void playSound(const string& path, float volume);
 	static void playSoundSpatial(const string& path, SpaceVect pos, SpaceVect vel);
+	static void playSoundSpatial(const string& path, FMOD_VECTOR pos, FMOD_VECTOR vel);
 	static void pauseSounds();
 	static void resumeSounds();
 	static void setSoundListenerPos(SpaceVect pos, SpaceVect vel, SpaceFloat angle);
@@ -139,8 +143,6 @@ protected:
 
 	FMOD::System* audioSystem = nullptr;
 	map<string, FMOD::Sound*> loadedAudio;
-	map<string, FMOD::Sound*> loadedSpatialAudio;
-
 
 	virtual bool applicationDidFinishLaunching();
 	virtual void applicationDidEnterBackground();

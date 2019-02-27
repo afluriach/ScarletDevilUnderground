@@ -143,9 +143,9 @@ SpaceVect toChipmunkWithCentering(const IntVec2& ivec)
 	return SpaceVect(ivec.first + 0.5, ivec.second + 0.5);
 }
 
-FMOD_VECTOR toFmod(const SpaceVect& rhs)
+FMOD_VECTOR toFmod(const SpaceVect& rhs, float y)
 {
-	return { to_float(rhs.x), 0.0f, to_float(rhs.y) };
+	return { to_float(rhs.x), y, to_float(rhs.y) };
 }
 
 CCRect operator*(const CCRect& lhs, float rhs)
