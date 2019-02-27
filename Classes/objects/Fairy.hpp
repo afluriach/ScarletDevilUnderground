@@ -43,13 +43,12 @@ public:
 class BlueFairyNPC :
 	virtual public Agent,
 	public NoAttributes,
-	public DialogEntity,
-	public RegisterInit<BlueFairyNPC>
+	public DialogEntity
 {
 public:
-	BlueFairyNPC(GSpace* space, ObjectIDType id, const ValueMap& args);
+	static bool conditionalLoad(GSpace* space, ObjectIDType id, const ValueMap& args);
 
-	void init();
+	BlueFairyNPC(GSpace* space, ObjectIDType id, const ValueMap& args);
 
 	virtual inline SpaceFloat getMass() const { return -1.0; }
 	virtual inline GType getType() const { return GType::npc; }
@@ -63,6 +62,26 @@ public:
 	virtual void onDialogEnd();
 protected:
 	int level;
+};
+
+class GhostFairyNPC :
+	virtual public Agent,
+	public NoAttributes
+{
+public:
+	static bool conditionalLoad(GSpace* space, ObjectIDType id, const ValueMap& args);
+
+	GhostFairyNPC(GSpace* space, ObjectIDType id, const ValueMap& args);
+
+	virtual inline SpaceFloat getMass() const { return 10.0; }
+	virtual inline GType getType() const { return GType::npc; }
+	virtual inline bool getSensor() const { return true; }
+
+	inline string imageSpritePath() const { return "sprites/ghost-fairy.png"; }
+	virtual bool isAgentAnimation() const { return true; }
+	virtual inline int pixelWidth() const { return 512; }
+
+	virtual void initStateMachine(ai::StateMachine& sm);
 };
 
 class Fairy1 :

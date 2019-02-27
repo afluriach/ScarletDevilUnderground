@@ -69,6 +69,16 @@ constexpr GObject::AdapterType itemAdapter(const string& name)
     };
 }
 
+template<typename T>
+GObject::AdapterType conditionalLoadAdapter()
+{
+	return [=](GSpace* space, ObjectIDType id, const ValueMap& args) -> GObject* {
+		if (!T::conditionalLoad(space, id, args) )
+			return nullptr;
+		else return new T(space, id, args);
+	};
+}
+
 GObject::AdapterType playerAdapter()
 {
 	return [](GSpace* space, ObjectIDType id, const ValueMap& args) -> GObject* {
@@ -98,6 +108,8 @@ GObject::AdapterType collectibleAdapter(collectible_id id)
 //To make an entry where the name matches the class
 #define entry_same(cls) entry(#cls, cls)
 
+#define conditional_entry(name) {#name, GObject::object_info{conditionalLoadAdapter<name>(), type_index(typeid(name))}}
+
 #define item_entry(name,cls,itemKey) {name, GObject::object_info{itemAdapter<cls>(#itemKey), type_index(typeid(cls))}}
 #define item_entry_same(cls) item_entry(#cls,cls,cls)
 
@@ -107,7 +119,7 @@ const unordered_map<string, GObject::object_info> GObject::objectInfo = {
 	entry_same(AgilityUpgrade),
 	entry_same(Bat),
 	entry_same(BlueFairy),
-	entry_same(BlueFairyNPC),
+	conditional_entry(BlueFairyNPC),
 	entry_same(BreakableWall),
 	entry_same(BridgeFloor),
 	entry_same(CollectGlyph),
@@ -127,6 +139,7 @@ const unordered_map<string, GObject::object_info> GObject::objectInfo = {
 	item_entry_same(ForestBook1),
 	entry_same(ForestMarisa),
 	entry_same(GenericAgent),
+	conditional_entry(GhostFairyNPC),
 	entry_same(Glyph),
 	entry_same(Goal),
 	entry_same(GrassFloor),
@@ -149,7 +162,7 @@ const unordered_map<string, GObject::object_info> GObject::objectInfo = {
 	entry_same(MineFloor),
 	entry_same(MovingPlatform),
 	entry_same(MPUpgrade),
-	entry_same(Mushroom),
+	conditional_entry(Mushroom),
 	entry_same(Patchouli),
 	entry_same(PatchouliEnemy),
 	entry_same(Pitfall),

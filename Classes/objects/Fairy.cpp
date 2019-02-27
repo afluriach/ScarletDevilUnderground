@@ -170,19 +170,17 @@ void FairyMaid::wander(ai::StateMachine& sm, const ValueMap& args)
 	sm.addThread(make_shared<ai::Wander>());
 }
 
-BlueFairyNPC::BlueFairyNPC(GSpace* space, ObjectIDType id, const ValueMap& args) :
-	MapObjForwarding(GObject),
-	MapObjForwarding(Agent),
-	RegisterInit<BlueFairyNPC>(this)
+bool BlueFairyNPC::conditionalLoad(GSpace* space, ObjectIDType id, const ValueMap& args)
 {
-	level = getIntOrDefault(args, "level", 0);
+	int level = getIntOrDefault(args, "level", 0);
+	return level > App::crntState->getBlueFairyLevel();
 }
 
-void BlueFairyNPC::init()
+BlueFairyNPC::BlueFairyNPC(GSpace* space, ObjectIDType id, const ValueMap& args) :
+	MapObjForwarding(GObject),
+	MapObjForwarding(Agent)
 {
-	if (App::crntState->getBlueFairyLevel() >= level) {
-		space->removeObject(this);
-	}
+	level = getIntOrDefault(args, "level", 0);
 }
 
 string BlueFairyNPC::getDialog()
@@ -202,6 +200,23 @@ void BlueFairyNPC::onDialogEnd()
 		space->removeObject(this);
 	} 
 }
+
+bool GhostFairyNPC::conditionalLoad(GSpace* space, ObjectIDType id, const ValueMap& args)
+{
+	return true;
+}
+
+GhostFairyNPC::GhostFairyNPC(GSpace* space, ObjectIDType id, const ValueMap& args) :
+	MapObjForwarding(GObject),
+	MapObjForwarding(Agent)
+{
+}
+
+void GhostFairyNPC::initStateMachine(ai::StateMachine& sm)
+{
+	sm.addThread(make_shared<ai::Wander>());
+}
+
 
 const AIPackage<BlueFairy>::AIPackageMap BlueFairy::aiPackages = {
 	{ "follow_path", &BlueFairy::follow_path },

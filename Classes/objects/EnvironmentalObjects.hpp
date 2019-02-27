@@ -48,13 +48,12 @@ class Mushroom :
 	virtual public GObject,
 	public RectangleBody,
 	public ImageSprite,
-	public InteractibleObject,
-	public RegisterInit<Mushroom>
+	public InteractibleObject
 {
 public:
-	MapObjCons(Mushroom);
+	static bool conditionalLoad(GSpace* space, ObjectIDType id, const ValueMap& args);
 
-	void init();
+	MapObjCons(Mushroom);
 
 	virtual string imageSpritePath() const { return "sprites/mushroom.png"; }
 	virtual GraphicsLayer sceneLayer() const { return GraphicsLayer::ground; }
