@@ -25,6 +25,11 @@ void GState::initProfiles()
 	}
 }
 
+bool GState::hasItem(string name)
+{
+	return itemRegistry.find(name) != itemRegistry.end();
+}
+
 void GState::registerMushroomAcquired(int id)
 {
 	mushroomFlags |= (1 << id);

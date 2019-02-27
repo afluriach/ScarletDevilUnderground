@@ -8,6 +8,8 @@
 
 #include "Prefix.h"
 
+#include "App.h"
+#include "GState.hpp"
 #include "Patchouli.hpp"
 #include "PatchouliSpell.hpp"
 
@@ -15,6 +17,18 @@ Patchouli::Patchouli(GSpace* space, ObjectIDType id, const ValueMap& args) :
 	MapObjForwarding(GObject),
 	MapObjForwarding(Agent)
 {}
+
+string Patchouli::getDialog() {
+	if (App::crntState->hasItem("GraveyardBook1") && !App::crntState->isChamberAvailable(ChamberID::graveyard1)) {
+		return "dialogs/graveyard_book";
+	}
+	else if (App::crntState->hasItem("ForestBook1") && !App::crntState->isChamberAvailable(ChamberID::forest1)) {
+		return "dialogs/forest_book";
+	}
+	else {
+		return "dialogs/patchouli1";
+	}
+}
 
 void Patchouli::initStateMachine(ai::StateMachine& sm)
 {

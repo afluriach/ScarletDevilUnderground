@@ -63,7 +63,7 @@ template <typename T>
 constexpr GObject::AdapterType itemAdapter(const string& name)
 {
     return [=](GSpace* space, ObjectIDType id, const ValueMap& args) -> GObject* {
-        if(App::crntState->itemRegistry.find(name) != App::crntState->itemRegistry.end())
+        if(App::crntState->hasItem(name))
             return nullptr;
         else return new T(space,id,args);
     };

@@ -11,6 +11,7 @@
 #include "App.h"
 #include "controls.h"
 #include "Dialog.hpp"
+#include "GState.hpp"
 #include "macros.h"
 #include "scenes.h"
 
@@ -132,6 +133,11 @@ void Dialog::setNextScene(const string& next)
 	};
 }
 
+void Dialog::unlockChamber(ChamberID id)
+{
+	App::crntState->registerChamberAvailable(id);
+}
+
 void Dialog::drawBackground()
 {
     backgroundNode->clear();
@@ -231,6 +237,18 @@ void Dialog::processDialogFile(const string& text)
                 }
 				setNextScene(tokens[1]);                
             }
+			else if (boost::starts_with(line, ":unlockChamber")) {
+				vector<string> tokens = splitString(line, " ");
+				if (tokens.size() != 2) {
+					log("invalid unlockChamber directive: %s.", line.c_str());
+					continue;
+				}
+
+				dialog.push_back(makeAction<ChamberID>(
+					&Dialog::unlockChamber,
+					static_cast<ChamberID>(boost::lexical_cast<int>(tokens[1]))
+				));
+			}
         }
         else{
             dialog.push_back(

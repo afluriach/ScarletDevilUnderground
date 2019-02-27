@@ -25,7 +25,7 @@ public:
     inline GraphicsLayer sceneLayer() const {return GraphicsLayer::ground;}
 
 	virtual bool isDialogAvailable() { return true; }
-	virtual inline string getDialog() { return "dialogs/patchouli1"; }
+	virtual string getDialog();
 
 	virtual void initStateMachine(ai::StateMachine& sm);
 };

@@ -56,6 +56,8 @@ public:
 		ar & blueFairies;
     }
 
+	bool hasItem(string name);
+
 	void registerMushroomAcquired(int id);
 	bool isMushroomAcquired(int id);
 

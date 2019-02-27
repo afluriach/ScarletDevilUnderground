@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.0" tiledversion="1.0.3" orientation="orthogonal" renderorder="right-down" width="51" height="51" tilewidth="128" tileheight="128" nextobjectid="114">
+<map version="1.0" tiledversion="1.0.3" orientation="orthogonal" renderorder="right-down" width="51" height="51" tilewidth="128" tileheight="128" nextobjectid="115">
  <tileset firstgid="1" name="wall" tilewidth="128" tileheight="128" tilecount="4" columns="2">
   <image source="../fence.png" width="256" height="256"/>
  </tileset>
@@ -57,5 +57,6 @@
   </object>
   <object id="112" type="GhostFairyNPC" x="2688" y="3456" width="128" height="128"/>
   <object id="113" type="GhostFairyNPC" x="3840" y="3456" width="128" height="128"/>
+  <object id="114" type="GraveyardBook1" x="2944" y="5888" width="128" height="128"/>
  </objectgroup>
 </map>

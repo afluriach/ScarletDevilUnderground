@@ -63,6 +63,7 @@ public:
     
     void runLuaScript(const string& script);
     void setNextScene(const string& next);
+	void unlockChamber(ChamberID id);
 private:
     void drawBackground();
     void drawContents();

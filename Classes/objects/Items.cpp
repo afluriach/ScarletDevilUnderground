@@ -9,6 +9,7 @@
 #include "Prefix.h"
 
 #include "App.h"
+#include "GSpace.hpp"
 #include "GState.hpp"
 #include "Items.hpp"
 
@@ -22,7 +23,7 @@ ForestBook1::ForestBook1(GSpace* space, ObjectIDType id, const ValueMap& args) :
 
 void ForestBook1::onAcquire()
 {
-	App::crntState->registerChamberAvailable(ChamberID::forest1);
+	space->createDialog("dialogs/book_acquired", false);
 }
 
 GraveyardBook1::GraveyardBook1(GSpace* space, ObjectIDType id, const ValueMap& args) :
@@ -31,6 +32,5 @@ GraveyardBook1::GraveyardBook1(GSpace* space, ObjectIDType id, const ValueMap& a
 
 void GraveyardBook1::onAcquire()
 {
-	App::crntState->registerChamberAvailable(ChamberID::graveyard1);
-	App::crntState->registerChamberAvailable(ChamberID::graveyard2);
+	space->createDialog("dialogs/book_acquired", false);
 }
