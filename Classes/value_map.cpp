@@ -57,6 +57,11 @@ ValueMap getSpawnArgs(const ValueMap& args)
 	return result;
 }
 
+SpaceVect getObjectPos(const ValueMap& args)
+{
+	return SpaceVect(getFloat(args, "pos_x"), getFloat(args, "pos_y"));
+}
+
 int getInt(const ValueMap& args, const string& name)
 {
 	return args.at(name).asInt();

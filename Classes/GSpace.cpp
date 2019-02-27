@@ -25,6 +25,8 @@ class RadarObject;
 
 GSpace::GSpace(GScene* gscene) : gscene(gscene)
 {
+	isMultiMap = gscene->isMultiMap();
+
 	space = cpSpaceNew();
     cpSpaceSetGravity(space, cpv(0,0));
     addCollisionHandlers();
@@ -596,14 +598,14 @@ pair<int, IntVec2> GSpace::getTilePosition(SpaceVect p)
 {
 	int mapID = getAreaIndex(mapAreas, p);
 
-	if (mapID == -1) {
+	if (mapID == -1 && !isMultiMap) {
 		return make_pair(-1, IntVec2(0, 0));
 	}
 
-	SpaceRect map = mapAreas.at(mapID);
+	SpaceRect map = isMultiMap ? SpaceRect(0.0, 0.0, spaceSize.first, spaceSize.second) : mapAreas.at(mapID);
 	IntVec2 mapPos(floor(p.x) - map.getMinX(), map.getMaxY() - ceil(p.y));
 
-	return make_pair(mapID,mapPos);
+	return make_pair(isMultiMap ? 0 : mapID,mapPos);
 }
 
 int GSpace::getPlayerRoom()

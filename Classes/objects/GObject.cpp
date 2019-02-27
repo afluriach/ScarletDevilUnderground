@@ -35,11 +35,8 @@ GObject::GObject(GSpace* space, ObjectIDType uuid, const ValueMap& obj, bool ano
 	anonymous(anonymous)
 {
 	//Interpret coordinates as center, unit space.
-	initialCenter = SpaceVect(getFloat(obj, "pos_x"), getFloat(obj, "pos_y"));
+	initialCenter = getObjectPos(obj);
 
-	if (obj.find("vel_x") != obj.end() && obj.find("vel_y") != obj.end()) {
-		setInitialVelocity(SpaceVect(getFloat(obj, "vel_x"), getFloat(obj, "vel_y")));
-	}
 #if GOBJECT_LUA
 	if (!anonymous) {
 		ctx = make_unique<Lua::Inst>(boost::lexical_cast<string>(uuid) + "_" + name);

@@ -99,7 +99,7 @@ template<class C>
 GObject::AdapterType collectibleAdapter(collectible_id id)
 {
 	return [=](GSpace* space, ObjectIDType id, const ValueMap& args) -> GObject* {
-		SpaceVect pos = SpaceVect(getFloat(args, "pos_x"), getFloat(args, "pos_y"));
+		SpaceVect pos = getObjectPos(args);
 		return new C(space, id, pos);
 	};
 }

@@ -84,6 +84,17 @@ void HiddenSubroomSensor::update()
 	}
 }
 
+RoomSensor::RoomSensor(GSpace* space, ObjectIDType id, const ValueMap& args) :
+	RoomSensor(
+		space,
+		id,
+		getObjectPos(args),
+		RectangleBody::getDimensionsFromMap(args),
+		getIntOrDefault(args, "name", -1),
+		args
+	)
+{}
+
 RoomSensor::RoomSensor(GSpace* space, ObjectIDType id, SpaceVect center, SpaceVect dimensions, int mapID, const ValueMap& props) :
 	GObject(space, id, "", center, 0.0),
 	AreaSensor(space,id,center,dimensions),

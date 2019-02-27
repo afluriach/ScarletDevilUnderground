@@ -58,15 +58,24 @@ void Bomb::detonate()
 			target->hit({ {Attribute::hp, -1.0f} }, getMagicEffect(target));
 			applyKnockback(target, knockback);
 		}
-		else if (target->getType() == GType::wall) {
-			BreakableWall* bw = dynamic_cast<BreakableWall*>(target);
-			if (bw) bw->hit();
-		}
 		else if (target->getType() == GType::enemy) {
 			target->hit(AttributeSystem::scale(baseEffect, scale), getMagicEffect(target));
 			log("Hit %s at magnitude %f.", target->getName().c_str(), scale);
 			applyKnockback(target, knockback);
 		}
+	}
+
+	set<BreakableWall*> walls = space->radiusQueryByType<BreakableWall>(
+		this,
+		getPos(),
+		getBlastRadius(),
+		GType::wall,
+		PhysicsLayers::all
+	);
+
+	for (BreakableWall* bw : walls)
+	{
+		bw->hit();
 	}
 
 	space->removeObjectWithAnimation(this, bombAnimationAction(getBlastRadius() / getRadius()));

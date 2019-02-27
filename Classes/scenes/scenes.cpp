@@ -875,9 +875,6 @@ void GScene::loadMap(const MapEntry& mapEntry)
 	SpaceRect mapRect(llCorner.x, llCorner.y, mapSize.width, mapSize.height);
 
 	tilemaps.pushBack(tileMap);
-	mapAreas.push_back(mapRect);
-	gspace->addMapArea(mapRect);
-	mapAreasVisited.push_back(false);
 
 	getSpaceLayer()->positionAndAddNode(
 		tileMap,
@@ -904,12 +901,16 @@ void GScene::loadMap(const MapEntry& mapEntry)
 	const ValueMap& props = tileMap->getProperties();
 	string roomType = getStringOrDefault(props, "room_type", "");
 
-	gspace->createObject(GObject::make_object_factory<RoomSensor>(
-		mapRect.center,
-		mapRect.dimensions,
-		tilemaps.size() - 1,
-		props
-	));
+	if (maps.size() > 1) {
+		mapAreas.push_back(mapRect);
+		gspace->addMapArea(mapRect);
+		mapAreasVisited.push_back(false);
+
+		loadRoomFromMap(mapRect, tilemaps.size() - 1, props);
+	}
+	else if (maps.size() == 1) {
+		loadRoomsLayer(*tileMap);
+	}
 }
 
 void GScene::loadMapObjects(const TMXTiledMap& map, IntVec2 offset)
@@ -1053,6 +1054,36 @@ void GScene::loadWalls(const TMXTiledMap& map, IntVec2 offset)
 	}
 }
 
+void GScene::loadRoomFromMap(const SpaceRect& mapBounds, int roomID, const ValueMap& properties)
+{
+	gspace->createObject(GObject::make_object_factory<RoomSensor>(
+		mapBounds.center,
+		mapBounds.dimensions,
+		roomID,
+		properties
+	));
+}
+
+void GScene::loadRoomsLayer(const TMXTiledMap& map)
+{
+	TMXObjectGroup* rooms = map.getObjectGroup("rooms");
+	if (!rooms)
+		return;
+
+	for (const Value& obj : rooms->getObjects())
+	{
+		ValueMap objAsMap = obj.asValueMap();
+		SpaceRect area = getUnitspaceRectangle(objAsMap, make_pair(0,0));
+		convertToUnitSpace(objAsMap, make_pair(0,0));
+
+		gspace->createObject(GObject::make_object_factory<RoomSensor>(objAsMap));
+
+		mapAreas.push_back(area);
+		gspace->addMapArea(area);
+		mapAreasVisited.push_back(false);
+	}
+}
+
 void GScene::loadLights(const TMXTiledMap& map, IntVec2 offset)
 {
 	string ambient = getStringOrDefault(map.getPropertiesConst(), "ambient_light", "");
@@ -1094,12 +1125,25 @@ void GScene::spaceUpdateMain()
 
 void GScene::updateMapVisibility(SpaceVect playerPos)
 {
+	if (tilemaps.size() > 1) {
+		updateMultimapVisibility(playerPos);
+	}
+	updateRoomsVisited(playerPos);
+}
+
+void GScene::updateMultimapVisibility(SpaceVect playerPos)
+{
 	for (int i = 0; i < tilemaps.size() && mapAreas.size(); ++i){
 		tilemaps.at(i)->setVisible(
 			isInCameraArea(mapAreas.at(i)) &&
 			mapAreasVisited.at(i)
 		);
+	}
+}
 
+void GScene::updateRoomsVisited(SpaceVect playerPos)
+{
+	for (int i = 0; i < mapAreas.size(); ++i) {
 		if (mapAreas.at(i).containsPoint(playerPos)) {
 			crntMap = i;
 			mapAreasVisited.at(i) = true;

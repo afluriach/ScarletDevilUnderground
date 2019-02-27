@@ -195,7 +195,10 @@ public:
 	int getPlayerRoom();
 	void eraseTile(int mapID, IntVec2 pos, string layer);
 
+	inline bool isMultiMap() const { return tilemaps.size() > 1; }
 	void updateMapVisibility(SpaceVect playerPos);
+	void updateMultimapVisibility(SpaceVect playerPos);
+	void updateRoomsVisited(SpaceVect playerPos);
 	void unlockAllRooms();
 	
 	void teleportToDoor(string name);
@@ -218,15 +221,25 @@ protected:
 	void loadMaps();
 	void loadMap(const MapEntry& mapEntry);
 
+	void loadObjectGroup(TMXObjectGroup* group, IntVec2 offset);
 	void loadMapObjects(const TMXTiledMap& map, IntVec2 offset);
-	//Add a map object layer to space.
+	//equivalent, except load "floor" layer
+	void loadFloorSegments(const TMXTiledMap& map, IntVec2 offset);
+	//objects in this layer are Wall type by default
+	void loadWalls(const TMXTiledMap& map, IntVec2 offset);
+
+	//data that is loaded to GSpace for AI use
 	void loadPaths(const TMXTiledMap& map, IntVec2 offset);
 	void loadWaypoints(const TMXTiledMap& map, IntVec2 offset);
-	void loadFloorSegments(const TMXTiledMap& map, IntVec2 offset);
-	void loadObjectGroup(TMXObjectGroup* group, IntVec2 offset);
+
 	void loadSubrooms(const TMXTiledMap& map, IntVec2 offset);
-	void loadWalls(const TMXTiledMap& map, IntVec2 offset);
 	void loadLights(const TMXTiledMap& map, IntVec2 offset);
+	//For a multi-map scene; a room sensor is created according to the bounds
+	//of the map, initialized using the map's properties.
+	void loadRoomFromMap(const SpaceRect& mapBounds, int roomID, const ValueMap& properties);
+	//For a single map scene; room sensors are creatd from the "rooms" map
+	//object layer, initialized from each map object's properties.
+	void loadRoomsLayer(const TMXTiledMap& map);
 
 	void initEnemyStats();
 	void spaceUpdateMain();

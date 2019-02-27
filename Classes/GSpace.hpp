@@ -194,6 +194,7 @@ private:
 	mutex objectActionsMutex;
 
 	bool suppressAction = false;
+	bool isMultiMap;
 
 	unsigned int nextObjUUID = 1;
     

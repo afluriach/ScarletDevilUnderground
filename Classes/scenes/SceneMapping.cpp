@@ -53,6 +53,7 @@ const unordered_map<string, GScene::AdapterType> GScene::adapters = {
 	entry_same(GardenBlooming),
 	PlaySceneMapName(GardenEmpty),
 	PlaySceneMapName(GardenPath),
+	PlaySceneMapName(G1),
 	entry_same(Graveyard1),
 	entry_same(Graveyard2),
 	entry_same(IceCave),
