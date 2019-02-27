@@ -43,10 +43,13 @@ public:
 class BlueFairyNPC :
 	virtual public Agent,
 	public NoAttributes,
-	public DialogEntity
+	public DialogEntity,
+	public RegisterInit<BlueFairyNPC>
 {
 public:
 	BlueFairyNPC(GSpace* space, ObjectIDType id, const ValueMap& args);
+
+	void init();
 
 	virtual inline SpaceFloat getMass() const { return -1.0; }
 	virtual inline GType getType() const { return GType::npc; }
@@ -57,6 +60,9 @@ public:
 
 	inline virtual bool isDialogAvailable() { return true; }
 	virtual string getDialog();
+	virtual void onDialogEnd();
+protected:
+	int level;
 };
 
 class Fairy1 :

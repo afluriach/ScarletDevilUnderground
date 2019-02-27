@@ -25,6 +25,26 @@ void GState::initProfiles()
 	}
 }
 
+void GState::registerMushroomAcquired(int id)
+{
+	mushroomFlags |= (1 << id);
+}
+
+bool GState::isMushroomAcquired(int id)
+{
+	return (mushroomFlags >> id) & 1;
+}
+
+void GState::setBlueFairyLevel(int id)
+{
+	blueFairies = id;
+}
+
+int GState::getBlueFairyLevel()
+{
+	return blueFairies;
+}
+
 void GState::registerChamberAvailable(ChamberID id)
 {
 	if (id > ChamberID::invalid_id && id < ChamberID::end) {

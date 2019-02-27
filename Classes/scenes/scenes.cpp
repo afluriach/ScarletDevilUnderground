@@ -269,6 +269,11 @@ void GScene::setPaused(bool p){
 
 void GScene::createDialog(const string& res, bool autoAdvance)
 {
+	createDialog(res, autoAdvance, nullptr);
+}
+
+void GScene::createDialog(const string& res, bool autoAdvance, function <void(void)> f)
+{
 	stopDialog();
 
 	dialog = Node::ccCreate<Dialog>();
@@ -283,8 +288,12 @@ void GScene::createDialog(const string& res, bool autoAdvance)
 
 	isPaused = !autoAdvance;
 
-	dialog->setEndHandler([this]() -> void {
+	dialog->setEndHandler([this, f]() -> void {
 		stopDialog();
+
+		if (f) {
+			gspace->addObjectAction(f);
+		}
 	});
 }
 

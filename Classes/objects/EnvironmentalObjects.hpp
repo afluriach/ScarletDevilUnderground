@@ -47,10 +47,14 @@ public:
 class Mushroom :
 	virtual public GObject,
 	public RectangleBody,
-	public ImageSprite
+	public ImageSprite,
+	public InteractibleObject,
+	public RegisterInit<Mushroom>
 {
 public:
 	MapObjCons(Mushroom);
+
+	void init();
 
 	virtual string imageSpritePath() const { return "sprites/mushroom.png"; }
 	virtual GraphicsLayer sceneLayer() const { return GraphicsLayer::ground; }
@@ -58,6 +62,13 @@ public:
 	virtual inline GType getType() const { return GType::environment; }
 	virtual inline PhysicsLayers getLayers() const { return PhysicsLayers::all; }
 	virtual inline SpaceFloat getMass() const { return -1.0; }
+
+	virtual inline bool canInteract() { return true; }
+	virtual void interact();
+	virtual inline string interactionIcon() { return "sprites/mushroom.png"; }
+
+protected:
+	int objectID;
 };
 
 

@@ -26,7 +26,11 @@
 
 void DialogEntity::interact()
 {
-	space->createDialog(getDialog(), false);
+	space->createDialog(
+		getDialog(),
+		false,
+		[this]()->void {onDialogEnd(); }
+	);
 }
 
 DialogImpl::DialogImpl(const ValueMap& args)

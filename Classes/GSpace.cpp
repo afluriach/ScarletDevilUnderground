@@ -495,6 +495,14 @@ void GSpace::createDialog(string res, bool autoAdvance)
 	);
 }
 
+void GSpace::createDialog(string res, bool autoAdvance, function<void(void)> f)
+{
+	addSceneAction(
+		[this, res, autoAdvance, f]() ->void { getScene()->createDialog(res, autoAdvance, f); },
+		GScene::updateOrder::sceneUpdate
+	);
+}
+
 void GSpace::teleportPlayerToDoor(string doorName)
 {
 	Door* d = getObjectAs<Door>(doorName);

@@ -11,6 +11,7 @@
 #include "AI.hpp"
 #include "EnemyFirePattern.hpp"
 #include "Fairy.hpp"
+#include "GState.hpp"
 #include "Player.hpp"
 #include "value_map.hpp"
 
@@ -171,14 +172,35 @@ void FairyMaid::wander(ai::StateMachine& sm, const ValueMap& args)
 
 BlueFairyNPC::BlueFairyNPC(GSpace* space, ObjectIDType id, const ValueMap& args) :
 	MapObjForwarding(GObject),
-	MapObjForwarding(Agent)
+	MapObjForwarding(Agent),
+	RegisterInit<BlueFairyNPC>(this)
 {
+	level = getIntOrDefault(args, "level", 0);
+}
 
+void BlueFairyNPC::init()
+{
+	if (App::crntState->getBlueFairyLevel() >= level) {
+		space->removeObject(this);
+	}
 }
 
 string BlueFairyNPC::getDialog()
 {
-	return "";
+	if (level > App::crntState->getBlueFairyLevel() + 1) return "dialogs/blue_fairy_no";
+	else {
+		if (App::crntState->mushroomCount >= level) return "dialogs/blue_fairy_satisfied";
+		else return "dialogs/blue_fairy_request_"+boost::lexical_cast<string>(level);
+	}
+}
+
+void BlueFairyNPC::onDialogEnd()
+{
+	if (level == App::crntState->getBlueFairyLevel() + 1 && App::crntState->mushroomCount >= level) {
+		++App::crntState->blueFairies;
+		App::crntState->mushroomCount -= level;
+		space->removeObject(this);
+	} 
 }
 
 const AIPackage<BlueFairy>::AIPackageMap BlueFairy::aiPackages = {

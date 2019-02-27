@@ -127,6 +127,7 @@ public:
 	inline virtual Color4F getDefaultAmbientLight() const { return Color4F(0.5f, 0.5f, 0.5f,1.0f); }
 
 	void createDialog(const string& res, bool autoAdvance);
+	void createDialog(const string& res, bool autoAdvance, function <void(void)> f);
 	void stopDialog();
 	Vec2 dialogPosition();
 	bool isDialogActive();

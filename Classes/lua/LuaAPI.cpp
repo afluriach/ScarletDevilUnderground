@@ -296,7 +296,7 @@ const vector<string> Inst::luaIncludes = {
 			.addStaticFunction("runScene", &GScene::runScene)
 			.addStaticFunction("runSceneWithReplay", &GScene::runSceneWithReplay)
 			.addStaticData("suppressGameOver", &GScene::suppressGameOver)
-			.addFunction("createDialog", &GScene::createDialog)
+			.addFunction("createDialog", static_cast<void(GScene::*)(const string&,bool)>(&GScene::createDialog))
 			.addFunction("getSpace", &GScene::getSpace)
 			.addFunction("setPaused", &GScene::setPaused)
 			.addFunction("stopDialog", &GScene::stopDialog)

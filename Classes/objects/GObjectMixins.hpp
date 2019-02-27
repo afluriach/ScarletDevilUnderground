@@ -60,6 +60,7 @@ class DialogEntity : public InteractibleObject
 {
     virtual bool isDialogAvailable() = 0;
     virtual string getDialog() = 0;
+	inline virtual void onDialogEnd() {}
 
     inline virtual bool canInteract(){
         return isDialogAvailable();

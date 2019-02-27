@@ -93,10 +93,22 @@
   </object>
   <object id="62" type="Block" x="6912" y="4224" width="128" height="128"/>
   <object id="63" type="Block" x="6912" y="2304" width="128" height="128"/>
-  <object id="64" type="Mushroom" x="6528" y="3456" width="128" height="128"/>
+  <object id="64" type="Mushroom" x="6528" y="3456" width="128" height="128">
+   <properties>
+    <property name="id" value="5"/>
+   </properties>
+  </object>
   <object id="65" type="BlueFairyNPC" x="7296" y="3712" width="128" height="128"/>
-  <object id="67" type="Mushroom" x="4608" y="2432" width="128" height="128"/>
-  <object id="68" type="Mushroom" x="1600" y="5440" width="128" height="128"/>
+  <object id="67" type="Mushroom" x="4608" y="2432" width="128" height="128">
+   <properties>
+    <property name="id" value="4"/>
+   </properties>
+  </object>
+  <object id="68" type="Mushroom" x="1600" y="5440" width="128" height="128">
+   <properties>
+    <property name="id" value="3"/>
+   </properties>
+  </object>
   <object id="69" name="forest_path" type="Door" x="5376" y="6016" width="384" height="128">
    <properties>
     <property name="dest" value="forest_lake_path"/>
