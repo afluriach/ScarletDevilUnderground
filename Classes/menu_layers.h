@@ -40,8 +40,7 @@ public:
 	NewProfileMenu();
 	inline virtual ~NewProfileMenu() {}
 private:
-	static vector<string> getProfileSlots();
-	static vector<zero_arity_function> getSelectionActions();
+	static vector<pair<string,zero_arity_function>> getProfileEntries();
 
 	static void selectProfile(string name);
 
@@ -56,8 +55,7 @@ public:
 	LoadProfileMenu();
 	inline virtual ~LoadProfileMenu() {}
 private:
-	static vector<string> getProfiles();
-	static vector<zero_arity_function> getLoadActions();
+	static vector<pair<string,zero_arity_function>> getProfileEntries();
 
 	static void loadProfile(string name);
 	static void back();
@@ -81,13 +79,11 @@ class WorldSelect : public TextListMenuLayer
 public:
 	static const string title;
 	static const vector<ChamberID> chamberIDs;
-	static const vector<string> entries;
-	static const vector<zero_arity_function> entryActions;
+	static const vector<pair<string,zero_arity_function>> entries;
 
 	static string nextScene;
 
-	static vector<string> getAvailableChambers();
-	static vector<zero_arity_function> getAvailableChamberActions();
+	static vector<pair<string,zero_arity_function>> getAvailableEntries();
 
 	WorldSelect(bool showAll);
 	inline virtual ~WorldSelect() {}

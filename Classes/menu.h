@@ -99,6 +99,13 @@ public:
 	)
 	{}
 
+	inline TextListMenuImpl(const vector<entry>& entries) :
+		TextListMenuLayer(
+			C::title,
+			entries
+		)
+	{}
+
 	inline TextListMenuImpl(const vector<string>& options, const vector<zero_arity_function>& optionActions) :
 		TextListMenuLayer(
 			C::title,

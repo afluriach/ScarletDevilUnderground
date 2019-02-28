@@ -73,35 +73,25 @@ void TitleMenu::worldSelect()
 const string NewProfileMenu::title = "New Game Profile";
 
 NewProfileMenu::NewProfileMenu() :
-	TextListMenuLayer(title, getProfileSlots(), getSelectionActions())
+	TextListMenuLayer(title, getProfileEntries())
 {}
 
-vector<string> NewProfileMenu::getProfileSlots()
+vector<pair<string, zero_arity_function>> NewProfileMenu::getProfileEntries()
 {
-	vector<string> result;
+	vector<entry> result;
 
 	for (int i = 1; i <= GState::maxProfiles; ++i)
 	{
-		result.push_back(boost::str(
+		string profileDesc = boost::str(
 			boost::format("%d: %s") %
 			i %
 			(GState::profileSlotsInUse.at(i - 1) ? "In Use" : "Empty")
-		));
-	}
-
-	return result;
-}
-
-vector<zero_arity_function> NewProfileMenu::getSelectionActions()
-{
-	vector<zero_arity_function> result;
-
-	for (int i = 1; i <= GState::maxProfiles; ++i)
-	{
-		result.push_back(bind(
+		);
+		zero_arity_function f = bind(
 			&NewProfileMenu::selectProfile,
 			string(boost::str(boost::format("profile%d") % i))
-		));
+		);
+		result.push_back(make_pair(profileDesc, f));
 	}
 
 	return result;
@@ -122,37 +112,24 @@ void NewProfileMenu::back()
 const string LoadProfileMenu::title = "Load Game";
 
 LoadProfileMenu::LoadProfileMenu() :
-	TextListMenuImpl<LoadProfileMenu>(getProfiles(), getLoadActions())
+	TextListMenuImpl<LoadProfileMenu>(getProfileEntries())
 {
 
 }
 
-vector<string> LoadProfileMenu::getProfiles()
+vector<pair<string, zero_arity_function>> LoadProfileMenu::getProfileEntries()
 {
-	vector<string> result;
+	vector<pair<string,zero_arity_function>> result;
 
 	auto profiles = io::getProfiles();
 
 	for (string s : profiles) {
-		result.push_back(s);
+		result.push_back(make_pair(s, bind(&LoadProfileMenu::loadProfile, s)));
 	}
-	result.push_back("Back");
+	result.push_back(make_pair("Back", &LoadProfileMenu::back));
 
 	return result;
-}
 
-vector<zero_arity_function> LoadProfileMenu::getLoadActions()
-{
-	vector<zero_arity_function> result;
-
-	auto profiles = io::getProfiles();
-
-	for (string s : profiles) {
-		result.push_back(bind(&LoadProfileMenu::loadProfile, s));
-	}
-	result.push_back(&LoadProfileMenu::back);
-
-	return result;
 }
 
 void LoadProfileMenu::loadProfile(string name)
@@ -213,23 +190,18 @@ zero_arity_function menuPushAdapter(string sceneName) {
 
 const string WorldSelect::title = "Select World";
 
-const vector<string> WorldSelect::entries = {
-	"Graveyard1",
-	"Graveyard2",
-	"Forest",
-	"Desert",
-	"Mine",
-	"Back"
+#define entry(x) {#x, menuPushAdapter(#x)}
+
+const vector<pair<string,zero_arity_function>> WorldSelect::entries = {
+	entry(Graveyard1),
+	entry(Graveyard2),
+	entry(Forest),
+	entry(Desert),
+	entry(Mine),
+	{ "Back", &WorldSelect::back}
 };
 
-const vector<zero_arity_function> WorldSelect::entryActions = {
-	menuPushAdapter("Graveyard1"),
-	menuPushAdapter("Graveyard2"),
-	menuPushAdapter("Forest"),
-	menuPushAdapter("Desert"),
-	menuPushAdapter("Mine"),
-	&WorldSelect::back
-};
+#undef entry
 
 const vector<ChamberID> WorldSelect::chamberIDs = {
 	ChamberID::graveyard1,
@@ -241,9 +213,9 @@ const vector<ChamberID> WorldSelect::chamberIDs = {
 
 string WorldSelect::nextScene = "";
 
-vector<string> WorldSelect::getAvailableChambers()
+vector<pair<string, zero_arity_function>> WorldSelect::getAvailableEntries()
 {
-	vector<string> result;
+	vector<pair<string,zero_arity_function>> result;
 	GState* state = App::crntState.get();
 
 	for_irange(i, 0, entries.size() - 1) {
@@ -256,26 +228,10 @@ vector<string> WorldSelect::getAvailableChambers()
 	return result;
 }
 
-vector<zero_arity_function> WorldSelect::getAvailableChamberActions()
-{
-	vector<zero_arity_function> result;
-	GState* state = App::crntState.get();
-
-	for_irange(i, 0, entryActions.size() - 1) {
-		if (state->isChamberAvailable(chamberIDs.at(i))) {
-			result.push_back(entryActions.at(i));
-		}
-	}
-	result.push_back(entryActions.back());
-
-	return result;
-}
-
 WorldSelect::WorldSelect(bool showAll) :
 	TextListMenuLayer(
 		"WorldSelect",
-		showAll ? entries : getAvailableChambers(),
-		showAll ? entryActions : getAvailableChamberActions()
+		showAll ? entries : getAvailableEntries()
 	)
 {}
 
