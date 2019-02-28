@@ -321,6 +321,9 @@
     <ClCompile Include="..\Classes\objects\Meiling.cpp">
       <Filter>src\objects</Filter>
     </ClCompile>
+    <ClCompile Include="..\Classes\objects\Rumia.cpp">
+      <Filter>src\objects</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="main.h">
@@ -618,6 +621,9 @@
       <Filter>src\scenes</Filter>
     </ClInclude>
     <ClInclude Include="..\Classes\objects\Meiling.hpp">
+      <Filter>src\objects</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\objects\Rumia.hpp">
       <Filter>src\objects</Filter>
     </ClInclude>
   </ItemGroup>

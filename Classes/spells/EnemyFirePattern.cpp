@@ -38,3 +38,8 @@ GreenFairyBulletPattern::GreenFairyBulletPattern(
 	FirePattern(agent)
 {
 }
+
+RumiaBurstPattern::RumiaBurstPattern(Agent *const agent) :
+	FirePattern(agent),
+	BurstPattern(agent, 1.5, 0.25, 3)
+{}

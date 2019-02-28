@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.0" tiledversion="1.0.3" orientation="orthogonal" renderorder="right-down" width="17" height="17" tilewidth="128" tileheight="128" nextobjectid="69">
+<map version="1.0" tiledversion="1.0.3" orientation="orthogonal" renderorder="right-down" width="17" height="17" tilewidth="128" tileheight="128" nextobjectid="76">
  <tileset firstgid="1" name="wall" tilewidth="128" tileheight="128" tilecount="4" columns="2">
   <image source="../fence.png" width="256" height="256"/>
  </tileset>
@@ -51,5 +51,9 @@
     <property name="dir" value="up"/>
    </properties>
   </object>
+  <object id="70" type="GreenFairy" x="896" y="768" width="128" height="128"/>
+  <object id="72" type="GreenFairy" x="1280" y="1280" width="128" height="128"/>
+  <object id="73" type="RedFairy" x="1280" y="768" width="128" height="128"/>
+  <object id="75" type="RedFairy" x="896" y="1280" width="128" height="128"/>
  </objectgroup>
 </map>

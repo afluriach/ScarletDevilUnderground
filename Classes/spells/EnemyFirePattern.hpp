@@ -54,4 +54,13 @@ public:
 	inline virtual float getCooldownTime() { return 1.5f; }
 };
 
+class RumiaBurstPattern : public BurstPattern, public FirePatternImpl<RumiaBullet>
+{
+public:
+	RumiaBurstPattern(Agent *const agent);
+
+	//not relevant for enemy fire patterns
+	inline virtual string iconPath() const { return ""; }
+};
+
 #endif /* EnemyFirePattern_hpp */

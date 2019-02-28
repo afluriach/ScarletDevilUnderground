@@ -123,5 +123,30 @@ protected:
 	float fireInterval;
 };
 
+class BurstPattern : virtual public FirePattern
+{
+public:
+	BurstPattern(
+		Agent *const agent,
+		float burstInterval,
+		float burstLength,
+		int bulletsPerBurst
+	);
+	virtual inline ~BurstPattern() {}
+
+	virtual bool isInCooldown();
+	virtual void update();
+	virtual bool fire();
+
+	inline virtual float getCooldownTime() { return 0.0f; }
+protected:
+	int crntBurstCount = 0 ;
+	float countdownTimer = 0.0f;
+
+	const float burstInterval;
+	const float burstLength;
+	const int bulletsPerBurst;
+};
+
 
 #endif /* FirePattern_hpp */

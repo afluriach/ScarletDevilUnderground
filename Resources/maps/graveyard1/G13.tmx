@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.0" tiledversion="1.0.3" orientation="orthogonal" renderorder="right-down" width="17" height="17" tilewidth="128" tileheight="128" nextobjectid="81">
+<map version="1.0" tiledversion="1.0.3" orientation="orthogonal" renderorder="right-down" width="17" height="17" tilewidth="128" tileheight="128" nextobjectid="83">
  <tileset firstgid="1" name="wall" tilewidth="128" tileheight="128" tilecount="4" columns="2">
   <image source="../fence.png" width="256" height="256"/>
  </tileset>
@@ -60,6 +60,16 @@
   <object id="80" type="Headstone" x="896" y="1344" width="256" height="256">
    <properties>
     <property name="direction" value="left"/>
+   </properties>
+  </object>
+  <object id="81" type="ZombieFairy" x="1344" y="576" width="128" height="128">
+   <properties>
+    <property name="direction" value="down"/>
+   </properties>
+  </object>
+  <object id="82" type="ZombieFairy" x="1344" y="1472" width="128" height="128">
+   <properties>
+    <property name="direction" value="up"/>
    </properties>
   </object>
  </objectgroup>

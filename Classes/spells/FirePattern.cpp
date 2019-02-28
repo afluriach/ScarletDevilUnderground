@@ -138,3 +138,47 @@ bool MultiBulletParallelPattern::fire()
 
 	return true;
 }
+
+BurstPattern::BurstPattern(
+	Agent *const agent,
+	float burstInterval,
+	float burstLength,
+	int bulletsPerBurst
+) :
+	FirePattern(agent),
+	burstInterval(burstInterval),
+	burstLength(burstLength),
+	bulletsPerBurst(bulletsPerBurst)
+{
+}
+
+bool BurstPattern::isInCooldown()
+{
+	return countdownTimer > 0.0f;
+}
+
+void BurstPattern::update()
+{
+	timerDecrement(countdownTimer);
+}
+
+
+bool BurstPattern::fire()
+{
+	if (countdownTimer > 0.0f) return false;
+
+	agent->space->createObject(spawn(agent->getAngle()));
+
+	++crntBurstCount;
+
+	if (crntBurstCount >= bulletsPerBurst) {
+		countdownTimer = burstInterval - burstLength;
+		crntBurstCount = 0;
+	}
+	else{
+		countdownTimer = burstLength / bulletsPerBurst;
+	}
+
+	return true;
+}
+

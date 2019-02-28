@@ -38,6 +38,7 @@
 #include "Player.hpp"
 #include "Pyramid.hpp"
 #include "Reimu.hpp"
+#include "Rumia.hpp"
 #include "Sakuya.hpp"
 #include "SakuyaNPC.hpp"
 #include "Scorpion.hpp"
@@ -176,6 +177,7 @@ const unordered_map<string, GObject::object_info> GObject::objectInfo = {
 	entry_same(RedFairy),
 	entry_same(Reimu),
 	entry_same(ReimuEnemy),
+	entry_same(Rumia),
 	entry_same(Sakuya),
 	entry_same(SakuyaNPC),
 	entry_same(SandFloor),

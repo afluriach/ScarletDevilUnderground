@@ -202,6 +202,7 @@ xcopy "$(ProjectDir)..\Resources" "$(OutDir)" /D /E /I /F /Y</Command>
     <ClCompile Include="..\Classes\objects\PlayerBullet.cpp" />
     <ClCompile Include="..\Classes\objects\Pyramid.cpp" />
     <ClCompile Include="..\Classes\objects\Reimu.cpp" />
+    <ClCompile Include="..\Classes\objects\Rumia.cpp" />
     <ClCompile Include="..\Classes\objects\Sakuya.cpp" />
     <ClCompile Include="..\Classes\objects\SakuyaNPC.cpp" />
     <ClCompile Include="..\Classes\objects\Scorpion.cpp" />
@@ -306,6 +307,7 @@ xcopy "$(ProjectDir)..\Resources" "$(OutDir)" /D /E /I /F /Y</Command>
     <ClInclude Include="..\Classes\objects\PlayerBullet.hpp" />
     <ClInclude Include="..\Classes\objects\Pyramid.hpp" />
     <ClInclude Include="..\Classes\objects\Reimu.hpp" />
+    <ClInclude Include="..\Classes\objects\Rumia.hpp" />
     <ClInclude Include="..\Classes\objects\Sakuya.hpp" />
     <ClInclude Include="..\Classes\objects\SakuyaNPC.hpp" />
     <ClInclude Include="..\Classes\objects\Scorpion.hpp" />

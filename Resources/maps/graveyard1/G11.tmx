@@ -1,5 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.0" tiledversion="1.0.3" orientation="orthogonal" renderorder="right-down" width="17" height="17" tilewidth="128" tileheight="128" nextobjectid="66">
+<map version="1.0" tiledversion="1.0.3" orientation="orthogonal" renderorder="right-down" width="17" height="17" tilewidth="128" tileheight="128" nextobjectid="68">
+ <properties>
+  <property name="boss" value="rumia"/>
+  <property name="trap_doors" value="door-g11-north goal"/>
+ </properties>
  <tileset firstgid="1" name="wall" tilewidth="128" tileheight="128" tilecount="4" columns="2">
   <image source="../fence.png" width="256" height="256"/>
  </tileset>
@@ -35,5 +39,7 @@
     <property name="dir" value="down"/>
    </properties>
   </object>
+  <object id="66" name="rumia" type="Rumia" x="1024" y="1024" width="128" height="128"/>
+  <object id="67" name="goal" type="Goal" x="1024" y="1920" width="128" height="128"/>
  </objectgroup>
 </map>

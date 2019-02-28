@@ -12,7 +12,12 @@
 #include "GObject.hpp"
 #include "GObjectMixins.hpp"
 
-class Goal: virtual public GObject, public RectangleBody, public ImageSprite, public InteractibleObject
+class Goal:
+	virtual public GObject,
+	public RectangleBody,
+	public ImageSprite,
+	public ActivateableObject,
+	public InteractibleObject
 {
 public:
 	MapObjCons(Goal);
@@ -27,8 +32,12 @@ public:
 	virtual bool canInteract();
 	virtual void interact();
 	virtual inline string interactionIcon() { return "sprites/ui/goal.png"; }
+
+	virtual void activate();
+	virtual void deactivate();
 protected:
 	PlayScene * playScene = nullptr;
+	bool isBlocked = false;
 };
 
 #endif /* Goal_hpp */

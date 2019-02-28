@@ -26,13 +26,25 @@ MapObjForwarding(GObject)
 
 bool Goal::canInteract()
 {
-	return true;
+	return !isBlocked;
 }
 
 void Goal::interact()
 {
+	if (isBlocked) return;
+
 	space->addSceneAction(
 		[=]()->void { playScene->triggerSceneCompleted(); },
 		GScene::updateOrder::sceneUpdate
 	);
+}
+
+void Goal::activate()
+{
+	isBlocked = true;
+}
+
+void Goal::deactivate()
+{
+	isBlocked = false;
 }

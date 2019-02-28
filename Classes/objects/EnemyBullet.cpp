@@ -107,6 +107,18 @@ shared_ptr<MagicEffect> IceFairyBullet::getMagicEffect(gobject_ref target) {
 	return nullptr;
 }
 
+RumiaBullet::RumiaBullet(GSpace* space, ObjectIDType id, Agent* agent, SpaceFloat angle, const SpaceVect& pos) :
+	GObject(space, id, "", pos, angle),
+	EnemyBullet(agent)
+{}
+
+AttributeMap RumiaBullet::getAttributeEffect() const {
+	return {
+		{ Attribute::hp, -1 }
+	};
+}
+
+
 IllusionDialDagger::IllusionDialDagger(GSpace* space, ObjectIDType id, Agent* agent, const SpaceVect& pos, SpaceFloat angular_velocity) :
 GObject(space,id,"", pos, 0.0),
 EnemyBullet(agent),
