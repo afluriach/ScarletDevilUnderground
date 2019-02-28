@@ -23,6 +23,7 @@ public:
 	inline virtual Color4F getDefaultAmbientLight() const { return Color4F(.7f, .7f, .3f, 1.0f); }
 
 	virtual GScene* getReplacementScene();
+	inline virtual ChamberID getCurrentLevel() const { return ChamberID::desert1; }
 };
 
 #endif /* Desert_hpp */

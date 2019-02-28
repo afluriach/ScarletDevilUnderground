@@ -13,6 +13,15 @@
 #include "enum.h"
 #include "types.h"
 
+struct ChamberStats
+{
+	unsigned int totalTimeMS = 0;
+	unsigned int fastestTimeMS = 0;
+
+	unsigned char timesCompleted = 0;
+	unsigned char maxEnemiesDefeated = 0;
+};
+
 struct CharacterUpgrade
 {
 	array<bitset<AttributeSystem::upgradeCount>, AttributeSystem::upgradeAttributesCount> upgrades;
@@ -40,6 +49,7 @@ public:
     set<string> itemRegistry;
 	array<CharacterUpgrade, to_size_t(PlayerCharacter::end)> upgrades;
 	array<bool, to_size_t(ChamberID::end)> chambersAvailable;
+	array<ChamberStats, to_size_t(ChamberID::end)> chamberStats;
 
 	unsigned char mushroomFlags = 0;
 	unsigned char mushroomCount = 0;
@@ -66,6 +76,7 @@ public:
 
 	void registerChamberAvailable(ChamberID id);
 	bool isChamberAvailable(ChamberID id);
+	bool isChamberCompleted(ChamberID id);
 
 	void registerUpgrade(PlayerCharacter pc, Attribute at, unsigned int id);
 	bool isUpgradeAcquired(PlayerCharacter pc, Attribute at, unsigned int id);

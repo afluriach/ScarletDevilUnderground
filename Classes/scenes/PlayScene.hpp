@@ -21,8 +21,13 @@ class PauseMenu;
 class PlayScene : public GScene
 {
 public:
+	typedef function<PlayScene* () > AdapterType;
+
+	static const unordered_map<ChamberID, AdapterType> adapters;
     static const Color3B fadeoutColor;
     static const float fadeoutLength;
+
+	static PlayScene* runScene(ChamberID id);
 
     PlayScene(const string& name);
 	PlayScene(const string& sceneName, const vector<MapEntry>& maps);
@@ -62,6 +67,10 @@ public:
 	void showReplayCompletedMenu();
 
 	virtual GScene* getReplacementScene();
+	inline virtual ChamberID getCurrentLevel() const { return ChamberID::invalid_id; }
+	//Return the ID of the next level, if applicable. This is used to transition
+	//to next stage, and also to apply availibility unlock to that stage.
+	inline virtual ChamberID getNextLevel() const { return ChamberID::invalid_id; }
 
 	inline void setIsOverworld(bool val) { isOverworld = val; }
 

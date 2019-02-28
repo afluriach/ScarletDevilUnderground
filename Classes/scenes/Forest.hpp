@@ -21,6 +21,7 @@ public:
 	inline virtual ~Forest() {}
 
 	virtual GScene* getReplacementScene();
+	inline virtual ChamberID getCurrentLevel() const { return ChamberID::forest1; }
 };
 
 #endif /* Forest_hpp */

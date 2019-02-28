@@ -194,6 +194,7 @@ xcopy "$(ProjectDir)..\Resources" "$(OutDir)" /D /E /I /F /Y</Command>
     <ClCompile Include="..\Classes\objects\Items.cpp" />
     <ClCompile Include="..\Classes\objects\Launcher.cpp" />
     <ClCompile Include="..\Classes\objects\Marisa.cpp" />
+    <ClCompile Include="..\Classes\objects\Meiling.cpp" />
     <ClCompile Include="..\Classes\objects\ObjectMapping.cpp" />
     <ClCompile Include="..\Classes\objects\object_ref.cpp" />
     <ClCompile Include="..\Classes\objects\Patchouli.cpp" />
@@ -298,6 +299,7 @@ xcopy "$(ProjectDir)..\Resources" "$(OutDir)" /D /E /I /F /Y</Command>
     <ClInclude Include="..\Classes\objects\Items.hpp" />
     <ClInclude Include="..\Classes\objects\Launcher.hpp" />
     <ClInclude Include="..\Classes\objects\Marisa.hpp" />
+    <ClInclude Include="..\Classes\objects\Meiling.hpp" />
     <ClInclude Include="..\Classes\objects\object_ref.hpp" />
     <ClInclude Include="..\Classes\objects\Patchouli.hpp" />
     <ClInclude Include="..\Classes\objects\Player.hpp" />

@@ -23,6 +23,9 @@ public:
 	inline virtual Color4F getDefaultAmbientLight() const { return Color4F(.3f, .45f, .45f, 1.0f); }
 
 	virtual GScene* getReplacementScene();
+	inline virtual ChamberID getCurrentLevel() const { return ChamberID::graveyard1; }
+	inline virtual ChamberID getNextLevel() const { return ChamberID::graveyard2; }
+
 };
 
 class Graveyard2 : public PlayScene
@@ -37,6 +40,7 @@ public:
 	inline virtual Color4F getDefaultAmbientLight() const { return Color4F(.225f, .333f, .333f, 1.0f); }
 
 	virtual GScene* getReplacementScene();
+	inline virtual ChamberID getCurrentLevel() const { return ChamberID::graveyard2; }
 };
 
 

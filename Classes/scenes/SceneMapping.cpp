@@ -33,6 +33,12 @@ constexpr GScene::AdapterType adapter()
     return []() -> GScene* { return App::createAndRunScene<T>();};
 }
 
+template<typename T>
+constexpr PlayScene::AdapterType adapterPS()
+{
+	return []() -> PlayScene* { return App::createAndRunSceneAs<T,PlayScene>(); };
+}
+
 GScene::AdapterType playSceneAdapter(const string& name)
 {
 	return [name]() -> GScene* {return App::createAndRunScene<PlayScene>(name); };
@@ -68,4 +74,12 @@ const unordered_map<string, GScene::AdapterType> GScene::adapters = {
 	PlaySceneMapName(StalkerRoom),
 	entry_same(TitleMenuScene),
 	PlaySceneMapName(Wander)
+};
+
+const unordered_map<ChamberID, PlayScene::AdapterType> PlayScene::adapters = {
+	{ChamberID::graveyard1, adapterPS<Graveyard1>() },
+	{ChamberID::graveyard2, adapterPS<Graveyard2>() },
+	{ChamberID::forest1, adapterPS<Forest>() },
+	{ChamberID::desert1, adapterPS<Desert>() },
+	{ChamberID::mine1, adapterPS<Mine>() },
 };

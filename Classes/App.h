@@ -77,12 +77,18 @@ public:
 	static void popScene();
 	static void runScene(GScene* scene);
 
+	template <typename T, typename R, typename... Args>
+	static inline R* createAndRunSceneAs(Args... args)
+	{
+		R* result = Node::ccCreate<T>(args...);
+		Director::getInstance()->runScene(result);
+		return result;
+	}
+
 	template <typename T, typename... Args>
 	static inline GScene* createAndRunScene(Args... args)
 	{
-		GScene* result = Node::ccCreate<T>(args...);
-		Director::getInstance()->runScene(result);
-		return result;
+		return createAndRunSceneAs<T, GScene>(args...);
 	}
 
 	static bool loadProfile(const string& name);

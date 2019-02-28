@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.0" tiledversion="1.0.3" orientation="orthogonal" renderorder="right-down" width="48" height="48" tilewidth="128" tileheight="128" nextobjectid="60">
+<map version="1.0" tiledversion="1.0.3" orientation="orthogonal" renderorder="right-down" width="48" height="48" tilewidth="128" tileheight="128" nextobjectid="61">
  <tileset firstgid="1" name="grass" tilewidth="128" tileheight="128" tilecount="4" columns="2">
   <image source="../grass-floor.png" width="256" height="256"/>
  </tileset>
@@ -128,6 +128,7 @@
     <property name="dest_map" value="forest"/>
     <property name="dir" value="down"/>
     <property name="path" value="true"/>
+    <property name="sealed_until_completed" value="2"/>
    </properties>
   </object>
   <object id="59" name="to_graveyard" type="Door" x="1152" y="5888" width="384" height="256">
@@ -136,6 +137,11 @@
     <property name="dest_map" value="graveyard"/>
     <property name="dir" value="up"/>
     <property name="path" value="true"/>
+   </properties>
+  </object>
+  <object id="60" name="meiling" type="Meiling1" x="4480" y="256" width="128" height="128">
+   <properties>
+    <property name="direction" value="down"/>
    </properties>
   </object>
  </objectgroup>

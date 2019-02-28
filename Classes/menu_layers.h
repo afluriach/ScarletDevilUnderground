@@ -137,14 +137,16 @@ class ChamberCompletedMenu : public TextListMenuImpl<ChamberCompletedMenu>
 {
 public:
 	static const string title;
-	static const vector<string> entries;
-	static const vector<zero_arity_function> entryActions;
+	static const vector<entry> entries;
 
-	inline ChamberCompletedMenu(PlayScene* playScene) : playScene(playScene) {}
+	static vector<entry> getEntries(ChamberID nextLevel);
+
+	ChamberCompletedMenu(PlayScene* playScene);
 	inline virtual ~ChamberCompletedMenu() {}
 
 	virtual bool init();
 protected:
+	void updateSaveState();
 	string statsMsg();
 	string enemyStatsMsg();
 	pair<unsigned int, unsigned int> totalEnemyCount();

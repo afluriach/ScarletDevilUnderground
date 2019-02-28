@@ -39,6 +39,20 @@ void printGroup(TMXObjectGroup* group)
 const Color3B PlayScene::fadeoutColor = Color3B(192,96,96);
 const float PlayScene::fadeoutLength = 3.0f;
 
+PlayScene* PlayScene::runScene(ChamberID id)
+{
+	auto it = adapters.find(id);
+
+	if (it == adapters.end()) {
+		log("runScene: invalid chamber ID %d", id);
+		return nullptr;
+	}
+	else
+	{
+		return it->second();
+	}
+}
+
 PlayScene::PlayScene(const string& mapName) :
 	PlayScene(mapName, singleMapEntry(mapName))
 {}

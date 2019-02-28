@@ -71,6 +71,17 @@ bool GState::isChamberAvailable(ChamberID id)
 	}
 }
 
+bool GState::isChamberCompleted(ChamberID id)
+{
+	if (id > ChamberID::invalid_id && id < ChamberID::end) {
+		return chamberStats.at(to_size_t(id)).timesCompleted > 0;
+	}
+	else {
+		log("GState::isChamberCompleted: invalid ID %d", id);
+		return false;
+	}
+}
+
 void GState::registerUpgrade(PlayerCharacter pc, Attribute at, unsigned int id)
 {
 	size_t upgradeIndex = AttributeSystem::getUpgradeAttributeIndex(at);

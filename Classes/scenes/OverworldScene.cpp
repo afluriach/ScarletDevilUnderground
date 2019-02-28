@@ -47,7 +47,7 @@ void OverworldScene::loadPlayer()
 
 	if (door) {
 		SpaceVect pos = door->getEntryPosition();
-		Direction d = door->getDoorDirection();
+		Direction d = door->getEntryDirection();
 
 		gspace->createObject(GObject::make_object_factory<FlandrePC>(pos, d));
 	}

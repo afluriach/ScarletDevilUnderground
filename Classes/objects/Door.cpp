@@ -11,12 +11,14 @@
 #include "Door.hpp"
 #include "enum.h"
 #include "GSpace.hpp"
+#include "GState.hpp"
 #include "macros.h"
 #include "Player.hpp"
 #include "value_map.hpp"
 
 Door::Door(GSpace* space, ObjectIDType id, const ValueMap& args) :
 	MapObjForwarding(GObject),
+	RectangleBody(args),
 	RegisterInit<Door>(this)
 {
 	locked = getBoolOrDefault(args, "locked", false);
@@ -33,6 +35,11 @@ Door::Door(GSpace* space, ObjectIDType id, const ValueMap& args) :
 		doorType = door_type::one_way_destination;
 	else
 		doorType = door_type::pair;
+
+	int sealed_until = getIntOrDefault(args, "sealed_until_completed", 0);
+	if (sealed_until != 0) {
+		sealed = !App::crntState->isChamberCompleted(static_cast<ChamberID>(sealed_until));
+	}
 
 	setInitialAngle(float_pi / 2.0);
 }
@@ -101,9 +108,11 @@ bool Door::canInteract()
 {
 	Player* p = space->getObjectAs<Player>("player");
 
-	if (!destinationMap.empty()) return true;
-
-	return doorType != door_type::one_way_destination && adjacent.isValid() && !sealed && (!locked || p->getKeyCount() > 0);
+	return doorType != door_type::one_way_destination &&
+		(adjacent.isValid() || !destinationMap.empty()) &&
+		!sealed &&
+		(!locked || p->getKeyCount() > 0)
+	;
 }
 
 void Door::interact()

@@ -337,17 +337,32 @@ const vector<zero_arity_function> GameOverMenu::entryActions = {
 
 const string ChamberCompletedMenu::title = "COMPLETED!";
 
-const vector<string> ChamberCompletedMenu::entries = {
-	"Continue",
-	"Retry",
-	"Exit to title"
+const vector<pair<string,zero_arity_function>> ChamberCompletedMenu::entries = {
+	{ "Return to Overworld", static_cast<GScene*(*)(void)>(&App::runOverworldScene) },
+	{ "Play again", &App::restartScene },
+	{ "Exit to title", &App::runTitleScene}
 };
 
-const vector<zero_arity_function> ChamberCompletedMenu::entryActions = {
-	static_cast<GScene*(*)(void)>(&App::runOverworldScene),
-	&App::restartScene,
-	&App::runTitleScene
-};
+vector<TextListMenuLayer::entry> ChamberCompletedMenu::getEntries(ChamberID nextLevel)
+{
+	vector<entry> result;
+
+	if (nextLevel != ChamberID::invalid_id) {
+		result.push_back(make_pair(
+			"Next Level",
+			[nextLevel]() -> void { PlayScene::runScene(nextLevel); }
+		));
+	}
+
+	for (auto entry : entries) result.push_back(entry);
+
+	return result;
+}
+
+ChamberCompletedMenu::ChamberCompletedMenu(PlayScene* playScene) :
+	TextListMenuImpl(getEntries(playScene->getNextLevel())),
+	playScene(playScene)
+{}
 
 bool ChamberCompletedMenu::init()
 {
@@ -365,7 +380,31 @@ bool ChamberCompletedMenu::init()
 	addChild(statsLabel, 0);
 	statsLabel->setPosition(Vec2(App::width * 0.5f, App::height * 0.5f));
 
+	updateSaveState();
+
+	ChamberID nextID = playScene->getNextLevel();
+	if (nextID != ChamberID::invalid_id) {
+		App::crntState->registerChamberAvailable(nextID);
+	}
+
 	return true;
+}
+
+void ChamberCompletedMenu::updateSaveState()
+{
+	ChamberID crnt = playScene->getCurrentLevel();
+	ChamberStats& crntStats = App::crntState->chamberStats.at(to_size_t(crnt));
+	unsigned int timeMS = frameCount * App::secondsPerFrame;
+	unsigned char enemies = totalEnemyCount().first;
+
+	++crntStats.timesCompleted;
+	crntStats.totalTimeMS += timeMS;
+
+	if (crntStats.fastestTimeMS != 0 && timeMS < crntStats.fastestTimeMS) {
+		crntStats.fastestTimeMS = timeMS;
+	}
+
+	crntStats.maxEnemiesDefeated = max(crntStats.maxEnemiesDefeated, enemies);
 }
 
 string ChamberCompletedMenu::statsMsg()
