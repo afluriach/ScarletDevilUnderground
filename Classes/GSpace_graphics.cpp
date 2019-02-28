@@ -272,12 +272,12 @@ void GSpace::clearSubroomMask(unsigned int roomID)
 	});
 }
 
-void GSpace::addLightmapAction(function<void()> f)
+void GSpace::addLightmapAction(zero_arity_function f)
 {
 	sceneActions.push_back(make_pair(f, GScene::updateOrder::lightmapUpdate));
 }
 
-void GSpace::addSpriteAction(function<void()> f)
+void GSpace::addSpriteAction(zero_arity_function f)
 {
 	sceneActions.push_back(make_pair(f, GScene::updateOrder::spriteUpdate));
 }

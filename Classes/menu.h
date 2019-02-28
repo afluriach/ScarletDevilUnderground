@@ -12,6 +12,8 @@
 class ControlListener;
 class SceneSelect;
 
+#include "types.h"
+
 class MenuLayer : public Layer
 {
 public:
@@ -33,12 +35,17 @@ protected:
 class TextListMenuLayer : public MenuLayer
 {
 public:
-    typedef function<void(void)> listAction;
+	typedef pair<string, zero_arity_function> entry;
+
+	TextListMenuLayer(
+		const string& title,
+		const vector<entry>& entries
+	);
 
 	TextListMenuLayer(
 		const string& title,
 		const vector<string>& options,
-		const vector<listAction>& optionActions
+		const vector<zero_arity_function>& optionActions
 	);
 
 	virtual ~TextListMenuLayer();
@@ -52,9 +59,7 @@ public:
 
 protected:
     string title;
-    vector<string> options;
-    vector<listAction> optionActions;
-
+	vector<entry> entries;
 private:
     
     //Space from top of screen to title label;
@@ -94,7 +99,7 @@ public:
 	)
 	{}
 
-	inline TextListMenuImpl(const vector<string>& options, const vector<listAction>& optionActions) :
+	inline TextListMenuImpl(const vector<string>& options, const vector<zero_arity_function>& optionActions) :
 		TextListMenuLayer(
 			C::title,
 			options,

@@ -98,7 +98,7 @@ unordered_map<string,string> getStringMapFromTable(LuaRef table, lua_State* stat
     return result;
 }
 
-function<void()> makeFunctorFromLuaFunction(LuaRef ref)
+zero_arity_function makeFunctorFromLuaFunction(LuaRef ref)
 {
     return [=]() -> void{
         ref();

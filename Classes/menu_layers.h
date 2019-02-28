@@ -21,7 +21,7 @@ class TitleMenu : public TextListMenuImpl<TitleMenu>
 public:
 	static const string title;
 	static const vector<string> entries;
-	static const vector<listAction> entryActions;
+	static const vector<zero_arity_function> entryActions;
 
 	inline TitleMenu() {}
 	inline virtual ~TitleMenu() {}
@@ -41,7 +41,7 @@ public:
 	inline virtual ~NewProfileMenu() {}
 private:
 	static vector<string> getProfileSlots();
-	static vector<listAction> getSelectionActions();
+	static vector<zero_arity_function> getSelectionActions();
 
 	static void selectProfile(string name);
 
@@ -57,7 +57,7 @@ public:
 	inline virtual ~LoadProfileMenu() {}
 private:
 	static vector<string> getProfiles();
-	static vector<listAction> getLoadActions();
+	static vector<zero_arity_function> getLoadActions();
 
 	static void loadProfile(string name);
 	static void back();
@@ -68,7 +68,7 @@ class SceneSelect : public TextListMenuImpl<SceneSelect>
 public:
 	static const string title;
 	static const vector<string> entries;
-	static const vector<listAction> entryActions;
+	static const vector<zero_arity_function> entryActions;
 
 	inline SceneSelect() {}
 	inline virtual ~SceneSelect() {}
@@ -82,12 +82,12 @@ public:
 	static const string title;
 	static const vector<ChamberID> chamberIDs;
 	static const vector<string> entries;
-	static const vector<listAction> entryActions;
+	static const vector<zero_arity_function> entryActions;
 
 	static string nextScene;
 
 	static vector<string> getAvailableChambers();
-	static vector<listAction> getAvailableChamberActions();
+	static vector<zero_arity_function> getAvailableChamberActions();
 
 	WorldSelect(bool showAll);
 	inline virtual ~WorldSelect() {}
@@ -101,7 +101,7 @@ class CharacterSelect : public TextListMenuImpl<CharacterSelect>
 public:
 	static const string title;
 	static const vector<string> entries;
-	static const vector<listAction> entryActions;
+	static const vector<zero_arity_function> entryActions;
 
 	inline CharacterSelect() {}
 	inline virtual ~CharacterSelect() {}
@@ -114,9 +114,9 @@ class PauseMenu : public TextListMenuLayer
 public:
 	static const string title;
 	static const vector<string> overworldEntries;
-	static const vector<listAction> overworldEntryActions;
+	static const vector<zero_arity_function> overworldEntryActions;
 	static const vector<string> chamberEntries;
-	static const vector<listAction> chamberEntryActions;
+	static const vector<zero_arity_function> chamberEntryActions;
 
 	static void worldSelect();
 
@@ -131,7 +131,7 @@ class GameOverMenu : public TextListMenuImpl<GameOverMenu>
 public:
 	static const string title;
 	static const vector<string> entries;
-	static const vector<listAction> entryActions;
+	static const vector<zero_arity_function> entryActions;
 
 	inline GameOverMenu() {}
 	inline virtual ~GameOverMenu() {}
@@ -142,7 +142,7 @@ class ChamberCompletedMenu : public TextListMenuImpl<ChamberCompletedMenu>
 public:
 	static const string title;
 	static const vector<string> entries;
-	static const vector<listAction> entryActions;
+	static const vector<zero_arity_function> entryActions;
 
 	inline ChamberCompletedMenu(PlayScene* playScene) : playScene(playScene) {}
 	inline virtual ~ChamberCompletedMenu() {}
@@ -163,7 +163,7 @@ class ReplayCompletedMenu : public TextListMenuImpl<ReplayCompletedMenu>
 public:
 	static const string title;
 	static const vector<string> entries;
-	static const vector<listAction> entryActions;
+	static const vector<zero_arity_function> entryActions;
 
 	inline ReplayCompletedMenu() {}
 	inline virtual ~ReplayCompletedMenu() {}

@@ -152,7 +152,7 @@ control_listener(make_unique<ControlListener>())
 
 	enum_foreach(updateOrder, order, begin, end)
 	{
-		actions.insert_or_assign(order, vector<function<void()>>());
+		actions.insert_or_assign(order, vector<zero_arity_function>());
 	}
 
     //Create the sublayers at construction (so they are available to mixins at construction time).
@@ -272,7 +272,7 @@ void GScene::createDialog(const string& res, bool autoAdvance)
 	createDialog(res, autoAdvance, nullptr);
 }
 
-void GScene::createDialog(const string& res, bool autoAdvance, function <void(void)> f)
+void GScene::createDialog(const string& res, bool autoAdvance, zero_arity_function f)
 {
 	stopDialog();
 
@@ -321,7 +321,7 @@ void GScene::processAdditions()
 	gspace->processAdditions();
 }
 
-void GScene::addActions(const vector<pair<function<void(void)>, updateOrder>>& _actions)
+void GScene::addActions(const vector<pair<zero_arity_function, updateOrder>>& _actions)
 {
 	actionsMutex.lock();
 
@@ -1295,7 +1295,7 @@ void GScene::queueActions()
 
 void GScene::runActionsWithOrder(updateOrder order)
 {
-	vector<function<void(void)>>& _actions = actions.at(order);
+	vector<zero_arity_function>& _actions = actions.at(order);
 
 	for (auto it = _actions.begin(); it != _actions.end();++it)
 	{

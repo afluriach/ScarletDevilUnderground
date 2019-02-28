@@ -21,7 +21,7 @@ bool tableIsVec2(LuaRef t);
 IntVec2 getInt2FromTable(LuaRef t);
 Vec2 getVec2FromTable(LuaRef t);
 Value cocosValueFromLua(LuaRef);
-function<void()> makeFunctorFromLuaFunction(LuaRef ref);
+zero_arity_function makeFunctorFromLuaFunction(LuaRef ref);
 list<LuaRef> getArgs(lua_State* L);
 unordered_map<string,string> getStringMapFromTable(LuaRef table, lua_State* state);
 float getFloat(LuaRef r);
@@ -196,18 +196,14 @@ struct convert<C*>{
 };
 
 template<>
-struct convert<function<void()>>{
-    inline static function<void()> convertFromLua(const string& name, int argNum, LuaRef ref)
+struct convert<zero_arity_function>{
+    inline static zero_arity_function convertFromLua(const string& name, int argNum, LuaRef ref)
     {
         if(!ref.isFunction())
             throw lua_type_error(StringUtils::format("%s, expected a function for arg %d", name.c_str(), argNum));
     
         return makeFunctorFromLuaFunction(ref);
     }
-//    inline static LuaRef convertToLua(const function<void>& t, lua_State* L)
-//    {
-//        throw lua_type_error("Return C functor not supported.");
-//    }
 };
 
 template<typename T>

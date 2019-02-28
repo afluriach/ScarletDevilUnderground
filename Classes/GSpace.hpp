@@ -137,11 +137,11 @@ public:
 	void setInitialObjectCount();
 	EnemyStatsMap getEnemyStats();
 
-	void addObjectAction(function<void()> f);
-	void addSceneAction(pair<function<void(void)>, GScene::updateOrder> entry);
-	void addSceneAction(function<void(void)> f, GScene::updateOrder order);
+	void addObjectAction(zero_arity_function f);
+	void addSceneAction(pair<zero_arity_function, GScene::updateOrder> entry);
+	void addSceneAction(zero_arity_function f, GScene::updateOrder order);
 	void createDialog(string res, bool autoAdvance);
-	void createDialog(string res, bool autoAdvance, function<void(void)> f);
+	void createDialog(string res, bool autoAdvance, zero_arity_function f);
 
 	void eraseTile(const SpaceVect& p, string layer);
 	void eraseTile(int mapID, IntVec2 pos, string layer);
@@ -189,8 +189,8 @@ private:
 	int crntMap = -1;
 	vector<SpaceRect> mapAreas;
 	
-	vector<pair<function<void(void)>, GScene::updateOrder>> sceneActions;
-	vector<function<void()>> objectActions;
+	vector<pair<zero_arity_function, GScene::updateOrder>> sceneActions;
+	vector<zero_arity_function> objectActions;
 	mutex objectActionsMutex;
 
 	bool suppressAction = false;
@@ -257,8 +257,8 @@ public:
 
 	void clearSubroomMask(unsigned int roomID);
 protected:
-	void addLightmapAction(function<void()> f);
-	void addSpriteAction(function<void()> f);
+	void addLightmapAction(zero_arity_function f);
+	void addSpriteAction(zero_arity_function f);
 
 //END GRAPHICS
 

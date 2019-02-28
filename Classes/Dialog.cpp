@@ -52,7 +52,7 @@ void Dialog::setAutoAdvance(bool _auto)
 	autoAdvance = _auto;
 }
 
-void Dialog::setEndHandler(function<void()> f)
+void Dialog::setEndHandler(zero_arity_function f)
 {
 	onEnd += f;
 }

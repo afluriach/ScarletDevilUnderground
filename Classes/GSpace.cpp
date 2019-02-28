@@ -472,19 +472,19 @@ EnemyStatsMap GSpace::getEnemyStats()
 	return result;
 }
 
-void GSpace::addObjectAction(function<void()> f)
+void GSpace::addObjectAction(zero_arity_function f)
 {
 	objectActionsMutex.lock();
 	objectActions.push_back(f);
 	objectActionsMutex.unlock();
 }
 
-void GSpace::addSceneAction(pair<function<void(void)>, GScene::updateOrder> entry)
+void GSpace::addSceneAction(pair<zero_arity_function, GScene::updateOrder> entry)
 {
 	sceneActions.push_back(entry);
 }
 
-void GSpace::addSceneAction(function<void(void)> f, GScene::updateOrder order)
+void GSpace::addSceneAction(zero_arity_function f, GScene::updateOrder order)
 {
 	sceneActions.push_back(make_pair(f,order));
 }
@@ -497,7 +497,7 @@ void GSpace::createDialog(string res, bool autoAdvance)
 	);
 }
 
-void GSpace::createDialog(string res, bool autoAdvance, function<void(void)> f)
+void GSpace::createDialog(string res, bool autoAdvance, zero_arity_function f)
 {
 	addSceneAction(
 		[this, res, autoAdvance, f]() ->void { getScene()->createDialog(res, autoAdvance, f); },

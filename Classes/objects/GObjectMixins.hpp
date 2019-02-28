@@ -44,6 +44,8 @@ public:
 class InteractibleObject : public virtual GObject
 {
 public:
+	inline InteractibleObject() {}
+
     virtual bool canInteract() = 0;
     virtual void interact() = 0;
     virtual string interactionIcon() = 0;
@@ -52,12 +54,17 @@ public:
 class ActivateableObject : public virtual GObject
 {
 public:
+	inline ActivateableObject() {}
+
 	virtual void activate() = 0;
 	virtual void deactivate() = 0;
 };
 
 class DialogEntity : public InteractibleObject
 {
+public:
+	inline DialogEntity() {}
+
     virtual bool isDialogAvailable() = 0;
     virtual string getDialog() = 0;
 	inline virtual void onDialogEnd() {}

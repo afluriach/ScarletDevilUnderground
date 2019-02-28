@@ -48,7 +48,7 @@ public:
     //button to advance frame.
 	void setManualAdvance(bool manual);
 	void setAutoAdvance(bool _auto);
-	void setEndHandler(function<void()> f);
+	void setEndHandler(zero_arity_function f);
     
     template<typename... Args>
     inline DialogFrame makeAction(void (Dialog::*method)(Args...), Args... args)

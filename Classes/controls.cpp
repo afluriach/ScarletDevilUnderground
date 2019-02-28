@@ -347,7 +347,7 @@ void ControlRegister::logGamepadButtons()
 }
 #endif
 
-ControlRegister::callback_uuid ControlRegister::addPressListener(ControlAction action, function<void()> f)
+ControlRegister::callback_uuid ControlRegister::addPressListener(ControlAction action, zero_arity_function f)
 {
     callback_uuid uuid = nextListenerUUID++;
 
@@ -359,7 +359,7 @@ ControlRegister::callback_uuid ControlRegister::addPressListener(ControlAction a
     return uuid;
 }
 
-ControlRegister::callback_uuid ControlRegister::addReleaseListener(ControlAction action, function<void()> f)
+ControlRegister::callback_uuid ControlRegister::addReleaseListener(ControlAction action, zero_arity_function f)
 {
 	callback_uuid uuid = nextListenerUUID++;
 
@@ -417,12 +417,12 @@ ControlListener::~ControlListener()
     }
 }
 
-void ControlListener::addPressListener(ControlAction action, function<void()> f)
+void ControlListener::addPressListener(ControlAction action, zero_arity_function f)
 {
 	ControlRegister::callback_uuid uuid = App::control_register->addPressListener(action, f);
     callback_IDs.push_back(uuid);
 }
-void ControlListener::addReleaseListener(ControlAction action, function<void()> f)
+void ControlListener::addReleaseListener(ControlAction action, zero_arity_function f)
 {
 	ControlRegister::callback_uuid uuid = App::control_register->addReleaseListener(action, f);
     callback_IDs.push_back(uuid);

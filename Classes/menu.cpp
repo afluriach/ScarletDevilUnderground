@@ -41,14 +41,31 @@ void MenuLayer::setControlsActive(bool b)
 }
 
 TextListMenuLayer::TextListMenuLayer(
+	const string& title,
+	const vector<entry>& entries
+) : 
+	title(title),
+	entries(entries)
+{}
+
+TextListMenuLayer::TextListMenuLayer(
     const string& title,
     const vector<string>& options,
-    const vector<listAction>& optionActions
+    const vector<zero_arity_function>& optionActions
 ) :
-title(title),
-options(options),
-optionActions(optionActions)
-{}
+title(title)
+{
+	if (options.size() != optionActions.size()) {
+		throw runtime_error("Invalid menu cons input.");
+	}
+
+	entries.reserve(options.size());
+
+	for_irange(i, 0, options.size())
+	{
+		entries.push_back(make_pair(options[i], optionActions[i]));
+	}
+}
 
 TextListMenuLayer::~TextListMenuLayer() {}
 
@@ -62,7 +79,7 @@ void TextListMenuLayer::upPressed()
 
 void TextListMenuLayer::downPressed()
 {
-	if(selected < options.size() - 1)
+	if(selected < entries.size() - 1)
 	    ++selected;
     
     updateCursor();
@@ -70,7 +87,7 @@ void TextListMenuLayer::downPressed()
 
 void TextListMenuLayer::selectPressed()
 {
-    optionActions[selected]();
+    entries[selected].second();
 }
 
 void TextListMenuLayer::backPressed()
@@ -101,9 +118,9 @@ bool TextListMenuLayer::init()
     titleLabel->setPosition(screenSize.width/2, screenSize.height - titleMargin*scale);
     addChild(titleLabel);
     
-    for(size_t i=0;i<options.size(); ++i)
+    for(size_t i=0;i<entries.size(); ++i)
     {
-        string labelText = options[i];
+        string labelText = entries[i].first;
         int yPos = yPosition(i);
         
         Label* label = createTextLabel(labelText, menuItemSize*scale);

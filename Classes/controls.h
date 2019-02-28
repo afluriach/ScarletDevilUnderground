@@ -118,8 +118,8 @@ public:
 	ControlState getControlState();
 	ControlInfo getControlInfo();
     
-	callback_uuid addPressListener(ControlAction action, function<void()> f);
-	callback_uuid addReleaseListener(ControlAction action, function<void()> f);
+	callback_uuid addPressListener(ControlAction action, zero_arity_function f);
+	callback_uuid addReleaseListener(ControlAction action, zero_arity_function f);
     void removeListener(callback_uuid uuid);
 	void setCallbacksActive(const list<callback_uuid>& list, bool b);
     
@@ -152,8 +152,8 @@ private:
 	ControlActionState wasActionPressed;
 	ControlActionState isActionPressed;
     
-	map<callback_uuid, function<void()>> onPressedCallback;
-	map<callback_uuid, function<void()>> onReleasedCallback;
+	map<callback_uuid, zero_arity_function> onPressedCallback;
+	map<callback_uuid, zero_arity_function> onReleasedCallback;
 	map<callback_uuid, bool> isCallbackActive;
 
     EventListenerKeyboard* keyListener;
@@ -197,8 +197,8 @@ class ControlListener
 public:
     ~ControlListener();
     
-    void addPressListener(ControlAction action, function<void()> f);
-    void addReleaseListener(ControlAction action, function<void()> f);
+    void addPressListener(ControlAction action, zero_arity_function f);
+    void addReleaseListener(ControlAction action, zero_arity_function f);
 
 	void setActive(bool b);
 protected:

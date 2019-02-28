@@ -24,11 +24,11 @@
 #include "Wall.hpp"
 
 template <typename T>
-TextListMenuLayer::listAction sceneLaunchAdapter() {
+zero_arity_function sceneLaunchAdapter() {
 	return []() -> void { app->runScene<T>(); };
 }
 
-TextListMenuLayer::listAction sceneLaunchAdapterByName(const string& name) {
+zero_arity_function sceneLaunchAdapterByName(const string& name) {
 	return [=]() -> void { GScene::runScene(name); };
 }
 
@@ -42,7 +42,7 @@ const vector<string> TitleMenu::entries = {
 	"Exit"
 };
 
-const vector <TextListMenuLayer::listAction > TitleMenu::entryActions = {
+const vector <zero_arity_function > TitleMenu::entryActions = {
 	newGame,
 	loadGame,
 	sceneSelect,
@@ -92,9 +92,9 @@ vector<string> NewProfileMenu::getProfileSlots()
 	return result;
 }
 
-vector<TextListMenuLayer::listAction> NewProfileMenu::getSelectionActions()
+vector<zero_arity_function> NewProfileMenu::getSelectionActions()
 {
-	vector<listAction> result;
+	vector<zero_arity_function> result;
 
 	for (int i = 1; i <= GState::maxProfiles; ++i)
 	{
@@ -141,9 +141,9 @@ vector<string> LoadProfileMenu::getProfiles()
 	return result;
 }
 
-vector<TextListMenuLayer::listAction> LoadProfileMenu::getLoadActions()
+vector<zero_arity_function> LoadProfileMenu::getLoadActions()
 {
-	vector<listAction> result;
+	vector<zero_arity_function> result;
 
 	auto profiles = io::getProfiles();
 
@@ -182,7 +182,7 @@ const vector<string> SceneSelect::entries = {
 	"Back"
 };
 
-const vector<TextListMenuLayer::listAction> SceneSelect::entryActions = {
+const vector<zero_arity_function> SceneSelect::entryActions = {
 	{ sceneLaunchAdapterByName("Collect") },
 	{ sceneLaunchAdapterByName("StalkerRoom") },
 	{ sceneLaunchAdapterByName("Wander") },
@@ -203,7 +203,7 @@ void SceneSelect::back()
 	App::createAndRunScene<TitleMenuScene>();
 }
 
-TextListMenuLayer::listAction menuPushAdapter(string sceneName) {
+zero_arity_function menuPushAdapter(string sceneName) {
 	return [sceneName]() -> void {
 		GScene* scene = App::getCrntScene();
 		WorldSelect::nextScene = sceneName;
@@ -222,7 +222,7 @@ const vector<string> WorldSelect::entries = {
 	"Back"
 };
 
-const vector<TextListMenuLayer::listAction> WorldSelect::entryActions = {
+const vector<zero_arity_function> WorldSelect::entryActions = {
 	menuPushAdapter("Graveyard1"),
 	menuPushAdapter("Graveyard2"),
 	menuPushAdapter("Forest"),
@@ -256,9 +256,9 @@ vector<string> WorldSelect::getAvailableChambers()
 	return result;
 }
 
-vector<TextListMenuLayer::listAction> WorldSelect::getAvailableChamberActions()
+vector<zero_arity_function> WorldSelect::getAvailableChamberActions()
 {
-	vector<listAction> result;
+	vector<zero_arity_function> result;
 	GState* state = App::crntState.get();
 
 	for_irange(i, 0, entryActions.size() - 1) {
@@ -292,7 +292,7 @@ void WorldSelect::back()
 	}
 }
 
-TextListMenuLayer::listAction characterSelectAdapter(PlayerCharacter pc) {
+zero_arity_function characterSelectAdapter(PlayerCharacter pc) {
 	return [pc]() -> void {
 		App::crntPC = pc;
 		GScene::runScene(WorldSelect::nextScene);
@@ -308,7 +308,7 @@ const vector<string> CharacterSelect::entries = {
 	"Back"
 };
 
-const vector<TextListMenuLayer::listAction> CharacterSelect::entryActions = {
+const vector<zero_arity_function> CharacterSelect::entryActions = {
 	characterSelectAdapter(PlayerCharacter::flandre),
 	characterSelectAdapter(PlayerCharacter::rumia),
 	characterSelectAdapter(PlayerCharacter::cirno),
@@ -330,7 +330,7 @@ const vector<string> PauseMenu::overworldEntries = {
 	"Exit to title"
 };
 
-const vector<TextListMenuLayer::listAction> PauseMenu::overworldEntryActions = {
+const vector<zero_arity_function> PauseMenu::overworldEntryActions = {
 	&App::resumeScene,
 	&PauseMenu::worldSelect,
 	&App::saveCrntProfile,
@@ -343,7 +343,7 @@ const vector<string> PauseMenu::chamberEntries = {
 	"Exit to Overworld"
 };
 
-const vector<TextListMenuLayer::listAction> PauseMenu::chamberEntryActions = {
+const vector<zero_arity_function> PauseMenu::chamberEntryActions = {
 	&App::resumeScene,
 	&App::restartScene,
 	static_cast<GScene*(*)(void)>(&App::runOverworldScene)
@@ -374,7 +374,7 @@ const vector<string> GameOverMenu::entries = {
 	"Exit to title"
 };
 
-const vector<TextListMenuLayer::listAction> GameOverMenu::entryActions = {
+const vector<zero_arity_function> GameOverMenu::entryActions = {
 	&App::restartScene,
 	&App::runTitleScene
 };
@@ -387,7 +387,7 @@ const vector<string> ChamberCompletedMenu::entries = {
 	"Exit to title"
 };
 
-const vector<TextListMenuLayer::listAction> ChamberCompletedMenu::entryActions = {
+const vector<zero_arity_function> ChamberCompletedMenu::entryActions = {
 	static_cast<GScene*(*)(void)>(&App::runOverworldScene),
 	&App::restartScene,
 	&App::runTitleScene
@@ -468,7 +468,7 @@ const vector<string> ReplayCompletedMenu::entries = {
 	"Exit to title"
 };
 
-const vector<TextListMenuLayer::listAction> ReplayCompletedMenu::entryActions = {
+const vector<zero_arity_function> ReplayCompletedMenu::entryActions = {
 	&GScene::restartReplayScene,
 	&App::runTitleScene
 };

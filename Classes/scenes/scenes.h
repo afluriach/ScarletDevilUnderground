@@ -127,14 +127,14 @@ public:
 	inline virtual Color4F getDefaultAmbientLight() const { return Color4F(0.5f, 0.5f, 0.5f,1.0f); }
 
 	void createDialog(const string& res, bool autoAdvance);
-	void createDialog(const string& res, bool autoAdvance, function <void(void)> f);
+	void createDialog(const string& res, bool autoAdvance, zero_arity_function f);
 	void stopDialog();
 	Vec2 dialogPosition();
 	bool isDialogActive();
 
 	void processAdditions();
 
-	void addActions(const vector<pair<function<void(void)>, updateOrder>>& _actions);
+	void addActions(const vector<pair<zero_arity_function, updateOrder>>& _actions);
 
 	void runActionsWithOrder(updateOrder order);
 
@@ -290,8 +290,8 @@ protected:
 	map<LightID, Sprite*> lightmapSprites;
 	map<LightID, ConeShader*> lightmapCones;
 
-	unordered_map<updateOrder, vector<function<void(void)>>> actions;
-	vector<pair<function<void(void)>, updateOrder>> actionsToAdd;
+	unordered_map<updateOrder, vector<zero_arity_function>> actions;
+	vector<pair<zero_arity_function, updateOrder>> actionsToAdd;
 	mutex actionsMutex;
 
 	vector<MenuLayer*> menuStack;
