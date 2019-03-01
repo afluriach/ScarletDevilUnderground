@@ -163,6 +163,9 @@ control_listener(make_unique<ControlListener>())
         layers.insert(i, l);
     }
 
+	isExit = false;
+	isPaused = false;
+
 	gspace = new GSpace(this);
 
 	if (!sceneName.empty())
@@ -182,7 +185,8 @@ control_listener(make_unique<ControlListener>())
 
 GScene::~GScene()
 {
-	isExit = true;
+	isExit.store(true);
+	spaceUpdateCondition.notify_one();
 	spaceUpdateThread->join();
 
 	delete gspace;
@@ -229,7 +233,7 @@ bool GScene::init()
     
     multiInit();
     
-	spaceUpdatesToRun.store(0);
+	spaceUpdateToRun.store(false);
 	spaceUpdateThread = make_unique<thread>(&GScene::spaceUpdateMain, this);
 
     return true;
@@ -238,7 +242,8 @@ bool GScene::init()
 void GScene::update(float dt)
 {	
 	if (!isPaused) {
-		spaceUpdatesToRun.fetch_add(1);
+		spaceUpdateToRun.store(true);
+		spaceUpdateCondition.notify_one();
 		multiUpdate();
 	}
 }
@@ -247,8 +252,12 @@ void GScene::onExit()
 {
 	while (!menuStack.empty()) popMenu();
 
-	while (spaceUpdatesToRun.load() > 0) {
-		this_thread::sleep_for(chrono::duration<int, milli>(1));
+	while (spaceUpdateToRun.load()) {
+		unique_lock<mutex> mlock(spaceUpdateConditionMutex);
+		spaceUpdateCondition.wait(
+			mlock,
+			[this]() -> bool {return !spaceUpdateToRun.load();
+		});
 	}
 
 	Node::onExit();
@@ -1115,12 +1124,17 @@ void GScene::spaceUpdateMain()
 {
 	while (!isExit)
 	{
-		while (!isExit && spaceUpdatesToRun.load() > 0) {
-			gspace->update();
-			spaceUpdatesToRun.fetch_sub(1);
-		}
+		unique_lock<mutex> mlock(spaceUpdateConditionMutex);
+		spaceUpdateCondition.wait(
+			mlock,
+			[this]() -> bool { return isExit.load() || spaceUpdateToRun.load(); }
+		);
 
-		this_thread::sleep_for(chrono::duration<int,milli>(1));
+		if (!isExit) {
+			gspace->update();
+			spaceUpdateToRun.store(false);
+			spaceUpdateCondition.notify_one();
+		}
 	}
 }
 
@@ -1292,6 +1306,15 @@ void GScene::queueActions()
 	actionsToAdd.clear();
 
 	actionsMutex.unlock();
+}
+
+void GScene::waitForSpaceThread()
+{
+	unique_lock<mutex> mlock(spaceUpdateConditionMutex);
+	spaceUpdateCondition.wait(
+		mlock,
+		[this]()-> bool { return !spaceUpdateToRun.load(); }
+	);
 }
 
 void GScene::runActionsWithOrder(updateOrder order)

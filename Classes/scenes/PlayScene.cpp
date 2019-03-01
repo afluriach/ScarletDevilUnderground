@@ -151,9 +151,7 @@ void PlayScene::enterPause()
 	setPaused(true);
 	isShowingMenu = true;
 
-	while (spaceUpdatesToRun.load() > 0) {
-		this_thread::sleep_for(chrono::duration<int, milli>(1));
-	}
+	waitForSpaceThread();
 
 	pauseMenu = Node::ccCreate<PauseMenu>(isOverworld, gspace->getObjectAs<Player>("player"));
 	pushMenu(pauseMenu);
@@ -198,11 +196,7 @@ void PlayScene::triggerGameOver()
 
 void PlayScene::showSceneCompletedMenu()
 {
-	//Since the ChamberCompletedMenu directly accesses gspace for object data,ensure that
-	//gspace update is not currently running before creating it.
-	while (spaceUpdatesToRun.load() > 0) {
-		this_thread::sleep_for(chrono::duration<int, milli>(1));
-	}
+	waitForSpaceThread();
 
 	showMenu(Node::ccCreate<ChamberCompletedMenu>(this));
 }
@@ -234,11 +228,7 @@ void PlayScene::enterMap()
 	setPaused(true);
 	isShowingMenu = true;
 
-	//Since the MapMenu directly accesses gspace for object data, ensure that
-	//gspace update is not currently running before creating it.
-	while (spaceUpdatesToRun.load() > 0) {
-		this_thread::sleep_for(chrono::duration<int, milli>(1));
-	}
+	waitForSpaceThread();
 
 	mapMenu = Node::ccCreate<MapMenu>(this);
 	pushMenu(mapMenu);
@@ -264,9 +254,7 @@ void PlayScene::enterWorldSelect()
 	setPaused(true);
 	isShowingMenu = true;
 
-	while (spaceUpdatesToRun.load() > 0) {
-		this_thread::sleep_for(chrono::duration<int, milli>(1));
-	}
+	waitForSpaceThread();
 
 	pushMenu(Node::ccCreate<WorldSelect>(false));
 }

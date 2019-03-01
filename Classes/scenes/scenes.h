@@ -256,6 +256,7 @@ protected:
 	void runScriptUpdate();
 
 	void queueActions();
+	void waitForSpaceThread();
 
 	Node* getSpriteAsNode(SpriteID id);
 	void _removeSprite(SpriteID id);
@@ -267,7 +268,12 @@ protected:
 	//the scale applied to the space layer
 	float spaceZoom = 1;
 	unique_ptr<thread> spaceUpdateThread;
-	atomic_int spaceUpdatesToRun;
+	mutex spaceUpdateConditionMutex;
+	condition_variable spaceUpdateCondition;
+
+	atomic_bool spaceUpdateToRun;
+	atomic_bool isPaused;
+	atomic_bool isExit;
 
 	RenderTexture* colorFilterRender = nullptr;
 	DrawNode* colorFilterDraw = nullptr;
@@ -313,9 +319,6 @@ protected:
 	//The shell that is installed in the current scene.
 	LuaShell* luaShell;
 	string pendingScript;
-
-	bool isPaused = false;
-	bool isExit = false;
 };
 
 #endif /* scenes_h */
