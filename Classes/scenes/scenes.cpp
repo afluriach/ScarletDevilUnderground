@@ -13,6 +13,7 @@
 #include "AreaSensor.hpp"
 #include "controls.h"
 #include "Dialog.hpp"
+#include "FileIO.hpp"
 #include "functional.hpp"
 #include "GAnimation.hpp"
 #include "GObject.hpp"
@@ -47,18 +48,18 @@ GScene* GScene::runScene(const string& name)
     }
 }
 
-void GScene::runSceneWithReplay(const string& sceneName, const string& replayName)
+void GScene::runSceneWithReplay(const string& replayName)
 {
-	GScene* _scene = runScene(sceneName);
+	unique_ptr<ControlReplay> controlReplay = io::getControlReplay(replayName);
 
-	PlayScene* ps = dynamic_cast<PlayScene*>(_scene);
+	if (controlReplay) {
+		GScene* _scene = runScene(controlReplay->scene_name);
+		PlayScene* ps = dynamic_cast<PlayScene*>(_scene);
 
-	if (ps) {
-		ps->loadReplayData(replayName);
-		crntReplayName = replayName;
-	}
-	else {
-		log("GScene::runSceneWithReplay: not a PlayScene!");
+		if (ps) {
+			ps->loadReplayData(move(controlReplay));
+			crntReplayName = replayName;
+		}
 	}
 }
 
@@ -69,7 +70,7 @@ void GScene::restartScene()
 
 void GScene::restartReplayScene()
 {
-	runSceneWithReplay(crntSceneName,crntReplayName);
+	runSceneWithReplay(crntReplayName);
 }
 
 vector<GScene::MapEntry> GScene::singleMapEntry(const string& mapName)

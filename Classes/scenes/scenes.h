@@ -104,7 +104,7 @@ public:
 	static bool suppressGameOver;
 
 	static GScene* runScene(const string& name);
-	static void runSceneWithReplay(const string& sceneName, const string& replayName);
+	static void runSceneWithReplay(const string& replayName);
 	static void restartScene();
 	static void restartReplayScene();
 

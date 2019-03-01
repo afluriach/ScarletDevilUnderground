@@ -28,6 +28,7 @@ public:
 private:
 	static void newGame();
 	static void loadGame();
+	static void loadReplay();
 	static void sceneSelect();
 	static void worldSelect();
 };
@@ -60,6 +61,21 @@ private:
 	static void loadProfile(string name);
 	static void back();
 };
+
+class LoadReplayMenu : public TextListMenuImpl<LoadReplayMenu>
+{
+public:
+	static const string title;
+
+	LoadReplayMenu();
+	inline virtual ~LoadReplayMenu() {}
+private:
+	static vector<pair<string, zero_arity_function>> getReplayEntries();
+
+	static void loadReplay(string filename);
+	static void back();
+};
+
 
 class SceneSelect : public TextListMenuImpl<SceneSelect>
 {

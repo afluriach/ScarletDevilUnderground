@@ -305,10 +305,15 @@ void PlayScene::updateReplayData()
 
 bool PlayScene::loadReplayData(const string& filename)
 {
+	return loadReplayData(io::getControlReplay(filename));
+}
+
+bool PlayScene::loadReplayData(unique_ptr<ControlReplay> _replay)
+{
 	if (controlReplay && !isRunningReplay) {
 		log("PlayScene::loadReplayData: overwriting existing data.");
 	}
-	controlReplay = io::getControlReplay(filename);
+	controlReplay = move(_replay);
 
 	isRunningReplay = controlReplay != nullptr;
 	return controlReplay != nullptr;
@@ -318,6 +323,13 @@ void PlayScene::saveReplayData(const string& filename)
 {
 	if (controlReplay && !isRunningReplay) {
 		io::saveControlReplay(filename, controlReplay.get());
+	}
+}
+
+void PlayScene::autosaveReplayData()
+{
+	if (controlReplay && !isRunningReplay) {
+		io::autosaveControlReplay(sceneName, controlReplay.get());
 	}
 }
 

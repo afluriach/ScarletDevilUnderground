@@ -65,6 +65,39 @@ set<string> getProfiles()
 	return result;
 }
 
+set<string> getReplays()
+{
+	set<string> result;
+	path replayDir(getReplayFolderPath());
+
+	try
+	{
+		if (!exists(replayDir)) {
+			log("Replays directory %s not found!", pathString(replayDir).c_str());
+			return result;
+		}
+
+		if (!is_directory(replayDir)) {
+			log("%s is not a directory!", pathString(replayDir).c_str());
+			return result;
+		}
+
+		for (directory_entry& entry : directory_iterator(replayDir))
+		{
+			string s = entry.path().filename().generic_string();
+
+			log("%s", s.c_str());
+			result.insert(removeExtension(s));
+		}
+	}
+	catch (const filesystem_error& ex) {
+		log("Filesystem error: %s", ex.what());
+	}
+
+	return result;
+
+}
+
 void checkCreateSubfolders()
 {
 	auto* f = FileUtils::getInstance();
@@ -111,6 +144,27 @@ unique_ptr<ControlReplay> getControlReplay(string name)
 		log("Archive exception loading replay: %s", e.what());
 		return nullptr;
 	}
+}
+
+void autosaveControlReplay(string sceneName, ControlReplay* cr)
+{
+	int idx = 1;
+
+	do
+	{
+		string filepath = io::getReplayFolderPath() + sceneName + boost::lexical_cast<string>(idx) + ".replay";
+		bool exists = FileUtils::getInstance()->isFileExist(filepath);
+
+		if (!exists) {
+			ofstream ofs(filepath);
+			boost::archive::binary_oarchive oa(ofs);
+			oa << *cr;
+			log("Replay %s saved.", filepath.c_str());
+			break;
+		}
+		++idx;
+	}
+	while(true);
 }
 
 void saveControlReplay(string name, ControlReplay* cr)

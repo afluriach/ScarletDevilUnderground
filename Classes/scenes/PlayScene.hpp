@@ -37,7 +37,9 @@ public:
 	void initReplayData();
 	void updateReplayData();
 	bool loadReplayData(const string& filename);
+	bool loadReplayData(unique_ptr<ControlReplay> _replay);
 	void saveReplayData(const string& filename);
+	void autosaveReplayData();
 	ControlInfo getControlData();
 
     void updateHUD();

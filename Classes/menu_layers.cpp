@@ -37,6 +37,7 @@ const string TitleMenu::title = App::title;
 const vector<string> TitleMenu::entries = {
 	"New Game",
 	"Load Game",
+	"Load Replay",
 	"Scene Select",
 	"World Select",
 	"Exit"
@@ -45,6 +46,7 @@ const vector<string> TitleMenu::entries = {
 const vector <zero_arity_function > TitleMenu::entryActions = {
 	newGame,
 	loadGame,
+	loadReplay,
 	sceneSelect,
 	worldSelect,
 	&App::end
@@ -58,6 +60,11 @@ void TitleMenu::newGame()
 void TitleMenu::loadGame()
 {
 	App::getCrntScene()->pushMenu(Node::ccCreate<LoadProfileMenu>());
+}
+
+void TitleMenu::loadReplay()
+{
+	App::getCrntScene()->pushMenu(Node::ccCreate<LoadReplayMenu>());
 }
 
 void TitleMenu::sceneSelect()
@@ -140,7 +147,40 @@ void LoadProfileMenu::loadProfile(string name)
 
 void LoadProfileMenu::back()
 {
-	App::createAndRunScene<TitleMenuScene>();
+	App::getCrntScene()->popMenu();
+}
+
+const string LoadReplayMenu::title = "Load Replay";
+
+LoadReplayMenu::LoadReplayMenu() :
+	TextListMenuImpl<LoadReplayMenu>(getReplayEntries())
+{
+
+}
+
+vector<pair<string, zero_arity_function>> LoadReplayMenu::getReplayEntries()
+{
+	vector<pair<string, zero_arity_function>> result;
+
+	auto profiles = io::getReplays();
+
+	for (string s : profiles) {
+		result.push_back(make_pair(s, bind(&LoadReplayMenu::loadReplay, s)));
+	}
+	result.push_back(make_pair("Back", &LoadReplayMenu::back));
+
+	return result;
+
+}
+
+void LoadReplayMenu::loadReplay(string filename)
+{
+	GScene::runSceneWithReplay(filename);
+}
+
+void LoadReplayMenu::back()
+{
+	App::getCrntScene()->popMenu();
 }
 
 const string SceneSelect::title = "Scene Select";
@@ -381,6 +421,7 @@ bool ChamberCompletedMenu::init()
 	statsLabel->setPosition(Vec2(App::width * 0.5f, App::height * 0.5f));
 
 	updateSaveState();
+	playScene->autosaveReplayData();
 
 	ChamberID nextID = playScene->getNextLevel();
 	if (nextID != ChamberID::invalid_id) {
