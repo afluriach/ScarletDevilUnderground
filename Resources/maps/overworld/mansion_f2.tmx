@@ -74,20 +74,5 @@
     <property name="msg" value="sakuyas_room"/>
    </properties>
   </object>
-  <object id="47" type="FairyMaid" x="1152" y="2816" width="128" height="128">
-   <properties>
-    <property name="ai_package" value="flee_player"/>
-   </properties>
-  </object>
-  <object id="48" type="FairyMaid" x="2688" y="2816" width="128" height="128">
-   <properties>
-    <property name="ai_package" value="flee_player"/>
-   </properties>
-  </object>
-  <object id="50" type="FairyMaid" x="1920" y="2432" width="128" height="128">
-   <properties>
-    <property name="ai_package" value="flee_player"/>
-   </properties>
-  </object>
  </objectgroup>
 </map>

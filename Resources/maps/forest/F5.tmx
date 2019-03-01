@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.0" tiledversion="1.0.3" orientation="orthogonal" renderorder="right-down" width="39" height="39" tilewidth="128" tileheight="128" nextobjectid="184">
+<map version="1.0" tiledversion="1.0.3" orientation="orthogonal" renderorder="right-down" width="39" height="39" tilewidth="128" tileheight="128" nextobjectid="186">
  <tileset firstgid="1" name="dirt1" tilewidth="128" tileheight="128" tilecount="4" columns="2">
   <image source="../dirt1.png" width="256" height="256"/>
  </tileset>
@@ -98,5 +98,7 @@
   <object id="174" type="Sapling" x="3584" y="4096" width="256" height="256"/>
   <object id="175" type="Sapling" x="3072" y="4096" width="256" height="256"/>
   <object id="176" type="Sapling" x="3840" y="4096" width="256" height="256"/>
+  <object id="184" type="ZombieFairy" x="640" y="2304" width="128" height="128"/>
+  <object id="185" type="ZombieFairy" x="640" y="2816" width="128" height="128"/>
  </objectgroup>
 </map>

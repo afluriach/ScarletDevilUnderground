@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.0" tiledversion="1.0.3" orientation="orthogonal" renderorder="right-down" width="31" height="36" tilewidth="128" tileheight="128" nextobjectid="57">
+<map version="1.0" tiledversion="1.0.3" orientation="orthogonal" renderorder="right-down" width="31" height="36" tilewidth="128" tileheight="128" nextobjectid="58">
  <tileset firstgid="1" name="scarlet carpet texture" tilewidth="128" tileheight="128" tilecount="1" columns="1">
   <image source="../scarlet carpet texture.png" width="128" height="128"/>
  </tileset>
@@ -91,6 +91,11 @@
   <object id="56" type="Sign" x="1728" y="1920" width="128" height="128">
    <properties>
     <property name="msg" value="sign_library"/>
+   </properties>
+  </object>
+  <object id="57" type="HPUpgrade" x="1920" y="4288" width="128" height="128">
+   <properties>
+    <property name="id" value="0"/>
    </properties>
   </object>
  </objectgroup>

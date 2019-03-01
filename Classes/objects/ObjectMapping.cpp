@@ -199,7 +199,7 @@ const unordered_map<string, GObject::object_info> GObject::objectInfo = {
 	entry_same(Sapling),
 	entry_same(Scorpion1),
 	entry_same(Scorpion2),
-	upgrade_entry(ShieldUpgrade, shield),
+	upgrade_entry(ShieldUpgrade, shieldLevel),
 	entry_same(Sign),
 	entry_same(Slime1),
 	entry_same(Slime2),

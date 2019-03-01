@@ -22,7 +22,7 @@ const map<Attribute, UpgradeInfo> AttributeSystem::upgradeAttributes = {
 	{Attribute::maxMP, UpgradeInfo{ 1.0f, "sprites/mp_upgrade.png"}},
 	{Attribute::agility, UpgradeInfo{ 1.0f, "sprites/agility_upgrade.png"}},
 	{Attribute::attack, UpgradeInfo{ 0.25f, "sprites/attack_upgrade.png"}},
-	{Attribute::shield, UpgradeInfo{ 1.0f, "sprites/shield_upgrade.png"}},
+	{Attribute::shieldLevel, UpgradeInfo{ 1.0f, "sprites/shield_upgrade.png"}},
 	{Attribute::ricochet, UpgradeInfo{1.0f, "sprites/ricochet_upgrade.png"}},
 	{Attribute::bulletCount, UpgradeInfo{ 2.0f, "sprites/bullet_count_upgrade.png"}},
 };

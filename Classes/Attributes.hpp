@@ -29,8 +29,9 @@ enum class Attribute {
 	ricochet,
 	bulletCount,
 
-	shield,
+	shieldActive,
 	shieldCost,
+	shieldLevel,
 
 	maxHP,
 	maxMP,

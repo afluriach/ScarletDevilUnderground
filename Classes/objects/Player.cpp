@@ -403,7 +403,7 @@ SpaceFloat Player::getSpeedMultiplier()
 void Player::setFocusMode(bool b)
 {
 	isFocusActive = b;
-	attributeSystem.setAttribute(Attribute::shield, b);
+	attributeSystem.setAttribute(Attribute::shieldActive, b);
 	space->setSpriteVisible(drawNodeID, b);
 }
 

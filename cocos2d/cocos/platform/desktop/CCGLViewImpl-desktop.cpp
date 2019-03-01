@@ -385,6 +385,18 @@ bool GLViewImpl::initWithRect(const std::string& viewName, CCRect rect, float fr
         return false;
     }
 
+	#if (CC_TARGET_PLATFORM == CC_PLATFORM_WIN32)
+		// Turn on vertical screen sync under Windows.
+		// (I.e. it uses the WGL_EXT_swap_control extension)
+		typedef BOOL(WINAPI *PFNWGLSWAPINTERVALEXTPROC)(int interval);
+		PFNWGLSWAPINTERVALEXTPROC wglSwapIntervalEXT = NULL;
+		wglSwapIntervalEXT = (PFNWGLSWAPINTERVALEXTPROC)wglGetProcAddress("wglSwapIntervalEXT");
+		if (wglSwapIntervalEXT)
+			wglSwapIntervalEXT(1);
+		else
+			log("GL swap extention (VSync) not available!");
+	#endif
+
     initGlew();
 
     // Enable point size by default.

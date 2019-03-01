@@ -223,7 +223,8 @@ const AIPackage<BlueFairy>::AIPackageMap BlueFairy::aiPackages = {
 };
 
 const AttributeMap BlueFairy::baseAttributes = {
-	{ Attribute::shield, 1.0f },
+	{ Attribute::shieldActive, 1.0f },
+	{ Attribute::shieldLevel, 1.0f },
 	{ Attribute::maxHP, 30.0f },
 	{ Attribute::speed, 3.0f },
 	{ Attribute::acceleration, 4.5f }

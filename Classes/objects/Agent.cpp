@@ -194,7 +194,7 @@ bool Agent::consumePower(int val)
 
 bool Agent::isShield(Bullet * b)
 {
-	if (getAttribute(Attribute::shield) <= 0.0f || getAttribute(Attribute::shieldCost) > getAttribute(Attribute::power))
+	if (getAttribute(Attribute::shieldLevel) <= 0.0f || getAttribute(Attribute::shieldActive) <= 0.0f || getAttribute(Attribute::shieldCost) > getAttribute(Attribute::power))
 		return false;
 	else
 		modifyAttribute(Attribute::power, -getAttribute(Attribute::shieldCost));
