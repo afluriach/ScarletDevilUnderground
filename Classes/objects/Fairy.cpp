@@ -223,6 +223,7 @@ const AIPackage<BlueFairy>::AIPackageMap BlueFairy::aiPackages = {
 };
 
 const AttributeMap BlueFairy::baseAttributes = {
+	{ Attribute::shield, 1.0f },
 	{ Attribute::maxHP, 30.0f },
 	{ Attribute::speed, 3.0f },
 	{ Attribute::acceleration, 4.5f }
@@ -235,18 +236,6 @@ BlueFairy::BlueFairy(GSpace* space, ObjectIDType id, const ValueMap& args) :
 	Enemy(collectible_id::power1)
 {
 	firePattern = make_shared<Fairy1BulletPattern>(this, 1.5, float_pi / 6.0, 3);
-}
-
-void BlueFairy::onBulletCollide(Bullet* b)
-{
-	SpaceVect d = -1.0 * b->getVel().normalizeSafe() ;
-	SpaceVect v = SpaceVect::ray(1.0, getAngle());
-
-	if (SpaceVect::dot(d, v) < boost::math::double_constants::one_div_root_two) {
-		hit(AttributeSystem::scale(b->getAttributeEffect(), b->agentAttackMultiplier), b->getMagicEffect(this));
-	}
-
-	fsm.onBulletHit(b);
 }
 
 void BlueFairy::follow_path(ai::StateMachine& sm, const ValueMap& args)

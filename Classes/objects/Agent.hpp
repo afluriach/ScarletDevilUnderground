@@ -65,7 +65,8 @@ public:
 	int getMagic();
 	bool consumePower(int val);
 
-	virtual void onBulletCollide(Bullet* b);
+	bool isShield(Bullet* b);
+	void onBulletCollide(Bullet* b);
 
 	virtual void hit(AttributeMap attributeEffects, shared_ptr<MagicEffect> effect);
 	bool canApplyAttributeEffects(AttributeMap attributeEffect);

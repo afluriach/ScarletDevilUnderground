@@ -121,8 +121,6 @@ public:
 
 	BlueFairy(GSpace* space, ObjectIDType id, const ValueMap& args);
 
-	virtual void onBulletCollide(Bullet* b);
-
 	virtual inline SpaceFloat getRadarRadius() const { return 5.0; }
 	virtual inline SpaceFloat getDefaultFovAngle() const { return 0.0; }
 	virtual inline SpaceFloat getMass() const { return 25.0; }

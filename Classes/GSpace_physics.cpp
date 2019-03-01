@@ -271,7 +271,6 @@ int GSpace::playerEnemyBulletBegin(GObject* playerObj, GObject* bullet, cpArbite
 	if (player && _bullet) {
 		_bullet->onAgentCollide(player, cpArbiterGetNormal(arb, 0));
 		player->onBulletCollide(_bullet);
-		_bullet->invalidateGraze();
 	}
 
     return 1;

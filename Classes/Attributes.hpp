@@ -26,6 +26,9 @@ enum class Attribute {
 	attack,
 	attackSpeed,
 
+	shield,
+	shieldCost,
+
 	maxHP,
 	maxMP,
 	maxPower,

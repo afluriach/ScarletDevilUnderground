@@ -12,6 +12,7 @@
 #include "App.h"
 #include "Bullet.hpp"
 #include "Enemy.hpp"
+#include "EnemyBullet.hpp"
 #include "FirePattern.hpp"
 #include "GSpace.hpp"
 #include "macros.h"
@@ -107,9 +108,9 @@ float Agent::getAttribute(Attribute id) const
 	return attributeSystem.getAdjustedValue(id);
 }
 
-void Agent::modifyAttribute(Attribute id, float val) 
+void Agent::modifyAttribute(Attribute id, float val)
 {
-	attributeSystem.modifyAttribute(id,val);
+	attributeSystem.modifyAttribute(id, val);
 }
 
 float Agent::_getAttribute(int id) const
@@ -164,7 +165,7 @@ int Agent::getHealth()
 
 SpaceFloat Agent::getHealthRatio()
 {
-	if (attributeSystem.getAdjustedValue(Attribute::maxHP) == 0.0f){
+	if (attributeSystem.getAdjustedValue(Attribute::maxHP) == 0.0f) {
 		return 0.0;
 	}
 
@@ -191,9 +192,28 @@ bool Agent::consumePower(int val)
 	return false;
 }
 
+bool Agent::isShield(Bullet * b)
+{
+	if (getAttribute(Attribute::shield) <= 0.0f || getAttribute(Attribute::shieldCost) > getAttribute(Attribute::power))
+		return false;
+	else
+		modifyAttribute(Attribute::power, -getAttribute(Attribute::shieldCost));
+
+	SpaceVect d = -1.0 * b->getVel().normalizeSafe();
+	SpaceVect v = SpaceVect::ray(1.0, getAngle());
+
+	return (SpaceVect::dot(d, v) >= boost::math::double_constants::one_div_root_two);
+}
+
 void Agent::onBulletCollide(Bullet* b)
 {
-	hit(AttributeSystem::scale(b->getAttributeEffect(), b->agentAttackMultiplier), b->getMagicEffect(this));
+	if (auto _eb = dynamic_cast<EnemyBullet*>(b)){
+		_eb->invalidateGraze();
+	}
+
+	if (!isShield(b)) {
+		hit(AttributeSystem::scale(b->getAttributeEffect(), b->agentAttackMultiplier), b->getMagicEffect(this));
+	}
 	fsm.onBulletHit(b);
 }
 

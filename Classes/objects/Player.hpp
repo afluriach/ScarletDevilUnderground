@@ -121,7 +121,6 @@ public:
 	void onGrazeTouch(object_ref<EnemyBullet> bullet);
 	//Effect is applied after the graze "radar" loses contact.
 	void onGrazeCleared(object_ref<EnemyBullet> bullet);
-	void invalidateGraze(object_ref<EnemyBullet> bullet);
 protected:
 	void applyGraze(int p);
 	void startRespawn();
