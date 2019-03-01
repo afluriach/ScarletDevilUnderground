@@ -26,6 +26,9 @@ enum class Attribute {
 	attack,
 	attackSpeed,
 
+	ricochet,
+	bulletCount,
+
 	shield,
 	shieldCost,
 
@@ -59,6 +62,12 @@ enum class Attribute {
 	end,
 };
 
+struct UpgradeInfo
+{
+	float step;
+	string sprite;
+};
+
 typedef array<float, to_size_t(Attribute::end)> AttributeSet;
 typedef map<Attribute, float> AttributeMap;
 typedef map<string, AttributeMap> AttributePackageMap;
@@ -74,16 +83,13 @@ public:
 	static AttributeSet getBlankAttributeSet();
 	static AttributeSet getZeroAttributeSet();
 
-	static size_t getUpgradeAttributeIndex(Attribute id);
-
 	static const float maxElementDamage;
 	static const float maxComboPoints;
 	static const float comboPointsDrainPerSecond;
 
-	static constexpr size_t upgradeCount = 4;
-	static constexpr size_t upgradeAttributesCount = 4;
+	static constexpr size_t upgradeCount = 8;
 
-	static const array<Attribute, AttributeSystem::upgradeAttributesCount> upgradeAttributes;
+	static const map<Attribute, UpgradeInfo> upgradeAttributes;
 
 	AttributeSystem();
 	AttributeSystem(const AttributeSet& baseAttributes);

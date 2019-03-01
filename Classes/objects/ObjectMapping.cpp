@@ -106,6 +106,17 @@ GObject::AdapterType collectibleAdapter(collectible_id id)
 	};
 }
 
+GObject::AdapterType upgradeAdapter(Attribute at)
+{
+	return [=](GSpace* space, ObjectIDType id, const ValueMap& args) -> GObject* {
+		int upgradeID = getInt(args, "id");
+		if (!App::crntState->isUpgradeAcquired(at, upgradeID))
+			return new Upgrade(space, id, args, at);
+		else
+			return nullptr;
+	};
+}
+
 #define entry(name,cls) {name, GObject::object_info{consAdapter<cls>(), type_index(typeid(cls))}}
 //To make an entry where the name matches the class
 #define entry_same(cls) entry(#cls, cls)
@@ -117,13 +128,17 @@ GObject::AdapterType collectibleAdapter(collectible_id id)
 
 #define collectible_entry(name,id) {#name, GObject::object_info{collectibleAdapter<name>(collectible_id::id), type_index(typeid(name))}}
 
+#define upgrade_entry(name,at) {#name, GObject::object_info{upgradeAdapter(Attribute::at), type_index(typeid(Upgrade))}}
+
 const unordered_map<string, GObject::object_info> GObject::objectInfo = {
-	entry_same(AgilityUpgrade),
+	upgrade_entry(AgilityUpgrade, agility),
+	upgrade_entry(AttackUpgrade, attack),
 	entry_same(Bat),
 	entry_same(BlueFairy),
 	conditional_entry(BlueFairyNPC),
 	entry_same(BreakableWall),
 	entry_same(BridgeFloor),
+	upgrade_entry(BulletCountUpgrade, bulletCount),
 	entry_same(CollectGlyph),
 	entry_same(CollectMarisa),
 	entry_same(Barrier),
@@ -152,7 +167,7 @@ const unordered_map<string, GObject::object_info> GObject::objectInfo = {
 	collectible_entry(Health1, health1),
 	collectible_entry(Health2, health2),
 	entry_same(HiddenSubroomSensor),
-	entry_same(HPUpgrade),
+	upgrade_entry(HPUpgrade, maxHP),
 	entry_same(IceFairy),
 	entry_same(IceFloor),
 	entry_same(IcePlatform),
@@ -164,19 +179,19 @@ const unordered_map<string, GObject::object_info> GObject::objectInfo = {
 	conditional_entry(Meiling1),
 	entry_same(MineFloor),
 	entry_same(MovingPlatform),
-	entry_same(MPUpgrade),
+	upgrade_entry(MPUpgrade, maxMP),
 	conditional_entry(Mushroom),
 	entry_same(Patchouli),
 	entry_same(PatchouliEnemy),
 	entry_same(Pitfall),
 	collectible_entry(Power1, power1),
 	collectible_entry(Power2, power2),
-	entry_same(PowerUpgrade),
 	entry_same(PressurePlate),
 	entry_same(Pyramid),
 	entry_same(RedFairy),
 	entry_same(Reimu),
 	entry_same(ReimuEnemy),
+	upgrade_entry(RicochetUpgrade, ricochet),
 	entry_same(Rumia),
 	entry_same(Sakuya),
 	entry_same(SakuyaNPC),
@@ -184,6 +199,7 @@ const unordered_map<string, GObject::object_info> GObject::objectInfo = {
 	entry_same(Sapling),
 	entry_same(Scorpion1),
 	entry_same(Scorpion2),
+	upgrade_entry(ShieldUpgrade, shield),
 	entry_same(Sign),
 	entry_same(Slime1),
 	entry_same(Slime2),

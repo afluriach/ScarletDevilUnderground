@@ -609,10 +609,13 @@ void MapMenu::drawObject(SpaceRect rect, Color4F color, Color4F colorCrnt)
 }
 
 const vector<pair<Attribute, string>> PlayerInfo::displayAttributes = {
-	{Attribute::maxHP, "HP"},
-	{Attribute::maxMP, "MP"},
-	{Attribute::maxPower, "Power"},
-	{Attribute::agility, "Agility"},
+	{ Attribute::agility, "Agility" },
+	{ Attribute::attack, "Attack" },
+	{ Attribute::bulletCount, "Bullet Count" },
+	{ Attribute::maxHP, "HP" },
+	{ Attribute::maxMP, "MP" },
+	{ Attribute::ricochet, "Ricochet" },
+	{ Attribute::shield, "Shield" },
 };
 
 PlayerInfo::PlayerInfo(const AttributeSystem* stats) :
@@ -635,6 +638,11 @@ bool PlayerInfo::init()
 		label->setPosition(0.0f, -64.0f * i * scale);
 		label->setAlignment(TextHAlignment::RIGHT);
 		addChild(label);
+
+		Sprite* icon = Sprite::create(AttributeSystem::upgradeAttributes.at(displayAttributes[i].first).sprite);
+		icon->setScale(0.25f * scale);
+		icon->setPosition(-192.0f * scale, -64.0f * i * scale);
+		addChild(icon);
 	}
 
 	return true;

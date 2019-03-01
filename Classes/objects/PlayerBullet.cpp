@@ -15,6 +15,7 @@
 PlayerBullet::PlayerBullet(Agent* agent) :
 	Bullet(agent)
 {
+	ricochetCount = agent->getAttribute(Attribute::ricochet);
 }
 
 void PlayerBullet::onAgentCollide(Agent* agent, SpaceVect n)
@@ -70,7 +71,6 @@ FlandreFastOrb1::FlandreFastOrb1(GSpace* space, ObjectIDType id, Agent* agent, S
 	GObject(space,id,"", pos, angle),
 	PlayerBullet(agent)
 {
-	ricochetCount = 3;
 }
 
 AttributeMap FlandreFastOrb1::getAttributeEffect() const {

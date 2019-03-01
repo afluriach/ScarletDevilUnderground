@@ -17,12 +17,14 @@ const float AttributeSystem::maxElementDamage = 100.0f;
 const float AttributeSystem::maxComboPoints = 75.0f;
 const float AttributeSystem::comboPointsDrainPerSecond = 15.0f;
 
-const array<Attribute, AttributeSystem::upgradeAttributesCount> AttributeSystem::upgradeAttributes = {
-	Attribute::maxHP,
-	Attribute::maxMP,
-	Attribute::maxPower,
-
-	Attribute::agility,
+const map<Attribute, UpgradeInfo> AttributeSystem::upgradeAttributes = {
+	{Attribute::maxHP, UpgradeInfo{ 1.0f, "sprites/hp_upgrade.png"}},
+	{Attribute::maxMP, UpgradeInfo{ 1.0f, "sprites/mp_upgrade.png"}},
+	{Attribute::agility, UpgradeInfo{ 1.0f, "sprites/agility_upgrade.png"}},
+	{Attribute::attack, UpgradeInfo{ 0.25f, "sprites/attack_upgrade.png"}},
+	{Attribute::shield, UpgradeInfo{ 1.0f, "sprites/shield_upgrade.png"}},
+	{Attribute::ricochet, UpgradeInfo{1.0f, "sprites/ricochet_upgrade.png"}},
+	{Attribute::bulletCount, UpgradeInfo{ 2.0f, "sprites/bullet_count_upgrade.png"}},
 };
 
 pair<float, float> AttributeSystem::calculateAgilityAttributes(float agility)
@@ -68,6 +70,7 @@ AttributeSet AttributeSystem::getBlankAttributeSet()
 
 	result[to_size_t(Attribute::attack)] = 1.0f;
 	result[to_size_t(Attribute::attackSpeed)] = 1.0f;
+	result[to_size_t(Attribute::bulletCount)] = 1.0f;
 
 	//Sensitivity multiplier should be 1.0 by default.
 	result[to_size_t(Attribute::iceSensitivity)] = 1.0f;
@@ -84,17 +87,6 @@ AttributeSet AttributeSystem::getZeroAttributeSet()
 	AttributeSet result = getZeroArray<float, to_size_t(Attribute::end)>();
 
 	return result;
-}
-
-size_t AttributeSystem::getUpgradeAttributeIndex(Attribute id)
-{
-	for (size_t i = 0; i < upgradeAttributes.size(); ++i) {
-		if (upgradeAttributes.at(i) == id) {
-			return i;
-		}
-	}
-
-	throw runtime_error("Not an upgrade attribute.");
 }
 
 AttributeMap AttributeSystem::scale(const AttributeMap& input, float scale)

@@ -24,7 +24,7 @@ struct ChamberStats
 
 struct CharacterUpgrade
 {
-	array<bitset<AttributeSystem::upgradeCount>, AttributeSystem::upgradeAttributesCount> upgrades;
+	array<bitset<AttributeSystem::upgradeCount>, to_size_t(Attribute::end)> upgrades;
 
 	template<class Archive>
 	void serialize(Archive& ar, const unsigned int version)
@@ -47,7 +47,7 @@ public:
 	static void initProfiles();
 
     set<string> itemRegistry;
-	array<CharacterUpgrade, to_size_t(PlayerCharacter::end)> upgrades;
+	CharacterUpgrade upgrades;
 	array<bool, to_size_t(ChamberID::end)> chambersAvailable;
 	array<ChamberStats, to_size_t(ChamberID::end)> chamberStats;
 
@@ -78,9 +78,9 @@ public:
 	bool isChamberAvailable(ChamberID id);
 	bool isChamberCompleted(ChamberID id);
 
-	void registerUpgrade(PlayerCharacter pc, Attribute at, unsigned int id);
-	bool isUpgradeAcquired(PlayerCharacter pc, Attribute at, unsigned int id);
-	float getUpgradeLevel(PlayerCharacter pc, Attribute at);
+	void registerUpgrade(Attribute at, unsigned int id);
+	bool isUpgradeAcquired(Attribute at, unsigned int id);
+	float getUpgradeLevel(Attribute at);
 };
 
 #endif /* GState_hpp */

@@ -136,7 +136,7 @@ void Player::init()
 			to_int(attributeSystem.getAdjustedValue(Attribute::power))
 		));
 
-		setFirePatterns();
+		setFirePattern();
 
 		if (getFirePattern()) {
 			space->addSceneAction(make_hud_action(
@@ -428,13 +428,9 @@ AttributeMap Player::getAttributeUpgrades() const
 {
 	AttributeMap result;
 
-	//static const array<Attribute, AttributeSystem::upgradeAttributesCount> upgradeAttributes;
-
-	for (size_t upgradeIndex = 0; upgradeIndex < AttributeSystem::upgradeAttributesCount; ++upgradeIndex)
+	for (pair<Attribute, UpgradeInfo> entry : AttributeSystem::upgradeAttributes)
 	{
-		Attribute at = AttributeSystem::upgradeAttributes[upgradeIndex];
-
-		result.insert_or_assign(at, App::crntState->getUpgradeLevel(App::crntPC, at));
+		result.insert_or_assign(entry.first, entry.second.step * App::crntState->getUpgradeLevel(entry.first));
 	}
 
 	return result;
@@ -538,7 +534,7 @@ void Player::moveToDestinationDoor(Door* dest)
 void Player::applyUpgrade(Upgrade* up)
 {
 	Attribute at = up->attribute;
-	attributeSystem.modifyAttribute(at, 1.0f);
+	attributeSystem.modifyAttribute(at, AttributeSystem::upgradeAttributes.at(at).step);
 
 	switch (at)
 	{
@@ -558,12 +554,12 @@ void Player::applyUpgrade(Upgrade* up)
 			to_int(attributeSystem.getAdjustedValue(Attribute::maxMP))
 		));
 	break;
-	case Attribute::maxPower:
-		attributeSystem.modifyAttribute(Attribute::power, 0.5f);
+	case Attribute::bulletCount:
+		setFirePattern();
 	break;
 	}
 
-	App::crntState->registerUpgrade(App::crntPC, at, up->upgrade_id);
+	App::crntState->registerUpgrade(at, up->upgrade_id);
 	space->removeObject(up);
 }
 
@@ -706,9 +702,17 @@ CircleLightArea FlandrePC::getLight()
 	};
 }
 
-void FlandrePC::setFirePatterns()
+void FlandrePC::setFirePattern()
 {
-	firePattern = make_shared<FlandreWideAnglePattern1>(this);
+	int level = getAttribute(Attribute::bulletCount);
+
+	if (level == 1)
+		firePattern = make_shared<FlandreFastOrbPattern>(this);
+	else if (level == 3)
+		firePattern = make_shared<FlandreWideAnglePattern1>(this);
+	else if (level == 5)
+		firePattern = make_shared<FlandreWideAnglePattern2>(this);
+	
 	powerAttack = make_shared<FlandreWhirlShotPattern>(this);
 }
 
@@ -744,7 +748,7 @@ CircleLightArea RumiaPC::getLight()
 	};
 }
 
-void RumiaPC::setFirePatterns()
+void RumiaPC::setFirePattern()
 {
 	firePattern = make_shared<RumiaParallelPattern>(this);
 }
@@ -780,7 +784,7 @@ CircleLightArea CirnoPC::getLight()
 	};
 }
 
-void CirnoPC::setFirePatterns()
+void CirnoPC::setFirePattern()
 {
 	firePattern = make_shared<CirnoSmallIceBulletPattern>(this);
 }

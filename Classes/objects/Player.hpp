@@ -53,7 +53,7 @@ public:
     
 	virtual void onPitfall();
 
-	virtual void setFirePatterns() = 0;
+	virtual void setFirePattern() = 0;
 	virtual void equipSpells() = 0;
 	virtual CircleLightArea getLight() = 0;
 	SpaceFloat getSpellLength();
@@ -170,7 +170,7 @@ public:
 	virtual inline int pixelWidth() const { return 512; }
 
 	virtual CircleLightArea getLight();
-	virtual void setFirePatterns();
+	virtual void setFirePattern();
 	virtual void equipSpells();
 };
 
@@ -186,7 +186,7 @@ public:
 	virtual inline int pixelWidth() const { return 512; }
 
 	virtual CircleLightArea getLight();
-	virtual void setFirePatterns();
+	virtual void setFirePattern();
 	virtual void equipSpells();
 };
 
@@ -199,7 +199,7 @@ public:
 	
 	virtual inline string imageSpritePath() const { return "sprites/cirno.png"; }
 	virtual CircleLightArea getLight();
-	virtual void setFirePatterns();
+	virtual void setFirePattern();
 	virtual void equipSpells();
 };
 

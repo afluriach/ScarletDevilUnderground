@@ -82,25 +82,17 @@ bool GState::isChamberCompleted(ChamberID id)
 	}
 }
 
-void GState::registerUpgrade(PlayerCharacter pc, Attribute at, unsigned int id)
+void GState::registerUpgrade(Attribute at, unsigned int id)
 {
-	size_t upgradeIndex = AttributeSystem::getUpgradeAttributeIndex(at);
-
-	upgrades.at(to_size_t(pc)).upgrades.at(upgradeIndex) |= make_bitfield<AttributeSystem::upgradeCount>(id);
+	upgrades.upgrades.at(to_size_t(at)) |= make_bitfield<AttributeSystem::upgradeCount>(id);
 }
 
-bool GState::isUpgradeAcquired(PlayerCharacter pc, Attribute at, unsigned int id)
+bool GState::isUpgradeAcquired(Attribute at, unsigned int id)
 {
-	size_t upgradeIndex = AttributeSystem::getUpgradeAttributeIndex(at);
-
-	return upgrades.at(to_size_t(pc)).upgrades.at(upgradeIndex)[id];
+	return upgrades.upgrades.at(to_size_t(at))[id];
 }
 
-float GState::getUpgradeLevel(PlayerCharacter pc, Attribute at)
+float GState::getUpgradeLevel(Attribute at)
 {
-	size_t upgradeIndex = AttributeSystem::getUpgradeAttributeIndex(at);
-
-	bitset<4>& b = upgrades.at(to_size_t(pc)).upgrades.at(upgradeIndex);
-
-	return b.count();
+	return upgrades.upgrades.at(to_size_t(at)).count();
 }
