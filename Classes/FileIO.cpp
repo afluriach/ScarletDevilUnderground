@@ -31,26 +31,24 @@ string removeExtension(const string& filename)
 	return dotIdx != string::npos ? filename.substr(0, dotIdx) : filename;
 }
 
-set<string> getProfiles()
+set<string> getFileNamesInFolder(const string& filepath)
 {
 	set<string> result;
-	path profileDir(getProfilePath());
-
-	log("getProfiles(): %s", pathString(profileDir).c_str());
+	path directory(filepath);
 
 	try
 	{
-		if (!exists(profileDir)) {
-			log("Profile directory %s not found!", pathString(profileDir).c_str());
+		if (!exists(directory)) {
+			log("Directory %s not found!", pathString(directory).c_str());
 			return result;
 		}
 
-		if (!is_directory(profileDir)) {
-			log("%s is not a directory!", pathString(profileDir).c_str());
+		if (!is_directory(directory)) {
+			log("%s is not a directory!", pathString(directory).c_str());
 			return result;
 		}
 
-		for (directory_entry& entry : directory_iterator(profileDir))
+		for (directory_entry& entry : directory_iterator(directory))
 		{
 			string s = entry.path().filename().generic_string();
 
@@ -65,37 +63,14 @@ set<string> getProfiles()
 	return result;
 }
 
+set<string> getProfiles()
+{
+	return getFileNamesInFolder(getProfilePath());
+}
+
 set<string> getReplays()
 {
-	set<string> result;
-	path replayDir(getReplayFolderPath());
-
-	try
-	{
-		if (!exists(replayDir)) {
-			log("Replays directory %s not found!", pathString(replayDir).c_str());
-			return result;
-		}
-
-		if (!is_directory(replayDir)) {
-			log("%s is not a directory!", pathString(replayDir).c_str());
-			return result;
-		}
-
-		for (directory_entry& entry : directory_iterator(replayDir))
-		{
-			string s = entry.path().filename().generic_string();
-
-			log("%s", s.c_str());
-			result.insert(removeExtension(s));
-		}
-	}
-	catch (const filesystem_error& ex) {
-		log("Filesystem error: %s", ex.what());
-	}
-
-	return result;
-
+	return getFileNamesInFolder(getReplayFolderPath());
 }
 
 void checkCreateSubfolders()

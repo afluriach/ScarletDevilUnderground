@@ -387,6 +387,11 @@ void App::runScene(GScene* scene)
 	Director::getInstance()->runScene(scene);
 }
 
+void App::popMenu()
+{
+	App::getCrntScene()->popMenu();
+}
+
 bool App::loadProfile(const string& name)
 {
 	string profilePath = io::getProfilePath() + name + ".profile";

@@ -76,6 +76,7 @@ public:
 	static void resumeScene();
 	static void popScene();
 	static void runScene(GScene* scene);
+	static void popMenu();
 
 	template <typename T, typename R, typename... Args>
 	static inline R* createAndRunSceneAs(Args... args)

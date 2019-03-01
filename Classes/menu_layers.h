@@ -44,11 +44,17 @@ private:
 	static vector<pair<string,zero_arity_function>> getProfileEntries();
 
 	static void selectProfile(string name);
-
-	static void back();
 };
 
-class LoadProfileMenu : public TextListMenuImpl<LoadProfileMenu>
+class FileSelectMenu : public TextListMenuLayer
+{
+public:
+	static vector<entry> generateEntries(set<string> fileNames, function<void(string)> handler);
+
+	FileSelectMenu(string title, set<string> fileNames, function<void(string)> handler);
+};
+
+class LoadProfileMenu : public FileSelectMenu
 {
 public:
 	static const string title;
@@ -56,13 +62,10 @@ public:
 	LoadProfileMenu();
 	inline virtual ~LoadProfileMenu() {}
 private:
-	static vector<pair<string,zero_arity_function>> getProfileEntries();
-
 	static void loadProfile(string name);
-	static void back();
 };
 
-class LoadReplayMenu : public TextListMenuImpl<LoadReplayMenu>
+class LoadReplayMenu : public FileSelectMenu
 {
 public:
 	static const string title;
@@ -70,12 +73,8 @@ public:
 	LoadReplayMenu();
 	inline virtual ~LoadReplayMenu() {}
 private:
-	static vector<pair<string, zero_arity_function>> getReplayEntries();
-
 	static void loadReplay(string filename);
-	static void back();
 };
-
 
 class SceneSelect : public TextListMenuImpl<SceneSelect>
 {
@@ -86,8 +85,6 @@ public:
 
 	inline SceneSelect() {}
 	inline virtual ~SceneSelect() {}
-protected:
-	static void back();
 };
 
 class WorldSelect : public TextListMenuLayer
@@ -117,8 +114,6 @@ public:
 
 	inline CharacterSelect() {}
 	inline virtual ~CharacterSelect() {}
-protected:
-	static void back();
 };
 
 class PauseMenu : public TextListMenuLayer

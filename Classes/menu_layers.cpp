@@ -111,31 +111,28 @@ void NewProfileMenu::selectProfile(string name)
 	App::runOpeningScene();
 }
 
-void NewProfileMenu::back()
+vector<TextListMenuLayer::entry> FileSelectMenu::generateEntries(set<string> fileNames, function<void(string)> handler)
 {
-	App::getCrntScene()->popMenu();
+	vector<pair<string, zero_arity_function>> result;
+
+	for (string s : fileNames) {
+		result.push_back(make_pair(s, bind(handler, s)));
+	}
+	result.push_back(make_pair("Back", &App::popMenu));
+
+	return result;
+}
+
+FileSelectMenu::FileSelectMenu(string title, set<string> fileNames, function<void(string)> handler) :
+	TextListMenuLayer(title, generateEntries(fileNames, handler))
+{
 }
 
 const string LoadProfileMenu::title = "Load Game";
 
 LoadProfileMenu::LoadProfileMenu() :
-	TextListMenuImpl<LoadProfileMenu>(getProfileEntries())
+	FileSelectMenu(title, io::getProfiles(), LoadProfileMenu::loadProfile)
 {
-
-}
-
-vector<pair<string, zero_arity_function>> LoadProfileMenu::getProfileEntries()
-{
-	vector<pair<string,zero_arity_function>> result;
-
-	auto profiles = io::getProfiles();
-
-	for (string s : profiles) {
-		result.push_back(make_pair(s, bind(&LoadProfileMenu::loadProfile, s)));
-	}
-	result.push_back(make_pair("Back", &LoadProfileMenu::back));
-
-	return result;
 
 }
 
@@ -145,42 +142,16 @@ void LoadProfileMenu::loadProfile(string name)
 	App::runOverworldScene();
 }
 
-void LoadProfileMenu::back()
-{
-	App::getCrntScene()->popMenu();
-}
-
 const string LoadReplayMenu::title = "Load Replay";
 
 LoadReplayMenu::LoadReplayMenu() :
-	TextListMenuImpl<LoadReplayMenu>(getReplayEntries())
+	FileSelectMenu(title, io::getReplays(), LoadReplayMenu::loadReplay)
 {
-
-}
-
-vector<pair<string, zero_arity_function>> LoadReplayMenu::getReplayEntries()
-{
-	vector<pair<string, zero_arity_function>> result;
-
-	auto profiles = io::getReplays();
-
-	for (string s : profiles) {
-		result.push_back(make_pair(s, bind(&LoadReplayMenu::loadReplay, s)));
-	}
-	result.push_back(make_pair("Back", &LoadReplayMenu::back));
-
-	return result;
-
 }
 
 void LoadReplayMenu::loadReplay(string filename)
 {
 	GScene::runSceneWithReplay(filename);
-}
-
-void LoadReplayMenu::back()
-{
-	App::getCrntScene()->popMenu();
 }
 
 const string SceneSelect::title = "Scene Select";
@@ -211,14 +182,8 @@ const vector<zero_arity_function> SceneSelect::entryActions = {
 	{ sceneLaunchAdapterByName("IceCave") },
 	{ sceneLaunchAdapterByName("Forest") },
 
-	{ SceneSelect::back }
+	{ &App::popMenu }
 };
-
-
-void SceneSelect::back()
-{
-	App::createAndRunScene<TitleMenuScene>();
-}
 
 zero_arity_function menuPushAdapter(string sceneName) {
 	return [sceneName]() -> void {
@@ -238,7 +203,7 @@ const vector<pair<string,zero_arity_function>> WorldSelect::entries = {
 	entry(Forest),
 	entry(Desert),
 	entry(Mine),
-	{ "Back", &WorldSelect::back}
+	{ "Back", &WorldSelect::back }
 };
 
 #undef entry
@@ -308,14 +273,8 @@ const vector<zero_arity_function> CharacterSelect::entryActions = {
 	characterSelectAdapter(PlayerCharacter::flandre),
 	characterSelectAdapter(PlayerCharacter::rumia),
 	characterSelectAdapter(PlayerCharacter::cirno),
-	&CharacterSelect::back
+	&App::popMenu
 };
-
-void CharacterSelect::back()
-{
-	GScene* scene = App::getCrntScene();
-	scene->popMenu();
-}
 
 const string PauseMenu::title = "-PAUSED-";
 

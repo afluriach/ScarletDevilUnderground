@@ -16,6 +16,7 @@ namespace io
 	
 string pathString(const boost::filesystem::path& p);
 string removeExtension(const string& filename);
+set<string> getFileNamesInFolder(const string& filepath);
 set<string> getProfiles();
 set<string> getReplays();
 
