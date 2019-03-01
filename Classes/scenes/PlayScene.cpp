@@ -182,6 +182,9 @@ void PlayScene::resumeAnimations()
 void PlayScene::showGameOverMenu()
 {
 	setPaused(true);
+
+	logPerformance();
+
 	showMenu(Node::ccCreate<GameOverMenu>());
 }
 
@@ -198,6 +201,7 @@ void PlayScene::showSceneCompletedMenu()
 {
 	waitForSpaceThread();
 
+	logPerformance();
 	showMenu(Node::ccCreate<ChamberCompletedMenu>(this));
 }
 
@@ -209,6 +213,7 @@ void PlayScene::triggerSceneCompleted()
 
 void PlayScene::showReplayCompletedMenu()
 {
+	logPerformance();
 	showMenu(Node::ccCreate<ReplayCompletedMenu>());
 }
 

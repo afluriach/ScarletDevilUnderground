@@ -257,6 +257,7 @@ protected:
 
 	void queueActions();
 	void waitForSpaceThread();
+	void logPerformance();
 
 	Node* getSpriteAsNode(SpriteID id);
 	void _removeSprite(SpriteID id);

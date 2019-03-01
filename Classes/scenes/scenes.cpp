@@ -1317,6 +1317,18 @@ void GScene::waitForSpaceThread()
 	);
 }
 
+void GScene::logPerformance()
+{
+	unsigned int frames = gspace->getFrame();
+	unsigned long us = gspace->getTimeUsed();
+	log(
+		"Replay: %.3f s processing time, %.3f s elapsed time, %.3f ms per frame.",
+		us * 1e-6,
+		frames*App::secondsPerFrame,
+		us * 1e-3 / frames
+	);
+}
+
 void GScene::runActionsWithOrder(updateOrder order)
 {
 	vector<zero_arity_function>& _actions = actions.at(order);

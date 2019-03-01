@@ -326,11 +326,16 @@ const string GameOverMenu::title = "GAME OVER";
 
 const vector<string> GameOverMenu::entries = {
 	"Restart",
+	"Save Replay",
 	"Exit to title"
 };
 
 const vector<zero_arity_function> GameOverMenu::entryActions = {
 	&App::restartScene,
+	[]()->void {
+		if (auto playScene = dynamic_cast<PlayScene*>(App::getCrntScene()))
+			playScene->autosaveReplayData();
+	},
 	&App::runTitleScene
 };
 

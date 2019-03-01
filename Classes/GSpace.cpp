@@ -75,6 +75,10 @@ unsigned int GSpace::getFrame() const{
 	return frame;
 }
 
+unsigned long GSpace::getTimeUsed() const {
+	return timeUsed;
+}
+
 GScene* GSpace::getScene()
 {
 	return gscene;
@@ -125,6 +129,8 @@ void GSpace::update()
 	chrono::duration<long, micro> _physics = chrono::duration_cast<chrono::microseconds>(t3 - t2);
 	chrono::duration<long, micro> _total = chrono::duration_cast<chrono::microseconds>(t4 - t1);
 	chrono::duration<long, micro> _objects = _total - _physics;
+
+	timeUsed += _total.count();
 
 	App::timerMutex.lock();
 

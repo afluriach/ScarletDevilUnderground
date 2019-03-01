@@ -43,6 +43,7 @@ public:
     void setSize(int x, int y);
     
 	unsigned int getFrame() const;
+	unsigned long getTimeUsed() const;
 	GScene* getScene();
 
 	template<class C>
@@ -57,6 +58,7 @@ private:
 	GScene *const gscene;
     unsigned int frame = 1;
     IntVec2 spaceSize;
+	unsigned long timeUsed = 0;
 //BEGIN OBJECT MANIPULATION
 public:
     static const bool logObjectArgs;
