@@ -89,6 +89,37 @@ protected:
 	float crntValue = 0.0f;
 };
 
+struct LinearMeterSettings
+{
+	Color4F fillColor;
+	Color4F emptyColor;
+//	string icon;
+};
+
+class LinearMeter : public Node
+{
+public:
+	static const Vec2 boundingSize;
+	static const float meterOffset;
+	static const float outlineWidth;
+
+	LinearMeter(LinearMeterSettings settings);
+
+	virtual bool init();
+
+	void setValue(float newValue);
+	void setMax(float maxValue);
+protected:
+	void redraw();
+
+	LinearMeterSettings settings;
+	DrawNode* draw;
+	Label* label;
+
+	float crntValue = 0.0f;
+	float maxValue = 0.0f;
+};
+
 class MagicEffects : public Node
 {
 public:
@@ -190,6 +221,9 @@ class HUD : public Layer
 public:
 	static constexpr bool showAll = false;
 
+	static const LinearMeterSettings hpSettings;
+	static const LinearMeterSettings mpSettings;
+
     static const int height = 50;
 
     static const int fontSize;
@@ -202,10 +236,10 @@ public:
     void update();
     virtual bool init();
 
-    HealthBar* health;
-	MagicBar* magic;
-    PowerMeter* power;
+	LinearMeter* hpMeter;
+	LinearMeter* mpMeter;
 
+    PowerMeter* power;
 	KeyMeter* keyMeter;
 
 	MagicEffects* magicEffects;

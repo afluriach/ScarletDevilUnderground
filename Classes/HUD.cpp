@@ -213,6 +213,80 @@ void RadialMeter::redraw()
 	cone->setColors(opacityScale(filled, alpha), opacityScale(empty, alpha));
 }
 
+const Vec2 LinearMeter::boundingSize = Vec2(192,48);
+const float LinearMeter::meterOffset = 32.0f;
+const float LinearMeter::outlineWidth = 8;
+
+LinearMeter::LinearMeter(LinearMeterSettings settings) :
+	settings(settings)
+{
+}
+
+bool LinearMeter::init()
+{
+	Node::init();
+
+	draw = DrawNode::create();
+	addChild(draw);
+
+	label = Label::createWithTTF(
+		" 0 / 0",
+		"fonts/comfortaa.ttf",
+		boundingSize.y / 2,
+		CCSize(boundingSize),
+		TextHAlignment::CENTER,
+		TextVAlignment::CENTER
+	);
+
+	addChild(label);
+
+	return true;
+}
+
+void LinearMeter::setValue(float newValue)
+{
+	crntValue = newValue;
+	redraw();
+}
+
+void LinearMeter::setMax(float maxValue)
+{
+	this->maxValue = maxValue;
+	redraw();
+}
+
+void LinearMeter::redraw()
+{
+	if (maxValue <= 0.0f) return;
+
+	float ratio = crntValue / maxValue;
+
+	draw->clear();
+
+	draw->drawSolidRect(
+		Vec2(-0.5f * boundingSize.x - outlineWidth, meterOffset - outlineWidth),
+		Vec2(boundingSize.x*0.5f + outlineWidth, boundingSize.y + outlineWidth),
+		Color4F::BLACK
+	);
+
+	draw->drawSolidRect(
+		Vec2(-0.5f * boundingSize.x, meterOffset),
+		Vec2(boundingSize.x*(ratio-0.5f),boundingSize.y),
+		settings.fillColor
+	);
+	draw->drawSolidRect(
+		Vec2(boundingSize.x*(ratio - 0.5f), meterOffset),
+		Vec2(boundingSize.x * 0.5f, boundingSize.y),
+		settings.emptyColor
+	);
+
+	label->setString(boost::str(
+		boost::format("%s / %s") % 
+		boost::lexical_cast<string>(crntValue) %
+		boost::lexical_cast<string>(maxValue)
+	));
+}
+
 const int MagicEffects::spacing = 128;
 
 const float MagicEffects::totalAutohideTime = 1.5f;
@@ -398,6 +472,18 @@ bool EnemyInfo::isValid()
 
 //const Color4F HUD::backgroundColor = Color4F(0,0,0,0.75);
 
+const LinearMeterSettings HUD::hpSettings = LinearMeterSettings{
+	Color4F(.86f,.16f,.19f,1.0f),
+	Color4F(.42f,.29f,.29f,1.0f),
+//	"sprites/hp_upgrade.png"
+};
+
+const LinearMeterSettings HUD::mpSettings = LinearMeterSettings{
+	Color4F(.37f,.56f,.57f,1.0f),
+	Color4F(.4f,.4f,.4f,1.0f),
+//	"sprites/mp_upgrade.png"
+};
+
 const int HUD::fontSize = 32;
 
 HUD::HUD(GSpace* space) :
@@ -435,18 +521,15 @@ bool HUD::init()
 
 	float scale = App::getScale();
     
-    health = Node::ccCreate<HealthBar>();
-    health->setPosition(64*scale, App::height - height*scale);
-    addChild(health, 2);
-    health->setMax(1);
-	health->setScale(scale);
+	hpMeter = Node::ccCreate<LinearMeter>(hpSettings);
+    hpMeter->setPosition(LinearMeter::boundingSize.x * 0.75f*scale, App::height - LinearMeter::boundingSize.y*2.0f*scale);
+    addChild(hpMeter, 2);
+	hpMeter->setScale(scale);
 
-	magic = Node::ccCreate<MagicBar>();
-	magic->setPosition(scale*32 + App::width*0.33f, App::height - height*scale);
-	addChild(magic, 2);
-	magic->setScale(scale);
-	magic->setMax(5);
-	magic->setValue(3);
+	mpMeter = Node::ccCreate<LinearMeter>(mpSettings);
+	mpMeter->setPosition(scale*32 + App::width*0.33f, App::height - LinearMeter::boundingSize.y*2.0f*scale);
+	addChild(mpMeter, 2);
+	mpMeter->setScale(scale);
 
     power = Node::ccCreate<PowerMeter>();
     power->setPosition(App::width/2, App::height - height*scale);
@@ -534,8 +617,8 @@ void HUD::setMansionMode(bool val)
 {
 	isMansionMode = val;
 
-	health->setVisible(!val);
-	magic->setVisible(!val);
+	hpMeter->setVisible(!val);
+	mpMeter->setVisible(!val);
 	power->setVisible(!val);
 	keyMeter->setVisible(!val);
 
@@ -556,22 +639,22 @@ void HUD::setFirePatternIcon(string val)
 
 void HUD::setHP(int v)
 {
-	health->setValue(v);
+	hpMeter->setValue(v);
 }
 
 void HUD::setMaxHP(int v)
 {
-	health->setMax(v);
+	hpMeter->setMax(v);
 }
 
 void HUD::setMP(int v)
 {
-	magic->setValue(v);
+	mpMeter->setValue(v);
 }
 
 void HUD::setMaxMP(int v)
 {
-	magic->setMax(v);
+	mpMeter->setMax(v);
 }
 
 void HUD::setPower(int v)
@@ -586,12 +669,12 @@ void HUD::setKeyCount(int count)
 
 void HUD::runHealthFlicker(float length, float interval)
 {
-	health->runFlicker(length, interval);
+//	health->runFlicker(length, interval);
 }
 
 void HUD::runMagicFlicker(float length, float interval)
 {
-	magic->runFlicker(length, interval);
+//	magic->runFlicker(length, interval);
 }
 
 void HUD::runPowerFlicker(float duration)
