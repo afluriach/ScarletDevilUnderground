@@ -44,8 +44,12 @@ public:
 
 	virtual void onZeroHP();
 
+	virtual inline AttributeMap touchEffect() {
+		return AttributeSystem::getAttributeMap(Attribute::hp, -10.0f);
+	}
+
 	virtual inline SpaceFloat getRadarRadius() const { return 5.0; }
-	virtual GType getRadarType() const { return GType::enemySensor; }
+	virtual inline GType getRadarType() const { return GType::enemySensor; }
 	virtual inline SpaceFloat getDefaultFovAngle() const { return 0.0; }
 
 	virtual inline SpaceFloat getRadius() const { return 0.35; }

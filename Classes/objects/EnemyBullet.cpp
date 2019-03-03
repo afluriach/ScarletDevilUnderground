@@ -88,7 +88,7 @@ Fairy1Bullet::Fairy1Bullet(GSpace* space, ObjectIDType id, Agent* agent, SpaceFl
 
 AttributeMap Fairy1Bullet::getAttributeEffect() const {
 	return {
-		{ Attribute::hp, -1 }
+		{ Attribute::hp, -5.0f }
 	};
 }
 
@@ -99,7 +99,7 @@ GreenFairyBullet::GreenFairyBullet(GSpace* space, ObjectIDType id, Agent* agent,
 
 AttributeMap GreenFairyBullet::getAttributeEffect() const {
 	return {
-		{ Attribute::hp, -1 }
+		{ Attribute::hp, -3.0f }
 	};
 }
 
@@ -114,7 +114,7 @@ RumiaBullet::RumiaBullet(GSpace* space, ObjectIDType id, Agent* agent, SpaceFloa
 
 AttributeMap RumiaBullet::getAttributeEffect() const {
 	return {
-		{ Attribute::hp, -1 }
+		{ Attribute::hp, -5.0f }
 	};
 }
 
@@ -193,5 +193,5 @@ SpriteLightArea YinYangOrb::getLightSource() const
 
 AttributeMap YinYangOrb::getAttributeEffect() const
 {
-	return { { Attribute::hp, -1 } };
+	return { { Attribute::hp, -10.0f } };
 }

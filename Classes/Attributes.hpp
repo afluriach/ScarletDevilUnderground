@@ -81,6 +81,7 @@ public:
 	static AttributeMap scale(const AttributeMap& input, float scale);
 	static AttributeSet getAttributeSet(const AttributeMap& input);
 	static AttributeMap getAttributeMap(Attribute id, float val);
+	static AttributeMap getAttributeElementMap(Attribute element, float damage, float elementScale = 1.0f);
 	static AttributeSet getBlankAttributeSet();
 	static AttributeSet getZeroAttributeSet();
 

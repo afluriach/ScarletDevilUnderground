@@ -18,7 +18,7 @@ const float AttributeSystem::maxComboPoints = 75.0f;
 const float AttributeSystem::comboPointsDrainPerSecond = 15.0f;
 
 const map<Attribute, UpgradeInfo> AttributeSystem::upgradeAttributes = {
-	{Attribute::maxHP, UpgradeInfo{ 1.0f, "sprites/hp_upgrade.png"}},
+	{Attribute::maxHP, UpgradeInfo{ 25.0f, "sprites/hp_upgrade.png"}},
 	{Attribute::maxMP, UpgradeInfo{ 1.0f, "sprites/mp_upgrade.png"}},
 	{Attribute::agility, UpgradeInfo{ 1.0f, "sprites/agility_upgrade.png"}},
 	{Attribute::attack, UpgradeInfo{ 0.25f, "sprites/attack_upgrade.png"}},
@@ -62,6 +62,14 @@ AttributeSet AttributeSystem::getAttributeSet(const AttributeMap& input)
 AttributeMap AttributeSystem::getAttributeMap(Attribute id, float val)
 {
 	return { {id,val} };
+}
+
+AttributeMap AttributeSystem::getAttributeElementMap(Attribute element, float damage, float elementScale)
+{
+	return {
+		{ Attribute::hp, -damage },
+		{ element, damage * elementScale}
+	};
 }
 
 AttributeSet AttributeSystem::getBlankAttributeSet()

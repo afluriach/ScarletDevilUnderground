@@ -90,7 +90,7 @@ Magic2::Magic2(GSpace* space, ObjectIDType id, SpaceVect pos) :
 }
 
 const AttributeMap Health1::effect = {
-	{ Attribute::hp, 0.25f }
+	{ Attribute::hp, 5.0f }
 };
 
 const string Health1::spriteName = "health1";
@@ -102,7 +102,7 @@ Health1::Health1(GSpace* space, ObjectIDType id, SpaceVect pos) :
 }
 
 const AttributeMap Health2::effect = {
-	{ Attribute::hp, 1.0f }
+	{ Attribute::hp, 25.0f }
 };
 
 const string Health2::spriteName = "health2";

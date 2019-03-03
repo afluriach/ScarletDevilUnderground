@@ -92,6 +92,7 @@ void ReimuEnemy::initStateMachine(ai::StateMachine& fsm)
 				this->lockDoors();
 				this->spawnOrbs();
 				sm.addThread(make_shared<ReimuMain>());
+				sm.addThread(make_shared<ai::AimAtTarget>(target));
 				sm.addThread(make_shared<ai::Flank>(target, 3.0));
 			}
 		}

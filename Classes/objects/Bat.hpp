@@ -18,6 +18,10 @@ public:
 
 	MapObjCons(Bat);
 
+	inline virtual AttributeMap touchEffect() {
+		return AttributeSystem::getAttributeMap(Attribute::hp, -5.0f);
+	}
+
 	virtual inline SpaceFloat getRadarRadius() const { return 5.0; }
 	virtual inline SpaceFloat getDefaultFovAngle() const { return 0.0; }
     inline SpaceFloat getMass() const {return 10.0;}

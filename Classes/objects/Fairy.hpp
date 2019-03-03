@@ -121,6 +121,10 @@ public:
 
 	BlueFairy(GSpace* space, ObjectIDType id, const ValueMap& args);
 
+	inline virtual AttributeMap touchEffect() {
+		return AttributeSystem::getAttributeMap(Attribute::hp, -5.0f);
+	}
+
 	virtual inline SpaceFloat getRadarRadius() const { return 5.0; }
 	virtual inline SpaceFloat getDefaultFovAngle() const { return 0.0; }
 	virtual inline SpaceFloat getMass() const { return 25.0; }
@@ -144,6 +148,10 @@ public:
 
 	void update();
 
+	inline virtual AttributeMap touchEffect() {
+		return AttributeSystem::getAttributeMap(Attribute::hp, -10.0f);
+	}
+
 	virtual inline SpaceFloat getRadarRadius() const { return 3.0; }
 	virtual inline SpaceFloat getDefaultFovAngle() const { return 0.0; }
 	inline SpaceFloat getMass() const { return 25.0; }
@@ -163,6 +171,10 @@ public:
 	static const AttributeMap baseAttributes;
 
 	GreenFairy(GSpace* space, ObjectIDType id, const ValueMap& args);
+
+	inline virtual AttributeMap touchEffect() {
+		return AttributeSystem::getAttributeMap(Attribute::hp, -3.0f);
+	}
 
 	virtual inline SpaceFloat getRadarRadius() const { return 6.0; }
 	virtual inline SpaceFloat getDefaultFovAngle() const { return 0.0; }
@@ -187,6 +199,10 @@ public:
 	ZombieFairy(GSpace* space, ObjectIDType id, const ValueMap& args);
 
 	void init();
+
+	inline virtual AttributeMap touchEffect() {
+		return AttributeSystem::getAttributeElementMap(Attribute::darknessDamage, 20.0f, 1.5f);
+	}
 
 	virtual inline SpaceFloat getRadarRadius() const { return 6.0; }
 	virtual inline SpaceFloat getDefaultFovAngle() const { return 0.0; }
