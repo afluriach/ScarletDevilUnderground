@@ -26,6 +26,7 @@ public:
 
 	virtual bool isDialogAvailable() { return true; }
 	virtual string getDialog();
+	virtual void onDialogEnd();
 
 	virtual void initStateMachine(ai::StateMachine& sm);
 };

@@ -66,6 +66,7 @@ public:
 		ar & blueFairies;
     }
 
+	void addItem(string name);
 	bool hasItem(string name);
 
 	void registerMushroomAcquired(int id);

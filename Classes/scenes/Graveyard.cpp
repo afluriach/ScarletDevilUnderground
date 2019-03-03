@@ -10,6 +10,16 @@
 
 #include "Graveyard.hpp"
 
+Graveyard0::Graveyard0() :
+	PlayScene("G0")
+{
+}
+
+GScene* Graveyard0::getReplacementScene()
+{
+	return Node::ccCreate<Graveyard0>();
+}
+
 const IntVec2 Graveyard1::roomSize = IntVec2(17,17);
 
 const vector<GScene::MapEntry> Graveyard1::rooms = {

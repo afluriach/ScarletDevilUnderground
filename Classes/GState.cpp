@@ -25,6 +25,11 @@ void GState::initProfiles()
 	}
 }
 
+void GState::addItem(string name)
+{
+	itemRegistry.insert(name);
+}
+
 bool GState::hasItem(string name)
 {
 	return itemRegistry.find(name) != itemRegistry.end();

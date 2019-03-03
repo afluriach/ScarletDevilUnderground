@@ -137,6 +137,7 @@ public:
 	static int getRandomInt(int min, int max);
     
 	static const string& getBaseDataPath();
+	static GState* getCrntState();
 
 protected:
 	static App* appInst;

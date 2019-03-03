@@ -473,6 +473,9 @@ const string& App::getBaseDataPath() {
 	return appInst->baseDataPath;
 }
 
+GState* App::getCrntState() {
+	return crntState.get();
+}
 
 void App::update(float dt)
 {

@@ -30,6 +30,16 @@ string Patchouli::getDialog() {
 	}
 }
 
+void Patchouli::onDialogEnd()
+{
+	if (App::crntState->hasItem("GraveyardBook1")) {
+		App::crntState->registerChamberAvailable(ChamberID::graveyard0);
+	}
+	if (App::crntState->hasItem("ForestBook1")) {
+		App::crntState->registerChamberAvailable(ChamberID::forest1);
+	}
+}
+
 void Patchouli::initStateMachine(ai::StateMachine& sm)
 {
 

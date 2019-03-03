@@ -11,6 +11,20 @@
 
 #include "PlayScene.hpp"
 
+class Graveyard0 : public PlayScene
+{
+public:
+	Graveyard0();
+	inline virtual ~Graveyard0() {}
+
+	inline virtual Color4F getDefaultAmbientLight() const { return Color4F(.3f, .45f, .45f, 1.0f); }
+
+	virtual GScene* getReplacementScene();
+	inline virtual ChamberID getCurrentLevel() const { return ChamberID::graveyard0; }
+	inline virtual ChamberID getNextLevel() const { return ChamberID::graveyard1; }
+
+};
+
 class Graveyard1 : public PlayScene
 {
 public:

@@ -198,6 +198,7 @@ const string WorldSelect::title = "Select World";
 #define entry(x) {#x, menuPushAdapter(#x)}
 
 const vector<pair<string,zero_arity_function>> WorldSelect::entries = {
+	entry(Graveyard0),
 	entry(Graveyard1),
 	entry(Graveyard2),
 	entry(Forest),
@@ -209,6 +210,7 @@ const vector<pair<string,zero_arity_function>> WorldSelect::entries = {
 #undef entry
 
 const vector<ChamberID> WorldSelect::chamberIDs = {
+	ChamberID::graveyard0,
 	ChamberID::graveyard1,
 	ChamberID::graveyard2,
 	ChamberID::forest1,

@@ -14,6 +14,7 @@
 #include "App.h"
 #include "GObject.hpp"
 #include "GSpace.hpp"
+#include "GState.hpp"
 #include "HUD.hpp"
 #include "LuaAPI.hpp"
 #include "macros.h"
@@ -251,6 +252,7 @@ const vector<string> Inst::luaIncludes = {
 			.addStaticData("height", &App::height)
 			.addStaticFunction("runOverworldScene", static_cast<GScene*(*)(string,string)>(&App::runOverworldScene))
 			.addStaticFunction("getCrntScene", &App::getCrntScene)
+			.addStaticFunction("getCrntState", &App::getCrntState)
 			.addStaticFunction("printGlDebug", &App::printGlDebug)
 #if USE_TIMERS
 			.addStaticFunction("printTimerInfo", &App::printTimerInfo)
@@ -321,6 +323,11 @@ const vector<string> Inst::luaIncludes = {
 			.addFunction("removeObject", static_cast<void(GSpace::*)(const string&)>(&GSpace::removeObject))
 		.endClass()
 			
+		.beginClass<GState>("GState")
+			.addFunction("addItem", &GState::addItem)
+			.addFunction("hasItem", &GState::hasItem)
+		.endClass()
+
 		.beginClass<HUD>("HUD")
 			.addFunction("setMansionMode", &HUD::setMansionMode)
 			.addFunction("setObjectiveCounter", &HUD::setObjectiveCounter)

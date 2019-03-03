@@ -73,7 +73,8 @@ public:
 enum class ChamberID
 {
 	invalid_id = 0,
-	graveyard1 = 1,
+	graveyard0,
+	graveyard1,
 	graveyard2,
 	forest1,
 	desert1,

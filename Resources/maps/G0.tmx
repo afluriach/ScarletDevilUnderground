@@ -89,17 +89,14 @@
   <object id="176" x="0" y="2176" width="128" height="2176"/>
   <object id="177" x="0" y="4352" width="128" height="2176"/>
  </objectgroup>
- <objectgroup name="objects" visible="0">
-  <object id="114" type="GraveyardBook1" x="2944" y="5888" width="128" height="128"/>
+ <objectgroup name="objects">
   <object id="119" type="BreakableWall" x="5376" y="4224" width="128" height="128"/>
   <object id="120" type="BreakableWall" x="5376" y="4352" width="128" height="128"/>
   <object id="121" type="ChamberEntrance" x="3200" y="8576" width="128" height="128"/>
-  <object id="128" name="door-1a" type="Door" x="3200" y="6528" width="128" height="128"/>
-  <object id="129" name="door-1b" type="Door" x="3200" y="6400" width="128" height="128"/>
   <object id="131" type="Goal" x="1024" y="1024" width="128" height="128"/>
   <object id="142" name="player" type="Player" x="3200" y="8448" width="128" height="128"/>
  </objectgroup>
- <objectgroup name="rooms" visible="0">
+ <objectgroup name="rooms">
   <object id="132" name="0" x="2176" y="6528" width="2176" height="2176"/>
   <object id="133" name="1" x="2176" y="4352" width="2176" height="2176"/>
   <object id="134" name="2" x="0" y="4352" width="2176" height="2176"/>
