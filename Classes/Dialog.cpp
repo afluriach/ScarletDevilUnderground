@@ -89,6 +89,16 @@ bool Dialog::init()
     drawBackground();
     addChild(backgroundNode, 1);
 
+	nameBackground = DrawNode::create();
+	drawNameBackground();
+	addChild(nameBackground, 1);
+	nameBackground->setVisible(false);
+
+	nameLabel = createTextLabel("", labelFontSize);
+	nameLabel->setPosition(width / 4, height / 2 + nameLabelMargin + 0.5f*nameLabelHeight);
+	nameLabel->setColor(bodyColor);
+	addChild(nameLabel, 2);
+
     setMsg("");    
     
     cursor = Node::ccCreate<DownTriangleCursor>();
@@ -138,6 +148,21 @@ void Dialog::unlockChamber(ChamberID id)
 	App::crntState->registerChamberAvailable(id);
 }
 
+void Dialog::setNameLabel(string label)
+{
+	nameLabel->setString(label);
+	nameLabel->setVisible(true);
+	nameBackground->setVisible(true);
+	advanceFrame(false);
+}
+
+void Dialog::clearNameLabel()
+{
+	nameLabel->setVisible(false);
+	nameBackground->setVisible(false);
+	advanceFrame(false);
+}
+
 void Dialog::drawBackground()
 {
     backgroundNode->clear();
@@ -146,6 +171,14 @@ void Dialog::drawBackground()
     Vec2 ur(width/2, height/2);
     
     backgroundNode->drawSolidRect(ll, ur, backgroundColor);
+}
+
+void Dialog::drawNameBackground()
+{
+	Vec2 ll(0, height / 2 + nameLabelMargin);
+	Vec2 ur(width / 2, height / 2 + nameLabelMargin + nameLabelHeight);
+
+	nameBackground->drawSolidRect(ll, ur, backgroundColor);
 }
 
 void Dialog::update(float dt)
@@ -249,7 +282,19 @@ void Dialog::processDialogFile(const string& text)
 					static_cast<ChamberID>(boost::lexical_cast<int>(tokens[1]))
 				));
 			}
-        }
+			else if (boost::starts_with(line, ":setName ")) {
+				string name = line.substr(9);
+
+				dialog.push_back(
+					makeAction<string>(&Dialog::setNameLabel, name)
+				);
+			}
+			else if (boost::starts_with(line, ":clearName")) {
+				dialog.push_back(
+					makeAction(&Dialog::clearNameLabel)
+				);
+			}
+		}
         else{
             dialog.push_back(
                 makeAction<const string&>(&Dialog::setMsg,line)

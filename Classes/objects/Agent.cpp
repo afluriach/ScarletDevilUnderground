@@ -231,7 +231,7 @@ void Agent::hit(AttributeMap attributeEffect, shared_ptr<MagicEffect> effect)
 
 	if (_enemy) {
 		_enemy->runDamageFlicker();
-		App::playSoundSpatial("sfx/enemy_damage.wav", getPos(), getVel());
+		App::playSoundSpatial("sfx/enemy_damage.wav", toFmod(getPos()), toFmod(getVel()));
 	}
 
 	auto hp_it = attributeEffect.find(Attribute::hp);

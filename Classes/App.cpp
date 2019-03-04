@@ -144,12 +144,7 @@ void App::playSound(const string& path, float volume)
 	ch->setPaused(false);
 }
 
-void App::playSoundSpatial(const string& path, SpaceVect pos, SpaceVect vel)
-{
-	playSoundSpatial(path, toFmod(pos), toFmod(vel));
-}
-
-void App::playSoundSpatial(const string& path, FMOD_VECTOR pos, FMOD_VECTOR vel)
+void App::playSoundSpatial(const string& path, FMOD_VECTOR pos, FMOD_VECTOR vel, float volume)
 {
 	auto it = appInst->loadedAudio.find(path);
 
@@ -164,6 +159,7 @@ void App::playSoundSpatial(const string& path, FMOD_VECTOR pos, FMOD_VECTOR vel)
 	ch->setMode(FMOD_3D);
 	ch->set3DMinMaxDistance(0.5f, 15.0f);
 	ch->set3DAttributes(&pos, &vel);
+	ch->setVolume(volume);
 	ch->setPaused(false);
 }
 

@@ -106,8 +106,7 @@ public:
 	static void initAudio();
 	static void loadSound(const string& path);
 	static void playSound(const string& path, float volume);
-	static void playSoundSpatial(const string& path, SpaceVect pos, SpaceVect vel);
-	static void playSoundSpatial(const string& path, FMOD_VECTOR pos, FMOD_VECTOR vel);
+	static void playSoundSpatial(const string& path, FMOD_VECTOR pos, FMOD_VECTOR vel, float volume = 1.0f);
 	static void pauseSounds();
 	static void resumeSounds();
 	static void setSoundListenerPos(SpaceVect pos, SpaceVect vel, SpaceFloat angle);

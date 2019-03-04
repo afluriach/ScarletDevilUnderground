@@ -1468,7 +1468,7 @@ void FireAtTarget::update(StateMachine& sm)
 	);
 
 	if (fp->fireIfPossible()) {
-		App::playSoundSpatial("sfx/shot.wav", sm.agent->getPos(), sm.agent->getVel());
+		App::playSoundSpatial("sfx/shot.wav",toFmod(sm.agent->getPos()), toFmod(sm.agent->getVel()));
 	}
 }
 
@@ -1489,7 +1489,7 @@ void FireIfTargetVisible::update(StateMachine& sm)
 	if (ro->isObjectVisible(target.get()) && sm.agent->space->isInPlayerRoom(sm.agent->getPos()))
 	{
 		if (fp->fireIfPossible()) {
-			App::playSoundSpatial("sfx/shot.wav", sm.agent->getPos(), sm.agent->getVel());
+			App::playSoundSpatial("sfx/shot.wav", toFmod(sm.agent->getPos()), toFmod(sm.agent->getVel()));
 		}
 	}
 }

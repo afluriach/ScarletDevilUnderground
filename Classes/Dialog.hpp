@@ -36,7 +36,10 @@ public:
     static const int height = 200;
     static const int titleSize = 30;
     static const int bodySize = 24;
+	static const int labelFontSize = 18;
     static const int textMargin = 24;
+	static const int nameLabelMargin = 72;
+	static const int nameLabelHeight = 48;
     //The minimum time a frame must be displayed
     constexpr static float frameWaitTime = 1.2f;
     constexpr static float frameSkipTime = 0.15f;
@@ -64,8 +67,11 @@ public:
     void runLuaScript(const string& script);
     void setNextScene(const string& next);
 	void unlockChamber(ChamberID id);
+	void setNameLabel(string label);
+	void clearNameLabel();
 private:
     void drawBackground();
+	void drawNameBackground();
     void drawContents();
     void update();
     void runFrame();
@@ -81,7 +87,9 @@ private:
     static const Color3B defaultTextColor;
     
     Label* bodyText;
+	Label* nameLabel;
     DrawNode* backgroundNode;
+	DrawNode* nameBackground;
     Cursor* cursor;
     
     unique_ptr<ControlListener> control_listener;

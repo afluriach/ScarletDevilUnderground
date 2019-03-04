@@ -24,7 +24,8 @@ public:
 
 	virtual inline SpaceFloat getRadarRadius() const { return 5.0; }
 	virtual inline SpaceFloat getDefaultFovAngle() const { return 0.0; }
-    inline SpaceFloat getMass() const {return 10.0;}
+    virtual inline SpaceFloat getMass() const {return 10.0;}
+	virtual inline PhysicsLayers getLayers() const { return PhysicsLayers::ground; }
 
     inline string imageSpritePath() const {return "sprites/bat.png";}
  
