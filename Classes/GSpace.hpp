@@ -9,6 +9,7 @@
 #ifndef GSpace_hpp
 #define GSpace_hpp
 
+#include "controls.h"
 #include "Graphics.h"
 #include "macros.h"
 #include "object_ref.hpp"
@@ -17,7 +18,6 @@
 
 class FloorSegment;
 class GObject;
-class GScene;
 class InteractibleObject;
 
 #define OBJS_FROM_ARB \
@@ -56,7 +56,7 @@ public:
 private:
 	//The graphics destination to use for all objects constructed in this space.
 	GScene *const gscene;
-    unsigned int frame = 1;
+    unsigned int frame = 0;
     IntVec2 spaceSize;
 	unsigned long timeUsed = 0;
 //BEGIN OBJECT MANIPULATION
@@ -160,7 +160,14 @@ public:
 	void teleportPlayerToDoor(string doorName);
 	void setSuppressAction(bool b);
 	bool getSuppressAction();
+
+	void loadReplay(unique_ptr<ControlReplay> replay);
+	ControlReplay* getReplay() { return controlReplay.get(); }
+	inline ControlInfo getControlInfo() { return controlInfo; }
+	inline void setControlInfo(ControlInfo info) { controlInfo = info; }
+	inline bool getIsRunningReplay() { return isRunningReplay; }
 private:
+	void updateControlInfo();
     void processRemovals();
     void initObjects();
     void processRemoval(GObject* obj, bool removeSprite);
@@ -190,11 +197,15 @@ private:
 	SpaceRect cameraArea;
 	int crntMap = -1;
 	vector<SpaceRect> mapAreas;
+
+	ControlInfo controlInfo;
+	unique_ptr<ControlReplay> controlReplay;
 	
 	vector<pair<zero_arity_function, GScene::updateOrder>> sceneActions;
 	vector<zero_arity_function> objectActions;
 	mutex objectActionsMutex;
 
+	bool isRunningReplay = false;
 	bool suppressAction = false;
 	bool isMultiMap;
 

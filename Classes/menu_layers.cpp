@@ -400,6 +400,8 @@ bool ChamberCompletedMenu::init()
 void ChamberCompletedMenu::updateSaveState()
 {
 	ChamberID crnt = playScene->getCurrentLevel();
+	if (crnt == ChamberID::invalid_id) return;
+
 	ChamberStats& crntStats = App::crntState->chamberStats.at(to_size_t(crnt));
 	unsigned int timeMS = frameCount * App::secondsPerFrame;
 	unsigned char enemies = totalEnemyCount().first;

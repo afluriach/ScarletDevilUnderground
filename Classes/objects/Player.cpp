@@ -307,10 +307,12 @@ void Player::onZeroHP()
 	if (!GScene::suppressGameOver) {
 		App::playSound("sfx/player_death.wav", 0.5f);
 
-		space->addSceneAction(
-			[=]()->void { playScene->triggerGameOver();},
-			GScene::updateOrder::sceneUpdate
-		);
+		if (!space->getIsRunningReplay()) {
+			space->addSceneAction(
+				[=]()->void { playScene->triggerGameOver(); },
+				GScene::updateOrder::sceneUpdate
+			);
+		}
 	}
 }
 
@@ -321,7 +323,7 @@ void Player::update()
 	if (playScene) {
 		space->updatePlayerMapLocation(getPos());
 
-		ControlInfo cs = playScene->getControlData();
+		ControlInfo cs = space->getControlInfo();
 
 		checkMovementControls(cs);
 		checkItemInteraction(cs);

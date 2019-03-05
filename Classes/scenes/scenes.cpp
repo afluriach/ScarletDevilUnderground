@@ -242,6 +242,11 @@ bool GScene::init()
 void GScene::update(float dt)
 {	
 	if (!isPaused) {
+		gspace->addObjectAction(bind(
+			&GSpace::setControlInfo,
+			gspace,
+			App::control_register->getControlInfo()
+		));
 		spaceUpdateToRun.store(true);
 		spaceUpdateCondition.notify_one();
 		multiUpdate();

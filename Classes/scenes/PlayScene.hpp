@@ -34,13 +34,10 @@ public:
 
 	virtual ~PlayScene();
 
-	void initReplayData();
-	void updateReplayData();
 	bool loadReplayData(const string& filename);
 	bool loadReplayData(unique_ptr<ControlReplay> _replay);
 	void saveReplayData(const string& filename);
 	void autosaveReplayData();
-	ControlInfo getControlData();
 
     void updateHUD();
     void applyCameraControls();
@@ -87,7 +84,6 @@ private:
 
 	SpaceFloat cameraMoveTilesPerSecond = 3.0;
 
-	unique_ptr<ControlReplay> controlReplay;
 	bool isRunningReplay = false;
 	bool isShowingMenu = false;
 	bool isOverworld = false;

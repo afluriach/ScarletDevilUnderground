@@ -64,15 +64,6 @@ GScene(sceneName, maps)
         wrap_method(PlayScene,addHUD,this),
         to_int(initOrder::initHUD)
     );
-	multiInit.insertWithOrder(
-		wrap_method(PlayScene, initReplayData, this),
-		to_int(initOrder::core)
-	);
-
-	multiUpdate.insertWithOrder(
-		wrap_method(PlayScene, updateReplayData, this),
-		to_int(updateOrder::updateControls)
-	);
 
 	multiUpdate.insertWithOrder(
 		bind(&GScene::runActionsWithOrder, this, updateOrder::moveCamera),
@@ -183,6 +174,7 @@ void PlayScene::showGameOverMenu()
 {
 	setPaused(true);
 
+	waitForSpaceThread();
 	logPerformance();
 
 	showMenu(Node::ccCreate<GameOverMenu>());
@@ -278,24 +270,6 @@ GScene* PlayScene::getReplacementScene()
 	return Node::ccCreate<PlayScene>(sceneName, maps);
 }
 
-void PlayScene::initReplayData()
-{
-	controlReplay = make_unique<ControlReplay>();
-
-	controlReplay->scene_name = GScene::crntSceneName;
-}
-
-void PlayScene::updateReplayData()
-{
-	if (controlReplay && isRunningReplay && gspace->getFrame() >= controlReplay->control_data.size()) {
-		triggerReplayCompleted();
-	}
-
-	else if (controlReplay && !isRunningReplay) {
-		controlReplay->control_data.push_back(App::control_register->getControlState());
-	}
-}
-
 bool PlayScene::loadReplayData(const string& filename)
 {
 	return loadReplayData(io::getControlReplay(filename));
@@ -303,52 +277,25 @@ bool PlayScene::loadReplayData(const string& filename)
 
 bool PlayScene::loadReplayData(unique_ptr<ControlReplay> _replay)
 {
-	if (controlReplay && !isRunningReplay) {
-		log("PlayScene::loadReplayData: overwriting existing data.");
-	}
-	controlReplay = move(_replay);
+	bool b = _replay.get();
 
-	isRunningReplay = controlReplay != nullptr;
-	return controlReplay != nullptr;
+	gspace->loadReplay(move(_replay));
+
+	isRunningReplay = b;
+	return b;
 }
 
 void PlayScene::saveReplayData(const string& filename)
 {
-	if (controlReplay && !isRunningReplay) {
-		io::saveControlReplay(filename, controlReplay.get());
+	if (!isRunningReplay) {
+		io::saveControlReplay(filename, gspace->getReplay());
 	}
 }
 
 void PlayScene::autosaveReplayData()
 {
-	if (controlReplay && !isRunningReplay) {
-		io::autosaveControlReplay(sceneName, controlReplay.get());
-	}
-}
-
-ControlInfo PlayScene::getControlData()
-{
-	unsigned int crntFrame = gspace->getFrame();
-
-	if (isRunningReplay){
-		if (crntFrame > 0 && crntFrame < controlReplay->control_data.size()) {
-			ControlInfo result;
-
-			result.left_v = controlReplay->control_data[crntFrame].left_v;
-			result.right_v = controlReplay->control_data[crntFrame].right_v;
-			
-			result.action_state_crnt = controlReplay->control_data[crntFrame].action_state;
-			result.action_state_prev = controlReplay->control_data[crntFrame-1].action_state;
-
-			return result;
-		}
-		else {
-			log("ControlReplay out of bounds, frame: %d", crntFrame);
-			return ControlInfo();
-		}
-	}
-	else {
-		return App::control_register->getControlInfo();
+	if (!isRunningReplay) {
+		io::autosaveControlReplay(sceneName, gspace->getReplay());
 	}
 }
 

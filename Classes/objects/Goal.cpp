@@ -31,7 +31,7 @@ bool Goal::canInteract()
 
 void Goal::interact()
 {
-	if (isBlocked) return;
+	if (isBlocked || space->getIsRunningReplay()) return;
 
 	space->addSceneAction(
 		[=]()->void { playScene->triggerSceneCompleted(); },

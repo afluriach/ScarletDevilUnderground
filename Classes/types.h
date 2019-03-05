@@ -72,15 +72,16 @@ public:
 
 enum class ChamberID
 {
-	invalid_id = 0,
-	graveyard0,
+	begin = 0,
+	graveyard0 = begin,
 	graveyard1,
 	graveyard2,
 	forest1,
 	desert1,
 	mine1,
 
-	end
+	end,
+	invalid_id = end
 };
 
 enum class Direction{

@@ -85,6 +85,8 @@ public:
 	}
 };
 
+ControlState getControlState(ControlInfo info);
+
 //Tracks all key events. Used globally to poll key state.
 class ControlRegister
 {
@@ -176,8 +178,7 @@ public:
 
 	static const unsigned int version = 1;
 
-	bool load(const string& filepath);
-	bool save(const string& filepath);
+	ControlInfo getControlInfo(unsigned int frameIdx);
 
 	string scene_name;
 	vector<ControlState> control_data;

@@ -38,6 +38,9 @@ GSpace::GSpace(GScene* gscene) : gscene(gscene)
 	for (type_index t : enemyTypes) {
 		objByType[t] = set<GObject*>();
 	}
+
+	controlReplay = make_unique<ControlReplay>();
+	controlReplay->scene_name = GScene::crntSceneName;
 }
 
 GSpace::~GSpace()
@@ -86,6 +89,15 @@ GScene* GSpace::getScene()
 
 void GSpace::update()
 {
+	objectActionsMutex.lock();
+	for (auto f : objectActions) {
+		f();
+	}
+	objectActions.clear();
+	objectActionsMutex.unlock();
+
+	updateControlInfo();
+
 #if USE_TIMERS
 	chrono::steady_clock::time_point t1 = chrono::steady_clock::now();
 #endif
@@ -107,13 +119,6 @@ void GSpace::update()
     for(GObject* obj: objByUUID | boost::adaptors::map_values){
         obj->update();
     }
-
-	objectActionsMutex.lock();
-	for (auto f : objectActions) {
-		f();
-	}
-	objectActions.clear();
-	objectActionsMutex.unlock();
     
     processRemovals();
     
@@ -416,6 +421,33 @@ void GSpace::processRemovals()
 		processRemoval(entry.first, false);
 
 		gscene->removeSpriteWithAnimation(spriteID, entry.second);
+	}
+}
+
+void GSpace::loadReplay(unique_ptr<ControlReplay> replay)
+{
+	controlReplay = move(replay);
+	isRunningReplay = true;
+}
+
+void GSpace::updateControlInfo()
+{
+	if (isRunningReplay)
+	{
+		if (frame >= controlReplay->control_data.size()) {
+			addSceneAction(bind(&PlayScene::triggerReplayCompleted, getSceneAs<PlayScene>()), GScene::updateOrder::hudUpdate);
+		}
+		else {
+			controlInfo = controlReplay->getControlInfo(frame);
+		}
+	}
+	else if(controlReplay)
+	{
+		controlReplay->control_data.push_back(getControlState(controlInfo));
+
+		if (controlReplay->control_data.size() != frame + 1) {
+			log("frame %ud, control replay has %ud frames.", frame, controlReplay->control_data.size());
+		}
 	}
 }
 
