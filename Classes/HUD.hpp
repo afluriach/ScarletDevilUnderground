@@ -203,6 +203,9 @@ private:
 class EnemyInfo : public Node
 {
 public:
+	static const int hWidth;
+	static const int hHeight;
+
 	EnemyInfo();
 
 	virtual bool init();

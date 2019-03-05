@@ -17,11 +17,11 @@ public:
 	MapObjCons(Reimu);
     
     virtual inline SpaceFloat getRadius() const {return 0.35;}
-    inline SpaceFloat getMass() const {return -1.0;}
+    virtual inline SpaceFloat getMass() const {return -1.0;}
     virtual inline GType getType() const {return GType::npc;}
     
-    inline string imageSpritePath() const {return "sprites/reimu.png";}
-    inline GraphicsLayer sceneLayer() const {return GraphicsLayer::ground;}
+    virtual inline string imageSpritePath() const {return "sprites/reimu.png";}
+    virtual inline GraphicsLayer sceneLayer() const {return GraphicsLayer::ground;}
     
     inline virtual bool isDialogAvailable(){ return true;}
     inline virtual string getDialog(){
@@ -43,6 +43,8 @@ public:
 	void removeOrbs();
 
 	virtual void onZeroHP();
+
+	virtual inline string getProperName() const { return "Reimu Hakurei"; }
 
 	virtual inline AttributeMap touchEffect() {
 		return AttributeSystem::getAttributeMap(Attribute::hp, -10.0f);

@@ -200,7 +200,7 @@ void RoomSensor::updateBoss()
 			space->addSceneAction(make_hud_action(
 				&HUD::setEnemyInfo,
 				playScene,
-				boss.get()->getName(),
+				boss.get()->getProperName(),
 				boss.get()->getAttribute(Attribute::hp),
 				boss.get()->getAttribute(Attribute::maxHP)
 			));

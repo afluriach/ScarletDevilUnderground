@@ -420,6 +420,9 @@ void MagicEffects::reorganize()
 	}
 }
 
+const int EnemyInfo::hWidth = 128;
+const int EnemyInfo::hHeight = 24;
+
 EnemyInfo::EnemyInfo()
 {}
 
@@ -444,8 +447,8 @@ void EnemyInfo::update()
 
 	if (maxHP > 0.0f) {
 		float hpRatio = hp / maxHP;
-		healthBar->drawSolidRect(Vec2(-64, -16), Vec2(64, 16), Color4F(0.0f, 0.0f, 0.0f, 1.0f));
-		healthBar->drawSolidRect(Vec2(-64, -16), Vec2(-64 + 128 * hpRatio, 16), Color4F(1.0f, 0.0f, 0.0f, 1.0f));
+		healthBar->drawSolidRect(Vec2(-hWidth, -hHeight), Vec2(hWidth, hHeight), Color4F(0.0f, 0.0f, 0.0f, 1.0f));
+		healthBar->drawSolidRect(Vec2(-hWidth, -hHeight), Vec2(-hWidth + 2.0f*hWidth * hpRatio, hHeight), Color4F(1.0f, 0.0f, 0.0f, 1.0f));
 	}
 }
 
@@ -564,7 +567,7 @@ bool HUD::init()
 	addChild(firePatternIcon);
 
 	enemyInfo = Node::ccCreate<EnemyInfo>();
-	enemyInfo->setPosition(App::width - 72*scale, 24*scale);
+	enemyInfo->setPosition(App::width - (EnemyInfo::hWidth+24)*scale, 24*scale);
 	enemyInfo->setScale(scale);
 	addChild(enemyInfo);
 

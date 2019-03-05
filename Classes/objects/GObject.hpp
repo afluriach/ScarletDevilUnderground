@@ -93,6 +93,10 @@ public:
 	util::multifunction<void(void)> multiUpdate;
 	util::multifunction<void(void)> messages;
 
+	virtual inline string getProperName() const {
+		return name;
+	}
+
 	inline string getName() const {
 		return name;
 	}
