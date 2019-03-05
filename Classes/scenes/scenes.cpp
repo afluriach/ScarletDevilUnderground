@@ -691,7 +691,7 @@ void GScene::setSpriteColor(SpriteID id, Color3B color)
 {
 	Node* node = getSpriteAsNode(id);
 	if (node) {
-		node->setColor(color);
+		node->setColorRecursive(color);
 	}
 }
 
