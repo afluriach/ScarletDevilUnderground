@@ -57,7 +57,7 @@ Fairy1::Fairy1(GSpace* space, ObjectIDType id, const ValueMap& args) :
 	MapObjForwarding(Agent),
 	AttributesPackage<Fairy1>(this, args),
 	AIPackage<Fairy1>(this, args, "maintain_distance"),
-	Enemy(collectible_id::power1)
+	Enemy(collectible_id::hm1)
 {
 	firePattern = make_shared<Fairy1BulletPattern>(this, 1.5, float_pi / 6.0, 3);
 }
@@ -234,7 +234,7 @@ BlueFairy::BlueFairy(GSpace* space, ObjectIDType id, const ValueMap& args) :
 	MapObjForwarding(GObject),
 	MapObjForwarding(Agent),
 	AIPackage(this, args, ""),
-	Enemy(collectible_id::power1)
+	Enemy(collectible_id::magic1)
 {
 	firePattern = make_shared<Fairy1BulletPattern>(this, 1.5, float_pi / 6.0, 3);
 }
@@ -307,7 +307,7 @@ const AttributeMap GreenFairy::baseAttributes = {
 GreenFairy::GreenFairy(GSpace* space, ObjectIDType id, const ValueMap& args) :
 	MapObjForwarding(GObject),
 	MapObjForwarding(Agent),
-	Enemy(collectible_id::power1)
+	Enemy(collectible_id::hm1)
 {
 	firePattern = make_shared<GreenFairyBulletPattern>(this, 1.5, 8);
 }
@@ -375,7 +375,7 @@ const boost::rational<int> Fairy2::lowHealthRatio = boost::rational<int>(1, 3);
 Fairy2::Fairy2(GSpace* space, ObjectIDType id, const ValueMap& args) :
 	MapObjForwarding(GObject),
 	MapObjForwarding(Agent),
-	Enemy(collectible_id::power2),
+	Enemy(collectible_id::hm2),
 	RegisterUpdate<Fairy2>(this)
 {}
 
@@ -480,7 +480,7 @@ const AttributeMap IceFairy::baseAttributes = {
 IceFairy::IceFairy(GSpace* space, ObjectIDType id, const ValueMap& args) :
 	MapObjForwarding(GObject),
 	MapObjForwarding(Agent),
-	Enemy(collectible_id::power1)
+	Enemy(collectible_id::magic2)
 {
 	firePattern = make_shared<IceFairyBulletPattern>(this);
 }

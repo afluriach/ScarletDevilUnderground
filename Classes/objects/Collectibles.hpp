@@ -21,11 +21,12 @@ enum class collectible_id
 	health1,
 	health2,
 
-	power1,
-	power2,
-
 	magic1,
 	magic2,
+
+	//random health or magic
+	hm1,
+	hm2,
 
 	key,
 };

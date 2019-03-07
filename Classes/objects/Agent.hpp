@@ -57,13 +57,12 @@ public:
 	virtual SpaceFloat getMaxAcceleration() const;
 
 	virtual float getMaxHealth() const;
-	virtual float getMaxPower() const;
 
 	int getHealth();
 	SpaceFloat getHealthRatio();
-	int getPower();
+	int getStamina();
 	int getMagic();
-	bool consumePower(int val);
+	bool consumeStamina(int val);
 
 	bool isShield(Bullet* b);
 	void onBulletCollide(Bullet* b);

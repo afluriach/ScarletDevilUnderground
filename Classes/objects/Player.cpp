@@ -40,7 +40,7 @@ const SpaceFloat Player::focusSpeedRatio = 0.5;
 const SpaceFloat Player::interactDistance = 1.25;
 const SpaceFloat Player::grazeRadius = 0.7;
 
-const float Player::bombPowerCost = 25.0f;
+const float Player::bombPowerCost =.25f;
 const float Player::powerAttackCost = 25.0f;
 
 const GType Player::bombObstacles = enum_bitwise_or4(GType, enemy, environment, wall, bomb);
@@ -131,9 +131,9 @@ void Player::init()
 		));
 
 		space->addSceneAction(make_hud_action(
-			&HUD::setPower,
+			&HUD::setStamina,
 			playScene,
-			to_int(attributeSystem.getAdjustedValue(Attribute::power))
+			to_int(attributeSystem.getAdjustedValue(Attribute::stamina))
 		));
 
 		setFirePattern();
@@ -230,11 +230,11 @@ void Player::checkFireControls(const ControlInfo& cs)
 		!suppressFiring &&
 		cs.isControlActionPressed(ControlAction::powerAttack) &&
 		powerAttack &&
-		getPower() >= powerAttackCost)
+		getStamina() >= powerAttackCost)
 	{
 		if (powerAttack->fireIfPossible()) {
 			App::playSound("sfx/shot.wav", 1.0f);
-			attributeSystem.modifyAttribute(Attribute::power, -powerAttackCost);
+			attributeSystem.modifyAttribute(Attribute::stamina, -powerAttackCost);
 		}
 	}
 }
@@ -246,12 +246,12 @@ void Player::checkBombControls(const ControlInfo& cs)
 	if (!suppressFiring &&
 		cs.isControlActionPressed(ControlAction::bomb) &&
 		bombCooldown <= 0.0f &&
-		attributeSystem.getAdjustedValue(Attribute::power) >= bombPowerCost)
+		attributeSystem.getAdjustedValue(Attribute::mp) >= bombPowerCost)
 	{
 		SpaceVect bombPos = getPos() + SpaceVect::ray(1.5, getAngle());
 		if (canPlaceBomb(bombPos)) {
 			space->createObject(GObject::make_object_factory<PlayerBomb>(bombPos, getVel()));
-			attributeSystem.modifyAttribute(Attribute::power, -bombPowerCost);
+			attributeSystem.modifyAttribute(Attribute::mp, -bombPowerCost);
 			bombCooldown = bombCooldownTime;
 		}
 	}
@@ -363,9 +363,9 @@ void Player::update()
 				to_int(attributeSystem.getAdjustedValue(Attribute::mp))
 			));
 			space->addSceneAction(make_hud_action(
-				&HUD::setPower,
+				&HUD::setStamina,
 				playScene,
-				to_int(attributeSystem.getAdjustedValue(Attribute::power))
+				to_int(attributeSystem.getAdjustedValue(Attribute::stamina))
 			));
 			space->addSceneAction(make_hud_action(
 				&HUD::setKeyCount,
@@ -576,7 +576,7 @@ void Player::onGrazeCleared(object_ref<EnemyBullet> bullet)
 
 void Player::applyGraze(int p)
 {
-	attributeSystem.modifyAttribute(Attribute::power, isComboActive ? p* 2 : p);
+	attributeSystem.modifyAttribute(Attribute::stamina, isComboActive ? p* 2 : p);
 	applyCombo(p*6);
 	App::playSound("sfx/graze.wav", 1.0f);
 }
@@ -659,7 +659,7 @@ const AttributeMap FlandrePC::baseAttributes = {
 	{Attribute::shieldCost, 5.0f },
 	{Attribute::maxHP, 100.0f},
 	{Attribute::maxMP, 4.0f },
-	{Attribute::maxPower, 200.0f},
+	{Attribute::maxStamina, 100.0f},
 	{Attribute::agility, 2.0f},
 	{Attribute::hitProtectionInterval, 2.4f},
 	{Attribute::spellCooldownInterval, 1.0f },
@@ -719,7 +719,7 @@ const AttributeMap RumiaPC::baseAttributes = {
 	{ Attribute::shieldCost, 7.0f },
 	{Attribute::maxHP, 75.0f },
 	{Attribute::maxMP, 4.0f },
-	{Attribute::maxPower, 300.0f },
+	{Attribute::maxStamina, 75.0f },
 	{Attribute::agility, 3.0f },
 	{Attribute::hitProtectionInterval, 1.5f },
 	{Attribute::spellCooldownInterval, 1.0f },
@@ -756,7 +756,7 @@ const AttributeMap CirnoPC::baseAttributes = {
 	{ Attribute::shieldCost, 2.0f },
 	{Attribute::maxHP, 125.0f },
 	{Attribute::maxMP, 4.0f },
-	{Attribute::maxPower, 200.0f},
+	{Attribute::maxStamina, 125.0f},
 	{Attribute::agility, 1.0f},
 	{Attribute::hitProtectionInterval, 3.3f},
 	{Attribute::spellCooldownInterval, 1.0f},

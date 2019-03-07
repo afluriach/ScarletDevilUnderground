@@ -8,6 +8,7 @@
 
 #include "Prefix.h"
 
+#include "App.h"
 #include "Collectibles.hpp"
 #include "value_map.hpp"
 
@@ -19,13 +20,24 @@ function<ObjectGeneratorType(SpaceVect) > createAdapter()
 	};
 }
 
+template<class C1, class C2>
+function<ObjectGeneratorType(SpaceVect) > createRandomAdapter()
+{
+	return [](SpaceVect& pos) -> ObjectGeneratorType {
+		if (App::getRandomFloat() < 0.5f)
+			return GObject::make_object_factory<C1>(pos);
+		else
+			return GObject::make_object_factory<C2>(pos);
+	};
+}
+
 const map<collectible_id, function<ObjectGeneratorType(SpaceVect)>> Collectible::factories = {
 	{collectible_id::magic1, createAdapter<Magic1>() },
 	{collectible_id::magic2, createAdapter<Magic2>() },
-	{collectible_id::power1, createAdapter<Power1>() },
-	{collectible_id::power2, createAdapter<Power2>() },
 	{collectible_id::health1, createAdapter<Health1>() },
 	{collectible_id::health2, createAdapter<Health2>() },
+	{collectible_id::hm1, createRandomAdapter<Health1, Magic1>() },
+	{collectible_id::hm2, createRandomAdapter<Health2, Magic2>() },
 	{collectible_id::key, createAdapter<Key>() },
 };
 
@@ -37,31 +49,6 @@ ObjectGeneratorType Collectible::create(collectible_id id, SpaceVect pos)
 Collectible::Collectible(GSpace* space, ObjectIDType id, SpaceVect pos) :
 GObject(space,id,"",pos, float_pi / 2.0),
 RectangleBody(SpaceVect(0.5, 0.5))
-{
-}
-
-const AttributeMap Power1::effect = {
-	{Attribute::power, 5.0f}
-};
-
-const string Power1::spriteName = "power1";
-
-Power1::Power1(GSpace* space, ObjectIDType id, SpaceVect pos):
-GObject(space, id, "", pos, float_pi / 2.0),
-CollectibleImpl<Power1>(space,id,pos)
-{
-}
-
-const AttributeMap Power2::effect = {
-	{ Attribute::power, 25.0f }
-};
-
-const string Power2::spriteName = "power2";
-
-
-Power2::Power2(GSpace* space, ObjectIDType id, SpaceVect pos) :
-	GObject(space, id, "", pos, float_pi / 2.0),
-	CollectibleImpl<Power2>(space, id, pos)
 {
 }
 

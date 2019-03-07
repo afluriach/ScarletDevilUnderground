@@ -165,41 +165,6 @@ private:
 	string iconRes;
 };
 
-class PowerMeter : public Node
-{
-public:
-    static const int iconSize = 64;
-    
-    //Distance between icon and counter label.
-    static const int spacing = 32;
-
-    bool init();
-    void setVal(int val);
-    void runFlicker(float duration);
-private:
-    Sprite* icon;
-    Label* counter;
-    int val;
-};
-
-class KeyMeter : public Node
-{
-public:
-	static const int iconSize = 64;
-
-	//Distance between icon and counter label.
-	static const int spacing = 32;
-
-	bool init();
-	void setVal(int val);
-	void runFlicker(float duration);
-private:
-	Sprite * icon;
-	Label* counter;
-	int val;
-};
-
-
 class EnemyInfo : public Node
 {
 public:
@@ -223,10 +188,11 @@ protected:
 class HUD : public Layer
 {
 public:
-	static constexpr bool showAll = false;
+	static constexpr bool showAll = true;
 
 	static const LinearMeterSettings hpSettings;
 	static const LinearMeterSettings mpSettings;
+	static const LinearMeterSettings staminaSettings;
 
     static const int height = 50;
 
@@ -242,9 +208,9 @@ public:
 
 	LinearMeter* hpMeter;
 	LinearMeter* mpMeter;
+	LinearMeter* staminaMeter;
 
-    PowerMeter* power;
-	KeyMeter* keyMeter;
+	Counter* keyMeter;
 
 	MagicEffects* magicEffects;
 
@@ -262,9 +228,7 @@ public:
 	void setMP(int);
 	void setMaxMP(int);
 
-	void setPower(int);
-	//void setMaxPower(int);
-
+	void setStamina(int);
 	void setKeyCount(int);
 
 	void runHealthFlicker(float length, float interval);

@@ -409,6 +409,11 @@ bool App::saveCrntProfile()
 
 bool App::saveProfile(const string& name)
 {
+	if (name.empty()) {
+		log("Can't save, empty profile name.");
+		return false;
+	}
+
 	io::checkCreateSubfolders();
 	string profilePath = io::getProfilePath() + name + ".profile";
 	bool exists = FileUtils::getInstance()->isFileExist(profilePath);
@@ -441,11 +446,14 @@ void App::setPlayer(int id)
 	crntPC = static_cast<PlayerCharacter>(id);
 }
 
+//Generate [0,1)
+float App::getRandomFloat() {
+	return appInst->randomFloat(appInst->randomEngine);
+}
+
 //Generate [min,max)
 float App::getRandomFloat(float min, float max) {
-	float u01 = appInst->randomFloat(appInst->randomEngine);
-
-	return (min + u01 * (max - min));
+	return (min + getRandomFloat() * (max - min));
 }
 
 //Generate [min,max]

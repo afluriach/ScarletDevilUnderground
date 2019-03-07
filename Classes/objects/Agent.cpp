@@ -48,7 +48,7 @@ void Agent::initAttributes()
 	applyAttributeEffects(getAttributeUpgrades());
 
 	attributeSystem.setFullHP();
-	attributeSystem.setStartPower();
+	attributeSystem.setFullStamina();
 	attributeSystem.setStartMP();
 }
 
@@ -153,11 +153,6 @@ float Agent::getMaxHealth() const
 	return attributeSystem.getAdjustedValue(Attribute::maxHP);
 }
 
-float Agent::getMaxPower() const
-{
-	return attributeSystem.getAdjustedValue(Attribute::maxPower);
-}
-
 int Agent::getHealth()
 {
 	return attributeSystem.getAdjustedValue(Attribute::hp);
@@ -172,9 +167,9 @@ SpaceFloat Agent::getHealthRatio()
 	return attributeSystem.getAdjustedValue(Attribute::hp) / attributeSystem.getAdjustedValue(Attribute::maxHP);
 }
 
-int Agent::getPower()
+int Agent::getStamina()
 {
-	return attributeSystem.getAdjustedValue(Attribute::power);
+	return attributeSystem.getAdjustedValue(Attribute::stamina);
 }
 
 int Agent::getMagic()
@@ -182,11 +177,10 @@ int Agent::getMagic()
 	return attributeSystem.getAdjustedValue(Attribute::mp);
 }
 
-
-bool Agent::consumePower(int val)
+bool Agent::consumeStamina(int val)
 {
-	if (getPower() >= val) {
-		attributeSystem.modifyAttribute(Attribute::power, -val);
+	if (getStamina() >= val) {
+		attributeSystem.modifyAttribute(Attribute::stamina, -val);
 		return true;
 	}
 	return false;
@@ -194,10 +188,10 @@ bool Agent::consumePower(int val)
 
 bool Agent::isShield(Bullet * b)
 {
-	if (getAttribute(Attribute::shieldLevel) <= 0.0f || getAttribute(Attribute::shieldActive) <= 0.0f || getAttribute(Attribute::shieldCost) > getAttribute(Attribute::power))
+	if (getAttribute(Attribute::shieldLevel) <= 0.0f || getAttribute(Attribute::shieldActive) <= 0.0f || getAttribute(Attribute::shieldCost) > getAttribute(Attribute::stamina))
 		return false;
 	else
-		modifyAttribute(Attribute::power, -getAttribute(Attribute::shieldCost));
+		modifyAttribute(Attribute::stamina, -getAttribute(Attribute::shieldCost));
 
 	SpaceVect d = -1.0 * b->getVel().normalizeSafe();
 	SpaceVect v = SpaceVect::ray(1.0, getAngle());

@@ -493,6 +493,12 @@ const LinearMeterSettings HUD::mpSettings = LinearMeterSettings{
 //	"sprites/mp_upgrade.png"
 };
 
+const LinearMeterSettings HUD::staminaSettings = LinearMeterSettings{
+	Color4F(.47f,.75f,.18f,1.0f),
+	Color4F(.44f,.51f,.36f,1.0f),
+	//	"sprites/mp_upgrade.png"
+};
+
 const int HUD::fontSize = 32;
 
 HUD::HUD(GSpace* space) :
@@ -531,23 +537,23 @@ bool HUD::init()
 	float scale = App::getScale();
     
 	hpMeter = Node::ccCreate<LinearMeter>(hpSettings);
-    hpMeter->setPosition(LinearMeter::boundingSize.x * 0.75f*scale, App::height - LinearMeter::boundingSize.y*2.0f*scale);
+    hpMeter->setPosition(App::width * 0.167f, App::height - LinearMeter::boundingSize.y*2.0f*scale);
     addChild(hpMeter, 2);
 	hpMeter->setScale(scale);
 
 	mpMeter = Node::ccCreate<LinearMeter>(mpSettings);
-	mpMeter->setPosition(scale*32 + App::width*0.33f, App::height - LinearMeter::boundingSize.y*2.0f*scale);
+	mpMeter->setPosition(App::width*0.333f, App::height - LinearMeter::boundingSize.y*2.0f*scale);
 	addChild(mpMeter, 2);
 	mpMeter->setScale(scale);
 
-    power = Node::ccCreate<PowerMeter>();
-    power->setPosition(App::width/2, App::height - height*scale);
-    addChild(power,2);
-    power->setVal(0);
-	power->setScale(scale*0.8f);
+	staminaMeter = Node::ccCreate<LinearMeter>(staminaSettings);
+	staminaMeter->setPosition(App::width*0.5f, App::height - LinearMeter::boundingSize.y*2.0f*scale);
+	addChild(staminaMeter, 2);
+	staminaMeter->setScale(scale);
+	staminaMeter->setMax(100);
 
-	keyMeter = Node::ccCreate<KeyMeter>();
-	keyMeter->setPosition(App::width / 2, App::height - height * 2.25f * scale);
+	keyMeter = Node::ccCreate<Counter>("sprites/key.png", 0);
+	keyMeter->setPosition(App::width * 0.7f, App::height - 64 * scale);
 	addChild(keyMeter, 2);
 	keyMeter->setScale(scale*0.8f);
 
@@ -556,11 +562,11 @@ bool HUD::init()
 	addChild(magicEffects, 2);
 	magicEffects->setScale(0.75f*scale);
 
-    objectiveCounter = Node::ccCreate<Counter>("", 0);
-    objectiveCounter->setPosition((Counter::spacing/2 + Counter::iconSize + 8)*scale, (Counter::iconSize/2 + 8)*scale);
+    objectiveCounter = Node::ccCreate<Counter>(showAll ? "sprites/ui/glyph.png" : "", 0);
+    objectiveCounter->setPosition(App::width * 0.7f, App::height - 128*scale);
     addChild(objectiveCounter, 2);
     objectiveCounter->setVisible(showAll);
-	objectiveCounter->setScale(scale);
+	objectiveCounter->setScale(scale * 0.8f);
     
     interactionIcon = Sprite::create();
     interactionIcon->setPosition(App::width - 256*scale, App::height - 64*scale);
@@ -628,7 +634,7 @@ void HUD::setMansionMode(bool val)
 
 	hpMeter->setVisible(!val);
 	mpMeter->setVisible(!val);
-	power->setVisible(!val);
+	staminaMeter->setVisible(!val);
 	keyMeter->setVisible(!val);
 
 	firePatternIcon->setVisible(!val);
@@ -666,9 +672,9 @@ void HUD::setMaxMP(int v)
 	mpMeter->setMax(v);
 }
 
-void HUD::setPower(int v)
+void HUD::setStamina(int v)
 {
-	power->setVal(v);
+	staminaMeter->setValue(v);
 }
 
 void HUD::setKeyCount(int count)
@@ -684,11 +690,6 @@ void HUD::runHealthFlicker(float length, float interval)
 void HUD::runMagicFlicker(float length, float interval)
 {
 //	magic->runFlicker(length, interval);
-}
-
-void HUD::runPowerFlicker(float duration)
-{
-	power->runFlicker(duration);
 }
 
 void HUD::setPercentValue(Attribute element, int val) {
@@ -721,8 +722,10 @@ bool Counter::init()
     Node::init();
     
     icon = Sprite::create();
-    counter = createTextLabel("", HUD::fontSize);
-    
+    counter = createTextLabel(boost::lexical_cast<string>(val), HUD::fontSize);
+	float counterWidth = counter->getContentSize().width;
+	counter->setPosition((spacing + counterWidth) / 2, 0);
+
     //The center of the node will be the mid-point between the icon and the label.
     //This will avoid the visual distraction of moving the Counter node and thus the
     //icon if the width of the text label changes.
@@ -757,85 +760,3 @@ void Counter::setVal(const int val)
         counter->setPosition((spacing+counterWidth)/2, 0);
     }
 }
-
-
-bool PowerMeter::init()
-{
-    Node::init();
-    
-    icon = Sprite::create();
-    counter = createTextLabel("", HUD::fontSize);
-    
-    //The center of the node will be the mid-point between the icon and the label.
-    //This will avoid the visual distraction of moving the Counter node and thus the
-    //icon if the width of the text label changes.
-    addChild(icon);
-    icon->setPosition(-(spacing+iconSize)/2, 0);
-    
-    //Label position will be set when its contents is set.
-    addChild(counter);
-
-    icon->setTexture("sprites/power2.png");
-    setVal(0);
-    
-    return true;
-}
-
-void PowerMeter::setVal(int val)
-{
-    if(val != this->val){
-        this->val = val;
-        counter->setString(
-            boost::str(boost::format("%.2f") % (val/100.0f) )
-        );
-        
-        float counterWidth = counter->getContentSize().width;
-        counter->setPosition((spacing+counterWidth)/2, 0);
-    }
-}
-
-void PowerMeter::runFlicker(float duration)
-{
-    icon->runAction(flickerTint(
-        Player::hitFlickerInterval,
-        duration,
-        Color3B(127,127,127)
-    ));
-}
-
-bool KeyMeter::init()
-{
-	Node::init();
-
-	icon = Sprite::create();
-	counter = createTextLabel("0", HUD::fontSize);
-
-	//The center of the node will be the mid-point between the icon and the label.
-	//This will avoid the visual distraction of moving the Counter node and thus the
-	//icon if the width of the text label changes.
-	addChild(icon);
-	icon->setPosition(-(spacing + iconSize) / 2, 0);
-	icon->setScale(0.5f);
-
-	//Label position will be set when its contents is set.
-	addChild(counter);
-
-	icon->setTexture("sprites/key.png");
-	setVal(0);
-
-	return true;
-}
-
-void KeyMeter::setVal(int val)
-{
-	if (val != this->val) {
-		this->val = val;
-		counter->setString(
-			boost::str(boost::format("%d") % (val))
-		);
-
-		float counterWidth = counter->getContentSize().width;
-		counter->setPosition((spacing + counterWidth) / 2, 0);
-	}
-}
-

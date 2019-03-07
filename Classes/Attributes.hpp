@@ -16,7 +16,7 @@ enum class Attribute {
 
 	hp = 0,
 	mp,
-	power,
+	stamina,
 	hitProtection,
 	spellCooldown,
 
@@ -35,14 +35,11 @@ enum class Attribute {
 
 	maxHP,
 	maxMP,
-	maxPower,
+	maxStamina,
 	hitProtectionInterval,
 	spellCooldownInterval,
 
 	stress,
-
-	stamina,
-	maxStamina,
 
 	agility,
 	speed,
@@ -116,14 +113,11 @@ public:
 	void setFullMP();
 	void setEmptyMP();
 	void setStartMP();
-	void setFullPower();
-	void setEmptyPower();
-	void setStartPower();
+	void setFullStamina();
+	void setEmptyStamina();
 	void setHitProtection();
 	void setSpellCooldown();
 	void resetCombo();
-
-	void setFullStamina();
 
 	void modifyAgility(float dx);
 

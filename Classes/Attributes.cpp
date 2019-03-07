@@ -201,21 +201,6 @@ void AttributeSystem::setStartMP()
 	attributes.at(to_size_t(Attribute::mp)) = floor(attributes.at(to_size_t(Attribute::maxMP)) / 2.0);
 }
 
-void AttributeSystem::setFullPower()
-{
-	attributes.at(to_size_t(Attribute::power)) = attributes.at(to_size_t(Attribute::maxPower));
-}
-
-void AttributeSystem::setEmptyPower()
-{
-	attributes.at(to_size_t(Attribute::power)) = 0;
-}
-
-void AttributeSystem::setStartPower()
-{
-	attributes.at(to_size_t(Attribute::power)) = floor(attributes.at(to_size_t(Attribute::maxPower)) / 2.0);
-}
-
 
 void AttributeSystem::setHitProtection()
 {
@@ -235,6 +220,11 @@ void AttributeSystem::resetCombo()
 void AttributeSystem::setFullStamina()
 {
 	attributes.at(to_size_t(Attribute::stamina)) = attributes.at(to_size_t(Attribute::maxStamina));
+}
+
+void AttributeSystem::setEmptyStamina()
+{
+	attributes.at(to_size_t(Attribute::stamina)) = 0.0f;
 }
 
 void AttributeSystem::modifyAgility(float dx)
@@ -272,8 +262,6 @@ bool AttributeSystem::canApplyAttribute(Attribute id, float x)
 		return attributes.at(to_size_t(Attribute::hp)) + x <= attributes.at(to_size_t(Attribute::maxHP));
 	case Attribute::mp:
 		return attributes.at(to_size_t(Attribute::mp)) + x <= attributes.at(to_size_t(Attribute::maxMP));
-	case Attribute::power:
-		return attributes.at(to_size_t(Attribute::power)) + x <= attributes.at(to_size_t(Attribute::maxPower));
 	default:
 		log("AttributeSystem::canApplyAttribute: invalid attribute %d.", id);
 		return true;
@@ -290,8 +278,8 @@ void AttributeSystem::modifyAttribute(Attribute id, float x)
 	case Attribute::mp:
 		modifyIncidentAttribute(Attribute::mp, Attribute::maxMP, x);
 		break;
-	case Attribute::power:
-		modifyIncidentAttribute(Attribute::power, Attribute::maxPower, x);
+	case Attribute::stamina:
+		modifyIncidentAttribute(Attribute::stamina, Attribute::maxStamina, x);
 		break;
 
 	case Attribute::agility:

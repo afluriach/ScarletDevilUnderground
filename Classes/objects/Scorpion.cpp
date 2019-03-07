@@ -13,7 +13,7 @@
 Scorpion1::Scorpion1(GSpace* space, ObjectIDType id, const ValueMap& args) :
 	MapObjForwarding(GObject),
 	MapObjForwarding(Agent),
-	Enemy(collectible_id::power1)
+	Enemy(collectible_id::hm1)
 {
 }
 
@@ -55,7 +55,7 @@ AttributeMap Scorpion1::touchEffect() {
 Scorpion2::Scorpion2(GSpace* space, ObjectIDType id, const ValueMap& args) :
 	MapObjForwarding(GObject),
 	MapObjForwarding(Agent),
-	Enemy(collectible_id::power2)
+	Enemy(collectible_id::hm2)
 {
 }
 

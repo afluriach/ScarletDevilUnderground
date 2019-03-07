@@ -184,8 +184,6 @@ const unordered_map<string, GObject::object_info> GObject::objectInfo = {
 	entry_same(Patchouli),
 	entry_same(PatchouliEnemy),
 	entry_same(Pitfall),
-	collectible_entry(Power1, power1),
-	collectible_entry(Power2, power2),
 	entry_same(PressurePlate),
 	entry_same(Pyramid),
 	entry_same(RedFairy),

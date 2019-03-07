@@ -130,6 +130,8 @@ public:
 #endif
 	static PlayerCharacter crntPC;
             
+	//Generate [0,1)
+	static float getRandomFloat();
     //Generate [min,max)
 	static float getRandomFloat(float min, float max);
     //Generate [min,max]
