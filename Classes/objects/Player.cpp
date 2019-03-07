@@ -40,8 +40,9 @@ const SpaceFloat Player::focusSpeedRatio = 0.5;
 const SpaceFloat Player::interactDistance = 1.25;
 const SpaceFloat Player::grazeRadius = 0.7;
 
-const float Player::bombPowerCost =.25f;
+const float Player::bombCost = 1.0f;
 const float Player::powerAttackCost = 25.0f;
+const float Player::spellCost = 5.0f;
 
 const GType Player::bombObstacles = enum_bitwise_or4(GType, enemy, environment, wall, bomb);
 
@@ -195,9 +196,9 @@ void Player::updateSpellControls(const ControlInfo& cs)
 			cs.isControlActionPressed(ControlAction::spell) &&
 			equippedSpell &&
 			!attributeSystem.isNonzero(Attribute::spellCooldown) &&
-			attributeSystem.isNonzero(Attribute::mp)
+			attributeSystem.getAdjustedValue(Attribute::mp) >= spellCost
 		) {
-			attributeSystem.modifyAttribute(Attribute::mp, -1.0f);
+			attributeSystem.modifyAttribute(Attribute::mp, -spellCost);
 			cast(equippedSpell->generate(this));		
 			attributeSystem.resetCombo();
 			App::playSound("sfx/player_spellcard.wav", 1.0f);
@@ -246,12 +247,12 @@ void Player::checkBombControls(const ControlInfo& cs)
 	if (!suppressFiring &&
 		cs.isControlActionPressed(ControlAction::bomb) &&
 		bombCooldown <= 0.0f &&
-		attributeSystem.getAdjustedValue(Attribute::mp) >= bombPowerCost)
+		attributeSystem.getAdjustedValue(Attribute::mp) >= bombCost)
 	{
 		SpaceVect bombPos = getPos() + SpaceVect::ray(1.5, getAngle());
 		if (canPlaceBomb(bombPos)) {
 			space->createObject(GObject::make_object_factory<PlayerBomb>(bombPos, getVel()));
-			attributeSystem.modifyAttribute(Attribute::mp, -bombPowerCost);
+			attributeSystem.modifyAttribute(Attribute::mp, -bombCost);
 			bombCooldown = bombCooldownTime;
 		}
 	}
@@ -529,12 +530,13 @@ void Player::moveToDestinationDoor(Door* dest)
 void Player::applyUpgrade(Upgrade* up)
 {
 	Attribute at = up->attribute;
-	attributeSystem.modifyAttribute(at, AttributeSystem::upgradeAttributes.at(at).step);
+	float step = AttributeSystem::upgradeAttributes.at(at).step;
+	attributeSystem.modifyAttribute(at, step);
 
 	switch (at)
 	{
 	case Attribute::maxHP:
-		attributeSystem.modifyAttribute(Attribute::hp, 1.0f);
+		attributeSystem.modifyAttribute(Attribute::hp, step);
 		space->addSceneAction(make_hud_action(
 			&HUD::setMaxHP,
 			playScene,
@@ -542,7 +544,7 @@ void Player::applyUpgrade(Upgrade* up)
 		));
 	break;
 	case Attribute::maxMP:
-		attributeSystem.modifyAttribute(Attribute::mp, 1.0f);
+		attributeSystem.modifyAttribute(Attribute::mp, step);
 		space->addSceneAction(make_hud_action(
 			&HUD::setMaxMP,
 			playScene,
@@ -658,7 +660,7 @@ bool Player::canPlaceBomb(SpaceVect pos)
 const AttributeMap FlandrePC::baseAttributes = {
 	{Attribute::shieldCost, 5.0f },
 	{Attribute::maxHP, 100.0f},
-	{Attribute::maxMP, 4.0f },
+	{Attribute::maxMP, 20.0f },
 	{Attribute::maxStamina, 100.0f},
 	{Attribute::agility, 2.0f},
 	{Attribute::hitProtectionInterval, 2.4f},
@@ -718,7 +720,7 @@ void FlandrePC::equipSpells() {
 const AttributeMap RumiaPC::baseAttributes = {
 	{ Attribute::shieldCost, 7.0f },
 	{Attribute::maxHP, 75.0f },
-	{Attribute::maxMP, 4.0f },
+	{Attribute::maxMP, 25.0f },
 	{Attribute::maxStamina, 75.0f },
 	{Attribute::agility, 3.0f },
 	{Attribute::hitProtectionInterval, 1.5f },
@@ -755,7 +757,7 @@ void RumiaPC::equipSpells() {
 const AttributeMap CirnoPC::baseAttributes = {
 	{ Attribute::shieldCost, 2.0f },
 	{Attribute::maxHP, 125.0f },
-	{Attribute::maxMP, 4.0f },
+	{Attribute::maxMP, 15.0f },
 	{Attribute::maxStamina, 125.0f},
 	{Attribute::agility, 1.0f},
 	{Attribute::hitProtectionInterval, 3.3f},

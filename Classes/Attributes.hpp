@@ -112,7 +112,6 @@ public:
 	void setFullHP();
 	void setFullMP();
 	void setEmptyMP();
-	void setStartMP();
 	void setFullStamina();
 	void setEmptyStamina();
 	void setHitProtection();

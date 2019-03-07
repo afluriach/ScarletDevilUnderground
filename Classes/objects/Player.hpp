@@ -43,7 +43,8 @@ public:
 	static const SpaceFloat grazeRadius;
 
 	static const float powerAttackCost;
-	static const float bombPowerCost;
+	static const float bombCost;
+	static const float spellCost;
 
 	static const GType bombObstacles;
 

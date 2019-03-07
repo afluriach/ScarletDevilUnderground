@@ -188,7 +188,7 @@ protected:
 class HUD : public Layer
 {
 public:
-	static constexpr bool showAll = true;
+	static constexpr bool showAll = false;
 
 	static const LinearMeterSettings hpSettings;
 	static const LinearMeterSettings mpSettings;

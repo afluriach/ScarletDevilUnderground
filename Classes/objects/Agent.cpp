@@ -48,8 +48,8 @@ void Agent::initAttributes()
 	applyAttributeEffects(getAttributeUpgrades());
 
 	attributeSystem.setFullHP();
+	attributeSystem.setFullMP();
 	attributeSystem.setFullStamina();
-	attributeSystem.setStartMP();
 }
 
 void Agent::update()
