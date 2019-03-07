@@ -79,6 +79,7 @@ public:
 	static pair<float, float> calculateAgilityAttributes(float agility);
 
 	static AttributeMap scale(const AttributeMap& input, float scale);
+	static AttributeMap add(const AttributeMap& a, const AttributeMap& b);
 	static AttributeSet getAttributeSet(const AttributeMap& input);
 	static AttributeMap getAttributeMap(Attribute id, float val);
 	static AttributeMap getAttributeElementMap(Attribute element, float damage, float elementScale = 1.0f);

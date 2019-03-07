@@ -10,6 +10,7 @@
 #define FileIO_hpp
 
 class ControlReplay;
+class GState;
 
 namespace io
 {
@@ -23,6 +24,8 @@ set<string> getReplays();
 void checkCreateSubfolders();
 string getProfilePath();
 string getReplayFolderPath();
+
+unique_ptr<GState> loadProfileState(string name);
 
 unique_ptr<ControlReplay> getControlReplay(string name);
 void autosaveControlReplay(string sceneName, ControlReplay* cr);

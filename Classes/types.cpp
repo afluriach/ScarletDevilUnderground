@@ -76,3 +76,8 @@ bool SpaceRect::containsPoint(const SpaceVect& point) const
 		point.y >= getMinY() && point.y <= getMaxY()
 	);
 }
+
+bool isValidChamber(ChamberID id)
+{
+	return id >= ChamberID::begin && id < ChamberID::end;
+}

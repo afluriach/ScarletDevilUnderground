@@ -78,10 +78,14 @@ public:
 	void registerChamberAvailable(ChamberID id);
 	bool isChamberAvailable(ChamberID id);
 	bool isChamberCompleted(ChamberID id);
+	int chambersCompletedCount();
+	unsigned int totalChamberTime();
 
 	void registerUpgrade(Attribute at, unsigned int id);
 	bool isUpgradeAcquired(Attribute at, unsigned int id);
 	float getUpgradeLevel(Attribute at);
+	AttributeMap getUpgrades();
+	AttributeMap getPlayerStats();
 };
 
 #endif /* GState_hpp */

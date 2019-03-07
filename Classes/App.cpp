@@ -390,27 +390,15 @@ void App::popMenu()
 
 bool App::loadProfile(const string& name)
 {
-	string profilePath = io::getProfilePath() + name + ".profile";
-	if (!FileUtils::getInstance()->isFileExist(profilePath))
-	{
-		log("Profile %s does not exist!", name.c_str());
-		return false;
+	unique_ptr<GState> result = io::loadProfileState(name);
+
+	if (result.get()){
+		crntProfileName = name;
+		crntState = move(result);
+		return true;
 	}
-	else
-	{
-		try {
-			ifstream ifs(profilePath);
-			boost::archive::binary_iarchive ia(ifs);
-			crntState = make_unique<GState>();
-			ia >> *crntState;
-			crntProfileName = name;
-			log("Profile %s loaded.", profilePath.c_str());
-			return true;
-		}
-		catch (boost::archive::archive_exception e) {
-			log("Error while loading: %s", e.what());
-			return false;
-		}
+	else {
+		return false;
 	}
 }
 

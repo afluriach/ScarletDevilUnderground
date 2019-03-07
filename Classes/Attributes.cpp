@@ -108,6 +108,31 @@ AttributeMap AttributeSystem::scale(const AttributeMap& input, float scale)
 	return result;
 }
 
+AttributeMap AttributeSystem::add(const AttributeMap& a, const AttributeMap& b)
+{
+	AttributeMap result;
+
+	for (pair<Attribute, float> entry : a) {
+		if (result.find(entry.first) == result.end()) {
+			result.insert_or_assign(entry.first, entry.second);
+		}
+		else {
+			result.at(entry.first) += entry.second;
+		}
+	}
+
+	for (pair<Attribute, float> entry : b) {
+		if (result.find(entry.first) == result.end()) {
+			result.insert_or_assign(entry.first, entry.second);
+		}
+		else {
+			result.at(entry.first) += entry.second;
+		}
+	}
+	
+	return result;
+}
+
 AttributeSystem::AttributeSystem() :
 attributes(getBlankAttributeSet())
 {}

@@ -11,6 +11,7 @@
 #include "App.h"
 #include "controls.h"
 #include "FileIO.hpp"
+#include "GState.hpp"
 
 using namespace boost::filesystem;
 
@@ -96,6 +97,32 @@ string getProfilePath()
 string getReplayFolderPath()
 {
 	return App::getBaseDataPath() + "replays/";
+}
+
+unique_ptr<GState> loadProfileState(string name)
+{
+	string profilePath = io::getProfilePath() + name + ".profile";
+	unique_ptr<GState> result = make_unique<GState>();
+
+	if (!FileUtils::getInstance()->isFileExist(profilePath))
+	{
+		log("Profile %s does not exist!", name.c_str());
+		return nullptr;
+	}
+	else
+	{
+		try {
+			ifstream ifs(profilePath);
+			boost::archive::binary_iarchive ia(ifs);
+			ia >> *result;
+			log("Profile %s loaded.", profilePath.c_str());
+			return result;
+		}
+		catch (boost::archive::archive_exception e) {
+			log("Error while loading: %s", e.what());
+			return nullptr;
+		}
+	}
 }
 
 unique_ptr<ControlReplay> getControlReplay(string name)

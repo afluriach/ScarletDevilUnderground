@@ -9,12 +9,15 @@
 #ifndef menu_layers_h
 #define menu_Layers_h
 
-#include "Attributes.hpp"
 #include "menu.h"
 #include "types.h"
 
+enum class Attribute;
+class AttributeSystem;
+class GState;
 class PlayScene;
 class Player;
+class PlayerInfo;
 
 class TitleMenu : public TextListMenuImpl<TitleMenu>
 {
@@ -52,6 +55,7 @@ public:
 	static vector<entry> generateEntries(set<string> fileNames, function<void(string)> handler);
 
 	FileSelectMenu(string title, set<string> fileNames, function<void(string)> handler);
+	inline virtual ~FileSelectMenu() {}
 };
 
 class LoadProfileMenu : public FileSelectMenu
@@ -62,7 +66,28 @@ public:
 	LoadProfileMenu();
 	inline virtual ~LoadProfileMenu() {}
 private:
-	static void loadProfile(string name);
+	static void openProfile(string name);
+};
+
+class LoadProfileDetailMenu : public MenuLayer
+{
+public:
+	LoadProfileDetailMenu(string profileName);
+	virtual ~LoadProfileDetailMenu();
+
+	virtual bool init();
+
+	virtual void selectPressed();
+	virtual void backPressed();
+private:
+	void loadProfile();
+
+	unique_ptr<GState> profileState;
+	string profileName;
+	unique_ptr<AttributeSystem> attributes;
+	
+	Label* title;
+	PlayerInfo* info;
 };
 
 class LoadReplayMenu : public FileSelectMenu

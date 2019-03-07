@@ -428,14 +428,7 @@ void Player::useKey()
 
 AttributeMap Player::getAttributeUpgrades() const
 {
-	AttributeMap result;
-
-	for (pair<Attribute, UpgradeInfo> entry : AttributeSystem::upgradeAttributes)
-	{
-		result.insert_or_assign(entry.first, entry.second.step * App::crntState->getUpgradeLevel(entry.first));
-	}
-
-	return result;
+	return App::crntState->getUpgrades();
 }
 
 void Player::applyAttributeModifier(Attribute id, float val)

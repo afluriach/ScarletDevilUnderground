@@ -84,6 +84,8 @@ enum class ChamberID
 	invalid_id = end
 };
 
+bool isValidChamber(ChamberID id);
+
 enum class Direction{
     none = 0,
     right,

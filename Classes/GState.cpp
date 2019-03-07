@@ -10,6 +10,7 @@
 
 #include "FileIO.hpp"
 #include "GState.hpp"
+#include "Player.hpp"
 #include "util.h"
 
 vector<bool> GState::profileSlotsInUse;
@@ -57,7 +58,7 @@ int GState::getBlueFairyLevel()
 
 void GState::registerChamberAvailable(ChamberID id)
 {
-	if (id > ChamberID::invalid_id && id < ChamberID::end) {
+	if (isValidChamber(id)) {
 		chambersAvailable.at(to_size_t(id)) = true;
 	}
 	else {
@@ -67,7 +68,7 @@ void GState::registerChamberAvailable(ChamberID id)
 
 bool GState::isChamberAvailable(ChamberID id)
 {
-	if (id > ChamberID::invalid_id && id < ChamberID::end) {
+	if (isValidChamber(id)) {
 		return chambersAvailable.at(to_size_t(id));
 	}
 	else {
@@ -78,13 +79,36 @@ bool GState::isChamberAvailable(ChamberID id)
 
 bool GState::isChamberCompleted(ChamberID id)
 {
-	if (id > ChamberID::invalid_id && id < ChamberID::end) {
+	if (isValidChamber(id)) {
 		return chamberStats.at(to_size_t(id)).timesCompleted > 0;
 	}
 	else {
 		log("GState::isChamberCompleted: invalid ID %d", id);
 		return false;
 	}
+}
+
+int GState::chambersCompletedCount()
+{
+	int result = 0;
+
+	enum_foreach(ChamberID, id, begin, end) {
+		if (isChamberCompleted(id))
+			++result;
+	}
+
+	return result;
+}
+
+unsigned int GState::totalChamberTime()
+{
+	unsigned int result = 0;
+
+	enum_foreach(ChamberID, id, begin, end) {
+		result += chamberStats.at(to_size_t(id)).totalTimeMS;
+	}
+
+	return result;
 }
 
 void GState::registerUpgrade(Attribute at, unsigned int id)
@@ -100,4 +124,21 @@ bool GState::isUpgradeAcquired(Attribute at, unsigned int id)
 float GState::getUpgradeLevel(Attribute at)
 {
 	return upgrades.upgrades.at(to_size_t(at)).count();
+}
+
+AttributeMap GState::getUpgrades()
+{
+	AttributeMap result;
+
+	for (pair<Attribute, UpgradeInfo> entry : AttributeSystem::upgradeAttributes)
+	{
+		result.insert_or_assign(entry.first, entry.second.step * getUpgradeLevel(entry.first));
+	}
+
+	return result;
+}
+
+AttributeMap GState::getPlayerStats()
+{
+	return AttributeSystem::add(FlandrePC::baseAttributes, getUpgrades());
 }

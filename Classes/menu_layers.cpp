@@ -9,6 +9,7 @@
 #include "Prefix.h"
 
 #include "App.h"
+#include "Attributes.hpp"
 #include "controls.h"
 #include "Door.hpp"
 #include "Enemy.hpp"
@@ -131,14 +132,66 @@ FileSelectMenu::FileSelectMenu(string title, set<string> fileNames, function<voi
 const string LoadProfileMenu::title = "Load Game";
 
 LoadProfileMenu::LoadProfileMenu() :
-	FileSelectMenu(title, io::getProfiles(), LoadProfileMenu::loadProfile)
+	FileSelectMenu(title, io::getProfiles(), LoadProfileMenu::openProfile)
 {
 
 }
 
-void LoadProfileMenu::loadProfile(string name)
+void LoadProfileMenu::openProfile(string name)
 {
-	App::loadProfile(name);
+	App::getCrntScene()->pushMenu(Node::ccCreate<LoadProfileDetailMenu>(name));
+}
+
+LoadProfileDetailMenu::LoadProfileDetailMenu(string profileName) :
+	profileName(profileName)
+{
+
+}
+
+LoadProfileDetailMenu::~LoadProfileDetailMenu()
+{
+}
+
+bool LoadProfileDetailMenu::init()
+{
+	MenuLayer::init();
+
+	title = createTextLabel(profileName, 48);
+	title->setPosition(App::width / 2, App::height - 64);
+	addChild(title);
+
+	profileState = io::loadProfileState(profileName);
+
+	if (profileState) {
+		attributes = make_unique<AttributeSystem>(profileState->getPlayerStats());
+
+		info = Node::ccCreate<PlayerInfo>(attributes.get());
+		info->setPosition(App::width * 0.75f, App::height * 0.5f);
+		addChild(info, 3);
+	}
+
+	else {
+		Label* err = createTextLabel("Error loading file.", 48);
+		err->setPosition(App::width * 0.5f, App::height * 0.5f);
+		addChild(err);
+	}
+
+	return true;
+}
+
+void LoadProfileDetailMenu::selectPressed()
+{
+	loadProfile();
+}
+
+void LoadProfileDetailMenu::backPressed()
+{
+	App::popMenu();
+}
+
+void LoadProfileDetailMenu::loadProfile()
+{
+	App::loadProfile(profileName);
 	App::runOverworldScene();
 }
 
