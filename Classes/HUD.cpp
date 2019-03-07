@@ -431,12 +431,16 @@ bool EnemyInfo::init()
 	Node::init();
 
 	name = createTextLabel("", 24);
-	name->setPosition(Vec2(0, 16));
-	addChild(name);
+	name->setPosition(Vec2(0, 24));
+	addChild(name, 2);
+
+	hpLabel = createTextLabel("0 / 0", 18);
+	hpLabel->setPosition(Vec2(0, 0));
+	addChild(hpLabel, 2);
 
 	healthBar = DrawNode::create();
 	healthBar->setPosition(Vec2(0, 16));
-	addChild(healthBar);
+	addChild(healthBar, 1);
 
 	return true;
 }
@@ -449,6 +453,11 @@ void EnemyInfo::update()
 		float hpRatio = hp / maxHP;
 		healthBar->drawSolidRect(Vec2(-hWidth, -hHeight), Vec2(hWidth, hHeight), Color4F(0.0f, 0.0f, 0.0f, 1.0f));
 		healthBar->drawSolidRect(Vec2(-hWidth, -hHeight), Vec2(-hWidth + 2.0f*hWidth * hpRatio, hHeight), Color4F(1.0f, 0.0f, 0.0f, 1.0f));
+		hpLabel->setString(boost::str(
+			boost::format("%s / %s") %
+			boost::lexical_cast<string>(hp) % 
+			boost::lexical_cast<string>(maxHP)
+		));
 	}
 }
 
@@ -457,10 +466,7 @@ void EnemyInfo::setEnemy(string _name, float _hp, float _maxHP)
 	hp = _hp;
 	maxHP = _maxHP;
 
-	removeChild(name);
-	name = createTextLabel(_name, 24);
-	name->setPosition(Vec2(0, 16));
-	addChild(name);
+	name->setString(_name);
 }
 
 void EnemyInfo::setEnemyHealth(float _hp)

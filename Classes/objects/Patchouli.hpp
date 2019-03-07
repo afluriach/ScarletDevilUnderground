@@ -35,6 +35,7 @@ class PatchouliEnemy : public Enemy, public BaseAttributes<PatchouliEnemy>
 {
 public:
 	static const AttributeMap baseAttributes;
+	static const vector<float_pair> intervals;
 	static const vector<SpellGeneratorType> spells;
 
 	PatchouliEnemy(GSpace* space, ObjectIDType id, const ValueMap& args);

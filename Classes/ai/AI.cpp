@@ -1552,6 +1552,46 @@ void HPCast::onExit(StateMachine& sm)
 	sm.agent->stopSpell();
 }
 
+HPCastSequence::HPCastSequence(const vector<SpellGeneratorType>& spells, const boost::icl::interval_map<float, int> intervals) :
+	spells(spells),
+	intervals(intervals)
+{
+}
+
+void HPCastSequence::onEnter(StateMachine& sm)
+{
+	if (sm.agent->isSpellActive()) {
+		log("HPCastSequence::onEnter: %s already has spell active.", sm.agent->name.c_str());
+		sm.agent->stopSpell();
+	}
+}
+
+void HPCastSequence::update(StateMachine& sm)
+{
+	float hp = sm.getAgent()->getHealth();
+	int newInterval = -1;
+
+	auto it = intervals.find(hp);
+	if (it != intervals.end()) {
+		newInterval = it->second - 1;
+	}
+
+	if (newInterval != crntInterval && crntInterval != -1) {
+		sm.agent->stopSpell();
+	}
+	if (newInterval != crntInterval && newInterval != -1) {
+		sm.agent->cast(spells.at(newInterval)(sm.agent));
+	}
+	crntInterval = newInterval;
+}
+
+void HPCastSequence::onExit(StateMachine& sm)
+{
+	if (crntInterval != -1) {
+		sm.agent->stopSpell();
+	}
+}
+
 BuildStressFromPlayerProjectiles::BuildStressFromPlayerProjectiles(float scale) :
 	scale(scale)
 {

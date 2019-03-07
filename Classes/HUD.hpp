@@ -217,6 +217,7 @@ protected:
 	float hp = 0.0f, maxHP = 0.0f;
 	DrawNode* healthBar;
 	Label* name;
+	Label* hpLabel;
 };
 
 class HUD : public Layer

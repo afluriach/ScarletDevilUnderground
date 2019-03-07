@@ -581,6 +581,26 @@ protected:
 	float hp_difference;
 };
 
+class HPCastSequence : public Function {
+public:
+	HPCastSequence(const vector<SpellGeneratorType>& spells, const boost::icl::interval_map<float, int> intervals);
+
+	virtual void onEnter(StateMachine& sm);
+	virtual void update(StateMachine& sm);
+	virtual void onExit(StateMachine& sm);
+
+	FuncGetName(HPCastSequence)
+
+	inline virtual bitset<lockCount> getLockMask() {
+		return make_enum_bitfield(ResourceLock::spellcasting);
+	}
+
+protected:
+	int crntInterval = -1;
+	vector<SpellGeneratorType> spells;
+	boost::icl::interval_map<float, int> intervals;
+};
+
 class BuildStressFromPlayerProjectiles: public Function
 {
 public:

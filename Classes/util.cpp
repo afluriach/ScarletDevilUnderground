@@ -298,6 +298,21 @@ void timerIncrement(SpaceFloat& x, const SpaceFloat& scale)
 	x += App::secondsPerFrame*scale;
 }
 
+boost::icl::interval_map<float, int> makeIntervalMap(const vector<float_pair>& intervals)
+{
+	boost::icl::interval_map<float, int> result;
+	int intervalCount = 1;
+
+	for (float_pair entry : intervals) {
+		result += make_pair(
+			boost::icl::interval<float>::right_open(entry.first, entry.second),
+			intervalCount++
+		);
+	}
+
+	return result;
+}
+
 TimerSystem::TimerSystem()
 {
 	enum_foreach(TimerType, _type, begin, end)

@@ -52,6 +52,12 @@ const AttributeMap PatchouliEnemy::baseAttributes = {
 	{ Attribute::acceleration, 4.0f }
 };
 
+const vector<float_pair> PatchouliEnemy::intervals = {
+	make_pair(200.0f,250.0f),
+	make_pair(100.0f,200.0f),
+	make_pair(0.0f,50.0f),
+};
+
 const vector<SpellGeneratorType> PatchouliEnemy::spells = {
 	make_spell_generator<FlameFence>(),
 	make_spell_generator<Whirlpool1>(),
@@ -68,23 +74,13 @@ const int PatchouliMain::castInterval = 50;
 
 void PatchouliEnemy::initStateMachine(ai::StateMachine& sm)
 {
-	addThread(make_shared<PatchouliMain>());
+	addThread(make_shared<ai::HPCastSequence>(spells, makeIntervalMap(intervals)));
 }
 
 void PatchouliMain::onEnter(ai::StateMachine& sm)
 {
-	prevHP = sm.getAgent()->getAttribute(Attribute::hp);
 }
 
 void PatchouliMain::update(ai::StateMachine& sm)
 {
-	float crntHP = sm.getAgent()->getAttribute(Attribute::hp);
-
-	if (prevHP - crntHP >= castInterval) {
-		prevHP = crntHP;
-
-		sm.push(make_shared<ai::HPCast>(PatchouliEnemy::spells[spellIdx], castInterval));
-		
-		spellIdx = (spellIdx + 1) % PatchouliEnemy::spells.size();
-	}
 }

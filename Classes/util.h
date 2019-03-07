@@ -98,6 +98,8 @@ constexpr inline bitset<size> make_bitfield(size_t idx)
 	return result;
 }
 
+boost::icl::interval_map<float, int> makeIntervalMap(const vector<float_pair>& intervals);
+
 class TimerSystem
 {
 public:
