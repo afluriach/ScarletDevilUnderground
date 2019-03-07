@@ -15,12 +15,6 @@
 
 const SpaceFloat primaryAngles[4] = {0.0, float_pi * 0.5, float_pi, float_pi * 1.5};
 
-Scene* crntScene()
-{
-    return Director::getInstance()->getRunningScene();
-}
-
-
 SpaceFloat dirToPhysicsAngle(Direction d)
 {
     if(d == Direction::none) return 0.0;
@@ -168,6 +162,25 @@ vector<string> splitString(const string& input,const string& sep)
     vector<string> output;
     boost::split(output, input,boost::is_any_of(sep));
     return output;
+}
+
+string getTimeString(unsigned int millis)
+{
+	unsigned int seconds = millis / 1000;
+	unsigned int minutes = seconds / 60;
+	unsigned int hours = minutes / 60;
+	unsigned int _h = (millis % 1000) / 10;
+
+	seconds %= 60;
+	minutes %= 60;
+
+	return boost::str(
+		boost::format("%02u:%02u:%02u.%02u") % 
+		hours %
+		minutes %
+		seconds %
+		_h
+	);
 }
 
 Color3B toColor3B(const string& s)

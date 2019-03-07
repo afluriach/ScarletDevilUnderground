@@ -55,11 +55,11 @@ void timerIncrement(float& x);
 void timerIncrement(SpaceFloat& x);
 void timerIncrement(SpaceFloat& x, const SpaceFloat& scale);
 
-Scene* crntScene();
-
 string getRealPath(const string& path);
 string loadTextFile(const string& res);
 vector<string> splitString(const string& input,const string& sep);
+
+string getTimeString(unsigned int millis);
 
 template<typename T>
 T vmin(T&&t)

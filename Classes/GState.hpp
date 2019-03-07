@@ -20,6 +20,15 @@ struct ChamberStats
 
 	unsigned char timesCompleted = 0;
 	unsigned char maxEnemiesDefeated = 0;
+
+	template<class Archive>
+	void serialize(Archive& ar, const unsigned int version)
+	{
+		ar & totalTimeMS;
+		ar & fastestTimeMS;
+		ar & timesCompleted;
+		ar & maxEnemiesDefeated;
+	}
 };
 
 struct CharacterUpgrade
@@ -61,6 +70,8 @@ public:
         ar & itemRegistry;
 		ar & upgrades;
 		ar & chambersAvailable;
+		ar & chamberStats;
+
 		ar & mushroomFlags;
 		ar & mushroomCount;
 		ar & blueFairies;

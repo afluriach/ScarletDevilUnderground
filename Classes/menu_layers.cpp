@@ -168,6 +168,19 @@ bool LoadProfileDetailMenu::init()
 		info = Node::ccCreate<PlayerInfo>(attributes.get());
 		info->setPosition(App::width * 0.75f, App::height * 0.5f);
 		addChild(info, 3);
+
+		Label* time = createTextLabel("Elapsed time: " + getTimeString(profileState->totalChamberTime()), 32);
+		time->setPosition(App::width * 0.5f, App::height * 0.666f);
+		addChild(time, 3);
+
+		string levelsMsg = boost::str(
+			boost::format("Levels cleared: %d / %d") % 
+			profileState->chambersCompletedCount() % 
+			to_int(ChamberID::end)
+		);
+		Label* levels = createTextLabel(levelsMsg, 32);
+		levels->setPosition(App::width * 0.5f, App::height * 0.75f);
+		addChild(levels, 3);
 	}
 
 	else {
@@ -456,7 +469,7 @@ void ChamberCompletedMenu::updateSaveState()
 	if (crnt == ChamberID::invalid_id) return;
 
 	ChamberStats& crntStats = App::crntState->chamberStats.at(to_size_t(crnt));
-	unsigned int timeMS = frameCount * App::secondsPerFrame;
+	unsigned int timeMS = frameCount * App::secondsPerFrame * 1000;
 	unsigned char enemies = totalEnemyCount().first;
 
 	++crntStats.timesCompleted;
@@ -471,17 +484,11 @@ void ChamberCompletedMenu::updateSaveState()
 
 string ChamberCompletedMenu::statsMsg()
 {
-	int seconds = frameCount / App::framesPerSecond;
-	int minutes = seconds / 60;
-	seconds %= 60;
-	int hundredth = frameCount - App::framesPerSecond*(seconds - minutes*60);
-
+	unsigned int millis = frameCount * App::secondsPerFrame * 1000.0;
 	pair<unsigned int, unsigned int> enemyTotals = totalEnemyCount();
 
-	return boost::str(boost::format("Clear time: %02d:%02d.%02d\nEnemies defeated: %d / %d") %
-		minutes %
-		seconds %
-		hundredth %
+	return boost::str(boost::format("Clear time: %s\nEnemies defeated: %d / %d") %
+		getTimeString(millis) %
 		enemyTotals.first %
 		enemyTotals.second
 	);
