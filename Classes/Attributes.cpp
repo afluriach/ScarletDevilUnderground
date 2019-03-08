@@ -208,6 +208,10 @@ float AttributeSystem::get(string name) const
 	if (it != attributeNameMap.right.end()) {
 		return (*this)[it->second];
 	}
+	else {
+		log("Attribute name %s not recognized.", name.c_str());
+		return -1.0f;
+	}
 }
 
 void AttributeSystem::set(string name, float val)
