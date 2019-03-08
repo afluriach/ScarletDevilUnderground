@@ -72,11 +72,7 @@ void Agent::update()
 		onZeroHP();
 	}
 
-	attributeSystem.timerDecrement(Attribute::iceDamage);
-	attributeSystem.timerDecrement(Attribute::sunDamage);
-	attributeSystem.timerDecrement(Attribute::darknessDamage);
-	attributeSystem.timerDecrement(Attribute::poisonDamage);
-	attributeSystem.timerDecrement(Attribute::slimeDamage);
+	attributeSystem.update();
 
 	if (firePattern) {
 		firePattern->update();

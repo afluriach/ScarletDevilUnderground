@@ -150,6 +150,26 @@ float AttributeSystem::operator[](Attribute id) const
 	return attributes.at(to_size_t(id));
 }
 
+void AttributeSystem::update()
+{
+	applyIncidentRegen();
+	applyElementDecay();
+}
+
+void AttributeSystem::applyIncidentRegen()
+{
+	timerIncrement(Attribute::hp, Attribute::maxHP, (*this)[Attribute::hpRegen]);
+	timerIncrement(Attribute::mp, Attribute::maxMP, (*this)[Attribute::mpRegen]);
+	timerIncrement(Attribute::stamina, Attribute::maxStamina, (*this)[Attribute::staminaRegen]);
+}
+
+void AttributeSystem::applyElementDecay()
+{
+	enum_foreach(Attribute, elem, beginElementDamage, endElementDamage) {
+		timerDecrement(elem);
+	}
+}
+
 float AttributeSystem::getAttackMultiplier() const
 {
 	return attributes.at(to_size_t(Attribute::attack));
@@ -313,6 +333,15 @@ void AttributeSystem::timerDecrement(Attribute id)
 		crnt_val -= to_float(App::secondsPerFrame);
 		crnt_val = max(crnt_val, 0.0f);
 	}
+}
+
+void AttributeSystem::timerIncrement(Attribute id, Attribute maxID, float scale)
+{
+	float& crnt_val = attributes.at(to_size_t(id));
+	float max_val = attributes.at(to_size_t(maxID));
+
+	crnt_val += to_float(App::secondsPerFrame * scale);
+	crnt_val = min(crnt_val, max_val);
 }
 
 bool AttributeSystem::isNonzero(Attribute id) const

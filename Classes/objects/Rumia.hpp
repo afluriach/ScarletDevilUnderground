@@ -35,7 +35,7 @@ public:
 	virtual void onZeroHP();
 };
 
-class Rumia2 : public Enemy, public BaseAttributes<Rumia>
+class Rumia2 : public Enemy, public BaseAttributes<Rumia2>
 {
 public:
 	static const AttributeMap baseAttributes;

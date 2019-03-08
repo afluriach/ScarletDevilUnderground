@@ -20,6 +20,16 @@ enum class Attribute {
 	hitProtection,
 	spellCooldown,
 
+	maxHP,
+	maxMP,
+	maxStamina,
+	hitProtectionInterval,
+	spellCooldownInterval,
+
+	hpRegen,
+	mpRegen,
+	staminaRegen,
+
 	keys,
 	combo,
 
@@ -33,12 +43,6 @@ enum class Attribute {
 	shieldCost,
 	shieldLevel,
 
-	maxHP,
-	maxMP,
-	maxStamina,
-	hitProtectionInterval,
-	spellCooldownInterval,
-
 	stress,
 
 	agility,
@@ -51,13 +55,15 @@ enum class Attribute {
 	poisonSensitivity,
 	slimeSensitivity,
 
-	iceDamage,
+	beginElementDamage,
+	iceDamage = beginElementDamage,
 	sunDamage,
 	darknessDamage,
 	poisonDamage,
 	slimeDamage,
 
-	end,
+	endElementDamage,
+	end = endElementDamage,
 };
 
 struct UpgradeInfo
@@ -97,6 +103,10 @@ public:
 
 	float operator[](Attribute id) const;
 
+	void update();
+	void applyIncidentRegen();
+	void applyElementDecay();
+
 	float getAttackMultiplier() const;
 	AttributeMap scaleBulletAttributes(const AttributeMap& bulletAttributes) const;
 	void modifyIncidentAttribute(Attribute id, Attribute maxID, float x);
@@ -105,6 +115,7 @@ public:
 	void modifyAttribute(Attribute id, float x);
 	void setAttribute(Attribute id, float x);
 	void timerDecrement(Attribute id);
+	void timerIncrement(Attribute id, Attribute maxID, float scale);
 	bool isNonzero(Attribute id) const;
 	void setProtection();
 	void setTimedProtection(float seconds);
