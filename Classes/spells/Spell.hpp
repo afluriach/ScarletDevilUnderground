@@ -185,7 +185,7 @@ public:
 	virtual void update();
 	inline virtual void end() {}
 protected:
-	map<Torch*, float> torches;
+	unordered_map<Torch*, float> torches;
 };
 
 class NightSignPinwheel : public Spell

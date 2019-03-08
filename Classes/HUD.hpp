@@ -138,9 +138,9 @@ public:
 	virtual bool init();
 	void update();
 	Map<Attribute,RadialMeter*> meters;
-	map<Attribute, int> values;
-	map<Attribute, float> cooldownTimers;
-	map<Attribute, bool> fadeoutFlags;
+	unordered_map<Attribute, int> values;
+	unordered_map<Attribute, float> cooldownTimers;
+	unordered_map<Attribute, bool> fadeoutFlags;
 };
 
 

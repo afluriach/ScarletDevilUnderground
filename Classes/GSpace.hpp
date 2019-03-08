@@ -62,8 +62,8 @@ private:
 //BEGIN OBJECT MANIPULATION
 public:
     static const bool logObjectArgs;
-	static const set<type_index> trackedTypes;
-	static const set<type_index> enemyTypes;
+	static const unordered_set<type_index> trackedTypes;
+	static const unordered_set<type_index> enemyTypes;
 
 	void addWallBlock(const SpaceVect& ll, const SpaceVect& ur);
 	void addWallBlock(const SpaceRect& area);
@@ -85,7 +85,7 @@ public:
 	GObject* getObject(const string& name) const;
 	GObject* getObject(unsigned int uuid) const;
 
-	const set<GObject*>* getObjectsByType(type_index t) const;
+	const unordered_set<GObject*>* getObjectsByType(type_index t) const;
 
     template<typename T>
     inline object_ref<T> getObjectRefAs(const string& name) const{
@@ -102,7 +102,7 @@ public:
 	template<typename T>
 	inline vector<object_ref<T>> getObjectsByTypeAs() const {
 		assert_gobject(T);
-		const set<GObject*>* base = getObjectsByType(typeid(T));
+		const unordered_set<GObject*>* base = getObjectsByType(typeid(T));
 		
 		if (!base) return vector<object_ref<T>>();
 
@@ -119,7 +119,7 @@ public:
 	template<class TargetCls, class SenderCls, typename R, typename...Args>
 	inline void messageAll(SenderCls* sender, R(TargetCls::*handler)(Args...), void (SenderCls::*response)(R), Args ...args)
 	{
-		const set<GObject*>* objects = getObjectsByType(typeid(TargetCls));
+		const unordered_set<GObject*>* objects = getObjectsByType(typeid(TargetCls));
 
 		for (GObject* objBase : *objects) {
 			TargetCls* obj = dynamic_cast<TargetCls*>(objBase);
@@ -201,7 +201,7 @@ private:
     unordered_map<unsigned int, GObject*> objByUUID;
     unordered_map<string, GObject*> objByName;
 	unordered_set<string> warningNames;
-	unordered_map<type_index, set<GObject*>> objByType;
+	unordered_map<type_index, unordered_set<GObject*>> objByType;
 	unordered_map<type_index, unsigned int> initialObjectCount;
 
 	SpaceRect cameraArea;
@@ -436,15 +436,15 @@ public:
 	GObject * pointQuery(SpaceVect pos, GType type, PhysicsLayers layers);
 	bool rectangleQuery(SpaceVect center, SpaceVect dimensions, GType type, PhysicsLayers layers, SpaceFloat angle = 0.0);
 	SpaceFloat rectangleFeelerQuery(const GObject* agent, SpaceVect center, SpaceVect dimensions, GType type, PhysicsLayers layers, SpaceFloat angle) const;
-	set<GObject*> rectangleObjectQuery(SpaceVect center, SpaceVect dimensions, GType type, PhysicsLayers layers, SpaceFloat angle = 0.0);
+	unordered_set<GObject*> rectangleObjectQuery(SpaceVect center, SpaceVect dimensions, GType type, PhysicsLayers layers, SpaceFloat angle = 0.0);
 	bool obstacleRadiusQuery(const GObject* agent, SpaceVect center, SpaceFloat radius, GType type, PhysicsLayers layers);
-	set<GObject*> radiusQuery(const GObject* agent, SpaceVect center, SpaceFloat radius, GType type, PhysicsLayers layers);
+	unordered_set<GObject*> radiusQuery(const GObject* agent, SpaceVect center, SpaceFloat radius, GType type, PhysicsLayers layers);
 
 	template<class C>
-	inline set<C*> radiusQueryByType(const GObject* agent, SpaceVect center, SpaceFloat radius, GType type, PhysicsLayers layers)
+	inline unordered_set<C*> radiusQueryByType(const GObject* agent, SpaceVect center, SpaceFloat radius, GType type, PhysicsLayers layers)
 	{
-		set<GObject*> objects = radiusQuery(agent, center, radius, type, layers);
-		set<C*> result;
+		unordered_set<GObject*> objects = radiusQuery(agent, center, radius, type, layers);
+		unordered_set<C*> result;
 
 		for (GObject* obj : objects) {
 			C* c = dynamic_cast<C*>(obj);
@@ -454,10 +454,10 @@ public:
 	}
 
 	template<class C>
-	set<C*> rectangleQueryByType(SpaceVect center, SpaceVect dimensions, GType type, PhysicsLayers layers, SpaceFloat angle = 0.0)
+	unordered_set<C*> rectangleQueryByType(SpaceVect center, SpaceVect dimensions, GType type, PhysicsLayers layers, SpaceFloat angle = 0.0)
 	{
-		set<GObject*> objects = rectangleObjectQuery(center, dimensions, type, layers, angle);
-		set<C*> result;
+		unordered_set<GObject*> objects = rectangleObjectQuery(center, dimensions, type, layers, angle);
+		unordered_set<C*> result;
 
 		for (GObject* obj : objects) {
 			C* c = dynamic_cast<C*>(obj);

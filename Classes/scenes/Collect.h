@@ -23,7 +23,7 @@ public:
 
 	inline virtual GScene* getReplacementScene() { return Node::ccCreate<Collect>(); }
 protected:
-	set<gobject_ref> activationTargets;
+	unordered_set<gobject_ref> activationTargets;
 };
 
 #endif /* CollectScene_h */

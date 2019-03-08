@@ -585,7 +585,7 @@ struct ShapeQueryData
 	const GObject* agent;
 	unsigned gtype;
 
-	set<GObject*> results;
+	unordered_set<GObject*> results;
 };
 
 void shapeQueryCallback(cpShape *shape, cpContactPointSet *points, void *data)
@@ -800,7 +800,7 @@ SpaceFloat GSpace::rectangleFeelerQuery(const GObject* agent, SpaceVect center, 
 	return data.distance;
 }
 
-set<GObject*> GSpace::rectangleObjectQuery(SpaceVect center, SpaceVect dimensions, GType type, PhysicsLayers layers, SpaceFloat angle)
+unordered_set<GObject*> GSpace::rectangleObjectQuery(SpaceVect center, SpaceVect dimensions, GType type, PhysicsLayers layers, SpaceFloat angle)
 {
 	ShapeQueryData data = { nullptr, to_uint(type) };
 	cpBody* body = cpBodyNewStatic();
@@ -821,7 +821,7 @@ bool GSpace::obstacleRadiusQuery(const GObject* agent, SpaceVect center, SpaceFl
 	return radiusQuery(agent, center, radius, type, layers).size() > 0;
 }
 
-set<GObject*> GSpace::radiusQuery(const GObject* agent, SpaceVect center, SpaceFloat radius, GType type, PhysicsLayers layers)
+unordered_set<GObject*> GSpace::radiusQuery(const GObject* agent, SpaceVect center, SpaceFloat radius, GType type, PhysicsLayers layers)
 {
 	ShapeQueryData data = { agent, to_uint(type) };
 	cpBody* body = cpBodyNewStatic();

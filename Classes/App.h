@@ -153,7 +153,7 @@ protected:
 	boost::random::mt19937 randomEngine;
 
 	FMOD::System* audioSystem = nullptr;
-	map<string, FMOD::Sound*> loadedAudio;
+	unordered_map<string, FMOD::Sound*> loadedAudio;
 
 	virtual bool applicationDidFinishLaunching();
 	virtual void applicationDidEnterBackground();

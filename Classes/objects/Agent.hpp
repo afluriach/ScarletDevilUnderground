@@ -119,7 +119,7 @@ class AIPackage : virtual public Agent
 public: 
 	using fsmInitFunction = void(C::*)(ai::StateMachine&, const ValueMap& args);
 
-	typedef map<string, fsmInitFunction> AIPackageMap;
+	typedef unordered_map<string, fsmInitFunction> AIPackageMap;
 
 	inline AIPackage(C* agent, const ValueMap& args, string _default) :
 	agent(agent),

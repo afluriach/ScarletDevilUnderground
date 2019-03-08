@@ -17,7 +17,7 @@ const float AttributeSystem::maxElementDamage = 100.0f;
 const float AttributeSystem::maxComboPoints = 75.0f;
 const float AttributeSystem::comboPointsDrainPerSecond = 15.0f;
 
-const map<Attribute, UpgradeInfo> AttributeSystem::upgradeAttributes = {
+const unordered_map<Attribute, UpgradeInfo> AttributeSystem::upgradeAttributes = {
 	{Attribute::maxHP, UpgradeInfo{ 25.0f, "sprites/hp_upgrade.png"}},
 	{Attribute::maxMP, UpgradeInfo{ 5.0f, "sprites/mp_upgrade.png"}},
 	{Attribute::agility, UpgradeInfo{ 1.0f, "sprites/agility_upgrade.png"}},

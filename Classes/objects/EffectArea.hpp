@@ -50,7 +50,7 @@ public:
 
 	virtual AttributeMap getAttributeEffect();
 protected:
-	set<Torch*> torches;
+	unordered_set<Torch*> torches;
 	bool active = false;
 };
 

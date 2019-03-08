@@ -184,7 +184,7 @@ public:
 	Thread* getCrntThread();
     string toString();
 protected:
-	set<unsigned int> threadsToRemove;
+	unordered_set<unsigned int> threadsToRemove;
 	list<shared_ptr<Thread>> threadsToAdd;
 
 	bullet_collide_function bulletHandler;
@@ -253,7 +253,7 @@ public:
 
 	FuncGetName(Flock)
 protected:
-	set<object_ref<Agent>> neighbors;
+	unordered_set<object_ref<Agent>> neighbors;
 };
 
 

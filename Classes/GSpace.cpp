@@ -32,11 +32,11 @@ GSpace::GSpace(GScene* gscene) : gscene(gscene)
     addCollisionHandlers();
 
 	for (type_index t : trackedTypes) {
-		objByType[t] = set<GObject*>();
+		objByType[t] = unordered_set<GObject*>();
 	}
 
 	for (type_index t : enemyTypes) {
-		objByType[t] = set<GObject*>();
+		objByType[t] = unordered_set<GObject*>();
 	}
 
 	controlReplay = make_unique<ControlReplay>();
@@ -236,7 +236,7 @@ GObject* GSpace::getObject(unsigned int uuid) const
 	return it != objByUUID.end() ? it->second : nullptr;
 }
 
-const set<GObject*>* GSpace::getObjectsByType(type_index t) const
+const unordered_set<GObject*>* GSpace::getObjectsByType(type_index t) const
 {
 	if(!isTrackedType(t)){
 		log("%s is not a tracked type.", t.name());
@@ -480,7 +480,7 @@ EnemyStatsMap GSpace::getEnemyStats()
 	EnemyStatsMap result;
 	EnemyStatsMap spawnerEnemyCount;
 
-	set<GObject*> _objs = objByType[typeid(Spawner)];
+	unordered_set<GObject*> _objs = objByType[typeid(Spawner)];
 	for (GObject* _obj : _objs)
 	{
 		Spawner* s = dynamic_cast<Spawner*>(_obj);

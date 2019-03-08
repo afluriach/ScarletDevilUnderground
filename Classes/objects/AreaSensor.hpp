@@ -44,8 +44,8 @@ public:
 	void onEnvironmentalObjectContact(GObject*);
 	void onEnvironmentalObjectEndContact(GObject*);
 protected:
-	set<object_ref<Enemy>> enemies;
-	set<gobject_ref> environmentalObjects;
+	unordered_set<object_ref<Enemy>> enemies;
+	unordered_set<gobject_ref> environmentalObjects;
 	object_ref<Player> player;
 };
 
@@ -87,8 +87,8 @@ public:
 protected:
 	vector<string> trapDoorNames;
 	vector<string> spawnerNames;
-	set<object_ref<ActivateableObject>> doors;
-	set<object_ref<Spawner>> spawners;
+	unordered_set<object_ref<ActivateableObject>> doors;
+	unordered_set<object_ref<Spawner>> spawners;
 	bool isTrapActive = false;
 
 	string bossName;

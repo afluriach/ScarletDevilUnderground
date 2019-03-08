@@ -23,7 +23,7 @@ const float ControlRegister::deadzone = 0.3f;
 #define key_action_2(key_id,action1,action2) {EventKeyboard::KeyCode::key_id, make_enum_bitfield(ControlAction::action1) | make_enum_bitfield(ControlAction::action2)}
 #define key_action_3(key_id,action1,action2,action3) {EventKeyboard::KeyCode::key_id, make_enum_bitfield(ControlAction::action1) | make_enum_bitfield(ControlAction::action2) | make_enum_bitfield(ControlAction::action3)}
 
-const map<EventKeyboard::KeyCode, ControlActionState> ControlRegister::keyActionMap = {
+const unordered_map<EventKeyboard::KeyCode, ControlActionState> ControlRegister::keyActionMap = {
 	key_action_2(KEY_ESCAPE,menuBack,pause),
 	key_action_1(KEY_BACKTICK,scriptConsole),
 	key_action_1(KEY_L,displayMode),
@@ -61,7 +61,7 @@ const map<EventKeyboard::KeyCode, ControlActionState> ControlRegister::keyAction
 #define button_action_2(button_id,action1,action2) {gainput::PadButton::button_id, make_enum_bitfield(ControlAction::action1) | make_enum_bitfield(ControlAction::action2)}
 #define button_action_3(button_id,action1,action2,action3) {gainput::PadButton::button_id, make_enum_bitfield(ControlAction::action1) | make_enum_bitfield(ControlAction::action2) | make_enum_bitfield(ControlAction::action3)}
 
-const map<gainput::PadButton, ControlActionState> ControlRegister::buttonActionMap = {
+const unordered_map<gainput::PadButton, ControlActionState> ControlRegister::buttonActionMap = {
 	button_action_1(PadButtonStart, pause),
 	button_action_1(PadButtonSelect, mapMenu),
 

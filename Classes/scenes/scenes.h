@@ -280,22 +280,22 @@ protected:
 	DrawNode* colorFilterDraw = nullptr;
 
 	atomic_uint nextSpriteID = 1;
-	map<SpriteID, Node*> crntSprites;
-	map<SpriteID, DrawNode*> drawNodes;
-	map<SpriteID, TimedLoopAnimation*> animationSprites;
-	map<SpriteID, PatchConAnimation*> agentSprites;
+	unordered_map<SpriteID, Node*> crntSprites;
+	unordered_map<SpriteID, DrawNode*> drawNodes;
+	unordered_map<SpriteID, TimedLoopAnimation*> animationSprites;
+	unordered_map<SpriteID, PatchConAnimation*> agentSprites;
 
 	displayMode display = displayMode::combined;
 	RenderTexture* lightmapRender = nullptr;
 	DrawNode* lightmapDrawNode = nullptr;
 	DrawNode* lightmapBackground = nullptr;
-	map<LightID, AmbientLightArea> ambientLights;
-	map<LightID, CircleLightArea> circleLights;
-	map<LightID, ConeLightArea> coneLights;
-	map<LightID, SpriteLightArea> spriteLights;
-	map<LightID, RadialGradient*> lightmapRadials;
-	map<LightID, Sprite*> lightmapSprites;
-	map<LightID, ConeShader*> lightmapCones;
+	unordered_map<LightID, AmbientLightArea> ambientLights;
+	unordered_map<LightID, CircleLightArea> circleLights;
+	unordered_map<LightID, ConeLightArea> coneLights;
+	unordered_map<LightID, SpriteLightArea> spriteLights;
+	unordered_map<LightID, RadialGradient*> lightmapRadials;
+	unordered_map<LightID, Sprite*> lightmapSprites;
+	unordered_map<LightID, ConeShader*> lightmapCones;
 
 	unordered_map<updateOrder, vector<zero_arity_function>> actions;
 	vector<pair<zero_arity_function, updateOrder>> actionsToAdd;

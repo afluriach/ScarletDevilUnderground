@@ -98,9 +98,9 @@ public:
 	static const bool logActionState;
     static const float deadzone;
         
-    static const map<EventKeyboard::KeyCode, ControlActionState> keyActionMap;
+    static const unordered_map<EventKeyboard::KeyCode, ControlActionState> keyActionMap;
 #if use_gamepad
-    static const map<gainput::PadButton, ControlActionState> buttonActionMap;
+    static const unordered_map<gainput::PadButton, ControlActionState> buttonActionMap;
 #endif
 
     ControlRegister();
@@ -143,20 +143,20 @@ private:
     
     SpaceVect left_vector, right_vector;
     
-    set<EventKeyboard::KeyCode> keysDown;
+    unordered_set<EventKeyboard::KeyCode> keysDown;
 #if use_gamepad
-	set<gainput::PadButton> buttonsDown;
+	unordered_set<gainput::PadButton> buttonsDown;
 #endif
 
-	array<set<callback_uuid>,to_size_t(ControlAction::end)> onPressedID;
-	array<set<callback_uuid>, to_size_t(ControlAction::end)> onReleasedID;
+	array<unordered_set<callback_uuid>,to_size_t(ControlAction::end)> onPressedID;
+	array<unordered_set<callback_uuid>, to_size_t(ControlAction::end)> onReleasedID;
     
 	ControlActionState wasActionPressed;
 	ControlActionState isActionPressed;
     
-	map<callback_uuid, zero_arity_function> onPressedCallback;
-	map<callback_uuid, zero_arity_function> onReleasedCallback;
-	map<callback_uuid, bool> isCallbackActive;
+	unordered_map<callback_uuid, zero_arity_function> onPressedCallback;
+	unordered_map<callback_uuid, zero_arity_function> onReleasedCallback;
+	unordered_map<callback_uuid, bool> isCallbackActive;
 
     EventListenerKeyboard* keyListener;
     

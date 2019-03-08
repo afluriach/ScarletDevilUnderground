@@ -143,7 +143,7 @@ public:
     SpaceVect initialCenter;
 
 	object_ref<FloorSegment> crntFloorCenterContact;
-	set<object_ref<FloorSegment>> crntFloorContacts;
+	unordered_set<object_ref<FloorSegment>> crntFloorContacts;
 	
 	void launch();
     void setInitialVelocity(const SpaceVect& v);

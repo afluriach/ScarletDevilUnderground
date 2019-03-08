@@ -140,7 +140,7 @@ protected:
 	SpaceFloat respawnTimer = 0.0;
 	SpaceFloat respawnMaskTimer = 0.0;
 
-	set<object_ref<EnemyBullet>> grazeContacts;
+	unordered_set<object_ref<EnemyBullet>> grazeContacts;
 
 	float interactCooldown = 0.0f;
 	float bombCooldown = 0.0f;

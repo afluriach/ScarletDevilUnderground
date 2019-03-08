@@ -31,7 +31,7 @@ function<ObjectGeneratorType(SpaceVect) > createRandomAdapter()
 	};
 }
 
-const map<collectible_id, function<ObjectGeneratorType(SpaceVect)>> Collectible::factories = {
+const unordered_map<collectible_id, function<ObjectGeneratorType(SpaceVect)>> Collectible::factories = {
 	{collectible_id::magic1, createAdapter<Magic1>() },
 	{collectible_id::magic2, createAdapter<Magic2>() },
 	{collectible_id::health1, createAdapter<Health1>() },

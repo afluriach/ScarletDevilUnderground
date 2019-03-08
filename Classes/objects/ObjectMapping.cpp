@@ -216,7 +216,7 @@ const unordered_map<string, GObject::object_info> GObject::objectInfo = {
 	{ "Player", object_info{playerAdapter(), type_index(typeid(Player))} }
 };
 
-const set<type_index> GSpace::trackedTypes = {
+const unordered_set<type_index> GSpace::trackedTypes = {
 	typeid(Door),
 	typeid(Spawner),
 	typeid(TeleportPad),
@@ -228,7 +228,7 @@ const set<type_index> GSpace::trackedTypes = {
 	typeid(Wall),
 };
 
-const set<type_index> GSpace::enemyTypes = {
+const unordered_set<type_index> GSpace::enemyTypes = {
 	typeid(Fairy1),
 	typeid(Fairy2),
 	typeid(IceFairy),

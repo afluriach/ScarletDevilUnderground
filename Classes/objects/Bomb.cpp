@@ -39,7 +39,7 @@ void Bomb::update()
 
 void Bomb::detonate()
 {
-	set<Agent*> targets = space->radiusQueryByType<Agent>(
+	unordered_set<Agent*> targets = space->radiusQueryByType<Agent>(
 		this,
 		getPos(),
 		getBlastRadius(),
@@ -65,7 +65,7 @@ void Bomb::detonate()
 		}
 	}
 
-	set<BreakableWall*> walls = space->radiusQueryByType<BreakableWall>(
+	unordered_set<BreakableWall*> walls = space->radiusQueryByType<BreakableWall>(
 		this,
 		getPos(),
 		getBlastRadius(),

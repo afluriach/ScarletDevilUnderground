@@ -255,7 +255,7 @@ TorchDarkness::TorchDarkness(GObject* caster) :
 
 void TorchDarkness::update()
 {
-	set<Torch*> crntTorches = caster->space->radiusQueryByType<Torch>(
+	unordered_set<Torch*> crntTorches = caster->space->radiusQueryByType<Torch>(
 		caster,
 		caster->getPos(),
 		radius,

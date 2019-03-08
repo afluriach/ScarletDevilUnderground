@@ -118,7 +118,7 @@ public:
 	virtual void onContact(GObject* obj);
 	virtual void onEndContact(GObject* obj);
 protected:
-	set<gobject_ref> crntContacts;
+	unordered_set<gobject_ref> crntContacts;
 	vector<string> targetNames;
 	vector<object_ref<ActivateableObject>> target;
 };
