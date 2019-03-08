@@ -579,7 +579,7 @@ void GScene::drawSolidRect(SpriteID id, Vec2 lowerLeft, Vec2 upperRight, Color4F
 	}
 }
 
-void GScene::drawSolidCone(SpriteID id, const Vec2& center, float radius, float startAngle, float endAngle, unsigned int segments, const Color4F &color)
+void GScene::drawSolidCone(SpriteID id, Vec2 center, float radius, float startAngle, float endAngle, unsigned int segments, Color4F color)
 {
 	auto it = drawNodes.find(id);
 	if (it != drawNodes.end()) {
@@ -587,7 +587,7 @@ void GScene::drawSolidCone(SpriteID id, const Vec2& center, float radius, float 
 	}
 }
 
-void GScene::drawSolidCircle(SpriteID id, const Vec2& center, float radius, float angle, unsigned int segments, const Color4F& color)
+void GScene::drawSolidCircle(SpriteID id, Vec2 center, float radius, float angle, unsigned int segments, Color4F color)
 {
 	auto it = drawNodes.find(id);
 	if (it != drawNodes.end()) {

@@ -241,10 +241,39 @@ public:
 	//will call the corresponding scene method immediately to retrieve the ID.
 	//However, nextSpriteID/nextLightID is an atomic integer, so it will not use a mutex.
 
-	LightID addLightSource(CircleLightArea light);
-	LightID addLightSource(AmbientLightArea light);
-	LightID addLightSource(ConeLightArea light);
-	LightID addLightSource(SpriteLightArea light);
+	template<typename T>
+	inline LightID addLightSource(T light)
+	{
+		LightID id = gscene->getLightID();
+
+		_addLightmapAction([this, id, light]()->void {
+			gscene->addLightSource(id, light);
+		});
+		return id;
+	}
+
+	template<typename... Args>
+	inline void addLightmapAction(void (GScene::*m)(Args...), Args... args)
+	{
+		_addLightmapAction(bind(m, gscene, args...));
+	}
+
+	template<typename... Args>
+	inline SpriteID createSprite(void (GScene::*m)(SpriteID, Args...), Args... args)
+	{
+		SpriteID id = gscene->getSpriteID();
+
+		_addSpriteAction(bind(m, gscene, id, args...));
+
+		return id;
+	}
+
+	template<typename... Args>
+	inline void addSpriteAction(void (GScene::*m)(Args...), Args... args)
+	{
+		_addSpriteAction(bind(m, gscene, args...));
+	}
+
 	void updateLightSource(LightID id, ConeLightArea light);
 	void removeLightSource(LightID id);
 	void setLightSourcePosition(LightID id, SpaceVect pos);
@@ -262,8 +291,8 @@ public:
 
 	void clearDrawNode(SpriteID id);
 	void drawSolidRect(SpriteID id, Vec2 lowerLeft, Vec2 upperRight, Color4F color);
-	void drawSolidCone(SpriteID id, const Vec2& center, float radius, float startAngle, float endAngle, unsigned int segments, const Color4F &color);
-	void drawSolidCircle(SpriteID id, const Vec2& center, float radius, float angle, unsigned int segments, const Color4F& color);
+	void drawSolidCone(SpriteID id, Vec2 center, float radius, float startAngle, float endAngle, unsigned int segments, Color4F color);
+	void drawSolidCircle(SpriteID id, Vec2 center, float radius, float angle, unsigned int segments, Color4F color);
 
 	void runSpriteAction(SpriteID id, ActionGeneratorType generator);
 	void stopSpriteAction(SpriteID id, cocos_action_tag action);
@@ -279,9 +308,9 @@ public:
 	void setSpriteColor(SpriteID id, Color3B color);
 
 	void clearSubroomMask(unsigned int roomID);
-protected:
-	void addLightmapAction(zero_arity_function f);
-	void addSpriteAction(zero_arity_function f);
+
+	void _addLightmapAction(zero_arity_function f);
+	void _addSpriteAction(zero_arity_function f);
 
 //END GRAPHICS
 

@@ -164,8 +164,8 @@ public:
 
 	void clearDrawNode(SpriteID id);
 	void drawSolidRect(SpriteID id, Vec2 lowerLeft, Vec2 upperRight, Color4F color);
-	void drawSolidCone(SpriteID id, const Vec2& center, float radius, float startAngle, float endAngle, unsigned int segments, const Color4F &color);
-	void drawSolidCircle(SpriteID id, const Vec2& center, float radius, float angle, unsigned int segments, const Color4F& color);
+	void drawSolidCone(SpriteID id, Vec2 center, float radius, float startAngle, float endAngle, unsigned int segments, Color4F color);
+	void drawSolidCircle(SpriteID id, Vec2 center, float radius, float angle, unsigned int segments, Color4F color);
 
 	void runSpriteAction(SpriteID id, ActionGeneratorType generator);
 	void stopSpriteAction(SpriteID id, cocos_action_tag action);
