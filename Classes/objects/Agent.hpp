@@ -46,9 +46,7 @@ public:
 	virtual inline AttributeMap getAttributeUpgrades() const { return AttributeMap(); }
 	float getAttribute(Attribute id) const;
 	void modifyAttribute(Attribute id, float val);
-	float _getAttribute(int id) const;
-	void _modifyAttribute(int id, float val);
-	inline const AttributeSystem& getAttributeSystem() const { return attributeSystem; }
+	inline AttributeSystem* getAttributeSystem() { return &attributeSystem; }
 	inline FirePattern* getFirePattern() const { return firePattern.get(); }
 
 	virtual SpaceFloat getTraction() const;
@@ -65,6 +63,7 @@ public:
 	bool consumeStamina(int val);
 
 	bool isShield(Bullet* b);
+	float getShieldCost(SpaceVect n);
 	void onBulletCollide(Bullet* b);
 
 	virtual void hit(AttributeMap attributeEffects, shared_ptr<MagicEffect> effect);

@@ -27,6 +27,58 @@ const map<Attribute, UpgradeInfo> AttributeSystem::upgradeAttributes = {
 	{Attribute::bulletCount, UpgradeInfo{ 2.0f, "sprites/bullet_count_upgrade.png"}},
 };
 
+#define entry(x) (Attribute::x, #x)
+
+const boost::bimap<Attribute, string> AttributeSystem::attributeNameMap = boost::assign::list_of<boost::bimap<Attribute, string>::relation>()
+	entry(hp)
+	entry(mp)
+	entry(stamina)
+	entry(hitProtection)
+	entry(spellCooldown)
+
+	entry(maxHP)
+	entry(maxMP)
+	entry(maxStamina)
+	entry(hitProtectionInterval)
+	entry(spellCooldownInterval)
+
+	entry(hpRegen)
+	entry(mpRegen)
+	entry(staminaRegen)
+
+	entry(keys)
+	entry(combo)
+
+	entry(attack)
+	entry(attackSpeed)
+
+	entry(ricochet)
+	entry(bulletCount)
+
+	entry(shieldActive)
+	entry(shieldLevel)
+
+	entry(stress)
+
+	entry(agility)
+	entry(speed)
+	entry(acceleration)
+
+	entry(iceSensitivity)
+	entry(sunSensitivity)
+	entry(darknessSensitivity)
+	entry(poisonSensitivity)
+	entry(slimeSensitivity)
+
+	entry(iceDamage)
+	entry(sunDamage)
+	entry(darknessDamage)
+	entry(poisonDamage)
+	entry(slimeDamage)
+;
+
+#undef entry
+
 pair<float, float> AttributeSystem::calculateAgilityAttributes(float agility)
 {
 	if (agility == 0.0f) {
@@ -148,6 +200,22 @@ attributes(getAttributeSet(baseAttributesMap))
 float AttributeSystem::operator[](Attribute id) const
 {
 	return attributes.at(to_size_t(id));
+}
+
+float AttributeSystem::get(string name) const
+{
+	auto it = attributeNameMap.right.find(name);
+	if (it != attributeNameMap.right.end()) {
+		return (*this)[it->second];
+	}
+}
+
+void AttributeSystem::set(string name, float val)
+{
+	auto it = attributeNameMap.right.find(name);
+	if (it != attributeNameMap.right.end()) {
+		setAttribute(it->second, val);
+	}
 }
 
 void AttributeSystem::update()

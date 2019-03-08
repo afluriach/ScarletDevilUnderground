@@ -109,16 +109,6 @@ void Agent::modifyAttribute(Attribute id, float val)
 	attributeSystem.modifyAttribute(id, val);
 }
 
-float Agent::_getAttribute(int id) const
-{
-	return getAttribute(static_cast<Attribute>(id));
-}
-
-void Agent::_modifyAttribute(int id, float val)
-{
-	attributeSystem.modifyAttribute(static_cast<Attribute>(id), val);
-}
-
 SpaceFloat Agent::getTraction() const
 {
 	if (getAttribute(Attribute::iceSensitivity) >= 1.0f) {
@@ -184,15 +174,52 @@ bool Agent::consumeStamina(int val)
 
 bool Agent::isShield(Bullet * b)
 {
-	if (getAttribute(Attribute::shieldLevel) <= 0.0f || getAttribute(Attribute::shieldActive) <= 0.0f || getAttribute(Attribute::shieldCost) > getAttribute(Attribute::stamina))
+	if (getAttribute(Attribute::shieldLevel) <= 0.0f || getAttribute(Attribute::shieldActive) <= 0.0f)
 		return false;
-	else
-		modifyAttribute(Attribute::stamina, -getAttribute(Attribute::shieldCost));
 
 	SpaceVect d = -1.0 * b->getVel().normalizeSafe();
-	SpaceVect v = SpaceVect::ray(1.0, getAngle());
+	float cost = getShieldCost(d);
 
-	return (SpaceVect::dot(d, v) >= boost::math::double_constants::one_div_root_two);
+	if (cost == -1.0f || cost > getAttribute(Attribute::stamina))
+		return false;
+
+	modifyAttribute(Attribute::stamina, -cost);
+	return true;
+}
+
+//shield
+//1 - deflect 45deg for 10
+//2 - deflect 90deg for 10 & 45deg for 5
+//3 - deflect 135deg for 12.5, 90 for 7.5 & 45 deg for 2.5
+//4 - deflect 180deg for 15, 135 for 10, 90 for 5 & 45 for 0
+
+const vector<vector<float>> shieldCosts = {
+	{10.0f, -1.0f, -1.0f, -1.0f},
+	{5.0f, 10.0f, -1.0f, -1.0f},
+	{2.5f, 7.5f, 12.5f, -1.0f},
+	{0.0f, 5.0f, 10.0f, 15.0f},
+};
+
+const array<SpaceFloat, 4> shieldScalars = {
+	boost::math::double_constants::one_div_root_two,
+	0.0, 
+	-boost::math::double_constants::one_div_root_two,
+	-1.0
+};
+
+float Agent::getShieldCost(SpaceVect n)
+{
+	SpaceFloat scalar = SpaceVect::dot(n, SpaceVect::ray(1.0, getAngle()));
+	int level = min<int>(attributeSystem[Attribute::shieldLevel], shieldCosts.size()+1);
+
+	for_irange(i,0,shieldScalars.size()) {
+		if (scalar >= shieldScalars[i]) {
+			return shieldCosts[level - 1][i];
+		}
+	}
+
+	//Shouldn't happen, since scalar product should always be >= -1.0
+	return shieldCosts[3][level - 1];
 }
 
 void Agent::onBulletCollide(Bullet* b)

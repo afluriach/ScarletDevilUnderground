@@ -220,6 +220,7 @@ void RoomSensor::updateBoss()
 
 		else {
 			space->addHudAction(&HUD::clearEnemyInfo);
+			isBossActive = false;
 		}
 	}
 }

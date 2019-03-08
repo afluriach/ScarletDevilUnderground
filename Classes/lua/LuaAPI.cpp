@@ -243,6 +243,8 @@ const vector<string> Inst::luaIncludes = {
         }
     };
     
+#define addFuncSame(x) addFunction(#x, &__cls::x)
+
     void Inst::installApi()
     {
 		getGlobalNamespace(state)
@@ -266,6 +268,20 @@ const vector<string> Inst::luaIncludes = {
 			.addStaticFunction("saveProfile", &App::saveProfile)
 		.endClass()
 
+#define __cls AttributeSystem
+		.beginClass<AttributeSystem>("AttributeSystem")
+			.addFunction("getByName", &AttributeSystem::get)
+			.addFunction("setByName", &AttributeSystem::set)
+			.addFunction("getByID", &AttributeSystem::operator[])
+			.addFunction("setByID", &AttributeSystem::setAttribute)
+			.addFuncSame(modifyAttribute)
+			.addFuncSame(setFullHP)
+			.addFuncSame(setFullMP)
+			.addFuncSame(setFullStamina)
+		.endClass()
+
+#undef __cls
+
 		.beginClass<GObject>("GObject")
 			.addFunction("cast", static_cast<void(GObject::*)(const string&)>(&GObject::cast))
 			.addFunction("getAngle", &GObject::getAngle)
@@ -281,11 +297,11 @@ const vector<string> Inst::luaIncludes = {
 			.addFunction("stopSpell", &GObject::stopSpell)
 
 		.endClass()
-
+#define __cls Agent
 		.deriveClass<Agent,GObject>("Agent")
-			.addFunction("getAttribute", &Agent::_getAttribute)
-			.addFunction("modifyAttribute", &Agent::_modifyAttribute)
+			.addFuncSame(getAttributeSystem)
 		.endClass()
+#undef __cls
 
 		.deriveClass<StateMachineObject, GObject>("StateMachineObject")
 			.addFunction("addThread", &StateMachineObject::addThread)

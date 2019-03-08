@@ -584,7 +584,7 @@ bool Player::canPlaceBomb(SpaceVect pos)
 }
 
 const AttributeMap FlandrePC::baseAttributes = {
-	{Attribute::shieldCost, 5.0f },
+	{Attribute::shieldLevel, 1.0f },
 	{Attribute::maxHP, 100.0f},
 	{Attribute::maxMP, 20.0f },
 	{Attribute::maxStamina, 100.0f},
@@ -645,7 +645,6 @@ void FlandrePC::equipSpells() {
 }
 
 const AttributeMap RumiaPC::baseAttributes = {
-	{ Attribute::shieldCost, 7.0f },
 	{Attribute::maxHP, 75.0f },
 	{Attribute::maxMP, 25.0f },
 	{Attribute::maxStamina, 75.0f },
@@ -683,7 +682,7 @@ void RumiaPC::equipSpells() {
 }
 
 const AttributeMap CirnoPC::baseAttributes = {
-	{ Attribute::shieldCost, 2.0f },
+	{Attribute::shieldLevel, 2.0f },
 	{Attribute::maxHP, 125.0f },
 	{Attribute::maxMP, 15.0f },
 	{Attribute::maxStamina, 125.0f},

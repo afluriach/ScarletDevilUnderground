@@ -19,7 +19,7 @@ const bool Bullet::logRicochets = false;
 Bullet::Bullet(Agent* agent)
 {
 	if (agent) {
-		agentAttackMultiplier = agent->getAttributeSystem().getAttackMultiplier();
+		agentAttackMultiplier = agent->getAttributeSystem()->getAttackMultiplier();
 	}
 }
 

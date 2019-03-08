@@ -380,7 +380,7 @@ PauseMenu::PauseMenu(bool overworld, Player* player) :
 	),
 	player(player)
 {
-	PlayerInfo* info = Node::ccCreate<PlayerInfo>(&player->getAttributeSystem());
+	PlayerInfo* info = Node::ccCreate<PlayerInfo>(player->getAttributeSystem());
 	info->setPosition(App::width * 0.75f, App::height * 0.5f);
 	addChild(info, 3);
 }

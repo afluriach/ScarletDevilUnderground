@@ -73,6 +73,9 @@
 #include <boost/algorithm/string/predicate.hpp>
 #include <boost/archive/binary_iarchive.hpp>
 #include <boost/archive/binary_oarchive.hpp>
+#include <boost/assign/list_of.hpp>
+#include <boost/bimap.hpp>
+#include <boost/bimap/list_of.hpp>
 #include <boost/dynamic_bitset.hpp>
 #include <boost/filesystem.hpp>
 #include <boost/format.hpp>

@@ -40,7 +40,6 @@ enum class Attribute {
 	bulletCount,
 
 	shieldActive,
-	shieldCost,
 	shieldLevel,
 
 	stress,
@@ -96,12 +95,15 @@ public:
 	static constexpr size_t upgradeCount = 8;
 
 	static const map<Attribute, UpgradeInfo> upgradeAttributes;
+	static const boost::bimap<Attribute, string> attributeNameMap;
 
 	AttributeSystem();
 	AttributeSystem(const AttributeSet& baseAttributes);
 	AttributeSystem(const AttributeMap& baseAttributesMap);
 
 	float operator[](Attribute id) const;
+	float get(string name) const;
+	void set(string name, float val);
 
 	void update();
 	void applyIncidentRegen();
