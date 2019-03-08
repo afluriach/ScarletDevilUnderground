@@ -262,6 +262,7 @@ static keyCodeItem g_keyCodeStructArray[] = {
 // implement GLViewImpl
 //////////////////////////////////////////////////////////////////////////
 
+bool GLViewImpl::vsync = false;
 
 GLViewImpl::GLViewImpl()
 : _captured(false)
@@ -386,6 +387,7 @@ bool GLViewImpl::initWithRect(const std::string& viewName, CCRect rect, float fr
     }
 
 	#if (CC_TARGET_PLATFORM == CC_PLATFORM_WIN32)
+	if (vsync){
 		// Turn on vertical screen sync under Windows.
 		// (I.e. it uses the WGL_EXT_swap_control extension)
 		typedef BOOL(WINAPI *PFNWGLSWAPINTERVALEXTPROC)(int interval);
@@ -395,6 +397,7 @@ bool GLViewImpl::initWithRect(const std::string& viewName, CCRect rect, float fr
 			wglSwapIntervalEXT(1);
 		else
 			log("GL swap extention (VSync) not available!");
+	}
 	#endif
 
     initGlew();

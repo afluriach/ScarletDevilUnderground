@@ -36,6 +36,7 @@ public:
     static unsigned int height;
 
 	static bool fullscreen;
+	static bool vsync;
 	
 	static unsigned int framesPerSecond;
 	static double secondsPerFrame;
@@ -62,6 +63,7 @@ public:
 	static float getScale();
 
 	static void setFullscreen(bool fs);
+	static void setVsync(bool v);
 	static void setResolution(unsigned int width, unsigned int height);
 	static void setFramerate(unsigned int fps);
 	static void setPlayer(int id);

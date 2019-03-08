@@ -43,6 +43,7 @@ unsigned int App::width = 1600;
 unsigned int App::height = 1000;
 
 bool App::fullscreen = false;
+bool App::vsync = true;
 
 unsigned int App::framesPerSecond = 60;
 double App::secondsPerFrame = 1.0 / App::framesPerSecond;
@@ -66,6 +67,11 @@ bool App::logTimers = false;
 void App::setFullscreen(bool fs)
 {
 	fullscreen = fs;
+}
+
+void App::setVsync(bool v)
+{
+	vsync = v;
 }
 
 void App::setResolution(unsigned int width, unsigned int height)
@@ -232,6 +238,7 @@ bool App::applicationDidFinishLaunching() {
     auto director = Director::getInstance();
     auto glview = director->getOpenGLView();
     if(!glview) {
+		GLViewImpl::vsync = vsync;
         glview = fullscreen ?
             GLViewImpl::createWithFullScreen(App::title) :
             GLViewImpl::createWithRect(App::title, cocos2d::CCRect(0,0,App::width, App::height))

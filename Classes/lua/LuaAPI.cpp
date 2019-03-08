@@ -261,6 +261,7 @@ const vector<string> Inst::luaIncludes = {
 			.addStaticFunction("setLogTimers", &App::setLogTimers)
 #endif
 			.addStaticFunction("setFullscreen", &App::setFullscreen)
+			.addStaticFunction("setVsync", &App::setVsync)
 			.addStaticFunction("setResolution", &App::setResolution)
 			.addStaticFunction("setFramerate", &App::setFramerate)
 			.addStaticFunction("setPlayer", &App::setPlayer)
