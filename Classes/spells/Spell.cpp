@@ -295,3 +295,101 @@ void TorchDarkness::update()
 		}
 	}
 }
+
+const string NightSignPinwheel::name = "NightSignPinwheel";
+const string NightSignPinwheel::description = "";
+
+const int NightSignPinwheel::legCount = 12;
+const int NightSignPinwheel::bulletsPerLegCount = 4;
+const SpaceFloat NightSignPinwheel::launchDelay = 2.0;
+const SpaceFloat NightSignPinwheel::refreshRatio = 0.25;
+const SpaceFloat NightSignPinwheel::legLength = 3.0;
+const SpaceFloat NightSignPinwheel::legStartDist = 1.0;
+const SpaceFloat NightSignPinwheel::legAngleSkew = float_pi / NightSignPinwheel::legCount;
+
+NightSignPinwheel::NightSignPinwheel(GObject* caster) :
+	Spell(caster)
+{
+}
+
+void NightSignPinwheel::update()
+{
+	if (bulletsExistingRatio() < refreshRatio)
+	{
+		generate();
+		waitingToLaunch = true;
+		timer = launchDelay;
+	}
+
+	if (waitingToLaunch)
+	{
+		timerDecrement(timer);
+		if (timer <= 0.0) {
+			launch();
+			waitingToLaunch = false;
+		}
+	}
+}
+
+void NightSignPinwheel::end()
+{
+	removeBullets();
+}
+
+SpaceFloat NightSignPinwheel::bulletsExistingRatio()
+{
+	int count = 0;
+
+	for (gobject_ref bullet : bullets) {
+		if (bullet.isValid())
+			++count;
+	}
+
+	return count / (legCount * bulletsPerLegCount);
+}
+
+void NightSignPinwheel::generate()
+{
+	for_irange(i, 0, legCount) {
+		generateLeg(float_pi * 2.0 * i / legCount);
+	}
+}
+
+void NightSignPinwheel::generateLeg(SpaceFloat angle)
+{
+	SpaceVect origin = caster->getPos();
+	SpaceFloat posStep = legLength / bulletsPerLegCount;
+	SpaceFloat angleStep = legAngleSkew / bulletsPerLegCount;
+
+	for_irange(i, 0, bulletsPerLegCount) {
+		SpaceFloat d = legStartDist + posStep * i;
+		SpaceFloat a = angle + angleStep * i;
+		SpaceVect pos = origin + SpaceVect::ray(d, a);
+
+		gobject_ref bullet = caster->space->createObject(GObject::make_object_factory<RumiaPinwheelBullet>(
+			dynamic_cast<Agent*>(caster),
+			a,
+			pos
+		));
+		bullets.insert(bullet);
+	}
+}
+
+void NightSignPinwheel::launch()
+{
+	for (gobject_ref bullet : bullets) {
+		if(bullet.isValid())
+			bullet.get()->launch();
+	}
+}
+
+void NightSignPinwheel::removeBullets()
+{
+	for (gobject_ref bullet : bullets)
+	{
+		if (bullet.isValid()) {
+			caster->space->removeObject(bullet.get());
+		}
+	}
+	bullets.clear();
+}

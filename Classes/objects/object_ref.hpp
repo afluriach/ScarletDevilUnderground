@@ -97,4 +97,14 @@ protected:
 
 typedef object_ref<GObject> gobject_ref;
 
+namespace std {
+	template<typename T>
+	struct hash<object_ref<T>>
+	{
+		inline size_t operator()(const object_ref<T>& k) const {
+			return std::hash<ObjectIDType>{}(k.getID());
+		}
+	};
+}
+
 #endif /* object_ref_hpp */

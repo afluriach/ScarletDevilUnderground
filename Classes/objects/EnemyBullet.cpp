@@ -118,6 +118,16 @@ AttributeMap RumiaBullet::getAttributeEffect() const {
 	};
 }
 
+RumiaPinwheelBullet::RumiaPinwheelBullet(GSpace* space, ObjectIDType id, Agent* agent, SpaceFloat angle, const SpaceVect& pos) :
+	GObject(space, id, "", pos, angle),
+	EnemyBullet(agent)
+{}
+
+AttributeMap RumiaPinwheelBullet::getAttributeEffect() const {
+	return {
+		{ Attribute::hp, -2.0f }
+	};
+}
 
 IllusionDialDagger::IllusionDialDagger(GSpace* space, ObjectIDType id, Agent* agent, const SpaceVect& pos, SpaceFloat angular_velocity) :
 GObject(space,id,"", pos, 0.0),

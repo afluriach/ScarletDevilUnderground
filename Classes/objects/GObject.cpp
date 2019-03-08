@@ -128,6 +128,10 @@ void GObject::onPitfall()
 
 //BEGIN PHYSICS
 
+void GObject::launch() {
+	setVel(SpaceVect::ray(getMaxSpeed(), getAngle()));
+}
+
 void GObject::setInitialVelocity(const SpaceVect& v){
 	multiInit += [=]() -> void { cpBodySetVel(body, v); };
 }

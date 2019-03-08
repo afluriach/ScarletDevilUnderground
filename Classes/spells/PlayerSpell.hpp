@@ -35,6 +35,7 @@ public:
 	static const string description;
 
 	PlayerBatMode(GObject* caster);
+	inline virtual ~PlayerBatMode() {}
 
 	GET_DESC(PlayerBatMode)
     virtual void init();
@@ -52,6 +53,7 @@ public:
 	static const SpaceFloat angular_speed;
 
 	PlayerCounterClock(GObject* caster);
+	inline virtual ~PlayerCounterClock() {}
 
 	GET_DESC(PlayerCounterClock)
 	virtual void init();
@@ -90,6 +92,7 @@ public:
 	static const SpaceFloat inv_circumference;
 
 	PlayerIceShield(GObject* caster);
+	inline virtual ~PlayerIceShield() {}
 
 	GET_DESC(PlayerIceShield)
 	virtual void init();

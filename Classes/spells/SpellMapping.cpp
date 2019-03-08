@@ -27,6 +27,7 @@ const unordered_map<string, shared_ptr<SpellDesc>> Spell::spellDescriptors = {
 	entry_same(FireStarburst),
 	entry_same(FlameFence),
 	entry_same(IllusionDial),
+	entry_same(NightSignPinwheel),
 	entry_same(PlayerBatMode),
 	entry_same(PlayerCounterClock),
 	entry_same(PlayerDarkMist),

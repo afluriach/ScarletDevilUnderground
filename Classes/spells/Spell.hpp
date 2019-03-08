@@ -67,6 +67,7 @@ public:
 	static const string description;
 
 	Teleport(GObject* caster);
+	inline virtual ~Teleport() {}
 
 	GET_DESC(Teleport)
 	virtual void init();
@@ -95,6 +96,7 @@ public:
 	static const unsigned int count;
 
     StarlightTyphoon(GObject* caster);
+	inline virtual ~StarlightTyphoon() {}
 
 	GET_DESC(StarlightTyphoon)
     virtual void init();
@@ -160,6 +162,7 @@ public:
 	unsigned int framesSinceLastFire = 0;
 
 	IllusionDial(GObject* caster);
+	inline virtual ~IllusionDial() {}
     
 	virtual void update();
 
@@ -175,6 +178,7 @@ public:
 	static const float effectTime;
 
 	TorchDarkness(GObject* caster);
+	inline virtual ~TorchDarkness() {}
 
 	GET_DESC(TorchDarkness)
 	inline virtual void init() {}
@@ -182,6 +186,39 @@ public:
 	inline virtual void end() {}
 protected:
 	map<Torch*, float> torches;
+};
+
+class NightSignPinwheel : public Spell
+{
+public:
+	static const string name;
+	static const string description;
+
+	static const int legCount;
+	static const int bulletsPerLegCount;
+	static const SpaceFloat launchDelay;
+	static const SpaceFloat refreshRatio;
+	static const SpaceFloat legLength;
+	static const SpaceFloat legStartDist;
+	static const SpaceFloat legAngleSkew;
+
+	NightSignPinwheel(GObject* caster);
+	inline virtual ~NightSignPinwheel() {}
+
+	GET_DESC(NightSignPinwheel)
+	inline virtual void init() {}
+	virtual void update();
+	virtual void end();
+protected:
+	SpaceFloat bulletsExistingRatio();
+	void generate();
+	void generateLeg(SpaceFloat angle);
+	void launch();
+	void removeBullets();
+
+	unordered_set<gobject_ref> bullets;
+	SpaceFloat timer = 0.0;
+	bool waitingToLaunch = false;
 };
 
 #endif /* Spell_hpp */

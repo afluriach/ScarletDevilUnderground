@@ -19,6 +19,7 @@ public:
 	static constexpr float bulletSpeed = 6.0f;
 
 	inline FireStarburst(GObject* caster) : PeriodicSpell(caster) {}
+	inline virtual ~FireStarburst() {}
 
 	GET_DESC(FireStarburst)
 	inline virtual void init() {}
@@ -34,6 +35,7 @@ public:
 	static const string description;
 
 	FlameFence(GObject* caster);
+	inline virtual ~FlameFence() {}
 
 	GET_DESC(FlameFence)
 	virtual void init();
@@ -55,6 +57,7 @@ public:
 	static const SpaceFloat bulletSpeed;
 
 	Whirlpool1(GObject* caster);
+	inline virtual ~Whirlpool1() {}
 
 	GET_DESC(Whirlpool1)
 	virtual void init();
@@ -76,6 +79,7 @@ public:
 	static const SpaceFloat bulletSpeed;
 
 	Whirlpool2(GObject* caster);
+	inline virtual ~Whirlpool2() {}
 
 	GET_DESC(Whirlpool2)
 	virtual void init();

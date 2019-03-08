@@ -24,7 +24,7 @@ Rumia::Rumia(GSpace* space, ObjectIDType id, const ValueMap& args) :
 	MapObjForwarding(Agent),
 	Enemy(collectible_id::magic2)
 {
-	firePattern = make_shared<RumiaBurstPattern>(this);
+//	firePattern = make_shared<RumiaBurstPattern>(this);
 }
 
 void Rumia::initStateMachine(ai::StateMachine& fsm)
@@ -32,12 +32,14 @@ void Rumia::initStateMachine(ai::StateMachine& fsm)
 	fsm.addDetectFunction(
 		GType::player,
 		[](ai::StateMachine& sm, GObject* target) -> void {
-			if (sm.isThreadRunning("FireAtTarget")) return;
+			if (sm.isThreadRunning("Cast")) return;
 
 			sm.agent->space->createDialog("dialogs/rumia1", false);
 
 			sm.addThread(make_shared<ai::MaintainDistance>(target, 5.0, 1.5));
-			sm.addThread(make_shared<ai::FireAtTarget>(target));
+//			sm.addThread(make_shared<ai::FireAtTarget>(target));
+
+			sm.addThread(make_shared<ai::Cast>(make_spell_generator<NightSignPinwheel>()));
 		}
 	);
 }

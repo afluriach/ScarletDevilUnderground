@@ -145,6 +145,7 @@ public:
 	object_ref<FloorSegment> crntFloorCenterContact;
 	set<object_ref<FloorSegment>> crntFloorContacts;
 	
+	void launch();
     void setInitialVelocity(const SpaceVect& v);
     void setInitialAngle(SpaceFloat a);
 	void setInitialDirectionOrDefault(const ValueMap& args, Direction d);
