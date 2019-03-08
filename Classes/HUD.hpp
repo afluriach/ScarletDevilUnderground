@@ -229,6 +229,7 @@ public:
 	void setMaxMP(int);
 
 	void setStamina(int);
+	void setMaxStamina(int);
 	void setKeyCount(int);
 
 	void runHealthFlicker(float length, float interval);

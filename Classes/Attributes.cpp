@@ -145,13 +145,8 @@ AttributeSystem::AttributeSystem(const AttributeMap& baseAttributesMap) :
 attributes(getAttributeSet(baseAttributesMap))
 {}
 
-float AttributeSystem::getAdjustedValue(Attribute id) const
+float AttributeSystem::operator[](Attribute id) const
 {
-	if (id >= Attribute::end) {
-		log("invalid attribute %d", id);
-		return 0.0f;
-	}
-
 	return attributes.at(to_size_t(id));
 }
 
@@ -241,7 +236,7 @@ void AttributeSystem::applyElementalDamage(Attribute id, Attribute sensitivity, 
 {
 	//If applying damage, the amount is scaled proportional to sensitivity
 	if (x > 0) {
-		attributes.at(to_size_t(id)) = getWithinRange(attributes.at(to_size_t(id)) + x * getAdjustedValue(sensitivity), 0, maxElementDamage);
+		attributes.at(to_size_t(id)) = getWithinRange(attributes.at(to_size_t(id)) + x * (*this)[sensitivity], 0, maxElementDamage);
 	}
 	else if (x < 0) {
 		attributes.at(to_size_t(id)) = getWithinRange(attributes.at(to_size_t(id)) + x, 0, maxElementDamage);
@@ -320,7 +315,7 @@ void AttributeSystem::timerDecrement(Attribute id)
 	}
 }
 
-bool AttributeSystem::isNonzero(Attribute id)
+bool AttributeSystem::isNonzero(Attribute id) const
 {
 	return attributes.at(to_size_t(id)) != 0.0f;
 }

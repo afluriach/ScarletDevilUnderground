@@ -107,35 +107,12 @@ SpaceVect Player::getInteractFeeler() const
 void Player::init()
 {
 	if (playScene && !space->getSuppressAction()) {
-		space->addSceneAction(make_hud_action(
-			&HUD::setMaxHP,
-			playScene,
-			to_int(attributeSystem.getAdjustedValue(Attribute::maxHP))
-		));
-
-		space->addSceneAction(make_hud_action(
-			&HUD::setHP,
-			playScene,
-			to_int(attributeSystem.getAdjustedValue(Attribute::hp))
-		));
-
-		space->addSceneAction(make_hud_action(
-			&HUD::setMaxMP,
-			playScene,
-			to_int(attributeSystem.getAdjustedValue(Attribute::maxMP))
-		));
-
-		space->addSceneAction(make_hud_action(
-			&HUD::setMP,
-			playScene,
-			to_int(attributeSystem.getAdjustedValue(Attribute::mp))
-		));
-
-		space->addSceneAction(make_hud_action(
-			&HUD::setStamina,
-			playScene,
-			to_int(attributeSystem.getAdjustedValue(Attribute::stamina))
-		));
+		space->addHudAction(&HUD::setMaxHP, to_int(attributeSystem[Attribute::maxHP]));
+		space->addHudAction(&HUD::setHP, to_int(attributeSystem[Attribute::hp]));
+		space->addHudAction(&HUD::setMaxMP, to_int(attributeSystem[Attribute::maxMP]));
+		space->addHudAction(&HUD::setMP, to_int(attributeSystem[Attribute::mp]));
+		space->addHudAction(&HUD::setMaxStamina, to_int(attributeSystem[Attribute::maxStamina]));
+		space->addHudAction(&HUD::setStamina, to_int(attributeSystem[Attribute::stamina]));
 
 		setFirePattern();
 
@@ -196,7 +173,7 @@ void Player::updateSpellControls(const ControlInfo& cs)
 			cs.isControlActionPressed(ControlAction::spell) &&
 			equippedSpell &&
 			!attributeSystem.isNonzero(Attribute::spellCooldown) &&
-			attributeSystem.getAdjustedValue(Attribute::mp) >= spellCost
+			attributeSystem[Attribute::mp] >= spellCost
 		) {
 			attributeSystem.modifyAttribute(Attribute::mp, -spellCost);
 			cast(equippedSpell->generate(this));		
@@ -247,7 +224,7 @@ void Player::checkBombControls(const ControlInfo& cs)
 	if (!suppressFiring &&
 		cs.isControlActionPressed(ControlAction::bomb) &&
 		bombCooldown <= 0.0f &&
-		attributeSystem.getAdjustedValue(Attribute::mp) >= bombCost)
+		attributeSystem[Attribute::mp] >= bombCost)
 	{
 		SpaceVect bombPos = getPos() + SpaceVect::ray(1.5, getAngle());
 		if (canPlaceBomb(bombPos)) {
@@ -286,7 +263,7 @@ void Player::updateHitTime()
 
 void Player::updateCombo()
 {
-	if (attributeSystem.getAdjustedValue(Attribute::combo) >= AttributeSystem::maxComboPoints && !isComboActive) {
+	if (attributeSystem[Attribute::combo] >= AttributeSystem::maxComboPoints && !isComboActive) {
 		isComboActive = true;
 		attributeSystem.modifyAttribute(Attribute::attack, 0.25f);
 		space->runSpriteAction(spriteID, comboFlickerTintAction());
@@ -298,7 +275,7 @@ void Player::updateCombo()
 		space->setSpriteColor(spriteID, Color3B::WHITE);
 	}
 
-	if (attributeSystem.getAdjustedValue(Attribute::combo) > 0) {
+	if (attributeSystem[Attribute::combo] > 0) {
 		attributeSystem.modifyAttribute(Attribute::combo, -App::secondsPerFrame * 15.0f);
 	}
 }
@@ -353,26 +330,10 @@ void Player::update()
 			updateHudAttribute(Attribute::poisonDamage);
 			updateHudAttribute(Attribute::slimeDamage);
 
-			space->addSceneAction(make_hud_action(
-				&HUD::setHP,
-				playScene,
-				to_int(attributeSystem.getAdjustedValue(Attribute::hp))
-			));
-			space->addSceneAction(make_hud_action(
-				&HUD::setMP,
-				playScene,
-				to_int(attributeSystem.getAdjustedValue(Attribute::mp))
-			));
-			space->addSceneAction(make_hud_action(
-				&HUD::setStamina,
-				playScene,
-				to_int(attributeSystem.getAdjustedValue(Attribute::stamina))
-			));
-			space->addSceneAction(make_hud_action(
-				&HUD::setKeyCount,
-				playScene,
-				to_int(attributeSystem.getAdjustedValue(Attribute::keys))
-			));
+			space->addHudAction(&HUD::setHP, to_int(attributeSystem[Attribute::hp]));
+			space->addHudAction(&HUD::setMP, to_int(attributeSystem[Attribute::mp]));
+			space->addHudAction(&HUD::setStamina, to_int(attributeSystem[Attribute::stamina]));
+			space->addHudAction(&HUD::setKeyCount, to_int(attributeSystem[Attribute::keys]));
 		}
 
 		timerDecrement(respawnTimer);
@@ -417,7 +378,7 @@ void Player::setSprintMode(bool b)
 
 unsigned int Player::getKeyCount() const
 {
-	return attributeSystem.getAdjustedValue(Attribute::keys);
+	return attributeSystem[Attribute::keys];
 }
 
 void Player::useKey()
@@ -444,7 +405,7 @@ void Player::applyAttributeModifier(Attribute id, float val)
 
 bool Player::isProtected() const
 {
-	return attributeSystem.getAdjustedValue(Attribute::hitProtection) != 0.0f;
+	return attributeSystem.isNonzero(Attribute::hitProtection);
 }
 
 void Player::setProtection()
@@ -472,7 +433,7 @@ void Player::hit(AttributeMap attributeEffect, shared_ptr<MagicEffect> effect){
 			spriteID,
 			flickerAction(
 				hitFlickerInterval,
-				attributeSystem.getAdjustedValue(Attribute::hitProtectionInterval),
+				attributeSystem[Attribute::hitProtectionInterval],
 				81
 			)
 		);
@@ -480,7 +441,7 @@ void Player::hit(AttributeMap attributeEffect, shared_ptr<MagicEffect> effect){
 		space->addSceneAction(make_hud_action(
 			&HUD::runHealthFlicker,
 			playScene,
-			attributeSystem.getAdjustedValue(Attribute::hitProtectionInterval),
+			attributeSystem[Attribute::hitProtectionInterval],
 			hitFlickerInterval
 		));
 
@@ -537,19 +498,10 @@ void Player::applyUpgrade(Upgrade* up)
 	{
 	case Attribute::maxHP:
 		attributeSystem.modifyAttribute(Attribute::hp, step);
-		space->addSceneAction(make_hud_action(
-			&HUD::setMaxHP,
-			playScene,
-			to_int(attributeSystem.getAdjustedValue(Attribute::maxHP))
-		));
+		space->addHudAction(&HUD::setMaxHP,to_int(attributeSystem[Attribute::maxHP]));
 	break;
 	case Attribute::maxMP:
-		attributeSystem.modifyAttribute(Attribute::mp, step);
-		space->addSceneAction(make_hud_action(
-			&HUD::setMaxMP,
-			playScene,
-			to_int(attributeSystem.getAdjustedValue(Attribute::maxMP))
-		));
+		space->addHudAction(&HUD::setMaxMP, to_int(attributeSystem[Attribute::maxMP]));
 	break;
 	case Attribute::bulletCount:
 		setFirePattern();
@@ -644,12 +596,7 @@ void Player::setHudEffect(Attribute id, float maxVal)
 
 void Player::updateHudAttribute(Attribute id)
 {
-	space->addSceneAction(make_hud_action(
-		&HUD::setPercentValue,
-		playScene,
-		id,
-		to_int(attributeSystem.getAdjustedValue(id))
-	));
+	space->addHudAction(&HUD::setPercentValue, id, to_int(attributeSystem[id]));
 }
 
 bool Player::canPlaceBomb(SpaceVect pos)

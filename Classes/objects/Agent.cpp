@@ -54,21 +54,21 @@ void Agent::initAttributes()
 
 void Agent::update()
 {
-	if (attributeSystem.getAdjustedValue(Attribute::hp) <= 0 && getMaxHealth() != 0) {
+	if (attributeSystem[Attribute::hp] <= 0 && getMaxHealth() != 0) {
 		onZeroHP();
 	}
 
-	if (attributeSystem.getAdjustedValue(Attribute::iceDamage) >= AttributeSystem::maxElementDamage && !hasMagicEffect<FreezeStatusEffect>()) {
+	if (attributeSystem[Attribute::iceDamage] >= AttributeSystem::maxElementDamage && !hasMagicEffect<FreezeStatusEffect>()) {
 		addMagicEffect(make_shared<FreezeStatusEffect>(this));
 		attributeSystem.modifyAttribute(Attribute::iceDamage, -AttributeSystem::maxElementDamage);
 	}
-	if (attributeSystem.getAdjustedValue(Attribute::sunDamage) >= AttributeSystem::maxElementDamage) {
+	if (attributeSystem[Attribute::sunDamage] >= AttributeSystem::maxElementDamage) {
 		onZeroHP();
 	}
-	if (attributeSystem.getAdjustedValue(Attribute::darknessDamage) >= AttributeSystem::maxElementDamage) {
+	if (attributeSystem[Attribute::darknessDamage] >= AttributeSystem::maxElementDamage) {
 		onZeroHP();
 	}
-	if (attributeSystem.getAdjustedValue(Attribute::poisonDamage) >= AttributeSystem::maxElementDamage) {
+	if (attributeSystem[Attribute::poisonDamage] >= AttributeSystem::maxElementDamage) {
 		onZeroHP();
 	}
 
@@ -105,7 +105,7 @@ void Agent::onZeroHP()
 
 float Agent::getAttribute(Attribute id) const
 {
-	return attributeSystem.getAdjustedValue(id);
+	return attributeSystem[id];
 }
 
 void Agent::modifyAttribute(Attribute id, float val)
@@ -140,41 +140,41 @@ SpaceFloat Agent::getTraction() const
 
 SpaceFloat Agent::getMaxSpeed() const
 {
-	return attributeSystem.getAdjustedValue(Attribute::speed);
+	return attributeSystem[Attribute::speed];
 }
 
 SpaceFloat Agent::getMaxAcceleration() const
 {
-	return attributeSystem.getAdjustedValue(Attribute::acceleration);
+	return attributeSystem[Attribute::acceleration];
 }
 
 float Agent::getMaxHealth() const
 {
-	return attributeSystem.getAdjustedValue(Attribute::maxHP);
+	return attributeSystem[Attribute::maxHP];
 }
 
 int Agent::getHealth()
 {
-	return attributeSystem.getAdjustedValue(Attribute::hp);
+	return attributeSystem[Attribute::hp];
 }
 
 SpaceFloat Agent::getHealthRatio()
 {
-	if (attributeSystem.getAdjustedValue(Attribute::maxHP) == 0.0f) {
+	if (attributeSystem[Attribute::maxHP] == 0.0f) {
 		return 0.0;
 	}
 
-	return attributeSystem.getAdjustedValue(Attribute::hp) / attributeSystem.getAdjustedValue(Attribute::maxHP);
+	return attributeSystem[Attribute::hp] / attributeSystem[Attribute::maxHP];
 }
 
 int Agent::getStamina()
 {
-	return attributeSystem.getAdjustedValue(Attribute::stamina);
+	return attributeSystem[Attribute::stamina];
 }
 
 int Agent::getMagic()
 {
-	return attributeSystem.getAdjustedValue(Attribute::mp);
+	return attributeSystem[Attribute::mp];
 }
 
 bool Agent::consumeStamina(int val)

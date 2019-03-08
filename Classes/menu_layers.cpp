@@ -697,7 +697,7 @@ bool PlayerInfo::init()
 
 	for_irange(i, 0, displayAttributes.size())
 	{
-		string str = boost::str(boost::format("%s: %s") % displayAttributes[i].second.c_str() % boost::lexical_cast<string>(stats->getAdjustedValue(displayAttributes[i].first)));
+		string str = boost::str(boost::format("%s: %s") % displayAttributes[i].second.c_str() % boost::lexical_cast<string>((*stats)[displayAttributes[i].first]));
 		Label* label = createTextLabel(str, 32*scale);
 		label->setPosition(0.0f, -64.0f * i * scale);
 		label->setAlignment(TextHAlignment::RIGHT);

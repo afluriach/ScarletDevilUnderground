@@ -95,7 +95,8 @@ public:
 	AttributeSystem(const AttributeSet& baseAttributes);
 	AttributeSystem(const AttributeMap& baseAttributesMap);
 
-	float getAdjustedValue(Attribute id) const;
+	float operator[](Attribute id) const;
+
 	float getAttackMultiplier() const;
 	AttributeMap scaleBulletAttributes(const AttributeMap& bulletAttributes) const;
 	void modifyIncidentAttribute(Attribute id, Attribute maxID, float x);
@@ -104,7 +105,7 @@ public:
 	void modifyAttribute(Attribute id, float x);
 	void setAttribute(Attribute id, float x);
 	void timerDecrement(Attribute id);
-	bool isNonzero(Attribute id);
+	bool isNonzero(Attribute id) const;
 	void setProtection();
 	void setTimedProtection(float seconds);
 	void resetProtection();

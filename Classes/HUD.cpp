@@ -677,6 +677,11 @@ void HUD::setStamina(int v)
 	staminaMeter->setValue(v);
 }
 
+void HUD::setMaxStamina(int v)
+{
+	staminaMeter->setMax(v);
+}
+
 void HUD::setKeyCount(int count)
 {
 	keyMeter->setVal(count);

@@ -139,6 +139,16 @@ public:
 	void setInitialObjectCount();
 	EnemyStatsMap getEnemyStats();
 
+	template<typename ...Args>
+	inline void addHudAction(void (HUD::*m)(Args...), Args... args)
+	{
+		addSceneAction(make_hud_action(
+			m,
+			getSceneAs<PlayScene>(),
+			args...
+		));
+	}
+
 	void addObjectAction(zero_arity_function f);
 	void addSceneAction(pair<zero_arity_function, GScene::updateOrder> entry);
 	void addSceneAction(zero_arity_function f, GScene::updateOrder order);
