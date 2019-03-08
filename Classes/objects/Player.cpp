@@ -117,11 +117,7 @@ void Player::init()
 		setFirePattern();
 
 		if (getFirePattern()) {
-			space->addSceneAction(make_hud_action(
-				&HUD::setFirePatternIcon,
-				playScene,
-				getFirePattern()->iconPath()
-			));
+			space->addHudAction(&HUD::setFirePatternIcon, getFirePattern()->iconPath());
 		}
 
 		equipSpells();
@@ -187,12 +183,11 @@ void Player::onSpellStop()
 {
 	attributeSystem.setSpellCooldown();
 
-	space->addSceneAction(make_hud_action(
+	space->addHudAction(
 		&HUD::runMagicFlicker,
-		playScene,
 		getAttribute(Attribute::spellCooldownInterval),
 		hitFlickerInterval
-	));
+	);
 }
 
 void Player::checkFireControls(const ControlInfo& cs)
@@ -249,11 +244,10 @@ void Player::checkItemInteraction(const ControlInfo& cs)
         }
     }
 
-	space->addSceneAction(make_hud_action(
+	space->addHudAction(
 		&HUD::setInteractionIcon,
-		playScene,
 		interactible && interactible->canInteract() ? interactible->interactionIcon() : ""
-	));
+	);
 }
 
 void Player::updateHitTime()
@@ -438,12 +432,11 @@ void Player::hit(AttributeMap attributeEffect, shared_ptr<MagicEffect> effect){
 			)
 		);
 
-		space->addSceneAction(make_hud_action(
+		space->addHudAction(
 			&HUD::runHealthFlicker,
-			playScene,
 			attributeSystem[Attribute::hitProtectionInterval],
 			hitFlickerInterval
-		));
+		);
 
 		App::playSound("sfx/player_damage.wav", 1.0f);
     }
@@ -569,16 +562,7 @@ void Player::applyRespawn()
 
 void Player::setHudEffect(Attribute id, Attribute max_id)
 {
-	float val = getAttribute(id);
-	float maxVal = getAttribute(max_id);
-	int percent = (val >= 0.0f  && maxVal > 0.0f ? val / maxVal * 100.0f : 100);
-
-	space->addSceneAction(make_hud_action(
-		&HUD::setPercentValue,
-		playScene,
-		id,
-		percent
-	));
+	setHudEffect(id, getAttribute(max_id));
 }
 
 void Player::setHudEffect(Attribute id, float maxVal)
@@ -586,12 +570,7 @@ void Player::setHudEffect(Attribute id, float maxVal)
 	float val = getAttribute(id);
 	int percent = (val >= 0.0f  && maxVal > 0.0f ? val / maxVal * 100.0f : 100);
 
-	space->addSceneAction(make_hud_action(
-		&HUD::setPercentValue,
-		playScene,
-		id,
-		percent
-	));
+	space->addHudAction(&HUD::setPercentValue, id, percent);
 }
 
 void Player::updateHudAttribute(Attribute id)
