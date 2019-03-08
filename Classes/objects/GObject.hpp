@@ -86,6 +86,7 @@ public:
 	const string name;
     const bool anonymous = false;
 	bool hidden = false;
+	bool rotateSprite = false;
 	const ObjectIDType uuid;
 	GSpace *const space;
 
@@ -203,6 +204,7 @@ public:
 	inline virtual void initializeRadar(GSpace& space) {};
 
 	void updateRadarPos();
+	void updateLight();
 
 	//END PHYSICS
     

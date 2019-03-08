@@ -20,8 +20,7 @@ const unordered_map<string, Color3B> Torch::colorMap = {
 };
 
 Torch::Torch(GSpace* space, ObjectIDType id, const ValueMap& args) :
-	MapObjForwarding(GObject),
-	RegisterUpdate<Torch>(this)
+	MapObjForwarding(GObject)
 {
 	isActive = getBoolOrDefault(args, "active", false);
 	intensity = getFloatOrDefault(args, "intensity", intensity);
@@ -73,10 +72,6 @@ bool Torch::getActive()
 void Torch::addLightSource()
 {
 	lightSourceID = space->addLightSource(CircleLightArea{ getPos(),5.0,toColor4F(color)*intensity, flood });
-}
-
-void Torch::update()
-{
 }
 
 void Torch::interact()

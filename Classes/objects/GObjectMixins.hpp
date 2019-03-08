@@ -182,15 +182,16 @@ public:
 
 //Initialize graphics from a still image. Any class that uses this mixin has to implement interface to
 //provide the path to the image file.
-class ImageSprite : public virtual GObject, RegisterUpdate<ImageSprite>
+class ImageSprite : public virtual GObject
 {
 public:
-    ImageSprite() : RegisterUpdate<ImageSprite>(this) {}
+    inline ImageSprite() {
+		rotateSprite = true;
+	}
 
     virtual string imageSpritePath() const = 0;
     void loadImageSprite(const string& resPath, GraphicsLayer sceneLayer);
     void initializeGraphics();
-    void update();
 };
 
 class LoopAnimationSprite : public virtual GObject
@@ -243,7 +244,7 @@ protected:
 	bool nextStepIsLeft = true;
 };
 
-class RadialLightObject : virtual public GObject, public RegisterInit<RadialLightObject>, public RegisterUpdate<RadialLightObject>
+class RadialLightObject : virtual public GObject, public RegisterInit<RadialLightObject>
 {
 public:
 	RadialLightObject();
@@ -251,10 +252,9 @@ public:
 	virtual CircleLightArea getLightSource() const = 0;
 
 	void init();
-	void update();
 };
 
-class SpriteLightObject : virtual public GObject, public RegisterInit<SpriteLightObject>, public RegisterUpdate<SpriteLightObject>
+class SpriteLightObject : virtual public GObject, public RegisterInit<SpriteLightObject>
 {
 public:
 	SpriteLightObject();
@@ -262,9 +262,7 @@ public:
 	virtual SpriteLightArea getLightSource() const = 0;
 
 	void init();
-	void update();
 };
-
 
 //END GRAPHICS
 

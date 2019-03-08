@@ -110,6 +110,7 @@ void GObject::update()
 #endif
 	updateSprite();
 	updateRadarPos();
+	updateLight();
 	updateSpells();
 	updateMagicEffects();
 	updateFloorSegment();
@@ -303,6 +304,14 @@ void GObject::updateRadarPos()
 		cpBodySetPos(radar, cpBodyGetPos(body));
 }
 
+void GObject::updateLight()
+{
+	if (lightID != 0) {
+		space->setLightSourcePosition(lightID, getPos());
+		space->setLightSourceAngle(lightID, getAngle());
+	}
+}
+
 SpaceFloat GObject::getTraction() const
 {
 	return crntFloorCenterContact.isValid() ? crntFloorCenterContact.get()->getFrictionCoeff() : 1.0;
@@ -377,6 +386,9 @@ void GObject::updateSprite()
 
     if(spriteID != 0){
 		space->setSpritePosition(spriteID, toCocos(getPos())*App::pixelsPerTile);
+
+		if (rotateSprite)
+			space->setSpriteAngle(spriteID, 90 - toDegrees(getAngle()));
 
 		if (!visible && !isInFade) {
 			space->stopSpriteAction(spriteID, cocos_action_tag::object_fade);

@@ -136,13 +136,6 @@ void ImageSprite::initializeGraphics()
     loadImageSprite(imageSpritePath(), sceneLayer());
 }
 
-void ImageSprite::update()
-{
-    if(spriteID != 0){
-		space->setSpriteAngle(spriteID, 90 - toDegrees(getAngle()));
-    }
-}
-
 void LoopAnimationSprite::initializeGraphics()
 {
 	animID = space->createLoopAnimation(animationName(), animationSize(), animationDuration(), sceneLayer(), getInitialCenterPix(), zoom());
@@ -274,8 +267,7 @@ void ImageSprite::loadImageSprite(const string& resPath, GraphicsLayer sceneLaye
 }
 
 RadialLightObject::RadialLightObject() :
-	RegisterInit<RadialLightObject>(this),
-	RegisterUpdate<RadialLightObject>(this)
+	RegisterInit<RadialLightObject>(this)
 {}
 
 void RadialLightObject::init()
@@ -283,25 +275,13 @@ void RadialLightObject::init()
 	lightID = space->addLightSource(getLightSource());
 }
 
-void RadialLightObject::update()
-{
-	space->setLightSourcePosition(lightID, getPos());
-}
-
 SpriteLightObject::SpriteLightObject() :
-	RegisterInit<SpriteLightObject>(this),
-	RegisterUpdate<SpriteLightObject>(this)
+	RegisterInit<SpriteLightObject>(this)
 {}
 
 void SpriteLightObject::init()
 {
 	lightID = space->addLightSource(getLightSource());
-}
-
-void SpriteLightObject::update()
-{
-	space->setLightSourcePosition(lightID, getPos());
-	space->setLightSourceAngle(lightID, getAngle());
 }
 
 

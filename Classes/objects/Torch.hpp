@@ -15,8 +15,7 @@
 class Torch :
 	public virtual GObject,
 	public RectangleBody,
-	public InteractibleObject,
-	public RegisterUpdate<Torch>
+	public InteractibleObject
 {
 public:
 	static const unordered_map<string, Color3B> colorMap;
@@ -36,7 +35,6 @@ public:
     void setActive(bool active);
     bool getActive();
     
-    void update();    
 	void addLightSource();
 protected:
 	string colorName;
