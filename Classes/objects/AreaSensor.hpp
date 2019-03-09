@@ -50,13 +50,12 @@ protected:
 };
 
 class HiddenSubroomSensor :
-	public AreaSensor,
-	public RegisterUpdate<HiddenSubroomSensor>
+	public AreaSensor
 {
 public:
 	HiddenSubroomSensor(GSpace* space, ObjectIDType id, const ValueMap& args);
 
-	void update();
+	virtual void onPlayerContact(Player*);
 protected:
 	int roomID;
 	bool activated = false;

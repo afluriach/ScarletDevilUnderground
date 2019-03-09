@@ -16,7 +16,6 @@
 class Bomb :
 	virtual public GObject,
 	public CircleBody,
-	public FrictionObject,
 	public RegisterInit<Bomb>,
 	public RegisterUpdate<Bomb>
 {

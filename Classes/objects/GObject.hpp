@@ -157,6 +157,7 @@ public:
 
 	bool isOnFloor() const;
 	void updateFloorSegment();
+	void updateFriction(float _uk);
 	void onContactFloorSegment(object_ref<FloorSegment> fs);
 	void onEndContactFloorSegment(object_ref<FloorSegment> fs);
 
@@ -191,6 +192,7 @@ public:
 	//A default of 0 signifies undefined. Using -1 to indicate static or positive for dynamic.
 	virtual SpaceFloat getMass() const = 0;
 	virtual SpaceFloat getRadius() const = 0;
+	inline virtual SpaceFloat uk() const { return 0.0; }
     virtual SpaceFloat getMomentOfInertia() const = 0;
 	virtual GType getType() const = 0;
 	virtual inline bool getSensor() const { return false; }

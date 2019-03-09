@@ -69,16 +69,16 @@ void AreaSensor::onEnvironmentalObjectEndContact(GObject* obj) {
 HiddenSubroomSensor::HiddenSubroomSensor(GSpace* space, ObjectIDType id, const ValueMap& args) :
 	MapObjForwarding(GObject),
 	MapObjForwarding(AreaSensor),
-	roomID(getIntOrDefault(args, "id", -1)),
-	RegisterUpdate<HiddenSubroomSensor>(this)
+	roomID(getIntOrDefault(args, "id", -1))
 {
 
 }
 
-void HiddenSubroomSensor::update()
+void HiddenSubroomSensor::onPlayerContact(Player* p)
 {
-	if (player.isValid() && roomID != -1 && !activated)
-	{
+	AreaSensor::onPlayerContact(p);
+
+	if (!activated) {
 		space->clearSubroomMask(roomID);
 		activated = true;
 	}

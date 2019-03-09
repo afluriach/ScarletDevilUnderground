@@ -268,6 +268,33 @@ void GObject::updateFloorSegment()
 	if (crntFloorContacts.size() == 0 && crntFloorCenterContact.isValid()) {
 		crntFloorCenterContact.get()->exclusiveFloorEffect(this);
 	}
+
+	if (crntFloorCenterContact.isValid() && uk() > 0.0) {
+		updateFriction(uk() * crntFloorCenterContact.get()->getFrictionCoeff());
+	}
+}
+
+void GObject::updateFriction(float frictionCoeff)
+{
+	//linear
+	SpaceVect vel = getVel();
+	SpaceFloat force = getMass() * App::Gaccel * frictionCoeff;
+
+	//if acceleraion, dv/dt, or change in velocity over one frame is greater
+	//than current velocity, apply stop instead
+	if (App::Gaccel * frictionCoeff * App::secondsPerFrame < vel.length())
+		applyForceForSingleFrame(vel * -force);
+	else
+		setVel(SpaceVect::zero);
+
+	//rotational
+	SpaceFloat angularVel = getAngularVel();
+	SpaceFloat angularImpulse = getMomentOfInertia() * App::Gaccel *  frictionCoeff * App::secondsPerFrame;
+
+	if (angularImpulse < angularVel)
+		setAngularVel(angularVel - angularImpulse);
+	else
+		setAngularVel(0);
 }
 
 void GObject::onContactFloorSegment(object_ref<FloorSegment> fs)

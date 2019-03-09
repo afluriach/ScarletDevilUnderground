@@ -129,15 +129,6 @@ public:
 	virtual SpaceVect getDimensions() const;
 };
 
-class FrictionObject : public virtual GObject, RegisterUpdate<FrictionObject>
-{
-public:
-    inline FrictionObject() : RegisterUpdate(this) {}
-
-    virtual SpaceFloat uk() const = 0;
-    void update();
-};
-
 class MassImpl : public virtual GObject
 {
 public:

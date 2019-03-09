@@ -16,7 +16,6 @@ class Block :
 	virtual public GObject,
 	public RectangleBody,
 	public ImageSprite,
-	public FrictionObject,
 	public MassImpl
 {
 public:

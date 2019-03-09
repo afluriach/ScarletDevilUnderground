@@ -97,31 +97,6 @@ SpaceVect CircleBody::getDimensions() const
 	return SpaceVect(getRadius()*2, getRadius()*2);
 }
 
-void FrictionObject::update()
-{
-	SpaceFloat frictionCoeff = crntFloorCenterContact.isValid() ? crntFloorCenterContact.get()->getFrictionCoeff() : 1.0;
-
-    //linear
-    SpaceVect vel = getVel();
-	SpaceFloat force = getMass() * App::Gaccel * uk() * frictionCoeff;
-    
-    //if acceleraion, dv/dt, or change in velocity over one frame is greater
-    //than current velocity, apply stop instead
-    if(App::Gaccel * uk() * frictionCoeff * App::secondsPerFrame < vel.length())
-        applyForceForSingleFrame(vel * -force);
-    else
-        setVel(SpaceVect::zero);
-    
-    //rotational
-	SpaceFloat angularVel = getAngularVel();
-	SpaceFloat angularImpulse = getMomentOfInertia() * App::Gaccel * uk() * frictionCoeff * App::secondsPerFrame;
-    
-    if(angularImpulse < angularVel)
-        setAngularVel(angularVel - angularImpulse);
-    else
-        setAngularVel(0);
-}
-
 void DirectionalLaunch::init()
 {
 	setVel(SpaceVect::ray(getMaxSpeed(), getAngle()));
