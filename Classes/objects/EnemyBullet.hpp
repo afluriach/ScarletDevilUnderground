@@ -207,6 +207,27 @@ public:
 	virtual AttributeMap getAttributeEffect() const;
 };
 
+class RumiaDemarcationBullet :
+	virtual public GObject,
+	public EnemyBullet,
+	public CircleBody,
+	public ImageSprite,
+	public DirectionalLaunch
+{
+public:
+	RumiaDemarcationBullet(GSpace* space, ObjectIDType id, Agent* agent, SpaceFloat angle, const SpaceVect& pos);
+
+	virtual inline SpaceFloat getMaxSpeed() const { return 4.5; }
+	virtual inline SpaceFloat getRadius() const { return 0.10; }
+
+	virtual inline string imageSpritePath() const { return "sprites/rumia_demarcation_bullet.png"; }
+
+	static constexpr float spriteBaseRadius = 0.83f;
+	inline virtual float zoom() const { return getRadius() / spriteBaseRadius * 2; }
+
+	virtual AttributeMap getAttributeEffect() const;
+};
+
 class IllusionDialDagger :
 virtual public GObject,
 public EnemyBullet,

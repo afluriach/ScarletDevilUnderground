@@ -188,6 +188,33 @@ protected:
 	unordered_map<Torch*, float> torches;
 };
 
+class DarknessSignDemarcation : public Spell
+{
+public:
+	static const string name;
+	static const string description;
+
+	static const SpaceFloat betweenBurstDelay;
+	static const SpaceFloat burstInterval;
+	static const SpaceFloat launchDist;
+	static const SpaceFloat angleSkew;
+	static const int burstCount;
+	static const int bulletsPerBurst;
+
+	DarknessSignDemarcation(GObject* caster);
+	inline virtual ~DarknessSignDemarcation() {}
+
+	GET_DESC(DarknessSignDemarcation)
+	inline virtual void init() {}
+	virtual void update();
+	inline virtual void end() {}
+protected:
+	void generate();
+
+	SpaceFloat timer = betweenBurstDelay;
+	int crntBurst = 0;
+};
+
 class NightSignPinwheel : public Spell
 {
 public:
