@@ -11,10 +11,24 @@
 
 #include "Attributes.hpp"
 #include "GObject.hpp"
+#include "GObjectMixins.hpp"
 #include "types.h"
 
 class Agent;
 class Wall;
+
+struct bullet_properties
+{
+	SpaceFloat mass;
+	SpaceFloat speed;
+	SpaceFloat radius;
+	SpaceFloat spriteBaseRadius;
+
+	string sprite;
+	AttributeMap attributeEffect;
+
+	bool directionalLaunch = true;
+};
 
 class Bullet : virtual public GObject
 {
@@ -47,6 +61,29 @@ public:
 	float agentAttackMultiplier = 1.0f;
 	int ricochetCount = 0;
 	int hitCount = 1;
+};
+
+class BulletImpl :
+	virtual public Bullet,
+	public CircleBody,
+	public ImageSprite,
+	public RegisterInit<BulletImpl>
+{
+public:
+	BulletImpl(const bullet_properties* props);
+
+	void init();
+
+	virtual inline SpaceFloat getMass() const { return props->mass; }
+	virtual inline SpaceFloat getMaxSpeed() const { return props->speed; }
+	virtual inline SpaceFloat getRadius() const { return props->radius; }
+
+	virtual inline string imageSpritePath() const { return props->sprite; }
+	virtual inline float zoom() const { return props->radius / props->spriteBaseRadius * 2.0f; }
+
+	virtual inline AttributeMap getAttributeEffect() const { return props->attributeEffect; }
+
+	const bullet_properties* props;
 };
 
 #endif /* Bullet_hpp */

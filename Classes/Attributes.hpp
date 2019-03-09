@@ -11,6 +11,8 @@
 
 #include "enum.h"
 
+#define hp_damage_map(x) AttributeMap{ {Attribute::hp, -x} }
+
 enum class Attribute {
 	begin = 0,
 

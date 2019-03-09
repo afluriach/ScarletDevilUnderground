@@ -12,7 +12,7 @@
 #include "Bullet.hpp"
 #include "GObjectMixins.hpp"
 
-class EnemyBullet : virtual public GObject, public Bullet
+class EnemyBullet : virtual public Bullet
 {
 public:
 	EnemyBullet(Agent* agent);
@@ -38,7 +38,6 @@ public:
 
 	virtual inline CircleLightArea getLightSource() const { return CircleLightArea{ getPos(), 2.0, Color4F(.375f,.75f,.75f,.5f), 0.0 }; }
 
-    virtual inline SpaceFloat getMaxSpeed() const {return 6.0;}
 	virtual inline SpaceFloat getRadius() const { return 0.3; }
 
     virtual inline string imageSpritePath() const {return "sprites/water_bullet.png";}
@@ -81,151 +80,60 @@ public:
     inline virtual float zoom() const {return getRadius()/spriteBaseRadius*2;}
 };
 
-class Fairy1Bullet :
-	virtual public GObject,
-	public EnemyBullet,
-	public CircleBody,
-	public ImageSprite,
-	public DirectionalLaunch
+class Fairy1Bullet : public EnemyBullet, public BulletImpl
 {
 public:
+	static const bullet_properties props;
+
 	Fairy1Bullet(GSpace* space, ObjectIDType id, Agent* agent, SpaceFloat angle, const SpaceVect& pos);
-
-	virtual inline SpaceFloat getMaxSpeed() const { return 6.0; }
-	virtual inline SpaceFloat getRadius() const { return 0.3; }
-
-	virtual inline string imageSpritePath() const { return "sprites/ice_fairy_bullet.png"; }
-
-	static constexpr float spriteBaseRadius = 0.83f;
-	inline virtual float zoom() const { return getRadius() / spriteBaseRadius * 2; }
-
-	virtual AttributeMap getAttributeEffect() const;
-	inline virtual shared_ptr<MagicEffect> getMagicEffect(gobject_ref target) { return nullptr; }
 };
 
-class GreenFairyBullet :
-	virtual public GObject,
-	public EnemyBullet,
-	public CircleBody,
-	public ImageSprite,
-	public DirectionalLaunch
+class GreenFairyBullet : public EnemyBullet, public BulletImpl
 {
 public:
+	static const bullet_properties props;
+
 	GreenFairyBullet(GSpace* space, ObjectIDType id, Agent* agent, SpaceFloat angle, const SpaceVect& pos);
-
-	virtual inline SpaceFloat getMaxSpeed() const { return 6.0; }
-	virtual inline SpaceFloat getRadius() const { return 0.15; }
-
-	virtual inline string imageSpritePath() const { return "sprites/green_fairy_bullet.png"; }
-
-	static constexpr float spriteBaseRadius = 0.83f;
-	inline virtual float zoom() const { return getRadius() / spriteBaseRadius * 2; }
-
-	virtual AttributeMap getAttributeEffect() const;
-	inline virtual shared_ptr<MagicEffect> getMagicEffect(gobject_ref target) { return nullptr; }
 };
 
-class IceFairyBullet :
-	virtual public GObject,
-	public EnemyBullet,
-	public CircleBody,
-	public ImageSprite,
-	public DirectionalLaunch
+class IceFairyBullet : public EnemyBullet, public BulletImpl
 {
 public:
+	static const bullet_properties props;
 
 	IceFairyBullet(GSpace* space, ObjectIDType id, Agent* agent, SpaceFloat angle, const SpaceVect& pos);
-
-	virtual inline SpaceFloat getMaxSpeed() const { return 6.0; }
-	virtual inline SpaceFloat getRadius() const { return 0.3; }
-
-	virtual inline string imageSpritePath() const { return "sprites/ice_fairy_bullet.png"; }
-
-	static constexpr float spriteBaseRadius = 0.83f;
-	inline virtual float zoom() const { return getRadius() / spriteBaseRadius * 2; }
-
-	virtual AttributeMap getAttributeEffect() const;
-	virtual shared_ptr<MagicEffect> getMagicEffect(gobject_ref target);
 };
 
-class LauncherBullet : virtual public GObject, public EnemyBullet, public CircleBody, public ImageSprite, public DirectionalLaunch
+class LauncherBullet : public EnemyBullet, public BulletImpl
 {
 public:
+	static const bullet_properties props;
+
 	LauncherBullet(GSpace* space, ObjectIDType id, SpaceFloat angle, const SpaceVect& pos);
-
-	virtual inline SpaceFloat getMaxSpeed() const { return 10.0; }
-	virtual inline SpaceFloat getRadius() const { return 0.3; }
-
-	virtual inline string imageSpritePath() const { return "sprites/launcher_bullet.png"; }
-
-	static constexpr float spriteBaseRadius = 0.83f;
-	inline virtual float zoom() const { return getRadius() / spriteBaseRadius * 2; }
-
-	virtual AttributeMap getAttributeEffect() const;
-	virtual inline shared_ptr<MagicEffect> getMagicEffect(gobject_ref target) { return nullptr; }
 };
 
-class RumiaBullet :
-	virtual public GObject,
-	public EnemyBullet,
-	public CircleBody,
-	public ImageSprite,
-	public DirectionalLaunch
+class RumiaBullet : public EnemyBullet, public BulletImpl
 {
 public:
+	static const bullet_properties props;
 
 	RumiaBullet(GSpace* space, ObjectIDType id, Agent* agent, SpaceFloat angle, const SpaceVect& pos);
-
-	virtual inline SpaceFloat getMaxSpeed() const { return 4.5; }
-	virtual inline SpaceFloat getRadius() const { return 0.15; }
-
-	virtual inline string imageSpritePath() const { return "sprites/rumia_bullet.png"; }
-
-	static constexpr float spriteBaseRadius = 0.83f;
-	inline virtual float zoom() const { return getRadius() / spriteBaseRadius * 2; }
-
-	virtual AttributeMap getAttributeEffect() const;
 };
 
-class RumiaPinwheelBullet :
-	virtual public GObject,
-	public EnemyBullet,
-	public CircleBody,
-	public ImageSprite
+class RumiaPinwheelBullet : public EnemyBullet, public BulletImpl
 {
 public:
+	static const bullet_properties props;
+
 	RumiaPinwheelBullet(GSpace* space, ObjectIDType id, Agent* agent, SpaceFloat angle, const SpaceVect& pos);
-
-	virtual inline SpaceFloat getMaxSpeed() const { return 4.5; }
-	virtual inline SpaceFloat getRadius() const { return 0.10; }
-
-	virtual inline string imageSpritePath() const { return "sprites/rumia_bullet.png"; }
-
-	static constexpr float spriteBaseRadius = 0.83f;
-	inline virtual float zoom() const { return getRadius() / spriteBaseRadius * 2; }
-
-	virtual AttributeMap getAttributeEffect() const;
 };
 
-class RumiaDemarcationBullet :
-	virtual public GObject,
-	public EnemyBullet,
-	public CircleBody,
-	public ImageSprite,
-	public DirectionalLaunch
+class RumiaDemarcationBullet : public EnemyBullet, public BulletImpl
 {
 public:
+	static const bullet_properties props;
+
 	RumiaDemarcationBullet(GSpace* space, ObjectIDType id, Agent* agent, SpaceFloat angle, const SpaceVect& pos);
-
-	virtual inline SpaceFloat getMaxSpeed() const { return 4.5; }
-	virtual inline SpaceFloat getRadius() const { return 0.10; }
-
-	virtual inline string imageSpritePath() const { return "sprites/rumia_demarcation_bullet.png"; }
-
-	static constexpr float spriteBaseRadius = 0.83f;
-	inline virtual float zoom() const { return getRadius() / spriteBaseRadius * 2; }
-
-	virtual AttributeMap getAttributeEffect() const;
 };
 
 class IllusionDialDagger :
@@ -253,24 +161,14 @@ public:
 	void update();
 };
 
-class YinYangOrb :
-	virtual public GObject,
-	public EnemyBullet,
-	public DirectionalLaunch,
-	public CircleBody,
-	public SpriteLightObject,
-	public ImageSprite
+class YinYangOrb : public EnemyBullet, public BulletImpl, public SpriteLightObject
 {
 public:
+	static const bullet_properties props;
+
 	YinYangOrb(GSpace* space, ObjectIDType id, Agent* agent, const SpaceVect& pos, SpaceFloat angle);
 
-	virtual inline SpaceFloat getRadius() const { return 0.5; }
-	virtual inline SpaceFloat getMaxSpeed() const { return 4.5; }
-	virtual inline string imageSpritePath() const { return "sprites/yin-yang-orb.png"; }
-	virtual inline float zoom() const { return 1.0f; }
 	virtual SpriteLightArea getLightSource() const;
-
-	virtual AttributeMap getAttributeEffect() const;
 };
 
 #endif /* Bullet_hpp */

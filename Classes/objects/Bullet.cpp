@@ -86,3 +86,15 @@ void Bullet::setBodyVisible(bool b)
 		space->setSpriteVisible(drawNodeID, b);
 	}
 }
+
+BulletImpl::BulletImpl(const bullet_properties* props) :
+	RegisterInit<BulletImpl>(this),
+	props(props)
+{
+}
+
+void BulletImpl::init()
+{
+	if (props->directionalLaunch)
+		setVel(SpaceVect::ray(getMaxSpeed(), getAngle()));
+}

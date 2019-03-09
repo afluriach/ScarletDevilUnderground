@@ -119,7 +119,6 @@ class CircleBody : public virtual GObject
 public:
 	inline CircleBody() {}
 
-    virtual SpaceFloat getRadius() const = 0;
     virtual SpaceFloat getMomentOfInertia() const;
 
     //Create body and add it to space. This assumes BB is rectangle dimensions

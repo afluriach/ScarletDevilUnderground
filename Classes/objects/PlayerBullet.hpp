@@ -11,7 +11,7 @@
 
 #include "Bullet.hpp"
 
-class PlayerBullet : virtual public GObject, public Bullet
+class PlayerBullet : virtual public Bullet
 {
 public:
 	PlayerBullet(Agent* agent);
@@ -40,45 +40,22 @@ public:
 	virtual SpaceFloat getKnockbackForce() const = 0;
 };
 
-class FlandreBigOrb1 : virtual public GObject, public PlayerBullet, public CircleBody, public ImageSprite, public DirectionalLaunch
+class FlandreBigOrb1 : public PlayerBullet, public BulletImpl
 {
 public:
+	static const bullet_properties props;
 
 	FlandreBigOrb1(GSpace* space, ObjectIDType id, Agent* agent, SpaceFloat angle, const SpaceVect& pos);
-
-	virtual inline SpaceFloat getMaxSpeed() const { return 4.5; }
-	virtual inline SpaceFloat getRadius() const { return 0.6; }
-
-	virtual inline string imageSpritePath() const { return "sprites/flandre_bullet.png"; }
-
-	static constexpr float spriteBaseRadius = 0.83f;
-	inline virtual float zoom() const { return getRadius() / spriteBaseRadius * 2; }
-
-	virtual AttributeMap getAttributeEffect() const;
 };
 
-class FlandreFastOrb1 :
-	virtual public GObject,
-	public PlayerBullet,
-	public CircleBody,
-	public ImageSprite,
-	public DirectionalLaunch,
-	public RadialLightObject
+class FlandreFastOrb1 : public PlayerBullet, public BulletImpl, public RadialLightObject
 {
 public:
+	static const bullet_properties props;
+
 	FlandreFastOrb1(GSpace* space, ObjectIDType id, Agent* agent, SpaceFloat angle, const SpaceVect& pos);
 
 	virtual inline CircleLightArea getLightSource() const { return CircleLightArea{ getPos(), 2.0, Color4F::RED*0.5f, 0.0 }; }
-
-	virtual inline SpaceFloat getMaxSpeed() const { return 9.0; }
-	virtual inline SpaceFloat getRadius() const { return 0.15; }
-
-	virtual inline string imageSpritePath() const { return "sprites/flandre_bullet.png"; }
-
-	static constexpr float spriteBaseRadius = 0.83f;
-	inline virtual float zoom() const { return getRadius() / spriteBaseRadius * 2; }
-
-	virtual AttributeMap getAttributeEffect() const;
 };
 
 class FlandrePolarMotionOrb :
@@ -125,57 +102,28 @@ public:
 	virtual inline SpaceFloat getKnockbackForce() const { return 0.0; }
 };
 
-class RumiaFastOrb1 : virtual public GObject, public PlayerBullet, public CircleBody, public ImageSprite, public DirectionalLaunch
+class RumiaFastOrb1 : public PlayerBullet, public BulletImpl
 {
 public:
+	static const bullet_properties props;
 
 	RumiaFastOrb1(GSpace* space, ObjectIDType id, Agent* agent, SpaceFloat angle, const SpaceVect& pos);
-
-	virtual inline SpaceFloat getMaxSpeed() const { return 9.0; }
-	virtual inline SpaceFloat getRadius() const { return 0.15; }
-
-	virtual inline string imageSpritePath() const { return "sprites/rumia_bullet.png"; }
-
-	static constexpr float spriteBaseRadius = 0.83f;
-	inline virtual float zoom() const { return getRadius() / spriteBaseRadius * 2; }
-
-	virtual AttributeMap getAttributeEffect() const;
 };
 
-class CirnoSmallIceBullet : virtual public GObject, public PlayerBullet, public CircleBody, public ImageSprite, public DirectionalLaunch
+class CirnoSmallIceBullet : public PlayerBullet, public BulletImpl
 {
 public:
+	static const bullet_properties props;
+
 	CirnoSmallIceBullet(GSpace* space, ObjectIDType id, Agent* agent, SpaceFloat angle, const SpaceVect& pos);
-
-	virtual inline SpaceFloat getMaxSpeed() const { return 9.0; }
-	virtual inline SpaceFloat getRadius() const { return 0.3; }
-
-	virtual inline string imageSpritePath() const { return "sprites/cirno_large_ice_bullet.png"; }
-
-	static constexpr float spriteBaseRadius = 0.83f;
-	inline virtual float zoom() const { return getRadius() / spriteBaseRadius * 2; }
-
-	virtual AttributeMap getAttributeEffect() const;
-	virtual shared_ptr<MagicEffect> getMagicEffect(gobject_ref target);
 };
 
-
-class CirnoLargeIceBullet : virtual public GObject, public PlayerBullet, public CircleBody, public ImageSprite, public DirectionalLaunch
+class CirnoLargeIceBullet : public PlayerBullet, public BulletImpl
 {
 public:
+	static const bullet_properties props;
 
 	CirnoLargeIceBullet(GSpace* space, ObjectIDType id, Agent* agent, SpaceFloat angle, const SpaceVect& pos);
-
-	virtual inline SpaceFloat getMaxSpeed() const { return 9.0; }
-	virtual inline SpaceFloat getRadius() const { return 0.6; }
-
-	virtual inline string imageSpritePath() const { return "sprites/cirno_large_ice_bullet.png"; }
-
-	static constexpr float spriteBaseRadius = 0.83f;
-	inline virtual float zoom() const { return getRadius() / spriteBaseRadius * 2; }
-
-	virtual AttributeMap getAttributeEffect() const;
-	virtual shared_ptr<MagicEffect> getMagicEffect(gobject_ref target);
 };
 
 class CirnoIceShieldBullet :
@@ -185,6 +133,8 @@ class CirnoIceShieldBullet :
 	public ImageSprite
 {
 public:
+	static const bullet_properties props;
+
 	CirnoIceShieldBullet(GSpace* space, ObjectIDType id, Agent* agent, SpaceFloat angle, const SpaceVect& pos);
 
 	virtual inline SpaceFloat getMaxSpeed() const { return 9.0; }

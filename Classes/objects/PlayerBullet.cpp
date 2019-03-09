@@ -12,6 +12,13 @@
 #include "Player.hpp"
 #include "PlayerBullet.hpp"
 
+#define cons(x) x::x(GSpace* space, ObjectIDType id, Agent* agent, SpaceFloat angle, const SpaceVect& pos) : \
+    GObject(space, id, "", pos, angle), \
+    Bullet(agent), \
+    PlayerBullet(agent), \
+    BulletImpl(&props) \
+{} \
+
 PlayerBullet::PlayerBullet(Agent* agent) :
 	Bullet(agent)
 {
@@ -56,31 +63,31 @@ void PlayerShield::onBulletCollide(Bullet* bullet)
 	space->removeObject(bullet);
 }
 
-FlandreBigOrb1::FlandreBigOrb1(GSpace* space, ObjectIDType id, Agent* agent, SpaceFloat angle, const SpaceVect& pos) :
-	GObject(space,id,"", pos, angle),
-	PlayerBullet(agent)
-{}
+const bullet_properties FlandreBigOrb1::props = {
+	0.1,
+	4.5,
+	0.6,
+	0.83,
+	"sprites/flandre_bullet.png",
+	hp_damage_map(3.0f)
+};
 
-AttributeMap FlandreBigOrb1::getAttributeEffect() const {
-	return {
-		{ Attribute::hp, -3 }
-	};
-}
+cons(FlandreBigOrb1)
 
-FlandreFastOrb1::FlandreFastOrb1(GSpace* space, ObjectIDType id, Agent* agent, SpaceFloat angle, const SpaceVect& pos) :
-	GObject(space,id,"", pos, angle),
-	PlayerBullet(agent)
-{
-}
+const bullet_properties FlandreFastOrb1::props = {
+	0.1,
+	9.0,
+	0.15,
+	0.83,
+	"sprites/flandre_bullet.png",
+	hp_damage_map(1.0f)
+};
 
-AttributeMap FlandreFastOrb1::getAttributeEffect() const {
-	return {
-		{ Attribute::hp, -1 }
-	};
-}
+cons(FlandreFastOrb1)
 
 FlandrePolarMotionOrb::FlandrePolarMotionOrb(GSpace* space, ObjectIDType id, Agent* agent, SpaceFloat angle, const SpaceVect& pos) :
 	GObject(space, id, "", pos, angle),
+	Bullet(agent),
 	PlayerBullet(agent),
 	RegisterUpdate<FlandrePolarMotionOrb>(this)
 {}
@@ -109,52 +116,45 @@ AttributeMap FlandreCounterClockBullet::getAttributeEffect() const {
 	};
 }
 
-RumiaFastOrb1::RumiaFastOrb1(GSpace* space, ObjectIDType id, Agent* agent, SpaceFloat angle, const SpaceVect& pos) :
-	GObject(space, id, "", pos, angle),
-	PlayerBullet(agent)
-{}
+const bullet_properties RumiaFastOrb1::props = {
+	0.1,
+	9.0,
+	0.15,
+	0.83,
+	"sprites/rumia_bullet.png",
+	hp_damage_map(1.0f)
+};
 
-AttributeMap RumiaFastOrb1::getAttributeEffect() const {
-	return {
-		{ Attribute::hp, -1 }
-	};
-}
+cons(RumiaFastOrb1)
+
+const bullet_properties CirnoSmallIceBullet::props = {
+	0.1,
+	9.0,
+	0.3,
+	0.83,
+	"sprites/cirno_large_ice_bullet.png",
+	{ { Attribute::hp, -1 },{ Attribute::iceDamage, 50 } }
+};
 
 CirnoSmallIceBullet::CirnoSmallIceBullet(GSpace* space, ObjectIDType id, Agent* agent, SpaceFloat angle, const SpaceVect& pos) :
 	GObject(space, id, "", pos, angle),
-	PlayerBullet(agent)
+	Bullet(agent),
+	PlayerBullet(agent),
+	BulletImpl(&props)
 {
 	hitCount = 3;
 }
 
-AttributeMap CirnoSmallIceBullet::getAttributeEffect() const {
-	return {
-		{ Attribute::hp, -1 },
-		{ Attribute::iceDamage, 50 }
-	};
-}
+const bullet_properties CirnoLargeIceBullet::props = {
+	0.1,
+	9.0,
+	0.6,
+	0.83,
+	"sprites/cirno_large_ice_bullet.png",
+	{ { Attribute::hp, -1 }, { Attribute::iceDamage, 50 } }
+};
 
-shared_ptr<MagicEffect> CirnoSmallIceBullet::getMagicEffect(gobject_ref target)
-{
-	return nullptr;
-}
-
-CirnoLargeIceBullet::CirnoLargeIceBullet(GSpace* space, ObjectIDType id, Agent* agent, SpaceFloat angle, const SpaceVect& pos) :
-	GObject(space,id,"", pos, angle),
-	PlayerBullet(agent)
-{}
-
-AttributeMap CirnoLargeIceBullet::getAttributeEffect() const {
-	return {
-		{Attribute::hp, -1},
-		{Attribute::iceDamage, 50}
-	};
-}
-
-shared_ptr<MagicEffect> CirnoLargeIceBullet::getMagicEffect(gobject_ref target)
-{
-	return nullptr;
-}
+cons(CirnoLargeIceBullet)
 
 CirnoIceShieldBullet::CirnoIceShieldBullet(GSpace* space, ObjectIDType id, Agent* agent, SpaceFloat angle, const SpaceVect& pos) :
 	GObject(space, id, "", pos, angle),
