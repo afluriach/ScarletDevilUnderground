@@ -12,7 +12,9 @@
 #include "EnemyBullet.hpp"
 #include "FirePattern.hpp"
 
-class IceFairyBulletPattern : public SingleBulletFixedIntervalPattern, public FirePatternImpl<IceFairyBullet>
+typedef BulletImplPattern<EnemyBulletImpl> EnemyBulletImplPattern;
+
+class IceFairyBulletPattern : public SingleBulletFixedIntervalPattern, public EnemyBulletImplPattern
 {
 public:
 	IceFairyBulletPattern(Agent *const agent);
@@ -23,7 +25,7 @@ public:
 	inline virtual float getCooldownTime() { return 2.0f; }
 };
 
-class Fairy1BulletPattern : public MultiBulletSpreadPattern, public FirePatternImpl<Fairy1Bullet>
+class Fairy1BulletPattern : public MultiBulletSpreadPattern, public EnemyBulletImplPattern
 {
 public:
 	Fairy1BulletPattern(
@@ -39,7 +41,7 @@ public:
 	inline virtual float getCooldownTime() { return 1.5f; }
 };
 
-class GreenFairyBulletPattern : public RadiusPattern, public FirePatternImpl<GreenFairyBullet>
+class GreenFairyBulletPattern : public RadiusPattern, public EnemyBulletImplPattern
 {
 public:
 	GreenFairyBulletPattern(
@@ -54,7 +56,7 @@ public:
 	inline virtual float getCooldownTime() { return 1.5f; }
 };
 
-class RumiaBurstPattern : public BurstPattern, public FirePatternImpl<RumiaBullet>
+class RumiaBurstPattern : public BurstPattern, public EnemyBulletImplPattern
 {
 public:
 	RumiaBurstPattern(Agent *const agent);

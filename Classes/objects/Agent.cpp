@@ -79,6 +79,11 @@ void Agent::update()
 	}
 }
 
+bool Agent::isBulletObstacle(SpaceVect pos, SpaceFloat radius)
+{
+	return space->obstacleRadiusQuery(this, pos, radius, bulletObstacles, PhysicsLayers::ground);
+}
+
 void Agent::sendAlert(Player* p)
 {
 	fsm.onAlert(p);

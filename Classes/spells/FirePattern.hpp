@@ -33,6 +33,30 @@ protected:
 };
 
 template<class C>
+class BulletImplPattern : virtual public FirePattern
+{
+public:
+	inline BulletImplPattern(const bullet_properties* props) : props(props) {}
+	virtual inline ~BulletImplPattern() {}
+
+	inline virtual bool spawn(SpaceFloat angle)
+	{
+		return spawn(SpaceVect::zero, angle);
+	}
+
+	inline virtual bool spawn(SpaceVect posOffset, SpaceFloat angle)
+	{
+		return agent->bulletImplCheckSpawn<C>(
+			agent->getPos() + SpaceVect::ray(getLaunchDistance(), angle) + posOffset,
+			angle,
+			props
+		).isValid();
+	}
+
+	const bullet_properties* props;
+};
+
+template<class C>
 class FirePatternImpl : virtual public FirePattern
 {
 public:
@@ -41,10 +65,7 @@ public:
 
 	inline virtual bool spawn(SpaceFloat angle)
 	{
-		return agent->bulletCheckSpawn<C>(
-			agent->getPos() + SpaceVect::ray(getLaunchDistance(), angle),
-			angle
-		).isValid();
+		return spawn(SpaceVect::zero , angle);
 	}
 
 	inline virtual bool spawn(SpaceVect posOffset, SpaceFloat angle)

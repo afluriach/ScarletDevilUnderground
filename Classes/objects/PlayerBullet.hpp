@@ -42,12 +42,15 @@ public:
 	virtual SpaceFloat getKnockbackForce() const = 0;
 };
 
-class FlandreBigOrb1 : public PlayerBullet, public BulletImpl
+class PlayerBulletImpl : public PlayerBullet, public BulletImpl
 {
 public:
-	static const bullet_properties props;
+	static const bullet_properties flandreBigOrb1;
+	static const bullet_properties rumiaFastOrb1;
+	static const bullet_properties cirnoSmallIceBullet;
+	static const bullet_properties cirnoLargeIceBullet;
 
-	cons(FlandreBigOrb1);
+	PlayerBulletImpl(GSpace* space, ObjectIDType id, const SpaceVect& pos, SpaceFloat angle, Agent* agent, const bullet_properties* props);
 };
 
 class FlandreFastOrb1 : public PlayerBullet, public BulletImpl, public RadialLightObject
@@ -90,30 +93,6 @@ public:
 
 	virtual AttributeMap getAttributeEffect() const;
 	virtual inline SpaceFloat getKnockbackForce() const { return 0.0; }
-};
-
-class RumiaFastOrb1 : public PlayerBullet, public BulletImpl
-{
-public:
-	static const bullet_properties props;
-
-	cons(RumiaFastOrb1);
-};
-
-class CirnoSmallIceBullet : public PlayerBullet, public BulletImpl
-{
-public:
-	static const bullet_properties props;
-
-	cons(CirnoSmallIceBullet);
-};
-
-class CirnoLargeIceBullet : public PlayerBullet, public BulletImpl
-{
-public:
-	static const bullet_properties props;
-
-	cons(CirnoLargeIceBullet);
 };
 
 class CirnoIceShieldBullet :

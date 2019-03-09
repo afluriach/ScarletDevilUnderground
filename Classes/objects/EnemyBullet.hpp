@@ -25,6 +25,20 @@ public:
 	bool grazeValid = true;
 };
 
+class EnemyBulletImpl : public EnemyBullet, public BulletImpl
+{
+public:
+	static const bullet_properties fairy1Bullet;
+	static const bullet_properties greenFairyBullet;
+	static const bullet_properties iceFairyBullet;
+	static const bullet_properties launcherBullet;
+	static const bullet_properties rumiaBullet;
+	static const bullet_properties rumiaDemarcationBullet;
+	static const bullet_properties rumiaPinwheelBullet;
+
+	EnemyBulletImpl(GSpace* space, ObjectIDType id, const SpaceVect& pos, SpaceFloat angle, Agent* agent, const bullet_properties* props);
+};
+
 class WaterBullet :
 virtual public GObject,
 public EnemyBullet,
@@ -80,62 +94,6 @@ public:
     
     static constexpr float spriteBaseRadius = 0.125f;
     inline virtual float zoom() const {return getRadius()/spriteBaseRadius*2;}
-};
-
-class Fairy1Bullet : public EnemyBullet, public BulletImpl
-{
-public:
-	static const bullet_properties props;
-
-	cons(Fairy1Bullet);
-};
-
-class GreenFairyBullet : public EnemyBullet, public BulletImpl
-{
-public:
-	static const bullet_properties props;
-
-	cons(GreenFairyBullet);
-};
-
-class IceFairyBullet : public EnemyBullet, public BulletImpl
-{
-public:
-	static const bullet_properties props;
-
-	cons(IceFairyBullet);
-};
-
-class LauncherBullet : public EnemyBullet, public BulletImpl
-{
-public:
-	static const bullet_properties props;
-
-	cons(LauncherBullet);
-};
-
-class RumiaBullet : public EnemyBullet, public BulletImpl
-{
-public:
-	static const bullet_properties props;
-
-	cons(RumiaBullet);
-};
-
-class RumiaPinwheelBullet : public EnemyBullet, public BulletImpl
-{
-public:
-	static const bullet_properties props;
-
-	cons(RumiaPinwheelBullet);
-};
-
-class RumiaDemarcationBullet : public EnemyBullet, public BulletImpl
-{
-public:
-	static const bullet_properties props;
-
-	cons(RumiaDemarcationBullet);
 };
 
 class IllusionDialDagger :

@@ -28,6 +28,12 @@ public:
 	space(nullptr)
     {}
 
+	template<class U>
+	inline object_ref(object_ref<U> rhs) :
+		space(rhs.getSpace()),
+		uuid(rhs.getID())
+	{}
+
     inline object_ref(GSpace* space, unsigned int uuid):
     uuid(uuid),
 	space(space)

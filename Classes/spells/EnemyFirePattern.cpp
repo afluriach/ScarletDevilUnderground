@@ -14,7 +14,8 @@
 
 IceFairyBulletPattern::IceFairyBulletPattern(Agent *const agent) :
 	SingleBulletFixedIntervalPattern(agent),
-	FirePattern(agent)
+	FirePattern(agent),
+	EnemyBulletImplPattern(&EnemyBulletImpl::iceFairyBullet)
 {
 }
 
@@ -25,7 +26,8 @@ Fairy1BulletPattern::Fairy1BulletPattern(
 	int bulletCount
 ) :
 	MultiBulletSpreadPattern(agent, fireInterval, sideAngleSpread, bulletCount),
-	FirePattern(agent)
+	FirePattern(agent),
+	EnemyBulletImplPattern(&EnemyBulletImpl::fairy1Bullet)
 {
 }
 
@@ -35,11 +37,13 @@ GreenFairyBulletPattern::GreenFairyBulletPattern(
 	int bulletCount
 ) :
 	RadiusPattern(agent, fireInterval, bulletCount),
-	FirePattern(agent)
+	FirePattern(agent),
+	EnemyBulletImplPattern(&EnemyBulletImpl::greenFairyBullet)
 {
 }
 
 RumiaBurstPattern::RumiaBurstPattern(Agent *const agent) :
 	FirePattern(agent),
-	BurstPattern(agent, 1.5, 0.25, 3)
+	BurstPattern(agent, 1.5, 0.25, 3),
+	EnemyBulletImplPattern(&EnemyBulletImpl::rumiaBullet)
 {}

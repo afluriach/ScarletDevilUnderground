@@ -16,7 +16,8 @@
 
 FlandreBigOrbPattern::FlandreBigOrbPattern(Agent *const agent) :
 	SingleBulletFixedIntervalPattern(agent),
-	FirePattern(agent)
+	FirePattern(agent),
+	PlayerBulletImplPattern(&PlayerBulletImpl::flandreBigOrb1)
 {
 }
 
@@ -48,22 +49,26 @@ FlandreWideAnglePattern2::FlandreWideAnglePattern2(Agent *const agent) :
 
 RumiaFastOrbPattern::RumiaFastOrbPattern(Agent *const agent) :
 	SingleBulletFixedIntervalPattern(agent),
-	FirePattern(agent)
+	FirePattern(agent),
+	PlayerBulletImplPattern(&PlayerBulletImpl::rumiaFastOrb1)
 {}
 
 const float RumiaParallelPattern::cooldown = 1.0f / 6.0f;
 
 RumiaParallelPattern::RumiaParallelPattern(Agent *const agent) :
 	MultiBulletParallelPattern(agent, cooldown, 1.0, 3),
-	FirePattern(agent)
+	FirePattern(agent),
+	PlayerBulletImplPattern(&PlayerBulletImpl::rumiaFastOrb1)
 {}
 
 CirnoLargeIceBulletPattern::CirnoLargeIceBulletPattern(Agent *const agent) :
 	SingleBulletFixedIntervalPattern(agent),
-	FirePattern(agent)
+	FirePattern(agent),
+	PlayerBulletImplPattern(&PlayerBulletImpl::cirnoLargeIceBullet)
 {}
 
 CirnoSmallIceBulletPattern::CirnoSmallIceBulletPattern(Agent *const agent) :
 	SingleBulletFixedIntervalPattern(agent),
-	FirePattern(agent)
+	FirePattern(agent),
+	PlayerBulletImplPattern(&PlayerBulletImpl::cirnoSmallIceBullet)
 {}

@@ -30,6 +30,79 @@ void EnemyBullet::invalidateGraze()
 	grazeValid = false;
 }
 
+const bullet_properties EnemyBulletImpl::fairy1Bullet = {
+	0.1,
+	6.0,
+	0.3,
+	0.83,
+	"sprites/ice_fairy_bullet.png",
+	hp_damage_map(5.0f)
+};
+
+const bullet_properties EnemyBulletImpl::greenFairyBullet = {
+	0.1,
+	6.0,
+	0.15,
+	0.83,
+	"sprites/green_fairy_bullet.png",
+	hp_damage_map(3.0f)
+};
+
+const bullet_properties EnemyBulletImpl::iceFairyBullet = {
+	0.1,
+	6.0,
+	0.3,
+	0.83,
+	"sprites/ice_fairy_bullet.png",
+	{ { Attribute::hp, -1 },{ Attribute::iceDamage, 25 } }
+};
+
+const bullet_properties EnemyBulletImpl::launcherBullet = {
+	0.1,
+	10.0,
+	0.3,
+	0.83,
+	"sprites/launcher_bullet.png",
+	hp_damage_map(1.0f)
+};
+
+const bullet_properties EnemyBulletImpl::rumiaBullet = {
+	0.1,
+	4.5,
+	0.15,
+	0.83,
+	"sprites/rumia_bullet.png",
+	hp_damage_map(5.0f)
+};
+
+const bullet_properties EnemyBulletImpl::rumiaDemarcationBullet = {
+	0.1,
+	4.5,
+	0.1,
+	0.83,
+	"sprites/rumia_demarcation_bullet.png",
+	hp_damage_map(5.0f)
+};
+
+const bullet_properties EnemyBulletImpl::rumiaPinwheelBullet = {
+	0.1,
+	4.5,
+	0.1,
+	0.83,
+	"sprites/rumia_bullet.png",
+	hp_damage_map(2.0f),
+	1,
+	false
+};
+
+EnemyBulletImpl::EnemyBulletImpl(GSpace* space, ObjectIDType id, const SpaceVect& pos, SpaceFloat angle, Agent* agent, const bullet_properties* props) :
+	GObject(space, id, "", pos, angle),
+	Bullet(agent),
+	EnemyBullet(agent),
+	BulletImpl(props)
+{}
+
+
 FireBullet::FireBullet(GSpace* space, ObjectIDType id, const SpaceVect& pos, SpaceFloat angle, Agent* agent, SpaceFloat speed) :
 	GObject(space, id, "", pos, angle),
 	Bullet(agent),
@@ -67,88 +140,6 @@ AttributeMap StarBullet::getAttributeEffect() const {
 		{ Attribute::hp, -1 }
 	};
 }
-
-const bullet_properties IceFairyBullet::props = {
-	0.1,
-	6.0,
-	0.3,
-	0.83,
-	"sprites/ice_fairy_bullet.png",
-	{ { Attribute::hp, -1 }, { Attribute::iceDamage, 25 } }
-};
-
-cons(IceFairyBullet)
-
-const bullet_properties LauncherBullet::props = {
-	0.1,
-	10.0,
-	0.3,
-	0.83,
-	"sprites/launcher_bullet.png",
-	hp_damage_map(1.0f)
-};
-
-LauncherBullet::LauncherBullet(GSpace* space, ObjectIDType id, const SpaceVect& pos, SpaceFloat angle, Agent* agent) :
-	GObject(space, id, "", pos, angle),
-	Bullet(agent),
-	EnemyBullet(agent),
-	BulletImpl(&props)
-{}
-
-const bullet_properties Fairy1Bullet::props = {
-	0.1,
-	6.0,
-	0.3,
-	0.83,
-	"sprites/ice_fairy_bullet.png",
-	hp_damage_map(5.0f)
-};
-
-cons(Fairy1Bullet)
-
-const bullet_properties GreenFairyBullet::props = {
-	0.1,
-	6.0,
-	0.15,
-	0.83,
-	"sprites/green_fairy_bullet.png",
-	hp_damage_map(3.0f)
-};
-
-cons(GreenFairyBullet)
-
-const bullet_properties RumiaBullet::props = {
-	0.1,
-	4.5,
-	0.15,
-	0.83,
-	"sprites/rumia_bullet.png",
-	hp_damage_map(5.0f)
-};
-
-cons(RumiaBullet)
-
-const bullet_properties RumiaPinwheelBullet::props = {
-	0.1,
-	4.5,
-	0.1,
-	0.83,
-	"sprites/rumia_bullet.png",
-	hp_damage_map(2.0f)
-};
-
-cons(RumiaPinwheelBullet)
-
-const bullet_properties RumiaDemarcationBullet::props = {
-	0.1,
-	4.5,
-	0.1,
-	0.83,
-	"sprites/rumia_demarcation_bullet.png",
-	hp_damage_map(5.0f)
-};
-
-cons(RumiaDemarcationBullet)
 
 IllusionDialDagger::IllusionDialDagger(GSpace* space, ObjectIDType id, Agent* agent, const SpaceVect& pos, SpaceFloat angular_velocity) :
 GObject(space,id,"", pos, 0.0),

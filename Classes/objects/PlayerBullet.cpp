@@ -63,7 +63,7 @@ void PlayerShield::onBulletCollide(Bullet* bullet)
 	space->removeObject(bullet);
 }
 
-const bullet_properties FlandreBigOrb1::props = {
+const bullet_properties PlayerBulletImpl::flandreBigOrb1 = {
 	0.1,
 	4.5,
 	0.6,
@@ -72,7 +72,40 @@ const bullet_properties FlandreBigOrb1::props = {
 	hp_damage_map(3.0f)
 };
 
-cons(FlandreBigOrb1)
+const bullet_properties PlayerBulletImpl::rumiaFastOrb1 = {
+	0.1,
+	9.0,
+	0.15,
+	0.83,
+	"sprites/rumia_bullet.png",
+	hp_damage_map(1.0f)
+};
+
+const bullet_properties PlayerBulletImpl::cirnoSmallIceBullet = {
+	0.1,
+	9.0,
+	0.3,
+	0.83,
+	"sprites/cirno_large_ice_bullet.png",
+	{ { Attribute::hp, -1 },{ Attribute::iceDamage, 50 } },
+	3
+};
+
+const bullet_properties PlayerBulletImpl::cirnoLargeIceBullet = {
+	0.1,
+	9.0,
+	0.6,
+	0.83,
+	"sprites/cirno_large_ice_bullet.png",
+	{ { Attribute::hp, -1 },{ Attribute::iceDamage, 50 } }
+};
+
+PlayerBulletImpl::PlayerBulletImpl(GSpace* space, ObjectIDType id, const SpaceVect& pos, SpaceFloat angle, Agent* agent, const bullet_properties* props) : 
+    GObject(space, id, "", pos, angle),
+    Bullet(agent),
+    PlayerBullet(agent),
+    BulletImpl(props)
+{}
 
 const bullet_properties FlandreFastOrb1::props = {
 	0.1,
@@ -119,46 +152,6 @@ AttributeMap FlandreCounterClockBullet::getAttributeEffect() const {
 		{ Attribute::hp, -1 }
 	};
 }
-
-const bullet_properties RumiaFastOrb1::props = {
-	0.1,
-	9.0,
-	0.15,
-	0.83,
-	"sprites/rumia_bullet.png",
-	hp_damage_map(1.0f)
-};
-
-cons(RumiaFastOrb1)
-
-const bullet_properties CirnoSmallIceBullet::props = {
-	0.1,
-	9.0,
-	0.3,
-	0.83,
-	"sprites/cirno_large_ice_bullet.png",
-	{ { Attribute::hp, -1 },{ Attribute::iceDamage, 50 } }
-};
-
-CirnoSmallIceBullet::CirnoSmallIceBullet(GSpace* space, ObjectIDType id, const SpaceVect& pos, SpaceFloat angle, Agent* agent) :
-	GObject(space, id, "", pos, angle),
-	Bullet(agent),
-	PlayerBullet(agent),
-	BulletImpl(&props)
-{
-	hitCount = 3;
-}
-
-const bullet_properties CirnoLargeIceBullet::props = {
-	0.1,
-	9.0,
-	0.6,
-	0.83,
-	"sprites/cirno_large_ice_bullet.png",
-	{ { Attribute::hp, -1 }, { Attribute::iceDamage, 50 } }
-};
-
-cons(CirnoLargeIceBullet)
 
 CirnoIceShieldBullet::CirnoIceShieldBullet(GSpace* space, ObjectIDType id, const SpaceVect& pos, SpaceFloat angle, Agent* agent) :
 	GObject(space, id, "", pos, angle),

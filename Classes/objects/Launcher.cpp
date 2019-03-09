@@ -36,9 +36,12 @@ void Launcher::update()
 		SpaceVect pos = getPos();
 		pos += SpaceVect::ray(1.0f, getAngle());
 
-		space->createObject(
-			GObject::make_object_factory<LauncherBullet>(pos, getAngle(), nullptr)
-		);
+		space->createObject(GObject::make_object_factory<EnemyBulletImpl>(
+			pos,
+			getAngle(),
+			nullptr,
+			&EnemyBulletImpl::launcherBullet
+		));
 		cooldownTime = fireInterval;
 	}
 }

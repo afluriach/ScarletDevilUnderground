@@ -27,6 +27,7 @@ struct bullet_properties
 	string sprite;
 	AttributeMap attributeEffect;
 
+	int hitCount = 1;
 	bool directionalLaunch = true;
 };
 

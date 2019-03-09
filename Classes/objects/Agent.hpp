@@ -14,6 +14,7 @@
 #include "Attributes.hpp"
 #include "GObject.hpp"
 
+struct bullet_properties;
 class FirePattern;
 
 class Agent :
@@ -32,8 +33,20 @@ public:
 	template<class ObjectCls>
 	inline gobject_ref bulletCheckSpawn(const SpaceVect& pos, SpaceFloat angle)
 	{
-		if (!space->obstacleRadiusQuery(this, pos, ObjectCls::props.radius, bulletObstacles, PhysicsLayers::ground))
+		if (!isBulletObstacle(pos, ObjectCls::props.radius))
 			return space->createObject(make_object_factory<ObjectCls>(pos, angle, this));
+		else
+			return nullptr;
+	}
+
+	template<class ObjectCls>
+	inline object_ref<ObjectCls> bulletImplCheckSpawn(
+		const SpaceVect& pos,
+		SpaceFloat angle,
+		const bullet_properties* props
+	){
+		if (!isBulletObstacle(pos, props->radius))
+			return space->createObject(make_object_factory<ObjectCls>(pos, angle, this, props));
 		else
 			return nullptr;
 	}
@@ -41,6 +54,8 @@ public:
 	void initFSM();
 	void initAttributes();
 	void update();
+
+	bool isBulletObstacle(SpaceVect pos, SpaceFloat radius);
 
 	void sendAlert(Player* p);
 

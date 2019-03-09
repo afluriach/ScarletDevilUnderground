@@ -91,6 +91,7 @@ BulletImpl::BulletImpl(const bullet_properties* props) :
 	RegisterInit<BulletImpl>(this),
 	props(props)
 {
+	hitCount = props->hitCount;
 }
 
 void BulletImpl::init()
