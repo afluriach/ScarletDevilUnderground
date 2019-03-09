@@ -46,8 +46,6 @@ public:
 	static const float bombCost;
 	static const float spellCost;
 
-	static const GType bombObstacles;
-
 	Player(GSpace* space, ObjectIDType id, const SpaceVect& pos, Direction d);
 	MapObjCons(Player);
 	inline virtual ~Player() {}

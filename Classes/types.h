@@ -131,6 +131,9 @@ enum class GType{
 	all = 0x7FFF
 };
 
+extern const GType bombObstacles;
+extern const GType bulletObstacles;
+
 enum class PlayerCharacter {
 	flandre = 0,
 	rumia,

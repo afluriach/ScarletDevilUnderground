@@ -47,9 +47,7 @@ bool SingleBulletFixedIntervalPattern::fire()
 	SpaceVect pos = agent->getPos();
 	pos += SpaceVect::ray(getLaunchDistance(), agent->getAngle());
 
-	agent->space->createObject(spawn(agent->getAngle()));
-
-	return true;
+	return spawn(agent->getAngle());
 }
 
 RadiusPattern::RadiusPattern(
@@ -72,7 +70,7 @@ bool RadiusPattern::fire()
 
 	for_irange(i, 0, bulletCount)
 	{
-		agent->space->createObject(spawn(angleStep * i));
+		spawn(angleStep * i);
 	}
 
 	return true;
@@ -103,7 +101,7 @@ bool MultiBulletSpreadPattern::fire()
 
 	for_irange(i, 0, bulletCount)
 	{
-		agent->space->createObject(spawn(angle - sideAngleSpread + angleStep*i));
+		spawn(angle - sideAngleSpread + angleStep*i);
 	}
 
 	return true;
@@ -133,7 +131,7 @@ bool MultiBulletParallelPattern::fire()
 
 	for_irange(i, 0, bulletCount)
 	{
-		agent->space->createObject(spawn(startOffset + perp*i, agent->getAngle()));
+		spawn(startOffset + perp*i, agent->getAngle());
 	}
 
 	return true;
@@ -167,7 +165,7 @@ bool BurstPattern::fire()
 {
 	if (countdownTimer > 0.0f) return false;
 
-	agent->space->createObject(spawn(agent->getAngle()));
+	spawn(agent->getAngle());
 
 	++crntBurstCount;
 

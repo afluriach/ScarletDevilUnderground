@@ -12,6 +12,8 @@
 #include "Bullet.hpp"
 #include "GObjectMixins.hpp"
 
+#define cons(x) x(GSpace* space, ObjectIDType id, const SpaceVect& pos, SpaceFloat angle, Agent* agent);
+
 class EnemyBullet : virtual public Bullet
 {
 public:
@@ -34,7 +36,7 @@ public DirectionalLaunch
 {
 public:
 
-	WaterBullet(GSpace* space, ObjectIDType id, Agent* agent, SpaceFloat angle, const SpaceVect& pos, SpaceFloat speed);
+	WaterBullet(GSpace* space, ObjectIDType id, const SpaceVect& pos, SpaceFloat angle, Agent* agent, SpaceFloat speed);
 
 	virtual inline CircleLightArea getLightSource() const { return CircleLightArea{ getPos(), 2.0, Color4F(.375f,.75f,.75f,.5f), 0.0 }; }
 
@@ -49,7 +51,7 @@ public:
 class FireBullet : virtual public GObject, public EnemyBullet, public CircleBody, public LoopAnimationSprite, public DirectionalLaunch, public MaxSpeedImpl
 {
 public:
-	FireBullet(GSpace* space, ObjectIDType id, Agent* agent, SpaceFloat angle, const SpaceVect& pos, SpaceFloat speed);
+	FireBullet(GSpace* space, ObjectIDType id, const SpaceVect& pos, SpaceFloat angle, Agent* agent, SpaceFloat speed);
 
 	virtual inline SpaceFloat getRadius() const { return 0.3; }
 
@@ -66,7 +68,7 @@ class StarBullet : virtual public GObject, public EnemyBullet, public CircleBody
 public:
     static const vector<string> colors;
 
-	StarBullet(GSpace* space, ObjectIDType id, Agent* agent, SpaceFloat angle, const SpaceVect& pos, SpaceFloat speed, SpaceFloat radius, const string& color);
+	StarBullet(GSpace* space, ObjectIDType id, const SpaceVect& pos, SpaceFloat angle, Agent* agent, SpaceFloat speed, SpaceFloat radius, const string& color);
 
     const string color;
 
@@ -85,7 +87,7 @@ class Fairy1Bullet : public EnemyBullet, public BulletImpl
 public:
 	static const bullet_properties props;
 
-	Fairy1Bullet(GSpace* space, ObjectIDType id, Agent* agent, SpaceFloat angle, const SpaceVect& pos);
+	cons(Fairy1Bullet);
 };
 
 class GreenFairyBullet : public EnemyBullet, public BulletImpl
@@ -93,7 +95,7 @@ class GreenFairyBullet : public EnemyBullet, public BulletImpl
 public:
 	static const bullet_properties props;
 
-	GreenFairyBullet(GSpace* space, ObjectIDType id, Agent* agent, SpaceFloat angle, const SpaceVect& pos);
+	cons(GreenFairyBullet);
 };
 
 class IceFairyBullet : public EnemyBullet, public BulletImpl
@@ -101,7 +103,7 @@ class IceFairyBullet : public EnemyBullet, public BulletImpl
 public:
 	static const bullet_properties props;
 
-	IceFairyBullet(GSpace* space, ObjectIDType id, Agent* agent, SpaceFloat angle, const SpaceVect& pos);
+	cons(IceFairyBullet);
 };
 
 class LauncherBullet : public EnemyBullet, public BulletImpl
@@ -109,7 +111,7 @@ class LauncherBullet : public EnemyBullet, public BulletImpl
 public:
 	static const bullet_properties props;
 
-	LauncherBullet(GSpace* space, ObjectIDType id, SpaceFloat angle, const SpaceVect& pos);
+	cons(LauncherBullet);
 };
 
 class RumiaBullet : public EnemyBullet, public BulletImpl
@@ -117,7 +119,7 @@ class RumiaBullet : public EnemyBullet, public BulletImpl
 public:
 	static const bullet_properties props;
 
-	RumiaBullet(GSpace* space, ObjectIDType id, Agent* agent, SpaceFloat angle, const SpaceVect& pos);
+	cons(RumiaBullet);
 };
 
 class RumiaPinwheelBullet : public EnemyBullet, public BulletImpl
@@ -125,7 +127,7 @@ class RumiaPinwheelBullet : public EnemyBullet, public BulletImpl
 public:
 	static const bullet_properties props;
 
-	RumiaPinwheelBullet(GSpace* space, ObjectIDType id, Agent* agent, SpaceFloat angle, const SpaceVect& pos);
+	cons(RumiaPinwheelBullet);
 };
 
 class RumiaDemarcationBullet : public EnemyBullet, public BulletImpl
@@ -133,7 +135,7 @@ class RumiaDemarcationBullet : public EnemyBullet, public BulletImpl
 public:
 	static const bullet_properties props;
 
-	RumiaDemarcationBullet(GSpace* space, ObjectIDType id, Agent* agent, SpaceFloat angle, const SpaceVect& pos);
+	cons(RumiaDemarcationBullet);
 };
 
 class IllusionDialDagger :
@@ -166,9 +168,11 @@ class YinYangOrb : public EnemyBullet, public BulletImpl, public SpriteLightObje
 public:
 	static const bullet_properties props;
 
-	YinYangOrb(GSpace* space, ObjectIDType id, Agent* agent, const SpaceVect& pos, SpaceFloat angle);
+	cons(YinYangOrb);
 
 	virtual SpriteLightArea getLightSource() const;
 };
+
+#undef cons
 
 #endif /* Bullet_hpp */

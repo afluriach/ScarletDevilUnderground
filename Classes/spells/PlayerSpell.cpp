@@ -102,9 +102,9 @@ void PlayerCounterClock::init()
 		SpaceVect disp = SpaceVect::ray(2.0 + offset, (i/2.0) * float_pi);
 
 		bullets[i] = caster->space->createObject(GObject::make_object_factory<FlandreCounterClockBullet>(
-			dynamic_cast<Agent*>(caster),
+			pos + disp,
 			(i / 2.0) * float_pi,
-			pos + disp
+			dynamic_cast<Agent*>(caster)
 		));
 	}
 }
@@ -194,9 +194,9 @@ void PlayerIceShield::init()
 		
 		bullets[i] = caster->space->createObject(
 			GObject::make_object_factory<CirnoIceShieldBullet>(
-				dynamic_cast<Agent*>(caster),
+				origin + pos,
 				angle - float_pi / 2.0,
-				origin + pos
+				dynamic_cast<Agent*>(caster)
 			)
 		);
 	}

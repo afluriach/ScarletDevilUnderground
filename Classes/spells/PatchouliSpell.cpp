@@ -26,7 +26,7 @@ void FireStarburst::runPeriodic()
 		SpaceVect crntPos = pos + SpaceVect::ray(1, angle);
 
 		caster->space->createObject(
-			GObject::make_object_factory<FireBullet>(dynamic_cast<Agent*>(caster), angle, pos, bulletSpeed)
+			GObject::make_object_factory<FireBullet>(pos, angle, dynamic_cast<Agent*>(caster), bulletSpeed)
 		);
 	}
 }
@@ -52,7 +52,7 @@ void FlameFence::init()
 			pos += SpaceVect(x, y) + rowSkew;
 
 			bullets.push_back(caster->space->createObject(
-				GObject::make_object_factory<FireBullet>(dynamic_cast<Agent*>(caster), 0.0f, pos, 0.0f)
+				GObject::make_object_factory<FireBullet>(pos, 0.0f, dynamic_cast<Agent*>(caster), 0.0f)
 			));
 		}
 	}
@@ -110,9 +110,9 @@ void Whirlpool1::update()
 
 		for_irange(i, 0, 6) {
 			caster->space->createObject(GObject::make_object_factory<WaterBullet>(
-				dynamic_cast<Agent*>(caster),
-				angles[i],
 				pos + SpaceVect::ray(1.0, angles[i]),
+				angles[i],
+				dynamic_cast<Agent*>(caster),
 				bulletSpeed
 			));
 		}
@@ -175,9 +175,9 @@ void Whirlpool2::update()
 
 		for_irange(i, 0, 12) {
 			caster->space->createObject(GObject::make_object_factory<WaterBullet>(
-				dynamic_cast<Agent*>(caster),
-				angles[i],
 				pos + SpaceVect::ray(1.0, angles[i]),
+				angles[i],
+				dynamic_cast<Agent*>(caster),
 				bulletSpeed
 			));
 		}

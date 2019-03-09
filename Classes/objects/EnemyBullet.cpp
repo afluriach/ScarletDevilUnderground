@@ -14,7 +14,7 @@
 #include "GSpace.hpp"
 #include "MagicEffect.hpp"
 
-#define cons(x) x::x(GSpace* space, ObjectIDType id, Agent* agent, SpaceFloat angle, const SpaceVect& pos) : \
+#define cons(x) x::x(GSpace* space, ObjectIDType id, const SpaceVect& pos, SpaceFloat angle, Agent* agent) : \
     GObject(space, id, "", pos, angle), \
     Bullet(agent), \
     EnemyBullet(agent), \
@@ -30,14 +30,14 @@ void EnemyBullet::invalidateGraze()
 	grazeValid = false;
 }
 
-FireBullet::FireBullet(GSpace* space, ObjectIDType id, Agent* agent, SpaceFloat angle, const SpaceVect& pos, SpaceFloat speed) :
+FireBullet::FireBullet(GSpace* space, ObjectIDType id, const SpaceVect& pos, SpaceFloat angle, Agent* agent, SpaceFloat speed) :
 	GObject(space, id, "", pos, angle),
 	Bullet(agent),
 	EnemyBullet(agent),
 	MaxSpeedImpl(speed)
 {}
 
-WaterBullet::WaterBullet(GSpace* space, ObjectIDType id, Agent* agent, SpaceFloat angle, const SpaceVect& pos, SpaceFloat speed) :
+WaterBullet::WaterBullet(GSpace* space, ObjectIDType id, const SpaceVect& pos, SpaceFloat angle, Agent* agent, SpaceFloat speed) :
 	GObject(space, id, "", pos, angle),
 	Bullet(agent),
 	EnemyBullet(agent),
@@ -54,7 +54,7 @@ const vector<string> StarBullet::colors = {
 	"yellow"
 };
 
-StarBullet::StarBullet(GSpace* space, ObjectIDType id, Agent* agent, SpaceFloat angle, const SpaceVect& pos, SpaceFloat speed, SpaceFloat radius, const string& color) :
+StarBullet::StarBullet(GSpace* space, ObjectIDType id, const SpaceVect& pos, SpaceFloat angle, Agent* agent, SpaceFloat speed, SpaceFloat radius, const string& color) :
 	GObject(space, id, "", pos, angle),
 	Bullet(agent),
 	EnemyBullet(agent),
@@ -88,10 +88,10 @@ const bullet_properties LauncherBullet::props = {
 	hp_damage_map(1.0f)
 };
 
-LauncherBullet::LauncherBullet(GSpace* space, ObjectIDType id, SpaceFloat angle, const SpaceVect& pos) :
+LauncherBullet::LauncherBullet(GSpace* space, ObjectIDType id, const SpaceVect& pos, SpaceFloat angle, Agent* agent) :
 	GObject(space, id, "", pos, angle),
-	Bullet(nullptr),
-	EnemyBullet(nullptr),
+	Bullet(agent),
+	EnemyBullet(agent),
 	BulletImpl(&props)
 {}
 
@@ -211,7 +211,7 @@ const bullet_properties YinYangOrb::props = {
 	hp_damage_map(10.0f)
 };
 
-YinYangOrb::YinYangOrb(GSpace* space, ObjectIDType id, Agent* agent, const SpaceVect& pos, SpaceFloat angle) :
+YinYangOrb::YinYangOrb(GSpace* space, ObjectIDType id, const SpaceVect& pos, SpaceFloat angle, Agent* agent) :
 	GObject(space, id, "", pos, angle),
 	Bullet(agent),
 	EnemyBullet(agent),

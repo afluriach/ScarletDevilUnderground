@@ -70,7 +70,7 @@ void ReimuEnemy::spawnOrbs()
 	for_irange(i, 0, orbCount)
 	{
 		SpaceFloat angle = float_pi * (0.25 + i*0.5);
-		orbs[i] = space->createObject(GObject::make_object_factory<YinYangOrb>(this, getPos() + SpaceVect::ray(1.5, angle), angle));
+		orbs[i] = space->createObject(GObject::make_object_factory<YinYangOrb>(getPos() + SpaceVect::ray(1.5, angle), angle, this));
 	}
 }
 

@@ -9,6 +9,7 @@
 #include "Prefix.h"
 
 #include "App.h"
+#include "enum.h"
 #include "types.h"
 
 SpaceRect::SpaceRect() :
@@ -76,6 +77,9 @@ bool SpaceRect::containsPoint(const SpaceVect& point) const
 		point.y >= getMinY() && point.y <= getMaxY()
 	);
 }
+
+const GType bombObstacles = enum_bitwise_or4(GType, enemy, environment, wall, bomb);
+const GType bulletObstacles = enum_bitwise_or4(GType, player, enemy, environment, wall);
 
 bool isValidChamber(ChamberID id)
 {

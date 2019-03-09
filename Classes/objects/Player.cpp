@@ -44,8 +44,6 @@ const float Player::bombCost = 1.0f;
 const float Player::powerAttackCost = 25.0f;
 const float Player::spellCost = 5.0f;
 
-const GType Player::bombObstacles = enum_bitwise_or4(GType, enemy, environment, wall, bomb);
-
 Player::Player(GSpace* space, ObjectIDType id, const SpaceVect& pos, Direction d) :
 	Agent(space, id, "player", pos,d),
 	RegisterUpdate<Player>(this)

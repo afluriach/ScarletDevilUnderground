@@ -113,9 +113,9 @@ void StarlightTyphoon::fire()
     SpaceVect pos = caster->getPos() + SpaceVect::ray(offset, angle);
     
 	caster->space->createObject(GObject::make_object_factory<StarBullet>(
-		dynamic_cast<Agent*>(caster),
-		arcPos,
 		pos,
+		arcPos,
+		dynamic_cast<Agent*>(caster),
 		crntSpeed,
 		radius,
 		StarBullet::colors[App::getRandomInt(0, StarBullet::colors.size() - 1)]
@@ -336,11 +336,10 @@ void DarknessSignDemarcation::generate()
 		SpaceVect pos = origin + SpaceVect::ray(launchDist, i*radialStep);
 		SpaceFloat angle = radialStep * i + (i % 2 ? 1.0 : -1.0)*angleSkew;
 
-		gobject_ref bullet = caster->space->createObject(GObject::make_object_factory<RumiaDemarcationBullet>(
-			dynamic_cast<Agent*>(caster),
-			angle,
-			pos
-		));
+		gobject_ref bullet = getCasterAs<Agent>()->bulletCheckSpawn<RumiaDemarcationBullet>(
+			pos,
+			angle
+		);
 	}
 }
 
@@ -414,11 +413,10 @@ void NightSignPinwheel::generateLeg(SpaceFloat angle)
 		SpaceFloat a = angle + angleStep * i;
 		SpaceVect pos = origin + SpaceVect::ray(d, a);
 
-		gobject_ref bullet = caster->space->createObject(GObject::make_object_factory<RumiaPinwheelBullet>(
-			dynamic_cast<Agent*>(caster),
-			a,
-			pos
-		));
+		gobject_ref bullet = getCasterAs<Agent>()->bulletCheckSpawn<RumiaPinwheelBullet>(
+			pos,
+			a
+		);
 		bullets.insert(bullet);
 	}
 }

@@ -12,7 +12,7 @@
 #include "Player.hpp"
 #include "PlayerBullet.hpp"
 
-#define cons(x) x::x(GSpace* space, ObjectIDType id, Agent* agent, SpaceFloat angle, const SpaceVect& pos) : \
+#define cons(x) x::x(GSpace* space, ObjectIDType id, const SpaceVect& pos, SpaceFloat angle, Agent* agent) : \
     GObject(space, id, "", pos, angle), \
     Bullet(agent), \
     PlayerBullet(agent), \
@@ -85,10 +85,20 @@ const bullet_properties FlandreFastOrb1::props = {
 
 cons(FlandreFastOrb1)
 
-FlandrePolarMotionOrb::FlandrePolarMotionOrb(GSpace* space, ObjectIDType id, Agent* agent, SpaceFloat angle, const SpaceVect& pos) :
+const bullet_properties FlandrePolarMotionOrb::props = {
+	1.0,
+	9.0,
+	0.15,
+	0.83,
+	"sprites/flandre_bullet.png",
+	hp_damage_map(1.0f)
+};
+
+FlandrePolarMotionOrb::FlandrePolarMotionOrb(GSpace* space, ObjectIDType id, const SpaceVect& pos, SpaceFloat angle, Agent* agent) :
 	GObject(space, id, "", pos, angle),
 	Bullet(agent),
 	PlayerBullet(agent),
+	BulletImpl(&props),
 	RegisterUpdate<FlandrePolarMotionOrb>(this)
 {}
 
@@ -98,13 +108,7 @@ void FlandrePolarMotionOrb::update()
 	rotate(App::secondsPerFrame * float_pi);
 }
 
-AttributeMap FlandrePolarMotionOrb::getAttributeEffect() const {
-	return {
-		{ Attribute::hp, -1 }
-	};
-}
-
-FlandreCounterClockBullet::FlandreCounterClockBullet(GSpace* space, ObjectIDType id, Agent* agent, SpaceFloat angle, const SpaceVect& pos) :
+FlandreCounterClockBullet::FlandreCounterClockBullet(GSpace* space, ObjectIDType id, const SpaceVect& pos, SpaceFloat angle, Agent* agent) :
 	GObject(space, id, "", pos, angle),
 	PlayerShield(agent),
 	RectangleBody(SpaceVect(4.0, 0.5))
@@ -136,7 +140,7 @@ const bullet_properties CirnoSmallIceBullet::props = {
 	{ { Attribute::hp, -1 },{ Attribute::iceDamage, 50 } }
 };
 
-CirnoSmallIceBullet::CirnoSmallIceBullet(GSpace* space, ObjectIDType id, Agent* agent, SpaceFloat angle, const SpaceVect& pos) :
+CirnoSmallIceBullet::CirnoSmallIceBullet(GSpace* space, ObjectIDType id, const SpaceVect& pos, SpaceFloat angle, Agent* agent) :
 	GObject(space, id, "", pos, angle),
 	Bullet(agent),
 	PlayerBullet(agent),
@@ -156,7 +160,7 @@ const bullet_properties CirnoLargeIceBullet::props = {
 
 cons(CirnoLargeIceBullet)
 
-CirnoIceShieldBullet::CirnoIceShieldBullet(GSpace* space, ObjectIDType id, Agent* agent, SpaceFloat angle, const SpaceVect& pos) :
+CirnoIceShieldBullet::CirnoIceShieldBullet(GSpace* space, ObjectIDType id, const SpaceVect& pos, SpaceFloat angle, Agent* agent) :
 	GObject(space, id, "", pos, angle),
 	PlayerShield(agent)
 {}

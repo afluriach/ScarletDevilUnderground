@@ -29,6 +29,15 @@ public:
 	MapObjCons(Agent);
 	inline virtual ~Agent() {}
 
+	template<class ObjectCls>
+	inline gobject_ref bulletCheckSpawn(const SpaceVect& pos, SpaceFloat angle)
+	{
+		if (!space->obstacleRadiusQuery(this, pos, ObjectCls::props.radius, bulletObstacles, PhysicsLayers::ground))
+			return space->createObject(make_object_factory<ObjectCls>(pos, angle, this));
+		else
+			return nullptr;
+	}
+
 	void initFSM();
 	void initAttributes();
 	void update();

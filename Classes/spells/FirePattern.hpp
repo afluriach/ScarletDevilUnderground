@@ -23,8 +23,8 @@ public:
 	virtual SpaceFloat getLaunchDistance() const { return 1.0; }
 
 	virtual bool fire() = 0;
-	virtual GObject::GeneratorType spawn(SpaceFloat angle) = 0;
-	virtual GObject::GeneratorType spawn(SpaceVect posOffset, SpaceFloat angle) = 0;
+	virtual bool spawn(SpaceFloat angle) = 0;
+	virtual bool spawn(SpaceVect posOffset, SpaceFloat angle) = 0;
 	virtual float getCooldownTime() = 0;
 	virtual string iconPath() const = 0;
 protected:
@@ -39,22 +39,20 @@ public:
 	inline FirePatternImpl() {}
 	virtual inline ~FirePatternImpl() {}
 
-	inline virtual GObject::GeneratorType spawn(SpaceFloat angle)
+	inline virtual bool spawn(SpaceFloat angle)
 	{
-		return GObject::make_object_factory<C>(
-			agent,
-			angle,
-			agent->getPos()+ SpaceVect::ray(getLaunchDistance(), angle)
-		);
+		return agent->bulletCheckSpawn<C>(
+			agent->getPos() + SpaceVect::ray(getLaunchDistance(), angle),
+			angle
+		).isValid();
 	}
 
-	inline virtual GObject::GeneratorType spawn(SpaceVect posOffset, SpaceFloat angle)
+	inline virtual bool spawn(SpaceVect posOffset, SpaceFloat angle)
 	{
-		return GObject::make_object_factory<C>(
-			agent,
-			angle,
-			agent->getPos() + SpaceVect::ray(getLaunchDistance(), angle) + posOffset
-		);
+		return agent->bulletCheckSpawn<C>(
+			agent->getPos() + SpaceVect::ray(getLaunchDistance(), angle) + posOffset,
+			angle
+		).isValid();
 	}
 
 };
