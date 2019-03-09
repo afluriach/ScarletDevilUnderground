@@ -881,6 +881,24 @@ SpaceVect Flock::cohesion(Agent* _agent)
 	}
 }
 
+OccupyPoint::OccupyPoint(SpaceVect target) :
+	target(target)
+{
+}
+
+void OccupyPoint::update(StateMachine& sm)
+{
+	SpaceFloat crnt_distance = distanceToTarget(sm.agent, target);
+	SpaceFloat stop_dist = getStoppingDistance(sm.agent->getMaxSpeed(), sm.agent->getMaxAcceleration());
+
+	if (crnt_distance > stop_dist) {
+		seek(sm.agent, target, sm.agent->getMaxSpeed(), sm.agent->getMaxAcceleration());
+	}
+	else {
+		arrive(sm.agent, target);
+	}
+}
+
 OccupyMidpoint::OccupyMidpoint(gobject_ref target1, gobject_ref target2) :
 target1(target1),
 target2(target2)

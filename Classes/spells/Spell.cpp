@@ -344,6 +344,54 @@ void DarknessSignDemarcation::generate()
 	}
 }
 
+const string DarknessSignDemarcation2::name = "DarknessSignDemarcation2";
+const string DarknessSignDemarcation2::description = "";
+
+const SpaceFloat DarknessSignDemarcation2::betweenBurstDelay = 5.0;
+const SpaceFloat DarknessSignDemarcation2::burstInterval = 2.0 / 3.0;
+const SpaceFloat DarknessSignDemarcation2::launchDist = 1.5;
+const SpaceFloat DarknessSignDemarcation2::angleSkew = float_pi / 1.5;
+const int DarknessSignDemarcation2::burstCount = 4;
+const int DarknessSignDemarcation2::bulletsPerBurst = 24;
+
+DarknessSignDemarcation2::DarknessSignDemarcation2(GObject* caster) :
+	Spell(caster)
+{
+}
+
+void DarknessSignDemarcation2::update()
+{
+	timerDecrement(timer);
+
+	if (timer <= 0.0)
+	{
+		generate();
+
+		++crntBurst;
+
+		timer = crntBurst < burstCount ? burstInterval : betweenBurstDelay;
+		crntBurst = crntBurst < burstCount ? crntBurst : 0;
+	}
+}
+
+void DarknessSignDemarcation2::generate()
+{
+	SpaceVect origin = caster->getPos();
+	SpaceFloat radialStep = float_pi * 2.0 / bulletsPerBurst;
+
+	for_irange(i, 0, bulletsPerBurst)
+	{
+		SpaceVect pos = origin + SpaceVect::ray(launchDist, i*radialStep);
+		SpaceFloat angle = radialStep * i ;
+
+		gobject_ref bullet = getCasterAs<Agent>()->bulletCheckSpawn<RumiaDemarcation2Bullet>(
+			pos,
+			angle,
+			(i % 2 ? 1.0 : -1.0)*angleSkew
+		);
+	}
+}
+
 const string NightSignPinwheel::name = "NightSignPinwheel";
 const string NightSignPinwheel::description = "";
 

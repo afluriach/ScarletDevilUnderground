@@ -256,6 +256,20 @@ protected:
 	unordered_set<object_ref<Agent>> neighbors;
 };
 
+class OccupyPoint : public Function {
+public:
+	OccupyPoint(SpaceVect target);
+
+	virtual void update(StateMachine& sm);
+
+	inline virtual bitset<lockCount> getLockMask() {
+		return make_enum_bitfield(ResourceLock::movement);
+	}
+
+	FuncGetName(OccupyPoint)
+protected:
+	SpaceVect target;
+};
 
 class OccupyMidpoint : public Function {
 public:

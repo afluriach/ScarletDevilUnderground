@@ -215,6 +215,33 @@ protected:
 	int crntBurst = 0;
 };
 
+class DarknessSignDemarcation2 : public Spell
+{
+public:
+	static const string name;
+	static const string description;
+
+	static const SpaceFloat betweenBurstDelay;
+	static const SpaceFloat burstInterval;
+	static const SpaceFloat launchDist;
+	static const SpaceFloat angleSkew;
+	static const int burstCount;
+	static const int bulletsPerBurst;
+
+	DarknessSignDemarcation2(GObject* caster);
+	inline virtual ~DarknessSignDemarcation2() {}
+
+	GET_DESC(DarknessSignDemarcation2)
+	inline virtual void init() {}
+	virtual void update();
+	inline virtual void end() {}
+protected:
+	void generate();
+
+	SpaceFloat timer = 0.0;
+	int crntBurst = 0;
+};
+
 class NightSignPinwheel : public Spell
 {
 public:

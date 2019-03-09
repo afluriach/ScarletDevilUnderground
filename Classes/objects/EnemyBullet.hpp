@@ -131,6 +131,28 @@ public:
 	virtual SpriteLightArea getLightSource() const;
 };
 
+class RumiaDemarcation2Bullet :
+	public EnemyBullet,
+	public BulletImpl,
+	public RegisterUpdate<RumiaDemarcation2Bullet>
+{
+public:
+	static const bullet_properties props;
+
+	RumiaDemarcation2Bullet(
+		GSpace* space,
+		ObjectIDType id,
+		const SpaceVect& pos,
+		SpaceFloat angle,
+		Agent* agent,
+		SpaceFloat angularVel
+	);
+
+	void update();
+protected:
+	SpaceFloat ttl;
+};
+
 #undef cons
 
 #endif /* Bullet_hpp */

@@ -224,3 +224,40 @@ SpriteLightArea YinYangOrb::getLightSource() const
 		3.0f
 	};
 }
+
+const bullet_properties RumiaDemarcation2Bullet::props = {
+	0.1,
+	6.0,
+	0.2,
+	0.83,
+	"sprites/rumia_demarcation_bullet.png",
+	hp_damage_map(7.5f)
+};
+
+RumiaDemarcation2Bullet::RumiaDemarcation2Bullet(
+	GSpace* space,
+	ObjectIDType id,
+	const SpaceVect& pos,
+	SpaceFloat angle,
+	Agent* agent,
+	SpaceFloat angularVel
+) :
+	GObject(space, id, "", pos, angle), 
+	Bullet(agent),
+	EnemyBullet(agent),
+	BulletImpl(&props),
+	RegisterUpdate<RumiaDemarcation2Bullet>(this),
+	ttl(DarknessSignDemarcation2::betweenBurstDelay * 2.0)
+{
+	setInitialAngularVelocity(angularVel);
+}
+
+void RumiaDemarcation2Bullet::update()
+{
+	setVel(SpaceVect::ray(getMaxSpeed(), getAngle()));
+
+	timerDecrement(ttl);
+	if (ttl <= 0.0) {
+		space->removeObject(this);
+	}
+}

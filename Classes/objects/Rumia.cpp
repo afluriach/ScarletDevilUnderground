@@ -36,10 +36,10 @@ void Rumia::initStateMachine(ai::StateMachine& fsm)
 
 			sm.agent->space->createDialog("dialogs/rumia1", false);
 
-			sm.addThread(make_shared<ai::MaintainDistance>(target, 5.0, 1.5));
+			sm.addThread(make_shared<ai::OccupyPoint>(sm.agent->getPos()));
 //			sm.addThread(make_shared<ai::FireAtTarget>(target));
 
-			sm.addThread(make_shared<ai::Cast>(make_spell_generator<NightSignPinwheel>()));
+			sm.addThread(make_shared<ai::Cast>(make_spell_generator<DarknessSignDemarcation2>()));
 		}
 	);
 }

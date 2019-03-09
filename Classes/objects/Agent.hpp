@@ -30,11 +30,11 @@ public:
 	MapObjCons(Agent);
 	inline virtual ~Agent() {}
 
-	template<class ObjectCls>
-	inline gobject_ref bulletCheckSpawn(const SpaceVect& pos, SpaceFloat angle)
+	template<class ObjectCls, typename... Args>
+	inline gobject_ref bulletCheckSpawn(const SpaceVect& pos, SpaceFloat angle, Args... args)
 	{
 		if (!isBulletObstacle(pos, ObjectCls::props.radius))
-			return space->createObject(make_object_factory<ObjectCls>(pos, angle, this));
+			return space->createObject(make_object_factory<ObjectCls>(pos, angle, this, args...));
 		else
 			return nullptr;
 	}
