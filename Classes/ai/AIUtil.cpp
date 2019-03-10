@@ -334,4 +334,11 @@ bullet_collide_function buildStressFromHits(float hpStressScale)
 	};
 }
 
+detect_function buildStressFromDetection(float perDetect)
+{
+	return [perDetect](ai::StateMachine& sm, GObject* target) -> void {
+		sm.getAgent()->modifyAttribute(Attribute::stress, perDetect);
+	};
+}
+
 }//end NS

@@ -371,19 +371,6 @@ protected:
 	boost::icl::interval_map<float, int> intervals;
 };
 
-class BuildStressFromPlayerProjectiles: public Function
-{
-public:
-	BuildStressFromPlayerProjectiles(float scale);
-
-	virtual void onEnter(StateMachine& sm);
-	virtual void onExit(StateMachine& sm);
-
-	FuncGetName(BuildStressFromPlayerProjectiles)
-protected:
-	float scale;
-};
-
 class FireOnStress : public Function {
 public:
 	FireOnStress(float stressPerShot);

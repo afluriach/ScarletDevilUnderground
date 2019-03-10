@@ -51,6 +51,7 @@ SpaceVect bezier(array<SpaceVect, 3> points, SpaceFloat t);
 SpaceVect bezierAcceleration(array<SpaceVect, 3> points);
 
 bullet_collide_function buildStressFromHits(float hpStressScale);
+detect_function buildStressFromDetection(float perDetect);
 
 } //end NS
 

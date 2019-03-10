@@ -322,9 +322,9 @@ void GreenFairy::initStateMachine(ai::StateMachine& sm)
 		sm.addThread(make_shared<ai::Wander>(0.75, 1.5, 2.0, 4.0), 0);
 		sm.addThread(make_shared<ai::EvadePlayerProjectiles>(), 1);
 		sm.addThread(make_shared<ai::FireOnStress>(5.0f));
-		sm.addThread(make_shared<ai::BuildStressFromPlayerProjectiles>(0.25f));
 	});
 
+	sm.addDetectFunction(GType::playerBullet, ai::buildStressFromDetection(0.25f));
 	sm.setBulletHitFunction(ai::buildStressFromHits(0.5f));
 }
 

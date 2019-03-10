@@ -950,26 +950,6 @@ void HPCastSequence::onExit(StateMachine& sm)
 	}
 }
 
-BuildStressFromPlayerProjectiles::BuildStressFromPlayerProjectiles(float scale) :
-	scale(scale)
-{
-}
-
-void BuildStressFromPlayerProjectiles::onEnter(StateMachine& sm)
-{
-	sm.addDetectFunction(
-		GType::playerBullet,
-		[this](ai::StateMachine& sm, GObject* target) -> void {
-			sm.getAgent()->modifyAttribute(Attribute::stress, scale);
-		}
-	);
-}
-
-void BuildStressFromPlayerProjectiles::onExit(StateMachine& sm)
-{
-	sm.removeDetectFunction(GType::playerBullet);
-}
-
 FireOnStress::FireOnStress(float stressPerShot) :
 	stressPerShot(stressPerShot)
 {
