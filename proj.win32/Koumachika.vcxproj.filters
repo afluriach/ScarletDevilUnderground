@@ -653,6 +653,9 @@
     <ClInclude Include="..\Classes\spells\SakuyaSpell.hpp">
       <Filter>src\spells</Filter>
     </ClInclude>
+    <ClInclude Include="..\Classes\graphics_types.h">
+      <Filter>src</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="game.rc">

@@ -10,15 +10,11 @@
 #define Player_hpp
 
 #include "Agent.hpp"
-#include "AIMixins.hpp"
-#include "controls.h"
-#include "GObject.hpp"
-#include "GObjectMixins.hpp"
 #include "macros.h"
 #include "object_ref.hpp"
-#include "scenes.h"
 
 class Collectible;
+struct ControlInfo;
 class ControlState;
 class Door;
 class EnemyBullet;

@@ -148,7 +148,7 @@ unique_ptr<ControlReplay> getControlReplay(string name)
 	}
 }
 
-void autosaveControlReplay(string sceneName, ControlReplay* cr)
+void autosaveControlReplay(string sceneName, const ControlReplay* cr)
 {
 	int idx = 1;
 
@@ -169,7 +169,7 @@ void autosaveControlReplay(string sceneName, ControlReplay* cr)
 	while(true);
 }
 
-void saveControlReplay(string name, ControlReplay* cr)
+void saveControlReplay(string name, const ControlReplay* cr)
 {
 	string filepath = io::getReplayFolderPath() + name + ".replay";
 	bool exists = FileUtils::getInstance()->isFileExist(filepath);

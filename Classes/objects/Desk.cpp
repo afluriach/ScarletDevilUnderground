@@ -23,6 +23,6 @@ void Desk::interact()
 {
 	space->addSceneAction(
 		[=]()->void { space->getSceneAs<PlayScene>()->enterWorldSelect(); },
-		GScene::updateOrder::sceneUpdate
+		SceneUpdateOrder::sceneUpdate
 	);
 }

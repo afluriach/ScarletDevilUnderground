@@ -9,51 +9,9 @@
 #ifndef Graphics_h
 #define Graphics_h
 
-#include "types.h"
-
-enum class cocos_action_tag
-{
-	illusion_dash,
-	damage_flicker,
-	object_fade,
-	hit_protection_flicker,
-	combo_mode_flicker,
-	freeze_status,
-
-	game_over_tint,
-};
+#include "graphics_types.h"
 
 extern const float fallAnimationTime;
-
-struct AmbientLightArea
-{
-	SpaceVect origin, dimensions;
-	Color4F color;
-};
-
-struct CircleLightArea
-{
-	SpaceVect origin;
-	SpaceFloat radius;
-	Color4F color;
-	float flood;
-};
-
-struct ConeLightArea
-{
-	SpaceVect origin;
-	SpaceFloat radius;
-	Color4F color;
-	float startAngle, endAngle;
-};
-
-struct SpriteLightArea
-{
-	SpaceVect origin;
-	string texName;
-	Color4F color = Color4F::WHITE;
-	float scale = 1.0f;
-};
 
 class ShaderNode : public Node
 {

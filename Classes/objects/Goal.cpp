@@ -35,7 +35,7 @@ void Goal::interact()
 
 	space->addSceneAction(
 		[=]()->void { playScene->triggerSceneCompleted(); },
-		GScene::updateOrder::sceneUpdate
+		SceneUpdateOrder::sceneUpdate
 	);
 }
 

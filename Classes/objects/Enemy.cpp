@@ -9,7 +9,6 @@
 #include "Prefix.h"
 
 #include "Enemy.hpp"
-#include "Graphics.h"
 #include "GSpace.hpp"
 #include "Player.hpp"
 

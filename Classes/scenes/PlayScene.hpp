@@ -9,11 +9,11 @@
 #ifndef PlayScene_hpp
 #define PlayScene_hpp
 
-#include "controls.h"
-#include "HUD.hpp"
 #include "scenes.h"
 
+struct ControlReplay;
 class GObject;
+class HUD;
 class MapMenu;
 class MenuLayer;
 class PauseMenu;
@@ -90,9 +90,9 @@ private:
 };
 
 template<typename...Args>
-inline pair<zero_arity_function, GScene::updateOrder> make_hud_action(void (HUD::*m)(Args...), PlayScene* playScene, Args ...args)
+inline pair<zero_arity_function, SceneUpdateOrder> make_hud_action(void (HUD::*m)(Args...), PlayScene* playScene, Args ...args)
 {
-	return pair<zero_arity_function, GScene::updateOrder>(generate_action(playScene->hud, m, args...), GScene::updateOrder::hudUpdate);
+	return pair<zero_arity_function, SceneUpdateOrder>(generate_action(playScene->hud, m, args...), SceneUpdateOrder::hudUpdate);
 }
 
 #endif /* PlayScene_hpp */

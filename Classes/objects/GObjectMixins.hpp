@@ -9,7 +9,6 @@
 #ifndef GObjectMixins_hpp
 #define GObjectMixins_hpp
 
-#include "Attributes.hpp"
 #include "functional.hpp"
 #include "GObject.hpp"
 #include "Graphics.h"

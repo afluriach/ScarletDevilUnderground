@@ -11,7 +11,6 @@
 
 #include "Enemy.hpp"
 #include "object_ref.hpp"
-#include "Player.hpp"
 
 class MarisaNPC : virtual public Agent, public NoAttributes, public DialogEntity
 {

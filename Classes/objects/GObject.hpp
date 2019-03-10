@@ -10,6 +10,7 @@
 #define GObject_hpp
 
 #include "enum.h"
+#include "graphics_types.h"
 #include "multifunction.h"
 #include "object_ref.hpp"
 #include "types.h"
@@ -156,6 +157,7 @@ public:
 	virtual inline void teleport(SpaceVect pos) { setPos(pos); }
 
 	bool isOnFloor() const;
+	SpaceVect getFloorVelocity() const;
 	void updateFloorSegment();
 	void updateFriction(float _uk);
 	void onContactFloorSegment(object_ref<FloorSegment> fs);

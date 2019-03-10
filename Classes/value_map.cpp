@@ -11,6 +11,7 @@
 #include "App.h"
 #include "GSpace.hpp"
 #include "types.h"
+#include "util.h"
 #include "value_map.hpp"
 
 void printValueMap(const ValueMap& obj)

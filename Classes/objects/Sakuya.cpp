@@ -8,7 +8,6 @@
 
 #include "Prefix.h"
 
-#include "Graphics.h"
 #include "GSpace.hpp"
 #include "Sakuya.hpp"
 #include "SakuyaSpell.hpp"

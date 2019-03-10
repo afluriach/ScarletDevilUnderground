@@ -12,6 +12,7 @@
 #include "Door.hpp"
 #include "Enemy.hpp"
 #include "GSpace.hpp"
+#include "HUD.hpp"
 #include "Player.hpp"
 #include "PlayScene.hpp"
 #include "Spawner.hpp"

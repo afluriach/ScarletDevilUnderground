@@ -8,8 +8,8 @@
 
 #include "Prefix.h"
 
-#include "GAnimation.hpp"
 #include "GSpace.hpp"
+#include "scenes.h"
 #include "Torch.hpp"
 #include "value_map.hpp"
 

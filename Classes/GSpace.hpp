@@ -9,16 +9,18 @@
 #ifndef GSpace_hpp
 #define GSpace_hpp
 
-#include "controls.h"
-#include "Graphics.h"
+#include "graphics_types.h"
 #include "macros.h"
 #include "object_ref.hpp"
-#include "scenes.h"
-#include "types.h"
 
+struct ControlInfo;
+struct ControlReplay;
 class FloorSegment;
 class GObject;
+class GScene;
+class HUD;
 class InteractibleObject;
+class PlayScene;
 
 #define OBJS_FROM_ARB \
     GObject* a = static_cast<GObject*>(arb->body_a_private->data); \
@@ -150,8 +152,8 @@ public:
 	}
 
 	void addObjectAction(zero_arity_function f);
-	void addSceneAction(pair<zero_arity_function, GScene::updateOrder> entry);
-	void addSceneAction(zero_arity_function f, GScene::updateOrder order);
+	void addSceneAction(pair<zero_arity_function, SceneUpdateOrder> entry);
+	void addSceneAction(zero_arity_function f, SceneUpdateOrder order);
 	void createDialog(string res, bool autoAdvance);
 	void createDialog(string res, bool autoAdvance, zero_arity_function f);
 
@@ -172,9 +174,9 @@ public:
 	bool getSuppressAction();
 
 	void loadReplay(unique_ptr<ControlReplay> replay);
-	ControlReplay* getReplay() { return controlReplay.get(); }
-	inline ControlInfo getControlInfo() { return controlInfo; }
-	inline void setControlInfo(ControlInfo info) { controlInfo = info; }
+	inline const ControlReplay* getReplay() { return controlReplay.get(); }
+	const ControlInfo* getControlInfo() const;
+	void setControlInfo(const ControlInfo* info);
 	inline bool getIsRunningReplay() { return isRunningReplay; }
 private:
 	void updateControlInfo();
@@ -208,10 +210,10 @@ private:
 	int crntMap = -1;
 	vector<SpaceRect> mapAreas;
 
-	ControlInfo controlInfo;
+	unique_ptr<ControlInfo> controlInfo;
 	unique_ptr<ControlReplay> controlReplay;
 	
-	vector<pair<zero_arity_function, GScene::updateOrder>> sceneActions;
+	vector<pair<zero_arity_function, SceneUpdateOrder>> sceneActions;
 	vector<zero_arity_function> objectActions;
 	mutex objectActionsMutex;
 

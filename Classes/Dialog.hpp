@@ -13,9 +13,7 @@
 //In most cases it will set the message text.
 //It can also change the title or dialog colors.
 
-#include "Graphics.h"
-#include "multifunction.h"
-
+class Cursor;
 class Dialog;
 class ControlListener;
 
@@ -107,7 +105,7 @@ private:
     bool manualAdvance = true;
     bool autoAdvance = false;
 //Events
-    util::multifunction<void()> onEnd;
+    vector<zero_arity_function> onEnd;
 };
 
 #endif /* Dialog_hpp */

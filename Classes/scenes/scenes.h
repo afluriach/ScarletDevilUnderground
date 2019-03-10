@@ -9,10 +9,10 @@
 #ifndef scenes_h
 #define scenes_h
 
-#include "Graphics.h"
+#include "graphics_types.h"
 #include "multifunction.h"
-#include "types.h"
 
+class ConeShader;
 class ControlListener;
 class Dialog;
 class GSpace;
@@ -21,6 +21,7 @@ class LuaShell;
 class MenuLayer;
 class PatchConAnimation;
 class PlayScene;
+class RadialGradient;
 class TimedLoopAnimation;
 
 namespace Lua{
@@ -43,24 +44,6 @@ public:
         //Objects that wish to query the GSpace, including looking up other objects that are expected
         //to be loaded.
         postLoadObjects,
-    };
-    
-    enum class updateOrder{
-        //Update tick on GSpace and all objects, if applicable
-		begin = 0,
-		queueActions = 0,
-		updateControls,
-		runShellScript,
-        spaceUpdate,
-        //General scene update logic
-        sceneUpdate,
-        moveCamera,
-		spriteUpdate,
-		lightmapUpdate,
-		renderSpace,
-        hudUpdate,
-
-		end
     };
     
     enum class sceneLayers{
@@ -134,9 +117,9 @@ public:
 
 	void processAdditions();
 
-	void addActions(const vector<pair<zero_arity_function, updateOrder>>& _actions);
+	void addActions(const vector<pair<zero_arity_function, SceneUpdateOrder>>& _actions);
 
-	void runActionsWithOrder(updateOrder order);
+	void runActionsWithOrder(SceneUpdateOrder order);
 
 	void setColorFilter(const Color4F& color);
 
@@ -297,8 +280,8 @@ protected:
 	unordered_map<LightID, Sprite*> lightmapSprites;
 	unordered_map<LightID, ConeShader*> lightmapCones;
 
-	unordered_map<updateOrder, vector<zero_arity_function>> actions;
-	vector<pair<zero_arity_function, updateOrder>> actionsToAdd;
+	unordered_map<SceneUpdateOrder, vector<zero_arity_function>> actions;
+	vector<pair<zero_arity_function, SceneUpdateOrder>> actionsToAdd;
 	mutex actionsMutex;
 
 	vector<MenuLayer*> menuStack;

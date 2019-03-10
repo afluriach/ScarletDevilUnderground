@@ -9,10 +9,8 @@
 #ifndef Agent_hpp
 #define Agent_hpp
 
-#include "AI.hpp"
 #include "AIMixins.hpp"
 #include "Attributes.hpp"
-#include "GObject.hpp"
 
 struct bullet_properties;
 class FirePattern;

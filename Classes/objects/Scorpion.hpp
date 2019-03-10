@@ -10,7 +10,6 @@
 #define Scorpion_hpp
 
 #include "Enemy.hpp"
-#include "Collectibles.hpp"
 #include "macros.h"
 
 class Scorpion1 :

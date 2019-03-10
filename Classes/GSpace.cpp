@@ -11,12 +11,14 @@
 #include "App.h"
 #include "AreaSensor.hpp"
 #include "Collectibles.hpp"
+#include "controls.h"
 #include "Door.hpp"
 #include "Enemy.hpp"
 #include "EnemyBullet.hpp"
 #include "FloorSegment.hpp"
 #include "Graph.hpp"
 #include "GSpace.hpp"
+#include "HUD.hpp"
 #include "Player.hpp"
 #include "PlayScene.hpp"
 #include "Spawner.hpp"
@@ -41,6 +43,7 @@ GSpace::GSpace(GScene* gscene) : gscene(gscene)
 		objByType[t] = unordered_set<GObject*>();
 	}
 
+	controlInfo = make_unique<ControlInfo>();
 	controlReplay = make_unique<ControlReplay>();
 	controlReplay->scene_name = GScene::crntSceneName;
 }
@@ -159,7 +162,7 @@ void GSpace::update()
 					physicsUpdate
 				);
 			},
-			GScene::updateOrder::hudUpdate
+			SceneUpdateOrder::hudUpdate
 		);
 	}
 
@@ -432,20 +435,28 @@ void GSpace::loadReplay(unique_ptr<ControlReplay> replay)
 	isRunningReplay = true;
 }
 
+const ControlInfo* GSpace::getControlInfo() const {
+	return controlInfo.get();
+}
+
+void GSpace::setControlInfo(const ControlInfo* info) {
+	*controlInfo = *info;
+}
+
 void GSpace::updateControlInfo()
 {
 	if (isRunningReplay)
 	{
 		if (frame >= controlReplay->control_data.size()) {
-			addSceneAction(bind(&PlayScene::triggerReplayCompleted, getSceneAs<PlayScene>()), GScene::updateOrder::hudUpdate);
+			addSceneAction(bind(&PlayScene::triggerReplayCompleted, getSceneAs<PlayScene>()), SceneUpdateOrder::hudUpdate);
 		}
 		else {
-			controlInfo = controlReplay->getControlInfo(frame);
+			*controlInfo = controlReplay->getControlInfo(frame);
 		}
 	}
 	else if(controlReplay)
 	{
-		controlReplay->control_data.push_back(getControlState(controlInfo));
+		controlReplay->control_data.push_back(getControlState(*controlInfo));
 
 		if (controlReplay->control_data.size() != frame + 1) {
 			log("frame %ud, control replay has %ud frames.", frame, controlReplay->control_data.size());
@@ -519,12 +530,12 @@ void GSpace::addObjectAction(zero_arity_function f)
 	objectActionsMutex.unlock();
 }
 
-void GSpace::addSceneAction(pair<zero_arity_function, GScene::updateOrder> entry)
+void GSpace::addSceneAction(pair<zero_arity_function, SceneUpdateOrder> entry)
 {
 	sceneActions.push_back(entry);
 }
 
-void GSpace::addSceneAction(zero_arity_function f, GScene::updateOrder order)
+void GSpace::addSceneAction(zero_arity_function f, SceneUpdateOrder order)
 {
 	sceneActions.push_back(make_pair(f,order));
 }
@@ -533,7 +544,7 @@ void GSpace::createDialog(string res, bool autoAdvance)
 {
 	addSceneAction(
 		[this, res, autoAdvance]() ->void { getScene()->createDialog(res, autoAdvance); },
-		GScene::updateOrder::sceneUpdate
+		SceneUpdateOrder::sceneUpdate
 	);
 }
 
@@ -541,7 +552,7 @@ void GSpace::createDialog(string res, bool autoAdvance, zero_arity_function f)
 {
 	addSceneAction(
 		[this, res, autoAdvance, f]() ->void { getScene()->createDialog(res, autoAdvance, f); },
-		GScene::updateOrder::sceneUpdate
+		SceneUpdateOrder::sceneUpdate
 	);
 }
 
@@ -579,7 +590,7 @@ void GSpace::eraseTile(int mapID, IntVec2 pos, string layer)
 {
 	addSceneAction(
 		bind(&GScene::eraseTile, gscene, mapID, pos, layer),
-		GScene::updateOrder::sceneUpdate
+		SceneUpdateOrder::sceneUpdate
 	);
 }
 
@@ -595,12 +606,12 @@ void GSpace::updatePlayerMapLocation(const SpaceVect& pos)
 
 	addSceneAction(
 		bind(&GScene::updateMapVisibility, gscene, pos),
-		GScene::updateOrder::sceneUpdate
+		SceneUpdateOrder::sceneUpdate
 	);
 
 	addSceneAction(
 		bind(&GScene::setUnitPosition, gscene, pos),
-		GScene::updateOrder::moveCamera
+		SceneUpdateOrder::moveCamera
 	);
 }
 

@@ -28,8 +28,8 @@ string getReplayFolderPath();
 unique_ptr<GState> loadProfileState(string name);
 
 unique_ptr<ControlReplay> getControlReplay(string name);
-void autosaveControlReplay(string sceneName, ControlReplay* cr);
-void saveControlReplay(string name, ControlReplay* cr);
+void autosaveControlReplay(string sceneName, const ControlReplay* cr);
+void saveControlReplay(string name, const ControlReplay* cr);
 }
 
 #endif /* FileIO_hpp */

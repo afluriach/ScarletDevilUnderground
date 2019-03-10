@@ -11,7 +11,6 @@
 
 #include "enum.h"
 #include "types.h"
-#include "util.h"
 
 enum class ControlAction
 {

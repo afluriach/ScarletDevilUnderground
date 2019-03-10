@@ -98,19 +98,6 @@ enum class Direction{
     end,
 };
 
-enum class GraphicsLayer{
-	begin = 1,
-    map = 1,
-    foliage,
-    floor,
-    ground,
-	roomMask,
-	agentOverlay,
-	overhead,
-
-	end
-};
-
 enum class GType{
 	none = 0x0,
 	

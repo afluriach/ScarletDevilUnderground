@@ -14,13 +14,10 @@
 #include "App.h"
 #include "Bullet.hpp"
 #include "FirePattern.hpp"
-#include "FloorSegment.hpp"
-#include "Graphics.h"
 #include "GSpace.hpp"
 #include "GObject.hpp"
 #include "GObjectMixins.hpp"
 #include "macros.h"
-#include "scenes.h"
 #include "Spell.hpp"
 #include "util.h"
 #include "value_map.hpp"
@@ -31,7 +28,7 @@ namespace ai{
 //just be a default value, in which case acceleration makes more sense.
 void applyDesiredVelocity(GObject* obj, SpaceVect desired, SpaceFloat acceleration)
 {
-	SpaceVect floorVel = obj->crntFloorCenterContact.isValid() ? obj->crntFloorCenterContact.get()->getVel() : SpaceVect::zero;
+	SpaceVect floorVel = obj->getFloorVelocity();
 	SpaceFloat traction = obj->getTraction();
 
 	desired += floorVel;

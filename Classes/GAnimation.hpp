@@ -10,7 +10,6 @@
 #define GAnimation_hpp
 
 #include "types.h"
-#include "util.h"
 
 SpriteFrame* loadSpriteFrame(const string& path);
 

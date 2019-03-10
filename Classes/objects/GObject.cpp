@@ -11,7 +11,6 @@
 #include "App.h"
 #include "enum.h"
 #include "FloorSegment.hpp"
-#include "GObject.hpp"
 #include "Graphics.h"
 #include "GSpace.hpp"
 #include "LuaAPI.hpp"
@@ -237,6 +236,11 @@ void GObject::setLayers(PhysicsLayers layers)
 bool GObject::isOnFloor() const
 {
 	return bitwise_and(PhysicsLayers, getCrntLayers(), PhysicsLayers::floor) != PhysicsLayers::none;
+}
+
+SpaceVect GObject::getFloorVelocity() const
+{
+	return crntFloorCenterContact.isValid() ? crntFloorCenterContact.get()->getVel() : SpaceVect::zero;
 }
 
 void GObject::updateFloorSegment()

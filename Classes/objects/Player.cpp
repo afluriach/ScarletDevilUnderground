@@ -17,8 +17,6 @@
 #include "EnemyBullet.hpp"
 #include "FloorSegment.hpp"
 #include "functional.hpp"
-#include "GAnimation.hpp"
-#include "Graphics.h"
 #include "GSpace.hpp"
 #include "GState.hpp"
 #include "HUD.hpp"
@@ -280,7 +278,7 @@ void Player::onZeroHP()
 		if (!space->getIsRunningReplay()) {
 			space->addSceneAction(
 				[=]()->void { playScene->triggerGameOver(); },
-				GScene::updateOrder::sceneUpdate
+				SceneUpdateOrder::sceneUpdate
 			);
 		}
 	}
@@ -293,7 +291,7 @@ void Player::update()
 	if (playScene) {
 		space->updatePlayerMapLocation(getPos());
 
-		ControlInfo cs = space->getControlInfo();
+		ControlInfo cs = *space->getControlInfo();
 
 		checkMovementControls(cs);
 		checkItemInteraction(cs);
@@ -464,7 +462,7 @@ void Player::useDoor(Door* interactTarget)
 	{
 		space->addSceneAction(
 			[destMap, dest]()->void { App::runOverworldScene(destMap, dest); },
-			GScene::updateOrder::sceneUpdate
+			SceneUpdateOrder::sceneUpdate
 		);
 	}
 }

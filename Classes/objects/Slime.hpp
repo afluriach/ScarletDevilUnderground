@@ -10,7 +10,6 @@
 #define Slime_hpp
 
 #include "Enemy.hpp"
-#include "Collectibles.hpp"
 #include "macros.h"
 
 class Slime1 :

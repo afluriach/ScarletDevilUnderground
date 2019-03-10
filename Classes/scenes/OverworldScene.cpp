@@ -11,6 +11,7 @@
 #include "App.h"
 #include "Door.hpp"
 #include "GSpace.hpp"
+#include "HUD.hpp"
 #include "macros.h"
 #include "OverworldScene.hpp"
 #include "Player.hpp"

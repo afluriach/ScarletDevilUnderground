@@ -17,8 +17,10 @@
 #include "functional.hpp"
 #include "GAnimation.hpp"
 #include "GObject.hpp"
+#include "Graphics.h"
 #include "GSpace.hpp"
 #include "LuaAPI.hpp"
+#include "LuaShell.hpp"
 #include "macros.h"
 #include "menu.h"
 #include "PlayScene.hpp"
@@ -120,38 +122,38 @@ control_listener(make_unique<ControlListener>())
 
 	multiUpdate.insertWithOrder(
 		wrap_method(GScene, queueActions, this),
-		to_int(updateOrder::queueActions)
+		to_int(SceneUpdateOrder::queueActions)
 	);
 	multiUpdate.insertWithOrder(
 		wrap_method(GScene, checkPendingScript, this),
-		to_int(updateOrder::runShellScript)
+		to_int(SceneUpdateOrder::runShellScript)
 	);
 	multiUpdate.insertWithOrder(
 		wrap_method(GScene, runScriptUpdate, this),
-		to_int(updateOrder::sceneUpdate)
+		to_int(SceneUpdateOrder::sceneUpdate)
 	);
 	multiUpdate.insertWithOrder(
-		bind(&GScene::runActionsWithOrder, this, updateOrder::spriteUpdate),
-		to_int(updateOrder::spriteUpdate)
+		bind(&GScene::runActionsWithOrder, this, SceneUpdateOrder::spriteUpdate),
+		to_int(SceneUpdateOrder::spriteUpdate)
 	);
 	multiUpdate.insertWithOrder(
-		bind(&GScene::runActionsWithOrder, this, updateOrder::lightmapUpdate),
-		to_int(updateOrder::lightmapUpdate)
+		bind(&GScene::runActionsWithOrder, this, SceneUpdateOrder::lightmapUpdate),
+		to_int(SceneUpdateOrder::lightmapUpdate)
 	);
 	multiUpdate.insertWithOrder(
 		wrap_method(GScene, renderSpace, this),
-		to_int(updateOrder::renderSpace)
+		to_int(SceneUpdateOrder::renderSpace)
 	);
 	multiUpdate.insertWithOrder(
-		bind(&GScene::runActionsWithOrder, this, updateOrder::sceneUpdate),
-		to_int(updateOrder::sceneUpdate)
+		bind(&GScene::runActionsWithOrder, this, SceneUpdateOrder::sceneUpdate),
+		to_int(SceneUpdateOrder::sceneUpdate)
 	);
 	multiUpdate.insertWithOrder(
-		bind(&GScene::runActionsWithOrder, this, updateOrder::hudUpdate),
-		to_int(updateOrder::hudUpdate)
+		bind(&GScene::runActionsWithOrder, this, SceneUpdateOrder::hudUpdate),
+		to_int(SceneUpdateOrder::hudUpdate)
 	);
 
-	enum_foreach(updateOrder, order, begin, end)
+	enum_foreach(SceneUpdateOrder, order, begin, end)
 	{
 		actions.insert_or_assign(order, vector<zero_arity_function>());
 	}
@@ -242,10 +244,11 @@ bool GScene::init()
 void GScene::update(float dt)
 {	
 	if (!isPaused) {
+		ControlInfo info = App::control_register->getControlInfo();
 		gspace->addObjectAction(bind(
 			&GSpace::setControlInfo,
 			gspace,
-			App::control_register->getControlInfo()
+			&info
 		));
 		spaceUpdateToRun.store(true);
 		spaceUpdateCondition.notify_one();
@@ -336,7 +339,7 @@ void GScene::processAdditions()
 	gspace->processAdditions();
 }
 
-void GScene::addActions(const vector<pair<zero_arity_function, updateOrder>>& _actions)
+void GScene::addActions(const vector<pair<zero_arity_function, SceneUpdateOrder>>& _actions)
 {
 	actionsMutex.lock();
 
@@ -1334,7 +1337,7 @@ void GScene::logPerformance()
 	);
 }
 
-void GScene::runActionsWithOrder(updateOrder order)
+void GScene::runActionsWithOrder(SceneUpdateOrder order)
 {
 	vector<zero_arity_function>& _actions = actions.at(order);
 

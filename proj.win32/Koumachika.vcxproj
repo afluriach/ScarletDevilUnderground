@@ -267,6 +267,7 @@ xcopy "$(ProjectDir)..\Resources" "$(OutDir)" /D /E /I /F /Y</Command>
     <ClInclude Include="..\Classes\GAnimation.hpp" />
     <ClInclude Include="..\Classes\Graph.hpp" />
     <ClInclude Include="..\Classes\Graphics.h" />
+    <ClInclude Include="..\Classes\graphics_types.h" />
     <ClInclude Include="..\Classes\GSpace.hpp" />
     <ClInclude Include="..\Classes\GState.hpp" />
     <ClInclude Include="..\Classes\HUD.hpp" />

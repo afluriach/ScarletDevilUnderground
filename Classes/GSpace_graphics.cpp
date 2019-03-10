@@ -160,12 +160,12 @@ void GSpace::clearSubroomMask(unsigned int roomID)
 
 void GSpace::_addLightmapAction(zero_arity_function f)
 {
-	sceneActions.push_back(make_pair(f, GScene::updateOrder::lightmapUpdate));
+	sceneActions.push_back(make_pair(f, SceneUpdateOrder::lightmapUpdate));
 }
 
 void GSpace::_addSpriteAction(zero_arity_function f)
 {
-	sceneActions.push_back(make_pair(f, GScene::updateOrder::spriteUpdate));
+	sceneActions.push_back(make_pair(f, SceneUpdateOrder::spriteUpdate));
 }
 
 //END GRAPHICS

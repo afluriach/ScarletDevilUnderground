@@ -11,6 +11,7 @@
 #include "App.h"
 #include "controls.h"
 #include "Dialog.hpp"
+#include "Graphics.h"
 #include "GState.hpp"
 #include "LuaAPI.hpp"
 #include "macros.h"
@@ -55,9 +56,8 @@ void Dialog::setAutoAdvance(bool _auto)
 
 void Dialog::setEndHandler(zero_arity_function f)
 {
-	onEnd += f;
+	onEnd.push_back(f);
 }
-
 
 //This will advance the dialog based on time.
 void Dialog::checkTimedAdvance()
@@ -139,9 +139,7 @@ void Dialog::runLuaScript(const string& script)
 
 void Dialog::setNextScene(const string& next)
 {
-	onEnd += [next]() -> void {
-		GScene::runScene(next);
-	};
+	onEnd.push_back(bind(&GScene::runScene, next));
 }
 
 void Dialog::unlockChamber(ChamberID id)
@@ -212,7 +210,7 @@ void Dialog::advanceFrame(bool resetCursor)
         }
     }
     else{
-		onEnd();
+		for(auto f : onEnd) f();
     }
 }
 

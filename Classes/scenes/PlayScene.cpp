@@ -14,8 +14,8 @@
 #include "FileIO.hpp"
 #include "functional.hpp"
 #include "GObject.hpp"
-#include "Graphics.h"
 #include "GSpace.hpp"
+#include "HUD.hpp"
 #include "macros.h"
 #include "menu_layers.h"
 #include "multifunction.h"
@@ -66,8 +66,8 @@ GScene(sceneName, maps)
     );
 
 	multiUpdate.insertWithOrder(
-		bind(&GScene::runActionsWithOrder, this, updateOrder::moveCamera),
-		to_int(updateOrder::moveCamera)
+		bind(&GScene::runActionsWithOrder, this, SceneUpdateOrder::moveCamera),
+		to_int(SceneUpdateOrder::moveCamera)
 	);
 
     control_listener->addPressListener(
@@ -109,7 +109,7 @@ void PlayScene::addHUD()
     getLayer(sceneLayers::hud)->addChild(hud);
     multiUpdate.insertWithOrder(
         wrap_method(PlayScene,updateHUD,this),
-        to_int(updateOrder::hudUpdate)
+        to_int(SceneUpdateOrder::hudUpdate)
     );
 }
 

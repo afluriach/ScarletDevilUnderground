@@ -11,7 +11,6 @@
 
 #include "enum.h"
 #include "object_ref.hpp"
-#include "SpellDescriptor.hpp"
 #include "types.h"
 
 class Agent;
