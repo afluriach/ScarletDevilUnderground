@@ -39,10 +39,4 @@ public:
 	FuncGetName(StalkerMain)
 };
 
-class StalkerTeleport : public ai::Cast {
-public:
-	StalkerTeleport();
-	FuncGetName(StalkerTeleport)
-};
-
 #endif /* Stalker_hpp */

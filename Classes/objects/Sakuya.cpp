@@ -8,6 +8,8 @@
 
 #include "Prefix.h"
 
+#include "AIFunctions.hpp"
+#include "AIUtil.hpp"
 #include "GSpace.hpp"
 #include "Sakuya.hpp"
 #include "SakuyaSpell.hpp"

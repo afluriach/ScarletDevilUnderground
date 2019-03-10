@@ -8,7 +8,7 @@
 
 #include "Prefix.h"
 
-#include "AI.hpp"
+#include "AIFunctions.hpp"
 #include "GSpace.hpp"
 #include "Marisa.hpp"
 #include "MarisaSpell.hpp"

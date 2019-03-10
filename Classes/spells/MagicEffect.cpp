@@ -9,6 +9,7 @@
 #include "Prefix.h"
 
 #include "Agent.hpp"
+#include "AIUtil.hpp"
 #include "AIMixins.hpp"
 #include "App.h"
 #include "GObject.hpp"

@@ -8,6 +8,7 @@
 
 #include "Prefix.h"
 
+#include "AIFunctions.hpp"
 #include "Bat.hpp"
 #include "GSpace.hpp"
 #include "macros.h"

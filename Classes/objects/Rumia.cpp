@@ -8,6 +8,7 @@
 
 #include "Prefix.h"
 
+#include "AIFunctions.hpp"
 #include "EnemyFirePattern.hpp"
 #include "GSpace.hpp"
 #include "Rumia.hpp"

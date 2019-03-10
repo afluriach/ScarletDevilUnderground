@@ -8,6 +8,7 @@
 
 #include "Prefix.h"
 
+#include "AIFunctions.hpp"
 #include "SakuyaNPC.hpp"
 
 const AttributeMap SakuyaNPC::baseAttributes = {

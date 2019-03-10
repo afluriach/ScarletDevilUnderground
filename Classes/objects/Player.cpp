@@ -8,7 +8,7 @@
 
 #include "Prefix.h"
 
-#include "AI.hpp"
+#include "AIUtil.hpp"
 #include "App.h"
 #include "Bomb.hpp"
 #include "Collectibles.hpp"

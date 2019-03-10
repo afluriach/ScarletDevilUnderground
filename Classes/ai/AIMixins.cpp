@@ -8,6 +8,7 @@
 
 #include "Prefix.h"
 
+#include "AIUtil.hpp"
 #include "AIMixins.hpp"
 #include "GSpace.hpp"
 #include "LuaAPI.hpp"

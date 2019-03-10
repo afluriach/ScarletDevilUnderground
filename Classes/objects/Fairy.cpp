@@ -8,7 +8,8 @@
 
 #include "Prefix.h"
 
-#include "AI.hpp"
+#include "AIFunctions.hpp"
+#include "AIUtil.hpp"
 #include "App.h"
 #include "EnemyFirePattern.hpp"
 #include "EnemySpell.hpp"

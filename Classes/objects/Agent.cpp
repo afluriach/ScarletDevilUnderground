@@ -9,6 +9,7 @@
 #include "Prefix.h"
 
 #include "Agent.hpp"
+#include "AIFunctions.hpp"
 #include "App.h"
 #include "Bullet.hpp"
 #include "Enemy.hpp"

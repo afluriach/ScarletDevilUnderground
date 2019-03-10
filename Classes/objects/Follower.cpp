@@ -8,6 +8,7 @@
 
 #include "Prefix.h"
 
+#include "AIUtil.hpp"
 #include "Follower.hpp"
 #include "GSpace.hpp"
 #include "macros.h"

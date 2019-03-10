@@ -339,6 +339,12 @@
     <ClCompile Include="..\Classes\spells\SakuyaSpell.cpp">
       <Filter>src\spells</Filter>
     </ClCompile>
+    <ClCompile Include="..\Classes\ai\AIFunctions.cpp">
+      <Filter>src\ai</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\ai\AIUtil.cpp">
+      <Filter>src\ai</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="main.h">
@@ -655,6 +661,12 @@
     </ClInclude>
     <ClInclude Include="..\Classes\graphics_types.h">
       <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\ai\AIFunctions.hpp">
+      <Filter>src\ai</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\ai\AIUtil.hpp">
+      <Filter>src\ai</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

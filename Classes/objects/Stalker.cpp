@@ -8,6 +8,7 @@
 
 #include "Prefix.h"
 
+#include "AIFunctions.hpp"
 #include "App.h"
 #include "EnemySpell.hpp"
 #include "Stalker.hpp"
@@ -74,11 +75,6 @@ void StalkerMain::onEnter(ai::StateMachine& sm)
 void StalkerMain::update(ai::StateMachine& sm)
 {
 	if (sm.getAgent()->getAttribute(Attribute::stamina) <= 0.0f) {
-		sm.push(make_shared<StalkerTeleport>());
+		sm.push(make_shared<ai::Cast>(make_spell_generator<Teleport>()));
 	}
-}
-
-StalkerTeleport::StalkerTeleport() :
-ai::Cast(make_spell_generator<Teleport>())
-{
 }

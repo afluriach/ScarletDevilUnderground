@@ -8,6 +8,7 @@
 
 #include "Prefix.h"
 
+#include "AIFunctions.hpp"
 #include "Slime.hpp"
 
 Slime1::Slime1(GSpace* space, ObjectIDType id, const ValueMap& args) :

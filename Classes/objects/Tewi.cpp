@@ -8,6 +8,7 @@
 
 #include "Prefix.h"
 
+#include "AIFunctions.hpp"
 #include "Tewi.hpp"
 
 const AttributeMap Tewi::baseAttributes = {

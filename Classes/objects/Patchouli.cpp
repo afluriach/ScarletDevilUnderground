@@ -8,6 +8,7 @@
 
 #include "Prefix.h"
 
+#include "AIFunctions.hpp"
 #include "App.h"
 #include "GState.hpp"
 #include "Patchouli.hpp"

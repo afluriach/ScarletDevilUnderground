@@ -8,6 +8,7 @@
 
 #include "Prefix.h"
 
+#include "AIFunctions.hpp"
 #include "Scorpion.hpp"
 
 Scorpion1::Scorpion1(GSpace* space, ObjectIDType id, const ValueMap& args) :

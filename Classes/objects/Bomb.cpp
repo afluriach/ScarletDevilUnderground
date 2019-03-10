@@ -9,6 +9,7 @@
 #include "Prefix.h"
 
 #include "Agent.hpp"
+#include "AIUtil.hpp"
 #include "Bomb.hpp"
 #include "GSpace.hpp"
 #include "Wall.hpp"
