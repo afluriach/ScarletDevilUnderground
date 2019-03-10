@@ -9,7 +9,7 @@
 #include "Prefix.h"
 
 #include "App.h"
-#include "Spell.hpp"
+#include "EnemySpell.hpp"
 #include "Stalker.hpp"
 #include "TeleportPad.hpp"
 

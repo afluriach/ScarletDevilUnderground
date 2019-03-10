@@ -330,6 +330,15 @@
     <ClCompile Include="..\Classes\spells\RumiaSpells.cpp">
       <Filter>src\spells</Filter>
     </ClCompile>
+    <ClCompile Include="..\Classes\spells\EnemySpell.cpp">
+      <Filter>src\spells</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\spells\MarisaSpell.cpp">
+      <Filter>src\spells</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\spells\SakuyaSpell.cpp">
+      <Filter>src\spells</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="main.h">
@@ -633,6 +642,15 @@
       <Filter>src\objects</Filter>
     </ClInclude>
     <ClInclude Include="..\Classes\spells\RumiaSpells.hpp">
+      <Filter>src\spells</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\spells\EnemySpell.hpp">
+      <Filter>src\spells</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\spells\MarisaSpell.hpp">
+      <Filter>src\spells</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\spells\SakuyaSpell.hpp">
       <Filter>src\spells</Filter>
     </ClInclude>
   </ItemGroup>

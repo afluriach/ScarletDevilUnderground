@@ -11,8 +11,10 @@
 #include "AI.hpp"
 #include "GSpace.hpp"
 #include "Marisa.hpp"
-#include "Spell.hpp"
+#include "MarisaSpell.hpp"
 #include "util.h"
+
+class GObject;
 
 MarisaNPC::MarisaNPC(GSpace* space, ObjectIDType id, const ValueMap& args) :
 	MapObjForwarding(GObject),

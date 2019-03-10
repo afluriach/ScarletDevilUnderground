@@ -8,9 +8,12 @@
 
 #include "Prefix.h"
 
+#include "EnemySpell.hpp"
+#include "MarisaSpell.hpp"
 #include "PatchouliSpell.hpp"
 #include "PlayerSpell.hpp"
 #include "RumiaSpells.hpp"
+#include "SakuyaSpell.hpp"
 #include "Spell.hpp"
 #include "SpellDescriptor.hpp"
 
