@@ -20,10 +20,8 @@ public:
     
 	virtual void update(StateMachine& sm);
     
-    inline virtual bitset<lockCount> getLockMask() {
-        return make_enum_bitfield(ResourceLock::movement);
-    }
-    FuncGetName(Seek)
+	GetLockmask(movement)
+	FuncGetName(Seek)
 protected:
 	gobject_ref target;
 	bool usePathfinding;
@@ -36,10 +34,7 @@ public:
     
 	virtual void update(StateMachine& sm);
     
-    inline virtual bitset<lockCount> getLockMask() {
-        return make_enum_bitfield(ResourceLock::movement);
-    }
-    
+    GetLockmask(movement)    
     FuncGetName(MaintainDistance)
 protected:
 	gobject_ref target;
@@ -54,10 +49,6 @@ public:
 
 	virtual void update(StateMachine& sm);
 
-	inline virtual bitset<lockCount> getLockMask() {
-		return make_enum_bitfield(ResourceLock::movement) | make_enum_bitfield(ResourceLock::look);
-	}
-
 	void onDetectNeighbor(Agent* agent);
 	void endDetectNeighbor(Agent* agent);
 
@@ -65,6 +56,7 @@ public:
 	SpaceVect align(Agent* _agent);
 	SpaceVect cohesion(Agent* _agent);
 
+	GetLockmask2(movement, look)
 	FuncGetName(Flock)
 protected:
 	unordered_set<object_ref<Agent>> neighbors;
@@ -76,10 +68,7 @@ public:
 
 	virtual void update(StateMachine& sm);
 
-	inline virtual bitset<lockCount> getLockMask() {
-		return make_enum_bitfield(ResourceLock::movement);
-	}
-
+	GetLockmask(movement)
 	FuncGetName(OccupyPoint)
 protected:
 	SpaceVect target;
@@ -91,10 +80,7 @@ public:
 
 	virtual void update(StateMachine& sm);
 
-	inline virtual bitset<lockCount> getLockMask() {
-		return make_enum_bitfield(ResourceLock::movement);
-	}
-
+	GetLockmask(movement)
 	FuncGetName(OccupyMidpoint)
 protected:
 	gobject_ref target1, target2;
@@ -106,10 +92,7 @@ public:
 
 	virtual void update(StateMachine& sm);
 
-	inline virtual bitset<lockCount> getLockMask() {
-		return make_enum_bitfield(ResourceLock::movement);
-	}
-
+	GetLockmask(movement)
 	FuncGetName(Scurry)
 protected:
 	unsigned int startFrame, endFrame;
@@ -118,7 +101,6 @@ protected:
 	gobject_ref target;
 };
 
-
 class Flee : public Function {
 public:
 	Flee(GObject* target, SpaceFloat distance);
@@ -126,11 +108,8 @@ public:
     
 	virtual void update(StateMachine& sm);
 
-    inline virtual bitset<lockCount> getLockMask() {
-        return make_enum_bitfield(ResourceLock::movement);
-    }
-    
-    FuncGetName(Flee)
+	GetLockmask(movement)
+	FuncGetName(Flee)
 protected:
 	gobject_ref target;
     SpaceFloat distance;
@@ -160,11 +139,8 @@ public:
 
 	virtual void update(StateMachine& fsm);
     
-    inline virtual bitset<lockCount> getLockMask() {
-        return make_enum_bitfield(ResourceLock::movement);
-    }
-    
-    FuncGetName(IdleWait)
+	GetLockmask(movement)
+	FuncGetName(IdleWait)
 private:
     int remaining;
 };
@@ -175,10 +151,7 @@ public:
 
 	virtual void update(StateMachine& fsm);
 
-	inline virtual bitset<lockCount> getLockMask() {
-		return make_enum_bitfield(ResourceLock::look);
-	}
-
+	GetLockmask(look)
 	FuncGetName(LookAround)
 private:
 	SpaceFloat angularVelocity;
@@ -191,10 +164,7 @@ public:
 	virtual void init(StateMachine& fsm);
 	virtual void update(StateMachine& fsm);
 
-	inline virtual bitset<lockCount> getLockMask() {
-		return make_enum_bitfield(ResourceLock::look);
-	}
-
+	GetLockmask(look)
 	FuncGetName(CircleAround)
 private:
 	SpaceVect center;
@@ -209,10 +179,7 @@ public:
 	virtual void init(StateMachine& fsm);
 	virtual void update(StateMachine& fsm);
 
-	inline virtual bitset<lockCount> getLockMask() {
-		return make_enum_bitfield(ResourceLock::movement);
-	}
-
+	GetLockmask(movement)
 	FuncGetName(Flank)
 private:
 	gobject_ref target;
@@ -225,10 +192,7 @@ public:
 
 	virtual void update(StateMachine& fsm);
 
-	inline virtual bitset<lockCount> getLockMask() {
-		return make_enum_bitfield(ResourceLock::look);
-	}
-
+	GetLockmask(look)
 	FuncGetName(QuadDirectionLookAround)
 private:
 	boost::rational<int> secondsPerDirection;
@@ -242,10 +206,7 @@ public:
 
 	virtual void update(StateMachine& fsm);
 
-	inline virtual bitset<lockCount> getLockMask() {
-		return make_enum_bitfield(ResourceLock::look);
-	}
-
+	GetLockmask(look)
 	FuncGetName(AimAtTarget)
 private:
 	gobject_ref target;
@@ -284,9 +245,7 @@ public:
     
     virtual void update(StateMachine& fsm);
 
-    inline virtual bitset<lockCount> getLockMask() {
-        return make_enum_bitfield(ResourceLock::movement);
-    }
+	GetLockmask(movement)
     FuncGetName(MoveToPoint)
 protected:
     SpaceVect target;
@@ -298,9 +257,7 @@ public:
 
 	virtual void update(StateMachine& fsm);
 
-	inline virtual bitset<lockCount> getLockMask() {
-		return make_enum_bitfield(ResourceLock::movement);
-	}
+	GetLockmask(movement)
 	FuncGetName(BezierMove)
 protected:
 	array<SpaceVect, 3> points;
@@ -317,10 +274,8 @@ public:
 
 	virtual void update(StateMachine& fsm);
     
-    inline virtual bitset<lockCount> getLockMask() {
-        return make_enum_bitfield(ResourceLock::movement) | make_enum_bitfield(ResourceLock::look);
-    }
-    FuncGetName(FollowPath)
+	GetLockmask(movement)
+	FuncGetName(FollowPath)
 protected:
 	Path path;
 	size_t currentTarget = 0;
@@ -335,6 +290,7 @@ public:
 	PathToTarget(Path path, gobject_ref target);
 
 	virtual void update(StateMachine& sm);
+	FuncGetName(PathToTarget)
 protected:
 	gobject_ref target;
 };
@@ -350,10 +306,8 @@ public:
 
     virtual void update(StateMachine& sm);
 
-    inline virtual bitset<lockCount> getLockMask() {
-        return make_enum_bitfield(ResourceLock::movement);
-    }
-    FuncGetName(Wander)
+	GetLockmask(movement)
+	FuncGetName(Wander)
 protected:
     SpaceFloat minWait, maxWait;
     SpaceFloat minDist, maxDist;
@@ -379,12 +333,8 @@ public:
 	virtual void update(StateMachine& sm);
 	virtual void onExit(StateMachine& sm);
 
+	GetLockmask(spellcasting)
 	FuncGetName(Cast)
-
-	inline virtual bitset<lockCount> getLockMask() {
-		return make_enum_bitfield(ResourceLock::spellcasting);
-	}
-
 protected:
 	SpellGeneratorType spell_generator;
 };
@@ -397,12 +347,8 @@ public:
 	virtual void update(StateMachine& sm);
 	virtual void onExit(StateMachine& sm);
 
+	GetLockmask(spellcasting)
 	FuncGetName(HPCast)
-
-	inline virtual bitset<lockCount> getLockMask() {
-		return make_enum_bitfield(ResourceLock::spellcasting);
-	}
-
 protected:
 	SpellGeneratorType spell_generator;
 	float caster_starting;
@@ -417,12 +363,8 @@ public:
 	virtual void update(StateMachine& sm);
 	virtual void onExit(StateMachine& sm);
 
+	GetLockmask(spellcasting)
 	FuncGetName(HPCastSequence)
-
-	inline virtual bitset<lockCount> getLockMask() {
-		return make_enum_bitfield(ResourceLock::spellcasting);
-	}
-
 protected:
 	int crntInterval = -1;
 	vector<SpellGeneratorType> spells;
@@ -438,8 +380,6 @@ public:
 	virtual void onExit(StateMachine& sm);
 
 	FuncGetName(BuildStressFromPlayerProjectiles)
-
-	inline virtual bitset<lockCount> getLockMask() { return bitset<lockCount>(); }
 protected:
 	float scale;
 };
@@ -449,11 +389,9 @@ public:
 	FireOnStress(float stressPerShot);
 
 	virtual void update(StateMachine& sm);
-	FuncGetName(FireOnStress)
 
-	inline virtual bitset<lockCount> getLockMask() {
-		return make_enum_bitfield(ResourceLock::fire);
-	}
+	GetLockmask(fire)
+	FuncGetName(FireOnStress)
 protected:
 	float stressPerShot;
 };
@@ -464,12 +402,8 @@ public:
 
 	virtual void update(StateMachine& sm);
 
+	GetLockmask2(look,fire)
 	FuncGetName(FireAtTarget)
-	
-	inline virtual bitset<lockCount> getLockMask() {
-		return make_enum_bitfield(ResourceLock::look) | make_enum_bitfield(ResourceLock::fire);
-	}
-
 protected:
 	gobject_ref target;
 };
@@ -480,12 +414,8 @@ public:
 
 	virtual void update(StateMachine& sm);
 
+	GetLockmask(fire)
 	FuncGetName(FireIfTargetsVisible)
-
-	inline virtual bitset<lockCount> getLockMask() {
-		return make_enum_bitfield(ResourceLock::fire);
-	}
-
 protected:
 	gobject_ref target;
 };

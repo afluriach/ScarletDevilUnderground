@@ -35,6 +35,8 @@ constexpr size_t lockCount = to_size_t(ResourceLock::end);
 class Thread;
 
 #define FuncGetName(cls) inline virtual string getName() const {return #cls;}
+#define GetLockmask(l) inline virtual bitset<lockCount> getLockMask() { return make_enum_bitfield(ResourceLock::l); }
+#define GetLockmask2(l, m) inline virtual bitset<lockCount> getLockMask() { return make_enum_bitfield(ResourceLock::l) | make_enum_bitfield(ResourceLock::m); }
 
 class Function
 {
