@@ -11,6 +11,7 @@
 #include "Graphics.h"
 #include "GSpace.hpp"
 #include "Sakuya.hpp"
+#include "Spell.hpp"
 
 const AttributeMap Sakuya::baseAttributes = {
 	{Attribute::maxHP, 30.0f },

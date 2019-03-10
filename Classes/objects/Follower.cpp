@@ -9,6 +9,7 @@
 #include "Prefix.h"
 
 #include "Follower.hpp"
+#include "GSpace.hpp"
 #include "macros.h"
 
 const AttributeMap Follower::baseAttributes = {

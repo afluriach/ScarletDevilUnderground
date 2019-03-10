@@ -240,14 +240,15 @@ RumiaDemarcation2Bullet::RumiaDemarcation2Bullet(
 	const SpaceVect& pos,
 	SpaceFloat angle,
 	Agent* agent,
-	SpaceFloat angularVel
+	SpaceFloat angularVel,
+	SpaceFloat ttl
 ) :
 	GObject(space, id, "", pos, angle), 
 	Bullet(agent),
 	EnemyBullet(agent),
 	BulletImpl(&props),
 	RegisterUpdate<RumiaDemarcation2Bullet>(this),
-	ttl(DarknessSignDemarcation2::betweenBurstDelay * 2.0)
+	ttl(ttl)
 {
 	setInitialAngularVelocity(angularVel);
 }

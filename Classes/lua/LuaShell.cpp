@@ -9,6 +9,7 @@
 #include "Prefix.h"
 
 #include "App.h"
+#include "LuaAPI.hpp"
 #include "LuaShell.hpp"
 
 const Color4F LuaShell::backgroundColor = Color4F(0.5, 0.5, 0.5, 0.5);

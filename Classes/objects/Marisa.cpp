@@ -11,6 +11,7 @@
 #include "AI.hpp"
 #include "GSpace.hpp"
 #include "Marisa.hpp"
+#include "Spell.hpp"
 #include "util.h"
 
 MarisaNPC::MarisaNPC(GSpace* space, ObjectIDType id, const ValueMap& args) :

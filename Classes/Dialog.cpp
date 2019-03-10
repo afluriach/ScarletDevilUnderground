@@ -12,6 +12,7 @@
 #include "controls.h"
 #include "Dialog.hpp"
 #include "GState.hpp"
+#include "LuaAPI.hpp"
 #include "macros.h"
 #include "scenes.h"
 

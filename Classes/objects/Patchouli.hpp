@@ -9,7 +9,6 @@
 #ifndef Patchouli_hpp
 #define Patchouli_hpp
 
-#include "AI.hpp"
 #include "Agent.hpp"
 #include "Enemy.hpp"
 

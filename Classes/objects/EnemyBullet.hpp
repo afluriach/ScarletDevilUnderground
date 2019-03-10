@@ -145,7 +145,8 @@ public:
 		const SpaceVect& pos,
 		SpaceFloat angle,
 		Agent* agent,
-		SpaceFloat angularVel
+		SpaceFloat angularVel,
+		SpaceFloat ttl
 	);
 
 	void update();

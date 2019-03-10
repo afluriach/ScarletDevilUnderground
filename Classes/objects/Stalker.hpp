@@ -9,10 +9,7 @@
 #ifndef Stalker_hpp
 #define Stalker_hpp
 
-#include "AI.hpp"
-#include "Collectibles.hpp"
 #include "Enemy.hpp"
-#include "macros.h"
 
 class Stalker : public Enemy, public BaseAttributes<Stalker>, public RegisterUpdate<Stalker>
 {

@@ -12,6 +12,7 @@
 #include "AreaSensor.hpp"
 
 class Agent;
+class Torch;
 
 class EffectArea :
 public AreaSensor, 

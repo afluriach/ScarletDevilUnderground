@@ -9,6 +9,7 @@
 #include "Prefix.h"
 
 #include "Facer.hpp"
+#include "GSpace.hpp"
 #include "macros.h"
 
 const AttributeMap Facer::baseAttributes = {

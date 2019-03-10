@@ -9,7 +9,6 @@
 #ifndef GAnimation_hpp
 #define GAnimation_hpp
 
-#include "App.h"
 #include "types.h"
 #include "util.h"
 

@@ -5,6 +5,7 @@
 #include "FileIO.hpp"
 #include "functional.hpp"
 #include "GState.hpp"
+#include "LuaAPI.hpp"
 #include "macros.h"
 #include "menu_scenes.h"
 #include "OpeningScene.hpp"

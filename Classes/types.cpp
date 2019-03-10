@@ -11,6 +11,7 @@
 #include "App.h"
 #include "enum.h"
 #include "types.h"
+#include "util.h"
 
 SpaceRect::SpaceRect() :
 	center(SpaceVect::zero),

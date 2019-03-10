@@ -9,6 +9,7 @@
 #include "Prefix.h"
 
 #include "Bat.hpp"
+#include "GSpace.hpp"
 #include "macros.h"
 
 const AttributeMap Bat::baseAttributes = {

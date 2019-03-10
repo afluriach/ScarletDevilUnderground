@@ -8,6 +8,7 @@
 
 #include "Prefix.h"
 
+#include "App.h"
 #include "GSpace.hpp"
 #include "Player.hpp"
 #include "PlayerBullet.hpp"

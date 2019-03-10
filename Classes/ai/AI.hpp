@@ -10,9 +10,7 @@
 #define AI_hpp
 
 #include "enum.h"
-#include "GSpace.hpp"
 #include "object_ref.hpp"
-#include "Spell.hpp"
 #include "SpellDescriptor.hpp"
 #include "types.h"
 

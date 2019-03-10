@@ -9,8 +9,6 @@
 #ifndef SpellDescriptor_hpp
 #define SpellDescriptor_hpp
 
-#include "Prefix.h"
-
 class GObject;
 class Spell;
 

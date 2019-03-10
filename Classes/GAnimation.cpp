@@ -8,6 +8,7 @@
 
 #include "Prefix.h"
 
+#include "App.h"
 #include "enum.h"
 #include "GAnimation.hpp"
 #include "macros.h"

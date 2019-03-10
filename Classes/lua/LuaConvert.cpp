@@ -17,8 +17,6 @@
 #include "macros.h"
 #include "scenes.h"
 
-class Spellcaster;
-
 namespace Lua{
 
 bool tableIsVec2(LuaRef t)

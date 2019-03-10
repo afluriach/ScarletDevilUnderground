@@ -8,6 +8,7 @@
 
 #include "Prefix.h"
 
+#include "App.h"
 #include "Door.hpp"
 #include "enum.h"
 #include "GSpace.hpp"

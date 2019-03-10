@@ -9,10 +9,13 @@
 #include "Prefix.h"
 
 #include "AI.hpp"
+#include "App.h"
 #include "EnemyFirePattern.hpp"
 #include "Fairy.hpp"
+#include "GSpace.hpp"
 #include "GState.hpp"
 #include "Player.hpp"
+#include "Spell.hpp"
 #include "value_map.hpp"
 
 const AttributeMap Fairy1::baseAttributes = {

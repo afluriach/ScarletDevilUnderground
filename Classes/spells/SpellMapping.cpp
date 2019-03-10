@@ -10,6 +10,7 @@
 
 #include "PatchouliSpell.hpp"
 #include "PlayerSpell.hpp"
+#include "RumiaSpells.hpp"
 #include "Spell.hpp"
 #include "SpellDescriptor.hpp"
 

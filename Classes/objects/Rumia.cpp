@@ -9,7 +9,9 @@
 #include "Prefix.h"
 
 #include "EnemyFirePattern.hpp"
+#include "GSpace.hpp"
 #include "Rumia.hpp"
+#include "RumiaSpells.hpp"
 #include "value_map.hpp"
 
 const AttributeMap Rumia::baseAttributes = {

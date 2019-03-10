@@ -8,6 +8,7 @@
 
 #include "Prefix.h"
 
+#include "App.h"
 #include "AreaSensor.hpp"
 #include "Collectibles.hpp"
 #include "Door.hpp"
@@ -19,6 +20,7 @@
 #include "Player.hpp"
 #include "PlayScene.hpp"
 #include "Spawner.hpp"
+#include "Spell.hpp"
 #include "Wall.hpp"
 
 class RadarObject;

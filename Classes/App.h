@@ -7,8 +7,7 @@
 The reason for implement as private inheritance is to hide some interface call by Director.
 */
 
-#include "LuaAPI.hpp"
-#include "LuaShell.hpp"
+#include "types.h"
 
 class App;
 class ControlRegister;
@@ -18,6 +17,7 @@ class GSpace;
 class GState;
 class HUD;
 class KeyRegister;
+namespace Lua { class Inst; }
 class PlayScene;
 class TimerSystem;
 

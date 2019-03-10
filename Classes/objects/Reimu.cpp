@@ -9,6 +9,7 @@
 #include "Prefix.h"
 
 #include "EnemyBullet.hpp"
+#include "GSpace.hpp"
 #include "Reimu.hpp"
 #include "value_map.hpp"
 

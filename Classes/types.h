@@ -16,6 +16,7 @@ class Bullet;
 class GObject;
 class GSpace;
 class Player;
+class Spell;
 
 typedef pair<float, float> float_pair;
 typedef pair<int,int> IntVec2;
@@ -32,6 +33,7 @@ typedef function<void(void)> zero_arity_function;
 
 typedef function<GObject*(GSpace*, ObjectIDType)> ObjectGeneratorType;
 typedef function<FiniteTimeAction*()> ActionGeneratorType;
+typedef function<shared_ptr<Spell>(GObject*)> SpellGeneratorType;
 
 typedef function<void(ai::StateMachine&, Player*)> alert_function;
 typedef function<void(ai::StateMachine&, GObject*)> detect_function;
