@@ -234,6 +234,7 @@ public:
     void update();
     
     void setSprite(const string& name);
+	void setSprite(const string& name, bool agentAnimation);
     
     virtual void setAngle(SpaceFloat a);
     virtual void setDirection(Direction d);

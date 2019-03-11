@@ -162,8 +162,13 @@ void PatchConSprite::initializeGraphics()
 
 void PatchConSprite::setSprite(const string& name)
 {
+	setSprite(name, isAgentAnimation());
+}
+
+void PatchConSprite::setSprite(const string& name, bool agentAnimation)
+{
 	if (spriteID != 0) {
-		space->loadAgentAnimation(spriteID, "sprites/" + name + ".png", isAgentAnimation());
+		space->loadAgentAnimation(spriteID, "sprites/" + name + ".png", agentAnimation);
 	}
 }
 
