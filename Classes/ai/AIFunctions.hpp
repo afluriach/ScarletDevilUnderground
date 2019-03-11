@@ -15,7 +15,7 @@ namespace ai{
 
 class Seek : public Function {
 public:
-	Seek(GObject* target, bool usePathfinding);
+	Seek(GObject* target, bool usePathfinding, SpaceFloat margin = 0.0);
     Seek(GSpace* space, const ValueMap& args);
     
 	virtual void update(StateMachine& sm);
@@ -24,6 +24,7 @@ public:
 	FuncGetName(Seek)
 protected:
 	gobject_ref target;
+	SpaceFloat margin;
 	bool usePathfinding;
 };
 

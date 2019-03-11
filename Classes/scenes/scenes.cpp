@@ -904,6 +904,7 @@ void GScene::loadMap(const MapEntry& mapEntry)
 	loadPaths(*tileMap, mapEntry.second);
 	loadWaypoints(*tileMap, mapEntry.second);
 	loadFloorSegments(*tileMap, mapEntry.second);
+	loadSensors(*tileMap, mapEntry.second);
 	loadMapObjects(*tileMap, mapEntry.second);
 	loadSubrooms(*tileMap, mapEntry.second);
 	loadWalls(*tileMap, mapEntry.second);
@@ -1000,7 +1001,16 @@ void GScene::loadFloorSegments(const TMXTiledMap& map, IntVec2 offset)
 	if (!floor)
 		return;
 
-	loadObjectGroup(map.getObjectGroup("floor"), offset);
+	loadObjectGroup(floor, offset);
+}
+
+void GScene::loadSensors(const TMXTiledMap& map, IntVec2 offset)
+{
+	TMXObjectGroup* sensors = map.getObjectGroup("sensors");
+	if (!sensors)
+		return;
+
+	loadObjectGroup(sensors, offset);
 }
 
 void GScene::loadObjectGroup(TMXObjectGroup* group, IntVec2 offset)

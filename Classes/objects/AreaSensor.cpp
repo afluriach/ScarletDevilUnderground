@@ -11,6 +11,7 @@
 #include "AreaSensor.hpp"
 #include "Door.hpp"
 #include "Enemy.hpp"
+#include "Fairy.hpp"
 #include "GSpace.hpp"
 #include "HUD.hpp"
 #include "Player.hpp"
@@ -245,4 +246,66 @@ void RoomSensor::spawnKey()
 	SpaceVect point = space->getWaypoint(keyWaypointName);
 	space->createObject(Collectible::create(collectible_id::key, point));
 	isKeyDrop = false;
+}
+
+GhostHeadstoneSensor::GhostHeadstoneSensor(GSpace* space, ObjectIDType id, const ValueMap& args) :
+	GObject(space, id, args),
+	AreaSensor(space, id, args),
+	RegisterInit<GhostHeadstoneSensor>(this)
+{
+	targetName = getStringOrDefault(args, "target", "");
+	cost = getIntOrDefault(args, "cost", -1);
+
+	if (cost == -1) {
+		log("GhostHeadstoneSensor %s: unknown cost.", name.c_str());
+	}
+}
+
+void GhostHeadstoneSensor::init()
+{
+	if (targetName.empty()) {
+		log("GhostHeadstoneSensor %s, unknown target.", name.c_str());
+	}
+	else {
+		target = space->getObjectRef(targetName);
+	}
+}
+
+void GhostHeadstoneSensor::checkActivate()
+{
+	if (target.isValid() && fairies.size() >= cost)
+	{
+		int i = 0;
+		auto it = fairies.begin();
+
+		//These objects will actually be removed when removals are processed,
+		//but it will not run more than once for this sensor.
+		for (; it != fairies.end() && i < cost; ++i, ++it) {
+			space->removeObject((*it).get());
+		}
+
+		space->removeObject(target.get());
+		target = nullptr;
+	}
+}
+
+void GhostHeadstoneSensor::onNPCContact(Agent* agent)
+{
+	if (auto fairy = dynamic_cast<GhostFairyNPC*>(agent)) {
+		fairies.insert(fairy);
+	}
+
+	checkActivate();
+}
+
+void GhostHeadstoneSensor::onNPCEndContact(Agent* agent)
+{
+	if (auto fairy = dynamic_cast<GhostFairyNPC*>(agent)) {
+		fairies.erase(fairy);
+	}
+}
+
+void GhostHeadstoneSensor::onPlayerContact(Player* p)
+{
+	checkActivate();
 }

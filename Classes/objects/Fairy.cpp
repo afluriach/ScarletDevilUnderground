@@ -207,7 +207,23 @@ void BlueFairyNPC::onDialogEnd()
 
 bool GhostFairyNPC::conditionalLoad(GSpace* space, ObjectIDType id, const ValueMap& args)
 {
-	return true;
+	int level = getIntOrDefault(args, "level", -1);
+	int levelCount = enum_count(ChamberID, graveyard2, graveyard0);
+
+	if (level == -1) {
+		log("GhostFairyNPC: unknown level!");
+		return false;
+	}
+	else if (level > enum_count(ChamberID, graveyard2, graveyard0)) {
+		log("GhostFairyNPC: invalid level %d!", level);
+		return false;
+	}
+	else if (level == 0) {
+		return true;
+	}
+	else {
+		return App::crntState->isChamberCompleted(enum_add(ChamberID, ChamberID::graveyard0, level - 1));
+	}
 }
 
 GhostFairyNPC::GhostFairyNPC(GSpace* space, ObjectIDType id, const ValueMap& args) :
@@ -218,7 +234,15 @@ GhostFairyNPC::GhostFairyNPC(GSpace* space, ObjectIDType id, const ValueMap& arg
 
 void GhostFairyNPC::initStateMachine(ai::StateMachine& sm)
 {
-	sm.addThread(make_shared<ai::Wander>());
+	sm.addThread(make_shared<ai::Wander>(), 1);
+
+	sm.addDetectFunction(
+		GType::player,
+		[](ai::StateMachine& sm, GObject* target) -> void {
+			if(!sm.isThreadRunning("Seek"))
+				sm.addThread(make_shared<ai::Seek>(target, true, 1.5), 2);
+		}
+	);
 }
 
 

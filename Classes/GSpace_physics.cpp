@@ -112,6 +112,7 @@ void GSpace::addCollisionHandlers()
 
 	_addHandler(player, areaSensor, playerAreaSensorBegin, playerAreaSensorEnd);
 	_addHandler(enemy, areaSensor, enemyAreaSensorBegin, enemyAreaSensorEnd);
+	_addHandler(npc, areaSensor, npcAreaSensorBegin, npcAreaSensorEnd);
 	_addHandler(environment, areaSensor, environmentAreaSensorBegin, environmentAreaSensorEnd);
 }
 
@@ -508,6 +509,27 @@ void GSpace::enemyAreaSensorEnd(GObject* a, GObject *b, cpArbiter* arb)
 
 	if (e && as) {
 		as->onEnemyEndContact(e);
+	}
+}
+
+int GSpace::npcAreaSensorBegin(GObject* a, GObject *b, cpArbiter* arb)
+{
+	Agent* npc = dynamic_cast<Agent*>(a);
+	AreaSensor* as = dynamic_cast<AreaSensor*>(b);
+
+	if (npc && as) {
+		as->onNPCContact(npc);
+	}
+	return 1;
+}
+
+void GSpace::npcAreaSensorEnd(GObject* a, GObject *b, cpArbiter* arb)
+{
+	Agent* npc = dynamic_cast<Agent*>(a);
+	AreaSensor* as = dynamic_cast<AreaSensor*>(b);
+
+	if (npc && as) {
+		as->onNPCEndContact(npc);
 	}
 }
 

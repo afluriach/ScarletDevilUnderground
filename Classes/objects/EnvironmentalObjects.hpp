@@ -28,6 +28,12 @@ public:
 	virtual inline SpaceFloat getMass() const { return -1.0; }
 };
 
+class GhostHeadstone : public Headstone
+{
+public:
+	MapObjCons(GhostHeadstone);
+};
+
 class Sapling :
 	virtual public GObject,
 	public RectangleBody,

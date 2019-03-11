@@ -15,6 +15,8 @@
 
 class Door;
 class Enemy;
+class GhostHeadstone;
+class GhostFairyNPC;
 class Spawner;
 
 class AreaSensor :
@@ -40,6 +42,9 @@ public:
 
 	void onEnemyContact(Enemy*);
 	void onEnemyEndContact(Enemy*);
+
+	inline virtual void onNPCContact(Agent*) {}
+	inline virtual void onNPCEndContact(Agent*) {}
 
 	void onEnvironmentalObjectContact(GObject*);
 	void onEnvironmentalObjectEndContact(GObject*);
@@ -96,6 +101,26 @@ protected:
 
 	string keyWaypointName;
 	bool isKeyDrop = false;
+};
+
+class GhostHeadstoneSensor : public AreaSensor, public RegisterInit<GhostHeadstoneSensor>
+{
+public:
+	MapObjCons(GhostHeadstoneSensor);
+
+	void init();
+	void checkActivate();
+
+	virtual void onNPCContact(Agent* agent);
+	virtual void onNPCEndContact(Agent* agent);
+
+	virtual void onPlayerContact(Player*);
+
+protected:
+	unordered_set<object_ref<GhostFairyNPC>> fairies;
+	string targetName;
+	gobject_ref target;
+	int cost = 0;
 };
 
 #endif /* AreaSensor_hpp */

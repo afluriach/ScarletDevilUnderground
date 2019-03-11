@@ -27,9 +27,10 @@ Seek::Seek(GSpace* space, const ValueMap& args) {
 	usePathfinding = getBoolOrDefault(args, "use_pathfinding", false);
 }
 
-Seek::Seek(GObject* target, bool usePathfinding) :
+Seek::Seek(GObject* target, bool usePathfinding, SpaceFloat margin) :
 	target(target),
-	usePathfinding(usePathfinding)
+	usePathfinding(usePathfinding),
+	margin(margin)
 {}
 
 void Seek::update(StateMachine& sm)
@@ -37,6 +38,9 @@ void Seek::update(StateMachine& sm)
 	if (target.isValid()) {
 		if (usePathfinding && isObstacle(sm.getAgent(), target.get()->getPos())) {
 			sm.push(ai::PathToTarget::create(sm.agent, target.get()));
+		}
+		else if (distanceToTarget(sm.agent, target.get()->getPos()) < margin) {
+			arrive(sm.agent, target.get()->getPos());
 		}
 		else {
 			seek(

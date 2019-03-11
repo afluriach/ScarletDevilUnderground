@@ -22,6 +22,12 @@ RectangleBody(args)
 	setInitialDirectionOrDefault(args, Direction::up);
 }
 
+GhostHeadstone::GhostHeadstone(GSpace* space, ObjectIDType id, const ValueMap& args) :
+	MapObjForwarding(GObject),
+	MapObjForwarding(Headstone)
+{
+}
+
 Sapling::Sapling(GSpace* space, ObjectIDType id, const ValueMap& args) :
 	GObject(space, id, args),
 	RectangleBody(args)

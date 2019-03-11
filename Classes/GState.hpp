@@ -33,7 +33,7 @@ struct ChamberStats
 
 struct CharacterUpgrade
 {
-	array<bitset<AttributeSystem::upgradeCount>, to_size_t(Attribute::end)> upgrades;
+	array<bitset<AttributeSystem::upgradeCount>, to_size_t(Attribute::end)> upgrades = {};
 
 	template<class Archive>
 	void serialize(Archive& ar, const unsigned int version)
@@ -57,8 +57,8 @@ public:
 
     set<string> itemRegistry;
 	CharacterUpgrade upgrades;
-	array<bool, to_size_t(ChamberID::end)> chambersAvailable;
-	array<ChamberStats, to_size_t(ChamberID::end)> chamberStats;
+	array<bool, to_size_t(ChamberID::end)> chambersAvailable = {};
+	array<ChamberStats, to_size_t(ChamberID::end)> chamberStats = {};
 
 	unsigned char mushroomFlags = 0;
 	unsigned char mushroomCount = 0;
@@ -87,11 +87,14 @@ public:
 	int getBlueFairyLevel();
 
 	void registerChamberAvailable(ChamberID id);
+	//Only used for testing
+	void _registerChamberCompleted(int id);
 	bool isChamberAvailable(ChamberID id);
 	bool isChamberCompleted(ChamberID id);
 	int chambersCompletedCount();
 	unsigned int totalChamberTime();
 
+	void _registerUpgrade(unsigned int at, unsigned int id);
 	void registerUpgrade(Attribute at, unsigned int id);
 	bool isUpgradeAcquired(Attribute at, unsigned int id);
 	float getUpgradeLevel(Attribute at);

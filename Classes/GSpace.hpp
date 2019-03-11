@@ -321,6 +321,7 @@ public:
 public:
     bool isObstacle(IntVec2) const;
     void addNavObstacle(const SpaceVect& center, const SpaceVect& boundingDimensions);
+	void removeNavObstacle(const SpaceVect& center, const SpaceVect& boundingDimensions);
 
     vector<SpaceVect> pathToTile(IntVec2 begin, IntVec2 end);
     void addPath(string name, Path p);
@@ -333,7 +334,8 @@ public:
 
     inline boost::dynamic_bitset<>* getNavMask() const { return navMask;}
 private:
-    void markObstacleTile(int x, int y);
+	void unmarkObstacleTile(int x, int y);
+	void markObstacleTile(int x, int y);
     bool isObstacleTile(int x, int y) const;
     
 	unordered_map<string, Path> paths;
@@ -424,6 +426,8 @@ private:
 	void playerAreaSensorEnd(GObject* a, GObject *b, cpArbiter* arb);
 	int enemyAreaSensorBegin(GObject* a, GObject *b, cpArbiter* arb);
 	void enemyAreaSensorEnd(GObject* a, GObject *b, cpArbiter* arb);
+	int npcAreaSensorBegin(GObject* a, GObject *b, cpArbiter* arb);
+	void npcAreaSensorEnd(GObject* a, GObject *b, cpArbiter* arb);
 	int environmentAreaSensorBegin(GObject* obj, GObject* areaSensor, cpArbiter* arb);
 	void environmentAreaSensorEnd(GObject* obj, GObject* areaSensor, cpArbiter* arb);
 

@@ -360,6 +360,10 @@ void GSpace::processRemoval(GObject* obj, bool _removeSprite)
 	removeVirtualTrack<FloorSegment>(obj);
 	removeVirtualTrack<Wall>(obj);
     
+	if (obj->getMass() <= 0.0 && (obj->getType() == GType::environment || obj->getType() == GType::wall)) {
+		removeNavObstacle(obj->getPos(), obj->getDimensions());
+	}
+
 	if (obj->radarShape) {
 		cpSpaceRemoveShape(space, obj->radarShape);
 		cpShapeFree(obj->radarShape);
@@ -717,6 +721,17 @@ void GSpace::addNavObstacle(const SpaceVect& center, const SpaceVect& boundingDi
     }
 }
 
+void GSpace::removeNavObstacle(const SpaceVect& center, const SpaceVect& boundingDimensions)
+{
+	for (SpaceFloat x = center.x - boundingDimensions.x / 2.0; x < center.x + boundingDimensions.x / 2.0; ++x)
+	{
+		for (SpaceFloat y = center.y - boundingDimensions.y / 2.0; y < center.y + boundingDimensions.y / 2.0; ++y)
+		{
+			unmarkObstacleTile(x, y);
+		}
+	}
+}
+
 bool GSpace::isObstacle(IntVec2 v) const
 {
     return isObstacleTile(v.first, v.second);
@@ -729,6 +744,15 @@ void GSpace::markObstacleTile(int x, int y)
             (*navMask)[y*spaceSize.first+x] = 1;
         }
     }
+}
+
+void GSpace::unmarkObstacleTile(int x, int y)
+{
+	if (x >= 0 && x < spaceSize.first) {
+		if (y >= 0 && y < spaceSize.second) {
+			(*navMask)[y*spaceSize.first + x] = 0;
+		}
+	}
 }
 
 bool GSpace::isObstacleTile(int x, int y) const

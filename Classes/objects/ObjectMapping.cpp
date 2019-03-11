@@ -109,8 +109,8 @@ GObject::AdapterType collectibleAdapter(collectible_id id)
 GObject::AdapterType upgradeAdapter(Attribute at)
 {
 	return [=](GSpace* space, ObjectIDType id, const ValueMap& args) -> GObject* {
-		int upgradeID = getInt(args, "id");
-		if (!App::crntState->isUpgradeAcquired(at, upgradeID))
+		int upgradeID = getIntOrDefault(args, "id", -1);
+		if (upgradeID != -1 && !App::crntState->isUpgradeAcquired(at, upgradeID))
 			return new Upgrade(space, id, args, at);
 		else
 			return nullptr;
@@ -157,6 +157,8 @@ const unordered_map<string, GObject::object_info> GObject::objectInfo = {
 	entry_same(ForestMarisa),
 	entry_same(GenericAgent),
 	conditional_entry(GhostFairyNPC),
+	entry_same(GhostHeadstone),
+	entry_same(GhostHeadstoneSensor),
 	entry_same(Glyph),
 	entry_same(Goal),
 	entry_same(GrassFloor),

@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.0" tiledversion="1.0.3" orientation="orthogonal" renderorder="right-down" width="51" height="51" tilewidth="128" tileheight="128" nextobjectid="115">
+<map version="1.0" tiledversion="1.0.3" orientation="orthogonal" renderorder="right-down" width="51" height="51" tilewidth="128" tileheight="128" nextobjectid="149">
  <tileset firstgid="1" name="wall" tilewidth="128" tileheight="128" tilecount="4" columns="2">
   <image source="../fence.png" width="256" height="256"/>
  </tileset>
@@ -21,7 +21,7 @@
  </layer>
  <layer name="wall_tiles" width="51" height="51">
   <data encoding="base64" compression="zlib">
-   eJzt2UEKwDAIBEDb5v9v7gN6qKCIh1nwFBgk5LLkRMRVnPNzHg1Gdo9KbgaDwWAwGAwGg7HaeIqTMaLByOzR1YF0MQaDwWB0Gluy5T4YDAaDMdejpoyJHjVpVLLpjTEYDAaDwWAwGIyvMfEvNmW8xeMFhA==
+   eJzt18EJwDAMA0C3zf4zdwQXXIIgZ9DLcJiQj1ZVXcOsZl8/GF/vmMzNYDAYDAaDwWAwoo2nSTX7JGNHj9ppTCbpjzEYDMbpRsqkvAeDwWAwsnqULqaLMRgMBoPBYDAYJxldB+qSZLzrbAV8
   </data>
  </layer>
  <objectgroup name="floor"/>
@@ -31,8 +31,8 @@
   <object id="94" x="6400" y="0" width="128" height="6400"/>
   <object id="95" x="3328" y="0" width="3072" height="128"/>
   <object id="96" x="128" y="0" width="3072" height="128"/>
-  <object id="97" x="128" y="2048" width="3072" height="256"/>
-  <object id="98" x="3328" y="2048" width="3072" height="256"/>
+  <object id="97" x="128" y="2048" width="896" height="256"/>
+  <object id="98" x="3328" y="2048" width="2048" height="256"/>
   <object id="99" x="4224" y="128" width="256" height="1920"/>
   <object id="100" x="2048" y="128" width="256" height="1920"/>
   <object id="101" x="2048" y="2304" width="256" height="896"/>
@@ -45,6 +45,8 @@
   <object id="108" x="4224" y="3328" width="256" height="896"/>
   <object id="109" x="4224" y="4480" width="256" height="1920"/>
   <object id="110" x="2048" y="4480" width="256" height="1920"/>
+  <object id="116" x="1152" y="2048" width="2048" height="256"/>
+  <object id="147" x="5504" y="2048" width="896" height="256"/>
  </objectgroup>
  <objectgroup name="objects">
   <object id="111" name="graveyard_entrance" type="Door" x="3200" y="0" width="128" height="128">
@@ -55,8 +57,151 @@
     <property name="path" value="true"/>
    </properties>
   </object>
-  <object id="112" type="GhostFairyNPC" x="2688" y="3456" width="128" height="128"/>
-  <object id="113" type="GhostFairyNPC" x="3840" y="3456" width="128" height="128"/>
+  <object id="112" type="GhostFairyNPC" x="768" y="1152" width="128" height="128">
+   <properties>
+    <property name="level" value="1"/>
+   </properties>
+  </object>
   <object id="114" type="GraveyardBook1" x="2944" y="5888" width="128" height="128"/>
+  <object id="115" name="headstone3" type="GhostHeadstone" x="960" y="2304" width="256" height="256"/>
+  <object id="117" type="GhostFairyNPC" x="1280" y="1280" width="128" height="128">
+   <properties>
+    <property name="level" value="2"/>
+   </properties>
+  </object>
+  <object id="118" type="GhostFairyNPC" x="1664" y="512" width="128" height="128">
+   <properties>
+    <property name="level" value="3"/>
+   </properties>
+  </object>
+  <object id="120" name="headstone2" type="GhostHeadstone" x="960" y="3968" width="256" height="256"/>
+  <object id="121" name="headstone1" type="GhostHeadstone" x="5312" y="3968" width="256" height="256"/>
+  <object id="122" name="headstone4" type="GhostHeadstone" x="5312" y="2304" width="256" height="256"/>
+  <object id="123" type="GhostFairyNPC" x="4608" y="256" width="128" height="128">
+   <properties>
+    <property name="level" value="0"/>
+   </properties>
+  </object>
+  <object id="124" type="GhostFairyNPC" x="4608" y="1792" width="128" height="128">
+   <properties>
+    <property name="level" value="0"/>
+   </properties>
+  </object>
+  <object id="125" type="GhostFairyNPC" x="6144" y="1792" width="128" height="128">
+   <properties>
+    <property name="level" value="0"/>
+   </properties>
+  </object>
+  <object id="126" type="GhostFairyNPC" x="6144" y="256" width="128" height="128">
+   <properties>
+    <property name="level" value="0"/>
+   </properties>
+  </object>
+  <object id="127" type="GhostFairyNPC" x="4992" y="640" width="128" height="128">
+   <properties>
+    <property name="level" value="0"/>
+   </properties>
+  </object>
+  <object id="128" type="GhostFairyNPC" x="4992" y="1408" width="128" height="128">
+   <properties>
+    <property name="level" value="0"/>
+   </properties>
+  </object>
+  <object id="129" type="GhostFairyNPC" x="5760" y="1408" width="128" height="128">
+   <properties>
+    <property name="level" value="0"/>
+   </properties>
+  </object>
+  <object id="130" type="GhostFairyNPC" x="5760" y="640" width="128" height="128">
+   <properties>
+    <property name="level" value="0"/>
+   </properties>
+  </object>
+  <object id="131" type="AttackUpgrade" x="5376" y="1024" width="128" height="128">
+   <properties>
+    <property name="id" value="1"/>
+   </properties>
+  </object>
+  <object id="132" type="GhostHeadstone" x="2304" y="1792" width="256" height="256">
+   <properties>
+    <property name="cost" value="0"/>
+   </properties>
+  </object>
+  <object id="133" type="GhostHeadstone" x="3968" y="1792" width="256" height="256">
+   <properties>
+    <property name="cost" value="0"/>
+   </properties>
+  </object>
+  <object id="134" type="HPUpgrade" x="5376" y="5760" width="128" height="128">
+   <properties>
+    <property name="id" value="2"/>
+   </properties>
+  </object>
+  <object id="135" type="GhostFairyNPC" x="5760" y="5504" width="128" height="128">
+   <properties>
+    <property name="level" value="2"/>
+   </properties>
+  </object>
+  <object id="136" type="GhostFairyNPC" x="4992" y="5504" width="128" height="128">
+   <properties>
+    <property name="level" value="1"/>
+   </properties>
+  </object>
+  <object id="137" type="GhostFairyNPC" x="768" y="5504" width="128" height="128">
+   <properties>
+    <property name="level" value="2"/>
+   </properties>
+  </object>
+  <object id="138" type="GhostFairyNPC" x="1280" y="5504" width="128" height="128">
+   <properties>
+    <property name="level" value="3"/>
+   </properties>
+  </object>
+  <object id="139" type="MPUpgrade" x="1024" y="6016" width="128" height="128">
+   <properties>
+    <property name="id" value="1"/>
+   </properties>
+  </object>
+  <object id="141" type="GhostFairyNPC" x="1024" y="3200" width="128" height="128">
+   <properties>
+    <property name="level" value="2"/>
+   </properties>
+  </object>
+  <object id="142" type="GhostFairyNPC" x="3200" y="3200" width="128" height="128">
+   <properties>
+    <property name="level" value="3"/>
+   </properties>
+  </object>
+  <object id="143" type="GhostFairyNPC" x="5376" y="3200" width="128" height="128">
+   <properties>
+    <property name="level" value="1"/>
+   </properties>
+  </object>
+ </objectgroup>
+ <objectgroup name="sensors">
+  <object id="144" type="GhostHeadstoneSensor" x="4992" y="3712" width="896" height="512">
+   <properties>
+    <property name="cost" value="1"/>
+    <property name="target" value="headstone1"/>
+   </properties>
+  </object>
+  <object id="145" type="GhostHeadstoneSensor" x="640" y="3712" width="896" height="512">
+   <properties>
+    <property name="cost" value="2"/>
+    <property name="target" value="headstone2"/>
+   </properties>
+  </object>
+  <object id="146" type="GhostHeadstoneSensor" x="640" y="2304" width="896" height="512">
+   <properties>
+    <property name="cost" value="2"/>
+    <property name="target" value="headstone3"/>
+   </properties>
+  </object>
+  <object id="148" type="GhostHeadstoneSensor" x="4992" y="2304" width="896" height="512">
+   <properties>
+    <property name="cost" value="4"/>
+    <property name="target" value="headstone4"/>
+   </properties>
+  </object>
  </objectgroup>
 </map>

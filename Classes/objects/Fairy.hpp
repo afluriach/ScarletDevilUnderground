@@ -75,7 +75,9 @@ public:
 
 	virtual inline SpaceFloat getMass() const { return 10.0; }
 	virtual inline GType getType() const { return GType::npc; }
-	virtual inline bool getSensor() const { return true; }
+	virtual inline GType getRadarType() const { return GType::enemySensor; }
+	virtual inline SpaceFloat getRadarRadius() const { return 3.0; }
+	virtual inline SpaceFloat getDefaultFovAngle() const { return 0.0; }
 
 	inline string imageSpritePath() const { return "sprites/ghost-fairy.png"; }
 	virtual bool isAgentAnimation() const { return true; }
@@ -125,6 +127,8 @@ public:
 		return AttributeSystem::getAttributeMap(Attribute::hp, -5.0f);
 	}
 
+	virtual inline SpaceFloat getMaxSpeed() const { return 2.5; }
+	virtual inline SpaceFloat getMaxAcceleration() const { return 6.0; }
 	virtual inline SpaceFloat getRadarRadius() const { return 5.0; }
 	virtual inline SpaceFloat getDefaultFovAngle() const { return 0.0; }
 	virtual inline SpaceFloat getMass() const { return 25.0; }
