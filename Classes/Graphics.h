@@ -150,6 +150,7 @@ Color4F operator*(const Color4F& lhs, float rhs);
 FiniteTimeAction* tintTo(Color3B tint, float length);
 FiniteTimeAction* flickerTint(float interval, float length, Color3B tint);
 
+ActionGeneratorType indefiniteFlickerAction(float interval, unsigned char opacity1, unsigned char opacity2);
 ActionGeneratorType flickerAction(float interval, float length, unsigned char opacity);
 ActionGeneratorType flickerTintAction(float interval, float length, Color3B tint);
 ActionGeneratorType comboFlickerTintAction();

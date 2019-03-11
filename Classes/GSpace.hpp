@@ -186,6 +186,7 @@ private:
     void processRemovals();
     void initObjects();
     void processRemoval(GObject* obj, bool removeSprite);
+	bool isNoUpdateObject(GObject* obj);
     
 	template<class C>
 	inline void addVirtualTrack(GObject* obj)
@@ -208,6 +209,7 @@ private:
 	unordered_set<string> warningNames;
 	unordered_map<type_index, unordered_set<GObject*>> objByType;
 	unordered_map<type_index, unsigned int> initialObjectCount;
+	unordered_set<GObject*> updateObjects;
 
 	SpaceRect cameraArea;
 	int crntMap = -1;

@@ -311,6 +311,19 @@ FiniteTimeAction* flickerTint(float interval, float length, Color3B tint)
 	return loop;
 }
 
+ActionGeneratorType indefiniteFlickerAction(float interval, unsigned char opacity1, unsigned char opacity2)
+{
+	return [=]() -> FiniteTimeAction* {
+		Sequence* flicker = Sequence::createWithTwoActions(
+			FadeTo::create(interval / 2, opacity1),
+			FadeTo::create(interval / 2, opacity2)
+		);
+		RepeatForever* loop = RepeatForever::create(flicker);
+
+		return loop;
+	};
+}
+
 ActionGeneratorType flickerAction(float interval, float length, unsigned char opacity)
 {
 	return [interval,length,opacity]() -> FiniteTimeAction* {

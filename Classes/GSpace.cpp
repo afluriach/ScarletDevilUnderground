@@ -121,7 +121,7 @@ void GSpace::update()
 	chrono::steady_clock::time_point t3 = chrono::steady_clock::now();
 #endif
 
-    for(GObject* obj: objByUUID | boost::adaptors::map_values){
+    for(GObject* obj : updateObjects){
         obj->update();
     }
     
@@ -304,6 +304,10 @@ void GSpace::processAdditions()
         if(!obj->anonymous)
             objByName[obj->name] = obj;
         objByUUID[obj->uuid] = obj;
+
+		if (!isNoUpdateObject(obj)) {
+			updateObjects.insert(obj);
+		}
         
         addedLastFrame.push_back(obj);
     }
@@ -362,6 +366,7 @@ void GSpace::processRemoval(GObject* obj, bool _removeSprite)
 
     objByName.erase(obj->name);
     objByUUID.erase(obj->uuid);
+	updateObjects.erase(obj);
 
 	if (isTrackedType(typeid(*obj))) {
 		objByType[typeid(*obj)].erase(obj);
@@ -411,6 +416,14 @@ void GSpace::processRemoval(GObject* obj, bool _removeSprite)
 	}
 
 	delete obj;
+}
+
+bool GSpace::isNoUpdateObject(GObject* obj)
+{
+	return
+		typeid(*obj) == typeid(Wall) || 
+		(dynamic_cast<FloorSegment*>(obj) && typeid(*obj) != typeid(MovingPlatform))
+	;
 }
 
 void GSpace::initObjects()

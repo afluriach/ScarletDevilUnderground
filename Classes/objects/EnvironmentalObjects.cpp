@@ -13,6 +13,7 @@
 #include "GSpace.hpp"
 #include "GState.hpp"
 #include "macros.h"
+#include "scenes.h"
 #include "value_map.hpp"
 
 Headstone::Headstone(GSpace* space, ObjectIDType id, const ValueMap& args) :
@@ -24,8 +25,14 @@ RectangleBody(args)
 
 GhostHeadstone::GhostHeadstone(GSpace* space, ObjectIDType id, const ValueMap& args) :
 	MapObjForwarding(GObject),
-	MapObjForwarding(Headstone)
+	MapObjForwarding(Headstone),
+	RegisterInit<GhostHeadstone>(this)
 {
+}
+
+void GhostHeadstone::init()
+{
+	space->runSpriteAction(spriteID, indefiniteFlickerAction(0.333f, 48, 96));
 }
 
 Sapling::Sapling(GSpace* space, ObjectIDType id, const ValueMap& args) :
