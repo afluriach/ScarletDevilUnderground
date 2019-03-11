@@ -99,6 +99,23 @@ void DirectionalLaunch::init()
 	setVel(SpaceVect::ray(getMaxSpeed(), getAngle()));
 }
 
+ParametricMotion::ParametricMotion(parametric_space_function f) :
+	f(f),
+	RegisterInit<ParametricMotion>(this),
+	RegisterUpdate<ParametricMotion>(this)
+{}
+
+void ParametricMotion::init()
+{
+	origin = getPos();
+}
+
+void ParametricMotion::update()
+{
+	setPos(f(t) + origin);
+	timerIncrement(t);
+}
+
 //END PHYSICS
 
 //GRAPHICS MIXINS

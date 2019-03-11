@@ -66,7 +66,7 @@ void FlameFence::end()
 {
 	for (gobject_ref bullet : bullets) {
 		if (bullet.isValid())
-			caster->space->removeObject(bullet.get());
+			caster->space->removeObject(bullet);
 	}
 }
 

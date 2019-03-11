@@ -92,7 +92,7 @@ void IllusionDial::end()
 {
 	for (auto ref : bullets) {
 		if (ref.isValid()) {
-			caster->space->removeObject(ref.get());
+			caster->space->removeObject(ref);
 		}
 	}
 }

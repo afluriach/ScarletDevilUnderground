@@ -66,6 +66,26 @@ protected:
 	SpaceFloat angular_pos = 0.0;
 };
 
+class PlayerScarletRose : public PlayerSpell {
+public:
+	static const string name;
+	static const string description;
+
+	static const SpaceFloat fireInterval;
+
+	PlayerScarletRose(GObject* caster);
+
+	GET_DESC(PlayerScarletRose)
+	virtual void update();
+	virtual void end();
+
+	inline virtual SpaceFloat getLength() const { return 7.5; }
+
+	const SpaceVect origin;
+	unordered_set<gobject_ref> bullets;
+	SpaceFloat timer = 0.0;
+};
+
 class PlayerDarkMist : public PlayerSpell {
 public:
 	static const string name;

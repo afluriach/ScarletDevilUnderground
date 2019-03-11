@@ -133,6 +133,7 @@ public:
 
     void removeObject(const string& name);
     void removeObject(GObject* obj);
+	void removeObject(gobject_ref ref);
 
 	void removeObjectWithAnimation(GObject* obj, ActionGeneratorType action);
     
@@ -144,6 +145,8 @@ public:
 	template<typename ...Args>
 	inline void addHudAction(void (HUD::*m)(Args...), Args... args)
 	{
+		if (!getSceneAs<PlayScene>()) return;
+
 		addSceneAction(make_hud_action(
 			m,
 			getSceneAs<PlayScene>(),

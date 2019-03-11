@@ -324,9 +324,21 @@ void GSpace::removeObject(const string& name)
 
 void GSpace::removeObject(GObject* obj)
 {
+	if (!obj) {
+		log("GSpace::removeObject on nullptr");
+		return;
+	}
+
     //Check for object being scheduled for removal twice.
     if(find(toRemove.begin(), toRemove.end(), obj) == toRemove.end())
         toRemove.push_back(obj);
+}
+
+void GSpace::removeObject(gobject_ref ref)
+{
+	if (!ref.isValid()) return;
+
+	removeObject(ref.get());
 }
 
 void GSpace::removeObjectWithAnimation(GObject* obj, ActionGeneratorType action)

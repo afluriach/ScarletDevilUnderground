@@ -120,6 +120,33 @@ const bullet_properties FlandreFastOrb1::props = {
 
 cons(FlandreFastOrb1)
 
+const bullet_properties FlanPolarBullet::props = {
+	0.1,
+	0.0,
+	0.15,
+	0.83,
+	"sprites/flandre_bullet.png",
+	hp_damage_map(1.0f)
+};
+
+const SpaceFloat FlanPolarBullet::W = 4.0;
+//magnitude scale
+const SpaceFloat FlanPolarBullet::A = 5.0;
+
+SpaceVect FlanPolarBullet::parametric_motion(SpaceFloat t)
+{
+	SpaceFloat r = A * cos(W*t);
+	return SpaceVect::ray(r, t);
+}
+
+FlanPolarBullet::FlanPolarBullet(GSpace* space, ObjectIDType id, const SpaceVect& pos, SpaceFloat angle, Agent* agent) :
+	GObject(space, id, "", pos, angle),
+	Bullet(agent),
+	PlayerBullet(agent),
+	BulletImpl(&props),
+	ParametricMotion(&parametric_motion)
+{}
+
 const bullet_properties FlandrePolarMotionOrb::props = {
 	1.0,
 	9.0,

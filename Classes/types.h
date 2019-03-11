@@ -39,6 +39,8 @@ typedef function<void(ai::StateMachine&, Player*)> alert_function;
 typedef function<void(ai::StateMachine&, GObject*)> detect_function;
 typedef function<void(ai::StateMachine&, Bullet*)> bullet_collide_function;
 
+typedef function<SpaceVect(SpaceFloat)> parametric_space_function;
+
 namespace boost {
 	namespace serialization {
 		template<class Archive>

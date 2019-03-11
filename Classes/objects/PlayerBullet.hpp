@@ -63,6 +63,26 @@ public:
 	virtual inline CircleLightArea getLightSource() const { return CircleLightArea{ getPos(), 2.0, Color4F::RED*0.5f, 0.0 }; }
 };
 
+class FlanPolarBullet :
+	public PlayerBullet,
+	public BulletImpl,
+	public ParametricMotion,
+	public RadialLightObject
+{
+public:
+	static const bullet_properties props;
+	//frequency of polar interval
+	static const SpaceFloat W;
+	//magnitude scale
+	static const SpaceFloat A;
+
+	static SpaceVect parametric_motion(SpaceFloat t);
+
+	cons(FlanPolarBullet);
+
+	virtual inline CircleLightArea getLightSource() const { return CircleLightArea{ getPos(), 2.0, Color4F::ORANGE*0.5f, 0.0 }; }
+};
+
 class FlandrePolarMotionOrb :
 	public PlayerBullet,
 	public BulletImpl,

@@ -205,7 +205,7 @@ void NightSignPinwheel::removeBullets()
 	for (gobject_ref bullet : bullets)
 	{
 		if (bullet.isValid()) {
-			caster->space->removeObject(bullet.get());
+			caster->space->removeObject(bullet);
 		}
 	}
 	bullets.clear();

@@ -141,8 +141,41 @@ void PlayerCounterClock::end()
 	for (auto ref : bullets)
 	{
 		if (ref.isValid()) {
-			caster->space->removeObject(ref.get());
+			caster->space->removeObject(ref);
 		}
+	}
+}
+
+const string PlayerScarletRose::name = "PlayerScarletRose";
+const string PlayerScarletRose::description = "";
+
+const SpaceFloat PlayerScarletRose::fireInterval = 0.2;
+
+PlayerScarletRose::PlayerScarletRose(GObject* caster) :
+	PlayerSpell(caster),
+	origin(caster->getPos())
+{}
+
+void PlayerScarletRose::update()
+{
+	PlayerSpell::update();
+
+	timerIncrement(timer);
+
+	if (timer >= fireInterval) {
+		gobject_ref ref = caster->space->createObject(GObject::make_object_factory<FlanPolarBullet>(origin, 0.0, getCasterAs<Agent>()));
+		bullets.insert(ref);
+		timer -= fireInterval;
+	}
+}
+
+void PlayerScarletRose::end()
+{
+	PlayerSpell::end();
+
+	for (auto ref : bullets) {
+		if (ref.isValid())
+			caster->space->removeObject(ref);
 	}
 }
 
@@ -238,7 +271,7 @@ void PlayerIceShield::end()
 	for (auto ref : bullets)
 	{
 		if (ref.isValid()) {
-			caster->space->removeObject(ref.get());
+			caster->space->removeObject(ref);
 		}
 	}
 }

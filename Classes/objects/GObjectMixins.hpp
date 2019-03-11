@@ -156,6 +156,22 @@ protected:
 	SpaceFloat speed;
 };
 
+class ParametricMotion :
+	virtual public GObject,
+	public RegisterInit<ParametricMotion>,
+	public RegisterUpdate<ParametricMotion>
+{
+public:
+	ParametricMotion(parametric_space_function f);
+
+	void init();
+	void update();
+protected:
+	parametric_space_function f;
+	SpaceVect origin;
+	SpaceFloat t = 0.0;
+};
+
 //END PHYSICS
 
 //GRAPHICS MIXINS

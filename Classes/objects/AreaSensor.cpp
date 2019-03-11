@@ -281,10 +281,10 @@ void GhostHeadstoneSensor::checkActivate()
 		//These objects will actually be removed when removals are processed,
 		//but it will not run more than once for this sensor.
 		for (; it != fairies.end() && i < cost; ++i, ++it) {
-			space->removeObject((*it).get());
+			space->removeObject(*it);
 		}
 
-		space->removeObject(target.get());
+		space->removeObject(target);
 		target = nullptr;
 	}
 }
