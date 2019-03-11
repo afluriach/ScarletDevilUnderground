@@ -24,8 +24,7 @@ const AttributeMap Stalker::baseAttributes = {
 Stalker::Stalker(GSpace* space, ObjectIDType id, const ValueMap& args) :
 	MapObjForwarding(GObject),
 	MapObjForwarding(Agent),
-	Enemy(collectible_id::magic1),
-	RegisterUpdate<Stalker>(this)
+	Enemy(collectible_id::magic1)
 {}
 
 void Stalker::initStateMachine(ai::StateMachine& sm)
@@ -56,6 +55,8 @@ void Stalker::initStateMachine(ai::StateMachine& sm)
 
 void Stalker::update()
 {
+	Enemy::update();
+
 	SpaceFloat dp = getVel().length() * App::secondsPerFrame;
 	modifyAttribute(Attribute::stamina, -dp);
 }

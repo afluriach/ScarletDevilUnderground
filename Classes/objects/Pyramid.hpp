@@ -15,7 +15,6 @@
 
 class Pyramid :
 virtual public GObject,
-public RegisterUpdate<Pyramid>,
 public RadarObject,
 public RectangleBody
 {
@@ -30,7 +29,7 @@ public:
 
 	MapObjCons(Pyramid);
     
-	void update();
+	virtual void update();
 	void redrawLightCone();
 
     virtual string imageSpritePath() const {return "sprites/pyramid_base.png";}

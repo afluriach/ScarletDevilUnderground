@@ -30,8 +30,7 @@ MovingPlatform::MovingPlatform(GSpace* space, ObjectIDType id, const ValueMap& a
 	MapObjForwarding(GObject),
 	MapObjForwarding(FloorSegment),
 	MaxSpeedImpl(getFloatOrDefault(args, "speed", defaultSpeed)),
-	RegisterInit<MovingPlatform>(this),
-	RegisterUpdate<MovingPlatform>(this)
+	RegisterInit<MovingPlatform>(this)
 {
 	pathName = getStringOrDefault(args, "path", "");
 }
@@ -62,6 +61,9 @@ void MovingPlatform::init()
 
 void MovingPlatform::update()
 {
+	//the only part of GObject::update() that is relevant.
+	updateSprite();
+
 	distanceToTarget -= App::secondsPerFrame * getMaxSpeed();
 
 	if (path && distanceToTarget <= 0) {

@@ -31,15 +31,6 @@ public:
     }
 };
 
-template<typename Derived>
-class RegisterUpdate : public virtual GObject
-{
-public:
-	inline RegisterUpdate(Derived* that){
-        multiUpdate += wrap_method(Derived, update, that);
-    }
-};
-
 class InteractibleObject : public virtual GObject
 {
 public:
@@ -158,14 +149,13 @@ protected:
 
 class ParametricMotion :
 	virtual public GObject,
-	public RegisterInit<ParametricMotion>,
-	public RegisterUpdate<ParametricMotion>
+	public RegisterInit<ParametricMotion>
 {
 public:
 	ParametricMotion(parametric_space_function f, SpaceFloat start = 0.0, SpaceFloat scale = 1.0);
 
 	void init();
-	void update();
+	void _update();
 protected:
 	const SpaceFloat scale;
 	SpaceFloat t = 0.0;
@@ -214,7 +204,7 @@ protected:
     SpriteID animID = 0;
 };
 
-class PatchConSprite : virtual public GObject, RegisterInit<PatchConSprite>, RegisterUpdate<PatchConSprite>
+class PatchConSprite : virtual public GObject, RegisterInit<PatchConSprite>
 {
 public:
 	static constexpr SpaceFloat stepSize = 0.4;
@@ -231,7 +221,7 @@ public:
 
     void initializeGraphics();
     void init();
-    void update();
+    void _update();
     
     void setSprite(const string& name);
 	void setSprite(const string& name, bool agentAnimation);

@@ -154,6 +154,13 @@ FlanPolarBullet::FlanPolarBullet(GSpace* space, ObjectIDType id, const SpaceVect
 	ParametricMotion(&parametric_motion, parametric_start)
 {}
 
+void FlanPolarBullet::update()
+{
+	updateSprite();
+	ParametricMotion::_update();
+}
+
+
 CircleLightArea FlanPolarBullet::getLightSource() const {
 	return CircleLightArea{ getPos(), 2.0, Color4F::ORANGE*0.5f, 0.0 }; 
 }
@@ -171,12 +178,13 @@ FlandrePolarMotionOrb::FlandrePolarMotionOrb(GSpace* space, ObjectIDType id, con
 	GObject(space, id, "", pos, angle),
 	Bullet(agent),
 	PlayerBullet(agent),
-	BulletImpl(&props),
-	RegisterUpdate<FlandrePolarMotionOrb>(this)
+	BulletImpl(&props)
 {}
 
 void FlandrePolarMotionOrb::update()
 {
+	GObject::update();
+
 	applyForceForSingleFrame(SpaceVect::ray(20.0, getAngle() + float_pi / 2.0));
 	rotate(App::secondsPerFrame * float_pi);
 }

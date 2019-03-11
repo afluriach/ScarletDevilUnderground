@@ -38,8 +38,7 @@ class MovingPlatform:
 public FloorSegment,
 public ImageSprite,
 public MaxSpeedImpl,
-public RegisterInit<MovingPlatform>, 
-public RegisterUpdate<MovingPlatform>
+public RegisterInit<MovingPlatform>
 {
 public:
 	static const SpaceFloat defaultSpeed;
@@ -48,7 +47,7 @@ public:
 	virtual ~MovingPlatform();
 
 	void init();
-	void update();
+	virtual void update();
 
 	void setWaypoint(size_t idx);
 	void setNextWaypoint();

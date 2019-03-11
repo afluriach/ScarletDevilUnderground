@@ -23,9 +23,7 @@ class SpellDesc;
 class PlayScene;
 class Upgrade;
 
-class Player :
-virtual public Agent,
-public RegisterUpdate<Player>
+class Player : virtual public Agent
 {
 public:
     static const float interactCooldownTime;

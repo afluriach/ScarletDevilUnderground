@@ -13,14 +13,14 @@
 #include "GObject.hpp"
 #include "GObjectMixins.hpp"
 
-class StateMachineObject : virtual public GObject, RegisterUpdate<StateMachineObject>
+class StateMachineObject : virtual public GObject
 {
 public:
 	StateMachineObject();
 	StateMachineObject(const ValueMap& args);
 	StateMachineObject(shared_ptr<ai::Function> startState, const ValueMap& arg);
 
-	void update();
+	void _update();
 	unsigned int addThread(shared_ptr<ai::Function> threadMain);
 	void removeThread(unsigned int uuid);
 	void removeThread(const string& name);
@@ -32,13 +32,14 @@ protected:
 	bool isFrozen = false;
 };
 
-class RadarObject : virtual public GObject, RegisterInit<RadarObject>, RegisterUpdate<RadarObject>
+class RadarObject : virtual public GObject, RegisterInit<RadarObject>
 {
 public:
 	RadarObject();
 	
 	void init();
-	
+	void _update();
+
 	virtual SpaceFloat getRadarRadius() const = 0;
 	virtual GType getRadarType() const = 0;
     virtual inline SpaceFloat getDefaultFovAngle() const {return 0.0;}
@@ -74,8 +75,6 @@ public:
 	virtual void initializeRadar(GSpace& space);
     
     bool isObjectVisible(GObject* otther);
-
-    void update();    
 protected:
     unordered_set<GObject*> objectsInRange;
     unordered_set<GObject*> visibleObjects;

@@ -101,7 +101,6 @@ RoomSensor::RoomSensor(GSpace* space, ObjectIDType id, SpaceVect center, SpaceVe
 	GObject(space, id, "", center, 0.0),
 	AreaSensor(space,id,center,dimensions),
 	RegisterInit<RoomSensor>(this),
-	RegisterUpdate<RoomSensor>(this),
 	mapID(mapID)
 {
 	trapDoorNames = splitString(getStringOrDefault(props, "trap_doors", ""), " ");
@@ -163,6 +162,9 @@ void RoomSensor::init()
 
 void RoomSensor::update()
 {
+	//shouldn't actually be necessary
+	//GObject::update();
+
 	if(!bossName.empty())
 		updateBoss();
 	if(doors.size() > 0)

@@ -12,7 +12,7 @@
 #include "Agent.hpp"
 #include "Collectibles.hpp"
 
-class Enemy : virtual public Agent, public RegisterUpdate<Enemy>
+class Enemy : virtual public Agent
 {
 public:
 	Enemy(collectible_id drop_id);
@@ -22,7 +22,7 @@ public:
 	void endTouchPlayer();
 
 	void runDamageFlicker();
-	void update();
+	virtual void update();
 
 	virtual void onRemove();
 

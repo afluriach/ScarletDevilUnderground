@@ -17,8 +17,7 @@
 const boost::rational<int> Launcher::fireInterval(1,4);
 
 Launcher::Launcher(GSpace* space, ObjectIDType id, const ValueMap& args) :
-	MapObjForwarding(GObject),
-	RegisterUpdate<Launcher>(this)
+	MapObjForwarding(GObject)
 {
 	auto it = args.find("direction");
 	if (it != args.end()) {
@@ -30,6 +29,8 @@ Launcher::Launcher(GSpace* space, ObjectIDType id, const ValueMap& args) :
 
 void Launcher::update()
 {
+	GObject::update();
+
 	timerDecrement(cooldownTime);
 
 	if (isActive && cooldownTime <= 0) {

@@ -91,6 +91,7 @@ public:
 		SpaceFloat parametric_start
 	);
 
+	virtual void update();
 	virtual CircleLightArea getLightSource() const;
 	virtual inline void onWallCollide(Wall* wall) {}
 	virtual inline void onEnvironmentCollide(GObject* obj) {}
@@ -99,15 +100,14 @@ public:
 class FlandrePolarMotionOrb :
 	public PlayerBullet,
 	public BulletImpl,
-	public RadialLightObject,
-	public RegisterUpdate<FlandrePolarMotionOrb>
+	public RadialLightObject
 {
 public:
 	static const bullet_properties props;
 
 	cons(FlandrePolarMotionOrb);
 
-	void update();
+	virtual void update();
 
 	virtual CircleLightArea getLightSource() const;
 };

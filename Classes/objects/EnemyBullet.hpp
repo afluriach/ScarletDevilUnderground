@@ -100,8 +100,7 @@ class IllusionDialDagger :
 virtual public GObject,
 public EnemyBullet,
 public RectangleBody,
-public ImageSprite,
-public RegisterUpdate<IllusionDialDagger>
+public ImageSprite
 {
 public:
     //IllusionDaggerBullet(const ValueMap& args);
@@ -118,7 +117,7 @@ public:
     SpaceFloat targetViewAngle();
     void launch();
 
-	void update();
+	virtual void update();
 };
 
 class ReimuBullet1 : public EnemyBullet, public BulletImpl, public ParametricMotion
@@ -131,6 +130,8 @@ public:
 	static SpaceVect parametric_move(SpaceFloat t, SpaceFloat angle, SpaceFloat phaseAngleStart);
 
 	ReimuBullet1(GSpace* space, ObjectIDType id, const SpaceVect& pos, SpaceFloat angle, Agent* agent, SpaceFloat start);
+
+	virtual void update();
 };
 
 class YinYangOrb : public EnemyBullet, public BulletImpl, public SpriteLightObject
@@ -145,8 +146,7 @@ public:
 
 class RumiaDemarcation2Bullet :
 	public EnemyBullet,
-	public BulletImpl,
-	public RegisterUpdate<RumiaDemarcation2Bullet>
+	public BulletImpl
 {
 public:
 	static const bullet_properties props;
@@ -161,7 +161,7 @@ public:
 		SpaceFloat ttl
 	);
 
-	void update();
+	virtual void update();
 protected:
 	SpaceFloat ttl;
 };

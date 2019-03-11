@@ -68,8 +68,7 @@ protected:
 
 class RoomSensor :
 	public AreaSensor,
-	public RegisterInit<RoomSensor>,
-	public RegisterUpdate<RoomSensor>
+	public RegisterInit<RoomSensor>
 {
 public:
 	RoomSensor(GSpace* space, ObjectIDType id, const ValueMap& obj);
@@ -79,7 +78,7 @@ public:
 	virtual void onPlayerEndContact(Player* p);
 
 	void init();
-	void update();
+	virtual void update();
 
 	void updateTrapDoors();
 	void updateBoss();

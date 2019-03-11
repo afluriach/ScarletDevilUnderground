@@ -19,8 +19,7 @@ class Launcher :
 virtual public GObject,
 public RectangleBody,
 public ActivateableObject,
-public ImageSprite,
-public RegisterUpdate<Launcher>
+public ImageSprite
 {
 public:
 	static const boost::rational<int> fireInterval;
@@ -36,7 +35,7 @@ public:
 	virtual inline void activate() { isActive = true; }
 	virtual inline void deactivate() { isActive = false; }
     
-    void update();    
+    virtual void update();    
 protected:
     bool isActive = false;
 	boost::rational<int> cooldownTime = 0;

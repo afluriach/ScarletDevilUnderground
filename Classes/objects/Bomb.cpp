@@ -16,8 +16,7 @@
 
 Bomb::Bomb(GSpace* space, ObjectIDType id, const SpaceVect& pos, const SpaceVect& vel) :
 	GObject(space, id, "", pos, 0.0),
-	RegisterInit<Bomb>(this),
-	RegisterUpdate<Bomb>(this)
+	RegisterInit<Bomb>(this)
 {
 	if (!vel.isZero()) {
 		setInitialVelocity(vel);
@@ -31,6 +30,8 @@ void Bomb::init()
 
 void Bomb::update()
 {
+	GObject::update();
+
 	timerDecrement(countdown);
 
 	if (countdown <= 0.0) {

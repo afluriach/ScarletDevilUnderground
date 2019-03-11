@@ -28,8 +28,7 @@ const AttributeMap Pyramid::lightConeEffect = {
 
 
 Pyramid::Pyramid(GSpace* space, ObjectIDType id, const ValueMap& args) :
-MapObjForwarding(GObject),
-RegisterUpdate<Pyramid>(this)
+MapObjForwarding(GObject)
 {
 	angular_speed = getFloatOrDefault(args, "angular_speed", 0.0f) / 180.0 * float_pi;
 
@@ -37,13 +36,16 @@ RegisterUpdate<Pyramid>(this)
 	if (it != args.end()) {
 		Direction dir = stringToDirection(it->second.asString());
 		if (dir != Direction::none)
-			coneAngle = dirToPhysicsAngle(dir);
+			setInitialAngle(dirToPhysicsAngle(dir));
 	}
 }
 
 void Pyramid::update()
 {
-	coneAngle = canonicalAngle(coneAngle + angular_speed * App::secondsPerFrame);
+	GObject::update();
+	RadarObject::_update();
+
+	setAngle(getAngle() + angular_speed * App::secondsPerFrame);
 
 	redrawLightCone();
 
@@ -58,12 +60,13 @@ void Pyramid::update()
 
 void Pyramid::redrawLightCone()
 {	
+	SpaceFloat angle = getAngle();
 	space->updateLightSource(coneLightID, ConeLightArea{
 		getPos(),
 		coneLength,
 		targets.empty() ? coneColor : coneActiveColor,
-		to_float(canonicalAngle(coneAngle - coneWidth / 2.0)),
-		to_float(canonicalAngle(coneAngle + coneWidth / 2.0)) 
+		to_float(canonicalAngle(angle - coneWidth / 2.0)),
+		to_float(canonicalAngle(angle + coneWidth / 2.0)) 
 	});
 }
 
@@ -95,7 +98,7 @@ void Pyramid::initializeGraphics()
 		getPos(),
 		coneLength,
 		coneColor,
-		to_float(a - coneAngle/2.0f),
-		to_float(a+coneAngle/2.0f)
+		to_float(canonicalAngle(a - coneWidth / 2.0)),
+		to_float(canonicalAngle(a + coneWidth / 2.0))
 	});
 }

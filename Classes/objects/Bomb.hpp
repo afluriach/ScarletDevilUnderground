@@ -16,8 +16,7 @@
 class Bomb :
 	virtual public GObject,
 	public CircleBody,
-	public RegisterInit<Bomb>,
-	public RegisterUpdate<Bomb>
+	public RegisterInit<Bomb>
 {
 public:
 	Bomb(GSpace* space, ObjectIDType id, const SpaceVect& pos, const SpaceVect& vel);
@@ -31,7 +30,7 @@ public:
 	virtual inline GType getType() const { return GType::bomb; }
 
 	void init();
-	void update();
+	virtual void update();
 	void detonate();
 	float getScale(const GObject* target);
 	void applyKnockback(GObject* target, SpaceFloat mag);

@@ -21,7 +21,6 @@
 
 Agent::Agent(GSpace* space, ObjectIDType id, const string& name, const SpaceVect& pos, Direction d) :
 	GObject(space, id, name,pos, dirToPhysicsAngle(d)),
-	RegisterUpdate<Agent>(this),
 	PatchConSprite(d)
 {
 	multiInit.insertWithOrder(wrap_method(Agent, initFSM, this), to_int(GObject::initOrder::initFSM));
@@ -31,8 +30,7 @@ Agent::Agent(GSpace* space, ObjectIDType id, const string& name, const SpaceVect
 Agent::Agent(GSpace* space, ObjectIDType id, const ValueMap& args) :
 	MapObjForwarding(GObject),
 	PatchConSprite(args),
-	StateMachineObject(args),
-	RegisterUpdate<Agent>(this)
+	StateMachineObject(args)
 {
 	multiInit.insertWithOrder(wrap_method(Agent, initFSM, this), to_int(GObject::initOrder::initFSM));
 	multiInit.insertWithOrder(wrap_method(Agent, initAttributes, this), to_int(GObject::initOrder::loadAttributes));
@@ -55,6 +53,11 @@ void Agent::initAttributes()
 
 void Agent::update()
 {
+	GObject::update();
+	RadarObject::_update();
+	StateMachineObject::_update();
+	PatchConSprite::_update();
+
 	if (attributeSystem[Attribute::hp] <= 0 && getMaxHealth() != 0) {
 		onZeroHP();
 	}

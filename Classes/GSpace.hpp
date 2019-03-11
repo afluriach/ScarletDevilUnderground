@@ -124,6 +124,8 @@ public:
 		const unordered_set<GObject*>* objects = getObjectsByType(typeid(TargetCls));
 
 		for (GObject* objBase : *objects) {
+			if (static_cast<GObject*>(sender) == objBase) continue;
+
 			TargetCls* obj = dynamic_cast<TargetCls*>(objBase);
 			if (obj) {
 				obj->messageWithResponse(obj, sender, handler, response, args...);

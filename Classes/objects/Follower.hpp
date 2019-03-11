@@ -24,10 +24,7 @@ public:
 
     inline string imageSpritePath() const {return "sprites/reisen.png";}
         
-	virtual void initStateMachine(ai::StateMachine& sm);
-    
-    void init();
-    void update();
+	virtual void initStateMachine(ai::StateMachine& sm);    
 };
 
 class FollowerMain : public ai::Function {

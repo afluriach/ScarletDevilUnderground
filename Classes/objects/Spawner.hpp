@@ -22,8 +22,6 @@ public:
 
 	MapObjCons(Spawner);
     
-	void update();
-
 	virtual void activate();
 	inline virtual void deactivate() {}
 

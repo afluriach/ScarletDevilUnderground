@@ -146,8 +146,7 @@ IllusionDialDagger::IllusionDialDagger(GSpace* space, ObjectIDType id, Agent* ag
 GObject(space,id,"", pos, 0.0),
 Bullet(agent),
 EnemyBullet(agent),
-RectangleBody(SpaceVect(0.8, 0.175)),
-RegisterUpdate<IllusionDialDagger>(this)
+RectangleBody(SpaceVect(0.8, 0.175))
 {
     setInitialAngularVelocity(angular_velocity);
 }
@@ -176,6 +175,8 @@ void IllusionDialDagger::launch()
 
 void IllusionDialDagger::update()
 {
+	GObject::update();
+
 	if (drawNodeID != 0) {
 		space->setSpriteAngle(drawNodeID, -toDegrees(getAngle()));
 	}
@@ -221,6 +222,12 @@ ReimuBullet1::ReimuBullet1(GSpace* space, ObjectIDType id, const SpaceVect& pos,
 	BulletImpl(&props),
 	ParametricMotion(bind(&parametric_move, placeholders::_1, angle, start))
 {}
+
+void ReimuBullet1::update()
+{
+	updateSprite();
+	ParametricMotion::_update();
+}
 
 const bullet_properties YinYangOrb::props = {
 	0.1,
@@ -276,7 +283,6 @@ RumiaDemarcation2Bullet::RumiaDemarcation2Bullet(
 	Bullet(agent),
 	EnemyBullet(agent),
 	BulletImpl(&props),
-	RegisterUpdate<RumiaDemarcation2Bullet>(this),
 	ttl(ttl)
 {
 	setInitialAngularVelocity(angularVel);
@@ -284,6 +290,8 @@ RumiaDemarcation2Bullet::RumiaDemarcation2Bullet(
 
 void RumiaDemarcation2Bullet::update()
 {
+	GObject::update();
+
 	setVel(SpaceVect::ray(getMaxSpeed(), getAngle()));
 
 	timerDecrement(ttl);

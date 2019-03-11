@@ -140,17 +140,14 @@ public:
 	void follow_path(ai::StateMachine& sm, const ValueMap& args);
 };
 
-class RedFairy :
-	public Enemy,
-	public BaseAttributes<RedFairy>,
-	public RegisterUpdate<RedFairy>
+class RedFairy : public Enemy, public BaseAttributes<RedFairy>
 {
 public:
 	static const AttributeMap baseAttributes;
 
 	RedFairy(GSpace* space, ObjectIDType id, const ValueMap& args);
 
-	void update();
+	virtual void update();
 
 	inline virtual AttributeMap touchEffect() {
 		return AttributeSystem::getAttributeMap(Attribute::hp, -10.0f);
@@ -221,10 +218,7 @@ public:
 };
 
 
-class Fairy2 :
-	public Enemy,
-	public RegisterUpdate<Fairy2>,
-	public BaseAttributes<Fairy2>
+class Fairy2 : public Enemy, public BaseAttributes<Fairy2>
 {
 public:
 
@@ -243,7 +237,7 @@ public:
 	};
 
 	static const AttributeMap baseAttributes;
-	static const boost::rational<int> lowHealthRatio;
+	static const float lowHealthRatio;
 
 	Fairy2(GSpace* space, ObjectIDType id, const ValueMap& args);
 
@@ -261,7 +255,7 @@ public:
 	void addSupportThread(object_ref<Fairy2> other);
 	void removeSupportThread();
 
-	void update();
+	virtual void update();
 
 	void requestSupport();
 	object_ref<Fairy2> requestHandler(object_ref<Fairy2> other);

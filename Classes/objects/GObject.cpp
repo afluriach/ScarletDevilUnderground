@@ -94,6 +94,7 @@ GObject::GeneratorType GObject::factoryMethodByType(const string& type, const Va
 void GObject::init()
 {
 	multiInit();
+	multiInit.clear();
 #if GOBJECT_LUA
 	setupLuaContext();
 	runLuaInit();
@@ -102,7 +103,6 @@ void GObject::init()
 
 void GObject::update()
 {
-	multiUpdate();
 	updateMessages();
 #if GOBJECT_LUA
 	runLuaUpdate();
@@ -117,7 +117,7 @@ void GObject::update()
 
 void GObject::updateMessages()
 {
-	messages();
+	for (auto f : messages) f();
 	messages.clear();
 }
 

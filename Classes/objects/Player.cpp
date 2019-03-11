@@ -43,15 +43,13 @@ const float Player::powerAttackCost = 25.0f;
 const float Player::spellCost = 5.0f;
 
 Player::Player(GSpace* space, ObjectIDType id, const SpaceVect& pos, Direction d) :
-	Agent(space, id, "player", pos,d),
-	RegisterUpdate<Player>(this)
+	Agent(space, id, "player", pos,d)
 {
 
 }
 
 Player::Player(GSpace* space, ObjectIDType id, const ValueMap& args) :
-	MapObjForwarding(Agent),
-	RegisterUpdate<Player>(this)
+	MapObjForwarding(Agent)
 {
 	multiInit.insertWithOrder(wrap_method(Player, init, this), to_int(GObject::initOrder::postLoadAttributes));
 
@@ -286,6 +284,8 @@ void Player::onZeroHP()
 
 void Player::update()
 {
+	Agent::update();
+
 	App::setSoundListenerPos(getPos(), getVel(), float_pi/2.0);
 
 	if (playScene) {

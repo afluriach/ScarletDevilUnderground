@@ -103,8 +103,7 @@ ParametricMotion::ParametricMotion(parametric_space_function f, SpaceFloat start
 	scale(scale),
 	f(f),
 	t(start),
-	RegisterInit<ParametricMotion>(this),
-	RegisterUpdate<ParametricMotion>(this)
+	RegisterInit<ParametricMotion>(this)
 {}
 
 void ParametricMotion::init()
@@ -112,7 +111,7 @@ void ParametricMotion::init()
 	origin = getPos();
 }
 
-void ParametricMotion::update()
+void ParametricMotion::_update()
 {
 	setPos(f(t) + origin);
 	timerIncrement(t, scale);
@@ -140,7 +139,6 @@ PatchConSprite::PatchConSprite(const ValueMap& args) :
 
 PatchConSprite::PatchConSprite(Direction startingDirection) :
 	RegisterInit<PatchConSprite>(this),
-	RegisterUpdate<PatchConSprite>(this),
 	startingDirection(startingDirection)
 {
 }
@@ -172,7 +170,7 @@ void PatchConSprite::setSprite(const string& name, bool agentAnimation)
 	}
 }
 
-void PatchConSprite::update()
+void PatchConSprite::_update()
 {
     SpaceVect dist = getVel()*App::secondsPerFrame;
     

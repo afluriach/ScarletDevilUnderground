@@ -288,14 +288,15 @@ const AttributeMap RedFairy::baseAttributes = {
 RedFairy::RedFairy(GSpace* space, ObjectIDType id, const ValueMap& args) :
 	MapObjForwarding(GObject),
 	MapObjForwarding(Agent),
-	Enemy(collectible_id::health1),
-	RegisterUpdate<RedFairy>(this)
+	Enemy(collectible_id::health1)
 {
 	firePattern = make_shared<Fairy1BulletPattern>(this, 3.0, float_pi / 6.0, 2);
 }
 
 void RedFairy::update()
 {
+	Enemy::update();
+
 	//set fire rate and damage based on stress
 	attributeSystem.timerDecrement(Attribute::stress);
 	attributeSystem.setAttribute(Attribute::attackSpeed, 1.0f + max(25.0f, getAttribute(Attribute::stress))/25.0f);
@@ -398,13 +399,12 @@ const AttributeMap Fairy2::baseAttributes = {
 	{Attribute::acceleration, 4.5f}
 };
 
-const boost::rational<int> Fairy2::lowHealthRatio = boost::rational<int>(1, 3);
+const float Fairy2::lowHealthRatio = 0.5f;
 
 Fairy2::Fairy2(GSpace* space, ObjectIDType id, const ValueMap& args) :
 	MapObjForwarding(GObject),
 	MapObjForwarding(Agent),
-	Enemy(collectible_id::hm2),
-	RegisterUpdate<Fairy2>(this)
+	Enemy(collectible_id::hm2)
 {}
 
 
@@ -464,7 +464,9 @@ void Fairy2::removeSupportThread()
 
 void Fairy2::update()
 {
-	if (getHealth() / getMaxHealth() <= lowHealthRatio && (crntState == ai_state::normal || crntState == ai_state::supporting)){
+	Enemy::update();
+
+	if (getHealthRatio() <= lowHealthRatio && (crntState == ai_state::normal || crntState == ai_state::supporting)){
 		space->messageAll(this, &Fairy2::requestHandler, &Fairy2::responseHandler, object_ref<Fairy2>(this));
 
 		crntState = ai_state::flee;

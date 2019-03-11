@@ -18,13 +18,15 @@
 
 EffectArea::EffectArea(GSpace* space, ObjectIDType id, const ValueMap& args) :
 MapObjForwarding(GObject),
-MapObjForwarding(AreaSensor),
-RegisterUpdate<EffectArea>(this)
+MapObjForwarding(AreaSensor)
 {
 }
 
 void EffectArea::update()
 {
+	//shouldn't actually be necessary
+	//GObject::update();
+
 	if (player.isValid())
 	{
 		player.get()->applyAttributeEffects(AttributeSystem::scale(getAttributeEffect(), App::secondsPerFrame));
@@ -59,8 +61,7 @@ AttributeMap SunArea::getAttributeEffect() {
 DarknessArea::DarknessArea(GSpace* space, ObjectIDType id, const ValueMap& args) :
 	MapObjForwarding(GObject),
 	MapObjForwarding(EffectArea),
-	RegisterInit<DarknessArea>(this),
-	RegisterUpdate<DarknessArea>(this)
+	RegisterInit<DarknessArea>(this)
 {
 }
 
@@ -76,6 +77,8 @@ void DarknessArea::init()
 
 void DarknessArea::update()
 {
+	EffectArea::update();
+
 	active = true;
 	for (Torch* t : torches) {
 		if (t->getActive()) {

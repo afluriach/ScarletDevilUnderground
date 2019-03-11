@@ -13,8 +13,7 @@
 #include "Player.hpp"
 
 Enemy::Enemy(collectible_id drop_id) :
-drop_id(drop_id),
-RegisterUpdate<Enemy>(this)
+drop_id(drop_id)
 {
 }
 
@@ -39,6 +38,8 @@ void Enemy::endTouchPlayer()
 //hit will be registered every frame, in case contact is maintained for longer than the hit protection time.
 void Enemy::update()
 {
+	Agent::update();
+
 	if (touchTarget.isValid() && !touchTarget.get()->isProtected()) {
 		touchTarget.get()->hit(touchEffect(), nullptr);
 	}

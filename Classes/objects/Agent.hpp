@@ -20,8 +20,7 @@ virtual public GObject,
 public PatchConSprite,
 public CircleBody,
 public StateMachineObject, 
-public RadarObject,
-public RegisterUpdate<Agent>
+public RadarObject
 {
 public:
 	Agent(GSpace* space, ObjectIDType id, const string& name, const SpaceVect& pos, Direction d);
@@ -51,7 +50,7 @@ public:
 
 	void initFSM();
 	void initAttributes();
-	void update();
+	virtual void update();
 
 	bool isBulletObstacle(SpaceVect pos, SpaceFloat radius);
 

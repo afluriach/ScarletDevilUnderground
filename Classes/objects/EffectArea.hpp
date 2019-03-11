@@ -14,15 +14,13 @@
 class Agent;
 class Torch;
 
-class EffectArea :
-public AreaSensor, 
-public RegisterUpdate<EffectArea>
+class EffectArea : public AreaSensor 
 {
 public:
 	MapObjCons(EffectArea);
 	inline virtual ~EffectArea(){}
     
-	void update();
+	virtual void update();
 
 	virtual inline AttributeMap getAttributeEffect() { return {}; }
 	virtual inline shared_ptr<MagicEffect> getMagicEffect(GObject* target) { return nullptr; }
@@ -38,16 +36,13 @@ public:
 	virtual AttributeMap getAttributeEffect();
 };
 
-class DarknessArea :
-	public EffectArea,
-	public RegisterInit<DarknessArea>,
-	public RegisterUpdate<DarknessArea>
+class DarknessArea : public EffectArea, public RegisterInit<DarknessArea>
 {
 public:
 	MapObjCons(DarknessArea);
 
 	void init();
-	void update();
+	virtual void update();
 
 	virtual AttributeMap getAttributeEffect();
 protected:

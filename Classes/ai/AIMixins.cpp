@@ -14,13 +14,11 @@
 #include "LuaAPI.hpp"
 
 StateMachineObject::StateMachineObject() :
-	RegisterUpdate(this),
 	fsm(this)
 {
 }
 
 StateMachineObject::StateMachineObject(shared_ptr<ai::Function> startState, const ValueMap& args) :
-    RegisterUpdate(this),
     fsm(this)
 {
     shared_ptr<ai::Function> stateFromArgs = nullptr;
@@ -48,7 +46,7 @@ StateMachineObject::StateMachineObject(shared_ptr<ai::Function> startState, cons
 
 StateMachineObject::StateMachineObject(const ValueMap& args) : StateMachineObject(nullptr, args) {}
 
-void StateMachineObject::update() {
+void StateMachineObject::_update() {
 	if (!isFrozen)
 		fsm.update();
 }
@@ -74,8 +72,7 @@ void StateMachineObject::setFrozen(bool val) {
 }
 
 RadarObject::RadarObject() :
-	RegisterInit(this),
-	RegisterUpdate(this)
+	RegisterInit(this)
 {}
 
 void RadarObject::init() {
@@ -145,7 +142,7 @@ void RadarObject::setFovAngle(SpaceFloat angle)
     }
 }
 
-void RadarObject::update()
+void RadarObject::_update()
 {
     for(GObject* obj: objectsInRange)
     {

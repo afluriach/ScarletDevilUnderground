@@ -11,7 +11,7 @@
 
 #include "Enemy.hpp"
 
-class Stalker : public Enemy, public BaseAttributes<Stalker>, public RegisterUpdate<Stalker>
+class Stalker : public Enemy, public BaseAttributes<Stalker>
 {
 public:
 	static const AttributeMap baseAttributes;
@@ -27,7 +27,7 @@ public:
 	virtual void initStateMachine(ai::StateMachine& sm);
 	virtual void teleport(SpaceVect pos);
 
-	void update();
+	virtual void update();
 protected:
 	SpaceVect prev_pos;
 };
