@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.0" tiledversion="1.0.3" orientation="orthogonal" renderorder="right-down" width="51" height="51" tilewidth="128" tileheight="128" nextobjectid="149">
+<map version="1.0" tiledversion="1.0.3" orientation="orthogonal" renderorder="right-down" width="51" height="51" tilewidth="128" tileheight="128" nextobjectid="151">
  <tileset firstgid="1" name="wall" tilewidth="128" tileheight="128" tilecount="4" columns="2">
   <image source="../fence.png" width="256" height="256"/>
  </tileset>
@@ -122,16 +122,8 @@
     <property name="id" value="1"/>
    </properties>
   </object>
-  <object id="132" type="GhostHeadstone" x="2304" y="1792" width="256" height="256">
-   <properties>
-    <property name="cost" value="0"/>
-   </properties>
-  </object>
-  <object id="133" type="GhostHeadstone" x="3968" y="1792" width="256" height="256">
-   <properties>
-    <property name="cost" value="0"/>
-   </properties>
-  </object>
+  <object id="132" name="headstone5" type="GhostHeadstone" x="2304" y="1792" width="256" height="256"/>
+  <object id="133" name="headstone6" type="GhostHeadstone" x="3968" y="1792" width="256" height="256"/>
   <object id="134" type="HPUpgrade" x="5376" y="5760" width="128" height="128">
    <properties>
     <property name="id" value="2"/>
@@ -179,28 +171,40 @@
   </object>
  </objectgroup>
  <objectgroup name="sensors">
-  <object id="144" type="GhostHeadstoneSensor" x="4992" y="3712" width="896" height="512">
+  <object id="144" type="GhostHeadstoneSensor" x="5120" y="3776" width="640" height="448">
    <properties>
     <property name="cost" value="1"/>
     <property name="target" value="headstone1"/>
    </properties>
   </object>
-  <object id="145" type="GhostHeadstoneSensor" x="640" y="3712" width="896" height="512">
+  <object id="145" type="GhostHeadstoneSensor" x="768" y="3776" width="640" height="448">
    <properties>
     <property name="cost" value="2"/>
     <property name="target" value="headstone2"/>
    </properties>
   </object>
-  <object id="146" type="GhostHeadstoneSensor" x="640" y="2304" width="896" height="512">
+  <object id="146" type="GhostHeadstoneSensor" x="768" y="2304" width="640" height="448">
    <properties>
     <property name="cost" value="2"/>
     <property name="target" value="headstone3"/>
    </properties>
   </object>
-  <object id="148" type="GhostHeadstoneSensor" x="4992" y="2304" width="896" height="512">
+  <object id="148" type="GhostHeadstoneSensor" x="5120" y="2304" width="640" height="448">
    <properties>
     <property name="cost" value="4"/>
     <property name="target" value="headstone4"/>
+   </properties>
+  </object>
+  <object id="149" type="GhostHeadstoneSensor" x="2304" y="1664" width="384" height="384">
+   <properties>
+    <property name="cost" value="0"/>
+    <property name="target" value="headstone5"/>
+   </properties>
+  </object>
+  <object id="150" type="GhostHeadstoneSensor" x="3840" y="1664" width="384" height="384">
+   <properties>
+    <property name="cost" value="0"/>
+    <property name="target" value="headstone6"/>
    </properties>
   </object>
  </objectgroup>
