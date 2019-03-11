@@ -28,7 +28,7 @@ public:
     
     virtual inline string imageSpritePath() const {return "sprites/rumia.png";}
 	virtual inline bool isAgentAnimation() const { return true; }
-	virtual inline int pixelWidth() const { return 512; }
+	virtual inline int pixelWidth() const { return 128; }
     virtual inline GraphicsLayer sceneLayer() const {return GraphicsLayer::ground;}
 
 	virtual void initStateMachine(ai::StateMachine& fsm);
@@ -52,7 +52,7 @@ public:
 
 	virtual inline string imageSpritePath() const { return "sprites/rumia.png"; }
 	virtual inline bool isAgentAnimation() const { return true; }
-	virtual inline int pixelWidth() const { return 512; }
+	virtual inline int pixelWidth() const { return 128; }
 	virtual inline GraphicsLayer sceneLayer() const { return GraphicsLayer::ground; }
 
 	virtual void initStateMachine(ai::StateMachine& fsm);

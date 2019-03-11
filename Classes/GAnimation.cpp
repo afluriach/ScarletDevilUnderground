@@ -143,8 +143,8 @@ void PatchConAnimation::loadAnimation(const string& path, bool agentAnimation)
 	}
 	else {
 		walkAnimations = AnimationSpriteSequence::loadPatchconSpriteSheet(path);
-		useFlipX = true;
 	}
+	useFlipX = !agentAnimation;
 
 	sprite = Sprite::create();
     addChild(sprite,1);

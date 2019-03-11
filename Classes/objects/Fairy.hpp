@@ -33,7 +33,7 @@ public:
 
 	inline string imageSpritePath() const { return "sprites/fairy-blue.png"; }
 	virtual bool isAgentAnimation() const { return true; }
-	virtual inline int pixelWidth() const { return 512; }
+	virtual inline int pixelWidth() const { return 128; }
 
 	void flee_player(ai::StateMachine& sm, const ValueMap& args);
 	void idle(ai::StateMachine& sm, const ValueMap& args);
@@ -55,7 +55,7 @@ public:
 
 	inline string imageSpritePath() const { return "sprites/fairy-blue.png"; }
 	virtual bool isAgentAnimation() const { return true; }
-	virtual inline int pixelWidth() const { return 512; }
+	virtual inline int pixelWidth() const { return 128; }
 
 	inline virtual bool isDialogAvailable() { return true; }
 	virtual string getDialog();
@@ -81,7 +81,7 @@ public:
 
 	inline string imageSpritePath() const { return "sprites/ghost-fairy.png"; }
 	virtual bool isAgentAnimation() const { return true; }
-	virtual inline int pixelWidth() const { return 512; }
+	virtual inline int pixelWidth() const { return 128; }
 
 	virtual void initStateMachine(ai::StateMachine& sm);
 };
@@ -104,7 +104,7 @@ public:
 
 	inline string imageSpritePath() const { return "sprites/fairy-green.png"; }
 	virtual bool isAgentAnimation() const { return true; }
-	virtual inline int pixelWidth() const { return 512; }
+	virtual inline int pixelWidth() const { return 128; }
 
 	void maintain_distance(ai::StateMachine& sm, const ValueMap& args);
 	void circle_and_fire(ai::StateMachine& sm, const ValueMap& args);
@@ -135,7 +135,7 @@ public:
 
 	inline string imageSpritePath() const { return "sprites/fairy-blue.png"; }
 	virtual bool isAgentAnimation() const { return true; }
-	virtual inline int pixelWidth() const { return 512; }
+	virtual inline int pixelWidth() const { return 128; }
 
 	void follow_path(ai::StateMachine& sm, const ValueMap& args);
 };
@@ -162,7 +162,7 @@ public:
 
 	inline string imageSpritePath() const { return "sprites/fairy-red.png"; }
 	virtual bool isAgentAnimation() const { return true; }
-	virtual inline int pixelWidth() const { return 512; }
+	virtual inline int pixelWidth() const { return 128; }
 
 	virtual void initStateMachine(ai::StateMachine& sm);
 };
@@ -187,7 +187,7 @@ public:
 
 	inline string imageSpritePath() const { return "sprites/fairy-green.png"; }
 	virtual bool isAgentAnimation() const { return true; }
-	virtual inline int pixelWidth() const { return 512; }
+	virtual inline int pixelWidth() const { return 128; }
 
 	virtual void initStateMachine(ai::StateMachine& sm);
 };
@@ -215,7 +215,7 @@ public:
 
 	inline string imageSpritePath() const { return "sprites/zombie-fairy.png"; }
 	virtual bool isAgentAnimation() const { return true; }
-	virtual inline int pixelWidth() const { return 512; }
+	virtual inline int pixelWidth() const { return 128; }
 
 	virtual void initStateMachine(ai::StateMachine& sm);
 };
@@ -254,7 +254,7 @@ public:
 
 	inline string imageSpritePath() const { return "sprites/fairy2-red.png"; }
 	virtual bool isAgentAnimation() const { return true; }
-	virtual inline int pixelWidth() const { return 512; }
+	virtual inline int pixelWidth() const { return 128; }
 
 	virtual void initStateMachine(ai::StateMachine& sm);
 	void addFleeThread();
@@ -289,7 +289,7 @@ public:
 
 	inline string imageSpritePath() const { return "sprites/fairy2-blue.png"; }
 	virtual bool isAgentAnimation() const { return true; }
-	virtual inline int pixelWidth() const { return 512; }
+	virtual inline int pixelWidth() const { return 128; }
 
 	virtual void initStateMachine(ai::StateMachine& sm);
 };

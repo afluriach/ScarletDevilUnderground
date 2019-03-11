@@ -162,7 +162,7 @@ public:
 
 	virtual inline string imageSpritePath() const { return "sprites/flandre.png"; }
 	virtual bool isAgentAnimation() const { return true; }
-	virtual inline int pixelWidth() const { return 512; }
+	virtual inline int pixelWidth() const { return 128; }
 
 	virtual CircleLightArea getLight();
 	virtual void setFirePattern();
@@ -178,7 +178,7 @@ public:
 
 	virtual inline string imageSpritePath() const { return "sprites/rumia.png"; }
 	virtual bool isAgentAnimation() const { return true; }
-	virtual inline int pixelWidth() const { return 512; }
+	virtual inline int pixelWidth() const { return 128; }
 
 	virtual CircleLightArea getLight();
 	virtual void setFirePattern();

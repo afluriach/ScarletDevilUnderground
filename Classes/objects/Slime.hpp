@@ -31,7 +31,7 @@ public:
 
 	inline string imageSpritePath() const { return "sprites/slime.png"; }
 	virtual bool isAgentAnimation() const { return true; }
-	virtual inline int pixelWidth() const { return 256; }
+	virtual inline int pixelWidth() const { return 128; }
 
 	virtual void initStateMachine(ai::StateMachine& sm);
 };
@@ -55,7 +55,7 @@ public:
 
 	inline string imageSpritePath() const { return "sprites/slime.png"; }
 	virtual bool isAgentAnimation() const { return true; }
-	virtual inline int pixelWidth() const { return 128; }
+	virtual inline int pixelWidth() const { return 64; }
 
 	virtual void initStateMachine(ai::StateMachine& sm);
 };
