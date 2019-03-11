@@ -10,6 +10,7 @@
 
 #include "AIFunctions.hpp"
 #include "EnemyBullet.hpp"
+#include "EnemyFirePattern.hpp"
 #include "GSpace.hpp"
 #include "Reimu.hpp"
 #include "value_map.hpp"
@@ -31,7 +32,9 @@ ReimuEnemy::ReimuEnemy(GSpace* space, ObjectIDType id, const ValueMap& args) :
 	MapObjForwarding(Agent),
 	Enemy(collectible_id::magic2),
 	activations(getStringOrDefault(args, "activations", ""))
-{}
+{
+	firePattern = make_shared<ReimuWavePattern>(this);
+}
 
 void ReimuEnemy::onZeroHP()
 {
@@ -94,8 +97,8 @@ void ReimuEnemy::initStateMachine(ai::StateMachine& fsm)
 				this->lockDoors();
 				this->spawnOrbs();
 				sm.addThread(make_shared<ReimuMain>());
-				sm.addThread(make_shared<ai::AimAtTarget>(target));
-				sm.addThread(make_shared<ai::Flank>(target, 3.0));
+				sm.addThread(make_shared<ai::FireAtTarget>(target));
+				sm.addThread(make_shared<ai::Flank>(target, 3.0, 2.0), 1);
 			}
 		}
 	);

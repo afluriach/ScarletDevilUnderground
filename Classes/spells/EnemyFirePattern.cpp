@@ -47,3 +47,25 @@ RumiaBurstPattern::RumiaBurstPattern(Agent *const agent) :
 	BurstPattern(agent, 1.5, 0.25, 3),
 	EnemyBulletImplPattern(&EnemyBulletImpl::rumiaBullet)
 {}
+
+ReimuWavePattern::ReimuWavePattern(Agent *const agent) :
+	FirePattern(agent)
+{}
+
+bool ReimuWavePattern::fire()
+{
+	SpaceFloat angle = agent->getAngle();
+
+	agent->bulletCheckSpawn<ReimuBullet1>(
+		agent->getPos(),
+		angle,
+		0
+	);
+	agent->bulletCheckSpawn<ReimuBullet1>(
+		agent->getPos(),
+		angle,
+		0.5
+	);
+
+	return true;
+}

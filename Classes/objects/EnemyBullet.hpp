@@ -121,6 +121,18 @@ public:
 	void update();
 };
 
+class ReimuBullet1 : public EnemyBullet, public BulletImpl, public ParametricMotion
+{
+public:
+	static const bullet_properties props;
+	static const SpaceFloat omega;
+	static const SpaceFloat amplitude;
+
+	static SpaceVect parametric_move(SpaceFloat t, SpaceFloat angle, SpaceFloat phaseAngleStart);
+
+	ReimuBullet1(GSpace* space, ObjectIDType id, const SpaceVect& pos, SpaceFloat angle, Agent* agent, SpaceFloat start);
+};
+
 class YinYangOrb : public EnemyBullet, public BulletImpl, public SpriteLightObject
 {
 public:

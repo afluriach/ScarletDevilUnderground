@@ -154,6 +154,10 @@ FlanPolarBullet::FlanPolarBullet(GSpace* space, ObjectIDType id, const SpaceVect
 	ParametricMotion(&parametric_motion, parametric_start)
 {}
 
+CircleLightArea FlanPolarBullet::getLightSource() const {
+	return CircleLightArea{ getPos(), 2.0, Color4F::ORANGE*0.5f, 0.0 }; 
+}
+
 const bullet_properties FlandrePolarMotionOrb::props = {
 	1.0,
 	9.0,
@@ -175,6 +179,10 @@ void FlandrePolarMotionOrb::update()
 {
 	applyForceForSingleFrame(SpaceVect::ray(20.0, getAngle() + float_pi / 2.0));
 	rotate(App::secondsPerFrame * float_pi);
+}
+
+CircleLightArea FlandrePolarMotionOrb::getLightSource() const {
+	return CircleLightArea{ getPos(), 2.0, Color4F::RED*0.5f, 0.0 };
 }
 
 FlandreCounterClockBullet::FlandreCounterClockBullet(GSpace* space, ObjectIDType id, const SpaceVect& pos, SpaceFloat angle, Agent* agent) :

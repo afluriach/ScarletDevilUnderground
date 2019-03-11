@@ -48,5 +48,5 @@ void BatMain::update(ai::StateMachine& sm)
 {
 	if (!target.isValid()) sm.pop();
 
-	sm.push(make_shared<ai::Flank>(target, 2.0));
+	sm.push(make_shared<ai::Flank>(target, 2.0, 1.0));
 }

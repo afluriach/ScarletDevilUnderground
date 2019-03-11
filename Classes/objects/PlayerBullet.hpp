@@ -82,9 +82,16 @@ public:
 	static SpaceVect parametric_motion(SpaceFloat t);
 
 	cons(FlanPolarBullet);
-	FlanPolarBullet(GSpace* space, ObjectIDType id, const SpaceVect& pos, SpaceFloat angle, Agent* agent, SpaceFloat parametric_start);
+	FlanPolarBullet(
+		GSpace* space,
+		ObjectIDType id,
+		const SpaceVect& pos,
+		SpaceFloat angle,
+		Agent* agent,
+		SpaceFloat parametric_start
+	);
 
-	virtual inline CircleLightArea getLightSource() const { return CircleLightArea{ getPos(), 2.0, Color4F::ORANGE*0.5f, 0.0 }; }
+	virtual CircleLightArea getLightSource() const;
 	virtual inline void onWallCollide(Wall* wall) {}
 	virtual inline void onEnvironmentCollide(GObject* obj) {}
 };
@@ -102,7 +109,7 @@ public:
 
 	void update();
 
-	virtual inline CircleLightArea getLightSource() const { return CircleLightArea{ getPos(), 2.0, Color4F::RED*0.5f, 0.0 }; }
+	virtual CircleLightArea getLightSource() const;
 };
 
 class FlandreCounterClockBullet :

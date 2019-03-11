@@ -175,16 +175,18 @@ private:
 
 class Flank : public Function {
 public:
-	Flank(gobject_ref target, SpaceFloat desiredDistance);
+	Flank(gobject_ref target, SpaceFloat desiredDistance, SpaceFloat wallMargin);
 
 	virtual void init(StateMachine& fsm);
 	virtual void update(StateMachine& fsm);
+	GetLockmask(movement);
+	FuncGetName(Flank);
 
-	GetLockmask(movement)
-	FuncGetName(Flank)
+	bool wallQuery(StateMachine& fsm,SpaceVect pos);
 private:
 	gobject_ref target;
 	SpaceFloat desiredDistance;
+	SpaceFloat wallMargin;
 };
 
 class QuadDirectionLookAround : public Function {

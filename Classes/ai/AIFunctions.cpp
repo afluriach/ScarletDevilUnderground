@@ -462,9 +462,10 @@ void CircleAround::update(StateMachine& fsm)
 	fsm.agent->setAngle(angularPosition);
 }
 
-Flank::Flank(gobject_ref target, SpaceFloat desiredDistance) :
+Flank::Flank(gobject_ref target, SpaceFloat desiredDistance, SpaceFloat wallMargin) :
 target(target),
-desiredDistance(desiredDistance)
+desiredDistance(desiredDistance),
+wallMargin(wallMargin)
 {
 }
 
@@ -478,31 +479,42 @@ void Flank::update(StateMachine& fsm)
 		fsm.pop();
 	}
 
+	SpaceVect target_pos;
 	SpaceVect pos = target.get()->getPos();
 	SpaceFloat angle = target.get()->getAngle();
 	SpaceFloat this_angle = viewAngleToTarget(target.get(), fsm.agent);
 
+	SpaceVect rear_pos = SpaceVect::ray(desiredDistance, angle + float_pi) + pos;
+	SpaceVect left_pos = SpaceVect::ray(desiredDistance, angle - float_pi / 2.0) + pos;
+	SpaceVect right_pos = SpaceVect::ray(desiredDistance, angle + float_pi / 2.0) + pos;
+
 	if (abs(this_angle) < float_pi / 4.0) {
 		//move to side flank
 
-		if (this_angle < 0) {
-			fsm.push(make_shared<MoveToPoint>(
-				SpaceVect::ray(desiredDistance, angle - float_pi / 2.0) + pos
-			));
+		if (this_angle < 0 && !wallQuery(fsm, left_pos)) {
+			target_pos = left_pos;
 		}
-		else {
-			fsm.push(make_shared<MoveToPoint>(
-				SpaceVect::ray(desiredDistance, angle + float_pi / 2.0) + pos
-			));
+		else if(!wallQuery(fsm, right_pos)) {
+			target_pos = right_pos;
 		}
 	}
-	else
+	else if(!wallQuery(fsm, rear_pos))
 	{
 		//move to rear flank
-		fsm.push(make_shared<MoveToPoint>(
-			SpaceVect::ray(desiredDistance, angle + float_pi ) + pos
-		));
+		target_pos = rear_pos;
 	}
+	if (!target_pos.isZero()) {
+		fsm.push(make_shared<MoveToPoint>(target_pos));
+	}
+	else {
+		applyDesiredVelocity(fsm.agent, SpaceVect::zero, fsm.agent->getMaxAcceleration());
+	}
+}
+
+
+bool Flank::wallQuery(StateMachine& fsm, SpaceVect pos)
+{
+	return fsm.agent->space->obstacleRadiusQuery(fsm.agent, pos, wallMargin, GType::wall, PhysicsLayers::all);
 }
 
 QuadDirectionLookAround::QuadDirectionLookAround(boost::rational<int> secondsPerDirection, bool clockwise) :

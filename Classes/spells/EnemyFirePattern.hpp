@@ -56,6 +56,21 @@ public:
 	inline virtual float getCooldownTime() { return 1.5f; }
 };
 
+class ReimuWavePattern : public FirePattern
+{
+public:
+	ReimuWavePattern(Agent *const agent);
+	virtual bool fire();
+
+	//unused
+	inline virtual bool spawn(SpaceFloat angle) { return false; }
+	inline virtual bool spawn(SpaceVect posOffset, SpaceFloat angle) { return false; }
+
+	inline virtual float getCooldownTime() { return 0.75f; }
+	//not relevant for enemy fire patterns
+	inline virtual string iconPath() const { return ""; }
+};
+
 class RumiaBurstPattern : public BurstPattern, public EnemyBulletImplPattern
 {
 public:

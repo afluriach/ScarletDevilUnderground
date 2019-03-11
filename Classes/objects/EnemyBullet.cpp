@@ -194,6 +194,34 @@ void IllusionDialDagger::initializeGraphics()
 	space->setSpriteVisible(drawNodeID, false);
 }
 
+const bullet_properties ReimuBullet1::props = {
+	0.1,
+	4.5,
+	0.2,
+	0.5,
+	"sprites/yin-yang-orb.png",
+	hp_damage_map(3.0f)
+};
+
+const SpaceFloat ReimuBullet1::omega = float_pi * 2.0;
+const SpaceFloat ReimuBullet1::amplitude = 2.0;
+
+SpaceVect ReimuBullet1::parametric_move(SpaceFloat t, SpaceFloat firingAngle, SpaceFloat phaseAngleStart)
+{
+	SpaceVect d1 = SpaceVect::ray(t * props.speed, firingAngle);
+	SpaceVect d2 = SpaceVect::ray(amplitude, firingAngle + float_pi * 0.5)*cos((t+phaseAngleStart)*omega);
+
+	return d1 + d2;
+}
+
+ReimuBullet1::ReimuBullet1(GSpace* space, ObjectIDType id, const SpaceVect& pos, SpaceFloat angle, Agent* agent, SpaceFloat start) :
+	GObject(space, id, "", pos, angle),
+	Bullet(agent),
+	EnemyBullet(agent),
+	BulletImpl(&props),
+	ParametricMotion(bind(&parametric_move, placeholders::_1, angle, start))
+{}
+
 const bullet_properties YinYangOrb::props = {
 	0.1,
 	4.5,

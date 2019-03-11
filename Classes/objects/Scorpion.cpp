@@ -71,7 +71,7 @@ void Scorpion2::initStateMachine(ai::StateMachine& sm)
 	sm.addDetectFunction(
 		GType::player,
 		[](ai::StateMachine& sm, GObject* target) -> void {
-			sm.addThread(make_shared<ai::Flank>(target, 1.0));
+			sm.addThread(make_shared<ai::Flank>(target, 1.0, 1.0));
 		}
 	);
 	sm.addEndDetectFunction(
