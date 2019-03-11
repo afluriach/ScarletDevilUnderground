@@ -150,6 +150,7 @@ const string PlayerScarletRose::name = "PlayerScarletRose";
 const string PlayerScarletRose::description = "";
 
 const SpaceFloat PlayerScarletRose::fireInterval = 0.2;
+const int PlayerScarletRose::fireCount = 6;
 
 PlayerScarletRose::PlayerScarletRose(GObject* caster) :
 	PlayerSpell(caster),
@@ -162,10 +163,20 @@ void PlayerScarletRose::update()
 
 	timerIncrement(timer);
 
-	if (timer >= fireInterval) {
-		gobject_ref ref = caster->space->createObject(GObject::make_object_factory<FlanPolarBullet>(origin, 0.0, getCasterAs<Agent>()));
-		bullets.insert(ref);
+	if (timer >= fireInterval && launchCount < fireCount) {
+		for_irange(i, 0, 8) {
+			SpaceFloat t = float_pi / FlanPolarBullet::B * i;
+			gobject_ref ref = caster->space->createObject(GObject::make_object_factory<FlanPolarBullet>(
+				origin,
+				0.0,
+				getCasterAs<Agent>(),
+				t
+			));
+			bullets.insert(ref);
+		}
+
 		timer -= fireInterval;
+		++launchCount;
 	}
 }
 

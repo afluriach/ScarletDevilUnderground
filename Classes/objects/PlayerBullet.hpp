@@ -71,16 +71,22 @@ class FlanPolarBullet :
 {
 public:
 	static const bullet_properties props;
-	//frequency of polar interval
+	//parametric / angle scale - at 1.0, it takes 2pi seconds
+	//to trace the entire graph
 	static const SpaceFloat W;
 	//magnitude scale
 	static const SpaceFloat A;
+	//frequency, number of petals
+	static const SpaceFloat B;
 
 	static SpaceVect parametric_motion(SpaceFloat t);
 
 	cons(FlanPolarBullet);
+	FlanPolarBullet(GSpace* space, ObjectIDType id, const SpaceVect& pos, SpaceFloat angle, Agent* agent, SpaceFloat parametric_start);
 
 	virtual inline CircleLightArea getLightSource() const { return CircleLightArea{ getPos(), 2.0, Color4F::ORANGE*0.5f, 0.0 }; }
+	virtual inline void onWallCollide(Wall* wall) {}
+	virtual inline void onEnvironmentCollide(GObject* obj) {}
 };
 
 class FlandrePolarMotionOrb :

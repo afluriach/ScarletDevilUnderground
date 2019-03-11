@@ -162,14 +162,15 @@ class ParametricMotion :
 	public RegisterUpdate<ParametricMotion>
 {
 public:
-	ParametricMotion(parametric_space_function f);
+	ParametricMotion(parametric_space_function f, SpaceFloat start = 0.0, SpaceFloat scale = 1.0);
 
 	void init();
 	void update();
 protected:
-	parametric_space_function f;
-	SpaceVect origin;
+	const SpaceFloat scale;
 	SpaceFloat t = 0.0;
+	SpaceVect origin;
+	parametric_space_function f;
 };
 
 //END PHYSICS

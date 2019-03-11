@@ -99,8 +99,10 @@ void DirectionalLaunch::init()
 	setVel(SpaceVect::ray(getMaxSpeed(), getAngle()));
 }
 
-ParametricMotion::ParametricMotion(parametric_space_function f) :
+ParametricMotion::ParametricMotion(parametric_space_function f, SpaceFloat start, SpaceFloat scale) :
+	scale(scale),
 	f(f),
+	t(start),
 	RegisterInit<ParametricMotion>(this),
 	RegisterUpdate<ParametricMotion>(this)
 {}
@@ -113,7 +115,7 @@ void ParametricMotion::init()
 void ParametricMotion::update()
 {
 	setPos(f(t) + origin);
-	timerIncrement(t);
+	timerIncrement(t, scale);
 }
 
 //END PHYSICS

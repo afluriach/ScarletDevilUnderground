@@ -72,6 +72,7 @@ public:
 	static const string description;
 
 	static const SpaceFloat fireInterval;
+	static const int fireCount;
 
 	PlayerScarletRose(GObject* caster);
 
@@ -84,6 +85,7 @@ public:
 	const SpaceVect origin;
 	unordered_set<gobject_ref> bullets;
 	SpaceFloat timer = 0.0;
+	int launchCount = 0;
 };
 
 class PlayerDarkMist : public PlayerSpell {
