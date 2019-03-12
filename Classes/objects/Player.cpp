@@ -586,7 +586,7 @@ const AttributeMap FlandrePC::baseAttributes = {
 	{Attribute::maxStamina, 100.0f},
 	{Attribute::staminaRegen, 5.0f},
 	{Attribute::agility, 2.0f},
-	{Attribute::hitProtectionInterval, 2.4f},
+	{Attribute::hitProtectionInterval, 1.8f},
 	{Attribute::spellCooldownInterval, 1.0f },
 	{Attribute::iceSensitivity, 2.0f},
 	{Attribute::sunSensitivity, 5.0f}
@@ -646,7 +646,7 @@ const AttributeMap RumiaPC::baseAttributes = {
 	{Attribute::maxStamina, 75.0f },
 	{Attribute::staminaRegen, 3.0f },
 	{Attribute::agility, 3.0f },
-	{Attribute::hitProtectionInterval, 1.5f },
+	{Attribute::hitProtectionInterval, 1.2f },
 	{Attribute::spellCooldownInterval, 1.0f },
 	{Attribute::iceSensitivity, 1.0f },
 	{Attribute::sunSensitivity, 0.0f },
@@ -684,7 +684,7 @@ const AttributeMap CirnoPC::baseAttributes = {
 	{Attribute::maxStamina, 125.0f},
 	{Attribute::staminaRegen, 6.66f },
 	{Attribute::agility, 1.0f},
-	{Attribute::hitProtectionInterval, 3.3f},
+	{Attribute::hitProtectionInterval, 2.7f},
 	{Attribute::spellCooldownInterval, 1.0f},
 	{Attribute::iceSensitivity, 0.0f},
 	{Attribute::sunSensitivity, 1.0f}

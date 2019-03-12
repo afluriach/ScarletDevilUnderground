@@ -123,9 +123,7 @@ public:
 
 	BlueFairy(GSpace* space, ObjectIDType id, const ValueMap& args);
 
-	inline virtual AttributeMap touchEffect() {
-		return AttributeSystem::getAttributeMap(Attribute::hp, -5.0f);
-	}
+	inline virtual AttributeMap touchEffect() { return hp_damage_map(5.0f); }
 
 	virtual inline SpaceFloat getMaxSpeed() const { return 2.5; }
 	virtual inline SpaceFloat getMaxAcceleration() const { return 6.0; }
@@ -173,9 +171,7 @@ public:
 
 	GreenFairy(GSpace* space, ObjectIDType id, const ValueMap& args);
 
-	inline virtual AttributeMap touchEffect() {
-		return AttributeSystem::getAttributeMap(Attribute::hp, -3.0f);
-	}
+	inline virtual AttributeMap touchEffect() { return hp_damage_map(3.0f); }
 
 	virtual inline SpaceFloat getRadarRadius() const { return 6.0; }
 	virtual inline SpaceFloat getDefaultFovAngle() const { return 0.0; }

@@ -56,15 +56,9 @@ void Bomb::detonate()
 		float scale = getScale(target);
 		SpaceFloat knockback = baseEffect.at(Attribute::hp) * -5.0f * scale;
 
-		if (target->getType() == GType::player) {
-			target->hit({ {Attribute::hp, -1.0f} }, getMagicEffect(target));
-			applyKnockback(target, knockback);
-		}
-		else if (target->getType() == GType::enemy) {
-			target->hit(AttributeSystem::scale(baseEffect, scale), getMagicEffect(target));
-			log("Hit %s at magnitude %f.", target->getName().c_str(), scale);
-			applyKnockback(target, knockback);
-		}
+		target->hit(AttributeSystem::scale(baseEffect, scale), getMagicEffect(target));
+		log("Hit %s at magnitude %f.", target->getName().c_str(), scale);
+		applyKnockback(target, knockback);
 	}
 
 	unordered_set<BreakableWall*> walls = space->radiusQueryByType<BreakableWall>(
