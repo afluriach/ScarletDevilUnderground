@@ -56,6 +56,15 @@ public:
 	inline virtual float getCooldownTime() { return 1.5f; }
 };
 
+class BlueFairyFirePattern : public BurstPattern, public EnemyBulletImplPattern
+{
+public:
+	BlueFairyFirePattern(Agent *const agent);
+
+	//not relevant for enemy fire patterns
+	inline virtual string iconPath() const { return ""; }
+};
+
 class ReimuWavePattern : public FirePattern
 {
 public:

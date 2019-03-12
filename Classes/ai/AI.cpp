@@ -278,8 +278,8 @@ void StateMachine::onEndDetect(GObject* obj)
 
 void StateMachine::onBulletHit(Bullet* b)
 {
-	if (bulletHandler) {
-		bulletHandler(*this, b);
+	for (auto entry : bulletHandlers) {
+		entry.second(*this, b);
 	}
 }
 
@@ -312,9 +312,22 @@ void StateMachine::removeEndDetectFunction(GType t)
 	endDetectHandlers.erase(t);
 }
 
-void StateMachine::setBulletHitFunction(bullet_collide_function f)
+unsigned int StateMachine::addBulletHitFunction(bullet_collide_function f)
 {
-	bulletHandler = f;
+	auto entry = make_pair(nextCallbackID++, f);
+	bulletHandlers.push_back(entry);
+	return nextCallbackID - 1;
+}
+
+bool StateMachine::removeBulletFunction(unsigned int id)
+{
+	for (auto it = bulletHandlers.begin(); it != bulletHandlers.end(); ++it) {
+		if (it->first == id) {
+			bulletHandlers.erase(it);
+			return true;
+		}
+	}
+	return false;
 }
 
 void StateMachine::setAlertFunction(alert_function f)

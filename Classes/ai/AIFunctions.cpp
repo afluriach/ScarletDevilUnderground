@@ -554,7 +554,7 @@ LookTowardsFire::LookTowardsFire()
 
 void LookTowardsFire::onEnter(StateMachine& fsm)
 {
-	fsm.setBulletHitFunction(bind(&LookTowardsFire::onBulletCollide, this, placeholders::_1, placeholders::_2));
+	collideCallbackID = fsm.addBulletHitFunction(bind(&LookTowardsFire::onBulletCollide, this, placeholders::_1, placeholders::_2));
 }
 
 void LookTowardsFire::update(StateMachine& fsm)
@@ -578,7 +578,7 @@ void LookTowardsFire::update(StateMachine& fsm)
 
 void LookTowardsFire::onExit(StateMachine& fsm)
 {
-	//should remove the collision handler function here
+	fsm.removeBulletFunction(collideCallbackID);
 }
 
 void LookTowardsFire::onBulletCollide(StateMachine& fsm, Bullet* b)

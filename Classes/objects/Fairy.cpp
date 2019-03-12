@@ -267,17 +267,20 @@ BlueFairy::BlueFairy(GSpace* space, ObjectIDType id, const ValueMap& args) :
 	AIPackage(this, args, ""),
 	Enemy(collectible_id::magic1)
 {
-	firePattern = make_shared<Fairy1BulletPattern>(this, 1.5, float_pi / 6.0, 3);
+	firePattern = make_shared<BlueFairyFirePattern>(this);
 }
 
 void BlueFairy::follow_path(ai::StateMachine& sm, const ValueMap& args)
 {
 	const Path* path = space->getPath(getStringOrDefault(args, "pathName", ""));
 
+	sm.addBulletHitFunction(ai::buildStressFromHits(1.0f));
+
 	if (path) {
 		sm.setAlertFunction([path](ai::StateMachine& sm, Player* p) -> void {
 			sm.addThread(make_shared<ai::FollowPath>(*path, true, true), 1);
 			sm.addThread(make_shared<ai::LookTowardsFire>(), 2);
+			sm.addThread(make_shared<ai::FireOnStress>(5.0f));
 		});
 	}
 }
@@ -314,7 +317,7 @@ void RedFairy::initStateMachine(ai::StateMachine& sm)
 		sm.addThread(make_shared<ai::Wander>(1.5, 2.5, 2.0, 3.0), 0);
 	});
 
-	sm.setBulletHitFunction(ai::buildStressFromHits(1.0f));
+	sm.addBulletHitFunction(ai::buildStressFromHits(1.0f));
 
 	sm.addDetectFunction(
 		GType::player,
@@ -357,7 +360,7 @@ void GreenFairy::initStateMachine(ai::StateMachine& sm)
 	});
 
 	sm.addDetectFunction(GType::playerBullet, ai::buildStressFromDetection(0.25f));
-	sm.setBulletHitFunction(ai::buildStressFromHits(0.5f));
+	sm.addBulletHitFunction(ai::buildStressFromHits(0.5f));
 }
 
 const AttributeMap ZombieFairy::baseAttributes = {

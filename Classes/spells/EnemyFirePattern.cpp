@@ -42,6 +42,13 @@ GreenFairyBulletPattern::GreenFairyBulletPattern(
 {
 }
 
+BlueFairyFirePattern::BlueFairyFirePattern(Agent *const agent) :
+	FirePattern(agent),
+	BurstPattern(agent, 1.5, 0.5, 3),
+	EnemyBulletImplPattern(&EnemyBulletImpl::blueFairyBullet)
+{
+}
+
 RumiaBurstPattern::RumiaBurstPattern(Agent *const agent) :
 	FirePattern(agent),
 	BurstPattern(agent, 1.5, 0.25, 3),

@@ -49,6 +49,15 @@ const bullet_properties EnemyBulletImpl::greenFairyBullet = {
 	hp_damage_map(3.0f)
 };
 
+const bullet_properties EnemyBulletImpl::blueFairyBullet = {
+	3.0,
+	4.0,
+	0.25,
+	0.83,
+	"sprites/blue_fairy_bullet.png",
+	hp_damage_map(5.0f)
+};
+
 const bullet_properties EnemyBulletImpl::iceFairyBullet = {
 	0.1,
 	6.0,
