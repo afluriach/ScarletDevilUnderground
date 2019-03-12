@@ -455,8 +455,8 @@ void EnemyInfo::update()
 		healthBar->drawSolidRect(Vec2(-hWidth, -hHeight), Vec2(-hWidth + 2.0f*hWidth * hpRatio, hHeight), Color4F(1.0f, 0.0f, 0.0f, 1.0f));
 		hpLabel->setString(boost::str(
 			boost::format("%s / %s") %
-			boost::lexical_cast<string>(hp) % 
-			boost::lexical_cast<string>(maxHP)
+			floatToRoundedString(hp, 1.0f) % 
+			floatToRoundedString(maxHP, 1.0f)
 		));
 	}
 }

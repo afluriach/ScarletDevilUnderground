@@ -95,6 +95,12 @@ string directionToString(Direction d)
 	return (d >= Direction::none && d < Direction::end) ? directionNames[to_size_t(d)] : "";
 }
 
+string floatToRoundedString(float val, float denom)
+{
+	float roundedVal = floor(val * denom) / denom;
+	return boost::lexical_cast<string>(roundedVal);
+}
+
 IntVec2 toIntVector(const cocos2d::CCSize& rhs)
 {
     return IntVec2(rhs.width,rhs.height);
