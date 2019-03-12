@@ -11,11 +11,13 @@
 #include "AIFunctions.hpp"
 #include "AIUtil.hpp"
 #include "App.h"
+#include "Bomb.hpp"
 #include "EnemyFirePattern.hpp"
 #include "EnemySpell.hpp"
 #include "Fairy.hpp"
 #include "GSpace.hpp"
 #include "GState.hpp"
+#include "MiscMagicEffects.hpp"
 #include "Player.hpp"
 #include "value_map.hpp"
 
@@ -254,8 +256,9 @@ const AttributeMap BlueFairy::baseAttributes = {
 	{ Attribute::shieldActive, 1.0f },
 	{ Attribute::shieldLevel, 1.0f },
 	{ Attribute::maxHP, 30.0f },
-	{ Attribute::speed, 3.0f },
-	{ Attribute::acceleration, 4.5f }
+	{ Attribute::maxStamina, 50.0f },
+	{ Attribute::staminaRegen, 1.0f },
+	{ Attribute::agility, 2.5f },
 };
 
 BlueFairy::BlueFairy(GSpace* space, ObjectIDType id, const ValueMap& args) :
@@ -281,8 +284,8 @@ void BlueFairy::follow_path(ai::StateMachine& sm, const ValueMap& args)
 
 const AttributeMap RedFairy::baseAttributes = {
 	{ Attribute::maxHP, 50.0f },
-	{ Attribute::speed, 2.0f },
-	{ Attribute::acceleration, 6.0f }
+	{ Attribute::agility, 1.5f },
+	{ Attribute::stressDecay, 1.0f },
 };
 
 RedFairy::RedFairy(GSpace* space, ObjectIDType id, const ValueMap& args) :
@@ -293,17 +296,20 @@ RedFairy::RedFairy(GSpace* space, ObjectIDType id, const ValueMap& args) :
 	firePattern = make_shared<Fairy1BulletPattern>(this, 3.0, float_pi / 6.0, 2);
 }
 
-void RedFairy::update()
+BombGeneratorType RedFairy::getBombs()
 {
-	Enemy::update();
-
-	//set fire rate and damage based on stress
-	attributeSystem.timerDecrement(Attribute::stress);
-	attributeSystem.setAttribute(Attribute::attackSpeed, 1.0f + max(25.0f, getAttribute(Attribute::stress))/25.0f);
+	return [](const SpaceVect& pos, const SpaceVect& vel) -> ObjectGeneratorType {
+		return [=](GSpace* space, ObjectIDType id) -> GObject* {
+			return new RedFairyBomb(space, id, pos, vel);
+		};
+	};
 }
 
 void RedFairy::initStateMachine(ai::StateMachine& sm)
 {
+	auto bombgen = getBombs();
+	addMagicEffect(make_shared<RedFairyStress>(object_ref<Agent>(this)));
+	
 	sm.setAlertFunction([](ai::StateMachine& sm, Player* p)->void {
 		sm.addThread(make_shared<ai::Wander>(1.5, 2.5, 2.0, 3.0), 0);
 	});
@@ -312,7 +318,8 @@ void RedFairy::initStateMachine(ai::StateMachine& sm)
 
 	sm.addDetectFunction(
 		GType::player,
-		[](ai::StateMachine& sm, GObject* target) -> void {
+		[bombgen](ai::StateMachine& sm, GObject* target) -> void {
+			sm.addThread(make_shared<ai::ThrowBombs>(target, bombgen, 2.5, 4.0));
 			sm.addThread(make_shared<ai::FireAtTarget>(target), 1);
 			sm.addThread(make_shared<ai::MaintainDistance>(target, 3.0f, 0.5f), 1);
 		}
@@ -321,6 +328,7 @@ void RedFairy::initStateMachine(ai::StateMachine& sm)
 	sm.addEndDetectFunction(
 		GType::player,
 		[](ai::StateMachine& sm, GObject* target) -> void {
+			sm.removeThread("ThrowBombs");
 			sm.removeThread("FireAtTarget");
 			sm.removeThread("MaintainDistance");
 		}
@@ -329,8 +337,7 @@ void RedFairy::initStateMachine(ai::StateMachine& sm)
 
 const AttributeMap GreenFairy::baseAttributes = {
 	{ Attribute::maxHP, 30.0f },
-	{ Attribute::speed, 3.0f },
-	{ Attribute::acceleration, 4.5f }
+	{ Attribute::agility, 4.0f }
 };
 
 GreenFairy::GreenFairy(GSpace* space, ObjectIDType id, const ValueMap& args) :

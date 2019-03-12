@@ -357,7 +357,7 @@ SpaceFloat Player::getSpeedMultiplier()
 void Player::setFocusMode(bool b)
 {
 	isFocusActive = b;
-	attributeSystem.setAttribute(Attribute::shieldActive, b);
+	attributeSystem.set(Attribute::shieldActive, b);
 	space->setSpriteVisible(drawNodeID, b);
 }
 
@@ -417,7 +417,7 @@ void Player::hit(AttributeMap attributeEffect, shared_ptr<MagicEffect> effect){
     if(!isProtected()){
 		Agent::hit(attributeEffect, effect);
 		attributeSystem.setHitProtection();
-		attributeSystem.setAttribute(Attribute::combo, 0.0f);
+		attributeSystem.set(Attribute::combo, 0.0f);
 
 		space->runSpriteAction(
 			spriteID,

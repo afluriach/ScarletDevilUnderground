@@ -29,6 +29,14 @@ bool _object_ref_is_valid(GSpace* space, unsigned int uuid)
     return space->isValid(uuid);
 }
 
+bool _object_ref_is_future(GSpace* space, unsigned int uuid)
+{
+	if (!space)
+		return false;
+
+	return space->isFutureObject(uuid);
+}
+
 ObjectIDType _object_ref_get_uuid(const GObject* obj)
 {
     if(obj == nullptr)

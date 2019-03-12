@@ -50,7 +50,7 @@ public:
 			agent->getPos() + SpaceVect::ray(getLaunchDistance(), angle) + posOffset,
 			angle,
 			props
-		).isValid();
+		).isFuture();
 	}
 
 	const bullet_properties* props;
@@ -73,7 +73,7 @@ public:
 		return agent->bulletCheckSpawn<C>(
 			agent->getPos() + SpaceVect::ray(getLaunchDistance(), angle) + posOffset,
 			angle
-		).isValid();
+		).isFuture();
 	}
 
 };

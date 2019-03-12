@@ -35,26 +35,4 @@ public:
 	state crntState;
 };
 
-template<typename Derived>
-class MagicEffectImpl : public MagicEffect
-{
-public:
-	
-	inline MagicEffectImpl(gobject_ref target, float magnitude) :
-		MagicEffect(target, magnitude)
-	{}
-};
-
-class FreezeStatusEffect : public MagicEffectImpl<FreezeStatusEffect>
-{
-public:
-	FreezeStatusEffect(gobject_ref target);
-
-	virtual inline void init();
-	virtual void update();
-	virtual void end();
-protected:
-	float timer = 0.0f;
-};
-
 #endif /* MagicEffect_hpp */

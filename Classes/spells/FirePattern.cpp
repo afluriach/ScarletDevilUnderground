@@ -16,16 +16,11 @@
 
 bool FirePattern::fireIfPossible()
 {
-	if (!isInCooldown())
-	{
-		fire();
+	if (!isInCooldown() && fire()){
 		cooldownTimeRemaining = getCooldownTime() / agent->getAttribute(Attribute::attackSpeed);
-
 		return true;
 	}
-	else {
-		return false;
-	}
+	return false;
 }
 
 

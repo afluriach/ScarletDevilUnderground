@@ -107,3 +107,9 @@ PlayerBomb::PlayerBomb(GSpace* space, ObjectIDType id, const SpaceVect& pos, con
 	Bomb(space, id, pos, vel)
 {
 }
+
+RedFairyBomb::RedFairyBomb(GSpace* space, ObjectIDType id, const SpaceVect& pos, const SpaceVect& vel) :
+	GObject(space, id, "", pos, 0.0),
+	Bomb(space, id, pos, vel)
+{
+}

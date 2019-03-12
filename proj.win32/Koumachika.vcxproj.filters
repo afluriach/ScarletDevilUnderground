@@ -345,6 +345,9 @@
     <ClCompile Include="..\Classes\ai\AIUtil.cpp">
       <Filter>src\ai</Filter>
     </ClCompile>
+    <ClCompile Include="..\Classes\spells\MiscMagicEffects.cpp">
+      <Filter>src\spells</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="main.h">
@@ -667,6 +670,9 @@
     </ClInclude>
     <ClInclude Include="..\Classes\ai\AIUtil.hpp">
       <Filter>src\ai</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\spells\MiscMagicEffects.hpp">
+      <Filter>src\spells</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

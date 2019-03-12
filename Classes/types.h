@@ -12,6 +12,7 @@
 #include "vect.hpp"
 
 namespace ai { class StateMachine; }
+class Bomb;
 class Bullet;
 class GObject;
 class GSpace;
@@ -34,6 +35,8 @@ typedef function<void(void)> zero_arity_function;
 typedef function<GObject*(GSpace*, ObjectIDType)> ObjectGeneratorType;
 typedef function<FiniteTimeAction*()> ActionGeneratorType;
 typedef function<shared_ptr<Spell>(GObject*)> SpellGeneratorType;
+typedef function<ObjectGeneratorType(const SpaceVect&, const SpaceVect&)> BombGeneratorType;
+//
 
 typedef function<void(ai::StateMachine&, Player*)> alert_function;
 typedef function<void(ai::StateMachine&, GObject*)> detect_function;

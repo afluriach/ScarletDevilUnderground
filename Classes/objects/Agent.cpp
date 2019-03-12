@@ -18,6 +18,7 @@
 #include "GSpace.hpp"
 #include "macros.h"
 #include "MagicEffect.hpp"
+#include "MiscMagicEffects.hpp"
 
 Agent::Agent(GSpace* space, ObjectIDType id, const string& name, const SpaceVect& pos, Direction d) :
 	GObject(space, id, name,pos, dirToPhysicsAngle(d)),

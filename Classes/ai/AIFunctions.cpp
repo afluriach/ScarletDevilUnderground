@@ -980,4 +980,40 @@ void FireOnStress::update(StateMachine& sm)
 	}
 }
 
+ThrowBombs::ThrowBombs(gobject_ref target, BombGeneratorType generator, SpaceFloat throwingSpeed, SpaceFloat baseInterval) :
+	target(target),
+	generator(generator),
+	throwingSpeed(throwingSpeed),
+	baseInterval(baseInterval)
+{
+}
+
+void ThrowBombs::init(StateMachine& fsm)
+{
+	countdown = getInterval(fsm);
+}
+
+void ThrowBombs::update(StateMachine& fsm)
+{
+	timerDecrement(countdown);
+
+	if (countdown <= 0.0) {
+		SpaceVect pos = fsm.agent->getPos() + SpaceVect::ray(2.0, fsm.agent->getAngle());
+		SpaceVect vel = fsm.agent->getVel() + SpaceVect::ray(throwingSpeed, fsm.agent->getAngle());
+
+		if (!fsm.agent->space->obstacleRadiusQuery(fsm.agent, pos, 0.5, bombObstacles, PhysicsLayers::ground)) {
+			fsm.agent->space->createObject(generator(
+				fsm.agent->getPos() + SpaceVect::ray(2.0, fsm.agent->getAngle()),
+				fsm.agent->getVel() + SpaceVect::ray(throwingSpeed, fsm.agent->getAngle())
+			));
+			countdown = getInterval(fsm);
+		}
+	}
+}
+
+SpaceFloat ThrowBombs::getInterval(StateMachine& fsm)
+{
+	return baseInterval / (*fsm.getAgent()->getAttributeSystem())[Attribute::attackSpeed];
+}
+
 }//end NS

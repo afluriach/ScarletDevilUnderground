@@ -62,4 +62,23 @@ public:
 	virtual SpaceFloat getBlastRadius() const { return 4.0; }
 };
 
+class RedFairyBomb : public Bomb, public ImageSprite
+{
+public:
+	RedFairyBomb(GSpace* space, ObjectIDType id, const SpaceVect& pos, const SpaceVect& vel);
+
+	virtual inline string imageSpritePath() const { return "sprites/flandre_bullet.png"; }
+	static constexpr float spriteBaseRadius = 0.83f;
+	inline virtual float zoom() const { return getRadius() / spriteBaseRadius * 2; }
+
+	virtual AttributeMap getAttributeEffect() const {
+		return { { Attribute::hp, -20.0f } };
+	};
+
+	virtual SpaceFloat getFuseTime() const { return 1.2; }
+	virtual SpaceFloat getRadius() const { return 0.5; }
+	virtual SpaceFloat getBlastRadius() const { return 3.0; }
+};
+
+
 #endif /* Bomb_hpp */

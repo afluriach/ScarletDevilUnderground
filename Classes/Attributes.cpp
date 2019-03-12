@@ -218,14 +218,25 @@ void AttributeSystem::set(string name, float val)
 {
 	auto it = attributeNameMap.right.find(name);
 	if (it != attributeNameMap.right.end()) {
-		setAttribute(it->second, val);
+		set(it->second, val);
 	}
+}
+
+void AttributeSystem::set(Attribute id, float x)
+{
+	attributes.at(to_size_t(id)) = x;
+}
+
+void AttributeSystem::_set(int id, float val)
+{
+	set(static_cast<Attribute>(id), val);
 }
 
 void AttributeSystem::update()
 {
 	applyIncidentRegen();
 	applyElementDecay();
+	timerDecrement(Attribute::stress, (*this)[Attribute::stressDecay]);
 }
 
 void AttributeSystem::applyIncidentRegen()
@@ -392,17 +403,12 @@ void AttributeSystem::modifyAttribute(Attribute id, float x)
 	}
 }
 
-void AttributeSystem::setAttribute(Attribute id, float x)
-{
-	attributes.at(to_size_t(id)) = x;
-}
-
-void AttributeSystem::timerDecrement(Attribute id)
+void AttributeSystem::timerDecrement(Attribute id, float scale)
 {
 	float& crnt_val = attributes.at(to_size_t(id));
 
 	if (crnt_val != -1.0f) {
-		crnt_val -= to_float(App::secondsPerFrame);
+		crnt_val -= to_float(App::secondsPerFrame * scale);
 		crnt_val = max(crnt_val, 0.0f);
 	}
 }

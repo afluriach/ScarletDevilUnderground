@@ -17,7 +17,7 @@ class Patchouli : virtual public Agent, public NoAttributes, public DialogEntity
 public:
 	Patchouli(GSpace* space, ObjectIDType id, const ValueMap& args);
     
-    inline SpaceFloat getMass() const {return 30.0;}
+    inline SpaceFloat getMass() const {return -1.0;}
     virtual inline GType getType() const {return GType::npc;}
     
     inline string imageSpritePath() const {return "sprites/patchouli.png";}

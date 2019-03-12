@@ -147,7 +147,7 @@ public:
 
 	RedFairy(GSpace* space, ObjectIDType id, const ValueMap& args);
 
-	virtual void update();
+	BombGeneratorType getBombs();
 
 	inline virtual AttributeMap touchEffect() {
 		return AttributeSystem::getAttributeMap(Attribute::hp, -10.0f);

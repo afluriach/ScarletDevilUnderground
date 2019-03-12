@@ -273,9 +273,9 @@ const vector<string> Inst::luaIncludes = {
 #define __cls AttributeSystem
 		.beginClass<AttributeSystem>("AttributeSystem")
 			.addFunction("getByName", &AttributeSystem::get)
-			.addFunction("setByName", &AttributeSystem::set)
+			.addFunction("setByName", static_cast<void(AttributeSystem::*)(string, float)>(&AttributeSystem::set))
 			.addFunction("getByID", &AttributeSystem::operator[])
-			.addFunction("setByID", &AttributeSystem::setAttribute)
+			.addFunction("setByID", &AttributeSystem::_set)
 			.addFuncSame(modifyAttribute)
 			.addFuncSame(setFullHP)
 			.addFuncSame(setFullMP)

@@ -261,6 +261,11 @@ bool GSpace::isValid(unsigned int uuid) const
     return getObject(uuid) != nullptr;
 }
 
+bool GSpace::isFutureObject(ObjectIDType uuid) const
+{
+	return uuid != 0 && uuid > lastAddedUUID && uuid < nextObjUUID;
+}
+
 vector<string> GSpace::getObjectNames() const
 {
     auto key = [](pair<string,GObject*> e){return e.first;};
@@ -277,6 +282,8 @@ void GSpace::processAdditions()
 
 		if (!obj)
 			continue;
+
+		lastAddedUUID = generator.second;
 
         if(!obj->anonymous && objByName.find(obj->name) != objByName.end()){
 			warningNames.insert(obj->name);

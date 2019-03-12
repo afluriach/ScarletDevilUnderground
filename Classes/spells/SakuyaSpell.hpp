@@ -41,7 +41,7 @@ public:
 	virtual void update();
 
 	GET_DESC(IllusionDial)
-		virtual void init();
+	virtual void init();
 	virtual void end();
 };
 

@@ -26,6 +26,7 @@ enum class ResourceLock
 	look,
 	spellcasting,
 	fire,
+	bomb,
     
     end,
 };

@@ -76,6 +76,7 @@ public:
         
 	bool isTrackedType(type_index t) const;
     bool isValid(unsigned int uuid) const;
+	bool isFutureObject(ObjectIDType uuid) const;
     vector<string> getObjectNames() const;
     unordered_map<int,string> getUUIDNameMap() const;
     inline int getObjectCount() const { return objByUUID.size();}
@@ -229,6 +230,7 @@ private:
 	bool isMultiMap;
 
 	unsigned int nextObjUUID = 1;
+	unsigned int lastAddedUUID = 0;
     
     //"Objects" which have been queued for addition. The generator function, when added, is also
 	//paired to a UUID, i.e. the UUID is actually determined when the object generator is added,

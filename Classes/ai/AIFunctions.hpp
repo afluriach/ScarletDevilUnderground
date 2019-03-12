@@ -411,6 +411,26 @@ protected:
 	gobject_ref target;
 };
 
+class ThrowBombs : public Function {
+public:
+	ThrowBombs(gobject_ref target, BombGeneratorType generator, SpaceFloat throwingSpeed, SpaceFloat baseInterval);
+
+	virtual void init(StateMachine& fsm);
+	virtual void update(StateMachine& fsm);
+
+	SpaceFloat getInterval(StateMachine& fsm);
+
+	GetLockmask(bomb)
+	FuncGetName(ThrowBombs)
+protected:
+	SpaceFloat countdown;
+	SpaceFloat throwingSpeed;
+	SpaceFloat baseInterval;
+	gobject_ref target;
+	BombGeneratorType generator;
+};
+
+
 } //end NS
 
 #endif /* AIFunctions_hpp */

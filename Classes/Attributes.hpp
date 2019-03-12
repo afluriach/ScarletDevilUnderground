@@ -45,6 +45,7 @@ enum class Attribute {
 	shieldLevel,
 
 	stress,
+	stressDecay,
 
 	agility,
 	speed,
@@ -106,6 +107,8 @@ public:
 	float operator[](Attribute id) const;
 	float get(string name) const;
 	void set(string name, float val);
+	void set(Attribute id, float val);
+	void _set(int id, float val);
 
 	void update();
 	void applyIncidentRegen();
@@ -117,8 +120,7 @@ public:
 	void applyElementalDamage(Attribute id, Attribute maxID, float x);
 	bool canApplyAttribute(Attribute id, float x);
 	void modifyAttribute(Attribute id, float x);
-	void setAttribute(Attribute id, float x);
-	void timerDecrement(Attribute id);
+	void timerDecrement(Attribute id, float scale = 1.0f);
 	void timerIncrement(Attribute id, Attribute maxID, float scale);
 	bool isNonzero(Attribute id) const;
 	void setProtection();

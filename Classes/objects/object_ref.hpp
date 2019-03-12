@@ -16,6 +16,7 @@ class GSpace;
 
 GObject* _object_ref_get_gobject(GSpace* space, unsigned int uuid);
 bool _object_ref_is_valid(GSpace* space, unsigned int uuid);
+bool _object_ref_is_future(GSpace* space, unsigned int uuid);
 ObjectIDType _object_ref_get_uuid(const GObject* obj);
 GSpace* _object_ref_get_space(const GObject* obj);
 
@@ -64,6 +65,10 @@ public:
     inline bool isValid()const{
         return _object_ref_is_valid(space,uuid);
     }
+
+	inline bool isFuture()const {
+		return _object_ref_is_future(space, uuid);
+	}
     
     inline bool operator==(const GObject* rhs)const{
         if(!rhs)
