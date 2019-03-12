@@ -37,6 +37,7 @@ public:
 	static const bullet_properties rumiaPinwheelBullet;
 
 	EnemyBulletImpl(GSpace* space, ObjectIDType id, const SpaceVect& pos, SpaceFloat angle, Agent* agent, const bullet_properties* props);
+	inline virtual ~EnemyBulletImpl() {}
 };
 
 class WaterBullet :

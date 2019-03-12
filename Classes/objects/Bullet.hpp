@@ -72,6 +72,7 @@ class BulletImpl :
 {
 public:
 	BulletImpl(const bullet_properties* props);
+	inline virtual ~BulletImpl() {}
 
 	void init();
 

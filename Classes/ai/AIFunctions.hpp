@@ -274,6 +274,7 @@ public:
 
 	FollowPath(GSpace* space, const ValueMap& args);
 	FollowPath(Path path, bool loop, bool stopForObstacle);
+	inline virtual ~FollowPath() {}
 
 	virtual void update(StateMachine& fsm);
     

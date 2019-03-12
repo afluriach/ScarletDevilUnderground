@@ -17,7 +17,8 @@ class Wall : virtual public GObject, public RectangleBody, public NoSprite
 public: 
 	MapObjCons(Wall);
 	Wall(GSpace* space, ObjectIDType id, SpaceVect center, SpaceVect dimensions);
-    
+	virtual inline ~Wall() {}
+
     virtual inline SpaceFloat getMass() const { return -1.0;}
     virtual inline GType getType() const {return GType::wall;}
     virtual PhysicsLayers getLayers() const;    

@@ -51,6 +51,7 @@ public:
 	static const bullet_properties cirnoLargeIceBullet;
 
 	PlayerBulletImpl(GSpace* space, ObjectIDType id, const SpaceVect& pos, SpaceFloat angle, Agent* agent, const bullet_properties* props);
+	inline virtual ~PlayerBulletImpl() {}
 };
 
 class FlandreFastOrb1 : public PlayerBullet, public BulletImpl, public RadialLightObject

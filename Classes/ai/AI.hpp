@@ -43,6 +43,7 @@ class Function
 public:
 	friend class Thread;
 
+	inline Function() {}
 	inline virtual ~Function() {}
 
     typedef function<shared_ptr<Function>(GSpace* space, const ValueMap&) > AdapterType;

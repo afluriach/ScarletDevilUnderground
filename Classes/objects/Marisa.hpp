@@ -32,6 +32,7 @@ public:
 	static const AttributeMap baseAttributes;
 
 	MapObjCons(Marisa);
+	inline virtual ~Marisa() {}
     
     virtual inline SpaceFloat getRadarRadius() const {return 6.0;}
     

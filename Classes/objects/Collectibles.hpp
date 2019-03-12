@@ -57,6 +57,7 @@ public:
 		GObject(space, id, "", pos, float_pi / 2.0),
 		Collectible(space, id, pos)
 	{}
+	virtual inline ~CollectibleImpl() {}
 
 	virtual inline string imageSpritePath() const { return "sprites/" + D::spriteName + ".png"; }
 	virtual inline AttributeMap getEffect() const { return D::effect; }

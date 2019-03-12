@@ -19,6 +19,7 @@ class Headstone :
 {
 public:
 	MapObjCons(Headstone);
+	virtual inline ~Headstone() {}
     
     virtual string imageSpritePath() const {return "sprites/headstone.png";}
     virtual GraphicsLayer sceneLayer() const {return GraphicsLayer::ground;}
