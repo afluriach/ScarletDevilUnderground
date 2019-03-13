@@ -537,6 +537,34 @@ void GScene::createDamageIndicator(float val, SpaceVect pos)
 	label->runAction(damageIndicatorAction(startPos)());
 }
 
+void GScene::createAgentBodyShader(
+	SpriteID id,
+	GraphicsLayer layer,
+	Color4F bodyColor,
+	Color4F coneColor,
+	float bodyRadius,
+	float coneRadius,
+	float thickness,
+	const Vec2 position,
+	float startAngle,
+	float endAngle
+) {
+	AgentBodyShader* shader = Node::ccCreate<AgentBodyShader>(
+		bodyColor,
+		coneColor,
+		bodyRadius,
+		coneRadius,
+		thickness,
+		Vec2::ZERO,
+		startAngle,
+		endAngle
+	);
+	shader->setContentSize(CCSize(coneRadius * 2.0f * App::pixelsPerTile, coneRadius * 2.0f * App::pixelsPerTile));
+
+	agentShaders.insert_or_assign(id, shader);
+	getSpaceLayer()->positionAndAddNode(shader, to_int(layer), position, 1.0f);
+}
+
 void GScene::loadAgentAnimation(SpriteID id, string path, bool isAgentAnimation)
 {
 	auto it = agentSprites.find(id);
@@ -696,6 +724,14 @@ void GScene::setSpriteColor(SpriteID id, Color3B color)
 	}
 }
 
+void GScene::setAgentOverlayAngles(SpriteID id, float startAngle, float endAngle)
+{
+	auto it = agentShaders.find(id);
+	if (it != agentShaders.end()) {
+		it->second->setAngles(startAngle, endAngle);
+	}
+}
+
 void GScene::clearSubroomMask(unsigned int roomID)
 {
 	roomMasks.at(roomID)->setVisible(false);
@@ -724,6 +760,12 @@ Node* GScene::getSpriteAsNode(SpriteID id)
 	{
 		auto it = agentSprites.find(id);
 		if (it != agentSprites.end()) {
+			return it->second;
+		}
+	}
+	{
+		auto it = agentShaders.find(id);
+		if (it != agentShaders.end()) {
 			return it->second;
 		}
 	}

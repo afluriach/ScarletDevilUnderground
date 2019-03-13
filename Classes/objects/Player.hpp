@@ -23,7 +23,7 @@ class SpellDesc;
 class PlayScene;
 class Upgrade;
 
-class Player : virtual public Agent
+class Player : virtual public Agent, public RadialLightObject
 {
 public:
     static const float interactCooldownTime;
@@ -48,11 +48,8 @@ public:
 
 	virtual void setFirePattern() = 0;
 	virtual void equipSpells() = 0;
-	virtual CircleLightArea getLight() = 0;
 	SpaceFloat getSpellLength();
 
-	virtual void initializeGraphics();
-    
     //setting for player object sensing
 	inline virtual SpaceFloat getRadarRadius() const { return grazeRadius; }
 	inline virtual GType getRadarType() const { return GType::playerGrazeRadar; }
@@ -125,8 +122,6 @@ protected:
 
 	bool canPlaceBomb(SpaceVect pos);
 
-	LightID light = 0;
-
 	SpaceVect respawnPos;
 	SpaceFloat respawnAngle;
 	SpaceFloat respawnTimer = 0.0;
@@ -162,7 +157,7 @@ public:
 	virtual bool isAgentAnimation() const { return true; }
 	virtual inline int pixelWidth() const { return 128; }
 
-	virtual CircleLightArea getLight();
+	virtual CircleLightArea getLightSource() const;
 	virtual void setFirePattern();
 	virtual void equipSpells();
 };
@@ -178,7 +173,7 @@ public:
 	virtual bool isAgentAnimation() const { return true; }
 	virtual inline int pixelWidth() const { return 128; }
 
-	virtual CircleLightArea getLight();
+	virtual CircleLightArea getLightSource() const;
 	virtual void setFirePattern();
 	virtual void equipSpells();
 };
@@ -191,7 +186,7 @@ public:
 	MapObjCons(CirnoPC);
 	
 	virtual inline string imageSpritePath() const { return "sprites/cirno.png"; }
-	virtual CircleLightArea getLight();
+	virtual CircleLightArea getLightSource() const;
 	virtual void setFirePattern();
 	virtual void equipSpells();
 };

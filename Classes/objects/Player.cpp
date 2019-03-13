@@ -60,16 +60,6 @@ Player::Player(GSpace* space, ObjectIDType id, const ValueMap& args) :
 	}
 }
 
-void Player::initializeGraphics()
-{
-	PatchConSprite::initializeGraphics();
-
-	drawNodeID = space->createDrawNode(GraphicsLayer::agentOverlay, getInitialCenterPix(), 1.0f);
-	light = space->addLightSource(getLight());
-
-	space->drawSolidCircle(drawNodeID, Vec2::ZERO, to_float(App::pixelsPerTile*grazeRadius), 0.0f, 64, Color4F(0.5f, 0.5f, 0.5f, 0.5f));
-	space->drawSolidCircle(drawNodeID, Vec2::ZERO, to_float(App::pixelsPerTile*getRadius()), 0.0f, 64, Color4F(0.5f, 0.5f, 0.5f, 0.5f));
-}
 
 void Player::onPitfall()
 {
@@ -336,8 +326,6 @@ void Player::update()
 		if (powerAttack) {
 			powerAttack->update();
 		}
-
-		space->setLightSourcePosition(light, getPos());
 	}
 }
 
@@ -612,7 +600,7 @@ FlandrePC::FlandrePC(GSpace* space, ObjectIDType id, const SpaceVect& pos, Direc
 	}
 }
 
-CircleLightArea FlandrePC::getLight()
+CircleLightArea FlandrePC::getLightSource() const
 {
 	return CircleLightArea{
 		getPos(),
@@ -659,7 +647,7 @@ RumiaPC::RumiaPC(GSpace* space, ObjectIDType id, const ValueMap& args) :
 	MapObjForwarding(Player)
 {}
 
-CircleLightArea RumiaPC::getLight()
+CircleLightArea RumiaPC::getLightSource() const
 {
 	return CircleLightArea{
 		getPos(),
@@ -696,7 +684,7 @@ CirnoPC::CirnoPC(GSpace* space, ObjectIDType id, const ValueMap& args) :
 	MapObjForwarding(Player)
 {}
 
-CircleLightArea CirnoPC::getLight()
+CircleLightArea CirnoPC::getLightSource() const
 {
 	return CircleLightArea{
 		getPos(),

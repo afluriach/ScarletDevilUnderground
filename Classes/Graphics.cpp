@@ -73,6 +73,23 @@ void ShaderNode::onDraw(const Mat4& transform, uint32_t flags)
 	CC_INCREMENT_GL_DRAWN_BATCHES_AND_VERTICES(1, 4);
 }
 
+void ShaderNode::setUniform1f(GLint id, float val)
+{
+	auto p = getGLProgram();
+	p->setUniformLocationWith1f(id, val);
+}
+
+void ShaderNode::setUniform2f(GLint id, Vec2 val)
+{
+	auto p = getGLProgram();
+	p->setUniformLocationWith2f(id, val.x, val.y);
+}
+
+void ShaderNode::setUniform4f(GLint id, const Color4F& val)
+{
+	auto p = getGLProgram();
+	p->setUniformLocationWith4f(id, val.r, val.g, val.b, val.a);
+}
 
 RadialGradient::RadialGradient(const Color4F& startColor, const Color4F& endColor, float radius, const Vec2& center, float expand) :
 	_startColor(startColor),
@@ -187,6 +204,56 @@ void ConeShader::setAngles(float startAngle, float endAngle)
 void ConeShader::setColor(Color4F color)
 {
 	_color = color;
+}
+
+AgentBodyShader::AgentBodyShader(
+	const Color4F& bodyColor,
+	const Color4F& coneColor,
+	float bodyRadius,
+	float coneRadius,
+	float thickness,
+	const Vec2& center,
+	float startAngle, float endAngle
+) :
+	bodyColor(bodyColor),
+	coneColor(coneColor),
+	bodyRadius(bodyRadius),
+	coneRadius(coneRadius),
+	thickness(thickness),
+	center(center),
+	startAngle(startAngle),
+	endAngle(endAngle)
+{}
+
+void AgentBodyShader::initUniforms()
+{
+	auto program = getGLProgram();
+	_uniformLocationBodyColor = program->getUniformLocation("u_bodyColor");
+	_uniformLocationConeColor = program->getUniformLocation("u_coneColor");
+	_uniformLocationBodyRadius = program->getUniformLocation("u_bodyRadius");
+	_uniformLocationConeRadius = program->getUniformLocation("u_coneRadius");
+	_uniformLocationStartAngle = program->getUniformLocation("u_startAngle");
+	_uniformLocationEndAngle = program->getUniformLocation("u_endAngle");
+	_uniformLocationCenter = program->getUniformLocation("u_center");
+	_uniformLocationThickness = program->getUniformLocation("u_thickness");
+}
+
+void AgentBodyShader::updateUniforms()
+{
+	setUniform4f(_uniformLocationBodyColor, bodyColor);
+	setUniform4f(_uniformLocationConeColor, coneColor);
+	setUniform2f(_uniformLocationCenter, center);
+	setUniform1f(_uniformLocationBodyRadius, bodyRadius);
+	setUniform1f(_uniformLocationConeRadius, coneRadius);
+	setUniform1f(_uniformLocationThickness, thickness);
+	setUniform1f(_uniformLocationStartAngle, startAngle);
+	setUniform1f(_uniformLocationEndAngle, endAngle);
+}
+
+void AgentBodyShader::setAngles(float startAngle, float endAngle)
+{
+	this->startAngle = startAngle;
+	this->endAngle = endAngle;
 }
 
 const Color4F Cursor::colors[6] = {

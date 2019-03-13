@@ -23,6 +23,10 @@ public StateMachineObject,
 public RadarObject
 {
 public:
+	static const Color4F bodyOutlineColor;
+	static const Color4F shieldConeColor;
+	static const float bodyOutlineWidth;
+
 	Agent(GSpace* space, ObjectIDType id, const string& name, const SpaceVect& pos, Direction d);
 	MapObjCons(Agent);
 	inline virtual ~Agent() {}
@@ -102,12 +106,16 @@ public:
 	virtual GType getType() const = 0;
 
 	//graphics interface
+	virtual void initializeGraphics();
 	inline string imageSpritePath() const = 0;
 	inline GraphicsLayer sceneLayer() const { return GraphicsLayer::ground; }
 
 	//AI interface
 	virtual inline void initStateMachine(ai::StateMachine& sm) {}
 protected:
+	void updateAgentOverlay();
+
+	SpriteID agentOverlay = 0;
 	AttributeSystem attributeSystem;
 	shared_ptr<FirePattern> firePattern;
 };

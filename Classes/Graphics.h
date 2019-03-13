@@ -25,6 +25,10 @@ public:
 	virtual string getShaderName() const = 0;
 	virtual void initUniforms() = 0;
 	virtual void updateUniforms() = 0;
+
+	void setUniform1f(GLint id, float val);
+	void setUniform2f(GLint id, Vec2 val);
+	void setUniform4f(GLint id, const Color4F& val);
 protected:
 	void onDraw(const Mat4& transform, uint32_t flags);
 
@@ -99,6 +103,43 @@ protected:
 	GLint _uniformLocationColor;
 	GLint _uniformLocationCenter;
 	GLint _uniformLocationRadius;
+	GLint _uniformLocationStartAngle;
+	GLint _uniformLocationEndAngle;
+};
+
+class AgentBodyShader : public ShaderNode
+{
+public:
+	AgentBodyShader(
+		const Color4F& bodyColor, 
+		const Color4F& coneColor,
+		float bodyRadius,
+		float coneRadius,
+		float thickness,
+		const Vec2& center,
+		float startAngle,
+		float endAngle
+	);
+
+	void setAngles(float startAngle, float endAngle);
+
+	inline virtual string getShaderName() const { return "agent_overlay"; }
+	virtual void initUniforms();
+	virtual void updateUniforms();
+
+protected:
+	Vec2 center;
+	Color4F bodyColor, coneColor;
+	float bodyRadius, coneRadius;
+	float thickness;
+	float startAngle, endAngle;
+
+	GLint _uniformLocationBodyColor;
+	GLint _uniformLocationConeColor;
+	GLint _uniformLocationCenter;
+	GLint _uniformLocationBodyRadius;
+	GLint _uniformLocationConeRadius;
+	GLint _uniformLocationThickness;
 	GLint _uniformLocationStartAngle;
 	GLint _uniformLocationEndAngle;
 };

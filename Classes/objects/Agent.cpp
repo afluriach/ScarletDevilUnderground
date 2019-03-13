@@ -19,6 +19,11 @@
 #include "macros.h"
 #include "MagicEffect.hpp"
 #include "MiscMagicEffects.hpp"
+#include "Player.hpp"
+
+const Color4F Agent::bodyOutlineColor = Color4F(.86f, .16f, .19f, 0.75f);
+const Color4F Agent::shieldConeColor = Color4F(.37f, .56f, .57f, 0.5f);
+const float Agent::bodyOutlineWidth = 4.0f;
 
 Agent::Agent(GSpace* space, ObjectIDType id, const string& name, const SpaceVect& pos, Direction d) :
 	GObject(space, id, name,pos, dirToPhysicsAngle(d)),
@@ -59,6 +64,10 @@ void Agent::update()
 	StateMachineObject::_update();
 	PatchConSprite::_update();
 
+	if (firePattern) firePattern->update();
+	attributeSystem.update();
+	updateAgentOverlay();
+
 	if (attributeSystem[Attribute::hp] <= 0 && getMaxHealth() != 0) {
 		onZeroHP();
 	}
@@ -75,12 +84,6 @@ void Agent::update()
 	}
 	if (attributeSystem[Attribute::poisonDamage] >= AttributeSystem::maxElementDamage) {
 		onZeroHP();
-	}
-
-	attributeSystem.update();
-
-	if (firePattern) {
-		firePattern->update();
 	}
 }
 
@@ -197,6 +200,20 @@ bool Agent::isShield(Bullet * b)
 	return true;
 }
 
+void Agent::initializeGraphics()
+{
+	PatchConSprite::initializeGraphics();
+
+	agentOverlay = space->createAgentBodyShader(
+		GraphicsLayer::agentOverlay,
+		bodyOutlineColor, shieldConeColor,
+		getRadius()*App::pixelsPerTile, Player::grazeRadius*App::pixelsPerTile,
+		bodyOutlineWidth, getInitialCenterPix(),
+		canonicalAngle(getAngle() - float_pi * 0.25), canonicalAngle(getAngle() + float_pi * 0.25)
+	);
+	space->setSpriteVisible(agentOverlay, attributeSystem.isNonzero(Attribute::shieldActive));
+}
+
 //shield
 //1 - deflect 45deg for 10
 //2 - deflect 90deg for 10 & 45deg for 5
@@ -284,6 +301,15 @@ void Agent::applyAttributeEffects(AttributeMap attributeEffect)
 	for (auto& entry : attributeEffect)
 	{
 		attributeSystem.modifyAttribute(entry.first, entry.second);
+	}
+}
+
+void Agent::updateAgentOverlay()
+{
+	space->setSpriteVisible(agentOverlay, attributeSystem.isNonzero(Attribute::shieldActive));
+	if (attributeSystem.isNonzero(Attribute::shieldActive)) {
+		space->setSpritePosition(agentOverlay, toCocos(getPos()*App::pixelsPerTile));
+		space->setAgentOverlayAngles(agentOverlay, canonicalAngle(getAngle() - float_pi * 0.25), canonicalAngle(getAngle() + float_pi * 0.25));
 	}
 }
 
