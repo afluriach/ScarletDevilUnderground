@@ -377,6 +377,7 @@ void GScene::addLightSource(LightID id, CircleLightArea light)
 
 	circleLights.insert_or_assign(id,light);
 	lightmapRadials.insert_or_assign(id, g);
+	lightmapNodes.insert_or_assign(id, g);
 }
 
 void GScene::addLightSource(LightID id, AmbientLightArea light)
@@ -401,6 +402,7 @@ void GScene::addLightSource(LightID id, ConeLightArea light)
 
 	coneLights.insert_or_assign(id, light);
 	lightmapCones.insert_or_assign(id, cs);
+	lightmapNodes.insert_or_assign(id, cs);
 }
 
 void GScene::addLightSource(LightID id, SpriteLightArea light)
@@ -415,6 +417,7 @@ void GScene::addLightSource(LightID id, SpriteLightArea light)
 
 	spriteLights.insert_or_assign(id, light);
 	lightmapSprites.insert_or_assign(id, s);
+	lightmapNodes.insert_or_assign(id, s);
 }
 
 void GScene::updateLightSource(LightID id, ConeLightArea light)
@@ -431,53 +434,30 @@ void GScene::updateLightSource(LightID id, ConeLightArea light)
 
 void GScene::removeLightSource(LightID id)
 {
-	auto it = lightmapRadials.find(id);
-	if (it != lightmapRadials.end()) {
+	auto it = lightmapNodes.find(id);
+	if (it != lightmapNodes.end()) {
 		getLayer(sceneLayers::lightmap)->removeChild(it->second);
-		lightmapRadials.erase(it);
+		lightmapNodes.erase(it);
 	}
 
-	auto it1 = lightmapSprites.find(id);
-	if (it1 != lightmapSprites.end()) {
-		getLayer(sceneLayers::lightmap)->removeChild(it1->second);
-		lightmapSprites.erase(it1);
-	}
-
-	auto it2 = lightmapCones.find(id);
-	if (it2 != lightmapCones.end()) {
-		getLayer(sceneLayers::lightmap)->removeChild(it2->second);
-		lightmapCones.erase(it2);
-	}
-
+	lightmapSprites.erase(id);
+	lightmapCones.erase(id);
 	circleLights.erase(id);
 	ambientLights.erase(id);
 	coneLights.erase(id);
 	spriteLights.erase(id);
+	lightmapNodes.erase(id);
 }
 
 void GScene::setLightSourcePosition(LightID id, SpaceVect pos)
 {
 	{
-		auto it = circleLights.find(id);
-		if (it != circleLights.end()) {
-			it->second.origin = pos;
-			lightmapRadials.at(it->first)->setPosition(toCocos(pos) * App::pixelsPerTile);
+		auto it = lightmapNodes.find(id);
+		if (it != lightmapNodes.end()) {
+			it->second->setPosition(toCocos(pos)*App::pixelsPerTile);
 		}
 	}
-	{
-		auto it = coneLights.find(id);
-		if (it != coneLights.end()) {
-			it->second.origin = pos;
-			lightmapCones.at(it->first)->setPosition(toCocos(pos) * App::pixelsPerTile);
-		}
-	}
-	{
-		auto it = spriteLights.find(id);
-		if (it != spriteLights.end()) {
-			it->second.origin = pos;
-			lightmapSprites.at(it->first)->setPosition(toCocos(pos) * App::pixelsPerTile);
-		}
-	}
+
 	{
 		auto it = ambientLights.find(id);
 		if (it != ambientLights.end()) {
@@ -489,9 +469,9 @@ void GScene::setLightSourcePosition(LightID id, SpaceVect pos)
 void GScene::setLightSourceAngle(LightID id, SpaceFloat a)
 {
 	{
-		auto it = spriteLights.find(id);
-		if (it != spriteLights.end()) {
-			lightmapSprites.at(it->first)->setRotation(90 - toDegrees(a));
+		auto it = lightmapNodes.find(id);
+		if (it != lightmapNodes.end()) {
+			it->second->setRotation(90 - toDegrees(a));
 		}
 	}
 }
@@ -501,6 +481,7 @@ void GScene::createSprite(SpriteID id, string path, GraphicsLayer sceneLayer, Ve
 	Sprite* s = Sprite::create(path);
 	getSpaceLayer()->positionAndAddNode(s, to_int(sceneLayer), pos, zoom);
 	crntSprites.insert_or_assign(id, s);
+	graphicsNodes.insert_or_assign(id, s);
 }
 
 void GScene::createLoopAnimation(SpriteID id, string name, int frameCount, float duration, GraphicsLayer sceneLayer, Vec2 pos, float zoom)
@@ -509,12 +490,14 @@ void GScene::createLoopAnimation(SpriteID id, string name, int frameCount, float
 	anim->loadAnimation(name, frameCount, duration);
 	getSpaceLayer()->positionAndAddNode(anim, to_int(sceneLayer), pos, zoom);
 	animationSprites.insert_or_assign(id, anim);
+	graphicsNodes.insert_or_assign(id, anim);
 }
 
 void GScene::createDrawNode(SpriteID id, GraphicsLayer sceneLayer, Vec2 pos, float zoom)
 {
 	DrawNode* dn = DrawNode::create();
 	drawNodes.insert_or_assign(id, dn);
+	graphicsNodes.insert_or_assign(id, dn);
 	getSpaceLayer()->positionAndAddNode(dn, to_int(sceneLayer), pos, zoom);
 }
 
@@ -523,6 +506,7 @@ void GScene::createAgentSprite(SpriteID id, string path, bool isAgentAnimation, 
 	PatchConAnimation* anim = Node::ccCreate<PatchConAnimation>();
 	anim->loadAnimation(path, isAgentAnimation);
 	agentSprites.insert_or_assign(id, anim);
+	graphicsNodes.insert_or_assign(id, anim);
 	getSpaceLayer()->positionAndAddNode(anim, to_int(sceneLayer), pos, zoom);
 }
 
@@ -562,6 +546,7 @@ void GScene::createAgentBodyShader(
 	shader->setContentSize(CCSize(coneRadius * 2.0f * App::pixelsPerTile, coneRadius * 2.0f * App::pixelsPerTile));
 
 	agentShaders.insert_or_assign(id, shader);
+	graphicsNodes.insert_or_assign(id, shader);
 	getSpaceLayer()->positionAndAddNode(shader, to_int(layer), position, 1.0f);
 }
 
@@ -739,45 +724,21 @@ void GScene::clearSubroomMask(unsigned int roomID)
 
 Node* GScene::getSpriteAsNode(SpriteID id)
 {
-	{
-		auto it = crntSprites.find(id);
-		if (it != crntSprites.end()) {
-			return it->second;
-		}
-	}
-	{
-		auto it = drawNodes.find(id);
-		if (it != drawNodes.end()) {
-			return it->second;
-		}
-	}
-	{
-		auto it = animationSprites.find(id);
-		if (it != animationSprites.end()) {
-			return it->second;
-		}
-	}
-	{
-		auto it = agentSprites.find(id);
-		if (it != agentSprites.end()) {
-			return it->second;
-		}
-	}
-	{
-		auto it = agentShaders.find(id);
-		if (it != agentShaders.end()) {
-			return it->second;
-		}
+	auto it = graphicsNodes.find(id);
+	if (it != graphicsNodes.end()) {
+		return it->second;
 	}
 	return nullptr;
 }
 
 void GScene::_removeSprite(SpriteID id)
 {
+	graphicsNodes.erase(id);
 	crntSprites.erase(id);
 	drawNodes.erase(id);
 	animationSprites.erase(id);
 	agentSprites.erase(id);
+	agentShaders.erase(id);
 }
 
 void GScene::setUnitPosition(const SpaceVect& v)

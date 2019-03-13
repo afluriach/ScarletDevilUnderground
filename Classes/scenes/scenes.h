@@ -274,7 +274,8 @@ protected:
 	DrawNode* colorFilterDraw = nullptr;
 
 	atomic_uint nextSpriteID = 1;
-	unordered_map<SpriteID, Node*> crntSprites;
+	unordered_map<SpriteID, Node*> graphicsNodes;
+	unordered_map<SpriteID, Sprite*> crntSprites;
 	unordered_map<SpriteID, DrawNode*> drawNodes;
 	unordered_map<SpriteID, TimedLoopAnimation*> animationSprites;
 	unordered_map<SpriteID, PatchConAnimation*> agentSprites;
@@ -291,6 +292,7 @@ protected:
 	unordered_map<LightID, RadialGradient*> lightmapRadials;
 	unordered_map<LightID, Sprite*> lightmapSprites;
 	unordered_map<LightID, ConeShader*> lightmapCones;
+	unordered_map<LightID, Node*> lightmapNodes;
 
 	unordered_map<SceneUpdateOrder, vector<zero_arity_function>> actions;
 	vector<pair<zero_arity_function, SceneUpdateOrder>> actionsToAdd;
