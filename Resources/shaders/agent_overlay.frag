@@ -32,7 +32,7 @@ void main()
 	    float(u_startAngle >= u_endAngle)*float(a >= u_startAngle || a <= u_endAngle)
 	;
 	//Is pixel coord within cone radius, outside of body circle outline?
-	float cone = float(d >= u_bodyRadius + u_thickness && d < u_coneRadius)*cone_angle;
+	float cone = float(d >= u_bodyRadius && d < u_coneRadius)*cone_angle;
 
 	gl_FragColor = body*u_bodyColor + cone*u_coneColor;	
 }
