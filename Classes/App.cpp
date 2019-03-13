@@ -424,30 +424,7 @@ bool App::saveProfile(const string& name)
 	}
 
 	io::checkCreateSubfolders();
-	string profilePath = io::getProfilePath() + name + ".profile";
-	bool exists = FileUtils::getInstance()->isFileExist(profilePath);
-
-	if (!crntState) {
-		return false;
-	}
-
-	try {
-		ofstream ofs(profilePath);
-		boost::archive::binary_oarchive oa(ofs);
-		oa << *crntState;
-
-		if (exists) {
-			log("Profile %s overwritten.", name.c_str());
-		}
-		else {
-			log("Profile %s saved.", name.c_str());
-		}
-		return true;
-	}
-	catch (boost::archive::archive_exception e) {
-		log("Error while saving: %s", e.what());
-		return false;
-	}
+	return io::saveProfileState(crntState.get(), name);
 }
 
 void App::setPlayer(int id)

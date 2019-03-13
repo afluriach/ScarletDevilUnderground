@@ -18,6 +18,79 @@ using namespace boost::filesystem;
 namespace io
 {
 
+template<typename T>
+unique_ptr<T> loadData(string path)
+{
+	unique_ptr<T> result = make_unique<T>();
+	const char* cpath = path.c_str();
+
+	if (!FileUtils::getInstance()->isFileExist(path))
+	{
+		log("File %s does not exist!", cpath);
+		return nullptr;
+	}
+	else
+	{
+		try {
+			ifstream ifs(path);
+
+			if (!ifs) {
+				log("Failed to open input stream for %s.", cpath);
+				return nullptr;
+			}
+
+			boost::archive::binary_iarchive ia(ifs);
+			ia >> *result;
+			log("File %s loaded.", cpath);
+			return result;
+		}
+		catch (boost::archive::archive_exception e) {
+			log("archive/serialize error code %d while loading file %s", e.code, cpath);
+			return nullptr;
+		}
+	}
+}
+
+template<typename T>
+bool saveData(const T* data, string path, bool overwrite)
+{
+	const char* cpath = path.c_str();
+	bool exists = FileUtils::getInstance()->isFileExist(path);
+
+	if (exists && !overwrite)
+	{
+		log("File %s exists, not overwriting!", cpath);
+		return false;
+	}
+	else
+	{
+		try {
+			ofstream ofs(path);
+
+			if (!ofs) {
+				log("Failed to open output stream for %s.", cpath);
+				return nullptr;
+			}
+
+
+			boost::archive::binary_oarchive oa(ofs);
+			oa << *data;
+
+			if (exists) {
+				log("File %s overwritten.", cpath);
+			}
+			else {
+				log("File %s saved.", path);
+			}
+			return true;
+		}
+		catch (boost::archive::archive_exception e) {
+			log("archive/serialize error code %d while saving file %s", e.code, cpath);
+			return false;
+		}
+	}
+}
+
 string pathString(const boost::filesystem::path& p)
 {
 	stringstream ss;
@@ -102,50 +175,18 @@ string getReplayFolderPath()
 unique_ptr<GState> loadProfileState(string name)
 {
 	string profilePath = io::getProfilePath() + name + ".profile";
-	unique_ptr<GState> result = make_unique<GState>();
-
-	if (!FileUtils::getInstance()->isFileExist(profilePath))
-	{
-		log("Profile %s does not exist!", name.c_str());
-		return nullptr;
-	}
-	else
-	{
-		try {
-			ifstream ifs(profilePath);
-			boost::archive::binary_iarchive ia(ifs);
-			ia >> *result;
-			log("Profile %s loaded.", profilePath.c_str());
-			return result;
-		}
-		catch (boost::archive::archive_exception e) {
-			log("Error while loading: %s", e.what());
-			return nullptr;
-		}
-	}
+	return loadData<GState>(profilePath);
+}
+bool saveProfileState(const GState* state, string name)
+{
+	string profilePath = io::getProfilePath() + name + ".profile";
+	return saveData<GState>(state, profilePath, true);
 }
 
 unique_ptr<ControlReplay> getControlReplay(string name)
 {
 	string filepath = io::getReplayFolderPath() + name + ".replay";
-	unique_ptr<ControlReplay> result = make_unique<ControlReplay>();
-
-	if (!FileUtils::getInstance()->isFileExist(filepath)) {
-		log("Replay %s not found!", name.c_str());
-		return nullptr;
-	}
-
-	try {
-		ifstream ifs(filepath);
-		boost::archive::binary_iarchive ia(ifs);
-		ia >> *result;
-		log("Replay %s loaded.", name.c_str());
-		return result;
-	}
-	catch (boost::archive::archive_exception e) {
-		log("Archive exception loading replay: %s", e.what());
-		return nullptr;
-	}
+	return loadData<ControlReplay>(filepath);
 }
 
 void autosaveControlReplay(string sceneName, const ControlReplay* cr)
@@ -158,10 +199,7 @@ void autosaveControlReplay(string sceneName, const ControlReplay* cr)
 		bool exists = FileUtils::getInstance()->isFileExist(filepath);
 
 		if (!exists) {
-			ofstream ofs(filepath);
-			boost::archive::binary_oarchive oa(ofs);
-			oa << *cr;
-			log("Replay %s saved.", filepath.c_str());
+			saveData<ControlReplay>(cr, filepath, false);
 			break;
 		}
 		++idx;
@@ -172,23 +210,7 @@ void autosaveControlReplay(string sceneName, const ControlReplay* cr)
 void saveControlReplay(string name, const ControlReplay* cr)
 {
 	string filepath = io::getReplayFolderPath() + name + ".replay";
-	bool exists = FileUtils::getInstance()->isFileExist(filepath);
-
-	try {
-		ofstream ofs(filepath);
-		boost::archive::binary_oarchive oa(ofs);
-		oa << *cr;
-
-		if (exists) {
-			log("Replay %s overwritten.", name.c_str());
-		}
-		else {
-			log("Replay %s saved.", name.c_str());
-		}
-	}
-	catch (boost::archive::archive_exception e) {
-		log("Error while saving Replay: %s", e.what());
-	}
+	saveData<ControlReplay>(cr, filepath, false);
 }
 
 }

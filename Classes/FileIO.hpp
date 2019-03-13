@@ -26,6 +26,7 @@ string getProfilePath();
 string getReplayFolderPath();
 
 unique_ptr<GState> loadProfileState(string name);
+bool saveProfileState(const GState* state, string path);
 
 unique_ptr<ControlReplay> getControlReplay(string name);
 void autosaveControlReplay(string sceneName, const ControlReplay* cr);
