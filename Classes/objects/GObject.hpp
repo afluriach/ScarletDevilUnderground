@@ -141,6 +141,8 @@ public:
 
     //Posiition where the object was loaded
     SpaceVect initialCenter;
+	SpaceVect prevPos = SpaceVect::zero;
+	SpaceFloat prevAngle = 0.0;
 
 	object_ref<FloorSegment> crntFloorCenterContact;
 	unordered_set<object_ref<FloorSegment>> crntFloorContacts;

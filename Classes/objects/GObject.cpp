@@ -112,6 +112,9 @@ void GObject::update()
 	updateSpells();
 	updateMagicEffects();
 	updateFloorSegment();
+
+	prevPos = getPos();
+	prevAngle = getAngle();
 }
 
 void GObject::updateMessages()
@@ -336,9 +339,13 @@ void GObject::updateRadarPos()
 
 void GObject::updateLight()
 {
+	SpaceVect pos = getPos();
+	SpaceFloat a = getAngle();
 	if (lightID != 0) {
-		space->setLightSourcePosition(lightID, getPos());
-		space->setLightSourceAngle(lightID, getAngle());
+		if(pos != prevPos)
+			space->setLightSourcePosition(lightID, pos);
+		if(a != prevAngle)
+			space->setLightSourceAngle(lightID, a);
 	}
 }
 
@@ -412,12 +419,16 @@ float GObject::zoom() const {
 void GObject::updateSprite()
 {
 	bool visible = space->isInPlayerRoom(getPos());
+	SpaceVect p = getPos();
+	SpaceFloat a = getAngle();
 
     if(spriteID != 0){
-		space->setSpritePosition(spriteID, toCocos(getPos())*App::pixelsPerTile);
 
-		if (rotateSprite)
-			space->setSpriteAngle(spriteID, toCocosAngle(getAngle()));
+		if(p != prevPos)
+			space->setSpritePosition(spriteID, toCocos(p)*App::pixelsPerTile);
+
+		if (a != prevAngle && rotateSprite)
+			space->setSpriteAngle(spriteID, toCocosAngle(a));
 
 		if (!visible && !isInFade) {
 			space->stopSpriteAction(spriteID, cocos_action_tag::object_fade);
@@ -431,9 +442,9 @@ void GObject::updateSprite()
 			isInFade = false;
 		}
     }
-	if (drawNodeID != 0 && visible && !isInFade)
+	if (drawNodeID != 0 && visible && !isInFade && p != prevPos)
 	{
-		space->setSpritePosition(drawNodeID, toCocos(getPos())*App::pixelsPerTile);
+		space->setSpritePosition(drawNodeID, toCocos(p)*App::pixelsPerTile);
 	}
 }
 
