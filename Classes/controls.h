@@ -170,28 +170,6 @@ private:
     callback_uuid nextListenerUUID = 1;
 };
 
-class ControlReplay
-{
-public:
-	friend class boost::serialization::access;
-
-	static const unsigned int version = 1;
-
-	ControlInfo getControlInfo(unsigned int frameIdx);
-
-	unsigned int random_seed;
-	string scene_name;
-	vector<ControlState> control_data;
-
-	template<class Archive>
-	inline void serialize(Archive& ar, const unsigned int version)
-	{
-		ar & random_seed;
-		ar & scene_name;
-		ar & control_data;
-	}
-};
-
 //Conveince listener class that works similarly to KeyListener. Provides automatic
 //storage duration, so that an object's callbacks will be removed when it is destroyed.
 class ControlListener

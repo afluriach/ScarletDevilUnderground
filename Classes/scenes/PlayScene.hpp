@@ -11,12 +11,12 @@
 
 #include "GScene.hpp"
 
-struct ControlReplay;
 class GObject;
 class HUD;
 class MapMenu;
 class MenuLayer;
 class PauseMenu;
+class Replay;
 
 class PlayScene : public GScene
 {
@@ -35,7 +35,7 @@ public:
 	virtual ~PlayScene();
 
 	bool loadReplayData(const string& filename);
-	bool loadReplayData(unique_ptr<ControlReplay> _replay);
+	bool loadReplayData(unique_ptr<Replay> _replay);
 	void saveReplayData(const string& filename);
 	void autosaveReplayData();
 

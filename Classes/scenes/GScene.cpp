@@ -22,6 +22,7 @@
 #include "macros.h"
 #include "menu.h"
 #include "PlayScene.hpp"
+#include "replay.h"
 #include "types.h"
 #include "value_map.hpp"
 
@@ -49,7 +50,7 @@ GScene* GScene::runScene(const string& name)
 
 void GScene::runSceneWithReplay(const string& replayName)
 {
-	unique_ptr<ControlReplay> controlReplay = io::getControlReplay(replayName);
+	unique_ptr<Replay> controlReplay = io::getControlReplay(replayName);
 
 	if (controlReplay) {
 		GScene* _scene = runScene(controlReplay->scene_name);

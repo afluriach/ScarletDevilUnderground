@@ -12,6 +12,7 @@
 #include "controls.h"
 #include "FileIO.hpp"
 #include "GState.hpp"
+#include "replay.h"
 
 using namespace boost::filesystem;
 
@@ -183,13 +184,13 @@ bool saveProfileState(const GState* state, string name)
 	return saveData<GState>(state, profilePath, true);
 }
 
-unique_ptr<ControlReplay> getControlReplay(string name)
+unique_ptr<Replay> getControlReplay(string name)
 {
 	string filepath = io::getReplayFolderPath() + name + ".replay";
-	return loadData<ControlReplay>(filepath);
+	return loadData<Replay>(filepath);
 }
 
-void autosaveControlReplay(string sceneName, const ControlReplay* cr)
+void autosaveControlReplay(string sceneName, const Replay* cr)
 {
 	int idx = 1;
 
@@ -199,7 +200,7 @@ void autosaveControlReplay(string sceneName, const ControlReplay* cr)
 		bool exists = FileUtils::getInstance()->isFileExist(filepath);
 
 		if (!exists) {
-			saveData<ControlReplay>(cr, filepath, false);
+			saveData<Replay>(cr, filepath, false);
 			break;
 		}
 		++idx;
@@ -207,10 +208,10 @@ void autosaveControlReplay(string sceneName, const ControlReplay* cr)
 	while(true);
 }
 
-void saveControlReplay(string name, const ControlReplay* cr)
+void saveControlReplay(string name, const Replay* cr)
 {
 	string filepath = io::getReplayFolderPath() + name + ".replay";
-	saveData<ControlReplay>(cr, filepath, false);
+	saveData<Replay>(cr, filepath, false);
 }
 
 }

@@ -414,25 +414,6 @@ ControlState getControlState(ControlInfo info)
 	return ControlState{info.action_state_crnt, info.left_v, info.right_v};
 }
 
-ControlInfo ControlReplay::getControlInfo(unsigned int frameIdx)
-{
-	ControlInfo result;
-
-	if (frameIdx > 0 && frameIdx < control_data.size()) {
-
-		result.left_v = control_data[frameIdx].left_v;
-		result.right_v = control_data[frameIdx].right_v;
-
-		result.action_state_crnt = control_data[frameIdx].action_state;
-		result.action_state_prev = control_data[frameIdx - 1].action_state;
-	}
-	else {
-		log("ControlReplay out of bounds, frame: %d", frameIdx);
-	}
-
-	return result;
-}
-
 ControlListener::~ControlListener()
 {
     for(ControlRegister::callback_uuid id: callback_IDs){

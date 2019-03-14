@@ -20,6 +20,7 @@ class GScene;
 class HUD;
 class InteractibleObject;
 class PlayScene;
+class Replay;
 
 #define OBJS_FROM_ARB \
     GObject* a = static_cast<GObject*>(arb->body_a_private->data); \
@@ -186,8 +187,8 @@ public:
 	//Generate [min,max]
 	int getRandomInt(int min, int max);
 
-	void loadReplay(unique_ptr<ControlReplay> replay);
-	inline const ControlReplay* getReplay() { return controlReplay.get(); }
+	void loadReplay(unique_ptr<Replay> replay);
+	inline const Replay* getReplay() { return controlReplay.get(); }
 	ControlInfo getControlInfo() const;
 	void setControlInfo(ControlInfo info);
 	inline bool getIsRunningReplay() { return isRunningReplay; }
@@ -226,7 +227,7 @@ private:
 	vector<SpaceRect> mapAreas;
 
 	ControlInfo controlInfo;
-	unique_ptr<ControlReplay> controlReplay;
+	unique_ptr<Replay> controlReplay;
 	
 	vector<pair<zero_arity_function, SceneUpdateOrder>> sceneActions;
 	vector<zero_arity_function> objectActions;

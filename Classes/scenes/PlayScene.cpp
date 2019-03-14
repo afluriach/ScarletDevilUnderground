@@ -22,6 +22,7 @@
 #include "multifunction.h"
 #include "Player.hpp"
 #include "PlayScene.hpp"
+#include "replay.h"
 #include "util.h"
 #include "value_map.hpp"
 
@@ -275,7 +276,7 @@ bool PlayScene::loadReplayData(const string& filename)
 	return loadReplayData(io::getControlReplay(filename));
 }
 
-bool PlayScene::loadReplayData(unique_ptr<ControlReplay> _replay)
+bool PlayScene::loadReplayData(unique_ptr<Replay> _replay)
 {
 	bool b = _replay.get();
 

@@ -20,6 +20,7 @@
 #include "HUD.hpp"
 #include "Player.hpp"
 #include "PlayScene.hpp"
+#include "replay.h"
 #include "Spawner.hpp"
 #include "Spell.hpp"
 #include "Wall.hpp"
@@ -42,7 +43,7 @@ GSpace::GSpace(GScene* gscene) : gscene(gscene)
 		objByType[t] = unordered_set<GObject*>();
 	}
 
-	controlReplay = make_unique<ControlReplay>();
+	controlReplay = make_unique<Replay>();
 	controlReplay->scene_name = GScene::crntSceneName;
 }
 
@@ -489,7 +490,7 @@ int GSpace::getRandomInt(int min, int max) {
 	return randomInt(randomEngine, boost::random::uniform_int_distribution<int>::param_type(min, max));
 }
 
-void GSpace::loadReplay(unique_ptr<ControlReplay> replay)
+void GSpace::loadReplay(unique_ptr<Replay> replay)
 {
 	isRunningReplay = true;
 	setRandomSeed(replay->random_seed);

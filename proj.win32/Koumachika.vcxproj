@@ -222,6 +222,7 @@ xcopy "$(ProjectDir)..\Resources" "$(OutDir)" /D /E /I /F /Y</Command>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
     </ClCompile>
+    <ClCompile Include="..\Classes\replay.cpp" />
     <ClCompile Include="..\Classes\scenes\Collect.cpp" />
     <ClCompile Include="..\Classes\scenes\Desert.cpp" />
     <ClCompile Include="..\Classes\scenes\Forest.cpp" />
@@ -333,6 +334,7 @@ xcopy "$(ProjectDir)..\Resources" "$(OutDir)" /D /E /I /F /Y</Command>
     <ClInclude Include="..\Classes\objects\Upgrade.hpp" />
     <ClInclude Include="..\Classes\objects\Wall.hpp" />
     <ClInclude Include="..\Classes\Prefix.h" />
+    <ClInclude Include="..\Classes\replay.h" />
     <ClInclude Include="..\Classes\scenes\Collect.h" />
     <ClInclude Include="..\Classes\scenes\Desert.hpp" />
     <ClInclude Include="..\Classes\scenes\Forest.hpp" />

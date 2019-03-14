@@ -351,6 +351,9 @@
     <ClCompile Include="..\Classes\scenes\GScene_map.cpp">
       <Filter>src\scenes</Filter>
     </ClCompile>
+    <ClCompile Include="..\Classes\replay.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="main.h">
@@ -670,6 +673,9 @@
     </ClInclude>
     <ClInclude Include="..\Classes\scenes\GScene.hpp">
       <Filter>src\scenes</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\replay.h">
+      <Filter>src</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
