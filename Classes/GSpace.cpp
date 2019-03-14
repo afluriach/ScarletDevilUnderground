@@ -11,7 +11,6 @@
 #include "App.h"
 #include "AreaSensor.hpp"
 #include "Collectibles.hpp"
-#include "controls.h"
 #include "Door.hpp"
 #include "Enemy.hpp"
 #include "EnemyBullet.hpp"
@@ -43,7 +42,6 @@ GSpace::GSpace(GScene* gscene) : gscene(gscene)
 		objByType[t] = unordered_set<GObject*>();
 	}
 
-	controlInfo = make_unique<ControlInfo>();
 	controlReplay = make_unique<ControlReplay>();
 	controlReplay->scene_name = GScene::crntSceneName;
 }
@@ -471,12 +469,12 @@ void GSpace::loadReplay(unique_ptr<ControlReplay> replay)
 	isRunningReplay = true;
 }
 
-const ControlInfo* GSpace::getControlInfo() const {
-	return controlInfo.get();
+ControlInfo GSpace::getControlInfo() const {
+	return controlInfo;
 }
 
-void GSpace::setControlInfo(const ControlInfo* info) {
-	*controlInfo = *info;
+void GSpace::setControlInfo(ControlInfo info) {
+	controlInfo = info;
 }
 
 void GSpace::updateControlInfo()
@@ -487,12 +485,12 @@ void GSpace::updateControlInfo()
 			addSceneAction(bind(&PlayScene::triggerReplayCompleted, getSceneAs<PlayScene>()), SceneUpdateOrder::hudUpdate);
 		}
 		else {
-			*controlInfo = controlReplay->getControlInfo(frame);
+			controlInfo = controlReplay->getControlInfo(frame);
 		}
 	}
 	else if(controlReplay)
 	{
-		controlReplay->control_data.push_back(getControlState(*controlInfo));
+		controlReplay->control_data.push_back(getControlState(controlInfo));
 
 		if (controlReplay->control_data.size() != frame + 1) {
 			log("frame %ud, control replay has %ud frames.", frame, controlReplay->control_data.size());

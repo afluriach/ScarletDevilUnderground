@@ -233,7 +233,7 @@ void GScene::update(float dt)
 		gspace->addObjectAction(bind(
 			&GSpace::setControlInfo,
 			gspace,
-			&info
+			info
 		));
 		spaceUpdateToRun.store(true);
 		spaceUpdateCondition.notify_one();

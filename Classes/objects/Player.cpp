@@ -281,7 +281,7 @@ void Player::update()
 	if (playScene) {
 		space->updatePlayerMapLocation(getPos());
 
-		ControlInfo cs = *space->getControlInfo();
+		ControlInfo cs = space->getControlInfo();
 
 		checkMovementControls(cs);
 		checkItemInteraction(cs);

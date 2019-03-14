@@ -9,12 +9,11 @@
 #ifndef GSpace_hpp
 #define GSpace_hpp
 
+#include "controls.h"
 #include "graphics_types.h"
 #include "macros.h"
 #include "object_ref.hpp"
 
-struct ControlInfo;
-struct ControlReplay;
 class FloorSegment;
 class GObject;
 class GScene;
@@ -181,8 +180,8 @@ public:
 
 	void loadReplay(unique_ptr<ControlReplay> replay);
 	inline const ControlReplay* getReplay() { return controlReplay.get(); }
-	const ControlInfo* getControlInfo() const;
-	void setControlInfo(const ControlInfo* info);
+	ControlInfo getControlInfo() const;
+	void setControlInfo(ControlInfo info);
 	inline bool getIsRunningReplay() { return isRunningReplay; }
 private:
 	void updateControlInfo();
@@ -218,7 +217,7 @@ private:
 	int crntMap = -1;
 	vector<SpaceRect> mapAreas;
 
-	unique_ptr<ControlInfo> controlInfo;
+	ControlInfo controlInfo;
 	unique_ptr<ControlReplay> controlReplay;
 	
 	vector<pair<zero_arity_function, SceneUpdateOrder>> sceneActions;
