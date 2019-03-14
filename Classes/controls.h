@@ -179,12 +179,14 @@ public:
 
 	ControlInfo getControlInfo(unsigned int frameIdx);
 
+	unsigned int random_seed;
 	string scene_name;
 	vector<ControlState> control_data;
 
 	template<class Archive>
 	inline void serialize(Archive& ar, const unsigned int version)
 	{
+		ar & random_seed;
 		ar & scene_name;
 		ar & control_data;
 	}

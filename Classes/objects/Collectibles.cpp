@@ -8,30 +8,30 @@
 
 #include "Prefix.h"
 
-#include "App.h"
 #include "Collectibles.hpp"
+#include "GSpace.hpp"
 #include "value_map.hpp"
 
 template<class C>
-function<ObjectGeneratorType(SpaceVect) > createAdapter()
+function<ObjectGeneratorType(GSpace*, SpaceVect) > createAdapter()
 {
-	return [](SpaceVect& pos) -> ObjectGeneratorType {
+	return [](GSpace* space, SpaceVect pos) -> ObjectGeneratorType {
 		return GObject::make_object_factory<C>(pos);
 	};
 }
 
 template<class C1, class C2>
-function<ObjectGeneratorType(SpaceVect) > createRandomAdapter()
+function<ObjectGeneratorType(GSpace* space, SpaceVect) > createRandomAdapter()
 {
-	return [](SpaceVect& pos) -> ObjectGeneratorType {
-		if (App::getRandomFloat() < 0.5f)
+	return [](GSpace* space, SpaceVect pos) -> ObjectGeneratorType {
+		if (space->getRandomFloat() < 0.5f)
 			return GObject::make_object_factory<C1>(pos);
 		else
 			return GObject::make_object_factory<C2>(pos);
 	};
 }
 
-const unordered_map<collectible_id, function<ObjectGeneratorType(SpaceVect)>> Collectible::factories = {
+const unordered_map<collectible_id, function<ObjectGeneratorType(GSpace*, SpaceVect)>> Collectible::factories = {
 	{collectible_id::magic1, createAdapter<Magic1>() },
 	{collectible_id::magic2, createAdapter<Magic2>() },
 	{collectible_id::health1, createAdapter<Health1>() },
@@ -41,9 +41,9 @@ const unordered_map<collectible_id, function<ObjectGeneratorType(SpaceVect)>> Co
 	{collectible_id::key, createAdapter<Key>() },
 };
 
-ObjectGeneratorType Collectible::create(collectible_id id, SpaceVect pos)
+ObjectGeneratorType Collectible::create(GSpace* space, collectible_id id, SpaceVect pos)
 {
-	return factories.at(id)(pos);
+	return factories.at(id)(space, pos);
 }
 
 Collectible::Collectible(GSpace* space, ObjectIDType id, SpaceVect pos) :

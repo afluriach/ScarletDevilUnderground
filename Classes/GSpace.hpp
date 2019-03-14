@@ -178,6 +178,14 @@ public:
 	void setSuppressAction(bool b);
 	bool getSuppressAction();
 
+	void setRandomSeed(unsigned int seed);
+	//Generate [0,1)
+	float getRandomFloat();
+	//Generate [min,max)
+	float getRandomFloat(float min, float max);
+	//Generate [min,max]
+	int getRandomInt(int min, int max);
+
 	void loadReplay(unique_ptr<ControlReplay> replay);
 	inline const ControlReplay* getReplay() { return controlReplay.get(); }
 	ControlInfo getControlInfo() const;
@@ -227,6 +235,10 @@ private:
 	bool isRunningReplay = false;
 	bool suppressAction = false;
 	bool isMultiMap;
+
+	boost::random::uniform_01<float> randomFloat;
+	boost::random::uniform_int_distribution<int> randomInt;
+	boost::random::mt19937 randomEngine;
 
 	unsigned int nextObjUUID = 1;
 	unsigned int lastAddedUUID = 0;

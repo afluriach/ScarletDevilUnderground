@@ -220,6 +220,8 @@ bool GScene::init()
     
     multiInit();
     
+	gspace->setRandomSeed(to_uint(time(nullptr)));
+
 	spaceUpdateToRun.store(false);
 	spaceUpdateThread = make_unique<thread>(&GScene::spaceUpdateMain, this);
 

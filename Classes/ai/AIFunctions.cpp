@@ -786,7 +786,7 @@ pair<Direction, SpaceFloat> Wander::chooseMovement(StateMachine& fsm)
 	}
 
 	if (!directions.empty()) {
-		return make_pair(directions.at(App::getRandomInt(0, directions.size()-1)), maxDist);
+		return make_pair(directions.at(fsm.agent->space->getRandomInt(0, directions.size()-1)), maxDist);
 	}
 
 	//Select a direction that allows at least minimum desired distance.
@@ -798,7 +798,7 @@ pair<Direction, SpaceFloat> Wander::chooseMovement(StateMachine& fsm)
 	}
 
 	if (!directions.empty()) {
-		int idx = App::getRandomInt(0, directions.size() - 1);
+		int idx = fsm.agent->space->getRandomInt(0, directions.size() - 1);
 		return make_pair(directions.at(idx), feelers[idx]);
 	}
 
@@ -817,7 +817,7 @@ void Wander::update(StateMachine& fsm)
 			fsm.push(make_shared<MoveToPoint>(
 				fsm.agent->getPos() + dirToVector(movement.first)*movement.second
 			));
-			waitTimer = App::getRandomFloat(minWait, maxWait);
+			waitTimer = fsm.agent->space->getRandomFloat(minWait, maxWait);
 		}
 	}
 	else {

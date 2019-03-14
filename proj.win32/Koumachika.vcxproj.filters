@@ -147,9 +147,6 @@
     <ClCompile Include="..\Classes\objects\Wall.cpp">
       <Filter>src\objects</Filter>
     </ClCompile>
-    <ClCompile Include="..\Classes\scenes\Garden.cpp">
-      <Filter>src\scenes</Filter>
-    </ClCompile>
     <ClCompile Include="..\Classes\scenes\PlayScene.cpp">
       <Filter>src\scenes</Filter>
     </ClCompile>
@@ -499,9 +496,6 @@
     </ClInclude>
     <ClInclude Include="..\Classes\objects\Wall.hpp">
       <Filter>src\objects</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Classes\scenes\Garden.hpp">
-      <Filter>src\scenes</Filter>
     </ClInclude>
     <ClInclude Include="..\Classes\scenes\PlayScene.hpp">
       <Filter>src\scenes</Filter>

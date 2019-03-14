@@ -463,10 +463,37 @@ void GSpace::processRemovals()
 	}
 }
 
+void GSpace::setRandomSeed(unsigned int seed)
+{
+	log("Random seed %u loaded.", seed);
+
+	randomEngine.seed(seed);
+	randomFloat.reset();
+	randomInt.reset();
+
+	if (!isRunningReplay) {
+		log("Random seed %u saved.", seed);
+		controlReplay->random_seed = seed;
+	}
+}
+
+float GSpace::getRandomFloat() {
+	return randomFloat(randomEngine);
+}
+
+float GSpace::getRandomFloat(float min, float max) {
+	return (min + getRandomFloat() * (max - min));
+}
+
+int GSpace::getRandomInt(int min, int max) {
+	return randomInt(randomEngine, boost::random::uniform_int_distribution<int>::param_type(min, max));
+}
+
 void GSpace::loadReplay(unique_ptr<ControlReplay> replay)
 {
-	controlReplay = move(replay);
 	isRunningReplay = true;
+	setRandomSeed(replay->random_seed);
+	controlReplay = move(replay);
 }
 
 ControlInfo GSpace::getControlInfo() const {

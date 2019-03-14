@@ -131,13 +131,6 @@ public:
 	static mutex timerMutex;
 #endif
 	static PlayerCharacter crntPC;
-            
-	//Generate [0,1)
-	static float getRandomFloat();
-    //Generate [min,max)
-	static float getRandomFloat(float min, float max);
-    //Generate [min,max]
-	static int getRandomInt(int min, int max);
     
 	static const string& getBaseDataPath();
 	static GState* getCrntState();
@@ -147,10 +140,6 @@ protected:
 	static bool logTimers;
 
 	string baseDataPath;
-
-	boost::random::uniform_01<float> randomFloat;
-	boost::random::uniform_int_distribution<int> randomInt;
-	boost::random::mt19937 randomEngine;
 
 	FMOD::System* audioSystem = nullptr;
 	unordered_map<string, FMOD::Sound*> loadedAudio;

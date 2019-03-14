@@ -40,9 +40,9 @@ void StarlightTyphoon::init()
 void StarlightTyphoon::fire()
 {
 	//The angle variation, will be added to the base direction.
-	SpaceFloat arcPos = App::getRandomFloat(-width, width) + caster->getAngle();
-	SpaceFloat crntSpeed = App::getRandomFloat(speed*0.5, speed*1.5);
-	SpaceFloat crntRadius = App::getRandomFloat(radius*0.7, radius*1.3);
+	SpaceFloat arcPos = caster->space->getRandomFloat(-width, width) + caster->getAngle();
+	SpaceFloat crntSpeed = caster->space->getRandomFloat(speed*0.5, speed*1.5);
+	SpaceFloat crntRadius = caster->space->getRandomFloat(radius*0.7, radius*1.3);
 
 	SpaceVect pos = caster->getPos() + SpaceVect::ray(offset, angle);
 
@@ -52,7 +52,7 @@ void StarlightTyphoon::fire()
 		dynamic_cast<Agent*>(caster),
 		crntSpeed,
 		radius,
-		StarBullet::colors[App::getRandomInt(0, StarBullet::colors.size() - 1)]
+		StarBullet::colors[caster->space->getRandomInt(0, StarBullet::colors.size() - 1)]
 	));
 }
 

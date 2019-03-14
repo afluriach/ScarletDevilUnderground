@@ -34,8 +34,8 @@ enum class collectible_id
 class Collectible : virtual public GObject, public RectangleBody, public ImageSprite
 {
 public:
-	static ObjectGeneratorType create(collectible_id id, SpaceVect pos);
-	static const unordered_map<collectible_id, function<ObjectGeneratorType(SpaceVect)>> factories;
+	static ObjectGeneratorType create(GSpace* space, collectible_id id, SpaceVect pos);
+	static const unordered_map<collectible_id, function<ObjectGeneratorType(GSpace*, SpaceVect)>> factories;
 
 	Collectible(GSpace* space, ObjectIDType id, SpaceVect pos);
 	inline virtual ~Collectible() {}

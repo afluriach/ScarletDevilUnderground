@@ -432,21 +432,6 @@ void App::setPlayer(int id)
 	crntPC = static_cast<PlayerCharacter>(id);
 }
 
-//Generate [0,1)
-float App::getRandomFloat() {
-	return appInst->randomFloat(appInst->randomEngine);
-}
-
-//Generate [min,max)
-float App::getRandomFloat(float min, float max) {
-	return (min + getRandomFloat() * (max - min));
-}
-
-//Generate [min,max]
-int App::getRandomInt(int min, int max) {
-	return appInst->randomInt(appInst->randomEngine, boost::random::uniform_int_distribution<int>::param_type(min, max));
-}
-
 const string& App::getBaseDataPath() {
 	return appInst->baseDataPath;
 }

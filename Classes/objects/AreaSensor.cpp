@@ -246,7 +246,7 @@ void RoomSensor::updateSpawners()
 void RoomSensor::spawnKey()
 {
 	SpaceVect point = space->getWaypoint(keyWaypointName);
-	space->createObject(Collectible::create(collectible_id::key, point));
+	space->createObject(Collectible::create(space, collectible_id::key, point));
 	isKeyDrop = false;
 }
 
