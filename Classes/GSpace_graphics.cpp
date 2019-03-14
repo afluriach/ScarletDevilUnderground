@@ -8,8 +8,8 @@
 
 #include "Prefix.h"
 
+#include "GScene.hpp"
 #include "GSpace.hpp"
-#include "scenes.h"
 
 //BEGIN GRAPHICS
 

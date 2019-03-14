@@ -13,7 +13,6 @@
 #include "GSpace.hpp"
 #include "GState.hpp"
 #include "macros.h"
-#include "scenes.h"
 #include "value_map.hpp"
 
 Headstone::Headstone(GSpace* space, ObjectIDType id, const ValueMap& args) :

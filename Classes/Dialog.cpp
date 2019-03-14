@@ -12,10 +12,10 @@
 #include "controls.h"
 #include "Dialog.hpp"
 #include "Graphics.h"
+#include "GScene.hpp"
 #include "GState.hpp"
 #include "LuaAPI.hpp"
 #include "macros.h"
-#include "scenes.h"
 
 const Color4F Dialog::backgroundColor = Color4F(0.5, 0.5, 0.5, 0.5);
 const Color3B Dialog::defaultTextColor = Color3B(255,255,255);

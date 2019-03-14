@@ -4,13 +4,13 @@
 #include "controls.h"
 #include "FileIO.hpp"
 #include "functional.hpp"
+#include "GScene.hpp"
 #include "GState.hpp"
 #include "LuaAPI.hpp"
 #include "macros.h"
 #include "menu_scenes.h"
 #include "OpeningScene.hpp"
 #include "OverworldScene.hpp"
-#include "scenes.h"
 #include "util.h"
 
 const string App::title = "Kouma";

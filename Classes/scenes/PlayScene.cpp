@@ -14,6 +14,7 @@
 #include "FileIO.hpp"
 #include "functional.hpp"
 #include "GObject.hpp"
+#include "GScene.hpp"
 #include "GSpace.hpp"
 #include "HUD.hpp"
 #include "macros.h"
@@ -21,7 +22,6 @@
 #include "multifunction.h"
 #include "Player.hpp"
 #include "PlayScene.hpp"
-#include "scenes.h"
 #include "util.h"
 #include "value_map.hpp"
 

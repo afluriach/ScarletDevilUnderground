@@ -11,11 +11,11 @@
 #include "App.h"
 #include "GObject.hpp"
 #include "Graph.hpp"
+#include "GScene.hpp"
 #include "GSpace.hpp"
 #include "GState.hpp"
 #include "LuaWrap.h"
 #include "macros.h"
-#include "scenes.h"
 
 namespace Lua{
 

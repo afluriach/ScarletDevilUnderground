@@ -9,7 +9,7 @@
 #ifndef OpeningScene_hpp
 #define OpeningScene_hpp
 
-#include "scenes.h"
+#include "GScene.hpp"
 
 class OpeningScene : public GScene
 {

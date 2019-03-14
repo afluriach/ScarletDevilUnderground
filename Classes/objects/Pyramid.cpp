@@ -10,10 +10,10 @@
 
 #include "Agent.hpp"
 #include "App.h"
+#include "GScene.hpp"
 #include "GSpace.hpp"
 #include "macros.h"
 #include "Pyramid.hpp"
-#include "scenes.h"
 #include "value_map.hpp"
 
 const SpaceFloat Pyramid::coneLength = 4.0;

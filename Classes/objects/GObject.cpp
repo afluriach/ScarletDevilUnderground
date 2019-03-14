@@ -16,7 +16,6 @@
 #include "LuaAPI.hpp"
 #include "macros.h"
 #include "MagicEffect.hpp"
-#include "scenes.h"
 #include "Spell.hpp"
 #include "SpellDescriptor.hpp"
 #include "util.h"

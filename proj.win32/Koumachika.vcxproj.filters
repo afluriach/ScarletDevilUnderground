@@ -66,9 +66,6 @@
     <ClCompile Include="..\Classes\Prefix.cpp">
       <Filter>src</Filter>
     </ClCompile>
-    <ClCompile Include="..\Classes\scenes\scenes.cpp">
-      <Filter>src\scenes</Filter>
-    </ClCompile>
     <ClCompile Include="..\Classes\ai\AI.cpp">
       <Filter>src\ai</Filter>
     </ClCompile>
@@ -348,6 +345,15 @@
     <ClCompile Include="..\Classes\spells\MiscMagicEffects.cpp">
       <Filter>src\spells</Filter>
     </ClCompile>
+    <ClCompile Include="..\Classes\scenes\GScene.cpp">
+      <Filter>src\scenes</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\scenes\GScene_graphics.cpp">
+      <Filter>src\scenes</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\scenes\GScene_map.cpp">
+      <Filter>src\scenes</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="main.h">
@@ -498,12 +504,6 @@
       <Filter>src\scenes</Filter>
     </ClInclude>
     <ClInclude Include="..\Classes\scenes\PlayScene.hpp">
-      <Filter>src\scenes</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Classes\scenes\scenes.h">
-      <Filter>src\scenes</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Classes\scenes\SceneUtil.h">
       <Filter>src\scenes</Filter>
     </ClInclude>
     <ClInclude Include="..\Classes\functional.hpp">
@@ -673,6 +673,9 @@
     </ClInclude>
     <ClInclude Include="..\Classes\spells\MiscMagicEffects.hpp">
       <Filter>src\spells</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\scenes\GScene.hpp">
+      <Filter>src\scenes</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

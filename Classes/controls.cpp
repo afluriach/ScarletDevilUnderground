@@ -11,8 +11,8 @@
 #include "App.h"
 #include "controls.h"
 #include "functional.hpp"
+#include "GScene.hpp"
 #include "macros.h"
-#include "scenes.h"
 
 const bool ControlRegister::logKeyEvents = false;
 const bool ControlRegister::logButtons = false;

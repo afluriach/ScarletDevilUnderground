@@ -227,6 +227,9 @@ xcopy "$(ProjectDir)..\Resources" "$(OutDir)" /D /E /I /F /Y</Command>
     <ClCompile Include="..\Classes\scenes\Forest.cpp" />
     <ClCompile Include="..\Classes\scenes\Garden.cpp" />
     <ClCompile Include="..\Classes\scenes\Graveyard.cpp" />
+    <ClCompile Include="..\Classes\scenes\GScene.cpp" />
+    <ClCompile Include="..\Classes\scenes\GScene_graphics.cpp" />
+    <ClCompile Include="..\Classes\scenes\GScene_map.cpp" />
     <ClCompile Include="..\Classes\scenes\IceCave.cpp" />
     <ClCompile Include="..\Classes\scenes\Library.cpp" />
     <ClCompile Include="..\Classes\scenes\menu_scenes.cpp" />
@@ -235,7 +238,6 @@ xcopy "$(ProjectDir)..\Resources" "$(OutDir)" /D /E /I /F /Y</Command>
     <ClCompile Include="..\Classes\scenes\OverworldScene.cpp" />
     <ClCompile Include="..\Classes\scenes\PlayScene.cpp" />
     <ClCompile Include="..\Classes\scenes\SceneMapping.cpp" />
-    <ClCompile Include="..\Classes\scenes\scenes.cpp" />
     <ClCompile Include="..\Classes\spells\EnemyFirePattern.cpp" />
     <ClCompile Include="..\Classes\spells\EnemySpell.cpp" />
     <ClCompile Include="..\Classes\spells\FirePattern.cpp" />
@@ -337,6 +339,7 @@ xcopy "$(ProjectDir)..\Resources" "$(OutDir)" /D /E /I /F /Y</Command>
     <ClInclude Include="..\Classes\scenes\Forest.hpp" />
     <ClInclude Include="..\Classes\scenes\Garden.hpp" />
     <ClInclude Include="..\Classes\scenes\Graveyard.hpp" />
+    <ClInclude Include="..\Classes\scenes\GScene.hpp" />
     <ClInclude Include="..\Classes\scenes\IceCave.hpp" />
     <ClInclude Include="..\Classes\scenes\Library.hpp" />
     <ClInclude Include="..\Classes\scenes\LibraryOpening.h" />
@@ -345,8 +348,6 @@ xcopy "$(ProjectDir)..\Resources" "$(OutDir)" /D /E /I /F /Y</Command>
     <ClInclude Include="..\Classes\scenes\OpeningScene.hpp" />
     <ClInclude Include="..\Classes\scenes\OverworldScene.hpp" />
     <ClInclude Include="..\Classes\scenes\PlayScene.hpp" />
-    <ClInclude Include="..\Classes\scenes\scenes.h" />
-    <ClInclude Include="..\Classes\scenes\SceneUtil.h" />
     <ClInclude Include="..\Classes\spells\EnemyFirePattern.hpp" />
     <ClInclude Include="..\Classes\spells\EnemySpell.hpp" />
     <ClInclude Include="..\Classes\spells\FirePattern.hpp" />

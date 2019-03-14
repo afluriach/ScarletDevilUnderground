@@ -1,13 +1,13 @@
 //
-//  scenes.h
+//  GScene.hpp
 //  Koumachika
 //
-//  Created by Toni on 11/23/15.
+//  Created by Toni on 3/14/19.
 //
 //
 
-#ifndef scenes_h
-#define scenes_h
+#ifndef GScene_hpp
+#define GScene_hpp
 
 #include "graphics_types.h"
 #include "multifunction.h"
@@ -311,4 +311,4 @@ protected:
 	string pendingScript;
 };
 
-#endif /* scenes_h */
+#endif /* GScene_hpp */

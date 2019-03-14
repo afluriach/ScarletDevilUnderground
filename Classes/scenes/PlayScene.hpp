@@ -9,7 +9,7 @@
 #ifndef PlayScene_hpp
 #define PlayScene_hpp
 
-#include "scenes.h"
+#include "GScene.hpp"
 
 struct ControlReplay;
 class GObject;

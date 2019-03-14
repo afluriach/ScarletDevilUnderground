@@ -11,9 +11,9 @@
 #include "Agent.hpp"
 #include "App.h"
 #include "EffectArea.hpp"
+#include "GScene.hpp"
 #include "GSpace.hpp"
 #include "Player.hpp"
-#include "scenes.h"
 #include "Torch.hpp"
 
 EffectArea::EffectArea(GSpace* space, ObjectIDType id, const ValueMap& args) :

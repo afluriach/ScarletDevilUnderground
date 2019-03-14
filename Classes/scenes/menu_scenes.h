@@ -9,7 +9,7 @@
 #ifndef menu_scenes_h
 #define menu_scenes_h
 
-#include "scenes.h"
+#include "GScene.hpp"
 
 class TitleMenuScene : public GScene
 {

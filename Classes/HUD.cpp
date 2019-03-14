@@ -11,11 +11,11 @@
 #include "App.h"
 #include "Enemy.hpp"
 #include "Graphics.h"
+#include "GScene.hpp"
 #include "GSpace.hpp"
 #include "HUD.hpp"
 #include "macros.h"
 #include "Player.hpp"
-#include "scenes.h"
 #include "util.h"
 
 IconMeter::IconMeter(int iconSize, const string& filledIcon, const string& emptyIcon, int val, int maxVal) :

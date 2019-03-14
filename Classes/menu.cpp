@@ -11,9 +11,9 @@
 #include "App.h"
 #include "controls.h"
 #include "Graphics.h"
+#include "GScene.hpp"
 #include "macros.h"
 #include "menu.h"
-#include "scenes.h"
 
 MenuLayer::MenuLayer() :
 	control_listener(make_unique<ControlListener>())

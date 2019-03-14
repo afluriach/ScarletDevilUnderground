@@ -14,13 +14,13 @@
 #include "AIUtil.hpp"
 #include "App.h"
 #include "GObject.hpp"
+#include "GScene.hpp"
 #include "GSpace.hpp"
 #include "GState.hpp"
 #include "HUD.hpp"
 #include "LuaAPI.hpp"
 #include "macros.h"
 #include "PlayScene.hpp"
-#include "scenes.h"
 #include "util.h"
 
 //Copied from ltm.h.
