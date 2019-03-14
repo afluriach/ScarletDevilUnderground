@@ -368,7 +368,7 @@ void Player::useKey()
 
 AttributeMap Player::getAttributeUpgrades() const
 {
-	return App::crntState->getUpgrades();
+	return space->getState()->getUpgrades();
 }
 
 void Player::applyAttributeModifier(Attribute id, float val)
@@ -485,7 +485,7 @@ void Player::applyUpgrade(Upgrade* up)
 	break;
 	}
 
-	App::crntState->registerUpgrade(at, up->upgrade_id);
+	space->getState()->registerUpgrade(at, up->upgrade_id);
 	space->removeObject(up);
 }
 

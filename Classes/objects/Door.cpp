@@ -40,7 +40,7 @@ Door::Door(GSpace* space, ObjectIDType id, const ValueMap& args) :
 
 	int sealed_until = getIntOrDefault(args, "sealed_until_completed", 0);
 	if (sealed_until != 0) {
-		sealed = !App::crntState->isChamberCompleted(static_cast<ChamberID>(sealed_until));
+		sealed = !space->getState()->isChamberCompleted(static_cast<ChamberID>(sealed_until));
 	}
 
 	setInitialAngle(float_pi / 2.0);

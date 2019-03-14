@@ -452,6 +452,7 @@ bool ChamberCompletedMenu::init()
 	addChild(statsLabel, 0);
 	statsLabel->setPosition(Vec2(App::width * 0.5f, App::height * 0.5f));
 
+	*App::crntState.get() = *playScene->getSpace()->getState();
 	updateSaveState();
 	playScene->autosaveReplayData();
 

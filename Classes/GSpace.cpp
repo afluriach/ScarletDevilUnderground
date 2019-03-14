@@ -18,6 +18,7 @@
 #include "Graph.hpp"
 #include "GSpace.hpp"
 #include "HUD.hpp"
+#include "OverworldScene.hpp"
 #include "Player.hpp"
 #include "PlayScene.hpp"
 #include "replay.h"
@@ -45,6 +46,7 @@ GSpace::GSpace(GScene* gscene) : gscene(gscene)
 
 	controlReplay = make_unique<Replay>();
 	controlReplay->scene_name = GScene::crntSceneName;
+	crntState = make_unique<GState>();
 }
 
 GSpace::~GSpace()
@@ -64,6 +66,15 @@ GSpace::~GSpace()
         delete navMask;
 
 	cpSpaceFree(space);
+}
+
+GState* GSpace::getState() {
+	if (dynamic_cast<OverworldScene*>(gscene)) {
+		return App::crntState.get();
+	}
+	else {
+		return crntState.get();
+	}
 }
 
 IntVec2 GSpace::getSize() const {
@@ -494,6 +505,7 @@ void GSpace::loadReplay(unique_ptr<Replay> replay)
 {
 	isRunningReplay = true;
 	setRandomSeed(replay->random_seed);
+	*crntState.get() = replay->crnt_state;
 	controlReplay = move(replay);
 }
 

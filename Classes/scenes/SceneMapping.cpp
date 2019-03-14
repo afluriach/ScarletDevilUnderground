@@ -77,6 +77,7 @@ const unordered_map<string, GScene::AdapterType> GScene::adapters = {
 };
 
 const unordered_map<ChamberID, PlayScene::AdapterType> PlayScene::adapters = {
+	{ChamberID::graveyard0, adapterPS<Graveyard0>() },
 	{ChamberID::graveyard1, adapterPS<Graveyard1>() },
 	{ChamberID::graveyard2, adapterPS<Graveyard2>() },
 	{ChamberID::forest1, adapterPS<Forest>() },

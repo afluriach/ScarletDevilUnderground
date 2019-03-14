@@ -7,7 +7,7 @@
 //
 
 #ifndef replay_h
-#define replays_h
+#define replay_h
 
 #include "controls.h"
 #include "GState.hpp"
@@ -24,6 +24,7 @@ public:
 	unsigned int random_seed;
 	string scene_name;
 	vector<ControlState> control_data;
+	GState crnt_state;
 
 	template<class Archive>
 	inline void serialize(Archive& ar, const unsigned int version)
@@ -31,6 +32,7 @@ public:
 		ar & random_seed;
 		ar & scene_name;
 		ar & control_data;
+		ar & crnt_state;
 	}
 };
 

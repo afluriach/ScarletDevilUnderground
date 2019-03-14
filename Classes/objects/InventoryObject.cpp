@@ -16,7 +16,7 @@
 void InventoryObject::interact()
 {
     onAcquire();
-	App::crntState->itemRegistry.insert(itemName());
+	space->getState()->itemRegistry.insert(itemName());
     
     //remove item object
     space->removeObject(this);

@@ -44,7 +44,7 @@ Sapling::Sapling(GSpace* space, ObjectIDType id, const ValueMap& args) :
 bool Mushroom::conditionalLoad(GSpace* space, ObjectIDType id, const ValueMap& args)
 {
 	int objectID = getIntOrDefault(args, "id", -1);
-	return objectID != -1 && !App::crntState->isMushroomAcquired(objectID);
+	return objectID != -1 && !space->getState()->isMushroomAcquired(objectID);
 }
 
 Mushroom::Mushroom(GSpace* space, ObjectIDType id, const ValueMap& args) :
@@ -57,7 +57,7 @@ Mushroom::Mushroom(GSpace* space, ObjectIDType id, const ValueMap& args) :
 
 void Mushroom::interact()
 {
-	App::crntState->registerMushroomAcquired(objectID);
-	++App::crntState->mushroomCount;
+	space->getState()->registerMushroomAcquired(objectID);
+	++space->getState()->mushroomCount;
 	space->removeObject(this);
 }

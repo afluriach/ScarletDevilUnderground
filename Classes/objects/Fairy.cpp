@@ -179,7 +179,7 @@ void FairyMaid::wander(ai::StateMachine& sm, const ValueMap& args)
 bool BlueFairyNPC::conditionalLoad(GSpace* space, ObjectIDType id, const ValueMap& args)
 {
 	int level = getIntOrDefault(args, "level", 0);
-	return level > App::crntState->getBlueFairyLevel();
+	return level > space->getState()->getBlueFairyLevel();
 }
 
 BlueFairyNPC::BlueFairyNPC(GSpace* space, ObjectIDType id, const ValueMap& args) :
@@ -191,18 +191,18 @@ BlueFairyNPC::BlueFairyNPC(GSpace* space, ObjectIDType id, const ValueMap& args)
 
 string BlueFairyNPC::getDialog()
 {
-	if (level > App::crntState->getBlueFairyLevel() + 1) return "dialogs/blue_fairy_no";
+	if (level > space->getState()->getBlueFairyLevel() + 1) return "dialogs/blue_fairy_no";
 	else {
-		if (App::crntState->mushroomCount >= level) return "dialogs/blue_fairy_satisfied";
+		if (space->getState()->mushroomCount >= level) return "dialogs/blue_fairy_satisfied";
 		else return "dialogs/blue_fairy_request_"+boost::lexical_cast<string>(level);
 	}
 }
 
 void BlueFairyNPC::onDialogEnd()
 {
-	if (level == App::crntState->getBlueFairyLevel() + 1 && App::crntState->mushroomCount >= level) {
-		++App::crntState->blueFairies;
-		App::crntState->mushroomCount -= level;
+	if (level == space->getState()->getBlueFairyLevel() + 1 && space->getState()->mushroomCount >= level) {
+		++space->getState()->blueFairies;
+		space->getState()->mushroomCount -= level;
 		space->removeObject(this);
 	} 
 }
@@ -224,7 +224,7 @@ bool GhostFairyNPC::conditionalLoad(GSpace* space, ObjectIDType id, const ValueM
 		return true;
 	}
 	else {
-		return App::crntState->isChamberCompleted(enum_add(ChamberID, ChamberID::graveyard0, level - 1));
+		return space->getState()->isChamberCompleted(enum_add(ChamberID, ChamberID::graveyard0, level - 1));
 	}
 }
 

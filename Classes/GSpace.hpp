@@ -17,6 +17,7 @@
 class FloorSegment;
 class GObject;
 class GScene;
+class GState;
 class HUD;
 class InteractibleObject;
 class PlayScene;
@@ -41,6 +42,9 @@ public:
     GSpace(GScene* gscene);    
     ~GSpace();
     
+	//Will return this GSpace's state if running a chamber scene, else the App::crntState.
+	GState* getState();
+
 	IntVec2 getSize() const;
     void setSize(int x, int y);
     
@@ -56,6 +60,7 @@ public:
     void update();
     void processAdditions();
 private:
+	unique_ptr<GState> crntState;
 	//The graphics destination to use for all objects constructed in this space.
 	GScene *const gscene;
     unsigned int frame = 0;

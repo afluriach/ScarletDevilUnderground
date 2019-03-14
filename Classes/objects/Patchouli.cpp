@@ -10,6 +10,7 @@
 
 #include "AIFunctions.hpp"
 #include "App.h"
+#include "GSpace.hpp"
 #include "GState.hpp"
 #include "Patchouli.hpp"
 #include "PatchouliSpell.hpp"
@@ -20,10 +21,10 @@ Patchouli::Patchouli(GSpace* space, ObjectIDType id, const ValueMap& args) :
 {}
 
 string Patchouli::getDialog() {
-	if (App::crntState->hasItem("GraveyardBook1") && !App::crntState->isChamberAvailable(ChamberID::graveyard1)) {
+	if (space->getState()->hasItem("GraveyardBook1") && !space->getState()->isChamberAvailable(ChamberID::graveyard1)) {
 		return "dialogs/graveyard_book";
 	}
-	else if (App::crntState->hasItem("ForestBook1") && !App::crntState->isChamberAvailable(ChamberID::forest1)) {
+	else if (space->getState()->hasItem("ForestBook1") && !space->getState()->isChamberAvailable(ChamberID::forest1)) {
 		return "dialogs/forest_book";
 	}
 	else {
@@ -33,11 +34,11 @@ string Patchouli::getDialog() {
 
 void Patchouli::onDialogEnd()
 {
-	if (App::crntState->hasItem("GraveyardBook1")) {
-		App::crntState->registerChamberAvailable(ChamberID::graveyard0);
+	if (space->getState()->hasItem("GraveyardBook1")) {
+		space->getState()->registerChamberAvailable(ChamberID::graveyard0);
 	}
-	if (App::crntState->hasItem("ForestBook1")) {
-		App::crntState->registerChamberAvailable(ChamberID::forest1);
+	if (space->getState()->hasItem("ForestBook1")) {
+		space->getState()->registerChamberAvailable(ChamberID::forest1);
 	}
 }
 

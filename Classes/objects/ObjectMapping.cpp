@@ -65,7 +65,7 @@ template <typename T>
 constexpr GObject::AdapterType itemAdapter(const string& name)
 {
     return [=](GSpace* space, ObjectIDType id, const ValueMap& args) -> GObject* {
-        if(App::crntState->hasItem(name))
+        if(space->getState()->hasItem(name))
             return nullptr;
         else return new T(space,id,args);
     };
@@ -110,7 +110,7 @@ GObject::AdapterType upgradeAdapter(Attribute at)
 {
 	return [=](GSpace* space, ObjectIDType id, const ValueMap& args) -> GObject* {
 		int upgradeID = getIntOrDefault(args, "id", -1);
-		if (upgradeID != -1 && !App::crntState->isUpgradeAcquired(at, upgradeID))
+		if (upgradeID != -1 && !space->getState()->isUpgradeAcquired(at, upgradeID))
 			return new Upgrade(space, id, args, at);
 		else
 			return nullptr;
