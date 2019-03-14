@@ -51,6 +51,5 @@ protected:
 	unordered_set<object_ref<Agent>> targets;
 	SpaceFloat angular_speed = 0.0;
 	SpaceFloat coneAngle = 0.0;
-	LightID coneLightID;
 };
 #endif /* Pyramid_hpp */

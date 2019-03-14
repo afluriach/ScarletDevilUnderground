@@ -26,11 +26,10 @@ const AttributeMap Pyramid::lightConeEffect = {
 	{Attribute::sunDamage, 5.0f }
 };
 
-
 Pyramid::Pyramid(GSpace* space, ObjectIDType id, const ValueMap& args) :
 MapObjForwarding(GObject)
 {
-	angular_speed = getFloatOrDefault(args, "angular_speed", 0.0f) / 180.0 * float_pi;
+	angular_speed = toRads(getFloatOrDefault(args, "angular_speed", 0.0f));
 
 	auto it = args.find("direction");
 	if (it != args.end()) {
@@ -61,13 +60,7 @@ void Pyramid::update()
 void Pyramid::redrawLightCone()
 {	
 	SpaceFloat angle = getAngle();
-	space->updateLightSource(coneLightID, ConeLightArea{
-		getPos(),
-		coneLength,
-		targets.empty() ? coneColor : coneActiveColor,
-		to_float(canonicalAngle(angle - coneWidth / 2.0)),
-		to_float(canonicalAngle(angle + coneWidth / 2.0)) 
-	});
+	space->setLightSourceColor(lightID, targets.empty() ? coneColor : coneActiveColor);
 }
 
 PhysicsLayers Pyramid::getLayers() const{
@@ -94,11 +87,11 @@ void Pyramid::initializeGraphics()
 {
 	SpaceFloat a = getAngle();
 	spriteID = space->createSprite(imageSpritePath(), GraphicsLayer::ground, getInitialCenterPix(), 1.0f);
-	coneLightID = space->addLightSource(ConeLightArea{
+	lightID = space->addLightSource(ConeLightArea{
 		getPos(),
 		coneLength,
-		coneColor,
-		to_float(canonicalAngle(a - coneWidth / 2.0)),
-		to_float(canonicalAngle(a + coneWidth / 2.0))
+		coneWidth,
+		coneColor
 	});
+	space->setLightSourceAngle(lightID, getAngle());
 }

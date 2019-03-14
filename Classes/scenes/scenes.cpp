@@ -369,20 +369,23 @@ void GScene::addLightSource(LightID id, CircleLightArea light)
 		Vec2::ZERO,
 		light.flood
 	);
+	CCSize bounds = CCSize(light.radius,light.radius) * 2.0f * App::pixelsPerTile;
 
 	g->setPosition(toCocos(light.origin) * App::pixelsPerTile);
 	g->setBlendFunc(BlendFunc{ GL_ONE,GL_ONE });
-	g->setContentSize(CCSize(light.radius * 2.0f * App::pixelsPerTile, light.radius * 2.0f * App::pixelsPerTile));
+	g->setContentSize(bounds);
 	getLayer(sceneLayers::lightmap)->addChild(g);
 
-	circleLights.insert_or_assign(id,light);
-	lightmapRadials.insert_or_assign(id, g);
 	lightmapNodes.insert_or_assign(id, g);
 }
 
 void GScene::addLightSource(LightID id, AmbientLightArea light)
 {
-	ambientLights.insert_or_assign(id,light);
+	AmbientLightNode* node = Node::ccCreate<AmbientLightNode>(light);
+	node->setBlendFunc(BlendFunc{ GL_ONE,GL_ONE });
+	node->setPosition(toCocos(light.origin) * App::pixelsPerTile);
+	getLayer(sceneLayers::lightmap)->addChild(node);
+	lightmapNodes.insert_or_assign(id, node);
 }
 
 void GScene::addLightSource(LightID id, ConeLightArea light)
@@ -391,17 +394,15 @@ void GScene::addLightSource(LightID id, ConeLightArea light)
 		light.color,
 		light.radius * App::pixelsPerTile,
 		Vec2::ZERO,
-		light.startAngle,
-		light.endAngle
+		light.angleWidth,
+		0.0
 	);
 
 	cs->setPosition(toCocos(light.origin) * App::pixelsPerTile);
 	cs->setBlendFunc(BlendFunc{ GL_ONE,GL_ONE });
-	cs->setContentSize(CCSize(light.radius * 2.0f * App::pixelsPerTile, light.radius * 2.0f * App::pixelsPerTile));
+	cs->setContentSize(CCSize(light.radius,light.radius) * 2.0f * App::pixelsPerTile);
 	getLayer(sceneLayers::lightmap)->addChild(cs);
 
-	coneLights.insert_or_assign(id, light);
-	lightmapCones.insert_or_assign(id, cs);
 	lightmapNodes.insert_or_assign(id, cs);
 }
 
@@ -415,21 +416,7 @@ void GScene::addLightSource(LightID id, SpriteLightArea light)
 	s->setColor(toColor3B(light.color));
 	getLayer(sceneLayers::lightmap)->addChild(s);
 
-	spriteLights.insert_or_assign(id, light);
-	lightmapSprites.insert_or_assign(id, s);
 	lightmapNodes.insert_or_assign(id, s);
-}
-
-void GScene::updateLightSource(LightID id, ConeLightArea light)
-{
-	coneLights.insert_or_assign(id, light);
-
-	auto it = lightmapCones.find(id);
-	if (it != lightmapCones.end()) {
-		it->second->setPosition(toCocos(light.origin) * App::pixelsPerTile);
-		it->second->setAngles(light.startAngle, light.endAngle);
-		it->second->setColor(light.color);
-	}
 }
 
 void GScene::removeLightSource(LightID id)
@@ -439,39 +426,33 @@ void GScene::removeLightSource(LightID id)
 		getLayer(sceneLayers::lightmap)->removeChild(it->second);
 		lightmapNodes.erase(it);
 	}
-
-	lightmapSprites.erase(id);
-	lightmapCones.erase(id);
-	circleLights.erase(id);
-	ambientLights.erase(id);
-	coneLights.erase(id);
-	spriteLights.erase(id);
-	lightmapNodes.erase(id);
+	else {
+		log("removeLightSource: unknown light source %u.", id);
+	}
 }
 
 void GScene::setLightSourcePosition(LightID id, SpaceVect pos)
 {
-	{
-		auto it = lightmapNodes.find(id);
-		if (it != lightmapNodes.end()) {
-			it->second->setPosition(toCocos(pos)*App::pixelsPerTile);
-		}
-	}
-
-	{
-		auto it = ambientLights.find(id);
-		if (it != ambientLights.end()) {
-			it->second.origin = pos;
-		}
+	auto it = lightmapNodes.find(id);
+	if (it != lightmapNodes.end()) {
+		it->second->setPosition(toCocos(pos)*App::pixelsPerTile);
 	}
 }
 
 void GScene::setLightSourceAngle(LightID id, SpaceFloat a)
 {
-	{
-		auto it = lightmapNodes.find(id);
-		if (it != lightmapNodes.end()) {
-			it->second->setRotation(90 - toDegrees(a));
+	auto it = lightmapNodes.find(id);
+	if (it != lightmapNodes.end()) {
+		it->second->setRotation(toCocosAngle(a));
+	}
+}
+
+void GScene::setLightSourceColor(LightID id, Color4F color)
+{
+	auto it = lightmapNodes.find(id);
+	if (it != lightmapNodes.end()) {
+		if (auto cone = dynamic_cast<ConeShader*>(it->second)) {
+			cone->setLightColor(color);
 		}
 	}
 }
@@ -543,7 +524,7 @@ void GScene::createAgentBodyShader(
 		startAngle,
 		endAngle
 	);
-	shader->setContentSize(CCSize(coneRadius * 2.0f * App::pixelsPerTile, coneRadius * 2.0f * App::pixelsPerTile));
+	shader->setContentSize(CCSize(coneRadius,coneRadius) * 2.0f * App::pixelsPerTile);
 
 	agentShaders.insert_or_assign(id, shader);
 	graphicsNodes.insert_or_assign(id, shader);
@@ -1131,7 +1112,6 @@ void GScene::loadLights(const TMXTiledMap& map, IntVec2 offset)
 	SpaceVect center = toChipmunk(offset) + dimensions / 2.0;
 
 	addLightSource(id, AmbientLightArea{ center, dimensions, color});
-	ambientMapLights.push_back(id);
 }
 
 void GScene::initEnemyStats()
@@ -1220,35 +1200,13 @@ void GScene::redrawLightmap()
 		);
 	}
 
-	for (pair<unsigned int,CircleLightArea> lightEntry : circleLights)
+	for (auto entry : lightmapNodes)
 	{
-		Vec2 originPix = toCocos(lightEntry.second.origin) * App::pixelsPerTile;
-		float radiusPix = lightEntry.second.radius * App::pixelsPerTile;
-
-		lightmapRadials.at(lightEntry.first)->setVisible(
-			cameraPix.intersectsCircle(originPix, radiusPix)
-		);
-	}
-
-	for (AmbientLightArea light : ambientLights | boost::adaptors::map_values)
-	{
-		Color4F color = light.color;
-		Vec2 halfDim = toCocos(light.dimensions) / 2.0f * App::pixelsPerTile;
-		Vec2 center = toCocos(light.origin) * App::pixelsPerTile;
-
-		if (cameraPix.intersectsRect(CCRect(center.x - halfDim.x, center.y - halfDim.y, halfDim.x * 2.0f, halfDim.y * 2.0f))) {
-			lightmapDrawNode->drawSolidRect(center - halfDim, center + halfDim, color);
-		}
-	}
-
-	for (pair<unsigned int, ConeLightArea> lightEntry : coneLights)
-	{
-		Vec2 originPix = toCocos(lightEntry.second.origin) * App::pixelsPerTile;
-		float radiusPix = lightEntry.second.radius * App::pixelsPerTile;
-
-		lightmapCones.at(lightEntry.first)->setVisible(
-			cameraPix.intersectsCircle(originPix, radiusPix)
-		);
+		bool visible = cameraPix.intersectsRect(makeRect(
+			entry.second->getPosition(),
+			entry.second->getContentSize()
+		));
+		entry.second->setVisible(visible);
 	}
 }
 

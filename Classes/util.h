@@ -14,6 +14,8 @@
 //Define assignment conversion between cocos and chipmunk vectors
 Vec2 toCocos(const SpaceVect& rhs);
 Vec2 toCocos(const IntVec2& rhs);
+float toCocosAngle(SpaceFloat rads);
+float fromCocosAngle(SpaceFloat cocosDegrees);
 SpaceVect toChipmunk(const Vec2& rhs);
 SpaceVect toChipmunk(const cocos2d::CCSize& rhs);
 SpaceVect toChipmunk(const IntVec2& ivec);
@@ -21,8 +23,10 @@ SpaceVect toChipmunkWithCentering(const IntVec2& ivec);
 FMOD_VECTOR toFmod(const SpaceVect& rhs, float y = 0.0f);
 IntVec2 toIntVector(const cocos2d::CCSize& rhs);
 IntVec2 toIntVector(const SpaceVect& rhs);
+CCSize toCCSize(const SpaceVect& rhs);
 
 CCRect operator*(const CCRect& lhs, float rhs);
+CCRect makeRect(Vec2 pos, CCSize bb);
 
 SpaceFloat dirToPhysicsAngle(Direction d);
 SpaceVect dirToVector(Direction d);
@@ -43,6 +47,7 @@ SpaceRect calculateCameraArea(const SpaceVect& pos);
 SpaceFloat canonicalAngle(SpaceFloat a);
 
 SpaceFloat toDegrees(SpaceFloat a);
+SpaceFloat toRads(SpaceFloat deg);
 
 SpaceFloat circleMomentOfInertia(SpaceFloat mass, SpaceFloat radius);
 SpaceFloat rectangleMomentOfInertia(SpaceFloat mass, const SpaceVect& dim);

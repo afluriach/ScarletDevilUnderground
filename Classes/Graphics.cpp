@@ -11,6 +11,7 @@
 #include "App.h"
 #include "Graphics.h"
 #include "macros.h"
+#include "util.h"
 
 const string defaultFont = "Arial";
 
@@ -165,13 +166,15 @@ void RadialMeterShader::setColors(Color4F fill, Color4F empty)
 	_emptyColor = empty;
 }
 
-ConeShader::ConeShader(const Color4F& color, float radius, const Vec2& center, float startAngle, float endAngle) :
+ConeShader::ConeShader(const Color4F& color, float radius, const Vec2& center, SpaceFloat coneWidth, SpaceFloat initialAngleRad) :
 	_color(color),
 	_radius(radius),
-	_startAngle(startAngle),
-	_endAngle(endAngle)
+	coneWidth(coneWidth)
 {
 	_center = center;
+
+	_startAngle = canonicalAngle(initialAngleRad - 0.5*coneWidth);
+	_endAngle = canonicalAngle(initialAngleRad + 0.5*coneWidth);
 }
 
 void ConeShader::initUniforms()
@@ -195,13 +198,14 @@ void ConeShader::updateUniforms()
 	program->setUniformLocationWith1f(_uniformLocationEndAngle, _endAngle);
 }
 
-void ConeShader::setAngles(float startAngle, float endAngle)
+void ConeShader::setRotation(float rotation)
 {
-	_startAngle = startAngle;
-	_endAngle = endAngle;
+	float a = fromCocosAngle(rotation);
+	_startAngle = canonicalAngle(a - 0.5f*coneWidth);
+	_endAngle = canonicalAngle(a + 0.5f*coneWidth);
 }
 
-void ConeShader::setColor(Color4F color)
+void ConeShader::setLightColor(Color4F color)
 {
 	_color = color;
 }
@@ -254,6 +258,22 @@ void AgentBodyShader::setAngles(float startAngle, float endAngle)
 {
 	this->startAngle = startAngle;
 	this->endAngle = endAngle;
+}
+
+AmbientLightNode::AmbientLightNode(const AmbientLightArea& light) :
+	light(light)
+{}
+
+bool AmbientLightNode::init()
+{
+	DrawNode::init();
+
+	Vec2 halfDim = toCocos(light.dimensions) * 0.5f * App::pixelsPerTile;
+
+	drawSolidRect(-halfDim, halfDim, light.color);
+	setContentSize(toCCSize(light.dimensions) * App::pixelsPerTile);
+
+	return true;
 }
 
 const Color4F Cursor::colors[6] = {

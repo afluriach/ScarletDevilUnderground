@@ -13,11 +13,6 @@
 
 //BEGIN GRAPHICS
 
-void GSpace::updateLightSource(LightID id, ConeLightArea light)
-{
-	addLightmapAction(&GScene::updateLightSource, id, light);
-}
-
 void GSpace::removeLightSource(LightID id)
 {
 	addLightmapAction(&GScene::removeLightSource, id);
@@ -31,6 +26,11 @@ void GSpace::setLightSourcePosition(LightID id, SpaceVect pos)
 void GSpace::setLightSourceAngle(LightID id, SpaceFloat a)
 {
 	addLightmapAction(&GScene::setLightSourceAngle, id, a);
+}
+
+void GSpace::setLightSourceColor(LightID id, Color4F color)
+{
+	addLightmapAction(&GScene::setLightSourceColor, id, color);
 }
 
 SpriteID GSpace::createSprite(string path, GraphicsLayer sceneLayer, Vec2 pos, float zoom)

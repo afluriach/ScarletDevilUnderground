@@ -111,6 +111,10 @@ IntVec2 toIntVector(const SpaceVect& rhs)
 	return IntVec2(rhs.x, rhs.y);
 }
 
+CCSize toCCSize(const SpaceVect& rhs)
+{
+	return CCSize(rhs.x, rhs.y);
+}
 
 Vec2 toCocos(const SpaceVect& rhs)
 {
@@ -122,6 +126,15 @@ Vec2 toCocos(const IntVec2& rhs)
 	return Vec2(rhs.first, rhs.second);
 }
 
+float toCocosAngle(SpaceFloat rads)
+{
+	return 90.0f - toDegrees(rads);
+}
+
+float fromCocosAngle(SpaceFloat cocosDegrees)
+{
+	return toRads(90.0f - cocosDegrees);
+}
 
 SpaceVect toChipmunk(const Vec2& rhs)
 {
@@ -151,6 +164,16 @@ FMOD_VECTOR toFmod(const SpaceVect& rhs, float y)
 CCRect operator*(const CCRect& lhs, float rhs)
 {
 	return CCRect(lhs.getMinX()*rhs, lhs.getMinY()*rhs, lhs.getWidth()*rhs, lhs.getHeight()*rhs);
+}
+
+CCRect makeRect(Vec2 pos, CCSize bb)
+{
+	return CCRect(
+		pos.x - bb.width*0.5f,
+		pos.y - bb.height*0.5f,
+		bb.width,
+		bb.height
+	);
 }
 
 string getRealPath(const string& path)
@@ -267,6 +290,11 @@ SpaceFloat canonicalAngle(SpaceFloat a)
 SpaceFloat toDegrees(SpaceFloat a)
 {
 	return a / float_pi * 180.0;
+}
+
+SpaceFloat toRads(SpaceFloat deg)
+{
+	return deg * float_pi / 180.0;
 }
 
 void timerDecrement(boost::rational<int>& x)

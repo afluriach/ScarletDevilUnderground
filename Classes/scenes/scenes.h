@@ -131,10 +131,10 @@ public:
 	void addLightSource(LightID id, AmbientLightArea light);
 	void addLightSource(LightID id, ConeLightArea light);
 	void addLightSource(LightID id, SpriteLightArea light);
-	void updateLightSource(LightID id, ConeLightArea light);
 	void removeLightSource(LightID id);
 	void setLightSourcePosition(LightID id, SpaceVect pos);
 	void setLightSourceAngle(LightID id, SpaceFloat a);
+	void setLightSourceColor(LightID id, Color4F color);
 
 	void createSprite(SpriteID id, string path, GraphicsLayer sceneLayer, Vec2 pos, float zoom);
 	void createLoopAnimation(SpriteID id, string name, int frameCount, float duration, GraphicsLayer sceneLayer, Vec2 pos, float zoom);
@@ -207,7 +207,7 @@ public:
 
 	unique_ptr<ControlListener> control_listener;
 protected:
-	atomic_uint nextLightID;
+	atomic_uint nextLightID = 1;
 
 	//Run at init time. It will call the following load methods.
 	void loadMaps();
@@ -285,13 +285,6 @@ protected:
 	RenderTexture* lightmapRender = nullptr;
 	DrawNode* lightmapDrawNode = nullptr;
 	DrawNode* lightmapBackground = nullptr;
-	unordered_map<LightID, AmbientLightArea> ambientLights;
-	unordered_map<LightID, CircleLightArea> circleLights;
-	unordered_map<LightID, ConeLightArea> coneLights;
-	unordered_map<LightID, SpriteLightArea> spriteLights;
-	unordered_map<LightID, RadialGradient*> lightmapRadials;
-	unordered_map<LightID, Sprite*> lightmapSprites;
-	unordered_map<LightID, ConeShader*> lightmapCones;
 	unordered_map<LightID, Node*> lightmapNodes;
 
 	unordered_map<SceneUpdateOrder, vector<zero_arity_function>> actions;
@@ -308,7 +301,6 @@ protected:
 	Vector<TMXTiledMap*> tilemaps;
 	vector<MapEntry> maps;
 	vector<SpaceRect> mapAreas;
-	vector<LightID> ambientMapLights;
 	vector<bool> mapAreasVisited;
 	SpaceRect cameraArea;
 	int crntMap = -1;

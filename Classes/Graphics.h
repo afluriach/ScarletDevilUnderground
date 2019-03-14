@@ -16,6 +16,9 @@ extern const float fallAnimationTime;
 class ShaderNode : public Node
 {
 public:
+	inline ShaderNode() {}
+	inline virtual ~ShaderNode() {}
+
 	virtual bool init();
 	virtual void setContentSize(const CCSize& size) override;
 	virtual void draw(Renderer *renderer, const Mat4 &transform, uint32_t flags) override;
@@ -86,10 +89,10 @@ protected:
 class ConeShader : public ShaderNode
 {
 public:
-	ConeShader(const Color4F& color, float radius, const Vec2& center, float startAngle, float endAngle);
+	ConeShader(const Color4F& color, float radius, const Vec2& center, SpaceFloat coneWidth, SpaceFloat initialAngleRad);
 
-	void setAngles(float startAngle, float endAngle);
-	void setColor(Color4F color);
+	virtual void setRotation(float rotation);
+	void setLightColor(Color4F color);
 
 	inline virtual string getShaderName() const { return "cone"; }
 	virtual void initUniforms();
@@ -98,7 +101,9 @@ public:
 protected:
 	Color4F _color;
 	float _radius;
-	float _startAngle, _endAngle;
+	float coneWidth;
+
+	SpaceFloat _startAngle, _endAngle;
 
 	GLint _uniformLocationColor;
 	GLint _uniformLocationCenter;
@@ -142,6 +147,16 @@ protected:
 	GLint _uniformLocationThickness;
 	GLint _uniformLocationStartAngle;
 	GLint _uniformLocationEndAngle;
+};
+
+class AmbientLightNode : public DrawNode
+{
+public:
+	AmbientLightNode(const AmbientLightArea& light);
+
+	virtual bool init();
+protected:
+	AmbientLightArea light;
 };
 
 class Cursor : public Node

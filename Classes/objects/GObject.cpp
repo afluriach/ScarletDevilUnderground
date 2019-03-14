@@ -418,7 +418,7 @@ void GObject::updateSprite()
 		space->setSpritePosition(spriteID, toCocos(getPos())*App::pixelsPerTile);
 
 		if (rotateSprite)
-			space->setSpriteAngle(spriteID, 90 - toDegrees(getAngle()));
+			space->setSpriteAngle(spriteID, toCocosAngle(getAngle()));
 
 		if (!visible && !isInFade) {
 			space->stopSpriteAction(spriteID, cocos_action_tag::object_fade);

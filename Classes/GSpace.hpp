@@ -285,10 +285,10 @@ public:
 		_addSpriteAction(bind(m, gscene, args...));
 	}
 
-	void updateLightSource(LightID id, ConeLightArea light);
 	void removeLightSource(LightID id);
 	void setLightSourcePosition(LightID id, SpaceVect pos);
 	void setLightSourceAngle(LightID id, SpaceFloat a);
+	void setLightSourceColor(LightID id, Color4F color);
 
 	SpriteID createSprite(string path, GraphicsLayer sceneLayer, Vec2 pos, float zoom);
 	SpriteID createLoopAnimation(string name, int frameCount, float duration, GraphicsLayer sceneLayer, Vec2 pos, float zoom);

@@ -77,8 +77,8 @@ struct ConeLightArea
 {
 	SpaceVect origin;
 	SpaceFloat radius;
+	SpaceFloat angleWidth;
 	Color4F color;
-	float startAngle, endAngle;
 };
 
 struct SpriteLightArea
