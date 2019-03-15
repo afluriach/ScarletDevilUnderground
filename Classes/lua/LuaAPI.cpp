@@ -321,6 +321,7 @@ const vector<string> Inst::luaIncludes = {
 			.addFunction("setPaused", &GScene::setPaused)
 			.addFunction("stopDialog", &GScene::stopDialog)
 			.addFunction("teleportToDoor", &GScene::teleportToDoor)
+			.addFunction("setRoomVisible", &GScene::setRoomVisible)
 			.addFunction("unlockAllRooms", &GScene::unlockAllRooms)
 		.endClass()
 

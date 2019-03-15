@@ -381,6 +381,18 @@ void GScene::updateRoomsVisited(SpaceVect playerPos)
 	}
 }
 
+void GScene::setRoomVisible(size_t idx)
+{
+	mapAreasVisited.at(idx) = true;
+}
+
+void GScene::setRoomsVisible(rooms_bitmask rooms)
+{
+	for_irange(i, 0, rooms.size()) {
+		if (rooms[i]) setRoomVisible(i);
+	}
+}
+
 void GScene::unlockAllRooms()
 {
 	for_irange(i, 0, mapAreasVisited.size())

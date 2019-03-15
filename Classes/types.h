@@ -44,6 +44,9 @@ typedef function<void(ai::StateMachine&, Bullet*)> bullet_collide_function;
 
 typedef function<SpaceVect(SpaceFloat)> parametric_space_function;
 
+static constexpr size_t maxRoomsPerChamber = 16;
+typedef bitset<maxRoomsPerChamber> rooms_bitmask;
+
 namespace boost {
 	namespace serialization {
 		template<class Archive>

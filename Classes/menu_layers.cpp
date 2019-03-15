@@ -452,14 +452,21 @@ bool ChamberCompletedMenu::init()
 	addChild(statsLabel, 0);
 	statsLabel->setPosition(Vec2(App::width * 0.5f, App::height * 0.5f));
 
-	*App::crntState.get() = *playScene->getSpace()->getState();
-	updateSaveState();
-	playScene->autosaveReplayData();
+	if (playScene->getCurrentLevel() != ChamberID::invalid_id) {
+		*App::crntState.get() = *playScene->getSpace()->getState();
+		updateSaveState();
 
-	ChamberID nextID = playScene->getNextLevel();
-	if (nextID != ChamberID::invalid_id) {
-		App::crntState->registerChamberAvailable(nextID);
+		ChamberID nextID = playScene->getNextLevel();
+		if (nextID != ChamberID::invalid_id) {
+			App::crntState->registerChamberAvailable(nextID);
+		}
 	}
+	else {
+		log("ChamberCompletedMenu: invalid ID");
+	}
+
+	App::autosaveProfile();
+	playScene->autosaveReplayData();
 
 	return true;
 }

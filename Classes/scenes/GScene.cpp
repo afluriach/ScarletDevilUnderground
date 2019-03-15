@@ -222,7 +222,19 @@ bool GScene::init()
     multiInit();
     
 	gspace->setRandomSeed(to_uint(time(nullptr)));
-	*gspace->getState() = *App::crntState.get();
+	*gspace->crntState.get() = *App::crntState.get();
+
+	ChamberID crnt = getCurrentLevel();
+	if (crnt != ChamberID::end)
+	{
+		const ChamberStats& stats = App::crntState->chamberStats.at(to_size_t(crnt));
+		gspace->crntChamber = crnt;
+		setRoomsVisible(stats.roomsVisited);
+	}
+	else
+	{
+		gspace->crntChamber = ChamberID::invalid_id;
+	}
 
 	spaceUpdateToRun.store(false);
 	spaceUpdateThread = make_unique<thread>(&GScene::spaceUpdateMain, this);

@@ -673,6 +673,10 @@ void GSpace::updatePlayerMapLocation(const SpaceVect& pos)
 	for (int i = 0; i < mapAreas.size(); ++i) {
 		if (mapAreas.at(i).containsPoint(pos)) {
 			crntMap = i;
+
+			if (crntChamber != ChamberID::invalid_id) {
+				crntState->chamberStats.at(to_size_t(crntChamber)).roomsVisited.set(i);
+			}
 		}
 	}
 

@@ -37,6 +37,7 @@ constexpr bool isObjectCls() {
 class GSpace
 {
 public:
+	friend class GScene;
 	typedef pair<ObjectGeneratorType, ObjectIDType> generator_pair;
 
     GSpace(GScene* gscene);    
@@ -61,6 +62,7 @@ public:
     void processAdditions();
 private:
 	unique_ptr<GState> crntState;
+	ChamberID crntChamber;
 	//The graphics destination to use for all objects constructed in this space.
 	GScene *const gscene;
     unsigned int frame = 0;

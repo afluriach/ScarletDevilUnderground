@@ -81,7 +81,7 @@ bool saveData(const T* data, string path, bool overwrite)
 				log("File %s overwritten.", cpath);
 			}
 			else {
-				log("File %s saved.", path);
+				log("File %s saved.", cpath);
 			}
 			return true;
 		}

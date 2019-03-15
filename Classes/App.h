@@ -97,6 +97,7 @@ public:
 	static bool loadProfile(const string& name);
 	static bool saveCrntProfile();
 	static bool saveProfile(const string& name);
+	static bool autosaveProfile();
 
 #if USE_TIMERS
 	static void setLogTimers(bool);

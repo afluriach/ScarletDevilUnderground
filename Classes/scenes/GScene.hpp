@@ -104,6 +104,11 @@ public:
 	virtual GScene* getReplacementScene();
 	GSpace* getSpace();
 
+	inline virtual ChamberID getCurrentLevel() const { return ChamberID::invalid_id; }
+	//Return the ID of the next level, if applicable. This is used to transition
+	//to next stage, and also to apply availibility unlock to that stage.
+	inline virtual ChamberID getNextLevel() const { return ChamberID::invalid_id; }
+
     void setPaused(bool p);
 	inline virtual void enterPause() {}
 	inline virtual void exitPause() {}
@@ -192,6 +197,8 @@ public:
 	void updateMultimapVisibility(SpaceVect playerPos);
 	void updateRoomsVisited(SpaceVect playerPos);
 	void unlockAllRooms();
+	void setRoomVisible(size_t idx);
+	void setRoomsVisible(rooms_bitmask rooms);
 	
 	void teleportToDoor(string name);
 

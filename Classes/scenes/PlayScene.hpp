@@ -66,10 +66,6 @@ public:
 	void showReplayCompletedMenu();
 
 	virtual GScene* getReplacementScene();
-	inline virtual ChamberID getCurrentLevel() const { return ChamberID::invalid_id; }
-	//Return the ID of the next level, if applicable. This is used to transition
-	//to next stage, and also to apply availibility unlock to that stage.
-	inline virtual ChamberID getNextLevel() const { return ChamberID::invalid_id; }
 
 	inline void setIsOverworld(bool val) { isOverworld = val; }
 

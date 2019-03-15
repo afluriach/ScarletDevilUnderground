@@ -427,6 +427,12 @@ bool App::saveProfile(const string& name)
 	return io::saveProfileState(crntState.get(), name);
 }
 
+bool App::autosaveProfile()
+{
+	io::checkCreateSubfolders();
+	return io::saveProfileState(crntState.get(), "autosave");
+}
+
 void App::setPlayer(int id)
 {
 	crntPC = static_cast<PlayerCharacter>(id);

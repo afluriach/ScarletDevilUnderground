@@ -21,6 +21,8 @@ struct ChamberStats
 	unsigned char timesCompleted = 0;
 	unsigned char maxEnemiesDefeated = 0;
 
+	rooms_bitmask roomsVisited;
+
 	template<class Archive>
 	void serialize(Archive& ar, const unsigned int version)
 	{
@@ -28,6 +30,7 @@ struct ChamberStats
 		ar & fastestTimeMS;
 		ar & timesCompleted;
 		ar & maxEnemiesDefeated;
+		ar & roomsVisited;
 	}
 };
 
@@ -48,8 +51,8 @@ class GState
 public:    
     friend class boost::serialization::access;
 
-	static const unsigned int version = 1;
-	static const unsigned int maxProfiles = 9;
+	static constexpr unsigned int version = 1;
+	static constexpr unsigned int maxProfiles = 9;
 
 	static vector<bool> profileSlotsInUse;
 
