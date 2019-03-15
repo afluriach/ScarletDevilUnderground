@@ -240,11 +240,14 @@ const unordered_set<type_index> GSpace::enemyTypes = {
 	typeid(BlueFairy),
 	typeid(ZombieFairy),
 	
+	typeid(Rumia),
+	typeid(Rumia2),
 	typeid(ForestMarisa),
 	typeid(PatchouliEnemy),
 	typeid(ReimuEnemy),
 	typeid(Sakuya),
 
+	typeid(Bat),
 	typeid(Scorpion1),
 	typeid(Scorpion2),
 	typeid(Slime1),
