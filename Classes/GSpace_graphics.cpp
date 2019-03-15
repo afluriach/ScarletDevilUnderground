@@ -181,14 +181,4 @@ void GSpace::clearSubroomMask(unsigned int roomID)
 	addSpriteAction(&GScene::clearSubroomMask, roomID);
 }
 
-void GSpace::_addLightmapAction(zero_arity_function f)
-{
-	sceneActions.push_back(make_pair(f, SceneUpdateOrder::lightmapUpdate));
-}
-
-void GSpace::_addSpriteAction(zero_arity_function f)
-{
-	sceneActions.push_back(make_pair(f, SceneUpdateOrder::spriteUpdate));
-}
-
 //END GRAPHICS

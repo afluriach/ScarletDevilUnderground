@@ -165,8 +165,7 @@ public:
 	}
 
 	void addObjectAction(zero_arity_function f);
-	void addSceneAction(pair<zero_arity_function, SceneUpdateOrder> entry);
-	void addSceneAction(zero_arity_function f, SceneUpdateOrder order);
+	void addSceneAction(zero_arity_function f);
 	void createDialog(string res, bool autoAdvance);
 	void createDialog(string res, bool autoAdvance, zero_arity_function f);
 
@@ -236,7 +235,7 @@ private:
 	ControlInfo controlInfo;
 	unique_ptr<Replay> controlReplay;
 	
-	vector<pair<zero_arity_function, SceneUpdateOrder>> sceneActions;
+	vector<zero_arity_function> sceneActions;
 	vector<zero_arity_function> objectActions;
 	mutex objectActionsMutex;
 
@@ -276,7 +275,7 @@ public:
 	{
 		LightID id = gscene->getLightID();
 
-		_addLightmapAction([this, id, light]()->void {
+		sceneActions.push_back([this, id, light]()->void {
 			gscene->addLightSource(id, light);
 		});
 		return id;
@@ -285,7 +284,7 @@ public:
 	template<typename... Args>
 	inline void addLightmapAction(void (GScene::*m)(Args...), Args... args)
 	{
-		_addLightmapAction(bind(m, gscene, args...));
+		sceneActions.push_back(bind(m, gscene, args...));
 	}
 
 	template<typename... Args>
@@ -293,7 +292,7 @@ public:
 	{
 		SpriteID id = gscene->getSpriteID();
 
-		_addSpriteAction(bind(m, gscene, id, args...));
+		sceneActions.push_back(bind(m, gscene, id, args...));
 
 		return id;
 	}
@@ -301,7 +300,7 @@ public:
 	template<typename... Args>
 	inline void addSpriteAction(void (GScene::*m)(Args...), Args... args)
 	{
-		_addSpriteAction(bind(m, gscene, args...));
+		sceneActions.push_back(bind(m, gscene, args...));
 	}
 
 	void removeLightSource(LightID id);
@@ -347,11 +346,7 @@ public:
 
 	void clearSubroomMask(unsigned int roomID);
 
-	void _addLightmapAction(zero_arity_function f);
-	void _addSpriteAction(zero_arity_function f);
-
 //END GRAPHICS
-
 
 //BEGIN NAVIGATION
 public:

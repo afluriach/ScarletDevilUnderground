@@ -322,20 +322,20 @@ void Director::drawScene()
 
     _totalFrames++;
 
+	if (_displayStats)
+	{
+		calculateMPF();
+	}
+
+	chrono::steady_clock::time_point end = chrono::steady_clock::now();
+	long _us = std::chrono::duration_cast<std::chrono::microseconds>(end - start).count();
+	renderTimesBuffer.push_back(std::chrono::duration<long, std::micro>(_us));
+
     // swap buffers
     if (_openGLView)
     {
         _openGLView->swapBuffers();
     }
-
-    if (_displayStats)
-    {
-        calculateMPF();
-    }
-
-	chrono::steady_clock::time_point end = chrono::steady_clock::now();
-	long _us = std::chrono::duration_cast<std::chrono::microseconds>(end - start).count();
-	renderTimesBuffer.push_back(std::chrono::duration<long,std::micro>(_us));
 }
 
 void Director::calculateDeltaTime()

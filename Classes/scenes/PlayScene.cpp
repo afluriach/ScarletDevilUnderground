@@ -66,11 +66,6 @@ GScene(sceneName, maps)
         to_int(initOrder::initHUD)
     );
 
-	multiUpdate.insertWithOrder(
-		bind(&GScene::runActionsWithOrder, this, SceneUpdateOrder::moveCamera),
-		to_int(SceneUpdateOrder::moveCamera)
-	);
-
     control_listener->addPressListener(
         ControlAction::pause,
         [=]()-> void {onPausePressed(); }
@@ -88,6 +83,13 @@ PlayScene::~PlayScene()
 {
 }
 
+void PlayScene::update(float dt)
+{
+	GScene::update(dt);
+
+	hud->update();
+}
+
 void PlayScene::applyCameraControls()
 {
     Vec2 arrowState = toCocos(App::control_register->getRightVector());
@@ -98,20 +100,11 @@ void PlayScene::applyCameraControls()
     }
 }
 
-//Rather than making an updater by capturing hud, just wrap it in a method to access hud from the supplied this.
-void PlayScene::updateHUD()
-{
-    hud->update();
-}
-
 void PlayScene::addHUD()
 {
     hud = Node::ccCreate<HUD>(gspace);
     getLayer(sceneLayers::hud)->addChild(hud);
-    multiUpdate.insertWithOrder(
-        wrap_method(PlayScene,updateHUD,this),
-        to_int(SceneUpdateOrder::hudUpdate)
-    );
+	hud->setPerformanceStats();
 }
 
 void PlayScene::onPausePressed()

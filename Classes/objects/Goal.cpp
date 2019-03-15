@@ -34,8 +34,7 @@ void Goal::interact()
 	if (isBlocked || space->getIsRunningReplay()) return;
 
 	space->addSceneAction(
-		[=]()->void { playScene->triggerSceneCompleted(); },
-		SceneUpdateOrder::sceneUpdate
+		[=]()->void { playScene->triggerSceneCompleted(); }
 	);
 }
 

@@ -221,6 +221,7 @@ public:
 	EnemyInfo* enemyInfo;
 
 	Label* performanceStats = nullptr;
+	float performanceStatsTimer = 0.0f;
 
 	void setHP(int);
 	void setMaxHP(int);
@@ -241,7 +242,8 @@ public:
 	void setObjectiveCounter(string iconRes, int val);
 	void setObjectiveCounterVisible(bool val);
     
-	void setPerformanceStats(TimerTriplet objects, TimerTriplet physics);
+	void setPerformanceStats();
+	void updatePerformanceStats();
 	void clearPerformanceStats();
 
 	void setMansionMode(bool val);    

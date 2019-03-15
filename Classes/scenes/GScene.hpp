@@ -99,7 +99,7 @@ public:
 
     virtual ~GScene();
     virtual bool init();
-    void update(float dt);
+    virtual void update(float dt);
 	virtual void onExit();
 	virtual GScene* getReplacementScene();
 	GSpace* getSpace();
@@ -123,9 +123,8 @@ public:
 
 	void processAdditions();
 
-	void addActions(const vector<pair<zero_arity_function, SceneUpdateOrder>>& _actions);
-
-	void runActionsWithOrder(SceneUpdateOrder order);
+	void addActions(const vector<zero_arity_function>& _actions);
+	void runActions();
 
 	void setColorFilter(const Color4F& color);
 
@@ -210,7 +209,6 @@ public:
 	void popMenuIfNonroot();
 
     util::multifunction<void(void)> multiInit;
-    util::multifunction<void(void)> multiUpdate;
 
 	unique_ptr<ControlListener> control_listener;
 protected:
@@ -256,7 +254,6 @@ protected:
 	void runScriptInit();
 	void runScriptUpdate();
 
-	void queueActions();
 	void waitForSpaceThread();
 	void logPerformance();
 
@@ -294,8 +291,7 @@ protected:
 	DrawNode* lightmapBackground = nullptr;
 	unordered_map<LightID, Node*> lightmapNodes;
 
-	unordered_map<SceneUpdateOrder, vector<zero_arity_function>> actions;
-	vector<pair<zero_arity_function, SceneUpdateOrder>> actionsToAdd;
+	vector<zero_arity_function> actionsToRun;
 	mutex actionsMutex;
 
 	vector<MenuLayer*> menuStack;

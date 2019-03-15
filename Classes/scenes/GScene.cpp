@@ -106,44 +106,6 @@ control_listener(make_unique<ControlListener>())
 		to_int(initOrder::postLoadObjects)
 	);
 
-	multiUpdate.insertWithOrder(
-		wrap_method(GScene, queueActions, this),
-		to_int(SceneUpdateOrder::queueActions)
-	);
-	multiUpdate.insertWithOrder(
-		wrap_method(GScene, checkPendingScript, this),
-		to_int(SceneUpdateOrder::runShellScript)
-	);
-	multiUpdate.insertWithOrder(
-		wrap_method(GScene, runScriptUpdate, this),
-		to_int(SceneUpdateOrder::sceneUpdate)
-	);
-	multiUpdate.insertWithOrder(
-		bind(&GScene::runActionsWithOrder, this, SceneUpdateOrder::spriteUpdate),
-		to_int(SceneUpdateOrder::spriteUpdate)
-	);
-	multiUpdate.insertWithOrder(
-		bind(&GScene::runActionsWithOrder, this, SceneUpdateOrder::lightmapUpdate),
-		to_int(SceneUpdateOrder::lightmapUpdate)
-	);
-	multiUpdate.insertWithOrder(
-		wrap_method(GScene, renderSpace, this),
-		to_int(SceneUpdateOrder::renderSpace)
-	);
-	multiUpdate.insertWithOrder(
-		bind(&GScene::runActionsWithOrder, this, SceneUpdateOrder::sceneUpdate),
-		to_int(SceneUpdateOrder::sceneUpdate)
-	);
-	multiUpdate.insertWithOrder(
-		bind(&GScene::runActionsWithOrder, this, SceneUpdateOrder::hudUpdate),
-		to_int(SceneUpdateOrder::hudUpdate)
-	);
-
-	enum_foreach(SceneUpdateOrder, order, begin, end)
-	{
-		actions.insert_or_assign(order, vector<zero_arity_function>());
-	}
-
     //Create the sublayers at construction (so they are available to mixins at construction time).
     //But do not add sublayers until init time.
     for_irange(i,sceneLayers::begin,sceneLayers::end){
@@ -251,9 +213,14 @@ void GScene::update(float dt)
 			gspace,
 			info
 		));
+
 		spaceUpdateToRun.store(true);
 		spaceUpdateCondition.notify_one();
-		multiUpdate();
+
+		runActions();
+		checkPendingScript();
+		runScriptUpdate();
+		renderSpace();
 	}
 }
 
@@ -340,15 +307,26 @@ void GScene::processAdditions()
 	gspace->processAdditions();
 }
 
-void GScene::addActions(const vector<pair<zero_arity_function, SceneUpdateOrder>>& _actions)
+void GScene::addActions(const vector<zero_arity_function>& _actions)
 {
 	actionsMutex.lock();
 
 	for (auto entry : _actions) {
-		actionsToAdd.push_back(entry);
+		actionsToRun.push_back(entry);
 	}
 
 	actionsMutex.unlock();
+}
+
+void GScene::runActions()
+{
+	vector<zero_arity_function> _actions;
+
+	actionsMutex.lock();
+	_actions = move(actionsToRun);
+	actionsMutex.unlock();
+
+	for (auto f : _actions) f();
 }
 
 void GScene::setUnitPosition(const SpaceVect& v)
@@ -479,19 +457,6 @@ void GScene::runScriptUpdate()
     ctx->callIfExistsNoReturn("update");
 }
 
-void GScene::queueActions()
-{
-	actionsMutex.lock();
-
-	for (auto entry : actionsToAdd)
-	{
-		actions.at(entry.second).push_back(entry.first);
-	}
-	actionsToAdd.clear();
-
-	actionsMutex.unlock();
-}
-
 void GScene::waitForSpaceThread()
 {
 	unique_lock<mutex> mlock(spaceUpdateConditionMutex);
@@ -511,15 +476,4 @@ void GScene::logPerformance()
 		frames*App::secondsPerFrame,
 		us * 1e-3 / frames
 	);
-}
-
-void GScene::runActionsWithOrder(SceneUpdateOrder order)
-{
-	vector<zero_arity_function>& _actions = actions.at(order);
-
-	for (auto it = _actions.begin(); it != _actions.end();++it)
-	{
-		(*it)();
-	}
-	_actions.clear();
 }

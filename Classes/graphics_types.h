@@ -16,24 +16,6 @@ typedef unsigned int SpriteID;
 
 typedef function<FiniteTimeAction*()> ActionGeneratorType;
 
-enum class SceneUpdateOrder {
-	//Update tick on GSpace and all objects, if applicable
-	begin = 0,
-	queueActions = 0,
-	updateControls,
-	runShellScript,
-	spaceUpdate,
-	//General scene update logic
-	sceneUpdate,
-	moveCamera,
-	spriteUpdate,
-	lightmapUpdate,
-	renderSpace,
-	hudUpdate,
-
-	end
-};
-
 enum class GraphicsLayer {
 	begin = 1,
 	map = 1,

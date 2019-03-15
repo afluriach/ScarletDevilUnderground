@@ -34,12 +34,13 @@ public:
 
 	virtual ~PlayScene();
 
+	virtual void update(float dt);
+
 	bool loadReplayData(const string& filename);
 	bool loadReplayData(unique_ptr<Replay> _replay);
 	void saveReplayData(const string& filename);
 	void autosaveReplayData();
 
-    void updateHUD();
     void applyCameraControls();
 
 	void onPausePressed();
@@ -86,9 +87,9 @@ private:
 };
 
 template<typename...Args>
-inline pair<zero_arity_function, SceneUpdateOrder> make_hud_action(void (HUD::*m)(Args...), PlayScene* playScene, Args ...args)
+inline zero_arity_function make_hud_action(void (HUD::*m)(Args...), PlayScene* playScene, Args ...args)
 {
-	return pair<zero_arity_function, SceneUpdateOrder>(generate_action(playScene->hud, m, args...), SceneUpdateOrder::hudUpdate);
+	return generate_action(playScene->hud, m, args...);
 }
 
 #endif /* PlayScene_hpp */

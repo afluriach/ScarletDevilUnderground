@@ -518,6 +518,12 @@ void HUD::update()
 
 	enemyInfo->setVisible(enemyInfo->isValid());
 	enemyInfo->update();
+
+	timerDecrement(performanceStatsTimer);
+	if (performanceStats && performanceStatsTimer <= 0.0f) {
+		updatePerformanceStats();
+		performanceStatsTimer = 1.0f;
+	}
 }
 
 bool HUD::init()
@@ -602,19 +608,28 @@ void HUD::setObjectiveCounterVisible(bool val)
 	objectiveCounter->setVisible(val);
 }
 
-void HUD::setPerformanceStats(TimerTriplet objects, TimerTriplet physics)
+void HUD::setPerformanceStats()
 {
 	if (!performanceStats) {
 		performanceStats = Label::createWithTTF("", "fonts/comfortaa.ttf", 18);
 		performanceStats->setWidth(300);
-		performanceStats->setPosition(160, 90);
+		performanceStats->setPosition(App::width*0.1f, App::height*0.1f);
 		addChild(performanceStats);
 	}
+}
 
+void HUD::updatePerformanceStats()
+{
 	stringstream ss;
+	App::timerMutex.lock();
+	TimerTriplet object = App::timerSystem->getStats(TimerType::gobject);
+	TimerTriplet physics = App::timerSystem->getStats(TimerType::physics);
+	TimerTriplet render = App::timerSystem->getStats(TimerType::draw);
+	App::timerMutex.unlock();
 
-	ss << TimerSystem::timerStatString(objects, "Object update") << "\n";
+	ss << TimerSystem::timerStatString(object, "Object update") << "\n";
 	ss << TimerSystem::timerStatString(physics, "Physics") << "\n";
+	ss << TimerSystem::timerStatString(render, "Graphics");
 
 	performanceStats->setString(ss.str());
 }

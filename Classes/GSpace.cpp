@@ -161,21 +161,6 @@ void GSpace::update()
 	TimerTriplet physicsUpdate = App::timerSystem->getStats(TimerType::physics);
 
 	App::timerMutex.unlock();
-
-	PlayScene* ps = dynamic_cast<PlayScene*>(gscene);
-
-	if (ps && frame % 60 == 0) {
-		addSceneAction(
-			[ps, objectUpdate, physicsUpdate]()->void {
-				ps->hud->setPerformanceStats(
-					objectUpdate,
-					physicsUpdate
-				);
-			},
-			SceneUpdateOrder::hudUpdate
-		);
-	}
-
 #endif
 
     ++frame;
@@ -522,7 +507,7 @@ void GSpace::updateControlInfo()
 	if (isRunningReplay)
 	{
 		if (frame >= controlReplay->control_data.size()) {
-			addSceneAction(bind(&PlayScene::triggerReplayCompleted, getSceneAs<PlayScene>()), SceneUpdateOrder::hudUpdate);
+			addSceneAction(bind(&PlayScene::triggerReplayCompleted, getSceneAs<PlayScene>()));
 		}
 		else {
 			controlInfo = controlReplay->getControlInfo(frame);
@@ -604,29 +589,22 @@ void GSpace::addObjectAction(zero_arity_function f)
 	objectActionsMutex.unlock();
 }
 
-void GSpace::addSceneAction(pair<zero_arity_function, SceneUpdateOrder> entry)
+void GSpace::addSceneAction(zero_arity_function f)
 {
-	sceneActions.push_back(entry);
-}
-
-void GSpace::addSceneAction(zero_arity_function f, SceneUpdateOrder order)
-{
-	sceneActions.push_back(make_pair(f,order));
+	sceneActions.push_back(f);
 }
 
 void GSpace::createDialog(string res, bool autoAdvance)
 {
 	addSceneAction(
-		[this, res, autoAdvance]() ->void { getScene()->createDialog(res, autoAdvance); },
-		SceneUpdateOrder::sceneUpdate
+		[this, res, autoAdvance]() ->void { getScene()->createDialog(res, autoAdvance); }
 	);
 }
 
 void GSpace::createDialog(string res, bool autoAdvance, zero_arity_function f)
 {
 	addSceneAction(
-		[this, res, autoAdvance, f]() ->void { getScene()->createDialog(res, autoAdvance, f); },
-		SceneUpdateOrder::sceneUpdate
+		[this, res, autoAdvance, f]() ->void { getScene()->createDialog(res, autoAdvance, f); }
 	);
 }
 
@@ -662,10 +640,7 @@ void GSpace::eraseTile(const SpaceVect& p, string layer)
 
 void GSpace::eraseTile(int mapID, IntVec2 pos, string layer)
 {
-	addSceneAction(
-		bind(&GScene::eraseTile, gscene, mapID, pos, layer),
-		SceneUpdateOrder::sceneUpdate
-	);
+	addSceneAction(bind(&GScene::eraseTile, gscene, mapID, pos, layer));
 }
 
 void GSpace::updatePlayerMapLocation(const SpaceVect& pos)
@@ -682,15 +657,9 @@ void GSpace::updatePlayerMapLocation(const SpaceVect& pos)
 
 	cameraArea = calculateCameraArea(pos);
 
-	addSceneAction(
-		bind(&GScene::updateMapVisibility, gscene, pos),
-		SceneUpdateOrder::sceneUpdate
-	);
+	addSceneAction(bind(&GScene::updateMapVisibility, gscene, pos));
 
-	addSceneAction(
-		bind(&GScene::setUnitPosition, gscene, pos),
-		SceneUpdateOrder::moveCamera
-	);
+	addSceneAction(bind(&GScene::setUnitPosition, gscene, pos));
 }
 
 void GSpace::addMapArea(const SpaceRect& area)

@@ -40,6 +40,8 @@ class CCRect;
 class CC_DLL Application : public ApplicationProtocol
 {
 public:
+	static bool vsync;
+
     /**
      * @js ctor
      */

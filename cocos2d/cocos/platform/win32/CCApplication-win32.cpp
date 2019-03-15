@@ -39,6 +39,8 @@ static void PVRFrameEnableControlWindow(bool bEnable);
 
 NS_CC_BEGIN
 
+bool Application::vsync = false;
+
 // sharedApplication pointer
 Application * Application::sm_pSharedApplication = 0;
 
@@ -65,6 +67,7 @@ int Application::run()
     // Main message loop:
     LARGE_INTEGER nLast;
     LARGE_INTEGER nNow;
+	LARGE_INTEGER nFreq;
 
     QueryPerformanceCounter(&nLast);
 
@@ -92,9 +95,13 @@ int Application::run()
             director->mainLoop();
             glview->pollEvents();
         }
-        else
+        else if(!vsync)
         {
-            Sleep(1);
+			QueryPerformanceFrequency(&nFreq);
+			LARGE_INTEGER nWait;
+			nWait.QuadPart = _animationInterval.QuadPart - (nNow.QuadPart - nLast.QuadPart);
+			int _ms = 1000.0 * nWait.QuadPart / nFreq.QuadPart + 1;
+            Sleep(_ms);
         }
     }
 

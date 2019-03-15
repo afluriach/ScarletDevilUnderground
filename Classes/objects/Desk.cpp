@@ -22,7 +22,6 @@ GObject(space,id,args)
 void Desk::interact()
 {
 	space->addSceneAction(
-		[=]()->void { space->getSceneAs<PlayScene>()->enterWorldSelect(); },
-		SceneUpdateOrder::sceneUpdate
+		[=]()->void { space->getSceneAs<PlayScene>()->enterWorldSelect(); }
 	);
 }

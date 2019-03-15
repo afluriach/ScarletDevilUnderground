@@ -265,8 +265,7 @@ void Player::onZeroHP()
 
 		if (!space->getIsRunningReplay()) {
 			space->addSceneAction(
-				[=]()->void { playScene->triggerGameOver(); },
-				SceneUpdateOrder::sceneUpdate
+				[=]()->void { playScene->triggerGameOver(); }
 			);
 		}
 	}
@@ -449,8 +448,7 @@ void Player::useDoor(Door* interactTarget)
 	else
 	{
 		space->addSceneAction(
-			[destMap, dest]()->void { App::runOverworldScene(destMap, dest); },
-			SceneUpdateOrder::sceneUpdate
+			[destMap, dest]()->void { App::runOverworldScene(destMap, dest); }
 		);
 	}
 }

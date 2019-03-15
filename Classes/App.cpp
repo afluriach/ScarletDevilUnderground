@@ -236,11 +236,13 @@ void App::initGLContextAttrs()
 }
 
 bool App::applicationDidFinishLaunching() {
+	GLViewImpl::vsync = vsync;
+	Application::vsync = vsync;
+
     //Initialize OpenGL view (and set window title on desktop version).
     auto director = Director::getInstance();
     auto glview = director->getOpenGLView();
     if(!glview) {
-		GLViewImpl::vsync = vsync;
         glview = fullscreen ?
             GLViewImpl::createWithFullScreen(App::title) :
             GLViewImpl::createWithRect(App::title, cocos2d::CCRect(0,0,App::width, App::height))
@@ -462,6 +464,8 @@ void App::update(float dt)
 #if USE_TIMERS
 void App::updateTimerSystem()
 {
+	timerSystem->addEntry(TimerType::draw, Director::getInstance()->getRenderTimes().back());
+
 	if (logTimers)
 	{
 		timerDecrement(timerPrintAccumulator);
