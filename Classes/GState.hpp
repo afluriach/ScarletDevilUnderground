@@ -102,7 +102,7 @@ public:
 	bool isUpgradeAcquired(Attribute at, unsigned int id);
 	float getUpgradeLevel(Attribute at);
 	AttributeMap getUpgrades();
-	AttributeMap getPlayerStats();
+	AttributeSystem getPlayerStats();
 };
 
 #endif /* GState_hpp */

@@ -157,7 +157,9 @@ AttributeMap GState::getUpgrades()
 	return result;
 }
 
-AttributeMap GState::getPlayerStats()
+AttributeSystem GState::getPlayerStats()
 {
-	return AttributeSystem::add(FlandrePC::baseAttributes, getUpgrades());
+	AttributeSystem result(FlandrePC::baseAttributes);
+	result.apply(getUpgrades());
+	return result;
 }

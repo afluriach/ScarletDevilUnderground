@@ -253,6 +253,14 @@ void AttributeSystem::applyElementDecay()
 	}
 }
 
+void AttributeSystem::apply(const AttributeMap& effects)
+{
+	for (auto const& entry : effects)
+	{
+		modifyAttribute(entry.first, entry.second);
+	}
+}
+
 float AttributeSystem::getAttackMultiplier() const
 {
 	return attributes.at(to_size_t(Attribute::attack));

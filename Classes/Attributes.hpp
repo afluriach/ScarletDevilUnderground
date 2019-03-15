@@ -114,6 +114,7 @@ public:
 	void applyIncidentRegen();
 	void applyElementDecay();
 
+	void apply(const AttributeMap& effects);
 	float getAttackMultiplier() const;
 	AttributeMap scaleBulletAttributes(const AttributeMap& bulletAttributes) const;
 	void modifyIncidentAttribute(Attribute id, Attribute maxID, float x);

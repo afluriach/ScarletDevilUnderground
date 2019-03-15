@@ -298,10 +298,7 @@ bool Agent::canApplyAttributeEffects(AttributeMap attributeEffect)
 
 void Agent::applyAttributeEffects(AttributeMap attributeEffect)
 {
-	for (auto& entry : attributeEffect)
-	{
-		attributeSystem.modifyAttribute(entry.first, entry.second);
-	}
+	attributeSystem.apply(attributeEffect);
 }
 
 void Agent::updateAgentOverlay()
