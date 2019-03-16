@@ -28,6 +28,11 @@
 
 class RadarObject;
 
+bool GSpace::isMultithread()
+{
+	return App::multithread;
+}
+
 GSpace::GSpace(GScene* gscene) : gscene(gscene)
 {
 	isMultiMap = gscene->isMultiMap();

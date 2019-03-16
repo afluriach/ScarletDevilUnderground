@@ -40,6 +40,9 @@ public:
 	friend class GScene;
 	typedef pair<ObjectGeneratorType, ObjectIDType> generator_pair;
 
+	//used to get App variable
+	static bool isMultithread();
+
     GSpace(GScene* gscene);    
     ~GSpace();
     
@@ -275,16 +278,25 @@ public:
 	{
 		LightID id = gscene->getLightID();
 
-		sceneActions.push_back([this, id, light]()->void {
+		if (isMultithread()) {
+			sceneActions.push_back([this, id, light]()->void {
+				gscene->addLightSource(id, light);
+			});
+		}
+		else {
 			gscene->addLightSource(id, light);
-		});
+		}
+
 		return id;
 	}
 
 	template<typename... Args>
 	inline void addLightmapAction(void (GScene::*m)(Args...), Args... args)
 	{
-		sceneActions.push_back(bind(m, gscene, args...));
+		if(isMultithread())
+			sceneActions.push_back(bind(m, gscene, args...));
+		else
+			(gscene->*m)(args...);
 	}
 
 	template<typename... Args>
@@ -292,7 +304,10 @@ public:
 	{
 		SpriteID id = gscene->getSpriteID();
 
-		sceneActions.push_back(bind(m, gscene, id, args...));
+		if (isMultithread())
+			sceneActions.push_back(bind(m, gscene, id, args...));
+		else
+			(gscene->*m)(id, args...);
 
 		return id;
 	}
@@ -300,7 +315,10 @@ public:
 	template<typename... Args>
 	inline void addSpriteAction(void (GScene::*m)(Args...), Args... args)
 	{
-		sceneActions.push_back(bind(m, gscene, args...));
+		if (isMultithread())
+			sceneActions.push_back(bind(m, gscene, args...));
+		else
+			(gscene->*m)(args...);
 	}
 
 	void removeLightSource(LightID id);
