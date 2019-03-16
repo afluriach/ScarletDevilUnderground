@@ -37,6 +37,7 @@ public:
 
 	static bool fullscreen;
 	static bool vsync;
+	static bool multithread;
 	
 	static unsigned int framesPerSecond;
 	static double secondsPerFrame;
@@ -64,6 +65,7 @@ public:
 
 	static void setFullscreen(bool fs);
 	static void setVsync(bool v);
+	static void setMultithread(bool v);
 	static void setResolution(unsigned int width, unsigned int height);
 	static void setFramerate(unsigned int fps);
 	static void setPlayer(int id);

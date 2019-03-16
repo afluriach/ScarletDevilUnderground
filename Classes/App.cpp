@@ -46,6 +46,7 @@ unsigned int App::height = 1000;
 
 bool App::fullscreen = false;
 bool App::vsync = true;
+bool App::multithread = true;
 
 unsigned int App::framesPerSecond = 60;
 double App::secondsPerFrame = 1.0 / App::framesPerSecond;
@@ -74,6 +75,11 @@ void App::setFullscreen(bool fs)
 void App::setVsync(bool v)
 {
 	vsync = v;
+}
+
+void App::setMultithread(bool v)
+{
+	multithread = v;
 }
 
 void App::setResolution(unsigned int width, unsigned int height)

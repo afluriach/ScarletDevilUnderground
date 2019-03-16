@@ -263,6 +263,7 @@ const vector<string> Inst::luaIncludes = {
 #endif
 			.addStaticFunction("setFullscreen", &App::setFullscreen)
 			.addStaticFunction("setVsync", &App::setVsync)
+			.addStaticFunction("setMultithread", &App::setMultithread)
 			.addStaticFunction("setResolution", &App::setResolution)
 			.addStaticFunction("setFramerate", &App::setFramerate)
 			.addStaticFunction("setPlayer", &App::setPlayer)

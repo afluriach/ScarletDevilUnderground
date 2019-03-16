@@ -136,9 +136,10 @@ control_listener(make_unique<ControlListener>())
 GScene::~GScene()
 {
 	isExit.store(true);
-	spaceUpdateCondition.notify_one();
-	spaceUpdateThread->join();
-
+	if (App::multithread) {
+		spaceUpdateCondition.notify_one();
+		spaceUpdateThread->join();
+	}
 	delete gspace;
 }
 
@@ -198,8 +199,10 @@ bool GScene::init()
 		gspace->crntChamber = ChamberID::invalid_id;
 	}
 
-	spaceUpdateToRun.store(false);
-	spaceUpdateThread = make_unique<thread>(&GScene::spaceUpdateMain, this);
+	if (App::multithread) {
+		spaceUpdateToRun.store(false);
+		spaceUpdateThread = make_unique<thread>(&GScene::spaceUpdateMain, this);
+	}
 
     return true;
 }
@@ -214,8 +217,13 @@ void GScene::update(float dt)
 			info
 		));
 
-		spaceUpdateToRun.store(true);
-		spaceUpdateCondition.notify_one();
+		if (App::multithread) {
+			spaceUpdateToRun.store(true);
+			spaceUpdateCondition.notify_one();
+		}
+		else {
+			gspace->update();
+		}
 
 		runActions();
 		checkPendingScript();
@@ -228,13 +236,7 @@ void GScene::onExit()
 {
 	while (!menuStack.empty()) popMenu();
 
-	while (spaceUpdateToRun.load()) {
-		unique_lock<mutex> mlock(spaceUpdateConditionMutex);
-		spaceUpdateCondition.wait(
-			mlock,
-			[this]() -> bool {return !spaceUpdateToRun.load();
-		});
-	}
+	waitForSpaceThread();
 
 	Node::onExit();
 }
@@ -323,7 +325,7 @@ void GScene::runActions()
 	vector<zero_arity_function> _actions;
 
 	actionsMutex.lock();
-	_actions = move(actionsToRun);
+	swap(_actions, actionsToRun);
 	actionsMutex.unlock();
 
 	for (auto f : _actions) f();
@@ -459,6 +461,8 @@ void GScene::runScriptUpdate()
 
 void GScene::waitForSpaceThread()
 {
+	if (!App::multithread) return;
+
 	unique_lock<mutex> mlock(spaceUpdateConditionMutex);
 	spaceUpdateCondition.wait(
 		mlock,
