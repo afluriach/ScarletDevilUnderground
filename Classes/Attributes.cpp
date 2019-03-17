@@ -53,6 +53,7 @@ const boost::bimap<Attribute, string> AttributeSystem::attributeNameMap = boost:
 
 	entry(attack)
 	entry(attackSpeed)
+	entry(bulletSpeed)
 
 	entry(ricochet)
 	entry(bulletCount)
