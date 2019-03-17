@@ -45,6 +45,9 @@ enum class Attribute {
 
 	stress,
 	stressDecay,
+	stressFromHits,
+	stressFromBlocks,
+	stressFromDetects,
 
 	agility,
 	speed,
@@ -84,6 +87,7 @@ public:
 
 	static AttributeMap scale(const AttributeMap& input, float scale);
 	static AttributeMap add(const AttributeMap& a, const AttributeMap& b);
+	static float getAttribute(const AttributeMap& attr, Attribute id, float default = 0.0f);
 	static AttributeSet getAttributeSet(const AttributeMap& input);
 	static AttributeMap getAttributeMap(Attribute id, float val);
 	static AttributeMap getAttributeElementMap(Attribute element, float damage, float elementScale = 1.0f);
@@ -120,6 +124,7 @@ public:
 	void applyElementalDamage(Attribute id, Attribute maxID, float x);
 	bool canApplyAttribute(Attribute id, float x);
 	void modifyAttribute(Attribute id, float x);
+	void modifyAttribute(Attribute mod, Attribute addend, float scale = 1.0f);
 	void timerDecrement(Attribute id, float scale = 1.0f);
 	void timerIncrement(Attribute id, Attribute maxID, float scale);
 	bool isNonzero(Attribute id) const;

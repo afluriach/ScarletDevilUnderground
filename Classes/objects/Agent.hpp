@@ -65,6 +65,7 @@ public:
 	virtual void onEndDetect(GObject* obj);
 
 	virtual void onZeroHP();
+	virtual void onRemove();
 
 	//attribute interface
 	virtual AttributeMap getBaseAttributes() const = 0;

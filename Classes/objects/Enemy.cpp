@@ -47,6 +47,7 @@ void Enemy::update()
 
 void Enemy::onRemove()
 {
+	Agent::onRemove();
 	if(drop_id != collectible_id::nil){
 		space->createObject(Collectible::create(space, drop_id, getPos()));
 	}

@@ -555,7 +555,8 @@ LookTowardsFire::LookTowardsFire(bool useShield) :
 
 void LookTowardsFire::onEnter(StateMachine& fsm)
 {
-	collideCallbackID = fsm.addBulletHitFunction(bind(&LookTowardsFire::onBulletCollide, this, placeholders::_1, placeholders::_2));
+	hitCallbackID = fsm.addBulletHitFunction(bind(&LookTowardsFire::onBulletCollide, this, placeholders::_1, placeholders::_2));
+	blockCallbackID = fsm.addBulletBlockFunction(bind(&LookTowardsFire::onBulletCollide, this, placeholders::_1, placeholders::_2));
 }
 
 void LookTowardsFire::update(StateMachine& fsm)
@@ -581,7 +582,8 @@ void LookTowardsFire::update(StateMachine& fsm)
 
 void LookTowardsFire::onExit(StateMachine& fsm)
 {
-	fsm.removeBulletFunction(collideCallbackID);
+	fsm.removeBulletFunction(hitCallbackID);
+	fsm.removeBulletFunction(blockCallbackID);
 }
 
 void LookTowardsFire::onBulletCollide(StateMachine& fsm, Bullet* b)

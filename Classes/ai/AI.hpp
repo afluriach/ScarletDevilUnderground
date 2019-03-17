@@ -109,6 +109,8 @@ protected:
 class StateMachine
 {
 public:
+	static function<bool(pair<unsigned int, bullet_collide_function>)> isCallback(unsigned int id);
+
     GObject *const agent;
 
     StateMachine(GObject *const agent);
@@ -129,6 +131,7 @@ public:
 	void onEndDetect(GObject* obj);
 
 	void onBulletHit(Bullet* b);
+	void onBulletBlock(Bullet* b);
 	void onAlert(Player* p);
 
 	void addDetectFunction(GType t, detect_function f);
@@ -136,6 +139,7 @@ public:
 	void removeDetectFunction(GType t);
 	void removeEndDetectFunction(GType t);
 	unsigned int addBulletHitFunction(bullet_collide_function f);
+	unsigned int addBulletBlockFunction(bullet_collide_function f);
 	bool removeBulletFunction(unsigned int id);
 	void setAlertFunction(alert_function f);
 
@@ -151,7 +155,8 @@ protected:
 	unordered_set<unsigned int> threadsToRemove;
 	list<shared_ptr<Thread>> threadsToAdd;
 
-	list<pair<unsigned int, bullet_collide_function>> bulletHandlers;
+	list<pair<unsigned int, bullet_collide_function>> bulletHitHandlers;
+	list<pair<unsigned int, bullet_collide_function>> bulletBlockHandlers;
 	alert_function alertHandler;
 	unordered_map<GType, detect_function> detectHandlers;
 	unordered_map<GType, detect_function> endDetectHandlers;

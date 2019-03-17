@@ -234,7 +234,8 @@ public:
 
 	FuncGetName(LookTowardsFire)
 protected:
-	unsigned int collideCallbackID = 0;
+	unsigned int hitCallbackID = 0;
+	unsigned int blockCallbackID = 0;
 	float hitAccumulator = 0.0f;
 	SpaceVect directionAccumulator;
 	bool useShield;

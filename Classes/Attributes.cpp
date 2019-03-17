@@ -184,6 +184,12 @@ AttributeMap AttributeSystem::add(const AttributeMap& a, const AttributeMap& b)
 	return result;
 }
 
+float AttributeSystem::getAttribute(const AttributeMap& attr, Attribute id, float default)
+{
+	auto it = attr.find(id);
+	return it != attr.end() ? it->second : default;
+}
+
 AttributeSystem::AttributeSystem() :
 attributes(getBlankAttributeSet())
 {}
@@ -408,6 +414,11 @@ void AttributeSystem::modifyAttribute(Attribute id, float x)
 		attributes.at(to_size_t(id)) += x;
 		break;
 	}
+}
+
+void AttributeSystem::modifyAttribute(Attribute mod, Attribute addend, float scale)
+{
+	attributes.at(to_size_t(mod)) += (*this)[addend] * scale;
 }
 
 void AttributeSystem::timerDecrement(Attribute id, float scale)

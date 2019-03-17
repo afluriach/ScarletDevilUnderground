@@ -99,6 +99,10 @@ void Agent::sendAlert(Player* p)
 
 void Agent::onDetect(GObject* obj)
 {
+	if (obj->getType() == GType::playerBullet) {
+		attributeSystem.modifyAttribute(Attribute::stress, Attribute::stressFromDetects);
+	}
+
 	fsm.onDetect(obj);
 }
 
@@ -110,6 +114,11 @@ void Agent::onEndDetect(GObject* obj)
 void Agent::onZeroHP()
 {
 	space->removeObject(this);
+}
+
+void Agent::onRemove()
+{
+	space->removeSprite(agentOverlay);
 }
 
 float Agent::getAttribute(Attribute id) const
@@ -258,14 +267,21 @@ float Agent::getShieldCost(SpaceVect n)
 
 void Agent::onBulletCollide(Bullet* b)
 {
+	float hp = AttributeSystem::getAttribute(b->getAttributeEffect(), Attribute::hp);
+
 	if (auto _eb = dynamic_cast<EnemyBullet*>(b)){
 		_eb->invalidateGraze();
 	}
 
 	if (!isShield(b)) {
+		attributeSystem.modifyAttribute(Attribute::stress, Attribute::stressFromHits, -hp);
 		hit(AttributeSystem::scale(b->getAttributeEffect(), b->agentAttackMultiplier), b->getMagicEffect(this));
+		fsm.onBulletHit(b);
 	}
-	fsm.onBulletHit(b);
+	else {
+		attributeSystem.modifyAttribute(Attribute::stress, Attribute::stressFromBlocks, -hp);
+		fsm.onBulletBlock(b);
+	}
 }
 
 void Agent::hit(AttributeMap attributeEffect, shared_ptr<MagicEffect> effect)

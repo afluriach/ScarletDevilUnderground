@@ -277,7 +277,7 @@ const vector<string> Inst::luaIncludes = {
 			.addFunction("setByName", static_cast<void(AttributeSystem::*)(string, float)>(&AttributeSystem::set))
 			.addFunction("getByID", &AttributeSystem::operator[])
 			.addFunction("setByID", &AttributeSystem::_set)
-			.addFuncSame(modifyAttribute)
+			.addFunction("modifyAttribute", static_cast<void(AttributeSystem::*)(Attribute, float)>(&AttributeSystem::modifyAttribute))
 			.addFuncSame(setFullHP)
 			.addFuncSame(setFullMP)
 			.addFuncSame(setFullStamina)

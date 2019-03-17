@@ -258,6 +258,8 @@ const AttributeMap BlueFairy::baseAttributes = {
 	{ Attribute::maxStamina, 50.0f },
 	{ Attribute::staminaRegen, 1.0f },
 	{ Attribute::agility, 2.5f },
+	{ Attribute::stressFromHits, 1.5f },
+	{ Attribute::stressFromBlocks, 1.0f },
 };
 
 BlueFairy::BlueFairy(GSpace* space, ObjectIDType id, const ValueMap& args) :
@@ -273,8 +275,6 @@ void BlueFairy::follow_path(ai::StateMachine& sm, const ValueMap& args)
 {
 	const Path* path = space->getPath(getStringOrDefault(args, "pathName", ""));
 
-	sm.addBulletHitFunction(ai::buildStressFromHits(1.0f));
-
 	if (path) {
 		sm.setAlertFunction([path](ai::StateMachine& sm, Player* p) -> void {
 			sm.addThread(make_shared<ai::FollowPath>(*path, true, true), 1);
@@ -288,6 +288,7 @@ const AttributeMap RedFairy::baseAttributes = {
 	{ Attribute::maxHP, 50.0f },
 	{ Attribute::agility, 1.5f },
 	{ Attribute::stressDecay, 1.0f },
+	{ Attribute::stressFromHits, 1.0f},
 };
 
 RedFairy::RedFairy(GSpace* space, ObjectIDType id, const ValueMap& args) :
@@ -316,8 +317,6 @@ void RedFairy::initStateMachine(ai::StateMachine& sm)
 		sm.addThread(make_shared<ai::Wander>(1.5, 2.5, 2.0, 3.0), 0);
 	});
 
-	sm.addBulletHitFunction(ai::buildStressFromHits(1.0f));
-
 	sm.addDetectFunction(
 		GType::player,
 		[bombgen](ai::StateMachine& sm, GObject* target) -> void {
@@ -339,6 +338,8 @@ void RedFairy::initStateMachine(ai::StateMachine& sm)
 
 const AttributeMap GreenFairy::baseAttributes = {
 	{ Attribute::maxHP, 30.0f },
+	{ Attribute::stressFromDetects, 0.25f },
+	{ Attribute::stressFromHits, 0.5f },
 	{ Attribute::agility, 4.0f }
 };
 
@@ -357,9 +358,6 @@ void GreenFairy::initStateMachine(ai::StateMachine& sm)
 		sm.addThread(make_shared<ai::EvadePlayerProjectiles>(), 1);
 		sm.addThread(make_shared<ai::FireOnStress>(5.0f));
 	});
-
-	sm.addDetectFunction(GType::playerBullet, ai::buildStressFromDetection(0.25f));
-	sm.addBulletHitFunction(ai::buildStressFromHits(0.5f));
 }
 
 const AttributeMap ZombieFairy::baseAttributes = {

@@ -129,6 +129,13 @@ void Thread::setResetOnBlock(bool reset) {
 	resetOnBlock = reset;
 }
 
+function<bool(pair<unsigned int, bullet_collide_function>)> StateMachine::isCallback(unsigned int id)
+{
+	return [id](pair<unsigned int, bullet_collide_function> entry) -> bool {
+		return entry.first == id;
+	};
+}
+
 StateMachine::StateMachine(GObject *const agent) :
 agent(agent)
 {
@@ -278,7 +285,14 @@ void StateMachine::onEndDetect(GObject* obj)
 
 void StateMachine::onBulletHit(Bullet* b)
 {
-	for (auto entry : bulletHandlers) {
+	for (auto entry : bulletHitHandlers) {
+		entry.second(*this, b);
+	}
+}
+
+void StateMachine::onBulletBlock(Bullet* b)
+{
+	for (auto entry : bulletBlockHandlers) {
 		entry.second(*this, b);
 	}
 }
@@ -315,19 +329,25 @@ void StateMachine::removeEndDetectFunction(GType t)
 unsigned int StateMachine::addBulletHitFunction(bullet_collide_function f)
 {
 	auto entry = make_pair(nextCallbackID++, f);
-	bulletHandlers.push_back(entry);
+	bulletHitHandlers.push_back(entry);
+	return nextCallbackID - 1;
+}
+unsigned int StateMachine::addBulletBlockFunction(bullet_collide_function f)
+{
+	auto entry = make_pair(nextCallbackID++, f);
+	bulletBlockHandlers.push_back(entry);
 	return nextCallbackID - 1;
 }
 
 bool StateMachine::removeBulletFunction(unsigned int id)
 {
-	for (auto it = bulletHandlers.begin(); it != bulletHandlers.end(); ++it) {
-		if (it->first == id) {
-			bulletHandlers.erase(it);
-			return true;
-		}
-	}
-	return false;
+	auto f = isCallback(id);
+	size_t _prev = bulletHitHandlers.size() + bulletBlockHandlers.size();
+
+	bulletHitHandlers.remove_if(f);
+	bulletBlockHandlers.remove_if(f);
+
+	return bulletHitHandlers.size() + bulletBlockHandlers.size() != _prev;
 }
 
 void StateMachine::setAlertFunction(alert_function f)

@@ -325,20 +325,4 @@ SpaceVect bezierAcceleration(array<SpaceVect, 3> points)
 	return 2.0 * (points[2] - 2.0*points[1] - points[0]);
 }
 
-bullet_collide_function buildStressFromHits(float hpStressScale)
-{
-	return [hpStressScale](StateMachine& sm, Bullet* b)->void {
-		Agent* a = sm.getAgent();
-		float hp = b->getAttributeEffect().at(Attribute::hp);
-		a->modifyAttribute(Attribute::stress, -1.0f * hp * hpStressScale);
-	};
-}
-
-detect_function buildStressFromDetection(float perDetect)
-{
-	return [perDetect](ai::StateMachine& sm, GObject* target) -> void {
-		sm.getAgent()->modifyAttribute(Attribute::stress, perDetect);
-	};
-}
-
 }//end NS
