@@ -55,7 +55,6 @@ const boost::bimap<Attribute, string> AttributeSystem::attributeNameMap = boost:
 	entry(ricochet)
 	entry(bulletCount)
 
-	entry(shieldActive)
 	entry(shieldLevel)
 
 	entry(stress)

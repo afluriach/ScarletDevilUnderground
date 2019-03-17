@@ -41,7 +41,6 @@ enum class Attribute {
 	ricochet,
 	bulletCount,
 
-	shieldActive,
 	shieldLevel,
 
 	stress,

@@ -185,9 +185,15 @@ bool Agent::consumeStamina(int val)
 	return false;
 }
 
+void Agent::setShieldActive(bool v)
+{
+	space->setSpriteVisible(agentOverlay, v);
+	shieldActive = v;
+}
+
 bool Agent::isShield(Bullet * b)
 {
-	if (getAttribute(Attribute::shieldLevel) <= 0.0f || getAttribute(Attribute::shieldActive) <= 0.0f)
+	if (getAttribute(Attribute::shieldLevel) <= 0.0f || !shieldActive)
 		return false;
 
 	SpaceVect d = -1.0 * b->getVel().normalizeSafe();
@@ -211,7 +217,8 @@ void Agent::initializeGraphics()
 		bodyOutlineWidth, getInitialCenterPix(),
 		canonicalAngle(getAngle() - float_pi * 0.25), canonicalAngle(getAngle() + float_pi * 0.25)
 	);
-	space->setSpriteVisible(agentOverlay, attributeSystem.isNonzero(Attribute::shieldActive));
+	//Should be false, but in case shield has already been activated.
+	space->setSpriteVisible(agentOverlay, shieldActive);
 }
 
 //shield
@@ -303,8 +310,7 @@ void Agent::applyAttributeEffects(AttributeMap attributeEffect)
 
 void Agent::updateAgentOverlay()
 {
-	space->setSpriteVisible(agentOverlay, attributeSystem.isNonzero(Attribute::shieldActive));
-	if (attributeSystem.isNonzero(Attribute::shieldActive)) {
+	if (shieldActive) {
 		space->setSpritePosition(agentOverlay, toCocos(getPos()*App::pixelsPerTile));
 		space->setAgentOverlayAngles(agentOverlay, canonicalAngle(getAngle() - float_pi * 0.25), canonicalAngle(getAngle() + float_pi * 0.25));
 	}

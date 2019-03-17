@@ -87,10 +87,13 @@ public:
 	int getMagic();
 	bool consumeStamina(int val);
 
+	void setShieldActive(bool v);
+	inline bool isShieldActive() const { return shieldActive; }
 	bool isShield(Bullet* b);
 	float getShieldCost(SpaceVect n);
 	void onBulletCollide(Bullet* b);
 
+	inline virtual void onBulletHitTarget(Bullet* bullet, Agent* target) {}
 	virtual void hit(AttributeMap attributeEffects, shared_ptr<MagicEffect> effect);
 	bool canApplyAttributeEffects(AttributeMap attributeEffect);
 	void applyAttributeEffects(AttributeMap attributeEffects);
@@ -118,6 +121,8 @@ protected:
 	SpriteID agentOverlay = 0;
 	AttributeSystem attributeSystem;
 	shared_ptr<FirePattern> firePattern;
+
+	bool shieldActive = false;
 };
 
 template<class T>

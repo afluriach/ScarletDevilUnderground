@@ -548,7 +548,8 @@ void AimAtTarget::update(StateMachine& fsm)
 	fsm.agent->setAngle(directionToTarget(fsm.agent, target.get()->getPos()).toAngle());
 }
 
-LookTowardsFire::LookTowardsFire()
+LookTowardsFire::LookTowardsFire(bool useShield) :
+	useShield(useShield)
 {
 }
 
@@ -565,10 +566,12 @@ void LookTowardsFire::update(StateMachine& fsm)
 	if (hitAccumulator == 0.0f) {
 		directionAccumulator = SpaceVect::zero;
 		looking = false;
+		if (useShield) fsm.getAgent()->setShieldActive(false);
 	}
 	else if (!looking && hitAccumulator >= 1.0f) {
 		fsm.agent->setAngle(directionAccumulator.toAngle());
 		looking = true;
+		if (useShield) fsm.getAgent()->setShieldActive(true);
 	}
 
 	if (looking) {
@@ -594,8 +597,11 @@ void LookTowardsFire::onBulletCollide(StateMachine& fsm, Bullet* b)
 
 bitset<lockCount> LookTowardsFire::getLockMask()
 {
-	return looking ?
-		make_enum_bitfield(ResourceLock::movement) | make_enum_bitfield(ResourceLock::look) :
+	return looking ? (
+		useShield ?
+			enum_bitfield3(ResourceLock, movement, look, shield) :
+			enum_bitfield2(ResourceLock, movement, look)
+		) :
 		bitset<lockCount>()
 	;
 }

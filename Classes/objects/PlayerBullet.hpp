@@ -19,8 +19,6 @@ public:
 	PlayerBullet(Agent* agent);
 	inline virtual ~PlayerBullet() {}
 
-	virtual void onAgentCollide(Agent* agent, SpaceVect n);
-
 	virtual inline GType getType() const { return GType::playerBullet; }
 };
 

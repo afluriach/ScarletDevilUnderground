@@ -58,8 +58,11 @@ public:
 
 	void setBodyVisible(bool b);
 
-	SpaceFloat knockback = 0.0;
+	object_ref<Agent> agent;
+	//modifier attributes, should be copied at time bullet is created.
 	float agentAttackMultiplier = 1.0f;
+
+	SpaceFloat knockback = 0.0;
 	int ricochetCount = 0;
 	int hitCount = 1;
 };

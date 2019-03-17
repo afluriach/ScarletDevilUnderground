@@ -16,7 +16,8 @@
 
 const bool Bullet::logRicochets = false;
 
-Bullet::Bullet(Agent* agent)
+Bullet::Bullet(Agent* agent) :
+	agent(agent)
 {
 	if (agent) {
 		agentAttackMultiplier = agent->getAttributeSystem()->getAttackMultiplier();
@@ -33,16 +34,20 @@ void Bullet::onEnvironmentCollide(GObject* obj)
 	space->removeObject(this);
 }
 
-void Bullet::onAgentCollide(Agent* agent, SpaceVect n)
+void Bullet::onAgentCollide(Agent* other, SpaceVect n)
 {
 	if (hitCount > 0) --hitCount;
 
 	if (knockback != 0.0) {
-		agent->applyImpulse(-n * knockback);
+		other->applyImpulse(-n * knockback);
 	}
 
 	if (hitCount == 0) {
 		space->removeObject(this);
+	}
+
+	if (agent.isValid() ) {
+		agent.get()->onBulletHitTarget(this, other);
 	}
 }
 

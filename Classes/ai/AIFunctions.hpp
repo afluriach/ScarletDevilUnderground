@@ -222,7 +222,7 @@ public:
 	static constexpr float timeCoeff = 0.5f;
 	static constexpr float lookTimeCoeff = 0.125f;
 
-	LookTowardsFire();
+	LookTowardsFire(bool useShield);
 
 	virtual void onEnter(StateMachine& fsm);
 	virtual void update(StateMachine& fsm);
@@ -237,6 +237,7 @@ protected:
 	unsigned int collideCallbackID = 0;
 	float hitAccumulator = 0.0f;
 	SpaceVect directionAccumulator;
+	bool useShield;
 	bool looking = false;
 };
 

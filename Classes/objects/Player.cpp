@@ -344,8 +344,7 @@ SpaceFloat Player::getSpeedMultiplier()
 void Player::setFocusMode(bool b)
 {
 	isFocusActive = b;
-	attributeSystem.set(Attribute::shieldActive, b);
-	space->setSpriteVisible(drawNodeID, b);
+	setShieldActive(b);
 }
 
 void Player::setSprintMode(bool b)
@@ -398,6 +397,11 @@ void Player::setTimedProtection(SpaceFloat seconds)
 void Player::resetProtection()
 {
 	attributeSystem.resetProtection();;
+}
+
+void Player::onBulletHitTarget(Bullet* bullet, Agent* target)
+{
+	applyCombo(6);
 }
 
 void Player::hit(AttributeMap attributeEffect, shared_ptr<MagicEffect> effect){

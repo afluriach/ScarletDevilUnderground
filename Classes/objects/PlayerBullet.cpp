@@ -27,13 +27,6 @@ PlayerBullet::PlayerBullet(Agent* agent) :
 	ricochetCount = agent->getAttribute(Attribute::ricochet);
 }
 
-void PlayerBullet::onAgentCollide(Agent* agent, SpaceVect n)
-{
-	Bullet::onAgentCollide(agent, n);
-	Player* p = space->getObjectAs<Player>("player");
-	p->applyCombo(6);
-}
-
 PlayerShield::PlayerShield(Agent* agent) :
 	Bullet(agent)
 {

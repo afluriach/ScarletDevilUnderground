@@ -60,6 +60,7 @@ public:
 	void setTimedProtection(SpaceFloat seconds);
 	void resetProtection();
 
+	virtual void onBulletHitTarget(Bullet* bullet, Agent* target);
     virtual void hit(AttributeMap attributeEffect, shared_ptr<MagicEffect> effect);
 
 	inline bool isFiringSuppressed() const { return suppressFiring; }

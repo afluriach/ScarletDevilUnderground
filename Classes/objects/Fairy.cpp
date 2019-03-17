@@ -253,7 +253,6 @@ const AIPackage<BlueFairy>::AIPackageMap BlueFairy::aiPackages = {
 };
 
 const AttributeMap BlueFairy::baseAttributes = {
-	{ Attribute::shieldActive, 1.0f },
 	{ Attribute::shieldLevel, 1.0f },
 	{ Attribute::maxHP, 30.0f },
 	{ Attribute::maxStamina, 50.0f },
@@ -279,7 +278,7 @@ void BlueFairy::follow_path(ai::StateMachine& sm, const ValueMap& args)
 	if (path) {
 		sm.setAlertFunction([path](ai::StateMachine& sm, Player* p) -> void {
 			sm.addThread(make_shared<ai::FollowPath>(*path, true, true), 1);
-			sm.addThread(make_shared<ai::LookTowardsFire>(), 2);
+			sm.addThread(make_shared<ai::LookTowardsFire>(true), 2);
 			sm.addThread(make_shared<ai::FireOnStress>(5.0f));
 		});
 	}
