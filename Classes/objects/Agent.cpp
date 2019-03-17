@@ -85,6 +85,10 @@ void Agent::update()
 	if (attributeSystem[Attribute::poisonDamage] >= AttributeSystem::maxElementDamage) {
 		onZeroHP();
 	}
+
+	for (auto other : touchTargets) {
+		other->hit(touchEffect(), nullptr);
+	}
 }
 
 bool Agent::isBulletObstacle(SpaceVect pos, SpaceFloat radius)
@@ -269,19 +273,26 @@ void Agent::onBulletCollide(Bullet* b)
 {
 	float hp = AttributeSystem::getAttribute(b->getAttributeEffect(), Attribute::hp);
 
-	if (auto _eb = dynamic_cast<EnemyBullet*>(b)){
-		_eb->invalidateGraze();
-	}
-
 	if (!isShield(b)) {
 		attributeSystem.modifyAttribute(Attribute::stress, Attribute::stressFromHits, -hp);
-		hit(AttributeSystem::scale(b->getAttributeEffect(), b->agentAttackMultiplier), b->getMagicEffect(this));
+		hit(AttributeSystem::scale(b->getAttributeEffect(), b->attributes.attackDamage), b->getMagicEffect(this));
 		fsm.onBulletHit(b);
 	}
 	else {
 		attributeSystem.modifyAttribute(Attribute::stress, Attribute::stressFromBlocks, -hp);
 		fsm.onBulletBlock(b);
 	}
+}
+
+void Agent::onTouchAgent(Agent* other)
+{
+	if(getType() != other->getType())
+		touchTargets.insert(other);
+}
+
+void Agent::onEndTouchAgent(Agent* other)
+{
+	touchTargets.erase(other);
 }
 
 void Agent::hit(AttributeMap attributeEffect, shared_ptr<MagicEffect> effect)
@@ -304,7 +315,8 @@ void Agent::hit(AttributeMap attributeEffect, shared_ptr<MagicEffect> effect)
 	auto hp_it = attributeEffect.find(Attribute::hp);
 	float hp = hp_it == attributeEffect.end() ? 0.0f : hp_it->second;
 
-	space->createDamageIndicator(-hp, getPos());
+	if(hp != 0.0f)
+		space->createDamageIndicator(-hp, getPos());
 }
 
 bool Agent::canApplyAttributeEffects(AttributeMap attributeEffect)
@@ -322,6 +334,11 @@ bool Agent::canApplyAttributeEffects(AttributeMap attributeEffect)
 void Agent::applyAttributeEffects(AttributeMap attributeEffect)
 {
 	attributeSystem.apply(attributeEffect);
+}
+
+AttributeMap Agent::touchEffect() const
+{
+	return hp_damage_map(attributeSystem[Attribute::touchDamage]);
 }
 
 void Agent::updateAgentOverlay()

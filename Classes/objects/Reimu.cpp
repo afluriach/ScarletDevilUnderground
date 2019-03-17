@@ -23,6 +23,7 @@ Reimu::Reimu(GSpace* space, ObjectIDType id, const ValueMap& args) :
 const AttributeMap ReimuEnemy::baseAttributes = {
 	{ Attribute::maxHP, 100.0f },
 	{ Attribute::maxMP, 5.0f },
+	{ Attribute::touchDamage, 10.0f },
 	{ Attribute::speed, 2.0f },
 	{ Attribute::acceleration, 4.0f }
 };

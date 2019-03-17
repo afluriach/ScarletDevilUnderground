@@ -16,6 +16,7 @@
 const AttributeMap Bat::baseAttributes = {
 	{Attribute::maxHP, 25.0f },
 	{Attribute::agility, 2.0f },
+	{Attribute::touchDamage, 5.0f},
 };
 
 Bat::Bat(GSpace* space, ObjectIDType id, const ValueMap& args) :

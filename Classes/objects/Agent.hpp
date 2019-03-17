@@ -92,12 +92,15 @@ public:
 	inline bool isShieldActive() const { return shieldActive; }
 	bool isShield(Bullet* b);
 	float getShieldCost(SpaceVect n);
-	void onBulletCollide(Bullet* b);
+	virtual void onBulletCollide(Bullet* b);
+	void onTouchAgent(Agent* other);
+	void onEndTouchAgent(Agent* other);
 
 	inline virtual void onBulletHitTarget(Bullet* bullet, Agent* target) {}
 	virtual void hit(AttributeMap attributeEffects, shared_ptr<MagicEffect> effect);
 	bool canApplyAttributeEffects(AttributeMap attributeEffect);
 	void applyAttributeEffects(AttributeMap attributeEffects);
+	virtual AttributeMap touchEffect() const;
 
 	//sensor interface
 	virtual SpaceFloat getRadarRadius() const { return 1.0; }
@@ -122,6 +125,7 @@ protected:
 	SpriteID agentOverlay = 0;
 	AttributeSystem attributeSystem;
 	shared_ptr<FirePattern> firePattern;
+	unordered_set<Agent*> touchTargets;
 
 	bool shieldActive = false;
 };

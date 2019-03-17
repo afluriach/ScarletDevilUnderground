@@ -16,11 +16,13 @@
 
 const bool Bullet::logRicochets = false;
 
-Bullet::Bullet(Agent* agent) :
+Bullet::Bullet(object_ref<Agent> agent) :
 	agent(agent)
 {
-	if (agent) {
-		agentAttackMultiplier = agent->getAttributeSystem()->getAttackMultiplier();
+	if (agent.isValid()) {
+		AttributeSystem& as = *agent.get()->getAttributeSystem();
+		attributes.attackDamage = as[Attribute::attack];
+		attributes.bulletSpeed = as[Attribute::bulletSpeed];
 	}
 }
 
@@ -102,5 +104,5 @@ BulletImpl::BulletImpl(const bullet_properties* props) :
 void BulletImpl::init()
 {
 	if (props->directionalLaunch)
-		setVel(SpaceVect::ray(getMaxSpeed(), getAngle()));
+		setVel(SpaceVect::ray(getMaxSpeed() * attributes.bulletSpeed, getAngle()));
 }

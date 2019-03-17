@@ -399,6 +399,12 @@ void Player::resetProtection()
 	attributeSystem.resetProtection();;
 }
 
+void Player::onBulletCollide(Bullet* b)
+{
+	grazeContacts.erase(b);
+	Agent::onBulletCollide(b);
+}
+
 void Player::onBulletHitTarget(Bullet* bullet, Agent* target)
 {
 	applyCombo(6);
@@ -491,18 +497,16 @@ void Player::applyUpgrade(Upgrade* up)
 	space->removeObject(up);
 }
 
-void Player::onGrazeTouch(object_ref<EnemyBullet> bullet)
+void Player::onGrazeTouch(Bullet* bullet)
 {
-	if (bullet.isValid() && bullet.get()->grazeValid) {
-		grazeContacts.insert(bullet);
-	}
+	grazeContacts.insert(bullet);
 }
 
 //Effect is applied after the graze "radar" loses contact.
-void Player::onGrazeCleared(object_ref<EnemyBullet> bullet)
+void Player::onGrazeCleared(Bullet* bullet)
 {
-	if (bullet.isValid() && bullet.get()->grazeValid) {
-		grazeContacts.erase(bullet);
+	//If the bullet was removed from graze contacts, the player collided with it
+	if (grazeContacts.find(bullet) != grazeContacts.end()) {
 		applyGraze(1);
 	}
 }

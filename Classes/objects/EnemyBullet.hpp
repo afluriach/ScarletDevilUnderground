@@ -20,9 +20,7 @@ public:
 	EnemyBullet(Agent* agent);
 	inline virtual ~EnemyBullet() {}
 
-	void invalidateGraze();
 	virtual inline GType getType() const { return GType::enemyBullet; }
-	bool grazeValid = true;
 };
 
 class EnemyBulletImpl : public EnemyBullet, public BulletImpl

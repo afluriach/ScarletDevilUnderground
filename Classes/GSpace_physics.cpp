@@ -245,18 +245,23 @@ int GSpace::playerEnemyBegin(GObject* a, GObject* b, cpArbiter* arb)
     if(!e)
         log("%s is not an Enemy", b->getName().c_str());
     
-    if(p && e)
-        e->onTouchPlayer(p);
+	if (p && e) {
+		p->onTouchAgent(e);
+		e->onTouchAgent(p);
+	}
 
     return 1;
 }
 
 void GSpace::playerEnemyEnd(GObject* a, GObject* b, cpArbiter* arb)
 {
+	Player* p = dynamic_cast<Player*>(a);
 	Enemy* e = dynamic_cast<Enemy*>(b);
 
-	if(e)
-		e->endTouchPlayer();
+	if (p && e) {
+		p->onEndTouchAgent(e);
+		e->onEndTouchAgent(p);
+	}
     
 	logHandler("playerEnemyEnd", a,b);
 }

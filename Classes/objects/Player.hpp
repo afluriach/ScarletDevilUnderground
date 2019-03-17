@@ -60,6 +60,7 @@ public:
 	void setTimedProtection(SpaceFloat seconds);
 	void resetProtection();
 
+	virtual void onBulletCollide(Bullet* b);
 	virtual void onBulletHitTarget(Bullet* bullet, Agent* target);
     virtual void hit(AttributeMap attributeEffect, shared_ptr<MagicEffect> effect);
 
@@ -109,9 +110,9 @@ public:
 	void applyCombo(int b);
 
 	//The bullet's graze "radar" has collided with Player.
-	void onGrazeTouch(object_ref<EnemyBullet> bullet);
+	void onGrazeTouch(Bullet* bullet);
 	//Effect is applied after the graze "radar" loses contact.
-	void onGrazeCleared(object_ref<EnemyBullet> bullet);
+	void onGrazeCleared(Bullet* bullet);
 protected:
 	void applyGraze(int p);
 	void startRespawn();
@@ -128,7 +129,7 @@ protected:
 	SpaceFloat respawnTimer = 0.0;
 	SpaceFloat respawnMaskTimer = 0.0;
 
-	unordered_set<object_ref<EnemyBullet>> grazeContacts;
+	unordered_set<Bullet*> grazeContacts;
 
 	float interactCooldown = 0.0f;
 	float bombCooldown = 0.0f;

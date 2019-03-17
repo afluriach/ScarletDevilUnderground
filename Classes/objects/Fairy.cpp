@@ -258,6 +258,7 @@ const AttributeMap BlueFairy::baseAttributes = {
 	{ Attribute::maxStamina, 50.0f },
 	{ Attribute::staminaRegen, 1.0f },
 	{ Attribute::agility, 2.5f },
+	{ Attribute::touchDamage, 5.0f },
 	{ Attribute::stressFromHits, 1.5f },
 	{ Attribute::stressFromBlocks, 1.0f },
 };
@@ -287,6 +288,7 @@ void BlueFairy::follow_path(ai::StateMachine& sm, const ValueMap& args)
 const AttributeMap RedFairy::baseAttributes = {
 	{ Attribute::maxHP, 50.0f },
 	{ Attribute::agility, 1.5f },
+	{ Attribute::touchDamage, 10.0f },
 	{ Attribute::stressDecay, 1.0f },
 	{ Attribute::stressFromHits, 1.0f},
 };
@@ -338,6 +340,7 @@ void RedFairy::initStateMachine(ai::StateMachine& sm)
 
 const AttributeMap GreenFairy::baseAttributes = {
 	{ Attribute::maxHP, 30.0f },
+	{ Attribute::touchDamage, 3.0f },
 	{ Attribute::stressFromDetects, 0.25f },
 	{ Attribute::stressFromHits, 0.5f },
 	{ Attribute::agility, 4.0f }
@@ -353,6 +356,14 @@ GreenFairy::GreenFairy(GSpace* space, ObjectIDType id, const ValueMap& args) :
 
 void GreenFairy::initStateMachine(ai::StateMachine& sm)
 {
+	addMagicEffect(make_shared<BulletSpeedFromHP>(
+		object_ref<Agent>(this),
+		make_pair(0.25f, 0.5f),
+		make_pair(0.5f, 1.0f),
+		1.0f / 3.0f,
+		0.25f
+	));
+
 	sm.setAlertFunction([](ai::StateMachine& sm, Player* p)->void {
 		sm.addThread(make_shared<ai::Wander>(0.75, 1.5, 2.0, 4.0), 0);
 		sm.addThread(make_shared<ai::EvadePlayerProjectiles>(), 1);

@@ -39,4 +39,28 @@ protected:
 	Agent * agent;
 };
 
+class BulletSpeedFromHP : public MagicEffect
+{
+public:
+	BulletSpeedFromHP(
+		object_ref<Agent> _agent,
+		float_pair debuffRange,
+		float_pair buffRange,
+		float maxDebuff,
+		float maxBuff
+	);
+
+	inline virtual void init() {}
+	virtual void update();
+	virtual void end();
+protected:
+	float baseBulletSpeed;
+	float_pair debuffRange;
+	float_pair buffRange;
+	float maxDebuff;
+	float maxBuff;
+	Agent * agent;
+};
+
+
 #endif /* MiscMagicEffects_hpp */

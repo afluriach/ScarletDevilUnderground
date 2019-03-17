@@ -26,11 +26,6 @@ EnemyBullet::EnemyBullet(Agent* agent) :
 	Bullet(agent)
 {}
 
-void EnemyBullet::invalidateGraze()
-{
-	grazeValid = false;
-}
-
 const bullet_properties EnemyBulletImpl::fairy1Bullet = {
 	0.1,
 	6.0,

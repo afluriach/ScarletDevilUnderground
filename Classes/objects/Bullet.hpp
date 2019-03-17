@@ -31,12 +31,20 @@ struct bullet_properties
 	bool directionalLaunch = true;
 };
 
+//The attributes of the creating agent that can affect this object. These are 
+//captured from the agent when the bullet object factory is created.
+struct bullet_attributes
+{
+	float attackDamage = 1.0f;
+	float bulletSpeed = 1.0f;
+};
+
 class Bullet : virtual public GObject
 {
 public:
 	static const bool logRicochets;
 
-	Bullet(Agent* agent);
+	Bullet(object_ref<Agent> agent);
 	inline virtual ~Bullet() {}
 
 	virtual inline bool getSensor() const { return true; }
@@ -60,7 +68,7 @@ public:
 
 	object_ref<Agent> agent;
 	//modifier attributes, should be copied at time bullet is created.
-	float agentAttackMultiplier = 1.0f;
+	bullet_attributes attributes;
 
 	SpaceFloat knockback = 0.0;
 	int ricochetCount = 0;

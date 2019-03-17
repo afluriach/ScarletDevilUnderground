@@ -49,6 +49,8 @@ const boost::bimap<Attribute, string> AttributeSystem::attributeNameMap = boost:
 	entry(keys)
 	entry(combo)
 
+	entry(touchDamage)
+
 	entry(attack)
 	entry(attackSpeed)
 
@@ -58,6 +60,10 @@ const boost::bimap<Attribute, string> AttributeSystem::attributeNameMap = boost:
 	entry(shieldLevel)
 
 	entry(stress)
+	entry(stressDecay)
+	entry(stressFromHits)
+	entry(stressFromBlocks)
+	entry(stressFromDetects)
 
 	entry(agility)
 	entry(speed)
@@ -129,6 +135,7 @@ AttributeSet AttributeSystem::getBlankAttributeSet()
 
 	result[to_size_t(Attribute::attack)] = 1.0f;
 	result[to_size_t(Attribute::attackSpeed)] = 1.0f;
+	result[to_size_t(Attribute::bulletSpeed)] = 1.0f;
 	result[to_size_t(Attribute::bulletCount)] = 1.0f;
 
 	//Sensitivity multiplier should be 1.0 by default.

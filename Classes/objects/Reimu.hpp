@@ -46,10 +46,6 @@ public:
 
 	virtual inline string getProperName() const { return "Reimu Hakurei"; }
 
-	virtual inline AttributeMap touchEffect() {
-		return AttributeSystem::getAttributeMap(Attribute::hp, -10.0f);
-	}
-
 	virtual inline SpaceFloat getRadarRadius() const { return 5.0; }
 	virtual inline GType getRadarType() const { return GType::enemySensor; }
 	virtual inline SpaceFloat getDefaultFovAngle() const { return 0.0; }

@@ -35,8 +35,11 @@ enum class Attribute {
 	keys,
 	combo,
 
+	touchDamage,
+
 	attack,
 	attackSpeed,
+	bulletSpeed,
 
 	ricochet,
 	bulletCount,

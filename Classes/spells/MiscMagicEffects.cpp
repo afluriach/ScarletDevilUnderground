@@ -102,3 +102,49 @@ void RedFairyStress::end()
 {
 	agent->getAttributeSystem()->set(Attribute::attackSpeed, baseAttackSpeed);
 }
+
+BulletSpeedFromHP::BulletSpeedFromHP(
+	object_ref<Agent> _agent,
+	float_pair debuffRange,
+	float_pair buffRange,
+	float maxDebuff,
+	float maxBuff
+) :
+	MagicEffect(_agent, 1.0f),
+	agent(_agent.get()),
+	debuffRange(debuffRange),
+	buffRange(buffRange),
+	maxDebuff(maxDebuff),
+	maxBuff(maxBuff)
+{
+	if (agent) {
+		baseBulletSpeed = agent->getAttribute(Attribute::bulletSpeed);
+	}
+	else {
+		log("BulletSpeedFromHP should only be attached to Agents.");
+		crntState = state::expired;
+	}
+}
+
+void BulletSpeedFromHP::update()
+{
+	auto& as = *agent->getAttributeSystem();
+	float hpRatio = agent->getHealthRatio();
+	float modifier = 0.0f;
+
+	if (hpRatio >= buffRange.first) {
+		float buffRatio = hpRatio >= buffRange.second ? 1.0f : (hpRatio - buffRange.first) / (buffRange.second - buffRange.first);
+		modifier = maxBuff * buffRatio;
+	}
+	else if (hpRatio < debuffRange.second) {
+		float debuffRatio = hpRatio <= buffRange.first ? 1.0f : (debuffRange.second - hpRatio) / (debuffRange.second - debuffRange.first);
+		modifier = -1.0f * maxDebuff * debuffRatio;
+	}
+
+	as.set(Attribute::bulletSpeed, baseBulletSpeed + modifier);
+}
+
+void BulletSpeedFromHP::end()
+{
+	agent->getAttributeSystem()->set(Attribute::bulletSpeed, baseBulletSpeed);
+}

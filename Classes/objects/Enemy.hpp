@@ -18,21 +18,14 @@ public:
 	Enemy(collectible_id drop_id);
 	inline virtual ~Enemy() {}
 
-	void onTouchPlayer(Player* target);
-	void endTouchPlayer();
-
 	void runDamageFlicker();
-	virtual void update();
 
 	virtual void onRemove();
-
-	virtual AttributeMap touchEffect();
 
 	virtual inline GType getType() const { return GType::enemy; }
 	virtual inline GType getRadarType() const { return GType::enemySensor; }
 
 protected:
-	object_ref<Player> touchTarget;
 	collectible_id drop_id = collectible_id::nil;
 };
 

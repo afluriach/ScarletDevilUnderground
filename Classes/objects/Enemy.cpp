@@ -24,39 +24,10 @@ void Enemy::runDamageFlicker()
 	}
 }
 
-void Enemy::onTouchPlayer(Player* player) {
-	touchTarget = player;
-
-	onDetect(player);
-}
-
-void Enemy::endTouchPlayer()
-{
-	touchTarget = nullptr;
-}
-
-//hit will be registered every frame, in case contact is maintained for longer than the hit protection time.
-void Enemy::update()
-{
-	Agent::update();
-
-	if (touchTarget.isValid() && !touchTarget.get()->isProtected()) {
-		touchTarget.get()->hit(touchEffect(), nullptr);
-	}
-}
-
 void Enemy::onRemove()
 {
 	Agent::onRemove();
 	if(drop_id != collectible_id::nil){
 		space->createObject(Collectible::create(space, drop_id, getPos()));
 	}
-}
-
-
-AttributeMap Enemy::touchEffect()
-{
-	return {
-		{Attribute::hp, -1.0f}
-	};
 }
