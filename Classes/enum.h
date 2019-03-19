@@ -40,7 +40,7 @@ constexpr inline bitset<enum_size> make_enum_bitfield(E input)
 #define enum_bitfield2(cls, a, b) (make_enum_bitfield(cls::a) | make_enum_bitfield(cls::b))
 #define enum_bitfield3(cls, a, b, c) (make_enum_bitfield(cls::a) | make_enum_bitfield(cls::b) | make_enum_bitfield(cls::c))
 
-#define enum_add(cls, e, i) static_cast<cls>(static_cast<int>(e) + i)
+#define enum_add(cls, e, i) static_cast<cls>(static_cast<int>(cls::e) + i)
 #define enum_count(cls, last, first) (static_cast<int>(cls::last) - static_cast<int>(cls::first) + 1)
 #define enum_increment(cls,lval) lval = static_cast<cls>( static_cast<int>(lval) + 1 )
 #define enum_foreach(cls,var_name,begin,end) for(cls var_name=cls::begin; var_name < cls::end; enum_increment(cls, var_name) )

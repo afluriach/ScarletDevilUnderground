@@ -18,6 +18,8 @@ class Headstone :
 	public ImageSprite
 {
 public:
+	static bool conditionalLoad(GSpace* space, ObjectIDType id, const ValueMap& args);
+
 	MapObjCons(Headstone);
 	virtual inline ~Headstone() {}
     

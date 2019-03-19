@@ -15,6 +15,16 @@
 #include "macros.h"
 #include "value_map.hpp"
 
+bool Headstone::conditionalLoad(GSpace* space, ObjectIDType id, const ValueMap& args)
+{
+	int level = getIntOrDefault(args, "level", -1);
+
+	if (level == -1)
+		return true;
+	else
+		return !space->getState()->isChamberCompleted(enum_add(ChamberID, graveyard0, level - 1));
+}
+
 Headstone::Headstone(GSpace* space, ObjectIDType id, const ValueMap& args) :
 GObject(space,id,args),
 RectangleBody(args)

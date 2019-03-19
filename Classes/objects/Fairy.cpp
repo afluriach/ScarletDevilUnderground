@@ -224,7 +224,7 @@ bool GhostFairyNPC::conditionalLoad(GSpace* space, ObjectIDType id, const ValueM
 		return true;
 	}
 	else {
-		return space->getState()->isChamberCompleted(enum_add(ChamberID, ChamberID::graveyard0, level - 1));
+		return space->getState()->isChamberCompleted(enum_add(ChamberID, graveyard0, level - 1));
 	}
 }
 

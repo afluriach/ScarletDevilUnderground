@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.0" tiledversion="1.0.3" orientation="orthogonal" renderorder="right-down" width="51" height="51" tilewidth="128" tileheight="128" nextobjectid="185">
+ <tileset firstgid="1" name="wall" tilewidth="128" tileheight="128" tilecount="4" columns="2">
+  <image source="../fence.png" width="256" height="256"/>
+ </tileset>
+ <tileset firstgid="5" name="dirt floor" tilewidth="128" tileheight="128" tilecount="4" columns="2">
+  <image source="../dirt1.png" width="256" height="256"/>
+ </tileset>
+ <tileset firstgid="9" name="stone" tilewidth="128" tileheight="128" tilecount="9" columns="3">
+  <image source="../stone3.png" width="384" height="384"/>
+ </tileset>
+ <layer name="floor" width="51" height="51">
+  <data encoding="base64" compression="zlib">
+   eJzt0csJwDAQQ0Ff8um/4rgH2yCFWVjeXTNGxl3z78Wm3DP/XWzKceFy+rhwOX1cuJw+LlxOH5f/uuzYI6U79khpwp5cuLQ0YU8uXFqasCcXLi1N2JMLl5Ym7MmFS0sT9uTCpaUJe3Lh0tKEPblwaekHM34zNA==
+  </data>
+ </layer>
+ <layer name="stone_path" width="51" height="51">
+  <data encoding="base64" compression="zlib">
+   eJzt1zsKgDAQANHU/sD7X9bGAwiOOuA82DbskDQZI0mS/5q/XgC0fr0AqBanWpxqcarFqRanWpxqcSJalvOcOzMBZ+xAC6H34VSLUy1OtTjV4lSLUy1OtfCIvxgx29OhF1nuhVCLUy1OtTi91XIA6a0Fog==
+  </data>
+ </layer>
+ <layer name="wall_tiles" width="51" height="51">
+  <data encoding="base64" compression="zlib">
+   eJztl8EKgDAMxaru/79ZRaTHDtrqQxPoTcMydqmZBuOYJTkqjOT/a8kpaqDFoaUHWhxaeqDFoaUHWhxaeqDFUWrZgom+OVsqdqAnHDbpyHDfBw4cOHDgeN+hgsp94MCBAweOyxHtQNHMOKzAMXMOpT2q4hwZlN4YDhw4cPzdoYLKfeDAgQMHju/tYjv7xAQ+
+  </data>
+ </layer>
+ <objectgroup name="floor"/>
+ <objectgroup name="walls">
+  <object id="93" x="128" y="6400" width="2048" height="128"/>
+  <object id="94" x="6400" y="0" width="128" height="2176"/>
+  <object id="101" x="2048" y="2304" width="128" height="896"/>
+  <object id="102" x="2048" y="3328" width="128" height="896"/>
+  <object id="103" x="128" y="4352" width="2048" height="128"/>
+  <object id="107" x="4224" y="2304" width="128" height="896"/>
+  <object id="108" x="4224" y="3328" width="128" height="896"/>
+  <object id="109" x="4224" y="5504" width="128" height="1024"/>
+  <object id="110" x="2048" y="5504" width="128" height="896"/>
+  <object id="116" x="5504" y="2176" width="896" height="128"/>
+  <object id="118" x="2048" y="4480" width="128" height="896"/>
+  <object id="130" x="4480" y="6400" width="2048" height="128"/>
+  <object id="144" x="4352" y="0" width="2048" height="128"/>
+  <object id="147" x="4352" y="128" width="128" height="1920"/>
+  <object id="150" x="128" y="2176" width="2048" height="128"/>
+  <object id="152" x="2176" y="2176" width="2176" height="128"/>
+  <object id="153" x="4352" y="2048" width="1024" height="128"/>
+  <object id="154" x="4352" y="2176" width="1024" height="128"/>
+  <object id="155" x="4352" y="2304" width="128" height="896"/>
+  <object id="156" x="4352" y="3328" width="128" height="896"/>
+  <object id="157" x="128" y="4224" width="2048" height="128"/>
+  <object id="159" x="2176" y="2304" width="128" height="896"/>
+  <object id="160" x="2176" y="3328" width="128" height="896"/>
+  <object id="161" x="2176" y="4480" width="128" height="896"/>
+  <object id="162" x="2176" y="5504" width="128" height="896"/>
+  <object id="163" x="2176" y="6400" width="1024" height="128"/>
+  <object id="164" x="3328" y="6400" width="896" height="128"/>
+  <object id="165" x="4352" y="5504" width="128" height="1024"/>
+  <object id="167" x="2176" y="4224" width="1024" height="128"/>
+  <object id="168" x="2176" y="4352" width="1024" height="128"/>
+  <object id="169" x="4352" y="4352" width="2048" height="128"/>
+  <object id="170" x="4352" y="4224" width="2048" height="128"/>
+  <object id="173" x="5504" y="2048" width="896" height="128"/>
+  <object id="174" x="6400" y="2176" width="128" height="2176"/>
+  <object id="175" x="6400" y="4352" width="128" height="2048"/>
+  <object id="176" x="0" y="2176" width="128" height="2176"/>
+  <object id="177" x="0" y="4352" width="128" height="2176"/>
+  <object id="179" x="4224" y="4480" width="128" height="896"/>
+  <object id="180" x="4352" y="4480" width="128" height="896"/>
+  <object id="181" x="3328" y="4352" width="1024" height="128"/>
+  <object id="182" x="3328" y="4224" width="1024" height="128"/>
+ </objectgroup>
+ <objectgroup name="objects">
+  <object id="121" name="entrance" type="Door" x="3200" y="6400" width="128" height="128">
+   <properties>
+    <property name="dest" value="to_inner_area"/>
+    <property name="dest_map" value="graveyard"/>
+    <property name="dir" value="up"/>
+    <property name="path" value="true"/>
+   </properties>
+  </object>
+ </objectgroup>
+</map>

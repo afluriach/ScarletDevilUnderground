@@ -165,7 +165,7 @@ const unordered_map<string, GObject::object_info> GObject::objectInfo = {
 	item_entry_same(GraveyardBook1),
 	item_entry_same(GraveyardKey),
 	entry_same(GreenFairy),
-	entry_same(Headstone),
+	conditional_entry(Headstone),
 	collectible_entry(Health1, health1),
 	collectible_entry(Health2, health2),
 	entry_same(HiddenSubroomSensor),
