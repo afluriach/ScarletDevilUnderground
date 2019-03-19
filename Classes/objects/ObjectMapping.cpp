@@ -177,6 +177,7 @@ const unordered_map<string, GObject::object_info> GObject::objectInfo = {
 	entry_same(Launcher),
 	collectible_entry(Magic1, magic1),
 	collectible_entry(Magic2, magic2),
+	entry_same(MansionFloor),
 	entry_same(MarisaNPC),
 	conditional_entry(Meiling1),
 	entry_same(MineFloor),

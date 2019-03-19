@@ -121,6 +121,12 @@ BridgeFloor::BridgeFloor(GSpace* space, ObjectIDType id, const ValueMap& args) :
 {
 }
 
+MansionFloor::MansionFloor(GSpace* space, ObjectIDType id, const ValueMap& args) :
+	GObject(space, id, args, true),
+	FloorSegment(space, id, args)
+{
+}
+
 MineFloor::MineFloor(GSpace* space, ObjectIDType id, const ValueMap& args) :
 	GObject(space, id, args, true),
 	FloorSegment(space, id, args)

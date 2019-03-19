@@ -87,6 +87,12 @@ public:
 	MapObjCons(BridgeFloor);
 };
 
+class MansionFloor : public FloorSegment, public NoSprite
+{
+public:
+	MapObjCons(MansionFloor);
+};
+
 class MineFloor : public FloorSegment, public NoSprite
 {
 public:
