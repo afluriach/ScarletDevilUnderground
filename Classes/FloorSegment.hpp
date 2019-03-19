@@ -159,6 +159,8 @@ public:
 	MapObjCons(GrassFloor);
 
 	virtual inline string getFootstepSfx() const { return "sfx/footstep_grass.wav"; }
+
+	virtual inline SpaceFloat getFrictionCoeff() const { return 2.0 / 3.0; }
 };
 
 class StoneFloor : public FloorSegment, public NoSprite
@@ -175,6 +177,8 @@ public:
 	MapObjCons(SandFloor);
 
 	virtual inline string getFootstepSfx() const { return "sfx/footstep_sand.wav"; }
+
+	virtual inline SpaceFloat getFrictionCoeff() const { return 0.5; }
 };
 
 

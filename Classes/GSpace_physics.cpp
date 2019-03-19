@@ -109,6 +109,7 @@ void GSpace::addCollisionHandlers()
 	_addHandler(floorSegment, npc, floorObjectBegin, floorObjectEnd);
 	_addHandler(floorSegment, collectible, floorObjectBegin, floorObjectEnd);
 	_addHandler(floorSegment, environment, floorObjectBegin, floorObjectEnd);
+	_addHandler(floorSegment, bomb, floorObjectBegin, floorObjectEnd);
 
 	_addHandler(player, areaSensor, playerAreaSensorBegin, playerAreaSensorEnd);
 	_addHandler(enemy, areaSensor, enemyAreaSensorBegin, enemyAreaSensorEnd);
