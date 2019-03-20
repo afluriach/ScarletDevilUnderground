@@ -35,7 +35,7 @@ string Patchouli::getDialog() {
 void Patchouli::onDialogEnd()
 {
 	if (space->getState()->hasItem("GraveyardBook1")) {
-		space->getState()->registerChamberAvailable(ChamberID::graveyard0);
+		space->getState()->registerChamberAvailable(ChamberID::graveyard1);
 	}
 	if (space->getState()->hasItem("ForestBook1")) {
 		space->getState()->registerChamberAvailable(ChamberID::forest1);

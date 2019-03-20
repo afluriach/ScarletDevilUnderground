@@ -84,8 +84,9 @@ public:
 enum class ChamberID
 {
 	begin = 0,
-	graveyard0 = begin,
-	graveyard1,
+	graveyard1 = begin,
+	graveyard2,
+	graveyard3,
 	graveyard4,
 	forest1,
 	desert1,

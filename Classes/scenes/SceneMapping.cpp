@@ -58,8 +58,9 @@ const unordered_map<string, GScene::AdapterType> GScene::adapters = {
 	PlaySceneMapName(GardenEmpty),
 	PlaySceneMapName(GardenPath),
 	PlaySceneMapName(G1),
-	entry_same(Graveyard0),
 	entry_same(Graveyard1),
+	entry_same(Graveyard2),
+	entry_same(Graveyard3),
 	entry_same(Graveyard4),
 	entry_same(IceCave),
 	entry_same(Library),
@@ -77,8 +78,9 @@ const unordered_map<string, GScene::AdapterType> GScene::adapters = {
 };
 
 const unordered_map<ChamberID, PlayScene::AdapterType> PlayScene::adapters = {
-	{ChamberID::graveyard0, adapterPS<Graveyard0>() },
 	{ChamberID::graveyard1, adapterPS<Graveyard1>() },
+	{ChamberID::graveyard2, adapterPS<Graveyard2>() },
+	{ChamberID::graveyard3, adapterPS<Graveyard3>() },
 	{ChamberID::graveyard4, adapterPS<Graveyard4>() },
 	{ChamberID::forest1, adapterPS<Forest>() },
 	{ChamberID::desert1, adapterPS<Desert>() },

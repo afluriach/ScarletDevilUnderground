@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.0" tiledversion="1.0.3" orientation="orthogonal" renderorder="right-down" width="51" height="51" tilewidth="128" tileheight="128" nextobjectid="187">
+ <tileset firstgid="1" name="wall" tilewidth="128" tileheight="128" tilecount="4" columns="2">
+  <image source="fence.png" width="256" height="256"/>
+ </tileset>
+ <tileset firstgid="5" name="dirt floor" tilewidth="128" tileheight="128" tilecount="4" columns="2">
+  <image source="dirt1.png" width="256" height="256"/>
+ </tileset>
+ <tileset firstgid="9" name="stone" tilewidth="128" tileheight="128" tilecount="9" columns="3">
+  <image source="stone3.png" width="384" height="384"/>
+ </tileset>
+ <layer name="floor" width="51" height="51">
+  <data encoding="base64" compression="zlib">
+   eJzt0bENwDAQw8BvnGT/ieMhXJAGC4G9bs3Ms7cu6Lv3XVLCn7nkYinhz1xysZTwZy65WEr4M5dcLCX8mUsulhL+zCUXSwl/5pKLpYQ/c8nFUsKfueRiKeHPXHKxlPBnLrlYSvgzl1wsJfx5qj/hREG/
+  </data>
+ </layer>
+ <layer name="stone_path" width="51" height="51">
+  <data encoding="base64" compression="zlib">
+   eJzt17sKwCAAxVDnvqD//7PO3QpNJUMOuF4MTo6RJMl6p+TsUIsBcY9aeLXwG4Ra+A1CLfwGoRZ+g1ALv0Gohd8g1PJ0jO//qA3YuIEWguVtCbU41eJUi1MtTrU41eJUi5OlhfiLEef6O/Qly7sQanGqxakWp1UtE6sACCw=
+  </data>
+ </layer>
+ <layer name="wall_tiles" width="51" height="51">
+  <data encoding="base64" compression="zlib">
+   eJzt2UEKgDAMBMCo/f+bPfiAFFrKgrOQU2EIwcviqKprcUaQsZKbwWAwGDFGSlLuwWAwGIzPeJqp5n3G6GbXHl0Hqub9VBeb3WMlSd8Yg8Fg/N1ISco9GAwGg5HVo3bskdSj/BdjMBgMRlpS7sFgMBiMc13slPECBxgFcQ==
+  </data>
+ </layer>
+ <objectgroup name="floor"/>
+ <objectgroup name="walls">
+  <object id="92" x="0" y="0" width="128" height="2176"/>
+  <object id="93" x="128" y="6400" width="2048" height="128"/>
+  <object id="94" x="6400" y="0" width="128" height="2176"/>
+  <object id="96" x="128" y="0" width="2048" height="128"/>
+  <object id="97" x="128" y="2048" width="896" height="128"/>
+  <object id="99" x="4224" y="1152" width="256" height="896"/>
+  <object id="100" x="2048" y="1152" width="128" height="896"/>
+  <object id="101" x="2048" y="2304" width="128" height="896"/>
+  <object id="102" x="2048" y="3328" width="128" height="896"/>
+  <object id="103" x="128" y="4352" width="2048" height="128"/>
+  <object id="107" x="4224" y="2304" width="128" height="896"/>
+  <object id="108" x="4224" y="3328" width="128" height="896"/>
+  <object id="109" x="4224" y="5504" width="128" height="1024"/>
+  <object id="110" x="2048" y="5504" width="128" height="896"/>
+  <object id="115" x="4224" y="128" width="128" height="896"/>
+  <object id="116" x="5504" y="2176" width="896" height="128"/>
+  <object id="117" x="2048" y="128" width="128" height="896"/>
+  <object id="118" x="2048" y="4480" width="128" height="896"/>
+  <object id="130" x="4480" y="6400" width="2048" height="128"/>
+  <object id="143" x="2176" y="0" width="2176" height="128"/>
+  <object id="144" x="4352" y="0" width="2048" height="128"/>
+  <object id="145" x="2176" y="128" width="128" height="896"/>
+  <object id="146" x="2176" y="1152" width="128" height="896"/>
+  <object id="147" x="4352" y="128" width="128" height="896"/>
+  <object id="148" x="4224" y="1152" width="128" height="896"/>
+  <object id="149" x="4352" y="1152" width="128" height="896"/>
+  <object id="150" x="128" y="2176" width="896" height="128"/>
+  <object id="151" x="2176" y="2048" width="2176" height="128"/>
+  <object id="152" x="2176" y="2176" width="2176" height="128"/>
+  <object id="153" x="4352" y="2048" width="1024" height="128"/>
+  <object id="154" x="4352" y="2176" width="1024" height="128"/>
+  <object id="155" x="4352" y="2304" width="128" height="896"/>
+  <object id="156" x="4352" y="3328" width="128" height="896"/>
+  <object id="157" x="128" y="4224" width="2048" height="128"/>
+  <object id="159" x="2176" y="2304" width="128" height="896"/>
+  <object id="160" x="2176" y="3328" width="128" height="896"/>
+  <object id="161" x="2176" y="4480" width="128" height="896"/>
+  <object id="162" x="2176" y="5504" width="128" height="896"/>
+  <object id="163" x="2176" y="6400" width="2048" height="128"/>
+  <object id="165" x="4352" y="5504" width="128" height="1024"/>
+  <object id="167" x="2176" y="4224" width="1024" height="128"/>
+  <object id="168" x="2176" y="4352" width="1024" height="128"/>
+  <object id="169" x="4352" y="4352" width="2048" height="128"/>
+  <object id="170" x="4352" y="4224" width="2048" height="128"/>
+  <object id="173" x="5504" y="2048" width="896" height="128"/>
+  <object id="174" x="6400" y="2176" width="128" height="2176"/>
+  <object id="175" x="6400" y="4352" width="128" height="2048"/>
+  <object id="176" x="0" y="2176" width="128" height="2176"/>
+  <object id="177" x="0" y="4352" width="128" height="2176"/>
+  <object id="179" x="4224" y="4480" width="128" height="896"/>
+  <object id="180" x="4352" y="4480" width="128" height="896"/>
+  <object id="181" x="3328" y="4352" width="1024" height="128"/>
+  <object id="182" x="3328" y="4224" width="1024" height="128"/>
+  <object id="185" x="1152" y="2176" width="1024" height="128"/>
+  <object id="186" x="1152" y="2048" width="1024" height="128"/>
+ </objectgroup>
+ <objectgroup name="objects">
+  <object id="131" type="Goal" x="1024" y="1024" width="128" height="128"/>
+  <object id="142" name="player" type="Player" x="3200" y="6144" width="128" height="128"/>
+ </objectgroup>
+ <objectgroup name="rooms">
+  <object id="133" name="0" x="2176" y="4352" width="2176" height="2176"/>
+  <object id="134" name="1" x="0" y="4352" width="2176" height="2176"/>
+  <object id="135" name="2" x="0" y="2176" width="2176" height="2176"/>
+  <object id="136" name="3" x="2176" y="2176" width="2176" height="2176"/>
+  <object id="137" name="4" x="4352" y="2176" width="2176" height="2176"/>
+  <object id="138" name="5" x="4352" y="4352" width="2176" height="2176"/>
+  <object id="139" name="6" x="2176" y="0" width="2176" height="2176"/>
+  <object id="183" name="7" x="4352" y="0" width="2176" height="2176"/>
+  <object id="184" name="8" x="0" y="0" width="2176" height="2176"/>
+ </objectgroup>
+</map>

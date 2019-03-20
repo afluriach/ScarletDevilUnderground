@@ -22,7 +22,7 @@ bool Headstone::conditionalLoad(GSpace* space, ObjectIDType id, const ValueMap& 
 	if (level == -1)
 		return true;
 	else
-		return !space->getState()->isChamberCompleted(enum_add(ChamberID, graveyard0, level - 1));
+		return !space->getState()->isChamberCompleted(enum_add(ChamberID, graveyard1, level - 1));
 }
 
 Headstone::Headstone(GSpace* space, ObjectIDType id, const ValueMap& args) :
