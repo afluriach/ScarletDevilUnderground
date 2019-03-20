@@ -57,9 +57,9 @@
     <property name="direction" value="left"/>
    </properties>
   </object>
-  <object id="73" type="GreenFairy" x="1024" y="1024" width="128" height="128"/>
-  <object id="74" type="GreenFairy" x="1536" y="512" width="128" height="128"/>
-  <object id="75" type="GreenFairy" x="512" y="1536" width="128" height="128"/>
+  <object id="73" type="GreenFairy1" x="1024" y="1024" width="128" height="128"/>
+  <object id="74" type="GreenFairy1" x="1536" y="512" width="128" height="128"/>
+  <object id="75" type="GreenFairy1" x="512" y="1536" width="128" height="128"/>
   <object id="76" type="Bat" x="512" y="512" width="128" height="128"/>
   <object id="77" type="Bat" x="1536" y="1536" width="128" height="128"/>
  </objectgroup>

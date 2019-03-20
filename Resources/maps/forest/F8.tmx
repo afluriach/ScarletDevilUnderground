@@ -79,14 +79,14 @@
     <property name="pathName" value="path-f8-3"/>
    </properties>
   </object>
-  <object id="175" type="GreenFairy" x="640" y="3328" width="128" height="128"/>
+  <object id="175" type="GreenFairy2" x="640" y="3328" width="128" height="128"/>
   <object id="176" type="RedFairy" x="640" y="2304" width="128" height="128"/>
   <object id="177" type="RedFairy" x="640" y="256" width="128" height="128"/>
-  <object id="178" type="GreenFairy" x="640" y="1280" width="128" height="128"/>
+  <object id="178" type="GreenFairy2" x="640" y="1280" width="128" height="128"/>
   <object id="179" type="RedFairy" x="4736" y="256" width="128" height="128"/>
   <object id="180" type="RedFairy" x="4736" y="2304" width="128" height="128"/>
-  <object id="181" type="GreenFairy" x="4736" y="3328" width="128" height="128"/>
-  <object id="182" type="GreenFairy" x="4736" y="1280" width="128" height="128"/>
+  <object id="181" type="GreenFairy2" x="4736" y="3328" width="128" height="128"/>
+  <object id="182" type="GreenFairy2" x="4736" y="1280" width="128" height="128"/>
  </objectgroup>
  <objectgroup name="paths">
   <object id="168" name="path-f8-1" x="1216" y="320">

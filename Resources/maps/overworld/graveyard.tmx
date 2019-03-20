@@ -172,7 +172,7 @@
   </object>
   <object id="152" type="Headstone" x="3136" y="6144" width="256" height="256">
    <properties>
-    <property name="level" value="3"/>
+    <property name="level" value="2"/>
    </properties>
   </object>
   <object id="153" name="to_inner_area" type="Door" x="3200" y="6400" width="128" height="128">

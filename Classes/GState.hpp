@@ -103,6 +103,9 @@ public:
 	float getUpgradeLevel(Attribute at);
 	AttributeMap getUpgrades();
 	AttributeSystem getPlayerStats();
+
+	//Apply all upgrades that are available at a certain point, for testing.
+	void setUpgradeLevels(int level);
 };
 
 #endif /* GState_hpp */

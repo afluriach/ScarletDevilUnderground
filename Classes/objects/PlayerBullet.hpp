@@ -11,12 +11,12 @@
 
 #include "Bullet.hpp"
 
-#define cons(x) x(GSpace* space, ObjectIDType id, const SpaceVect& pos, SpaceFloat angle, Agent* agent);
+#define cons(x) x(GSpace* space, ObjectIDType id, const SpaceVect& pos, SpaceFloat angle, object_ref<Agent> agent);
 
 class PlayerBullet : virtual public Bullet
 {
 public:
-	PlayerBullet(Agent* agent);
+	PlayerBullet(object_ref<Agent> agent);
 	inline virtual ~PlayerBullet() {}
 
 	virtual inline GType getType() const { return GType::playerBullet; }
@@ -25,7 +25,7 @@ public:
 class PlayerShield : virtual public GObject, public Bullet
 {
 public:
-	PlayerShield(Agent* agent);
+	PlayerShield(object_ref<Agent> agent);
 	inline virtual ~PlayerShield() {}
 
 	virtual inline GType getType() const { return GType::playerBullet; }
@@ -48,7 +48,7 @@ public:
 	static const bullet_properties cirnoSmallIceBullet;
 	static const bullet_properties cirnoLargeIceBullet;
 
-	PlayerBulletImpl(GSpace* space, ObjectIDType id, const SpaceVect& pos, SpaceFloat angle, Agent* agent, const bullet_properties* props);
+	PlayerBulletImpl(GSpace* space, ObjectIDType id, const SpaceVect& pos, SpaceFloat angle, object_ref<Agent> agent, const bullet_properties* props);
 	inline virtual ~PlayerBulletImpl() {}
 };
 
@@ -86,7 +86,7 @@ public:
 		ObjectIDType id,
 		const SpaceVect& pos,
 		SpaceFloat angle,
-		Agent* agent,
+		object_ref<Agent> agent,
 		SpaceFloat parametric_start
 	);
 

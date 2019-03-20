@@ -164,7 +164,8 @@ const unordered_map<string, GObject::object_info> GObject::objectInfo = {
 	entry_same(GrassFloor),
 	item_entry_same(GraveyardBook1),
 	item_entry_same(GraveyardKey),
-	entry_same(GreenFairy),
+	entry_same(GreenFairy1),
+	entry_same(GreenFairy2),
 	conditional_entry(Headstone),
 	collectible_entry(Health1, health1),
 	collectible_entry(Health2, health2),
@@ -237,7 +238,8 @@ const unordered_set<type_index> GSpace::enemyTypes = {
 	typeid(IceFairy),
 
 	typeid(RedFairy),
-	typeid(GreenFairy),
+	typeid(GreenFairy1),
+	typeid(GreenFairy2),
 	typeid(BlueFairy),
 	typeid(ZombieFairy),
 	

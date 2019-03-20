@@ -12,12 +12,12 @@
 #include "Bullet.hpp"
 #include "GObjectMixins.hpp"
 
-#define cons(x) x(GSpace* space, ObjectIDType id, const SpaceVect& pos, SpaceFloat angle, Agent* agent);
+#define cons(x) x(GSpace* space, ObjectIDType id, const SpaceVect& pos, SpaceFloat angle, object_ref<Agent> agent);
 
 class EnemyBullet : virtual public Bullet
 {
 public:
-	EnemyBullet(Agent* agent);
+	EnemyBullet(object_ref<Agent> agent);
 	inline virtual ~EnemyBullet() {}
 
 	virtual inline GType getType() const { return GType::enemyBullet; }
@@ -35,7 +35,7 @@ public:
 	static const bullet_properties rumiaDemarcationBullet;
 	static const bullet_properties rumiaPinwheelBullet;
 
-	EnemyBulletImpl(GSpace* space, ObjectIDType id, const SpaceVect& pos, SpaceFloat angle, Agent* agent, const bullet_properties* props);
+	EnemyBulletImpl(GSpace* space, ObjectIDType id, const SpaceVect& pos, SpaceFloat angle, object_ref<Agent> agent, const bullet_properties* props);
 	inline virtual ~EnemyBulletImpl() {}
 };
 
@@ -50,7 +50,7 @@ public DirectionalLaunch
 {
 public:
 
-	WaterBullet(GSpace* space, ObjectIDType id, const SpaceVect& pos, SpaceFloat angle, Agent* agent, SpaceFloat speed);
+	WaterBullet(GSpace* space, ObjectIDType id, const SpaceVect& pos, SpaceFloat angle, object_ref<Agent> agent, SpaceFloat speed);
 
 	virtual inline CircleLightArea getLightSource() const { return CircleLightArea{ getPos(), 2.0, Color4F(.375f,.75f,.75f,.5f), 0.0 }; }
 
@@ -65,7 +65,7 @@ public:
 class FireBullet : virtual public GObject, public EnemyBullet, public CircleBody, public LoopAnimationSprite, public DirectionalLaunch, public MaxSpeedImpl
 {
 public:
-	FireBullet(GSpace* space, ObjectIDType id, const SpaceVect& pos, SpaceFloat angle, Agent* agent, SpaceFloat speed);
+	FireBullet(GSpace* space, ObjectIDType id, const SpaceVect& pos, SpaceFloat angle, object_ref<Agent> agent, SpaceFloat speed);
 
 	virtual inline SpaceFloat getRadius() const { return 0.3; }
 
@@ -82,7 +82,7 @@ class StarBullet : virtual public GObject, public EnemyBullet, public CircleBody
 public:
     static const vector<string> colors;
 
-	StarBullet(GSpace* space, ObjectIDType id, const SpaceVect& pos, SpaceFloat angle, Agent* agent, SpaceFloat speed, SpaceFloat radius, const string& color);
+	StarBullet(GSpace* space, ObjectIDType id, const SpaceVect& pos, SpaceFloat angle, object_ref<Agent> agent, SpaceFloat speed, SpaceFloat radius, const string& color);
 
     const string color;
 
@@ -104,7 +104,7 @@ public ImageSprite
 {
 public:
     //IllusionDaggerBullet(const ValueMap& args);
-    IllusionDialDagger(GSpace* space, ObjectIDType id, Agent* agent, const SpaceVect& pos, SpaceFloat anglar_velocity);
+    IllusionDialDagger(GSpace* space, ObjectIDType id, object_ref<Agent> agent, const SpaceVect& pos, SpaceFloat anglar_velocity);
 
 	virtual inline SpaceFloat getMaxSpeed() const { return 3.0; }
     
@@ -129,7 +129,7 @@ public:
 
 	static SpaceVect parametric_move(SpaceFloat t, SpaceFloat angle, SpaceFloat phaseAngleStart);
 
-	ReimuBullet1(GSpace* space, ObjectIDType id, const SpaceVect& pos, SpaceFloat angle, Agent* agent, SpaceFloat start);
+	ReimuBullet1(GSpace* space, ObjectIDType id, const SpaceVect& pos, SpaceFloat angle, object_ref<Agent> agent, SpaceFloat start);
 
 	virtual void update();
 };
@@ -156,7 +156,7 @@ public:
 		ObjectIDType id,
 		const SpaceVect& pos,
 		SpaceFloat angle,
-		Agent* agent,
+		object_ref<Agent> agent,
 		SpaceFloat angularVel,
 		SpaceFloat ttl
 	);

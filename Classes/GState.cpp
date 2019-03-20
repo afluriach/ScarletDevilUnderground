@@ -163,3 +163,34 @@ AttributeSystem GState::getPlayerStats()
 	result.apply(getUpgrades());
 	return result;
 }
+
+void GState::setUpgradeLevels(int level)
+{
+	if (level >= 0)
+	{
+		registerUpgrade(Attribute::maxHP, 0);
+		registerUpgrade(Attribute::shieldLevel, 0);
+	}
+
+	if (level >= 1)
+	{
+		registerUpgrade(Attribute::maxHP, 2);
+	}
+
+	if (level >= 2)
+	{
+		registerUpgrade(Attribute::maxMP, 1);
+		registerUpgrade(Attribute::agility, 1);
+		registerUpgrade(Attribute::ricochet, 1);
+	}
+
+	if (level >= 3)
+	{
+		registerUpgrade(Attribute::maxHP, 1);
+	}
+
+	if (level >= 4)
+	{
+		registerUpgrade(Attribute::attack, 1);
+	}
+}

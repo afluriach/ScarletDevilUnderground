@@ -91,7 +91,7 @@
       <PrecompiledHeaderFile>Prefix.h</PrecompiledHeaderFile>
     </ClCompile>
     <Link>
-      <AdditionalDependencies>Lua.lib;Chipmunk.lib;ChipmunkPlusPlus.lib;libcocos2d.lib;xinput.lib;legacy_stdio_definitions.lib;glew32.lib;fmod_vc.lib;gainputstatic-debug.lib;%(AdditionalDependencies);$(_COCOS_LIB_WIN32_BEGIN);$(_COCOS_LIB_WIN32_END)</AdditionalDependencies>
+      <AdditionalDependencies>Lua.lib;Chipmunk.lib;libcocos2d.lib;xinput.lib;legacy_stdio_definitions.lib;glew32.lib;fmod_vc.lib;gainputstatic-debug.lib;%(AdditionalDependencies);$(_COCOS_LIB_WIN32_BEGIN);$(_COCOS_LIB_WIN32_END)</AdditionalDependencies>
       <OutputFile>$(OutDir)$(ProjectName).exe</OutputFile>
       <AdditionalLibraryDirectories>C:\Program Files (x86)\FMOD SoundSystem\FMOD Studio API Windows\api\lowlevel\lib;C:\Users\toni\git\kouma\cocos2d\external\win32-specific\gles\prebuilt;D:\dev\boost_1_59_0\lib-vc140\;$(OutDir);%(AdditionalLibraryDirectories);$(_COCOS_LIB_PATH_WIN32_BEGIN);$(_COCOS_LIB_PATH_WIN32_END);C:\Users\toni\git\kouma\gainput\lib\win32</AdditionalLibraryDirectories>
       <GenerateDebugInformation>true</GenerateDebugInformation>
@@ -126,7 +126,7 @@ xcopy "$(ProjectDir)..\Resources" "$(OutDir)" /D /E /I /F /Y</Command>
       <EnableEnhancedInstructionSet>StreamingSIMDExtensions2</EnableEnhancedInstructionSet>
     </ClCompile>
     <Link>
-      <AdditionalDependencies>Lua.lib;Chipmunk.lib;ChipmunkPlusPlus.lib;libcocos2d.lib;xinput.lib;legacy_stdio_definitions.lib;glew32.lib;fmod_vc.lib;gainputstatic-release.lib;libcurl_imp.lib;websockets.lib;%(AdditionalDependencies);$(_COCOS_LIB_WIN32_BEGIN);$(_COCOS_LIB_WIN32_END)</AdditionalDependencies>
+      <AdditionalDependencies>Lua.lib;Chipmunk.lib;libcocos2d.lib;xinput.lib;legacy_stdio_definitions.lib;glew32.lib;fmod_vc.lib;gainputstatic-release.lib;libcurl_imp.lib;websockets.lib;%(AdditionalDependencies);$(_COCOS_LIB_WIN32_BEGIN);$(_COCOS_LIB_WIN32_END)</AdditionalDependencies>
       <OutputFile>$(OutDir)$(ProjectName).exe</OutputFile>
       <AdditionalLibraryDirectories>C:\Program Files (x86)\FMOD SoundSystem\FMOD Studio API Windows\api\lowlevel\lib;C:\Users\toni\git\kouma\cocos2d\external\win32-specific\gles\prebuilt;D:\dev\boost_1_59_0\lib-x64;$(OutDir);%(AdditionalLibraryDirectories);$(_COCOS_LIB_PATH_WIN32_BEGIN);$(_COCOS_LIB_PATH_WIN32_END);C:\Users\toni\git\kouma\gainput\lib\win32</AdditionalLibraryDirectories>
       <GenerateDebugInformation>true</GenerateDebugInformation>

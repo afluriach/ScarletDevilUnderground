@@ -49,7 +49,7 @@
    </properties>
   </object>
   <object id="73" type="ZombieFairy" x="1024" y="1024" width="128" height="128"/>
-  <object id="75" type="GreenFairy" x="768" y="1024" width="128" height="128"/>
-  <object id="76" type="GreenFairy" x="1280" y="1024" width="128" height="128"/>
+  <object id="75" type="GreenFairy1" x="768" y="1024" width="128" height="128"/>
+  <object id="76" type="GreenFairy1" x="1280" y="1024" width="128" height="128"/>
  </objectgroup>
 </map>

@@ -338,15 +338,14 @@ void RedFairy::initStateMachine(ai::StateMachine& sm)
 	);
 }
 
-const AttributeMap GreenFairy::baseAttributes = {
+const AttributeMap GreenFairy1::baseAttributes = {
 	{ Attribute::maxHP, 30.0f },
 	{ Attribute::touchDamage, 3.0f },
-	{ Attribute::stressFromDetects, 0.25f },
 	{ Attribute::stressFromHits, 0.5f },
-	{ Attribute::agility, 4.0f }
+	{ Attribute::agility, 3.0f }
 };
 
-GreenFairy::GreenFairy(GSpace* space, ObjectIDType id, const ValueMap& args) :
+GreenFairy1::GreenFairy1(GSpace* space, ObjectIDType id, const ValueMap& args) :
 	MapObjForwarding(GObject),
 	MapObjForwarding(Agent),
 	Enemy(collectible_id::hm1)
@@ -354,7 +353,40 @@ GreenFairy::GreenFairy(GSpace* space, ObjectIDType id, const ValueMap& args) :
 	firePattern = make_shared<GreenFairyBulletPattern>(this, 1.5, 8);
 }
 
-void GreenFairy::initStateMachine(ai::StateMachine& sm)
+void GreenFairy1::initStateMachine(ai::StateMachine& sm)
+{
+	addMagicEffect(make_shared<BulletSpeedFromHP>(
+		object_ref<Agent>(this),
+		make_pair(0.25f, 0.75f),
+		make_pair(0.75f, 1.0f),
+		0.5f,
+		0.25f
+	));
+
+	sm.setAlertFunction([](ai::StateMachine& sm, Player* p)->void {
+		sm.addThread(make_shared<ai::Wander>(0.75, 1.5, 2.0, 4.0), 0);
+		sm.addThread(make_shared<ai::EvadePlayerProjectiles>(), 1);
+		sm.addThread(make_shared<ai::FireOnStress>(5.0f));
+	});
+}
+
+const AttributeMap GreenFairy2::baseAttributes = {
+	{ Attribute::maxHP, 45.0f },
+	{ Attribute::touchDamage, 6.0f },
+	{ Attribute::stressFromDetects, 0.25f },
+	{ Attribute::stressFromHits, 0.5f },
+	{ Attribute::agility, 4.0f }
+};
+
+GreenFairy2::GreenFairy2(GSpace* space, ObjectIDType id, const ValueMap& args) :
+	MapObjForwarding(GObject),
+	MapObjForwarding(Agent),
+	Enemy(collectible_id::hm2)
+{
+	firePattern = make_shared<GreenFairyBulletPattern>(this, 1.5, 16);
+}
+
+void GreenFairy2::initStateMachine(ai::StateMachine& sm)
 {
 	addMagicEffect(make_shared<BulletSpeedFromHP>(
 		object_ref<Agent>(this),
@@ -369,6 +401,15 @@ void GreenFairy::initStateMachine(ai::StateMachine& sm)
 		sm.addThread(make_shared<ai::EvadePlayerProjectiles>(), 1);
 		sm.addThread(make_shared<ai::FireOnStress>(5.0f));
 	});
+}
+
+void GreenFairy2::onRemove()
+{
+	Enemy::onRemove();
+
+	if (firePattern) {
+		firePattern->fireIfPossible();
+	}
 }
 
 const AttributeMap ZombieFairy::baseAttributes = {

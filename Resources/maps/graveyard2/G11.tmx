@@ -49,9 +49,9 @@
     <property name="dir" value="down"/>
    </properties>
   </object>
-  <object id="74" name="g11-fairy" type="GreenFairy" x="1024" y="640" width="128" height="128"/>
-  <object id="75" name="g11-fairy" type="GreenFairy" x="1408" y="1024" width="128" height="128"/>
-  <object id="76" name="g11-fairy" type="GreenFairy" x="640" y="1024" width="128" height="128"/>
-  <object id="77" name="g11-fairy" type="GreenFairy" x="1024" y="1408" width="128" height="128"/>
+  <object id="74" name="g11-fairy" type="GreenFairy2" x="1024" y="640" width="128" height="128"/>
+  <object id="75" name="g11-fairy" type="GreenFairy2" x="1408" y="1024" width="128" height="128"/>
+  <object id="76" name="g11-fairy" type="GreenFairy2" x="640" y="1024" width="128" height="128"/>
+  <object id="77" name="g11-fairy" type="GreenFairy2" x="1024" y="1408" width="128" height="128"/>
  </objectgroup>
 </map>

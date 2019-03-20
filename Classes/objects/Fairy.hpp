@@ -156,19 +156,19 @@ public:
 	virtual void initStateMachine(ai::StateMachine& sm);
 };
 
-class GreenFairy :
+class GreenFairy1 :
 	public Enemy,
-	public BaseAttributes<GreenFairy>
+	public BaseAttributes<GreenFairy1>
 {
 public:
 	static const AttributeMap baseAttributes;
 
-	GreenFairy(GSpace* space, ObjectIDType id, const ValueMap& args);
+	GreenFairy1(GSpace* space, ObjectIDType id, const ValueMap& args);
 
-	virtual inline SpaceFloat getRadarRadius() const { return 6.0; }
-	virtual inline SpaceFloat getDefaultFovAngle() const { return 0.0; }
+	virtual inline SpaceFloat getRadarRadius() const { return 4.5; }
+	virtual inline SpaceFloat getDefaultFovAngle() const { return float_pi; }
 
-	inline SpaceFloat getMass() const { return 25.0; }
+	inline SpaceFloat getMass() const { return 15.0; }
 
 	inline string imageSpritePath() const { return "sprites/fairy-green.png"; }
 	virtual bool isAgentAnimation() const { return true; }
@@ -176,6 +176,29 @@ public:
 
 	virtual void initStateMachine(ai::StateMachine& sm);
 };
+
+class GreenFairy2 :
+	public Enemy,
+	public BaseAttributes<GreenFairy2>
+{
+public:
+	static const AttributeMap baseAttributes;
+
+	GreenFairy2(GSpace* space, ObjectIDType id, const ValueMap& args);
+
+	virtual inline SpaceFloat getRadarRadius() const { return 6.0; }
+	virtual inline SpaceFloat getDefaultFovAngle() const { return 0.0; }
+
+	inline SpaceFloat getMass() const { return 25.0; }
+
+	inline string imageSpritePath() const { return "sprites/fairy2-green.png"; }
+	virtual bool isAgentAnimation() const { return true; }
+	virtual inline int pixelWidth() const { return 128; }
+
+	virtual void initStateMachine(ai::StateMachine& sm);
+	virtual void onRemove();
+};
+
 
 class ZombieFairy :
 	public Enemy,

@@ -15,14 +15,14 @@
 #include "GSpace.hpp"
 #include "MagicEffect.hpp"
 
-#define cons(x) x::x(GSpace* space, ObjectIDType id, const SpaceVect& pos, SpaceFloat angle, Agent* agent) : \
+#define cons(x) x::x(GSpace* space, ObjectIDType id, const SpaceVect& pos, SpaceFloat angle, object_ref<Agent> agent) : \
     GObject(space, id, "", pos, angle), \
     Bullet(agent), \
     EnemyBullet(agent), \
     BulletImpl(&props) \
 {} \
 
-EnemyBullet::EnemyBullet(Agent* agent) :
+EnemyBullet::EnemyBullet(object_ref<Agent> agent) :
 	Bullet(agent)
 {}
 
@@ -100,7 +100,7 @@ const bullet_properties EnemyBulletImpl::rumiaPinwheelBullet = {
 	false
 };
 
-EnemyBulletImpl::EnemyBulletImpl(GSpace* space, ObjectIDType id, const SpaceVect& pos, SpaceFloat angle, Agent* agent, const bullet_properties* props) :
+EnemyBulletImpl::EnemyBulletImpl(GSpace* space, ObjectIDType id, const SpaceVect& pos, SpaceFloat angle, object_ref<Agent> agent, const bullet_properties* props) :
 	GObject(space, id, "", pos, angle),
 	Bullet(agent),
 	EnemyBullet(agent),
@@ -108,14 +108,14 @@ EnemyBulletImpl::EnemyBulletImpl(GSpace* space, ObjectIDType id, const SpaceVect
 {}
 
 
-FireBullet::FireBullet(GSpace* space, ObjectIDType id, const SpaceVect& pos, SpaceFloat angle, Agent* agent, SpaceFloat speed) :
+FireBullet::FireBullet(GSpace* space, ObjectIDType id, const SpaceVect& pos, SpaceFloat angle, object_ref<Agent> agent, SpaceFloat speed) :
 	GObject(space, id, "", pos, angle),
 	Bullet(agent),
 	EnemyBullet(agent),
 	MaxSpeedImpl(speed)
 {}
 
-WaterBullet::WaterBullet(GSpace* space, ObjectIDType id, const SpaceVect& pos, SpaceFloat angle, Agent* agent, SpaceFloat speed) :
+WaterBullet::WaterBullet(GSpace* space, ObjectIDType id, const SpaceVect& pos, SpaceFloat angle, object_ref<Agent> agent, SpaceFloat speed) :
 	GObject(space, id, "", pos, angle),
 	Bullet(agent),
 	EnemyBullet(agent),
@@ -132,7 +132,7 @@ const vector<string> StarBullet::colors = {
 	"yellow"
 };
 
-StarBullet::StarBullet(GSpace* space, ObjectIDType id, const SpaceVect& pos, SpaceFloat angle, Agent* agent, SpaceFloat speed, SpaceFloat radius, const string& color) :
+StarBullet::StarBullet(GSpace* space, ObjectIDType id, const SpaceVect& pos, SpaceFloat angle, object_ref<Agent> agent, SpaceFloat speed, SpaceFloat radius, const string& color) :
 	GObject(space, id, "", pos, angle),
 	Bullet(agent),
 	EnemyBullet(agent),
@@ -146,7 +146,7 @@ AttributeMap StarBullet::getAttributeEffect() const {
 	};
 }
 
-IllusionDialDagger::IllusionDialDagger(GSpace* space, ObjectIDType id, Agent* agent, const SpaceVect& pos, SpaceFloat angular_velocity) :
+IllusionDialDagger::IllusionDialDagger(GSpace* space, ObjectIDType id, object_ref<Agent> agent, const SpaceVect& pos, SpaceFloat angular_velocity) :
 GObject(space,id,"", pos, 0.0),
 Bullet(agent),
 EnemyBullet(agent),
@@ -219,7 +219,7 @@ SpaceVect ReimuBullet1::parametric_move(SpaceFloat t, SpaceFloat firingAngle, Sp
 	return d1 + d2;
 }
 
-ReimuBullet1::ReimuBullet1(GSpace* space, ObjectIDType id, const SpaceVect& pos, SpaceFloat angle, Agent* agent, SpaceFloat start) :
+ReimuBullet1::ReimuBullet1(GSpace* space, ObjectIDType id, const SpaceVect& pos, SpaceFloat angle, object_ref<Agent> agent, SpaceFloat start) :
 	GObject(space, id, "", pos, angle),
 	Bullet(agent),
 	EnemyBullet(agent),
@@ -242,7 +242,7 @@ const bullet_properties YinYangOrb::props = {
 	hp_damage_map(10.0f)
 };
 
-YinYangOrb::YinYangOrb(GSpace* space, ObjectIDType id, const SpaceVect& pos, SpaceFloat angle, Agent* agent) :
+YinYangOrb::YinYangOrb(GSpace* space, ObjectIDType id, const SpaceVect& pos, SpaceFloat angle, object_ref<Agent> agent) :
 	GObject(space, id, "", pos, angle),
 	Bullet(agent),
 	EnemyBullet(agent),
@@ -279,7 +279,7 @@ RumiaDemarcation2Bullet::RumiaDemarcation2Bullet(
 	ObjectIDType id,
 	const SpaceVect& pos,
 	SpaceFloat angle,
-	Agent* agent,
+	object_ref<Agent> agent,
 	SpaceFloat angularVel,
 	SpaceFloat ttl
 ) :

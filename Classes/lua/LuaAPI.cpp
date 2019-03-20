@@ -348,6 +348,7 @@ const vector<string> Inst::luaIncludes = {
 			.addFunction("hasItem", &GState::hasItem)
 			.addFunction("registerChamberCompleted", &GState::_registerChamberCompleted)
 			.addFunction("registerUpgrade", &GState::_registerUpgrade)
+			.addFunction("setUpgradeLevels", &GState::setUpgradeLevels)
 		.endClass()
 
 		.beginClass<HUD>("HUD")

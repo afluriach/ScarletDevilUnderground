@@ -14,20 +14,20 @@
 #include "Player.hpp"
 #include "PlayerBullet.hpp"
 
-#define cons(x) x::x(GSpace* space, ObjectIDType id, const SpaceVect& pos, SpaceFloat angle, Agent* agent) : \
+#define cons(x) x::x(GSpace* space, ObjectIDType id, const SpaceVect& pos, SpaceFloat angle, object_ref<Agent> agent) : \
     GObject(space, id, "", pos, angle), \
     Bullet(agent), \
     PlayerBullet(agent), \
     BulletImpl(&props) \
 {} \
 
-PlayerBullet::PlayerBullet(Agent* agent) :
+PlayerBullet::PlayerBullet(object_ref<Agent> agent) :
 	Bullet(agent)
 {
-	ricochetCount = agent->getAttribute(Attribute::ricochet);
+	ricochetCount = agent.get()->getAttribute(Attribute::ricochet);
 }
 
-PlayerShield::PlayerShield(Agent* agent) :
+PlayerShield::PlayerShield(object_ref<Agent> agent) :
 	Bullet(agent)
 {
 }
@@ -95,7 +95,7 @@ const bullet_properties PlayerBulletImpl::cirnoLargeIceBullet = {
 	{ { Attribute::hp, -1 },{ Attribute::iceDamage, 50 } }
 };
 
-PlayerBulletImpl::PlayerBulletImpl(GSpace* space, ObjectIDType id, const SpaceVect& pos, SpaceFloat angle, Agent* agent, const bullet_properties* props) : 
+PlayerBulletImpl::PlayerBulletImpl(GSpace* space, ObjectIDType id, const SpaceVect& pos, SpaceFloat angle, object_ref<Agent> agent, const bullet_properties* props) :
     GObject(space, id, "", pos, angle),
     Bullet(agent),
     PlayerBullet(agent),
@@ -135,11 +135,11 @@ SpaceVect FlanPolarBullet::parametric_motion(SpaceFloat t)
 	return SpaceVect::ray(r, theta);
 }
 
-FlanPolarBullet::FlanPolarBullet(GSpace* space, ObjectIDType id, const SpaceVect& pos, SpaceFloat angle, Agent* agent) :
+FlanPolarBullet::FlanPolarBullet(GSpace* space, ObjectIDType id, const SpaceVect& pos, SpaceFloat angle, object_ref<Agent> agent) :
 	FlanPolarBullet(space,id,pos,angle,agent, 0.0)
 {}
 
-FlanPolarBullet::FlanPolarBullet(GSpace* space, ObjectIDType id, const SpaceVect& pos, SpaceFloat angle, Agent* agent, SpaceFloat parametric_start) :
+FlanPolarBullet::FlanPolarBullet(GSpace* space, ObjectIDType id, const SpaceVect& pos, SpaceFloat angle, object_ref<Agent> agent, SpaceFloat parametric_start) :
 	GObject(space, id, "", pos, angle),
 	Bullet(agent),
 	PlayerBullet(agent),
@@ -167,7 +167,7 @@ const bullet_properties FlandrePolarMotionOrb::props = {
 	hp_damage_map(1.0f)
 };
 
-FlandrePolarMotionOrb::FlandrePolarMotionOrb(GSpace* space, ObjectIDType id, const SpaceVect& pos, SpaceFloat angle, Agent* agent) :
+FlandrePolarMotionOrb::FlandrePolarMotionOrb(GSpace* space, ObjectIDType id, const SpaceVect& pos, SpaceFloat angle, object_ref<Agent> agent) :
 	GObject(space, id, "", pos, angle),
 	Bullet(agent),
 	PlayerBullet(agent),
@@ -186,7 +186,7 @@ CircleLightArea FlandrePolarMotionOrb::getLightSource() const {
 	return CircleLightArea{ getPos(), 2.0, Color4F::RED*0.5f, 0.0 };
 }
 
-FlandreCounterClockBullet::FlandreCounterClockBullet(GSpace* space, ObjectIDType id, const SpaceVect& pos, SpaceFloat angle, Agent* agent) :
+FlandreCounterClockBullet::FlandreCounterClockBullet(GSpace* space, ObjectIDType id, const SpaceVect& pos, SpaceFloat angle, object_ref<Agent> agent) :
 	GObject(space, id, "", pos, angle),
 	PlayerShield(agent),
 	RectangleBody(SpaceVect(4.0, 0.5))
@@ -198,7 +198,7 @@ AttributeMap FlandreCounterClockBullet::getAttributeEffect() const {
 	};
 }
 
-CirnoIceShieldBullet::CirnoIceShieldBullet(GSpace* space, ObjectIDType id, const SpaceVect& pos, SpaceFloat angle, Agent* agent) :
+CirnoIceShieldBullet::CirnoIceShieldBullet(GSpace* space, ObjectIDType id, const SpaceVect& pos, SpaceFloat angle, object_ref<Agent> agent) :
 	GObject(space, id, "", pos, angle),
 	PlayerShield(agent)
 {}
