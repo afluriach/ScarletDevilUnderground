@@ -266,7 +266,7 @@ const string WorldSelect::title = "Select World";
 const vector<pair<string,zero_arity_function>> WorldSelect::entries = {
 	entry(Graveyard0),
 	entry(Graveyard1),
-	entry(Graveyard2),
+	entry(Graveyard4),
 	entry(Forest),
 	entry(Desert),
 	entry(Mine),
@@ -278,7 +278,7 @@ const vector<pair<string,zero_arity_function>> WorldSelect::entries = {
 const vector<ChamberID> WorldSelect::chamberIDs = {
 	ChamberID::graveyard0,
 	ChamberID::graveyard1,
-	ChamberID::graveyard2,
+	ChamberID::graveyard4,
 	ChamberID::forest1,
 	ChamberID::desert1,
 	ChamberID::mine1,

@@ -38,23 +38,23 @@ public:
 
 	virtual GScene* getReplacementScene();
 	inline virtual ChamberID getCurrentLevel() const { return ChamberID::graveyard1; }
-	inline virtual ChamberID getNextLevel() const { return ChamberID::graveyard2; }
+	inline virtual ChamberID getNextLevel() const { return ChamberID::graveyard4; }
 
 };
 
-class Graveyard2 : public PlayScene
+class Graveyard4 : public PlayScene
 {
 public:
 	static const IntVec2 roomSize;
 	static const vector<MapEntry> rooms;
 
-	Graveyard2();
-	inline virtual ~Graveyard2() {}
+	Graveyard4();
+	inline virtual ~Graveyard4() {}
 
 	inline virtual Color4F getDefaultAmbientLight() const { return Color4F(.225f, .333f, .333f, 1.0f); }
 
 	virtual GScene* getReplacementScene();
-	inline virtual ChamberID getCurrentLevel() const { return ChamberID::graveyard2; }
+	inline virtual ChamberID getCurrentLevel() const { return ChamberID::graveyard4; }
 };
 
 

@@ -86,7 +86,7 @@ enum class ChamberID
 	begin = 0,
 	graveyard0 = begin,
 	graveyard1,
-	graveyard2,
+	graveyard4,
 	forest1,
 	desert1,
 	mine1,

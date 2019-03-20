@@ -210,13 +210,13 @@ void BlueFairyNPC::onDialogEnd()
 bool GhostFairyNPC::conditionalLoad(GSpace* space, ObjectIDType id, const ValueMap& args)
 {
 	int level = getIntOrDefault(args, "level", -1);
-	int levelCount = enum_count(ChamberID, graveyard2, graveyard0);
+	int levelCount = enum_count(ChamberID, graveyard4, graveyard0);
 
 	if (level == -1) {
 		log("GhostFairyNPC: unknown level!");
 		return false;
 	}
-	else if (level > enum_count(ChamberID, graveyard2, graveyard0)) {
+	else if (level > enum_count(ChamberID, graveyard4, graveyard0)) {
 		log("GhostFairyNPC: invalid level %d!", level);
 		return false;
 	}
