@@ -12,6 +12,7 @@
 #include "Collectibles.hpp"
 #include "Enemy.hpp"
 #include "EnemyBullet.hpp"
+#include "EnvironmentalObjects.hpp"
 #include "FloorSegment.hpp"
 #include "GObject.hpp"
 #include "GSpace.hpp"
@@ -371,15 +372,19 @@ int GSpace::playerUpgradeBegin(GObject* a, GObject* b, cpArbiter* arb)
 	return 0;
 }
 
-
 int GSpace::bulletEnvironment(GObject* bullet, GObject* environment, cpArbiter* arb)
 {
 	Bullet* _b = dynamic_cast<Bullet*>(bullet);
 	bool _sensor = cpShapeGetSensor(environment->bodyShape);
 
 	if (_b && environment && !_sensor) {
-		if (!_b->applyRicochet(cpArbiterGetNormal(arb, 0)))
+		if (!_b->applyRicochet(cpArbiterGetNormal(arb, 0))) {
 			_b->onEnvironmentCollide(environment);
+
+			if (auto _hs = dynamic_cast<Headstone*>(environment)) {
+				_hs->hit(-AttributeSystem::getAttribute(_b->getAttributeEffect(), Attribute::hp));
+			}
+		}
 	}
     
     return 1;

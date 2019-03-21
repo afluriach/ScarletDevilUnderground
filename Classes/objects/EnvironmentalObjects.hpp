@@ -18,17 +18,27 @@ class Headstone :
 	public ImageSprite
 {
 public:
+	static const vector<string> damageSprites;
+	static const vector<float_pair> damageIntervals;
+
 	static bool conditionalLoad(GSpace* space, ObjectIDType id, const ValueMap& args);
 
 	MapObjCons(Headstone);
 	virtual inline ~Headstone() {}
     
+	void hit(float damage);
+
     virtual string imageSpritePath() const {return "sprites/headstone.png";}
     virtual GraphicsLayer sceneLayer() const {return GraphicsLayer::ground;}
     
     virtual inline GType getType() const {return GType::environment;}
 	virtual inline PhysicsLayers getLayers() const { return PhysicsLayers::all; }
 	virtual inline SpaceFloat getMass() const { return -1.0; }
+protected:
+	static boost::icl::interval_map<float, int> intervals;
+
+	int spriteIdx = 0;
+	float hp, maxHP;
 };
 
 class GhostHeadstone : public Headstone, public RegisterInit<GhostHeadstone>
