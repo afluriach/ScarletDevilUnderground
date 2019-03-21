@@ -461,8 +461,7 @@ private:
 	int playerBulletEnemyBegin(GObject* a, GObject* b, cpArbiter* arb);
 	int bulletBulletBegin(GObject* a, GObject* b, cpArbiter* arb);
 	int playerFlowerBegin(GObject* a, GObject* b, cpArbiter* arb);
-    int playerCollectibleBegin(GObject* a, GObject* b, cpArbiter* arb);
-	int playerUpgradeBegin(GObject* a, GObject* b, cpArbiter* arb);
+    int playerPickupBegin(GObject* a, GObject* b, cpArbiter* arb);
 	int bulletEnvironment(GObject* a, GObject* b, cpArbiter* arb);
 	int noCollide(GObject* a, GObject* b, cpArbiter* arb);
 	int collide(GObject* a, GObject* b, cpArbiter* arb);

@@ -11,20 +11,6 @@
 
 #include "InventoryObject.hpp"
 
-class GraveyardKey : public InventoryObject
-{
-public:
-	MapObjCons(GraveyardKey);
-
-    virtual inline string imageSpritePath() const {return "sprites/items/small grey key.png";}
-    virtual inline string itemName() const {return "GraveyardKey";}
-    
-    inline virtual bool canAcquire() { return true; }
-//    inline virtual void onAcquire() {
-        //TODO trigger dialog hinting that it opens the gate?
-//    }
-};
-
 class ForestBook1 : public InventoryObject
 {
 public:

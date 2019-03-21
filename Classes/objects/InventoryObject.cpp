@@ -13,11 +13,13 @@
 #include "GState.hpp"
 #include "InventoryObject.hpp"
 
-void InventoryObject::interact()
+void InventoryObject::onPlayerContact()
 {
-    onAcquire();
-	space->getState()->itemRegistry.insert(itemName());
-    
-    //remove item object
-    space->removeObject(this);
+	if (canAcquire()) {
+		onAcquire();
+		space->getState()->itemRegistry.insert(itemName());
+
+		//remove item object
+		space->removeObject(this);
+	}
 }

@@ -15,10 +15,6 @@
 #include "Spell.hpp"
 #include "value_map.hpp"
 
-GraveyardKey::GraveyardKey(GSpace* space, ObjectIDType id, const ValueMap& args) :
-	MapObjForwarding(GObject)
-{}
-
 ForestBook1::ForestBook1(GSpace* space, ObjectIDType id, const ValueMap& args) :
 	MapObjForwarding(GObject)
 {}

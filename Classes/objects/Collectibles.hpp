@@ -41,7 +41,7 @@ public:
 	inline virtual ~Collectible() {}
 
 	virtual inline SpaceFloat getMass() const { return -1.0; }
-	virtual inline GType getType() const { return GType::collectible; }
+	virtual inline GType getType() const { return GType::playerPickup; }
 	virtual inline bool getSensor() const { return true; }
 
 	virtual inline GraphicsLayer sceneLayer() const { return GraphicsLayer::floor; }

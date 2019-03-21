@@ -16,6 +16,7 @@
 #include "FloorSegment.hpp"
 #include "GObject.hpp"
 #include "GSpace.hpp"
+#include "InventoryObject.hpp"
 #include "Player.hpp"
 #include "Upgrade.hpp"
 #include "util.h"
@@ -91,8 +92,7 @@ void GSpace::addCollisionHandlers()
 	_addHandlerNoEnd(enemyBullet, foliage, noCollide);
 	_addHandlerNoEnd(playerBullet, enemyBullet, bulletBulletBegin);
 	_addHandlerNoEnd(player, foliage, playerFlowerBegin);
-    _addHandlerNoEnd(player,collectible,playerCollectibleBegin);
-	_addHandlerNoEnd(player, upgrade, playerUpgradeBegin);
+    _addHandlerNoEnd(player,playerPickup,playerPickupBegin);
     _addHandlerNoEnd(player,npc,collide);
 	_addHandlerNoEnd(playerBullet, wall, bulletWall);
 	_addHandlerNoEnd(enemyBullet, wall, bulletWall);    
@@ -108,7 +108,6 @@ void GSpace::addCollisionHandlers()
 	_addHandler(floorSegment, player, floorObjectBegin, floorObjectEnd);
 	_addHandler(floorSegment, enemy, floorObjectBegin, floorObjectEnd);
 	_addHandler(floorSegment, npc, floorObjectBegin, floorObjectEnd);
-	_addHandler(floorSegment, collectible, floorObjectBegin, floorObjectEnd);
 	_addHandler(floorSegment, environment, floorObjectBegin, floorObjectEnd);
 	_addHandler(floorSegment, bomb, floorObjectBegin, floorObjectEnd);
 
@@ -348,28 +347,21 @@ int GSpace::playerFlowerBegin(GObject* a, GObject* b, cpArbiter* arb)
     return 1;
 }
 
-int GSpace::playerCollectibleBegin(GObject* a, GObject* b, cpArbiter* arb)
+int GSpace::playerPickupBegin(GObject* a, GObject* b, cpArbiter* arb)
 {
     Player* p = dynamic_cast<Player*>(a);
-    Collectible* c = dynamic_cast<Collectible*>(b);
     
-    if(p && c){
+    if(auto c = dynamic_cast<Collectible*>(b)){
         p->onCollectible(c);
     }
-    
-    return 0;
-}
-
-int GSpace::playerUpgradeBegin(GObject* a, GObject* b, cpArbiter* arb)
-{
-	Player* p = dynamic_cast<Player*>(a);
-	Upgrade* u = dynamic_cast<Upgrade*>(b);
-
-	if (p && u) {
+	else if (auto u = dynamic_cast<Upgrade*>(b)) {
 		p->applyUpgrade(u);
 	}
-
-	return 0;
+	else if (auto inv = dynamic_cast<InventoryObject*>(b)) {
+		inv->onPlayerContact();
+	}
+    
+    return 0;
 }
 
 int GSpace::bulletEnvironment(GObject* bullet, GObject* environment, cpArbiter* arb)

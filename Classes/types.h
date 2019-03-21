@@ -120,13 +120,12 @@ enum class GType{
 	areaSensor = 0x80,
     enemySensor = 0x100,
     playerGrazeRadar = 0x200,
-    collectible = 0x400,
-	upgrade = 0x800,
-    npc = 0x1000,
-	floorSegment = 0x2000,
-	bomb = 0x4000,
+    playerPickup = 0x400,
+    npc = 0x800,
+	floorSegment = 0x1000,
+	bomb = 0x2000,
 
-	all = 0x7FFF
+	all = 0x3FFF
 };
 
 extern const GType bombObstacles;
