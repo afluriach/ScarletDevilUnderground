@@ -38,10 +38,9 @@ Torch::Torch(GSpace* space, ObjectIDType id, const ValueMap& args) :
 
 void Torch::initializeGraphics()
 {
-	//	unsigned int createLoopAnimation(string path, int frameCount, float duration, GraphicsLayer sceneLayer, Vec2 pos, float zoom);
-
-	baseSpriteID = space->createSprite("sprites/torch.png", GraphicsLayer::ground, getInitialCenterPix(), 4.0f);
-	flameSpriteID = space->createLoopAnimation(colorName + "_flame", 8, 1.0f, GraphicsLayer::overhead, getInitialCenterPix(), 4.0f);
+	baseSpriteID = space->createSprite("sprites/torch.png", GraphicsLayer::ground, getInitialCenterPix(), 0.5f);
+	flameSpriteID = space->createSprite("sprites/white_flame.png", GraphicsLayer::overhead, getInitialCenterPix(), 0.5f);
+	space->setSpriteColor(flameSpriteID, color);
 	space->setSpriteVisible(flameSpriteID, isActive);
 
 	if (isActive) {
