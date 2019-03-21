@@ -71,6 +71,21 @@ void Player::onPitfall()
 	startRespawn();
 }
 
+void Player::equipSpells()
+{
+	spells.clear();
+
+	for (string spellName : Spell::playerSpells)
+	{
+		shared_ptr<SpellDesc> desc = Spell::getDescriptorByName(spellName);
+		if (desc) {
+			spells.push_back(desc);
+		}
+	}
+
+	spellIdx = spells.size() > 0 ? 0 : -1;
+}
+
 SpaceFloat Player::getSpellLength()
 {
 	PlayerSpell* ps = dynamic_cast<PlayerSpell*>(crntSpell.get());
@@ -145,10 +160,27 @@ void Player::checkMovementControls(const ControlInfo& cs)
 
 void Player::updateSpellControls(const ControlInfo& cs)
 {
-    if(!crntSpell.get())
+    if(!crntSpell.get() && spells.size() > 0 && spellIdx != -1)
     {
 		attributeSystem.timerDecrement(Attribute::spellCooldown);
-        
+		
+		if (cs.isControlActionPressed(ControlAction::spellPrev)) {
+			--spellIdx;
+			if (spellIdx < 0) spellIdx += spells.size();
+			log("Spell %s equipped.", spells.at(spellIdx).get()->getName().c_str());
+		}
+		else if (cs.isControlActionPressed(ControlAction::spellNext)) {
+			++spellIdx;
+			if (spellIdx >= spells.size()) spellIdx -= spells.size();
+			log("Spell %s equipped.", spells.at(spellIdx).get()->getName().c_str());
+		}
+		
+		SpellDesc* equippedSpell = nullptr;
+
+		if (spellIdx >= 0 && spellIdx < spells.size()) {
+			equippedSpell = spells.at(spellIdx).get();
+		}
+
 		if (
 			cs.isControlActionPressed(ControlAction::spell) &&
 			equippedSpell &&
@@ -630,10 +662,6 @@ void FlandrePC::setFirePattern()
 	powerAttack = make_shared<FlandreWhirlShotPattern>(this);
 }
 
-void FlandrePC::equipSpells() {
-	equippedSpell = Spell::spellDescriptors.find("PlayerBatMode")->second.get();
-}
-
 const AttributeMap RumiaPC::baseAttributes = {
 	{Attribute::maxHP, 75.0f },
 	{Attribute::maxMP, 25.0f },
@@ -667,10 +695,6 @@ void RumiaPC::setFirePattern()
 	firePattern = make_shared<RumiaParallelPattern>(this);
 }
 
-void RumiaPC::equipSpells() {
-	equippedSpell = Spell::spellDescriptors.find("PlayerDarkMist")->second.get();
-}
-
 const AttributeMap CirnoPC::baseAttributes = {
 	{Attribute::shieldLevel, 2.0f },
 	{Attribute::maxHP, 125.0f },
@@ -702,9 +726,4 @@ CircleLightArea CirnoPC::getLightSource() const
 void CirnoPC::setFirePattern()
 {
 	firePattern = make_shared<CirnoSmallIceBulletPattern>(this);
-}
-
-void CirnoPC::equipSpells() {
-	//NO-OP
-	equippedSpell = Spell::spellDescriptors.find("PlayerIceShield")->second.get();
 }

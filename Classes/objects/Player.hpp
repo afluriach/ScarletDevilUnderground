@@ -47,7 +47,7 @@ public:
 	virtual void onPitfall();
 
 	virtual void setFirePattern() = 0;
-	virtual void equipSpells() = 0;
+	void equipSpells();
 	SpaceFloat getSpellLength();
 
     //setting for player object sensing
@@ -79,7 +79,7 @@ public:
 	SpaceVect getInteractFeeler() const;
 
 	void init();
-    void update();
+    virtual void update();
     void updateHitTime();
 	void updateCombo();
 
@@ -135,7 +135,8 @@ protected:
 	float bombCooldown = 0.0f;
 
 	shared_ptr<FirePattern> powerAttack = nullptr;
-	SpellDesc* equippedSpell = nullptr;
+	vector<shared_ptr<SpellDesc>> spells;
+	int spellIdx = -1;
 
 	PlayScene* playScene = nullptr;
 
@@ -161,7 +162,6 @@ public:
 
 	virtual CircleLightArea getLightSource() const;
 	virtual void setFirePattern();
-	virtual void equipSpells();
 };
 
 class RumiaPC : virtual public Player, public BaseAttributes<RumiaPC>
@@ -177,7 +177,6 @@ public:
 
 	virtual CircleLightArea getLightSource() const;
 	virtual void setFirePattern();
-	virtual void equipSpells();
 };
 
 class CirnoPC : virtual public Player, public BaseAttributes<CirnoPC>
@@ -190,7 +189,6 @@ public:
 	virtual inline string imageSpritePath() const { return "sprites/cirno.png"; }
 	virtual CircleLightArea getLightSource() const;
 	virtual void setFirePattern();
-	virtual void equipSpells();
 };
 
 #endif /* Player_hpp */

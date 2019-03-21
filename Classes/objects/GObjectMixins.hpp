@@ -185,9 +185,10 @@ public:
 		rotateSprite = true;
 	}
 
-    virtual string imageSpritePath() const = 0;
-    void loadImageSprite(const string& resPath, GraphicsLayer sceneLayer);
-    void initializeGraphics();
+	virtual void initializeGraphics();
+	virtual string imageSpritePath() const = 0;
+
+	void loadImageSprite(const string& resPath, GraphicsLayer sceneLayer);
 };
 
 class LoopAnimationSprite : public virtual GObject

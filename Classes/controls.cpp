@@ -38,8 +38,8 @@ const unordered_map<EventKeyboard::KeyCode, ControlActionState> ControlRegister:
 	key_action_1(KEY_B, bomb),
 	key_action_1(KEY_SPACE, powerAttack),
 
-	key_action_1(KEY_COMMA, firePatternPrev),
-	key_action_1(KEY_PERIOD, firePatternNext),
+	key_action_1(KEY_COMMA, spellPrev),
+	key_action_1(KEY_PERIOD, spellNext),
 
 	key_action_2(KEY_W,move_pad_up,menuUp),
 	key_action_2(KEY_S, move_pad_down, menuDown),
@@ -72,7 +72,10 @@ const unordered_map<gainput::PadButton, ControlActionState> ControlRegister::but
 	button_action_1(PadButtonR1, sprint),
 
 	button_action_1(PadButtonX, spell),
-	button_action_1(PadButtonY, powerAttack)
+	button_action_1(PadButtonY, powerAttack),
+
+	button_action_1(PadButtonLeft, spellPrev),
+	button_action_1(PadButtonRight, spellNext),
 };
 #endif
 

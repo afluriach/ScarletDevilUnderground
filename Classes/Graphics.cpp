@@ -411,6 +411,21 @@ ActionGeneratorType indefiniteFlickerAction(float interval, unsigned char opacit
 	};
 }
 
+ActionGeneratorType indefiniteColorFlickerAction(float interval, pair<Color3B,Color3B> colors, cocos_action_tag tag)
+{
+	return [=]() -> FiniteTimeAction* {
+		Sequence* flicker = Sequence::createWithTwoActions(
+			TintTo::createRecursive(interval * 0.5f, colors.first),
+			TintTo::createRecursive(interval * 0.5f, colors.second)
+		);
+
+		RepeatForever* loop = RepeatForever::create(flicker);
+		loop->setTag(to_int(tag));
+
+		return loop;
+	};
+}
+
 ActionGeneratorType flickerAction(float interval, float length, unsigned char opacity)
 {
 	return [interval,length,opacity]() -> FiniteTimeAction* {
@@ -441,18 +456,20 @@ ActionGeneratorType flickerTintAction(float interval, float length, Color3B tint
 
 ActionGeneratorType comboFlickerTintAction()
 {
-	return []() -> FiniteTimeAction* {
+	return indefiniteColorFlickerAction(
+		0.25f,
+		make_pair(Color3B(192, 160, 96), Color3B::WHITE),
+		cocos_action_tag::combo_mode_flicker
+	);
+}
 
-		Sequence* flicker = Sequence::createWithTwoActions(
-			TintTo::createRecursive(0.125f, Color3B(192, 160, 96)),
-			TintTo::createRecursive(0.125f, Color3B::WHITE)
-		);
-
-		RepeatForever* loop = RepeatForever::create(flicker);
-		loop->setTag(to_int(cocos_action_tag::combo_mode_flicker));
-
-		return loop;
-	};
+ActionGeneratorType spellcardFlickerTintAction()
+{
+	return indefiniteColorFlickerAction(
+		0.4f,
+		make_pair(Color3B(94, 145, 140), Color3B::GRAY),
+		cocos_action_tag::end
+	);
 }
 
 FiniteTimeAction* tintTo(Color3B tint, float length)

@@ -49,4 +49,19 @@ public:
 	virtual void onAcquire();
 };
 
+class Spellcard : public InventoryObject
+{
+public:
+	MapObjCons(Spellcard);
+
+	virtual void initializeGraphics();
+	virtual inline string imageSpritePath() const { return "sprites/magic_card_empty.png"; }
+	virtual inline string itemName() const { return name; }
+
+	inline virtual bool canAcquire() { return true; }
+	virtual void onAcquire();
+protected:
+	string name;
+};
+
 #endif /* Items_hpp */

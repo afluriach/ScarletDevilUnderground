@@ -207,9 +207,11 @@ FiniteTimeAction* tintTo(Color3B tint, float length);
 FiniteTimeAction* flickerTint(float interval, float length, Color3B tint);
 
 ActionGeneratorType indefiniteFlickerAction(float interval, unsigned char opacity1, unsigned char opacity2);
+ActionGeneratorType indefiniteColorFlickerAction(float interval, pair<Color3B, Color3B> colors, cocos_action_tag tag);
 ActionGeneratorType flickerAction(float interval, float length, unsigned char opacity);
 ActionGeneratorType flickerTintAction(float interval, float length, Color3B tint);
 ActionGeneratorType comboFlickerTintAction();
+ActionGeneratorType spellcardFlickerTintAction();
 ActionGeneratorType tintToAction(Color3B tint, float length);
 ActionGeneratorType motionBlurStretch(float duration, float angle, float opacity, float scale);
 ActionGeneratorType pitfallShrinkAction();

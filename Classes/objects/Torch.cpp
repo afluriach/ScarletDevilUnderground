@@ -70,7 +70,7 @@ bool Torch::getActive()
 
 void Torch::addLightSource()
 {
-	lightSourceID = space->addLightSource(CircleLightArea{ getPos(),5.0,toColor4F(color)*intensity, flood });
+	lightSourceID = space->addLightSource(CircleLightArea{ getPos(),lightRadius,toColor4F(color)*intensity, flood });
 }
 
 void Torch::interact()

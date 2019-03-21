@@ -36,6 +36,9 @@ enum class ControlAction
 	firePatternPrev,
 	firePatternNext,
 
+	spellPrev,
+	spellNext,
+
 	move_pad_up,
 	move_pad_right,
 	move_pad_down,

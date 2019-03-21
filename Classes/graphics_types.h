@@ -39,6 +39,7 @@ enum class cocos_action_tag
 	freeze_status,
 
 	game_over_tint,
+	end,
 };
 
 struct AmbientLightArea
