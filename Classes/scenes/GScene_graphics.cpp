@@ -97,6 +97,7 @@ void GScene::removeLightSource(LightID id)
 	else {
 		log("removeLightSource: unknown light source %u.", id);
 	}
+	lightmapNoise.erase(id);
 }
 
 void GScene::setLightSourcePosition(LightID id, SpaceVect pos)
@@ -122,7 +123,16 @@ void GScene::setLightSourceColor(LightID id, Color4F color)
 		if (auto cone = dynamic_cast<ConeShader*>(it->second)) {
 			cone->setLightColor(color);
 		}
+		else if (auto radial = dynamic_cast<RadialGradient*>(it->second)){
+			radial->setColor4F(color);
+		}
 	}
+}
+
+void GScene::setLightSourceNoise(LightID id, perlin_light_state noise)
+{
+	noise.crntAngle = noise.startAngle;
+	lightmapNoise.insert_or_assign(id, noise);
 }
 
 void GScene::createSprite(SpriteID id, string path, GraphicsLayer sceneLayer, Vec2 pos, float zoom)
@@ -424,6 +434,21 @@ void GScene::redrawLightmap()
 			entry.second->getContentSize()
 		));
 		entry.second->setVisible(visible);
+	}
+
+	for (auto& entry : lightmapNoise)
+	{
+		SpaceVect fieldPos = SpaceVect::ray(entry.second.radius, entry.second.crntAngle);
+		//double output = (lightmapPerlinNoise.GetValue(fieldPos.x, fieldPos.y, 0.0) + 1.0) * 0.5;
+		double pout = lightmapPerlinNoise.GetValue(fieldPos.x, fieldPos.y, 0.0);
+		double intensity = (pout + 1.0) * 0.5 * (1.0 - entry.second.baseIntensity) + entry.second.baseIntensity;
+
+		setLightSourceColor(entry.first, entry.second.baseColor * intensity);
+
+		entry.second.crntAngle += 1.0 / entry.second.cycleInterval * App::secondsPerFrame;
+		if (entry.second.crntAngle >= float_pi * 2.0) {
+			entry.second.crntAngle -= float_pi * 2.0;
+		}
 	}
 }
 

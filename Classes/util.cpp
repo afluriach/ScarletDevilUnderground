@@ -431,3 +431,8 @@ TimerTriplet TimerSystem::getStats(TimerType _type)
 		chrono::duration_cast<chrono::microseconds>(_max).count()
 	);
 }
+
+void makePerlin()
+{
+	noise::module::Perlin myModule;
+}

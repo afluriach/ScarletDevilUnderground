@@ -59,6 +59,7 @@
 #include "lua.hpp"
 #include "LuaBridge.h"
 #include "fmod.hpp"
+#include "noise.h"
 
 #if use_gamepad
     #include "gainput/gainput.h"

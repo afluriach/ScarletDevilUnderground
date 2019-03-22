@@ -33,6 +33,11 @@ void GSpace::setLightSourceColor(LightID id, Color4F color)
 	addLightmapAction(&GScene::setLightSourceColor, id, color);
 }
 
+void GSpace::setLightSourceNoise(LightID id, perlin_light_state noise)
+{
+	addLightmapAction(&GScene::setLightSourceNoise, id, noise);
+}
+
 SpriteID GSpace::createSprite(string path, GraphicsLayer sceneLayer, Vec2 pos, float zoom)
 {
 	return createSprite(&GScene::createSprite, path, sceneLayer, pos, zoom);

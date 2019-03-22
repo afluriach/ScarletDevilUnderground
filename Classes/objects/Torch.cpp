@@ -71,6 +71,7 @@ bool Torch::getActive()
 void Torch::addLightSource()
 {
 	lightSourceID = space->addLightSource(CircleLightArea{ getPos(),lightRadius,toColor4F(color)*intensity, flood });
+	space->setLightSourceNoise(lightSourceID, perlin_light_state{ toColor4F(color)*intensity, boost::math::float_constants::pi, 0.0f, 4.0f, 0.3f});
 }
 
 void Torch::interact()

@@ -50,6 +50,8 @@ public:
 	virtual void initUniforms();
 	virtual void updateUniforms();
 
+	inline void setColor4F(const Color4F& color) { _startColor = color; }
+
 protected:
 	Color4F _startColor, _endColor;
 	float _radius;

@@ -72,4 +72,15 @@ struct SpriteLightArea
 	float scale = 1.0f;
 };
 
+struct perlin_light_state
+{
+	Color4F baseColor;
+	float cycleInterval;
+	float startAngle = 0.0f;
+	float radius = 1.0f;
+	float baseIntensity = 0.0f;
+
+	float crntAngle = 0.0f;
+};
+
 #endif /* graphics_types_h */
