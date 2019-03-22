@@ -29,7 +29,7 @@ const vector<float_pair> Headstone::damageIntervals = {
 	make_pair(0.75f, 1.0f),
 };
 
-boost::icl::interval_map<float, int> Headstone::intervals;
+boost::icl::interval_map<float, int> Headstone::intervals = makeIntervalMap(damageIntervals);
 
 bool Headstone::conditionalLoad(GSpace* space, ObjectIDType id, const ValueMap& args)
 {
@@ -48,10 +48,6 @@ RectangleBody(args)
 	setInitialDirectionOrDefault(args, Direction::up);
 	maxHP = getFloatOrDefault(args, "hp", -1.0f);
 	hp = maxHP;
-
-	if (intervals.empty()) {
-		intervals = makeIntervalMap(damageIntervals);
-	}
 }
 
 void Headstone::hit(float damage)
