@@ -266,11 +266,6 @@ void Player::checkItemInteraction(const ControlInfo& cs)
 	);
 }
 
-void Player::updateHitTime()
-{
-	attributeSystem.timerDecrement(Attribute::hitProtection);
-}
-
 void Player::updateCombo()
 {
 	if (attributeSystem[Attribute::combo] >= AttributeSystem::maxComboPoints && !isComboActive) {
@@ -322,7 +317,6 @@ void Player::update()
 			checkBombControls(cs);
 			updateSpellControls(cs);
 
-			updateHitTime();
 			updateCombo();
 
 			if (!isSpellActive()) {
@@ -411,11 +405,6 @@ void Player::applyAttributeModifier(Attribute id, float val)
 	attributeSystem.modifyAttribute(id, val);
 }
 
-bool Player::isProtected() const
-{
-	return attributeSystem.isNonzero(Attribute::hitProtection);
-}
-
 void Player::setProtection()
 {
 	attributeSystem.setProtection();
@@ -442,29 +431,29 @@ void Player::onBulletHitTarget(Bullet* bullet, Agent* target)
 	applyCombo(6);
 }
 
-void Player::hit(AttributeMap attributeEffect, shared_ptr<MagicEffect> effect){
-    if(!isProtected()){
-		Agent::hit(attributeEffect, effect);
-		attributeSystem.setHitProtection();
-		attributeSystem.set(Attribute::combo, 0.0f);
+bool Player::hit(AttributeMap attributeEffect, shared_ptr<MagicEffect> effect){
+	if (!Agent::hit(attributeEffect, effect))
+		return false;
 
-		space->runSpriteAction(
-			spriteID,
-			flickerAction(
-				hitFlickerInterval,
-				attributeSystem[Attribute::hitProtectionInterval],
-				81
-			)
-		);
+	attributeSystem.setHitProtection();
+	attributeSystem.set(Attribute::combo, 0.0f);
 
-		space->addHudAction(
-			&HUD::runHealthFlicker,
+	space->runSpriteAction(
+		spriteID,
+		flickerAction(
+			hitFlickerInterval,
 			attributeSystem[Attribute::hitProtectionInterval],
-			hitFlickerInterval
-		);
+			81
+		)
+	);
 
-		App::playSound("sfx/player_damage.wav", 1.0f);
-    }
+	space->addHudAction(
+		&HUD::runHealthFlicker,
+		attributeSystem[Attribute::hitProtectionInterval],
+		hitFlickerInterval
+	);
+
+	App::playSound("sfx/player_damage.wav", 1.0f);
 }
 
 void Player::onCollectible(Collectible* coll)

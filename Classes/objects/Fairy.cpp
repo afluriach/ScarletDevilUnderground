@@ -21,6 +21,39 @@
 #include "Player.hpp"
 #include "value_map.hpp"
 
+const AttributeMap GhostFairy::baseAttributes = {
+	{ Attribute::maxHP, 45.0f },
+	{ Attribute::agility, 2.5f },
+};
+
+GhostFairy::GhostFairy(GSpace* space, ObjectIDType id, const ValueMap& args) :
+	MapObjForwarding(GObject),
+	MapObjForwarding(Agent),
+	Enemy(collectible_id::hm1)
+{
+	firePattern = make_shared<Fairy1BulletPattern>(this, 1.5, float_pi / 6.0, 3);
+}
+
+void GhostFairy::initStateMachine(ai::StateMachine& fsm)
+{
+	addMagicEffect(make_shared<GhostProtection>(object_ref<Agent>(this)));
+
+	fsm.addDetectFunction(
+		GType::player,
+		[](ai::StateMachine& sm, GObject* target) -> void {
+			sm.addThread(make_shared<ai::MaintainDistance>(target, 4.5f, 1.5f));
+			sm.addThread(make_shared<ai::FireAtTarget>(target));
+		}
+	);
+	fsm.addEndDetectFunction(
+		GType::player,
+		[](ai::StateMachine& sm, GObject* target) -> void {
+			sm.removeThread("MaintainDistance");
+			sm.removeThread("FireAtTarget");
+		}
+	);
+}
+
 const AttributeMap Fairy1::baseAttributes = {
 	{ Attribute::maxHP, 30.0f },
 	{ Attribute::speed, 3.0f },

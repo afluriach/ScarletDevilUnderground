@@ -86,6 +86,28 @@ public:
 	virtual void initStateMachine(ai::StateMachine& sm);
 };
 
+class GhostFairy :
+	public Enemy,
+	public BaseAttributes<GhostFairy>
+{
+public:
+	static const AttributeMap baseAttributes;
+
+	GhostFairy(GSpace* space, ObjectIDType id, const ValueMap& args);
+
+	virtual inline SpaceFloat getMass() const { return 10.0; }
+	virtual inline GType getType() const { return GType::enemy; }
+	virtual inline GType getRadarType() const { return GType::enemySensor; }
+	virtual inline SpaceFloat getRadarRadius() const { return 3.0; }
+	virtual inline SpaceFloat getDefaultFovAngle() const { return 0.0; }
+
+	inline string imageSpritePath() const { return "sprites/ghost-fairy.png"; }
+	virtual bool isAgentAnimation() const { return true; }
+	virtual inline int pixelWidth() const { return 128; }
+
+	virtual void initStateMachine(ai::StateMachine& sm);
+};
+
 class Fairy1 :
 public Enemy,
 public AIPackage<Fairy1>,

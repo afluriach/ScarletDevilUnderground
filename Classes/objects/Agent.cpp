@@ -295,8 +295,11 @@ void Agent::onEndTouchAgent(Agent* other)
 	touchTargets.erase(other);
 }
 
-void Agent::hit(AttributeMap attributeEffect, shared_ptr<MagicEffect> effect)
+bool Agent::hit(AttributeMap attributeEffect, shared_ptr<MagicEffect> effect)
 {
+	if (attributeSystem.isNonzero(Attribute::hitProtection))
+		return false;
+
 	if (effect)
 		addMagicEffect(effect);
 
@@ -305,18 +308,13 @@ void Agent::hit(AttributeMap attributeEffect, shared_ptr<MagicEffect> effect)
 		attributeSystem.modifyAttribute(entry.first, entry.second);
 	}
 
-	Enemy* _enemy = dynamic_cast<Enemy*>(this);
-
-	if (_enemy) {
-		_enemy->runDamageFlicker();
-		App::playSoundSpatial("sfx/enemy_damage.wav", toFmod(getPos()), toFmod(getVel()));
-	}
-
 	auto hp_it = attributeEffect.find(Attribute::hp);
 	float hp = hp_it == attributeEffect.end() ? 0.0f : hp_it->second;
 
 	if(hp != 0.0f)
 		space->createDamageIndicator(-hp, getPos());
+
+	return true;
 }
 
 bool Agent::canApplyAttributeEffects(AttributeMap attributeEffect)

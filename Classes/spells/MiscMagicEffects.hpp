@@ -39,6 +39,20 @@ protected:
 	Agent * agent;
 };
 
+class GhostProtection : public MagicEffect
+{
+public:
+	GhostProtection(object_ref<Agent> _agent);
+
+	virtual void init();
+	virtual void update();
+	inline virtual void end() {}
+protected:
+	float accumulator = 0.0f;
+	float crntHP;
+	Agent * agent;
+};
+
 class BulletSpeedFromHP : public MagicEffect
 {
 public:

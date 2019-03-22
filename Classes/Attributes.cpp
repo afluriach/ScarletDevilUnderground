@@ -250,6 +250,8 @@ void AttributeSystem::update()
 	applyIncidentRegen();
 	applyElementDecay();
 	timerDecrement(Attribute::stress, (*this)[Attribute::stressDecay]);
+	if ((*this)[Attribute::hitProtection] != -1.0f)
+		timerDecrement(Attribute::hitProtection);
 }
 
 void AttributeSystem::applyIncidentRegen()

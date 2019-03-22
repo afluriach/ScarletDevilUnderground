@@ -24,9 +24,10 @@ Facer::Facer(GSpace* space, ObjectIDType id, const ValueMap& args) :
 	Enemy(collectible_id::nil)
 {}
 
-void Facer::hit(AttributeMap attributeEffects, shared_ptr<MagicEffect> effect)
+bool Facer::hit(AttributeMap attributeEffects, shared_ptr<MagicEffect> effect)
 {
     rotate(float_pi/2);
+	return true;
 }
 
 void Facer::initStateMachine(ai::StateMachine& sm) {

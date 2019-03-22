@@ -18,7 +18,7 @@ public:
 
 	MapObjCons(Follower);
 
-	virtual void hit(AttributeMap attributeEffects, shared_ptr<MagicEffect> effect);
+	virtual bool hit(AttributeMap attributeEffects, shared_ptr<MagicEffect> effect);
 
     inline SpaceFloat getMass() const {return 40.0;}
 

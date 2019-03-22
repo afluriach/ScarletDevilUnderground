@@ -24,9 +24,10 @@ Follower::Follower(GSpace* space, ObjectIDType id, const ValueMap& args) :
 	Enemy(collectible_id::nil)
 {}
 
-void Follower::hit(AttributeMap attributeEffects, shared_ptr<MagicEffect> effect)
+bool Follower::hit(AttributeMap attributeEffects, shared_ptr<MagicEffect> effect)
 {
     rotate(-0.5f*float_pi);
+	return true;
 }
 
 void Follower::initStateMachine(ai::StateMachine& sm) {

@@ -156,6 +156,7 @@ const unordered_map<string, GObject::object_info> GObject::objectInfo = {
 	item_entry_same(ForestBook1),
 	entry_same(ForestMarisa),
 	entry_same(GenericAgent),
+	entry_same(GhostFairy),
 	conditional_entry(GhostFairyNPC),
 	entry_same(GhostHeadstone),
 	entry_same(GhostHeadstoneSensor),

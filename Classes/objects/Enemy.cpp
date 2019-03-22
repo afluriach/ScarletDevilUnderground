@@ -8,6 +8,7 @@
 
 #include "Prefix.h"
 
+#include "App.h"
 #include "Enemy.hpp"
 #include "GSpace.hpp"
 #include "Player.hpp"
@@ -22,6 +23,15 @@ void Enemy::runDamageFlicker()
 	if (spriteID != 0) {
 		space->runSpriteAction(spriteID, flickerAction(0.3f, 1.2f, 81));
 	}
+}
+
+bool Enemy::hit(AttributeMap attributeEffects, shared_ptr<MagicEffect> effect)
+{
+	if (!Agent::hit(attributeEffects, effect))
+		return false;
+
+	runDamageFlicker();
+	App::playSoundSpatial("sfx/enemy_damage.wav", toFmod(getPos()), toFmod(getVel()));
 }
 
 void Enemy::onRemove()

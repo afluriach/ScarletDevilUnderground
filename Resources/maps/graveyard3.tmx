@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.0" tiledversion="1.0.3" orientation="orthogonal" renderorder="right-down" width="51" height="51" tilewidth="128" tileheight="128" nextobjectid="187">
+<map version="1.0" tiledversion="1.0.3" orientation="orthogonal" renderorder="right-down" width="51" height="51" tilewidth="128" tileheight="128" nextobjectid="229">
  <tileset firstgid="1" name="wall" tilewidth="128" tileheight="128" tilecount="4" columns="2">
   <image source="fence.png" width="256" height="256"/>
  </tileset>
@@ -85,6 +85,118 @@
  <objectgroup name="objects">
   <object id="131" type="Goal" x="1024" y="1024" width="128" height="128"/>
   <object id="142" name="player" type="Player" x="3200" y="6144" width="128" height="128"/>
+  <object id="187" type="Torch" x="3584" y="5760" width="128" height="128">
+   <properties>
+    <property name="active" value="true"/>
+    <property name="radius" value="4.0"/>
+   </properties>
+  </object>
+  <object id="188" type="Torch" x="3584" y="4992" width="128" height="128">
+   <properties>
+    <property name="active" value="true"/>
+    <property name="radius" value="4.0"/>
+   </properties>
+  </object>
+  <object id="189" type="Torch" x="2816" y="4992" width="128" height="128">
+   <properties>
+    <property name="active" value="true"/>
+    <property name="radius" value="4.0"/>
+   </properties>
+  </object>
+  <object id="190" type="Torch" x="2816" y="5760" width="128" height="128">
+   <properties>
+    <property name="active" value="true"/>
+    <property name="radius" value="4.0"/>
+   </properties>
+  </object>
+  <object id="200" type="Torch" x="2816" y="3584" width="128" height="128">
+   <properties>
+    <property name="active" value="true"/>
+    <property name="radius" value="4.0"/>
+   </properties>
+  </object>
+  <object id="201" type="Torch" x="3584" y="3584" width="128" height="128">
+   <properties>
+    <property name="active" value="true"/>
+    <property name="radius" value="4.0"/>
+   </properties>
+  </object>
+  <object id="204" type="Torch" x="3584" y="2816" width="128" height="128">
+   <properties>
+    <property name="active" value="true"/>
+    <property name="radius" value="4.0"/>
+   </properties>
+  </object>
+  <object id="205" type="Torch" x="2816" y="2816" width="128" height="128">
+   <properties>
+    <property name="active" value="true"/>
+    <property name="radius" value="4.0"/>
+   </properties>
+  </object>
+  <object id="214" type="Torch" x="1408" y="2816" width="128" height="128">
+   <properties>
+    <property name="active" value="true"/>
+    <property name="radius" value="4.0"/>
+   </properties>
+  </object>
+  <object id="215" type="Torch" x="1408" y="3584" width="128" height="128">
+   <properties>
+    <property name="active" value="true"/>
+    <property name="radius" value="4.0"/>
+   </properties>
+  </object>
+  <object id="216" type="Torch" x="640" y="2816" width="128" height="128">
+   <properties>
+    <property name="active" value="true"/>
+    <property name="radius" value="4.0"/>
+   </properties>
+  </object>
+  <object id="217" type="Torch" x="640" y="3584" width="128" height="128">
+   <properties>
+    <property name="active" value="true"/>
+    <property name="radius" value="4.0"/>
+   </properties>
+  </object>
+  <object id="218" type="Torch" x="1408" y="640" width="128" height="128">
+   <properties>
+    <property name="active" value="true"/>
+    <property name="radius" value="4.0"/>
+   </properties>
+  </object>
+  <object id="219" type="Torch" x="1408" y="1408" width="128" height="128">
+   <properties>
+    <property name="active" value="true"/>
+    <property name="radius" value="4.0"/>
+   </properties>
+  </object>
+  <object id="220" type="Torch" x="640" y="1408" width="128" height="128">
+   <properties>
+    <property name="active" value="true"/>
+    <property name="radius" value="4.0"/>
+   </properties>
+  </object>
+  <object id="221" type="Torch" x="640" y="640" width="128" height="128">
+   <properties>
+    <property name="active" value="true"/>
+    <property name="radius" value="4.0"/>
+   </properties>
+  </object>
+  <object id="222" type="Door" x="2176" y="1024" width="128" height="128">
+   <properties>
+    <property name="door_type" value="one_way_source"/>
+   </properties>
+  </object>
+  <object id="223" type="Door" x="2048" y="1024" width="128" height="128">
+   <properties>
+    <property name="dir" value="left"/>
+    <property name="door_type" value="one_way_destination"/>
+   </properties>
+  </object>
+  <object id="224" type="GhostFairy" x="4992" y="2688" width="128" height="128"/>
+  <object id="225" type="GhostFairy" x="4992" y="3712" width="128" height="128"/>
+  <object id="226" type="GhostFairy" x="3840" y="3200" width="128" height="128"/>
+  <object id="227" type="GhostFairy" x="3200" y="3456" width="128" height="128"/>
+  <object id="228" type="GhostFairy" x="2560" y="3200" width="128" height="128"/>
  </objectgroup>
  <objectgroup name="rooms">
   <object id="133" name="0" x="2176" y="4352" width="2176" height="2176"/>

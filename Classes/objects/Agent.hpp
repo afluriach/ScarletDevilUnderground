@@ -107,7 +107,7 @@ public:
 	void onEndTouchAgent(Agent* other);
 
 	inline virtual void onBulletHitTarget(Bullet* bullet, Agent* target) {}
-	virtual void hit(AttributeMap attributeEffects, shared_ptr<MagicEffect> effect);
+	virtual bool hit(AttributeMap attributeEffects, shared_ptr<MagicEffect> effect);
 	bool canApplyAttributeEffects(AttributeMap attributeEffect);
 	void applyAttributeEffects(AttributeMap attributeEffects);
 	virtual AttributeMap touchEffect() const;
