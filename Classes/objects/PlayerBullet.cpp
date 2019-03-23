@@ -62,27 +62,28 @@ const bullet_properties PlayerBulletImpl::flandreBigOrb1 = {
 	0.1,
 	4.5,
 	0.6,
+	hp_damage_map(3.0f),
 	0.83,
 	"sprites/flandre_bullet.png",
-	hp_damage_map(3.0f)
 };
 
 const bullet_properties PlayerBulletImpl::rumiaFastOrb1 = {
 	0.1,
 	9.0,
 	0.15,
+	hp_damage_map(1.0f),
 	0.83,
 	"sprites/rumia_bullet.png",
-	hp_damage_map(1.0f)
 };
 
 const bullet_properties PlayerBulletImpl::cirnoSmallIceBullet = {
 	0.1,
 	9.0,
 	0.3,
+	{ { Attribute::hp, -1 },{ Attribute::iceDamage, 50 } },
 	0.83,
 	"sprites/cirno_large_ice_bullet.png",
-	{ { Attribute::hp, -1 },{ Attribute::iceDamage, 50 } },
+	Color3B::WHITE,
 	3
 };
 
@@ -90,9 +91,9 @@ const bullet_properties PlayerBulletImpl::cirnoLargeIceBullet = {
 	0.1,
 	9.0,
 	0.6,
+	{ { Attribute::hp, -1 },{ Attribute::iceDamage, 50 } },
 	0.83,
 	"sprites/cirno_large_ice_bullet.png",
-	{ { Attribute::hp, -1 },{ Attribute::iceDamage, 50 } }
 };
 
 PlayerBulletImpl::PlayerBulletImpl(GSpace* space, ObjectIDType id, const SpaceVect& pos, SpaceFloat angle, object_ref<Agent> agent, const bullet_properties* props) :
@@ -109,13 +110,19 @@ PlayerBulletValueImpl::PlayerBulletValueImpl(GSpace* space, ObjectIDType id, con
 	BulletValueImpl(props)
 {}
 
+StarbowBreakBullet::StarbowBreakBullet(GSpace* space, ObjectIDType id, const SpaceVect& pos, SpaceFloat angle, object_ref<Agent> agent, bullet_properties props) :
+	GObject(space, id, "", pos, angle),
+	Bullet(agent),
+	PlayerBulletValueImpl(space, id, pos, angle, agent, props)
+{}
+
 const bullet_properties FlandreFastOrb1::props = {
 	0.1,
 	9.0,
 	0.15,
+	hp_damage_map(1.0f),
 	0.83,
 	"sprites/flandre_bullet.png",
-	hp_damage_map(1.0f)
 };
 
 cons(FlandreFastOrb1)
@@ -124,9 +131,10 @@ const bullet_properties FlanPolarBullet::props = {
 	0.1,
 	0.0,
 	0.15,
+	hp_damage_map(2.0f),
 	0.83,
 	"sprites/flandre_bullet.png",
-	hp_damage_map(2.0f),
+	Color3B::WHITE,
 	-1,
 	false
 };
@@ -169,9 +177,9 @@ const bullet_properties FlandrePolarMotionOrb::props = {
 	1.0,
 	9.0,
 	0.15,
+	hp_damage_map(1.0f),
 	0.83,
 	"sprites/flandre_bullet.png",
-	hp_damage_map(1.0f)
 };
 
 FlandrePolarMotionOrb::FlandrePolarMotionOrb(GSpace* space, ObjectIDType id, const SpaceVect& pos, SpaceFloat angle, object_ref<Agent> agent) :

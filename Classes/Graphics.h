@@ -201,6 +201,9 @@ public:
 };
 
 Color3B toColor3B(const Color4F& color);
+Color3B toColor3B(const string& s);
+Color3B hsv3B(float h, float s, float v);
+Color4F hsva4F(float h, float s, float v, float a = 1.0f);
 Color4F toColor4F(Color3B);
 
 Color4F operator*(const Color4F& lhs, float rhs);

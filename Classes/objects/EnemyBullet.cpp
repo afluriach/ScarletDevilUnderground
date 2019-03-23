@@ -30,72 +30,73 @@ const bullet_properties EnemyBulletImpl::fairy1Bullet = {
 	0.1,
 	6.0,
 	0.3,
+	hp_damage_map(5.0f),
 	0.83,
 	"sprites/ice_fairy_bullet.png",
-	hp_damage_map(5.0f)
 };
 
 const bullet_properties EnemyBulletImpl::greenFairyBullet = {
 	0.1,
 	6.0,
 	0.15,
+	hp_damage_map(3.0f),
 	0.83,
 	"sprites/green_fairy_bullet.png",
-	hp_damage_map(3.0f)
 };
 
 const bullet_properties EnemyBulletImpl::blueFairyBullet = {
 	3.0,
 	4.0,
 	0.25,
+	hp_damage_map(5.0f),
 	0.83,
 	"sprites/blue_fairy_bullet.png",
-	hp_damage_map(5.0f)
 };
 
 const bullet_properties EnemyBulletImpl::iceFairyBullet = {
 	0.1,
 	6.0,
 	0.3,
+	{ { Attribute::hp, -1 },{ Attribute::iceDamage, 25 } },
 	0.83,
 	"sprites/ice_fairy_bullet.png",
-	{ { Attribute::hp, -1 },{ Attribute::iceDamage, 25 } }
 };
 
 const bullet_properties EnemyBulletImpl::launcherBullet = {
 	0.1,
 	10.0,
 	0.3,
+	hp_damage_map(1.0f),
 	0.83,
 	"sprites/launcher_bullet.png",
-	hp_damage_map(1.0f)
 };
 
 const bullet_properties EnemyBulletImpl::rumiaBullet = {
 	0.1,
 	4.5,
 	0.15,
+	hp_damage_map(5.0f),
 	0.83,
 	"sprites/rumia_bullet.png",
-	hp_damage_map(5.0f)
 };
 
 const bullet_properties EnemyBulletImpl::rumiaDemarcationBullet = {
 	0.1,
 	4.5,
 	0.1,
+	hp_damage_map(5.0f),
 	0.83,
 	"sprites/rumia_demarcation_bullet.png",
-	hp_damage_map(5.0f)
 };
 
 const bullet_properties EnemyBulletImpl::rumiaPinwheelBullet = {
 	0.1,
 	4.5,
 	0.1,
+	hp_damage_map(2.0f),
 	0.83,
 	"sprites/rumia_bullet.png",
-	hp_damage_map(2.0f),
+	Color3B::WHITE,
 	1,
 	false
 };
@@ -203,9 +204,9 @@ const bullet_properties ReimuBullet1::props = {
 	0.1,
 	4.5,
 	0.2,
+	hp_damage_map(3.0f),
 	0.5,
 	"sprites/yin-yang-orb.png",
-	hp_damage_map(3.0f)
 };
 
 const SpaceFloat ReimuBullet1::omega = float_pi * 2.0;
@@ -237,9 +238,9 @@ const bullet_properties YinYangOrb::props = {
 	0.1,
 	4.5,
 	0.5,
+	hp_damage_map(10.0f),
 	0.5,
 	"sprites/yin-yang-orb.png",
-	hp_damage_map(10.0f)
 };
 
 YinYangOrb::YinYangOrb(GSpace* space, ObjectIDType id, const SpaceVect& pos, SpaceFloat angle, object_ref<Agent> agent) :
@@ -269,9 +270,9 @@ const bullet_properties RumiaDemarcation2Bullet::props = {
 	0.1,
 	6.0,
 	0.2,
+	hp_damage_map(7.5f),
 	0.83,
 	"sprites/rumia_demarcation_bullet.png",
-	hp_damage_map(7.5f)
 };
 
 RumiaDemarcation2Bullet::RumiaDemarcation2Bullet(

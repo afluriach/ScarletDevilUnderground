@@ -14,8 +14,8 @@
 #include "PlayerBullet.hpp"
 #include "PlayerFirePattern.hpp"
 
-const float StarbowBreak::baseFireInterval = 1.0f / 4.0f;
-const float StarbowBreak::fireIntervalVariation = 1.0f / 6.0f;
+const float StarbowBreak::baseFireInterval = 1.0f / 6.0f;
+const float StarbowBreak::fireIntervalVariation = 1.0f / 8.0f;
 const double StarbowBreak::fireIntervalZPos = -2.0;
 
 const double StarbowBreak::baseSpeed = 6.0;
@@ -43,15 +43,16 @@ bool StarbowBreak::fire()
 		0.1,
 		baseSpeed + speedVariation*noiseModel.GetValue(cos(noisePos), sin(noisePos), speedZPos),
 		baseRadius + radiusVariation*sizeScale,
+		hp_damage_map(2.0f + 1.5f*sizeScale),
 		0.83,
-		"sprites/flandre_bullet.png",
-		hp_damage_map(2.0f + 1.5f*sizeScale)
+		"sprites/starbow_break_bullet.png",
+		hsv3B((angleOffsetNoiseValue+1.0)*180.0f, 0.5f,1.0f)
 	};
 
 	SpaceFloat angle = agent->getAngle() + angleOffset;
 	SpaceVect pos = agent->getPos() + SpaceVect::ray(1.0, angle);
 
-	return agent->bulletValueImplCheckSpawn<PlayerBulletValueImpl>(pos,angle,props).isFuture();
+	return agent->bulletValueImplCheckSpawn<StarbowBreakBullet>(pos,angle,props).isFuture();
 }
 
 void StarbowBreak::update()

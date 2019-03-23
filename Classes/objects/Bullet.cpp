@@ -107,6 +107,14 @@ void BulletImpl::init()
 		setVel(SpaceVect::ray(getMaxSpeed() * attributes.bulletSpeed, getAngle()));
 }
 
+void BulletImpl::initializeGraphics()
+{
+	ImageSprite::initializeGraphics();
+	if (spriteID != 0 && props->spriteColor != Color3B::WHITE) {
+		space->setSpriteColor(spriteID, props->spriteColor);
+	}
+}
+
 BulletValueImpl::BulletValueImpl(bullet_properties props) :
 	RegisterInit<BulletValueImpl>(this),
 	props(props)
@@ -118,4 +126,12 @@ void BulletValueImpl::init()
 {
 	if (props.directionalLaunch)
 		setVel(SpaceVect::ray(getMaxSpeed() * attributes.bulletSpeed, getAngle()));
+}
+
+void BulletValueImpl::initializeGraphics()
+{
+	ImageSprite::initializeGraphics();
+	if (spriteID != 0 && props.spriteColor != Color3B::WHITE) {
+		space->setSpriteColor(spriteID, props.spriteColor);
+	}
 }

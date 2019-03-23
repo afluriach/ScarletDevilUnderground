@@ -454,6 +454,7 @@ bool Player::hit(AttributeMap attributeEffect, shared_ptr<MagicEffect> effect){
 	);
 
 	App::playSound("sfx/player_damage.wav", 1.0f);
+	return true;
 }
 
 void Player::onCollectible(Collectible* coll)

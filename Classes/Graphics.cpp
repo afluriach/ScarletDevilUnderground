@@ -369,6 +369,80 @@ void DownTriangleCursor::drawShape()
     drawNode->drawTriangle(left,right,bottom,colors[crntColor]);
 }
 
+Color3B toColor3B(const string& s)
+{
+	vector<string> tokens = splitString(s, ",");
+
+	return Color3B(
+		boost::lexical_cast<int>(tokens[0]),
+		boost::lexical_cast<int>(tokens[1]),
+		boost::lexical_cast<int>(tokens[2])
+	);
+}
+
+Color3B hsv3B(float h, float s, float v)
+{
+	return toColor3B(hsva4F(h, s, v));
+}
+
+Color4F hsva4F(float h, float s, float v, float a)
+{
+	float r1, g1, b1;
+	float C = v * s;
+	float hPrime = h / 60.0f;
+	float x = C * (1.0f - abs(fmod(hPrime,2.0f) - 1.0f));
+	float m = v - C;
+
+	if (s == 0)
+	{
+		//hue is undefined and no color will be added
+		r1 = g1 = b1 = 0;
+	}
+	else if (0 <= hPrime && hPrime < 1)
+	{
+		r1 = C;
+		g1 = x;
+		b1 = 0;
+	}
+	else if (1 <= hPrime && hPrime < 2)
+	{
+		r1 = x;
+		g1 = C;
+		b1 = 0;
+	}
+	else if (2 <= hPrime && hPrime < 3)
+	{
+		r1 = 0;
+		g1 = C;
+		b1 = x;
+	}
+	else if (3 <= hPrime && hPrime < 4)
+	{
+		r1 = 0;
+		g1 = x;
+		b1 = C;
+	}
+	else if (4 <= hPrime && hPrime < 5)
+	{
+		r1 = x;
+		g1 = 0;
+		b1 = C;
+	}
+	else if (5 <= hPrime && hPrime < 6)
+	{
+		r1 = C;
+		g1 = 0;
+		b1 = x;
+	}
+	else
+	{
+		log("Illegal hue given: %f", h);
+		return Color4F();
+	}
+
+	return Color4F(r1 + m, g1 + m, b1 + m, a);
+}
+
 Color3B toColor3B(const Color4F& color)
 {
 	return Color3B(color.r * 255, color.g * 255, color.b * 255);

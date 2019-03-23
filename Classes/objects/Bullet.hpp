@@ -22,10 +22,12 @@ struct bullet_properties
 	SpaceFloat mass;
 	SpaceFloat speed;
 	SpaceFloat radius;
-	SpaceFloat spriteBaseRadius;
 
-	string sprite;
 	AttributeMap attributeEffect;
+
+	SpaceFloat spriteBaseRadius;
+	string sprite;
+	Color3B spriteColor = Color3B::WHITE;
 
 	int hitCount = 1;
 	bool directionalLaunch = true;
@@ -91,6 +93,7 @@ public:
 	virtual inline SpaceFloat getMaxSpeed() const { return props->speed; }
 	virtual inline SpaceFloat getRadius() const { return props->radius; }
 
+	virtual void initializeGraphics();
 	virtual inline string imageSpritePath() const { return props->sprite; }
 	virtual inline float zoom() const { return props->radius / props->spriteBaseRadius * 2.0f; }
 
@@ -115,6 +118,7 @@ public:
 	virtual inline SpaceFloat getMaxSpeed() const { return props.speed; }
 	virtual inline SpaceFloat getRadius() const { return props.radius; }
 
+	virtual void initializeGraphics();
 	virtual inline string imageSpritePath() const { return props.sprite; }
 	virtual inline float zoom() const { return props.radius / props.spriteBaseRadius * 2.0f; }
 

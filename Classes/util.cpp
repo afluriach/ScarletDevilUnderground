@@ -212,17 +212,6 @@ string getTimeString(unsigned int millis)
 	);
 }
 
-Color3B toColor3B(const string& s)
-{
-	vector<string> tokens = splitString(s, ",");
-
-	return Color3B(
-		boost::lexical_cast<int>(tokens[0]),
-		boost::lexical_cast<int>(tokens[1]),
-		boost::lexical_cast<int>(tokens[2])
-	);
-}
-
 bool isInArea(const vector<SpaceRect>& areas, const SpaceVect& target, int index)
 {
 	if (index == -1) {

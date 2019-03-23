@@ -59,6 +59,19 @@ public:
 	inline virtual ~PlayerBulletValueImpl() {}
 };
 
+class StarbowBreakBullet : public PlayerBulletValueImpl, public RadialLightObject
+{
+public:
+	StarbowBreakBullet(GSpace* space, ObjectIDType id, const SpaceVect& pos, SpaceFloat angle, object_ref<Agent> agent, bullet_properties props);
+
+	virtual inline CircleLightArea getLightSource() const { return CircleLightArea{
+		getPos(),
+		props.radius * 4.0f,
+		toColor4F(props.spriteColor),
+		0.0
+	};}
+};
+
 class FlandreFastOrb1 : public PlayerBullet, public BulletImpl, public RadialLightObject
 {
 public:
