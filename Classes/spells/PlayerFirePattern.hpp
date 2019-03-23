@@ -14,6 +14,36 @@
 
 typedef BulletImplPattern<PlayerBulletImpl> PlayerBulletImplPattern;
 
+class StarbowBreak : public FirePattern
+{
+public:
+	static const float baseFireInterval;
+	static const float fireIntervalVariation;
+	static const double fireIntervalZPos;
+	static const double baseSpeed;
+	static const double speedVariation;
+	static const double speedZPos;
+	static const double angleVariation;
+	static const double angleZPos;
+	static const double baseRadius;
+	static const double radiusVariation;
+	static const double radiusZPos;
+
+	StarbowBreak(Agent *const agent);
+
+	virtual bool fire();
+	virtual bool spawn(SpaceFloat angle) { return false; }
+	virtual bool spawn(SpaceVect posOffset, SpaceFloat angle) { return false; }
+	virtual string iconPath() const { return ""; }
+
+	virtual void update();
+	virtual float getCooldownTime();
+protected:
+	SpaceFloat noisePos = 0.0;
+
+	noise::module::Perlin noiseModel;
+};
+
 class FlandreBigOrbPattern : public SingleBulletFixedIntervalPattern, public PlayerBulletImplPattern
 {
 public:

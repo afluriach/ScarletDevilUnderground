@@ -52,6 +52,13 @@ public:
 	inline virtual ~PlayerBulletImpl() {}
 };
 
+class PlayerBulletValueImpl : public PlayerBullet, public BulletValueImpl
+{
+public:
+	PlayerBulletValueImpl(GSpace* space, ObjectIDType id, const SpaceVect& pos, SpaceFloat angle, object_ref<Agent> agent, bullet_properties props);
+	inline virtual ~PlayerBulletValueImpl() {}
+};
+
 class FlandreFastOrb1 : public PlayerBullet, public BulletImpl, public RadialLightObject
 {
 public:

@@ -102,6 +102,13 @@ PlayerBulletImpl::PlayerBulletImpl(GSpace* space, ObjectIDType id, const SpaceVe
     BulletImpl(props)
 {}
 
+PlayerBulletValueImpl::PlayerBulletValueImpl(GSpace* space, ObjectIDType id, const SpaceVect& pos, SpaceFloat angle, object_ref<Agent> agent, bullet_properties props) :
+	GObject(space, id, "", pos, angle),
+	Bullet(agent),
+	PlayerBullet(agent),
+	BulletValueImpl(props)
+{}
+
 const bullet_properties FlandreFastOrb1::props = {
 	0.1,
 	9.0,

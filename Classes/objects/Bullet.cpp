@@ -106,3 +106,16 @@ void BulletImpl::init()
 	if (props->directionalLaunch)
 		setVel(SpaceVect::ray(getMaxSpeed() * attributes.bulletSpeed, getAngle()));
 }
+
+BulletValueImpl::BulletValueImpl(bullet_properties props) :
+	RegisterInit<BulletValueImpl>(this),
+	props(props)
+{
+	hitCount = props.hitCount;
+}
+
+void BulletValueImpl::init()
+{
+	if (props.directionalLaunch)
+		setVel(SpaceVect::ray(getMaxSpeed() * attributes.bulletSpeed, getAngle()));
+}

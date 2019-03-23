@@ -99,4 +99,28 @@ public:
 	const bullet_properties* props;
 };
 
+class BulletValueImpl :
+	virtual public Bullet,
+	public CircleBody,
+	public ImageSprite,
+	public RegisterInit<BulletValueImpl>
+{
+public:
+	BulletValueImpl(bullet_properties props);
+	inline virtual ~BulletValueImpl() {}
+
+	void init();
+
+	virtual inline SpaceFloat getMass() const { return props.mass; }
+	virtual inline SpaceFloat getMaxSpeed() const { return props.speed; }
+	virtual inline SpaceFloat getRadius() const { return props.radius; }
+
+	virtual inline string imageSpritePath() const { return props.sprite; }
+	virtual inline float zoom() const { return props.radius / props.spriteBaseRadius * 2.0f; }
+
+	virtual inline AttributeMap getAttributeEffect() const { return props.attributeEffect; }
+
+	const bullet_properties props;
+};
+
 #endif /* Bullet_hpp */
