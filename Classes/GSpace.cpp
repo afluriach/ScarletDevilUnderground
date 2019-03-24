@@ -650,7 +650,7 @@ void GSpace::eraseTile(int mapID, IntVec2 pos, string layer)
 
 void GSpace::updatePlayerMapLocation(const SpaceVect& pos)
 {
-	for (int i = 0; i < mapAreas.size(); ++i) {
+	for (size_t i = 0; i < mapAreas.size(); ++i) {
 		if (mapAreas.at(i).containsPoint(pos)) {
 			crntMap = i;
 

@@ -275,7 +275,7 @@ void GhostHeadstoneSensor::init()
 
 void GhostHeadstoneSensor::checkActivate()
 {
-	if (target.isValid() && fairies.size() >= cost)
+	if (target.isValid() && to_int(fairies.size()) >= cost)
 	{
 		int i = 0;
 		auto it = fairies.begin();

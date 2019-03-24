@@ -373,7 +373,7 @@ void GScene::updateMultimapVisibility(SpaceVect playerPos)
 
 void GScene::updateRoomsVisited(SpaceVect playerPos)
 {
-	for (int i = 0; i < mapAreas.size(); ++i) {
+	for (size_t i = 0; i < mapAreas.size(); ++i) {
 		if (mapAreas.at(i).containsPoint(playerPos)) {
 			crntMap = i;
 			mapAreasVisited.at(i) = true;

@@ -171,13 +171,13 @@ void Player::updateSpellControls(const ControlInfo& cs)
 		}
 		else if (cs.isControlActionPressed(ControlAction::spellNext)) {
 			++spellIdx;
-			if (spellIdx >= spells.size()) spellIdx -= spells.size();
+			if (spellIdx >= to_int(spells.size())) spellIdx -= spells.size();
 			log("Spell %s equipped.", spells.at(spellIdx).get()->getName().c_str());
 		}
 		
 		SpellDesc* equippedSpell = nullptr;
 
-		if (spellIdx >= 0 && spellIdx < spells.size()) {
+		if (spellIdx >= 0 && spellIdx < to_int(spells.size())) {
 			equippedSpell = spells.at(spellIdx).get();
 		}
 

@@ -32,6 +32,7 @@ bool Enemy::hit(AttributeMap attributeEffects, shared_ptr<MagicEffect> effect)
 
 	runDamageFlicker();
 	App::playSoundSpatial("sfx/enemy_damage.wav", toFmod(getPos()), toFmod(getVel()));
+	return true;
 }
 
 void Enemy::onRemove()
