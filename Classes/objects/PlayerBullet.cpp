@@ -116,6 +116,23 @@ StarbowBreakBullet::StarbowBreakBullet(GSpace* space, ObjectIDType id, const Spa
 	PlayerBulletValueImpl(space, id, pos, angle, agent, props)
 {}
 
+const bullet_properties ScarletDagger::props = {
+	5.0,
+	4.0,
+	//unused, since it is not a CircleBody
+	0.5,
+	hp_damage_map(3.0f),
+	0.5,
+	"sprites/scarlet_dagger.png",
+};
+
+ScarletDagger::ScarletDagger(GSpace* space, ObjectIDType id, const SpaceVect& pos, SpaceFloat angle, object_ref<Agent> agent) :
+	GObject(space, id, "", pos, angle),
+	Bullet(agent),
+	PlayerBullet(agent),
+	RectangleBody(SpaceVect(0.8, 0.175))
+{}
+
 const bullet_properties FlandreFastOrb1::props = {
 	0.1,
 	9.0,

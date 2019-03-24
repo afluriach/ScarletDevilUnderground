@@ -258,6 +258,7 @@ void PatchConSprite::reset()
 void ImageSprite::loadImageSprite(const string& resPath, GraphicsLayer sceneLayer)
 {
 	spriteID = space->createSprite(resPath, sceneLayer, getInitialCenterPix(), zoom());
+	space->setSpriteAngle(spriteID, toCocosAngle(prevAngle));
 }
 
 RadialLightObject::RadialLightObject() :

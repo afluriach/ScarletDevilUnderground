@@ -44,6 +44,15 @@ protected:
 	noise::module::Perlin noiseModel;
 };
 
+class ScarletDaggerPattern : public SingleBulletFixedIntervalPattern, public FirePatternImpl<ScarletDagger>
+{
+public:
+	ScarletDaggerPattern(Agent *const agent);
+
+	inline virtual string iconPath() const { return ""; }
+	inline virtual float getCooldownTime() { return 2.0f / 3.0f; }
+};
+
 class FlandreBigOrbPattern : public SingleBulletFixedIntervalPattern, public PlayerBulletImplPattern
 {
 public:

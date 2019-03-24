@@ -72,6 +72,28 @@ public:
 	};}
 };
 
+class ScarletDagger :
+	virtual public GObject,
+	public PlayerBullet,
+	public RectangleBody,
+	public ImageSprite,
+	public DirectionalLaunch
+{
+public:
+	static const bullet_properties props;
+
+	ScarletDagger(GSpace* space, ObjectIDType id, const SpaceVect& pos, SpaceFloat angle, object_ref<Agent> agent);
+
+	virtual inline SpaceFloat getMass() const { return props.mass; }
+	virtual inline SpaceFloat getMaxSpeed() const { return props.speed; }
+	virtual inline SpaceFloat getRadius() const { return props.radius; }
+
+	virtual inline AttributeMap getAttributeEffect() const { return props.attributeEffect; }
+
+	virtual inline string imageSpritePath() const { return props.sprite; }
+	virtual inline float zoom() const { return 1.0f; }
+};
+
 class FlandreFastOrb1 : public PlayerBullet, public BulletImpl, public RadialLightObject
 {
 public:

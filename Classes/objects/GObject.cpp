@@ -34,6 +34,7 @@ GObject::GObject(GSpace* space, ObjectIDType uuid, const ValueMap& obj, bool ano
 {
 	//Interpret coordinates as center, unit space.
 	initialCenter = getObjectPos(obj);
+	prevPos = initialCenter;
 
 #if GOBJECT_LUA
 	if (!anonymous) {
@@ -62,6 +63,7 @@ GObject::GObject(GSpace* space, ObjectIDType uuid, const string& name, const Spa
         log("%s created at %.1f,%.1f.", name.c_str(),initialCenter.x, initialCenter.y);
 
 	setInitialAngle(angle);
+	prevAngle = angle;
 }
 
 GObject::~GObject()

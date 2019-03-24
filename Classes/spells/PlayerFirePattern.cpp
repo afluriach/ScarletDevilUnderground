@@ -66,6 +66,11 @@ float StarbowBreak::getCooldownTime()
 	return baseFireInterval + fireIntervalVariation * noiseModel.GetValue(cos(noisePos), sin(noisePos), fireIntervalZPos);
 }
 
+ScarletDaggerPattern::ScarletDaggerPattern(Agent *const agent) :
+	FirePattern(agent),
+	SingleBulletFixedIntervalPattern(agent)
+{}
+
 FlandreBigOrbPattern::FlandreBigOrbPattern(Agent *const agent) :
 	SingleBulletFixedIntervalPattern(agent),
 	FirePattern(agent),
