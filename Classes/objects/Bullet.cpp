@@ -110,7 +110,7 @@ void BulletImpl::init()
 void BulletImpl::initializeGraphics()
 {
 	ImageSprite::initializeGraphics();
-	if (spriteID != 0 && props->spriteColor != Color3B::WHITE) {
+	if (spriteID != 0 && props->spriteColor != Color3B::BLACK) {
 		space->setSpriteColor(spriteID, props->spriteColor);
 	}
 }

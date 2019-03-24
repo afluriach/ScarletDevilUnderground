@@ -27,7 +27,7 @@ struct bullet_properties
 
 	SpaceFloat spriteBaseRadius;
 	string sprite;
-	Color3B spriteColor = Color3B::WHITE;
+	Color3B spriteColor = Color3B::BLACK;
 
 	int hitCount = 1;
 	bool directionalLaunch = true;
