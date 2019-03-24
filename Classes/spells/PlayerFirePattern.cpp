@@ -14,56 +14,111 @@
 #include "PlayerBullet.hpp"
 #include "PlayerFirePattern.hpp"
 
-const float StarbowBreak::baseFireInterval = 1.0f / 6.0f;
-const float StarbowBreak::fireIntervalVariation = 1.0f / 8.0f;
-const double StarbowBreak::fireIntervalZPos = -2.0;
+const float StarbowBreak::baseDamage = 2.0f;
+const float StarbowBreak::baseFireInterval = 1.0f / 5.0f;
+const array<float, StarbowBreak::anglesCount> StarbowBreak::angleIntervalScales = {
+	5.0f / 6.0f,
+	0.5f,
+	0.75f,
+	0.33f,
+	0.4f
+};
 
+const double StarbowBreak::baseMass = 1.0;
 const double StarbowBreak::baseSpeed = 6.0;
-const double StarbowBreak::speedVariation = 2.0;
-const double StarbowBreak::speedZPos = 0.0;
 
 const double StarbowBreak::angleVariation = float_pi * 0.25;
-const double StarbowBreak::angleZPos = 2.0;
+const double StarbowBreak::angleStep = angleVariation / (anglesCount - 1);
 
+const double StarbowBreak::launchDist = 1.0;
 const double StarbowBreak::baseRadius = 0.15;
-const double StarbowBreak::radiusVariation = 0.1;
-const double StarbowBreak::radiusZPos = 1.0;
+const array<double, StarbowBreak::anglesCount> StarbowBreak::radiusScales = {
+	1.0,
+	0.5,
+	2.0 / 3.0,
+	0.25,
+	1.0 / 3.0
+};
+
+const array<Color3B, StarbowBreak::anglesCount> StarbowBreak::colors = {
+	hsv3B(0.0f,0.5f,1.0f),
+	hsv3B(48.0f,0.5f,1.0f),
+	hsv3B(120.0f,0.5f,1.0f),
+	hsv3B(180.0f,0.5f,1.0f),
+	hsv3B(315.0f,0.5f,1.0f),
+};
 
 StarbowBreak::StarbowBreak(Agent *const agent) :
 	FirePattern(agent)
 {}
 
-bool StarbowBreak::fire()
+bullet_properties StarbowBreak::generateProps(int angle)
 {
-	SpaceFloat angleOffsetNoiseValue = noiseModel.GetValue(cos(noisePos), sin(noisePos), angleZPos);
-	SpaceFloat angleOffset = angleVariation * angleOffsetNoiseValue*angleOffsetNoiseValue * (angleOffsetNoiseValue < 0.0 ? -1.0 : 1.0);
-	SpaceFloat sizeScale = noiseModel.GetValue(cos(noisePos), sin(noisePos), radiusZPos);
+	//specify size multiplier for angle steps
+	//damage and mass should be proportional to size
+	//speed should be inversely proportional to size
+	//angle colors
+	double sizeScale = radiusScales[angle];
 
-	bullet_properties props = {
-		0.1,
-		baseSpeed + speedVariation*noiseModel.GetValue(cos(noisePos), sin(noisePos), speedZPos),
-		baseRadius + radiusVariation*sizeScale,
-		hp_damage_map(2.0f + 1.5f*sizeScale),
+	return bullet_properties{
+		baseMass *sizeScale*sizeScale,
+		baseSpeed / sizeScale,
+		baseRadius * sizeScale,
+		hp_damage_map(baseDamage*sizeScale),
 		0.83,
 		"sprites/starbow_break_bullet.png",
-		hsv3B((angleOffsetNoiseValue+1.0)*180.0f, 0.5f,1.0f)
+		colors[angle]
 	};
+}
 
-	SpaceFloat angle = agent->getAngle() + angleOffset;
-	SpaceVect pos = agent->getPos() + SpaceVect::ray(1.0, angle);
+bool StarbowBreak::spawnBullet(int angle, bool left)
+{
+	double _angle = agent->getAngle() + angleStep * angle * (left ? 1.0 : -1.0);
+	SpaceVect pos = agent->getPos() + SpaceVect::ray(launchDist, _angle);
 
-	return agent->bulletValueImplCheckSpawn<StarbowBreakBullet>(pos,angle,props).isFuture();
+	return agent->bulletValueImplCheckSpawn<StarbowBreakBullet>(pos, _angle, generateProps(angle)).isFuture();
+}
+
+bool StarbowBreak::fire()
+{
+	bool canFire = false;
+	for (float t : timers) {
+		if (t <= 0.0f) {
+			canFire = true;
+			break;
+		}
+	}
+
+	if (!canFire)
+		return false;
+
+	if (timers[0] <= 0.0f && spawnBullet(0,false))
+	{
+		timers[0] = baseFireInterval;
+	}
+
+	//angle zero represents forward direction (single bullet)
+	//others represent pair of side-angle bullets
+	for_irange(i, 1, anglesCount)
+	{
+		if (timers[i] <= 0.0f) {
+			bool fired = false;
+			fired |= spawnBullet(i, false);
+			fired |= spawnBullet(i, true);
+
+			if (fired)
+				timers[i] = baseFireInterval;
+		}
+	}
+
+	return true;
 }
 
 void StarbowBreak::update()
 {
-	FirePattern::update();
-	noisePos = canonicalAngle(noisePos + float_pi * App::secondsPerFrame);
-}
-
-float StarbowBreak::getCooldownTime()
-{
-	return baseFireInterval + fireIntervalVariation * noiseModel.GetValue(cos(noisePos), sin(noisePos), fireIntervalZPos);
+	for_irange(i, 0, anglesCount) {
+		timerDecrement(timers[i], angleIntervalScales[i]);
+	}
 }
 
 ScarletDaggerPattern::ScarletDaggerPattern(Agent *const agent) :
