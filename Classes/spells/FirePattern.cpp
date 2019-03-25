@@ -90,16 +90,21 @@ bool MultiBulletSpreadPattern::fire()
 	if (isInCooldown())
 		return false;
 
+	if (bulletCount == 1) {
+		return spawn(agent->getAngle());
+	}
+
+	bool fired = false;
 	SpaceFloat angle = agent->getAngle();
 	SpaceFloat spread = sideAngleSpread * 2.0;
 	SpaceFloat angleStep = spread / (bulletCount - 1);
 
 	for_irange(i, 0, bulletCount)
 	{
-		spawn(angle - sideAngleSpread + angleStep*i);
+		fired |= spawn(angle - sideAngleSpread + angleStep*i);
 	}
 
-	return true;
+	return fired;
 }
 
 MultiBulletParallelPattern::MultiBulletParallelPattern(

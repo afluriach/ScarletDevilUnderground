@@ -121,9 +121,21 @@ void StarbowBreak::update()
 	}
 }
 
-ScarletDaggerPattern::ScarletDaggerPattern(Agent *const agent) :
+const array<ScarletDaggerPattern::properties, ScarletDaggerPattern::levelsCount> ScarletDaggerPattern::props = {
+	ScarletDaggerPattern::properties{0.0, 2.0f / 3.0f, 1},
+	ScarletDaggerPattern::properties{float_pi / 12.0, 0.5f, 3},
+	ScarletDaggerPattern::properties{float_pi / 8.0, 0.5f, 5},
+};
+
+ScarletDaggerPattern::ScarletDaggerPattern(Agent *const agent, int level) :
 	FirePattern(agent),
-	SingleBulletFixedIntervalPattern(agent)
+	MultiBulletSpreadPattern(
+		agent,
+		props[level].fireInterval,
+		props[level].spreadAngle,
+		props[level].bulletCount
+	),
+	level(level)
 {}
 
 FlandreBigOrbPattern::FlandreBigOrbPattern(Agent *const agent) :

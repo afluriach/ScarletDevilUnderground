@@ -53,13 +53,25 @@ protected:
 	array<float, anglesCount> timers = {};
 };
 
-class ScarletDaggerPattern : public SingleBulletFixedIntervalPattern, public FirePatternImpl<ScarletDagger>
+class ScarletDaggerPattern : public MultiBulletSpreadPattern, public FirePatternImpl<ScarletDagger>
 {
 public:
-	ScarletDaggerPattern(Agent *const agent);
+	struct properties
+	{
+		SpaceFloat spreadAngle;
+		float fireInterval;
+		int bulletCount;
+	};
+
+	static constexpr int levelsCount = 3;
+	static const array<properties, levelsCount> props;
+
+	ScarletDaggerPattern(Agent *const agent, int level);
 
 	inline virtual string iconPath() const { return ""; }
-	inline virtual float getCooldownTime() { return 2.0f / 3.0f; }
+	inline virtual float getCooldownTime() { return props[level].fireInterval; }
+protected:
+	int level;
 };
 
 class FlandreBigOrbPattern : public SingleBulletFixedIntervalPattern, public PlayerBulletImplPattern
