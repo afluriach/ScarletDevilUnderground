@@ -3,11 +3,11 @@
  <tileset firstgid="1" name="scarlet carpet texture" tilewidth="128" tileheight="128" tilecount="1" columns="1">
   <image source="../scarlet carpet texture.png" width="128" height="128"/>
  </tileset>
- <tileset firstgid="2" name="block_wall_dark_grey" tilewidth="128" tileheight="128" tilecount="16" columns="4">
-  <image source="../block_wall_dark_grey.png" width="512" height="512"/>
- </tileset>
- <tileset firstgid="18" name="book_shelf" tilewidth="128" tileheight="128" tilecount="1" columns="1">
+ <tileset firstgid="2" name="book_shelf" tilewidth="128" tileheight="128" tilecount="1" columns="1">
   <image source="../book_shelf.png" width="128" height="128"/>
+ </tileset>
+ <tileset firstgid="3" name="block_wall" tilewidth="128" tileheight="128" tilecount="1" columns="1">
+  <image source="../block_wall.png" width="128" height="128"/>
  </tileset>
  <layer name="floor" width="31" height="36">
   <data encoding="base64" compression="zlib">
@@ -16,12 +16,12 @@
  </layer>
  <layer name="bookshelf" width="31" height="36">
   <data encoding="base64" compression="zlib">
-   eJztz7EJADAIRUFncP9hs0BQSGXwDqz8zYsAAOAXebnq97KfSLfu6qdbd7efaGv3Jge0qQpX
+   eJztz7EJADAIRUFx/6GzQFBIZfAOrPzNiwAA4Bd5uer3sp9It+7qp1t3t59oa/cmB1xzASc=
   </data>
  </layer>
  <layer name="wall_tiles" width="31" height="36">
   <data encoding="base64" compression="zlib">
-   eJzt0zEKACAMA8Di/x/tLohohYJeoFvDTYmYp12402S62T6b/Yo9bnF3u9n/irDZP9n2zWaz2Ww2m722q64Dre0BUQ==
+   eJzt0zEKACAMA8CC//+zuyCiFQp6gW4NNyVinnbhTpPpZvts9iv2uMXd7Wb/K8Jm/2TbN5vNZrPZbPbarroOfDMB+Q==
   </data>
  </layer>
  <objectgroup name="walls">
