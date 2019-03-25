@@ -29,7 +29,8 @@ struct bullet_properties
 	string sprite;
 	Color3B spriteColor;
 
-	int hitCount = 1;
+	char hitCount = 1;
+	char ricochetCount = 0;
 	bool directionalLaunch = true;
 };
 

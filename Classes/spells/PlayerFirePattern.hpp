@@ -53,6 +53,27 @@ protected:
 	array<float, anglesCount> timers = {};
 };
 
+class Catadioptric : public FirePattern
+{
+public:
+	static const int tailCount;
+	static const int secondaryBulletCount;
+	static const int tertiaryBulletCount;
+	static const SpaceFloat secondarySpeedVariation;
+	static const SpaceFloat tertiarySpeedVariation;
+	static const SpaceFloat angleSpread;
+
+	Catadioptric(Agent *const agent);
+
+	bool spawnTail(SpaceFloat angleOffset);
+
+	virtual bool fire();
+	virtual bool spawn(SpaceFloat angle) { return false; }
+	virtual bool spawn(SpaceVect posOffset, SpaceFloat angle) { return false; }
+	inline virtual float getCooldownTime() { return 1.5f; }
+	virtual string iconPath() const { return ""; }
+};
+
 class ScarletDaggerPattern : public MultiBulletSpreadPattern, public FirePatternImpl<ScarletDagger>
 {
 public:

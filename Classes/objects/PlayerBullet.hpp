@@ -44,6 +44,9 @@ class PlayerBulletImpl : public PlayerBullet, public BulletImpl
 {
 public:
 	static const bullet_properties flandreBigOrb1;
+	static const bullet_properties catadioptricBullet1;
+	static const bullet_properties catadioptricBullet2;
+	static const bullet_properties catadioptricBullet3;
 	static const bullet_properties rumiaFastOrb1;
 	static const bullet_properties cirnoSmallIceBullet;
 	static const bullet_properties cirnoLargeIceBullet;

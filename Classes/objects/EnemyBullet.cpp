@@ -98,6 +98,7 @@ const bullet_properties EnemyBulletImpl::rumiaPinwheelBullet = {
 	"sprites/rumia_bullet.png",
 	Color3B::WHITE,
 	1,
+	0,
 	false
 };
 
@@ -241,6 +242,9 @@ const bullet_properties YinYangOrb::props = {
 	hp_damage_map(10.0f),
 	0.5,
 	"sprites/yin-yang-orb.png",
+	Color3B::BLACK,
+	-1,
+	-1,
 };
 
 YinYangOrb::YinYangOrb(GSpace* space, ObjectIDType id, const SpaceVect& pos, SpaceFloat angle, object_ref<Agent> agent) :
@@ -249,8 +253,6 @@ YinYangOrb::YinYangOrb(GSpace* space, ObjectIDType id, const SpaceVect& pos, Spa
 	EnemyBullet(agent),
 	BulletImpl(&props)
 {
-	ricochetCount = -1;
-	hitCount = -1;
 	knockback = 150.0;
 
 	setInitialAngularVelocity(float_pi);

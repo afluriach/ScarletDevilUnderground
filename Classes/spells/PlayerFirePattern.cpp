@@ -121,6 +121,74 @@ void StarbowBreak::update()
 	}
 }
 
+const int Catadioptric::tailCount = 3;
+const int Catadioptric::secondaryBulletCount = 6;
+const int Catadioptric::tertiaryBulletCount = 12;
+const SpaceFloat Catadioptric::secondarySpeedVariation = 2.0;
+const SpaceFloat Catadioptric::tertiarySpeedVariation = 1.0;
+const SpaceFloat Catadioptric::angleSpread = float_pi / 8.0;
+
+Catadioptric::Catadioptric(Agent *const agent) :
+	FirePattern(agent)
+{}
+
+bool Catadioptric::spawnTail(SpaceFloat angleOffset)
+{
+	bool fired = false;
+	double _angle = agent->getAngle() + angleOffset;
+	SpaceVect pos = agent->getPos() + SpaceVect::ray(1.0, _angle);
+
+	fired |= agent->bulletValueImplCheckSpawn<PlayerBulletValueImpl>(
+		pos,
+		_angle,
+		PlayerBulletImpl::catadioptricBullet1
+	).isFuture();
+
+	for_irange(i, 0, secondaryBulletCount)
+	{
+		bullet_properties props = PlayerBulletImpl::catadioptricBullet2;
+		SpaceFloat variation = secondarySpeedVariation * 2.0;
+		SpaceFloat step = variation / (secondaryBulletCount - 1);
+		props.speed += -secondarySpeedVariation + step*i;
+
+		fired |= agent->bulletValueImplCheckSpawn<PlayerBulletValueImpl>(
+			pos,
+			_angle + agent->space->getRandomFloat(-1.0f,1.0f)*angleSpread/4.0,
+			props
+		).isFuture();
+	}
+
+	for_irange(i, 0, tertiaryBulletCount)
+	{
+		bullet_properties props = PlayerBulletImpl::catadioptricBullet3;
+		SpaceFloat variation = tertiarySpeedVariation * 2.0;
+		SpaceFloat step = variation / (tertiaryBulletCount - 1);
+		props.speed += -tertiarySpeedVariation + step * i;
+
+		fired |= agent->bulletValueImplCheckSpawn<PlayerBulletValueImpl>(
+			pos,
+			_angle + agent->space->getRandomFloat(-1.0f, 1.0f)*angleSpread / 2.0,
+			props
+		).isFuture();
+	}
+
+	return fired;
+}
+
+bool Catadioptric::fire()
+{
+	bool fired = false;
+	SpaceFloat spread = angleSpread * 2.0;
+	SpaceFloat angleStep = spread / (tailCount - 1);
+
+	for_irange(i, 0, tailCount)
+	{
+		fired |= spawnTail( -angleSpread + angleStep*i);
+	}
+
+	return fired;
+}
+
 const array<ScarletDaggerPattern::properties, ScarletDaggerPattern::levelsCount> ScarletDaggerPattern::props = {
 	ScarletDaggerPattern::properties{0.0, 2.0f / 3.0f, 1},
 	ScarletDaggerPattern::properties{float_pi / 12.0, 0.5f, 3},

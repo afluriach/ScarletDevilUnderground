@@ -99,6 +99,7 @@ BulletImpl::BulletImpl(const bullet_properties* props) :
 	props(props)
 {
 	hitCount = props->hitCount;
+	ricochetCount = props->ricochetCount;
 }
 
 void BulletImpl::init()
@@ -110,7 +111,7 @@ void BulletImpl::init()
 void BulletImpl::initializeGraphics()
 {
 	ImageSprite::initializeGraphics();
-	if (spriteID != 0 && props->spriteColor != Color3B::BLACK) {
+	if (spriteID != 0 && props->spriteColor != Color3B::BLACK && props->spriteColor != Color3B::WHITE) {
 		space->setSpriteColor(spriteID, props->spriteColor);
 	}
 }
@@ -120,6 +121,7 @@ BulletValueImpl::BulletValueImpl(bullet_properties props) :
 	props(props)
 {
 	hitCount = props.hitCount;
+	ricochetCount = props.ricochetCount;
 }
 
 void BulletValueImpl::init()
@@ -131,7 +133,7 @@ void BulletValueImpl::init()
 void BulletValueImpl::initializeGraphics()
 {
 	ImageSprite::initializeGraphics();
-	if (spriteID != 0 && props.spriteColor != Color3B::WHITE) {
+	if (spriteID != 0 && props.spriteColor != Color3B::BLACK && props.spriteColor != Color3B::WHITE) {
 		space->setSpriteColor(spriteID, props.spriteColor);
 	}
 }

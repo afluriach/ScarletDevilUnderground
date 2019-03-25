@@ -67,6 +67,39 @@ const bullet_properties PlayerBulletImpl::flandreBigOrb1 = {
 	"sprites/flandre_bullet.png",
 };
 
+const bullet_properties PlayerBulletImpl::catadioptricBullet1 = {
+	3.0,
+	6.0,
+	0.5,
+	hp_damage_map(3.0f),
+	0.83,
+	"sprites/catadioptric_bullet1.png"
+};
+
+const bullet_properties PlayerBulletImpl::catadioptricBullet2 = {
+	1.5,
+	4.5,
+	0.25,
+	hp_damage_map(1.5f),
+	0.83,
+	"sprites/catadioptric_bullet2.png",
+	Color3B::WHITE,
+	1,
+	1,
+};
+
+const bullet_properties PlayerBulletImpl::catadioptricBullet3 = {
+	0.5,
+	3.0,
+	0.125,
+	hp_damage_map(0.5f),
+	0.25,
+	"sprites/catadioptric_bullet3.png",
+	Color3B::WHITE,
+	1,
+	2,
+};
+
 const bullet_properties PlayerBulletImpl::rumiaFastOrb1 = {
 	0.1,
 	9.0,
@@ -153,6 +186,7 @@ const bullet_properties FlanPolarBullet::props = {
 	"sprites/flandre_bullet.png",
 	Color3B::WHITE,
 	-1,
+	0,
 	false
 };
 
