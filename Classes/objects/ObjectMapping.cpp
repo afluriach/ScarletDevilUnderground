@@ -209,6 +209,7 @@ const unordered_map<string, GObject::object_info> GObject::objectInfo = {
 	entry_same(Spawner),
 	entry_same(Spellcard),
 	entry_same(Stalker),
+	upgrade_entry(StaminaUpgrade, maxStamina),
 	entry_same(StoneFloor),
 	entry_same(SunArea),
 	entry_same(TeleportPad),

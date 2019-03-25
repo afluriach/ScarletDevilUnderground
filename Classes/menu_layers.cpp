@@ -166,7 +166,7 @@ bool LoadProfileDetailMenu::init()
 		attributes = make_unique<AttributeSystem>(profileState->getPlayerStats());
 
 		info = Node::ccCreate<PlayerInfo>(attributes.get());
-		info->setPosition(App::width * 0.75f, App::height * 0.5f);
+		info->setPosition(App::width * 0.75f, App::height * 0.66f);
 		addChild(info, 3);
 
 		Label* time = createTextLabel("Elapsed time: " + getTimeString(profileState->totalChamberTime()), 32);
@@ -383,7 +383,7 @@ PauseMenu::PauseMenu(bool overworld, Player* player) :
 	player(player)
 {
 	PlayerInfo* info = Node::ccCreate<PlayerInfo>(player->getAttributeSystem());
-	info->setPosition(App::width * 0.75f, App::height * 0.5f);
+	info->setPosition(App::width * 0.75f, App::height * 0.66f);
 	addChild(info, 3);
 }
 
@@ -686,8 +686,9 @@ const vector<pair<Attribute, string>> PlayerInfo::displayAttributes = {
 	{ Attribute::agility, "Agility" },
 	{ Attribute::attack, "Attack" },
 	{ Attribute::bulletCount, "Bullet Count" },
-	{ Attribute::maxHP, "HP" },
-	{ Attribute::maxMP, "MP" },
+	{ Attribute::maxHP, "Max HP" },
+	{ Attribute::maxMP, "Max MP" },
+	{ Attribute::maxStamina, "Max Stamina" },
 	{ Attribute::ricochet, "Ricochet" },
 	{ Attribute::shieldLevel, "Shield" },
 };
