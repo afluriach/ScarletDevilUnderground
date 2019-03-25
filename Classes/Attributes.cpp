@@ -257,9 +257,9 @@ void AttributeSystem::update()
 
 void AttributeSystem::applyIncidentRegen()
 {
-	timerIncrement(Attribute::hp, Attribute::maxHP, (*this)[Attribute::hpRegen]);
-	timerIncrement(Attribute::mp, Attribute::maxMP, (*this)[Attribute::mpRegen]);
-	timerIncrement(Attribute::stamina, Attribute::maxStamina, (*this)[Attribute::staminaRegen]);
+	timerIncrement(Attribute::hp, Attribute::maxHP, (*this)[Attribute::hpRegen] * (*this)[Attribute::maxHP]);
+	timerIncrement(Attribute::mp, Attribute::maxMP, (*this)[Attribute::mpRegen] * (*this)[Attribute::maxMP]);
+	timerIncrement(Attribute::stamina, Attribute::maxStamina, (*this)[Attribute::staminaRegen] * (*this)[Attribute::maxStamina]);
 }
 
 void AttributeSystem::applyElementDecay()

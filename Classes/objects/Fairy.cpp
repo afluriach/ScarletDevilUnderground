@@ -289,7 +289,7 @@ const AttributeMap BlueFairy::baseAttributes = {
 	{ Attribute::shieldLevel, 1.0f },
 	{ Attribute::maxHP, 30.0f },
 	{ Attribute::maxStamina, 50.0f },
-	{ Attribute::staminaRegen, 1.0f },
+	{ Attribute::staminaRegen, 0.02f },
 	{ Attribute::agility, 2.5f },
 	{ Attribute::touchDamage, 5.0f },
 	{ Attribute::stressFromHits, 1.5f },
