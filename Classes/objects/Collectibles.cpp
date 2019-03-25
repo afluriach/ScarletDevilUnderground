@@ -53,7 +53,7 @@ RectangleBody(SpaceVect(0.5, 0.5))
 }
 
 const AttributeMap Magic1::effect = {
-	{ Attribute::mp, 1.0f }
+	{ Attribute::mp, 5.0f }
 };
 
 const string Magic1::spriteName = "magic1";
@@ -65,7 +65,7 @@ Magic1::Magic1(GSpace* space, ObjectIDType id, SpaceVect pos) :
 }
 
 const AttributeMap Magic2::effect = {
-	{ Attribute::mp, 5.0f }
+	{ Attribute::mp, 25.0f }
 };
 
 const string Magic2::spriteName = "magic2";

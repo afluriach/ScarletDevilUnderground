@@ -19,7 +19,7 @@ const float AttributeSystem::comboPointsDrainPerSecond = 15.0f;
 
 const unordered_map<Attribute, UpgradeInfo> AttributeSystem::upgradeAttributes = {
 	{Attribute::maxHP, UpgradeInfo{ 25.0f, "sprites/hp_upgrade.png"}},
-	{Attribute::maxMP, UpgradeInfo{ 5.0f, "sprites/mp_upgrade.png"}},
+	{Attribute::maxMP, UpgradeInfo{ 25.0f, "sprites/mp_upgrade.png"}},
 	{Attribute::agility, UpgradeInfo{ 1.0f, "sprites/agility_upgrade.png"}},
 	{Attribute::attack, UpgradeInfo{ 0.25f, "sprites/attack_upgrade.png"}},
 	{Attribute::shieldLevel, UpgradeInfo{ 1.0f, "sprites/shield_upgrade.png"}},

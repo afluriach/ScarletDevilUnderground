@@ -38,9 +38,9 @@ const SpaceFloat Player::focusSpeedRatio = 0.5;
 const SpaceFloat Player::interactDistance = 1.25;
 const SpaceFloat Player::grazeRadius = 0.7;
 
-const float Player::bombCost = 1.0f;
+const float Player::bombCost = 5.0f;
 const float Player::powerAttackCost = 25.0f;
-const float Player::spellCost = 5.0f;
+const float Player::spellCost = 20.0f;
 
 Player::Player(GSpace* space, ObjectIDType id, const SpaceVect& pos, Direction d) :
 	Agent(space, id, "player", pos,d)
@@ -598,7 +598,7 @@ bool Player::canPlaceBomb(SpaceVect pos)
 const AttributeMap FlandrePC::baseAttributes = {
 	{Attribute::shieldLevel, 1.0f },
 	{Attribute::maxHP, 100.0f},
-	{Attribute::maxMP, 20.0f },
+	{Attribute::maxMP, 100.0f },
 	{Attribute::maxStamina, 100.0f},
 	{Attribute::staminaRegen, 5.0f},
 	{Attribute::agility, 2.0f},
@@ -654,7 +654,7 @@ void FlandrePC::setFirePattern()
 
 const AttributeMap RumiaPC::baseAttributes = {
 	{Attribute::maxHP, 75.0f },
-	{Attribute::maxMP, 25.0f },
+	{Attribute::maxMP, 125.0f },
 	{Attribute::maxStamina, 75.0f },
 	{Attribute::staminaRegen, 3.0f },
 	{Attribute::agility, 3.0f },
@@ -688,7 +688,7 @@ void RumiaPC::setFirePattern()
 const AttributeMap CirnoPC::baseAttributes = {
 	{Attribute::shieldLevel, 2.0f },
 	{Attribute::maxHP, 125.0f },
-	{Attribute::maxMP, 15.0f },
+	{Attribute::maxMP, 75.0f },
 	{Attribute::maxStamina, 125.0f},
 	{Attribute::staminaRegen, 6.66f },
 	{Attribute::agility, 1.0f},
