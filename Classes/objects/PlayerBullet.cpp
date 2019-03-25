@@ -252,6 +252,48 @@ CircleLightArea FlandrePolarMotionOrb::getLightSource() const {
 	return CircleLightArea{ getPos(), 2.0, Color4F::RED*0.5f, 0.0 };
 }
 
+Lavaeteinn::Lavaeteinn(
+	GSpace* space,
+	ObjectIDType id,
+	const SpaceVect& pos,
+	SpaceFloat angle,
+	SpaceFloat angularVel,
+	object_ref<Agent> agent
+) :
+	GObject(space, id, "", pos, angle),
+	PlayerShield(agent),
+	RectangleBody(SpaceVect(2.0, 0.5))
+{
+	setInitialAngularVelocity(angularVel);
+}
+
+AttributeMap Lavaeteinn::getAttributeEffect() const {
+	return {
+		{ Attribute::hp, -5.0 }
+	};
+}
+
+//void Lavaeteinn::update()
+//{
+//	GObject::update();
+//
+//	if (drawNodeID != 0) {
+//		space->setSpriteAngle(drawNodeID, -toDegrees(getAngle()));
+//	}
+//}
+//
+//void Lavaeteinn::initializeGraphics()
+//{
+//	ImageSprite::initializeGraphics();
+//
+//	SpaceVect _dim = getDimensions();
+//	float hWidth = to_float(_dim.x / 2.0 * App::pixelsPerTile);
+//	float hHeight = to_float(_dim.y / 2.0 * App::pixelsPerTile);
+//
+//	drawNodeID = space->createDrawNode(GraphicsLayer::agentOverlay, getInitialCenterPix(), 1.0f);
+//	space->drawSolidRect(drawNodeID, Vec2(-hWidth, -hHeight), Vec2(hWidth, hHeight), Color4F(.66f, .75f, .66f, .7f));
+//}
+
 FlandreCounterClockBullet::FlandreCounterClockBullet(GSpace* space, ObjectIDType id, const SpaceVect& pos, SpaceFloat angle, object_ref<Agent> agent) :
 	GObject(space, id, "", pos, angle),
 	PlayerShield(agent),

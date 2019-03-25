@@ -79,6 +79,68 @@ void PlayerBatMode::end()
 	}
 }
 
+const string LavaeteinnSpell::name = "LavaeteinnSpell";
+const string LavaeteinnSpell::description = "";
+
+const SpaceFloat LavaeteinnSpell::length = 1.0;
+const SpaceFloat LavaeteinnSpell::angleWidth = float_pi / 2.0;
+const SpaceFloat LavaeteinnSpell::angular_speed = angleWidth * 2.0 / length;
+const int LavaeteinnSpell::bulletSpawnCount = 8;
+
+LavaeteinnSpell::LavaeteinnSpell(GObject* caster) :
+	PlayerSpell(caster)
+{}
+
+void LavaeteinnSpell::init()
+{
+	PlayerSpell::init();
+
+	SpaceFloat angle = canonicalAngle(caster->getAngle() - angleWidth);
+	SpaceVect pos = caster->getPos() + SpaceVect::ray(1.5, angle);
+	object_ref<Agent> agent = caster;
+
+	lavaeteinnBullet = caster->space->createObject(GObject::make_object_factory<Lavaeteinn>(
+		pos,
+		angle,
+		angular_speed,
+		agent
+	));
+
+	fireTimer = length / bulletSpawnCount;
+	angularPos = angle;
+}
+
+void LavaeteinnSpell::update()
+{
+	PlayerSpell::update();
+
+	timerDecrement(fireTimer);
+	timerIncrement(angularPos, angular_speed);
+
+	if (lavaeteinnBullet.isValid()) {
+		lavaeteinnBullet.get()->setPos(caster->getPos() + SpaceVect::ray(1.5, angularPos));
+	}
+
+	if (fireTimer <= 0.0) {
+		object_ref<Agent> agent = caster;
+		caster->space->createObject(GObject::make_object_factory<FlandreFastOrb1>(
+			caster->getPos() + SpaceVect::ray(2.0, angularPos),
+			angularPos,
+			agent
+		));
+		fireTimer = length / bulletSpawnCount;
+	}
+}
+
+void LavaeteinnSpell::end()
+{
+	PlayerSpell::end();
+
+	if (lavaeteinnBullet.isValid()) {
+		caster->space->removeObject(lavaeteinnBullet);
+	}
+}
+
 const string PlayerCounterClock::name = "PlayerCounterClock";
 const string PlayerCounterClock::description = "";
 

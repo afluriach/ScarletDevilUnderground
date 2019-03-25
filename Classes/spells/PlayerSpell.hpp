@@ -44,6 +44,33 @@ public:
 	inline virtual SpaceFloat getLength() const { return 5.0; }
 };
 
+class LavaeteinnSpell : public PlayerSpell
+{
+public:
+	static const string name;
+	static const string description;
+
+	static const SpaceFloat length;
+	static const SpaceFloat angleWidth;
+	static const SpaceFloat angular_speed;
+
+	static const int bulletSpawnCount;
+
+	LavaeteinnSpell(GObject* caster);
+	inline virtual ~LavaeteinnSpell() {}
+
+	GET_DESC(LavaeteinnSpell);
+	virtual void init();
+	virtual void update();
+	virtual void end();
+
+	inline virtual SpaceFloat getLength() const { return length; }
+protected:
+	gobject_ref lavaeteinnBullet;
+	SpaceFloat fireTimer;
+	SpaceFloat angularPos;
+};
+
 class PlayerCounterClock : public PlayerSpell {
 public:
 	static const string name;

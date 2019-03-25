@@ -156,6 +156,31 @@ public:
 	virtual CircleLightArea getLightSource() const;
 };
 
+class Lavaeteinn :
+	virtual public GObject,
+	public PlayerShield,
+	public RectangleBody,
+	public ImageSprite
+{
+public:
+	Lavaeteinn(
+		GSpace* space,
+		ObjectIDType id,
+		const SpaceVect& pos,
+		SpaceFloat angle,
+		SpaceFloat angularVel,
+		object_ref<Agent> agent
+	);
+
+	virtual inline string imageSpritePath() const { return "sprites/lavaeteinn.png"; }
+
+	virtual AttributeMap getAttributeEffect() const;
+	inline virtual SpaceFloat getKnockbackForce() const { return 0.0; }
+
+//	virtual void initializeGraphics();
+//	virtual void update();
+};
+
 class FlandreCounterClockBullet :
 	virtual public GObject,
 	public PlayerShield,
