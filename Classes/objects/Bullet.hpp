@@ -65,8 +65,8 @@ public:
 	virtual void onAgentCollide(Agent* agent, SpaceVect n);
 	virtual void onBulletCollide(Bullet* bullet);
 
+	SpaceVect calculateLaunchVelocity();
 	bool applyRicochet(SpaceVect n);
-
 	void setBodyVisible(bool b);
 
 	object_ref<Agent> agent;
@@ -126,6 +126,15 @@ public:
 	virtual inline AttributeMap getAttributeEffect() const { return props.attributeEffect; }
 
 	const bullet_properties props;
+};
+
+//Object will automatically have its velocity set on init(), according to
+//its [facing] angle. Uses polymorphic getter getMaxSpeed().
+class DirectionalLaunch : virtual public Bullet, public RegisterInit<DirectionalLaunch>
+{
+public:
+	inline DirectionalLaunch() : RegisterInit<DirectionalLaunch>(this) {}
+	void init();
 };
 
 #endif /* Bullet_hpp */

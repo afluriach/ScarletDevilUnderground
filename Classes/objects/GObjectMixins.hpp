@@ -128,15 +128,6 @@ public:
 	const SpaceFloat mass;
 };
 
-//Object will automatically have its velocity set on init(), according to
-//its [facing] angle. Uses polymorphic getter getMaxSpeed().
-class DirectionalLaunch : virtual public GObject, public RegisterInit<DirectionalLaunch>
-{
-public:
-	inline DirectionalLaunch() : RegisterInit<DirectionalLaunch>(this) {}
-	void init();
-};
-
 //Allow the speed of an object to be supplied as construction parameter.
 class MaxSpeedImpl : virtual public GObject
 {

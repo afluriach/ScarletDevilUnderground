@@ -17,7 +17,7 @@
 const float StarbowBreak::baseDamage = 2.0f;
 const float StarbowBreak::baseFireInterval = 1.0f / 5.0f;
 const array<float, StarbowBreak::anglesCount> StarbowBreak::angleIntervalScales = {
-	5.0f / 6.0f,
+	0.6f,
 	0.5f,
 	0.75f,
 	0.33f,
@@ -33,7 +33,7 @@ const double StarbowBreak::angleStep = angleVariation / (anglesCount - 1);
 const double StarbowBreak::launchDist = 1.0;
 const double StarbowBreak::baseRadius = 0.15;
 const array<double, StarbowBreak::anglesCount> StarbowBreak::radiusScales = {
-	1.0,
+	0.75,
 	0.5,
 	2.0 / 3.0,
 	0.25,

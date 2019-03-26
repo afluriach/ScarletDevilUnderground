@@ -94,11 +94,6 @@ SpaceVect CircleBody::getDimensions() const
 	return SpaceVect(getRadius()*2, getRadius()*2);
 }
 
-void DirectionalLaunch::init()
-{
-	setVel(SpaceVect::ray(getMaxSpeed(), getAngle()));
-}
-
 ParametricMotion::ParametricMotion(parametric_space_function f, SpaceFloat start, SpaceFloat scale) :
 	scale(scale),
 	f(f),

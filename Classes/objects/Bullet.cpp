@@ -58,6 +58,17 @@ void Bullet::onBulletCollide(Bullet* bullet)
 	//NO-OP
 }
 
+SpaceVect Bullet::calculateLaunchVelocity()
+{
+	SpaceFloat speed = getMaxSpeed();
+	SpaceFloat angle = getAngle();
+	SpaceVect agentVel = agent.isValid() ? agent.get()->getVel() : SpaceVect::zero;
+	SpaceVect dir = SpaceVect::ray(1.0, angle);
+	SpaceFloat scalar = SpaceVect::dot(dir, agentVel);
+	scalar = scalar < 0.0 ? 0.0 : scalar;
+	return dir * (speed + scalar);
+}
+
 bool Bullet::applyRicochet(SpaceVect n)
 {
 	SpaceVect v = getVel();
@@ -104,8 +115,9 @@ BulletImpl::BulletImpl(const bullet_properties* props) :
 
 void BulletImpl::init()
 {
-	if (props->directionalLaunch)
-		setVel(SpaceVect::ray(getMaxSpeed() * attributes.bulletSpeed, getAngle()));
+	if (props->directionalLaunch) {
+		setVel(calculateLaunchVelocity());
+	}
 }
 
 void BulletImpl::initializeGraphics()
@@ -126,8 +138,9 @@ BulletValueImpl::BulletValueImpl(bullet_properties props) :
 
 void BulletValueImpl::init()
 {
-	if (props.directionalLaunch)
-		setVel(SpaceVect::ray(getMaxSpeed() * attributes.bulletSpeed, getAngle()));
+	if (props.directionalLaunch) {
+		setVel(calculateLaunchVelocity());
+	}
 }
 
 void BulletValueImpl::initializeGraphics()
@@ -136,4 +149,9 @@ void BulletValueImpl::initializeGraphics()
 	if (spriteID != 0 && props.spriteColor != Color3B::BLACK && props.spriteColor != Color3B::WHITE) {
 		space->setSpriteColor(spriteID, props.spriteColor);
 	}
+}
+
+void DirectionalLaunch::init()
+{
+	setVel(calculateLaunchVelocity());
 }

@@ -375,9 +375,9 @@ bool AttributeSystem::canApplyAttribute(Attribute id, float x)
 	switch (id)
 	{
 	case Attribute::hp:
-		return attributes.at(to_size_t(Attribute::hp)) + x <= attributes.at(to_size_t(Attribute::maxHP));
+		return attributes.at(to_size_t(Attribute::hp)) < attributes.at(to_size_t(Attribute::maxHP));
 	case Attribute::mp:
-		return attributes.at(to_size_t(Attribute::mp)) + x <= attributes.at(to_size_t(Attribute::maxMP));
+		return attributes.at(to_size_t(Attribute::mp)) < attributes.at(to_size_t(Attribute::maxMP));
 	default:
 		log("AttributeSystem::canApplyAttribute: invalid attribute %d.", id);
 		return true;
