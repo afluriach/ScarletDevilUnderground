@@ -21,7 +21,7 @@ public:
 
 	Scorpion1(GSpace* space, ObjectIDType id, const ValueMap& args);
 
-	virtual AttributeMap touchEffect();
+	virtual AttributeMap touchEffect() const;
 
 	virtual inline SpaceFloat getRadarRadius() const { return 6.0; }
 	virtual inline SpaceFloat getDefaultFovAngle() const { return 0.0; }
@@ -44,7 +44,7 @@ public:
 
 	Scorpion2(GSpace* space, ObjectIDType id, const ValueMap& args);
 
-	virtual AttributeMap touchEffect();
+	virtual AttributeMap touchEffect() const;
 
 	virtual inline SpaceFloat getRadarRadius() const { return 6.0; }
 	virtual inline SpaceFloat getDefaultFovAngle() const { return 0.0; }

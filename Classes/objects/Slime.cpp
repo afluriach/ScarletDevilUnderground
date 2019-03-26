@@ -40,7 +40,7 @@ void Slime1::initStateMachine(ai::StateMachine& sm)
 	);
 }
 
-AttributeMap Slime1::touchEffect() {
+AttributeMap Slime1::touchEffect() const {
 	return {
 		{ Attribute::hp, -1.0f },
 		{ Attribute::slimeDamage, 5.0f }
@@ -76,7 +76,7 @@ void Slime2::initStateMachine(ai::StateMachine& sm)
 	);
 }
 
-AttributeMap Slime2::touchEffect() {
+AttributeMap Slime2::touchEffect() const {
 	return {
 		{ Attribute::hp, -1.0f },
 		{ Attribute::slimeDamage, 25.0f }

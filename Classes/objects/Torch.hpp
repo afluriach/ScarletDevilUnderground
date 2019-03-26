@@ -19,8 +19,11 @@ class Torch :
 {
 public:
 	static const unordered_map<string, Color3B> colorMap;
+	static const float darknessDrain;
 
 	Torch(GSpace* space, ObjectIDType id, const ValueMap& args);
+
+	virtual void update();
 
     virtual inline SpaceFloat getMass() const {return -1.0;}
     virtual inline GType getType() const {return GType::environment;}
@@ -34,6 +37,7 @@ public:
     
     void setActive(bool active);
     bool getActive();
+	void applyDarkness(float v);
     
 	void addLightSource();
 protected:
@@ -46,6 +50,7 @@ protected:
 	//The ratio of radius where the light is at full intensity.
 	float flood = 0.5f;
 	float lightRadius = 3.0f;
+	float darkness = 0.0f;
 	bool isActive = false;
 };
 

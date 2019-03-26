@@ -8,6 +8,7 @@
 
 #include "Prefix.h"
 
+#include "App.h"
 #include "EnemySpell.hpp"
 #include "GSpace.hpp"
 #include "TeleportPad.hpp"
@@ -55,7 +56,7 @@ void Teleport::end()
 }
 
 const SpaceFloat TorchDarkness::radius = 2.5f;
-const float TorchDarkness::effectTime = 1.0f;
+const float TorchDarkness::effectMagnitude = 0.2f;
 
 TorchDarkness::TorchDarkness(GObject* caster) :
 	Spell(caster)
@@ -69,37 +70,13 @@ void TorchDarkness::update()
 		radius,
 		GType::environment,
 		PhysicsLayers::all
-		);
-
-	for (auto it = torches.begin(); it != torches.end(); )
-	{
-		pair<Torch*, float> entry = *it;
-
-		if (crntTorches.find(it->first) == crntTorches.end())
-		{
-			it = torches.erase(it);
-		}
-		else
-		{
-			timerDecrement(it->second);
-
-			if (it->second <= 0.0f)
-			{
-				it->first->setActive(false);
-				it = torches.erase(it);
-			}
-			else
-			{
-				++it;
-			}
-		}
-	}
+	);
 
 	for (Torch* crnt : crntTorches)
 	{
-		if (crnt->getActive() && torches.find(crnt) == torches.end())
+		if (crnt->getActive())
 		{
-			torches.insert_or_assign(crnt, effectTime);
+			crnt->applyDarkness(effectMagnitude * App::secondsPerFrame);
 		}
 	}
 }

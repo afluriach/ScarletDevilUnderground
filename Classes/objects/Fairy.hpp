@@ -234,8 +234,8 @@ public:
 
 	void init();
 
-	inline virtual AttributeMap touchEffect() {
-		return AttributeSystem::getAttributeElementMap(Attribute::darknessDamage, 20.0f, 1.5f);
+	inline virtual AttributeMap touchEffect() const {
+		return AttributeSystem::getAttributeElementMap(Attribute::darknessDamage, 20.0f);
 	}
 
 	virtual inline SpaceFloat getRadarRadius() const { return 6.0; }

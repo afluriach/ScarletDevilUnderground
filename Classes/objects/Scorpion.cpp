@@ -46,7 +46,7 @@ void Scorpion1::initStateMachine(ai::StateMachine& sm)
 
 }
 
-AttributeMap Scorpion1::touchEffect() {
+AttributeMap Scorpion1::touchEffect() const {
 	return {
 		{Attribute::hp, -1.0f },
 		{Attribute::poisonDamage, 5.0f}
@@ -83,7 +83,7 @@ void Scorpion2::initStateMachine(ai::StateMachine& sm)
 
 }
 
-AttributeMap Scorpion2::touchEffect() {
+AttributeMap Scorpion2::touchEffect() const {
 	return {
 		{ Attribute::hp, -1.0f },
 		{ Attribute::poisonDamage, 33.3f }

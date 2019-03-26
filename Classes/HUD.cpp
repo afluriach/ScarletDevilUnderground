@@ -300,7 +300,7 @@ const vector<pair<Attribute, RadialMeterSettings>> MagicEffects::meterSettings =
 		{ "sprites/ui/sun.png", Color4F(.3f,.3f,.12f,.5f), Color4F(.4f,.4f,.3f,1.0f) }
 	},
 	{ Attribute::darknessDamage,
-		{ "sprites/ui/darkness.png", toColor4F(Color3B(13,13,89)), toColor4F(Color3B(53,13,89)) }
+		{ "sprites/ui/darkness.png", toColor4F(Color3B(80,20,136)), toColor4F(Color3B(53,13,89)) }
 	},
 	{ Attribute::poisonDamage,
 		{ "sprites/ui/poison.png", Color4F(.11f,.52f,.74f,1.0f), Color4F(.29f,.11f,.62f,1.0f) }

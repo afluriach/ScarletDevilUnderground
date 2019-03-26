@@ -36,7 +36,7 @@ class TorchDarkness : public Spell
 {
 public:
 	static const SpaceFloat radius;
-	static const float effectTime;
+	static const float effectMagnitude;
 
 	TorchDarkness(GObject* caster);
 	inline virtual ~TorchDarkness() {}

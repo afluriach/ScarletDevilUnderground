@@ -19,6 +19,8 @@ const unordered_map<string, Color3B> Torch::colorMap = {
 	{ "white", Color3B(255,255,255) }
 };
 
+const float Torch::darknessDrain = 0.1f;
+
 Torch::Torch(GSpace* space, ObjectIDType id, const ValueMap& args) :
 	MapObjForwarding(GObject)
 {
@@ -36,6 +38,12 @@ Torch::Torch(GSpace* space, ObjectIDType id, const ValueMap& args) :
 	}
 }
 
+void Torch::update()
+{
+	GObject::update();
+	timerDecrement(darkness, darknessDrain);
+}
+
 void Torch::initializeGraphics()
 {
 	baseSpriteID = space->createSprite("sprites/torch.png", GraphicsLayer::ground, getInitialCenterPix(), 0.5f);
@@ -51,6 +59,7 @@ void Torch::initializeGraphics()
 void Torch::setActive(bool active)
 {
     isActive = active;
+	darkness = 0.0f;
 
 	space->setSpriteVisible(flameSpriteID, active);
 
@@ -66,6 +75,15 @@ void Torch::setActive(bool active)
 bool Torch::getActive()
 {
     return isActive;
+}
+
+void Torch::applyDarkness(float v)
+{
+	darkness += v;
+
+	if (darkness >= 1.0f) {
+		setActive(false);
+	}
 }
 
 void Torch::addLightSource()
