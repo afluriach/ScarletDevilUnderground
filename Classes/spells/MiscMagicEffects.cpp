@@ -75,6 +75,36 @@ void FreezeStatusEffect::end()
 	}
 }
 
+DarknessCurseEffect::DarknessCurseEffect(gobject_ref target) :
+	MagicEffect(target, 0.0f)
+{
+	agent = dynamic_cast<Agent*>(target.get());
+	if(!agent){
+		log("DarknessCurseEffect should only be attached to Agents.");
+	}
+}
+
+void DarknessCurseEffect::init()
+{
+	agent->inhibitSpellcasting = true;
+	agent->space->runSpriteAction(agent->spriteID, darknessCurseFlickerTintAction());
+}
+
+void DarknessCurseEffect::update()
+{
+	auto& as = *agent->getAttributeSystem();
+	if (as[Attribute::darknessDamage] <= 0.0f) {
+		crntState = state::ending;
+	}
+	as.timerDecrement(Attribute::darknessDamage, 9.0f);
+}
+
+void DarknessCurseEffect::end()
+{
+	agent->inhibitSpellcasting = false;
+	agent->space->stopSpriteAction(agent->spriteID, cocos_action_tag::darkness_curse);
+}
+
 RedFairyStress::RedFairyStress(object_ref<Agent> _agent) :
 	MagicEffect(_agent, 1.0f),
 	agent(_agent.get())

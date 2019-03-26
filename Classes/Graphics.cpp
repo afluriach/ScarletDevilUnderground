@@ -546,6 +546,15 @@ ActionGeneratorType spellcardFlickerTintAction()
 	);
 }
 
+ActionGeneratorType darknessCurseFlickerTintAction()
+{
+	return indefiniteColorFlickerAction(
+		0.4f,
+		make_pair(hsv3B(285.0f, 0.5f, 0.5f), Color3B::WHITE),
+		cocos_action_tag::darkness_curse
+	);
+}
+
 FiniteTimeAction* tintTo(Color3B tint, float length)
 {
 	return TintTo::createRecursive(length, tint);

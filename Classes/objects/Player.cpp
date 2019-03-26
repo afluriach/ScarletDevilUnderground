@@ -182,6 +182,7 @@ void Player::updateSpellControls(const ControlInfo& cs)
 		}
 
 		if (
+			!inhibitSpellcasting && 
 			cs.isControlActionPressed(ControlAction::spell) &&
 			equippedSpell &&
 			!attributeSystem.isNonzero(Attribute::spellCooldown) &&

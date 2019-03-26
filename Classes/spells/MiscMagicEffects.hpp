@@ -26,6 +26,18 @@ protected:
 	float timer = 0.0f;
 };
 
+class DarknessCurseEffect : public MagicEffect
+{
+public:
+	DarknessCurseEffect(gobject_ref target);
+
+	virtual void init();
+	virtual void update();
+	virtual void end();
+protected:
+	Agent* agent;
+};
+
 class RedFairyStress : public MagicEffect
 {
 public:

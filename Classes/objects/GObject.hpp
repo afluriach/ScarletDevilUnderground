@@ -88,6 +88,9 @@ public:
     const bool anonymous = false;
 	bool hidden = false;
 	bool rotateSprite = false;
+	bool isInvisible = false;
+	bool isInFade = false;
+	bool inhibitSpellcasting = false;
 	const ObjectIDType uuid;
 	GSpace *const space;
 
@@ -235,7 +238,6 @@ public:
 	SpriteID spriteID = 0;
 	SpriteID drawNodeID = 0;
 	LightID lightID = 0;
-	bool isInFade = false;
     
         //The Z-order used by Cocos2D.
 	virtual GraphicsLayer sceneLayer() const;
@@ -287,8 +289,6 @@ public:
 	//END SPELLS
 
 	//BEGIN SENSORY
-
-	bool isInvisible = false;
 
 	inline bool getInvisible() { return isInvisible; }
 	inline void setInvisible(bool val) { isInvisible = val; }

@@ -217,6 +217,7 @@ ActionGeneratorType flickerAction(float interval, float length, unsigned char op
 ActionGeneratorType flickerTintAction(float interval, float length, Color3B tint);
 ActionGeneratorType comboFlickerTintAction();
 ActionGeneratorType spellcardFlickerTintAction();
+ActionGeneratorType darknessCurseFlickerTintAction();
 ActionGeneratorType tintToAction(Color3B tint, float length);
 ActionGeneratorType motionBlurStretch(float duration, float angle, float opacity, float scale);
 ActionGeneratorType pitfallShrinkAction();

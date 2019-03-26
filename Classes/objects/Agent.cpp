@@ -64,11 +64,7 @@ void Agent::update()
 	StateMachineObject::_update();
 	PatchConSprite::_update();
 
-	if (firePattern) firePattern->update();
-	attributeSystem.update();
-	updateAgentOverlay();
-
-	if (attributeSystem[Attribute::hp] <= 0 && getMaxHealth() != 0) {
+	if (attributeSystem[Attribute::hp] <= 0.0f && attributeSystem[Attribute::maxHP] >  0.0f) {
 		onZeroHP();
 	}
 
@@ -80,7 +76,7 @@ void Agent::update()
 		onZeroHP();
 	}
 	if (attributeSystem[Attribute::darknessDamage] >= AttributeSystem::maxElementDamage) {
-		onZeroHP();
+		addMagicEffect(make_shared<DarknessCurseEffect>(this));
 	}
 	if (attributeSystem[Attribute::poisonDamage] >= AttributeSystem::maxElementDamage) {
 		onZeroHP();
@@ -89,6 +85,10 @@ void Agent::update()
 	for (auto other : touchTargets) {
 		other->hit(touchEffect(), nullptr);
 	}
+
+	if (firePattern) firePattern->update();
+	attributeSystem.update();
+	updateAgentOverlay();
 }
 
 bool Agent::isBulletObstacle(SpaceVect pos, SpaceFloat radius)

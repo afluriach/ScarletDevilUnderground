@@ -37,6 +37,7 @@ enum class cocos_action_tag
 	hit_protection_flicker,
 	combo_mode_flicker,
 	freeze_status,
+	darkness_curse,
 
 	game_over_tint,
 	end,
