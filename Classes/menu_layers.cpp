@@ -552,8 +552,10 @@ const int MapMenu::margin = 64;
 const Color4F MapMenu::backgroundColor(0.5f, 0.5f, 0.5f, 0.5f);
 const Color4F MapMenu::wallColor(0.3f, 0.3f, 0.7f, 1.0f);
 const Color4F MapMenu::wallColorCrnt(0.45f, 0.45f, 0.85f, 1.0f);
+const Color4F MapMenu::wallColorFade = hsva4F(0.0f, 0.0f, 0.3f, 1.0f);
 const Color4F MapMenu::floorColor(0.45f, 0.45f, 0.85f, 1.0f);
 const Color4F MapMenu::floorColorCrnt(0.6f, 0.6f, 0.9f, 1.0f);
+const Color4F MapMenu::floorColorFade = hsva4F(0.0f, 0.0f, 0.6f, 1.0f);
 const Color4F MapMenu::doorColor(0.61f,0.55f,0.39f,1.0f);
 const Color4F MapMenu::goalColor(0.73f, 0.77f, 0.45f, 1.0f);
 const Color4F MapMenu::enemyColor(1.0f, 0.0f, 0.0f, 1.0f);
@@ -620,9 +622,6 @@ void MapMenu::drawMaps()
 	GObject* goal = playScene->getSpace()->getObject("goal");
 	GObject* player = playScene->getSpace()->getObject("player");
 
-	const vector<SpaceRect>& mapAreas = playScene->getMapAreas();
-	const vector<bool>& mapAreasVisited = playScene->getMapAreasVisited();
-
 	for (auto ref : floors)
 	{
 		FloorSegment* floor = ref.get();
@@ -631,22 +630,22 @@ void MapMenu::drawMaps()
 			continue;
 		}
 		else if(dynamic_cast<Pitfall*>(floor)) {
-			drawObject(floor->getBoundingBox(), Color4F::BLACK, Color4F::BLACK);
+			drawObject(floor->getBoundingBox(), Color4F::BLACK);
 		}
 		else {
-			drawObject(floor->getBoundingBox(), floorColor, floorColorCrnt);
+			drawObject(floor->getBoundingBox(), floorColor, floorColorCrnt, floorColorFade);
 		}
 	}
 
 	for (auto ref : walls){
 		if (!ref.get()->hidden) {
-			drawObject(ref.get()->getBoundingBox(), wallColor, wallColorCrnt);
+			drawObject(ref.get()->getBoundingBox(), wallColor, wallColorCrnt, wallColorFade);
 		}
 	}
 
 	for (auto ref : enemies) {
 		if (!ref.get()->hidden) {
-			drawObject(ref.get()->getBoundingBox(), enemyColor, enemyColor);
+			drawObject(ref.get()->getBoundingBox(), enemyColor);
 		}
 	}
 
@@ -654,32 +653,49 @@ void MapMenu::drawMaps()
 		if (!ref.get()->hidden) {
 			drawObject(
 				ref.get()->getBoundingBox(),
-				ref.get()->isLocked() ? Color4F::RED : doorColor,
 				ref.get()->isLocked() ? Color4F::RED : doorColor
 			);
 		}
 	}
 
 	if (goal) {
-		drawObject(goal->getBoundingBox(), goalColor, goalColor);
+		drawObject(goal->getBoundingBox(), goalColor);
 	}
 
 	if (player) {
-		drawObject(player->getBoundingBox(), Color4F::GRAY, Color4F::WHITE);
+		drawObject(player->getBoundingBox(), Color4F::GRAY, Color4F::WHITE, Color4F::GRAY);
 	}
 }
 
-void MapMenu::drawObject(SpaceRect rect, Color4F color, Color4F colorCrnt)
+void MapMenu::drawObject(SpaceRect rect, Color4F color)
+{
+	drawObject(rect, color, color, color);
+}
+
+void MapMenu::drawObject(SpaceRect rect, Color4F color, Color4F highlightColor, Color4F fadeColor)
 {
 	int mapId = playScene->getMapLocation(rect);
+	if (mapId == -1) return;
 
-	if (mapId != -1 && playScene->getMapAreasVisited().at(mapId)) {
-		drawNode->drawSolidRect(
-			Vec2(rect.getMinX(), rect.getMinY()) * _pixelsPerTile + Vec2(margin, margin),
-			Vec2(rect.getMaxX(), rect.getMaxY()) * _pixelsPerTile + Vec2(margin, margin),
-			mapId == playerRoom && isHighlight ? colorCrnt : color
-		);
+	Color4F _color;
+	bool visitedRoom = playScene->getMapAreasVisited().at(mapId);
+	bool discoveredRoom = playScene->getAreasVisibleOnMap().at(mapId);
+
+	if (mapId == playerRoom && isHighlight) {
+		_color = highlightColor;
 	}
+	else if (visitedRoom) {
+		_color = color;
+	}
+	else if (discoveredRoom) {
+		_color = fadeColor;
+	}
+
+	drawNode->drawSolidRect(
+		Vec2(rect.getMinX(), rect.getMinY()) * _pixelsPerTile + Vec2(margin, margin),
+		Vec2(rect.getMaxX(), rect.getMaxY()) * _pixelsPerTile + Vec2(margin, margin),
+		_color
+	);
 }
 
 const vector<pair<Attribute, string>> PlayerInfo::displayAttributes = {

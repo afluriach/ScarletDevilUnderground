@@ -43,9 +43,6 @@ public:
 class Graveyard3 : public PlayScene
 {
 public:
-	static const IntVec2 roomSize;
-	static const vector<MapEntry> rooms;
-
 	Graveyard3();
 	inline virtual ~Graveyard3() {}
 

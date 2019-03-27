@@ -46,6 +46,11 @@ const vector<bool>& GScene::getMapAreasVisited()
 	return mapAreasVisited;
 }
 
+const vector<bool>& GScene::getAreasVisibleOnMap()
+{
+	return mapAreasVisibleOnMap;
+}
+
 int GScene::getMapLocation(SpaceRect r)
 {
 	return getAreaIndex(mapAreas, r);
@@ -145,6 +150,7 @@ void GScene::loadMap(const MapEntry& mapEntry)
 		mapAreas.push_back(mapRect);
 		gspace->addMapArea(mapRect);
 		mapAreasVisited.push_back(false);
+		mapAreasVisibleOnMap.push_back(false);
 
 		loadRoomFromMap(mapRect, tilemaps.size() - 1, props);
 	}
@@ -330,6 +336,7 @@ void GScene::loadRoomsLayer(const TMXTiledMap& map)
 		mapAreas.push_back(area);
 		gspace->addMapArea(area);
 		mapAreasVisited.push_back(false);
+		mapAreasVisibleOnMap.push_back(false);
 	}
 }
 
@@ -377,6 +384,22 @@ void GScene::updateRoomsVisited(SpaceVect playerPos)
 		if (mapAreas.at(i).containsPoint(playerPos)) {
 			crntMap = i;
 			mapAreasVisited.at(i) = true;
+		}
+	}
+}
+
+void GScene::setRoomDiscovered(size_t idx)
+{
+	mapAreasVisibleOnMap.at(idx) = true;
+}
+
+void GScene::applyMapFragment(int idx)
+{
+	const MapFragmentsList& fragments = getMapFragmentsList();
+
+	if (idx >= 0 && idx < fragments.size()) {
+		for (int roomID : fragments.at(idx)) {
+			setRoomDiscovered(roomID);
 		}
 	}
 }

@@ -171,9 +171,6 @@
     <ClCompile Include="..\Classes\spells\SpellDescriptor.cpp">
       <Filter>src\spells</Filter>
     </ClCompile>
-    <ClCompile Include="..\Classes\FloorSegment.cpp">
-      <Filter>src\objects</Filter>
-    </ClCompile>
     <ClCompile Include="..\Classes\spells\MagicEffect.cpp">
       <Filter>src\spells</Filter>
     </ClCompile>
@@ -354,6 +351,12 @@
     <ClCompile Include="..\Classes\replay.cpp">
       <Filter>src</Filter>
     </ClCompile>
+    <ClCompile Include="..\Classes\objects\MapFragment.cpp">
+      <Filter>src\objects</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\objects\FloorSegment.cpp">
+      <Filter>src\objects</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="main.h">
@@ -521,9 +524,6 @@
     <ClInclude Include="..\Classes\spells\SpellDescriptor.hpp">
       <Filter>src\spells</Filter>
     </ClInclude>
-    <ClInclude Include="..\Classes\FloorSegment.hpp">
-      <Filter>src\objects</Filter>
-    </ClInclude>
     <ClInclude Include="..\Classes\spells\MagicEffect.hpp">
       <Filter>src\spells</Filter>
     </ClInclude>
@@ -676,6 +676,12 @@
     </ClInclude>
     <ClInclude Include="..\Classes\replay.h">
       <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\objects\MapFragment.hpp">
+      <Filter>src\objects</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\objects\FloorSegment.hpp">
+      <Filter>src\objects</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

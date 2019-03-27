@@ -32,6 +32,7 @@
 #include "GState.hpp"
 #include "Items.hpp"
 #include "Launcher.hpp"
+#include "MapFragment.hpp"
 #include "Marisa.hpp"
 #include "Meiling.hpp"
 #include "Patchouli.hpp"
@@ -179,6 +180,7 @@ const unordered_map<string, GObject::object_info> GObject::objectInfo = {
 	collectible_entry(Magic1, magic1),
 	collectible_entry(Magic2, magic2),
 	entry_same(MansionFloor),
+	conditional_entry(MapFragment),
 	entry_same(MarisaNPC),
 	conditional_entry(Meiling1),
 	entry_same(MineFloor),

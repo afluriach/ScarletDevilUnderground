@@ -156,7 +156,6 @@ xcopy "$(ProjectDir)..\Resources" "$(OutDir)" /D /E /I /F /Y</Command>
     <ClCompile Include="..\Classes\controls.cpp" />
     <ClCompile Include="..\Classes\Dialog.cpp" />
     <ClCompile Include="..\Classes\FileIO.cpp" />
-    <ClCompile Include="..\Classes\FloorSegment.cpp" />
     <ClCompile Include="..\Classes\GAnimation.cpp" />
     <ClCompile Include="..\Classes\Graph.cpp" />
     <ClCompile Include="..\Classes\Graphics.cpp" />
@@ -188,6 +187,7 @@ xcopy "$(ProjectDir)..\Resources" "$(OutDir)" /D /E /I /F /Y</Command>
     <ClCompile Include="..\Classes\objects\EnvironmentalObjects.cpp" />
     <ClCompile Include="..\Classes\objects\Facer.cpp" />
     <ClCompile Include="..\Classes\objects\Fairy.cpp" />
+    <ClCompile Include="..\Classes\objects\FloorSegment.cpp" />
     <ClCompile Include="..\Classes\objects\Flower.cpp" />
     <ClCompile Include="..\Classes\objects\Follower.cpp" />
     <ClCompile Include="..\Classes\objects\Glyph.cpp" />
@@ -197,6 +197,7 @@ xcopy "$(ProjectDir)..\Resources" "$(OutDir)" /D /E /I /F /Y</Command>
     <ClCompile Include="..\Classes\objects\InventoryObject.cpp" />
     <ClCompile Include="..\Classes\objects\Items.cpp" />
     <ClCompile Include="..\Classes\objects\Launcher.cpp" />
+    <ClCompile Include="..\Classes\objects\MapFragment.cpp" />
     <ClCompile Include="..\Classes\objects\Marisa.cpp" />
     <ClCompile Include="..\Classes\objects\Meiling.cpp" />
     <ClCompile Include="..\Classes\objects\ObjectMapping.cpp" />
@@ -270,7 +271,6 @@ xcopy "$(ProjectDir)..\Resources" "$(OutDir)" /D /E /I /F /Y</Command>
     <ClInclude Include="..\Classes\Dialog.hpp" />
     <ClInclude Include="..\Classes\enum.h" />
     <ClInclude Include="..\Classes\FileIO.hpp" />
-    <ClInclude Include="..\Classes\FloorSegment.hpp" />
     <ClInclude Include="..\Classes\functional.hpp" />
     <ClInclude Include="..\Classes\GAnimation.hpp" />
     <ClInclude Include="..\Classes\Graph.hpp" />
@@ -304,6 +304,7 @@ xcopy "$(ProjectDir)..\Resources" "$(OutDir)" /D /E /I /F /Y</Command>
     <ClInclude Include="..\Classes\objects\EnvironmentalObjects.hpp" />
     <ClInclude Include="..\Classes\objects\Facer.hpp" />
     <ClInclude Include="..\Classes\objects\Fairy.hpp" />
+    <ClInclude Include="..\Classes\objects\FloorSegment.hpp" />
     <ClInclude Include="..\Classes\objects\Flower.h" />
     <ClInclude Include="..\Classes\objects\Follower.hpp" />
     <ClInclude Include="..\Classes\objects\Glyph.hpp" />
@@ -313,6 +314,7 @@ xcopy "$(ProjectDir)..\Resources" "$(OutDir)" /D /E /I /F /Y</Command>
     <ClInclude Include="..\Classes\objects\InventoryObject.hpp" />
     <ClInclude Include="..\Classes\objects\Items.hpp" />
     <ClInclude Include="..\Classes\objects\Launcher.hpp" />
+    <ClInclude Include="..\Classes\objects\MapFragment.hpp" />
     <ClInclude Include="..\Classes\objects\Marisa.hpp" />
     <ClInclude Include="..\Classes\objects\Meiling.hpp" />
     <ClInclude Include="..\Classes\objects\object_ref.hpp" />

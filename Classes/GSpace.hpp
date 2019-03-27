@@ -52,6 +52,7 @@ public:
 	IntVec2 getSize() const;
     void setSize(int x, int y);
     
+	inline ChamberID getCrntChamber() const { return crntChamber; }
 	unsigned int getFrame() const;
 	unsigned long getTimeUsed() const;
 	GScene* getScene();
@@ -183,6 +184,7 @@ public:
 	bool isInCameraArea(SpaceRect r);
 	bool isInPlayerRoom(SpaceVect v);
 	int getPlayerRoom();
+	void applyMapFragment(int mapFragmentID);
 
 	void teleportPlayerToDoor(string doorName);
 	void setSuppressAction(bool b);

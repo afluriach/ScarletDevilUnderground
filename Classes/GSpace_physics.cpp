@@ -17,6 +17,7 @@
 #include "GObject.hpp"
 #include "GSpace.hpp"
 #include "InventoryObject.hpp"
+#include "MapFragment.hpp"
 #include "Player.hpp"
 #include "Upgrade.hpp"
 #include "util.h"
@@ -359,6 +360,9 @@ int GSpace::playerPickupBegin(GObject* a, GObject* b, cpArbiter* arb)
 	}
 	else if (auto inv = dynamic_cast<InventoryObject*>(b)) {
 		inv->onPlayerContact();
+	}
+	else if (auto _map = dynamic_cast<MapFragment*>(b)) {
+		_map->onAcquire();
 	}
     
     return 0;

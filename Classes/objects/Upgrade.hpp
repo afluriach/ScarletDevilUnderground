@@ -28,8 +28,6 @@ public:
 	virtual inline GraphicsLayer sceneLayer() const { return GraphicsLayer::floor; }
 	virtual string imageSpritePath() const;
 
-	void init();
-
 	//Which particular instance of this upgrade.
 	const unsigned int upgrade_id;
 	const Attribute attribute;

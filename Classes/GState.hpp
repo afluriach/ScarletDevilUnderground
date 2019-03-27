@@ -22,6 +22,7 @@ struct ChamberStats
 	unsigned char maxEnemiesDefeated = 0;
 
 	rooms_bitmask roomsVisited;
+	map_fragments_bitmask mapFragments;
 
 	template<class Archive>
 	void serialize(Archive& ar, const unsigned int version)

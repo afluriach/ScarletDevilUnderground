@@ -716,6 +716,14 @@ int GSpace::getPlayerRoom()
 	return crntMap;
 }
 
+void GSpace::applyMapFragment(int mapFragmentID)
+{
+	addSceneAction(bind(&GScene::applyMapFragment, gscene, mapFragmentID));
+
+	if (mapFragmentID >= 0 && mapFragmentID < maxMapFragmentsPerChamber) {
+		getState()->chamberStats.at(to_size_t(crntChamber)).mapFragments.set(mapFragmentID);
+	}
+}
 
 //END OBJECT MANIPULATION
 

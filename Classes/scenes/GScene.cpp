@@ -182,8 +182,6 @@ bool GScene::init()
 		}
 	}
     
-    multiInit();
-    
 	gspace->setRandomSeed(to_uint(time(nullptr)));
 	*gspace->crntState.get() = *App::crntState.get();
 
@@ -198,6 +196,8 @@ bool GScene::init()
 	{
 		gspace->crntChamber = ChamberID::invalid_id;
 	}
+
+	multiInit();
 
 	if (App::multithread) {
 		spaceUpdateToRun.store(false);

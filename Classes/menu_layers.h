@@ -210,8 +210,10 @@ public:
 	static const Color4F backgroundColor;
 	static const Color4F wallColor;
 	static const Color4F wallColorCrnt;
+	static const Color4F wallColorFade;
 	static const Color4F floorColor;
 	static const Color4F floorColorCrnt;
+	static const Color4F floorColorFade;
 	static const Color4F doorColor;
 	static const Color4F goalColor;
 	static const Color4F enemyColor;
@@ -234,7 +236,9 @@ protected:
 	bool isHighlight = false;
 
 	void drawMaps();
-	void drawObject(SpaceRect area, Color4F color, Color4F colorCrnt);
+	void drawObject(SpaceRect area, Color4F color);
+	void drawObject(SpaceRect area, Color4F color, Color4F highlightColor, Color4F fadeColor);
+
 };
 
 class PlayerInfo : public Node

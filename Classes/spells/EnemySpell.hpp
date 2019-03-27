@@ -45,8 +45,6 @@ public:
 	inline virtual void init() {}
 	virtual void update();
 	inline virtual void end() {}
-protected:
-	unordered_map<Torch*, float> torches;
 };
 
 #endif /* EnemySpell_hpp */

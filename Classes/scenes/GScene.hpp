@@ -29,6 +29,8 @@ namespace Lua{
     class Inst;
 }
 
+typedef vector<vector<int>> MapFragmentsList;
+
 class GScene : public Scene
 {
 public:
@@ -108,6 +110,7 @@ public:
 	//Return the ID of the next level, if applicable. This is used to transition
 	//to next stage, and also to apply availibility unlock to that stage.
 	inline virtual ChamberID getNextLevel() const { return ChamberID::invalid_id; }
+	inline virtual MapFragmentsList getMapFragmentsList() const { return MapFragmentsList(); }
 
     void setPaused(bool p);
 	inline virtual void enterPause() {}
@@ -186,6 +189,7 @@ public:
 	SpaceRect getCameraArea();
 	const vector<SpaceRect>& getMapAreas();
 	const vector<bool>& getMapAreasVisited();
+	const vector<bool>& getAreasVisibleOnMap();
 	int getMapLocation(SpaceRect r);
 	bool isInCameraArea(SpaceRect r);
 	bool isInPlayerRoom(SpaceVect v);
@@ -197,6 +201,8 @@ public:
 	void updateMultimapVisibility(SpaceVect playerPos);
 	void updateRoomsVisited(SpaceVect playerPos);
 	void unlockAllRooms();
+	void setRoomDiscovered(size_t idx);
+	void applyMapFragment(int idx);
 	void setRoomVisible(size_t idx);
 	void setRoomsVisible(rooms_bitmask rooms);
 	
@@ -308,6 +314,7 @@ protected:
 	vector<MapEntry> maps;
 	vector<SpaceRect> mapAreas;
 	vector<bool> mapAreasVisited;
+	vector<bool> mapAreasVisibleOnMap;
 	SpaceRect cameraArea;
 	int crntMap = -1;
 
