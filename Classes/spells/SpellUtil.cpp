@@ -29,9 +29,10 @@ void explosion(const GObject* source, SpaceFloat radius, AttributeMap baseEffect
 	for (Agent* target : targets)
 	{
 		float scale = getExplosionScale(source, target, radius);
+		float sensitivity = target->getAttribute(Attribute::bombSensitivity);
 		SpaceFloat knockback = baseEffect.at(Attribute::hp) * -5.0f * scale;
 
-		target->hit(AttributeSystem::scale(baseEffect, scale), nullptr);
+		target->hit(AttributeSystem::scale(baseEffect, scale * sensitivity), nullptr);
 		log("Hit %s at magnitude %f.", target->getName().c_str(), scale);
 		applyKnockback(source, target, knockback);
 	}

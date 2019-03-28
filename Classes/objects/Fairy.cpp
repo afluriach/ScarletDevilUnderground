@@ -207,7 +207,8 @@ const AttributeMap RedFairy::baseAttributes = {
 	{ Attribute::agility, 1.5f },
 	{ Attribute::touchDamage, 10.0f },
 	{ Attribute::stressDecay, 1.0f },
-	{ Attribute::stressFromHits, 1.0f},
+	{ Attribute::stressFromHits, 1.0f },
+	{ Attribute::bombSensitivity, 0.5f }, 
 };
 
 const AttributeMap RedFairy::explosionEffect = {

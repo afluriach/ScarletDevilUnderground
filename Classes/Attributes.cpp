@@ -141,6 +141,8 @@ AttributeSet AttributeSystem::getBlankAttributeSet()
 	result[to_size_t(Attribute::bulletCount)] = 1.0f;
 
 	//Sensitivity multiplier should be 1.0 by default.
+	result[to_size_t(Attribute::bombSensitivity)] = 1.0f;
+
 	result[to_size_t(Attribute::iceSensitivity)] = 1.0f;
 	result[to_size_t(Attribute::sunSensitivity)] = 1.0f;
 	result[to_size_t(Attribute::darknessSensitivity)] = 1.0f;

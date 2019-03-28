@@ -56,6 +56,8 @@ enum class Attribute {
 	speed,
 	acceleration,
 
+	bombSensitivity,
+
 	iceSensitivity,
 	sunSensitivity,
 	darknessSensitivity,
