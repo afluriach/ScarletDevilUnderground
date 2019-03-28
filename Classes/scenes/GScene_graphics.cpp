@@ -135,6 +135,11 @@ void GScene::setLightSourceNoise(LightID id, perlin_light_state noise)
 	lightmapNoise.insert_or_assign(id, noise);
 }
 
+void GScene::autoremoveLightSource(LightID id, float seconds)
+{
+	autoremoveLightTimers.insert_or_assign(id, seconds);
+}
+
 void GScene::createSprite(SpriteID id, string path, GraphicsLayer sceneLayer, Vec2 pos, float zoom)
 {
 	Sprite* s = Sprite::create(path);
@@ -425,6 +430,18 @@ void GScene::redrawLightmap()
 			cameraPix.getUpperCorner(),
 			Color4F::BLACK
 		);
+	}
+
+	for (auto it = autoremoveLightTimers.begin(); it != autoremoveLightTimers.end(); ) {
+		it->second -= App::secondsPerFrame;
+
+		if (it->second <= 0.0) {
+			removeLightSource(it->first);
+			it = autoremoveLightTimers.erase(it);
+		}
+		else {
+			++it;
+		}
 	}
 
 	for (auto entry : lightmapNodes)

@@ -38,6 +38,11 @@ void GSpace::setLightSourceNoise(LightID id, perlin_light_state noise)
 	addLightmapAction(&GScene::setLightSourceNoise, id, noise);
 }
 
+void GSpace::autoremoveLightSource(LightID id, float seconds)
+{
+	addLightmapAction(&GScene::autoremoveLightSource, id, seconds);
+}
+
 SpriteID GSpace::createSprite(string path, GraphicsLayer sceneLayer, Vec2 pos, float zoom)
 {
 	return createSprite(&GScene::createSprite, path, sceneLayer, pos, zoom);

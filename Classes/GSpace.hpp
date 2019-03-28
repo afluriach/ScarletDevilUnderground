@@ -328,6 +328,7 @@ public:
 	void setLightSourceAngle(LightID id, SpaceFloat a);
 	void setLightSourceColor(LightID id, Color4F color);
 	void setLightSourceNoise(LightID id, perlin_light_state noise);
+	void autoremoveLightSource(LightID id, float seconds);
 
 	SpriteID createSprite(string path, GraphicsLayer sceneLayer, Vec2 pos, float zoom);
 	SpriteID createLoopAnimation(string name, int frameCount, float duration, GraphicsLayer sceneLayer, Vec2 pos, float zoom);

@@ -15,6 +15,7 @@
 #include "EnemyFirePattern.hpp"
 #include "EnemySpell.hpp"
 #include "Fairy.hpp"
+#include "GScene.hpp"
 #include "GSpace.hpp"
 #include "GState.hpp"
 #include "MiscMagicEffects.hpp"
@@ -267,12 +268,16 @@ void RedFairy::onZeroHP()
 	Agent::onZeroHP();
 	explosion(this, explosionRadius, explosionEffect);
 	SpriteID bombSprite = space->createSprite(
-		"sprites/flandre_bullet.png",
+		"sprites/explosion.png",
 		GraphicsLayer::overhead,
 		toCocos(getPos()) * App::pixelsPerTile,
 		1.0f
 	);
-	space->runSpriteAction(bombSprite, bombAnimationAction(4.0f, true));
+	space->setSpriteColor(bombSprite, Color3B::RED);
+	space->runSpriteAction(bombSprite, bombAnimationAction(explosionRadius / Bomb::explosionSpriteRadius, true));
+
+	LightID light = space->addLightSource(CircleLightArea{ getPos(), explosionRadius, Color4F::RED, 0.25 });
+	space->autoremoveLightSource(light, 1.0f);
 }
 
 const AttributeMap GreenFairy1::baseAttributes = {

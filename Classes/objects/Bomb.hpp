@@ -19,6 +19,8 @@ class Bomb :
 	public RegisterInit<Bomb>
 {
 public:
+	static const SpaceFloat explosionSpriteRadius;
+
 	Bomb(GSpace* space, ObjectIDType id, const SpaceVect& pos, const SpaceVect& vel);
 	inline virtual ~Bomb() {}
 

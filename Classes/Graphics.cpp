@@ -581,7 +581,7 @@ ActionGeneratorType bombAnimationAction(float expand_ratio, bool removeAfter)
 		FadeTo* fade = FadeTo::create(0.0f, 64);
 		ScaleTo* expand = ScaleTo::create(0.125f, expand_ratio);
 
-		Sequence* flicker = Sequence::createWithTwoActions(FadeTo::create(0.125f, 0), FadeTo::create(0.125f, 64));
+		Sequence* flicker = Sequence::createWithTwoActions(FadeTo::create(0.125f, 64), FadeTo::create(0.125f, 192));
 		Repeat* loop = Repeat::create(flicker, 4);
 
 		if (removeAfter) {

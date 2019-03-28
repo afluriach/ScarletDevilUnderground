@@ -10,8 +10,11 @@
 
 #include "App.h"
 #include "Bomb.hpp"
+#include "GScene.hpp"
 #include "GSpace.hpp"
 #include "SpellUtil.hpp"
+
+const SpaceFloat Bomb::explosionSpriteRadius = 2.0;
 
 Bomb::Bomb(GSpace* space, ObjectIDType id, const SpaceVect& pos, const SpaceVect& vel) :
 	GObject(space, id, "", pos, 0.0),
@@ -42,7 +45,12 @@ void Bomb::update()
 void Bomb::detonate()
 {
 	explosion(this, getBlastRadius(), getAttributeEffect());
-	space->removeObjectWithAnimation(this, bombAnimationAction(getBlastRadius() / getRadius(), false));
+	
+	space->setSpriteTexture(spriteID, "sprites/explosion.png");
+	space->removeObjectWithAnimation(this, bombAnimationAction(getBlastRadius() / explosionSpriteRadius, false));
+
+	LightID light = space->addLightSource(CircleLightArea{ getPos(), getBlastRadius()*1.5, Color4F::ORANGE, 0.5 });
+	space->autoremoveLightSource(light, 1.0f);
 }
 
 PlayerBomb::PlayerBomb(GSpace* space, ObjectIDType id, const SpaceVect& pos, const SpaceVect& vel) :
