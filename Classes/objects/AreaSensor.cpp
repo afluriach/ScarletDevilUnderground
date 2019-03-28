@@ -11,7 +11,7 @@
 #include "AreaSensor.hpp"
 #include "Door.hpp"
 #include "Enemy.hpp"
-#include "Fairy.hpp"
+#include "FairyNPC.hpp"
 #include "GSpace.hpp"
 #include "HUD.hpp"
 #include "Player.hpp"

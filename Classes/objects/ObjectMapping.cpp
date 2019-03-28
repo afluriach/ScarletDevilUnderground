@@ -23,6 +23,7 @@
 #include "EnvironmentalObjects.hpp"
 #include "Facer.hpp"
 #include "Fairy.hpp"
+#include "FairyNPC.hpp"
 #include "Follower.hpp"
 #include "FloorSegment.hpp"
 #include "Flower.h"

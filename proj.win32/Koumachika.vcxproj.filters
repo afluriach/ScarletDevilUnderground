@@ -357,6 +357,9 @@
     <ClCompile Include="..\Classes\objects\FloorSegment.cpp">
       <Filter>src\objects</Filter>
     </ClCompile>
+    <ClCompile Include="..\Classes\objects\FairyNPC.cpp">
+      <Filter>src\objects</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="main.h">
@@ -681,6 +684,9 @@
       <Filter>src\objects</Filter>
     </ClInclude>
     <ClInclude Include="..\Classes\objects\FloorSegment.hpp">
+      <Filter>src\objects</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\objects\FairyNPC.hpp">
       <Filter>src\objects</Filter>
     </ClInclude>
   </ItemGroup>
