@@ -8,12 +8,10 @@
 
 #include "Prefix.h"
 
-#include "Agent.hpp"
-#include "AIUtil.hpp"
 #include "App.h"
 #include "Bomb.hpp"
 #include "GSpace.hpp"
-#include "Wall.hpp"
+#include "SpellUtil.hpp"
 
 Bomb::Bomb(GSpace* space, ObjectIDType id, const SpaceVect& pos, const SpaceVect& vel) :
 	GObject(space, id, "", pos, 0.0),
@@ -43,60 +41,8 @@ void Bomb::update()
 
 void Bomb::detonate()
 {
-	unordered_set<Agent*> targets = space->radiusQueryByType<Agent>(
-		this,
-		getPos(),
-		getBlastRadius(),
-		enum_bitwise_or3(GType, enemy, player, wall),
-		PhysicsLayers::all
-	);
-
-	AttributeMap baseEffect = getAttributeEffect();
-
-	for (Agent* target : targets)
-	{
-		float scale = getScale(target);
-		SpaceFloat knockback = baseEffect.at(Attribute::hp) * -5.0f * scale;
-
-		target->hit(AttributeSystem::scale(baseEffect, scale), getMagicEffect(target));
-		log("Hit %s at magnitude %f.", target->getName().c_str(), scale);
-		applyKnockback(target, knockback);
-	}
-
-	unordered_set<BreakableWall*> walls = space->radiusQueryByType<BreakableWall>(
-		this,
-		getPos(),
-		getBlastRadius(),
-		GType::wall,
-		PhysicsLayers::all
-	);
-
-	for (BreakableWall* bw : walls)
-	{
-		bw->hit();
-	}
-
-	App::playSoundSpatial("sfx/bomb_explosion.wav", toFmod(getPos()), toFmod(SpaceVect::zero));
-	space->removeObjectWithAnimation(this, bombAnimationAction(getBlastRadius() / getRadius()));
-}
-
-float Bomb::getScale(const GObject* target)
-{
-	SpaceFloat dist = ai::distanceToTarget(this, target->getPos());
-	SpaceFloat halfRadius = getBlastRadius() / 2.0;
-
-	if (dist < halfRadius)
-		return 1.0f;
-	else if (dist >= halfRadius * 2.0)
-		return 0.0f;
-	else
-		return 1.0f - (dist - halfRadius) / halfRadius;
-}
-
-void Bomb::applyKnockback(GObject* target, SpaceFloat mag)
-{
-	SpaceVect d = ai::directionToTarget(this, target->getPos());
-	target->applyImpulse(d * mag);
+	explosion(this, getBlastRadius(), getAttributeEffect());
+	space->removeObjectWithAnimation(this, bombAnimationAction(getBlastRadius() / getRadius(), false));
 }
 
 PlayerBomb::PlayerBomb(GSpace* space, ObjectIDType id, const SpaceVect& pos, const SpaceVect& vel) :

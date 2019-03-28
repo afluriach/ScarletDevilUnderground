@@ -19,6 +19,7 @@
 #include "GState.hpp"
 #include "MiscMagicEffects.hpp"
 #include "Player.hpp"
+#include "SpellUtil.hpp"
 #include "value_map.hpp"
 
 const AttributeMap GhostFairy::baseAttributes = {
@@ -209,6 +210,12 @@ const AttributeMap RedFairy::baseAttributes = {
 	{ Attribute::stressFromHits, 1.0f},
 };
 
+const AttributeMap RedFairy::explosionEffect = {
+	{ Attribute::hp, -20.0f }
+};
+
+const SpaceFloat RedFairy::explosionRadius = 4.0;
+
 RedFairy::RedFairy(GSpace* space, ObjectIDType id, const ValueMap& args) :
 	MapObjForwarding(GObject),
 	MapObjForwarding(Agent),
@@ -252,6 +259,19 @@ void RedFairy::initStateMachine(ai::StateMachine& sm)
 			sm.removeThread("MaintainDistance");
 		}
 	);
+}
+
+void RedFairy::onZeroHP()
+{
+	Agent::onZeroHP();
+	explosion(this, explosionRadius, explosionEffect);
+	SpriteID bombSprite = space->createSprite(
+		"sprites/flandre_bullet.png",
+		GraphicsLayer::overhead,
+		toCocos(getPos()) * App::pixelsPerTile,
+		1.0f
+	);
+	space->runSpriteAction(bombSprite, bombAnimationAction(4.0f, true));
 }
 
 const AttributeMap GreenFairy1::baseAttributes = {

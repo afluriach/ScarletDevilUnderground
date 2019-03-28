@@ -360,6 +360,9 @@
     <ClCompile Include="..\Classes\objects\FairyNPC.cpp">
       <Filter>src\objects</Filter>
     </ClCompile>
+    <ClCompile Include="..\Classes\spells\SpellUtil.cpp">
+      <Filter>src\spells</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="main.h">
@@ -688,6 +691,9 @@
     </ClInclude>
     <ClInclude Include="..\Classes\objects\FairyNPC.hpp">
       <Filter>src\objects</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\spells\SpellUtil.hpp">
+      <Filter>src\spells</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

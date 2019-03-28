@@ -574,9 +574,9 @@ ActionGeneratorType pitfallShrinkAction()
 	};
 }
 
-ActionGeneratorType bombAnimationAction(float expand_ratio)
+ActionGeneratorType bombAnimationAction(float expand_ratio, bool removeAfter)
 {
-	return [expand_ratio]() -> FiniteTimeAction* {
+	return [expand_ratio, removeAfter]() -> FiniteTimeAction* {
 
 		FadeTo* fade = FadeTo::create(0.0f, 64);
 		ScaleTo* expand = ScaleTo::create(0.125f, expand_ratio);
@@ -584,12 +584,23 @@ ActionGeneratorType bombAnimationAction(float expand_ratio)
 		Sequence* flicker = Sequence::createWithTwoActions(FadeTo::create(0.125f, 0), FadeTo::create(0.125f, 64));
 		Repeat* loop = Repeat::create(flicker, 4);
 
-		return Sequence::create(
-			fade,
-			expand,
-			loop,
-			nullptr
-		);
+		if (removeAfter) {
+			return Sequence::create(
+				fade,
+				expand,
+				loop,
+				RemoveSelf::create(),
+				nullptr
+			);
+		}
+		else {
+			return Sequence::create(
+				fade,
+				expand,
+				loop,
+				nullptr
+			);
+		}
 	};
 }
 

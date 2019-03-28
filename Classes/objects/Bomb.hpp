@@ -32,12 +32,9 @@ public:
 	void init();
 	virtual void update();
 	void detonate();
-	float getScale(const GObject* target);
-	void applyKnockback(GObject* target, SpaceFloat mag);
 
 	//Interface
 	virtual AttributeMap getAttributeEffect() const = 0;
-	virtual inline shared_ptr<MagicEffect> getMagicEffect(gobject_ref target) { return nullptr; }
 	virtual SpaceFloat getFuseTime() const = 0;
 	virtual SpaceFloat getBlastRadius() const = 0;
 protected:

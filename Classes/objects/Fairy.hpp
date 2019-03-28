@@ -89,6 +89,8 @@ class RedFairy : public Enemy, public BaseAttributes<RedFairy>
 {
 public:
 	static const AttributeMap baseAttributes;
+	static const AttributeMap explosionEffect;
+	static const SpaceFloat explosionRadius;
 
 	RedFairy(GSpace* space, ObjectIDType id, const ValueMap& args);
 
@@ -103,6 +105,7 @@ public:
 	virtual inline int pixelWidth() const { return 128; }
 
 	virtual void initStateMachine(ai::StateMachine& sm);
+	virtual void onZeroHP();
 };
 
 class GreenFairy1 :
