@@ -27,6 +27,8 @@ const vector<string> App::shaderFiles = {
 };
 
 const vector<string> App::soundFiles = {
+	"sfx/bomb_explosion.wav",
+	"sfx/bomb_fuse.wav",
 	"sfx/enemy_damage.wav",
 	"sfx/footstep_cave.wav",
 	"sfx/footstep_grass.wav",

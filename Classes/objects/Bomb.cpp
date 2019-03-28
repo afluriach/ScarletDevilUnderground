@@ -10,6 +10,7 @@
 
 #include "Agent.hpp"
 #include "AIUtil.hpp"
+#include "App.h"
 #include "Bomb.hpp"
 #include "GSpace.hpp"
 #include "Wall.hpp"
@@ -26,6 +27,7 @@ Bomb::Bomb(GSpace* space, ObjectIDType id, const SpaceVect& pos, const SpaceVect
 void Bomb::init()
 {
 	countdown = getFuseTime();
+	App::playSoundSpatial("sfx/bomb_fuse.wav", toFmod(getPos()), toFmod(SpaceVect::zero));
 }
 
 void Bomb::update()
@@ -74,6 +76,7 @@ void Bomb::detonate()
 		bw->hit();
 	}
 
+	App::playSoundSpatial("sfx/bomb_explosion.wav", toFmod(getPos()), toFmod(SpaceVect::zero));
 	space->removeObjectWithAnimation(this, bombAnimationAction(getBlastRadius() / getRadius()));
 }
 
