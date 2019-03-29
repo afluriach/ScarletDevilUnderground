@@ -199,6 +199,8 @@ bool GScene::init()
 
 	multiInit();
 
+	gspace->isMultiMap = isMultiMap();
+
 	if (App::multithread) {
 		spaceUpdateToRun.store(false);
 		spaceUpdateThread = make_unique<thread>(&GScene::spaceUpdateMain, this);

@@ -35,8 +35,6 @@ bool GSpace::isMultithread()
 
 GSpace::GSpace(GScene* gscene) : gscene(gscene)
 {
-	isMultiMap = gscene->isMultiMap();
-
 	space = cpSpaceNew();
     cpSpaceSetGravity(space, cpv(0,0));
     addCollisionHandlers();
@@ -637,7 +635,10 @@ void GSpace::eraseTile(const SpaceVect& p, string layer)
 {
 	pair<int, IntVec2> tile = getTilePosition(p);
 
-	if (tile.first != -1)
+	if (!isMultiMap) {
+		eraseTile(0, tile.second, layer);
+	}
+	else if (tile.first != -1)
 	{
 		eraseTile(tile.first, tile.second, layer);
 	}
@@ -701,14 +702,14 @@ pair<int, IntVec2> GSpace::getTilePosition(SpaceVect p)
 {
 	int mapID = getAreaIndex(mapAreas, p);
 
-	if (mapID == -1 && !isMultiMap) {
+	if (mapID == -1 && isMultiMap) {
 		return make_pair(-1, IntVec2(0, 0));
 	}
 
-	SpaceRect map = isMultiMap ? SpaceRect(0.0, 0.0, spaceSize.first, spaceSize.second) : mapAreas.at(mapID);
+	SpaceRect map = isMultiMap ? mapAreas.at(mapID) : SpaceRect(0.0, 0.0, spaceSize.first, spaceSize.second);
 	IntVec2 mapPos(floor(p.x) - map.getMinX(), map.getMaxY() - ceil(p.y));
 
-	return make_pair(isMultiMap ? 0 : mapID,mapPos);
+	return make_pair(isMultiMap ? mapID : 0,mapPos);
 }
 
 int GSpace::getPlayerRoom()
