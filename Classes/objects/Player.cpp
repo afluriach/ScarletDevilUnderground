@@ -173,10 +173,12 @@ void Player::checkMovementControls(const ControlInfo& cs)
 
 void Player::updateSpellControls(const ControlInfo& cs)
 {
-    if(!crntSpell.get() && spells.size() > 0 && spellIdx != -1)
-    {
-		attributeSystem.timerDecrement(Attribute::spellCooldown);
-		
+	if (crntSpell.get() && cs.isControlActionPressed(ControlAction::spell))
+	{
+		stopSpell();
+	}
+	else if(!crntSpell.get() && spells.size() > 0 && spellIdx != -1)
+    {		
 		if (cs.isControlActionPressed(ControlAction::spellPrev)) {
 			--spellIdx;
 			if (spellIdx < 0) spellIdx += spells.size();
@@ -201,7 +203,6 @@ void Player::updateSpellControls(const ControlInfo& cs)
 			!attributeSystem.isNonzero(Attribute::spellCooldown) &&
 			attributeSystem[Attribute::mp] >= equippedSpell->getCost()
 		) {
-			attributeSystem.modifyAttribute(Attribute::mp, -equippedSpell->getCost());
 			cast(equippedSpell->generate(this));		
 			attributeSystem.resetCombo();
 			App::playSound("sfx/player_spellcard.wav", 1.0f);
@@ -366,6 +367,15 @@ void Player::update()
 
 		if (respawnTimer <= 0.0 && isRespawnActive) {
 			applyRespawn();
+		}
+
+		if (!crntSpell.get()) {
+			attributeSystem.timerDecrement(Attribute::spellCooldown);
+		}
+		else {
+			attributeSystem.timerDecrement(Attribute::mp, crntSpell->getDescriptor()->getCost());
+			if (attributeSystem[Attribute::mp] <= 0.0f)
+				stopSpell();
 		}
 	}
 }

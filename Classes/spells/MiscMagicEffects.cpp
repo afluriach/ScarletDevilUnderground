@@ -87,6 +87,7 @@ DarknessCurseEffect::DarknessCurseEffect(gobject_ref target) :
 void DarknessCurseEffect::init()
 {
 	agent->inhibitSpellcasting = true;
+	agent->stopSpell();
 	agent->space->runSpriteAction(agent->spriteID, darknessCurseFlickerTintAction());
 }
 

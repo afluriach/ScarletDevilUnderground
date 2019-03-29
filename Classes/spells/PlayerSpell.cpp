@@ -84,7 +84,7 @@ const string LavaeteinnSpell::name = "LavaeteinnSpell";
 const string LavaeteinnSpell::description = "";
 const float LavaeteinnSpell::cost = 25.0f;
 
-const SpaceFloat LavaeteinnSpell::length = 1.0;
+const SpaceFloat LavaeteinnSpell::length = 0.75;
 const SpaceFloat LavaeteinnSpell::angleWidth = float_pi / 2.0;
 const SpaceFloat LavaeteinnSpell::angular_speed = angleWidth * 2.0 / length;
 const int LavaeteinnSpell::bulletSpawnCount = 8;
@@ -145,7 +145,7 @@ void LavaeteinnSpell::end()
 
 const string PlayerCounterClock::name = "PlayerCounterClock";
 const string PlayerCounterClock::description = "";
-const float PlayerCounterClock::cost = 25.0f;
+const float PlayerCounterClock::cost = 10.0f;
 
 const SpaceFloat PlayerCounterClock::offset = 0.75;
 const SpaceFloat PlayerCounterClock::angular_speed = 9.0;
@@ -285,7 +285,7 @@ void PlayerWhirlShot::init()
 
 const string PlayerDarkMist::name = "PlayerDarkMist";
 const string PlayerDarkMist::description = "";
-const float PlayerDarkMist::cost = 10.0f;
+const float PlayerDarkMist::cost = 7.5f;
 
 PlayerDarkMist::PlayerDarkMist(GObject* caster) :
 	PlayerSpell(caster)
@@ -309,7 +309,7 @@ void PlayerDarkMist::end()
 
 const string PlayerIceShield::name = "PlayerIceShield";
 const string PlayerIceShield::description = "";
-const float PlayerIceShield::cost = 10.0f;
+const float PlayerIceShield::cost = 12.5f;
 
 const SpaceFloat PlayerIceShield::speed = 9.0;
 
