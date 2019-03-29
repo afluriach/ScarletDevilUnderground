@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.0" tiledversion="1.0.3" orientation="orthogonal" renderorder="right-down" width="51" height="51" tilewidth="128" tileheight="128" nextobjectid="230">
+<map version="1.0" tiledversion="1.0.3" orientation="orthogonal" renderorder="right-down" width="51" height="51" tilewidth="128" tileheight="128" nextobjectid="276">
  <tileset firstgid="1" name="wall" tilewidth="128" tileheight="128" tilecount="4" columns="2">
   <image source="fence.png" width="256" height="256"/>
  </tileset>
@@ -24,7 +24,53 @@
    eJzt2UEKgDAMBMCo/f+bPfiAFFrKgrOQU2EIwcviqKprcUaQsZKbwWAwGDFGSlLuwWAwGIzPeJqp5n3G6GbXHl0Hqub9VBeb3WMlSd8Yg8Fg/N1ISco9GAwGg5HVo3bskdSj/BdjMBgMRlpS7sFgMBiMc13slPECBxgFcQ==
   </data>
  </layer>
- <objectgroup name="floor"/>
+ <objectgroup name="floor">
+  <object id="245" type="GrassFloor" x="0" y="0" width="2176" height="1024"/>
+  <object id="244" type="GrassFloor" x="0" y="5376" width="1024" height="128"/>
+  <object id="243" type="GrassFloor" x="5504" y="5376" width="1024" height="128"/>
+  <object id="242" type="StoneFloor" x="4352" y="5376" width="1152" height="128"/>
+  <object id="241" type="GrassFloor" x="2176" y="2176" width="2176" height="1024"/>
+  <object id="240" type="GrassFloor" x="0" y="3328" width="2176" height="1024"/>
+  <object id="239" type="GrassFloor" x="2176" y="1152" width="2176" height="1024"/>
+  <object id="238" type="GrassFloor" x="1152" y="1152" width="1024" height="1024"/>
+  <object id="237" type="GrassFloor" x="2176" y="0" width="2176" height="1024"/>
+  <object id="236" type="GrassFloor" x="4352" y="0" width="2176" height="1024"/>
+  <object id="235" type="GrassFloor" x="4352" y="3328" width="2176" height="1024"/>
+  <object id="234" type="GrassFloor" x="4352" y="5504" width="2176" height="1024"/>
+  <object id="233" type="GrassFloor" x="4352" y="4352" width="2176" height="1024"/>
+  <object id="231" type="GrassFloor" x="0" y="4352" width="2176" height="1024"/>
+  <object id="230" type="GrassFloor" x="0" y="5504" width="2176" height="1024"/>
+  <object id="246" type="GrassFloor" x="0" y="2176" width="1024" height="1152"/>
+  <object id="247" type="GrassFloor" x="1152" y="2176" width="1024" height="1024"/>
+  <object id="248" type="StoneFloor" x="1024" y="5376" width="1152" height="128"/>
+  <object id="249" type="StoneFloor" x="2176" y="5376" width="2176" height="128"/>
+  <object id="250" type="StoneFloor" x="1024" y="1024" width="1152" height="128"/>
+  <object id="251" type="StoneFloor" x="2176" y="1024" width="2176" height="128"/>
+  <object id="252" type="StoneFloor" x="4352" y="1024" width="1152" height="128"/>
+  <object id="253" type="StoneFloor" x="1024" y="3200" width="1152" height="128"/>
+  <object id="254" type="StoneFloor" x="1024" y="2176" width="128" height="1024"/>
+  <object id="255" type="GrassFloor" x="0" y="1024" width="1024" height="128"/>
+  <object id="256" type="GrassFloor" x="0" y="1152" width="1024" height="1024"/>
+  <object id="257" type="StoneFloor" x="1024" y="1152" width="128" height="1024"/>
+  <object id="258" type="StoneFloor" x="5376" y="1152" width="128" height="1024"/>
+  <object id="259" type="StoneFloor" x="5376" y="2176" width="128" height="1024"/>
+  <object id="260" type="StoneFloor" x="3200" y="3328" width="128" height="1024"/>
+  <object id="261" type="StoneFloor" x="3200" y="4352" width="128" height="1024"/>
+  <object id="262" type="StoneFloor" x="3200" y="5504" width="128" height="1024"/>
+  <object id="263" type="GrassFloor" x="5504" y="1024" width="1024" height="1152"/>
+  <object id="264" type="GrassFloor" x="4352" y="1152" width="1024" height="1024"/>
+  <object id="265" type="GrassFloor" x="4352" y="2176" width="1024" height="1024"/>
+  <object id="266" type="GrassFloor" x="5504" y="2176" width="1024" height="1024"/>
+  <object id="267" type="GrassFloor" x="5504" y="3200" width="1024" height="128"/>
+  <object id="268" type="StoneFloor" x="4352" y="3200" width="1152" height="128"/>
+  <object id="269" type="StoneFloor" x="2176" y="3200" width="2176" height="128"/>
+  <object id="270" type="GrassFloor" x="2176" y="3328" width="1024" height="1024"/>
+  <object id="271" type="GrassFloor" x="3328" y="3328" width="1024" height="1024"/>
+  <object id="272" type="GrassFloor" x="2176" y="5504" width="1024" height="1024"/>
+  <object id="273" type="GrassFloor" x="2176" y="4352" width="1024" height="1024"/>
+  <object id="274" type="GrassFloor" x="3328" y="4352" width="1024" height="1024"/>
+  <object id="275" type="GrassFloor" x="3328" y="5504" width="1024" height="1024"/>
+ </objectgroup>
  <objectgroup name="walls">
   <object id="92" x="0" y="0" width="128" height="2176"/>
   <object id="93" x="128" y="6400" width="2048" height="128"/>
