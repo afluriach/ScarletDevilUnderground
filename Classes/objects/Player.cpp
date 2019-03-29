@@ -39,8 +39,6 @@ const SpaceFloat Player::interactDistance = 1.25;
 const SpaceFloat Player::grazeRadius = 0.7;
 
 const float Player::bombCost = 5.0f;
-const float Player::powerAttackCost = 25.0f;
-const float Player::spellCost = 20.0f;
 
 Player::Player(GSpace* space, ObjectIDType id, const SpaceVect& pos, Direction d) :
 	Agent(space, id, "player", pos,d)
@@ -98,6 +96,21 @@ SpaceFloat Player::getSpellLength()
 	}
 }
 
+void Player::equipPowerAttacks()
+{
+	powerAttacks.clear();
+
+	for (string spellName : Spell::playerPowerAttacks)
+	{
+		shared_ptr<SpellDesc> desc = Spell::getDescriptorByName(spellName);
+		if (desc) {
+			powerAttacks.push_back(desc);
+		}
+	}
+
+	powerAttackIdx = powerAttacks.size() > 0 ? 0 : -1;
+}
+
 SpaceVect Player::getInteractFeeler() const
 {
 	return SpaceVect::ray(interactDistance, getAngle());
@@ -120,7 +133,7 @@ void Player::init()
 		}
 
 		equipSpells();
-
+		equipPowerAttacks();
 	}
 
 	respawnPos = getPos();
@@ -186,9 +199,9 @@ void Player::updateSpellControls(const ControlInfo& cs)
 			cs.isControlActionPressed(ControlAction::spell) &&
 			equippedSpell &&
 			!attributeSystem.isNonzero(Attribute::spellCooldown) &&
-			attributeSystem[Attribute::mp] >= spellCost
+			attributeSystem[Attribute::mp] >= equippedSpell->getCost()
 		) {
-			attributeSystem.modifyAttribute(Attribute::mp, -spellCost);
+			attributeSystem.modifyAttribute(Attribute::mp, -equippedSpell->getCost());
 			cast(equippedSpell->generate(this));		
 			attributeSystem.resetCombo();
 			App::playSound("sfx/player_spellcard.wav", 1.0f);
@@ -216,16 +229,22 @@ void Player::checkFireControls(const ControlInfo& cs)
 			App::playSound("sfx/shot.wav", 1.0f);
 		}
 	}
+	else if (cs.isControlActionPressed(ControlAction::powerAttackNext) && powerAttackIdx != -1) {
+		++powerAttackIdx;
+		if (powerAttackIdx >= powerAttacks.size())
+			powerAttackIdx = 0;
+	}
 	else if (
 		!suppressFiring &&
 		cs.isControlActionPressed(ControlAction::powerAttack) &&
-		powerAttack &&
-		getStamina() >= powerAttackCost)
+		powerAttackIdx != -1 &&
+		getStamina() >= powerAttacks.at(powerAttackIdx)->getCost() &&
+		!isSpellActive()
+	)
 	{
-		if (powerAttack->fireIfPossible()) {
-			App::playSound("sfx/shot.wav", 1.0f);
-			attributeSystem.modifyAttribute(Attribute::stamina, -powerAttackCost);
-		}
+		cast(powerAttacks.at(powerAttackIdx)->generate(this));
+		App::playSound("sfx/player_power_attack.wav", 1.0f);
+		attributeSystem.modifyAttribute(Attribute::stamina, -powerAttacks.at(powerAttackIdx)->getCost());
 	}
 }
 
@@ -347,10 +366,6 @@ void Player::update()
 
 		if (respawnTimer <= 0.0 && isRespawnActive) {
 			applyRespawn();
-		}
-
-		if (powerAttack) {
-			powerAttack->update();
 		}
 	}
 }
@@ -648,9 +663,7 @@ void FlandrePC::setFirePattern()
 	else if (level == 3)
 		firePattern = make_shared<FlandreWideAnglePattern1>(this);
 	else if (level == 5)
-		firePattern = make_shared<FlandreWideAnglePattern2>(this);
-	
-	powerAttack = make_shared<FlandreWhirlShotPattern>(this);
+		firePattern = make_shared<FlandreWideAnglePattern2>(this);	
 }
 
 const AttributeMap RumiaPC::baseAttributes = {

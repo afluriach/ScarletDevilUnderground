@@ -33,6 +33,7 @@ class PlayerBatMode : public PlayerSpell{
 public:
 	static const string name;
 	static const string description;
+	static const float cost;
 
 	PlayerBatMode(GObject* caster);
 	inline virtual ~PlayerBatMode() {}
@@ -49,6 +50,7 @@ class LavaeteinnSpell : public PlayerSpell
 public:
 	static const string name;
 	static const string description;
+	static const float cost;
 
 	static const SpaceFloat length;
 	static const SpaceFloat angleWidth;
@@ -75,6 +77,7 @@ class PlayerCounterClock : public PlayerSpell {
 public:
 	static const string name;
 	static const string description;
+	static const float cost;
 
 	static const SpaceFloat offset;
 	static const SpaceFloat angular_speed;
@@ -97,6 +100,7 @@ class PlayerScarletRose : public PlayerSpell {
 public:
 	static const string name;
 	static const string description;
+	static const float cost;
 
 	static const SpaceFloat fireInterval;
 	static const int fireCount;
@@ -115,10 +119,26 @@ public:
 	int launchCount = 0;
 };
 
+class PlayerWhirlShot : public PlayerSpell {
+public:
+	static const string name;
+	static const string description;
+	static const float cost;
+
+	static const int bulletCount;
+
+	PlayerWhirlShot(GObject* caster);
+
+	GET_DESC(PlayerWhirlShot)
+	virtual void init();
+	inline virtual SpaceFloat getLength() const { return 0.0; }
+};
+
 class PlayerDarkMist : public PlayerSpell {
 public:
 	static const string name;
 	static const string description;
+	static const float cost;
 
 	PlayerDarkMist(GObject* caster);
 
@@ -133,6 +153,7 @@ class PlayerIceShield : public PlayerSpell {
 public:
 	static const string name;
 	static const string description;
+	static const float cost;
 
 	static constexpr size_t bulletCount = 8;
 	static const SpaceFloat speed;

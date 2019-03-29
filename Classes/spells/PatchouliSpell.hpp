@@ -15,6 +15,7 @@ class FireStarburst : public PeriodicSpell {
 public:
 	static const string name;
 	static const string description;
+	static const float cost;
 
 	static constexpr float bulletSpeed = 6.0f;
 
@@ -33,6 +34,7 @@ class FlameFence : public Spell {
 public:
 	static const string name;
 	static const string description;
+	static const float cost;
 
 	FlameFence(GObject* caster);
 	inline virtual ~FlameFence() {}
@@ -49,6 +51,7 @@ class Whirlpool1 : public Spell {
 public:
 	static const string name;
 	static const string description;
+	static const float cost;
 
 	static const int shotsPerSecond;
 
@@ -71,6 +74,7 @@ class Whirlpool2 : public Spell {
 public:
 	static const string name;
 	static const string description;
+	static const float cost;
 
 	static const int shotsPerSecond;
 

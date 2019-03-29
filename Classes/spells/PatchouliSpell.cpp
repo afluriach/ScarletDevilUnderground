@@ -15,6 +15,7 @@
 
 const string FireStarburst::name = "FireStarburst";
 const string FireStarburst::description = "";
+const float FireStarburst::cost = 0.0f;
 
 void FireStarburst::runPeriodic()
 {
@@ -33,6 +34,7 @@ void FireStarburst::runPeriodic()
 
 const string FlameFence::name = "FlameFence";
 const string FlameFence::description = "";
+const float FlameFence::cost = 0.0f;
 
 FlameFence::FlameFence(GObject* caster) :
 	Spell(caster)
@@ -72,6 +74,7 @@ void FlameFence::end()
 
 const string Whirlpool1::name = "Whirlpool1";
 const string Whirlpool1::description = "";
+const float Whirlpool1::cost = 0.0f;
 
 const int Whirlpool1::shotsPerSecond = 4;
 
@@ -128,6 +131,7 @@ void Whirlpool1::end()
 
 const string Whirlpool2::name = "Whirlpool2";
 const string Whirlpool2::description = "";
+const float Whirlpool2::cost = 0.0f;
 
 const int Whirlpool2::shotsPerSecond = 6;
 

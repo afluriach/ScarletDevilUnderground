@@ -15,8 +15,9 @@ class Spell;
 class SpellDesc
 {
 public:
-	virtual inline string getName() const = 0;
-	virtual inline string getDescription() const = 0;
+	virtual string getName() const = 0;
+	virtual string getDescription() const = 0;
+	virtual float getCost() const = 0;
 
 	virtual shared_ptr<Spell> generate(GObject* caster) = 0;
 	virtual SpellGeneratorType getGenerator() = 0;
@@ -29,6 +30,7 @@ class SpellDescImpl : public SpellDesc
 public:
 	virtual inline string getName() const { return T::name; }
 	virtual inline string getDescription() const { return T::description; }
+	virtual inline float getCost() const { return T::cost; }
 
 	virtual inline shared_ptr<Spell> generate(GObject* caster)
 	{

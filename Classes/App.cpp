@@ -38,6 +38,7 @@ const vector<string> App::soundFiles = {
 	"sfx/graze.wav",
 	"sfx/player_damage.wav",
 	"sfx/player_death.wav",
+	"sfx/player_power_attack.wav",
 	"sfx/player_spellcard.wav",
 	"sfx/powerup.wav",
 	"sfx/shot.wav",

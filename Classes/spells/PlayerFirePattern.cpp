@@ -219,12 +219,6 @@ FlandreFastOrbPattern::FlandreFastOrbPattern(Agent *const agent) :
 {
 }
 
-FlandreWhirlShotPattern::FlandreWhirlShotPattern(Agent *const agent) :
-	RadiusPattern(agent, 1.0f, 8),
-	FirePattern(agent)
-{
-}
-
 const float FlandreWideAnglePattern1::cooldown = 0.25f;
 
 FlandreWideAnglePattern1::FlandreWideAnglePattern1(Agent *const agent) :

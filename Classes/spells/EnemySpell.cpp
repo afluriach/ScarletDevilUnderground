@@ -16,6 +16,7 @@
 
 const string Teleport::name = "Teleport";
 const string Teleport::description = "";
+const float Teleport::cost = 0.0f;
 
 Teleport::Teleport(GObject* caster) :
 	Spell(caster),

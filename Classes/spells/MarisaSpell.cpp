@@ -16,6 +16,7 @@
 
 const string StarlightTyphoon::name = "StarlightTyphoon";
 const string StarlightTyphoon::description = "";
+const float StarlightTyphoon::cost = 0.0f;
 
 const SpaceFloat StarlightTyphoon::speed = 6.0;
 const SpaceFloat StarlightTyphoon::width = float_pi / 4.0;

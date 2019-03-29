@@ -39,6 +39,8 @@ enum class ControlAction
 	spellPrev,
 	spellNext,
 
+	powerAttackNext,
+
 	move_pad_up,
 	move_pad_right,
 	move_pad_down,

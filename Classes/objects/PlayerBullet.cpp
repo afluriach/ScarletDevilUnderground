@@ -215,10 +215,9 @@ FlanPolarBullet::FlanPolarBullet(GSpace* space, ObjectIDType id, const SpaceVect
 
 void FlanPolarBullet::update()
 {
-	updateSprite();
+	GObject::update();
 	ParametricMotion::_update();
 }
-
 
 CircleLightArea FlanPolarBullet::getLightSource() const {
 	return CircleLightArea{ getPos(), 2.0, Color4F::ORANGE*0.5f, 0.0 }; 

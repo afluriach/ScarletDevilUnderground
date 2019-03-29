@@ -40,16 +40,21 @@ const unordered_map<string, shared_ptr<SpellDesc>> Spell::spellDescriptors = {
 	entry_same(PlayerDarkMist),
 	entry_same(PlayerIceShield),
 	entry_same(PlayerScarletRose),
+	entry_same(PlayerWhirlShot),
 	entry_same(StarlightTyphoon),
 	entry_same(Whirlpool1),
 	entry_same(Whirlpool2),
 };
 
 const vector<string> Spell::playerSpells = {
-	"LavaeteinnSpell",
 	"PlayerBatMode",
 	"PlayerCounterClock",
 	"PlayerDarkMist",
 	"PlayerIceShield",
 	"PlayerScarletRose",
+};
+
+const vector<string> Spell::playerPowerAttacks = {
+	"LavaeteinnSpell",
+	"PlayerWhirlShot",
 };

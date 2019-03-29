@@ -24,6 +24,7 @@ class Spell
 public:
     static const unordered_map<string,shared_ptr<SpellDesc>> spellDescriptors;
 	static const vector<string> playerSpells;
+	static const vector<string> playerPowerAttacks;
 
 	static shared_ptr<SpellDesc> getDescriptorByName(const string& name);
 

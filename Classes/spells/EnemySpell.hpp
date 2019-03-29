@@ -19,6 +19,7 @@ class Teleport : public Spell {
 public:
 	static const string name;
 	static const string description;
+	static const float cost;
 
 	Teleport(GObject* caster);
 	inline virtual ~Teleport() {}

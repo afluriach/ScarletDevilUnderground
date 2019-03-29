@@ -36,9 +36,7 @@ public:
 	static const SpaceFloat interactDistance;
 	static const SpaceFloat grazeRadius;
 
-	static const float powerAttackCost;
 	static const float bombCost;
-	static const float spellCost;
 
 	Player(GSpace* space, ObjectIDType id, const SpaceVect& pos, Direction d);
 	MapObjCons(Player);
@@ -49,6 +47,7 @@ public:
 	virtual void setFirePattern() = 0;
 	void equipSpells();
 	SpaceFloat getSpellLength();
+	void equipPowerAttacks();
 
     //setting for player object sensing
 	inline virtual SpaceFloat getRadarRadius() const { return grazeRadius; }
@@ -133,8 +132,9 @@ protected:
 	float interactCooldown = 0.0f;
 	float bombCooldown = 0.0f;
 
-	shared_ptr<FirePattern> powerAttack = nullptr;
+	vector<shared_ptr<SpellDesc>> powerAttacks;
 	vector<shared_ptr<SpellDesc>> spells;
+	int powerAttackIdx = -1;
 	int spellIdx = -1;
 
 	PlayScene* playScene = nullptr;

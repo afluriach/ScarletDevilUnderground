@@ -44,6 +44,7 @@ void PlayerSpell::end()
 
 const string PlayerBatMode::name = "PlayerBatMode";
 const string PlayerBatMode::description = "";
+const float PlayerBatMode::cost = 5.0f;
 
 PlayerBatMode::PlayerBatMode(GObject* caster) :
 	PlayerSpell(caster)
@@ -81,6 +82,7 @@ void PlayerBatMode::end()
 
 const string LavaeteinnSpell::name = "LavaeteinnSpell";
 const string LavaeteinnSpell::description = "";
+const float LavaeteinnSpell::cost = 25.0f;
 
 const SpaceFloat LavaeteinnSpell::length = 1.0;
 const SpaceFloat LavaeteinnSpell::angleWidth = float_pi / 2.0;
@@ -143,6 +145,7 @@ void LavaeteinnSpell::end()
 
 const string PlayerCounterClock::name = "PlayerCounterClock";
 const string PlayerCounterClock::description = "";
+const float PlayerCounterClock::cost = 25.0f;
 
 const SpaceFloat PlayerCounterClock::offset = 0.75;
 const SpaceFloat PlayerCounterClock::angular_speed = 9.0;
@@ -212,6 +215,7 @@ void PlayerCounterClock::end()
 
 const string PlayerScarletRose::name = "PlayerScarletRose";
 const string PlayerScarletRose::description = "";
+const float PlayerScarletRose::cost = 20.0f;
 
 const SpaceFloat PlayerScarletRose::fireInterval = 0.2;
 const int PlayerScarletRose::fireCount = 6;
@@ -254,8 +258,34 @@ void PlayerScarletRose::end()
 	}
 }
 
+const string PlayerWhirlShot::name = "PlayerWhirlShot";
+const string PlayerWhirlShot::description = "";
+const float PlayerWhirlShot::cost = 10.0f;
+
+const int PlayerWhirlShot::bulletCount = 8;
+
+PlayerWhirlShot::PlayerWhirlShot(GObject* caster) :
+	PlayerSpell(caster)
+{}
+
+void PlayerWhirlShot::init()
+{
+	SpaceFloat angleStep = float_pi * 2.0 / bulletCount;
+	Agent* agent = dynamic_cast<Agent*>(caster);
+
+	for_irange(i, 0, bulletCount)
+	{
+		SpaceFloat angle = i * angleStep;
+		agent->bulletCheckSpawn<FlandrePolarMotionOrb>(
+			agent->getPos() + SpaceVect::ray(1.0, angle),
+			angle
+		);
+	}
+}
+
 const string PlayerDarkMist::name = "PlayerDarkMist";
 const string PlayerDarkMist::description = "";
+const float PlayerDarkMist::cost = 10.0f;
 
 PlayerDarkMist::PlayerDarkMist(GObject* caster) :
 	PlayerSpell(caster)
@@ -279,6 +309,7 @@ void PlayerDarkMist::end()
 
 const string PlayerIceShield::name = "PlayerIceShield";
 const string PlayerIceShield::description = "";
+const float PlayerIceShield::cost = 10.0f;
 
 const SpaceFloat PlayerIceShield::speed = 9.0;
 
