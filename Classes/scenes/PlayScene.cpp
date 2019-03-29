@@ -105,6 +105,9 @@ void PlayScene::addHUD()
     hud = Node::ccCreate<HUD>(gspace);
     getLayer(sceneLayers::hud)->addChild(hud);
 	hud->setPerformanceStats();
+
+	int mapCount = getMapFragmentsList().size();
+	if (mapCount > 0) hud->initMapCounter(mapCount);
 }
 
 void PlayScene::onPausePressed()

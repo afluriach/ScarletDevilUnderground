@@ -100,7 +100,6 @@ class LinearMeter : public Node
 {
 public:
 	static const Vec2 boundingSize;
-	static const float meterOffset;
 	static const float outlineWidth;
 
 	LinearMeter(LinearMeterSettings settings);
@@ -114,7 +113,6 @@ protected:
 
 	LinearMeterSettings settings;
 	DrawNode* draw;
-	Label* label;
 
 	float crntValue = 0.0f;
 	float maxValue = 0.0f;
@@ -153,15 +151,21 @@ public:
     //Distance between icon and counter label.
     static const int spacing = 16;
 
-	Counter(const string& iconRes, const int val);
+	Counter(const string& iconRes, int val, int maxVal = 0);
 
     virtual bool init();
-    void setVal(const int val);
+    void setVal(int _val);
+	void setMaxVal(int _maxVal);
     void setIcon(const string& iconRes);
 private:
+	string makeLabel();
+	//should be called whenever the counter label text is changed
+	void repositionText();
+
     Sprite* icon;
     Label* counter;
     int val;
+	int maxVal;
 	string iconRes;
 };
 
@@ -211,12 +215,15 @@ public:
 	LinearMeter* staminaMeter;
 
 	Counter* keyMeter;
+	Counter* mapFragmentMeter;
+	Counter* objectiveCounter;
 
 	MagicEffects* magicEffects;
 
-	Counter* objectiveCounter;    
     Sprite* interactionIcon;
 	Sprite* firePatternIcon;
+	Sprite* powerAttackIcon;
+	Sprite* bombIcon;
 	Sprite* spellIcon;
 
 	EnemyInfo* enemyInfo;
@@ -242,6 +249,9 @@ public:
 
 	void setObjectiveCounter(string iconRes, int val);
 	void setObjectiveCounterVisible(bool val);
+
+	void initMapCounter(int mapCount);
+	void setMapCounter(int val);
     
 	void setPerformanceStats();
 	void updatePerformanceStats();
@@ -251,6 +261,7 @@ public:
 	void setInteractionIcon(string val);
 	void setFirePatternIcon(string val);
 	void setSpellIcon(string val);
+	void setPowerAttackIcon(string val);
 
 	void setEnemyInfo(string name, float hp, float maxHP);
 	void updateEnemyInfo(float hp);

@@ -11,6 +11,8 @@
 
 #include "PlayScene.hpp"
 
+#define GET_MAPS inline virtual MapFragmentsList getMapFragmentsList() const { return maps; }
+
 class Graveyard1 : public PlayScene
 {
 public:
@@ -43,6 +45,8 @@ public:
 class Graveyard3 : public PlayScene
 {
 public:
+	static const MapFragmentsList maps;
+
 	Graveyard3();
 	inline virtual ~Graveyard3() {}
 
@@ -51,6 +55,7 @@ public:
 	virtual GScene* getReplacementScene();
 	inline virtual ChamberID getCurrentLevel() const { return ChamberID::graveyard3; }
 	inline virtual ChamberID getNextLevel() const { return ChamberID::graveyard4; }
+	GET_MAPS;
 };
 
 class Graveyard4 : public PlayScene

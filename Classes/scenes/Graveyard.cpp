@@ -54,6 +54,10 @@ GScene* Graveyard2::getReplacementScene()
 	return Node::ccCreate<Graveyard2>();
 }
 
+const MapFragmentsList Graveyard3::maps = {
+	{0,1,3,5},
+};
+
 Graveyard3::Graveyard3() :
 	PlayScene("graveyard3")
 {

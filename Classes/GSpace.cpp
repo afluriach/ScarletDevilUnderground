@@ -718,10 +718,11 @@ int GSpace::getPlayerRoom()
 
 void GSpace::applyMapFragment(int mapFragmentID)
 {
-	addSceneAction(bind(&GScene::applyMapFragment, gscene, mapFragmentID));
+	if (crntChamber != ChamberID::end) {
+		getState()->registerMapFragment(crntChamber, mapFragmentID);
 
-	if (mapFragmentID >= 0 && mapFragmentID < maxMapFragmentsPerChamber) {
-		getState()->chamberStats.at(to_size_t(crntChamber)).mapFragments.set(mapFragmentID);
+		addSceneAction(bind(&GScene::applyMapFragment, gscene, mapFragmentID));
+		addHudAction(&HUD::setMapCounter, getState()->getMapFragmentCount(crntChamber));
 	}
 }
 

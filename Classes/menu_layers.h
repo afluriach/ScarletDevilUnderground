@@ -244,6 +244,9 @@ protected:
 class PlayerInfo : public Node
 {
 public:
+	typedef tuple<Attribute, Attribute, string> IncidentAttrEntry;
+
+	static const vector<IncidentAttrEntry> displayIncidentAttributes;
 	static const vector<pair<Attribute, string>> displayAttributes;
 
 	PlayerInfo(const AttributeSystem* stats);
@@ -251,6 +254,8 @@ public:
 
 	virtual bool init();
 protected:
+	void addEntry(string icon, string text, int position);
+
 	const AttributeSystem* stats;
 };
 

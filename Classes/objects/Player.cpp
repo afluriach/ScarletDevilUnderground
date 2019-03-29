@@ -114,6 +114,11 @@ void Player::equipPowerAttacks()
 	}
 
 	powerAttackIdx = powerAttacks.size() > 0 ? 0 : -1;
+
+	space->addHudAction(
+		&HUD::setPowerAttackIcon,
+		powerAttackIdx == 0 ? powerAttacks.at(0)->getIcon() : ""
+	);
 }
 
 SpaceVect Player::getInteractFeeler() const
@@ -241,6 +246,8 @@ void Player::checkFireControls(const ControlInfo& cs)
 		++powerAttackIdx;
 		if (powerAttackIdx >= powerAttacks.size())
 			powerAttackIdx = 0;
+
+		space->addHudAction(&HUD::setPowerAttackIcon,powerAttacks.at(powerAttackIdx)->getIcon());
 	}
 	else if (
 		!suppressFiring &&

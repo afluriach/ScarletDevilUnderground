@@ -121,6 +121,18 @@ unsigned int GState::totalChamberTime()
 	return result;
 }
 
+int GState::getMapFragmentCount(ChamberID chamber)
+{
+	return chamberStats.at(to_size_t(chamber)).mapFragments.count();
+}
+
+void GState::registerMapFragment(ChamberID chamber, int mapID)
+{
+	if (mapID >= 0 && mapID < maxMapFragmentsPerChamber) {
+		chamberStats.at(to_size_t(chamber)).mapFragments.set(mapID);
+	}
+}
+
 void GState::_registerUpgrade(unsigned int at, unsigned int id)
 {
 	registerUpgrade(static_cast<Attribute>(at), id);

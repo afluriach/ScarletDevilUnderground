@@ -213,9 +213,8 @@ void RadialMeter::redraw()
 	cone->setColors(opacityScale(filled, alpha), opacityScale(empty, alpha));
 }
 
-const Vec2 LinearMeter::boundingSize = Vec2(192,48);
-const float LinearMeter::meterOffset = 32.0f;
-const float LinearMeter::outlineWidth = 8;
+const Vec2 LinearMeter::boundingSize = Vec2(288,18);
+const float LinearMeter::outlineWidth = 3;
 
 LinearMeter::LinearMeter(LinearMeterSettings settings) :
 	settings(settings)
@@ -228,17 +227,6 @@ bool LinearMeter::init()
 
 	draw = DrawNode::create();
 	addChild(draw);
-
-	label = Label::createWithTTF(
-		" 0 / 0",
-		"fonts/comfortaa.ttf",
-		boundingSize.y / 2,
-		CCSize(boundingSize),
-		TextHAlignment::CENTER,
-		TextVAlignment::CENTER
-	);
-
-	addChild(label);
 
 	return true;
 }
@@ -264,27 +252,21 @@ void LinearMeter::redraw()
 	draw->clear();
 
 	draw->drawSolidRect(
-		Vec2(-0.5f * boundingSize.x - outlineWidth, meterOffset - outlineWidth),
-		Vec2(boundingSize.x*0.5f + outlineWidth, boundingSize.y + outlineWidth),
+		Vec2(-0.5f * boundingSize.x - outlineWidth, -boundingSize.y*0.5f - outlineWidth),
+		Vec2(boundingSize.x*0.5f + outlineWidth, boundingSize.y*0.5f + outlineWidth),
 		Color4F::BLACK
 	);
 
 	draw->drawSolidRect(
-		Vec2(-0.5f * boundingSize.x, meterOffset),
-		Vec2(boundingSize.x*(ratio-0.5f),boundingSize.y),
+		Vec2(-0.5f * boundingSize.x, -boundingSize.y*0.5f),
+		Vec2(boundingSize.x*(ratio-0.5f),boundingSize.y*0.5f),
 		settings.fillColor
 	);
 	draw->drawSolidRect(
-		Vec2(boundingSize.x*(ratio - 0.5f), meterOffset),
-		Vec2(boundingSize.x * 0.5f, boundingSize.y),
+		Vec2(boundingSize.x*(ratio - 0.5f), -0.5f * boundingSize.y),
+		Vec2(boundingSize.x * 0.5f, 0.5f*boundingSize.y),
 		settings.emptyColor
 	);
-
-	label->setString(boost::str(
-		boost::format("%s / %s") % 
-		boost::lexical_cast<string>(crntValue) %
-		boost::lexical_cast<string>(maxValue)
-	));
 }
 
 const int MagicEffects::spacing = 128;
@@ -541,27 +523,34 @@ bool HUD::init()
 //    );
 
 	float scale = App::getScale();
-    
+	float meterEdgeOffset = (LinearMeter::boundingSize.x * 0.5f + LinearMeter::outlineWidth + 18.0f) * scale;
+	float meterVerticalStep = (LinearMeter::boundingSize.y*1.0f + 2.0f*LinearMeter::outlineWidth + 9.0f) * scale;
+
 	hpMeter = Node::ccCreate<LinearMeter>(hpSettings);
-    hpMeter->setPosition(App::width * 0.167f, App::height - LinearMeter::boundingSize.y*2.0f*scale);
+    hpMeter->setPosition(meterEdgeOffset, App::height - meterVerticalStep);
     addChild(hpMeter, 2);
 	hpMeter->setScale(scale);
 
 	mpMeter = Node::ccCreate<LinearMeter>(mpSettings);
-	mpMeter->setPosition(App::width*0.333f, App::height - LinearMeter::boundingSize.y*2.0f*scale);
+	mpMeter->setPosition(meterEdgeOffset, App::height - 2.0f*meterVerticalStep);
 	addChild(mpMeter, 2);
 	mpMeter->setScale(scale);
 
 	staminaMeter = Node::ccCreate<LinearMeter>(staminaSettings);
-	staminaMeter->setPosition(App::width*0.5f, App::height - LinearMeter::boundingSize.y*2.0f*scale);
+	staminaMeter->setPosition(meterEdgeOffset, App::height - 3.0f*meterVerticalStep);
 	addChild(staminaMeter, 2);
 	staminaMeter->setScale(scale);
 	staminaMeter->setMax(100);
 
 	keyMeter = Node::ccCreate<Counter>("sprites/key.png", 0);
-	keyMeter->setPosition(App::width * 0.7f, App::height - 64 * scale);
+	keyMeter->setPosition(App::width * 0.4f, App::height - 64 * scale);
 	addChild(keyMeter, 2);
 	keyMeter->setScale(scale*0.8f);
+
+	mapFragmentMeter = Node::ccCreate<Counter>("sprites/map.png", 0);
+	mapFragmentMeter->setPosition(App::width * 0.5f, App::height - 64 * scale);
+	addChild(mapFragmentMeter, 2);
+	mapFragmentMeter->setScale(scale * 0.8f);
 
 	magicEffects = Node::ccCreate<MagicEffects>();
 	magicEffects->setPosition(App::width - 64 * scale, App::height - 64 * scale);
@@ -569,25 +558,35 @@ bool HUD::init()
 	magicEffects->setScale(0.75f*scale);
 
     objectiveCounter = Node::ccCreate<Counter>(showAll ? "sprites/ui/glyph.png" : "", 0);
-    objectiveCounter->setPosition(App::width * 0.7f, App::height - 128*scale);
+    objectiveCounter->setPosition(App::width * 0.3f, App::height - 64*scale);
     addChild(objectiveCounter, 2);
     objectiveCounter->setVisible(showAll);
 	objectiveCounter->setScale(scale * 0.8f);
     
     interactionIcon = Sprite::create();
-    interactionIcon->setPosition(App::width - 256*scale, App::height - 64*scale);
+    interactionIcon->setPosition(App::width - 256*scale, App::height - 96*scale);
     interactionIcon->setScale(0.33*scale);
     addChild(interactionIcon);
 
 	firePatternIcon = Sprite::create();
-	firePatternIcon->setPosition(App::width - 384*scale, App::height - 64*scale);
+	firePatternIcon->setPosition(App::width - 480*scale, App::height - 128*scale);
 	firePatternIcon->setScale(0.3f*scale);
 	addChild(firePatternIcon);
 
 	spellIcon = Sprite::create();
-	spellIcon->setPosition(App::width - 384 * scale, App::height - 144 * scale);
+	spellIcon->setPosition(App::width - 576 * scale, App::height - 96 * scale);
 	spellIcon->setScale(scale * 0.5f);
 	addChild(spellIcon);
+
+	powerAttackIcon = Sprite::create();
+	powerAttackIcon->setPosition(App::width - 480 * scale, App::height - 64 * scale);
+	powerAttackIcon->setScale(scale * 0.5f);
+	addChild(powerAttackIcon);
+
+	bombIcon = Sprite::create("sprites/scarlet_bomb.png");
+	bombIcon->setPosition(App::width - 384 * scale, App::height - 96 * scale);
+	bombIcon->setScale(scale * 0.5f);
+	addChild(bombIcon);
 
 	enemyInfo = Node::ccCreate<EnemyInfo>();
 	enemyInfo->setPosition(App::width - (EnemyInfo::hWidth+24)*scale, 24*scale);
@@ -611,6 +610,16 @@ void HUD::setObjectiveCounter(string iconRes, int val)
 void HUD::setObjectiveCounterVisible(bool val)
 {
 	objectiveCounter->setVisible(val);
+}
+
+void HUD::initMapCounter(int mapCount)
+{
+	mapFragmentMeter->setMaxVal(mapCount);
+}
+
+void HUD::setMapCounter(int val)
+{
+	mapFragmentMeter->setVal(val);
 }
 
 void HUD::setPerformanceStats()
@@ -678,6 +687,12 @@ void HUD::setSpellIcon(string val)
 	spellIcon->setTexture(val);
 }
 
+void HUD::setPowerAttackIcon(string val)
+{
+	powerAttackIcon->setVisible(!val.empty() && !isMansionMode);
+	powerAttackIcon->setTexture(val);
+}
+
 void HUD::setHP(int v)
 {
 	hpMeter->setValue(v);
@@ -743,8 +758,9 @@ void HUD::clearEnemyInfo()
 	enemyInfo->setVisible(false);
 }
 
-Counter::Counter(const string& iconRes, const int val) :
+Counter::Counter(const string& iconRes, int val, int maxVal) :
 val(val),
+maxVal(maxVal),
 iconRes(iconRes)
 {}
 
@@ -753,9 +769,8 @@ bool Counter::init()
     Node::init();
     
     icon = Sprite::create();
-    counter = createTextLabel(boost::lexical_cast<string>(val), HUD::fontSize);
-	float counterWidth = counter->getContentSize().width;
-	counter->setPosition((spacing + counterWidth) / 2, 0);
+    counter = createTextLabel(makeLabel(), HUD::fontSize);
+	repositionText();
 
     //The center of the node will be the mid-point between the icon and the label.
     //This will avoid the visual distraction of moving the Counter node and thus the
@@ -781,13 +796,37 @@ void Counter::setIcon(const string& iconRes)
         icon->setScale(iconSize / size);
 }
 
-void Counter::setVal(const int val)
+void Counter::setVal(int _val)
 {
-    if(val != this->val){
-        this->val = val;
-        counter->setString(boost::lexical_cast<string>(val));
-        
-        float counterWidth = counter->getContentSize().width;
-        counter->setPosition((spacing+counterWidth)/2, 0);
+    if(_val != val){
+        val = _val;
+        counter->setString(makeLabel());
+		repositionText();
     }
+}
+
+void Counter::setMaxVal(int _maxVal)
+{
+	if (maxVal != _maxVal) {
+		maxVal = _maxVal;
+		counter->setString(makeLabel());
+		repositionText();
+	}
+}
+
+string Counter::makeLabel()
+{
+	if (maxVal == 0)
+		return boost::lexical_cast<string>(val);
+	else
+		return boost::str(boost::format("%s / %s") %
+			boost::lexical_cast<string>(val) %
+			boost::lexical_cast<string>(maxVal)
+		);
+}
+
+void Counter::repositionText()
+{
+	float counterWidth = counter->getContentSize().width;
+	counter->setPosition((spacing + counterWidth) / 2, 0);
 }

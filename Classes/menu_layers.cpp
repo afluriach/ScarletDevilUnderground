@@ -346,7 +346,7 @@ const vector<zero_arity_function> CharacterSelect::entryActions = {
 	&App::popMenu
 };
 
-const string PauseMenu::title = "-PAUSED-";
+const string PauseMenu::title = "";
 
 const vector<string> PauseMenu::overworldEntries = {
 	"Resume",
@@ -698,13 +698,16 @@ void MapMenu::drawObject(SpaceRect rect, Color4F color, Color4F highlightColor, 
 	);
 }
 
+const vector<PlayerInfo::IncidentAttrEntry> PlayerInfo::displayIncidentAttributes = {
+	{ Attribute::hp, Attribute::maxHP, "HP" },
+	{ Attribute::mp, Attribute::maxMP, "MP" },
+	{ Attribute::stamina, Attribute::maxStamina, "Stamina" },
+};
+
 const vector<pair<Attribute, string>> PlayerInfo::displayAttributes = {
 	{ Attribute::agility, "Agility" },
 	{ Attribute::attack, "Attack" },
 	{ Attribute::bulletCount, "Bullet Count" },
-	{ Attribute::maxHP, "Max HP" },
-	{ Attribute::maxMP, "Max MP" },
-	{ Attribute::maxStamina, "Max Stamina" },
 	{ Attribute::ricochet, "Ricochet" },
 	{ Attribute::shieldLevel, "Shield" },
 };
@@ -722,19 +725,45 @@ bool PlayerInfo::init()
 	//get playscene/crntplayer and get base stats for that player.
 	float scale = App::getScale();
 
+	for_irange(i, 0, displayIncidentAttributes.size())
+	{
+		auto entry = displayIncidentAttributes.at(i);
+		string icon = AttributeSystem::upgradeAttributes.at(get<1>(entry)).sprite;
+		string text = boost::str(boost::format("%s: %s / %s") %
+			get<2>(entry) %
+			boost::lexical_cast<string>((*stats)[get<0>(entry)]) % 
+			boost::lexical_cast<string>((*stats)[get<1>(entry)])
+		);
+
+		addEntry(icon, text, i);
+	}
+
 	for_irange(i, 0, displayAttributes.size())
 	{
-		string str = boost::str(boost::format("%s: %s") % displayAttributes[i].second.c_str() % boost::lexical_cast<string>((*stats)[displayAttributes[i].first]));
-		Label* label = createTextLabel(str, 32*scale);
-		label->setPosition(0.0f, -64.0f * i * scale);
-		label->setAlignment(TextHAlignment::RIGHT);
-		addChild(label);
+		auto entry = displayAttributes.at(i);
+		string icon = AttributeSystem::upgradeAttributes.at(entry.first).sprite;
+		string text = boost::str(boost::format("%s: %s") %
+			entry.second.c_str() %
+			boost::lexical_cast<string>((*stats)[entry.first])
+		);
 
-		Sprite* icon = Sprite::create(AttributeSystem::upgradeAttributes.at(displayAttributes[i].first).sprite);
-		icon->setScale(0.25f * scale);
-		icon->setPosition(-192.0f * scale, -64.0f * i * scale);
-		addChild(icon);
+		addEntry(icon, text, i + displayIncidentAttributes.size());
 	}
 
 	return true;
+}
+
+void PlayerInfo::addEntry(string icon, string text, int position)
+{
+	float scale = App::getScale();
+
+	Label* label = createTextLabel(text, 32 * scale);
+	label->setPosition(0.0f, -64.0f * position * scale);
+	label->setAlignment(TextHAlignment::RIGHT);
+	addChild(label);
+
+	Sprite* _icon = Sprite::create(icon);
+	_icon->setScale(0.25f * scale);
+	_icon->setPosition(-192.0f * scale, -64.0f * position * scale);
+	addChild(_icon);
 }

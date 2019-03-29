@@ -98,6 +98,9 @@ public:
 	int chambersCompletedCount();
 	unsigned int totalChamberTime();
 
+	int getMapFragmentCount(ChamberID chamber);
+	void registerMapFragment(ChamberID chamber, int mapID);
+
 	void _registerUpgrade(unsigned int at, unsigned int id);
 	void registerUpgrade(Attribute at, unsigned int id);
 	bool isUpgradeAcquired(Attribute at, unsigned int id);
