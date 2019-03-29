@@ -12,6 +12,20 @@
 class GObject;
 class Spell;
 
+template<typename T>
+struct has_cost
+{
+private:
+	template<typename U>
+	static auto test(int) -> decltype(U::cost, true_type());
+
+	template<typename>
+	static false_type test(...);
+public:
+	static constexpr bool value = is_same<decltype(test<T>(0)), true_type>::value;
+	static constexpr bool not_value = !value;
+};
+
 class SpellDesc
 {
 public:
@@ -30,7 +44,13 @@ class SpellDescImpl : public SpellDesc
 public:
 	virtual inline string getName() const { return T::name; }
 	virtual inline string getDescription() const { return T::description; }
-	virtual inline float getCost() const { return T::cost; }
+
+	virtual inline float getCost() const {
+		if constexpr(has_cost<T>::value)
+			return T::cost;
+		else
+			return 0.0f;
+	}
 
 	virtual inline shared_ptr<Spell> generate(GObject* caster)
 	{

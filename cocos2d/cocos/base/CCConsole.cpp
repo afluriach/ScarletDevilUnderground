@@ -77,13 +77,11 @@ extern const char* cocos2dVersion(void);
 //
 // trim from start
 static std::string &ltrim(std::string &s) {
-    s.erase(s.begin(), std::find_if(s.begin(), s.end(), std::not1(std::ptr_fun<int, int>(std::isspace))));
     return s;
 }
 
 // trim from end
 static std::string &rtrim(std::string &s) {
-    s.erase(std::find_if(s.rbegin(), s.rend(), std::not1(std::ptr_fun<int, int>(std::isspace))).base(), s.end());
     return s;
 }
 
@@ -257,7 +255,7 @@ static void _log(const char *format, va_list args)
     fflush(stdout);
 #endif
 
-    Director::getInstance()->getConsole()->log(buf);
+//    Director::getInstance()->getConsole()->log(buf);
 
 }
 

@@ -18,7 +18,6 @@ class IllusionDial : public Spell
 public:
 	static const string name;
 	static const string description;
-	static const float cost;
 
 	static const float radius;
 	static const float arc_start;

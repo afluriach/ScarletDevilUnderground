@@ -16,7 +16,6 @@ class DarknessSignDemarcation : public Spell
 public:
 	static const string name;
 	static const string description;
-	static const float cost;
 
 	static const SpaceFloat betweenBurstDelay;
 	static const SpaceFloat burstInterval;
@@ -44,7 +43,6 @@ class DarknessSignDemarcation2 : public Spell
 public:
 	static const string name;
 	static const string description;
-	static const float cost;
 
 	static const SpaceFloat betweenBurstDelay;
 	static const SpaceFloat burstInterval;
@@ -72,7 +70,6 @@ class NightSignPinwheel : public Spell
 public:
 	static const string name;
 	static const string description;
-	static const float cost;
 
 	static const int legCount;
 	static const int bulletsPerLegCount;

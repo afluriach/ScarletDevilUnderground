@@ -18,7 +18,6 @@
 
 const string DarknessSignDemarcation::name = "DarknessSignDemarcation";
 const string DarknessSignDemarcation::description = "";
-const float DarknessSignDemarcation::cost = 0.0f;
 
 const SpaceFloat DarknessSignDemarcation::betweenBurstDelay = 1.5;
 const SpaceFloat DarknessSignDemarcation::burstInterval = 0.3;
@@ -67,7 +66,6 @@ void DarknessSignDemarcation::generate()
 
 const string DarknessSignDemarcation2::name = "DarknessSignDemarcation2";
 const string DarknessSignDemarcation2::description = "";
-const float DarknessSignDemarcation2::cost = 0.0f;
 
 const SpaceFloat DarknessSignDemarcation2::betweenBurstDelay = 5.0;
 const SpaceFloat DarknessSignDemarcation2::burstInterval = 2.0 / 3.0;
@@ -117,7 +115,6 @@ void DarknessSignDemarcation2::generate()
 
 const string NightSignPinwheel::name = "NightSignPinwheel";
 const string NightSignPinwheel::description = "";
-const float NightSignPinwheel::cost = 0.0f;
 
 const int NightSignPinwheel::legCount = 12;
 const int NightSignPinwheel::bulletsPerLegCount = 4;

@@ -33,7 +33,7 @@ unique_ptr<T> loadData(string path)
 	else
 	{
 		try {
-			ifstream ifs(path);
+			std::ifstream ifs(path);
 
 			if (!ifs) {
 				log("Failed to open input stream for %s.", cpath);
@@ -66,7 +66,7 @@ bool saveData(const T* data, string path, bool overwrite)
 	else
 	{
 		try {
-			ofstream ofs(path);
+			std::ofstream ofs(path);
 
 			if (!ofs) {
 				log("Failed to open output stream for %s.", cpath);

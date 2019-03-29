@@ -16,7 +16,6 @@
 
 const string IllusionDial::name = "IllusionDial";
 const string IllusionDial::description = "";
-const float IllusionDial::cost = 0.0f;
 
 const int IllusionDial::count = 16;
 
