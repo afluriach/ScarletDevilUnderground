@@ -87,7 +87,7 @@ void PlayScene::update(float dt)
 {
 	GScene::update(dt);
 
-	hud->update();
+	if(!isPaused) hud->update();
 }
 
 void PlayScene::applyCameraControls()
@@ -138,6 +138,7 @@ void PlayScene::enterPause()
 	App::pauseSounds();
 	setPaused(true);
 	isShowingMenu = true;
+	hud->showHidden();
 
 	waitForSpaceThread();
 
@@ -153,6 +154,7 @@ void PlayScene::exitPause()
 	App::resumeSounds();
 	setPaused(false);
 	isShowingMenu = false;
+	hud->resetAutohide();
 }
 
 void PlayScene::pauseAnimations()

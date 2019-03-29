@@ -31,7 +31,7 @@ public:
 
 	virtual inline bool canInteract() { return true; }
 	virtual void interact();
-	virtual inline string interactionIcon() { return "sprites/blue_torch.png"; }
+	virtual inline string interactionIcon() { return "sprites/torch.png"; }
 
     virtual void initializeGraphics();
     

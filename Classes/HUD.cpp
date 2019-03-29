@@ -506,6 +506,17 @@ void HUD::update()
 		updatePerformanceStats();
 		performanceStatsTimer = 1.0f;
 	}
+
+	for (auto& entry : autohideTimers) {
+		timerDecrement(entry.second);
+
+		if (entry.second <= 0.0f) {
+			entry.first->setVisible(false);
+		}
+		else if (entry.second < 1.0f) {
+			entry.first->setOpacity(entry.second * 255);
+		}
+	}
 }
 
 bool HUD::init()
@@ -530,27 +541,32 @@ bool HUD::init()
     hpMeter->setPosition(meterEdgeOffset, App::height - meterVerticalStep);
     addChild(hpMeter, 2);
 	hpMeter->setScale(scale);
+	hpMeter->setVisible(false);
 
 	mpMeter = Node::ccCreate<LinearMeter>(mpSettings);
 	mpMeter->setPosition(meterEdgeOffset, App::height - 2.0f*meterVerticalStep);
 	addChild(mpMeter, 2);
 	mpMeter->setScale(scale);
+	mpMeter->setVisible(false);
 
 	staminaMeter = Node::ccCreate<LinearMeter>(staminaSettings);
 	staminaMeter->setPosition(meterEdgeOffset, App::height - 3.0f*meterVerticalStep);
 	addChild(staminaMeter, 2);
 	staminaMeter->setScale(scale);
 	staminaMeter->setMax(100);
+	staminaMeter->setVisible(false);
 
 	keyMeter = Node::ccCreate<Counter>("sprites/key.png", 0);
 	keyMeter->setPosition(App::width * 0.4f, App::height - 64 * scale);
 	addChild(keyMeter, 2);
 	keyMeter->setScale(scale*0.8f);
+	keyMeter->setVisible(false);
 
 	mapFragmentMeter = Node::ccCreate<Counter>("sprites/map.png", 0);
 	mapFragmentMeter->setPosition(App::width * 0.5f, App::height - 64 * scale);
 	addChild(mapFragmentMeter, 2);
 	mapFragmentMeter->setScale(scale * 0.8f);
+	mapFragmentMeter->setVisible(false);
 
 	magicEffects = Node::ccCreate<MagicEffects>();
 	magicEffects->setPosition(App::width - 64 * scale, App::height - 64 * scale);
@@ -572,21 +588,25 @@ bool HUD::init()
 	firePatternIcon->setPosition(App::width - 480*scale, App::height - 128*scale);
 	firePatternIcon->setScale(0.3f*scale);
 	addChild(firePatternIcon);
+	firePatternIcon->setVisible(false);
 
 	spellIcon = Sprite::create();
 	spellIcon->setPosition(App::width - 576 * scale, App::height - 96 * scale);
 	spellIcon->setScale(scale * 0.5f);
 	addChild(spellIcon);
+	spellIcon->setVisible(false);
 
 	powerAttackIcon = Sprite::create();
 	powerAttackIcon->setPosition(App::width - 480 * scale, App::height - 64 * scale);
 	powerAttackIcon->setScale(scale * 0.5f);
 	addChild(powerAttackIcon);
+	powerAttackIcon->setVisible(false);
 
 	bombIcon = Sprite::create("sprites/scarlet_bomb.png");
 	bombIcon->setPosition(App::width - 384 * scale, App::height - 96 * scale);
 	bombIcon->setScale(scale * 0.5f);
 	addChild(bombIcon);
+	bombIcon->setVisible(false);
 
 	enemyInfo = Node::ccCreate<EnemyInfo>();
 	enemyInfo->setPosition(App::width - (EnemyInfo::hWidth+24)*scale, 24*scale);
@@ -602,7 +622,7 @@ bool HUD::init()
 
 void HUD::setObjectiveCounter(string iconRes, int val)
 {
-	objectiveCounter->setVisible(true);
+	resetVisibility(objectiveCounter);
 	objectiveCounter->setVal(val);
 	objectiveCounter->setIcon(iconRes);
 }
@@ -619,6 +639,7 @@ void HUD::initMapCounter(int mapCount)
 
 void HUD::setMapCounter(int val)
 {
+	resetVisibility(mapFragmentMeter);
 	mapFragmentMeter->setVal(val);
 }
 
@@ -677,55 +698,73 @@ void HUD::setInteractionIcon(string val)
 
 void HUD::setFirePatternIcon(string val)
 {
+	resetVisibility(firePatternIcon);
 	firePatternIcon->setVisible(!val.empty() && !isMansionMode);
 	firePatternIcon->setTexture(val);
 }
 
 void HUD::setSpellIcon(string val)
 {
+	resetVisibility(spellIcon);
 	spellIcon->setVisible(!val.empty() && !isMansionMode);
 	spellIcon->setTexture(val);
 }
 
 void HUD::setPowerAttackIcon(string val)
 {
+	resetVisibility(powerAttackIcon);
 	powerAttackIcon->setVisible(!val.empty() && !isMansionMode);
 	powerAttackIcon->setTexture(val);
 }
 
 void HUD::setHP(int v)
 {
-	hpMeter->setValue(v);
+	if (v != hpMeter->getValue()) {
+		resetVisibility(hpMeter);
+		hpMeter->setValue(v);
+	}
 }
 
 void HUD::setMaxHP(int v)
 {
+	resetVisibility(hpMeter);
 	hpMeter->setMax(v);
 }
 
 void HUD::setMP(int v)
 {
-	mpMeter->setValue(v);
+	if (v != mpMeter->getValue()) {
+		resetVisibility(mpMeter);
+		mpMeter->setValue(v);
+	}
 }
 
 void HUD::setMaxMP(int v)
 {
+	resetVisibility(mpMeter);
 	mpMeter->setMax(v);
 }
 
 void HUD::setStamina(int v)
 {
-	staminaMeter->setValue(v);
+	if (v != staminaMeter->getValue()) {
+		resetVisibility(staminaMeter);
+		staminaMeter->setValue(v);
+	}
 }
 
 void HUD::setMaxStamina(int v)
 {
+	resetVisibility(staminaMeter);
 	staminaMeter->setMax(v);
 }
 
 void HUD::setKeyCount(int count)
 {
-	keyMeter->setVal(count);
+	if (count != keyMeter->getVal()) {
+		resetVisibility(keyMeter);
+		keyMeter->setVal(count);
+	}
 }
 
 void HUD::runHealthFlicker(float length, float interval)
@@ -756,6 +795,53 @@ void HUD::updateEnemyInfo(float hp)
 void HUD::clearEnemyInfo()
 {
 	enemyInfo->setVisible(false);
+}
+
+void HUD::showHidden()
+{
+	showHiddenNode(hpMeter);
+	showHiddenNode(mpMeter);
+	showHiddenNode(staminaMeter);
+	showHiddenNode(keyMeter);
+	showHiddenNode(mapFragmentMeter);
+	showHiddenNode(firePatternIcon);
+	showHiddenNode(spellIcon);
+	showHiddenNode(powerAttackIcon);
+	showHiddenNode(bombIcon);
+}
+
+void HUD::resetAutohide()
+{
+	resetNodeAutohide(hpMeter);
+	resetNodeAutohide(mpMeter);
+	resetNodeAutohide(staminaMeter);
+	resetNodeAutohide(keyMeter);
+	resetNodeAutohide(mapFragmentMeter);
+	resetNodeAutohide(firePatternIcon);
+	resetNodeAutohide(spellIcon);
+	resetNodeAutohide(powerAttackIcon);
+	resetNodeAutohide(bombIcon);
+}
+
+void HUD::showHiddenNode(Node* node)
+{
+	node->setVisible(true);
+	node->setOpacity(255);
+}
+
+void HUD::resetNodeAutohide(Node* node)
+{
+	auto it = autohideTimers.find(node);
+	node->setVisible(it != autohideTimers.end());
+	if (it != autohideTimers.end())
+		node->setOpacity(it->second < 1.0f ? it->second * 255 : 255);
+}
+
+void HUD::resetVisibility(Node* node)
+{
+	node->setVisible(true);
+	node->setOpacity(255);
+	autohideTimers.insert_or_assign(node, 2.0f);
 }
 
 Counter::Counter(const string& iconRes, int val, int maxVal) :

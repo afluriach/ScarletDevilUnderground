@@ -161,11 +161,16 @@ public:
 	{
 		if (!getSceneAs<PlayScene>()) return;
 
-		addSceneAction(make_hud_action(
-			m,
-			getSceneAs<PlayScene>(),
-			args...
-		));
+		if (isMultithread()) {
+			addSceneAction(make_hud_action(
+				m,
+				getSceneAs<PlayScene>(),
+				args...
+			));
+		}
+		else {
+			(getSceneAs<PlayScene>()->hud->*m)(args...);
+		}
 	}
 
 	void addObjectAction(zero_arity_function f);

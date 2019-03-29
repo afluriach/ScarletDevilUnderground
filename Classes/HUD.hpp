@@ -108,6 +108,8 @@ public:
 
 	void setValue(float newValue);
 	void setMax(float maxValue);
+
+	inline float getValue() const { return crntValue; }
 protected:
 	void redraw();
 
@@ -157,6 +159,8 @@ public:
     void setVal(int _val);
 	void setMaxVal(int _maxVal);
     void setIcon(const string& iconRes);
+
+	inline int getVal() const { return val; }
 private:
 	string makeLabel();
 	//should be called whenever the counter label text is changed
@@ -267,7 +271,20 @@ public:
 	void updateEnemyInfo(float hp);
 	void clearEnemyInfo();
 
+	void showHidden();
+	void resetAutohide();
+
 protected:
+	//sets node to fully visible state
+	void showHiddenNode(Node* node);
+
+	//return the node to normal visibility state
+	void resetNodeAutohide(Node* node);
+	//should be called whenever an autohide node's value has been changed.
+	void resetVisibility(Node* node);
+
+	unordered_map<Node*, float> autohideTimers;
+
 	GSpace* space;
 	bool isMansionMode = false;
 };
