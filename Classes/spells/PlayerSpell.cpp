@@ -44,6 +44,7 @@ void PlayerSpell::end()
 
 const string PlayerBatMode::name = "PlayerBatMode";
 const string PlayerBatMode::description = "";
+const string PlayerBatMode::icon = "sprites/ui/bat_mode.png";
 const float PlayerBatMode::cost = 5.0f;
 
 PlayerBatMode::PlayerBatMode(GObject* caster) :
@@ -82,6 +83,7 @@ void PlayerBatMode::end()
 
 const string LavaeteinnSpell::name = "LavaeteinnSpell";
 const string LavaeteinnSpell::description = "";
+const string LavaeteinnSpell::icon = "sprites/ui/lavaeteinn.png";
 const float LavaeteinnSpell::cost = 25.0f;
 
 const SpaceFloat LavaeteinnSpell::length = 0.75;
@@ -145,6 +147,7 @@ void LavaeteinnSpell::end()
 
 const string PlayerCounterClock::name = "PlayerCounterClock";
 const string PlayerCounterClock::description = "";
+const string PlayerCounterClock::icon = "sprites/ui/counterclock.png";
 const float PlayerCounterClock::cost = 10.0f;
 
 const SpaceFloat PlayerCounterClock::offset = 0.75;
@@ -215,6 +218,7 @@ void PlayerCounterClock::end()
 
 const string PlayerScarletRose::name = "PlayerScarletRose";
 const string PlayerScarletRose::description = "";
+const string PlayerScarletRose::icon = "sprites/ui/scarlet_rose.png";
 const float PlayerScarletRose::cost = 20.0f;
 
 const SpaceFloat PlayerScarletRose::fireInterval = 0.2;
@@ -260,6 +264,7 @@ void PlayerScarletRose::end()
 
 const string PlayerWhirlShot::name = "PlayerWhirlShot";
 const string PlayerWhirlShot::description = "";
+const string PlayerWhirlShot::icon = "sprites/ui/whirl_shot.png";
 const float PlayerWhirlShot::cost = 10.0f;
 
 const int PlayerWhirlShot::bulletCount = 8;
@@ -309,6 +314,7 @@ void PlayerDarkMist::end()
 
 const string PlayerIceShield::name = "PlayerIceShield";
 const string PlayerIceShield::description = "";
+const string PlayerIceShield::icon = "sprites/ui/ice_shield.png";
 const float PlayerIceShield::cost = 12.5f;
 
 const SpaceFloat PlayerIceShield::speed = 9.0;

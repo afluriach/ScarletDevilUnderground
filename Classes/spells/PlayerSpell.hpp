@@ -33,6 +33,7 @@ class PlayerBatMode : public PlayerSpell{
 public:
 	static const string name;
 	static const string description;
+	static const string icon;
 	static const float cost;
 
 	PlayerBatMode(GObject* caster);
@@ -50,6 +51,7 @@ class LavaeteinnSpell : public PlayerSpell
 public:
 	static const string name;
 	static const string description;
+	static const string icon;
 	static const float cost;
 
 	static const SpaceFloat length;
@@ -77,6 +79,7 @@ class PlayerCounterClock : public PlayerSpell {
 public:
 	static const string name;
 	static const string description;
+	static const string icon;
 	static const float cost;
 
 	static const SpaceFloat offset;
@@ -100,6 +103,7 @@ class PlayerScarletRose : public PlayerSpell {
 public:
 	static const string name;
 	static const string description;
+	static const string icon;
 	static const float cost;
 
 	static const SpaceFloat fireInterval;
@@ -123,6 +127,7 @@ class PlayerWhirlShot : public PlayerSpell {
 public:
 	static const string name;
 	static const string description;
+	static const string icon;
 	static const float cost;
 
 	static const int bulletCount;
@@ -153,6 +158,7 @@ class PlayerIceShield : public PlayerSpell {
 public:
 	static const string name;
 	static const string description;
+	static const string icon;
 	static const float cost;
 
 	static constexpr size_t bulletCount = 8;

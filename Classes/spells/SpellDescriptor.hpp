@@ -23,7 +23,19 @@ private:
 	static false_type test(...);
 public:
 	static constexpr bool value = is_same<decltype(test<T>(0)), true_type>::value;
-	static constexpr bool not_value = !value;
+};
+
+template<typename T>
+struct has_icon
+{
+private:
+	template<typename U>
+	static auto test(int) -> decltype(U::icon, true_type());
+
+	template<typename>
+	static false_type test(...);
+public:
+	static constexpr bool value = is_same<decltype(test<T>(0)), true_type>::value;
 };
 
 class SpellDesc
@@ -31,6 +43,7 @@ class SpellDesc
 public:
 	virtual string getName() const = 0;
 	virtual string getDescription() const = 0;
+	virtual string getIcon() const = 0;
 	virtual float getCost() const = 0;
 
 	virtual shared_ptr<Spell> generate(GObject* caster) = 0;
@@ -44,6 +57,13 @@ class SpellDescImpl : public SpellDesc
 public:
 	virtual inline string getName() const { return T::name; }
 	virtual inline string getDescription() const { return T::description; }
+
+	virtual inline string getIcon() const {
+		if constexpr(has_icon<T>::value)
+			return T::icon;
+		else
+			return "";
+	}
 
 	virtual inline float getCost() const {
 		if constexpr(has_cost<T>::value)

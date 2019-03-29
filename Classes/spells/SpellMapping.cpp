@@ -49,7 +49,6 @@ const unordered_map<string, shared_ptr<SpellDesc>> Spell::spellDescriptors = {
 const vector<string> Spell::playerSpells = {
 	"PlayerBatMode",
 	"PlayerCounterClock",
-	"PlayerDarkMist",
 	"PlayerIceShield",
 	"PlayerScarletRose",
 };

@@ -217,6 +217,7 @@ public:
 	Counter* objectiveCounter;    
     Sprite* interactionIcon;
 	Sprite* firePatternIcon;
+	Sprite* spellIcon;
 
 	EnemyInfo* enemyInfo;
 
@@ -249,6 +250,7 @@ public:
 	void setMansionMode(bool val);    
 	void setInteractionIcon(string val);
 	void setFirePatternIcon(string val);
+	void setSpellIcon(string val);
 
 	void setEnemyInfo(string name, float hp, float maxHP);
 	void updateEnemyInfo(float hp);

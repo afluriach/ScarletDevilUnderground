@@ -584,6 +584,11 @@ bool HUD::init()
 	firePatternIcon->setScale(0.3f*scale);
 	addChild(firePatternIcon);
 
+	spellIcon = Sprite::create();
+	spellIcon->setPosition(App::width - 384 * scale, App::height - 144 * scale);
+	spellIcon->setScale(scale * 0.5f);
+	addChild(spellIcon);
+
 	enemyInfo = Node::ccCreate<EnemyInfo>();
 	enemyInfo->setPosition(App::width - (EnemyInfo::hWidth+24)*scale, 24*scale);
 	enemyInfo->setScale(scale);
@@ -665,6 +670,12 @@ void HUD::setFirePatternIcon(string val)
 {
 	firePatternIcon->setVisible(!val.empty() && !isMansionMode);
 	firePatternIcon->setTexture(val);
+}
+
+void HUD::setSpellIcon(string val)
+{
+	spellIcon->setVisible(!val.empty() && !isMansionMode);
+	spellIcon->setTexture(val);
 }
 
 void HUD::setHP(int v)

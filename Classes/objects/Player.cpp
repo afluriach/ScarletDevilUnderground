@@ -82,6 +82,11 @@ void Player::equipSpells()
 	}
 
 	spellIdx = spells.size() > 0 ? 0 : -1;
+
+	space->addHudAction(
+		&HUD::setSpellIcon,
+		spellIdx == 0 ? spells.at(0)->getIcon() : ""
+	);
 }
 
 SpaceFloat Player::getSpellLength()
@@ -183,11 +188,13 @@ void Player::updateSpellControls(const ControlInfo& cs)
 			--spellIdx;
 			if (spellIdx < 0) spellIdx += spells.size();
 			log("Spell %s equipped.", spells.at(spellIdx).get()->getName().c_str());
+			space->addHudAction(&HUD::setSpellIcon, spells.at(spellIdx)->getIcon());
 		}
 		else if (cs.isControlActionPressed(ControlAction::spellNext)) {
 			++spellIdx;
 			if (spellIdx >= to_int(spells.size())) spellIdx -= spells.size();
 			log("Spell %s equipped.", spells.at(spellIdx).get()->getName().c_str());
+			space->addHudAction(&HUD::setSpellIcon, spells.at(spellIdx)->getIcon());
 		}
 		
 		SpellDesc* equippedSpell = nullptr;

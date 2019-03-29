@@ -297,7 +297,7 @@ void Agent::onEndTouchAgent(Agent* other)
 
 bool Agent::hit(AttributeMap attributeEffect, shared_ptr<MagicEffect> effect)
 {
-	if (attributeSystem.isNonzero(Attribute::hitProtection))
+	if (attributeSystem.isNonzero(Attribute::hitProtection) || attributeEffect.empty())
 		return false;
 
 	if (effect)
@@ -336,7 +336,10 @@ void Agent::applyAttributeEffects(AttributeMap attributeEffect)
 
 AttributeMap Agent::touchEffect() const
 {
-	return hp_damage_map(attributeSystem[Attribute::touchDamage]);
+	if (attributeSystem.isNonzero(Attribute::touchDamage))
+		return hp_damage_map(attributeSystem[Attribute::touchDamage]);
+	else
+		return {};
 }
 
 void Agent::updateAgentOverlay()

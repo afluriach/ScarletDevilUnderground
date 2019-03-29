@@ -23,6 +23,7 @@ Bomb::Bomb(GSpace* space, ObjectIDType id, const SpaceVect& pos, const SpaceVect
 	if (!vel.isZero()) {
 		setInitialVelocity(vel);
 	}
+	setInitialAngle(float_pi * 0.5);
 }
 
 void Bomb::init()
