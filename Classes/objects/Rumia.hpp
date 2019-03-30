@@ -11,7 +11,7 @@
 
 #include "Enemy.hpp"
 
-class Rumia : public Enemy, public BaseAttributes<Rumia>
+class Rumia : public Enemy, public BaseAttributes<Rumia>, public RadialLightObject
 {
 public:
 	static const AttributeMap baseAttributes;
@@ -26,6 +26,7 @@ public:
 	virtual inline SpaceFloat getRadarRadius() const { return 6.0; }
 	virtual inline SpaceFloat getDefaultFovAngle() const { return 0.0; }
     
+	virtual CircleLightArea getLightSource() const;
     virtual inline string imageSpritePath() const {return "sprites/rumia.png";}
 	virtual inline bool isAgentAnimation() const { return true; }
 	virtual inline int pixelWidth() const { return 128; }

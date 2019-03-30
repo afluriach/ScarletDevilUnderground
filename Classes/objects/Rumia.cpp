@@ -30,6 +30,16 @@ Rumia::Rumia(GSpace* space, ObjectIDType id, const ValueMap& args) :
 //	firePattern = make_shared<RumiaBurstPattern>(this);
 }
 
+CircleLightArea Rumia::getLightSource() const
+{
+	return CircleLightArea{
+		getPos(),
+		4.0,
+		Color4F(0.3f,0.3f,0.3f,-1.0f),
+		0.5
+	};
+}
+
 void Rumia::initStateMachine(ai::StateMachine& fsm)
 {
 	fsm.addDetectFunction(

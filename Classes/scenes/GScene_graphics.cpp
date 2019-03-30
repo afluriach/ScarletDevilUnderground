@@ -30,19 +30,27 @@ LightID GScene::getLightID()
 
 void GScene::addLightSource(LightID id, CircleLightArea light)
 {
+	bool mask = light.color.a < 0.0f;
+	if (mask)
+		light.color.a *= -1.0f;
+
 	RadialGradient* g = Node::ccCreate<RadialGradient>(
 		light.color,
-		Color4F::BLACK,
+		Color4F(0.0f,0.0f,0.0f,0.0f),
 		light.radius * App::pixelsPerTile,
 		Vec2::ZERO,
 		light.flood
 	);
 	CCSize bounds = CCSize(light.radius,light.radius) * 2.0f * App::pixelsPerTile;
 
+	if (mask)
+		g->setBlendFunc(BlendFunc{ GL_DST_COLOR,GL_ONE_MINUS_SRC_ALPHA });
+	else
+		g->setBlendFunc(BlendFunc{ GL_ONE,GL_ONE });
+
 	g->setPosition(toCocos(light.origin) * App::pixelsPerTile);
-	g->setBlendFunc(BlendFunc{ GL_ONE,GL_ONE });
 	g->setContentSize(bounds);
-	getLayer(sceneLayers::lightmap)->addChild(g);
+	getLayer(sceneLayers::lightmap)->addChild(g, mask ? 1 : 0);
 
 	lightmapNodes.insert_or_assign(id, g);
 }
