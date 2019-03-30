@@ -244,6 +244,7 @@ xcopy "$(ProjectDir)..\Resources" "$(OutDir)" /D /E /I /F /Y</Command>
     <ClCompile Include="..\Classes\spells\EnemyFirePattern.cpp" />
     <ClCompile Include="..\Classes\spells\EnemySpell.cpp" />
     <ClCompile Include="..\Classes\spells\FirePattern.cpp" />
+    <ClCompile Include="..\Classes\spells\FirePatternMapping.cpp" />
     <ClCompile Include="..\Classes\spells\MagicEffect.cpp" />
     <ClCompile Include="..\Classes\spells\MarisaSpell.cpp" />
     <ClCompile Include="..\Classes\spells\MiscMagicEffects.cpp" />

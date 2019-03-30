@@ -11,9 +11,13 @@
 
 #include "Agent.hpp"
 
+enum class PlayerFirePatternID : int;
+
 class FirePattern
 {
 public:
+	static const unordered_map<PlayerFirePatternID, FirePatternGeneratorType> playerFirePatterns;
+
 	inline FirePattern(Agent *const agent) : agent(agent) {}
 	virtual inline ~FirePattern() {}
 

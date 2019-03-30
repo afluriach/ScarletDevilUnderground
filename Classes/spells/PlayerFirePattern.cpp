@@ -48,7 +48,7 @@ const array<Color3B, StarbowBreak::anglesCount> StarbowBreak::colors = {
 	hsv3B(315.0f,0.5f,1.0f),
 };
 
-StarbowBreak::StarbowBreak(Agent *const agent) :
+StarbowBreak::StarbowBreak(Agent *const agent, int level) :
 	FirePattern(agent)
 {}
 
@@ -128,7 +128,7 @@ const SpaceFloat Catadioptric::secondarySpeedVariation = 2.0;
 const SpaceFloat Catadioptric::tertiarySpeedVariation = 1.0;
 const SpaceFloat Catadioptric::angleSpread = float_pi / 8.0;
 
-Catadioptric::Catadioptric(Agent *const agent) :
+Catadioptric::Catadioptric(Agent *const agent, int level) :
 	FirePattern(agent)
 {}
 

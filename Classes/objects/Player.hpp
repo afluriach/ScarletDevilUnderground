@@ -44,7 +44,7 @@ public:
     
 	virtual void onPitfall();
 
-	virtual void setFirePattern() = 0;
+	void equipFirePatterns();
 	void equipSpells();
 	SpaceFloat getSpellLength();
 	void equipPowerAttacks();
@@ -54,7 +54,6 @@ public:
 	inline virtual GType getRadarType() const { return GType::playerGrazeRadar; }
     inline virtual SpaceFloat getDefaultFovAngle() const { return 0.0;}
 
-	bool isProtected() const;
 	void setProtection();
 	void setTimedProtection(SpaceFloat seconds);
 	void resetProtection();
@@ -132,8 +131,10 @@ protected:
 	float interactCooldown = 0.0f;
 	float bombCooldown = 0.0f;
 
+	vector<shared_ptr<FirePattern>> firePatterns;
 	vector<shared_ptr<SpellDesc>> powerAttacks;
 	vector<shared_ptr<SpellDesc>> spells;
+	int firePatternIdx = -1;
 	int powerAttackIdx = -1;
 	int spellIdx = -1;
 
@@ -160,7 +161,6 @@ public:
 	virtual inline int pixelWidth() const { return 128; }
 
 	virtual CircleLightArea getLightSource() const;
-	virtual void setFirePattern();
 };
 
 class RumiaPC : virtual public Player, public BaseAttributes<RumiaPC>
@@ -175,7 +175,6 @@ public:
 	virtual inline int pixelWidth() const { return 128; }
 
 	virtual CircleLightArea getLightSource() const;
-	virtual void setFirePattern();
 };
 
 class CirnoPC : virtual public Player, public BaseAttributes<CirnoPC>
@@ -187,7 +186,6 @@ public:
 	
 	virtual inline string imageSpritePath() const { return "sprites/cirno.png"; }
 	virtual CircleLightArea getLightSource() const;
-	virtual void setFirePattern();
 };
 
 #endif /* Player_hpp */

@@ -363,6 +363,9 @@
     <ClCompile Include="..\Classes\spells\SpellUtil.cpp">
       <Filter>src\spells</Filter>
     </ClCompile>
+    <ClCompile Include="..\Classes\spells\FirePatternMapping.cpp">
+      <Filter>src\spells</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="main.h">

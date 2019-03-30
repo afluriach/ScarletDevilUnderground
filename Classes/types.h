@@ -11,9 +11,11 @@
 
 #include "vect.hpp"
 
+class Agent;
 namespace ai { class StateMachine; }
 class Bomb;
 class Bullet;
+class FirePattern;
 class GObject;
 class GSpace;
 class Player;
@@ -35,6 +37,7 @@ typedef function<void(void)> zero_arity_function;
 typedef function<GObject*(GSpace*, ObjectIDType)> ObjectGeneratorType;
 typedef function<FiniteTimeAction*()> ActionGeneratorType;
 typedef function<shared_ptr<Spell>(GObject*)> SpellGeneratorType;
+typedef function<shared_ptr<FirePattern>(Agent*, int)> FirePatternGeneratorType;
 typedef function<ObjectGeneratorType(const SpaceVect&, const SpaceVect&)> BombGeneratorType;
 //
 

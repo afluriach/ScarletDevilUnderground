@@ -69,6 +69,28 @@ void Player::onPitfall()
 	startRespawn();
 }
 
+void Player::equipFirePatterns()
+{
+	firePatterns.clear();
+
+	for (auto entry : FirePattern::playerFirePatterns)
+	{
+		shared_ptr<FirePattern> pattern = entry.second(this, 0);
+
+		if (pattern) {
+			firePatterns.push_back(pattern);
+		}
+	}
+
+	firePatternIdx = firePatterns.size() > 0 ? 0 : -1;
+	firePattern = firePatternIdx == 0 ? firePatterns.at(0) : nullptr;
+
+	space->addHudAction(
+		&HUD::setFirePatternIcon,
+		firePatternIdx == 0 ? getFirePattern()->iconPath() : ""
+	);
+}
+
 void Player::equipSpells()
 {
 	spells.clear();
@@ -136,12 +158,7 @@ void Player::init()
 		space->addHudAction(&HUD::setMaxStamina, to_int(attributeSystem[Attribute::maxStamina]));
 		space->addHudAction(&HUD::setStamina, to_int(attributeSystem[Attribute::stamina]));
 
-		setFirePattern();
-
-		if (getFirePattern()) {
-			space->addHudAction(&HUD::setFirePatternIcon, getFirePattern()->iconPath());
-		}
-
+		equipFirePatterns();
 		equipSpells();
 		equipPowerAttacks();
 	}
@@ -241,6 +258,14 @@ void Player::checkFireControls(const ControlInfo& cs)
 		if (getFirePattern()->fireIfPossible()) {
 			App::playSound("sfx/shot.wav", 1.0f);
 		}
+	}
+	else if (cs.isControlActionPressed(ControlAction::firePatternNext) && getFirePattern()) {
+		++firePatternIdx;
+		if (firePatternIdx >= firePatterns.size())
+			firePatternIdx = 0;
+		firePattern = firePatterns.at(firePatternIdx);
+
+		space->addHudAction(&HUD::setFirePatternIcon, firePattern->iconPath());
 	}
 	else if (cs.isControlActionPressed(ControlAction::powerAttackNext) && powerAttackIdx != -1) {
 		++powerAttackIdx;
@@ -551,7 +576,7 @@ void Player::applyUpgrade(Upgrade* up)
 		space->addHudAction(&HUD::setMaxMP, to_int(attributeSystem[Attribute::maxMP]));
 	break;
 	case Attribute::bulletCount:
-		setFirePattern();
+		equipFirePatterns();
 	break;
 	}
 
@@ -678,18 +703,6 @@ CircleLightArea FlandrePC::getLightSource() const
 	};
 }
 
-void FlandrePC::setFirePattern()
-{
-	int level = getAttribute(Attribute::bulletCount);
-
-	if (level == 1)
-		firePattern = make_shared<FlandreFastOrbPattern>(this);
-	else if (level == 3)
-		firePattern = make_shared<FlandreWideAnglePattern1>(this);
-	else if (level == 5)
-		firePattern = make_shared<FlandreWideAnglePattern2>(this);	
-}
-
 const AttributeMap RumiaPC::baseAttributes = {
 	{Attribute::maxHP, 75.0f },
 	{Attribute::maxMP, 125.0f },
@@ -718,11 +731,6 @@ CircleLightArea RumiaPC::getLightSource() const
 	};
 }
 
-void RumiaPC::setFirePattern()
-{
-	firePattern = make_shared<RumiaParallelPattern>(this);
-}
-
 const AttributeMap CirnoPC::baseAttributes = {
 	{Attribute::shieldLevel, 2.0f },
 	{Attribute::maxHP, 125.0f },
@@ -749,9 +757,4 @@ CircleLightArea CirnoPC::getLightSource() const
 		5.0,
 		Color4F(.4f,.45f,.7f,1.0f),
 	};
-}
-
-void CirnoPC::setFirePattern()
-{
-	firePattern = make_shared<CirnoSmallIceBulletPattern>(this);
 }

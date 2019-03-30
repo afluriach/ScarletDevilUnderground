@@ -14,6 +14,13 @@
 
 typedef BulletImplPattern<PlayerBulletImpl> PlayerBulletImplPattern;
 
+enum class PlayerFirePatternID
+{
+	starbowBreak,
+	catadioptric,
+	scarletDagger,
+};
+
 class StarbowBreak : public FirePattern
 {
 public:
@@ -35,16 +42,16 @@ public:
 
 	static const array<Color3B, anglesCount> colors;
 
-	StarbowBreak(Agent *const agent);
+	StarbowBreak(Agent *const agent, int level);
 
 	bullet_properties generateProps(int angle);
 	bool spawnBullet(int angle, bool left);
 
 	virtual bool fire();
 	inline virtual bool fireIfPossible() { return fire(); }
-	virtual bool spawn(SpaceFloat angle) { return false; }
-	virtual bool spawn(SpaceVect posOffset, SpaceFloat angle) { return false; }
-	virtual string iconPath() const { return ""; }
+	inline virtual bool spawn(SpaceFloat angle) { return false; }
+	inline virtual bool spawn(SpaceVect posOffset, SpaceFloat angle) { return false; }
+	inline virtual string iconPath() const { return "sprites/ui/starbow_break.png"; }
 
 	virtual void update();
 	//unused
@@ -63,15 +70,15 @@ public:
 	static const SpaceFloat tertiarySpeedVariation;
 	static const SpaceFloat angleSpread;
 
-	Catadioptric(Agent *const agent);
+	Catadioptric(Agent *const agent, int level);
 
 	bool spawnTail(SpaceFloat angleOffset);
 
 	virtual bool fire();
-	virtual bool spawn(SpaceFloat angle) { return false; }
-	virtual bool spawn(SpaceVect posOffset, SpaceFloat angle) { return false; }
+	inline virtual bool spawn(SpaceFloat angle) { return false; }
+	inline virtual bool spawn(SpaceVect posOffset, SpaceFloat angle) { return false; }
 	inline virtual float getCooldownTime() { return 1.5f; }
-	virtual string iconPath() const { return ""; }
+	inline virtual string iconPath() const { return "sprites/ui/catadioptric.png"; }
 };
 
 class ScarletDaggerPattern : public MultiBulletSpreadPattern, public FirePatternImpl<ScarletDagger>
@@ -89,7 +96,7 @@ public:
 
 	ScarletDaggerPattern(Agent *const agent, int level);
 
-	inline virtual string iconPath() const { return ""; }
+	inline virtual string iconPath() const { return "sprites/scarlet_dagger.png"; }
 	inline virtual float getCooldownTime() { return props[level].fireInterval; }
 protected:
 	int level;
