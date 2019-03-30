@@ -272,6 +272,9 @@ SpriteLightObject::SpriteLightObject() :
 void SpriteLightObject::init()
 {
 	lightID = space->addLightSource(getLightSource());
+
+	space->setLightSourcePosition(lightID, prevPos);
+	space->setLightSourceAngle(lightID, prevAngle);
 }
 
 

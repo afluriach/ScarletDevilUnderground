@@ -207,6 +207,7 @@ Color4F hsva4F(float h, float s, float v, float a = 1.0f);
 Color4F toColor4F(Color3B);
 
 Color4F operator*(const Color4F& lhs, float rhs);
+Color4F operator+(const Color4F& lhs, const Color4F& rhs);
 
 FiniteTimeAction* tintTo(Color3B tint, float length);
 FiniteTimeAction* flickerTint(float interval, float length, Color3B tint);

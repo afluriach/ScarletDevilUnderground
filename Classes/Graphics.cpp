@@ -458,6 +458,11 @@ Color4F operator*(const Color4F& lhs, float rhs)
 	return Color4F(lhs.r * rhs, lhs.g * rhs, lhs.b * rhs, lhs.a);
 }
 
+Color4F operator+(const Color4F& lhs, const Color4F& rhs)
+{
+	return Color4F(lhs.r + rhs.r, lhs.g + rhs.g, lhs.b + rhs.b, lhs.a + rhs.a);
+}
+
 FiniteTimeAction* flickerTint(float interval, float length, Color3B tint)
 {
 	int nCycles = length / interval;

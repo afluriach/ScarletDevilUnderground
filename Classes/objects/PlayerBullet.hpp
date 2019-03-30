@@ -67,12 +67,15 @@ class StarbowBreakBullet : public PlayerBulletValueImpl, public RadialLightObjec
 public:
 	StarbowBreakBullet(GSpace* space, ObjectIDType id, const SpaceVect& pos, SpaceFloat angle, object_ref<Agent> agent, bullet_properties props);
 
-	virtual inline CircleLightArea getLightSource() const { return CircleLightArea{
-		getPos(),
-		props.radius * 4.0f,
-		toColor4F(props.spriteColor),
-		0.0
-	};}
+	virtual CircleLightArea getLightSource() const;
+};
+
+class CatadioptricBullet : public PlayerBulletValueImpl, public RadialLightObject
+{
+public:
+	CatadioptricBullet(GSpace* space, ObjectIDType id, const SpaceVect& pos, SpaceFloat angle, object_ref<Agent> agent, bullet_properties props);
+
+	virtual CircleLightArea getLightSource() const;
 };
 
 class ScarletDagger :
@@ -80,6 +83,7 @@ class ScarletDagger :
 	public PlayerBullet,
 	public RectangleBody,
 	public ImageSprite,
+	public SpriteLightObject,
 	public DirectionalLaunch
 {
 public:
@@ -95,6 +99,7 @@ public:
 
 	virtual inline string imageSpritePath() const { return props.sprite; }
 	virtual inline float zoom() const { return 1.0f; }
+	virtual SpriteLightArea getLightSource() const;
 };
 
 class FlandreFastOrb1 : public PlayerBullet, public BulletImpl, public RadialLightObject

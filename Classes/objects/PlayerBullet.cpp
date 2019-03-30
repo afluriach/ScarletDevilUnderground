@@ -149,6 +149,30 @@ StarbowBreakBullet::StarbowBreakBullet(GSpace* space, ObjectIDType id, const Spa
 	PlayerBulletValueImpl(space, id, pos, angle, agent, props)
 {}
 
+CircleLightArea StarbowBreakBullet::getLightSource() const {
+	return CircleLightArea{
+		getPos(),
+		props.radius * 4.0f,
+		toColor4F(props.spriteColor),
+		0.25
+	};
+}
+
+CatadioptricBullet::CatadioptricBullet(GSpace* space, ObjectIDType id, const SpaceVect& pos, SpaceFloat angle, object_ref<Agent> agent, bullet_properties props) :
+	GObject(space, id, "", pos, angle),
+	Bullet(agent),
+	PlayerBulletValueImpl(space, id, pos, angle, agent, props)
+{}
+
+CircleLightArea CatadioptricBullet::getLightSource() const {
+	return CircleLightArea{
+		getPos(),
+		props.radius * 4.0f,
+		Color4F::BLUE*0.5f + Color4F::GREEN*0.5f,
+		0.25
+	};
+}
+
 const bullet_properties ScarletDagger::props = {
 	5.0,
 	4.0,
@@ -165,6 +189,15 @@ ScarletDagger::ScarletDagger(GSpace* space, ObjectIDType id, const SpaceVect& po
 	PlayerBullet(agent),
 	RectangleBody(SpaceVect(0.8, 0.175))
 {}
+
+SpriteLightArea ScarletDagger::getLightSource() const {
+	return SpriteLightArea{
+		getPos(),
+		imageSpritePath(),
+		Color4F::RED,
+		3.0f
+	};
+};
 
 const bullet_properties FlandreFastOrb1::props = {
 	0.1,

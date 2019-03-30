@@ -152,7 +152,7 @@ bool Catadioptric::spawnTail(SpaceFloat angleOffset)
 	double _angle = agent->getAngle() + angleOffset;
 	SpaceVect pos = agent->getPos() + SpaceVect::ray(1.0, _angle);
 
-	fired |= agent->bulletValueImplCheckSpawn<PlayerBulletValueImpl>(
+	fired |= agent->bulletValueImplCheckSpawn<CatadioptricBullet>(
 		pos,
 		_angle,
 		PlayerBulletImpl::catadioptricBullet1
@@ -165,7 +165,7 @@ bool Catadioptric::spawnTail(SpaceFloat angleOffset)
 		SpaceFloat step = variation / (secondaryBulletCount - 1);
 		props.speed += -secondarySpeedVariation + step*i;
 
-		fired |= agent->bulletValueImplCheckSpawn<PlayerBulletValueImpl>(
+		fired |= agent->bulletValueImplCheckSpawn<CatadioptricBullet>(
 			pos,
 			_angle + agent->space->getRandomFloat(-1.0f,1.0f)*angleSpread/4.0,
 			props
