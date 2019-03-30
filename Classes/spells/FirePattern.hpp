@@ -31,6 +31,7 @@ public:
 	virtual bool spawn(SpaceVect posOffset, SpaceFloat angle) = 0;
 	virtual float getCooldownTime() = 0;
 	virtual string iconPath() const = 0;
+	inline virtual float getCost() const { return 0.0f; }
 protected:
 	float cooldownTimeRemaining = 0;
 	Agent * const agent;

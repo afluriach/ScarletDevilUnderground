@@ -255,8 +255,11 @@ void Player::checkFireControls(const ControlInfo& cs)
 	//Fire if arrow key is pressed
 	if (!suppressFiring && !cs.right_v.isZero() && getFirePattern())
 	{
-		if (getFirePattern()->fireIfPossible()) {
+		float fireCost = getFirePattern()->getCost();
+
+		if (attributeSystem[Attribute::stamina] >= fireCost && getFirePattern()->fireIfPossible()) {
 			App::playSound("sfx/shot.wav", 1.0f);
+			attributeSystem.modifyAttribute(Attribute::stamina, -fireCost);
 		}
 	}
 	else if (cs.isControlActionPressed(ControlAction::firePatternNext) && getFirePattern()) {

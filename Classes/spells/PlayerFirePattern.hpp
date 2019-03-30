@@ -27,6 +27,7 @@ public:
 	static constexpr int anglesCount = 5;
 
 	static const float baseDamage;
+	static const float baseCost;
 	static const float baseFireInterval;
 	static const array<float, anglesCount> angleIntervalScales;
 
@@ -79,6 +80,7 @@ public:
 	inline virtual bool spawn(SpaceVect posOffset, SpaceFloat angle) { return false; }
 	inline virtual float getCooldownTime() { return 1.5f; }
 	inline virtual string iconPath() const { return "sprites/ui/catadioptric.png"; }
+	inline virtual float getCost() const { return 7.5f; }
 };
 
 class ScarletDaggerPattern : public MultiBulletSpreadPattern, public FirePatternImpl<ScarletDagger>
@@ -98,6 +100,7 @@ public:
 
 	inline virtual string iconPath() const { return "sprites/scarlet_dagger.png"; }
 	inline virtual float getCooldownTime() { return props[level].fireInterval; }
+	inline virtual float getCost() const { return 4.0f; }
 protected:
 	int level;
 };

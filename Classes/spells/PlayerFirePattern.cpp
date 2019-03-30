@@ -15,6 +15,7 @@
 #include "PlayerFirePattern.hpp"
 
 const float StarbowBreak::baseDamage = 2.0f;
+const float StarbowBreak::baseCost = 0.5f;
 const float StarbowBreak::baseFireInterval = 1.0f / 5.0f;
 const array<float, StarbowBreak::anglesCount> StarbowBreak::angleIntervalScales = {
 	0.6f,
@@ -75,8 +76,21 @@ bool StarbowBreak::spawnBullet(int angle, bool left)
 {
 	double _angle = agent->getAngle() + angleStep * angle * (left ? 1.0 : -1.0);
 	SpaceVect pos = agent->getPos() + SpaceVect::ray(launchDist, _angle);
+	float cost = baseCost * radiusScales[angle];
+	bool fired = false;
 
-	return agent->bulletValueImplCheckSpawn<StarbowBreakBullet>(pos, _angle, generateProps(angle)).isFuture();
+	if (agent->getAttribute(Attribute::stamina) >= cost) {
+		fired = agent->bulletValueImplCheckSpawn<StarbowBreakBullet>(
+			pos,
+			_angle, 
+			generateProps(angle)
+		).isFuture();
+
+		if (fired)
+			agent->getAttributeSystem()->modifyAttribute(Attribute::stamina, -cost);
+	}
+
+	return fired;
 }
 
 bool StarbowBreak::fire()
