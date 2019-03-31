@@ -698,6 +698,9 @@
     <ClInclude Include="..\Classes\spells\SpellUtil.hpp">
       <Filter>src\spells</Filter>
     </ClInclude>
+    <ClInclude Include="..\Classes\spells\spell_types.hpp">
+      <Filter>src\spells</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="game.rc">

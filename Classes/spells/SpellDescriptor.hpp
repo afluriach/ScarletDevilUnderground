@@ -12,31 +12,12 @@
 class GObject;
 class Spell;
 
-template<typename T>
-struct has_cost
-{
-private:
-	template<typename U>
-	static auto test(int) -> decltype(U::cost, true_type());
+#include "macros.h"
+#include "spell_types.hpp"
 
-	template<typename>
-	static false_type test(...);
-public:
-	static constexpr bool value = is_same<decltype(test<T>(0)), true_type>::value;
-};
-
-template<typename T>
-struct has_icon
-{
-private:
-	template<typename U>
-	static auto test(int) -> decltype(U::icon, true_type());
-
-	template<typename>
-	static false_type test(...);
-public:
-	static constexpr bool value = is_same<decltype(test<T>(0)), true_type>::value;
-};
+make_static_member_detector(cost)
+make_static_member_detector(costType)
+make_static_member_detector(icon)
 
 class SpellDesc
 {
@@ -44,7 +25,9 @@ public:
 	virtual string getName() const = 0;
 	virtual string getDescription() const = 0;
 	virtual string getIcon() const = 0;
+
 	virtual float getCost() const = 0;
+	virtual SpellCostType getCostType() const = 0;
 
 	virtual shared_ptr<Spell> generate(GObject* caster) = 0;
 	virtual SpellGeneratorType getGenerator() = 0;
@@ -70,6 +53,13 @@ public:
 			return T::cost;
 		else
 			return 0.0f;
+	}
+
+	virtual inline SpellCostType getCostType() const {
+		if constexpr(has_costType<T>::value)
+			return T::costType;
+		else
+			return SpellCostType::none;
 	}
 
 	virtual inline shared_ptr<Spell> generate(GObject* caster)

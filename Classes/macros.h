@@ -13,6 +13,7 @@
 #define to_uint(x) static_cast<unsigned int>(x)
 #define to_float(x) static_cast<float>(x)
 #define to_gobject(x) static_cast<GObject*>(x)
+#define bool_int(x) static_cast<int>(static_cast<bool>(x))
 
 #define for_irange(var,start,end) for(int var : boost::irange(to_int(start),to_int(end)))
 
@@ -31,5 +32,19 @@
 #define float_2pi (float_pi * 2.0f)
 
 #define delete_if(ptr) if(ptr) { delete ptr; ptr = nullptr; }
+
+#define make_static_member_detector(x) \
+template<typename T> \
+struct has_##x \
+{ \
+private: \
+	template<typename U> \
+	static auto test(int) -> decltype(U::x, true_type()); \
+\
+	template<typename> \
+	static false_type test(...); \
+public: \
+	static constexpr bool value = is_same<decltype(test<T>(0)), true_type>::value; \
+}; \
 
 #endif /* macros_h */

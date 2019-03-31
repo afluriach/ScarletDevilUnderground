@@ -20,6 +20,9 @@
 #include "MagicEffect.hpp"
 #include "MiscMagicEffects.hpp"
 #include "Player.hpp"
+#include "Spell.hpp"
+#include "SpellDescriptor.hpp"
+#include "spell_types.hpp"
 
 const Color4F Agent::bodyOutlineColor = Color4F(.86f, .16f, .19f, 0.75f);
 const Color4F Agent::shieldConeColor = Color4F(.37f, .56f, .57f, 0.5f);
@@ -123,6 +126,67 @@ void Agent::onZeroHP()
 void Agent::onRemove()
 {
 	space->removeSprite(agentOverlay);
+}
+
+bool Agent::cast(shared_ptr<Spell> spell)
+{
+	if (!spell->getDescriptor()) return GObject::cast(spell);
+
+	float cost = spell->getDescriptor()->getCost();
+	SpellCostType costType = spell->getDescriptor()->getCostType();
+
+	if (cost == 0.0f || costType == SpellCostType::none)
+		return GObject::cast(spell);
+
+	float mpCost = cost *
+		bitwise_and_bool(costType, SpellCostType::mp) *
+		bitwise_and_bool(costType, SpellCostType::initial);
+
+	float staminaCost = cost *
+		bitwise_and_bool(costType, SpellCostType::stamina) *
+		bitwise_and_bool(costType, SpellCostType::initial);
+
+	if (mpCost > attributeSystem[Attribute::mp] || staminaCost > attributeSystem[Attribute::stamina])
+		return false;
+
+	attributeSystem.modifyAttribute(Attribute::mp, -mpCost);
+	attributeSystem.modifyAttribute(Attribute::stamina, -staminaCost);
+
+	return GObject::cast(spell);
+}
+
+void Agent::updateSpells()
+{
+	GObject::updateSpells();
+
+	if (!crntSpell) {
+		attributeSystem.timerDecrement(Attribute::spellCooldown);
+		return;
+	};
+	if (!crntSpell->getDescriptor()) return;
+
+	float cost = crntSpell->getDescriptor()->getCost();
+	SpellCostType costType = crntSpell->getDescriptor()->getCostType();
+
+	if (cost == 0.0f || costType == SpellCostType::none) return;
+
+	float mpCost =
+		bitwise_and_bool(costType, SpellCostType::mp) *
+		bitwise_and_bool(costType, SpellCostType::ongoing) *
+		cost * App::secondsPerFrame
+	;
+	float staminaCost =
+		bitwise_and_bool(costType, SpellCostType::stamina) *
+		bitwise_and_bool(costType, SpellCostType::ongoing) *
+		cost * App::secondsPerFrame
+	;
+
+	if (mpCost > attributeSystem[Attribute::mp] || staminaCost > attributeSystem[Attribute::stamina]) {
+		stopSpell();
+	}
+
+	attributeSystem.modifyAttribute(Attribute::stamina, -staminaCost);
+	attributeSystem.modifyAttribute(Attribute::mp, -mpCost);
 }
 
 float Agent::getAttribute(Attribute id) const

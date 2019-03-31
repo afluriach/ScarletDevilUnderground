@@ -59,6 +59,9 @@ void Teleport::end()
 const SpaceFloat TorchDarkness::radius = 2.5f;
 const float TorchDarkness::effectMagnitude = 0.2f;
 
+const string TorchDarkness::name = "TorchDarkness";
+const string TorchDarkness::description = "";
+
 TorchDarkness::TorchDarkness(GObject* caster) :
 	Spell(caster)
 {}

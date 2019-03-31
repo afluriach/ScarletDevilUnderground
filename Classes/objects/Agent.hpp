@@ -94,6 +94,10 @@ public:
 	virtual void onZeroHP();
 	virtual void onRemove();
 
+	//polymorphic spellcasting - for attribute cost
+	virtual bool cast(shared_ptr<Spell> spell);
+	virtual void updateSpells();
+
 	//attribute interface
 	virtual AttributeMap getBaseAttributes() const = 0;
 	virtual inline AttributeMap getAttributeUpgrades() const { return AttributeMap(); }

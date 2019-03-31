@@ -286,7 +286,7 @@ const vector<string> Inst::luaIncludes = {
 #undef __cls
 
 		.beginClass<GObject>("GObject")
-			.addFunction("cast", static_cast<void(GObject::*)(const string&)>(&GObject::cast))
+			.addFunction("cast", &GObject::cast)
 			.addFunction("getAngle", &GObject::getAngle)
 			.addFunction("getAngularVel", &GObject::getAngularVel)
 			.addFunction("getPos", &GObject::getPos)

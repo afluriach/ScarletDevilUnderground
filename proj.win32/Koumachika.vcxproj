@@ -369,6 +369,7 @@ xcopy "$(ProjectDir)..\Resources" "$(OutDir)" /D /E /I /F /Y</Command>
     <ClInclude Include="..\Classes\spells\Spell.hpp" />
     <ClInclude Include="..\Classes\spells\SpellDescriptor.hpp" />
     <ClInclude Include="..\Classes\spells\SpellUtil.hpp" />
+    <ClInclude Include="..\Classes\spells\spell_types.hpp" />
     <ClInclude Include="..\Classes\types.h" />
     <ClInclude Include="..\Classes\util.h" />
     <ClInclude Include="..\Classes\value_map.hpp" />

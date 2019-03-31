@@ -256,11 +256,10 @@ public:
 
 	//BEGIN SPELLS
 
-	void cast(shared_ptr<Spell> spell);
-	void cast(const string& name);
+	virtual bool cast(shared_ptr<Spell> spell);
 
 	void stopSpell();
-	void updateSpells();
+	virtual void updateSpells();
 
 	inline bool isSpellActive() const {
 		return static_cast<bool>(crntSpell);

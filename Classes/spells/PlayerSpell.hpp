@@ -10,6 +10,7 @@
 #define PlayerSpell_hpp
 
 #include "Spell.hpp"
+#include "spell_types.hpp"
 
 class CirnoIceShieldBullet;
 class FlandreCounterClockBullet;
@@ -35,6 +36,7 @@ public:
 	static const string description;
 	static const string icon;
 	static const float cost;
+	static const SpellCostType costType;
 
 	PlayerBatMode(GObject* caster);
 	inline virtual ~PlayerBatMode() {}
@@ -53,6 +55,7 @@ public:
 	static const string description;
 	static const string icon;
 	static const float cost;
+	static const SpellCostType costType;
 
 	static const SpaceFloat length;
 	static const SpaceFloat angleWidth;
@@ -81,6 +84,7 @@ public:
 	static const string description;
 	static const string icon;
 	static const float cost;
+	static const SpellCostType costType;
 
 	static const SpaceFloat offset;
 	static const SpaceFloat angular_speed;
@@ -105,6 +109,7 @@ public:
 	static const string description;
 	static const string icon;
 	static const float cost;
+	static const SpellCostType costType;
 
 	static const SpaceFloat fireInterval;
 	static const int fireCount;
@@ -129,6 +134,7 @@ public:
 	static const string description;
 	static const string icon;
 	static const float cost;
+	static const SpellCostType costType;
 
 	static const int bulletCount;
 
@@ -160,6 +166,7 @@ public:
 	static const string description;
 	static const string icon;
 	static const float cost;
+	static const SpellCostType costType;
 
 	static constexpr size_t bulletCount = 8;
 	static const SpaceFloat speed;

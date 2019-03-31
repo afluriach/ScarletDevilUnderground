@@ -229,12 +229,12 @@ void Player::updateSpellControls(const ControlInfo& cs)
 			!inhibitSpellcasting && 
 			cs.isControlActionPressed(ControlAction::spell) &&
 			equippedSpell &&
-			!attributeSystem.isNonzero(Attribute::spellCooldown) &&
-			attributeSystem[Attribute::mp] >= equippedSpell->getCost()
+			!attributeSystem.isNonzero(Attribute::spellCooldown)
 		) {
-			cast(equippedSpell->generate(this));		
-			attributeSystem.resetCombo();
-			App::playSound("sfx/player_spellcard.wav", 1.0f);
+			if (cast(equippedSpell->generate(this))) {
+				attributeSystem.resetCombo();
+				App::playSound("sfx/player_spellcard.wav", 1.0f);
+			}
 		}
     }
 }
@@ -281,13 +281,12 @@ void Player::checkFireControls(const ControlInfo& cs)
 		!suppressFiring &&
 		cs.isControlActionPressed(ControlAction::powerAttack) &&
 		powerAttackIdx != -1 &&
-		getStamina() >= powerAttacks.at(powerAttackIdx)->getCost() &&
 		!isSpellActive()
 	)
 	{
-		cast(powerAttacks.at(powerAttackIdx)->generate(this));
-		App::playSound("sfx/player_power_attack.wav", 1.0f);
-		attributeSystem.modifyAttribute(Attribute::stamina, -powerAttacks.at(powerAttackIdx)->getCost());
+		if (cast(powerAttacks.at(powerAttackIdx)->generate(this))) {
+			App::playSound("sfx/player_power_attack.wav", 1.0f);
+		}
 	}
 }
 
@@ -409,15 +408,6 @@ void Player::update()
 
 		if (respawnTimer <= 0.0 && isRespawnActive) {
 			applyRespawn();
-		}
-
-		if (!crntSpell.get()) {
-			attributeSystem.timerDecrement(Attribute::spellCooldown);
-		}
-		else {
-			attributeSystem.timerDecrement(Attribute::mp, crntSpell->getDescriptor()->getCost());
-			if (attributeSystem[Attribute::mp] <= 0.0f)
-				stopSpell();
 		}
 	}
 }

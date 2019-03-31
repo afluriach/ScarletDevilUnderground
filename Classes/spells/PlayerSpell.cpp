@@ -10,6 +10,7 @@
 
 #include "App.h"
 #include "GSpace.hpp"
+#include "enum.h"
 #include "Player.hpp"
 #include "PlayerBullet.hpp"
 #include "PlayerSpell.hpp"
@@ -46,6 +47,8 @@ const string PlayerBatMode::name = "PlayerBatMode";
 const string PlayerBatMode::description = "";
 const string PlayerBatMode::icon = "sprites/ui/bat_mode.png";
 const float PlayerBatMode::cost = 5.0f;
+const SpellCostType PlayerBatMode::costType = enum_bitwise_or(SpellCostType, mp, ongoing);
+
 
 PlayerBatMode::PlayerBatMode(GObject* caster) :
 	PlayerSpell(caster)
@@ -85,6 +88,7 @@ const string LavaeteinnSpell::name = "LavaeteinnSpell";
 const string LavaeteinnSpell::description = "";
 const string LavaeteinnSpell::icon = "sprites/ui/lavaeteinn.png";
 const float LavaeteinnSpell::cost = 25.0f;
+const SpellCostType LavaeteinnSpell::costType = enum_bitwise_or(SpellCostType, stamina, initial);
 
 const SpaceFloat LavaeteinnSpell::length = 0.75;
 const SpaceFloat LavaeteinnSpell::angleWidth = float_pi / 2.0;
@@ -149,6 +153,7 @@ const string PlayerCounterClock::name = "PlayerCounterClock";
 const string PlayerCounterClock::description = "";
 const string PlayerCounterClock::icon = "sprites/ui/counterclock.png";
 const float PlayerCounterClock::cost = 10.0f;
+const SpellCostType PlayerCounterClock::costType = enum_bitwise_or(SpellCostType, mp, ongoing);
 
 const SpaceFloat PlayerCounterClock::offset = 0.75;
 const SpaceFloat PlayerCounterClock::angular_speed = 9.0;
@@ -220,6 +225,7 @@ const string PlayerScarletRose::name = "PlayerScarletRose";
 const string PlayerScarletRose::description = "";
 const string PlayerScarletRose::icon = "sprites/ui/scarlet_rose.png";
 const float PlayerScarletRose::cost = 20.0f;
+const SpellCostType PlayerScarletRose::costType = enum_bitwise_or3(SpellCostType, mp, initial, ongoing);
 
 const SpaceFloat PlayerScarletRose::fireInterval = 0.2;
 const int PlayerScarletRose::fireCount = 6;
@@ -266,6 +272,7 @@ const string PlayerWhirlShot::name = "PlayerWhirlShot";
 const string PlayerWhirlShot::description = "";
 const string PlayerWhirlShot::icon = "sprites/ui/whirl_shot.png";
 const float PlayerWhirlShot::cost = 10.0f;
+const SpellCostType PlayerWhirlShot::costType = enum_bitwise_or(SpellCostType, stamina, initial);
 
 const int PlayerWhirlShot::bulletCount = 8;
 
@@ -316,6 +323,7 @@ const string PlayerIceShield::name = "PlayerIceShield";
 const string PlayerIceShield::description = "";
 const string PlayerIceShield::icon = "sprites/ui/ice_shield.png";
 const float PlayerIceShield::cost = 12.5f;
+const SpellCostType PlayerIceShield::costType = enum_bitwise_or3(SpellCostType, mp, initial, ongoing);
 
 const SpaceFloat PlayerIceShield::speed = 9.0;
 

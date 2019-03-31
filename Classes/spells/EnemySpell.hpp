@@ -36,6 +36,9 @@ protected:
 class TorchDarkness : public Spell
 {
 public:
+	static const string name;
+	static const string description;
+
 	static const SpaceFloat radius;
 	static const float effectMagnitude;
 

@@ -454,26 +454,15 @@ void GObject::updateSprite()
 
 //BEGIN SPELLS
 
-void GObject::cast(shared_ptr<Spell> spell)
+bool GObject::cast(shared_ptr<Spell> spell)
 {
 	if (crntSpell.get()) {
 		crntSpell->end();
 	}
 	spell->init();
 	crntSpell = spell;
-}
 
-void GObject::cast(const string& name)
-{
-	auto it_adaptor = Spell::spellDescriptors.find(name);
-
-	if (it_adaptor != Spell::spellDescriptors.end()) {
-		//Check for a Spell class
-		cast(it_adaptor->second->generate(this));
-		return;
-	}
-
-	log("Spell %s not available.", name.c_str());
+	return true;
 }
 
 void GObject::stopSpell()
