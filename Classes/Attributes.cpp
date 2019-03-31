@@ -147,6 +147,8 @@ AttributeSet AttributeSystem::getBlankAttributeSet()
 
 	//Sensitivity multiplier should be 1.0 by default.
 	result[to_size_t(Attribute::bombSensitivity)] = 1.0f;
+	result[to_size_t(Attribute::bulletSensitivity)] = 1.0f;
+	result[to_size_t(Attribute::meleeSensitivity)] = 1.0f;
 
 	result[to_size_t(Attribute::iceSensitivity)] = 1.0f;
 	result[to_size_t(Attribute::sunSensitivity)] = 1.0f;
@@ -297,7 +299,7 @@ void AttributeSystem::applyElementDecay()
 float AttributeSystem::applyDamage(DamageInfo damage)
 {
 	float elementSensitivity = damage.element != Attribute::end ? (*this)[getElementSensitivity(damage.element)] : 1.0f;
-	float typeSensitivity = damage.type == DamageType::bomb ? (*this)[Attribute::bombSensitivity] : 1.0f;
+	float typeSensitivity = getTypeSensitivity(damage.type);
 
 	modifyAttribute(Attribute::hp, -damage.mag * typeSensitivity * elementSensitivity);
 
@@ -319,6 +321,21 @@ void AttributeSystem::apply(const AttributeMap& effects)
 float AttributeSystem::getAttackMultiplier() const
 {
 	return attributes.at(to_size_t(Attribute::attack));
+}
+
+float AttributeSystem::getTypeSensitivity(DamageType type) const
+{
+	switch (type)
+	{
+	case DamageType::bomb:
+		return (*this)[Attribute::bombSensitivity];
+	case DamageType::bullet:
+		return (*this)[Attribute::bulletSensitivity];
+	case DamageType::melee:
+		return (*this)[Attribute::meleeSensitivity];
+	default:
+		return 1.0f;
+	}
 }
 
 AttributeMap AttributeSystem::scaleBulletAttributes(const AttributeMap& bulletAttributes) const

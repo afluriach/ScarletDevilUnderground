@@ -87,10 +87,10 @@ void PlayerBatMode::end()
 const string LavaeteinnSpell::name = "LavaeteinnSpell";
 const string LavaeteinnSpell::description = "";
 const string LavaeteinnSpell::icon = "sprites/ui/lavaeteinn.png";
-const float LavaeteinnSpell::cost = 25.0f;
+const float LavaeteinnSpell::cost = 12.5f;
 const SpellCostType LavaeteinnSpell::costType = enum_bitwise_or(SpellCostType, stamina, initial);
 
-const SpaceFloat LavaeteinnSpell::length = 0.75;
+const SpaceFloat LavaeteinnSpell::length = 2.0 / 3.0;
 const SpaceFloat LavaeteinnSpell::angleWidth = float_pi / 2.0;
 const SpaceFloat LavaeteinnSpell::angular_speed = angleWidth * 2.0 / length;
 const int LavaeteinnSpell::bulletSpawnCount = 8;
@@ -152,7 +152,7 @@ void LavaeteinnSpell::end()
 const string PlayerCounterClock::name = "PlayerCounterClock";
 const string PlayerCounterClock::description = "";
 const string PlayerCounterClock::icon = "sprites/ui/counterclock.png";
-const float PlayerCounterClock::cost = 10.0f;
+const float PlayerCounterClock::cost = 7.5f;
 const SpellCostType PlayerCounterClock::costType = enum_bitwise_or(SpellCostType, mp, ongoing);
 
 const SpaceFloat PlayerCounterClock::offset = 0.75;
@@ -224,7 +224,7 @@ void PlayerCounterClock::end()
 const string PlayerScarletRose::name = "PlayerScarletRose";
 const string PlayerScarletRose::description = "";
 const string PlayerScarletRose::icon = "sprites/ui/scarlet_rose.png";
-const float PlayerScarletRose::cost = 20.0f;
+const float PlayerScarletRose::cost = 10.0f;
 const SpellCostType PlayerScarletRose::costType = enum_bitwise_or3(SpellCostType, mp, initial, ongoing);
 
 const SpaceFloat PlayerScarletRose::fireInterval = 0.2;

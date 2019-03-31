@@ -33,8 +33,6 @@ public:
 	virtual void onEnter(ai::StateMachine& sm);
 	virtual void update(ai::StateMachine& sm);
 	FuncGetName(BatMain)
-
-	void pushQuadraticStrike(ai::StateMachine& sm);
 protected:
 	gobject_ref target = nullptr;
 };

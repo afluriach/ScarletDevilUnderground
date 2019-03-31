@@ -24,8 +24,9 @@
 #include "value_map.hpp"
 
 const AttributeMap GhostFairy::baseAttributes = {
-	{ Attribute::maxHP, 45.0f },
+	{ Attribute::maxHP, 75.0f },
 	{ Attribute::agility, 2.5f },
+	{ Attribute::bulletSensitivity, 1.25},
 };
 
 GhostFairy::GhostFairy(GSpace* space, ObjectIDType id, const ValueMap& args) :
@@ -172,13 +173,16 @@ const AIPackage<BlueFairy>::AIPackageMap BlueFairy::aiPackages = {
 
 const AttributeMap BlueFairy::baseAttributes = {
 	{ Attribute::shieldLevel, 1.0f },
-	{ Attribute::maxHP, 30.0f },
+	{ Attribute::maxHP, 90.0f },
 	{ Attribute::maxStamina, 50.0f },
 	{ Attribute::staminaRegen, 0.02f },
 	{ Attribute::agility, 2.5f },
 	{ Attribute::touchDamage, 5.0f },
 	{ Attribute::stressFromHits, 1.5f },
 	{ Attribute::stressFromBlocks, 1.0f },
+	{ Attribute::bombSensitivity, 1.25f },
+	{ Attribute::bulletSensitivity, 0.75f },
+	{ Attribute::meleeSensitivity, 0.75f },
 };
 
 BlueFairy::BlueFairy(GSpace* space, ObjectIDType id, const ValueMap& args) :
@@ -204,12 +208,14 @@ void BlueFairy::follow_path(ai::StateMachine& sm, const ValueMap& args)
 }
 
 const AttributeMap RedFairy::baseAttributes = {
-	{ Attribute::maxHP, 50.0f },
+	{ Attribute::maxHP, 120.0f },
 	{ Attribute::agility, 1.5f },
 	{ Attribute::touchDamage, 10.0f },
 	{ Attribute::stressDecay, 1.0f },
 	{ Attribute::stressFromHits, 1.0f },
 	{ Attribute::bombSensitivity, 0.5f }, 
+	{ Attribute::bulletSensitivity, 0.75f },
+	{ Attribute::meleeSensitivity, 1.25f },
 };
 
 const DamageInfo RedFairy::explosionEffect = bomb_damage(20.0f);
@@ -278,7 +284,7 @@ void RedFairy::onZeroHP()
 }
 
 const AttributeMap GreenFairy1::baseAttributes = {
-	{ Attribute::maxHP, 30.0f },
+	{ Attribute::maxHP, 60.0f },
 	{ Attribute::touchDamage, 3.0f },
 	{ Attribute::stressFromHits, 0.5f },
 	{ Attribute::agility, 3.0f }
@@ -310,7 +316,7 @@ void GreenFairy1::initStateMachine(ai::StateMachine& sm)
 }
 
 const AttributeMap GreenFairy2::baseAttributes = {
-	{ Attribute::maxHP, 45.0f },
+	{ Attribute::maxHP, 90.0f },
 	{ Attribute::touchDamage, 6.0f },
 	{ Attribute::stressFromDetects, 0.25f },
 	{ Attribute::stressFromHits, 0.5f },
@@ -352,7 +358,7 @@ void GreenFairy2::onRemove()
 }
 
 const AttributeMap ZombieFairy::baseAttributes = {
-	{ Attribute::maxHP, 75.0f },
+	{ Attribute::maxHP, 120.0f },
 	{ Attribute::speed, 2.0f },
 	{ Attribute::acceleration, 10.0f },
 	{ Attribute::darknessSensitivity, 0.0f }

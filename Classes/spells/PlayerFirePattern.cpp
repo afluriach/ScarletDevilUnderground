@@ -15,7 +15,7 @@
 #include "PlayerFirePattern.hpp"
 
 const float StarbowBreak::baseDamage = 2.0f;
-const float StarbowBreak::baseCost = 0.5f;
+const float StarbowBreak::baseCost = 1.0f;
 const float StarbowBreak::baseFireInterval = 1.0f / 5.0f;
 const array<float, StarbowBreak::anglesCount> StarbowBreak::angleIntervalScales = {
 	0.6f,

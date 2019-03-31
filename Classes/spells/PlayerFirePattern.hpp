@@ -80,7 +80,7 @@ public:
 	inline virtual bool spawn(SpaceVect posOffset, SpaceFloat angle) { return false; }
 	inline virtual float getCooldownTime() { return 1.5f; }
 	inline virtual string iconPath() const { return "sprites/ui/catadioptric.png"; }
-	inline virtual float getCost() const { return 7.5f; }
+	inline virtual float getCost() const { return 20.0f; }
 };
 
 class ScarletDaggerPattern : public MultiBulletSpreadPattern, public FirePatternImpl<ScarletDagger>

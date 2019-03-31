@@ -290,7 +290,7 @@ Lavaeteinn::Lavaeteinn(
 }
 
 DamageInfo Lavaeteinn::getDamageInfo() const {
-	return bullet_damage(5.0f);
+	return melee_damage(5.0f);
 }
 
 //void Lavaeteinn::update()

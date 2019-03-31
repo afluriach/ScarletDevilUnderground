@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.0" tiledversion="1.0.3" orientation="orthogonal" renderorder="right-down" width="51" height="51" tilewidth="128" tileheight="128" nextobjectid="276">
+<map version="1.0" tiledversion="1.0.3" orientation="orthogonal" renderorder="right-down" width="51" height="51" tilewidth="128" tileheight="128" nextobjectid="294">
  <tileset firstgid="1" name="wall" tilewidth="128" tileheight="128" tilecount="4" columns="2">
   <image source="fence.png" width="256" height="256"/>
  </tileset>
@@ -248,6 +248,76 @@
     <property name="id" value="0"/>
    </properties>
   </object>
+  <object id="277" type="Headstone" x="4736" y="4736" width="256" height="256">
+   <properties>
+    <property name="hp" value="50"/>
+   </properties>
+  </object>
+  <object id="278" type="Headstone" x="5888" y="4736" width="256" height="256">
+   <properties>
+    <property name="hp" value="50"/>
+   </properties>
+  </object>
+  <object id="279" type="Headstone" x="5312" y="4736" width="256" height="256">
+   <properties>
+    <property name="hp" value="50"/>
+   </properties>
+  </object>
+  <object id="281" type="Headstone" x="4736" y="5888" width="256" height="256">
+   <properties>
+    <property name="hp" value="50"/>
+   </properties>
+  </object>
+  <object id="282" type="Headstone" x="5888" y="5888" width="256" height="256">
+   <properties>
+    <property name="hp" value="50"/>
+   </properties>
+  </object>
+  <object id="283" type="Headstone" x="5312" y="5888" width="256" height="256">
+   <properties>
+    <property name="hp" value="50"/>
+   </properties>
+  </object>
+  <object id="284" type="Headstone" x="5888" y="5312" width="256" height="256">
+   <properties>
+    <property name="hp" value="50"/>
+   </properties>
+  </object>
+  <object id="285" name="spawner-g5-7" type="Spawner" x="5056" y="4800" width="128" height="128">
+   <properties>
+    <property name="spawn_type" value="GhostFairy"/>
+   </properties>
+  </object>
+  <object id="288" name="spawner-g5-6" type="Spawner" x="5664" y="5344" width="128" height="128">
+   <properties>
+    <property name="spawn_type" value="GhostFairy"/>
+   </properties>
+  </object>
+  <object id="289" name="spawner-g5-5" type="Spawner" x="5664" y="4800" width="128" height="128">
+   <properties>
+    <property name="spawn_type" value="GhostFairy"/>
+   </properties>
+  </object>
+  <object id="290" name="spawner-g5-4" type="Spawner" x="6144" y="6144" width="128" height="128">
+   <properties>
+    <property name="spawn_type" value="GhostFairy"/>
+   </properties>
+  </object>
+  <object id="291" name="spawner-g5-3" type="Spawner" x="4608" y="6144" width="128" height="128">
+   <properties>
+    <property name="spawn_type" value="GhostFairy"/>
+   </properties>
+  </object>
+  <object id="292" name="spawner-g5-2" type="Spawner" x="6144" y="4608" width="128" height="128">
+   <properties>
+    <property name="spawn_type" value="GhostFairy"/>
+   </properties>
+  </object>
+  <object id="293" name="spawner-g5-1" type="Spawner" x="4608" y="4608" width="128" height="128">
+   <properties>
+    <property name="spawn_type" value="GhostFairy"/>
+   </properties>
+  </object>
  </objectgroup>
  <objectgroup name="rooms">
   <object id="133" name="0" x="2176" y="4352" width="2176" height="2176"/>
@@ -255,7 +325,11 @@
   <object id="135" name="2" x="0" y="2176" width="2176" height="2176"/>
   <object id="136" name="3" x="2176" y="2176" width="2176" height="2176"/>
   <object id="137" name="4" x="4352" y="2176" width="2176" height="2176"/>
-  <object id="138" name="5" x="4352" y="4352" width="2176" height="2176"/>
+  <object id="138" name="5" x="4352" y="4352" width="2176" height="2176">
+   <properties>
+    <property name="spawners" value="spawner-g5-1 spawner-g5-2 spawner-g5-3 spawner-g5-4 spawner-g5-5 spawner-g5-6 spawner-g5-7"/>
+   </properties>
+  </object>
   <object id="139" name="6" x="2176" y="0" width="2176" height="2176"/>
   <object id="183" name="7" x="4352" y="0" width="2176" height="2176"/>
   <object id="184" name="8" x="0" y="0" width="2176" height="2176"/>

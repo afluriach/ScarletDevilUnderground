@@ -57,6 +57,8 @@ enum class Attribute {
 	acceleration,
 
 	bombSensitivity,
+	bulletSensitivity,
+	meleeSensitivity,
 
 	beginElementSensitivity,
 	iceSensitivity = beginElementSensitivity,
@@ -83,6 +85,7 @@ enum class DamageType
 	bomb,
 	effectArea,
 	touch,
+	melee,
 	pitfall,
 
 	end
@@ -105,6 +108,7 @@ struct DamageInfo
 
 #define bullet_damage(x) DamageInfo{x, Attribute::end, DamageType::bullet}
 #define bomb_damage(x) DamageInfo{x, Attribute::end, DamageType::bomb}
+#define melee_damage(x) DamageInfo{x, Attribute::end, DamageType::melee}
 
 typedef array<float, to_size_t(Attribute::end)> AttributeSet;
 typedef map<Attribute, float> AttributeMap;
@@ -152,6 +156,7 @@ public:
 	float applyDamage(DamageInfo damage);
 	void apply(const AttributeMap& effects);
 	float getAttackMultiplier() const;
+	float getTypeSensitivity(DamageType type) const;
 	AttributeMap scaleBulletAttributes(const AttributeMap& bulletAttributes) const;
 	void modifyIncidentAttribute(Attribute id, Attribute maxID, float x);
 	void applyElementalDamage(Attribute id, Attribute maxID, float x);
