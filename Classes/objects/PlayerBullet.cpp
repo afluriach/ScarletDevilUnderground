@@ -30,6 +30,7 @@ PlayerBullet::PlayerBullet(object_ref<Agent> agent) :
 PlayerShield::PlayerShield(object_ref<Agent> agent) :
 	Bullet(agent)
 {
+	hitCount = -1;
 }
 
 void PlayerShield::onWallCollide(Wall* wall)
@@ -42,17 +43,6 @@ void PlayerShield::onEnvironmentCollide(GObject* obj)
 	//NO-OP
 }
 
-void PlayerShield::onAgentCollide(Agent* agent, SpaceVect n)
-{
-	agent->hit(getAttributeEffect(), getMagicEffect(agent));
-
-	SpaceFloat force = getKnockbackForce();
-
-	if (force > 0.0) {
-		agent->applyImpulse(force, getAngle() + float_pi / 2.0);
-	}
-}
-
 void PlayerShield::onBulletCollide(Bullet* bullet)
 {
 	space->removeObject(bullet);
@@ -62,7 +52,7 @@ const bullet_properties PlayerBulletImpl::flandreBigOrb1 = {
 	0.1,
 	4.5,
 	0.6,
-	hp_damage_map(3.0f),
+	bullet_damage(3.0f),
 	0.83,
 	"sprites/flandre_bullet.png",
 };
@@ -71,7 +61,7 @@ const bullet_properties PlayerBulletImpl::catadioptricBullet1 = {
 	3.0,
 	6.0,
 	0.5,
-	hp_damage_map(3.0f),
+	bullet_damage(3.0f),
 	0.83,
 	"sprites/catadioptric_bullet1.png"
 };
@@ -80,7 +70,7 @@ const bullet_properties PlayerBulletImpl::catadioptricBullet2 = {
 	1.5,
 	4.5,
 	0.25,
-	hp_damage_map(1.5f),
+	bullet_damage(1.5f),
 	0.83,
 	"sprites/catadioptric_bullet2.png",
 	Color3B::WHITE,
@@ -92,7 +82,7 @@ const bullet_properties PlayerBulletImpl::catadioptricBullet3 = {
 	0.5,
 	3.0,
 	0.125,
-	hp_damage_map(0.5f),
+	bullet_damage(0.5f),
 	0.25,
 	"sprites/catadioptric_bullet3.png",
 	Color3B::WHITE,
@@ -104,7 +94,7 @@ const bullet_properties PlayerBulletImpl::rumiaFastOrb1 = {
 	0.1,
 	9.0,
 	0.15,
-	hp_damage_map(1.0f),
+	bullet_damage(1.0f),
 	0.83,
 	"sprites/rumia_bullet.png",
 };
@@ -113,7 +103,7 @@ const bullet_properties PlayerBulletImpl::cirnoSmallIceBullet = {
 	0.1,
 	9.0,
 	0.3,
-	{ { Attribute::hp, -1 },{ Attribute::iceDamage, 50 } },
+	DamageInfo{ 3.0f, Attribute::iceDamage, DamageType::bullet},
 	0.83,
 	"sprites/cirno_large_ice_bullet.png",
 	Color3B::WHITE,
@@ -124,7 +114,7 @@ const bullet_properties PlayerBulletImpl::cirnoLargeIceBullet = {
 	0.1,
 	9.0,
 	0.6,
-	{ { Attribute::hp, -1 },{ Attribute::iceDamage, 50 } },
+	DamageInfo{ 5.0f, Attribute::iceDamage, DamageType::bullet },
 	0.83,
 	"sprites/cirno_large_ice_bullet.png",
 };
@@ -178,7 +168,7 @@ const bullet_properties ScarletDagger::props = {
 	4.0,
 	//unused, since it is not a CircleBody
 	0.5,
-	hp_damage_map(3.0f),
+	bullet_damage(3.0f),
 	0.5,
 	"sprites/scarlet_dagger.png",
 };
@@ -203,7 +193,7 @@ const bullet_properties FlandreFastOrb1::props = {
 	0.1,
 	9.0,
 	0.15,
-	hp_damage_map(1.0f),
+	bullet_damage(1.0f),
 	0.83,
 	"sprites/flandre_bullet.png",
 };
@@ -214,7 +204,7 @@ const bullet_properties FlanPolarBullet::props = {
 	0.1,
 	0.0,
 	0.15,
-	hp_damage_map(2.0f),
+	bullet_damage(2.0f),
 	0.83,
 	"sprites/flandre_bullet.png",
 	Color3B::WHITE,
@@ -260,7 +250,7 @@ const bullet_properties FlandrePolarMotionOrb::props = {
 	1.0,
 	9.0,
 	0.15,
-	hp_damage_map(1.0f),
+	bullet_damage(1.0f),
 	0.83,
 	"sprites/flandre_bullet.png",
 };
@@ -299,10 +289,8 @@ Lavaeteinn::Lavaeteinn(
 	setInitialAngularVelocity(angularVel);
 }
 
-AttributeMap Lavaeteinn::getAttributeEffect() const {
-	return {
-		{ Attribute::hp, -5.0 }
-	};
+DamageInfo Lavaeteinn::getDamageInfo() const {
+	return bullet_damage(5.0f);
 }
 
 //void Lavaeteinn::update()
@@ -332,10 +320,8 @@ FlandreCounterClockBullet::FlandreCounterClockBullet(GSpace* space, ObjectIDType
 	RectangleBody(SpaceVect(4.0, 0.5))
 {}
 
-AttributeMap FlandreCounterClockBullet::getAttributeEffect() const {
-	return {
-		{ Attribute::hp, -1 }
-	};
+DamageInfo FlandreCounterClockBullet::getDamageInfo() const {
+	return bullet_damage(-1.0f);
 }
 
 CirnoIceShieldBullet::CirnoIceShieldBullet(GSpace* space, ObjectIDType id, const SpaceVect& pos, SpaceFloat angle, object_ref<Agent> agent) :
@@ -343,9 +329,6 @@ CirnoIceShieldBullet::CirnoIceShieldBullet(GSpace* space, ObjectIDType id, const
 	PlayerShield(agent)
 {}
 
-AttributeMap CirnoIceShieldBullet::getAttributeEffect() const {
-	return {
-		{ Attribute::hp, -1 },
-		{ Attribute::iceDamage, 50 }
-	};
+DamageInfo CirnoIceShieldBullet::getDamageInfo() const {
+	return 	DamageInfo{ 10.0f, Attribute::iceDamage, DamageType::bullet };
 }

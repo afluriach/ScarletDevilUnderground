@@ -65,7 +65,7 @@ bullet_properties StarbowBreak::generateProps(int angle)
 		baseMass *sizeScale*sizeScale,
 		baseSpeed / sizeScale,
 		baseRadius * sizeScale,
-		hp_damage_map(baseDamage*sizeScale),
+		bullet_damage(to_float(baseDamage*sizeScale)),
 		0.83,
 		"sprites/starbow_break_bullet.png",
 		colors[angle]

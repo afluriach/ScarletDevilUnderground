@@ -24,7 +24,7 @@ Facer::Facer(GSpace* space, ObjectIDType id, const ValueMap& args) :
 	Enemy(collectible_id::nil)
 {}
 
-bool Facer::hit(AttributeMap attributeEffects, shared_ptr<MagicEffect> effect)
+bool Facer::hit(DamageInfo damage)
 {
     rotate(float_pi/2);
 	return true;

@@ -29,7 +29,7 @@ void EffectArea::update()
 
 	if (player.isValid())
 	{
-		player.get()->applyAttributeEffects(AttributeSystem::scale(getAttributeEffect(), App::secondsPerFrame));
+		player.get()->hit(getDamageInfo());
 	}
 }
 
@@ -52,10 +52,8 @@ GraphicsLayer SunArea::sceneLayer() const{
 	return GraphicsLayer::overhead;
 }
 
-AttributeMap SunArea::getAttributeEffect() {
-	return {
-		{ Attribute::sunDamage, 5.0  }
-	};
+DamageInfo SunArea::getDamageInfo() const {
+	return DamageInfo{5.0f, Attribute::sunDamage, DamageType::effectArea};
 }
 
 DarknessArea::DarknessArea(GSpace* space, ObjectIDType id, const ValueMap& args) :
@@ -88,8 +86,10 @@ void DarknessArea::update()
 	}
 }
 
-AttributeMap DarknessArea::getAttributeEffect() {
-	return {
-		{ Attribute::darknessDamage, 5.0 * active }
-	};
+DamageInfo DarknessArea::getDamageInfo() const {
+	return
+		active ? 
+		DamageInfo{5.0f, Attribute::darknessDamage, DamageType::effectArea} :
+		DamageInfo{}
+	;
 }

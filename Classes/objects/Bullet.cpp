@@ -40,8 +40,8 @@ void Bullet::onAgentCollide(Agent* other, SpaceVect n)
 {
 	if (hitCount > 0) --hitCount;
 
-	if (knockback != 0.0) {
-		other->applyImpulse(-n * knockback);
+	if (getKnockbackForce() != 0.0) {
+		other->applyImpulse(-n * getKnockbackForce());
 	}
 
 	if (hitCount == 0) {
@@ -56,6 +56,13 @@ void Bullet::onAgentCollide(Agent* other, SpaceVect n)
 void Bullet::onBulletCollide(Bullet* bullet)
 {
 	//NO-OP
+}
+
+DamageInfo Bullet::getScaledDamageInfo() const
+{
+	auto damage = getDamageInfo();
+	damage.mag *= attributes.attackDamage;
+	return damage;
 }
 
 SpaceVect Bullet::calculateLaunchVelocity()

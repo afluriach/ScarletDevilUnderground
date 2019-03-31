@@ -16,7 +16,7 @@
 #include "SpellUtil.hpp"
 #include "Wall.hpp"
 
-void explosion(const GObject* source, SpaceFloat radius, AttributeMap baseEffect)
+void explosion(const GObject* source, SpaceFloat radius, DamageInfo baseDamage)
 {
 	unordered_set<Agent*> targets = source->space->radiusQueryByType<Agent>(
 		source,
@@ -29,11 +29,10 @@ void explosion(const GObject* source, SpaceFloat radius, AttributeMap baseEffect
 	for (Agent* target : targets)
 	{
 		float scale = getExplosionScale(source, target, radius);
-		float sensitivity = target->getAttribute(Attribute::bombSensitivity);
-		SpaceFloat knockback = baseEffect.at(Attribute::hp) * -5.0f * scale;
+		SpaceFloat knockback = baseDamage.mag * -5.0f * scale;
 
-		target->hit(AttributeSystem::scale(baseEffect, scale * sensitivity), nullptr);
-		log("Hit %s at magnitude %f.", target->getName().c_str(), scale);
+		target->hit(baseDamage * scale);
+		log("Hit %s at scale %f.", target->getName().c_str(), scale);
 		applyKnockback(source, target, knockback);
 	}
 

@@ -83,7 +83,7 @@ void Agent::update()
 	}
 
 	for (auto other : touchTargets) {
-		other->hit(touchEffect(), nullptr);
+		other->hit(touchEffect());
 	}
 
 	if (firePattern) firePattern->update();
@@ -271,15 +271,15 @@ float Agent::getShieldCost(SpaceVect n)
 
 void Agent::onBulletCollide(Bullet* b)
 {
-	float hp = AttributeSystem::getAttribute(b->getAttributeEffect(), Attribute::hp);
+	DamageInfo damage = b->getScaledDamageInfo();
 
 	if (!isShield(b)) {
-		attributeSystem.modifyAttribute(Attribute::stress, Attribute::stressFromHits, -hp);
-		hit(AttributeSystem::scale(b->getAttributeEffect(), b->attributes.attackDamage), b->getMagicEffect(this));
+		attributeSystem.modifyAttribute(Attribute::stress, Attribute::stressFromHits, damage.mag);
+		hit(damage);
 		fsm.onBulletHit(b);
 	}
 	else {
-		attributeSystem.modifyAttribute(Attribute::stress, Attribute::stressFromBlocks, -hp);
+		attributeSystem.modifyAttribute(Attribute::stress, Attribute::stressFromBlocks, damage.mag);
 		fsm.onBulletBlock(b);
 	}
 }
@@ -295,24 +295,13 @@ void Agent::onEndTouchAgent(Agent* other)
 	touchTargets.erase(other);
 }
 
-bool Agent::hit(AttributeMap attributeEffect, shared_ptr<MagicEffect> effect)
+bool Agent::hit(DamageInfo damage)
 {
-	if (attributeSystem.isNonzero(Attribute::hitProtection) || attributeEffect.empty())
+	if (attributeSystem.isNonzero(Attribute::hitProtection) || damage.mag == 0.0f)
 		return false;
 
-	if (effect)
-		addMagicEffect(effect);
-
-	for (auto& entry : attributeEffect)
-	{
-		attributeSystem.modifyAttribute(entry.first, entry.second);
-	}
-
-	auto hp_it = attributeEffect.find(Attribute::hp);
-	float hp = hp_it == attributeEffect.end() ? 0.0f : hp_it->second;
-
-	if(hp != 0.0f)
-		space->createDamageIndicator(-hp, getPos());
+	float hp = attributeSystem.applyDamage(damage);
+	space->createDamageIndicator(hp, getPos());
 
 	return true;
 }
@@ -334,12 +323,12 @@ void Agent::applyAttributeEffects(AttributeMap attributeEffect)
 	attributeSystem.apply(attributeEffect);
 }
 
-AttributeMap Agent::touchEffect() const
+DamageInfo Agent::touchEffect() const
 {
 	if (attributeSystem.isNonzero(Attribute::touchDamage))
-		return hp_damage_map(attributeSystem[Attribute::touchDamage]);
+		return DamageInfo{ attributeSystem[Attribute::touchDamage] , Attribute::end, DamageType::touch };
 	else
-		return {};
+		return DamageInfo{};
 }
 
 void Agent::updateAgentOverlay()

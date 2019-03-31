@@ -60,7 +60,7 @@ public:
 
 	virtual void onBulletCollide(Bullet* b);
 	virtual void onBulletHitTarget(Bullet* bullet, Agent* target);
-    virtual bool hit(AttributeMap attributeEffect, shared_ptr<MagicEffect> effect);
+    virtual bool hit(DamageInfo damage);
 
 	inline bool isFiringSuppressed() const { return suppressFiring; }
 	inline void setFiringSuppressed(bool mode) { suppressFiring = mode; }

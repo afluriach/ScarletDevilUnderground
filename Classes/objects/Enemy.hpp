@@ -20,7 +20,7 @@ public:
 
 	void runDamageFlicker();
 
-	virtual bool hit(AttributeMap attributeEffects, shared_ptr<MagicEffect> effect);
+	virtual bool hit(DamageInfo damage);
 	virtual void onRemove();
 
 	virtual inline GType getType() const { return GType::enemy; }

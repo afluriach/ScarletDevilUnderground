@@ -36,7 +36,7 @@ public:
 	void detonate();
 
 	//Interface
-	virtual AttributeMap getAttributeEffect() const = 0;
+	virtual DamageInfo getDamageInfo() const = 0;
 	virtual SpaceFloat getFuseTime() const = 0;
 	virtual SpaceFloat getBlastRadius() const = 0;
 protected:
@@ -52,8 +52,8 @@ public:
 	static constexpr float spriteBaseRadius = 0.83f;
 	inline virtual float zoom() const { return getRadius() / spriteBaseRadius * 2; }
 
-	virtual AttributeMap getAttributeEffect() const {
-		return { { Attribute::hp, -20.0f} };
+	inline virtual DamageInfo getDamageInfo() const {
+		return bomb_damage(20.0f);
 	};
 
 	virtual SpaceFloat getFuseTime() const { return 3.0; }
@@ -70,8 +70,8 @@ public:
 	static constexpr float spriteBaseRadius = 0.83f;
 	inline virtual float zoom() const { return getRadius() / spriteBaseRadius * 2; }
 
-	virtual AttributeMap getAttributeEffect() const {
-		return { { Attribute::hp, -20.0f } };
+	inline virtual DamageInfo getDamageInfo() const {
+		return bomb_damage(20.0f);
 	};
 
 	virtual SpaceFloat getFuseTime() const { return 1.2; }

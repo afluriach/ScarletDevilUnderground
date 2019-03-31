@@ -22,9 +22,7 @@ const unsigned int Pyramid::coneSegments = 32;
 const Color4F Pyramid::coneColor = Color4F(0.75f, 0.6f, 0.4f, 0.7f);
 const Color4F Pyramid::coneActiveColor = Color4F(0.9f, 0.75f, 0.5f, 0.7f);
 
-const AttributeMap Pyramid::lightConeEffect = {
-	{Attribute::sunDamage, 5.0f }
-};
+const DamageInfo Pyramid::lightConeEffect = DamageInfo{ 5.0f, Attribute::sunDamage, DamageType::effectArea };
 
 Pyramid::Pyramid(GSpace* space, ObjectIDType id, const ValueMap& args) :
 MapObjForwarding(GObject)
@@ -52,7 +50,7 @@ void Pyramid::update()
 	{
 		Agent* agent = agent_ref.get();
 		if (agent) {
-			agent->applyAttributeEffects(AttributeSystem::scale(lightConeEffect, App::secondsPerFrame));
+			agent->hit(lightConeEffect);
 		}
 	}
 }

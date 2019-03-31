@@ -212,10 +212,7 @@ const AttributeMap RedFairy::baseAttributes = {
 	{ Attribute::bombSensitivity, 0.5f }, 
 };
 
-const AttributeMap RedFairy::explosionEffect = {
-	{ Attribute::hp, -20.0f }
-};
-
+const DamageInfo RedFairy::explosionEffect = bomb_damage(20.0f);
 const SpaceFloat RedFairy::explosionRadius = 4.0;
 
 RedFairy::RedFairy(GSpace* space, ObjectIDType id, const ValueMap& args) :

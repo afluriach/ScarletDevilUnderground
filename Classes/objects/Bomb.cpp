@@ -45,7 +45,7 @@ void Bomb::update()
 
 void Bomb::detonate()
 {
-	explosion(this, getBlastRadius(), getAttributeEffect());
+	explosion(this, getBlastRadius(), getDamageInfo());
 	
 	space->setSpriteTexture(spriteID, "sprites/explosion.png");
 	space->removeObjectWithAnimation(this, bombAnimationAction(getBlastRadius() / explosionSpriteRadius, false));

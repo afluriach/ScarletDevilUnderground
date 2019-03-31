@@ -58,11 +58,13 @@ enum class Attribute {
 
 	bombSensitivity,
 
-	iceSensitivity,
+	beginElementSensitivity,
+	iceSensitivity = beginElementSensitivity,
 	sunSensitivity,
 	darknessSensitivity,
 	poisonSensitivity,
 	slimeSensitivity,
+	endElementSensitivity = slimeSensitivity,
 
 	beginElementDamage,
 	iceDamage = beginElementDamage,
@@ -75,11 +77,34 @@ enum class Attribute {
 	end = endElementDamage,
 };
 
+enum class DamageType
+{
+	bullet,
+	bomb,
+	effectArea,
+	touch,
+	pitfall,
+
+	end
+};
+
 struct UpgradeInfo
 {
 	float step;
 	string sprite;
 };
+
+struct DamageInfo
+{
+	float mag = 0.0f;
+	Attribute element = Attribute::end;
+	DamageType type = DamageType::end;
+
+	DamageInfo operator*(float rhs);
+};
+
+#define bullet_damage(x) DamageInfo{x, Attribute::end, DamageType::bullet}
+#define bomb_damage(x) DamageInfo{x, Attribute::end, DamageType::bomb}
 
 typedef array<float, to_size_t(Attribute::end)> AttributeSet;
 typedef map<Attribute, float> AttributeMap;
@@ -98,6 +123,8 @@ public:
 	static AttributeMap getAttributeElementMap(Attribute element, float damage, float elementScale = 1.0f);
 	static AttributeSet getBlankAttributeSet();
 	static AttributeSet getZeroAttributeSet();
+	static Attribute getElementSensitivity(Attribute element);
+	static Attribute getElement(Attribute elementSensitivity);
 
 	static const float maxElementDamage;
 	static const float maxComboPoints;
@@ -122,6 +149,7 @@ public:
 	void applyIncidentRegen();
 	void applyElementDecay();
 
+	float applyDamage(DamageInfo damage);
 	void apply(const AttributeMap& effects);
 	float getAttackMultiplier() const;
 	AttributeMap scaleBulletAttributes(const AttributeMap& bulletAttributes) const;

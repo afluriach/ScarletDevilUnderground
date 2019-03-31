@@ -499,8 +499,8 @@ void Player::onBulletHitTarget(Bullet* bullet, Agent* target)
 	applyCombo(6);
 }
 
-bool Player::hit(AttributeMap attributeEffect, shared_ptr<MagicEffect> effect){
-	if (!Agent::hit(attributeEffect, effect))
+bool Player::hit(DamageInfo damage){
+	if (!Agent::hit(damage))
 		return false;
 
 	attributeSystem.setHitProtection();
@@ -637,7 +637,7 @@ void Player::applyRespawn()
 
 	respawnMaskTimer = 0.25;
 
-	hit({ { Attribute::hp, -1.0f } }, nullptr);
+	hit(DamageInfo{25.0f, Attribute::end, DamageType::pitfall});
 }
 
 void Player::setHudEffect(Attribute id, Attribute max_id)
@@ -670,7 +670,7 @@ const AttributeMap FlandrePC::baseAttributes = {
 	{Attribute::maxStamina, 100.0f},
 	{Attribute::staminaRegen, 0.05f},
 	{Attribute::agility, 2.0f},
-	{Attribute::hitProtectionInterval, 1.8f},
+	{Attribute::hitProtectionInterval, 1.0f},
 	{Attribute::spellCooldownInterval, 1.0f },
 	{Attribute::iceSensitivity, 2.0f},
 	{Attribute::sunSensitivity, 5.0f}
@@ -712,7 +712,7 @@ const AttributeMap RumiaPC::baseAttributes = {
 	{Attribute::maxStamina, 75.0f },
 	{Attribute::staminaRegen, 0.05f },
 	{Attribute::agility, 3.0f },
-	{Attribute::hitProtectionInterval, 1.2f },
+	{Attribute::hitProtectionInterval, 1.0f },
 	{Attribute::spellCooldownInterval, 1.0f },
 	{Attribute::iceSensitivity, 1.0f },
 	{Attribute::sunSensitivity, 0.0f },
@@ -741,7 +741,7 @@ const AttributeMap CirnoPC::baseAttributes = {
 	{Attribute::maxStamina, 125.0f},
 	{Attribute::staminaRegen, 0.05f },
 	{Attribute::agility, 1.0f},
-	{Attribute::hitProtectionInterval, 2.7f},
+	{Attribute::hitProtectionInterval, 1.0f},
 	{Attribute::spellCooldownInterval, 1.0f},
 	{Attribute::iceSensitivity, 0.0f},
 	{Attribute::sunSensitivity, 1.0f}

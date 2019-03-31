@@ -124,10 +124,10 @@ public:
 	void onEndTouchAgent(Agent* other);
 
 	inline virtual void onBulletHitTarget(Bullet* bullet, Agent* target) {}
-	virtual bool hit(AttributeMap attributeEffects, shared_ptr<MagicEffect> effect);
+	virtual bool hit(DamageInfo damage);
 	bool canApplyAttributeEffects(AttributeMap attributeEffect);
 	void applyAttributeEffects(AttributeMap attributeEffects);
-	virtual AttributeMap touchEffect() const;
+	virtual DamageInfo touchEffect() const;
 
 	//sensor interface
 	virtual SpaceFloat getRadarRadius() const { return 1.0; }

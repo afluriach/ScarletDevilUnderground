@@ -34,10 +34,7 @@ public:
 	//upon contactwith an enemy.
 	virtual void onWallCollide(Wall* wall);
 	virtual void onEnvironmentCollide(GObject* obj);
-	virtual void onAgentCollide(Agent* agent, SpaceVect n);
 	virtual void onBulletCollide(Bullet* bullet);
-
-	virtual SpaceFloat getKnockbackForce() const = 0;
 };
 
 class PlayerBulletImpl : public PlayerBullet, public BulletImpl
@@ -95,7 +92,7 @@ public:
 	virtual inline SpaceFloat getMaxSpeed() const { return props.speed; }
 	virtual inline SpaceFloat getRadius() const { return props.radius; }
 
-	virtual inline AttributeMap getAttributeEffect() const { return props.attributeEffect; }
+	virtual inline DamageInfo getDamageInfo() const { return props.damage; }
 
 	virtual inline string imageSpritePath() const { return props.sprite; }
 	virtual inline float zoom() const { return 1.0f; }
@@ -179,8 +176,8 @@ public:
 
 	virtual inline string imageSpritePath() const { return "sprites/lavaeteinn.png"; }
 
-	virtual AttributeMap getAttributeEffect() const;
-	inline virtual SpaceFloat getKnockbackForce() const { return 0.0; }
+	virtual DamageInfo getDamageInfo() const;
+	inline virtual SpaceFloat getKnockbackForce() const { return 30.0; }
 
 //	virtual void initializeGraphics();
 //	virtual void update();
@@ -198,8 +195,8 @@ public:
 	virtual inline string imageSpritePath() const { return "sprites/counter_clock_bullet.png"; }
 	virtual inline float zoom() const { return 0.25f; }
 
-	virtual AttributeMap getAttributeEffect() const;
-	virtual inline SpaceFloat getKnockbackForce() const { return 0.0; }
+	virtual DamageInfo getDamageInfo() const;
+	virtual inline SpaceFloat getKnockbackForce() const { return 50.0; }
 };
 
 class CirnoIceShieldBullet :
@@ -221,7 +218,7 @@ public:
 	static constexpr float spriteBaseRadius = 0.83f;
 	inline virtual float zoom() const { return getRadius() / spriteBaseRadius * 2; }
 
-	virtual AttributeMap getAttributeEffect() const;
+	virtual DamageInfo getDamageInfo() const;
 
 	inline virtual SpaceFloat getKnockbackForce() const { return 99.0; }
 };

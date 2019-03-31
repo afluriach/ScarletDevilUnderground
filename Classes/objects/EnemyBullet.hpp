@@ -86,8 +86,9 @@ public:
 
     const string color;
 
-	virtual AttributeMap getAttributeEffect() const;
+	virtual DamageInfo getDamageInfo() const;
 
+	virtual inline SpaceFloat getKnockbackForce() const { return 150.0; }
 	virtual inline SpaceFloat getRadius() const { return 0.3; }
 
     virtual inline string imageSpritePath() const {return "sprites/star-"+color+".png";}

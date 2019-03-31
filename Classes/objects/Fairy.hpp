@@ -89,7 +89,7 @@ class RedFairy : public Enemy, public BaseAttributes<RedFairy>
 {
 public:
 	static const AttributeMap baseAttributes;
-	static const AttributeMap explosionEffect;
+	static const DamageInfo explosionEffect;
 	static const SpaceFloat explosionRadius;
 
 	RedFairy(GSpace* space, ObjectIDType id, const ValueMap& args);
@@ -164,8 +164,8 @@ public:
 
 	void init();
 
-	inline virtual AttributeMap touchEffect() const {
-		return AttributeSystem::getAttributeElementMap(Attribute::darknessDamage, 20.0f);
+	inline virtual DamageInfo getDamageInfo() const {
+		return DamageInfo{ 20.0f, Attribute::darknessDamage, DamageType::touch };
 	}
 
 	virtual inline SpaceFloat getRadarRadius() const { return 6.0; }

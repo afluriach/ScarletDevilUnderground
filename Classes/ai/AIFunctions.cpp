@@ -588,7 +588,7 @@ void LookTowardsFire::onExit(StateMachine& fsm)
 
 void LookTowardsFire::onBulletCollide(StateMachine& fsm, Bullet* b)
 {
-	SpaceVect bulletDirection = b->getVel().normalize().rotate(float_pi);
+	SpaceVect bulletDirection = b->getVel().normalizeSafe().rotate(float_pi);
 	hitAccumulator += hitCost;
 	directionAccumulator += bulletDirection;
 

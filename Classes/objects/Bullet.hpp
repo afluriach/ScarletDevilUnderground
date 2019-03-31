@@ -23,7 +23,7 @@ struct bullet_properties
 	SpaceFloat speed;
 	SpaceFloat radius;
 
-	AttributeMap attributeEffect;
+	DamageInfo damage;
 
 	SpaceFloat spriteBaseRadius;
 	string sprite;
@@ -57,14 +57,15 @@ public:
 	virtual inline GraphicsLayer sceneLayer() const { return GraphicsLayer::ground; }
 
 	//Interface
-	virtual inline AttributeMap getAttributeEffect() const { return AttributeMap(); }
-	virtual inline shared_ptr<MagicEffect> getMagicEffect(gobject_ref target) { return nullptr; }
+	virtual inline DamageInfo getDamageInfo() const { return DamageInfo{}; }
+	virtual inline SpaceFloat getKnockbackForce() const { return 0.0; }
 
 	virtual void onWallCollide(Wall* wall);
 	virtual void onEnvironmentCollide(GObject* obj);
 	virtual void onAgentCollide(Agent* agent, SpaceVect n);
 	virtual void onBulletCollide(Bullet* bullet);
 
+	DamageInfo getScaledDamageInfo() const;
 	SpaceVect calculateLaunchVelocity();
 	bool applyRicochet(SpaceVect n);
 	void setBodyVisible(bool b);
@@ -73,7 +74,6 @@ public:
 	//modifier attributes, should be copied at time bullet is created.
 	bullet_attributes attributes;
 
-	SpaceFloat knockback = 0.0;
 	int ricochetCount = 0;
 	int hitCount = 1;
 };
@@ -98,7 +98,7 @@ public:
 	virtual inline string imageSpritePath() const { return props->sprite; }
 	virtual inline float zoom() const { return props->radius / props->spriteBaseRadius * 2.0f; }
 
-	virtual inline AttributeMap getAttributeEffect() const { return props->attributeEffect; }
+	virtual inline DamageInfo getDamageInfo() const { return props->damage; }
 
 	const bullet_properties* props;
 };
@@ -123,7 +123,7 @@ public:
 	virtual inline string imageSpritePath() const { return props.sprite; }
 	virtual inline float zoom() const { return props.radius / props.spriteBaseRadius * 2.0f; }
 
-	virtual inline AttributeMap getAttributeEffect() const { return props.attributeEffect; }
+	virtual inline DamageInfo getDamageInfo() const { return props.damage; }
 
 	const bullet_properties props;
 };

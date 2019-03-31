@@ -378,7 +378,7 @@ int GSpace::bulletEnvironment(GObject* bullet, GObject* environment, cpArbiter* 
 			_b->onEnvironmentCollide(environment);
 
 			if (auto _hs = dynamic_cast<Headstone*>(environment)) {
-				_hs->hit(-AttributeSystem::getAttribute(_b->getAttributeEffect(), Attribute::hp));
+				_hs->hit(_b->getScaledDamageInfo().mag);
 			}
 		}
 	}

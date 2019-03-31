@@ -22,8 +22,7 @@ public:
     
 	virtual void update();
 
-	virtual inline AttributeMap getAttributeEffect() { return {}; }
-	virtual inline shared_ptr<MagicEffect> getMagicEffect(GObject* target) { return nullptr; }
+	virtual inline DamageInfo getDamageInfo() const { return DamageInfo{}; }
 };
 
 class SunArea : public EffectArea
@@ -33,7 +32,7 @@ public:
 
 	virtual void initializeGraphics();
 	virtual GraphicsLayer sceneLayer() const;
-	virtual AttributeMap getAttributeEffect();
+	virtual DamageInfo getDamageInfo() const;
 };
 
 class DarknessArea : public EffectArea, public RegisterInit<DarknessArea>
@@ -44,7 +43,7 @@ public:
 	void init();
 	virtual void update();
 
-	virtual AttributeMap getAttributeEffect();
+	virtual DamageInfo getDamageInfo() const;
 protected:
 	unordered_set<Torch*> torches;
 	bool active = false;

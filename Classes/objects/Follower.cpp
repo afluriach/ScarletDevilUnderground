@@ -24,7 +24,7 @@ Follower::Follower(GSpace* space, ObjectIDType id, const ValueMap& args) :
 	Enemy(collectible_id::nil)
 {}
 
-bool Follower::hit(AttributeMap attributeEffects, shared_ptr<MagicEffect> effect)
+bool Follower::hit(DamageInfo damage)
 {
     rotate(-0.5f*float_pi);
 	return true;

@@ -25,7 +25,7 @@ public:
 	static const Color4F coneColor;
 	static const Color4F coneActiveColor;
 
-	static const AttributeMap lightConeEffect;
+	static const DamageInfo lightConeEffect;
 
 	MapObjCons(Pyramid);
     

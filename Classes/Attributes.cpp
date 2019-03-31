@@ -13,6 +13,11 @@
 #include "macros.h"
 #include "util.h"
 
+DamageInfo DamageInfo::operator*( float rhs)
+{
+	return DamageInfo{ mag * rhs, element, type };
+}
+
 const float AttributeSystem::maxElementDamage = 100.0f;
 const float AttributeSystem::maxComboPoints = 75.0f;
 const float AttributeSystem::comboPointsDrainPerSecond = 15.0f;
@@ -159,6 +164,24 @@ AttributeSet AttributeSystem::getZeroAttributeSet()
 	return result;
 }
 
+Attribute AttributeSystem::getElementSensitivity(Attribute element)
+{
+	return static_cast<Attribute>(
+		to_int(element) - 
+		to_int(Attribute::beginElementDamage) + 
+		to_int(Attribute::beginElementSensitivity)
+	);
+}
+
+Attribute AttributeSystem::getElement(Attribute elementSensitivity)
+{
+	return static_cast<Attribute>(
+		to_int(elementSensitivity) -
+		to_int(Attribute::beginElementSensitivity) +
+		to_int(Attribute::beginElementDamage)
+	);
+}
+
 AttributeMap AttributeSystem::scale(const AttributeMap& input, float scale)
 {
 	AttributeMap result;
@@ -269,6 +292,20 @@ void AttributeSystem::applyElementDecay()
 	enum_foreach(Attribute, elem, beginElementDamage, endElementDamage) {
 		timerDecrement(elem);
 	}
+}
+
+float AttributeSystem::applyDamage(DamageInfo damage)
+{
+	float elementSensitivity = damage.element != Attribute::end ? (*this)[getElementSensitivity(damage.element)] : 1.0f;
+	float typeSensitivity = damage.type == DamageType::bomb ? (*this)[Attribute::bombSensitivity] : 1.0f;
+
+	modifyAttribute(Attribute::hp, -damage.mag * typeSensitivity * elementSensitivity);
+
+	if (damage.element != Attribute::end) {
+		modifyAttribute(damage.element, damage.mag * typeSensitivity);
+	}
+
+	return damage.mag * elementSensitivity * typeSensitivity;
 }
 
 void AttributeSystem::apply(const AttributeMap& effects)

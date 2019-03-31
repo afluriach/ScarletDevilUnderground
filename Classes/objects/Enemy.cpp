@@ -25,9 +25,9 @@ void Enemy::runDamageFlicker()
 	}
 }
 
-bool Enemy::hit(AttributeMap attributeEffects, shared_ptr<MagicEffect> effect)
+bool Enemy::hit(DamageInfo damage)
 {
-	if (!Agent::hit(attributeEffects, effect))
+	if (!Agent::hit(damage))
 		return false;
 
 	runDamageFlicker();
