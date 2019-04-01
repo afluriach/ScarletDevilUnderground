@@ -51,6 +51,8 @@ bool App::fullscreen = false;
 bool App::vsync = true;
 bool App::multithread = true;
 
+bool App::unlockAllEquips = false;
+
 unsigned int App::framesPerSecond = 60;
 double App::secondsPerFrame = 1.0 / App::framesPerSecond;
 boost::rational<int> App::secondsPerFrameRational(1,App::framesPerSecond);
@@ -447,6 +449,11 @@ bool App::autosaveProfile()
 void App::setPlayer(int id)
 {
 	crntPC = static_cast<PlayerCharacter>(id);
+}
+
+void App::setUnlockAllEquips(bool v)
+{
+	unlockAllEquips = v;
 }
 
 const string& App::getBaseDataPath() {

@@ -38,6 +38,8 @@ public:
 	static bool fullscreen;
 	static bool vsync;
 	static bool multithread;
+
+	static bool unlockAllEquips;
 	
 	static unsigned int framesPerSecond;
 	static double secondsPerFrame;
@@ -68,7 +70,9 @@ public:
 	static void setMultithread(bool v);
 	static void setResolution(unsigned int width, unsigned int height);
 	static void setFramerate(unsigned int fps);
+
 	static void setPlayer(int id);
+	static void setUnlockAllEquips(bool v);
 
 	//Methods for controlling the active scene; wraps calls to Director.
 	static void runTitleScene();

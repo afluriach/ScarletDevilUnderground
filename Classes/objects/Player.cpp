@@ -97,6 +97,9 @@ void Player::equipSpells()
 
 	for (string spellName : Spell::playerSpells)
 	{
+		if (!App::unlockAllEquips && !space->getState()->hasItem(spellName))
+			continue;
+
 		shared_ptr<SpellDesc> desc = Spell::getDescriptorByName(spellName);
 		if (desc) {
 			spells.push_back(desc);

@@ -56,5 +56,4 @@ const vector<string> Spell::playerSpells = {
 
 const vector<string> Spell::playerPowerAttacks = {
 	"LavaeteinnSpell",
-	"PlayerWhirlShot",
 };

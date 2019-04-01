@@ -12,6 +12,7 @@
 #include "GSpace.hpp"
 #include "GState.hpp"
 #include "Items.hpp"
+#include "Player.hpp"
 #include "Spell.hpp"
 #include "value_map.hpp"
 
@@ -33,6 +34,18 @@ void GraveyardBook1::onAcquire()
 	space->createDialog("dialogs/book_acquired", false);
 }
 
+bool Spellcard::conditionalLoad(GSpace* space, ObjectIDType id, const ValueMap& args)
+{
+	string spellName = getStringOrDefault(args, "spell", "");
+
+	if (spellName.empty()) {
+		log("Spellcard without spell name.");
+		return false;
+	}
+
+	return !space->getState()->hasItem(spellName);
+}
+
 Spellcard::Spellcard(GSpace* space, ObjectIDType id, const ValueMap& args) :
 	MapObjForwarding(GObject)
 {
@@ -46,6 +59,16 @@ Spellcard::Spellcard(GSpace* space, ObjectIDType id, const ValueMap& args) :
 	}
 }
 
+CircleLightArea Spellcard::getLightSource() const
+{
+	return CircleLightArea{
+		getPos(),
+		3.0,
+		toColor4F(Color3B(94, 145, 140)),
+		0.5f
+	};
+}
+
 void Spellcard::initializeGraphics()
 {
 	ImageSprite::initializeGraphics();
@@ -54,5 +77,7 @@ void Spellcard::initializeGraphics()
 
 void Spellcard::onAcquire()
 {
-
+	space->getState()->itemRegistry.insert(name);
+	space->removeObject(this);
+	space->getObjectAs<Player>("player")->equipSpells();
 }
