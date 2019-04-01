@@ -64,6 +64,7 @@ string loadTextFile(const string& res);
 vector<string> splitString(const string& input,const string& sep);
 
 string getTimeString(unsigned int millis);
+string floatToStringOptionalDecimal(float val);
 
 template<typename T>
 T vmin(T&&t)

@@ -728,11 +728,14 @@ bool PlayerInfo::init()
 	for_irange(i, 0, displayIncidentAttributes.size())
 	{
 		auto entry = displayIncidentAttributes.at(i);
+		float attr = (*stats)[get<0>(entry)];
+		float maxAttr = (*stats)[get<1>(entry)];
 		string icon = AttributeSystem::upgradeAttributes.at(get<1>(entry)).sprite;
 		string text = boost::str(boost::format("%s: %s / %s") %
 			get<2>(entry) %
-			boost::lexical_cast<string>((*stats)[get<0>(entry)]) % 
-			boost::lexical_cast<string>((*stats)[get<1>(entry)])
+			floatToStringOptionalDecimal(attr) %
+			//Should be an integer value.
+			boost::lexical_cast<string>(maxAttr)
 		);
 
 		addEntry(icon, text, i);

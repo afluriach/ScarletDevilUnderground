@@ -90,6 +90,8 @@ public:
 protected:
 	vector<string> trapDoorNames;
 	vector<string> spawnerNames;
+	string spawnOnClear;
+
 	unordered_set<object_ref<ActivateableObject>> doors;
 	unordered_set<object_ref<Spawner>> spawners;
 	bool isTrapActive = false;

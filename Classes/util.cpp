@@ -212,6 +212,16 @@ string getTimeString(unsigned int millis)
 	);
 }
 
+string floatToStringOptionalDecimal(float val)
+{
+	if (val == floor(val)) {
+		return boost::str(boost::format("%.0f") % val);
+	}
+	else {
+		return boost::str(boost::format("%.2f") % val);
+	}
+}
+
 bool isInArea(const vector<SpaceRect>& areas, const SpaceVect& target, int index)
 {
 	if (index == -1) {

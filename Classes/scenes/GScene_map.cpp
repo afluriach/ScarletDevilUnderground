@@ -132,6 +132,7 @@ void GScene::loadMap(const MapEntry& mapEntry)
 	loadFloorSegments(*tileMap, mapEntry.second);
 	loadSensors(*tileMap, mapEntry.second);
 	loadMapObjects(*tileMap, mapEntry.second);
+	loadDynamicLoadObjects(*tileMap, mapEntry.second);
 	loadSubrooms(*tileMap, mapEntry.second);
 	loadWalls(*tileMap, mapEntry.second);
 	loadLights(*tileMap, mapEntry.second);
@@ -156,6 +157,20 @@ void GScene::loadMap(const MapEntry& mapEntry)
 	}
 	else if (maps.size() == 1) {
 		loadRoomsLayer(*tileMap);
+	}
+}
+
+void GScene::loadDynamicLoadObjects(const TMXTiledMap& map, IntVec2 offset)
+{
+	TMXObjectGroup* group = map.getObjectGroup("dynamic_load");
+	if (!group) return;
+
+	const ValueVector& objects = group->getObjects();
+	for (const Value& obj : objects)
+	{
+		ValueMap objAsMap = obj.asValueMap();
+		convertToUnitSpace(objAsMap, offset);
+		gspace->addDynamicLoadObject(objAsMap);
 	}
 }
 

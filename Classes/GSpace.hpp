@@ -81,7 +81,9 @@ public:
 	void addWallBlock(const SpaceVect& ll, const SpaceVect& ur);
 	void addWallBlock(const SpaceRect& area);
 
-    gobject_ref createObject(const ValueMap& obj);
+	void addDynamicLoadObject(const ValueMap& obj);
+	gobject_ref createDynamicObject(const string& name);
+	gobject_ref createObject(const ValueMap& obj);
 	gobject_ref createObject(ObjectGeneratorType factory);
 	void createObjects(const ValueVector& objs);
         
@@ -237,6 +239,7 @@ private:
 	unordered_map<type_index, unordered_set<GObject*>> objByType;
 	unordered_map<type_index, unsigned int> initialObjectCount;
 	unordered_set<GObject*> updateObjects;
+	unordered_map<string, ValueMap> dynamicLoadObjects;
 
 	SpaceRect cameraArea;
 	int crntMap = -1;

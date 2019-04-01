@@ -105,6 +105,7 @@ RoomSensor::RoomSensor(GSpace* space, ObjectIDType id, SpaceVect center, SpaceVe
 {
 	trapDoorNames = splitString(getStringOrDefault(props, "trap_doors", ""), " ");
 	spawnerNames = splitString(getStringOrDefault(props, "spawners", ""), " ");
+	spawnOnClear = getStringOrDefault(props, "spawn_on_clear", "");
 	bossName = getStringOrDefault(props, "boss", "");
 	keyWaypointName = getStringOrDefault(props, "key_drop", "");
 	isKeyDrop = !keyWaypointName.empty();
@@ -174,6 +175,10 @@ void RoomSensor::update()
 
 	if (isKeyDrop && !keyWaypointName.empty() && player.isValid() && enemies.empty()) {
 		spawnKey();
+	}
+	else if (!spawnOnClear.empty() && player.isValid() && enemies.empty()) {
+		space->createDynamicObject(spawnOnClear);
+		spawnOnClear.clear();
 	}
 }
 

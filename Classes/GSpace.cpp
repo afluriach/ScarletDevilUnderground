@@ -173,6 +173,40 @@ void GSpace::update()
 
 const bool GSpace::logObjectArgs = false;
 
+void GSpace::addDynamicLoadObject(const ValueMap& obj)
+{
+	string name = obj.at("name").asString();
+	string type = obj.at("type").asString();
+
+	if (name.empty()) {
+		log("Un-named dynamic load object");
+	}
+	else if (type.empty()) {
+		log("Un-typed dynamic load object");
+	}
+	else if (GObject::objectInfo.find(type) == GObject::objectInfo.end()) {
+		log("Dynamic load object with unknown type %s.", type.c_str());
+	}
+	else if (dynamicLoadObjects.find(name) != dynamicLoadObjects.end()) {
+		log("Dynamic load object name %s already used.", name.c_str());
+	}
+	else {
+		dynamicLoadObjects.insert_or_assign(name, obj);
+	}
+}
+
+gobject_ref GSpace::createDynamicObject(const string& name)
+{
+	auto it = dynamicLoadObjects.find(name);
+	if (it != dynamicLoadObjects.end()) {
+		return createObject(it->second);
+	}
+	else {
+		log("Unknown dynamic load object name %s.", name.c_str());
+		return nullptr;
+	}
+}
+
 gobject_ref GSpace::createObject(const ValueMap& obj)
 {
     string type = obj.at("type").asString();

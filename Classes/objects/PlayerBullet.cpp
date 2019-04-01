@@ -321,7 +321,7 @@ FlandreCounterClockBullet::FlandreCounterClockBullet(GSpace* space, ObjectIDType
 {}
 
 DamageInfo FlandreCounterClockBullet::getDamageInfo() const {
-	return bullet_damage(-1.0f);
+	return melee_damage(1.5f);
 }
 
 CirnoIceShieldBullet::CirnoIceShieldBullet(GSpace* space, ObjectIDType id, const SpaceVect& pos, SpaceFloat angle, object_ref<Agent> agent) :

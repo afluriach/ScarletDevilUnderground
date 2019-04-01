@@ -227,6 +227,7 @@ protected:
 	void loadMap(const MapEntry& mapEntry);
 
 	void loadObjectGroup(TMXObjectGroup* group, IntVec2 offset);
+	void loadDynamicLoadObjects(const TMXTiledMap& map, IntVec2 offset);
 	void loadMapObjects(const TMXTiledMap& map, IntVec2 offset);
 	//equivalent, except load "floor" layer
 	void loadFloorSegments(const TMXTiledMap& map, IntVec2 offset);

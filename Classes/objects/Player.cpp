@@ -566,8 +566,13 @@ void Player::applyUpgrade(Upgrade* up)
 		space->addHudAction(&HUD::setMaxHP,to_int(attributeSystem[Attribute::maxHP]));
 	break;
 	case Attribute::maxMP:
+		attributeSystem.modifyAttribute(Attribute::mp, step);
 		space->addHudAction(&HUD::setMaxMP, to_int(attributeSystem[Attribute::maxMP]));
 	break;
+	case Attribute::maxStamina:
+		attributeSystem.modifyAttribute(Attribute::stamina, step);
+		space->addHudAction(&HUD::setMaxStamina, to_int(attributeSystem[Attribute::maxStamina]));
+		break;
 	case Attribute::bulletCount:
 		equipFirePatterns();
 	break;
