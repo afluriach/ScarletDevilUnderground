@@ -20,13 +20,16 @@ enum class collectible_id
 
 	health1,
 	health2,
+	health3,
 
 	magic1,
 	magic2,
+	magic3,
 
 	//random health or magic
 	hm1,
 	hm2,
+	hm3,
 
 	key,
 };
@@ -63,24 +66,6 @@ public:
 	virtual inline AttributeMap getEffect() const { return D::effect; }
 };
 
-class Power1 : public CollectibleImpl<Power1>
-{
-public:
-	static const AttributeMap effect;
-	static const string spriteName;
-
-	Power1(GSpace* space, ObjectIDType id, SpaceVect pos);
-};
-
-class Power2 : public CollectibleImpl<Power2>
-{
-public:
-	static const AttributeMap effect;
-	static const string spriteName;
-
-	Power2(GSpace* space, ObjectIDType id, SpaceVect pos);
-};
-
 class Magic1 : public CollectibleImpl<Magic1>
 {
 public:
@@ -99,6 +84,15 @@ public:
 	Magic2(GSpace* space, ObjectIDType id, SpaceVect pos);
 };
 
+class Magic3 : public CollectibleImpl<Magic3>
+{
+public:
+	static const AttributeMap effect;
+	static const string spriteName;
+
+	Magic3(GSpace* space, ObjectIDType id, SpaceVect pos);
+};
+
 class Health1 : public CollectibleImpl<Health1>
 {
 public:
@@ -115,6 +109,15 @@ public:
 	static const string spriteName;
 
 	Health2(GSpace* space, ObjectIDType id, SpaceVect pos);
+};
+
+class Health3 : public CollectibleImpl<Health3>
+{
+public:
+	static const AttributeMap effect;
+	static const string spriteName;
+
+	Health3(GSpace* space, ObjectIDType id, SpaceVect pos);
 };
 
 class Key : public CollectibleImpl<Key>

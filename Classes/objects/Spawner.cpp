@@ -25,9 +25,9 @@ spawnLimit(getIntOrDefault(args, "spawn_limit", defaultSpawnLimit))
 type_index Spawner::getSpawnType() const
 {
 	string type = spawn_args.at("type").asString();
-	auto it = GObject::objectInfo.find(type);
-	if (it != GObject::objectInfo.end()) {
-		return it->second.type;
+	const object_info* info = getObjectInfo(type);
+	if (info) {
+		return info->type;
 	}
 	else {
 		log("Spawner::getSpawnType(): unknown enemy type %s.", type.c_str());

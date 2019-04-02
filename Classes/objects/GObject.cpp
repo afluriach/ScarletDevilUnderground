@@ -91,6 +91,14 @@ GObject::GeneratorType GObject::factoryMethodByType(const string& type, const Va
 	};
 }
 
+const GObject::object_info* GObject::getObjectInfo(string name)
+{
+	auto it = objectInfo.find(name);
+	if (it != objectInfo.end())
+		return &it->second;
+	else
+		return nullptr;
+}
 
 void GObject::init()
 {

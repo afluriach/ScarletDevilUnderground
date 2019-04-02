@@ -34,10 +34,13 @@ function<ObjectGeneratorType(GSpace* space, SpaceVect) > createRandomAdapter()
 const unordered_map<collectible_id, function<ObjectGeneratorType(GSpace*, SpaceVect)>> Collectible::factories = {
 	{collectible_id::magic1, createAdapter<Magic1>() },
 	{collectible_id::magic2, createAdapter<Magic2>() },
+	{collectible_id::magic3, createAdapter<Magic3>() },
 	{collectible_id::health1, createAdapter<Health1>() },
 	{collectible_id::health2, createAdapter<Health2>() },
+	{collectible_id::health3, createAdapter<Health3>() },
 	{collectible_id::hm1, createRandomAdapter<Health1, Magic1>() },
 	{collectible_id::hm2, createRandomAdapter<Health2, Magic2>() },
+	{collectible_id::hm3, createRandomAdapter<Health3, Magic3>() },
 	{collectible_id::key, createAdapter<Key>() },
 };
 
@@ -76,6 +79,18 @@ Magic2::Magic2(GSpace* space, ObjectIDType id, SpaceVect pos) :
 {
 }
 
+const AttributeMap Magic3::effect = {
+	{ Attribute::mp, 100.0f }
+};
+
+const string Magic3::spriteName = "magic3";
+
+Magic3::Magic3(GSpace* space, ObjectIDType id, SpaceVect pos) :
+	GObject(space, id, "", pos, float_pi / 2.0),
+	CollectibleImpl<Magic3>(space, id, pos)
+{
+}
+
 const AttributeMap Health1::effect = {
 	{ Attribute::hp, 5.0f }
 };
@@ -97,6 +112,18 @@ const string Health2::spriteName = "health2";
 Health2::Health2(GSpace* space, ObjectIDType id, SpaceVect pos) :
 	GObject(space, id, "", pos, float_pi / 2.0),
 	CollectibleImpl<Health2>(space, id, pos)
+{
+}
+
+const AttributeMap Health3::effect = {
+	{ Attribute::hp, 100.0f }
+};
+
+const string Health3::spriteName = "health3";
+
+Health3::Health3(GSpace* space, ObjectIDType id, SpaceVect pos) :
+	GObject(space, id, "", pos, float_pi / 2.0),
+	CollectibleImpl<Health3>(space, id, pos)
 {
 }
 

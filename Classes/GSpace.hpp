@@ -83,6 +83,7 @@ public:
 
 	void addDynamicLoadObject(const ValueMap& obj);
 	gobject_ref createDynamicObject(const string& name);
+	const ValueMap* getDynamicObject(const string& name) const;
 	gobject_ref createObject(const ValueMap& obj);
 	gobject_ref createObject(ObjectGeneratorType factory);
 	void createObjects(const ValueVector& objs);
