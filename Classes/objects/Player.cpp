@@ -27,6 +27,7 @@
 #include "SpellDescriptor.hpp"
 #include "Upgrade.hpp"
 
+const float Player::centerLookHoldThresh = 0.3f;
 const float Player::interactCooldownTime = 0.1f;
 const float Player::bombCooldownTime = 1.0f;
 
@@ -176,6 +177,14 @@ void Player::checkMovementControls(const ControlInfo& cs)
 		return;
 	}
 
+	lookModeHoldTimer = (lookModeHoldTimer + App::secondsPerFrame)*to_int(cs.isControlActionDown(ControlAction::centerLook));
+	isAutoLookToggled = isAutoLookToggled && cs.isControlActionDown(ControlAction::centerLook);
+
+	if (lookModeHoldTimer >= centerLookHoldThresh && !isAutoLookToggled) {
+		isAutoLook = !isAutoLook;
+		isAutoLookToggled = true;
+	}
+
 	if (cs.isControlActionPressed(ControlAction::walk)) {
 		space->setBulletBodiesVisible(true);
 	}
@@ -187,10 +196,9 @@ void Player::checkMovementControls(const ControlInfo& cs)
 	setSprintMode(cs.isControlActionDown(ControlAction::sprint));
 
     SpaceVect moveDir = cs.left_v;
-	SpaceVect facing = cs.isControlActionDown(ControlAction::centerLook) ?
-		cs.left_v :
-		cs.right_v
-	;
+	SpaceVect facing = isAutoLook && cs.right_v.lengthSq() < ControlRegister::deadzone2 || 
+		cs.isControlActionDown(ControlAction::centerLook) ?
+		cs.left_v : cs.right_v;
 	SpaceFloat speedRatio = getSpeedMultiplier();
 
     ai::applyDesiredVelocity(this, moveDir*getMaxSpeed() * speedRatio, getMaxAcceleration());
