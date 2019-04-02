@@ -140,6 +140,7 @@ protected:
 
 	PlayScene* playScene = nullptr;
 
+	bool isAutoFire = false;
 	bool suppressFiring = false;
 	bool suppressMovement = false;
 	bool isSprintActive = false;

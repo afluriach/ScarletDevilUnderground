@@ -29,6 +29,7 @@ enum class ControlAction
     interact,
     enter,
 
+	fire,
     spell,
 	bomb,
 	powerAttack,
@@ -39,6 +40,9 @@ enum class ControlAction
 	spellNext,
 
 	powerAttackNext,
+
+	centerLook,
+	fireMode,
 
 	move_pad_up,
 	move_pad_right,
@@ -100,6 +104,8 @@ public:
     static const bool logButtons;
 	static const bool logActionState;
     static const float deadzone;
+	static const float deadzone2;
+	static const float triggerDeadzone;
         
     static const unordered_map<EventKeyboard::KeyCode, ControlActionState> keyActionMap;
 #if use_gamepad

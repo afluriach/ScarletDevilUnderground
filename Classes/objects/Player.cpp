@@ -187,7 +187,10 @@ void Player::checkMovementControls(const ControlInfo& cs)
 	setSprintMode(cs.isControlActionDown(ControlAction::sprint));
 
     SpaceVect moveDir = cs.left_v;
-	SpaceVect facing = cs.right_v;
+	SpaceVect facing = cs.isControlActionDown(ControlAction::centerLook) ?
+		cs.left_v :
+		cs.right_v
+	;
 	SpaceFloat speedRatio = getSpeedMultiplier();
 
     ai::applyDesiredVelocity(this, moveDir*getMaxSpeed() * speedRatio, getMaxAcceleration());
@@ -255,9 +258,17 @@ void Player::onSpellStop()
 
 void Player::checkFireControls(const ControlInfo& cs)
 {
+	bool isFireButton =
+		cs.isControlActionDown(ControlAction::fire) ||
+		isAutoFire && cs.right_v.lengthSq() >= ControlRegister::deadzone2
+	;
+
+	if (cs.isControlActionPressed(ControlAction::fireMode)) {
+		isAutoFire = !isAutoFire;
+	}
+
 	//Fire if arrow key is pressed
-	if (!suppressFiring && !cs.right_v.isZero() && getFirePattern())
-	{
+	if (!suppressFiring && isFireButton && getFirePattern()){
 		float fireCost = getFirePattern()->getCost();
 
 		if (attributeSystem[Attribute::stamina] >= fireCost && getFirePattern()->fireIfPossible()) {

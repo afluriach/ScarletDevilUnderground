@@ -17,7 +17,9 @@
 const bool ControlRegister::logKeyEvents = false;
 const bool ControlRegister::logButtons = false;
 const bool ControlRegister::logActionState = false;
-const float ControlRegister::deadzone = 0.3f;
+const float ControlRegister::deadzone = 0.1f;
+const float ControlRegister::deadzone2 = deadzone*deadzone;
+const float ControlRegister::triggerDeadzone = 0.2f;
 
 #define key_action_1(key_id,action_id) {EventKeyboard::KeyCode::key_id, make_enum_bitfield(ControlAction::action_id)}
 #define key_action_2(key_id,action1,action2) {EventKeyboard::KeyCode::key_id, make_enum_bitfield(ControlAction::action1) | make_enum_bitfield(ControlAction::action2)}
@@ -80,6 +82,9 @@ const unordered_map<gainput::PadButton, ControlActionState> ControlRegister::but
 	button_action_1(PadButtonLeft, spellPrev),
 	button_action_1(PadButtonRight, spellNext),
 	button_action_1(PadButtonDown, firePatternNext),
+
+	button_action_1(PadButtonL3, centerLook),
+	button_action_1(PadButtonR3, fireMode),
 };
 #endif
 
@@ -213,6 +218,9 @@ void ControlRegister::updateVectors()
 
         right_stick.x = gamepad->GetFloat(gainput::PadButtonRightStickX);
         right_stick.y = gamepad->GetFloat(gainput::PadButtonRightStickY);
+
+		if (gamepad->GetFloat(gainput::PadButtonAxis5) >= triggerDeadzone)
+			bitset_enum_set(isActionPressed, ControlAction::fire, true);
     }
     #endif
     
