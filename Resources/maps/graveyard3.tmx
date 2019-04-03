@@ -337,9 +337,9 @@
   <object id="292" name="spawner-g5-2" type="GhostFairy" x="6144" y="4608" width="128" height="128"/>
   <object id="291" name="spawner-g5-3" type="GhostFairy" x="4608" y="6144" width="128" height="128"/>
   <object id="290" name="spawner-g5-4" type="GhostFairy" x="6144" y="6144" width="128" height="128"/>
-  <object id="289" name="spawner-g5-5" type="GhostFairy" x="5664" y="4800" width="128" height="128"/>
-  <object id="288" name="spawner-g5-6" type="GhostFairy" x="5632" y="5376" width="128" height="128"/>
-  <object id="285" name="spawner-g5-7" type="GhostFairy" x="5056" y="4800" width="128" height="128"/>
+  <object id="289" name="spawner-g5-5" type="GreenFairy1" x="5664" y="4800" width="128" height="128"/>
+  <object id="288" name="spawner-g5-6" type="GreenFairy2" x="5632" y="5376" width="128" height="128"/>
+  <object id="285" name="spawner-g5-7" type="GreenFairy1" x="5056" y="4800" width="128" height="128"/>
   <object id="295" type="Bat" x="1024" y="5376" width="128" height="128">
    <properties>
     <property name="spawn_limit" value="5"/>
@@ -361,7 +361,15 @@
   <object id="184" name="8" x="0" y="0" width="2176" height="2176"/>
   <object id="138" name="5" x="4352" y="4352" width="2176" height="2176">
    <properties>
-    <property name="startState" value="SequentialClearSpawn"/>
+    <property name="minCount3" value="1"/>
+    <property name="startState" value="MultiSpawnSequence"/>
+    <property name="totalCount1" value="5"/>
+    <property name="totalCount2" value="2"/>
+    <property name="totalCount3" value="3"/>
+    <property name="type1" value="GreenFairy1"/>
+    <property name="type2" value="GreenFairy2"/>
+    <property name="type3" value="GhostFairy"/>
+    <property name="waveCount1" value="2"/>
    </properties>
   </object>
  </objectgroup>

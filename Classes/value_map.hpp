@@ -34,10 +34,48 @@ bool getBoolOrDefault(const ValueMap& args, const string& field, bool val);
 Direction getDirectionOrDefault(const ValueMap& args, Direction d);
 
 ValueMap getMap(const ValueMap& args, const string& field);
+ValueVector getVector(const ValueMap& args, const string& field, int start);
+ValueVector getVector(const ValueMap& args, const string& field, int start, int size);
 
 gobject_ref getObjRefFromStringField(GSpace* space, const ValueMap& args, const string& fieldName);
 
 void convertToUnitSpace(ValueMap& arg, IntVec2 offset);
 SpaceRect getUnitspaceRectangle(const ValueMap& tileMapObj, IntVec2 offset);
+
+template<typename T>
+inline vector<T> getObjectVector(
+	const ValueMap& obj,
+	function<T(string)> converter,
+	string name,
+	int startIdx = 1
+){
+	vector<T> result;
+	ValueVector fields = getVector(obj, name, startIdx);
+
+	for (Value v : fields){
+		result.push_back(converter(v.asString()));
+	}
+	
+	return result;
+}
+
+template<typename T>
+inline vector<T> getObjectVector(
+	const ValueMap& obj,
+	function<T(string)> converter,
+	string name,
+	int startIdx,
+	int size,
+	T _default
+){
+	vector<T> result;
+	ValueVector fields = getVector(obj, name, startIdx, size);
+
+	for (Value v : fields){
+		result.push_back(v.isNull() ? _default : converter(v.asString()));
+	}
+
+	return result;
+}
 
 #endif /* value_map_hpp */

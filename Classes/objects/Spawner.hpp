@@ -22,10 +22,12 @@ public:
 
 	MapObjCons(Spawner);
     
+	gobject_ref spawn();
 	virtual void activate();
 	inline virtual void deactivate() {}
 
 	virtual bool isObstructed() const;
+	bool canSpawn() const;
 
 	type_index getSpawnType() const;
 	int getRemainingSpawns() const;

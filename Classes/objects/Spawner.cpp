@@ -22,6 +22,16 @@ spawnLimit(getIntOrDefault(args, "spawn_limit", defaultSpawnLimit))
 {
 }
 
+gobject_ref Spawner::spawn()
+{
+	if (!canSpawn())
+		return nullptr;
+
+	lastSpawnFrame = space->getFrame();
+	++spawnCount;
+	return space->createObject(spawn_args);
+}
+
 type_index Spawner::getSpawnType() const
 {
 	string type = spawn_args.at("type").asString();
@@ -54,12 +64,11 @@ bool Spawner::isObstructed() const {
 	return AreaSensor::isObstructed() || lastSpawnFrame == space->getFrame();
 }
 
+bool Spawner::canSpawn() const {
+	return !isObstructed() && spawnCount < spawnLimit && lastSpawnFrame != space->getFrame();
+}
+
 void Spawner::activate()
 {
-	if (!isObstructed() && spawnCount < spawnLimit)
-	{
-		lastSpawnFrame = space->getFrame();
-		space->createObject(spawn_args);
-		++spawnCount;
-	}
+	spawn();
 }

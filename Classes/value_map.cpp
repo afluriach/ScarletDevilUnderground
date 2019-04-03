@@ -138,6 +138,37 @@ ValueMap getMap(const ValueMap& args, const string& field)
         return ValueMap();
 }
 
+ValueVector getVector(const ValueMap& args, const string& field, int start)
+{
+	ValueVector result;
+	int idx = start;
+
+	for (;; ++idx)
+	{
+		string fieldName = field + boost::lexical_cast<string>(idx);
+		auto it = args.find(fieldName);
+		if (it == args.end()) break;
+
+		result.push_back(it->second);
+	}
+
+	return result;
+}
+
+ValueVector getVector(const ValueMap& args, const string& field, int start, int size)
+{
+	ValueVector result;
+
+	for (int idx = start; result.size() < size; ++idx)
+	{
+		string fieldName = field + boost::lexical_cast<string>(idx);
+		auto it = args.find(fieldName);
+		result.push_back(it != args.end() ? it->second : Value());
+	}
+
+	return result;
+}
+
 gobject_ref getObjRefFromStringField(GSpace* space, const ValueMap& args, const string& fieldName)
 {
     if(args.find(fieldName) == args.end()){

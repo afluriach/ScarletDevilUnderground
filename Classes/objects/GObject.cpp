@@ -100,6 +100,16 @@ const GObject::object_info* GObject::getObjectInfo(string name)
 		return nullptr;
 }
 
+type_index GObject::getTypeIndex(string name)
+{
+	const object_info* info = getObjectInfo(name);
+
+	if (info)
+		return info->type;
+	else
+		return typeid(GObject);
+}
+
 void GObject::init()
 {
 	multiInit();

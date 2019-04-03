@@ -29,6 +29,7 @@ const unordered_map<string, Function::AdapterType> Function::adapters = {
 	entry_same(IdleWait),
 	entry_same(MaintainDistance),
 	entry_same(MoveToPoint),
+	entry_same(MultiSpawnSequence),
 	entry_same(Seek),
 	entry_same(SequentialClearSpawn),
 	entry_same(Wander)

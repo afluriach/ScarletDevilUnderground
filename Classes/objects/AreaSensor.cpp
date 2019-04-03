@@ -51,12 +51,19 @@ void AreaSensor::onPlayerEndContact(Player* p) {
 void AreaSensor::onEnemyContact(Enemy*e) {
 	enemies.insert(e);
 
+	auto it = enemyCountsByType.find(typeid(*e));
+	if (it == enemyCountsByType.end()) {
+		enemyCountsByType.insert_or_assign(typeid(*e), 0);
+	}
+	++enemyCountsByType.at(typeid(*e));
+
 	if (player) {
 		e->sendAlert(player);
 	}
 }
 
 void AreaSensor::onEnemyEndContact(Enemy* e) {
+	++enemyCountsByType.at(typeid(*e));
 	enemies.erase(e);
 }
 
@@ -66,6 +73,12 @@ void AreaSensor::onEnvironmentalObjectContact(GObject* obj) {
 
 void AreaSensor::onEnvironmentalObjectEndContact(GObject* obj) {
 	environmentalObjects.erase(obj);
+}
+
+unsigned int AreaSensor::getEnemyCount(type_index t)
+{
+	auto it = enemyCountsByType.find(t);
+	return it != enemyCountsByType.end() ? it->second : 0;
 }
 
 HiddenSubroomSensor::HiddenSubroomSensor(GSpace* space, ObjectIDType id, const ValueMap& args) :
@@ -152,6 +165,12 @@ void RoomSensor::init()
 
 	for (Spawner* s : _spawners) {
 		spawners.insert(s);
+		type_index _type = s->getSpawnType();
+		auto it = spawnersByType.find(_type);
+		if (it == spawnersByType.end()) {
+			spawnersByType.insert_or_assign(_type, vector<Spawner*>());
+		}
+		spawnersByType.at(_type).push_back(s);
 	}
 
 	boss = space->getObjectRefAs<Enemy>(bossName);
@@ -242,6 +261,24 @@ unsigned int RoomSensor::activateAllSpawners()
 	}
 
 	return count;
+}
+
+unsigned int RoomSensor::activateSpawners(type_index t, unsigned int count)
+{
+	unsigned int result = 0;
+	auto it = spawnersByType.find(t);
+	if (it == spawnersByType.end()) {
+		log("Unknown spawner type %s", t.name());
+		return 0;
+	}
+
+	for (int i = 0; i < it->second.size() && result < count; ++i) {
+		Spawner* s = it->second.at(i); 
+		if (s->spawn().isFuture()) {
+			++result;
+		}
+	}
+	return result;
 }
 
 void RoomSensor::spawnKey()

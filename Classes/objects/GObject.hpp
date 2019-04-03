@@ -58,6 +58,7 @@ public:
 	static GObject* constructByType(GSpace* space, ObjectIDType id, const string& type, const ValueMap& args);
 	static GeneratorType factoryMethodByType(const string& type, const ValueMap& args);
 	static const object_info* getObjectInfo(string name);
+	static type_index getTypeIndex(string name);
 
 	template<class ObjectCls, typename... ConsArgs>
 	static inline GObject* create(GSpace* space, ObjectIDType id, ConsArgs...args)

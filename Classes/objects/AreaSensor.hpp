@@ -52,8 +52,10 @@ public:
 
 	inline bool hasEnemies() const { return !enemies.empty(); }
 	inline bool hasPlayer() const { return player != nullptr; }
+	unsigned int getEnemyCount(type_index t);
 protected:
 	unordered_set<Enemy*> enemies;
+	unordered_map<type_index, unsigned int> enemyCountsByType;
 	unordered_set<GObject*> environmentalObjects;
 	Player* player = nullptr;
 };
@@ -88,6 +90,7 @@ public:
 	void updateTrapDoors();
 	void updateBoss();
 	unsigned int activateAllSpawners();
+	unsigned int activateSpawners(type_index t, unsigned int count);
 
 	void spawnKey();
 	
@@ -98,6 +101,7 @@ protected:
 
 	unordered_set<ActivateableObject*> doors;
 	unordered_set<Spawner*> spawners;
+	unordered_map<type_index, vector<Spawner*>> spawnersByType;
 
 	string bossName;
 	object_ref<Enemy> boss;
