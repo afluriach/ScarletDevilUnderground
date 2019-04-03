@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.0" tiledversion="1.0.3" orientation="orthogonal" renderorder="right-down" width="51" height="51" tilewidth="128" tileheight="128" nextobjectid="296">
+<map version="1.0" tiledversion="1.0.3" orientation="orthogonal" renderorder="right-down" width="51" height="51" tilewidth="128" tileheight="128" nextobjectid="312">
  <tileset firstgid="1" name="wall" tilewidth="128" tileheight="128" tilecount="4" columns="2">
   <image source="fence.png" width="256" height="256"/>
  </tileset>
@@ -239,7 +239,7 @@
    </properties>
   </object>
   <object id="224" type="GhostFairy" x="4992" y="2688" width="128" height="128"/>
-  <object id="225" type="GhostFairy" x="4992" y="3712" width="128" height="128"/>
+  <object id="225" type="GhostFairy" x="4736" y="2432" width="128" height="128"/>
   <object id="226" type="GhostFairy" x="3840" y="3200" width="128" height="128"/>
   <object id="227" type="GhostFairy" x="3200" y="3456" width="128" height="128"/>
   <object id="228" type="GhostFairy" x="2560" y="3200" width="128" height="128"/>
@@ -248,11 +248,7 @@
     <property name="id" value="0"/>
    </properties>
   </object>
-  <object id="277" type="Headstone" x="4736" y="4736" width="256" height="256">
-   <properties>
-    <property name="hp" value="50"/>
-   </properties>
-  </object>
+  <object id="277" type="Headstone" x="4736" y="4736" width="256" height="256"/>
   <object id="278" type="Headstone" x="5888" y="4736" width="256" height="256">
    <properties>
     <property name="hp" value="50"/>
@@ -263,11 +259,7 @@
     <property name="hp" value="50"/>
    </properties>
   </object>
-  <object id="281" type="Headstone" x="4736" y="5888" width="256" height="256">
-   <properties>
-    <property name="hp" value="50"/>
-   </properties>
-  </object>
+  <object id="281" type="Headstone" x="4736" y="5888" width="256" height="256"/>
   <object id="282" type="Headstone" x="5888" y="5888" width="256" height="256">
    <properties>
     <property name="hp" value="50"/>
@@ -278,11 +270,67 @@
     <property name="hp" value="50"/>
    </properties>
   </object>
-  <object id="284" type="Headstone" x="5888" y="5312" width="256" height="256">
+  <object id="284" type="Headstone" x="5888" y="5312" width="256" height="256"/>
+  <object id="296" type="Headstone" x="2560" y="1536" width="256" height="256">
+   <properties>
+    <property name="hp" value="100"/>
+   </properties>
+  </object>
+  <object id="297" type="Headstone" x="3712" y="1536" width="256" height="256">
+   <properties>
+    <property name="hp" value="100"/>
+   </properties>
+  </object>
+  <object id="298" type="Headstone" x="3712" y="384" width="256" height="256">
+   <properties>
+    <property name="hp" value="100"/>
+   </properties>
+  </object>
+  <object id="299" type="Headstone" x="3136" y="384" width="256" height="256"/>
+  <object id="300" type="Headstone" x="2560" y="384" width="256" height="256">
+   <properties>
+    <property name="hp" value="100"/>
+   </properties>
+  </object>
+  <object id="301" type="Headstone" x="3136" y="1536" width="256" height="256"/>
+  <object id="302" type="Headstone" x="5824" y="384" width="256" height="256">
+   <properties>
+    <property name="hp" value="75"/>
+   </properties>
+  </object>
+  <object id="303" type="Headstone" x="5824" y="896" width="256" height="256">
+   <properties>
+    <property name="hp" value="75"/>
+   </properties>
+  </object>
+  <object id="304" type="Headstone" x="4736" y="384" width="256" height="256"/>
+  <object id="305" type="Headstone" x="5248" y="384" width="256" height="256">
+   <properties>
+    <property name="hp" value="75"/>
+   </properties>
+  </object>
+  <object id="306" type="Headstone" x="5824" y="1408" width="256" height="256"/>
+  <object id="307" type="Headstone" x="5824" y="2560" width="256" height="256">
    <properties>
     <property name="hp" value="50"/>
    </properties>
   </object>
+  <object id="308" type="Headstone" x="5824" y="3072" width="256" height="256">
+   <properties>
+    <property name="hp" value="50"/>
+   </properties>
+  </object>
+  <object id="309" type="Headstone" x="4736" y="3584" width="256" height="256">
+   <properties>
+    <property name="hp" value="50"/>
+   </properties>
+  </object>
+  <object id="310" type="Headstone" x="5248" y="3584" width="256" height="256">
+   <properties>
+    <property name="hp" value="50"/>
+   </properties>
+  </object>
+  <object id="311" type="Headstone" x="5824" y="3584" width="256" height="256"/>
  </objectgroup>
  <objectgroup name="spawners">
   <object id="293" name="spawner-g5-1" type="GhostFairy" x="4608" y="4608" width="128" height="128"/>

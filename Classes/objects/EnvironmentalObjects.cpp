@@ -77,6 +77,10 @@ void Headstone::hit(float damage)
 	}
 }
 
+string Headstone::imageSpritePath() const {
+	return maxHP != -1.0f ? "sprites/headstone.png" : "sprites/strong_headstone.png";
+}
+
 GhostHeadstone::GhostHeadstone(GSpace* space, ObjectIDType id, const ValueMap& args) :
 	MapObjForwarding(GObject),
 	MapObjForwarding(Headstone),

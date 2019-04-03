@@ -120,7 +120,7 @@ public:
 	virtual void update();
 	virtual void end();
 
-	inline virtual SpaceFloat getLength() const { return 7.5; }
+	inline virtual SpaceFloat getLength() const { return 4.0; }
 
 	const SpaceVect origin;
 	unordered_set<gobject_ref> bullets;

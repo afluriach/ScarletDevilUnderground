@@ -224,8 +224,8 @@ void PlayerCounterClock::end()
 const string PlayerScarletRose::name = "PlayerScarletRose";
 const string PlayerScarletRose::description = "";
 const string PlayerScarletRose::icon = "sprites/ui/scarlet_rose.png";
-const float PlayerScarletRose::cost = 10.0f;
-const SpellCostType PlayerScarletRose::costType = enum_bitwise_or3(SpellCostType, mp, initial, ongoing);
+const float PlayerScarletRose::cost = 15.0f;
+const SpellCostType PlayerScarletRose::costType = enum_bitwise_or(SpellCostType, mp, initial);
 
 const SpaceFloat PlayerScarletRose::fireInterval = 0.2;
 const int PlayerScarletRose::fireCount = 6;

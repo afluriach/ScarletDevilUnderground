@@ -28,8 +28,8 @@ public:
     
 	void hit(float damage);
 
-    virtual string imageSpritePath() const {return "sprites/headstone.png";}
-    virtual GraphicsLayer sceneLayer() const {return GraphicsLayer::ground;}
+	virtual string imageSpritePath() const;
+    virtual inline GraphicsLayer sceneLayer() const {return GraphicsLayer::ground;}
     
     virtual inline GType getType() const {return GType::environment;}
 	virtual inline PhysicsLayers getLayers() const { return PhysicsLayers::all; }
