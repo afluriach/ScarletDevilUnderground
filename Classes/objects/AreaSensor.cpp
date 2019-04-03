@@ -37,7 +37,7 @@ PhysicsLayers AreaSensor::getLayers() const{
 
 bool AreaSensor::isObstructed() const
 {
-	return player.isValid() || !enemies.empty() || !environmentalObjects.empty();
+	return player || !enemies.empty() || !environmentalObjects.empty();
 }
 
 void AreaSensor::onPlayerContact(Player* p) {
@@ -51,8 +51,8 @@ void AreaSensor::onPlayerEndContact(Player* p) {
 void AreaSensor::onEnemyContact(Enemy*e) {
 	enemies.insert(e);
 
-	if (player.isValid()) {
-		e->sendAlert(player.get());
+	if (player) {
+		e->sendAlert(player);
 	}
 }
 
@@ -100,11 +100,11 @@ RoomSensor::RoomSensor(GSpace* space, ObjectIDType id, const ValueMap& args) :
 RoomSensor::RoomSensor(GSpace* space, ObjectIDType id, SpaceVect center, SpaceVect dimensions, int mapID, const ValueMap& props) :
 	GObject(space, id, "", center, 0.0),
 	AreaSensor(space,id,center,dimensions),
+	StateMachineObject(props),
 	RegisterInit<RoomSensor>(this),
 	mapID(mapID)
 {
 	trapDoorNames = splitString(getStringOrDefault(props, "trap_doors", ""), " ");
-	spawnerNames = splitString(getStringOrDefault(props, "spawners", ""), " ");
 	spawnOnClear = getStringOrDefault(props, "spawn_on_clear", "");
 	bossName = getStringOrDefault(props, "boss", "");
 	keyWaypointName = getStringOrDefault(props, "key_drop", "");
@@ -116,9 +116,8 @@ void RoomSensor::onPlayerContact(Player* p)
 	AreaSensor::onPlayerContact(p);
 	log("Player entered room %d.", mapID);
 
-	for (auto ref : enemies)
-	{
-		ref.get()->sendAlert(p);
+	for (Enemy* e : enemies){
+		e->sendAlert(p);
 	}
 }
 
@@ -144,19 +143,16 @@ void RoomSensor::init()
 	}
 	trapDoorNames.clear();
 
-	for (string name : spawnerNames) {
-		if (name.empty())
-			continue;
+	unordered_set<Spawner*> _spawners = space->rectangleQueryByType<Spawner>(
+		getPos(),
+		getDimensions(),
+		GType::areaSensor,
+		PhysicsLayers::all
+	);
 
-		Spawner* s = space->getObjectAs<Spawner>(name);
-		if (s) {
-			spawners.insert(s);
-		}
-		else {
-			log("RoomSensor: unknown spawner %s.", name.c_str());
-		}
+	for (Spawner* s : _spawners) {
+		spawners.insert(s);
 	}
-	spawnerNames.clear();
 
 	boss = space->getObjectRefAs<Enemy>(bossName);
 }
@@ -165,18 +161,17 @@ void RoomSensor::update()
 {
 	//shouldn't actually be necessary
 	//GObject::update();
+	StateMachineObject::_update();
 
 	if(!bossName.empty())
 		updateBoss();
 	if(doors.size() > 0)
 		updateTrapDoors();
-	if (spawners.size() > 0)
-		updateSpawners();
 
-	if (isKeyDrop && !keyWaypointName.empty() && player.isValid() && enemies.empty()) {
+	if (isKeyDrop && !keyWaypointName.empty() && player && enemies.empty()) {
 		spawnKey();
 	}
-	else if (!spawnOnClear.empty() && player.isValid() && enemies.empty()) {
+	else if (!spawnOnClear.empty() && player && enemies.empty()) {
 		space->createDynamicObject(spawnOnClear);
 		spawnOnClear.clear();
 	}
@@ -184,16 +179,16 @@ void RoomSensor::update()
 
 void RoomSensor::updateTrapDoors()
 {
-	if (!isTrapActive && player.isValid() && enemies.size() > 0) {
-		for (auto ref : doors) {
-			ref.get()->activate();
+	if (!isTrapActive && player && enemies.size() > 0) {
+		for (auto* d : doors) {
+			d->activate();
 		}
 		isTrapActive = true;
 	}
 	else if (isTrapActive && enemies.empty())
 	{
-		for (auto ref : doors) {
-			ref.get()->deactivate();
+		for (auto* d : doors) {
+			d->deactivate();
 		}
 		isTrapActive = false;
 	}
@@ -205,7 +200,7 @@ void RoomSensor::updateBoss()
 
 	if (!isBossActive)
 	{
-		if (boss.isValid() && player.isValid()) {
+		if (boss.isValid() && player) {
 			space->addHudAction(
 				&HUD::setEnemyInfo,
 				boss.get()->getProperName(),
@@ -220,7 +215,7 @@ void RoomSensor::updateBoss()
 	{
 		//If the player ref is not valid, this means the player left the room sensor.
 
-		if (boss.isValid() && player.isValid()) {
+		if (boss.isValid() && player) {
 			space->addHudAction(
 				&HUD::updateEnemyInfo,
 				boss.get()->getAttribute(Attribute::hp)
@@ -234,18 +229,19 @@ void RoomSensor::updateBoss()
 	}
 }
 
-void RoomSensor::updateSpawners()
+unsigned int RoomSensor::activateAllSpawners()
 {
-	if (enemies.size() == 0)
-	{
-		for (auto ref : spawners)
-		{
-			Spawner* s = ref.get();
+	unsigned int count = 0;
 
-			if (s->getRemainingSpawns() > 0)
-				s->activate();
+	for (Spawner* s : spawners)
+	{
+		if (s->getRemainingSpawns() > 0){
+			s->activate();
+			++count;
 		}
 	}
+
+	return count;
 }
 
 void RoomSensor::spawnKey()

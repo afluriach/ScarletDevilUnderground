@@ -16,6 +16,7 @@
 #include "GScene.hpp"
 #include "GSpace.hpp"
 #include "macros.h"
+#include "Spawner.hpp"
 #include "types.h"
 #include "value_map.hpp"
 
@@ -135,6 +136,7 @@ void GScene::loadMap(const MapEntry& mapEntry)
 	loadDynamicLoadObjects(*tileMap, mapEntry.second);
 	loadSubrooms(*tileMap, mapEntry.second);
 	loadWalls(*tileMap, mapEntry.second);
+	loadSpawners(*tileMap, mapEntry.second);
 	loadLights(*tileMap, mapEntry.second);
 
 	cocos2d::CCSize size = tileMap->getMapSize();
@@ -321,6 +323,21 @@ void GScene::loadWalls(const TMXTiledMap& map, IntVec2 offset)
 
 		convertToUnitSpace(objAsMap, offset);
 		gspace->createObject(objAsMap);
+	}
+}
+
+void GScene::loadSpawners(const TMXTiledMap& map, IntVec2 offset)
+{
+	TMXObjectGroup* spawners = map.getObjectGroup("spawners");
+	if (!spawners)
+		return;
+
+	for (const Value& obj : spawners->getObjects())
+	{
+		ValueMap objAsMap = obj.asValueMap();
+		convertToUnitSpace(objAsMap, offset);
+
+		gspace->createObject(GObject::make_object_factory<Spawner>(objAsMap));
 	}
 }
 

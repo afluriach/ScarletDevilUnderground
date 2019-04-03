@@ -16,6 +16,7 @@
 class Agent;
 class GObject;
 class GSpace;
+class RoomSensor;
 
 namespace ai{
 
@@ -148,6 +149,7 @@ public:
 	void pop();
     
 	Agent* getAgent();
+	RoomSensor* getRoomSensor();
 	unsigned int getFrame();
 	Thread* getCrntThread();
     string toString();

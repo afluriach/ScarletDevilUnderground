@@ -150,6 +150,7 @@ xcopy "$(ProjectDir)..\Resources" "$(OutDir)" /D /E /I /F /Y</Command>
     <ClCompile Include="..\Classes\ai\AIFunctions.cpp" />
     <ClCompile Include="..\Classes\ai\AIMixins.cpp" />
     <ClCompile Include="..\Classes\ai\AIUtil.cpp" />
+    <ClCompile Include="..\Classes\ai\RoomSensorFunctions.cpp" />
     <ClCompile Include="..\Classes\ai\StateMapping.cpp" />
     <ClCompile Include="..\Classes\App.cpp" />
     <ClCompile Include="..\Classes\Attributes.cpp" />
@@ -268,6 +269,7 @@ xcopy "$(ProjectDir)..\Resources" "$(OutDir)" /D /E /I /F /Y</Command>
     <ClInclude Include="..\Classes\ai\AIFunctions.hpp" />
     <ClInclude Include="..\Classes\ai\AIMixins.hpp" />
     <ClInclude Include="..\Classes\ai\AIUtil.hpp" />
+    <ClInclude Include="..\Classes\ai\RoomSensorFunctions.hpp" />
     <ClInclude Include="..\Classes\App.h" />
     <ClInclude Include="..\Classes\Attributes.hpp" />
     <ClInclude Include="..\Classes\controls.h" />

@@ -366,6 +366,9 @@
     <ClCompile Include="..\Classes\spells\FirePatternMapping.cpp">
       <Filter>src\spells</Filter>
     </ClCompile>
+    <ClCompile Include="..\Classes\ai\RoomSensorFunctions.cpp">
+      <Filter>src\ai</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="main.h">
@@ -700,6 +703,9 @@
     </ClInclude>
     <ClInclude Include="..\Classes\spells\spell_types.hpp">
       <Filter>src\spells</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\ai\RoomSensorFunctions.hpp">
+      <Filter>src\ai</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

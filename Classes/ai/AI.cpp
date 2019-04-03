@@ -12,6 +12,7 @@
 #include "AI.hpp"
 #include "AIMixins.hpp"
 #include "App.h"
+#include "AreaSensor.hpp"
 #include "GSpace.hpp"
 #include "GObject.hpp"
 #include "GObjectMixins.hpp"
@@ -383,6 +384,10 @@ string StateMachine::toString()
 
 Agent* StateMachine::getAgent() {
 	return dynamic_cast<Agent*>(agent);
+}
+
+RoomSensor* StateMachine::getRoomSensor() {
+	return dynamic_cast<RoomSensor*>(agent);
 }
 
 unsigned int StateMachine::getFrame() {

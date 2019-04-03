@@ -9,6 +9,7 @@
 #ifndef AreaSensor_hpp
 #define AreaSensor_hpp
 
+#include "AIMixins.hpp"
 #include "GObject.hpp"
 #include "GObjectMixins.hpp"
 #include "object_ref.hpp"
@@ -48,10 +49,13 @@ public:
 
 	void onEnvironmentalObjectContact(GObject*);
 	void onEnvironmentalObjectEndContact(GObject*);
+
+	inline bool hasEnemies() const { return !enemies.empty(); }
+	inline bool hasPlayer() const { return player != nullptr; }
 protected:
-	unordered_set<object_ref<Enemy>> enemies;
-	unordered_set<gobject_ref> environmentalObjects;
-	object_ref<Player> player;
+	unordered_set<Enemy*> enemies;
+	unordered_set<GObject*> environmentalObjects;
+	Player* player = nullptr;
 };
 
 class HiddenSubroomSensor :
@@ -68,6 +72,7 @@ protected:
 
 class RoomSensor :
 	public AreaSensor,
+	public StateMachineObject,
 	public RegisterInit<RoomSensor>
 {
 public:
@@ -82,26 +87,25 @@ public:
 
 	void updateTrapDoors();
 	void updateBoss();
-	void updateSpawners();
+	unsigned int activateAllSpawners();
 
 	void spawnKey();
 	
 	const int mapID;
 protected:
 	vector<string> trapDoorNames;
-	vector<string> spawnerNames;
 	string spawnOnClear;
 
-	unordered_set<object_ref<ActivateableObject>> doors;
-	unordered_set<object_ref<Spawner>> spawners;
-	bool isTrapActive = false;
+	unordered_set<ActivateableObject*> doors;
+	unordered_set<Spawner*> spawners;
 
 	string bossName;
 	object_ref<Enemy> boss;
-	bool isBossActive = false;
 
 	string keyWaypointName;
+	bool isBossActive = false;
 	bool isKeyDrop = false;
+	bool isTrapActive = false;
 };
 
 class GhostHeadstoneSensor : public AreaSensor, public RegisterInit<GhostHeadstoneSensor>

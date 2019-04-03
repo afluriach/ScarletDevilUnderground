@@ -27,9 +27,8 @@ void EffectArea::update()
 	//shouldn't actually be necessary
 	//GObject::update();
 
-	if (player.isValid())
-	{
-		player.get()->hit(getDamageInfo());
+	if (player){
+		player->hit(getDamageInfo());
 	}
 }
 

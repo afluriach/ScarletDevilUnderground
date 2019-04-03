@@ -9,6 +9,7 @@
 #include "Prefix.h"
 
 #include "AIFunctions.hpp"
+#include "RoomSensorFunctions.hpp"
 
 using namespace ai;
 
@@ -29,6 +30,7 @@ const unordered_map<string, Function::AdapterType> Function::adapters = {
 	entry_same(MaintainDistance),
 	entry_same(MoveToPoint),
 	entry_same(Seek),
+	entry_same(SequentialClearSpawn),
 	entry_same(Wander)
 };
 

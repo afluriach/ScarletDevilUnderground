@@ -17,7 +17,7 @@ const unsigned int Spawner::defaultSpawnLimit = 1;
 Spawner::Spawner(GSpace* space, ObjectIDType id, const ValueMap& args) :
 MapObjForwarding(GObject),
 MapObjForwarding(AreaSensor),
-spawn_args(getSpawnArgs(args)),
+spawn_args(args),
 spawnLimit(getIntOrDefault(args, "spawn_limit", defaultSpawnLimit))
 {
 }

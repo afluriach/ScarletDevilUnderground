@@ -235,6 +235,8 @@ protected:
 
 	//objects in this layer are Wall type by default
 	void loadWalls(const TMXTiledMap& map, IntVec2 offset);
+	//obvjects in this layer are Spawners
+	void loadSpawners(const TMXTiledMap& map, IntVec2 offset);
 
 	//data that is loaded to GSpace for AI use
 	void loadPaths(const TMXTiledMap& map, IntVec2 offset);

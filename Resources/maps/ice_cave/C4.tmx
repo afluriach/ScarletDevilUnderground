@@ -40,24 +40,6 @@
   <object id="32" x="0" y="128" width="128" height="896"/>
  </objectgroup>
  <objectgroup name="objects">
-  <object id="53" name="spawner3" type="Spawner" x="1216" y="1024" width="128" height="128">
-   <properties>
-    <property name="spawn_name" value="spawn_scorpion"/>
-    <property name="spawn_type" value="Scorpion1"/>
-   </properties>
-  </object>
-  <object id="52" name="spawner2" type="Spawner" x="1216" y="1792" width="128" height="128">
-   <properties>
-    <property name="spawn_name" value="spawn_scorpion"/>
-    <property name="spawn_type" value="Scorpion1"/>
-   </properties>
-  </object>
-  <object id="51" name="spawner1" type="Spawner" x="1216" y="256" width="128" height="128">
-   <properties>
-    <property name="spawn_name" value="spawn_scorpion"/>
-    <property name="spawn_type" value="Scorpion1"/>
-   </properties>
-  </object>
   <object id="50" name="block4" type="Block" x="1792" y="1792" width="128" height="128"/>
   <object id="49" name="block3" type="Block" x="640" y="1792" width="128" height="128"/>
   <object id="48" name="block2" type="Block" x="640" y="256" width="128" height="128"/>
@@ -73,5 +55,10 @@
     <property name="spawn_type" value="Scorpion1"/>
    </properties>
   </object>
+ </objectgroup>
+ <objectgroup name="spawners">
+  <object id="51" name="spawner1" type="Scorpion1" x="1216" y="256" width="128" height="128"/>
+  <object id="52" name="spawner2" type="Scorpion1" x="1216" y="1792" width="128" height="128"/>
+  <object id="53" name="spawner3" type="Scorpion1" x="1216" y="1024" width="128" height="128"/>
  </objectgroup>
 </map>

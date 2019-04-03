@@ -39,9 +39,9 @@ StateMachineObject::StateMachineObject(shared_ptr<ai::Function> startState, cons
     
     //If stateFromArgs was constructed, it will override the provided state.
     if(stateFromArgs)
-        fsm.push(stateFromArgs);
+        fsm.addThread(stateFromArgs);
     else if(startState)
-        fsm.push(startState);
+        fsm.addThread(startState);
 }
 
 StateMachineObject::StateMachineObject(const ValueMap& args) : StateMachineObject(nullptr, args) {}
