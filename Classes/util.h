@@ -73,6 +73,22 @@ V getOrDefault(const unordered_map<K, V>& _map, const K& _key, const V& _default
 	return it != _map.end() ? it->second : _default;
 }
 
+template<typename K, typename V>
+void emplaceIfEmpty(unordered_map<K, V>& _map, const K& _key, const V& _default)
+{
+	auto it = _map.find(_key);
+	if (it == _map.end())
+		_map.insert_or_assign(_key, _default);
+}
+
+template<typename K, typename V>
+void emplaceIfEmpty(unordered_map<K, V>& _map, const K& _key)
+{
+	auto it = _map.find(_key);
+	if (it == _map.end())
+		_map.insert_or_assign(_key, V());
+}
+
 template<typename T>
 T vmin(T&&t)
 {

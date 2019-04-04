@@ -478,19 +478,13 @@ bool GSpace::isNoUpdateObject(GObject* obj)
 
 void GSpace::increaseSpawnTotal(type_index t, unsigned int count)
 {
-	auto it = totalSpawnCount.find(t);
-	if (it == totalSpawnCount.end()) {
-		totalSpawnCount.insert_or_assign(t, 0);
-	}
+	emplaceIfEmpty(totalSpawnCount, t, to_uint(0));
 	totalSpawnCount.at(t) += count;
 }
 
 void GSpace::registerEnemyDefeated(type_index t)
 {
-	auto it = enemiesDefeated.find(t);
-	if (it == enemiesDefeated.end()) {
-		enemiesDefeated.insert_or_assign(t, 0);
-	}
+	emplaceIfEmpty(enemiesDefeated, t, to_uint(0));
 	++enemiesDefeated.at(t);
 }
 

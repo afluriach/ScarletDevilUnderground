@@ -51,10 +51,7 @@ void AreaSensor::onPlayerEndContact(Player* p) {
 void AreaSensor::onEnemyContact(Enemy*e) {
 	enemies.insert(e);
 
-	auto it = enemyCountsByType.find(typeid(*e));
-	if (it == enemyCountsByType.end()) {
-		enemyCountsByType.insert_or_assign(typeid(*e), 0);
-	}
+	emplaceIfEmpty<type_index, unsigned int>(enemyCountsByType, typeid(*e), 0);
 	++enemyCountsByType.at(typeid(*e));
 
 	if (player) {
@@ -77,8 +74,7 @@ void AreaSensor::onEnvironmentalObjectEndContact(GObject* obj) {
 
 unsigned int AreaSensor::getEnemyCount(type_index t)
 {
-	auto it = enemyCountsByType.find(t);
-	return it != enemyCountsByType.end() ? it->second : 0;
+	return getOrDefault(enemyCountsByType, t, to_uint(0));
 }
 
 HiddenSubroomSensor::HiddenSubroomSensor(GSpace* space, ObjectIDType id, const ValueMap& args) :
@@ -166,10 +162,7 @@ void RoomSensor::init()
 	for (Spawner* s : _spawners) {
 		spawners.insert(s);
 		type_index _type = s->getSpawnType();
-		auto it = spawnersByType.find(_type);
-		if (it == spawnersByType.end()) {
-			spawnersByType.insert_or_assign(_type, vector<Spawner*>());
-		}
+		emplaceIfEmpty<type_index, vector<Spawner*>>(spawnersByType, _type);
 		spawnersByType.at(_type).push_back(s);
 	}
 
