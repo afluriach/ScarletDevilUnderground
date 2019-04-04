@@ -9,6 +9,7 @@
 #include "Prefix.h"
 
 #include "AreaSensor.hpp"
+#include "GSpace.hpp"
 #include "macros.h"
 #include "RoomSensorFunctions.hpp"
 #include "Spawner.hpp"
@@ -60,6 +61,7 @@ MultiSpawnSequence::MultiSpawnSequence(GSpace* space, const ValueMap& args)
 				waveCounts.at(i),
 				totalCounts.at(i)
 			});
+			space->increaseSpawnTotal(types.at(i), totalCounts.at(i));
 			totalSpawns.insert_or_assign(types.at(i), 0);
 		}
 	}

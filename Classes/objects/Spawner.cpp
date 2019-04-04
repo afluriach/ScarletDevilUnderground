@@ -12,7 +12,7 @@
 #include "Spawner.hpp"
 #include "value_map.hpp"
 
-const unsigned int Spawner::defaultSpawnLimit = 1;
+const int Spawner::defaultSpawnLimit = -1;
 
 Spawner::Spawner(GSpace* space, ObjectIDType id, const ValueMap& args) :
 MapObjForwarding(GObject),
@@ -20,6 +20,10 @@ MapObjForwarding(AreaSensor),
 spawn_args(args),
 spawnLimit(getIntOrDefault(args, "spawn_limit", defaultSpawnLimit))
 {
+	type_index spawnType = getSpawnType();
+	if (spawnLimit != defaultSpawnLimit && spawnType != typeid(Spawner)) {
+		space->increaseSpawnTotal(spawnType, spawnLimit);
+	}
 }
 
 gobject_ref Spawner::spawn()
@@ -47,7 +51,8 @@ type_index Spawner::getSpawnType() const
 
 int Spawner::getRemainingSpawns() const
 {
-	return spawnLimit - spawnCount;
+	if (spawnLimit == -1) return -1;
+	else return spawnLimit - spawnCount;
 }
 
 int Spawner::getSpawnLimit() const
@@ -65,7 +70,9 @@ bool Spawner::isObstructed() const {
 }
 
 bool Spawner::canSpawn() const {
-	return !isObstructed() && spawnCount < spawnLimit && lastSpawnFrame != space->getFrame();
+	return !isObstructed() &&
+		(spawnLimit == -1 || spawnCount < spawnLimit) && 
+		lastSpawnFrame != space->getFrame();
 }
 
 void Spawner::activate()

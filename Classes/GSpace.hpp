@@ -193,6 +193,8 @@ public:
 	bool isInPlayerRoom(SpaceVect v);
 	int getPlayerRoom();
 	void applyMapFragment(int mapFragmentID);
+	void increaseSpawnTotal(type_index t, unsigned int count);
+	void registerEnemyDefeated(type_index t);
 
 	void teleportPlayerToDoor(string doorName);
 	void setSuppressAction(bool b);
@@ -205,6 +207,8 @@ public:
 	float getRandomFloat(float min, float max);
 	//Generate [min,max]
 	int getRandomInt(int min, int max);
+	//Generate the numbers [0,N) in a random order
+	vector<int> getRandomShuffle(int n);
 
 	void loadReplay(unique_ptr<Replay> replay);
 	inline const Replay* getReplay() { return controlReplay.get(); }
@@ -239,6 +243,8 @@ private:
 	unordered_set<string> warningNames;
 	unordered_map<type_index, unordered_set<GObject*>> objByType;
 	unordered_map<type_index, unsigned int> initialObjectCount;
+	unordered_map<type_index, unsigned int> totalSpawnCount;
+	unordered_map<type_index, unsigned int> enemiesDefeated;
 	unordered_set<GObject*> updateObjects;
 	unordered_map<string, ValueMap> dynamicLoadObjects;
 
@@ -257,9 +263,8 @@ private:
 	bool suppressAction = false;
 	bool isMultiMap;
 
-	boost::random::uniform_01<float> randomFloat;
-	boost::random::uniform_int_distribution<int> randomInt;
-	boost::random::mt19937 randomEngine;
+	uniform_real_distribution<float> randomFloat;
+	mt19937 randomEngine;
 
 	unsigned int nextObjUUID = 1;
 	unsigned int lastAddedUUID = 0;

@@ -18,7 +18,7 @@ public AreaSensor,
 public ActivateableObject
 {
 public:
-	static const unsigned int defaultSpawnLimit;
+	static const int defaultSpawnLimit;
 
 	MapObjCons(Spawner);
     
@@ -38,7 +38,7 @@ protected:
 	
 	unsigned int lastSpawnFrame = 0;
 	unsigned int spawnCount = 0;
-	unsigned int spawnLimit;
+	int spawnLimit = 0;
 };
 
 #endif /* Spawner_hpp */

@@ -66,6 +66,13 @@ vector<string> splitString(const string& input,const string& sep);
 string getTimeString(unsigned int millis);
 string floatToStringOptionalDecimal(float val);
 
+template<typename K, typename V>
+V getOrDefault(const unordered_map<K, V>& _map, const K& _key, const V& _default)
+{
+	auto it = _map.find(_key);
+	return it != _map.end() ? it->second : _default;
+}
+
 template<typename T>
 T vmin(T&&t)
 {

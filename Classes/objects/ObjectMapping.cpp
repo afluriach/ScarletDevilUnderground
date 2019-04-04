@@ -229,6 +229,7 @@ const unordered_map<string, GObject::object_info> GObject::objectInfo = {
 
 const unordered_set<type_index> GSpace::trackedTypes = {
 	typeid(Door),
+	typeid(RoomSensor),
 	typeid(Spawner),
 	typeid(TeleportPad),
 
@@ -244,6 +245,7 @@ const unordered_set<type_index> GSpace::enemyTypes = {
 	typeid(Fairy2),
 	typeid(IceFairy),
 
+	typeid(GhostFairy),
 	typeid(RedFairy),
 	typeid(GreenFairy1),
 	typeid(GreenFairy2),

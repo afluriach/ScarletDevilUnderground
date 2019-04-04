@@ -41,4 +41,5 @@ void Enemy::onRemove()
 	if(drop_id != collectible_id::nil){
 		space->createObject(Collectible::create(space, drop_id, getPos()));
 	}
+	space->registerEnemyDefeated(typeid(*this));
 }

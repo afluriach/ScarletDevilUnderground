@@ -33,7 +33,9 @@ bool GSpace::isMultithread()
 	return App::multithread;
 }
 
-GSpace::GSpace(GScene* gscene) : gscene(gscene)
+GSpace::GSpace(GScene* gscene) :
+	gscene(gscene),
+	randomFloat(0.0, 1.0)
 {
 	space = cpSpaceNew();
     cpSpaceSetGravity(space, cpv(0,0));
@@ -474,6 +476,24 @@ bool GSpace::isNoUpdateObject(GObject* obj)
 	;
 }
 
+void GSpace::increaseSpawnTotal(type_index t, unsigned int count)
+{
+	auto it = totalSpawnCount.find(t);
+	if (it == totalSpawnCount.end()) {
+		totalSpawnCount.insert_or_assign(t, 0);
+	}
+	totalSpawnCount.at(t) += count;
+}
+
+void GSpace::registerEnemyDefeated(type_index t)
+{
+	auto it = enemiesDefeated.find(t);
+	if (it == enemiesDefeated.end()) {
+		enemiesDefeated.insert_or_assign(t, 0);
+	}
+	++enemiesDefeated.at(t);
+}
+
 void GSpace::initObjects()
 {
     for(GObject* obj: addedLastFrame)
@@ -512,7 +532,6 @@ void GSpace::setRandomSeed(unsigned int seed)
 
 	randomEngine.seed(seed);
 	randomFloat.reset();
-	randomInt.reset();
 
 	if (!isRunningReplay) {
 		log("Random seed %u saved.", seed);
@@ -529,7 +548,17 @@ float GSpace::getRandomFloat(float min, float max) {
 }
 
 int GSpace::getRandomInt(int min, int max) {
-	return randomInt(randomEngine, boost::random::uniform_int_distribution<int>::param_type(min, max));
+	uniform_int_distribution<int> randomInt(min,max);
+	return randomInt(randomEngine);
+}
+
+vector<int> GSpace::getRandomShuffle(int n) {
+	vector<int> result;
+
+	for_irange(i, 0, n) result.push_back(i);
+	shuffle(result.begin(), result.end(), randomEngine);
+
+	return result;
 }
 
 void GSpace::loadReplay(unique_ptr<Replay> replay)
@@ -596,32 +625,18 @@ void GSpace::setInitialObjectCount()
 EnemyStatsMap GSpace::getEnemyStats()
 {
 	EnemyStatsMap result;
-	EnemyStatsMap spawnerEnemyCount;
-
-	unordered_set<GObject*> _objs = objByType[typeid(Spawner)];
-	for (GObject* _obj : _objs)
-	{
-		Spawner* s = dynamic_cast<Spawner*>(_obj);
-		type_index t = s->getSpawnType();
-		
-		auto it = spawnerEnemyCount.find(t);
-		if (it == spawnerEnemyCount.end()) {
-			spawnerEnemyCount.insert_or_assign(t, pair<unsigned int, unsigned int>(0, 0));
-		}
-
-		spawnerEnemyCount.at(t).first += s->getSpawnCount();
-		spawnerEnemyCount.at(t).second += s->getSpawnLimit();
-	}
 
 	for (type_index t : enemyTypes)
 	{
-		if (initialObjectCount[t] == 0 && spawnerEnemyCount[t].second == 0) {
+		unsigned int initial = getOrDefault(initialObjectCount, t, to_uint(0));
+		unsigned int spawnTotal = getOrDefault(totalSpawnCount, t, to_uint(0));
+		if (initial == 0 && spawnTotal == 0) {
 			continue;
 		}
 
 		result[t] = pair<unsigned int, unsigned int>(
-			initialObjectCount[t] + spawnerEnemyCount[t].first - objByType[t].size(),
-			initialObjectCount[t] + spawnerEnemyCount[t].second
+			getOrDefault(enemiesDefeated,t, to_uint(0)),
+			initial + spawnTotal
 		);
 	}
 

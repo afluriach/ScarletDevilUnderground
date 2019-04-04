@@ -63,7 +63,7 @@ void AreaSensor::onEnemyContact(Enemy*e) {
 }
 
 void AreaSensor::onEnemyEndContact(Enemy* e) {
-	++enemyCountsByType.at(typeid(*e));
+	--enemyCountsByType.at(typeid(*e));
 	enemies.erase(e);
 }
 
@@ -252,12 +252,8 @@ unsigned int RoomSensor::activateAllSpawners()
 {
 	unsigned int count = 0;
 
-	for (Spawner* s : spawners)
-	{
-		if (s->getRemainingSpawns() > 0){
-			s->activate();
-			++count;
-		}
+	for (Spawner* s : spawners){
+		count += to_uint(s->spawn().isFuture());
 	}
 
 	return count;
@@ -272,8 +268,10 @@ unsigned int RoomSensor::activateSpawners(type_index t, unsigned int count)
 		return 0;
 	}
 
+	vector<int> indicies = space->getRandomShuffle(it->second.size());
+
 	for (int i = 0; i < it->second.size() && result < count; ++i) {
-		Spawner* s = it->second.at(i); 
+		Spawner* s = it->second.at(indicies.at(i)); 
 		if (s->spawn().isFuture()) {
 			++result;
 		}
