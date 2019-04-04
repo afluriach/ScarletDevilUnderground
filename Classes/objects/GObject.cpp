@@ -122,7 +122,6 @@ void GObject::init()
 
 void GObject::update()
 {
-	updateMessages();
 #if GOBJECT_LUA
 	runLuaUpdate();
 #endif
@@ -137,15 +136,14 @@ void GObject::update()
 	prevAngle = getAngle();
 }
 
-void GObject::updateMessages()
-{
-	for (auto f : messages) f();
-	messages.clear();
-}
-
 void GObject::onPitfall()
 {
 	space->removeObjectWithAnimation(this, pitfallShrinkAction());
+}
+
+void GObject::queueMessage(zero_arity_function f)
+{
+	space->addObjectMessage(f);
 }
 
 //BEGIN PHYSICS

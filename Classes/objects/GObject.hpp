@@ -97,7 +97,6 @@ public:
 	GSpace *const space;
 
 	util::multifunction<void(void)> multiInit;
-	vector<zero_arity_function> messages;
 
 	virtual inline string getProperName() const {
 		return name;
@@ -115,26 +114,29 @@ public:
 	//objects in the same frame
 	void init();
 	virtual void update();
-	void updateMessages();
 	virtual void onPitfall();
 	inline virtual void onRemove() {}
 
 	template<typename D, typename...Args>
 	inline void message(D* _this, void (D::*m)(Args...), Args ...args)
 	{
-		messages.push_back([_this,m,args...](void) -> void {
-			invoke(m, _this, args...);
-		});
+		queueMessage(bind(m, _this, args...));
 	}
 
 	template<typename D1, typename D2, typename R, typename...Args>
-	inline void messageWithResponse(D1* _this, D2* _sender, R (D1::*handler)(Args...), void (D2::*response)(R), Args ...args)
-	{
-		messages.push_back([_this, _sender, handler, response, args...](void) -> void {
+	inline void messageWithResponse(
+		D1* _this,
+		D2* _sender,
+		R (D1::*handler)(Args...),
+		void (D2::*response)(R), Args ...args
+	){
+		queueMessage([_this, _sender, handler, response, args...](void) -> void {
 			R result = invoke(handler, _this, args...);
 			_sender->message<D2>(_sender, response, result);
 		});
 	}
+
+	void queueMessage(zero_arity_function f);
 
 	//BEGIN PHYSICS
 

@@ -176,6 +176,7 @@ public:
 		}
 	}
 
+	void addObjectMessage(zero_arity_function f);
 	void addObjectAction(zero_arity_function f);
 	void addSceneAction(zero_arity_function f);
 	void createDialog(string res, bool autoAdvance);
@@ -247,6 +248,7 @@ private:
 	unordered_map<type_index, unsigned int> enemiesDefeated;
 	unordered_set<GObject*> updateObjects;
 	unordered_map<string, ValueMap> dynamicLoadObjects;
+	vector<zero_arity_function> objectMessages;
 
 	SpaceRect cameraArea;
 	int crntMap = -1;
