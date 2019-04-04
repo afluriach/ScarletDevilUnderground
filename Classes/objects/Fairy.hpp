@@ -164,7 +164,7 @@ public:
 
 	void init();
 
-	inline virtual DamageInfo getDamageInfo() const {
+	inline virtual DamageInfo touchEffect() const {
 		return DamageInfo{ 20.0f, Attribute::darknessDamage, DamageType::touch };
 	}
 

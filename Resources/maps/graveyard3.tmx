@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.0" tiledversion="1.0.3" orientation="orthogonal" renderorder="right-down" width="51" height="51" tilewidth="128" tileheight="128" nextobjectid="312">
+<map version="1.0" tiledversion="1.0.3" orientation="orthogonal" renderorder="right-down" width="51" height="51" tilewidth="128" tileheight="128" nextobjectid="332">
  <tileset firstgid="1" name="wall" tilewidth="128" tileheight="128" tilecount="4" columns="2">
   <image source="fence.png" width="256" height="256"/>
  </tileset>
@@ -227,14 +227,13 @@
     <property name="radius" value="4.0"/>
    </properties>
   </object>
-  <object id="222" type="Door" x="2176" y="1024" width="128" height="128">
+  <object id="222" name="door-6w" type="Door" x="2176" y="1024" width="128" height="128">
    <properties>
     <property name="door_type" value="one_way_source"/>
    </properties>
   </object>
-  <object id="223" type="Door" x="2048" y="1024" width="128" height="128">
+  <object id="223" name="door-8e" type="Door" x="2048" y="1024" width="128" height="128">
    <properties>
-    <property name="dir" value="left"/>
     <property name="door_type" value="one_way_destination"/>
    </properties>
   </object>
@@ -331,6 +330,28 @@
    </properties>
   </object>
   <object id="311" type="Headstone" x="5824" y="3584" width="256" height="256"/>
+  <object id="312" type="ZombieFairy" x="1024" y="2816" width="128" height="128"/>
+  <object id="313" type="ZombieFairy" x="1408" y="3200" width="128" height="128"/>
+  <object id="314" type="ZombieFairy" x="1024" y="3200" width="128" height="128"/>
+  <object id="315" type="DarknessArea" x="0" y="2176" width="2176" height="2176"/>
+  <object id="316" name="door-2e" type="Door" x="2048" y="3200" width="128" height="128"/>
+  <object id="317" name="door-2n" type="Door" x="1024" y="2176" width="128" height="128"/>
+  <object id="318" name="door-3w" type="Door" x="2176" y="3200" width="128" height="128"/>
+  <object id="319" name="door-3e" type="Door" x="4224" y="3200" width="128" height="128"/>
+  <object id="321" name="door-3s" type="Door" x="3200" y="4224" width="128" height="128"/>
+  <object id="322" name="door-0e" type="Door" x="4224" y="5376" width="128" height="128"/>
+  <object id="323" name="door-5w" type="Door" x="4352" y="5376" width="128" height="128"/>
+  <object id="324" name="door-0n" type="Door" x="3200" y="4352" width="128" height="128"/>
+  <object id="325" name="door-4w" type="Door" x="4352" y="3200" width="128" height="128"/>
+  <object id="326" name="door-4n" type="Door" x="5376" y="2176" width="128" height="128"/>
+  <object id="327" name="door-7s" type="Door" x="5376" y="2048" width="128" height="128"/>
+  <object id="328" name="door-7w" type="Door" x="4352" y="1024" width="128" height="128"/>
+  <object id="330" name="door-6e" type="Door" x="4224" y="1024" width="128" height="128"/>
+  <object id="331" name="door-8s" type="Door" x="1024" y="2048" width="128" height="128">
+   <properties>
+    <property name="door_type" value="one_way_destination"/>
+   </properties>
+  </object>
  </objectgroup>
  <objectgroup name="spawners">
   <object id="293" name="spawner-g5-1" type="GhostFairy" x="4608" y="4608" width="128" height="128"/>
@@ -353,7 +374,11 @@
     <property name="startState" value="SequentialClearSpawn"/>
    </properties>
   </object>
-  <object id="135" name="2" x="0" y="2176" width="2176" height="2176"/>
+  <object id="135" name="2" x="0" y="2183" width="2176" height="2176">
+   <properties>
+    <property name="trap_doors" value="door-2e door-2n"/>
+   </properties>
+  </object>
   <object id="136" name="3" x="2176" y="2176" width="2176" height="2176"/>
   <object id="137" name="4" x="4352" y="2176" width="2176" height="2176"/>
   <object id="139" name="6" x="2176" y="0" width="2176" height="2176"/>

@@ -63,6 +63,13 @@ void Door::init()
 			PhysicsLayers::all,
 			type_index(typeid(Door))
 		));
+		if (adjacent.isValid() &&
+			entryDirection == Direction::none &&
+			doorType != door_type::one_way_source &&
+			adjacent.get()->doorType != door_type::one_way_destination
+		) {
+			entryDirection = angleToDirection((getPos() - adjacent.get()->getPos()).toAngle());
+		}
 	}
 
 	if (locked) {
