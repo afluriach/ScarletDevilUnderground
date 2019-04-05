@@ -113,9 +113,10 @@ public:
 	static void end();
 
 	static void initAudio();
+	static ALuint initSoundSource(const Vec3& pos, const Vec3& vel, bool relative);
 	static void loadSound(const string& path);
-	static void playSound(const string& path, float volume);
-	static void playSoundSpatial(const string& path, FMOD_VECTOR pos, FMOD_VECTOR vel, float volume = 1.0f);
+	static ALuint playSound(const string& path, float volume);
+	static ALuint playSoundSpatial(const string& path, const Vec3& pos, const Vec3& vel, float volume = 1.0f);
 	static void pauseSounds();
 	static void resumeSounds();
 	static void setSoundListenerPos(SpaceVect pos, SpaceVect vel, SpaceFloat angle);
@@ -148,8 +149,13 @@ protected:
 
 	string baseDataPath;
 
-	FMOD::System* audioSystem = nullptr;
-	unordered_map<string, FMOD::Sound*> loadedAudio;
+	ALCdevice* audioDevice = nullptr;
+	ALCcontext* audioContext = nullptr;
+	//listener source-relative at origin
+	ALuint directSource = 0;
+
+	unordered_map<string, ALuint> loadedBuffers;
+	unordered_set<ALuint> activeSources;
 
 	virtual bool applicationDidFinishLaunching();
 	virtual void applicationDidEnterBackground();

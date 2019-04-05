@@ -29,7 +29,7 @@ Bomb::Bomb(GSpace* space, ObjectIDType id, const SpaceVect& pos, const SpaceVect
 void Bomb::init()
 {
 	countdown = getFuseTime();
-	App::playSoundSpatial("sfx/bomb_fuse.wav", toFmod(getPos()), toFmod(SpaceVect::zero));
+	App::playSoundSpatial("sfx/bomb_fuse.wav", toVec3(getPos()), toVec3(SpaceVect::zero));
 }
 
 void Bomb::update()

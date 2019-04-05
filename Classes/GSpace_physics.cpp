@@ -454,7 +454,7 @@ int GSpace::floorObjectBegin(GObject* floorSegment, GObject* obj, cpArbiter* arb
 	}
 
 	else{
-		obj->message<GObject>(obj, &GObject::onContactFloorSegment, object_ref<FloorSegment>(fs));
+		obj->onContactFloorSegment(fs);
 		return 1;
 	}
 }
@@ -473,7 +473,7 @@ void GSpace::floorObjectEnd(GObject* floorSegment, GObject* obj, cpArbiter* arb)
 	}
 
 	else {
-		obj->message<GObject>(obj, &GObject::onEndContactFloorSegment, object_ref<FloorSegment>(fs));
+		obj->onEndContactFloorSegment(fs);
 	}
 }
 

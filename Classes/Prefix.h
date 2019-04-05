@@ -54,13 +54,15 @@
 #include <vector>
 
 //All external libraries used by this app.
+#include "AL/al.h"
+#include "AL/alc.h"
 #include "chipmunk.h"
 #include "cocos2d.h"
 #include "ui/CocosGUI.h"
 #include "lua.hpp"
 #include "LuaBridge.h"
-#include "fmod.hpp"
 #include "noise.h"
+#include "sndfile.h"
 
 #if use_gamepad
     #include "gainput/gainput.h"

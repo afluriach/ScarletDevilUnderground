@@ -113,105 +113,167 @@ float App::getScale()
 
 void App::initAudio()
 {
-	FMOD_RESULT result = FMOD::System_Create(&appInst->audioSystem);
-
-	if (result != FMOD_OK) {
-		log("FMOD system failed to create!");
+	appInst->audioDevice = alcOpenDevice(nullptr);
+	if (!appInst->audioDevice) {
+		log("Failed to open audio device");
 		return;
 	}
 
-	result = appInst->audioSystem->init(maxAudioChannels, FMOD_INIT_NORMAL, 0);
-
-	if (result != FMOD_OK) {
-		log("FMOD system failed to initialize!");
+	appInst->audioContext = alcCreateContext(appInst->audioDevice, nullptr);
+	if (!appInst->audioContext) {
+		log("Failed to open audio context.");
 		return;
 	}
 
-	for (string sound : soundFiles)
-	{
-		loadSound(sound);
+	if (!alcMakeContextCurrent(appInst->audioContext)) {
+		log("Failed to set current context.");
+		return;
+	}
+
+	for (string s : soundFiles) {
+		loadSound(s);
 	}
 }
+
+ALuint App::initSoundSource(const Vec3& pos, const Vec3& vel, bool relative)
+{
+	ALuint result = 0;
+
+	alGenSources(1, &result);
+	alSource3f(result, AL_POSITION, pos.x, pos.y, pos.z);
+	alSource3f(result, AL_VELOCITY, vel.x, vel.y, vel.z);
+	if(relative)
+		alSourcei(appInst->directSource, AL_SOURCE_RELATIVE, AL_TRUE);
+
+	return result;
+}
+
+size_t constexpr fileBufferSize = 1024 * 1024;
 
 void App::loadSound(const string& path)
 {
-	FMOD::Sound *audio;
-	FMOD_RESULT result = appInst->audioSystem->createSound(path.c_str(), FMOD_DEFAULT, 0, &audio);
+	SF_INFO info;
+	SNDFILE* file = sf_open(path.c_str(), SFM_READ, &info);
+	ALuint bufferID;
 
-	if (result == FMOD_OK) {
-		appInst->loadedAudio.insert_or_assign(path, audio);
-	}
-	else {
-		log("Failed to create sound %s, error code %d.", path.c_str(), to_int(result));
-	}
-}
-
-void App::playSound(const string& path, float volume)
-{
-	auto it = appInst->loadedAudio.find(path);
-
-	if (it == appInst->loadedAudio.end()) {
-		log("Unknown sound %s!", path.c_str());
+	if (!file) {
+		log("Failed to load audio file %s.", path.c_str());
 		return;
 	}
 
-	FMOD::Channel* ch;
-	appInst->audioSystem->playSound(it->second, nullptr, true, &ch);
-	
-	ch->setMode(FMOD_DEFAULT);
-	ch->setVolume(volume);
-	ch->setPaused(false);
-}
-
-void App::playSoundSpatial(const string& path, FMOD_VECTOR pos, FMOD_VECTOR vel, float volume)
-{
-	auto it = appInst->loadedAudio.find(path);
-
-	if (it == appInst->loadedAudio.end()) {
-		log("Unknown sound %s!", path.c_str());
+	if (info.channels != 1) {
+		log("Sound file %s is multi-channel!", path.c_str());
+		sf_close(file);
 		return;
 	}
 
-	FMOD::Channel* ch;
-	appInst->audioSystem->playSound(it->second, nullptr, true, &ch);
-	
-	ch->setMode(FMOD_3D);
-	ch->set3DMinMaxDistance(0.5f, 15.0f);
-	ch->set3DAttributes(&pos, &vel);
-	ch->setVolume(volume);
-	ch->setPaused(false);
+	unique_ptr<array<short, fileBufferSize>> buf = make_unique<array<short, fileBufferSize>>();
+	sf_count_t bufPos = 0;
+
+	while (true) {
+		sf_count_t readSize = 0;
+		if (bufPos >= fileBufferSize) {
+			log("Audio buffer size limit reached: %s", path.c_str());
+			sf_close(file);
+			return;
+		}
+		
+		readSize = sf_read_short(file, &(*buf)[bufPos], fileBufferSize - bufPos);
+
+		if (readSize > 0) {
+			bufPos += readSize;
+		}
+		else {
+			break;
+		}
+	}
+
+	alGenBuffers(1, &bufferID);
+
+	if (bufferID == AL_INVALID_VALUE) {
+		log("Failed to create sound buffer.");
+		return;
+	}
+
+	alBufferData(
+		bufferID,
+		AL_FORMAT_MONO16,
+		&(*buf)[0],
+		bufPos,
+		info.samplerate
+	);
+
+	appInst->loadedBuffers.insert_or_assign(path, bufferID);
+}
+
+ALuint App::playSound(const string& path, float volume)
+{
+	ALuint source = initSoundSource(Vec3::ZERO, Vec3::ZERO, true);
+	ALuint sound = getOrDefault(appInst->loadedBuffers, path, to_uint(0));
+
+	if (source != 0 && sound != 0) {
+		alSourcei(source, AL_BUFFER, sound);
+		alSourcePlay(source);
+		appInst->activeSources.insert(source);
+	}
+
+	return source;
+}
+
+ALuint App::playSoundSpatial(const string& path, const Vec3& pos, const Vec3& vel, float volume)
+{
+	ALuint bufferID = getOrDefault(appInst->loadedBuffers, path, to_uint(0));
+	ALuint source = 0;
+
+	if (bufferID == 0) {
+		log("Unknown audio file %s", path.c_str());
+		return 0;
+	}
+	source = initSoundSource(pos, vel, false);
+
+	if (source != 0) {
+		alSourcei(source, AL_BUFFER, bufferID);
+		alSourcePlay(source);
+		appInst->activeSources.insert(source);
+	}
+
+	return source;
 }
 
 void App::pauseSounds()
 {
-	if (appInst->audioSystem) {
-		FMOD::ChannelGroup* cg;
-		appInst->audioSystem->getMasterChannelGroup(&cg);
-
-		cg->setPaused(true);
+	for (ALuint sourceID : appInst->activeSources)
+	{
+		ALenum state;
+		alGetSourcei(sourceID, AL_SOURCE_STATE, &state);
+		if (state != AL_STOPPED && state != AL_PAUSED) {
+			alSourcePause(sourceID);
+		}
 	}
 }
 
 void App::resumeSounds()
 {
-	if (appInst->audioSystem) {
-		FMOD::ChannelGroup* cg;
-		appInst->audioSystem->getMasterChannelGroup(&cg);
-
-		cg->setPaused(false);
+	for (ALuint sourceID : appInst->activeSources)
+	{
+		ALenum state;
+		alGetSourcei(sourceID, AL_SOURCE_STATE, &state);
+		if (state == AL_PAUSED) {
+			alSourcePlay(sourceID);
+		}
 	}
 }
 
 void App::setSoundListenerPos(SpaceVect pos, SpaceVect vel, SpaceFloat angle)
 {
-	FMOD_VECTOR _pos = toFmod(pos);
-	FMOD_VECTOR _vel = toFmod(vel);
-	FMOD_VECTOR facing = {0.0f, 0.0f, 1.0f};
-	FMOD_VECTOR up = {0.0f, 1.0f, 0.0f};
+	Vec3 _pos = toVec3(pos);
+	array<float, 6> orientation = {
+		0.0f, 0.0f, 1.0f,
+		0.0f, 1.0f, 0.0f
+	};
 
-	if (appInst->audioSystem) {
-		appInst->audioSystem->set3DListenerAttributes(0, &_pos, &_vel, &facing, &up);
-	}
+	alListenerfv(AL_POSITION, &_pos.x);
+	alListenerfv(AL_ORIENTATION, &orientation[0]);
 }
 
 App::App()
@@ -232,6 +294,13 @@ App::App()
 App::~App() 
 {
 	control_register = nullptr;
+	
+	//Close AL
+	alcMakeContextCurrent(nullptr);
+	if (audioContext)
+		alcDestroyContext(audioContext);
+	if (audioDevice)
+		alcCloseDevice(audioDevice);
 
     log("app exiting");
 }
@@ -338,15 +407,6 @@ void App::printGlDebug()
 
 void App::end()
 {
-	if (appInst->audioSystem) {
-
-		for (auto entry : appInst->loadedAudio) {
-			entry.second->release();
-		}
-
-		appInst->audioSystem->release();
-	}
-
     Director::getInstance()->end();
 }
 
@@ -468,8 +528,17 @@ void App::update(float dt)
 {
     control_register->update();
 
-	if (audioSystem) {
-		audioSystem->update();
+	auto it = activeSources.begin();
+	while (it != activeSources.end()) {
+		ALenum state;
+		alGetSourcei(*it, AL_SOURCE_STATE, &state);
+		if (state == AL_STOPPED) {
+			alDeleteSources(1, &(*it));
+			it = activeSources.erase(it);
+		}
+		else {
+			++it;
+		}
 	}
 
 #if USE_TIMERS

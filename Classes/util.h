@@ -20,7 +20,7 @@ SpaceVect toChipmunk(const Vec2& rhs);
 SpaceVect toChipmunk(const cocos2d::CCSize& rhs);
 SpaceVect toChipmunk(const IntVec2& ivec);
 SpaceVect toChipmunkWithCentering(const IntVec2& ivec);
-FMOD_VECTOR toFmod(const SpaceVect& rhs, float y = 0.0f);
+Vec3 toVec3(const SpaceVect& rhs, float y = 0.0f);
 IntVec2 toIntVector(const cocos2d::CCSize& rhs);
 IntVec2 toIntVector(const SpaceVect& rhs);
 CCSize toCCSize(const SpaceVect& rhs);

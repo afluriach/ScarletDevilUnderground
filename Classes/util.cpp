@@ -156,7 +156,7 @@ SpaceVect toChipmunkWithCentering(const IntVec2& ivec)
 	return SpaceVect(ivec.first + 0.5, ivec.second + 0.5);
 }
 
-FMOD_VECTOR toFmod(const SpaceVect& rhs, float y)
+Vec3 toVec3(const SpaceVect& rhs, float y)
 {
 	return { to_float(rhs.x), y, to_float(rhs.y) };
 }
