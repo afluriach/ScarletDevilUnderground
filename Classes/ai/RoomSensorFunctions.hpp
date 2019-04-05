@@ -11,6 +11,8 @@
 
 #include "AI.hpp"
 
+class Spawner;
+
 namespace ai{
 
 //Try/activate all spawners in room when room is cleared.
@@ -46,6 +48,25 @@ protected:
 	int entryIdx = 0;
 	vector<sequence_entry> spawnEntries;
 	unordered_map<type_index, unsigned int> totalSpawns;
+};
+
+struct timed_sequence_entry
+{
+	SpaceFloat startTime;
+	vector<Spawner*> spawners;
+};
+
+class TimedSpawnSequence : public Function {
+public:
+	TimedSpawnSequence(GSpace* space, const ValueMap& args);
+
+	virtual void update(StateMachine& sm);
+
+	FuncGetName(TimedSpawnSequence)
+protected:
+	int entryIdx = 0;
+	vector<timed_sequence_entry> spawnEntries;
+	vector<Spawner*> spawnQueue;
 };
 
 } //end NS

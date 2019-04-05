@@ -91,6 +91,7 @@ public:
 	void updateBoss();
 	unsigned int activateAllSpawners();
 	unsigned int activateSpawners(type_index t, unsigned int count);
+	inline SpaceFloat getTimeInRoom()const { return timeInRoom; }
 
 	void spawnKey();
 	
@@ -102,6 +103,7 @@ protected:
 	unordered_set<ActivateableObject*> doors;
 	unordered_set<Spawner*> spawners;
 	unordered_map<type_index, vector<Spawner*>> spawnersByType;
+	SpaceFloat timeInRoom = 0.0;
 
 	string bossName;
 	object_ref<Enemy> boss;

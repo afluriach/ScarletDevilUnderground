@@ -175,6 +175,8 @@ void RoomSensor::update()
 	//GObject::update();
 	StateMachineObject::_update();
 
+	if (player) timerIncrement(timeInRoom);
+
 	if(!bossName.empty())
 		updateBoss();
 	if(doors.size() > 0)

@@ -32,6 +32,7 @@ const unordered_map<string, Function::AdapterType> Function::adapters = {
 	entry_same(MultiSpawnSequence),
 	entry_same(Seek),
 	entry_same(SequentialClearSpawn),
+	entry_same(TimedSpawnSequence),
 	entry_same(Wander)
 };
 

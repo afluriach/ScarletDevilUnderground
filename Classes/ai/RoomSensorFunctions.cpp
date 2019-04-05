@@ -95,4 +95,67 @@ void MultiSpawnSequence::update(StateMachine& sm)
 		sm.pop();
 }
 
+TimedSpawnSequence::TimedSpawnSequence(GSpace* space, const ValueMap& args)
+{
+	vector<SpaceFloat> spawnTimes = getObjectVector<double>(
+		args,
+		&boost::lexical_cast<SpaceFloat, string>,
+		"spawnTime"
+	);
+	ValueVector spawners = getVector(args, "spawners", 1);
+
+	if (spawnTimes.size() != spawners.size())
+		return;
+
+	for_irange(i, 0, spawners.size())
+	{
+		vector<string> spawnerNames = splitString(spawners.at(i).asString(), " ");
+		vector<Spawner*> _spawners = space->getObjectsAs<Spawner>(spawnerNames);
+
+		for (string s : spawnerNames) {
+		}
+
+		spawnEntries.push_back(timed_sequence_entry{
+			spawnTimes.at(i),
+			_spawners
+		});
+	}
+}
+
+void TimedSpawnSequence::update(StateMachine& sm)
+{
+	if (entryIdx >= spawnEntries.size()) {
+		sm.pop();
+		return;
+	}
+
+	auto it = spawnQueue.begin();
+	while (it != spawnQueue.end())
+	{
+		if ((*it)->canSpawn()) {
+			(*it)->spawn();
+			it = spawnQueue.erase(it);
+		}
+		else {
+			++it;
+		}
+	}
+
+	auto entry = spawnEntries.at(entryIdx);
+
+	if (sm.getRoomSensor()->getTimeInRoom() >= entry.startTime)
+	{
+		for (Spawner* s : entry.spawners) {
+			if (s->canSpawn()) {
+				s->spawn();
+			}
+			else {
+				spawnQueue.push_back(s);
+			}
+		}
+
+		++entryIdx;
+	}
+}
+
 }//end NS

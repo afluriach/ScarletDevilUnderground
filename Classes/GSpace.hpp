@@ -117,6 +117,20 @@ public:
 	}
 
 	template<typename T>
+	inline vector<T*> getObjectsAs(const vector<string>& names) const {
+		assert_gobject(T);
+		vector<T*> result;
+
+		for (string s : names)
+		{
+			T* obj = getObjectAs<T>(s);
+			if (obj) result.push_back(obj);
+		}
+
+		return result;
+	}
+
+	template<typename T>
 	inline vector<object_ref<T>> getObjectsByTypeAs() const {
 		assert_gobject(T);
 		const unordered_set<GObject*>* base = getObjectsByType(typeid(T));
