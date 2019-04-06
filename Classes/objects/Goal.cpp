@@ -24,6 +24,18 @@ MapObjForwarding(GObject)
 	}
 }
 
+void Goal::update()
+{
+	GObject::update();
+
+	timerDecrement(audioTimer);
+	if (audioTimer <= 0.0)
+	{
+		App::playSoundSpatial("sfx/shot.wav", toVec3(getPos()), toVec3(SpaceVect::zero), 0.5f);
+		audioTimer = 0.15;
+	}
+}
+
 bool Goal::canInteract()
 {
 	return !isBlocked;

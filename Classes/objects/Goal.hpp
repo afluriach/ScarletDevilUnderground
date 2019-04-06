@@ -22,6 +22,8 @@ class Goal:
 public:
 	MapObjCons(Goal);
     
+	virtual void update();
+
     virtual string imageSpritePath() const {return "sprites/goal.png";}
     virtual GraphicsLayer sceneLayer() const {return GraphicsLayer::ground;}
     
@@ -36,6 +38,7 @@ public:
 	virtual void activate();
 	virtual void deactivate();
 protected:
+	SpaceFloat audioTimer = 0.0;
 	PlayScene * playScene = nullptr;
 	bool isBlocked = false;
 };
