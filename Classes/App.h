@@ -116,7 +116,14 @@ public:
 	static ALuint initSoundSource(const Vec3& pos, const Vec3& vel, bool relative);
 	static void loadSound(const string& path);
 	static ALuint playSound(const string& path, float volume);
-	static ALuint playSoundSpatial(const string& path, const Vec3& pos, const Vec3& vel, float volume = 1.0f);
+	static ALuint playSoundSpatial(
+		const string& path,
+		const Vec3& pos,
+		const Vec3& vel,
+		float volume = 1.0f,
+		bool loop = false
+	);
+	static void endSound(ALuint source);
 	static void pauseSounds();
 	static void resumeSounds();
 	static void setSoundListenerPos(SpaceVect pos, SpaceVect vel, SpaceFloat angle);

@@ -74,7 +74,7 @@ public:
 	//Create body and add it to space. This assumes BB is rectangle dimensions
 	virtual void initializeRadar(GSpace& space);
     
-    bool isObjectVisible(GObject* otther);
+    bool isObjectVisible(GObject* other);
 protected:
     unordered_set<GObject*> objectsInRange;
     unordered_set<GObject*> visibleObjects;

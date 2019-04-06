@@ -29,7 +29,7 @@ void explosion(const GObject* source, SpaceFloat radius, DamageInfo baseDamage)
 	for (Agent* target : targets)
 	{
 		float scale = getExplosionScale(source, target, radius);
-		SpaceFloat knockback = baseDamage.mag * -5.0f * scale;
+		SpaceFloat knockback = baseDamage.mag * 5.0f * scale;
 
 		target->hit(baseDamage * scale);
 		log("Hit %s at scale %f.", target->getName().c_str(), scale);

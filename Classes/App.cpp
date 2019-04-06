@@ -218,7 +218,7 @@ ALuint App::playSound(const string& path, float volume)
 	return source;
 }
 
-ALuint App::playSoundSpatial(const string& path, const Vec3& pos, const Vec3& vel, float volume)
+ALuint App::playSoundSpatial(const string& path, const Vec3& pos, const Vec3& vel, float volume, bool loop)
 {
 	audioMutex.lock();
 
@@ -235,6 +235,7 @@ ALuint App::playSoundSpatial(const string& path, const Vec3& pos, const Vec3& ve
 	if (source != 0) {
 		alSourcei(source, AL_BUFFER, bufferID);
 		alSourcef(source, AL_ROLLOFF_FACTOR, boost::math::float_constants::root_two);
+		alSourcei(source, AL_LOOPING, loop);
 		alSourcePlay(source);
 		appInst->activeSources.insert(source);
 	}
@@ -242,6 +243,17 @@ ALuint App::playSoundSpatial(const string& path, const Vec3& pos, const Vec3& ve
 	audioMutex.unlock();
 
 	return source;
+}
+
+void App::endSound(ALuint source)
+{
+	audioMutex.lock();
+	auto it = appInst->activeSources.find(source);
+	if (it != appInst->activeSources.end()) {
+		alSourceStop(*it);
+		appInst->activeSources.erase(it);
+	}
+	audioMutex.unlock();
 }
 
 void App::pauseSounds()
