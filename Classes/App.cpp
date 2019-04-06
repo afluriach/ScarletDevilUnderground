@@ -151,8 +151,6 @@ ALuint App::initSoundSource(const Vec3& pos, const Vec3& vel, bool relative)
 	return result;
 }
 
-size_t constexpr fileBufferSize = 1024 * 1024;
-
 void App::loadSound(const string& path)
 {
 	SF_INFO info;
@@ -170,25 +168,16 @@ void App::loadSound(const string& path)
 		return;
 	}
 
-	unique_ptr<array<short, fileBufferSize>> buf = make_unique<array<short, fileBufferSize>>();
+	short* buf = new short[info.frames];
 	sf_count_t bufPos = 0;
 
 	while (true) {
-		sf_count_t readSize = 0;
-		if (bufPos >= fileBufferSize) {
-			log("Audio buffer size limit reached: %s", path.c_str());
-			sf_close(file);
-			return;
-		}
-		
-		readSize = sf_read_short(file, &(*buf)[bufPos], fileBufferSize - bufPos);
+		if (bufPos >= info.frames) break;
 
-		if (readSize > 0) {
-			bufPos += readSize;
-		}
-		else {
-			break;
-		}
+		sf_count_t readSize = sf_read_short(file, buf + bufPos, info.frames - bufPos);
+
+		if (readSize > 0) bufPos += readSize;
+		else break;
 	}
 
 	alGenBuffers(1, &bufferID);
@@ -201,12 +190,13 @@ void App::loadSound(const string& path)
 	alBufferData(
 		bufferID,
 		AL_FORMAT_MONO16,
-		&(*buf)[0],
-		bufPos,
+		buf,
+		info.frames,
 		info.samplerate
 	);
 
 	appInst->loadedBuffers.insert_or_assign(path, bufferID);
+	delete[] buf;
 }
 
 ALuint App::playSound(const string& path, float volume)

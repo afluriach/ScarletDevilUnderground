@@ -95,20 +95,12 @@ bool StarbowBreak::spawnBullet(int angle, bool left)
 
 bool StarbowBreak::fire()
 {
-	bool canFire = false;
-	for (float t : timers) {
-		if (t <= 0.0f) {
-			canFire = true;
-			break;
-		}
-	}
-
-	if (!canFire)
-		return false;
+	bool fired = false;
 
 	if (timers[0] <= 0.0f && spawnBullet(0,false))
 	{
 		timers[0] = baseFireInterval;
+		fired = true;
 	}
 
 	//angle zero represents forward direction (single bullet)
@@ -116,16 +108,18 @@ bool StarbowBreak::fire()
 	for_irange(i, 1, anglesCount)
 	{
 		if (timers[i] <= 0.0f) {
-			bool fired = false;
-			fired |= spawnBullet(i, false);
-			fired |= spawnBullet(i, true);
+			bool legFired = false;
+			legFired |= spawnBullet(i, false);
+			legFired |= spawnBullet(i, true);
 
-			if (fired)
+			if (legFired) {
 				timers[i] = baseFireInterval;
+				fired = true;
+			}
 		}
 	}
 
-	return true;
+	return fired;
 }
 
 void StarbowBreak::update()
