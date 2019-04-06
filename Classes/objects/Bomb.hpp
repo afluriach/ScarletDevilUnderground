@@ -39,6 +39,7 @@ public:
 	virtual DamageInfo getDamageInfo() const = 0;
 	virtual SpaceFloat getFuseTime() const = 0;
 	virtual SpaceFloat getBlastRadius() const = 0;
+	virtual string getExplosionSound() const { return ""; }
 protected:
 	SpaceFloat countdown;
 };
@@ -59,6 +60,7 @@ public:
 	virtual SpaceFloat getFuseTime() const { return 3.0; }
 	virtual SpaceFloat getRadius() const { return 0.5; }
 	virtual SpaceFloat getBlastRadius() const { return 4.0; }
+	virtual string getExplosionSound() const { return "sfx/bomb_explosion1.wav"; }
 };
 
 class RedFairyBomb : public Bomb, public ImageSprite
@@ -77,6 +79,7 @@ public:
 	virtual SpaceFloat getFuseTime() const { return 1.2; }
 	virtual SpaceFloat getRadius() const { return 0.5; }
 	virtual SpaceFloat getBlastRadius() const { return 3.0; }
+	virtual string getExplosionSound() const { return "sfx/bomb_explosion2.wav"; }
 };
 
 

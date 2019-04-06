@@ -47,10 +47,23 @@ void Bomb::detonate()
 {
 	explosion(this, getBlastRadius(), getDamageInfo());
 	
+	string sfxRes = getExplosionSound();
+	if(!sfxRes.empty())
+		App::playSoundSpatial(
+			getExplosionSound(),
+			toVec3(getPos()),
+			toVec3(getVel())
+		);
+
 	space->setSpriteTexture(spriteID, "sprites/explosion.png");
 	space->removeObjectWithAnimation(this, bombAnimationAction(getBlastRadius() / explosionSpriteRadius, false));
 
-	LightID light = space->addLightSource(CircleLightArea{ getPos(), getBlastRadius()*1.5, Color4F::ORANGE, 0.5 });
+	LightID light = space->addLightSource(CircleLightArea{
+		getPos(),
+		getBlastRadius()*1.5,
+		Color4F::ORANGE,
+		0.5
+	});
 	space->autoremoveLightSource(light, 1.0f);
 }
 

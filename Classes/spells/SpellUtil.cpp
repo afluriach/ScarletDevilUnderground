@@ -47,8 +47,6 @@ void explosion(const GObject* source, SpaceFloat radius, DamageInfo baseDamage)
 	for (BreakableWall* bw : walls){
 		bw->hit();
 	}
-
-	App::playSoundSpatial("sfx/bomb_explosion.wav", toVec3(source->getPos()), toVec3(SpaceVect::zero));
 }
 
 float getExplosionScale(const GObject* source, const GObject* target, SpaceFloat radius)

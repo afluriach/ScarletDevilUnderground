@@ -27,7 +27,8 @@ const vector<string> App::shaderFiles = {
 };
 
 const vector<string> App::soundFiles = {
-	"sfx/bomb_explosion.wav",
+	"sfx/bomb_explosion1.wav",
+	"sfx/bomb_explosion2.wav",
 	"sfx/bomb_fuse.wav",
 	"sfx/enemy_damage.wav",
 	"sfx/footstep_cave.wav",
@@ -226,9 +227,10 @@ ALuint App::playSoundSpatial(const string& path, const Vec3& pos, const Vec3& ve
 
 	if (bufferID == 0) {
 		log("Unknown audio file %s", path.c_str());
-		return 0;
 	}
-	source = initSoundSource(pos, vel, false);
+	else {
+		source = initSoundSource(pos, vel, false);
+	}
 
 	if (source != 0) {
 		alSourcei(source, AL_BUFFER, bufferID);
