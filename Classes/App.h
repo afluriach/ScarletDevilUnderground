@@ -138,6 +138,7 @@ public:
 	static boost::rational<int> timerPrintAccumulator;
 	static mutex timerMutex;
 #endif
+	static mutex audioMutex;
 	static PlayerCharacter crntPC;
     
 	static const string& getBaseDataPath();
@@ -151,8 +152,6 @@ protected:
 
 	ALCdevice* audioDevice = nullptr;
 	ALCcontext* audioContext = nullptr;
-	//listener source-relative at origin
-	ALuint directSource = 0;
 
 	unordered_map<string, ALuint> loadedBuffers;
 	unordered_set<ALuint> activeSources;

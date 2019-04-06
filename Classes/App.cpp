@@ -68,6 +68,7 @@ unique_ptr<TimerSystem> App::timerSystem;
 boost::rational<int> App::timerPrintAccumulator(1);
 mutex App::timerMutex;
 #endif
+mutex App::audioMutex;
 
 App* App::appInst;
 bool App::logTimers = false;
@@ -130,6 +131,8 @@ void App::initAudio()
 		return;
 	}
 
+	alDistanceModel(AL_EXPONENT_DISTANCE);
+
 	for (string s : soundFiles) {
 		loadSound(s);
 	}
@@ -143,7 +146,7 @@ ALuint App::initSoundSource(const Vec3& pos, const Vec3& vel, bool relative)
 	alSource3f(result, AL_POSITION, pos.x, pos.y, pos.z);
 	alSource3f(result, AL_VELOCITY, vel.x, vel.y, vel.z);
 	if(relative)
-		alSourcei(appInst->directSource, AL_SOURCE_RELATIVE, AL_TRUE);
+		alSourcei(result, AL_SOURCE_RELATIVE, AL_TRUE);
 
 	return result;
 }
@@ -208,6 +211,8 @@ void App::loadSound(const string& path)
 
 ALuint App::playSound(const string& path, float volume)
 {
+	audioMutex.lock();
+
 	ALuint source = initSoundSource(Vec3::ZERO, Vec3::ZERO, true);
 	ALuint sound = getOrDefault(appInst->loadedBuffers, path, to_uint(0));
 
@@ -217,11 +222,15 @@ ALuint App::playSound(const string& path, float volume)
 		appInst->activeSources.insert(source);
 	}
 
+	audioMutex.unlock();
+
 	return source;
 }
 
 ALuint App::playSoundSpatial(const string& path, const Vec3& pos, const Vec3& vel, float volume)
 {
+	audioMutex.lock();
+
 	ALuint bufferID = getOrDefault(appInst->loadedBuffers, path, to_uint(0));
 	ALuint source = 0;
 
@@ -233,15 +242,19 @@ ALuint App::playSoundSpatial(const string& path, const Vec3& pos, const Vec3& ve
 
 	if (source != 0) {
 		alSourcei(source, AL_BUFFER, bufferID);
+		alSourcef(source, AL_ROLLOFF_FACTOR, boost::math::float_constants::root_two);
 		alSourcePlay(source);
 		appInst->activeSources.insert(source);
 	}
+
+	audioMutex.unlock();
 
 	return source;
 }
 
 void App::pauseSounds()
 {
+	audioMutex.lock();
 	for (ALuint sourceID : appInst->activeSources)
 	{
 		ALenum state;
@@ -250,10 +263,12 @@ void App::pauseSounds()
 			alSourcePause(sourceID);
 		}
 	}
+	audioMutex.unlock();
 }
 
 void App::resumeSounds()
 {
+	audioMutex.lock();
 	for (ALuint sourceID : appInst->activeSources)
 	{
 		ALenum state;
@@ -262,18 +277,21 @@ void App::resumeSounds()
 			alSourcePlay(sourceID);
 		}
 	}
+	audioMutex.unlock();
 }
 
 void App::setSoundListenerPos(SpaceVect pos, SpaceVect vel, SpaceFloat angle)
 {
+	audioMutex.lock();
 	Vec3 _pos = toVec3(pos);
 	array<float, 6> orientation = {
-		0.0f, 0.0f, 1.0f,
+		0.0f, 0.0f, -1.0f,
 		0.0f, 1.0f, 0.0f
 	};
 
 	alListenerfv(AL_POSITION, &_pos.x);
 	alListenerfv(AL_ORIENTATION, &orientation[0]);
+	audioMutex.unlock();
 }
 
 App::App()
@@ -528,6 +546,8 @@ void App::update(float dt)
 {
     control_register->update();
 
+	audioMutex.lock();
+
 	auto it = activeSources.begin();
 	while (it != activeSources.end()) {
 		ALenum state;
@@ -540,6 +560,7 @@ void App::update(float dt)
 			++it;
 		}
 	}
+	audioMutex.unlock();
 
 #if USE_TIMERS
 	updateTimerSystem();
@@ -549,6 +570,7 @@ void App::update(float dt)
 #if USE_TIMERS
 void App::updateTimerSystem()
 {
+	timerMutex.lock();
 	timerSystem->addEntry(TimerType::draw, Director::getInstance()->getRenderTimes().back());
 
 	if (logTimers)
@@ -556,12 +578,11 @@ void App::updateTimerSystem()
 		timerDecrement(timerPrintAccumulator);
 
 		if (timerPrintAccumulator <= 0) {
-			timerMutex.lock();
 			printTimerInfo();
-			timerMutex.unlock();
 			timerPrintAccumulator = boost::rational<int>(1);
 		}
 	}
+	timerMutex.unlock();
 }
 
 void App::setLogTimers(bool b)
