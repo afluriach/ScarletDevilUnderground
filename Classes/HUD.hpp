@@ -206,8 +206,6 @@ public:
 
     static const int fontSize;
     
-//    static const Color4F backgroundColor;
-
 	HUD(GSpace* space);
     virtual ~HUD();
     //Not an override of Layer

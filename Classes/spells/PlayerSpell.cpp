@@ -27,8 +27,9 @@ void PlayerSpell::init()
 void PlayerSpell::update()
 {
 	timerIncrement(timeInSpell);
+	SpaceFloat length = getLength();
 
-	if (timeInSpell > getLength()) {
+	if(length >= 0.0 && timeInSpell >= length) {
 		active = false;
 	}
 }

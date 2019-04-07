@@ -9,6 +9,8 @@
 #include "Prefix.h"
 
 #include "App.h"
+#include "Enemy.hpp"
+#include "EnemyBullet.hpp"
 #include "EnemySpell.hpp"
 #include "GSpace.hpp"
 #include "TeleportPad.hpp"
@@ -82,5 +84,37 @@ void TorchDarkness::update()
 		{
 			crnt->applyDarkness(effectMagnitude * App::secondsPerFrame);
 		}
+	}
+}
+
+const string GreenFairyPowerAttack::name = "GreenFairyPowerAttack";
+const string GreenFairyPowerAttack::description = "";
+
+int GreenFairyPowerAttack::spawn()
+{
+	int spawnCount = 0;
+	SpaceFloat angleStep = float_pi * 2.0 / bulletsPerWave;
+
+	for_irange(i, 0, bulletsPerWave){
+		 spawnCount += to_int(getCasterAs<Agent>()->bulletImplCheckSpawn<EnemyBulletImpl>(
+			caster->getPos(),
+			angleStep * i,
+			&EnemyBulletImpl::greenFairyBullet
+		).isFuture());
+	}
+	return spawnCount;
+}
+
+void GreenFairyPowerAttack::update()
+{
+	timerIncrement(timer);
+
+	if (timer >= interval)
+	{
+		spawn();
+		timer -= interval;
+		++wavesFired;
+
+		active = (wavesFired < waveCount);
 	}
 }

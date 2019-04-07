@@ -403,13 +403,7 @@ void Player::update()
 
 			updateCombo();
 
-			if (!isSpellActive()) {
-				setHudEffect(Attribute::hitProtection, Attribute::hitProtectionInterval);
-			}
-			else {
-				setHudEffect(Attribute::hitProtection, getSpellLength());
-			}
-
+			setHudEffect(Attribute::hitProtection, Attribute::hitProtectionInterval);
 			setHudEffect(Attribute::spellCooldown, Attribute::spellCooldownInterval);
 			setHudEffect(Attribute::combo, AttributeSystem::maxComboPoints);
 

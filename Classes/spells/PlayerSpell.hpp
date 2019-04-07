@@ -45,7 +45,7 @@ public:
     virtual void init();
     virtual void end();
 
-	inline virtual SpaceFloat getLength() const { return 5.0; }
+	inline virtual SpaceFloat getLength() const { return -1.0; }
 };
 
 class LavaeteinnSpell : public PlayerSpell
@@ -97,7 +97,7 @@ public:
 	virtual void update();
 	virtual void end();
 
-	inline virtual SpaceFloat getLength() const { return 5.0; }
+	inline virtual SpaceFloat getLength() const { return -1.0; }
 protected:
 	array<object_ref<FlandreCounterClockBullet>, 4> bullets;
 	SpaceFloat angular_pos = 0.0;
@@ -157,7 +157,7 @@ public:
 	virtual void init();
 	virtual void end();
 
-	inline virtual SpaceFloat getLength() const { return 7.5; }
+	inline virtual SpaceFloat getLength() const { return -1.0; }
 };
 
 class PlayerIceShield : public PlayerSpell {
@@ -182,7 +182,7 @@ public:
 	virtual void update();
 	virtual void end();
 
-	inline virtual SpaceFloat getLength() const { return 5.0; }
+	inline virtual SpaceFloat getLength() const { return -1.0; }
 protected:
 	array<object_ref<CirnoIceShieldBullet>, bulletCount> bullets;
 	SpaceFloat crntAngle = 0.0;

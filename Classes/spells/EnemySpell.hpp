@@ -51,4 +51,27 @@ public:
 	inline virtual void end() {}
 };
 
+class GreenFairyPowerAttack : public Spell
+{
+public:
+	static const string name;
+	static const string description;
+
+	GreenFairyPowerAttack(GObject* caster, int waveCount, int bulletsPerWave, SpaceFloat interval);
+	inline virtual ~GreenFairyPowerAttack() {}
+
+	int spawn();
+
+	GET_DESC(GreenFairyPowerAttack);
+	inline virtual void init() {}
+	virtual void update();
+	inline virtual void end() {}
+protected:
+	SpaceFloat timer = 0.0;
+	SpaceFloat interval;
+	int wavesFired = 0;
+	int waveCount;
+	int bulletsPerWave;
+};
+
 #endif /* EnemySpell_hpp */
