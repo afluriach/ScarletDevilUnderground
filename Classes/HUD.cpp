@@ -213,62 +213,6 @@ void RadialMeter::redraw()
 	cone->setColors(opacityScale(filled, alpha), opacityScale(empty, alpha));
 }
 
-const Vec2 LinearMeter::boundingSize = Vec2(288,18);
-const float LinearMeter::outlineWidth = 3;
-
-LinearMeter::LinearMeter(LinearMeterSettings settings) :
-	settings(settings)
-{
-}
-
-bool LinearMeter::init()
-{
-	Node::init();
-
-	draw = DrawNode::create();
-	addChild(draw);
-
-	return true;
-}
-
-void LinearMeter::setValue(float newValue)
-{
-	crntValue = newValue;
-	redraw();
-}
-
-void LinearMeter::setMax(float maxValue)
-{
-	this->maxValue = maxValue;
-	redraw();
-}
-
-void LinearMeter::redraw()
-{
-	if (maxValue <= 0.0f) return;
-
-	float ratio = crntValue / maxValue;
-
-	draw->clear();
-
-	draw->drawSolidRect(
-		Vec2(-0.5f * boundingSize.x - outlineWidth, -boundingSize.y*0.5f - outlineWidth),
-		Vec2(boundingSize.x*0.5f + outlineWidth, boundingSize.y*0.5f + outlineWidth),
-		Color4F::BLACK
-	);
-
-	draw->drawSolidRect(
-		Vec2(-0.5f * boundingSize.x, -boundingSize.y*0.5f),
-		Vec2(boundingSize.x*(ratio-0.5f),boundingSize.y*0.5f),
-		settings.fillColor
-	);
-	draw->drawSolidRect(
-		Vec2(boundingSize.x*(ratio - 0.5f), -0.5f * boundingSize.y),
-		Vec2(boundingSize.x * 0.5f, 0.5f*boundingSize.y),
-		settings.emptyColor
-	);
-}
-
 const int MagicEffects::spacing = 128;
 
 const float MagicEffects::totalAutohideTime = 1.5f;
@@ -461,26 +405,6 @@ bool EnemyInfo::isValid()
 	return hp > 0.0f;
 }
 
-//const Color4F HUD::backgroundColor = Color4F(0,0,0,0.75);
-
-const LinearMeterSettings HUD::hpSettings = LinearMeterSettings{
-	Color4F(.86f,.16f,.19f,1.0f),
-	Color4F(.42f,.29f,.29f,1.0f),
-//	"sprites/hp_upgrade.png"
-};
-
-const LinearMeterSettings HUD::mpSettings = LinearMeterSettings{
-	Color4F(.37f,.56f,.57f,1.0f),
-	Color4F(.4f,.4f,.4f,1.0f),
-//	"sprites/mp_upgrade.png"
-};
-
-const LinearMeterSettings HUD::staminaSettings = LinearMeterSettings{
-	Color4F(.47f,.75f,.18f,1.0f),
-	Color4F(.44f,.51f,.36f,1.0f),
-	//	"sprites/mp_upgrade.png"
-};
-
 const int HUD::fontSize = 32;
 
 HUD::HUD(GSpace* space) :
@@ -537,19 +461,19 @@ bool HUD::init()
 	float meterEdgeOffset = (LinearMeter::boundingSize.x * 0.5f + LinearMeter::outlineWidth + 18.0f) * scale;
 	float meterVerticalStep = (LinearMeter::boundingSize.y*1.0f + 2.0f*LinearMeter::outlineWidth + 9.0f) * scale;
 
-	hpMeter = Node::ccCreate<LinearMeter>(hpSettings);
+	hpMeter = Node::ccCreate<LinearMeter>(LinearMeter::hpSettings);
     hpMeter->setPosition(meterEdgeOffset, App::height - meterVerticalStep);
     addChild(hpMeter, 2);
 	hpMeter->setScale(scale);
 	hpMeter->setVisible(false);
 
-	mpMeter = Node::ccCreate<LinearMeter>(mpSettings);
+	mpMeter = Node::ccCreate<LinearMeter>(LinearMeter::mpSettings);
 	mpMeter->setPosition(meterEdgeOffset, App::height - 2.0f*meterVerticalStep);
 	addChild(mpMeter, 2);
 	mpMeter->setScale(scale);
 	mpMeter->setVisible(false);
 
-	staminaMeter = Node::ccCreate<LinearMeter>(staminaSettings);
+	staminaMeter = Node::ccCreate<LinearMeter>(LinearMeter::staminaSettings);
 	staminaMeter->setPosition(meterEdgeOffset, App::height - 3.0f*meterVerticalStep);
 	addChild(staminaMeter, 2);
 	staminaMeter->setScale(scale);

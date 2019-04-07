@@ -369,6 +369,77 @@ void DownTriangleCursor::drawShape()
     drawNode->drawTriangle(left,right,bottom,colors[crntColor]);
 }
 
+const LinearMeterSettings LinearMeter::hpSettings = LinearMeterSettings{
+	Color4F(.86f,.16f,.19f,1.0f),
+	Color4F(.42f,.29f,.29f,1.0f),
+};
+
+const LinearMeterSettings LinearMeter::mpSettings = LinearMeterSettings{
+	Color4F(.37f,.56f,.57f,1.0f),
+	Color4F(.4f,.4f,.4f,1.0f),
+};
+
+const LinearMeterSettings LinearMeter::staminaSettings = LinearMeterSettings{
+	Color4F(.47f,.75f,.18f,1.0f),
+	Color4F(.44f,.51f,.36f,1.0f),
+};
+
+const Vec2 LinearMeter::boundingSize = Vec2(288, 18);
+const float LinearMeter::outlineWidth = 3;
+
+LinearMeter::LinearMeter(LinearMeterSettings settings) :
+	settings(settings)
+{
+}
+
+bool LinearMeter::init()
+{
+	Node::init();
+
+	draw = DrawNode::create();
+	addChild(draw);
+
+	return true;
+}
+
+void LinearMeter::setValue(float newValue)
+{
+	crntValue = newValue;
+	redraw();
+}
+
+void LinearMeter::setMax(float maxValue)
+{
+	this->maxValue = maxValue;
+	redraw();
+}
+
+void LinearMeter::redraw()
+{
+	if (maxValue <= 0.0f) return;
+
+	float ratio = crntValue / maxValue;
+
+	draw->clear();
+
+	draw->drawSolidRect(
+		Vec2(-0.5f * boundingSize.x - outlineWidth, -boundingSize.y*0.5f - outlineWidth),
+		Vec2(boundingSize.x*0.5f + outlineWidth, boundingSize.y*0.5f + outlineWidth),
+		Color4F::BLACK
+	);
+
+	draw->drawSolidRect(
+		Vec2(-0.5f * boundingSize.x, -boundingSize.y*0.5f),
+		Vec2(boundingSize.x*(ratio - 0.5f), boundingSize.y*0.5f),
+		settings.fillColor
+	);
+	draw->drawSolidRect(
+		Vec2(boundingSize.x*(ratio - 0.5f), -0.5f * boundingSize.y),
+		Vec2(boundingSize.x * 0.5f, 0.5f*boundingSize.y),
+		settings.emptyColor
+	);
+}
+
 Color3B toColor3B(const string& s)
 {
 	vector<string> tokens = splitString(s, ",");

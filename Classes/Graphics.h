@@ -200,6 +200,40 @@ public:
     virtual void drawShape();
 };
 
+struct LinearMeterSettings
+{
+	Color4F fillColor;
+	Color4F emptyColor;
+};
+
+class LinearMeter : public Node
+{
+public:
+	static const Vec2 boundingSize;
+	static const float outlineWidth;
+
+	static const LinearMeterSettings hpSettings;
+	static const LinearMeterSettings mpSettings;
+	static const LinearMeterSettings staminaSettings;
+
+	LinearMeter(LinearMeterSettings settings);
+
+	virtual bool init();
+
+	void setValue(float newValue);
+	void setMax(float maxValue);
+
+	inline float getValue() const { return crntValue; }
+protected:
+	void redraw();
+
+	LinearMeterSettings settings;
+	DrawNode* draw;
+
+	float crntValue = 0.0f;
+	float maxValue = 0.0f;
+};
+
 Color3B toColor3B(const Color4F& color);
 Color3B toColor3B(const string& s);
 Color3B hsv3B(float h, float s, float v);

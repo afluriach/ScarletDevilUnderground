@@ -11,9 +11,10 @@
 
 #include "Attributes.hpp"
 
-class RadialMeterShader;
 class Enemy;
+class LinearMeter;
 class Player;
+class RadialMeterShader;
 
 class IconMeter : public Node
 {
@@ -87,37 +88,6 @@ protected:
 	Sprite* icon;
 
 	float crntValue = 0.0f;
-};
-
-struct LinearMeterSettings
-{
-	Color4F fillColor;
-	Color4F emptyColor;
-//	string icon;
-};
-
-class LinearMeter : public Node
-{
-public:
-	static const Vec2 boundingSize;
-	static const float outlineWidth;
-
-	LinearMeter(LinearMeterSettings settings);
-
-	virtual bool init();
-
-	void setValue(float newValue);
-	void setMax(float maxValue);
-
-	inline float getValue() const { return crntValue; }
-protected:
-	void redraw();
-
-	LinearMeterSettings settings;
-	DrawNode* draw;
-
-	float crntValue = 0.0f;
-	float maxValue = 0.0f;
 };
 
 class MagicEffects : public Node
@@ -197,10 +167,6 @@ class HUD : public Layer
 {
 public:
 	static constexpr bool showAll = false;
-
-	static const LinearMeterSettings hpSettings;
-	static const LinearMeterSettings mpSettings;
-	static const LinearMeterSettings staminaSettings;
 
     static const int height = 50;
 
