@@ -23,7 +23,7 @@ void explosion(const GObject* source, SpaceFloat radius, DamageInfo baseDamage)
 		source,
 		source->getPos(),
 		radius,
-		enum_bitwise_or3(GType, enemy, player, wall),
+		enum_bitwise_or3(GType, enemy, player, npc),
 		PhysicsLayers::all
 	);
 
@@ -64,7 +64,12 @@ void explosion(const GObject* source, SpaceFloat radius, DamageInfo baseDamage)
 
 float getExplosionScale(const GObject* source, const GObject* target, SpaceFloat radius)
 {
-	SpaceFloat dist = ai::distanceToTarget(source, target->getPos());
+	return getExplosionScale(source->getPos(), target, radius);
+}
+
+float getExplosionScale(const SpaceVect& pos, const GObject* target, SpaceFloat radius)
+{
+	SpaceFloat dist = ai::distanceToTarget(pos, target->getPos());
 	SpaceFloat halfRadius = radius * 0.5;
 
 	if (dist < halfRadius)

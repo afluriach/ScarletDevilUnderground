@@ -16,6 +16,7 @@ class GObject;
 
 void explosion(const GObject* source, SpaceFloat radius, DamageInfo baseDamage);
 float getExplosionScale(const GObject* source, const GObject* target, SpaceFloat radius);
+float getExplosionScale(const SpaceVect& pos, const GObject* target, SpaceFloat radius);
 void applyKnockback(const GObject* source, GObject* target, SpaceFloat mag);
 
 #endif /* SpellUtil_hpp */

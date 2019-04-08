@@ -416,12 +416,21 @@ protected:
 
 class ThrowBombs : public Function {
 public:
-	ThrowBombs(gobject_ref target, BombGeneratorType generator, SpaceFloat throwingSpeed, SpaceFloat baseInterval);
+	ThrowBombs(
+		gobject_ref target,
+		BombGeneratorType generator,
+		SpaceFloat throwingSpeed,
+		SpaceFloat baseInterval,
+		SpaceFloat blastRadius,
+		SpaceFloat fuseTime,
+		float cost
+	);
 
 	virtual void init(StateMachine& fsm);
 	virtual void update(StateMachine& fsm);
 
 	SpaceFloat getInterval(StateMachine& fsm);
+	float score(GSpace* space, SpaceVect pos, SpaceFloat angle);
 
 	GetLockmask(bomb)
 	FuncGetName(ThrowBombs)
@@ -429,8 +438,11 @@ protected:
 	SpaceFloat countdown;
 	SpaceFloat throwingSpeed;
 	SpaceFloat baseInterval;
+	SpaceFloat blastRadius;
+	SpaceFloat fuseTime;
 	gobject_ref target;
 	BombGeneratorType generator;
+	float cost;
 };
 
 

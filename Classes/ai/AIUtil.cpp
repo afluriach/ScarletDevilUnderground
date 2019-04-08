@@ -15,6 +15,7 @@
 #include "Bullet.hpp"
 #include "GSpace.hpp"
 #include "macros.h"
+#include "SpellUtil.hpp"
 
 namespace ai{
 
@@ -150,12 +151,17 @@ SpaceVect displacementToTarget(const GObject* agent, SpaceVect target)
 
 SpaceFloat distanceToTarget(const GObject* agent, const GObject* target)
 {
-    return (target->getPos() - agent->getPos()).length();
+	return distanceToTarget(agent->getPos(), target->getPos());
 }
 
 SpaceFloat distanceToTarget(const GObject* agent, SpaceVect target)
 {
-	return (target - agent->getPos()).length();
+	return distanceToTarget(agent->getPos(), target);
+}
+
+SpaceFloat distanceToTarget(SpaceVect pos, SpaceVect target)
+{
+	return (target - pos).length();
 }
 
 SpaceFloat viewAngleToTarget(const GObject* agent, const GObject* target)
@@ -323,6 +329,30 @@ SpaceVect bezier(array<SpaceVect, 3> points, SpaceFloat t)
 SpaceVect bezierAcceleration(array<SpaceVect, 3> points)
 {
 	return 2.0 * (points[2] - 2.0*points[1] - points[0]);
+}
+
+float bombScore(GSpace* space, SpaceVect pos, SpaceFloat radius)
+{
+	float score = 0.0f;
+
+	unordered_set<Agent*> targets = space->radiusQueryByType<Agent>(
+		nullptr,
+		pos,
+		radius,
+		enum_bitwise_or(GType, enemy, player),
+		PhysicsLayers::all
+	);
+
+	for (Agent* target : targets)
+	{
+		float scale = getExplosionScale(pos, target, radius);
+		if (target->getType() == GType::player)
+			score += scale;
+		else if (target->getType() == GType::enemy)
+			score -= scale;
+	}
+	
+	return score;
 }
 
 }//end NS

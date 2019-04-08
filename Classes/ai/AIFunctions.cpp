@@ -988,11 +988,22 @@ void FireOnStress::update(StateMachine& sm)
 	}
 }
 
-ThrowBombs::ThrowBombs(gobject_ref target, BombGeneratorType generator, SpaceFloat throwingSpeed, SpaceFloat baseInterval) :
+ThrowBombs::ThrowBombs(
+	gobject_ref target,
+	BombGeneratorType generator,
+	SpaceFloat throwingSpeed,
+	SpaceFloat baseInterval,
+	SpaceFloat blastRadius,
+	SpaceFloat fuseTime,
+	float cost
+) :
 	target(target),
 	generator(generator),
 	throwingSpeed(throwingSpeed),
-	baseInterval(baseInterval)
+	baseInterval(baseInterval),
+	blastRadius(blastRadius),
+	fuseTime(fuseTime),
+	cost(cost)
 {
 }
 
@@ -1003,16 +1014,39 @@ void ThrowBombs::init(StateMachine& fsm)
 
 void ThrowBombs::update(StateMachine& fsm)
 {
+	if (!target.isValid()) {
+		fsm.pop();
+		return;
+	}
+
 	timerDecrement(countdown);
 
-	if (countdown <= 0.0) {
-		SpaceVect pos = fsm.agent->getPos() + SpaceVect::ray(2.0, fsm.agent->getAngle());
-		SpaceVect vel = fsm.agent->getVel() + SpaceVect::ray(throwingSpeed, fsm.agent->getAngle());
+	if (countdown <= 0.0 && fsm.getAgent()->getAttribute(Attribute::mp) >= cost) {
+		SpaceFloat angle = directionToTarget(fsm.agent, target.get()->getPos()).toAngle();
+		SpaceVect pos = fsm.agent->getPos() + SpaceVect::ray(1.0, angle);
+		SpaceVect vel = fsm.agent->getVel() + SpaceVect::ray(throwingSpeed, angle);
+		bool hasEnoughMagic =
+			fsm.getAgent()->getAttributeSystem()->getHealthRatio() <
+			fsm.getAgent()->getAttributeSystem()->getMagicRatio()
+		;
 
-		if (!fsm.agent->space->obstacleRadiusQuery(fsm.agent, pos, 0.5, bombObstacles, PhysicsLayers::ground)) {
+		if (
+			//can place bomb
+			!fsm.agent->space->obstacleRadiusQuery(fsm.agent, pos, 0.5, bombObstacles, PhysicsLayers::ground) &&
+			//bomb is likely to travel a significant distance
+			fsm.agent->space->obstacleDistanceFeeler(fsm.agent, SpaceVect::ray(1.0 + fuseTime*throwingSpeed, angle)) > blastRadius &&
+			//predict net gain player-enemy damage
+			score(fsm.agent->space, fsm.agent->getPos(), angle) > 0.5f &&
+			//do not throw bombs when fleeing
+			!fsm.isThreadRunning("Flee") &&
+			//use bombs gradually in a fight
+			hasEnoughMagic &&
+			//do not throw if target is too close
+			distanceToTarget(fsm.agent, target.get()) > blastRadius
+		) {
 			fsm.agent->space->createObject(generator(
-				fsm.agent->getPos() + SpaceVect::ray(2.0, fsm.agent->getAngle()),
-				fsm.agent->getVel() + SpaceVect::ray(throwingSpeed, fsm.agent->getAngle())
+				fsm.agent->getPos() + SpaceVect::ray(1.0, angle),
+				fsm.agent->getVel() + SpaceVect::ray(throwingSpeed, angle)
 			));
 			countdown = getInterval(fsm);
 		}
@@ -1022,6 +1056,12 @@ void ThrowBombs::update(StateMachine& fsm)
 SpaceFloat ThrowBombs::getInterval(StateMachine& fsm)
 {
 	return baseInterval / (*fsm.getAgent()->getAttributeSystem())[Attribute::attackSpeed];
+}
+
+float ThrowBombs::score(GSpace* space, SpaceVect pos, SpaceFloat angle)
+{
+	SpaceVect predictedPos = pos + SpaceVect::ray(1.0 + fuseTime * throwingSpeed, angle);
+	return bombScore(space, predictedPos, blastRadius);
 }
 
 }//end NS

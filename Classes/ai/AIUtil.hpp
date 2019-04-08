@@ -39,6 +39,7 @@ SpaceVect directionToTarget(const GObject* agent, SpaceVect target);
 SpaceVect displacementToTarget(const GObject* agent, SpaceVect target);
 SpaceFloat distanceToTarget(const GObject* agent, const GObject* target);
 SpaceFloat distanceToTarget(const GObject* agent, SpaceVect target);
+SpaceFloat distanceToTarget(SpaceVect pos, SpaceVect target);
 SpaceFloat viewAngleToTarget(const GObject* agent, const GObject* target);
 SpaceVect projectileEvasion(const GObject* bullet, const GObject* agent);
 bool isInFieldOfView(GObject* agent, SpaceVect target, SpaceFloat fovAngleScalarProduct);
@@ -49,6 +50,8 @@ SpaceFloat getTurningRadius(SpaceFloat speed, SpaceFloat acceleration);
 
 SpaceVect bezier(array<SpaceVect, 3> points, SpaceFloat t);
 SpaceVect bezierAcceleration(array<SpaceVect, 3> points);
+
+float bombScore(GSpace* space, SpaceVect pos, SpaceFloat radius);
 
 } //end NS
 

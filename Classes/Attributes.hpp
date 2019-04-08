@@ -153,6 +153,10 @@ public:
 	void applyIncidentRegen();
 	void applyElementDecay();
 
+	float getHealthRatio() const;
+	float getMagicRatio() const;
+	float getStaminaRatio() const;
+
 	float applyDamage(DamageInfo damage);
 	void apply(const AttributeMap& effects);
 	float getAttackMultiplier() const;

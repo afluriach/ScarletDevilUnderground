@@ -209,6 +209,7 @@ void BlueFairy::follow_path(ai::StateMachine& sm, const ValueMap& args)
 
 const AttributeMap RedFairy::baseAttributes = {
 	{ Attribute::maxHP, 120.0f },
+	{ Attribute::maxMP, 80.0f },
 	{ Attribute::agility, 1.5f },
 	{ Attribute::touchDamage, 10.0f },
 	{ Attribute::stressDecay, 1.0f },
@@ -220,6 +221,7 @@ const AttributeMap RedFairy::baseAttributes = {
 
 const DamageInfo RedFairy::explosionEffect = bomb_damage(20.0f);
 const SpaceFloat RedFairy::explosionRadius = 4.0;
+const float RedFairy::bombCost = 20.0f;
 
 RedFairy::RedFairy(GSpace* space, ObjectIDType id, const ValueMap& args) :
 	MapObjForwarding(GObject),
@@ -248,9 +250,34 @@ void RedFairy::initStateMachine(ai::StateMachine& sm)
 	});
 
 	sm.addDetectFunction(
+		GType::bomb,
+		[](ai::StateMachine& sm, GObject* target) -> void {
+			if (sm.isThreadRunning("Flee")) return;
+			if (Bomb* bomb = dynamic_cast<Bomb*>(target)) {
+				sm.addThread(make_shared<ai::Flee>(target, bomb->getBlastRadius()), 2);
+			}
+		}
+	);
+
+	sm.addEndDetectFunction(
+		GType::bomb,
+		[](ai::StateMachine& sm, GObject* target) -> void {
+			sm.removeThread("Flee");
+		}
+	);
+
+	sm.addDetectFunction(
 		GType::player,
 		[bombgen](ai::StateMachine& sm, GObject* target) -> void {
-			sm.addThread(make_shared<ai::ThrowBombs>(target, bombgen, 2.5, 4.0));
+			sm.addThread(make_shared<ai::ThrowBombs>(
+				target,
+				bombgen,
+				4.0,
+				4.0,
+				3.0,
+				1.5,
+				bombCost
+			));
 			sm.addThread(make_shared<ai::FireAtTarget>(target), 1);
 			sm.addThread(make_shared<ai::MaintainDistance>(target, 3.0f, 0.5f), 1);
 		}
@@ -314,6 +341,24 @@ void GreenFairy1::initStateMachine(ai::StateMachine& sm)
 		sm.addThread(make_shared<ai::EvadePlayerProjectiles>(), 1);
 		sm.addThread(make_shared<ai::FireOnStress>(5.0f));
 	});
+
+	sm.addDetectFunction(
+		GType::bomb,
+		[](ai::StateMachine& sm, GObject* target) -> void {
+			if (sm.isThreadRunning("Flee")) return;
+			if (Bomb* bomb = dynamic_cast<Bomb*>(target)) {
+				sm.addThread(make_shared<ai::Flee>(target, bomb->getBlastRadius()), 2);
+			}
+		}
+	);
+
+	sm.addEndDetectFunction(
+		GType::bomb,
+		[](ai::StateMachine& sm, GObject* target) -> void {
+			sm.removeThread("Flee");
+		}
+	);
+
 }
 
 const AttributeMap GreenFairy2::baseAttributes = {
@@ -347,6 +392,24 @@ void GreenFairy2::initStateMachine(ai::StateMachine& sm)
 		sm.addThread(make_shared<ai::EvadePlayerProjectiles>(), 1);
 		sm.addThread(make_shared<ai::FireOnStress>(5.0f));
 	});
+
+	sm.addDetectFunction(
+		GType::bomb,
+		[](ai::StateMachine& sm, GObject* target) -> void {
+			if (sm.isThreadRunning("Flee")) return;
+			if (Bomb* bomb = dynamic_cast<Bomb*>(target)) {
+				sm.addThread(make_shared<ai::Flee>(target, bomb->getBlastRadius()), 2);
+			}
+		}
+	);
+
+	sm.addEndDetectFunction(
+		GType::bomb,
+		[](ai::StateMachine& sm, GObject* target) -> void {
+			sm.removeThread("Flee");
+		}
+	);
+
 }
 
 void GreenFairy2::onRemove()

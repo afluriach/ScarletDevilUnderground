@@ -296,6 +296,21 @@ void AttributeSystem::applyElementDecay()
 	}
 }
 
+float AttributeSystem::getHealthRatio() const
+{
+	return (*this)[Attribute::maxHP] > 0.0f ? (*this)[Attribute::hp] / (*this)[Attribute::maxHP] : 0.0f;
+}
+
+float AttributeSystem::getMagicRatio() const
+{
+	return (*this)[Attribute::maxMP] > 0.0f ? (*this)[Attribute::mp] / (*this)[Attribute::maxMP] : 0.0f;
+}
+
+float AttributeSystem::getStaminaRatio() const
+{
+	return (*this)[Attribute::maxStamina] > 0.0f ? (*this)[Attribute::stamina] / (*this)[Attribute::maxStamina] : 0.0f;
+}
+
 float AttributeSystem::applyDamage(DamageInfo damage)
 {
 	float elementSensitivity = damage.element != Attribute::end ? (*this)[getElementSensitivity(damage.element)] : 1.0f;
