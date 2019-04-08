@@ -35,6 +35,7 @@ const float Player::hitFlickerInterval = 0.333f;
 
 const SpaceFloat Player::sprintSpeedRatio = 1.5;
 const SpaceFloat Player::focusSpeedRatio = 0.5;
+const SpaceFloat Player::bombThrowSpeed = 3.0;
 
 const SpaceFloat Player::interactDistance = 1.25;
 const SpaceFloat Player::grazeRadius = 0.7;
@@ -322,8 +323,12 @@ void Player::checkBombControls(const ControlInfo& cs)
 		attributeSystem[Attribute::mp] >= bombCost)
 	{
 		SpaceVect bombPos = getPos() + SpaceVect::ray(1.5, getAngle());
+		SpaceVect bombVel = getVel();
+		if(cs.isControlActionDown(ControlAction::walk))
+			bombVel += SpaceVect::ray(bombThrowSpeed, getAngle());
+
 		if (canPlaceBomb(bombPos)) {
-			space->createObject(GObject::make_object_factory<PlayerBomb>(bombPos, getVel()));
+			space->createObject(GObject::make_object_factory<PlayerBomb>(bombPos, bombVel));
 			attributeSystem.modifyAttribute(Attribute::mp, -bombCost);
 			bombCooldown = bombCooldownTime;
 		}

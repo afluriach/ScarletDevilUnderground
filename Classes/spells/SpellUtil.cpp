@@ -11,6 +11,7 @@
 #include "Agent.hpp"
 #include "AIUtil.hpp"
 #include "App.h"
+#include "Bomb.hpp"
 #include "GObject.hpp"
 #include "GSpace.hpp"
 #include "SpellUtil.hpp"
@@ -46,6 +47,18 @@ void explosion(const GObject* source, SpaceFloat radius, DamageInfo baseDamage)
 
 	for (BreakableWall* bw : walls){
 		bw->hit();
+	}
+
+	unordered_set<Bomb*> bombs = source->space->radiusQueryByType<Bomb>(
+		source,
+		source->getPos(),
+		radius,
+		GType::bomb,
+		PhysicsLayers::all
+	);
+
+	for (Bomb* bomb : bombs) {
+		bomb->detonate();
 	}
 }
 

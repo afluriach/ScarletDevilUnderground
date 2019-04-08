@@ -33,6 +33,7 @@ public:
 
 	static const SpaceFloat sprintSpeedRatio;
 	static const SpaceFloat focusSpeedRatio;
+	static const SpaceFloat bombThrowSpeed;
 	
 	static const SpaceFloat interactDistance;
 	static const SpaceFloat grazeRadius;

@@ -40,13 +40,16 @@ void Bomb::update()
 	timerDecrement(countdown);
 
 	if (countdown <= 0.0) {
-		stopSound(fuseSound);
 		detonate();
 	}
 }
 
 void Bomb::detonate()
 {
+	if (detonated) return;
+	detonated = true;
+
+	stopSound(fuseSound);
 	explosion(this, getBlastRadius(), getDamageInfo());
 	
 	string sfxRes = getExplosionSound();

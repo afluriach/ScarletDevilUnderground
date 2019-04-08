@@ -44,6 +44,7 @@ public:
 protected:
 	SpaceFloat countdown;
 	ALuint fuseSound = 0;
+	bool detonated = false;
 };
 
 class PlayerBomb : public Bomb, public ImageSprite
