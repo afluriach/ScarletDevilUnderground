@@ -279,3 +279,39 @@ void SpriteLightObject::init()
 
 
 //END GRAPHICS
+
+//BEGIN AUDIO
+
+void AudioSourceObject::_update()
+{
+	auto it = sources.begin();
+	while (it != sources.end())
+	{
+		ALuint sourceID = *it;
+		if (!App::setSoundSourcePos(sourceID, getPos(), getVel(), getAngle()))
+			it = sources.erase(it);
+		else
+			++it;
+	}
+}
+
+ALuint AudioSourceObject::playSoundSpatial(const string& path, float volume, bool loop )
+{
+	ALuint soundSource = App::playSoundSpatial(path, toVec3(getPos()), toVec3(getVel()), volume, loop);
+
+	if (soundSource != 0) sources.push_back(soundSource);
+	return soundSource;
+}
+
+void AudioSourceObject::stopSound(ALuint sourceID)
+{
+	App::endSound(sourceID);
+	sources.remove(sourceID);
+}
+
+bool AudioSourceObject::isSourceActive(ALuint source)
+{
+	return App::isSoundSourceActive(source);
+}
+
+//END AUDIO

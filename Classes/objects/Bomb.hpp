@@ -16,6 +16,7 @@
 class Bomb :
 	virtual public GObject,
 	public CircleBody,
+	public AudioSourceObject,
 	public RegisterInit<Bomb>
 {
 public:
@@ -42,6 +43,7 @@ public:
 	virtual string getExplosionSound() const { return ""; }
 protected:
 	SpaceFloat countdown;
+	ALuint fuseSound = 0;
 };
 
 class PlayerBomb : public Bomb, public ImageSprite

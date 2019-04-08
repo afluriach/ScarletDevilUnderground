@@ -12,10 +12,13 @@
 #include "GObject.hpp"
 #include "GObjectMixins.hpp"
 
+class PlayScene;
+
 class Goal:
 	virtual public GObject,
 	public RectangleBody,
 	public ImageSprite,
+	public AudioSourceObject,
 	public ActivateableObject,
 	public InteractibleObject
 {

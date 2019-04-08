@@ -29,16 +29,18 @@ Bomb::Bomb(GSpace* space, ObjectIDType id, const SpaceVect& pos, const SpaceVect
 void Bomb::init()
 {
 	countdown = getFuseTime();
-	App::playSoundSpatial("sfx/bomb_fuse.wav", toVec3(getPos()), toVec3(SpaceVect::zero));
+	fuseSound = playSoundSpatial("sfx/bomb_fuse.wav");
 }
 
 void Bomb::update()
 {
 	GObject::update();
+	AudioSourceObject::_update();
 
 	timerDecrement(countdown);
 
 	if (countdown <= 0.0) {
+		stopSound(fuseSound);
 		detonate();
 	}
 }
@@ -49,11 +51,7 @@ void Bomb::detonate()
 	
 	string sfxRes = getExplosionSound();
 	if(!sfxRes.empty())
-		App::playSoundSpatial(
-			getExplosionSound(),
-			toVec3(getPos()),
-			toVec3(getVel())
-		);
+		playSoundSpatial(getExplosionSound());
 
 	space->setSpriteTexture(spriteID, "sprites/explosion.png");
 	space->removeObjectWithAnimation(this, bombAnimationAction(getBlastRadius() / explosionSpriteRadius, false));

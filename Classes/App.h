@@ -127,6 +127,8 @@ public:
 	static void pauseSounds();
 	static void resumeSounds();
 	static void setSoundListenerPos(SpaceVect pos, SpaceVect vel, SpaceFloat angle);
+	static bool setSoundSourcePos(ALuint source, SpaceVect pos, SpaceVect vel, SpaceFloat angle);
+	static bool isSoundSourceActive(ALuint source);
 
     App();
     virtual ~App();

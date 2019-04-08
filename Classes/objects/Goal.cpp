@@ -8,7 +8,6 @@
 
 #include "Prefix.h"
 
-#include "App.h"
 #include "Goal.hpp"
 #include "GSpace.hpp"
 #include "PlayScene.hpp"
@@ -31,7 +30,7 @@ void Goal::update()
 	timerDecrement(audioTimer);
 	if (audioTimer <= 0.0)
 	{
-		App::playSoundSpatial("sfx/shot.wav", toVec3(getPos()), toVec3(SpaceVect::zero), 0.5f);
+		playSoundSpatial("sfx/shot.wav", 0.5f);
 		audioTimer = 0.15;
 	}
 }

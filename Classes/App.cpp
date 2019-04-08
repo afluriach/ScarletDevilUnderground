@@ -42,6 +42,7 @@ const vector<string> App::soundFiles = {
 	"sfx/player_power_attack.wav",
 	"sfx/player_spellcard.wav",
 	"sfx/powerup.wav",
+	"sfx/red_fairy_explosion.wav",
 	"sfx/shot.wav",
 };
 
@@ -288,14 +289,42 @@ void App::setSoundListenerPos(SpaceVect pos, SpaceVect vel, SpaceFloat angle)
 {
 	audioMutex.lock();
 	Vec3 _pos = toVec3(pos);
+	Vec3 _vel = toVec3(vel);
 	array<float, 6> orientation = {
 		0.0f, 0.0f, -1.0f,
 		0.0f, 1.0f, 0.0f
 	};
 
 	alListenerfv(AL_POSITION, &_pos.x);
+	alListenerfv(AL_VELOCITY, &_vel.x);
 	alListenerfv(AL_ORIENTATION, &orientation[0]);
 	audioMutex.unlock();
+}
+
+bool App::setSoundSourcePos(ALuint source, SpaceVect pos, SpaceVect vel, SpaceFloat angle)
+{
+	bool valid = false;
+	Vec3 _pos = toVec3(pos);
+	Vec3 _vel = toVec3(vel);
+	audioMutex.lock();
+
+	if (appInst->activeSources.find(source) != appInst->activeSources.end()) {
+		alSourcefv(source, AL_POSITION, &_pos.x);
+		alSourcefv(source, AL_VELOCITY, &_vel.x);
+		valid = true;
+	}
+
+	audioMutex.unlock();
+	return valid;
+}
+
+bool App::isSoundSourceActive(ALuint source)
+{
+	bool result;
+	audioMutex.lock();
+	result = appInst->activeSources.find(source) != appInst->activeSources.end();
+	audioMutex.unlock();
+	return result;
 }
 
 App::App()
