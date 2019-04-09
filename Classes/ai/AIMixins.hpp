@@ -55,6 +55,7 @@ public:
     GObject* getSensedObject();
 	list<GObject*> getSensedObjects();
 	list<GObject*> getSensedObjectsByGtype(GType type);
+	SpaceFloat getSensedObjectDistance(GType type);
 
 	template<class C>
 	inline list<C*> getSensedObjectsByType()

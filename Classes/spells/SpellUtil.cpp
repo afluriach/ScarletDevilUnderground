@@ -85,3 +85,18 @@ void applyKnockback(const GObject* source, GObject* target, SpaceFloat mag)
 	SpaceVect d = ai::directionToTarget(source, target->getPos());
 	target->applyImpulse(d * mag);
 }
+
+void radialEffectArea(const GObject* source, SpaceFloat radius, GType targets, DamageInfo damage)
+{
+	unordered_set<Agent*> agents = source->space->radiusQueryByType<Agent>(
+		source,
+		source->getPos(),
+		radius,
+		targets,
+		PhysicsLayers::all
+	);
+
+	for (Agent* agent : agents){
+		agent->hit(damage);
+	}
+}

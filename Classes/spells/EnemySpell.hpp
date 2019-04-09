@@ -9,6 +9,7 @@
 #ifndef EnemySpell_hpp
 #define EnemySpell_hpp
 
+#include "Attributes.hpp"
 #include "object_ref.hpp"
 #include "Spell.hpp"
 
@@ -49,6 +50,26 @@ public:
 	inline virtual void init() {}
 	virtual void update();
 	inline virtual void end() {}
+};
+
+class BlueFairyBomb : public Spell
+{
+public:
+	static const DamageInfo damage;
+	static const SpaceFloat length;
+	static const SpaceFloat radius;
+	static const SpaceFloat angularSpeed;
+
+	BlueFairyBomb(GObject* caster);
+	inline virtual ~BlueFairyBomb() {}
+
+	GET_DESC(BlueFairyBomb);
+	virtual void init();
+	virtual void update();
+	virtual void end();
+protected:
+	SpriteID sprite = 0;
+	SpaceFloat timer = 0.0;
 };
 
 class GreenFairyPowerAttack : public Spell

@@ -13,6 +13,7 @@
 #include "App.h"
 #include "Bomb.hpp"
 #include "EnemyFirePattern.hpp"
+#include "EnemyFunctions.hpp"
 #include "EnemySpell.hpp"
 #include "Fairy.hpp"
 #include "GScene.hpp"
@@ -174,6 +175,7 @@ const AIPackage<BlueFairy>::AIPackageMap BlueFairy::aiPackages = {
 const AttributeMap BlueFairy::baseAttributes = {
 	{ Attribute::shieldLevel, 1.0f },
 	{ Attribute::maxHP, 90.0f },
+	{ Attribute::maxMP, 75.0f },
 	{ Attribute::maxStamina, 50.0f },
 	{ Attribute::staminaRegen, 0.02f },
 	{ Attribute::agility, 2.5f },
@@ -203,6 +205,7 @@ void BlueFairy::follow_path(ai::StateMachine& sm, const ValueMap& args)
 			sm.addThread(make_shared<ai::FollowPath>(*path, true, true), 1);
 			sm.addThread(make_shared<ai::LookTowardsFire>(true), 2);
 			sm.addThread(make_shared<ai::FireOnStress>(5.0f));
+			sm.addThread(make_shared<ai::BlueFairyPowerAttack>());
 		});
 	}
 }

@@ -198,3 +198,15 @@ list<GObject*> RadarObject::getSensedObjectsByGtype(GType type)
 
 	return result;
 }
+
+SpaceFloat RadarObject::getSensedObjectDistance(GType type)
+{
+	SpaceFloat result = numeric_limits<double>::infinity();
+
+	for (GObject* obj : visibleObjects) {
+		if (to_uint(obj->getType()) & to_uint(type)){
+			result = min(result, ai::distanceToTarget(this, obj));
+		}
+	}
+	return result;
+}

@@ -13,6 +13,7 @@
 #include "EnemyBullet.hpp"
 #include "EnemySpell.hpp"
 #include "GSpace.hpp"
+#include "SpellUtil.hpp"
 #include "TeleportPad.hpp"
 #include "Torch.hpp"
 
@@ -85,6 +86,45 @@ void TorchDarkness::update()
 			crnt->applyDarkness(effectMagnitude * App::secondsPerFrame);
 		}
 	}
+}
+
+const DamageInfo BlueFairyBomb::damage = DamageInfo{
+	10.0f,
+	Attribute::end,
+	DamageType::effectArea
+};
+const SpaceFloat BlueFairyBomb::length = 1.5;
+const SpaceFloat BlueFairyBomb::radius = 2.5;
+const SpaceFloat BlueFairyBomb::angularSpeed = float_pi * 0.5;
+
+BlueFairyBomb::BlueFairyBomb(GObject* caster) :
+	Spell(caster)
+{}
+
+void BlueFairyBomb::init()
+{
+	sprite = caster->space->createSprite(
+		"sprites/blue_explosion.png",
+		GraphicsLayer::agentOverlay,
+		toCocos(caster->getPos())*App::pixelsPerTile,
+		radius / 2.0
+	);
+}
+
+void BlueFairyBomb::update()
+{
+	timerIncrement(timer);
+
+	caster->space->setSpriteAngle(sprite, toCocosAngle(canonicalAngle(angularSpeed * timer)));
+	radialEffectArea(caster, radius, GType::player, damage);
+
+	if (timer >= length)
+		active = false;
+}
+
+void BlueFairyBomb::end()
+{
+	caster->space->removeSprite(sprite);
 }
 
 const string GreenFairyPowerAttack::name = "GreenFairyPowerAttack";

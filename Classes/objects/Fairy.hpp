@@ -75,7 +75,7 @@ public:
 	virtual inline SpaceFloat getMaxSpeed() const { return 2.5; }
 	virtual inline SpaceFloat getMaxAcceleration() const { return 6.0; }
 	virtual inline SpaceFloat getRadarRadius() const { return 5.0; }
-	virtual inline SpaceFloat getDefaultFovAngle() const { return 0.0; }
+	virtual inline SpaceFloat getDefaultFovAngle() const { return float_pi * 0.5; }
 	virtual inline SpaceFloat getMass() const { return 25.0; }
 
 	inline string imageSpritePath() const { return "sprites/fairy-blue.png"; }

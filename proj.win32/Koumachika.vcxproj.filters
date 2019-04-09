@@ -369,6 +369,9 @@
     <ClCompile Include="..\Classes\ai\RoomSensorFunctions.cpp">
       <Filter>src\ai</Filter>
     </ClCompile>
+    <ClCompile Include="..\Classes\ai\EnemyFunctions.cpp">
+      <Filter>src\ai</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="main.h">
@@ -705,6 +708,9 @@
       <Filter>src\spells</Filter>
     </ClInclude>
     <ClInclude Include="..\Classes\ai\RoomSensorFunctions.hpp">
+      <Filter>src\ai</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\ai\EnemyFunctions.hpp">
       <Filter>src\ai</Filter>
     </ClInclude>
   </ItemGroup>
