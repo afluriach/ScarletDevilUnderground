@@ -33,7 +33,9 @@ const float Player::bombCooldownTime = 1.0f;
 
 const float Player::hitFlickerInterval = 0.333f;
 
-const SpaceFloat Player::sprintSpeedRatio = 1.5;
+const SpaceFloat Player::sprintSpeedRatio = 2.5;
+const SpaceFloat Player::sprintTime = 0.5;
+const SpaceFloat Player::sprintCooldownTime = 1.0;
 const SpaceFloat Player::focusSpeedRatio = 0.5;
 const SpaceFloat Player::bombThrowSpeed = 3.0;
 
@@ -41,6 +43,7 @@ const SpaceFloat Player::interactDistance = 1.25;
 const SpaceFloat Player::grazeRadius = 0.7;
 
 const float Player::bombCost = 5.0f;
+const float Player::sprintCost = 7.5f;
 
 Player::Player(GSpace* space, ObjectIDType id, const SpaceVect& pos, Direction d) :
 	Agent(space, id, "player", pos,d)
@@ -193,16 +196,34 @@ void Player::checkMovementControls(const ControlInfo& cs)
 		space->setBulletBodiesVisible(false);
 	}
 
-	setFocusMode(cs.isControlActionDown(ControlAction::walk));
-	setSprintMode(cs.isControlActionDown(ControlAction::sprint));
+	setFocusMode(cs.isControlActionDown(ControlAction::walk) && !isSprintActive);
 
     SpaceVect moveDir = cs.left_v;
 	SpaceVect facing = isAutoLook && cs.right_v.lengthSq() < ControlRegister::deadzone2 || 
 		cs.isControlActionDown(ControlAction::centerLook) ?
 		cs.left_v : cs.right_v;
-	SpaceFloat speedRatio = getSpeedMultiplier();
+	
+	timerDecrement(sprintTimer);
+	if (!isSprintActive &&
+		sprintTimer <= 0.0 && 
+		cs.isControlActionPressed(ControlAction::sprint)
+		&& attributeSystem[Attribute::stamina] >= sprintCost
+	) {
+		isSprintActive = true;
+		sprintTimer = sprintTime;
+		attributeSystem.modifyAttribute(Attribute::stamina, -sprintCost);
+		sprintDirection = moveDir.isZero() ? SpaceVect::ray(1.0, getAngle()) : moveDir.normalizeSafe();
+	}
+	else if (isSprintActive && sprintTimer <= 0.0) {
+		isSprintActive = false;
+		sprintTimer = sprintCooldownTime;
+	}
 
-    ai::applyDesiredVelocity(this, moveDir*getMaxSpeed() * speedRatio, getMaxAcceleration());
+	SpaceFloat speed = getMaxSpeed()*getSpeedMultiplier();
+	SpaceFloat accel = getMaxAcceleration() * (isSprintActive  || !isSprintActive && sprintTimer > 0.0 ? sprintSpeedRatio * sprintSpeedRatio : 1.0);
+	SpaceVect dir = isSprintActive ? sprintDirection : moveDir;
+
+    ai::applyDesiredVelocity(this, dir*speed, accel);
     
 	if (moveDir.isZero()) {
 		reset();
@@ -438,6 +459,9 @@ SpaceFloat Player::getSpeedMultiplier()
 	if (isSprintActive) {
 		return sprintSpeedRatio;
 	}
+	else if (!isSprintActive && sprintTimer > sprintCooldownTime*0.5) {
+		return 0.0;
+	}
 	else if (isFocusActive) {
 		return focusSpeedRatio;
 	}
@@ -450,11 +474,6 @@ void Player::setFocusMode(bool b)
 {
 	isFocusActive = b;
 	setShieldActive(b);
-}
-
-void Player::setSprintMode(bool b)
-{
-	isSprintActive = b;
 }
 
 unsigned int Player::getKeyCount() const

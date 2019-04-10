@@ -32,6 +32,8 @@ public:
     static const float hitFlickerInterval;
 
 	static const SpaceFloat sprintSpeedRatio;
+	static const SpaceFloat sprintTime;
+	static const SpaceFloat sprintCooldownTime;
 	static const SpaceFloat focusSpeedRatio;
 	static const SpaceFloat bombThrowSpeed;
 	
@@ -39,6 +41,7 @@ public:
 	static const SpaceFloat grazeRadius;
 
 	static const float bombCost;
+	static const float sprintCost;
 
 	Player(GSpace* space, ObjectIDType id, const SpaceVect& pos, Direction d);
 	MapObjCons(Player);
@@ -93,7 +96,6 @@ public:
 
 	SpaceFloat getSpeedMultiplier();
 	void setFocusMode(bool b);
-	void setSprintMode(bool b);
 
 	unsigned int getKeyCount() const;
 	void useKey();
@@ -123,10 +125,12 @@ protected:
 
 	bool canPlaceBomb(SpaceVect pos);
 
+	SpaceVect sprintDirection;
 	SpaceVect respawnPos;
 	SpaceFloat respawnAngle;
 	SpaceFloat respawnTimer = 0.0;
 	SpaceFloat respawnMaskTimer = 0.0;
+	SpaceFloat sprintTimer = 0.0;
 
 	unordered_set<Bullet*> grazeContacts;
 
