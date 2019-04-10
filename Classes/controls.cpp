@@ -32,18 +32,16 @@ const unordered_map<EventKeyboard::KeyCode, ControlActionState> ControlRegister:
 	key_action_3(KEY_ENTER,menuSelect,interact,enter),
 	key_action_3(KEY_KP_ENTER, menuSelect, interact, enter),
 
-	key_action_2(KEY_Z,menuSelect,interact),
-	key_action_1(KEY_X,dialogSkip),
+	key_action_2(KEY_E,menuSelect,interact),
+	key_action_2(KEY_X,dialogSkip, centerLook),
 	key_action_1(KEY_M,mapMenu),
 
-	key_action_1(KEY_1, spell),
-	key_action_1(KEY_B, bomb),
-	key_action_1(KEY_SPACE, powerAttack),
+	key_action_1(KEY_1, spellNext),
+	key_action_1(KEY_2, firePatternNext),
 
-	key_action_1(KEY_COMMA, spellPrev),
-	key_action_1(KEY_PERIOD, spellNext),
-	key_action_1(KEY_0, powerAttackNext),
-	key_action_1(KEY_MINUS, firePatternNext),
+	key_action_1(KEY_Q, spell),
+	key_action_1(KEY_C, bomb),
+	key_action_1(KEY_SPACE, powerAttack),
 
 	key_action_2(KEY_W,move_pad_up,menuUp),
 	key_action_2(KEY_S, move_pad_down, menuDown),
@@ -55,8 +53,14 @@ const unordered_map<EventKeyboard::KeyCode, ControlActionState> ControlRegister:
 	key_action_1(KEY_LEFT_ARROW, aim_pad_left),
 	key_action_1(KEY_RIGHT_ARROW, aim_pad_right),
 
-	key_action_1(KEY_ALT, sprint),
-	key_action_1(KEY_SHIFT, walk),
+	key_action_1(KEY_Z, fireMode),
+
+	key_action_1(KEY_LEFT_CTRL, fire),
+	key_action_1(KEY_RIGHT_CTRL, fire),
+	key_action_1(KEY_LEFT_ALT, sprint),
+	key_action_1(KEY_RIGHT_ALT, sprint),
+	key_action_1(KEY_LEFT_SHIFT, walk),
+	key_action_1(KEY_RIGHT_SHIFT, walk),
 };
 
 #if use_gamepad
@@ -78,9 +82,9 @@ const unordered_map<gainput::PadButton, ControlActionState> ControlRegister::but
 	button_action_1(PadButtonX, spell),
 	button_action_1(PadButtonY, powerAttack),
 
-	button_action_1(PadButtonUp, powerAttackNext),
-	button_action_1(PadButtonLeft, spellPrev),
-	button_action_1(PadButtonRight, spellNext),
+//	button_action_1(PadButtonUp, powerAttackNext),
+	button_action_1(PadButtonLeft, spellNext),
+//	button_action_1(PadButtonRight, spellNext),
 	button_action_1(PadButtonDown, firePatternNext),
 
 	button_action_1(PadButtonL3, centerLook),
