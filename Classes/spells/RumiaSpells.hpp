@@ -20,9 +20,10 @@ public:
 	static const SpaceFloat betweenBurstDelay;
 	static const SpaceFloat burstInterval;
 	static const SpaceFloat launchDist;
-	static const SpaceFloat angleSkew;
+	static const SpaceFloat legSpacing;
 	static const int burstCount;
-	static const int bulletsPerBurst;
+	static const int legCount;
+	static const int bulletsPerLeg;
 
 	DarknessSignDemarcation(GObject* caster);
 	inline virtual ~DarknessSignDemarcation() {}
@@ -36,6 +37,7 @@ protected:
 
 	SpaceFloat timer = betweenBurstDelay;
 	int crntBurst = 0;
+	bool oddWave = false;
 };
 
 class DarknessSignDemarcation2 : public Spell

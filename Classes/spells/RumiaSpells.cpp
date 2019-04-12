@@ -22,9 +22,10 @@ const string DarknessSignDemarcation::description = "";
 const SpaceFloat DarknessSignDemarcation::betweenBurstDelay = 1.5;
 const SpaceFloat DarknessSignDemarcation::burstInterval = 0.3;
 const SpaceFloat DarknessSignDemarcation::launchDist = 1.5;
-const SpaceFloat DarknessSignDemarcation::angleSkew = float_pi / DarknessSignDemarcation::bulletsPerBurst;
+const SpaceFloat DarknessSignDemarcation::legSpacing = float_pi / 6.0;
 const int DarknessSignDemarcation::burstCount = 4;
-const int DarknessSignDemarcation::bulletsPerBurst = 24;
+const int DarknessSignDemarcation::legCount = 8;
+const int DarknessSignDemarcation::bulletsPerLeg = 3;
 
 DarknessSignDemarcation::DarknessSignDemarcation(GObject* caster) :
 	Spell(caster)
@@ -41,26 +42,39 @@ void DarknessSignDemarcation::update()
 
 		++crntBurst;
 
-		timer = crntBurst < burstCount ? burstInterval : betweenBurstDelay;
-		crntBurst = crntBurst < burstCount ? crntBurst : 0;
+		if (crntBurst >= burstCount) {
+			timer = betweenBurstDelay;
+			crntBurst = 0;
+			oddWave = !oddWave;
+		}
+		else {
+			timer = burstInterval;
+		}
 	}
 }
 
 void DarknessSignDemarcation::generate()
 {
 	SpaceVect origin = caster->getPos();
-	SpaceFloat radialStep = float_pi * 2.0 / bulletsPerBurst;
+	SpaceFloat radialStep = float_pi * 2.0 / legCount;
 
-	for_irange(i, 0, bulletsPerBurst)
+	for_irange(i, 0, legCount)
 	{
-		SpaceVect pos = origin + SpaceVect::ray(launchDist, i*radialStep);
-		SpaceFloat angle = radialStep * i + (i % 2 ? 1.0 : -1.0)*angleSkew;
+		SpaceFloat legAngle = i * radialStep + to_int(oddWave)*radialStep*0.5;
+		SpaceFloat legWidth = radialStep - legSpacing;
+		SpaceFloat bulletRadialStep = legWidth / bulletsPerLeg;
 
-		gobject_ref bullet = getCasterAs<Agent>()->bulletImplCheckSpawn<EnemyBulletImpl>(
-			pos,
-			angle,
-			&EnemyBulletImpl::rumiaDemarcationBullet
-		);
+		for_irange(j, 0, bulletsPerLeg)
+		{
+			SpaceFloat bulletAngle = legAngle - 0.5*legWidth + bulletRadialStep*j;
+			SpaceVect pos = origin + SpaceVect::ray(launchDist, bulletAngle);
+
+			gobject_ref bullet = getCasterAs<Agent>()->bulletImplCheckSpawn<EnemyBulletImpl>(
+				pos,
+				bulletAngle,
+				&EnemyBulletImpl::rumiaDemarcationBullet
+			);
+		}
 	}
 }
 
