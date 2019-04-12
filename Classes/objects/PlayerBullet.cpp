@@ -17,36 +17,8 @@
 #define cons(x) x::x(GSpace* space, ObjectIDType id, const SpaceVect& pos, SpaceFloat angle, object_ref<Agent> agent) : \
     GObject(space, id, "", pos, angle), \
     Bullet(agent), \
-    PlayerBullet(agent), \
     BulletImpl(&props) \
 {} \
-
-PlayerBullet::PlayerBullet(object_ref<Agent> agent) :
-	Bullet(agent)
-{
-	ricochetCount = agent.get()->getAttribute(Attribute::ricochet);
-}
-
-PlayerShield::PlayerShield(object_ref<Agent> agent) :
-	Bullet(agent)
-{
-	hitCount = -1;
-}
-
-void PlayerShield::onWallCollide(Wall* wall)
-{
-	//NO-OP
-}
-
-void PlayerShield::onEnvironmentCollide(GObject* obj)
-{
-	//NO-OP
-}
-
-void PlayerShield::onBulletCollide(Bullet* bullet)
-{
-	space->removeObject(bullet);
-}
 
 const bullet_properties PlayerBulletImpl::flandreBigOrb1 = {
 	0.1,
@@ -122,14 +94,12 @@ const bullet_properties PlayerBulletImpl::cirnoLargeIceBullet = {
 PlayerBulletImpl::PlayerBulletImpl(GSpace* space, ObjectIDType id, const SpaceVect& pos, SpaceFloat angle, object_ref<Agent> agent, const bullet_properties* props) :
     GObject(space, id, "", pos, angle),
     Bullet(agent),
-    PlayerBullet(agent),
     BulletImpl(props)
 {}
 
 PlayerBulletValueImpl::PlayerBulletValueImpl(GSpace* space, ObjectIDType id, const SpaceVect& pos, SpaceFloat angle, object_ref<Agent> agent, bullet_properties props) :
 	GObject(space, id, "", pos, angle),
 	Bullet(agent),
-	PlayerBullet(agent),
 	BulletValueImpl(props)
 {}
 
@@ -176,7 +146,6 @@ const bullet_properties ScarletDagger::props = {
 ScarletDagger::ScarletDagger(GSpace* space, ObjectIDType id, const SpaceVect& pos, SpaceFloat angle, object_ref<Agent> agent) :
 	GObject(space, id, "", pos, angle),
 	Bullet(agent),
-	PlayerBullet(agent),
 	RectangleBody(SpaceVect(0.8, 0.175))
 {}
 
@@ -231,10 +200,11 @@ FlanPolarBullet::FlanPolarBullet(GSpace* space, ObjectIDType id, const SpaceVect
 FlanPolarBullet::FlanPolarBullet(GSpace* space, ObjectIDType id, const SpaceVect& pos, SpaceFloat angle, object_ref<Agent> agent, SpaceFloat parametric_start) :
 	GObject(space, id, "", pos, angle),
 	Bullet(agent),
-	PlayerBullet(agent),
 	BulletImpl(&props),
 	ParametricMotion(&parametric_motion, parametric_start)
-{}
+{
+	ignoreObstacleCollision = true;
+}
 
 void FlanPolarBullet::update()
 {
@@ -258,7 +228,6 @@ const bullet_properties FlandrePolarMotionOrb::props = {
 FlandrePolarMotionOrb::FlandrePolarMotionOrb(GSpace* space, ObjectIDType id, const SpaceVect& pos, SpaceFloat angle, object_ref<Agent> agent) :
 	GObject(space, id, "", pos, angle),
 	Bullet(agent),
-	PlayerBullet(agent),
 	BulletImpl(&props)
 {}
 
@@ -283,7 +252,8 @@ Lavaeteinn::Lavaeteinn(
 	object_ref<Agent> agent
 ) :
 	GObject(space, id, "", pos, angle),
-	PlayerShield(agent),
+	Bullet(agent),
+	ShieldBullet(agent, false),
 	RectangleBody(SpaceVect(2.0, 0.5))
 {
 	setInitialAngularVelocity(angularVel);
@@ -316,7 +286,8 @@ DamageInfo Lavaeteinn::getDamageInfo() const {
 
 FlandreCounterClockBullet::FlandreCounterClockBullet(GSpace* space, ObjectIDType id, const SpaceVect& pos, SpaceFloat angle, object_ref<Agent> agent) :
 	GObject(space, id, "", pos, angle),
-	PlayerShield(agent),
+	Bullet(agent),
+	ShieldBullet(agent, true),
 	RectangleBody(SpaceVect(4.0, 0.5))
 {}
 
@@ -326,7 +297,8 @@ DamageInfo FlandreCounterClockBullet::getDamageInfo() const {
 
 CirnoIceShieldBullet::CirnoIceShieldBullet(GSpace* space, ObjectIDType id, const SpaceVect& pos, SpaceFloat angle, object_ref<Agent> agent) :
 	GObject(space, id, "", pos, angle),
-	PlayerShield(agent)
+	Bullet(agent),
+	ShieldBullet(agent, true)
 {}
 
 DamageInfo CirnoIceShieldBullet::getDamageInfo() const {

@@ -190,6 +190,10 @@ SpaceVect GObject::getPos() const {
     return cpBodyGetPos(body);
 }
 
+SpaceVect GObject::getDeltaPos() const {
+	return getPos() - prevPos;
+}
+
 void GObject::setPos(SpaceVect p){
 	cpBodySetPos(body, p);
 }

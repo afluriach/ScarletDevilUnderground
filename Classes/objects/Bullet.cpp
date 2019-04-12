@@ -28,12 +28,14 @@ Bullet::Bullet(object_ref<Agent> agent) :
 
 void Bullet::onWallCollide(Wall* wall)
 {
-	space->removeObject(this);
+	if(!ignoreObstacleCollision)
+		space->removeObject(this);
 }
 
 void Bullet::onEnvironmentCollide(GObject* obj)
 {
-	space->removeObject(this);
+	if(!ignoreObstacleCollision)
+		space->removeObject(this);
 }
 
 void Bullet::onAgentCollide(Agent* other, SpaceVect n)
@@ -55,7 +57,9 @@ void Bullet::onAgentCollide(Agent* other, SpaceVect n)
 
 void Bullet::onBulletCollide(Bullet* bullet)
 {
-	//NO-OP
+	if (deflectBullets && !bullet->deflectBullets && getType() != bullet->getType()) {
+		space->removeObject(bullet);
+	}
 }
 
 DamageInfo Bullet::getScaledDamageInfo() const
@@ -156,6 +160,14 @@ void BulletValueImpl::initializeGraphics()
 	if (spriteID != 0 && props.spriteColor != Color3B::BLACK && props.spriteColor != Color3B::WHITE) {
 		space->setSpriteColor(spriteID, props.spriteColor);
 	}
+}
+
+ShieldBullet::ShieldBullet(object_ref<Agent> agent, bool deflectBullets) :
+	Bullet(agent)
+{
+	hitCount = -1;
+	ignoreObstacleCollision = true;
+	this->deflectBullets = deflectBullets;
 }
 
 void DirectionalLaunch::init()

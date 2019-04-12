@@ -175,6 +175,7 @@ public:
 	virtual SpaceFloat getTraction() const;
 
     SpaceVect getPos() const;
+	SpaceVect getDeltaPos() const;
     void setPos(SpaceVect p);
 
     virtual void setAngle(SpaceFloat a);

@@ -147,6 +147,7 @@ public:
 
 class RumiaDemarcation2Bullet :
 	public EnemyBullet,
+	public ShieldBullet,
 	public BulletImpl
 {
 public:
@@ -158,13 +159,10 @@ public:
 		const SpaceVect& pos,
 		SpaceFloat angle,
 		object_ref<Agent> agent,
-		SpaceFloat angularVel,
-		SpaceFloat ttl
+		SpaceFloat angularVel
 	);
 
 	virtual void update();
-protected:
-	SpaceFloat ttl;
 };
 
 #undef cons

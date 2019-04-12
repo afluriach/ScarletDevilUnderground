@@ -271,6 +271,10 @@ const bullet_properties RumiaDemarcation2Bullet::props = {
 	bullet_damage(7.5f),
 	0.83,
 	"sprites/rumia_demarcation_bullet.png",
+	Color3B::BLACK,
+	-1,
+	0,
+	false
 };
 
 RumiaDemarcation2Bullet::RumiaDemarcation2Bullet(
@@ -279,14 +283,13 @@ RumiaDemarcation2Bullet::RumiaDemarcation2Bullet(
 	const SpaceVect& pos,
 	SpaceFloat angle,
 	object_ref<Agent> agent,
-	SpaceFloat angularVel,
-	SpaceFloat ttl
+	SpaceFloat angularVel
 ) :
 	GObject(space, id, "", pos, angle), 
 	Bullet(agent),
 	EnemyBullet(agent),
-	BulletImpl(&props),
-	ttl(ttl)
+	ShieldBullet(agent, false),
+	BulletImpl(&props)
 {
 	setInitialAngularVelocity(angularVel);
 }
@@ -296,9 +299,4 @@ void RumiaDemarcation2Bullet::update()
 	GObject::update();
 
 	setVel(SpaceVect::ray(getMaxSpeed(), getAngle()));
-
-	timerDecrement(ttl);
-	if (ttl <= 0.0) {
-		space->removeObject(this);
-	}
 }

@@ -60,10 +60,10 @@ public:
 	virtual inline DamageInfo getDamageInfo() const { return DamageInfo{}; }
 	virtual inline SpaceFloat getKnockbackForce() const { return 0.0; }
 
-	virtual void onWallCollide(Wall* wall);
-	virtual void onEnvironmentCollide(GObject* obj);
-	virtual void onAgentCollide(Agent* agent, SpaceVect n);
-	virtual void onBulletCollide(Bullet* bullet);
+	void onWallCollide(Wall* wall);
+	void onEnvironmentCollide(GObject* obj);
+	void onAgentCollide(Agent* agent, SpaceVect n);
+	void onBulletCollide(Bullet* bullet);
 
 	DamageInfo getScaledDamageInfo() const;
 	SpaceVect calculateLaunchVelocity();
@@ -76,6 +76,8 @@ public:
 
 	int ricochetCount = 0;
 	int hitCount = 1;
+	bool deflectBullets = false;
+	bool ignoreObstacleCollision = false;
 };
 
 class BulletImpl :
@@ -127,6 +129,17 @@ public:
 
 	const bullet_properties props;
 };
+
+//Shield bullet is no-collide with normal obstacles, and is not consumed
+//upon contactwith an enemy. It may also destroy other bullets
+//(of non-matching type) it collides with.
+class ShieldBullet : virtual public Bullet
+{
+public:
+	ShieldBullet(object_ref<Agent> agent, bool deflectBullets);
+	inline virtual ~ShieldBullet() {}
+};
+
 
 //Object will automatically have its velocity set on init(), according to
 //its [facing] angle. Uses polymorphic getter getMaxSpeed().

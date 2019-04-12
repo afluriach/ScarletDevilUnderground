@@ -16,25 +16,10 @@
 class PlayerBullet : virtual public Bullet
 {
 public:
-	PlayerBullet(object_ref<Agent> agent);
+	inline PlayerBullet() {}
 	inline virtual ~PlayerBullet() {}
 
 	virtual inline GType getType() const { return GType::playerBullet; }
-};
-
-class PlayerShield : virtual public GObject, public Bullet
-{
-public:
-	PlayerShield(object_ref<Agent> agent);
-	inline virtual ~PlayerShield() {}
-
-	virtual inline GType getType() const { return GType::playerBullet; }
-
-	//Shield bullet is no-collide with normal obstacles, and is not consumed
-	//upon contactwith an enemy.
-	virtual void onWallCollide(Wall* wall);
-	virtual void onEnvironmentCollide(GObject* obj);
-	virtual void onBulletCollide(Bullet* bullet);
 };
 
 class PlayerBulletImpl : public PlayerBullet, public BulletImpl
@@ -139,8 +124,6 @@ public:
 
 	virtual void update();
 	virtual CircleLightArea getLightSource() const;
-	virtual inline void onWallCollide(Wall* wall) {}
-	virtual inline void onEnvironmentCollide(GObject* obj) {}
 };
 
 class FlandrePolarMotionOrb :
@@ -160,7 +143,8 @@ public:
 
 class Lavaeteinn :
 	virtual public GObject,
-	public PlayerShield,
+	public PlayerBullet,
+	public ShieldBullet,
 	public RectangleBody,
 	public ImageSprite
 {
@@ -185,7 +169,8 @@ public:
 
 class FlandreCounterClockBullet :
 	virtual public GObject,
-	public PlayerShield,
+	public PlayerBullet,
+	public ShieldBullet,
 	public RectangleBody,
 	public ImageSprite
 {
@@ -201,7 +186,8 @@ public:
 
 class CirnoIceShieldBullet :
 	virtual public GObject,
-	public PlayerShield,
+	public PlayerBullet,
+	public ShieldBullet,
 	public CircleBody,
 	public ImageSprite
 {

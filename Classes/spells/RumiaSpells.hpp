@@ -57,14 +57,13 @@ public:
 	inline virtual ~DarknessSignDemarcation2() {}
 
 	GET_DESC(DarknessSignDemarcation2)
-	inline virtual void init() {}
+	virtual void init();
 	virtual void update();
-	inline virtual void end() {}
+	virtual void end();
 protected:
 	void generate();
 
-	SpaceFloat timer = 0.0;
-	int crntBurst = 0;
+	unordered_set<gobject_ref> bullets;
 };
 
 class NightSignPinwheel : public Spell

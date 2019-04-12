@@ -93,18 +93,39 @@ DarknessSignDemarcation2::DarknessSignDemarcation2(GObject* caster) :
 {
 }
 
+void DarknessSignDemarcation2::init()
+{
+	generate();
+}
+
 void DarknessSignDemarcation2::update()
 {
-	timerDecrement(timer);
-
-	if (timer <= 0.0)
+	SpaceVect deltaPos = caster->getDeltaPos();
+	if (!deltaPos.isZero())
 	{
-		generate();
+		auto it = bullets.begin();
+		while (it != bullets.end()) {
+			if (!it->isValid() && !it->isFuture()) {
+				it = bullets.erase(it);
+			}
+			else if(!it->isFuture()){
+				GObject* bullet = it->get();
+				bullet->setPos(bullet->getPos() + deltaPos);
+				++it;
+			}
+			else {
+				++it;
+			}
+		}
+	}
+}
 
-		++crntBurst;
-
-		timer = crntBurst < burstCount ? burstInterval : betweenBurstDelay;
-		crntBurst = crntBurst < burstCount ? crntBurst : 0;
+void DarknessSignDemarcation2::end()
+{
+	for (auto ref : bullets) {
+		if (ref.isFuture() || ref.isValid()) {
+			caster->space->removeObject(ref);
+		}
 	}
 }
 
@@ -121,9 +142,9 @@ void DarknessSignDemarcation2::generate()
 		gobject_ref bullet = getCasterAs<Agent>()->bulletCheckSpawn<RumiaDemarcation2Bullet>(
 			pos,
 			angle,
-			(i % 2 ? 1.0 : -1.0)*angleSkew,
-			betweenBurstDelay * 1.5
+			(i % 2 ? 1.0 : -1.0)*angleSkew
 		);
+		bullets.insert(bullet);
 	}
 }
 
