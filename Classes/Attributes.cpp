@@ -91,14 +91,14 @@ const boost::bimap<Attribute, string> AttributeSystem::attributeNameMap = boost:
 
 #undef entry
 
-pair<float, float> AttributeSystem::calculateAgilityAttributes(float agility)
+float_pair AttributeSystem::calculateAgilityAttributes(float agility)
 {
 	if (agility == 0.0f) {
-		return pair<float, float>(1.0f, 1.0f);
+		return float_pair(1.0f, 1.0f);
 	}
 	else {
 		float speed = 2.0f * powf(1.33, agility - 1);
-		return pair<float, float>(speed, speed*speed);
+		return float_pair(speed, speed*speed);
 	}
 }
 
@@ -114,7 +114,7 @@ AttributeSet AttributeSystem::getAttributeSet(const AttributeMap& input)
 	if (result[to_size_t(Attribute::speed)] == 0.0f && result[to_size_t(Attribute::acceleration)] == 0.0f)
 	{
 		float agility = result[to_size_t(Attribute::agility)];
-		pair<float, float> speedAccel = calculateAgilityAttributes(agility);
+		float_pair speedAccel = calculateAgilityAttributes(agility);
 
 		result[to_size_t(Attribute::speed)] = speedAccel.first;
 		result[to_size_t(Attribute::acceleration)] = speedAccel.second;
@@ -419,7 +419,7 @@ void AttributeSystem::modifyAgility(float dx)
 	attributes.at(to_size_t(Attribute::agility)) += dx;
 
 	float agility = attributes.at(to_size_t(Attribute::agility));
-	pair<float, float> speedAccel = calculateAgilityAttributes(agility);
+	float_pair speedAccel = calculateAgilityAttributes(agility);
 
 	attributes.at(to_size_t(Attribute::speed)) = speedAccel.first;
 	attributes.at(to_size_t(Attribute::acceleration)) = speedAccel.second;
