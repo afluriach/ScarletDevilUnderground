@@ -71,7 +71,7 @@ DamageInfo Bullet::getScaledDamageInfo() const
 
 SpaceVect Bullet::calculateLaunchVelocity()
 {
-	SpaceFloat speed = getMaxSpeed();
+	SpaceFloat speed = getMaxSpeed() * attributes.bulletSpeed;
 	SpaceFloat angle = getAngle();
 	SpaceVect agentVel = agent.isValid() ? agent.get()->getVel() : SpaceVect::zero;
 	SpaceVect dir = SpaceVect::ray(1.0, angle);

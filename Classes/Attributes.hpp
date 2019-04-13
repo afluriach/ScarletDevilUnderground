@@ -41,8 +41,6 @@ enum class Attribute {
 	attackSpeed,
 	bulletSpeed,
 
-	bulletCount,
-
 	shieldLevel,
 
 	stress,

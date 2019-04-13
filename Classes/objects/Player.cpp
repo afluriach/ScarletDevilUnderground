@@ -612,9 +612,6 @@ void Player::applyUpgrade(Upgrade* up)
 	case Attribute::maxStamina:
 		attributeSystem.modifyAttribute(Attribute::stamina, step);
 		space->addHudAction(&HUD::setMaxStamina, to_int(attributeSystem[Attribute::maxStamina]));
-		break;
-	case Attribute::bulletCount:
-		equipFirePatterns();
 	break;
 	}
 

@@ -140,7 +140,7 @@ const unordered_map<string, GObject::object_info> GObject::objectInfo = {
 	conditional_entry(BlueFairyNPC),
 	entry_same(BreakableWall),
 	entry_same(BridgeFloor),
-	upgrade_entry(BulletCountUpgrade, bulletCount),
+	upgrade_entry(BulletSpeedUpgrade, bulletSpeed),
 	entry_same(CollectGlyph),
 	entry_same(CollectMarisa),
 	entry_same(Barrier),

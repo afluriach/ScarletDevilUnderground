@@ -29,7 +29,7 @@ const unordered_map<Attribute, UpgradeInfo> AttributeSystem::upgradeAttributes =
 	{Attribute::agility, UpgradeInfo{ 1.0f, "sprites/agility_upgrade.png"}},
 	{Attribute::attack, UpgradeInfo{ 0.25f, "sprites/attack_upgrade.png"}},
 	{Attribute::shieldLevel, UpgradeInfo{ 1.0f, "sprites/shield_upgrade.png"}},
-	{Attribute::bulletCount, UpgradeInfo{ 2.0f, "sprites/bullet_count_upgrade.png"}},
+	{Attribute::bulletSpeed, UpgradeInfo{ 0.25f, "sprites/bullet_speed_upgrade.png"}},
 };
 
 #define entry(x) (Attribute::x, #x)
@@ -59,8 +59,6 @@ const boost::bimap<Attribute, string> AttributeSystem::attributeNameMap = boost:
 	entry(attack)
 	entry(attackSpeed)
 	entry(bulletSpeed)
-
-	entry(bulletCount)
 
 	entry(shieldLevel)
 
@@ -141,7 +139,6 @@ AttributeSet AttributeSystem::getBlankAttributeSet()
 	result[to_size_t(Attribute::attack)] = 1.0f;
 	result[to_size_t(Attribute::attackSpeed)] = 1.0f;
 	result[to_size_t(Attribute::bulletSpeed)] = 1.0f;
-	result[to_size_t(Attribute::bulletCount)] = 1.0f;
 
 	//Sensitivity multiplier should be 1.0 by default.
 	result[to_size_t(Attribute::bombSensitivity)] = 1.0f;

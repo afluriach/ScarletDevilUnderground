@@ -707,7 +707,7 @@ const vector<PlayerInfo::IncidentAttrEntry> PlayerInfo::displayIncidentAttribute
 const vector<pair<Attribute, string>> PlayerInfo::displayAttributes = {
 	{ Attribute::agility, "Agility" },
 	{ Attribute::attack, "Attack" },
-	{ Attribute::bulletCount, "Bullet Count" },
+	{ Attribute::bulletSpeed, "Bullet Speed" },
 	{ Attribute::shieldLevel, "Shield" },
 };
 
