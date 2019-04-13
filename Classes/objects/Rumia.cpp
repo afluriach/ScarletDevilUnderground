@@ -104,7 +104,10 @@ const vector<double_pair> RumiaMain::demarcationSizeIntervals = {
 
 void RumiaMain::onEnter(ai::StateMachine& fsm)
 {
-	fsm.agent->cast(make_shared<DarknessSignDemarcation2>(fsm.agent, demarcationSizeIntervals.at(0).second));
+	fsm.agent->cast(make_shared<DarknessSignDemarcation2>(
+		fsm.agent,
+		demarcationSizeIntervals.at(0).second
+	));
 }
 
 void RumiaMain::update(ai::StateMachine& fsm)
@@ -116,7 +119,10 @@ void RumiaMain::update(ai::StateMachine& fsm)
 		intervalIdx %= demarcationSizeIntervals.size();
 		timer = 0.0;
 
-		fsm.agent->cast(make_shared<DarknessSignDemarcation2>(fsm.agent, demarcationSizeIntervals.at(intervalIdx).second));
+		fsm.agent->cast(make_shared<DarknessSignDemarcation2>(
+			fsm.agent,
+			demarcationSizeIntervals.at(intervalIdx).second
+		));
 	}
 }
 
