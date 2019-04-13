@@ -107,11 +107,12 @@ void LavaeteinnSpell::init()
 	SpaceFloat angle = canonicalAngle(caster->getAngle() - angleWidth);
 	SpaceVect pos = caster->getPos() + SpaceVect::ray(1.5, angle);
 	object_ref<Agent> agent = caster;
+	speedScale = getCasterAs<Agent>()->getAttribute(Attribute::attackSpeed);
 
 	lavaeteinnBullet = caster->space->createObject(GObject::make_object_factory<Lavaeteinn>(
 		pos,
 		angle,
-		angular_speed,
+		angular_speed * speedScale,
 		agent
 	));
 
@@ -124,7 +125,7 @@ void LavaeteinnSpell::update()
 	PlayerSpell::update();
 
 	timerDecrement(fireTimer);
-	timerIncrement(angularPos, angular_speed);
+	timerIncrement(angularPos, angular_speed * speedScale);
 
 	if (lavaeteinnBullet.isValid()) {
 		lavaeteinnBullet.get()->setPos(caster->getPos() + SpaceVect::ray(1.5, angularPos));

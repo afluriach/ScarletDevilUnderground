@@ -76,6 +76,7 @@ protected:
 	gobject_ref lavaeteinnBullet;
 	SpaceFloat fireTimer;
 	SpaceFloat angularPos;
+	SpaceFloat speedScale;
 };
 
 class PlayerCounterClock : public PlayerSpell {

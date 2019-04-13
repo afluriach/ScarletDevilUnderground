@@ -28,6 +28,7 @@ const unordered_map<Attribute, UpgradeInfo> AttributeSystem::upgradeAttributes =
 	{Attribute::maxStamina, UpgradeInfo{ 25.0f, "sprites/stamina_upgrade.png"}},
 	{Attribute::agility, UpgradeInfo{ 1.0f, "sprites/agility_upgrade.png"}},
 	{Attribute::attack, UpgradeInfo{ 0.25f, "sprites/attack_upgrade.png"}},
+	{Attribute::attackSpeed, UpgradeInfo{ 0.25f, "sprites/attack_speed_upgrade.png"}},
 	{Attribute::shieldLevel, UpgradeInfo{ 1.0f, "sprites/shield_upgrade.png"}},
 	{Attribute::bulletSpeed, UpgradeInfo{ 0.25f, "sprites/bullet_speed_upgrade.png"}},
 };

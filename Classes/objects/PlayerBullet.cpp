@@ -52,7 +52,7 @@ const bullet_properties PlayerBulletImpl::catadioptricBullet2 = {
 
 const bullet_properties PlayerBulletImpl::catadioptricBullet3 = {
 	0.5,
-	3.0,
+	6.0,
 	0.125,
 	bullet_damage(0.5f),
 	0.25,
@@ -135,7 +135,7 @@ CircleLightArea CatadioptricBullet::getLightSource() const {
 
 const bullet_properties ScarletDagger::props = {
 	5.0,
-	4.0,
+	6.0,
 	//unused, since it is not a CircleBody
 	0.5,
 	bullet_damage(3.0f),

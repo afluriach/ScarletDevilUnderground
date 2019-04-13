@@ -135,6 +135,7 @@ GObject::AdapterType upgradeAdapter(Attribute at)
 const unordered_map<string, GObject::object_info> GObject::objectInfo = {
 	upgrade_entry(AgilityUpgrade, agility),
 	upgrade_entry(AttackUpgrade, attack),
+	upgrade_entry(AttackSpeedUpgrade, attackSpeed),
 	entry_same(Bat),
 	entry_same(BlueFairy),
 	conditional_entry(BlueFairyNPC),

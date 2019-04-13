@@ -124,8 +124,9 @@ bool StarbowBreak::fire()
 
 void StarbowBreak::update()
 {
+	double attackSpeed = agent->getAttribute(Attribute::attackSpeed);
 	for_irange(i, 0, anglesCount) {
-		timerDecrement(timers[i], angleIntervalScales[i]);
+		timerDecrement(timers[i], angleIntervalScales[i] * attackSpeed);
 	}
 }
 
