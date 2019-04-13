@@ -198,7 +198,6 @@ const unordered_map<string, GObject::object_info> GObject::objectInfo = {
 	entry_same(RedFairy),
 	entry_same(Reimu),
 	entry_same(ReimuEnemy),
-	upgrade_entry(RicochetUpgrade, ricochet),
 	entry_same(Rumia),
 	entry_same(Rumia2),
 	entry_same(Sakuya),

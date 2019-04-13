@@ -708,7 +708,6 @@ const vector<pair<Attribute, string>> PlayerInfo::displayAttributes = {
 	{ Attribute::agility, "Agility" },
 	{ Attribute::attack, "Attack" },
 	{ Attribute::bulletCount, "Bullet Count" },
-	{ Attribute::ricochet, "Ricochet" },
 	{ Attribute::shieldLevel, "Shield" },
 };
 

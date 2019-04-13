@@ -30,11 +30,5 @@
   <object id="31" x="2048" y="1152" width="128" height="896"/>
   <object id="81" type="BreakableWall" x="2048" y="1024" width="128" height="128"/>
  </objectgroup>
- <objectgroup name="objects">
-  <object id="82" type="RicochetUpgrade" x="1024" y="1024" width="128" height="128">
-   <properties>
-    <property name="id" value="0"/>
-   </properties>
-  </object>
- </objectgroup>
+ <objectgroup name="objects"/>
 </map>

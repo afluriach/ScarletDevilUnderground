@@ -29,7 +29,6 @@ const unordered_map<Attribute, UpgradeInfo> AttributeSystem::upgradeAttributes =
 	{Attribute::agility, UpgradeInfo{ 1.0f, "sprites/agility_upgrade.png"}},
 	{Attribute::attack, UpgradeInfo{ 0.25f, "sprites/attack_upgrade.png"}},
 	{Attribute::shieldLevel, UpgradeInfo{ 1.0f, "sprites/shield_upgrade.png"}},
-	{Attribute::ricochet, UpgradeInfo{1.0f, "sprites/ricochet_upgrade.png"}},
 	{Attribute::bulletCount, UpgradeInfo{ 2.0f, "sprites/bullet_count_upgrade.png"}},
 };
 
@@ -61,7 +60,6 @@ const boost::bimap<Attribute, string> AttributeSystem::attributeNameMap = boost:
 	entry(attackSpeed)
 	entry(bulletSpeed)
 
-	entry(ricochet)
 	entry(bulletCount)
 
 	entry(shieldLevel)

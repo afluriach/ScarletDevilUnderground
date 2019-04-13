@@ -193,7 +193,6 @@ void GState::setUpgradeLevels(int level)
 	{
 		registerUpgrade(Attribute::maxMP, 1);
 		registerUpgrade(Attribute::agility, 1);
-		registerUpgrade(Attribute::ricochet, 1);
 	}
 
 	if (level >= 3)

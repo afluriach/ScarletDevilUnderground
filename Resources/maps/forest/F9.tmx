@@ -62,10 +62,5 @@
   <object id="191" name="barrier-f9-3" type="Barrier" x="1280" y="2432" width="128" height="128"/>
   <object id="192" name="barrier-f9-2" type="Barrier" x="1408" y="2432" width="128" height="128"/>
   <object id="193" name="barrier-f9-1" type="Barrier" x="1536" y="2432" width="128" height="128"/>
-  <object id="194" type="RicochetUpgrade" x="416" y="736" width="192" height="192">
-   <properties>
-    <property name="id" value="1"/>
-   </properties>
-  </object>
  </objectgroup>
 </map>
