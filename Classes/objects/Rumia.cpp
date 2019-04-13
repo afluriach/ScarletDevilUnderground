@@ -45,14 +45,14 @@ void Rumia::initStateMachine(ai::StateMachine& fsm)
 	fsm.addDetectFunction(
 		GType::player,
 		[](ai::StateMachine& sm, GObject* target) -> void {
-			if (sm.isThreadRunning("Cast")) return;
+			if (sm.isThreadRunning("RumiaMain")) return;
 
 			sm.agent->space->createDialog("dialogs/rumia1", false);
 
-			sm.addThread(make_shared<ai::OccupyPoint>(sm.agent->getPos()));
+			sm.addThread(make_shared<ai::Flank>(target, 3.0, 1.0));
 //			sm.addThread(make_shared<ai::FireAtTarget>(target));
 
-			sm.addThread(make_shared<ai::Cast>(make_spell_generator<DarknessSignDemarcation2>()));
+			sm.addThread(make_shared<RumiaMain>());
 		}
 	);
 }
@@ -94,4 +94,33 @@ void Rumia2::initStateMachine(ai::StateMachine& fsm)
 void Rumia2::onZeroHP()
 {
 	Agent::onZeroHP();
+}
+
+const vector<double_pair> RumiaMain::demarcationSizeIntervals = {
+	make_pair(9.0, float_pi * 8.0 / 3.0),
+	make_pair(12.0, float_pi * 2.0 / 3.0),
+	make_pair(10.0, float_pi * 4.0 / 3.0),
+};
+
+void RumiaMain::onEnter(ai::StateMachine& fsm)
+{
+	fsm.agent->cast(make_shared<DarknessSignDemarcation2>(fsm.agent, demarcationSizeIntervals.at(0).second));
+}
+
+void RumiaMain::update(ai::StateMachine& fsm)
+{
+	timerIncrement(timer);
+
+	if (timer >= demarcationSizeIntervals.at(intervalIdx).first) {
+		++intervalIdx;
+		intervalIdx %= demarcationSizeIntervals.size();
+		timer = 0.0;
+
+		fsm.agent->cast(make_shared<DarknessSignDemarcation2>(fsm.agent, demarcationSizeIntervals.at(intervalIdx).second));
+	}
+}
+
+void RumiaMain::onExit(ai::StateMachine& fsm)
+{
+	fsm.agent->stopSpell();
 }

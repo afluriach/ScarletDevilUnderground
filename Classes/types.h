@@ -22,6 +22,7 @@ class Player;
 class Spell;
 
 typedef pair<float, float> float_pair;
+typedef pair<double, double> double_pair;
 typedef pair<int,int> IntVec2;
 typedef tuple<long, long, long> TimerTriplet;
 typedef map<type_index, pair<unsigned int, unsigned int>> EnemyStatsMap;

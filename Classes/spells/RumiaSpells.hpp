@@ -54,6 +54,7 @@ public:
 	static const int bulletsPerBurst;
 
 	DarknessSignDemarcation2(GObject* caster);
+	DarknessSignDemarcation2(GObject* caster, SpaceFloat angularSpeed);
 	inline virtual ~DarknessSignDemarcation2() {}
 
 	GET_DESC(DarknessSignDemarcation2)
@@ -64,6 +65,7 @@ protected:
 	void generate();
 
 	unordered_set<gobject_ref> bullets;
+	SpaceFloat angularSpeed;
 };
 
 class NightSignPinwheel : public Spell
