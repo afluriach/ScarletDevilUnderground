@@ -12,6 +12,7 @@ The reason for implement as private inheritance is to hide some interface call b
 class App;
 class ControlRegister;
 class Dialog;
+class FileUtilsZip;
 class GScene;
 class GSpace;
 class GState;
@@ -158,6 +159,7 @@ protected:
 	static bool logTimers;
 
 	string baseDataPath;
+	FileUtilsZip* fileUtils = nullptr;
 
 	ALCdevice* audioDevice = nullptr;
 	ALCcontext* audioContext = nullptr;

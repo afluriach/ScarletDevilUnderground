@@ -45,13 +45,13 @@ NS_CC_BEGIN
 class CC_DLL FileUtilsWin32 : public FileUtils
 {
     friend class FileUtils;
-    FileUtilsWin32();
 public:
     /* override funtions */
     bool init();
     virtual std::string getWritablePath() const;
     virtual bool isAbsolutePath(const std::string& strPath) const;
 protected:
+	FileUtilsWin32();
 
     virtual bool isFileExistInternal(const std::string& strFilePath) const;
     

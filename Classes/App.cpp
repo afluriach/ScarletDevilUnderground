@@ -11,6 +11,7 @@
 #include "menu_scenes.h"
 #include "OpeningScene.hpp"
 #include "OverworldScene.hpp"
+#include "Resources.hpp"
 #include "util.h"
 
 const string App::title = "Kouma";
@@ -330,6 +331,12 @@ bool App::isSoundSourceActive(ALuint source)
 App::App()
 {
     appInst = this;
+
+	//Initialize resources.zip filesystem
+	fileUtils = new FileUtilsZip();
+	fileUtils->init();
+	FileUtils::setDelegate(fileUtils);
+
     //Initialize Lua
 	lua = make_unique<Lua::Inst>("app");
 	lua->runFile("scripts/init.lua");    
@@ -352,6 +359,13 @@ App::~App()
 		alcDestroyContext(audioContext);
 	if (audioDevice)
 		alcCloseDevice(audioDevice);
+
+	if (fileUtils) {
+		FileUtils::setDelegate(nullptr);
+		//un-setting the delegate deletes it
+		//delete fileUtils;
+		fileUtils = nullptr;
+	}
 
     log("app exiting");
 }

@@ -14,6 +14,7 @@
 #define to_float(x) static_cast<float>(x)
 #define to_gobject(x) static_cast<GObject*>(x)
 #define bool_int(x) static_cast<int>(static_cast<bool>(x))
+#define to_bool(x) static_cast<bool>(x)
 
 #define for_irange(var,start,end) for(int var : boost::irange(to_int(start),to_int(end)))
 

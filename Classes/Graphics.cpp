@@ -747,7 +747,7 @@ Sprite* loadImageSprite(const string& resPath, GraphicsLayer sceneLayer, Layer* 
 
 Label* createTextLabel(const string& text, int size)
 {
-    return Label::createWithTTF(text, "fonts/comfortaa.ttf", size);
+	return createTextLabel(text, size, "fonts/comfortaa.ttf");
 }
 
 Label* createTextLabel(const string& text, int size, const string& fontRes)
