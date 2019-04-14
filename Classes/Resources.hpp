@@ -14,11 +14,22 @@
 	#define FileUtilsImpl FileUtilsWin32
 #endif
 
+typedef pair<unsigned char*, ssize_t> zip_file;
+
+struct libsnd_file_pointer
+{
+	static sf_count_t file_length(void* _this_);
+	static sf_count_t seek(sf_count_t _offset, int whence, void* _this_);
+	static sf_count_t read(void* output_buf, sf_count_t count, void* _this_);
+	static sf_count_t tell(void* _this_);
+
+	sf_count_t offset = 0;
+	const zip_file* file_buf = nullptr;
+};
+
 class FileUtilsZip : public FileUtilsImpl
 {
 public:
-	typedef pair<unsigned char*, ssize_t> zip_file;
-
 	static string convertFilepath(const string& path);
 
 	inline FileUtilsZip() {}
@@ -29,8 +40,10 @@ public:
 	virtual string fullPathForFilename(const string& filename) const;
 	virtual Data getDataFromFile(const string& filename);
 	virtual string getStringFromFile(const string& filename);
-	virtual bool isFileExist(const std::string& filename) const;
+	virtual bool isFileExist(const string& filename) const;
 
+	SNDFILE* openSoundFile(const string& filename, SF_INFO* info);
+	void closeSoundFile(const string& filename);
 protected:
 	bool loadFileData(const string& filename);
 	void unloadAll();
@@ -42,6 +55,7 @@ protected:
 	//ZipFile returns a pointer to a malloc-allocated buffer.
 	unordered_map<string, zip_file> loadedFiles;
 	unique_ptr<ZipFile> zipFile;
+	unordered_map<string, unique_ptr<libsnd_file_pointer>> soundFileHandles;
 };
 
 #endif /* Resources_hpp */

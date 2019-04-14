@@ -157,7 +157,14 @@ ALuint App::initSoundSource(const Vec3& pos, const Vec3& vel, bool relative)
 void App::loadSound(const string& path)
 {
 	SF_INFO info;
-	SNDFILE* file = sf_open(path.c_str(), SFM_READ, &info);
+	SNDFILE* file = nullptr;
+	if (appInst->fileUtils) {
+		file = appInst->fileUtils->openSoundFile(path, &info);
+	}
+
+	if(!file){
+		file = sf_open(path.c_str(), SFM_READ, &info);
+	}
 	ALuint bufferID;
 
 	if (!file) {
@@ -200,6 +207,8 @@ void App::loadSound(const string& path)
 
 	appInst->loadedBuffers.insert_or_assign(path, bufferID);
 	delete[] buf;
+
+	if (appInst->fileUtils) appInst->fileUtils->closeSoundFile(path);
 }
 
 ALuint App::playSound(const string& path, float volume)

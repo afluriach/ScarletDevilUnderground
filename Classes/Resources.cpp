@@ -12,6 +12,50 @@
 #include "Resources.hpp"
 #include "util.h"
 
+#define auto_this auto _this = static_cast<libsnd_file_pointer*>(_this_);
+
+sf_count_t libsnd_file_pointer::file_length(void* _this_)
+{
+	auto_this
+	return _this->file_buf->second;
+}
+
+sf_count_t libsnd_file_pointer::seek(sf_count_t _offset, int whence, void* _this_)
+{
+	auto_this
+
+	if (whence == SEEK_SET) {
+		_this->offset = _offset;
+	}
+	else if (whence == SEEK_CUR) {
+		_this->offset += _offset;
+	}
+	else if (whence == SEEK_END) {
+		_this->offset = _this->file_buf->second + _offset;
+	}
+
+	return _this->offset;
+}
+
+sf_count_t libsnd_file_pointer::read(void* output_buf, sf_count_t count, void* _this_)
+{
+	auto_this
+	sf_count_t bytes_remaining = _this->file_buf->second - _this->offset;
+	sf_count_t actual = count <= bytes_remaining ? count : bytes_remaining;
+	unsigned char* start = _this->file_buf->first + _this->offset;
+	auto output = static_cast<unsigned char*>(output_buf);
+
+	copy(start,start + actual,output);
+	_this->offset += actual;
+	return actual;
+}
+
+sf_count_t libsnd_file_pointer::tell(void* _this_)
+{
+	auto_this
+	return _this->offset;
+}
+
 string FileUtilsZip::convertFilepath(const string& path)
 {
 	vector<string> tokens = splitString(path, "/\\");
@@ -55,14 +99,14 @@ bool FileUtilsZip::init()
 	return to_bool(zipFile);
 }
 
-string FileUtilsZip::fullPathForFilename(const std::string &filename) const
+string FileUtilsZip::fullPathForFilename(const string &filename) const
 {
 	string _fp = convertFilepath(filename);
 	if (zipFile && zipFile->fileExists(_fp)) return _fp;
 	else return FileUtilsImpl::fullPathForFilename(filename);
 }
 
-Data FileUtilsZip::getDataFromFile(const std::string& filename)
+Data FileUtilsZip::getDataFromFile(const string& filename)
 {
 	if (zipFile && zipFile->fileExists(filename)) {
 		loadFileData(filename);
@@ -73,7 +117,7 @@ Data FileUtilsZip::getDataFromFile(const std::string& filename)
 	}
 }
 
-string FileUtilsZip::getStringFromFile(const std::string& filename)
+string FileUtilsZip::getStringFromFile(const string& filename)
 {
 	if (zipFile && zipFile->fileExists(filename) && loadFileData(filename)) {
 		const zip_file& entry = loadedFiles.at(filename);
@@ -82,10 +126,35 @@ string FileUtilsZip::getStringFromFile(const std::string& filename)
 	else return FileUtilsImpl::getStringFromFile(filename);
 }
 
-bool FileUtilsZip::isFileExist(const std::string& filename) const
+bool FileUtilsZip::isFileExist(const string& filename) const
 {
 	if (zipFile && zipFile->fileExists(filename)) return true;
 	else return FileUtilsImpl::isFileExist(filename);
+}
+
+SNDFILE* FileUtilsZip::openSoundFile(const string& filename, SF_INFO* info)
+{
+	if (!loadFileData(filename)) {
+		log("openSoundFile: %s not found in resources.zip");
+		return nullptr;
+	}
+
+	SF_VIRTUAL_IO callbacks = {
+		&libsnd_file_pointer::file_length,
+		&libsnd_file_pointer::seek,
+		&libsnd_file_pointer::read,
+		nullptr,
+		&libsnd_file_pointer::tell,
+	};
+
+	unique_ptr<libsnd_file_pointer> fp = make_unique<libsnd_file_pointer>(libsnd_file_pointer{0, &loadedFiles.at(filename)});
+	soundFileHandles.insert_or_assign(filename, move(fp));
+	return sf_open_virtual(&callbacks, SFM_READ, info, soundFileHandles.at(filename).get());
+}
+
+void FileUtilsZip::closeSoundFile(const string& filename)
+{
+	soundFileHandles.erase(filename);
 }
 
 bool FileUtilsZip::loadFileData(const string& filename)
