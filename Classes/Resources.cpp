@@ -157,6 +157,15 @@ void FileUtilsZip::closeSoundFile(const string& filename)
 	soundFileHandles.erase(filename);
 }
 
+void FileUtilsZip::unloadFile(const string& filename)
+{
+	auto it = loadedFiles.find(filename);
+	if (it != loadedFiles.end()) {
+		free(it->second.first);
+		loadedFiles.erase(it);
+	}
+}
+
 bool FileUtilsZip::loadFileData(const string& filename)
 {
 	auto it = loadedFiles.find(filename);

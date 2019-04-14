@@ -208,7 +208,10 @@ void App::loadSound(const string& path)
 	appInst->loadedBuffers.insert_or_assign(path, bufferID);
 	delete[] buf;
 
-	if (appInst->fileUtils) appInst->fileUtils->closeSoundFile(path);
+	if (appInst->fileUtils) {
+		appInst->fileUtils->closeSoundFile(path);
+		appInst->fileUtils->unloadFile(path);
+	}
 }
 
 ALuint App::playSound(const string& path, float volume)

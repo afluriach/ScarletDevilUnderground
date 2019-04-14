@@ -44,6 +44,8 @@ public:
 
 	SNDFILE* openSoundFile(const string& filename, SF_INFO* info);
 	void closeSoundFile(const string& filename);
+
+	void unloadFile(const string& filename);
 protected:
 	bool loadFileData(const string& filename);
 	void unloadAll();
