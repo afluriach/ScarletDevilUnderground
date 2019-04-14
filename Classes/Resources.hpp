@@ -19,6 +19,8 @@ class FileUtilsZip : public FileUtilsImpl
 public:
 	typedef pair<unsigned char*, ssize_t> zip_file;
 
+	static string convertFilepath(const string& path);
+
 	inline FileUtilsZip() {}
 	virtual ~FileUtilsZip();
 

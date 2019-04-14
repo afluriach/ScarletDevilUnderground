@@ -10,6 +10,36 @@
 
 #include "macros.h"
 #include "Resources.hpp"
+#include "util.h"
+
+string FileUtilsZip::convertFilepath(const string& path)
+{
+	vector<string> tokens = splitString(path, "/\\");
+	vector<string> filteredTokens;
+	string result;
+
+	for (string token : tokens)
+	{
+		if (token == ".") continue;
+		else if (token == ".." && !filteredTokens.empty()) {
+			filteredTokens.pop_back();
+		}
+		else{
+			filteredTokens.push_back(token);
+		}
+	}
+
+	if (filteredTokens.empty()) {
+		return string();
+	}
+
+	result += filteredTokens.at(0);
+
+	for_irange(i, 1, filteredTokens.size()) {
+		result += "/" + filteredTokens.at(i);
+	}
+	return result;
+}
 
 FileUtilsZip::~FileUtilsZip()
 {
@@ -27,7 +57,8 @@ bool FileUtilsZip::init()
 
 string FileUtilsZip::fullPathForFilename(const std::string &filename) const
 {
-	if (zipFile && zipFile->fileExists(filename)) return filename;
+	string _fp = convertFilepath(filename);
+	if (zipFile && zipFile->fileExists(_fp)) return _fp;
 	else return FileUtilsImpl::fullPathForFilename(filename);
 }
 
