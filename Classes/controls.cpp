@@ -25,7 +25,7 @@ const float ControlRegister::triggerDeadzone = 0.2f;
 #define key_action_2(key_id,action1,action2) {EventKeyboard::KeyCode::key_id, make_enum_bitfield(ControlAction::action1) | make_enum_bitfield(ControlAction::action2)}
 #define key_action_3(key_id,action1,action2,action3) {EventKeyboard::KeyCode::key_id, make_enum_bitfield(ControlAction::action1) | make_enum_bitfield(ControlAction::action2) | make_enum_bitfield(ControlAction::action3)}
 
-const unordered_map<EventKeyboard::KeyCode, ControlActionState> ControlRegister::keyActionMap = {
+const unordered_map<EventKeyboard::KeyCode, ControlActionState> ControlRegister::defaultKeyActionMap = {
 	key_action_2(KEY_ESCAPE,menuBack,pause),
 	key_action_1(KEY_BACKTICK,scriptConsole),
 	key_action_1(KEY_L,displayMode),
@@ -204,7 +204,7 @@ const unordered_map<string, ControlAction> actionNameMap = {
 #define button_action_2(button_id,action1,action2) {gainput::PadButton::button_id, make_enum_bitfield(ControlAction::action1) | make_enum_bitfield(ControlAction::action2)}
 #define button_action_3(button_id,action1,action2,action3) {gainput::PadButton::button_id, make_enum_bitfield(ControlAction::action1) | make_enum_bitfield(ControlAction::action2) | make_enum_bitfield(ControlAction::action3)}
 
-const unordered_map<gainput::PadButton, ControlActionState> ControlRegister::buttonActionMap = {
+const unordered_map<gainput::PadButton, ControlActionState> ControlRegister::defaultButtonActionMap = {
 	button_action_1(PadButtonStart, pause),
 	button_action_1(PadButtonSelect, mapMenu),
 
@@ -258,6 +258,11 @@ gamepad_id(manager.CreateDevice<gainput::InputDevicePad>()),
 gamepad(manager.GetDevice(gamepad_id))
 #endif
 {    
+	keyActionMap = defaultKeyActionMap;
+#if use_gamepad
+	buttonActionMap = defaultButtonActionMap;
+#endif
+
     keyListener = EventListenerKeyboard::create();
     keyListener->onKeyPressed = bindMethod(&ControlRegister::onKeyDown, this);
     keyListener->onKeyReleased = bindMethod(&ControlRegister::onKeyUp, this);

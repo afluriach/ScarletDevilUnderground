@@ -107,11 +107,11 @@ public:
 	static const float deadzone2;
 	static const float triggerDeadzone;
         
-    static const unordered_map<EventKeyboard::KeyCode, ControlActionState> keyActionMap;
+    static const unordered_map<EventKeyboard::KeyCode, ControlActionState> defaultKeyActionMap;
 	static const unordered_map<string, EventKeyboard::KeyCode> keyNameMap;
 	static const unordered_map<string, ControlAction> actionNameMap;
 #if use_gamepad
-    static const unordered_map<gainput::PadButton, ControlActionState> buttonActionMap;
+    static const unordered_map<gainput::PadButton, ControlActionState> defaultButtonActionMap;
 	static const unordered_map<string, gainput::PadButton> buttonNameMap;
 #endif
 
@@ -155,8 +155,10 @@ private:
     
     SpaceVect left_vector, right_vector;
     
+	unordered_map<EventKeyboard::KeyCode, ControlActionState> keyActionMap;
     unordered_set<EventKeyboard::KeyCode> keysDown;
 #if use_gamepad
+	unordered_map<gainput::PadButton, ControlActionState> buttonActionMap;
 	unordered_set<gainput::PadButton> buttonsDown;
 #endif
 
