@@ -153,6 +153,51 @@ const unordered_map<string, EventKeyboard::KeyCode> ControlRegister::keyNameMap 
 
 #undef entry
 
+#define entry(x) { #x, ControlAction::x }
+
+const unordered_map<string, ControlAction> actionNameMap = {
+	entry(pause),
+	entry(scriptConsole),
+	entry(displayMode),
+
+	entry(menuSelect),
+	entry(menuBack),
+	entry(mapMenu),
+
+	entry(dialogSkip),
+	entry(interact),
+
+	entry(fire),
+	entry(spell),
+	entry(bomb),
+	entry(powerAttack),
+
+	entry(firePatternNext),
+
+	entry(spellPrev),
+	entry(spellNext),
+
+	entry(powerAttackNext),
+
+	entry(centerLook),
+	entry(fireMode),
+
+	entry(move_pad_up),
+	entry(move_pad_right),
+	entry(move_pad_down),
+	entry(move_pad_left),
+
+	entry(aim_pad_up),
+	entry(aim_pad_right),
+	entry(aim_pad_down),
+	entry(aim_pad_left),
+
+	entry(sprint),
+	entry(walk),
+};
+
+#undef entry
+
 #if use_gamepad
 
 #define button_action_1(button_id,action_id) {gainput::PadButton::button_id, make_enum_bitfield(ControlAction::action_id)}

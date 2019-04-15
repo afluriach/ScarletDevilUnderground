@@ -109,6 +109,7 @@ public:
         
     static const unordered_map<EventKeyboard::KeyCode, ControlActionState> keyActionMap;
 	static const unordered_map<string, EventKeyboard::KeyCode> keyNameMap;
+	static const unordered_map<string, ControlAction> actionNameMap;
 #if use_gamepad
     static const unordered_map<gainput::PadButton, ControlActionState> buttonActionMap;
 	static const unordered_map<string, gainput::PadButton> buttonNameMap;
