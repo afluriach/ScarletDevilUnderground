@@ -181,8 +181,8 @@ void Player::checkMovementControls(const ControlInfo& cs)
 		return;
 	}
 
-	lookModeHoldTimer = (lookModeHoldTimer + App::secondsPerFrame)*to_int(cs.isControlActionDown(ControlAction::centerLook));
-	isAutoLookToggled = isAutoLookToggled && cs.isControlActionDown(ControlAction::centerLook);
+	lookModeHoldTimer = (lookModeHoldTimer + App::secondsPerFrame)*to_int(cs.isControlActionDown(ControlAction::center_look));
+	isAutoLookToggled = isAutoLookToggled && cs.isControlActionDown(ControlAction::center_look);
 
 	if (lookModeHoldTimer >= centerLookHoldThresh && !isAutoLookToggled) {
 		isAutoLook = !isAutoLook;
@@ -200,7 +200,7 @@ void Player::checkMovementControls(const ControlInfo& cs)
 
     SpaceVect moveDir = cs.left_v;
 	SpaceVect facing = isAutoLook && cs.right_v.lengthSq() < ControlRegister::deadzone2 || 
-		cs.isControlActionDown(ControlAction::centerLook) ?
+		cs.isControlActionDown(ControlAction::center_look) ?
 		cs.left_v : cs.right_v;
 	
 	timerDecrement(sprintTimer);
@@ -242,13 +242,13 @@ void Player::updateSpellControls(const ControlInfo& cs)
 	}
 	else if(!crntSpell.get() && spells.size() > 0 && spellIdx != -1)
     {		
-		if (cs.isControlActionPressed(ControlAction::spellPrev)) {
+		if (cs.isControlActionPressed(ControlAction::spell_previous)) {
 			--spellIdx;
 			if (spellIdx < 0) spellIdx += spells.size();
 			log("Spell %s equipped.", spells.at(spellIdx).get()->getName().c_str());
 			space->addHudAction(&HUD::setSpellIcon, spells.at(spellIdx)->getIcon());
 		}
-		else if (cs.isControlActionPressed(ControlAction::spellNext)) {
+		else if (cs.isControlActionPressed(ControlAction::spell_next)) {
 			++spellIdx;
 			if (spellIdx >= to_int(spells.size())) spellIdx -= spells.size();
 			log("Spell %s equipped.", spells.at(spellIdx).get()->getName().c_str());
@@ -293,7 +293,7 @@ void Player::checkFireControls(const ControlInfo& cs)
 		isAutoFire && cs.right_v.lengthSq() >= ControlRegister::deadzone2
 	;
 
-	if (cs.isControlActionPressed(ControlAction::fireMode)) {
+	if (cs.isControlActionPressed(ControlAction::fire_mode)) {
 		isAutoFire = !isAutoFire;
 	}
 
@@ -306,7 +306,7 @@ void Player::checkFireControls(const ControlInfo& cs)
 			attributeSystem.modifyAttribute(Attribute::stamina, -fireCost);
 		}
 	}
-	else if (cs.isControlActionPressed(ControlAction::firePatternNext) && getFirePattern()) {
+	else if (cs.isControlActionPressed(ControlAction::fire_pattern_next) && getFirePattern()) {
 		++firePatternIdx;
 		if (firePatternIdx >= firePatterns.size())
 			firePatternIdx = 0;
@@ -323,7 +323,7 @@ void Player::checkFireControls(const ControlInfo& cs)
 	}
 	else if (
 		!suppressFiring &&
-		cs.isControlActionPressed(ControlAction::powerAttack) &&
+		cs.isControlActionPressed(ControlAction::power_attack) &&
 		powerAttackIdx != -1 &&
 		!isSpellActive()
 	)

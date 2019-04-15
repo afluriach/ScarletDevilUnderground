@@ -19,40 +19,40 @@ enum class ControlAction
     scriptConsole,
 	displayMode,
 
-    menuSelect,
-    menuBack,
+    menu_select,
+    menu_back,
     menuUp,
     menuDown,
-	mapMenu,
+	map_menu,
 
-    dialogSkip,
+    dialog_skip,
     interact,
     enter,
 
 	fire,
     spell,
 	bomb,
-	powerAttack,
+	power_attack,
 
-	firePatternNext,
+	fire_pattern_next,
 
-	spellPrev,
-	spellNext,
+	spell_previous,
+	spell_next,
 
 	powerAttackNext,
 
-	centerLook,
-	fireMode,
+	center_look,
+	fire_mode,
 
-	move_pad_up,
-	move_pad_right,
-	move_pad_down,
-	move_pad_left,
+	move_up,
+	move_right,
+	move_down,
+	move_left,
 
-	aim_pad_up,
-	aim_pad_right,
-	aim_pad_down,
-	aim_pad_left,
+	aim_up,
+	aim_right,
+	aim_down,
+	aim_left,
 
 	sprint,
 	focus,

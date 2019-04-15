@@ -27,34 +27,34 @@ const float ControlRegister::triggerDeadzone = 0.2f;
 #define key_action_3(key_id,action1,action2,action3) {EventKeyboard::KeyCode::key_id, make_enum_bitfield(ControlAction::action1) | make_enum_bitfield(ControlAction::action2) | make_enum_bitfield(ControlAction::action3)}
 
 const unordered_map<EventKeyboard::KeyCode, ControlActionState> ControlRegister::defaultKeyActionMap = {
-	key_action_2(KEY_ESCAPE,menuBack,pause),
+	key_action_2(KEY_ESCAPE,menu_back,pause),
 	key_action_1(KEY_BACKTICK,scriptConsole),
 	key_action_1(KEY_L,displayMode),
-	key_action_3(KEY_ENTER,menuSelect,interact,enter),
-	key_action_3(KEY_KP_ENTER, menuSelect, interact, enter),
+	key_action_3(KEY_ENTER,menu_select,interact,enter),
+	key_action_3(KEY_KP_ENTER, menu_select, interact, enter),
 
-	key_action_2(KEY_E,menuSelect,interact),
-	key_action_2(KEY_X,dialogSkip, centerLook),
-	key_action_1(KEY_M,mapMenu),
+	key_action_2(KEY_E,menu_select,interact),
+	key_action_2(KEY_X,dialog_skip, center_look),
+	key_action_1(KEY_M,map_menu),
 
-	key_action_1(KEY_1, spellNext),
-	key_action_1(KEY_2, firePatternNext),
+	key_action_1(KEY_1, spell_next),
+	key_action_1(KEY_2, fire_pattern_next),
 
 	key_action_1(KEY_Q, spell),
 	key_action_1(KEY_C, bomb),
-	key_action_1(KEY_SPACE, powerAttack),
+	key_action_1(KEY_SPACE, power_attack),
 
-	key_action_2(KEY_W,move_pad_up,menuUp),
-	key_action_2(KEY_S, move_pad_down, menuDown),
-	key_action_1(KEY_A, move_pad_left),
-	key_action_1(KEY_D, move_pad_right),
+	key_action_2(KEY_W,move_up,menuUp),
+	key_action_2(KEY_S, move_down, menuDown),
+	key_action_1(KEY_A, move_left),
+	key_action_1(KEY_D, move_right),
 
-	key_action_2(KEY_UP_ARROW, aim_pad_up,menuUp),
-	key_action_2(KEY_DOWN_ARROW, aim_pad_down,menuDown),
-	key_action_1(KEY_LEFT_ARROW, aim_pad_left),
-	key_action_1(KEY_RIGHT_ARROW, aim_pad_right),
+	key_action_2(KEY_UP_ARROW, aim_up,menuUp),
+	key_action_2(KEY_DOWN_ARROW, aim_down,menuDown),
+	key_action_1(KEY_LEFT_ARROW, aim_left),
+	key_action_1(KEY_RIGHT_ARROW, aim_right),
 
-	key_action_1(KEY_Z, fireMode),
+	key_action_1(KEY_Z, fire_mode),
 
 	key_action_1(KEY_LEFT_CTRL, fire),
 	key_action_1(KEY_RIGHT_CTRL, fire),
@@ -161,37 +161,37 @@ const unordered_map<string, ControlAction> ControlRegister::actionNameMap = {
 	entry(scriptConsole),
 	entry(displayMode),
 
-	entry(menuSelect),
-	entry(menuBack),
-	entry(mapMenu),
+	entry(menu_select),
+	entry(menu_back),
+	entry(map_menu),
 
-	entry(dialogSkip),
+	entry(dialog_skip),
 	entry(interact),
 
 	entry(fire),
 	entry(spell),
 	entry(bomb),
-	entry(powerAttack),
+	entry(power_attack),
 
-	entry(firePatternNext),
+	entry(fire_pattern_next),
 
-	entry(spellPrev),
-	entry(spellNext),
+	entry(spell_previous),
+	entry(spell_next),
 
 	entry(powerAttackNext),
 
-	entry(centerLook),
-	entry(fireMode),
+	entry(center_look),
+	entry(fire_mode),
 
-	entry(move_pad_up),
-	entry(move_pad_right),
-	entry(move_pad_down),
-	entry(move_pad_left),
+	entry(move_up),
+	entry(move_right),
+	entry(move_down),
+	entry(move_left),
 
-	entry(aim_pad_up),
-	entry(aim_pad_right),
-	entry(aim_pad_down),
-	entry(aim_pad_left),
+	entry(aim_up),
+	entry(aim_right),
+	entry(aim_down),
+	entry(aim_left),
 
 	entry(sprint),
 	entry(focus),
@@ -207,10 +207,10 @@ const unordered_map<string, ControlAction> ControlRegister::actionNameMap = {
 
 const unordered_map<gainput::PadButton, ControlActionState> ControlRegister::defaultButtonActionMap = {
 	button_action_1(PadButtonStart, pause),
-	button_action_1(PadButtonSelect, mapMenu),
+	button_action_1(PadButtonSelect, map_menu),
 
-	button_action_2(PadButtonA,interact,menuSelect),
-	button_action_3(PadButtonB, menuBack,dialogSkip, bomb),
+	button_action_2(PadButtonA,interact,menu_select),
+	button_action_3(PadButtonB, menu_back,dialog_skip, bomb),
 
 	button_action_1(PadButtonL1, sprint),
 	button_action_1(PadButtonR1, sprint),
@@ -219,15 +219,15 @@ const unordered_map<gainput::PadButton, ControlActionState> ControlRegister::def
 	button_action_1(PadButtonR2, fire),
 
 	button_action_1(PadButtonX, spell),
-	button_action_1(PadButtonY, powerAttack),
+	button_action_1(PadButtonY, power_attack),
 
 //	button_action_1(PadButtonUp, powerAttackNext),
-	button_action_1(PadButtonLeft, spellNext),
-//	button_action_1(PadButtonRight, spellNext),
-	button_action_1(PadButtonDown, firePatternNext),
+	button_action_1(PadButtonLeft, spell_next),
+//	button_action_1(PadButtonRight, spell_next),
+	button_action_1(PadButtonDown, fire_pattern_next),
 
-	button_action_1(PadButtonL3, centerLook),
-	button_action_1(PadButtonR3, fireMode),
+	button_action_1(PadButtonL3, center_look),
+	button_action_1(PadButtonR3, fire_mode),
 };
 
 #define entry(x) { #x, gainput::PadButton::PadButton ## x }

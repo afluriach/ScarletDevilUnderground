@@ -72,7 +72,7 @@ GScene(sceneName, maps)
     );
 
 	control_listener->addPressListener(
-		ControlAction::mapMenu,
+		ControlAction::map_menu,
 		[=]()-> void {onMapPressed(); }
 	);
 

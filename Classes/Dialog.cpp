@@ -109,7 +109,7 @@ bool Dialog::init()
     addChild(cursor,2);
     
     scheduleUpdate();
-    control_listener->addPressListener(ControlAction::menuSelect, bind(&Dialog::checkManualAdvance, this));
+    control_listener->addPressListener(ControlAction::menu_select, bind(&Dialog::checkManualAdvance, this));
     
     return true;
 }
@@ -184,7 +184,7 @@ void Dialog::update(float dt)
 {
     timeInFrame += dt;
     
-    if(App::control_register->isControlAction(ControlAction::dialogSkip)){
+    if(App::control_register->isControlAction(ControlAction::dialog_skip)){
         checkSkipAdvance();
     }
         

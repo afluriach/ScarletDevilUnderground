@@ -29,8 +29,8 @@ bool MenuLayer::init()
 	control_listener->addPressListener(ControlAction::menuUp, bind(&MenuLayer::upPressed, this));
 	control_listener->addPressListener(ControlAction::menuDown, bind(&MenuLayer::downPressed, this));
 
-	control_listener->addPressListener(ControlAction::menuSelect, bind(&MenuLayer::selectPressed, this));
-	control_listener->addPressListener(ControlAction::menuBack, bind(&MenuLayer::backPressed, this));
+	control_listener->addPressListener(ControlAction::menu_select, bind(&MenuLayer::selectPressed, this));
+	control_listener->addPressListener(ControlAction::menu_back, bind(&MenuLayer::backPressed, this));
 
 	return true;
 }
