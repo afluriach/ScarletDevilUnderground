@@ -131,6 +131,15 @@ public:
 
 	ControlState getControlState();
 	ControlInfo getControlInfo();
+
+	void clearAllKeys();
+	void clearKeyAction(const string& keyName);
+	void addKeyAction(const string& keyName, const string& actionName);
+#if use_gamepad
+	void clearAllButtons();
+	void clearButtonAction(const string& buttonName);
+	void addButtonAction(const string& buttonName, const string& actionName);
+#endif
     
 	callback_uuid addPressListener(ControlAction action, zero_arity_function f);
 	callback_uuid addReleaseListener(ControlAction action, zero_arity_function f);

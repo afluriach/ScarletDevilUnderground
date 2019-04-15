@@ -66,6 +66,16 @@ public:
 	static Vec2 getScreenCenter();    
 	static float getScale();
 
+
+	static void clearAllKeys();
+	static void clearKeyAction(const string& keyName);
+	static void addKeyAction(const string& keyName, const string& actionName);
+#if use_gamepad
+	static void clearAllButtons();
+	static void clearButtonAction(const string& buttonName);
+	static void addButtonAction(const string& buttonName, const string& actionName);
+#endif
+
 	static void setFullscreen(bool fs);
 	static void setVsync(bool v);
 	static void setMultithread(bool v);

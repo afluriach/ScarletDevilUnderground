@@ -270,6 +270,15 @@ const vector<string> Inst::luaIncludes = {
 			.addStaticFunction("setUnlockAllEquips", &App::setUnlockAllEquips)
 			.addStaticFunction("loadProfile", &App::loadProfile)
 			.addStaticFunction("saveProfile", &App::saveProfile)
+
+			.addStaticFunction("clearAllKeys", &App::clearAllKeys)
+			.addStaticFunction("clearKeyAction", &App::clearKeyAction)
+			.addStaticFunction("addKeyAction", &App::addKeyAction)
+#if use_gamepad
+			.addStaticFunction("clearAllButtons", &App::clearAllButtons)
+			.addStaticFunction("clearButtonAction", &App::clearButtonAction)
+			.addStaticFunction("addButtonAction", &App::addButtonAction)
+#endif
 		.endClass()
 
 #define __cls AttributeSystem

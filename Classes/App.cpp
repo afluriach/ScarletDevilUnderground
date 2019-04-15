@@ -76,6 +76,38 @@ mutex App::audioMutex;
 App* App::appInst;
 bool App::logTimers = false;
 
+void App::clearAllKeys()
+{
+	control_register->clearAllKeys();
+}
+
+void App::clearKeyAction(const string& keyName)
+{
+	control_register->clearKeyAction(keyName);
+}
+
+void App::addKeyAction(const string& keyName, const string& actionName)
+{
+	control_register->addKeyAction(keyName, actionName);
+}
+
+#if use_gamepad
+void App::clearAllButtons()
+{
+	control_register->clearAllButtons();
+}
+
+void App::clearButtonAction(const string& buttonName)
+{
+	control_register->clearButtonAction(buttonName);
+}
+
+void App::addButtonAction(const string& buttonName, const string& actionName)
+{
+	control_register->addButtonAction(buttonName, actionName);
+}
+#endif
+
 void App::setFullscreen(bool fs)
 {
 	fullscreen = fs;
@@ -349,6 +381,9 @@ App::App()
 	fileUtils->init();
 	FileUtils::setDelegate(fileUtils);
 
+	//Activate key register.
+	control_register = make_unique<ControlRegister>();
+
     //Initialize Lua
 	lua = make_unique<Lua::Inst>("app");
 	lua->runFile("scripts/init.lua");    
@@ -415,9 +450,6 @@ bool App::applicationDidFinishLaunching() {
     director->setAnimationInterval(secondsPerFrame);
 
     loadShaders();
-
-    //Activate key register.
-    control_register = make_unique<ControlRegister>();
    
 	crntState = make_unique<GState>();
 	io::getProfiles();

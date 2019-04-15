@@ -13,6 +13,7 @@
 #include "functional.hpp"
 #include "GScene.hpp"
 #include "macros.h"
+#include "util.h"
 
 const bool ControlRegister::logKeyEvents = false;
 const bool ControlRegister::logButtons = false;
@@ -155,7 +156,7 @@ const unordered_map<string, EventKeyboard::KeyCode> ControlRegister::keyNameMap 
 
 #define entry(x) { #x, ControlAction::x }
 
-const unordered_map<string, ControlAction> actionNameMap = {
+const unordered_map<string, ControlAction> ControlRegister::actionNameMap = {
 	entry(pause),
 	entry(scriptConsole),
 	entry(displayMode),
@@ -413,6 +414,58 @@ ControlInfo ControlRegister::getControlInfo()
 
 	return result;
 }
+
+void ControlRegister::clearAllKeys()
+{
+	keyActionMap.clear();
+}
+
+void ControlRegister::clearKeyAction(const string& keyName)
+{
+	EventKeyboard::KeyCode code = getOrDefault(keyNameMap, keyName, EventKeyboard::KeyCode::end);
+
+	if (code != EventKeyboard::KeyCode::end) {
+		keyActionMap.erase(code);
+	}
+}
+
+void ControlRegister::addKeyAction(const string& keyName, const string& actionName)
+{
+	EventKeyboard::KeyCode code = getOrDefault(keyNameMap, keyName, EventKeyboard::KeyCode::end);
+	ControlAction action = getOrDefault(actionNameMap, actionName, ControlAction::end);
+
+	if (code != EventKeyboard::KeyCode::end && action != ControlAction::end) {
+		emplaceIfEmpty(keyActionMap, code, ControlActionState());
+		keyActionMap.at(code) |= make_enum_bitfield(action);
+	}
+}
+
+#if use_gamepad
+void ControlRegister::clearAllButtons()
+{
+	buttonActionMap.clear();
+}
+
+void ControlRegister::clearButtonAction(const string& buttonName)
+{
+	gainput::PadButton button = getOrDefault(buttonNameMap, buttonName, gainput::PadButton::PadButtonMax_);
+
+	if (button != gainput::PadButton::PadButtonMax_) {
+		buttonActionMap.erase(button);
+	}
+}
+
+void ControlRegister::addButtonAction(const string& buttonName, const string& actionName)
+{
+	gainput::PadButton button = getOrDefault(buttonNameMap, buttonName, gainput::PadButton::PadButtonMax_);
+	ControlAction action = getOrDefault(actionNameMap, actionName, ControlAction::end);
+
+	if (button != gainput::PadButton::PadButtonMax_ && action != ControlAction::end) {
+		emplaceIfEmpty(buttonActionMap, button, ControlActionState());
+		buttonActionMap.at(button) |= make_enum_bitfield(action);
+	}
+}
+#endif
 
 ControlState ControlRegister::getControlState()
 {
