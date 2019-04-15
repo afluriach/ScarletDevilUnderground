@@ -63,6 +63,96 @@ const unordered_map<EventKeyboard::KeyCode, ControlActionState> ControlRegister:
 	key_action_1(KEY_RIGHT_SHIFT, walk),
 };
 
+#define entry(x) { #x, EventKeyboard::KeyCode::KEY_ ## x}
+
+const unordered_map<string, EventKeyboard::KeyCode> ControlRegister::keyNameMap = {
+	entry(ESCAPE),
+	entry(BACKSPACE),
+	entry(TAB),
+	entry(RETURN),
+	entry(CAPS_LOCK),
+	entry(SHIFT),
+	entry(LEFT_SHIFT),
+	entry(RIGHT_SHIFT),
+	entry(CTRL),
+	entry(LEFT_CTRL),
+	entry(RIGHT_CTRL),
+	entry(ALT),
+	entry(LEFT_ALT),
+	entry(RIGHT_ALT),
+	entry(HOME),
+	entry(PG_UP),
+	entry(END),
+	entry(PG_DOWN),
+	entry(LEFT_ARROW),
+	entry(RIGHT_ARROW),
+	entry(UP_ARROW),
+	entry(DOWN_ARROW),
+	entry(F1),
+	entry(F2),
+	entry(F3),
+	entry(F4),
+	entry(F5),
+	entry(F6),
+	entry(F7),
+	entry(F8),
+	entry(F9),
+	entry(F10),
+	entry(F11),
+	entry(F12),
+	entry(SPACE),
+	entry(APOSTROPHE),
+	entry(COMMA),
+	entry(MINUS),
+	entry(PERIOD),
+	entry(SLASH),
+	entry(0),
+	entry(1),
+	entry(2),
+	entry(3),
+	entry(4),
+	entry(5),
+	entry(6),
+	entry(7),
+	entry(8),
+	entry(9),
+	entry(SEMICOLON),
+	entry(EQUAL),
+	entry(LEFT_BRACKET),
+	entry(BACK_SLASH),
+	entry(RIGHT_BRACKET),
+	entry(BACKTICK),
+	entry(A),
+	entry(B),
+	entry(C),
+	entry(D),
+	entry(E),
+	entry(F),
+	entry(G),
+	entry(H),
+	entry(I),
+	entry(J),
+	entry(K),
+	entry(L),
+	entry(M),
+	entry(N),
+	entry(O),
+	entry(P),
+	entry(Q),
+	entry(R),
+	entry(S),
+	entry(T),
+	entry(U),
+	entry(V),
+	entry(W),
+	entry(X),
+	entry(Y),
+	entry(Z),
+	entry(ENTER),
+};
+
+#undef entry
+
 #if use_gamepad
 
 #define button_action_1(button_id,action_id) {gainput::PadButton::button_id, make_enum_bitfield(ControlAction::action_id)}
@@ -90,7 +180,30 @@ const unordered_map<gainput::PadButton, ControlActionState> ControlRegister::but
 	button_action_1(PadButtonL3, centerLook),
 	button_action_1(PadButtonR3, fireMode),
 };
-#endif
+
+#define entry(x) { #x, gainput::PadButton::PadButton ## x }
+
+const unordered_map <string, gainput::PadButton > ControlRegister::buttonNameMap = {
+	entry(Start),
+	entry(Select),
+	entry(Left),
+	entry(Right),
+	entry(Up),
+	entry(Down),
+	entry(A),
+	entry(B),
+	entry(X),
+	entry(Y),
+	entry(L1),
+	entry(R1),
+	entry(L2),
+	entry(R2),
+	entry(L3),
+	entry(R3),
+};
+
+#undef entry
+#endif //use_gamepad
 
 ControlRegister::ControlRegister()
 #if use_gamepad
