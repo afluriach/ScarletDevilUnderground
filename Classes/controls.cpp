@@ -212,8 +212,11 @@ const unordered_map<gainput::PadButton, ControlActionState> ControlRegister::def
 	button_action_2(PadButtonA,interact,menuSelect),
 	button_action_3(PadButtonB, menuBack,dialogSkip, bomb),
 
-	button_action_1(PadButtonL1, walk),
+	button_action_1(PadButtonL1, sprint),
 	button_action_1(PadButtonR1, sprint),
+
+	button_action_1(PadButtonL2, walk),
+	button_action_1(PadButtonR2, fire),
 
 	button_action_1(PadButtonX, spell),
 	button_action_1(PadButtonY, powerAttack),
@@ -386,9 +389,6 @@ void ControlRegister::updateVectors()
 
         right_stick.x = gamepad->GetFloat(gainput::PadButtonRightStickX);
         right_stick.y = gamepad->GetFloat(gainput::PadButtonRightStickY);
-
-		if (gamepad->GetFloat(gainput::PadButtonAxis5) >= triggerDeadzone)
-			bitset_enum_set(isActionPressed, ControlAction::fire, true);
     }
     #endif
     
