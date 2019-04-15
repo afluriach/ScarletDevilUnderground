@@ -55,7 +55,7 @@ enum class ControlAction
 	aim_pad_left,
 
 	sprint,
-	walk,
+	focus,
 
 	end
 };

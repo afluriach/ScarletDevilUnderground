@@ -60,8 +60,8 @@ const unordered_map<EventKeyboard::KeyCode, ControlActionState> ControlRegister:
 	key_action_1(KEY_RIGHT_CTRL, fire),
 	key_action_1(KEY_LEFT_ALT, sprint),
 	key_action_1(KEY_RIGHT_ALT, sprint),
-	key_action_1(KEY_LEFT_SHIFT, walk),
-	key_action_1(KEY_RIGHT_SHIFT, walk),
+	key_action_1(KEY_LEFT_SHIFT, focus),
+	key_action_1(KEY_RIGHT_SHIFT, focus),
 };
 
 #define entry(x) { #x, EventKeyboard::KeyCode::KEY_ ## x}
@@ -194,7 +194,7 @@ const unordered_map<string, ControlAction> ControlRegister::actionNameMap = {
 	entry(aim_pad_left),
 
 	entry(sprint),
-	entry(walk),
+	entry(focus),
 };
 
 #undef entry
@@ -215,7 +215,7 @@ const unordered_map<gainput::PadButton, ControlActionState> ControlRegister::def
 	button_action_1(PadButtonL1, sprint),
 	button_action_1(PadButtonR1, sprint),
 
-	button_action_1(PadButtonL2, walk),
+	button_action_1(PadButtonL2, focus),
 	button_action_1(PadButtonR2, fire),
 
 	button_action_1(PadButtonX, spell),

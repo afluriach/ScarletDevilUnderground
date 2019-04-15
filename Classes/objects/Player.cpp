@@ -189,14 +189,14 @@ void Player::checkMovementControls(const ControlInfo& cs)
 		isAutoLookToggled = true;
 	}
 
-	if (cs.isControlActionPressed(ControlAction::walk)) {
+	if (cs.isControlActionPressed(ControlAction::focus)) {
 		space->setBulletBodiesVisible(true);
 	}
-	else if (cs.isControlActionReleased(ControlAction::walk)) {
+	else if (cs.isControlActionReleased(ControlAction::focus)) {
 		space->setBulletBodiesVisible(false);
 	}
 
-	setFocusMode(cs.isControlActionDown(ControlAction::walk) && !isSprintActive);
+	setFocusMode(cs.isControlActionDown(ControlAction::focus) && !isSprintActive);
 
     SpaceVect moveDir = cs.left_v;
 	SpaceVect facing = isAutoLook && cs.right_v.lengthSq() < ControlRegister::deadzone2 || 
@@ -345,7 +345,7 @@ void Player::checkBombControls(const ControlInfo& cs)
 	{
 		SpaceVect bombPos = getPos() + SpaceVect::ray(1.5, getAngle());
 		SpaceVect bombVel = getVel();
-		if(cs.isControlActionDown(ControlAction::walk))
+		if(cs.isControlActionDown(ControlAction::focus))
 			bombVel += SpaceVect::ray(bombThrowSpeed, getAngle());
 
 		if (canPlaceBomb(bombPos)) {
