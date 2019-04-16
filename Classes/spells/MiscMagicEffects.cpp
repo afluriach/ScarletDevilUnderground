@@ -15,6 +15,19 @@
 #include "GSpace.hpp"
 #include "MiscMagicEffects.hpp"
 #include "Player.hpp"
+#include "SpellUtil.hpp"
+
+RadiusEffect::RadiusEffect(gobject_ref target, DamageInfo damage, SpaceFloat radius, GType type) :
+	MagicEffect(target),
+	damage(damage),
+	radius(radius),
+	type(type)
+{}
+
+void RadiusEffect::update()
+{
+	radialEffectArea(target.get(), radius, type, damage);
+}
 
 FreezeStatusEffect::FreezeStatusEffect(gobject_ref target) :
 	MagicEffect(target, 0.0f)

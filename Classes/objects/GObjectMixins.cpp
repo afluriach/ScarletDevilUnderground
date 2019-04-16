@@ -118,7 +118,9 @@ void ParametricMotion::_update()
 
 void ImageSprite::initializeGraphics()
 {
-    loadImageSprite(imageSpritePath(), sceneLayer());
+	string res = imageSpritePath();
+	if(!res.empty())
+		loadImageSprite(res, sceneLayer());
 }
 
 void LoopAnimationSprite::initializeGraphics()

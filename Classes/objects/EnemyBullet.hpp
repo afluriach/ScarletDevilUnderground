@@ -165,6 +165,27 @@ public:
 	virtual void update();
 };
 
+class RumiaDarknessBullet :
+	public EnemyBullet,
+	public ShieldBullet,
+	public BulletImpl,
+	public RadialLightObject
+{
+public:
+	static const bullet_properties props;
+
+	RumiaDarknessBullet(
+		GSpace* space,
+		ObjectIDType id,
+		const SpaceVect& pos,
+		SpaceFloat angle,
+		object_ref<Agent> agent
+	);
+
+	virtual CircleLightArea getLightSource() const;
+};
+
+
 #undef cons
 
 #endif /* Bullet_hpp */

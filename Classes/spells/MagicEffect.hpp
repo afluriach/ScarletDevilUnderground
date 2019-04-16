@@ -22,6 +22,7 @@ public:
 		expired,
 	};
 
+	inline MagicEffect(gobject_ref target) : MagicEffect(target, 0.0f) {}
 	MagicEffect(gobject_ref target, float magnitude);
 
 	inline virtual ~MagicEffect() {}

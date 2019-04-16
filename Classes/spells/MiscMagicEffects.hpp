@@ -14,6 +14,20 @@
 class Agent;
 class RedFairy;
 
+class RadiusEffect : public MagicEffect
+{
+public:
+	RadiusEffect(gobject_ref target, DamageInfo damage, SpaceFloat radius, GType type);
+
+	inline virtual void init() {}
+	virtual void update();
+	inline virtual void end() {}
+protected:
+	DamageInfo damage;
+	SpaceFloat radius;
+	GType type;
+};
+
 class FreezeStatusEffect : public MagicEffect
 {
 public:

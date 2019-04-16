@@ -14,6 +14,7 @@
 #include "EnemyBullet.hpp"
 #include "GSpace.hpp"
 #include "MagicEffect.hpp"
+#include "MiscMagicEffects.hpp"
 
 #define cons(x) x::x(GSpace* space, ObjectIDType id, const SpaceVect& pos, SpaceFloat angle, object_ref<Agent> agent) : \
     GObject(space, id, "", pos, angle), \
@@ -286,4 +287,47 @@ void RumiaDemarcation2Bullet::update()
 	GObject::update();
 
 	setVel(SpaceVect::ray(getMaxSpeed(), getAngle()));
+}
+
+const bullet_properties RumiaDarknessBullet::props = {
+	0.1,
+	6.0,
+	0.2,
+	DamageInfo{15.0f,Attribute::darknessDamage,DamageType::bullet},
+	0.83,
+	"",
+	Color3B::BLACK,
+	-1,
+	0,
+	true
+};
+
+RumiaDarknessBullet::RumiaDarknessBullet(
+	GSpace* space,
+	ObjectIDType id,
+	const SpaceVect& pos,
+	SpaceFloat angle,
+	object_ref<Agent> agent
+) :
+	GObject(space, id, "", pos, angle),
+	Bullet(agent),
+	ShieldBullet(agent, false),
+	BulletImpl(&props)
+{
+	addMagicEffect(make_shared<RadiusEffect>(
+		this,
+		DamageInfo{7.5f,Attribute::darknessDamage,DamageType::effectArea},
+		2.0,
+		GType::player
+	));
+}
+
+CircleLightArea RumiaDarknessBullet::getLightSource() const
+{
+	return CircleLightArea{
+		getPos(),
+		2.0,
+		Color4F(0.3f,0.3f,0.3f,-0.5f),
+		0.5
+	};
 }
