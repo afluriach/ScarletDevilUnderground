@@ -34,6 +34,7 @@ enum class ControlAction
 	bomb,
 	power_attack,
 
+	fire_pattern_previous,
 	fire_pattern_next,
 
 	spell_previous,

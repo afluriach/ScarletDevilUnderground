@@ -306,6 +306,15 @@ void Player::checkFireControls(const ControlInfo& cs)
 			attributeSystem.modifyAttribute(Attribute::stamina, -fireCost);
 		}
 	}
+	else if (cs.isControlActionPressed(ControlAction::fire_pattern_previous) && getFirePattern()) {
+		if (firePatternIdx > 0)
+			--firePatternIdx;
+		else
+			firePatternIdx = firePatterns.size() - 1;
+		firePattern = firePatterns.at(firePatternIdx);
+
+		space->addHudAction(&HUD::setFirePatternIcon, firePattern->iconPath());
+	}
 	else if (cs.isControlActionPressed(ControlAction::fire_pattern_next) && getFirePattern()) {
 		++firePatternIdx;
 		if (firePatternIdx >= firePatterns.size())
