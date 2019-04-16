@@ -17,7 +17,7 @@
 class EnemyBullet : virtual public Bullet
 {
 public:
-	EnemyBullet(object_ref<Agent> agent);
+	inline EnemyBullet() {}
 	inline virtual ~EnemyBullet() {}
 
 	virtual inline GType getType() const { return GType::enemyBullet; }
