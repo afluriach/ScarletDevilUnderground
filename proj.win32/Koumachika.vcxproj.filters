@@ -375,6 +375,9 @@
     <ClCompile Include="..\Classes\Resources.cpp">
       <Filter>src</Filter>
     </ClCompile>
+    <ClCompile Include="..\Classes\ControlMapping.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="main.h">
@@ -717,6 +720,9 @@
       <Filter>src\ai</Filter>
     </ClInclude>
     <ClInclude Include="..\Classes\Resources.hpp">
+      <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\ControlAssignment.h">
       <Filter>src</Filter>
     </ClInclude>
   </ItemGroup>

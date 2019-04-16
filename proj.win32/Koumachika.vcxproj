@@ -155,6 +155,7 @@ xcopy "$(ProjectDir)..\Resources" "$(OutDir)" /D /E /I /F /Y</Command>
     <ClCompile Include="..\Classes\ai\StateMapping.cpp" />
     <ClCompile Include="..\Classes\App.cpp" />
     <ClCompile Include="..\Classes\Attributes.cpp" />
+    <ClCompile Include="..\Classes\ControlMapping.cpp" />
     <ClCompile Include="..\Classes\controls.cpp" />
     <ClCompile Include="..\Classes\Dialog.cpp" />
     <ClCompile Include="..\Classes\FileIO.cpp" />
@@ -275,6 +276,7 @@ xcopy "$(ProjectDir)..\Resources" "$(OutDir)" /D /E /I /F /Y</Command>
     <ClInclude Include="..\Classes\ai\RoomSensorFunctions.hpp" />
     <ClInclude Include="..\Classes\App.h" />
     <ClInclude Include="..\Classes\Attributes.hpp" />
+    <ClInclude Include="..\Classes\ControlAssignment.h" />
     <ClInclude Include="..\Classes\controls.h" />
     <ClInclude Include="..\Classes\Dialog.hpp" />
     <ClInclude Include="..\Classes\enum.h" />
