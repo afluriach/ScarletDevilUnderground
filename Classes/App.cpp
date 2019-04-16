@@ -394,6 +394,10 @@ App::App()
 
 	baseDataPath = FileUtils::getInstance()->getWritablePath();
 	GState::initProfiles();
+
+	if (FileUtils::getInstance()->isFileExist(io::getControlMappingPath())) {
+		control_register->applyControlSettings(io::loadTextFile(io::getControlMappingPath()));
+	}
 }
 
 App::~App() 

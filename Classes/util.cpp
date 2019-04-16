@@ -181,15 +181,18 @@ string getRealPath(const string& path)
     return FileUtils::getInstance()->fullPathForFilename(path);
 }
 
-string loadTextFile(const string& res)
-{
-    return FileUtils::getInstance()->getStringFromFile(res);
-}
-
 vector<string> splitString(const string& input,const string& sep)
 {
     vector<string> output;
     boost::split(output, input,boost::is_any_of(sep));
+	output.erase(
+		remove_if(
+			output.begin(),
+			output.end(),
+			[](string s) -> bool { return s.empty(); }
+		),
+		output.end()
+	);
     return output;
 }
 

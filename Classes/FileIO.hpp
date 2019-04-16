@@ -21,9 +21,12 @@ set<string> getFileNamesInFolder(const string& filepath);
 set<string> getProfiles();
 set<string> getReplays();
 
+string loadTextFile(const string& res);
+
 void checkCreateSubfolders();
 string getProfilePath();
 string getReplayFolderPath();
+string getControlMappingPath();
 
 unique_ptr<GState> loadProfileState(string name);
 bool saveProfileState(const GState* state, string path);

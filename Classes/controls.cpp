@@ -331,10 +331,10 @@ SpaceVect ControlRegister::getKeyboardMovePadVector()
 {
 	SpaceVect result;
 
-	bool up    = isKeyDown(EventKeyboard::KeyCode::KEY_W);
-	bool down  = isKeyDown(EventKeyboard::KeyCode::KEY_S);
-	bool left  = isKeyDown(EventKeyboard::KeyCode::KEY_A);
-	bool right = isKeyDown(EventKeyboard::KeyCode::KEY_D);
+	bool up    = isControlAction(ControlAction::move_up);
+	bool down  = isControlAction(ControlAction::move_down);
+	bool left  = isControlAction(ControlAction::move_left);
+	bool right = isControlAction(ControlAction::move_right);
 
 	if (up && !down) result.y = 1;
 	if (down && !up) result.y = -1;
@@ -348,10 +348,10 @@ SpaceVect ControlRegister::getKeyboardAimPadVector()
 {
 	SpaceVect result;
 
-	bool up    = isKeyDown(EventKeyboard::KeyCode::KEY_UP_ARROW);
-	bool down  = isKeyDown(EventKeyboard::KeyCode::KEY_DOWN_ARROW);
-	bool left  = isKeyDown(EventKeyboard::KeyCode::KEY_LEFT_ARROW);
-	bool right = isKeyDown(EventKeyboard::KeyCode::KEY_RIGHT_ARROW);
+	bool up    = isControlAction(ControlAction::aim_up);
+	bool down  = isControlAction(ControlAction::aim_down);
+	bool left  = isControlAction(ControlAction::aim_left);
+	bool right = isControlAction(ControlAction::aim_right);
 
 	if (up && !down) result.y = 1;
 	if (down && !up) result.y = -1;
@@ -391,6 +391,8 @@ void ControlRegister::updateVectors()
         right_stick.y = gamepad->GetFloat(gainput::PadButtonRightStickY);
     }
     #endif
+
+	if (southpaw) swap(left_stick, right_stick);
     
     left_vector = (left_stick.length() >= deadzone) ? left_stick : getKeyboardMovePadVector();
 
@@ -413,6 +415,61 @@ ControlInfo ControlRegister::getControlInfo()
 	result.right_v = right_vector;
 
 	return result;
+}
+
+void ControlRegister::applyControlSettings(const string& input)
+{
+	vector<string> lines = splitString(input, "\r\n");
+
+	for (const string& line : lines)
+	{
+		vector<string> tokens = splitString(line, " \t");
+
+		if (tokens.empty() || boost::starts_with(tokens.at(0), "#") || boost::starts_with(tokens.at(0), "//"))
+			continue;
+		string front = tokens.at(0);
+
+		if (boost::iequals(front, "clear") && tokens.size() == 3) {
+			if (boost::iequals(tokens.at(1), "key")) {
+				clearKeyAction(tokens.at(2));
+			}
+			else if (boost::iequals(tokens.at(1), "button")) {
+				clearButtonAction(tokens.at(2));
+			}
+		}
+		else if (boost::iequals(front, "key") && tokens.size() > 2) {
+			handleControlAssignment<EventKeyboard::KeyCode>(
+				keyActionMap,
+				keyNameMap,
+				line,
+				tokens,
+				EventKeyboard::KeyCode::end,
+				"keycode"
+			);
+		}
+		else if (boost::iequals(front, "button") && tokens.size() > 2) {
+			handleControlAssignment<gainput::PadButton>(
+				buttonActionMap,
+				buttonNameMap,
+				line,
+				tokens,
+				gainput::PadButton::PadButtonMax_,
+				"gamepad button"
+			);
+		}
+		else if (boost::iequals(front, "southpaw") && tokens.size() >= 2) {
+			southpaw = boost::iequals(tokens.at(1), "true");
+		}
+		else if (boost::iequals(front, "clear_all_keys")) {
+			clearAllKeys();
+		}
+		else if (boost::iequals(front, "clear_all_buttons")) {
+			clearAllButtons();
+		}
+		else {
+			log("control_mapping.txt: invalid line %s", line.c_str());
+		}
+	}
 }
 
 void ControlRegister::clearAllKeys()

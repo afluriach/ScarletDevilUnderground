@@ -60,7 +60,6 @@ void timerIncrement(SpaceFloat& x);
 void timerIncrement(SpaceFloat& x, const SpaceFloat& scale);
 
 string getRealPath(const string& path);
-string loadTextFile(const string& res);
 vector<string> splitString(const string& input,const string& sep);
 
 string getTimeString(unsigned int millis);

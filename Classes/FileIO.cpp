@@ -148,6 +148,11 @@ set<string> getReplays()
 	return getFileNamesInFolder(getReplayFolderPath());
 }
 
+string loadTextFile(const string& res)
+{
+	return FileUtils::getInstance()->getStringFromFile(res);
+}
+
 void checkCreateSubfolders()
 {
 	auto* f = FileUtils::getInstance();
@@ -171,6 +176,11 @@ string getProfilePath()
 string getReplayFolderPath()
 {
 	return App::getBaseDataPath() + "replays/";
+}
+
+string getControlMappingPath()
+{
+	return App::getBaseDataPath() + "control_mapping.txt";
 }
 
 unique_ptr<GState> loadProfileState(string name)

@@ -11,6 +11,7 @@
 #include "App.h"
 #include "controls.h"
 #include "Dialog.hpp"
+#include "FileIO.hpp"
 #include "Graphics.h"
 #include "GScene.hpp"
 #include "GState.hpp"
@@ -34,7 +35,7 @@ Dialog::~Dialog()
 
 void Dialog::setDialog(const string& res)
 {
-    processDialogFile(loadTextFile(res));
+    processDialogFile(io::loadTextFile(res));
     
     frameNum = 0;
     runFrame();
