@@ -130,7 +130,9 @@ namespace boost {
 	template<>
 	inline bool lexical_cast(const string& s)
 	{
-		return boost::iequals(s, "true");
+		if (boost::iequals(s, "true") || s == "1") return true;
+		else if (boost::iequals(s, "false") || s == "0") return false;
+		else throw boost::bad_lexical_cast();
 	}
 }
 
