@@ -47,6 +47,57 @@ const vector<string> App::soundFiles = {
 	"sfx/shot.wav",
 };
 
+template<typename T>
+tuple<T> parse(const vector<string>& _v, int idx)
+{
+	return tuple<T>(boost::lexical_cast<T>(_v.at(idx)));
+}
+
+template <typename Crnt, typename Next, typename... Rest>
+tuple<Crnt, Next, Rest...> parse(const vector<string>& _v, int idx)
+{
+	return tuple_cat(
+		parse<Crnt>(_v, idx),
+		parse<Next, Rest...>(_v, idx + 1)
+	);
+}
+
+template<typename... T>
+void callAdapter(function<void(T...)> static_method, vector<string> tokens)
+{
+	size_t n_args = tuple_size<tuple<T...>>::value;
+
+	if (tokens.empty()) {
+		log("callAdapter: empty input");
+		return;
+	}
+	else if (tokens.size() - 1 != n_args) {
+		log("callAdapter: %d arguments expected, %d found", n_args, tokens.size() - 1);
+		return;
+	}
+
+	tuple<T...> args = parse<T...>(tokens, 1);
+	variadic_call<void>(static_method, args);
+}
+
+template<typename... T>
+InterfaceFunction makeInterfaceFunction( function<void(T...)> static_method )
+{
+	return [static_method](const vector<string>& tokens)->void {
+		callAdapter(static_method, tokens);
+	};
+}
+
+#define entry(x) { #x , makeInterfaceFunction(function(&App::x))}
+
+const unordered_map<string, InterfaceFunction> App::interfaceFuntions = {
+	entry(setFramerate),
+	entry(setFullscreen),
+	entry(setMultithread),
+	entry(setResolution),
+	entry(setVsync),
+};
+
 unsigned int App::width = 1600;
 unsigned int App::height = 1000;
 
@@ -394,6 +445,7 @@ App::App()
 
 	baseDataPath = FileUtils::getInstance()->getWritablePath();
 	GState::initProfiles();
+	loadConfigFile();
 
 	if (FileUtils::getInstance()->isFileExist(io::getControlMappingPath())) {
 		control_register->applyControlSettings(io::loadTextFile(io::getControlMappingPath()));
@@ -660,6 +712,40 @@ void App::update(float dt)
 #if USE_TIMERS
 	updateTimerSystem();
 #endif
+}
+
+void App::loadConfigFile()
+{
+	string filepath = io::getConfigFilePath();
+	string file;
+
+	if (FileUtils::getInstance()->isFileExist(filepath)) {
+		file = io::loadTextFile(filepath);
+		log("Loading \"%s\"", filepath.c_str());
+	}
+	else {
+		log("config.txt not found");
+		return;
+	}
+
+	vector<string> lines = splitString(file, "\n\r");
+
+	for (string line : lines)
+	{
+		vector<string> tokens = splitString(line, " \t");
+		if (tokens.empty() || isComment(tokens.at(0)))
+			continue;
+
+		auto it = interfaceFuntions.find(tokens.at(0));
+		if (it != interfaceFuntions.end()) {
+			try {
+				it->second(tokens);
+			}
+			catch (boost::bad_lexical_cast e) {
+				log("config.txt: invalid line \"%s\".", line.c_str());
+			}
+		}
+	}
 }
 
 #if USE_TIMERS

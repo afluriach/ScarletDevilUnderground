@@ -183,6 +183,11 @@ string getControlMappingPath()
 	return App::getBaseDataPath() + "control_mapping.txt";
 }
 
+string getConfigFilePath()
+{
+	return App::getBaseDataPath() + "config.txt";
+}
+
 unique_ptr<GState> loadProfileState(string name)
 {
 	string profilePath = io::getProfilePath() + name + ".profile";

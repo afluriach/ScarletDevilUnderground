@@ -27,6 +27,7 @@ void checkCreateSubfolders();
 string getProfilePath();
 string getReplayFolderPath();
 string getControlMappingPath();
+string getConfigFilePath();
 
 unique_ptr<GState> loadProfileState(string name);
 bool saveProfileState(const GState* state, string path);

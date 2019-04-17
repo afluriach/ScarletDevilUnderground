@@ -24,6 +24,8 @@ class TimerSystem;
 
 #define USE_TIMERS 1
 
+typedef function<void(const vector<string>&)> InterfaceFunction;
+
 class  App : private Application
 {
 public:
@@ -62,6 +64,7 @@ public:
     
     static const vector<string> shaderFiles;
 	static const vector<string> soundFiles;
+	static const unordered_map<string, InterfaceFunction> interfaceFuntions;
     
 	static Vec2 getScreenCenter();    
 	static float getScale();
@@ -182,6 +185,7 @@ protected:
 	virtual void applicationWillEnterForeground();
 
     void update(float dt);
+	void loadConfigFile();
 #if USE_TIMERS
 	void updateTimerSystem();
 #endif

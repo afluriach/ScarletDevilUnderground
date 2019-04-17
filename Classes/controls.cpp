@@ -194,7 +194,7 @@ void ControlRegister::applyControlSettings(const string& input)
 	{
 		vector<string> tokens = splitString(line, " \t");
 
-		if (tokens.empty() || boost::starts_with(tokens.at(0), "#") || boost::starts_with(tokens.at(0), "//"))
+		if (tokens.empty() || isComment(tokens.at(0)))
 			continue;
 		string front = tokens.at(0);
 
@@ -227,7 +227,7 @@ void ControlRegister::applyControlSettings(const string& input)
 			);
 		}
 		else if (boost::iequals(front, "southpaw") && tokens.size() >= 2) {
-			southpaw = boost::iequals(tokens.at(1), "true");
+			southpaw = boost::lexical_cast<bool>(tokens.at(1));
 		}
 		else if (boost::iequals(front, "clear_all_keys")) {
 			clearAllKeys();

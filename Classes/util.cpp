@@ -196,6 +196,11 @@ vector<string> splitString(const string& input,const string& sep)
     return output;
 }
 
+bool isComment(const string& s)
+{
+	return boost::starts_with(s, "#") || boost::starts_with(s, "//");
+}
+
 string getTimeString(unsigned int millis)
 {
 	unsigned int seconds = millis / 1000;

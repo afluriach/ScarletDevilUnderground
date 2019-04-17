@@ -710,7 +710,7 @@ FollowPath::FollowPath(GSpace* space, const ValueMap& args)
 		path = *p;
 	}
 
-	if (loop_it != args.end() && boost::iequals(loop_it->second.asString(), "true")) {
+	if (loop_it != args.end() && boost::lexical_cast<bool>(loop_it->second.asString())) {
 		loop = true;
 	}
 }

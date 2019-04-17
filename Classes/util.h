@@ -61,6 +61,7 @@ void timerIncrement(SpaceFloat& x, const SpaceFloat& scale);
 
 string getRealPath(const string& path);
 vector<string> splitString(const string& input,const string& sep);
+bool isComment(const string& s);
 
 string getTimeString(unsigned int millis);
 string floatToStringOptionalDecimal(float val);
@@ -123,6 +124,14 @@ constexpr inline bitset<size> make_bitfield(size_t idx)
 	bitset<size> result;
 	result[idx] = true;
 	return result;
+}
+
+namespace boost {
+	template<>
+	inline bool lexical_cast(const string& s)
+	{
+		return boost::iequals(s, "true");
+	}
 }
 
 boost::icl::interval_map<float, int> makeIntervalMap(const vector<float_pair>& intervals);
