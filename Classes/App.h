@@ -24,8 +24,6 @@ class TimerSystem;
 
 #define USE_TIMERS 1
 
-typedef function<void(const vector<string>&)> InterfaceFunction;
-
 class  App : private Application
 {
 public:

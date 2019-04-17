@@ -47,47 +47,6 @@ const vector<string> App::soundFiles = {
 	"sfx/shot.wav",
 };
 
-template<typename T>
-tuple<T> parse(const vector<string>& _v, int idx)
-{
-	return tuple<T>(boost::lexical_cast<T>(_v.at(idx)));
-}
-
-template <typename Crnt, typename Next, typename... Rest>
-tuple<Crnt, Next, Rest...> parse(const vector<string>& _v, int idx)
-{
-	return tuple_cat(
-		parse<Crnt>(_v, idx),
-		parse<Next, Rest...>(_v, idx + 1)
-	);
-}
-
-template<typename... T>
-void callAdapter(function<void(T...)> static_method, vector<string> tokens)
-{
-	size_t n_args = tuple_size<tuple<T...>>::value;
-
-	if (tokens.empty()) {
-		log("callAdapter: empty input");
-		return;
-	}
-	else if (tokens.size() - 1 != n_args) {
-		log("callAdapter: %d arguments expected, %d found", n_args, tokens.size() - 1);
-		return;
-	}
-
-	tuple<T...> args = parse<T...>(tokens, 1);
-	variadic_call<void>(static_method, args);
-}
-
-template<typename... T>
-InterfaceFunction makeInterfaceFunction( function<void(T...)> static_method )
-{
-	return [static_method](const vector<string>& tokens)->void {
-		callAdapter(static_method, tokens);
-	};
-}
-
 #define entry(x) { #x , makeInterfaceFunction(function(&App::x))}
 
 const unordered_map<string, InterfaceFunction> App::interfaceFuntions = {

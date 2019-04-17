@@ -34,6 +34,7 @@ typedef unsigned int SpriteID;
 typedef unsigned int ObjectIDType;
 
 typedef function<void(void)> zero_arity_function;
+typedef function<void(const vector<string>&)> InterfaceFunction;
 
 typedef function<GObject*(GSpace*, ObjectIDType)> ObjectGeneratorType;
 typedef function<FiniteTimeAction*()> ActionGeneratorType;
