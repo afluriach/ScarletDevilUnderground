@@ -446,7 +446,7 @@ bool AttributeSystem::canApplyAttribute(Attribute id, float x)
 	case Attribute::mp:
 		return attributes.at(to_size_t(Attribute::mp)) < attributes.at(to_size_t(Attribute::maxMP));
 	default:
-		log("AttributeSystem::canApplyAttribute: invalid attribute %d.", id);
+		log("AttributeSystem::canApplyAttribute: invalid attribute %d.", to_int(id));
 		return true;
 	}
 }

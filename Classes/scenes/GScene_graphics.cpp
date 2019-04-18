@@ -103,7 +103,7 @@ void GScene::removeLightSource(LightID id)
 		lightmapNodes.erase(it);
 	}
 	else {
-		log("removeLightSource: unknown light source %u.", id);
+		log("removeLightSource: unknown light source %u.", to_uint(id));
 	}
 	lightmapNoise.erase(id);
 }

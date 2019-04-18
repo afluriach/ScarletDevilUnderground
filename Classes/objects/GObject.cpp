@@ -545,7 +545,7 @@ void GObject::updateMagicEffects()
 			magicEffectsToRemove.push_back(*it);
 			break;
 		default:
-			log("Invalid MagicEffect state %d", _crntEffect->crntState);
+			log("Invalid MagicEffect state %d", to_int(_crntEffect->crntState));
 			break;
 		}
 	}

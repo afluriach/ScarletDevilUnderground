@@ -505,7 +505,7 @@ AttributeMap Player::getAttributeUpgrades() const
 void Player::applyAttributeModifier(Attribute id, float val)
 {
 	if (id >= Attribute::end) {
-		log("invalid attribute %d", id);
+		log("invalid attribute %d", to_int(id));
 		return;
 	}
 

@@ -29,6 +29,8 @@ THE SOFTWARE.
 #include "base/CCDirector.h"
 
 // standard includes
+#include <iostream>
+#include <sstream>
 #include <string>
 
 #include "2d/CCDrawingPrimitives.h"
@@ -110,6 +112,8 @@ Director::Director()
 : _isStatusLabelUpdated(true),
 renderTimesBuffer(60)
 {
+	std::string path = FileUtils::getInstance()->getWritablePath() + std::string("log.txt");
+	log_ofs.open(path, std::ofstream::app | std::ofstream::ate);
 }
 
 bool Director::init(void)
@@ -206,6 +210,13 @@ Director::~Director(void)
     Configuration::destroyInstance();
 
     s_SharedDirector = nullptr;
+}
+
+void Director::logOutput(std::string s)
+{
+	logMutex.lock();
+	outputBuffer.push_back(s);
+	logMutex.unlock();
 }
 
 void Director::setDefaultValues(void)
@@ -1358,6 +1369,26 @@ void DisplayLinkDirector::mainLoop()
     {
         drawScene();
      
+		std::vector<std::string> _outbuf;
+		std::stringstream ss;
+		std::string result;
+		bool _print = false;
+
+		logMutex.lock();
+		std::swap(_outbuf, outputBuffer);
+		logMutex.unlock();
+
+		for (string s : _outbuf)
+		{
+			ss << s << std::endl;
+			_print = true;
+		}
+		result = ss.str();
+		if (_print && !result.empty()) {
+			cocos2d::log("%s", result.c_str());
+			log_ofs << result << std::endl;
+		}
+
         // release the objects
         PoolManager::getInstance()->getCurrentPool()->clear();
     }

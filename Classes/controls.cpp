@@ -133,7 +133,7 @@ SpaceVect ControlRegister::getKeyboardAimPadVector()
 void ControlRegister::onKeyDown(EventKeyboard::KeyCode code, Event* event)
 {
     if(logKeyEvents)
-        log("%d pressed", code);
+        log("%d pressed", to_int(code));
     
 	keysDown.insert(code);
 }
@@ -141,7 +141,7 @@ void ControlRegister::onKeyDown(EventKeyboard::KeyCode code, Event* event)
 void ControlRegister::onKeyUp(EventKeyboard::KeyCode code, Event* event)
 {
     if(logKeyEvents)
-        log("%d released", code);
+        log("%d released", to_int(code));
     
 	keysDown.erase(code);
 }
@@ -340,12 +340,12 @@ void ControlRegister::checkCallbacks()
     {
         if(!bitset_enum_index(wasActionPressed,action) && bitset_enum_index(isActionPressed,action)){
 			if (logActionState)
-				log("Action %d pressed.", action);
+				log("Action %d pressed.", to_int(action));
 
 			auto s = onPressedID[to_size_t(action)];
 			for (auto it = s.begin(); it != s.end(); ++it) {
 				if (logActionState)
-					log("Calling on press callback %ud.", *it);
+					log("Calling on press callback %ud.", to_uint(*it));
 				if(isCallbackActive.at(*it))
 					onPressedCallback[*it]();
 			}
@@ -353,12 +353,12 @@ void ControlRegister::checkCallbacks()
         
         else if(bitset_enum_index(wasActionPressed,action) && !bitset_enum_index(isActionPressed,action)){
 			if (logActionState)
-				log("Action %d released.", action);
+				log("Action %d released.", to_int(action));
 			
 			auto s = onReleasedID[to_size_t(action)];
 			for (auto it = s.begin(); it != s.end(); ++it) {
 				if (logActionState)
-					log("Calling on release callback %ud.", *it);
+					log("Calling on release callback %ud.", to_uint(*it));
 				if (isCallbackActive.at(*it))
 					onReleasedCallback[*it]();
 			}
@@ -402,7 +402,7 @@ void ControlRegister::logGamepadButtons()
     enum_foreach(gainput::PadButton, button_id, PadButtonStart, PadButtonMax_)
     {
         if(gamepad->GetBool(button_id)){
-            log("Gamepad button %d pressed", button_id);
+            log("Gamepad button %d pressed", to_int(button_id));
         }
     }
 }

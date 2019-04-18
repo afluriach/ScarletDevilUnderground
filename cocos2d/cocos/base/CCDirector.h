@@ -29,6 +29,7 @@ THE SOFTWARE.
 #define __CCDIRECTOR_H__
 
 #include <chrono>
+#include <fstream>
 #include <stack>
 
 #include <boost/circular_buffer.hpp>
@@ -144,6 +145,8 @@ public:
      */
     virtual ~Director();
     virtual bool init();
+
+	void logOutput(std::string s);
 
     // attribute
 
@@ -561,6 +564,9 @@ protected:
     float _accumDt;
     float _frameRate;
 	boost::circular_buffer<std::chrono::duration<long, std::micro>> renderTimesBuffer;
+	std::vector<std::string> outputBuffer;
+	std::ofstream log_ofs;
+	std::mutex logMutex;
     
     LabelAtlas *_FPSLabel;
     LabelAtlas *_drawnBatchesLabel;

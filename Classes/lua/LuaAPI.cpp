@@ -82,7 +82,7 @@ const vector<string> Inst::luaIncludes = {
         loadLibraries();
         
         if(logInst)
-            cocos2d::log("Lua Inst created: %s.", name.c_str());        
+            log("Lua Inst created: %s.", name.c_str());        
     }
     
     Inst::~Inst()
@@ -90,7 +90,7 @@ const vector<string> Inst::luaIncludes = {
         lua_close(state);
         
         if(logInst)
-            cocos2d::log("Lua Inst closed: %s.", name.c_str());
+            log("Lua Inst closed: %s.", name.c_str());
     }
     
     void Inst::loadLibraries()

@@ -45,7 +45,7 @@ PlayScene* PlayScene::runScene(ChamberID id)
 	auto it = adapters.find(id);
 
 	if (it == adapters.end()) {
-		log("runScene: invalid chamber ID %d", id);
+		log("runScene: invalid chamber ID %d", to_int(id));
 		return nullptr;
 	}
 	else

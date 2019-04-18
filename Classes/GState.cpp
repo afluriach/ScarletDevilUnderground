@@ -62,7 +62,7 @@ void GState::registerChamberAvailable(ChamberID id)
 		chambersAvailable.at(to_size_t(id)) = true;
 	}
 	else {
-		log("GState::registerChamberAvailable: invalid ID %d", id);
+		log("GState::registerChamberAvailable: invalid ID %d", to_int(id));
 	}
 }
 
@@ -72,7 +72,7 @@ void GState::_registerChamberCompleted(int id) {
 		stats.timesCompleted = max<unsigned char>(stats.timesCompleted, 1);
 	}
 	else {
-		log("GState::_registerChamberCompleted: invalid ID %d", id);
+		log("GState::_registerChamberCompleted: invalid ID %d", to_int(id));
 	}
 }
 
@@ -82,7 +82,7 @@ bool GState::isChamberAvailable(ChamberID id)
 		return chambersAvailable.at(to_size_t(id));
 	}
 	else {
-		log("GState::isChamberAvailable: invalid ID %d", id);
+		log("GState::isChamberAvailable: invalid ID %d", to_int(id));
 		return false;
 	}
 }
@@ -93,7 +93,7 @@ bool GState::isChamberCompleted(ChamberID id)
 		return chamberStats.at(to_size_t(id)).timesCompleted > 0;
 	}
 	else {
-		log("GState::isChamberCompleted: invalid ID %d", id);
+		log("GState::isChamberCompleted: invalid ID %d", to_int(id));
 		return false;
 	}
 }
@@ -146,7 +146,7 @@ void GState::registerUpgrade(Attribute at, unsigned int id)
 bool GState::isUpgradeAcquired(Attribute at, unsigned int id)
 {
 	if (id >= upgrades.upgrades.size()) {
-		log("Invalid upgrade id %s, attribute %d", id, at);
+		log("Invalid upgrade id %s, attribute %d", to_int(id), to_int(at));
 		return false;
 	}
 	return upgrades.upgrades.at(to_size_t(at))[id];

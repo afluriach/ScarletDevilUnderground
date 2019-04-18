@@ -99,4 +99,15 @@ using namespace std;
 USING_NS_CC;
 using namespace luabridge;
 
+template<typename... T>
+void log_print(string s, T... args)
+{
+	boost::format fmt(s);
+	string result = boost::str((fmt % ... % forward<T>(args)));
+
+	Director::getInstance()->logOutput(result);
+}
+
+#define log log_print
+
 #endif /* Prefix_h */
