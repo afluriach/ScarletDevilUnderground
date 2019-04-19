@@ -91,7 +91,7 @@ public:
 
 	cons(FlandreFastOrb1);
 
-	virtual inline CircleLightArea getLightSource() const { return CircleLightArea{ getPos(), 2.0, Color4F::RED*0.5f, 0.0 }; }
+	virtual CircleLightArea getLightSource() const;
 };
 
 class FlanPolarBullet :

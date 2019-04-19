@@ -20,6 +20,7 @@ FirePatternGeneratorType factoryAdapter()
 }
 
 const unordered_map<string, FirePatternGeneratorType> FirePattern::playerFirePatterns = {
+	{ "MagicMissile", factoryAdapter<MagicMissile>() },
 	{ "Catadioptric", factoryAdapter<Catadioptric>() },
 	{ "ScarletDagger", factoryAdapter<ScarletDaggerPattern>() },
 	{ "StarbowBreak", factoryAdapter<StarbowBreak>() },

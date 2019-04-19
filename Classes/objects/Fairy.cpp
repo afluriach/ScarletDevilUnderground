@@ -45,7 +45,7 @@ void GhostFairy::initStateMachine(ai::StateMachine& fsm)
 	fsm.addDetectFunction(
 		GType::player,
 		[](ai::StateMachine& sm, GObject* target) -> void {
-			sm.addThread(make_shared<ai::MaintainDistance>(target, 4.5f, 1.5f));
+			sm.addThread(make_shared<ai::Flank>(target, 4.0, 0.75));
 			sm.addThread(make_shared<ai::FireAtTarget>(target));
 		}
 	);

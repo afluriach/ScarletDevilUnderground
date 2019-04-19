@@ -14,6 +14,12 @@
 #include "PlayerBullet.hpp"
 #include "PlayerFirePattern.hpp"
 
+MagicMissile::MagicMissile(Agent *const agent, int level) :
+	SingleBulletFixedIntervalPattern(agent),
+	FirePattern(agent)
+{
+}
+
 const float StarbowBreak::baseDamage = 2.0f;
 const float StarbowBreak::baseCost = 1.0f;
 const float StarbowBreak::baseFireInterval = 1.0f / 5.0f;

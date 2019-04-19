@@ -169,6 +169,10 @@ const bullet_properties FlandreFastOrb1::props = {
 
 cons(FlandreFastOrb1)
 
+CircleLightArea FlandreFastOrb1::getLightSource() const {
+	return CircleLightArea{ getPos(), 2.0, hsva4F(45.0f, 0.75f, 0.5f), 0.0 };
+}
+
 const bullet_properties FlanPolarBullet::props = {
 	0.1,
 	0.0,

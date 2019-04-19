@@ -16,9 +16,19 @@ typedef BulletImplPattern<PlayerBulletImpl> PlayerBulletImplPattern;
 
 enum class PlayerFirePatternID
 {
+	magicMissile,
 	starbowBreak,
 	catadioptric,
 	scarletDagger,
+};
+
+class MagicMissile : public SingleBulletFixedIntervalPattern, public FirePatternImpl<FlandreFastOrb1>
+{
+public:
+	MagicMissile(Agent *const agent, int level);
+
+	inline virtual string iconPath() const { return "sprites/ui/magic_missile.png"; }
+	inline virtual float getCooldownTime() { return 0.125f; }
 };
 
 class StarbowBreak : public FirePattern

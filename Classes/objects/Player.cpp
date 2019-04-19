@@ -78,6 +78,8 @@ void Player::equipFirePatterns()
 {
 	firePatterns.clear();
 
+	firePatterns.push_back(make_shared<MagicMissile>(this,0));
+
 	for (auto entry : FirePattern::playerFirePatterns)
 	{
 		if (space->getState()->hasItem(entry.first)) {

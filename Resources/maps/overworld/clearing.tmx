@@ -9,17 +9,14 @@
  <tileset firstgid="6" name="tree" tilewidth="128" tileheight="128" tilecount="4" columns="2">
   <image source="../tree.png" width="256" height="256"/>
  </tileset>
- <tileset firstgid="10" name="spatter" tilewidth="128" tileheight="128" tilecount="4" columns="4">
-  <image source="../spatter.png" width="512" height="128"/>
- </tileset>
- <tileset firstgid="14" name="dirt path vertical" tilewidth="128" tileheight="128" tilecount="1" columns="1">
+ <tileset firstgid="10" name="dirt path vertical" tilewidth="128" tileheight="128" tilecount="1" columns="1">
   <image source="../dirt path vertical.png" width="128" height="128"/>
  </tileset>
- <tileset firstgid="15" name="block_wall_dark_grey" tilewidth="128" tileheight="128" tilecount="16" columns="4">
-  <image source="../block_wall_dark_grey.png" width="512" height="512"/>
- </tileset>
- <tileset firstgid="31" name="fence" tilewidth="128" tileheight="128" tilecount="4" columns="2">
+ <tileset firstgid="11" name="fence" tilewidth="128" tileheight="128" tilecount="4" columns="2">
   <image source="../fence.png" width="256" height="256"/>
+ </tileset>
+ <tileset firstgid="15" name="block_wall" tilewidth="128" tileheight="128" tilecount="1" columns="1">
+  <image source="../block_wall.png" width="128" height="128"/>
  </tileset>
  <layer name="grass" width="48" height="48">
   <data encoding="base64" compression="zlib">
@@ -33,12 +30,12 @@
  </layer>
  <layer name="gate" width="48" height="48">
   <data encoding="base64" compression="zlib">
-   eJzt0NEJACAMQ8FuIrr/kA5RsAbuIP+PVAEAAPDSai7dmQ5o0j8rvT9d+v/6Z0337+YAAADgZxe48wUR
+   eJzt0EEKACAMA8HeRf//XB9RsAZmIPclVQAAALy0mkt3pgOa9M9K70+X/r/+WdP9uzkAAAD42QWpjQHx
   </data>
  </layer>
  <layer name="path v" width="48" height="48">
   <data encoding="base64" compression="zlib">
-   eJzt0sENACEMxEAquP7LvRpgI7xI9j/JCLFWTx8NCNPPpp9NP5t+tkZ/o2kn/Wz62fSz6WfTz6bfkl5/f/1s+tn0s7X4Tx36Z9LP3E/n9c/s0c/cn5pPa/Tv7NQ/380/Sf//NP1srf4f6/MDnQ==
+   eJzt0sENACEMxEDe13/BVwNshBfJ/icZIdbq6aMBYfrZ9LPpZ9PP1uhvNO2kn00/m342/Wz62fRb0uvvr59NP5t+thb/qUP/TPqZ++m8/pk9+pn7U/Npjf6dnfrnu/kn6f+fpp+t1f8DjkIClQ==
   </data>
  </layer>
  <layer name="path h" width="48" height="48">
