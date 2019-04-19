@@ -72,13 +72,13 @@ inline function<void(void)> generate_action(T* _this, void (T::*m)(Args...), Arg
 }
 
 template<typename T>
-tuple<T> parse(const vector<string>& _v, int idx)
+inline tuple<T> parse(const vector<string>& _v, int idx)
 {
 	return tuple<T>(boost::lexical_cast<T>(_v.at(idx)));
 }
 
 template <typename Crnt, typename Next, typename... Rest>
-tuple<Crnt, Next, Rest...> parse(const vector<string>& _v, int idx)
+inline tuple<Crnt, Next, Rest...> parse(const vector<string>& _v, int idx)
 {
 	return tuple_cat(
 		parse<Crnt>(_v, idx),
@@ -87,7 +87,7 @@ tuple<Crnt, Next, Rest...> parse(const vector<string>& _v, int idx)
 }
 
 template<typename... T>
-void callAdapter(function<void(T...)> static_method, vector<string> tokens)
+inline void callAdapter(function<void(T...)> static_method, vector<string> tokens)
 {
 	size_t n_args = tuple_size<tuple<T...>>::value;
 
@@ -104,12 +104,24 @@ void callAdapter(function<void(T...)> static_method, vector<string> tokens)
 	variadic_call<void>(static_method, args);
 }
 
-template<typename... T>
-InterfaceFunction makeInterfaceFunction(function<void(T...)> static_method)
+inline void voidCallAdapter(function<void(void)> static_method, vector<string> tokens)
 {
-	return [static_method](const vector<string>& tokens)->void {
-		callAdapter(static_method, tokens);
-	};
+	static_method();
+}
+
+template<typename... T>
+inline InterfaceFunction makeInterfaceFunction(function<void(T...)> static_method)
+{
+	if constexpr(tuple_size<tuple<T...>>::value > 0) {
+		return [static_method](const vector<string>& tokens)->void {
+			callAdapter(static_method, tokens);
+		};
+	}
+	else {
+		return [static_method](const vector<string>& tokens)->void {
+			voidCallAdapter(static_method, tokens);
+		};
+	}
 }
 
 #endif /* functional_h */
