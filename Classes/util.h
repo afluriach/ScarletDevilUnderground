@@ -66,6 +66,22 @@ bool isComment(const string& s);
 string getTimeString(unsigned int millis);
 string floatToStringOptionalDecimal(float val);
 
+template<typename V>
+V getOrDefaultLowerCase(const unordered_map<string, V>& _map, const string& _key, const V& _default)
+{
+	string s = boost::to_lower_copy(_key);
+	auto it = _map.find(s);
+	return it != _map.end() ? it->second : _default;
+}
+
+template<typename V>
+V getOrDefaultUpperCase(const unordered_map<string, V>& _map, const string& _key, const V& _default)
+{
+	string s = boost::to_upper_copy(_key);
+	auto it = _map.find(s);
+	return it != _map.end() ? it->second : _default;
+}
+
 template<typename K, typename V>
 V getOrDefault(const unordered_map<K, V>& _map, const K& _key, const V& _default)
 {

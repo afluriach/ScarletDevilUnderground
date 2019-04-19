@@ -22,7 +22,7 @@ inline void handleControlAssignment(
 	E _end,
 	string typeName
 ){
-	E keyButton = getOrDefault(nameMap, tokens.at(1), _end);
+	E keyButton = getOrDefaultUpperCase(nameMap, tokens.at(1), _end);
 	if (keyButton == _end) {
 		log("control_mapping.txt: Unknown %s: %s", typeName.c_str(), tokens.at(1));
 		return;
@@ -37,7 +37,7 @@ inline void handleControlAssignment(
 	bool valid = true;
 
 	for (size_t i = 2; i < tokens.size(); ++i) {
-		ControlAction action = getOrDefault(ControlRegister::actionNameMap, tokens.at(i), ControlAction::end);
+		ControlAction action = getOrDefaultLowerCase(ControlRegister::actionNameMap, tokens.at(i), ControlAction::end);
 		if (action == ControlAction::end) {
 			valid = false;
 			log("control_mapping.txt: Unknown ControlAction %s", tokens.at(i).c_str());

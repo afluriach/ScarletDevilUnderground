@@ -262,7 +262,7 @@ void ControlRegister::clearAllKeys()
 
 void ControlRegister::clearKeyAction(const string& keyName)
 {
-	EventKeyboard::KeyCode code = getOrDefault(keyNameMap, keyName, EventKeyboard::KeyCode::end);
+	EventKeyboard::KeyCode code = getOrDefaultUpperCase(keyNameMap, keyName, EventKeyboard::KeyCode::end);
 
 	if (code != EventKeyboard::KeyCode::end) {
 		keyActionMap.erase(code);
@@ -271,8 +271,8 @@ void ControlRegister::clearKeyAction(const string& keyName)
 
 void ControlRegister::addKeyAction(const string& keyName, const string& actionName)
 {
-	EventKeyboard::KeyCode code = getOrDefault(keyNameMap, keyName, EventKeyboard::KeyCode::end);
-	ControlAction action = getOrDefault(actionNameMap, actionName, ControlAction::end);
+	EventKeyboard::KeyCode code = getOrDefaultUpperCase(keyNameMap, keyName, EventKeyboard::KeyCode::end);
+	ControlAction action = getOrDefaultLowerCase(actionNameMap, actionName, ControlAction::end);
 
 	if (code != EventKeyboard::KeyCode::end && action != ControlAction::end) {
 		emplaceIfEmpty(keyActionMap, code, ControlActionState());
@@ -288,7 +288,7 @@ void ControlRegister::clearAllButtons()
 
 void ControlRegister::clearButtonAction(const string& buttonName)
 {
-	gainput::PadButton button = getOrDefault(buttonNameMap, buttonName, gainput::PadButton::PadButtonMax_);
+	gainput::PadButton button = getOrDefaultUpperCase(buttonNameMap, buttonName, gainput::PadButton::PadButtonMax_);
 
 	if (button != gainput::PadButton::PadButtonMax_) {
 		buttonActionMap.erase(button);
@@ -297,8 +297,8 @@ void ControlRegister::clearButtonAction(const string& buttonName)
 
 void ControlRegister::addButtonAction(const string& buttonName, const string& actionName)
 {
-	gainput::PadButton button = getOrDefault(buttonNameMap, buttonName, gainput::PadButton::PadButtonMax_);
-	ControlAction action = getOrDefault(actionNameMap, actionName, ControlAction::end);
+	gainput::PadButton button = getOrDefaultUpperCase(buttonNameMap, buttonName, gainput::PadButton::PadButtonMax_);
+	ControlAction action = getOrDefaultLowerCase(actionNameMap, actionName, ControlAction::end);
 
 	if (button != gainput::PadButton::PadButtonMax_ && action != ControlAction::end) {
 		emplaceIfEmpty(buttonActionMap, button, ControlActionState());

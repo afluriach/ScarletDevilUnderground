@@ -148,8 +148,6 @@ const unordered_map<string, EventKeyboard::KeyCode> ControlRegister::keyNameMap 
 
 const unordered_map<string, ControlAction> ControlRegister::actionNameMap = {
 	entry(pause),
-	entry(scriptConsole),
-	entry(displayMode),
 
 	entry(menu_select),
 	entry(menu_back),
@@ -168,8 +166,6 @@ const unordered_map<string, ControlAction> ControlRegister::actionNameMap = {
 
 	entry(spell_previous),
 	entry(spell_next),
-
-	entry(powerAttackNext),
 
 	entry(center_look),
 	entry(fire_mode),
