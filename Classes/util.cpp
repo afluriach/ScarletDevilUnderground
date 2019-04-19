@@ -77,6 +77,7 @@ Direction stringToDirection(string str)
     enum_strcmp(right)
     enum_strcmp(left)
     enum_strcmp(down)
+	enum_strcmp(none)
     
     log("Invalid direction: %s", str.c_str());
     return Direction::none;
