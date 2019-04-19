@@ -33,7 +33,7 @@
  <objectgroup name="objects">
   <object id="83" type="Spellcard" x="1024" y="1024" width="128" height="128">
    <properties>
-    <property name="spellName" value="Catadioptric"/>
+    <property name="spell" value="Catadioptric"/>
    </properties>
   </object>
  </objectgroup>

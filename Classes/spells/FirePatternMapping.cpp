@@ -19,8 +19,8 @@ FirePatternGeneratorType factoryAdapter()
 	};
 }
 
-const unordered_map<PlayerFirePatternID, FirePatternGeneratorType> FirePattern::playerFirePatterns = {
-	{ PlayerFirePatternID::catadioptric, factoryAdapter<Catadioptric>() },
-	{ PlayerFirePatternID::scarletDagger, factoryAdapter<ScarletDaggerPattern>() },
-	{ PlayerFirePatternID::starbowBreak, factoryAdapter<StarbowBreak>() },
+const unordered_map<string, FirePatternGeneratorType> FirePattern::playerFirePatterns = {
+	{ "Catadioptric", factoryAdapter<Catadioptric>() },
+	{ "ScarletDagger", factoryAdapter<ScarletDaggerPattern>() },
+	{ "StarbowBreak", factoryAdapter<StarbowBreak>() },
 };

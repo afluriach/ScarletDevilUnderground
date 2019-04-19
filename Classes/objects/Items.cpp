@@ -9,6 +9,7 @@
 #include "Prefix.h"
 
 #include "App.h"
+#include "FirePattern.hpp"
 #include "GSpace.hpp"
 #include "GState.hpp"
 #include "Items.hpp"
@@ -54,7 +55,8 @@ Spellcard::Spellcard(GSpace* space, ObjectIDType id, const ValueMap& args) :
 	if (name.empty()) {
 		log("Spellcard, name not provided.");
 	}
-	else if (!Spell::getDescriptorByName(name)) {
+	else if (!Spell::getDescriptorByName(name) &&
+		FirePattern::playerFirePatterns.find(name)  == FirePattern::playerFirePatterns.end()) {
 		log("Descriptor not found for %s!", name.c_str());
 	}
 }
@@ -80,4 +82,5 @@ void Spellcard::onAcquire()
 	space->getState()->itemRegistry.insert(name);
 	space->removeObject(this);
 	space->getObjectAs<Player>("player")->equipSpells();
+	space->getObjectAs<Player>("player")->equipFirePatterns();
 }

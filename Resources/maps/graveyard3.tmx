@@ -426,7 +426,7 @@
   </object>
   <object id="335" type="Spellcard" x="3200" y="1024" width="128" height="128">
    <properties>
-    <property name="spellName" value="StarbowBreak"/>
+    <property name="spell" value="StarbowBreak"/>
    </properties>
   </object>
  </objectgroup>

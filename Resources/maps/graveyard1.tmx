@@ -86,10 +86,9 @@
   <object id="116" x="5504" y="2176" width="896" height="128"/>
   <object id="117" x="2048" y="128" width="128" height="896"/>
   <object id="118" x="2048" y="4480" width="128" height="896"/>
-  <object id="122" x="3328" y="8576" width="1024" height="128"/>
   <object id="123" x="4224" y="6528" width="128" height="2048"/>
   <object id="124" x="3328" y="6528" width="896" height="128"/>
-  <object id="125" x="2176" y="8576" width="1024" height="128"/>
+  <object id="125" x="2176" y="8576" width="2176" height="128"/>
   <object id="126" x="2176" y="6528" width="128" height="2048"/>
   <object id="127" x="2304" y="6528" width="896" height="128"/>
   <object id="130" x="4480" y="6400" width="2048" height="128"/>
@@ -132,7 +131,6 @@
  <objectgroup name="objects">
   <object id="119" type="BreakableWall" x="5376" y="4224" width="128" height="128"/>
   <object id="120" type="BreakableWall" x="5376" y="4352" width="128" height="128"/>
-  <object id="121" type="ChamberEntrance" x="3200" y="8576" width="128" height="128"/>
   <object id="131" type="Goal" x="1024" y="1024" width="128" height="128"/>
   <object id="142" name="player" type="Player" x="3200" y="8448" width="128" height="128"/>
   <object id="178" name="rumia" type="Rumia" x="3200" y="3200" width="128" height="128"/>

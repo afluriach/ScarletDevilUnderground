@@ -80,10 +80,12 @@ void Player::equipFirePatterns()
 
 	for (auto entry : FirePattern::playerFirePatterns)
 	{
-		shared_ptr<FirePattern> pattern = entry.second(this, 0);
+		if (space->getState()->hasItem(entry.first)) {
+			shared_ptr<FirePattern> pattern = entry.second(this, 0);
 
-		if (pattern) {
-			firePatterns.push_back(pattern);
+			if (pattern) {
+				firePatterns.push_back(pattern);
+			}
 		}
 	}
 
