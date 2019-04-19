@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.0" tiledversion="1.0.3" orientation="orthogonal" renderorder="right-down" width="51" height="51" tilewidth="128" tileheight="128" nextobjectid="185">
+<map version="1.0" tiledversion="1.0.3" orientation="orthogonal" renderorder="right-down" width="51" height="51" tilewidth="128" tileheight="128" nextobjectid="200">
  <tileset firstgid="1" name="wall" tilewidth="128" tileheight="128" tilecount="4" columns="2">
   <image source="../fence.png" width="256" height="256"/>
  </tileset>
@@ -75,6 +75,33 @@
     <property name="dest_map" value="graveyard"/>
     <property name="dir" value="up"/>
     <property name="path" value="true"/>
+   </properties>
+  </object>
+  <object id="185" x="2816" y="4992" width="256" height="256"/>
+  <object id="186" x="3456" y="5632" width="256" height="256"/>
+  <object id="187" x="3456" y="4992" width="256" height="256"/>
+  <object id="188" x="2816" y="5632" width="256" height="256"/>
+  <object id="189" x="640" y="5632" width="256" height="256"/>
+  <object id="190" x="1280" y="5632" width="256" height="256"/>
+  <object id="191" x="640" y="4992" width="256" height="256"/>
+  <object id="192" x="1280" y="4992" width="256" height="256"/>
+  <object id="193" type="StaminaUpgrade" x="1024" y="5376" width="128" height="128">
+   <properties>
+    <property name="id" value="1"/>
+   </properties>
+  </object>
+  <object id="194" type="GhostHeadstone" x="5312" y="2304" width="256" height="256">
+   <properties>
+    <property name="cost" value="4"/>
+   </properties>
+  </object>
+  <object id="195" type="GhostFairyNPC" x="3200" y="5376" width="128" height="128"/>
+  <object id="196" type="GhostFairyNPC" x="5376" y="5376" width="128" height="128"/>
+  <object id="197" type="GhostFairyNPC" x="5376" y="3200" width="128" height="128"/>
+  <object id="198" type="GhostFairyNPC" x="1024" y="3200" width="128" height="128"/>
+  <object id="199" type="AttackSpeedUpgrade" x="5376" y="1024" width="128" height="128">
+   <properties>
+    <property name="id" value="1"/>
    </properties>
   </object>
  </objectgroup>

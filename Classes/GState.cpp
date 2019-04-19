@@ -187,21 +187,36 @@ void GState::setUpgradeLevels(int level)
 	if (level >= 1)
 	{
 		registerUpgrade(Attribute::maxHP, 2);
+		registerUpgrade(Attribute::maxStamina, 0);
+
+		itemRegistry.insert("PlayerBatMode");
 	}
 
 	if (level >= 2)
 	{
 		registerUpgrade(Attribute::maxMP, 1);
 		registerUpgrade(Attribute::agility, 1);
+		registerUpgrade(Attribute::bulletSpeed, 0);
+
+		registerUpgrade(Attribute::attackSpeed, 1);
+		registerUpgrade(Attribute::stamina, 1);
+
+		itemRegistry.insert("ScarletDagger");
+		itemRegistry.insert("Catadioptric");
 	}
 
 	if (level >= 3)
 	{
-		registerUpgrade(Attribute::maxHP, 1);
+		registerUpgrade(Attribute::shieldLevel, 1);
+
+		itemRegistry.insert("StarbowBreak");
 	}
 
 	if (level >= 4)
 	{
-		registerUpgrade(Attribute::attack, 1);
+		registerUpgrade(Attribute::attackSpeed, 0);
+		registerUpgrade(Attribute::bulletSpeed, 1);
+
+		itemRegistry.insert("PlayerCounterClock");
 	}
 }

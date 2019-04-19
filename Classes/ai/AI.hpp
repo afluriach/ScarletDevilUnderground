@@ -123,10 +123,8 @@ public:
     void removeThread(unsigned int uuid);
     //Remove thread(s) that have the given main function.
     void removeThread(const string& mainName);
-	void removeCompletedThreads();
 	bool isThreadRunning(const string& mainName);
-	void applyAddThreads();
-	void applyRemoveThreads();
+	int getThreadCount();
 
     void onDetect(GObject* obj);
 	void onEndDetect(GObject* obj);
@@ -154,6 +152,10 @@ public:
 	Thread* getCrntThread();
     string toString();
 protected:
+	void applyAddThreads();
+	void applyRemoveThreads();
+	void removeCompletedThreads();
+
 	unordered_set<unsigned int> threadsToRemove;
 	list<shared_ptr<Thread>> threadsToAdd;
 

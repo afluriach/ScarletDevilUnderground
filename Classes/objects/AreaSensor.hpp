@@ -92,14 +92,16 @@ public:
 	unsigned int activateAllSpawners();
 	unsigned int activateSpawners(type_index t, unsigned int count);
 	inline SpaceFloat getTimeInRoom()const { return timeInRoom; }
-
-	void spawnKey();
+	inline bool getCleared() const { return isCleared; }
 	
 	const int mapID;
 protected:
+	bool isClearedState();
+
 	vector<string> trapDoorNames;
 	string spawnOnClear;
 
+	unordered_set<int> multiSpawnRooms;
 	unordered_set<ActivateableObject*> doors;
 	unordered_set<Spawner*> spawners;
 	unordered_map<type_index, vector<Spawner*>> spawnersByType;
@@ -108,9 +110,8 @@ protected:
 	string bossName;
 	object_ref<Enemy> boss;
 
-	string keyWaypointName;
+	bool isCleared = false;
 	bool isBossActive = false;
-	bool isKeyDrop = false;
 	bool isTrapActive = false;
 };
 

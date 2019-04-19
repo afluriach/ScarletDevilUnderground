@@ -287,6 +287,11 @@ GObject* GSpace::getObject(unsigned int uuid) const
 	return it != objByUUID.end() ? it->second : nullptr;
 }
 
+RoomSensor* GSpace::getRoomSensor(int id) const
+{
+	return getOrDefault<int,RoomSensor*>(roomSensors, id, nullptr);
+}
+
 const unordered_set<GObject*>* GSpace::getObjectsByType(type_index t) const
 {
 	if(!isTrackedType(t)){
@@ -353,6 +358,10 @@ void GSpace::processAdditions()
 		addVirtualTrack<EnemyBullet>(obj);
 		addVirtualTrack<FloorSegment>(obj);
 		addVirtualTrack<Wall>(obj);
+
+		if (RoomSensor* rs = dynamic_cast<RoomSensor*>(obj)) {
+			roomSensors.insert_or_assign(rs->mapID, rs);
+		}
 
         if(!obj->anonymous)
             objByName[obj->name] = obj;
@@ -430,6 +439,10 @@ void GSpace::processRemoval(GObject* obj, bool _removeSprite)
 	removeVirtualTrack<FloorSegment>(obj);
 	removeVirtualTrack<Wall>(obj);
     
+	if (RoomSensor* rs = dynamic_cast<RoomSensor*>(obj)) {
+		roomSensors.erase(rs->mapID);
+	}
+
 	if (obj->getMass() <= 0.0 && (obj->getType() == GType::environment || obj->getType() == GType::wall)) {
 		removeNavObstacle(obj->getPos(), obj->getDimensions());
 	}

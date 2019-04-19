@@ -256,6 +256,11 @@ bool StateMachine::isThreadRunning(const string& mainName)
 	return false;
 }
 
+int StateMachine::getThreadCount()
+{
+	return current_threads.size();
+}
+
 void StateMachine::applyRemoveThreads()
 {
 	for (unsigned int uuid : threadsToRemove)

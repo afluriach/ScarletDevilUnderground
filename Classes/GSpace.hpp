@@ -22,6 +22,7 @@ class HUD;
 class InteractibleObject;
 class PlayScene;
 class Replay;
+class RoomSensor;
 
 #define OBJS_FROM_ARB \
     GObject* a = static_cast<GObject*>(arb->body_a_private->data); \
@@ -101,6 +102,7 @@ public:
 
 	GObject* getObject(const string& name) const;
 	GObject* getObject(unsigned int uuid) const;
+	RoomSensor* getRoomSensor(int id) const;
 
 	const unordered_set<GObject*>* getObjectsByType(type_index t) const;
 
@@ -261,6 +263,7 @@ private:
 	unordered_map<type_index, unsigned int> totalSpawnCount;
 	unordered_map<type_index, unsigned int> enemiesDefeated;
 	unordered_set<GObject*> updateObjects;
+	unordered_map<int, RoomSensor*> roomSensors;
 	unordered_map<string, ValueMap> dynamicLoadObjects;
 	vector<zero_arity_function> objectMessages;
 

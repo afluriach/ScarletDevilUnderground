@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.0" tiledversion="1.0.3" orientation="orthogonal" renderorder="right-down" width="17" height="17" tilewidth="128" tileheight="128" nextobjectid="94">
+<map version="1.0" tiledversion="1.0.3" orientation="orthogonal" renderorder="right-down" width="17" height="17" tilewidth="128" tileheight="128" nextobjectid="96">
  <properties>
   <property name="ambient_light" value="44,32,48"/>
+  <property name="spawn_on_clear" value="room4_health3 room4_magic3"/>
  </properties>
  <tileset firstgid="1" name="wall" tilewidth="128" tileheight="128" tilecount="4" columns="2">
   <image source="../fence.png" width="256" height="256"/>
@@ -95,5 +96,7 @@
    </properties>
   </object>
   <object id="93" type="DarknessArea" x="128" y="128" width="1920" height="1920"/>
+  <object id="94" name="room4_health3" type="Health3" x="896" y="1024" width="128" height="128"/>
+  <object id="95" name="room4_magic3" type="Magic3" x="1024" y="1152" width="128" height="128"/>
  </objectgroup>
 </map>

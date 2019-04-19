@@ -116,8 +116,20 @@ RoomSensor::RoomSensor(GSpace* space, ObjectIDType id, SpaceVect center, SpaceVe
 	trapDoorNames = splitString(getStringOrDefault(props, "trap_doors", ""), " ");
 	spawnOnClear = getStringOrDefault(props, "spawn_on_clear", "");
 	bossName = getStringOrDefault(props, "boss", "");
-	keyWaypointName = getStringOrDefault(props, "key_drop", "");
-	isKeyDrop = !keyWaypointName.empty();
+
+	string multiSpawn = getStringOrDefault(props, "multi_spawn", "");
+	if (!multiSpawn.empty()) {
+		vector<string> rooms = splitString(multiSpawn, " ");
+		for (string room : rooms) {
+			try {
+				int id = boost::lexical_cast<int>(room);
+				multiSpawnRooms.insert(id);
+			}
+			catch (boost::bad_lexical_cast ex) {
+				log("RoomSensor: invalid multispawn room number %d", id);
+			}
+		}
+	}
 }
 
 void RoomSensor::onPlayerContact(Player* p)
@@ -182,12 +194,16 @@ void RoomSensor::update()
 	if(doors.size() > 0)
 		updateTrapDoors();
 
-	if (isKeyDrop && !keyWaypointName.empty() && player && enemies.empty()) {
-		spawnKey();
-	}
-	else if (!spawnOnClear.empty() && player && enemies.empty()) {
-		space->createDynamicObject(spawnOnClear);
-		spawnOnClear.clear();
+	if (isClearedState() && player) {
+		isCleared = true;
+
+		if (!spawnOnClear.empty() && enemies.empty()) {
+			vector<string> spawns = splitString(spawnOnClear, " ");
+			for (string s : spawns) {
+				space->createDynamicObject(s);
+			}
+			spawnOnClear.clear();
+		}
 	}
 }
 
@@ -274,11 +290,17 @@ unsigned int RoomSensor::activateSpawners(type_index t, unsigned int count)
 	return result;
 }
 
-void RoomSensor::spawnKey()
+bool RoomSensor::isClearedState()
 {
-	SpaceVect point = space->getWaypoint(keyWaypointName);
-	space->createObject(Collectible::create(space, collectible_id::key, point));
-	isKeyDrop = false;
+	bool result = enemies.empty() && fsm.getThreadCount() == 0;
+
+	for (int id : multiSpawnRooms) {
+		RoomSensor* rs = space->getRoomSensor(id);
+		if (rs) {
+			result = result && rs->isCleared;
+		}
+	}
+	return result;
 }
 
 GhostHeadstoneSensor::GhostHeadstoneSensor(GSpace* space, ObjectIDType id, const ValueMap& args) :
