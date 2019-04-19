@@ -58,8 +58,8 @@ const unordered_map<string, InterfaceFunction> App::interfaceFuntions = {
 	entry2(vsync, setVsync),
 
 	//Control register config commands
-	{ "assign_button", &App::assignButton },
-	{ "assign_key", &App::assignKey },
+	{ "button", &App::assignButton },
+	{ "key", &App::assignKey },
 	entry2(clear_all_keys, clearAllKeys),
 	entry2(clear_all_buttons, clearAllButtons),
 	entry2(clear_button, clearButtonAction),
@@ -433,10 +433,6 @@ App::App()
 	baseDataPath = FileUtils::getInstance()->getWritablePath();
 	GState::initProfiles();
 	loadConfigFile();
-
-	if (FileUtils::getInstance()->isFileExist(io::getControlMappingPath())) {
-		control_register->applyControlSettings(io::loadTextFile(io::getControlMappingPath()));
-	}
 }
 
 App::~App() 
