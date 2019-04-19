@@ -207,24 +207,10 @@ void ControlRegister::applyControlSettings(const string& input)
 			}
 		}
 		else if (boost::iequals(front, "key") && tokens.size() > 2) {
-			handleControlAssignment<EventKeyboard::KeyCode>(
-				keyActionMap,
-				keyNameMap,
-				line,
-				tokens,
-				EventKeyboard::KeyCode::end,
-				"keycode"
-			);
+			assignKey(tokens);
 		}
 		else if (boost::iequals(front, "button") && tokens.size() > 2) {
-			handleControlAssignment<gainput::PadButton>(
-				buttonActionMap,
-				buttonNameMap,
-				line,
-				tokens,
-				gainput::PadButton::PadButtonMax_,
-				"gamepad button"
-			);
+			assignButton(tokens);
 		}
 		else if (boost::iequals(front, "southpaw") && tokens.size() >= 2) {
 			southpaw = boost::lexical_cast<bool>(tokens.at(1));
@@ -239,6 +225,34 @@ void ControlRegister::applyControlSettings(const string& input)
 			log("control_mapping.txt: invalid line %s", line.c_str());
 		}
 	}
+}
+
+void ControlRegister::assignButton(const vector<string>& v)
+{
+	string line = boost::join(v, " ");
+
+	handleControlAssignment<gainput::PadButton>(
+		buttonActionMap,
+		buttonNameMap,
+		line,
+		v,
+		gainput::PadButton::PadButtonMax_,
+		"gamepad button"
+	);
+}
+
+void ControlRegister::assignKey(const vector<string>& v)
+{
+	string line = boost::join(v, " ");
+
+	handleControlAssignment<EventKeyboard::KeyCode>(
+		keyActionMap,
+		keyNameMap,
+		line,
+		v,
+		EventKeyboard::KeyCode::end,
+		"keycode"
+	);
 }
 
 void ControlRegister::clearAllKeys()

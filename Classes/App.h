@@ -67,14 +67,16 @@ public:
 	static Vec2 getScreenCenter();    
 	static float getScale();
 
-
+	static void setSouthpaw(bool b);
 	static void clearAllKeys();
-	static void clearKeyAction(const string& keyName);
-	static void addKeyAction(const string& keyName, const string& actionName);
+	static void clearKeyAction(string keyName);
+	static void addKeyAction(string keyName, string actionName);
+	static void assignKey(const vector<string>& v);
 #if use_gamepad
 	static void clearAllButtons();
-	static void clearButtonAction(const string& buttonName);
-	static void addButtonAction(const string& buttonName, const string& actionName);
+	static void clearButtonAction(string buttonName);
+	static void addButtonAction(string buttonName, string actionName);
+	static void assignButton(const vector<string>& v);
 #endif
 
 	static void setFullscreen(bool fs);

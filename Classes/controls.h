@@ -134,6 +134,8 @@ public:
 	ControlInfo getControlInfo();
 
 	void applyControlSettings(const string& input);
+	void assignButton(const vector<string>& v);
+	void assignKey(const vector<string>& v);
 	void clearAllKeys();
 	void clearKeyAction(const string& keyName);
 	void addKeyAction(const string& keyName, const string& actionName);

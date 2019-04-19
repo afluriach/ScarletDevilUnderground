@@ -48,13 +48,25 @@ const vector<string> App::soundFiles = {
 };
 
 #define entry(x) { #x , makeInterfaceFunction(function(&App::x))}
+#define entry2(s,x) { #s , makeInterfaceFunction(function(&App::x))}
 
 const unordered_map<string, InterfaceFunction> App::interfaceFuntions = {
-	entry(setFramerate),
-	entry(setFullscreen),
-	entry(setMultithread),
-	entry(setResolution),
-	entry(setVsync),
+	entry2(framerate, setFramerate),
+	entry2(fullscreen, setFullscreen),
+	entry2(multithread, setMultithread),
+	entry2(resolution, setResolution),
+	entry2(vsync, setVsync),
+
+	//Control register config commands
+	{ "assign_button", &App::assignButton },
+	{ "assign_key", &App::assignKey },
+	entry2(clear_all_keys, clearAllKeys),
+	entry2(clear_all_buttons, clearAllButtons),
+	entry2(clear_button, clearButtonAction),
+	entry2(clear_key, clearKeyAction),
+	entry2(add_key_action, addKeyAction),
+	entry2(add_button_action, addButtonAction),
+	entry2(southpaw, setSouthpaw),
 };
 
 unsigned int App::width = 1600;
@@ -86,19 +98,29 @@ mutex App::audioMutex;
 App* App::appInst;
 bool App::logTimers = false;
 
+void App::setSouthpaw(bool b)
+{
+	control_register->setSouthpaw(b);
+}
+
 void App::clearAllKeys()
 {
 	control_register->clearAllKeys();
 }
 
-void App::clearKeyAction(const string& keyName)
+void App::clearKeyAction(string keyName)
 {
 	control_register->clearKeyAction(keyName);
 }
 
-void App::addKeyAction(const string& keyName, const string& actionName)
+void App::addKeyAction(string keyName, string actionName)
 {
 	control_register->addKeyAction(keyName, actionName);
+}
+
+void App::assignKey(const vector<string>& v)
+{
+	control_register->assignKey(v);
 }
 
 #if use_gamepad
@@ -107,15 +129,21 @@ void App::clearAllButtons()
 	control_register->clearAllButtons();
 }
 
-void App::clearButtonAction(const string& buttonName)
+void App::clearButtonAction(string buttonName)
 {
 	control_register->clearButtonAction(buttonName);
 }
 
-void App::addButtonAction(const string& buttonName, const string& actionName)
+void App::addButtonAction(string buttonName, string actionName)
 {
 	control_register->addButtonAction(buttonName, actionName);
 }
+
+void App::assignButton(const vector<string>& v)
+{
+	control_register->assignButton(v);
+}
+
 #endif
 
 void App::setFullscreen(bool fs)
