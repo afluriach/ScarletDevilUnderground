@@ -39,7 +39,7 @@
     <property name="dir" value="down"/>
    </properties>
   </object>
-  <object id="66" name="rumia" type="Rumia" x="1024" y="1024" width="128" height="128"/>
+  <object id="66" name="rumia" type="Rumia2" x="1024" y="1024" width="128" height="128"/>
   <object id="67" name="goal" type="Goal" x="1024" y="1920" width="128" height="128"/>
  </objectgroup>
 </map>

@@ -15,19 +15,9 @@
 #include "RumiaSpells.hpp"
 #include "value_map.hpp"
 
-const AttributeMap Rumia::baseAttributes = {
-	{ Attribute::maxHP, 50.0f },
-	{ Attribute::maxMP, 5.0f },
-	{ Attribute::speed, 2.0f },
-	{ Attribute::acceleration, 4.0f }
-};
-
 Rumia::Rumia(GSpace* space, ObjectIDType id, const ValueMap& args) :
-	MapObjForwarding(GObject),
-	MapObjForwarding(Agent),
-	Enemy(collectible_id::magic2)
+	Enemy(collectible_id::nil)
 {
-//	firePattern = make_shared<RumiaBurstPattern>(this);
 }
 
 CircleLightArea Rumia::getLightSource() const
@@ -40,7 +30,22 @@ CircleLightArea Rumia::getLightSource() const
 	};
 }
 
-void Rumia::initStateMachine(ai::StateMachine& fsm)
+const AttributeMap Rumia1::baseAttributes = {
+	{ Attribute::maxHP, 50.0f },
+	{ Attribute::maxMP, 5.0f },
+	{ Attribute::speed, 2.0f },
+	{ Attribute::acceleration, 4.0f }
+};
+
+Rumia1::Rumia1(GSpace* space, ObjectIDType id, const ValueMap& args) :
+	MapObjForwarding(GObject),
+	MapObjForwarding(Agent),
+	MapObjForwarding(Rumia)
+{
+	firePattern = make_shared<RumiaBurstPattern>(this);
+}
+
+void Rumia1::initStateMachine(ai::StateMachine& fsm)
 {
 	fsm.addDetectFunction(
 		GType::player,
@@ -57,7 +62,7 @@ void Rumia::initStateMachine(ai::StateMachine& fsm)
 	);
 }
 
-void Rumia::onZeroHP()
+void Rumia1::onZeroHP()
 {
 	space->createDialog("dialogs/rumia2", false);
 	Agent::onZeroHP();
@@ -73,9 +78,9 @@ const AttributeMap Rumia2::baseAttributes = {
 Rumia2::Rumia2(GSpace* space, ObjectIDType id, const ValueMap& args) :
 	MapObjForwarding(GObject),
 	MapObjForwarding(Agent),
-	Enemy(collectible_id::magic2)
+	MapObjForwarding(Rumia)
 {
-	firePattern = make_shared<RumiaBurstPattern>(this);
+	firePattern = make_shared<RumiaBurstPattern2>(this);
 }
 
 void Rumia2::initStateMachine(ai::StateMachine& fsm)

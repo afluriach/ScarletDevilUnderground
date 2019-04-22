@@ -32,6 +32,7 @@ public:
 	static const bullet_properties iceFairyBullet;
 	static const bullet_properties launcherBullet;
 	static const bullet_properties rumiaBullet;
+	static const bullet_properties rumiaBullet2;
 	static const bullet_properties rumiaDemarcationBullet;
 	static const bullet_properties rumiaPinwheelBullet;
 

@@ -89,4 +89,14 @@ public:
 	inline virtual string iconPath() const { return ""; }
 };
 
+class RumiaBurstPattern2 : public BurstPattern, public EnemyBulletImplPattern
+{
+public:
+	RumiaBurstPattern2(Agent *const agent);
+
+	//not relevant for enemy fire patterns
+	inline virtual string iconPath() const { return ""; }
+};
+
+
 #endif /* EnemyFirePattern_hpp */

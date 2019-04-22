@@ -76,6 +76,15 @@ const bullet_properties EnemyBulletImpl::rumiaBullet = {
 	"sprites/rumia_bullet.png",
 };
 
+const bullet_properties EnemyBulletImpl::rumiaBullet2 = {
+	0.1,
+	5.1,
+	0.25,
+	bullet_damage(7.5f),
+	0.83,
+	"sprites/rumia_bullet2.png",
+};
+
 const bullet_properties EnemyBulletImpl::rumiaDemarcationBullet = {
 	0.1,
 	4.5,

@@ -199,7 +199,7 @@ const unordered_map<string, GObject::object_info> GObject::objectInfo = {
 	entry_same(RedFairy),
 	entry_same(Reimu),
 	entry_same(ReimuEnemy),
-	entry_same(Rumia),
+	entry_same(Rumia1),
 	entry_same(Rumia2),
 	entry_same(Sakuya),
 	entry_same(SakuyaNPC),
@@ -252,7 +252,7 @@ const unordered_set<type_index> GSpace::enemyTypes = {
 	typeid(BlueFairy),
 	typeid(ZombieFairy),
 	
-	typeid(Rumia),
+	typeid(Rumia1),
 	typeid(Rumia2),
 	typeid(ForestMarisa),
 	typeid(PatchouliEnemy),

@@ -133,7 +133,6 @@
   <object id="120" type="BreakableWall" x="5376" y="4352" width="128" height="128"/>
   <object id="131" type="Goal" x="1024" y="1024" width="128" height="128"/>
   <object id="142" name="player" type="Player" x="3200" y="8448" width="128" height="128"/>
-  <object id="178" name="rumia" type="Rumia" x="3200" y="3200" width="128" height="128"/>
   <object id="179" type="Bat" x="3200" y="5376" width="128" height="128"/>
   <object id="180" type="Bat" x="3456" y="4992" width="128" height="128"/>
   <object id="181" type="Bat" x="2944" y="4992" width="128" height="128"/>
@@ -217,7 +216,7 @@
     <property name="dir" value="right"/>
    </properties>
   </object>
-  <object id="182" name="rumia2" type="Rumia2" x="3200" y="1024" width="128" height="128"/>
+  <object id="182" name="rumia" type="Rumia" x="3200" y="1024" width="128" height="128"/>
   <object id="244" type="Spellcard" x="1280" y="1024" width="128" height="128">
    <properties>
     <property name="spell" value="PlayerBatMode"/>
@@ -277,7 +276,7 @@
   <object id="139" name="7" x="4352" y="0" width="2176" height="2176"/>
   <object id="140" name="8" x="2176" y="0" width="2176" height="2176">
    <properties>
-    <property name="boss" value="rumia2"/>
+    <property name="boss" value="rumia"/>
     <property name="trap_doors" value="door-7b door-8a"/>
    </properties>
   </object>

@@ -55,6 +55,12 @@ RumiaBurstPattern::RumiaBurstPattern(Agent *const agent) :
 	EnemyBulletImplPattern(&EnemyBulletImpl::rumiaBullet)
 {}
 
+RumiaBurstPattern2::RumiaBurstPattern2(Agent *const agent) :
+	FirePattern(agent),
+	BurstPattern(agent, 0.9, 0.33, 6),
+	EnemyBulletImplPattern(&EnemyBulletImpl::rumiaBullet2)
+{}
+
 ReimuWavePattern::ReimuWavePattern(Agent *const agent) :
 	FirePattern(agent)
 {}

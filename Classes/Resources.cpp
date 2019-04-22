@@ -135,7 +135,7 @@ bool FileUtilsZip::isFileExist(const string& filename) const
 SNDFILE* FileUtilsZip::openSoundFile(const string& filename, SF_INFO* info)
 {
 	if (!loadFileData(filename)) {
-		log("openSoundFile: %s not found in resources.zip");
+		log("openSoundFile: %s not found in resources.zip", filename.c_str());
 		return nullptr;
 	}
 
