@@ -216,7 +216,7 @@
     <property name="dir" value="right"/>
    </properties>
   </object>
-  <object id="182" name="rumia" type="Rumia" x="3200" y="1024" width="128" height="128"/>
+  <object id="182" name="rumia" type="Rumia1" x="3200" y="1024" width="128" height="128"/>
   <object id="244" type="Spellcard" x="1280" y="1024" width="128" height="128">
    <properties>
     <property name="spell" value="PlayerBatMode"/>
@@ -267,7 +267,6 @@
   <object id="135" name="3" x="0" y="2176" width="2176" height="2176"/>
   <object id="136" name="4" x="2176" y="2176" width="2176" height="2176">
    <properties>
-    <property name="boss" value="rumia"/>
     <property name="trap_doors" value="door-4b door-5a"/>
    </properties>
   </object>

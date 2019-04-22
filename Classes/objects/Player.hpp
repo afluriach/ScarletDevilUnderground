@@ -147,6 +147,8 @@ protected:
 
 	PlayScene* playScene = nullptr;
 
+	//Override spell cooldown
+	bool isPowerAttack = false;
 	bool isAutoLook = false;
 	bool isAutoLookToggled = false;
 	bool isAutoFire = false;

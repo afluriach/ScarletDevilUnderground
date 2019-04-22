@@ -281,13 +281,16 @@ void Player::updateSpellControls(const ControlInfo& cs)
 
 void Player::onSpellStop()
 {
-	attributeSystem.setSpellCooldown();
+	if (!isPowerAttack) {
+		attributeSystem.setSpellCooldown();
 
-	space->addHudAction(
-		&HUD::runMagicFlicker,
-		getAttribute(Attribute::spellCooldownInterval),
-		hitFlickerInterval
-	);
+		space->addHudAction(
+			&HUD::runMagicFlicker,
+			getAttribute(Attribute::spellCooldownInterval),
+			hitFlickerInterval
+		);
+	}
+	isPowerAttack = false;
 }
 
 void Player::checkFireControls(const ControlInfo& cs)
@@ -343,6 +346,7 @@ void Player::checkFireControls(const ControlInfo& cs)
 	{
 		if (cast(powerAttacks.at(powerAttackIdx)->generate(this))) {
 			App::playSound("sfx/player_power_attack.wav", 1.0f);
+			isPowerAttack = true;
 		}
 	}
 }

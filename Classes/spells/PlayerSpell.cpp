@@ -17,11 +17,6 @@
 
 void PlayerSpell::init()
 {
-	Player* p = getCasterAs<Player>();
-
-	if (p) {
-		p->setTimedProtection(getLength());
-	}
 }
 
 void PlayerSpell::update()
@@ -39,7 +34,6 @@ void PlayerSpell::end()
 	Player* p = getCasterAs<Player>();
 
 	if (p) {
-		p->resetProtection();
 		p->onSpellStop();
 	}
 }
@@ -67,6 +61,7 @@ void PlayerBatMode::init()
 		p->space->setSpriteZoom(p->spriteID, 4.0f);
 		p->applyAttributeModifier(Attribute::agility, 1.5f);
 		p->setLayers(PhysicsLayers::ground);
+		p->setProtection();
 	}
 }
 
@@ -82,6 +77,7 @@ void PlayerBatMode::end()
 		p->space->setSpriteZoom(p->spriteID, 1.0f);
 		p->applyAttributeModifier(Attribute::agility, -1.5f);
 		p->setLayers(enum_bitwise_or(PhysicsLayers, floor, ground));
+		p->resetProtection();
 	}
 }
 
