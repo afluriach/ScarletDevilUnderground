@@ -60,17 +60,17 @@ public:
 	virtual void onZeroHP();
 };
 
-class RumiaMain : public ai::Function
+class RumiaDSD2 : public ai::Function
 {
 public:
-	inline RumiaMain() {}
+	inline RumiaDSD2() {}
 
 	static const vector<double_pair> demarcationSizeIntervals;
 
 	virtual void onEnter(ai::StateMachine& sm);
 	virtual void update(ai::StateMachine& sm);
 	virtual void onExit(ai::StateMachine& sm);
-	FuncGetName(RumiaMain);
+	FuncGetName(RumiaDSD2);
 protected:
 	SpaceFloat timer = 0.0;
 	size_t intervalIdx = 0;
