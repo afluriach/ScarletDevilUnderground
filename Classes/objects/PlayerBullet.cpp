@@ -138,7 +138,7 @@ const bullet_properties ScarletDagger::props = {
 	6.0,
 	//unused, since it is not a CircleBody
 	0.5,
-	bullet_damage(3.0f),
+	bullet_damage(5.0f),
 	0.5,
 	"sprites/scarlet_dagger.png",
 };

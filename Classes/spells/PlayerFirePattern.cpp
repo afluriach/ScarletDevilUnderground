@@ -205,7 +205,7 @@ bool Catadioptric::fire()
 }
 
 const array<ScarletDaggerPattern::properties, ScarletDaggerPattern::levelsCount> ScarletDaggerPattern::props = {
-	ScarletDaggerPattern::properties{0.0, 2.0f / 3.0f, 1},
+//	ScarletDaggerPattern::properties{0.0, 2.0f / 3.0f, 1},
 	ScarletDaggerPattern::properties{float_pi / 12.0, 0.5f, 3},
 	ScarletDaggerPattern::properties{float_pi / 8.0, 0.5f, 5},
 };
