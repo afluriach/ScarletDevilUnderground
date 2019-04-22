@@ -9,6 +9,7 @@
 #include "Prefix.h"
 
 #include "AIFunctions.hpp"
+#include "AIUtil.hpp"
 #include "EnemyFirePattern.hpp"
 #include "GSpace.hpp"
 #include "Rumia.hpp"
@@ -31,10 +32,9 @@ CircleLightArea Rumia::getLightSource() const
 }
 
 const AttributeMap Rumia1::baseAttributes = {
-	{ Attribute::maxHP, 50.0f },
-	{ Attribute::maxMP, 5.0f },
-	{ Attribute::speed, 2.0f },
-	{ Attribute::acceleration, 4.0f }
+	{ Attribute::maxHP, 250.0f },
+	{ Attribute::maxMP, 50.0f },
+	{ Attribute::agility, 2.0f },
 };
 
 Rumia1::Rumia1(GSpace* space, ObjectIDType id, const ValueMap& args) :
@@ -51,13 +51,8 @@ void Rumia1::initStateMachine(ai::StateMachine& fsm)
 		GType::player,
 		[](ai::StateMachine& sm, GObject* target) -> void {
 			if (sm.getThreadCount() > 0) return;
-
 			sm.agent->space->createDialog("dialogs/rumia1", false);
-
-			sm.addThread(make_shared<ai::Flank>(target, 3.0, 1.0));
-//			sm.addThread(make_shared<ai::FireAtTarget>(target));
-
-			sm.addThread(make_shared<RumiaDSD2>());
+			sm.addThread(make_shared<RumiaMain1>(target));
 		}
 	);
 }
@@ -69,10 +64,9 @@ void Rumia1::onZeroHP()
 }
 
 const AttributeMap Rumia2::baseAttributes = {
-	{ Attribute::maxHP, 75.0f },
-	{ Attribute::maxMP, 5.0f },
-	{ Attribute::speed, 2.0f },
-	{ Attribute::acceleration, 4.0f }
+	{ Attribute::maxHP, 500.0f },
+	{ Attribute::maxMP, 50.0f },
+	{ Attribute::agility, 2.5f },
 };
 
 Rumia2::Rumia2(GSpace* space, ObjectIDType id, const ValueMap& args) :
@@ -89,9 +83,10 @@ void Rumia2::initStateMachine(ai::StateMachine& fsm)
 		GType::player,
 		[](ai::StateMachine& sm, GObject* target) -> void {
 			if (sm.getThreadCount() > 0) return;
-
 			sm.agent->space->createDialog("dialogs/rumia3", false);
+			sm.addThread(make_shared<RumiaDSD2>());
 			sm.addThread(make_shared<ai::FireAtTarget>(target));
+			sm.addThread(make_shared<ai::Flank>(target, 3.0, 1.0));
 		}
 	);
 }
@@ -99,6 +94,51 @@ void Rumia2::initStateMachine(ai::StateMachine& fsm)
 void Rumia2::onZeroHP()
 {
 	Agent::onZeroHP();
+}
+
+const SpaceFloat RumiaMain1::dsdDistMargin = 5.0;
+const SpaceFloat RumiaMain1::dsdLength = 5.0;
+const SpaceFloat RumiaMain1::dsdCooldown = 15.0;
+const float RumiaMain1::dsdCost = 5.0f;
+
+RumiaMain1::RumiaMain1(gobject_ref target) : 
+	target(target)
+{
+}
+
+void RumiaMain1::onEnter(ai::StateMachine& fsm)
+{
+	fsm.addThread(make_shared<ai::Flank>(target, 3.0, 1.0));
+	fsm.addThread(make_shared<ai::FireAtTarget>(target));
+}
+
+void RumiaMain1::onReturn(ai::StateMachine& fsm)
+{
+	fsm.addThread(make_shared<ai::FireAtTarget>(target));
+}
+
+void RumiaMain1::update(ai::StateMachine& fsm)
+{
+	timerDecrement(dsdTimer);
+
+	auto& as = *fsm.getAgent()->getAttributeSystem();
+	bool canCast = dsdTimer <= 0.0 && as[Attribute::mp] >= dsdCost;
+	bool willCast =
+		ai::distanceToTarget(fsm.agent->getPos(), target.get()->getPos()) < dsdDistMargin &&
+		as.getMagicRatio() > as.getHealthRatio()
+	;
+
+	if (canCast && willCast) {
+		dsdTimer = dsdCooldown;
+		fsm.removeThread("FireAtTarget");
+		fsm.push(make_shared<ai::Cast>(make_spell_generator<DarknessSignDemarcation>(), dsdLength));
+	}
+}
+
+void RumiaMain1::onExit(ai::StateMachine& fsm)
+{
+	fsm.removeThread("Flank");
+	fsm.removeThread("FireAtTarget");
 }
 
 const vector<double_pair> RumiaDSD2::demarcationSizeIntervals = {

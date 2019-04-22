@@ -334,7 +334,7 @@ protected:
 
 class Cast : public Function {
 public:
-	Cast(SpellGeneratorType spell_generator);
+	Cast(SpellGeneratorType spell_generator, SpaceFloat length = 0.0);
 
 	virtual void onEnter(StateMachine& sm);
 	virtual void update(StateMachine& sm);
@@ -344,6 +344,8 @@ public:
 	FuncGetName(Cast)
 protected:
 	SpellGeneratorType spell_generator;
+	SpaceFloat timer = 0.0;
+	SpaceFloat length;
 };
 
 class HPCast : public Function {

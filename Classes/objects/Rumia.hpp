@@ -53,6 +53,27 @@ public:
 	virtual void onZeroHP();
 };
 
+class RumiaMain1 : public ai::Function
+{
+public:
+	static const SpaceFloat dsdDistMargin;
+	static const SpaceFloat dsdLength;
+	static const SpaceFloat dsdCooldown;
+	static const float dsdCost;
+
+	RumiaMain1(gobject_ref target);
+
+	virtual void onEnter(ai::StateMachine& sm);
+	virtual void onReturn(ai::StateMachine& sm);
+	virtual void update(ai::StateMachine& sm);
+	virtual void onExit(ai::StateMachine& sm);
+	FuncGetName(RumiaMain1);
+protected:
+	gobject_ref target;
+	SpaceFloat dsdTimer = 0.0;
+	size_t intervalIdx = 0;
+};
+
 class RumiaDSD2 : public ai::Function
 {
 public:

@@ -885,8 +885,9 @@ void Operation::update(StateMachine& sm) {
 	sm.pop();
 }
 
-Cast::Cast(SpellGeneratorType spell_generator) :
-spell_generator(spell_generator)
+Cast::Cast(SpellGeneratorType spell_generator, SpaceFloat length) :
+spell_generator(spell_generator),
+length(length)
 {
 }
 
@@ -897,6 +898,11 @@ void Cast::onEnter(StateMachine& sm)
 
 void Cast::update(StateMachine& sm)
 {
+	timerIncrement(timer);
+
+	if (length > 0.0 && timer >= length)
+		sm.agent->stopSpell();
+
 	if (!sm.agent->isSpellActive())
 		sm.pop();
 }
