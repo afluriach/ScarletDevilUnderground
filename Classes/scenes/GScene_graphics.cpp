@@ -201,9 +201,7 @@ void GScene::createAgentBodyShader(
 	float bodyRadius,
 	float coneRadius,
 	float thickness,
-	const Vec2 position,
-	float startAngle,
-	float endAngle
+	const Vec2 position
 ) {
 	AgentBodyShader* shader = Node::ccCreate<AgentBodyShader>(
 		bodyColor,
@@ -211,9 +209,7 @@ void GScene::createAgentBodyShader(
 		bodyRadius,
 		coneRadius,
 		thickness,
-		Vec2::ZERO,
-		startAngle,
-		endAngle
+		Vec2::ZERO
 	);
 	shader->setContentSize(CCSize(coneRadius,coneRadius) * 2.0f * App::pixelsPerTile);
 
@@ -378,14 +374,6 @@ void GScene::setSpriteColor(SpriteID id, Color3B color)
 	Node* node = getSpriteAsNode(id);
 	if (node) {
 		node->setColorRecursive(color);
-	}
-}
-
-void GScene::setAgentOverlayAngles(SpriteID id, float startAngle, float endAngle)
-{
-	auto it = agentShaders.find(id);
-	if (it != agentShaders.end()) {
-		it->second->setAngles(startAngle, endAngle);
 	}
 }
 

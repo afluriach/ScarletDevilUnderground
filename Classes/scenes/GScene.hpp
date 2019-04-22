@@ -154,8 +154,7 @@ public:
 		SpriteID id, GraphicsLayer layer,
 		Color4F bodyColor, Color4F coneColor,
 		float bodyRadius, float coneRadius,
-		float thickness, Vec2 position,
-		float startAngle, float endAngle
+		float thickness, Vec2 position
 	);
 
 	void loadAgentAnimation(SpriteID id, string path, bool isAgentAnimation);
@@ -179,7 +178,6 @@ public:
 	void setSpritePosition(SpriteID id, Vec2 pos);
 	void setSpriteZoom(SpriteID id, float zoom);
 	void setSpriteColor(SpriteID id, Color3B color);
-	void setAgentOverlayAngles(SpriteID id, float startAngle, float endAngle);
 
 	void clearSubroomMask(unsigned int roomID);
 

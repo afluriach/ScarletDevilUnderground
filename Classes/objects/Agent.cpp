@@ -291,8 +291,7 @@ void Agent::initializeGraphics()
 		GraphicsLayer::agentOverlay,
 		bodyOutlineColor, shieldConeColor,
 		getRadius()*App::pixelsPerTile, Player::grazeRadius*App::pixelsPerTile,
-		bodyOutlineWidth, getInitialCenterPix(),
-		canonicalAngle(getAngle() - float_pi * 0.25), canonicalAngle(getAngle() + float_pi * 0.25)
+		bodyOutlineWidth, getInitialCenterPix()
 	);
 	//Should be false, but in case shield has already been activated.
 	space->setSpriteVisible(agentOverlay, shieldActive);
@@ -399,7 +398,7 @@ void Agent::updateAgentOverlay()
 {
 	if (shieldActive) {
 		space->setSpritePosition(agentOverlay, toCocos(getPos()*App::pixelsPerTile));
-		space->setAgentOverlayAngles(agentOverlay, canonicalAngle(getAngle() - float_pi * 0.25), canonicalAngle(getAngle() + float_pi * 0.25));
+		space->setSpriteAngle(agentOverlay, toCocosAngle(getAngle()));
 	}
 }
 

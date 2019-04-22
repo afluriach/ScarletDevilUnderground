@@ -72,16 +72,14 @@ SpriteID GSpace::createAgentBodyShader(
 	GraphicsLayer layer,
 	const Color4F& bodyColor, const Color4F& coneColor,
 	float bodyRadius, float coneRadius,
-	float thickness, const Vec2& position,
-	float startAngle, float endAngle
+	float thickness, const Vec2& position
 ){
 	return createSprite(
 		&GScene::createAgentBodyShader,
 		layer,
 		bodyColor, coneColor,
 		bodyRadius, coneRadius,
-		thickness, position,
-		startAngle, endAngle
+		thickness, position
 	);
 }
 
@@ -179,11 +177,6 @@ void GSpace::setSpriteZoom(SpriteID id, float zoom)
 void GSpace::setSpriteColor(SpriteID id, Color3B color)
 {
 	addSpriteAction(&GScene::setSpriteColor, id, color);
-}
-
-void GSpace::setAgentOverlayAngles(SpriteID id, float startAngle, float endAngle)
-{
-	addSpriteAction(&GScene::setAgentOverlayAngles, id, startAngle, endAngle);
 }
 
 void GSpace::clearSubroomMask(unsigned int roomID)

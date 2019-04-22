@@ -372,8 +372,7 @@ public:
 		GraphicsLayer layer,
 		const Color4F& bodyColor, const Color4F& coneColor,
 		float bodyRadius, float coneRadius,
-		float thickness, const Vec2& position,
-		float startAngle, float endAngle
+		float thickness, const Vec2& position
 	);
 
 	void loadAgentAnimation(SpriteID id, string path, bool isAgentAnimation);
@@ -397,7 +396,6 @@ public:
 	void setSpritePosition(SpriteID id, Vec2 pos);
 	void setSpriteZoom(SpriteID id, float zoom);
 	void setSpriteColor(SpriteID id, Color3B color);
-	void setAgentOverlayAngles(SpriteID id, float startAngle, float endAngle);
 
 	void clearSubroomMask(unsigned int roomID);
 

@@ -7,8 +7,6 @@ uniform vec4 u_coneColor;
 uniform vec2 u_center;
 uniform float u_bodyRadius;
 uniform float u_coneRadius;
-uniform float u_startAngle;
-uniform float u_endAngle;
 uniform float u_thickness;
 
 #ifdef GL_ES
@@ -27,10 +25,7 @@ void main()
 	//Is pixel coord within body circle outline?
 	float body = float(d >= u_bodyRadius - u_thickness) * float(d <= u_bodyRadius);
 	//is pixel coord within cone angle?
-	float cone_angle = 
-		float(u_startAngle < u_endAngle)*float(a >= u_startAngle && a <= u_endAngle) + 
-	    float(u_startAngle >= u_endAngle)*float(a >= u_startAngle || a <= u_endAngle)
-	;
+	float cone_angle = float(a >= radians(45) && a < radians(135));
 	//Is pixel coord within cone radius, outside of body circle outline?
 	float cone = float(d >= u_bodyRadius && d < u_coneRadius)*cone_angle;
 

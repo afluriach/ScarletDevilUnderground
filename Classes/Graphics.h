@@ -123,12 +123,8 @@ public:
 		float bodyRadius,
 		float coneRadius,
 		float thickness,
-		const Vec2& center,
-		float startAngle,
-		float endAngle
+		const Vec2& center
 	);
-
-	void setAngles(float startAngle, float endAngle);
 
 	inline virtual string getShaderName() const { return "agent_overlay"; }
 	virtual void initUniforms();
@@ -139,7 +135,6 @@ protected:
 	Color4F bodyColor, coneColor;
 	float bodyRadius, coneRadius;
 	float thickness;
-	float startAngle, endAngle;
 
 	GLint _uniformLocationBodyColor;
 	GLint _uniformLocationConeColor;
@@ -147,8 +142,6 @@ protected:
 	GLint _uniformLocationBodyRadius;
 	GLint _uniformLocationConeRadius;
 	GLint _uniformLocationThickness;
-	GLint _uniformLocationStartAngle;
-	GLint _uniformLocationEndAngle;
 };
 
 class AmbientLightNode : public DrawNode

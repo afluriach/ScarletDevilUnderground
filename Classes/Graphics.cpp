@@ -216,17 +216,14 @@ AgentBodyShader::AgentBodyShader(
 	float bodyRadius,
 	float coneRadius,
 	float thickness,
-	const Vec2& center,
-	float startAngle, float endAngle
+	const Vec2& center
 ) :
 	bodyColor(bodyColor),
 	coneColor(coneColor),
 	bodyRadius(bodyRadius),
 	coneRadius(coneRadius),
 	thickness(thickness),
-	center(center),
-	startAngle(startAngle),
-	endAngle(endAngle)
+	center(center)
 {}
 
 void AgentBodyShader::initUniforms()
@@ -236,8 +233,6 @@ void AgentBodyShader::initUniforms()
 	_uniformLocationConeColor = program->getUniformLocation("u_coneColor");
 	_uniformLocationBodyRadius = program->getUniformLocation("u_bodyRadius");
 	_uniformLocationConeRadius = program->getUniformLocation("u_coneRadius");
-	_uniformLocationStartAngle = program->getUniformLocation("u_startAngle");
-	_uniformLocationEndAngle = program->getUniformLocation("u_endAngle");
 	_uniformLocationCenter = program->getUniformLocation("u_center");
 	_uniformLocationThickness = program->getUniformLocation("u_thickness");
 }
@@ -250,14 +245,6 @@ void AgentBodyShader::updateUniforms()
 	setUniform1f(_uniformLocationBodyRadius, bodyRadius);
 	setUniform1f(_uniformLocationConeRadius, coneRadius);
 	setUniform1f(_uniformLocationThickness, thickness);
-	setUniform1f(_uniformLocationStartAngle, startAngle);
-	setUniform1f(_uniformLocationEndAngle, endAngle);
-}
-
-void AgentBodyShader::setAngles(float startAngle, float endAngle)
-{
-	this->startAngle = startAngle;
-	this->endAngle = endAngle;
 }
 
 AmbientLightNode::AmbientLightNode(const AmbientLightArea& light) :
