@@ -210,8 +210,9 @@ void Player::checkMovementControls(const ControlInfo& cs)
 	timerDecrement(sprintTimer);
 	if (!isSprintActive &&
 		sprintTimer <= 0.0 && 
-		cs.isControlActionPressed(ControlAction::sprint)
-		&& attributeSystem[Attribute::stamina] >= sprintCost
+		cs.isControlActionDown(ControlAction::sprint) &&
+		!moveDir.isZero() && 
+		attributeSystem[Attribute::stamina] >= sprintCost
 	) {
 		isSprintActive = true;
 		sprintTimer = sprintTime;
