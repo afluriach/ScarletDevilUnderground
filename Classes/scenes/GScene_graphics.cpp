@@ -245,6 +245,14 @@ void GScene::setAgentAnimationFrame(SpriteID id, int frame)
 	}
 }
 
+void GScene::setAgentOverlayShieldLevel(SpriteID id, float level)
+{
+	auto it = agentShaders.find(id);
+	if (it != agentShaders.end()) {
+		it->second->setShieldLevel(level);
+	}
+}
+
 void GScene::clearDrawNode(SpriteID id)
 {
 	auto it = drawNodes.find(id);

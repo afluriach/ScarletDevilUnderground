@@ -631,6 +631,9 @@ void Player::applyUpgrade(Upgrade* up)
 		attributeSystem.modifyAttribute(Attribute::stamina, step);
 		space->addHudAction(&HUD::setMaxStamina, to_int(attributeSystem[Attribute::maxStamina]));
 	break;
+	case Attribute::shieldLevel:
+		space->setAgentOverlayShieldLevel(agentOverlay, attributeSystem[Attribute::shieldLevel]);
+	break;
 	}
 
 	space->getState()->registerUpgrade(at, up->upgrade_id);

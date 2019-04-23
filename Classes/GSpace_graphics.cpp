@@ -99,6 +99,11 @@ void GSpace::setAgentAnimationFrame(SpriteID id, int frame)
 	addSpriteAction(&GScene::setAgentAnimationFrame, id, frame);
 }
 
+void GSpace::setAgentOverlayShieldLevel(SpriteID id, float level)
+{
+	addSpriteAction(&GScene::setAgentOverlayShieldLevel, id, level);
+}
+
 void GSpace::clearDrawNode(SpriteID id)
 {
 	addSpriteAction(&GScene::clearDrawNode, id);

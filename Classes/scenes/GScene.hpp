@@ -160,6 +160,7 @@ public:
 	void loadAgentAnimation(SpriteID id, string path, bool isAgentAnimation);
 	void setAgentAnimationDirection(SpriteID id, Direction d);
 	void setAgentAnimationFrame(SpriteID id, int frame);
+	void setAgentOverlayShieldLevel(SpriteID id, float level);
 
 	void clearDrawNode(SpriteID id);
 	void drawSolidRect(SpriteID id, Vec2 lowerLeft, Vec2 upperRight, Color4F color);

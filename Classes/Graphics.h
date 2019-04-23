@@ -130,11 +130,13 @@ public:
 	virtual void initUniforms();
 	virtual void updateUniforms();
 
+	void setShieldLevel(float level);
 protected:
 	Vec2 center;
 	Color4F bodyColor, coneColor;
 	float bodyRadius, coneRadius;
 	float thickness;
+	float shieldLevel = 1.0f;
 
 	GLint _uniformLocationBodyColor;
 	GLint _uniformLocationConeColor;
@@ -142,6 +144,7 @@ protected:
 	GLint _uniformLocationBodyRadius;
 	GLint _uniformLocationConeRadius;
 	GLint _uniformLocationThickness;
+	GLint _uniformLocationShieldLevel;
 };
 
 class AmbientLightNode : public DrawNode

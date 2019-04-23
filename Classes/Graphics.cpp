@@ -235,6 +235,7 @@ void AgentBodyShader::initUniforms()
 	_uniformLocationConeRadius = program->getUniformLocation("u_coneRadius");
 	_uniformLocationCenter = program->getUniformLocation("u_center");
 	_uniformLocationThickness = program->getUniformLocation("u_thickness");
+	_uniformLocationShieldLevel = program->getUniformLocation("u_shieldLevel");
 }
 
 void AgentBodyShader::updateUniforms()
@@ -245,6 +246,12 @@ void AgentBodyShader::updateUniforms()
 	setUniform1f(_uniformLocationBodyRadius, bodyRadius);
 	setUniform1f(_uniformLocationConeRadius, coneRadius);
 	setUniform1f(_uniformLocationThickness, thickness);
+	setUniform1f(_uniformLocationShieldLevel, shieldLevel);
+}
+
+void AgentBodyShader::setShieldLevel(float level)
+{
+	shieldLevel = level;
 }
 
 AmbientLightNode::AmbientLightNode(const AmbientLightArea& light) :
