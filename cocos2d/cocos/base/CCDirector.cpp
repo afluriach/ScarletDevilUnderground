@@ -1370,8 +1370,6 @@ void DisplayLinkDirector::mainLoop()
         drawScene();
      
 		std::vector<std::string> _outbuf;
-		std::stringstream ss;
-		std::string result;
 		bool _print = false;
 
 		logMutex.lock();
@@ -1380,13 +1378,8 @@ void DisplayLinkDirector::mainLoop()
 
 		for (string s : _outbuf)
 		{
-			ss << s << std::endl;
-			_print = true;
-		}
-		result = ss.str();
-		if (_print && !result.empty()) {
-			cocos2d::log("%s", result.c_str());
-			log_ofs << result << std::endl;
+			log_ofs << s << std::endl;
+			cocos2d::log("%s", s.c_str());
 		}
 
         // release the objects
