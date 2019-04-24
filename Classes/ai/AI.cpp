@@ -187,7 +187,13 @@ void StateMachine::update()
 
 void StateMachine::addThread(shared_ptr<Thread> thread)
 {
-	threadsToAdd.push_back(thread);
+	if (!thread->call_stack.empty()) {
+		threadsToAdd.push_back(thread);
+		log("%s: FSM creating Thread %s.", agent->getName().c_str(), thread->call_stack.back()->getName());
+	}
+	else {
+		log("%s: FSM creating empty Thread.", agent->getName().c_str());
+	}
 }
 
 unsigned int StateMachine::addThread(shared_ptr<Function> threadMain, Thread::priority_type priority)
@@ -267,6 +273,9 @@ void StateMachine::applyRemoveThreads()
 	{
 		if (current_threads.find(uuid) != current_threads.end()) {
 			auto t = current_threads[uuid];
+			if (!t->call_stack.empty()) {
+				log("%s: FSM removing Thread %s.", agent->getName().c_str(), t->call_stack.back()->getName());
+			}
 			threads_by_priority[t->priority].remove(uuid);
 			current_threads.erase(uuid);
 		}
@@ -363,13 +372,11 @@ void StateMachine::setAlertFunction(alert_function f)
 
 void StateMachine::push(shared_ptr<Function> f)
 {
-	log("%s FSM pushing %s.", agent->getName().c_str(), f->getName().c_str());
 	crntThread->push(f);
 }
 
 void StateMachine::pop()
 {
-	log("%s FSM popping %s.", agent->getName().c_str(), crntThread->call_stack.back()->getName().c_str());
 	crntThread->pop();
 }
 

@@ -50,6 +50,7 @@ public:
     static constexpr bool logCreateObjects = false;
 	//Map each class name to a constructor adapter function.
 	static const unordered_map<string, object_info> objectInfo;
+	static unordered_map<type_index, string> typeNameMap;
 
 	static const float objectFadeInTime;
 	static const float objectFadeOutTime;
@@ -59,6 +60,7 @@ public:
 	static GeneratorType factoryMethodByType(const string& type, const ValueMap& args);
 	static const object_info* getObjectInfo(string name);
 	static type_index getTypeIndex(string name);
+	static void initNameMap();
 
 	template<class ObjectCls, typename... ConsArgs>
 	static inline GObject* create(GSpace* space, ObjectIDType id, ConsArgs...args)
@@ -98,12 +100,14 @@ public:
 
 	util::multifunction<void(void)> multiInit;
 
+	string getTypeName() const;
+
 	virtual inline string getProperName() const {
 		return name;
 	}
 
 	inline string getName() const {
-		return name;
+		return (anonymous || name.empty()) ? getTypeName() : name;
 	}
 
 	inline ObjectIDType getUUID() const {

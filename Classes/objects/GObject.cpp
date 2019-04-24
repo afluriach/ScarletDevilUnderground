@@ -25,6 +25,8 @@ const float GObject::objectFadeOutTime = 1.5f;
 const float GObject::objectFadeInTime = 0.5f;
 const GLubyte GObject::objectFadeOpacity = 0;
 
+unordered_map<type_index, string> GObject::typeNameMap;
+
 GObject::GObject(GSpace* space, ObjectIDType uuid, const ValueMap& obj, bool anonymous) :
 	space(space),
 	name(!anonymous ? obj.at("name").asString() : ""),
@@ -108,6 +110,22 @@ type_index GObject::getTypeIndex(string name)
 		return info->type;
 	else
 		return typeid(GObject);
+}
+
+void GObject::initNameMap()
+{
+	for (auto entry : objectInfo)
+	{
+		typeNameMap.insert_or_assign(entry.second.type, entry.first);
+	}
+}
+
+string GObject::getTypeName() const
+{
+	if (typeNameMap.empty())
+		initNameMap();
+
+	return getOrDefault<type_index, string>(typeNameMap, typeid(*this), "GObject");
 }
 
 void GObject::init()

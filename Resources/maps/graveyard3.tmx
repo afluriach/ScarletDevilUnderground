@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.0" tiledversion="1.0.3" orientation="orthogonal" renderorder="right-down" width="51" height="51" tilewidth="128" tileheight="128" nextobjectid="336">
+<map version="1.0" tiledversion="1.0.3" orientation="orthogonal" renderorder="right-down" width="51" height="51" tilewidth="128" tileheight="128" nextobjectid="337">
  <tileset firstgid="1" name="wall" tilewidth="128" tileheight="128" tilecount="4" columns="2">
   <image source="fence.png" width="256" height="256"/>
  </tileset>
@@ -414,6 +414,7 @@
   <object id="138" name="5" x="4352" y="4352" width="2176" height="2176">
    <properties>
     <property name="minCount3" value="1"/>
+    <property name="spawn_on_clear" value="shieldUpgrade"/>
     <property name="startState" value="MultiSpawnSequence"/>
     <property name="totalCount1" value="5"/>
     <property name="totalCount2" value="2"/>
@@ -424,9 +425,16 @@
     <property name="waveCount1" value="2"/>
    </properties>
   </object>
-  <object id="335" type="Spellcard" x="3200" y="1024" width="128" height="128">
+ </objectgroup>
+ <objectgroup name="dynamic_load">
+  <object id="335" name="starbowBreak" type="Spellcard" x="3200" y="1024" width="128" height="128">
    <properties>
     <property name="spell" value="StarbowBreak"/>
+   </properties>
+  </object>
+  <object id="336" name="shieldUpgrade" type="ShieldUpgrade" x="5376" y="5376" width="128" height="128">
+   <properties>
+    <property name="id" value="1"/>
    </properties>
   </object>
  </objectgroup>

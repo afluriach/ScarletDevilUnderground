@@ -194,7 +194,7 @@ void RoomSensor::update()
 	if(doors.size() > 0)
 		updateTrapDoors();
 
-	if (isClearedState() && player) {
+	if (!isCleared && player && isClearedState()) {
 		isCleared = true;
 
 		if (!spawnOnClear.empty() && enemies.empty()) {

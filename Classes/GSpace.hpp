@@ -262,7 +262,7 @@ private:
 	unordered_map<type_index, unsigned int> initialObjectCount;
 	unordered_map<type_index, unsigned int> totalSpawnCount;
 	unordered_map<type_index, unsigned int> enemiesDefeated;
-	unordered_set<GObject*> updateObjects;
+	set<GObject*> updateObjects;
 	unordered_map<int, RoomSensor*> roomSensors;
 	unordered_map<string, ValueMap> dynamicLoadObjects;
 	vector<zero_arity_function> objectMessages;
