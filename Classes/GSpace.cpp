@@ -51,6 +51,7 @@ GSpace::GSpace(GScene* gscene) :
 
 	controlReplay = make_unique<Replay>();
 	controlReplay->scene_name = GScene::crntSceneName;
+	controlReplay->frame_rate = App::framesPerSecond;
 	crntState = make_unique<GState>();
 }
 
@@ -573,6 +574,11 @@ vector<int> GSpace::getRandomShuffle(int n) {
 
 void GSpace::loadReplay(unique_ptr<Replay> replay)
 {
+	if (App::framesPerSecond != replay->frame_rate) {
+		log("loadReplay with different frame rate!");
+		return;
+	}
+
 	isRunningReplay = true;
 	setRandomSeed(replay->random_seed);
 	*crntState.get() = replay->crnt_state;

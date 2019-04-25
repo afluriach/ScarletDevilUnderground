@@ -53,6 +53,14 @@ void GScene::runSceneWithReplay(const string& replayName)
 	unique_ptr<Replay> controlReplay = io::getControlReplay(replayName);
 
 	if (controlReplay) {
+		if (controlReplay->frame_rate != App::framesPerSecond) {
+			log("Attempt to load %d FPS replay, current frame rate is %d.",
+				controlReplay->frame_rate,
+				App::framesPerSecond
+			);
+			return;
+		}
+
 		GScene* _scene = runScene(controlReplay->scene_name);
 		PlayScene* ps = dynamic_cast<PlayScene*>(_scene);
 

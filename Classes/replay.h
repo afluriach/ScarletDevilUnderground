@@ -21,6 +21,7 @@ public:
 
 	ControlInfo getControlInfo(unsigned int frameIdx);
 
+	unsigned int frame_rate;
 	unsigned int random_seed;
 	string scene_name;
 	vector<ControlState> control_data;
@@ -29,6 +30,7 @@ public:
 	template<class Archive>
 	inline void serialize(Archive& ar, const unsigned int version)
 	{
+		ar & frame_rate;
 		ar & random_seed;
 		ar & scene_name;
 		ar & control_data;
