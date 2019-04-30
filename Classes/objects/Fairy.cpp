@@ -191,7 +191,7 @@ BlueFairy::BlueFairy(GSpace* space, ObjectIDType id, const ValueMap& args) :
 	MapObjForwarding(GObject),
 	MapObjForwarding(Agent),
 	AIPackage(this, args, ""),
-	Enemy(collectible_id::magic1)
+	Enemy(collectible_id::hm1)
 {
 	firePattern = make_shared<BlueFairyFirePattern>(this);
 }
@@ -229,7 +229,7 @@ const float RedFairy::bombCost = 20.0f;
 RedFairy::RedFairy(GSpace* space, ObjectIDType id, const ValueMap& args) :
 	MapObjForwarding(GObject),
 	MapObjForwarding(Agent),
-	Enemy(collectible_id::health1)
+	Enemy(collectible_id::hm2)
 {
 	firePattern = make_shared<Fairy1BulletPattern>(this, 3.0, float_pi / 6.0, 2);
 }
@@ -434,7 +434,7 @@ const AttributeMap ZombieFairy::baseAttributes = {
 ZombieFairy::ZombieFairy(GSpace* space, ObjectIDType id, const ValueMap& args) :
 	MapObjForwarding(GObject),
 	MapObjForwarding(Agent),
-	Enemy(collectible_id::health2),
+	Enemy(collectible_id::hm2),
 	RegisterInit<ZombieFairy>(this)
 {
 }

@@ -37,7 +37,7 @@
   </object>
   <object id="69" type="Spellcard" x="1024" y="1024" width="128" height="128">
    <properties>
-    <property name="spell_name" value="PlayerCounterClock"/>
+    <property name="spell" value="PlayerCounterClock"/>
    </properties>
   </object>
  </objectgroup>

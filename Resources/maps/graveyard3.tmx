@@ -402,6 +402,7 @@
     <property name="spawners3" value="spawner4-1 spawner4-3"/>
     <property name="spawners4" value="spawner4-1 spawner4-2 spawner4-3"/>
     <property name="startState" value="TimedSpawnSequence"/>
+    <property name="trap_doors" value="door-4n"/>
    </properties>
   </object>
   <object id="139" name="6" x="2176" y="0" width="2176" height="2176">
