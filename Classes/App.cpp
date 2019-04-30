@@ -56,6 +56,7 @@ const unordered_map<string, InterfaceFunction> App::interfaceFuntions = {
 	entry2(multithread, setMultithread),
 	entry2(resolution, setResolution),
 	entry2(vsync, setVsync),
+	entry2(difficulty, setDifficulty),
 
 	//Control register config commands
 	{ "button", &App::assignButton },
@@ -77,6 +78,7 @@ bool App::vsync = true;
 bool App::multithread = true;
 
 bool App::unlockAllEquips = false;
+float App::difficultyScale = 1.0f;
 
 unsigned int App::framesPerSecond = 60;
 double App::secondsPerFrame = 1.0 / App::framesPerSecond;
@@ -662,6 +664,16 @@ void App::setPlayer(int id)
 void App::setUnlockAllEquips(bool v)
 {
 	unlockAllEquips = v;
+}
+
+void App::setDifficulty(float scale)
+{
+	if (scale >= 0.25f && scale <= 4.0f) {
+		difficultyScale = scale;
+	}
+	else {
+		log("Invalid difficulty scale %f!", scale);
+	}
 }
 
 const string& App::getBaseDataPath() {

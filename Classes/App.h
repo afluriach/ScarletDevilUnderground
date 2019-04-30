@@ -40,6 +40,7 @@ public:
 	static bool vsync;
 	static bool multithread;
 
+	static float difficultyScale;
 	static bool unlockAllEquips;
 	
 	static unsigned int framesPerSecond;
@@ -87,6 +88,7 @@ public:
 
 	static void setPlayer(int id);
 	static void setUnlockAllEquips(bool v);
+	static void setDifficulty(float scale);
 
 	//Methods for controlling the active scene; wraps calls to Director.
 	static void runTitleScene();

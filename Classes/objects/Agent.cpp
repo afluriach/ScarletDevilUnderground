@@ -365,6 +365,13 @@ bool Agent::hit(DamageInfo damage)
 	if (attributeSystem.isNonzero(Attribute::hitProtection) || damage.mag == 0.0f)
 		return false;
 
+	if (dynamic_cast<Enemy*>(this)) {
+		damage.mag /= App::difficultyScale;
+	}
+	else if (dynamic_cast<Player*>(this)) {
+		damage.mag *= App::difficultyScale;
+	}
+
 	float hp = attributeSystem.applyDamage(damage);
 	space->createDamageIndicator(hp, getPos());
 
