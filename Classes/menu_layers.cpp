@@ -253,9 +253,7 @@ const vector<zero_arity_function> SceneSelect::entryActions = {
 
 zero_arity_function menuPushAdapter(string sceneName) {
 	return [sceneName]() -> void {
-		GScene* scene = App::getCrntScene();
-		WorldSelect::nextScene = sceneName;
-		scene->pushMenu(Node::ccCreate<CharacterSelect>());
+		GScene::runScene(sceneName);
 	};
 }
 

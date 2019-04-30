@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.0" tiledversion="1.0.3" orientation="orthogonal" renderorder="right-down" width="51" height="51" tilewidth="128" tileheight="128" nextobjectid="337">
+<map version="1.0" tiledversion="1.0.3" orientation="orthogonal" renderorder="right-down" width="51" height="51" tilewidth="128" tileheight="128" nextobjectid="347">
  <tileset firstgid="1" name="wall" tilewidth="128" tileheight="128" tilecount="4" columns="2">
   <image source="fence.png" width="256" height="256"/>
  </tileset>
@@ -360,6 +360,8 @@
     <property name="door_type" value="one_way_destination"/>
    </properties>
   </object>
+  <object id="345" type="Health3" x="5504" y="1152" width="128" height="128"/>
+  <object id="346" type="Magic3" x="5248" y="896" width="128" height="128"/>
  </objectgroup>
  <objectgroup name="spawners">
   <object id="293" name="spawner-g5-1" type="GhostFairy" x="4608" y="4608" width="128" height="128"/>
@@ -377,6 +379,12 @@
   <object id="332" name="spawner4-3" type="GreenFairy1" x="5376" y="3200" width="128" height="128"/>
   <object id="333" name="spawner4-2" type="GhostFairy" x="5632" y="2560" width="128" height="128"/>
   <object id="334" name="spawner4-1" type="GreenFairy1" x="4992" y="2560" width="128" height="128"/>
+  <object id="338" type="GreenFairy2" x="3712" y="768" width="128" height="128"/>
+  <object id="339" type="RedFairy" x="3200" y="768" width="128" height="128"/>
+  <object id="340" type="RedFairy" x="3200" y="1280" width="128" height="128"/>
+  <object id="341" type="GhostFairy" x="2560" y="768" width="128" height="128"/>
+  <object id="342" type="GreenFairy2" x="2560" y="1280" width="128" height="128"/>
+  <object id="343" type="GhostFairy" x="3712" y="1280" width="128" height="128"/>
  </objectgroup>
  <objectgroup name="rooms">
   <object id="133" name="0" x="2176" y="4352" width="2176" height="2176"/>
@@ -408,6 +416,13 @@
   <object id="139" name="6" x="2176" y="0" width="2176" height="2176">
    <properties>
     <property name="spawn_on_clear" value="starbowBreak"/>
+    <property name="startState" value="MultiSpawnSequence"/>
+    <property name="totalCount1" value="3"/>
+    <property name="totalCount2" value="2"/>
+    <property name="totalCount3" value="4"/>
+    <property name="type1" value="GhostFairy"/>
+    <property name="type2" value="RedFairy"/>
+    <property name="type3" value="GreenFairy2"/>
    </properties>
   </object>
   <object id="183" name="7" x="4352" y="0" width="2176" height="2176"/>

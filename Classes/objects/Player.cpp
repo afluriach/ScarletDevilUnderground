@@ -200,7 +200,7 @@ void Player::checkMovementControls(const ControlInfo& cs)
 		space->setBulletBodiesVisible(false);
 	}
 
-	setFocusMode(cs.isControlActionDown(ControlAction::focus) && !isSprintActive);
+	setFocusMode(cs.isControlActionDown(ControlAction::focus) && !isSprintActive && !space->getSuppressAction());
 
     SpaceVect moveDir = cs.left_v;
 	SpaceVect facing = isAutoLook && cs.right_v.lengthSq() < ControlRegister::deadzone2 || 
@@ -212,6 +212,7 @@ void Player::checkMovementControls(const ControlInfo& cs)
 		sprintTimer <= 0.0 && 
 		cs.isControlActionDown(ControlAction::sprint) &&
 		!moveDir.isZero() && 
+		!space->getSuppressAction() &&
 		attributeSystem[Attribute::stamina] >= sprintCost
 	) {
 		isSprintActive = true;
