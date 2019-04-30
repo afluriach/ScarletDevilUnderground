@@ -75,7 +75,7 @@
   </object>
   <object id="26" type="Sign" x="2112" y="1152" width="128" height="128">
    <properties>
-    <property name="msg" value="practice_room"/>
+    <property name="dialog" value="practice_room"/>
    </properties>
   </object>
   <object id="42" name="door5" type="Door" x="3840" y="1536" width="128" height="128">

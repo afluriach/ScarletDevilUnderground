@@ -28,7 +28,7 @@ void Goal::update()
 	GObject::update();
 
 	timerDecrement(audioTimer);
-	if (audioTimer <= 0.0)
+	if (audioTimer <= 0.0 && !isBlocked)
 	{
 		playSoundSpatial("sfx/shot.wav", 0.5f);
 		audioTimer = 0.15;

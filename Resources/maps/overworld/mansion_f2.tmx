@@ -66,12 +66,12 @@
   </object>
   <object id="29" type="Sign" x="1728" y="1920" width="128" height="128">
    <properties>
-    <property name="msg" value="remillias_room"/>
+    <property name="dialog" value="remillias_room"/>
    </properties>
   </object>
   <object id="30" type="Sign" x="2112" y="1152" width="128" height="128">
    <properties>
-    <property name="msg" value="sakuyas_room"/>
+    <property name="dialog" value="sakuyas_room"/>
    </properties>
   </object>
  </objectgroup>

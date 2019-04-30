@@ -85,12 +85,12 @@
   </object>
   <object id="55" type="Sign" x="2112" y="1152" width="128" height="128">
    <properties>
-    <property name="msg" value="sign_flans_room"/>
+    <property name="dialog" value="sign_flans_room"/>
    </properties>
   </object>
   <object id="56" type="Sign" x="1728" y="1920" width="128" height="128">
    <properties>
-    <property name="msg" value="sign_library"/>
+    <property name="dialog" value="sign_library"/>
    </properties>
   </object>
   <object id="57" type="HPUpgrade" x="1920" y="4288" width="128" height="128">

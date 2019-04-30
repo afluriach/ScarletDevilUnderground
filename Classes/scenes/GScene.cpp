@@ -198,7 +198,6 @@ bool GScene::init()
 	{
 		const ChamberStats& stats = App::crntState->chamberStats.at(to_size_t(crnt));
 		gspace->crntChamber = crnt;
-		setRoomsVisible(stats.roomsVisited);
 	}
 	else
 	{
@@ -208,6 +207,11 @@ bool GScene::init()
 	multiInit();
 
 	gspace->isMultiMap = isMultiMap();
+
+	if (crnt != ChamberID::end) {
+		const ChamberStats& stats = App::crntState->chamberStats.at(to_size_t(crnt));
+		setRoomsVisible(stats.roomsVisited);
+	}
 
 	if (App::multithread) {
 		spaceUpdateToRun.store(false);

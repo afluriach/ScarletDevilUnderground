@@ -181,6 +181,7 @@
     <property name="dest_map" value="graveyard_inner_area"/>
     <property name="dir" value="up"/>
     <property name="path" value="true"/>
+    <property name="sealed_until_completed" value="2"/>
    </properties>
   </object>
  </objectgroup>

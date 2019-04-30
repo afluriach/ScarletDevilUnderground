@@ -138,7 +138,7 @@ void PlayScene::enterPause()
 	App::pauseSounds();
 	setPaused(true);
 	isShowingMenu = true;
-	hud->showHidden();
+	if(!isOverworld) hud->showHidden();
 
 	waitForSpaceThread();
 
@@ -216,7 +216,7 @@ void PlayScene::triggerReplayCompleted()
 
 void PlayScene::enterMap()
 {
-	if (isShowingMenu)
+	if (isShowingMenu || isOverworld)
 		return;
 
 	pauseAnimations();
