@@ -425,8 +425,10 @@ App::App()
 	control_register = make_unique<ControlRegister>();
 
     //Initialize Lua
+#if DEV_MODE
 	lua = make_unique<Lua::Inst>("app");
 	lua->runFile("scripts/init.lua");    
+#endif
 
 #if USE_TIMERS
 	timerSystem = make_unique<TimerSystem>();
@@ -507,7 +509,6 @@ bool App::applicationDidFinishLaunching() {
 
     //Create title menu scene and run it.
     runTitleScene();
-    lua->runFile("scripts/title.lua");
 
     return true;
 }

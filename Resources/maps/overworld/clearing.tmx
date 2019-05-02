@@ -1,5 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <map version="1.0" tiledversion="1.0.3" orientation="orthogonal" renderorder="right-down" width="48" height="48" tilewidth="128" tileheight="128" nextobjectid="62">
+ <properties>
+  <property name="ambient_light" value="224,224,224"/>
+ </properties>
  <tileset firstgid="1" name="grass" tilewidth="128" tileheight="128" tilecount="4" columns="2">
   <image source="../grass-floor.png" width="256" height="256"/>
  </tileset>

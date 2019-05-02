@@ -39,8 +39,10 @@ const vector<string> TitleMenu::entries = {
 	"New Game",
 	"Load Game",
 	"Load Replay",
+#if DEV_MODE
 	"Scene Select",
 	"World Select",
+#endif
 	"Exit"
 };
 
@@ -48,8 +50,10 @@ const vector <zero_arity_function > TitleMenu::entryActions = {
 	newGame,
 	loadGame,
 	loadReplay,
+#if DEV_MODE
 	sceneSelect,
 	worldSelect,
+#endif
 	&App::end
 };
 
@@ -266,9 +270,11 @@ const vector<pair<string,zero_arity_function>> WorldSelect::entries = {
 	entry(Graveyard2),
 	entry(Graveyard3),
 	entry(Graveyard4),
+#if DEV_MODE
 	entry(Forest),
 	entry(Desert),
 	entry(Mine),
+#endif
 	{ "Back", &WorldSelect::back }
 };
 
@@ -279,9 +285,11 @@ const vector<ChamberID> WorldSelect::chamberIDs = {
 	ChamberID::graveyard2,
 	ChamberID::graveyard3,
 	ChamberID::graveyard4,
+#if DEV_MODE
 	ChamberID::forest1,
 	ChamberID::desert1,
 	ChamberID::mine1,
+#endif
 };
 
 string WorldSelect::nextScene = "";

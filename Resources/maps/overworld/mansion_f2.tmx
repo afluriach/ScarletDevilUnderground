@@ -1,5 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <map version="1.0" tiledversion="1.0.3" orientation="orthogonal" renderorder="right-down" width="31" height="25" tilewidth="128" tileheight="128" nextobjectid="54">
+ <properties>
+  <property name="ambient_light" value="224,192,192"/>
+ </properties>
  <tileset firstgid="1" name="scarlet carpet texture" tilewidth="128" tileheight="128" tilecount="1" columns="1">
   <image source="../scarlet carpet texture.png" width="128" height="128"/>
  </tileset>

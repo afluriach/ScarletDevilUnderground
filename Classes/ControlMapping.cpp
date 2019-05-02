@@ -16,8 +16,10 @@
 
 const unordered_map<EventKeyboard::KeyCode, ControlActionState> ControlRegister::defaultKeyActionMap = {
 	key_action_2(KEY_ESCAPE,menu_back,pause),
+#if DEV_MODE
 	key_action_1(KEY_BACKTICK,scriptConsole),
 	key_action_1(KEY_L,displayMode),
+#endif
 	key_action_3(KEY_ENTER,menu_select,interact,enter),
 	key_action_3(KEY_KP_ENTER, menu_select, interact, enter),
 

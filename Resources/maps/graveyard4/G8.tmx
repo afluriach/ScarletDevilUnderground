@@ -31,7 +31,7 @@
   <object id="68" type="BreakableWall" x="2048" y="1024" width="128" height="128"/>
  </objectgroup>
  <objectgroup name="objects">
-  <object id="69" type="Health2" x="1024" y="832" width="128" height="128"/>
-  <object id="70" type="Magic2" x="1024" y="1088" width="128" height="128"/>
+  <object id="69" type="Health3" x="1024" y="896" width="128" height="128"/>
+  <object id="70" type="Magic3" x="1024" y="1152" width="128" height="128"/>
  </objectgroup>
 </map>

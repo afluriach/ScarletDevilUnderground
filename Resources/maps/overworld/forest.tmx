@@ -1,5 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <map version="1.0" tiledversion="1.0.3" orientation="orthogonal" renderorder="right-down" width="64" height="37" tilewidth="128" tileheight="128" nextobjectid="128">
+ <properties>
+  <property name="ambient_light" value="192,192,192"/>
+ </properties>
  <tileset firstgid="1" name="grass floor" tilewidth="128" tileheight="128" tilecount="4" columns="2">
   <image source="../grass-floor.png" width="256" height="256"/>
  </tileset>
@@ -137,7 +140,6 @@
     <property name="path" value="true"/>
    </properties>
   </object>
-  <object id="125" type="ForestBook1" x="3584" y="768" width="128" height="128"/>
   <object id="126" type="MPUpgrade" x="5120" y="512" width="128" height="128">
    <properties>
     <property name="id" value="0"/>

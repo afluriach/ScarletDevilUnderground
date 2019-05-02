@@ -110,4 +110,6 @@ void log_print(string s, T... args)
 
 #define log log_print
 
+#define DEV_MODE 1
+
 #endif /* Prefix_h */
