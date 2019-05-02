@@ -12,7 +12,9 @@
 #include "EnvironmentalObjects.hpp"
 #include "GSpace.hpp"
 #include "GState.hpp"
+#include "HUD.hpp"
 #include "macros.h"
+#include "PlayScene.hpp"
 #include "value_map.hpp"
 
 const vector<string> Headstone::damageSprites = {
@@ -119,4 +121,5 @@ void Mushroom::interact()
 	space->getState()->registerMushroomAcquired(objectID);
 	++space->getState()->mushroomCount;
 	space->removeObject(this);
+	space->addHudAction<string, int>(&HUD::setObjectiveCounter, "sprites/mushroom.png", App::getCrntState()->mushroomCount);
 }

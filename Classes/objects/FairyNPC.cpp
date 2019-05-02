@@ -13,8 +13,10 @@
 #include "FairyNPC.hpp"
 #include "GSpace.hpp"
 #include "GState.hpp"
+#include "HUD.hpp"
 #include "MiscMagicEffects.hpp"
 #include "Player.hpp"
+#include "PlayScene.hpp"
 #include "value_map.hpp"
 
 const AttributeMap FairyMaid::baseAttributes = {
@@ -90,6 +92,8 @@ void BlueFairyNPC::onDialogEnd()
 		++space->getState()->blueFairies;
 		space->getState()->mushroomCount -= level;
 		space->removeObject(this);
+
+		space->addHudAction<string,int>(&HUD::setObjectiveCounter, "sprites/mushroom.png", App::getCrntState()->mushroomCount);
 	} 
 }
 

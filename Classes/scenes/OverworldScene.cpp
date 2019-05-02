@@ -11,6 +11,7 @@
 #include "App.h"
 #include "Door.hpp"
 #include "GSpace.hpp"
+#include "GState.hpp"
 #include "HUD.hpp"
 #include "macros.h"
 #include "OverworldScene.hpp"
@@ -39,6 +40,10 @@ void OverworldScene::initHUD()
 	gspace->addObjectAction([=]()->void {
 		gspace->setSuppressAction(true);
 	});
+
+	if (mapName == "overworld/forest" || mapName == "overworld/forest_lake") {
+		hud->setObjectiveCounter("sprites/mushroom.png", App::getCrntState()->mushroomCount);
+	}
 }
 
 void OverworldScene::loadPlayer()

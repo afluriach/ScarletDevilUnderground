@@ -691,7 +691,8 @@ void Player::applyRespawn()
 
 	respawnMaskTimer = 0.25;
 
-	hit(DamageInfo{25.0f, Attribute::end, DamageType::pitfall});
+	if(!space->getSuppressAction())
+		hit(DamageInfo{25.0f, Attribute::end, DamageType::pitfall});
 }
 
 void Player::setHudEffect(Attribute id, Attribute max_id)
