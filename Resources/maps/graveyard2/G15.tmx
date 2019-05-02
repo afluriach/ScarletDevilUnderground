@@ -73,13 +73,15 @@
   </object>
  </objectgroup>
  <objectgroup name="dynamic_load">
-  <object id="68" type="RedFairy" x="1792" y="1024" width="128" height="128"/>
-  <object id="67" type="RedFairy" x="1024" y="256" width="128" height="128"/>
-  <object id="69" type="RedFairy" x="1024" y="1792" width="128" height="128"/>
   <object id="70" name="bulletSpeedUpgrade" type="BulletSpeedUpgrade" x="1024" y="1024" width="128" height="128">
    <properties>
     <property name="id" value="0"/>
    </properties>
   </object>
+ </objectgroup>
+ <objectgroup name="spawners">
+  <object id="69" type="RedFairy" x="1024" y="1792" width="128" height="128"/>
+  <object id="67" type="RedFairy" x="1024" y="256" width="128" height="128"/>
+  <object id="68" type="RedFairy" x="1792" y="1024" width="128" height="128"/>
  </objectgroup>
 </map>
