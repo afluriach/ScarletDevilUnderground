@@ -569,7 +569,7 @@ void HUD::setMapCounter(int val)
 
 void HUD::setPerformanceStats()
 {
-	if (!performanceStats) {
+	if (!performanceStats && App::showTimers) {
 		performanceStats = Label::createWithTTF("", "fonts/comfortaa.ttf", 18);
 		performanceStats->setWidth(300);
 		performanceStats->setPosition(App::width*0.1f, App::height*0.1f);
@@ -579,6 +579,8 @@ void HUD::setPerformanceStats()
 
 void HUD::updatePerformanceStats()
 {
+	if (!App::showTimers) return;
+
 	stringstream ss;
 	App::timerMutex.lock();
 	TimerTriplet object = App::timerSystem->getStats(TimerType::gobject);

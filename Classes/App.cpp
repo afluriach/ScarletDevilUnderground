@@ -57,6 +57,7 @@ const unordered_map<string, InterfaceFunction> App::interfaceFuntions = {
 	entry2(resolution, setResolution),
 	entry2(vsync, setVsync),
 	entry2(difficulty, setDifficulty),
+	entry2(timers, setShowTimers),
 
 	//Control register config commands
 	{ "button", &App::assignButton },
@@ -76,6 +77,7 @@ unsigned int App::height = 1000;
 bool App::fullscreen = false;
 bool App::vsync = true;
 bool App::multithread = true;
+bool App::showTimers = false;
 
 bool App::unlockAllEquips = false;
 float App::difficultyScale = 1.0f;
@@ -161,6 +163,11 @@ void App::setVsync(bool v)
 void App::setMultithread(bool v)
 {
 	multithread = v;
+}
+
+void App::setShowTimers(bool v)
+{
+	showTimers = v;
 }
 
 void App::setResolution(unsigned int width, unsigned int height)
@@ -491,7 +498,9 @@ bool App::applicationDidFinishLaunching() {
         glview->setDesignResolutionSize(width, height, ResolutionPolicy::SHOW_ALL);
     }
 
-    director->setDisplayStats(showStats);
+	if(showTimers)
+		director->setDisplayStats(true);
+
     director->setAnimationInterval(secondsPerFrame);
 
     loadShaders();

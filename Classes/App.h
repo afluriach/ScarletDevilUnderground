@@ -39,6 +39,7 @@ public:
 	static bool fullscreen;
 	static bool vsync;
 	static bool multithread;
+	static bool showTimers;
 
 	static float difficultyScale;
 	static bool unlockAllEquips;
@@ -57,7 +58,6 @@ public:
     
 	static const int maxAudioChannels = 128;
 
-    static const bool showStats = true;
     static const bool logSprites = false;
     static const string title;
     
@@ -83,6 +83,7 @@ public:
 	static void setFullscreen(bool fs);
 	static void setVsync(bool v);
 	static void setMultithread(bool v);
+	static void setShowTimers(bool v);
 	static void setResolution(unsigned int width, unsigned int height);
 	static void setFramerate(unsigned int fps);
 
