@@ -13,6 +13,7 @@
 #include "FileIO.hpp"
 #include "GState.hpp"
 #include "replay.h"
+#include "util.h"
 
 using namespace boost::filesystem;
 
@@ -126,8 +127,6 @@ set<string> getFileNamesInFolder(const string& filepath)
 		for (directory_entry& entry : directory_iterator(directory))
 		{
 			string s = entry.path().filename().generic_string();
-
-			log("%s", s.c_str());
 			result.insert(removeExtension(s));
 		}
 	}
@@ -207,20 +206,8 @@ unique_ptr<Replay> getControlReplay(string name)
 
 void autosaveControlReplay(string sceneName, const Replay* cr)
 {
-	int idx = 1;
-
-	do
-	{
-		string filepath = io::getReplayFolderPath() + sceneName + boost::lexical_cast<string>(idx) + ".replay";
-		bool exists = FileUtils::getInstance()->isFileExist(filepath);
-
-		if (!exists) {
-			saveData<Replay>(cr, filepath, false);
-			break;
-		}
-		++idx;
-	}
-	while(true);
+	string filepath = io::getReplayFolderPath() + sceneName + " " + getNowTimestamp() + ".replay";
+	saveData<Replay>(cr, filepath, false);
 }
 
 void saveControlReplay(string name, const Replay* cr)

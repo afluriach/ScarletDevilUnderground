@@ -416,6 +416,8 @@ App::App()
 {
     appInst = this;
 
+	log("\nKouma started at %s", getNowTimestamp());
+
 	//Initialize resources.zip filesystem
 	fileUtils = new FileUtilsZip();
 	fileUtils->init();

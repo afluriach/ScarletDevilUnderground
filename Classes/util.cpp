@@ -340,6 +340,16 @@ void timerIncrement(SpaceFloat& x, const SpaceFloat& scale)
 	x += App::secondsPerFrame*scale;
 }
 
+string getNowTimestamp()
+{
+	char buf[32];
+	chrono::system_clock::time_point now = chrono::system_clock::now();
+	time_t timepoint = chrono::system_clock::to_time_t(now);
+	//return asctime(localtime(&timepoint));
+	strftime(buf, 64, "%Y-%m-%d %H:%M:%S", localtime(&timepoint));
+	return string(buf);
+}
+
 boost::icl::interval_map<float, int> makeIntervalMap(const vector<float_pair>& intervals)
 {
 	boost::icl::interval_map<float, int> result;
