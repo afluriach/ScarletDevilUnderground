@@ -67,7 +67,7 @@
     <CodeAnalysisRuleAssemblies Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" />
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
-    <LibraryPath>D:\dev\libsndfile\Release;D:\dev\openal-soft\Release;D:\dev\boost_1_69_0\stage\lib;$(MSBuildProgramFiles32)\Microsoft SDKs\Windows\v7.1A\lib;$(LibraryPath)</LibraryPath>
+    <LibraryPath>D:\dev\libsndfile\Release;D:\dev\openal-soft\Debug;D:\dev\boost_1_69_0\stage\lib;$(MSBuildProgramFiles32)\Microsoft SDKs\Windows\v7.1A\lib;$(LibraryPath)</LibraryPath>
     <IncludePath>D:\dev\libsndfile\src;D:\dev\openal-soft\include;C:\Users\toni\git\kouma\libnoise\src;C:\Users\toni\git\kouma\glfw\include\GLFW;C:\Users\toni\git\kouma\cocos2d\chipmunk;C:\Users\toni\git\kouma\cocos2d\chipmunkpp;C:\Users\toni\git\kouma\cocos2d\LuaBridge;C:\Users\toni\git\kouma\cocos2d\lua;D:\dev\boost_1_69_0;$(IncludePath)</IncludePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
