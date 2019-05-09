@@ -643,6 +643,26 @@ void HUD::setPowerAttackIcon(string val)
 	powerAttackIcon->setTexture(val);
 }
 
+void HUD::updateHUD(AttributeSystem playerAttributes)
+{
+	setMaxHP(to_int(playerAttributes[Attribute::maxHP]));
+	setHP(to_int(playerAttributes[Attribute::hp]));
+	setMaxMP(to_int(playerAttributes[Attribute::maxMP]));
+	setMP(to_int(playerAttributes[Attribute::mp]));
+	setMaxStamina(to_int(playerAttributes[Attribute::maxStamina]));
+	setStamina(to_int(playerAttributes[Attribute::stamina]));
+
+	setKeyCount(to_int(playerAttributes[Attribute::keys]));
+
+	setEffect(Attribute::hitProtection, Attribute::hitProtectionInterval, &playerAttributes);
+	setEffect(Attribute::spellCooldown, Attribute::spellCooldownInterval, &playerAttributes);
+	setEffect(Attribute::combo, AttributeSystem::maxComboPoints, &playerAttributes);
+
+	enum_foreach(Attribute, elem, beginElementDamage, endElementDamage) {
+		setPercentValue(elem, to_int(playerAttributes[elem]));
+	}
+}
+
 void HUD::setHP(int v)
 {
 	if (v != hpMeter->getValue()) {
@@ -691,6 +711,18 @@ void HUD::setKeyCount(int count)
 		resetVisibility(keyMeter);
 		keyMeter->setVal(count);
 	}
+}
+
+void HUD::setEffect(Attribute id, Attribute max_id, const AttributeSystem* attr)
+{
+	setEffect(id, (*attr)[max_id], attr);
+}
+
+void HUD::setEffect(Attribute id, float maxVal, const AttributeSystem* attr)
+{
+	float val = (*attr)[id];
+	int percent = (val >= 0.0f  && maxVal > 0.0f ? val / maxVal * 100.0f : 100);
+	setPercentValue(id, percent);
 }
 
 void HUD::runHealthFlicker(float length, float interval)

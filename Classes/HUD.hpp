@@ -199,6 +199,8 @@ public:
 	Label* performanceStats = nullptr;
 	float performanceStatsTimer = 0.0f;
 
+	void updateHUD(AttributeSystem playerAttributes);
+
 	void setHP(int);
 	void setMaxHP(int);
 
@@ -208,6 +210,9 @@ public:
 	void setStamina(int);
 	void setMaxStamina(int);
 	void setKeyCount(int);
+
+	void setEffect(Attribute id, Attribute max_id, const AttributeSystem* attr);
+	void setEffect(Attribute id, float maxVal, const AttributeSystem* attr);
 
 	void runHealthFlicker(float length, float interval);
 	void runMagicFlicker(float length, float interval);

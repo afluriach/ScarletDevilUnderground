@@ -163,13 +163,6 @@ SpaceVect Player::getInteractFeeler() const
 void Player::init()
 {
 	if (playScene && !space->getSuppressAction()) {
-		space->addHudAction(&HUD::setMaxHP, to_int(attributeSystem[Attribute::maxHP]));
-		space->addHudAction(&HUD::setHP, to_int(attributeSystem[Attribute::hp]));
-		space->addHudAction(&HUD::setMaxMP, to_int(attributeSystem[Attribute::maxMP]));
-		space->addHudAction(&HUD::setMP, to_int(attributeSystem[Attribute::mp]));
-		space->addHudAction(&HUD::setMaxStamina, to_int(attributeSystem[Attribute::maxStamina]));
-		space->addHudAction(&HUD::setStamina, to_int(attributeSystem[Attribute::stamina]));
-
 		equipFirePatterns();
 		equipSpells();
 		equipPowerAttacks();
@@ -435,6 +428,7 @@ void Player::update()
 
 	if (playScene) {
 		space->updatePlayerMapLocation(getPos());
+		space->addHudAction(&HUD::updateHUD, attributeSystem);
 
 		ControlInfo cs = space->getControlInfo();
 
@@ -447,21 +441,6 @@ void Player::update()
 			updateSpellControls(cs);
 
 			updateCombo();
-
-			setHudEffect(Attribute::hitProtection, Attribute::hitProtectionInterval);
-			setHudEffect(Attribute::spellCooldown, Attribute::spellCooldownInterval);
-			setHudEffect(Attribute::combo, AttributeSystem::maxComboPoints);
-
-			updateHudAttribute(Attribute::iceDamage);
-			updateHudAttribute(Attribute::sunDamage);
-			updateHudAttribute(Attribute::darknessDamage);
-			updateHudAttribute(Attribute::poisonDamage);
-			updateHudAttribute(Attribute::slimeDamage);
-
-			space->addHudAction(&HUD::setHP, to_int(attributeSystem[Attribute::hp]));
-			space->addHudAction(&HUD::setMP, to_int(attributeSystem[Attribute::mp]));
-			space->addHudAction(&HUD::setStamina, to_int(attributeSystem[Attribute::stamina]));
-			space->addHudAction(&HUD::setKeyCount, to_int(attributeSystem[Attribute::keys]));
 		}
 
 		timerDecrement(respawnTimer);
@@ -622,15 +601,12 @@ void Player::applyUpgrade(Upgrade* up)
 	{
 	case Attribute::maxHP:
 		attributeSystem.modifyAttribute(Attribute::hp, step);
-		space->addHudAction(&HUD::setMaxHP,to_int(attributeSystem[Attribute::maxHP]));
 	break;
 	case Attribute::maxMP:
 		attributeSystem.modifyAttribute(Attribute::mp, step);
-		space->addHudAction(&HUD::setMaxMP, to_int(attributeSystem[Attribute::maxMP]));
 	break;
 	case Attribute::maxStamina:
 		attributeSystem.modifyAttribute(Attribute::stamina, step);
-		space->addHudAction(&HUD::setMaxStamina, to_int(attributeSystem[Attribute::maxStamina]));
 	break;
 	case Attribute::shieldLevel:
 		space->setAgentOverlayShieldLevel(agentOverlay, attributeSystem[Attribute::shieldLevel]);
@@ -693,24 +669,6 @@ void Player::applyRespawn()
 
 	if(!space->getSuppressAction())
 		hit(DamageInfo{25.0f, Attribute::end, DamageType::pitfall});
-}
-
-void Player::setHudEffect(Attribute id, Attribute max_id)
-{
-	setHudEffect(id, getAttribute(max_id));
-}
-
-void Player::setHudEffect(Attribute id, float maxVal)
-{
-	float val = getAttribute(id);
-	int percent = (val >= 0.0f  && maxVal > 0.0f ? val / maxVal * 100.0f : 100);
-
-	space->addHudAction(&HUD::setPercentValue, id, percent);
-}
-
-void Player::updateHudAttribute(Attribute id)
-{
-	space->addHudAction(&HUD::setPercentValue, id, to_int(attributeSystem[id]));
 }
 
 bool Player::canPlaceBomb(SpaceVect pos)

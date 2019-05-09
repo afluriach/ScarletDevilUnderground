@@ -119,10 +119,6 @@ protected:
 	void startRespawn();
 	void applyRespawn();
 
-	void setHudEffect(Attribute id, Attribute max_id);
-	void setHudEffect(Attribute id, float maxVal);
-	void updateHudAttribute(Attribute id);
-
 	bool canPlaceBomb(SpaceVect pos);
 
 	SpaceVect sprintDirection;
