@@ -178,7 +178,6 @@ public:
 	inline NoAttributes() {}
 
 	inline virtual AttributeMap getBaseAttributes() const {
-		return {};
 		return AttributeMap();
 	}
 };
