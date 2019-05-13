@@ -21,7 +21,7 @@
 
 //LOGIC MIXINS
 
-void DialogEntity::interact()
+void DialogEntity::interact(Player* p)
 {
 	space->createDialog(
 		getDialog(),

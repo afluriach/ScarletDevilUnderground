@@ -374,17 +374,17 @@ void Player::checkItemInteraction(const ControlInfo& cs)
 
 	InteractibleObject* interactible = space->interactibleObjectFeeler(this, getInteractFeeler());
 	
-	if(interactible && interactible->canInteract())
+	if(interactible && interactible->canInteract(this))
     {
         if(cs.isControlActionPressed(ControlAction::interact) && interactCooldown <= 0.0f){
-            interactible->interact();
+            interactible->interact(this);
             interactCooldown = interactCooldownTime;
         }
     }
 
 	space->addHudAction(
 		&HUD::setInteractionIcon,
-		interactible && interactible->canInteract() ? interactible->interactionIcon() : ""
+		interactible && interactible->canInteract(this) ? interactible->interactionIcon(this) : ""
 	);
 }
 

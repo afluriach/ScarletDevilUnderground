@@ -40,9 +40,9 @@ public:
     virtual inline GType getType() const {return GType::environment;}
     virtual PhysicsLayers getLayers() const;
 
-	virtual bool canInteract();
-	virtual void interact();
-	virtual string interactionIcon();
+	virtual bool canInteract(Player* p);
+	virtual void interact(Player* p);
+	virtual string interactionIcon(Player* p);
 
 	virtual void activate();
 	virtual void deactivate();

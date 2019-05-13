@@ -29,9 +29,9 @@ public:
     virtual inline GType getType() const {return GType::environment;}
     virtual inline GraphicsLayer sceneLayer() const {return GraphicsLayer::ground;}
 
-	virtual inline bool canInteract() { return true; }
-	virtual void interact();
-	virtual inline string interactionIcon() { return "sprites/torch.png"; }
+	virtual inline bool canInteract(Player* p) { return true; }
+	virtual void interact(Player* p);
+	virtual inline string interactionIcon(Player* p) { return "sprites/torch.png"; }
 
     virtual void initializeGraphics();
     

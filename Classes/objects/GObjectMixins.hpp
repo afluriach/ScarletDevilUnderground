@@ -36,9 +36,9 @@ class InteractibleObject : public virtual GObject
 public:
 	inline InteractibleObject() {}
 
-    virtual bool canInteract() = 0;
-    virtual void interact() = 0;
-    virtual string interactionIcon() = 0;
+    virtual bool canInteract(Player* p) = 0;
+    virtual void interact(Player* p) = 0;
+    virtual string interactionIcon(Player* p) = 0;
 };
 
 class ActivateableObject : public virtual GObject
@@ -59,12 +59,12 @@ public:
     virtual string getDialog() = 0;
 	inline virtual void onDialogEnd() {}
 
-    inline virtual bool canInteract(){
+    inline virtual bool canInteract(Player* p){
         return isDialogAvailable();
     }
-    virtual void interact();
+    virtual void interact(Player* p);
 
-    inline virtual string interactionIcon(){
+    inline virtual string interactionIcon(Player* p){
         return "sprites/ui/dialog.png";
     }
 };

@@ -19,7 +19,7 @@ GObject(space,id,args)
 	setInitialAngle(float_pi / 2.0);
 }
 
-void Desk::interact()
+void Desk::interact(Player* p)
 {
 	space->addSceneAction(
 		[=]()->void { space->getSceneAs<PlayScene>()->enterWorldSelect(); }

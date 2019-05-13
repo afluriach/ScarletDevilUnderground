@@ -23,12 +23,11 @@ CollectGlyph::CollectGlyph(GSpace* space, ObjectIDType id, const ValueMap& args)
 	}
 }
 
-
-bool CollectGlyph::canInteract() {
+bool CollectGlyph::canInteract(Player* p) {
 	return !hasInteracted;
 }
 
-void CollectGlyph::interact() {
+void CollectGlyph::interact(Player* p) {
 	space->addSceneAction(
 		bind(&Collect::registerActivation, collectScene, gobject_ref(this))
 	);
@@ -36,6 +35,6 @@ void CollectGlyph::interact() {
 	hasInteracted = true;
 }
 
-string CollectGlyph::interactionIcon() {
+string CollectGlyph::interactionIcon(Player* p) {
 	return "sprites/glyph.png";
 }

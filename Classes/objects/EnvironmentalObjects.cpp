@@ -116,7 +116,7 @@ Mushroom::Mushroom(GSpace* space, ObjectIDType id, const ValueMap& args) :
 	objectID = getIntOrDefault(args, "id", -1);
 }
 
-void Mushroom::interact()
+void Mushroom::interact(Player* p)
 {
 	space->getState()->registerMushroomAcquired(objectID);
 	++space->getState()->mushroomCount;

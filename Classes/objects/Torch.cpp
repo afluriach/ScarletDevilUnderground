@@ -92,7 +92,7 @@ void Torch::addLightSource()
 	space->setLightSourceNoise(lightSourceID, perlin_light_state{ toColor4F(color)*intensity, boost::math::float_constants::pi, 0.0f, 4.0f, 0.3f});
 }
 
-void Torch::interact()
+void Torch::interact(Player* p)
 {
 	setActive(!isActive);
 }

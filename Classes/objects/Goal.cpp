@@ -35,12 +35,12 @@ void Goal::update()
 	}
 }
 
-bool Goal::canInteract()
+bool Goal::canInteract(Player* p)
 {
 	return !isBlocked;
 }
 
-void Goal::interact()
+void Goal::interact(Player* p)
 {
 	if (isBlocked || space->getIsRunningReplay()) return;
 

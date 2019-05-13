@@ -32,9 +32,9 @@ public:
     virtual inline SpaceFloat getMass() const {return -1.0;}
     virtual inline GType getType() const {return GType::environment;}
     
-	virtual bool canInteract();
-	virtual void interact();
-	virtual string interactionIcon();
+	virtual bool canInteract(Player* p);
+	virtual void interact(Player* p);
+	virtual string interactionIcon(Player* p);
 protected:
 	bool hasInteracted = false;
 	Collect* collectScene = nullptr;

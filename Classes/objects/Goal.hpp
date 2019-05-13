@@ -34,9 +34,9 @@ public:
     virtual inline GType getType() const {return GType::environment;}
 	virtual inline PhysicsLayers getLayers() const { return PhysicsLayers::ground; }
 
-	virtual bool canInteract();
-	virtual void interact();
-	virtual inline string interactionIcon() { return "sprites/ui/goal.png"; }
+	virtual bool canInteract(Player* p);
+	virtual void interact(Player* p);
+	virtual inline string interactionIcon(Player* p) { return "sprites/ui/goal.png"; }
 
 	virtual void activate();
 	virtual void deactivate();

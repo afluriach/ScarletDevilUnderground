@@ -113,10 +113,8 @@ string Door::imageSpritePath() const {
 	return "sprites/door.png";
 }
 
-bool Door::canInteract()
+bool Door::canInteract(Player* p)
 {
-	Player* p = space->getObjectAs<Player>("player");
-
 	return doorType != door_type::one_way_destination &&
 		(adjacent.isValid() || !destinationMap.empty()) &&
 		!sealed &&
@@ -124,10 +122,8 @@ bool Door::canInteract()
 	;
 }
 
-void Door::interact()
+void Door::interact(Player* p)
 {
-	Player* p = space->getObjectAs<Player>("player");
-
 	if (!locked && !sealed) {
 		p->useDoor(this);
 	}
@@ -138,7 +134,7 @@ void Door::interact()
 	}
 }
 
-string Door::interactionIcon()
+string Door::interactionIcon(Player* p)
 {
 	if (stairs)
 		return "sprites/stairs.png";

@@ -28,8 +28,8 @@ public:
 	virtual inline PhysicsLayers getLayers() const { return PhysicsLayers::ground; }
 	virtual inline SpaceFloat getMass() const { return -1.0; }
 
-	virtual inline string interactionIcon() { return "sprites/desk.png"; }
-	virtual inline bool canInteract() { return true; }
-	virtual inline void interact();
+	virtual inline string interactionIcon(Player* p) { return "sprites/desk.png"; }
+	virtual inline bool canInteract(Player* p) { return true; }
+	virtual inline void interact(Player* p);
 };
 #endif /* Block_hpp */
