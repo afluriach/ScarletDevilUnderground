@@ -101,7 +101,6 @@ protected:
 	vector<string> trapDoorNames;
 	string spawnOnClear;
 
-	unordered_set<int> multiSpawnRooms;
 	unordered_set<ActivateableObject*> doors;
 	unordered_set<Spawner*> spawners;
 	unordered_map<type_index, vector<Spawner*>> spawnersByType;

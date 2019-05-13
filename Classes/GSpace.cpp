@@ -238,15 +238,6 @@ gobject_ref GSpace::createObject(ObjectGeneratorType generator)
 	return gobject_ref(this,id);
 }
 
-void GSpace::createObjects(const ValueVector& objs)
-{
-    for(const Value& obj: objs)
-    {
-        const ValueMap& objAsMap = obj.asValueMap();
-        createObject(objAsMap);
-    }
-}
-
 void GSpace::addWallBlock(const SpaceVect& ll, const SpaceVect& ur)
 {
 	addWallBlock(SpaceRect(ll.x, ll.y, ur.x - ll.x, ur.y - ll.y));

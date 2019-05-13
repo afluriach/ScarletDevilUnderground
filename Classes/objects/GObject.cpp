@@ -86,7 +86,7 @@ GObject* GObject::constructByType(GSpace* space, ObjectIDType id, const string& 
     }
 }
 
-GObject::GeneratorType GObject::factoryMethodByType(const string& type, const ValueMap& args)
+ObjectGeneratorType GObject::factoryMethodByType(const string& type, const ValueMap& args)
 {
 	return [type,args](GSpace* space, ObjectIDType id) -> GObject* {
 		return constructByType(space, id, type, args);

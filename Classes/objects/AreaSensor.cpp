@@ -116,20 +116,6 @@ RoomSensor::RoomSensor(GSpace* space, ObjectIDType id, SpaceVect center, SpaceVe
 	trapDoorNames = splitString(getStringOrDefault(props, "trap_doors", ""), " ");
 	spawnOnClear = getStringOrDefault(props, "spawn_on_clear", "");
 	bossName = getStringOrDefault(props, "boss", "");
-
-	string multiSpawn = getStringOrDefault(props, "multi_spawn", "");
-	if (!multiSpawn.empty()) {
-		vector<string> rooms = splitString(multiSpawn, " ");
-		for (string room : rooms) {
-			try {
-				int id = boost::lexical_cast<int>(room);
-				multiSpawnRooms.insert(id);
-			}
-			catch (boost::bad_lexical_cast ex) {
-				log("RoomSensor: invalid multispawn room number %d", id);
-			}
-		}
-	}
 }
 
 void RoomSensor::onPlayerContact(Player* p)
@@ -292,15 +278,7 @@ unsigned int RoomSensor::activateSpawners(type_index t, unsigned int count)
 
 bool RoomSensor::isClearedState()
 {
-	bool result = enemies.empty() && fsm.getThreadCount() == 0;
-
-	for (int id : multiSpawnRooms) {
-		RoomSensor* rs = space->getRoomSensor(id);
-		if (rs) {
-			result = result && rs->isCleared;
-		}
-	}
-	return result;
+	return enemies.empty() && fsm.getThreadCount() == 0;
 }
 
 GhostHeadstoneSensor::GhostHeadstoneSensor(GSpace* space, ObjectIDType id, const ValueMap& args) :

@@ -87,7 +87,6 @@ public:
 	const ValueMap* getDynamicObject(const string& name) const;
 	gobject_ref createObject(const ValueMap& obj);
 	gobject_ref createObject(ObjectGeneratorType factory);
-	void createObjects(const ValueVector& objs);
         
 	bool isTrackedType(type_index t) const;
     bool isValid(unsigned int uuid) const;

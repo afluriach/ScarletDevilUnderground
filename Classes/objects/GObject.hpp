@@ -32,7 +32,6 @@ class GObject
 {
 public:
 	typedef function<GObject*(GSpace*, ObjectIDType, const ValueMap&) > AdapterType;
-	typedef function<GObject*(GSpace*, ObjectIDType)> GeneratorType;
 
 	enum class initOrder {
 		base=1,
@@ -57,7 +56,7 @@ public:
 	static const GLubyte objectFadeOpacity;
 
 	static GObject* constructByType(GSpace* space, ObjectIDType id, const string& type, const ValueMap& args);
-	static GeneratorType factoryMethodByType(const string& type, const ValueMap& args);
+	static ObjectGeneratorType factoryMethodByType(const string& type, const ValueMap& args);
 	static const object_info* getObjectInfo(string name);
 	static type_index getTypeIndex(string name);
 	static void initNameMap();
@@ -69,7 +68,7 @@ public:
 	}
 
 	template<class ObjectCls, typename... ConsArgs>
-	static inline GeneratorType make_object_factory(ConsArgs... args)
+	static inline ObjectGeneratorType make_object_factory(ConsArgs... args)
 	{
 		return [args...](GSpace* space, ObjectIDType id) -> GObject* {
 			return create<ObjectCls, ConsArgs...>(space, id, args...);
