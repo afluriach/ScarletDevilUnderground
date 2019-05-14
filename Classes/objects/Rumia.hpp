@@ -33,10 +33,10 @@ class Rumia1 : public Rumia, public BaseAttributes<Rumia1>
 {
 public:
 	static const AttributeMap baseAttributes;
+	static const string properName;
 
 	MapObjCons(Rumia1);
 
-	virtual inline string getProperName() const { return "Rumia I"; }
 	virtual void initStateMachine(ai::StateMachine& fsm);
 	virtual void onZeroHP();
 };
@@ -45,10 +45,10 @@ class Rumia2 : public Rumia, public BaseAttributes<Rumia2>
 {
 public:
 	static const AttributeMap baseAttributes;
+	static const string properName;
 
 	MapObjCons(Rumia2);
 
-	virtual inline string getProperName() const { return "Rumia II"; }
 	virtual void initStateMachine(ai::StateMachine& fsm);
 	virtual void onZeroHP();
 };

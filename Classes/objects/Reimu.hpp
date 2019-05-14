@@ -33,7 +33,9 @@ class ReimuEnemy : public Enemy, public BaseAttributes<ReimuEnemy>
 {
 public:
 	static constexpr int orbCount = 4;
+
 	static const AttributeMap baseAttributes;
+	static const string properName;
 
 	MapObjCons(ReimuEnemy);
 
@@ -43,8 +45,6 @@ public:
 	void removeOrbs();
 
 	virtual void onZeroHP();
-
-	virtual inline string getProperName() const { return "Reimu Hakurei"; }
 
 	virtual inline SpaceFloat getRadarRadius() const { return 5.0; }
 	virtual inline GType getRadarType() const { return GType::enemySensor; }

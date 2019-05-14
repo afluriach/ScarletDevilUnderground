@@ -4,6 +4,7 @@
 #include "controls.h"
 #include "FileIO.hpp"
 #include "functional.hpp"
+#include "GObject.hpp"
 #include "GScene.hpp"
 #include "GState.hpp"
 #include "LuaAPI.hpp"
@@ -517,6 +518,9 @@ bool App::applicationDidFinishLaunching() {
     );
 
 	initAudio();
+
+	GObject::initObjectInfo();
+	GObject::initNameMap();
 
     //Create title menu scene and run it.
     runTitleScene();

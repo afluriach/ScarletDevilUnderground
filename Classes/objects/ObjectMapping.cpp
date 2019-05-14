@@ -33,6 +33,7 @@
 #include "GState.hpp"
 #include "Items.hpp"
 #include "Launcher.hpp"
+#include "macros.h"
 #include "MapFragment.hpp"
 #include "Marisa.hpp"
 #include "Meiling.hpp"
@@ -53,6 +54,8 @@
 #include "Torch.hpp"
 #include "Upgrade.hpp"
 #include "Wall.hpp"
+
+make_static_member_detector(properName)
 
 //Adapters for mapping the name of a class to a factory adapter.
 template <typename T>
@@ -119,20 +122,45 @@ GObject::AdapterType upgradeAdapter(Attribute at)
 	};
 }
 
-#define entry(name,cls) {name, GObject::object_info{consAdapter<cls>(), type_index(typeid(cls))}}
+template <class C>
+GObject::object_info makeObjectInfo(GObject::AdapterType adapter)
+{
+	string name;
+	if constexpr(has_properName<C>::value) {
+		name = C::properName;
+	}
+
+	return GObject::object_info{
+		adapter,
+		type_index(typeid(C)),
+		name
+	};
+}
+
+GObject::object_info playerObjectInfo()
+{
+	return makeObjectInfo<Player>(playerAdapter());
+}
+
+#define entry(name,cls) {name, makeObjectInfo<cls>(consAdapter<cls>())}
 //To make an entry where the name matches the class
 #define entry_same(cls) entry(#cls, cls)
 
-#define conditional_entry(name) {#name, GObject::object_info{conditionalLoadAdapter<name>(), type_index(typeid(name))}}
+#define conditional_entry(name) {#name, makeObjectInfo<name>(conditionalLoadAdapter<name>())}
 
-#define item_entry(name,cls,itemKey) {name, GObject::object_info{itemAdapter<cls>(#itemKey), type_index(typeid(cls))}}
+#define item_entry(name,cls,itemKey) {name, makeObjectInfo<cls>(itemAdapter<cls>(#itemKey))}
 #define item_entry_same(cls) item_entry(#cls,cls,cls)
 
-#define collectible_entry(name,id) {#name, GObject::object_info{collectibleAdapter<name>(collectible_id::id), type_index(typeid(name))}}
+#define collectible_entry(name,id) {#name, makeObjectInfo<name>(collectibleAdapter<name>(collectible_id::id))}
 
-#define upgrade_entry(name,at) {#name, GObject::object_info{upgradeAdapter(Attribute::at), type_index(typeid(Upgrade))}}
+#define upgrade_entry(name,at) {#name, makeObjectInfo<Upgrade>(upgradeAdapter(Attribute::at))}
 
-const unordered_map<string, GObject::object_info> GObject::objectInfo = {
+unordered_map<string, GObject::object_info> GObject::objectInfo;
+
+void GObject::initObjectInfo()
+{
+	objectInfo = {
+
 	upgrade_entry(AgilityUpgrade, agility),
 	upgrade_entry(AttackUpgrade, attack),
 	upgrade_entry(AttackSpeedUpgrade, attackSpeed),
@@ -224,8 +252,10 @@ const unordered_map<string, GObject::object_info> GObject::objectInfo = {
 	entry_same(WaterFloor),
 	entry_same(ZombieFairy),
 
-	{ "Player", object_info{playerAdapter(), type_index(typeid(Player))} }
-};
+	{ "Player", playerObjectInfo() }
+
+	};
+}
 
 const unordered_set<type_index> GSpace::trackedTypes = {
 	typeid(Door),

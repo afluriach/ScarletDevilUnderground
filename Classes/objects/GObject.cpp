@@ -93,11 +93,29 @@ ObjectGeneratorType GObject::factoryMethodByType(const string& type, const Value
 	};
 }
 
+string GObject::properNameByType(type_index t)
+{
+	const object_info* info = getObjectInfo(t);
+	if (info)
+		return info->properName;
+	else
+		return "";
+}
+
 const GObject::object_info* GObject::getObjectInfo(string name)
 {
 	auto it = objectInfo.find(name);
 	if (it != objectInfo.end())
 		return &it->second;
+	else
+		return nullptr;
+}
+
+const GObject::object_info* GObject::getObjectInfo(type_index t)
+{
+	auto it = typeNameMap.find(t);
+	if (it != typeNameMap.end())
+		return getObjectInfo(it->second);
 	else
 		return nullptr;
 }
@@ -122,10 +140,12 @@ void GObject::initNameMap()
 
 string GObject::getTypeName() const
 {
-	if (typeNameMap.empty())
-		initNameMap();
-
 	return getOrDefault<type_index, string>(typeNameMap, typeid(*this), "GObject");
+}
+
+string GObject::getProperName() const
+{
+	return properNameByType(typeid(*this));
 }
 
 void GObject::init()

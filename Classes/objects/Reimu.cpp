@@ -27,6 +27,7 @@ const AttributeMap ReimuEnemy::baseAttributes = {
 	{ Attribute::speed, 2.0f },
 	{ Attribute::acceleration, 4.0f }
 };
+const string ReimuEnemy::properName = "Reimu Hakurei";
 
 ReimuEnemy::ReimuEnemy(GSpace* space, ObjectIDType id, const ValueMap& args) :
 	MapObjForwarding(GObject),
