@@ -14,6 +14,11 @@
 #include "object_ref.hpp"
 #include "types.h"
 
+struct floorsegment_properties {
+	string sfxRes;
+	double traction = 1.0;
+};
+
 class FloorSegment : virtual public GObject, public RectangleBody
 {
 public:
@@ -32,6 +37,20 @@ public:
 	virtual void onContact(GObject* obj) {};
 	virtual void onEndContact(GObject* obj) {};
 	virtual inline void exclusiveFloorEffect(GObject* obj) {}
+};
+
+class FloorSegmentImpl : FloorSegment, public NoSprite
+{
+public:
+	static const unordered_map<string, floorsegment_properties> floorSegmentTypes;
+
+	FloorSegmentImpl(GSpace* space, ObjectIDType id, const ValueMap& args, const string& type);
+	virtual ~FloorSegmentImpl();
+
+	virtual inline SpaceFloat getFrictionCoeff() const { return props.traction; }
+	virtual string getFootstepSfx() const;
+protected:
+	floorsegment_properties props;
 };
 
 class MovingPlatform:
@@ -75,44 +94,6 @@ public:
 	virtual inline SpaceFloat getFrictionCoeff() const { return 0.2; }
 };
 
-class DirtFloorCave : public FloorSegment, public NoSprite
-{
-public:
-	MapObjCons(DirtFloorCave);
-};
-
-class BridgeFloor : public FloorSegment, public NoSprite
-{
-public:
-	MapObjCons(BridgeFloor);
-};
-
-class MansionFloor : public FloorSegment, public NoSprite
-{
-public:
-	MapObjCons(MansionFloor);
-};
-
-class MineFloor : public FloorSegment, public NoSprite
-{
-public:
-	MapObjCons(MineFloor);
-
-	virtual inline string getFootstepSfx() const { return "sfx/footstep_cave.wav"; }
-};
-
-class IceFloor : public FloorSegment, public NoSprite
-{
-public:
-	static const SpaceFloat frictionCoeff;
-
-	MapObjCons(IceFloor);
-
-	virtual inline string getFootstepSfx() const { return "sfx/footstep_ice.wav"; }
-
-	virtual inline SpaceFloat getFrictionCoeff() const { return 0.25; }
-};
-
 class PressurePlate : public FloorSegment, public RegisterInit<PressurePlate>, public NoSprite
 {
 public:
@@ -151,35 +132,5 @@ public:
 
 	virtual PhysicsLayers getLayers() const { return PhysicsLayers::belowFloor; }
 };
-
-
-class GrassFloor : public FloorSegment, public NoSprite
-{
-public:
-	MapObjCons(GrassFloor);
-
-	virtual inline string getFootstepSfx() const { return "sfx/footstep_grass.wav"; }
-
-	virtual inline SpaceFloat getFrictionCoeff() const { return 2.0 / 3.0; }
-};
-
-class StoneFloor : public FloorSegment, public NoSprite
-{
-public:
-	MapObjCons(StoneFloor);
-
-	virtual inline string getFootstepSfx() const { return "sfx/footstep_stone.wav"; }
-};
-
-class SandFloor : public FloorSegment, public NoSprite
-{
-public:
-	MapObjCons(SandFloor);
-
-	virtual inline string getFootstepSfx() const { return "sfx/footstep_sand.wav"; }
-
-	virtual inline SpaceFloat getFrictionCoeff() const { return 0.5; }
-};
-
 
 #endif /* FloorSegment_hpp */

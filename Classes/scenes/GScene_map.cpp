@@ -12,6 +12,7 @@
 #include "App.h"
 #include "AreaSensor.hpp"
 #include "functional.hpp"
+#include "FloorSegment.hpp"
 #include "GObject.hpp"
 #include "GScene.hpp"
 #include "GSpace.hpp"
@@ -245,7 +246,18 @@ void GScene::loadFloorSegments(const TMXTiledMap& map, IntVec2 offset)
 	if (!floor)
 		return;
 
-	loadObjectGroup(floor, offset);
+	for (const Value& obj : floor->getObjects())
+	{
+		ValueMap objAsMap = obj.asValueMap();
+		convertToUnitSpace(objAsMap, offset);
+		string type = getStringOrDefault(objAsMap, "type", "");
+		if (!GObject::getObjectInfo(type)) {
+			gspace->createObject(GObject::make_object_factory<FloorSegmentImpl>(objAsMap, type));
+		}
+		else {
+			gspace->createObject(objAsMap);
+		}
+	}
 }
 
 void GScene::loadSensors(const TMXTiledMap& map, IntVec2 offset)
