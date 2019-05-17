@@ -220,6 +220,7 @@ public:
 	void setMax(float maxValue);
 
 	inline float getValue() const { return crntValue; }
+	inline float getMaxValue() const { return maxValue; }
 protected:
 	void redraw();
 

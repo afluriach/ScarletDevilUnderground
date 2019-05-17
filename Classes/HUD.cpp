@@ -673,8 +673,10 @@ void HUD::setHP(int v)
 
 void HUD::setMaxHP(int v)
 {
-	resetVisibility(hpMeter);
-	hpMeter->setMax(v);
+	if (v != hpMeter->getMaxValue()) {
+		resetVisibility(hpMeter);
+		hpMeter->setMax(v);
+	}
 }
 
 void HUD::setMP(int v)
@@ -687,8 +689,10 @@ void HUD::setMP(int v)
 
 void HUD::setMaxMP(int v)
 {
-	resetVisibility(mpMeter);
-	mpMeter->setMax(v);
+	if (v != mpMeter->getMaxValue()) {
+		resetVisibility(mpMeter);
+		mpMeter->setMax(v);
+	}
 }
 
 void HUD::setStamina(int v)
@@ -701,8 +705,10 @@ void HUD::setStamina(int v)
 
 void HUD::setMaxStamina(int v)
 {
-	resetVisibility(staminaMeter);
-	staminaMeter->setMax(v);
+	if (v != staminaMeter->getMaxValue()) {
+		resetVisibility(staminaMeter);
+		staminaMeter->setMax(v);
+	}
 }
 
 void HUD::setKeyCount(int count)
