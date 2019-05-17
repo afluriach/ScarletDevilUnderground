@@ -12,130 +12,62 @@
 #include "GSpace.hpp"
 #include "value_map.hpp"
 
-template<class C>
-function<ObjectGeneratorType(GSpace*, SpaceVect) > createAdapter()
+#define entry(x, spr, attr, val) { collectible_id::x, {spr, Attribute::attr, val} }
+
+const unordered_map<collectible_id, collectible_properties> Collectible::propertiesMap = {
+	entry(health1, "health1", hp, 5.0f),
+	entry(health2, "health2", hp, 25.0f),
+	entry(health3, "health3", hp, 100.0f),
+	entry(key, "key", keys, 1.0f),
+	entry(magic1, "magic1", mp, 5.0f),
+	entry(magic2, "magic2", mp, 25.0f),
+	entry(magic3, "magic3", mp, 100.0f),
+};
+
+#undef entry
+
+function<collectible_id(GSpace* space) > createRandomAdapter(collectible_id c1, collectible_id c2)
 {
-	return [](GSpace* space, SpaceVect pos) -> ObjectGeneratorType {
-		return GObject::make_object_factory<C>(pos);
+	return [c1,c2](GSpace* space) -> collectible_id {
+		return space->getRandomFloat() < 0.5f ? c1 : c2;
 	};
 }
 
-template<class C1, class C2>
-function<ObjectGeneratorType(GSpace* space, SpaceVect) > createRandomAdapter()
-{
-	return [](GSpace* space, SpaceVect pos) -> ObjectGeneratorType {
-		if (space->getRandomFloat() < 0.5f)
-			return GObject::make_object_factory<C1>(pos);
-		else
-			return GObject::make_object_factory<C2>(pos);
-	};
-}
-
-const unordered_map<collectible_id, function<ObjectGeneratorType(GSpace*, SpaceVect)>> Collectible::factories = {
-	{collectible_id::magic1, createAdapter<Magic1>() },
-	{collectible_id::magic2, createAdapter<Magic2>() },
-	{collectible_id::magic3, createAdapter<Magic3>() },
-	{collectible_id::health1, createAdapter<Health1>() },
-	{collectible_id::health2, createAdapter<Health2>() },
-	{collectible_id::health3, createAdapter<Health3>() },
-	{collectible_id::hm1, createRandomAdapter<Health1, Magic1>() },
-	{collectible_id::hm2, createRandomAdapter<Health2, Magic2>() },
-	{collectible_id::hm3, createRandomAdapter<Health3, Magic3>() },
-	{collectible_id::key, createAdapter<Key>() },
+const unordered_map<collectible_id, function<collectible_id(GSpace*)>> Collectible::vMap = {
+	{collectible_id::hm1, createRandomAdapter(collectible_id::health1, collectible_id::magic1) },
+	{collectible_id::hm2, createRandomAdapter(collectible_id::health2, collectible_id::magic2) },
+	{collectible_id::hm3, createRandomAdapter(collectible_id::health3, collectible_id::magic3) },
 };
 
 ObjectGeneratorType Collectible::create(GSpace* space, collectible_id id, SpaceVect pos)
 {
-	return factories.at(id)(space, pos);
+	if (id == collectible_id::nil)
+		return GObject::null_object_factory();
+
+	collectible_id actualID = id;
+	auto it = vMap.find(id);
+	if (it != vMap.end()) {
+		actualID = it->second(space);
+	}
+
+	return GObject::make_object_factory<Collectible>(pos, actualID);
 }
 
-Collectible::Collectible(GSpace* space, ObjectIDType id, SpaceVect pos) :
-GObject(space,id,"",pos, float_pi / 2.0),
-RectangleBody(SpaceVect(0.5, 0.5))
+Collectible::Collectible(GSpace* space, ObjectIDType id, SpaceVect pos, collectible_id collectibleID) :
+	GObject(space,id,"",pos, float_pi / 2.0),
+	RectangleBody(SpaceVect(0.5, 0.5)),
+	collectibleID(collectibleID)
 {
 }
 
-const AttributeMap Magic1::effect = {
-	{ Attribute::mp, 5.0f }
-};
-
-const string Magic1::spriteName = "magic1";
-
-Magic1::Magic1(GSpace* space, ObjectIDType id, SpaceVect pos) :
-	GObject(space, id, "", pos, float_pi / 2.0),
-	CollectibleImpl<Magic1>(space, id, pos)
+string Collectible::imageSpritePath() const
 {
+	auto it = propertiesMap.find(collectibleID);
+	return "sprites/" + it->second.sprite + ".png";
 }
 
-const AttributeMap Magic2::effect = {
-	{ Attribute::mp, 25.0f }
-};
-
-const string Magic2::spriteName = "magic2";
-
-Magic2::Magic2(GSpace* space, ObjectIDType id, SpaceVect pos) :
-	GObject(space, id, "", pos, float_pi / 2.0),
-	CollectibleImpl<Magic2>(space, id, pos)
+AttributeMap Collectible::getEffect() const
 {
-}
-
-const AttributeMap Magic3::effect = {
-	{ Attribute::mp, 100.0f }
-};
-
-const string Magic3::spriteName = "magic3";
-
-Magic3::Magic3(GSpace* space, ObjectIDType id, SpaceVect pos) :
-	GObject(space, id, "", pos, float_pi / 2.0),
-	CollectibleImpl<Magic3>(space, id, pos)
-{
-}
-
-const AttributeMap Health1::effect = {
-	{ Attribute::hp, 5.0f }
-};
-
-const string Health1::spriteName = "health1";
-
-Health1::Health1(GSpace* space, ObjectIDType id, SpaceVect pos) :
-	GObject(space, id, "", pos, float_pi / 2.0),
-	CollectibleImpl<Health1>(space, id, pos)
-{
-}
-
-const AttributeMap Health2::effect = {
-	{ Attribute::hp, 25.0f }
-};
-
-const string Health2::spriteName = "health2";
-
-Health2::Health2(GSpace* space, ObjectIDType id, SpaceVect pos) :
-	GObject(space, id, "", pos, float_pi / 2.0),
-	CollectibleImpl<Health2>(space, id, pos)
-{
-}
-
-const AttributeMap Health3::effect = {
-	{ Attribute::hp, 100.0f }
-};
-
-const string Health3::spriteName = "health3";
-
-Health3::Health3(GSpace* space, ObjectIDType id, SpaceVect pos) :
-	GObject(space, id, "", pos, float_pi / 2.0),
-	CollectibleImpl<Health3>(space, id, pos)
-{
-}
-
-const AttributeMap Key::effect = {
-	{Attribute::keys, 1.0f}
-};
-
-const string Key::spriteName = "key";
-
-Key::Key(GSpace* space, ObjectIDType id, SpaceVect pos) :
-	GObject(space,id,"", pos, float_pi / 2.0),
-	CollectibleImpl<Key>(space,id,pos)
-{
-
+	auto it = propertiesMap.find(collectibleID);
+	return { {it->second.attr, it->second.val} };
 }

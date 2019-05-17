@@ -102,12 +102,11 @@ GObject::AdapterType playerAdapter()
 	};
 }
 
-template<class C>
-GObject::AdapterType collectibleAdapter(collectible_id id)
+GObject::AdapterType collectibleAdapter(collectible_id coll_id)
 {
 	return [=](GSpace* space, ObjectIDType id, const ValueMap& args) -> GObject* {
 		SpaceVect pos = getObjectPos(args);
-		return new C(space, id, pos);
+		return new Collectible(space, id, pos, coll_id);
 	};
 }
 
@@ -151,7 +150,7 @@ GObject::object_info playerObjectInfo()
 #define item_entry(name,cls,itemKey) {name, makeObjectInfo<cls>(itemAdapter<cls>(#itemKey))}
 #define item_entry_same(cls) item_entry(#cls,cls,cls)
 
-#define collectible_entry(name,id) {#name, makeObjectInfo<name>(collectibleAdapter<name>(collectible_id::id))}
+#define collectible_entry(name,id) {#name, makeObjectInfo<Collectible>(collectibleAdapter(collectible_id::id))}
 
 #define upgrade_entry(name,at) {#name, makeObjectInfo<Upgrade>(upgradeAdapter(Attribute::at))}
 

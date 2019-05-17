@@ -79,6 +79,13 @@ public:
 		};
 	}
 
+	static inline ObjectGeneratorType null_object_factory()
+	{
+		return[](GSpace* space, ObjectIDType id)->GObject* {
+			return nullptr;
+		};
+	}
+
     template<typename T>
     inline bool isType(){
         return dynamic_cast<T*>(this) != nullptr;

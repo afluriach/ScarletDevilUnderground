@@ -34,13 +34,23 @@ enum class collectible_id
 	key,
 };
 
+struct collectible_properties
+{
+	string sprite;
+
+	Attribute attr;
+	float val;
+};
+
 class Collectible : virtual public GObject, public RectangleBody, public ImageSprite
 {
 public:
-	static ObjectGeneratorType create(GSpace* space, collectible_id id, SpaceVect pos);
-	static const unordered_map<collectible_id, function<ObjectGeneratorType(GSpace*, SpaceVect)>> factories;
+	static const unordered_map<collectible_id, collectible_properties> propertiesMap;
+	static const unordered_map<collectible_id, function<collectible_id(GSpace*)>> vMap;
 
-	Collectible(GSpace* space, ObjectIDType id, SpaceVect pos);
+	static ObjectGeneratorType create(GSpace* space, collectible_id id, SpaceVect pos);
+
+	Collectible(GSpace* space, ObjectIDType id, SpaceVect pos, collectible_id collectibleID);
 	inline virtual ~Collectible() {}
 
 	virtual inline SpaceFloat getMass() const { return -1.0; }
@@ -48,85 +58,11 @@ public:
 	virtual inline bool getSensor() const { return true; }
 
 	virtual inline GraphicsLayer sceneLayer() const { return GraphicsLayer::floor; }
+	virtual string imageSpritePath() const;
 
-	virtual inline AttributeMap getEffect() const = 0;
-};
-
-template<class D>
-class CollectibleImpl : public Collectible
-{
-public:
-	inline CollectibleImpl(GSpace* space, ObjectIDType id, SpaceVect pos) :
-		GObject(space, id, "", pos, float_pi / 2.0),
-		Collectible(space, id, pos)
-	{}
-	virtual inline ~CollectibleImpl() {}
-
-	virtual inline string imageSpritePath() const { return "sprites/" + D::spriteName + ".png"; }
-	virtual inline AttributeMap getEffect() const { return D::effect; }
-};
-
-class Magic1 : public CollectibleImpl<Magic1>
-{
-public:
-	static const AttributeMap effect;
-	static const string spriteName;
-
-	Magic1(GSpace* space, ObjectIDType id, SpaceVect pos);
-};
-
-class Magic2 : public CollectibleImpl<Magic2>
-{
-public:
-	static const AttributeMap effect;
-	static const string spriteName;
-
-	Magic2(GSpace* space, ObjectIDType id, SpaceVect pos);
-};
-
-class Magic3 : public CollectibleImpl<Magic3>
-{
-public:
-	static const AttributeMap effect;
-	static const string spriteName;
-
-	Magic3(GSpace* space, ObjectIDType id, SpaceVect pos);
-};
-
-class Health1 : public CollectibleImpl<Health1>
-{
-public:
-	static const AttributeMap effect;
-	static const string spriteName;
-
-	Health1(GSpace* space, ObjectIDType id, SpaceVect pos);
-};
-
-class Health2 : public CollectibleImpl<Health2>
-{
-public:
-	static const AttributeMap effect;
-	static const string spriteName;
-
-	Health2(GSpace* space, ObjectIDType id, SpaceVect pos);
-};
-
-class Health3 : public CollectibleImpl<Health3>
-{
-public:
-	static const AttributeMap effect;
-	static const string spriteName;
-
-	Health3(GSpace* space, ObjectIDType id, SpaceVect pos);
-};
-
-class Key : public CollectibleImpl<Key>
-{
-public:
-	static const AttributeMap effect;
-	static const string spriteName;
-
-	Key(GSpace* space, ObjectIDType id, SpaceVect pos);
+	AttributeMap getEffect() const;
+protected:
+	collectible_id collectibleID;
 };
 
 #endif /* Collectibles_hpp */
