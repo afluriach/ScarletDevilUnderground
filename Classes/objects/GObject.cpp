@@ -164,7 +164,6 @@ void GObject::update()
 	runLuaUpdate();
 #endif
 	updateSprite();
-	updateRadarPos();
 	updateLight();
 	updateSpells();
 	updateMagicEffects();

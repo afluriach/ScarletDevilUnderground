@@ -144,6 +144,8 @@ void RadarObject::setFovAngle(SpaceFloat angle)
 
 void RadarObject::_update()
 {
+	updateRadarPos();
+
     for(GObject* obj: objectsInRange)
     {
         bool currentlyVisible = isObjectVisible(obj);
