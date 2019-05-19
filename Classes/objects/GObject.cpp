@@ -313,18 +313,16 @@ void GObject::updateFloorSegment()
 		}
 	}
 
-	//If not on floor(s), use point query to detect belowFloor segment.
-	if (!crntFloorCenterContact.isValid())
-	{
-		crntFloorCenterContact = space->floorSegmentPointQuery(p);
+	if (crntFloorCenterContact.isValid()) {
+		SpaceFloat _uk = uk();
+		if (_uk > 0.0) {
+			updateFriction(_uk * crntFloorCenterContact.get()->getFrictionCoeff());
+		}
 	}
-
-	if (crntFloorContacts.size() == 0 && crntFloorCenterContact.isValid()) {
-		crntFloorCenterContact.get()->exclusiveFloorEffect(this);
-	}
-
-	if (crntFloorCenterContact.isValid() && uk() > 0.0) {
-		updateFriction(uk() * crntFloorCenterContact.get()->getFrictionCoeff());
+	//If not touching any floor, check for pitfall.
+	else if(crntFloorContacts.empty()){
+		FloorSegment* pitfall = space->floorSegmentPointQuery(p);
+		if (pitfall) pitfall->exclusiveFloorEffect(this);
 	}
 }
 
