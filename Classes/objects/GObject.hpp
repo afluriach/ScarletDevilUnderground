@@ -201,7 +201,6 @@ public:
 	inline virtual void initializeRadar(GSpace& space) {};
 
 	void updateRadarPos();
-	void updateLight();
 
 	//END PHYSICS
     
@@ -229,11 +228,12 @@ public:
 	SpriteID drawNodeID = 0;
 	LightID lightID = 0;
     
+	bool isGraphicsObject() const;
         //The Z-order used by Cocos2D.
 	virtual GraphicsLayer sceneLayer() const;
 	int sceneLayerAsInt() const;
 	virtual float zoom() const;
-    void updateSprite();
+    sprite_update updateSprite();
 
 	//Create Node which graphically reprensets this object and adds it to Layer
 	virtual void initializeGraphics() = 0;

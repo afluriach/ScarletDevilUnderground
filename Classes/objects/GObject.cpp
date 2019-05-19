@@ -21,10 +21,6 @@
 #include "util.h"
 #include "value_map.hpp"
 
-const float GObject::objectFadeOutTime = 1.5f;
-const float GObject::objectFadeInTime = 0.5f;
-const GLubyte GObject::objectFadeOpacity = 0;
-
 unordered_map<type_index, string> GObject::typeNameMap;
 
 GObject::GObject(GSpace* space, ObjectIDType uuid, const ValueMap& obj, bool anonymous) :
@@ -163,8 +159,6 @@ void GObject::update()
 #if GOBJECT_LUA
 	runLuaUpdate();
 #endif
-	updateSprite();
-	updateLight();
 	updateSpells();
 	updateMagicEffects();
 	updateFloorSegment();
@@ -391,18 +385,6 @@ void GObject::updateRadarPos()
 		cpBodySetPos(radar, cpBodyGetPos(body));
 }
 
-void GObject::updateLight()
-{
-	SpaceVect pos = getPos();
-	SpaceFloat a = getAngle();
-	if (lightID != 0) {
-		if(pos != prevPos)
-			space->setLightSourcePosition(lightID, pos);
-		if(a != prevAngle)
-			space->setLightSourceAngle(lightID, a);
-	}
-}
-
 SpaceFloat GObject::getTraction() const
 {
 	return crntFloorCenterContact.isValid() ? crntFloorCenterContact.get()->getFrictionCoeff() : 1.0;
@@ -462,6 +444,10 @@ GraphicsLayer GObject::sceneLayer() const {
 	return GraphicsLayer::ground;
 }
 
+bool GObject::isGraphicsObject() const {
+	return spriteID || drawNodeID || lightID;
+}
+
 int GObject::sceneLayerAsInt() const {
 	return to_int(sceneLayer());
 };
@@ -470,36 +456,40 @@ float GObject::zoom() const {
 	return 1.0f;
 }
 
-void GObject::updateSprite()
+sprite_update GObject::updateSprite()
 {
 	bool visible = space->isInPlayerRoom(getPos());
+	bool updateRequired = false;
+	bool fadeOut = false;
+	bool fadeIn = false;
 	SpaceVect p = getPos();
 	SpaceFloat a = getAngle();
 
-    if(spriteID != 0){
+	if (p != prevPos || a != prevAngle)
+		updateRequired = true;
 
-		if(p != prevPos)
-			space->setSpritePosition(spriteID, toCocos(p)*App::pixelsPerTile);
-
-		if (a != prevAngle && rotateSprite)
-			space->setSpriteAngle(spriteID, toCocosAngle(a));
-
-		if (!visible && !isInFade) {
-			space->stopSpriteAction(spriteID, cocos_action_tag::object_fade);
-			space->runSpriteAction(spriteID, objectFadeOut(objectFadeOutTime, objectFadeOpacity));
-			isInFade = true;
-		}
-		else if (visible && isInFade) {
-			space->stopSpriteAction(spriteID, cocos_action_tag::object_fade);
-			space->runSpriteAction(spriteID, objectFadeOut(objectFadeInTime, 255));
-
-			isInFade = false;
-		}
-    }
-	if (drawNodeID != 0 && visible && !isInFade && p != prevPos)
-	{
-		space->setSpritePosition(drawNodeID, toCocos(p)*App::pixelsPerTile);
+	if (!visible && !isInFade) {
+		isInFade = true;
+		fadeOut = true;
+		updateRequired = true;
 	}
+	else if (visible && isInFade) {
+		isInFade = false;
+		fadeIn = true;
+		updateRequired = true;
+	}
+
+	return sprite_update {
+		spriteID,
+		drawNodeID,
+		lightID,
+		toCocos(p) * App::pixelsPerTile,
+		toCocosAngle(a),
+		fadeIn,
+		fadeOut,
+		rotateSprite,
+		updateRequired
+	};
 }
 
 //END GRAPHICS

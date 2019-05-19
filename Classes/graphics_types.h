@@ -84,4 +84,20 @@ struct perlin_light_state
 	float crntAngle = 0.0f;
 };
 
+struct sprite_update
+{
+	SpriteID spriteID;
+	SpriteID drawNodeID;
+	LightID lightID;
+
+	Vec2 pos;
+	float angle;
+
+	bool fadeIn;
+	bool fadeOut;
+	bool rotateSprite;
+	//in case update is not required
+	bool valid;
+};
+
 #endif /* graphics_types_h */

@@ -17,6 +17,10 @@ const string defaultFont = "Arial";
 
 const float fallAnimationTime = 1.0f;
 
+const float objectFadeOutTime = 1.5f;
+const float objectFadeInTime = 0.5f;
+const GLubyte objectFadeOpacity = 0;
+
 //Qualify Size for ambiguity.
 cocos2d::CCSize getScreenSize()
 {

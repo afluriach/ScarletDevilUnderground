@@ -228,7 +228,6 @@ ReimuBullet1::ReimuBullet1(GSpace* space, ObjectIDType id, const SpaceVect& pos,
 
 void ReimuBullet1::update()
 {
-	updateSprite();
 	ParametricMotion::_update();
 }
 

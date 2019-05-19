@@ -179,6 +179,7 @@ public:
 	void setSpritePosition(SpriteID id, Vec2 pos);
 	void setSpriteZoom(SpriteID id, float zoom);
 	void setSpriteColor(SpriteID id, Color3B color);
+	void spriteSpatialUpdate(vector<sprite_update> spriteUpdates);
 
 	void clearSubroomMask(unsigned int roomID);
 

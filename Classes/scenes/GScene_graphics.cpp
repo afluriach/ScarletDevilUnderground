@@ -385,6 +385,44 @@ void GScene::setSpriteColor(SpriteID id, Color3B color)
 	}
 }
 
+void GScene::spriteSpatialUpdate(vector<sprite_update> spriteUpdates)
+{
+	for (auto entry : spriteUpdates)
+	{
+		if (entry.spriteID != 0) {
+			Node* sprite = getSpriteAsNode(entry.spriteID);
+			if (sprite) {
+				sprite->setPosition(entry.pos);
+				if(entry.rotateSprite)
+					sprite->setRotation(entry.angle);
+			}
+		}
+		if (entry.drawNodeID != 0) {
+			Node* drawNode = getSpriteAsNode(entry.drawNodeID);
+			if (drawNode) {
+				drawNode->setPosition(entry.pos);
+				drawNode->setRotation(entry.angle);
+			}
+		}
+		if (entry.lightID != 0) {
+			Node* light = getOrDefault<LightID, Node*>(lightmapNodes, entry.lightID, nullptr);
+			if (light) {
+				light->setPosition(entry.pos);
+				light->setRotation(entry.angle);
+			}
+		}
+
+		if (entry.fadeOut) {
+			stopSpriteAction(entry.spriteID, cocos_action_tag::object_fade);
+			runSpriteAction(entry.spriteID, objectFadeOut(objectFadeOutTime, objectFadeOpacity));
+		}
+		if (entry.fadeIn) {
+			stopSpriteAction(entry.spriteID, cocos_action_tag::object_fade);
+			runSpriteAction(entry.spriteID, objectFadeOut(objectFadeInTime, 255));
+		}
+	}
+}
+
 void GScene::clearSubroomMask(unsigned int roomID)
 {
 	roomMasks.at(roomID)->setVisible(false);

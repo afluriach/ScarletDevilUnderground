@@ -94,9 +94,6 @@ void MovingPlatform::init()
 
 void MovingPlatform::update()
 {
-	//the only part of GObject::update() that is relevant.
-	updateSprite();
-
 	distanceToTarget -= App::secondsPerFrame * getMaxSpeed();
 
 	if (path && distanceToTarget <= 0) {

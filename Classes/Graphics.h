@@ -13,6 +13,10 @@
 
 extern const float fallAnimationTime;
 
+extern const float objectFadeOutTime;
+extern const float objectFadeInTime;
+extern const GLubyte objectFadeOpacity;
+
 class ShaderNode : public Node
 {
 public:

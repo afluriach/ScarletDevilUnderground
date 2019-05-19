@@ -137,6 +137,16 @@ void GSpace::update()
 	chrono::steady_clock::time_point t3 = chrono::steady_clock::now();
 #endif
 
+	vector<sprite_update> spriteUpdates;
+	for (GObject* obj : objByUUID | boost::adaptors::map_values) {
+		if (obj->isGraphicsObject()) {
+			auto result = obj->updateSprite();
+			if (result.valid)
+				spriteUpdates.push_back(result);
+		}
+	}
+	addSpriteAction(&GScene::spriteSpatialUpdate, spriteUpdates);
+
     for(GObject* obj : updateObjects){
         obj->update();
     }
