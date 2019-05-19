@@ -15,6 +15,7 @@ class Bat : public Enemy, public BaseAttributes<Bat>
 {
 public:
 	static const AttributeMap baseAttributes;
+	static const string properName;
 
 	MapObjCons(Bat);
 

@@ -27,6 +27,8 @@ const AttributeMap Marisa::baseAttributes = {
 	{Attribute::acceleration, 6.0f}
 };
 
+const string Marisa::properName = "Marisa Kirisame";
+
 Marisa::Marisa(GSpace* space, ObjectIDType id, const ValueMap& args) :
 	MapObjForwarding(GObject),
 	MapObjForwarding(Agent),

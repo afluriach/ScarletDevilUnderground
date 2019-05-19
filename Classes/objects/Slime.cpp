@@ -24,6 +24,8 @@ const AttributeMap Slime1::baseAttributes = {
 	{ Attribute::acceleration, 3.0f }
 };
 
+const string Slime1::properName = "Slime I";
+
 void Slime1::initStateMachine(ai::StateMachine& sm)
 {
 	sm.addDetectFunction(
@@ -56,6 +58,8 @@ const AttributeMap Slime2::baseAttributes = {
 	{ Attribute::speed, 2.4f },
 	{ Attribute::acceleration, 3.0f }
 };
+
+const string Slime2::properName = "Slime II";
 
 void Slime2::initStateMachine(ai::StateMachine& sm)
 {

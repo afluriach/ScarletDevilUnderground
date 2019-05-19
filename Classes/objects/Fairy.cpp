@@ -30,6 +30,8 @@ const AttributeMap GhostFairy::baseAttributes = {
 	{ Attribute::bulletSensitivity, 1.25},
 };
 
+const string GhostFairy::properName = "Ghost Fairy";
+
 GhostFairy::GhostFairy(GSpace* space, ObjectIDType id, const ValueMap& args) :
 	MapObjForwarding(GObject),
 	MapObjForwarding(Agent),
@@ -187,6 +189,8 @@ const AttributeMap BlueFairy::baseAttributes = {
 	{ Attribute::meleeSensitivity, 0.75f },
 };
 
+const string BlueFairy::properName = "Blue Fairy";
+
 BlueFairy::BlueFairy(GSpace* space, ObjectIDType id, const ValueMap& args) :
 	MapObjForwarding(GObject),
 	MapObjForwarding(Agent),
@@ -221,6 +225,8 @@ const AttributeMap RedFairy::baseAttributes = {
 	{ Attribute::bulletSensitivity, 0.75f },
 	{ Attribute::meleeSensitivity, 1.25f },
 };
+
+const string RedFairy::properName = "Red Fairy";
 
 const DamageInfo RedFairy::explosionEffect = bomb_damage(20.0f);
 const SpaceFloat RedFairy::explosionRadius = 4.0;
@@ -321,6 +327,8 @@ const AttributeMap GreenFairy1::baseAttributes = {
 	{ Attribute::agility, 3.0f }
 };
 
+const string GreenFairy1::properName = "Green Fairy I";
+
 GreenFairy1::GreenFairy1(GSpace* space, ObjectIDType id, const ValueMap& args) :
 	MapObjForwarding(GObject),
 	MapObjForwarding(Agent),
@@ -371,6 +379,8 @@ const AttributeMap GreenFairy2::baseAttributes = {
 	{ Attribute::stressFromHits, 0.5f },
 	{ Attribute::agility, 4.0f }
 };
+
+const string GreenFairy2::properName = "Green Fairy II";
 
 GreenFairy2::GreenFairy2(GSpace* space, ObjectIDType id, const ValueMap& args) :
 	MapObjForwarding(GObject),
@@ -430,6 +440,8 @@ const AttributeMap ZombieFairy::baseAttributes = {
 	{ Attribute::acceleration, 10.0f },
 	{ Attribute::darknessSensitivity, 0.0f }
 };
+
+const string ZombieFairy::properName = "Zombie Fairy";
 
 ZombieFairy::ZombieFairy(GSpace* space, ObjectIDType id, const ValueMap& args) :
 	MapObjForwarding(GObject),

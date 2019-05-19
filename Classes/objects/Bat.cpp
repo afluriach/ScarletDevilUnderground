@@ -19,6 +19,8 @@ const AttributeMap Bat::baseAttributes = {
 	{Attribute::touchDamage, 5.0f},
 };
 
+const string Bat::properName = "Bat";
+
 Bat::Bat(GSpace* space, ObjectIDType id, const ValueMap& args) :
 	MapObjForwarding(GObject),
 	MapObjForwarding(Agent),

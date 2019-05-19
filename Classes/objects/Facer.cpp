@@ -18,6 +18,8 @@ const AttributeMap Facer::baseAttributes = {
 	{Attribute::acceleration, 4.5f}
 };
 
+const string Facer::properName = "Facer";
+
 Facer::Facer(GSpace* space, ObjectIDType id, const ValueMap& args) :
 	MapObjForwarding(GObject),
 	MapObjForwarding(Agent),

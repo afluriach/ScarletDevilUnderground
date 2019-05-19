@@ -24,6 +24,8 @@ const AttributeMap Scorpion1::baseAttributes = {
 	{ Attribute::acceleration, 6.0f }
 };
 
+const string Scorpion1::properName = "Scorpion I";
+
 void Scorpion1::initStateMachine(ai::StateMachine& sm)
 {
 	sm.addDetectFunction(
@@ -62,6 +64,8 @@ const AttributeMap Scorpion2::baseAttributes = {
 	{ Attribute::speed, 3.0f },
 	{ Attribute::acceleration, 9.0f }
 };
+
+const string Scorpion2::properName = "Scorpion II";
 
 void Scorpion2::initStateMachine(ai::StateMachine& sm)
 {

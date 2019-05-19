@@ -19,6 +19,7 @@ class GhostFairy :
 {
 public:
 	static const AttributeMap baseAttributes;
+	static const string properName;
 
 	GhostFairy(GSpace* space, ObjectIDType id, const ValueMap& args);
 
@@ -69,6 +70,7 @@ class BlueFairy :
 public:
 	static const AIPackage<BlueFairy>::AIPackageMap aiPackages;
 	static const AttributeMap baseAttributes;
+	static const string properName;
 
 	BlueFairy(GSpace* space, ObjectIDType id, const ValueMap& args);
 
@@ -89,6 +91,8 @@ class RedFairy : public Enemy, public BaseAttributes<RedFairy>
 {
 public:
 	static const AttributeMap baseAttributes;
+	static const string properName;
+
 	static const DamageInfo explosionEffect;
 	static const SpaceFloat explosionRadius;
 	static const float bombCost;
@@ -115,6 +119,7 @@ class GreenFairy1 :
 {
 public:
 	static const AttributeMap baseAttributes;
+	static const string properName;
 
 	GreenFairy1(GSpace* space, ObjectIDType id, const ValueMap& args);
 
@@ -136,6 +141,7 @@ class GreenFairy2 :
 {
 public:
 	static const AttributeMap baseAttributes;
+	static const string properName;
 
 	GreenFairy2(GSpace* space, ObjectIDType id, const ValueMap& args);
 
@@ -160,6 +166,7 @@ class ZombieFairy :
 {
 public:
 	static const AttributeMap baseAttributes;
+	static const string properName;
 
 	ZombieFairy(GSpace* space, ObjectIDType id, const ValueMap& args);
 
