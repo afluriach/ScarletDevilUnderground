@@ -137,9 +137,6 @@ void GSpace::update()
 	chrono::steady_clock::time_point t3 = chrono::steady_clock::now();
 #endif
 
-	for (auto f : objectMessages) f();
-	objectMessages.clear();
-
     for(GObject* obj : updateObjects){
         obj->update();
     }
@@ -648,11 +645,6 @@ EnemyStatsMap GSpace::getEnemyStats()
 	}
 
 	return result;
-}
-
-void GSpace::addObjectMessage(zero_arity_function f)
-{
-	objectMessages.push_back(f);
 }
 
 void GSpace::addObjectAction(zero_arity_function f)

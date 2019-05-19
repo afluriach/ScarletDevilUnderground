@@ -178,11 +178,6 @@ void GObject::onPitfall()
 	space->removeObjectWithAnimation(this, pitfallShrinkAction());
 }
 
-void GObject::queueMessage(zero_arity_function f)
-{
-	space->addObjectMessage(f);
-}
-
 //BEGIN PHYSICS
 
 void GObject::launch() {

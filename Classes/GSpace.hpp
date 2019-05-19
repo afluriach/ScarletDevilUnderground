@@ -148,21 +148,6 @@ public:
 		return result;
 	}
 
-	template<class TargetCls, class SenderCls, typename R, typename...Args>
-	inline void messageAll(SenderCls* sender, R(TargetCls::*handler)(Args...), void (SenderCls::*response)(R), Args ...args)
-	{
-		const unordered_set<GObject*>* objects = getObjectsByType(typeid(TargetCls));
-
-		for (GObject* objBase : *objects) {
-			if (static_cast<GObject*>(sender) == objBase) continue;
-
-			TargetCls* obj = dynamic_cast<TargetCls*>(objBase);
-			if (obj) {
-				obj->messageWithResponse(obj, sender, handler, response, args...);
-			}
-		}
-	}
-
     void removeObject(const string& name);
     void removeObject(GObject* obj);
 	void removeObject(gobject_ref ref);
@@ -191,7 +176,6 @@ public:
 		}
 	}
 
-	void addObjectMessage(zero_arity_function f);
 	void addObjectAction(zero_arity_function f);
 	void addSceneAction(zero_arity_function f);
 	void createDialog(string res, bool autoAdvance);
@@ -264,7 +248,6 @@ private:
 	set<GObject*> updateObjects;
 	unordered_map<int, RoomSensor*> roomSensors;
 	unordered_map<string, ValueMap> dynamicLoadObjects;
-	vector<zero_arity_function> objectMessages;
 
 	SpaceRect cameraArea;
 	int crntMap = -1;

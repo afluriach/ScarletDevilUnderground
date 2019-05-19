@@ -86,11 +86,6 @@ public:
 		};
 	}
 
-    template<typename T>
-    inline bool isType(){
-        return dynamic_cast<T*>(this) != nullptr;
-    }	
-
 	//Representation as a map object
 	GObject(GSpace* space, ObjectIDType uuid, const ValueMap& args, bool anonymous = false);
 	GObject(GSpace* space, ObjectIDType uuid, const string& name, const SpaceVect& pos, SpaceFloat angle);
@@ -127,27 +122,6 @@ public:
 	virtual void update();
 	virtual void onPitfall();
 	inline virtual void onRemove() {}
-
-	template<typename D, typename...Args>
-	inline void message(D* _this, void (D::*m)(Args...), Args ...args)
-	{
-		queueMessage(bind(m, _this, args...));
-	}
-
-	template<typename D1, typename D2, typename R, typename...Args>
-	inline void messageWithResponse(
-		D1* _this,
-		D2* _sender,
-		R (D1::*handler)(Args...),
-		void (D2::*response)(R), Args ...args
-	){
-		queueMessage([_this, _sender, handler, response, args...](void) -> void {
-			R result = invoke(handler, _this, args...);
-			_sender->message<D2>(_sender, response, result);
-		});
-	}
-
-	void queueMessage(zero_arity_function f);
 
 	//BEGIN PHYSICS
 

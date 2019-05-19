@@ -465,9 +465,8 @@ void ZombieFairy::initStateMachine(ai::StateMachine& sm)
 }
 
 const AttributeMap Fairy2::baseAttributes = {
-	{Attribute::maxHP, 15.0f},
-	{Attribute::speed, 4.5f},
-	{Attribute::acceleration, 4.5f}
+	{Attribute::maxHP, 30.0f},
+	{Attribute::agility, 2.0f},
 };
 
 const float Fairy2::lowHealthRatio = 0.5f;
@@ -538,10 +537,20 @@ void Fairy2::update()
 	Enemy::update();
 
 	if (getHealthRatio() <= lowHealthRatio && (crntState == ai_state::normal || crntState == ai_state::supporting)){
-		space->messageAll(this, &Fairy2::requestHandler, &Fairy2::responseHandler, object_ref<Fairy2>(this));
 
 		crntState = ai_state::flee;
 		addFleeThread();
+
+		auto refs = space->getObjectsByTypeAs<Fairy2>();
+
+		for (auto ref : refs) {
+			Fairy2* f = ref.get();
+
+			if (f->requestHandler(this).isValid()) {
+				crntState = ai_state::fleeWithSupport;
+				break;
+			}
+		}
 	}
 }
 
@@ -549,26 +558,12 @@ object_ref<Fairy2> Fairy2::requestHandler(object_ref<Fairy2> other)
 {
 	if (other.isValid() && crntState == ai_state::normal) {
 		crntState = ai_state::supportOffered;
+		addSupportThread(other);
 		return this;
 	}
 	else {
 		return nullptr;
 	}
-}
-
-void Fairy2::responseHandler(object_ref<Fairy2> supporting)
-{
-	if (supporting.isValid() && crntState == ai_state::flee)
-	{
-		crntState = ai_state::fleeWithSupport;
-		supporting.get()->message(supporting.get(), &Fairy2::acknowledgeHandaler, object_ref<Fairy2>(this));
-	}
-}
-
-void Fairy2::acknowledgeHandaler(object_ref<Fairy2> supportTarget)
-{
-	crntState = ai_state::supporting;
-	addSupportThread(supportTarget);
 }
 
 const AttributeMap IceFairy::baseAttributes = {
