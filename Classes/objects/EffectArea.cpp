@@ -11,7 +11,7 @@
 #include "Agent.hpp"
 #include "App.h"
 #include "EffectArea.hpp"
-#include "GScene.hpp"
+#include "graphics_context.hpp"
 #include "GSpace.hpp"
 #include "Player.hpp"
 #include "Torch.hpp"

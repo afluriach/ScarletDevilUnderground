@@ -17,6 +17,7 @@
 #include "EnemyBullet.hpp"
 #include "FloorSegment.hpp"
 #include "functional.hpp"
+#include "graphics_context.hpp"
 #include "GSpace.hpp"
 #include "GState.hpp"
 #include "HUD.hpp"
@@ -70,7 +71,7 @@ void Player::onPitfall()
 		return;
 	}
 
-	space->runSpriteAction(spriteID, pitfallShrinkAction());
+	space->addGraphicsAction(&graphics_context::runSpriteAction, spriteID, pitfallShrinkAction());
 	startRespawn();
 }
 
@@ -393,13 +394,17 @@ void Player::updateCombo()
 	if (attributeSystem[Attribute::combo] >= AttributeSystem::maxComboPoints && !isComboActive) {
 		isComboActive = true;
 		attributeSystem.modifyAttribute(Attribute::attack, 0.25f);
-		space->runSpriteAction(spriteID, comboFlickerTintAction());
+		space->addGraphicsAction(&graphics_context::runSpriteAction, spriteID, comboFlickerTintAction());
 	}
 	else if (!attributeSystem.isNonzero(Attribute::combo) && isComboActive) {
 		isComboActive = false;
 		attributeSystem.modifyAttribute(Attribute::attack, -0.25f);
-		space->stopSpriteAction(spriteID, cocos_action_tag::combo_mode_flicker);
-		space->setSpriteColor(spriteID, Color3B::WHITE);
+		space->addGraphicsAction(
+			&graphics_context::stopSpriteAction,
+			spriteID,
+			cocos_action_tag::combo_mode_flicker
+		);
+		space->addGraphicsAction(&graphics_context::setSpriteColor, spriteID, Color3B::WHITE);
 	}
 
 	if (attributeSystem[Attribute::combo] > 0) {
@@ -534,7 +539,8 @@ bool Player::hit(DamageInfo damage){
 	attributeSystem.setHitProtection();
 	attributeSystem.set(Attribute::combo, 0.0f);
 
-	space->runSpriteAction(
+	space->addGraphicsAction(
+		&graphics_context::runSpriteAction,
 		spriteID,
 		flickerAction(
 			hitFlickerInterval,
@@ -609,7 +615,11 @@ void Player::applyUpgrade(Upgrade* up)
 		attributeSystem.modifyAttribute(Attribute::stamina, step);
 	break;
 	case Attribute::shieldLevel:
-		space->setAgentOverlayShieldLevel(agentOverlay, attributeSystem[Attribute::shieldLevel]);
+		space->addGraphicsAction(
+			&graphics_context::setAgentOverlayShieldLevel,
+			agentOverlay,
+			attributeSystem[Attribute::shieldLevel]
+		);
 	break;
 	}
 
@@ -658,8 +668,8 @@ void Player::applyRespawn()
 	setPos(respawnPos);
 	setAngle(respawnAngle);
 
-	space->stopAllSpriteActions(spriteID);
-	space->setSpriteZoom(spriteID, zoom());
+	space->addGraphicsAction(&graphics_context::stopAllSpriteActions, spriteID);
+	space->addGraphicsAction(&graphics_context::setSpriteZoom, spriteID, zoom());
 
 	isRespawnActive = false;
 	suppressFiring = false;

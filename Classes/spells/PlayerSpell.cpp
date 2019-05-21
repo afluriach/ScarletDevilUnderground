@@ -9,8 +9,10 @@
 #include "Prefix.h"
 
 #include "App.h"
+#include "graphics_context.hpp"
 #include "GSpace.hpp"
 #include "enum.h"
+#include "macros.h"
 #include "Player.hpp"
 #include "PlayerBullet.hpp"
 #include "PlayerSpell.hpp"
@@ -58,7 +60,7 @@ void PlayerBatMode::init()
 	if (p) {
 		p->setFiringSuppressed(true);
 		p->setSprite("flandre_bat", false);
-		p->space->setSpriteZoom(p->spriteID, 4.0f);
+		p->space->addGraphicsAction(&graphics_context::setSpriteZoom, p->spriteID, 4.0f);
 		p->applyAttributeModifier(Attribute::agility, 1.5f);
 		p->setLayers(PhysicsLayers::ground);
 		p->setProtection();
@@ -74,7 +76,7 @@ void PlayerBatMode::end()
 	if (p) {
 		p->setFiringSuppressed(false);
 		p->setSprite("flandre", true);
-		p->space->setSpriteZoom(p->spriteID, 1.0f);
+		p->space->addGraphicsAction(&graphics_context::setSpriteZoom, p->spriteID, 1.0f);
 		p->applyAttributeModifier(Attribute::agility, -1.5f);
 		p->setLayers(enum_bitwise_or(PhysicsLayers, floor, ground));
 		p->resetProtection();
@@ -305,7 +307,7 @@ void PlayerDarkMist::init()
 {
 	PlayerSpell::init();
 
-	caster->space->setSpriteOpacity(caster->spriteID, 128);
+	caster->space->addGraphicsAction(&graphics_context::setSpriteOpacity, caster->spriteID, to_uchar(128));
 	caster->setInvisible(true);
 }
 
@@ -313,7 +315,7 @@ void PlayerDarkMist::end()
 {
 	PlayerSpell::end();
 
-	caster->space->setSpriteOpacity(caster->spriteID, 255);
+	caster->space->addGraphicsAction(&graphics_context::setSpriteOpacity, caster->spriteID, to_uchar(255));
 	caster->setInvisible(false);
 }
 

@@ -12,6 +12,7 @@
 #include "AIUtil.hpp"
 #include "App.h"
 #include "GObject.hpp"
+#include "graphics_context.hpp"
 #include "GSpace.hpp"
 #include "MiscMagicEffects.hpp"
 #include "Player.hpp"
@@ -40,7 +41,11 @@ void FreezeStatusEffect::init()
 	StateMachineObject* smo = dynamic_cast<StateMachineObject*>(_target);
 
 	if (_target->spriteID != 0){
-		_target->space->runSpriteAction(_target->spriteID, freezeEffectAction());
+		_target->space->addGraphicsAction(
+			&graphics_context::runSpriteAction,
+			_target->spriteID,
+			freezeEffectAction()
+		);
 	}
 
 	if (smo) {
@@ -74,8 +79,16 @@ void FreezeStatusEffect::end()
 
 	//Stop sprite effect, assuming the effect ended early.
 	if (_target->spriteID != 0) {
-		_target->space->stopSpriteAction(_target->spriteID, cocos_action_tag::freeze_status);
-		_target->space->runSpriteAction(_target->spriteID, freezeEffectEndAction());
+		_target->space->addGraphicsAction(
+			&graphics_context::stopSpriteAction,
+			_target->spriteID,
+			cocos_action_tag::freeze_status
+		);
+		_target->space->addGraphicsAction(
+			&graphics_context::runSpriteAction,
+			_target->spriteID,
+			freezeEffectEndAction()
+		);
 	}
 
 	if (smo) {
@@ -101,7 +114,11 @@ void DarknessCurseEffect::init()
 {
 	agent->inhibitSpellcasting = true;
 	agent->stopSpell();
-	agent->space->runSpriteAction(agent->spriteID, darknessCurseFlickerTintAction());
+	agent->space->addGraphicsAction(
+		&graphics_context::runSpriteAction,
+		agent->spriteID,
+		darknessCurseFlickerTintAction()
+	);
 }
 
 void DarknessCurseEffect::update()
@@ -116,7 +133,11 @@ void DarknessCurseEffect::update()
 void DarknessCurseEffect::end()
 {
 	agent->inhibitSpellcasting = false;
-	agent->space->stopSpriteAction(agent->spriteID, cocos_action_tag::darkness_curse);
+	agent->space->addGraphicsAction(
+		&graphics_context::stopSpriteAction,
+		agent->spriteID,
+		cocos_action_tag::darkness_curse
+	);
 }
 
 RedFairyStress::RedFairyStress(object_ref<Agent> _agent) :
@@ -167,7 +188,11 @@ void GhostProtection::update()
 
 	if (accumulator >= 1.0f && agent->getAttribute(Attribute::hitProtection) == 0.0f)
 	{
-		agent->space->runSpriteAction(agent->spriteID, flickerAction(0.25f, 5.0f, 128));
+		agent->space->addGraphicsAction(
+			&graphics_context::runSpriteAction,
+			agent->spriteID,
+			flickerAction(0.25f, 5.0f, 128)
+		);
 		agent->getAttributeSystem()->setTimedProtection(5.0f);
 
 		accumulator = 0.0f;

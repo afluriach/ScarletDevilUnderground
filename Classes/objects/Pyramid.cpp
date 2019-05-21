@@ -10,7 +10,7 @@
 
 #include "Agent.hpp"
 #include "App.h"
-#include "GScene.hpp"
+#include "graphics_context.hpp"
 #include "GSpace.hpp"
 #include "macros.h"
 #include "Pyramid.hpp"
@@ -58,7 +58,11 @@ void Pyramid::update()
 void Pyramid::redrawLightCone()
 {	
 	SpaceFloat angle = getAngle();
-	space->setLightSourceColor(lightID, targets.empty() ? coneColor : coneActiveColor);
+	space->addGraphicsAction(
+		&graphics_context::setLightSourceColor,
+		lightID,
+		targets.empty() ? coneColor : coneActiveColor
+	);
 }
 
 PhysicsLayers Pyramid::getLayers() const{
@@ -84,12 +88,18 @@ void Pyramid::onEndDetect(GObject* other)
 void Pyramid::initializeGraphics()
 {
 	SpaceFloat a = getAngle();
-	spriteID = space->createSprite(imageSpritePath(), GraphicsLayer::ground, getInitialCenterPix(), 1.0f);
+	spriteID = space->createSprite(
+		&graphics_context::createSprite,
+		imageSpritePath(),
+		GraphicsLayer::ground,
+		getInitialCenterPix(),
+		1.0f
+	);
 	lightID = space->addLightSource(ConeLightArea{
 		getPos(),
 		coneLength,
 		coneWidth,
 		coneColor
 	});
-	space->setLightSourceAngle(lightID, getAngle());
+	space->addGraphicsAction(&graphics_context::setLightSourceAngle, lightID, getAngle());
 }

@@ -12,6 +12,7 @@
 #include "Enemy.hpp"
 #include "EnemyBullet.hpp"
 #include "EnemySpell.hpp"
+#include "graphics_context.hpp"
 #include "GSpace.hpp"
 #include "SpellUtil.hpp"
 #include "TeleportPad.hpp"
@@ -104,10 +105,11 @@ BlueFairyBomb::BlueFairyBomb(GObject* caster) :
 void BlueFairyBomb::init()
 {
 	sprite = caster->space->createSprite(
-		"sprites/blue_explosion.png",
+		&graphics_context::createSprite,
+		string("sprites/blue_explosion.png"),
 		GraphicsLayer::agentOverlay,
 		toCocos(caster->getPos())*App::pixelsPerTile,
-		radius / 2.0
+		to_float(radius * 0.5f)
 	);
 }
 
@@ -115,7 +117,11 @@ void BlueFairyBomb::update()
 {
 	timerIncrement(timer);
 
-	caster->space->setSpriteAngle(sprite, toCocosAngle(canonicalAngle(angularSpeed * timer)));
+	caster->space->addGraphicsAction(
+		&graphics_context::setSpriteAngle,
+		sprite,
+		toCocosAngle(canonicalAngle(angularSpeed * timer))
+	);
 	radialEffectArea(caster, radius, GType::player, damage);
 
 	if (timer >= length)
@@ -124,7 +130,7 @@ void BlueFairyBomb::update()
 
 void BlueFairyBomb::end()
 {
-	caster->space->removeSprite(sprite);
+	caster->space->addGraphicsAction(&graphics_context::removeSprite, sprite);
 }
 
 const string GreenFairyPowerAttack::name = "GreenFairyPowerAttack";

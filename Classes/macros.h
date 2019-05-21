@@ -9,6 +9,7 @@
 #ifndef macros_h
 #define macros_h
 
+#define to_uchar(x) static_cast<unsigned char>(x)
 #define to_int(x) static_cast<int>(x)
 #define to_uint(x) static_cast<unsigned int>(x)
 #define to_float(x) static_cast<float>(x)

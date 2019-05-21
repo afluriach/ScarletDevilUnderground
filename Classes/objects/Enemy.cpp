@@ -10,6 +10,7 @@
 
 #include "App.h"
 #include "Enemy.hpp"
+#include "graphics_context.hpp"
 #include "GSpace.hpp"
 #include "Player.hpp"
 
@@ -21,7 +22,11 @@ drop_id(drop_id)
 void Enemy::runDamageFlicker()
 {
 	if (spriteID != 0) {
-		space->runSpriteAction(spriteID, flickerAction(0.3f, 1.2f, 81));
+		space->addGraphicsAction(
+			&graphics_context::runSpriteAction,
+			spriteID,
+			flickerAction(0.3f, 1.2f, 81)
+		);
 	}
 }
 

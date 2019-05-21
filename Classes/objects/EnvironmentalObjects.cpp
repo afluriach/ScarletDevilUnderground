@@ -10,6 +10,7 @@
 
 #include "App.h"
 #include "EnvironmentalObjects.hpp"
+#include "graphics_context.hpp"
 #include "GSpace.hpp"
 #include "GState.hpp"
 #include "HUD.hpp"
@@ -68,7 +69,11 @@ void Headstone::hit(float damage)
 			auto it = intervals.find(hpRatio);
 			if (it != intervals.end()) {
 				if (it->second != spriteIdx) {
-					space->setSpriteTexture(spriteID, damageSprites[it->second - 1]);
+					space->addGraphicsAction(
+						&graphics_context::setSpriteTexture,
+						spriteID,
+						damageSprites[it->second - 1]
+					);
 					spriteIdx = it->second;
 				}
 			}
@@ -92,7 +97,11 @@ GhostHeadstone::GhostHeadstone(GSpace* space, ObjectIDType id, const ValueMap& a
 
 void GhostHeadstone::init()
 {
-	space->runSpriteAction(spriteID, indefiniteFlickerAction(0.333f, 48, 96));
+	space->addGraphicsAction(
+		&graphics_context::runSpriteAction,
+		spriteID,
+		indefiniteFlickerAction(0.333f, 48, 96)
+	);
 }
 
 Sapling::Sapling(GSpace* space, ObjectIDType id, const ValueMap& args) :

@@ -12,6 +12,7 @@
 #include "App.h"
 #include "Door.hpp"
 #include "enum.h"
+#include "graphics_context.hpp"
 #include "GSpace.hpp"
 #include "GState.hpp"
 #include "macros.h"
@@ -73,17 +74,25 @@ void Door::init()
 	}
 
 	if (locked) {
-		space->setSpriteColor(spriteID, Color3B::RED);
+		space->addGraphicsAction(&graphics_context::setSpriteColor, spriteID, Color3B::RED);
 	}
 
 	if ((doorType == door_type::one_way_destination || doorType == door_type::one_way_source) && adjacent.isValid()) {
-		space->setSpriteTexture(spriteID, "sprites/door_oneway_" + getDoorDirectionString() + ".png");
+		space->addGraphicsAction(
+			&graphics_context::setSpriteTexture,
+			spriteID,
+			"sprites/door_oneway_" + getDoorDirectionString() + ".png"
+		);
 	}
 	else if (stairs) {
-		space->setSpriteTexture(spriteID, "sprites/stairs.png" );
+		space->addGraphicsAction(
+			&graphics_context::setSpriteTexture,
+			spriteID,
+			string("sprites/stairs.png")
+		);
 	}
 	else if (path) {
-		space->setSpriteVisible(spriteID, false);
+		space->addGraphicsAction(&graphics_context::setSpriteVisible, spriteID, false);
 	}
 }
 
@@ -130,7 +139,7 @@ void Door::interact(Player* p)
 	else if(locked){
 		p->useKey();
 		locked = false;
-		space->setSpriteColor(spriteID, Color3B::WHITE);
+		space->addGraphicsAction(&graphics_context::setSpriteColor, spriteID, Color3B::WHITE);
 	}
 }
 
@@ -161,7 +170,11 @@ void Door::setSealed(bool b)
 	sealed = b;
 
 	if (spriteID != 0) {
-		space->setSpriteTexture(spriteID, b ? "sprites/door_locked.png" : "sprites/door.png");
+		space->addGraphicsAction(
+			&graphics_context::setSpriteTexture,
+			spriteID,
+			string(b ? "sprites/door_locked.png" : "sprites/door.png")
+		);
 	}
 }
 
@@ -201,7 +214,7 @@ PhysicsLayers Barrier::getLayers() const
 void Barrier::setSealed(bool b)
 {
 	cpShapeSetSensor(bodyShape, !b);
-	space->setSpriteVisible(spriteID, b);
+	space->addGraphicsAction(&graphics_context::setSpriteVisible, spriteID, b);
 }
 
 void Barrier::activate()

@@ -16,7 +16,7 @@
 #include "EnemyFunctions.hpp"
 #include "EnemySpell.hpp"
 #include "Fairy.hpp"
-#include "GScene.hpp"
+#include "graphics_context.hpp"
 #include "GSpace.hpp"
 #include "GState.hpp"
 #include "MiscMagicEffects.hpp"
@@ -307,17 +307,18 @@ void RedFairy::onZeroHP()
 	Agent::onZeroHP();
 	explosion(this, explosionRadius, explosionEffect);
 	SpriteID bombSprite = space->createSprite(
-		"sprites/explosion.png",
+		&graphics_context::createSprite,
+		string("sprites/explosion.png"),
 		GraphicsLayer::overhead,
 		toCocos(getPos()) * App::pixelsPerTile,
 		1.0f
 	);
-	space->setSpriteColor(bombSprite, Color3B::RED);
-	space->runSpriteAction(bombSprite, bombAnimationAction(explosionRadius / Bomb::explosionSpriteRadius, true));
+	space->addGraphicsAction(&graphics_context::setSpriteColor, bombSprite, Color3B::RED);
+	space->addGraphicsAction(&graphics_context::runSpriteAction, bombSprite, bombAnimationAction(explosionRadius / Bomb::explosionSpriteRadius, true));
 	App::playSoundSpatial("sfx/red_fairy_explosion.wav", toVec3(getPos()), toVec3(SpaceVect::zero));
 
 	LightID light = space->addLightSource(CircleLightArea{ getPos(), explosionRadius, Color4F::RED, 0.25 });
-	space->autoremoveLightSource(light, 1.0f);
+	space->addGraphicsAction(&graphics_context::autoremoveLightSource, light, 1.0f);
 }
 
 const AttributeMap GreenFairy1::baseAttributes = {

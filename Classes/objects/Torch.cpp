@@ -8,7 +8,7 @@
 
 #include "Prefix.h"
 
-#include "GScene.hpp"
+#include "graphics_context.hpp"
 #include "GSpace.hpp"
 #include "Torch.hpp"
 #include "value_map.hpp"
@@ -46,10 +46,22 @@ void Torch::update()
 
 void Torch::initializeGraphics()
 {
-	baseSpriteID = space->createSprite("sprites/torch.png", GraphicsLayer::ground, getInitialCenterPix(), 0.5f);
-	flameSpriteID = space->createSprite("sprites/white_flame.png", GraphicsLayer::overhead, getInitialCenterPix(), 0.5f);
-	space->setSpriteColor(flameSpriteID, color);
-	space->setSpriteVisible(flameSpriteID, isActive);
+	baseSpriteID = space->createSprite(
+		&graphics_context::createSprite,
+		string("sprites/torch.png"),
+		GraphicsLayer::ground,
+		getInitialCenterPix(),
+		0.5f
+	);
+	flameSpriteID = space->createSprite(
+		&graphics_context::createSprite, 
+		string("sprites/white_flame.png"),
+		GraphicsLayer::overhead,
+		getInitialCenterPix(),
+		0.5f
+	);
+	space->addGraphicsAction(&graphics_context::setSpriteColor, flameSpriteID, color);
+	space->addGraphicsAction(&graphics_context::setSpriteVisible, flameSpriteID, isActive);
 
 	if (isActive) {
 		addLightSource();
@@ -61,13 +73,13 @@ void Torch::setActive(bool active)
     isActive = active;
 	darkness = 0.0f;
 
-	space->setSpriteVisible(flameSpriteID, active);
+	space->addGraphicsAction(&graphics_context::setSpriteVisible, flameSpriteID, active);
 
 	if (active && lightSourceID == 0) {
 		addLightSource();
 	}
 	else if(lightSourceID != 0) {
-		space->removeLightSource(lightSourceID);
+		space->addGraphicsAction(&graphics_context::removeLightSource, lightSourceID);
 		lightSourceID = 0;
 	}
 }
@@ -88,8 +100,14 @@ void Torch::applyDarkness(float v)
 
 void Torch::addLightSource()
 {
-	lightSourceID = space->addLightSource(CircleLightArea{ getPos(),lightRadius,toColor4F(color)*intensity, flood });
-	space->setLightSourceNoise(lightSourceID, perlin_light_state{ toColor4F(color)*intensity, boost::math::float_constants::pi, 0.0f, 4.0f, 0.3f});
+	lightSourceID = space->addLightSource(
+		CircleLightArea{ getPos(),lightRadius,toColor4F(color)*intensity, flood }
+	);
+	space->addGraphicsAction(
+		&graphics_context::setLightSourceNoise,
+		lightSourceID,
+		perlin_light_state{ toColor4F(color)*intensity, boost::math::float_constants::pi, 0.0f, 4.0f, 0.3f}
+	);
 }
 
 void Torch::interact(Player* p)

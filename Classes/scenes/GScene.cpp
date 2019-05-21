@@ -15,6 +15,7 @@
 #include "FileIO.hpp"
 #include "functional.hpp"
 #include "GObject.hpp"
+#include "graphics_context.hpp"
 #include "GScene.hpp"
 #include "GSpace.hpp"
 #include "LuaAPI.hpp"
@@ -124,6 +125,7 @@ control_listener(make_unique<ControlListener>())
 	isExit = false;
 	isPaused = false;
 
+	graphicsContext = make_unique<graphics_context>(this);
 	gspace = new GSpace(this);
 
 	if (!sceneName.empty())

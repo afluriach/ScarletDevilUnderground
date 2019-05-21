@@ -14,6 +14,7 @@
 #include "functional.hpp"
 #include "FloorSegment.hpp"
 #include "GObject.hpp"
+#include "graphics_context.hpp"
 #include "GScene.hpp"
 #include "GSpace.hpp"
 #include "macros.h"
@@ -293,7 +294,7 @@ void GScene::loadSubrooms(const TMXTiledMap& map, IntVec2 offset)
 		SpaceRect area = getUnitspaceRectangle(objAsMap, offset);
 
 		objAsMap.insert_or_assign("type", "HiddenSubroomSensor");
-		objAsMap.insert_or_assign("id", to_int(roomMasks.size()));
+		objAsMap.insert_or_assign("id", to_int(graphicsContext->roomMasks.size()));
 
 		convertToUnitSpace(objAsMap, offset);
 		gspace->createObject(objAsMap);
@@ -313,7 +314,7 @@ void GScene::loadSubrooms(const TMXTiledMap& map, IntVec2 offset)
 			1.0f
 		);
 
-		roomMasks.push_back(dn);
+		graphicsContext->roomMasks.push_back(dn);
 	}
 }
 
@@ -396,12 +397,12 @@ void GScene::loadLights(const TMXTiledMap& map, IntVec2 offset)
 		color = getDefaultAmbientLight();
 	}
 
-	LightID id = getLightID();
+	LightID id = graphicsContext->getLightID();
 
 	SpaceVect dimensions = toChipmunk(map.getMapSize());
 	SpaceVect center = toChipmunk(offset) + dimensions / 2.0;
 
-	addLightSource(id, AmbientLightArea{ center, dimensions, color});
+	graphicsContext->addLightSource(id, AmbientLightArea{ center, dimensions, color});
 }
 
 void GScene::updateMapVisibility(SpaceVect playerPos)

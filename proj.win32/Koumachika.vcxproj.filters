@@ -297,9 +297,6 @@
     <ClCompile Include="..\Classes\GSpace_physics.cpp">
       <Filter>src</Filter>
     </ClCompile>
-    <ClCompile Include="..\Classes\GSpace_graphics.cpp">
-      <Filter>src</Filter>
-    </ClCompile>
     <ClCompile Include="..\Classes\objects\Reimu.cpp">
       <Filter>src\objects</Filter>
     </ClCompile>
@@ -376,6 +373,9 @@
       <Filter>src</Filter>
     </ClCompile>
     <ClCompile Include="..\Classes\ControlMapping.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\graphics_context.cpp">
       <Filter>src</Filter>
     </ClCompile>
   </ItemGroup>
@@ -723,6 +723,9 @@
       <Filter>src</Filter>
     </ClInclude>
     <ClInclude Include="..\Classes\ControlAssignment.h">
+      <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\graphics_context.hpp">
       <Filter>src</Filter>
     </ClInclude>
   </ItemGroup>

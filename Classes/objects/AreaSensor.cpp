@@ -12,6 +12,7 @@
 #include "Door.hpp"
 #include "Enemy.hpp"
 #include "FairyNPC.hpp"
+#include "graphics_context.hpp"
 #include "GSpace.hpp"
 #include "HUD.hpp"
 #include "Player.hpp"
@@ -90,7 +91,7 @@ void HiddenSubroomSensor::onPlayerContact(Player* p)
 	AreaSensor::onPlayerContact(p);
 
 	if (!activated) {
-		space->clearSubroomMask(roomID);
+		space->addGraphicsAction(&graphics_context::clearSubroomMask, to_uint(roomID));
 		activated = true;
 	}
 }

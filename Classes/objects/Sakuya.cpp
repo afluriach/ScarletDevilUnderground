@@ -10,6 +10,7 @@
 
 #include "AIFunctions.hpp"
 #include "AIUtil.hpp"
+#include "graphics_context.hpp"
 #include "GSpace.hpp"
 #include "Sakuya.hpp"
 #include "SakuyaSpell.hpp"
@@ -59,7 +60,11 @@ void IllusionDash::onEnter(ai::StateMachine& sm)
 	SpaceVect disp = ai::displacementToTarget(sm.agent, target);
 
 	sm.agent->setVel(disp.normalizeSafe()*speed);
-	sm.agent->space->runSpriteAction(sm.agent->spriteID, motionBlurStretch(disp.length() / speed, disp.toAngle(), opacity, scale));
+	sm.agent->space->addGraphicsAction(
+		&graphics_context::runSpriteAction,
+		sm.agent->spriteID,
+		motionBlurStretch(disp.length() / speed, disp.toAngle(), opacity, scale)
+	);
 }
 
 void IllusionDash::update(ai::StateMachine& sm)

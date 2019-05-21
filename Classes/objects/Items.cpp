@@ -10,6 +10,7 @@
 
 #include "App.h"
 #include "FirePattern.hpp"
+#include "graphics_context.hpp"
 #include "GSpace.hpp"
 #include "GState.hpp"
 #include "Items.hpp"
@@ -74,7 +75,11 @@ CircleLightArea Spellcard::getLightSource() const
 void Spellcard::initializeGraphics()
 {
 	ImageSprite::initializeGraphics();
-	space->runSpriteAction(spriteID, spellcardFlickerTintAction());
+	space->addGraphicsAction(
+		&graphics_context::runSpriteAction,
+		spriteID,
+		spellcardFlickerTintAction()
+	);
 }
 
 void Spellcard::onAcquire()

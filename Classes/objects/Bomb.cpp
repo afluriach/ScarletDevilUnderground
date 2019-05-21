@@ -10,7 +10,7 @@
 
 #include "App.h"
 #include "Bomb.hpp"
-#include "GScene.hpp"
+#include "graphics_context.hpp"
 #include "GSpace.hpp"
 #include "SpellUtil.hpp"
 
@@ -56,7 +56,11 @@ void Bomb::detonate()
 	if(!sfxRes.empty())
 		playSoundSpatial(getExplosionSound());
 
-	space->setSpriteTexture(spriteID, "sprites/explosion.png");
+	space->addGraphicsAction(
+		&graphics_context::setSpriteTexture,
+		spriteID,
+		string("sprites/explosion.png")
+	);
 	space->removeObjectWithAnimation(this, bombAnimationAction(getBlastRadius() / explosionSpriteRadius, false));
 
 	LightID light = space->addLightSource(CircleLightArea{
@@ -65,7 +69,7 @@ void Bomb::detonate()
 		Color4F::ORANGE,
 		0.5
 	});
-	space->autoremoveLightSource(light, 1.0f);
+	space->addGraphicsAction(&graphics_context::autoremoveLightSource, light, 1.0f);
 }
 
 PlayerBomb::PlayerBomb(GSpace* space, ObjectIDType id, const SpaceVect& pos, const SpaceVect& vel) :

@@ -15,6 +15,7 @@
 #include "Enemy.hpp"
 #include "EnemyBullet.hpp"
 #include "FirePattern.hpp"
+#include "graphics_context.hpp"
 #include "GSpace.hpp"
 #include "macros.h"
 #include "MagicEffect.hpp"
@@ -59,7 +60,11 @@ void Agent::initAttributes()
 	attributeSystem.setFullMP();
 	attributeSystem.setFullStamina();
 
-	space->setAgentOverlayShieldLevel(agentOverlay, getAttribute(Attribute::shieldLevel));
+	space->addGraphicsAction(
+		&graphics_context::setAgentOverlayShieldLevel,
+		agentOverlay,
+		getAttribute(Attribute::shieldLevel)
+	);
 }
 
 void Agent::update()
@@ -127,7 +132,7 @@ void Agent::onZeroHP()
 
 void Agent::onRemove()
 {
-	space->removeSprite(agentOverlay);
+	space->addGraphicsAction(&graphics_context::removeSprite, agentOverlay);
 }
 
 bool Agent::cast(shared_ptr<Spell> spell)
@@ -266,7 +271,7 @@ bool Agent::consumeStamina(int val)
 
 void Agent::setShieldActive(bool v)
 {
-	space->setSpriteVisible(agentOverlay, v);
+	space->addGraphicsAction(&graphics_context::setSpriteVisible, agentOverlay, v);
 	shieldActive = v;
 }
 
@@ -289,14 +294,18 @@ void Agent::initializeGraphics()
 {
 	PatchConSprite::initializeGraphics();
 
-	agentOverlay = space->createAgentBodyShader(
+	agentOverlay = space->createSprite(
+		&graphics_context::createAgentBodyShader,
 		GraphicsLayer::agentOverlay,
-		bodyOutlineColor, shieldConeColor,
-		getRadius()*App::pixelsPerTile, Player::grazeRadius*App::pixelsPerTile,
-		bodyOutlineWidth, getInitialCenterPix()
+		bodyOutlineColor,
+		shieldConeColor,
+		to_float(getRadius()*App::pixelsPerTile),
+		to_float(Player::grazeRadius*App::pixelsPerTile),
+		bodyOutlineWidth,
+		getInitialCenterPix()
 	);
 	//Should be false, but in case shield has already been activated.
-	space->setSpriteVisible(agentOverlay, shieldActive);
+	space->addGraphicsAction(&graphics_context::setSpriteVisible, agentOverlay, shieldActive);
 }
 
 //shield
@@ -373,7 +382,7 @@ bool Agent::hit(DamageInfo damage)
 	}
 
 	float hp = attributeSystem.applyDamage(damage);
-	space->createDamageIndicator(hp, getPos());
+	space->addGraphicsAction(&graphics_context::createDamageIndicator, hp, getPos());
 
 	return true;
 }
@@ -406,8 +415,16 @@ DamageInfo Agent::touchEffect() const
 void Agent::updateAgentOverlay()
 {
 	if (shieldActive) {
-		space->setSpritePosition(agentOverlay, toCocos(getPos()*App::pixelsPerTile));
-		space->setSpriteAngle(agentOverlay, toCocosAngle(getAngle()));
+		space->addGraphicsAction(
+			&graphics_context::setSpritePosition,
+			agentOverlay,
+			toCocos(getPos()*App::pixelsPerTile)
+		);
+		space->addGraphicsAction(
+			&graphics_context::setSpriteAngle,
+			agentOverlay,
+			toCocosAngle(getAngle())
+		);
 	}
 }
 

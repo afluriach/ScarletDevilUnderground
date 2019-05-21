@@ -12,6 +12,7 @@
 #include "AIUtil.hpp"
 #include "App.h"
 #include "EnemyBullet.hpp"
+#include "graphics_context.hpp"
 #include "GSpace.hpp"
 #include "MagicEffect.hpp"
 #include "MiscMagicEffects.hpp"
@@ -182,7 +183,11 @@ void IllusionDialDagger::update()
 	GObject::update();
 
 	if (drawNodeID != 0) {
-		space->setSpriteAngle(drawNodeID, -toDegrees(getAngle()));
+		space->addGraphicsAction(
+			&graphics_context::setSpriteAngle,
+			drawNodeID,
+			to_float(-toDegrees(getAngle()))
+		);
 	}
 }
 
@@ -194,9 +199,20 @@ void IllusionDialDagger::initializeGraphics()
 	float hWidth = to_float(_dim.x / 2.0 * App::pixelsPerTile);
 	float hHeight = to_float(_dim.y / 2.0 * App::pixelsPerTile);
 	
-	drawNodeID = space->createDrawNode(GraphicsLayer::agentOverlay, getInitialCenterPix(), 1.0f);
-	space->drawSolidRect(drawNodeID, Vec2(-hWidth, -hHeight), Vec2(hWidth, hHeight), Color4F(.66f, .75f, .66f, .7f));
-	space->setSpriteVisible(drawNodeID, false);
+	drawNodeID = space->createSprite(
+		&graphics_context::createDrawNode,
+		GraphicsLayer::agentOverlay,
+		getInitialCenterPix(),
+		1.0f
+	);
+	space->addGraphicsAction(
+		&graphics_context::drawSolidRect,
+		drawNodeID,
+		Vec2(-hWidth, -hHeight),
+		Vec2(hWidth, hHeight),
+		Color4F(.66f, .75f, .66f, .7f)
+	);
+	space->addGraphicsAction(&graphics_context::setSpriteVisible, drawNodeID, false);
 }
 
 const bullet_properties ReimuBullet1::props = {

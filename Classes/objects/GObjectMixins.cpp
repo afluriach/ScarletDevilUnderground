@@ -12,7 +12,7 @@
 #include "App.h"
 #include "FloorSegment.hpp"
 #include "GObjectMixins.hpp"
-#include "GScene.hpp"
+#include "graphics_context.hpp"
 #include "GSpace.hpp"
 #include "object_ref.hpp"
 #include "util.h"
@@ -125,7 +125,16 @@ void ImageSprite::initializeGraphics()
 
 void LoopAnimationSprite::initializeGraphics()
 {
-	animID = space->createLoopAnimation(animationName(), animationSize(), animationDuration(), sceneLayer(), getInitialCenterPix(), zoom());
+	animID = space->createSprite(
+		&graphics_context::createLoopAnimation,
+		animationName(),
+		animationSize(),
+		animationDuration(),
+		sceneLayer(),
+		getInitialCenterPix(),
+		zoom()
+	);
+
 	spriteID = animID;
 }
 
@@ -152,7 +161,14 @@ void PatchConSprite::init()
 
 void PatchConSprite::initializeGraphics()
 {
-	spriteID = space->createAgentSprite(imageSpritePath(), isAgentAnimation(), sceneLayer(), getInitialCenterPix(), zoom());
+	spriteID = space->createSprite(
+		&graphics_context::createAgentSprite,
+		imageSpritePath(),
+		isAgentAnimation(),
+		sceneLayer(),
+		getInitialCenterPix(),
+		zoom()
+	);
 }
 
 void PatchConSprite::setSprite(const string& name)
@@ -163,7 +179,12 @@ void PatchConSprite::setSprite(const string& name)
 void PatchConSprite::setSprite(const string& name, bool agentAnimation)
 {
 	if (spriteID != 0) {
-		space->loadAgentAnimation(spriteID, "sprites/" + name + ".png", agentAnimation);
+		space->addGraphicsAction(
+			&graphics_context::loadAgentAnimation,
+			spriteID,
+			"sprites/" + name + ".png",
+			agentAnimation
+		);
 	}
 }
 
@@ -185,7 +206,7 @@ void PatchConSprite::setAngle(SpaceFloat a)
 {
     GObject::setAngle(a);
 
-	space->setAgentAnimationDirection(spriteID, angleToDirection(a));
+	space->addGraphicsAction(&graphics_context::setAgentAnimationDirection, spriteID, angleToDirection(a));
 }
 
 void PatchConSprite::setDirection(Direction d)
@@ -193,7 +214,7 @@ void PatchConSprite::setDirection(Direction d)
     GObject::setDirection(d);
     if(d == Direction::none) return;
 
-	space->setAgentAnimationDirection(spriteID, d);
+	space->addGraphicsAction(&graphics_context::setAgentAnimationDirection, spriteID, d);
 }
 
 bool PatchConSprite::accumulate(SpaceFloat dx)
@@ -212,7 +233,7 @@ bool PatchConSprite::checkAdvanceAnimation()
 	case 0:
 		if (accumulator >= stepSize)
 		{
-			space->setAgentAnimationFrame(spriteID, 1);
+			space->addGraphicsAction(&graphics_context::setAgentAnimationFrame, spriteID, 1);
 			crntFrame = 1;
 			advance = true;
 			accumulator -= stepSize;
@@ -222,7 +243,7 @@ bool PatchConSprite::checkAdvanceAnimation()
 	case 2:
 		if (accumulator >= stepSize)
 		{
-			space->setAgentAnimationFrame(spriteID, 1);
+			space->addGraphicsAction(&graphics_context::setAgentAnimationFrame, spriteID, 1);
 			crntFrame = 1;
 			advance = true;
 			accumulator -= stepSize;
@@ -233,7 +254,7 @@ bool PatchConSprite::checkAdvanceAnimation()
 		if (accumulator >= midstepSize)
 		{
 			crntFrame = (nextStepIsLeft ? 0 : 2);
-			space->setAgentAnimationFrame(spriteID, crntFrame);
+			space->addGraphicsAction(&graphics_context::setAgentAnimationFrame, spriteID, crntFrame);
 			accumulator -= midstepSize;
 		}
 		break;
@@ -244,7 +265,7 @@ bool PatchConSprite::checkAdvanceAnimation()
 
 void PatchConSprite::reset()
 {
-	space->setAgentAnimationFrame(spriteID, 1);
+	space->addGraphicsAction(&graphics_context::setAgentAnimationFrame, spriteID, 1);
 	accumulator = 0.0;
 
 	nextStepIsLeft = firstStepIsLeft;
@@ -254,8 +275,14 @@ void PatchConSprite::reset()
 
 void ImageSprite::loadImageSprite(const string& resPath, GraphicsLayer sceneLayer)
 {
-	spriteID = space->createSprite(resPath, sceneLayer, getInitialCenterPix(), zoom());
-	space->setSpriteAngle(spriteID, toCocosAngle(prevAngle));
+	spriteID = space->createSprite(
+		&graphics_context::createSprite,
+		resPath,
+		sceneLayer,
+		getInitialCenterPix(),
+		zoom()
+	);
+	space->addGraphicsAction(&graphics_context::setSpriteAngle, spriteID, toCocosAngle(prevAngle));
 }
 
 RadialLightObject::RadialLightObject() :
@@ -275,8 +302,8 @@ void SpriteLightObject::init()
 {
 	lightID = space->addLightSource(getLightSource());
 
-	space->setLightSourcePosition(lightID, prevPos);
-	space->setLightSourceAngle(lightID, prevAngle);
+	space->addGraphicsAction(&graphics_context::setLightSourcePosition, lightID, prevPos);
+	space->addGraphicsAction(&graphics_context::setLightSourceAngle, lightID, prevAngle);
 }
 
 

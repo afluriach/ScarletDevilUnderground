@@ -34,6 +34,8 @@ typedef vector<vector<int>> MapFragmentsList;
 class GScene : public Scene
 {
 public:
+	friend class graphics_context;
+
     //The order of initialization events, as performed by GScene and it's various dervied classes.
     enum class initOrder{
         //This includes all top-level GScene init, as well running Layer::init and Node::scheduleUpdate.
@@ -131,58 +133,6 @@ public:
 
 	void setColorFilter(const Color4F& color);
 
-	SpriteID getSpriteID();
-	LightID getLightID();
-
-	void addLightSource(LightID id, CircleLightArea light);
-	void addLightSource(LightID id, AmbientLightArea light);
-	void addLightSource(LightID id, ConeLightArea light);
-	void addLightSource(LightID id, SpriteLightArea light);
-	void removeLightSource(LightID id);
-	void setLightSourcePosition(LightID id, SpaceVect pos);
-	void setLightSourceAngle(LightID id, SpaceFloat a);
-	void setLightSourceColor(LightID id, Color4F color);
-	void setLightSourceNoise(LightID id, perlin_light_state noise);
-	void autoremoveLightSource(LightID id, float seconds);
-
-	void createSprite(SpriteID id, string path, GraphicsLayer sceneLayer, Vec2 pos, float zoom);
-	void createLoopAnimation(SpriteID id, string name, int frameCount, float duration, GraphicsLayer sceneLayer, Vec2 pos, float zoom);
-	void createDrawNode(SpriteID id, GraphicsLayer sceneLayer, Vec2 pos, float zoom);
-	void createAgentSprite(SpriteID id, string path, bool isAgentAnimation, GraphicsLayer sceneLayer, Vec2 pos, float zoom);
-	void createDamageIndicator(float val, SpaceVect pos);
-	void createAgentBodyShader(
-		SpriteID id, GraphicsLayer layer,
-		Color4F bodyColor, Color4F coneColor,
-		float bodyRadius, float coneRadius,
-		float thickness, Vec2 position
-	);
-
-	void loadAgentAnimation(SpriteID id, string path, bool isAgentAnimation);
-	void setAgentAnimationDirection(SpriteID id, Direction d);
-	void setAgentAnimationFrame(SpriteID id, int frame);
-	void setAgentOverlayShieldLevel(SpriteID id, float level);
-
-	void clearDrawNode(SpriteID id);
-	void drawSolidRect(SpriteID id, Vec2 lowerLeft, Vec2 upperRight, Color4F color);
-	void drawSolidCone(SpriteID id, Vec2 center, float radius, float startAngle, float endAngle, unsigned int segments, Color4F color);
-	void drawSolidCircle(SpriteID id, Vec2 center, float radius, float angle, unsigned int segments, Color4F color);
-
-	void runSpriteAction(SpriteID id, ActionGeneratorType generator);
-	void stopSpriteAction(SpriteID id, cocos_action_tag action);
-	void stopAllSpriteActions(SpriteID id);
-	void removeSprite(SpriteID id);
-	void removeSpriteWithAnimation(SpriteID id, ActionGeneratorType generator);
-	void setSpriteVisible(SpriteID id, bool val);
-	void setSpriteOpacity(SpriteID id, unsigned char op);
-	void setSpriteTexture(SpriteID id, string path);
-	void setSpriteAngle(SpriteID id, float cocosAngle);
-	void setSpritePosition(SpriteID id, Vec2 pos);
-	void setSpriteZoom(SpriteID id, float zoom);
-	void setSpriteColor(SpriteID id, Color3B color);
-	void spriteSpatialUpdate(vector<sprite_update> spriteUpdates);
-
-	void clearSubroomMask(unsigned int roomID);
-
     //The different vector type is intentional, as Chipmunk vector implies
     //unit space as opposed to pixel space.
     void setUnitPosition(const SpaceVect& v);
@@ -219,9 +169,8 @@ public:
     util::multifunction<void(void)> multiInit;
 
 	unique_ptr<ControlListener> control_listener;
+	unique_ptr<graphics_context> graphicsContext;
 protected:
-	atomic_uint nextLightID = 1;
-
 	//Run at init time. It will call the following load methods.
 	void loadMaps();
 	void loadMap(const MapEntry& mapEntry);
@@ -268,26 +217,6 @@ protected:
 	void waitForSpaceThread();
 	void logPerformance();
 
-	Node* getSpriteAsNode(SpriteID id);
-	void _removeSprite(SpriteID id);
-
-	template<class C>
-	C* getSpriteAs(SpriteID id)
-	{
-		auto it = graphicsNodes.find(id);
-		if (it == graphicsNodes.end()) return nullptr;
-		else return dynamic_cast<C*>(it->second);
-	}
-
-	template<class C, typename... Params>
-	void spriteAction(SpriteID id, void (C::*method)(Params...), Params... params)
-	{
-		C* c = getSpriteAs<C>(id);
-		if (c) {
-			(c->*method)(forward<Params>(params)...);
-		}
-	}
-
 	//Make sure to use a cocos map so cocos refcounting works.
 	cocos2d::Map<int, Layer*> layers;
 	RenderTexture* spaceRender = nullptr;
@@ -305,18 +234,10 @@ protected:
 	RenderTexture* colorFilterRender = nullptr;
 	DrawNode* colorFilterDraw = nullptr;
 
-	atomic_uint nextSpriteID = 1;
-	unordered_map<SpriteID, Node*> graphicsNodes;
-	unordered_map<SpriteID, GAnimation*> animationNodes;
-
 	displayMode display = displayMode::combined;
 	RenderTexture* lightmapRender = nullptr;
 	DrawNode* lightmapDrawNode = nullptr;
 	DrawNode* lightmapBackground = nullptr;
-	unordered_map<LightID, Node*> lightmapNodes;
-	unordered_map<LightID, perlin_light_state> lightmapNoise;
-	unordered_map<SpriteID, float> autoremoveLightTimers;
-	noise::module::Perlin lightmapPerlinNoise;
 
 	vector<zero_arity_function> actionsToRun;
 	mutex actionsMutex;
@@ -327,7 +248,6 @@ protected:
 	string sceneName;
 	IntVec2 dimensions;
 
-	vector<DrawNode*> roomMasks;
 	Vector<TMXTiledMap*> tilemaps;
 	vector<MapEntry> maps;
 	vector<SpaceRect> mapAreas;

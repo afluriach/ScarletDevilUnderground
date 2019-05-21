@@ -16,6 +16,7 @@
 
 class FloorSegment;
 class GObject;
+class graphics_context;
 class GScene;
 class GState;
 class HUD;
@@ -70,6 +71,7 @@ private:
 	ChamberID crntChamber;
 	//The graphics destination to use for all objects constructed in this space.
 	GScene *const gscene;
+	graphics_context* graphicsContext;
     unsigned int frame = 0;
     IntVec2 spaceSize;
 	unsigned long timeUsed = 0;
@@ -293,94 +295,50 @@ public:
 	template<typename T>
 	inline LightID addLightSource(T light)
 	{
-		LightID id = gscene->getLightID();
+		LightID id = graphicsContext->getLightID();
 
 		if (isMultithread()) {
 			sceneActions.push_back([this, id, light]()->void {
-				gscene->addLightSource(id, light);
+				graphicsContext->addLightSource(id, light);
 			});
 		}
 		else {
-			gscene->addLightSource(id, light);
+			graphicsContext->addLightSource(id, light);
 		}
 
 		return id;
 	}
 
 	template<typename... Args>
-	inline void addLightmapAction(void (GScene::*m)(Args...), Args... args)
+	inline void addLightmapAction(void (graphics_context::*m)(Args...), Args... args)
 	{
 		if(isMultithread())
-			sceneActions.push_back(bind(m, gscene, args...));
+			sceneActions.push_back(bind(m, graphicsContext, args...));
 		else
-			(gscene->*m)(args...);
+			(graphicsContext->*m)(args...);
 	}
 
 	template<typename... Args>
-	inline SpriteID createSprite(void (GScene::*m)(SpriteID, Args...), Args... args)
+	inline SpriteID createSprite(void (graphics_context::*m)(SpriteID, Args...), Args... args)
 	{
-		SpriteID id = gscene->getSpriteID();
+		SpriteID id = graphicsContext->getSpriteID();
 
 		if (isMultithread())
-			sceneActions.push_back(bind(m, gscene, id, args...));
+			sceneActions.push_back(bind(m, graphicsContext, id, args...));
 		else
-			(gscene->*m)(id, args...);
+			(graphicsContext->*m)(id, args...);
 
 		return id;
 	}
 
 	template<typename... Args>
-	inline void addSpriteAction(void (GScene::*m)(Args...), Args... args)
+	inline void addGraphicsAction(void (graphics_context::*m)(Args...), Args... args)
 	{
 		if (isMultithread())
-			sceneActions.push_back(bind(m, gscene, args...));
+			sceneActions.push_back(bind(m, graphicsContext, args...));
 		else
-			(gscene->*m)(args...);
+			(graphicsContext->*m)(args...);
 	}
-
-	void removeLightSource(LightID id);
-	void setLightSourcePosition(LightID id, SpaceVect pos);
-	void setLightSourceAngle(LightID id, SpaceFloat a);
-	void setLightSourceColor(LightID id, Color4F color);
-	void setLightSourceNoise(LightID id, perlin_light_state noise);
-	void autoremoveLightSource(LightID id, float seconds);
-
-	SpriteID createSprite(string path, GraphicsLayer sceneLayer, Vec2 pos, float zoom);
-	SpriteID createLoopAnimation(string name, int frameCount, float duration, GraphicsLayer sceneLayer, Vec2 pos, float zoom);
-	SpriteID createDrawNode(GraphicsLayer sceneLayer, Vec2 pos, float zoom);
-	SpriteID createAgentSprite(string path, bool isAgentAnimation, GraphicsLayer sceneLayer, Vec2 pos, float zoom);
-	void createDamageIndicator(float val, SpaceVect pos);
-	SpriteID createAgentBodyShader(
-		GraphicsLayer layer,
-		const Color4F& bodyColor, const Color4F& coneColor,
-		float bodyRadius, float coneRadius,
-		float thickness, const Vec2& position
-	);
-
-	void loadAgentAnimation(SpriteID id, string path, bool isAgentAnimation);
-	void setAgentAnimationDirection(SpriteID id, Direction d);
-	void setAgentAnimationFrame(SpriteID id, int frame);
-	void setAgentOverlayShieldLevel(SpriteID id, float level);
-
-	void clearDrawNode(SpriteID id);
-	void drawSolidRect(SpriteID id, Vec2 lowerLeft, Vec2 upperRight, Color4F color);
-	void drawSolidCone(SpriteID id, Vec2 center, float radius, float startAngle, float endAngle, unsigned int segments, Color4F color);
-	void drawSolidCircle(SpriteID id, Vec2 center, float radius, float angle, unsigned int segments, Color4F color);
-
-	void runSpriteAction(SpriteID id, ActionGeneratorType generator);
-	void stopSpriteAction(SpriteID id, cocos_action_tag action);
-	void stopAllSpriteActions(SpriteID id);
-	void removeSprite(SpriteID id);
-	void removeSpriteWithAnimation(SpriteID id, ActionGeneratorType generator);
-	void setSpriteVisible(SpriteID id, bool val);
-	void setSpriteOpacity(SpriteID id, unsigned char op);
-	void setSpriteTexture(SpriteID id, string path);
-	void setSpriteAngle(SpriteID id, float cocosAngle);
-	void setSpritePosition(SpriteID id, Vec2 pos);
-	void setSpriteZoom(SpriteID id, float zoom);
-	void setSpriteColor(SpriteID id, Color3B color);
-
-	void clearSubroomMask(unsigned int roomID);
 
 //END GRAPHICS
 

@@ -16,6 +16,7 @@
 #include "EnemyBullet.hpp"
 #include "FloorSegment.hpp"
 #include "Graph.hpp"
+#include "graphics_context.hpp"
 #include "GSpace.hpp"
 #include "HUD.hpp"
 #include "OverworldScene.hpp"
@@ -35,6 +36,7 @@ bool GSpace::isMultithread()
 
 GSpace::GSpace(GScene* gscene) :
 	gscene(gscene),
+	graphicsContext(gscene->graphicsContext.get()),
 	randomFloat(0.0, 1.0)
 {
 	space = cpSpaceNew();
@@ -145,7 +147,7 @@ void GSpace::update()
 				spriteUpdates.push_back(result);
 		}
 	}
-	addSpriteAction(&GScene::spriteSpatialUpdate, spriteUpdates);
+	addGraphicsAction(&graphics_context::spriteSpatialUpdate, spriteUpdates);
 
     for(GObject* obj : updateObjects){
         obj->update();
@@ -471,13 +473,13 @@ void GSpace::processRemoval(GObject* obj, bool _removeSprite)
 	}
 
 	if (_removeSprite && obj->spriteID != 0) {
-		removeSprite(obj->spriteID);
+		addGraphicsAction(&graphics_context::removeSprite, obj->spriteID);
 	}
 	if (_removeSprite && obj->drawNodeID != 0) {
-		removeSprite(obj->drawNodeID);
+		addGraphicsAction(&graphics_context::removeSprite, obj->drawNodeID);
 	}
 	if (_removeSprite && obj->lightID != 0) {
-		removeLightSource(obj->lightID);
+		addGraphicsAction(&graphics_context::removeLightSource, obj->lightID);
 	}
 
 	delete obj;
@@ -531,7 +533,7 @@ void GSpace::processRemovals()
 
 		processRemoval(entry.first, false);
 
-		gscene->removeSpriteWithAnimation(spriteID, entry.second);
+		addGraphicsAction(&graphics_context::removeSpriteWithAnimation, spriteID, entry.second);
 	}
 }
 

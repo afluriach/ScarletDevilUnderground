@@ -11,6 +11,7 @@
 #include "Agent.hpp"
 #include "App.h"
 #include "Bullet.hpp"
+#include "graphics_context.hpp"
 #include "GSpace.hpp"
 #include "MagicEffect.hpp"
 
@@ -112,7 +113,7 @@ bool Bullet::applyRicochet(SpaceVect n)
 void Bullet::setBodyVisible(bool b)
 {
 	if (drawNodeID != 0) {
-		space->setSpriteVisible(drawNodeID, b);
+		space->addGraphicsAction(&graphics_context::setSpriteVisible, drawNodeID, b);
 	}
 }
 
@@ -135,7 +136,7 @@ void BulletImpl::initializeGraphics()
 {
 	ImageSprite::initializeGraphics();
 	if (spriteID != 0 && props->spriteColor != Color3B::BLACK && props->spriteColor != Color3B::WHITE) {
-		space->setSpriteColor(spriteID, props->spriteColor);
+		space->addGraphicsAction(&graphics_context::setSpriteColor, spriteID, props->spriteColor);
 	}
 }
 
@@ -158,7 +159,7 @@ void BulletValueImpl::initializeGraphics()
 {
 	ImageSprite::initializeGraphics();
 	if (spriteID != 0 && props.spriteColor != Color3B::BLACK && props.spriteColor != Color3B::WHITE) {
-		space->setSpriteColor(spriteID, props.spriteColor);
+		space->addGraphicsAction(&graphics_context::setSpriteColor, spriteID, props.spriteColor);
 	}
 }
 
