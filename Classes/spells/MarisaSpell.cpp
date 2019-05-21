@@ -9,7 +9,6 @@
 #include "Prefix.h"
 
 #include "Agent.hpp"
-#include "App.h"
 #include "EnemyBullet.hpp"
 #include "GSpace.hpp"
 #include "MarisaSpell.hpp"
@@ -31,7 +30,7 @@ StarlightTyphoon::StarlightTyphoon(GObject* caster) :
 {
 	angle = caster->getAngle();
 
-	shotsPerFrame = count / duration * App::secondsPerFrame;
+	shotsPerFrame = count / duration * app::params.secondsPerFrame;
 }
 
 void StarlightTyphoon::init()
@@ -60,7 +59,7 @@ void StarlightTyphoon::fire()
 void StarlightTyphoon::update()
 {
 	accumulator += shotsPerFrame;
-	elapsed += App::secondsPerFrame;
+	timerIncrement(elapsed);
 
 	while (accumulator >= 1) {
 		fire();

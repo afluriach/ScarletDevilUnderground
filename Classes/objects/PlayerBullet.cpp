@@ -9,7 +9,6 @@
 #include "Prefix.h"
 
 #include "Agent.hpp"
-#include "App.h"
 #include "GSpace.hpp"
 #include "Player.hpp"
 #include "PlayerBullet.hpp"
@@ -240,7 +239,7 @@ void FlandrePolarMotionOrb::update()
 	GObject::update();
 
 	applyForceForSingleFrame(SpaceVect::ray(20.0, getAngle() + float_pi / 2.0));
-	rotate(App::secondsPerFrame * float_pi);
+	rotate(app::params.secondsPerFrame * float_pi);
 }
 
 CircleLightArea FlandrePolarMotionOrb::getLightSource() const {

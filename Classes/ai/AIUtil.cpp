@@ -11,7 +11,6 @@
 #include "Agent.hpp"
 #include "AI.hpp"
 #include "AIUtil.hpp"
-#include "App.h"
 #include "Bullet.hpp"
 #include "GSpace.hpp"
 #include "macros.h"
@@ -32,7 +31,7 @@ void applyDesiredVelocity(GObject* obj, SpaceVect desired, SpaceFloat accelerati
     //the desired velocity change
     SpaceVect vv = desired - obj->getVel();
     //the scalar amount of velocity change in one frame
-	SpaceFloat dv = acceleration * App::secondsPerFrame;
+	SpaceFloat dv = acceleration * app::params.secondsPerFrame;
 
     //Default case, apply maximum acceleration
     if(square(dv) < vv.lengthSq()){

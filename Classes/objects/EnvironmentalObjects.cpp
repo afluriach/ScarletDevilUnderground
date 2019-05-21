@@ -8,7 +8,6 @@
 
 #include "Prefix.h"
 
-#include "App.h"
 #include "EnvironmentalObjects.hpp"
 #include "graphics_context.hpp"
 #include "GSpace.hpp"
@@ -130,5 +129,5 @@ void Mushroom::interact(Player* p)
 	space->getState()->registerMushroomAcquired(objectID);
 	++space->getState()->mushroomCount;
 	space->removeObject(this);
-	space->addHudAction<string, int>(&HUD::setObjectiveCounter, "sprites/mushroom.png", App::getCrntState()->mushroomCount);
+	space->addHudAction<string, int>(&HUD::setObjectiveCounter, "sprites/mushroom.png", space->getState()->mushroomCount);
 }

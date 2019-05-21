@@ -8,7 +8,6 @@
 
 #include "Prefix.h"
 
-#include "App.h"
 #include "GAnimation.hpp"
 #include "Graphics.h"
 #include "graphics_context.hpp"
@@ -62,8 +61,11 @@ RenderTexture* GScene::initRenderTexture(sceneLayers sceneLayer, BlendFunc blend
 
 RenderTexture* GScene::initRenderTexture(sceneLayers sceneLayer)
 {
-	RenderTexture* rt = RenderTexture::create(App::width, App::height);
-	rt->setPosition(App::width / 2.0f, App::height / 2.0f);
+	unsigned int width = app::params.width;
+	unsigned int height = app::params.height;
+
+	RenderTexture* rt = RenderTexture::create(width, height);
+	rt->setPosition(width / 2.0f, height / 2.0f);
 	addChild(rt, to_int(sceneLayer));
 	rt->addChild(getLayer(sceneLayer));
 	rt->setClearColor(Color4F(0.0f, 0.0f, 0.0f, 0.0f));
@@ -74,6 +76,9 @@ RenderTexture* GScene::initRenderTexture(sceneLayers sceneLayer)
 
 void GScene::setColorFilter(const Color4F& color)
 {
+	unsigned int width = app::params.width;
+	unsigned int height = app::params.height;
+
 	colorFilterDraw->clear();
-	colorFilterDraw->drawSolidRect(-1.0f*Vec2(App::width/2, App::height/2), Vec2(App::width/2, App::height/2), color);
+	colorFilterDraw->drawSolidRect(-1.0f*Vec2(width/2, height/2), Vec2(width/2, height/2), color);
 }

@@ -8,7 +8,6 @@
 
 #include "Prefix.h"
 
-#include "App.h"
 #include "FloorSegment.hpp"
 #include "GSpace.hpp"
 #include "value_map.hpp"
@@ -94,7 +93,7 @@ void MovingPlatform::init()
 
 void MovingPlatform::update()
 {
-	distanceToTarget -= App::secondsPerFrame * getMaxSpeed();
+	distanceToTarget -= app::params.secondsPerFrame * getMaxSpeed();
 
 	if (path && distanceToTarget <= 0) {
 		setNextWaypoint();

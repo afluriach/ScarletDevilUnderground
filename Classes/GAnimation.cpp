@@ -8,7 +8,6 @@
 
 #include "Prefix.h"
 
-#include "App.h"
 #include "enum.h"
 #include "GAnimation.hpp"
 #include "macros.h"
@@ -120,7 +119,7 @@ void TimedLoopAnimation::loadAnimation(const string& name, int length, SpaceFloa
 
 void TimedLoopAnimation::update()
 {
-    timeInFrame += App::secondsPerFrame;
+	timerIncrement(timeInFrame);
     
     while(timeInFrame >= frameInterval){
         ++crntFrame;

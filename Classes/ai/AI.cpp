@@ -11,7 +11,6 @@
 #include "Agent.hpp"
 #include "AI.hpp"
 #include "AIMixins.hpp"
-#include "App.h"
 #include "AreaSensor.hpp"
 #include "GSpace.hpp"
 #include "GObject.hpp"

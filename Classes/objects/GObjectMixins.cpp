@@ -9,7 +9,7 @@
 #include "Prefix.h"
 
 #include "Agent.hpp"
-#include "App.h"
+#include "app_constants.hpp"
 #include "audio_context.hpp"
 #include "FloorSegment.hpp"
 #include "GObjectMixins.hpp"
@@ -152,7 +152,7 @@ PatchConSprite::PatchConSprite(Direction startingDirection) :
 
 float PatchConSprite::zoom() const
 {
-    return 1.0f * App::pixelsPerTile / pixelWidth();
+    return 1.0f * app::pixelsPerTile / pixelWidth();
 }
 
 void PatchConSprite::init()
@@ -191,7 +191,7 @@ void PatchConSprite::setSprite(const string& name, bool agentAnimation)
 
 void PatchConSprite::_update()
 {
-    SpaceVect dist = getVel()*App::secondsPerFrame;
+    SpaceVect dist = getVel()*app::params.secondsPerFrame;
     
     bool advance = accumulate(dist.length());
 

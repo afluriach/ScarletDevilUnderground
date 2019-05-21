@@ -734,6 +734,9 @@
     <ClInclude Include="..\Classes\audio_context.hpp">
       <Filter>src</Filter>
     </ClInclude>
+    <ClInclude Include="..\Classes\app_constants.hpp">
+      <Filter>src</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="game.rc">

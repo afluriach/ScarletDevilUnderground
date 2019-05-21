@@ -9,7 +9,6 @@
 #include "Prefix.h"
 
 #include "Agent.hpp"
-#include "App.h"
 #include "EnemyBullet.hpp"
 #include "GSpace.hpp"
 #include "SakuyaSpell.hpp"
@@ -54,7 +53,7 @@ void IllusionDial::update()
 {
 	++framesSinceLastFire;
 
-	if (framesSinceLastFire*App::secondsPerFrame >= min_fire_interval)
+	if (framesSinceLastFire*app::params.secondsPerFrame >= min_fire_interval)
 	{
 
 		int best = -1;

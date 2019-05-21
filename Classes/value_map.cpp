@@ -8,7 +8,7 @@
 
 #include "Prefix.h"
 
-#include "App.h"
+#include "app_constants.hpp"
 #include "GSpace.hpp"
 #include "types.h"
 #include "util.h"
@@ -182,11 +182,11 @@ gobject_ref getObjRefFromStringField(GSpace* space, const ValueMap& args, const 
 void convertToUnitSpace(ValueMap& arg, IntVec2 offset)
 {
     SpaceVect cornerPos(getFloat(arg, "x"), getFloat(arg, "y"));
-    cornerPos *= App::tilesPerPixel;
+    cornerPos *= app::tilesPerPixel;
 	cornerPos += SpaceVect(offset.first, offset.second);
     
     SpaceVect dim(getFloat(arg, "width"), getFloat(arg, "height"));
-    dim *= App::tilesPerPixel;
+    dim *= app::tilesPerPixel;
     
     SpaceVect center = SpaceVect(cornerPos);
     center += (dim*0.5);
@@ -207,11 +207,11 @@ void convertToUnitSpace(ValueMap& arg, IntVec2 offset)
 SpaceRect getUnitspaceRectangle(const ValueMap& tileMapObj, IntVec2 offset)
 {
     SpaceVect cornerPos(getFloat(tileMapObj, "x"), getFloat(tileMapObj, "y"));
-    cornerPos *= App::tilesPerPixel;
+    cornerPos *= app::tilesPerPixel;
 	cornerPos += SpaceVect(offset.first, offset.second);
     
     SpaceVect dim(getFloat(tileMapObj, "width"), getFloat(tileMapObj, "height"));
-    dim *= App::tilesPerPixel;
+    dim *= app::tilesPerPixel;
     
     return SpaceRect(cornerPos.x, cornerPos.y, dim.x, dim.y);
 }

@@ -108,7 +108,7 @@ void Player::equipSpells()
 
 	for (string spellName : Spell::playerSpells)
 	{
-		if (!App::unlockAllEquips && !space->getState()->hasItem(spellName))
+		if (!app::params.unlockAllEquips && !space->getState()->hasItem(spellName))
 			continue;
 
 		shared_ptr<SpellDesc> desc = Spell::getDescriptorByName(spellName);
@@ -180,7 +180,7 @@ void Player::checkMovementControls(const ControlInfo& cs)
 		return;
 	}
 
-	lookModeHoldTimer = (lookModeHoldTimer + App::secondsPerFrame)*to_int(cs.isControlActionDown(ControlAction::center_look));
+	lookModeHoldTimer = (lookModeHoldTimer + app::params.secondsPerFrame)*to_int(cs.isControlActionDown(ControlAction::center_look));
 	isAutoLookToggled = isAutoLookToggled && cs.isControlActionDown(ControlAction::center_look);
 
 	if (lookModeHoldTimer >= centerLookHoldThresh && !isAutoLookToggled) {
@@ -409,7 +409,7 @@ void Player::updateCombo()
 	}
 
 	if (attributeSystem[Attribute::combo] > 0) {
-		attributeSystem.modifyAttribute(Attribute::combo, -App::secondsPerFrame * 15.0f);
+		attributeSystem.modifyAttribute(Attribute::combo, -app::params.secondsPerFrame * 15.0f);
 	}
 }
 

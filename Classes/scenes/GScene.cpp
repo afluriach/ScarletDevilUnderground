@@ -8,8 +8,8 @@
 
 #include "Prefix.h"
 
-
 #include "App.h"
+#include "app_constants.hpp"
 #include "controls.h"
 #include "Dialog.hpp"
 #include "FileIO.hpp"
@@ -54,10 +54,10 @@ void GScene::runSceneWithReplay(const string& replayName)
 	unique_ptr<Replay> controlReplay = io::getControlReplay(replayName);
 
 	if (controlReplay) {
-		if (controlReplay->frame_rate != App::framesPerSecond) {
+		if (controlReplay->frame_rate != app::params.framesPerSecond) {
 			log("Attempt to load %d FPS replay, current frame rate is %d.",
 				controlReplay->frame_rate,
-				App::framesPerSecond
+				app::params.framesPerSecond
 			);
 			return;
 		}
@@ -146,7 +146,7 @@ control_listener(make_unique<ControlListener>())
 GScene::~GScene()
 {
 	isExit.store(true);
-	if (App::multithread) {
+	if (app::params.multithread) {
 		spaceUpdateCondition.notify_one();
 		spaceUpdateThread->join();
 	}
@@ -168,15 +168,15 @@ bool GScene::init()
 	lightmapBackground = DrawNode::create();
 	getLayer(sceneLayers::lightmapBackground)->addChild(lightmapBackground);
 	lightmapBackground->setVisible(false);
-	lightmapBackground->drawSolidRect(Vec2::ZERO, Vec2(App::width, App::height), Color4F::WHITE);
+	lightmapBackground->drawSolidRect(Vec2::ZERO, Vec2(app::params.width, app::params.height), Color4F::WHITE);
 
 	colorFilterDraw = DrawNode::create();
 	setColorFilter(Color4F::WHITE);
 	getLayer(sceneLayers::screenspaceColorFilter)->addChild(colorFilterDraw);
 
 	//Apply zoom to adjust viewable area size.
-	float baseViewWidth = App::width * App::tilesPerPixel;
-	spaceZoom = baseViewWidth / App::viewWidth;
+	float baseViewWidth = app::params.width * app::tilesPerPixel;
+	spaceZoom = baseViewWidth / app::viewWidth;
 
 	getLayer(sceneLayers::space)->setScale(spaceZoom);
 	getLayer(sceneLayers::lightmap)->setScale(spaceZoom);
@@ -215,7 +215,7 @@ bool GScene::init()
 		setRoomsVisible(stats.roomsVisited);
 	}
 
-	if (App::multithread) {
+	if (app::params.multithread) {
 		spaceUpdateToRun.store(false);
 		spaceUpdateThread = make_unique<thread>(&GScene::spaceUpdateMain, this);
 	}
@@ -233,7 +233,7 @@ void GScene::update(float dt)
 			info
 		));
 
-		if (App::multithread) {
+		if (app::params.multithread) {
 			spaceUpdateToRun.store(true);
 			spaceUpdateCondition.notify_one();
 		}
@@ -312,7 +312,7 @@ void GScene::stopDialog()
 
 Vec2 GScene::dialogPosition()
 {
-    return Vec2(App::width/2, Dialog::height/2 + dialogEdgeMargin);
+    return Vec2(app::params.width/2, Dialog::height/2 + dialogEdgeMargin);
 }
 
 bool GScene::isDialogActive()
@@ -352,12 +352,12 @@ void GScene::setUnitPosition(const SpaceVect& v)
 	cameraArea = calculateCameraArea(v);
 		
 	getSpaceLayer()->setPosition(
-		(-App::pixelsPerTile*v.x + App::width / 2)*spaceZoom - App::width/2,
-		(-App::pixelsPerTile*v.y + App::height / 2)*spaceZoom - App::height/2
+		(-app::pixelsPerTile*v.x + app::params.width / 2)*spaceZoom - app::params.width/2,
+		(-app::pixelsPerTile*v.y + app::params.height / 2)*spaceZoom - app::params.height/2
 	);
 	getLayer(sceneLayers::lightmap)->setPosition(
-		(-App::pixelsPerTile*v.x + App::width / 2)*spaceZoom - App::width/2,
-		(-App::pixelsPerTile*v.y + App::height / 2)*spaceZoom - App::height/2
+		(-app::pixelsPerTile*v.x + app::params.width / 2)*spaceZoom - app::params.width/2,
+		(-app::pixelsPerTile*v.y + app::params.height / 2)*spaceZoom - app::params.height/2
 	);
 }
 
@@ -477,7 +477,7 @@ void GScene::runScriptUpdate()
 
 void GScene::waitForSpaceThread()
 {
-	if (!App::multithread) return;
+	if (!app::params.multithread) return;
 
 	unique_lock<mutex> mlock(spaceUpdateConditionMutex);
 	spaceUpdateCondition.wait(
@@ -493,7 +493,7 @@ void GScene::logPerformance()
 	log(
 		"Replay: %.3f s processing time, %.3f s elapsed time, %.3f ms per frame.",
 		us * 1e-6,
-		frames*App::secondsPerFrame,
+		frames*app::params.secondsPerFrame,
 		us * 1e-3 / frames
 	);
 }

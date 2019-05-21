@@ -8,9 +8,9 @@
 
 #include "Prefix.h"
 
-#include "App.h"
 #include "Spell.hpp"
 #include "SpellDescriptor.hpp"
+#include "util.h"
 
 Spell::Spell(GObject* caster) :
 	caster(caster)
@@ -43,7 +43,7 @@ void PeriodicSpell::update() {
 
 	else
 	{
-		timeSince += App::secondsPerFrame;
+		timerIncrement(timeSince);
 
 		if (timeSince >= _interval) {
 			timeSince -= _interval;

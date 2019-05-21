@@ -9,7 +9,6 @@
 #include "Prefix.h"
 
 #include "AIFunctions.hpp"
-#include "App.h"
 #include "FairyNPC.hpp"
 #include "GSpace.hpp"
 #include "GState.hpp"
@@ -93,7 +92,7 @@ void BlueFairyNPC::onDialogEnd()
 		space->getState()->mushroomCount -= level;
 		space->removeObject(this);
 
-		space->addHudAction<string,int>(&HUD::setObjectiveCounter, "sprites/mushroom.png", App::getCrntState()->mushroomCount);
+		space->addHudAction<string,int>(&HUD::setObjectiveCounter, "sprites/mushroom.png", space->getState()->mushroomCount);
 	} 
 }
 

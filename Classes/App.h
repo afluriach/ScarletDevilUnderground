@@ -9,7 +9,6 @@ The reason for implement as private inheritance is to hide some interface call b
 
 #include "types.h"
 
-class App;
 class audio_context;
 class ControlRegister;
 class Dialog;
@@ -25,7 +24,7 @@ class TimerSystem;
 
 #define USE_TIMERS 1
 
-class  App : private Application
+class App : private Application
 {
 public:
     enum class EventPriorities
@@ -34,32 +33,6 @@ public:
         KeyRegisterEvent,
     };
     
-    static unsigned int width;
-    static unsigned int height;
-
-	static bool fullscreen;
-	static bool vsync;
-	static bool multithread;
-	static bool showTimers;
-
-	static float difficultyScale;
-	static bool unlockAllEquips;
-	
-	static unsigned int framesPerSecond;
-	static double secondsPerFrame;
-	static boost::rational<int> secondsPerFrameRational;
-
-	static const unsigned int baseWidth = 1600;
-     
-    constexpr static SpaceFloat Gaccel = 9.806;
-    
-    static const int pixelsPerTile = 128;
-    constexpr static float tilesPerPixel = 1.0f/pixelsPerTile;
-    constexpr static float viewWidth = 22.5f;
-    
-	static const int maxAudioChannels = 128;
-
-    static const bool logSprites = false;
     static const string title;
     
     static const vector<string> shaderFiles;

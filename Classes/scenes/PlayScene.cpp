@@ -97,7 +97,7 @@ void PlayScene::applyCameraControls()
     if(!arrowState.isZero()){
 		Vec2 cameraPos = Vec2(cameraArea.center.x, cameraArea.center.y);
 
-		setUnitPosition(toChipmunk(cameraPos + arrowState * cameraMoveTilesPerSecond * App::secondsPerFrame));
+		setUnitPosition(toChipmunk(cameraPos + arrowState * cameraMoveTilesPerSecond * app::params.secondsPerFrame));
     }
 }
 

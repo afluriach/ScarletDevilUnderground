@@ -8,7 +8,6 @@
 
 #include "Prefix.h"
 
-#include "App.h"
 #include "Bomb.hpp"
 #include "graphics_context.hpp"
 #include "GSpace.hpp"

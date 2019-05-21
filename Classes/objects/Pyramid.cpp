@@ -9,7 +9,6 @@
 #include "Prefix.h"
 
 #include "Agent.hpp"
-#include "App.h"
 #include "graphics_context.hpp"
 #include "GSpace.hpp"
 #include "macros.h"
@@ -42,7 +41,7 @@ void Pyramid::update()
 	GObject::update();
 	RadarObject::_update();
 
-	setAngle(getAngle() + angular_speed * App::secondsPerFrame);
+	setAngle(getAngle() + angular_speed * app::params.secondsPerFrame);
 
 	redrawLightCone();
 

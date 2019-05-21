@@ -8,7 +8,7 @@
 
 #include "Prefix.h"
 
-#include "App.h"
+#include "app_constants.hpp"
 #include "Graphics.h"
 #include "macros.h"
 #include "util.h"
@@ -266,10 +266,10 @@ bool AmbientLightNode::init()
 {
 	DrawNode::init();
 
-	Vec2 halfDim = toCocos(light.dimensions) * 0.5f * App::pixelsPerTile;
+	Vec2 halfDim = toCocos(light.dimensions) * 0.5f * app::pixelsPerTile;
 
 	drawSolidRect(-halfDim, halfDim, light.color);
-	setContentSize(toCCSize(light.dimensions) * App::pixelsPerTile);
+	setContentSize(toCCSize(light.dimensions) * app::pixelsPerTile);
 
 	return true;
 }
@@ -336,7 +336,7 @@ void Cursor::reset()
 
 int Cursor::scaledSize()
 {
-	return halfSize * App::getScale();
+	return halfSize * app::params.getScale();
 }
 
 const float DiamondCursor::ratio = 1.5f;
@@ -721,7 +721,7 @@ ActionGeneratorType objectFadeOut(float duration, unsigned char targetOpacity)
 
 ActionGeneratorType damageIndicatorAction(const Vec2& start_pos)
 {
-	Vec2 end_pos = start_pos + Vec2(0.0f, App::pixelsPerTile);
+	Vec2 end_pos = start_pos + Vec2(0.0f, app::pixelsPerTile);
 	return [end_pos]() -> FiniteTimeAction* {
 		MoveTo* moveTo = MoveTo::create(1.0f, end_pos);
 		FadeOut* fadeOut = FadeOut::create(0.5f);

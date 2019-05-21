@@ -9,9 +9,19 @@
 #include "Prefix.h"
 
 #include "App.h"
+#include "app_constants.hpp"
 #include "enum.h"
 #include "types.h"
 #include "util.h"
+
+namespace app {
+	app_params params;
+}
+
+float app_params::getScale() const
+{
+	return 1.0f * width / app::baseWidth;
+}
 
 SpaceRect::SpaceRect() :
 	center(SpaceVect::zero),
@@ -30,7 +40,7 @@ SpaceRect::SpaceRect(SpaceFloat llX, SpaceFloat llY, SpaceFloat width, SpaceFloa
 
 CCRect SpaceRect::toPixelspace() const
 {
-	return CCRect(getMinX(), getMinY(), dimensions.x, dimensions.y) * App::pixelsPerTile;
+	return CCRect(getMinX(), getMinY(), dimensions.x, dimensions.y) * app::pixelsPerTile;
 }
 
 double SpaceRect::getMinX() const

@@ -160,8 +160,11 @@ bool LoadProfileDetailMenu::init()
 {
 	MenuLayer::init();
 
+	unsigned int height = app::params.height;
+	unsigned int width = app::params.width;
+
 	title = createTextLabel(profileName, 48);
-	title->setPosition(App::width / 2, App::height - 64);
+	title->setPosition(width / 2, height - 64);
 	addChild(title);
 
 	profileState = io::loadProfileState(profileName);
@@ -170,11 +173,11 @@ bool LoadProfileDetailMenu::init()
 		attributes = make_unique<AttributeSystem>(profileState->getPlayerStats());
 
 		info = Node::ccCreate<PlayerInfo>(attributes.get());
-		info->setPosition(App::width * 0.75f, App::height * 0.66f);
+		info->setPosition(width * 0.75f, height * 0.66f);
 		addChild(info, 3);
 
 		Label* time = createTextLabel("Elapsed time: " + getTimeString(profileState->totalChamberTime()), 32);
-		time->setPosition(App::width * 0.5f, App::height * 0.666f);
+		time->setPosition(width * 0.5f, height * 0.666f);
 		addChild(time, 3);
 
 		string levelsMsg = boost::str(
@@ -183,13 +186,13 @@ bool LoadProfileDetailMenu::init()
 			to_int(ChamberID::end)
 		);
 		Label* levels = createTextLabel(levelsMsg, 32);
-		levels->setPosition(App::width * 0.5f, App::height * 0.75f);
+		levels->setPosition(width * 0.5f, height * 0.75f);
 		addChild(levels, 3);
 	}
 
 	else {
 		Label* err = createTextLabel("Error loading file.", 48);
-		err->setPosition(App::width * 0.5f, App::height * 0.5f);
+		err->setPosition(width * 0.5f, height * 0.5f);
 		addChild(err);
 	}
 
@@ -389,7 +392,8 @@ PauseMenu::PauseMenu(bool overworld, Player* player) :
 	player(player)
 {
 	PlayerInfo* info = Node::ccCreate<PlayerInfo>(player->getAttributeSystem());
-	info->setPosition(App::width * 0.75f, App::height * 0.66f);
+
+	info->setPosition(app::params.width * 0.75f, app::params.height * 0.66f);
 	addChild(info, 3);
 }
 
@@ -451,14 +455,16 @@ bool ChamberCompletedMenu::init()
 	enemyStats = playScene->getSpace()->getEnemyStats();
 	frameCount = playScene->getSpace()->getFrame();
 	float scale = App::getScale();
+	unsigned int height = app::params.height;
+	unsigned int width = app::params.width;
 
 	Label* enemyStatsLabel = createTextLabel(enemyStatsMsg(),24*scale, "fonts/coiny.ttf");
 	addChild(enemyStatsLabel, 0);
-	enemyStatsLabel->setPosition(Vec2(App::width * 0.75f, App::height * 0.5f));
+	enemyStatsLabel->setPosition(Vec2(width * 0.75f, height * 0.5f));
 
 	Label* statsLabel = createTextLabel(statsMsg(), 24*scale, "fonts/coiny.ttf");
 	addChild(statsLabel, 0);
-	statsLabel->setPosition(Vec2(App::width * 0.5f, App::height * 0.5f));
+	statsLabel->setPosition(Vec2(width * 0.5f, height * 0.5f));
 
 	if (playScene->getCurrentLevel() != ChamberID::invalid_id) {
 		*App::crntState.get() = *playScene->getSpace()->getState();
@@ -485,7 +491,7 @@ void ChamberCompletedMenu::updateSaveState()
 	if (crnt == ChamberID::invalid_id) return;
 
 	ChamberStats& crntStats = App::crntState->chamberStats.at(to_size_t(crnt));
-	unsigned int timeMS = frameCount * App::secondsPerFrame * 1000;
+	unsigned int timeMS = frameCount * app::params.secondsPerFrame * 1000;
 	unsigned char enemies = totalEnemyCount().first;
 
 	++crntStats.timesCompleted;
@@ -500,7 +506,7 @@ void ChamberCompletedMenu::updateSaveState()
 
 string ChamberCompletedMenu::statsMsg()
 {
-	unsigned int millis = frameCount * App::secondsPerFrame * 1000.0;
+	unsigned int millis = frameCount * app::params.secondsPerFrame * 1000.0;
 	pair<unsigned int, unsigned int> enemyTotals = totalEnemyCount();
 
 	return boost::str(boost::format("Clear time: %s\nEnemies defeated: %d / %d") %

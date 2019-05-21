@@ -8,7 +8,6 @@
 
 #include "Prefix.h"
 
-#include "App.h"
 #include "Attributes.hpp"
 #include "macros.h"
 #include "util.h"
@@ -506,7 +505,7 @@ void AttributeSystem::timerDecrement(Attribute id, float scale)
 	float& crnt_val = attributes.at(to_size_t(id));
 
 	if (crnt_val != -1.0f) {
-		crnt_val -= to_float(App::secondsPerFrame * scale);
+		::timerDecrement(crnt_val, scale);
 		crnt_val = max(crnt_val, 0.0f);
 	}
 }
@@ -516,7 +515,7 @@ void AttributeSystem::timerIncrement(Attribute id, Attribute maxID, float scale)
 	float& crnt_val = attributes.at(to_size_t(id));
 	float max_val = attributes.at(to_size_t(maxID));
 
-	crnt_val += to_float(App::secondsPerFrame * scale);
+	::timerIncrement(crnt_val, scale);
 	crnt_val = min(crnt_val, max_val);
 }
 

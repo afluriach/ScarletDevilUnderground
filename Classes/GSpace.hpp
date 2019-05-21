@@ -43,9 +43,6 @@ public:
 	friend class GScene;
 	typedef pair<ObjectGeneratorType, ObjectIDType> generator_pair;
 
-	//used to get App variable
-	static bool isMultithread();
-
     GSpace(GScene* gscene);    
     ~GSpace();
     
@@ -169,7 +166,7 @@ public:
 	{
 		if (!getSceneAs<PlayScene>()) return;
 
-		if (isMultithread()) {
+		if (app::params.multithread) {
 			addSceneAction(make_hud_action(
 				m,
 				getSceneAs<PlayScene>(),
@@ -300,7 +297,7 @@ public:
 	{
 		LightID id = graphicsContext->getLightID();
 
-		if (isMultithread()) {
+		if (app::params.multithread) {
 			sceneActions.push_back([this, id, light]()->void {
 				graphicsContext->addLightSource(id, light);
 			});
@@ -315,7 +312,7 @@ public:
 	template<typename... Args>
 	inline void addLightmapAction(void (graphics_context::*m)(Args...), Args... args)
 	{
-		if(isMultithread())
+		if(app::params.multithread)
 			sceneActions.push_back(bind(m, graphicsContext, args...));
 		else
 			(graphicsContext->*m)(args...);
@@ -326,7 +323,7 @@ public:
 	{
 		SpriteID id = graphicsContext->getSpriteID();
 
-		if (isMultithread())
+		if (app::params.multithread)
 			sceneActions.push_back(bind(m, graphicsContext, id, args...));
 		else
 			(graphicsContext->*m)(id, args...);
@@ -337,7 +334,7 @@ public:
 	template<typename... Args>
 	inline void addGraphicsAction(void (graphics_context::*m)(Args...), Args... args)
 	{
-		if (isMultithread())
+		if (app::params.multithread)
 			sceneActions.push_back(bind(m, graphicsContext, args...));
 		else
 			(graphicsContext->*m)(args...);

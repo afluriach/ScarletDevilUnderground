@@ -27,7 +27,7 @@ bool LuaShell::init()
     Vec2 ur(width/2, height/2);
     background->drawSolidRect(ll, ur, backgroundColor);
     
-    background->setPosition(App::width/2, height/2);
+    background->setPosition(app::params.width/2, height/2);
     addChild(background,1);
     
     return true;
@@ -38,7 +38,7 @@ void LuaShell::createEditBox()
 {
     //The coordinates used by the edit box do not obey the window scaling
     editBox = ui::EditBox::create(cocos2d::CCSize(width,height),nullptr);
-    editBox->setPosition(Vec2(App::width, height)/2);
+    editBox->setPosition(Vec2(app::params.width, height)/2);
     //Return type shouldn't matter for desktop UI.
     editBox->setInputMode(ui::EditBox::InputMode::ANY);
     editBox->setFontName("Courier");

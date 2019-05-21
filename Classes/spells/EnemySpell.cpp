@@ -8,7 +8,7 @@
 
 #include "Prefix.h"
 
-#include "App.h"
+#include "app_constants.hpp"
 #include "Enemy.hpp"
 #include "EnemyBullet.hpp"
 #include "EnemySpell.hpp"
@@ -84,7 +84,7 @@ void TorchDarkness::update()
 	{
 		if (crnt->getActive())
 		{
-			crnt->applyDarkness(effectMagnitude * App::secondsPerFrame);
+			crnt->applyDarkness(effectMagnitude * app::params.secondsPerFrame);
 		}
 	}
 }
@@ -108,7 +108,7 @@ void BlueFairyBomb::init()
 		&graphics_context::createSprite,
 		string("sprites/blue_explosion.png"),
 		GraphicsLayer::agentOverlay,
-		toCocos(caster->getPos())*App::pixelsPerTile,
+		toCocos(caster->getPos())*app::pixelsPerTile,
 		to_float(radius * 0.5f)
 	);
 }

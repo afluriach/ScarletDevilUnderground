@@ -251,8 +251,6 @@ const vector<string> Inst::luaIncludes = {
 		getGlobalNamespace(state)
 
 		.beginClass<App>("App")
-			.addStaticData("width", &App::width)
-			.addStaticData("height", &App::height)
 			.addStaticFunction("runOverworldScene", static_cast<GScene*(*)(string,string)>(&App::runOverworldScene))
 			.addStaticFunction("getCrntScene", &App::getCrntScene)
 			.addStaticFunction("getCrntState", &App::getCrntState)

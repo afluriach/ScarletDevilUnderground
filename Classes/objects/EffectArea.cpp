@@ -9,7 +9,6 @@
 #include "Prefix.h"
 
 #include "Agent.hpp"
-#include "App.h"
 #include "EffectArea.hpp"
 #include "graphics_context.hpp"
 #include "GSpace.hpp"

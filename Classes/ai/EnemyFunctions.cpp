@@ -9,7 +9,6 @@
 #include "Prefix.h"
 
 #include "Agent.hpp"
-#include "App.h"
 #include "EnemyFunctions.hpp"
 #include "EnemySpell.hpp"
 #include "macros.h"
@@ -29,7 +28,9 @@ void BlueFairyPowerAttack::update(StateMachine& fsm)
 	auto& as = *fsm.getAgent()->getAttributeSystem();
 
 	if(!fsm.agent->isSpellActive()) timerDecrement(timer);
-	accumulator = (accumulator + App::secondsPerFrame)*to_int(!isnan(targetDist) && targetDist < triggerDist);
+	accumulator = 
+		(accumulator + app::params.secondsPerFrame) * 
+		to_int(!isnan(targetDist) && targetDist < triggerDist);
 
 	if (
 		!fsm.agent->isSpellActive() &&

@@ -8,7 +8,7 @@
 
 #include "Prefix.h"
 
-#include "App.h"
+#include "app_constants.hpp"
 #include "enum.h"
 #include "FloorSegment.hpp"
 #include "Graphics.h"
@@ -207,7 +207,7 @@ void GObject::setInitialDirectionOrDefault(const ValueMap& args, Direction d)
 Vec2 GObject::getInitialCenterPix()
 {
     SpaceVect centerPix(initialCenter);
-    centerPix *= App::pixelsPerTile;
+    centerPix *= app::pixelsPerTile;
         
     return toCocos(centerPix);
 }
@@ -262,7 +262,7 @@ void GObject::setAngularVel(SpaceFloat w){
 }
 
 void GObject::applyForceForSingleFrame(SpaceVect f){
-	cpBodyApplyImpulse(body, f * App::secondsPerFrame, SpaceVect::zero);
+	cpBodyApplyImpulse(body, f * app::params.secondsPerFrame, SpaceVect::zero);
 }
 
 void GObject::applyImpulse(SpaceVect i) {
@@ -330,18 +330,18 @@ void GObject::updateFriction(float frictionCoeff)
 {
 	//linear
 	SpaceVect vel = getVel();
-	SpaceFloat force = getMass() * App::Gaccel * frictionCoeff;
+	SpaceFloat force = getMass() * app::Gaccel * frictionCoeff;
 
 	//if acceleraion, dv/dt, or change in velocity over one frame is greater
 	//than current velocity, apply stop instead
-	if (App::Gaccel * frictionCoeff * App::secondsPerFrame < vel.length())
+	if (app::Gaccel * frictionCoeff * app::params.secondsPerFrame < vel.length())
 		applyForceForSingleFrame(vel * -force);
 	else
 		setVel(SpaceVect::zero);
 
 	//rotational
 	SpaceFloat angularVel = getAngularVel();
-	SpaceFloat angularImpulse = getMomentOfInertia() * App::Gaccel *  frictionCoeff * App::secondsPerFrame;
+	SpaceFloat angularImpulse = getMomentOfInertia() * app::Gaccel *  frictionCoeff * app::params.secondsPerFrame;
 
 	if (angularImpulse < angularVel)
 		setAngularVel(angularVel - angularImpulse);
@@ -481,7 +481,7 @@ sprite_update GObject::updateSprite()
 		spriteID,
 		drawNodeID,
 		lightID,
-		toCocos(p) * App::pixelsPerTile,
+		toCocos(p) * app::pixelsPerTile,
 		toCocosAngle(a),
 		fadeIn,
 		fadeOut,

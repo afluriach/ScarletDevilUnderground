@@ -8,7 +8,6 @@
 
 #include "Prefix.h"
 
-#include "App.h"
 #include "GSpace.hpp"
 #include "GState.hpp"
 #include "Upgrade.hpp"

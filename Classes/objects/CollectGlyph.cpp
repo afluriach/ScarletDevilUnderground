@@ -8,7 +8,6 @@
 
 #include "Prefix.h"
 
-#include "App.h"
 #include "Collect.h"
 #include "CollectGlyph.hpp"
 #include "GSpace.hpp"

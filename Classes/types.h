@@ -66,6 +66,30 @@ namespace boost {
 	}
 }
 
+struct app_params
+{
+	float getScale() const;
+
+	unsigned int width = 1600;
+	unsigned int height = 1000;
+
+	bool fullscreen = false;
+	bool vsync = true;
+	bool multithread = true;
+	bool showTimers = false;
+
+	float difficultyScale = 1.0f;
+	bool unlockAllEquips = false;
+
+	unsigned int framesPerSecond = 60;
+	double secondsPerFrame = 1.0 / framesPerSecond;
+	boost::rational<int> secondsPerFrameRational = boost::rational<int>(1, framesPerSecond);
+};
+
+namespace app {
+	extern app_params params;
+}
+
 class SpaceRect
 {
 public:

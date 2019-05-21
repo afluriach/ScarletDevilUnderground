@@ -1,6 +1,7 @@
 #include "Prefix.h"
 
 #include "App.h"
+#include "app_constants.hpp"
 #include "audio_context.hpp"
 #include "controls.h"
 #include "FileIO.hpp"
@@ -52,21 +53,6 @@ const unordered_map<string, InterfaceFunction> App::interfaceFuntions = {
 	entry2(add_button_action, addButtonAction),
 	entry2(southpaw, setSouthpaw),
 };
-
-unsigned int App::width = 1600;
-unsigned int App::height = 1000;
-
-bool App::fullscreen = false;
-bool App::vsync = true;
-bool App::multithread = true;
-bool App::showTimers = false;
-
-bool App::unlockAllEquips = false;
-float App::difficultyScale = 1.0f;
-
-unsigned int App::framesPerSecond = 60;
-double App::secondsPerFrame = 1.0 / App::framesPerSecond;
-boost::rational<int> App::secondsPerFrameRational(1,App::framesPerSecond);
 
 unique_ptr<ControlRegister> App::control_register;
 unique_ptr<audio_context> App::audioContext;
@@ -134,46 +120,46 @@ void App::assignButton(const vector<string>& v)
 
 void App::setFullscreen(bool fs)
 {
-	fullscreen = fs;
+	app::params.fullscreen = fs;
 }
 
 void App::setVsync(bool v)
 {
-	vsync = v;
+	app::params.vsync = v;
 }
 
 void App::setMultithread(bool v)
 {
-	multithread = v;
+	app::params.multithread = v;
 }
 
 void App::setShowTimers(bool v)
 {
-	showTimers = v;
+	app::params.showTimers = v;
 }
 
 void App::setResolution(unsigned int width, unsigned int height)
 {
-	App::width = width;
-	App::height = height;
+	app::params.width = width;
+	app::params.height = height;
 }
 
 void App::setFramerate(unsigned int fps)
 {
-	framesPerSecond = fps;
-	secondsPerFrame = 1.0 / fps;
-	secondsPerFrameRational = boost::rational<int>(1, fps);
+	app::params.framesPerSecond = fps;
+	app::params.secondsPerFrame = 1.0 / fps;
+	app::params.secondsPerFrameRational = boost::rational<int>(1, fps);
 }
 
 Vec2 App::getScreenCenter()
 {
-	return Vec2(width / 2, height / 2);
+	return Vec2(app::params.width / 2, app::params.height / 2);
 }
 
 
 float App::getScale()
 {
-	return 1.0f * width / baseWidth;
+	return app::params.getScale();
 }
 
 App::App()
@@ -241,21 +227,21 @@ bool App::applicationDidFinishLaunching() {
     auto director = Director::getInstance();
     auto glview = director->getOpenGLView();
     if(!glview) {
-        glview = fullscreen ?
+        glview = app::params.fullscreen ?
             GLViewImpl::createWithFullScreen(App::title) :
-            GLViewImpl::createWithRect(App::title, cocos2d::CCRect(0,0,App::width, App::height))
+            GLViewImpl::createWithRect(App::title, cocos2d::CCRect(0,0, app::params.width, app::params.height))
         ;
         
         director->setOpenGLView(glview);
         //director->setContentScaleFactor(1.0f);
         
-        glview->setDesignResolutionSize(width, height, ResolutionPolicy::SHOW_ALL);
+        glview->setDesignResolutionSize(app::params.width, app::params.height, ResolutionPolicy::SHOW_ALL);
     }
 
-	if(showTimers)
+	if(app::params.showTimers)
 		director->setDisplayStats(true);
 
-    director->setAnimationInterval(secondsPerFrame);
+    director->setAnimationInterval(app::params.secondsPerFrame);
 
     loadShaders();
    
@@ -432,13 +418,13 @@ void App::setPlayer(int id)
 
 void App::setUnlockAllEquips(bool v)
 {
-	unlockAllEquips = v;
+	app::params.unlockAllEquips = v;
 }
 
 void App::setDifficulty(float scale)
 {
 	if (scale >= 0.25f && scale <= 4.0f) {
-		difficultyScale = scale;
+		app::params.difficultyScale = scale;
 	}
 	else {
 		log("Invalid difficulty scale %f!", scale);

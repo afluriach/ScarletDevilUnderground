@@ -10,7 +10,7 @@
 
 #include "Agent.hpp"
 #include "AIFunctions.hpp"
-#include "App.h"
+#include "app_constants.hpp"
 #include "Bullet.hpp"
 #include "Enemy.hpp"
 #include "EnemyBullet.hpp"
@@ -180,12 +180,12 @@ void Agent::updateSpells()
 	float mpCost =
 		bitwise_and_bool(costType, SpellCostType::mp) *
 		bitwise_and_bool(costType, SpellCostType::ongoing) *
-		cost * App::secondsPerFrame
+		cost * app::params.secondsPerFrame
 	;
 	float staminaCost =
 		bitwise_and_bool(costType, SpellCostType::stamina) *
 		bitwise_and_bool(costType, SpellCostType::ongoing) *
-		cost * App::secondsPerFrame
+		cost * app::params.secondsPerFrame
 	;
 
 	if (mpCost > attributeSystem[Attribute::mp] || staminaCost > attributeSystem[Attribute::stamina]) {
@@ -299,8 +299,8 @@ void Agent::initializeGraphics()
 		GraphicsLayer::agentOverlay,
 		bodyOutlineColor,
 		shieldConeColor,
-		to_float(getRadius()*App::pixelsPerTile),
-		to_float(Player::grazeRadius*App::pixelsPerTile),
+		to_float(getRadius()*app::pixelsPerTile),
+		to_float(Player::grazeRadius*app::pixelsPerTile),
 		bodyOutlineWidth,
 		getInitialCenterPix()
 	);
@@ -375,10 +375,10 @@ bool Agent::hit(DamageInfo damage)
 		return false;
 
 	if (dynamic_cast<Enemy*>(this)) {
-		damage.mag /= App::difficultyScale;
+		damage.mag /= app::params.difficultyScale;
 	}
 	else if (dynamic_cast<Player*>(this)) {
-		damage.mag *= App::difficultyScale;
+		damage.mag *= app::params.difficultyScale;
 	}
 
 	float hp = attributeSystem.applyDamage(damage);
@@ -418,7 +418,7 @@ void Agent::updateAgentOverlay()
 		space->addGraphicsAction(
 			&graphics_context::setSpritePosition,
 			agentOverlay,
-			toCocos(getPos()*App::pixelsPerTile)
+			toCocos(getPos()*app::pixelsPerTile)
 		);
 		space->addGraphicsAction(
 			&graphics_context::setSpriteAngle,

@@ -9,7 +9,6 @@
 #include "Prefix.h"
 
 #include "AIFunctions.hpp"
-#include "App.h"
 #include "GSpace.hpp"
 #include "GState.hpp"
 #include "Patchouli.hpp"

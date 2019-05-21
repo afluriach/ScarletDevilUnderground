@@ -10,7 +10,7 @@
 
 #include "AIFunctions.hpp"
 #include "AIUtil.hpp"
-#include "App.h"
+#include "app_constants.hpp"
 #include "audio_context.hpp"
 #include "Bomb.hpp"
 #include "EnemyFirePattern.hpp"
@@ -311,7 +311,7 @@ void RedFairy::onZeroHP()
 		&graphics_context::createSprite,
 		string("sprites/explosion.png"),
 		GraphicsLayer::overhead,
-		toCocos(getPos()) * App::pixelsPerTile,
+		toCocos(getPos()) * app::pixelsPerTile,
 		1.0f
 	);
 	space->addGraphicsAction(

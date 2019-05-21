@@ -8,7 +8,7 @@
 
 #include "Prefix.h"
 
-#include "App.h"
+#include "app_constants.hpp"
 #include "GAnimation.hpp"
 #include "Graphics.h"
 #include "graphics_context.hpp"
@@ -29,7 +29,7 @@ void graphics_context::update()
 	}
 
 	for (auto it = autoremoveLightTimers.begin(); it != autoremoveLightTimers.end(); ) {
-		it->second -= App::secondsPerFrame;
+		timerDecrement(it->second);
 
 		if (it->second <= 0.0) {
 			removeLightSource(it->first);
@@ -58,7 +58,7 @@ void graphics_context::update()
 
 		setLightSourceColor(entry.first, entry.second.baseColor * intensity);
 
-		entry.second.crntAngle += 1.0 / entry.second.cycleInterval * App::secondsPerFrame;
+		entry.second.crntAngle += 1.0 / entry.second.cycleInterval * app::params.secondsPerFrame;
 		if (entry.second.crntAngle >= float_pi * 2.0) {
 			entry.second.crntAngle -= float_pi * 2.0;
 		}
@@ -100,18 +100,18 @@ void graphics_context::addLightSource(LightID id, CircleLightArea light)
 	RadialGradient* g = Node::ccCreate<RadialGradient>(
 		light.color,
 		Color4F(0.0f, 0.0f, 0.0f, 0.0f),
-		light.radius * App::pixelsPerTile,
+		light.radius * app::pixelsPerTile,
 		Vec2::ZERO,
 		light.flood
 		);
-	CCSize bounds = CCSize(light.radius, light.radius) * 2.0f * App::pixelsPerTile;
+	CCSize bounds = CCSize(light.radius, light.radius) * 2.0f * app::pixelsPerTile;
 
 	if (mask)
 		g->setBlendFunc(BlendFunc{ GL_DST_COLOR,GL_ONE_MINUS_SRC_ALPHA });
 	else
 		g->setBlendFunc(BlendFunc{ GL_ONE,GL_ONE });
 
-	g->setPosition(toCocos(light.origin) * App::pixelsPerTile);
+	g->setPosition(toCocos(light.origin) * app::pixelsPerTile);
 	g->setContentSize(bounds);
 	scene->getLayer(GScene::sceneLayers::lightmap)->addChild(g, mask ? 1 : 0);
 
@@ -122,7 +122,7 @@ void graphics_context::addLightSource(LightID id, AmbientLightArea light)
 {
 	AmbientLightNode* node = Node::ccCreate<AmbientLightNode>(light);
 	node->setBlendFunc(BlendFunc{ GL_ONE,GL_ONE });
-	node->setPosition(toCocos(light.origin) * App::pixelsPerTile);
+	node->setPosition(toCocos(light.origin) * app::pixelsPerTile);
 	scene->getLayer(GScene::sceneLayers::lightmap)->addChild(node);
 	lightmapNodes.insert_or_assign(id, node);
 }
@@ -131,15 +131,15 @@ void graphics_context::addLightSource(LightID id, ConeLightArea light)
 {
 	ConeShader* cs = Node::ccCreate<ConeShader>(
 		light.color,
-		light.radius * App::pixelsPerTile,
+		light.radius * app::pixelsPerTile,
 		Vec2::ZERO,
 		light.angleWidth,
 		0.0
 		);
 
-	cs->setPosition(toCocos(light.origin) * App::pixelsPerTile);
+	cs->setPosition(toCocos(light.origin) * app::pixelsPerTile);
 	cs->setBlendFunc(BlendFunc{ GL_ONE,GL_ONE });
-	cs->setContentSize(CCSize(light.radius, light.radius) * 2.0f * App::pixelsPerTile);
+	cs->setContentSize(CCSize(light.radius, light.radius) * 2.0f * app::pixelsPerTile);
 	scene->getLayer(GScene::sceneLayers::lightmap)->addChild(cs);
 
 	lightmapNodes.insert_or_assign(id, cs);
@@ -149,7 +149,7 @@ void graphics_context::addLightSource(LightID id, SpriteLightArea light)
 {
 	Sprite* s = Sprite::create(light.texName);
 
-	s->setPosition(toCocos(light.origin) * App::pixelsPerTile);
+	s->setPosition(toCocos(light.origin) * app::pixelsPerTile);
 	s->setBlendFunc(BlendFunc{ GL_ONE,GL_ONE });
 	s->setScale(light.scale);
 	s->setColor(toColor3B(light.color));
@@ -175,7 +175,7 @@ void graphics_context::setLightSourcePosition(LightID id, SpaceVect pos)
 {
 	auto it = lightmapNodes.find(id);
 	if (it != lightmapNodes.end()) {
-		it->second->setPosition(toCocos(pos)*App::pixelsPerTile);
+		it->second->setPosition(toCocos(pos)*app::pixelsPerTile);
 	}
 }
 
@@ -245,7 +245,7 @@ void graphics_context::createAgentSprite(SpriteID id, string path, bool isAgentA
 void graphics_context::createDamageIndicator(float val, SpaceVect pos)
 {
 	Label* label = createTextLabel(floatToRoundedString(val, 4.0f), 18);
-	Vec2 startPos = toCocos(pos + SpaceVect(0.0, 0.5)) * App::pixelsPerTile;
+	Vec2 startPos = toCocos(pos + SpaceVect(0.0, 0.5)) * app::pixelsPerTile;
 	label->setPosition(startPos);
 	label->setScale(2.0f);
 
@@ -271,7 +271,7 @@ void graphics_context::createAgentBodyShader(
 		thickness,
 		Vec2::ZERO
 		);
-	shader->setContentSize(CCSize(coneRadius, coneRadius) * 2.0f * App::pixelsPerTile);
+	shader->setContentSize(CCSize(coneRadius, coneRadius) * 2.0f * app::pixelsPerTile);
 
 	graphicsNodes.insert_or_assign(id, shader);
 	scene->getSpaceLayer()->positionAndAddNode(shader, to_int(layer), position, 1.0f);

@@ -8,7 +8,7 @@
 
 #include "Prefix.h"
 
-#include "App.h"
+#include "app_constants.hpp"
 #include "enum.h"
 #include "macros.h"
 #include "util.h"
@@ -276,8 +276,8 @@ int getAreaIndex(const vector<SpaceRect>& areas, const SpaceVect& target)
 
 SpaceRect calculateCameraArea(const SpaceVect& pos)
 {
-	SpaceFloat heightRatio = 1.0f * App::height / App::width;
-	return SpaceRect(pos, SpaceVect(App::viewWidth, App::viewWidth*heightRatio));
+	SpaceFloat heightRatio = 1.0f * app::params.height / app::params.width;
+	return SpaceRect(pos, SpaceVect(app::viewWidth, app::viewWidth*heightRatio));
 }
 
 SpaceFloat canonicalAngle(SpaceFloat a)
@@ -307,37 +307,42 @@ SpaceFloat toRads(SpaceFloat deg)
 
 void timerDecrement(boost::rational<int>& x)
 {
-	x = max(x - App::secondsPerFrameRational, boost::rational<int>(0));
+	x = max(x - app::params.secondsPerFrameRational, boost::rational<int>(0));
 }
 
 void timerDecrement(float& x)
 {
-	x = max(x - to_float(App::secondsPerFrame), 0.0f);
+	x = max(x - to_float(app::params.secondsPerFrame), 0.0f);
 }
 
 void timerDecrement(float& x, float scale)
 {
-	x = max(x - to_float(App::secondsPerFrame*scale), 0.0f);
+	x = max(x - to_float(app::params.secondsPerFrame*scale), 0.0f);
 }
 
 void timerDecrement(SpaceFloat& x)
 {
-	x = max(x - App::secondsPerFrame, 0.0);
+	x = max(x - app::params.secondsPerFrame, 0.0);
 }
 
 void timerIncrement(float& x)
 {
-	x += App::secondsPerFrame;
+	x += app::params.secondsPerFrame;
+}
+
+void timerIncrement(float& x, float scale)
+{
+	x += app::params.secondsPerFrame * scale;
 }
 
 void timerIncrement(SpaceFloat& x)
 {
-	x += App::secondsPerFrame;
+	x += app::params.secondsPerFrame;
 }
 
 void timerIncrement(SpaceFloat& x, const SpaceFloat& scale)
 {
-	x += App::secondsPerFrame*scale;
+	x += app::params.secondsPerFrame*scale;
 }
 
 string getNowTimestamp()
@@ -392,7 +397,7 @@ void TimerSystem::addEntry(TimerType _type, chrono::duration<long, micro> _us)
 {
 	list<chrono::duration<long, micro>>& _l = timerBuffer.at(_type);
 
-	while (_l.size() >= App::framesPerSecond) {
+	while (_l.size() >= app::params.framesPerSecond) {
 		_l.pop_front();
 	}
 	_l.push_back(_us);

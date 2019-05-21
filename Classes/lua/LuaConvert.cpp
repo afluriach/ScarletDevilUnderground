@@ -8,7 +8,6 @@
 
 #include "Prefix.h"
 
-#include "App.h"
 #include "GObject.hpp"
 #include "Graph.hpp"
 #include "GScene.hpp"

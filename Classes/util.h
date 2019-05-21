@@ -56,6 +56,7 @@ void timerDecrement(float& x);
 void timerDecrement(float& x, float scale);
 void timerDecrement(SpaceFloat& x);
 void timerIncrement(float& x);
+void timerIncrement(float& x, float scale);
 void timerIncrement(SpaceFloat& x);
 void timerIncrement(SpaceFloat& x, const SpaceFloat& scale);
 

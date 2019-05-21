@@ -9,7 +9,6 @@
 #include "Prefix.h"
 
 #include "AI.hpp"
-#include "App.h"
 #include "GObject.hpp"
 #include "Graph.hpp"
 #include "GSpace.hpp"

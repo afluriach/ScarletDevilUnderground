@@ -9,7 +9,6 @@
 #include "Prefix.h"
 
 #include "AIFunctions.hpp"
-#include "App.h"
 #include "EnemySpell.hpp"
 #include "Stalker.hpp"
 #include "TeleportPad.hpp"
@@ -57,7 +56,7 @@ void Stalker::update()
 {
 	Enemy::update();
 
-	SpaceFloat dp = getVel().length() * App::secondsPerFrame;
+	SpaceFloat dp = getVel().length() * app::params.secondsPerFrame;
 	modifyAttribute(Attribute::stamina, -dp);
 }
 

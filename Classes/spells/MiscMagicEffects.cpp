@@ -10,7 +10,6 @@
 
 #include "Agent.hpp"
 #include "AIUtil.hpp"
-#include "App.h"
 #include "GObject.hpp"
 #include "graphics_context.hpp"
 #include "GSpace.hpp"

@@ -11,7 +11,6 @@
 #include "Agent.hpp"
 #include "AIFunctions.hpp"
 #include "AIUtil.hpp"
-#include "App.h"
 #include "audio_context.hpp"
 #include "Bullet.hpp"
 #include "FirePattern.hpp"
@@ -279,7 +278,7 @@ target(_target)
 	startFrame = space->getFrame();
 
 	if (length > 0.0)
-		endFrame = startFrame + App::framesPerSecond*length;
+		endFrame = startFrame + app::params.framesPerSecond*length;
 	else
 		endFrame = 0;
 }
@@ -409,7 +408,7 @@ IdleWait::IdleWait(GSpace* space, const ValueMap& args)
     }
     
     SpaceFloat waitSeconds = getFloat(args, "waitTime");
-    remaining = App::framesPerSecond * waitSeconds;
+    remaining = app::params.framesPerSecond * waitSeconds;
 }
 
 IdleWait::IdleWait(int frames) :
@@ -436,7 +435,7 @@ angularVelocity(angularVelocity)
 
 void LookAround::update(StateMachine& fsm)
 {
-	fsm.agent->rotate(angularVelocity * App::secondsPerFrame);
+	fsm.agent->rotate(angularVelocity * app::params.secondsPerFrame);
 }
 
 CircleAround::CircleAround(SpaceVect center, SpaceFloat startingAngularPos, SpaceFloat angularSpeed) :
@@ -453,7 +452,7 @@ void CircleAround::init(StateMachine& fsm)
 void CircleAround::update(StateMachine& fsm)
 {
 	SpaceFloat radius = distanceToTarget(fsm.agent, center);
-	SpaceFloat angleDelta = angularSpeed * App::secondsPerFrame;
+	SpaceFloat angleDelta = angularSpeed * app::params.secondsPerFrame;
 
 	angularPosition += angleDelta;
 
@@ -562,7 +561,7 @@ void LookTowardsFire::onEnter(StateMachine& fsm)
 
 void LookTowardsFire::update(StateMachine& fsm)
 {
-	hitAccumulator -= (looking*lookTimeCoeff + (1-looking)*timeCoeff)* App::secondsPerFrame;
+	hitAccumulator -= (looking*lookTimeCoeff + (1-looking)*timeCoeff)* app::params.secondsPerFrame;
 	hitAccumulator = max(hitAccumulator, 0.0f);
 
 	if (hitAccumulator == 0.0f) {

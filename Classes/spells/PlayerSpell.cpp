@@ -8,7 +8,6 @@
 
 #include "Prefix.h"
 
-#include "App.h"
 #include "graphics_context.hpp"
 #include "GSpace.hpp"
 #include "enum.h"
@@ -188,7 +187,7 @@ void PlayerCounterClock::init()
 void PlayerCounterClock::update()
 {
 	PlayerSpell::update();
-	angular_pos += angular_speed * App::secondsPerFrame;
+	angular_pos += angular_speed * app::params.secondsPerFrame;
 
 	SpaceVect pos = caster->getPos();
 
@@ -361,7 +360,7 @@ void PlayerIceShield::update()
 	PlayerSpell::update();
 
 	//Update angle based on linear speed
-	SpaceFloat dp = App::secondsPerFrame * speed;
+	SpaceFloat dp = app::params.secondsPerFrame * speed;
 	crntAngle += dp * inv_circumference * float_pi * 2.0;
 
 	if (crntAngle >= 2.0*float_pi) {

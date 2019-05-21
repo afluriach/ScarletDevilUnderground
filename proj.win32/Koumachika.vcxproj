@@ -276,6 +276,7 @@ xcopy "$(ProjectDir)..\Resources" "$(OutDir)" /D /E /I /F /Y</Command>
     <ClInclude Include="..\Classes\ai\EnemyFunctions.hpp" />
     <ClInclude Include="..\Classes\ai\RoomSensorFunctions.hpp" />
     <ClInclude Include="..\Classes\App.h" />
+    <ClInclude Include="..\Classes\app_constants.hpp" />
     <ClInclude Include="..\Classes\Attributes.hpp" />
     <ClInclude Include="..\Classes\audio_context.hpp" />
     <ClInclude Include="..\Classes\ControlAssignment.h" />

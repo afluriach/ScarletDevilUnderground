@@ -457,83 +457,85 @@ bool HUD::init()
 //        backgroundColor
 //    );
 
-	float scale = App::getScale();
+	float scale = app::params.getScale();
 	float meterEdgeOffset = (LinearMeter::boundingSize.x * 0.5f + LinearMeter::outlineWidth + 18.0f) * scale;
 	float meterVerticalStep = (LinearMeter::boundingSize.y*1.0f + 2.0f*LinearMeter::outlineWidth + 9.0f) * scale;
+	unsigned int height = app::params.height;
+	unsigned int width = app::params.width;
 
 	hpMeter = Node::ccCreate<LinearMeter>(LinearMeter::hpSettings);
-    hpMeter->setPosition(meterEdgeOffset, App::height - meterVerticalStep);
+    hpMeter->setPosition(meterEdgeOffset, height - meterVerticalStep);
     addChild(hpMeter, 2);
 	hpMeter->setScale(scale);
 	hpMeter->setVisible(false);
 
 	mpMeter = Node::ccCreate<LinearMeter>(LinearMeter::mpSettings);
-	mpMeter->setPosition(meterEdgeOffset, App::height - 2.0f*meterVerticalStep);
+	mpMeter->setPosition(meterEdgeOffset, height - 2.0f*meterVerticalStep);
 	addChild(mpMeter, 2);
 	mpMeter->setScale(scale);
 	mpMeter->setVisible(false);
 
 	staminaMeter = Node::ccCreate<LinearMeter>(LinearMeter::staminaSettings);
-	staminaMeter->setPosition(meterEdgeOffset, App::height - 3.0f*meterVerticalStep);
+	staminaMeter->setPosition(meterEdgeOffset, height - 3.0f*meterVerticalStep);
 	addChild(staminaMeter, 2);
 	staminaMeter->setScale(scale);
 	staminaMeter->setMax(100);
 	staminaMeter->setVisible(false);
 
 	keyMeter = Node::ccCreate<Counter>("sprites/key.png", 0);
-	keyMeter->setPosition(App::width * 0.4f, App::height - 64 * scale);
+	keyMeter->setPosition(width * 0.4f, height - 64 * scale);
 	addChild(keyMeter, 2);
 	keyMeter->setScale(scale*0.8f);
 	keyMeter->setVisible(false);
 
 	mapFragmentMeter = Node::ccCreate<Counter>("sprites/map.png", 0);
-	mapFragmentMeter->setPosition(App::width * 0.5f, App::height - 64 * scale);
+	mapFragmentMeter->setPosition(width * 0.5f, height - 64 * scale);
 	addChild(mapFragmentMeter, 2);
 	mapFragmentMeter->setScale(scale * 0.8f);
 	mapFragmentMeter->setVisible(false);
 
 	magicEffects = Node::ccCreate<MagicEffects>();
-	magicEffects->setPosition(App::width - 64 * scale, App::height - 64 * scale);
+	magicEffects->setPosition(width - 64 * scale, height - 64 * scale);
 	addChild(magicEffects, 2);
 	magicEffects->setScale(0.75f*scale);
 
     objectiveCounter = Node::ccCreate<Counter>(showAll ? "sprites/ui/glyph.png" : "", 0);
-    objectiveCounter->setPosition(App::width * 0.3f, App::height - 64*scale);
+    objectiveCounter->setPosition(width * 0.3f, height - 64*scale);
     addChild(objectiveCounter, 2);
     objectiveCounter->setVisible(showAll);
 	objectiveCounter->setScale(scale * 0.8f);
     
     interactionIcon = Sprite::create();
-    interactionIcon->setPosition(App::width - 256*scale, App::height - 96*scale);
+    interactionIcon->setPosition(width - 256*scale, height - 96*scale);
     interactionIcon->setScale(0.33*scale);
     addChild(interactionIcon);
 
 	firePatternIcon = Sprite::create();
-	firePatternIcon->setPosition(App::width - 480*scale, App::height - 128*scale);
+	firePatternIcon->setPosition(width - 480*scale, height - 128*scale);
 	firePatternIcon->setScale(0.3f*scale);
 	addChild(firePatternIcon);
 	firePatternIcon->setVisible(false);
 
 	spellIcon = Sprite::create();
-	spellIcon->setPosition(App::width - 576 * scale, App::height - 96 * scale);
+	spellIcon->setPosition(width - 576 * scale, height - 96 * scale);
 	spellIcon->setScale(scale * 0.5f);
 	addChild(spellIcon);
 	spellIcon->setVisible(false);
 
 	powerAttackIcon = Sprite::create();
-	powerAttackIcon->setPosition(App::width - 480 * scale, App::height - 64 * scale);
+	powerAttackIcon->setPosition(width - 480 * scale, height - 64 * scale);
 	powerAttackIcon->setScale(scale * 0.5f);
 	addChild(powerAttackIcon);
 	powerAttackIcon->setVisible(false);
 
 	bombIcon = Sprite::create("sprites/scarlet_bomb.png");
-	bombIcon->setPosition(App::width - 384 * scale, App::height - 96 * scale);
+	bombIcon->setPosition(width - 384 * scale, height - 96 * scale);
 	bombIcon->setScale(scale * 0.5f);
 	addChild(bombIcon);
 	bombIcon->setVisible(false);
 
 	enemyInfo = Node::ccCreate<EnemyInfo>();
-	enemyInfo->setPosition(App::width - (EnemyInfo::hWidth+24)*scale, 24*scale);
+	enemyInfo->setPosition(width - (EnemyInfo::hWidth+24)*scale, 24*scale);
 	enemyInfo->setScale(scale);
 	addChild(enemyInfo);
 
@@ -569,17 +571,20 @@ void HUD::setMapCounter(int val)
 
 void HUD::setPerformanceStats()
 {
-	if (!performanceStats && App::showTimers) {
+	if (!performanceStats && app::params.showTimers) {
 		performanceStats = Label::createWithTTF("", "fonts/comfortaa.ttf", 18);
 		performanceStats->setWidth(300);
-		performanceStats->setPosition(App::width*0.1f, App::height*0.1f);
+		performanceStats->setPosition(
+			app::params.width*0.1f,
+			app::params.height*0.1f
+		);
 		addChild(performanceStats);
 	}
 }
 
 void HUD::updatePerformanceStats()
 {
-	if (!App::showTimers) return;
+	if (!app::params.showTimers) return;
 
 	stringstream ss;
 	App::timerMutex.lock();

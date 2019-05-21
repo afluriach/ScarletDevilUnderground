@@ -8,8 +8,7 @@
 
 #include "Prefix.h"
 
-
-#include "App.h"
+#include "app_constants.hpp"
 #include "AreaSensor.hpp"
 #include "functional.hpp"
 #include "FloorSegment.hpp"
@@ -126,7 +125,7 @@ void GScene::loadMap(const MapEntry& mapEntry)
 	getSpaceLayer()->positionAndAddNode(
 		tileMap,
 		to_int(GraphicsLayer::map),
-		llCorner * App::pixelsPerTile,
+		llCorner * app::pixelsPerTile,
 		1.0f
 	);
 
@@ -212,8 +211,8 @@ void GScene::loadPaths(const TMXTiledMap& map, IntVec2 offset)
 		for(auto const& point: points)
 		{
 			crntPath.push_back(SpaceVect(
-				(origin.x + point.asValueMap().at("x").asFloat()) / App::pixelsPerTile + offset.first,
-				(origin.y - point.asValueMap().at("y").asFloat()) / App::pixelsPerTile + offset.second
+				(origin.x + point.asValueMap().at("x").asFloat()) / app::pixelsPerTile + offset.first,
+				(origin.y - point.asValueMap().at("y").asFloat()) / app::pixelsPerTile + offset.second
 			));
 		}
 		gspace->addPath(name, crntPath);
@@ -302,8 +301,8 @@ void GScene::loadSubrooms(const TMXTiledMap& map, IntVec2 offset)
 		DrawNode* dn = DrawNode::create();
 
 		dn->drawSolidRect(
-			toCocos(area.getLLCorner()) * App::pixelsPerTile,
-			toCocos(area.getURCorner()) * App::pixelsPerTile,
+			toCocos(area.getLLCorner()) * app::pixelsPerTile,
+			toCocos(area.getURCorner()) * app::pixelsPerTile,
 			Color4F::BLACK
 		);
 

@@ -9,8 +9,8 @@
 #include "Prefix.h"
 
 #include "Agent.hpp"
+#include "app_constants.hpp"
 #include "AIUtil.hpp"
-#include "App.h"
 #include "EnemyBullet.hpp"
 #include "graphics_context.hpp"
 #include "GSpace.hpp"
@@ -196,8 +196,8 @@ void IllusionDialDagger::initializeGraphics()
 	ImageSprite::initializeGraphics();
 
 	SpaceVect _dim = getDimensions();
-	float hWidth = to_float(_dim.x / 2.0 * App::pixelsPerTile);
-	float hHeight = to_float(_dim.y / 2.0 * App::pixelsPerTile);
+	float hWidth = to_float(_dim.x / 2.0 * app::pixelsPerTile);
+	float hHeight = to_float(_dim.y / 2.0 * app::pixelsPerTile);
 	
 	drawNodeID = space->createSprite(
 		&graphics_context::createDrawNode,

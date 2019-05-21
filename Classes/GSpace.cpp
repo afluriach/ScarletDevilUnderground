@@ -29,11 +29,6 @@
 
 class RadarObject;
 
-bool GSpace::isMultithread()
-{
-	return App::multithread;
-}
-
 GSpace::GSpace(GScene* gscene) :
 	gscene(gscene),
 	audioContext(App::audioContext.get()),
@@ -54,7 +49,7 @@ GSpace::GSpace(GScene* gscene) :
 
 	controlReplay = make_unique<Replay>();
 	controlReplay->scene_name = GScene::crntSceneName;
-	controlReplay->frame_rate = App::framesPerSecond;
+	controlReplay->frame_rate = app::params.framesPerSecond;
 	crntState = make_unique<GState>();
 }
 
@@ -134,7 +129,7 @@ void GSpace::update()
 #endif
 
     //physics step
-	cpSpaceStep(space, App::secondsPerFrame);
+	cpSpaceStep(space, app::params.secondsPerFrame);
     
 #if USE_TIMERS
 	chrono::steady_clock::time_point t3 = chrono::steady_clock::now();
@@ -575,7 +570,7 @@ vector<int> GSpace::getRandomShuffle(int n) {
 
 void GSpace::loadReplay(unique_ptr<Replay> replay)
 {
-	if (App::framesPerSecond != replay->frame_rate) {
+	if (app::params.framesPerSecond != replay->frame_rate) {
 		log("loadReplay with different frame rate!");
 		return;
 	}
