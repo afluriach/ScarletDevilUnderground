@@ -18,6 +18,10 @@
 #include "types.h"
 #include "util.h"
 
+#define sprite_action0(cls, method) spriteAction<cls>(id, &cls::method);
+#define sprite_action1(cls, method, a) spriteAction<cls>(id, &cls::method, a);
+#define sprite_action3(cls, method, a, b, c) spriteAction<cls>(id, &cls::method, a, b, c);
+
 SpriteID GScene::getSpriteID()
 {
 	return nextSpriteID.fetch_add(1);
@@ -152,7 +156,6 @@ void GScene::createSprite(SpriteID id, string path, GraphicsLayer sceneLayer, Ve
 {
 	Sprite* s = Sprite::create(path);
 	getSpaceLayer()->positionAndAddNode(s, to_int(sceneLayer), pos, zoom);
-	crntSprites.insert_or_assign(id, s);
 	graphicsNodes.insert_or_assign(id, s);
 }
 
@@ -161,14 +164,13 @@ void GScene::createLoopAnimation(SpriteID id, string name, int frameCount, float
 	TimedLoopAnimation* anim = Node::ccCreate<TimedLoopAnimation>();
 	anim->loadAnimation(name, frameCount, duration);
 	getSpaceLayer()->positionAndAddNode(anim, to_int(sceneLayer), pos, zoom);
-	animationSprites.insert_or_assign(id, anim);
 	graphicsNodes.insert_or_assign(id, anim);
+	animationNodes.insert_or_assign(id, anim);
 }
 
 void GScene::createDrawNode(SpriteID id, GraphicsLayer sceneLayer, Vec2 pos, float zoom)
 {
 	DrawNode* dn = DrawNode::create();
-	drawNodes.insert_or_assign(id, dn);
 	graphicsNodes.insert_or_assign(id, dn);
 	getSpaceLayer()->positionAndAddNode(dn, to_int(sceneLayer), pos, zoom);
 }
@@ -177,7 +179,6 @@ void GScene::createAgentSprite(SpriteID id, string path, bool isAgentAnimation, 
 {
 	PatchConAnimation* anim = Node::ccCreate<PatchConAnimation>();
 	anim->loadAnimation(path, isAgentAnimation);
-	agentSprites.insert_or_assign(id, anim);
 	graphicsNodes.insert_or_assign(id, anim);
 	getSpaceLayer()->positionAndAddNode(anim, to_int(sceneLayer), pos, zoom);
 }
@@ -213,76 +214,51 @@ void GScene::createAgentBodyShader(
 	);
 	shader->setContentSize(CCSize(coneRadius,coneRadius) * 2.0f * App::pixelsPerTile);
 
-	agentShaders.insert_or_assign(id, shader);
 	graphicsNodes.insert_or_assign(id, shader);
 	getSpaceLayer()->positionAndAddNode(shader, to_int(layer), position, 1.0f);
 }
 
 void GScene::loadAgentAnimation(SpriteID id, string path, bool isAgentAnimation)
 {
-	auto it = agentSprites.find(id);
-	if (it != agentSprites.end()) {
-		PatchConAnimation* anim = it->second;
-		anim->loadAnimation(path, isAgentAnimation);
-	}
+	spriteAction<PatchConAnimation, const string&, bool>(id, &PatchConAnimation::loadAnimation, path, isAgentAnimation);
 }
 
 void GScene::setAgentAnimationDirection(SpriteID id, Direction d)
 {
-	auto it = agentSprites.find(id);
-	if (it != agentSprites.end()) {
-		PatchConAnimation* anim = it->second;
-		anim->setDirection(d);
-	}
+	sprite_action1(PatchConAnimation, setDirection, d);
 }
 
 void GScene::setAgentAnimationFrame(SpriteID id, int frame)
 {
-	auto it = agentSprites.find(id);
-	if (it != agentSprites.end()) {
-		PatchConAnimation* anim = it->second;
-		anim->setFrame(frame);
-	}
+	sprite_action1(PatchConAnimation, setFrame, frame);
 }
 
 void GScene::setAgentOverlayShieldLevel(SpriteID id, float level)
 {
-	auto it = agentShaders.find(id);
-	if (it != agentShaders.end()) {
-		it->second->setShieldLevel(level);
-	}
+	sprite_action1(AgentBodyShader, setShieldLevel, level);
 }
 
 void GScene::clearDrawNode(SpriteID id)
 {
-	auto it = drawNodes.find(id);
-	if (it != drawNodes.end()) {
-		it->second->clear();
-	}
+	sprite_action0(DrawNode, clear);
 }
 
 void GScene::drawSolidRect(SpriteID id, Vec2 lowerLeft, Vec2 upperRight, Color4F color)
 {
-	auto it = drawNodes.find(id);
-	if (it != drawNodes.end()) {
-		it->second->drawSolidRect(lowerLeft, upperRight, color);
-	}
+	spriteAction<DrawNode, const Vec2&, const Vec2&, const Color4F&>
+		(id, &DrawNode::drawSolidRect, lowerLeft, upperRight, color);
 }
 
 void GScene::drawSolidCone(SpriteID id, Vec2 center, float radius, float startAngle, float endAngle, unsigned int segments, Color4F color)
 {
-	auto it = drawNodes.find(id);
-	if (it != drawNodes.end()) {
-		it->second->drawSolidCone(center, radius, startAngle, endAngle, segments, color);
-	}
+	spriteAction<DrawNode, const Vec2&, float, float, float, unsigned int, const Color4F&>
+		(id, &DrawNode::drawSolidCone, center, radius, startAngle, endAngle, segments, color);
 }
 
 void GScene::drawSolidCircle(SpriteID id, Vec2 center, float radius, float angle, unsigned int segments, Color4F color)
 {
-	auto it = drawNodes.find(id);
-	if (it != drawNodes.end()) {
-		it->second->drawSolidCircle(center, radius, angle, segments, color);
-	}
+	spriteAction<DrawNode, const Vec2&, float, float, unsigned int, const Color4F&>
+		(id, &DrawNode::drawSolidCircle, center, radius, angle, segments, color);
 }
 
 void GScene::runSpriteAction(SpriteID id, ActionGeneratorType generator)
@@ -295,18 +271,12 @@ void GScene::runSpriteAction(SpriteID id, ActionGeneratorType generator)
 
 void GScene::stopSpriteAction(SpriteID id, cocos_action_tag action)
 {
-	Node* node = getSpriteAsNode(id);
-	if (node) {
-		node->stopActionByTag(to_int(action));
-	}
+	sprite_action1(Node, stopActionByTag, to_int(action));
 }
 
 void GScene::stopAllSpriteActions(SpriteID id)
 {
-	Node* node = getSpriteAsNode(id);
-	if (node) {
-		node->stopAllActions();
-	}
+	sprite_action0(Node, stopAllActions);
 }
 
 void GScene::removeSprite(SpriteID id)
@@ -328,61 +298,37 @@ void GScene::removeSpriteWithAnimation(SpriteID id, ActionGeneratorType generato
 
 void GScene::setSpriteVisible(SpriteID id, bool val)
 {
-	Node* node = getSpriteAsNode(id);
-	if (node) {
-		node->setVisible(val);
-	}
+	sprite_action1(Node, setVisible, val);
 }
 
 void GScene::setSpriteOpacity(SpriteID id, unsigned char op)
 {
-	Node* node = getSpriteAsNode(id);
-	if (node) {
-		node->setOpacity(op);
-	}
+	sprite_action1(Node, setOpacity, op);
 }
 
 void GScene::setSpriteTexture(SpriteID id, string path)
 {
-	auto it = crntSprites.find(id);
-	if (it != crntSprites.end()) {
-		Sprite* s = dynamic_cast<Sprite*>(it->second);
-		if (s) {
-			s->setTexture(path);
-		}
-	}
+	spriteAction<Sprite, const string&>(id, &Sprite::setTexture, path);
 }
 
 void GScene::setSpriteAngle(SpriteID id, float cocosAngle)
 {
-	Node* node = getSpriteAsNode(id);
-	if (node) {
-		node->setRotation(cocosAngle);
-	}
+	sprite_action1(Node, setRotation, cocosAngle);
 }
 
 void GScene::setSpritePosition(SpriteID id, Vec2 pos)
 {
-	Node* node = getSpriteAsNode(id);
-	if (node) {
-		node->setPosition(pos);
-	}
+	spriteAction<Sprite, const Vec2&>(id, &Sprite::setPosition, pos);
 }
 
 void GScene::setSpriteZoom(SpriteID id, float zoom)
 {
-	Node* node = getSpriteAsNode(id);
-	if (node) {
-		node->setScale(zoom);
-	}
+	sprite_action1(Node, setScale, zoom);
 }
 
 void GScene::setSpriteColor(SpriteID id, Color3B color)
 {
-	Node* node = getSpriteAsNode(id);
-	if (node) {
-		node->setColorRecursive(color);
-	}
+	spriteAction<Node, const Color3B&>(id, &Node::setColorRecursive, color);
 }
 
 void GScene::spriteSpatialUpdate(vector<sprite_update> spriteUpdates)
@@ -440,11 +386,7 @@ Node* GScene::getSpriteAsNode(SpriteID id)
 void GScene::_removeSprite(SpriteID id)
 {
 	graphicsNodes.erase(id);
-	crntSprites.erase(id);
-	drawNodes.erase(id);
-	animationSprites.erase(id);
-	agentSprites.erase(id);
-	agentShaders.erase(id);
+	animationNodes.erase(id);
 }
 
 void GScene::renderSpace()
@@ -453,7 +395,7 @@ void GScene::renderSpace()
 	lightmapRender->setVisible(display != displayMode::base);
 	lightmapBackground->setVisible(display == displayMode::lightmap);
 
-	for (TimedLoopAnimation* anim : animationSprites | boost::adaptors::map_values) {
+	for (GAnimation* anim : animationNodes | boost::adaptors::map_values) {
 		anim->update();
 	}
 

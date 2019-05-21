@@ -16,6 +16,7 @@ class AgentBodyShader;
 class ConeShader;
 class ControlListener;
 class Dialog;
+class GAnimation;
 class GSpace;
 class HUD;
 class LuaShell;
@@ -23,7 +24,6 @@ class MenuLayer;
 class PatchConAnimation;
 class PlayScene;
 class RadialGradient;
-class TimedLoopAnimation;
 
 namespace Lua{
     class Inst;
@@ -271,6 +271,23 @@ protected:
 	Node* getSpriteAsNode(SpriteID id);
 	void _removeSprite(SpriteID id);
 
+	template<class C>
+	C* getSpriteAs(SpriteID id)
+	{
+		auto it = graphicsNodes.find(id);
+		if (it == graphicsNodes.end()) return nullptr;
+		else return dynamic_cast<C*>(it->second);
+	}
+
+	template<class C, typename... Params>
+	void spriteAction(SpriteID id, void (C::*method)(Params...), Params... params)
+	{
+		C* c = getSpriteAs<C>(id);
+		if (c) {
+			(c->*method)(forward<Params>(params)...);
+		}
+	}
+
 	//Make sure to use a cocos map so cocos refcounting works.
 	cocos2d::Map<int, Layer*> layers;
 	RenderTexture* spaceRender = nullptr;
@@ -290,11 +307,7 @@ protected:
 
 	atomic_uint nextSpriteID = 1;
 	unordered_map<SpriteID, Node*> graphicsNodes;
-	unordered_map<SpriteID, Sprite*> crntSprites;
-	unordered_map<SpriteID, DrawNode*> drawNodes;
-	unordered_map<SpriteID, TimedLoopAnimation*> animationSprites;
-	unordered_map<SpriteID, PatchConAnimation*> agentSprites;
-	unordered_map<SpriteID, AgentBodyShader*> agentShaders;
+	unordered_map<SpriteID, GAnimation*> animationNodes;
 
 	displayMode display = displayMode::combined;
 	RenderTexture* lightmapRender = nullptr;

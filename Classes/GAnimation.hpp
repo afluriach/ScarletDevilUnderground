@@ -37,9 +37,6 @@ public:
 
 class GAnimation : public Node
 {
-};
-
-class TimedAnimation : GAnimation{
 public:
     virtual void update() = 0;
 };
@@ -47,7 +44,7 @@ public:
 class TimedLoopAnimation : public GAnimation {
 public:
    void loadAnimation(const string& name, int length, SpaceFloat animationInterval);
-   void update();
+   virtual void update();
 protected:
     AnimationSpriteSequence sequence;
     SpaceFloat frameInterval;
@@ -70,6 +67,8 @@ public:
 	void setFrame(int animFrame);
     void setDirection(Direction dir);
 	Direction getDirection()const;
+
+	inline virtual void update() {}
 protected:
 	bool useFlipX = false;
 
