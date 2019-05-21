@@ -378,6 +378,9 @@
     <ClCompile Include="..\Classes\graphics_context.cpp">
       <Filter>src</Filter>
     </ClCompile>
+    <ClCompile Include="..\Classes\audio_context.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="main.h">
@@ -726,6 +729,9 @@
       <Filter>src</Filter>
     </ClInclude>
     <ClInclude Include="..\Classes\graphics_context.hpp">
+      <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\audio_context.hpp">
       <Filter>src</Filter>
     </ClInclude>
   </ItemGroup>

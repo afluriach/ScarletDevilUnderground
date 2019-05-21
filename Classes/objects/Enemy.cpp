@@ -9,6 +9,7 @@
 #include "Prefix.h"
 
 #include "App.h"
+#include "audio_context.hpp"
 #include "Enemy.hpp"
 #include "graphics_context.hpp"
 #include "GSpace.hpp"
@@ -36,7 +37,11 @@ bool Enemy::hit(DamageInfo damage)
 		return false;
 
 	runDamageFlicker();
-	App::playSoundSpatial("sfx/enemy_damage.wav", toVec3(getPos()), toVec3(getVel()));
+	space->audioContext->playSoundSpatial(
+		"sfx/enemy_damage.wav",
+		toVec3(getPos()),
+		toVec3(getVel())
+	);
 	return true;
 }
 

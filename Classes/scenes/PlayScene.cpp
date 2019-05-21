@@ -9,6 +9,7 @@
 #include "Prefix.h"
 
 #include "App.h"
+#include "audio_context.hpp"
 #include "controls.h"
 #include "Dialog.hpp"
 #include "FileIO.hpp"
@@ -76,7 +77,7 @@ GScene(sceneName, maps)
 		[=]()-> void {onMapPressed(); }
 	);
 
-	App::resumeSounds();
+	App::audioContext->resumeSounds();
 }
 
 PlayScene::~PlayScene()
@@ -135,7 +136,7 @@ void PlayScene::enterPause()
 		return;
 
     pauseAnimations();
-	App::pauseSounds();
+	App::audioContext->pauseSounds();
 	setPaused(true);
 	isShowingMenu = true;
 	if(!isOverworld) hud->showHidden();
@@ -151,7 +152,7 @@ void PlayScene::exitPause()
 	popMenu();
 	pauseMenu = nullptr;
     resumeAnimations();
-	App::resumeSounds();
+	App::audioContext->resumeSounds();
 	setPaused(false);
 	isShowingMenu = false;
 	hud->resetAutohide();
@@ -220,7 +221,7 @@ void PlayScene::enterMap()
 		return;
 
 	pauseAnimations();
-	App::pauseSounds();
+	App::audioContext->pauseSounds();
 	setPaused(true);
 	isShowingMenu = true;
 
@@ -235,7 +236,7 @@ void PlayScene::exitMap()
 	popMenu();
 	mapMenu = nullptr;
 	resumeAnimations();
-	App::resumeSounds();
+	App::audioContext->resumeSounds();
 	setPaused(false);
 	isShowingMenu = false;
 }
@@ -246,7 +247,7 @@ void PlayScene::enterWorldSelect()
 		return;
 
 	pauseAnimations();
-	App::pauseSounds();
+	App::audioContext->pauseSounds();
 	setPaused(true);
 	isShowingMenu = true;
 
@@ -259,7 +260,7 @@ void PlayScene::exitWorldSelect()
 {
 	popMenu();
 	resumeAnimations();
-	App::resumeSounds();
+	App::audioContext->resumeSounds();
 	setPaused(false);
 	isShowingMenu = false;
 }

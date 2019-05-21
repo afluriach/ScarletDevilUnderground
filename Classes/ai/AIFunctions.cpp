@@ -12,6 +12,7 @@
 #include "AIFunctions.hpp"
 #include "AIUtil.hpp"
 #include "App.h"
+#include "audio_context.hpp"
 #include "Bullet.hpp"
 #include "FirePattern.hpp"
 #include "GSpace.hpp"
@@ -850,7 +851,11 @@ void FireAtTarget::update(StateMachine& sm)
 	);
 
 	if (fp->fireIfPossible()) {
-		App::playSoundSpatial("sfx/shot.wav",toVec3(sm.agent->getPos()), toVec3(sm.agent->getVel()));
+		sm.agent->space->audioContext->playSoundSpatial(
+			"sfx/shot.wav",
+			toVec3(sm.agent->getPos()), 
+			toVec3(sm.agent->getVel())
+		);
 	}
 }
 
@@ -871,7 +876,11 @@ void FireIfTargetVisible::update(StateMachine& sm)
 	if (ro->isObjectVisible(target.get()) && sm.agent->space->isInPlayerRoom(sm.agent->getPos()))
 	{
 		if (fp->fireIfPossible()) {
-			App::playSoundSpatial("sfx/shot.wav", toVec3(sm.agent->getPos()), toVec3(sm.agent->getVel()));
+			sm.agent->space->audioContext->playSoundSpatial(
+				"sfx/shot.wav",
+				toVec3(sm.agent->getPos()),
+				toVec3(sm.agent->getVel())
+			);
 		}
 	}
 }

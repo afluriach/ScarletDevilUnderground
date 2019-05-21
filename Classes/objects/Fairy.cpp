@@ -11,6 +11,7 @@
 #include "AIFunctions.hpp"
 #include "AIUtil.hpp"
 #include "App.h"
+#include "audio_context.hpp"
 #include "Bomb.hpp"
 #include "EnemyFirePattern.hpp"
 #include "EnemyFunctions.hpp"
@@ -313,9 +314,21 @@ void RedFairy::onZeroHP()
 		toCocos(getPos()) * App::pixelsPerTile,
 		1.0f
 	);
-	space->addGraphicsAction(&graphics_context::setSpriteColor, bombSprite, Color3B::RED);
-	space->addGraphicsAction(&graphics_context::runSpriteAction, bombSprite, bombAnimationAction(explosionRadius / Bomb::explosionSpriteRadius, true));
-	App::playSoundSpatial("sfx/red_fairy_explosion.wav", toVec3(getPos()), toVec3(SpaceVect::zero));
+	space->addGraphicsAction(
+		&graphics_context::setSpriteColor,
+		bombSprite,
+		Color3B::RED
+	);
+	space->addGraphicsAction(
+		&graphics_context::runSpriteAction,
+		bombSprite,
+		bombAnimationAction(explosionRadius / Bomb::explosionSpriteRadius, true)
+	);
+	space->audioContext->playSoundSpatial(
+		"sfx/red_fairy_explosion.wav",
+		toVec3(getPos()),
+		toVec3(SpaceVect::zero)
+	);
 
 	LightID light = space->addLightSource(CircleLightArea{ getPos(), explosionRadius, Color4F::RED, 0.25 });
 	space->addGraphicsAction(&graphics_context::autoremoveLightSource, light, 1.0f);

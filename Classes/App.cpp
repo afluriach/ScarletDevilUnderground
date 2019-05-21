@@ -1,6 +1,7 @@
 #include "Prefix.h"
 
 #include "App.h"
+#include "audio_context.hpp"
 #include "controls.h"
 #include "FileIO.hpp"
 #include "functional.hpp"
@@ -26,26 +27,6 @@ const vector<string> App::shaderFiles = {
 	"radial_gradient",
 	"radial_meter",
 	"sprite",
-};
-
-const vector<string> App::soundFiles = {
-	"sfx/bomb_explosion1.wav",
-	"sfx/bomb_explosion2.wav",
-	"sfx/bomb_fuse.wav",
-	"sfx/enemy_damage.wav",
-	"sfx/footstep_cave.wav",
-	"sfx/footstep_grass.wav",
-	"sfx/footstep_ice.wav",
-	"sfx/footstep_sand.wav",
-	"sfx/footstep_stone.wav",
-	"sfx/graze.wav",
-	"sfx/player_damage.wav",
-	"sfx/player_death.wav",
-	"sfx/player_power_attack.wav",
-	"sfx/player_spellcard.wav",
-	"sfx/powerup.wav",
-	"sfx/red_fairy_explosion.wav",
-	"sfx/shot.wav",
 };
 
 #define entry(x) { #x , makeInterfaceFunction(function(&App::x))}
@@ -88,6 +69,7 @@ double App::secondsPerFrame = 1.0 / App::framesPerSecond;
 boost::rational<int> App::secondsPerFrameRational(1,App::framesPerSecond);
 
 unique_ptr<ControlRegister> App::control_register;
+unique_ptr<audio_context> App::audioContext;
 unique_ptr<GState> App::crntState;
 string App::crntProfileName;
 unique_ptr<Lua::Inst> App::lua;
@@ -98,7 +80,6 @@ unique_ptr<TimerSystem> App::timerSystem;
 boost::rational<int> App::timerPrintAccumulator(1);
 mutex App::timerMutex;
 #endif
-mutex App::audioMutex;
 
 App* App::appInst;
 bool App::logTimers = false;
@@ -195,231 +176,6 @@ float App::getScale()
 	return 1.0f * width / baseWidth;
 }
 
-void App::initAudio()
-{
-	appInst->audioDevice = alcOpenDevice(nullptr);
-	if (!appInst->audioDevice) {
-		log("Failed to open audio device");
-		return;
-	}
-
-	appInst->audioContext = alcCreateContext(appInst->audioDevice, nullptr);
-	if (!appInst->audioContext) {
-		log("Failed to open audio context.");
-		return;
-	}
-
-	if (!alcMakeContextCurrent(appInst->audioContext)) {
-		log("Failed to set current context.");
-		return;
-	}
-
-	alDistanceModel(AL_EXPONENT_DISTANCE);
-
-	for (string s : soundFiles) {
-		loadSound(s);
-	}
-}
-
-ALuint App::initSoundSource(const Vec3& pos, const Vec3& vel, bool relative)
-{
-	ALuint result = 0;
-
-	alGenSources(1, &result);
-	alSource3f(result, AL_POSITION, pos.x, pos.y, pos.z);
-	alSource3f(result, AL_VELOCITY, vel.x, vel.y, vel.z);
-	if(relative)
-		alSourcei(result, AL_SOURCE_RELATIVE, AL_TRUE);
-
-	return result;
-}
-
-void App::loadSound(const string& path)
-{
-	SF_INFO info;
-	SNDFILE* file = nullptr;
-	if (appInst->fileUtils) {
-		file = appInst->fileUtils->openSoundFile(path, &info);
-	}
-
-	if(!file){
-		file = sf_open(path.c_str(), SFM_READ, &info);
-	}
-	ALuint bufferID;
-
-	if (!file) {
-		log("Failed to load audio file %s.", path.c_str());
-		return;
-	}
-
-	if (info.channels != 1) {
-		log("Sound file %s is multi-channel!", path.c_str());
-		sf_close(file);
-		return;
-	}
-
-	short* buf = new short[info.frames];
-	sf_count_t bufPos = 0;
-
-	while (true) {
-		if (bufPos >= info.frames) break;
-
-		sf_count_t readSize = sf_read_short(file, buf + bufPos, info.frames - bufPos);
-
-		if (readSize > 0) bufPos += readSize;
-		else break;
-	}
-
-	alGenBuffers(1, &bufferID);
-
-	if (bufferID == AL_INVALID_VALUE) {
-		log("Failed to create sound buffer.");
-		return;
-	}
-
-	alBufferData(
-		bufferID,
-		AL_FORMAT_MONO16,
-		buf,
-		info.frames,
-		info.samplerate
-	);
-
-	appInst->loadedBuffers.insert_or_assign(path, bufferID);
-	delete[] buf;
-
-	if (appInst->fileUtils) {
-		appInst->fileUtils->closeSoundFile(path);
-		appInst->fileUtils->unloadFile(path);
-	}
-}
-
-ALuint App::playSound(const string& path, float volume)
-{
-	audioMutex.lock();
-
-	ALuint source = initSoundSource(Vec3::ZERO, Vec3::ZERO, true);
-	ALuint sound = getOrDefault(appInst->loadedBuffers, path, to_uint(0));
-
-	if (source != 0 && sound != 0) {
-		alSourcei(source, AL_BUFFER, sound);
-		alSourcePlay(source);
-		appInst->activeSources.insert(source);
-	}
-
-	audioMutex.unlock();
-
-	return source;
-}
-
-ALuint App::playSoundSpatial(const string& path, const Vec3& pos, const Vec3& vel, float volume, bool loop)
-{
-	audioMutex.lock();
-
-	ALuint bufferID = getOrDefault(appInst->loadedBuffers, path, to_uint(0));
-	ALuint source = 0;
-
-	if (bufferID == 0) {
-		log("Unknown audio file %s", path.c_str());
-	}
-	else {
-		source = initSoundSource(pos, vel, false);
-	}
-
-	if (source != 0) {
-		alSourcei(source, AL_BUFFER, bufferID);
-		alSourcef(source, AL_ROLLOFF_FACTOR, boost::math::float_constants::root_two);
-		alSourcei(source, AL_LOOPING, loop);
-		alSourcePlay(source);
-		appInst->activeSources.insert(source);
-	}
-
-	audioMutex.unlock();
-
-	return source;
-}
-
-void App::endSound(ALuint source)
-{
-	audioMutex.lock();
-	auto it = appInst->activeSources.find(source);
-	if (it != appInst->activeSources.end()) {
-		alSourceStop(*it);
-		appInst->activeSources.erase(it);
-	}
-	audioMutex.unlock();
-}
-
-void App::pauseSounds()
-{
-	audioMutex.lock();
-	for (ALuint sourceID : appInst->activeSources)
-	{
-		ALenum state;
-		alGetSourcei(sourceID, AL_SOURCE_STATE, &state);
-		if (state != AL_STOPPED && state != AL_PAUSED) {
-			alSourcePause(sourceID);
-		}
-	}
-	audioMutex.unlock();
-}
-
-void App::resumeSounds()
-{
-	audioMutex.lock();
-	for (ALuint sourceID : appInst->activeSources)
-	{
-		ALenum state;
-		alGetSourcei(sourceID, AL_SOURCE_STATE, &state);
-		if (state == AL_PAUSED) {
-			alSourcePlay(sourceID);
-		}
-	}
-	audioMutex.unlock();
-}
-
-void App::setSoundListenerPos(SpaceVect pos, SpaceVect vel, SpaceFloat angle)
-{
-	audioMutex.lock();
-	Vec3 _pos = toVec3(pos);
-	Vec3 _vel = toVec3(vel);
-	array<float, 6> orientation = {
-		0.0f, 0.0f, -1.0f,
-		0.0f, 1.0f, 0.0f
-	};
-
-	alListenerfv(AL_POSITION, &_pos.x);
-	alListenerfv(AL_VELOCITY, &_vel.x);
-	alListenerfv(AL_ORIENTATION, &orientation[0]);
-	audioMutex.unlock();
-}
-
-bool App::setSoundSourcePos(ALuint source, SpaceVect pos, SpaceVect vel, SpaceFloat angle)
-{
-	bool valid = false;
-	Vec3 _pos = toVec3(pos);
-	Vec3 _vel = toVec3(vel);
-	audioMutex.lock();
-
-	if (appInst->activeSources.find(source) != appInst->activeSources.end()) {
-		alSourcefv(source, AL_POSITION, &_pos.x);
-		alSourcefv(source, AL_VELOCITY, &_vel.x);
-		valid = true;
-	}
-
-	audioMutex.unlock();
-	return valid;
-}
-
-bool App::isSoundSourceActive(ALuint source)
-{
-	bool result;
-	audioMutex.lock();
-	result = appInst->activeSources.find(source) != appInst->activeSources.end();
-	audioMutex.unlock();
-	return result;
-}
-
 App::App()
 {
     appInst = this;
@@ -433,6 +189,7 @@ App::App()
 
 	//Activate key register.
 	control_register = make_unique<ControlRegister>();
+	audioContext = make_unique<audio_context>();
 
     //Initialize Lua
 #if DEV_MODE
@@ -454,11 +211,7 @@ App::~App()
 	control_register = nullptr;
 	
 	//Close AL
-	alcMakeContextCurrent(nullptr);
-	if (audioContext)
-		alcDestroyContext(audioContext);
-	if (audioDevice)
-		alcCloseDevice(audioDevice);
+	audioContext.reset();
 
 	if (fileUtils) {
 		FileUtils::setDelegate(nullptr);
@@ -517,7 +270,7 @@ bool App::applicationDidFinishLaunching() {
         "app_update"
     );
 
-	initAudio();
+	audioContext->initAudio();
 
 	GObject::initObjectInfo();
 	GObject::initNameMap();
@@ -700,25 +453,14 @@ GState* App::getCrntState() {
 	return crntState.get();
 }
 
+FileUtilsZip* App::getFileUtils()
+{
+	return appInst->fileUtils;
+}
+
 void App::update(float dt)
 {
     control_register->update();
-
-	audioMutex.lock();
-
-	auto it = activeSources.begin();
-	while (it != activeSources.end()) {
-		ALenum state;
-		alGetSourcei(*it, AL_SOURCE_STATE, &state);
-		if (state == AL_STOPPED) {
-			alDeleteSources(1, &(*it));
-			it = activeSources.erase(it);
-		}
-		else {
-			++it;
-		}
-	}
-	audioMutex.unlock();
 
 #if USE_TIMERS
 	updateTimerSystem();

@@ -14,6 +14,7 @@
 #include "macros.h"
 #include "object_ref.hpp"
 
+class audio_context;
 class FloorSegment;
 class GObject;
 class graphics_context;
@@ -66,6 +67,8 @@ public:
 
     void update();
     void processAdditions();
+
+	audio_context* audioContext;
 private:
 	unique_ptr<GState> crntState;
 	ChamberID crntChamber;

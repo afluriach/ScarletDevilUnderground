@@ -36,6 +36,7 @@ bool GSpace::isMultithread()
 
 GSpace::GSpace(GScene* gscene) :
 	gscene(gscene),
+	audioContext(App::audioContext.get()),
 	graphicsContext(gscene->graphicsContext.get()),
 	randomFloat(0.0, 1.0)
 {

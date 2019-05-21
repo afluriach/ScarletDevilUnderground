@@ -10,6 +10,7 @@ The reason for implement as private inheritance is to hide some interface call b
 #include "types.h"
 
 class App;
+class audio_context;
 class ControlRegister;
 class Dialog;
 class FileUtilsZip;
@@ -62,7 +63,6 @@ public:
     static const string title;
     
     static const vector<string> shaderFiles;
-	static const vector<string> soundFiles;
 	static const unordered_map<string, InterfaceFunction> interfaceFuntions;
     
 	static Vec2 getScreenCenter();    
@@ -103,6 +103,8 @@ public:
 	static void runScene(GScene* scene);
 	static void popMenu();
 
+	static FileUtilsZip* getFileUtils();
+
 	template <typename T, typename R, typename... Args>
 	static inline R* createAndRunSceneAs(Args... args)
 	{
@@ -129,24 +131,6 @@ public:
 	static void printGlDebug();
 	static void end();
 
-	static void initAudio();
-	static ALuint initSoundSource(const Vec3& pos, const Vec3& vel, bool relative);
-	static void loadSound(const string& path);
-	static ALuint playSound(const string& path, float volume);
-	static ALuint playSoundSpatial(
-		const string& path,
-		const Vec3& pos,
-		const Vec3& vel,
-		float volume = 1.0f,
-		bool loop = false
-	);
-	static void endSound(ALuint source);
-	static void pauseSounds();
-	static void resumeSounds();
-	static void setSoundListenerPos(SpaceVect pos, SpaceVect vel, SpaceFloat angle);
-	static bool setSoundSourcePos(ALuint source, SpaceVect pos, SpaceVect vel, SpaceFloat angle);
-	static bool isSoundSourceActive(ALuint source);
-
     App();
     virtual ~App();
 
@@ -156,6 +140,7 @@ public:
     
     //globals exposed by app
     static unique_ptr<ControlRegister> control_register;
+	static unique_ptr<audio_context> audioContext;
 	static unique_ptr<GState> crntState;
 	static string crntProfileName;
     static unique_ptr<Lua::Inst> lua;
@@ -164,7 +149,6 @@ public:
 	static boost::rational<int> timerPrintAccumulator;
 	static mutex timerMutex;
 #endif
-	static mutex audioMutex;
 	static PlayerCharacter crntPC;
     
 	static const string& getBaseDataPath();
@@ -176,12 +160,6 @@ protected:
 
 	string baseDataPath;
 	FileUtilsZip* fileUtils = nullptr;
-
-	ALCdevice* audioDevice = nullptr;
-	ALCcontext* audioContext = nullptr;
-
-	unordered_map<string, ALuint> loadedBuffers;
-	unordered_set<ALuint> activeSources;
 
 	virtual bool applicationDidFinishLaunching();
 	virtual void applicationDidEnterBackground();

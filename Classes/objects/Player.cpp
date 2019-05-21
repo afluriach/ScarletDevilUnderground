@@ -10,6 +10,7 @@
 
 #include "AIUtil.hpp"
 #include "App.h"
+#include "audio_context.hpp"
 #include "Bomb.hpp"
 #include "Collectibles.hpp"
 #include "controls.h"
@@ -269,7 +270,7 @@ void Player::updateSpellControls(const ControlInfo& cs)
 		) {
 			if (cast(equippedSpell->generate(this))) {
 				attributeSystem.resetCombo();
-				App::playSound("sfx/player_spellcard.wav", 1.0f);
+				space->audioContext->playSound("sfx/player_spellcard.wav", 1.0f);
 			}
 		}
     }
@@ -305,7 +306,7 @@ void Player::checkFireControls(const ControlInfo& cs)
 		float fireCost = getFirePattern()->getCost();
 
 		if (attributeSystem[Attribute::stamina] >= fireCost && getFirePattern()->fireIfPossible()) {
-			App::playSound("sfx/shot.wav", 1.0f);
+			space->audioContext->playSound("sfx/shot.wav", 1.0f);
 			attributeSystem.modifyAttribute(Attribute::stamina, -fireCost);
 		}
 	}
@@ -341,7 +342,7 @@ void Player::checkFireControls(const ControlInfo& cs)
 	)
 	{
 		if (cast(powerAttacks.at(powerAttackIdx)->generate(this))) {
-			App::playSound("sfx/player_power_attack.wav", 1.0f);
+			space->audioContext->playSound("sfx/player_power_attack.wav", 1.0f);
 			isPowerAttack = true;
 		}
 	}
@@ -415,7 +416,7 @@ void Player::updateCombo()
 void Player::onZeroHP()
 {
 	if (!GScene::suppressGameOver) {
-		App::playSound("sfx/player_death.wav", 0.5f);
+		space->audioContext->playSound("sfx/player_death.wav", 0.5f);
 
 		if (!space->getIsRunningReplay()) {
 			space->addSceneAction(
@@ -429,7 +430,7 @@ void Player::update()
 {
 	Agent::update();
 
-	App::setSoundListenerPos(getPos(), getVel(), float_pi/2.0);
+	space->audioContext->setSoundListenerPos(getPos(), getVel(), float_pi/2.0);
 
 	if (playScene) {
 		space->updatePlayerMapLocation(getPos());
@@ -555,7 +556,7 @@ bool Player::hit(DamageInfo damage){
 		hitFlickerInterval
 	);
 
-	App::playSound("sfx/player_damage.wav", 1.0f);
+	space->audioContext->playSound("sfx/player_damage.wav", 1.0f);
 	return true;
 }
 
@@ -564,7 +565,7 @@ void Player::onCollectible(Collectible* coll)
 	if (canApplyAttributeEffects(coll->getEffect())) {
 		applyAttributeEffects(coll->getEffect());
 		space->removeObject(coll);
-		App::playSound("sfx/powerup.wav", 1.0f);
+		space->audioContext->playSound("sfx/powerup.wav", 1.0f);
 	}
 }
 
@@ -645,7 +646,7 @@ void Player::applyGraze(int p)
 {
 	attributeSystem.modifyAttribute(Attribute::stamina, isComboActive ? p* 2 : p);
 	applyCombo(p*6);
-	App::playSound("sfx/graze.wav", 1.0f);
+	space->audioContext->playSound("sfx/graze.wav", 1.0f);
 }
 
 void Player::applyCombo(int b)

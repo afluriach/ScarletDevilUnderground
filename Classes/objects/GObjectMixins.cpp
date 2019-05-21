@@ -10,6 +10,7 @@
 
 #include "Agent.hpp"
 #include "App.h"
+#include "audio_context.hpp"
 #include "FloorSegment.hpp"
 #include "GObjectMixins.hpp"
 #include "graphics_context.hpp"
@@ -197,7 +198,7 @@ void PatchConSprite::_update()
 	if (advance && crntFloorCenterContact.isValid() ) {
 		string sfxRes = crntFloorCenterContact.get()->getFootstepSfx();
 		if (!sfxRes.empty()) {
-			App::playSoundSpatial(sfxRes, toVec3(getPos(), -1.0), toVec3(getVel()), 0.5f);
+			space->audioContext->playSoundSpatial(sfxRes, toVec3(getPos(), -1.0), toVec3(getVel()), 0.5f);
 		}
 	}
 }
@@ -317,7 +318,7 @@ void AudioSourceObject::_update()
 	while (it != sources.end())
 	{
 		ALuint sourceID = *it;
-		if (!App::setSoundSourcePos(sourceID, getPos(), getVel(), getAngle()))
+		if (!space->audioContext->setSoundSourcePos(sourceID, getPos(), getVel(), getAngle()))
 			it = sources.erase(it);
 		else
 			++it;
@@ -326,7 +327,7 @@ void AudioSourceObject::_update()
 
 ALuint AudioSourceObject::playSoundSpatial(const string& path, float volume, bool loop )
 {
-	ALuint soundSource = App::playSoundSpatial(path, toVec3(getPos()), toVec3(getVel()), volume, loop);
+	ALuint soundSource = space->audioContext->playSoundSpatial(path, toVec3(getPos()), toVec3(getVel()), volume, loop);
 
 	if (soundSource != 0) sources.push_back(soundSource);
 	return soundSource;
@@ -334,13 +335,13 @@ ALuint AudioSourceObject::playSoundSpatial(const string& path, float volume, boo
 
 void AudioSourceObject::stopSound(ALuint sourceID)
 {
-	App::endSound(sourceID);
+	space->audioContext->endSound(sourceID);
 	sources.remove(sourceID);
 }
 
 bool AudioSourceObject::isSourceActive(ALuint source)
 {
-	return App::isSoundSourceActive(source);
+	return space->audioContext->isSoundSourceActive(source);
 }
 
 //END AUDIO
