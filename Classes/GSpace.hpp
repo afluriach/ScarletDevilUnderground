@@ -166,16 +166,11 @@ public:
 	{
 		if (!getSceneAs<PlayScene>()) return;
 
-		if (app::params.multithread) {
-			addSceneAction(make_hud_action(
-				m,
-				getSceneAs<PlayScene>(),
-				args...
-			));
-		}
-		else {
-			(getSceneAs<PlayScene>()->hud->*m)(args...);
-		}
+		addSceneAction(make_hud_action(
+			m,
+			getSceneAs<PlayScene>(),
+			args...
+		));
 	}
 
 	void addObjectAction(zero_arity_function f);
@@ -297,14 +292,12 @@ public:
 	{
 		LightID id = graphicsContext->getLightID();
 
-		if (app::params.multithread) {
-			sceneActions.push_back([this, id, light]()->void {
-				graphicsContext->addLightSource(id, light);
-			});
-		}
-		else {
-			graphicsContext->addLightSource(id, light);
-		}
+		sceneActions.push_back(bind(
+			static_cast<void (graphics_context::*)(LightID, T)>(&graphics_context::addLightSource),
+			graphicsContext,
+			id,
+			light
+		));
 
 		return id;
 	}
@@ -312,10 +305,7 @@ public:
 	template<typename... Args>
 	inline void addLightmapAction(void (graphics_context::*m)(Args...), Args... args)
 	{
-		if(app::params.multithread)
-			sceneActions.push_back(bind(m, graphicsContext, args...));
-		else
-			(graphicsContext->*m)(args...);
+		sceneActions.push_back(bind(m, graphicsContext, args...));
 	}
 
 	template<typename... Args>
@@ -323,10 +313,7 @@ public:
 	{
 		SpriteID id = graphicsContext->getSpriteID();
 
-		if (app::params.multithread)
-			sceneActions.push_back(bind(m, graphicsContext, id, args...));
-		else
-			(graphicsContext->*m)(id, args...);
+		sceneActions.push_back(bind(m, graphicsContext, id, args...));
 
 		return id;
 	}
@@ -334,10 +321,7 @@ public:
 	template<typename... Args>
 	inline void addGraphicsAction(void (graphics_context::*m)(Args...), Args... args)
 	{
-		if (app::params.multithread)
-			sceneActions.push_back(bind(m, graphicsContext, args...));
-		else
-			(graphicsContext->*m)(args...);
+		sceneActions.push_back(bind(m, graphicsContext, args...));
 	}
 
 //END GRAPHICS
