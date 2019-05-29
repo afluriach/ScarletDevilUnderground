@@ -306,7 +306,7 @@ void PlayerDarkMist::init()
 {
 	PlayerSpell::init();
 
-	caster->space->addGraphicsAction(&graphics_context::setSpriteOpacity, caster->spriteID, to_uchar(128));
+	caster->space->graphicsNodeAction(&Node::setOpacity, caster->spriteID, to_uchar(128));
 	caster->setInvisible(true);
 }
 
@@ -314,7 +314,7 @@ void PlayerDarkMist::end()
 {
 	PlayerSpell::end();
 
-	caster->space->addGraphicsAction(&graphics_context::setSpriteOpacity, caster->spriteID, to_uchar(255));
+	caster->space->graphicsNodeAction(&Node::setOpacity, caster->spriteID, to_uchar(255));
 	caster->setInvisible(false);
 }
 

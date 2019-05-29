@@ -183,8 +183,8 @@ void IllusionDialDagger::update()
 	GObject::update();
 
 	if (drawNodeID != 0) {
-		space->addGraphicsAction(
-			&graphics_context::setSpriteAngle,
+		space->graphicsNodeAction(
+			&Node::setRotation,
 			drawNodeID,
 			to_float(-toDegrees(getAngle()))
 		);
@@ -205,14 +205,14 @@ void IllusionDialDagger::initializeGraphics()
 		getInitialCenterPix(),
 		1.0f
 	);
-	space->addGraphicsAction(
-		&graphics_context::drawSolidRect,
+	space->graphicsNodeAction(
+		&DrawNode::drawSolidRect,
 		drawNodeID,
 		Vec2(-hWidth, -hHeight),
 		Vec2(hWidth, hHeight),
 		Color4F(.66f, .75f, .66f, .7f)
 	);
-	space->addGraphicsAction(&graphics_context::setSpriteVisible, drawNodeID, false);
+	space->graphicsNodeAction(&Node::setVisible, drawNodeID, false);
 }
 
 const bullet_properties ReimuBullet1::props = {

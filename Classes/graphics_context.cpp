@@ -16,10 +16,6 @@
 #include "macros.h"
 #include "util.h"
 
-#define sprite_action0(cls, method) spriteAction<cls>(id, &cls::method);
-#define sprite_action1(cls, method, a) spriteAction<cls>(id, &cls::method, a);
-#define sprite_action3(cls, method, a, b, c) spriteAction<cls>(id, &cls::method, a, b, c)
-
 void graphics_context::update()
 {
 	CCRect cameraPix = scene->getCameraArea().toPixelspace();
@@ -277,49 +273,6 @@ void graphics_context::createAgentBodyShader(
 	scene->getSpaceLayer()->positionAndAddNode(shader, to_int(layer), position, 1.0f);
 }
 
-void graphics_context::loadAgentAnimation(SpriteID id, string path, bool isAgentAnimation)
-{
-	spriteAction<PatchConAnimation, const string&, bool>(id, &PatchConAnimation::loadAnimation, path, isAgentAnimation);
-}
-
-void graphics_context::setAgentAnimationDirection(SpriteID id, Direction d)
-{
-	sprite_action1(PatchConAnimation, setDirection, d);
-}
-
-void graphics_context::setAgentAnimationFrame(SpriteID id, int frame)
-{
-	sprite_action1(PatchConAnimation, setFrame, frame);
-}
-
-void graphics_context::setAgentOverlayShieldLevel(SpriteID id, float level)
-{
-	sprite_action1(AgentBodyShader, setShieldLevel, level);
-}
-
-void graphics_context::clearDrawNode(SpriteID id)
-{
-	sprite_action0(DrawNode, clear);
-}
-
-void graphics_context::drawSolidRect(SpriteID id, Vec2 lowerLeft, Vec2 upperRight, Color4F color)
-{
-	spriteAction<DrawNode, const Vec2&, const Vec2&, const Color4F&>
-		(id, &DrawNode::drawSolidRect, lowerLeft, upperRight, color);
-}
-
-void graphics_context::drawSolidCone(SpriteID id, Vec2 center, float radius, float startAngle, float endAngle, unsigned int segments, Color4F color)
-{
-	spriteAction<DrawNode, const Vec2&, float, float, float, unsigned int, const Color4F&>
-		(id, &DrawNode::drawSolidCone, center, radius, startAngle, endAngle, segments, color);
-}
-
-void graphics_context::drawSolidCircle(SpriteID id, Vec2 center, float radius, float angle, unsigned int segments, Color4F color)
-{
-	spriteAction<DrawNode, const Vec2&, float, float, unsigned int, const Color4F&>
-		(id, &DrawNode::drawSolidCircle, center, radius, angle, segments, color);
-}
-
 void graphics_context::runSpriteAction(SpriteID id, ActionGeneratorType generator)
 {
 	Node* node = getSpriteAsNode(id);
@@ -330,12 +283,12 @@ void graphics_context::runSpriteAction(SpriteID id, ActionGeneratorType generato
 
 void graphics_context::stopSpriteAction(SpriteID id, cocos_action_tag action)
 {
-	sprite_action1(Node, stopActionByTag, to_int(action));
+	nodeAction(id, &Node::stopActionByTag, to_int(action));
 }
 
 void graphics_context::stopAllSpriteActions(SpriteID id)
 {
-	sprite_action0(Node, stopAllActions);
+	nodeAction(id, &Node::stopAllActions);
 }
 
 void graphics_context::removeSprite(SpriteID id)
@@ -355,39 +308,19 @@ void graphics_context::removeSpriteWithAnimation(SpriteID id, ActionGeneratorTyp
 	}
 }
 
-void graphics_context::setSpriteVisible(SpriteID id, bool val)
-{
-	sprite_action1(Node, setVisible, val);
-}
-
-void graphics_context::setSpriteOpacity(SpriteID id, unsigned char op)
-{
-	sprite_action1(Node, setOpacity, op);
-}
-
 void graphics_context::setSpriteTexture(SpriteID id, string path)
 {
-	spriteAction<Sprite, const string&>(id, &Sprite::setTexture, path);
-}
-
-void graphics_context::setSpriteAngle(SpriteID id, float cocosAngle)
-{
-	sprite_action1(Node, setRotation, cocosAngle);
+	nodeAction<Sprite, const string&>(id, &Sprite::setTexture, path);
 }
 
 void graphics_context::setSpritePosition(SpriteID id, Vec2 pos)
 {
-	spriteAction<Sprite, const Vec2&>(id, &Sprite::setPosition, pos);
+	nodeAction<Node, const Vec2&>(id, &Node::setPosition, pos);
 }
 
 void graphics_context::setSpriteZoom(SpriteID id, float zoom)
 {
-	sprite_action1(Node, setScale, zoom);
-}
-
-void graphics_context::setSpriteColor(SpriteID id, Color3B color)
-{
-	spriteAction<Node, const Color3B&>(id, &Node::setColorRecursive, color);
+	nodeAction<Node, float>(id, &Node::setScale, zoom);
 }
 
 void graphics_context::spriteSpatialUpdate(vector<sprite_update> spriteUpdates)

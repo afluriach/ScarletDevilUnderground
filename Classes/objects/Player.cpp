@@ -405,7 +405,7 @@ void Player::updateCombo()
 			spriteID,
 			cocos_action_tag::combo_mode_flicker
 		);
-		space->addGraphicsAction(&graphics_context::setSpriteColor, spriteID, Color3B::WHITE);
+		space->graphicsNodeAction(&Node::setColor, spriteID, Color3B::WHITE);
 	}
 
 	if (attributeSystem[Attribute::combo] > 0) {
@@ -616,8 +616,8 @@ void Player::applyUpgrade(Upgrade* up)
 		attributeSystem.modifyAttribute(Attribute::stamina, step);
 	break;
 	case Attribute::shieldLevel:
-		space->addGraphicsAction(
-			&graphics_context::setAgentOverlayShieldLevel,
+		space->graphicsNodeAction(
+			&AgentBodyShader::setShieldLevel,
 			agentOverlay,
 			attributeSystem[Attribute::shieldLevel]
 		);

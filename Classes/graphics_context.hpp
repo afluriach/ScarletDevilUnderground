@@ -18,6 +18,7 @@ class graphics_context
 {
 public:
 	friend class GScene;
+	friend class GSpace;
 
 	inline graphics_context(GScene* scene) : scene(scene) {}
 
@@ -47,30 +48,16 @@ public:
 		float thickness, Vec2 position
 	);
 
-	void loadAgentAnimation(SpriteID id, string path, bool isAgentAnimation);
-	void setAgentAnimationDirection(SpriteID id, Direction d);
-	void setAgentAnimationFrame(SpriteID id, int frame);
-	void setAgentOverlayShieldLevel(SpriteID id, float level);
-
-	void clearDrawNode(SpriteID id);
-	void drawSolidRect(SpriteID id, Vec2 lowerLeft, Vec2 upperRight, Color4F color);
-	void drawSolidCone(SpriteID id, Vec2 center, float radius, float startAngle, float endAngle, unsigned int segments, Color4F color);
-	void drawSolidCircle(SpriteID id, Vec2 center, float radius, float angle, unsigned int segments, Color4F color);
-
 	void runSpriteAction(SpriteID id, ActionGeneratorType generator);
 	void stopSpriteAction(SpriteID id, cocos_action_tag action);
 	void stopAllSpriteActions(SpriteID id);
 	void removeSprite(SpriteID id);
 	void removeSpriteWithAnimation(SpriteID id, ActionGeneratorType generator);
-	void setSpriteVisible(SpriteID id, bool val);
-	void setSpriteOpacity(SpriteID id, unsigned char op);
 	void setSpriteTexture(SpriteID id, string path);
-	void setSpriteAngle(SpriteID id, float cocosAngle);
 	void setSpritePosition(SpriteID id, Vec2 pos);
 	void setSpriteZoom(SpriteID id, float zoom);
-	void setSpriteColor(SpriteID id, Color3B color);
+	
 	void spriteSpatialUpdate(vector<sprite_update> spriteUpdates);
-
 	void clearSubroomMask(unsigned int roomID);
 protected:
 	template<class C>
@@ -81,12 +68,12 @@ protected:
 		else return dynamic_cast<C*>(it->second);
 	}
 
-	template<class C, typename... Params>
-	void spriteAction(SpriteID id, void (C::*method)(Params...), Params... params)
+	template<class C, typename... Params, typename... Args>
+	void nodeAction(SpriteID id, void (C::*method)(Params...), Args... args)
 	{
 		C* c = getSpriteAs<C>(id);
 		if (c) {
-			(c->*method)(forward<Params>(params)...);
+			(c->*method)(forward<Params>(args)...);
 		}
 	}
 

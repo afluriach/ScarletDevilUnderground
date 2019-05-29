@@ -314,8 +314,8 @@ void RedFairy::onZeroHP()
 		toCocos(getPos()) * app::pixelsPerTile,
 		1.0f
 	);
-	space->addGraphicsAction(
-		&graphics_context::setSpriteColor,
+	space->graphicsNodeAction(
+		&Node::setColor,
 		bombSprite,
 		Color3B::RED
 	);

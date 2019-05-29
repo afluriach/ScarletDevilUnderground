@@ -12,6 +12,7 @@
 #include "app_constants.hpp"
 #include "audio_context.hpp"
 #include "FloorSegment.hpp"
+#include "GAnimation.hpp"
 #include "GObjectMixins.hpp"
 #include "graphics_context.hpp"
 #include "GSpace.hpp"
@@ -180,8 +181,8 @@ void PatchConSprite::setSprite(const string& name)
 void PatchConSprite::setSprite(const string& name, bool agentAnimation)
 {
 	if (spriteID != 0) {
-		space->addGraphicsAction(
-			&graphics_context::loadAgentAnimation,
+		space->graphicsNodeAction(
+			&PatchConAnimation::loadAnimation,
 			spriteID,
 			"sprites/" + name + ".png",
 			agentAnimation
@@ -207,7 +208,7 @@ void PatchConSprite::setAngle(SpaceFloat a)
 {
     GObject::setAngle(a);
 
-	space->addGraphicsAction(&graphics_context::setAgentAnimationDirection, spriteID, angleToDirection(a));
+	space->graphicsNodeAction(&PatchConAnimation::setDirection, spriteID, angleToDirection(a));
 }
 
 void PatchConSprite::setDirection(Direction d)
@@ -215,7 +216,7 @@ void PatchConSprite::setDirection(Direction d)
     GObject::setDirection(d);
     if(d == Direction::none) return;
 
-	space->addGraphicsAction(&graphics_context::setAgentAnimationDirection, spriteID, d);
+	space->graphicsNodeAction(&PatchConAnimation::setDirection, spriteID, d);
 }
 
 bool PatchConSprite::accumulate(SpaceFloat dx)
@@ -234,7 +235,7 @@ bool PatchConSprite::checkAdvanceAnimation()
 	case 0:
 		if (accumulator >= stepSize)
 		{
-			space->addGraphicsAction(&graphics_context::setAgentAnimationFrame, spriteID, 1);
+			space->graphicsNodeAction(&PatchConAnimation::setFrame, spriteID, 1);
 			crntFrame = 1;
 			advance = true;
 			accumulator -= stepSize;
@@ -244,7 +245,7 @@ bool PatchConSprite::checkAdvanceAnimation()
 	case 2:
 		if (accumulator >= stepSize)
 		{
-			space->addGraphicsAction(&graphics_context::setAgentAnimationFrame, spriteID, 1);
+			space->graphicsNodeAction(&PatchConAnimation::setFrame, spriteID, 1);
 			crntFrame = 1;
 			advance = true;
 			accumulator -= stepSize;
@@ -255,7 +256,7 @@ bool PatchConSprite::checkAdvanceAnimation()
 		if (accumulator >= midstepSize)
 		{
 			crntFrame = (nextStepIsLeft ? 0 : 2);
-			space->addGraphicsAction(&graphics_context::setAgentAnimationFrame, spriteID, crntFrame);
+			space->graphicsNodeAction(&PatchConAnimation::setFrame, spriteID, crntFrame);
 			accumulator -= midstepSize;
 		}
 		break;
@@ -266,7 +267,7 @@ bool PatchConSprite::checkAdvanceAnimation()
 
 void PatchConSprite::reset()
 {
-	space->addGraphicsAction(&graphics_context::setAgentAnimationFrame, spriteID, 1);
+	space->graphicsNodeAction(&PatchConAnimation::setFrame, spriteID, 1);
 	accumulator = 0.0;
 
 	nextStepIsLeft = firstStepIsLeft;
@@ -283,7 +284,7 @@ void ImageSprite::loadImageSprite(const string& resPath, GraphicsLayer sceneLaye
 		getInitialCenterPix(),
 		zoom()
 	);
-	space->addGraphicsAction(&graphics_context::setSpriteAngle, spriteID, toCocosAngle(prevAngle));
+	space->graphicsNodeAction(&Node::setRotation, spriteID, toCocosAngle(prevAngle));
 }
 
 RadialLightObject::RadialLightObject() :

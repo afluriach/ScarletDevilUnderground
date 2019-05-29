@@ -318,6 +318,14 @@ public:
 		return id;
 	}
 
+	template<class C, typename... Params, typename... Args>
+	void graphicsNodeAction(void (C::*method)(Params...), SpriteID id, Args... args)
+	{
+		sceneActions.push_back([this, id, method, args...]() -> void {
+			graphicsContext->nodeAction(id, method, args...);
+		});
+	}
+
 	template<typename... Args>
 	inline void addGraphicsAction(void (graphics_context::*m)(Args...), Args... args)
 	{

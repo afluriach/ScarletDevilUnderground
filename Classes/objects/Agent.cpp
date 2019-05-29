@@ -60,8 +60,8 @@ void Agent::initAttributes()
 	attributeSystem.setFullMP();
 	attributeSystem.setFullStamina();
 
-	space->addGraphicsAction(
-		&graphics_context::setAgentOverlayShieldLevel,
+	space->graphicsNodeAction(
+		&AgentBodyShader::setShieldLevel,
 		agentOverlay,
 		getAttribute(Attribute::shieldLevel)
 	);
@@ -271,7 +271,7 @@ bool Agent::consumeStamina(int val)
 
 void Agent::setShieldActive(bool v)
 {
-	space->addGraphicsAction(&graphics_context::setSpriteVisible, agentOverlay, v);
+	space->graphicsNodeAction(&Node::setVisible, agentOverlay, v);
 	shieldActive = v;
 }
 
@@ -305,7 +305,7 @@ void Agent::initializeGraphics()
 		getInitialCenterPix()
 	);
 	//Should be false, but in case shield has already been activated.
-	space->addGraphicsAction(&graphics_context::setSpriteVisible, agentOverlay, shieldActive);
+	space->graphicsNodeAction(&Node::setVisible, agentOverlay, shieldActive);
 }
 
 //shield
@@ -420,8 +420,8 @@ void Agent::updateAgentOverlay()
 			agentOverlay,
 			toCocos(getPos()*app::pixelsPerTile)
 		);
-		space->addGraphicsAction(
-			&graphics_context::setSpriteAngle,
+		space->graphicsNodeAction(
+			&Node::setRotation,
 			agentOverlay,
 			toCocosAngle(getAngle())
 		);

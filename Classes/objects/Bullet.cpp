@@ -112,7 +112,7 @@ bool Bullet::applyRicochet(SpaceVect n)
 void Bullet::setBodyVisible(bool b)
 {
 	if (drawNodeID != 0) {
-		space->addGraphicsAction(&graphics_context::setSpriteVisible, drawNodeID, b);
+		space->graphicsNodeAction(&Node::setVisible, drawNodeID, b);
 	}
 }
 
@@ -135,7 +135,7 @@ void BulletImpl::initializeGraphics()
 {
 	ImageSprite::initializeGraphics();
 	if (spriteID != 0 && props->spriteColor != Color3B::BLACK && props->spriteColor != Color3B::WHITE) {
-		space->addGraphicsAction(&graphics_context::setSpriteColor, spriteID, props->spriteColor);
+		space->graphicsNodeAction(&Node::setColor, spriteID, props->spriteColor);
 	}
 }
 
@@ -158,7 +158,7 @@ void BulletValueImpl::initializeGraphics()
 {
 	ImageSprite::initializeGraphics();
 	if (spriteID != 0 && props.spriteColor != Color3B::BLACK && props.spriteColor != Color3B::WHITE) {
-		space->addGraphicsAction(&graphics_context::setSpriteColor, spriteID, props.spriteColor);
+		space->graphicsNodeAction(&Node::setColor, spriteID, props.spriteColor);
 	}
 }
 

@@ -60,8 +60,8 @@ void Torch::initializeGraphics()
 		getInitialCenterPix(),
 		0.5f
 	);
-	space->addGraphicsAction(&graphics_context::setSpriteColor, flameSpriteID, color);
-	space->addGraphicsAction(&graphics_context::setSpriteVisible, flameSpriteID, isActive);
+	space->graphicsNodeAction(&Node::setColor, flameSpriteID, color);
+	space->graphicsNodeAction(&Node::setVisible, flameSpriteID, isActive);
 
 	if (isActive) {
 		addLightSource();
@@ -73,7 +73,7 @@ void Torch::setActive(bool active)
     isActive = active;
 	darkness = 0.0f;
 
-	space->addGraphicsAction(&graphics_context::setSpriteVisible, flameSpriteID, active);
+	space->graphicsNodeAction(&Node::setVisible, flameSpriteID, active);
 
 	if (active && lightSourceID == 0) {
 		addLightSource();

@@ -117,8 +117,8 @@ void BlueFairyBomb::update()
 {
 	timerIncrement(timer);
 
-	caster->space->addGraphicsAction(
-		&graphics_context::setSpriteAngle,
+	caster->space->graphicsNodeAction(
+		&Node::setRotation,
 		sprite,
 		toCocosAngle(canonicalAngle(angularSpeed * timer))
 	);

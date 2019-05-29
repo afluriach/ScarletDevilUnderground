@@ -73,7 +73,7 @@ void Door::init()
 	}
 
 	if (locked) {
-		space->addGraphicsAction(&graphics_context::setSpriteColor, spriteID, Color3B::RED);
+		space->graphicsNodeAction(&Node::setColor, spriteID, Color3B::RED);
 	}
 
 	if ((doorType == door_type::one_way_destination || doorType == door_type::one_way_source) && adjacent.isValid()) {
@@ -91,7 +91,7 @@ void Door::init()
 		);
 	}
 	else if (path) {
-		space->addGraphicsAction(&graphics_context::setSpriteVisible, spriteID, false);
+		space->graphicsNodeAction(&Node::setVisible, spriteID, false);
 	}
 }
 
@@ -138,7 +138,7 @@ void Door::interact(Player* p)
 	else if(locked){
 		p->useKey();
 		locked = false;
-		space->addGraphicsAction(&graphics_context::setSpriteColor, spriteID, Color3B::WHITE);
+		space->graphicsNodeAction(&Node::setColor, spriteID, Color3B::WHITE);
 	}
 }
 
@@ -213,7 +213,7 @@ PhysicsLayers Barrier::getLayers() const
 void Barrier::setSealed(bool b)
 {
 	cpShapeSetSensor(bodyShape, !b);
-	space->addGraphicsAction(&graphics_context::setSpriteVisible, spriteID, b);
+	space->graphicsNodeAction(&Node::setVisible, spriteID, b);
 }
 
 void Barrier::activate()
