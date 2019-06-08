@@ -63,6 +63,11 @@ SpaceVect getObjectPos(const ValueMap& args)
 	return SpaceVect(getFloat(args, "pos_x"), getFloat(args, "pos_y"));
 }
 
+SpaceVect getObjectDimensions(const ValueMap& args)
+{
+	return SpaceVect(getFloat(args, "dim_x"), getFloat(args, "dim_y"));
+}
+
 int getInt(const ValueMap& args, const string& name)
 {
 	return args.at(name).asInt();

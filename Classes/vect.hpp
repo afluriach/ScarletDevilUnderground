@@ -73,6 +73,9 @@ public:
 	//Create a vector with the same length, with angle rounded to nearest discrete step.
 	SpaceVect roundToNearestDirection(int numSlices) const;
 
+	//Return component with largest value
+	cpFloat getMax() const;
+
 	/// x component
 	cpFloat x;
 

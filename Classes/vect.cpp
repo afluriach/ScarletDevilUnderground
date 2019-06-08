@@ -214,6 +214,10 @@ SpaceVect SpaceVect::roundToNearestDirection(int numSlices) const{
 	else return ray(_len, float_pi*2.0 * closest * _step);
 }
 
+cpFloat SpaceVect::getMax() const {
+	return max(x, y);
+}
+
 SpaceVect SpaceVect::rotate(cpFloat angleRadians) const {
     double _cos = cos(angleRadians);
     double _sin = sin(angleRadians);

@@ -377,6 +377,21 @@ void GObject::onEndContactFloorSegment(object_ref<FloorSegment> fs)
 	}
 }
 
+SpaceRect GObject::getBoundingBox() const
+{
+	return cpShapeGetBB(bodyShape);
+}
+
+SpaceVect GObject::getDimensions() const
+{
+	return getBoundingBox().dimensions;
+}
+
+SpaceFloat GObject::getMomentOfInertia() const
+{
+	return cpBodyGetMoment(body);
+}
+
 void GObject::updateRadarPos()
 {
 	if (radar && body)

@@ -101,7 +101,7 @@ RoomSensor::RoomSensor(GSpace* space, ObjectIDType id, const ValueMap& args) :
 		space,
 		id,
 		getObjectPos(args),
-		RectangleBody::getDimensionsFromMap(args),
+		getObjectDimensions(args),
 		getIntOrDefault(args, "name", -1),
 		args
 	)

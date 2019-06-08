@@ -41,31 +41,19 @@ DialogImpl::DialogImpl(const ValueMap& args)
 
 //PHYSICS MIXINS
 
+RectangleBody::RectangleBody(const ValueMap& arg) : dim(getObjectDimensions(arg)) {}
+
 void RectangleBody::initializeBody(GSpace& space)
 {
 	tie(bodyShape, body) = space.createRectangleBody(
         initialCenter,
-        getDimensions(),
+        dim,
         getMass(),
         getType(),
         getLayers(),
         getSensor(),
         this
     );
-}
-
-SpaceFloat RectangleBody::getMomentOfInertia() const{
-    return rectangleMomentOfInertia(getMass(), getDimensions());
-}
-
-SpaceRect RectangleBody::getBoundingBox()
-{
-	return SpaceRect(getPos(), getDimensions());
-}
-
-SpaceVect RectangleBody::getDimensionsFromMap(const ValueMap& arg)
-{
-    return SpaceVect(getFloat(arg, "dim_x"), getFloat(arg, "dim_y"));
 }
 
 void CircleBody::initializeBody(GSpace& space)
@@ -79,21 +67,6 @@ void CircleBody::initializeBody(GSpace& space)
         getSensor(),
         this
     );
-}
-
-SpaceFloat CircleBody::getMomentOfInertia() const{
-    return circleMomentOfInertia(getMass(), getRadius());
-}
-
-SpaceRect CircleBody::getBoundingBox()
-{
-	SpaceFloat radius = getRadius();
-	return SpaceRect(getPos(), SpaceVect(radius*2.0, radius*2.0));
-}
-
-SpaceVect CircleBody::getDimensions() const
-{
-	return SpaceVect(getRadius()*2, getRadius()*2);
 }
 
 ParametricMotion::ParametricMotion(parametric_space_function f, SpaceFloat start, SpaceFloat scale) :

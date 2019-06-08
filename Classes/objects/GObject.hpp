@@ -155,9 +155,10 @@ public:
 	void onContactFloorSegment(object_ref<FloorSegment> fs);
 	void onEndContactFloorSegment(object_ref<FloorSegment> fs);
 
-	virtual SpaceRect getBoundingBox() = 0;
-	virtual SpaceVect getDimensions() const = 0;
+	SpaceRect getBoundingBox() const;
+	SpaceVect getDimensions() const;
 	virtual SpaceFloat getTraction() const;
+	SpaceFloat getMomentOfInertia() const;
 
     SpaceVect getPos() const;
 	SpaceVect getDeltaPos() const;
@@ -188,7 +189,6 @@ public:
 	virtual SpaceFloat getMass() const = 0;
 	virtual SpaceFloat getRadius() const = 0;
 	inline virtual SpaceFloat uk() const { return 0.0; }
-    virtual SpaceFloat getMomentOfInertia() const = 0;
 	virtual GType getType() const = 0;
 	virtual inline bool getSensor() const { return false; }
 	virtual inline PhysicsLayers getLayers() const { return enum_bitwise_or(PhysicsLayers,floor,ground) ; }
