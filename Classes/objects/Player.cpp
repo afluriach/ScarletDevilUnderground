@@ -22,6 +22,7 @@
 #include "GSpace.hpp"
 #include "GState.hpp"
 #include "HUD.hpp"
+#include "physics_context.hpp"
 #include "Player.hpp"
 #include "PlayerFirePattern.hpp"
 #include "PlayerSpell.hpp"
@@ -374,7 +375,10 @@ void Player::checkItemInteraction(const ControlInfo& cs)
 {
 	timerDecrement(interactCooldown);
 
-	InteractibleObject* interactible = space->interactibleObjectFeeler(this, getInteractFeeler());
+	InteractibleObject* interactible = space->physicsContext->interactibleObjectFeeler(
+		this,
+		getInteractFeeler()
+	);
 	
 	if(interactible && interactible->canInteract(this))
     {
@@ -684,7 +688,13 @@ void Player::applyRespawn()
 
 bool Player::canPlaceBomb(SpaceVect pos)
 {
-	return !space->obstacleRadiusQuery(this, pos, 0.5, bombObstacles, PhysicsLayers::ground);
+	return !space->physicsContext->obstacleRadiusQuery(
+		this,
+		pos,
+		0.5,
+		bombObstacles,
+		PhysicsLayers::ground
+	);
 }
 
 const AttributeMap FlandrePC::baseAttributes = {

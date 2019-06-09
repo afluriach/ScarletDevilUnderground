@@ -17,6 +17,7 @@
 #include "graphics_context.hpp"
 #include "GSpace.hpp"
 #include "object_ref.hpp"
+#include "physics_context.hpp"
 #include "util.h"
 #include "value_map.hpp"
 #include "Wall.hpp"
@@ -45,7 +46,7 @@ RectangleBody::RectangleBody(const ValueMap& arg) : dim(getObjectDimensions(arg)
 
 void RectangleBody::initializeBody(GSpace& space)
 {
-	tie(bodyShape, body) = space.createRectangleBody(
+	tie(bodyShape, body) = space.physicsContext->createRectangleBody(
         initialCenter,
         dim,
         getMass(),
@@ -58,7 +59,7 @@ void RectangleBody::initializeBody(GSpace& space)
 
 void CircleBody::initializeBody(GSpace& space)
 {
-    tie(bodyShape, body) = space.createCircleBody(
+    tie(bodyShape, body) = space.physicsContext->createCircleBody(
         initialCenter,
         getRadius(),
         getMass(),

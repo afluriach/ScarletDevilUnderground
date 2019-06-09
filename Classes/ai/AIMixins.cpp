@@ -12,6 +12,7 @@
 #include "AIMixins.hpp"
 #include "GSpace.hpp"
 #include "LuaAPI.hpp"
+#include "physics_context.hpp"
 
 StateMachineObject::StateMachineObject() :
 	fsm(this)
@@ -81,7 +82,7 @@ void RadarObject::init() {
 
 void RadarObject::initializeRadar(GSpace& space)
 {
-    tie(radarShape,radar) = space.createCircleBody(
+    tie(radarShape,radar) = space.physicsContext->createCircleBody(
         initialCenter,
         getRadarRadius(),
         0.1,

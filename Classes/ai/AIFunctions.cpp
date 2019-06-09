@@ -16,6 +16,7 @@
 #include "FirePattern.hpp"
 #include "GSpace.hpp"
 #include "macros.h"
+#include "physics_context.hpp"
 #include "Spell.hpp"
 #include "util.h"
 #include "value_map.hpp"
@@ -514,7 +515,13 @@ void Flank::update(StateMachine& fsm)
 
 bool Flank::wallQuery(StateMachine& fsm, SpaceVect pos)
 {
-	return fsm.agent->space->obstacleRadiusQuery(fsm.agent, pos, wallMargin, GType::wall, PhysicsLayers::all);
+	return fsm.agent->space->physicsContext->obstacleRadiusQuery(
+		fsm.agent,
+		pos, 
+		wallMargin,
+		GType::wall,
+		PhysicsLayers::all
+	);
 }
 
 QuadDirectionLookAround::QuadDirectionLookAround(boost::rational<int> secondsPerDirection, bool clockwise) :
@@ -1046,9 +1053,18 @@ void ThrowBombs::update(StateMachine& fsm)
 
 		if (
 			//can place bomb
-			!fsm.agent->space->obstacleRadiusQuery(fsm.agent, pos, 0.5, bombObstacles, PhysicsLayers::ground) &&
+			!fsm.agent->space->physicsContext->obstacleRadiusQuery(
+				fsm.agent,
+				pos,
+				0.5,
+				bombObstacles,
+				PhysicsLayers::ground
+			) &&
 			//bomb is likely to travel a significant distance
-			fsm.agent->space->obstacleDistanceFeeler(fsm.agent, SpaceVect::ray(1.0 + fuseTime*throwingSpeed, angle)) > blastRadius &&
+			fsm.agent->space->physicsContext->obstacleDistanceFeeler(
+				fsm.agent,
+				SpaceVect::ray(1.0 + fuseTime*throwingSpeed, angle)
+			) > blastRadius &&
 			//predict net gain player-enemy damage
 			score(fsm.agent->space, fsm.agent->getPos(), angle) > 0.5f &&
 			//do not throw bombs when fleeing

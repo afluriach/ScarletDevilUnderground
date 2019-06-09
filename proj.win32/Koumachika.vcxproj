@@ -165,7 +165,6 @@ xcopy "$(ProjectDir)..\Resources" "$(OutDir)" /D /E /I /F /Y</Command>
     <ClCompile Include="..\Classes\Graphics.cpp" />
     <ClCompile Include="..\Classes\graphics_context.cpp" />
     <ClCompile Include="..\Classes\GSpace.cpp" />
-    <ClCompile Include="..\Classes\GSpace_physics.cpp" />
     <ClCompile Include="..\Classes\GState.cpp" />
     <ClCompile Include="..\Classes\HUD.cpp" />
     <ClCompile Include="..\Classes\lua\LuaAPI.cpp" />
@@ -225,6 +224,8 @@ xcopy "$(ProjectDir)..\Resources" "$(OutDir)" /D /E /I /F /Y</Command>
     <ClCompile Include="..\Classes\objects\Torch.cpp" />
     <ClCompile Include="..\Classes\objects\Upgrade.cpp" />
     <ClCompile Include="..\Classes\objects\Wall.cpp" />
+    <ClCompile Include="..\Classes\PhysicsImpl.cpp" />
+    <ClCompile Include="..\Classes\physics_context.cpp" />
     <ClCompile Include="..\Classes\Prefix.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
@@ -351,6 +352,8 @@ xcopy "$(ProjectDir)..\Resources" "$(OutDir)" /D /E /I /F /Y</Command>
     <ClInclude Include="..\Classes\objects\Torch.hpp" />
     <ClInclude Include="..\Classes\objects\Upgrade.hpp" />
     <ClInclude Include="..\Classes\objects\Wall.hpp" />
+    <ClInclude Include="..\Classes\PhysicsImpl.hpp" />
+    <ClInclude Include="..\Classes\physics_context.hpp" />
     <ClInclude Include="..\Classes\Prefix.h" />
     <ClInclude Include="..\Classes\replay.h" />
     <ClInclude Include="..\Classes\Resources.hpp" />

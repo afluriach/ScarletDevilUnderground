@@ -14,6 +14,7 @@
 #include "EnemySpell.hpp"
 #include "graphics_context.hpp"
 #include "GSpace.hpp"
+#include "physics_context.hpp"
 #include "SpellUtil.hpp"
 #include "TeleportPad.hpp"
 #include "Torch.hpp"
@@ -72,7 +73,7 @@ TorchDarkness::TorchDarkness(GObject* caster) :
 
 void TorchDarkness::update()
 {
-	unordered_set<Torch*> crntTorches = caster->space->radiusQueryByType<Torch>(
+	unordered_set<Torch*> crntTorches = caster->space->physicsContext->radiusQueryByType<Torch>(
 		caster,
 		caster->getPos(),
 		radius,

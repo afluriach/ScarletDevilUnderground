@@ -20,6 +20,8 @@
 #include "GSpace.hpp"
 #include "HUD.hpp"
 #include "OverworldScene.hpp"
+#include "physics_context.hpp"
+#include "PhysicsImpl.hpp"
 #include "Player.hpp"
 #include "PlayScene.hpp"
 #include "replay.h"
@@ -37,7 +39,10 @@ GSpace::GSpace(GScene* gscene) :
 {
 	space = cpSpaceNew();
     cpSpaceSetGravity(space, cpv(0,0));
-    addCollisionHandlers();
+
+	physicsContext = make_unique<physics_context>(this);
+	physicsImpl = make_unique<PhysicsImpl>(this);
+    physicsImpl->addCollisionHandlers();
 
 	for (type_index t : trackedTypes) {
 		objByType[t] = unordered_set<GObject*>();
@@ -835,7 +840,11 @@ SpaceVect GSpace::getWaypoint(string name) const
 
 FloorSegment* GSpace::floorSegmentPointQuery(SpaceVect pos)
 {
-	return dynamic_cast<FloorSegment*>(pointQuery(pos, GType::floorSegment, PhysicsLayers::belowFloor));
+	return dynamic_cast<FloorSegment*>(physicsContext->pointQuery(
+		pos,
+		GType::floorSegment,
+		PhysicsLayers::belowFloor
+	));
 }
 
 void GSpace::addNavObstacle(const SpaceVect& center, const SpaceVect& boundingDimensions)

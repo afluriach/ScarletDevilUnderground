@@ -15,6 +15,7 @@
 #include "GSpace.hpp"
 #include "GState.hpp"
 #include "macros.h"
+#include "physics_context.hpp"
 #include "Player.hpp"
 #include "value_map.hpp"
 
@@ -57,7 +58,7 @@ void Door::init()
 	}
 
 	if (!adjacent.isValid() && destinationMap.empty()) {
-		adjacent = dynamic_cast<Door*>(space->queryAdjacentTiles(
+		adjacent = dynamic_cast<Door*>(space->physicsContext->queryAdjacentTiles(
 			getPos(),
 			GType::environment,
 			PhysicsLayers::all,

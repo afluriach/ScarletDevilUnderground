@@ -20,6 +20,7 @@
 #include "macros.h"
 #include "MagicEffect.hpp"
 #include "MiscMagicEffects.hpp"
+#include "physics_context.hpp"
 #include "Player.hpp"
 #include "Spell.hpp"
 #include "SpellDescriptor.hpp"
@@ -103,7 +104,13 @@ void Agent::update()
 
 bool Agent::isBulletObstacle(SpaceVect pos, SpaceFloat radius)
 {
-	return space->obstacleRadiusQuery(this, pos, radius, bulletObstacles, PhysicsLayers::ground);
+	return space->physicsContext->obstacleRadiusQuery(
+		this,
+		pos,
+		radius,
+		bulletObstacles,
+		PhysicsLayers::ground
+	);
 }
 
 void Agent::sendAlert(Player* p)

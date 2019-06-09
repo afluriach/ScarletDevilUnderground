@@ -163,6 +163,8 @@ enum class GType{
 
 extern const GType bombObstacles;
 extern const GType bulletObstacles;
+extern const GType agentObstacles;
+extern const GType interactibleObjects;
 
 enum class PlayerCharacter {
 	flandre = 0,

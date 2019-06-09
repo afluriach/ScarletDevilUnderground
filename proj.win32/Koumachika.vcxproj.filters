@@ -294,9 +294,6 @@
     <ClCompile Include="..\Classes\objects\Bat.cpp">
       <Filter>src\objects</Filter>
     </ClCompile>
-    <ClCompile Include="..\Classes\GSpace_physics.cpp">
-      <Filter>src</Filter>
-    </ClCompile>
     <ClCompile Include="..\Classes\objects\Reimu.cpp">
       <Filter>src\objects</Filter>
     </ClCompile>
@@ -379,6 +376,12 @@
       <Filter>src</Filter>
     </ClCompile>
     <ClCompile Include="..\Classes\audio_context.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\PhysicsImpl.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\physics_context.cpp">
       <Filter>src</Filter>
     </ClCompile>
   </ItemGroup>
@@ -735,6 +738,12 @@
       <Filter>src</Filter>
     </ClInclude>
     <ClInclude Include="..\Classes\app_constants.hpp">
+      <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\PhysicsImpl.hpp">
+      <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\physics_context.hpp">
       <Filter>src</Filter>
     </ClInclude>
   </ItemGroup>

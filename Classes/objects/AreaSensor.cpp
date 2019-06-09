@@ -15,6 +15,7 @@
 #include "graphics_context.hpp"
 #include "GSpace.hpp"
 #include "HUD.hpp"
+#include "physics_context.hpp"
 #include "Player.hpp"
 #include "PlayScene.hpp"
 #include "Spawner.hpp"
@@ -151,7 +152,7 @@ void RoomSensor::init()
 	}
 	trapDoorNames.clear();
 
-	unordered_set<Spawner*> _spawners = space->rectangleQueryByType<Spawner>(
+	unordered_set<Spawner*> _spawners = space->physicsContext->rectangleQueryByType<Spawner>(
 		getPos(),
 		getDimensions(),
 		GType::areaSensor,

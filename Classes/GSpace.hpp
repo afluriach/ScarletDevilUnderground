@@ -41,6 +41,8 @@ class GSpace
 {
 public:
 	friend class GScene;
+	friend class physics_context;
+	friend class PhysicsImpl;
 	typedef pair<ObjectGeneratorType, ObjectIDType> generator_pair;
 
     GSpace(GScene* gscene);    
@@ -66,13 +68,19 @@ public:
     void processAdditions();
 
 	audio_context* audioContext;
+	unique_ptr<physics_context> physicsContext;
 private:
 	unique_ptr<GState> crntState;
 	ChamberID crntChamber;
+
 	//The graphics destination to use for all objects constructed in this space.
 	GScene *const gscene;
 	graphics_context* graphicsContext;
-    unsigned int frame = 0;
+    
+	cpSpace *space = nullptr;
+	unique_ptr<PhysicsImpl> physicsImpl;
+	
+	unsigned int frame = 0;
     IntVec2 spaceSize;
 	unsigned long timeUsed = 0;
 //BEGIN OBJECT MANIPULATION
@@ -358,158 +366,7 @@ private:
 	unordered_map<string, Path> paths;
 	unordered_map<string, SpaceVect> waypoints;
     boost::dynamic_bitset<>* navMask = nullptr;
-//END NAVIGATION
-    
-//BEGIN PHYSICS
-public:
-	typedef pair<GObject*, GObject*> object_pair;
-	typedef pair<GType, GType> collision_type;
-	typedef pair<object_pair, collision_type> contact;
-
-    static const bool logBodyCreation;
-    static const bool logPhysicsHandlers;
-    
-   pair<cpShape*,cpBody*> createCircleBody(
-        const SpaceVect& center,
-        SpaceFloat radius,
-        SpaceFloat mass,
-        GType type,
-        PhysicsLayers layers,
-        bool sensor,
-        GObject* obj
-    );
-   pair<cpShape*, cpBody*> createRectangleBody(
-        const SpaceVect& center,
-        const SpaceVect& dim,
-        SpaceFloat mass,
-        GType type,
-        PhysicsLayers layers,
-        bool sensor,
-        GObject* obj
-    );
-private:
-	static int beginContact(cpArbiter* arb, cpSpace* space, void* data);
-	static void endContact(cpArbiter* arb, cpSpace* space, void* data);
-
-    cpSpace *space = nullptr;
-
-	unordered_map<collision_type, int(GSpace::*)(GObject*, GObject*, cpArbiter*), boost::hash<collision_type>> beginContactHandlers;
-	unordered_map<collision_type, void(GSpace::*)(GObject*, GObject*, cpArbiter*), boost::hash<collision_type>> endContactHandlers;
-
-    void addCollisionHandlers();
-    
-	template<GType TypeA, GType TypeB>
-	inline void AddHandler(int(GSpace::*begin)(GObject*, GObject*, cpArbiter*), void(GSpace::*end)(GObject*, GObject*, cpArbiter*))
-	{
-		cpSpaceAddCollisionHandler(
-			space,
-			to_uint(TypeA),
-			to_uint(TypeB),
-			&GSpace::beginContact,
-			static_cast<cpCollisionPreSolveFunc>(nullptr),
-			static_cast<cpCollisionPostSolveFunc>(nullptr),
-			&GSpace::endContact,
-			this
-		);
-		
-		if(begin)
-			beginContactHandlers[collision_type(TypeA, TypeB)] = begin;
-		if(end)
-			endContactHandlers[collision_type(TypeA,TypeB)] = end;
-	}
-    
-    void logHandler(const string& base, cpArbiter* arb);
-    void logHandler(const string& name, GObject* a, GObject* b);
-    
-	int playerEnemyBegin(GObject* a, GObject* b, cpArbiter* arb);
-	void playerEnemyEnd(GObject* a, GObject* b, cpArbiter* arb);
-	int playerEnemyBulletBegin(GObject* playerObj, GObject* bullet, cpArbiter* arb);
-	int playerGrazeRadarBegin(GObject* playerObj, GObject* bullet, cpArbiter* arb);
-	void playerGrazeRadarEnd(GObject* playerObj, GObject* bullet, cpArbiter* arb);
-	int playerBulletEnemyBegin(GObject* a, GObject* b, cpArbiter* arb);
-	int bulletBulletBegin(GObject* a, GObject* b, cpArbiter* arb);
-	int playerFlowerBegin(GObject* a, GObject* b, cpArbiter* arb);
-    int playerPickupBegin(GObject* a, GObject* b, cpArbiter* arb);
-	int bulletEnvironment(GObject* a, GObject* b, cpArbiter* arb);
-	int noCollide(GObject* a, GObject* b, cpArbiter* arb);
-	int collide(GObject* a, GObject* b, cpArbiter* arb);
-	int bulletWall(GObject* bullet, GObject* unused, cpArbiter* arb);
-	int sensorStart(GObject* radarAgent, GObject* target, cpArbiter* arb);
-	void sensorEnd(GObject* radarAgent, GObject* target, cpArbiter* arb);
-	int floorObjectBegin(GObject* floorSegment, GObject* obj, cpArbiter* arb);
-	void floorObjectEnd(GObject* floorSegment, GObject* obj, cpArbiter* arb);
-	int playerAreaSensorBegin(GObject* a, GObject *b, cpArbiter* arb);
-	void playerAreaSensorEnd(GObject* a, GObject *b, cpArbiter* arb);
-	int enemyAreaSensorBegin(GObject* a, GObject *b, cpArbiter* arb);
-	void enemyAreaSensorEnd(GObject* a, GObject *b, cpArbiter* arb);
-	int npcAreaSensorBegin(GObject* a, GObject *b, cpArbiter* arb);
-	void npcAreaSensorEnd(GObject* a, GObject *b, cpArbiter* arb);
-	int environmentAreaSensorBegin(GObject* obj, GObject* areaSensor, cpArbiter* arb);
-	void environmentAreaSensorEnd(GObject* obj, GObject* areaSensor, cpArbiter* arb);
-
-//END PHYSICS
-
-//BEGIN SENSORS
-public:
-	static const GType interactibleObjects;
-	static const GType obstacles;
-
-	GObject * queryAdjacentTiles(SpaceVect pos, GType type, PhysicsLayers layers, type_index t);
-	GObject * pointQuery(SpaceVect pos, GType type, PhysicsLayers layers);
-	bool rectangleQuery(SpaceVect center, SpaceVect dimensions, GType type, PhysicsLayers layers, SpaceFloat angle = 0.0);
-	SpaceFloat rectangleFeelerQuery(const GObject* agent, SpaceVect center, SpaceVect dimensions, GType type, PhysicsLayers layers, SpaceFloat angle) const;
-	unordered_set<GObject*> rectangleObjectQuery(SpaceVect center, SpaceVect dimensions, GType type, PhysicsLayers layers, SpaceFloat angle = 0.0);
-	bool obstacleRadiusQuery(const GObject* agent, SpaceVect center, SpaceFloat radius, GType type, PhysicsLayers layers);
-	unordered_set<GObject*> radiusQuery(const GObject* agent, SpaceVect center, SpaceFloat radius, GType type, PhysicsLayers layers);
-
-	template<class C>
-	inline unordered_set<C*> radiusQueryByType(const GObject* agent, SpaceVect center, SpaceFloat radius, GType type, PhysicsLayers layers)
-	{
-		unordered_set<GObject*> objects = radiusQuery(agent, center, radius, type, layers);
-		unordered_set<C*> result;
-
-		for (GObject* obj : objects) {
-			C* c = dynamic_cast<C*>(obj);
-			if (c) result.insert(c);
-		}
-		return result;
-	}
-
-	template<class C>
-	unordered_set<C*> rectangleQueryByType(SpaceVect center, SpaceVect dimensions, GType type, PhysicsLayers layers, SpaceFloat angle = 0.0)
-	{
-		unordered_set<GObject*> objects = rectangleObjectQuery(center, dimensions, type, layers, angle);
-		unordered_set<C*> result;
-
-		for (GObject* obj : objects) {
-			C* c = dynamic_cast<C*>(obj);
-			if (c) result.insert(c);
-		}
-		return result;
-	}
-
-    SpaceFloat distanceFeeler(const GObject * agent, SpaceVect feeler, GType gtype) const;
-	SpaceFloat distanceFeeler(const GObject * agent, SpaceVect _feeler, GType gtype, PhysicsLayers layers) const;
-
-	//uses rectangle query (width should be diameter of agent)
-	SpaceFloat obstacleDistanceFeeler(const GObject * agent, SpaceVect feeler, SpaceFloat width) const;
-	//uses line/ray query
-	SpaceFloat obstacleDistanceFeeler(const GObject * agent, SpaceVect feeler) const;
-	SpaceFloat wallDistanceFeeler(const GObject * agent, SpaceVect feeler) const;
-	SpaceFloat trapFloorDistanceFeeler(const GObject* agent, SpaceVect feeler) const;
-
-    bool feeler(const GObject * agent, SpaceVect feeler, GType gtype) const;
-    bool feeler(const GObject * agent, SpaceVect feeler, GType gtype, PhysicsLayers layers) const;
-	GObject* objectFeeler(const GObject * agent, SpaceVect feeler, GType gtype, PhysicsLayers layers) const;
-	//uses rectangle query (width should be diameter of agent)
-	bool obstacleFeeler(const GObject * agent, SpaceVect feeler, SpaceFloat width) const;
-	//uses line/ray
-	bool obstacleFeeler(const GObject * agent, SpaceVect feeler) const;
-    bool wallFeeler(const GObject * agent, SpaceVect feeler) const;
-	InteractibleObject* interactibleObjectFeeler(const GObject* agent, SpaceVect feeler) const;
-
-    bool lineOfSight(const GObject * agent, const GObject * target) const;
-//END SENSORS
+//END NAVIGATION    
 };
 
 #endif /* GSpace_hpp */

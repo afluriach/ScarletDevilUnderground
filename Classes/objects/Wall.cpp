@@ -10,6 +10,7 @@
 
 #include "enum.h"
 #include "GSpace.hpp"
+#include "physics_context.hpp"
 #include "value_map.hpp"
 #include "Wall.hpp"
 
@@ -36,7 +37,7 @@ void BreakableWall::hit()
 {
 	applyBreak();
 
-	BreakableWall* adj = dynamic_cast<BreakableWall*>(space->queryAdjacentTiles(
+	BreakableWall* adj = dynamic_cast<BreakableWall*>(space->physicsContext->queryAdjacentTiles(
 		getPos(),
 		GType::wall,
 		PhysicsLayers::all,

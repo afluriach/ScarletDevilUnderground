@@ -12,6 +12,7 @@
 #include "EffectArea.hpp"
 #include "graphics_context.hpp"
 #include "GSpace.hpp"
+#include "physics_context.hpp"
 #include "Player.hpp"
 #include "Torch.hpp"
 
@@ -63,7 +64,7 @@ DarknessArea::DarknessArea(GSpace* space, ObjectIDType id, const ValueMap& args)
 
 void DarknessArea::init()
 {
-	torches = space->rectangleQueryByType<Torch>(
+	torches = space->physicsContext->rectangleQueryByType<Torch>(
 		getPos(),
 		getDimensions(),
 		GType::environment,

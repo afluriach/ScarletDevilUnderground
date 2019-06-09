@@ -13,12 +13,15 @@
 #include "Bomb.hpp"
 #include "GObject.hpp"
 #include "GSpace.hpp"
+#include "physics_context.hpp"
 #include "SpellUtil.hpp"
 #include "Wall.hpp"
 
 void explosion(const GObject* source, SpaceFloat radius, DamageInfo baseDamage)
 {
-	unordered_set<Agent*> targets = source->space->radiusQueryByType<Agent>(
+	physics_context* physicsContext = source->space->physicsContext.get();
+
+	unordered_set<Agent*> targets = physicsContext->radiusQueryByType<Agent>(
 		source,
 		source->getPos(),
 		radius,
@@ -36,7 +39,7 @@ void explosion(const GObject* source, SpaceFloat radius, DamageInfo baseDamage)
 		applyKnockback(source, target, knockback);
 	}
 
-	unordered_set<BreakableWall*> walls = source->space->radiusQueryByType<BreakableWall>(
+	unordered_set<BreakableWall*> walls = physicsContext->radiusQueryByType<BreakableWall>(
 		source,
 		source->getPos(),
 		radius,
@@ -48,7 +51,7 @@ void explosion(const GObject* source, SpaceFloat radius, DamageInfo baseDamage)
 		bw->hit();
 	}
 
-	unordered_set<Bomb*> bombs = source->space->radiusQueryByType<Bomb>(
+	unordered_set<Bomb*> bombs = physicsContext->radiusQueryByType<Bomb>(
 		source,
 		source->getPos(),
 		radius,
@@ -87,7 +90,7 @@ void applyKnockback(const GObject* source, GObject* target, SpaceFloat mag)
 
 void radialEffectArea(const GObject* source, SpaceFloat radius, GType targets, DamageInfo damage)
 {
-	unordered_set<Agent*> agents = source->space->radiusQueryByType<Agent>(
+	unordered_set<Agent*> agents = source->space->physicsContext->radiusQueryByType<Agent>(
 		source,
 		source->getPos(),
 		radius,

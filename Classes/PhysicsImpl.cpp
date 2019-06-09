@@ -1,5 +1,5 @@
 //
-//  GSpace_physics.cpp
+//  PhysicsImpl.cpp
 //  Koumachika
 //
 //  Created by Toni on 2/21/19.
@@ -18,20 +18,22 @@
 #include "GSpace.hpp"
 #include "InventoryObject.hpp"
 #include "MapFragment.hpp"
+#include "PhysicsImpl.hpp"
 #include "Player.hpp"
 #include "Upgrade.hpp"
 #include "util.h"
 #include "Wall.hpp"
 
-//BEGIN PHYSICS
-#define _addHandler(a,b,begin,end) AddHandler<GType::a, GType::b>(&GSpace::begin,&GSpace::end)
-#define _addHandlerNoEnd(a,b,begin) AddHandler<GType::a, GType::b>(&GSpace::begin,nullptr)
+PhysicsImpl::PhysicsImpl(GSpace* space) :
+	gspace(space),
+	physicsSpace(space->space)
+{}
 
-int GSpace::beginContact(cpArbiter* arb, cpSpace* space, void* data)
+int PhysicsImpl::beginContact(cpArbiter* arb, cpSpace* space, void* data)
 {
-	OBJS_FROM_ARB
+	OBJS_FROM_ARB;
 
-		GSpace* _this = static_cast<GSpace*>(data);
+	PhysicsImpl* _this = static_cast<PhysicsImpl*>(data);
 
 	GType typeA = static_cast<GType>(arb->a_private->collision_type);
 	GType typeB = static_cast<GType>(arb->b_private->collision_type);
@@ -48,18 +50,18 @@ int GSpace::beginContact(cpArbiter* arb, cpSpace* space, void* data)
 		return 0;
 
 	if (a && b && it->second) {
-		int(GSpace::*begin_method)(GObject*, GObject*, cpArbiter*) = it->second;
+		int(PhysicsImpl::*begin_method)(GObject*, GObject*, cpArbiter*) = it->second;
 		return (_this->*begin_method)(a, b, arb);
 	}
 
 	return 1;
 }
 
-void GSpace::endContact(cpArbiter* arb, cpSpace* space, void* data)
+void PhysicsImpl::endContact(cpArbiter* arb, cpSpace* space, void* data)
 {
-	OBJS_FROM_ARB
+	OBJS_FROM_ARB;
 
-		GSpace* _this = static_cast<GSpace*>(data);
+	PhysicsImpl* _this = static_cast<PhysicsImpl*>(data);
 
 	GType typeA = static_cast<GType>(arb->a_private->collision_type);
 	GType typeB = static_cast<GType>(arb->b_private->collision_type);
@@ -75,13 +77,15 @@ void GSpace::endContact(cpArbiter* arb, cpSpace* space, void* data)
 		return;
 
 	if (a && b && it->second) {
-		void(GSpace::*end_method)(GObject*, GObject*, cpArbiter* arb) = it->second;
+		void(PhysicsImpl::*end_method)(GObject*, GObject*, cpArbiter* arb) = it->second;
 		(_this->*end_method)(a, b, arb);
 	}
 }
 
+#define _addHandler(a,b,begin,end) AddHandler<GType::a, GType::b>(&PhysicsImpl::begin,&PhysicsImpl::end)
+#define _addHandlerNoEnd(a,b,begin) AddHandler<GType::a, GType::b>(&PhysicsImpl::begin,nullptr)
 
-void GSpace::addCollisionHandlers()
+void PhysicsImpl::addCollisionHandlers()
 {
 	_addHandler(player, enemy, playerEnemyBegin, playerEnemyEnd);
 	_addHandlerNoEnd(player, enemyBullet, playerEnemyBulletBegin);
@@ -119,111 +123,9 @@ void GSpace::addCollisionHandlers()
 	_addHandler(environment, areaSensor, environmentAreaSensorBegin, environmentAreaSensorEnd);
 }
 
-const bool GSpace::logBodyCreation = false;
-const bool GSpace::logPhysicsHandlers = false;
+const bool PhysicsImpl::logPhysicsHandlers = false;
 
-void setShapeProperties(cpShape* shape, PhysicsLayers layers, GType type, bool sensor)
-{
-    shape->layers = to_uint(layers);
-    shape->group = 0;
-	shape->collision_type = to_uint(type);
-	shape->sensor = sensor;
-}
-
-pair<cpShape*, cpBody*> GSpace::createCircleBody(
-    const SpaceVect& center,
-    SpaceFloat radius,
-    SpaceFloat mass,
-    GType type,
-    PhysicsLayers layers,
-    bool sensor,
-    GObject* obj)
-{
-    if(logBodyCreation) log(
-        "createCircleBody for %s at %f,%f, mass: %f",
-        obj->name.c_str(),
-        expand_vector2(center),
-        mass
-    );
-    
-    if(radius == 0)
-        log("createCircleBody: zero radius for %s.", obj->name.c_str());
-    
-	cpBody* body;
-	cpShape* shape;
-
-    if(mass <= 0.0){
-        body = cpBodyNewStatic();
-        if(type == GType::environment || type == GType::wall)
-            addNavObstacle(center, SpaceVect(radius*2.0, radius*2.0));
-    }
-    else{
-        body = cpBodyNew(mass, circleMomentOfInertia(mass, radius));
-		cpSpaceAddBody(space, body);
-	}
-
-	cpBodySetPos(body, center);
-
-    shape = cpCircleShapeNew(body, radius, cpvzero);
-	cpSpaceAddShape(space, shape);
-    
-    setShapeProperties(shape, layers, type, sensor);
-    
-	shape->data = obj;
-	body->data = obj;
-
-    return make_pair(shape,body);
-}
-
-pair<cpShape*, cpBody*> GSpace::createRectangleBody(
-    const SpaceVect& center,
-    const SpaceVect& dim,
-    SpaceFloat mass,
-    GType type,
-    PhysicsLayers layers,
-    bool sensor,
-    GObject* obj)
-{
-    if(logBodyCreation && obj) log(
-        "Creating rectangle body for %s. %f x %f at %f,%f, mass: %f",
-        obj->name.c_str(),
-        expand_vector2(dim),
-        expand_vector2(center),
-        mass
-    );
-    
-    if(dim.x == 0 && obj)
-        log("createRectangleBody: zero width for %s.", obj->name.c_str());
-    if(dim.y == 0 && obj)
-        log("createRectangleBody: zero height for %s.", obj->name.c_str());
-
-	cpBody* body;
-	cpShape* shape;
-
-	if (mass <= 0.0) {
-		body = cpBodyNewStatic();
-		if (type == GType::environment || type == GType::wall)
-			addNavObstacle(center, dim);
-	}
-	else {
-		body = cpBodyNew(mass, rectangleMomentOfInertia(mass, dim));
-		cpSpaceAddBody(space, body);
-	}
-    
-	cpBodySetPos(body, center);
-
-	shape = cpBoxShapeNew(body, dim.x, dim.y);
-	cpSpaceAddShape(space, shape);
-
-	setShapeProperties(shape, layers, type, sensor);
-
-	shape->data = obj;
-	body->data = obj;
-
-	return make_pair(shape, body);
-}
-
-void GSpace::logHandler(const string& base, cpArbiter* arb)
+void PhysicsImpl::logHandler(const string& base, cpArbiter* arb)
 {
     if(logPhysicsHandlers){
         OBJS_FROM_ARB
@@ -232,13 +134,13 @@ void GSpace::logHandler(const string& base, cpArbiter* arb)
     }
 }
 
-void GSpace::logHandler(const string& name, GObject* a, GObject* b)
+void PhysicsImpl::logHandler(const string& name, GObject* a, GObject* b)
 {
     if(logPhysicsHandlers)
         log("%s: %s, %s", name.c_str(), a->name.c_str(), b->name.c_str());
 }
 
-int GSpace::playerEnemyBegin(GObject* a, GObject* b, cpArbiter* arb)
+int PhysicsImpl::playerEnemyBegin(GObject* a, GObject* b, cpArbiter* arb)
 {    
     Player* p = dynamic_cast<Player*>(a);
     Enemy* e = dynamic_cast<Enemy*>(b);
@@ -256,7 +158,7 @@ int GSpace::playerEnemyBegin(GObject* a, GObject* b, cpArbiter* arb)
     return 1;
 }
 
-void GSpace::playerEnemyEnd(GObject* a, GObject* b, cpArbiter* arb)
+void PhysicsImpl::playerEnemyEnd(GObject* a, GObject* b, cpArbiter* arb)
 {
 	Player* p = dynamic_cast<Player*>(a);
 	Enemy* e = dynamic_cast<Enemy*>(b);
@@ -269,7 +171,7 @@ void GSpace::playerEnemyEnd(GObject* a, GObject* b, cpArbiter* arb)
 	logHandler("playerEnemyEnd", a,b);
 }
 
-int GSpace::playerEnemyBulletBegin(GObject* playerObj, GObject* bullet, cpArbiter* arb)
+int PhysicsImpl::playerEnemyBulletBegin(GObject* playerObj, GObject* bullet, cpArbiter* arb)
 {
     Player* player = dynamic_cast<Player*>(playerObj);
 	EnemyBullet* _bullet = dynamic_cast<EnemyBullet*>(bullet);
@@ -285,7 +187,7 @@ int GSpace::playerEnemyBulletBegin(GObject* playerObj, GObject* bullet, cpArbite
     return 1;
 }
 
-int GSpace::playerGrazeRadarBegin(GObject* playerRadar, GObject* bullet, cpArbiter* arb)
+int PhysicsImpl::playerGrazeRadarBegin(GObject* playerRadar, GObject* bullet, cpArbiter* arb)
 {
 	Player* player = dynamic_cast<Player*>(playerRadar);
 	EnemyBullet* _bullet = dynamic_cast<EnemyBullet*>(bullet);
@@ -297,7 +199,7 @@ int GSpace::playerGrazeRadarBegin(GObject* playerRadar, GObject* bullet, cpArbit
 	return 1;
 }
 
-void GSpace::playerGrazeRadarEnd(GObject* playerRadar, GObject* bullet, cpArbiter* arb)
+void PhysicsImpl::playerGrazeRadarEnd(GObject* playerRadar, GObject* bullet, cpArbiter* arb)
 {
 	Player* player = dynamic_cast<Player*>(playerRadar);
 	EnemyBullet* _bullet = dynamic_cast<EnemyBullet*>(bullet);
@@ -307,7 +209,7 @@ void GSpace::playerGrazeRadarEnd(GObject* playerRadar, GObject* bullet, cpArbite
 	}
 }
 
-int GSpace::playerBulletEnemyBegin(GObject* a, GObject* b, cpArbiter* arb)
+int PhysicsImpl::playerBulletEnemyBegin(GObject* a, GObject* b, cpArbiter* arb)
 {    
     Bullet* bullet = dynamic_cast<Bullet*>(a);
     Agent* _enemy_agent = dynamic_cast<Agent*>(b);
@@ -328,7 +230,7 @@ int GSpace::playerBulletEnemyBegin(GObject* a, GObject* b, cpArbiter* arb)
     return 1;
 }
 
-int GSpace::bulletBulletBegin(GObject* a, GObject* b, cpArbiter* arb)
+int PhysicsImpl::bulletBulletBegin(GObject* a, GObject* b, cpArbiter* arb)
 {
 	Bullet* _a = dynamic_cast<Bullet*>(a);
 	Bullet* _b = dynamic_cast<Bullet*>(b);
@@ -341,7 +243,7 @@ int GSpace::bulletBulletBegin(GObject* a, GObject* b, cpArbiter* arb)
 	return 0;
 }
 
-int GSpace::playerFlowerBegin(GObject* a, GObject* b, cpArbiter* arb)
+int PhysicsImpl::playerFlowerBegin(GObject* a, GObject* b, cpArbiter* arb)
 {
     if(logPhysicsHandlers)
         log("%s stepped on", b->name.c_str());
@@ -349,7 +251,7 @@ int GSpace::playerFlowerBegin(GObject* a, GObject* b, cpArbiter* arb)
     return 1;
 }
 
-int GSpace::playerPickupBegin(GObject* a, GObject* b, cpArbiter* arb)
+int PhysicsImpl::playerPickupBegin(GObject* a, GObject* b, cpArbiter* arb)
 {
     Player* p = dynamic_cast<Player*>(a);
     
@@ -369,7 +271,7 @@ int GSpace::playerPickupBegin(GObject* a, GObject* b, cpArbiter* arb)
     return 0;
 }
 
-int GSpace::bulletEnvironment(GObject* bullet, GObject* environment, cpArbiter* arb)
+int PhysicsImpl::bulletEnvironment(GObject* bullet, GObject* environment, cpArbiter* arb)
 {
 	Bullet* _b = dynamic_cast<Bullet*>(bullet);
 	bool _sensor = cpShapeGetSensor(environment->bodyShape);
@@ -387,17 +289,17 @@ int GSpace::bulletEnvironment(GObject* bullet, GObject* environment, cpArbiter* 
     return 1;
 }
 
-int GSpace::noCollide(GObject* a, GObject* b, cpArbiter* arb)
+int PhysicsImpl::noCollide(GObject* a, GObject* b, cpArbiter* arb)
 {
     return 0;
 }
 
-int GSpace::collide(GObject* a, GObject* b, cpArbiter* arb)
+int PhysicsImpl::collide(GObject* a, GObject* b, cpArbiter* arb)
 {
     return 1;
 }
 
-int GSpace::bulletWall(GObject* bullet, GObject* wall, cpArbiter* arb)
+int PhysicsImpl::bulletWall(GObject* bullet, GObject* wall, cpArbiter* arb)
 {
 	Bullet* _b = dynamic_cast<Bullet*>(bullet);
 	Wall* _w = dynamic_cast<Wall*>(wall);
@@ -411,7 +313,7 @@ int GSpace::bulletWall(GObject* bullet, GObject* wall, cpArbiter* arb)
     return 1;
 }
 
-int GSpace::sensorStart(GObject* radarAgent, GObject* target, cpArbiter* arb)
+int PhysicsImpl::sensorStart(GObject* radarAgent, GObject* target, cpArbiter* arb)
 {
     RadarObject* radarObject = dynamic_cast<RadarObject*>(radarAgent);
 
@@ -427,7 +329,7 @@ int GSpace::sensorStart(GObject* radarAgent, GObject* target, cpArbiter* arb)
 	return 1;
 }
 
-void GSpace::sensorEnd(GObject* radarAgent, GObject* target, cpArbiter* arb)
+void PhysicsImpl::sensorEnd(GObject* radarAgent, GObject* target, cpArbiter* arb)
 {
     RadarObject* radarObject = dynamic_cast<RadarObject*>(radarAgent);
     
@@ -441,7 +343,7 @@ void GSpace::sensorEnd(GObject* radarAgent, GObject* target, cpArbiter* arb)
 	}
 }
 
-int GSpace::floorObjectBegin(GObject* floorSegment, GObject* obj, cpArbiter* arb)
+int PhysicsImpl::floorObjectBegin(GObject* floorSegment, GObject* obj, cpArbiter* arb)
 {
 	FloorSegment* fs = dynamic_cast<FloorSegment*>(floorSegment);
 
@@ -460,7 +362,7 @@ int GSpace::floorObjectBegin(GObject* floorSegment, GObject* obj, cpArbiter* arb
 	}
 }
 
-void GSpace::floorObjectEnd(GObject* floorSegment, GObject* obj, cpArbiter* arb)
+void PhysicsImpl::floorObjectEnd(GObject* floorSegment, GObject* obj, cpArbiter* arb)
 {
 	FloorSegment* fs = dynamic_cast<FloorSegment*>(floorSegment);
 
@@ -478,7 +380,7 @@ void GSpace::floorObjectEnd(GObject* floorSegment, GObject* obj, cpArbiter* arb)
 	}
 }
 
-int GSpace::playerAreaSensorBegin(GObject* a, GObject *b, cpArbiter* arb)
+int PhysicsImpl::playerAreaSensorBegin(GObject* a, GObject *b, cpArbiter* arb)
 {
 	Player* p = dynamic_cast<Player*>(a);
 	AreaSensor* as = dynamic_cast<AreaSensor*>(b);
@@ -489,7 +391,7 @@ int GSpace::playerAreaSensorBegin(GObject* a, GObject *b, cpArbiter* arb)
 	return 1;
 }
 
-void GSpace::playerAreaSensorEnd(GObject* a, GObject *b, cpArbiter* arb)
+void PhysicsImpl::playerAreaSensorEnd(GObject* a, GObject *b, cpArbiter* arb)
 {
 	Player* p = dynamic_cast<Player*>(a);
 	AreaSensor* as = dynamic_cast<AreaSensor*>(b);
@@ -499,7 +401,7 @@ void GSpace::playerAreaSensorEnd(GObject* a, GObject *b, cpArbiter* arb)
 	}
 }
 
-int GSpace::enemyAreaSensorBegin(GObject* a, GObject *b, cpArbiter* arb)
+int PhysicsImpl::enemyAreaSensorBegin(GObject* a, GObject *b, cpArbiter* arb)
 {
 	Enemy* e = dynamic_cast<Enemy*>(a);
 	AreaSensor* as = dynamic_cast<AreaSensor*>(b);
@@ -510,7 +412,7 @@ int GSpace::enemyAreaSensorBegin(GObject* a, GObject *b, cpArbiter* arb)
 	return 1;
 }
 
-void GSpace::enemyAreaSensorEnd(GObject* a, GObject *b, cpArbiter* arb)
+void PhysicsImpl::enemyAreaSensorEnd(GObject* a, GObject *b, cpArbiter* arb)
 {
 	Enemy* e = dynamic_cast<Enemy*>(a);
 	AreaSensor* as = dynamic_cast<AreaSensor*>(b);
@@ -520,7 +422,7 @@ void GSpace::enemyAreaSensorEnd(GObject* a, GObject *b, cpArbiter* arb)
 	}
 }
 
-int GSpace::npcAreaSensorBegin(GObject* a, GObject *b, cpArbiter* arb)
+int PhysicsImpl::npcAreaSensorBegin(GObject* a, GObject *b, cpArbiter* arb)
 {
 	Agent* npc = dynamic_cast<Agent*>(a);
 	AreaSensor* as = dynamic_cast<AreaSensor*>(b);
@@ -531,7 +433,7 @@ int GSpace::npcAreaSensorBegin(GObject* a, GObject *b, cpArbiter* arb)
 	return 1;
 }
 
-void GSpace::npcAreaSensorEnd(GObject* a, GObject *b, cpArbiter* arb)
+void PhysicsImpl::npcAreaSensorEnd(GObject* a, GObject *b, cpArbiter* arb)
 {
 	Agent* npc = dynamic_cast<Agent*>(a);
 	AreaSensor* as = dynamic_cast<AreaSensor*>(b);
@@ -541,7 +443,7 @@ void GSpace::npcAreaSensorEnd(GObject* a, GObject *b, cpArbiter* arb)
 	}
 }
 
-int GSpace::environmentAreaSensorBegin(GObject* obj, GObject* areaSensor, cpArbiter* arb)
+int PhysicsImpl::environmentAreaSensorBegin(GObject* obj, GObject* areaSensor, cpArbiter* arb)
 {
 	AreaSensor* _s = dynamic_cast<AreaSensor*>(areaSensor);
 
@@ -552,7 +454,7 @@ int GSpace::environmentAreaSensorBegin(GObject* obj, GObject* areaSensor, cpArbi
 	return 1;
 }
 
-void GSpace::environmentAreaSensorEnd(GObject* areaSensor, GObject* obj, cpArbiter* arb)
+void PhysicsImpl::environmentAreaSensorEnd(GObject* areaSensor, GObject* obj, cpArbiter* arb)
 {
 	AreaSensor* _s = dynamic_cast<AreaSensor*>(areaSensor);
 
@@ -560,310 +462,3 @@ void GSpace::environmentAreaSensorEnd(GObject* areaSensor, GObject* obj, cpArbit
 		_s->onEnvironmentalObjectEndContact(obj);
 	}
 }
-
-//END PHYSICS
-
-//BEGIN SENSORS
-
-const GType GSpace::interactibleObjects = enum_bitwise_or(GType, npc, environment);
-const GType GSpace::obstacles = enum_bitwise_or5(GType, wall, enemy, environment, npc, player);
-
-struct FeelerData
-{
-	//input data
-	const GObject* agent = nullptr;
-	unsigned int gtype;
-
-	//output data
-	double distance = 1.0;
-	GObject* result = nullptr;
-};
-
-void feelerCallback(cpShape *shape, cpFloat t, cpVect n, void *data)
-{
-	FeelerData* queryData = static_cast<FeelerData*>(data);
-	GObject* obj = to_gobject(shape->data);
-
-	if (obj && (to_uint(shape->collision_type) & queryData->gtype) && obj != queryData->agent && t < queryData->distance && t != 0.0) {
-		queryData->distance = t;
-		queryData->result = obj;
-	}
-}
-
-struct PointQueryData
-{
-	//input data
-	const GObject* agent;
-	unsigned int gtype;
-
-	//output
-	GObject* result = nullptr;
-};
-
-void pointQueryCallback(cpShape *shape, void *data)
-{
-	PointQueryData* queryData = static_cast<PointQueryData*>(data);
-	GObject* obj = to_gobject(shape->data);
-
-	if (obj && (to_uint(shape->collision_type) & queryData->gtype)) {
-		queryData->result = obj;
-	}
-}
-
-struct ShapeQueryData
-{
-	const GObject* agent;
-	unsigned gtype;
-
-	unordered_set<GObject*> results;
-};
-
-void shapeQueryCallback(cpShape *shape, cpContactPointSet *points, void *data)
-{
-	ShapeQueryData* queryData = static_cast<ShapeQueryData*>(data);
-	GObject* obj = to_gobject(shape->data);
-
-	if (obj && obj != queryData->agent && (to_uint(shape->collision_type) & queryData->gtype)) {
-		queryData->results.insert(obj);
-	}
-}
-
-struct FeelerQueryData
-{
-	const GObject* agent;
-	unsigned int gtype;
-	cpBody* queryBody;
-
-	SpaceFloat distance = 0.0;
-};
-
-void feelerQueryCallback(cpShape* shape, cpContactPointSet* points, void* data)
-{
-	FeelerQueryData* queryData = static_cast<FeelerQueryData*>(data);
-	GObject* obj = to_gobject(shape->data);
-
-	if (obj && obj != queryData->agent && (to_uint(shape->collision_type) & queryData->gtype)) {
-		for_irange(i, 0, points->count) {
-			SpaceVect local = cpBodyWorld2Local(queryData->queryBody, points->points[i].point);
-			queryData->distance = min(queryData->distance, local.x);
-		}
-	}
-}
-
-SpaceFloat GSpace::distanceFeeler(const GObject * agent, SpaceVect _feeler, GType gtype) const
-{
-	return distanceFeeler(agent, _feeler, gtype, PhysicsLayers::all);
-}
-
-SpaceFloat GSpace::distanceFeeler(const GObject * agent, SpaceVect _feeler, GType gtype, PhysicsLayers layers) const
-{
-    SpaceVect start = agent->getPos();
-    SpaceVect end = start + _feeler;
-	FeelerData queryData = { agent, to_uint(gtype) };
-
-	cpSpaceSegmentQuery(space, start, end, to_uint(layers), 0, feelerCallback, &queryData);
-        
-    return queryData.distance*_feeler.length();
-}
-
-SpaceFloat GSpace::wallDistanceFeeler(const GObject * agent, SpaceVect feeler) const
-{
-    return distanceFeeler(agent, feeler, GType::wall);
-}
-
-SpaceFloat GSpace::obstacleDistanceFeeler(const GObject * agent, SpaceVect _feeler) const
-{
-	SpaceFloat d = distanceFeeler(
-		agent,
-		_feeler,
-		obstacles,
-		agent->getCrntLayers()
-	);
-
-    return min(d, agent->isOnFloor() ? trapFloorDistanceFeeler(agent,_feeler) : _feeler.length());
-}
-
-SpaceFloat GSpace::obstacleDistanceFeeler(const GObject * agent, SpaceVect feeler, SpaceFloat width) const
-{
-	SpaceVect start = agent->getPos();
-	SpaceVect center = agent->getPos() + feeler*0.5;
-	SpaceVect dimensions(feeler.length(), width);
-
-	return rectangleFeelerQuery(
-		agent,
-		center,
-		dimensions,
-		obstacles,
-		PhysicsLayers::all,
-		feeler.toAngle()
-	);
-}
-
-SpaceFloat GSpace::trapFloorDistanceFeeler(const GObject* agent, SpaceVect feeler) const
-{
-	return distanceFeeler(agent, feeler, GType::floorSegment, PhysicsLayers::belowFloor);
-}
-
-bool GSpace::feeler(const GObject * agent, SpaceVect _feeler, GType gtype) const
-{
-    return feeler(agent,_feeler, gtype, PhysicsLayers::all);
-}
-
-bool GSpace::feeler(const GObject * agent, SpaceVect _feeler, GType gtype, PhysicsLayers layers) const
-{
-    SpaceVect start = agent->getPos();
-    SpaceVect end = start + _feeler;
-	FeelerData queryData = { agent, to_uint(gtype) };
-
-	cpSpaceSegmentQuery(space, start, end, to_uint(layers), 0, feelerCallback, &queryData);
-
-    return queryData.distance < 1.0;
-}
-
-GObject* GSpace::objectFeeler(const GObject * agent, SpaceVect feeler, GType gtype, PhysicsLayers layers) const
-{
-	SpaceVect start = agent->getPos();
-	SpaceVect end = start + feeler;
-	FeelerData queryData = { agent, to_uint(gtype) };
-
-	cpSpaceSegmentQuery(space, start, end, to_uint(layers), 0, feelerCallback, &queryData);
-
-	return queryData.result;
-}
-
-bool GSpace::wallFeeler(const GObject * agent, SpaceVect _feeler) const
-{
-    return feeler(agent, _feeler, GType::wall);
-}
-
-bool GSpace::obstacleFeeler(const GObject * agent, SpaceVect feeler, SpaceFloat width) const
-{
-	return obstacleDistanceFeeler(agent, feeler, width) < feeler.length();
-}
-
-bool GSpace::obstacleFeeler(const GObject * agent, SpaceVect _feeler) const
-{
-	return feeler(
-		agent,
-		_feeler,
-		obstacles,
-		agent->getCrntLayers()
-	);
-}
-
-InteractibleObject* GSpace::interactibleObjectFeeler(const GObject* agent, SpaceVect feeler) const
-{
-	GObject* obj = objectFeeler(
-		agent,
-		feeler,
-		interactibleObjects,
-		agent->getCrntLayers()
-	);
-
-	return dynamic_cast<InteractibleObject*>(obj);
-}
-
-bool GSpace::lineOfSight(const GObject* agent, const GObject * target) const
-{
-    SpaceVect feeler_displacement = target->getPos() - agent->getPos();
-
-	return !feeler(
-		agent,
-		feeler_displacement,
-		enum_bitwise_or(GType,environment, wall),
-		PhysicsLayers::eyeLevel
-	);
-}
-
-GObject * GSpace::queryAdjacentTiles(SpaceVect pos, GType type, PhysicsLayers layers, type_index t)
-{
-	enum_foreach(Direction, d, right, end)
-	{
-		GObject* result = pointQuery(pos + dirToVector(d), type, layers);
-
-		if (result && type_index(typeid(*result)) == t) {
-			return result;
-		}
-	}
-
-	return nullptr;
-}
-
-GObject * GSpace::pointQuery(SpaceVect pos, GType type, PhysicsLayers layers)
-{
-	PointQueryData queryData = { nullptr, to_uint(type) };
-
-	cpSpacePointQuery(space, pos, to_uint(layers), 0, pointQueryCallback, &queryData);
-
-	return queryData.result;
-}
-
-bool GSpace::rectangleQuery(SpaceVect center, SpaceVect dimensions, GType type, PhysicsLayers layers, SpaceFloat angle)
-{
-	ShapeQueryData data = { nullptr, to_uint(type) };
-	cpBody* body = cpBodyNewStatic();
-	cpShape* area = cpBoxShapeNew(body, dimensions.x, dimensions.y);
-
-	cpBodySetPos(body, center);
-	cpBodySetAngle(body, angle);
-	setShapeProperties(area, layers, GType::none, false);
-
-	cpSpaceShapeQuery(space, area, shapeQueryCallback, &data);
-	cpBodyFree(body);
-
-	return !data.results.empty();
-}
-
-SpaceFloat GSpace::rectangleFeelerQuery(const GObject* agent, SpaceVect center, SpaceVect dimensions, GType type, PhysicsLayers layers, SpaceFloat angle) const
-{
-	cpBody* body = cpBodyNewStatic();
-	FeelerQueryData data = { agent, to_uint(type), body, dimensions.x };
-	cpShape* area = cpBoxShapeNew(body, dimensions.x, dimensions.y);
-
-	cpBodySetPos(body, center);
-	cpBodySetAngle(body, angle);
-	setShapeProperties(area, layers, GType::none, false);
-
-	cpSpaceShapeQuery(space, area, feelerQueryCallback, &data);
-	cpBodyFree(body);
-
-	return data.distance;
-}
-
-unordered_set<GObject*> GSpace::rectangleObjectQuery(SpaceVect center, SpaceVect dimensions, GType type, PhysicsLayers layers, SpaceFloat angle)
-{
-	ShapeQueryData data = { nullptr, to_uint(type) };
-	cpBody* body = cpBodyNewStatic();
-	cpShape* area = cpBoxShapeNew(body, dimensions.x, dimensions.y);
-
-	cpBodySetPos(body, center);
-	cpBodySetAngle(body, angle);
-	setShapeProperties(area, layers, GType::none, false);
-
-	cpSpaceShapeQuery(space, area, shapeQueryCallback, &data);
-	cpBodyFree(body);
-
-	return data.results;
-}
-
-bool GSpace::obstacleRadiusQuery(const GObject* agent, SpaceVect center, SpaceFloat radius, GType type, PhysicsLayers layers)
-{
-	return radiusQuery(agent, center, radius, type, layers).size() > 0;
-}
-
-unordered_set<GObject*> GSpace::radiusQuery(const GObject* agent, SpaceVect center, SpaceFloat radius, GType type, PhysicsLayers layers)
-{
-	ShapeQueryData data = { agent, to_uint(type) };
-	cpBody* body = cpBodyNewStatic();
-	cpShape* circle = cpCircleShapeNew(body, radius, SpaceVect::zero);
-
-	cpBodySetPos(body, center);
-	setShapeProperties(circle, layers, GType::none, false);
-
-	cpSpaceShapeQuery(space, circle, shapeQueryCallback, &data);
-	cpBodyFree(body);
-
-	return data.results;
-}
-
-//END SENSORS
