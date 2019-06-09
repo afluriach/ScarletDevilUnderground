@@ -159,8 +159,10 @@ xcopy "$(ProjectDir)..\Resources" "$(OutDir)" /D /E /I /F /Y</Command>
     <ClCompile Include="..\Classes\ControlMapping.cpp" />
     <ClCompile Include="..\Classes\controls.cpp" />
     <ClCompile Include="..\Classes\FileIO.cpp" />
+    <ClCompile Include="..\Classes\Graph.cpp" />
     <ClCompile Include="..\Classes\graphics\GAnimation.cpp" />
     <ClCompile Include="..\Classes\graphics\Graphics.cpp" />
+    <ClCompile Include="..\Classes\graphics\GraphicsNodes.cpp" />
     <ClCompile Include="..\Classes\graphics\graphics_context.cpp" />
     <ClCompile Include="..\Classes\GSpace.cpp" />
     <ClCompile Include="..\Classes\GState.cpp" />
@@ -284,8 +286,10 @@ xcopy "$(ProjectDir)..\Resources" "$(OutDir)" /D /E /I /F /Y</Command>
     <ClInclude Include="..\Classes\enum.h" />
     <ClInclude Include="..\Classes\FileIO.hpp" />
     <ClInclude Include="..\Classes\functional.hpp" />
+    <ClInclude Include="..\Classes\Graph.hpp" />
     <ClInclude Include="..\Classes\graphics\GAnimation.hpp" />
     <ClInclude Include="..\Classes\graphics\Graphics.h" />
+    <ClInclude Include="..\Classes\graphics\GraphicsNodes.hpp" />
     <ClInclude Include="..\Classes\graphics\graphics_context.hpp" />
     <ClInclude Include="..\Classes\graphics\graphics_types.h" />
     <ClInclude Include="..\Classes\GSpace.hpp" />

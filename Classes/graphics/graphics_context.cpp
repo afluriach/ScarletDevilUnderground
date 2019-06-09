@@ -12,6 +12,8 @@
 #include "GAnimation.hpp"
 #include "Graphics.h"
 #include "graphics_context.hpp"
+#include "GraphicsNodes.hpp"
+#include "graphics_types.h"
 #include "GScene.hpp"
 #include "macros.h"
 #include "util.h"

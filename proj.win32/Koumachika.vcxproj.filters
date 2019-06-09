@@ -387,6 +387,12 @@
     <ClCompile Include="..\Classes\graphics\graphics_context.cpp">
       <Filter>src\graphics</Filter>
     </ClCompile>
+    <ClCompile Include="..\Classes\graphics\GraphicsNodes.cpp">
+      <Filter>src\graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\Graph.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="main.h">
@@ -745,6 +751,12 @@
     </ClInclude>
     <ClInclude Include="..\Classes\graphics\graphics_types.h">
       <Filter>src\graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\graphics\GraphicsNodes.hpp">
+      <Filter>src\graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\Graph.hpp">
+      <Filter>src</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
