@@ -25,6 +25,12 @@
     <Filter Include="src\spells">
       <UniqueIdentifier>{0ba2d5c8-0c6a-4af0-a239-94ab2900a7b0}</UniqueIdentifier>
     </Filter>
+    <Filter Include="src\ui">
+      <UniqueIdentifier>{e8b59a6d-888e-40a6-ae4b-589c3bb946db}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\graphics">
+      <UniqueIdentifier>{162c31a5-759c-4859-96ce-942200430899}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -36,28 +42,10 @@
     <ClCompile Include="..\Classes\controls.cpp">
       <Filter>src</Filter>
     </ClCompile>
-    <ClCompile Include="..\Classes\Dialog.cpp">
-      <Filter>src</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Classes\GAnimation.cpp">
-      <Filter>src</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Classes\Graph.cpp">
-      <Filter>src</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Classes\Graphics.cpp">
-      <Filter>src</Filter>
-    </ClCompile>
     <ClCompile Include="..\Classes\GSpace.cpp">
       <Filter>src</Filter>
     </ClCompile>
     <ClCompile Include="..\Classes\GState.cpp">
-      <Filter>src</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Classes\HUD.cpp">
-      <Filter>src</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Classes\menu.cpp">
       <Filter>src</Filter>
     </ClCompile>
     <ClCompile Include="..\Classes\util.cpp">
@@ -206,9 +194,6 @@
     </ClCompile>
     <ClCompile Include="..\Classes\objects\CollectGlyph.cpp">
       <Filter>src\objects</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Classes\menu_layers.cpp">
-      <Filter>src</Filter>
     </ClCompile>
     <ClCompile Include="..\Classes\scenes\menu_scenes.cpp">
       <Filter>src\scenes</Filter>
@@ -372,9 +357,6 @@
     <ClCompile Include="..\Classes\ControlMapping.cpp">
       <Filter>src</Filter>
     </ClCompile>
-    <ClCompile Include="..\Classes\graphics_context.cpp">
-      <Filter>src</Filter>
-    </ClCompile>
     <ClCompile Include="..\Classes\audio_context.cpp">
       <Filter>src</Filter>
     </ClCompile>
@@ -383,6 +365,27 @@
     </ClCompile>
     <ClCompile Include="..\Classes\physics_context.cpp">
       <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\ui\Dialog.cpp">
+      <Filter>src\ui</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\ui\HUD.cpp">
+      <Filter>src\ui</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\ui\menu.cpp">
+      <Filter>src\ui</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\ui\menu_layers.cpp">
+      <Filter>src\ui</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\graphics\GAnimation.cpp">
+      <Filter>src\graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\graphics\Graphics.cpp">
+      <Filter>src\graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\graphics\graphics_context.cpp">
+      <Filter>src\graphics</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -395,31 +398,13 @@
     <ClInclude Include="..\Classes\controls.h">
       <Filter>src</Filter>
     </ClInclude>
-    <ClInclude Include="..\Classes\Dialog.hpp">
-      <Filter>src</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Classes\GAnimation.hpp">
-      <Filter>src</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Classes\Graph.hpp">
-      <Filter>src</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Classes\Graphics.h">
-      <Filter>src</Filter>
-    </ClInclude>
     <ClInclude Include="..\Classes\GSpace.hpp">
       <Filter>src</Filter>
     </ClInclude>
     <ClInclude Include="..\Classes\GState.hpp">
       <Filter>src</Filter>
     </ClInclude>
-    <ClInclude Include="..\Classes\HUD.hpp">
-      <Filter>src</Filter>
-    </ClInclude>
     <ClInclude Include="..\Classes\macros.h">
-      <Filter>src</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Classes\menu.h">
       <Filter>src</Filter>
     </ClInclude>
     <ClInclude Include="..\Classes\multifunction.h">
@@ -578,9 +563,6 @@
     <ClInclude Include="..\Classes\objects\Pyramid.hpp">
       <Filter>src\objects</Filter>
     </ClInclude>
-    <ClInclude Include="..\Classes\menu_layers.h">
-      <Filter>src</Filter>
-    </ClInclude>
     <ClInclude Include="..\Classes\scenes\menu_scenes.h">
       <Filter>src\scenes</Filter>
     </ClInclude>
@@ -686,9 +668,6 @@
     <ClInclude Include="..\Classes\spells\SakuyaSpell.hpp">
       <Filter>src\spells</Filter>
     </ClInclude>
-    <ClInclude Include="..\Classes\graphics_types.h">
-      <Filter>src</Filter>
-    </ClInclude>
     <ClInclude Include="..\Classes\ai\AIFunctions.hpp">
       <Filter>src\ai</Filter>
     </ClInclude>
@@ -731,9 +710,6 @@
     <ClInclude Include="..\Classes\ControlAssignment.h">
       <Filter>src</Filter>
     </ClInclude>
-    <ClInclude Include="..\Classes\graphics_context.hpp">
-      <Filter>src</Filter>
-    </ClInclude>
     <ClInclude Include="..\Classes\audio_context.hpp">
       <Filter>src</Filter>
     </ClInclude>
@@ -745,6 +721,30 @@
     </ClInclude>
     <ClInclude Include="..\Classes\physics_context.hpp">
       <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\ui\Dialog.hpp">
+      <Filter>src\ui</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\ui\HUD.hpp">
+      <Filter>src\ui</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\ui\menu.h">
+      <Filter>src\ui</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\ui\menu_layers.h">
+      <Filter>src\ui</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\graphics\GAnimation.hpp">
+      <Filter>src\graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\graphics\Graphics.h">
+      <Filter>src\graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\graphics\graphics_context.hpp">
+      <Filter>src\graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\graphics\graphics_types.h">
+      <Filter>src\graphics</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
