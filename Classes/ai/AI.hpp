@@ -11,7 +11,6 @@
 
 #include "enum.h"
 #include "object_ref.hpp"
-#include "types.h"
 
 class Agent;
 class GObject;

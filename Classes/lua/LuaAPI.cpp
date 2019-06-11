@@ -19,7 +19,6 @@
 #include "GState.hpp"
 #include "HUD.hpp"
 #include "LuaAPI.hpp"
-#include "macros.h"
 #include "PlayScene.hpp"
 #include "util.h"
 

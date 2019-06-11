@@ -12,7 +12,6 @@
 #include "Attributes.hpp"
 #include "GObject.hpp"
 #include "GObjectMixins.hpp"
-#include "types.h"
 
 class Agent;
 class Wall;

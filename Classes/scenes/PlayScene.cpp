@@ -18,7 +18,6 @@
 #include "GScene.hpp"
 #include "GSpace.hpp"
 #include "HUD.hpp"
-#include "macros.h"
 #include "menu_layers.h"
 #include "multifunction.h"
 #include "Player.hpp"

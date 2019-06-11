@@ -11,7 +11,6 @@
 
 #include "GObject.hpp"
 #include "GObjectMixins.hpp"
-#include "types.h"
 
 class FirePattern;
 

@@ -20,11 +20,9 @@
 #include "GSpace.hpp"
 #include "LuaAPI.hpp"
 #include "LuaShell.hpp"
-#include "macros.h"
 #include "menu.h"
 #include "PlayScene.hpp"
 #include "replay.h"
-#include "types.h"
 #include "value_map.hpp"
 
 const int GScene::dialogEdgeMargin = 30;

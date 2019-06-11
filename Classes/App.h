@@ -7,8 +7,6 @@
 The reason for implement as private inheritance is to hide some interface call by Director.
 */
 
-#include "types.h"
-
 class audio_context;
 class ControlRegister;
 class Dialog;

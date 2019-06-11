@@ -33,7 +33,6 @@
 #include "GState.hpp"
 #include "Items.hpp"
 #include "Launcher.hpp"
-#include "macros.h"
 #include "MapFragment.hpp"
 #include "Marisa.hpp"
 #include "Meiling.hpp"

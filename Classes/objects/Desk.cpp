@@ -10,7 +10,6 @@
 
 #include "Desk.hpp"
 #include "GSpace.hpp"
-#include "macros.h"
 #include "PlayScene.hpp"
 
 Desk::Desk(GSpace* space, ObjectIDType id, const ValueMap& args) :

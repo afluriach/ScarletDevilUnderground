@@ -8,7 +8,6 @@
 
 #include "Prefix.h"
 
-#include "macros.h"
 #include "vect.hpp"
 
 bool operator==(const SpaceVect& lhs, const SpaceVect& rhs) {

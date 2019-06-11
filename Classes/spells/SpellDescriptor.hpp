@@ -12,7 +12,6 @@
 class GObject;
 class Spell;
 
-#include "macros.h"
 #include "spell_types.hpp"
 
 make_static_member_detector(cost)

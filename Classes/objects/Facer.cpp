@@ -11,7 +11,6 @@
 #include "AIUtil.hpp"
 #include "Facer.hpp"
 #include "GSpace.hpp"
-#include "macros.h"
 
 const AttributeMap Facer::baseAttributes = {
 	{Attribute::speed, 1.0f },

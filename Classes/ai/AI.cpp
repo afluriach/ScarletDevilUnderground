@@ -15,7 +15,6 @@
 #include "GSpace.hpp"
 #include "GObject.hpp"
 #include "GObjectMixins.hpp"
-#include "macros.h"
 #include "util.h"
 #include "value_map.hpp"
 

@@ -10,7 +10,6 @@
 #define FairyNPC_hpp
 
 #include "Agent.hpp"
-#include "macros.h"
 
 class FairyMaid :
 	virtual public Agent,

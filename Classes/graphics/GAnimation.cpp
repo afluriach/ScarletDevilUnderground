@@ -10,7 +10,6 @@
 
 #include "enum.h"
 #include "GAnimation.hpp"
-#include "macros.h"
 #include "util.h"
 
 AnimationSpriteSequence AnimationSpriteSequence::loadFromRasterImage(const string& path, int cols, int rows)
@@ -72,12 +71,6 @@ array<AnimationSpriteSequence, 4> AnimationSpriteSequence::loadPatchconSpriteShe
 	result[3].frames.pushBack(spriteSheet.frames.at(11));
 
 	return result;
-}
-
-SpriteFrame* loadSpriteFrame(const string& path)
-{
-	Texture2D* t = Director::getInstance()->getTextureCache()->addImage(path);
-	return SpriteFrame::createWithTexture(t, CCRect(0, 0, t->getPixelsWide(), t->getPixelsHigh()));
 }
 
 array<AnimationSpriteSequence, 4> AnimationSpriteSequence::loadAgentAnimation(const string& path)

@@ -10,7 +10,6 @@
 #define SpellUtil_hpp
 
 #include "Attributes.hpp"
-#include "types.h"
 
 class GObject;
 

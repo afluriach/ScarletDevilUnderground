@@ -9,7 +9,6 @@
 #include "Prefix.h"
 
 #include "Flower.h"
-#include "macros.h"
 
 Flower::Flower(GSpace* space, ObjectIDType id, const string& name, const string& color, const SpaceVect& pos) :
 	GObject(space, id, name, pos, float_pi / 2.0),

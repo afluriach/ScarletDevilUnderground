@@ -8,7 +8,6 @@
 
 #include "Prefix.h"
 
-#include "macros.h"
 #include "Sign.hpp"
 #include "value_map.hpp"
 

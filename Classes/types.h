@@ -9,8 +9,6 @@
 #ifndef types_h
 #define types_h
 
-#include "vect.hpp"
-
 class Agent;
 namespace ai { class StateMachine; }
 class Bomb;
@@ -54,17 +52,6 @@ typedef bitset<maxRoomsPerChamber> rooms_bitmask;
 
 constexpr size_t maxMapFragmentsPerChamber = 8;
 typedef bitset<maxMapFragmentsPerChamber> map_fragments_bitmask;
-
-namespace boost {
-	namespace serialization {
-		template<class Archive>
-		inline void serialize(Archive & ar, SpaceVect & v, const unsigned int version)
-		{
-			ar & v.x;
-			ar & v.y;
-		}
-	}
-}
 
 struct app_params
 {

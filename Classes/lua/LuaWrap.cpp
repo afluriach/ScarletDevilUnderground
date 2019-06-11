@@ -9,7 +9,6 @@
 #include "Prefix.h"
 
 #include "LuaWrap.h"
-#include "macros.h"
 
 namespace Lua{
 

@@ -9,8 +9,6 @@
 #ifndef functional_h
 #define functional_h
 
-#include "types.h"
-
 //Bind this but not the explicit arguments.
 template<typename T, typename A1>
 inline function<void(A1)> bindMethod(void (T::* m)(A1), T* This)

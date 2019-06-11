@@ -9,8 +9,6 @@
 #ifndef object_ref_hpp
 #define object_ref_hpp
 
-#include "types.h"
-
 class GObject;
 class GSpace;
 

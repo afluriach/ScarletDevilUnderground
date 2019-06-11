@@ -13,7 +13,6 @@
 #include "controls.h"
 #include "functional.hpp"
 #include "GScene.hpp"
-#include "macros.h"
 #include "util.h"
 
 const bool ControlRegister::logKeyEvents = false;

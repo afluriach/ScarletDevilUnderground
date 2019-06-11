@@ -19,6 +19,7 @@
 #include "FloorSegment.hpp"
 #include "functional.hpp"
 #include "graphics_context.hpp"
+#include "GraphicsNodes.hpp"
 #include "GSpace.hpp"
 #include "GState.hpp"
 #include "HUD.hpp"

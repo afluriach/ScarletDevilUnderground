@@ -9,7 +9,6 @@
 #include "Prefix.h"
 
 #include "Graph.hpp"
-#include "macros.h"
 
 namespace graph{
 

@@ -9,8 +9,6 @@
 #ifndef physics_context_hpp
 #define physics_context_hpp
 
-#include "types.h"
-
 class GSpace;
 class InteractibleObject;
 

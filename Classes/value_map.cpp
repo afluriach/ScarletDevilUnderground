@@ -10,7 +10,6 @@
 
 #include "app_constants.hpp"
 #include "GSpace.hpp"
-#include "types.h"
 #include "util.h"
 #include "value_map.hpp"
 

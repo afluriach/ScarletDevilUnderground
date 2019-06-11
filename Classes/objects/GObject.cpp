@@ -14,7 +14,6 @@
 #include "Graphics.h"
 #include "GSpace.hpp"
 #include "LuaAPI.hpp"
-#include "macros.h"
 #include "MagicEffect.hpp"
 #include "Spell.hpp"
 #include "SpellDescriptor.hpp"

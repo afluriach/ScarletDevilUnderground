@@ -10,7 +10,6 @@
 #define Tewi_hpp
 
 #include "Enemy.hpp"
-#include "macros.h"
 
 class Tewi : public Enemy, public BaseAttributes<Tewi>
 {

@@ -10,7 +10,6 @@
 #define controls_h
 
 #include "enum.h"
-#include "types.h"
 
 enum class ControlAction
 {

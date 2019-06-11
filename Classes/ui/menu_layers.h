@@ -10,7 +10,6 @@
 #define menu_Layers_h
 
 #include "menu.h"
-#include "types.h"
 
 enum class Attribute;
 class AttributeSystem;

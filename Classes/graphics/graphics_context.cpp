@@ -15,7 +15,6 @@
 #include "GraphicsNodes.hpp"
 #include "graphics_types.h"
 #include "GScene.hpp"
-#include "macros.h"
 #include "util.h"
 
 void graphics_context::update()

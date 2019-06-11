@@ -137,4 +137,15 @@ bool operator>(const SpaceVect& lhs, const SpaceVect& rhs);
 
 std::ostream& operator<<(std::ostream&, const SpaceVect&);
 
+namespace boost {
+	namespace serialization {
+		template<class Archive>
+		inline void serialize(Archive & ar, SpaceVect & v, const unsigned int version)
+		{
+			ar & v.x;
+			ar & v.y;
+		}
+	}
+}
+
 #endif //vect_hpp

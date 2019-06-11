@@ -10,8 +10,6 @@
 #define LuaConvert_h
 
 #include "LuaError.h"
-#include "macros.h"
-#include "types.h"
 
 class GObject;
 

@@ -13,7 +13,6 @@
 #include "graphics_types.h"
 #include "multifunction.h"
 #include "object_ref.hpp"
-#include "types.h"
 
 class Player;
 class Bullet;

@@ -11,7 +11,6 @@
 #include "Agent.hpp"
 #include "graphics_context.hpp"
 #include "GSpace.hpp"
-#include "macros.h"
 #include "Pyramid.hpp"
 #include "value_map.hpp"
 

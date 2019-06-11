@@ -11,7 +11,6 @@
 #include "GScene.hpp"
 #include "GSpace.hpp"
 #include "GState.hpp"
-#include "macros.h"
 #include "MapFragment.hpp"
 #include "value_map.hpp"
 

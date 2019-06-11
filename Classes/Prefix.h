@@ -99,6 +99,10 @@ using namespace std;
 USING_NS_CC;
 using namespace luabridge;
 
+#include "macros.h"
+#include "vect.hpp"
+#include "types.h"
+
 template<typename... T>
 void log_print(string s, T... args)
 {

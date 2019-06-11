@@ -10,7 +10,6 @@
 
 #include "app_constants.hpp"
 #include "Graphics.h"
-#include "macros.h"
 #include "util.h"
 
 const string defaultFont = "Arial";

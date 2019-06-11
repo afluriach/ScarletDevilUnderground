@@ -14,7 +14,6 @@
 #include "GSpace.hpp"
 #include "GState.hpp"
 #include "LuaWrap.h"
-#include "macros.h"
 
 namespace Lua{
 

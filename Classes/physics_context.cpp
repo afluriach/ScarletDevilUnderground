@@ -11,7 +11,6 @@
 #include "GObject.hpp"
 #include "GObjectMixins.hpp"
 #include "GSpace.hpp"
-#include "macros.h"
 #include "physics_context.hpp"
 #include "util.h"
 

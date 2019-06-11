@@ -13,9 +13,7 @@
 #include "graphics_context.hpp"
 #include "GScene.hpp"
 #include "enum.h"
-#include "macros.h"
 #include "menu.h"
-#include "types.h"
 #include "util.h"
 
 void GScene::renderSpace()

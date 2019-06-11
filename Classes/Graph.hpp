@@ -9,8 +9,6 @@
 #ifndef Graph_hpp
 #define Graph_hpp
 
-#include "types.h"
-
 namespace graph{
 
 typedef pair<int,int> position;

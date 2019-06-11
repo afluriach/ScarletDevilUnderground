@@ -11,7 +11,6 @@
 
 #include "Collectibles.hpp"
 #include "Enemy.hpp"
-#include "macros.h"
 
 class GhostFairy :
 	public Enemy,

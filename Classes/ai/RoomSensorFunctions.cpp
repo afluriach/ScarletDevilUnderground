@@ -10,7 +10,6 @@
 
 #include "AreaSensor.hpp"
 #include "GSpace.hpp"
-#include "macros.h"
 #include "RoomSensorFunctions.hpp"
 #include "Spawner.hpp"
 #include "value_map.hpp"

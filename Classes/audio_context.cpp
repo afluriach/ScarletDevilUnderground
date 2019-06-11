@@ -9,7 +9,6 @@
 #include "Prefix.h"
 
 #include "App.h"
-#include "macros.h"
 #include "Resources.hpp"
 #include "audio_context.hpp"
 #include "util.h"

@@ -11,7 +11,6 @@
 #include "graphics_context.hpp"
 #include "GSpace.hpp"
 #include "enum.h"
-#include "macros.h"
 #include "Player.hpp"
 #include "PlayerBullet.hpp"
 #include "PlayerSpell.hpp"

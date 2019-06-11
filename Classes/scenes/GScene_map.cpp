@@ -16,9 +16,7 @@
 #include "graphics_context.hpp"
 #include "GScene.hpp"
 #include "GSpace.hpp"
-#include "macros.h"
 #include "Spawner.hpp"
-#include "types.h"
 #include "value_map.hpp"
 
 vector<GScene::MapEntry> GScene::singleMapEntry(const string& mapName)

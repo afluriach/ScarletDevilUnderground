@@ -10,7 +10,6 @@
 #define Library_hpp
 
 #include "PlayScene.hpp"
-#include "types.h"
 
 class Library : public PlayScene
 {

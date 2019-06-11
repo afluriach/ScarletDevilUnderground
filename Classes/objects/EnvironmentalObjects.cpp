@@ -13,7 +13,6 @@
 #include "GSpace.hpp"
 #include "GState.hpp"
 #include "HUD.hpp"
-#include "macros.h"
 #include "PlayScene.hpp"
 #include "value_map.hpp"
 

@@ -12,7 +12,6 @@
 #include "Attributes.hpp"
 #include "GObject.hpp"
 #include "GObjectMixins.hpp"
-#include "macros.h"
 
 enum class collectible_id
 {

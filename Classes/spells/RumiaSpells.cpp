@@ -11,7 +11,6 @@
 #include "Agent.hpp"
 #include "EnemyBullet.hpp"
 #include "GSpace.hpp"
-#include "macros.h"
 #include "RumiaSpells.hpp"
 #include "util.h"
 #include "value_map.hpp"

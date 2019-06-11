@@ -13,7 +13,6 @@
 #include "AIUtil.hpp"
 #include "Bullet.hpp"
 #include "GSpace.hpp"
-#include "macros.h"
 #include "physics_context.hpp"
 #include "SpellUtil.hpp"
 

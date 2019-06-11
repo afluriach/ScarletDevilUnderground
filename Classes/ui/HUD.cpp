@@ -10,11 +10,10 @@
 
 #include "App.h"
 #include "Enemy.hpp"
-#include "Graphics.h"
+#include "GraphicsNodes.hpp"
 #include "GScene.hpp"
 #include "GSpace.hpp"
 #include "HUD.hpp"
-#include "macros.h"
 #include "Player.hpp"
 #include "util.h"
 

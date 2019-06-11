@@ -12,7 +12,6 @@
 #include "GObject.hpp"
 #include "GObjectMixins.hpp"
 #include "object_ref.hpp"
-#include "types.h"
 
 struct floorsegment_properties {
 	string sfxRes;

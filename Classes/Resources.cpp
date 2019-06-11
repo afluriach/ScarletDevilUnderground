@@ -8,7 +8,6 @@
 
 #include "Prefix.h"
 
-#include "macros.h"
 #include "Resources.hpp"
 #include "util.h"
 

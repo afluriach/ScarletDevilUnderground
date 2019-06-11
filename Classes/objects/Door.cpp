@@ -14,7 +14,6 @@
 #include "graphics_context.hpp"
 #include "GSpace.hpp"
 #include "GState.hpp"
-#include "macros.h"
 #include "physics_context.hpp"
 #include "Player.hpp"
 #include "value_map.hpp"

@@ -12,7 +12,6 @@
 #include "functional.hpp"
 #include "GSpace.hpp"
 #include "HUD.hpp"
-#include "macros.h"
 
 const vector<string> Collect::targets = {
 	"glyph1",

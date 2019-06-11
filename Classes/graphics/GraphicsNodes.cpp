@@ -11,7 +11,6 @@
 #include "app_constants.hpp"
 #include "graphics_types.h"
 #include "GraphicsNodes.hpp"
-#include "macros.h"
 #include "util.h"
 
 bool ShaderNode::init()

@@ -11,7 +11,6 @@
 #include "Agent.hpp"
 #include "EnemyFunctions.hpp"
 #include "EnemySpell.hpp"
-#include "macros.h"
 
 namespace ai{
 

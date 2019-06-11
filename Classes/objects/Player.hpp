@@ -10,7 +10,6 @@
 #define Player_hpp
 
 #include "Agent.hpp"
-#include "macros.h"
 #include "object_ref.hpp"
 
 class Collectible;

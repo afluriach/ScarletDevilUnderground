@@ -15,7 +15,6 @@
 #include "Bullet.hpp"
 #include "FirePattern.hpp"
 #include "GSpace.hpp"
-#include "macros.h"
 #include "physics_context.hpp"
 #include "Spell.hpp"
 #include "util.h"

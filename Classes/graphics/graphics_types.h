@@ -9,8 +9,6 @@
 #ifndef graphics_types_h
 #define graphics_types_h
 
-#include "types.h"
-
 typedef unsigned int LightID;
 typedef unsigned int SpriteID;
 

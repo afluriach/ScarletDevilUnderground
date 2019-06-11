@@ -9,8 +9,6 @@
 #ifndef audio_context_hpp
 #define audio_context_hpp
 
-#include "types.h"
-
 class audio_context
 {
 public:

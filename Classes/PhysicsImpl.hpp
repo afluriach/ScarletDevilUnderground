@@ -12,8 +12,6 @@
 class GObject;
 class GSpace;
 
-#include "types.h"
-
 class PhysicsImpl
 {
 public:

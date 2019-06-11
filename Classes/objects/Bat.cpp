@@ -11,7 +11,6 @@
 #include "AIFunctions.hpp"
 #include "Bat.hpp"
 #include "GSpace.hpp"
-#include "macros.h"
 
 const AttributeMap Bat::baseAttributes = {
 	{Attribute::maxHP, 50.0f },

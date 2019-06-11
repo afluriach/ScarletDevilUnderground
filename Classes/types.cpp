@@ -11,7 +11,6 @@
 #include "App.h"
 #include "app_constants.hpp"
 #include "enum.h"
-#include "types.h"
 #include "util.h"
 
 namespace app {

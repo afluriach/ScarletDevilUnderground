@@ -12,8 +12,6 @@
 class ControlListener;
 class SceneSelect;
 
-#include "types.h"
-
 class MenuLayer : public Layer
 {
 public:

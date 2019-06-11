@@ -11,7 +11,6 @@
 
 #include "Attributes.hpp"
 #include "enum.h"
-#include "types.h"
 
 struct ChamberStats
 {
