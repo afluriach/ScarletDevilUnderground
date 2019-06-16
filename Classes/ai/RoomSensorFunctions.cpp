@@ -21,15 +21,16 @@ SequentialClearSpawn::SequentialClearSpawn(StateMachine* fsm, const ValueMap& ar
 {
 }
 
-void SequentialClearSpawn::update()
+shared_ptr<Function> SequentialClearSpawn::update()
 {
 	RoomSensor* rs = fsm->getRoomSensor();
 
 	if (rs->hasPlayer() && !rs->hasEnemies())
 	{
 		if (rs->activateAllSpawners() == 0)
-			pop();
+			return nullptr;
 	}
+	return getThis();
 }
 
 MultiSpawnSequence::MultiSpawnSequence(StateMachine* fsm, const ValueMap& args) :
@@ -69,12 +70,13 @@ MultiSpawnSequence::MultiSpawnSequence(StateMachine* fsm, const ValueMap& args) 
 	}
 }
 
-void MultiSpawnSequence::update()
+shared_ptr<Function> MultiSpawnSequence::update()
 {
 	RoomSensor* rs = fsm->getRoomSensor();
 	bool isCompleted = true;
 
-	if (!rs->hasPlayer()) return;
+	if (!rs->hasPlayer())
+		return getThis();
 
 	for_irange(i, 0, spawnEntries.size())
 	{
@@ -93,8 +95,7 @@ void MultiSpawnSequence::update()
 		}
 	}
 
-	if (isCompleted)
-		pop();
+	return isCompleted ? nullptr : getThis();
 }
 
 TimedSpawnSequence::TimedSpawnSequence(StateMachine* fsm, const ValueMap& args) :
@@ -125,11 +126,10 @@ TimedSpawnSequence::TimedSpawnSequence(StateMachine* fsm, const ValueMap& args) 
 	}
 }
 
-void TimedSpawnSequence::update()
+shared_ptr<Function> TimedSpawnSequence::update()
 {
 	if (entryIdx >= spawnEntries.size()) {
-		pop();
-		return;
+		return nullptr;
 	}
 
 	auto it = spawnQueue.begin();
@@ -159,6 +159,7 @@ void TimedSpawnSequence::update()
 
 		++entryIdx;
 	}
+	return getThis();
 }
 
 }//end NS

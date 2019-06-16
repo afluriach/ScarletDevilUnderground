@@ -24,7 +24,7 @@ public:
 
 	BlueFairyPowerAttack(StateMachine* fsm);
 
-	virtual void update();
+	virtual shared_ptr<Function> update();
 protected:
 	SpaceFloat accumulator = 0.0;
 	SpaceFloat timer = cooldown;

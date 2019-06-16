@@ -38,7 +38,7 @@ public:
 	inline SakuyaNPC1(ai::StateMachine* fsm) : ai::Function(fsm) {}
 
 	virtual void onEnter();
-	virtual void update();
+	virtual shared_ptr<ai::Function> update();
 	FuncGetName(SakuyaMain)
 };
 

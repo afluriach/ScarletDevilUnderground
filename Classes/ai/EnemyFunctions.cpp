@@ -23,7 +23,7 @@ BlueFairyPowerAttack::BlueFairyPowerAttack(StateMachine* fsm) :
 	Function(fsm)
 {}
 
-void BlueFairyPowerAttack::update()
+shared_ptr<Function> BlueFairyPowerAttack::update()
 {
 	SpaceFloat targetDist = agent->getSensedObjectDistance(GType::player);
 	auto& as = *agent->getAttributeSystem();
@@ -43,6 +43,8 @@ void BlueFairyPowerAttack::update()
 		accumulator = 0.0;
 		timer = cooldown;
 	}
+
+	return getThis();
 }
 
 }//end NS

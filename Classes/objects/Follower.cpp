@@ -38,7 +38,7 @@ void FollowerMain::onEnter()
 	target = agent->space->getObject("player");
 }
 
-void FollowerMain::update()
+shared_ptr<ai::Function> FollowerMain::update()
 {
 	if (target.isValid()) {
 		if (ai::isFacingTargetsBack(agent, target.get())) {
@@ -48,7 +48,6 @@ void FollowerMain::update()
 			agent->setVel(SpaceVect::zero);
 		}
 	}
-	else {
-		pop();
-	}
+	
+	return target.isValid() ? getThis() : nullptr;
 }

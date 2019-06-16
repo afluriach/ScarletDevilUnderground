@@ -69,7 +69,7 @@ public:
 	inline ReimuMain(ai::StateMachine* fsm) : ai::Function(fsm) {}
 
 	virtual void onEnter();
-	virtual void update();
+	virtual shared_ptr<ai::Function> update();
 	virtual void onExit();
 	FuncGetName(ReimuMain)
 };

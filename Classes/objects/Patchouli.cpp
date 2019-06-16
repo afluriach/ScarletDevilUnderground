@@ -82,6 +82,7 @@ void PatchouliMain::onEnter()
 {
 }
 
-void PatchouliMain::update()
+shared_ptr<ai::Function> PatchouliMain::update()
 {
+	return getThis();
 }

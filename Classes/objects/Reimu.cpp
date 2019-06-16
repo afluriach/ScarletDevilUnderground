@@ -110,9 +110,9 @@ void ReimuMain::onEnter()
 {
 }
 
-void ReimuMain::update()
+shared_ptr<ai::Function> ReimuMain::update()
 {
-
+	return getThis();
 }
 
 void ReimuMain::onExit()

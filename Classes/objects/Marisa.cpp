@@ -51,14 +51,11 @@ void MarisaCollectMain::onEnter()
 {
 }
 
-void MarisaCollectMain::update()
+shared_ptr<ai::Function> MarisaCollectMain::update()
 {
 	GObject* player = agent->space->getObject("player");
 
-	if (!player)
-		return;
-
-	fsm->push(ai::FollowPath::pathToTarget(fsm, player));
+	return player ? ai::FollowPath::pathToTarget(fsm, player) : nullptr;
 }
 
 ForestMarisa::ForestMarisa(GSpace* space, ObjectIDType id, const ValueMap& args) :
@@ -78,7 +75,7 @@ void MarisaForestMain::onEnter()
 	fsm->addThread(make_shared<ai::AimAtTarget>(fsm, player));
 }
 
-void MarisaForestMain::update()
+shared_ptr<ai::Function> MarisaForestMain::update()
 {
-	push<ai::Cast>(make_spell_generator<StarlightTyphoon>());
+	return fsm->make<ai::Cast>(make_spell_generator<StarlightTyphoon>());
 }

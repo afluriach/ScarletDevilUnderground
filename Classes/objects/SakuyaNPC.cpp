@@ -30,7 +30,7 @@ void SakuyaNPC1::onEnter()
 
 }
 
-void SakuyaNPC1::update()
+shared_ptr<ai::Function> SakuyaNPC1::update()
 {
-	push<ai::Wander>(0.25, 0.75, 4.0, 1.0);
+	return fsm->make<ai::Wander>(0.25, 0.75, 4.0, 1.0);
 }

@@ -40,7 +40,7 @@ void FacerMain::onEnter()
 	target = agent->space->getObject("player");
 }
 
-void FacerMain::update()
+shared_ptr<ai::Function> FacerMain::update()
 {
 	if (target.isValid()) {
 		if (ai::isFacingTarget(agent, target.get())) {
@@ -50,7 +50,6 @@ void FacerMain::update()
 			agent->setVel(SpaceVect::zero);
 		}
 	}
-	else {
-		pop();
-	}
+
+	return target.isValid() ? getThis() : nullptr;
 }

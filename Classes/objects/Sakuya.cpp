@@ -35,9 +35,9 @@ void SakuyaMain::onEnter()
 {
 }
 
-void SakuyaMain::update()
+shared_ptr<ai::Function> SakuyaMain::update()
 {
-	push<ai::Cast>(make_spell_generator<IllusionDial>());
+	return fsm->make<ai::Cast>(make_spell_generator<IllusionDial>());
 }
 
 const SpaceFloat IllusionDash::scale = 2.5;
@@ -69,13 +69,16 @@ void IllusionDash::onEnter()
 	);
 }
 
-void IllusionDash::update()
+shared_ptr<ai::Function> IllusionDash::update()
 {
 	SpaceVect disp = ai::displacementToTarget(agent, target);
 	agent->setVel(disp.normalizeSafe()*speed);
 
 	if (disp.lengthSq() < 0.125f) {
 		agent->setVel(SpaceVect::zero);
-		pop();
+		return nullptr;
+	}
+	else {
+		return getThis();
 	}
 }

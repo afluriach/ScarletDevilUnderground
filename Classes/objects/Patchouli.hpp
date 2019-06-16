@@ -52,7 +52,7 @@ public:
 	static const int castInterval;
 
 	virtual void onEnter();
-	virtual void update();
+	virtual shared_ptr<ai::Function> update();
 	FuncGetName(PatchouliMain)
 protected:
 	float prevHP;

@@ -78,7 +78,14 @@ void Thread::update()
 		crnt->hasRunInit = true;
 	}
 
-	crnt->update();
+	shared_ptr<Function> result = crnt->update();
+
+	if (!result.get()) {
+		pop();
+	}
+	else if (result.get() != crnt) {
+		push(result);
+	}
 }
 
 void Thread::onDelay()

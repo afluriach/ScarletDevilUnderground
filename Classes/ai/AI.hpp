@@ -64,7 +64,8 @@ public:
 
 	inline virtual void onEnter() {}
     inline virtual void onReturn() {}
-	inline virtual void update() {}
+	//Returns this to continue running, nullptr to pop, and other to push
+	inline virtual shared_ptr<Function> update() { return getThis(); }
 	inline virtual void onExit() {}
     
     inline virtual void onDelay() {}
@@ -75,6 +76,10 @@ public:
     inline virtual string getName() const {return "Function";}
     
     inline virtual bitset<lockCount> getLockMask() { return bitset<lockCount>();}
+
+	inline shared_ptr<Function> getThis() {
+		return shared_ptr<Function>(this);
+	}
 protected:
 	StateMachine *const fsm;
 	Agent *const agent;
@@ -164,10 +169,15 @@ public:
 	void removeEndDetectFunction(GType t);
 	void setAlertFunction(alert_function f);
 
+	template<class FuncCls, typename... Params>
+	inline shared_ptr<FuncCls> make(Params... params) {
+		return make_shared<FuncCls>(this, params...);
+	}
+
 	//wrappers for the current thread
 	template<class FuncCls, typename... Params>
 	inline void push(Params... params) {
-		push(make_shared<FuncCls>(this, params...));
+		push(make<FuncCls>(params...));
 	}
 	void push(shared_ptr<Function> f);
 	void pop();

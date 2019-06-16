@@ -72,9 +72,10 @@ void StalkerMain::onEnter()
 {
 }
 
-void StalkerMain::update()
+shared_ptr<ai::Function> StalkerMain::update()
 {
-	if (agent->getAttribute(Attribute::stamina) <= 0.0f) {
-		push<ai::Cast>(make_spell_generator<Teleport>());
-	}
+	return agent->getAttribute(Attribute::stamina) <= 0.0f ?
+		fsm->make<ai::Cast>(make_spell_generator<Teleport>()) :
+		getThis()
+	;
 }
