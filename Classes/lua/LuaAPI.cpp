@@ -21,7 +21,6 @@
 #include "HUD.hpp"
 #include "LuaAPI.hpp"
 #include "PlayScene.hpp"
-#include "util.h"
 
 //Copied from ltm.h.
 //#define ttypename(x)	luaT_typenames_[(x) + 1]

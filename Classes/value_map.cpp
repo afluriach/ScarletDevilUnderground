@@ -10,7 +10,6 @@
 
 #include "app_constants.hpp"
 #include "GSpace.hpp"
-#include "util.h"
 #include "value_map.hpp"
 
 void printValueMap(const ValueMap& obj)

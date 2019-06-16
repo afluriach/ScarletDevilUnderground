@@ -11,7 +11,6 @@
 #include "App.h"
 #include "Resources.hpp"
 #include "audio_context.hpp"
-#include "util.h"
 
 const vector<string> audio_context::soundFiles = {
 	"sfx/bomb_explosion1.wav",

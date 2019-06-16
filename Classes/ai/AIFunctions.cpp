@@ -17,7 +17,6 @@
 #include "GSpace.hpp"
 #include "physics_context.hpp"
 #include "Spell.hpp"
-#include "util.h"
 #include "value_map.hpp"
 
 namespace ai{

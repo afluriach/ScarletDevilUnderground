@@ -13,7 +13,6 @@
 #include "FileIO.hpp"
 #include "GState.hpp"
 #include "replay.h"
-#include "util.h"
 
 using namespace boost::filesystem;
 

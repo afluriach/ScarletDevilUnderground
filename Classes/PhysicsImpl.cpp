@@ -21,7 +21,6 @@
 #include "PhysicsImpl.hpp"
 #include "Player.hpp"
 #include "Upgrade.hpp"
-#include "util.h"
 #include "Wall.hpp"
 
 PhysicsImpl::PhysicsImpl(GSpace* space) :

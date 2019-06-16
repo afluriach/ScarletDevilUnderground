@@ -13,7 +13,6 @@
 #include "GObject.hpp"
 #include "Graphics.h"
 #include "multifunction.h"
-#include "util.h"
 
 class Agent;
 class PatchConAnimation;

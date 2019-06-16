@@ -9,7 +9,6 @@
 #include "Prefix.h"
 
 #include "Resources.hpp"
-#include "util.h"
 
 #define auto_this auto _this = static_cast<libsnd_file_pointer*>(_this_);
 

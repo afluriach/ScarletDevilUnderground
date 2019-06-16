@@ -11,7 +11,6 @@
 #include "FileIO.hpp"
 #include "GState.hpp"
 #include "Player.hpp"
-#include "util.h"
 
 vector<bool> GState::profileSlotsInUse;
 

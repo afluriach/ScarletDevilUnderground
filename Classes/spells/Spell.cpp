@@ -10,7 +10,6 @@
 
 #include "Spell.hpp"
 #include "SpellDescriptor.hpp"
-#include "util.h"
 
 Spell::Spell(GObject* caster) :
 	caster(caster)

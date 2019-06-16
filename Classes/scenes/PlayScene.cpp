@@ -23,7 +23,6 @@
 #include "Player.hpp"
 #include "PlayScene.hpp"
 #include "replay.h"
-#include "util.h"
 #include "value_map.hpp"
 
 void printGroup(TMXObjectGroup* group)

@@ -12,7 +12,6 @@
 #include "GObjectMixins.hpp"
 #include "GSpace.hpp"
 #include "physics_context.hpp"
-#include "util.h"
 
 const bool physics_context::logBodyCreation = false;
 

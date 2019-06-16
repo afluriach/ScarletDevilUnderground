@@ -15,7 +15,6 @@
 #include "GSpace.hpp"
 #include "HUD.hpp"
 #include "Player.hpp"
-#include "util.h"
 
 IconMeter::IconMeter(int iconSize, const string& filledIcon, const string& emptyIcon, int val, int maxVal) :
 iconSize(iconSize),

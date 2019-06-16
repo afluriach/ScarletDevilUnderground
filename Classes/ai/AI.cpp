@@ -15,7 +15,6 @@
 #include "GSpace.hpp"
 #include "GObject.hpp"
 #include "GObjectMixins.hpp"
-#include "util.h"
 #include "value_map.hpp"
 
 namespace ai{

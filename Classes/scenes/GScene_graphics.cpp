@@ -14,7 +14,6 @@
 #include "GScene.hpp"
 #include "enum.h"
 #include "menu.h"
-#include "util.h"
 
 void GScene::renderSpace()
 {

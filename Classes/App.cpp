@@ -14,7 +14,6 @@
 #include "OpeningScene.hpp"
 #include "OverworldScene.hpp"
 #include "Resources.hpp"
-#include "util.h"
 
 const string App::title = "Kouma";
 
@@ -167,10 +166,12 @@ App::App()
 
 	log("\nKouma started at %s", getNowTimestamp());
 
+#if !DEV_MODE
 	//Initialize resources.zip filesystem
 	fileUtils = new FileUtilsZip();
 	fileUtils->init();
 	FileUtils::setDelegate(fileUtils);
+#endif
 
 	//Activate key register.
 	control_register = make_unique<ControlRegister>();

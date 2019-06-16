@@ -12,7 +12,6 @@
 #include "EnemyBullet.hpp"
 #include "GSpace.hpp"
 #include "RumiaSpells.hpp"
-#include "util.h"
 #include "value_map.hpp"
 
 const string DarknessSignDemarcation::name = "DarknessSignDemarcation";

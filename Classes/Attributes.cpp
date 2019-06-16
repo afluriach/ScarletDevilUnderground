@@ -9,7 +9,6 @@
 #include "Prefix.h"
 
 #include "Attributes.hpp"
-#include "util.h"
 
 DamageInfo DamageInfo::operator*( float rhs)
 {

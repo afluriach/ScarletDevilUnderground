@@ -18,7 +18,6 @@
 #include "GSpace.hpp"
 #include "object_ref.hpp"
 #include "physics_context.hpp"
-#include "util.h"
 #include "value_map.hpp"
 #include "Wall.hpp"
 

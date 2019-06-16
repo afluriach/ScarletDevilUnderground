@@ -11,7 +11,6 @@
 
 #include "functional.hpp"
 #include "LuaConvert.h"
-#include "util.h"
 
 namespace Lua{
 

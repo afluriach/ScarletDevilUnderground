@@ -11,7 +11,6 @@
 #include "EnemyBullet.hpp"
 #include "GSpace.hpp"
 #include "Launcher.hpp"
-#include "util.h"
 
 const boost::rational<int> Launcher::fireInterval(1,4);
 

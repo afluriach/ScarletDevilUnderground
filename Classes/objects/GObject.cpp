@@ -17,7 +17,6 @@
 #include "MagicEffect.hpp"
 #include "Spell.hpp"
 #include "SpellDescriptor.hpp"
-#include "util.h"
 #include "value_map.hpp"
 
 unordered_map<type_index, string> GObject::typeNameMap;

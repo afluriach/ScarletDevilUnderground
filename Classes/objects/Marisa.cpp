@@ -12,7 +12,6 @@
 #include "GSpace.hpp"
 #include "Marisa.hpp"
 #include "MarisaSpell.hpp"
-#include "util.h"
 
 class GObject;
 

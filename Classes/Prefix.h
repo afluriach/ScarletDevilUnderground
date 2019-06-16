@@ -102,6 +102,7 @@ using namespace luabridge;
 #include "macros.h"
 #include "vect.hpp"
 #include "types.h"
+#include "util.h"
 
 template<typename... T>
 void log_print(string s, T... args)

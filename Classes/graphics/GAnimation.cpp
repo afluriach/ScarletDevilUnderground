@@ -10,7 +10,6 @@
 
 #include "enum.h"
 #include "GAnimation.hpp"
-#include "util.h"
 
 AnimationSpriteSequence AnimationSpriteSequence::loadFromRasterImage(const string& path, int cols, int rows)
 {
