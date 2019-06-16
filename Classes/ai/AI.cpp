@@ -37,6 +37,14 @@ Function::Function(StateMachine* fsm) :
 	agent(fsm->getAgent())
 {}
 
+void Function::pop() {
+	fsm->pop();
+}
+
+shared_ptr<Function> Function::getThis() {
+	return fsm->getCrntThread()->getTop();
+}
+
 unsigned int Thread::nextUUID = 1;
 
 Thread::Thread(shared_ptr<Function> threadMain, StateMachine* sm) :
@@ -124,6 +132,11 @@ void Thread::pop()
 
 	if (!call_stack.empty())
 		call_stack.back()->onReturn();
+}
+
+shared_ptr<Function> Thread::getTop()
+{
+	return call_stack.back();
 }
 
 string Thread::getStack()

@@ -77,9 +77,7 @@ public:
     
     inline virtual bitset<lockCount> getLockMask() { return bitset<lockCount>();}
 
-	inline shared_ptr<Function> getThis() {
-		return shared_ptr<Function>(this);
-	}
+	shared_ptr<Function> getThis();
 protected:
 	StateMachine *const fsm;
 	Agent *const agent;
@@ -112,8 +110,8 @@ public:
 	void push(shared_ptr<Function> newState);
 	void pop();
     
+	shared_ptr<Function> getTop();
     string getStack();
-    
 	string getMainFuncName();
 	void setResetOnBlock(bool reset);
 
@@ -232,10 +230,6 @@ protected:
 template<class FuncCls, typename... Params>
 inline void Function::push(Params... params) {
 	fsm->push<FuncCls>(params...);
-}
-
-inline void Function::pop() {
-	fsm->pop();
 }
 
 } //end NS
