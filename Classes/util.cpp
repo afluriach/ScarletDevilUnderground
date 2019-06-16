@@ -176,11 +176,6 @@ CCRect makeRect(Vec2 pos, CCSize bb)
 	);
 }
 
-string getRealPath(const string& path)
-{
-    return FileUtils::getInstance()->fullPathForFilename(path);
-}
-
 vector<string> splitString(const string& input,const string& sep)
 {
     vector<string> output;

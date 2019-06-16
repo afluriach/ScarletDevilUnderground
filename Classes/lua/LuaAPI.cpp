@@ -13,6 +13,7 @@
 #include "AIMixins.hpp"
 #include "AIUtil.hpp"
 #include "App.h"
+#include "FileIO.hpp"
 #include "GObject.hpp"
 #include "GScene.hpp"
 #include "GSpace.hpp"
@@ -142,7 +143,7 @@ const vector<string> Inst::luaIncludes = {
     
     void Inst::runFile(const string& path)
     {
-        luaL_loadfile(state, getRealPath(path).c_str());
+        luaL_loadfile(state, io::getRealPath(path).c_str());
         docall(state, 0, LUA_MULTRET);
     }
 

@@ -187,6 +187,11 @@ string getConfigFilePath()
 	return App::getBaseDataPath() + "config.txt";
 }
 
+string getRealPath(const string& path)
+{
+	return FileUtils::getInstance()->fullPathForFilename(path);
+}
+
 unique_ptr<GState> loadProfileState(string name)
 {
 	string profilePath = io::getProfilePath() + name + ".profile";

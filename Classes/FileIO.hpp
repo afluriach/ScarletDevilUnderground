@@ -28,6 +28,7 @@ string getProfilePath();
 string getReplayFolderPath();
 string getControlMappingPath();
 string getConfigFilePath();
+string getRealPath(const string& path);
 
 unique_ptr<GState> loadProfileState(string name);
 bool saveProfileState(const GState* state, string path);

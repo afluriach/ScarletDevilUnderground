@@ -60,7 +60,6 @@ void timerIncrement(SpaceFloat& x, const SpaceFloat& scale);
 
 string getNowTimestamp();
 
-string getRealPath(const string& path);
 vector<string> splitString(const string& input,const string& sep);
 bool isComment(const string& s);
 
