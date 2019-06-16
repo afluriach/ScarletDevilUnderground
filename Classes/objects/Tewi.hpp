@@ -29,7 +29,7 @@ public:
 
 	inline string imageSpritePath() const { return "sprites/tewi.png"; }
 
-	virtual void initStateMachine(ai::StateMachine& sm);
+	virtual void initStateMachine();
 };
 
 

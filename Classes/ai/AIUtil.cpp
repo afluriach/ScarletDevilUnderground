@@ -340,6 +340,11 @@ SpaceFloat getStoppingDistance(SpaceFloat speed, SpaceFloat acceleration)
 	return 0.5 * acceleration * t * t;
 }
 
+SpaceFloat getStoppingDistance(GObject* obj)
+{
+	return getStoppingDistance(obj->getMaxSpeed(), obj->getMaxAcceleration());
+}
+
 SpaceFloat getTurningRadius(SpaceFloat speed, SpaceFloat acceleration)
 {
 	return speed * speed / acceleration;

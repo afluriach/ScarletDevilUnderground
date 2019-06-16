@@ -25,13 +25,15 @@ public:
 
     inline string imageSpritePath() const {return "sprites/tewi.png";}
  
-	virtual void initStateMachine(ai::StateMachine& sm);
+	virtual void initStateMachine();
 };
 
 class FacerMain : public ai::Function {
 public:
-	virtual void onEnter(ai::StateMachine& sm);
-	virtual void update(ai::StateMachine& sm);
+	inline FacerMain(ai::StateMachine* fsm) : ai::Function(fsm) {}
+
+	virtual void onEnter();
+	virtual void update();
 	FuncGetName(FacerMain)
 protected:
 	gobject_ref target = nullptr;

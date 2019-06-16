@@ -21,16 +21,16 @@ SakuyaNPC::SakuyaNPC(GSpace* space, ObjectIDType id, const ValueMap& args) :
 	MapObjForwarding(Agent)
 {}
 
-void SakuyaNPC::initStateMachine(ai::StateMachine& sm) {
-	addThread(make_shared<SakuyaNPC1>());
+void SakuyaNPC::initStateMachine() {
+	addThread(make_shared<SakuyaNPC1>(&fsm));
 }
 
-void SakuyaNPC1::onEnter(ai::StateMachine& sm)
+void SakuyaNPC1::onEnter()
 {
 
 }
 
-void SakuyaNPC1::update(ai::StateMachine& sm)
+void SakuyaNPC1::update()
 {
-	sm.push(make_shared<ai::Wander>(0.25, 0.75, 4.0, 1.0));
+	push<ai::Wander>(0.25, 0.75, 4.0, 1.0);
 }

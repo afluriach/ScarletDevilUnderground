@@ -26,23 +26,23 @@ const AttributeMap Scorpion1::baseAttributes = {
 
 const string Scorpion1::properName = "Scorpion I";
 
-void Scorpion1::initStateMachine(ai::StateMachine& sm)
+void Scorpion1::initStateMachine()
 {
-	sm.addDetectFunction(
+	fsm.addDetectFunction(
 		GType::player,
-		[](ai::StateMachine& sm, GObject* target) -> void {
-			sm.addThread(make_shared<ai::Scurry>(
-				target->space,
+		[this](ai::StateMachine& sm, GObject* target) -> void {
+			fsm.addThread(make_shared<ai::Scurry>(
+				&fsm,
 				target,
 				3.0,
 				-1.0
 			));
 		}
 	);
-	sm.addEndDetectFunction(
+	fsm.addEndDetectFunction(
 		GType::player,
-		[](ai::StateMachine& sm, GObject* target) -> void {
-			sm.removeThread("Scurry");
+		[this](ai::StateMachine& sm, GObject* target) -> void {
+			fsm.removeThread("Scurry");
 		}
 	);
 
@@ -67,18 +67,18 @@ const AttributeMap Scorpion2::baseAttributes = {
 
 const string Scorpion2::properName = "Scorpion II";
 
-void Scorpion2::initStateMachine(ai::StateMachine& sm)
+void Scorpion2::initStateMachine()
 {
-	sm.addDetectFunction(
+	fsm.addDetectFunction(
 		GType::player,
-		[](ai::StateMachine& sm, GObject* target) -> void {
-			sm.addThread(make_shared<ai::Flank>(target, 1.0, 1.0));
+		[this](ai::StateMachine& sm, GObject* target) -> void {
+			fsm.addThread(make_shared<ai::Flank>(&fsm, target, 1.0, 1.0));
 		}
 	);
-	sm.addEndDetectFunction(
+	fsm.addEndDetectFunction(
 		GType::player,
-		[](ai::StateMachine& sm, GObject* target) -> void {
-			sm.removeThread("Flank");
+		[this](ai::StateMachine& sm, GObject* target) -> void {
+			fsm.removeThread("Flank");
 		}
 	);
 

@@ -15,10 +15,10 @@ namespace ai{
 
 class Seek : public Function {
 public:
-	Seek(GObject* target, bool usePathfinding, SpaceFloat margin = 0.0);
-    Seek(GSpace* space, const ValueMap& args);
+	Seek(StateMachine* fsm, GObject* target, bool usePathfinding, SpaceFloat margin = 0.0);
+    Seek(StateMachine* fsm, const ValueMap& args);
     
-	virtual void update(StateMachine& sm);
+	virtual void update();
     
 	GetLockmask(movement)
 	FuncGetName(Seek)
@@ -30,10 +30,10 @@ protected:
 
 class MaintainDistance : public Function {
 public:
-    MaintainDistance(gobject_ref target, SpaceFloat distance, SpaceFloat margin);
-    MaintainDistance(GSpace* space, const ValueMap& args);
+    MaintainDistance(StateMachine* fsm, gobject_ref target, SpaceFloat distance, SpaceFloat margin);
+    MaintainDistance(StateMachine* fsm, const ValueMap& args);
     
-	virtual void update(StateMachine& sm);
+	virtual void update();
     
     GetLockmask(movement)    
     FuncGetName(MaintainDistance)
@@ -46,16 +46,16 @@ class Flock : public Function {
 public:
 	static const SpaceFloat separationDesired;
 
-	Flock();
+	Flock(StateMachine* fsm);
 
-	virtual void update(StateMachine& sm);
+	virtual void update();
 
 	void onDetectNeighbor(Agent* agent);
 	void endDetectNeighbor(Agent* agent);
 
-	SpaceVect separate(Agent* _agent);
-	SpaceVect align(Agent* _agent);
-	SpaceVect cohesion(Agent* _agent);
+	SpaceVect separate();
+	SpaceVect align();
+	SpaceVect cohesion();
 
 	GetLockmask2(movement, look)
 	FuncGetName(Flock)
@@ -65,9 +65,9 @@ protected:
 
 class OccupyPoint : public Function {
 public:
-	OccupyPoint(SpaceVect target);
+	OccupyPoint(StateMachine* fsm, SpaceVect target);
 
-	virtual void update(StateMachine& sm);
+	virtual void update();
 
 	GetLockmask(movement)
 	FuncGetName(OccupyPoint)
@@ -77,9 +77,9 @@ protected:
 
 class OccupyMidpoint : public Function {
 public:
-	OccupyMidpoint(gobject_ref target1, gobject_ref target2);
+	OccupyMidpoint(StateMachine* fsm, gobject_ref target1, gobject_ref target2);
 
-	virtual void update(StateMachine& sm);
+	virtual void update();
 
 	GetLockmask(movement)
 	FuncGetName(OccupyMidpoint)
@@ -89,9 +89,14 @@ protected:
 
 class Scurry : public Function {
 public:
-	Scurry(GSpace* space, GObject* _target, SpaceFloat distance, SpaceFloat length);
+	Scurry(
+		StateMachine* fsm,
+		GObject* _target,
+		SpaceFloat distance,
+		SpaceFloat length
+	);
 
-	virtual void update(StateMachine& sm);
+	virtual void update();
 
 	GetLockmask(movement)
 	FuncGetName(Scurry)
@@ -104,10 +109,10 @@ protected:
 
 class Flee : public Function {
 public:
-	Flee(GObject* target, SpaceFloat distance);
-    Flee(GSpace* space, const ValueMap& args);
+	Flee(StateMachine* fsm, GObject* target, SpaceFloat distance);
+    Flee(StateMachine* fsm, const ValueMap& args);
     
-	virtual void update(StateMachine& sm);
+	virtual void update();
 
 	GetLockmask(movement)
 	FuncGetName(Flee)
@@ -118,10 +123,10 @@ protected:
 
 class EvadePlayerProjectiles : public Function {
 public:
-	EvadePlayerProjectiles();
-	EvadePlayerProjectiles(GSpace* space, const ValueMap& args);
+	EvadePlayerProjectiles(StateMachine* fsm);
+	EvadePlayerProjectiles(StateMachine* fsm, const ValueMap& args);
 
-	virtual void update(StateMachine& sm);
+	virtual void update();
 
 	inline virtual bitset<lockCount> getLockMask() {
 		return active ? make_enum_bitfield(ResourceLock::movement) : bitset<lockCount>();
@@ -134,11 +139,11 @@ protected:
 
 class IdleWait : public Function{
 public:
-    IdleWait(GSpace* space, const ValueMap& args);
-	IdleWait(int frames);
-	IdleWait();
+    IdleWait(StateMachine* fsm, const ValueMap& args);
+	IdleWait(StateMachine* fsm, int frames);
+	IdleWait(StateMachine* fsm);
 
-	virtual void update(StateMachine& fsm);
+	virtual void update();
     
 	GetLockmask(movement)
 	FuncGetName(IdleWait)
@@ -148,9 +153,9 @@ private:
 
 class LookAround : public Function {
 public:
-	LookAround(SpaceFloat angularVelocity);
+	LookAround(StateMachine* fsm, SpaceFloat angularVelocity);
 
-	virtual void update(StateMachine& fsm);
+	virtual void update();
 
 	GetLockmask(look)
 	FuncGetName(LookAround)
@@ -160,10 +165,15 @@ private:
 
 class CircleAround : public Function {
 public:
-	CircleAround(SpaceVect center, SpaceFloat startingAngularPos, SpaceFloat angularSpeed);
+	CircleAround(
+		StateMachine* fsm,
+		SpaceVect center,
+		SpaceFloat startingAngularPos,
+		SpaceFloat angularSpeed
+	);
 
-	virtual void init(StateMachine& fsm);
-	virtual void update(StateMachine& fsm);
+	virtual void init();
+	virtual void update();
 
 	GetLockmask(look)
 	FuncGetName(CircleAround)
@@ -175,14 +185,19 @@ private:
 
 class Flank : public Function {
 public:
-	Flank(gobject_ref target, SpaceFloat desiredDistance, SpaceFloat wallMargin);
+	Flank(
+		StateMachine* fsm,
+		gobject_ref target,
+		SpaceFloat desiredDistance,
+		SpaceFloat wallMargin
+	);
 
-	virtual void init(StateMachine& fsm);
-	virtual void update(StateMachine& fsm);
+	virtual void init();
+	virtual void update();
 	GetLockmask(movement);
 	FuncGetName(Flank);
 
-	bool wallQuery(StateMachine& fsm,SpaceVect pos);
+	bool wallQuery(SpaceVect pos);
 private:
 	gobject_ref target;
 	SpaceFloat desiredDistance;
@@ -191,9 +206,13 @@ private:
 
 class QuadDirectionLookAround : public Function {
 public:
-	QuadDirectionLookAround(boost::rational<int> secondsPerDirection, bool clockwise);
+	QuadDirectionLookAround(
+		StateMachine* fsm,
+		boost::rational<int> secondsPerDirection,
+		bool clockwise
+	);
 
-	virtual void update(StateMachine& fsm);
+	virtual void update();
 
 	GetLockmask(look)
 	FuncGetName(QuadDirectionLookAround)
@@ -205,9 +224,9 @@ private:
 
 class AimAtTarget : public Function {
 public:
-	AimAtTarget(gobject_ref target);
+	AimAtTarget(StateMachine* fsm, gobject_ref target);
 
-	virtual void update(StateMachine& fsm);
+	virtual void update();
 
 	GetLockmask(look)
 	FuncGetName(AimAtTarget)
@@ -222,11 +241,11 @@ public:
 	static constexpr float timeCoeff = 0.5f;
 	static constexpr float lookTimeCoeff = 0.125f;
 
-	LookTowardsFire(bool useShield);
+	LookTowardsFire(StateMachine* fsm, bool useShield);
 
-	virtual void onEnter(StateMachine& fsm);
-	virtual void update(StateMachine& fsm);
-	virtual void onExit(StateMachine& fsm);
+	virtual void onEnter();
+	virtual void update();
+	virtual void onExit();
 
 	void onBulletCollide(StateMachine& fsm, Bullet* b);
 
@@ -246,10 +265,10 @@ class MoveToPoint : public Function{
 public:
 	static const SpaceFloat arrivalMargin;
 
-    MoveToPoint(GSpace* space, const ValueMap& args);
-	MoveToPoint(SpaceVect target);
+    MoveToPoint(StateMachine* fsm, const ValueMap& args);
+	MoveToPoint(StateMachine* fsm, SpaceVect target);
     
-    virtual void update(StateMachine& fsm);
+    virtual void update();
 
 	GetLockmask(movement)
     FuncGetName(MoveToPoint)
@@ -259,9 +278,9 @@ protected:
 
 class BezierMove : public Function {
 public:
-	BezierMove(array<SpaceVect, 3> points, SpaceFloat rate);
+	BezierMove(StateMachine* fsm, array<SpaceVect, 3> points, SpaceFloat rate);
 
-	virtual void update(StateMachine& fsm);
+	virtual void update();
 
 	GetLockmask(movement)
 	FuncGetName(BezierMove)
@@ -273,13 +292,16 @@ protected:
 
 class FollowPath : public Function {
 public:
-	static shared_ptr<FollowPath> pathToTarget(GSpace* space, gobject_ref agent, gobject_ref target);
+	static shared_ptr<FollowPath> pathToTarget(
+		StateMachine* fsm,
+		gobject_ref target
+	);
 
-	FollowPath(GSpace* space, const ValueMap& args);
-	FollowPath(Path path, bool loop, bool stopForObstacle);
+	FollowPath(StateMachine* fsm, const ValueMap& args);
+	FollowPath(StateMachine* fsm, Path path, bool loop, bool stopForObstacle);
 	inline virtual ~FollowPath() {}
 
-	virtual void update(StateMachine& fsm);
+	virtual void update();
     
 	GetLockmask(movement)
 	FuncGetName(FollowPath)
@@ -292,11 +314,11 @@ protected:
 
 class PathToTarget : public FollowPath {
 public:
-	static shared_ptr<PathToTarget> create(GObject* agent, GObject* target);
+	static shared_ptr<PathToTarget> create(StateMachine* fsm, GObject* target);
 
-	PathToTarget(Path path, gobject_ref target);
+	PathToTarget(StateMachine* fsm, Path path, gobject_ref target);
 
-	virtual void update(StateMachine& sm);
+	virtual void update();
 	FuncGetName(PathToTarget)
 protected:
 	gobject_ref target;
@@ -304,14 +326,14 @@ protected:
 
 class Wander : public Function {
 public:
-    Wander(GSpace* space, const ValueMap& args);
-	Wander(SpaceFloat minWait, SpaceFloat maxWait, SpaceFloat minDist, SpaceFloat maxDist);
-	Wander(SpaceFloat waitInterval, SpaceFloat moveDist);
-	Wander();
+    Wander(StateMachine* fsm, const ValueMap& args);
+	Wander(StateMachine* fsm, SpaceFloat minWait, SpaceFloat maxWait, SpaceFloat minDist, SpaceFloat maxDist);
+	Wander(StateMachine* fsm, SpaceFloat waitInterval, SpaceFloat moveDist);
+	Wander(StateMachine* fsm);
 
-	pair<Direction, SpaceFloat> chooseMovement(StateMachine& fsm);
+	pair<Direction, SpaceFloat> chooseMovement();
 
-    virtual void update(StateMachine& sm);
+    virtual void update();
 
 	GetLockmask(movement)
 	FuncGetName(Wander)
@@ -323,9 +345,9 @@ protected:
 
 class Operation : public Function {
 public:
-	Operation(std::function<void(StateMachine&)> op);
+	Operation(StateMachine* fsm, std::function<void(StateMachine&)> op);
 	
-	virtual void update(StateMachine& sm);
+	virtual void update();
     
 	FuncGetName(Operation)
 protected:
@@ -334,11 +356,11 @@ protected:
 
 class Cast : public Function {
 public:
-	Cast(SpellGeneratorType spell_generator, SpaceFloat length = 0.0);
+	Cast(StateMachine* fsm, SpellGeneratorType spell_generator, SpaceFloat length = 0.0);
 
-	virtual void onEnter(StateMachine& sm);
-	virtual void update(StateMachine& sm);
-	virtual void onExit(StateMachine& sm);
+	virtual void onEnter();
+	virtual void update();
+	virtual void onExit();
 
 	GetLockmask(spellcasting)
 	FuncGetName(Cast)
@@ -350,11 +372,11 @@ protected:
 
 class HPCast : public Function {
 public:
-	HPCast(SpellGeneratorType spell_generator, float hp_difference);
+	HPCast(StateMachine* fsm, SpellGeneratorType spell_generator, float hp_difference);
 
-	virtual void onEnter(StateMachine& sm);
-	virtual void update(StateMachine& sm);
-	virtual void onExit(StateMachine& sm);
+	virtual void onEnter();
+	virtual void update();
+	virtual void onExit();
 
 	GetLockmask(spellcasting)
 	FuncGetName(HPCast)
@@ -366,11 +388,15 @@ protected:
 
 class HPCastSequence : public Function {
 public:
-	HPCastSequence(const vector<SpellGeneratorType>& spells, const boost::icl::interval_map<float, int> intervals);
+	HPCastSequence(
+		StateMachine* fsm,
+		const vector<SpellGeneratorType>& spells,
+		const boost::icl::interval_map<float, int> intervals
+	);
 
-	virtual void onEnter(StateMachine& sm);
-	virtual void update(StateMachine& sm);
-	virtual void onExit(StateMachine& sm);
+	virtual void onEnter();
+	virtual void update();
+	virtual void onExit();
 
 	GetLockmask(spellcasting)
 	FuncGetName(HPCastSequence)
@@ -382,9 +408,9 @@ protected:
 
 class FireOnStress : public Function {
 public:
-	FireOnStress(float stressPerShot);
+	FireOnStress(StateMachine* fsm, float stressPerShot);
 
-	virtual void update(StateMachine& sm);
+	virtual void update();
 
 	GetLockmask(fire)
 	FuncGetName(FireOnStress)
@@ -394,9 +420,9 @@ protected:
 
 class FireAtTarget : public Function {
 public:
-	FireAtTarget(gobject_ref target);
+	FireAtTarget(StateMachine* fsm, gobject_ref target);
 
-	virtual void update(StateMachine& sm);
+	virtual void update();
 
 	GetLockmask2(look,fire)
 	FuncGetName(FireAtTarget)
@@ -406,9 +432,9 @@ protected:
 
 class FireIfTargetVisible : public Function {
 public:
-	FireIfTargetVisible(gobject_ref target);
+	FireIfTargetVisible(StateMachine* fsm, gobject_ref target);
 
-	virtual void update(StateMachine& sm);
+	virtual void update();
 
 	GetLockmask(fire)
 	FuncGetName(FireIfTargetsVisible)
@@ -419,6 +445,7 @@ protected:
 class ThrowBombs : public Function {
 public:
 	ThrowBombs(
+		StateMachine* fsm,
 		gobject_ref target,
 		BombGeneratorType generator,
 		SpaceFloat throwingSpeed,
@@ -428,11 +455,11 @@ public:
 		float cost
 	);
 
-	virtual void init(StateMachine& fsm);
-	virtual void update(StateMachine& fsm);
+	virtual void init();
+	virtual void update();
 
-	SpaceFloat getInterval(StateMachine& fsm);
-	float score(GSpace* space, SpaceVect pos, SpaceFloat angle);
+	SpaceFloat getInterval();
+	float score(SpaceVect pos, SpaceFloat angle);
 
 	GetLockmask(bomb)
 	FuncGetName(ThrowBombs)

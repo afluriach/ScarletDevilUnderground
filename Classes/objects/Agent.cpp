@@ -49,7 +49,7 @@ Agent::Agent(GSpace* space, ObjectIDType id, const ValueMap& args) :
 
 void Agent::initFSM()
 {
-	initStateMachine(fsm);
+	initStateMachine();
 }
 
 void Agent::initAttributes()
@@ -447,26 +447,26 @@ GenericAgent::GenericAgent(GSpace* space, ObjectIDType id, const ValueMap& args)
 	spriteName = args.at("sprite").asString();
 }
 
-void GenericAgent::initStateMachine(ai::StateMachine& sm)
+void GenericAgent::initStateMachine()
 {
 	auto wanderThread = make_shared<ai::Thread>(
-		make_shared<ai::Wander>(1.0, 3.0, 2.0, 4.0),
+		make_shared<ai::Wander>(&fsm, 1.0, 3.0, 2.0, 4.0),
 		&fsm,
 		0,
 		make_enum_bitfield(ai::ResourceLock::movement)
 	);
 
-	sm.addDetectFunction(
+	fsm.addDetectFunction(
 		GType::player,
 		[=](ai::StateMachine& sm, GObject* target) -> void {
-			 sm.addThread(make_shared<ai::Flee>(target, 3.0f), 1);
+			 fsm.addThread(make_shared<ai::Flee>(&fsm, target, 3.0f), 1);
 		}
 	);
 
-	sm.addEndDetectFunction(
+	fsm.addEndDetectFunction(
 		GType::player,
 		[=](ai::StateMachine& sm, GObject* target) -> void {
-			sm.removeThread("Flee");
+			fsm.removeThread("Flee");
 		}
 	);
 

@@ -27,7 +27,7 @@ public:
 	virtual string getDialog();
 	virtual void onDialogEnd();
 
-	virtual void initStateMachine(ai::StateMachine& sm);
+	virtual void initStateMachine();
 };
 
 class PatchouliEnemy : public Enemy, public BaseAttributes<PatchouliEnemy>
@@ -44,15 +44,15 @@ public:
 	inline string imageSpritePath() const { return "sprites/patchouli.png"; }
 	inline GraphicsLayer sceneLayer() const { return GraphicsLayer::ground; }
 
-	virtual void initStateMachine(ai::StateMachine& sm);
+	virtual void initStateMachine();
 };
 
 class PatchouliMain : public ai::Function {
 public:
 	static const int castInterval;
 
-	virtual void onEnter(ai::StateMachine& sm);
-	virtual void update(ai::StateMachine& sm);
+	virtual void onEnter();
+	virtual void update();
 	FuncGetName(PatchouliMain)
 protected:
 	float prevHP;

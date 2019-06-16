@@ -89,32 +89,32 @@ void ReimuEnemy::removeOrbs()
 	}
 }
 
-void ReimuEnemy::initStateMachine(ai::StateMachine& fsm)
+void ReimuEnemy::initStateMachine()
 {
 	fsm.addDetectFunction(
 		GType::player,
 		[this](ai::StateMachine& sm, GObject* target) -> void {
 			if (!sm.isThreadRunning("ReimuMain")) {
-				sm.agent->space->createDialog("dialogs/reimu_forest_pre_fight", false);
+				space->createDialog("dialogs/reimu_forest_pre_fight", false);
 				this->lockDoors();
 				this->spawnOrbs();
-				sm.addThread(make_shared<ReimuMain>());
-				sm.addThread(make_shared<ai::FireAtTarget>(target));
-				sm.addThread(make_shared<ai::Flank>(target, 3.0, 2.0), 1);
+				fsm.addThread(make_shared<ReimuMain>(&fsm));
+				fsm.addThread(make_shared<ai::FireAtTarget>(&fsm, target));
+				fsm.addThread(make_shared<ai::Flank>(&fsm, target, 3.0, 2.0), 1);
 			}
 		}
 	);
 }
 
-void ReimuMain::onEnter(ai::StateMachine& sm)
+void ReimuMain::onEnter()
 {
 }
 
-void ReimuMain::update(ai::StateMachine& sm)
+void ReimuMain::update()
 {
 
 }
 
-void ReimuMain::onExit(ai::StateMachine& sm)
+void ReimuMain::onExit()
 {
 }

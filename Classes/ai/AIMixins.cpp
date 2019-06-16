@@ -31,7 +31,7 @@ StateMachineObject::StateMachineObject(shared_ptr<ai::Function> startState, cons
     //If startState is provided in the object args map, try to construct it.
     if(searchIter != args.end())
     {
-        stateFromArgs = ai::Function::constructState(searchIter->second.asString(), space, args);
+        stateFromArgs = ai::Function::constructState(searchIter->second.asString(), &fsm, args);
         
         if(!stateFromArgs){
             log("%s: failed to construct state %s", getName().c_str(),searchIter->second.asString().c_str());

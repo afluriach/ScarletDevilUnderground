@@ -31,26 +31,26 @@ bool Facer::hit(DamageInfo damage)
 	return true;
 }
 
-void Facer::initStateMachine(ai::StateMachine& sm) {
-	sm.addThread(make_shared<FacerMain>());
+void Facer::initStateMachine() {
+	fsm.addThread(make_shared<FacerMain>(&fsm));
 }
 
-void FacerMain::onEnter(ai::StateMachine& sm)
+void FacerMain::onEnter()
 {
-	target = sm.agent->space->getObject("player");
+	target = agent->space->getObject("player");
 }
 
-void FacerMain::update(ai::StateMachine& sm)
+void FacerMain::update()
 {
 	if (target.isValid()) {
-		if (ai::isFacingTarget(sm.agent, target.get())) {
-			sm.agent->setVel(SpaceVect::ray(sm.agent->getMaxSpeed(), sm.agent->getAngle()));
+		if (ai::isFacingTarget(agent, target.get())) {
+			agent->setVel(SpaceVect::ray(agent->getMaxSpeed(), agent->getAngle()));
 		}
 		else {
-			sm.agent->setVel(SpaceVect::zero);
+			agent->setVel(SpaceVect::zero);
 		}
 	}
 	else {
-		sm.pop();
+		pop();
 	}
 }

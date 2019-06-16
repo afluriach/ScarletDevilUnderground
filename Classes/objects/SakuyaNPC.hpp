@@ -27,7 +27,7 @@ public:
 
     inline string imageSpritePath() const {return "sprites/sakuya.png";}
 
-	virtual void initStateMachine(ai::StateMachine& sm);
+	virtual void initStateMachine();
 
 	inline virtual bool isDialogAvailable() { return true; }
 	inline virtual string getDialog() { return "dialogs/sakuya1"; }
@@ -35,8 +35,10 @@ public:
 
 class SakuyaNPC1 : public ai::Function {
 public:
-	virtual void onEnter(ai::StateMachine& sm);
-	virtual void update(ai::StateMachine& sm);
+	inline SakuyaNPC1(ai::StateMachine* fsm) : ai::Function(fsm) {}
+
+	virtual void onEnter();
+	virtual void update();
 	FuncGetName(SakuyaMain)
 };
 

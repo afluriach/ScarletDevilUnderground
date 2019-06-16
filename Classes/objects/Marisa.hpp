@@ -46,26 +46,30 @@ public:
 class CollectMarisa : public Marisa {
 public:
 	MapObjCons(CollectMarisa);
-	virtual void initStateMachine(ai::StateMachine& sm);
+	virtual void initStateMachine();
 };
 
 class ForestMarisa : public Marisa {
 public:
 	MapObjCons(ForestMarisa);
-	virtual void initStateMachine(ai::StateMachine& sm);
+	virtual void initStateMachine();
 };
 
 class MarisaCollectMain : public ai::Function {
 public:
-	virtual void onEnter(ai::StateMachine& sm);
-	virtual void update(ai::StateMachine& sm);
+	inline MarisaCollectMain(ai::StateMachine* fsm) : ai::Function(fsm) {}
+
+	virtual void onEnter();
+	virtual void update();
 	FuncGetName(MarisaCollectMain)
 };
 
 class MarisaForestMain : public ai::Function {
 public:
-	virtual void onEnter(ai::StateMachine& sm);
-	virtual void update(ai::StateMachine& sm);
+	inline MarisaForestMain(ai::StateMachine* fsm) : ai::Function(fsm) {}
+
+	virtual void onEnter();
+	virtual void update();
 	FuncGetName(MarisaForestMain)
 };
 

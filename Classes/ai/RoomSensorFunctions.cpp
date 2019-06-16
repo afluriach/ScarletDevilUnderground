@@ -16,21 +16,24 @@
 
 namespace ai{
 
-SequentialClearSpawn::SequentialClearSpawn(GSpace* space, const ValueMap& args) {
+SequentialClearSpawn::SequentialClearSpawn(StateMachine* fsm, const ValueMap& args) :
+	Function(fsm)
+{
 }
 
-void SequentialClearSpawn::update(StateMachine& sm)
+void SequentialClearSpawn::update()
 {
-	RoomSensor* rs = sm.getRoomSensor();
+	RoomSensor* rs = fsm->getRoomSensor();
 
 	if (rs->hasPlayer() && !rs->hasEnemies())
 	{
 		if (rs->activateAllSpawners() == 0)
-			sm.pop();
+			pop();
 	}
 }
 
-MultiSpawnSequence::MultiSpawnSequence(GSpace* space, const ValueMap& args)
+MultiSpawnSequence::MultiSpawnSequence(StateMachine* fsm, const ValueMap& args) :
+	Function(fsm)
 {
 	vector<type_index> types = getObjectVector<type_index>(args, &GObject::getTypeIndex, "type");
 	vector<int> totalCounts = getObjectVector<int>(args, &boost::lexical_cast<int, string>, "totalCount");
@@ -60,15 +63,15 @@ MultiSpawnSequence::MultiSpawnSequence(GSpace* space, const ValueMap& args)
 				waveCounts.at(i),
 				totalCounts.at(i)
 			});
-			space->increaseSpawnTotal(types.at(i), totalCounts.at(i));
+			fsm->getSpace()->increaseSpawnTotal(types.at(i), totalCounts.at(i));
 			totalSpawns.insert_or_assign(types.at(i), 0);
 		}
 	}
 }
 
-void MultiSpawnSequence::update(StateMachine& sm)
+void MultiSpawnSequence::update()
 {
-	RoomSensor* rs = sm.getRoomSensor();
+	RoomSensor* rs = fsm->getRoomSensor();
 	bool isCompleted = true;
 
 	if (!rs->hasPlayer()) return;
@@ -91,10 +94,11 @@ void MultiSpawnSequence::update(StateMachine& sm)
 	}
 
 	if (isCompleted)
-		sm.pop();
+		pop();
 }
 
-TimedSpawnSequence::TimedSpawnSequence(GSpace* space, const ValueMap& args)
+TimedSpawnSequence::TimedSpawnSequence(StateMachine* fsm, const ValueMap& args) :
+	Function(fsm)
 {
 	vector<SpaceFloat> spawnTimes = getObjectVector<double>(
 		args,
@@ -109,7 +113,7 @@ TimedSpawnSequence::TimedSpawnSequence(GSpace* space, const ValueMap& args)
 	for_irange(i, 0, spawners.size())
 	{
 		vector<string> spawnerNames = splitString(spawners.at(i).asString(), " ");
-		vector<Spawner*> _spawners = space->getObjectsAs<Spawner>(spawnerNames);
+		vector<Spawner*> _spawners = fsm->getSpace()->getObjectsAs<Spawner>(spawnerNames);
 
 		for (string s : spawnerNames) {
 		}
@@ -121,10 +125,10 @@ TimedSpawnSequence::TimedSpawnSequence(GSpace* space, const ValueMap& args)
 	}
 }
 
-void TimedSpawnSequence::update(StateMachine& sm)
+void TimedSpawnSequence::update()
 {
 	if (entryIdx >= spawnEntries.size()) {
-		sm.pop();
+		pop();
 		return;
 	}
 
@@ -142,7 +146,7 @@ void TimedSpawnSequence::update(StateMachine& sm)
 
 	auto entry = spawnEntries.at(entryIdx);
 
-	if (sm.getRoomSensor()->getTimeInRoom() >= entry.startTime)
+	if (fsm->getRoomSensor()->getTimeInRoom() >= entry.startTime)
 	{
 		for (Spawner* s : entry.spawners) {
 			if (s->canSpawn()) {

@@ -33,9 +33,9 @@ public:
 	virtual bool isAgentAnimation() const { return true; }
 	virtual inline int pixelWidth() const { return 128; }
 
-	void flee_player(ai::StateMachine& sm, const ValueMap& args);
-	void idle(ai::StateMachine& sm, const ValueMap& args);
-	void wander(ai::StateMachine& sm, const ValueMap& args);
+	void flee_player(const ValueMap& args);
+	void idle(const ValueMap& args);
+	void wander(const ValueMap& args);
 };
 
 class BlueFairyNPC :
@@ -81,7 +81,7 @@ public:
 	virtual bool isAgentAnimation() const { return true; }
 	virtual inline int pixelWidth() const { return 128; }
 
-	virtual void initStateMachine(ai::StateMachine& sm);
+	virtual void initStateMachine();
 };
 
 #endif /* FairyNPC_hpp */

@@ -46,6 +46,7 @@ bool isInFieldOfView(GObject* agent, SpaceVect target, SpaceFloat fovAngleScalar
 
 SpaceFloat getStoppingTime(SpaceFloat speed, SpaceFloat acceleration);
 SpaceFloat getStoppingDistance(SpaceFloat speed, SpaceFloat accceleration);
+SpaceFloat getStoppingDistance(GObject* obj);
 SpaceFloat getTurningRadius(SpaceFloat speed, SpaceFloat acceleration);
 
 SpaceVect bezier(array<SpaceVect, 3> points, SpaceFloat t);

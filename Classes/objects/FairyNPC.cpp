@@ -37,30 +37,30 @@ FairyMaid::FairyMaid(GSpace* space, ObjectIDType id, const ValueMap& args) :
 {
 }
 
-void FairyMaid::flee_player(ai::StateMachine& sm, const ValueMap& args) {
-	sm.addDetectFunction(
+void FairyMaid::flee_player(const ValueMap& args) {
+	fsm.addDetectFunction(
 		GType::player,
-		[](ai::StateMachine& sm, GObject* target) -> void {
-			sm.addThread(make_shared<ai::Flee>(target, 1.5), 1);
+		[this](ai::StateMachine& sm, GObject* target) -> void {
+			fsm.addThread(make_shared<ai::Flee>(&fsm, target, 1.5), 1);
 		}
 	);
-	sm.addEndDetectFunction(
+	fsm.addEndDetectFunction(
 		GType::player,
-		[](ai::StateMachine& sm, GObject* target) -> void {
-			sm.removeThread("Flee");
+		[this](ai::StateMachine& sm, GObject* target) -> void {
+			fsm.removeThread("Flee");
 		}
 	);
-	sm.addThread(make_shared<ai::IdleWait>(), 0);
+	fsm.addThread(make_shared<ai::IdleWait>(&fsm), 0);
 }
 
-void FairyMaid::idle(ai::StateMachine& sm, const ValueMap& args)
+void FairyMaid::idle(const ValueMap& args)
 {
-	sm.addThread(make_shared<ai::IdleWait>());
+	fsm.addThread(make_shared<ai::IdleWait>(&fsm));
 }
 
-void FairyMaid::wander(ai::StateMachine& sm, const ValueMap& args)
+void FairyMaid::wander(const ValueMap& args)
 {
-	sm.addThread(make_shared<ai::Wander>());
+	fsm.addThread(make_shared<ai::Wander>(&fsm));
 }
 
 bool BlueFairyNPC::conditionalLoad(GSpace* space, ObjectIDType id, const ValueMap& args)
@@ -123,15 +123,15 @@ GhostFairyNPC::GhostFairyNPC(GSpace* space, ObjectIDType id, const ValueMap& arg
 {
 }
 
-void GhostFairyNPC::initStateMachine(ai::StateMachine& sm)
+void GhostFairyNPC::initStateMachine()
 {
-	sm.addThread(make_shared<ai::Wander>(), 1);
+	fsm.addThread(make_shared<ai::Wander>(&fsm), 1);
 
-	sm.addDetectFunction(
+	fsm.addDetectFunction(
 		GType::player,
-		[](ai::StateMachine& sm, GObject* target) -> void {
-			if(!sm.isThreadRunning("Seek"))
-				sm.addThread(make_shared<ai::Seek>(target, true, 1.5), 2);
+		[this](ai::StateMachine& sm, GObject* target) -> void {
+			if(!fsm.isThreadRunning("Seek"))
+				fsm.addThread(make_shared<ai::Seek>(&fsm, target, true, 1.5), 2);
 		}
 	);
 }

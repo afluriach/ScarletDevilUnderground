@@ -149,7 +149,7 @@ public:
 	inline GraphicsLayer sceneLayer() const { return GraphicsLayer::ground; }
 
 	//AI interface
-	virtual inline void initStateMachine(ai::StateMachine& sm) {}
+	virtual inline void initStateMachine() {}
 protected:
 	void updateAgentOverlay();
 
@@ -186,7 +186,7 @@ template<class C>
 class AIPackage : virtual public Agent
 {
 public: 
-	using fsmInitFunction = void(C::*)(ai::StateMachine&, const ValueMap& args);
+	using fsmInitFunction = void(C::*)(const ValueMap& args);
 
 	typedef unordered_map<string, fsmInitFunction> AIPackageMap;
 
@@ -197,12 +197,12 @@ public:
 		packageName = getStringOrDefault(args, "ai_package", _default);
 	}
 
-	inline virtual void initStateMachine(ai::StateMachine& sm)
+	inline virtual void initStateMachine()
 	{
 		auto it = C::aiPackages.find(packageName);
 		if (it != C::aiPackages.end()){
 			fsmInitFunction f = it->second;
-			(agent->*f)(sm, args);
+			(agent->*f)(args);
 		}
 		args.clear();
 	}
@@ -257,7 +257,7 @@ public:
     inline string imageSpritePath() const {return "sprites/"+spriteName+".png";}
     //inline GraphicsLayer sceneLayer() const {return GraphicsLayer::ground;}
 
-	virtual void initStateMachine(ai::StateMachine& sm);
+	virtual void initStateMachine();
 protected:
     string spriteName;
 };

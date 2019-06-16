@@ -19,15 +19,23 @@
 
 namespace ai{
 
-shared_ptr<Function> Function::constructState(const string& type, GSpace* space, const ValueMap& args)
-{
+shared_ptr<Function> Function::constructState(
+	const string& type,
+	StateMachine* fsm,
+	const ValueMap& args
+){
 	Function::AdapterType adapter = getOrDefault(Function::adapters, type, Function::AdapterType());
 
 	if (adapter)
-		return adapter(space, args);
+		return adapter(fsm, args);
 	else
 		return nullptr;
 }
+
+Function::Function(StateMachine* fsm) :
+	fsm(fsm),
+	agent(fsm->getAgent())
+{}
 
 unsigned int Thread::nextUUID = 1;
 
@@ -56,7 +64,7 @@ sm(sm)
 	}
 }
 
-void Thread::update(StateMachine& sm)
+void Thread::update()
 {
 	if (call_stack.empty()) {
 		completed = true;
@@ -66,14 +74,14 @@ void Thread::update(StateMachine& sm)
 	Function* crnt = call_stack.back().get();
 
 	if (!crnt->hasRunInit) {
-		crnt->onEnter(sm);
+		crnt->onEnter();
 		crnt->hasRunInit = true;
 	}
 
-	crnt->update(sm);
+	crnt->update();
 }
 
-void Thread::onDelay(StateMachine& sm)
+void Thread::onDelay()
 {
     if(resetOnBlock)
     {
@@ -94,11 +102,11 @@ void Thread::pop()
 		return;
 	Function* crnt = call_stack.back().get();
 
-	crnt->onExit(*sm);
+	crnt->onExit();
 	call_stack.pop_back();
 
 	if (!call_stack.empty())
-		call_stack.back()->onReturn(*sm);
+		call_stack.back()->onReturn();
 }
 
 string Thread::getStack()
@@ -163,17 +171,17 @@ void StateMachine::update()
                 
                 locks |= lockMask;
                 
-                crntThread->update(*this);
+                crntThread->update();
             }
             else
             {
                 //Call the thread onDelay if there was a conflict with the thread
                 //lock bits.
                 if((locks & crntThread->lockMask).any()){
-                    crntThread->onDelay(*this);
+                    crntThread->onDelay();
                 }
                 if((locks & crntThread->call_stack.back()->getLockMask()).any()){
-                    crntThread->call_stack.back()->onDelay(*this);
+                    crntThread->call_stack.back()->onDelay();
                 }
             }
             crntThread = nullptr;
@@ -386,6 +394,10 @@ string StateMachine::toString()
         ss << "thread " << t->uuid << ", pri " << t->priority << ", stack:  " << t->getStack() << "\n";
     }
     return ss.str();
+}
+
+GSpace* StateMachine::getSpace() {
+	return agent->space;
 }
 
 Agent* StateMachine::getAgent() {

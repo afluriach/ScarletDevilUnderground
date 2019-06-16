@@ -16,7 +16,9 @@ using namespace ai;
 template <typename T>
 static constexpr Function::AdapterType consAdapter()
 {
-    return [](GSpace* space, const ValueMap& args) -> shared_ptr<Function> { return make_shared<T>(space, args); };
+    return [](StateMachine* fsm, const ValueMap& args) -> shared_ptr<Function> {
+		return make_shared<T>(fsm, args);
+	};
 }
 
 #define entry(name,cls) {name, consAdapter<cls>()}

@@ -26,29 +26,29 @@ Bat::Bat(GSpace* space, ObjectIDType id, const ValueMap& args) :
 	Enemy(collectible_id::nil)
 {}
 
-void Bat::initStateMachine(ai::StateMachine& sm) {
-	sm.addDetectFunction(
+void Bat::initStateMachine() {
+	fsm.addDetectFunction(
 		GType::player,
-		[](ai::StateMachine& sm, GObject* target) -> void {
-			sm.addThread(make_shared<BatMain>());
+		[this](ai::StateMachine& sm, GObject* target) -> void {
+			fsm.addThread(make_shared<BatMain>(&fsm));
 		}
 	);
-	sm.addEndDetectFunction(
+	fsm.addEndDetectFunction(
 		GType::player,
-		[](ai::StateMachine& sm, GObject* target) -> void {
-			sm.removeThread("BatMain");
+		[this](ai::StateMachine& sm, GObject* target) -> void {
+			fsm.removeThread("BatMain");
 		}
 	);
 }
 
-void BatMain::onEnter(ai::StateMachine& sm)
+void BatMain::onEnter()
 {
-	target = sm.agent->space->getObject("player");
+	target = agent->space->getObject("player");
 }
 
-void BatMain::update(ai::StateMachine& sm)
+void BatMain::update()
 {
-	if (!target.isValid()) sm.pop();
+	if (!target.isValid()) pop();
 
-	sm.push(make_shared<ai::Flank>(target, 2.0, 1.0));
+	push<ai::Flank>(target, 2.0, 1.0);
 }

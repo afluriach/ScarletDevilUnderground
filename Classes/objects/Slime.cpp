@@ -26,18 +26,18 @@ const AttributeMap Slime1::baseAttributes = {
 
 const string Slime1::properName = "Slime I";
 
-void Slime1::initStateMachine(ai::StateMachine& sm)
+void Slime1::initStateMachine()
 {
-	sm.addDetectFunction(
+	fsm.addDetectFunction(
 		GType::player,
-		[](ai::StateMachine& sm, GObject* target) -> void {
-			sm.addThread(make_shared<ai::Seek>(target, false));
+		[this](ai::StateMachine& sm, GObject* target) -> void {
+			fsm.addThread(make_shared<ai::Seek>(&fsm, target, false));
 		}
 	);
-	sm.addEndDetectFunction(
+	fsm.addEndDetectFunction(
 		GType::player,
-		[](ai::StateMachine& sm, GObject* target) -> void {
-			sm.removeThread("Seek");
+		[this](ai::StateMachine& sm, GObject* target) -> void {
+			fsm.removeThread("Seek");
 		}
 	);
 }
@@ -61,18 +61,18 @@ const AttributeMap Slime2::baseAttributes = {
 
 const string Slime2::properName = "Slime II";
 
-void Slime2::initStateMachine(ai::StateMachine& sm)
+void Slime2::initStateMachine()
 {
-	sm.addDetectFunction(
+	fsm.addDetectFunction(
 		GType::player,
-		[](ai::StateMachine& sm, GObject* target) -> void {
-			sm.addThread(make_shared<ai::Seek>(target, true));
+		[this](ai::StateMachine& sm, GObject* target) -> void {
+			fsm.addThread(make_shared<ai::Seek>(&fsm, target, true));
 		}
 	);
-	sm.addEndDetectFunction(
+	fsm.addEndDetectFunction(
 		GType::player,
-		[](ai::StateMachine& sm, GObject* target) -> void {
-			sm.removeThread("Seek");
+		[this](ai::StateMachine& sm, GObject* target) -> void {
+			fsm.removeThread("Seek");
 		}
 	);
 }

@@ -27,53 +27,55 @@ Sakuya::Sakuya(GSpace* space, ObjectIDType id, const ValueMap& args) :
 	Enemy(collectible_id::nil)
 {}
 
-void Sakuya::initStateMachine(ai::StateMachine& sm) {
-	addThread(make_shared<SakuyaMain>());
+void Sakuya::initStateMachine() {
+	addThread(make_shared<SakuyaMain>(&fsm));
 }
 
-void SakuyaMain::onEnter(ai::StateMachine& sm)
+void SakuyaMain::onEnter()
 {
 }
 
-void SakuyaMain::update(ai::StateMachine& sm)
+void SakuyaMain::update()
 {
-	sm.push(make_shared<ai::Cast>(make_spell_generator<IllusionDial>()));
+	push<ai::Cast>(make_spell_generator<IllusionDial>());
 }
 
 const SpaceFloat IllusionDash::scale = 2.5;
 const SpaceFloat IllusionDash::opacity = 0.25;
 const SpaceFloat IllusionDash::speed = 10.0;
 
-IllusionDash::IllusionDash(SpaceVect _target) :
+IllusionDash::IllusionDash(ai::StateMachine* fsm, SpaceVect _target) :
+	ai::Function(fsm),
 	target(_target)
 {}
 
-IllusionDash::IllusionDash(GSpace* space, const ValueMap& args)
+IllusionDash::IllusionDash(ai::StateMachine* fsm, const ValueMap& args) :
+	ai::Function(fsm)
 {
 	auto t = args.at("target").asValueMap();
 
 	target = SpaceVect(t.at("x").asFloat(), t.at("y").asFloat());
 }
 
-void IllusionDash::onEnter(ai::StateMachine& sm)
+void IllusionDash::onEnter()
 {
-	SpaceVect disp = ai::displacementToTarget(sm.agent, target);
+	SpaceVect disp = ai::displacementToTarget(agent, target);
 
-	sm.agent->setVel(disp.normalizeSafe()*speed);
-	sm.agent->space->addGraphicsAction(
+	agent->setVel(disp.normalizeSafe()*speed);
+	agent->space->addGraphicsAction(
 		&graphics_context::runSpriteAction,
-		sm.agent->spriteID,
+		agent->spriteID,
 		motionBlurStretch(disp.length() / speed, disp.toAngle(), opacity, scale)
 	);
 }
 
-void IllusionDash::update(ai::StateMachine& sm)
+void IllusionDash::update()
 {
-	SpaceVect disp = ai::displacementToTarget(sm.agent, target);
-	sm.agent->setVel(disp.normalizeSafe()*speed);
+	SpaceVect disp = ai::displacementToTarget(agent, target);
+	agent->setVel(disp.normalizeSafe()*speed);
 
 	if (disp.lengthSq() < 0.125f) {
-		sm.agent->setVel(SpaceVect::zero);
-		sm.pop();
+		agent->setVel(SpaceVect::zero);
+		pop();
 	}
 }

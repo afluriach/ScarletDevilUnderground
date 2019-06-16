@@ -57,7 +57,7 @@ public:
 	virtual inline string imageSpritePath() const { return "sprites/reimu.png"; }
 	virtual inline GraphicsLayer sceneLayer() const { return GraphicsLayer::ground; }
 
-	virtual void initStateMachine(ai::StateMachine& fsm);
+	virtual void initStateMachine();
 protected:
 	string activations;
 	array<gobject_ref, orbCount> orbs;
@@ -66,9 +66,11 @@ protected:
 class ReimuMain : public ai::Function
 {
 public:
-	virtual void onEnter(ai::StateMachine& sm);
-	virtual void update(ai::StateMachine& sm);
-	virtual void onExit(ai::StateMachine& sm);
+	inline ReimuMain(ai::StateMachine* fsm) : ai::Function(fsm) {}
+
+	virtual void onEnter();
+	virtual void update();
+	virtual void onExit();
 	FuncGetName(ReimuMain)
 };
 

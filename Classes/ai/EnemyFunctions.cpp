@@ -19,25 +19,27 @@ const SpaceFloat BlueFairyPowerAttack::triggerLength = 1.0;
 const SpaceFloat BlueFairyPowerAttack::triggerDist = 2.0;
 const float BlueFairyPowerAttack::cost = 15.0f;
 
-BlueFairyPowerAttack::BlueFairyPowerAttack() {}
+BlueFairyPowerAttack::BlueFairyPowerAttack(StateMachine* fsm) :
+	Function(fsm)
+{}
 
-void BlueFairyPowerAttack::update(StateMachine& fsm)
+void BlueFairyPowerAttack::update()
 {
-	SpaceFloat targetDist = fsm.getAgent()->getSensedObjectDistance(GType::player);
-	auto& as = *fsm.getAgent()->getAttributeSystem();
+	SpaceFloat targetDist = agent->getSensedObjectDistance(GType::player);
+	auto& as = *agent->getAttributeSystem();
 
-	if(!fsm.agent->isSpellActive()) timerDecrement(timer);
+	if(!agent->isSpellActive()) timerDecrement(timer);
 	accumulator = 
 		(accumulator + app::params.secondsPerFrame) * 
 		to_int(!isnan(targetDist) && targetDist < triggerDist);
 
 	if (
-		!fsm.agent->isSpellActive() &&
+		!agent->isSpellActive() &&
 		as[Attribute::mp] >= cost &&
 		accumulator >= triggerLength &&
 		timer <= 0.0
 	) {
-		fsm.agent->cast(make_shared<BlueFairyBomb>(fsm.agent));
+		agent->cast(make_shared<BlueFairyBomb>(agent));
 		accumulator = 0.0;
 		timer = cooldown;
 	}

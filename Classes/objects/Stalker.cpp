@@ -26,26 +26,26 @@ Stalker::Stalker(GSpace* space, ObjectIDType id, const ValueMap& args) :
 	Enemy(collectible_id::magic1)
 {}
 
-void Stalker::initStateMachine(ai::StateMachine& sm)
+void Stalker::initStateMachine()
 {
 	auto t1 = make_shared<ai::Thread>(
-		make_shared<StalkerMain>(),
-		&sm,
+		make_shared<StalkerMain>(&fsm),
+		&fsm,
 		1,
 		bitset<ai::lockCount>()
 	);
-	sm.addThread(t1);
+	fsm.addThread(t1);
 
-	sm.addDetectFunction(
+	fsm.addDetectFunction(
 		GType::player,
-		[](ai::StateMachine& sm, GObject* target) -> void {
-			sm.addThread(make_shared<ai::Seek>(target, true));
+		[this](ai::StateMachine& sm, GObject* target) -> void {
+			fsm.addThread(make_shared<ai::Seek>(&fsm, target, true));
 		}
 	);
-	sm.addEndDetectFunction(
+	fsm.addEndDetectFunction(
 		GType::player,
-		[](ai::StateMachine& sm, GObject* target) -> void {
-			sm.removeThread("Seek");
+		[this](ai::StateMachine& sm, GObject* target) -> void {
+			fsm.removeThread("Seek");
 		}
 	);
 
@@ -68,13 +68,13 @@ void Stalker::teleport(SpaceVect pos)
 }
 
 
-void StalkerMain::onEnter(ai::StateMachine& sm)
+void StalkerMain::onEnter()
 {
 }
 
-void StalkerMain::update(ai::StateMachine& sm)
+void StalkerMain::update()
 {
-	if (sm.getAgent()->getAttribute(Attribute::stamina) <= 0.0f) {
-		sm.push(make_shared<ai::Cast>(make_spell_generator<Teleport>()));
+	if (agent->getAttribute(Attribute::stamina) <= 0.0f) {
+		push<ai::Cast>(make_spell_generator<Teleport>());
 	}
 }

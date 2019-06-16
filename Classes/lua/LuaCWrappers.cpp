@@ -28,17 +28,6 @@ void printMap(unordered_map<string,string> m)
     }
 }
 
-shared_ptr<ai::Function> constructState(string funcName, string stateName, GSpace* space, ValueMap args)
-{
-	shared_ptr<ai::Function> state = ai::Function::constructState(stateName, space, args);
-	if (!state) {
-		log("%s: Unknown state class %s", funcName.c_str(), stateName.c_str());
-		return nullptr;
-	}
-
-	return state;
-}
-
 ///////////////////////////////////////////////////////////////////
 
 #define make_wrapper(name,f) {name, wrap_cfunction(name,f)}

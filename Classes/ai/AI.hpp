@@ -34,6 +34,7 @@ enum class ResourceLock
 
 constexpr size_t lockCount = to_size_t(ResourceLock::end);
 
+class StateMachine;
 class Thread;
 
 #define FuncGetName(cls) inline virtual string getName() const {return #cls;}
@@ -45,25 +46,35 @@ class Function
 public:
 	friend class Thread;
 
-	inline Function() {}
+	Function(StateMachine* fsm);
 	inline virtual ~Function() {}
 
-    typedef function<shared_ptr<Function>(GSpace* space, const ValueMap&) > AdapterType;
+    typedef function<shared_ptr<Function>(StateMachine* fsm, const ValueMap&) > AdapterType;
     static const unordered_map<string, Function::AdapterType> adapters;
     
-    static shared_ptr<Function> constructState(const string& type, GSpace* space, const ValueMap& args);
+    static shared_ptr<Function> constructState(
+		const string& type,
+		StateMachine* fsm,
+		const ValueMap& args
+	);
 
-	inline virtual void onEnter(StateMachine& sm) {}
-    inline virtual void onReturn(StateMachine& sm) {}
-	inline virtual void update(StateMachine& sm) {}
-	inline virtual void onExit(StateMachine& sm) {}
+	template<class FuncCls, typename... Params>
+	void push(Params... params);
+	void pop();
+
+	inline virtual void onEnter() {}
+    inline virtual void onReturn() {}
+	inline virtual void update() {}
+	inline virtual void onExit() {}
     
-    inline virtual void onDelay(StateMachine& sm) {}
+    inline virtual void onDelay() {}
     
     inline virtual string getName() const {return "Function";}
     
     inline virtual bitset<lockCount> getLockMask() { return bitset<lockCount>();}
 protected:
+	StateMachine *const fsm;
+	Agent *const agent;
 	bool hasRunInit = false;
 };
 
@@ -84,9 +95,8 @@ public:
         bitset<lockCount> lockMask
     );
 
-	void update(StateMachine& sm);
-    
-    void onDelay(StateMachine& sm);
+	void update();
+    void onDelay();
 
 	void push(shared_ptr<Function> newState);
 	void pop();
@@ -110,8 +120,6 @@ class StateMachine
 {
 public:
 	static function<bool(pair<unsigned int, bullet_collide_function>)> isCallback(unsigned int id);
-
-    GObject *const agent;
 
     StateMachine(GObject *const agent);
 
@@ -142,9 +150,14 @@ public:
 	void setAlertFunction(alert_function f);
 
 	//wrappers for the current thread
+	template<class FuncCls, typename... Params>
+	inline void push(Params... params) {
+		push(make_shared<FuncCls>(this, params...));
+	}
 	void push(shared_ptr<Function> f);
 	void pop();
     
+	GSpace* getSpace();
 	Agent* getAgent();
 	RoomSensor* getRoomSensor();
 	unsigned int getFrame();
@@ -154,6 +167,8 @@ protected:
 	void applyAddThreads();
 	void applyRemoveThreads();
 	void removeCompletedThreads();
+
+	GObject *const agent;
 
 	unordered_set<unsigned int> threadsToRemove;
 	list<shared_ptr<Thread>> threadsToAdd;
@@ -171,6 +186,15 @@ protected:
 	Thread* crntThread = nullptr;
 	bool alerted = false;
 };
+
+template<class FuncCls, typename... Params>
+inline void Function::push(Params... params) {
+	fsm->push<FuncCls>(params...);
+}
+
+inline void Function::pop() {
+	fsm->pop();
+}
 
 } //end NS
 

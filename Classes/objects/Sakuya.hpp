@@ -28,26 +28,30 @@ public:
 
     inline string imageSpritePath() const {return "sprites/sakuya.png";}
 
-	virtual void initStateMachine(ai::StateMachine& sm);
+	virtual void initStateMachine();
 };
 
 class SakuyaMain : public ai::Function {
 public:
-	virtual void onEnter(ai::StateMachine& sm);
-	virtual void update(ai::StateMachine& sm);
+	inline SakuyaMain(ai::StateMachine* fsm) : ai::Function(fsm) {}
+
+	virtual void onEnter();
+	virtual void update();
 	FuncGetName(SakuyaMain)
 };
 
 class IllusionDash : public ai::Function {
 public:
-	IllusionDash(SpaceVect _target);
-	IllusionDash(GSpace* space, const ValueMap& args);
+	inline IllusionDash(ai::StateMachine* fsm) : ai::Function(fsm) {}
+
+	IllusionDash(ai::StateMachine* fsm, SpaceVect _target);
+	IllusionDash(ai::StateMachine* fsm, const ValueMap& args);
 	static const SpaceFloat scale;
 	static const SpaceFloat opacity;
 	static const SpaceFloat speed;
 
-	virtual void onEnter(ai::StateMachine& sm);
-	virtual void update(ai::StateMachine& sm);
+	virtual void onEnter();
+	virtual void update();
 	FuncGetName(IllusionDash)
 protected:
 	SpaceVect target;

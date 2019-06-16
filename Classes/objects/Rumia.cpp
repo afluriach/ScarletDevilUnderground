@@ -46,14 +46,14 @@ Rumia1::Rumia1(GSpace* space, ObjectIDType id, const ValueMap& args) :
 	firePattern = make_shared<RumiaBurstPattern>(this);
 }
 
-void Rumia1::initStateMachine(ai::StateMachine& fsm)
+void Rumia1::initStateMachine()
 {
 	fsm.addDetectFunction(
 		GType::player,
-		[](ai::StateMachine& sm, GObject* target) -> void {
-			if (sm.getThreadCount() > 0) return;
-			sm.agent->space->createDialog("dialogs/rumia1", false);
-			sm.addThread(make_shared<RumiaMain1>(target));
+		[this](ai::StateMachine& sm, GObject* target) -> void {
+			if (fsm.getThreadCount() > 0) return;
+			space->createDialog("dialogs/rumia1", false);
+			fsm.addThread(make_shared<RumiaMain1>(&fsm, target));
 		}
 	);
 }
@@ -79,16 +79,16 @@ Rumia2::Rumia2(GSpace* space, ObjectIDType id, const ValueMap& args) :
 	firePattern = make_shared<RumiaBurstPattern2>(this);
 }
 
-void Rumia2::initStateMachine(ai::StateMachine& fsm)
+void Rumia2::initStateMachine()
 {
 	fsm.addDetectFunction(
 		GType::player,
-		[](ai::StateMachine& sm, GObject* target) -> void {
-			if (sm.getThreadCount() > 0) return;
-			sm.agent->space->createDialog("dialogs/rumia3", false);
-			sm.addThread(make_shared<RumiaDSD2>());
-			sm.addThread(make_shared<ai::FireAtTarget>(target));
-			sm.addThread(make_shared<ai::Flank>(target, 3.0, 1.0));
+		[this](ai::StateMachine& sm, GObject* target) -> void {
+			if (fsm.getThreadCount() > 0) return;
+			space->createDialog("dialogs/rumia3", false);
+			fsm.addThread(make_shared<RumiaDSD2>(&fsm));
+			fsm.addThread(make_shared<ai::FireAtTarget>(&fsm, target));
+			fsm.addThread(make_shared<ai::Flank>(&fsm, target, 3.0, 1.0));
 		}
 	);
 }
@@ -103,44 +103,45 @@ const SpaceFloat RumiaMain1::dsdLength = 5.0;
 const SpaceFloat RumiaMain1::dsdCooldown = 15.0;
 const float RumiaMain1::dsdCost = 5.0f;
 
-RumiaMain1::RumiaMain1(gobject_ref target) : 
+RumiaMain1::RumiaMain1(ai::StateMachine* fsm, gobject_ref target) :
+	ai::Function(fsm),
 	target(target)
 {
 }
 
-void RumiaMain1::onEnter(ai::StateMachine& fsm)
+void RumiaMain1::onEnter()
 {
-	fsm.addThread(make_shared<ai::Flank>(target, 3.0, 1.0));
-	fsm.addThread(make_shared<ai::FireAtTarget>(target));
+	fsm->addThread(make_shared<ai::Flank>(fsm, target, 3.0, 1.0));
+	fsm->addThread(make_shared<ai::FireAtTarget>(fsm, target));
 }
 
-void RumiaMain1::onReturn(ai::StateMachine& fsm)
+void RumiaMain1::onReturn()
 {
-	fsm.addThread(make_shared<ai::FireAtTarget>(target));
+	fsm->addThread(make_shared<ai::FireAtTarget>(fsm, target));
 }
 
-void RumiaMain1::update(ai::StateMachine& fsm)
+void RumiaMain1::update()
 {
 	timerDecrement(dsdTimer);
 
-	auto& as = *fsm.getAgent()->getAttributeSystem();
+	auto& as = *agent->getAttributeSystem();
 	bool canCast = dsdTimer <= 0.0 && as[Attribute::mp] >= dsdCost;
 	bool willCast =
-		ai::distanceToTarget(fsm.agent->getPos(), target.get()->getPos()) < dsdDistMargin &&
+		ai::distanceToTarget(agent->getPos(), target.get()->getPos()) < dsdDistMargin &&
 		as.getMagicRatio() > as.getHealthRatio()
 	;
 
 	if (canCast && willCast) {
 		dsdTimer = dsdCooldown;
-		fsm.removeThread("FireAtTarget");
-		fsm.push(make_shared<ai::Cast>(make_spell_generator<DarknessSignDemarcation>(), dsdLength));
+		fsm->removeThread("FireAtTarget");
+		push<ai::Cast>(make_spell_generator<DarknessSignDemarcation>(), dsdLength);
 	}
 }
 
-void RumiaMain1::onExit(ai::StateMachine& fsm)
+void RumiaMain1::onExit()
 {
-	fsm.removeThread("Flank");
-	fsm.removeThread("FireAtTarget");
+	fsm->removeThread("Flank");
+	fsm->removeThread("FireAtTarget");
 }
 
 const vector<double_pair> RumiaDSD2::demarcationSizeIntervals = {
@@ -149,15 +150,15 @@ const vector<double_pair> RumiaDSD2::demarcationSizeIntervals = {
 	make_pair(10.0, float_pi * 4.0 / 3.0),
 };
 
-void RumiaDSD2::onEnter(ai::StateMachine& fsm)
+void RumiaDSD2::onEnter()
 {
-	fsm.agent->cast(make_shared<DarknessSignDemarcation2>(
-		fsm.agent,
+	agent->cast(make_shared<DarknessSignDemarcation2>(
+		agent,
 		demarcationSizeIntervals.at(0).second
 	));
 }
 
-void RumiaDSD2::update(ai::StateMachine& fsm)
+void RumiaDSD2::update()
 {
 	timerIncrement(timer);
 
@@ -166,14 +167,14 @@ void RumiaDSD2::update(ai::StateMachine& fsm)
 		intervalIdx %= demarcationSizeIntervals.size();
 		timer = 0.0;
 
-		fsm.agent->cast(make_shared<DarknessSignDemarcation2>(
-			fsm.agent,
+		agent->cast(make_shared<DarknessSignDemarcation2>(
+			agent,
 			demarcationSizeIntervals.at(intervalIdx).second
 		));
 	}
 }
 
-void RumiaDSD2::onExit(ai::StateMachine& fsm)
+void RumiaDSD2::onExit()
 {
-	fsm.agent->stopSpell();
+	agent->stopSpell();
 }

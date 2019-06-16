@@ -21,109 +21,116 @@
 
 namespace ai{
 
-Seek::Seek(GSpace* space, const ValueMap& args) {
-    target = getObjRefFromStringField(space, args, "target_name");
+Seek::Seek(StateMachine* fsm, const ValueMap& args) :
+	Function(fsm)
+{
+    target = getObjRefFromStringField(fsm->getSpace(), args, "target_name");
 	usePathfinding = getBoolOrDefault(args, "use_pathfinding", false);
 }
 
-Seek::Seek(GObject* target, bool usePathfinding, SpaceFloat margin) :
+Seek::Seek(StateMachine* fsm, GObject* target, bool usePathfinding, SpaceFloat margin) :
+	Function(fsm),
 	target(target),
 	usePathfinding(usePathfinding),
 	margin(margin)
 {}
 
-void Seek::update(StateMachine& sm)
+void Seek::update()
 {
 	if (target.isValid()) {
-		if (usePathfinding && isObstacle(sm.getAgent(), target.get()->getPos())) {
-			sm.push(ai::PathToTarget::create(sm.agent, target.get()));
+		if (usePathfinding && isObstacle(agent, target.get()->getPos())) {
+			fsm->push(ai::PathToTarget::create(fsm, target.get()));
 		}
-		else if (distanceToTarget(sm.agent, target.get()->getPos()) < margin) {
-			arrive(sm.agent, target.get()->getPos());
+		else if (distanceToTarget(agent, target.get()->getPos()) < margin) {
+			arrive(agent, target.get()->getPos());
 		}
 		else {
 			seek(
-				sm.agent,
+				agent,
 				target.get()->getPos(),
-				sm.agent->getMaxSpeed(),
-				sm.agent->getMaxAcceleration()
+				agent->getMaxSpeed(),
+				agent->getMaxAcceleration()
 			);
 		}
-		sm.agent->setDirection(toDirection(
+		agent->setDirection(toDirection(
             ai::directionToTarget(
-                sm.agent,
+                agent,
                 target.get()->getPos()
             )
         ));
 	}
 	else{
-		sm.getCrntThread()->pop();
+		pop();
     }
 }
 
-MaintainDistance::MaintainDistance(gobject_ref target, SpaceFloat distance, SpaceFloat margin) :
+MaintainDistance::MaintainDistance(StateMachine* fsm, gobject_ref target, SpaceFloat distance, SpaceFloat margin) :
+Function(fsm),
 target(target),
 distance(distance),
 margin(margin)
 {}
 
-MaintainDistance::MaintainDistance(GSpace* space, const ValueMap& args)
+MaintainDistance::MaintainDistance(StateMachine* fsm, const ValueMap& args) :
+Function(fsm)
 {
-    target = getObjRefFromStringField(space, args, "target");
+    target = getObjRefFromStringField(agent->space, args, "target");
     distance = getFloat(args, "distance");
     margin = getFloat(args, "margin");
 }
 
-void MaintainDistance::update(StateMachine& sm)
+void MaintainDistance::update()
 {
+	Agent* agent = fsm->getAgent();
 	if (target.get()) {
-        SpaceFloat crnt_distance = distanceToTarget(sm.agent,target.get());
-		SpaceFloat stop_dist = getStoppingDistance(sm.agent->getMaxSpeed(), sm.agent->getMaxAcceleration());
+        SpaceFloat crnt_distance = distanceToTarget(agent,target.get());
+		SpaceFloat stop_dist = getStoppingDistance(agent);
     
 		if (abs(crnt_distance - distance) < stop_dist) {
 			ai::arrive(
-				sm.agent,
-				SpaceVect::ray(distance, float_pi + directionToTarget(sm.agent, target.get()->getPos()).toAngle())
+				agent,
+				SpaceVect::ray(distance, float_pi + directionToTarget(agent, target.get()->getPos()).toAngle())
 			);
 		}
 
         else if(crnt_distance > distance + margin){
             ai::seek(
-                sm.agent,
+                agent,
                 target.get()->getPos(),
-                sm.agent->getMaxSpeed(),
-                sm.agent->getMaxAcceleration()
+                agent->getMaxSpeed(),
+                agent->getMaxAcceleration()
             );
         }
         else if(crnt_distance < distance + margin){
             ai::fleeWithObstacleAvoidance(
-                sm.agent,
+                agent,
                 target.get()->getPos(),
-                sm.agent->getMaxSpeed(),
-                sm.agent->getMaxAcceleration()
+                agent->getMaxSpeed(),
+                agent->getMaxAcceleration()
             );
         }
 	}
 	else {
-		ai::applyDesiredVelocity(sm.agent, SpaceVect::zero, sm.agent->getMaxAcceleration());
+		ai::applyDesiredVelocity(agent, SpaceVect::zero, agent->getMaxAcceleration());
 	}
 }
 
 const SpaceFloat Flock::separationDesired = 5.0;
 
-Flock::Flock()
+Flock::Flock(StateMachine* fsm) :
+	Function(fsm)
 {
 }
 
-void Flock::update(StateMachine& sm)
+void Flock::update()
 {
-	SpaceVect _separate = separate(sm.getAgent()) * 1.5;
-	SpaceVect _align = align(sm.getAgent()) * 0.75;
-	SpaceVect _cohesion = cohesion(sm.getAgent()) * 0.75;
+	SpaceVect _separate = separate() * 1.5;
+	SpaceVect _align = align() * 0.75;
+	SpaceVect _cohesion = cohesion() * 0.75;
 
 	SpaceVect sum = _separate + _align + _cohesion;
 
-	sm.agent->applyForceForSingleFrame(sum.setMag(sm.getAgent()->getMaxAcceleration()) );
+	agent->applyForceForSingleFrame(sum.setMag(agent->getMaxAcceleration()) );
 }
 
 void Flock::onDetectNeighbor(Agent* agent)
@@ -136,7 +143,7 @@ void Flock::endDetectNeighbor(Agent* agent)
 	neighbors.erase(agent);
 }
 
-SpaceVect Flock::separate(Agent* _agent)
+SpaceVect Flock::separate()
 {
 	SpaceVect steer_acc;
 	int count = 0;
@@ -144,7 +151,7 @@ SpaceVect Flock::separate(Agent* _agent)
 	for (auto ref : neighbors)
 	{
 		Agent* other = ref.get();
-		SpaceVect disp = _agent->getPos() - other->getPos();
+		SpaceVect disp = agent->getPos() - other->getPos();
 
 		//Actual magnitude added from interaction is 1/x.
 		if (disp.lengthSq() < separationDesired*separationDesired) {
@@ -155,13 +162,13 @@ SpaceVect Flock::separate(Agent* _agent)
 
 	if (count > 0) {
 		steer_acc /= count;
-		steer_acc = steer_acc.normalize() * _agent->getMaxSpeed();
-		steer_acc -= _agent->getVel();
-		steer_acc.limit(_agent->getMaxAcceleration());
+		steer_acc = steer_acc.normalize() * agent->getMaxSpeed();
+		steer_acc -= agent->getVel();
+		steer_acc.limit(agent->getMaxAcceleration());
 
 	}
 
-	array<SpaceFloat, 8> walls = ai::wallFeeler8(_agent, separationDesired);
+	array<SpaceFloat, 8> walls = ai::wallFeeler8(agent, separationDesired);
 
 	for (size_t i = 0; i < 8; ++i) {
 		if (walls[i] < separationDesired) {
@@ -176,7 +183,7 @@ SpaceVect Flock::separate(Agent* _agent)
 }
 
 //Calculate average velocity of neighbors
-SpaceVect Flock::align(Agent* _agent)
+SpaceVect Flock::align()
 {
 	SpaceVect sum;
 	int count = 0;
@@ -192,10 +199,10 @@ SpaceVect Flock::align(Agent* _agent)
 	if (count > 0) {
 		sum /= count;
 
-		SpaceVect vel = sum.normalizeSafe() * _agent->getMaxSpeed();
-		SpaceVect steer = vel - _agent->getVel();
+		SpaceVect vel = sum.normalizeSafe() * agent->getMaxSpeed();
+		SpaceVect steer = vel - agent->getVel();
 
-		return steer.limit(_agent->getMaxAcceleration());
+		return steer.limit(agent->getMaxAcceleration());
 	}
 	else {
 		return SpaceVect::zero;
@@ -203,7 +210,7 @@ SpaceVect Flock::align(Agent* _agent)
 }
 
 //Calculate average position of neighbors;
-SpaceVect Flock::cohesion(Agent* _agent)
+SpaceVect Flock::cohesion()
 {
 	SpaceVect sum;
 	int count = 0;
@@ -217,64 +224,67 @@ SpaceVect Flock::cohesion(Agent* _agent)
 	}
 
 	if (count > 0) {
-		return compute_seek(_agent, sum / count);
+		return compute_seek(agent, sum / count);
 	}
 	else {
 		return SpaceVect::zero;
 	}
 }
 
-OccupyPoint::OccupyPoint(SpaceVect target) :
+OccupyPoint::OccupyPoint(StateMachine* fsm, SpaceVect target) :
+	Function(fsm),
 	target(target)
 {
 }
 
-void OccupyPoint::update(StateMachine& sm)
+void OccupyPoint::update()
 {
-	SpaceFloat crnt_distance = distanceToTarget(sm.agent, target);
-	SpaceFloat stop_dist = getStoppingDistance(sm.agent->getMaxSpeed(), sm.agent->getMaxAcceleration());
+	SpaceFloat crnt_distance = distanceToTarget(agent, target);
+	SpaceFloat stop_dist = getStoppingDistance(agent);
 
 	if (crnt_distance > stop_dist) {
-		seek(sm.agent, target, sm.agent->getMaxSpeed(), sm.agent->getMaxAcceleration());
+		seek(agent, target, agent->getMaxSpeed(), agent->getMaxAcceleration());
 	}
 	else {
-		arrive(sm.agent, target);
+		arrive(agent, target);
 	}
 }
 
-OccupyMidpoint::OccupyMidpoint(gobject_ref target1, gobject_ref target2) :
+OccupyMidpoint::OccupyMidpoint(StateMachine* fsm, gobject_ref target1, gobject_ref target2) :
+Function(fsm),
 target1(target1),
 target2(target2)
 {
 }
 
-void OccupyMidpoint::update(StateMachine& sm)
+void OccupyMidpoint::update()
 {
 	GObject* t1 = target1.get();
 	GObject* t2 = target2.get();
 
 	if (!t1 || !t2) {
-		sm.pop();
+		pop();
 		return;
 	}
 
 	SpaceVect midpoint = (t1->getPos() + t2->getPos()) / 2.0;
-	SpaceFloat crnt_distance = distanceToTarget(sm.agent, midpoint);
-	SpaceFloat stop_dist = getStoppingDistance(sm.agent->getMaxSpeed(), sm.agent->getMaxAcceleration());
+	SpaceFloat crnt_distance = distanceToTarget(agent, midpoint);
+	SpaceFloat stop_dist = getStoppingDistance(agent);
 
 	if (crnt_distance > stop_dist) {
-		seek(sm.agent, midpoint, sm.agent->getMaxSpeed(), sm.agent->getMaxAcceleration());
+		seek(agent, midpoint, agent->getMaxSpeed(), agent->getMaxAcceleration());
 	}
 	else {
-		arrive(sm.agent, midpoint);
+		arrive(agent, midpoint);
 	}
 }
 
-Scurry::Scurry(GSpace* space, GObject* _target, SpaceFloat _distance, SpaceFloat length) :
+Scurry::Scurry(StateMachine* fsm, GObject* _target, SpaceFloat _distance, SpaceFloat length) :
+Function(fsm),
 distance(_distance),
 target(_target)
 {
-	startFrame = space->getFrame();
+	startFrame = agent->space->getFrame();
 
 	if (length > 0.0)
 		endFrame = startFrame + app::params.framesPerSecond*length;
@@ -282,13 +292,13 @@ target(_target)
 		endFrame = 0;
 }
 
-void Scurry::update(StateMachine& sm)
+void Scurry::update()
 {
-	if (!target.isValid() || endFrame != 0 && sm.agent->space->getFrame() >= endFrame) {
-		sm.pop();
+	if (!target.isValid() || endFrame != 0 && agent->space->getFrame() >= endFrame) {
+		pop();
 	}
 
-	SpaceVect displacement = displacementToTarget(sm.agent, target.get()->getPos());
+	SpaceVect displacement = displacementToTarget(agent, target.get()->getPos());
 
 	SpaceFloat angle = displacement.toAngle();
 	if (!scurryLeft) {
@@ -296,27 +306,30 @@ void Scurry::update(StateMachine& sm)
 	}
 	scurryLeft = !scurryLeft;
 
-	array<SpaceFloat, 8> obstacleFeelers = obstacleFeeler8(sm.agent, distance);
+	array<SpaceFloat, 8> obstacleFeelers = obstacleFeeler8(agent, distance);
 	int direction = chooseBestDirection(obstacleFeelers, angle, distance);
 
 	if (direction != -1) {
-		sm.push(make_shared <MoveToPoint>(
-			sm.agent->getPos() + SpaceVect::ray(distance, direction * float_pi / 4.0)
-		));
+		push<MoveToPoint>(
+			agent->getPos() + SpaceVect::ray(distance, direction * float_pi / 4.0)
+		);
 	}
 }
 
-Flee::Flee(GObject* target, SpaceFloat distance) :
+Flee::Flee(StateMachine* fsm, GObject* target, SpaceFloat distance) :
+	Function(fsm),
 	target(target),
 	distance(distance)
 {}
 
 
-Flee::Flee(GSpace* space, const ValueMap& args) {
+Flee::Flee(StateMachine* fsm, const ValueMap& args) : 
+	Function(fsm)
+{
     if(args.find("target_name") == args.end()){
         log("Seek::Seek: target_name missing.");
     }
-    target = space->getObject(args.at("target_name").asString());
+    target = agent->space->getObject(args.at("target_name").asString());
     
     if(!target.isValid()){
         log("Flee::Flee: target object %s not found.", args.at("target_name").asString().c_str() );
@@ -331,42 +344,46 @@ Flee::Flee(GSpace* space, const ValueMap& args) {
     }
 }
 
-void Flee::update(StateMachine& sm)
+void Flee::update()
 {
 	if (target.isValid()) {
 		ai::fleeWithObstacleAvoidance(
-			sm.agent,
+			agent,
 			target.get()->getPos(),
-			sm.agent->getMaxSpeed(),
-			sm.agent->getMaxAcceleration()
+			agent->getMaxSpeed(),
+			agent->getMaxAcceleration()
 		);
-		sm.agent->setDirection(toDirection(
+		agent->setDirection(toDirection(
             ai::directionToTarget(
-                sm.agent,
+                agent,
                 target.get()->getPos()
             )
         ));
 	}
 	else{
-        sm.getCrntThread()->pop();
+        pop();
     }
 
 }
 
-EvadePlayerProjectiles::EvadePlayerProjectiles() {}
+EvadePlayerProjectiles::EvadePlayerProjectiles(StateMachine* fsm) : 
+	Function(fsm)
+{}
 
-EvadePlayerProjectiles::EvadePlayerProjectiles(GSpace* space, const ValueMap& args) {}
+EvadePlayerProjectiles::EvadePlayerProjectiles(StateMachine* fsm, const ValueMap& args) : 
+	Function(fsm)
+{}
 
-void EvadePlayerProjectiles::update(StateMachine& sm)
+void EvadePlayerProjectiles::update()
 {
-	list<GObject*> objs = sm.getAgent()->getSensedObjectsByGtype(GType::playerBullet);
+	list<GObject*> objs = agent->getSensedObjectsByGtype(GType::playerBullet);
 	
 	GObject* closest = nullptr;
 	SpaceFloat closestDistance = numeric_limits<SpaceFloat>::infinity();
 	 
 	for(GObject* obj: objs)
 	{
-		SpaceFloat crntDist = distanceToTarget(obj, sm.agent);
+		SpaceFloat crntDist = distanceToTarget(obj, agent);
 
 		if (crntDist < closestDistance) {
 			closestDistance = crntDist;
@@ -378,13 +395,19 @@ void EvadePlayerProjectiles::update(StateMachine& sm)
 
 	if (closest != nullptr)
 	{
-		SpaceVect offset = projectileEvasion(closest, sm.agent);
-		if(!offset.isZero())
-			applyDesiredVelocity(sm.agent, offset.normalize()*-1.0f * sm.agent->getMaxSpeed(), sm.agent->getMaxAcceleration());
+		SpaceVect offset = projectileEvasion(closest, agent);
+		if (!offset.isZero()) {
+			applyDesiredVelocity(
+				agent,
+				offset.normalize()*-1.0f * agent->getMaxSpeed(),
+				agent->getMaxAcceleration()
+			);
+		}
 	}
 }
 
-IdleWait::IdleWait(GSpace* space, const ValueMap& args)
+IdleWait::IdleWait(StateMachine* fsm, const ValueMap& args) :
+	Function(fsm)
 {
     auto it = args.find("waitTime");
     
@@ -410,78 +433,93 @@ IdleWait::IdleWait(GSpace* space, const ValueMap& args)
     remaining = app::params.framesPerSecond * waitSeconds;
 }
 
-IdleWait::IdleWait(int frames) :
+IdleWait::IdleWait(StateMachine* fsm, int frames) :
+	Function(fsm),
 	remaining(frames)
 {}
 
-IdleWait::IdleWait() :
+IdleWait::IdleWait(StateMachine* fsm) :
+	Function(fsm),
 	remaining(-1)
 {}
 
-void IdleWait::update(StateMachine& fsm)
+void IdleWait::update()
 {
 	if (remaining == 0)
-		fsm.getCrntThread()->pop();
+		pop();
 	--remaining;
 
-	ai::applyDesiredVelocity(fsm.agent, SpaceVect::zero, fsm.agent->getMaxAcceleration());
+	ai::applyDesiredVelocity(agent, SpaceVect::zero, agent->getMaxAcceleration());
 }
 
-LookAround::LookAround(SpaceFloat angularVelocity) :
+LookAround::LookAround(StateMachine* fsm, SpaceFloat angularVelocity) :
+Function(fsm),
 angularVelocity(angularVelocity)
 {
 }
 
-void LookAround::update(StateMachine& fsm)
+void LookAround::update()
 {
-	fsm.agent->rotate(angularVelocity * app::params.secondsPerFrame);
+	agent->rotate(angularVelocity * app::params.secondsPerFrame);
 }
 
-CircleAround::CircleAround(SpaceVect center, SpaceFloat startingAngularPos, SpaceFloat angularSpeed) :
+CircleAround::CircleAround(
+	StateMachine* fsm,
+	SpaceVect center,
+	SpaceFloat startingAngularPos,
+	SpaceFloat angularSpeed
+) :
+Function(fsm),
 center(center),
 angularPosition(startingAngularPos),
 angularSpeed(angularSpeed)
 {
 }
 
-void CircleAround::init(StateMachine& fsm)
+void CircleAround::init()
 {
 }
 
-void CircleAround::update(StateMachine& fsm)
+void CircleAround::update()
 {
-	SpaceFloat radius = distanceToTarget(fsm.agent, center);
+	SpaceFloat radius = distanceToTarget(agent, center);
 	SpaceFloat angleDelta = angularSpeed * app::params.secondsPerFrame;
 
 	angularPosition += angleDelta;
 
 	SpaceVect agentPos = center + SpaceVect::ray(radius, angularPosition);
 
-	fsm.agent->setPos(agentPos);
-	fsm.agent->setAngle(angularPosition);
+	agent->setPos(agentPos);
+	agent->setAngle(angularPosition);
 }
 
-Flank::Flank(gobject_ref target, SpaceFloat desiredDistance, SpaceFloat wallMargin) :
-target(target),
-desiredDistance(desiredDistance),
-wallMargin(wallMargin)
+Flank::Flank(
+	StateMachine* fsm,
+	gobject_ref target,
+	SpaceFloat desiredDistance,
+	SpaceFloat wallMargin
+) :
+	Function(fsm),
+	target(target),
+	desiredDistance(desiredDistance),
+	wallMargin(wallMargin)
 {
 }
 
-void Flank::init(StateMachine& fsm)
+void Flank::init()
 {
 }
 
-void Flank::update(StateMachine& fsm)
+void Flank::update()
 {
 	if (!target.isValid()) {
-		fsm.pop();
+		pop();
 	}
 
 	SpaceVect target_pos;
 	SpaceVect pos = target.get()->getPos();
 	SpaceFloat angle = target.get()->getAngle();
-	SpaceFloat this_angle = viewAngleToTarget(target.get(), fsm.agent);
+	SpaceFloat this_angle = viewAngleToTarget(target.get(), agent);
 
 	SpaceVect rear_pos = SpaceVect::ray(desiredDistance, angle + float_pi) + pos;
 	SpaceVect left_pos = SpaceVect::ray(desiredDistance, angle - float_pi / 2.0) + pos;
@@ -490,31 +528,31 @@ void Flank::update(StateMachine& fsm)
 	if (abs(this_angle) < float_pi / 4.0) {
 		//move to side flank
 
-		if (this_angle < 0 && !wallQuery(fsm, left_pos)) {
+		if (this_angle < 0 && !wallQuery(left_pos)) {
 			target_pos = left_pos;
 		}
-		else if(!wallQuery(fsm, right_pos)) {
+		else if(!wallQuery(right_pos)) {
 			target_pos = right_pos;
 		}
 	}
-	else if(!wallQuery(fsm, rear_pos))
+	else if(!wallQuery(rear_pos))
 	{
 		//move to rear flank
 		target_pos = rear_pos;
 	}
 	if (!target_pos.isZero()) {
-		fsm.push(make_shared<MoveToPoint>(target_pos));
+		push<MoveToPoint>(target_pos);
 	}
 	else {
-		applyDesiredVelocity(fsm.agent, SpaceVect::zero, fsm.agent->getMaxAcceleration());
+		applyDesiredVelocity(agent, SpaceVect::zero, agent->getMaxAcceleration());
 	}
 }
 
 
-bool Flank::wallQuery(StateMachine& fsm, SpaceVect pos)
+bool Flank::wallQuery(SpaceVect pos)
 {
-	return fsm.agent->space->physicsContext->obstacleRadiusQuery(
-		fsm.agent,
+	return agent->space->physicsContext->obstacleRadiusQuery(
+		agent,
 		pos, 
 		wallMargin,
 		GType::wall,
@@ -522,7 +560,12 @@ bool Flank::wallQuery(StateMachine& fsm, SpaceVect pos)
 	);
 }
 
-QuadDirectionLookAround::QuadDirectionLookAround(boost::rational<int> secondsPerDirection, bool clockwise) :
+QuadDirectionLookAround::QuadDirectionLookAround(
+	StateMachine* fsm,
+	boost::rational<int> secondsPerDirection,
+	bool clockwise
+) :
+Function(fsm),
 secondsPerDirection(secondsPerDirection),
 timeRemaining(secondsPerDirection),
 clockwise(clockwise)
@@ -530,41 +573,43 @@ clockwise(clockwise)
 
 }
 
-void QuadDirectionLookAround::update(StateMachine& fsm)
+void QuadDirectionLookAround::update()
 {
 	timerDecrement(timeRemaining);
 
 	if (timeRemaining <= 0) {
-		fsm.agent->rotate(float_pi / 2.0 * (clockwise ? 1.0 : -1.0));
+		agent->rotate(float_pi / 2.0 * (clockwise ? 1.0 : -1.0));
 		timeRemaining = secondsPerDirection;
 	}
 }
 
-AimAtTarget::AimAtTarget(gobject_ref target) :
+AimAtTarget::AimAtTarget(StateMachine* fsm, gobject_ref target) :
+Function(fsm),
 target(target)
 {
 }
 
-void AimAtTarget::update(StateMachine& fsm)
+void AimAtTarget::update()
 {
 	if (!target.isValid())
 		return;
 
-	fsm.agent->setAngle(directionToTarget(fsm.agent, target.get()->getPos()).toAngle());
+	agent->setAngle(directionToTarget(agent, target.get()->getPos()).toAngle());
 }
 
-LookTowardsFire::LookTowardsFire(bool useShield) :
+LookTowardsFire::LookTowardsFire(StateMachine* fsm, bool useShield) :
+	Function(fsm),
 	useShield(useShield)
 {
 }
 
-void LookTowardsFire::onEnter(StateMachine& fsm)
+void LookTowardsFire::onEnter()
 {
-	hitCallbackID = fsm.addBulletHitFunction(bind(&LookTowardsFire::onBulletCollide, this, placeholders::_1, placeholders::_2));
-	blockCallbackID = fsm.addBulletBlockFunction(bind(&LookTowardsFire::onBulletCollide, this, placeholders::_1, placeholders::_2));
+	hitCallbackID = fsm->addBulletHitFunction(bind(&LookTowardsFire::onBulletCollide, this, placeholders::_1, placeholders::_2));
+	blockCallbackID = fsm->addBulletBlockFunction(bind(&LookTowardsFire::onBulletCollide, this, placeholders::_1, placeholders::_2));
 }
 
-void LookTowardsFire::update(StateMachine& fsm)
+void LookTowardsFire::update()
 {
 	hitAccumulator -= (looking*lookTimeCoeff + (1-looking)*timeCoeff)* app::params.secondsPerFrame;
 	hitAccumulator = max(hitAccumulator, 0.0f);
@@ -572,23 +617,23 @@ void LookTowardsFire::update(StateMachine& fsm)
 	if (hitAccumulator == 0.0f) {
 		directionAccumulator = SpaceVect::zero;
 		looking = false;
-		if (useShield) fsm.getAgent()->setShieldActive(false);
+		if (useShield) agent->setShieldActive(false);
 	}
 	else if (!looking && hitAccumulator >= 1.0f) {
-		fsm.agent->setAngle(directionAccumulator.toAngle());
+		agent->setAngle(directionAccumulator.toAngle());
 		looking = true;
-		if (useShield) fsm.getAgent()->setShieldActive(true);
+		if (useShield) agent->setShieldActive(true);
 	}
 
 	if (looking) {
-		applyDesiredVelocity(fsm.agent, SpaceVect::zero, fsm.getAgent()->getMaxAcceleration());
+		applyDesiredVelocity(agent, SpaceVect::zero, agent->getMaxAcceleration());
 	}
 }
 
-void LookTowardsFire::onExit(StateMachine& fsm)
+void LookTowardsFire::onExit()
 {
-	fsm.removeBulletFunction(hitCallbackID);
-	fsm.removeBulletFunction(blockCallbackID);
+	fsm->removeBulletFunction(hitCallbackID);
+	fsm->removeBulletFunction(blockCallbackID);
 }
 
 void LookTowardsFire::onBulletCollide(StateMachine& fsm, Bullet* b)
@@ -598,7 +643,7 @@ void LookTowardsFire::onBulletCollide(StateMachine& fsm, Bullet* b)
 	directionAccumulator += bulletDirection;
 
 	if (looking) {
-		fsm.agent->setAngle(bulletDirection.toAngle());
+		agent->setAngle(bulletDirection.toAngle());
 	}
 }
 
@@ -615,7 +660,8 @@ bitset<lockCount> LookTowardsFire::getLockMask()
 
 const double MoveToPoint::arrivalMargin = 0.125;
 
-MoveToPoint::MoveToPoint(GSpace* space, const ValueMap& args)
+MoveToPoint::MoveToPoint(StateMachine* fsm, const ValueMap& args) :
+	Function(fsm)
 {
     auto xIter = args.find("target_x");
     auto yIter = args.find("target_y");
@@ -645,45 +691,51 @@ MoveToPoint::MoveToPoint(GSpace* space, const ValueMap& args)
     target  = SpaceVect(x.asFloat(), y.asFloat());
 }
 
-MoveToPoint::MoveToPoint(SpaceVect target) :
+MoveToPoint::MoveToPoint(StateMachine* fsm, SpaceVect target) :
+	Function(fsm),
 	target(target)
 {}
 
-void MoveToPoint::update(StateMachine& fsm)
+void MoveToPoint::update()
 {
-	bool arrived = moveToPoint(fsm.agent, target, arrivalMargin, false);
+	bool arrived = moveToPoint(agent, target, arrivalMargin, false);
 	
 	if (arrived) {
-		fsm.pop();
+		pop();
 	}
 }
 
-BezierMove::BezierMove(array<SpaceVect, 3> points, SpaceFloat rate) :
+BezierMove::BezierMove(StateMachine* fsm, array<SpaceVect, 3> points, SpaceFloat rate) :
+	Function(fsm),
 	points(points),
 	rate(rate)
 {
 }
 
-void BezierMove::update(StateMachine& fsm)
+void BezierMove::update()
 {
-	fsm.agent->setPos(bezier(points, t));
+	agent->setPos(bezier(points, t));
 
 	timerIncrement(t, rate);
 	if (t >= 1.0) {
-		fsm.agent->setPos(bezier(points, 1.0));
-		fsm.pop();
+		agent->setPos(bezier(points, 1.0));
+		pop();
 	}
 }
 
-shared_ptr<FollowPath> FollowPath::pathToTarget(GSpace* space, gobject_ref agent, gobject_ref target)
-{
-	if (!agent.isValid() || !target.isValid()) {
+shared_ptr<FollowPath> FollowPath::pathToTarget(
+	StateMachine* fsm,
+	gobject_ref target
+){
+	if (!target.isValid()) {
 		return nullptr;
 	}
+	Agent* agent = fsm->getAgent();
 
-	return make_shared<ai::FollowPath>(
-		space->pathToTile(
-			toIntVector(agent.get()->getPos()),
+	return make_shared<FollowPath>(
+		fsm,
+		fsm->getSpace()->pathToTile(
+			toIntVector(agent->getPos()),
 			toIntVector(target.get()->getPos())
 		),
 		false,
@@ -691,13 +743,15 @@ shared_ptr<FollowPath> FollowPath::pathToTarget(GSpace* space, gobject_ref agent
 	);
 }
 
-FollowPath::FollowPath(Path path, bool loop, bool stopForObstacle) :
+FollowPath::FollowPath(StateMachine* fsm, Path path, bool loop, bool stopForObstacle) :
+	Function(fsm),
 	path(path),
 	loop(loop),
 	stopForObstacle(stopForObstacle)
 {}
 
-FollowPath::FollowPath(GSpace* space, const ValueMap& args)
+FollowPath::FollowPath(StateMachine* fsm, const ValueMap& args) :
+	Function(fsm)
 {
 	auto name_it = args.find("pathName");
 	auto loop_it = args.find("loop");
@@ -706,7 +760,7 @@ FollowPath::FollowPath(GSpace* space, const ValueMap& args)
 		log("FollowPath: pathName not provided!");
 	}
 
-	Path const* p = space->getPath(name_it->second.asString());
+	Path const* p = agent->space->getPath(name_it->second.asString());
 
 	if (!p) {
 		log("FollowPath: pathName %s not found!", name_it->second.asString().c_str());
@@ -720,55 +774,57 @@ FollowPath::FollowPath(GSpace* space, const ValueMap& args)
 	}
 }
 
-void FollowPath::update(StateMachine&  fsm)
+void FollowPath::update()
 {
 	if (currentTarget < path.size()) {
-		fsm.agent->setDirection(toDirection(ai::directionToTarget(fsm.agent, path[currentTarget])));
-		bool arrived = moveToPoint(fsm.agent, path[currentTarget], MoveToPoint::arrivalMargin, stopForObstacle);
+		agent->setDirection(toDirection(ai::directionToTarget(agent, path[currentTarget])));
+		bool arrived = moveToPoint(agent, path[currentTarget], MoveToPoint::arrivalMargin, stopForObstacle);
 		currentTarget += arrived;
 	}
 	else if (loop && path.size() > 0) {
 		currentTarget = 0;
 	}
 	else {
-		fsm.pop();
+		pop();
 	}
 }
 
-shared_ptr<PathToTarget> PathToTarget::create(GObject* agent, GObject* target)
+shared_ptr<PathToTarget> PathToTarget::create(StateMachine* fsm, GObject* target)
 {
-	Path p = agent->space->pathToTile(
-		toIntVector(agent->getPos()),
+	Path p = fsm->getSpace()->pathToTile(
+		toIntVector(fsm->getAgent()->getPos()),
 		toIntVector(target->getPos())
 	);
 
-	return make_shared<PathToTarget>(p, target);
+	return make_shared<PathToTarget>(fsm, p, target);
 }
 
-PathToTarget::PathToTarget(Path path, gobject_ref target) :
-	FollowPath(path, false, false),
+PathToTarget::PathToTarget(StateMachine* fsm, Path path, gobject_ref target) :
+	FollowPath(fsm, path, false, false),
 	target(target)
 {
 }
 
-void PathToTarget::update(StateMachine& fsm)
+void PathToTarget::update()
 {
-	if (ai::isLineOfSight(fsm.agent, target.get())) {
-		fsm.pop();
+	if (ai::isLineOfSight(agent, target.get())) {
+		pop();
 	}
 	else {
-		FollowPath::update(fsm);
+		FollowPath::update();
 	}
 }
 
-Wander::Wander(GSpace* space, const ValueMap& args) :
+Wander::Wander(StateMachine* fsm, const ValueMap& args) :
+	Function(fsm),
     init_float_field(minWait,1.0f),
     init_float_field(maxWait,1.0f),
     init_float_field(minDist,1.0f),
     init_float_field(maxDist,1.0f)
 {}
 
-Wander::Wander(SpaceFloat minWait, SpaceFloat maxWait, SpaceFloat minDist, SpaceFloat maxDist) :
+Wander::Wander(StateMachine* fsm, SpaceFloat minWait, SpaceFloat maxWait, SpaceFloat minDist, SpaceFloat maxDist) :
+	Function(fsm),
 	minWait(minWait),
 	maxWait(maxWait),
 	minDist(minDist),
@@ -776,17 +832,17 @@ Wander::Wander(SpaceFloat minWait, SpaceFloat maxWait, SpaceFloat minDist, Space
 {
 }
 
-Wander::Wander(SpaceFloat waitInterval, SpaceFloat moveDist) :
-	Wander(waitInterval, waitInterval, moveDist, moveDist)
+Wander::Wander(StateMachine* fsm, SpaceFloat waitInterval, SpaceFloat moveDist) :
+	Wander(fsm, waitInterval, waitInterval, moveDist, moveDist)
 {}
 
-Wander::Wander() : 
-	Wander(1.0, 1.0, 1.0, 1.0)
+Wander::Wander(StateMachine* fsm) :
+	Wander(fsm, 1.0, 1.0, 1.0, 1.0)
 {}
 
-pair<Direction, SpaceFloat> Wander::chooseMovement(StateMachine& fsm)
+pair<Direction, SpaceFloat> Wander::chooseMovement()
 {
-	array<SpaceFloat, 4> feelers = ai::obstacleFeelerQuad(fsm.agent, maxDist);
+	array<SpaceFloat, 4> feelers = ai::obstacleFeelerQuad(agent, maxDist);
 	vector<Direction> directions;
 	directions.reserve(4);
 
@@ -799,7 +855,7 @@ pair<Direction, SpaceFloat> Wander::chooseMovement(StateMachine& fsm)
 	}
 
 	if (!directions.empty()) {
-		return make_pair(directions.at(fsm.agent->space->getRandomInt(0, directions.size()-1)), maxDist);
+		return make_pair(directions.at(fsm->getSpace()->getRandomInt(0, directions.size()-1)), maxDist);
 	}
 
 	//Select a direction that allows at least minimum desired distance.
@@ -811,165 +867,174 @@ pair<Direction, SpaceFloat> Wander::chooseMovement(StateMachine& fsm)
 	}
 
 	if (!directions.empty()) {
-		int idx = fsm.agent->space->getRandomInt(0, directions.size() - 1);
+		int idx = fsm->getSpace()->getRandomInt(0, directions.size() - 1);
 		return make_pair(directions.at(idx), feelers[idx]);
 	}
 
 	return make_pair(Direction::none, 0.0);
 }
 
-void Wander::update(StateMachine& fsm)
+void Wander::update()
 {
 	timerDecrement(waitTimer);
 
 	if (waitTimer <= 0.0) {
-		pair<Direction, SpaceFloat> movement = chooseMovement(fsm);
+		pair<Direction, SpaceFloat> movement = chooseMovement();
 
 		if (movement.first != Direction::none && movement.second > 0.0) {
-			fsm.agent->setDirection(movement.first);
-			fsm.push(make_shared<MoveToPoint>(
-				fsm.agent->getPos() + dirToVector(movement.first)*movement.second
-			));
-			waitTimer = fsm.agent->space->getRandomFloat(minWait, maxWait);
+			agent->setDirection(movement.first);
+			push<MoveToPoint>(
+				agent->getPos() + dirToVector(movement.first)*movement.second
+			);
+			waitTimer = fsm->getSpace()->getRandomFloat(minWait, maxWait);
 		}
 	}
 	else {
-		applyDesiredVelocity(fsm.agent, SpaceVect::zero, fsm.agent->getMaxAcceleration());
+		applyDesiredVelocity(agent, SpaceVect::zero, agent->getMaxAcceleration());
 	}
 }
 
-FireAtTarget::FireAtTarget(gobject_ref target) :
+FireAtTarget::FireAtTarget(StateMachine* fsm, gobject_ref target) :
+	Function(fsm),
 	target(target)
 {}
 
-void FireAtTarget::update(StateMachine& sm)
+void FireAtTarget::update()
 {
-	FirePattern* fp = sm.getAgent()->getFirePattern();
+	FirePattern* fp = agent->getFirePattern();
 	if (!target.isValid() || !fp) {
-		sm.pop();
+		pop();
 		return;
 	}
 
-	sm.agent->setAngle(
-		directionToTarget(sm.agent, target.get()->getPos()).toAngle()
+	agent->setAngle(
+		directionToTarget(agent, target.get()->getPos()).toAngle()
 	);
 
 	if (fp->fireIfPossible()) {
-		sm.agent->space->audioContext->playSoundSpatial(
+		agent->space->audioContext->playSoundSpatial(
 			"sfx/shot.wav",
-			toVec3(sm.agent->getPos()), 
-			toVec3(sm.agent->getVel())
+			toVec3(agent->getPos()), 
+			toVec3(agent->getVel())
 		);
 	}
 }
 
-FireIfTargetVisible::FireIfTargetVisible(gobject_ref target) :
+FireIfTargetVisible::FireIfTargetVisible(StateMachine* fsm, gobject_ref target) :
+	Function(fsm),
 	target(target)
 {}
 
-void FireIfTargetVisible::update(StateMachine& sm)
+void FireIfTargetVisible::update()
 {
-	RadarObject* ro = dynamic_cast<RadarObject*>(sm.agent);
-	FirePattern* fp = sm.getAgent()->getFirePattern();
+	FirePattern* fp = agent->getFirePattern();
 
-	if (!ro || !fp || !target.isValid()) {
-		sm.pop();
+	if (!fp || !target.isValid()) {
+		pop();
 		return;
 	}
 	
-	if (ro->isObjectVisible(target.get()) && sm.agent->space->isInPlayerRoom(sm.agent->getPos()))
+	if (agent->isObjectVisible(target.get()) && agent->space->isInPlayerRoom(agent->getPos()))
 	{
 		if (fp->fireIfPossible()) {
-			sm.agent->space->audioContext->playSoundSpatial(
+			agent->space->audioContext->playSoundSpatial(
 				"sfx/shot.wav",
-				toVec3(sm.agent->getPos()),
-				toVec3(sm.agent->getVel())
+				toVec3(agent->getPos()),
+				toVec3(agent->getVel())
 			);
 		}
 	}
 }
 
-Operation::Operation(std::function<void(StateMachine&)> op) :
+Operation::Operation(StateMachine* fsm, std::function<void(StateMachine&)> op) :
+	Function(fsm),
 	op(op)
 {}
 
-void Operation::update(StateMachine& sm) {
-	op(sm);
-	sm.pop();
+void Operation::update() {
+	op(*fsm);
+	pop();
 }
 
-Cast::Cast(SpellGeneratorType spell_generator, SpaceFloat length) :
+Cast::Cast(StateMachine* fsm, SpellGeneratorType spell_generator, SpaceFloat length) :
+Function(fsm),
 spell_generator(spell_generator),
 length(length)
 {
 }
 
-void Cast::onEnter(StateMachine& sm)
+void Cast::onEnter()
 {
-	sm.agent->cast(spell_generator(sm.agent));
+	agent->cast(spell_generator(agent));
 }
 
-void Cast::update(StateMachine& sm)
+void Cast::update()
 {
 	timerIncrement(timer);
 
 	if (length > 0.0 && timer >= length)
-		sm.agent->stopSpell();
+		agent->stopSpell();
 
-	if (!sm.agent->isSpellActive())
-		sm.pop();
+	if (!agent->isSpellActive())
+		pop();
 }
 
-void Cast::onExit(StateMachine& sm)
+void Cast::onExit()
 {
-	sm.agent->stopSpell();
+	agent->stopSpell();
 }
 
-HPCast::HPCast(SpellGeneratorType spell_generator, float hp_difference) :
+HPCast::HPCast(StateMachine* fsm, SpellGeneratorType spell_generator, float hp_difference) :
+	Function(fsm),
 	spell_generator(spell_generator),
 	hp_difference(hp_difference)
 {
 }
 
-void HPCast::onEnter(StateMachine& sm)
+void HPCast::onEnter()
 {
-	caster_starting = sm.getAgent()->getHealth();
-	sm.agent->cast(spell_generator(sm.agent));
+	caster_starting = agent->getHealth();
+	agent->cast(spell_generator(agent));
 }
 
-void HPCast::update(StateMachine& sm)
+void HPCast::update()
 {
-	if (sm.getAgent()->getHealth() < (caster_starting - hp_difference)) {
-		sm.agent->stopSpell();
+	if (agent->getHealth() < (caster_starting - hp_difference)) {
+		agent->stopSpell();
 	}
 
-	if (!sm.agent->isSpellActive()) {
-		sm.pop();
+	if (!agent->isSpellActive()) {
+		pop();
 	}
 }
 
-void HPCast::onExit(StateMachine& sm)
+void HPCast::onExit()
 {
-	sm.agent->stopSpell();
+	agent->stopSpell();
 }
 
-HPCastSequence::HPCastSequence(const vector<SpellGeneratorType>& spells, const boost::icl::interval_map<float, int> intervals) :
+HPCastSequence::HPCastSequence(
+	StateMachine* fsm,
+	const vector<SpellGeneratorType>& spells,
+	const boost::icl::interval_map<float, int> intervals
+) :
+	Function(fsm),
 	spells(spells),
 	intervals(intervals)
 {
 }
 
-void HPCastSequence::onEnter(StateMachine& sm)
+void HPCastSequence::onEnter()
 {
-	if (sm.agent->isSpellActive()) {
-		log("HPCastSequence::onEnter: %s already has spell active.", sm.agent->name.c_str());
-		sm.agent->stopSpell();
+	if (agent->isSpellActive()) {
+		log("HPCastSequence::onEnter: %s already has spell active.", agent->name.c_str());
+		agent->stopSpell();
 	}
 }
 
-void HPCastSequence::update(StateMachine& sm)
+void HPCastSequence::update()
 {
-	float hp = sm.getAgent()->getHealth();
+	float hp = agent->getHealth();
 	int newInterval = -1;
 
 	auto it = intervals.find(hp);
@@ -978,36 +1043,36 @@ void HPCastSequence::update(StateMachine& sm)
 	}
 
 	if (newInterval != crntInterval && crntInterval != -1) {
-		sm.agent->stopSpell();
+		agent->stopSpell();
 	}
 	if (newInterval != crntInterval && newInterval != -1) {
-		sm.agent->cast(spells.at(newInterval)(sm.agent));
+		agent->cast(spells.at(newInterval)(agent));
 	}
 	crntInterval = newInterval;
 }
 
-void HPCastSequence::onExit(StateMachine& sm)
+void HPCastSequence::onExit()
 {
 	if (crntInterval != -1) {
-		sm.agent->stopSpell();
+		agent->stopSpell();
 	}
 }
 
-FireOnStress::FireOnStress(float stressPerShot) :
+FireOnStress::FireOnStress(StateMachine* fsm, float stressPerShot) :
+	Function(fsm),
 	stressPerShot(stressPerShot)
 {
 }
 
-void FireOnStress::update(StateMachine& sm)
+void FireOnStress::update()
 {
-	Agent* a = sm.getAgent();
-
-	if (a->getAttribute(Attribute::stress) >= stressPerShot && a->getFirePattern()->fireIfPossible()) {
-		a->modifyAttribute(Attribute::stress, -stressPerShot);
+	if (agent->getAttribute(Attribute::stress) >= stressPerShot && agent->getFirePattern()->fireIfPossible()) {
+		agent->modifyAttribute(Attribute::stress, -stressPerShot);
 	}
 }
 
 ThrowBombs::ThrowBombs(
+	StateMachine* fsm,
 	gobject_ref target,
 	BombGeneratorType generator,
 	SpaceFloat throwingSpeed,
@@ -1016,6 +1081,7 @@ ThrowBombs::ThrowBombs(
 	SpaceFloat fuseTime,
 	float cost
 ) :
+	Function(fsm),
 	target(target),
 	generator(generator),
 	throwingSpeed(throwingSpeed),
@@ -1026,70 +1092,70 @@ ThrowBombs::ThrowBombs(
 {
 }
 
-void ThrowBombs::init(StateMachine& fsm)
+void ThrowBombs::init()
 {
-	countdown = getInterval(fsm);
+	countdown = getInterval();
 }
 
-void ThrowBombs::update(StateMachine& fsm)
+void ThrowBombs::update()
 {
 	if (!target.isValid()) {
-		fsm.pop();
+		pop();
 		return;
 	}
 
 	timerDecrement(countdown);
 
-	if (countdown <= 0.0 && fsm.getAgent()->getAttribute(Attribute::mp) >= cost) {
-		SpaceFloat angle = directionToTarget(fsm.agent, target.get()->getPos()).toAngle();
-		SpaceVect pos = fsm.agent->getPos() + SpaceVect::ray(1.0, angle);
-		SpaceVect vel = fsm.agent->getVel() + SpaceVect::ray(throwingSpeed, angle);
+	if (countdown <= 0.0 && agent->getAttribute(Attribute::mp) >= cost) {
+		SpaceFloat angle = directionToTarget(agent, target.get()->getPos()).toAngle();
+		SpaceVect pos = agent->getPos() + SpaceVect::ray(1.0, angle);
+		SpaceVect vel = agent->getVel() + SpaceVect::ray(throwingSpeed, angle);
 		bool hasEnoughMagic =
-			fsm.getAgent()->getAttributeSystem()->getHealthRatio() <
-			fsm.getAgent()->getAttributeSystem()->getMagicRatio()
+			agent->getAttributeSystem()->getHealthRatio() <
+			agent->getAttributeSystem()->getMagicRatio()
 		;
 
 		if (
 			//can place bomb
-			!fsm.agent->space->physicsContext->obstacleRadiusQuery(
-				fsm.agent,
+			!agent->space->physicsContext->obstacleRadiusQuery(
+				agent,
 				pos,
 				0.5,
 				bombObstacles,
 				PhysicsLayers::ground
 			) &&
 			//bomb is likely to travel a significant distance
-			fsm.agent->space->physicsContext->obstacleDistanceFeeler(
-				fsm.agent,
+			agent->space->physicsContext->obstacleDistanceFeeler(
+				agent,
 				SpaceVect::ray(1.0 + fuseTime*throwingSpeed, angle)
 			) > blastRadius &&
 			//predict net gain player-enemy damage
-			score(fsm.agent->space, fsm.agent->getPos(), angle) > 0.5f &&
+			score(agent->getPos(), angle) > 0.5f &&
 			//do not throw bombs when fleeing
-			!fsm.isThreadRunning("Flee") &&
+			!fsm->isThreadRunning("Flee") &&
 			//use bombs gradually in a fight
 			hasEnoughMagic &&
 			//do not throw if target is too close
-			distanceToTarget(fsm.agent, target.get()) > blastRadius
+			distanceToTarget(agent, target.get()) > blastRadius
 		) {
-			fsm.agent->space->createObject(generator(
-				fsm.agent->getPos() + SpaceVect::ray(1.0, angle),
-				fsm.agent->getVel() + SpaceVect::ray(throwingSpeed, angle)
+			agent->space->createObject(generator(
+				agent->getPos() + SpaceVect::ray(1.0, angle),
+				agent->getVel() + SpaceVect::ray(throwingSpeed, angle)
 			));
-			countdown = getInterval(fsm);
+			countdown = getInterval();
 		}
 	}
 }
 
-SpaceFloat ThrowBombs::getInterval(StateMachine& fsm)
+SpaceFloat ThrowBombs::getInterval()
 {
-	return baseInterval / (*fsm.getAgent()->getAttributeSystem())[Attribute::attackSpeed];
+	return baseInterval / (*agent->getAttributeSystem())[Attribute::attackSpeed];
 }
 
-float ThrowBombs::score(GSpace* space, SpaceVect pos, SpaceFloat angle)
+float ThrowBombs::score(SpaceVect pos, SpaceFloat angle)
 {
 	SpaceVect predictedPos = pos + SpaceVect::ray(1.0 + fuseTime * throwingSpeed, angle);
-	return bombScore(space, predictedPos, blastRadius);
+	return bombScore(agent->space, predictedPos, blastRadius);
 }
 
 }//end NS

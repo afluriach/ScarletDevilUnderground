@@ -22,9 +22,9 @@ public:
 	static const SpaceFloat triggerDist;
 	static const float cost;
 
-	BlueFairyPowerAttack();
+	BlueFairyPowerAttack(StateMachine* fsm);
 
-	virtual void update(StateMachine& sm);
+	virtual void update();
 protected:
 	SpaceFloat accumulator = 0.0;
 	SpaceFloat timer = cooldown;

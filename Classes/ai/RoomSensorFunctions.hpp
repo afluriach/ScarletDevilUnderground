@@ -18,9 +18,9 @@ namespace ai{
 //Try/activate all spawners in room when room is cleared.
 class SequentialClearSpawn : public Function {
 public:
-	SequentialClearSpawn(GSpace* space, const ValueMap& args);
+	SequentialClearSpawn(StateMachine* fsm, const ValueMap& args);
 
-	virtual void update(StateMachine& sm);
+	virtual void update();
 
 	FuncGetName(SequentialClearSpawn)
 };
@@ -39,9 +39,9 @@ struct sequence_entry
 
 class MultiSpawnSequence : public Function {
 public:
-	MultiSpawnSequence(GSpace* space, const ValueMap& args);
+	MultiSpawnSequence(StateMachine* fsm, const ValueMap& args);
 
-	virtual void update(StateMachine& sm);
+	virtual void update();
 
 	FuncGetName(MultiSpawnSequence)
 protected:
@@ -58,9 +58,9 @@ struct timed_sequence_entry
 
 class TimedSpawnSequence : public Function {
 public:
-	TimedSpawnSequence(GSpace* space, const ValueMap& args);
+	TimedSpawnSequence(StateMachine* fsm, const ValueMap& args);
 
-	virtual void update(StateMachine& sm);
+	virtual void update();
 
 	FuncGetName(TimedSpawnSequence)
 protected:

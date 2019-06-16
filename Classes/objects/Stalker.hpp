@@ -24,7 +24,7 @@ public:
 
 	virtual inline string imageSpritePath() const {return "sprites/dark_cirno.png";}
 
-	virtual void initStateMachine(ai::StateMachine& sm);
+	virtual void initStateMachine();
 	virtual void teleport(SpaceVect pos);
 
 	virtual void update();
@@ -34,8 +34,10 @@ protected:
 
 class StalkerMain : public ai::Function {
 public:
-	virtual void onEnter(ai::StateMachine& sm);
-	virtual void update(ai::StateMachine& sm);
+	inline StalkerMain(ai::StateMachine* fsm) : ai::Function(fsm) {}
+
+	virtual void onEnter();
+	virtual void update();
 	FuncGetName(StalkerMain)
 };
 

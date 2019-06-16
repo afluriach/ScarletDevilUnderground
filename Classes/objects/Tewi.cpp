@@ -17,6 +17,6 @@ const AttributeMap Tewi::baseAttributes = {
 	{Attribute::acceleration, 36.0f}
 };
 
-void Tewi::initStateMachine(ai::StateMachine& sm) {
-	sm.addThread(make_shared<ai::EvadePlayerProjectiles>());
+void Tewi::initStateMachine() {
+	fsm.addThread(make_shared<ai::EvadePlayerProjectiles>(&fsm));
 }

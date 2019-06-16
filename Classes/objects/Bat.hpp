@@ -26,13 +26,15 @@ public:
 
     inline string imageSpritePath() const {return "sprites/bat.png";}
  
-	virtual void initStateMachine(ai::StateMachine& sm);
+	virtual void initStateMachine();
 };
 
 class BatMain : public ai::Function {
 public:
-	virtual void onEnter(ai::StateMachine& sm);
-	virtual void update(ai::StateMachine& sm);
+	inline BatMain(ai::StateMachine* fsm) : ai::Function(fsm) {}
+
+	virtual void onEnter();
+	virtual void update();
 	FuncGetName(BatMain)
 protected:
 	gobject_ref target = nullptr;

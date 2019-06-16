@@ -32,7 +32,7 @@ public:
 	virtual bool isAgentAnimation() const { return true; }
 	virtual inline int pixelWidth() const { return 128; }
 
-	virtual void initStateMachine(ai::StateMachine& sm);
+	virtual void initStateMachine();
 };
 
 class Fairy1 :
@@ -55,10 +55,10 @@ public:
 	virtual bool isAgentAnimation() const { return true; }
 	virtual inline int pixelWidth() const { return 128; }
 
-	void maintain_distance(ai::StateMachine& sm, const ValueMap& args);
-	void circle_and_fire(ai::StateMachine& sm, const ValueMap& args);
-	void circle_around_point(ai::StateMachine& sm, const ValueMap& args);
-	void flock(ai::StateMachine& sm, const ValueMap& args);
+	void maintain_distance(const ValueMap& args);
+	void circle_and_fire(const ValueMap& args);
+	void circle_around_point(const ValueMap& args);
+	void flock(const ValueMap& args);
 };
 
 class BlueFairy :
@@ -83,7 +83,7 @@ public:
 	virtual bool isAgentAnimation() const { return true; }
 	virtual inline int pixelWidth() const { return 128; }
 
-	void follow_path(ai::StateMachine& sm, const ValueMap& args);
+	void follow_path(const ValueMap& args);
 };
 
 class RedFairy : public Enemy, public BaseAttributes<RedFairy>
@@ -108,7 +108,7 @@ public:
 	virtual bool isAgentAnimation() const { return true; }
 	virtual inline int pixelWidth() const { return 128; }
 
-	virtual void initStateMachine(ai::StateMachine& sm);
+	virtual void initStateMachine();
 	virtual void onZeroHP();
 };
 
@@ -131,7 +131,7 @@ public:
 	virtual bool isAgentAnimation() const { return true; }
 	virtual inline int pixelWidth() const { return 128; }
 
-	virtual void initStateMachine(ai::StateMachine& sm);
+	virtual void initStateMachine();
 };
 
 class GreenFairy2 :
@@ -153,7 +153,7 @@ public:
 	virtual bool isAgentAnimation() const { return true; }
 	virtual inline int pixelWidth() const { return 128; }
 
-	virtual void initStateMachine(ai::StateMachine& sm);
+	virtual void initStateMachine();
 	virtual void onRemove();
 };
 
@@ -184,7 +184,7 @@ public:
 	virtual bool isAgentAnimation() const { return true; }
 	virtual inline int pixelWidth() const { return 128; }
 
-	virtual void initStateMachine(ai::StateMachine& sm);
+	virtual void initStateMachine();
 };
 
 
@@ -220,7 +220,7 @@ public:
 	virtual bool isAgentAnimation() const { return true; }
 	virtual inline int pixelWidth() const { return 128; }
 
-	virtual void initStateMachine(ai::StateMachine& sm);
+	virtual void initStateMachine();
 	void addFleeThread();
 	void addSupportThread(object_ref<Fairy2> other);
 	void removeSupportThread();
@@ -255,7 +255,7 @@ public:
 	virtual bool isAgentAnimation() const { return true; }
 	virtual inline int pixelWidth() const { return 128; }
 
-	virtual void initStateMachine(ai::StateMachine& sm);
+	virtual void initStateMachine();
 };
 
 #endif /* Fairy_hpp */

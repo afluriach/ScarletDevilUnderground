@@ -29,26 +29,26 @@ bool Follower::hit(DamageInfo damage)
 	return true;
 }
 
-void Follower::initStateMachine(ai::StateMachine& sm) {
-	sm.addThread(make_shared<FollowerMain>());
+void Follower::initStateMachine() {
+	fsm.addThread(make_shared<FollowerMain>(&fsm));
 }
 
-void FollowerMain::onEnter(ai::StateMachine& sm)
+void FollowerMain::onEnter()
 {
-	target = sm.agent->space->getObject("player");
+	target = agent->space->getObject("player");
 }
 
-void FollowerMain::update(ai::StateMachine& sm)
+void FollowerMain::update()
 {
 	if (target.isValid()) {
-		if (ai::isFacingTargetsBack(sm.agent, target.get())) {
-			sm.agent->setVel(SpaceVect::ray(sm.agent->getMaxSpeed(), sm.agent->getAngle()));
+		if (ai::isFacingTargetsBack(agent, target.get())) {
+			agent->setVel(SpaceVect::ray(agent->getMaxSpeed(), agent->getAngle()));
 		}
 		else {
-			sm.agent->setVel(SpaceVect::zero);
+			agent->setVel(SpaceVect::zero);
 		}
 	}
 	else {
-		sm.pop();
+		pop();
 	}
 }

@@ -41,7 +41,7 @@ void Patchouli::onDialogEnd()
 	}
 }
 
-void Patchouli::initStateMachine(ai::StateMachine& sm)
+void Patchouli::initStateMachine()
 {
 
 }
@@ -73,15 +73,15 @@ PatchouliEnemy::PatchouliEnemy(GSpace* space, ObjectIDType id, const ValueMap& a
 
 const int PatchouliMain::castInterval = 50;
 
-void PatchouliEnemy::initStateMachine(ai::StateMachine& sm)
+void PatchouliEnemy::initStateMachine()
 {
-	addThread(make_shared<ai::HPCastSequence>(spells, makeIntervalMap(intervals)));
+	addThread(make_shared<ai::HPCastSequence>(&fsm, spells, makeIntervalMap(intervals)));
 }
 
-void PatchouliMain::onEnter(ai::StateMachine& sm)
+void PatchouliMain::onEnter()
 {
 }
 
-void PatchouliMain::update(ai::StateMachine& sm)
+void PatchouliMain::update()
 {
 }
