@@ -1,19 +1,19 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <map version="1.0" tiledversion="1.0.3" orientation="orthogonal" renderorder="right-down" width="20" height="48" tilewidth="128" tileheight="128" nextobjectid="74">
- <tileset firstgid="1" name="block_wall_dark_grey" tilewidth="128" tileheight="128" tilecount="16" columns="4">
-  <image source="block_wall_dark_grey.png" width="512" height="512"/>
+ <tileset firstgid="1" name="block_wall_dark_grey" tilewidth="128" tileheight="128" tilecount="1" columns="1">
+  <image source="block_wall.png" width="128" height="128"/>
  </tileset>
- <tileset firstgid="17" name="dirt1_green" tilewidth="128" tileheight="128" tilecount="4" columns="2">
+ <tileset firstgid="2" name="dirt1_green" tilewidth="128" tileheight="128" tilecount="4" columns="2">
   <image source="dirt1_green.png" width="256" height="256"/>
  </tileset>
  <layer name="floor" width="20" height="48">
   <data encoding="base64" compression="zlib">
-   eJzt0z0KACAMg9FcwZ/7n9UuHXWQDBW/QskUeFDaJPXYZsoRO43pcuHzZI7Ll4Nvnzr0bnw69Cr4Xr5v9f/Fhw8fPnz48OH73bcAkkBDRA==
+   eJzt07sKACAMQ9Hg4/9/2S4ddZAMFW+hZAocKG2Semwz5YidxnS58Hkyx+XLwbdPHXo3Ph16FXwv37f6/+LDhw8fPnz48P3uW1bjDLc=
   </data>
  </layer>
  <layer name="wall_tiles" width="20" height="48">
   <data encoding="base64" compression="zlib">
-   eJztls0KgDAMgwPq/Bvi+z+tiopzimbag0gKOWyUr4c2Wz2AglBL5PSjHLhg8px4r3kdtv6Vy32OYz+bxJpx/buzeGm8ypjHRAovM+Z9vR8sz2P2U42932o889vX3xfx/s9bZzac5/jv1zyLJ54NT34Tz5rH7pNP9kYLHrtPhv64UrxvnWliDT8HBSc=
+   eJxjZGBgYKQyJgYQo27UPOqYhx435MYbIw42MfxR8wbWPGLAcPLvQJlH7fw2FMqXUfOGt3mj6XnUvFHz6GfeaH4bNW+wm0esnbTOH5RiALLCANs=
   </data>
  </layer>
  <objectgroup name="walls">

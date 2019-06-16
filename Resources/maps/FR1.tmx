@@ -3,8 +3,8 @@
  <tileset firstgid="1" name="scarlet carpet texture" tilewidth="128" tileheight="128" tilecount="1" columns="1">
   <image source="scarlet carpet texture.png" width="128" height="128"/>
  </tileset>
- <tileset firstgid="2" name="block_wall_fire" tilewidth="128" tileheight="128" tilecount="16" columns="4">
-  <image source="block_wall_fire.png" width="512" height="512"/>
+ <tileset firstgid="2" name="block_wall" tilewidth="128" tileheight="128" tilecount="1" columns="1">
+  <image source="block_wall.png" width="128" height="128"/>
  </tileset>
  <layer name="floor" width="17" height="17">
   <data encoding="base64" compression="zlib">
@@ -13,7 +13,7 @@
  </layer>
  <layer name="wall_tiles" width="17" height="17">
   <data encoding="base64" compression="zlib">
-   eJxjYBgFwxmwAjEbEuYYWOcMesBCBTPYh5EZnFQwgxAAAHIAAEI=
+   eJxjYBgFwxkwYcGjADegRviMmkEaAAAn1AAV
   </data>
  </layer>
  <objectgroup name="walls">
