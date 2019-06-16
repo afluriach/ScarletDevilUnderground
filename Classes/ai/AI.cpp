@@ -21,13 +21,12 @@ namespace ai{
 
 shared_ptr<Function> Function::constructState(const string& type, GSpace* space, const ValueMap& args)
 {
-    auto it = Function::adapters.find(type);
+	Function::AdapterType adapter = getOrDefault(Function::adapters, type, Function::AdapterType());
 
-    if (it != Function::adapters.end()) {
-        Function::AdapterType adapter = it->second;
-        return adapter(space,args);
-    }
-    else return nullptr;
+	if (adapter)
+		return adapter(space, args);
+	else
+		return nullptr;
 }
 
 unsigned int Thread::nextUUID = 1;
@@ -212,9 +211,7 @@ void StateMachine::applyAddThreads()
 	{
 		current_threads[thread->uuid] = thread;
 
-		if (threads_by_priority.find(thread->priority) == threads_by_priority.end()) {
-			threads_by_priority[thread->priority] = list<unsigned int>();
-		}
+		emplaceIfEmpty(threads_by_priority, thread->priority);
 		threads_by_priority[thread->priority].push_back(thread->uuid);
 	}
 	threadsToAdd.clear();

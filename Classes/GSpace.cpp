@@ -262,31 +262,26 @@ void GSpace::addWallBlock(const SpaceRect& area)
 
 gobject_ref GSpace::getObjectRef(const string& name) const
 {
-    auto it = objByName.find(name);
-    return it != objByName.end() ? it->second : nullptr;
+	return getObject(name);
 }
 
 gobject_ref GSpace::getObjectRef(unsigned int uuid) const
 {
-    auto it = objByUUID.find(uuid);
-    return it != objByUUID.end() ? it->second : nullptr;
+	return getObject(uuid);
 }
 
 GObject* GSpace::getObject(const string& name) const
 {
-	auto it = objByName.find(name);
-
-	if (it != objByName.end() && warningNames.find(name) != warningNames.end()) {
+	if (warningNames.find(name) != warningNames.end()) {
 		log("Warning: object name %s is not unique!", name.c_str());
 	}
 
-	return it != objByName.end() ? it->second : nullptr;
+	return getOrDefault(objByName, name, to_gobject(nullptr));
 }
 
 GObject* GSpace::getObject(unsigned int uuid) const
 {
-	auto it = objByUUID.find(uuid);
-	return it != objByUUID.end() ? it->second : nullptr;
+	return getOrDefault(objByUUID, uuid, to_gobject(nullptr));
 }
 
 RoomSensor* GSpace::getRoomSensor(int id) const
