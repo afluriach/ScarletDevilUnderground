@@ -247,7 +247,7 @@ public:
 	virtual void update();
 	virtual void onExit();
 
-	void onBulletCollide(StateMachine& fsm, Bullet* b);
+	virtual bool onBulletHit(Bullet* b);
 
 	virtual bitset<lockCount> getLockMask();
 

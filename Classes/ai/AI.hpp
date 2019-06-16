@@ -69,6 +69,9 @@ public:
     
     inline virtual void onDelay() {}
     
+	inline virtual bool onBulletHit(Bullet* b) { return false; }
+	inline virtual bool onBulletBlock(Bullet* b) { return false; }
+
     inline virtual string getName() const {return "Function";}
     
     inline virtual bitset<lockCount> getLockMask() { return bitset<lockCount>();}
@@ -98,6 +101,9 @@ public:
 	void update();
     void onDelay();
 
+	bool onBulletHit(Bullet* b);
+	bool onBulletBlock(Bullet* b);
+
 	void push(shared_ptr<Function> newState);
 	void pop();
     
@@ -107,6 +113,20 @@ public:
 	void setResetOnBlock(bool reset);
 
 protected:
+	//Calls a particular Function interface method, starting with the top of the stack,
+	//and continuing until a handler returns to indicate it handled the event.
+	//This function in turns returns whether any function in the stack handled the event.
+	template<typename... Params>
+	bool callInterface(bool (Function::*method)(Params...), Params... params)
+	{
+		for (auto it = call_stack.rbegin(); it != call_stack.rend(); ++it) {
+			Function* f = it->get();
+			if ( (f->*method)(params...))
+				return true;
+		}
+		return false;
+	}
+
 	list<shared_ptr<Function>> call_stack;
 	StateMachine* sm;
 	bool completed = false;
@@ -119,8 +139,6 @@ protected:
 class StateMachine
 {
 public:
-	static function<bool(pair<unsigned int, bullet_collide_function>)> isCallback(unsigned int id);
-
     StateMachine(GObject *const agent);
 
 	void update();
@@ -144,9 +162,6 @@ public:
 	void addEndDetectFunction(GType t, detect_function f);
 	void removeDetectFunction(GType t);
 	void removeEndDetectFunction(GType t);
-	unsigned int addBulletHitFunction(bullet_collide_function f);
-	unsigned int addBulletBlockFunction(bullet_collide_function f);
-	bool removeBulletFunction(unsigned int id);
 	void setAlertFunction(alert_function f);
 
 	//wrappers for the current thread
@@ -164,6 +179,25 @@ public:
 	Thread* getCrntThread();
     string toString();
 protected:
+	//Calls a particular Function interface method, using Thread::callInterface,
+	//iterating through Threads in order of descending priority,
+	//until one of them handles the event.
+	template<typename... Params>
+	bool callInterface(bool (Function::*method)(Params...), Params... params)
+	{
+		for (auto priority_it = threads_by_priority.rbegin(); priority_it != threads_by_priority.rend(); ++priority_it)
+		{
+			for (unsigned int uuid : priority_it->second)
+			{
+				Thread* crnt = current_threads[uuid].get();
+
+				if (crnt->callInterface(method, params...))
+					return true;
+			}
+		}
+		return false;
+	}
+
 	void applyAddThreads();
 	void applyRemoveThreads();
 	void removeCompletedThreads();
@@ -173,8 +207,6 @@ protected:
 	unordered_set<unsigned int> threadsToRemove;
 	list<shared_ptr<Thread>> threadsToAdd;
 
-	list<pair<unsigned int, bullet_collide_function>> bulletHitHandlers;
-	list<pair<unsigned int, bullet_collide_function>> bulletBlockHandlers;
 	alert_function alertHandler;
 	unordered_map<GType, detect_function> detectHandlers;
 	unordered_map<GType, detect_function> endDetectHandlers;

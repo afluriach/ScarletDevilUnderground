@@ -605,8 +605,6 @@ LookTowardsFire::LookTowardsFire(StateMachine* fsm, bool useShield) :
 
 void LookTowardsFire::onEnter()
 {
-	hitCallbackID = fsm->addBulletHitFunction(bind(&LookTowardsFire::onBulletCollide, this, placeholders::_1, placeholders::_2));
-	blockCallbackID = fsm->addBulletBlockFunction(bind(&LookTowardsFire::onBulletCollide, this, placeholders::_1, placeholders::_2));
 }
 
 void LookTowardsFire::update()
@@ -632,11 +630,9 @@ void LookTowardsFire::update()
 
 void LookTowardsFire::onExit()
 {
-	fsm->removeBulletFunction(hitCallbackID);
-	fsm->removeBulletFunction(blockCallbackID);
 }
 
-void LookTowardsFire::onBulletCollide(StateMachine& fsm, Bullet* b)
+bool LookTowardsFire::onBulletHit(Bullet* b)
 {
 	SpaceVect bulletDirection = b->getVel().normalizeSafe().rotate(float_pi);
 	hitAccumulator += hitCost;
@@ -645,6 +641,8 @@ void LookTowardsFire::onBulletCollide(StateMachine& fsm, Bullet* b)
 	if (looking) {
 		agent->setAngle(bulletDirection.toAngle());
 	}
+
+	return true;
 }
 
 bitset<lockCount> LookTowardsFire::getLockMask()

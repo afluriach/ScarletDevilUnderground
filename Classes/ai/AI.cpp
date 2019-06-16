@@ -91,6 +91,16 @@ void Thread::onDelay()
     }
 }
 
+bool Thread::onBulletHit(Bullet* b)
+{
+	return callInterface(&Function::onBulletHit, b);
+}
+
+bool Thread::onBulletBlock(Bullet* b)
+{
+	return callInterface(&Function::onBulletBlock, b);
+}
+
 void Thread::push(shared_ptr<Function> newState)
 {
 	call_stack.push_back(newState);
@@ -132,13 +142,6 @@ string Thread::getMainFuncName() {
 
 void Thread::setResetOnBlock(bool reset) {
 	resetOnBlock = reset;
-}
-
-function<bool(pair<unsigned int, bullet_collide_function>)> StateMachine::isCallback(unsigned int id)
-{
-	return [id](pair<unsigned int, bullet_collide_function> entry) -> bool {
-		return entry.first == id;
-	};
 }
 
 StateMachine::StateMachine(GObject *const agent) :
@@ -302,16 +305,12 @@ void StateMachine::onEndDetect(GObject* obj)
 
 void StateMachine::onBulletHit(Bullet* b)
 {
-	for (auto entry : bulletHitHandlers) {
-		entry.second(*this, b);
-	}
+	callInterface(&Function::onBulletHit, b);
 }
 
 void StateMachine::onBulletBlock(Bullet* b)
 {
-	for (auto entry : bulletBlockHandlers) {
-		entry.second(*this, b);
-	}
+	callInterface(&Function::onBulletBlock, b);
 }
 
 void StateMachine::onAlert(Player* p)
@@ -341,30 +340,6 @@ void StateMachine::removeDetectFunction(GType t)
 void StateMachine::removeEndDetectFunction(GType t)
 {
 	endDetectHandlers.erase(t);
-}
-
-unsigned int StateMachine::addBulletHitFunction(bullet_collide_function f)
-{
-	auto entry = make_pair(nextCallbackID++, f);
-	bulletHitHandlers.push_back(entry);
-	return nextCallbackID - 1;
-}
-unsigned int StateMachine::addBulletBlockFunction(bullet_collide_function f)
-{
-	auto entry = make_pair(nextCallbackID++, f);
-	bulletBlockHandlers.push_back(entry);
-	return nextCallbackID - 1;
-}
-
-bool StateMachine::removeBulletFunction(unsigned int id)
-{
-	auto f = isCallback(id);
-	size_t _prev = bulletHitHandlers.size() + bulletBlockHandlers.size();
-
-	bulletHitHandlers.remove_if(f);
-	bulletBlockHandlers.remove_if(f);
-
-	return bulletHitHandlers.size() + bulletBlockHandlers.size() != _prev;
 }
 
 void StateMachine::setAlertFunction(alert_function f)
