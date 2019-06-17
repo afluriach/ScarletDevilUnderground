@@ -941,3 +941,17 @@ vector<SpaceVect> GSpace::pathToTile(IntVec2 begin, IntVec2 end)
 }
 
 //END NAVIGATION
+
+LightID GSpace::addLightSource(shared_ptr<LightArea> light)
+{
+	LightID id = graphicsContext->getLightID();
+
+	sceneActions.push_back(bind(
+		&graphics_context::addPolyLightSource,
+		graphicsContext,
+		id,
+		light
+	));
+
+	return id;
+}
