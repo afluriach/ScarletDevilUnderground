@@ -116,5 +116,10 @@ void log_print(string s, T... args)
 #define log log_print
 
 #define DEV_MODE 1
+#define INTERNAL_PREFIX 0
+
+#if INTERNAL_PREFIX
+#include "internal_prefix.h"
+#endif
 
 #endif /* Prefix_h */

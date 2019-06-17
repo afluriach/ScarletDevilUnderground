@@ -294,6 +294,7 @@ xcopy "$(ProjectDir)..\Resources" "$(OutDir)" /D /E /I /F /Y</Command>
     <ClInclude Include="..\Classes\graphics\graphics_types.h" />
     <ClInclude Include="..\Classes\GSpace.hpp" />
     <ClInclude Include="..\Classes\GState.hpp" />
+    <ClInclude Include="..\Classes\internal_prefix.h" />
     <ClInclude Include="..\Classes\lua\LuaAPI.hpp" />
     <ClInclude Include="..\Classes\lua\LuaConvert.h" />
     <ClInclude Include="..\Classes\lua\LuaError.h" />

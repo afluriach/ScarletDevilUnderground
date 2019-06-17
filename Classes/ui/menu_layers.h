@@ -7,7 +7,7 @@
 //
 
 #ifndef menu_layers_h
-#define menu_Layers_h
+#define menu_layers_h
 
 #include "menu.h"
 

@@ -758,6 +758,9 @@
     <ClInclude Include="..\Classes\Graph.hpp">
       <Filter>src</Filter>
     </ClInclude>
+    <ClInclude Include="..\Classes\internal_prefix.h">
+      <Filter>src</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="game.rc">
