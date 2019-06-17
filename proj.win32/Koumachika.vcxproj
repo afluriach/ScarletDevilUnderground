@@ -77,7 +77,7 @@
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
       <Optimization>Disabled</Optimization>
-      <AdditionalIncludeDirectories>C:\Program Files (x86)\FMOD SoundSystem\FMOD Studio API Windows\api\lowlevel\inc;C:\Users\toni\git\kouma\gainput\include;C:\Users\toni\git\kouma\Classes\graphics;C:\Users\toni\git\kouma\Classes\ai;C:\Users\toni\git\kouma\Classes\lua;C:\Users\toni\git\kouma\Classes\spells;C:\Users\toni\git\kouma\Classes\objects;C:\Users\toni\git\kouma\Classes\ui;C:\Users\toni\git\kouma\Classes\scenes;$(EngineRoot)cocos\audio\include;$(EngineRoot)external;C:\Users\toni\git\kouma\cocos2d\LuaBridge;C:\Users\toni\git\kouma\cocos2d\LuaBridge\detail;C:\Users\toni\git\kouma\cocos2d\lua;C:\Users\toni\git\kouma\cocos2d\chipmunk\constraints;C:\Users\toni\git\kouma\cocos2d\chipmunkpp;C:\Users\toni\git\kouma\cocos2d\chipmunk;$(EngineRoot)extensions;..\Classes;..;%(AdditionalIncludeDirectories);$(_COCOS_HEADER_WIN32_BEGIN);$(_COCOS_HEADER_WIN32_END)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>C:\Program Files (x86)\FMOD SoundSystem\FMOD Studio API Windows\api\lowlevel\inc;C:\Users\toni\git\kouma\gainput\include;C:\Users\toni\git\kouma\Classes\graphics;C:\Users\toni\git\kouma\Classes\controls;C:\Users\toni\git\kouma\Classes\ai;C:\Users\toni\git\kouma\Classes\lua;C:\Users\toni\git\kouma\Classes\spells;C:\Users\toni\git\kouma\Classes\space;C:\Users\toni\git\kouma\Classes\objects;C:\Users\toni\git\kouma\Classes\ui;C:\Users\toni\git\kouma\Classes\scenes;$(EngineRoot)cocos\audio\include;$(EngineRoot)external;C:\Users\toni\git\kouma\cocos2d\LuaBridge;C:\Users\toni\git\kouma\cocos2d\LuaBridge\detail;C:\Users\toni\git\kouma\cocos2d\lua;C:\Users\toni\git\kouma\cocos2d\chipmunk\constraints;C:\Users\toni\git\kouma\cocos2d\chipmunkpp;C:\Users\toni\git\kouma\cocos2d\chipmunk;$(EngineRoot)extensions;..\Classes;..;%(AdditionalIncludeDirectories);$(_COCOS_HEADER_WIN32_BEGIN);$(_COCOS_HEADER_WIN32_END)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>_SILENCE_ALL_CXX17_DEPRECATION_WARNINGS=1;CC_STATIC=1;GLEW_STATIC=1;AL_LIBTYPE_STATIC=1;WIN32;_DEBUG;_WINDOWS;_USE_MATH_DEFINES;GL_GLEXT_PROTOTYPES;COCOS2D_DEBUG=1;_CRT_SECURE_NO_WARNINGS;_SCL_SECURE_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <MinimalRebuild>false</MinimalRebuild>
       <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
@@ -112,7 +112,7 @@ xcopy "$(ProjectDir)..\Resources" "$(OutDir)" /D /E /I /F /Y</Command>
     <ClCompile>
       <Optimization>MaxSpeed</Optimization>
       <IntrinsicFunctions>true</IntrinsicFunctions>
-      <AdditionalIncludeDirectories>C:\Program Files (x86)\FMOD SoundSystem\FMOD Studio API Windows\api\lowlevel\inc;C:\Users\toni\git\kouma\Classes\ai;C:\Users\toni\git\kouma\Classes\graphics;C:\Users\toni\git\kouma\Classes\lua;C:\Users\toni\git\kouma\Classes\objects;C:\Users\toni\git\kouma\Classes\spells;C:\Users\toni\git\kouma\Classes\ui;C:\Users\toni\git\kouma\Classes\scenes;$(EngineRoot)cocos\audio\include;$(EngineRoot)external;C:\Users\toni\git\kouma\cocos2d\LuaBridge;C:\Users\toni\git\kouma\cocos2d\LuaBridge\detail;C:\Users\toni\git\kouma\cocos2d\lua;C:\Users\toni\git\kouma\cocos2d\chipmunk\constraints;C:\Users\toni\git\kouma\cocos2d\chipmunkpp;C:\Users\toni\git\kouma\cocos2d\chipmunk;$(EngineRoot)extensions;..\Classes;..;%(AdditionalIncludeDirectories);$(_COCOS_HEADER_WIN32_BEGIN);$(_COCOS_HEADER_WIN32_END);C:\Users\toni\git\kouma\gainput\include</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>C:\Program Files (x86)\FMOD SoundSystem\FMOD Studio API Windows\api\lowlevel\inc;C:\Users\toni\git\kouma\Classes\ai;C:\Users\toni\git\kouma\Classes\graphics;C:\Users\toni\git\kouma\Classes\controls;C:\Users\toni\git\kouma\Classes\lua;C:\Users\toni\git\kouma\Classes\objects;C:\Users\toni\git\kouma\Classes\space;C:\Users\toni\git\kouma\Classes\spells;C:\Users\toni\git\kouma\Classes\ui;C:\Users\toni\git\kouma\Classes\scenes;$(EngineRoot)cocos\audio\include;$(EngineRoot)external;C:\Users\toni\git\kouma\cocos2d\LuaBridge;C:\Users\toni\git\kouma\cocos2d\LuaBridge\detail;C:\Users\toni\git\kouma\cocos2d\lua;C:\Users\toni\git\kouma\cocos2d\chipmunk\constraints;C:\Users\toni\git\kouma\cocos2d\chipmunkpp;C:\Users\toni\git\kouma\cocos2d\chipmunk;$(EngineRoot)extensions;..\Classes;..;%(AdditionalIncludeDirectories);$(_COCOS_HEADER_WIN32_BEGIN);$(_COCOS_HEADER_WIN32_END);C:\Users\toni\git\kouma\gainput\include</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>_SILENCE_ALL_CXX17_DEPRECATION_WARNINGS=1;CC_STATIC=1;GLEW_STATIC=1;AL_LIBTYPE_STATIC=1;WIN32;NDEBUG;_WINDOWS;_USE_MATH_DEFINES;GL_GLEXT_PROTOTYPES;_CRT_SECURE_NO_WARNINGS;_SCL_SECURE_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
       <FunctionLevelLinking>true</FunctionLevelLinking>
@@ -156,16 +156,15 @@ xcopy "$(ProjectDir)..\Resources" "$(OutDir)" /D /E /I /F /Y</Command>
     <ClCompile Include="..\Classes\App.cpp" />
     <ClCompile Include="..\Classes\Attributes.cpp" />
     <ClCompile Include="..\Classes\audio_context.cpp" />
-    <ClCompile Include="..\Classes\ControlMapping.cpp" />
-    <ClCompile Include="..\Classes\controls.cpp" />
+    <ClCompile Include="..\Classes\controls\ControlMapping.cpp" />
+    <ClCompile Include="..\Classes\controls\controls.cpp" />
+    <ClCompile Include="..\Classes\controls\replay.cpp" />
     <ClCompile Include="..\Classes\FileIO.cpp" />
     <ClCompile Include="..\Classes\Graph.cpp" />
     <ClCompile Include="..\Classes\graphics\GAnimation.cpp" />
     <ClCompile Include="..\Classes\graphics\Graphics.cpp" />
     <ClCompile Include="..\Classes\graphics\GraphicsNodes.cpp" />
     <ClCompile Include="..\Classes\graphics\graphics_context.cpp" />
-    <ClCompile Include="..\Classes\GSpace.cpp" />
-    <ClCompile Include="..\Classes\GState.cpp" />
     <ClCompile Include="..\Classes\log.cpp" />
     <ClCompile Include="..\Classes\lua\LuaAPI.cpp" />
     <ClCompile Include="..\Classes\lua\LuaConvert.cpp" />
@@ -222,13 +221,10 @@ xcopy "$(ProjectDir)..\Resources" "$(OutDir)" /D /E /I /F /Y</Command>
     <ClCompile Include="..\Classes\objects\Torch.cpp" />
     <ClCompile Include="..\Classes\objects\Upgrade.cpp" />
     <ClCompile Include="..\Classes\objects\Wall.cpp" />
-    <ClCompile Include="..\Classes\PhysicsImpl.cpp" />
-    <ClCompile Include="..\Classes\physics_context.cpp" />
     <ClCompile Include="..\Classes\Prefix.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
     </ClCompile>
-    <ClCompile Include="..\Classes\replay.cpp" />
     <ClCompile Include="..\Classes\Resources.cpp" />
     <ClCompile Include="..\Classes\scenes\Collect.cpp" />
     <ClCompile Include="..\Classes\scenes\Desert.cpp" />
@@ -245,6 +241,10 @@ xcopy "$(ProjectDir)..\Resources" "$(OutDir)" /D /E /I /F /Y</Command>
     <ClCompile Include="..\Classes\scenes\OverworldScene.cpp" />
     <ClCompile Include="..\Classes\scenes\PlayScene.cpp" />
     <ClCompile Include="..\Classes\scenes\SceneMapping.cpp" />
+    <ClCompile Include="..\Classes\space\GSpace.cpp" />
+    <ClCompile Include="..\Classes\space\GState.cpp" />
+    <ClCompile Include="..\Classes\space\PhysicsImpl.cpp" />
+    <ClCompile Include="..\Classes\space\physics_context.cpp" />
     <ClCompile Include="..\Classes\spells\EnemyFirePattern.cpp" />
     <ClCompile Include="..\Classes\spells\EnemySpell.cpp" />
     <ClCompile Include="..\Classes\spells\FirePattern.cpp" />
@@ -282,8 +282,9 @@ xcopy "$(ProjectDir)..\Resources" "$(OutDir)" /D /E /I /F /Y</Command>
     <ClInclude Include="..\Classes\app_constants.hpp" />
     <ClInclude Include="..\Classes\Attributes.hpp" />
     <ClInclude Include="..\Classes\audio_context.hpp" />
-    <ClInclude Include="..\Classes\ControlAssignment.h" />
-    <ClInclude Include="..\Classes\controls.h" />
+    <ClInclude Include="..\Classes\controls\ControlAssignment.h" />
+    <ClInclude Include="..\Classes\controls\controls.h" />
+    <ClInclude Include="..\Classes\controls\replay.h" />
     <ClInclude Include="..\Classes\enum.h" />
     <ClInclude Include="..\Classes\FileIO.hpp" />
     <ClInclude Include="..\Classes\functional.hpp" />
@@ -293,8 +294,6 @@ xcopy "$(ProjectDir)..\Resources" "$(OutDir)" /D /E /I /F /Y</Command>
     <ClInclude Include="..\Classes\graphics\GraphicsNodes.hpp" />
     <ClInclude Include="..\Classes\graphics\graphics_context.hpp" />
     <ClInclude Include="..\Classes\graphics\graphics_types.h" />
-    <ClInclude Include="..\Classes\GSpace.hpp" />
-    <ClInclude Include="..\Classes\GState.hpp" />
     <ClInclude Include="..\Classes\internal_prefix.h" />
     <ClInclude Include="..\Classes\log.hpp" />
     <ClInclude Include="..\Classes\lua\LuaAPI.hpp" />
@@ -353,10 +352,7 @@ xcopy "$(ProjectDir)..\Resources" "$(OutDir)" /D /E /I /F /Y</Command>
     <ClInclude Include="..\Classes\objects\Torch.hpp" />
     <ClInclude Include="..\Classes\objects\Upgrade.hpp" />
     <ClInclude Include="..\Classes\objects\Wall.hpp" />
-    <ClInclude Include="..\Classes\PhysicsImpl.hpp" />
-    <ClInclude Include="..\Classes\physics_context.hpp" />
     <ClInclude Include="..\Classes\Prefix.h" />
-    <ClInclude Include="..\Classes\replay.h" />
     <ClInclude Include="..\Classes\Resources.hpp" />
     <ClInclude Include="..\Classes\scenes\Collect.h" />
     <ClInclude Include="..\Classes\scenes\Desert.hpp" />
@@ -371,6 +367,10 @@ xcopy "$(ProjectDir)..\Resources" "$(OutDir)" /D /E /I /F /Y</Command>
     <ClInclude Include="..\Classes\scenes\OpeningScene.hpp" />
     <ClInclude Include="..\Classes\scenes\OverworldScene.hpp" />
     <ClInclude Include="..\Classes\scenes\PlayScene.hpp" />
+    <ClInclude Include="..\Classes\space\GSpace.hpp" />
+    <ClInclude Include="..\Classes\space\GState.hpp" />
+    <ClInclude Include="..\Classes\space\PhysicsImpl.hpp" />
+    <ClInclude Include="..\Classes\space\physics_context.hpp" />
     <ClInclude Include="..\Classes\spells\EnemyFirePattern.hpp" />
     <ClInclude Include="..\Classes\spells\EnemySpell.hpp" />
     <ClInclude Include="..\Classes\spells\FirePattern.hpp" />

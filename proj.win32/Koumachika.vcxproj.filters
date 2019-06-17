@@ -31,21 +31,18 @@
     <Filter Include="src\graphics">
       <UniqueIdentifier>{162c31a5-759c-4859-96ce-942200430899}</UniqueIdentifier>
     </Filter>
+    <Filter Include="src\space">
+      <UniqueIdentifier>{62f0893d-97d6-457e-a1d4-7f4b5b680d31}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\controls">
+      <UniqueIdentifier>{d20f64b2-3a99-4557-96c3-a26a0ed27ecf}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
       <Filter>win32</Filter>
     </ClCompile>
     <ClCompile Include="..\Classes\App.cpp">
-      <Filter>src</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Classes\controls.cpp">
-      <Filter>src</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Classes\GSpace.cpp">
-      <Filter>src</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Classes\GState.cpp">
       <Filter>src</Filter>
     </ClCompile>
     <ClCompile Include="..\Classes\util.cpp">
@@ -327,9 +324,6 @@
     <ClCompile Include="..\Classes\scenes\GScene_map.cpp">
       <Filter>src\scenes</Filter>
     </ClCompile>
-    <ClCompile Include="..\Classes\replay.cpp">
-      <Filter>src</Filter>
-    </ClCompile>
     <ClCompile Include="..\Classes\objects\MapFragment.cpp">
       <Filter>src\objects</Filter>
     </ClCompile>
@@ -354,16 +348,7 @@
     <ClCompile Include="..\Classes\Resources.cpp">
       <Filter>src</Filter>
     </ClCompile>
-    <ClCompile Include="..\Classes\ControlMapping.cpp">
-      <Filter>src</Filter>
-    </ClCompile>
     <ClCompile Include="..\Classes\audio_context.cpp">
-      <Filter>src</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Classes\PhysicsImpl.cpp">
-      <Filter>src</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Classes\physics_context.cpp">
       <Filter>src</Filter>
     </ClCompile>
     <ClCompile Include="..\Classes\ui\Dialog.cpp">
@@ -396,21 +381,33 @@
     <ClCompile Include="..\Classes\log.cpp">
       <Filter>src</Filter>
     </ClCompile>
+    <ClCompile Include="..\Classes\space\GSpace.cpp">
+      <Filter>src\space</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\space\GState.cpp">
+      <Filter>src\space</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\space\physics_context.cpp">
+      <Filter>src\space</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\space\PhysicsImpl.cpp">
+      <Filter>src\space</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\controls\ControlMapping.cpp">
+      <Filter>src\controls</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\controls\controls.cpp">
+      <Filter>src\controls</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\controls\replay.cpp">
+      <Filter>src\controls</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="main.h">
       <Filter>win32</Filter>
     </ClInclude>
     <ClInclude Include="..\Classes\App.h">
-      <Filter>src</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Classes\controls.h">
-      <Filter>src</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Classes\GSpace.hpp">
-      <Filter>src</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Classes\GState.hpp">
       <Filter>src</Filter>
     </ClInclude>
     <ClInclude Include="..\Classes\macros.h">
@@ -689,9 +686,6 @@
     <ClInclude Include="..\Classes\scenes\GScene.hpp">
       <Filter>src\scenes</Filter>
     </ClInclude>
-    <ClInclude Include="..\Classes\replay.h">
-      <Filter>src</Filter>
-    </ClInclude>
     <ClInclude Include="..\Classes\objects\MapFragment.hpp">
       <Filter>src\objects</Filter>
     </ClInclude>
@@ -716,19 +710,10 @@
     <ClInclude Include="..\Classes\Resources.hpp">
       <Filter>src</Filter>
     </ClInclude>
-    <ClInclude Include="..\Classes\ControlAssignment.h">
-      <Filter>src</Filter>
-    </ClInclude>
     <ClInclude Include="..\Classes\audio_context.hpp">
       <Filter>src</Filter>
     </ClInclude>
     <ClInclude Include="..\Classes\app_constants.hpp">
-      <Filter>src</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Classes\PhysicsImpl.hpp">
-      <Filter>src</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Classes\physics_context.hpp">
       <Filter>src</Filter>
     </ClInclude>
     <ClInclude Include="..\Classes\ui\Dialog.hpp">
@@ -766,6 +751,27 @@
     </ClInclude>
     <ClInclude Include="..\Classes\log.hpp">
       <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\space\GSpace.hpp">
+      <Filter>src\space</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\space\GState.hpp">
+      <Filter>src\space</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\space\physics_context.hpp">
+      <Filter>src\space</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\space\PhysicsImpl.hpp">
+      <Filter>src\space</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\controls\ControlAssignment.h">
+      <Filter>src\controls</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\controls\controls.h">
+      <Filter>src\controls</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\controls\replay.h">
+      <Filter>src\controls</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
