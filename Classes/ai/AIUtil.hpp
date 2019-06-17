@@ -29,6 +29,7 @@ bool isFacingTarget(const GObject* agent, const GObject* target);
 bool isFacingTargetsBack(const GObject* agent, const GObject* target);
 bool isLineOfSight(const GObject* agent, const GObject* target);
 bool isObstacle(Agent* agent, SpaceVect target);
+bool isObstacleBetweenTarget(Agent* agent, const GObject* target);
 
 array<SpaceFloat, 8> wallFeeler8(const GObject* agent, SpaceFloat distance);
 array<SpaceFloat, 4> obstacleFeelerQuad(const GObject* agent, SpaceFloat distance);

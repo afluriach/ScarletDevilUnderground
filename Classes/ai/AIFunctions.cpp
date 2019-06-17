@@ -38,8 +38,9 @@ Seek::Seek(StateMachine* fsm, GObject* target, bool usePathfinding, SpaceFloat m
 update_return Seek::update()
 {
 	if (target.isValid()) {
-		if (usePathfinding && isObstacle(agent, target.get()->getPos())) {
-			return_push(ai::PathToTarget::create(fsm, target.get()));
+		if (usePathfinding && isObstacleBetweenTarget(agent, target.get())) {
+			shared_ptr<Function> pathFunction = ai::PathToTarget::create(fsm, target.get());
+			return_push_if_valid(pathFunction);
 		}
 		else if (distanceToTarget(agent, target.get()->getPos()) < margin) {
 			arrive(agent, target.get()->getPos());
@@ -809,10 +810,18 @@ update_return FollowPath::update()
 
 shared_ptr<PathToTarget> PathToTarget::create(StateMachine* fsm, GObject* target)
 {
+	SpaceVect start = fsm->getAgent()->getPos();
+	SpaceVect endpoint = target->getPos();
+
 	Path p = fsm->getSpace()->pathToTile(
-		toIntVector(fsm->getAgent()->getPos()),
-		toIntVector(target->getPos())
+		toIntVector(start),
+		toIntVector(endpoint)
 	);
+
+	if (p.empty()) {
+		log("%s was unable to find path to target!", fsm->getAgent()->getProperName());
+		return nullptr;
+	}
 
 	return make_shared<PathToTarget>(fsm, p, target);
 }
@@ -825,7 +834,7 @@ PathToTarget::PathToTarget(StateMachine* fsm, Path path, gobject_ref target) :
 
 update_return PathToTarget::update()
 {
-	if (ai::isLineOfSight(agent, target.get())) {
+	if (ai::isObstacleBetweenTarget(agent, target.get())) {
 		return_pop();
 	}
 	else {

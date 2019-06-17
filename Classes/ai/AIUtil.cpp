@@ -206,6 +206,15 @@ bool isObstacle(Agent* agent, SpaceVect target)
 	return dist < distanceMargin;
 }
 
+bool isObstacleBetweenTarget(Agent* agent, const GObject* target)
+{
+	return agent->space->physicsContext->obstacleToTarget(
+		agent,
+		target,
+		agent->getRadius() * 2.0
+	);
+}
+
 SpaceVect compute_seek(Agent* agent, SpaceVect target)
 {
 	SpaceVect displacement = target - agent->getPos();

@@ -53,6 +53,7 @@ typedef pair<int, shared_ptr<Function>> update_return;
 #define return_pop_if_true(x) return make_pair( (x) ? -1 : 0, nullptr)
 
 #define return_push_if_true(x, s) return make_pair( 0, (x) ? (s) : nullptr )
+#define return_push_if_valid(x) return make_pair( 0, (x) ? (x) : nullptr )
 
 class Function
 {

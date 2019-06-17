@@ -38,13 +38,59 @@ public:
 		GObject* obj
 	);
 
-	GObject * queryAdjacentTiles(SpaceVect pos, GType type, PhysicsLayers layers, type_index t);
-	GObject * pointQuery(SpaceVect pos, GType type, PhysicsLayers layers);
-	bool rectangleQuery(SpaceVect center, SpaceVect dimensions, GType type, PhysicsLayers layers, SpaceFloat angle = 0.0);
-	SpaceFloat rectangleFeelerQuery(const GObject* agent, SpaceVect center, SpaceVect dimensions, GType type, PhysicsLayers layers, SpaceFloat angle) const;
-	unordered_set<GObject*> rectangleObjectQuery(SpaceVect center, SpaceVect dimensions, GType type, PhysicsLayers layers, SpaceFloat angle = 0.0);
-	bool obstacleRadiusQuery(const GObject* agent, SpaceVect center, SpaceFloat radius, GType type, PhysicsLayers layers);
-	unordered_set<GObject*> radiusQuery(const GObject* agent, SpaceVect center, SpaceFloat radius, GType type, PhysicsLayers layers);
+	GObject * queryAdjacentTiles(
+		SpaceVect pos,
+		GType type,
+		PhysicsLayers layers,
+		type_index t
+	) const;
+
+	GObject * pointQuery(
+		SpaceVect pos,
+		GType type,
+		PhysicsLayers layers
+	) const;
+
+	bool rectangleQuery(
+		SpaceVect center,
+		SpaceVect dimensions,
+		GType type,
+		PhysicsLayers layers,
+		SpaceFloat angle = 0.0
+	) const;
+
+	SpaceFloat rectangleFeelerQuery(
+		const GObject* agent, 
+		SpaceVect center,
+		SpaceVect dimensions,
+		GType type,
+		PhysicsLayers layers,
+		SpaceFloat angle
+	) const;
+
+	unordered_set<GObject*> rectangleObjectQuery(
+		SpaceVect center,
+		SpaceVect dimensions,
+		GType type,
+		PhysicsLayers layers,
+		SpaceFloat angle = 0.0
+	) const;
+
+	bool obstacleRadiusQuery(
+		const GObject* agent,
+		SpaceVect center,
+		SpaceFloat radius,
+		GType type,
+		PhysicsLayers layers
+	) const;
+
+	unordered_set<GObject*> radiusQuery(
+		const GObject* agent,
+		SpaceVect center,
+		SpaceFloat radius,
+		GType type,
+		PhysicsLayers layers
+	) const;
 
 	template<class C>
 	inline unordered_set<C*> radiusQueryByType(const GObject* agent, SpaceVect center, SpaceFloat radius, GType type, PhysicsLayers layers)
@@ -77,6 +123,7 @@ public:
 
 	//uses rectangle query (width should be diameter of agent)
 	SpaceFloat obstacleDistanceFeeler(const GObject * agent, SpaceVect feeler, SpaceFloat width) const;
+	bool obstacleToTarget(const GObject * agent, const GObject* target, SpaceFloat width) const;
 	//uses line/ray query
 	SpaceFloat obstacleDistanceFeeler(const GObject * agent, SpaceVect feeler) const;
 	SpaceFloat wallDistanceFeeler(const GObject * agent, SpaceVect feeler) const;

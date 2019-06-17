@@ -242,9 +242,36 @@ SpaceFloat physics_context::obstacleDistanceFeeler(const GObject * agent, SpaceV
 		center,
 		dimensions,
 		agentObstacles,
-		PhysicsLayers::all,
+		agent->getCrntLayers(),
 		feeler.toAngle()
 	);
+}
+
+bool physics_context::obstacleToTarget(const GObject * agent, const GObject* target, SpaceFloat width) const
+{
+	SpaceVect start = agent->getPos();
+	SpaceVect endpoint = target->getPos();
+	SpaceVect feeler = endpoint - start;
+
+	SpaceVect center = start + feeler * 0.5;
+	SpaceVect dimensions(feeler.length(), width);
+
+	unordered_set<GObject*> result = rectangleObjectQuery(
+		center,
+		dimensions,
+		agentObstacles,
+		agent->getCrntLayers(), feeler.toAngle()
+	);
+	
+	if (result.size() > 2)
+		return true;
+
+	for (GObject* obj : result) {
+		if (obj != agent && obj != target)
+			return true;
+	}
+
+	return false;
 }
 
 SpaceFloat physics_context::trapFloorDistanceFeeler(const GObject* agent, SpaceVect feeler) const
@@ -323,7 +350,12 @@ bool physics_context::lineOfSight(const GObject* agent, const GObject * target) 
 	);
 }
 
-GObject * physics_context::queryAdjacentTiles(SpaceVect pos, GType type, PhysicsLayers layers, type_index t)
+GObject * physics_context::queryAdjacentTiles(
+	SpaceVect pos,
+	GType type,
+	PhysicsLayers layers,
+	type_index t
+) const
 {
 	enum_foreach(Direction, d, right, end)
 	{
@@ -337,7 +369,7 @@ GObject * physics_context::queryAdjacentTiles(SpaceVect pos, GType type, Physics
 	return nullptr;
 }
 
-GObject * physics_context::pointQuery(SpaceVect pos, GType type, PhysicsLayers layers)
+GObject * physics_context::pointQuery(SpaceVect pos, GType type, PhysicsLayers layers) const
 {
 	PointQueryData queryData = { nullptr, to_uint(type) };
 
@@ -346,7 +378,13 @@ GObject * physics_context::pointQuery(SpaceVect pos, GType type, PhysicsLayers l
 	return queryData.result;
 }
 
-bool physics_context::rectangleQuery(SpaceVect center, SpaceVect dimensions, GType type, PhysicsLayers layers, SpaceFloat angle)
+bool physics_context::rectangleQuery(
+	SpaceVect center,
+	SpaceVect dimensions,
+	GType type,
+	PhysicsLayers layers,
+	SpaceFloat angle
+) const
 {
 	ShapeQueryData data = { nullptr, to_uint(type) };
 	cpBody* body = cpBodyNewStatic();
@@ -362,7 +400,14 @@ bool physics_context::rectangleQuery(SpaceVect center, SpaceVect dimensions, GTy
 	return !data.results.empty();
 }
 
-SpaceFloat physics_context::rectangleFeelerQuery(const GObject* agent, SpaceVect center, SpaceVect dimensions, GType type, PhysicsLayers layers, SpaceFloat angle) const
+SpaceFloat physics_context::rectangleFeelerQuery(
+	const GObject* agent,
+	SpaceVect center,
+	SpaceVect dimensions,
+	GType type,
+	PhysicsLayers layers,
+	SpaceFloat angle
+) const
 {
 	cpBody* body = cpBodyNewStatic();
 	FeelerQueryData data = { agent, to_uint(type), body, dimensions.x };
@@ -378,7 +423,13 @@ SpaceFloat physics_context::rectangleFeelerQuery(const GObject* agent, SpaceVect
 	return data.distance;
 }
 
-unordered_set<GObject*> physics_context::rectangleObjectQuery(SpaceVect center, SpaceVect dimensions, GType type, PhysicsLayers layers, SpaceFloat angle)
+unordered_set<GObject*> physics_context::rectangleObjectQuery(
+	SpaceVect center,
+	SpaceVect dimensions,
+	GType type,
+	PhysicsLayers layers,
+	SpaceFloat angle
+) const
 {
 	ShapeQueryData data = { nullptr, to_uint(type) };
 	cpBody* body = cpBodyNewStatic();
@@ -394,12 +445,24 @@ unordered_set<GObject*> physics_context::rectangleObjectQuery(SpaceVect center, 
 	return data.results;
 }
 
-bool physics_context::obstacleRadiusQuery(const GObject* agent, SpaceVect center, SpaceFloat radius, GType type, PhysicsLayers layers)
+bool physics_context::obstacleRadiusQuery(
+	const GObject* agent,
+	SpaceVect center,
+	SpaceFloat radius,
+	GType type,
+	PhysicsLayers layers
+) const
 {
 	return radiusQuery(agent, center, radius, type, layers).size() > 0;
 }
 
-unordered_set<GObject*> physics_context::radiusQuery(const GObject* agent, SpaceVect center, SpaceFloat radius, GType type, PhysicsLayers layers)
+unordered_set<GObject*> physics_context::radiusQuery(
+	const GObject* agent,
+	SpaceVect center,
+	SpaceFloat radius,
+	GType type,
+	PhysicsLayers layers
+) const
 {
 	ShapeQueryData data = { agent, to_uint(type) };
 	cpBody* body = cpBodyNewStatic();
