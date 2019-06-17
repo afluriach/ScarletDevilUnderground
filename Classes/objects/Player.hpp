@@ -22,7 +22,7 @@ class SpellDesc;
 class PlayScene;
 class Upgrade;
 
-class Player : virtual public Agent, public RadialLightObject
+class Player : virtual public Agent, public LightObject
 {
 public:
 	static const float centerLookHoldThresh;
@@ -167,7 +167,7 @@ public:
 	virtual bool isAgentAnimation() const { return true; }
 	virtual inline int pixelWidth() const { return 128; }
 
-	virtual CircleLightArea getLightSource() const;
+	virtual shared_ptr<LightArea> getLightSource() const;
 };
 
 class RumiaPC : virtual public Player, public BaseAttributes<RumiaPC>
@@ -181,7 +181,7 @@ public:
 	virtual bool isAgentAnimation() const { return true; }
 	virtual inline int pixelWidth() const { return 128; }
 
-	virtual CircleLightArea getLightSource() const;
+	virtual shared_ptr<LightArea> getLightSource() const;
 };
 
 class CirnoPC : virtual public Player, public BaseAttributes<CirnoPC>
@@ -192,7 +192,7 @@ public:
 	MapObjCons(CirnoPC);
 	
 	virtual inline string imageSpritePath() const { return "sprites/cirno.png"; }
-	virtual CircleLightArea getLightSource() const;
+	virtual shared_ptr<LightArea> getLightSource() const;
 };
 
 #endif /* Player_hpp */

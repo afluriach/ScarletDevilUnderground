@@ -41,33 +41,82 @@ enum class cocos_action_tag
 	end,
 };
 
-struct AmbientLightArea
+class LightArea
 {
-	SpaceVect origin, dimensions;
+public:
+	SpaceVect origin;
 	Color4F color;
+
+	virtual type_index getType() const = 0;
 };
 
-struct CircleLightArea
+class AmbientLightArea : public LightArea
 {
-	SpaceVect origin;
+public:
+	static shared_ptr<AmbientLightArea> create(
+		SpaceVect pos,
+		SpaceVect dimensions,
+		Color4F color
+	);
+
+	inline virtual type_index getType() const {
+		return typeid(*this);
+	};
+
+	SpaceVect dimensions;
+};
+
+class CircleLightArea : public LightArea
+{
+public:
+	static shared_ptr<CircleLightArea> create(
+		SpaceVect pos,
+		SpaceFloat radius,
+		Color4F color,
+		float flood
+	);
+
+	inline virtual type_index getType() const {
+		return typeid(*this);
+	};
+
 	SpaceFloat radius;
-	Color4F color;
 	float flood;
 };
 
-struct ConeLightArea
+class ConeLightArea : public LightArea
 {
-	SpaceVect origin;
+public:
+	static shared_ptr<ConeLightArea> create(
+		SpaceVect pos,
+		SpaceFloat radius,
+		SpaceFloat width,
+		Color4F color
+	);
+
+	inline virtual type_index getType() const {
+		return typeid(*this);
+	};
+
 	SpaceFloat radius;
 	SpaceFloat angleWidth;
-	Color4F color;
 };
 
-struct SpriteLightArea
+class SpriteLightArea : public LightArea
 {
-	SpaceVect origin;
+public:
+	static shared_ptr<SpriteLightArea> create(
+		SpaceVect pos,
+		const string& spritePath,
+		Color4F color,
+		float scale = 1.0f
+	);
+
+	inline virtual type_index getType() const {
+		return typeid(*this);
+	};
+
 	string texName;
-	Color4F color = Color4F::WHITE;
 	float scale = 1.0f;
 };
 

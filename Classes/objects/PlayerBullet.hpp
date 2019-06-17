@@ -44,20 +44,20 @@ public:
 	inline virtual ~PlayerBulletValueImpl() {}
 };
 
-class StarbowBreakBullet : public PlayerBulletValueImpl, public RadialLightObject
+class StarbowBreakBullet : public PlayerBulletValueImpl, public LightObject
 {
 public:
 	StarbowBreakBullet(GSpace* space, ObjectIDType id, const SpaceVect& pos, SpaceFloat angle, object_ref<Agent> agent, bullet_properties props);
 
-	virtual CircleLightArea getLightSource() const;
+	virtual shared_ptr<LightArea> getLightSource() const;
 };
 
-class CatadioptricBullet : public PlayerBulletValueImpl, public RadialLightObject
+class CatadioptricBullet : public PlayerBulletValueImpl, public LightObject
 {
 public:
 	CatadioptricBullet(GSpace* space, ObjectIDType id, const SpaceVect& pos, SpaceFloat angle, object_ref<Agent> agent, bullet_properties props);
 
-	virtual CircleLightArea getLightSource() const;
+	virtual shared_ptr<LightArea> getLightSource() const;
 };
 
 class ScarletDagger :
@@ -65,7 +65,7 @@ class ScarletDagger :
 	public PlayerBullet,
 	public RectangleBody,
 	public ImageSprite,
-	public SpriteLightObject,
+	public LightObject,
 	public DirectionalLaunch
 {
 public:
@@ -81,24 +81,24 @@ public:
 
 	virtual inline string imageSpritePath() const { return props.sprite; }
 	virtual inline float zoom() const { return 1.0f; }
-	virtual SpriteLightArea getLightSource() const;
+	virtual shared_ptr<LightArea> getLightSource() const;
 };
 
-class FlandreFastOrb1 : public PlayerBullet, public BulletImpl, public RadialLightObject
+class FlandreFastOrb1 : public PlayerBullet, public BulletImpl, public LightObject
 {
 public:
 	static const bullet_properties props;
 
 	cons(FlandreFastOrb1);
 
-	virtual CircleLightArea getLightSource() const;
+	virtual shared_ptr<LightArea> getLightSource() const;
 };
 
 class FlanPolarBullet :
 	public PlayerBullet,
 	public BulletImpl,
 	public ParametricMotion,
-	public RadialLightObject
+	public LightObject
 {
 public:
 	static const bullet_properties props;
@@ -123,13 +123,13 @@ public:
 	);
 
 	virtual void update();
-	virtual CircleLightArea getLightSource() const;
+	virtual shared_ptr<LightArea> getLightSource() const;
 };
 
 class FlandrePolarMotionOrb :
 	public PlayerBullet,
 	public BulletImpl,
-	public RadialLightObject
+	public LightObject
 {
 public:
 	static const bullet_properties props;
@@ -138,7 +138,7 @@ public:
 
 	virtual void update();
 
-	virtual CircleLightArea getLightSource() const;
+	virtual shared_ptr<LightArea> getLightSource() const;
 };
 
 class Lavaeteinn :

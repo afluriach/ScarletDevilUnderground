@@ -260,27 +260,17 @@ void ImageSprite::loadImageSprite(const string& resPath, GraphicsLayer sceneLaye
 	space->graphicsNodeAction(&Node::setRotation, spriteID, toCocosAngle(prevAngle));
 }
 
-RadialLightObject::RadialLightObject() :
-	RegisterInit<RadialLightObject>(this)
+LightObject::LightObject() :
+	RegisterInit<LightObject>(this)
 {}
 
-void RadialLightObject::init()
-{
-	lightID = space->addLightSource(getLightSource());
-}
-
-SpriteLightObject::SpriteLightObject() :
-	RegisterInit<SpriteLightObject>(this)
-{}
-
-void SpriteLightObject::init()
+void LightObject::init()
 {
 	lightID = space->addLightSource(getLightSource());
 
-	space->addGraphicsAction(&graphics_context::setLightSourcePosition, lightID, prevPos);
-	space->addGraphicsAction(&graphics_context::setLightSourceAngle, lightID, prevAngle);
+	//space->addGraphicsAction(&graphics_context::setLightSourcePosition, lightID, prevPos);
+	//space->addGraphicsAction(&graphics_context::setLightSourceAngle, lightID, prevAngle);
 }
-
 
 //END GRAPHICS
 

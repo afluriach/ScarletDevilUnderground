@@ -294,13 +294,12 @@ public:
 	//will call the corresponding scene method immediately to retrieve the ID.
 	//However, nextSpriteID/nextLightID is an atomic integer, so it will not use a mutex.
 
-	template<typename T>
-	inline LightID addLightSource(T light)
+	inline LightID addLightSource(shared_ptr<LightArea> light)
 	{
 		LightID id = graphicsContext->getLightID();
 
 		sceneActions.push_back(bind(
-			static_cast<void (graphics_context::*)(LightID, T)>(&graphics_context::addLightSource),
+			&graphics_context::addPolyLightSource,
 			graphicsContext,
 			id,
 			light

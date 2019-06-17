@@ -25,10 +25,12 @@ public:
 	SpriteID getSpriteID();
 	LightID getLightID();
 
+	void addPolyLightSource(LightID id, shared_ptr<LightArea> light);
 	void addLightSource(LightID id, CircleLightArea light);
 	void addLightSource(LightID id, AmbientLightArea light);
 	void addLightSource(LightID id, ConeLightArea light);
 	void addLightSource(LightID id, SpriteLightArea light);
+
 	void removeLightSource(LightID id);
 	void setLightSourcePosition(LightID id, SpaceVect pos);
 	void setLightSourceAngle(LightID id, SpaceFloat a);
@@ -76,6 +78,18 @@ protected:
 			(c->*method)(forward<Params>(args)...);
 		}
 	}
+
+	template<class C>
+	bool _polyAddLight(LightID id, shared_ptr<LightArea> light)
+	{
+		if (auto _l = dynamic_cast<C*>(light.get())) {
+			addLightSource(id, *_l);
+			return true;
+		}
+		return false;
+	}
+
+	Color4F getLightSourceColor(LightID id);
 
 	Node* getSpriteAsNode(SpriteID id);
 	void _removeSprite(SpriteID id);

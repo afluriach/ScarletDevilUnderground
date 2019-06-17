@@ -267,14 +267,14 @@ YinYangOrb::YinYangOrb(GSpace* space, ObjectIDType id, const SpaceVect& pos, Spa
 	setInitialAngularVelocity(float_pi);
 }
 
-SpriteLightArea YinYangOrb::getLightSource() const
+shared_ptr<LightArea> YinYangOrb::getLightSource() const
 {
-	return SpriteLightArea{
+	return SpriteLightArea::create(
 		getPos(),
 		imageSpritePath(),
 		Color4F(0.5f, 0.25f, 0.25f, 1.0f),
 		3.0f
-	};
+	);
 }
 
 const bullet_properties RumiaDemarcation2Bullet::props = {
@@ -346,12 +346,12 @@ RumiaDarknessBullet::RumiaDarknessBullet(
 	));
 }
 
-CircleLightArea RumiaDarknessBullet::getLightSource() const
+shared_ptr<LightArea> RumiaDarknessBullet::getLightSource() const
 {
-	return CircleLightArea{
+	return CircleLightArea::create(
 		getPos(),
 		2.0,
 		Color4F(0.3f,0.3f,0.3f,-0.5f),
 		0.5
-	};
+	);
 }

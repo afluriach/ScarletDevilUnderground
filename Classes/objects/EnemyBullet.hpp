@@ -45,7 +45,7 @@ virtual public GObject,
 public EnemyBullet,
 public CircleBody,
 public ImageSprite,
-public RadialLightObject,
+public LightObject,
 public MaxSpeedImpl,
 public DirectionalLaunch
 {
@@ -53,7 +53,9 @@ public:
 
 	WaterBullet(GSpace* space, ObjectIDType id, const SpaceVect& pos, SpaceFloat angle, object_ref<Agent> agent, SpaceFloat speed);
 
-	virtual inline CircleLightArea getLightSource() const { return CircleLightArea{ getPos(), 2.0, Color4F(.375f,.75f,.75f,.5f), 0.0 }; }
+	virtual inline shared_ptr<LightArea> getLightSource() const {
+		return CircleLightArea::create( getPos(), 2.0, Color4F(.375f,.75f,.75f,.5f), 0.0 );
+	}
 
 	virtual inline SpaceFloat getRadius() const { return 0.3; }
 
@@ -136,14 +138,14 @@ public:
 	virtual void update();
 };
 
-class YinYangOrb : public EnemyBullet, public BulletImpl, public SpriteLightObject
+class YinYangOrb : public EnemyBullet, public BulletImpl, public LightObject
 {
 public:
 	static const bullet_properties props;
 
 	cons(YinYangOrb);
 
-	virtual SpriteLightArea getLightSource() const;
+	virtual shared_ptr<LightArea> getLightSource() const;
 };
 
 class RumiaDemarcation2Bullet :
@@ -170,7 +172,7 @@ class RumiaDarknessBullet :
 	public EnemyBullet,
 	public ShieldBullet,
 	public BulletImpl,
-	public RadialLightObject
+	public LightObject
 {
 public:
 	static const bullet_properties props;
@@ -183,7 +185,7 @@ public:
 		object_ref<Agent> agent
 	);
 
-	virtual CircleLightArea getLightSource() const;
+	virtual shared_ptr<LightArea> getLightSource() const;
 };
 
 

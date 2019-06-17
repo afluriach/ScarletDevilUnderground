@@ -165,6 +165,7 @@ xcopy "$(ProjectDir)..\Resources" "$(OutDir)" /D /E /I /F /Y</Command>
     <ClCompile Include="..\Classes\graphics\Graphics.cpp" />
     <ClCompile Include="..\Classes\graphics\GraphicsNodes.cpp" />
     <ClCompile Include="..\Classes\graphics\graphics_context.cpp" />
+    <ClCompile Include="..\Classes\graphics\graphics_types.cpp" />
     <ClCompile Include="..\Classes\log.cpp" />
     <ClCompile Include="..\Classes\lua\LuaAPI.cpp" />
     <ClCompile Include="..\Classes\lua\LuaConvert.cpp" />

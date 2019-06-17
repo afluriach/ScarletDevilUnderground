@@ -331,7 +331,7 @@ void RedFairy::onZeroHP()
 		toVec3(SpaceVect::zero)
 	);
 
-	LightID light = space->addLightSource(CircleLightArea{ getPos(), explosionRadius, Color4F::RED, 0.25 });
+	LightID light = space->addLightSource(CircleLightArea::create( getPos(), explosionRadius, Color4F::RED, 0.25 ));
 	space->addGraphicsAction(&graphics_context::autoremoveLightSource, light, 1.0f);
 }
 

@@ -86,7 +86,7 @@ void Player::equipFirePatterns()
 
 	for (auto entry : FirePattern::playerFirePatterns)
 	{
-		if (space->getState()->hasItem(entry.first)) {
+		if (space->getState()->hasItem(entry.first) || app::params.unlockAllEquips) {
 			shared_ptr<FirePattern> pattern = entry.second(this, 0);
 
 			if (pattern) {
@@ -731,14 +731,14 @@ FlandrePC::FlandrePC(GSpace* space, ObjectIDType id, const SpaceVect& pos, Direc
 	}
 }
 
-CircleLightArea FlandrePC::getLightSource() const
+shared_ptr<LightArea> FlandrePC::getLightSource() const
 {
-	return CircleLightArea{
+	return CircleLightArea::create(
 		getPos(),
 		4.0,
 		Color4F(.9f, .5f, .5f, .75f),
 		0.5f
-	};
+	);
 }
 
 const AttributeMap RumiaPC::baseAttributes = {
@@ -760,13 +760,14 @@ RumiaPC::RumiaPC(GSpace* space, ObjectIDType id, const ValueMap& args) :
 	MapObjForwarding(Player)
 {}
 
-CircleLightArea RumiaPC::getLightSource() const
+shared_ptr<LightArea> RumiaPC::getLightSource() const
 {
-	return CircleLightArea{
+	return CircleLightArea::create(
 		getPos(),
 		3.0,
-		Color4F(.5f,.2f,.5f,.5f)
-	};
+		Color4F(.5f,.2f,.5f,.5f),
+		0.0f
+	);
 }
 
 const AttributeMap CirnoPC::baseAttributes = {
@@ -788,11 +789,12 @@ CirnoPC::CirnoPC(GSpace* space, ObjectIDType id, const ValueMap& args) :
 	MapObjForwarding(Player)
 {}
 
-CircleLightArea CirnoPC::getLightSource() const
+shared_ptr<LightArea> CirnoPC::getLightSource() const
 {
-	return CircleLightArea{
+	return CircleLightArea::create(
 		getPos(),
 		5.0,
 		Color4F(.4f,.45f,.7f,1.0f),
-	};
+		0.5f
+	);
 }

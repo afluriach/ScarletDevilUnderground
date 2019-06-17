@@ -399,7 +399,7 @@ void GScene::loadLights(const TMXTiledMap& map, IntVec2 offset)
 	SpaceVect dimensions = toChipmunk(map.getMapSize());
 	SpaceVect center = toChipmunk(offset) + dimensions / 2.0;
 
-	graphicsContext->addLightSource(id, AmbientLightArea{ center, dimensions, color});
+	graphicsContext->addPolyLightSource(id, AmbientLightArea::create( center, dimensions, color));
 }
 
 void GScene::updateMapVisibility(SpaceVect playerPos)

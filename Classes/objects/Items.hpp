@@ -35,14 +35,14 @@ public:
 	virtual void onAcquire();
 };
 
-class Spellcard : public InventoryObject, public RadialLightObject
+class Spellcard : public InventoryObject, public LightObject
 {
 public:
 	static bool conditionalLoad(GSpace* space, ObjectIDType id, const ValueMap& args);
 
 	MapObjCons(Spellcard);
 
-	virtual CircleLightArea getLightSource() const;
+	virtual shared_ptr<LightArea> getLightSource() const;
 	virtual void initializeGraphics();
 	virtual inline string imageSpritePath() const { return "sprites/magic_card_empty.png"; }
 	virtual inline string itemName() const { return name; }

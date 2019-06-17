@@ -61,14 +61,14 @@ Spellcard::Spellcard(GSpace* space, ObjectIDType id, const ValueMap& args) :
 	}
 }
 
-CircleLightArea Spellcard::getLightSource() const
+shared_ptr<LightArea> Spellcard::getLightSource() const
 {
-	return CircleLightArea{
+	return CircleLightArea::create(
 		getPos(),
 		3.0,
 		toColor4F(Color3B(94, 145, 140)),
 		0.5f
-	};
+	);
 }
 
 void Spellcard::initializeGraphics()

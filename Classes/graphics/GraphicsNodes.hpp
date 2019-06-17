@@ -47,6 +47,7 @@ public:
 	virtual void updateUniforms();
 
 	inline void setColor4F(const Color4F& color) { _startColor = color; }
+	inline Color4F getColor4F() const { return _startColor; }
 
 protected:
 	Color4F _startColor, _endColor;
@@ -91,6 +92,7 @@ public:
 
 	virtual void setRotation(float rotation);
 	void setLightColor(Color4F color);
+	inline Color4F getLightColor() { return _color; }
 
 	inline virtual string getShaderName() const { return "cone"; }
 	virtual void initUniforms();
@@ -149,6 +151,8 @@ public:
 	AmbientLightNode(const AmbientLightArea& light);
 
 	virtual bool init();
+
+	inline Color4F getLightColor() const { return light.color; }
 protected:
 	AmbientLightArea light;
 };

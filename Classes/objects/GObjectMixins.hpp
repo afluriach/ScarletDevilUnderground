@@ -222,22 +222,12 @@ protected:
 	bool nextStepIsLeft = true;
 };
 
-class RadialLightObject : virtual public GObject, public RegisterInit<RadialLightObject>
+class LightObject : virtual public GObject, public RegisterInit<LightObject>
 {
 public:
-	RadialLightObject();
+	LightObject();
 
-	virtual CircleLightArea getLightSource() const = 0;
-
-	void init();
-};
-
-class SpriteLightObject : virtual public GObject, public RegisterInit<SpriteLightObject>
-{
-public:
-	SpriteLightObject();
-
-	virtual SpriteLightArea getLightSource() const = 0;
+	virtual shared_ptr<LightArea> getLightSource() const = 0;
 
 	void init();
 };

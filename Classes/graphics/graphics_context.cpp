@@ -72,6 +72,25 @@ LightID graphics_context::getLightID()
 	return nextLightID.fetch_add(1);
 }
 
+Color4F graphics_context::getLightSourceColor(LightID id)
+{
+	auto it = lightmapNodes.find(id);
+	if (it != lightmapNodes.end()) {
+		if (auto cone = dynamic_cast<ConeShader*>(it->second)) {
+			return cone->getLightColor();
+		}
+		else if (auto radial = dynamic_cast<RadialGradient*>(it->second)) {
+			return radial->getColor4F();
+		}
+		else if (auto ambient = dynamic_cast<AmbientLightNode*>(it->second)) {
+			return ambient->getLightColor();
+		}
+	}
+
+	log("getLightSourceColor: light %d does not exist.", id);
+	return Color4F::BLACK;
+}
+
 Node* graphics_context::getSpriteAsNode(SpriteID id)
 {
 	auto it = graphicsNodes.find(id);
@@ -85,6 +104,16 @@ void graphics_context::_removeSprite(SpriteID id)
 {
 	graphicsNodes.erase(id);
 	animationNodes.erase(id);
+}
+
+void graphics_context::addPolyLightSource(LightID id, shared_ptr<LightArea> light)
+{
+	if (!light) return;
+
+	_polyAddLight<CircleLightArea>(id, light);
+	_polyAddLight<AmbientLightArea>(id, light);
+	_polyAddLight<ConeLightArea>(id, light);
+	_polyAddLight<SpriteLightArea>(id, light);
 }
 
 void graphics_context::addLightSource(LightID id, CircleLightArea light)

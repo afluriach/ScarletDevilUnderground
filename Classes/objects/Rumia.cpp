@@ -21,14 +21,14 @@ Rumia::Rumia(GSpace* space, ObjectIDType id, const ValueMap& args) :
 {
 }
 
-CircleLightArea Rumia::getLightSource() const
+shared_ptr<LightArea> Rumia::getLightSource() const
 {
-	return CircleLightArea{
+	return CircleLightArea::create(
 		getPos(),
 		4.0,
 		Color4F(0.3f,0.3f,0.3f,-1.0f),
 		0.5
-	};
+	);
 }
 
 const AttributeMap Rumia1::baseAttributes = {

@@ -93,11 +93,11 @@ void Pyramid::initializeGraphics()
 		getInitialCenterPix(),
 		1.0f
 	);
-	lightID = space->addLightSource(ConeLightArea{
+	lightID = space->addLightSource(ConeLightArea::create(
 		getPos(),
 		coneLength,
 		coneWidth,
 		coneColor
-	});
+	));
 	space->addGraphicsAction(&graphics_context::setLightSourceAngle, lightID, getAngle());
 }

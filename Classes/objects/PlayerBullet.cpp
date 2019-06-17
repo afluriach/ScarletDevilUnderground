@@ -108,13 +108,13 @@ StarbowBreakBullet::StarbowBreakBullet(GSpace* space, ObjectIDType id, const Spa
 	PlayerBulletValueImpl(space, id, pos, angle, agent, props)
 {}
 
-CircleLightArea StarbowBreakBullet::getLightSource() const {
-	return CircleLightArea{
+shared_ptr<LightArea> StarbowBreakBullet::getLightSource() const {
+	return CircleLightArea::create(
 		getPos(),
 		props.radius * 4.0f,
 		toColor4F(props.spriteColor),
 		0.25
-	};
+	);
 }
 
 CatadioptricBullet::CatadioptricBullet(GSpace* space, ObjectIDType id, const SpaceVect& pos, SpaceFloat angle, object_ref<Agent> agent, bullet_properties props) :
@@ -123,13 +123,13 @@ CatadioptricBullet::CatadioptricBullet(GSpace* space, ObjectIDType id, const Spa
 	PlayerBulletValueImpl(space, id, pos, angle, agent, props)
 {}
 
-CircleLightArea CatadioptricBullet::getLightSource() const {
-	return CircleLightArea{
+shared_ptr<LightArea> CatadioptricBullet::getLightSource() const {
+	return CircleLightArea::create(
 		getPos(),
 		props.radius * 4.0f,
 		Color4F::BLUE*0.5f + Color4F::GREEN*0.5f,
 		0.25
-	};
+	);
 }
 
 const bullet_properties ScarletDagger::props = {
@@ -148,13 +148,13 @@ ScarletDagger::ScarletDagger(GSpace* space, ObjectIDType id, const SpaceVect& po
 	RectangleBody(SpaceVect(0.8, 0.175))
 {}
 
-SpriteLightArea ScarletDagger::getLightSource() const {
-	return SpriteLightArea{
+shared_ptr<LightArea> ScarletDagger::getLightSource() const {
+	return SpriteLightArea::create(
 		getPos(),
 		imageSpritePath(),
 		Color4F::RED,
 		3.0f
-	};
+	);
 };
 
 const bullet_properties FlandreFastOrb1::props = {
@@ -168,8 +168,8 @@ const bullet_properties FlandreFastOrb1::props = {
 
 cons(FlandreFastOrb1)
 
-CircleLightArea FlandreFastOrb1::getLightSource() const {
-	return CircleLightArea{ getPos(), 2.0, hsva4F(45.0f, 0.75f, 0.5f), 0.0 };
+shared_ptr<LightArea> FlandreFastOrb1::getLightSource() const {
+	return CircleLightArea::create( getPos(), 2.0, hsva4F(45.0f, 0.75f, 0.5f), 0.0 );
 }
 
 const bullet_properties FlanPolarBullet::props = {
@@ -215,8 +215,8 @@ void FlanPolarBullet::update()
 	ParametricMotion::_update();
 }
 
-CircleLightArea FlanPolarBullet::getLightSource() const {
-	return CircleLightArea{ getPos(), 2.0, Color4F::ORANGE*0.5f, 0.0 }; 
+shared_ptr<LightArea> FlanPolarBullet::getLightSource() const {
+	return CircleLightArea::create( getPos(), 2.0, Color4F::ORANGE*0.5f, 0.0 ); 
 }
 
 const bullet_properties FlandrePolarMotionOrb::props = {
@@ -242,8 +242,8 @@ void FlandrePolarMotionOrb::update()
 	rotate(app::params.secondsPerFrame * float_pi);
 }
 
-CircleLightArea FlandrePolarMotionOrb::getLightSource() const {
-	return CircleLightArea{ getPos(), 2.0, Color4F::RED*0.5f, 0.0 };
+shared_ptr<LightArea> FlandrePolarMotionOrb::getLightSource() const {
+	return CircleLightArea::create( getPos(), 2.0, Color4F::RED*0.5f, 0.0 );
 }
 
 Lavaeteinn::Lavaeteinn(
