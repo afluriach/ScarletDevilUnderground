@@ -35,11 +35,11 @@ Seek::Seek(StateMachine* fsm, GObject* target, bool usePathfinding, SpaceFloat m
 	margin(margin)
 {}
 
-shared_ptr<Function> Seek::update()
+update_return Seek::update()
 {
 	if (target.isValid()) {
 		if (usePathfinding && isObstacle(agent, target.get()->getPos())) {
-			return ai::PathToTarget::create(fsm, target.get());
+			return_push(ai::PathToTarget::create(fsm, target.get()));
 		}
 		else if (distanceToTarget(agent, target.get()->getPos()) < margin) {
 			arrive(agent, target.get()->getPos());
@@ -60,7 +60,7 @@ shared_ptr<Function> Seek::update()
         ));
 	}
 
-	return target.isValid() ? getThis() : nullptr;
+	return_pop_if_false(target.isValid());
 }
 
 MaintainDistance::MaintainDistance(StateMachine* fsm, gobject_ref target, SpaceFloat distance, SpaceFloat margin) :
@@ -78,7 +78,7 @@ Function(fsm)
     margin = getFloat(args, "margin");
 }
 
-shared_ptr<Function> MaintainDistance::update()
+update_return MaintainDistance::update()
 {
 	Agent* agent = fsm->getAgent();
 	if (target.get()) {
@@ -113,7 +113,7 @@ shared_ptr<Function> MaintainDistance::update()
 		ai::applyDesiredVelocity(agent, SpaceVect::zero, agent->getMaxAcceleration());
 	}
 
-	return getThis();
+	return_steady();
 }
 
 const SpaceFloat Flock::separationDesired = 5.0;
@@ -123,7 +123,7 @@ Flock::Flock(StateMachine* fsm) :
 {
 }
 
-shared_ptr<Function> Flock::update()
+update_return Flock::update()
 {
 	SpaceVect _separate = separate() * 1.5;
 	SpaceVect _align = align() * 0.75;
@@ -133,7 +133,7 @@ shared_ptr<Function> Flock::update()
 
 	agent->applyForceForSingleFrame(sum.setMag(agent->getMaxAcceleration()) );
 
-	return getThis();
+	return_steady();
 }
 
 void Flock::onDetectNeighbor(Agent* agent)
@@ -240,7 +240,7 @@ OccupyPoint::OccupyPoint(StateMachine* fsm, SpaceVect target) :
 {
 }
 
-shared_ptr<Function> OccupyPoint::update()
+update_return OccupyPoint::update()
 {
 	SpaceFloat crnt_distance = distanceToTarget(agent, target);
 	SpaceFloat stop_dist = getStoppingDistance(agent);
@@ -252,7 +252,7 @@ shared_ptr<Function> OccupyPoint::update()
 		arrive(agent, target);
 	}
 
-	return getThis();
+	return_steady();
 }
 
 OccupyMidpoint::OccupyMidpoint(StateMachine* fsm, gobject_ref target1, gobject_ref target2) :
@@ -262,13 +262,13 @@ target2(target2)
 {
 }
 
-shared_ptr<Function> OccupyMidpoint::update()
+update_return OccupyMidpoint::update()
 {
 	GObject* t1 = target1.get();
 	GObject* t2 = target2.get();
 
 	if (!t1 || !t2) {
-		return nullptr;
+		return_pop();
 	}
 
 	SpaceVect midpoint = (t1->getPos() + t2->getPos()) / 2.0;
@@ -282,7 +282,7 @@ shared_ptr<Function> OccupyMidpoint::update()
 		arrive(agent, midpoint);
 	}
 
-	return getThis();
+	return_steady();
 }
 
 Scurry::Scurry(StateMachine* fsm, GObject* _target, SpaceFloat _distance, SpaceFloat length) :
@@ -298,10 +298,10 @@ target(_target)
 		endFrame = 0;
 }
 
-shared_ptr<Function> Scurry::update()
+update_return Scurry::update()
 {
 	if (!target.isValid() || endFrame != 0 && agent->space->getFrame() >= endFrame) {
-		return nullptr;
+		return_pop();
 	}
 
 	SpaceVect displacement = displacementToTarget(agent, target.get()->getPos());
@@ -315,12 +315,14 @@ shared_ptr<Function> Scurry::update()
 	array<SpaceFloat, 8> obstacleFeelers = obstacleFeeler8(agent, distance);
 	int direction = chooseBestDirection(obstacleFeelers, angle, distance);
 
-	return direction != -1 ?
-		fsm->make<MoveToPoint>(
+	if (direction != -1) {
+		return_push(fsm->make<MoveToPoint>(
 			agent->getPos() + SpaceVect::ray(distance, direction * float_pi / 4.0)
-		) :
-		getThis()
-	;
+		));
+	}
+	else {
+		return_steady();
+	}
 }
 
 Flee::Flee(StateMachine* fsm, GObject* target, SpaceFloat distance) :
@@ -351,7 +353,7 @@ Flee::Flee(StateMachine* fsm, const ValueMap& args) :
     }
 }
 
-shared_ptr<Function> Flee::update()
+update_return Flee::update()
 {
 	if (target.isValid()) {
 		ai::fleeWithObstacleAvoidance(
@@ -368,7 +370,7 @@ shared_ptr<Function> Flee::update()
         ));
 	}
 	
-	return target.isValid() ? getThis() : nullptr;
+	return_pop_if_false(target.isValid());
 }
 
 EvadePlayerProjectiles::EvadePlayerProjectiles(StateMachine* fsm) : 
@@ -379,7 +381,7 @@ EvadePlayerProjectiles::EvadePlayerProjectiles(StateMachine* fsm, const ValueMap
 	Function(fsm)
 {}
 
-shared_ptr<Function> EvadePlayerProjectiles::update()
+update_return EvadePlayerProjectiles::update()
 {
 	list<GObject*> objs = agent->getSensedObjectsByGtype(GType::playerBullet);
 	
@@ -410,7 +412,7 @@ shared_ptr<Function> EvadePlayerProjectiles::update()
 		}
 	}
 
-	return getThis();
+	return_steady();
 }
 
 IdleWait::IdleWait(StateMachine* fsm, const ValueMap& args) :
@@ -450,12 +452,12 @@ IdleWait::IdleWait(StateMachine* fsm) :
 	remaining(-1)
 {}
 
-shared_ptr<Function> IdleWait::update()
+update_return IdleWait::update()
 {
 	--remaining;
 	ai::applyDesiredVelocity(agent, SpaceVect::zero, agent->getMaxAcceleration());
 
-	return remaining > 0 ? getThis() : nullptr;
+	return_pop_if_false(remaining > 0);
 }
 
 LookAround::LookAround(StateMachine* fsm, SpaceFloat angularVelocity) :
@@ -464,10 +466,10 @@ angularVelocity(angularVelocity)
 {
 }
 
-shared_ptr<Function> LookAround::update()
+update_return LookAround::update()
 {
 	agent->rotate(angularVelocity * app::params.secondsPerFrame);
-	return getThis();
+	return_steady();
 }
 
 CircleAround::CircleAround(
@@ -487,7 +489,7 @@ void CircleAround::init()
 {
 }
 
-shared_ptr<Function> CircleAround::update()
+update_return CircleAround::update()
 {
 	SpaceFloat radius = distanceToTarget(agent, center);
 	SpaceFloat angleDelta = angularSpeed * app::params.secondsPerFrame;
@@ -499,7 +501,7 @@ shared_ptr<Function> CircleAround::update()
 	agent->setPos(agentPos);
 	agent->setAngle(angularPosition);
 
-	return getThis();
+	return_steady();
 }
 
 Flank::Flank(
@@ -519,10 +521,10 @@ void Flank::init()
 {
 }
 
-shared_ptr<Function> Flank::update()
+update_return Flank::update()
 {
 	if (!target.isValid()) {
-		return nullptr;
+		return_pop();
 	}
 
 	SpaceVect target_pos;
@@ -550,13 +552,13 @@ shared_ptr<Function> Flank::update()
 		target_pos = rear_pos;
 	}
 	if (!target_pos.isZero()) {
-		return fsm->make<MoveToPoint>(target_pos);
+		return_push( fsm->make<MoveToPoint>(target_pos) );
 	}
 	else {
 		applyDesiredVelocity(agent, SpaceVect::zero, agent->getMaxAcceleration());
 	}
 
-	return getThis();
+	return_steady();
 }
 
 
@@ -584,7 +586,7 @@ clockwise(clockwise)
 
 }
 
-shared_ptr<Function> QuadDirectionLookAround::update()
+update_return QuadDirectionLookAround::update()
 {
 	timerDecrement(timeRemaining);
 
@@ -593,7 +595,7 @@ shared_ptr<Function> QuadDirectionLookAround::update()
 		timeRemaining = secondsPerDirection;
 	}
 
-	return getThis();
+	return_steady();
 }
 
 AimAtTarget::AimAtTarget(StateMachine* fsm, gobject_ref target) :
@@ -602,13 +604,13 @@ target(target)
 {
 }
 
-shared_ptr<Function> AimAtTarget::update()
+update_return AimAtTarget::update()
 {
 	if (!target.isValid())
-		return nullptr;
+		return_pop();
 
 	agent->setAngle(directionToTarget(agent, target.get()->getPos()).toAngle());
-	return getThis();
+	return_steady();
 }
 
 LookTowardsFire::LookTowardsFire(StateMachine* fsm, bool useShield) :
@@ -621,7 +623,7 @@ void LookTowardsFire::onEnter()
 {
 }
 
-shared_ptr<Function> LookTowardsFire::update()
+update_return LookTowardsFire::update()
 {
 	hitAccumulator -= (looking*lookTimeCoeff + (1-looking)*timeCoeff)* app::params.secondsPerFrame;
 	hitAccumulator = max(hitAccumulator, 0.0f);
@@ -641,7 +643,7 @@ shared_ptr<Function> LookTowardsFire::update()
 		applyDesiredVelocity(agent, SpaceVect::zero, agent->getMaxAcceleration());
 	}
 
-	return getThis();
+	return_steady();
 }
 
 void LookTowardsFire::onExit()
@@ -710,11 +712,11 @@ MoveToPoint::MoveToPoint(StateMachine* fsm, SpaceVect target) :
 	target(target)
 {}
 
-shared_ptr<Function> MoveToPoint::update()
+update_return MoveToPoint::update()
 {
 	bool arrived = moveToPoint(agent, target, arrivalMargin, false);
 	
-	return arrived ? nullptr : getThis();
+	return_pop_if_true(arrived);
 }
 
 BezierMove::BezierMove(StateMachine* fsm, array<SpaceVect, 3> points, SpaceFloat rate) :
@@ -724,17 +726,17 @@ BezierMove::BezierMove(StateMachine* fsm, array<SpaceVect, 3> points, SpaceFloat
 {
 }
 
-shared_ptr<Function> BezierMove::update()
+update_return BezierMove::update()
 {
 	agent->setPos(bezier(points, t));
 
 	timerIncrement(t, rate);
 	if (t >= 1.0) {
 		agent->setPos(bezier(points, 1.0));
-		return nullptr;
+		return_pop();
 	}
 	else
-		return getThis();
+		return_steady();
 }
 
 shared_ptr<FollowPath> FollowPath::pathToTarget(
@@ -788,7 +790,7 @@ FollowPath::FollowPath(StateMachine* fsm, const ValueMap& args) :
 	}
 }
 
-shared_ptr<Function> FollowPath::update()
+update_return FollowPath::update()
 {
 	if (currentTarget < path.size()) {
 		agent->setDirection(toDirection(ai::directionToTarget(agent, path[currentTarget])));
@@ -799,10 +801,10 @@ shared_ptr<Function> FollowPath::update()
 		currentTarget = 0;
 	}
 	else {
-		return nullptr;
+		return_pop();
 	}
 
-	return getThis();
+	return_steady();
 }
 
 shared_ptr<PathToTarget> PathToTarget::create(StateMachine* fsm, GObject* target)
@@ -821,10 +823,10 @@ PathToTarget::PathToTarget(StateMachine* fsm, Path path, gobject_ref target) :
 {
 }
 
-shared_ptr<Function> PathToTarget::update()
+update_return PathToTarget::update()
 {
 	if (ai::isLineOfSight(agent, target.get())) {
-		return nullptr;
+		return_pop();
 	}
 	else {
 		return FollowPath::update();
@@ -890,7 +892,7 @@ pair<Direction, SpaceFloat> Wander::chooseMovement()
 	return make_pair(Direction::none, 0.0);
 }
 
-shared_ptr<Function> Wander::update()
+update_return Wander::update()
 {
 	timerDecrement(waitTimer);
 
@@ -900,16 +902,16 @@ shared_ptr<Function> Wander::update()
 		if (movement.first != Direction::none && movement.second > 0.0) {
 			agent->setDirection(movement.first);
 			waitTimer = fsm->getSpace()->getRandomFloat(minWait, maxWait);
-			return fsm->make<MoveToPoint>(
+			return_push( fsm->make<MoveToPoint>(
 				agent->getPos() + dirToVector(movement.first)*movement.second
-			);
+			));
 		}
 	}
 	else {
 		applyDesiredVelocity(agent, SpaceVect::zero, agent->getMaxAcceleration());
 	}
 
-	return getThis();
+	return_steady();
 }
 
 FireAtTarget::FireAtTarget(StateMachine* fsm, gobject_ref target) :
@@ -917,11 +919,11 @@ FireAtTarget::FireAtTarget(StateMachine* fsm, gobject_ref target) :
 	target(target)
 {}
 
-shared_ptr<Function> FireAtTarget::update()
+update_return FireAtTarget::update()
 {
 	FirePattern* fp = agent->getFirePattern();
 	if (!target.isValid() || !fp) {
-		return nullptr;
+		return_pop();
 	}
 
 	agent->setAngle(
@@ -936,7 +938,7 @@ shared_ptr<Function> FireAtTarget::update()
 		);
 	}
 
-	return getThis();
+	return_steady();
 }
 
 FireIfTargetVisible::FireIfTargetVisible(StateMachine* fsm, gobject_ref target) :
@@ -944,12 +946,12 @@ FireIfTargetVisible::FireIfTargetVisible(StateMachine* fsm, gobject_ref target) 
 	target(target)
 {}
 
-shared_ptr<Function> FireIfTargetVisible::update()
+update_return FireIfTargetVisible::update()
 {
 	FirePattern* fp = agent->getFirePattern();
 
 	if (!fp || !target.isValid()) {
-		return nullptr;
+		return_pop();
 	}
 	
 	if (agent->isObjectVisible(target.get()) && agent->space->isInPlayerRoom(agent->getPos()))
@@ -963,7 +965,7 @@ shared_ptr<Function> FireIfTargetVisible::update()
 		}
 	}
 
-	return getThis();
+	return_steady();
 }
 
 Operation::Operation(StateMachine* fsm, std::function<void(StateMachine&)> op) :
@@ -971,9 +973,9 @@ Operation::Operation(StateMachine* fsm, std::function<void(StateMachine&)> op) :
 	op(op)
 {}
 
-shared_ptr<Function> Operation::update() {
+update_return Operation::update() {
 	op(*fsm);
-	return nullptr;
+	return_pop();
 }
 
 Cast::Cast(StateMachine* fsm, SpellGeneratorType spell_generator, SpaceFloat length) :
@@ -988,7 +990,7 @@ void Cast::onEnter()
 	agent->cast(spell_generator(agent));
 }
 
-shared_ptr<Function> Cast::update()
+update_return Cast::update()
 {
 	timerIncrement(timer);
 
@@ -996,9 +998,9 @@ shared_ptr<Function> Cast::update()
 		agent->stopSpell();
 
 	if (!agent->isSpellActive())
-		return nullptr;
+		return_pop();
 	else
-		return getThis();
+		return_steady();
 }
 
 void Cast::onExit()
@@ -1019,17 +1021,17 @@ void HPCast::onEnter()
 	agent->cast(spell_generator(agent));
 }
 
-shared_ptr<Function> HPCast::update()
+update_return HPCast::update()
 {
 	if (agent->getHealth() < (caster_starting - hp_difference)) {
 		agent->stopSpell();
 	}
 
 	if (!agent->isSpellActive()) {
-		return nullptr;
+		return_pop();
 	}
 	else {
-		return getThis();
+		return_steady();
 	}
 }
 
@@ -1057,7 +1059,7 @@ void HPCastSequence::onEnter()
 	}
 }
 
-shared_ptr<Function> HPCastSequence::update()
+update_return HPCastSequence::update()
 {
 	float hp = agent->getHealth();
 	int newInterval = -1;
@@ -1075,7 +1077,7 @@ shared_ptr<Function> HPCastSequence::update()
 	}
 	crntInterval = newInterval;
 
-	return getThis();
+	return_steady();
 }
 
 void HPCastSequence::onExit()
@@ -1091,12 +1093,12 @@ FireOnStress::FireOnStress(StateMachine* fsm, float stressPerShot) :
 {
 }
 
-shared_ptr<Function> FireOnStress::update()
+update_return FireOnStress::update()
 {
 	if (agent->getAttribute(Attribute::stress) >= stressPerShot && agent->getFirePattern()->fireIfPossible()) {
 		agent->modifyAttribute(Attribute::stress, -stressPerShot);
 	}
-	return getThis();
+	return_steady();
 }
 
 ThrowBombs::ThrowBombs(
@@ -1125,10 +1127,10 @@ void ThrowBombs::init()
 	countdown = getInterval();
 }
 
-shared_ptr<Function> ThrowBombs::update()
+update_return ThrowBombs::update()
 {
 	if (!target.isValid()) {
-		return nullptr;
+		return_pop();
 	}
 
 	timerDecrement(countdown);
@@ -1172,7 +1174,7 @@ shared_ptr<Function> ThrowBombs::update()
 			countdown = getInterval();
 		}
 	}
-	return getThis();
+	return_steady();
 }
 
 SpaceFloat ThrowBombs::getInterval()

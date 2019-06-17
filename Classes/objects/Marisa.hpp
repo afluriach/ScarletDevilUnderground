@@ -60,7 +60,7 @@ public:
 	inline MarisaCollectMain(ai::StateMachine* fsm) : ai::Function(fsm) {}
 
 	virtual void onEnter();
-	virtual shared_ptr<ai::Function> update();
+	virtual ai::update_return update();
 	FuncGetName(MarisaCollectMain)
 };
 
@@ -69,7 +69,7 @@ public:
 	inline MarisaForestMain(ai::StateMachine* fsm) : ai::Function(fsm) {}
 
 	virtual void onEnter();
-	virtual shared_ptr<ai::Function> update();
+	virtual ai::update_return update();
 	FuncGetName(MarisaForestMain)
 };
 

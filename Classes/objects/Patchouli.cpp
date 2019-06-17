@@ -82,7 +82,7 @@ void PatchouliMain::onEnter()
 {
 }
 
-shared_ptr<ai::Function> PatchouliMain::update()
+ai::update_return PatchouliMain::update()
 {
-	return getThis();
+	return_steady();
 }

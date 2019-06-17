@@ -41,10 +41,6 @@ void Function::pop() {
 	fsm->pop();
 }
 
-shared_ptr<Function> Function::getThis() {
-	return fsm->getCrntThread()->getTop();
-}
-
 unsigned int Thread::nextUUID = 1;
 
 Thread::Thread(shared_ptr<Function> threadMain, StateMachine* sm) :
@@ -86,13 +82,14 @@ void Thread::update()
 		crnt->hasRunInit = true;
 	}
 
-	shared_ptr<Function> result = crnt->update();
+	update_return result = crnt->update();
 
-	if (!result.get()) {
+	for (int i = 0; i < -result.first && !call_stack.empty(); ++i) {
 		pop();
 	}
-	else if (result.get() != crnt) {
-		push(result);
+
+	if (result.second.get()) {
+		push(result.second);
 	}
 }
 

@@ -65,7 +65,7 @@ public:
 
 	virtual void onEnter();
 	virtual void onReturn();
-	virtual shared_ptr<ai::Function> update();
+	virtual ai::update_return update();
 	virtual void onExit();
 	FuncGetName(RumiaMain1);
 protected:
@@ -82,7 +82,7 @@ public:
 	static const vector<double_pair> demarcationSizeIntervals;
 
 	virtual void onEnter();
-	virtual shared_ptr<ai::Function> update();
+	virtual ai::update_return update();
 	virtual void onExit();
 	FuncGetName(RumiaDSD2);
 protected:

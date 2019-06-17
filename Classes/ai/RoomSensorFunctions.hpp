@@ -20,7 +20,7 @@ class SequentialClearSpawn : public Function {
 public:
 	SequentialClearSpawn(StateMachine* fsm, const ValueMap& args);
 
-	virtual shared_ptr<Function> update();
+	virtual update_return update();
 
 	FuncGetName(SequentialClearSpawn)
 };
@@ -41,7 +41,7 @@ class MultiSpawnSequence : public Function {
 public:
 	MultiSpawnSequence(StateMachine* fsm, const ValueMap& args);
 
-	virtual shared_ptr<Function> update();
+	virtual update_return update();
 
 	FuncGetName(MultiSpawnSequence)
 protected:
@@ -60,7 +60,7 @@ class TimedSpawnSequence : public Function {
 public:
 	TimedSpawnSequence(StateMachine* fsm, const ValueMap& args);
 
-	virtual shared_ptr<Function> update();
+	virtual update_return update();
 
 	FuncGetName(TimedSpawnSequence)
 protected:

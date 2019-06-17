@@ -46,10 +46,10 @@ void BatMain::onEnter()
 	target = agent->space->getObject("player");
 }
 
-shared_ptr<ai::Function> BatMain::update()
+ai::update_return BatMain::update()
 {
-	return target.isValid() ?
-		fsm->make<ai::Flank>(target, 2.0, 1.0) :
-		nullptr
-	;
+	if (target.isValid())
+		return_push(fsm->make<ai::Flank>(target, 2.0, 1.0));
+	else
+		return_pop();
 }

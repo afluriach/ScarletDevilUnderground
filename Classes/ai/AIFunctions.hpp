@@ -18,7 +18,7 @@ public:
 	Seek(StateMachine* fsm, GObject* target, bool usePathfinding, SpaceFloat margin = 0.0);
     Seek(StateMachine* fsm, const ValueMap& args);
     
-	virtual shared_ptr<Function> update();
+	virtual update_return update();
     
 	GetLockmask(movement)
 	FuncGetName(Seek)
@@ -33,7 +33,7 @@ public:
     MaintainDistance(StateMachine* fsm, gobject_ref target, SpaceFloat distance, SpaceFloat margin);
     MaintainDistance(StateMachine* fsm, const ValueMap& args);
     
-	virtual shared_ptr<Function> update();
+	virtual update_return update();
     GetLockmask(movement)    
     FuncGetName(MaintainDistance)
 protected:
@@ -47,7 +47,7 @@ public:
 
 	Flock(StateMachine* fsm);
 
-	virtual shared_ptr<Function> update();
+	virtual update_return update();
 
 	void onDetectNeighbor(Agent* agent);
 	void endDetectNeighbor(Agent* agent);
@@ -66,7 +66,7 @@ class OccupyPoint : public Function {
 public:
 	OccupyPoint(StateMachine* fsm, SpaceVect target);
 
-	virtual shared_ptr<Function> update();
+	virtual update_return update();
 
 	GetLockmask(movement)
 	FuncGetName(OccupyPoint)
@@ -78,7 +78,7 @@ class OccupyMidpoint : public Function {
 public:
 	OccupyMidpoint(StateMachine* fsm, gobject_ref target1, gobject_ref target2);
 
-	virtual shared_ptr<Function> update();
+	virtual update_return update();
 
 	GetLockmask(movement)
 	FuncGetName(OccupyMidpoint)
@@ -95,7 +95,7 @@ public:
 		SpaceFloat length
 	);
 
-	virtual shared_ptr<Function> update();
+	virtual update_return update();
 
 	GetLockmask(movement)
 	FuncGetName(Scurry)
@@ -111,7 +111,7 @@ public:
 	Flee(StateMachine* fsm, GObject* target, SpaceFloat distance);
     Flee(StateMachine* fsm, const ValueMap& args);
     
-	virtual shared_ptr<Function> update();
+	virtual update_return update();
 
 	GetLockmask(movement)
 	FuncGetName(Flee)
@@ -125,7 +125,7 @@ public:
 	EvadePlayerProjectiles(StateMachine* fsm);
 	EvadePlayerProjectiles(StateMachine* fsm, const ValueMap& args);
 
-	virtual shared_ptr<Function> update();
+	virtual update_return update();
 
 	inline virtual bitset<lockCount> getLockMask() {
 		return active ? make_enum_bitfield(ResourceLock::movement) : bitset<lockCount>();
@@ -142,7 +142,7 @@ public:
 	IdleWait(StateMachine* fsm, int frames);
 	IdleWait(StateMachine* fsm);
 
-	virtual shared_ptr<Function> update();
+	virtual update_return update();
 	GetLockmask(movement)
 	FuncGetName(IdleWait)
 private:
@@ -153,7 +153,7 @@ class LookAround : public Function {
 public:
 	LookAround(StateMachine* fsm, SpaceFloat angularVelocity);
 
-	virtual shared_ptr<Function> update();
+	virtual update_return update();
 
 	GetLockmask(look)
 	FuncGetName(LookAround)
@@ -171,7 +171,7 @@ public:
 	);
 
 	virtual void init();
-	virtual shared_ptr<Function> update();
+	virtual update_return update();
 
 	GetLockmask(look)
 	FuncGetName(CircleAround)
@@ -191,7 +191,7 @@ public:
 	);
 
 	virtual void init();
-	virtual shared_ptr<Function> update();
+	virtual update_return update();
 	GetLockmask(movement);
 	FuncGetName(Flank);
 
@@ -210,7 +210,7 @@ public:
 		bool clockwise
 	);
 
-	virtual shared_ptr<Function> update();
+	virtual update_return update();
 
 	GetLockmask(look)
 	FuncGetName(QuadDirectionLookAround)
@@ -224,7 +224,7 @@ class AimAtTarget : public Function {
 public:
 	AimAtTarget(StateMachine* fsm, gobject_ref target);
 
-	virtual shared_ptr<Function> update();
+	virtual update_return update();
 
 	GetLockmask(look)
 	FuncGetName(AimAtTarget)
@@ -242,7 +242,7 @@ public:
 	LookTowardsFire(StateMachine* fsm, bool useShield);
 
 	virtual void onEnter();
-	virtual shared_ptr<Function> update();
+	virtual update_return update();
 	virtual void onExit();
 
 	virtual bool onBulletHit(Bullet* b);
@@ -266,7 +266,7 @@ public:
     MoveToPoint(StateMachine* fsm, const ValueMap& args);
 	MoveToPoint(StateMachine* fsm, SpaceVect target);
     
-	virtual shared_ptr<Function> update();
+	virtual update_return update();
 
 	GetLockmask(movement)
     FuncGetName(MoveToPoint)
@@ -278,7 +278,7 @@ class BezierMove : public Function {
 public:
 	BezierMove(StateMachine* fsm, array<SpaceVect, 3> points, SpaceFloat rate);
 
-	virtual shared_ptr<Function> update();
+	virtual update_return update();
 
 	GetLockmask(movement)
 	FuncGetName(BezierMove)
@@ -299,7 +299,7 @@ public:
 	FollowPath(StateMachine* fsm, Path path, bool loop, bool stopForObstacle);
 	inline virtual ~FollowPath() {}
 
-	virtual shared_ptr<Function> update();
+	virtual update_return update();
 	GetLockmask(movement)
 	FuncGetName(FollowPath)
 protected:
@@ -315,7 +315,7 @@ public:
 
 	PathToTarget(StateMachine* fsm, Path path, gobject_ref target);
 
-	virtual shared_ptr<Function> update();
+	virtual update_return update();
 	FuncGetName(PathToTarget)
 protected:
 	gobject_ref target;
@@ -330,7 +330,7 @@ public:
 
 	pair<Direction, SpaceFloat> chooseMovement();
 
-	virtual shared_ptr<Function> update();
+	virtual update_return update();
 
 	GetLockmask(movement)
 	FuncGetName(Wander)
@@ -344,7 +344,7 @@ class Operation : public Function {
 public:
 	Operation(StateMachine* fsm, std::function<void(StateMachine&)> op);
 	
-	virtual shared_ptr<Function> update();
+	virtual update_return update();
 	FuncGetName(Operation)
 protected:
     std::function<void(StateMachine&)> op;
@@ -355,7 +355,7 @@ public:
 	Cast(StateMachine* fsm, SpellGeneratorType spell_generator, SpaceFloat length = 0.0);
 
 	virtual void onEnter();
-	virtual shared_ptr<Function> update();
+	virtual update_return update();
 	virtual void onExit();
 
 	GetLockmask(spellcasting)
@@ -371,7 +371,7 @@ public:
 	HPCast(StateMachine* fsm, SpellGeneratorType spell_generator, float hp_difference);
 
 	virtual void onEnter();
-	virtual shared_ptr<Function> update();
+	virtual update_return update();
 	virtual void onExit();
 
 	GetLockmask(spellcasting)
@@ -391,7 +391,7 @@ public:
 	);
 
 	virtual void onEnter();
-	virtual shared_ptr<Function> update();
+	virtual update_return update();
 	virtual void onExit();
 
 	GetLockmask(spellcasting)
@@ -406,7 +406,7 @@ class FireOnStress : public Function {
 public:
 	FireOnStress(StateMachine* fsm, float stressPerShot);
 
-	virtual shared_ptr<Function> update();
+	virtual update_return update();
 
 	GetLockmask(fire)
 	FuncGetName(FireOnStress)
@@ -418,7 +418,7 @@ class FireAtTarget : public Function {
 public:
 	FireAtTarget(StateMachine* fsm, gobject_ref target);
 
-	virtual shared_ptr<Function> update();
+	virtual update_return update();
 
 	GetLockmask2(look,fire)
 	FuncGetName(FireAtTarget)
@@ -430,7 +430,7 @@ class FireIfTargetVisible : public Function {
 public:
 	FireIfTargetVisible(StateMachine* fsm, gobject_ref target);
 
-	virtual shared_ptr<Function> update();
+	virtual update_return update();
 
 	GetLockmask(fire)
 	FuncGetName(FireIfTargetsVisible)
@@ -452,7 +452,7 @@ public:
 	);
 
 	virtual void init();
-	virtual shared_ptr<Function> update();
+	virtual update_return update();
 
 	SpaceFloat getInterval();
 	float score(SpaceVect pos, SpaceFloat angle);

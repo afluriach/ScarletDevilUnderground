@@ -38,7 +38,7 @@ void FollowerMain::onEnter()
 	target = agent->space->getObject("player");
 }
 
-shared_ptr<ai::Function> FollowerMain::update()
+ai::update_return FollowerMain::update()
 {
 	if (target.isValid()) {
 		if (ai::isFacingTargetsBack(agent, target.get())) {
@@ -49,5 +49,5 @@ shared_ptr<ai::Function> FollowerMain::update()
 		}
 	}
 	
-	return target.isValid() ? getThis() : nullptr;
+	return_pop_if_false( target.isValid() );
 }

@@ -34,12 +34,25 @@ enum class ResourceLock
 
 constexpr size_t lockCount = to_size_t(ResourceLock::end);
 
+class Function;
 class StateMachine;
 class Thread;
+
+typedef pair<int, shared_ptr<Function>> update_return;
 
 #define FuncGetName(cls) inline virtual string getName() const {return #cls;}
 #define GetLockmask(l) inline virtual bitset<lockCount> getLockMask() { return make_enum_bitfield(ResourceLock::l); }
 #define GetLockmask2(l, m) inline virtual bitset<lockCount> getLockMask() { return make_enum_bitfield(ResourceLock::l) | make_enum_bitfield(ResourceLock::m); }
+
+#define return_pop() return make_pair(-1, nullptr)
+#define return_push(x) return make_pair(0, x)
+#define _steady() make_pair(0, nullptr)
+#define return_steady() return _steady()
+
+#define return_pop_if_false(x) return make_pair( (x) ? 0 : -1, nullptr)
+#define return_pop_if_true(x) return make_pair( (x) ? -1 : 0, nullptr)
+
+#define return_push_if_true(x, s) return make_pair( 0, (x) ? (s) : nullptr )
 
 class Function
 {
@@ -65,7 +78,7 @@ public:
 	inline virtual void onEnter() {}
     inline virtual void onReturn() {}
 	//Returns this to continue running, nullptr to pop, and other to push
-	inline virtual shared_ptr<Function> update() { return getThis(); }
+	inline virtual update_return update() { return_pop(); }
 	inline virtual void onExit() {}
     
     inline virtual void onDelay() {}
@@ -76,8 +89,6 @@ public:
     inline virtual string getName() const {return "Function";}
     
     inline virtual bitset<lockCount> getLockMask() { return bitset<lockCount>();}
-
-	shared_ptr<Function> getThis();
 protected:
 	StateMachine *const fsm;
 	Agent *const agent;

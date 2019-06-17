@@ -120,7 +120,7 @@ void RumiaMain1::onReturn()
 	fsm->addThread(make_shared<ai::FireAtTarget>(fsm, target));
 }
 
-shared_ptr<ai::Function> RumiaMain1::update()
+ai::update_return RumiaMain1::update()
 {
 	timerDecrement(dsdTimer);
 
@@ -134,10 +134,10 @@ shared_ptr<ai::Function> RumiaMain1::update()
 	if (canCast && willCast) {
 		dsdTimer = dsdCooldown;
 		fsm->removeThread("FireAtTarget");
-		return fsm->make<ai::Cast>(make_spell_generator<DarknessSignDemarcation>(), dsdLength);
+		return_push( fsm->make<ai::Cast>(make_spell_generator<DarknessSignDemarcation>(), dsdLength) );
 	}
 	else {
-		return getThis();
+		return_steady();
 	}
 }
 
@@ -161,7 +161,7 @@ void RumiaDSD2::onEnter()
 	));
 }
 
-shared_ptr<ai::Function> RumiaDSD2::update()
+ai::update_return RumiaDSD2::update()
 {
 	timerIncrement(timer);
 
@@ -176,7 +176,7 @@ shared_ptr<ai::Function> RumiaDSD2::update()
 		));
 	}
 	
-	return getThis();
+	return_steady();
 }
 
 void RumiaDSD2::onExit()

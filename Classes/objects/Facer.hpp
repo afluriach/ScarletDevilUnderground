@@ -33,7 +33,7 @@ public:
 	inline FacerMain(ai::StateMachine* fsm) : ai::Function(fsm) {}
 
 	virtual void onEnter();
-	virtual shared_ptr<ai::Function> update();
+	virtual ai::update_return update();
 	FuncGetName(FacerMain)
 protected:
 	gobject_ref target = nullptr;

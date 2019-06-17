@@ -36,7 +36,7 @@ public:
 	inline SakuyaMain(ai::StateMachine* fsm) : ai::Function(fsm) {}
 
 	virtual void onEnter();
-	virtual shared_ptr<ai::Function> update();
+	virtual ai::update_return update();
 	FuncGetName(SakuyaMain)
 };
 
@@ -51,7 +51,7 @@ public:
 	static const SpaceFloat speed;
 
 	virtual void onEnter();
-	virtual shared_ptr<ai::Function> update();
+	virtual ai::update_return update();
 	FuncGetName(IllusionDash)
 protected:
 	SpaceVect target;
