@@ -166,6 +166,7 @@ xcopy "$(ProjectDir)..\Resources" "$(OutDir)" /D /E /I /F /Y</Command>
     <ClCompile Include="..\Classes\graphics\graphics_context.cpp" />
     <ClCompile Include="..\Classes\GSpace.cpp" />
     <ClCompile Include="..\Classes\GState.cpp" />
+    <ClCompile Include="..\Classes\log.cpp" />
     <ClCompile Include="..\Classes\lua\LuaAPI.cpp" />
     <ClCompile Include="..\Classes\lua\LuaConvert.cpp" />
     <ClCompile Include="..\Classes\lua\LuaCWrappers.cpp" />
@@ -295,6 +296,7 @@ xcopy "$(ProjectDir)..\Resources" "$(OutDir)" /D /E /I /F /Y</Command>
     <ClInclude Include="..\Classes\GSpace.hpp" />
     <ClInclude Include="..\Classes\GState.hpp" />
     <ClInclude Include="..\Classes\internal_prefix.h" />
+    <ClInclude Include="..\Classes\log.hpp" />
     <ClInclude Include="..\Classes\lua\LuaAPI.hpp" />
     <ClInclude Include="..\Classes\lua\LuaConvert.h" />
     <ClInclude Include="..\Classes\lua\LuaError.h" />

@@ -393,6 +393,9 @@
     <ClCompile Include="..\Classes\Graph.cpp">
       <Filter>src</Filter>
     </ClCompile>
+    <ClCompile Include="..\Classes\log.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="main.h">
@@ -759,6 +762,9 @@
       <Filter>src</Filter>
     </ClInclude>
     <ClInclude Include="..\Classes\internal_prefix.h">
+      <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\log.hpp">
       <Filter>src</Filter>
     </ClInclude>
   </ItemGroup>

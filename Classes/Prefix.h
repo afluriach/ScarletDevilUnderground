@@ -103,17 +103,7 @@ using namespace luabridge;
 #include "vect.hpp"
 #include "types.h"
 #include "util.h"
-
-template<typename... T>
-void log_print(string s, T... args)
-{
-	boost::format fmt(s);
-	string result = boost::str((fmt % ... % forward<T>(args)));
-
-	Director::getInstance()->logOutput(result);
-}
-
-#define log log_print
+#include "log.hpp"
 
 #define DEV_MODE 1
 #define INTERNAL_PREFIX 0

@@ -19,8 +19,6 @@
 
 #define for_irange(var,start,end) for(int var : boost::irange(to_int(start),to_int(end)))
 
-#define debug_log(s) log("%s, %d: %s", __FUNCTION__, __LINE__, s);
-
 #define no_op(method) inline void method() {}
 
 #define expand_vector2(v)  ((v).x) , ((v).y) 
