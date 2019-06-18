@@ -96,9 +96,9 @@ float_pair AttributeSystem::calculateAgilityAttributes(float agility)
 	}
 }
 
-AttributeSet AttributeSystem::getAttributeSet(const AttributeMap& input)
+AttributeArray AttributeSystem::getAttributeSet(const AttributeMap& input)
 {
-	AttributeSet result = getBlankAttributeSet();
+	AttributeArray result = getBlankAttributeSet();
 
 	for (map<Attribute, float>::const_iterator it = input.cbegin(); it != input.cend(); ++it)
 	{
@@ -130,9 +130,9 @@ AttributeMap AttributeSystem::getAttributeElementMap(Attribute element, float da
 	};
 }
 
-AttributeSet AttributeSystem::getBlankAttributeSet()
+AttributeArray AttributeSystem::getBlankAttributeSet()
 {
-	AttributeSet result = getZeroArray<float, to_size_t(Attribute::end)>();
+	AttributeArray result = getZeroArray<float, to_size_t(Attribute::end)>();
 
 	result[to_size_t(Attribute::attack)] = 1.0f;
 	result[to_size_t(Attribute::attackSpeed)] = 1.0f;
@@ -152,9 +152,9 @@ AttributeSet AttributeSystem::getBlankAttributeSet()
 	return result;
 }
 
-AttributeSet AttributeSystem::getZeroAttributeSet()
+AttributeArray AttributeSystem::getZeroAttributeSet()
 {
-	AttributeSet result = getZeroArray<float, to_size_t(Attribute::end)>();
+	AttributeArray result = getZeroArray<float, to_size_t(Attribute::end)>();
 
 	return result;
 }
@@ -223,7 +223,7 @@ AttributeSystem::AttributeSystem() :
 attributes(getBlankAttributeSet())
 {}
 
-AttributeSystem::AttributeSystem(const AttributeSet& baseAttributes) :
+AttributeSystem::AttributeSystem(const AttributeArray& baseAttributes) :
 attributes(baseAttributes)
 {}
 

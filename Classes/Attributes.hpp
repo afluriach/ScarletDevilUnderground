@@ -107,7 +107,7 @@ struct DamageInfo
 #define bomb_damage(x) DamageInfo{x, Attribute::end, DamageType::bomb}
 #define melee_damage(x) DamageInfo{x, Attribute::end, DamageType::melee}
 
-typedef array<float, to_size_t(Attribute::end)> AttributeSet;
+typedef array<float, to_size_t(Attribute::end)> AttributeArray;
 typedef map<Attribute, float> AttributeMap;
 typedef map<string, AttributeMap> AttributePackageMap;
 
@@ -119,11 +119,11 @@ public:
 	static AttributeMap scale(const AttributeMap& input, float scale);
 	static AttributeMap add(const AttributeMap& a, const AttributeMap& b);
 	static float getAttribute(const AttributeMap& attr, Attribute id, float default = 0.0f);
-	static AttributeSet getAttributeSet(const AttributeMap& input);
+	static AttributeArray getAttributeSet(const AttributeMap& input);
 	static AttributeMap getAttributeMap(Attribute id, float val);
 	static AttributeMap getAttributeElementMap(Attribute element, float damage, float elementScale = 1.0f);
-	static AttributeSet getBlankAttributeSet();
-	static AttributeSet getZeroAttributeSet();
+	static AttributeArray getBlankAttributeSet();
+	static AttributeArray getZeroAttributeSet();
 	static Attribute getElementSensitivity(Attribute element);
 	static Attribute getElement(Attribute elementSensitivity);
 
@@ -137,7 +137,7 @@ public:
 	static const boost::bimap<Attribute, string> attributeNameMap;
 
 	AttributeSystem();
-	AttributeSystem(const AttributeSet& baseAttributes);
+	AttributeSystem(const AttributeArray& baseAttributes);
 	AttributeSystem(const AttributeMap& baseAttributesMap);
 
 	float operator[](Attribute id) const;
@@ -184,7 +184,7 @@ public:
 
 	float getWithinRange(float input, float min, float max);
 protected:
-	AttributeSet attributes;
+	AttributeArray attributes;
 };
 
 
