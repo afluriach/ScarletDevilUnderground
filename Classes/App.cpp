@@ -14,6 +14,7 @@
 #include "OpeningScene.hpp"
 #include "OverworldScene.hpp"
 #include "Resources.hpp"
+#include "xml.hpp"
 
 const string App::title = "Kouma";
 
@@ -190,6 +191,7 @@ App::App()
 	baseDataPath = FileUtils::getInstance()->getWritablePath();
 	GState::initProfiles();
 	loadConfigFile();
+	loadObjects();
 }
 
 App::~App() 
@@ -320,6 +322,11 @@ void App::loadShaders()
     for(const string& name: shaderFiles){
         GLProgramCache::getInstance()->loadGLProgram(name, "shaders/"+name+".vert", "shaders/"+name+".frag");
     }
+}
+
+void App::loadObjects()
+{
+	app::loadFloors();
 }
 
 void App::runTitleScene()

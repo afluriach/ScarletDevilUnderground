@@ -108,6 +108,7 @@ public:
     virtual void initGLContextAttrs();
     
     void loadShaders();
+	void loadObjects();
     
     //globals exposed by app
     static unique_ptr<ControlRegister> control_register;

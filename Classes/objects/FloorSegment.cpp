@@ -11,6 +11,7 @@
 #include "FloorSegment.hpp"
 #include "GSpace.hpp"
 #include "value_map.hpp"
+#include "xml.hpp"
 
 FloorSegment::FloorSegment(GSpace* space, ObjectIDType id, const ValueMap& args) :
 RectangleBody(args)
@@ -23,23 +24,12 @@ FloorSegment::~FloorSegment()
 
 }
 
-const unordered_map<string, floorsegment_properties> FloorSegmentImpl::floorSegmentTypes = {
-	{ "BridgeFloor", {} },
-	{ "DirtFloorCave", {} },
-	{ "GrassFloor", {"footstep_grass", 2.0 / 3.0} },
-	{ "IceFloor", {"footstep_ice", 0.25} },
-	{ "MansionFloor", {} },
-	{ "MineFloor", {"footstep_cave", 1.0} },
-	{ "SandFloor", {"footstep_sand", 0.5} },
-	{ "StoneFloor", {"footstep_stone", 1.0} },
-};
-
 FloorSegmentImpl::FloorSegmentImpl(GSpace* space, ObjectIDType id, const ValueMap& args, const string& type) :
 	MapObjForwarding(GObject),
 	MapObjForwarding(FloorSegment)
 {
-	auto it = floorSegmentTypes.find(type);
-	if (it != floorSegmentTypes.end()) {
+	auto it = app::floors.find(type);
+	if (it != app::floors.end()) {
 		props = it->second;
 	}
 	else {

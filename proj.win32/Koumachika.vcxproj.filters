@@ -405,6 +405,9 @@
     <ClCompile Include="..\Classes\graphics\graphics_types.cpp">
       <Filter>src\graphics</Filter>
     </ClCompile>
+    <ClCompile Include="..\Classes\xml.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="main.h">
@@ -775,6 +778,9 @@
     </ClInclude>
     <ClInclude Include="..\Classes\controls\replay.h">
       <Filter>src\controls</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\xml.hpp">
+      <Filter>src</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

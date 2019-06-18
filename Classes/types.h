@@ -72,6 +72,11 @@ struct app_params
 	boost::rational<int> secondsPerFrameRational = boost::rational<int>(1, framesPerSecond);
 };
 
+struct floorsegment_properties {
+	string sfxRes;
+	double traction = 1.0;
+};
+
 namespace app {
 	extern app_params params;
 }

@@ -1,0 +1,10 @@
+<floors>
+    <BridgeFloor />
+    <DirtFloorCave />
+    <IceFloor sfx="footstep_ice" traction="0.25"/>
+    <MansionFloor />
+    <MineFloor sfx="footstep_cave"/>
+    <StoneFloor sfx="footstep_stone"/>
+    <SandFloor sfx="footstep_sand" traction="0.5"/>
+    <GrassFloor sfx="footstep_grass" traction="0.666667"/>
+</floors>

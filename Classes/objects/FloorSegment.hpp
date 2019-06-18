@@ -13,11 +13,6 @@
 #include "GObjectMixins.hpp"
 #include "object_ref.hpp"
 
-struct floorsegment_properties {
-	string sfxRes;
-	double traction = 1.0;
-};
-
 class FloorSegment : virtual public GObject, public RectangleBody
 {
 public:
@@ -41,8 +36,6 @@ public:
 class FloorSegmentImpl : FloorSegment, public NoSprite
 {
 public:
-	static const unordered_map<string, floorsegment_properties> floorSegmentTypes;
-
 	FloorSegmentImpl(GSpace* space, ObjectIDType id, const ValueMap& args, const string& type);
 	virtual ~FloorSegmentImpl();
 

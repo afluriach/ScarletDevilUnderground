@@ -58,6 +58,7 @@
 #include "AL/alc.h"
 #include "chipmunk.h"
 #include "cocos2d.h"
+#include "tinyxml2/tinyxml2.h"
 #include "ui/CocosGUI.h"
 #include "lua.hpp"
 #include "LuaBridge.h"
