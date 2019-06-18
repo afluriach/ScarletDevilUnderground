@@ -32,16 +32,38 @@ shared_ptr<LightArea> getLight(const string& name)
 	return getOrDefault(lights, name, shared_ptr<LightArea>(nullptr));
 }
 
+bool getStringAttr(tinyxml2::XMLElement* elem, const string& name, string* result)
+{
+	const char* attr = elem->Attribute(name.c_str());
+
+	if (attr)
+		*result = string(attr);
+
+	return attr;
+}
+
+template<typename T>
+bool getNumericAttr(tinyxml2::XMLElement* elem, const string& name, T* result)
+{
+	const char* attr = elem->Attribute(name.c_str());
+
+	if (attr) {
+		try {
+			*result = boost::lexical_cast<T>(attr);
+			return true;
+		}
+		catch (boost::bad_lexical_cast ex) {}
+	}
+	return false;
+}
+
 bool parseObject(tinyxml2::XMLElement* elem, floorsegment_properties* result)
 {
 	string sfx;
 	double traction = 1.0;
 
-	if (auto attr = elem->Attribute("sfx"))
-		sfx = string(attr);
-
-	if (auto attr = elem->Attribute("traction"))
-		traction = elem->DoubleAttribute("traction");
+	getStringAttr(elem, "sfx", &sfx);
+	getNumericAttr(elem, "traction", &traction);
 
 	*result = floorsegment_properties{ sfx, traction };
 	return true;
@@ -76,12 +98,8 @@ bool parseObject(tinyxml2::XMLElement* elem, shared_ptr<LightArea>* result)
 		{
 			auto _result = make_shared<CircleLightArea>();
 
-			if (auto attr = elem->Attribute("radius"))
-				_result->radius = elem->DoubleAttribute("radius");
-
-			if (auto attr = elem->Attribute("flood"))
-				_result->flood = elem->DoubleAttribute("flood");
-
+			getNumericAttr(elem, "radius", &_result->radius);
+			getNumericAttr(elem, "flood", &_result->flood);
 			parseObject(elem, &_result->color);
 
 			(*result) = _result;
@@ -90,14 +108,14 @@ bool parseObject(tinyxml2::XMLElement* elem, shared_ptr<LightArea>* result)
 		else if (type == "sprite")
 		{
 			auto _result = make_shared<SpriteLightArea>();
+			string spriteName;
 
 			parseObject(elem, &_result->color);
+			getNumericAttr(elem, "scale", &_result->scale);
 
-			if (auto attr = elem->Attribute("sprite"))
-				_result->texName = string("sprites/") + string(attr) + string(".png");
-
-			if (auto attr = elem->Attribute("scale"))
-				_result->scale = elem->DoubleAttribute("scale");
+			if (getStringAttr(elem, "sprite", &spriteName)) {
+				_result->texName = string("sprites/") + spriteName + string(".png");
+			}
 
 			(*result) = _result;
 			return true;
