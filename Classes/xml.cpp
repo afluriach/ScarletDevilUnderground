@@ -17,32 +17,22 @@ unordered_map<string, floorsegment_properties> floors;
 
 void loadFloors()
 {
-	tinyxml2::XMLDocument floors;
-	auto error = floors.Parse(io::loadTextFile("objects/floors.xml").c_str());
+	loadObjects<floorsegment_properties>("objects/floors.xml", app::floors);
+}
 
-	if (error != tinyxml2::XML_SUCCESS) {
-		log("XML error: %d", error);
-		return;
-	}
+bool parseObject(tinyxml2::XMLElement* elem, floorsegment_properties* result)
+{
+	string sfx;
+	double traction = 1.0;
 
-	tinyxml2::XMLNode* root = floors.FirstChild();
+	if (auto attr = elem->Attribute("sfx"))
+		sfx = string(attr);
 
-	for (
-		tinyxml2::XMLElement* crnt = root->FirstChildElement();
-		crnt != nullptr;
-		crnt = crnt->NextSiblingElement()
-		) {
-		string sfx;
-		double traction = 1.0;
+	if (auto attr = elem->Attribute("traction"))
+		traction = elem->DoubleAttribute("traction");
 
-		if (auto attr = crnt->Attribute("sfx"))
-			sfx = string(attr);
-
-		if (auto attr = crnt->Attribute("traction"))
-			traction = crnt->DoubleAttribute("traction");
-
-		app::floors.insert_or_assign(crnt->Name(), floorsegment_properties{ sfx, traction });
-	}
+	*result = floorsegment_properties{ sfx, traction };
+	return true;
 }
 
 }
