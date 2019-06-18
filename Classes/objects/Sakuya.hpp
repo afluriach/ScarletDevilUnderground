@@ -16,7 +16,7 @@ public Enemy,
 public BaseAttributes<Sakuya>
 {
 public:
-	static const AttributeMap baseAttributes;
+	static const string baseAttributes;
 
 	MapObjCons(Sakuya);
 

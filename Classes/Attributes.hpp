@@ -108,7 +108,6 @@ struct DamageInfo
 #define melee_damage(x) DamageInfo{x, Attribute::end, DamageType::melee}
 
 typedef array<float, to_size_t(Attribute::end)> AttributeArray;
-typedef map<Attribute, float> AttributeMap;
 typedef map<string, AttributeMap> AttributePackageMap;
 
 class AttributeSystem
@@ -126,6 +125,8 @@ public:
 	static AttributeArray getZeroAttributeSet();
 	static Attribute getElementSensitivity(Attribute element);
 	static Attribute getElement(Attribute elementSensitivity);
+
+	static Attribute getAttribute(const string& name);
 
 	static const float maxElementDamage;
 	static const float maxComboPoints;
@@ -158,7 +159,6 @@ public:
 	void apply(const AttributeMap& effects);
 	float getAttackMultiplier() const;
 	float getTypeSensitivity(DamageType type) const;
-	AttributeMap scaleBulletAttributes(const AttributeMap& bulletAttributes) const;
 	void modifyIncidentAttribute(Attribute id, Attribute maxID, float x);
 	void applyElementalDamage(Attribute id, Attribute maxID, float x);
 	bool canApplyAttribute(Attribute id, float x);

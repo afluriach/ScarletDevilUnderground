@@ -25,12 +25,7 @@
 #include "SpellUtil.hpp"
 #include "value_map.hpp"
 
-const AttributeMap GhostFairy::baseAttributes = {
-	{ Attribute::maxHP, 75.0f },
-	{ Attribute::agility, 2.5f },
-	{ Attribute::bulletSensitivity, 1.25},
-};
-
+const string GhostFairy::baseAttributes = "ghostFairy";
 const string GhostFairy::properName = "Ghost Fairy";
 
 GhostFairy::GhostFairy(GSpace* space, ObjectIDType id, const ValueMap& args) :
@@ -61,29 +56,7 @@ void GhostFairy::initStateMachine()
 	);
 }
 
-const AttributeMap Fairy1::baseAttributes = {
-	{ Attribute::maxHP, 30.0f },
-	{ Attribute::speed, 3.0f },
-	{ Attribute::acceleration, 4.5f }
-};
-
-AttributeMap low_hp = {
-	{ Attribute::maxHP, 20.0f },
-	{ Attribute::speed, 3.0f },
-	{ Attribute::acceleration, 4.5f }
-};
-
-AttributeMap high_hp = {
-	{ Attribute::maxHP, 40.0f },
-	{ Attribute::speed, 3.0f },
-	{ Attribute::acceleration, 4.5f }
-};
-
-AttributeMap high_agility = {
-	{ Attribute::maxHP, 30.0f },
-	{ Attribute::speed, 6.0f },
-	{ Attribute::acceleration, 36.0f }
-};
+const string Fairy1::baseAttributes = "fairy1";
 
 const AIPackage<Fairy1>::AIPackageMap Fairy1::aiPackages = {
 	{"maintain_distance", &Fairy1::maintain_distance},
@@ -92,16 +65,9 @@ const AIPackage<Fairy1>::AIPackageMap Fairy1::aiPackages = {
 	{"circle_around_point", &Fairy1::circle_around_point}
 };
 
-const AttributePackageMap Fairy1::attributePackages = {
-	{"high_agility", high_agility},
-	{"low_hp", low_hp},
-	{"high_hp", high_hp }
-};
-
 Fairy1::Fairy1(GSpace* space, ObjectIDType id, const ValueMap& args) :
 	MapObjForwarding(GObject),
 	MapObjForwarding(Agent),
-	AttributesPackage<Fairy1>(this, args),
 	AIPackage<Fairy1>(this, args, "maintain_distance"),
 	Enemy(collectible_id::hm1)
 {
@@ -175,21 +141,7 @@ const AIPackage<BlueFairy>::AIPackageMap BlueFairy::aiPackages = {
 	{ "follow_path", &BlueFairy::follow_path },
 };
 
-const AttributeMap BlueFairy::baseAttributes = {
-	{ Attribute::shieldLevel, 1.0f },
-	{ Attribute::maxHP, 90.0f },
-	{ Attribute::maxMP, 75.0f },
-	{ Attribute::maxStamina, 50.0f },
-	{ Attribute::staminaRegen, 0.02f },
-	{ Attribute::agility, 2.5f },
-	{ Attribute::touchDamage, 5.0f },
-	{ Attribute::stressFromHits, 1.5f },
-	{ Attribute::stressFromBlocks, 1.0f },
-	{ Attribute::bombSensitivity, 1.25f },
-	{ Attribute::bulletSensitivity, 0.75f },
-	{ Attribute::meleeSensitivity, 0.75f },
-};
-
+const string BlueFairy::baseAttributes = "blueFairy";
 const string BlueFairy::properName = "Blue Fairy";
 
 BlueFairy::BlueFairy(GSpace* space, ObjectIDType id, const ValueMap& args) :
@@ -215,18 +167,7 @@ void BlueFairy::follow_path(const ValueMap& args)
 	}
 }
 
-const AttributeMap RedFairy::baseAttributes = {
-	{ Attribute::maxHP, 120.0f },
-	{ Attribute::maxMP, 80.0f },
-	{ Attribute::agility, 1.5f },
-	{ Attribute::touchDamage, 10.0f },
-	{ Attribute::stressDecay, 1.0f },
-	{ Attribute::stressFromHits, 1.0f },
-	{ Attribute::bombSensitivity, 0.5f }, 
-	{ Attribute::bulletSensitivity, 0.75f },
-	{ Attribute::meleeSensitivity, 1.25f },
-};
-
+const string RedFairy::baseAttributes = "redFairy";
 const string RedFairy::properName = "Red Fairy";
 
 const DamageInfo RedFairy::explosionEffect = bomb_damage(20.0f);
@@ -335,13 +276,7 @@ void RedFairy::onZeroHP()
 	space->addGraphicsAction(&graphics_context::autoremoveLightSource, light, 1.0f);
 }
 
-const AttributeMap GreenFairy1::baseAttributes = {
-	{ Attribute::maxHP, 60.0f },
-	{ Attribute::touchDamage, 3.0f },
-	{ Attribute::stressFromHits, 0.5f },
-	{ Attribute::agility, 3.0f }
-};
-
+const string GreenFairy1::baseAttributes = "greenFairy1";
 const string GreenFairy1::properName = "Green Fairy I";
 
 GreenFairy1::GreenFairy1(GSpace* space, ObjectIDType id, const ValueMap& args) :
@@ -387,14 +322,7 @@ void GreenFairy1::initStateMachine()
 
 }
 
-const AttributeMap GreenFairy2::baseAttributes = {
-	{ Attribute::maxHP, 90.0f },
-	{ Attribute::touchDamage, 6.0f },
-	{ Attribute::stressFromDetects, 0.25f },
-	{ Attribute::stressFromHits, 0.5f },
-	{ Attribute::agility, 4.0f }
-};
-
+const string GreenFairy2::baseAttributes = "greenFairy2";
 const string GreenFairy2::properName = "Green Fairy II";
 
 GreenFairy2::GreenFairy2(GSpace* space, ObjectIDType id, const ValueMap& args) :
@@ -449,13 +377,7 @@ void GreenFairy2::onRemove()
 	}
 }
 
-const AttributeMap ZombieFairy::baseAttributes = {
-	{ Attribute::maxHP, 120.0f },
-	{ Attribute::speed, 2.0f },
-	{ Attribute::acceleration, 10.0f },
-	{ Attribute::darknessSensitivity, 0.0f }
-};
-
+const string ZombieFairy::baseAttributes = "zombieFairy";
 const string ZombieFairy::properName = "Zombie Fairy";
 
 ZombieFairy::ZombieFairy(GSpace* space, ObjectIDType id, const ValueMap& args) :
@@ -491,11 +413,7 @@ void ZombieFairy::initStateMachine()
 	);
 }
 
-const AttributeMap Fairy2::baseAttributes = {
-	{Attribute::maxHP, 30.0f},
-	{Attribute::agility, 2.0f},
-};
-
+const string Fairy2::baseAttributes = "fairy2";
 const float Fairy2::lowHealthRatio = 0.5f;
 
 Fairy2::Fairy2(GSpace* space, ObjectIDType id, const ValueMap& args) :
@@ -593,12 +511,7 @@ object_ref<Fairy2> Fairy2::requestHandler(object_ref<Fairy2> other)
 	}
 }
 
-const AttributeMap IceFairy::baseAttributes = {
-	{Attribute::maxHP, 15.0f},
-	{Attribute::speed, 4.5f},
-	{Attribute::acceleration, 4.5f},
-	{Attribute::iceSensitivity, 0.0f}
-};
+const string IceFairy::baseAttributes = "iceFairy"; 
 
 IceFairy::IceFairy(GSpace* space, ObjectIDType id, const ValueMap& args) :
 	MapObjForwarding(GObject),

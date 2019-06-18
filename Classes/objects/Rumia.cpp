@@ -26,11 +26,7 @@ shared_ptr<LightArea> Rumia::getLightSource() const
 	return app::getLight("rumiaEnemy");
 }
 
-const AttributeMap Rumia1::baseAttributes = {
-	{ Attribute::maxHP, 250.0f },
-	{ Attribute::maxMP, 50.0f },
-	{ Attribute::agility, 2.0f },
-};
+const string Rumia1::baseAttributes = "rumia1";
 const string Rumia1::properName = "Rumia I";
 
 Rumia1::Rumia1(GSpace* space, ObjectIDType id, const ValueMap& args) :
@@ -59,11 +55,7 @@ void Rumia1::onZeroHP()
 	Agent::onZeroHP();
 }
 
-const AttributeMap Rumia2::baseAttributes = {
-	{ Attribute::maxHP, 500.0f },
-	{ Attribute::maxMP, 50.0f },
-	{ Attribute::agility, 2.5f },
-};
+const string Rumia2::baseAttributes = "rumia2";
 const string Rumia2::properName = "Rumia II";
 
 Rumia2::Rumia2(GSpace* space, ObjectIDType id, const ValueMap& args) :

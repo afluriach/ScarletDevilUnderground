@@ -46,12 +46,7 @@ void Patchouli::initStateMachine()
 
 }
 
-const AttributeMap PatchouliEnemy::baseAttributes = {
-	{ Attribute::maxHP, 300.0f },
-	{ Attribute::maxMP, 5.0f },
-	{ Attribute::speed, 2.0f },
-	{ Attribute::acceleration, 4.0f }
-};
+const string PatchouliEnemy::baseAttributes = "patchouliEnemy";
 
 const vector<float_pair> PatchouliEnemy::intervals = {
 	make_pair(200.0f,250.0f),

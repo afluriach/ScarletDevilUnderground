@@ -11,11 +11,7 @@
 #include "AIFunctions.hpp"
 #include "Tewi.hpp"
 
-const AttributeMap Tewi::baseAttributes = {
-	{Attribute::maxHP, 5.0f},
-	{Attribute::speed, 6.0f},
-	{Attribute::acceleration, 36.0f}
-};
+const string Tewi::baseAttributes = "tewi";
 
 void Tewi::initStateMachine() {
 	fsm.addThread(make_shared<ai::EvadePlayerProjectiles>(&fsm));

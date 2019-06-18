@@ -30,7 +30,7 @@ public:
 class Rumia1 : public Rumia, public BaseAttributes<Rumia1>
 {
 public:
-	static const AttributeMap baseAttributes;
+	static const string baseAttributes;
 	static const string properName;
 
 	MapObjCons(Rumia1);
@@ -42,7 +42,7 @@ public:
 class Rumia2 : public Rumia, public BaseAttributes<Rumia2>
 {
 public:
-	static const AttributeMap baseAttributes;
+	static const string baseAttributes;
 	static const string properName;
 
 	MapObjCons(Rumia2);

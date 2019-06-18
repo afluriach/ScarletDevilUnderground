@@ -435,10 +435,7 @@ void Agent::updateAgentOverlay()
 	}
 }
 
-const AttributeMap GenericAgent::baseAttributes = {
-	{Attribute::speed, 1.5f },
-	{Attribute::acceleration, 6.0f }
-};
+const string GenericAgent::baseAttributes = "genericAgent";
 
 GenericAgent::GenericAgent(GSpace* space, ObjectIDType id, const ValueMap& args) :
 	MapObjForwarding(GObject),

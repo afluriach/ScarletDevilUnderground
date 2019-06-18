@@ -18,12 +18,7 @@ Scorpion1::Scorpion1(GSpace* space, ObjectIDType id, const ValueMap& args) :
 {
 }
 
-const AttributeMap Scorpion1::baseAttributes = {
-	{ Attribute::maxHP, 25.0f },
-	{ Attribute::speed, 2.0f },
-	{ Attribute::acceleration, 6.0f }
-};
-
+const string Scorpion1::baseAttributes = "scorpion1";
 const string Scorpion1::properName = "Scorpion I";
 
 void Scorpion1::initStateMachine()
@@ -59,12 +54,7 @@ Scorpion2::Scorpion2(GSpace* space, ObjectIDType id, const ValueMap& args) :
 {
 }
 
-const AttributeMap Scorpion2::baseAttributes = {
-	{ Attribute::maxHP, 50.0f },
-	{ Attribute::speed, 3.0f },
-	{ Attribute::acceleration, 9.0f }
-};
-
+const string Scorpion2::baseAttributes = "scorpion2";
 const string Scorpion2::properName = "Scorpion II";
 
 void Scorpion2::initStateMachine()

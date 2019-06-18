@@ -18,7 +18,7 @@ class FairyMaid :
 	public BaseAttributes<FairyMaid>
 {
 public:
-	static const AttributeMap baseAttributes;
+	static const string baseAttributes;
 	static const AIPackage<FairyMaid>::AIPackageMap aiPackages;
 
 	FairyMaid(GSpace* space, ObjectIDType id, const ValueMap& args);

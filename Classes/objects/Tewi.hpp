@@ -14,7 +14,7 @@
 class Tewi : public Enemy, public BaseAttributes<Tewi>
 {
 public:
-	static const AttributeMap baseAttributes;
+	static const string baseAttributes;
 
 	inline Tewi(GSpace* space, ObjectIDType id, const ValueMap& args) :
 		MapObjForwarding(GObject),

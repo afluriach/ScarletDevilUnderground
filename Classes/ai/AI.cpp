@@ -24,7 +24,7 @@ shared_ptr<Function> Function::constructState(
 	StateMachine* fsm,
 	const ValueMap& args
 ){
-	Function::AdapterType adapter = getOrDefault(Function::adapters, type, Function::AdapterType());
+	Function::AdapterType adapter = getOrDefault(Function::adapters, type);
 
 	if (adapter)
 		return adapter(fsm, args);

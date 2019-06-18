@@ -16,7 +16,7 @@ public Enemy,
 public BaseAttributes<Scorpion1>
 {
 public:
-	static const AttributeMap baseAttributes;
+	static const string baseAttributes;
 	static const string properName;
 
 	Scorpion1(GSpace* space, ObjectIDType id, const ValueMap& args);
@@ -38,7 +38,7 @@ class Scorpion2 :
 	public BaseAttributes<Scorpion2>
 {
 public:
-	static const AttributeMap baseAttributes;
+	static const string baseAttributes;
 	static const string properName;
 
 	Scorpion2(GSpace* space, ObjectIDType id, const ValueMap& args);

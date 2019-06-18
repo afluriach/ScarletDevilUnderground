@@ -12,10 +12,7 @@
 #include "Follower.hpp"
 #include "GSpace.hpp"
 
-const AttributeMap Follower::baseAttributes = {
-	{Attribute::speed, 1.0f },
-	{Attribute::acceleration, 4.5f}
-};
+const string Follower::baseAttributes = "ff";
 
 Follower::Follower(GSpace* space, ObjectIDType id, const ValueMap& args) :
 	GObject(space, id, args),

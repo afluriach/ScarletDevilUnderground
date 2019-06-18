@@ -34,7 +34,7 @@ class ReimuEnemy : public Enemy, public BaseAttributes<ReimuEnemy>
 public:
 	static constexpr int orbCount = 4;
 
-	static const AttributeMap baseAttributes;
+	static const string baseAttributes;
 	static const string properName;
 
 	MapObjCons(ReimuEnemy);

@@ -15,11 +15,7 @@
 #include "Sakuya.hpp"
 #include "SakuyaSpell.hpp"
 
-const AttributeMap Sakuya::baseAttributes = {
-	{Attribute::maxHP, 30.0f },
-	{Attribute::speed, 3.0f},
-	{Attribute::acceleration, 4.5f}
-};
+const string Sakuya::baseAttributes = "sakuya";
 
 Sakuya::Sakuya(GSpace* space, ObjectIDType id, const ValueMap& args) :
 	MapObjForwarding(GObject),

@@ -11,10 +11,7 @@
 #include "AIFunctions.hpp"
 #include "SakuyaNPC.hpp"
 
-const AttributeMap SakuyaNPC::baseAttributes = {
-	{Attribute::speed, 3.0f},
-	{Attribute::acceleration, 4.5f}
-};
+const string SakuyaNPC::baseAttributes = "sakuyaNPC";
 
 SakuyaNPC::SakuyaNPC(GSpace* space, ObjectIDType id, const ValueMap& args) :
 	MapObjForwarding(GObject),

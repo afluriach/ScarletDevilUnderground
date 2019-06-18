@@ -177,6 +177,12 @@ Attribute AttributeSystem::getElement(Attribute elementSensitivity)
 	);
 }
 
+Attribute AttributeSystem::getAttribute(const string& name)
+{
+	auto it = attributeNameMap.right.find(name);
+	return it != attributeNameMap.right.end() ? it->second : Attribute::end;
+}
+
 AttributeMap AttributeSystem::scale(const AttributeMap& input, float scale)
 {
 	AttributeMap result;
@@ -344,18 +350,6 @@ float AttributeSystem::getTypeSensitivity(DamageType type) const
 	default:
 		return 1.0f;
 	}
-}
-
-AttributeMap AttributeSystem::scaleBulletAttributes(const AttributeMap& bulletAttributes) const
-{
-	AttributeMap result = bulletAttributes;
-
-	auto hp_it = result.find(Attribute::hp);
-	if (hp_it != result.end()) {
-		hp_it->second *= getAttackMultiplier();
-	}
-
-	return result;
 }
 
 float AttributeSystem::getWithinRange(float input, float min, float max)

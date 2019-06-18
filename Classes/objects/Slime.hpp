@@ -16,7 +16,7 @@ public Enemy,
 public BaseAttributes<Slime1>
 {
 public:
-	static const AttributeMap baseAttributes;
+	static const string baseAttributes;
 	static const string properName;
 
 	Slime1(GSpace* space, ObjectIDType id, const ValueMap& args);
@@ -39,7 +39,7 @@ class Slime2 :
 	public BaseAttributes<Slime2>
 {
 public:
-	static const AttributeMap baseAttributes;
+	static const string baseAttributes;
 	static const string properName;
 
 	Slime2(GSpace* space, ObjectIDType id, const ValueMap& args);

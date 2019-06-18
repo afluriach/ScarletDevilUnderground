@@ -33,7 +33,7 @@ public:
 class PatchouliEnemy : public Enemy, public BaseAttributes<PatchouliEnemy>
 {
 public:
-	static const AttributeMap baseAttributes;
+	static const string baseAttributes;
 	static const vector<float_pair> intervals;
 	static const vector<SpellGeneratorType> spells;
 

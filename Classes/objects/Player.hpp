@@ -158,7 +158,7 @@ protected:
 class FlandrePC : virtual public Player, public BaseAttributes<FlandrePC>
 {
 public:
-	static const AttributeMap baseAttributes;
+	static const string baseAttributes;
 
 	MapObjCons(FlandrePC);
 	FlandrePC(GSpace* space, ObjectIDType id, const SpaceVect& pos, Direction d);
@@ -171,7 +171,7 @@ public:
 class RumiaPC : virtual public Player, public BaseAttributes<RumiaPC>
 {
 public:
-	static const AttributeMap baseAttributes;
+	static const string baseAttributes;
 
 	MapObjCons(RumiaPC);
 
@@ -183,7 +183,7 @@ public:
 class CirnoPC : virtual public Player, public BaseAttributes<CirnoPC>
 {
 public:
-	static const AttributeMap baseAttributes;
+	static const string baseAttributes;
 
 	MapObjCons(CirnoPC);
 	

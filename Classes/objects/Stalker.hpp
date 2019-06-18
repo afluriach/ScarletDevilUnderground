@@ -14,7 +14,7 @@
 class Stalker : public Enemy, public BaseAttributes<Stalker>
 {
 public:
-	static const AttributeMap baseAttributes;
+	static const string baseAttributes;
 
 	Stalker(GSpace* space, ObjectIDType id, const ValueMap& args);
 

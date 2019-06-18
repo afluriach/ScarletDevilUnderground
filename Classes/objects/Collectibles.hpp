@@ -9,7 +9,6 @@
 #ifndef Collectibles_hpp
 #define Collectibles_hpp
 
-#include "Attributes.hpp"
 #include "GObject.hpp"
 #include "GObjectMixins.hpp"
 

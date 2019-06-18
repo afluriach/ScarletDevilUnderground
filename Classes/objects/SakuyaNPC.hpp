@@ -14,7 +14,7 @@
 class SakuyaNPC : virtual public Agent, public BaseAttributes<SakuyaNPC>, public DialogEntity
 {
 public:
-	static const AttributeMap baseAttributes;
+	static const string baseAttributes;
 
 	MapObjCons(SakuyaNPC);
 

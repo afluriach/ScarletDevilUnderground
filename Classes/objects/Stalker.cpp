@@ -13,12 +13,7 @@
 #include "Stalker.hpp"
 #include "TeleportPad.hpp"
 
-const AttributeMap Stalker::baseAttributes = {
-	{Attribute::maxHP, 12.0f},
-	{Attribute::maxStamina, 10.0f},
-	{Attribute::speed, 1.5f},
-	{Attribute::acceleration, 4.5f}
-};
+const string Stalker::baseAttributes = "stalker"; 
 
 Stalker::Stalker(GSpace* space, ObjectIDType id, const ValueMap& args) :
 	MapObjForwarding(GObject),

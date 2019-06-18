@@ -9,7 +9,6 @@
 #ifndef Upgrade_hpp
 #define Upgrade_hpp
 
-#include "Attributes.hpp"
 #include "GObject.hpp"
 #include "GObjectMixins.hpp"
 #include "value_map.hpp"

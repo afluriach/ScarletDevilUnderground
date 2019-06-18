@@ -18,10 +18,7 @@
 #include "PlayScene.hpp"
 #include "value_map.hpp"
 
-const AttributeMap FairyMaid::baseAttributes = {
-	{ Attribute::speed, 3.0f },
-	{ Attribute::acceleration, 4.5f }
-};
+const string FairyMaid::baseAttributes = "fairyMaid";
 
 const AIPackage<FairyMaid>::AIPackageMap FairyMaid::aiPackages = {
 	{ "flee_player", &FairyMaid::flee_player },

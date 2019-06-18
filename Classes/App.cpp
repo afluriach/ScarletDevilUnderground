@@ -325,6 +325,7 @@ void App::loadShaders()
 
 void App::loadObjects()
 {
+	app::loadAttributes();
 	app::loadFloors();
 	app::loadLights();
 	app::loadSprites();

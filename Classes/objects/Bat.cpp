@@ -12,12 +12,7 @@
 #include "Bat.hpp"
 #include "GSpace.hpp"
 
-const AttributeMap Bat::baseAttributes = {
-	{Attribute::maxHP, 50.0f },
-	{Attribute::agility, 2.0f },
-	{Attribute::touchDamage, 5.0f},
-};
-
+const string Bat::baseAttributes = "bat";
 const string Bat::properName = "Bat";
 
 Bat::Bat(GSpace* space, ObjectIDType id, const ValueMap& args) :

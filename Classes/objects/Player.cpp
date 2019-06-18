@@ -702,18 +702,7 @@ bool Player::canPlaceBomb(SpaceVect pos)
 	);
 }
 
-const AttributeMap FlandrePC::baseAttributes = {
-	{Attribute::shieldLevel, 1.0f },
-	{Attribute::maxHP, 100.0f},
-	{Attribute::maxMP, 100.0f },
-	{Attribute::maxStamina, 100.0f},
-	{Attribute::staminaRegen, 0.05f},
-	{Attribute::agility, 2.0f},
-	{Attribute::hitProtectionInterval, 1.0f},
-	{Attribute::spellCooldownInterval, 1.0f },
-	{Attribute::iceSensitivity, 2.0f},
-	{Attribute::sunSensitivity, 5.0f}
-};
+const string FlandrePC::baseAttributes = "flandrePC";
 
 FlandrePC::FlandrePC(GSpace* space, ObjectIDType id, const ValueMap& args) :
 	MapObjForwarding(GObject),
@@ -740,18 +729,7 @@ shared_ptr<LightArea> FlandrePC::getLightSource() const
 	return app::getLight("flandrePC");
 }
 
-const AttributeMap RumiaPC::baseAttributes = {
-	{Attribute::maxHP, 75.0f },
-	{Attribute::maxMP, 125.0f },
-	{Attribute::maxStamina, 75.0f },
-	{Attribute::staminaRegen, 0.05f },
-	{Attribute::agility, 3.0f },
-	{Attribute::hitProtectionInterval, 1.0f },
-	{Attribute::spellCooldownInterval, 1.0f },
-	{Attribute::iceSensitivity, 1.0f },
-	{Attribute::sunSensitivity, 0.0f },
-	{Attribute::darknessSensitivity, 0.0f },
-};
+const string RumiaPC::baseAttributes = "rumiaPC";
 
 RumiaPC::RumiaPC(GSpace* space, ObjectIDType id, const ValueMap& args) :
 	MapObjForwarding(GObject),
@@ -764,18 +742,7 @@ shared_ptr<LightArea> RumiaPC::getLightSource() const
 	return app::getLight("rumiaPC");
 }
 
-const AttributeMap CirnoPC::baseAttributes = {
-	{Attribute::shieldLevel, 2.0f },
-	{Attribute::maxHP, 125.0f },
-	{Attribute::maxMP, 75.0f },
-	{Attribute::maxStamina, 125.0f},
-	{Attribute::staminaRegen, 0.05f },
-	{Attribute::agility, 1.0f},
-	{Attribute::hitProtectionInterval, 1.0f},
-	{Attribute::spellCooldownInterval, 1.0f},
-	{Attribute::iceSensitivity, 0.0f},
-	{Attribute::sunSensitivity, 1.0f}
-};
+const string CirnoPC::baseAttributes = "cirnoPC";
 
 CirnoPC::CirnoPC(GSpace* space, ObjectIDType id, const ValueMap& args) :
 	MapObjForwarding(GObject),

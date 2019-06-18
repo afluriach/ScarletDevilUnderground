@@ -167,7 +167,7 @@ public:
 	inline BaseAttributes() {}
 
 	inline virtual AttributeMap getBaseAttributes() const {
-		return T::baseAttributes;
+		return app::getAttributes(T::baseAttributes);
 	}
 };
 
@@ -211,38 +211,10 @@ protected:
 	ValueMap args;
 };
 
-template<class C>
-class AttributesPackage : virtual public Agent
-{
-public:
-	inline AttributesPackage(C* agent, const ValueMap& args) :
-	agent(agent),
-	attributes(C::baseAttributes)
-	{
-		string packageName = getStringOrDefault(args, "attributes_package", "");
-
-		if (!packageName.empty())
-		{
-			auto it = C::attributePackages.find(packageName);
-			if (it != C::attributePackages.end()) {
-				attributes = it->second;
-			}
-		}
-	}
-
-	inline virtual AttributeMap getBaseAttributes() const {
-		return attributes;
-	}
-
-protected:
-	AttributeMap attributes;
-	C* agent;
-};
-
 class GenericAgent : virtual public Agent, public BaseAttributes<GenericAgent>
 {
 public:
-	static const AttributeMap baseAttributes;
+	static const string baseAttributes;
 
 	MapObjCons(GenericAgent);
 

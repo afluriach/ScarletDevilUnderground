@@ -8,15 +8,22 @@
 
 #include "Prefix.h"
 
+#include "Attributes.hpp"
 #include "FileIO.hpp"
 #include "Graphics.h"
 #include "graphics_types.h"
 
 namespace app {
 
+unordered_map<string, AttributeMap> attributes;
 unordered_map<string, floorsegment_properties> floors;
 unordered_map<string, shared_ptr<LightArea>> lights;
 unordered_map<string, sprite_properties> sprites;
+
+void loadAttributes()
+{
+	loadObjects<AttributeMap>("objects/attributes.xml", app::attributes);
+}
 
 void loadFloors()
 {
@@ -35,12 +42,17 @@ void loadSprites()
 
 shared_ptr<LightArea> getLight(const string& name)
 {
-	return getOrDefault(lights, name, shared_ptr<LightArea>(nullptr));
+	return getOrDefault(lights, name);
 }
 
 sprite_properties getSprite(const string& name)
 {
-	return getOrDefault(sprites, name, sprite_properties{});
+	return getOrDefault(sprites, name);
+}
+
+AttributeMap getAttributes(const string& name)
+{
+	return getOrDefault(attributes, name);
 }
 
 bool getStringAttr(tinyxml2::XMLElement* elem, const string& name, string* result)
@@ -66,6 +78,32 @@ bool getNumericAttr(tinyxml2::XMLElement* elem, const string& name, T* result)
 		catch (boost::bad_lexical_cast ex) {}
 	}
 	return false;
+}
+
+bool parseObject(tinyxml2::XMLElement* elem, AttributeMap* result)
+{
+	AttributeMap _result;
+
+	for (
+		tinyxml2::XMLElement* crnt = elem->FirstChildElement();
+		crnt != nullptr;
+		crnt = crnt->NextSiblingElement()
+	){
+		const char* attrName = crnt->Name();
+		Attribute crntAttr = AttributeSystem::getAttribute(attrName);
+		float val;
+
+		if (crntAttr != Attribute::end && getNumericAttr(crnt, "val", &val)) {
+			_result.insert_or_assign(crntAttr, val);
+		}
+		else {
+			log("parseObject: unknown attribute %s", attrName);
+			return false;
+		}
+	}
+
+	*result = _result;
+	return true;
 }
 
 bool parseObject(tinyxml2::XMLElement* elem, floorsegment_properties* result)

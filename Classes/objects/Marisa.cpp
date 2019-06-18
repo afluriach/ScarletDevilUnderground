@@ -20,12 +20,7 @@ MarisaNPC::MarisaNPC(GSpace* space, ObjectIDType id, const ValueMap& args) :
 	MapObjForwarding(Agent)
 {}
 
-const AttributeMap Marisa::baseAttributes = {
-	{Attribute::maxHP, 100.0f},
-	{Attribute::speed, 3.0f},
-	{Attribute::acceleration, 6.0f}
-};
-
+const string Marisa::baseAttributes = "marisa";
 const string Marisa::properName = "Marisa Kirisame";
 
 Marisa::Marisa(GSpace* space, ObjectIDType id, const ValueMap& args) :

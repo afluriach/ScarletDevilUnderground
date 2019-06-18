@@ -17,7 +17,7 @@ class GhostFairy :
 	public BaseAttributes<GhostFairy>
 {
 public:
-	static const AttributeMap baseAttributes;
+	static const string baseAttributes;
 	static const string properName;
 
 	GhostFairy(GSpace* space, ObjectIDType id, const ValueMap& args);
@@ -35,11 +35,11 @@ public:
 
 class Fairy1 :
 public Enemy,
-public AIPackage<Fairy1>,
-public AttributesPackage<Fairy1>
+public BaseAttributes<Fairy1>,
+public AIPackage<Fairy1>
 {
 public:
-	static const AttributeMap baseAttributes;
+	static const string baseAttributes;
 	static const AttributePackageMap attributePackages;
 	static const AIPackage<Fairy1>::AIPackageMap aiPackages;
 
@@ -64,7 +64,7 @@ class BlueFairy :
 {
 public:
 	static const AIPackage<BlueFairy>::AIPackageMap aiPackages;
-	static const AttributeMap baseAttributes;
+	static const string baseAttributes;
 	static const string properName;
 
 	BlueFairy(GSpace* space, ObjectIDType id, const ValueMap& args);
@@ -83,7 +83,7 @@ public:
 class RedFairy : public Enemy, public BaseAttributes<RedFairy>
 {
 public:
-	static const AttributeMap baseAttributes;
+	static const string baseAttributes;
 	static const string properName;
 
 	static const DamageInfo explosionEffect;
@@ -109,7 +109,7 @@ class GreenFairy1 :
 	public BaseAttributes<GreenFairy1>
 {
 public:
-	static const AttributeMap baseAttributes;
+	static const string baseAttributes;
 	static const string properName;
 
 	GreenFairy1(GSpace* space, ObjectIDType id, const ValueMap& args);
@@ -129,7 +129,7 @@ class GreenFairy2 :
 	public BaseAttributes<GreenFairy2>
 {
 public:
-	static const AttributeMap baseAttributes;
+	static const string baseAttributes;
 	static const string properName;
 
 	GreenFairy2(GSpace* space, ObjectIDType id, const ValueMap& args);
@@ -152,7 +152,7 @@ class ZombieFairy :
 	public RegisterInit<ZombieFairy>
 {
 public:
-	static const AttributeMap baseAttributes;
+	static const string baseAttributes;
 	static const string properName;
 
 	ZombieFairy(GSpace* space, ObjectIDType id, const ValueMap& args);
@@ -192,7 +192,7 @@ public:
 		flee,
 	};
 
-	static const AttributeMap baseAttributes;
+	static const string baseAttributes;
 	static const float lowHealthRatio;
 
 	Fairy2(GSpace* space, ObjectIDType id, const ValueMap& args);
@@ -226,7 +226,7 @@ class IceFairy :
 	public BaseAttributes<IceFairy>
 {
 public:
-	static const AttributeMap baseAttributes;
+	static const string baseAttributes;
 
 	IceFairy(GSpace* space, ObjectIDType id, const ValueMap& args);
 

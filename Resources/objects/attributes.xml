@@ -1,0 +1,187 @@
+<attributes>
+	<bat>
+		<maxHP val="50"/>
+		<agility val="2.0"/>
+		<touchDamage val="5.0"/>
+	</bat>
+	<blueFairy>
+		<shieldLevel val="1"/>
+		<maxHP val="90"/>
+		<maxMP val="75"/>
+		<maxStamina val="50"/>
+		<staminaRegen val="0.02"/>
+		<agility val="2.5"/>
+		<touchDamage val="5.0"/>
+		<stressFromHits val="1.5"/>
+		<stressFromBlocks val="1.0"/>
+		<bombSensitivity val="1.25"/>
+		<bulletSensitivity val="0.75"/>
+		<meleeSensitivity val="0.75"/>
+	</blueFairy>
+	<fairy1>
+		<maxHP val="30"/>
+		<speed val="3.0"/>
+		<acceleration val="4.5"/>
+	</fairy1>
+	<fairy2>
+		<maxHP val="30"/>
+		<agility val="2.0"/>
+	</fairy2>
+	<ff>
+		<speed val="1.0"/>
+		<acceleration val="4.5"/>
+	</ff>
+	<genericAgent>
+		<speed val="1.5"/>
+		<acceleration val="6.0"/>
+	</genericAgent>
+	<ghostFairy>
+		<maxHP val="75"/>
+		<agility val="2.5"/>
+		<bulletSensitivity val="1.25"/>
+	</ghostFairy>
+	<greenFairy1>
+		<maxHP val="60"/>
+		<agility val="3.0"/>
+		<touchDamage val="3.0"/>
+		<stressFromHits val="0.5"/>
+	</greenFairy1>
+	<greenFairy2>
+		<maxHP val="90"/>
+		<agility val="4.0"/>
+		<touchDamage val="6.0"/>
+		<stressFromDetects val="0.25"/>
+		<stressFromHits val="0.5"/>
+	</greenFairy2>
+	<iceFairy>
+		<maxHP val="15"/>
+		<speed val="4.5"/>
+		<acceleration val="4.5"/>
+		<iceSensitivity val="0.0"/>
+	</iceFairy>
+	<marisa>
+		<maxHP val="100"/>
+		<speed val="3.0"/>
+		<acceleration val="6.0"/>
+	</marisa>
+	<patchouliEnemy>
+		<maxHP val="300"/>
+		<maxMP val="5"/>
+		<speed val="2.0"/>
+		<acceleration val="4.0"/>
+	</patchouliEnemy>
+	<redFairy>
+		<maxHP val="120"/>
+		<maxMP val="80"/>
+		<agility val="1.5"/>
+		<touchDamage val="10.0"/>
+		<stressFromHits val="1.0"/>
+		<bombSensitivity val="0.5"/>
+		<bulletSensitivity val="0.75"/>
+		<meleeSensitivity val="1.25"/>
+	</redFairy>
+	<reimu>
+		<maxHP val="100"/>
+		<maxMP val="5"/>
+		<touchDamage val="10.0"/>
+		<speed val="2.0"/>
+		<acceleration val="4.0"/>
+	</reimu>
+	<rumia1>
+		<maxHP val="250"/>
+		<maxMP val="50"/>
+		<agility val="2.0"/>
+	</rumia1>
+	<rumia2>
+		<maxHP val="50"/>
+		<maxMP val="50"/>
+		<agility val="2.5"/>
+	</rumia2>
+	<sakuya>
+		<maxHP val="30"/>
+		<speed val="3.0"/>
+		<acceleration val="4.5"/>
+	</sakuya>
+	<scorpion1>
+		<maxHP val="25"/>
+		<speed val="2.0"/>
+		<acceleration val="6.0"/>
+	</scorpion1>
+	<scorpion2>
+		<maxHP val="50"/>
+		<speed val="3.0"/>
+		<acceleration val="9.0"/>
+	</scorpion2>
+	<slime1>
+		<maxHP val="15"/>
+		<speed val="3.3"/>
+		<acceleration val="3.0"/>
+	</slime1>
+	<slime2>
+		<maxHP val="50"/>
+		<speed val="2.4"/>
+		<acceleration val="3.0"/>
+	</slime2>
+	<stalker>
+		<maxHP val="12"/>
+		<maxStamina val="10"/>
+		<speed val="1.5"/>
+		<acceleration val="4.5"/>
+	</stalker>
+	<tewi>
+		<maxHP val="5.0"/>
+		<speed val="6.0"/>
+		<acceleration val="36.0"/>
+	</tewi>
+	<zombieFairy>
+		<maxHP val="120"/>
+		<speed val="2.0"/>
+		<acceleration val="10.0"/>
+		<darknessSensitivity val="1.25"/>
+	</zombieFairy>
+	
+	<fairyMaid>
+		<speed val="3.0"/>
+		<acceleration val="4.5"/>
+	</fairyMaid>
+	<sakuyaNPC>
+		<speed val="3.0"/>
+		<acceleration val="4.5"/>
+	</sakuyaNPC>
+
+	<cirnoPC>
+		<shieldLevel val="1"/>
+		<maxHP val="125"/>
+		<maxMP val="75"/>
+		<maxStamina val="125"/>
+		<staminaRegen val="0.05"/>
+		<agility val="1.0"/>
+		<hitProtectionInterval val="1.0"/>
+		<spellCooldownInterval val="1.0"/>
+		<iceSensitivity val="0.0"/>
+	</cirnoPC>
+	<flandrePC>
+		<shieldLevel val="1"/>
+		<maxHP val="100"/>
+		<maxMP val="100"/>
+		<maxStamina val="100"/>
+		<staminaRegen val="0.05"/>
+		<agility val="2.0"/>
+		<hitProtectionInterval val="1.0"/>
+		<spellCooldownInterval val="1.0"/>
+		<iceSensitivity val="2.0"/>
+		<sunSensitivity val="5.0"/>
+	</flandrePC>
+	<rumiaPC>
+		<maxHP val="75"/>
+		<maxMP val="125"/>
+		<maxStamina val="75"/>
+		<staminaRegen val="0.05"/>
+		<agility val="3.0"/>
+		<hitProtectionInterval val="1.0"/>
+		<spellCooldownInterval val="1.0"/>
+		<sunSensitivity val="0.0"/>
+		<darknessSensitivity val="0.0"/>
+	</rumiaPC>
+	
+</attributes>

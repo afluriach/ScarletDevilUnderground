@@ -14,7 +14,7 @@
 class Facer : public Enemy, public BaseAttributes<Facer>
 {
 public:
-	static const AttributeMap baseAttributes;
+	static const string baseAttributes;
 	static const string properName;
 
 	MapObjCons(Facer);

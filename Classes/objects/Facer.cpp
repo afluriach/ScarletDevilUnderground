@@ -12,11 +12,7 @@
 #include "Facer.hpp"
 #include "GSpace.hpp"
 
-const AttributeMap Facer::baseAttributes = {
-	{Attribute::speed, 1.0f },
-	{Attribute::acceleration, 4.5f}
-};
-
+const string Facer::baseAttributes = "ff";
 const string Facer::properName = "Facer";
 
 Facer::Facer(GSpace* space, ObjectIDType id, const ValueMap& args) :

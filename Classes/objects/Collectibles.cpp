@@ -8,6 +8,7 @@
 
 #include "Prefix.h"
 
+#include "Attributes.hpp"
 #include "Collectibles.hpp"
 #include "GSpace.hpp"
 #include "value_map.hpp"

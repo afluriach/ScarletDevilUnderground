@@ -29,7 +29,7 @@ public:
 class Marisa : public Enemy, public BaseAttributes<Marisa>
 {
 public:
-	static const AttributeMap baseAttributes;
+	static const string baseAttributes;
 	static const string properName;
 
 	MapObjCons(Marisa);

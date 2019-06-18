@@ -18,12 +18,7 @@ Slime1::Slime1(GSpace* space, ObjectIDType id, const ValueMap& args) :
 {
 }
 
-const AttributeMap Slime1::baseAttributes = {
-	{ Attribute::maxHP, 15.0f },
-	{ Attribute::speed, 3.3f },
-	{ Attribute::acceleration, 3.0f }
-};
-
+const string Slime1::baseAttributes = "slime1";
 const string Slime1::properName = "Slime I";
 
 void Slime1::initStateMachine()
@@ -53,12 +48,7 @@ Slime2::Slime2(GSpace* space, ObjectIDType id, const ValueMap& args) :
 {
 }
 
-const AttributeMap Slime2::baseAttributes = {
-	{ Attribute::maxHP, 50.0f },
-	{ Attribute::speed, 2.4f },
-	{ Attribute::acceleration, 3.0f }
-};
-
+const string Slime2::baseAttributes = "slime2";
 const string Slime2::properName = "Slime II";
 
 void Slime2::initStateMachine()

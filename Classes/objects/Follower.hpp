@@ -14,7 +14,7 @@
 class Follower : public Enemy, public BaseAttributes<Follower>
 {
 public:
-	static const AttributeMap baseAttributes;
+	static const string baseAttributes;
 
 	MapObjCons(Follower);
 
