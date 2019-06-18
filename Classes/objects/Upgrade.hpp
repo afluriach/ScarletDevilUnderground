@@ -26,7 +26,7 @@ public:
 	virtual inline SpaceFloat getRadius() const { return 0.75; }
 
 	virtual inline GraphicsLayer sceneLayer() const { return GraphicsLayer::floor; }
-	virtual string imageSpritePath() const;
+	virtual string getSprite() const;
 
 	//Which particular instance of this upgrade.
 	const unsigned int upgrade_id;

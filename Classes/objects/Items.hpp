@@ -16,7 +16,7 @@ class ForestBook1 : public InventoryObject
 public:
 	MapObjCons(ForestBook1);
 	
-	virtual inline string imageSpritePath() const { return "sprites/items/forest_book.png"; }
+	virtual inline string getSprite() const { return "forestBook"; }
 	virtual inline string itemName() const { return "ForestBook1"; }
 
 	inline virtual bool canAcquire() { return true; }
@@ -28,7 +28,7 @@ class GraveyardBook1 : public InventoryObject
 public:
 	MapObjCons(GraveyardBook1);
 
-	virtual inline string imageSpritePath() const { return "sprites/items/graveyard_book.png"; }
+	virtual inline string getSprite() const { return "graveyardBook"; }
 	virtual inline string itemName() const { return "GraveyardBook1"; }
 
 	inline virtual bool canAcquire() { return true; }
@@ -44,7 +44,7 @@ public:
 
 	virtual shared_ptr<LightArea> getLightSource() const;
 	virtual void initializeGraphics();
-	virtual inline string imageSpritePath() const { return "sprites/magic_card_empty.png"; }
+	virtual inline string getSprite() const { return "spellcard"; }
 	virtual inline string itemName() const { return name; }
 
 	inline virtual bool canAcquire() { return true; }

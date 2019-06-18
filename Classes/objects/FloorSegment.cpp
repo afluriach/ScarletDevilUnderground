@@ -113,14 +113,6 @@ void MovingPlatform::setWaypoint(size_t idx)
 	setVel(dir*getMaxSpeed());
 }
 
-float MovingPlatform::zoom() const {
-	SpaceVect dim = getDimensions();
-	if (dim.x != dim.y) {
-		log("MovingPlatform %s is not square!", name.c_str());
-	}
-	return dim.x;
-}
-
 IcePlatform::IcePlatform(GSpace* space, ObjectIDType id, const ValueMap& args) :
 GObject(space, id, args, true),
 MovingPlatform(space, id, args)

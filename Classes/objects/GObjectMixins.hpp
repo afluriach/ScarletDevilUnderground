@@ -166,9 +166,9 @@ public:
 	}
 
 	virtual void initializeGraphics();
-	virtual string imageSpritePath() const = 0;
+	virtual string getSprite() const = 0;
 
-	void loadImageSprite(const string& resPath, GraphicsLayer sceneLayer);
+	void loadImageSprite();
 };
 
 class LoopAnimationSprite : public virtual GObject
@@ -176,8 +176,7 @@ class LoopAnimationSprite : public virtual GObject
 public:
 	inline LoopAnimationSprite() {}
 
-    virtual string animationName() const = 0;
-    virtual int animationSize() const = 0;
+	virtual string getSprite() const = 0;
     virtual float animationDuration() const = 0;
     
     virtual void initializeGraphics();
@@ -194,18 +193,13 @@ public:
     PatchConSprite(const ValueMap& args);
 	PatchConSprite(Direction startingDirection = Direction::up);
 
-    virtual string imageSpritePath() const = 0;
+	virtual string getSprite() const = 0;
     
-    float zoom() const;
-	virtual inline int pixelWidth() const { return 32; }
-	virtual bool isAgentAnimation() const { return false; }
-
     void initializeGraphics();
     void init();
     void _update();
     
     void setSprite(const string& name);
-	void setSprite(const string& name, bool agentAnimation);
     
     virtual void setAngle(SpaceFloat a);
     virtual void setDirection(Direction d);

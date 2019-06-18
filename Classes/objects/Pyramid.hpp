@@ -15,6 +15,7 @@
 
 class Pyramid :
 virtual public GObject,
+public ImageSprite,
 public RadarObject,
 public RectangleBody
 {
@@ -32,7 +33,7 @@ public:
 	virtual void update();
 	void redrawLightCone();
 
-    virtual string imageSpritePath() const {return "sprites/pyramid_base.png";}
+    virtual string getSprite() const {return "pyramid";}
     virtual GraphicsLayer sceneLayer() const {return GraphicsLayer::ground;}
     
     virtual inline SpaceFloat getMass() const { return -1.0;}

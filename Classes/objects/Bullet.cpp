@@ -134,9 +134,6 @@ void BulletImpl::init()
 void BulletImpl::initializeGraphics()
 {
 	ImageSprite::initializeGraphics();
-	if (spriteID != 0 && props->spriteColor != Color3B::BLACK && props->spriteColor != Color3B::WHITE) {
-		space->graphicsNodeAction(&Node::setColor, spriteID, props->spriteColor);
-	}
 }
 
 BulletValueImpl::BulletValueImpl(bullet_properties props) :
@@ -157,9 +154,6 @@ void BulletValueImpl::init()
 void BulletValueImpl::initializeGraphics()
 {
 	ImageSprite::initializeGraphics();
-	if (spriteID != 0 && props.spriteColor != Color3B::BLACK && props.spriteColor != Color3B::WHITE) {
-		space->graphicsNodeAction(&Node::setColor, spriteID, props.spriteColor);
-	}
 }
 
 ShieldBullet::ShieldBullet(object_ref<Agent> agent, bool deflectBullets) :

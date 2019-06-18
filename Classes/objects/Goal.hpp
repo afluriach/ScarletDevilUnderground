@@ -27,7 +27,7 @@ public:
     
 	virtual void update();
 
-    virtual string imageSpritePath() const {return "sprites/goal.png";}
+    virtual string getSprite() const {return "goal";}
     virtual GraphicsLayer sceneLayer() const {return GraphicsLayer::ground;}
     
     virtual inline SpaceFloat getMass() const { return -1.0;}

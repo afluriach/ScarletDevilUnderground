@@ -22,7 +22,7 @@ public:
 
     inline SpaceFloat getMass() const {return 40.0;}
 
-    inline string imageSpritePath() const {return "sprites/reisen.png";}
+    inline string getSprite() const {return "follower";}
         
 	virtual void initStateMachine();    
 };

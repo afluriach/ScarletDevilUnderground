@@ -347,6 +347,15 @@ ActionGeneratorType damageIndicatorAction(const Vec2& start_pos)
 	};
 }
 
+float getSpriteZoom(const sprite_properties& sprite, SpaceFloat agentRadius)
+{
+	float zoom = 1.0f * app::pixelsPerTile / sprite.dpi;
+	if (sprite.referenceSize > 0)
+		zoom *= agentRadius / sprite.referenceSize;
+
+	return zoom;
+}
+
 Sprite* loadImageSprite(const string& resPath, GraphicsLayer sceneLayer, Layer* dest, const Vec2& pos, float zoom)
 {
     Sprite* node = Sprite::create(resPath);

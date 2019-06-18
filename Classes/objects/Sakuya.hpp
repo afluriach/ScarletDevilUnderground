@@ -26,7 +26,7 @@ public:
     virtual inline SpaceFloat getRadius() const {return 0.35;}
     inline SpaceFloat getMass() const {return 40.0;}
 
-    inline string imageSpritePath() const {return "sprites/sakuya.png";}
+    inline string getSprite() const {return "sakuya";}
 
 	virtual void initStateMachine();
 };

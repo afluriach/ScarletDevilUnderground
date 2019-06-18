@@ -117,10 +117,6 @@ string Door::getDoorDirectionString() const
 	return directionToString(getDoorDirection());
 }
 
-string Door::imageSpritePath() const {
-	return "sprites/door.png";
-}
-
 bool Door::canInteract(Player* p)
 {
 	return doorType != door_type::one_way_destination &&

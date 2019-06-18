@@ -23,7 +23,7 @@ public:
     
     void init();
     
-    virtual string imageSpritePath() const {return "sprites/glyph.png";}
+    virtual string getSprite() const {return "glyph";}
     virtual GraphicsLayer sceneLayer() const {return GraphicsLayer::ground;}
     
     virtual inline SpaceFloat getMass() const {return 40.0;}

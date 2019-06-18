@@ -20,7 +20,7 @@ public:
     inline SpaceFloat getMass() const {return -1.0;}
     virtual inline GType getType() const {return GType::npc;}
     
-    inline string imageSpritePath() const {return "sprites/patchouli.png";}
+    inline string getSprite() const {return "patchouli";}
     inline GraphicsLayer sceneLayer() const {return GraphicsLayer::ground;}
 
 	virtual bool isDialogAvailable() { return true; }
@@ -41,7 +41,7 @@ public:
 
 	inline SpaceFloat getMass() const { return 30.0; }
 
-	inline string imageSpritePath() const { return "sprites/patchouli.png"; }
+	inline string getSprite() const { return "patchouli"; }
 	inline GraphicsLayer sceneLayer() const { return GraphicsLayer::ground; }
 
 	virtual void initStateMachine();

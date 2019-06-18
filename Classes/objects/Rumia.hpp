@@ -23,9 +23,7 @@ public:
 	virtual inline SpaceFloat getDefaultFovAngle() const { return 0.0; }
     
 	virtual shared_ptr<LightArea> getLightSource() const;
-    virtual inline string imageSpritePath() const {return "sprites/rumia.png";}
-	virtual inline bool isAgentAnimation() const { return true; }
-	virtual inline int pixelWidth() const { return 128; }
+    virtual inline string getSprite() const {return "rumia";}
     virtual inline GraphicsLayer sceneLayer() const {return GraphicsLayer::ground;}
 };
 

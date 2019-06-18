@@ -52,9 +52,7 @@ class PlayerBomb : public Bomb, public ImageSprite
 public:
 	PlayerBomb(GSpace* space, ObjectIDType id, const SpaceVect& pos, const SpaceVect& vel);
 
-	virtual inline string imageSpritePath() const { return "sprites/scarlet_bomb.png"; }
-	static constexpr float spriteBaseRadius = 0.83f;
-	inline virtual float zoom() const { return getRadius() / spriteBaseRadius * 2; }
+	virtual inline string getSprite() const { return "redBomb"; }
 
 	inline virtual DamageInfo getDamageInfo() const {
 		return bomb_damage(20.0f);
@@ -71,9 +69,7 @@ class RedFairyBomb : public Bomb, public ImageSprite
 public:
 	RedFairyBomb(GSpace* space, ObjectIDType id, const SpaceVect& pos, const SpaceVect& vel);
 
-	virtual inline string imageSpritePath() const { return "sprites/scarlet_bomb.png"; }
-	static constexpr float spriteBaseRadius = 0.83f;
-	inline virtual float zoom() const { return getRadius() / spriteBaseRadius * 2; }
+	virtual inline string getSprite() const { return "redBomb"; }
 
 	inline virtual DamageInfo getDamageInfo() const {
 		return bomb_damage(20.0f);

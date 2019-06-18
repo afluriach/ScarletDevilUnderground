@@ -22,7 +22,7 @@ public:
     virtual inline SpaceFloat getRadarRadius() const {return 6.0;}
     virtual inline SpaceFloat getMass() const {return 40.0;}
 
-	virtual inline string imageSpritePath() const {return "sprites/dark_cirno.png";}
+	virtual inline string getSprite() const {return "stalker";}
 
 	virtual void initStateMachine();
 	virtual void teleport(SpaceVect pos);

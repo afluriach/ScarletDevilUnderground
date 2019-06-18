@@ -231,7 +231,6 @@ public:
         //The Z-order used by Cocos2D.
 	virtual GraphicsLayer sceneLayer() const;
 	int sceneLayerAsInt() const;
-	virtual float zoom() const;
     sprite_update updateSprite();
 
 	//Create Node which graphically reprensets this object and adds it to Layer

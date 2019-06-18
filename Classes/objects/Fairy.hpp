@@ -28,9 +28,7 @@ public:
 	virtual inline SpaceFloat getRadarRadius() const { return 3.0; }
 	virtual inline SpaceFloat getDefaultFovAngle() const { return 0.0; }
 
-	inline string imageSpritePath() const { return "sprites/ghost-fairy.png"; }
-	virtual bool isAgentAnimation() const { return true; }
-	virtual inline int pixelWidth() const { return 128; }
+	virtual inline string getSprite() const { return "ghostFairy"; }
 
 	virtual void initStateMachine();
 };
@@ -51,9 +49,7 @@ public:
 	virtual inline SpaceFloat getDefaultFovAngle() const { return 0.0; }
 	virtual inline SpaceFloat getMass() const { return 40.0; }
 
-	inline string imageSpritePath() const { return "sprites/fairy-green.png"; }
-	virtual bool isAgentAnimation() const { return true; }
-	virtual inline int pixelWidth() const { return 128; }
+	inline string getSprite() const { return "greenFairy"; }
 
 	void maintain_distance(const ValueMap& args);
 	void circle_and_fire(const ValueMap& args);
@@ -79,9 +75,7 @@ public:
 	virtual inline SpaceFloat getDefaultFovAngle() const { return float_pi * 0.5; }
 	virtual inline SpaceFloat getMass() const { return 25.0; }
 
-	inline string imageSpritePath() const { return "sprites/fairy-blue.png"; }
-	virtual bool isAgentAnimation() const { return true; }
-	virtual inline int pixelWidth() const { return 128; }
+	inline string getSprite() const { return "blueFairy"; }
 
 	void follow_path(const ValueMap& args);
 };
@@ -104,9 +98,7 @@ public:
 	virtual inline SpaceFloat getDefaultFovAngle() const { return 0.0; }
 	inline SpaceFloat getMass() const { return 25.0; }
 
-	inline string imageSpritePath() const { return "sprites/fairy-red.png"; }
-	virtual bool isAgentAnimation() const { return true; }
-	virtual inline int pixelWidth() const { return 128; }
+	inline string getSprite() const { return "redFairy"; }
 
 	virtual void initStateMachine();
 	virtual void onZeroHP();
@@ -127,9 +119,7 @@ public:
 
 	inline SpaceFloat getMass() const { return 15.0; }
 
-	inline string imageSpritePath() const { return "sprites/fairy-green.png"; }
-	virtual bool isAgentAnimation() const { return true; }
-	virtual inline int pixelWidth() const { return 128; }
+	inline string getSprite() const { return "greenFairy"; }
 
 	virtual void initStateMachine();
 };
@@ -149,9 +139,7 @@ public:
 
 	inline SpaceFloat getMass() const { return 25.0; }
 
-	inline string imageSpritePath() const { return "sprites/fairy2-green.png"; }
-	virtual bool isAgentAnimation() const { return true; }
-	virtual inline int pixelWidth() const { return 128; }
+	inline string getSprite() const { return "greenFairy2"; }
 
 	virtual void initStateMachine();
 	virtual void onRemove();
@@ -180,9 +168,7 @@ public:
 
 	inline SpaceFloat getMass() const { return 25.0; }
 
-	inline string imageSpritePath() const { return "sprites/zombie-fairy.png"; }
-	virtual bool isAgentAnimation() const { return true; }
-	virtual inline int pixelWidth() const { return 128; }
+	inline string getSprite() const { return "zombieFairy"; }
 
 	virtual void initStateMachine();
 };
@@ -216,9 +202,7 @@ public:
 
 	inline SpaceFloat getMass() const { return 40.0; }
 
-	inline string imageSpritePath() const { return "sprites/fairy2-red.png"; }
-	virtual bool isAgentAnimation() const { return true; }
-	virtual inline int pixelWidth() const { return 128; }
+	inline string getSprite() const { return "redFairy2"; }
 
 	virtual void initStateMachine();
 	void addFleeThread();
@@ -251,9 +235,7 @@ public:
 
 	inline SpaceFloat getMass() const { return 40.0; }
 
-	inline string imageSpritePath() const { return "sprites/fairy2-blue.png"; }
-	virtual bool isAgentAnimation() const { return true; }
-	virtual inline int pixelWidth() const { return 128; }
+	inline string getSprite() const { return "blueFairy2"; }
 
 	virtual void initStateMachine();
 };

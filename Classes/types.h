@@ -77,6 +77,14 @@ struct floorsegment_properties {
 	double traction = 1.0;
 };
 
+struct sprite_properties {
+	string filename;
+	IntVec2 size;
+	int dpi;
+	float referenceSize = 0.0f;
+	Color3B color = Color3B::BLACK;
+};
+
 namespace app {
 	extern app_params params;
 }

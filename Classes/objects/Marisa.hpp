@@ -20,7 +20,7 @@ public:
 	virtual inline GType getType() const { return GType::npc; }
 	virtual inline SpaceFloat getRadius() const { return 0.35; }
 	inline SpaceFloat getMass() const { return -1.0; }
-	inline string imageSpritePath() const { return "sprites/marisa.png"; }
+	inline string getSprite() const { return "marisa"; }
 
 	inline virtual bool isDialogAvailable() { return true; }
 	inline virtual string getDialog() { return "dialogs/marisa1"; }
@@ -40,7 +40,7 @@ public:
     virtual inline SpaceFloat getRadius() const {return 0.35;}
     inline SpaceFloat getMass() const {return 33.0;}
     
-    inline string imageSpritePath() const {return "sprites/marisa.png";}
+    inline string getSprite() const {return "marisa";}
 };
 
 class CollectMarisa : public Marisa {

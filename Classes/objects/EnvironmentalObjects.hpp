@@ -28,7 +28,7 @@ public:
     
 	void hit(float damage);
 
-	virtual string imageSpritePath() const;
+	virtual string getSprite() const;
     virtual inline GraphicsLayer sceneLayer() const {return GraphicsLayer::ground;}
     
     virtual inline GType getType() const {return GType::environment;}
@@ -57,7 +57,7 @@ class Sapling :
 public:
 	MapObjCons(Sapling);
 
-	virtual string imageSpritePath() const { return "sprites/sapling.png"; }
+	virtual string getSprite() const { return "sapling"; }
 	virtual GraphicsLayer sceneLayer() const { return GraphicsLayer::ground; }
 
 	virtual inline GType getType() const { return GType::environment; }
@@ -76,7 +76,7 @@ public:
 
 	MapObjCons(Mushroom);
 
-	virtual string imageSpritePath() const { return "sprites/mushroom.png"; }
+	virtual string getSprite() const { return "mushroom"; }
 	virtual GraphicsLayer sceneLayer() const { return GraphicsLayer::ground; }
 
 	virtual inline GType getType() const { return GType::environment; }

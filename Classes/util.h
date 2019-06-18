@@ -21,6 +21,7 @@ SpaceVect toChipmunkWithCentering(const IntVec2& ivec);
 Vec3 toVec3(const SpaceVect& rhs, float y = 0.0f);
 IntVec2 toIntVector(const cocos2d::CCSize& rhs);
 IntVec2 toIntVector(const SpaceVect& rhs);
+IntVec2 toIntVector(const string& s);
 CCSize toCCSize(const SpaceVect& rhs);
 
 CCRect operator*(const CCRect& lhs, float rhs);

@@ -21,7 +21,7 @@ public:
     virtual inline SpaceFloat getMass() const { return -1.0; }
     virtual inline GType getType() const { return GType::npc; }
     
-    virtual inline string imageSpritePath() const { return "sprites/meiling.png"; }
+    virtual inline string getSprite() const { return "meiling"; }
     virtual inline GraphicsLayer sceneLayer() const { return GraphicsLayer::ground; }
 
 	virtual inline bool isDialogAvailable() { return true; }

@@ -20,14 +20,14 @@ const float AttributeSystem::maxComboPoints = 75.0f;
 const float AttributeSystem::comboPointsDrainPerSecond = 15.0f;
 
 const unordered_map<Attribute, UpgradeInfo> AttributeSystem::upgradeAttributes = {
-	{Attribute::maxHP, UpgradeInfo{ 25.0f, "sprites/hp_upgrade.png"}},
-	{Attribute::maxMP, UpgradeInfo{ 25.0f, "sprites/mp_upgrade.png"}},
-	{Attribute::maxStamina, UpgradeInfo{ 25.0f, "sprites/stamina_upgrade.png"}},
-	{Attribute::agility, UpgradeInfo{ 1.0f, "sprites/agility_upgrade.png"}},
-	{Attribute::attack, UpgradeInfo{ 0.25f, "sprites/attack_upgrade.png"}},
-	{Attribute::attackSpeed, UpgradeInfo{ 0.25f, "sprites/attack_speed_upgrade.png"}},
-	{Attribute::shieldLevel, UpgradeInfo{ 1.0f, "sprites/shield_upgrade.png"}},
-	{Attribute::bulletSpeed, UpgradeInfo{ 0.5f, "sprites/bullet_speed_upgrade.png"}},
+	{Attribute::maxHP, UpgradeInfo{ 25.0f, "hp_upgrade"}},
+	{Attribute::maxMP, UpgradeInfo{ 25.0f, "mp_upgrade"}},
+	{Attribute::maxStamina, UpgradeInfo{ 25.0f, "stamina_upgrade"}},
+	{Attribute::agility, UpgradeInfo{ 1.0f, "agility_upgrade"}},
+	{Attribute::attack, UpgradeInfo{ 0.25f, "attack_upgrade"}},
+	{Attribute::attackSpeed, UpgradeInfo{ 0.25f, "attack_speed_upgrade"}},
+	{Attribute::shieldLevel, UpgradeInfo{ 1.0f, "shield_upgrade"}},
+	{Attribute::bulletSpeed, UpgradeInfo{ 0.5f, "bullet_speed_upgrade"}},
 };
 
 #define entry(x) (Attribute::x, #x)

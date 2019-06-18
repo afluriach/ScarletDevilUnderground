@@ -60,10 +60,10 @@ Collectible::Collectible(GSpace* space, ObjectIDType id, SpaceVect pos, collecti
 {
 }
 
-string Collectible::imageSpritePath() const
+string Collectible::getSprite() const
 {
 	auto it = propertiesMap.find(collectibleID);
-	return "sprites/" + it->second.sprite + ".png";
+	return it->second.sprite;
 }
 
 AttributeMap Collectible::getEffect() const

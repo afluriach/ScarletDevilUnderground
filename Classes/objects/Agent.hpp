@@ -145,7 +145,6 @@ public:
 
 	//graphics interface
 	virtual void initializeGraphics();
-	inline string imageSpritePath() const = 0;
 	inline GraphicsLayer sceneLayer() const { return GraphicsLayer::ground; }
 
 	//AI interface
@@ -254,12 +253,10 @@ public:
 	inline SpaceFloat getMass() const { return 20.0; }
     virtual inline GType getType() const {return GType::npc;}
         
-    inline string imageSpritePath() const {return "sprites/"+spriteName+".png";}
+    inline string getSprite() const {return "genericAgent";}
     //inline GraphicsLayer sceneLayer() const {return GraphicsLayer::ground;}
 
 	virtual void initStateMachine();
-protected:
-    string spriteName;
 };
 
 #endif /* Agent_hpp */

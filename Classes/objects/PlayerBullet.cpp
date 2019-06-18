@@ -24,8 +24,7 @@ const bullet_properties PlayerBulletImpl::flandreBigOrb1 = {
 	4.5,
 	0.6,
 	bullet_damage(3.0f),
-	0.83,
-	"sprites/flandre_bullet.png",
+	"flandreOrb",
 };
 
 const bullet_properties PlayerBulletImpl::catadioptricBullet1 = {
@@ -33,8 +32,7 @@ const bullet_properties PlayerBulletImpl::catadioptricBullet1 = {
 	6.0,
 	0.5,
 	bullet_damage(3.0f),
-	0.83,
-	"sprites/catadioptric_bullet1.png"
+	"catadioptricBullet1"
 };
 
 const bullet_properties PlayerBulletImpl::catadioptricBullet2 = {
@@ -42,9 +40,7 @@ const bullet_properties PlayerBulletImpl::catadioptricBullet2 = {
 	4.5,
 	0.25,
 	bullet_damage(1.5f),
-	0.83,
-	"sprites/catadioptric_bullet2.png",
-	Color3B::WHITE,
+	"catadioptricBullet2",
 	1,
 	1,
 };
@@ -54,9 +50,7 @@ const bullet_properties PlayerBulletImpl::catadioptricBullet3 = {
 	6.0,
 	0.125,
 	bullet_damage(0.5f),
-	0.25,
-	"sprites/catadioptric_bullet3.png",
-	Color3B::WHITE,
+	"catadioptricBullet3",
 	1,
 	2,
 };
@@ -66,8 +60,7 @@ const bullet_properties PlayerBulletImpl::rumiaFastOrb1 = {
 	9.0,
 	0.15,
 	bullet_damage(1.0f),
-	0.83,
-	"sprites/rumia_bullet.png",
+	"rumiaOrb",
 };
 
 const bullet_properties PlayerBulletImpl::cirnoSmallIceBullet = {
@@ -75,9 +68,7 @@ const bullet_properties PlayerBulletImpl::cirnoSmallIceBullet = {
 	9.0,
 	0.3,
 	DamageInfo{ 3.0f, Attribute::iceDamage, DamageType::bullet},
-	0.83,
-	"sprites/cirno_large_ice_bullet.png",
-	Color3B::WHITE,
+	"cirnoIceBullet",
 	3
 };
 
@@ -86,8 +77,7 @@ const bullet_properties PlayerBulletImpl::cirnoLargeIceBullet = {
 	9.0,
 	0.6,
 	DamageInfo{ 5.0f, Attribute::iceDamage, DamageType::bullet },
-	0.83,
-	"sprites/cirno_large_ice_bullet.png",
+	"cirnoIceBullet",
 };
 
 PlayerBulletImpl::PlayerBulletImpl(GSpace* space, ObjectIDType id, const SpaceVect& pos, SpaceFloat angle, object_ref<Agent> agent, const bullet_properties* props) :
@@ -112,7 +102,7 @@ shared_ptr<LightArea> StarbowBreakBullet::getLightSource() const {
 	return CircleLightArea::create(
 		getPos(),
 		props.radius * 4.0f,
-		toColor4F(props.spriteColor),
+		toColor4F(app::getSprite(getSprite()).color),
 		0.25
 	);
 }
@@ -138,8 +128,7 @@ const bullet_properties ScarletDagger::props = {
 	//unused, since it is not a CircleBody
 	0.5,
 	bullet_damage(5.0f),
-	0.5,
-	"sprites/scarlet_dagger.png",
+	"scarletDagger",
 };
 
 ScarletDagger::ScarletDagger(GSpace* space, ObjectIDType id, const SpaceVect& pos, SpaceFloat angle, object_ref<Agent> agent) :
@@ -157,8 +146,7 @@ const bullet_properties FlandreFastOrb1::props = {
 	9.0,
 	0.15,
 	bullet_damage(1.0f),
-	0.83,
-	"sprites/flandre_bullet.png",
+	"flandreOrb",
 };
 
 cons(FlandreFastOrb1)
@@ -172,9 +160,7 @@ const bullet_properties FlanPolarBullet::props = {
 	0.0,
 	0.15,
 	bullet_damage(2.0f),
-	0.83,
-	"sprites/flandre_bullet.png",
-	Color3B::WHITE,
+	"flandreOrb",
 	-1,
 	0,
 	false
@@ -219,8 +205,7 @@ const bullet_properties FlandrePolarMotionOrb::props = {
 	9.0,
 	0.15,
 	bullet_damage(1.0f),
-	0.83,
-	"sprites/flandre_bullet.png",
+	"flandreOrb",
 };
 
 FlandrePolarMotionOrb::FlandrePolarMotionOrb(GSpace* space, ObjectIDType id, const SpaceVect& pos, SpaceFloat angle, object_ref<Agent> agent) :

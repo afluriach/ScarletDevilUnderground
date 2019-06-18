@@ -20,7 +20,7 @@ Upgrade::Upgrade(GSpace* space, ObjectIDType id, const ValueMap& args, Attribute
 	setInitialAngle(float_pi / 2.0);
 }
 
-string Upgrade::imageSpritePath() const
+string Upgrade::getSprite() const
 {
 	return AttributeSystem::upgradeAttributes.at(attribute).sprite;
 }

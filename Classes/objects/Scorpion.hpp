@@ -28,9 +28,7 @@ public:
 
 	inline SpaceFloat getMass() const { return 10.0; }
 
-	inline string imageSpritePath() const { return "sprites/scorpion.png"; }
-	virtual bool isAgentAnimation() const { return true; }
-	virtual inline int pixelWidth() const { return 128; }
+	inline string getSprite() const { return "scorpion"; }
 
 	virtual void initStateMachine();
 };
@@ -52,9 +50,7 @@ public:
 
 	inline SpaceFloat getMass() const { return 10.0; }
 
-	inline string imageSpritePath() const { return "sprites/scorpion2.png"; }
-	virtual bool isAgentAnimation() const { return true; }
-	virtual inline int pixelWidth() const { return 128; }
+	inline string getSprite() const { return "scorpion2"; }
 
 	virtual void initStateMachine();
 };

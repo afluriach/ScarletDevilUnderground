@@ -26,7 +26,7 @@ public:
 	virtual inline SpaceFloat getRadius() const { return 0.5; }
 
 	virtual inline GraphicsLayer sceneLayer() const { return GraphicsLayer::floor; }
-	virtual inline string imageSpritePath() const { return "sprites/map.png"; }
+	virtual inline string getSprite() const { return "mapFragment"; }
 
 	void onAcquire();
 

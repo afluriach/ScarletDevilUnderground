@@ -58,7 +58,7 @@ public:
     static constexpr SpaceFloat midstepSize = 0.2;
     
 	void setSpriteShader(const string& shader);
-    void loadAnimation(const string& path, bool agentAnimation);    
+    void loadAnimation(const string& _sprite);    
 
 	void setFrame(int animFrame);
     void setDirection(Direction dir);

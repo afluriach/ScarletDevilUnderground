@@ -21,9 +21,8 @@ class Sign :
 public:
 	MapObjCons(Sign);
 
-	inline virtual string imageSpritePath() const { return "sprites/sign.png"; }
+	inline virtual string getSprite() const { return "sign"; }
     virtual inline GraphicsLayer sceneLayer() const {return GraphicsLayer::ground;}
-	virtual inline float zoom() const { return 0.5f; }
 
     virtual inline SpaceFloat getMass() const { return -1.0;}
     virtual inline GType getType() const {return GType::environment;}

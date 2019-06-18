@@ -57,7 +57,7 @@ void PlayerBatMode::init()
 
 	if (p) {
 		p->setFiringSuppressed(true);
-		p->setSprite("flandre_bat", false);
+		p->setSprite("flandre_bat");
 		p->space->addGraphicsAction(&graphics_context::setSpriteZoom, p->spriteID, 4.0f);
 		p->applyAttributeModifier(Attribute::agility, 1.5f);
 		p->setLayers(PhysicsLayers::ground);
@@ -73,7 +73,7 @@ void PlayerBatMode::end()
 
 	if (p) {
 		p->setFiringSuppressed(false);
-		p->setSprite("flandre", true);
+		p->setSprite("flandre");
 		p->space->addGraphicsAction(&graphics_context::setSpriteZoom, p->spriteID, 1.0f);
 		p->applyAttributeModifier(Attribute::agility, -1.5f);
 		p->setLayers(enum_bitwise_or(PhysicsLayers, floor, ground));

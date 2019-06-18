@@ -24,7 +24,7 @@ public:
     virtual inline SpaceFloat getMass() const {return 10.0;}
 	virtual inline PhysicsLayers getLayers() const { return PhysicsLayers::ground; }
 
-    inline string imageSpritePath() const {return "sprites/bat.png";}
+    virtual inline string getSprite() const { return "bat";}
  
 	virtual void initStateMachine();
 };

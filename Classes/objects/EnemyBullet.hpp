@@ -59,10 +59,7 @@ public:
 
 	virtual inline SpaceFloat getRadius() const { return 0.3; }
 
-    virtual inline string imageSpritePath() const {return "sprites/water_bullet.png";}
-    
-    static constexpr float spriteBaseRadius = 0.125f;
-    inline virtual float zoom() const {return getRadius()/spriteBaseRadius*2;}
+    virtual inline string getSprite() const {return "waterBullet";}    
 };
 
 class FireBullet : virtual public GObject, public EnemyBullet, public CircleBody, public LoopAnimationSprite, public DirectionalLaunch, public MaxSpeedImpl
@@ -72,12 +69,8 @@ public:
 
 	virtual inline SpaceFloat getRadius() const { return 0.3; }
 
-    virtual string animationName() const {return "patchouli_fire";}
-    virtual int animationSize() const {return 5;}
-    virtual float animationDuration() const {return 0.3f;}
-    
-    static constexpr float spriteBaseRadius = 0.83f;
-    inline virtual float zoom() const {return getRadius()/spriteBaseRadius*2;}
+    virtual string getSprite() const {return "fireBullet";}
+    virtual float animationDuration() const {return 0.3f;}    
 };
 
 class StarBullet : virtual public GObject, public EnemyBullet, public CircleBody, public ImageSprite, public MaxSpeedImpl, public DirectionalLaunch
@@ -94,10 +87,7 @@ public:
 	virtual inline SpaceFloat getKnockbackForce() const { return 150.0; }
 	virtual inline SpaceFloat getRadius() const { return 0.3; }
 
-    virtual inline string imageSpritePath() const {return "sprites/star-"+color+".png";}
-    
-    static constexpr float spriteBaseRadius = 0.125f;
-    inline virtual float zoom() const {return getRadius()/spriteBaseRadius*2;}
+    virtual inline string getSprite() const {return "star-"+color;}
 };
 
 class IllusionDialDagger :
@@ -112,11 +102,9 @@ public:
 
 	virtual inline SpaceFloat getMaxSpeed() const { return 3.0; }
     
-    virtual inline string imageSpritePath() const {return "sprites/knife green.png";}
+    virtual inline string getSprite() const {return "illusionDagger";}
 
 	virtual void initializeGraphics();
-    
-    inline virtual float zoom() const {return 1.0f;}
     
     SpaceFloat targetViewAngle();
     void launch();

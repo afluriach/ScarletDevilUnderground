@@ -24,9 +24,7 @@ struct bullet_properties
 
 	DamageInfo damage;
 
-	SpaceFloat spriteBaseRadius;
 	string sprite;
-	Color3B spriteColor;
 
 	char hitCount = 1;
 	char ricochetCount = 0;
@@ -96,8 +94,7 @@ public:
 	virtual inline SpaceFloat getRadius() const { return props->radius; }
 
 	virtual void initializeGraphics();
-	virtual inline string imageSpritePath() const { return props->sprite; }
-	virtual inline float zoom() const { return props->radius / props->spriteBaseRadius * 2.0f; }
+	virtual inline string getSprite() const { return props->sprite; }
 
 	virtual inline DamageInfo getDamageInfo() const { return props->damage; }
 
@@ -121,8 +118,7 @@ public:
 	virtual inline SpaceFloat getRadius() const { return props.radius; }
 
 	virtual void initializeGraphics();
-	virtual inline string imageSpritePath() const { return props.sprite; }
-	virtual inline float zoom() const { return props.radius / props.spriteBaseRadius * 2.0f; }
+	virtual inline string getSprite() const { return props.sprite; }
 
 	virtual inline DamageInfo getDamageInfo() const { return props.damage; }
 

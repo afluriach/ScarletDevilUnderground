@@ -23,7 +23,7 @@ public:
 
     inline SpaceFloat getMass() const {return 40.0;}
 
-    inline string imageSpritePath() const {return "sprites/tewi.png";}
+    inline string getSprite() const {return "facer";}
  
 	virtual void initStateMachine();
 };

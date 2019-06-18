@@ -124,17 +124,26 @@ void TimedLoopAnimation::update()
     sprite->setSpriteFrame(sequence.frames.at(crntFrame));
 }
 
-void PatchConAnimation::loadAnimation(const string& path, bool agentAnimation)
+void PatchConAnimation::loadAnimation(const string& _sprite)
 {
+	sprite_properties _props = app::getSprite(_sprite);
+	string path = "sprites/" + _props.filename + ".png";
+	bool agentAnimation = _props.size == make_pair(3, 4);
+
 	if(sprite)
         sprite->removeFromParent();
 
 	if (agentAnimation) {
 		walkAnimations = AnimationSpriteSequence::loadAgentAnimation(path);
 	}
-	else {
+	else if(_props.size == make_pair(4,4)){
 		walkAnimations = AnimationSpriteSequence::loadPatchconSpriteSheet(path);
 	}
+	else {
+		log("Invalid agent sprite %s.", _sprite);
+		return;
+	}
+
 	useFlipX = !agentAnimation;
 
 	sprite = Sprite::create();

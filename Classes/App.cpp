@@ -327,6 +327,7 @@ void App::loadObjects()
 {
 	app::loadFloors();
 	app::loadLights();
+	app::loadSprites();
 }
 
 void App::runTitleScene()

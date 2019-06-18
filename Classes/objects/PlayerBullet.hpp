@@ -79,7 +79,7 @@ public:
 
 	virtual inline DamageInfo getDamageInfo() const { return props.damage; }
 
-	virtual inline string imageSpritePath() const { return props.sprite; }
+	virtual inline string getSprite() const { return "scarletDagger"; }
 	virtual inline float zoom() const { return 1.0f; }
 	virtual shared_ptr<LightArea> getLightSource() const;
 };
@@ -158,7 +158,7 @@ public:
 		object_ref<Agent> agent
 	);
 
-	virtual inline string imageSpritePath() const { return "sprites/lavaeteinn.png"; }
+	virtual inline string getSprite() const { return "lavaeteinn"; }
 
 	virtual DamageInfo getDamageInfo() const;
 	inline virtual SpaceFloat getKnockbackForce() const { return 30.0; }
@@ -177,8 +177,7 @@ class FlandreCounterClockBullet :
 public:
 	cons(FlandreCounterClockBullet);
 
-	virtual inline string imageSpritePath() const { return "sprites/counter_clock_bullet.png"; }
-	virtual inline float zoom() const { return 0.25f; }
+	virtual inline string getSprite() const { return "flandreCounterClock"; }
 
 	virtual DamageInfo getDamageInfo() const;
 	virtual inline SpaceFloat getKnockbackForce() const { return 50.0; }
@@ -199,10 +198,7 @@ public:
 	virtual inline SpaceFloat getMaxSpeed() const { return 9.0; }
 	virtual inline SpaceFloat getRadius() const { return 0.3; }
 
-	virtual inline string imageSpritePath() const { return "sprites/cirno_large_ice_bullet.png"; }
-
-	static constexpr float spriteBaseRadius = 0.83f;
-	inline virtual float zoom() const { return getRadius() / spriteBaseRadius * 2; }
+	virtual inline string getSprite() const { return "cirnoIceBullet"; }
 
 	virtual DamageInfo getDamageInfo() const;
 

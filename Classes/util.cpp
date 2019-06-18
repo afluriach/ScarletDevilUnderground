@@ -110,6 +110,16 @@ IntVec2 toIntVector(const SpaceVect& rhs)
 	return IntVec2(rhs.x, rhs.y);
 }
 
+IntVec2 toIntVector(const string& s)
+{
+	vector<string> tokens = splitString(s, ",");
+
+	return IntVec2(
+		boost::lexical_cast<int>(tokens[0]),
+		boost::lexical_cast<int>(tokens[1])
+	);
+}
+
 CCSize toCCSize(const SpaceVect& rhs)
 {
 	return CCSize(rhs.x, rhs.y);

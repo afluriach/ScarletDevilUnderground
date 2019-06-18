@@ -32,9 +32,8 @@ public:
 
 	void init();
 	
-	virtual string imageSpritePath() const;
+	virtual inline string getSprite() const { return "door"; }
     virtual inline GraphicsLayer sceneLayer() const {return GraphicsLayer::ground;}
-	virtual inline float zoom() const { return 0.5f; }
 
     virtual inline SpaceFloat getMass() const { return -1.0;}
     virtual inline GType getType() const {return GType::environment;}
@@ -87,9 +86,8 @@ class Barrier :
 public:
 	MapObjCons(Barrier);
 
-	virtual inline string imageSpritePath() const { return "sprites/barrier.png"; }
+	virtual inline string getSprite() const { return "barrier"; }
 	virtual inline GraphicsLayer sceneLayer() const { return GraphicsLayer::ground; }
-	virtual inline float zoom() const { return 0.5f; }
 
 	virtual inline SpaceFloat getMass() const { return -1.0; }
 	virtual inline GType getType() const { return GType::environment; }

@@ -28,8 +28,7 @@ const bullet_properties EnemyBulletImpl::fairy1Bullet = {
 	6.0,
 	0.3,
 	bullet_damage(5.0f),
-	0.83,
-	"sprites/ice_fairy_bullet.png",
+	"fairy1Bullet",
 };
 
 const bullet_properties EnemyBulletImpl::greenFairyBullet = {
@@ -37,8 +36,7 @@ const bullet_properties EnemyBulletImpl::greenFairyBullet = {
 	6.0,
 	0.15,
 	bullet_damage(3.0f),
-	0.83,
-	"sprites/green_fairy_bullet.png",
+	"greenFairyBullet",
 };
 
 const bullet_properties EnemyBulletImpl::blueFairyBullet = {
@@ -46,8 +44,7 @@ const bullet_properties EnemyBulletImpl::blueFairyBullet = {
 	4.0,
 	0.25,
 	bullet_damage(5.0f),
-	0.83,
-	"sprites/blue_fairy_bullet.png",
+	"blueFairyBullet",
 };
 
 const bullet_properties EnemyBulletImpl::iceFairyBullet = {
@@ -55,8 +52,7 @@ const bullet_properties EnemyBulletImpl::iceFairyBullet = {
 	6.0,
 	0.3,
 	DamageInfo{25.0f, Attribute::iceDamage, DamageType::bullet},
-	0.83,
-	"sprites/ice_fairy_bullet.png",
+	"iceFairyBullet",
 };
 
 const bullet_properties EnemyBulletImpl::launcherBullet = {
@@ -64,8 +60,7 @@ const bullet_properties EnemyBulletImpl::launcherBullet = {
 	10.0,
 	0.3,
 	bullet_damage(1.0f),
-	0.83,
-	"sprites/launcher_bullet.png",
+	"launcherBullet",
 };
 
 const bullet_properties EnemyBulletImpl::rumiaBullet = {
@@ -73,8 +68,7 @@ const bullet_properties EnemyBulletImpl::rumiaBullet = {
 	4.5,
 	0.15,
 	bullet_damage(5.0f),
-	0.83,
-	"sprites/rumia_bullet.png",
+	"rumiaBullet",
 };
 
 const bullet_properties EnemyBulletImpl::rumiaBullet2 = {
@@ -82,8 +76,7 @@ const bullet_properties EnemyBulletImpl::rumiaBullet2 = {
 	5.1,
 	0.25,
 	bullet_damage(7.5f),
-	0.83,
-	"sprites/rumia_bullet2.png",
+	"rumiaBullet2",
 };
 
 const bullet_properties EnemyBulletImpl::rumiaDemarcationBullet = {
@@ -91,8 +84,7 @@ const bullet_properties EnemyBulletImpl::rumiaDemarcationBullet = {
 	4.5,
 	0.1,
 	bullet_damage(5.0f),
-	0.83,
-	"sprites/rumia_demarcation_bullet.png",
+	"rumiaDemarcationBullet",
 };
 
 const bullet_properties EnemyBulletImpl::rumiaPinwheelBullet = {
@@ -100,9 +92,7 @@ const bullet_properties EnemyBulletImpl::rumiaPinwheelBullet = {
 	4.5,
 	0.1,
 	bullet_damage(2.0f),
-	0.83,
-	"sprites/rumia_bullet.png",
-	Color3B::WHITE,
+	"rumiaPinwheelBullet",
 	1,
 	0,
 	false
@@ -220,8 +210,7 @@ const bullet_properties ReimuBullet1::props = {
 	4.5,
 	0.2,
 	bullet_damage(3.0f),
-	0.5,
-	"sprites/yin-yang-orb.png",
+	"yinYangOrb",
 };
 
 const SpaceFloat ReimuBullet1::omega = float_pi * 2.0;
@@ -252,9 +241,7 @@ const bullet_properties YinYangOrb::props = {
 	4.5,
 	0.5,
 	bullet_damage(10.0f),
-	0.5,
-	"sprites/yin-yang-orb.png",
-	Color3B::BLACK,
+	"yinYangOrb",
 	-1,
 	-1,
 };
@@ -277,9 +264,7 @@ const bullet_properties RumiaDemarcation2Bullet::props = {
 	6.0,
 	0.2,
 	bullet_damage(7.5f),
-	0.83,
-	"sprites/rumia_demarcation_bullet.png",
-	Color3B::BLACK,
+	"rumiaDemarcationBullet",
 	-1,
 	0,
 	false
@@ -313,9 +298,7 @@ const bullet_properties RumiaDarknessBullet::props = {
 	6.0,
 	0.2,
 	DamageInfo{15.0f,Attribute::darknessDamage,DamageType::bullet},
-	0.83,
 	"",
-	Color3B::BLACK,
 	-1,
 	0,
 	true

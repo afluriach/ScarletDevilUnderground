@@ -21,7 +21,7 @@ class Block :
 public:
 	MapObjCons(Block);
     
-    virtual string imageSpritePath() const {return "sprites/block.png";}
+    virtual string getSprite() const {return "block";}
     virtual GraphicsLayer sceneLayer() const {return GraphicsLayer::ground;}
     
     virtual inline SpaceFloat uk() const {return 0.5;}

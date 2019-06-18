@@ -47,6 +47,7 @@ ActionGeneratorType freezeEffectEndAction();
 ActionGeneratorType objectFadeOut(float duration, unsigned char targetOpacity);
 ActionGeneratorType damageIndicatorAction(const Vec2& start_pos);
 
+float getSpriteZoom(const sprite_properties& sprite, SpaceFloat agentRadius);
 Sprite* loadImageSprite(const string& resPath, GraphicsLayer sceneLayer, Layer* dest, const Vec2& pos, float zoom);
 
 Label* createTextLabel(const string& text, int size);

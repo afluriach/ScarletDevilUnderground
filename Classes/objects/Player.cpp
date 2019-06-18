@@ -675,7 +675,11 @@ void Player::applyRespawn()
 	setAngle(respawnAngle);
 
 	space->addGraphicsAction(&graphics_context::stopAllSpriteActions, spriteID);
-	space->addGraphicsAction(&graphics_context::setSpriteZoom, spriteID, zoom());
+	space->addGraphicsAction(
+		&graphics_context::setSpriteZoom,
+		spriteID,
+		getSpriteZoom(app::getSprite(getSprite()), getRadius())
+	);
 
 	isRespawnActive = false;
 	suppressFiring = false;

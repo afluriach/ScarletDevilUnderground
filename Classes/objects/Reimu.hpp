@@ -20,7 +20,7 @@ public:
     virtual inline SpaceFloat getMass() const {return -1.0;}
     virtual inline GType getType() const {return GType::npc;}
     
-    virtual inline string imageSpritePath() const {return "sprites/reimu.png";}
+    virtual inline string getSprite() const {return "reimu";}
     virtual inline GraphicsLayer sceneLayer() const {return GraphicsLayer::ground;}
     
     inline virtual bool isDialogAvailable(){ return true;}
@@ -54,7 +54,7 @@ public:
 	virtual inline SpaceFloat getMass() const { return 40.0; }
 	virtual inline GType getType() const { return GType::enemy; }
 
-	virtual inline string imageSpritePath() const { return "sprites/reimu.png"; }
+	virtual inline string getSprite() const { return "reimu"; }
 	virtual inline GraphicsLayer sceneLayer() const { return GraphicsLayer::ground; }
 
 	virtual void initStateMachine();

@@ -85,14 +85,10 @@ void Pyramid::onEndDetect(GObject* other)
 
 void Pyramid::initializeGraphics()
 {
+	ImageSprite::initializeGraphics();
+
 	SpaceFloat a = getAngle();
-	spriteID = space->createSprite(
-		&graphics_context::createSprite,
-		imageSpritePath(),
-		GraphicsLayer::ground,
-		getInitialCenterPix(),
-		1.0f
-	);
+
 	lightID = space->addLightSource(ConeLightArea::create(
 		getPos(),
 		coneLength,

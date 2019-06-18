@@ -163,9 +163,7 @@ public:
 	MapObjCons(FlandrePC);
 	FlandrePC(GSpace* space, ObjectIDType id, const SpaceVect& pos, Direction d);
 
-	virtual inline string imageSpritePath() const { return "sprites/flandre.png"; }
-	virtual bool isAgentAnimation() const { return true; }
-	virtual inline int pixelWidth() const { return 128; }
+	virtual inline string getSprite() const { return "flandre"; }
 
 	virtual shared_ptr<LightArea> getLightSource() const;
 };
@@ -177,9 +175,7 @@ public:
 
 	MapObjCons(RumiaPC);
 
-	virtual inline string imageSpritePath() const { return "sprites/rumia.png"; }
-	virtual bool isAgentAnimation() const { return true; }
-	virtual inline int pixelWidth() const { return 128; }
+	virtual inline string getSprite() const { return "rumia"; }
 
 	virtual shared_ptr<LightArea> getLightSource() const;
 };
@@ -191,7 +187,7 @@ public:
 
 	MapObjCons(CirnoPC);
 	
-	virtual inline string imageSpritePath() const { return "sprites/cirno.png"; }
+	virtual inline string getSprite() const { return "cirno"; }
 	virtual shared_ptr<LightArea> getLightSource() const;
 };
 

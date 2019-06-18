@@ -21,7 +21,7 @@ class Desk :
 public:
 	MapObjCons(Desk);
     
-    virtual string imageSpritePath() const {return "sprites/desk.png";}
+    virtual string getSprite() const {return "desk";}
     virtual GraphicsLayer sceneLayer() const {return GraphicsLayer::ground;}
     
     virtual inline GType getType() const {return GType::environment;}

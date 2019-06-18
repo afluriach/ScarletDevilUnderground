@@ -51,8 +51,6 @@ public:
 	static const double baseRadius;
 	static const array<double, anglesCount> radiusScales;
 
-	static const array<Color3B, anglesCount> colors;
-
 	StarbowBreak(Agent *const agent, int level);
 
 	bullet_properties generateProps(int angle);

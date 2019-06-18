@@ -463,10 +463,6 @@ int GObject::sceneLayerAsInt() const {
 	return to_int(sceneLayer());
 };
 
-float GObject::zoom() const {
-	return 1.0f;
-}
-
 sprite_update GObject::updateSprite()
 {
 	bool visible = space->isInPlayerRoom(getPos());

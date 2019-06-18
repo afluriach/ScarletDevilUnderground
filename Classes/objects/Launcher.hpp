@@ -29,7 +29,7 @@ public:
     virtual inline GType getType() const {return GType::environment;}
 
     virtual inline GraphicsLayer sceneLayer() const {return GraphicsLayer::ground;}
-	virtual inline string imageSpritePath() const { return "sprites/launcher.png"; }
+	virtual inline string getSprite() const { return "launcher"; }
 
 	virtual inline void activate() { isActive = true; }
 	virtual inline void deactivate() { isActive = false; }

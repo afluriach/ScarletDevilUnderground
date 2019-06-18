@@ -259,10 +259,23 @@ void graphics_context::createDrawNode(SpriteID id, GraphicsLayer sceneLayer, Vec
 	scene->getSpaceLayer()->positionAndAddNode(dn, to_int(sceneLayer), pos, zoom);
 }
 
-void graphics_context::createAgentSprite(SpriteID id, string path, bool isAgentAnimation, GraphicsLayer sceneLayer, Vec2 pos, float zoom)
-{
+void graphics_context::createAgentSprite(
+	SpriteID id,
+	string _sprite,
+	SpaceFloat agentSize,
+	GraphicsLayer sceneLayer,
+	Vec2 pos
+){
+	sprite_properties sprite = app::getSprite(_sprite);
+
+	float zoom = getSpriteZoom(sprite, agentSize);
+	if (sprite.size != make_pair(3, 4) && sprite.size != make_pair(4, 4)) {
+		log("Invalid agent animation size %d,%d.", sprite.size.first, sprite.size.second);
+		return;
+	}
+
 	PatchConAnimation* anim = Node::ccCreate<PatchConAnimation>();
-	anim->loadAnimation(path, isAgentAnimation);
+	anim->loadAnimation(_sprite);
 	graphicsNodes.insert_or_assign(id, anim);
 	scene->getSpaceLayer()->positionAndAddNode(anim, to_int(sceneLayer), pos, zoom);
 }

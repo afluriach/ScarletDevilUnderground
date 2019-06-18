@@ -1,0 +1,112 @@
+<sprites>
+	<bat dpi="32" size="4,4"/>
+	<blueFairy file="fairy-blue" size="3,4" />
+	<blueFairy2 file="fairy2-blue" size="3,4" />
+	<facer dpi="32" file="tewi" size="4,4"/>
+	<genericAgent dpi="32" file="melancholy" size="4,4"/>
+	<follower dpi="32" file="reisen" size="4,4"/>
+	<ghostFairy file="ghost-fairy" size="3,4" />
+	<greenFairy file="fairy-green" size="3,4" />
+	<greenFairy2 file="fairy2-green" size="3,4" />
+	<marisa dpi="32" size="4,4" />
+	<meiling dpi="32" size="4,4" />
+	<patchouli dpi="32" size="4,4" />
+	<pyramid file="pyramid_base" />
+	<redFairy file="fairy-red" size="3,4" />
+	<redFairy2 file="fairy2-red" size="3,4" />
+	<reimu dpi="32" size="4,4"/>
+	<rumia size="3,4" />
+	<sakuya dpi="32" size="4,4"/>
+	<scorpion size="3,4" />	
+	<scorpion2 size="3,4" />	
+	<slime size="3,4" ref-size="0.875"/>
+	<stalker dpi="32" file="dark_cirno" size="4,4"/>
+	<tewi dpi="32" size="4,4"/>
+	<zombieFairy file="zombie-fairy" size="3,4" />
+
+	<cirno dpi="32" size="4,4" />
+	<flandre size="3,4" />
+	<flandre_bat dpi="32" size="4,4" />
+	
+	<barrier dpi="256" />
+	<block />
+	<desk />
+	<door dpi="256" />
+	<door_locked dpi="256" />
+	<flower_blue />
+	<flower_gold />
+	<flower_magenta />
+	<flower_red />
+	<flower_sky />
+	<flower_violet />
+	<goal />
+	<glyph dpi="256" ref-size="0.6667"/>
+	<headstone />
+	<icePlatform file="ice_platform" dpi="64"/>
+	<launcher />
+	<mapFragment file="map" />
+	<movingPlatform file="moving_platform" ref-size="1.0"/>
+	<mushroom />
+	<sapling />
+	<sign dpi="256" />
+	<strongHeadstone file="strong_headstone" />
+	
+	<forestBook file="items/forest_book" /> 
+	<graveyardBook file="items/graveyard_book" />
+	<spellcard file="magic_card_empty" />
+	
+	<health1 />
+	<health2 />
+	<health3 />
+	<key />
+	<magic1 />
+	<magic2 />
+	<magic3 />
+	
+	<hp_upgrade />
+	<mp_upgrade />
+	<stamina_upgrade />
+	<agility_upgrade />
+	<attack_upgrade />
+	<attack_speed_upgrade />
+	<shield_upgrade />
+	<bullet_speed_upgrade />
+	
+	<redBomb file="scarlet_bomb" ref-size="0.83" />
+	
+	<catadioptricBullet1 file="catadioptric_bullet1" ref-size="0.83" />	
+	<catadioptricBullet2 file="catadioptric_bullet2" ref-size="0.83" />	
+	<catadioptricBullet3 file="catadioptric_bullet3" ref-size="0.25" />	
+	<cirnoIceBullet file="cirno_large_ice_bullet" ref-size="0.83" />
+	<flandreCounterClock file="counter_clock_bullet" dpi="512" />
+	<flandreOrb file="flandre_bullet" ref-size="0.83" />
+	<lavaeteinn />
+	<rumiaOrb file="rumia_bullet" ref-size="0.83" />
+	<scarletDagger file="scarlet_dagger" ref-size="0.5" />
+
+	<blueFairyBullet file="green_fairy_bullet" ref-size="0.83" />	
+	<fairy1Bullet file="ice_fairy_bullet" ref-size="0.83" />
+	<fireBullet file="patchouli_fire" size="5,1" ref-size="0.83" />
+	<greenFairyBullet file="green_fairy_bullet" ref-size="0.83" />
+	<iceFairyBullet file="ice_fairy_bullet" ref-size="0.83" />
+	<illusionDagger file="knife green" />
+	<launcherBullet file="launcher_bullet" ref-size="0.83" />
+	<rumiaBullet file="rumia_bullet" ref-size="0.83" />
+	<rumiaBullet2 file="rumia_bullet2" ref-size="0.83" />
+	<rumiaDemarcationBullet file="rumia_demarcation_bullet" ref-size="0.83" />
+	<rumiaPinwheelBullet file="rumia_bullet" ref-size="0.83" />
+	<star-blue ref-size="0.125" />
+	<star-green ref-size="0.125" />
+	<star-grey ref-size="0.125" />
+	<star-indigo ref-size="0.125" />
+	<star-purple ref-size="0.125" />
+	<star-red ref-size="0.125" />
+	<star-yellow ref-size="0.125" />
+	<starbowBreak1 color-hsv="0.0,0.5,1.0" file="starbow_break_bullet" ref-size="0.83" />
+	<starbowBreak2 color-hsv="48.0,0.5,1.0" file="starbow_break_bullet" ref-size="0.83" />
+	<starbowBreak3 color-hsv="120.0,0.5,1.0" file="starbow_break_bullet" ref-size="0.83" />
+	<starbowBreak4 color-hsv="180.0,0.5,1.0" file="starbow_break_bullet" ref-size="0.83" />
+	<starbowBreak5 color-hsv="120.0,0.5,1.0" file="starbow_break_bullet" ref-size="0.83" />
+	<waterBullet dpi="32" file="water_bullet" />
+	<yinYangOrb file="yin-yang-orb" ref-size="0.5" />
+</sprites>

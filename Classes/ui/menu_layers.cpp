@@ -777,7 +777,7 @@ void PlayerInfo::addEntry(string icon, string text, int position)
 	label->setAlignment(TextHAlignment::RIGHT);
 	addChild(label);
 
-	Sprite* _icon = Sprite::create(icon);
+	Sprite* _icon = Sprite::create("sprites/" + icon + ".png");
 	_icon->setScale(0.25f * scale);
 	_icon->setPosition(-192.0f * scale, -64.0f * position * scale);
 	addChild(_icon);

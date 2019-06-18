@@ -29,9 +29,7 @@ public:
 	virtual inline GType getType() const { return GType::npc; }
 	virtual inline GType getRadarType() const { return GType::enemySensor; }
 
-	inline string imageSpritePath() const { return "sprites/fairy-blue.png"; }
-	virtual bool isAgentAnimation() const { return true; }
-	virtual inline int pixelWidth() const { return 128; }
+	inline string getSprite() const { return "blueFairy"; }
 
 	void flee_player(const ValueMap& args);
 	void idle(const ValueMap& args);
@@ -51,9 +49,7 @@ public:
 	virtual inline SpaceFloat getMass() const { return -1.0; }
 	virtual inline GType getType() const { return GType::npc; }
 
-	inline string imageSpritePath() const { return "sprites/fairy-blue.png"; }
-	virtual bool isAgentAnimation() const { return true; }
-	virtual inline int pixelWidth() const { return 128; }
+	inline string getSprite() const { return "blueFairy"; }
 
 	inline virtual bool isDialogAvailable() { return true; }
 	virtual string getDialog();
@@ -77,9 +73,7 @@ public:
 	virtual inline SpaceFloat getRadarRadius() const { return 3.0; }
 	virtual inline SpaceFloat getDefaultFovAngle() const { return 0.0; }
 
-	inline string imageSpritePath() const { return "sprites/ghost-fairy.png"; }
-	virtual bool isAgentAnimation() const { return true; }
-	virtual inline int pixelWidth() const { return 128; }
+	inline string getSprite() const { return "ghostFairy"; }
 
 	virtual void initStateMachine();
 };

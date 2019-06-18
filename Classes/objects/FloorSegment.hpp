@@ -63,8 +63,7 @@ public:
 	void setWaypoint(size_t idx);
 	void setNextWaypoint();
 
-	virtual inline string imageSpritePath() const { return "sprites/moving_platform.png"; }
-	virtual float zoom() const;
+	virtual inline string getSprite() const { return "movingPlatform"; }
 
 	virtual inline SpaceFloat getMass() const { return 1.0; }
 protected:
@@ -78,7 +77,7 @@ class IcePlatform : public MovingPlatform
 {
 public:
 	MapObjCons(IcePlatform);
-	virtual inline string imageSpritePath() const { return "sprites/ice_platform.png"; }
+	virtual inline string getSprite() const { return "icePlatform"; }
 	virtual inline float zoom() const { return 2.0f; }
 
 	virtual inline string getFootstepSfx() const { return "sfx/footstep_ice.wav"; }

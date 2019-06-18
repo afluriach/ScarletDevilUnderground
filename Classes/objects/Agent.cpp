@@ -444,7 +444,6 @@ GenericAgent::GenericAgent(GSpace* space, ObjectIDType id, const ValueMap& args)
 	MapObjForwarding(GObject),
 	MapObjForwarding(Agent)
 {
-	spriteName = args.at("sprite").asString();
 }
 
 void GenericAgent::initStateMachine()

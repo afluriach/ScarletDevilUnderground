@@ -27,7 +27,7 @@ public:
 	virtual inline SpaceFloat getRadarRadius() const { return 6.0; }
 	virtual inline SpaceFloat getDefaultFovAngle() const { return 0.0; }
 
-	inline string imageSpritePath() const { return "sprites/tewi.png"; }
+	inline string getSprite() const { return "tewi"; }
 
 	virtual void initStateMachine();
 };

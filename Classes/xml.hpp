@@ -14,11 +14,14 @@ class LightArea;
 namespace app {
 	extern unordered_map<string, floorsegment_properties> floors;
 	extern unordered_map<string, shared_ptr<LightArea>> lights;
+	extern unordered_map<string, sprite_properties> sprites;
 
 	void loadFloors();
 	void loadLights();
+	void loadSprites();
 
 	shared_ptr<LightArea> getLight(const string& name);
+	sprite_properties getSprite(const string& name);
 
 	template<typename T>
 	inline void loadObjects(string filename, unordered_map<string,T>& _map)
@@ -45,6 +48,7 @@ namespace app {
 	}
 
 	bool parseObject(tinyxml2::XMLElement* elem, floorsegment_properties* result);
+	bool parseObject(tinyxml2::XMLElement* elem, sprite_properties* result);
 	bool parseObject(tinyxml2::XMLElement* elem, shared_ptr<LightArea>* result);
 }
 

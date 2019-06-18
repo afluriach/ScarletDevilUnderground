@@ -46,14 +46,6 @@ const array<double, StarbowBreak::anglesCount> StarbowBreak::radiusScales = {
 	1.0 / 3.0
 };
 
-const array<Color3B, StarbowBreak::anglesCount> StarbowBreak::colors = {
-	hsv3B(0.0f,0.5f,1.0f),
-	hsv3B(48.0f,0.5f,1.0f),
-	hsv3B(120.0f,0.5f,1.0f),
-	hsv3B(180.0f,0.5f,1.0f),
-	hsv3B(315.0f,0.5f,1.0f),
-};
-
 StarbowBreak::StarbowBreak(Agent *const agent, int level) :
 	FirePattern(agent)
 {}
@@ -71,9 +63,7 @@ bullet_properties StarbowBreak::generateProps(int angle)
 		baseSpeed / sizeScale,
 		baseRadius * sizeScale,
 		bullet_damage(to_float(baseDamage*sizeScale)),
-		0.83,
-		"sprites/starbow_break_bullet.png",
-		colors[angle]
+		"starbowBreak"+boost::lexical_cast<string>(angle+1),
 	};
 }
 

@@ -57,7 +57,7 @@ public:
 	virtual inline bool getSensor() const { return true; }
 
 	virtual inline GraphicsLayer sceneLayer() const { return GraphicsLayer::floor; }
-	virtual string imageSpritePath() const;
+	virtual string getSprite() const;
 
 	AttributeMap getEffect() const;
 protected:

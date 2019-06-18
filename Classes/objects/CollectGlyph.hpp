@@ -25,8 +25,7 @@ public:
 
     void init();
     
-    virtual inline float zoom() const {return 0.75;}
-    virtual inline string imageSpritePath() const {return "sprites/glyph.png";}
+    virtual inline string getSprite() const {return "glyph";}
     virtual inline GraphicsLayer sceneLayer() const {return GraphicsLayer::ground;}
     
     virtual inline SpaceFloat getMass() const {return -1.0;}

@@ -41,7 +41,13 @@ public:
 	void createSprite(SpriteID id, string path, GraphicsLayer sceneLayer, Vec2 pos, float zoom);
 	void createLoopAnimation(SpriteID id, string name, int frameCount, float duration, GraphicsLayer sceneLayer, Vec2 pos, float zoom);
 	void createDrawNode(SpriteID id, GraphicsLayer sceneLayer, Vec2 pos, float zoom);
-	void createAgentSprite(SpriteID id, string path, bool isAgentAnimation, GraphicsLayer sceneLayer, Vec2 pos, float zoom);
+	void createAgentSprite(
+		SpriteID id,
+		string _sprite,
+		SpaceFloat agentSize,
+		GraphicsLayer sceneLayer,
+		Vec2 pos
+	);
 	void createDamageIndicator(float val, SpaceVect pos);
 	void createAgentBodyShader(
 		SpriteID id, GraphicsLayer layer,

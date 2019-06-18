@@ -18,7 +18,7 @@ public:
 	Flower(GSpace* space, ObjectIDType id, const string& name, const string& color, const SpaceVect& pos);
 	Flower(GSpace* space, ObjectIDType id, const ValueMap& args);
     
-    inline string imageSpritePath() const {return "sprites/flower "+color+".png";}
+    virtual inline string getSprite() const {return "flower_"+color;}
 
     virtual GraphicsLayer sceneLayer() const {return GraphicsLayer::foliage;}
     

@@ -16,6 +16,7 @@ namespace app {
 
 unordered_map<string, floorsegment_properties> floors;
 unordered_map<string, shared_ptr<LightArea>> lights;
+unordered_map<string, sprite_properties> sprites;
 
 void loadFloors()
 {
@@ -27,9 +28,19 @@ void loadLights()
 	loadObjects<shared_ptr<LightArea>>("objects/lights.xml", app::lights);
 }
 
+void loadSprites()
+{
+	loadObjects<sprite_properties>("objects/sprites.xml", app::sprites);
+}
+
 shared_ptr<LightArea> getLight(const string& name)
 {
 	return getOrDefault(lights, name, shared_ptr<LightArea>(nullptr));
+}
+
+sprite_properties getSprite(const string& name)
+{
+	return getOrDefault(sprites, name, sprite_properties{});
 }
 
 bool getStringAttr(tinyxml2::XMLElement* elem, const string& name, string* result)
@@ -69,6 +80,16 @@ bool parseObject(tinyxml2::XMLElement* elem, floorsegment_properties* result)
 	return true;
 }
 
+bool parseObject(tinyxml2::XMLElement* elem, IntVec2* result)
+{
+	string val;
+	if (getStringAttr(elem, "size", &val)) {
+		*result = toIntVector(val);
+		return false;
+	}
+	return false;
+}
+
 bool parseObject(tinyxml2::XMLElement* elem, Color4F* result)
 {
 	if (auto attr = elem->Attribute("color")) {
@@ -86,6 +107,37 @@ bool parseObject(tinyxml2::XMLElement* elem, Color4F* result)
 	else {
 		return false;
 	}
+}
+
+bool parseObject(tinyxml2::XMLElement* elem, sprite_properties* result)
+{
+	string filename;
+	IntVec2 size = make_pair(1, 1);
+	int dpi = 128;
+	float referenceSize = 0.0f;
+	Color4F _color = Color4F::WHITE;
+
+	if (!getStringAttr(elem, "file", &filename)) {
+		filename = elem->Name();
+	}
+	if (!FileUtils::getInstance()->isFileExist("sprites/" + filename + ".png")) {
+		log("Sprite %s not found!", filename);
+		return false;
+	}
+
+	parseObject(elem, &size);
+	parseObject(elem, &_color);
+	getNumericAttr(elem, "dpi", &dpi);
+	getNumericAttr(elem, "ref-size", &referenceSize);
+
+	*result = sprite_properties{
+		filename,
+		size,
+		dpi,
+		referenceSize,
+		toColor3B(_color)
+	};
+	return true;
 }
 
 bool parseObject(tinyxml2::XMLElement* elem, shared_ptr<LightArea>* result)
