@@ -99,6 +99,20 @@ Color4F hsva4F(float h, float s, float v, float a)
 	return Color4F(r1 + m, g1 + m, b1 + m, a);
 }
 
+Color4F hsva4F(const string& s)
+{
+	vector<string> tokens = splitString(s, ",");
+
+	if (tokens.size() != 3)
+		return Color4F::BLACK;
+
+	return hsva4F(
+		boost::lexical_cast<float>(tokens[0]),
+		boost::lexical_cast<float>(tokens[1]),
+		boost::lexical_cast<float>(tokens[2])
+	);
+}
+
 Color3B toColor3B(const Color4F& color)
 {
 	return Color3B(color.r * 255, color.g * 255, color.b * 255);

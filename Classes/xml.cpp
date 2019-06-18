@@ -47,6 +47,25 @@ bool parseObject(tinyxml2::XMLElement* elem, floorsegment_properties* result)
 	return true;
 }
 
+bool parseObject(tinyxml2::XMLElement* elem, Color4F* result)
+{
+	if (auto attr = elem->Attribute("color")) {
+		*result = toColor4F(string(attr));
+		return true;
+	}
+	else if (auto attr = elem->Attribute("color-3b")) {
+		*result = toColor4F(toColor3B(string(attr)));
+		return true;
+	}
+	else if (auto attr = elem->Attribute("color-hsv")) {
+		*result = hsva4F(string(attr));
+		return true;
+	}
+	else {
+		return false;
+	}
+}
+
 bool parseObject(tinyxml2::XMLElement* elem, shared_ptr<LightArea>* result)
 {
 	if (auto attr = elem->Attribute("type"))
@@ -63,8 +82,7 @@ bool parseObject(tinyxml2::XMLElement* elem, shared_ptr<LightArea>* result)
 			if (auto attr = elem->Attribute("flood"))
 				_result->flood = elem->DoubleAttribute("flood");
 
-			if (auto attr = elem->Attribute("color"))
-				_result->color = toColor4F( string(attr) );
+			parseObject(elem, &_result->color);
 
 			(*result) = _result;
 			return true;
@@ -73,8 +91,7 @@ bool parseObject(tinyxml2::XMLElement* elem, shared_ptr<LightArea>* result)
 		{
 			auto _result = make_shared<SpriteLightArea>();
 
-			if (auto attr = elem->Attribute("color"))
-				_result->color = toColor4F(string(attr));
+			parseObject(elem, &_result->color);
 
 			if (auto attr = elem->Attribute("sprite"))
 				_result->texName = string("sprites/") + string(attr) + string(".png");
