@@ -109,6 +109,21 @@ Color4F toColor4F(Color3B color)
 	return Color4F(color.r / 255.0f, color.g / 255.0f, color.b / 255.0f, 1.0f);
 }
 
+Color4F toColor4F(const string& s)
+{
+	vector<string> tokens = splitString(s, ",");
+
+	if (tokens.size() != 4)
+		return Color4F::BLACK;
+
+	return Color4F(
+		boost::lexical_cast<float>(tokens[0]),
+		boost::lexical_cast<float>(tokens[1]),
+		boost::lexical_cast<float>(tokens[2]),
+		boost::lexical_cast<float>(tokens[3])
+	);
+}
+
 Color4F operator*(const Color4F& lhs, float rhs)
 {
 	return Color4F(lhs.r * rhs, lhs.g * rhs, lhs.b * rhs, lhs.a);

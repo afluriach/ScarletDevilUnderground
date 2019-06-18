@@ -54,7 +54,7 @@ public:
 	WaterBullet(GSpace* space, ObjectIDType id, const SpaceVect& pos, SpaceFloat angle, object_ref<Agent> agent, SpaceFloat speed);
 
 	virtual inline shared_ptr<LightArea> getLightSource() const {
-		return CircleLightArea::create( getPos(), 2.0, Color4F(.375f,.75f,.75f,.5f), 0.0 );
+		return app::getLight("waterBullet");
 	}
 
 	virtual inline SpaceFloat getRadius() const { return 0.3; }

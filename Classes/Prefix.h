@@ -105,6 +105,7 @@ using namespace luabridge;
 #include "types.h"
 #include "util.h"
 #include "log.hpp"
+#include "xml.hpp"
 
 #define DEV_MODE 1
 #define INTERNAL_PREFIX 0

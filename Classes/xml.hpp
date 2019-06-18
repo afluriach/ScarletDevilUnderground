@@ -9,10 +9,16 @@
 #ifndef xml_hpp
 #define xml_hpp
 
+class LightArea;
+
 namespace app {
 	extern unordered_map<string, floorsegment_properties> floors;
+	extern unordered_map<string, shared_ptr<LightArea>> lights;
 
 	void loadFloors();
+	void loadLights();
+
+	shared_ptr<LightArea> getLight(const string& name);
 
 	template<typename T>
 	inline void loadObjects(string filename, unordered_map<string,T>& _map)
@@ -39,6 +45,7 @@ namespace app {
 	}
 
 	bool parseObject(tinyxml2::XMLElement* elem, floorsegment_properties* result);
+	bool parseObject(tinyxml2::XMLElement* elem, shared_ptr<LightArea>* result);
 }
 
 #endif 

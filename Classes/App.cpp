@@ -14,7 +14,6 @@
 #include "OpeningScene.hpp"
 #include "OverworldScene.hpp"
 #include "Resources.hpp"
-#include "xml.hpp"
 
 const string App::title = "Kouma";
 
@@ -327,6 +326,7 @@ void App::loadShaders()
 void App::loadObjects()
 {
 	app::loadFloors();
+	app::loadLights();
 }
 
 void App::runTitleScene()

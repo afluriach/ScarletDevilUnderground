@@ -269,12 +269,7 @@ YinYangOrb::YinYangOrb(GSpace* space, ObjectIDType id, const SpaceVect& pos, Spa
 
 shared_ptr<LightArea> YinYangOrb::getLightSource() const
 {
-	return SpriteLightArea::create(
-		getPos(),
-		imageSpritePath(),
-		Color4F(0.5f, 0.25f, 0.25f, 1.0f),
-		3.0f
-	);
+	return app::getLight("yinYangOrb");
 }
 
 const bullet_properties RumiaDemarcation2Bullet::props = {
@@ -348,10 +343,5 @@ RumiaDarknessBullet::RumiaDarknessBullet(
 
 shared_ptr<LightArea> RumiaDarknessBullet::getLightSource() const
 {
-	return CircleLightArea::create(
-		getPos(),
-		2.0,
-		Color4F(0.3f,0.3f,0.3f,-0.5f),
-		0.5
-	);
+	return app::getLight("rumiaDarknessBullet");
 }

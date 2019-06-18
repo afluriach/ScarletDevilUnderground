@@ -733,12 +733,7 @@ FlandrePC::FlandrePC(GSpace* space, ObjectIDType id, const SpaceVect& pos, Direc
 
 shared_ptr<LightArea> FlandrePC::getLightSource() const
 {
-	return CircleLightArea::create(
-		getPos(),
-		4.0,
-		Color4F(.9f, .5f, .5f, .75f),
-		0.5f
-	);
+	return app::getLight("flandrePC");
 }
 
 const AttributeMap RumiaPC::baseAttributes = {
@@ -762,12 +757,7 @@ RumiaPC::RumiaPC(GSpace* space, ObjectIDType id, const ValueMap& args) :
 
 shared_ptr<LightArea> RumiaPC::getLightSource() const
 {
-	return CircleLightArea::create(
-		getPos(),
-		3.0,
-		Color4F(.5f,.2f,.5f,.5f),
-		0.0f
-	);
+	return app::getLight("rumiaPC");
 }
 
 const AttributeMap CirnoPC::baseAttributes = {
@@ -791,10 +781,5 @@ CirnoPC::CirnoPC(GSpace* space, ObjectIDType id, const ValueMap& args) :
 
 shared_ptr<LightArea> CirnoPC::getLightSource() const
 {
-	return CircleLightArea::create(
-		getPos(),
-		5.0,
-		Color4F(.4f,.45f,.7f,1.0f),
-		0.5f
-	);
+	return app::getLight("cirnoPC");
 }

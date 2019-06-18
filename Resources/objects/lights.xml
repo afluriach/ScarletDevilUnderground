@@ -1,0 +1,18 @@
+<floors>
+	<flandrePC type="circle" radius="4.0" color="0.9,0.5,0.5,0.75" flood="0.5"/>
+	<rumiaPC type="circle" radius="3.0" color="0.5,0.2,0.5,0.5" flood="0.0"/>
+	<cirnoPC type="circle" radius="5.0" color="0.4,0.45,0.7,1.0" flood="0.5"/>
+
+	<flandreFastOrb type="circle" radius="2.0" color="0.81,0.91,0.16,1.0" flood="0.0"/>
+	<flandrePolarOrb type="circle" radius="2.0" color="0.5,0.25,0.0,1.0" flood="0.0"/>
+	<polarMotionOrb type="circle" radius="2.0" color="0.5,0.0,0.0,1.0" flood="0.0"/>
+	<scarletDagger type="sprite" sprite="scarlet_dagger" color="1.0,0.0,0.0,1.0" scale="3.0"/>
+
+	<rumiaEnemy type="circle" radius="4.0" color="0.3,0.3,0.3,-1.0" flood="0.5"/>
+	
+	<rumiaDarknessBullet type="circle" radius="2.0" color="0.3,0.3,0.3,-0.5" flood="0.5"/>
+	<waterBullet type="circle" radius="2.0" color="0.375,0.75,0.75,0.5" flood="0.0"/>
+	<yinYangOrb type="sprite" sprite="yin-yang-orb" color="0.5,0.25,0.25,1.0" scale="3.0"/>
+	
+	<spellcard type="circle" radius="3.0" color="0.376,0.57,0.55,1.0" flood="0.5"/>
+</floors>

@@ -11,7 +11,6 @@
 #include "FloorSegment.hpp"
 #include "GSpace.hpp"
 #include "value_map.hpp"
-#include "xml.hpp"
 
 FloorSegment::FloorSegment(GSpace* space, ObjectIDType id, const ValueMap& args) :
 RectangleBody(args)

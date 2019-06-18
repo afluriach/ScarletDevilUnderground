@@ -63,12 +63,7 @@ Spellcard::Spellcard(GSpace* space, ObjectIDType id, const ValueMap& args) :
 
 shared_ptr<LightArea> Spellcard::getLightSource() const
 {
-	return CircleLightArea::create(
-		getPos(),
-		3.0,
-		toColor4F(Color3B(94, 145, 140)),
-		0.5f
-	);
+	return app::getLight("spellcard");
 }
 
 void Spellcard::initializeGraphics()

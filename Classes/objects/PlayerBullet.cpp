@@ -149,12 +149,7 @@ ScarletDagger::ScarletDagger(GSpace* space, ObjectIDType id, const SpaceVect& po
 {}
 
 shared_ptr<LightArea> ScarletDagger::getLightSource() const {
-	return SpriteLightArea::create(
-		getPos(),
-		imageSpritePath(),
-		Color4F::RED,
-		3.0f
-	);
+	return app::getLight("scarletDagger");
 };
 
 const bullet_properties FlandreFastOrb1::props = {
@@ -169,7 +164,7 @@ const bullet_properties FlandreFastOrb1::props = {
 cons(FlandreFastOrb1)
 
 shared_ptr<LightArea> FlandreFastOrb1::getLightSource() const {
-	return CircleLightArea::create( getPos(), 2.0, hsva4F(45.0f, 0.75f, 0.5f), 0.0 );
+	return app::getLight("flandreFastOrb");
 }
 
 const bullet_properties FlanPolarBullet::props = {
@@ -216,7 +211,7 @@ void FlanPolarBullet::update()
 }
 
 shared_ptr<LightArea> FlanPolarBullet::getLightSource() const {
-	return CircleLightArea::create( getPos(), 2.0, Color4F::ORANGE*0.5f, 0.0 ); 
+	return app::getLight("flandrePolarOrb");
 }
 
 const bullet_properties FlandrePolarMotionOrb::props = {
@@ -243,7 +238,7 @@ void FlandrePolarMotionOrb::update()
 }
 
 shared_ptr<LightArea> FlandrePolarMotionOrb::getLightSource() const {
-	return CircleLightArea::create( getPos(), 2.0, Color4F::RED*0.5f, 0.0 );
+	return app::getLight("polarMotionOrb");
 }
 
 Lavaeteinn::Lavaeteinn(
