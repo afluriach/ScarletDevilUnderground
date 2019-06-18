@@ -351,7 +351,7 @@ float getSpriteZoom(const sprite_properties& sprite, SpaceFloat agentRadius)
 {
 	float zoom = 1.0f * app::pixelsPerTile / sprite.dpi;
 	if (sprite.referenceSize > 0)
-		zoom *= agentRadius / sprite.referenceSize;
+		zoom *= agentRadius / sprite.referenceSize * 2.0f;
 
 	return zoom;
 }

@@ -78,10 +78,7 @@ class IcePlatform : public MovingPlatform
 public:
 	MapObjCons(IcePlatform);
 	virtual inline string getSprite() const { return "icePlatform"; }
-	virtual inline float zoom() const { return 2.0f; }
-
 	virtual inline string getFootstepSfx() const { return "sfx/footstep_ice.wav"; }
-
 	virtual inline SpaceFloat getFrictionCoeff() const { return 0.2; }
 };
 

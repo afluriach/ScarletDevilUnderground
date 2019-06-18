@@ -19,7 +19,7 @@
 	<sakuya dpi="32" size="4,4"/>
 	<scorpion size="3,4" />	
 	<scorpion2 size="3,4" />	
-	<slime size="3,4" ref-size="0.875"/>
+	<slime size="3,4" ref-size="1.75"/>
 	<stalker dpi="32" file="dark_cirno" size="4,4"/>
 	<tewi dpi="32" size="4,4"/>
 	<zombieFairy file="zombie-fairy" size="3,4" />
@@ -42,10 +42,10 @@
 	<goal />
 	<glyph dpi="256" ref-size="0.6667"/>
 	<headstone />
-	<icePlatform file="ice_platform" dpi="64"/>
+	<icePlatform file="ice_platform" ref-size="2.0" />
 	<launcher />
 	<mapFragment file="map" />
-	<movingPlatform file="moving_platform" ref-size="1.0"/>
+	<movingPlatform file="moving_platform" ref-size="2.0"/>
 	<mushroom />
 	<sapling />
 	<sign dpi="256" />
@@ -82,7 +82,7 @@
 	<flandreOrb file="flandre_bullet" ref-size="0.83" />
 	<lavaeteinn />
 	<rumiaOrb file="rumia_bullet" ref-size="0.83" />
-	<scarletDagger file="scarlet_dagger" ref-size="0.5" />
+	<scarletDagger file="scarlet_dagger" />
 
 	<blueFairyBullet file="green_fairy_bullet" ref-size="0.83" />	
 	<fairy1Bullet file="ice_fairy_bullet" ref-size="0.83" />
@@ -106,7 +106,7 @@
 	<starbowBreak2 color-hsv="48.0,0.5,1.0" file="starbow_break_bullet" ref-size="0.83" />
 	<starbowBreak3 color-hsv="120.0,0.5,1.0" file="starbow_break_bullet" ref-size="0.83" />
 	<starbowBreak4 color-hsv="180.0,0.5,1.0" file="starbow_break_bullet" ref-size="0.83" />
-	<starbowBreak5 color-hsv="120.0,0.5,1.0" file="starbow_break_bullet" ref-size="0.83" />
+	<starbowBreak5 color-hsv="315.0,0.5,1.0" file="starbow_break_bullet" ref-size="0.83" />
 	<waterBullet dpi="32" file="water_bullet" />
 	<yinYangOrb file="yin-yang-orb" ref-size="0.5" />
 </sprites>

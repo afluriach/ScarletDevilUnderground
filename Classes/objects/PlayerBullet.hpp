@@ -80,7 +80,6 @@ public:
 	virtual inline DamageInfo getDamageInfo() const { return props.damage; }
 
 	virtual inline string getSprite() const { return "scarletDagger"; }
-	virtual inline float zoom() const { return 1.0f; }
 	virtual shared_ptr<LightArea> getLightSource() const;
 };
 
