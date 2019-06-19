@@ -1,0 +1,6 @@
+<enemies>
+	<bat
+		mass="10.0"
+		radarRadius="5.0"
+	/>
+</enemies>

@@ -20,12 +20,6 @@ Follower::Follower(GSpace* space, ObjectIDType id, const ValueMap& args) :
 	Enemy(collectible_id::nil)
 {}
 
-bool Follower::hit(DamageInfo damage)
-{
-    rotate(-0.5f*float_pi);
-	return true;
-}
-
 void Follower::initStateMachine() {
 	fsm.addThread(make_shared<FollowerMain>(&fsm));
 }
@@ -47,4 +41,10 @@ ai::update_return FollowerMain::update()
 	}
 	
 	return_pop_if_false( target.isValid() );
+}
+
+bool FollowerMain::onBulletHit(Bullet* b)
+{
+	agent->rotate(-0.5f*float_pi);
+	return true;
 }

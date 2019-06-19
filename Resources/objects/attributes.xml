@@ -30,6 +30,7 @@
 	<ff>
 		<speed val="1.0"/>
 		<acceleration val="4.5"/>
+		<bulletSensitivity val="0.0"/>
 	</ff>
 	<genericAgent>
 		<speed val="1.5"/>

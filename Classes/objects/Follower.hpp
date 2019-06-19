@@ -18,8 +18,6 @@ public:
 
 	MapObjCons(Follower);
 
-	virtual bool hit(DamageInfo damage);
-
     inline SpaceFloat getMass() const {return 40.0;}
 
     inline string getSprite() const {return "follower";}
@@ -33,6 +31,7 @@ public:
 
 	virtual void onEnter();
 	virtual ai::update_return update();
+	virtual bool onBulletHit(Bullet* b);
 	FuncGetName(FollowerMain)
 protected:
 	gobject_ref target = nullptr;

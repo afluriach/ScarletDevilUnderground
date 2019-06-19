@@ -21,12 +21,6 @@ Facer::Facer(GSpace* space, ObjectIDType id, const ValueMap& args) :
 	Enemy(collectible_id::nil)
 {}
 
-bool Facer::hit(DamageInfo damage)
-{
-    rotate(float_pi/2);
-	return true;
-}
-
 void Facer::initStateMachine() {
 	fsm.addThread(make_shared<FacerMain>(&fsm));
 }
@@ -48,4 +42,10 @@ ai::update_return FacerMain::update()
 	}
 
 	return_pop_if_false( target.isValid() );
+}
+
+bool FacerMain::onBulletHit(Bullet* b)
+{
+	agent->rotate(float_pi / 2);
+	return true;
 }

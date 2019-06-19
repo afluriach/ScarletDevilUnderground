@@ -19,8 +19,6 @@ public:
 
 	MapObjCons(Facer);
 
-	virtual bool hit(DamageInfo damage);
-
     inline SpaceFloat getMass() const {return 40.0;}
 
     inline string getSprite() const {return "facer";}
@@ -34,6 +32,7 @@ public:
 
 	virtual void onEnter();
 	virtual ai::update_return update();
+	virtual bool onBulletHit(Bullet* b);
 	FuncGetName(FacerMain)
 protected:
 	gobject_ref target = nullptr;
