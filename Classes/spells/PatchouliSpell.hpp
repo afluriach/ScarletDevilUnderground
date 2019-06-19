@@ -19,7 +19,7 @@ public:
 
 	static constexpr float bulletSpeed = 6.0f;
 
-	inline FireStarburst(GObject* caster) : PeriodicSpell(caster) {}
+	FireStarburst(GObject* caster);
 	inline virtual ~FireStarburst() {}
 
 	GET_DESC(FireStarburst)
@@ -28,6 +28,8 @@ public:
 
 	inline virtual float interval() const { return 0.5f; }
 	virtual void runPeriodic();
+protected:
+	shared_ptr<bullet_properties> bulletProps;
 };
 
 class FlameFence : public Spell {
@@ -45,6 +47,7 @@ public:
 	virtual void end();
 protected:
 	vector<gobject_ref> bullets;
+	shared_ptr<bullet_properties> bulletProps;
 };
 
 class Whirlpool1 : public Spell {
@@ -68,6 +71,7 @@ public:
 	virtual void end();
 protected:
 	SpaceFloat shotTimer = 0.0;
+	shared_ptr<bullet_properties> bulletProps;
 };
 
 class Whirlpool2 : public Spell {
@@ -91,6 +95,7 @@ public:
 	virtual void end();
 protected:
 	SpaceFloat shotTimer = 0.0;
+	shared_ptr<bullet_properties> bulletProps;
 };
 
 

@@ -26,41 +26,15 @@ public:
 class EnemyBulletImpl : public EnemyBullet, public BulletImpl
 {
 public:
-	EnemyBulletImpl(GSpace* space, ObjectIDType id, const SpaceVect& pos, SpaceFloat angle, object_ref<Agent> agent, shared_ptr<bullet_properties> props);
+	EnemyBulletImpl(
+		GSpace* space,
+		ObjectIDType id,
+		const SpaceVect& pos,
+		SpaceFloat angle,
+		object_ref<Agent> agent,
+		shared_ptr<bullet_properties> props
+	);
 	inline virtual ~EnemyBulletImpl() {}
-};
-
-class WaterBullet :
-virtual public GObject,
-public EnemyBullet,
-public CircleBody,
-public ImageSprite,
-public LightObject,
-public MaxSpeedImpl,
-public DirectionalLaunch
-{
-public:
-
-	WaterBullet(GSpace* space, ObjectIDType id, const SpaceVect& pos, SpaceFloat angle, object_ref<Agent> agent, SpaceFloat speed);
-
-	virtual inline shared_ptr<LightArea> getLightSource() const {
-		return app::getLight("waterBullet");
-	}
-
-	virtual inline SpaceFloat getRadius() const { return 0.3; }
-
-    virtual inline string getSprite() const {return "waterBullet";}    
-};
-
-class FireBullet : virtual public GObject, public EnemyBullet, public CircleBody, public LoopAnimationSprite, public DirectionalLaunch, public MaxSpeedImpl
-{
-public:
-	FireBullet(GSpace* space, ObjectIDType id, const SpaceVect& pos, SpaceFloat angle, object_ref<Agent> agent, SpaceFloat speed);
-
-	virtual inline SpaceFloat getRadius() const { return 0.3; }
-
-    virtual string getSprite() const {return "fireBullet";}
-    virtual float animationDuration() const {return 0.3f;}    
 };
 
 class StarBullet : virtual public GObject, public EnemyBullet, public CircleBody, public ImageSprite, public MaxSpeedImpl, public DirectionalLaunch

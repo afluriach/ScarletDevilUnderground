@@ -167,21 +167,6 @@ public:
 
 	virtual void initializeGraphics();
 	virtual string getSprite() const = 0;
-
-	void loadImageSprite();
-};
-
-class LoopAnimationSprite : public virtual GObject
-{
-public:
-	inline LoopAnimationSprite() {}
-
-	virtual string getSprite() const = 0;
-    virtual float animationDuration() const = 0;
-    
-    virtual void initializeGraphics();
-protected:
-    SpriteID animID = 0;
 };
 
 class PatchConSprite : virtual public GObject, RegisterInit<PatchConSprite>

@@ -93,25 +93,43 @@ void ParametricMotion::_update()
 
 void ImageSprite::initializeGraphics()
 {
-	loadImageSprite();
-}
+	sprite_properties _sprite = app::getSprite(getSprite());
+	float zoom = getSpriteZoom(_sprite, getRadius());
+	string resPath = "sprites/" + _sprite.filename + ".png";
 
-void LoopAnimationSprite::initializeGraphics()
-{
-	sprite_properties sprite = app::getSprite(getSprite());
-	float zoom = getSpriteZoom(sprite, getRadius());
+	if (_sprite.size == make_pair(1, 1)) {
+		spriteID = space->createSprite(
+			&graphics_context::createSprite,
+			resPath,
+			sceneLayer(),
+			getInitialCenterPix(),
+			zoom
+		);
+	}
+	else if (
+		_sprite.size.first > 1 &&
+		_sprite.size.second == 1 &&
+		_sprite.duration > 0.0f
+	) {
+		spriteID = space->createSprite(
+			&graphics_context::createLoopAnimation,
+			_sprite.filename,
+			_sprite.size.first,
+			_sprite.duration,
+			sceneLayer(),
+			getInitialCenterPix(),
+			zoom
+		);
+	}
+	else {
+		log("Invalid ImageSprite size %d,%d", _sprite.size.first, _sprite.size.second);
+	}
 
-	animID = space->createSprite(
-		&graphics_context::createLoopAnimation,
-		sprite.filename,
-		sprite.size.first,
-		animationDuration(),
-		sceneLayer(),
-		getInitialCenterPix(),
-		zoom
-	);
+	space->graphicsNodeAction(&Node::setRotation, spriteID, toCocosAngle(prevAngle));
 
-	spriteID = animID;
+	if (spriteID != 0 && _sprite.color != Color3B::BLACK && _sprite.color != Color3B::WHITE) {
+		space->graphicsNodeAction(&Node::setColor, spriteID, _sprite.color);
+	}
 }
 
 PatchConSprite::PatchConSprite(const ValueMap& args) :
@@ -236,27 +254,6 @@ void PatchConSprite::reset()
 	nextStepIsLeft = firstStepIsLeft;
 	//Toggle which foot will be used to take the first step next time.
 	firstStepIsLeft = !firstStepIsLeft;
-}
-
-void ImageSprite::loadImageSprite()
-{
-	sprite_properties _sprite = app::getSprite(getSprite());
-	float zoom = getSpriteZoom(_sprite, getRadius());
-	string resPath = "sprites/" + _sprite.filename + ".png";
-
-	spriteID = space->createSprite(
-		&graphics_context::createSprite,
-		resPath,
-		sceneLayer(),
-		getInitialCenterPix(),
-		zoom
-	);
-	space->graphicsNodeAction(&Node::setRotation, spriteID, toCocosAngle(prevAngle));
-
-	if (spriteID != 0 && _sprite.color != Color3B::BLACK && _sprite.color != Color3B::WHITE) {
-		space->graphicsNodeAction(&Node::setColor, spriteID, _sprite.color);
-	}
-
 }
 
 LightObject::LightObject() :

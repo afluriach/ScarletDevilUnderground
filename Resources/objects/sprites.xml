@@ -86,7 +86,7 @@
 
 	<blueFairyBullet file="green_fairy_bullet" ref-size="0.83" />	
 	<fairy1Bullet file="ice_fairy_bullet" ref-size="0.83" />
-	<fireBullet file="patchouli_fire" size="5,1" ref-size="0.83" />
+	<fireBullet file="patchouli_fire" size="5,1" duration="0.3" ref-size="0.83" />
 	<greenFairyBullet file="green_fairy_bullet" ref-size="0.83" />
 	<iceFairyBullet file="ice_fairy_bullet" ref-size="0.83" />
 	<illusionDagger file="knife green" />

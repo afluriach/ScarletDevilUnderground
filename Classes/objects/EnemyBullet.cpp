@@ -29,19 +29,6 @@ EnemyBulletImpl::EnemyBulletImpl(GSpace* space, ObjectIDType id, const SpaceVect
 	BulletImpl(props)
 {}
 
-
-FireBullet::FireBullet(GSpace* space, ObjectIDType id, const SpaceVect& pos, SpaceFloat angle, object_ref<Agent> agent, SpaceFloat speed) :
-	GObject(make_shared<object_params>(space, id, "", pos, angle)),
-	Bullet(agent),
-	MaxSpeedImpl(speed)
-{}
-
-WaterBullet::WaterBullet(GSpace* space, ObjectIDType id, const SpaceVect& pos, SpaceFloat angle, object_ref<Agent> agent, SpaceFloat speed) :
-	GObject(make_shared<object_params>(space, id, "", pos, angle)),
-	Bullet(agent),
-	MaxSpeedImpl(speed)
-{}
-
 const vector<string> StarBullet::colors = {
 	"blue",
 	"green",

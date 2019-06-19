@@ -166,6 +166,7 @@ bool parseObject(tinyxml2::XMLElement* elem, sprite_properties* result)
 	string filename;
 	IntVec2 size = make_pair(1, 1);
 	int dpi = 128;
+	float duration = 0.0f;
 	float referenceSize = 0.0f;
 	Color4F _color = Color4F::WHITE;
 
@@ -180,6 +181,7 @@ bool parseObject(tinyxml2::XMLElement* elem, sprite_properties* result)
 	parseObject(elem, &size);
 	parseObject(elem, &_color);
 	getNumericAttr(elem, "dpi", &dpi);
+	getNumericAttr(elem, "duration", &duration);
 	getNumericAttr(elem, "ref-size", &referenceSize);
 
 	*result = sprite_properties{
@@ -187,6 +189,7 @@ bool parseObject(tinyxml2::XMLElement* elem, sprite_properties* result)
 		size,
 		dpi,
 		referenceSize,
+		duration,
 		toColor3B(_color)
 	};
 	return true;

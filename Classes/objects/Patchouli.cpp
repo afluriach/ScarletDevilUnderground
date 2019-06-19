@@ -50,11 +50,13 @@ const string PatchouliEnemy::baseAttributes = "patchouliEnemy";
 
 const vector<float_pair> PatchouliEnemy::intervals = {
 	make_pair(200.0f,250.0f),
+	make_pair(125.0f, 180.f),
 	make_pair(100.0f,200.0f),
 	make_pair(0.0f,50.0f),
 };
 
 const vector<SpellGeneratorType> PatchouliEnemy::spells = {
+	make_spell_generator<FireStarburst>(),
 	make_spell_generator<FlameFence>(),
 	make_spell_generator<Whirlpool1>(),
 	make_spell_generator<Whirlpool2>(),

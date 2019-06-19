@@ -17,6 +17,14 @@ const string FireStarburst::name = "FireStarburst";
 const string FireStarburst::description = "";
 const float FireStarburst::cost = 0.0f;
 
+FireStarburst::FireStarburst(GObject* caster) : 
+	PeriodicSpell(caster)
+{
+	bulletProps = make_shared<bullet_properties>();
+	*bulletProps = *app::getBullet("fireBullet");
+	bulletProps->speed = bulletSpeed;
+}
+
 void FireStarburst::runPeriodic()
 {
 	SpaceVect pos = caster->getPos();
@@ -26,9 +34,12 @@ void FireStarburst::runPeriodic()
 
 		SpaceVect crntPos = pos + SpaceVect::ray(1, angle);
 
-		caster->space->createObject(
-			GObject::make_object_factory<FireBullet>(pos, angle, dynamic_cast<Agent*>(caster), bulletSpeed)
-		);
+		caster->space->createObject(GObject::make_object_factory<EnemyBulletImpl>(
+			pos,
+			angle,
+			dynamic_cast<Agent*>(caster),
+			bulletProps
+		));
 	}
 }
 
@@ -39,6 +50,10 @@ const float FlameFence::cost = 0.0f;
 FlameFence::FlameFence(GObject* caster) :
 	Spell(caster)
 {
+	bulletProps = make_shared<bullet_properties>();
+	*bulletProps = *app::getBullet("fireBullet");
+	bulletProps->speed = 0.0;
+	bulletProps->directionalLaunch = false;
 }
 
 void FlameFence::init()
@@ -53,9 +68,12 @@ void FlameFence::init()
 			SpaceVect pos(center);
 			pos += SpaceVect(x, y) + rowSkew;
 
-			bullets.push_back(caster->space->createObject(
-				GObject::make_object_factory<FireBullet>(pos, 0.0f, dynamic_cast<Agent*>(caster), 0.0f)
-			));
+			bullets.push_back(caster->space->createObject(GObject::make_object_factory<EnemyBulletImpl>(
+				pos,
+				0.0f,
+				dynamic_cast<Agent*>(caster),
+				bulletProps
+			)));
 		}
 	}
 }
@@ -85,6 +103,9 @@ const SpaceFloat Whirlpool1::bulletSpeed = 6.0;
 Whirlpool1::Whirlpool1(GObject* caster) :
 	Spell(caster)
 {
+	bulletProps = make_shared<bullet_properties>();
+	*bulletProps = *app::getBullet("waterBullet");
+	bulletProps->speed = bulletSpeed;
 }
 
 void Whirlpool1::init()
@@ -112,11 +133,11 @@ void Whirlpool1::update()
 	if (shotTimer <= 0.0) {
 
 		for_irange(i, 0, 6) {
-			caster->space->createObject(GObject::make_object_factory<WaterBullet>(
+			caster->space->createObject(GObject::make_object_factory<EnemyBulletImpl>(
 				pos + SpaceVect::ray(1.0, angles[i]),
 				angles[i],
 				dynamic_cast<Agent*>(caster),
-				bulletSpeed
+				bulletProps
 			));
 		}
 
@@ -142,6 +163,9 @@ const SpaceFloat Whirlpool2::bulletSpeed = 7.5;
 Whirlpool2::Whirlpool2(GObject* caster) :
 	Spell(caster)
 {
+	bulletProps = make_shared<bullet_properties>();
+	*bulletProps = *app::getBullet("waterBullet");
+	bulletProps->speed = bulletSpeed;
 }
 
 void Whirlpool2::init()
@@ -178,11 +202,11 @@ void Whirlpool2::update()
 	if (shotTimer <= 0.0) {
 
 		for_irange(i, 0, 12) {
-			caster->space->createObject(GObject::make_object_factory<WaterBullet>(
+			caster->space->createObject(GObject::make_object_factory<EnemyBulletImpl>(
 				pos + SpaceVect::ray(1.0, angles[i]),
 				angles[i],
 				dynamic_cast<Agent*>(caster),
-				bulletSpeed
+				bulletProps
 			));
 		}
 

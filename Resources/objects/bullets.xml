@@ -34,6 +34,13 @@
 		element="iceDamage"
 		sprite="cirnoIceBullet"
 	/>
+	<fireBullet
+		speed="-1.0"
+		radius="0.3"
+		damage="5.0"
+		sprite="fireBullet"
+		directionalLaunch="true"
+	/>
 	<flandreBigOrb1
 		speed="4.5"
 		radius="0.6"
@@ -102,6 +109,14 @@
 		damage="2.0"
 		sprite="rumiaPinwheelBullet"
 		directionalLaunch="false"
+	/>
+	<waterBullet
+		speed="-1.0"
+		radius="0.3"
+		damage="5.0"
+		sprite="waterBullet"
+		lightSource="waterBullet"
+		directionalLaunch="true"
 	/>
 	
 </bullets>

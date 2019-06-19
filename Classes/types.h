@@ -86,6 +86,8 @@ struct sprite_properties {
 	IntVec2 size;
 	int dpi;
 	float referenceSize = 0.0f;
+	//only used for animation sequences
+	float duration = 0.0;
 	Color3B color = Color3B::BLACK;
 };
 
