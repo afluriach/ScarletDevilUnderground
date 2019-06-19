@@ -84,7 +84,7 @@ class BulletImpl :
 	public RegisterInit<BulletImpl>
 {
 public:
-	BulletImpl(const bullet_properties* props);
+	BulletImpl(shared_ptr<bullet_properties> props);
 	inline virtual ~BulletImpl() {}
 
 	void init();
@@ -97,32 +97,8 @@ public:
 	virtual inline string getSprite() const { return props->sprite; }
 
 	virtual inline DamageInfo getDamageInfo() const { return props->damage; }
-
-	const bullet_properties* props;
-};
-
-class BulletValueImpl :
-	virtual public Bullet,
-	public CircleBody,
-	public ImageSprite,
-	public RegisterInit<BulletValueImpl>
-{
-public:
-	BulletValueImpl(bullet_properties props);
-	inline virtual ~BulletValueImpl() {}
-
-	void init();
-
-	virtual inline SpaceFloat getMass() const { return props.mass; }
-	virtual inline SpaceFloat getMaxSpeed() const { return props.speed; }
-	virtual inline SpaceFloat getRadius() const { return props.radius; }
-
-	virtual void initializeGraphics();
-	virtual inline string getSprite() const { return props.sprite; }
-
-	virtual inline DamageInfo getDamageInfo() const { return props.damage; }
-
-	const bullet_properties props;
+protected:
+	shared_ptr<bullet_properties> props;
 };
 
 //Shield bullet is no-collide with normal obstacles, and is not consumed

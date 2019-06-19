@@ -116,7 +116,7 @@ void Bullet::setBodyVisible(bool b)
 	}
 }
 
-BulletImpl::BulletImpl(const bullet_properties* props) :
+BulletImpl::BulletImpl(shared_ptr<bullet_properties> props) :
 	RegisterInit<BulletImpl>(this),
 	props(props)
 {
@@ -132,26 +132,6 @@ void BulletImpl::init()
 }
 
 void BulletImpl::initializeGraphics()
-{
-	ImageSprite::initializeGraphics();
-}
-
-BulletValueImpl::BulletValueImpl(bullet_properties props) :
-	RegisterInit<BulletValueImpl>(this),
-	props(props)
-{
-	hitCount = props.hitCount;
-	ricochetCount = props.ricochetCount;
-}
-
-void BulletValueImpl::init()
-{
-	if (props.directionalLaunch) {
-		setVel(calculateLaunchVelocity());
-	}
-}
-
-void BulletValueImpl::initializeGraphics()
 {
 	ImageSprite::initializeGraphics();
 }

@@ -67,6 +67,15 @@ bool isComment(const string& s);
 string getTimeString(unsigned int millis);
 string floatToStringOptionalDecimal(float val);
 
+template<typename T>
+inline shared_ptr<T> makeSharedCopy(const T& val)
+{
+	auto result = make_shared<T>();
+	*result = val;
+
+	return result;
+}
+
 template<typename V>
 V getOrDefaultLowerCase(const unordered_map<string, V>& _map, const string& _key, const V& _default)
 {

@@ -49,26 +49,9 @@ public:
 	inline object_ref<ObjectCls> bulletImplCheckSpawn(
 		const SpaceVect& pos,
 		SpaceFloat angle,
-		const bullet_properties* props
+		shared_ptr<bullet_properties> props
 	){
 		if (!isBulletObstacle(pos, props->radius))
-			return space->createObject(make_object_factory<ObjectCls>(
-				pos,
-				angle,
-				object_ref<Agent>(this),
-				props
-			));
-		else
-			return nullptr;
-	}
-
-	template<class ObjectCls>
-	inline object_ref<ObjectCls> bulletValueImplCheckSpawn(
-		const SpaceVect& pos,
-		SpaceFloat angle,
-		bullet_properties props
-	) {
-		if (!isBulletObstacle(pos, props.radius))
 			return space->createObject(make_object_factory<ObjectCls>(
 				pos,
 				angle,

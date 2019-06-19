@@ -98,7 +98,7 @@ const bullet_properties EnemyBulletImpl::rumiaPinwheelBullet = {
 	false
 };
 
-EnemyBulletImpl::EnemyBulletImpl(GSpace* space, ObjectIDType id, const SpaceVect& pos, SpaceFloat angle, object_ref<Agent> agent, const bullet_properties* props) :
+EnemyBulletImpl::EnemyBulletImpl(GSpace* space, ObjectIDType id, const SpaceVect& pos, SpaceFloat angle, object_ref<Agent> agent, shared_ptr<bullet_properties> props) :
 	GObject(space, id, "", pos, angle),
 	Bullet(agent),
 	BulletImpl(props)
@@ -227,7 +227,7 @@ SpaceVect ReimuBullet1::parametric_move(SpaceFloat t, SpaceFloat firingAngle, Sp
 ReimuBullet1::ReimuBullet1(GSpace* space, ObjectIDType id, const SpaceVect& pos, SpaceFloat angle, object_ref<Agent> agent, SpaceFloat start) :
 	GObject(space, id, "", pos, angle),
 	Bullet(agent),
-	BulletImpl(&props),
+	BulletImpl(makeSharedCopy(props)),
 	ParametricMotion(bind(&parametric_move, placeholders::_1, angle, start))
 {}
 
@@ -249,7 +249,7 @@ const bullet_properties YinYangOrb::props = {
 YinYangOrb::YinYangOrb(GSpace* space, ObjectIDType id, const SpaceVect& pos, SpaceFloat angle, object_ref<Agent> agent) :
 	GObject(space, id, "", pos, angle),
 	Bullet(agent),
-	BulletImpl(&props)
+	BulletImpl(makeSharedCopy(props))
 {
 	setInitialAngularVelocity(float_pi);
 }
@@ -281,7 +281,7 @@ RumiaDemarcation2Bullet::RumiaDemarcation2Bullet(
 	GObject(space, id, "", pos, angle), 
 	Bullet(agent),
 	ShieldBullet(agent, false),
-	BulletImpl(&props)
+	BulletImpl(makeSharedCopy(props))
 {
 	setInitialAngularVelocity(angularVel);
 }
@@ -314,7 +314,7 @@ RumiaDarknessBullet::RumiaDarknessBullet(
 	GObject(space, id, "", pos, angle),
 	Bullet(agent),
 	ShieldBullet(agent, false),
-	BulletImpl(&props)
+	BulletImpl(makeSharedCopy(props))
 {
 	addMagicEffect(make_shared<RadiusEffect>(
 		this,

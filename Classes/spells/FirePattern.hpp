@@ -41,7 +41,7 @@ template<class C>
 class BulletImplPattern : virtual public FirePattern
 {
 public:
-	inline BulletImplPattern(const bullet_properties* props) : props(props) {}
+	inline BulletImplPattern(shared_ptr<bullet_properties> props) : props(props) {}
 	virtual inline ~BulletImplPattern() {}
 
 	inline virtual bool spawn(SpaceFloat angle)
@@ -58,7 +58,7 @@ public:
 		).isFuture();
 	}
 
-	const bullet_properties* props;
+	shared_ptr<bullet_properties> props;
 };
 
 template<class C>

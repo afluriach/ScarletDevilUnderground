@@ -16,7 +16,7 @@
 #define cons(x) x::x(GSpace* space, ObjectIDType id, const SpaceVect& pos, SpaceFloat angle, object_ref<Agent> agent) : \
     GObject(space, id, "", pos, angle), \
     Bullet(agent), \
-    BulletImpl(&props) \
+    BulletImpl(makeSharedCopy(props)) \
 {} \
 
 const bullet_properties PlayerBulletImpl::flandreBigOrb1 = {
@@ -80,43 +80,38 @@ const bullet_properties PlayerBulletImpl::cirnoLargeIceBullet = {
 	"cirnoIceBullet",
 };
 
-PlayerBulletImpl::PlayerBulletImpl(GSpace* space, ObjectIDType id, const SpaceVect& pos, SpaceFloat angle, object_ref<Agent> agent, const bullet_properties* props) :
+PlayerBulletImpl::PlayerBulletImpl(GSpace* space, ObjectIDType id, const SpaceVect& pos, SpaceFloat angle, object_ref<Agent> agent, shared_ptr<bullet_properties> props) :
     GObject(space, id, "", pos, angle),
     Bullet(agent),
     BulletImpl(props)
 {}
 
-PlayerBulletValueImpl::PlayerBulletValueImpl(GSpace* space, ObjectIDType id, const SpaceVect& pos, SpaceFloat angle, object_ref<Agent> agent, bullet_properties props) :
-	GObject(space, id, "", pos, angle),
-	Bullet(agent),
-	BulletValueImpl(props)
-{}
 
-StarbowBreakBullet::StarbowBreakBullet(GSpace* space, ObjectIDType id, const SpaceVect& pos, SpaceFloat angle, object_ref<Agent> agent, bullet_properties props) :
+StarbowBreakBullet::StarbowBreakBullet(GSpace* space, ObjectIDType id, const SpaceVect& pos, SpaceFloat angle, object_ref<Agent> agent, shared_ptr<bullet_properties> props) :
 	GObject(space, id, "", pos, angle),
 	Bullet(agent),
-	PlayerBulletValueImpl(space, id, pos, angle, agent, props)
+	PlayerBulletImpl(space, id, pos, angle, agent, props)
 {}
 
 shared_ptr<LightArea> StarbowBreakBullet::getLightSource() const {
 	return CircleLightArea::create(
 		getPos(),
-		props.radius * 4.0f,
+		props->radius * 4.0f,
 		toColor4F(app::getSprite(getSprite()).color),
 		0.25
 	);
 }
 
-CatadioptricBullet::CatadioptricBullet(GSpace* space, ObjectIDType id, const SpaceVect& pos, SpaceFloat angle, object_ref<Agent> agent, bullet_properties props) :
+CatadioptricBullet::CatadioptricBullet(GSpace* space, ObjectIDType id, const SpaceVect& pos, SpaceFloat angle, object_ref<Agent> agent, shared_ptr<bullet_properties> props) :
 	GObject(space, id, "", pos, angle),
 	Bullet(agent),
-	PlayerBulletValueImpl(space, id, pos, angle, agent, props)
+	PlayerBulletImpl(space, id, pos, angle, agent, props)
 {}
 
 shared_ptr<LightArea> CatadioptricBullet::getLightSource() const {
 	return CircleLightArea::create(
 		getPos(),
-		props.radius * 4.0f,
+		props->radius * 4.0f,
 		Color4F::BLUE*0.5f + Color4F::GREEN*0.5f,
 		0.25
 	);
@@ -184,7 +179,7 @@ FlanPolarBullet::FlanPolarBullet(GSpace* space, ObjectIDType id, const SpaceVect
 FlanPolarBullet::FlanPolarBullet(GSpace* space, ObjectIDType id, const SpaceVect& pos, SpaceFloat angle, object_ref<Agent> agent, SpaceFloat parametric_start) :
 	GObject(space, id, "", pos, angle),
 	Bullet(agent),
-	BulletImpl(&props),
+	BulletImpl(makeSharedCopy(props)),
 	ParametricMotion(&parametric_motion, parametric_start)
 {
 	ignoreObstacleCollision = true;
@@ -211,7 +206,7 @@ const bullet_properties FlandrePolarMotionOrb::props = {
 FlandrePolarMotionOrb::FlandrePolarMotionOrb(GSpace* space, ObjectIDType id, const SpaceVect& pos, SpaceFloat angle, object_ref<Agent> agent) :
 	GObject(space, id, "", pos, angle),
 	Bullet(agent),
-	BulletImpl(&props)
+	BulletImpl(makeSharedCopy(props))
 {}
 
 void FlandrePolarMotionOrb::update()

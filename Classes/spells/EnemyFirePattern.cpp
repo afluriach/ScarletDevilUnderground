@@ -14,7 +14,7 @@
 IceFairyBulletPattern::IceFairyBulletPattern(Agent *const agent) :
 	SingleBulletFixedIntervalPattern(agent),
 	FirePattern(agent),
-	EnemyBulletImplPattern(&EnemyBulletImpl::iceFairyBullet)
+	EnemyBulletImplPattern(makeSharedCopy(EnemyBulletImpl::iceFairyBullet))
 {
 }
 
@@ -26,7 +26,7 @@ Fairy1BulletPattern::Fairy1BulletPattern(
 ) :
 	MultiBulletSpreadPattern(agent, fireInterval, sideAngleSpread, bulletCount),
 	FirePattern(agent),
-	EnemyBulletImplPattern(&EnemyBulletImpl::fairy1Bullet)
+	EnemyBulletImplPattern(makeSharedCopy(EnemyBulletImpl::fairy1Bullet))
 {
 }
 
@@ -37,27 +37,27 @@ GreenFairyBulletPattern::GreenFairyBulletPattern(
 ) :
 	RadiusPattern(agent, fireInterval, bulletCount),
 	FirePattern(agent),
-	EnemyBulletImplPattern(&EnemyBulletImpl::greenFairyBullet)
+	EnemyBulletImplPattern(makeSharedCopy(EnemyBulletImpl::greenFairyBullet))
 {
 }
 
 BlueFairyFirePattern::BlueFairyFirePattern(Agent *const agent) :
 	FirePattern(agent),
 	BurstPattern(agent, 1.5, 0.5, 3),
-	EnemyBulletImplPattern(&EnemyBulletImpl::blueFairyBullet)
+	EnemyBulletImplPattern(makeSharedCopy(EnemyBulletImpl::blueFairyBullet))
 {
 }
 
 RumiaBurstPattern::RumiaBurstPattern(Agent *const agent) :
 	FirePattern(agent),
 	BurstPattern(agent, 1.5, 0.25, 3),
-	EnemyBulletImplPattern(&EnemyBulletImpl::rumiaBullet)
+	EnemyBulletImplPattern(makeSharedCopy(EnemyBulletImpl::rumiaBullet))
 {}
 
 RumiaBurstPattern2::RumiaBurstPattern2(Agent *const agent) :
 	FirePattern(agent),
 	BurstPattern(agent, 0.9, 0.33, 6),
-	EnemyBulletImplPattern(&EnemyBulletImpl::rumiaBullet2)
+	EnemyBulletImplPattern(makeSharedCopy(EnemyBulletImpl::rumiaBullet2))
 {}
 
 ReimuWavePattern::ReimuWavePattern(Agent *const agent) :

@@ -70,7 +70,7 @@ void DarknessSignDemarcation::generate()
 			gobject_ref bullet = getCasterAs<Agent>()->bulletImplCheckSpawn<EnemyBulletImpl>(
 				pos,
 				bulletAngle,
-				&EnemyBulletImpl::rumiaDemarcationBullet
+				makeSharedCopy(EnemyBulletImpl::rumiaDemarcationBullet)
 			);
 		}
 	}
@@ -223,7 +223,7 @@ void NightSignPinwheel::generateLeg(SpaceFloat angle)
 		gobject_ref bullet = getCasterAs<Agent>()->bulletImplCheckSpawn<EnemyBulletImpl>(
 			pos,
 			a,
-			&EnemyBulletImpl::rumiaPinwheelBullet
+			makeSharedCopy(EnemyBulletImpl::rumiaPinwheelBullet)
 		);
 		bullets.insert(bullet);
 	}

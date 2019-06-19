@@ -39,7 +39,7 @@ void Launcher::update()
 			pos,
 			getAngle(),
 			nullptr,
-			&EnemyBulletImpl::launcherBullet
+			makeSharedCopy(EnemyBulletImpl::launcherBullet)
 		));
 		cooldownTime = fireInterval;
 	}

@@ -33,29 +33,22 @@ public:
 	static const bullet_properties cirnoSmallIceBullet;
 	static const bullet_properties cirnoLargeIceBullet;
 
-	PlayerBulletImpl(GSpace* space, ObjectIDType id, const SpaceVect& pos, SpaceFloat angle, object_ref<Agent> agent, const bullet_properties* props);
+	PlayerBulletImpl(GSpace* space, ObjectIDType id, const SpaceVect& pos, SpaceFloat angle, object_ref<Agent> agent, shared_ptr<bullet_properties> props);
 	inline virtual ~PlayerBulletImpl() {}
 };
 
-class PlayerBulletValueImpl : public PlayerBullet, public BulletValueImpl
+class StarbowBreakBullet : public PlayerBulletImpl, public LightObject
 {
 public:
-	PlayerBulletValueImpl(GSpace* space, ObjectIDType id, const SpaceVect& pos, SpaceFloat angle, object_ref<Agent> agent, bullet_properties props);
-	inline virtual ~PlayerBulletValueImpl() {}
-};
-
-class StarbowBreakBullet : public PlayerBulletValueImpl, public LightObject
-{
-public:
-	StarbowBreakBullet(GSpace* space, ObjectIDType id, const SpaceVect& pos, SpaceFloat angle, object_ref<Agent> agent, bullet_properties props);
+	StarbowBreakBullet(GSpace* space, ObjectIDType id, const SpaceVect& pos, SpaceFloat angle, object_ref<Agent> agent, shared_ptr<bullet_properties> props);
 
 	virtual shared_ptr<LightArea> getLightSource() const;
 };
 
-class CatadioptricBullet : public PlayerBulletValueImpl, public LightObject
+class CatadioptricBullet : public PlayerBulletImpl, public LightObject
 {
 public:
-	CatadioptricBullet(GSpace* space, ObjectIDType id, const SpaceVect& pos, SpaceFloat angle, object_ref<Agent> agent, bullet_properties props);
+	CatadioptricBullet(GSpace* space, ObjectIDType id, const SpaceVect& pos, SpaceFloat angle, object_ref<Agent> agent, shared_ptr<bullet_properties> props);
 
 	virtual shared_ptr<LightArea> getLightSource() const;
 };

@@ -36,7 +36,7 @@ public:
 	static const bullet_properties rumiaDemarcationBullet;
 	static const bullet_properties rumiaPinwheelBullet;
 
-	EnemyBulletImpl(GSpace* space, ObjectIDType id, const SpaceVect& pos, SpaceFloat angle, object_ref<Agent> agent, const bullet_properties* props);
+	EnemyBulletImpl(GSpace* space, ObjectIDType id, const SpaceVect& pos, SpaceFloat angle, object_ref<Agent> agent, shared_ptr<bullet_properties> props);
 	inline virtual ~EnemyBulletImpl() {}
 };
 
