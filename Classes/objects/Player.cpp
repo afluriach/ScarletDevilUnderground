@@ -705,13 +705,13 @@ bool Player::canPlaceBomb(SpaceVect pos)
 const string FlandrePC::baseAttributes = "flandrePC";
 
 FlandrePC::FlandrePC(GSpace* space, ObjectIDType id, const ValueMap& args) :
-	MapObjForwarding(GObject),
+	MapObjParams(GObject),
 	MapObjForwarding(Agent),
 	MapObjForwarding(Player)
 {}
 
 FlandrePC::FlandrePC(GSpace* space, ObjectIDType id, const SpaceVect& pos, Direction d) :
-	GObject(space, id, "player", pos, dirToPhysicsAngle(d)),
+	GObject(make_shared<object_params>(space, id, "player", pos, dirToPhysicsAngle(d))),
 	Agent(space, id, "player", pos, d),
 	Player(space, id, pos, d)
 {
@@ -732,7 +732,7 @@ shared_ptr<LightArea> FlandrePC::getLightSource() const
 const string RumiaPC::baseAttributes = "rumiaPC";
 
 RumiaPC::RumiaPC(GSpace* space, ObjectIDType id, const ValueMap& args) :
-	MapObjForwarding(GObject),
+	MapObjParams(GObject),
 	MapObjForwarding(Agent),
 	MapObjForwarding(Player)
 {}
@@ -745,7 +745,7 @@ shared_ptr<LightArea> RumiaPC::getLightSource() const
 const string CirnoPC::baseAttributes = "cirnoPC";
 
 CirnoPC::CirnoPC(GSpace* space, ObjectIDType id, const ValueMap& args) :
-	MapObjForwarding(GObject),
+	MapObjParams(GObject),
 	MapObjForwarding(Agent),
 	MapObjForwarding(Player)
 {}

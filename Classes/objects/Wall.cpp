@@ -15,12 +15,12 @@
 #include "Wall.hpp"
 
 Wall::Wall(GSpace* space, ObjectIDType id, const ValueMap& args) :
-	GObject(space,id,args,true),
+	MapObjParams(),
 	RectangleBody(args)
 {}
 
 Wall::Wall(GSpace* space, ObjectIDType id, SpaceVect center, SpaceVect dimensions) :
-	GObject(space, id, "", center, 0.0),
+	GObject(make_shared<object_params>(space, id, "", center, 0.0)),
 	RectangleBody(dimensions)
 {}
 
@@ -29,7 +29,7 @@ PhysicsLayers Wall::getLayers() const{
 }
 
 BreakableWall::BreakableWall(GSpace* space, ObjectIDType id, const ValueMap& args) :
-	MapObjForwarding(GObject),
+	MapObjParams(),
 	MapObjForwarding(Wall)
 {}
 

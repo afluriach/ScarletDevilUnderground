@@ -16,7 +16,7 @@
 const SpaceFloat Bomb::explosionSpriteRadius = 2.0;
 
 Bomb::Bomb(GSpace* space, ObjectIDType id, const SpaceVect& pos, const SpaceVect& vel) :
-	GObject(space, id, "", pos, 0.0),
+	GObject(make_shared<object_params>(space, id, "", pos, 0.0)),
 	RegisterInit<Bomb>(this)
 {
 	if (!vel.isZero()) {
@@ -72,13 +72,13 @@ void Bomb::detonate()
 }
 
 PlayerBomb::PlayerBomb(GSpace* space, ObjectIDType id, const SpaceVect& pos, const SpaceVect& vel) :
-	GObject(space, id, "", pos, 0.0),
+	GObject(make_shared<object_params>(space, id, "", pos, 0.0)),
 	Bomb(space, id, pos, vel)
 {
 }
 
 RedFairyBomb::RedFairyBomb(GSpace* space, ObjectIDType id, const SpaceVect& pos, const SpaceVect& vel) :
-	GObject(space, id, "", pos, 0.0),
+	GObject(make_shared<object_params>(space, id, "", pos, 0.0)),
 	Bomb(space, id, pos, vel)
 {
 }

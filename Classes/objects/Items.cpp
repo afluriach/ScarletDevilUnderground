@@ -18,7 +18,7 @@
 #include "value_map.hpp"
 
 ForestBook1::ForestBook1(GSpace* space, ObjectIDType id, const ValueMap& args) :
-	MapObjForwarding(GObject)
+	MapObjParams()
 {}
 
 void ForestBook1::onAcquire()
@@ -27,7 +27,7 @@ void ForestBook1::onAcquire()
 }
 
 GraveyardBook1::GraveyardBook1(GSpace* space, ObjectIDType id, const ValueMap& args) :
-	MapObjForwarding(GObject)
+	MapObjParams()
 {}
 
 void GraveyardBook1::onAcquire()
@@ -48,7 +48,7 @@ bool Spellcard::conditionalLoad(GSpace* space, ObjectIDType id, const ValueMap& 
 }
 
 Spellcard::Spellcard(GSpace* space, ObjectIDType id, const ValueMap& args) :
-	MapObjForwarding(GObject)
+	MapObjParams()
 {
 	name = getStringOrDefault(args, "spell", "");
 

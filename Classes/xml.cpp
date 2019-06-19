@@ -9,6 +9,7 @@
 #include "Prefix.h"
 
 #include "Attributes.hpp"
+#include "Bullet.hpp"
 #include "FileIO.hpp"
 #include "Graphics.h"
 #include "graphics_types.h"

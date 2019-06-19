@@ -21,45 +21,19 @@
 
 unordered_map<type_index, string> GObject::typeNameMap;
 
-GObject::GObject(GSpace* space, ObjectIDType uuid, const ValueMap& obj, bool anonymous) :
-	space(space),
-	name(!anonymous ? obj.at("name").asString() : ""),
-	uuid(uuid),
-	hidden(getBoolOrDefault(obj,"hidden", false)),
-	anonymous(anonymous || name.empty())
+GObject::GObject(shared_ptr<object_params> params) :
+	space(params->space),
+	name(params->name),
+    anonymous(params->name.empty()),
+	uuid(params->id),
+	initialCenter(params->pos),
+	prevPos(params->pos),
+	prevAngle(params->angle),
+	hidden(params->hidden)
 {
-	//Interpret coordinates as center, unit space.
-	initialCenter = getObjectPos(obj);
-	prevPos = initialCenter;
-
-#if GOBJECT_LUA
-	if (!anonymous) {
-		ctx = make_unique<Lua::Inst>(boost::lexical_cast<string>(uuid) + "_" + name);
-	}
-#endif
-
-    if(!anonymous && logCreateObjects)
-        log("%s created at %.1f,%.1f.", name.c_str(),initialCenter.x, initialCenter.y);
-}
-
-GObject::GObject(GSpace* space, ObjectIDType uuid, const string& name, const SpaceVect& pos, SpaceFloat angle) :
-	space(space),
-	name(name),
-    anonymous(name.empty()),
-	uuid(uuid),
-	initialCenter(pos)
-{
-#if GOBJECT_LUA
-    if(!anonymous){
-        ctx = make_unique<Lua::Inst>(boost::lexical_cast<string>(uuid) + "_" + name);
-    }
-#endif
-
-    if(logCreateObjects && !anonymous)
-        log("%s created at %.1f,%.1f.", name.c_str(),initialCenter.x, initialCenter.y);
-
-	setInitialAngle(angle);
-	prevAngle = angle;
+	setInitialAngle(params->angle);
+	if (params->vel != SpaceVect::zero) setInitialVelocity(params->vel);
+	if (params->angularVel != 0.0) setInitialAngularVelocity(params->angularVel);
 }
 
 GObject::~GObject()

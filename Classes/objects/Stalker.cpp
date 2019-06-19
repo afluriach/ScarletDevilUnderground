@@ -16,7 +16,7 @@
 const string Stalker::baseAttributes = "stalker"; 
 
 Stalker::Stalker(GSpace* space, ObjectIDType id, const ValueMap& args) :
-	MapObjForwarding(GObject),
+	MapObjParams(),
 	MapObjForwarding(Agent),
 	Enemy(collectible_id::magic1)
 {}

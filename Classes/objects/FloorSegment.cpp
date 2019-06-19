@@ -24,7 +24,7 @@ FloorSegment::~FloorSegment()
 }
 
 FloorSegmentImpl::FloorSegmentImpl(GSpace* space, ObjectIDType id, const ValueMap& args, const string& type) :
-	MapObjForwarding(GObject),
+	MapObjParams(),
 	MapObjForwarding(FloorSegment)
 {
 	auto it = app::floors.find(type);
@@ -48,7 +48,7 @@ string FloorSegmentImpl::getFootstepSfx() const {
 const SpaceFloat MovingPlatform::defaultSpeed = 1.0;
 
 MovingPlatform::MovingPlatform(GSpace* space, ObjectIDType id, const ValueMap& args) :
-	MapObjForwarding(GObject),
+	MapObjParams(),
 	MapObjForwarding(FloorSegment),
 	MaxSpeedImpl(getFloatOrDefault(args, "speed", defaultSpeed)),
 	RegisterInit<MovingPlatform>(this)
@@ -114,13 +114,13 @@ void MovingPlatform::setWaypoint(size_t idx)
 }
 
 IcePlatform::IcePlatform(GSpace* space, ObjectIDType id, const ValueMap& args) :
-GObject(space, id, args, true),
+MapObjParams(),
 MovingPlatform(space, id, args)
 {
 }
 
 PressurePlate::PressurePlate(GSpace* space, ObjectIDType id, const ValueMap& args) :
-	GObject(space, id, args, true),
+	MapObjParams(),
 	FloorSegment(space, id, args),
 	RegisterInit<PressurePlate>(this)
 {
@@ -168,7 +168,7 @@ void PressurePlate::onEndContact(GObject* obj)
 }
 
 Pitfall::Pitfall(GSpace* space, ObjectIDType id, const ValueMap& args) :
-GObject(space,id,args, true),
+MapObjParams(),
 FloorSegment(space,id,args)
 {
 }
@@ -187,7 +187,7 @@ void Pitfall::exclusiveFloorEffect(GObject* obj)
 }
 
 WaterFloor::WaterFloor(GSpace* space, ObjectIDType id, const ValueMap& args) :
-	GObject(space, id, args, true),
+	MapObjParams(),
 	FloorSegment(space, id, args)
 {
 }

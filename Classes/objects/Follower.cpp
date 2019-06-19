@@ -15,7 +15,7 @@
 const string Follower::baseAttributes = "ff";
 
 Follower::Follower(GSpace* space, ObjectIDType id, const ValueMap& args) :
-	GObject(space, id, args),
+	MapObjParams(),
 	Agent(space, id, args),
 	Enemy(collectible_id::nil)
 {}

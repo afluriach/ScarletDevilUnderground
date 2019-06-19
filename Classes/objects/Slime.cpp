@@ -12,7 +12,7 @@
 #include "Slime.hpp"
 
 Slime1::Slime1(GSpace* space, ObjectIDType id, const ValueMap& args) :
-	MapObjForwarding(GObject),
+	MapObjParams(),
 	MapObjForwarding(Agent),
 	Enemy(collectible_id::hm1)
 {
@@ -42,7 +42,7 @@ DamageInfo Slime1::touchEffect() const {
 }
 
 Slime2::Slime2(GSpace* space, ObjectIDType id, const ValueMap& args) :
-	MapObjForwarding(GObject),
+	MapObjParams(),
 	MapObjForwarding(Agent),
 	Enemy(collectible_id::hm2)
 {

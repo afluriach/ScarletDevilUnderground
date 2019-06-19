@@ -22,13 +22,13 @@
 #include "value_map.hpp"
 
 AreaSensor::AreaSensor(GSpace* space, ObjectIDType id, const ValueMap& args) :
-	GObject(space, id, args),
+	MapObjParams(),
 	RectangleBody(args)
 {
 }
 
 AreaSensor::AreaSensor(GSpace* space, ObjectIDType id, SpaceVect center, SpaceVect dim) :
-	GObject(space,id,"",center,0.0),
+	GObject(make_shared<object_params>(space, id, "", center, 0.0)),
 	RectangleBody(dim)
 {
 }
@@ -80,7 +80,7 @@ unsigned int AreaSensor::getEnemyCount(type_index t)
 }
 
 HiddenSubroomSensor::HiddenSubroomSensor(GSpace* space, ObjectIDType id, const ValueMap& args) :
-	MapObjForwarding(GObject),
+	MapObjParams(),
 	MapObjForwarding(AreaSensor),
 	roomID(getIntOrDefault(args, "id", -1))
 {
@@ -109,7 +109,7 @@ RoomSensor::RoomSensor(GSpace* space, ObjectIDType id, const ValueMap& args) :
 {}
 
 RoomSensor::RoomSensor(GSpace* space, ObjectIDType id, SpaceVect center, SpaceVect dimensions, int mapID, const ValueMap& props) :
-	GObject(space, id, "", center, 0.0),
+	GObject(make_shared<object_params>(space, id, "", center, 0.0)),
 	AreaSensor(space,id,center,dimensions),
 	StateMachineObject(props),
 	RegisterInit<RoomSensor>(this),
@@ -284,7 +284,7 @@ bool RoomSensor::isClearedState()
 }
 
 GhostHeadstoneSensor::GhostHeadstoneSensor(GSpace* space, ObjectIDType id, const ValueMap& args) :
-	GObject(space, id, args),
+	MapObjParams(),
 	AreaSensor(space, id, args),
 	RegisterInit<GhostHeadstoneSensor>(this)
 {

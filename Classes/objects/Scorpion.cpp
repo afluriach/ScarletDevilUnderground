@@ -12,7 +12,7 @@
 #include "Scorpion.hpp"
 
 Scorpion1::Scorpion1(GSpace* space, ObjectIDType id, const ValueMap& args) :
-	MapObjForwarding(GObject),
+	MapObjParams(),
 	MapObjForwarding(Agent),
 	Enemy(collectible_id::hm1)
 {
@@ -48,7 +48,7 @@ DamageInfo Scorpion1::touchEffect() const {
 }
 
 Scorpion2::Scorpion2(GSpace* space, ObjectIDType id, const ValueMap& args) :
-	MapObjForwarding(GObject),
+	MapObjParams(),
 	MapObjForwarding(Agent),
 	Enemy(collectible_id::hm2)
 {

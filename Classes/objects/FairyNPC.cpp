@@ -27,7 +27,7 @@ const AIPackage<FairyMaid>::AIPackageMap FairyMaid::aiPackages = {
 };
 
 FairyMaid::FairyMaid(GSpace* space, ObjectIDType id, const ValueMap& args) :
-	MapObjForwarding(GObject),
+	MapObjParams(),
 	MapObjForwarding(Agent),
 	DialogImpl(args),
 	AIPackage<FairyMaid>(this, args, "idle")
@@ -67,7 +67,7 @@ bool BlueFairyNPC::conditionalLoad(GSpace* space, ObjectIDType id, const ValueMa
 }
 
 BlueFairyNPC::BlueFairyNPC(GSpace* space, ObjectIDType id, const ValueMap& args) :
-	MapObjForwarding(GObject),
+	MapObjParams(),
 	MapObjForwarding(Agent)
 {
 	level = getIntOrDefault(args, "level", 0);
@@ -115,7 +115,7 @@ bool GhostFairyNPC::conditionalLoad(GSpace* space, ObjectIDType id, const ValueM
 }
 
 GhostFairyNPC::GhostFairyNPC(GSpace* space, ObjectIDType id, const ValueMap& args) :
-	MapObjForwarding(GObject),
+	MapObjParams(),
 	MapObjForwarding(Agent)
 {
 }

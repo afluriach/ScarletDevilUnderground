@@ -16,7 +16,7 @@
 #include "value_map.hpp"
 
 Reimu::Reimu(GSpace* space, ObjectIDType id, const ValueMap& args) :
-	MapObjForwarding(GObject),
+	MapObjParams(),
 	MapObjForwarding(Agent)
 {}
 
@@ -24,7 +24,7 @@ const string ReimuEnemy::baseAttributes = "reimu";
 const string ReimuEnemy::properName = "Reimu Hakurei";
 
 ReimuEnemy::ReimuEnemy(GSpace* space, ObjectIDType id, const ValueMap& args) :
-	MapObjForwarding(GObject),
+	MapObjParams(),
 	MapObjForwarding(Agent),
 	Enemy(collectible_id::magic2),
 	activations(getStringOrDefault(args, "activations", ""))

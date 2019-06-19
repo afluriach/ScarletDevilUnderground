@@ -13,6 +13,7 @@
 #include "graphics_types.h"
 #include "multifunction.h"
 #include "object_ref.hpp"
+#include "object_params.hpp"
 
 class Player;
 class Bullet;
@@ -26,6 +27,7 @@ class FloorSegment;
 
 #define MapObjCons(cls) cls(GSpace* space, ObjectIDType id, const ValueMap& args)
 #define MapObjForwarding(cls) cls(space,id,args)
+#define MapObjParams() GObject(make_shared<object_params>(space,id,args))
 
 class GObject
 {
@@ -85,9 +87,7 @@ public:
 		};
 	}
 
-	//Representation as a map object
-	GObject(GSpace* space, ObjectIDType uuid, const ValueMap& args, bool anonymous = false);
-	GObject(GSpace* space, ObjectIDType uuid, const string& name, const SpaceVect& pos, SpaceFloat angle);
+	GObject(shared_ptr<object_params> params);
     
     virtual ~GObject();
 

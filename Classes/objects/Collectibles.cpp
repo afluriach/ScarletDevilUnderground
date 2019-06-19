@@ -55,7 +55,7 @@ ObjectGeneratorType Collectible::create(GSpace* space, collectible_id id, SpaceV
 }
 
 Collectible::Collectible(GSpace* space, ObjectIDType id, SpaceVect pos, collectible_id collectibleID) :
-	GObject(space,id,"",pos, float_pi / 2.0),
+	GObject(make_shared<object_params>(space, id, "", pos)),
 	RectangleBody(SpaceVect(0.5, 0.5)),
 	collectibleID(collectibleID)
 {

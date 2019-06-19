@@ -15,7 +15,7 @@
 #include "PatchouliSpell.hpp"
 
 Patchouli::Patchouli(GSpace* space, ObjectIDType id, const ValueMap& args) :
-	MapObjForwarding(GObject),
+	MapObjParams(),
 	MapObjForwarding(Agent)
 {}
 
@@ -61,7 +61,7 @@ const vector<SpellGeneratorType> PatchouliEnemy::spells = {
 };
 
 PatchouliEnemy::PatchouliEnemy(GSpace* space, ObjectIDType id, const ValueMap& args) :
-	MapObjForwarding(GObject),
+	MapObjParams(),
 	MapObjForwarding(Agent),
 	Enemy(collectible_id::magic2)
 {}

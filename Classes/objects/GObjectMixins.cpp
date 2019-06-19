@@ -266,11 +266,11 @@ LightObject::LightObject() :
 void LightObject::init()
 {
 	auto source = getLightSource();
-	if(source)
+	if (source) {
 		lightID = space->addLightSource(source);
-
-	//space->addGraphicsAction(&graphics_context::setLightSourcePosition, lightID, prevPos);
-	//space->addGraphicsAction(&graphics_context::setLightSourceAngle, lightID, prevAngle);
+		space->addGraphicsAction(&graphics_context::setLightSourcePosition, lightID, prevPos);
+		space->addGraphicsAction(&graphics_context::setLightSourceAngle, lightID, prevAngle);
+	}
 }
 
 //END GRAPHICS

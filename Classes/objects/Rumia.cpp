@@ -30,7 +30,7 @@ const string Rumia1::baseAttributes = "rumia1";
 const string Rumia1::properName = "Rumia I";
 
 Rumia1::Rumia1(GSpace* space, ObjectIDType id, const ValueMap& args) :
-	MapObjForwarding(GObject),
+	MapObjParams(),
 	MapObjForwarding(Agent),
 	MapObjForwarding(Rumia)
 {
@@ -59,7 +59,7 @@ const string Rumia2::baseAttributes = "rumia2";
 const string Rumia2::properName = "Rumia II";
 
 Rumia2::Rumia2(GSpace* space, ObjectIDType id, const ValueMap& args) :
-	MapObjForwarding(GObject),
+	MapObjParams(),
 	MapObjForwarding(Agent),
 	MapObjForwarding(Rumia)
 {

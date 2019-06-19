@@ -16,7 +16,7 @@ const string Facer::baseAttributes = "ff";
 const string Facer::properName = "Facer";
 
 Facer::Facer(GSpace* space, ObjectIDType id, const ValueMap& args) :
-	MapObjForwarding(GObject),
+	MapObjParams(),
 	MapObjForwarding(Agent),
 	Enemy(collectible_id::nil)
 {}

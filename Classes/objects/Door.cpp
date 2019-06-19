@@ -19,7 +19,7 @@
 #include "value_map.hpp"
 
 Door::Door(GSpace* space, ObjectIDType id, const ValueMap& args) :
-	MapObjForwarding(GObject),
+	MapObjParams(),
 	RectangleBody(args),
 	RegisterInit<Door>(this)
 {
@@ -189,7 +189,7 @@ Direction Door::getEntryDirection()
 }
 
 Barrier::Barrier(GSpace* space, ObjectIDType id, const ValueMap& args) :
-	MapObjForwarding(GObject),
+	MapObjParams(),
 	RegisterInit<Barrier>(this)
 {
 	sealed = getBoolOrDefault(args, "sealed", false);

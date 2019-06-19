@@ -18,26 +18,26 @@
 #include "MiscMagicEffects.hpp"
 
 #define cons(x) x::x(GSpace* space, ObjectIDType id, const SpaceVect& pos, SpaceFloat angle, object_ref<Agent> agent) : \
-    GObject(space, id, "", pos, angle), \
-    Bullet(agent), \
+	GObject(make_shared<object_params>(space, id, "", pos, angle)), \
+	Bullet(agent), \
     BulletImpl(&props) \
 {} \
 
 EnemyBulletImpl::EnemyBulletImpl(GSpace* space, ObjectIDType id, const SpaceVect& pos, SpaceFloat angle, object_ref<Agent> agent, shared_ptr<bullet_properties> props) :
-	GObject(space, id, "", pos, angle),
+	GObject(make_shared<object_params>(space, id, "", pos, angle)),
 	Bullet(agent),
 	BulletImpl(props)
 {}
 
 
 FireBullet::FireBullet(GSpace* space, ObjectIDType id, const SpaceVect& pos, SpaceFloat angle, object_ref<Agent> agent, SpaceFloat speed) :
-	GObject(space, id, "", pos, angle),
+	GObject(make_shared<object_params>(space, id, "", pos, angle)),
 	Bullet(agent),
 	MaxSpeedImpl(speed)
 {}
 
 WaterBullet::WaterBullet(GSpace* space, ObjectIDType id, const SpaceVect& pos, SpaceFloat angle, object_ref<Agent> agent, SpaceFloat speed) :
-	GObject(space, id, "", pos, angle),
+	GObject(make_shared<object_params>(space, id, "", pos, angle)),
 	Bullet(agent),
 	MaxSpeedImpl(speed)
 {}
@@ -53,7 +53,7 @@ const vector<string> StarBullet::colors = {
 };
 
 StarBullet::StarBullet(GSpace* space, ObjectIDType id, const SpaceVect& pos, SpaceFloat angle, object_ref<Agent> agent, SpaceFloat speed, SpaceFloat radius, const string& color) :
-	GObject(space, id, "", pos, angle),
+	GObject(make_shared<object_params>(space, id, "", pos, angle)),
 	Bullet(agent),
 	MaxSpeedImpl(speed),
 	color(color)
@@ -64,7 +64,7 @@ DamageInfo StarBullet::getDamageInfo() const {
 }
 
 IllusionDialDagger::IllusionDialDagger(GSpace* space, ObjectIDType id, object_ref<Agent> agent, const SpaceVect& pos, SpaceFloat angular_velocity) :
-GObject(space,id,"", pos, 0.0),
+GObject(make_shared<object_params>(space, id, "", pos, 0.0)),
 Bullet(agent),
 RectangleBody(SpaceVect(0.8, 0.175))
 {
@@ -150,7 +150,7 @@ SpaceVect ReimuBullet1::parametric_move(SpaceFloat t, SpaceFloat firingAngle, Sp
 }
 
 ReimuBullet1::ReimuBullet1(GSpace* space, ObjectIDType id, const SpaceVect& pos, SpaceFloat angle, object_ref<Agent> agent, SpaceFloat start) :
-	GObject(space, id, "", pos, angle),
+	GObject(make_shared<object_params>(space, id, "", pos, angle)),
 	Bullet(agent),
 	BulletImpl(makeSharedCopy(props)),
 	ParametricMotion(bind(&parametric_move, placeholders::_1, angle, start))
@@ -173,7 +173,7 @@ const bullet_properties YinYangOrb::props = {
 };
 
 YinYangOrb::YinYangOrb(GSpace* space, ObjectIDType id, const SpaceVect& pos, SpaceFloat angle, object_ref<Agent> agent) :
-	GObject(space, id, "", pos, angle),
+	GObject(make_shared<object_params>(space, id, "", pos, angle)),
 	Bullet(agent),
 	BulletImpl(makeSharedCopy(props))
 {
@@ -200,7 +200,7 @@ RumiaDemarcation2Bullet::RumiaDemarcation2Bullet(
 	object_ref<Agent> agent,
 	SpaceFloat angularVel
 ) :
-	GObject(space, id, "", pos, angle), 
+	GObject(make_shared<object_params>(space, id, "", pos, angle)),
 	Bullet(agent),
 	ShieldBullet(agent, false),
 	BulletImpl(makeSharedCopy(props))
@@ -234,7 +234,7 @@ RumiaDarknessBullet::RumiaDarknessBullet(
 	SpaceFloat angle,
 	object_ref<Agent> agent
 ) :
-	GObject(space, id, "", pos, angle),
+	GObject(make_shared<object_params>(space, id, "", pos, angle)),
 	Bullet(agent),
 	ShieldBullet(agent, false),
 	BulletImpl(makeSharedCopy(props))

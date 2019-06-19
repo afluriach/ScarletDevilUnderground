@@ -16,7 +16,7 @@ const string Bat::baseAttributes = "bat";
 const string Bat::properName = "Bat";
 
 Bat::Bat(GSpace* space, ObjectIDType id, const ValueMap& args) :
-	MapObjForwarding(GObject),
+	MapObjParams(),
 	MapObjForwarding(Agent),
 	Enemy(collectible_id::nil)
 {}

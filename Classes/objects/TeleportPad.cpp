@@ -11,7 +11,7 @@
 #include "TeleportPad.hpp"
 
 TeleportPad::TeleportPad(GSpace* space, ObjectIDType id, const ValueMap& args) :
-MapObjForwarding(GObject),
+MapObjParams(),
 MapObjForwarding(AreaSensor)
 {
 }

@@ -24,7 +24,7 @@
 }
 
 MapFragment::MapFragment(GSpace* space, ObjectIDType id, const ValueMap& args) :
-	MapObjForwarding(GObject),
+	MapObjParams(),
 	mapFragmentId(getIntOrDefault(args, "id", -1))
 {
 	if (mapFragmentId == -1) {

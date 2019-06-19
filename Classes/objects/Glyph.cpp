@@ -11,7 +11,7 @@
 #include "Glyph.hpp"
 
 Glyph::Glyph(GSpace* space, ObjectIDType id, const ValueMap& args) :
-	MapObjForwarding(GObject),
+	MapObjParams(),
 	RegisterInit<Glyph>(this)
 {}
 

@@ -29,7 +29,7 @@ const string GhostFairy::baseAttributes = "ghostFairy";
 const string GhostFairy::properName = "Ghost Fairy";
 
 GhostFairy::GhostFairy(GSpace* space, ObjectIDType id, const ValueMap& args) :
-	MapObjForwarding(GObject),
+	MapObjParams(),
 	MapObjForwarding(Agent),
 	Enemy(collectible_id::hm1)
 {
@@ -66,7 +66,7 @@ const AIPackage<Fairy1>::AIPackageMap Fairy1::aiPackages = {
 };
 
 Fairy1::Fairy1(GSpace* space, ObjectIDType id, const ValueMap& args) :
-	MapObjForwarding(GObject),
+	MapObjParams(),
 	MapObjForwarding(Agent),
 	AIPackage<Fairy1>(this, args, "maintain_distance"),
 	Enemy(collectible_id::hm1)
@@ -145,7 +145,7 @@ const string BlueFairy::baseAttributes = "blueFairy";
 const string BlueFairy::properName = "Blue Fairy";
 
 BlueFairy::BlueFairy(GSpace* space, ObjectIDType id, const ValueMap& args) :
-	MapObjForwarding(GObject),
+	MapObjParams(),
 	MapObjForwarding(Agent),
 	AIPackage(this, args, ""),
 	Enemy(collectible_id::hm1)
@@ -175,7 +175,7 @@ const SpaceFloat RedFairy::explosionRadius = 4.0;
 const float RedFairy::bombCost = 20.0f;
 
 RedFairy::RedFairy(GSpace* space, ObjectIDType id, const ValueMap& args) :
-	MapObjForwarding(GObject),
+	MapObjParams(),
 	MapObjForwarding(Agent),
 	Enemy(collectible_id::hm2)
 {
@@ -280,7 +280,7 @@ const string GreenFairy1::baseAttributes = "greenFairy1";
 const string GreenFairy1::properName = "Green Fairy I";
 
 GreenFairy1::GreenFairy1(GSpace* space, ObjectIDType id, const ValueMap& args) :
-	MapObjForwarding(GObject),
+	MapObjParams(),
 	MapObjForwarding(Agent),
 	Enemy(collectible_id::hm1)
 {
@@ -326,7 +326,7 @@ const string GreenFairy2::baseAttributes = "greenFairy2";
 const string GreenFairy2::properName = "Green Fairy II";
 
 GreenFairy2::GreenFairy2(GSpace* space, ObjectIDType id, const ValueMap& args) :
-	MapObjForwarding(GObject),
+	MapObjParams(),
 	MapObjForwarding(Agent),
 	Enemy(collectible_id::hm2)
 {
@@ -381,7 +381,7 @@ const string ZombieFairy::baseAttributes = "zombieFairy";
 const string ZombieFairy::properName = "Zombie Fairy";
 
 ZombieFairy::ZombieFairy(GSpace* space, ObjectIDType id, const ValueMap& args) :
-	MapObjForwarding(GObject),
+	MapObjParams(),
 	MapObjForwarding(Agent),
 	Enemy(collectible_id::hm2),
 	RegisterInit<ZombieFairy>(this)
@@ -417,7 +417,7 @@ const string Fairy2::baseAttributes = "fairy2";
 const float Fairy2::lowHealthRatio = 0.5f;
 
 Fairy2::Fairy2(GSpace* space, ObjectIDType id, const ValueMap& args) :
-	MapObjForwarding(GObject),
+	MapObjParams(),
 	MapObjForwarding(Agent),
 	Enemy(collectible_id::hm2)
 {}
@@ -514,7 +514,7 @@ object_ref<Fairy2> Fairy2::requestHandler(object_ref<Fairy2> other)
 const string IceFairy::baseAttributes = "iceFairy"; 
 
 IceFairy::IceFairy(GSpace* space, ObjectIDType id, const ValueMap& args) :
-	MapObjForwarding(GObject),
+	MapObjParams(),
 	MapObjForwarding(Agent),
 	Enemy(collectible_id::magic2)
 {

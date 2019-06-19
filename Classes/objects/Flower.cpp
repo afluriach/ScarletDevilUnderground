@@ -11,11 +11,11 @@
 #include "Flower.h"
 
 Flower::Flower(GSpace* space, ObjectIDType id, const string& name, const string& color, const SpaceVect& pos) :
-	GObject(space, id, name, pos, float_pi / 2.0),
+	GObject(make_shared<object_params>(space, id, name, pos, float_pi / 2.0)),
 	color(color) {
 }
 
 Flower::Flower(GSpace* space, ObjectIDType id, const ValueMap& args) :
-	GObject(space, id, args),
+	GObject(make_shared<object_params>(space, id, args)),
 	color(args.at("color").asString()) {
 }

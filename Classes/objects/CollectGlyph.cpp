@@ -13,7 +13,7 @@
 #include "GSpace.hpp"
 
 CollectGlyph::CollectGlyph(GSpace* space, ObjectIDType id, const ValueMap& args) :
-	MapObjForwarding(GObject)
+	MapObjParams()
 {
 	collectScene = space->getSceneAs<Collect>();
 

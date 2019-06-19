@@ -17,7 +17,7 @@ public:
 	static const string baseAttributes;
 
 	inline Tewi(GSpace* space, ObjectIDType id, const ValueMap& args) :
-		MapObjForwarding(GObject),
+		MapObjParams(),
 		MapObjForwarding(Agent),
 		Enemy(collectible_id::nil)
 	{}

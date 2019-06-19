@@ -13,7 +13,7 @@
 #include "Upgrade.hpp"
 
 Upgrade::Upgrade(GSpace* space, ObjectIDType id, const ValueMap& args, Attribute at) :
-	MapObjForwarding(GObject),
+	MapObjParams(),
 	attribute(at),
 	upgrade_id(getInt(args, "id"))
 {

@@ -18,7 +18,7 @@ bool Meiling1::conditionalLoad(GSpace* space, ObjectIDType id, const ValueMap& a
 }
 
 Meiling1::Meiling1(GSpace* space, ObjectIDType id, const ValueMap& args) :
-	MapObjForwarding(GObject),
+	MapObjParams(),
 	MapObjForwarding(Agent)
 {}
 

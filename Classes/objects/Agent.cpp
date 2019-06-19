@@ -31,7 +31,7 @@ const Color4F Agent::shieldConeColor = Color4F(.37f, .56f, .57f, 0.5f);
 const float Agent::bodyOutlineWidth = 4.0f;
 
 Agent::Agent(GSpace* space, ObjectIDType id, const string& name, const SpaceVect& pos, Direction d) :
-	GObject(space, id, name,pos, dirToPhysicsAngle(d)),
+	GObject(make_shared<object_params>(space, id, name, pos, dirToPhysicsAngle(d))),
 	PatchConSprite(d)
 {
 	multiInit.insertWithOrder(wrap_method(Agent, initFSM, this), to_int(GObject::initOrder::initFSM));
@@ -39,7 +39,7 @@ Agent::Agent(GSpace* space, ObjectIDType id, const string& name, const SpaceVect
 }
 
 Agent::Agent(GSpace* space, ObjectIDType id, const ValueMap& args) :
-	MapObjForwarding(GObject),
+	MapObjParams(),
 	PatchConSprite(args),
 	StateMachineObject(args)
 {
@@ -438,7 +438,7 @@ void Agent::updateAgentOverlay()
 const string GenericAgent::baseAttributes = "genericAgent";
 
 GenericAgent::GenericAgent(GSpace* space, ObjectIDType id, const ValueMap& args) :
-	MapObjForwarding(GObject),
+	MapObjParams(),
 	MapObjForwarding(Agent)
 {
 }
