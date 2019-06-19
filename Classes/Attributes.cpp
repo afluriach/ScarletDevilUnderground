@@ -70,6 +70,10 @@ const boost::bimap<Attribute, string> AttributeSystem::attributeNameMap = boost:
 	entry(speed)
 	entry(acceleration)
 
+	entry(bombSensitivity)
+	entry(bulletSensitivity)
+	entry(meleeSensitivity)
+
 	entry(iceSensitivity)
 	entry(sunSensitivity)
 	entry(darknessSensitivity)

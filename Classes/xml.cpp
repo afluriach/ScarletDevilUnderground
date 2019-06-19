@@ -84,10 +84,12 @@ bool getNumericAttr(tinyxml2::XMLElement* elem, const string& name, T* result)
 
 	if (attr) {
 		try {
-			*result = boost::lexical_cast<T>(attr);
+			*result = boost::lexical_cast<T, string>(attr);
 			return true;
 		}
-		catch (boost::bad_lexical_cast ex) {}
+		catch (boost::bad_lexical_cast ex) {
+			log("Unable to parse XML attribute %s", name);
+		}
 	}
 	return false;
 }
