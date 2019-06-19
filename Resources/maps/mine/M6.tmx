@@ -41,9 +41,10 @@
   <object id="31" x="2048" y="1152" width="128" height="896"/>
  </objectgroup>
  <objectgroup name="objects">
-  <object id="52" type="MPUpgrade" x="1664" y="1664" width="128" height="128">
+  <object id="52" type="Upgrade" x="1664" y="1664" width="128" height="128">
    <properties>
     <property name="id" value="0"/>
+	<property name="attr" value="maxMP"/>
    </properties>
   </object>
   <object id="53" type="Torch" x="896" y="896" width="128" height="128">

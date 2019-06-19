@@ -16,7 +16,9 @@
 class Upgrade : virtual public GObject, public CircleBody, public ImageSprite
 {
 public:
-	Upgrade(GSpace* space, ObjectIDType id, const ValueMap& args, Attribute at);
+	static bool conditionalLoad(GSpace* space, ObjectIDType id, const ValueMap& args);
+
+	Upgrade(GSpace* space, ObjectIDType id, const ValueMap& args);
 	virtual inline ~Upgrade() {}
 
 	virtual inline SpaceFloat getMass() const { return -1.0; }

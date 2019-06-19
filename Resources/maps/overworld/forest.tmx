@@ -140,9 +140,10 @@
     <property name="path" value="true"/>
    </properties>
   </object>
-  <object id="126" type="MPUpgrade" x="5120" y="512" width="128" height="128">
+  <object id="126" type="Upgrade" x="5120" y="512" width="128" height="128">
    <properties>
     <property name="id" value="0"/>
+	<property name="attr" value="maxMP"/>
    </properties>
   </object>
  </objectgroup>

@@ -109,17 +109,6 @@ GObject::AdapterType collectibleAdapter(collectible_id coll_id)
 	};
 }
 
-GObject::AdapterType upgradeAdapter(Attribute at)
-{
-	return [=](GSpace* space, ObjectIDType id, const ValueMap& args) -> GObject* {
-		int upgradeID = getIntOrDefault(args, "id", -1);
-		if (upgradeID != -1 && !space->getState()->isUpgradeAcquired(at, upgradeID))
-			return new Upgrade(space, id, args, at);
-		else
-			return nullptr;
-	};
-}
-
 template <class C>
 GObject::object_info makeObjectInfo(GObject::AdapterType adapter)
 {
@@ -151,22 +140,16 @@ GObject::object_info playerObjectInfo()
 
 #define collectible_entry(name,id) {#name, makeObjectInfo<Collectible>(collectibleAdapter(collectible_id::id))}
 
-#define upgrade_entry(name,at) {#name, makeObjectInfo<Upgrade>(upgradeAdapter(Attribute::at))}
-
 unordered_map<string, GObject::object_info> GObject::objectInfo;
 
 void GObject::initObjectInfo()
 {
 	objectInfo = {
 
-	upgrade_entry(AgilityUpgrade, agility),
-	upgrade_entry(AttackUpgrade, attack),
-	upgrade_entry(AttackSpeedUpgrade, attackSpeed),
 	entry_same(Bat),
 	entry_same(BlueFairy),
 	conditional_entry(BlueFairyNPC),
 	entry_same(BreakableWall),
-	upgrade_entry(BulletSpeedUpgrade, bulletSpeed),
 	entry_same(CollectGlyph),
 	entry_same(CollectMarisa),
 	entry_same(Barrier),
@@ -197,7 +180,6 @@ void GObject::initObjectInfo()
 	collectible_entry(Health2, health2),
 	collectible_entry(Health3, health3),
 	entry_same(HiddenSubroomSensor),
-	upgrade_entry(HPUpgrade, maxHP),
 	entry_same(IceFairy),
 	entry_same(IcePlatform),
 	collectible_entry(Key, key),
@@ -209,7 +191,6 @@ void GObject::initObjectInfo()
 	entry_same(MarisaNPC),
 	conditional_entry(Meiling1),
 	entry_same(MovingPlatform),
-	upgrade_entry(MPUpgrade, maxMP),
 	conditional_entry(Mushroom),
 	entry_same(Patchouli),
 	entry_same(PatchouliEnemy),
@@ -226,18 +207,17 @@ void GObject::initObjectInfo()
 	entry_same(Sapling),
 	entry_same(Scorpion1),
 	entry_same(Scorpion2),
-	upgrade_entry(ShieldUpgrade, shieldLevel),
 	entry_same(Sign),
 	entry_same(Slime1),
 	entry_same(Slime2),
 	entry_same(Spawner),
 	conditional_entry(Spellcard),
 	entry_same(Stalker),
-	upgrade_entry(StaminaUpgrade, maxStamina),
 	entry_same(SunArea),
 	entry_same(TeleportPad),
 	entry_same(Tewi),
 	entry_same(Torch),
+	conditional_entry(Upgrade),
 	entry_same(Wall),
 	entry_same(WaterFloor),
 	entry_same(ZombieFairy),

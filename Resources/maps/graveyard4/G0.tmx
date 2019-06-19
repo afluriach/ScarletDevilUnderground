@@ -61,9 +61,10 @@
  </objectgroup>
  <objectgroup name="dynamic_load">
   <object id="75" name="key0" type="Key" x="1024" y="1024" width="128" height="128"/>
-  <object id="80" name="bsUpgrade" type="BulletSpeedUpgrade" x="1024" y="384" width="128" height="128">
+  <object id="80" name="bsUpgrade" type="Upgrade" x="1024" y="384" width="128" height="128">
    <properties>
     <property name="id" value="1"/>
+	<property name="attr" value="bulletSpeed"/>
    </properties>
   </object>
  </objectgroup>

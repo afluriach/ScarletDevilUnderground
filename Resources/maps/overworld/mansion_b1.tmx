@@ -96,9 +96,10 @@
     <property name="dialog" value="sign_library"/>
    </properties>
   </object>
-  <object id="57" type="HPUpgrade" x="1920" y="4288" width="128" height="128">
+  <object id="57" type="Upgrade" x="1920" y="4288" width="128" height="128">
    <properties>
     <property name="id" value="0"/>
+	<property name="attr" value="maxHP"/>
    </properties>
   </object>
  </objectgroup>

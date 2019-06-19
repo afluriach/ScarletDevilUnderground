@@ -448,9 +448,10 @@
     <property name="spell" value="StarbowBreak"/>
    </properties>
   </object>
-  <object id="336" name="shieldUpgrade" type="ShieldUpgrade" x="5376" y="5376" width="128" height="128">
+  <object id="336" name="shieldUpgrade" type="Upgrade" x="5376" y="5376" width="128" height="128">
    <properties>
     <property name="id" value="1"/>
+	<property name="attr" value="shieldLevel"/>
    </properties>
   </object>
  </objectgroup>

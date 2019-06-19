@@ -85,9 +85,10 @@
   <object id="190" x="1280" y="5632" width="256" height="256"/>
   <object id="191" x="640" y="4992" width="256" height="256"/>
   <object id="192" x="1280" y="4992" width="256" height="256"/>
-  <object id="193" type="StaminaUpgrade" x="1024" y="5376" width="128" height="128">
+  <object id="193" type="Upgrade" x="1024" y="5376" width="128" height="128">
    <properties>
     <property name="id" value="1"/>
+	<property name="attr" value="maxStamina"/>
    </properties>
   </object>
   <object id="194" type="GhostHeadstone" x="5312" y="2304" width="256" height="256">
@@ -99,9 +100,10 @@
   <object id="196" type="GhostFairyNPC" x="5376" y="5376" width="128" height="128"/>
   <object id="197" type="GhostFairyNPC" x="5376" y="3200" width="128" height="128"/>
   <object id="198" type="GhostFairyNPC" x="1024" y="3200" width="128" height="128"/>
-  <object id="199" type="AttackSpeedUpgrade" x="5376" y="1024" width="128" height="128">
+  <object id="199" type="Upgrade" x="5376" y="1024" width="128" height="128">
    <properties>
     <property name="id" value="1"/>
+	<property name="attr" value="attackSpeed"/>
    </properties>
   </object>
  </objectgroup>

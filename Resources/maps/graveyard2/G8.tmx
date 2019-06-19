@@ -33,9 +33,10 @@
   <object id="81" type="BreakableWall" x="2048" y="1024" width="128" height="128"/>
  </objectgroup>
  <objectgroup name="objects">
-  <object id="82" type="AgilityUpgrade" x="1024" y="1024" width="128" height="128">
+  <object id="82" type="Upgrade" x="1024" y="1024" width="128" height="128">
    <properties>
     <property name="id" value="1"/>
+	<property name="attr" value="agility"/>
    </properties>
   </object>
   <object id="83" type="Torch" x="768" y="128" width="128" height="128">
