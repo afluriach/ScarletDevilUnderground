@@ -105,12 +105,12 @@ void LavaeteinnSpell::init()
 	object_ref<Agent> agent = caster;
 	speedScale = getCasterAs<Agent>()->getAttribute(Attribute::attackSpeed);
 
-	lavaeteinnBullet = caster->space->createObject(GObject::make_object_factory<Lavaeteinn>(
+	lavaeteinnBullet = caster->space->createObject<Lavaeteinn>(
 		pos,
 		angle,
 		angular_speed * speedScale,
 		agent
-	));
+	);
 
 	fireTimer = length / bulletSpawnCount;
 	angularPos = angle;
@@ -129,11 +129,11 @@ void LavaeteinnSpell::update()
 
 	if (fireTimer <= 0.0) {
 		object_ref<Agent> agent = caster;
-		caster->space->createObject(GObject::make_object_factory<FlandreFastOrb1>(
+		caster->space->createObject<FlandreFastOrb1>(
 			caster->getPos() + SpaceVect::ray(2.0, angularPos),
 			angularPos,
 			agent
-		));
+		);
 		fireTimer = length / bulletSpawnCount;
 	}
 }
@@ -175,11 +175,11 @@ void PlayerCounterClock::init()
 	{
 		SpaceVect disp = SpaceVect::ray(2.0 + offset, (i/2.0) * float_pi);
 
-		bullets[i] = caster->space->createObject(GObject::make_object_factory<FlandreCounterClockBullet>(
+		bullets[i] = caster->space->createObject<FlandreCounterClockBullet>(
 			pos + disp,
 			(i / 2.0) * float_pi,
 			dynamic_cast<Agent*>(caster)
-		));
+		);
 	}
 }
 
@@ -242,12 +242,12 @@ void PlayerScarletRose::update()
 	if (timer >= fireInterval && launchCount < fireCount) {
 		for_irange(i, 0, 8) {
 			SpaceFloat t = float_pi / FlanPolarBullet::B * i;
-			gobject_ref ref = caster->space->createObject(GObject::make_object_factory<FlanPolarBullet>(
+			gobject_ref ref = caster->space->createObject<FlanPolarBullet>(
 				origin,
 				0.0,
 				getCasterAs<Agent>(),
 				t
-			));
+			);
 			bullets.insert(ref);
 		}
 
@@ -344,12 +344,10 @@ void PlayerIceShield::init()
 		SpaceFloat angle = (1.0 * i / bulletCount) * (float_pi * 2.0);
 		SpaceVect pos = SpaceVect::ray(distance, angle);
 		
-		bullets[i] = caster->space->createObject(
-			GObject::make_object_factory<CirnoIceShieldBullet>(
-				origin + pos,
-				angle - float_pi / 2.0,
-				dynamic_cast<Agent*>(caster)
-			)
+		bullets[i] = caster->space->createObject<CirnoIceShieldBullet>(
+			origin + pos,
+			angle - float_pi / 2.0,
+			dynamic_cast<Agent*>(caster)
 		);
 	}
 }

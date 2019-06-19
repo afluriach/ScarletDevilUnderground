@@ -35,12 +35,12 @@ public:
 	inline gobject_ref bulletCheckSpawn(const SpaceVect& pos, SpaceFloat angle, Args... args)
 	{
 		if (!isBulletObstacle(pos, ObjectCls::props.radius))
-			return space->createObject(make_object_factory<ObjectCls>(
+			return space->createObject<ObjectCls>(
 				pos,
 				angle,
 				object_ref<Agent>(this),
 				args...
-			));
+			);
 		else
 			return nullptr;
 	}
@@ -52,12 +52,12 @@ public:
 		shared_ptr<bullet_properties> props
 	){
 		if (!isBulletObstacle(pos, props->radius))
-			return space->createObject(make_object_factory<ObjectCls>(
+			return space->createObject<ObjectCls>(
 				pos,
 				angle,
 				object_ref<Agent>(this),
 				props
-			));
+			);
 		else
 			return nullptr;
 	}

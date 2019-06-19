@@ -46,14 +46,14 @@ void StarlightTyphoon::fire()
 
 	SpaceVect pos = caster->getPos() + SpaceVect::ray(offset, angle);
 
-	caster->space->createObject(GObject::make_object_factory<StarBullet>(
+	caster->space->createObject<StarBullet>(
 		pos,
 		arcPos,
 		dynamic_cast<Agent*>(caster),
 		crntSpeed,
 		radius,
 		StarBullet::colors[caster->space->getRandomInt(0, StarBullet::colors.size() - 1)]
-	));
+	);
 }
 
 void StarlightTyphoon::update()

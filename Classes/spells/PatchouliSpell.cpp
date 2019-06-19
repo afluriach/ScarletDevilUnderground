@@ -34,12 +34,12 @@ void FireStarburst::runPeriodic()
 
 		SpaceVect crntPos = pos + SpaceVect::ray(1, angle);
 
-		caster->space->createObject(GObject::make_object_factory<EnemyBulletImpl>(
+		caster->space->createObject<EnemyBulletImpl>(
 			pos,
 			angle,
 			dynamic_cast<Agent*>(caster),
 			bulletProps
-		));
+		);
 	}
 }
 
@@ -68,12 +68,12 @@ void FlameFence::init()
 			SpaceVect pos(center);
 			pos += SpaceVect(x, y) + rowSkew;
 
-			bullets.push_back(caster->space->createObject(GObject::make_object_factory<EnemyBulletImpl>(
+			bullets.push_back(caster->space->createObject<EnemyBulletImpl>(
 				pos,
 				0.0f,
 				dynamic_cast<Agent*>(caster),
 				bulletProps
-			)));
+			));
 		}
 	}
 }
@@ -133,12 +133,12 @@ void Whirlpool1::update()
 	if (shotTimer <= 0.0) {
 
 		for_irange(i, 0, 6) {
-			caster->space->createObject(GObject::make_object_factory<EnemyBulletImpl>(
+			caster->space->createObject<EnemyBulletImpl>(
 				pos + SpaceVect::ray(1.0, angles[i]),
 				angles[i],
 				dynamic_cast<Agent*>(caster),
 				bulletProps
-			));
+			);
 		}
 
 		shotTimer = 1.0 / shotsPerSecond;
@@ -202,12 +202,12 @@ void Whirlpool2::update()
 	if (shotTimer <= 0.0) {
 
 		for_irange(i, 0, 12) {
-			caster->space->createObject(GObject::make_object_factory<EnemyBulletImpl>(
+			caster->space->createObject<EnemyBulletImpl>(
 				pos + SpaceVect::ray(1.0, angles[i]),
 				angles[i],
 				dynamic_cast<Agent*>(caster),
 				bulletProps
-			));
+			);
 		}
 
 		shotTimer = 1.0 / shotsPerSecond;

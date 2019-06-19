@@ -97,6 +97,11 @@ public:
 	gobject_ref createObject(const ValueMap& obj);
 	gobject_ref createObject(ObjectGeneratorType factory);
         
+	template<class C, typename... Args>
+	inline object_ref<C> createObject(Args... args) {
+		return createObject(GObject::make_object_factory<C>(args...));
+	}
+
 	bool isTrackedType(type_index t) const;
     bool isValid(unsigned int uuid) const;
 	bool isFutureObject(ObjectIDType uuid) const;

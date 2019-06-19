@@ -347,7 +347,7 @@ void GScene::loadSpawners(const TMXTiledMap& map, IntVec2 offset)
 		ValueMap objAsMap = obj.asValueMap();
 		convertToUnitSpace(objAsMap, offset);
 
-		gspace->createObject(GObject::make_object_factory<Spawner>(objAsMap));
+		gspace->createObject<Spawner>(objAsMap);
 	}
 }
 
