@@ -26,16 +26,6 @@ public:
 class EnemyBulletImpl : public EnemyBullet, public BulletImpl
 {
 public:
-	static const bullet_properties fairy1Bullet;
-	static const bullet_properties greenFairyBullet;
-	static const bullet_properties blueFairyBullet;
-	static const bullet_properties iceFairyBullet;
-	static const bullet_properties launcherBullet;
-	static const bullet_properties rumiaBullet;
-	static const bullet_properties rumiaBullet2;
-	static const bullet_properties rumiaDemarcationBullet;
-	static const bullet_properties rumiaPinwheelBullet;
-
 	EnemyBulletImpl(GSpace* space, ObjectIDType id, const SpaceVect& pos, SpaceFloat angle, object_ref<Agent> agent, shared_ptr<bullet_properties> props);
 	inline virtual ~EnemyBulletImpl() {}
 };

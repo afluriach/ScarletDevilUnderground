@@ -19,67 +19,6 @@
     BulletImpl(makeSharedCopy(props)) \
 {} \
 
-const bullet_properties PlayerBulletImpl::flandreBigOrb1 = {
-	0.1,
-	4.5,
-	0.6,
-	bullet_damage(3.0f),
-	"flandreOrb",
-};
-
-const bullet_properties PlayerBulletImpl::catadioptricBullet1 = {
-	3.0,
-	6.0,
-	0.5,
-	bullet_damage(3.0f),
-	"catadioptricBullet1"
-};
-
-const bullet_properties PlayerBulletImpl::catadioptricBullet2 = {
-	1.5,
-	4.5,
-	0.25,
-	bullet_damage(1.5f),
-	"catadioptricBullet2",
-	1,
-	1,
-};
-
-const bullet_properties PlayerBulletImpl::catadioptricBullet3 = {
-	0.5,
-	6.0,
-	0.125,
-	bullet_damage(0.5f),
-	"catadioptricBullet3",
-	1,
-	2,
-};
-
-const bullet_properties PlayerBulletImpl::rumiaFastOrb1 = {
-	0.1,
-	9.0,
-	0.15,
-	bullet_damage(1.0f),
-	"rumiaOrb",
-};
-
-const bullet_properties PlayerBulletImpl::cirnoSmallIceBullet = {
-	0.1,
-	9.0,
-	0.3,
-	DamageInfo{ 3.0f, Attribute::iceDamage, DamageType::bullet},
-	"cirnoIceBullet",
-	3
-};
-
-const bullet_properties PlayerBulletImpl::cirnoLargeIceBullet = {
-	0.1,
-	9.0,
-	0.6,
-	DamageInfo{ 5.0f, Attribute::iceDamage, DamageType::bullet },
-	"cirnoIceBullet",
-};
-
 PlayerBulletImpl::PlayerBulletImpl(GSpace* space, ObjectIDType id, const SpaceVect& pos, SpaceFloat angle, object_ref<Agent> agent, shared_ptr<bullet_properties> props) :
     GObject(space, id, "", pos, angle),
     Bullet(agent),

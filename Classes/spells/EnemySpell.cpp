@@ -146,7 +146,7 @@ int GreenFairyPowerAttack::spawn()
 		 spawnCount += to_int(getCasterAs<Agent>()->bulletImplCheckSpawn<EnemyBulletImpl>(
 			caster->getPos(),
 			angleStep * i,
-			 makeSharedCopy(EnemyBulletImpl::greenFairyBullet)
+			 app::getBullet("greenFairyBullet")
 		).isFuture());
 	}
 	return spawnCount;

@@ -16,6 +16,7 @@
 namespace app {
 
 unordered_map<string, AttributeMap> attributes;
+unordered_map<string, shared_ptr<bullet_properties>> bullets;
 unordered_map<string, floorsegment_properties> floors;
 unordered_map<string, shared_ptr<LightArea>> lights;
 unordered_map<string, sprite_properties> sprites;
@@ -23,6 +24,11 @@ unordered_map<string, sprite_properties> sprites;
 void loadAttributes()
 {
 	loadObjects<AttributeMap>("objects/attributes.xml", app::attributes);
+}
+
+void loadBullets()
+{
+	loadObjects<shared_ptr<bullet_properties>>("objects/bullets.xml", app::bullets);
 }
 
 void loadFloors()
@@ -38,6 +44,11 @@ void loadLights()
 void loadSprites()
 {
 	loadObjects<sprite_properties>("objects/sprites.xml", app::sprites);
+}
+
+shared_ptr<bullet_properties> getBullet(const string& name)
+{
+	return getOrDefault(bullets, name);
 }
 
 shared_ptr<LightArea> getLight(const string& name)
@@ -213,6 +224,49 @@ bool parseObject(tinyxml2::XMLElement* elem, shared_ptr<LightArea>* result)
 	}
 
 	return false;
+}
+
+bool parseObject(tinyxml2::XMLElement* elem, shared_ptr<bullet_properties>* result)
+{
+	SpaceFloat speed;
+	SpaceFloat radius;
+
+	DamageInfo damage;
+	damage.element = Attribute::end;
+	damage.type = DamageType::bullet;
+
+	string sprite;
+
+	char hitCount = 1;
+	char ricochetCount = 0;
+	bool directionalLaunch = true;
+
+	getNumericAttr(elem, "speed", &speed);
+	getNumericAttr(elem, "radius", &radius);
+
+	getNumericAttr(elem, "damage", &damage.mag);
+
+	const char* elemental = elem->Attribute("element");
+	if (elemental) {
+		damage.element = AttributeSystem::getAttribute(elemental);
+	}
+
+	getStringAttr(elem, "sprite", &sprite);
+	getNumericAttr(elem, "hitCount", &hitCount);
+	getNumericAttr(elem, "ricochet", &ricochetCount);
+	getNumericAttr(elem, "directionalLaunch", &directionalLaunch);
+
+	*result = make_shared<bullet_properties>(bullet_properties{
+		0.1,
+		speed,
+		radius,
+		damage,
+		sprite,
+		hitCount,
+		ricochetCount,
+		directionalLaunch
+	});
+	return true;
 }
 
 }

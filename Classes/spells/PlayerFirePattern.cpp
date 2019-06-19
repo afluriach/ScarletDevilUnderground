@@ -145,34 +145,40 @@ bool Catadioptric::spawnTail(SpaceFloat angleOffset)
 	fired |= agent->bulletImplCheckSpawn<CatadioptricBullet>(
 		pos,
 		_angle,
-		makeSharedCopy(PlayerBulletImpl::catadioptricBullet1)
+		app::getBullet("catadioptricBullet1")
 	).isFuture();
 
 	for_irange(i, 0, secondaryBulletCount)
 	{
-		bullet_properties props = PlayerBulletImpl::catadioptricBullet2;
+		auto baseProps = app::getBullet("catadioptricBullet2");
+		auto props = make_shared<bullet_properties>();
+		*props = *baseProps;
+
 		SpaceFloat variation = secondarySpeedVariation * 2.0;
 		SpaceFloat step = variation / (secondaryBulletCount - 1);
-		props.speed += -secondarySpeedVariation + step*i;
+		props->speed += -secondarySpeedVariation + step*i;
 
 		fired |= agent->bulletImplCheckSpawn<CatadioptricBullet>(
 			pos,
 			_angle + agent->space->getRandomFloat(-1.0f,1.0f)*angleSpread/4.0,
-			makeSharedCopy(props)
+			props
 		).isFuture();
 	}
 
 	for_irange(i, 0, tertiaryBulletCount)
 	{
-		bullet_properties props = PlayerBulletImpl::catadioptricBullet3;
+		auto baseProps = app::getBullet("catadioptricBullet3");
+		auto props = make_shared<bullet_properties>();
+		*props = *baseProps;
+
 		SpaceFloat variation = tertiarySpeedVariation * 2.0;
 		SpaceFloat step = variation / (tertiaryBulletCount - 1);
-		props.speed += -tertiarySpeedVariation + step * i;
+		props->speed += -tertiarySpeedVariation + step * i;
 
 		fired |= agent->bulletImplCheckSpawn<CatadioptricBullet>(
 			pos,
 			_angle + agent->space->getRandomFloat(-1.0f, 1.0f)*angleSpread / 2.0,
-			makeSharedCopy(props)
+			props
 		).isFuture();
 	}
 
@@ -213,7 +219,7 @@ ScarletDaggerPattern::ScarletDaggerPattern(Agent *const agent, int level) :
 FlandreBigOrbPattern::FlandreBigOrbPattern(Agent *const agent) :
 	SingleBulletFixedIntervalPattern(agent),
 	FirePattern(agent),
-	PlayerBulletImplPattern(makeSharedCopy(PlayerBulletImpl::flandreBigOrb1))
+	PlayerBulletImplPattern(app::getBullet("flandreBigOrb1"))
 {
 }
 
@@ -240,7 +246,7 @@ FlandreWideAnglePattern2::FlandreWideAnglePattern2(Agent *const agent) :
 RumiaFastOrbPattern::RumiaFastOrbPattern(Agent *const agent) :
 	SingleBulletFixedIntervalPattern(agent),
 	FirePattern(agent),
-	PlayerBulletImplPattern(makeSharedCopy(PlayerBulletImpl::rumiaFastOrb1))
+	PlayerBulletImplPattern(app::getBullet("rumiaFastOrb1"))
 {}
 
 const float RumiaParallelPattern::cooldown = 1.0f / 6.0f;
@@ -248,17 +254,17 @@ const float RumiaParallelPattern::cooldown = 1.0f / 6.0f;
 RumiaParallelPattern::RumiaParallelPattern(Agent *const agent) :
 	MultiBulletParallelPattern(agent, cooldown, 1.0, 3),
 	FirePattern(agent),
-	PlayerBulletImplPattern(makeSharedCopy(PlayerBulletImpl::rumiaFastOrb1))
+	PlayerBulletImplPattern(app::getBullet("rumiaFastOrb1"))
 {}
 
 CirnoLargeIceBulletPattern::CirnoLargeIceBulletPattern(Agent *const agent) :
 	SingleBulletFixedIntervalPattern(agent),
 	FirePattern(agent),
-	PlayerBulletImplPattern(makeSharedCopy(PlayerBulletImpl::cirnoLargeIceBullet))
+	PlayerBulletImplPattern(app::getBullet("cirnoLargeIceBullet"))
 {}
 
 CirnoSmallIceBulletPattern::CirnoSmallIceBulletPattern(Agent *const agent) :
 	SingleBulletFixedIntervalPattern(agent),
 	FirePattern(agent),
-	PlayerBulletImplPattern(makeSharedCopy(PlayerBulletImpl::cirnoSmallIceBullet))
+	PlayerBulletImplPattern(app::getBullet("cirnoSmallIceBullet"))
 {}
