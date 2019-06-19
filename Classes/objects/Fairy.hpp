@@ -92,7 +92,7 @@ public:
 
 	RedFairy(GSpace* space, ObjectIDType id, const ValueMap& args);
 
-	BombGeneratorType getBombs();
+	ParamsGeneratorType getBombs();
 
 	virtual inline SpaceFloat getRadarRadius() const { return 7.5; }
 	virtual inline SpaceFloat getDefaultFovAngle() const { return 0.0; }

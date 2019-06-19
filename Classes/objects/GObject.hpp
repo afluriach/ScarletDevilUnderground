@@ -80,6 +80,17 @@ public:
 		};
 	}
 
+	template<class ObjectCls>
+	static inline ObjectGeneratorType params_object_factory(shared_ptr<object_params> params)
+	{
+		return[params](GSpace* space, ObjectIDType id)->GObject* {
+			params->space = space;
+			params->id = id;
+
+			return new ObjectCls(params);
+		};
+	}
+
 	static inline ObjectGeneratorType null_object_factory()
 	{
 		return[](GSpace* space, ObjectIDType id)->GObject* {

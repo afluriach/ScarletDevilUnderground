@@ -1113,7 +1113,7 @@ update_return FireOnStress::update()
 ThrowBombs::ThrowBombs(
 	StateMachine* fsm,
 	gobject_ref target,
-	BombGeneratorType generator,
+	ParamsGeneratorType generator,
 	SpaceFloat throwingSpeed,
 	SpaceFloat baseInterval,
 	SpaceFloat blastRadius,
@@ -1176,10 +1176,10 @@ update_return ThrowBombs::update()
 			//do not throw if target is too close
 			distanceToTarget(agent, target.get()) > blastRadius
 		) {
-			agent->space->createObject(generator(
+			agent->space->createObject(generator(make_shared<object_params>(
 				agent->getPos() + SpaceVect::ray(1.0, angle),
 				agent->getVel() + SpaceVect::ray(throwingSpeed, angle)
-			));
+			)));
 			countdown = getInterval();
 		}
 	}

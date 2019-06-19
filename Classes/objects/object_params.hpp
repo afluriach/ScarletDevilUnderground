@@ -20,19 +20,24 @@ public:
 		const SpaceVect& pos,
 		SpaceFloat angle = float_pi * 0.5
 	);
+	object_params(
+		const SpaceVect& pos,
+		const SpaceVect& vel,
+		SpaceFloat angle = float_pi * 0.5
+	);
 	object_params(GSpace* space, ObjectIDType id, const ValueMap& args);
 
-	GSpace* space;
-	ObjectIDType id;
+	GSpace* space = nullptr;
+	ObjectIDType id = 0;
 
 	string name;
 
 	SpaceVect pos;
 	SpaceFloat angle = 0.0;
-	SpaceVect vel = SpaceVect::zero;
+	SpaceVect vel;
 	SpaceFloat angularVel = 0.0;
 
-	SpaceVect dimensions = SpaceVect::zero;
+	SpaceVect dimensions;
 
 	bool hidden = false;
 };

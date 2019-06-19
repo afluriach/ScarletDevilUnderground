@@ -443,7 +443,7 @@ public:
 	ThrowBombs(
 		StateMachine* fsm,
 		gobject_ref target,
-		BombGeneratorType generator,
+		ParamsGeneratorType generator,
 		SpaceFloat throwingSpeed,
 		SpaceFloat baseInterval,
 		SpaceFloat blastRadius,
@@ -466,7 +466,7 @@ protected:
 	SpaceFloat blastRadius;
 	SpaceFloat fuseTime;
 	gobject_ref target;
-	BombGeneratorType generator;
+	ParamsGeneratorType generator;
 	float cost;
 };
 

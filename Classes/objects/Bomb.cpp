@@ -15,14 +15,10 @@
 
 const SpaceFloat Bomb::explosionSpriteRadius = 2.0;
 
-Bomb::Bomb(GSpace* space, ObjectIDType id, const SpaceVect& pos, const SpaceVect& vel) :
-	GObject(make_shared<object_params>(space, id, "", pos, 0.0)),
+Bomb::Bomb(shared_ptr<object_params> params) :
+	GObject(params),
 	RegisterInit<Bomb>(this)
 {
-	if (!vel.isZero()) {
-		setInitialVelocity(vel);
-	}
-	setInitialAngle(float_pi * 0.5);
 }
 
 void Bomb::init()
@@ -71,14 +67,14 @@ void Bomb::detonate()
 	space->addGraphicsAction(&graphics_context::autoremoveLightSource, light, 1.0f);
 }
 
-PlayerBomb::PlayerBomb(GSpace* space, ObjectIDType id, const SpaceVect& pos, const SpaceVect& vel) :
-	GObject(make_shared<object_params>(space, id, "", pos, 0.0)),
-	Bomb(space, id, pos, vel)
+PlayerBomb::PlayerBomb(shared_ptr<object_params> params) :
+	GObject(params),
+	Bomb(params)
 {
 }
 
-RedFairyBomb::RedFairyBomb(GSpace* space, ObjectIDType id, const SpaceVect& pos, const SpaceVect& vel) :
-	GObject(make_shared<object_params>(space, id, "", pos, 0.0)),
-	Bomb(space, id, pos, vel)
+RedFairyBomb::RedFairyBomb(shared_ptr<object_params> params) :
+	GObject(params),
+	Bomb(params)
 {
 }

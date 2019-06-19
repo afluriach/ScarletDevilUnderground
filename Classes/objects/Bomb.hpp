@@ -22,7 +22,7 @@ class Bomb :
 public:
 	static const SpaceFloat explosionSpriteRadius;
 
-	Bomb(GSpace* space, ObjectIDType id, const SpaceVect& pos, const SpaceVect& vel);
+	Bomb(shared_ptr<object_params> params);
 	inline virtual ~Bomb() {}
 
 	virtual inline SpaceFloat uk() const { return 0.0625; }
@@ -50,7 +50,7 @@ protected:
 class PlayerBomb : public Bomb, public ImageSprite
 {
 public:
-	PlayerBomb(GSpace* space, ObjectIDType id, const SpaceVect& pos, const SpaceVect& vel);
+	PlayerBomb(shared_ptr<object_params> params);
 
 	virtual inline string getSprite() const { return "redBomb"; }
 
@@ -67,7 +67,7 @@ public:
 class RedFairyBomb : public Bomb, public ImageSprite
 {
 public:
-	RedFairyBomb(GSpace* space, ObjectIDType id, const SpaceVect& pos, const SpaceVect& vel);
+	RedFairyBomb(shared_ptr<object_params> params);
 
 	virtual inline string getSprite() const { return "redBomb"; }
 

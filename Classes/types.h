@@ -11,11 +11,11 @@
 
 class Agent;
 namespace ai { class StateMachine; }
-class Bomb;
 class Bullet;
 class FirePattern;
 class GObject;
 class GSpace;
+class object_params;
 class Player;
 class Spell;
 
@@ -39,10 +39,10 @@ typedef function<void(void)> zero_arity_function;
 typedef function<void(const vector<string>&)> InterfaceFunction;
 
 typedef function<GObject*(GSpace*, ObjectIDType)> ObjectGeneratorType;
+typedef function<ObjectGeneratorType(shared_ptr<object_params> )> ParamsGeneratorType;
 typedef function<FiniteTimeAction*()> ActionGeneratorType;
 typedef function<shared_ptr<Spell>(GObject*)> SpellGeneratorType;
 typedef function<shared_ptr<FirePattern>(Agent*, int)> FirePatternGeneratorType;
-typedef function<ObjectGeneratorType(const SpaceVect&, const SpaceVect&)> BombGeneratorType;
 //
 
 typedef function<void(ai::StateMachine&, Player*)> alert_function;

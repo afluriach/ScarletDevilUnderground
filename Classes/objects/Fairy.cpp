@@ -182,12 +182,10 @@ RedFairy::RedFairy(GSpace* space, ObjectIDType id, const ValueMap& args) :
 	firePattern = make_shared<Fairy1BulletPattern>(this, 3.0, float_pi / 6.0, 2);
 }
 
-BombGeneratorType RedFairy::getBombs()
+ParamsGeneratorType RedFairy::getBombs()
 {
-	return [](const SpaceVect& pos, const SpaceVect& vel) -> ObjectGeneratorType {
-		return [=](GSpace* space, ObjectIDType id) -> GObject* {
-			return new RedFairyBomb(space, id, pos, vel);
-		};
+	return [](shared_ptr<object_params> params) -> ObjectGeneratorType {
+		return GObject::params_object_factory<RedFairyBomb>(params);
 	};
 }
 
