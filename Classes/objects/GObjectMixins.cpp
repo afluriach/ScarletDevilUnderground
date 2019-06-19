@@ -265,7 +265,9 @@ LightObject::LightObject() :
 
 void LightObject::init()
 {
-	lightID = space->addLightSource(getLightSource());
+	auto source = getLightSource();
+	if(source)
+		lightID = space->addLightSource(source);
 
 	//space->addGraphicsAction(&graphics_context::setLightSourcePosition, lightID, prevPos);
 	//space->addGraphicsAction(&graphics_context::setLightSourceAngle, lightID, prevAngle);

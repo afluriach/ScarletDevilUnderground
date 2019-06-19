@@ -116,14 +116,12 @@ public:
 	virtual void update();
 };
 
-class YinYangOrb : public EnemyBullet, public BulletImpl, public LightObject
+class YinYangOrb : public EnemyBullet, public BulletImpl
 {
 public:
 	static const bullet_properties props;
 
 	cons(YinYangOrb);
-
-	virtual shared_ptr<LightArea> getLightSource() const;
 };
 
 class RumiaDemarcation2Bullet :
@@ -149,8 +147,7 @@ public:
 class RumiaDarknessBullet :
 	public EnemyBullet,
 	public ShieldBullet,
-	public BulletImpl,
-	public LightObject
+	public BulletImpl
 {
 public:
 	static const bullet_properties props;
@@ -162,8 +159,6 @@ public:
 		SpaceFloat angle,
 		object_ref<Agent> agent
 	);
-
-	virtual shared_ptr<LightArea> getLightSource() const;
 };
 
 

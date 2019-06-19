@@ -25,6 +25,7 @@ struct bullet_properties
 	DamageInfo damage;
 
 	string sprite;
+	string lightSource;
 
 	char hitCount = 1;
 	char ricochetCount = 0;
@@ -81,6 +82,7 @@ class BulletImpl :
 	virtual public Bullet,
 	public CircleBody,
 	public ImageSprite,
+	public LightObject,
 	public RegisterInit<BulletImpl>
 {
 public:
@@ -95,6 +97,7 @@ public:
 
 	virtual void initializeGraphics();
 	virtual inline string getSprite() const { return props->sprite; }
+	virtual inline shared_ptr<LightArea> getLightSource() const { return app::getLight(props->lightSource); }
 
 	virtual inline DamageInfo getDamageInfo() const { return props->damage; }
 protected:

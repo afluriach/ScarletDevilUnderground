@@ -29,7 +29,7 @@ public:
 	inline virtual ~PlayerBulletImpl() {}
 };
 
-class StarbowBreakBullet : public PlayerBulletImpl, public LightObject
+class StarbowBreakBullet : public PlayerBulletImpl
 {
 public:
 	StarbowBreakBullet(GSpace* space, ObjectIDType id, const SpaceVect& pos, SpaceFloat angle, object_ref<Agent> agent, shared_ptr<bullet_properties> props);
@@ -37,7 +37,7 @@ public:
 	virtual shared_ptr<LightArea> getLightSource() const;
 };
 
-class CatadioptricBullet : public PlayerBulletImpl, public LightObject
+class CatadioptricBullet : public PlayerBulletImpl
 {
 public:
 	CatadioptricBullet(GSpace* space, ObjectIDType id, const SpaceVect& pos, SpaceFloat angle, object_ref<Agent> agent, shared_ptr<bullet_properties> props);
@@ -68,21 +68,18 @@ public:
 	virtual shared_ptr<LightArea> getLightSource() const;
 };
 
-class FlandreFastOrb1 : public PlayerBullet, public BulletImpl, public LightObject
+class FlandreFastOrb1 : public PlayerBullet, public BulletImpl
 {
 public:
 	static const bullet_properties props;
 
 	cons(FlandreFastOrb1);
-
-	virtual shared_ptr<LightArea> getLightSource() const;
 };
 
 class FlanPolarBullet :
 	public PlayerBullet,
 	public BulletImpl,
-	public ParametricMotion,
-	public LightObject
+	public ParametricMotion
 {
 public:
 	static const bullet_properties props;
@@ -107,13 +104,11 @@ public:
 	);
 
 	virtual void update();
-	virtual shared_ptr<LightArea> getLightSource() const;
 };
 
 class FlandrePolarMotionOrb :
 	public PlayerBullet,
-	public BulletImpl,
-	public LightObject
+	public BulletImpl
 {
 public:
 	static const bullet_properties props;
@@ -121,8 +116,6 @@ public:
 	cons(FlandrePolarMotionOrb);
 
 	virtual void update();
-
-	virtual shared_ptr<LightArea> getLightSource() const;
 };
 
 class Lavaeteinn :

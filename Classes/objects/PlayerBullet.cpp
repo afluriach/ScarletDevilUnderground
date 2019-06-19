@@ -81,13 +81,10 @@ const bullet_properties FlandreFastOrb1::props = {
 	0.15,
 	bullet_damage(1.0f),
 	"flandreOrb",
+	"flandreFastOrb",
 };
 
 cons(FlandreFastOrb1)
-
-shared_ptr<LightArea> FlandreFastOrb1::getLightSource() const {
-	return app::getLight("flandreFastOrb");
-}
 
 const bullet_properties FlanPolarBullet::props = {
 	0.1,
@@ -95,6 +92,7 @@ const bullet_properties FlanPolarBullet::props = {
 	0.15,
 	bullet_damage(2.0f),
 	"flandreOrb",
+	"flandrePolarOrb",
 	-1,
 	0,
 	false
@@ -130,16 +128,13 @@ void FlanPolarBullet::update()
 	ParametricMotion::_update();
 }
 
-shared_ptr<LightArea> FlanPolarBullet::getLightSource() const {
-	return app::getLight("flandrePolarOrb");
-}
-
 const bullet_properties FlandrePolarMotionOrb::props = {
 	1.0,
 	9.0,
 	0.15,
 	bullet_damage(1.0f),
 	"flandreOrb",
+	"polarMotionOrb",
 };
 
 FlandrePolarMotionOrb::FlandrePolarMotionOrb(GSpace* space, ObjectIDType id, const SpaceVect& pos, SpaceFloat angle, object_ref<Agent> agent) :
@@ -154,10 +149,6 @@ void FlandrePolarMotionOrb::update()
 
 	applyForceForSingleFrame(SpaceVect::ray(20.0, getAngle() + float_pi / 2.0));
 	rotate(app::params.secondsPerFrame * float_pi);
-}
-
-shared_ptr<LightArea> FlandrePolarMotionOrb::getLightSource() const {
-	return app::getLight("polarMotionOrb");
 }
 
 Lavaeteinn::Lavaeteinn(

@@ -236,9 +236,10 @@ bool parseObject(tinyxml2::XMLElement* elem, shared_ptr<bullet_properties>* resu
 	damage.type = DamageType::bullet;
 
 	string sprite;
+	string lightSource;
 
-	char hitCount = 1;
-	char ricochetCount = 0;
+	int hitCount = 1;
+	int ricochetCount = 0;
 	bool directionalLaunch = true;
 
 	getNumericAttr(elem, "speed", &speed);
@@ -252,6 +253,7 @@ bool parseObject(tinyxml2::XMLElement* elem, shared_ptr<bullet_properties>* resu
 	}
 
 	getStringAttr(elem, "sprite", &sprite);
+	getStringAttr(elem, "lightSource", &lightSource);
 	getNumericAttr(elem, "hitCount", &hitCount);
 	getNumericAttr(elem, "ricochet", &ricochetCount);
 	getNumericAttr(elem, "directionalLaunch", &directionalLaunch);
@@ -262,8 +264,9 @@ bool parseObject(tinyxml2::XMLElement* elem, shared_ptr<bullet_properties>* resu
 		radius,
 		damage,
 		sprite,
-		hitCount,
-		ricochetCount,
+		lightSource,
+		to_char(hitCount),
+		to_char(ricochetCount),
 		directionalLaunch
 	});
 	return true;

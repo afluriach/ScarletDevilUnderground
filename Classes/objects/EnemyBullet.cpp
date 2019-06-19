@@ -167,6 +167,7 @@ const bullet_properties YinYangOrb::props = {
 	0.5,
 	bullet_damage(10.0f),
 	"yinYangOrb",
+	"yinYangOrb",
 	-1,
 	-1,
 };
@@ -179,17 +180,13 @@ YinYangOrb::YinYangOrb(GSpace* space, ObjectIDType id, const SpaceVect& pos, Spa
 	setInitialAngularVelocity(float_pi);
 }
 
-shared_ptr<LightArea> YinYangOrb::getLightSource() const
-{
-	return app::getLight("yinYangOrb");
-}
-
 const bullet_properties RumiaDemarcation2Bullet::props = {
 	0.1,
 	6.0,
 	0.2,
 	bullet_damage(7.5f),
 	"rumiaDemarcationBullet",
+	"",
 	-1,
 	0,
 	false
@@ -224,6 +221,7 @@ const bullet_properties RumiaDarknessBullet::props = {
 	0.2,
 	DamageInfo{15.0f,Attribute::darknessDamage,DamageType::bullet},
 	"",
+	"rumiaDarknessBullet",
 	-1,
 	0,
 	true
@@ -247,9 +245,4 @@ RumiaDarknessBullet::RumiaDarknessBullet(
 		2.0,
 		GType::player
 	));
-}
-
-shared_ptr<LightArea> RumiaDarknessBullet::getLightSource() const
-{
-	return app::getLight("rumiaDarknessBullet");
 }
