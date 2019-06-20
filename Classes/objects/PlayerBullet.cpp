@@ -68,10 +68,6 @@ shared_ptr<LightArea> ScarletDagger::getLightSource() const {
 	return app::getLight("scarletDagger");
 };
 
-const string FlandreFastOrb1::props = "flandreFastOrb1";
-
-cons(FlandreFastOrb1)
-
 const string FlanPolarBullet::props = "flandrePolarBullet";
 const SpaceFloat FlanPolarBullet::A = 5.0;
 const SpaceFloat FlanPolarBullet::B = 4.0;

@@ -129,10 +129,11 @@ void LavaeteinnSpell::update()
 
 	if (fireTimer <= 0.0) {
 		object_ref<Agent> agent = caster;
-		caster->space->createObject<FlandreFastOrb1>(
+		caster->space->createObject<PlayerBulletImpl>(
 			caster->getPos() + SpaceVect::ray(2.0, angularPos),
 			angularPos,
-			agent
+			agent,
+			app::getBullet("flandreFastOrb1")
 		);
 		fireTimer = length / bulletSpawnCount;
 	}

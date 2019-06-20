@@ -22,7 +22,7 @@ enum class PlayerFirePatternID
 	scarletDagger,
 };
 
-class MagicMissile : public SingleBulletFixedIntervalPattern, public FirePatternImpl<FlandreFastOrb1>
+class MagicMissile : public SingleBulletFixedIntervalPattern, public PlayerBulletImplPattern
 {
 public:
 	MagicMissile(Agent *const agent, int level);
@@ -123,7 +123,7 @@ public:
 	virtual float getCooldownTime() { return 1.0f; }
 };
 
-class FlandreFastOrbPattern : public SingleBulletFixedIntervalPattern, public FirePatternImpl<FlandreFastOrb1>
+class FlandreFastOrbPattern : public SingleBulletFixedIntervalPattern, public PlayerBulletImplPattern
 {
 public:
 	FlandreFastOrbPattern(Agent *const agent);
@@ -133,7 +133,7 @@ public:
 	virtual float getCooldownTime() { return 1.0f / 6.0f; }
 };
 
-class FlandreWideAnglePattern1 : public MultiBulletSpreadPattern, public FirePatternImpl<FlandreFastOrb1>
+class FlandreWideAnglePattern1 : public MultiBulletSpreadPattern, public PlayerBulletImplPattern
 {
 public:
 	static const float cooldown;
@@ -143,7 +143,7 @@ public:
 	inline virtual string iconPath() const { return "sprites/fire_patterns/flandre_fast_orb.png"; }
 };
 
-class FlandreWideAnglePattern2 : public MultiBulletSpreadPattern, public FirePatternImpl<FlandreFastOrb1>
+class FlandreWideAnglePattern2 : public MultiBulletSpreadPattern, public PlayerBulletImplPattern
 {
 public:
 	static const float cooldown;

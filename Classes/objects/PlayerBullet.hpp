@@ -68,14 +68,6 @@ public:
 	virtual shared_ptr<LightArea> getLightSource() const;
 };
 
-class FlandreFastOrb1 : public PlayerBullet, public BulletImpl
-{
-public:
-	static const string props;
-
-	cons(FlandreFastOrb1);
-};
-
 class FlanPolarBullet :
 	public PlayerBullet,
 	public BulletImpl,

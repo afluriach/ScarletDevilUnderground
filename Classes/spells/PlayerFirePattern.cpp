@@ -15,7 +15,8 @@
 
 MagicMissile::MagicMissile(Agent *const agent, int level) :
 	SingleBulletFixedIntervalPattern(agent),
-	FirePattern(agent)
+	FirePattern(agent),
+	PlayerBulletImplPattern(app::getBullet("flandreFastOrb1"))
 {
 }
 
@@ -225,7 +226,8 @@ FlandreBigOrbPattern::FlandreBigOrbPattern(Agent *const agent) :
 
 FlandreFastOrbPattern::FlandreFastOrbPattern(Agent *const agent) :
 	SingleBulletFixedIntervalPattern(agent),
-	FirePattern(agent)
+	FirePattern(agent),
+	PlayerBulletImplPattern(app::getBullet("flandreFastOrb1"))
 {
 }
 
@@ -233,14 +235,16 @@ const float FlandreWideAnglePattern1::cooldown = 0.25f;
 
 FlandreWideAnglePattern1::FlandreWideAnglePattern1(Agent *const agent) :
 	MultiBulletSpreadPattern(agent, cooldown, float_pi / 8.0, 3),
-	FirePattern(agent)
+	FirePattern(agent),
+	PlayerBulletImplPattern(app::getBullet("flandreFastOrb1"))
 {}
 
 const float FlandreWideAnglePattern2::cooldown = 0.25f;
 
 FlandreWideAnglePattern2::FlandreWideAnglePattern2(Agent *const agent) :
 	MultiBulletSpreadPattern(agent, cooldown, float_pi / 4.0, 5),
-	FirePattern(agent)
+	FirePattern(agent),
+	PlayerBulletImplPattern(app::getBullet("flandreFastOrb1"))
 {}
 
 RumiaFastOrbPattern::RumiaFastOrbPattern(Agent *const agent) :
