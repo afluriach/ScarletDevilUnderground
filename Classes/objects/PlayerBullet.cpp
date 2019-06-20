@@ -169,6 +169,7 @@ DamageInfo FlandreCounterClockBullet::getDamageInfo() const {
 
 CirnoIceShieldBullet::CirnoIceShieldBullet(GSpace* space, ObjectIDType id, const SpaceVect& pos, SpaceFloat angle, object_ref<Agent> agent) :
 	GObject(make_shared<object_params>(space, id, "", pos, angle)),
+	CircleBody(0.3),
 	Bullet(agent),
 	ShieldBullet(agent, true)
 {}

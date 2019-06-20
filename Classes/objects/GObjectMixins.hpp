@@ -82,10 +82,14 @@ public:
 class CircleBody : public virtual GObject
 {
 public:
-	inline CircleBody() {}
+	inline CircleBody(SpaceFloat radius) : radius(radius) {}
 
     //Create body and add it to space. This assumes BB is rectangle dimensions
     virtual void initializeBody(GSpace& space);
+	inline virtual SpaceFloat getRadius() const { return radius; }
+
+protected:
+	const SpaceFloat radius;
 };
 
 class MassImpl : public virtual GObject

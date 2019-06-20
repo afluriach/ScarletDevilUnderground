@@ -56,6 +56,36 @@ typedef bitset<maxRoomsPerChamber> rooms_bitmask;
 constexpr size_t maxMapFragmentsPerChamber = 8;
 typedef bitset<maxMapFragmentsPerChamber> map_fragments_bitmask;
 
+enum class DamageType
+{
+	bullet,
+	bomb,
+	effectArea,
+	touch,
+	melee,
+	pitfall,
+
+	end
+};
+
+struct DamageInfo
+{
+	DamageInfo();
+	DamageInfo(float mag, DamageType type);
+	DamageInfo(float mag, Attribute element, DamageType type);
+
+	float mag = 0.0f;
+	//It is initialized to Attribute::end;
+	Attribute element;
+	DamageType type = DamageType::end;
+
+	DamageInfo operator*(float rhs);
+};
+
+#define bullet_damage(x) DamageInfo(x, Attribute::end, DamageType::bullet)
+#define bomb_damage(x) DamageInfo(x, Attribute::end, DamageType::bomb)
+#define melee_damage(x) DamageInfo(x, Attribute::end, DamageType::melee)
+
 struct app_params
 {
 	float getScale() const;

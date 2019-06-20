@@ -16,7 +16,6 @@ class Reimu : virtual public Agent, public DialogEntity, public NoAttributes
 public:
 	MapObjCons(Reimu);
     
-    virtual inline SpaceFloat getRadius() const {return 0.35;}
     virtual inline SpaceFloat getMass() const {return -1.0;}
     virtual inline GType getType() const {return GType::npc;}
     
@@ -50,7 +49,6 @@ public:
 	virtual inline GType getRadarType() const { return GType::enemySensor; }
 	virtual inline SpaceFloat getDefaultFovAngle() const { return 0.0; }
 
-	virtual inline SpaceFloat getRadius() const { return 0.35; }
 	virtual inline SpaceFloat getMass() const { return 40.0; }
 	virtual inline GType getType() const { return GType::enemy; }
 

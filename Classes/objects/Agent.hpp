@@ -15,6 +15,8 @@
 struct bullet_properties;
 class FirePattern;
 
+#define AgentMapForward(x) Agent(space,id,args,x)
+
 class Agent :
 virtual public GObject,
 public PatchConSprite,
@@ -23,12 +25,13 @@ public StateMachineObject,
 public RadarObject
 {
 public:
+	static constexpr SpaceFloat defaultSize = 0.35;
 	static const Color4F bodyOutlineColor;
 	static const Color4F shieldConeColor;
 	static const float bodyOutlineWidth;
 
 	Agent(GSpace* space, ObjectIDType id, const string& name, const SpaceVect& pos, Direction d);
-	MapObjCons(Agent);
+	Agent(GSpace* space, ObjectIDType id, const ValueMap& args, SpaceFloat radius = defaultSize);
 	inline virtual ~Agent() {}
 
 	template<class ObjectCls, typename... Args>
@@ -124,7 +127,6 @@ public:
 	virtual SpaceFloat getDefaultFovAngle() const { return 0.0; }
 
 	//physics/motor interface
-	virtual inline SpaceFloat getRadius() const { return 0.35; }
 	virtual SpaceFloat getMass() const = 0;
 	virtual GType getType() const = 0;
 

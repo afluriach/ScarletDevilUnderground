@@ -17,7 +17,8 @@
 class InventoryObject : virtual public GObject, public CircleBody
 {
 public:
-    virtual inline SpaceFloat getRadius() const {return 0.5;}
+	inline InventoryObject(SpaceFloat radius = 0.5) : CircleBody(radius) {}
+
     virtual inline SpaceFloat getMass() const {return -1.0;}
     virtual inline GType getType() const {return GType::playerPickup;}
 	virtual inline PhysicsLayers getLayers() const { return PhysicsLayers::floor; }

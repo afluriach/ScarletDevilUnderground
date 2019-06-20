@@ -42,6 +42,7 @@ const vector<string> StarBullet::colors = {
 StarBullet::StarBullet(GSpace* space, ObjectIDType id, const SpaceVect& pos, SpaceFloat angle, object_ref<Agent> agent, SpaceFloat speed, SpaceFloat radius, const string& color) :
 	GObject(make_shared<object_params>(space, id, "", pos, angle)),
 	Bullet(agent),
+	CircleBody(radius),
 	MaxSpeedImpl(speed),
 	color(color)
 {}

@@ -117,6 +117,7 @@ void Bullet::setBodyVisible(bool b)
 }
 
 BulletImpl::BulletImpl(shared_ptr<bullet_properties> props) :
+	CircleBody(props->radius),
 	RegisterInit<BulletImpl>(this),
 	props(props)
 {

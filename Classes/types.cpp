@@ -10,10 +10,34 @@
 
 #include "App.h"
 #include "app_constants.hpp"
+#include "Attributes.hpp"
 #include "enum.h"
 
 namespace app {
 	app_params params;
+}
+
+DamageInfo::DamageInfo() :
+	mag(0.0f),
+	element(Attribute::end),
+	type(DamageType::end)
+{}
+
+DamageInfo::DamageInfo(float mag, DamageType type) :
+	mag(mag),
+	element(Attribute::end),
+	type(type)
+{}
+
+DamageInfo::DamageInfo(float mag, Attribute element, DamageType type) : 
+	mag(mag),
+	element(element),
+	type(type)
+{}
+
+DamageInfo DamageInfo::operator*(float rhs)
+{
+	return DamageInfo{ mag * rhs, element, type };
 }
 
 float app_params::getScale() const

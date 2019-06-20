@@ -18,7 +18,6 @@ public:
 	MapObjCons(MarisaNPC);
 
 	virtual inline GType getType() const { return GType::npc; }
-	virtual inline SpaceFloat getRadius() const { return 0.35; }
 	inline SpaceFloat getMass() const { return -1.0; }
 	inline string getSprite() const { return "marisa"; }
 
@@ -37,7 +36,6 @@ public:
     
     virtual inline SpaceFloat getRadarRadius() const {return 6.0;}
     
-    virtual inline SpaceFloat getRadius() const {return 0.35;}
     inline SpaceFloat getMass() const {return 33.0;}
     
     inline string getSprite() const {return "marisa";}

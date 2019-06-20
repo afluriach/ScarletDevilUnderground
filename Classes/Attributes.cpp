@@ -10,11 +10,6 @@
 
 #include "Attributes.hpp"
 
-DamageInfo DamageInfo::operator*( float rhs)
-{
-	return DamageInfo{ mag * rhs, element, type };
-}
-
 const float AttributeSystem::maxElementDamage = 100.0f;
 const float AttributeSystem::maxComboPoints = 75.0f;
 const float AttributeSystem::comboPointsDrainPerSecond = 15.0f;

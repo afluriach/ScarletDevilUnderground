@@ -59,7 +59,6 @@ public:
 	};
 
 	virtual SpaceFloat getFuseTime() const { return 3.0; }
-	virtual SpaceFloat getRadius() const { return 0.5; }
 	virtual SpaceFloat getBlastRadius() const { return 4.0; }
 	virtual string getExplosionSound() const { return "sfx/bomb_explosion1.wav"; }
 };
@@ -76,7 +75,6 @@ public:
 	};
 
 	virtual SpaceFloat getFuseTime() const { return 1.2; }
-	virtual SpaceFloat getRadius() const { return 0.5; }
 	virtual SpaceFloat getBlastRadius() const { return 3.0; }
 	virtual string getExplosionSound() const { return "sfx/bomb_explosion2.wav"; }
 };

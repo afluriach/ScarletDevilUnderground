@@ -16,7 +16,6 @@ class Rumia : public Enemy, public LightObject
 public:
 	MapObjCons(Rumia);
 
-    virtual inline SpaceFloat getRadius() const {return 0.35;}
     virtual inline SpaceFloat getMass() const {return 20.0;}
 
 	virtual inline SpaceFloat getRadarRadius() const { return 6.0; }

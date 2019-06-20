@@ -24,7 +24,6 @@ public:
 	virtual inline SpaceFloat getMass() const { return -1.0; }
 	virtual inline GType getType() const { return GType::playerPickup; }
 	virtual inline bool getSensor() const { return true; }
-	virtual inline SpaceFloat getRadius() const { return 0.75; }
 
 	virtual inline GraphicsLayer sceneLayer() const { return GraphicsLayer::floor; }
 	virtual string getSprite() const;

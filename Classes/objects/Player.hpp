@@ -72,7 +72,6 @@ public:
 	inline bool isMovementSuppressed() const { return suppressMovement; }
 	inline void setMovementSuppressed(bool mode) { suppressMovement = mode; }
 
-	virtual inline SpaceFloat getRadius() const { return 0.35; }
 	virtual inline SpaceFloat getMass() const { return 20.0; }
     virtual inline GType getType() const {return GType::player;}
     

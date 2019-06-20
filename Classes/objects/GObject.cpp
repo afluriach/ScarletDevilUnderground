@@ -12,6 +12,7 @@
 #include "enum.h"
 #include "FloorSegment.hpp"
 #include "Graphics.h"
+#include "graphics_context.hpp"
 #include "GSpace.hpp"
 #include "LuaAPI.hpp"
 #include "MagicEffect.hpp"

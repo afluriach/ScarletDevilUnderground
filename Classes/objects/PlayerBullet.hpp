@@ -59,7 +59,6 @@ public:
 
 	virtual inline SpaceFloat getMass() const { return app::getBullet("scarletDagger")->mass; }
 	virtual inline SpaceFloat getMaxSpeed() const { return app::getBullet("scarletDagger")->speed; }
-	virtual inline SpaceFloat getRadius() const { return app::getBullet("scarletDagger")->radius; }
 
 	virtual inline DamageInfo getDamageInfo() const { return app::getBullet("scarletDagger")->damage; }
 
@@ -161,7 +160,6 @@ public:
 	cons(CirnoIceShieldBullet);
 
 	virtual inline SpaceFloat getMaxSpeed() const { return 9.0; }
-	virtual inline SpaceFloat getRadius() const { return 0.3; }
 
 	virtual inline string getSprite() const { return "cirnoIceBullet"; }
 

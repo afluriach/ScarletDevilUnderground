@@ -25,6 +25,7 @@
 
 MapFragment::MapFragment(GSpace* space, ObjectIDType id, const ValueMap& args) :
 	MapObjParams(),
+	CircleBody(0.5),
 	mapFragmentId(getIntOrDefault(args, "id", -1))
 {
 	if (mapFragmentId == -1) {

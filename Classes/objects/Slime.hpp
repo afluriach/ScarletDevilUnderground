@@ -26,7 +26,6 @@ public:
 	virtual inline SpaceFloat getRadarRadius() const { return 6.0; }
 	virtual inline SpaceFloat getDefaultFovAngle() const { return float_pi / 4.0; }
 
-	virtual inline SpaceFloat getRadius() const { return 0.875; }
 	inline SpaceFloat getMass() const { return 40.0; }
 
 	inline string getSprite() const { return "slime"; }
@@ -49,7 +48,6 @@ public:
 	virtual inline SpaceFloat getRadarRadius() const { return 6.0; }
 	virtual inline SpaceFloat getDefaultFovAngle() const { return float_pi / 4.0; }
 
-	virtual inline SpaceFloat getRadius() const { return 1.75; }
 	inline SpaceFloat getMass() const { return 200.0; }
 
 	inline string getSprite() const { return "slime"; }

@@ -13,7 +13,7 @@
 
 Slime1::Slime1(GSpace* space, ObjectIDType id, const ValueMap& args) :
 	MapObjParams(),
-	MapObjForwarding(Agent),
+	AgentMapForward(0.875),
 	Enemy(collectible_id::hm1)
 {
 }
@@ -43,7 +43,7 @@ DamageInfo Slime1::touchEffect() const {
 
 Slime2::Slime2(GSpace* space, ObjectIDType id, const ValueMap& args) :
 	MapObjParams(),
-	MapObjForwarding(Agent),
+	AgentMapForward(1.75),
 	Enemy(collectible_id::hm2)
 {
 }

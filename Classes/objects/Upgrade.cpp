@@ -26,6 +26,7 @@ bool Upgrade::conditionalLoad(GSpace* space, ObjectIDType id, const ValueMap& ar
 
 Upgrade::Upgrade(GSpace* space, ObjectIDType id, const ValueMap& args) :
 	MapObjParams(),
+	CircleBody(0.75),
 	attribute(AttributeSystem::getAttribute(getStringOrDefault(args, "attr", ""))),
 	upgrade_id(getIntOrDefault(args, "id", -1))
 {

@@ -26,8 +26,6 @@ public:
     virtual inline GType getType() const {return GType::foliage;}
     virtual inline bool getSensor() const {return true;}
     
-    virtual inline SpaceFloat getRadius() const {return 0.5;}
-
     const string color;
 };
 

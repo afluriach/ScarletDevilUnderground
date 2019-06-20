@@ -76,36 +76,11 @@ enum class Attribute {
 	end = endElementDamage,
 };
 
-enum class DamageType
-{
-	bullet,
-	bomb,
-	effectArea,
-	touch,
-	melee,
-	pitfall,
-
-	end
-};
-
 struct UpgradeInfo
 {
 	float step;
 	string sprite;
 };
-
-struct DamageInfo
-{
-	float mag = 0.0f;
-	Attribute element = Attribute::end;
-	DamageType type = DamageType::end;
-
-	DamageInfo operator*(float rhs);
-};
-
-#define bullet_damage(x) DamageInfo{x, Attribute::end, DamageType::bullet}
-#define bomb_damage(x) DamageInfo{x, Attribute::end, DamageType::bomb}
-#define melee_damage(x) DamageInfo{x, Attribute::end, DamageType::melee}
 
 typedef array<float, to_size_t(Attribute::end)> AttributeArray;
 typedef map<string, AttributeMap> AttributePackageMap;
