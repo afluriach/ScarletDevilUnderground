@@ -79,11 +79,16 @@ public:
 class ReimuBullet1 : public EnemyBullet, public BulletImpl, public ParametricMotion
 {
 public:
-	static const bullet_properties props;
+	static const string props;
 	static const SpaceFloat omega;
 	static const SpaceFloat amplitude;
 
-	static SpaceVect parametric_move(SpaceFloat t, SpaceFloat angle, SpaceFloat phaseAngleStart);
+	static SpaceVect parametric_move(
+		SpaceFloat t,
+		SpaceFloat angle,
+		SpaceFloat phaseAngleStart,
+		SpaceFloat speed
+	);
 
 	ReimuBullet1(GSpace* space, ObjectIDType id, const SpaceVect& pos, SpaceFloat angle, object_ref<Agent> agent, SpaceFloat start);
 
@@ -93,7 +98,7 @@ public:
 class YinYangOrb : public EnemyBullet, public BulletImpl
 {
 public:
-	static const bullet_properties props;
+	static const string props;
 
 	cons(YinYangOrb);
 };
@@ -104,7 +109,7 @@ class RumiaDemarcation2Bullet :
 	public BulletImpl
 {
 public:
-	static const bullet_properties props;
+	static const string props;
 
 	RumiaDemarcation2Bullet(
 		GSpace* space,
@@ -124,7 +129,7 @@ class RumiaDarknessBullet :
 	public BulletImpl
 {
 public:
-	static const bullet_properties props;
+	static const string props;
 
 	RumiaDarknessBullet(
 		GSpace* space,

@@ -117,20 +117,17 @@ void IllusionDialDagger::initializeGraphics()
 	space->graphicsNodeAction(&Node::setVisible, drawNodeID, false);
 }
 
-const bullet_properties ReimuBullet1::props = {
-	0.1,
-	4.5,
-	0.2,
-	bullet_damage(3.0f),
-	"yinYangOrb",
-};
-
+const string ReimuBullet1::props = "reimuBullet1";
 const SpaceFloat ReimuBullet1::omega = float_pi * 2.0;
 const SpaceFloat ReimuBullet1::amplitude = 2.0;
 
-SpaceVect ReimuBullet1::parametric_move(SpaceFloat t, SpaceFloat firingAngle, SpaceFloat phaseAngleStart)
-{
-	SpaceVect d1 = SpaceVect::ray(t * props.speed, firingAngle);
+SpaceVect ReimuBullet1::parametric_move(
+	SpaceFloat t,
+	SpaceFloat firingAngle,
+	SpaceFloat phaseAngleStart,
+	SpaceFloat speed
+){
+	SpaceVect d1 = SpaceVect::ray(t * speed, firingAngle);
 	SpaceVect d2 = SpaceVect::ray(amplitude, firingAngle + float_pi * 0.5)*cos((t+phaseAngleStart)*omega);
 
 	return d1 + d2;
@@ -139,8 +136,8 @@ SpaceVect ReimuBullet1::parametric_move(SpaceFloat t, SpaceFloat firingAngle, Sp
 ReimuBullet1::ReimuBullet1(GSpace* space, ObjectIDType id, const SpaceVect& pos, SpaceFloat angle, object_ref<Agent> agent, SpaceFloat start) :
 	GObject(make_shared<object_params>(space, id, "", pos, angle)),
 	Bullet(agent),
-	BulletImpl(makeSharedCopy(props)),
-	ParametricMotion(bind(&parametric_move, placeholders::_1, angle, start))
+	BulletImpl(app::getBullet(props)),
+	ParametricMotion(bind(&parametric_move, placeholders::_1, angle, start, app::getBullet(props)->speed))
 {}
 
 void ReimuBullet1::update()
@@ -148,36 +145,17 @@ void ReimuBullet1::update()
 	ParametricMotion::_update();
 }
 
-const bullet_properties YinYangOrb::props = {
-	0.1,
-	4.5,
-	0.5,
-	bullet_damage(10.0f),
-	"yinYangOrb",
-	"yinYangOrb",
-	-1,
-	-1,
-};
+const string YinYangOrb::props = "yinYangOrb";
 
 YinYangOrb::YinYangOrb(GSpace* space, ObjectIDType id, const SpaceVect& pos, SpaceFloat angle, object_ref<Agent> agent) :
 	GObject(make_shared<object_params>(space, id, "", pos, angle)),
 	Bullet(agent),
-	BulletImpl(makeSharedCopy(props))
+	BulletImpl(app::getBullet(props))
 {
 	setInitialAngularVelocity(float_pi);
 }
 
-const bullet_properties RumiaDemarcation2Bullet::props = {
-	0.1,
-	6.0,
-	0.2,
-	bullet_damage(7.5f),
-	"rumiaDemarcationBullet",
-	"",
-	-1,
-	0,
-	false
-};
+const string RumiaDemarcation2Bullet::props = "rumiaDemarcationBullet2";
 
 RumiaDemarcation2Bullet::RumiaDemarcation2Bullet(
 	GSpace* space,
@@ -190,7 +168,7 @@ RumiaDemarcation2Bullet::RumiaDemarcation2Bullet(
 	GObject(make_shared<object_params>(space, id, "", pos, angle)),
 	Bullet(agent),
 	ShieldBullet(agent, false),
-	BulletImpl(makeSharedCopy(props))
+	BulletImpl(app::getBullet(props))
 {
 	setInitialAngularVelocity(angularVel);
 }
@@ -202,17 +180,7 @@ void RumiaDemarcation2Bullet::update()
 	setVel(SpaceVect::ray(getMaxSpeed(), getAngle()));
 }
 
-const bullet_properties RumiaDarknessBullet::props = {
-	0.1,
-	6.0,
-	0.2,
-	DamageInfo{15.0f,Attribute::darknessDamage,DamageType::bullet},
-	"",
-	"rumiaDarknessBullet",
-	-1,
-	0,
-	true
-};
+const string RumiaDarknessBullet::props = "rumiaDarknessBullet";
 
 RumiaDarknessBullet::RumiaDarknessBullet(
 	GSpace* space,
@@ -224,7 +192,7 @@ RumiaDarknessBullet::RumiaDarknessBullet(
 	GObject(make_shared<object_params>(space, id, "", pos, angle)),
 	Bullet(agent),
 	ShieldBullet(agent, false),
-	BulletImpl(makeSharedCopy(props))
+	BulletImpl(app::getBullet(props))
 {
 	addMagicEffect(make_shared<RadiusEffect>(
 		this,

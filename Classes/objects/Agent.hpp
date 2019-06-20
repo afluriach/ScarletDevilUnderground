@@ -34,7 +34,9 @@ public:
 	template<class ObjectCls, typename... Args>
 	inline gobject_ref bulletCheckSpawn(const SpaceVect& pos, SpaceFloat angle, Args... args)
 	{
-		if (!isBulletObstacle(pos, ObjectCls::props.radius))
+		SpaceFloat radius = app::getBullet(ObjectCls::props)->radius;
+
+		if (!isBulletObstacle(pos, radius))
 			return space->createObject<ObjectCls>(
 				pos,
 				angle,

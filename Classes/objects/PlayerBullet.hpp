@@ -54,15 +54,15 @@ class ScarletDagger :
 	public DirectionalLaunch
 {
 public:
-	static const bullet_properties props;
+	static const string props;
 
 	ScarletDagger(GSpace* space, ObjectIDType id, const SpaceVect& pos, SpaceFloat angle, object_ref<Agent> agent);
 
-	virtual inline SpaceFloat getMass() const { return props.mass; }
-	virtual inline SpaceFloat getMaxSpeed() const { return props.speed; }
-	virtual inline SpaceFloat getRadius() const { return props.radius; }
+	virtual inline SpaceFloat getMass() const { return app::getBullet("scarletDagger")->mass; }
+	virtual inline SpaceFloat getMaxSpeed() const { return app::getBullet("scarletDagger")->speed; }
+	virtual inline SpaceFloat getRadius() const { return app::getBullet("scarletDagger")->radius; }
 
-	virtual inline DamageInfo getDamageInfo() const { return props.damage; }
+	virtual inline DamageInfo getDamageInfo() const { return app::getBullet("scarletDagger")->damage; }
 
 	virtual inline string getSprite() const { return "scarletDagger"; }
 	virtual shared_ptr<LightArea> getLightSource() const;
@@ -71,7 +71,7 @@ public:
 class FlandreFastOrb1 : public PlayerBullet, public BulletImpl
 {
 public:
-	static const bullet_properties props;
+	static const string props;
 
 	cons(FlandreFastOrb1);
 };
@@ -82,7 +82,7 @@ class FlanPolarBullet :
 	public ParametricMotion
 {
 public:
-	static const bullet_properties props;
+	static const string props;
 	//parametric / angle scale - at 1.0, it takes 2pi seconds
 	//to trace the entire graph
 	static const SpaceFloat W;
@@ -111,7 +111,7 @@ class FlandrePolarMotionOrb :
 	public BulletImpl
 {
 public:
-	static const bullet_properties props;
+	static const string props;
 
 	cons(FlandrePolarMotionOrb);
 
@@ -168,7 +168,7 @@ class CirnoIceShieldBullet :
 	public ImageSprite
 {
 public:
-	static const bullet_properties props;
+	static const string props;
 
 	cons(CirnoIceShieldBullet);
 

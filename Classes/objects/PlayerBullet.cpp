@@ -16,7 +16,7 @@
 #define cons(x) x::x(GSpace* space, ObjectIDType id, const SpaceVect& pos, SpaceFloat angle, object_ref<Agent> agent) : \
     GObject(make_shared<object_params>(space,id,"", pos, angle)), \
     Bullet(agent), \
-    BulletImpl(makeSharedCopy(props)) \
+    BulletImpl(app::getBullet(props)) \
 {} \
 
 PlayerBulletImpl::PlayerBulletImpl(GSpace* space, ObjectIDType id, const SpaceVect& pos, SpaceFloat angle, object_ref<Agent> agent, shared_ptr<bullet_properties> props) :
@@ -56,14 +56,7 @@ shared_ptr<LightArea> CatadioptricBullet::getLightSource() const {
 	);
 }
 
-const bullet_properties ScarletDagger::props = {
-	5.0,
-	6.0,
-	//unused, since it is not a CircleBody
-	0.5,
-	bullet_damage(5.0f),
-	"scarletDagger",
-};
+const string ScarletDagger::props = "scarletDagger";
 
 ScarletDagger::ScarletDagger(GSpace* space, ObjectIDType id, const SpaceVect& pos, SpaceFloat angle, object_ref<Agent> agent) :
 	GObject(make_shared<object_params>(space, id, "", pos, angle)),
@@ -75,29 +68,11 @@ shared_ptr<LightArea> ScarletDagger::getLightSource() const {
 	return app::getLight("scarletDagger");
 };
 
-const bullet_properties FlandreFastOrb1::props = {
-	0.1,
-	9.0,
-	0.15,
-	bullet_damage(1.0f),
-	"flandreOrb",
-	"flandreFastOrb",
-};
+const string FlandreFastOrb1::props = "flandreFastOrb1";
 
 cons(FlandreFastOrb1)
 
-const bullet_properties FlanPolarBullet::props = {
-	0.1,
-	0.0,
-	0.15,
-	bullet_damage(2.0f),
-	"flandreOrb",
-	"flandrePolarOrb",
-	-1,
-	0,
-	false
-};
-
+const string FlanPolarBullet::props = "flandrePolarBullet";
 const SpaceFloat FlanPolarBullet::A = 5.0;
 const SpaceFloat FlanPolarBullet::B = 4.0;
 const SpaceFloat FlanPolarBullet::W = 1.0;
@@ -116,7 +91,7 @@ FlanPolarBullet::FlanPolarBullet(GSpace* space, ObjectIDType id, const SpaceVect
 FlanPolarBullet::FlanPolarBullet(GSpace* space, ObjectIDType id, const SpaceVect& pos, SpaceFloat angle, object_ref<Agent> agent, SpaceFloat parametric_start) :
 	GObject(make_shared<object_params>(space, id, "", pos, angle)),
 	Bullet(agent),
-	BulletImpl(makeSharedCopy(props)),
+	BulletImpl(app::getBullet(props)),
 	ParametricMotion(&parametric_motion, parametric_start)
 {
 	ignoreObstacleCollision = true;
@@ -128,19 +103,12 @@ void FlanPolarBullet::update()
 	ParametricMotion::_update();
 }
 
-const bullet_properties FlandrePolarMotionOrb::props = {
-	1.0,
-	9.0,
-	0.15,
-	bullet_damage(1.0f),
-	"flandreOrb",
-	"polarMotionOrb",
-};
+const string FlandrePolarMotionOrb::props = "flandrePolarMotionOrb";
 
 FlandrePolarMotionOrb::FlandrePolarMotionOrb(GSpace* space, ObjectIDType id, const SpaceVect& pos, SpaceFloat angle, object_ref<Agent> agent) :
 	GObject(make_shared<object_params>(space, id, "", pos, angle)),
 	Bullet(agent),
-	BulletImpl(makeSharedCopy(props))
+	BulletImpl(app::getBullet(props))
 {}
 
 void FlandrePolarMotionOrb::update()
