@@ -14,8 +14,7 @@
 
 class Headstone :
 	virtual public GObject,
-	public RectangleBody,
-	public ImageSprite
+	public RectangleBody
 {
 public:
 	static const vector<string> damageSprites;
@@ -51,8 +50,7 @@ public:
 
 class Sapling :
 	virtual public GObject,
-	public RectangleBody,
-	public ImageSprite
+	public RectangleBody
 {
 public:
 	MapObjCons(Sapling);
@@ -68,7 +66,6 @@ public:
 class Mushroom :
 	virtual public GObject,
 	public RectangleBody,
-	public ImageSprite,
 	public InteractibleObject
 {
 public:

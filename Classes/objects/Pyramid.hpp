@@ -15,7 +15,6 @@
 
 class Pyramid :
 virtual public GObject,
-public ImageSprite,
 public RadarObject,
 public RectangleBody
 {

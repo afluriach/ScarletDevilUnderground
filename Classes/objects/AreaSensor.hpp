@@ -22,8 +22,7 @@ class Spawner;
 
 class AreaSensor :
 	virtual public GObject,
-	public RectangleBody,
-	public NoSprite
+	public RectangleBody
 {
 public:
 	AreaSensor(GSpace* space, ObjectIDType id, const ValueMap& args);

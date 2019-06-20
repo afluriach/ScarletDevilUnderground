@@ -40,7 +40,7 @@ struct collectible_properties
 	float val;
 };
 
-class Collectible : virtual public GObject, public RectangleBody, public ImageSprite
+class Collectible : virtual public GObject, public RectangleBody
 {
 public:
 	static const unordered_map<collectible_id, collectible_properties> propertiesMap;

@@ -33,7 +33,7 @@ public:
 	virtual inline void exclusiveFloorEffect(GObject* obj) {}
 };
 
-class FloorSegmentImpl : FloorSegment, public NoSprite
+class FloorSegmentImpl : public FloorSegment
 {
 public:
 	FloorSegmentImpl(GSpace* space, ObjectIDType id, const ValueMap& args, const string& type);
@@ -47,7 +47,6 @@ protected:
 
 class MovingPlatform:
 public FloorSegment,
-public ImageSprite,
 public MaxSpeedImpl,
 public RegisterInit<MovingPlatform>
 {
@@ -82,7 +81,7 @@ public:
 	virtual inline SpaceFloat getFrictionCoeff() const { return 0.2; }
 };
 
-class PressurePlate : public FloorSegment, public RegisterInit<PressurePlate>, public NoSprite
+class PressurePlate : public FloorSegment, public RegisterInit<PressurePlate>
 {
 public:
 	MapObjCons(PressurePlate);
@@ -97,7 +96,7 @@ protected:
 	vector<object_ref<ActivateableObject>> target;
 };
 
-class Pitfall : public FloorSegment, public NoSprite
+class Pitfall : public FloorSegment
 {
 public:
 	MapObjCons(Pitfall);
@@ -109,7 +108,7 @@ public:
 	virtual PhysicsLayers getLayers() const { return PhysicsLayers::belowFloor; }
 };
 
-class WaterFloor : public FloorSegment, public NoSprite
+class WaterFloor : public FloorSegment
 {
 public:
 	MapObjCons(WaterFloor);

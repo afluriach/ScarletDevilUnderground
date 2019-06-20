@@ -12,7 +12,7 @@
 #include "GObject.hpp"
 #include "GObjectMixins.hpp"
 
-class Wall : virtual public GObject, public RectangleBody, public NoSprite
+class Wall : virtual public GObject, public RectangleBody
 {
 public: 
 	MapObjCons(Wall);

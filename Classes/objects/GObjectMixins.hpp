@@ -147,28 +147,6 @@ protected:
 
 //GRAPHICS MIXINS
 
-class NoSprite : public virtual GObject
-{
-public:
-	inline NoSprite() {}
-
-	inline virtual void initializeGraphics() {}
-};
-
-
-//Initialize graphics from a still image. Any class that uses this mixin has to implement interface to
-//provide the path to the image file.
-class ImageSprite : public virtual GObject
-{
-public:
-    inline ImageSprite() {
-		rotateSprite = true;
-	}
-
-	virtual void initializeGraphics();
-	virtual string getSprite() const = 0;
-};
-
 class PatchConSprite : virtual public GObject, RegisterInit<PatchConSprite>
 {
 public:
@@ -178,8 +156,6 @@ public:
     PatchConSprite(const ValueMap& args);
 	PatchConSprite(Direction startingDirection = Direction::up);
 
-	virtual string getSprite() const = 0;
-    
     void initializeGraphics();
     void init();
     void _update();

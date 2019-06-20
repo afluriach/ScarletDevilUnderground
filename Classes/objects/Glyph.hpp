@@ -15,7 +15,6 @@
 class Glyph :
 	public virtual GObject,
 	public RectangleBody,
-	public ImageSprite,
 	public RegisterInit<Glyph>
 {
 public:

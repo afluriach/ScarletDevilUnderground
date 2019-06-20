@@ -49,7 +49,6 @@ class ScarletDagger :
 	virtual public GObject,
 	public PlayerBullet,
 	public RectangleBody,
-	public ImageSprite,
 	public LightObject,
 	public DirectionalLaunch
 {
@@ -114,8 +113,7 @@ class Lavaeteinn :
 	virtual public GObject,
 	public PlayerBullet,
 	public ShieldBullet,
-	public RectangleBody,
-	public ImageSprite
+	public RectangleBody
 {
 public:
 	Lavaeteinn(
@@ -140,8 +138,7 @@ class FlandreCounterClockBullet :
 	virtual public GObject,
 	public PlayerBullet,
 	public ShieldBullet,
-	public RectangleBody,
-	public ImageSprite
+	public RectangleBody
 {
 public:
 	cons(FlandreCounterClockBullet);
@@ -156,8 +153,7 @@ class CirnoIceShieldBullet :
 	virtual public GObject,
 	public PlayerBullet,
 	public ShieldBullet,
-	public CircleBody,
-	public ImageSprite
+	public CircleBody
 {
 public:
 	static const string props;

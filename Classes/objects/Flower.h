@@ -12,7 +12,7 @@
 #include "GObject.hpp"
 #include "GObjectMixins.hpp"
 
-class Flower : virtual public GObject, CircleBody, ImageSprite
+class Flower : virtual public GObject, CircleBody
 {
 public:
 	Flower(GSpace* space, ObjectIDType id, const string& name, const string& color, const SpaceVect& pos);

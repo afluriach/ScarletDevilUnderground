@@ -15,7 +15,6 @@
 class Desk :
 	virtual public GObject,
 	public RectangleBody,
-	public ImageSprite,
 	public InteractibleObject
 {
 public:

@@ -241,11 +241,12 @@ public:
 	bool isGraphicsObject() const;
         //The Z-order used by Cocos2D.
 	virtual GraphicsLayer sceneLayer() const;
+	inline virtual string getSprite() const { return ""; }
 	int sceneLayerAsInt() const;
     sprite_update updateSprite();
 
 	//Create Node which graphically reprensets this object and adds it to Layer
-	virtual void initializeGraphics() = 0;
+	virtual void initializeGraphics();
 	
 	inline virtual void setSpriteShader(const string& shaderName){
         log("GObject::setSpriteShader: virtual base, no implementation for %s!", name.c_str());

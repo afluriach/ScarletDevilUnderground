@@ -68,7 +68,7 @@ shared_ptr<LightArea> Spellcard::getLightSource() const
 
 void Spellcard::initializeGraphics()
 {
-	ImageSprite::initializeGraphics();
+	GObject::initializeGraphics();
 	space->addGraphicsAction(
 		&graphics_context::runSpriteAction,
 		spriteID,

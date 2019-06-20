@@ -95,7 +95,7 @@ void IllusionDialDagger::update()
 
 void IllusionDialDagger::initializeGraphics()
 {
-	ImageSprite::initializeGraphics();
+	GObject::initializeGraphics();
 
 	SpaceVect _dim = getDimensions();
 	float hWidth = to_float(_dim.x / 2.0 * app::pixelsPerTile);

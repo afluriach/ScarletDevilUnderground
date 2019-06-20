@@ -17,7 +17,6 @@ class Collect;
 class CollectGlyph :
 public virtual GObject,
 public RectangleBody,
-public ImageSprite,
 public InteractibleObject
 {
 public:

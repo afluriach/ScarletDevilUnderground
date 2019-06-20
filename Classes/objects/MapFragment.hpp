@@ -12,7 +12,7 @@
 #include "GObject.hpp"
 #include "GObjectMixins.hpp"
 
-class MapFragment : virtual public GObject, public CircleBody, public ImageSprite
+class MapFragment : virtual public GObject, public CircleBody
 {
 public:
 	static bool conditionalLoad(GSpace* space, ObjectIDType id, const ValueMap& args);

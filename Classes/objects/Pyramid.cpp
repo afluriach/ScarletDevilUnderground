@@ -85,7 +85,7 @@ void Pyramid::onEndDetect(GObject* other)
 
 void Pyramid::initializeGraphics()
 {
-	ImageSprite::initializeGraphics();
+	GObject::initializeGraphics();
 
 	SpaceFloat a = getAngle();
 

@@ -91,47 +91,6 @@ void ParametricMotion::_update()
 
 //GRAPHICS MIXINS
 
-void ImageSprite::initializeGraphics()
-{
-	sprite_properties _sprite = app::getSprite(getSprite());
-	float zoom = getSpriteZoom(_sprite, getRadius());
-	string resPath = "sprites/" + _sprite.filename + ".png";
-
-	if (_sprite.size == make_pair(1, 1)) {
-		spriteID = space->createSprite(
-			&graphics_context::createSprite,
-			resPath,
-			sceneLayer(),
-			getInitialCenterPix(),
-			zoom
-		);
-	}
-	else if (
-		_sprite.size.first > 1 &&
-		_sprite.size.second == 1 &&
-		_sprite.duration > 0.0f
-	) {
-		spriteID = space->createSprite(
-			&graphics_context::createLoopAnimation,
-			_sprite.filename,
-			_sprite.size.first,
-			_sprite.duration,
-			sceneLayer(),
-			getInitialCenterPix(),
-			zoom
-		);
-	}
-	else {
-		log("Invalid ImageSprite size %d,%d", _sprite.size.first, _sprite.size.second);
-	}
-
-	space->graphicsNodeAction(&Node::setRotation, spriteID, toCocosAngle(prevAngle));
-
-	if (spriteID != 0 && _sprite.color != Color3B::BLACK && _sprite.color != Color3B::WHITE) {
-		space->graphicsNodeAction(&Node::setColor, spriteID, _sprite.color);
-	}
-}
-
 PatchConSprite::PatchConSprite(const ValueMap& args) :
 	PatchConSprite(getDirectionOrDefault(args, Direction::up))
 {

@@ -37,7 +37,7 @@ public:
 	inline virtual ~EnemyBulletImpl() {}
 };
 
-class StarBullet : virtual public GObject, public EnemyBullet, public CircleBody, public ImageSprite, public MaxSpeedImpl, public DirectionalLaunch
+class StarBullet : virtual public GObject, public EnemyBullet, public CircleBody, public MaxSpeedImpl, public DirectionalLaunch
 {
 public:
     static const vector<string> colors;
@@ -57,8 +57,7 @@ public:
 class IllusionDialDagger :
 virtual public GObject,
 public EnemyBullet,
-public RectangleBody,
-public ImageSprite
+public RectangleBody
 {
 public:
     //IllusionDaggerBullet(const ValueMap& args);

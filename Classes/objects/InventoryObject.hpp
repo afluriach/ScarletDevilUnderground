@@ -14,7 +14,7 @@
 
 //Represents an object that can be collected from the environment.
 //It is static, disappears once obtained.
-class InventoryObject : virtual public GObject, public CircleBody, public ImageSprite
+class InventoryObject : virtual public GObject, public CircleBody
 {
 public:
     virtual inline SpaceFloat getRadius() const {return 0.5;}

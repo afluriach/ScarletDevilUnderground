@@ -81,7 +81,6 @@ public:
 class BulletImpl :
 	virtual public Bullet,
 	public CircleBody,
-	public ImageSprite,
 	public LightObject,
 	public RegisterInit<BulletImpl>
 {

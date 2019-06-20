@@ -47,7 +47,7 @@ protected:
 	bool detonated = false;
 };
 
-class PlayerBomb : public Bomb, public ImageSprite
+class PlayerBomb : public Bomb
 {
 public:
 	PlayerBomb(shared_ptr<object_params> params);
@@ -64,7 +64,7 @@ public:
 	virtual string getExplosionSound() const { return "sfx/bomb_explosion1.wav"; }
 };
 
-class RedFairyBomb : public Bomb, public ImageSprite
+class RedFairyBomb : public Bomb
 {
 public:
 	RedFairyBomb(shared_ptr<object_params> params);

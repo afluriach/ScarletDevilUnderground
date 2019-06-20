@@ -13,6 +13,7 @@
 #include "value_map.hpp"
 
 FloorSegment::FloorSegment(GSpace* space, ObjectIDType id, const ValueMap& args) :
+GObject(make_shared<object_params>(space,id,args)),
 RectangleBody(args)
 {
 

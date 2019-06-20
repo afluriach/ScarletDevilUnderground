@@ -133,7 +133,7 @@ void BulletImpl::init()
 
 void BulletImpl::initializeGraphics()
 {
-	ImageSprite::initializeGraphics();
+	GObject::initializeGraphics();
 }
 
 ShieldBullet::ShieldBullet(object_ref<Agent> agent, bool deflectBullets) :

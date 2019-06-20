@@ -15,7 +15,6 @@
 class Sign :
 	virtual public GObject,
 	public RectangleBody,
-	public ImageSprite,
 	public DialogEntity
 {
 public:

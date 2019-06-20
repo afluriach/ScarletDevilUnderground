@@ -13,7 +13,7 @@
 #include "GObjectMixins.hpp"
 #include "value_map.hpp"
 
-class Upgrade : virtual public GObject, public CircleBody, public ImageSprite
+class Upgrade : virtual public GObject, public CircleBody
 {
 public:
 	static bool conditionalLoad(GSpace* space, ObjectIDType id, const ValueMap& args);
