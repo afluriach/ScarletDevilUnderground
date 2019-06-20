@@ -16,8 +16,7 @@ class FirePattern;
 
 class Launcher :
 virtual public GObject,
-public RectangleBody,
-public ActivateableObject
+public RectangleBody
 {
 public:
 	static const boost::rational<int> fireInterval;

@@ -46,7 +46,7 @@ void ReimuEnemy::lockDoors()
 
 	for (string name : names)
 	{
-		ActivateableObject* ao = space->getObjectAs<ActivateableObject>(name);
+		GObject* ao = space->getObject(name);
 		if (ao) {
 			ao->activate();
 		}
@@ -59,7 +59,7 @@ void ReimuEnemy::unlockDoors()
 
 	for (string name : names)
 	{
-		ActivateableObject* ao = space->getObjectAs<ActivateableObject>(name);
+		GObject* ao = space->getObject(name);
 		if (ao) {
 			ao->deactivate();
 		}

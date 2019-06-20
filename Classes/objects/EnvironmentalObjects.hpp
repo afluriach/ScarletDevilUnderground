@@ -65,8 +65,7 @@ public:
 
 class Mushroom :
 	virtual public GObject,
-	public RectangleBody,
-	public InteractibleObject
+	public RectangleBody
 {
 public:
 	static bool conditionalLoad(GSpace* space, ObjectIDType id, const ValueMap& args);

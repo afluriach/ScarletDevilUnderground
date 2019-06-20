@@ -100,7 +100,7 @@ protected:
 	vector<string> trapDoorNames;
 	string spawnOnClear;
 
-	unordered_set<ActivateableObject*> doors;
+	unordered_set<GObject*> doors;
 	unordered_set<Spawner*> spawners;
 	unordered_map<type_index, vector<Spawner*>> spawnersByType;
 	SpaceFloat timeInRoom = 0.0;

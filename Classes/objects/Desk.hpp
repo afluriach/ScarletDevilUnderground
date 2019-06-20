@@ -14,8 +14,7 @@
 
 class Desk :
 	virtual public GObject,
-	public RectangleBody,
-	public InteractibleObject
+	public RectangleBody
 {
 public:
 	MapObjCons(Desk);

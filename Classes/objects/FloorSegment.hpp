@@ -93,7 +93,7 @@ public:
 protected:
 	unordered_set<gobject_ref> crntContacts;
 	vector<string> targetNames;
-	vector<object_ref<ActivateableObject>> target;
+	vector<gobject_ref> target;
 };
 
 class Pitfall : public FloorSegment

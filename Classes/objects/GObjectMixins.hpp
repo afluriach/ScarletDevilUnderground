@@ -30,26 +30,7 @@ public:
     }
 };
 
-class InteractibleObject : public virtual GObject
-{
-public:
-	inline InteractibleObject() {}
-
-    virtual bool canInteract(Player* p) = 0;
-    virtual void interact(Player* p) = 0;
-    virtual string interactionIcon(Player* p) = 0;
-};
-
-class ActivateableObject : public virtual GObject
-{
-public:
-	inline ActivateableObject() {}
-
-	virtual void activate() = 0;
-	virtual void deactivate() = 0;
-};
-
-class DialogEntity : public InteractibleObject
+class DialogEntity : public virtual GObject
 {
 public:
 	inline DialogEntity() {}

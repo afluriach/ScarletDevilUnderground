@@ -15,8 +15,6 @@
 class Door :
 	virtual public GObject,
 	public RectangleBody,
-	public ActivateableObject,
-	public InteractibleObject,
 	public RegisterInit<Door>
 {
 public:
@@ -78,7 +76,6 @@ protected:
 class Barrier :
 	virtual public GObject,
 	public RectangleBody,
-	public ActivateableObject,
 	public RegisterInit<Barrier>
 {
 public:

@@ -20,7 +20,6 @@ class graphics_context;
 class GScene;
 class GState;
 class HUD;
-class InteractibleObject;
 class PlayScene;
 class Replay;
 class RoomSensor;

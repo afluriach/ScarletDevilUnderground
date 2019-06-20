@@ -14,8 +14,7 @@
 
 class Torch :
 	public virtual GObject,
-	public RectangleBody,
-	public InteractibleObject
+	public RectangleBody
 {
 public:
 	static const unordered_map<string, Color3B> colorMap;

@@ -326,7 +326,7 @@ bool physics_context::obstacleFeeler(const GObject * agent, SpaceVect _feeler) c
 	);
 }
 
-InteractibleObject* physics_context::interactibleObjectFeeler(const GObject* agent, SpaceVect feeler) const
+GObject* physics_context::interactibleObjectFeeler(const GObject* agent, SpaceVect feeler) const
 {
 	GObject* obj = objectFeeler(
 		agent,
@@ -335,7 +335,7 @@ InteractibleObject* physics_context::interactibleObjectFeeler(const GObject* age
 		agent->getCrntLayers()
 	);
 
-	return dynamic_cast<InteractibleObject*>(obj);
+	return obj;
 }
 
 bool physics_context::lineOfSight(const GObject* agent, const GObject * target) const

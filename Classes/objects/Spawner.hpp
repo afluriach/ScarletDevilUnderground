@@ -13,9 +13,7 @@
 
 class Agent;
 
-class Spawner :
-public AreaSensor,
-public ActivateableObject
+class Spawner : public AreaSensor
 {
 public:
 	static const int defaultSpawnLimit;

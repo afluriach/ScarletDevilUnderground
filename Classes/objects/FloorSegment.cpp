@@ -132,7 +132,7 @@ void PressurePlate::init()
 {
 	for (string _name : targetNames)
 	{
-		target.push_back(space->getObjectRefAs<ActivateableObject>(_name));
+		target.push_back(space->getObjectRef(_name));
 	}
 	
 	targetNames.clear();
@@ -145,7 +145,7 @@ void PressurePlate::onContact(GObject* obj)
 	crntContacts.insert(obj);
 
 	if (wasInactive) {
-		for (object_ref<ActivateableObject> _t : target) {
+		for (gobject_ref _t : target) {
 			if (_t.isValid()) {
 				_t.get()->activate();
 			}
@@ -160,7 +160,7 @@ void PressurePlate::onEndContact(GObject* obj)
 	crntContacts.erase(obj);
 
 	if (wasActive && crntContacts.empty()) {
-		for (object_ref<ActivateableObject> _t : target) {
+		for (gobject_ref _t : target) {
 			if (_t.isValid()) {
 				_t.get()->deactivate();
 			}

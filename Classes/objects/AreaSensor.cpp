@@ -142,7 +142,7 @@ void RoomSensor::init()
 		if (name.empty())
 			continue;
 
-		ActivateableObject* d = space->getObjectAs<ActivateableObject>(name);
+		GObject* d = space->getObject(name);
 		if (d) {
 			doors.insert(d);
 		}

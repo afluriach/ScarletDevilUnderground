@@ -10,7 +10,6 @@
 #define physics_context_hpp
 
 class GSpace;
-class InteractibleObject;
 
 class physics_context
 {
@@ -137,7 +136,7 @@ public:
 	//uses line/ray
 	bool obstacleFeeler(const GObject * agent, SpaceVect feeler) const;
 	bool wallFeeler(const GObject * agent, SpaceVect feeler) const;
-	InteractibleObject* interactibleObjectFeeler(const GObject* agent, SpaceVect feeler) const;
+	GObject* interactibleObjectFeeler(const GObject* agent, SpaceVect feeler) const;
 
 	bool lineOfSight(const GObject * agent, const GObject * target) const;
 protected:

@@ -376,7 +376,7 @@ void Player::checkItemInteraction(const ControlInfo& cs)
 {
 	timerDecrement(interactCooldown);
 
-	InteractibleObject* interactible = space->physicsContext->interactibleObjectFeeler(
+	GObject* interactible = space->physicsContext->interactibleObjectFeeler(
 		this,
 		getInteractFeeler()
 	);

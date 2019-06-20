@@ -16,8 +16,7 @@ class Collect;
 
 class CollectGlyph :
 public virtual GObject,
-public RectangleBody,
-public InteractibleObject
+public RectangleBody
 {
 public:
 	MapObjCons(CollectGlyph);

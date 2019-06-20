@@ -126,12 +126,26 @@ public:
 		return uuid;
 	}
 
+	//BEGIN LOGIC
+
 	//Called on the first frame after it has been added, before update is called on it or any other
 	//objects in the same frame
 	void init();
 	virtual void update();
+
 	virtual void onPitfall();
 	inline virtual void onRemove() {}
+
+	//Activation
+	inline virtual void activate() {};
+	inline virtual void deactivate() {};
+
+	//Interaction
+	inline virtual bool canInteract(Player* p) { return false; }
+	inline virtual void interact(Player* p) {} 
+	inline virtual string interactionIcon(Player* p) { return ""; }
+
+	//END LOGIC
 
 	//BEGIN PHYSICS
 
