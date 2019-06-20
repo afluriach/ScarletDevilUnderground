@@ -11,51 +11,30 @@
 
 #include "Bullet.hpp"
 
-#define cons(x) x(GSpace* space, ObjectIDType id, const SpaceVect& pos, SpaceFloat angle, object_ref<Agent> agent);
+#define cons(x) x(GSpace* space, ObjectIDType id, const SpaceVect& pos, SpaceFloat angle, const bullet_attributes& attributes);
 
-class PlayerBullet : virtual public Bullet
+class StarbowBreakBullet : public BulletImpl
 {
 public:
-	inline PlayerBullet() {}
-	inline virtual ~PlayerBullet() {}
-
-	virtual inline GType getType() const { return GType::playerBullet; }
-};
-
-class PlayerBulletImpl : public PlayerBullet, public BulletImpl
-{
-public:
-	PlayerBulletImpl(GSpace* space, ObjectIDType id, const SpaceVect& pos, SpaceFloat angle, object_ref<Agent> agent, shared_ptr<bullet_properties> props);
-	inline virtual ~PlayerBulletImpl() {}
-};
-
-class StarbowBreakBullet : public PlayerBulletImpl
-{
-public:
-	StarbowBreakBullet(GSpace* space, ObjectIDType id, const SpaceVect& pos, SpaceFloat angle, object_ref<Agent> agent, shared_ptr<bullet_properties> props);
+	StarbowBreakBullet(GSpace* space, ObjectIDType id, const SpaceVect& pos, SpaceFloat angle, const bullet_attributes& attributes, shared_ptr<bullet_properties> props);
 
 	virtual shared_ptr<LightArea> getLightSource() const;
 };
 
-class CatadioptricBullet : public PlayerBulletImpl
+class CatadioptricBullet : public BulletImpl
 {
 public:
-	CatadioptricBullet(GSpace* space, ObjectIDType id, const SpaceVect& pos, SpaceFloat angle, object_ref<Agent> agent, shared_ptr<bullet_properties> props);
+	CatadioptricBullet(GSpace* space, ObjectIDType id, const SpaceVect& pos, SpaceFloat angle, const bullet_attributes& attributes, shared_ptr<bullet_properties> props);
 
 	virtual shared_ptr<LightArea> getLightSource() const;
 };
 
-class ScarletDagger :
-	virtual public GObject,
-	public PlayerBullet,
-	public RectangleBody,
-	public LightObject,
-	public DirectionalLaunch
+class ScarletDagger : public Bullet, public RectangleBody, public LightObject
 {
 public:
 	static const string props;
 
-	ScarletDagger(GSpace* space, ObjectIDType id, const SpaceVect& pos, SpaceFloat angle, object_ref<Agent> agent);
+	ScarletDagger(GSpace* space, ObjectIDType id, const SpaceVect& pos, SpaceFloat angle, const bullet_attributes& attributes);
 
 	virtual inline SpaceFloat getMass() const { return app::getBullet("scarletDagger")->mass; }
 	virtual inline SpaceFloat getMaxSpeed() const { return app::getBullet("scarletDagger")->speed; }
@@ -67,7 +46,6 @@ public:
 };
 
 class FlanPolarBullet :
-	public PlayerBullet,
 	public BulletImpl,
 	public ParametricMotion
 {
@@ -89,16 +67,14 @@ public:
 		ObjectIDType id,
 		const SpaceVect& pos,
 		SpaceFloat angle,
-		object_ref<Agent> agent,
+		const bullet_attributes& attributes,
 		SpaceFloat parametric_start
 	);
 
 	virtual void update();
 };
 
-class FlandrePolarMotionOrb :
-	public PlayerBullet,
-	public BulletImpl
+class FlandrePolarMotionOrb : public BulletImpl
 {
 public:
 	static const string props;
@@ -108,11 +84,7 @@ public:
 	virtual void update();
 };
 
-class Lavaeteinn :
-	virtual public GObject,
-	public PlayerBullet,
-	public ShieldBullet,
-	public RectangleBody
+class Lavaeteinn : public Bullet, public RectangleBody
 {
 public:
 	Lavaeteinn(
@@ -121,7 +93,7 @@ public:
 		const SpaceVect& pos,
 		SpaceFloat angle,
 		SpaceFloat angularVel,
-		object_ref<Agent> agent
+		const bullet_attributes& attributes
 	);
 
 	virtual inline string getSprite() const { return "lavaeteinn"; }
@@ -133,11 +105,7 @@ public:
 //	virtual void update();
 };
 
-class FlandreCounterClockBullet :
-	virtual public GObject,
-	public PlayerBullet,
-	public ShieldBullet,
-	public RectangleBody
+class FlandreCounterClockBullet : public Bullet, public RectangleBody
 {
 public:
 	cons(FlandreCounterClockBullet);
@@ -148,11 +116,7 @@ public:
 	virtual inline SpaceFloat getKnockbackForce() const { return 50.0; }
 };
 
-class CirnoIceShieldBullet :
-	virtual public GObject,
-	public PlayerBullet,
-	public ShieldBullet,
-	public CircleBody
+class CirnoIceShieldBullet : public Bullet, public CircleBody
 {
 public:
 	static const string props;

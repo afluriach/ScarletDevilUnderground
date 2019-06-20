@@ -193,6 +193,7 @@ public:
 	void pop();
     
 	GSpace* getSpace();
+	inline GObject* getObject() { return agent; }
 	Agent* getAgent();
 	RoomSensor* getRoomSensor();
 	unsigned int getFrame();

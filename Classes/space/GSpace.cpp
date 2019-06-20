@@ -350,7 +350,7 @@ void GSpace::processAdditions()
 		}
 
 		addVirtualTrack<Enemy>(obj);
-		addVirtualTrack<EnemyBullet>(obj);
+		addVirtualTrack<Bullet>(obj);
 		addVirtualTrack<FloorSegment>(obj);
 		addVirtualTrack<Wall>(obj);
 
@@ -409,7 +409,7 @@ void GSpace::removeObjectWithAnimation(GObject* obj, ActionGeneratorType action)
 
 void GSpace::setBulletBodiesVisible(bool b)
 {
-	vector<object_ref<EnemyBullet>> bullets = getObjectsByTypeAs<EnemyBullet>();
+	vector<object_ref<Bullet>> bullets = getObjectsByTypeAs<Bullet>();
 
 	for (auto ref : bullets)
 	{
@@ -430,7 +430,7 @@ void GSpace::processRemoval(GObject* obj, bool _removeSprite)
 	}
 
 	removeVirtualTrack<Enemy>(obj);
-	removeVirtualTrack<EnemyBullet>(obj);
+	removeVirtualTrack<Bullet>(obj);
 	removeVirtualTrack<FloorSegment>(obj);
 	removeVirtualTrack<Wall>(obj);
     

@@ -74,6 +74,7 @@
 		damage="5.0"
 		sprite="scarletDagger"
 		lightSource="scarletDagger"
+		directionalLaunch="true"
 	/>
 	
 	<blueFairyBullet

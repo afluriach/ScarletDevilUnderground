@@ -235,7 +235,7 @@ const unordered_set<type_index> GSpace::trackedTypes = {
 
 	//virtual tracked types
 	typeid(Enemy),
-	typeid(EnemyBullet),
+	typeid(Bullet),
 	typeid(FloorSegment),
 	typeid(Wall),
 };

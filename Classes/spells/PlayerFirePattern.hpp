@@ -12,7 +12,7 @@
 #include "FirePattern.hpp"
 #include "PlayerBullet.hpp"
 
-typedef BulletImplPattern<PlayerBulletImpl> PlayerBulletImplPattern;
+typedef BulletImplPattern<BulletImpl> PlayerBulletImplPattern;
 
 enum class PlayerFirePatternID
 {

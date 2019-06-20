@@ -11,6 +11,7 @@
 
 #include "AIMixins.hpp"
 #include "Attributes.hpp"
+#include "Bullet.hpp"
 
 struct bullet_properties;
 class FirePattern;
@@ -34,16 +35,19 @@ public:
 	Agent(GSpace* space, ObjectIDType id, const ValueMap& args, SpaceFloat radius = defaultSize);
 	inline virtual ~Agent() {}
 
+	bullet_attributes getBulletAttributes(shared_ptr<bullet_properties> props) const;
+
 	template<class ObjectCls, typename... Args>
 	inline gobject_ref bulletCheckSpawn(const SpaceVect& pos, SpaceFloat angle, Args... args)
 	{
-		SpaceFloat radius = app::getBullet(ObjectCls::props)->radius;
+		auto props = app::getBullet(ObjectCls::props);
+		SpaceFloat radius = props->radius;
 
 		if (!isBulletObstacle(pos, radius))
 			return space->createObject<ObjectCls>(
 				pos,
 				angle,
-				object_ref<Agent>(this),
+				getBulletAttributes(props),
 				args...
 			);
 		else
@@ -60,7 +64,7 @@ public:
 			return space->createObject<ObjectCls>(
 				pos,
 				angle,
-				object_ref<Agent>(this),
+				getBulletAttributes(props),
 				props
 			);
 		else

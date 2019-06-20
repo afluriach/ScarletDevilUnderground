@@ -49,7 +49,7 @@ void StarlightTyphoon::fire()
 	caster->space->createObject<StarBullet>(
 		pos,
 		arcPos,
-		dynamic_cast<Agent*>(caster),
+		bullet_attributes::getDefault(),
 		crntSpeed,
 		radius,
 		StarBullet::colors[caster->space->getRandomInt(0, StarBullet::colors.size() - 1)]

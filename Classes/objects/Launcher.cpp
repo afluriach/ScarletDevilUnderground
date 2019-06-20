@@ -35,10 +35,10 @@ void Launcher::update()
 		SpaceVect pos = getPos();
 		pos += SpaceVect::ray(1.0f, getAngle());
 
-		space->createObject<EnemyBulletImpl>(
+		space->createObject<BulletImpl>(
 			pos,
 			getAngle(),
-			nullptr,
+			bullet_attributes::getDefault(),
 			app::getBullet("launcherBullet")
 		);
 		cooldownTime = fireInterval;

@@ -102,14 +102,13 @@ void LavaeteinnSpell::init()
 
 	SpaceFloat angle = canonicalAngle(caster->getAngle() - angleWidth);
 	SpaceVect pos = caster->getPos() + SpaceVect::ray(1.5, angle);
-	object_ref<Agent> agent = caster;
 	speedScale = getCasterAs<Agent>()->getAttribute(Attribute::attackSpeed);
 
 	lavaeteinnBullet = caster->space->createObject<Lavaeteinn>(
 		pos,
 		angle,
 		angular_speed * speedScale,
-		agent
+		bullet_attributes::getDefault()
 	);
 
 	fireTimer = length / bulletSpawnCount;
@@ -128,12 +127,12 @@ void LavaeteinnSpell::update()
 	}
 
 	if (fireTimer <= 0.0) {
-		object_ref<Agent> agent = caster;
-		caster->space->createObject<PlayerBulletImpl>(
+		auto props = app::getBullet("flandreFastOrb1");
+		caster->space->createObject<BulletImpl>(
 			caster->getPos() + SpaceVect::ray(2.0, angularPos),
 			angularPos,
-			agent,
-			app::getBullet("flandreFastOrb1")
+			getCasterAs<Agent>()->getBulletAttributes(props),
+			props
 		);
 		fireTimer = length / bulletSpawnCount;
 	}
@@ -179,7 +178,7 @@ void PlayerCounterClock::init()
 		bullets[i] = caster->space->createObject<FlandreCounterClockBullet>(
 			pos + disp,
 			(i / 2.0) * float_pi,
-			dynamic_cast<Agent*>(caster)
+			bullet_attributes::getDefault()
 		);
 	}
 }
@@ -246,7 +245,7 @@ void PlayerScarletRose::update()
 			gobject_ref ref = caster->space->createObject<FlanPolarBullet>(
 				origin,
 				0.0,
-				getCasterAs<Agent>(),
+				getCasterAs<Agent>()->getBulletAttributes(app::getBullet(FlanPolarBullet::props)),
 				t
 			);
 			bullets.insert(ref);
@@ -348,7 +347,7 @@ void PlayerIceShield::init()
 		bullets[i] = caster->space->createObject<CirnoIceShieldBullet>(
 			origin + pos,
 			angle - float_pi / 2.0,
-			dynamic_cast<Agent*>(caster)
+			bullet_attributes::getDefault()
 		);
 	}
 }

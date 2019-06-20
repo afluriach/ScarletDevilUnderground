@@ -14,16 +14,23 @@
 #include "GSpace.hpp"
 #include "MagicEffect.hpp"
 
+bullet_attributes bullet_attributes::getDefault()
+{
+	return bullet_attributes{
+		SpaceVect::zero,
+		nullptr,
+		GType::enemyBullet,
+		1.0f,
+		1.0f
+	};
+}
+
+
 const bool Bullet::logRicochets = false;
 
-Bullet::Bullet(object_ref<Agent> agent) :
-	agent(agent)
+Bullet::Bullet(const bullet_attributes& attributes) :
+	attributes(attributes)
 {
-	if (agent.isValid()) {
-		AttributeSystem& as = *agent.get()->getAttributeSystem();
-		attributes.attackDamage = as[Attribute::attack];
-		attributes.bulletSpeed = as[Attribute::bulletSpeed];
-	}
 }
 
 void Bullet::onWallCollide(Wall* wall)
@@ -50,8 +57,8 @@ void Bullet::onAgentCollide(Agent* other, SpaceVect n)
 		space->removeObject(this);
 	}
 
-	if (agent.isValid() ) {
-		agent.get()->onBulletHitTarget(this, other);
+	if (attributes.caster.isValid() ) {
+		attributes.caster.get()->onBulletHitTarget(this, other);
 	}
 }
 
@@ -73,9 +80,8 @@ SpaceVect Bullet::calculateLaunchVelocity()
 {
 	SpaceFloat speed = getMaxSpeed() * attributes.bulletSpeed;
 	SpaceFloat angle = getAngle();
-	SpaceVect agentVel = agent.isValid() ? agent.get()->getVel() : SpaceVect::zero;
 	SpaceVect dir = SpaceVect::ray(1.0, angle);
-	SpaceFloat scalar = SpaceVect::dot(dir, agentVel);
+	SpaceFloat scalar = SpaceVect::dot(dir, attributes.casterVelocity);
 	scalar = scalar < 0.0 ? 0.0 : scalar;
 	return dir * (speed + scalar);
 }
@@ -116,7 +122,23 @@ void Bullet::setBodyVisible(bool b)
 	}
 }
 
-BulletImpl::BulletImpl(shared_ptr<bullet_properties> props) :
+void Bullet::setShield(bool deflectBullets)
+{
+	hitCount = -1;
+	ignoreObstacleCollision = true;
+	this->deflectBullets = deflectBullets;
+}
+
+BulletImpl::BulletImpl(
+	GSpace* space,
+	ObjectIDType id,
+	const SpaceVect& pos,
+	SpaceFloat angle,
+	const bullet_attributes& attributes,
+	shared_ptr<bullet_properties> props
+) :
+	GObject(make_shared<object_params>(space,id,"",pos,angle)),
+	Bullet(attributes),
 	CircleBody(props->radius),
 	RegisterInit<BulletImpl>(this),
 	props(props)
@@ -135,17 +157,4 @@ void BulletImpl::init()
 void BulletImpl::initializeGraphics()
 {
 	GObject::initializeGraphics();
-}
-
-ShieldBullet::ShieldBullet(object_ref<Agent> agent, bool deflectBullets) :
-	Bullet(agent)
-{
-	hitCount = -1;
-	ignoreObstacleCollision = true;
-	this->deflectBullets = deflectBullets;
-}
-
-void DirectionalLaunch::init()
-{
-	setVel(calculateLaunchVelocity());
 }

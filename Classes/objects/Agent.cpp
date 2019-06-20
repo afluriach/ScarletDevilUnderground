@@ -49,6 +49,20 @@ Agent::Agent(GSpace* space, ObjectIDType id, const ValueMap& args, SpaceFloat ra
 	multiInit.insertWithOrder(wrap_method(Agent, initAttributes, this), to_int(GObject::initOrder::loadAttributes));
 }
 
+bullet_attributes Agent::getBulletAttributes(shared_ptr<bullet_properties> props) const
+{
+	bullet_attributes result;
+
+	result.caster = object_ref<Agent>(this);
+	result.casterVelocity = getVel();
+	result.type = getType() == GType::player ? GType::playerBullet : GType::enemyBullet;
+	result.attackDamage = getAttribute(Attribute::attack);
+	result.bulletSpeed = getAttribute(Attribute::bulletSpeed);
+
+	return result;
+}
+
+
 void Agent::initFSM()
 {
 	initStateMachine();

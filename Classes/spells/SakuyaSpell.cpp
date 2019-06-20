@@ -42,7 +42,7 @@ void IllusionDial::init()
 	for_irange(i, 0, count)
 	{
 		bullets[i] = caster->space->createObject<IllusionDialDagger>(
-			dynamic_cast<Agent*>(caster),
+			bullet_attributes::getDefault(),
 			caster->getPos() + SpaceVect::ray(radius, arc_start + i * arc_spacing),
 			i % 2 ? angular_speed : -angular_speed
 		);

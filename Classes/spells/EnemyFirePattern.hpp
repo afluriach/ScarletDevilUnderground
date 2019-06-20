@@ -12,7 +12,7 @@
 #include "EnemyBullet.hpp"
 #include "FirePattern.hpp"
 
-typedef BulletImplPattern<EnemyBulletImpl> EnemyBulletImplPattern;
+typedef BulletImplPattern<BulletImpl> EnemyBulletImplPattern;
 
 class IceFairyBulletPattern : public SingleBulletFixedIntervalPattern, public EnemyBulletImplPattern
 {

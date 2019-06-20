@@ -67,7 +67,7 @@ void DarknessSignDemarcation::generate()
 			SpaceFloat bulletAngle = legAngle - 0.5*legWidth + bulletRadialStep*j;
 			SpaceVect pos = origin + SpaceVect::ray(launchDist, bulletAngle);
 
-			gobject_ref bullet = getCasterAs<Agent>()->bulletImplCheckSpawn<EnemyBulletImpl>(
+			gobject_ref bullet = getCasterAs<Agent>()->bulletImplCheckSpawn<BulletImpl>(
 				pos,
 				bulletAngle,
 				app::getBullet("rumiaDemarcationBullet")
@@ -220,7 +220,7 @@ void NightSignPinwheel::generateLeg(SpaceFloat angle)
 		SpaceFloat a = angle + angleStep * i;
 		SpaceVect pos = origin + SpaceVect::ray(d, a);
 
-		gobject_ref bullet = getCasterAs<Agent>()->bulletImplCheckSpawn<EnemyBulletImpl>(
+		gobject_ref bullet = getCasterAs<Agent>()->bulletImplCheckSpawn<BulletImpl>(
 			pos,
 			a,
 			app::getBullet("rumiaPinwheelBullet")

@@ -38,7 +38,7 @@ public:
 	space(space)
     {}
 
-	object_ref(GObject* obj) :
+	object_ref(const GObject* obj) :
 		uuid(_object_ref_get_uuid(obj)),
 		space(_object_ref_get_space(obj))
 	{}

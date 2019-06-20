@@ -173,7 +173,7 @@ void PhysicsImpl::playerEnemyEnd(GObject* a, GObject* b, cpArbiter* arb)
 int PhysicsImpl::playerEnemyBulletBegin(GObject* playerObj, GObject* bullet, cpArbiter* arb)
 {
     Player* player = dynamic_cast<Player*>(playerObj);
-	EnemyBullet* _bullet = dynamic_cast<EnemyBullet*>(bullet);
+	Bullet* _bullet = dynamic_cast<Bullet*>(bullet);
 
     if(logPhysicsHandlers)
         log("%s hit by %s", player->name.c_str(), bullet->name.c_str());
@@ -189,7 +189,7 @@ int PhysicsImpl::playerEnemyBulletBegin(GObject* playerObj, GObject* bullet, cpA
 int PhysicsImpl::playerGrazeRadarBegin(GObject* playerRadar, GObject* bullet, cpArbiter* arb)
 {
 	Player* player = dynamic_cast<Player*>(playerRadar);
-	EnemyBullet* _bullet = dynamic_cast<EnemyBullet*>(bullet);
+	Bullet* _bullet = dynamic_cast<Bullet*>(bullet);
 
 	if (player && _bullet) {
 		player->onGrazeTouch(_bullet);
@@ -201,7 +201,7 @@ int PhysicsImpl::playerGrazeRadarBegin(GObject* playerRadar, GObject* bullet, cp
 void PhysicsImpl::playerGrazeRadarEnd(GObject* playerRadar, GObject* bullet, cpArbiter* arb)
 {
 	Player* player = dynamic_cast<Player*>(playerRadar);
-	EnemyBullet* _bullet = dynamic_cast<EnemyBullet*>(bullet);
+	Bullet* _bullet = dynamic_cast<Bullet*>(bullet);
 
 	if (player && _bullet) {
 		player->onGrazeCleared(_bullet);

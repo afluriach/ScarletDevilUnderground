@@ -12,37 +12,14 @@
 #include "Bullet.hpp"
 #include "GObjectMixins.hpp"
 
-#define cons(x) x(GSpace* space, ObjectIDType id, const SpaceVect& pos, SpaceFloat angle, object_ref<Agent> agent);
+#define cons(x) x(GSpace* space, ObjectIDType id, const SpaceVect& pos, SpaceFloat angle, const bullet_attributes& attributes);
 
-class EnemyBullet : virtual public Bullet
-{
-public:
-	inline EnemyBullet() {}
-	inline virtual ~EnemyBullet() {}
-
-	virtual inline GType getType() const { return GType::enemyBullet; }
-};
-
-class EnemyBulletImpl : public EnemyBullet, public BulletImpl
-{
-public:
-	EnemyBulletImpl(
-		GSpace* space,
-		ObjectIDType id,
-		const SpaceVect& pos,
-		SpaceFloat angle,
-		object_ref<Agent> agent,
-		shared_ptr<bullet_properties> props
-	);
-	inline virtual ~EnemyBulletImpl() {}
-};
-
-class StarBullet : virtual public GObject, public EnemyBullet, public CircleBody, public MaxSpeedImpl, public DirectionalLaunch
+class StarBullet : virtual public GObject, public Bullet, public CircleBody, public MaxSpeedImpl
 {
 public:
     static const vector<string> colors;
 
-	StarBullet(GSpace* space, ObjectIDType id, const SpaceVect& pos, SpaceFloat angle, object_ref<Agent> agent, SpaceFloat speed, SpaceFloat radius, const string& color);
+	StarBullet(GSpace* space, ObjectIDType id, const SpaceVect& pos, SpaceFloat angle, const bullet_attributes& attributes, SpaceFloat speed, SpaceFloat radius, const string& color);
 
     const string color;
 
@@ -56,12 +33,12 @@ public:
 
 class IllusionDialDagger :
 virtual public GObject,
-public EnemyBullet,
+public Bullet,
 public RectangleBody
 {
 public:
     //IllusionDaggerBullet(const ValueMap& args);
-    IllusionDialDagger(GSpace* space, ObjectIDType id, object_ref<Agent> agent, const SpaceVect& pos, SpaceFloat anglar_velocity);
+    IllusionDialDagger(GSpace* space, ObjectIDType id, const bullet_attributes& attributes, const SpaceVect& pos, SpaceFloat anglar_velocity);
 
 	virtual inline SpaceFloat getMaxSpeed() const { return 3.0; }
     
@@ -75,7 +52,7 @@ public:
 	virtual void update();
 };
 
-class ReimuBullet1 : public EnemyBullet, public BulletImpl, public ParametricMotion
+class ReimuBullet1 : public BulletImpl, public ParametricMotion
 {
 public:
 	static const string props;
@@ -89,12 +66,12 @@ public:
 		SpaceFloat speed
 	);
 
-	ReimuBullet1(GSpace* space, ObjectIDType id, const SpaceVect& pos, SpaceFloat angle, object_ref<Agent> agent, SpaceFloat start);
+	ReimuBullet1(GSpace* space, ObjectIDType id, const SpaceVect& pos, SpaceFloat angle, const bullet_attributes& attributes, SpaceFloat start);
 
 	virtual void update();
 };
 
-class YinYangOrb : public EnemyBullet, public BulletImpl
+class YinYangOrb : public BulletImpl
 {
 public:
 	static const string props;
@@ -102,10 +79,7 @@ public:
 	cons(YinYangOrb);
 };
 
-class RumiaDemarcation2Bullet :
-	public EnemyBullet,
-	public ShieldBullet,
-	public BulletImpl
+class RumiaDemarcation2Bullet : public BulletImpl
 {
 public:
 	static const string props;
@@ -115,17 +89,14 @@ public:
 		ObjectIDType id,
 		const SpaceVect& pos,
 		SpaceFloat angle,
-		object_ref<Agent> agent,
+		const bullet_attributes& attributes,
 		SpaceFloat angularVel
 	);
 
 	virtual void update();
 };
 
-class RumiaDarknessBullet :
-	public EnemyBullet,
-	public ShieldBullet,
-	public BulletImpl
+class RumiaDarknessBullet : public BulletImpl
 {
 public:
 	static const string props;
@@ -135,7 +106,7 @@ public:
 		ObjectIDType id,
 		const SpaceVect& pos,
 		SpaceFloat angle,
-		object_ref<Agent> agent
+		const bullet_attributes& attributes
 	);
 };
 

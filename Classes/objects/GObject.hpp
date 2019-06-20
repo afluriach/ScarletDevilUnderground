@@ -28,6 +28,8 @@ class FloorSegment;
 #define MapObjCons(cls) cls(GSpace* space, ObjectIDType id, const ValueMap& args)
 #define MapObjForwarding(cls) cls(space,id,args)
 #define MapObjParams() GObject(make_shared<object_params>(space,id,args))
+#define ParamsCons(cls) cls(shared_ptr<object_params> params)
+#define ParamsForwarding(cls) cls(params)
 
 class GObject
 {

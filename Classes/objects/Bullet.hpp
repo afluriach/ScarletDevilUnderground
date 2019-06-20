@@ -36,6 +36,12 @@ struct bullet_properties
 //captured from the agent when the bullet object factory is created.
 struct bullet_attributes
 {
+	static bullet_attributes getDefault();
+
+	SpaceVect casterVelocity;
+	object_ref<Agent> caster;
+	GType type;
+
 	float attackDamage = 1.0f;
 	float bulletSpeed = 1.0f;
 };
@@ -45,9 +51,10 @@ class Bullet : virtual public GObject
 public:
 	static const bool logRicochets;
 
-	Bullet(object_ref<Agent> agent);
+	Bullet(const bullet_attributes& attributes);
 	inline virtual ~Bullet() {}
 
+	virtual inline GType getType() const { return attributes.type; }
 	virtual inline bool getSensor() const { return true; }
 	virtual inline SpaceFloat getMass() const { return 0.1; }
 	virtual inline PhysicsLayers getLayers() const { return PhysicsLayers::ground; }
@@ -67,9 +74,11 @@ public:
 	SpaceVect calculateLaunchVelocity();
 	bool applyRicochet(SpaceVect n);
 	void setBodyVisible(bool b);
-
-	object_ref<Agent> agent;
-	//modifier attributes, should be copied at time bullet is created.
+	//Shield bullet is no-collide with normal obstacles, and is not consumed
+	//upon contactwith an enemy. It may also destroy other bullets
+	//(of non-matching type) it collides with.
+	void setShield(bool deflectBullets);
+protected:
 	bullet_attributes attributes;
 
 	int ricochetCount = 0;
@@ -85,14 +94,20 @@ class BulletImpl :
 	public RegisterInit<BulletImpl>
 {
 public:
-	BulletImpl(shared_ptr<bullet_properties> props);
+	BulletImpl(
+		GSpace* space,
+		ObjectIDType id,
+		const SpaceVect& pos,
+		SpaceFloat angle,
+		const bullet_attributes& attributes,
+		shared_ptr<bullet_properties> props
+	);
 	inline virtual ~BulletImpl() {}
 
 	void init();
 
 	virtual inline SpaceFloat getMass() const { return props->mass; }
 	virtual inline SpaceFloat getMaxSpeed() const { return props->speed; }
-	virtual inline SpaceFloat getRadius() const { return props->radius; }
 
 	virtual void initializeGraphics();
 	virtual inline string getSprite() const { return props->sprite; }
@@ -101,26 +116,6 @@ public:
 	virtual inline DamageInfo getDamageInfo() const { return props->damage; }
 protected:
 	shared_ptr<bullet_properties> props;
-};
-
-//Shield bullet is no-collide with normal obstacles, and is not consumed
-//upon contactwith an enemy. It may also destroy other bullets
-//(of non-matching type) it collides with.
-class ShieldBullet : virtual public Bullet
-{
-public:
-	ShieldBullet(object_ref<Agent> agent, bool deflectBullets);
-	inline virtual ~ShieldBullet() {}
-};
-
-
-//Object will automatically have its velocity set on init(), according to
-//its [facing] angle. Uses polymorphic getter getMaxSpeed().
-class DirectionalLaunch : virtual public Bullet, public RegisterInit<DirectionalLaunch>
-{
-public:
-	inline DirectionalLaunch() : RegisterInit<DirectionalLaunch>(this) {}
-	void init();
 };
 
 #endif /* Bullet_hpp */

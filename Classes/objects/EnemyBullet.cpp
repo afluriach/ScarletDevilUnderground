@@ -17,17 +17,11 @@
 #include "MagicEffect.hpp"
 #include "MiscMagicEffects.hpp"
 
-#define cons(x) x::x(GSpace* space, ObjectIDType id, const SpaceVect& pos, SpaceFloat angle, object_ref<Agent> agent) : \
+#define cons(x) x::x(GSpace* space, ObjectIDType id, const SpaceVect& pos, SpaceFloat angle, const bullet_attributes& attributes) : \
 	GObject(make_shared<object_params>(space, id, "", pos, angle)), \
-	Bullet(agent), \
+	Bullet(attributes), \
     BulletImpl(&props) \
 {} \
-
-EnemyBulletImpl::EnemyBulletImpl(GSpace* space, ObjectIDType id, const SpaceVect& pos, SpaceFloat angle, object_ref<Agent> agent, shared_ptr<bullet_properties> props) :
-	GObject(make_shared<object_params>(space, id, "", pos, angle)),
-	Bullet(agent),
-	BulletImpl(props)
-{}
 
 const vector<string> StarBullet::colors = {
 	"blue",
@@ -39,9 +33,9 @@ const vector<string> StarBullet::colors = {
 	"yellow"
 };
 
-StarBullet::StarBullet(GSpace* space, ObjectIDType id, const SpaceVect& pos, SpaceFloat angle, object_ref<Agent> agent, SpaceFloat speed, SpaceFloat radius, const string& color) :
+StarBullet::StarBullet(GSpace* space, ObjectIDType id, const SpaceVect& pos, SpaceFloat angle, const bullet_attributes& attributes, SpaceFloat speed, SpaceFloat radius, const string& color) :
 	GObject(make_shared<object_params>(space, id, "", pos, angle)),
-	Bullet(agent),
+	Bullet(attributes),
 	CircleBody(radius),
 	MaxSpeedImpl(speed),
 	color(color)
@@ -51,9 +45,9 @@ DamageInfo StarBullet::getDamageInfo() const {
 	return bullet_damage(1.0f);
 }
 
-IllusionDialDagger::IllusionDialDagger(GSpace* space, ObjectIDType id, object_ref<Agent> agent, const SpaceVect& pos, SpaceFloat angular_velocity) :
+IllusionDialDagger::IllusionDialDagger(GSpace* space, ObjectIDType id, const bullet_attributes& attributes, const SpaceVect& pos, SpaceFloat angular_velocity) :
 GObject(make_shared<object_params>(space, id, "", pos, 0.0)),
-Bullet(agent),
+Bullet(attributes),
 RectangleBody(SpaceVect(0.8, 0.175))
 {
     setInitialAngularVelocity(angular_velocity);
@@ -134,10 +128,10 @@ SpaceVect ReimuBullet1::parametric_move(
 	return d1 + d2;
 }
 
-ReimuBullet1::ReimuBullet1(GSpace* space, ObjectIDType id, const SpaceVect& pos, SpaceFloat angle, object_ref<Agent> agent, SpaceFloat start) :
+ReimuBullet1::ReimuBullet1(GSpace* space, ObjectIDType id, const SpaceVect& pos, SpaceFloat angle, const bullet_attributes& attributes, SpaceFloat start) :
 	GObject(make_shared<object_params>(space, id, "", pos, angle)),
-	Bullet(agent),
-	BulletImpl(app::getBullet(props)),
+	Bullet(attributes),
+	BulletImpl(space, id, pos, angle, attributes, app::getBullet(props)),
 	ParametricMotion(bind(&parametric_move, placeholders::_1, angle, start, app::getBullet(props)->speed))
 {}
 
@@ -148,10 +142,10 @@ void ReimuBullet1::update()
 
 const string YinYangOrb::props = "yinYangOrb";
 
-YinYangOrb::YinYangOrb(GSpace* space, ObjectIDType id, const SpaceVect& pos, SpaceFloat angle, object_ref<Agent> agent) :
+YinYangOrb::YinYangOrb(GSpace* space, ObjectIDType id, const SpaceVect& pos, SpaceFloat angle, const bullet_attributes& attributes) :
 	GObject(make_shared<object_params>(space, id, "", pos, angle)),
-	Bullet(agent),
-	BulletImpl(app::getBullet(props))
+	Bullet(attributes),
+	BulletImpl(space, id, pos, angle, attributes, app::getBullet(props))
 {
 	setInitialAngularVelocity(float_pi);
 }
@@ -163,15 +157,15 @@ RumiaDemarcation2Bullet::RumiaDemarcation2Bullet(
 	ObjectIDType id,
 	const SpaceVect& pos,
 	SpaceFloat angle,
-	object_ref<Agent> agent,
+	const bullet_attributes& attributes,
 	SpaceFloat angularVel
 ) :
 	GObject(make_shared<object_params>(space, id, "", pos, angle)),
-	Bullet(agent),
-	ShieldBullet(agent, false),
-	BulletImpl(app::getBullet(props))
+	Bullet(attributes),
+	BulletImpl(space, id, pos, angle, attributes, app::getBullet(props))
 {
 	setInitialAngularVelocity(angularVel);
+	setShield(false);
 }
 
 void RumiaDemarcation2Bullet::update()
@@ -188,13 +182,14 @@ RumiaDarknessBullet::RumiaDarknessBullet(
 	ObjectIDType id,
 	const SpaceVect& pos,
 	SpaceFloat angle,
-	object_ref<Agent> agent
+	const bullet_attributes& attributes
 ) :
 	GObject(make_shared<object_params>(space, id, "", pos, angle)),
-	Bullet(agent),
-	ShieldBullet(agent, false),
-	BulletImpl(app::getBullet(props))
+	Bullet(attributes),
+	BulletImpl(space,id,pos,angle,attributes,app::getBullet(props))
 {
+	setShield(false);
+
 	addMagicEffect(make_shared<RadiusEffect>(
 		this,
 		DamageInfo{7.5f,Attribute::darknessDamage,DamageType::effectArea},
