@@ -457,6 +457,7 @@ FileUtilsZip* App::getFileUtils()
 void App::update(float dt)
 {
     control_register->update();
+	audioContext->update();
 
 #if USE_TIMERS
 	updateTimerSystem();
