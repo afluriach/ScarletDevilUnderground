@@ -20,6 +20,7 @@ public:
 	~audio_context();
 
 	void initAudio();
+	ALuint getSoundSource();
 	ALuint initSoundSource(const Vec3& pos, const Vec3& vel, bool relative);
 	void loadSound(const string& path);
 	ALuint playSound(const string& path, float volume);
@@ -44,6 +45,7 @@ protected:
 
 	unordered_map<string, ALuint> loadedBuffers;
 	unordered_set<ALuint> activeSources;
+	list<ALuint> availableSources;
 	mutex audioMutex;
 };
 

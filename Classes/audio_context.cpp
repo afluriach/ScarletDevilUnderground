@@ -67,15 +67,28 @@ void audio_context::initAudio()
 	}
 }
 
-ALuint audio_context::initSoundSource(const Vec3& pos, const Vec3& vel, bool relative)
+ALuint audio_context::getSoundSource()
 {
 	ALuint result = 0;
 
-	alGenSources(1, &result);
+	if (availableSources.empty()) {
+		alGenSources(1, &result);
+	}
+	else {
+		result = availableSources.front();
+		availableSources.pop_front();
+	}
+
+	return result;
+}
+
+ALuint audio_context::initSoundSource(const Vec3& pos, const Vec3& vel, bool relative)
+{
+	ALuint result = getSoundSource();
+
 	alSource3f(result, AL_POSITION, pos.x, pos.y, pos.z);
 	alSource3f(result, AL_VELOCITY, vel.x, vel.y, vel.z);
-	if (relative)
-		alSourcei(result, AL_SOURCE_RELATIVE, AL_TRUE);
+	alSourcei(result, AL_SOURCE_RELATIVE, relative ? AL_TRUE : AL_FALSE);
 
 	return result;
 }
@@ -192,6 +205,7 @@ void audio_context::endSound(ALuint source)
 	if (it != activeSources.end()) {
 		alSourceStop(*it);
 		activeSources.erase(it);
+		availableSources.push_back(*it);
 	}
 	audioMutex.unlock();
 }
@@ -270,12 +284,16 @@ void audio_context::update()
 {
 	audioMutex.lock();
 
+	if (ALenum error = alGetError()) {
+		log("Audio error: %d", error);
+	}
+
 	auto it = activeSources.begin();
 	while (it != activeSources.end()) {
 		ALenum state;
 		alGetSourcei(*it, AL_SOURCE_STATE, &state);
 		if (state == AL_STOPPED) {
-			alDeleteSources(1, &(*it));
+			availableSources.push_back(*it);
 			it = activeSources.erase(it);
 		}
 		else {
