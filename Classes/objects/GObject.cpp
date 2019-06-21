@@ -125,6 +125,8 @@ void GObject::init()
 	setupLuaContext();
 	runLuaInit();
 #endif
+
+	initLightSource();
 }
 
 void GObject::update()
@@ -518,6 +520,16 @@ void GObject::initializeGraphics()
 
 	if (spriteID != 0 && _sprite.color != Color3B::BLACK && _sprite.color != Color3B::WHITE) {
 		space->graphicsNodeAction(&Node::setColor, spriteID, _sprite.color);
+	}
+}
+
+void GObject::initLightSource()
+{
+	auto source = getLightSource();
+	if (source) {
+		lightID = space->addLightSource(source);
+		space->addGraphicsAction(&graphics_context::setLightSourcePosition, lightID, prevPos);
+		space->addGraphicsAction(&graphics_context::setLightSourceAngle, lightID, prevAngle);
 	}
 }
 

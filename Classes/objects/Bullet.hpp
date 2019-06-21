@@ -90,7 +90,6 @@ protected:
 class BulletImpl :
 	virtual public Bullet,
 	public CircleBody,
-	public LightObject,
 	public RegisterInit<BulletImpl>
 {
 public:

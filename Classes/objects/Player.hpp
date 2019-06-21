@@ -22,7 +22,7 @@ class SpellDesc;
 class PlayScene;
 class Upgrade;
 
-class Player : virtual public Agent, public LightObject
+class Player : virtual public Agent
 {
 public:
 	static const float centerLookHoldThresh;

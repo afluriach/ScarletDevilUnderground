@@ -11,7 +11,7 @@
 
 #include "Enemy.hpp"
 
-class Rumia : public Enemy, public LightObject
+class Rumia : public Enemy
 {
 public:
 	MapObjCons(Rumia);

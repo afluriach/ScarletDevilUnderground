@@ -35,7 +35,7 @@ public:
 	virtual void onAcquire();
 };
 
-class Spellcard : public InventoryObject, public LightObject
+class Spellcard : public InventoryObject
 {
 public:
 	static bool conditionalLoad(GSpace* space, ObjectIDType id, const ValueMap& args);

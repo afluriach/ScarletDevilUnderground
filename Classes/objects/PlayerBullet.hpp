@@ -29,7 +29,7 @@ public:
 	virtual shared_ptr<LightArea> getLightSource() const;
 };
 
-class ScarletDagger : public Bullet, public RectangleBody, public LightObject
+class ScarletDagger : public Bullet, public RectangleBody
 {
 public:
 	static const string props;

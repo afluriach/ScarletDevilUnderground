@@ -162,16 +162,6 @@ protected:
 	bool nextStepIsLeft = true;
 };
 
-class LightObject : virtual public GObject, public RegisterInit<LightObject>
-{
-public:
-	LightObject();
-
-	virtual shared_ptr<LightArea> getLightSource() const = 0;
-
-	void init();
-};
-
 //END GRAPHICS
 
 //BEGIN AUDIO

@@ -258,8 +258,10 @@ public:
         //The Z-order used by Cocos2D.
 	virtual GraphicsLayer sceneLayer() const;
 	inline virtual string getSprite() const { return ""; }
+	inline virtual shared_ptr<LightArea> getLightSource() const { return nullptr; }
 	int sceneLayerAsInt() const;
     sprite_update updateSprite();
+	void initLightSource();
 
 	//Create Node which graphically reprensets this object and adds it to Layer
 	virtual void initializeGraphics();

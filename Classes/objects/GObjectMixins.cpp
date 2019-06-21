@@ -215,20 +215,6 @@ void PatchConSprite::reset()
 	firstStepIsLeft = !firstStepIsLeft;
 }
 
-LightObject::LightObject() :
-	RegisterInit<LightObject>(this)
-{}
-
-void LightObject::init()
-{
-	auto source = getLightSource();
-	if (source) {
-		lightID = space->addLightSource(source);
-		space->addGraphicsAction(&graphics_context::setLightSourcePosition, lightID, prevPos);
-		space->addGraphicsAction(&graphics_context::setLightSourceAngle, lightID, prevAngle);
-	}
-}
-
 //END GRAPHICS
 
 //BEGIN AUDIO
