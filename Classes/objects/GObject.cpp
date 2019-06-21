@@ -121,19 +121,12 @@ void GObject::init()
 {
 	multiInit();
 	multiInit.clear();
-#if GOBJECT_LUA
-	setupLuaContext();
-	runLuaInit();
-#endif
 
 	initLightSource();
 }
 
 void GObject::update()
 {
-#if GOBJECT_LUA
-	runLuaUpdate();
-#endif
 	updateSpells();
 	updateMagicEffects();
 	updateFloorSegment();
@@ -380,52 +373,6 @@ SpaceFloat GObject::getTraction() const
 
 //END PHYSICS
 
-//BEGIN LUA
-
-#if GOBJECT_LUA
-
-string GObject::getScriptVal(string name) {
-    if_lua_ctx { return ctx->getSerialized(name); }
-	else return "";
-}
-
-void GObject::setScriptVal(string field, string val) {
-    if_lua_ctx { ctx->setSerialized(field, val); }
-}
-
-string GObject::_callScriptVal(string field, string args) {
-    if_lua_ctx { return ctx->callSerialized(field, args); }
-	else return "";
-}
-
-void GObject::runLuaInit() {
-    if_lua_ctx { ctx->callIfExistsNoReturn("init"); }
-}
-
-void GObject::runLuaUpdate() {
-    if_lua_ctx { ctx->callIfExistsNoReturn("update"); }
-}
-
-void GObject::setupLuaContext()
-{
-    if(anonymous)
-        return;
-
-	//Push this as a global variable in the object's script context.
-	ctx->setGlobal(Lua::convert<GObject*>::convertToLua(this, ctx->state), "this");
-
-	string scriptName = getScriptName();
-	string scriptPath = "scripts/entities/" + scriptName + ".lua";
-	if (scriptName != "" && FileUtils::getInstance()->isFileExist(scriptPath))
-	{
-		ctx->runFile(scriptPath);
-	}
-}
-
-#endif
-
-//END LUA
-
 //BEGIN GRAPHICS
 
 GraphicsLayer GObject::sceneLayer() const {
@@ -537,12 +484,12 @@ void GObject::initLightSource()
 
 //BEGIN AUDIO
 
-ALuint GObject::playSoundSpatial(const string& path, float volume, bool loop)
+ALuint GObject::playSoundSpatial(const string& path, float volume, bool loop, float yPos)
 {
 	ALuint soundSource = space->audioContext->playSoundSpatial(
 		path,
 		toVec3(getPos()),
-		toVec3(getVel()),
+		toVec3(getVel(), yPos),
 		volume,
 		loop
 	);

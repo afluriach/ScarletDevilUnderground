@@ -18,12 +18,9 @@
 class Player;
 class Bullet;
 class GSpace;
-namespace Lua{class Inst;}
 class Spell;
 class MagicEffect;
 class FloorSegment;
-
-#define GOBJECT_LUA 0
 
 #define MapObjCons(cls) cls(GSpace* space, ObjectIDType id, const ValueMap& args)
 #define MapObjForwarding(cls) cls(space,id,args)
@@ -230,25 +227,6 @@ public:
 
 	//END PHYSICS
     
-	//BEGIN LUA
-#if GOBJECT_LUA
-	
-    #define if_lua_ctx if(!anonymous && ctx) 
-    
-	unique_ptr<Lua::Inst> ctx;
-
-	inline virtual string getScriptName() const { return ""; }
-
-    string getScriptVal(string name);
-    void setScriptVal(string field, string val);
-    string _callScriptVal(string field, string args);
-    void runLuaInit();
-    void runLuaUpdate();
-	void setupLuaContext();
-
-	//END LUA
-#endif GOBJECT_LUA
-    
     //BEGIN GRAPHICS
 	SpriteID spriteID = 0;
 	SpriteID drawNodeID = 0;
@@ -274,7 +252,12 @@ public:
 
 	//BEGIN AUDIO
 	
-	ALuint playSoundSpatial(const string& path, float volume = 1.0f, bool loop = false);
+	ALuint playSoundSpatial(
+		const string& path,
+		float volume = 1.0f,
+		bool loop = false,
+		float yPos = 0.0f
+	);
 	void stopSound(ALuint source);
 
 	//END AUDIO

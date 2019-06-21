@@ -272,7 +272,7 @@ void Player::updateSpellControls(const ControlInfo& cs)
 		) {
 			if (cast(equippedSpell->generate(this))) {
 				attributeSystem.resetCombo();
-				space->audioContext->playSound("sfx/player_spellcard.wav", 1.0f);
+				playSoundSpatial("sfx/player_spellcard.wav");
 			}
 		}
     }
@@ -308,7 +308,7 @@ void Player::checkFireControls(const ControlInfo& cs)
 		float fireCost = getFirePattern()->getCost();
 
 		if (attributeSystem[Attribute::stamina] >= fireCost && getFirePattern()->fireIfPossible()) {
-			space->audioContext->playSound("sfx/shot.wav", 1.0f);
+			playSoundSpatial("sfx/shot.wav", 1.0f);
 			attributeSystem.modifyAttribute(Attribute::stamina, -fireCost);
 		}
 	}
@@ -344,7 +344,7 @@ void Player::checkFireControls(const ControlInfo& cs)
 	)
 	{
 		if (cast(powerAttacks.at(powerAttackIdx)->generate(this))) {
-			space->audioContext->playSound("sfx/player_power_attack.wav", 1.0f);
+			playSoundSpatial("sfx/player_power_attack.wav");
 			isPowerAttack = true;
 		}
 	}
@@ -561,7 +561,7 @@ bool Player::hit(DamageInfo damage){
 		hitFlickerInterval
 	);
 
-	space->audioContext->playSound("sfx/player_damage.wav", 1.0f);
+	playSoundSpatial("sfx/player_damage.wav");
 	return true;
 }
 
@@ -570,7 +570,7 @@ void Player::onCollectible(Collectible* coll)
 	if (canApplyAttributeEffects(coll->getEffect())) {
 		applyAttributeEffects(coll->getEffect());
 		space->removeObject(coll);
-		space->audioContext->playSound("sfx/powerup.wav", 1.0f);
+		playSoundSpatial("sfx/powerup.wav");
 	}
 }
 
@@ -651,7 +651,7 @@ void Player::applyGraze(int p)
 {
 	attributeSystem.modifyAttribute(Attribute::stamina, isComboActive ? p* 2 : p);
 	applyCombo(p*6);
-	space->audioContext->playSound("sfx/graze.wav", 1.0f);
+	playSoundSpatial("sfx/graze.wav");
 }
 
 void Player::applyCombo(int b)

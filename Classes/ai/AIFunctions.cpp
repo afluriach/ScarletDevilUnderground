@@ -740,6 +740,22 @@ update_return BezierMove::update()
 		return_steady();
 }
 
+PolarMove::PolarMove(StateMachine* fsm, SpaceFloat force, SpaceFloat angularSpeed) :
+	Function(fsm),
+	force(force),
+	angularSpeed(angularSpeed)
+{
+}
+
+update_return PolarMove::update()
+{
+	GObject* obj = fsm->getObject();
+	obj->applyForceForSingleFrame(SpaceVect::ray(force, obj->getAngle() + float_pi / 2.0));
+	obj->rotate(app::params.secondsPerFrame * angularSpeed);
+
+	return_steady();
+}
+
 shared_ptr<FollowPath> FollowPath::pathToTarget(
 	StateMachine* fsm,
 	gobject_ref target
@@ -940,11 +956,7 @@ update_return FireAtTarget::update()
 	);
 
 	if (fp->fireIfPossible()) {
-		agent->space->audioContext->playSoundSpatial(
-			"sfx/shot.wav",
-			toVec3(agent->getPos()), 
-			toVec3(agent->getVel())
-		);
+		agent->playSoundSpatial("sfx/shot.wav");
 	}
 
 	return_steady();
@@ -966,11 +978,7 @@ update_return FireIfTargetVisible::update()
 	if (agent->isObjectVisible(target.get()) && agent->space->isInPlayerRoom(agent->getPos()))
 	{
 		if (fp->fireIfPossible()) {
-			agent->space->audioContext->playSoundSpatial(
-				"sfx/shot.wav",
-				toVec3(agent->getPos()),
-				toVec3(agent->getVel())
-			);
+			agent->playSoundSpatial("sfx/shot.wav");
 		}
 	}
 

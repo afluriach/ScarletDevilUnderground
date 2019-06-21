@@ -288,6 +288,19 @@ protected:
 	SpaceFloat t = 0.0;
 };
 
+class PolarMove : public Function {
+public:
+	PolarMove(StateMachine* fsm, SpaceFloat force, SpaceFloat angularSpeed);
+
+	virtual update_return update();
+
+	GetLockmask(movement)
+	FuncGetName(PolarMove)
+protected:
+	SpaceFloat force;
+	SpaceFloat angularSpeed;
+};
+
 class FollowPath : public Function {
 public:
 	static shared_ptr<FollowPath> pathToTarget(
