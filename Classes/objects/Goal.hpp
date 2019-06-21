@@ -16,8 +16,7 @@ class PlayScene;
 
 class Goal:
 	virtual public GObject,
-	public RectangleBody,
-	public AudioSourceObject
+	public RectangleBody
 {
 public:
 	MapObjCons(Goal);

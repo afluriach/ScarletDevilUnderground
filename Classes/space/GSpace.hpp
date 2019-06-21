@@ -63,11 +63,14 @@ public:
 	}
 
     void update();
+	void updateSoundSources();
     void processAdditions();
 
 	audio_context* audioContext;
 	unique_ptr<physics_context> physicsContext;
 private:
+	list<pair<GObject*, ALuint>> activeSounds;
+
 	unique_ptr<GState> crntState;
 	ChamberID crntChamber;
 
@@ -86,6 +89,10 @@ public:
     static const bool logObjectArgs;
 	static const unordered_set<type_index> trackedTypes;
 	static const unordered_set<type_index> enemyTypes;
+
+	void addSpatialSound(GObject* sourceObj, ALuint soundSource);
+	void removeSpatialSound(ALuint soundSource);
+	void removeSpatialSounds(GObject* sourceObj);
 
 	void addWallBlock(const SpaceVect& ll, const SpaceVect& ur);
 	void addWallBlock(const SpaceRect& area);

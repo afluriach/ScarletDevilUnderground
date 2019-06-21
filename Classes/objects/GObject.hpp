@@ -272,6 +272,13 @@ public:
 
     //END GRAPHICS
 
+	//BEGIN AUDIO
+	
+	ALuint playSoundSpatial(const string& path, float volume = 1.0f, bool loop = false);
+	void stopSound(ALuint source);
+
+	//END AUDIO
+
 	//BEGIN SPELLS
 
 	virtual bool cast(shared_ptr<Spell> spell);

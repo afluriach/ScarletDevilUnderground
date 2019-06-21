@@ -164,19 +164,4 @@ protected:
 
 //END GRAPHICS
 
-//BEGIN AUDIO
-class AudioSourceObject : virtual public GObject
-{
-public:
-	inline AudioSourceObject() {}
-
-	void _update();
-	ALuint playSoundSpatial(const string& path, float volume = 1.0f, bool loop = false);
-	void stopSound(ALuint source);
-	bool isSourceActive(ALuint source);
-protected:
-	list<ALuint> sources;
-};
-//END AUDIO
-
 #endif /* GObjectMixins_hpp */

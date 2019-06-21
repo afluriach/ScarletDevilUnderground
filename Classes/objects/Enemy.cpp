@@ -36,11 +36,7 @@ bool Enemy::hit(DamageInfo damage)
 		return false;
 
 	runDamageFlicker();
-	space->audioContext->playSoundSpatial(
-		"sfx/enemy_damage.wav",
-		toVec3(getPos()),
-		toVec3(getVel())
-	);
+	playSoundSpatial("sfx/enemy_damage.wav");
 	return true;
 }
 

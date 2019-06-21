@@ -203,9 +203,9 @@ void audio_context::endSound(ALuint source)
 	audioMutex.lock();
 	auto it = activeSources.find(source);
 	if (it != activeSources.end()) {
-		alSourceStop(*it);
+		alSourceStop(source);
+		availableSources.push_back(source);
 		activeSources.erase(it);
-		availableSources.push_back(*it);
 	}
 	audioMutex.unlock();
 }

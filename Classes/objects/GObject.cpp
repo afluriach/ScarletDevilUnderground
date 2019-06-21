@@ -535,6 +535,30 @@ void GObject::initLightSource()
 
 //END GRAPHICS
 
+//BEGIN AUDIO
+
+ALuint GObject::playSoundSpatial(const string& path, float volume, bool loop)
+{
+	ALuint soundSource = space->audioContext->playSoundSpatial(
+		path,
+		toVec3(getPos()),
+		toVec3(getVel()),
+		volume,
+		loop
+	);
+
+	if (soundSource != 0) space->addSpatialSound(this, soundSource);
+	return soundSource;
+}
+
+void GObject::stopSound(ALuint sourceID)
+{
+	space->audioContext->endSound(sourceID);
+	space->removeSpatialSound(sourceID);
+}
+
+//END AUDIO
+
 //BEGIN SPELLS
 
 bool GObject::cast(shared_ptr<Spell> spell)

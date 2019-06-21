@@ -185,6 +185,20 @@ void GSpace::update()
     ++frame;
 }
 
+void GSpace::updateSoundSources()
+{
+	auto it = activeSounds.begin();
+	while (it != activeSounds.end())
+	{
+		GObject* obj = it->first;
+		ALuint sourceID = it->second;
+		if (!audioContext->setSoundSourcePos(sourceID, obj->getPos(), obj->getVel(), obj->getAngle()))
+			it = activeSounds.erase(it);
+		else
+			++it;
+	}
+}
+
 //BEGIN OBJECT MANIPULATION
 
 const bool GSpace::logObjectArgs = false;
@@ -246,6 +260,38 @@ gobject_ref GSpace::createObject(ObjectGeneratorType generator)
     toAdd.push_back(make_pair(generator,id));
 
 	return gobject_ref(this,id);
+}
+
+void GSpace::addSpatialSound(GObject* sourceObj, ALuint soundSource)
+{
+	activeSounds.push_back(make_pair(sourceObj, soundSource));
+}
+
+void GSpace::removeSpatialSound(ALuint soundSource)
+{
+	auto it = activeSounds.begin();
+	while (it != activeSounds.end()){
+		if (it->second == soundSource) {
+			activeSounds.erase(it);
+			return;
+		}
+		else {
+			++it;
+		}
+	}
+}
+
+void GSpace::removeSpatialSounds(GObject* sourceObj)
+{
+	auto it = activeSounds.begin();
+	while (it != activeSounds.end()) {
+		if (it->first == sourceObj) {
+			it = activeSounds.erase(it);
+		}
+		else {
+			++it;
+		}
+	}
 }
 
 void GSpace::addWallBlock(const SpaceVect& ll, const SpaceVect& ur)
@@ -424,6 +470,7 @@ void GSpace::processRemoval(GObject* obj, bool _removeSprite)
     objByName.erase(obj->name);
     objByUUID.erase(obj->uuid);
 	updateObjects.erase(obj);
+	removeSpatialSounds(obj);
 
 	if (isTrackedType(typeid(*obj))) {
 		objByType[typeid(*obj)].erase(obj);

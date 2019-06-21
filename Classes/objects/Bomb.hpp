@@ -16,7 +16,6 @@
 class Bomb :
 	virtual public GObject,
 	public CircleBody,
-	public AudioSourceObject,
 	public RegisterInit<Bomb>
 {
 public:

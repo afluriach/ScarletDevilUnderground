@@ -264,11 +264,7 @@ void RedFairy::onZeroHP()
 		bombSprite,
 		bombAnimationAction(explosionRadius / Bomb::explosionSpriteRadius, true)
 	);
-	space->audioContext->playSoundSpatial(
-		"sfx/red_fairy_explosion.wav",
-		toVec3(getPos()),
-		toVec3(SpaceVect::zero)
-	);
+	playSoundSpatial("sfx/red_fairy_explosion.wav");
 
 	LightID light = space->addLightSource(CircleLightArea::create( getPos(), explosionRadius, Color4F::RED, 0.25 ));
 	space->addGraphicsAction(&graphics_context::autoremoveLightSource, light, 1.0f);

@@ -31,7 +31,6 @@ void Bomb::init()
 void Bomb::update()
 {
 	GObject::update();
-	AudioSourceObject::_update();
 
 	timerDecrement(countdown);
 
