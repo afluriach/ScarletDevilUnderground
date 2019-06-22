@@ -45,9 +45,7 @@ public:
 	virtual shared_ptr<LightArea> getLightSource() const;
 };
 
-class FlanPolarBullet :
-	public BulletImpl,
-	public ParametricMotion
+class FlanPolarBullet : public BulletImpl
 {
 public:
 	static const string props;
@@ -70,8 +68,6 @@ public:
 		const bullet_attributes& attributes,
 		SpaceFloat parametric_start
 	);
-
-	virtual void update();
 };
 
 class FlandrePolarMotionOrb : public BulletImpl

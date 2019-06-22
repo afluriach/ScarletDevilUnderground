@@ -185,6 +185,9 @@ public:
 	void applyImpulse(SpaceVect i);
 	void applyImpulse(SpaceFloat mag, SpaceFloat angle);
 
+	void setParametricMove(parametric_space_function f);
+	void removeParametricMove();
+
 	PhysicsLayers getCrntLayers() const;
 	void setLayers(PhysicsLayers layers);
 
@@ -207,6 +210,7 @@ public:
 	inline virtual void initializeRadar(GSpace& space) {};
 
 	void updateRadarPos();
+	void updateParametricMove();
 
 	//END PHYSICS
     
@@ -307,9 +311,11 @@ protected:
 	cpShape* radarShape = nullptr;
 
 	//Position where the object was loaded
-	SpaceVect initialCenter;
 	SpaceVect prevPos = SpaceVect::zero;
 	SpaceFloat prevAngle = 0.0;
+
+	parametric_space_function parametric_f;
+	SpaceFloat parametric_t = -1.0;
 
 	object_ref<FloorSegment> crntFloorCenterContact;
 	unordered_set<object_ref<FloorSegment>> crntFloorContacts;

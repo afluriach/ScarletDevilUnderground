@@ -26,7 +26,6 @@ GObject::GObject(shared_ptr<object_params> params) :
 	space(params->space),
 	name(params->name),
 	uuid(params->id),
-	initialCenter(params->pos),
 	prevPos(params->pos),
 	prevAngle(params->angle),
 	hidden(params->hidden)
@@ -149,6 +148,8 @@ void GObject::update()
 	updateSpells();
 	updateMagicEffects();
 	updateFloorSegment();
+	
+	updateParametricMove();
 
 	prevPos = getPos();
 	prevAngle = getAngle();
@@ -193,7 +194,7 @@ void GObject::setInitialDirectionOrDefault(const ValueMap& args, Direction d)
 
 Vec2 GObject::getInitialCenterPix()
 {
-    SpaceVect centerPix(initialCenter);
+    SpaceVect centerPix(prevPos);
     centerPix *= app::pixelsPerTile;
         
     return toCocos(centerPix);
@@ -258,6 +259,18 @@ void GObject::applyImpulse(SpaceVect i) {
 
 void GObject::applyImpulse(SpaceFloat mag, SpaceFloat angle){
    applyImpulse(SpaceVect::ray(mag,angle));
+}
+
+void GObject::setParametricMove(parametric_space_function f)
+{
+	parametric_t = 0.0;
+	parametric_f = f;
+}
+
+void GObject::removeParametricMove()
+{
+	parametric_t = -1.0;
+	parametric_f = nullptr;
 }
 
 PhysicsLayers GObject::getCrntLayers() const
@@ -383,6 +396,17 @@ void GObject::updateRadarPos()
 {
 	if (radar && body)
 		cpBodySetPos(radar, cpBodyGetPos(body));
+}
+
+void GObject::updateParametricMove()
+{
+	SpaceFloat& t = parametric_t;
+	auto f = parametric_f;
+
+	if (t >= 0.0 && f) {
+		setPos(f(t));
+		timerIncrement(t);
+	}
 }
 
 SpaceFloat GObject::getTraction() const

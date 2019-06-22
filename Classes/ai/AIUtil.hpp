@@ -53,6 +53,8 @@ SpaceFloat getTurningRadius(SpaceFloat speed, SpaceFloat acceleration);
 SpaceVect bezier(array<SpaceVect, 3> points, SpaceFloat t);
 SpaceVect bezierAcceleration(array<SpaceVect, 3> points);
 
+parametric_space_function parametricMoveTranslate(parametric_space_function f, SpaceVect origin, SpaceFloat t_start);
+
 float bombScore(GSpace* space, SpaceVect pos, SpaceFloat radius);
 
 } //end NS

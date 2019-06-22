@@ -80,16 +80,11 @@ FlanPolarBullet::FlanPolarBullet(GSpace* space, ObjectIDType id, const SpaceVect
 FlanPolarBullet::FlanPolarBullet(GSpace* space, ObjectIDType id, const SpaceVect& pos, SpaceFloat angle, const bullet_attributes& attributes, SpaceFloat parametric_start) :
 	GObject(make_shared<object_params>(space, id, "", pos, angle)),
 	Bullet(attributes),
-	BulletImpl(space, id, pos, angle, attributes, app::getBullet(props)),
-	ParametricMotion(&parametric_motion, parametric_start)
+	BulletImpl(space, id, pos, angle, attributes, app::getBullet(props))
 {
 	ignoreObstacleCollision = true;
-}
-
-void FlanPolarBullet::update()
-{
-	GObject::update();
-	ParametricMotion::_update();
+	
+	setParametricMove(ai::parametricMoveTranslate(&parametric_motion, prevPos, parametric_start));
 }
 
 const string FlandrePolarMotionOrb::props = "flandrePolarMotionOrb";

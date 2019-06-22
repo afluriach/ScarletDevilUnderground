@@ -83,7 +83,7 @@ void RadarObject::init() {
 void RadarObject::initializeRadar(GSpace& space)
 {
     tie(radarShape,radar) = space.physicsContext->createCircleBody(
-        initialCenter,
+        prevPos,
         getRadarRadius(),
         0.1,
         getRadarType(),

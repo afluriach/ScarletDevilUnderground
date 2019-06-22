@@ -394,4 +394,11 @@ float bombScore(GSpace* space, SpaceVect pos, SpaceFloat radius)
 	return score;
 }
 
+parametric_space_function parametricMoveTranslate(parametric_space_function f, SpaceVect origin, SpaceFloat t_start)
+{
+	return [f, origin, t_start](SpaceFloat t)->SpaceVect {
+		return f(t + t_start) + origin;
+	};
+}
+
 }//end NS

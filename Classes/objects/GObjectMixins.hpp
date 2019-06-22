@@ -112,22 +112,6 @@ protected:
 	SpaceFloat speed;
 };
 
-class ParametricMotion :
-	virtual public GObject,
-	public RegisterInit<ParametricMotion>
-{
-public:
-	ParametricMotion(parametric_space_function f, SpaceFloat start = 0.0, SpaceFloat scale = 1.0);
-
-	void init();
-	void _update();
-protected:
-	const SpaceFloat scale;
-	SpaceFloat t = 0.0;
-	SpaceVect origin;
-	parametric_space_function f;
-};
-
 //END PHYSICS
 
 //GRAPHICS MIXINS

@@ -46,7 +46,7 @@ RectangleBody::RectangleBody(const ValueMap& arg) : dim(getObjectDimensions(arg)
 void RectangleBody::initializeBody(GSpace& space)
 {
 	tie(bodyShape, body) = space.physicsContext->createRectangleBody(
-        initialCenter,
+        prevPos,
         dim,
         getMass(),
         getType(),
@@ -59,7 +59,7 @@ void RectangleBody::initializeBody(GSpace& space)
 void CircleBody::initializeBody(GSpace& space)
 {
     tie(bodyShape, body) = space.physicsContext->createCircleBody(
-        initialCenter,
+        prevPos,
         getRadius(),
         getMass(),
         getType(),
@@ -67,24 +67,6 @@ void CircleBody::initializeBody(GSpace& space)
         getSensor(),
         this
     );
-}
-
-ParametricMotion::ParametricMotion(parametric_space_function f, SpaceFloat start, SpaceFloat scale) :
-	scale(scale),
-	f(f),
-	t(start),
-	RegisterInit<ParametricMotion>(this)
-{}
-
-void ParametricMotion::init()
-{
-	origin = getPos();
-}
-
-void ParametricMotion::_update()
-{
-	setPos(f(t) + origin);
-	timerIncrement(t, scale);
 }
 
 //END PHYSICS

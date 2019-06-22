@@ -52,7 +52,7 @@ public:
 	virtual void update();
 };
 
-class ReimuBullet1 : public BulletImpl, public ParametricMotion
+class ReimuBullet1 : public BulletImpl
 {
 public:
 	static const string props;
@@ -67,8 +67,6 @@ public:
 	);
 
 	ReimuBullet1(GSpace* space, ObjectIDType id, const SpaceVect& pos, SpaceFloat angle, const bullet_attributes& attributes, SpaceFloat start);
-
-	virtual void update();
 };
 
 class YinYangOrb : public BulletImpl

@@ -131,13 +131,14 @@ SpaceVect ReimuBullet1::parametric_move(
 ReimuBullet1::ReimuBullet1(GSpace* space, ObjectIDType id, const SpaceVect& pos, SpaceFloat angle, const bullet_attributes& attributes, SpaceFloat start) :
 	GObject(make_shared<object_params>(space, id, "", pos, angle)),
 	Bullet(attributes),
-	BulletImpl(space, id, pos, angle, attributes, app::getBullet(props)),
-	ParametricMotion(bind(&parametric_move, placeholders::_1, angle, start, app::getBullet(props)->speed))
-{}
-
-void ReimuBullet1::update()
+	BulletImpl(space, id, pos, angle, attributes, app::getBullet(props))
 {
-	ParametricMotion::_update();
+	setParametricMove(ai::parametricMoveTranslate(
+		bind(&parametric_move, placeholders::_1, angle, start, app::getBullet(props)->speed),
+		prevPos,
+		//In this case, we are already capturing our parametric variable start offset.
+		0.0
+	));
 }
 
 const string YinYangOrb::props = "yinYangOrb";
