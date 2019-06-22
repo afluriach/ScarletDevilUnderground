@@ -13,6 +13,10 @@
 #include "GSpace.hpp"
 #include "Player.hpp"
 
+GSpace* FirePattern::getSpace() const {
+	return agent->space;
+}
+
 bool FirePattern::fireIfPossible()
 {
 	if (!isInCooldown() && fire()){

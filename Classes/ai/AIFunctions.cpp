@@ -74,7 +74,7 @@ margin(margin)
 MaintainDistance::MaintainDistance(StateMachine* fsm, const ValueMap& args) :
 Function(fsm)
 {
-    target = getObjRefFromStringField(agent->space, args, "target");
+    target = getObjRefFromStringField(getSpace(), args, "target");
     distance = getFloat(args, "distance");
     margin = getFloat(args, "margin");
 }
@@ -291,7 +291,7 @@ Function(fsm),
 distance(_distance),
 target(_target)
 {
-	startFrame = agent->space->getFrame();
+	startFrame = getSpace()->getFrame();
 
 	if (length > 0.0)
 		endFrame = startFrame + app::params.framesPerSecond*length;
@@ -301,7 +301,7 @@ target(_target)
 
 update_return Scurry::update()
 {
-	if (!target.isValid() || endFrame != 0 && agent->space->getFrame() >= endFrame) {
+	if (!target.isValid() || endFrame != 0 && getSpace()->getFrame() >= endFrame) {
 		return_pop();
 	}
 
@@ -339,7 +339,7 @@ Flee::Flee(StateMachine* fsm, const ValueMap& args) :
     if(args.find("target_name") == args.end()){
         log("Seek::Seek: target_name missing.");
     }
-    target = agent->space->getObject(args.at("target_name").asString());
+    target = getSpace()->getObject(args.at("target_name").asString());
     
     if(!target.isValid()){
         log("Flee::Flee: target object %s not found.", args.at("target_name").asString().c_str() );
@@ -565,7 +565,7 @@ update_return Flank::update()
 
 bool Flank::wallQuery(SpaceVect pos)
 {
-	return agent->space->physicsContext->obstacleRadiusQuery(
+	return getPhys()->obstacleRadiusQuery(
 		agent,
 		pos, 
 		wallMargin,
@@ -793,7 +793,7 @@ FollowPath::FollowPath(StateMachine* fsm, const ValueMap& args) :
 		log("FollowPath: pathName not provided!");
 	}
 
-	Path const* p = agent->space->getPath(name_it->second.asString());
+	Path const* p = getSpace()->getPath(name_it->second.asString());
 
 	if (!p) {
 		log("FollowPath: pathName %s not found!", name_it->second.asString().c_str());
@@ -975,7 +975,7 @@ update_return FireIfTargetVisible::update()
 		return_pop();
 	}
 	
-	if (agent->isObjectVisible(target.get()) && agent->space->isInPlayerRoom(agent->getPos()))
+	if (agent->isObjectVisible(target.get()) && getSpace()->isInPlayerRoom(agent->getPos()))
 	{
 		if (fp->fireIfPossible()) {
 			agent->playSoundSpatial("sfx/shot.wav");
@@ -1071,7 +1071,7 @@ HPCastSequence::HPCastSequence(
 void HPCastSequence::onEnter()
 {
 	if (agent->isSpellActive()) {
-		log("HPCastSequence::onEnter: %s already has spell active.", agent->name.c_str());
+		log("HPCastSequence::onEnter: %s already has spell active.", agent->getName());
 		agent->stopSpell();
 	}
 }
@@ -1163,7 +1163,7 @@ update_return ThrowBombs::update()
 
 		if (
 			//can place bomb
-			!agent->space->physicsContext->obstacleRadiusQuery(
+			!getPhys()->obstacleRadiusQuery(
 				agent,
 				pos,
 				0.5,
@@ -1171,7 +1171,7 @@ update_return ThrowBombs::update()
 				PhysicsLayers::ground
 			) &&
 			//bomb is likely to travel a significant distance
-			agent->space->physicsContext->obstacleDistanceFeeler(
+			getPhys()->obstacleDistanceFeeler(
 				agent,
 				SpaceVect::ray(1.0 + fuseTime*throwingSpeed, angle)
 			) > blastRadius &&
@@ -1184,7 +1184,7 @@ update_return ThrowBombs::update()
 			//do not throw if target is too close
 			distanceToTarget(agent, target.get()) > blastRadius
 		) {
-			agent->space->createObject(generator(make_shared<object_params>(
+			getSpace()->createObject(generator(make_shared<object_params>(
 				agent->getPos() + SpaceVect::ray(1.0, angle),
 				agent->getVel() + SpaceVect::ray(throwingSpeed, angle)
 			)));
@@ -1202,7 +1202,7 @@ SpaceFloat ThrowBombs::getInterval()
 float ThrowBombs::score(SpaceVect pos, SpaceFloat angle)
 {
 	SpaceVect predictedPos = pos + SpaceVect::ray(1.0 + fuseTime * throwingSpeed, angle);
-	return bombScore(agent->space, predictedPos, blastRadius);
+	return bombScore(getSpace(), predictedPos, blastRadius);
 }
 
 }//end NS

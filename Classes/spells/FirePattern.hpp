@@ -21,6 +21,8 @@ public:
 	inline FirePattern(Agent *const agent) : agent(agent) {}
 	virtual inline ~FirePattern() {}
 
+	GSpace* getSpace() const;
+
 	virtual bool fireIfPossible();
 	virtual bool isInCooldown();
 	virtual void update();

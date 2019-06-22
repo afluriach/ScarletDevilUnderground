@@ -56,9 +56,10 @@ void PlayerBatMode::init()
 	Player* p = getCasterAs<Player>();
 
 	if (p) {
-		p->setFiringSuppressed(true);
 		p->setSprite("flandre_bat");
-		p->space->addGraphicsAction(&graphics_context::setSpriteZoom, p->spriteID, 4.0f);
+		p->setSpriteZoom(4.0f);
+
+		p->setFiringSuppressed(true);
 		p->applyAttributeModifier(Attribute::agility, 1.5f);
 		p->setLayers(PhysicsLayers::ground);
 		p->setProtection();
@@ -72,9 +73,10 @@ void PlayerBatMode::end()
 	Player* p = getCasterAs<Player>();
 
 	if (p) {
-		p->setFiringSuppressed(false);
 		p->setSprite("flandre");
-		p->space->addGraphicsAction(&graphics_context::setSpriteZoom, p->spriteID, 1.0f);
+		p->setSpriteZoom(1.0f);
+
+		p->setFiringSuppressed(false);
 		p->applyAttributeModifier(Attribute::agility, -1.5f);
 		p->setLayers(enum_bitwise_or(PhysicsLayers, floor, ground));
 		p->resetProtection();
@@ -104,7 +106,7 @@ void LavaeteinnSpell::init()
 	SpaceVect pos = caster->getPos() + SpaceVect::ray(1.5, angle);
 	speedScale = getCasterAs<Agent>()->getAttribute(Attribute::attackSpeed);
 
-	lavaeteinnBullet = caster->space->createObject<Lavaeteinn>(
+	lavaeteinnBullet = getSpace()->createObject<Lavaeteinn>(
 		pos,
 		angle,
 		angular_speed * speedScale,
@@ -128,7 +130,7 @@ void LavaeteinnSpell::update()
 
 	if (fireTimer <= 0.0) {
 		auto props = app::getBullet("flandreFastOrb1");
-		caster->space->createObject<BulletImpl>(
+		getSpace()->createObject<BulletImpl>(
 			caster->getPos() + SpaceVect::ray(2.0, angularPos),
 			angularPos,
 			getCasterAs<Agent>()->getBulletAttributes(props),
@@ -143,7 +145,7 @@ void LavaeteinnSpell::end()
 	PlayerSpell::end();
 
 	if (lavaeteinnBullet.isValid()) {
-		caster->space->removeObject(lavaeteinnBullet);
+		getSpace()->removeObject(lavaeteinnBullet);
 	}
 }
 
@@ -175,7 +177,7 @@ void PlayerCounterClock::init()
 	{
 		SpaceVect disp = SpaceVect::ray(2.0 + offset, (i/2.0) * float_pi);
 
-		bullets[i] = caster->space->createObject<FlandreCounterClockBullet>(
+		bullets[i] = getSpace()->createObject<FlandreCounterClockBullet>(
 			pos + disp,
 			(i / 2.0) * float_pi,
 			bullet_attributes::getDefault()
@@ -214,7 +216,7 @@ void PlayerCounterClock::end()
 	for (auto ref : bullets)
 	{
 		if (ref.isValid()) {
-			caster->space->removeObject(ref);
+			getSpace()->removeObject(ref);
 		}
 	}
 }
@@ -242,7 +244,7 @@ void PlayerScarletRose::update()
 	if (timer >= fireInterval && launchCount < fireCount) {
 		for_irange(i, 0, 8) {
 			SpaceFloat t = float_pi / FlanPolarBullet::B * i;
-			gobject_ref ref = caster->space->createObject<FlanPolarBullet>(
+			gobject_ref ref = getSpace()->createObject<FlanPolarBullet>(
 				origin,
 				0.0,
 				getCasterAs<Agent>()->getBulletAttributes(app::getBullet(FlanPolarBullet::props)),
@@ -262,7 +264,7 @@ void PlayerScarletRose::end()
 
 	for (auto ref : bullets) {
 		if (ref.isValid())
-			caster->space->removeObject(ref);
+			getSpace()->removeObject(ref);
 	}
 }
 
@@ -305,7 +307,7 @@ void PlayerDarkMist::init()
 {
 	PlayerSpell::init();
 
-	caster->space->graphicsNodeAction(&Node::setOpacity, caster->spriteID, to_uchar(128));
+	caster->setSpriteOpacity(to_char(128));
 	caster->setInvisible(true);
 }
 
@@ -313,7 +315,7 @@ void PlayerDarkMist::end()
 {
 	PlayerSpell::end();
 
-	caster->space->graphicsNodeAction(&Node::setOpacity, caster->spriteID, to_uchar(255));
+	caster->setSpriteOpacity(to_char(255));
 	caster->setInvisible(false);
 }
 
@@ -344,7 +346,7 @@ void PlayerIceShield::init()
 		SpaceFloat angle = (1.0 * i / bulletCount) * (float_pi * 2.0);
 		SpaceVect pos = SpaceVect::ray(distance, angle);
 		
-		bullets[i] = caster->space->createObject<CirnoIceShieldBullet>(
+		bullets[i] = getSpace()->createObject<CirnoIceShieldBullet>(
 			origin + pos,
 			angle - float_pi / 2.0,
 			bullet_attributes::getDefault()
@@ -387,7 +389,7 @@ void PlayerIceShield::end()
 	for (auto ref : bullets)
 	{
 		if (ref.isValid()) {
-			caster->space->removeObject(ref);
+			getSpace()->removeObject(ref);
 		}
 	}
 }

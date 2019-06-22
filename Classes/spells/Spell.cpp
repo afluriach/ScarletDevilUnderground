@@ -21,6 +21,10 @@ bool Spell::isActive() const {
 	return active;
 }
 
+GSpace* Spell::getSpace() const {
+	return caster->space;
+}
+
 shared_ptr<SpellDesc> Spell::getDescriptorByName(const string& name)
 {
 	auto it = spellDescriptors.find(name);

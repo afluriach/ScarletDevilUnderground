@@ -25,7 +25,6 @@ unordered_map<type_index, string> GObject::typeNameMap;
 GObject::GObject(shared_ptr<object_params> params) :
 	space(params->space),
 	name(params->name),
-    anonymous(params->name.empty()),
 	uuid(params->id),
 	initialCenter(params->pos),
 	prevPos(params->pos),
@@ -39,6 +38,26 @@ GObject::GObject(shared_ptr<object_params> params) :
 
 GObject::~GObject()
 {
+}
+
+void GObject::removePhysicsObjects()
+{
+	space->physicsContext->removeObject(radarShape, radar, false);
+	//Static bodies are not actually created.
+	space->physicsContext->removeObject(bodyShape, body, getMass() <= 0.0);
+}
+
+void GObject::removeGraphics(bool removeSprite)
+{
+	if (removeSprite && spriteID != 0) {
+		space->addGraphicsAction(&graphics_context::removeSprite, spriteID);
+	}
+	if (drawNodeID != 0) {
+		space->addGraphicsAction(&graphics_context::removeSprite, drawNodeID);
+	}
+	if (lightID != 0) {
+		space->addGraphicsAction(&graphics_context::removeLightSource, lightID);
+	}
 }
 
 GObject* GObject::constructByType(GSpace* space, ObjectIDType id, const string& type, const ValueMap& args )
@@ -479,6 +498,53 @@ void GObject::initLightSource()
 		space->addGraphicsAction(&graphics_context::setLightSourceAngle, lightID, prevAngle);
 	}
 }
+
+void GObject::addGraphicsAction(ActionGeneratorType gen, SpriteID id )
+{
+	SpriteID actual = id == 0 ? spriteID : id;
+
+	if (actual != 0) {
+		space->addGraphicsAction(
+			&graphics_context::runSpriteAction,
+			actual,
+			gen
+		);
+	}
+}
+
+void GObject::stopGraphicsAction(cocos_action_tag tag, SpriteID id)
+{
+	SpriteID actual = id == 0 ? spriteID : id;
+
+	if (actual != 0) {
+		space->addGraphicsAction(
+			&graphics_context::stopSpriteAction,
+			actual,
+			tag
+		);
+	}
+}
+
+void GObject::setSpriteZoom(float zoom)
+{
+	if (spriteID != 0) {
+		space->addGraphicsAction(&graphics_context::setSpriteZoom, spriteID, zoom);
+	}
+	else {
+		log("GObject::setSpriteZoom: %s does not have a sprite!", getName());
+	}
+}
+
+void GObject::setSpriteOpacity(unsigned char op)
+{
+	if (spriteID != 0) {
+		space->graphicsNodeAction(&Node::setOpacity, spriteID, to_uchar(128));
+	}
+	else {
+		log("GObject::setSpriteOpacity: %s does not have a sprite!", getName());
+	}
+}
+
 
 //END GRAPHICS
 

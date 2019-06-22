@@ -147,7 +147,7 @@ void RoomSensor::init()
 			doors.insert(d);
 		}
 		else {
-			log("RoomSensor: unknown trap door %s.", name.c_str());
+			log("RoomSensor: unknown trap door %s.", getName());
 		}
 	}
 	trapDoorNames.clear();
@@ -292,14 +292,14 @@ GhostHeadstoneSensor::GhostHeadstoneSensor(GSpace* space, ObjectIDType id, const
 	cost = getIntOrDefault(args, "cost", -1);
 
 	if (cost == -1) {
-		log("GhostHeadstoneSensor %s: unknown cost.", name.c_str());
+		log("GhostHeadstoneSensor %s: unknown cost.", getName());
 	}
 }
 
 void GhostHeadstoneSensor::init()
 {
 	if (targetName.empty()) {
-		log("GhostHeadstoneSensor %s, unknown target.", name.c_str());
+		log("GhostHeadstoneSensor %s, unknown target.", getName());
 	}
 	else {
 		target = space->getObjectRef(targetName);

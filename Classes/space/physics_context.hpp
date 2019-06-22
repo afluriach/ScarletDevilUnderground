@@ -37,6 +37,8 @@ public:
 		GObject* obj
 	);
 
+	void removeObject(cpShape* shape, cpBody* body, bool staticBody);
+
 	GObject * queryAdjacentTiles(
 		SpaceVect pos,
 		GType type,

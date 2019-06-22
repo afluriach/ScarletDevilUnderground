@@ -26,7 +26,7 @@ void Follower::initStateMachine() {
 
 void FollowerMain::onEnter()
 {
-	target = agent->space->getObject("player");
+	target = getSpace()->getObject("player");
 }
 
 ai::update_return FollowerMain::update()

@@ -39,20 +39,22 @@ void StarlightTyphoon::init()
 
 void StarlightTyphoon::fire()
 {
+	GSpace* space = getSpace();
+
 	//The angle variation, will be added to the base direction.
-	SpaceFloat arcPos = caster->space->getRandomFloat(-width, width) + caster->getAngle();
-	SpaceFloat crntSpeed = caster->space->getRandomFloat(speed*0.5, speed*1.5);
-	SpaceFloat crntRadius = caster->space->getRandomFloat(radius*0.7, radius*1.3);
+	SpaceFloat arcPos = space->getRandomFloat(-width, width) + caster->getAngle();
+	SpaceFloat crntSpeed = space->getRandomFloat(speed*0.5, speed*1.5);
+	SpaceFloat crntRadius = space->getRandomFloat(radius*0.7, radius*1.3);
 
 	SpaceVect pos = caster->getPos() + SpaceVect::ray(offset, angle);
 
-	caster->space->createObject<StarBullet>(
+	space->createObject<StarBullet>(
 		pos,
 		arcPos,
 		bullet_attributes::getDefault(),
 		crntSpeed,
 		radius,
-		StarBullet::colors[caster->space->getRandomInt(0, StarBullet::colors.size() - 1)]
+		StarBullet::colors[getSpace()->getRandomInt(0, StarBullet::colors.size() - 1)]
 	);
 }
 

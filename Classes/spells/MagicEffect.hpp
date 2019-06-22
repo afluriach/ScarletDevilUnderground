@@ -25,6 +25,8 @@ public:
 	inline MagicEffect(gobject_ref target) : MagicEffect(target, 0.0f) {}
 	MagicEffect(gobject_ref target, float magnitude);
 
+	GSpace* getSpace() const;
+
 	inline virtual ~MagicEffect() {}
 
 	virtual void init() = 0;

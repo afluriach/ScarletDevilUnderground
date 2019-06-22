@@ -48,7 +48,7 @@ void MarisaCollectMain::onEnter()
 
 ai::update_return MarisaCollectMain::update()
 {
-	GObject* player = agent->space->getObject("player");
+	GObject* player = getSpace()->getObject("player");
 
 	if (player)
 		return_push(ai::FollowPath::pathToTarget(fsm, player));

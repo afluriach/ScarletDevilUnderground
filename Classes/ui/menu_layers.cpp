@@ -638,7 +638,7 @@ void MapMenu::drawMaps()
 	{
 		FloorSegment* floor = ref.get();
 
-		if (dynamic_cast<MovingPlatform*>(floor) || floor->hidden) {
+		if (dynamic_cast<MovingPlatform*>(floor) || floor->isHidden()) {
 			continue;
 		}
 		else if(dynamic_cast<Pitfall*>(floor)) {
@@ -650,19 +650,19 @@ void MapMenu::drawMaps()
 	}
 
 	for (auto ref : walls){
-		if (!ref.get()->hidden) {
+		if (!ref.get()->isHidden()) {
 			drawObject(ref.get()->getBoundingBox(), wallColor, wallColorCrnt, wallColorFade);
 		}
 	}
 
 	for (auto ref : enemies) {
-		if (!ref.get()->hidden) {
+		if (!ref.get()->isHidden()) {
 			drawObject(ref.get()->getBoundingBox(), enemyColor);
 		}
 	}
 
 	for (auto ref : doors) {
-		if (!ref.get()->hidden) {
+		if (!ref.get()->isHidden()) {
 			drawObject(
 				ref.get()->getBoundingBox(),
 				ref.get()->isLocked() ? Color4F::RED : doorColor

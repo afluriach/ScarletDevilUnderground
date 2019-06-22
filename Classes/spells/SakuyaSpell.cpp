@@ -41,7 +41,7 @@ void IllusionDial::init()
 
 	for_irange(i, 0, count)
 	{
-		bullets[i] = caster->space->createObject<IllusionDialDagger>(
+		bullets[i] = getSpace()->createObject<IllusionDialDagger>(
 			bullet_attributes::getDefault(),
 			caster->getPos() + SpaceVect::ray(radius, arc_start + i * arc_spacing),
 			i % 2 ? angular_speed : -angular_speed
@@ -91,7 +91,7 @@ void IllusionDial::end()
 {
 	for (auto ref : bullets) {
 		if (ref.isValid()) {
-			caster->space->removeObject(ref);
+			getSpace()->removeObject(ref);
 		}
 	}
 }

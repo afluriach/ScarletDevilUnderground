@@ -161,7 +161,7 @@ bool Catadioptric::spawnTail(SpaceFloat angleOffset)
 
 		fired |= agent->bulletImplCheckSpawn<CatadioptricBullet>(
 			pos,
-			_angle + agent->space->getRandomFloat(-1.0f,1.0f)*angleSpread/4.0,
+			_angle + getSpace()->getRandomFloat(-1.0f,1.0f)*angleSpread/4.0,
 			props
 		).isFuture();
 	}
@@ -178,7 +178,7 @@ bool Catadioptric::spawnTail(SpaceFloat angleOffset)
 
 		fired |= agent->bulletImplCheckSpawn<CatadioptricBullet>(
 			pos,
-			_angle + agent->space->getRandomFloat(-1.0f, 1.0f)*angleSpread / 2.0,
+			_angle + getSpace()->getRandomFloat(-1.0f, 1.0f)*angleSpread / 2.0,
 			props
 		).isFuture();
 	}

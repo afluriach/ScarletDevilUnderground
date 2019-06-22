@@ -34,13 +34,13 @@ pair<cpShape*, cpBody*> physics_context::createCircleBody(
 {
     if(logBodyCreation) log(
         "createCircleBody for %s at %f,%f, mass: %f",
-        obj->name.c_str(),
+        obj->getName(),
         expand_vector2(center),
         mass
     );
     
     if(radius == 0)
-        log("createCircleBody: zero radius for %s.", obj->name.c_str());
+        log("createCircleBody: zero radius for %s.", obj->getName());
     
 	cpBody* body;
 	cpShape* shape;
@@ -79,16 +79,16 @@ pair<cpShape*, cpBody*> physics_context::createRectangleBody(
 {
     if(logBodyCreation && obj) log(
         "Creating rectangle body for %s. %f x %f at %f,%f, mass: %f",
-        obj->name.c_str(),
+        obj->getName(),
         expand_vector2(dim),
         expand_vector2(center),
         mass
     );
     
     if(dim.x == 0 && obj)
-        log("createRectangleBody: zero width for %s.", obj->name.c_str());
+        log("createRectangleBody: zero width for %s.", obj->getName());
     if(dim.y == 0 && obj)
-        log("createRectangleBody: zero height for %s.", obj->name.c_str());
+        log("createRectangleBody: zero height for %s.", obj->getName());
 
 	cpBody* body;
 	cpShape* shape;
@@ -114,6 +114,22 @@ pair<cpShape*, cpBody*> physics_context::createRectangleBody(
 	body->data = obj;
 
 	return make_pair(shape, body);
+}
+
+//Static bodies are not actually added to the physics engine, but they 
+//need to be deallocated.
+void physics_context::removeObject(cpShape* shape, cpBody* body, bool staticBody)
+{
+	if (shape) {
+		cpSpaceRemoveShape(space->space, shape);
+		cpShapeFree(shape);
+	}
+	if (body) {
+		if (!staticBody) {
+			cpSpaceRemoveBody(space->space, body);
+		}
+		cpBodyFree(body);
+	}
 }
 
 struct FeelerData

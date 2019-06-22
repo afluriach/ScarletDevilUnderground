@@ -25,7 +25,7 @@ const float Teleport::cost = 0.0f;
 
 Teleport::Teleport(GObject* caster) :
 	Spell(caster),
-	targets(caster->space->getObjectsByTypeAs<TeleportPad>())
+	targets(getSpace()->getObjectsByTypeAs<TeleportPad>())
 {
 }
 
@@ -73,7 +73,7 @@ TorchDarkness::TorchDarkness(GObject* caster) :
 
 void TorchDarkness::update()
 {
-	unordered_set<Torch*> crntTorches = caster->space->physicsContext->radiusQueryByType<Torch>(
+	unordered_set<Torch*> crntTorches = getSpace()->physicsContext->radiusQueryByType<Torch>(
 		caster,
 		caster->getPos(),
 		radius,
@@ -105,7 +105,7 @@ BlueFairyBomb::BlueFairyBomb(GObject* caster) :
 
 void BlueFairyBomb::init()
 {
-	sprite = caster->space->createSprite(
+	sprite = getSpace()->createSprite(
 		&graphics_context::createSprite,
 		string("sprites/blue_explosion.png"),
 		GraphicsLayer::agentOverlay,
@@ -118,7 +118,7 @@ void BlueFairyBomb::update()
 {
 	timerIncrement(timer);
 
-	caster->space->graphicsNodeAction(
+	getSpace()->graphicsNodeAction(
 		&Node::setRotation,
 		sprite,
 		toCocosAngle(canonicalAngle(angularSpeed * timer))
@@ -131,7 +131,7 @@ void BlueFairyBomb::update()
 
 void BlueFairyBomb::end()
 {
-	caster->space->addGraphicsAction(&graphics_context::removeSprite, sprite);
+	getSpace()->addGraphicsAction(&graphics_context::removeSprite, sprite);
 }
 
 const string GreenFairyPowerAttack::name = "GreenFairyPowerAttack";

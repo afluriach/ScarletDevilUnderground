@@ -38,7 +38,7 @@ void Bat::initStateMachine() {
 
 void BatMain::onEnter()
 {
-	target = agent->space->getObject("player");
+	target = getSpace()->getObject("player");
 }
 
 ai::update_return BatMain::update()

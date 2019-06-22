@@ -15,6 +15,7 @@
 class Agent;
 class GObject;
 class GSpace;
+class physics_context;
 class RoomSensor;
 
 namespace ai{
@@ -75,6 +76,11 @@ public:
 	template<class FuncCls, typename... Params>
 	void push(Params... params);
 	void pop();
+
+	GSpace* getSpace() const;
+	GObject* getAgentObject() const;
+	Agent* getAgent() const;
+	physics_context* getPhys() const;
 
 	inline virtual void onEnter() {}
     inline virtual void onReturn() {}

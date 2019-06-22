@@ -377,12 +377,12 @@ void GSpace::processAdditions()
 
 		lastAddedUUID = generator.second;
 
-        if(!obj->anonymous && objByName.find(obj->name) != objByName.end()){
+        if(!obj->isAnonymous() && objByName.find(obj->name) != objByName.end()){
 			warningNames.insert(obj->name);
         }
 
         if(objByUUID.find(obj->uuid) != objByUUID.end()){
-            log("Object %s, %d UUID is not unique!", obj->name.c_str(), obj->uuid);
+            log("Object %s, %d UUID is not unique!", obj->getName(), obj->uuid);
             delete obj;
             continue;
         }
@@ -404,7 +404,7 @@ void GSpace::processAdditions()
 			roomSensors.insert_or_assign(rs->mapID, rs);
 		}
 
-        if(!obj->anonymous)
+        if(!obj->isAnonymous())
             objByName[obj->name] = obj;
         objByUUID[obj->uuid] = obj;
 
@@ -489,39 +489,9 @@ void GSpace::processRemoval(GObject* obj, bool _removeSprite)
 		removeNavObstacle(obj->getPos(), obj->getDimensions());
 	}
 
-	if (obj->radarShape) {
-		cpSpaceRemoveShape(space, obj->radarShape);
-		cpShapeFree(obj->radarShape);
-	}
-	if (obj->radar) {
-		cpSpaceRemoveBody(space, obj->radar);
-		cpBodyFree(obj->radar);
-	}
-
-	if (obj->bodyShape) {
-		cpSpaceRemoveShape(space, obj->bodyShape);
-		cpShapeFree(obj->bodyShape);
-	}
-	if (obj->body) {
-		if (obj->getMass() > 0.0) {
-			cpSpaceRemoveBody(space, obj->body);
-		}
-		cpBodyFree(obj->body);
-	}
-
-	if (obj->crntSpell.get()) {
-		obj->crntSpell.get()->end();
-	}
-
-	if (_removeSprite && obj->spriteID != 0) {
-		addGraphicsAction(&graphics_context::removeSprite, obj->spriteID);
-	}
-	if (_removeSprite && obj->drawNodeID != 0) {
-		addGraphicsAction(&graphics_context::removeSprite, obj->drawNodeID);
-	}
-	if (_removeSprite && obj->lightID != 0) {
-		addGraphicsAction(&graphics_context::removeLightSource, obj->lightID);
-	}
+	obj->stopSpell();
+	obj->removePhysicsObjects();
+	obj->removeGraphics(_removeSprite);
 
 	delete obj;
 }
@@ -570,7 +540,7 @@ void GSpace::processRemovals()
 		auto entry = toRemoveWithAnimation.front();
 		toRemoveWithAnimation.pop_front();
 
-		unsigned int spriteID = entry.first->spriteID;
+		unsigned int spriteID = entry.first->getSpriteID();
 
 		processRemoval(entry.first, false);
 

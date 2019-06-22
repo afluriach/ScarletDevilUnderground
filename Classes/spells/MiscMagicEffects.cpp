@@ -39,13 +39,7 @@ void FreezeStatusEffect::init()
 	Player* _player = dynamic_cast<Player*>(_target);
 	StateMachineObject* smo = dynamic_cast<StateMachineObject*>(_target);
 
-	if (_target->spriteID != 0){
-		_target->space->addGraphicsAction(
-			&graphics_context::runSpriteAction,
-			_target->spriteID,
-			freezeEffectAction()
-		);
-	}
+	_target->addGraphicsAction(freezeEffectAction());
 
 	if (smo) {
 		smo->setFrozen(true);
@@ -77,18 +71,8 @@ void FreezeStatusEffect::end()
 	StateMachineObject* smo = dynamic_cast<StateMachineObject*>(_target);
 
 	//Stop sprite effect, assuming the effect ended early.
-	if (_target->spriteID != 0) {
-		_target->space->addGraphicsAction(
-			&graphics_context::stopSpriteAction,
-			_target->spriteID,
-			cocos_action_tag::freeze_status
-		);
-		_target->space->addGraphicsAction(
-			&graphics_context::runSpriteAction,
-			_target->spriteID,
-			freezeEffectEndAction()
-		);
-	}
+	_target->stopGraphicsAction(cocos_action_tag::freeze_status);
+	_target->addGraphicsAction(freezeEffectEndAction());
 
 	if (smo) {
 		smo->setFrozen(false);
@@ -111,13 +95,9 @@ DarknessCurseEffect::DarknessCurseEffect(gobject_ref target) :
 
 void DarknessCurseEffect::init()
 {
-	agent->inhibitSpellcasting = true;
+	agent->setInhibitSpellcasting(true);
 	agent->stopSpell();
-	agent->space->addGraphicsAction(
-		&graphics_context::runSpriteAction,
-		agent->spriteID,
-		darknessCurseFlickerTintAction()
-	);
+	agent->addGraphicsAction(darknessCurseFlickerTintAction());
 }
 
 void DarknessCurseEffect::update()
@@ -131,12 +111,8 @@ void DarknessCurseEffect::update()
 
 void DarknessCurseEffect::end()
 {
-	agent->inhibitSpellcasting = false;
-	agent->space->addGraphicsAction(
-		&graphics_context::stopSpriteAction,
-		agent->spriteID,
-		cocos_action_tag::darkness_curse
-	);
+	agent->setInhibitSpellcasting(false);
+	agent->stopGraphicsAction(cocos_action_tag::darkness_curse);
 }
 
 RedFairyStress::RedFairyStress(object_ref<Agent> _agent) :
@@ -187,11 +163,7 @@ void GhostProtection::update()
 
 	if (accumulator >= 1.0f && agent->getAttribute(Attribute::hitProtection) == 0.0f)
 	{
-		agent->space->addGraphicsAction(
-			&graphics_context::runSpriteAction,
-			agent->spriteID,
-			flickerAction(0.25f, 5.0f, 128)
-		);
+		agent->addGraphicsAction(flickerAction(0.25f, 5.0f, 128));
 		agent->getAttributeSystem()->setTimedProtection(5.0f);
 
 		accumulator = 0.0f;

@@ -41,6 +41,22 @@ void Function::pop() {
 	fsm->pop();
 }
 
+GSpace* Function::getSpace() const {
+	return fsm->getSpace();
+}
+
+GObject* Function::getAgentObject() const {
+	return fsm->getObject();
+}
+
+Agent* Function::getAgent() const {
+	return fsm->getAgent();
+}
+
+physics_context* Function::getPhys() const {
+	return getSpace()->physicsContext.get();
+}
+
 unsigned int Thread::nextUUID = 1;
 
 Thread::Thread(shared_ptr<Function> threadMain, StateMachine* sm) :
@@ -164,7 +180,7 @@ void Thread::setResetOnBlock(bool reset) {
 StateMachine::StateMachine(GObject *const agent) :
 agent(agent)
 {
-    frame = agent->space->getFrame();
+    frame = getSpace()->getFrame();
 }
 
 void StateMachine::update()

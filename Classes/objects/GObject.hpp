@@ -98,32 +98,26 @@ public:
 	}
 
 	GObject(shared_ptr<object_params> params);
-    
     virtual ~GObject();
 
-	//object identification, init, and update
-	const string name;
-    const bool anonymous = false;
-	bool hidden = false;
-	bool rotateSprite = false;
-	bool isInvisible = false;
-	bool isInFade = false;
-	bool inhibitSpellcasting = false;
-	const ObjectIDType uuid;
-	GSpace *const space;
+	void removePhysicsObjects();
+	void removeGraphics(bool removeSprite);
 
-	util::multifunction<void(void)> multiInit;
+	//object identification, init, and update
 
 	string getTypeName() const;
 	string getProperName() const;
 
 	inline string getName() const {
-		return (anonymous || name.empty()) ? getTypeName() : name;
+		return (name.empty()) ? getTypeName() : name;
 	}
 
 	inline ObjectIDType getUUID() const {
 		return uuid;
 	}
+
+	inline bool isAnonymous() const { return name.empty(); }
+	inline bool isHidden() const { return hidden; }
 
 	//BEGIN LOGIC
 
@@ -147,20 +141,6 @@ public:
 	//END LOGIC
 
 	//BEGIN PHYSICS
-
-	cpBody* body = nullptr;
-	cpBody* radar = nullptr;
-
-	cpShape* bodyShape = nullptr;
-	cpShape* radarShape = nullptr;
-
-    //Posiition where the object was loaded
-    SpaceVect initialCenter;
-	SpaceVect prevPos = SpaceVect::zero;
-	SpaceFloat prevAngle = 0.0;
-
-	object_ref<FloorSegment> crntFloorCenterContact;
-	unordered_set<object_ref<FloorSegment>> crntFloorContacts;
 	
 	void launch();
     void setInitialVelocity(const SpaceVect& v);
@@ -208,6 +188,9 @@ public:
 	PhysicsLayers getCrntLayers() const;
 	void setLayers(PhysicsLayers layers);
 
+	inline bool getBodySensor() { return cpShapeGetSensor(bodyShape); }
+	inline void setBodySensor(bool val) { cpShapeSetSensor(bodyShape, val); }
+
 	//A default of 0 signifies undefined. Using -1 to indicate static or positive for dynamic.
 	virtual SpaceFloat getMass() const = 0;
 	virtual SpaceFloat getRadius() const = 0;
@@ -228,9 +211,6 @@ public:
 	//END PHYSICS
     
     //BEGIN GRAPHICS
-	SpriteID spriteID = 0;
-	SpriteID drawNodeID = 0;
-	LightID lightID = 0;
     
 	bool isGraphicsObject() const;
         //The Z-order used by Cocos2D.
@@ -240,13 +220,21 @@ public:
 	int sceneLayerAsInt() const;
     sprite_update updateSprite();
 	void initLightSource();
+	//If "id" is not provided, the object's defaut sprite, spriteID, will be
+	//used, assuming it is valid.
+	void addGraphicsAction(ActionGeneratorType gen, SpriteID id = 0);
+	void stopGraphicsAction(cocos_action_tag tag, SpriteID id = 0);
+	void setSpriteZoom(float zoom);
+	void setSpriteOpacity(unsigned char op);
 
 	//Create Node which graphically reprensets this object and adds it to Layer
 	virtual void initializeGraphics();
 	
 	inline virtual void setSpriteShader(const string& shaderName){
-        log("GObject::setSpriteShader: virtual base, no implementation for %s!", name.c_str());
+        log("GObject::setSpriteShader: virtual base, no implementation for %s!", getName());
     }
+
+	inline SpriteID getSpriteID() const { return spriteID; }
 
     //END GRAPHICS
 
@@ -269,15 +257,11 @@ public:
 	void stopSpell();
 	virtual void updateSpells();
 
+	inline void setInhibitSpellcasting(bool v) { inhibitSpellcasting = v; }
+
 	inline bool isSpellActive() const {
 		return static_cast<bool>(crntSpell);
 	}
-
-	shared_ptr<Spell> crntSpell;
-
-	list<shared_ptr<MagicEffect>> magicEffects;
-	list<shared_ptr<MagicEffect>> magicEffectsToAdd;
-	list<shared_ptr<MagicEffect>> magicEffectsToRemove;
 
 	virtual void addMagicEffect(shared_ptr<MagicEffect> effect);
 	void updateMagicEffects();
@@ -301,6 +285,46 @@ public:
 	inline void setInvisible(bool val) { isInvisible = val; }
 	
 	//END SENSORY
+
+	GSpace *const space;
+	const ObjectIDType uuid;
+	const string name;
+
+protected:
+	bool hidden = false;
+	bool rotateSprite = false;
+	bool isInvisible = false;
+	bool isInFade = false;
+	bool inhibitSpellcasting = false;
+
+	util::multifunction<void(void)> multiInit;
+
+//physics
+	cpBody* body = nullptr;
+	cpBody* radar = nullptr;
+
+	cpShape* bodyShape = nullptr;
+	cpShape* radarShape = nullptr;
+
+	//Position where the object was loaded
+	SpaceVect initialCenter;
+	SpaceVect prevPos = SpaceVect::zero;
+	SpaceFloat prevAngle = 0.0;
+
+	object_ref<FloorSegment> crntFloorCenterContact;
+	unordered_set<object_ref<FloorSegment>> crntFloorContacts;
+
+//graphics
+	SpriteID spriteID = 0;
+	SpriteID drawNodeID = 0;
+	LightID lightID = 0;
+
+//spells
+	shared_ptr<Spell> crntSpell;
+
+	list<shared_ptr<MagicEffect>> magicEffects;
+	list<shared_ptr<MagicEffect>> magicEffectsToAdd;
+	list<shared_ptr<MagicEffect>> magicEffectsToRemove;
 };
 
 #endif /* GObject_hpp */

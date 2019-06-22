@@ -36,6 +36,8 @@ public:
 		return dynamic_cast<T*>(caster);
 	}
 
+	GSpace* getSpace() const;
+
 	virtual shared_ptr<SpellDesc> getDescriptor() = 0;
 
     virtual void init() = 0;

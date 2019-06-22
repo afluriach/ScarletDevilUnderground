@@ -129,14 +129,14 @@ void PhysicsImpl::logHandler(const string& base, cpArbiter* arb)
     if(logPhysicsHandlers){
         OBJS_FROM_ARB
         
-        log("%s: %s, %s", base.c_str(), a->name.c_str(), b->name.c_str());
+        log("%s: %s, %s", base.c_str(), a->getName(), b->getName());
     }
 }
 
 void PhysicsImpl::logHandler(const string& name, GObject* a, GObject* b)
 {
     if(logPhysicsHandlers)
-        log("%s: %s, %s", name.c_str(), a->name.c_str(), b->name.c_str());
+        log("%s: %s, %s", name, a->getName(), b->getName());
 }
 
 int PhysicsImpl::playerEnemyBegin(GObject* a, GObject* b, cpArbiter* arb)
@@ -176,7 +176,7 @@ int PhysicsImpl::playerEnemyBulletBegin(GObject* playerObj, GObject* bullet, cpA
 	Bullet* _bullet = dynamic_cast<Bullet*>(bullet);
 
     if(logPhysicsHandlers)
-        log("%s hit by %s", player->name.c_str(), bullet->name.c_str());
+        log("%s hit by %s", player->getName(), bullet->getName());
 
 	if (player && _bullet) {
 		_bullet->onAgentCollide(player, cpArbiterGetNormal(arb, 0));
@@ -224,7 +224,7 @@ int PhysicsImpl::playerBulletEnemyBegin(GObject* a, GObject* b, cpArbiter* arb)
 	}
 
     if(logPhysicsHandlers)
-        log("%s hit by %s", b->name.c_str(), a->name.c_str());
+        log("%s hit by %s", b->getName(), a->getName());
     
     return 1;
 }
@@ -245,7 +245,7 @@ int PhysicsImpl::bulletBulletBegin(GObject* a, GObject* b, cpArbiter* arb)
 int PhysicsImpl::playerFlowerBegin(GObject* a, GObject* b, cpArbiter* arb)
 {
     if(logPhysicsHandlers)
-        log("%s stepped on", b->name.c_str());
+        log("%s stepped on", b->getName());
     
     return 1;
 }
@@ -273,7 +273,7 @@ int PhysicsImpl::playerPickupBegin(GObject* a, GObject* b, cpArbiter* arb)
 int PhysicsImpl::bulletEnvironment(GObject* bullet, GObject* environment, cpArbiter* arb)
 {
 	Bullet* _b = dynamic_cast<Bullet*>(bullet);
-	bool _sensor = cpShapeGetSensor(environment->bodyShape);
+	bool _sensor = environment->getBodySensor();
 
 	if (_b && environment && !_sensor) {
 		if (!_b->applyRicochet(cpArbiterGetNormal(arb, 0))) {
@@ -302,7 +302,7 @@ int PhysicsImpl::bulletWall(GObject* bullet, GObject* wall, cpArbiter* arb)
 {
 	Bullet* _b = dynamic_cast<Bullet*>(bullet);
 	Wall* _w = dynamic_cast<Wall*>(wall);
-	bool _sensor = cpShapeGetSensor(wall->bodyShape);
+	bool _sensor = wall->getBodySensor();
 
 	if (_b && _w && !_sensor) {
 		if(!_b->applyRicochet(cpArbiterGetNormal(arb, 0)))
@@ -318,11 +318,11 @@ int PhysicsImpl::sensorStart(GObject* radarAgent, GObject* target, cpArbiter* ar
 
 	if (radarObject) {
         if(logPhysicsHandlers)
-            log("%s sensed %s.", radarObject->name.c_str(), target->name.c_str());
+            log("%s sensed %s.", radarObject->getName(), target->getName());
 		radarObject->radarCollision(target);
 	}
 	else {
-		log("sensorStart: %s is not a radar object", radarAgent->name.c_str());
+		log("sensorStart: %s is not a radar object", radarAgent->getName());
 	}
 
 	return 1;
@@ -334,11 +334,11 @@ void PhysicsImpl::sensorEnd(GObject* radarAgent, GObject* target, cpArbiter* arb
     
 	if (radarObject) {
         if(logPhysicsHandlers)
-            log("%s lost %s.", radarObject->name.c_str(), target->name.c_str());
+            log("%s lost %s.", radarObject->getName(), target->getName());
 		radarObject->radarEndCollision(target);
 	}
 	else {
-		log("sensorEnd: %s is not a radar object", radarAgent->name.c_str());
+		log("sensorEnd: %s is not a radar object", radarAgent->getName());
 	}
 }
 

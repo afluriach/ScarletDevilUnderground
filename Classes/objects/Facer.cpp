@@ -27,7 +27,7 @@ void Facer::initStateMachine() {
 
 void FacerMain::onEnter()
 {
-	target = agent->space->getObject("player");
+	target = getSpace()->getObject("player");
 }
 
 ai::update_return FacerMain::update()

@@ -15,3 +15,7 @@ target(target),
 magnitude(magnitude),
 crntState(state::created)
 {}
+
+GSpace* MagicEffect::getSpace() const {
+	return target.get()->space;
+}

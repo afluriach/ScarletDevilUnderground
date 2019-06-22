@@ -126,7 +126,7 @@ void DarknessSignDemarcation2::end()
 {
 	for (auto ref : bullets) {
 		if (ref.isFuture() || ref.isValid()) {
-			caster->space->removeObject(ref);
+			getSpace()->removeObject(ref);
 		}
 	}
 }
@@ -242,7 +242,7 @@ void NightSignPinwheel::removeBullets()
 	for (gobject_ref bullet : bullets)
 	{
 		if (bullet.isValid()) {
-			caster->space->removeObject(bullet);
+			getSpace()->removeObject(bullet);
 		}
 	}
 	bullets.clear();
