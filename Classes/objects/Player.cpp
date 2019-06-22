@@ -58,8 +58,6 @@ Player::Player(GSpace* space, ObjectIDType id, const SpaceVect& pos, Direction d
 Player::Player(GSpace* space, ObjectIDType id, const ValueMap& args) :
 	MapObjForwarding(Agent)
 {
-	multiInit.insertWithOrder(wrap_method(Player, init, this), to_int(GObject::initOrder::postLoadAttributes));
-
 	playScene = space->getSceneAs<PlayScene>();
 
 	if (!playScene) {
@@ -166,6 +164,8 @@ SpaceVect Player::getInteractFeeler() const
 
 void Player::init()
 {
+	Agent::init();
+
 	if (playScene && !space->getSuppressAction()) {
 		equipFirePatterns();
 		equipSpells();
@@ -715,8 +715,6 @@ FlandrePC::FlandrePC(GSpace* space, ObjectIDType id, const SpaceVect& pos, Direc
 	Agent(space, id, "player", pos, d),
 	Player(space, id, pos, d)
 {
-	multiInit.insertWithOrder(wrap_method(Player, init, this), to_int(GObject::initOrder::postLoadAttributes));
-
 	playScene = space->getSceneAs<PlayScene>();
 
 	if (!playScene) {

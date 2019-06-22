@@ -88,13 +88,14 @@ string Headstone::getSprite() const {
 
 GhostHeadstone::GhostHeadstone(GSpace* space, ObjectIDType id, const ValueMap& args) :
 	MapObjParams(),
-	MapObjForwarding(Headstone),
-	RegisterInit<GhostHeadstone>(this)
+	MapObjForwarding(Headstone)
 {
 }
 
 void GhostHeadstone::init()
 {
+	GObject::init();
+
 	space->addGraphicsAction(
 		&graphics_context::runSpriteAction,
 		spriteID,

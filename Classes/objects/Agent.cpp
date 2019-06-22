@@ -35,8 +35,6 @@ Agent::Agent(GSpace* space, ObjectIDType id, const string& name, const SpaceVect
 	CircleBody(defaultSize),
 	PatchConSprite(d)
 {
-	multiInit.insertWithOrder(wrap_method(Agent, initFSM, this), to_int(GObject::initOrder::initFSM));
-	multiInit.insertWithOrder(wrap_method(Agent, initAttributes, this), to_int(GObject::initOrder::loadAttributes));
 }
 
 Agent::Agent(GSpace* space, ObjectIDType id, const ValueMap& args, SpaceFloat radius) :
@@ -45,8 +43,6 @@ Agent::Agent(GSpace* space, ObjectIDType id, const ValueMap& args, SpaceFloat ra
 	PatchConSprite(args),
 	StateMachineObject(args)
 {
-	multiInit.insertWithOrder(wrap_method(Agent, initFSM, this), to_int(GObject::initOrder::initFSM));
-	multiInit.insertWithOrder(wrap_method(Agent, initAttributes, this), to_int(GObject::initOrder::loadAttributes));
 }
 
 bullet_attributes Agent::getBulletAttributes(shared_ptr<bullet_properties> props) const
@@ -82,6 +78,15 @@ void Agent::initAttributes()
 		agentOverlay,
 		getAttribute(Attribute::shieldLevel)
 	);
+}
+
+void Agent::init()
+{
+	GObject::init();
+	RadarObject::_init();
+
+	initFSM();
+	initAttributes();
 }
 
 void Agent::update()

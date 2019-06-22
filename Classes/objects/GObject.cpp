@@ -137,9 +137,6 @@ string GObject::getProperName() const
 
 void GObject::init()
 {
-	multiInit();
-	multiInit.clear();
-
 	initLightSource();
 }
 
@@ -167,15 +164,21 @@ void GObject::launch() {
 }
 
 void GObject::setInitialVelocity(const SpaceVect& v){
-	multiInit += [=]() -> void { cpBodySetVel(body, v); };
+	space->addInitAction( [v, this]() -> void {
+		setVel(v);
+	} );
 }
 
 void GObject::setInitialAngle(SpaceFloat a){
-	multiInit += [=]() -> void { cpBodySetAngle(body, a); };
+	space->addInitAction( [a, this]() -> void {
+		setAngle(a);
+	} );
 }
 
 void GObject::setInitialAngularVelocity(SpaceFloat w){
-    multiInit += [=]() -> void{ cpBodySetAngVel(body, w);};
+	space->addInitAction( [w, this]() -> void{
+		setAngularVel(w);
+	} );
 }
 
 void GObject::setInitialDirectionOrDefault(const ValueMap& args, Direction d)

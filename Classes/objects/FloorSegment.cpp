@@ -50,8 +50,7 @@ const SpaceFloat MovingPlatform::defaultSpeed = 1.0;
 
 MovingPlatform::MovingPlatform(GSpace* space, ObjectIDType id, const ValueMap& args) :
 	MapObjParams(),
-	MapObjForwarding(FloorSegment),
-	RegisterInit<MovingPlatform>(this)
+	MapObjForwarding(FloorSegment)
 {
 	pathName = getStringOrDefault(args, "path", "");
 }
@@ -62,6 +61,8 @@ MovingPlatform::~MovingPlatform()
 
 void MovingPlatform::init()
 {
+	GObject::init();
+
 	if (!pathName.empty()) {
 		path = space->getPath(pathName);
 		pathName.clear();
@@ -121,14 +122,15 @@ MovingPlatform(space, id, args)
 
 PressurePlate::PressurePlate(GSpace* space, ObjectIDType id, const ValueMap& args) :
 	MapObjParams(),
-	FloorSegment(space, id, args),
-	RegisterInit<PressurePlate>(this)
+	FloorSegment(space, id, args)
 {
 	targetNames = splitString(getStringOrDefault(args, "target", ""), " ");
 }
 
 void PressurePlate::init()
 {
+	GObject::init();
+
 	for (string _name : targetNames)
 	{
 		target.push_back(space->getObjectRef(_name));

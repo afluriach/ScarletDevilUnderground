@@ -46,8 +46,7 @@ protected:
 };
 
 class MovingPlatform:
-public FloorSegment,
-public RegisterInit<MovingPlatform>
+public FloorSegment
 {
 public:
 	static const SpaceFloat defaultSpeed;
@@ -55,7 +54,7 @@ public:
 	MapObjCons(MovingPlatform);
 	virtual ~MovingPlatform();
 
-	void init();
+	virtual void init();
 	virtual void update();
 
 	void setWaypoint(size_t idx);
@@ -81,12 +80,12 @@ public:
 	virtual inline SpaceFloat getFrictionCoeff() const { return 0.2; }
 };
 
-class PressurePlate : public FloorSegment, public RegisterInit<PressurePlate>
+class PressurePlate : public FloorSegment
 {
 public:
 	MapObjCons(PressurePlate);
 
-	void init();
+	virtual void init();
 
 	virtual void onContact(GObject* obj);
 	virtual void onEndContact(GObject* obj);

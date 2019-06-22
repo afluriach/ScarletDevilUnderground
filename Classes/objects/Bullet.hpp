@@ -89,8 +89,7 @@ protected:
 
 class BulletImpl :
 	virtual public Bullet,
-	public CircleBody,
-	public RegisterInit<BulletImpl>
+	public CircleBody
 {
 public:
 	BulletImpl(
@@ -103,7 +102,7 @@ public:
 	);
 	inline virtual ~BulletImpl() {}
 
-	void init();
+	virtual void init();
 
 	virtual inline SpaceFloat getMass() const { return props->mass; }
 	virtual inline SpaceFloat getMaxSpeed() const { return props->speed; }

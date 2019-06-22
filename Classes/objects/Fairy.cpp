@@ -377,13 +377,14 @@ const string ZombieFairy::properName = "Zombie Fairy";
 ZombieFairy::ZombieFairy(GSpace* space, ObjectIDType id, const ValueMap& args) :
 	MapObjParams(),
 	MapObjForwarding(Agent),
-	Enemy(collectible_id::hm2),
-	RegisterInit<ZombieFairy>(this)
+	Enemy(collectible_id::hm2)
 {
 }
 
 void ZombieFairy::init()
 {
+	Agent::init();
+
 	cast(make_shared<TorchDarkness>(this));
 }
 

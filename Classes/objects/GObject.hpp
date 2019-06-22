@@ -123,7 +123,7 @@ public:
 
 	//Called on the first frame after it has been added, before update is called on it or any other
 	//objects in the same frame
-	void init();
+	virtual void init();
 	virtual void update();
 
 	virtual void onPitfall();
@@ -300,8 +300,6 @@ protected:
 	bool isInvisible = false;
 	bool isInFade = false;
 	bool inhibitSpellcasting = false;
-
-	util::multifunction<void(void)> multiInit;
 
 //physics
 	cpBody* body = nullptr;

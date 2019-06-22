@@ -73,6 +73,7 @@ public:
 
 	void initFSM();
 	void initAttributes();
+	virtual void init();
 	virtual void update();
 
 	bool isBulletObstacle(SpaceVect pos, SpaceFloat radius);

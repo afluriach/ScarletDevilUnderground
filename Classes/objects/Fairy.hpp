@@ -148,8 +148,7 @@ public:
 
 class ZombieFairy :
 	public Enemy,
-	public BaseAttributes<ZombieFairy>,
-	public RegisterInit<ZombieFairy>
+	public BaseAttributes<ZombieFairy>
 {
 public:
 	static const string baseAttributes;
@@ -157,7 +156,7 @@ public:
 
 	ZombieFairy(GSpace* space, ObjectIDType id, const ValueMap& args);
 
-	void init();
+	virtual void init();
 
 	inline virtual DamageInfo touchEffect() const {
 		return DamageInfo{ 20.0f, Attribute::darknessDamage, DamageType::touch };

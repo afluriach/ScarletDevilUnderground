@@ -11,11 +11,7 @@
 #include "Glyph.hpp"
 
 Glyph::Glyph(GSpace* space, ObjectIDType id, const ValueMap& args) :
-	MapObjParams(),
-	RegisterInit<Glyph>(this)
-{}
-
-void Glyph::init()
+	MapObjParams()
 {
-    setVel(SpaceVect(0,-6));
+	setInitialVelocity(SpaceVect(0, -6));
 }

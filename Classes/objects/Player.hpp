@@ -79,7 +79,7 @@ public:
     
 	SpaceVect getInteractFeeler() const;
 
-	void init();
+	virtual void init();
     virtual void update();
 	void updateCombo();
 

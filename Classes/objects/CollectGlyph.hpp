@@ -20,8 +20,6 @@ public RectangleBody
 {
 public:
 	MapObjCons(CollectGlyph);
-
-    void init();
     
     virtual inline string getSprite() const {return "glyph";}
     virtual inline GraphicsLayer sceneLayer() const {return GraphicsLayer::ground;}

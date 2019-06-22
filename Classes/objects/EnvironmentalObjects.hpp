@@ -40,12 +40,12 @@ protected:
 	float hp, maxHP;
 };
 
-class GhostHeadstone : public Headstone, public RegisterInit<GhostHeadstone>
+class GhostHeadstone : public Headstone
 {
 public:
 	MapObjCons(GhostHeadstone);
 
-	void init();
+	virtual void init();
 };
 
 class Sapling :

@@ -21,15 +21,6 @@ class Wall;
 
 //LOGIC MIXINS
 
-template<typename Derived>
-class RegisterInit : public virtual GObject
-{
-public:
-	inline RegisterInit(Derived* that){
-        multiInit += wrap_method(Derived, init, that);
-    }
-};
-
 class DialogEntity : public virtual GObject
 {
 public:
@@ -106,7 +97,7 @@ public:
 
 //GRAPHICS MIXINS
 
-class PatchConSprite : virtual public GObject, RegisterInit<PatchConSprite>
+class PatchConSprite : virtual public GObject
 {
 public:
 	static constexpr SpaceFloat stepSize = 0.4;
@@ -116,7 +107,6 @@ public:
 	PatchConSprite(Direction startingDirection = Direction::up);
 
     void initializeGraphics();
-    void init();
     void _update();
     
     void setSprite(const string& name);

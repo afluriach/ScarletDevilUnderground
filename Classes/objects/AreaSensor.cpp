@@ -112,7 +112,6 @@ RoomSensor::RoomSensor(GSpace* space, ObjectIDType id, SpaceVect center, SpaceVe
 	GObject(make_shared<object_params>(space, id, "", center, 0.0)),
 	AreaSensor(space,id,center,dimensions),
 	StateMachineObject(props),
-	RegisterInit<RoomSensor>(this),
 	mapID(mapID)
 {
 	trapDoorNames = splitString(getStringOrDefault(props, "trap_doors", ""), " ");
@@ -138,6 +137,8 @@ void RoomSensor::onPlayerEndContact(Player* p)
 
 void RoomSensor::init()
 {
+	GObject::init();
+
 	for (string name : trapDoorNames) {
 		if (name.empty())
 			continue;
@@ -285,8 +286,7 @@ bool RoomSensor::isClearedState()
 
 GhostHeadstoneSensor::GhostHeadstoneSensor(GSpace* space, ObjectIDType id, const ValueMap& args) :
 	MapObjParams(),
-	AreaSensor(space, id, args),
-	RegisterInit<GhostHeadstoneSensor>(this)
+	AreaSensor(space, id, args)
 {
 	targetName = getStringOrDefault(args, "target", "");
 	cost = getIntOrDefault(args, "cost", -1);
@@ -298,6 +298,8 @@ GhostHeadstoneSensor::GhostHeadstoneSensor(GSpace* space, ObjectIDType id, const
 
 void GhostHeadstoneSensor::init()
 {
+	GObject::init();
+
 	if (targetName.empty()) {
 		log("GhostHeadstoneSensor %s, unknown target.", getName());
 	}

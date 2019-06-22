@@ -140,7 +140,6 @@ BulletImpl::BulletImpl(
 	GObject(make_shared<object_params>(space,id,"",pos,angle)),
 	Bullet(attributes),
 	CircleBody(props->radius),
-	RegisterInit<BulletImpl>(this),
 	props(props)
 {
 	hitCount = props->hitCount;
@@ -149,6 +148,8 @@ BulletImpl::BulletImpl(
 
 void BulletImpl::init()
 {
+	GObject::init();
+
 	if (props->directionalLaunch) {
 		setVel(calculateLaunchVelocity());
 	}

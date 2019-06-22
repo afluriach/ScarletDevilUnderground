@@ -15,8 +15,7 @@
 
 class Bomb :
 	virtual public GObject,
-	public CircleBody,
-	public RegisterInit<Bomb>
+	public CircleBody
 {
 public:
 	static const SpaceFloat explosionSpriteRadius;
@@ -31,7 +30,7 @@ public:
 	virtual inline GraphicsLayer sceneLayer() const { return GraphicsLayer::ground; }
 	virtual inline GType getType() const { return GType::bomb; }
 
-	void init();
+	virtual void init();
 	virtual void update();
 	void detonate();
 

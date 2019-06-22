@@ -17,13 +17,14 @@ const SpaceFloat Bomb::explosionSpriteRadius = 2.0;
 
 Bomb::Bomb(shared_ptr<object_params> params) :
 	GObject(params),
-	CircleBody(0.5),
-	RegisterInit<Bomb>(this)
+	CircleBody(0.5)
 {
 }
 
 void Bomb::init()
 {
+	GObject::init();
+
 	countdown = getFuseTime();
 	fuseSound = playSoundSpatial("sfx/bomb_fuse.wav");
 }

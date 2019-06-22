@@ -518,6 +518,9 @@ void GSpace::registerEnemyDefeated(type_index t)
 
 void GSpace::initObjects()
 {
+	for (auto f : initMessages) f();
+	initMessages.clear();
+
     for(GObject* obj: addedLastFrame)
     {
         obj->init();
@@ -668,6 +671,11 @@ EnemyStatsMap GSpace::getEnemyStats()
 	}
 
 	return result;
+}
+
+void GSpace::addInitAction(zero_arity_function f)
+{
+	initMessages.push_back(f);
 }
 
 void GSpace::addObjectAction(zero_arity_function f)

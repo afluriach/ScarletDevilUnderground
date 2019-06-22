@@ -73,8 +73,7 @@ protected:
 
 class RoomSensor :
 	public AreaSensor,
-	public StateMachineObject,
-	public RegisterInit<RoomSensor>
+	public StateMachineObject
 {
 public:
 	RoomSensor(GSpace* space, ObjectIDType id, const ValueMap& obj);
@@ -83,7 +82,7 @@ public:
 	virtual void onPlayerContact(Player* p);
 	virtual void onPlayerEndContact(Player* p);
 
-	void init();
+	virtual void init();
 	virtual void update();
 
 	void updateTrapDoors();
@@ -113,12 +112,12 @@ protected:
 	bool isTrapActive = false;
 };
 
-class GhostHeadstoneSensor : public AreaSensor, public RegisterInit<GhostHeadstoneSensor>
+class GhostHeadstoneSensor : public AreaSensor
 {
 public:
 	MapObjCons(GhostHeadstoneSensor);
 
-	void init();
+	virtual void init();
 	void checkActivate();
 
 	virtual void onNPCContact(Agent* agent);

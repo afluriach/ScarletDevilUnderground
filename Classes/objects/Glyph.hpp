@@ -14,13 +14,10 @@
 
 class Glyph :
 	public virtual GObject,
-	public RectangleBody,
-	public RegisterInit<Glyph>
+	public RectangleBody
 {
 public:
 	MapObjCons(Glyph);
-    
-    void init();
     
     virtual string getSprite() const {return "glyph";}
     virtual GraphicsLayer sceneLayer() const {return GraphicsLayer::ground;}

@@ -35,12 +35,12 @@ public:
 	virtual DamageInfo getDamageInfo() const;
 };
 
-class DarknessArea : public EffectArea, public RegisterInit<DarknessArea>
+class DarknessArea : public EffectArea
 {
 public:
 	MapObjCons(DarknessArea);
 
-	void init();
+	virtual void init();
 	virtual void update();
 
 	virtual DamageInfo getDamageInfo() const;

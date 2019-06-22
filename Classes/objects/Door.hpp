@@ -14,8 +14,7 @@
 
 class Door :
 	virtual public GObject,
-	public RectangleBody,
-	public RegisterInit<Door>
+	public RectangleBody
 {
 public:
 	enum class door_type
@@ -27,7 +26,7 @@ public:
 
 	MapObjCons(Door);
 
-	void init();
+	virtual void init();
 	
 	virtual inline string getSprite() const { return "door"; }
     virtual inline GraphicsLayer sceneLayer() const {return GraphicsLayer::ground;}
@@ -75,8 +74,7 @@ protected:
 
 class Barrier :
 	virtual public GObject,
-	public RectangleBody,
-	public RegisterInit<Barrier>
+	public RectangleBody
 {
 public:
 	MapObjCons(Barrier);
@@ -92,7 +90,7 @@ public:
 	virtual void deactivate();
 
 	void setSealed(bool b);
-	void init();
+	virtual void init();
 protected:
 	bool sealed = false;
 };

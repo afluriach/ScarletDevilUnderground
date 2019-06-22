@@ -32,12 +32,12 @@ protected:
 	bool isFrozen = false;
 };
 
-class RadarObject : virtual public GObject, RegisterInit<RadarObject>
+class RadarObject : virtual public GObject
 {
 public:
 	RadarObject();
 	
-	void init();
+	void _init();
 	void _update();
 
 	virtual SpaceFloat getRadarRadius() const = 0;

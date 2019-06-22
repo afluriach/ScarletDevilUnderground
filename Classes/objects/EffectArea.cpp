@@ -57,13 +57,14 @@ DamageInfo SunArea::getDamageInfo() const {
 
 DarknessArea::DarknessArea(GSpace* space, ObjectIDType id, const ValueMap& args) :
 	MapObjParams(),
-	MapObjForwarding(EffectArea),
-	RegisterInit<DarknessArea>(this)
+	MapObjForwarding(EffectArea)
 {
 }
 
 void DarknessArea::init()
 {
+	GObject::init();
+
 	torches = space->physicsContext->rectangleQueryByType<Torch>(
 		getPos(),
 		getDimensions(),

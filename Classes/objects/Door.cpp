@@ -20,8 +20,7 @@
 
 Door::Door(GSpace* space, ObjectIDType id, const ValueMap& args) :
 	MapObjParams(),
-	RectangleBody(args),
-	RegisterInit<Door>(this)
+	RectangleBody(args)
 {
 	locked = getBoolOrDefault(args, "locked", false);
 	stairs = getBoolOrDefault(args, "stairs", false);
@@ -48,6 +47,8 @@ Door::Door(GSpace* space, ObjectIDType id, const ValueMap& args) :
 
 void Door::init()
 {
+	GObject::init();
+
 	if (!destination.empty() && destinationMap.empty()) {
 		adjacent = space->getObjectAs<Door>(destination);
 
@@ -189,8 +190,7 @@ Direction Door::getEntryDirection()
 }
 
 Barrier::Barrier(GSpace* space, ObjectIDType id, const ValueMap& args) :
-	MapObjParams(),
-	RegisterInit<Barrier>(this)
+	MapObjParams()
 {
 	sealed = getBoolOrDefault(args, "sealed", false);
 	setInitialAngle(float_pi / 2.0);
@@ -198,6 +198,8 @@ Barrier::Barrier(GSpace* space, ObjectIDType id, const ValueMap& args) :
 
 void Barrier::init()
 {
+	GObject::init();
+
 	setSealed(sealed);
 }
 

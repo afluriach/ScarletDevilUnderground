@@ -79,12 +79,7 @@ PatchConSprite::PatchConSprite(const ValueMap& args) :
 }
 
 PatchConSprite::PatchConSprite(Direction startingDirection) :
-	RegisterInit<PatchConSprite>(this),
 	startingDirection(startingDirection)
-{
-}
-
-void PatchConSprite::init()
 {
 }
 

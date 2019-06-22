@@ -72,11 +72,10 @@ void StateMachineObject::setFrozen(bool val) {
 	isFrozen = val;
 }
 
-RadarObject::RadarObject() :
-	RegisterInit(this)
+RadarObject::RadarObject()
 {}
 
-void RadarObject::init() {
+void RadarObject::_init() {
 	setFovAngle(getDefaultFovAngle());
 }
 

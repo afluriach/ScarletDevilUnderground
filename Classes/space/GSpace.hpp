@@ -196,6 +196,7 @@ public:
 		));
 	}
 
+	void addInitAction(zero_arity_function f);
 	void addObjectAction(zero_arity_function f);
 	void addSceneAction(zero_arity_function f);
 	void createDialog(string res, bool autoAdvance);
@@ -294,6 +295,9 @@ private:
 	//paired to a UUID, i.e. the UUID is actually determined when the object generator is added,
 	//so that a ref can be returned in the same frame.
     vector<generator_pair> toAdd;
+	//Messages for objects that have been queued for addition on the next frame. 
+	//These will be run right after init is run for recently created objects.
+	vector<zero_arity_function> initMessages;
     //Objects whose additions have been processsed last frame. Physics has been initialized but
     //init has not yet run; it will run at start of frame.
     vector<GObject*> addedLastFrame;
