@@ -47,7 +47,6 @@ protected:
 
 class MovingPlatform:
 public FloorSegment,
-public MaxSpeedImpl,
 public RegisterInit<MovingPlatform>
 {
 public:
@@ -65,6 +64,7 @@ public:
 	virtual inline string getSprite() const { return "movingPlatform"; }
 
 	virtual inline SpaceFloat getMass() const { return 1.0; }
+	virtual inline SpaceFloat getMaxSpeed() const { return defaultSpeed; }
 protected:
 	string pathName = "";
 	const Path * path = nullptr;

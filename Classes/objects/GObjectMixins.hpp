@@ -102,16 +102,6 @@ public:
 	const SpaceFloat mass;
 };
 
-//Allow the speed of an object to be supplied as construction parameter.
-class MaxSpeedImpl : virtual public GObject
-{
-public:
-	inline MaxSpeedImpl(SpaceFloat speed) : speed(speed) {}
-	virtual inline SpaceFloat getMaxSpeed() const { return speed; }
-protected:
-	SpaceFloat speed;
-};
-
 //END PHYSICS
 
 //GRAPHICS MIXINS

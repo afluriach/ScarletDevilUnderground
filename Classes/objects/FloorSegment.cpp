@@ -51,7 +51,6 @@ const SpaceFloat MovingPlatform::defaultSpeed = 1.0;
 MovingPlatform::MovingPlatform(GSpace* space, ObjectIDType id, const ValueMap& args) :
 	MapObjParams(),
 	MapObjForwarding(FloorSegment),
-	MaxSpeedImpl(getFloatOrDefault(args, "speed", defaultSpeed)),
 	RegisterInit<MovingPlatform>(this)
 {
 	pathName = getStringOrDefault(args, "path", "");

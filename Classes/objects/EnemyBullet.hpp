@@ -14,7 +14,7 @@
 
 #define cons(x) x(GSpace* space, ObjectIDType id, const SpaceVect& pos, SpaceFloat angle, const bullet_attributes& attributes);
 
-class StarBullet : virtual public GObject, public Bullet, public CircleBody, public MaxSpeedImpl
+class StarBullet : virtual public GObject, public Bullet, public CircleBody
 {
 public:
     static const vector<string> colors;
@@ -27,6 +27,7 @@ public:
 
 	virtual inline SpaceFloat getKnockbackForce() const { return 150.0; }
 	virtual inline SpaceFloat getRadius() const { return 0.3; }
+	virtual inline SpaceFloat getMaxSpeed() const { return 1.0; }
 
     virtual inline string getSprite() const {return "star-"+color;}
 };

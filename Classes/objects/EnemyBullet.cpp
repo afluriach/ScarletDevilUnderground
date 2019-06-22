@@ -37,7 +37,6 @@ StarBullet::StarBullet(GSpace* space, ObjectIDType id, const SpaceVect& pos, Spa
 	GObject(make_shared<object_params>(space, id, "", pos, angle)),
 	Bullet(attributes),
 	CircleBody(radius),
-	MaxSpeedImpl(speed),
 	color(color)
 {}
 
