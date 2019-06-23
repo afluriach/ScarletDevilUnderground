@@ -43,6 +43,11 @@ Agent::Agent(GSpace* space, ObjectIDType id, const ValueMap& args, SpaceFloat ra
 	PatchConSprite(args),
 	StateMachineObject(args)
 {
+	if (!getStringOrDefault(args, "ai_package", "").empty()) {
+		log("Storing agent %s valuemap ", getName());
+		useAIPackage = true;
+		space->addValueMapArgs(uuid, args);
+	}
 }
 
 bullet_attributes Agent::getBulletAttributes(shared_ptr<bullet_properties> props) const
@@ -61,7 +66,21 @@ bullet_attributes Agent::getBulletAttributes(shared_ptr<bullet_properties> props
 
 void Agent::initFSM()
 {
-	initStateMachine();
+	if (!useAIPackage) {
+		initStateMachine();
+	}
+	else {
+		const ValueMap& args = space->getValueMapArgs(uuid);
+		string packageName = getStringOrDefault(args, "ai_package", "");
+
+		auto it = ai::StateMachine::packages.find(packageName);
+		if (it != ai::StateMachine::packages.end()) {
+			auto f = it->second;
+			f(&fsm, args);
+		}
+
+		space->removeValueMapArgs(uuid);
+	}
 }
 
 void Agent::initAttributes()

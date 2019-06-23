@@ -411,6 +411,9 @@
     <ClCompile Include="..\Classes\objects\object_params.cpp">
       <Filter>src\objects</Filter>
     </ClCompile>
+    <ClCompile Include="..\Classes\ai\AIPackages.cpp">
+      <Filter>src\ai</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="main.h">
@@ -787,6 +790,9 @@
     </ClInclude>
     <ClInclude Include="..\Classes\objects\object_params.hpp">
       <Filter>src\objects</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\ai\AIPackages.hpp">
+      <Filter>src\ai</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

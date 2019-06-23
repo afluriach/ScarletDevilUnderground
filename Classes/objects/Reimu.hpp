@@ -11,7 +11,7 @@
 
 #include "Enemy.hpp"
 
-class Reimu : virtual public Agent, public DialogEntity, public NoAttributes
+class Reimu : virtual public Agent, public DialogEntity
 {
 public:
 	MapObjCons(Reimu);

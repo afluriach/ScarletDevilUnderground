@@ -58,88 +58,13 @@ void GhostFairy::initStateMachine()
 
 const string Fairy1::baseAttributes = "fairy1";
 
-const AIPackage<Fairy1>::AIPackageMap Fairy1::aiPackages = {
-	{"maintain_distance", &Fairy1::maintain_distance},
-	{"flock", &Fairy1::flock},
-	{"circle_and_fire", &Fairy1::circle_and_fire},
-	{"circle_around_point", &Fairy1::circle_around_point}
-};
-
 Fairy1::Fairy1(GSpace* space, ObjectIDType id, const ValueMap& args) :
 	MapObjParams(),
 	MapObjForwarding(Agent),
-	AIPackage<Fairy1>(this, args, "maintain_distance"),
 	Enemy(collectible_id::hm1)
 {
 	firePattern = make_shared<Fairy1BulletPattern>(this, 1.5, float_pi / 6.0, 3);
 }
-
-void Fairy1::maintain_distance(const ValueMap& args) {
-	fsm.addDetectFunction(
-		GType::player,
-		[this](ai::StateMachine& sm, GObject* target) -> void {
-			fsm.addThread(make_shared<ai::MaintainDistance>(&fsm, target, 4.5f, 1.5f));
-		}
-	);
-	fsm.addEndDetectFunction(
-		GType::player,
-		[this](ai::StateMachine& sm, GObject* target) -> void {
-			fsm.removeThread("MaintainDistance");
-		}
-	);
-}
-
-void Fairy1::circle_and_fire(const ValueMap& args) {
-	fsm.setAlertFunction([this](ai::StateMachine& sm, Player* p)->void {
-		fsm.addThread(make_shared<ai::LookAround>(&fsm, float_pi / 4.0));
-		fsm.addThread(make_shared<ai::FireIfTargetVisible>(&fsm, p));
-	});
-}
-
-void Fairy1::circle_around_point(const ValueMap& args) {
-	string waypointName = getStringOrDefault(args, "waypoint", "");
-	SpaceVect waypoint;
-	SpaceFloat angularPos;
-	bool waypointValid = false;
-
-	if (!waypointName.empty()){
-		waypoint = space->getWaypoint(waypointName);
-		angularPos = ai::directionToTarget(this, waypoint).toAngle() + float_pi;
-		waypointValid = true;
-	}
-
-	fsm.setAlertFunction([this, waypoint,angularPos,waypointValid](ai::StateMachine& sm, Player* p)->void {
-		if (waypointValid) {
-			fsm.addThread(make_shared<ai::CircleAround>(&fsm, waypoint, angularPos, float_pi / 4.0));
-		}
-		fsm.addThread(make_shared<ai::FireIfTargetVisible>(&fsm, p));
-	});
-}
-
-void Fairy1::flock(const ValueMap& args) {
-	
-	shared_ptr<ai::Flock> flock = make_shared<ai::Flock>(&fsm);
-
-	fsm.addThread(flock);
-
-	fsm.addDetectFunction(
-		GType::enemy,
-		[this, flock](ai::StateMachine& sm, GObject* target) -> void {
-			flock->onDetectNeighbor(dynamic_cast<Agent*>(target));
-		}
-	);
-
-	fsm.addEndDetectFunction(
-		GType::enemy,
-		[this, flock](ai::StateMachine& sm, GObject* target) -> void {
-			flock->endDetectNeighbor(dynamic_cast<Agent*>(target));
-		}
-	);
-}
-
-const AIPackage<BlueFairy>::AIPackageMap BlueFairy::aiPackages = {
-	{ "follow_path", &BlueFairy::follow_path },
-};
 
 const string BlueFairy::baseAttributes = "blueFairy";
 const string BlueFairy::properName = "Blue Fairy";
@@ -147,24 +72,9 @@ const string BlueFairy::properName = "Blue Fairy";
 BlueFairy::BlueFairy(GSpace* space, ObjectIDType id, const ValueMap& args) :
 	MapObjParams(),
 	MapObjForwarding(Agent),
-	AIPackage(this, args, ""),
 	Enemy(collectible_id::hm1)
 {
 	firePattern = make_shared<BlueFairyFirePattern>(this);
-}
-
-void BlueFairy::follow_path(const ValueMap& args)
-{
-	const Path* path = space->getPath(getStringOrDefault(args, "pathName", ""));
-
-	if (path) {
-		fsm.setAlertFunction([this, path](ai::StateMachine& sm, Player* p) -> void {
-			fsm.addThread(make_shared<ai::FollowPath>(&fsm, *path, true, true), 1);
-			fsm.addThread(make_shared<ai::LookTowardsFire>(&fsm, true), 2);
-			fsm.addThread(make_shared<ai::FireOnStress>(&fsm, 5.0f));
-			fsm.addThread(make_shared<ai::BlueFairyPowerAttack>(&fsm));
-		});
-	}
 }
 
 const string RedFairy::baseAttributes = "redFairy";

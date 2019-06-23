@@ -63,19 +63,19 @@
   </object>
   <object id="172" type="BlueFairy" x="1152" y="256" width="128" height="128">
    <properties>
-    <property name="ai_package" value="follow_path"/>
+    <property name="ai_package" value="blue_fairy_follow_path"/>
     <property name="pathName" value="path-f8-1"/>
    </properties>
   </object>
   <object id="174" type="BlueFairy" x="3712" y="2304" width="128" height="128">
    <properties>
-    <property name="ai_package" value="follow_path"/>
+    <property name="ai_package" value="blue_fairy_follow_path"/>
     <property name="pathName" value="path-f8-2"/>
    </properties>
   </object>
   <object id="173" type="BlueFairy" x="1664" y="1280" width="128" height="128">
    <properties>
-    <property name="ai_package" value="follow_path"/>
+    <property name="ai_package" value="blue_fairy_follow_path"/>
     <property name="pathName" value="path-f8-3"/>
    </properties>
   </object>

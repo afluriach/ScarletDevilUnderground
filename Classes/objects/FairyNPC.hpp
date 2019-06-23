@@ -14,12 +14,10 @@
 class FairyMaid :
 	virtual public Agent,
 	public DialogImpl,
-	public AIPackage<FairyMaid>,
 	public BaseAttributes<FairyMaid>
 {
 public:
 	static const string baseAttributes;
-	static const AIPackage<FairyMaid>::AIPackageMap aiPackages;
 
 	FairyMaid(GSpace* space, ObjectIDType id, const ValueMap& args);
 
@@ -30,15 +28,10 @@ public:
 	virtual inline GType getRadarType() const { return GType::enemySensor; }
 
 	inline string getSprite() const { return "blueFairy"; }
-
-	void flee_player(const ValueMap& args);
-	void idle(const ValueMap& args);
-	void wander(const ValueMap& args);
 };
 
 class BlueFairyNPC :
 	virtual public Agent,
-	public NoAttributes,
 	public DialogEntity
 {
 public:
@@ -59,8 +52,7 @@ protected:
 };
 
 class GhostFairyNPC :
-	virtual public Agent,
-	public NoAttributes
+	virtual public Agent
 {
 public:
 	static bool conditionalLoad(GSpace* space, ObjectIDType id, const ValueMap& args);

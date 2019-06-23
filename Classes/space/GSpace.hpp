@@ -102,6 +102,18 @@ public:
 	const ValueMap* getDynamicObject(const string& name) const;
 	gobject_ref createObject(const ValueMap& obj);
 	gobject_ref createObject(ObjectGeneratorType factory);
+
+	inline void addValueMapArgs(ObjectIDType id, const ValueMap& args) {
+		valueMapArgs.insert_or_assign(id, args);
+	}
+
+	inline void removeValueMapArgs(ObjectIDType id) {
+		valueMapArgs.erase(id);
+	}
+
+	inline const ValueMap& getValueMapArgs(ObjectIDType id) {
+		return valueMapArgs.at(id);
+	}
         
 	template<class C, typename... Args>
 	inline object_ref<C> createObject(Args... args) {
@@ -269,6 +281,9 @@ private:
 	set<GObject*> updateObjects;
 	unordered_map<int, RoomSensor*> roomSensors;
 	unordered_map<string, ValueMap> dynamicLoadObjects;
+	//For objects that actually need ValueMap args to persist until init,
+	//without having to store them by value in the object itself.
+	unordered_map<ObjectIDType, ValueMap> valueMapArgs;
 
 	SpaceRect cameraArea;
 	int crntMap = -1;

@@ -50,12 +50,14 @@ const float Player::bombCost = 5.0f;
 const float Player::sprintCost = 7.5f;
 
 Player::Player(GSpace* space, ObjectIDType id, const SpaceVect& pos, Direction d) :
+	GObject(make_shared<object_params>(space, id, name, pos, dirToPhysicsAngle(d))),
 	Agent(space, id, "player", pos,d)
 {
 
 }
 
 Player::Player(GSpace* space, ObjectIDType id, const ValueMap& args) :
+	MapObjParams(),
 	MapObjForwarding(Agent)
 {
 	playScene = space->getSceneAs<PlayScene>();

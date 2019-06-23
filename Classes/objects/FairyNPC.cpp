@@ -20,44 +20,11 @@
 
 const string FairyMaid::baseAttributes = "fairyMaid";
 
-const AIPackage<FairyMaid>::AIPackageMap FairyMaid::aiPackages = {
-	{ "flee_player", &FairyMaid::flee_player },
-	{ "idle", &FairyMaid::idle },
-	{ "wander", &FairyMaid::wander },
-};
-
 FairyMaid::FairyMaid(GSpace* space, ObjectIDType id, const ValueMap& args) :
 	MapObjParams(),
 	MapObjForwarding(Agent),
-	DialogImpl(args),
-	AIPackage<FairyMaid>(this, args, "idle")
+	DialogImpl(args)
 {
-}
-
-void FairyMaid::flee_player(const ValueMap& args) {
-	fsm.addDetectFunction(
-		GType::player,
-		[this](ai::StateMachine& sm, GObject* target) -> void {
-			fsm.addThread(make_shared<ai::Flee>(&fsm, target, 1.5), 1);
-		}
-	);
-	fsm.addEndDetectFunction(
-		GType::player,
-		[this](ai::StateMachine& sm, GObject* target) -> void {
-			fsm.removeThread("Flee");
-		}
-	);
-	fsm.addThread(make_shared<ai::IdleWait>(&fsm), 0);
-}
-
-void FairyMaid::idle(const ValueMap& args)
-{
-	fsm.addThread(make_shared<ai::IdleWait>(&fsm));
-}
-
-void FairyMaid::wander(const ValueMap& args)
-{
-	fsm.addThread(make_shared<ai::Wander>(&fsm));
 }
 
 bool BlueFairyNPC::conditionalLoad(GSpace* space, ObjectIDType id, const ValueMap& args)

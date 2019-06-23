@@ -160,6 +160,9 @@ protected:
 class StateMachine
 {
 public:
+	typedef function<void(StateMachine*, const ValueMap&) > PackageType;
+	static const unordered_map<string, StateMachine::PackageType> packages;
+
     StateMachine(GObject *const agent);
 
 	void update();

@@ -92,7 +92,7 @@ public:
 	virtual void updateSpells();
 
 	//attribute interface
-	virtual AttributeMap getBaseAttributes() const = 0;
+	virtual inline AttributeMap getBaseAttributes() const { return AttributeMap(); }
 	virtual inline AttributeMap getAttributeUpgrades() const { return AttributeMap(); }
 	float getAttribute(Attribute id) const;
 	void modifyAttribute(Attribute id, float val);
@@ -149,6 +149,7 @@ protected:
 	shared_ptr<FirePattern> firePattern;
 	unordered_set<Agent*> touchTargets;
 
+	bool useAIPackage = false;
 	bool shieldActive = false;
 };
 
@@ -161,46 +162,6 @@ public:
 	inline virtual AttributeMap getBaseAttributes() const {
 		return app::getAttributes(T::baseAttributes);
 	}
-};
-
-class NoAttributes : virtual public Agent
-{
-public:
-	inline NoAttributes() {}
-
-	inline virtual AttributeMap getBaseAttributes() const {
-		return AttributeMap();
-	}
-};
-
-template<class C>
-class AIPackage : virtual public Agent
-{
-public: 
-	using fsmInitFunction = void(C::*)(const ValueMap& args);
-
-	typedef unordered_map<string, fsmInitFunction> AIPackageMap;
-
-	inline AIPackage(C* agent, const ValueMap& args, string _default) :
-	agent(agent),
-	args(args)
-	{
-		packageName = getStringOrDefault(args, "ai_package", _default);
-	}
-
-	inline virtual void initStateMachine()
-	{
-		auto it = C::aiPackages.find(packageName);
-		if (it != C::aiPackages.end()){
-			fsmInitFunction f = it->second;
-			(agent->*f)(args);
-		}
-		args.clear();
-	}
-protected:
-	string packageName;
-	C* agent;
-	ValueMap args;
 };
 
 class GenericAgent : virtual public Agent, public BaseAttributes<GenericAgent>

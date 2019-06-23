@@ -75,24 +75,28 @@
  <objectgroup name="spawners">
   <object id="63" name="f2-spawner4" type="Fairy1" x="1792" y="1792" width="128" height="128">
    <properties>
+    <property name="ai_package" value="maintain_distance"/>
     <property name="direction" value="up"/>
     <property name="spawn_limit" value="3"/>
    </properties>
   </object>
   <object id="62" name="f2-spawner3" type="Fairy1" x="256" y="1792" width="128" height="128">
    <properties>
+    <property name="ai_package" value="maintain_distance"/>
     <property name="direction" value="up"/>
     <property name="spawn_limit" value="3"/>
    </properties>
   </object>
   <object id="61" name="f2-spawner2" type="Fairy1" x="1792" y="256" width="128" height="128">
    <properties>
+    <property name="ai_package" value="maintain_distance"/>
     <property name="direction" value="down"/>
     <property name="spawn_limit" value="3"/>
    </properties>
   </object>
   <object id="57" name="f2-spawner1" type="Fairy1" x="256" y="256" width="128" height="128">
    <properties>
+    <property name="ai_package" value="maintain_distance"/>
     <property name="direction" value="down"/>
     <property name="spawn_limit" value="3"/>
    </properties>

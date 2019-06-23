@@ -12,7 +12,7 @@
 #include "Agent.hpp"
 #include "Enemy.hpp"
 
-class Patchouli : virtual public Agent, public NoAttributes, public DialogEntity
+class Patchouli : virtual public Agent, public DialogEntity
 {
 public:
 	Patchouli(GSpace* space, ObjectIDType id, const ValueMap& args);

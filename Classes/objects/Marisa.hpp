@@ -12,7 +12,7 @@
 #include "Enemy.hpp"
 #include "object_ref.hpp"
 
-class MarisaNPC : virtual public Agent, public NoAttributes, public DialogEntity
+class MarisaNPC : virtual public Agent, public DialogEntity
 {
 public:
 	MapObjCons(MarisaNPC);

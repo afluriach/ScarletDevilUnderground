@@ -11,7 +11,7 @@
 
 #include "Agent.hpp"
 
-class Meiling1 : virtual public Agent, public NoAttributes, public DialogEntity
+class Meiling1 : virtual public Agent, public DialogEntity
 {
 public:
 	static bool conditionalLoad(GSpace* space, ObjectIDType id, const ValueMap& args);

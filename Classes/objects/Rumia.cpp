@@ -17,6 +17,8 @@
 #include "value_map.hpp"
 
 Rumia::Rumia(GSpace* space, ObjectIDType id, const ValueMap& args) :
+	MapObjParams(),
+	Agent(space,id,args),
 	Enemy(collectible_id::nil)
 {
 }

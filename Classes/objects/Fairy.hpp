@@ -35,13 +35,10 @@ public:
 
 class Fairy1 :
 public Enemy,
-public BaseAttributes<Fairy1>,
-public AIPackage<Fairy1>
+public BaseAttributes<Fairy1>
 {
 public:
 	static const string baseAttributes;
-	static const AttributePackageMap attributePackages;
-	static const AIPackage<Fairy1>::AIPackageMap aiPackages;
 
 	Fairy1(GSpace* space, ObjectIDType id, const ValueMap& args);
 
@@ -50,20 +47,13 @@ public:
 	virtual inline SpaceFloat getMass() const { return 40.0; }
 
 	inline string getSprite() const { return "greenFairy"; }
-
-	void maintain_distance(const ValueMap& args);
-	void circle_and_fire(const ValueMap& args);
-	void circle_around_point(const ValueMap& args);
-	void flock(const ValueMap& args);
 };
 
 class BlueFairy :
 	public Enemy,
-	public AIPackage<BlueFairy>,
 	public BaseAttributes<BlueFairy>
 {
 public:
-	static const AIPackage<BlueFairy>::AIPackageMap aiPackages;
 	static const string baseAttributes;
 	static const string properName;
 
@@ -76,8 +66,6 @@ public:
 	virtual inline SpaceFloat getMass() const { return 25.0; }
 
 	inline string getSprite() const { return "blueFairy"; }
-
-	void follow_path(const ValueMap& args);
 };
 
 class RedFairy : public Enemy, public BaseAttributes<RedFairy>

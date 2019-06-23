@@ -61,19 +61,19 @@
   </object>
   <object id="78" name="g1-bf1" type="BlueFairy" x="256" y="1792" width="128" height="128">
    <properties>
-    <property name="ai_package" value="follow_path"/>
+    <property name="ai_package" value="blue_fairy_follow_path"/>
     <property name="pathName" value="path-g1-1"/>
    </properties>
   </object>
   <object id="79" name="g1-bf2" type="BlueFairy" x="768" y="256" width="128" height="128">
    <properties>
-    <property name="ai_package" value="follow_path"/>
+    <property name="ai_package" value="blue_fairy_follow_path"/>
     <property name="pathName" value="path-g1-2"/>
    </properties>
   </object>
   <object id="80" name="g1-bf3" type="BlueFairy" x="1536" y="256" width="128" height="128">
    <properties>
-    <property name="ai_package" value="follow_path"/>
+    <property name="ai_package" value="blue_fairy_follow_path"/>
     <property name="pathName" value="path-g1-3"/>
    </properties>
   </object>

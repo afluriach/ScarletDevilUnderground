@@ -83,7 +83,6 @@ struct UpgradeInfo
 };
 
 typedef array<float, to_size_t(Attribute::end)> AttributeArray;
-typedef map<string, AttributeMap> AttributePackageMap;
 
 class AttributeSystem
 {
