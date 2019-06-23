@@ -107,7 +107,6 @@ void Agent::initAttributes()
 void Agent::init()
 {
 	GObject::init();
-	RadarObject::_init();
 
 	initFSM();
 	initAttributes();

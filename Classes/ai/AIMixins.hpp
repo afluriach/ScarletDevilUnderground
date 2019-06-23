@@ -13,12 +13,13 @@
 #include "GObject.hpp"
 #include "GObjectMixins.hpp"
 
+class RadarSensor;
+
 class RadarObject : virtual public GObject
 {
 public:
 	RadarObject();
-	
-	void _init();
+
 	void _update();
 
 	virtual SpaceFloat getRadarRadius() const = 0;
@@ -28,44 +29,14 @@ public:
 
 	virtual void onDetect(GObject* other) = 0;
 	virtual void onEndDetect(GObject* other) = 0;
-
-    void radarCollision(GObject* other);
-    void radarEndCollision(GObject* other);
     
-    //Find the [visible] object that the agent is most directly facing.
-    GObject* getSensedObject();
-	list<GObject*> getSensedObjects();
-	list<GObject*> getSensedObjectsByGtype(GType type);
-	SpaceFloat getSensedObjectDistance(GType type);
-
-	template<class C>
-	inline list<C*> getSensedObjectsByType()
-	{
-		list<C*> result;
-
-		for (GObject* obj : visibleObjects) {
-			C* c = dynamic_cast<C*>(obj);
-			if (c) result.push_back(c);
-		}
-
-		return result;
-	}
-
-    void setFovAngle(SpaceFloat angle);
-
 	//Create body and add it to space. This assumes BB is rectangle dimensions
 	virtual void initializeRadar(GSpace& space);
-    
-    bool isObjectVisible(GObject* other);
+	virtual void removePhysicsObjects();
+
+	inline RadarSensor* getRadar() { return radar; }
 protected:
-    unordered_set<GObject*> objectsInRange;
-    unordered_set<GObject*> visibleObjects;
-    
-    //Field of view angle in radians. This is the maximum angle from the facing
-    //direction to any visible target, i.e. half of the actual FOV width.
-    //If 0, FOV is not considered and this is a radius sensor.
-	SpaceFloat fovAngle = 0.0;
-	SpaceFloat fovScalar = 0.0;
+	RadarSensor* radar = nullptr;
 };
 
 #endif /* AIMixins_hpp */

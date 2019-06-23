@@ -15,6 +15,7 @@
 #include "EnemySpell.hpp"
 #include "GSpace.hpp"
 #include "MarisaSpell.hpp"
+#include "RadarSensor.hpp"
 #include "RumiaSpells.hpp"
 #include "SakuyaSpell.hpp"
 
@@ -31,7 +32,7 @@ BlueFairyPowerAttack::BlueFairyPowerAttack(StateMachine* fsm) :
 
 update_return BlueFairyPowerAttack::update()
 {
-	SpaceFloat targetDist = agent->getSensedObjectDistance(GType::player);
+	SpaceFloat targetDist = agent->getRadar()->getSensedObjectDistance(GType::player);
 	auto& as = *agent->getAttributeSystem();
 
 	if(!agent->isSpellActive()) timerDecrement(timer);

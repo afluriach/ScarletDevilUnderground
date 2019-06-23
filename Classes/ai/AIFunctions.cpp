@@ -16,6 +16,7 @@
 #include "FirePattern.hpp"
 #include "GSpace.hpp"
 #include "physics_context.hpp"
+#include "RadarSensor.hpp"
 #include "Spell.hpp"
 #include "value_map.hpp"
 
@@ -384,7 +385,7 @@ EvadePlayerProjectiles::EvadePlayerProjectiles(StateMachine* fsm, const ValueMap
 
 update_return EvadePlayerProjectiles::update()
 {
-	list<GObject*> objs = agent->getSensedObjectsByGtype(GType::playerBullet);
+	list<GObject*> objs = agent->getRadar()->getSensedObjectsByGtype(GType::playerBullet);
 	
 	GObject* closest = nullptr;
 	SpaceFloat closestDistance = numeric_limits<SpaceFloat>::infinity();
@@ -975,7 +976,7 @@ update_return FireIfTargetVisible::update()
 		return_pop();
 	}
 	
-	if (agent->isObjectVisible(target.get()) && getSpace()->isInPlayerRoom(agent->getPos()))
+	if (agent->getRadar()->isObjectVisible(target.get()) && getSpace()->isInPlayerRoom(agent->getPos()))
 	{
 		if (fp->fireIfPossible()) {
 			agent->playSoundSpatial("sfx/shot.wav");

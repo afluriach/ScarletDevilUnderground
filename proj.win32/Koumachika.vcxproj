@@ -248,6 +248,7 @@ xcopy "$(ProjectDir)..\Resources" "$(OutDir)" /D /E /I /F /Y</Command>
     <ClCompile Include="..\Classes\space\GState.cpp" />
     <ClCompile Include="..\Classes\space\PhysicsImpl.cpp" />
     <ClCompile Include="..\Classes\space\physics_context.cpp" />
+    <ClCompile Include="..\Classes\space\RadarSensor.cpp" />
     <ClCompile Include="..\Classes\spells\EnemyFirePattern.cpp" />
     <ClCompile Include="..\Classes\spells\EnemySpell.cpp" />
     <ClCompile Include="..\Classes\spells\FirePattern.cpp" />
@@ -377,6 +378,7 @@ xcopy "$(ProjectDir)..\Resources" "$(OutDir)" /D /E /I /F /Y</Command>
     <ClInclude Include="..\Classes\space\GState.hpp" />
     <ClInclude Include="..\Classes\space\PhysicsImpl.hpp" />
     <ClInclude Include="..\Classes\space\physics_context.hpp" />
+    <ClInclude Include="..\Classes\space\RadarSensor.hpp" />
     <ClInclude Include="..\Classes\spells\EnemyFirePattern.hpp" />
     <ClInclude Include="..\Classes\spells\EnemySpell.hpp" />
     <ClInclude Include="..\Classes\spells\FirePattern.hpp" />

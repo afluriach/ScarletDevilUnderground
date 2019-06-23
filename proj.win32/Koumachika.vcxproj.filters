@@ -414,6 +414,9 @@
     <ClCompile Include="..\Classes\ai\AIPackages.cpp">
       <Filter>src\ai</Filter>
     </ClCompile>
+    <ClCompile Include="..\Classes\space\RadarSensor.cpp">
+      <Filter>src\space</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="main.h">
@@ -793,6 +796,9 @@
     </ClInclude>
     <ClInclude Include="..\Classes\ai\AIPackages.hpp">
       <Filter>src\ai</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\space\RadarSensor.hpp">
+      <Filter>src\space</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

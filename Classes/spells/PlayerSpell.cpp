@@ -307,7 +307,7 @@ void PlayerDarkMist::init()
 {
 	PlayerSpell::init();
 
-	caster->setSpriteOpacity(to_char(128));
+	caster->setSpriteOpacity(to_uchar(128));
 	caster->setInvisible(true);
 }
 
@@ -315,7 +315,7 @@ void PlayerDarkMist::end()
 {
 	PlayerSpell::end();
 
-	caster->setSpriteOpacity(to_char(255));
+	caster->setSpriteOpacity(to_uchar(255));
 	caster->setInvisible(false);
 }
 

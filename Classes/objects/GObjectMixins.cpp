@@ -52,7 +52,7 @@ void RectangleBody::initializeBody(GSpace& space)
         getType(),
         getLayers(),
         getSensor(),
-        this
+        to_gobject(this)
     );
 }
 
@@ -65,7 +65,7 @@ void CircleBody::initializeBody(GSpace& space)
         getType(),
         getLayers(),
         getSensor(),
-        this
+        to_gobject(this)
     );
 }
 

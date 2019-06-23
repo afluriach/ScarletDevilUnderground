@@ -25,7 +25,7 @@ public:
 		GType type,
 		PhysicsLayers layers,
 		bool sensor,
-		GObject* obj
+		void* obj
 	);
 	pair<cpShape*, cpBody*> createRectangleBody(
 		const SpaceVect& center,
@@ -34,7 +34,7 @@ public:
 		GType type,
 		PhysicsLayers layers,
 		bool sensor,
-		GObject* obj
+		void* obj
 	);
 
 	void removeObject(cpShape* shape, cpBody* body, bool staticBody);

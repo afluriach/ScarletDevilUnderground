@@ -58,6 +58,9 @@ public:
 	inline virtual GType getRadarType() const { return GType::playerGrazeRadar; }
     inline virtual SpaceFloat getDefaultFovAngle() const { return 0.0;}
 
+	virtual void onDetect(GObject* other);
+	virtual void onEndDetect(GObject* other);
+
 	void setProtection();
 	void setTimedProtection(SpaceFloat seconds);
 	void resetProtection();

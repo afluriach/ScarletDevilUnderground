@@ -170,7 +170,7 @@ string Thread::getStack()
 }
 
 string Thread::getMainFuncName() {
-	return call_stack.front()->getName();
+	return !call_stack.empty() ? call_stack.front()->getName() : "";
 }
 
 void Thread::setResetOnBlock(bool reset) {

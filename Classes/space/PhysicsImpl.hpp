@@ -23,6 +23,8 @@ public:
 
 	static int beginContact(cpArbiter* arb, cpSpace* space, void* data);
 	static void endContact(cpArbiter* arb, cpSpace* space, void* data);
+	static int beginContactSensor(cpArbiter* arb, cpSpace* space, void* data);
+	static void endContactSensor(cpArbiter* arb, cpSpace* space, void* data);
 
 	PhysicsImpl(GSpace* space);
 
@@ -50,14 +52,26 @@ protected:
 			endContactHandlers[collision_type(TypeA, TypeB)] = end;
 	}
 
+	inline void AddSensorHandler(GType TypeA, GType TypeB)
+	{
+		cpSpaceAddCollisionHandler(
+			physicsSpace,
+			to_uint(TypeA),
+			to_uint(TypeB),
+			&PhysicsImpl::beginContactSensor,
+			static_cast<cpCollisionPreSolveFunc>(nullptr),
+			static_cast<cpCollisionPostSolveFunc>(nullptr),
+			&PhysicsImpl::endContactSensor,
+			this
+		);
+	}
+
 	void logHandler(const string& base, cpArbiter* arb);
 	void logHandler(const string& name, GObject* a, GObject* b);
 
 	int playerEnemyBegin(GObject* a, GObject* b, cpArbiter* arb);
 	void playerEnemyEnd(GObject* a, GObject* b, cpArbiter* arb);
 	int playerEnemyBulletBegin(GObject* playerObj, GObject* bullet, cpArbiter* arb);
-	int playerGrazeRadarBegin(GObject* playerObj, GObject* bullet, cpArbiter* arb);
-	void playerGrazeRadarEnd(GObject* playerObj, GObject* bullet, cpArbiter* arb);
 	int playerBulletEnemyBegin(GObject* a, GObject* b, cpArbiter* arb);
 	int bulletBulletBegin(GObject* a, GObject* b, cpArbiter* arb);
 	int playerFlowerBegin(GObject* a, GObject* b, cpArbiter* arb);
@@ -66,8 +80,6 @@ protected:
 	int noCollide(GObject* a, GObject* b, cpArbiter* arb);
 	int collide(GObject* a, GObject* b, cpArbiter* arb);
 	int bulletWall(GObject* bullet, GObject* unused, cpArbiter* arb);
-	int sensorStart(GObject* radarAgent, GObject* target, cpArbiter* arb);
-	void sensorEnd(GObject* radarAgent, GObject* target, cpArbiter* arb);
 	int floorObjectBegin(GObject* floorSegment, GObject* obj, cpArbiter* arb);
 	void floorObjectEnd(GObject* floorSegment, GObject* obj, cpArbiter* arb);
 	int playerAreaSensorBegin(GObject* a, GObject *b, cpArbiter* arb);
@@ -78,6 +90,9 @@ protected:
 	void npcAreaSensorEnd(GObject* a, GObject *b, cpArbiter* arb);
 	int environmentAreaSensorBegin(GObject* obj, GObject* areaSensor, cpArbiter* arb);
 	void environmentAreaSensorEnd(GObject* obj, GObject* areaSensor, cpArbiter* arb);
+
+	int sensorStart(RadarSensor* radar, GObject* target, cpArbiter* arb);
+	void sensorEnd(RadarSensor* radar, GObject* target, cpArbiter* arb);
 
 	GSpace* gspace;
 	cpSpace* physicsSpace;

@@ -30,17 +30,12 @@ pair<cpShape*, cpBody*> physics_context::createCircleBody(
     GType type,
     PhysicsLayers layers,
     bool sensor,
-    GObject* obj)
-{
-    if(logBodyCreation) log(
-        "createCircleBody for %s at %f,%f, mass: %f",
-        obj->getName(),
-        expand_vector2(center),
-        mass
-    );
-    
-    if(radius == 0)
-        log("createCircleBody: zero radius for %s.", obj->getName());
+    void* obj
+){    
+	if (radius <= 0.0) {
+		log("createCircleBody: invalid radius!");
+		return make_pair(nullptr, nullptr);
+	}
     
 	cpBody* body;
 	cpShape* shape;
@@ -75,20 +70,13 @@ pair<cpShape*, cpBody*> physics_context::createRectangleBody(
     GType type,
     PhysicsLayers layers,
     bool sensor,
-    GObject* obj)
-{
-    if(logBodyCreation && obj) log(
-        "Creating rectangle body for %s. %f x %f at %f,%f, mass: %f",
-        obj->getName(),
-        expand_vector2(dim),
-        expand_vector2(center),
-        mass
-    );
+    void* obj
+){
     
-    if(dim.x == 0 && obj)
-        log("createRectangleBody: zero width for %s.", obj->getName());
-    if(dim.y == 0 && obj)
-        log("createRectangleBody: zero height for %s.", obj->getName());
+	if (dim.x <= 0.0 || dim.y <= 0.0) {
+		log("createRectangleBody: invalid dimensions");
+		return make_pair(nullptr, nullptr);
+	}
 
 	cpBody* body;
 	cpShape* shape;

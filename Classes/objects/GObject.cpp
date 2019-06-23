@@ -44,8 +44,6 @@ GObject::~GObject()
 
 void GObject::removePhysicsObjects()
 {
-	space->physicsContext->removeObject(radarShape, radar, false);
-	//Static bodies are not actually created.
 	space->physicsContext->removeObject(bodyShape, body, getMass() <= 0.0);
 }
 
@@ -437,12 +435,6 @@ SpaceVect GObject::getDimensions() const
 SpaceFloat GObject::getMomentOfInertia() const
 {
 	return cpBodyGetMoment(body);
-}
-
-void GObject::updateRadarPos()
-{
-	if (radar && body)
-		cpBodySetPos(radar, cpBodyGetPos(body));
 }
 
 void GObject::updateParametricMove()

@@ -20,8 +20,14 @@
 #include "MapFragment.hpp"
 #include "PhysicsImpl.hpp"
 #include "Player.hpp"
+#include "RadarSensor.hpp"
 #include "Upgrade.hpp"
 #include "Wall.hpp"
+
+bool isRadarSensorType(GType type)
+{
+	return type == GType::enemySensor || type == GType::playerGrazeRadar;
+}
 
 PhysicsImpl::PhysicsImpl(GSpace* space) :
 	gspace(space),
@@ -81,14 +87,62 @@ void PhysicsImpl::endContact(cpArbiter* arb, cpSpace* space, void* data)
 	}
 }
 
+int PhysicsImpl::beginContactSensor(cpArbiter* arb, cpSpace* space, void* data)
+{
+	PhysicsImpl* _this = static_cast<PhysicsImpl*>(data);
+
+	GType typeA = static_cast<GType>(arb->a_private->collision_type);
+	GType typeB = static_cast<GType>(arb->b_private->collision_type);
+
+	if (isRadarSensorType(typeA) && !isRadarSensorType(typeB)) {
+		return _this->sensorStart(
+			static_cast<RadarSensor*>(arb->body_a_private->data),
+			static_cast<GObject*>(arb->body_b_private->data),
+			arb
+		);
+	}
+	else if (!isRadarSensorType(typeA) && isRadarSensorType(typeB)) {
+		return _this->sensorStart(
+			static_cast<RadarSensor*>(arb->body_b_private->data),
+			static_cast<GObject*>(arb->body_a_private->data),
+			arb
+		);
+	}
+
+	return 0;
+}
+
+void PhysicsImpl::endContactSensor(cpArbiter* arb, cpSpace* space, void* data)
+{
+	PhysicsImpl* _this = static_cast<PhysicsImpl*>(data);
+
+	GType typeA = static_cast<GType>(arb->a_private->collision_type);
+	GType typeB = static_cast<GType>(arb->b_private->collision_type);
+
+	if (isRadarSensorType(typeA) && !isRadarSensorType(typeB)) {
+		_this->sensorEnd(
+			static_cast<RadarSensor*>(arb->body_a_private->data),
+			static_cast<GObject*>(arb->body_b_private->data),
+			arb
+		);
+	}
+	else if (!isRadarSensorType(typeA) && isRadarSensorType(typeB)) {
+		_this->sensorEnd(
+			static_cast<RadarSensor*>(arb->body_b_private->data),
+			static_cast<GObject*>(arb->body_a_private->data),
+			arb
+		);
+	}
+}
+
 #define _addHandler(a,b,begin,end) AddHandler<GType::a, GType::b>(&PhysicsImpl::begin,&PhysicsImpl::end)
 #define _addHandlerNoEnd(a,b,begin) AddHandler<GType::a, GType::b>(&PhysicsImpl::begin,nullptr)
+#define _addSensor(a,b) AddSensorHandler(GType::a, GType::b)
 
 void PhysicsImpl::addCollisionHandlers()
 {
 	_addHandler(player, enemy, playerEnemyBegin, playerEnemyEnd);
 	_addHandlerNoEnd(player, enemyBullet, playerEnemyBulletBegin);
-	_addHandler(playerGrazeRadar, enemyBullet, playerGrazeRadarBegin,playerGrazeRadarEnd);
 	_addHandlerNoEnd(playerBullet, enemy, playerBulletEnemyBegin);
 	_addHandlerNoEnd(playerBullet, environment, bulletEnvironment);
 	_addHandlerNoEnd(enemyBullet, environment, bulletEnvironment);
@@ -105,11 +159,6 @@ void PhysicsImpl::addCollisionHandlers()
 	_addHandlerNoEnd(environment, environment, collide);
 	_addHandlerNoEnd(npc, npc, collide);
 
-	_addHandler(enemySensor, player, sensorStart, sensorEnd);
-	_addHandler(enemySensor, playerBullet, sensorStart, sensorEnd);
-	_addHandler(enemySensor, enemy, sensorStart, sensorEnd);
-	_addHandler(enemySensor, bomb, sensorStart, sensorEnd);
-
 	_addHandler(floorSegment, player, floorObjectBegin, floorObjectEnd);
 	_addHandler(floorSegment, enemy, floorObjectBegin, floorObjectEnd);
 	_addHandler(floorSegment, npc, floorObjectBegin, floorObjectEnd);
@@ -120,6 +169,12 @@ void PhysicsImpl::addCollisionHandlers()
 	_addHandler(enemy, areaSensor, enemyAreaSensorBegin, enemyAreaSensorEnd);
 	_addHandler(npc, areaSensor, npcAreaSensorBegin, npcAreaSensorEnd);
 	_addHandler(environment, areaSensor, environmentAreaSensorBegin, environmentAreaSensorEnd);
+
+	_addSensor(playerGrazeRadar, enemyBullet);
+	_addSensor(enemySensor, player);
+	_addSensor(enemySensor, playerBullet);
+	_addSensor(enemySensor, enemy);
+	_addSensor(enemySensor, bomb);
 }
 
 const bool PhysicsImpl::logPhysicsHandlers = false;
@@ -184,28 +239,6 @@ int PhysicsImpl::playerEnemyBulletBegin(GObject* playerObj, GObject* bullet, cpA
 	}
 
     return 1;
-}
-
-int PhysicsImpl::playerGrazeRadarBegin(GObject* playerRadar, GObject* bullet, cpArbiter* arb)
-{
-	Player* player = dynamic_cast<Player*>(playerRadar);
-	Bullet* _bullet = dynamic_cast<Bullet*>(bullet);
-
-	if (player && _bullet) {
-		player->onGrazeTouch(_bullet);
-	}
-
-	return 1;
-}
-
-void PhysicsImpl::playerGrazeRadarEnd(GObject* playerRadar, GObject* bullet, cpArbiter* arb)
-{
-	Player* player = dynamic_cast<Player*>(playerRadar);
-	Bullet* _bullet = dynamic_cast<Bullet*>(bullet);
-
-	if (player && _bullet) {
-		player->onGrazeCleared(_bullet);
-	}
 }
 
 int PhysicsImpl::playerBulletEnemyBegin(GObject* a, GObject* b, cpArbiter* arb)
@@ -310,36 +343,6 @@ int PhysicsImpl::bulletWall(GObject* bullet, GObject* wall, cpArbiter* arb)
 	}
 
     return 1;
-}
-
-int PhysicsImpl::sensorStart(GObject* radarAgent, GObject* target, cpArbiter* arb)
-{
-    RadarObject* radarObject = dynamic_cast<RadarObject*>(radarAgent);
-
-	if (radarObject) {
-        if(logPhysicsHandlers)
-            log("%s sensed %s.", radarObject->getName(), target->getName());
-		radarObject->radarCollision(target);
-	}
-	else {
-		log("sensorStart: %s is not a radar object", radarAgent->getName());
-	}
-
-	return 1;
-}
-
-void PhysicsImpl::sensorEnd(GObject* radarAgent, GObject* target, cpArbiter* arb)
-{
-    RadarObject* radarObject = dynamic_cast<RadarObject*>(radarAgent);
-    
-	if (radarObject) {
-        if(logPhysicsHandlers)
-            log("%s lost %s.", radarObject->getName(), target->getName());
-		radarObject->radarEndCollision(target);
-	}
-	else {
-		log("sensorEnd: %s is not a radar object", radarAgent->getName());
-	}
 }
 
 int PhysicsImpl::floorObjectBegin(GObject* floorSegment, GObject* obj, cpArbiter* arb)
@@ -460,4 +463,20 @@ void PhysicsImpl::environmentAreaSensorEnd(GObject* areaSensor, GObject* obj, cp
 	if (_s && obj) {
 		_s->onEnvironmentalObjectEndContact(obj);
 	}
+}
+
+int PhysicsImpl::sensorStart(RadarSensor* radar, GObject* target, cpArbiter* arb)
+{
+	if (logPhysicsHandlers)
+		log("radar sensed %s.", target->getName());
+	radar->radarCollision(target);
+
+	return 1;
+}
+
+void PhysicsImpl::sensorEnd(RadarSensor* radar, GObject* target, cpArbiter* arb)
+{
+	if (logPhysicsHandlers)
+		log("radar lost %s.", target->getName());
+	radar->radarEndCollision(target);
 }

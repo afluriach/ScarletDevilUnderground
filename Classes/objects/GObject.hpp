@@ -104,7 +104,7 @@ public:
 	GObject(shared_ptr<object_params> params);
     virtual ~GObject();
 
-	void removePhysicsObjects();
+	virtual void removePhysicsObjects();
 	void removeGraphics(bool removeSprite);
 
 	//object identification, init, and update
@@ -221,7 +221,6 @@ public:
 	virtual void initializeBody(GSpace& space) = 0;
 	inline virtual void initializeRadar(GSpace& space) {};
 
-	void updateRadarPos();
 	void updateParametricMove();
 
 	//END PHYSICS
@@ -319,10 +318,7 @@ protected:
 
 //physics
 	cpBody* body = nullptr;
-	cpBody* radar = nullptr;
-
 	cpShape* bodyShape = nullptr;
-	cpShape* radarShape = nullptr;
 
 	//Position where the object was loaded
 	SpaceVect prevPos = SpaceVect::zero;
