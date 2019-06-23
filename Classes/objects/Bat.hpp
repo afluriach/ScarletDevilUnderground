@@ -26,18 +26,7 @@ public:
 
     virtual inline string getSprite() const { return "bat";}
  
-	virtual void initStateMachine();
-};
-
-class BatMain : public ai::Function {
-public:
-	inline BatMain(ai::StateMachine* fsm) : ai::Function(fsm) {}
-
-	virtual void onEnter();
-	virtual ai::update_return update();
-	FuncGetName(BatMain)
-protected:
-	gobject_ref target = nullptr;
+	virtual inline string initStateMachine() { return "bat"; }
 };
 
 #endif /* Bat_hpp */

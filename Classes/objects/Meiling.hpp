@@ -26,8 +26,6 @@ public:
 
 	virtual inline bool isDialogAvailable() { return true; }
 	virtual string getDialog();
-
-	virtual inline void initStateMachine(ai::StateMachine& sm) {}
 };
 
 #endif /* Meiling_hpp */

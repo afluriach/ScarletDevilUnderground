@@ -44,31 +44,13 @@ public:
 class CollectMarisa : public Marisa {
 public:
 	MapObjCons(CollectMarisa);
-	virtual void initStateMachine();
+	virtual inline string initStateMachine() { return "collect_marisa"; }
 };
 
 class ForestMarisa : public Marisa {
 public:
 	MapObjCons(ForestMarisa);
-	virtual void initStateMachine();
-};
-
-class MarisaCollectMain : public ai::Function {
-public:
-	inline MarisaCollectMain(ai::StateMachine* fsm) : ai::Function(fsm) {}
-
-	virtual void onEnter();
-	virtual ai::update_return update();
-	FuncGetName(MarisaCollectMain)
-};
-
-class MarisaForestMain : public ai::Function {
-public:
-	inline MarisaForestMain(ai::StateMachine* fsm) : ai::Function(fsm) {}
-
-	virtual void onEnter();
-	virtual ai::update_return update();
-	FuncGetName(MarisaForestMain)
+	virtual inline string initStateMachine() { return "forest_marisa"; }
 };
 
 #endif /* Marisa_h */

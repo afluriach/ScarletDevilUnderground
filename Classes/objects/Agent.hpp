@@ -140,7 +140,7 @@ public:
 	inline GraphicsLayer sceneLayer() const { return GraphicsLayer::ground; }
 
 	//AI interface
-	virtual inline void initStateMachine() {}
+	inline virtual string initStateMachine() { return ""; }
 protected:
 	void updateAgentOverlay();
 
@@ -149,7 +149,6 @@ protected:
 	shared_ptr<FirePattern> firePattern;
 	unordered_set<Agent*> touchTargets;
 
-	bool useAIPackage = false;
 	bool shieldActive = false;
 };
 
@@ -181,7 +180,7 @@ public:
     inline string getSprite() const {return "genericAgent";}
     //inline GraphicsLayer sceneLayer() const {return GraphicsLayer::ground;}
 
-	virtual void initStateMachine();
+	inline virtual string initStateMachine() { return "wander_and_flee_player"; }
 };
 
 #endif /* Agent_hpp */

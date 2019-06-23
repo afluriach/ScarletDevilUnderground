@@ -10,6 +10,7 @@
 
 #include "App.h"
 #include "AreaSensor.hpp"
+#include "audio_context.hpp"
 #include "Collectibles.hpp"
 #include "Door.hpp"
 #include "Enemy.hpp"

@@ -30,7 +30,7 @@ public:
 
 	virtual inline string getSprite() const { return "ghostFairy"; }
 
-	virtual void initStateMachine();
+	virtual inline string initStateMachine() { return "ghost_fairy"; }
 };
 
 class Fairy1 :
@@ -88,7 +88,7 @@ public:
 
 	inline string getSprite() const { return "redFairy"; }
 
-	virtual void initStateMachine();
+	virtual inline string initStateMachine() { return "red_fairy"; }
 	virtual void onZeroHP();
 };
 
@@ -109,7 +109,7 @@ public:
 
 	inline string getSprite() const { return "greenFairy"; }
 
-	virtual void initStateMachine();
+	virtual inline string initStateMachine() { return "green_fairy1"; }
 };
 
 class GreenFairy2 :
@@ -129,7 +129,7 @@ public:
 
 	inline string getSprite() const { return "greenFairy2"; }
 
-	virtual void initStateMachine();
+	virtual inline string initStateMachine() { return "green_fairy2"; }
 	virtual void onRemove();
 };
 
@@ -157,9 +157,8 @@ public:
 
 	inline string getSprite() const { return "zombieFairy"; }
 
-	virtual void initStateMachine();
+	virtual inline string initStateMachine() { return "zombie_fairy"; }
 };
-
 
 class Fairy2 : public Enemy, public BaseAttributes<Fairy2>
 {
@@ -191,7 +190,7 @@ public:
 
 	inline string getSprite() const { return "redFairy2"; }
 
-	virtual void initStateMachine();
+	virtual inline string initStateMachine() { return "fairy2"; }
 	void addFleeThread();
 	void addSupportThread(object_ref<Fairy2> other);
 	void removeSupportThread();
@@ -224,7 +223,7 @@ public:
 
 	inline string getSprite() const { return "blueFairy2"; }
 
-	virtual void initStateMachine();
+	virtual inline string initStateMachine() { return "ice_fairy"; }
 };
 
 #endif /* Fairy_hpp */

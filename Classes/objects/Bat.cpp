@@ -20,31 +20,3 @@ Bat::Bat(GSpace* space, ObjectIDType id, const ValueMap& args) :
 	MapObjForwarding(Agent),
 	Enemy(collectible_id::nil)
 {}
-
-void Bat::initStateMachine() {
-	fsm.addDetectFunction(
-		GType::player,
-		[this](ai::StateMachine& sm, GObject* target) -> void {
-			fsm.addThread(make_shared<BatMain>(&fsm));
-		}
-	);
-	fsm.addEndDetectFunction(
-		GType::player,
-		[this](ai::StateMachine& sm, GObject* target) -> void {
-			fsm.removeThread("BatMain");
-		}
-	);
-}
-
-void BatMain::onEnter()
-{
-	target = getSpace()->getObject("player");
-}
-
-ai::update_return BatMain::update()
-{
-	if (target.isValid())
-		return_push(fsm->make<ai::Flank>(target, 2.0, 1.0));
-	else
-		return_pop();
-}

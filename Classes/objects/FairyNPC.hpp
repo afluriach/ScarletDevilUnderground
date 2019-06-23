@@ -67,7 +67,7 @@ public:
 
 	inline string getSprite() const { return "ghostFairy"; }
 
-	virtual void initStateMachine();
+	virtual inline string initStateMachine() { return "ghost_fairy_npc"; }
 };
 
 #endif /* FairyNPC_hpp */

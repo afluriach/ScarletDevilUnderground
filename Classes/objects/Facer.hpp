@@ -23,19 +23,7 @@ public:
 
     inline string getSprite() const {return "facer";}
  
-	virtual void initStateMachine();
-};
-
-class FacerMain : public ai::Function {
-public:
-	inline FacerMain(ai::StateMachine* fsm) : ai::Function(fsm) {}
-
-	virtual void onEnter();
-	virtual ai::update_return update();
-	virtual bool onBulletHit(Bullet* b);
-	FuncGetName(FacerMain)
-protected:
-	gobject_ref target = nullptr;
+	inline virtual string initStateMachine() { return "facer"; }
 };
 
 #endif /* Facer_hpp */

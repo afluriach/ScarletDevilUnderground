@@ -29,8 +29,7 @@ public:
 	inline SpaceFloat getMass() const { return 10.0; }
 
 	inline string getSprite() const { return "scorpion"; }
-
-	virtual void initStateMachine();
+	inline virtual string initStateMachine() { return "scorpion1"; }
 };
 
 class Scorpion2 :
@@ -51,9 +50,7 @@ public:
 	inline SpaceFloat getMass() const { return 10.0; }
 
 	inline string getSprite() const { return "scorpion2"; }
-
-	virtual void initStateMachine();
+	inline virtual string initStateMachine() { return "scorpion2"; }
 };
-
 
 #endif /* Slime_hpp */

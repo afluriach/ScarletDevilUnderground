@@ -20,21 +20,9 @@ public:
 
     inline SpaceFloat getMass() const {return 40.0;}
 
-    inline string getSprite() const {return "follower";}
-        
-	virtual void initStateMachine();    
+    inline string getSprite() const {return "follower";}        
+	virtual inline string initStateMachine() { return "follower"; }
 };
 
-class FollowerMain : public ai::Function {
-public:
-	inline FollowerMain(ai::StateMachine* fsm) : ai::Function(fsm) {}
-
-	virtual void onEnter();
-	virtual ai::update_return update();
-	virtual bool onBulletHit(Bullet* b);
-	FuncGetName(FollowerMain)
-protected:
-	gobject_ref target = nullptr;
-};
 
 #endif /* Follower_hpp */

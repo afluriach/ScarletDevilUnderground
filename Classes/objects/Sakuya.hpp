@@ -27,33 +27,7 @@ public:
 
     inline string getSprite() const {return "sakuya";}
 
-	virtual void initStateMachine();
-};
-
-class SakuyaMain : public ai::Function {
-public:
-	inline SakuyaMain(ai::StateMachine* fsm) : ai::Function(fsm) {}
-
-	virtual void onEnter();
-	virtual ai::update_return update();
-	FuncGetName(SakuyaMain)
-};
-
-class IllusionDash : public ai::Function {
-public:
-	inline IllusionDash(ai::StateMachine* fsm) : ai::Function(fsm) {}
-
-	IllusionDash(ai::StateMachine* fsm, SpaceVect _target);
-	IllusionDash(ai::StateMachine* fsm, const ValueMap& args);
-	static const SpaceFloat scale;
-	static const SpaceFloat opacity;
-	static const SpaceFloat speed;
-
-	virtual void onEnter();
-	virtual ai::update_return update();
-	FuncGetName(IllusionDash)
-protected:
-	SpaceVect target;
+	virtual inline string initStateMachine() { return "sakuya"; }
 };
 
 #endif /* Sakuya_hpp */

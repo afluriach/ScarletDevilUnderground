@@ -29,7 +29,7 @@ public:
 
 	inline string getSprite() const { return "tewi"; }
 
-	virtual void initStateMachine();
+	inline virtual string initStateMachine() { return "evade_player_projectiles"; }
 };
 
 

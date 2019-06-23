@@ -26,8 +26,6 @@ public:
 	virtual bool isDialogAvailable() { return true; }
 	virtual string getDialog();
 	virtual void onDialogEnd();
-
-	virtual void initStateMachine();
 };
 
 class PatchouliEnemy : public Enemy, public BaseAttributes<PatchouliEnemy>
@@ -44,19 +42,7 @@ public:
 	inline string getSprite() const { return "patchouli"; }
 	inline GraphicsLayer sceneLayer() const { return GraphicsLayer::ground; }
 
-	virtual void initStateMachine();
-};
-
-class PatchouliMain : public ai::Function {
-public:
-	static const int castInterval;
-
-	virtual void onEnter();
-	virtual ai::update_return update();
-	FuncGetName(PatchouliMain)
-protected:
-	float prevHP;
-	size_t spellIdx = 0;
+	inline virtual string initStateMachine() { return "patchouli_enemy"; }
 };
 
 #endif /* Patchouli_hpp */

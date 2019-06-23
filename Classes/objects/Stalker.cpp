@@ -21,32 +21,6 @@ Stalker::Stalker(GSpace* space, ObjectIDType id, const ValueMap& args) :
 	Enemy(collectible_id::magic1)
 {}
 
-void Stalker::initStateMachine()
-{
-	auto t1 = make_shared<ai::Thread>(
-		make_shared<StalkerMain>(&fsm),
-		&fsm,
-		1,
-		bitset<ai::lockCount>()
-	);
-	fsm.addThread(t1);
-
-	fsm.addDetectFunction(
-		GType::player,
-		[this](ai::StateMachine& sm, GObject* target) -> void {
-			fsm.addThread(make_shared<ai::Seek>(&fsm, target, true));
-		}
-	);
-	fsm.addEndDetectFunction(
-		GType::player,
-		[this](ai::StateMachine& sm, GObject* target) -> void {
-			fsm.removeThread("Seek");
-		}
-	);
-
-	attributeSystem.setFullStamina();
-}
-
 void Stalker::update()
 {
 	Enemy::update();
@@ -60,17 +34,4 @@ void Stalker::teleport(SpaceVect pos)
 	attributeSystem.setFullStamina();
 	
 	GObject::teleport(pos);
-}
-
-
-void StalkerMain::onEnter()
-{
-}
-
-ai::update_return StalkerMain::update()
-{
-	return_push_if_true(
-		agent->getAttribute(Attribute::stamina) <= 0.0f,
-		fsm->make<ai::Cast>(make_spell_generator<Teleport>())
-	);
 }

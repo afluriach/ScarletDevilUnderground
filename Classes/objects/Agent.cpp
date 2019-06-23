@@ -25,6 +25,7 @@
 #include "Spell.hpp"
 #include "SpellDescriptor.hpp"
 #include "spell_types.hpp"
+#include "value_map.hpp"
 
 const Color4F Agent::bodyOutlineColor = hsva4F(270.0f, 0.2f, 0.7f, 0.667f);
 const Color4F Agent::shieldConeColor = Color4F(.37f, .56f, .57f, 0.5f);
@@ -35,6 +36,7 @@ Agent::Agent(GSpace* space, ObjectIDType id, const string& name, const SpaceVect
 	CircleBody(defaultSize),
 	PatchConSprite(d)
 {
+	space->addValueMapArgs(uuid, {});
 }
 
 Agent::Agent(GSpace* space, ObjectIDType id, const ValueMap& args, SpaceFloat radius) :
@@ -43,11 +45,7 @@ Agent::Agent(GSpace* space, ObjectIDType id, const ValueMap& args, SpaceFloat ra
 	PatchConSprite(args),
 	StateMachineObject(args)
 {
-	if (!getStringOrDefault(args, "ai_package", "").empty()) {
-		log("Storing agent %s valuemap ", getName());
-		useAIPackage = true;
-		space->addValueMapArgs(uuid, args);
-	}
+	space->addValueMapArgs(uuid, args);
 }
 
 bullet_attributes Agent::getBulletAttributes(shared_ptr<bullet_properties> props) const
@@ -66,21 +64,27 @@ bullet_attributes Agent::getBulletAttributes(shared_ptr<bullet_properties> props
 
 void Agent::initFSM()
 {
-	if (!useAIPackage) {
-		initStateMachine();
-	}
-	else {
-		const ValueMap& args = space->getValueMapArgs(uuid);
-		string packageName = getStringOrDefault(args, "ai_package", "");
+	const ValueMap& args = space->getValueMapArgs(uuid);
+	string packageName = getStringOrDefault(args, "ai_package", "");
 
-		auto it = ai::StateMachine::packages.find(packageName);
-		if (it != ai::StateMachine::packages.end()) {
-			auto f = it->second;
-			f(&fsm, args);
-		}
-
-		space->removeValueMapArgs(uuid);
+	if (packageName.empty()) {
+		packageName = initStateMachine();
 	}
+
+	auto it = ai::StateMachine::packages.find(packageName);
+	if (it != ai::StateMachine::packages.end()) {
+		auto f = it->second;
+		f(&fsm, args);
+	}
+
+	if (packageName.empty()) {
+		log("Agent %s, AI package not provided", getName());
+	}
+	else if(it == ai::StateMachine::packages.end()){
+		log("Agent %s, AI package %s not found", getName(), packageName);
+	}
+
+	space->removeValueMapArgs(uuid);
 }
 
 void Agent::initAttributes()
@@ -481,31 +485,4 @@ GenericAgent::GenericAgent(GSpace* space, ObjectIDType id, const ValueMap& args)
 	MapObjParams(),
 	MapObjForwarding(Agent)
 {
-}
-
-void GenericAgent::initStateMachine()
-{
-	auto wanderThread = make_shared<ai::Thread>(
-		make_shared<ai::Wander>(&fsm, 1.0, 3.0, 2.0, 4.0),
-		&fsm,
-		0,
-		make_enum_bitfield(ai::ResourceLock::movement)
-	);
-
-	fsm.addDetectFunction(
-		GType::player,
-		[=](ai::StateMachine& sm, GObject* target) -> void {
-			 fsm.addThread(make_shared<ai::Flee>(&fsm, target, 3.0f), 1);
-		}
-	);
-
-	fsm.addEndDetectFunction(
-		GType::player,
-		[=](ai::StateMachine& sm, GObject* target) -> void {
-			fsm.removeThread("Flee");
-		}
-	);
-
-	wanderThread->setResetOnBlock(true);    
-	fsm.addThread(wanderThread);
 }

@@ -35,45 +35,8 @@ CollectMarisa::CollectMarisa(GSpace* space, ObjectIDType id, const ValueMap& arg
 	MapObjForwarding(Marisa)
 {}
 
-void CollectMarisa::initStateMachine()
-{
-	gobject_ref player = space->getObjectRef("player");
-
-	fsm.addThread(make_shared<MarisaCollectMain>(&fsm));
-}
-
-void MarisaCollectMain::onEnter()
-{
-}
-
-ai::update_return MarisaCollectMain::update()
-{
-	GObject* player = getSpace()->getObject("player");
-
-	if (player)
-		return_push(ai::FollowPath::pathToTarget(fsm, player));
-	else
-		return_pop();
-}
-
 ForestMarisa::ForestMarisa(GSpace* space, ObjectIDType id, const ValueMap& args) :
 MapObjParams(),
 MapObjForwarding(Agent),
 MapObjForwarding(Marisa)
 {}
-
-void ForestMarisa::initStateMachine()
-{
-	fsm.addThread(make_shared<MarisaForestMain>(&fsm));
-}
-
-void MarisaForestMain::onEnter()
-{
-	gobject_ref player = fsm->getSpace()->getObjectRef("player");
-	fsm->addThread(make_shared<ai::AimAtTarget>(fsm, player));
-}
-
-ai::update_return MarisaForestMain::update()
-{
-	return_push( fsm->make<ai::Cast>(make_spell_generator<StarlightTyphoon>()) );
-}

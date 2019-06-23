@@ -19,32 +19,3 @@ Follower::Follower(GSpace* space, ObjectIDType id, const ValueMap& args) :
 	Agent(space, id, args),
 	Enemy(collectible_id::nil)
 {}
-
-void Follower::initStateMachine() {
-	fsm.addThread(make_shared<FollowerMain>(&fsm));
-}
-
-void FollowerMain::onEnter()
-{
-	target = getSpace()->getObject("player");
-}
-
-ai::update_return FollowerMain::update()
-{
-	if (target.isValid()) {
-		if (ai::isFacingTargetsBack(agent, target.get())) {
-			agent->setVel(SpaceVect::ray(agent->getMaxSpeed(), agent->getAngle()));
-		}
-		else {
-			agent->setVel(SpaceVect::zero);
-		}
-	}
-	
-	return_pop_if_false( target.isValid() );
-}
-
-bool FollowerMain::onBulletHit(Bullet* b)
-{
-	agent->rotate(-0.5f*float_pi);
-	return true;
-}

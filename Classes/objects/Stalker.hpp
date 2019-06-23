@@ -24,21 +24,12 @@ public:
 
 	virtual inline string getSprite() const {return "stalker";}
 
-	virtual void initStateMachine();
+	virtual inline string initStateMachine() { return "stalker"; }
 	virtual void teleport(SpaceVect pos);
 
 	virtual void update();
 protected:
 	SpaceVect prev_pos;
-};
-
-class StalkerMain : public ai::Function {
-public:
-	inline StalkerMain(ai::StateMachine* fsm) : ai::Function(fsm) {}
-
-	virtual void onEnter();
-	virtual ai::update_return update();
-	FuncGetName(StalkerMain)
 };
 
 #endif /* Stalker_hpp */

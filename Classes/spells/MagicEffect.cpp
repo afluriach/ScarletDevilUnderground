@@ -8,6 +8,7 @@
 
 #include "Prefix.h"
 
+#include "GObject.hpp"
 #include "MagicEffect.hpp"
 
 MagicEffect::MagicEffect(gobject_ref target, float magnitude) :

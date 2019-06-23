@@ -9,6 +9,7 @@
 #include "Prefix.h"
 
 #include "Agent.hpp"
+#include "AIUtil.hpp"
 #include "GSpace.hpp"
 #include "Player.hpp"
 #include "PlayerBullet.hpp"

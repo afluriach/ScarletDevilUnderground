@@ -55,21 +55,10 @@ public:
 	virtual inline string getSprite() const { return "reimu"; }
 	virtual inline GraphicsLayer sceneLayer() const { return GraphicsLayer::ground; }
 
-	virtual void initStateMachine();
+	virtual inline string initStateMachine() { return "reimu_enemy"; }
 protected:
 	string activations;
 	array<gobject_ref, orbCount> orbs;
-};
-
-class ReimuMain : public ai::Function
-{
-public:
-	inline ReimuMain(ai::StateMachine* fsm) : ai::Function(fsm) {}
-
-	virtual void onEnter();
-	virtual ai::update_return update();
-	virtual void onExit();
-	FuncGetName(ReimuMain)
 };
 
 #endif /* Reimu_h */

@@ -9,6 +9,7 @@
 #include "Prefix.h"
 
 #include "app_constants.hpp"
+#include "audio_context.hpp"
 #include "enum.h"
 #include "FloorSegment.hpp"
 #include "Graphics.h"
@@ -16,6 +17,7 @@
 #include "GSpace.hpp"
 #include "LuaAPI.hpp"
 #include "MagicEffect.hpp"
+#include "physics_context.hpp"
 #include "Spell.hpp"
 #include "SpellDescriptor.hpp"
 #include "value_map.hpp"

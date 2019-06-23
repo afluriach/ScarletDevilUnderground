@@ -30,6 +30,140 @@ protected:
 	SpaceFloat timer = cooldown;
 };
 
+class BatMain : public Function {
+public:
+	inline BatMain(StateMachine* fsm) : Function(fsm) {}
+
+	virtual void onEnter();
+	virtual update_return update();
+	FuncGetName(BatMain)
+protected:
+	gobject_ref target = nullptr;
+};
+
+class FacerMain : public Function {
+public:
+	inline FacerMain(StateMachine* fsm) : Function(fsm) {}
+
+	virtual void onEnter();
+	virtual update_return update();
+	virtual bool onBulletHit(Bullet* b);
+	FuncGetName(FacerMain)
+protected:
+	gobject_ref target = nullptr;
+};
+
+class FollowerMain : public Function {
+public:
+	inline FollowerMain(StateMachine* fsm) : Function(fsm) {}
+
+	virtual void onEnter();
+	virtual update_return update();
+	virtual bool onBulletHit(Bullet* b);
+	FuncGetName(FollowerMain)
+protected:
+	gobject_ref target = nullptr;
+};
+
+class MarisaCollectMain : public Function {
+public:
+	inline MarisaCollectMain(StateMachine* fsm) : Function(fsm) {}
+
+	virtual void onEnter();
+	virtual update_return update();
+	FuncGetName(MarisaCollectMain)
+};
+
+class MarisaForestMain : public Function {
+public:
+	inline MarisaForestMain(StateMachine* fsm) : Function(fsm) {}
+
+	virtual void onEnter();
+	virtual update_return update();
+	FuncGetName(MarisaForestMain)
+};
+
+class RumiaMain1 : public Function
+{
+public:
+	static const SpaceFloat dsdDistMargin;
+	static const SpaceFloat dsdLength;
+	static const SpaceFloat dsdCooldown;
+	static const float dsdCost;
+
+	RumiaMain1(StateMachine* fsm, gobject_ref target);
+
+	virtual void onEnter();
+	virtual void onReturn();
+	virtual update_return update();
+	virtual void onExit();
+	FuncGetName(RumiaMain1);
+protected:
+	gobject_ref target;
+	SpaceFloat dsdTimer = 0.0;
+	size_t intervalIdx = 0;
+};
+
+class RumiaDSD2 : public ai::Function
+{
+public:
+	inline RumiaDSD2(StateMachine* fsm) : Function(fsm) {}
+
+	static const vector<double_pair> demarcationSizeIntervals;
+
+	virtual void onEnter();
+	virtual update_return update();
+	virtual void onExit();
+	FuncGetName(RumiaDSD2);
+protected:
+	SpaceFloat timer = 0.0;
+	size_t intervalIdx = 0;
+};
+
+class SakuyaMain : public Function {
+public:
+	inline SakuyaMain(StateMachine* fsm) : Function(fsm) {}
+
+	virtual void onEnter();
+	virtual update_return update();
+	FuncGetName(SakuyaMain)
+};
+
+class IllusionDash : public Function {
+public:
+	inline IllusionDash(StateMachine* fsm) : Function(fsm) {}
+
+	IllusionDash(StateMachine* fsm, SpaceVect _target);
+	IllusionDash(StateMachine* fsm, const ValueMap& args);
+	static const SpaceFloat scale;
+	static const SpaceFloat opacity;
+	static const SpaceFloat speed;
+
+	virtual void onEnter();
+	virtual update_return update();
+	FuncGetName(IllusionDash)
+protected:
+	SpaceVect target;
+};
+
+class SakuyaNPC1 : public Function {
+public:
+	inline SakuyaNPC1(StateMachine* fsm) : Function(fsm) {}
+
+	virtual void onEnter();
+	virtual update_return update();
+	FuncGetName(SakuyaMain)
+};
+
+class StalkerMain : public Function {
+public:
+	inline StalkerMain(StateMachine* fsm) : Function(fsm) {}
+
+	virtual void onEnter();
+	virtual update_return update();
+	FuncGetName(StalkerMain)
+};
+
 } //end NS
 
 #endif /* EnemyFunctions_hpp */

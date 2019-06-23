@@ -12,7 +12,3 @@
 #include "Tewi.hpp"
 
 const string Tewi::baseAttributes = "tewi";
-
-void Tewi::initStateMachine() {
-	fsm.addThread(make_shared<ai::EvadePlayerProjectiles>(&fsm));
-}

@@ -86,16 +86,3 @@ GhostFairyNPC::GhostFairyNPC(GSpace* space, ObjectIDType id, const ValueMap& arg
 	MapObjForwarding(Agent)
 {
 }
-
-void GhostFairyNPC::initStateMachine()
-{
-	fsm.addThread(make_shared<ai::Wander>(&fsm), 1);
-
-	fsm.addDetectFunction(
-		GType::player,
-		[this](ai::StateMachine& sm, GObject* target) -> void {
-			if(!fsm.isThreadRunning("Seek"))
-				fsm.addThread(make_shared<ai::Seek>(&fsm, target, true, 1.5), 2);
-		}
-	);
-}

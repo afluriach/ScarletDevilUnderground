@@ -29,8 +29,7 @@ public:
 	inline SpaceFloat getMass() const { return 40.0; }
 
 	inline string getSprite() const { return "slime"; }
-
-	virtual void initStateMachine();
+	virtual inline string initStateMachine() { return "seek_player"; }
 };
 
 class Slime2 :
@@ -51,9 +50,7 @@ public:
 	inline SpaceFloat getMass() const { return 200.0; }
 
 	inline string getSprite() const { return "slime"; }
-
-	virtual void initStateMachine();
+	virtual inline string initStateMachine() { return "seek_player"; }
 };
-
 
 #endif /* Slime_hpp */

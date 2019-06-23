@@ -34,7 +34,7 @@ public:
 
 	MapObjCons(Rumia1);
 
-	virtual void initStateMachine();
+	inline virtual string initStateMachine() { return "rumia1"; }
 	virtual void onZeroHP();
 };
 
@@ -46,45 +46,8 @@ public:
 
 	MapObjCons(Rumia2);
 
-	virtual void initStateMachine();
+	inline virtual string initStateMachine() { return "rumia2"; }
 	virtual void onZeroHP();
-};
-
-class RumiaMain1 : public ai::Function
-{
-public:
-	static const SpaceFloat dsdDistMargin;
-	static const SpaceFloat dsdLength;
-	static const SpaceFloat dsdCooldown;
-	static const float dsdCost;
-
-	RumiaMain1(ai::StateMachine* fsm, gobject_ref target);
-
-	virtual void onEnter();
-	virtual void onReturn();
-	virtual ai::update_return update();
-	virtual void onExit();
-	FuncGetName(RumiaMain1);
-protected:
-	gobject_ref target;
-	SpaceFloat dsdTimer = 0.0;
-	size_t intervalIdx = 0;
-};
-
-class RumiaDSD2 : public ai::Function
-{
-public:
-	inline RumiaDSD2(ai::StateMachine* fsm) : ai::Function(fsm) {}
-
-	static const vector<double_pair> demarcationSizeIntervals;
-
-	virtual void onEnter();
-	virtual ai::update_return update();
-	virtual void onExit();
-	FuncGetName(RumiaDSD2);
-protected:
-	SpaceFloat timer = 0.0;
-	size_t intervalIdx = 0;
 };
 
 #endif /* Rumia_hpp */
