@@ -8,6 +8,7 @@
 
 #include "Prefix.h"
 
+#include "AI.hpp"
 #include "app_constants.hpp"
 #include "audio_context.hpp"
 #include "enum.h"
@@ -137,6 +138,8 @@ string GObject::getProperName() const
 	return properNameByType(typeid(*this));
 }
 
+//BEGIN LOGIC
+
 void GObject::init()
 {
 	initLightSource();
@@ -152,12 +155,51 @@ void GObject::update()
 
 	prevPos = getPos();
 	prevAngle = getAngle();
+
+	updateFSM();
 }
 
 void GObject::onPitfall()
 {
 	space->removeObjectWithAnimation(this, pitfallShrinkAction());
 }
+
+void GObject::updateFSM() {
+	if (fsm && !isFrozen)
+		fsm->update();
+}
+
+unsigned int GObject::addThread(shared_ptr<ai::Function> threadMain) {
+	if (!fsm) {
+		fsm = make_unique<ai::StateMachine>(this);
+	}
+
+	return fsm->addThread(threadMain);
+}
+
+void GObject::removeThread(unsigned int uuid) {
+	if (fsm) {
+		fsm->removeThread(uuid);
+	}
+}
+
+void GObject::removeThread(const string& name) {
+	if (fsm) {
+		fsm->removeThread(name);
+	}
+}
+
+void GObject::printFSM() {
+	if (fsm) {
+		log("%s", fsm->toString());
+	}
+}
+
+void GObject::setFrozen(bool val) {
+	isFrozen = val;
+}
+
+//END LOGIC
 
 //BEGIN PHYSICS
 

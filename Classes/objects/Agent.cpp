@@ -42,8 +42,7 @@ Agent::Agent(GSpace* space, ObjectIDType id, const string& name, const SpaceVect
 Agent::Agent(GSpace* space, ObjectIDType id, const ValueMap& args, SpaceFloat radius) :
 	MapObjParams(),
 	CircleBody(radius),
-	PatchConSprite(args),
-	StateMachineObject(args)
+	PatchConSprite(args)
 {
 	space->addValueMapArgs(uuid, args);
 }
@@ -64,6 +63,8 @@ bullet_attributes Agent::getBulletAttributes(shared_ptr<bullet_properties> props
 
 void Agent::initFSM()
 {
+	fsm = make_unique<ai::StateMachine>(this);
+
 	const ValueMap& args = space->getValueMapArgs(uuid);
 	string packageName = getStringOrDefault(args, "ai_package", "");
 
@@ -74,7 +75,7 @@ void Agent::initFSM()
 	auto it = ai::StateMachine::packages.find(packageName);
 	if (it != ai::StateMachine::packages.end()) {
 		auto f = it->second;
-		f(&fsm, args);
+		f(fsm.get(), args);
 	}
 
 	if (packageName.empty()) {
@@ -116,7 +117,6 @@ void Agent::update()
 {
 	GObject::update();
 	RadarObject::_update();
-	StateMachineObject::_update();
 	PatchConSprite::_update();
 
 	if (attributeSystem[Attribute::hp] <= 0.0f && attributeSystem[Attribute::maxHP] >  0.0f) {
@@ -159,7 +159,8 @@ bool Agent::isBulletObstacle(SpaceVect pos, SpaceFloat radius)
 
 void Agent::sendAlert(Player* p)
 {
-	fsm.onAlert(p);
+	if(fsm)
+		fsm->onAlert(p);
 }
 
 void Agent::onDetect(GObject* obj)
@@ -168,12 +169,14 @@ void Agent::onDetect(GObject* obj)
 		attributeSystem.modifyAttribute(Attribute::stress, Attribute::stressFromDetects);
 	}
 
-	fsm.onDetect(obj);
+	if(fsm)
+		fsm->onDetect(obj);
 }
 
 void Agent::onEndDetect(GObject* obj)
 {
-	fsm.onEndDetect(obj);
+	if(fsm)
+		fsm->onEndDetect(obj);
 }
 
 void Agent::onZeroHP()
@@ -401,11 +404,11 @@ void Agent::onBulletCollide(Bullet* b)
 	if (!isShield(b)) {
 		attributeSystem.modifyAttribute(Attribute::stress, Attribute::stressFromHits, damage.mag);
 		hit(damage);
-		fsm.onBulletHit(b);
+		if(fsm) fsm->onBulletHit(b);
 	}
 	else {
 		attributeSystem.modifyAttribute(Attribute::stress, Attribute::stressFromBlocks, damage.mag);
-		fsm.onBulletBlock(b);
+		if(fsm) fsm->onBulletBlock(b);
 	}
 }
 

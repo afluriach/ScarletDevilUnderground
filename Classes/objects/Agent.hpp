@@ -22,7 +22,6 @@ class Agent :
 virtual public GObject,
 public PatchConSprite,
 public CircleBody,
-public StateMachineObject, 
 public RadarObject
 {
 public:

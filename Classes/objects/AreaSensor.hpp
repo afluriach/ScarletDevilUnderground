@@ -71,9 +71,7 @@ protected:
 	bool activated = false;
 };
 
-class RoomSensor :
-	public AreaSensor,
-	public StateMachineObject
+class RoomSensor : public AreaSensor
 {
 public:
 	RoomSensor(GSpace* space, ObjectIDType id, const ValueMap& obj);

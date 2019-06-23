@@ -13,25 +13,6 @@
 #include "GObject.hpp"
 #include "GObjectMixins.hpp"
 
-class StateMachineObject : virtual public GObject
-{
-public:
-	StateMachineObject();
-	StateMachineObject(const ValueMap& args);
-	StateMachineObject(shared_ptr<ai::Function> startState, const ValueMap& arg);
-
-	void _update();
-	unsigned int addThread(shared_ptr<ai::Function> threadMain);
-	void removeThread(unsigned int uuid);
-	void removeThread(const string& name);
-	void printFSM();
-	void setFrozen(bool val);
-
-protected:
-	ai::StateMachine fsm;
-	bool isFrozen = false;
-};
-
 class RadarObject : virtual public GObject
 {
 public:

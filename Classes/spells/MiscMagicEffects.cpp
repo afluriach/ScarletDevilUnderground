@@ -37,13 +37,10 @@ void FreezeStatusEffect::init()
 {
 	GObject* _target = target.get();
 	Player* _player = dynamic_cast<Player*>(_target);
-	StateMachineObject* smo = dynamic_cast<StateMachineObject*>(_target);
 
 	_target->addGraphicsAction(freezeEffectAction());
 
-	if (smo) {
-		smo->setFrozen(true);
-	}
+	_target->setFrozen(true);
 
 	if (_player) {
 		_player->setFiringSuppressed(true);
@@ -68,15 +65,12 @@ void FreezeStatusEffect::end()
 {
 	GObject* _target = target.get();
 	Player* _player = dynamic_cast<Player*>(_target);
-	StateMachineObject* smo = dynamic_cast<StateMachineObject*>(_target);
 
 	//Stop sprite effect, assuming the effect ended early.
 	_target->stopGraphicsAction(cocos_action_tag::freeze_status);
 	_target->addGraphicsAction(freezeEffectEndAction());
 
-	if (smo) {
-		smo->setFrozen(false);
-	}
+	_target->setFrozen(false);
 
 	if (_player) {
 		_player->setFiringSuppressed(false);

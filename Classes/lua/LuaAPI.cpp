@@ -306,19 +306,17 @@ const vector<string> Inst::luaIncludes = {
 			.addFunction("setVel", &GObject::setPos)
 			.addFunction("stopSpell", &GObject::stopSpell)
 
+			.addFunction("addThread", &GObject::addThread)
+			.addFunction("printFSM", &GObject::printFSM)
+			.addFunction("removeThreadByID", static_cast<void(GObject::*)(unsigned int)>(&GObject::removeThread))
+			.addFunction("removeThreadByName", static_cast<void(GObject::*)(const string&)>(&GObject::removeThread))
+
 		.endClass()
 #define __cls Agent
 		.deriveClass<Agent,GObject>("Agent")
 			.addFuncSame(getAttributeSystem)
 		.endClass()
 #undef __cls
-
-		.deriveClass<StateMachineObject, GObject>("StateMachineObject")
-			.addFunction("addThread", &StateMachineObject::addThread)
-			.addFunction("printFSM", &StateMachineObject::printFSM)
-			.addFunction("removeThreadByID", static_cast<void(StateMachineObject::*)(unsigned int)>(&StateMachineObject::removeThread))
-			.addFunction("removeThreadByName", static_cast<void(StateMachineObject::*)(const string&)>(&StateMachineObject::removeThread))
-		.endClass()
 
 		.beginClass<GScene>("GScene")
 			.addStaticFunction("runScene", &GScene::runScene)
@@ -341,7 +339,6 @@ const vector<string> Inst::luaIncludes = {
 			.addFunction("createObject", static_cast<gobject_ref (GSpace::*)(const ValueMap&)>(&GSpace::createObject))
 			.addFunction("getFrame", &GSpace::getFrame)
 			.addFunction("getObjectByName", static_cast<GObject*(GSpace::*)(const string&) const>(&GSpace::getObject))
-			.addFunction("getObjectAsSMO", &GSpace::getObjectAs<StateMachineObject>)
 			.addFunction("getObjectAsAgent", &GSpace::getObjectAs<Agent>)
 			.addFunction("getObjectCount", &GSpace::getObjectCount)
 			.addFunction("getObjectNames", &GSpace::getObjectNames)

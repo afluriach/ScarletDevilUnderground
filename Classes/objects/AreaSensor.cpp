@@ -111,12 +111,20 @@ RoomSensor::RoomSensor(GSpace* space, ObjectIDType id, const ValueMap& args) :
 RoomSensor::RoomSensor(GSpace* space, ObjectIDType id, SpaceVect center, SpaceVect dimensions, int mapID, const ValueMap& props) :
 	GObject(make_shared<object_params>(space, id, "", center, 0.0)),
 	AreaSensor(space,id,center,dimensions),
-	StateMachineObject(props),
 	mapID(mapID)
 {
+	string startState = getStringOrDefault(props, "startState", "");
+
 	trapDoorNames = splitString(getStringOrDefault(props, "trap_doors", ""), " ");
 	spawnOnClear = getStringOrDefault(props, "spawn_on_clear", "");
 	bossName = getStringOrDefault(props, "boss", "");
+
+	fsm = make_unique<ai::StateMachine>(this);
+
+	if (!startState.empty()) {
+		auto f = ai::Function::constructState(startState, fsm.get(), props);
+		fsm->addThread(f);
+	}
 }
 
 void RoomSensor::onPlayerContact(Player* p)
@@ -172,9 +180,7 @@ void RoomSensor::init()
 
 void RoomSensor::update()
 {
-	//shouldn't actually be necessary
-	//GObject::update();
-	StateMachineObject::_update();
+	GObject::update();
 
 	if (player) timerIncrement(timeInRoom);
 
@@ -281,7 +287,7 @@ unsigned int RoomSensor::activateSpawners(type_index t, unsigned int count)
 
 bool RoomSensor::isClearedState()
 {
-	return enemies.empty() && fsm.getThreadCount() == 0;
+	return enemies.empty() && fsm->getThreadCount() == 0;
 }
 
 GhostHeadstoneSensor::GhostHeadstoneSensor(GSpace* space, ObjectIDType id, const ValueMap& args) :

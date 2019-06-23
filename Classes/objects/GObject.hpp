@@ -15,6 +15,10 @@
 #include "object_ref.hpp"
 #include "object_params.hpp"
 
+namespace ai {
+	class Function;
+	class StateMachine;
+}
 class Player;
 class Bullet;
 class GSpace;
@@ -137,6 +141,14 @@ public:
 	inline virtual bool canInteract(Player* p) { return false; }
 	inline virtual void interact(Player* p) {} 
 	inline virtual string interactionIcon(Player* p) { return ""; }
+
+	//StateMachine
+	void updateFSM();
+	unsigned int addThread(shared_ptr<ai::Function> threadMain);
+	void removeThread(unsigned int uuid);
+	void removeThread(const string& name);
+	void printFSM();
+	void setFrozen(bool val);
 
 	//END LOGIC
 
@@ -300,6 +312,10 @@ protected:
 	bool isInvisible = false;
 	bool isInFade = false;
 	bool inhibitSpellcasting = false;
+	bool isFrozen = false;
+
+//logic
+	unique_ptr<ai::StateMachine> fsm;
 
 //physics
 	cpBody* body = nullptr;

@@ -14,64 +14,6 @@
 #include "LuaAPI.hpp"
 #include "physics_context.hpp"
 
-StateMachineObject::StateMachineObject() :
-	fsm(this)
-{
-}
-
-StateMachineObject::StateMachineObject(shared_ptr<ai::Function> startState, const ValueMap& args) :
-    fsm(this)
-{
-    shared_ptr<ai::Function> stateFromArgs = nullptr;
-    auto searchIter = args.find("startState");
-    
-    if(searchIter != args.end() && searchIter->second.asString() == "none")
-        return;
-
-    //If startState is provided in the object args map, try to construct it.
-    if(searchIter != args.end())
-    {
-        stateFromArgs = ai::Function::constructState(searchIter->second.asString(), &fsm, args);
-        
-        if(!stateFromArgs){
-            log("%s: failed to construct state %s", getName().c_str(),searchIter->second.asString().c_str());
-        }
-    }
-    
-    //If stateFromArgs was constructed, it will override the provided state.
-    if(stateFromArgs)
-        fsm.addThread(stateFromArgs);
-    else if(startState)
-        fsm.addThread(startState);
-}
-
-StateMachineObject::StateMachineObject(const ValueMap& args) : StateMachineObject(nullptr, args) {}
-
-void StateMachineObject::_update() {
-	if (!isFrozen)
-		fsm.update();
-}
-
-unsigned int StateMachineObject::addThread(shared_ptr<ai::Function> threadMain) {
-	return fsm.addThread(threadMain);
-}
-
-void StateMachineObject::removeThread(unsigned int uuid) {
-	fsm.removeThread(uuid);
-}
-
-void StateMachineObject::removeThread(const string& name) {
-	fsm.removeThread(name);
-}
-
-void StateMachineObject::printFSM() {
-	log("%s", fsm.toString().c_str());
-}
-
-void StateMachineObject::setFrozen(bool val) {
-	isFrozen = val;
-}
-
 RadarObject::RadarObject()
 {}
 
