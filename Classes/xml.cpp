@@ -18,9 +18,17 @@ namespace app {
 
 unordered_map<string, AttributeMap> attributes;
 unordered_map<string, shared_ptr<bullet_properties>> bullets;
+unordered_map<string, shared_ptr<enemy_properties>> enemies;
 unordered_map<string, floorsegment_properties> floors;
 unordered_map<string, shared_ptr<LightArea>> lights;
 unordered_map<string, sprite_properties> sprites;
+
+GObject::AdapterType enemyAdapter(shared_ptr<enemy_properties> props)
+{
+	return [=](GSpace* space, ObjectIDType id, const ValueMap& args) -> GObject* {
+		return new EnemyImpl(space, id, args, props);
+	};
+}
 
 void loadAttributes()
 {
@@ -30,6 +38,16 @@ void loadAttributes()
 void loadBullets()
 {
 	loadObjects<shared_ptr<bullet_properties>>("objects/bullets.xml", app::bullets);
+}
+
+void loadEnemies()
+{
+	loadObjects<shared_ptr<enemy_properties>>("objects/enemies.xml", app::enemies);
+
+	for (auto entry : enemies)
+	{
+		GObject::namedObjectTypes.insert_or_assign(entry.first, enemyAdapter(entry.second));
+	}
 }
 
 void loadFloors()
@@ -50,6 +68,11 @@ void loadSprites()
 shared_ptr<bullet_properties> getBullet(const string& name)
 {
 	return getOrDefault(bullets, name);
+}
+
+shared_ptr<enemy_properties> getEnemy(const string& name)
+{
+	return getOrDefault(enemies, name);
 }
 
 shared_ptr<LightArea> getLight(const string& name)
@@ -94,6 +117,29 @@ bool getNumericAttr(tinyxml2::XMLElement* elem, const string& name, T* result)
 	return false;
 }
 
+DamageInfo getDamageInfo(tinyxml2::XMLElement* elem, DamageType type)
+{
+	DamageInfo result = { 0.0f, Attribute::end, type };
+
+	getNumericAttr(elem, "damage", &result.mag);
+
+	const char* elemental = elem->Attribute("element");
+	if (elemental) {
+		result.element = AttributeSystem::getAttribute(elemental);
+	}
+
+	return result;
+}
+
+bool autoName(const string& name, string& field)
+{
+	bool result = field == "auto";
+	if (result) {
+		field = name;
+	}
+	return result;
+}
+
 bool parseObject(tinyxml2::XMLElement* elem, AttributeMap* result)
 {
 	AttributeMap _result;
@@ -117,6 +163,46 @@ bool parseObject(tinyxml2::XMLElement* elem, AttributeMap* result)
 	}
 
 	*result = _result;
+	return true;
+}
+
+bool parseObject(tinyxml2::XMLElement* elem, shared_ptr<enemy_properties>* result)
+{
+	enemy_properties props;
+	const char* collectibleAttr;
+	const char* lightAttr;
+
+	getStringAttr(elem, "name", &props.name);
+	getStringAttr(elem, "sprite", &props.sprite);
+	getStringAttr(elem, "attributes", &props.attributes);
+	getStringAttr(elem, "ai_package", &props.ai_package);
+
+	autoName(elem->Name(), props.sprite);
+	autoName(elem->Name(), props.attributes);
+	autoName(elem->Name(), props.ai_package);
+
+	getNumericAttr(elem, "mass", &props.mass);
+	getNumericAttr(elem, "viewAngle", &props.viewAngle);
+	getNumericAttr(elem, "viewRange", &props.viewRange);
+
+	props.touchEffect = getDamageInfo(elem, DamageType::touch);
+
+	collectibleAttr = elem->Attribute("collectible");
+
+	if (collectibleAttr) {
+		props.collectible = Collectible::getCollectibleID(collectibleAttr);
+	}
+
+	lightAttr = elem->Attribute("light");
+
+	if (lightAttr) {
+		props.lightSource = getLight(lightAttr);
+	}
+
+	getNumericAttr(elem, "detectEssence", &props.detectEssence);
+	getNumericAttr(elem, "isFlying", &props.isFlying);
+
+	*result = make_shared<enemy_properties>(props);
 	return true;
 }
 
@@ -238,8 +324,6 @@ bool parseObject(tinyxml2::XMLElement* elem, shared_ptr<bullet_properties>* resu
 	SpaceFloat radius;
 
 	DamageInfo damage;
-	damage.element = Attribute::end;
-	damage.type = DamageType::bullet;
 
 	string sprite;
 	string lightSource;
@@ -251,12 +335,7 @@ bool parseObject(tinyxml2::XMLElement* elem, shared_ptr<bullet_properties>* resu
 	getNumericAttr(elem, "speed", &speed);
 	getNumericAttr(elem, "radius", &radius);
 
-	getNumericAttr(elem, "damage", &damage.mag);
-
-	const char* elemental = elem->Attribute("element");
-	if (elemental) {
-		damage.element = AttributeSystem::getAttribute(elemental);
-	}
+	damage = getDamageInfo(elem, DamageType::bullet);
 
 	getStringAttr(elem, "sprite", &sprite);
 	getStringAttr(elem, "lightSource", &lightSource);

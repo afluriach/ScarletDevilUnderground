@@ -62,12 +62,17 @@ void GObject::removeGraphics(bool removeSprite)
 
 GObject* GObject::constructByType(GSpace* space, ObjectIDType id, const string& type, const ValueMap& args )
 {
-    auto it = objectInfo.find(type);
-    
-    if(it != objectInfo.end()){
-        AdapterType adapter =  it->second.consAdapter;
+	auto it1 = objectInfo.find(type);
+	auto it2 = namedObjectTypes.find(type);
+
+	if (it1 != objectInfo.end()) {
+		AdapterType adapter = it1->second.consAdapter;
         return adapter(space, id, args);
     }
+	else if (it2 != namedObjectTypes.end()) {
+		AdapterType adapter = it2->second;
+		return adapter(space, id, args);
+	}
     else{
         log("Unknown object type %s!", type.c_str());
         return nullptr;
@@ -97,6 +102,14 @@ const GObject::object_info* GObject::getObjectInfo(string name)
 		return &it->second;
 	else
 		return nullptr;
+}
+
+bool GObject::isValidObjectType(string typeName)
+{
+	auto it1 = objectInfo.find(typeName);
+	auto it2 = namedObjectTypes.find(typeName);
+
+	return it1 != objectInfo.end() || it2 != namedObjectTypes.end();
 }
 
 const GObject::object_info* GObject::getObjectInfo(type_index t)

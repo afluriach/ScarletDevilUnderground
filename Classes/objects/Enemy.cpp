@@ -48,3 +48,60 @@ void Enemy::onRemove()
 	}
 	space->registerEnemyDefeated(typeid(*this));
 }
+
+EnemyImpl::EnemyImpl(
+	GSpace* space, ObjectIDType id, const ValueMap& args,
+	shared_ptr<enemy_properties> props
+) :
+	MapObjParams(),
+	MapObjForwarding(Agent),
+	Enemy(props->collectible),
+	props(props)
+{
+
+}
+
+DamageInfo EnemyImpl::touchEffect() const{
+	return props->touchEffect;
+}
+
+AttributeMap EnemyImpl::getBaseAttributes() const {
+	auto result = app::getAttributes(props->attributes);
+	if (result.empty()) {
+		log("EnemyImpl: unknown attributes set %s", props->attributes);
+	}
+	return result;
+}
+
+bool EnemyImpl::hasEssenceRadar() const {
+	return props->detectEssence;
+}
+
+SpaceFloat EnemyImpl::getRadarRadius() const {
+	return props->viewRange;
+}
+
+SpaceFloat EnemyImpl::getDefaultFovAngle() const {
+	return props->viewAngle;
+}
+
+SpaceFloat EnemyImpl::getMass() const {
+	return props->mass;
+}
+
+PhysicsLayers EnemyImpl::getLayers() const {
+
+	return props->isFlying ? PhysicsLayers::ground : enum_bitwise_or(PhysicsLayers, ground, floor);
+}
+
+string EnemyImpl::getSprite() const {
+	return props->sprite;
+}
+
+shared_ptr<LightArea> EnemyImpl::getLightSource() const {
+	return props->lightSource;
+}
+
+string EnemyImpl::initStateMachine(){
+	return props->ai_package;
+}

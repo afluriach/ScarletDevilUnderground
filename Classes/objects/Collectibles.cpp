@@ -13,6 +13,26 @@
 #include "GSpace.hpp"
 #include "value_map.hpp"
 
+#define entry(x) (collectible_id::x, #x)
+
+const boost::bimap<collectible_id, string> Collectible::collectibleNameMap = boost::assign::list_of<boost::bimap<collectible_id, string>::relation>()
+	entry(health1)
+	entry(health2)
+	entry(health3)
+
+	entry(magic1)
+	entry(magic2)
+	entry(magic3)
+
+	entry(hm1)
+	entry(hm2)
+	entry(hm3)
+
+	entry(key)
+;
+
+#undef entry
+
 #define entry(x, spr, attr, val) { collectible_id::x, {spr, Attribute::attr, val} }
 
 const unordered_map<collectible_id, collectible_properties> Collectible::propertiesMap = {
@@ -52,6 +72,17 @@ ObjectGeneratorType Collectible::create(GSpace* space, collectible_id id, SpaceV
 	}
 
 	return GObject::make_object_factory<Collectible>(pos, actualID);
+}
+
+collectible_id Collectible::getCollectibleID(const string& name)
+{
+	auto it = collectibleNameMap.right.find(name);
+
+	if (it == collectibleNameMap.right.end()) {
+		log("Unknown collectible_id name %s", name);
+	}
+
+	return it != collectibleNameMap.right.end() ? it->second : collectible_id::nil;
 }
 
 Collectible::Collectible(GSpace* space, ObjectIDType id, SpaceVect pos, collectible_id collectibleID) :

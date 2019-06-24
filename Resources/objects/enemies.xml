@@ -1,6 +1,63 @@
 <enemies>
-	<bat
-		mass="10.0"
-		radarRadius="5.0"
+	<Bat
+		name="Bat"
+		sprite="bat"
+		ai_package="bat"
+		attributes="bat"
+		
+		mass="10"
+		viewRange="5.0"
+		viewAngle="0"
+
+		collectible="nil"		
+		isFlying="true"
 	/>
+
+	<Scorpion1
+		name="Scorpion I"
+		sprite="scorpion"
+		ai_package="scorpion1"
+		attributes="scorpion1"
+		
+		mass="10"
+		viewRange="6"
+		viewAngle="0"
+
+		damage="5"
+		element="poisonDamage"
+		collectible="hm1"		
+	/>
+
+	<Scorpion2
+		name="Scorpion II"
+		sprite="scorpion2"
+		ai_package="scorpion2"
+		attributes="scorpion2"
+		
+		mass="10"
+		viewRange="6"
+		viewAngle="0"
+
+		damage="15"
+		element="poisonDamage"
+		collectible="hm2"		
+	/>
+	
+<!-- 	<t
+		sprite="auto"
+		light=""
+		ai_package=""
+		
+		mass=""
+		viewRange="5.0"
+		viewAngle="0"
+
+		damage=""
+		element=""
+		collectible=""
+		
+		detectEssence=""
+		isFlying=""
+	/>
+ -->
 </enemies>

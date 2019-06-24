@@ -259,9 +259,6 @@ bool App::applicationDidFinishLaunching() {
 
 	audioContext->initAudio();
 
-	GObject::initObjectInfo();
-	GObject::initNameMap();
-
     //Create title menu scene and run it.
     runTitleScene();
 
@@ -325,11 +322,15 @@ void App::loadShaders()
 
 void App::loadObjects()
 {
+	GObject::initObjectInfo();
+	GObject::initNameMap();
+
 	app::loadAttributes();
 	app::loadBullets();
 	app::loadFloors();
 	app::loadLights();
 	app::loadSprites();
+	app::loadEnemies();
 }
 
 void App::runTitleScene()

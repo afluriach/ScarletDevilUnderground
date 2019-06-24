@@ -43,10 +43,13 @@ struct collectible_properties
 class Collectible : virtual public GObject, public RectangleBody
 {
 public:
+	static const boost::bimap<collectible_id, string> collectibleNameMap;
+
 	static const unordered_map<collectible_id, collectible_properties> propertiesMap;
 	static const unordered_map<collectible_id, function<collectible_id(GSpace*)>> vMap;
 
 	static ObjectGeneratorType create(GSpace* space, collectible_id id, SpaceVect pos);
+	static collectible_id getCollectibleID(const string& name);
 
 	Collectible(GSpace* space, ObjectIDType id, SpaceVect pos, collectible_id collectibleID);
 	inline virtual ~Collectible() {}

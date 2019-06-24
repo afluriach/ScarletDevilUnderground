@@ -54,6 +54,8 @@ public:
     static constexpr bool logCreateObjects = false;
 	//Map each class name to a constructor adapter function.
 	static unordered_map<string, object_info> objectInfo;
+	//Map named object subtypes to the function that creates the corresponding object.
+	static unordered_map<string, AdapterType> namedObjectTypes;
 	static unordered_map<type_index, string> typeNameMap;
 
 	static const float objectFadeInTime;
@@ -63,6 +65,7 @@ public:
 	static GObject* constructByType(GSpace* space, ObjectIDType id, const string& type, const ValueMap& args);
 	static ObjectGeneratorType factoryMethodByType(const string& type, const ValueMap& args);
 	static string properNameByType(type_index t);
+	static bool isValidObjectType(string typeName);
 	static const object_info* getObjectInfo(string name);
 	static const object_info* getObjectInfo(type_index t);
 	static type_index getTypeIndex(string name);

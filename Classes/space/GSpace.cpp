@@ -215,7 +215,7 @@ void GSpace::addDynamicLoadObject(const ValueMap& obj)
 	else if (type.empty()) {
 		log("Un-typed dynamic load object");
 	}
-	else if (!GObject::getObjectInfo(type)) {
+	else if (!GObject::isValidObjectType(type)) {
 		log("Dynamic load object with unknown type %s.", type.c_str());
 	}
 	else if (dynamicLoadObjects.find(name) != dynamicLoadObjects.end()) {

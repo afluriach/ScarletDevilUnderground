@@ -12,6 +12,26 @@
 #include "Agent.hpp"
 #include "Collectibles.hpp"
 
+struct enemy_properties
+{
+	string name;
+	string sprite;
+	string attributes;
+	string ai_package;
+
+	SpaceFloat mass = 0.0;
+	SpaceFloat viewRange = 0.0;
+	SpaceFloat viewAngle = 0.0;
+
+	DamageInfo touchEffect;
+	collectible_id collectible = collectible_id::nil;
+
+	shared_ptr<LightArea> lightSource;
+
+	bool detectEssence = false;
+	bool isFlying = false;
+};
+
 class Enemy : virtual public Agent
 {
 public:
@@ -25,9 +45,37 @@ public:
 
 	virtual inline GType getType() const { return GType::enemy; }
 	virtual inline GType getRadarType() const { return GType::enemySensor; }
-
 protected:
 	collectible_id drop_id = collectible_id::nil;
+};
+
+class EnemyImpl : public Enemy
+{
+public:
+	EnemyImpl(
+		GSpace* space, ObjectIDType id, const ValueMap& args,
+		shared_ptr<enemy_properties> props
+	);
+
+	virtual DamageInfo touchEffect() const;
+	virtual AttributeMap getBaseAttributes() const;
+
+	virtual bool hasEssenceRadar() const;
+	virtual SpaceFloat getRadarRadius() const;
+	virtual SpaceFloat getDefaultFovAngle() const;
+
+	virtual SpaceFloat getMass() const;
+	virtual PhysicsLayers getLayers() const;
+
+	virtual string getSprite() const;
+	virtual shared_ptr<LightArea> getLightSource() const;
+
+	virtual string initStateMachine();
+	//onZeroHP() - should be in AI
+	//on engage dialog
+	//on defeat dialog?
+protected:
+	shared_ptr<enemy_properties> props;
 };
 
 #endif /* Enemy_hpp */

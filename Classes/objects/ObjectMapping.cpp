@@ -11,7 +11,6 @@
 #include "Agent.hpp"
 #include "App.h"
 #include "AreaSensor.hpp"
-#include "Bat.hpp"
 #include "Block.hpp"
 #include "Bullet.hpp"
 #include "CollectGlyph.hpp"
@@ -43,7 +42,6 @@
 #include "Rumia.hpp"
 #include "Sakuya.hpp"
 #include "SakuyaNPC.hpp"
-#include "Scorpion.hpp"
 #include "Sign.hpp"
 #include "Slime.hpp"
 #include "Spawner.hpp"
@@ -53,6 +51,7 @@
 #include "Torch.hpp"
 #include "Upgrade.hpp"
 #include "Wall.hpp"
+#include "xml.hpp"
 
 make_static_member_detector(properName)
 
@@ -138,15 +137,13 @@ GObject::object_info playerObjectInfo()
 #define item_entry(name,cls,itemKey) {name, makeObjectInfo<cls>(itemAdapter<cls>(#itemKey))}
 #define item_entry_same(cls) item_entry(#cls,cls,cls)
 
-#define collectible_entry(name,id) {#name, makeObjectInfo<Collectible>(collectibleAdapter(collectible_id::id))}
-
 unordered_map<string, GObject::object_info> GObject::objectInfo;
+unordered_map<string, GObject::AdapterType> GObject::namedObjectTypes;
 
 void GObject::initObjectInfo()
 {
 	objectInfo = {
 
-	entry_same(Bat),
 	entry_same(BlueFairy),
 	conditional_entry(BlueFairyNPC),
 	entry_same(BreakableWall),
@@ -176,17 +173,10 @@ void GObject::initObjectInfo()
 	entry_same(GreenFairy1),
 	entry_same(GreenFairy2),
 	conditional_entry(Headstone),
-	collectible_entry(Health1, health1),
-	collectible_entry(Health2, health2),
-	collectible_entry(Health3, health3),
 	entry_same(HiddenSubroomSensor),
 	entry_same(IceFairy),
 	entry_same(IcePlatform),
-	collectible_entry(Key, key),
 	entry_same(Launcher),
-	collectible_entry(Magic1, magic1),
-	collectible_entry(Magic2, magic2),
-	collectible_entry(Magic3, magic3),
 	conditional_entry(MapFragment),
 	entry_same(MarisaNPC),
 	conditional_entry(Meiling1),
@@ -205,8 +195,6 @@ void GObject::initObjectInfo()
 	entry_same(Sakuya),
 	entry_same(SakuyaNPC),
 	entry_same(Sapling),
-	entry_same(Scorpion1),
-	entry_same(Scorpion2),
 	entry_same(Sign),
 	entry_same(Slime1),
 	entry_same(Slime2),
@@ -225,6 +213,22 @@ void GObject::initObjectInfo()
 	{ "Player", playerObjectInfo() }
 
 	};
+
+#define collectible_entry(name,id) {#name, collectibleAdapter(collectible_id::id)}
+#define enemy_entry(name,id) {#name, enemyAdapter(#id)}
+
+	namedObjectTypes = {
+	
+	collectible_entry(Health1, health1),
+	collectible_entry(Health2, health2),
+	collectible_entry(Health3, health3),
+	collectible_entry(Key, key),
+	collectible_entry(Magic1, magic1),
+	collectible_entry(Magic2, magic2),
+	collectible_entry(Magic3, magic3),
+
+	};
+
 }
 
 const unordered_set<type_index> GSpace::trackedTypes = {
@@ -259,9 +263,6 @@ const unordered_set<type_index> GSpace::enemyTypes = {
 	typeid(ReimuEnemy),
 	typeid(Sakuya),
 
-	typeid(Bat),
-	typeid(Scorpion1),
-	typeid(Scorpion2),
 	typeid(Slime1),
 	typeid(Slime2),
 	typeid(Stalker),

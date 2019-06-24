@@ -175,7 +175,6 @@ xcopy "$(ProjectDir)..\Resources" "$(OutDir)" /D /E /I /F /Y</Command>
     <ClCompile Include="..\Classes\lua\LuaWrap.cpp" />
     <ClCompile Include="..\Classes\objects\Agent.cpp" />
     <ClCompile Include="..\Classes\objects\AreaSensor.cpp" />
-    <ClCompile Include="..\Classes\objects\Bat.cpp" />
     <ClCompile Include="..\Classes\objects\Block.cpp" />
     <ClCompile Include="..\Classes\objects\Bomb.cpp" />
     <ClCompile Include="..\Classes\objects\Bullet.cpp" />
@@ -214,7 +213,6 @@ xcopy "$(ProjectDir)..\Resources" "$(OutDir)" /D /E /I /F /Y</Command>
     <ClCompile Include="..\Classes\objects\Rumia.cpp" />
     <ClCompile Include="..\Classes\objects\Sakuya.cpp" />
     <ClCompile Include="..\Classes\objects\SakuyaNPC.cpp" />
-    <ClCompile Include="..\Classes\objects\Scorpion.cpp" />
     <ClCompile Include="..\Classes\objects\Sign.cpp" />
     <ClCompile Include="..\Classes\objects\Slime.cpp" />
     <ClCompile Include="..\Classes\objects\Spawner.cpp" />
@@ -311,7 +309,6 @@ xcopy "$(ProjectDir)..\Resources" "$(OutDir)" /D /E /I /F /Y</Command>
     <ClInclude Include="..\Classes\multifunction.h" />
     <ClInclude Include="..\Classes\objects\Agent.hpp" />
     <ClInclude Include="..\Classes\objects\AreaSensor.hpp" />
-    <ClInclude Include="..\Classes\objects\Bat.hpp" />
     <ClInclude Include="..\Classes\objects\Block.hpp" />
     <ClInclude Include="..\Classes\objects\Bomb.hpp" />
     <ClInclude Include="..\Classes\objects\Bullet.hpp" />
@@ -349,7 +346,6 @@ xcopy "$(ProjectDir)..\Resources" "$(OutDir)" /D /E /I /F /Y</Command>
     <ClInclude Include="..\Classes\objects\Rumia.hpp" />
     <ClInclude Include="..\Classes\objects\Sakuya.hpp" />
     <ClInclude Include="..\Classes\objects\SakuyaNPC.hpp" />
-    <ClInclude Include="..\Classes\objects\Scorpion.hpp" />
     <ClInclude Include="..\Classes\objects\Sign.hpp" />
     <ClInclude Include="..\Classes\objects\Slime.hpp" />
     <ClInclude Include="..\Classes\objects\Spawner.hpp" />
