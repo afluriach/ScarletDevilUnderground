@@ -27,6 +27,11 @@ void RadarObject::initializeRadar(GSpace& space)
 		hasEssenceRadar()
 	};
 
+	if (attr.radius <= 0.0) {
+		log("%s has zero radius", getName());
+		return;
+	}
+
 	radar = new RadarSensor(
 		this,
 		attr,

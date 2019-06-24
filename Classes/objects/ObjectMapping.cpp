@@ -20,10 +20,8 @@
 #include "EffectArea.hpp"
 #include "EnemyBullet.hpp"
 #include "EnvironmentalObjects.hpp"
-#include "Facer.hpp"
 #include "Fairy.hpp"
 #include "FairyNPC.hpp"
-#include "Follower.hpp"
 #include "FloorSegment.hpp"
 #include "Flower.h"
 #include "Goal.hpp"
@@ -47,7 +45,6 @@
 #include "Spawner.hpp"
 #include "Stalker.hpp"
 #include "TeleportPad.hpp"
-#include "Tewi.hpp"
 #include "Torch.hpp"
 #include "Upgrade.hpp"
 #include "Wall.hpp"
@@ -154,12 +151,10 @@ void GObject::initObjectInfo()
 	entry_same(DarknessArea),
 	entry_same(Desk),
 	entry_same(Door),
-	entry_same(Facer),
 	entry_same(Fairy1),
 	entry_same(Fairy2),
 	entry_same(FairyMaid),
 	entry_same(Flower),
-	entry_same(Follower),
 	item_entry_same(ForestBook1),
 	entry_same(ForestMarisa),
 	entry_same(GenericAgent),
@@ -203,7 +198,6 @@ void GObject::initObjectInfo()
 	entry_same(Stalker),
 	entry_same(SunArea),
 	entry_same(TeleportPad),
-	entry_same(Tewi),
 	entry_same(Torch),
 	conditional_entry(Upgrade),
 	entry_same(Wall),

@@ -186,12 +186,10 @@ xcopy "$(ProjectDir)..\Resources" "$(OutDir)" /D /E /I /F /Y</Command>
     <ClCompile Include="..\Classes\objects\Enemy.cpp" />
     <ClCompile Include="..\Classes\objects\EnemyBullet.cpp" />
     <ClCompile Include="..\Classes\objects\EnvironmentalObjects.cpp" />
-    <ClCompile Include="..\Classes\objects\Facer.cpp" />
     <ClCompile Include="..\Classes\objects\Fairy.cpp" />
     <ClCompile Include="..\Classes\objects\FairyNPC.cpp" />
     <ClCompile Include="..\Classes\objects\FloorSegment.cpp" />
     <ClCompile Include="..\Classes\objects\Flower.cpp" />
-    <ClCompile Include="..\Classes\objects\Follower.cpp" />
     <ClCompile Include="..\Classes\objects\Glyph.cpp" />
     <ClCompile Include="..\Classes\objects\Goal.cpp" />
     <ClCompile Include="..\Classes\objects\GObject.cpp" />
@@ -218,7 +216,6 @@ xcopy "$(ProjectDir)..\Resources" "$(OutDir)" /D /E /I /F /Y</Command>
     <ClCompile Include="..\Classes\objects\Spawner.cpp" />
     <ClCompile Include="..\Classes\objects\Stalker.cpp" />
     <ClCompile Include="..\Classes\objects\TeleportPad.cpp" />
-    <ClCompile Include="..\Classes\objects\Tewi.cpp" />
     <ClCompile Include="..\Classes\objects\Torch.cpp" />
     <ClCompile Include="..\Classes\objects\Upgrade.cpp" />
     <ClCompile Include="..\Classes\objects\Wall.cpp" />
@@ -320,12 +317,10 @@ xcopy "$(ProjectDir)..\Resources" "$(OutDir)" /D /E /I /F /Y</Command>
     <ClInclude Include="..\Classes\objects\Enemy.hpp" />
     <ClInclude Include="..\Classes\objects\EnemyBullet.hpp" />
     <ClInclude Include="..\Classes\objects\EnvironmentalObjects.hpp" />
-    <ClInclude Include="..\Classes\objects\Facer.hpp" />
     <ClInclude Include="..\Classes\objects\Fairy.hpp" />
     <ClInclude Include="..\Classes\objects\FairyNPC.hpp" />
     <ClInclude Include="..\Classes\objects\FloorSegment.hpp" />
     <ClInclude Include="..\Classes\objects\Flower.h" />
-    <ClInclude Include="..\Classes\objects\Follower.hpp" />
     <ClInclude Include="..\Classes\objects\Glyph.hpp" />
     <ClInclude Include="..\Classes\objects\Goal.hpp" />
     <ClInclude Include="..\Classes\objects\GObject.hpp" />
@@ -351,7 +346,6 @@ xcopy "$(ProjectDir)..\Resources" "$(OutDir)" /D /E /I /F /Y</Command>
     <ClInclude Include="..\Classes\objects\Spawner.hpp" />
     <ClInclude Include="..\Classes\objects\Stalker.hpp" />
     <ClInclude Include="..\Classes\objects\TeleportPad.hpp" />
-    <ClInclude Include="..\Classes\objects\Tewi.hpp" />
     <ClInclude Include="..\Classes\objects\Torch.hpp" />
     <ClInclude Include="..\Classes\objects\Upgrade.hpp" />
     <ClInclude Include="..\Classes\objects\Wall.hpp" />

@@ -13,6 +13,22 @@
 		isFlying="true"
 	/>
 
+	<Facer
+		sprite="facer"
+		ai_package="facer"
+		attributes="ff"
+		
+		mass="40"
+	/>
+
+	<Follower
+		sprite="follower"
+		ai_package="follower"
+		attributes="ff"
+		
+		mass="40"
+	/>
+	
 	<Scorpion1
 		name="Scorpion I"
 		sprite="scorpion"
@@ -41,6 +57,15 @@
 		damage="15"
 		element="poisonDamage"
 		collectible="hm2"		
+	/>
+
+	<Tewi
+		sprite="tewi"
+		ai_package="evade_player_projectiles"
+		attributes="tewi"
+		
+		mass="40"
+		viewRange="6"
 	/>
 	
 <!-- 	<t
