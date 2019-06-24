@@ -271,6 +271,7 @@ public:
 	//BEGIN SPELLS
 
 	virtual bool cast(shared_ptr<Spell> spell);
+	void addMagicEffect(shared_ptr<MagicEffect> effect);
 
 	void stopSpell();
 	virtual void updateSpells();
@@ -279,20 +280,6 @@ public:
 
 	inline bool isSpellActive() const {
 		return static_cast<bool>(crntSpell);
-	}
-
-	virtual void addMagicEffect(shared_ptr<MagicEffect> effect);
-	void updateMagicEffects();
-
-	template<class T>
-	inline bool hasMagicEffect()
-	{
-		for (auto it = magicEffects.begin(); it != magicEffects.end(); ++it) {
-			if (dynamic_cast<T*>(it->get())) {
-				return true;
-			}
-		}
-		return false;
 	}
 
 	//END SPELLS
@@ -340,10 +327,6 @@ protected:
 
 //spells
 	shared_ptr<Spell> crntSpell;
-
-	list<shared_ptr<MagicEffect>> magicEffects;
-	list<shared_ptr<MagicEffect>> magicEffectsToAdd;
-	list<shared_ptr<MagicEffect>> magicEffectsToRemove;
 };
 
 #endif /* GObject_hpp */

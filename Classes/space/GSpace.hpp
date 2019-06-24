@@ -20,6 +20,7 @@ class graphics_context;
 class GScene;
 class GState;
 class HUD;
+class MagicEffectSystem;
 class PlayScene;
 class Replay;
 class RoomSensor;
@@ -68,6 +69,7 @@ public:
 
 	audio_context* audioContext;
 	unique_ptr<physics_context> physicsContext;
+	unique_ptr<MagicEffectSystem> magicEffectSystem;
 private:
 	list<pair<GObject*, ALuint>> activeSounds;
 

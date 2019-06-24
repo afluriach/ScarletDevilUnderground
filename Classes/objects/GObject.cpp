@@ -18,6 +18,7 @@
 #include "GSpace.hpp"
 #include "LuaAPI.hpp"
 #include "MagicEffect.hpp"
+#include "MagicEffectSystem.hpp"
 #include "physics_context.hpp"
 #include "Spell.hpp"
 #include "SpellDescriptor.hpp"
@@ -159,7 +160,6 @@ void GObject::init()
 void GObject::update()
 {
 	updateSpells();
-	updateMagicEffects();
 	updateFloorSegment();
 	
 	updateParametricMove();
@@ -683,54 +683,7 @@ void GObject::updateSpells()
 
 void GObject::addMagicEffect(shared_ptr<MagicEffect> newEffect)
 {
-	magicEffectsToAdd.push_back(newEffect);
-}
-
-void GObject::updateMagicEffects()
-{
-	for (auto it = magicEffectsToAdd.begin(); it != magicEffectsToAdd.end(); ++it)
-	{
-		shared_ptr<MagicEffect> newEffect = *it;
-
-		if (!newEffect || newEffect.get()->crntState != MagicEffect::state::created) {
-			log("GObject::addMagicEffect: invalid magic effect");
-			continue;
-		}
-
-		magicEffects.push_back(newEffect);
-	}
-
-	magicEffectsToAdd.clear();
-
-	for (auto it = magicEffects.begin(); it != magicEffects.end(); ++it)
-	{
-		MagicEffect* _crntEffect = (*it).get();
-
-		switch (_crntEffect->crntState)
-		{
-		case MagicEffect::state::created:
-			_crntEffect->init();
-			_crntEffect->crntState = MagicEffect::state::active;
-			//intentional fall through - update will be first called on the same frame as init
-		case MagicEffect::state::active:
-			_crntEffect->update();
-			break;
-		case MagicEffect::state::ending:
-			_crntEffect->end();
-			_crntEffect->crntState = MagicEffect::state::expired;
-			magicEffectsToRemove.push_back(*it);
-			break;
-		default:
-			log("Invalid MagicEffect state %d", to_int(_crntEffect->crntState));
-			break;
-		}
-	}
-
-	for (auto it = magicEffectsToRemove.begin(); it != magicEffectsToRemove.end(); ++it)
-	{
-		magicEffects.remove(*it);
-	}
-
+	space->magicEffectSystem->addEffect(newEffect);
 }
 
 //END SPELLS

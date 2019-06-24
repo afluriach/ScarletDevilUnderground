@@ -396,6 +396,9 @@
     <ClCompile Include="..\Classes\space\RadarSensor.cpp">
       <Filter>src\space</Filter>
     </ClCompile>
+    <ClCompile Include="..\Classes\spells\MagicEffectSystem.cpp">
+      <Filter>src\spells</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="main.h">
@@ -757,6 +760,9 @@
     </ClInclude>
     <ClInclude Include="..\Classes\space\RadarSensor.hpp">
       <Filter>src\space</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\spells\MagicEffectSystem.hpp">
+      <Filter>src\spells</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

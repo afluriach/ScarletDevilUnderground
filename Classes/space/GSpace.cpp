@@ -20,6 +20,7 @@
 #include "graphics_context.hpp"
 #include "GSpace.hpp"
 #include "HUD.hpp"
+#include "MagicEffectSystem.hpp"
 #include "OverworldScene.hpp"
 #include "physics_context.hpp"
 #include "PhysicsImpl.hpp"
@@ -57,6 +58,8 @@ GSpace::GSpace(GScene* gscene) :
 	controlReplay->scene_name = GScene::crntSceneName;
 	controlReplay->frame_rate = app::params.framesPerSecond;
 	crntState = make_unique<GState>();
+
+	magicEffectSystem = make_unique<MagicEffectSystem>();
 }
 
 GSpace::~GSpace()
@@ -152,6 +155,8 @@ void GSpace::update()
 		}
 	}
 	addGraphicsAction(&graphics_context::spriteSpatialUpdate, spriteUpdates);
+
+	magicEffectSystem->update();
 
     for(GObject* obj : updateObjects){
         obj->update();
@@ -468,6 +473,7 @@ void GSpace::setBulletBodiesVisible(bool b)
 
 void GSpace::processRemoval(GObject* obj, bool _removeSprite)
 {
+	magicEffectSystem->removeObjectEffects(obj);
 	obj->onRemove();
 
     objByName.erase(obj->name);

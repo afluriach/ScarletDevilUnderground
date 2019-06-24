@@ -19,6 +19,7 @@
 #include "GraphicsNodes.hpp"
 #include "GSpace.hpp"
 #include "MagicEffect.hpp"
+#include "MagicEffectSystem.hpp"
 #include "MiscMagicEffects.hpp"
 #include "physics_context.hpp"
 #include "Player.hpp"
@@ -122,7 +123,9 @@ void Agent::update()
 		onZeroHP();
 	}
 
-	if (attributeSystem[Attribute::iceDamage] >= AttributeSystem::maxElementDamage && !hasMagicEffect<FreezeStatusEffect>()) {
+	bool hasFreezeEffect = space->magicEffectSystem->hasMagicEffect<FreezeStatusEffect>(this);
+
+	if (attributeSystem[Attribute::iceDamage] >= AttributeSystem::maxElementDamage && !hasFreezeEffect) {
 		addMagicEffect(make_shared<FreezeStatusEffect>(this));
 		attributeSystem.modifyAttribute(Attribute::iceDamage, -AttributeSystem::maxElementDamage);
 	}
