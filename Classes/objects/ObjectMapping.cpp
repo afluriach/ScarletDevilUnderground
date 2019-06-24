@@ -38,10 +38,8 @@
 #include "Pyramid.hpp"
 #include "Reimu.hpp"
 #include "Rumia.hpp"
-#include "Sakuya.hpp"
 #include "SakuyaNPC.hpp"
 #include "Sign.hpp"
-#include "Slime.hpp"
 #include "Spawner.hpp"
 #include "Stalker.hpp"
 #include "TeleportPad.hpp"
@@ -187,12 +185,9 @@ void GObject::initObjectInfo()
 	entry_same(ReimuEnemy),
 	entry_same(Rumia1),
 	entry_same(Rumia2),
-	entry_same(Sakuya),
 	entry_same(SakuyaNPC),
 	entry_same(Sapling),
 	entry_same(Sign),
-	entry_same(Slime1),
-	entry_same(Slime2),
 	entry_same(Spawner),
 	conditional_entry(Spellcard),
 	entry_same(Stalker),
@@ -255,10 +250,7 @@ const unordered_set<type_index> GSpace::enemyTypes = {
 	typeid(ForestMarisa),
 	typeid(PatchouliEnemy),
 	typeid(ReimuEnemy),
-	typeid(Sakuya),
 
-	typeid(Slime1),
-	typeid(Slime2),
 	typeid(Stalker),
 };
 

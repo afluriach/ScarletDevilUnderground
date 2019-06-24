@@ -311,6 +311,10 @@ float AttributeSystem::getStaminaRatio() const
 
 float AttributeSystem::applyDamage(DamageInfo damage)
 {
+	if ((*this)[Attribute::maxHP] <= 0.0f) {
+		return -1.0f;
+	}
+
 	float elementSensitivity = damage.element != Attribute::end ? (*this)[getElementSensitivity(damage.element)] : 1.0f;
 	float typeSensitivity = getTypeSensitivity(damage.type);
 

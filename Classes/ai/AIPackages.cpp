@@ -105,6 +105,23 @@ void blue_fairy_follow_path(StateMachine* fsm, const ValueMap& args)
 	}
 }
 
+//Used for Slime; should not try to use pathfinding
+void engage_player_in_room(StateMachine* fsm, const ValueMap& args)
+{
+	fsm->addDetectFunction(
+		GType::player,
+		[](StateMachine& sm, GObject* target) -> void {
+			sm.addThread(make_shared<Seek>(&sm, target, false));
+		}
+	);
+	fsm->addEndDetectFunction(
+		GType::player,
+		[](StateMachine& sm, GObject* target) -> void {
+			sm.removeThread("Seek");
+		}
+	);
+}
+
 void seek_player(StateMachine* fsm, const ValueMap& args)
 {
 	fsm->addDetectFunction(
@@ -554,6 +571,7 @@ const unordered_map<string, StateMachine::PackageType> StateMachine::packages = 
 	package(circle_around_point),
 	package(flock),
 	package(blue_fairy_follow_path),
+	package(engage_player_in_room),
 	package(seek_player),
 	package(flee_player),
 	package(idle),

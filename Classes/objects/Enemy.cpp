@@ -54,7 +54,7 @@ EnemyImpl::EnemyImpl(
 	shared_ptr<enemy_properties> props
 ) :
 	MapObjParams(),
-	MapObjForwarding(Agent),
+	Agent(space,id,args,props->radius),
 	Enemy(props->collectible),
 	props(props)
 {

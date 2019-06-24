@@ -282,7 +282,9 @@ void graphics_context::createAgentSprite(
 
 void graphics_context::createDamageIndicator(float val, SpaceVect pos)
 {
-	Label* label = createTextLabel(floatToRoundedString(val, 4.0f), 18);
+	string s = (val >= 0.0f) ? floatToRoundedString(val, 4.0f) : "-";
+
+	Label* label = createTextLabel(s, 18);
 	Vec2 startPos = toCocos(pos + SpaceVect(0.0, 0.5)) * app::pixelsPerTile;
 	label->setPosition(startPos);
 	label->setScale(2.0f);

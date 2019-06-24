@@ -12,6 +12,13 @@
 #include "Resources.hpp"
 #include "audio_context.hpp"
 
+void audio_context::check_error(const string& msg)
+{
+	if (ALenum error = alGetError()) {
+		log("Audio error at %s: %X", msg, error);
+	}
+}
+
 const vector<string> audio_context::soundFiles = {
 	"sfx/bomb_explosion1.wav",
 	"sfx/bomb_explosion2.wav",
@@ -284,9 +291,7 @@ void audio_context::update()
 {
 	audioMutex.lock();
 
-	if (ALenum error = alGetError()) {
-		log("Audio error: %d", error);
-	}
+	check_error("pre-audio-update");
 
 	auto it = activeSources.begin();
 	while (it != activeSources.end()) {
@@ -300,5 +305,8 @@ void audio_context::update()
 			++it;
 		}
 	}
+
+	check_error("post-audio-update");
+
 	audioMutex.unlock();
 }

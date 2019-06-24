@@ -354,7 +354,7 @@ string getNowTimestamp()
 	chrono::system_clock::time_point now = chrono::system_clock::now();
 	time_t timepoint = chrono::system_clock::to_time_t(now);
 	//return asctime(localtime(&timepoint));
-	strftime(buf, 64, "%Y-%m-%d %H:%M:%S", localtime(&timepoint));
+	strftime(buf, 64, "%Y-%m-%d %H-%M-%S", localtime(&timepoint));
 	return string(buf);
 }
 

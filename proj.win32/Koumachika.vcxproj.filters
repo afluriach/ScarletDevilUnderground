@@ -114,9 +114,6 @@
     <ClCompile Include="..\Classes\objects\Player.cpp">
       <Filter>src\objects</Filter>
     </ClCompile>
-    <ClCompile Include="..\Classes\objects\Sakuya.cpp">
-      <Filter>src\objects</Filter>
-    </ClCompile>
     <ClCompile Include="..\Classes\objects\Stalker.cpp">
       <Filter>src\objects</Filter>
     </ClCompile>
@@ -188,9 +185,6 @@
     </ClCompile>
     <ClCompile Include="..\Classes\scenes\IceCave.cpp">
       <Filter>src\scenes</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Classes\objects\Slime.cpp">
-      <Filter>src\objects</Filter>
     </ClCompile>
     <ClCompile Include="..\Classes\objects\Enemy.cpp">
       <Filter>src\objects</Filter>
@@ -503,9 +497,6 @@
     <ClInclude Include="..\Classes\objects\Reimu.hpp">
       <Filter>src\objects</Filter>
     </ClInclude>
-    <ClInclude Include="..\Classes\objects\Sakuya.hpp">
-      <Filter>src\objects</Filter>
-    </ClInclude>
     <ClInclude Include="..\Classes\objects\Stalker.hpp">
       <Filter>src\objects</Filter>
     </ClInclude>
@@ -565,9 +556,6 @@
     </ClInclude>
     <ClInclude Include="..\Classes\scenes\IceCave.hpp">
       <Filter>src\scenes</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Classes\objects\Slime.hpp">
-      <Filter>src\objects</Filter>
     </ClInclude>
     <ClInclude Include="..\Classes\objects\Enemy.hpp">
       <Filter>src\objects</Filter>

@@ -28,6 +28,18 @@
 		
 		mass="40"
 	/>
+
+ 	<Sakuya
+		sprite="sakuya"
+		ai_package="sakuya"
+		attributes="sakuya"
+		
+		mass="40"
+		viewRange="6"
+		viewAngle="0"
+
+		collectible="nil"		
+	/>
 	
 	<Scorpion1
 		name="Scorpion I"
@@ -59,6 +71,38 @@
 		collectible="hm2"		
 	/>
 
+	<Slime1
+		name="Slime I"
+		sprite="slime"
+		ai_package="engage_player_in_room"
+		attributes="slime1"
+		
+		radius="0.875"
+		mass="40"
+		viewRange="6"
+		viewAngle="45"
+
+		damage="5"
+		element="slimeDamage"
+		collectible="hm1"		
+	/>
+
+	<Slime2
+		name="Slime II"
+		sprite="slime"
+		ai_package="engage_player_in_room"
+		attributes="slime2"
+
+		radius="1.75"
+		mass="40"
+		viewRange="6"
+		viewAngle="45"
+
+		damage="15"
+		element="slimeDamage"
+		collectible="hm2"
+	/>
+	
 	<Tewi
 		sprite="tewi"
 		ai_package="evade_player_projectiles"

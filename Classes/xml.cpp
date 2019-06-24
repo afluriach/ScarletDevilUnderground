@@ -169,6 +169,7 @@ bool parseObject(tinyxml2::XMLElement* elem, AttributeMap* result)
 bool parseObject(tinyxml2::XMLElement* elem, shared_ptr<enemy_properties>* result)
 {
 	enemy_properties props;
+	props.radius = Agent::defaultSize;
 	const char* collectibleAttr;
 	const char* lightAttr;
 
@@ -181,6 +182,7 @@ bool parseObject(tinyxml2::XMLElement* elem, shared_ptr<enemy_properties>* resul
 	autoName(elem->Name(), props.attributes);
 	autoName(elem->Name(), props.ai_package);
 
+	getNumericAttr(elem, "radius", &props.radius);
 	getNumericAttr(elem, "mass", &props.mass);
 	getNumericAttr(elem, "viewAngle", &props.viewAngle);
 	getNumericAttr(elem, "viewRange", &props.viewRange);

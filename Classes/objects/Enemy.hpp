@@ -19,6 +19,8 @@ struct enemy_properties
 	string attributes;
 	string ai_package;
 
+	//Strictly radius for now, as Enemy->Agent still is a CircleBody
+	SpaceFloat radius = 0.0;
 	SpaceFloat mass = 0.0;
 	SpaceFloat viewRange = 0.0;
 	SpaceFloat viewAngle = 0.0;
