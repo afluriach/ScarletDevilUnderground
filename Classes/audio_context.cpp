@@ -12,11 +12,18 @@
 #include "Resources.hpp"
 #include "audio_context.hpp"
 
-void audio_context::check_error(const string& msg)
+bool audio_context::check_error(const string& msg)
 {
+	bool result = false;
+
+#if DEV_MODE
 	if (ALenum error = alGetError()) {
 		log("Audio error at %s: %X", msg, error);
+		result = true;
 	}
+#endif
+
+	return result;
 }
 
 const vector<string> audio_context::soundFiles = {
@@ -68,6 +75,7 @@ void audio_context::initAudio()
 	}
 
 	alDistanceModel(AL_EXPONENT_DISTANCE);
+	check_error("distance-model");
 
 	for (string s : soundFiles) {
 		loadSound(s);
@@ -96,6 +104,8 @@ ALuint audio_context::initSoundSource(const Vec3& pos, const Vec3& vel, bool rel
 	alSource3f(result, AL_POSITION, pos.x, pos.y, pos.z);
 	alSource3f(result, AL_VELOCITY, vel.x, vel.y, vel.z);
 	alSourcei(result, AL_SOURCE_RELATIVE, relative ? AL_TRUE : AL_FALSE);
+
+	check_error("init-sound-source");
 
 	return result;
 }
@@ -137,6 +147,7 @@ void audio_context::loadSound(const string& path)
 	}
 
 	alGenBuffers(1, &bufferID);
+	check_error("generate-buffer");
 
 	if (bufferID == AL_INVALID_VALUE) {
 		log("Failed to create sound buffer.");
@@ -147,9 +158,12 @@ void audio_context::loadSound(const string& path)
 		bufferID,
 		AL_FORMAT_MONO16,
 		buf,
-		info.frames,
+		info.frames * 2,
 		info.samplerate
 	);
+	if (check_error("copy-buffer-data")) {
+		log("loading %s, sample rate %d", path, info.samplerate);
+	}
 
 	loadedBuffers.insert_or_assign(path, bufferID);
 	delete[] buf;
@@ -170,6 +184,7 @@ ALuint audio_context::playSound(const string& path, float volume)
 	if (source != 0 && sound != 0) {
 		alSourcei(source, AL_BUFFER, sound);
 		alSourcePlay(source);
+		check_error("play-sound");
 		activeSources.insert(source);
 	}
 
@@ -194,9 +209,13 @@ ALuint audio_context::playSoundSpatial(const string& path, const Vec3& pos, cons
 
 	if (source != 0) {
 		alSourcei(source, AL_BUFFER, bufferID);
+		check_error("set-buffer");
 		alSourcef(source, AL_ROLLOFF_FACTOR, boost::math::float_constants::root_two);
+		check_error("set-rolloff");
 		alSourcei(source, AL_LOOPING, loop);
+		check_error("set-loop");
 		alSourcePlay(source);
+		check_error("play-sound-spatial");
 		activeSources.insert(source);
 	}
 
@@ -211,6 +230,7 @@ void audio_context::endSound(ALuint source)
 	auto it = activeSources.find(source);
 	if (it != activeSources.end()) {
 		alSourceStop(source);
+		check_error("source-stop");
 		availableSources.push_back(source);
 		activeSources.erase(it);
 	}
@@ -226,6 +246,7 @@ void audio_context::pauseSounds()
 		alGetSourcei(sourceID, AL_SOURCE_STATE, &state);
 		if (state != AL_STOPPED && state != AL_PAUSED) {
 			alSourcePause(sourceID);
+			check_error("source-pause");
 		}
 	}
 	audioMutex.unlock();
@@ -238,8 +259,10 @@ void audio_context::resumeSounds()
 	{
 		ALenum state;
 		alGetSourcei(sourceID, AL_SOURCE_STATE, &state);
+		check_error("get-source-state");
 		if (state == AL_PAUSED) {
 			alSourcePlay(sourceID);
+			check_error("source-play");
 		}
 	}
 	audioMutex.unlock();
@@ -258,6 +281,7 @@ void audio_context::setSoundListenerPos(SpaceVect pos, SpaceVect vel, SpaceFloat
 	alListenerfv(AL_POSITION, &_pos.x);
 	alListenerfv(AL_VELOCITY, &_vel.x);
 	alListenerfv(AL_ORIENTATION, &orientation[0]);
+	check_error("set-listener-position");
 	audioMutex.unlock();
 }
 
@@ -271,6 +295,7 @@ bool audio_context::setSoundSourcePos(ALuint source, SpaceVect pos, SpaceVect ve
 	if (activeSources.find(source) != activeSources.end()) {
 		alSourcefv(source, AL_POSITION, &_pos.x);
 		alSourcefv(source, AL_VELOCITY, &_vel.x);
+		check_error("set-sound-source-position");
 		valid = true;
 	}
 
@@ -297,6 +322,7 @@ void audio_context::update()
 	while (it != activeSources.end()) {
 		ALenum state;
 		alGetSourcei(*it, AL_SOURCE_STATE, &state);
+		check_error("get-source-state");
 		if (state == AL_STOPPED) {
 			availableSources.push_back(*it);
 			it = activeSources.erase(it);
@@ -305,8 +331,6 @@ void audio_context::update()
 			++it;
 		}
 	}
-
-	check_error("post-audio-update");
 
 	audioMutex.unlock();
 }

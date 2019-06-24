@@ -14,7 +14,7 @@ class audio_context
 public:
 	friend class App;
 
-	static void check_error(const string& msg);
+	static bool check_error(const string& msg);
 
 	static const vector<string> soundFiles;
 
