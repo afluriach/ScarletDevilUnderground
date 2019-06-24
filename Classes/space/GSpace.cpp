@@ -114,6 +114,8 @@ GScene* GSpace::getScene()
 
 void GSpace::update()
 {
+	updateSoundSources();
+
 	objectActionsMutex.lock();
 	for (auto f : objectActions) {
 		f();
