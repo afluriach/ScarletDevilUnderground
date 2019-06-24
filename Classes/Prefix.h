@@ -95,10 +95,15 @@
 #include <boost/serialization/bitset.hpp>
 #include <boost/serialization/set.hpp>
 #include <boost/serialization/vector.hpp>
+#include <boost/smart_ptr/local_shared_ptr.hpp>
+#include <boost/smart_ptr/make_local_shared.hpp>
 
 using namespace std;
 USING_NS_CC;
 using namespace luabridge;
+
+#define make_shared boost::make_local_shared
+#define shared_ptr boost::local_shared_ptr
 
 #include "macros.h"
 #include "vect.hpp"
