@@ -29,6 +29,8 @@ const boost::bimap<collectible_id, string> Collectible::collectibleNameMap = boo
 	entry(hm3)
 
 	entry(key)
+
+	entry(nil)
 ;
 
 #undef entry
