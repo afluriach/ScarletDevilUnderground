@@ -31,11 +31,6 @@ THE SOFTWARE.
 #include <algorithm>
 #include "platform/CCFileUtils.h"
 #include <shellapi.h>
-/**
-@brief    This function change the PVRFrame show/hide setting in register.
-@param  bEnable If true show the PVRFrame window, otherwise hide.
-*/
-static void PVRFrameEnableControlWindow(bool bEnable);
 
 NS_CC_BEGIN
 
@@ -62,8 +57,6 @@ Application::~Application()
 
 int Application::run()
 {
-    PVRFrameEnableControlWindow(false);
-
     // Main message loop:
     LARGE_INTEGER nLast;
     LARGE_INTEGER nNow;
@@ -259,42 +252,5 @@ void Application::setStartupScriptFilename(const std::string& startupScriptFile)
 }
 
 NS_CC_END
-
-//////////////////////////////////////////////////////////////////////////
-// Local function
-//////////////////////////////////////////////////////////////////////////
-static void PVRFrameEnableControlWindow(bool bEnable)
-{
-    HKEY hKey = 0;
-
-    // Open PVRFrame control key, if not exist create it.
-    if(ERROR_SUCCESS != RegCreateKeyExW(HKEY_CURRENT_USER,
-        L"Software\\Imagination Technologies\\PVRVFRame\\STARTUP\\",
-        0,
-        0,
-        REG_OPTION_NON_VOLATILE,
-        KEY_ALL_ACCESS,
-        0,
-        &hKey,
-        nullptr))
-    {
-        return;
-    }
-
-    const WCHAR* wszValue = L"hide_gui";
-    const WCHAR* wszNewData = (bEnable) ? L"NO" : L"YES";
-    WCHAR wszOldData[256] = {0};
-    DWORD   dwSize = sizeof(wszOldData);
-    LSTATUS status = RegQueryValueExW(hKey, wszValue, 0, nullptr, (LPBYTE)wszOldData, &dwSize);
-    if (ERROR_FILE_NOT_FOUND == status              // the key not exist
-        || (ERROR_SUCCESS == status                 // or the hide_gui value is exist
-        && 0 != wcscmp(wszNewData, wszOldData)))    // but new data and old data not equal
-    {
-        dwSize = sizeof(WCHAR) * (wcslen(wszNewData) + 1);
-        RegSetValueEx(hKey, wszValue, 0, REG_SZ, (const BYTE *)wszNewData, dwSize);
-    }
-
-    RegCloseKey(hKey);
-}
 
 #endif // CC_TARGET_PLATFORM == CC_PLATFORM_WIN32
