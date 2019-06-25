@@ -24,23 +24,3 @@ MarisaNPC::MarisaNPC(GSpace* space, ObjectIDType id, const ValueMap& args) :
 	)
 {}
 
-const string Marisa::baseAttributes = "marisa";
-const string Marisa::properName = "Marisa Kirisame";
-
-Marisa::Marisa(GSpace* space, ObjectIDType id, const ValueMap& args) :
-	Enemy(
-		space, id, args,
-		baseAttributes,
-		defaultSize,
-		33.0,
-		collectible_id::nil
-	)
-{}
-
-CollectMarisa::CollectMarisa(GSpace* space, ObjectIDType id, const ValueMap& args) :
-	MapObjForwarding(Marisa)
-{}
-
-ForestMarisa::ForestMarisa(GSpace* space, ObjectIDType id, const ValueMap& args) :
-	MapObjForwarding(Marisa)
-{}

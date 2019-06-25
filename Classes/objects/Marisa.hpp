@@ -25,30 +25,4 @@ public:
 	inline virtual string getDialog() { return "dialogs/marisa1"; }
 };
 
-class Marisa : public Enemy
-{
-public:
-	static const string baseAttributes;
-	static const string properName;
-
-	MapObjCons(Marisa);
-	inline virtual ~Marisa() {}
-    
-    virtual inline SpaceFloat getRadarRadius() const {return 6.0;}
-    
-    inline string getSprite() const {return "marisa";}
-};
-
-class CollectMarisa : public Marisa {
-public:
-	MapObjCons(CollectMarisa);
-	virtual inline string initStateMachine() { return "collect_marisa"; }
-};
-
-class ForestMarisa : public Marisa {
-public:
-	MapObjCons(ForestMarisa);
-	virtual inline string initStateMachine() { return "forest_marisa"; }
-};
-
 #endif /* Marisa_h */

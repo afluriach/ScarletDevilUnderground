@@ -143,7 +143,6 @@ void GObject::initObjectInfo()
 	conditional_entry(BlueFairyNPC),
 	entry_same(BreakableWall),
 	entry_same(CollectGlyph),
-	entry_same(CollectMarisa),
 	entry_same(Barrier),
 	entry_same(Block),
 	entry_same(DarknessArea),
@@ -154,7 +153,6 @@ void GObject::initObjectInfo()
 	entry_same(FairyMaid),
 	entry_same(Flower),
 	item_entry_same(ForestBook1),
-	entry_same(ForestMarisa),
 	entry_same(GenericAgent),
 	entry_same(GhostFairy),
 	conditional_entry(GhostFairyNPC),
@@ -247,7 +245,6 @@ const unordered_set<type_index> GSpace::enemyTypes = {
 	
 	typeid(Rumia1),
 	typeid(Rumia2),
-	typeid(ForestMarisa),
 	typeid(PatchouliEnemy),
 	typeid(ReimuEnemy),
 

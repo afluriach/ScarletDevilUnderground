@@ -13,6 +13,19 @@
 		isFlying="true"
 	/>
 
+	<CollectMarisa
+		name="Marisa Kirisame"
+		sprite="marisa"
+		ai_package="collect_marisa"
+		attributes="marisa"
+		
+		mass="33"
+		viewRange="6.0"
+		viewAngle="0"
+
+		collectible="nil"		
+	/>
+	
 	<Facer
 		sprite="facer"
 		ai_package="facer"
@@ -29,6 +42,19 @@
 		mass="40"
 	/>
 
+	<ForestMarisa
+		name="Marisa Kirisame"
+		sprite="marisa"
+		ai_package="forest_marisa"
+		attributes="marisa"
+		
+		mass="33"
+		viewRange="6.0"
+		viewAngle="0"
+
+		collectible="nil"		
+	/>
+	
  	<Sakuya
 		sprite="sakuya"
 		ai_package="sakuya"
