@@ -17,6 +17,6 @@ Flower::Flower(GSpace* space, ObjectIDType id, const string& name, const string&
 }
 
 Flower::Flower(GSpace* space, ObjectIDType id, const ValueMap& args) :
-	GObject(MapParams(space, id, args), physics_params(0.5, -1.0)),
+	GObject(MapParams(), physics_params(0.5, -1.0)),
 	color(args.at("color").asString()) {
 }

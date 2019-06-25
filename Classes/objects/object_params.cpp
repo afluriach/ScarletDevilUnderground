@@ -37,15 +37,17 @@ object_params::object_params(
 {
 }
 
-object_params::object_params(GSpace* space, ObjectIDType id, const ValueMap& args) :
+object_params::object_params(GSpace* space, ObjectIDType id, const ValueMap& args, bool rotateUp) :
 	object_params(
 		space,
 		id,
 		getStringOrDefault(args, "name", ""),
-		getObjectPos(args)
+		getObjectPos(args),
+		rotateUp ? float_pi * 0.5 : 0.0
 	)
 {
 	hidden = getBoolOrDefault(args, "hidden", false);
+	name = getStringOrDefault(args, "name", "");
 }
 
 physics_params::physics_params(SpaceFloat radius, SpaceFloat mass) :

@@ -25,7 +25,7 @@ public:
 		const SpaceVect& vel,
 		SpaceFloat angle = float_pi * 0.5
 	);
-	object_params(GSpace* space, ObjectIDType id, const ValueMap& args);
+	object_params(GSpace* space, ObjectIDType id, const ValueMap& args, bool rotateUp = false);
 
 	GSpace* space = nullptr;
 	ObjectIDType id = 0;
