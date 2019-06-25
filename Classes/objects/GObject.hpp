@@ -12,7 +12,6 @@
 #include "enum.h"
 #include "graphics_types.h"
 #include "multifunction.h"
-#include "object_ref.hpp"
 #include "object_params.hpp"
 
 namespace ai {
@@ -170,8 +169,8 @@ public:
 	SpaceVect getFloorVelocity() const;
 	void updateFloorSegment();
 	void updateFriction(float _uk);
-	void onContactFloorSegment(object_ref<FloorSegment> fs);
-	void onEndContactFloorSegment(object_ref<FloorSegment> fs);
+	void onContactFloorSegment(FloorSegment* fs);
+	void onEndContactFloorSegment(FloorSegment* fs);
 
 	SpaceRect getBoundingBox() const;
 	SpaceVect getDimensions() const;
@@ -320,8 +319,8 @@ protected:
 	parametric_space_function parametric_f;
 	SpaceFloat parametric_t = -1.0;
 
-	object_ref<FloorSegment> crntFloorCenterContact;
-	unordered_set<object_ref<FloorSegment>> crntFloorContacts;
+	FloorSegment* crntFloorCenterContact = nullptr;
+	unordered_set<FloorSegment*> crntFloorContacts;
 
 //graphics
 	SpriteID spriteID = 0;

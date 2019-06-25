@@ -576,8 +576,8 @@ void Agent::updateAnimation()
 	SpaceVect dist = getVel()*app::params.secondsPerFrame;
 	bool advance = animation->accumulate(dist.length());
 
-	if (advance && crntFloorCenterContact.isValid()) {
-		string sfxRes = crntFloorCenterContact.get()->getFootstepSfx();
+	if (advance && isOnFloor() && crntFloorCenterContact) {
+		string sfxRes = crntFloorCenterContact->getFootstepSfx();
 		if (!sfxRes.empty()) {
 			playSoundSpatial(sfxRes, 0.5f, false, -1.0f);
 		}

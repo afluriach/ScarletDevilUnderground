@@ -79,6 +79,8 @@ void MovingPlatform::init()
 
 void MovingPlatform::update()
 {
+	GObject::update();
+
 	distanceToTarget -= app::params.secondsPerFrame * getMaxSpeed();
 
 	if (path && distanceToTarget <= 0) {

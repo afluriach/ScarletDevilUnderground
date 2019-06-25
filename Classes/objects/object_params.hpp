@@ -58,6 +58,6 @@ public:
 	SpaceFloat mass;
 };
 
-#define MapRectPhys(m) physics_params(args, mass)
+#define MapRectPhys(m) physics_params(args, m)
 
 #endif

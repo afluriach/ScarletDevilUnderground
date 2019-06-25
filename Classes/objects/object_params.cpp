@@ -63,5 +63,5 @@ physics_params::physics_params(SpaceVect dimensions, SpaceFloat mass) :
 physics_params::physics_params(const ValueMap& args, SpaceFloat mass)
 {
 	dimensions = getObjectDimensions(args);
-	mass = getFloatOrDefault(args, "mass", mass);
+	this->mass = getFloatOrDefault(args, "mass", mass);
 }
