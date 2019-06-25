@@ -52,7 +52,7 @@ const float Player::sprintCost = 7.5f;
 Player::Player(GSpace* space, ObjectIDType id, const SpaceVect& pos, Direction d) :
 	Agent(space, id, "player", pos,d)
 {
-
+	attributes = FlandrePC::baseAttributes;
 }
 
 Player::Player(

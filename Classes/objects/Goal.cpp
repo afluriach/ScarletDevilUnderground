@@ -13,9 +13,8 @@
 #include "PlayScene.hpp"
 
 Goal::Goal(GSpace* space, ObjectIDType id, const ValueMap& args) :
-	GObject(MapParams(), MapRectPhys(-1.0))
+	GObject(MapParamsPointUp(), MapRectPhys(-1.0))
 {
-	setInitialAngle(float_pi / 2.0);
 	playScene = space->getSceneAs<PlayScene>();
 
 	if (!playScene) {

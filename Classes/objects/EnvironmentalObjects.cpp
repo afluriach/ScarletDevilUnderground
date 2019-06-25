@@ -102,9 +102,8 @@ void GhostHeadstone::init()
 }
 
 Sapling::Sapling(GSpace* space, ObjectIDType id, const ValueMap& args) :
-	GObject(MapParams(), physics_params(args, -1.0)) 
+	GObject(MapParamsPointUp(), physics_params(args, -1.0)) 
 {
-	setInitialAngle(float_pi / 2.0);
 }
 
 bool Mushroom::conditionalLoad(GSpace* space, ObjectIDType id, const ValueMap& args)
@@ -114,9 +113,8 @@ bool Mushroom::conditionalLoad(GSpace* space, ObjectIDType id, const ValueMap& a
 }
 
 Mushroom::Mushroom(GSpace* space, ObjectIDType id, const ValueMap& args) :
-	GObject(MapParams(), physics_params(args, -1.0)) 
+	GObject(MapParamsPointUp(), physics_params(args, -1.0)) 
 {
-	setInitialAngle(float_pi / 2.0);
 	objectID = getIntOrDefault(args, "id", -1);
 }
 

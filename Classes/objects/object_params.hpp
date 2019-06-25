@@ -42,6 +42,7 @@ public:
 
 #define MapParams() make_shared<object_params>(space, id, args)
 #define PosAngleParams(pos,angle) make_shared<object_params>(space, id, "", pos, angle)
+#define MapParamsPointUp() PosAngleParams(getObjectPos(args), float_pi * 0.5)
 
 class physics_params
 {

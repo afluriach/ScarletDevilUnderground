@@ -25,15 +25,10 @@ bool Upgrade::conditionalLoad(GSpace* space, ObjectIDType id, const ValueMap& ar
 }
 
 Upgrade::Upgrade(GSpace* space, ObjectIDType id, const ValueMap& args) :
-	GObject(
-		make_shared<object_params>(space,id,args),
-		physics_params(0.75, -1.0)
-	),
+	GObject(MapParamsPointUp(), physics_params(0.75, -1.0)),
 	attribute(AttributeSystem::getAttribute(getStringOrDefault(args, "attr", ""))),
 	upgrade_id(getIntOrDefault(args, "id", -1))
 {
-	setInitialAngle(float_pi / 2.0);
-
 	if (attribute == Attribute::end || upgrade_id == -1) {
 		log("Upgrade %s: invalid params", getName());
 		space->removeObject(this);
