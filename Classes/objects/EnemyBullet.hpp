@@ -18,7 +18,7 @@ class StarBullet : public Bullet
 public:
     static const vector<string> colors;
 
-	StarBullet(GSpace* space, ObjectIDType id, const SpaceVect& pos, SpaceFloat angle, const bullet_attributes& attributes, SpaceFloat speed, SpaceFloat radius, const string& color);
+	StarBullet(shared_ptr<object_params> params, const bullet_attributes& attributes,const string& color);
 
     const string color;
 
@@ -35,7 +35,7 @@ class IllusionDialDagger : public Bullet
 {
 public:
     //IllusionDaggerBullet(const ValueMap& args);
-    IllusionDialDagger(GSpace* space, ObjectIDType id, const bullet_attributes& attributes, const SpaceVect& pos, SpaceFloat anglar_velocity);
+    IllusionDialDagger(shared_ptr<object_params> params, const bullet_attributes& attributes);
 
 	virtual inline SpaceFloat getMaxSpeed() const { return 3.0; }
     
@@ -63,7 +63,9 @@ public:
 		SpaceFloat speed
 	);
 
-	ReimuBullet1(GSpace* space, ObjectIDType id, const SpaceVect& pos, SpaceFloat angle, const bullet_attributes& attributes, SpaceFloat start);
+	static parametric_space_function getParametricFunction(SpaceVect origin, SpaceFloat angle, SpaceFloat tOffset);
+
+	ReimuBullet1(shared_ptr<object_params> params, const bullet_attributes& attributes);
 };
 
 class YinYangOrb : public BulletImpl
@@ -71,7 +73,7 @@ class YinYangOrb : public BulletImpl
 public:
 	static const string props;
 
-	cons(YinYangOrb);
+	YinYangOrb(shared_ptr<object_params> params, const bullet_attributes& attributes);
 };
 
 class RumiaDemarcation2Bullet : public BulletImpl
@@ -80,12 +82,8 @@ public:
 	static const string props;
 
 	RumiaDemarcation2Bullet(
-		GSpace* space,
-		ObjectIDType id,
-		const SpaceVect& pos,
-		SpaceFloat angle,
-		const bullet_attributes& attributes,
-		SpaceFloat angularVel
+		shared_ptr<object_params> params,
+		const bullet_attributes& attributes
 	);
 
 	virtual void update();
@@ -97,10 +95,7 @@ public:
 	static const string props;
 
 	RumiaDarknessBullet(
-		GSpace* space,
-		ObjectIDType id,
-		const SpaceVect& pos,
-		SpaceFloat angle,
+		shared_ptr<object_params> params,
 		const bullet_attributes& attributes
 	);
 };

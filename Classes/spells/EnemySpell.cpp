@@ -144,8 +144,7 @@ int GreenFairyPowerAttack::spawn()
 
 	for_irange(i, 0, bulletsPerWave){
 		 spawnCount += to_int(getCasterAs<Agent>()->bulletImplCheckSpawn<BulletImpl>(
-			caster->getPos(),
-			angleStep * i,
+			Bullet::makeParams(caster->getPos(),angleStep * i),
 			 app::getBullet("greenFairyBullet")
 		).isFuture());
 	}

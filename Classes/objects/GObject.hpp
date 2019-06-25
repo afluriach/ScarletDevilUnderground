@@ -85,14 +85,14 @@ public:
 		};
 	}
 
-	template<class ObjectCls>
-	static inline ObjectGeneratorType params_object_factory(shared_ptr<object_params> params)
+	template<class ObjectCls, typename... ConsArgs>
+	static inline ObjectGeneratorType params_object_factory(shared_ptr<object_params> params, ConsArgs... args)
 	{
-		return[params](GSpace* space, ObjectIDType id)->GObject* {
+		return[params, args...](GSpace* space, ObjectIDType id)->GObject* {
 			params->space = space;
 			params->id = id;
 
-			return new ObjectCls(params);
+			return new ObjectCls(params, args...);
 		};
 	}
 
@@ -101,6 +101,14 @@ public:
 		return[](GSpace* space, ObjectIDType id)->GObject* {
 			return nullptr;
 		};
+	}
+
+	template<typename... Args>
+	void makeInitMessage(void (GObject::*m)(Args...), gobject_ref ref, Args... args)
+	{
+		space->addInitAction([m, ref, args...]() -> void {
+			(ref.get()->*m)(args...);
+		});
 	}
 
 	GObject(shared_ptr<object_params> params, const physics_params& phys);

@@ -53,9 +53,10 @@ public:
 
 	inline virtual bool spawn(SpaceVect posOffset, SpaceFloat angle)
 	{
+		SpaceVect _pos = agent->getPos() + SpaceVect::ray(getLaunchDistance(), angle) + posOffset;
+
 		return agent->bulletImplCheckSpawn<C>(
-			agent->getPos() + SpaceVect::ray(getLaunchDistance(), angle) + posOffset,
-			angle,
+			Bullet::makeParams(_pos, angle),
 			props
 		).isFuture();
 	}
@@ -77,9 +78,10 @@ public:
 
 	inline virtual bool spawn(SpaceVect posOffset, SpaceFloat angle)
 	{
+		SpaceVect _pos = agent->getPos() + SpaceVect::ray(getLaunchDistance(), angle) + posOffset;
+
 		return agent->bulletCheckSpawn<C>(
-			agent->getPos() + SpaceVect::ray(getLaunchDistance(), angle) + posOffset,
-			angle
+			Bullet::makeParams(_pos, angle)
 		).isFuture();
 	}
 

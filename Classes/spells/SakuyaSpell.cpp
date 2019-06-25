@@ -41,10 +41,16 @@ void IllusionDial::init()
 
 	for_irange(i, 0, count)
 	{
-		bullets[i] = getSpace()->createObject<IllusionDialDagger>(
-			bullet_attributes::getDefault(),
+		auto params = Bullet::makeParams(
 			caster->getPos() + SpaceVect::ray(radius, arc_start + i * arc_spacing),
+			0.0,
+			SpaceVect::zero,
 			i % 2 ? angular_speed : -angular_speed
+		);
+
+		bullets[i] = getSpace()->createObject<IllusionDialDagger>(
+			params,
+			bullet_attributes::getDefault()
 		);
 	}
 }

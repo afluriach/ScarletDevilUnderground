@@ -47,13 +47,11 @@ void StarlightTyphoon::fire()
 	SpaceFloat crntRadius = space->getRandomFloat(radius*0.7, radius*1.3);
 
 	SpaceVect pos = caster->getPos() + SpaceVect::ray(offset, angle);
+	auto params = Bullet::makeParams(pos, arcPos);
 
 	space->createObject<StarBullet>(
-		pos,
-		arcPos,
+		params,
 		bullet_attributes::getDefault(),
-		crntSpeed,
-		radius,
 		StarBullet::colors[getSpace()->getRandomInt(0, StarBullet::colors.size() - 1)]
 	);
 }

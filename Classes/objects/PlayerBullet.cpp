@@ -14,8 +14,12 @@
 #include "Player.hpp"
 #include "PlayerBullet.hpp"
 
-StarbowBreakBullet::StarbowBreakBullet(GSpace* space, ObjectIDType id, const SpaceVect& pos, SpaceFloat angle, const bullet_attributes& attributes, shared_ptr<bullet_properties> props) :
-	BulletImpl(space, id, pos, angle, attributes, props)
+StarbowBreakBullet::StarbowBreakBullet(
+	shared_ptr<object_params> params,
+	const bullet_attributes& attributes,
+	shared_ptr<bullet_properties> props
+) :
+	BulletImpl(params, attributes, props)
 {}
 
 shared_ptr<LightArea> StarbowBreakBullet::getLightSource() const {
@@ -27,8 +31,12 @@ shared_ptr<LightArea> StarbowBreakBullet::getLightSource() const {
 	);
 }
 
-CatadioptricBullet::CatadioptricBullet(GSpace* space, ObjectIDType id, const SpaceVect& pos, SpaceFloat angle, const bullet_attributes& attributes, shared_ptr<bullet_properties> props) :
-	BulletImpl(space, id, pos, angle, attributes, props)
+CatadioptricBullet::CatadioptricBullet(
+	shared_ptr<object_params> params,
+	const bullet_attributes& attributes,
+	shared_ptr<bullet_properties> props
+) :
+	BulletImpl(params, attributes, props)
 {}
 
 shared_ptr<LightArea> CatadioptricBullet::getLightSource() const {
@@ -42,9 +50,12 @@ shared_ptr<LightArea> CatadioptricBullet::getLightSource() const {
 
 const string ScarletDagger::props = "scarletDagger";
 
-ScarletDagger::ScarletDagger(GSpace* space, ObjectIDType id, const SpaceVect& pos, SpaceFloat angle, const bullet_attributes& attributes) :
+ScarletDagger::ScarletDagger(
+	shared_ptr<object_params> params,
+	const bullet_attributes& attributes
+) :
 	Bullet(
-		space,id,pos,angle,
+		params,
 		attributes,
 		physics_params(SpaceVect(0.8, 0.175), 0.1)
 	)
@@ -66,22 +77,22 @@ SpaceVect FlanPolarBullet::parametric_motion(SpaceFloat t)
 	return SpaceVect::ray(r, theta);
 }
 
-FlanPolarBullet::FlanPolarBullet(GSpace* space, ObjectIDType id, const SpaceVect& pos, SpaceFloat angle, const bullet_attributes& attributes) :
-	FlanPolarBullet(space,id,pos,angle,attributes, 0.0)
-{}
-
-FlanPolarBullet::FlanPolarBullet(GSpace* space, ObjectIDType id, const SpaceVect& pos, SpaceFloat angle, const bullet_attributes& attributes, SpaceFloat parametric_start) :
-	BulletImpl(space, id, pos, angle, attributes, app::getBullet(props))
+FlanPolarBullet::FlanPolarBullet(
+	shared_ptr<object_params> params,
+	const bullet_attributes& attributes
+) :
+	BulletImpl(params, attributes, app::getBullet(props))
 {
 	ignoreObstacleCollision = true;
-	
-	setParametricMove(ai::parametricMoveTranslate(&parametric_motion, prevPos, parametric_start));
 }
 
 const string FlandrePolarMotionOrb::props = "flandrePolarMotionOrb";
 
-FlandrePolarMotionOrb::FlandrePolarMotionOrb(GSpace* space, ObjectIDType id, const SpaceVect& pos, SpaceFloat angle, const bullet_attributes& attributes) :
-	BulletImpl(space, id, pos, angle, attributes, app::getBullet(props))
+FlandrePolarMotionOrb::FlandrePolarMotionOrb(
+	shared_ptr<object_params> params,
+	const bullet_attributes& attributes
+) :
+	BulletImpl(params, attributes, app::getBullet(props))
 {}
 
 void FlandrePolarMotionOrb::update()
@@ -93,20 +104,15 @@ void FlandrePolarMotionOrb::update()
 }
 
 Lavaeteinn::Lavaeteinn(
-	GSpace* space,
-	ObjectIDType id,
-	const SpaceVect& pos,
-	SpaceFloat angle,
-	SpaceFloat angularVel,
+	shared_ptr<object_params> params,
 	const bullet_attributes& attributes
 ) :
 	Bullet(
-		space, id, pos, angle,
+		params,
 		attributes,
 		physics_params(SpaceVect(2.0, 0.5), 0.1)
 	)
 {
-	setInitialAngularVelocity(angularVel);
 	setShield(false);
 }
 
@@ -135,9 +141,12 @@ DamageInfo Lavaeteinn::getDamageInfo() const {
 //	space->drawSolidRect(drawNodeID, Vec2(-hWidth, -hHeight), Vec2(hWidth, hHeight), Color4F(.66f, .75f, .66f, .7f));
 //}
 
-FlandreCounterClockBullet::FlandreCounterClockBullet(GSpace* space, ObjectIDType id, const SpaceVect& pos, SpaceFloat angle, const bullet_attributes& attributes) :
+FlandreCounterClockBullet::FlandreCounterClockBullet(
+	shared_ptr<object_params> params,
+	const bullet_attributes& attributes
+) :
 	Bullet(
-		space, id, pos, angle,
+		params,
 		attributes,
 		physics_params(SpaceVect(4.0, 0.5), 0.1)
 	)
@@ -149,9 +158,12 @@ DamageInfo FlandreCounterClockBullet::getDamageInfo() const {
 	return melee_damage(1.5f);
 }
 
-CirnoIceShieldBullet::CirnoIceShieldBullet(GSpace* space, ObjectIDType id, const SpaceVect& pos, SpaceFloat angle, const bullet_attributes& attributes) :
+CirnoIceShieldBullet::CirnoIceShieldBullet(
+	shared_ptr<object_params> params,
+	const bullet_attributes& attributes
+) :
 	Bullet(
-		space, id, pos, angle,
+		params,
 		attributes,
 		physics_params(0.3, 0.1)
 	)

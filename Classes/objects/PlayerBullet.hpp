@@ -11,12 +11,16 @@
 
 #include "Bullet.hpp"
 
-#define cons(x) x(GSpace* space, ObjectIDType id, const SpaceVect& pos, SpaceFloat angle, const bullet_attributes& attributes);
+#define cons(x) x(shared_ptr<object_params> params, const bullet_attributes& attributes);
 
 class StarbowBreakBullet : public BulletImpl
 {
 public:
-	StarbowBreakBullet(GSpace* space, ObjectIDType id, const SpaceVect& pos, SpaceFloat angle, const bullet_attributes& attributes, shared_ptr<bullet_properties> props);
+	StarbowBreakBullet(
+		shared_ptr<object_params> params,
+		const bullet_attributes& attributes,
+		shared_ptr<bullet_properties> props
+	);
 
 	virtual shared_ptr<LightArea> getLightSource() const;
 };
@@ -24,7 +28,11 @@ public:
 class CatadioptricBullet : public BulletImpl
 {
 public:
-	CatadioptricBullet(GSpace* space, ObjectIDType id, const SpaceVect& pos, SpaceFloat angle, const bullet_attributes& attributes, shared_ptr<bullet_properties> props);
+	CatadioptricBullet(
+		shared_ptr<object_params> params,
+		const bullet_attributes& attributes,
+		shared_ptr<bullet_properties> props
+	);
 
 	virtual shared_ptr<LightArea> getLightSource() const;
 };
@@ -34,7 +42,7 @@ class ScarletDagger : public Bullet
 public:
 	static const string props;
 
-	ScarletDagger(GSpace* space, ObjectIDType id, const SpaceVect& pos, SpaceFloat angle, const bullet_attributes& attributes);
+	ScarletDagger(shared_ptr<object_params> params, const bullet_attributes& attributes);
 
 	virtual inline SpaceFloat getMaxSpeed() const { return app::getBullet("scarletDagger")->speed; }
 
@@ -58,14 +66,9 @@ public:
 
 	static SpaceVect parametric_motion(SpaceFloat t);
 
-	cons(FlanPolarBullet);
 	FlanPolarBullet(
-		GSpace* space,
-		ObjectIDType id,
-		const SpaceVect& pos,
-		SpaceFloat angle,
-		const bullet_attributes& attributes,
-		SpaceFloat parametric_start
+		shared_ptr<object_params> params,
+		const bullet_attributes& attributes
 	);
 };
 
@@ -83,11 +86,7 @@ class Lavaeteinn : public Bullet
 {
 public:
 	Lavaeteinn(
-		GSpace* space,
-		ObjectIDType id,
-		const SpaceVect& pos,
-		SpaceFloat angle,
-		SpaceFloat angularVel,
+		shared_ptr<object_params> params,
 		const bullet_attributes& attributes
 	);
 

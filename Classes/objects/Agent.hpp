@@ -39,18 +39,16 @@ public:
 
 	bullet_attributes getBulletAttributes(shared_ptr<bullet_properties> props) const;
 
-	template<class ObjectCls, typename... Args>
-	inline gobject_ref bulletCheckSpawn(const SpaceVect& pos, SpaceFloat angle, Args... args)
+	template<class ObjectCls>
+	inline gobject_ref bulletCheckSpawn(shared_ptr<object_params> params)
 	{
 		auto props = app::getBullet(ObjectCls::props);
 		SpaceFloat radius = props->radius;
 
-		if (!isBulletObstacle(pos, radius))
+		if (!isBulletObstacle(params->pos, radius))
 			return space->createObject<ObjectCls>(
-				pos,
-				angle,
-				getBulletAttributes(props),
-				args...
+				params,
+				getBulletAttributes(props)
 			);
 		else
 			return nullptr;
@@ -58,14 +56,12 @@ public:
 
 	template<class ObjectCls>
 	inline object_ref<ObjectCls> bulletImplCheckSpawn(
-		const SpaceVect& pos,
-		SpaceFloat angle,
+		shared_ptr<object_params> params,
 		shared_ptr<bullet_properties> props
 	){
-		if (!isBulletObstacle(pos, props->radius))
+		if (!isBulletObstacle(params->pos, props->radius))
 			return space->createObject<ObjectCls>(
-				pos,
-				angle,
+				params,
 				getBulletAttributes(props),
 				props
 			);

@@ -28,15 +28,28 @@ bullet_attributes bullet_attributes::getDefault()
 
 const bool Bullet::logRicochets = false;
 
-Bullet::Bullet(
-	GSpace* space,
-	ObjectIDType id,
-	const SpaceVect& pos,
+shared_ptr<object_params> Bullet::makeParams(
+	SpaceVect pos,
 	SpaceFloat angle,
+	SpaceVect vel,
+	SpaceFloat angularVel
+) {
+	auto result = make_shared<object_params>();
+
+	result->pos = pos;
+	result->angle = angle;
+	result->vel = vel;
+	result->angularVel = angularVel;
+
+	return result;
+}
+
+Bullet::Bullet(
+	shared_ptr<object_params> params,
 	const bullet_attributes& attributes,
 	const physics_params& phys
 ) :
-	GObject(PosAngleParams(pos,angle), phys),
+	GObject(params, phys),
 	attributes(attributes)
 {
 }
@@ -138,16 +151,12 @@ void Bullet::setShield(bool deflectBullets)
 }
 
 BulletImpl::BulletImpl(
-	GSpace* space,
-	ObjectIDType id,
-	const SpaceVect& pos,
-	SpaceFloat angle,
+	shared_ptr<object_params> params,
 	const bullet_attributes& attributes,
 	shared_ptr<bullet_properties> props
 ) :
 	Bullet(
-		space,id,
-		pos,angle,
+		params,
 		attributes,
 		physics_params(props->radius, 0.1)
 	),

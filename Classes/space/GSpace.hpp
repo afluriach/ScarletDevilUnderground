@@ -122,9 +122,9 @@ public:
 		return createObject(GObject::make_object_factory<C>(args...));
 	}
 
-	template<class C>
-	inline object_ref<C> createObject(shared_ptr<object_params> params) {
-		return createObject(GObject::params_object_factory<C>(params));
+	template<class C, typename... Args>
+	inline object_ref<C> createObject(shared_ptr<object_params> params, Args... args) {
+		return createObject(GObject::params_object_factory<C>(params, args...));
 	}
 
 	bool isTrackedType(type_index t) const;

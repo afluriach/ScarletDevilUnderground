@@ -36,8 +36,7 @@ void Launcher::update()
 		pos += SpaceVect::ray(1.0f, getAngle());
 
 		space->createObject<BulletImpl>(
-			pos,
-			getAngle(),
+			Bullet::makeParams(pos, getAngle()),
 			bullet_attributes::getDefault(),
 			app::getBullet("launcherBullet")
 		);

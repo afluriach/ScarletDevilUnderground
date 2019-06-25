@@ -27,8 +27,8 @@ const vector<string> StarBullet::colors = {
 	"yellow"
 };
 
-StarBullet::StarBullet(GSpace* space, ObjectIDType id, const SpaceVect& pos, SpaceFloat angle, const bullet_attributes& attributes, SpaceFloat speed, SpaceFloat radius, const string& color) :
-	Bullet(space,id,pos,angle,attributes, physics_params(radius,0.1)),
+StarBullet::StarBullet(shared_ptr<object_params> params, const bullet_attributes& attributes, const string& color) :
+	Bullet(params,attributes, physics_params(0.3,0.1)),
 	color(color)
 {}
 
@@ -36,15 +36,11 @@ DamageInfo StarBullet::getDamageInfo() const {
 	return bullet_damage(1.0f);
 }
 
-IllusionDialDagger::IllusionDialDagger(GSpace* space, ObjectIDType id, const bullet_attributes& attributes, const SpaceVect& pos, SpaceFloat angular_velocity) :
-	Bullet(
-		space,id,
-		pos,0.0,
-		attributes,
+IllusionDialDagger::IllusionDialDagger(shared_ptr<object_params> params,const bullet_attributes& attributes) :
+	Bullet(params, attributes,
 		physics_params(SpaceVect(0.8, 0.175), 0.1)
 	)
 {
-    setInitialAngularVelocity(angular_velocity);
 }
 
 SpaceFloat IllusionDialDagger::targetViewAngle()
@@ -122,38 +118,36 @@ SpaceVect ReimuBullet1::parametric_move(
 	return d1 + d2;
 }
 
-ReimuBullet1::ReimuBullet1(GSpace* space, ObjectIDType id, const SpaceVect& pos, SpaceFloat angle, const bullet_attributes& attributes, SpaceFloat start) :
-	BulletImpl(space, id, pos, angle, attributes, app::getBullet(props))
+parametric_space_function ReimuBullet1::getParametricFunction(SpaceVect origin, SpaceFloat angle, SpaceFloat tOffset)
 {
-	setParametricMove(ai::parametricMoveTranslate(
-		bind(&parametric_move, placeholders::_1, angle, start, app::getBullet(props)->speed),
-		prevPos,
+	return ai::parametricMoveTranslate(
+		bind(&parametric_move, placeholders::_1, angle, tOffset, app::getBullet(props)->speed),
+		origin,
 		//In this case, we are already capturing our parametric variable start offset.
 		0.0
-	));
+	);
+}
+
+ReimuBullet1::ReimuBullet1(shared_ptr<object_params> params, const bullet_attributes& attributes) :
+	BulletImpl(params, attributes, app::getBullet(props))
+{
 }
 
 const string YinYangOrb::props = "yinYangOrb";
 
-YinYangOrb::YinYangOrb(GSpace* space, ObjectIDType id, const SpaceVect& pos, SpaceFloat angle, const bullet_attributes& attributes) :
-	BulletImpl(space, id, pos, angle, attributes, app::getBullet(props))
+YinYangOrb::YinYangOrb(shared_ptr<object_params> params, const bullet_attributes& attributes) :
+	BulletImpl(params, attributes, app::getBullet(props))
 {
-	setInitialAngularVelocity(float_pi);
 }
 
 const string RumiaDemarcation2Bullet::props = "rumiaDemarcationBullet2";
 
 RumiaDemarcation2Bullet::RumiaDemarcation2Bullet(
-	GSpace* space,
-	ObjectIDType id,
-	const SpaceVect& pos,
-	SpaceFloat angle,
-	const bullet_attributes& attributes,
-	SpaceFloat angularVel
+	shared_ptr<object_params> params,
+	const bullet_attributes& attributes
 ) :
-	BulletImpl(space, id, pos, angle, attributes, app::getBullet(props))
+	BulletImpl(params, attributes, app::getBullet(props))
 {
-	setInitialAngularVelocity(angularVel);
 	setShield(false);
 }
 
@@ -167,13 +161,10 @@ void RumiaDemarcation2Bullet::update()
 const string RumiaDarknessBullet::props = "rumiaDarknessBullet";
 
 RumiaDarknessBullet::RumiaDarknessBullet(
-	GSpace* space,
-	ObjectIDType id,
-	const SpaceVect& pos,
-	SpaceFloat angle,
+	shared_ptr<object_params> params,
 	const bullet_attributes& attributes
 ) :
-	BulletImpl(space,id,pos,angle,attributes,app::getBullet(props))
+	BulletImpl(params,attributes,app::getBullet(props))
 {
 	setShield(false);
 

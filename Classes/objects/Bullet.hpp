@@ -50,11 +50,15 @@ class Bullet : public GObject
 public:
 	static const bool logRicochets;
 
-	Bullet(
-		GSpace* space,
-		ObjectIDType id,
-		const SpaceVect& pos,
+	static shared_ptr<object_params> makeParams(
+		SpaceVect pos,
 		SpaceFloat angle,
+		SpaceVect vel = SpaceVect::zero,
+		SpaceFloat angularVel  = 0.0
+	);
+
+	Bullet(
+		shared_ptr<object_params> params,
 		const bullet_attributes& attributes,
 		const physics_params& phys
 	);
@@ -96,10 +100,7 @@ class BulletImpl : public Bullet
 {
 public:
 	BulletImpl(
-		GSpace* space,
-		ObjectIDType id,
-		const SpaceVect& pos,
-		SpaceFloat angle,
+		shared_ptr<object_params> params,
 		const bullet_attributes& attributes,
 		shared_ptr<bullet_properties> props
 	);

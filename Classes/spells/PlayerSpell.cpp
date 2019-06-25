@@ -106,10 +106,10 @@ void LavaeteinnSpell::init()
 	SpaceVect pos = caster->getPos() + SpaceVect::ray(1.5, angle);
 	speedScale = getCasterAs<Agent>()->getAttribute(Attribute::attackSpeed);
 
+	auto params = Bullet::makeParams(pos, angle, SpaceVect::zero, angular_speed * speedScale);
+
 	lavaeteinnBullet = getSpace()->createObject<Lavaeteinn>(
-		pos,
-		angle,
-		angular_speed * speedScale,
+		params,
 		bullet_attributes::getDefault()
 	);
 
@@ -130,9 +130,12 @@ void LavaeteinnSpell::update()
 
 	if (fireTimer <= 0.0) {
 		auto props = app::getBullet("flandreFastOrb1");
-		getSpace()->createObject<BulletImpl>(
+		auto params = Bullet::makeParams(
 			caster->getPos() + SpaceVect::ray(2.0, angularPos),
-			angularPos,
+			angularPos
+		);
+		getSpace()->createObject<BulletImpl>(
+			params,
 			getCasterAs<Agent>()->getBulletAttributes(props),
 			props
 		);
@@ -178,8 +181,7 @@ void PlayerCounterClock::init()
 		SpaceVect disp = SpaceVect::ray(2.0 + offset, (i/2.0) * float_pi);
 
 		bullets[i] = getSpace()->createObject<FlandreCounterClockBullet>(
-			pos + disp,
-			(i / 2.0) * float_pi,
+			Bullet::makeParams(pos + disp, (i / 2.0) * float_pi),
 			bullet_attributes::getDefault()
 		);
 	}
@@ -245,12 +247,15 @@ void PlayerScarletRose::update()
 		for_irange(i, 0, 8) {
 			SpaceFloat t = float_pi / FlanPolarBullet::B * i;
 			gobject_ref ref = getSpace()->createObject<FlanPolarBullet>(
-				origin,
-				0.0,
-				getCasterAs<Agent>()->getBulletAttributes(app::getBullet(FlanPolarBullet::props)),
-				t
+				Bullet::makeParams(origin,0.0),
+				getCasterAs<Agent>()->getBulletAttributes(app::getBullet(FlanPolarBullet::props))
 			);
-			bullets.insert(ref);
+
+			parametric_space_function f = [t](SpaceFloat _t)->SpaceVect {
+				return FlanPolarBullet::parametric_motion(t + _t);
+			};
+
+			caster->makeInitMessage(&GObject::setParametricMove, ref, f );
 		}
 
 		timer -= fireInterval;
@@ -288,10 +293,10 @@ void PlayerWhirlShot::init()
 	for_irange(i, 0, bulletCount)
 	{
 		SpaceFloat angle = i * angleStep;
-		agent->bulletCheckSpawn<FlandrePolarMotionOrb>(
+		agent->bulletCheckSpawn<FlandrePolarMotionOrb>(Bullet::makeParams(
 			agent->getPos() + SpaceVect::ray(1.0, angle),
 			angle
-		);
+		));
 	}
 }
 
@@ -347,8 +352,7 @@ void PlayerIceShield::init()
 		SpaceVect pos = SpaceVect::ray(distance, angle);
 		
 		bullets[i] = getSpace()->createObject<CirnoIceShieldBullet>(
-			origin + pos,
-			angle - float_pi / 2.0,
+			Bullet::makeParams(origin + pos,angle - float_pi / 2.0),
 			bullet_attributes::getDefault()
 		);
 	}

@@ -79,9 +79,14 @@ void ReimuEnemy::spawnOrbs()
 	for_irange(i, 0, orbCount)
 	{
 		SpaceFloat angle = float_pi * (0.25 + i*0.5);
-		orbs[i] = space->createObject<YinYangOrb>(
+		auto params = Bullet::makeParams(
 			getPos() + SpaceVect::ray(1.5, angle),
 			angle,
+			SpaceVect::zero,
+			float_pi
+		);
+		orbs[i] = space->createObject<YinYangOrb>(
+			params,
 			getBulletAttributes(app::getBullet(YinYangOrb::props))
 		);
 	}

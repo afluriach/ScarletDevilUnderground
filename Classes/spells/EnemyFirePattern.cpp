@@ -66,18 +66,24 @@ ReimuWavePattern::ReimuWavePattern(Agent *const agent) :
 
 bool ReimuWavePattern::fire()
 {
+	SpaceVect pos = agent->getPos();
 	SpaceFloat angle = agent->getAngle();
+	auto params = Bullet::makeParams(pos, angle);
 
-	agent->bulletCheckSpawn<ReimuBullet1>(
-		agent->getPos(),
+	gobject_ref b1 = agent->bulletCheckSpawn<ReimuBullet1>(params);
+	gobject_ref b2 = agent->bulletCheckSpawn<ReimuBullet1>(params);
+
+	agent->makeInitMessage(&GObject::setParametricMove, b1, ReimuBullet1::getParametricFunction(
+		pos,
 		angle,
-		0
-	);
-	agent->bulletCheckSpawn<ReimuBullet1>(
-		agent->getPos(),
+		0.0
+	));
+
+	agent->makeInitMessage(&GObject::setParametricMove, b2, ReimuBullet1::getParametricFunction(
+		pos,
 		angle,
 		0.5
-	);
+	));
 
 	return true;
 }
