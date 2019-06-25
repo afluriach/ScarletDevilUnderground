@@ -10,11 +10,8 @@
 #define EnvironmentalObjects_hpp
 
 #include "GObject.hpp"
-#include "GObjectMixins.hpp"
 
-class Headstone :
-	virtual public GObject,
-	public RectangleBody
+class Headstone : public GObject
 {
 public:
 	static const vector<string> damageSprites;
@@ -32,7 +29,6 @@ public:
     
     virtual inline GType getType() const {return GType::environment;}
 	virtual inline PhysicsLayers getLayers() const { return PhysicsLayers::all; }
-	virtual inline SpaceFloat getMass() const { return -1.0; }
 protected:
 	static boost::icl::interval_map<float, int> intervals;
 
@@ -48,9 +44,7 @@ public:
 	virtual void init();
 };
 
-class Sapling :
-	virtual public GObject,
-	public RectangleBody
+class Sapling : public GObject
 {
 public:
 	MapObjCons(Sapling);
@@ -60,12 +54,9 @@ public:
 
 	virtual inline GType getType() const { return GType::environment; }
 	virtual inline PhysicsLayers getLayers() const { return PhysicsLayers::all; }
-	virtual inline SpaceFloat getMass() const { return -1.0; }
 };
 
-class Mushroom :
-	virtual public GObject,
-	public RectangleBody
+class Mushroom : public GObject
 {
 public:
 	static bool conditionalLoad(GSpace* space, ObjectIDType id, const ValueMap& args);
@@ -77,7 +68,6 @@ public:
 
 	virtual inline GType getType() const { return GType::environment; }
 	virtual inline PhysicsLayers getLayers() const { return PhysicsLayers::all; }
-	virtual inline SpaceFloat getMass() const { return -1.0; }
 
 	virtual inline bool canInteract(Player* p) { return true; }
 	virtual void interact(Player* p);

@@ -16,8 +16,7 @@
 const SpaceFloat Bomb::explosionSpriteRadius = 2.0;
 
 Bomb::Bomb(shared_ptr<object_params> params) :
-	GObject(params),
-	CircleBody(0.5)
+	GObject(params, physics_params(0.5, 1.0))
 {
 }
 
@@ -69,13 +68,11 @@ void Bomb::detonate()
 }
 
 PlayerBomb::PlayerBomb(shared_ptr<object_params> params) :
-	GObject(params),
 	Bomb(params)
 {
 }
 
 RedFairyBomb::RedFairyBomb(shared_ptr<object_params> params) :
-	GObject(params),
 	Bomb(params)
 {
 }

@@ -15,8 +15,12 @@
 #include "PatchouliSpell.hpp"
 
 Patchouli::Patchouli(GSpace* space, ObjectIDType id, const ValueMap& args) :
-	MapObjParams(),
-	MapObjForwarding(Agent)
+	NPC(
+		space, id, args,
+		"",
+		defaultSize,
+		-1.0
+	)
 {}
 
 string Patchouli::getDialog() {
@@ -58,7 +62,11 @@ const vector<SpellGeneratorType> PatchouliEnemy::spells = {
 };
 
 PatchouliEnemy::PatchouliEnemy(GSpace* space, ObjectIDType id, const ValueMap& args) :
-	MapObjParams(),
-	MapObjForwarding(Agent),
-	Enemy(collectible_id::magic2)
+	Enemy(
+		space, id, args,
+		baseAttributes,
+		defaultSize,
+		30.0,
+		collectible_id::magic2
+	)
 {}

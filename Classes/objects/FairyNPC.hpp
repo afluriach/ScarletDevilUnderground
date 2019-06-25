@@ -9,12 +9,9 @@
 #ifndef FairyNPC_hpp
 #define FairyNPC_hpp
 
-#include "Agent.hpp"
+#include "NPC.hpp"
 
-class FairyMaid :
-	virtual public Agent,
-	public DialogImpl,
-	public BaseAttributes<FairyMaid>
+class FairyMaid : public NPC
 {
 public:
 	static const string baseAttributes;
@@ -23,24 +20,17 @@ public:
 
 	virtual inline SpaceFloat getRadarRadius() const { return 3.0; }
 	virtual inline SpaceFloat getDefaultFovAngle() const { return 0.0; }
-	virtual inline SpaceFloat getMass() const { return 10.0; }
-	virtual inline GType getType() const { return GType::npc; }
 	virtual inline GType getRadarType() const { return GType::enemySensor; }
 
 	inline string getSprite() const { return "blueFairy"; }
 };
 
-class BlueFairyNPC :
-	virtual public Agent,
-	public DialogEntity
+class BlueFairyNPC : public NPC
 {
 public:
 	static bool conditionalLoad(GSpace* space, ObjectIDType id, const ValueMap& args);
 
 	BlueFairyNPC(GSpace* space, ObjectIDType id, const ValueMap& args);
-
-	virtual inline SpaceFloat getMass() const { return -1.0; }
-	virtual inline GType getType() const { return GType::npc; }
 
 	inline string getSprite() const { return "blueFairy"; }
 
@@ -51,16 +41,13 @@ protected:
 	int level;
 };
 
-class GhostFairyNPC :
-	virtual public Agent
+class GhostFairyNPC : public NPC
 {
 public:
 	static bool conditionalLoad(GSpace* space, ObjectIDType id, const ValueMap& args);
 
 	GhostFairyNPC(GSpace* space, ObjectIDType id, const ValueMap& args);
 
-	virtual inline SpaceFloat getMass() const { return 10.0; }
-	virtual inline GType getType() const { return GType::npc; }
 	virtual inline GType getRadarType() const { return GType::enemySensor; }
 	virtual inline SpaceFloat getRadarRadius() const { return 3.0; }
 	virtual inline SpaceFloat getDefaultFovAngle() const { return 0.0; }

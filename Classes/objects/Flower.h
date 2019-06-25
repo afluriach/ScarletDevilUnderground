@@ -10,9 +10,8 @@
 #define Flower_h
 
 #include "GObject.hpp"
-#include "GObjectMixins.hpp"
 
-class Flower : virtual public GObject, CircleBody
+class Flower : public GObject
 {
 public:
 	Flower(GSpace* space, ObjectIDType id, const string& name, const string& color, const SpaceVect& pos);
@@ -22,7 +21,6 @@ public:
 
     virtual GraphicsLayer sceneLayer() const {return GraphicsLayer::foliage;}
     
-    virtual inline SpaceFloat getMass() const { return -1.0;}
     virtual inline GType getType() const {return GType::foliage;}
     virtual inline bool getSensor() const {return true;}
     

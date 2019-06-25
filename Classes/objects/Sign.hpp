@@ -14,7 +14,6 @@
 
 class Sign :
 	virtual public GObject,
-	public RectangleBody,
 	public DialogEntity
 {
 public:
@@ -23,7 +22,6 @@ public:
 	inline virtual string getSprite() const { return "sign"; }
     virtual inline GraphicsLayer sceneLayer() const {return GraphicsLayer::ground;}
 
-    virtual inline SpaceFloat getMass() const { return -1.0;}
     virtual inline GType getType() const {return GType::environment;}
 	inline virtual PhysicsLayers getLayers() const { return PhysicsLayers::all; }
 

@@ -29,9 +29,13 @@ const string GhostFairy::baseAttributes = "ghostFairy";
 const string GhostFairy::properName = "Ghost Fairy";
 
 GhostFairy::GhostFairy(GSpace* space, ObjectIDType id, const ValueMap& args) :
-	MapObjParams(),
-	MapObjForwarding(Agent),
-	Enemy(collectible_id::hm1)
+	Enemy(
+		space, id, args,
+		baseAttributes,
+		defaultSize,
+		10.0,
+		collectible_id::hm1
+	)
 {
 	firePattern = make_shared<Fairy1BulletPattern>(this, 1.5, float_pi / 6.0, 3);
 }
@@ -39,9 +43,13 @@ GhostFairy::GhostFairy(GSpace* space, ObjectIDType id, const ValueMap& args) :
 const string Fairy1::baseAttributes = "fairy1";
 
 Fairy1::Fairy1(GSpace* space, ObjectIDType id, const ValueMap& args) :
-	MapObjParams(),
-	MapObjForwarding(Agent),
-	Enemy(collectible_id::hm1)
+	Enemy(
+		space, id, args,
+		baseAttributes,
+		defaultSize,
+		40.0,
+		collectible_id::hm1
+	)
 {
 	firePattern = make_shared<Fairy1BulletPattern>(this, 1.5, float_pi / 6.0, 3);
 }
@@ -50,9 +58,13 @@ const string BlueFairy::baseAttributes = "blueFairy";
 const string BlueFairy::properName = "Blue Fairy";
 
 BlueFairy::BlueFairy(GSpace* space, ObjectIDType id, const ValueMap& args) :
-	MapObjParams(),
-	MapObjForwarding(Agent),
-	Enemy(collectible_id::hm1)
+	Enemy(
+		space, id, args,
+		baseAttributes,
+		defaultSize,
+		25.0,
+		collectible_id::hm1
+	)
 {
 	firePattern = make_shared<BlueFairyFirePattern>(this);
 }
@@ -65,9 +77,13 @@ const SpaceFloat RedFairy::explosionRadius = 4.0;
 const float RedFairy::bombCost = 20.0f;
 
 RedFairy::RedFairy(GSpace* space, ObjectIDType id, const ValueMap& args) :
-	MapObjParams(),
-	MapObjForwarding(Agent),
-	Enemy(collectible_id::hm2)
+	Enemy(
+		space, id, args,
+		baseAttributes,
+		defaultSize,
+		25.0,
+		collectible_id::hm2
+	)
 {
 	firePattern = make_shared<Fairy1BulletPattern>(this, 3.0, float_pi / 6.0, 2);
 }
@@ -110,9 +126,13 @@ const string GreenFairy1::baseAttributes = "greenFairy1";
 const string GreenFairy1::properName = "Green Fairy I";
 
 GreenFairy1::GreenFairy1(GSpace* space, ObjectIDType id, const ValueMap& args) :
-	MapObjParams(),
-	MapObjForwarding(Agent),
-	Enemy(collectible_id::hm1)
+	Enemy(
+		space, id, args,
+		baseAttributes,
+		defaultSize,
+		15.0,
+		collectible_id::hm1
+	)
 {
 	firePattern = make_shared<GreenFairyBulletPattern>(this, 1.5, 8);
 }
@@ -121,9 +141,13 @@ const string GreenFairy2::baseAttributes = "greenFairy2";
 const string GreenFairy2::properName = "Green Fairy II";
 
 GreenFairy2::GreenFairy2(GSpace* space, ObjectIDType id, const ValueMap& args) :
-	MapObjParams(),
-	MapObjForwarding(Agent),
-	Enemy(collectible_id::hm2)
+	Enemy(
+		space, id, args,
+		baseAttributes,
+		defaultSize,
+		25.0,
+		collectible_id::hm2
+	)
 {
 	firePattern = make_shared<GreenFairyBulletPattern>(this, 1.5, 16);
 }
@@ -141,9 +165,13 @@ const string ZombieFairy::baseAttributes = "zombieFairy";
 const string ZombieFairy::properName = "Zombie Fairy";
 
 ZombieFairy::ZombieFairy(GSpace* space, ObjectIDType id, const ValueMap& args) :
-	MapObjParams(),
-	MapObjForwarding(Agent),
-	Enemy(collectible_id::hm2)
+	Enemy(
+		space, id, args,
+		baseAttributes,
+		defaultSize,
+		25.0,
+		collectible_id::hm2
+	)
 {
 }
 
@@ -158,9 +186,13 @@ const string Fairy2::baseAttributes = "fairy2";
 const float Fairy2::lowHealthRatio = 0.5f;
 
 Fairy2::Fairy2(GSpace* space, ObjectIDType id, const ValueMap& args) :
-	MapObjParams(),
-	MapObjForwarding(Agent),
-	Enemy(collectible_id::hm2)
+	Enemy(
+		space, id, args,
+		baseAttributes,
+		defaultSize,
+		40.0,
+		collectible_id::hm2
+	)
 {}
 
 void Fairy2::addFleeThread()
@@ -239,9 +271,13 @@ object_ref<Fairy2> Fairy2::requestHandler(object_ref<Fairy2> other)
 const string IceFairy::baseAttributes = "iceFairy"; 
 
 IceFairy::IceFairy(GSpace* space, ObjectIDType id, const ValueMap& args) :
-	MapObjParams(),
-	MapObjForwarding(Agent),
-	Enemy(collectible_id::magic2)
+	Enemy(
+		space, id, args,
+		baseAttributes,
+		defaultSize,
+		40.0,
+		collectible_id::magic2
+	)
 {
 	firePattern = make_shared<IceFairyBulletPattern>(this);
 }

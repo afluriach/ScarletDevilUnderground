@@ -18,11 +18,7 @@ class FirePattern;
 
 #define AgentMapForward(x) Agent(space,id,args,x)
 
-class Agent :
-virtual public GObject,
-public PatchConSprite,
-public CircleBody,
-public RadarObject
+class Agent : public GObject
 {
 public:
 	static constexpr SpaceFloat defaultSize = 0.35;
@@ -31,7 +27,14 @@ public:
 	static const float bodyOutlineWidth;
 
 	Agent(GSpace* space, ObjectIDType id, const string& name, const SpaceVect& pos, Direction d);
-	Agent(GSpace* space, ObjectIDType id, const ValueMap& args, SpaceFloat radius = defaultSize);
+	Agent(
+		GSpace* space,
+		ObjectIDType id,
+		const ValueMap& args,
+		const string& baseAttributes,
+		SpaceFloat radius,
+		SpaceFloat mass
+	);
 	inline virtual ~Agent() {}
 
 	bullet_attributes getBulletAttributes(shared_ptr<bullet_properties> props) const;
@@ -91,7 +94,7 @@ public:
 	virtual void updateSpells();
 
 	//attribute interface
-	virtual inline AttributeMap getBaseAttributes() const { return AttributeMap(); }
+	AttributeMap getBaseAttributes() const;
 	virtual inline AttributeMap getAttributeUpgrades() const { return AttributeMap(); }
 	float getAttribute(Attribute id) const;
 	void modifyAttribute(Attribute id, float val);
@@ -126,43 +129,46 @@ public:
 	virtual DamageInfo touchEffect() const;
 
 	//sensor interface
-	virtual SpaceFloat getRadarRadius() const { return 1.0; }
+	virtual SpaceFloat getRadarRadius() const { return 0.0; }
 	virtual GType getRadarType() const { return GType::none; }
 	virtual SpaceFloat getDefaultFovAngle() const { return 0.0; }
+	virtual inline bool hasEssenceRadar() const { return false; }
+
+	inline RadarSensor* getRadar() { return radar; }
+
+	virtual void initializeRadar(GSpace& space);
+	virtual void removePhysicsObjects();
 
 	//physics/motor interface
-	virtual SpaceFloat getMass() const = 0;
 	virtual GType getType() const = 0;
 
 	//graphics interface
 	virtual void initializeGraphics();
 	inline GraphicsLayer sceneLayer() const { return GraphicsLayer::ground; }
 
+	virtual void setAngle(SpaceFloat a);
+	virtual void setDirection(Direction d);
+
+	void resetAnimation();
+	void setSprite(const string& sprite);
 	//AI interface
 	inline virtual string initStateMachine() { return ""; }
 protected:
 	void updateAgentOverlay();
+	void updateAnimation();
 
 	SpriteID agentOverlay = 0;
 	AttributeSystem attributeSystem;
+	string attributes;
 	shared_ptr<FirePattern> firePattern;
 	unordered_set<Agent*> touchTargets;
+	RadarSensor* radar = nullptr;
+	unique_ptr<AgentAnimationContext> animation;
 
 	bool shieldActive = false;
 };
 
-template<class T>
-class BaseAttributes : virtual public Agent
-{
-public:
-	inline BaseAttributes() {}
-
-	inline virtual AttributeMap getBaseAttributes() const {
-		return app::getAttributes(T::baseAttributes);
-	}
-};
-
-class GenericAgent : virtual public Agent, public BaseAttributes<GenericAgent>
+class GenericAgent : public Agent
 {
 public:
 	static const string baseAttributes;
@@ -173,7 +179,6 @@ public:
     virtual inline GType getRadarType() const { return GType::enemySensor;}
 	virtual inline SpaceFloat getDefaultFovAngle() const { return 0.0; }
     
-	inline SpaceFloat getMass() const { return 20.0; }
     virtual inline GType getType() const {return GType::npc;}
         
     inline string getSprite() const {return "genericAgent";}

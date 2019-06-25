@@ -26,10 +26,12 @@
 
 unordered_map<type_index, string> GObject::typeNameMap;
 
-GObject::GObject(shared_ptr<object_params> params) :
+GObject::GObject(shared_ptr<object_params> params, const physics_params& phys) :
 	space(params->space),
 	name(params->name),
 	uuid(params->id),
+	dimensions(phys.dimensions),
+	mass(phys.mass),
 	prevPos(params->pos),
 	prevAngle(params->angle),
 	hidden(params->hidden)
@@ -448,6 +450,44 @@ SpaceVect GObject::getDimensions() const
 SpaceFloat GObject::getMomentOfInertia() const
 {
 	return cpBodyGetMoment(body);
+}
+
+SpaceFloat GObject::getRadius() const
+{
+	return dimensions.getMax();
+}
+
+void GObject::initializeBody()
+{
+	if (dimensions.isZero())
+	{
+		log("initializeBody: zero dimensions");
+		return;
+	}
+	else if(dimensions.y > 0.0)
+	{
+		tie(bodyShape, body) = space->physicsContext->createRectangleBody(
+			prevPos,
+			dimensions,
+			getMass(),
+			getType(),
+			getLayers(),
+			getSensor(),
+			to_gobject(this)
+		);
+	}
+	else
+	{
+		tie(bodyShape, body) = space->physicsContext->createCircleBody(
+			prevPos,
+			dimensions.x,
+			getMass(),
+			getType(),
+			getLayers(),
+			getSensor(),
+			to_gobject(this)
+		);
+	}
 }
 
 void GObject::updateParametricMove()

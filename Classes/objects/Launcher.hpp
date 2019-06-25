@@ -10,20 +10,16 @@
 #define Launcher_hpp
 
 #include "GObject.hpp"
-#include "GObjectMixins.hpp"
 
 class FirePattern;
 
-class Launcher :
-virtual public GObject,
-public RectangleBody
+class Launcher : public GObject
 {
 public:
 	static const boost::rational<int> fireInterval;
 
 	Launcher(GSpace* space, ObjectIDType id, const ValueMap& args);
 
-    virtual inline SpaceFloat getMass() const {return -1.0;}
     virtual inline GType getType() const {return GType::environment;}
 
     virtual inline GraphicsLayer sceneLayer() const {return GraphicsLayer::ground;}

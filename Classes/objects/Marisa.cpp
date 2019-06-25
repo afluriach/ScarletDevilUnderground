@@ -16,27 +16,31 @@
 class GObject;
 
 MarisaNPC::MarisaNPC(GSpace* space, ObjectIDType id, const ValueMap& args) :
-	MapObjParams(),
-	MapObjForwarding(Agent)
+	NPC(
+		space, id, args,
+		"",
+		defaultSize,
+		-1.0
+	)
 {}
 
 const string Marisa::baseAttributes = "marisa";
 const string Marisa::properName = "Marisa Kirisame";
 
 Marisa::Marisa(GSpace* space, ObjectIDType id, const ValueMap& args) :
-	MapObjParams(),
-	MapObjForwarding(Agent),
-	Enemy(collectible_id::nil)
+	Enemy(
+		space, id, args,
+		baseAttributes,
+		defaultSize,
+		33.0,
+		collectible_id::nil
+	)
 {}
 
 CollectMarisa::CollectMarisa(GSpace* space, ObjectIDType id, const ValueMap& args) :
-	MapObjParams(),
-	MapObjForwarding(Agent),
 	MapObjForwarding(Marisa)
 {}
 
 ForestMarisa::ForestMarisa(GSpace* space, ObjectIDType id, const ValueMap& args) :
-MapObjParams(),
-MapObjForwarding(Agent),
-MapObjForwarding(Marisa)
+	MapObjForwarding(Marisa)
 {}

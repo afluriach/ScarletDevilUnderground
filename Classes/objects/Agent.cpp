@@ -15,6 +15,7 @@
 #include "Enemy.hpp"
 #include "EnemyBullet.hpp"
 #include "FirePattern.hpp"
+#include "GAnimation.hpp"
 #include "graphics_context.hpp"
 #include "GraphicsNodes.hpp"
 #include "GSpace.hpp"
@@ -23,27 +24,39 @@
 #include "MiscMagicEffects.hpp"
 #include "physics_context.hpp"
 #include "Player.hpp"
+#include "RadarSensor.hpp"
 #include "Spell.hpp"
 #include "SpellDescriptor.hpp"
 #include "spell_types.hpp"
 #include "value_map.hpp"
+#include "xml.hpp"
 
 const Color4F Agent::bodyOutlineColor = hsva4F(270.0f, 0.2f, 0.7f, 0.667f);
 const Color4F Agent::shieldConeColor = Color4F(.37f, .56f, .57f, 0.5f);
 const float Agent::bodyOutlineWidth = 4.0f;
 
 Agent::Agent(GSpace* space, ObjectIDType id, const string& name, const SpaceVect& pos, Direction d) :
-	GObject(make_shared<object_params>(space, id, name, pos, dirToPhysicsAngle(d))),
-	CircleBody(defaultSize),
-	PatchConSprite(d)
+	GObject(
+		make_shared<object_params>(space, id, name, pos, dirToPhysicsAngle(d)),
+		physics_params(defaultSize, 20.0)
+	)
 {
 	space->addValueMapArgs(uuid, {});
 }
 
-Agent::Agent(GSpace* space, ObjectIDType id, const ValueMap& args, SpaceFloat radius) :
-	MapObjParams(),
-	CircleBody(radius),
-	PatchConSprite(args)
+Agent::Agent(
+	GSpace* space,
+	ObjectIDType id,
+	const ValueMap& args,
+	const string& baseAttributes,
+	SpaceFloat radius,
+	SpaceFloat mass
+) :
+	GObject(
+		make_shared<object_params>(space, id, args),
+		physics_params(radius, mass)
+	),
+	attributes(baseAttributes)
 {
 	space->addValueMapArgs(uuid, args);
 }
@@ -116,8 +129,7 @@ void Agent::init()
 void Agent::update()
 {
 	GObject::update();
-	RadarObject::_update();
-	PatchConSprite::_update();
+	if (radar) radar->update();
 
 	if (attributeSystem[Attribute::hp] <= 0.0f && attributeSystem[Attribute::maxHP] >  0.0f) {
 		onZeroHP();
@@ -146,6 +158,7 @@ void Agent::update()
 	if (firePattern) firePattern->update();
 	attributeSystem.update();
 	updateAgentOverlay();
+	updateAnimation();
 }
 
 bool Agent::isBulletObstacle(SpaceVect pos, SpaceFloat radius)
@@ -252,6 +265,11 @@ void Agent::updateSpells()
 	attributeSystem.modifyAttribute(Attribute::mp, -mpCost);
 }
 
+AttributeMap Agent::getBaseAttributes() const
+{
+	return !attributes.empty() ? app::getAttributes(attributes) : AttributeMap();
+}
+
 float Agent::getAttribute(Attribute id) const
 {
 	return attributeSystem[id];
@@ -348,7 +366,13 @@ bool Agent::isShield(Bullet * b)
 
 void Agent::initializeGraphics()
 {
-	PatchConSprite::initializeGraphics();
+	animation = make_unique<AgentAnimationContext>(space);
+	spriteID = animation->initializeGraphics(
+		getSprite(),
+		getRadius(),
+		sceneLayer(),
+		getInitialCenterPix()
+	);
 
 	agentOverlay = space->createSprite(
 		&graphics_context::createAgentBodyShader,
@@ -362,6 +386,38 @@ void Agent::initializeGraphics()
 	);
 	//Should be false, but in case shield has already been activated.
 	space->graphicsNodeAction(&Node::setVisible, agentOverlay, shieldActive);
+}
+
+void Agent::setAngle(SpaceFloat a)
+{
+	GObject::setAngle(a);
+
+	if (animation) {
+		animation->setDirection(angleToDirection(a));
+	}
+}
+
+void Agent::setDirection(Direction d)
+{
+	GObject::setDirection(d);
+
+	if (animation) {
+		animation->setDirection(d);
+	}
+}
+
+void Agent::resetAnimation()
+{
+	if (animation) {
+		animation->reset();
+	}
+}
+
+void Agent::setSprite(const string& sprite)
+{
+	if (animation) {
+		animation->setSprite(sprite);
+	}
 }
 
 //shield
@@ -468,6 +524,35 @@ DamageInfo Agent::touchEffect() const
 		return DamageInfo{};
 }
 
+void Agent::initializeRadar(GSpace& space)
+{
+	auto attr = sensor_attributes{
+		getRadarRadius(),
+		getDefaultFovAngle(),
+		getRadarType(),
+		hasEssenceRadar()
+	};
+
+	if (attr.radius <= 0.0) {
+		log("%s has zero radius", getName());
+		return;
+	}
+
+	radar = new RadarSensor(
+		this,
+		attr,
+		bind(&Agent::onDetect, this, placeholders::_1),
+		bind(&Agent::onEndDetect, this, placeholders::_1)
+	);
+}
+
+void Agent::removePhysicsObjects()
+{
+	GObject::removePhysicsObjects();
+
+	if (radar) delete radar;
+}
+
 void Agent::updateAgentOverlay()
 {
 	if (shieldActive) {
@@ -484,10 +569,29 @@ void Agent::updateAgentOverlay()
 	}
 }
 
+void Agent::updateAnimation()
+{
+	if (!animation) return;
+
+	SpaceVect dist = getVel()*app::params.secondsPerFrame;
+	bool advance = animation->accumulate(dist.length());
+
+	if (advance && crntFloorCenterContact.isValid()) {
+		string sfxRes = crntFloorCenterContact.get()->getFootstepSfx();
+		if (!sfxRes.empty()) {
+			playSoundSpatial(sfxRes, 0.5f, false, -1.0f);
+		}
+	}
+}
+
 const string GenericAgent::baseAttributes = "genericAgent";
 
 GenericAgent::GenericAgent(GSpace* space, ObjectIDType id, const ValueMap& args) :
-	MapObjParams(),
-	MapObjForwarding(Agent)
+	Agent(
+		space,id,args,
+		baseAttributes,
+		defaultSize,
+		20.0
+	)
 {
 }

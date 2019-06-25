@@ -50,15 +50,21 @@ const float Player::bombCost = 5.0f;
 const float Player::sprintCost = 7.5f;
 
 Player::Player(GSpace* space, ObjectIDType id, const SpaceVect& pos, Direction d) :
-	GObject(make_shared<object_params>(space, id, name, pos, dirToPhysicsAngle(d))),
 	Agent(space, id, "player", pos,d)
 {
 
 }
 
-Player::Player(GSpace* space, ObjectIDType id, const ValueMap& args) :
-	MapObjParams(),
-	MapObjForwarding(Agent)
+Player::Player(
+	GSpace* space, ObjectIDType id, const ValueMap& args,
+	const string& attributes
+) :
+	Agent(
+		space,id,args,
+		attributes,
+		defaultSize,
+		20.0
+	)
 {
 	playScene = space->getSceneAs<PlayScene>();
 
@@ -231,7 +237,7 @@ void Player::checkMovementControls(const ControlInfo& cs)
     ai::applyDesiredVelocity(this, dir*speed, accel);
     
 	if (moveDir.isZero()) {
-		reset();
+		resetAnimation();
 	}
     	
 	if (facing.lengthSq() > 0.0) {
@@ -723,14 +729,10 @@ bool Player::canPlaceBomb(SpaceVect pos)
 const string FlandrePC::baseAttributes = "flandrePC";
 
 FlandrePC::FlandrePC(GSpace* space, ObjectIDType id, const ValueMap& args) :
-	MapObjParams(),
-	MapObjForwarding(Agent),
-	MapObjForwarding(Player)
+	Player(space,id,args,baseAttributes)
 {}
 
 FlandrePC::FlandrePC(GSpace* space, ObjectIDType id, const SpaceVect& pos, Direction d) :
-	GObject(make_shared<object_params>(space, id, "player", pos, dirToPhysicsAngle(d))),
-	Agent(space, id, "player", pos, d),
 	Player(space, id, pos, d)
 {
 	playScene = space->getSceneAs<PlayScene>();
@@ -748,9 +750,7 @@ shared_ptr<LightArea> FlandrePC::getLightSource() const
 const string RumiaPC::baseAttributes = "rumiaPC";
 
 RumiaPC::RumiaPC(GSpace* space, ObjectIDType id, const ValueMap& args) :
-	MapObjParams(),
-	MapObjForwarding(Agent),
-	MapObjForwarding(Player)
+	Player(space,id,args,baseAttributes)
 {}
 
 shared_ptr<LightArea> RumiaPC::getLightSource() const
@@ -761,9 +761,7 @@ shared_ptr<LightArea> RumiaPC::getLightSource() const
 const string CirnoPC::baseAttributes = "cirnoPC";
 
 CirnoPC::CirnoPC(GSpace* space, ObjectIDType id, const ValueMap& args) :
-	MapObjParams(),
-	MapObjForwarding(Agent),
-	MapObjForwarding(Player)
+	Player(space,id,args,baseAttributes)
 {}
 
 shared_ptr<LightArea> CirnoPC::getLightSource() const

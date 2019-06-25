@@ -200,6 +200,7 @@ xcopy "$(ProjectDir)..\Resources" "$(OutDir)" /D /E /I /F /Y</Command>
     <ClCompile Include="..\Classes\objects\MapFragment.cpp" />
     <ClCompile Include="..\Classes\objects\Marisa.cpp" />
     <ClCompile Include="..\Classes\objects\Meiling.cpp" />
+    <ClCompile Include="..\Classes\objects\NPC.cpp" />
     <ClCompile Include="..\Classes\objects\ObjectMapping.cpp" />
     <ClCompile Include="..\Classes\objects\object_params.cpp" />
     <ClCompile Include="..\Classes\objects\object_ref.cpp" />
@@ -330,6 +331,7 @@ xcopy "$(ProjectDir)..\Resources" "$(OutDir)" /D /E /I /F /Y</Command>
     <ClInclude Include="..\Classes\objects\MapFragment.hpp" />
     <ClInclude Include="..\Classes\objects\Marisa.hpp" />
     <ClInclude Include="..\Classes\objects\Meiling.hpp" />
+    <ClInclude Include="..\Classes\objects\NPC.hpp" />
     <ClInclude Include="..\Classes\objects\object_params.hpp" />
     <ClInclude Include="..\Classes\objects\object_ref.hpp" />
     <ClInclude Include="..\Classes\objects\Patchouli.hpp" />

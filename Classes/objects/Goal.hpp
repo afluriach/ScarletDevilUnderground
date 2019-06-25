@@ -10,13 +10,10 @@
 #define Goal_hpp
 
 #include "GObject.hpp"
-#include "GObjectMixins.hpp"
 
 class PlayScene;
 
-class Goal:
-	virtual public GObject,
-	public RectangleBody
+class Goal : public GObject
 {
 public:
 	MapObjCons(Goal);
@@ -26,7 +23,6 @@ public:
     virtual string getSprite() const {return "goal";}
     virtual GraphicsLayer sceneLayer() const {return GraphicsLayer::ground;}
     
-    virtual inline SpaceFloat getMass() const { return -1.0;}
     virtual inline GType getType() const {return GType::environment;}
 	virtual inline PhysicsLayers getLayers() const { return PhysicsLayers::ground; }
 

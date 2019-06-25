@@ -11,21 +11,21 @@
 
 #include "Enemy.hpp"
 #include "object_ref.hpp"
+#include "NPC.hpp"
 
-class MarisaNPC : virtual public Agent, public DialogEntity
+class MarisaNPC : public NPC
 {
 public:
 	MapObjCons(MarisaNPC);
 
 	virtual inline GType getType() const { return GType::npc; }
-	inline SpaceFloat getMass() const { return -1.0; }
 	inline string getSprite() const { return "marisa"; }
 
 	inline virtual bool isDialogAvailable() { return true; }
 	inline virtual string getDialog() { return "dialogs/marisa1"; }
 };
 
-class Marisa : public Enemy, public BaseAttributes<Marisa>
+class Marisa : public Enemy
 {
 public:
 	static const string baseAttributes;
@@ -35,8 +35,6 @@ public:
 	inline virtual ~Marisa() {}
     
     virtual inline SpaceFloat getRadarRadius() const {return 6.0;}
-    
-    inline SpaceFloat getMass() const {return 33.0;}
     
     inline string getSprite() const {return "marisa";}
 };

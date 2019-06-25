@@ -21,10 +21,14 @@
 const string FairyMaid::baseAttributes = "fairyMaid";
 
 FairyMaid::FairyMaid(GSpace* space, ObjectIDType id, const ValueMap& args) :
-	MapObjParams(),
-	MapObjForwarding(Agent),
-	DialogImpl(args)
+	NPC(
+		space,id,args,
+		baseAttributes,
+		defaultSize,
+		10.0
+	)
 {
+	dialog = getStringOrDefault(args, "dialog", "");
 }
 
 bool BlueFairyNPC::conditionalLoad(GSpace* space, ObjectIDType id, const ValueMap& args)
@@ -34,8 +38,12 @@ bool BlueFairyNPC::conditionalLoad(GSpace* space, ObjectIDType id, const ValueMa
 }
 
 BlueFairyNPC::BlueFairyNPC(GSpace* space, ObjectIDType id, const ValueMap& args) :
-	MapObjParams(),
-	MapObjForwarding(Agent)
+	NPC(
+		space, id, args,
+		"",
+		defaultSize,
+		-1.0
+	)
 {
 	level = getIntOrDefault(args, "level", 0);
 }
@@ -82,7 +90,11 @@ bool GhostFairyNPC::conditionalLoad(GSpace* space, ObjectIDType id, const ValueM
 }
 
 GhostFairyNPC::GhostFairyNPC(GSpace* space, ObjectIDType id, const ValueMap& args) :
-	MapObjParams(),
-	MapObjForwarding(Agent)
+	NPC(
+		space, id, args,
+		"",
+		defaultSize,
+		10.0
+	)
 {
 }

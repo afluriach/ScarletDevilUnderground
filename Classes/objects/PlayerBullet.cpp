@@ -14,15 +14,7 @@
 #include "Player.hpp"
 #include "PlayerBullet.hpp"
 
-#define cons(x) x::x(GSpace* space, ObjectIDType id, const SpaceVect& pos, SpaceFloat angle, object_ref<Agent> agent) : \
-    GObject(make_shared<object_params>(space,id,"", pos, angle)), \
-    Bullet(agent), \
-    BulletImpl(app::getBullet(props)) \
-{} \
-
 StarbowBreakBullet::StarbowBreakBullet(GSpace* space, ObjectIDType id, const SpaceVect& pos, SpaceFloat angle, const bullet_attributes& attributes, shared_ptr<bullet_properties> props) :
-	GObject(make_shared<object_params>(space, id, "", pos, angle)),
-	Bullet(attributes),
 	BulletImpl(space, id, pos, angle, attributes, props)
 {}
 
@@ -36,8 +28,6 @@ shared_ptr<LightArea> StarbowBreakBullet::getLightSource() const {
 }
 
 CatadioptricBullet::CatadioptricBullet(GSpace* space, ObjectIDType id, const SpaceVect& pos, SpaceFloat angle, const bullet_attributes& attributes, shared_ptr<bullet_properties> props) :
-	GObject(make_shared<object_params>(space, id, "", pos, angle)),
-	Bullet(attributes),
 	BulletImpl(space, id, pos, angle, attributes, props)
 {}
 
@@ -53,9 +43,11 @@ shared_ptr<LightArea> CatadioptricBullet::getLightSource() const {
 const string ScarletDagger::props = "scarletDagger";
 
 ScarletDagger::ScarletDagger(GSpace* space, ObjectIDType id, const SpaceVect& pos, SpaceFloat angle, const bullet_attributes& attributes) :
-	GObject(make_shared<object_params>(space, id, "", pos, angle)),
-	Bullet(attributes),
-	RectangleBody(SpaceVect(0.8, 0.175))
+	Bullet(
+		space,id,pos,angle,
+		attributes,
+		physics_params(SpaceVect(0.8, 0.175), 0.1)
+	)
 {}
 
 shared_ptr<LightArea> ScarletDagger::getLightSource() const {
@@ -79,8 +71,6 @@ FlanPolarBullet::FlanPolarBullet(GSpace* space, ObjectIDType id, const SpaceVect
 {}
 
 FlanPolarBullet::FlanPolarBullet(GSpace* space, ObjectIDType id, const SpaceVect& pos, SpaceFloat angle, const bullet_attributes& attributes, SpaceFloat parametric_start) :
-	GObject(make_shared<object_params>(space, id, "", pos, angle)),
-	Bullet(attributes),
 	BulletImpl(space, id, pos, angle, attributes, app::getBullet(props))
 {
 	ignoreObstacleCollision = true;
@@ -91,8 +81,6 @@ FlanPolarBullet::FlanPolarBullet(GSpace* space, ObjectIDType id, const SpaceVect
 const string FlandrePolarMotionOrb::props = "flandrePolarMotionOrb";
 
 FlandrePolarMotionOrb::FlandrePolarMotionOrb(GSpace* space, ObjectIDType id, const SpaceVect& pos, SpaceFloat angle, const bullet_attributes& attributes) :
-	GObject(make_shared<object_params>(space, id, "", pos, angle)),
-	Bullet(attributes),
 	BulletImpl(space, id, pos, angle, attributes, app::getBullet(props))
 {}
 
@@ -112,9 +100,11 @@ Lavaeteinn::Lavaeteinn(
 	SpaceFloat angularVel,
 	const bullet_attributes& attributes
 ) :
-	GObject(make_shared<object_params>(space,id,"", pos, angle)),
-	Bullet(attributes),
-	RectangleBody(SpaceVect(2.0, 0.5))
+	Bullet(
+		space, id, pos, angle,
+		attributes,
+		physics_params(SpaceVect(2.0, 0.5), 0.1)
+	)
 {
 	setInitialAngularVelocity(angularVel);
 	setShield(false);
@@ -146,9 +136,11 @@ DamageInfo Lavaeteinn::getDamageInfo() const {
 //}
 
 FlandreCounterClockBullet::FlandreCounterClockBullet(GSpace* space, ObjectIDType id, const SpaceVect& pos, SpaceFloat angle, const bullet_attributes& attributes) :
-	GObject(make_shared<object_params>(space, id, "", pos, angle)),
-	Bullet(attributes),
-	RectangleBody(SpaceVect(4.0, 0.5))
+	Bullet(
+		space, id, pos, angle,
+		attributes,
+		physics_params(SpaceVect(4.0, 0.5), 0.1)
+	)
 {
 	setShield(true);
 }
@@ -158,9 +150,11 @@ DamageInfo FlandreCounterClockBullet::getDamageInfo() const {
 }
 
 CirnoIceShieldBullet::CirnoIceShieldBullet(GSpace* space, ObjectIDType id, const SpaceVect& pos, SpaceFloat angle, const bullet_attributes& attributes) :
-	GObject(make_shared<object_params>(space, id, "", pos, angle)),
-	CircleBody(0.3),
-	Bullet(attributes)
+	Bullet(
+		space, id, pos, angle,
+		attributes,
+		physics_params(0.3, 0.1)
+	)
 {
 	setShield(true);
 }

@@ -19,8 +19,7 @@
 #include "value_map.hpp"
 
 Door::Door(GSpace* space, ObjectIDType id, const ValueMap& args) :
-	MapObjParams(),
-	RectangleBody(args)
+	GObject(MapParams(), MapRectPhys(-1.0))
 {
 	locked = getBoolOrDefault(args, "locked", false);
 	stairs = getBoolOrDefault(args, "stairs", false);
@@ -190,7 +189,7 @@ Direction Door::getEntryDirection()
 }
 
 Barrier::Barrier(GSpace* space, ObjectIDType id, const ValueMap& args) :
-	MapObjParams()
+	GObject(MapParams(), MapRectPhys(-1.0))
 {
 	sealed = getBoolOrDefault(args, "sealed", false);
 	setInitialAngle(float_pi / 2.0);

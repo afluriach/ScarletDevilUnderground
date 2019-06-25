@@ -28,7 +28,15 @@ bullet_attributes bullet_attributes::getDefault()
 
 const bool Bullet::logRicochets = false;
 
-Bullet::Bullet(const bullet_attributes& attributes) :
+Bullet::Bullet(
+	GSpace* space,
+	ObjectIDType id,
+	const SpaceVect& pos,
+	SpaceFloat angle,
+	const bullet_attributes& attributes,
+	const physics_params& phys
+) :
+	GObject(PosAngleParams(pos,angle), phys),
 	attributes(attributes)
 {
 }
@@ -137,9 +145,12 @@ BulletImpl::BulletImpl(
 	const bullet_attributes& attributes,
 	shared_ptr<bullet_properties> props
 ) :
-	GObject(make_shared<object_params>(space,id,"",pos,angle)),
-	Bullet(attributes),
-	CircleBody(props->radius),
+	Bullet(
+		space,id,
+		pos,angle,
+		attributes,
+		physics_params(props->radius, 0.1)
+	),
 	props(props)
 {
 	hitCount = props->hitCount;

@@ -16,17 +16,25 @@
 #include "value_map.hpp"
 
 Reimu::Reimu(GSpace* space, ObjectIDType id, const ValueMap& args) :
-	MapObjParams(),
-	MapObjForwarding(Agent)
+	NPC(
+		space, id, args,
+		"",
+		defaultSize,
+		-1.0
+	)
 {}
 
 const string ReimuEnemy::baseAttributes = "reimu";
 const string ReimuEnemy::properName = "Reimu Hakurei";
 
 ReimuEnemy::ReimuEnemy(GSpace* space, ObjectIDType id, const ValueMap& args) :
-	MapObjParams(),
-	MapObjForwarding(Agent),
-	Enemy(collectible_id::magic2),
+	Enemy(
+		space, id, args,
+		baseAttributes,
+		defaultSize,
+		40.0,
+		collectible_id::magic2
+	),
 	activations(getStringOrDefault(args, "activations", ""))
 {
 	firePattern = make_shared<ReimuWavePattern>(this);

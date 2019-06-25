@@ -10,10 +10,8 @@
 #define Upgrade_hpp
 
 #include "GObject.hpp"
-#include "GObjectMixins.hpp"
-#include "value_map.hpp"
 
-class Upgrade : virtual public GObject, public CircleBody
+class Upgrade : public GObject
 {
 public:
 	static bool conditionalLoad(GSpace* space, ObjectIDType id, const ValueMap& args);
@@ -21,7 +19,6 @@ public:
 	Upgrade(GSpace* space, ObjectIDType id, const ValueMap& args);
 	virtual inline ~Upgrade() {}
 
-	virtual inline SpaceFloat getMass() const { return -1.0; }
 	virtual inline GType getType() const { return GType::playerPickup; }
 	virtual inline bool getSensor() const { return true; }
 

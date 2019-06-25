@@ -15,7 +15,7 @@
 const boost::rational<int> Launcher::fireInterval(1,4);
 
 Launcher::Launcher(GSpace* space, ObjectIDType id, const ValueMap& args) :
-	MapObjParams()
+	GObject(MapParams(), physics_params(args, -1.0))
 {
 	auto it = args.find("direction");
 	if (it != args.end()) {

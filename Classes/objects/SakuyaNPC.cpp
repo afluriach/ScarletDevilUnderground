@@ -14,6 +14,5 @@
 const string SakuyaNPC::baseAttributes = "sakuyaNPC";
 
 SakuyaNPC::SakuyaNPC(GSpace* space, ObjectIDType id, const ValueMap& args) :
-	MapObjParams(),
-	MapObjForwarding(Agent)
+	NPC(space,id,args,baseAttributes,defaultSize, 40.0)
 {}

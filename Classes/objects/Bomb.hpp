@@ -11,11 +11,8 @@
 
 #include "Attributes.hpp"
 #include "GObject.hpp"
-#include "GObjectMixins.hpp"
 
-class Bomb :
-	virtual public GObject,
-	public CircleBody
+class Bomb : public GObject
 {
 public:
 	static const SpaceFloat explosionSpriteRadius;
@@ -25,7 +22,6 @@ public:
 
 	virtual inline SpaceFloat uk() const { return 0.0625; }
 	virtual inline bool getSensor() const { return false; }
-	virtual inline SpaceFloat getMass() const { return 1.0; }
 	virtual inline PhysicsLayers getLayers() const { return enum_bitwise_or( PhysicsLayers,ground,floor); }
 	virtual inline GraphicsLayer sceneLayer() const { return GraphicsLayer::ground; }
 	virtual inline GType getType() const { return GType::bomb; }

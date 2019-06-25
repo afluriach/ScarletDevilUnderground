@@ -9,15 +9,14 @@
 #ifndef Patchouli_hpp
 #define Patchouli_hpp
 
-#include "Agent.hpp"
 #include "Enemy.hpp"
+#include "NPC.hpp"
 
-class Patchouli : virtual public Agent, public DialogEntity
+class Patchouli : public NPC
 {
 public:
 	Patchouli(GSpace* space, ObjectIDType id, const ValueMap& args);
     
-    inline SpaceFloat getMass() const {return -1.0;}
     virtual inline GType getType() const {return GType::npc;}
     
     inline string getSprite() const {return "patchouli";}
@@ -28,7 +27,7 @@ public:
 	virtual void onDialogEnd();
 };
 
-class PatchouliEnemy : public Enemy, public BaseAttributes<PatchouliEnemy>
+class PatchouliEnemy : public Enemy
 {
 public:
 	static const string baseAttributes;
@@ -36,8 +35,6 @@ public:
 	static const vector<SpellGeneratorType> spells;
 
 	PatchouliEnemy(GSpace* space, ObjectIDType id, const ValueMap& args);
-
-	inline SpaceFloat getMass() const { return 30.0; }
 
 	inline string getSprite() const { return "patchouli"; }
 	inline GraphicsLayer sceneLayer() const { return GraphicsLayer::ground; }

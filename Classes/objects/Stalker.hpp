@@ -11,7 +11,7 @@
 
 #include "Enemy.hpp"
 
-class Stalker : public Enemy, public BaseAttributes<Stalker>
+class Stalker : public Enemy
 {
 public:
 	static const string baseAttributes;
@@ -20,7 +20,6 @@ public:
 
 	virtual inline bool hasEssenceRadar() const { return true; }
     virtual inline SpaceFloat getRadarRadius() const {return 6.0;}
-    virtual inline SpaceFloat getMass() const {return 40.0;}
 
 	virtual inline string getSprite() const {return "stalker";}
 

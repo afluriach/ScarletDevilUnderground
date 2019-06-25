@@ -11,7 +11,6 @@
 
 #include "Attributes.hpp"
 #include "GObject.hpp"
-#include "GObjectMixins.hpp"
 
 class Agent;
 class Wall;
@@ -46,17 +45,23 @@ struct bullet_attributes
 	float bulletSpeed = 1.0f;
 };
 
-class Bullet : virtual public GObject
+class Bullet : public GObject
 {
 public:
 	static const bool logRicochets;
 
-	Bullet(const bullet_attributes& attributes);
+	Bullet(
+		GSpace* space,
+		ObjectIDType id,
+		const SpaceVect& pos,
+		SpaceFloat angle,
+		const bullet_attributes& attributes,
+		const physics_params& phys
+	);
 	inline virtual ~Bullet() {}
 
 	virtual inline GType getType() const { return attributes.type; }
 	virtual inline bool getSensor() const { return true; }
-	virtual inline SpaceFloat getMass() const { return 0.1; }
 	virtual inline PhysicsLayers getLayers() const { return PhysicsLayers::ground; }
 
 	virtual inline GraphicsLayer sceneLayer() const { return GraphicsLayer::ground; }
@@ -87,9 +92,7 @@ protected:
 	bool ignoreObstacleCollision = false;
 };
 
-class BulletImpl :
-	virtual public Bullet,
-	public CircleBody
+class BulletImpl : public Bullet
 {
 public:
 	BulletImpl(
@@ -104,7 +107,6 @@ public:
 
 	virtual void init();
 
-	virtual inline SpaceFloat getMass() const { return props->mass; }
 	virtual inline SpaceFloat getMaxSpeed() const { return props->speed; }
 
 	virtual void initializeGraphics();

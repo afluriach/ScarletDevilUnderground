@@ -178,3 +178,99 @@ void PatchConAnimation::setFrame(int animFrame)
 	}
 }
 
+SpriteID AgentAnimationContext::initializeGraphics(
+	const string& sprite,
+	SpaceFloat radius,
+	GraphicsLayer glayer,
+	Vec2 centerPix
+){
+	spriteID = space->createSprite(
+		&graphics_context::createAgentSprite,
+		sprite,
+		radius,
+		glayer,
+		centerPix
+	);
+
+	setDirection(startingDirection);
+	return spriteID;
+}
+
+void AgentAnimationContext::setSprite(const string& name)
+{
+	if (spriteID != 0) {
+		space->graphicsNodeAction(
+			&PatchConAnimation::loadAnimation,
+			spriteID,
+			name
+		);
+	}
+}
+
+bool AgentAnimationContext::accumulate(SpaceFloat dx)
+{
+	accumulator += dx;
+	return checkAdvanceAnimation();
+}
+
+bool AgentAnimationContext::checkAdvanceAnimation()
+{
+	bool advance = false;
+
+	//TODO cases are symmetrical, should be able to optimize
+	switch (crntFrame)
+	{
+	case 0:
+		if (accumulator >= stepSize)
+		{
+			space->graphicsNodeAction(&PatchConAnimation::setFrame, spriteID, 1);
+			crntFrame = 1;
+			advance = true;
+			accumulator -= stepSize;
+			nextStepIsLeft = false;
+		}
+		break;
+	case 2:
+		if (accumulator >= stepSize)
+		{
+			space->graphicsNodeAction(&PatchConAnimation::setFrame, spriteID, 1);
+			crntFrame = 1;
+			advance = true;
+			accumulator -= stepSize;
+			nextStepIsLeft = true;
+		}
+		break;
+	case 1:
+		if (accumulator >= midstepSize)
+		{
+			crntFrame = (nextStepIsLeft ? 0 : 2);
+			space->graphicsNodeAction(&PatchConAnimation::setFrame, spriteID, crntFrame);
+			accumulator -= midstepSize;
+		}
+		break;
+	}
+
+	return advance;
+}
+
+void AgentAnimationContext::reset()
+{
+	space->graphicsNodeAction(&PatchConAnimation::setFrame, spriteID, 1);
+	accumulator = 0.0;
+
+	nextStepIsLeft = firstStepIsLeft;
+	//Toggle which foot will be used to take the first step next time.
+	firstStepIsLeft = !firstStepIsLeft;
+}
+
+void AgentAnimationContext::setAngle(SpaceFloat a)
+{
+	space->graphicsNodeAction(&PatchConAnimation::setDirection, spriteID, angleToDirection(a));
+}
+
+void AgentAnimationContext::setDirection(Direction d)
+{
+	if (d != Direction::none) {
+		space->graphicsNodeAction(&PatchConAnimation::setDirection, spriteID, d);
+	}
+}

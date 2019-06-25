@@ -10,16 +10,14 @@
 #define Wall_hpp
 
 #include "GObject.hpp"
-#include "GObjectMixins.hpp"
 
-class Wall : virtual public GObject, public RectangleBody
+class Wall : public GObject
 {
 public: 
 	MapObjCons(Wall);
 	Wall(GSpace* space, ObjectIDType id, SpaceVect center, SpaceVect dimensions);
 	virtual inline ~Wall() {}
 
-    virtual inline SpaceFloat getMass() const { return -1.0;}
     virtual inline GType getType() const {return GType::wall;}
     virtual PhysicsLayers getLayers() const;    
 };

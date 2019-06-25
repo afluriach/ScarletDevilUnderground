@@ -395,7 +395,7 @@ void GSpace::processAdditions()
             continue;
         }
 
-        obj->initializeBody(*this);
+        obj->initializeBody();
         obj->initializeRadar(*this);
         obj->initializeGraphics();
 

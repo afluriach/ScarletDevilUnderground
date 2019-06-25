@@ -43,8 +43,7 @@ bool Headstone::conditionalLoad(GSpace* space, ObjectIDType id, const ValueMap& 
 }
 
 Headstone::Headstone(GSpace* space, ObjectIDType id, const ValueMap& args) :
-MapObjParams(),
-RectangleBody(args)
+	GObject(MapParams(), physics_params(args, -1.0)) 
 {
 	setInitialDirectionOrDefault(args, Direction::up);
 	maxHP = getFloatOrDefault(args, "hp", -1.0f);
@@ -87,8 +86,7 @@ string Headstone::getSprite() const {
 }
 
 GhostHeadstone::GhostHeadstone(GSpace* space, ObjectIDType id, const ValueMap& args) :
-	MapObjParams(),
-	MapObjForwarding(Headstone)
+	Headstone(space,id,args) 
 {
 }
 
@@ -104,8 +102,7 @@ void GhostHeadstone::init()
 }
 
 Sapling::Sapling(GSpace* space, ObjectIDType id, const ValueMap& args) :
-	MapObjParams(),
-	RectangleBody(args)
+	GObject(MapParams(), physics_params(args, -1.0)) 
 {
 	setInitialAngle(float_pi / 2.0);
 }
@@ -117,8 +114,7 @@ bool Mushroom::conditionalLoad(GSpace* space, ObjectIDType id, const ValueMap& a
 }
 
 Mushroom::Mushroom(GSpace* space, ObjectIDType id, const ValueMap& args) :
-	MapObjParams(),
-	RectangleBody(args)
+	GObject(MapParams(), physics_params(args, -1.0)) 
 {
 	setInitialAngle(float_pi / 2.0);
 	objectID = getIntOrDefault(args, "id", -1);

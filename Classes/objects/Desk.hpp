@@ -10,11 +10,8 @@
 #define Desk_hpp
 
 #include "GObject.hpp"
-#include "GObjectMixins.hpp"
 
-class Desk :
-	virtual public GObject,
-	public RectangleBody
+class Desk : public GObject
 {
 public:
 	MapObjCons(Desk);
@@ -24,7 +21,6 @@ public:
     
     virtual inline GType getType() const {return GType::environment;}
 	virtual inline PhysicsLayers getLayers() const { return PhysicsLayers::ground; }
-	virtual inline SpaceFloat getMass() const { return -1.0; }
 
 	virtual inline string interactionIcon(Player* p) { return "sprites/desk.png"; }
 	virtual inline bool canInteract(Player* p) { return true; }

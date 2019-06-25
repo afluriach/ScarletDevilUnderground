@@ -12,11 +12,9 @@
 #include "GSpace.hpp"
 #include "value_map.hpp"
 
-FloorSegment::FloorSegment(GSpace* space, ObjectIDType id, const ValueMap& args) :
-GObject(make_shared<object_params>(space,id,args)),
-RectangleBody(args)
+FloorSegment::FloorSegment(GSpace* space, ObjectIDType id, const ValueMap& args, bool isStatic) :
+	GObject(MapParams(), MapRectPhys(isStatic ? -1.0 : 1.0))
 {
-
 }
 
 FloorSegment::~FloorSegment()
@@ -25,7 +23,6 @@ FloorSegment::~FloorSegment()
 }
 
 FloorSegmentImpl::FloorSegmentImpl(GSpace* space, ObjectIDType id, const ValueMap& args, const string& type) :
-	MapObjParams(),
 	MapObjForwarding(FloorSegment)
 {
 	auto it = app::floors.find(type);
@@ -49,8 +46,7 @@ string FloorSegmentImpl::getFootstepSfx() const {
 const SpaceFloat MovingPlatform::defaultSpeed = 1.0;
 
 MovingPlatform::MovingPlatform(GSpace* space, ObjectIDType id, const ValueMap& args) :
-	MapObjParams(),
-	MapObjForwarding(FloorSegment)
+	FloorSegment(space,id,args,false)
 {
 	pathName = getStringOrDefault(args, "path", "");
 }
@@ -115,13 +111,11 @@ void MovingPlatform::setWaypoint(size_t idx)
 }
 
 IcePlatform::IcePlatform(GSpace* space, ObjectIDType id, const ValueMap& args) :
-MapObjParams(),
 MovingPlatform(space, id, args)
 {
 }
 
 PressurePlate::PressurePlate(GSpace* space, ObjectIDType id, const ValueMap& args) :
-	MapObjParams(),
 	FloorSegment(space, id, args)
 {
 	targetNames = splitString(getStringOrDefault(args, "target", ""), " ");
@@ -170,7 +164,6 @@ void PressurePlate::onEndContact(GObject* obj)
 }
 
 Pitfall::Pitfall(GSpace* space, ObjectIDType id, const ValueMap& args) :
-MapObjParams(),
 FloorSegment(space,id,args)
 {
 }
@@ -189,7 +182,6 @@ void Pitfall::exclusiveFloorEffect(GObject* obj)
 }
 
 WaterFloor::WaterFloor(GSpace* space, ObjectIDType id, const ValueMap& args) :
-	MapObjParams(),
 	FloorSegment(space, id, args)
 {
 }

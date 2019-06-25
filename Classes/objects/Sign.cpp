@@ -12,7 +12,7 @@
 #include "value_map.hpp"
 
 Sign::Sign(GSpace* space, ObjectIDType id, const ValueMap& args) :
-	MapObjParams()
+	GObject(MapParams(), MapRectPhys(-1.0))
 {
 	dialogRes = getStringOrDefault(args, "dialog", "");
 	setInitialAngle(float_pi / 2.0);

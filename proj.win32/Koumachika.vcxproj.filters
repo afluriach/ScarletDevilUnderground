@@ -399,6 +399,9 @@
     <ClCompile Include="..\Classes\spells\MagicEffectSystem.cpp">
       <Filter>src\spells</Filter>
     </ClCompile>
+    <ClCompile Include="..\Classes\objects\NPC.cpp">
+      <Filter>src\objects</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="main.h">
@@ -763,6 +766,9 @@
     </ClInclude>
     <ClInclude Include="..\Classes\spells\MagicEffectSystem.hpp">
       <Filter>src\spells</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\objects\NPC.hpp">
+      <Filter>src\objects</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

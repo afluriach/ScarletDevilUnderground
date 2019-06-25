@@ -34,10 +34,19 @@ struct enemy_properties
 	bool isFlying = false;
 };
 
-class Enemy : virtual public Agent
+class Enemy : public Agent
 {
 public:
-	Enemy(collectible_id drop_id);
+	Enemy(
+		GSpace* space,
+		ObjectIDType id,
+		const ValueMap& args,
+		const string& baseAttributes,
+		SpaceFloat radius,
+		SpaceFloat mass,
+		collectible_id drop_id
+	);
+
 	inline virtual ~Enemy() {}
 
 	void runDamageFlicker();
@@ -66,7 +75,6 @@ public:
 	virtual SpaceFloat getRadarRadius() const;
 	virtual SpaceFloat getDefaultFovAngle() const;
 
-	virtual SpaceFloat getMass() const;
 	virtual PhysicsLayers getLayers() const;
 
 	virtual string getSprite() const;

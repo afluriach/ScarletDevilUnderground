@@ -14,8 +14,20 @@
 #include "GSpace.hpp"
 #include "Player.hpp"
 
-Enemy::Enemy(collectible_id drop_id) :
-drop_id(drop_id)
+Enemy::Enemy(
+	GSpace* space,
+	ObjectIDType id,
+	const ValueMap& args,
+	const string& baseAttributes,
+	SpaceFloat radius,
+	SpaceFloat mass,
+	collectible_id drop_id
+) :
+	Agent(
+		space,id,args,
+		baseAttributes,radius,mass
+	),
+	drop_id(drop_id)
 {
 }
 
@@ -53,9 +65,13 @@ EnemyImpl::EnemyImpl(
 	GSpace* space, ObjectIDType id, const ValueMap& args,
 	shared_ptr<enemy_properties> props
 ) :
-	MapObjParams(),
-	Agent(space,id,args,props->radius),
-	Enemy(props->collectible),
+	Enemy(
+		space,id,args,
+		props->attributes,
+		props->radius,
+		props->mass,
+		props->collectible
+	),
 	props(props)
 {
 
@@ -83,10 +99,6 @@ SpaceFloat EnemyImpl::getRadarRadius() const {
 
 SpaceFloat EnemyImpl::getDefaultFovAngle() const {
 	return props->viewAngle;
-}
-
-SpaceFloat EnemyImpl::getMass() const {
-	return props->mass;
 }
 
 PhysicsLayers EnemyImpl::getLayers() const {

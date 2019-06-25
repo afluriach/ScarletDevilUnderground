@@ -11,12 +11,10 @@
 
 #include "AIMixins.hpp"
 #include "GObject.hpp"
-#include "GObjectMixins.hpp"
 
 class Pyramid :
 virtual public GObject,
-public RadarObject,
-public RectangleBody
+public RadarObject
 {
 public:
 	static const SpaceFloat coneLength;
@@ -35,7 +33,6 @@ public:
     virtual string getSprite() const {return "pyramid";}
     virtual GraphicsLayer sceneLayer() const {return GraphicsLayer::ground;}
     
-    virtual inline SpaceFloat getMass() const { return -1.0;}
     virtual inline GType getType() const {return GType::environment;}
     virtual PhysicsLayers getLayers() const;
 

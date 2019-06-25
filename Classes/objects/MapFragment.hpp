@@ -10,9 +10,8 @@
 #define MapFragment_hpp
 
 #include "GObject.hpp"
-#include "GObjectMixins.hpp"
 
-class MapFragment : virtual public GObject, public CircleBody
+class MapFragment : public GObject
 {
 public:
 	static bool conditionalLoad(GSpace* space, ObjectIDType id, const ValueMap& args);
@@ -20,7 +19,6 @@ public:
 	MapFragment(GSpace* space, ObjectIDType id, const ValueMap& args);
 	virtual inline ~MapFragment() {}
 
-	virtual inline SpaceFloat getMass() const { return -1.0; }
 	virtual inline GType getType() const { return GType::playerPickup; }
 	virtual inline bool getSensor() const { return true; }
 

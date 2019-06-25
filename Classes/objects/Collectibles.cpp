@@ -88,8 +88,7 @@ collectible_id Collectible::getCollectibleID(const string& name)
 }
 
 Collectible::Collectible(GSpace* space, ObjectIDType id, SpaceVect pos, collectible_id collectibleID) :
-	GObject(make_shared<object_params>(space, id, "", pos)),
-	RectangleBody(SpaceVect(0.5, 0.5)),
+	GObject(PosAngleParams(pos, float_pi * 0.5), physics_params(SpaceVect(0.5,0.5), -1.0)),
 	collectibleID(collectibleID)
 {
 }

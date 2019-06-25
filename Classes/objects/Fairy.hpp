@@ -12,9 +12,7 @@
 #include "Collectibles.hpp"
 #include "Enemy.hpp"
 
-class GhostFairy :
-	public Enemy,
-	public BaseAttributes<GhostFairy>
+class GhostFairy : public Enemy
 {
 public:
 	static const string baseAttributes;
@@ -22,7 +20,6 @@ public:
 
 	GhostFairy(GSpace* space, ObjectIDType id, const ValueMap& args);
 
-	virtual inline SpaceFloat getMass() const { return 10.0; }
 	virtual inline GType getType() const { return GType::enemy; }
 	virtual inline GType getRadarType() const { return GType::enemySensor; }
 	virtual inline SpaceFloat getRadarRadius() const { return 3.0; }
@@ -33,9 +30,7 @@ public:
 	virtual inline string initStateMachine() { return "ghost_fairy"; }
 };
 
-class Fairy1 :
-public Enemy,
-public BaseAttributes<Fairy1>
+class Fairy1 : public Enemy
 {
 public:
 	static const string baseAttributes;
@@ -44,14 +39,11 @@ public:
 
 	virtual inline SpaceFloat getRadarRadius() const { return 6.0; }
 	virtual inline SpaceFloat getDefaultFovAngle() const { return 0.0; }
-	virtual inline SpaceFloat getMass() const { return 40.0; }
 
 	inline string getSprite() const { return "greenFairy"; }
 };
 
-class BlueFairy :
-	public Enemy,
-	public BaseAttributes<BlueFairy>
+class BlueFairy : public Enemy
 {
 public:
 	static const string baseAttributes;
@@ -63,12 +55,11 @@ public:
 	virtual inline SpaceFloat getMaxAcceleration() const { return 6.0; }
 	virtual inline SpaceFloat getRadarRadius() const { return 5.0; }
 	virtual inline SpaceFloat getDefaultFovAngle() const { return float_pi * 0.5; }
-	virtual inline SpaceFloat getMass() const { return 25.0; }
 
 	inline string getSprite() const { return "blueFairy"; }
 };
 
-class RedFairy : public Enemy, public BaseAttributes<RedFairy>
+class RedFairy : public Enemy
 {
 public:
 	static const string baseAttributes;
@@ -84,7 +75,6 @@ public:
 
 	virtual inline SpaceFloat getRadarRadius() const { return 7.5; }
 	virtual inline SpaceFloat getDefaultFovAngle() const { return 0.0; }
-	inline SpaceFloat getMass() const { return 25.0; }
 
 	inline string getSprite() const { return "redFairy"; }
 
@@ -92,9 +82,7 @@ public:
 	virtual void onZeroHP();
 };
 
-class GreenFairy1 :
-	public Enemy,
-	public BaseAttributes<GreenFairy1>
+class GreenFairy1 : public Enemy
 {
 public:
 	static const string baseAttributes;
@@ -105,16 +93,12 @@ public:
 	virtual inline SpaceFloat getRadarRadius() const { return 4.5; }
 	virtual inline SpaceFloat getDefaultFovAngle() const { return float_pi; }
 
-	inline SpaceFloat getMass() const { return 15.0; }
-
 	inline string getSprite() const { return "greenFairy"; }
 
 	virtual inline string initStateMachine() { return "green_fairy1"; }
 };
 
-class GreenFairy2 :
-	public Enemy,
-	public BaseAttributes<GreenFairy2>
+class GreenFairy2 : public Enemy
 {
 public:
 	static const string baseAttributes;
@@ -125,8 +109,6 @@ public:
 	virtual inline SpaceFloat getRadarRadius() const { return 6.0; }
 	virtual inline SpaceFloat getDefaultFovAngle() const { return 0.0; }
 
-	inline SpaceFloat getMass() const { return 25.0; }
-
 	inline string getSprite() const { return "greenFairy2"; }
 
 	virtual inline string initStateMachine() { return "green_fairy2"; }
@@ -134,9 +116,7 @@ public:
 };
 
 
-class ZombieFairy :
-	public Enemy,
-	public BaseAttributes<ZombieFairy>
+class ZombieFairy : public Enemy
 {
 public:
 	static const string baseAttributes;
@@ -153,14 +133,12 @@ public:
 	virtual inline SpaceFloat getRadarRadius() const { return 6.0; }
 	virtual inline SpaceFloat getDefaultFovAngle() const { return 0.0; }
 
-	inline SpaceFloat getMass() const { return 25.0; }
-
 	inline string getSprite() const { return "zombieFairy"; }
 
 	virtual inline string initStateMachine() { return "zombie_fairy"; }
 };
 
-class Fairy2 : public Enemy, public BaseAttributes<Fairy2>
+class Fairy2 : public Enemy
 {
 public:
 
@@ -186,8 +164,6 @@ public:
 	virtual inline SpaceFloat getRadarRadius() const { return 6.0; }
 	virtual inline SpaceFloat getDefaultFovAngle() const { return float_pi / 4.0; }
 
-	inline SpaceFloat getMass() const { return 40.0; }
-
 	inline string getSprite() const { return "redFairy2"; }
 
 	virtual inline string initStateMachine() { return "fairy2"; }
@@ -207,9 +183,7 @@ protected:
 	object_ref<Fairy2> supportingAgent;
 };
 
-class IceFairy :
-	public Enemy,
-	public BaseAttributes<IceFairy>
+class IceFairy : public Enemy
 {
 public:
 	static const string baseAttributes;
@@ -218,8 +192,6 @@ public:
 
 	virtual inline SpaceFloat getRadarRadius() const { return 6.0; }
 	virtual inline SpaceFloat getDefaultFovAngle() const { return float_pi / 4.0; }
-
-	inline SpaceFloat getMass() const { return 40.0; }
 
 	inline string getSprite() const { return "blueFairy2"; }
 

@@ -104,7 +104,7 @@ public:
 		};
 	}
 
-	GObject(shared_ptr<object_params> params);
+	GObject(shared_ptr<object_params> params, const physics_params& phys);
     virtual ~GObject();
 
 	virtual void removePhysicsObjects();
@@ -210,8 +210,8 @@ public:
 	inline void setBodySensor(bool val) { cpShapeSetSensor(bodyShape, val); }
 
 	//A default of 0 signifies undefined. Using -1 to indicate static or positive for dynamic.
-	virtual SpaceFloat getMass() const = 0;
-	virtual SpaceFloat getRadius() const = 0;
+	inline SpaceFloat getMass() const { return mass; }
+	SpaceFloat getRadius() const;
 	inline virtual SpaceFloat uk() const { return 0.0; }
 	virtual GType getType() const = 0;
 	virtual inline bool getSensor() const { return false; }
@@ -221,7 +221,7 @@ public:
 	inline virtual SpaceFloat getMaxAcceleration() const { return 0; }
 
 	//Called before adding the the object to space.
-	virtual void initializeBody(GSpace& space) = 0;
+	virtual void initializeBody();
 	inline virtual void initializeRadar(GSpace& space) {};
 
 	void updateParametricMove();
@@ -309,6 +309,9 @@ protected:
 //physics
 	cpBody* body = nullptr;
 	cpShape* bodyShape = nullptr;
+
+	SpaceVect dimensions;
+	SpaceFloat mass;
 
 	//Position where the object was loaded
 	SpaceVect prevPos = SpaceVect::zero;

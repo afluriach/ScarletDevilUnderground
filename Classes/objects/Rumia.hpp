@@ -14,9 +14,7 @@
 class Rumia : public Enemy
 {
 public:
-	MapObjCons(Rumia);
-
-    virtual inline SpaceFloat getMass() const {return 20.0;}
+	Rumia(GSpace * space, ObjectIDType id, const ValueMap& args, const string& attributes);
 
 	virtual inline SpaceFloat getRadarRadius() const { return 6.0; }
 	virtual inline SpaceFloat getDefaultFovAngle() const { return 0.0; }
@@ -26,7 +24,7 @@ public:
     virtual inline GraphicsLayer sceneLayer() const {return GraphicsLayer::ground;}
 };
 
-class Rumia1 : public Rumia, public BaseAttributes<Rumia1>
+class Rumia1 : public Rumia
 {
 public:
 	static const string baseAttributes;
@@ -38,7 +36,7 @@ public:
 	virtual void onZeroHP();
 };
 
-class Rumia2 : public Rumia, public BaseAttributes<Rumia2>
+class Rumia2 : public Rumia
 {
 public:
 	static const string baseAttributes;

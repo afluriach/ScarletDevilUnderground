@@ -29,14 +29,13 @@ public:
 	virtual shared_ptr<LightArea> getLightSource() const;
 };
 
-class ScarletDagger : public Bullet, public RectangleBody
+class ScarletDagger : public Bullet
 {
 public:
 	static const string props;
 
 	ScarletDagger(GSpace* space, ObjectIDType id, const SpaceVect& pos, SpaceFloat angle, const bullet_attributes& attributes);
 
-	virtual inline SpaceFloat getMass() const { return app::getBullet("scarletDagger")->mass; }
 	virtual inline SpaceFloat getMaxSpeed() const { return app::getBullet("scarletDagger")->speed; }
 
 	virtual inline DamageInfo getDamageInfo() const { return app::getBullet("scarletDagger")->damage; }
@@ -80,7 +79,7 @@ public:
 	virtual void update();
 };
 
-class Lavaeteinn : public Bullet, public RectangleBody
+class Lavaeteinn : public Bullet
 {
 public:
 	Lavaeteinn(
@@ -101,7 +100,7 @@ public:
 //	virtual void update();
 };
 
-class FlandreCounterClockBullet : public Bullet, public RectangleBody
+class FlandreCounterClockBullet : public Bullet
 {
 public:
 	cons(FlandreCounterClockBullet);
@@ -112,7 +111,7 @@ public:
 	virtual inline SpaceFloat getKnockbackForce() const { return 50.0; }
 };
 
-class CirnoIceShieldBullet : public Bullet, public CircleBody
+class CirnoIceShieldBullet : public Bullet
 {
 public:
 	static const string props;

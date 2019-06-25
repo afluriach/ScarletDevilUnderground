@@ -11,7 +11,6 @@
 
 #include "AI.hpp"
 #include "GObject.hpp"
-#include "GObjectMixins.hpp"
 
 class RadarSensor;
 

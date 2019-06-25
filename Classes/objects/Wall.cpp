@@ -10,18 +10,20 @@
 
 #include "enum.h"
 #include "GSpace.hpp"
+#include "object_params.hpp"
 #include "physics_context.hpp"
 #include "value_map.hpp"
 #include "Wall.hpp"
 
 Wall::Wall(GSpace* space, ObjectIDType id, const ValueMap& args) :
-	MapObjParams(),
-	RectangleBody(args)
+	GObject(MapParams(),MapRectPhys(-1.0))
 {}
 
 Wall::Wall(GSpace* space, ObjectIDType id, SpaceVect center, SpaceVect dimensions) :
-	GObject(make_shared<object_params>(space, id, "", center, 0.0)),
-	RectangleBody(dimensions)
+	GObject(
+		PosAngleParams(center, 0.0),
+		physics_params(dimensions, -1.0)
+	)
 {}
 
 PhysicsLayers Wall::getLayers() const{
@@ -29,7 +31,6 @@ PhysicsLayers Wall::getLayers() const{
 }
 
 BreakableWall::BreakableWall(GSpace* space, ObjectIDType id, const ValueMap& args) :
-	MapObjParams(),
 	MapObjForwarding(Wall)
 {}
 

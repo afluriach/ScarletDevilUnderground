@@ -13,8 +13,7 @@
 #include "value_map.hpp"
 
 Block::Block(GSpace* space, ObjectIDType id, const ValueMap& args) :
-MapObjParams(),
-MassImpl(getFloatOrDefault(args,"mass",40.0))
+	GObject(MapParams(), MapRectPhys(40.0))
 {
 	setInitialAngle(float_pi / 2.0);
 }

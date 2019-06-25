@@ -10,16 +10,14 @@
 #define FloorSegment_hpp
 
 #include "GObject.hpp"
-#include "GObjectMixins.hpp"
 #include "object_ref.hpp"
 
-class FloorSegment : virtual public GObject, public RectangleBody
+class FloorSegment : public GObject
 {
 public:
-	MapObjCons(FloorSegment);
+	FloorSegment(GSpace* space, ObjectIDType id, const ValueMap& args, bool isStatic = true);
 	virtual ~FloorSegment();
 
-	virtual inline SpaceFloat getMass() const { return -1.0; }
 	virtual inline GType getType() const { return GType::floorSegment; }
 	virtual PhysicsLayers getLayers() const { return PhysicsLayers::floor; }
 	virtual inline bool getSensor() const { return true; }
@@ -62,7 +60,6 @@ public:
 
 	virtual inline string getSprite() const { return "movingPlatform"; }
 
-	virtual inline SpaceFloat getMass() const { return 1.0; }
 	virtual inline SpaceFloat getMaxSpeed() const { return defaultSpeed; }
 protected:
 	string pathName = "";

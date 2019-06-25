@@ -12,6 +12,10 @@
 #include "GState.hpp"
 #include "InventoryObject.hpp"
 
+InventoryObject::InventoryObject(GSpace* space, ObjectIDType id, const ValueMap& args) :
+	GObject(MapParams(), physics_params(0.5, -1.0))
+{}
+
 void InventoryObject::onPlayerContact()
 {
 	if (canAcquire()) {

@@ -11,7 +11,7 @@
 #include "Glyph.hpp"
 
 Glyph::Glyph(GSpace* space, ObjectIDType id, const ValueMap& args) :
-	MapObjParams()
+	GObject(MapParams(), physics_params(args, 40.0))
 {
 	setInitialVelocity(SpaceVect(0, -6));
 }

@@ -10,11 +10,8 @@
 #define Door_hpp
 
 #include "GObject.hpp"
-#include "GObjectMixins.hpp"
 
-class Door :
-	virtual public GObject,
-	public RectangleBody
+class Door : public GObject
 {
 public:
 	enum class door_type
@@ -31,7 +28,6 @@ public:
 	virtual inline string getSprite() const { return "door"; }
     virtual inline GraphicsLayer sceneLayer() const {return GraphicsLayer::ground;}
 
-    virtual inline SpaceFloat getMass() const { return -1.0;}
     virtual inline GType getType() const {return GType::environment;}
     virtual PhysicsLayers getLayers() const;
 
@@ -72,9 +68,7 @@ protected:
 	bool path = false;
 };
 
-class Barrier :
-	virtual public GObject,
-	public RectangleBody
+class Barrier : public GObject
 {
 public:
 	MapObjCons(Barrier);
@@ -82,7 +76,6 @@ public:
 	virtual inline string getSprite() const { return "barrier"; }
 	virtual inline GraphicsLayer sceneLayer() const { return GraphicsLayer::ground; }
 
-	virtual inline SpaceFloat getMass() const { return -1.0; }
 	virtual inline GType getType() const { return GType::environment; }
 	virtual PhysicsLayers getLayers() const;
 

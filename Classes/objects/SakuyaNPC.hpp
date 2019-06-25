@@ -9,9 +9,9 @@
 #ifndef SakuyaNPC_hpp
 #define SakuyaNPC_hpp
 
-#include "Agent.hpp"
+#include "NPC.hpp"
 
-class SakuyaNPC : virtual public Agent, public BaseAttributes<SakuyaNPC>, public DialogEntity
+class SakuyaNPC : public NPC
 {
 public:
 	static const string baseAttributes;
@@ -21,8 +21,6 @@ public:
 	virtual inline GType getType() const { return GType::npc; }
     virtual inline SpaceFloat getRadarRadius() const {return 6.0;}
     virtual inline SpaceFloat getDefaultFovAngle() const {return 0.0;}
-
-    inline SpaceFloat getMass() const {return 40.0;}
 
     inline string getSprite() const {return "sakuya";}
 

@@ -23,7 +23,7 @@ const Color4F Pyramid::coneActiveColor = Color4F(0.9f, 0.75f, 0.5f, 0.7f);
 const DamageInfo Pyramid::lightConeEffect = DamageInfo{ 5.0f, Attribute::sunDamage, DamageType::effectArea };
 
 Pyramid::Pyramid(GSpace* space, ObjectIDType id, const ValueMap& args) :
-MapObjParams()
+	GObject(MapParams(), physics_params(args, -1.0))
 {
 	angular_speed = toRads(getFloatOrDefault(args, "angular_speed", 0.0f));
 

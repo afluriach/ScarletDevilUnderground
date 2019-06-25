@@ -22,7 +22,7 @@ class SpellDesc;
 class PlayScene;
 class Upgrade;
 
-class Player : virtual public Agent
+class Player : public Agent
 {
 public:
 	static const float centerLookHoldThresh;
@@ -43,7 +43,10 @@ public:
 	static const float sprintCost;
 
 	Player(GSpace* space, ObjectIDType id, const SpaceVect& pos, Direction d);
-	MapObjCons(Player);
+	Player(
+		GSpace* space, ObjectIDType id, const ValueMap& args,
+		const string& attributes
+	);
 	inline virtual ~Player() {}
     
 	virtual void onPitfall();
@@ -75,7 +78,6 @@ public:
 	inline bool isMovementSuppressed() const { return suppressMovement; }
 	inline void setMovementSuppressed(bool mode) { suppressMovement = mode; }
 
-	virtual inline SpaceFloat getMass() const { return 20.0; }
     virtual inline GType getType() const {return GType::player;}
     
     inline GraphicsLayer sceneLayer() const {return GraphicsLayer::ground;}
@@ -157,7 +159,7 @@ protected:
 	bool isComboActive = false;
 };
 
-class FlandrePC : virtual public Player, public BaseAttributes<FlandrePC>
+class FlandrePC : public Player
 {
 public:
 	static const string baseAttributes;
@@ -170,7 +172,7 @@ public:
 	virtual shared_ptr<LightArea> getLightSource() const;
 };
 
-class RumiaPC : virtual public Player, public BaseAttributes<RumiaPC>
+class RumiaPC : public Player
 {
 public:
 	static const string baseAttributes;
@@ -182,7 +184,7 @@ public:
 	virtual shared_ptr<LightArea> getLightSource() const;
 };
 
-class CirnoPC : virtual public Player, public BaseAttributes<CirnoPC>
+class CirnoPC : public Player
 {
 public:
 	static const string baseAttributes;

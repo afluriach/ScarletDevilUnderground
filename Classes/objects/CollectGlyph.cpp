@@ -11,9 +11,10 @@
 #include "Collect.h"
 #include "CollectGlyph.hpp"
 #include "GSpace.hpp"
+#include "object_params.hpp"
 
 CollectGlyph::CollectGlyph(GSpace* space, ObjectIDType id, const ValueMap& args) :
-	MapObjParams()
+	GObject(MapParams(), physics_params(args, -1.0))
 {
 	collectScene = space->getSceneAs<Collect>();
 

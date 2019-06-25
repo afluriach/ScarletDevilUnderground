@@ -9,9 +9,7 @@
 #ifndef AreaSensor_hpp
 #define AreaSensor_hpp
 
-#include "AIMixins.hpp"
 #include "GObject.hpp"
-#include "GObjectMixins.hpp"
 #include "object_ref.hpp"
 
 class Door;
@@ -20,9 +18,7 @@ class GhostHeadstone;
 class GhostFairyNPC;
 class Spawner;
 
-class AreaSensor :
-	virtual public GObject,
-	public RectangleBody
+class AreaSensor : public GObject
 {
 public:
 	AreaSensor(GSpace* space, ObjectIDType id, const ValueMap& args);
@@ -30,7 +26,6 @@ public:
 
 	inline virtual ~AreaSensor() {}
 
-    virtual inline SpaceFloat getMass() const { return -1.0;}
 	virtual inline bool getSensor() const { return true; }
     virtual inline GType getType() const {return GType::areaSensor;}
     virtual PhysicsLayers getLayers() const;

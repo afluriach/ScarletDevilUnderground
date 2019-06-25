@@ -15,7 +15,6 @@
 const int Spawner::defaultSpawnLimit = -1;
 
 Spawner::Spawner(GSpace* space, ObjectIDType id, const ValueMap& args) :
-MapObjParams(),
 MapObjForwarding(AreaSensor),
 spawn_args(args),
 spawnLimit(getIntOrDefault(args, "spawn_limit", defaultSpawnLimit))

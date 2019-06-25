@@ -10,13 +10,10 @@
 #define CollectGlyph_h
 
 #include "GObject.hpp"
-#include "GObjectMixins.hpp"
 
 class Collect;
 
-class CollectGlyph :
-public virtual GObject,
-public RectangleBody
+class CollectGlyph : public GObject
 {
 public:
 	MapObjCons(CollectGlyph);
@@ -24,7 +21,6 @@ public:
     virtual inline string getSprite() const {return "glyph";}
     virtual inline GraphicsLayer sceneLayer() const {return GraphicsLayer::ground;}
     
-    virtual inline SpaceFloat getMass() const {return -1.0;}
     virtual inline GType getType() const {return GType::environment;}
     
 	virtual bool canInteract(Player* p);

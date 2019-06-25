@@ -10,12 +10,8 @@
 #define Block_hpp
 
 #include "GObject.hpp"
-#include "GObjectMixins.hpp"
 
-class Block :
-	virtual public GObject,
-	public RectangleBody,
-	public MassImpl
+class Block : public GObject
 {
 public:
 	MapObjCons(Block);

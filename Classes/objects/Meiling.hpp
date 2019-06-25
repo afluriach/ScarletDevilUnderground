@@ -9,17 +9,14 @@
 #ifndef Meiling_hpp
 #define Meiling_hpp
 
-#include "Agent.hpp"
+#include "NPC.hpp"
 
-class Meiling1 : virtual public Agent, public DialogEntity
+class Meiling1 : public NPC
 {
 public:
 	static bool conditionalLoad(GSpace* space, ObjectIDType id, const ValueMap& args);
 
 	Meiling1(GSpace* space, ObjectIDType id, const ValueMap& args);
-    
-    virtual inline SpaceFloat getMass() const { return -1.0; }
-    virtual inline GType getType() const { return GType::npc; }
     
     virtual inline string getSprite() const { return "meiling"; }
     virtual inline GraphicsLayer sceneLayer() const { return GraphicsLayer::ground; }

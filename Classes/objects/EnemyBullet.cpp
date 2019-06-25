@@ -17,12 +17,6 @@
 #include "MagicEffect.hpp"
 #include "MiscMagicEffects.hpp"
 
-#define cons(x) x::x(GSpace* space, ObjectIDType id, const SpaceVect& pos, SpaceFloat angle, const bullet_attributes& attributes) : \
-	GObject(make_shared<object_params>(space, id, "", pos, angle)), \
-	Bullet(attributes), \
-    BulletImpl(&props) \
-{} \
-
 const vector<string> StarBullet::colors = {
 	"blue",
 	"green",
@@ -34,9 +28,7 @@ const vector<string> StarBullet::colors = {
 };
 
 StarBullet::StarBullet(GSpace* space, ObjectIDType id, const SpaceVect& pos, SpaceFloat angle, const bullet_attributes& attributes, SpaceFloat speed, SpaceFloat radius, const string& color) :
-	GObject(make_shared<object_params>(space, id, "", pos, angle)),
-	Bullet(attributes),
-	CircleBody(radius),
+	Bullet(space,id,pos,angle,attributes, physics_params(radius,0.1)),
 	color(color)
 {}
 
@@ -45,9 +37,12 @@ DamageInfo StarBullet::getDamageInfo() const {
 }
 
 IllusionDialDagger::IllusionDialDagger(GSpace* space, ObjectIDType id, const bullet_attributes& attributes, const SpaceVect& pos, SpaceFloat angular_velocity) :
-GObject(make_shared<object_params>(space, id, "", pos, 0.0)),
-Bullet(attributes),
-RectangleBody(SpaceVect(0.8, 0.175))
+	Bullet(
+		space,id,
+		pos,0.0,
+		attributes,
+		physics_params(SpaceVect(0.8, 0.175), 0.1)
+	)
 {
     setInitialAngularVelocity(angular_velocity);
 }
@@ -128,8 +123,6 @@ SpaceVect ReimuBullet1::parametric_move(
 }
 
 ReimuBullet1::ReimuBullet1(GSpace* space, ObjectIDType id, const SpaceVect& pos, SpaceFloat angle, const bullet_attributes& attributes, SpaceFloat start) :
-	GObject(make_shared<object_params>(space, id, "", pos, angle)),
-	Bullet(attributes),
 	BulletImpl(space, id, pos, angle, attributes, app::getBullet(props))
 {
 	setParametricMove(ai::parametricMoveTranslate(
@@ -143,8 +136,6 @@ ReimuBullet1::ReimuBullet1(GSpace* space, ObjectIDType id, const SpaceVect& pos,
 const string YinYangOrb::props = "yinYangOrb";
 
 YinYangOrb::YinYangOrb(GSpace* space, ObjectIDType id, const SpaceVect& pos, SpaceFloat angle, const bullet_attributes& attributes) :
-	GObject(make_shared<object_params>(space, id, "", pos, angle)),
-	Bullet(attributes),
 	BulletImpl(space, id, pos, angle, attributes, app::getBullet(props))
 {
 	setInitialAngularVelocity(float_pi);
@@ -160,8 +151,6 @@ RumiaDemarcation2Bullet::RumiaDemarcation2Bullet(
 	const bullet_attributes& attributes,
 	SpaceFloat angularVel
 ) :
-	GObject(make_shared<object_params>(space, id, "", pos, angle)),
-	Bullet(attributes),
 	BulletImpl(space, id, pos, angle, attributes, app::getBullet(props))
 {
 	setInitialAngularVelocity(angularVel);
@@ -184,8 +173,6 @@ RumiaDarknessBullet::RumiaDarknessBullet(
 	SpaceFloat angle,
 	const bullet_attributes& attributes
 ) :
-	GObject(make_shared<object_params>(space, id, "", pos, angle)),
-	Bullet(attributes),
 	BulletImpl(space,id,pos,angle,attributes,app::getBullet(props))
 {
 	setShield(false);

@@ -76,6 +76,37 @@ protected:
     Direction direction = Direction::up;
 };
 
+//The class that is used by agents to control their animations.
+class AgentAnimationContext 
+{
+public:
+	static constexpr SpaceFloat stepSize = 0.4;
+	static constexpr SpaceFloat midstepSize = 0.2;
 
+	inline AgentAnimationContext(GSpace* space) : space(space) {}
+
+	SpriteID initializeGraphics(
+		const string& sprite,
+		SpaceFloat radius,
+		GraphicsLayer glayer,
+		Vec2 centerPix
+	);
+
+	void setSprite(const string& name);
+	void setAngle(SpaceFloat a);
+	void setDirection(Direction d);
+	bool accumulate(SpaceFloat dx);
+	bool checkAdvanceAnimation();
+	void reset();
+protected:
+	SpaceFloat accumulator = 0.0;
+	GSpace* space;
+	SpriteID spriteID;
+	Direction startingDirection = Direction::down;
+	int crntFrame = 1;
+	bool firstStepIsLeft = false;
+	//Which step is coming next
+	bool nextStepIsLeft = true;
+};
 
 #endif /* GAnimation_hpp */

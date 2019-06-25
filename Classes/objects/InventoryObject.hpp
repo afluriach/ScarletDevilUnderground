@@ -10,16 +10,14 @@
 #define InventoryObject_hpp
 
 #include "GObject.hpp"
-#include "GObjectMixins.hpp"
 
 //Represents an object that can be collected from the environment.
 //It is static, disappears once obtained.
-class InventoryObject : virtual public GObject, public CircleBody
+class InventoryObject : public GObject
 {
 public:
-	inline InventoryObject(SpaceFloat radius = 0.5) : CircleBody(radius) {}
+	MapObjCons(InventoryObject);
 
-    virtual inline SpaceFloat getMass() const {return -1.0;}
     virtual inline GType getType() const {return GType::playerPickup;}
 	virtual inline PhysicsLayers getLayers() const { return PhysicsLayers::floor; }
 

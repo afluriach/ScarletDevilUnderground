@@ -17,7 +17,6 @@
 #include "Torch.hpp"
 
 EffectArea::EffectArea(GSpace* space, ObjectIDType id, const ValueMap& args) :
-MapObjParams(),
 MapObjForwarding(AreaSensor)
 {
 }
@@ -33,7 +32,6 @@ void EffectArea::update()
 }
 
 SunArea::SunArea(GSpace* space, ObjectIDType id, const ValueMap& args) :
-	MapObjParams(),
 	MapObjForwarding(EffectArea)
 {
 }
@@ -56,7 +54,6 @@ DamageInfo SunArea::getDamageInfo() const {
 }
 
 DarknessArea::DarknessArea(GSpace* space, ObjectIDType id, const ValueMap& args) :
-	MapObjParams(),
 	MapObjForwarding(EffectArea)
 {
 }

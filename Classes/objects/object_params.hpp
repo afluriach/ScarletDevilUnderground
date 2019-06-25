@@ -37,9 +37,26 @@ public:
 	SpaceVect vel;
 	SpaceFloat angularVel = 0.0;
 
-	SpaceVect dimensions;
-
 	bool hidden = false;
 };
+
+#define MapParams() make_shared<object_params>(space, id, args)
+#define PosAngleParams(pos,angle) make_shared<object_params>(space, id, "", pos, angle)
+
+class physics_params
+{
+public:
+	//Create circle body with fixed radius and mass
+	physics_params(SpaceFloat radius, SpaceFloat mass);
+	//Create rectangle body with fixed dimensions and mass
+	physics_params(SpaceVect dimensions, SpaceFloat mass);
+	//Create rectangle body with variable dimensions and default mass
+	physics_params(const ValueMap& args, SpaceFloat mass);
+
+	SpaceVect dimensions;
+	SpaceFloat mass;
+};
+
+#define MapRectPhys(m) physics_params(args, mass)
 
 #endif

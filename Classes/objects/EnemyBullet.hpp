@@ -10,11 +10,10 @@
 #define EnemyBullet_hpp
 
 #include "Bullet.hpp"
-#include "GObjectMixins.hpp"
 
 #define cons(x) x(GSpace* space, ObjectIDType id, const SpaceVect& pos, SpaceFloat angle, const bullet_attributes& attributes);
 
-class StarBullet : virtual public GObject, public Bullet, public CircleBody
+class StarBullet : public Bullet
 {
 public:
     static const vector<string> colors;
@@ -32,10 +31,7 @@ public:
     virtual inline string getSprite() const {return "star-"+color;}
 };
 
-class IllusionDialDagger :
-virtual public GObject,
-public Bullet,
-public RectangleBody
+class IllusionDialDagger : public Bullet
 {
 public:
     //IllusionDaggerBullet(const ValueMap& args);

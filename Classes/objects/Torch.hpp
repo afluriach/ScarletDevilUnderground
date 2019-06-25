@@ -10,11 +10,8 @@
 #define Torch_hpp
 
 #include "GObject.hpp"
-#include "GObjectMixins.hpp"
 
-class Torch :
-	public virtual GObject,
-	public RectangleBody
+class Torch : public GObject
 {
 public:
 	static const unordered_map<string, Color3B> colorMap;
@@ -24,7 +21,6 @@ public:
 
 	virtual void update();
 
-    virtual inline SpaceFloat getMass() const {return -1.0;}
     virtual inline GType getType() const {return GType::environment;}
     virtual inline GraphicsLayer sceneLayer() const {return GraphicsLayer::ground;}
 

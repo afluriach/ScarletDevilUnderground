@@ -10,13 +10,13 @@
 #define Reimu_h
 
 #include "Enemy.hpp"
+#include "NPC.hpp"
 
-class Reimu : virtual public Agent, public DialogEntity
+class Reimu : public NPC
 {
 public:
 	MapObjCons(Reimu);
     
-    virtual inline SpaceFloat getMass() const {return -1.0;}
     virtual inline GType getType() const {return GType::npc;}
     
     virtual inline string getSprite() const {return "reimu";}
@@ -28,7 +28,7 @@ public:
     }
 };
 
-class ReimuEnemy : public Enemy, public BaseAttributes<ReimuEnemy>
+class ReimuEnemy : public Enemy
 {
 public:
 	static constexpr int orbCount = 4;
@@ -49,7 +49,6 @@ public:
 	virtual inline GType getRadarType() const { return GType::enemySensor; }
 	virtual inline SpaceFloat getDefaultFovAngle() const { return 0.0; }
 
-	virtual inline SpaceFloat getMass() const { return 40.0; }
 	virtual inline GType getType() const { return GType::enemy; }
 
 	virtual inline string getSprite() const { return "reimu"; }

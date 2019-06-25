@@ -45,6 +45,21 @@ object_params::object_params(GSpace* space, ObjectIDType id, const ValueMap& arg
 		getObjectPos(args)
 	)
 {
-	dimensions = getObjectDimensions(args);
 	hidden = getBoolOrDefault(args, "hidden", false);
+}
+
+physics_params::physics_params(SpaceFloat radius, SpaceFloat mass) :
+	dimensions(SpaceVect(radius,0.0)),
+	mass(mass)
+{}
+
+physics_params::physics_params(SpaceVect dimensions, SpaceFloat mass) :
+	dimensions(dimensions),
+	mass(mass)
+{}
+
+physics_params::physics_params(const ValueMap& args, SpaceFloat mass)
+{
+	dimensions = getObjectDimensions(args);
+	mass = getFloatOrDefault(args, "mass", mass);
 }
