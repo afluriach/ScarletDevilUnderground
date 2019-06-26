@@ -60,9 +60,36 @@ RumiaBurstPattern2::RumiaBurstPattern2(Agent *const agent) :
 	EnemyBulletImplPattern(app::getBullet("rumiaBullet2"))
 {}
 
+const SpaceFloat ReimuWavePattern::omega = float_pi * 2.0;
+const SpaceFloat ReimuWavePattern::amplitude = 2.0;
+
+SpaceVect ReimuWavePattern::parametric_move(
+	SpaceFloat t,
+	SpaceFloat firingAngle,
+	SpaceFloat phaseAngleStart,
+	SpaceFloat speed
+) {
+	SpaceVect d1 = SpaceVect::ray(t * speed, firingAngle);
+	SpaceVect d2 = SpaceVect::ray(amplitude, firingAngle + float_pi * 0.5)*cos((t + phaseAngleStart)*omega);
+
+	return d1 + d2;
+}
+
+parametric_space_function ReimuWavePattern::getParametricFunction(SpaceVect origin, SpaceFloat angle, SpaceFloat speed, SpaceFloat tOffset)
+{
+	return ai::parametricMoveTranslate(
+		bind(&parametric_move, placeholders::_1, angle, tOffset, speed),
+		origin,
+		//In this case, we are already capturing our parametric variable start offset.
+		0.0
+	);
+}
+
 ReimuWavePattern::ReimuWavePattern(Agent *const agent) :
 	FirePattern(agent)
-{}
+{
+	props = app::getBullet("reimuBullet1");
+}
 
 bool ReimuWavePattern::fire()
 {
@@ -70,18 +97,20 @@ bool ReimuWavePattern::fire()
 	SpaceFloat angle = agent->getAngle();
 	auto params = Bullet::makeParams(pos, angle);
 
-	gobject_ref b1 = agent->bulletCheckSpawn<ReimuBullet1>(params);
-	gobject_ref b2 = agent->bulletCheckSpawn<ReimuBullet1>(params);
+	gobject_ref b1 = agent->bulletImplCheckSpawn<BulletImpl>(params, props);
+	gobject_ref b2 = agent->bulletImplCheckSpawn<BulletImpl>(params, props);
 
-	agent->makeInitMessage(&GObject::setParametricMove, b1, ReimuBullet1::getParametricFunction(
+	agent->makeInitMessage(&GObject::setParametricMove, b1, getParametricFunction(
 		pos,
 		angle,
+		props->speed,
 		0.0
 	));
 
-	agent->makeInitMessage(&GObject::setParametricMove, b2, ReimuBullet1::getParametricFunction(
+	agent->makeInitMessage(&GObject::setParametricMove, b2, getParametricFunction(
 		pos,
 		angle,
+		props->speed,
 		0.5
 	));
 

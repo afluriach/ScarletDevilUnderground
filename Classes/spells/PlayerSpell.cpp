@@ -236,10 +236,23 @@ const SpellCostType PlayerScarletRose::costType = enum_bitwise_or(SpellCostType,
 const SpaceFloat PlayerScarletRose::fireInterval = 0.2;
 const int PlayerScarletRose::fireCount = 6;
 
+const SpaceFloat PlayerScarletRose::A = 5.0;
+const SpaceFloat PlayerScarletRose::B = 4.0;
+const SpaceFloat PlayerScarletRose::W = 1.0;
+
+SpaceVect PlayerScarletRose::parametric_motion(SpaceFloat t)
+{
+	SpaceFloat theta = t * W;
+	SpaceFloat r = A * cos(B*theta);
+	return SpaceVect::ray(r, theta);
+}
+
 PlayerScarletRose::PlayerScarletRose(GObject* caster) :
 	PlayerSpell(caster),
 	origin(caster->getPos())
-{}
+{
+	props = app::getBullet("flandrePolarBullet");
+}
 
 void PlayerScarletRose::update()
 {
@@ -249,14 +262,15 @@ void PlayerScarletRose::update()
 
 	if (timer >= fireInterval && launchCount < fireCount) {
 		for_irange(i, 0, 8) {
-			SpaceFloat t = float_pi / FlanPolarBullet::B * i;
-			gobject_ref ref = getSpace()->createObject<FlanPolarBullet>(
+			SpaceFloat t = float_pi / B * i;
+			gobject_ref ref = getSpace()->createObject<BulletImpl>(
 				Bullet::makeParams(origin,0.0),
-				getCasterAs<Agent>()->getBulletAttributes(app::getBullet(FlanPolarBullet::props))
+				getCasterAs<Agent>()->getBulletAttributes(props),
+				props
 			);
 
-			parametric_space_function f = [t](SpaceFloat _t)->SpaceVect {
-				return FlanPolarBullet::parametric_motion(t + _t);
+			parametric_space_function f = [t, this](SpaceFloat _t)->SpaceVect {
+				return this->origin + parametric_motion(t + _t);
 			};
 
 			caster->makeInitMessage(&GObject::setParametricMove, ref, f );

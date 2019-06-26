@@ -48,27 +48,6 @@ shared_ptr<LightArea> CatadioptricBullet::getLightSource() const {
 	);
 }
 
-const string FlanPolarBullet::props = "flandrePolarBullet";
-const SpaceFloat FlanPolarBullet::A = 5.0;
-const SpaceFloat FlanPolarBullet::B = 4.0;
-const SpaceFloat FlanPolarBullet::W = 1.0;
-
-SpaceVect FlanPolarBullet::parametric_motion(SpaceFloat t)
-{
-	SpaceFloat theta = t * W;
-	SpaceFloat r = A * cos(B*theta);
-	return SpaceVect::ray(r, theta);
-}
-
-FlanPolarBullet::FlanPolarBullet(
-	shared_ptr<object_params> params,
-	const bullet_attributes& attributes
-) :
-	BulletImpl(params, attributes, app::getBullet(props))
-{
-	ignoreObstacleCollision = true;
-}
-
 const string FlandrePolarMotionOrb::props = "flandrePolarMotionOrb";
 
 FlandrePolarMotionOrb::FlandrePolarMotionOrb(

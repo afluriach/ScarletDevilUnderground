@@ -102,37 +102,6 @@ void IllusionDialDagger::initializeGraphics()
 	space->graphicsNodeAction(&Node::setVisible, drawNodeID, false);
 }
 
-const string ReimuBullet1::props = "reimuBullet1";
-const SpaceFloat ReimuBullet1::omega = float_pi * 2.0;
-const SpaceFloat ReimuBullet1::amplitude = 2.0;
-
-SpaceVect ReimuBullet1::parametric_move(
-	SpaceFloat t,
-	SpaceFloat firingAngle,
-	SpaceFloat phaseAngleStart,
-	SpaceFloat speed
-){
-	SpaceVect d1 = SpaceVect::ray(t * speed, firingAngle);
-	SpaceVect d2 = SpaceVect::ray(amplitude, firingAngle + float_pi * 0.5)*cos((t+phaseAngleStart)*omega);
-
-	return d1 + d2;
-}
-
-parametric_space_function ReimuBullet1::getParametricFunction(SpaceVect origin, SpaceFloat angle, SpaceFloat tOffset)
-{
-	return ai::parametricMoveTranslate(
-		bind(&parametric_move, placeholders::_1, angle, tOffset, app::getBullet(props)->speed),
-		origin,
-		//In this case, we are already capturing our parametric variable start offset.
-		0.0
-	);
-}
-
-ReimuBullet1::ReimuBullet1(shared_ptr<object_params> params, const bullet_attributes& attributes) :
-	BulletImpl(params, attributes, app::getBullet(props))
-{
-}
-
 const string YinYangOrb::props = "yinYangOrb";
 
 YinYangOrb::YinYangOrb(shared_ptr<object_params> params, const bullet_attributes& attributes) :

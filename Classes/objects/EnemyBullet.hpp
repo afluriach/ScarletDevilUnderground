@@ -49,25 +49,6 @@ public:
 	virtual void update();
 };
 
-class ReimuBullet1 : public BulletImpl
-{
-public:
-	static const string props;
-	static const SpaceFloat omega;
-	static const SpaceFloat amplitude;
-
-	static SpaceVect parametric_move(
-		SpaceFloat t,
-		SpaceFloat angle,
-		SpaceFloat phaseAngleStart,
-		SpaceFloat speed
-	);
-
-	static parametric_space_function getParametricFunction(SpaceVect origin, SpaceFloat angle, SpaceFloat tOffset);
-
-	ReimuBullet1(shared_ptr<object_params> params, const bullet_attributes& attributes);
-};
-
 class YinYangOrb : public BulletImpl
 {
 public:

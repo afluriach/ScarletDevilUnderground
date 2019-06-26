@@ -37,26 +37,6 @@ public:
 	virtual shared_ptr<LightArea> getLightSource() const;
 };
 
-class FlanPolarBullet : public BulletImpl
-{
-public:
-	static const string props;
-	//parametric / angle scale - at 1.0, it takes 2pi seconds
-	//to trace the entire graph
-	static const SpaceFloat W;
-	//magnitude scale
-	static const SpaceFloat A;
-	//frequency, number of petals
-	static const SpaceFloat B;
-
-	static SpaceVect parametric_motion(SpaceFloat t);
-
-	FlanPolarBullet(
-		shared_ptr<object_params> params,
-		const bullet_attributes& attributes
-	);
-};
-
 class FlandrePolarMotionOrb : public BulletImpl
 {
 public:

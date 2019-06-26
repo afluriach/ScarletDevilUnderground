@@ -68,6 +68,23 @@ public:
 class ReimuWavePattern : public FirePattern
 {
 public:
+	static const SpaceFloat omega;
+	static const SpaceFloat amplitude;
+
+	static SpaceVect parametric_move(
+		SpaceFloat t,
+		SpaceFloat angle,
+		SpaceFloat phaseAngleStart,
+		SpaceFloat speed
+	);
+
+	static parametric_space_function getParametricFunction(
+		SpaceVect origin,
+		SpaceFloat angle,
+		SpaceFloat speed,
+		SpaceFloat tOffset
+	);
+
 	ReimuWavePattern(Agent *const agent);
 	virtual bool fire();
 
@@ -78,6 +95,8 @@ public:
 	inline virtual float getCooldownTime() { return 0.75f; }
 	//not relevant for enemy fire patterns
 	inline virtual string iconPath() const { return ""; }
+protected:
+	shared_ptr<bullet_properties> props;
 };
 
 class RumiaBurstPattern : public BurstPattern, public EnemyBulletImplPattern

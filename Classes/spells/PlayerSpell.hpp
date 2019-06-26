@@ -112,6 +112,16 @@ public:
 	static const SpaceFloat fireInterval;
 	static const int fireCount;
 
+	//parametric / angle scale - at 1.0, it takes 2pi seconds
+	//to trace the entire graph
+	static const SpaceFloat W;
+	//magnitude scale
+	static const SpaceFloat A;
+	//frequency, number of petals
+	static const SpaceFloat B;
+
+	static SpaceVect parametric_motion(SpaceFloat t);
+
 	PlayerScarletRose(GObject* caster);
 
 	GET_DESC(PlayerScarletRose)
@@ -124,6 +134,8 @@ public:
 	unordered_set<gobject_ref> bullets;
 	SpaceFloat timer = 0.0;
 	int launchCount = 0;
+protected:
+	shared_ptr<bullet_properties> props;
 };
 
 class PlayerWhirlShot : public PlayerSpell {
