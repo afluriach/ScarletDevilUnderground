@@ -57,7 +57,6 @@
 #include "AL/al.h"
 #include "AL/alc.h"
 #include "Box2D/Box2D.h"
-#include "chipmunk.h"
 #include "cocos2d.h"
 #include "tinyxml2/tinyxml2.h"
 #include "ui/CocosGUI.h"
@@ -105,6 +104,8 @@ using namespace luabridge;
 
 #define make_shared boost::make_local_shared
 #define shared_ptr boost::local_shared_ptr
+
+typedef double SpaceFloat;
 
 #include "macros.h"
 #include "vect.hpp"

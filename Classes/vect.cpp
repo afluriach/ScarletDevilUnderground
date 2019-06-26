@@ -18,23 +18,23 @@ bool operator!=(const SpaceVect& lhs, const SpaceVect& rhs) {
 	return lhs.x != rhs.x || lhs.y != rhs.y;
 }
 
-cpFloat operator*(const SpaceVect& lhs, const SpaceVect& rhs) {
+SpaceFloat operator*(const SpaceVect& lhs, const SpaceVect& rhs) {
 	return lhs.x * rhs.x +lhs.y * rhs.y;
 }
 
-SpaceVect operator*(const SpaceVect& lhs, const cpFloat v) {
+SpaceVect operator*(const SpaceVect& lhs, const SpaceFloat v) {
 	return SpaceVect(lhs.x * v, lhs.y * v);
 }
 
-SpaceVect operator/(const SpaceVect& lhs, const cpFloat v) {
+SpaceVect operator/(const SpaceVect& lhs, const SpaceFloat v) {
 	return SpaceVect(lhs.x / v, lhs.y / v);
 }
 
-SpaceVect operator*(const cpFloat v, const SpaceVect& rhs) {
+SpaceVect operator*(const SpaceFloat v, const SpaceVect& rhs) {
 	return SpaceVect(rhs.x * v, rhs.y * v);
 }
 
-SpaceVect operator/(const cpFloat v, const SpaceVect& rhs) {
+SpaceVect operator/(const SpaceFloat v, const SpaceVect& rhs) {
 	return SpaceVect(rhs.x / v, rhs.y / v);
 }
 
@@ -56,21 +56,17 @@ bool operator>(const SpaceVect& lhs, const SpaceVect& rhs) {
 
 SpaceVect::SpaceVect() : x(0), y(0) {}
 
-SpaceVect::SpaceVect(cpFloat x, cpFloat y) : x(x), y(y) {}
+SpaceVect::SpaceVect(SpaceFloat x, SpaceFloat y) : x(x), y(y) {}
 
-SpaceVect::SpaceVect(const cpVect& vect) : x(vect.x), y(vect.y) {}
+SpaceVect::SpaceVect(const SpaceVect& vect) : x(vect.x), y(vect.y) {}
 
-SpaceVect::operator cpVect() const {
-	return cpv(x, y);
-}
-
-SpaceVect& SpaceVect::operator/=(const cpFloat v) {
+SpaceVect& SpaceVect::operator/=(const SpaceFloat v) {
 	x /= v;
 	y /= v;
 	return *this;
 }
 
-SpaceVect& SpaceVect::operator*=(const cpFloat v) {
+SpaceVect& SpaceVect::operator*=(const SpaceFloat v) {
 	x *= v;
 	y *= v;
 	return *this;
@@ -82,13 +78,13 @@ SpaceVect& SpaceVect::operator-=(const SpaceVect& rhs) {
 	return *this;
 }
 
-SpaceVect& SpaceVect::operator-=(const cpFloat v) {
+SpaceVect& SpaceVect::operator-=(const SpaceFloat v) {
 	x -= v;
 	y -= v;
 	return *this;
 }
 
-SpaceVect& SpaceVect::operator+=(const cpFloat v) {
+SpaceVect& SpaceVect::operator+=(const SpaceFloat v) {
 	x += v;
 	y += v;
 	return *this;
@@ -112,15 +108,15 @@ SpaceVect& SpaceVect::operator--() {
 	return *this;
 }
 
-cpFloat SpaceVect::lengthSq() const {
+SpaceFloat SpaceVect::lengthSq() const {
 	return x*x+y*y;
 }
 
-cpFloat SpaceVect::length() const {
+SpaceFloat SpaceVect::length() const {
 	return sqrt(lengthSq());
 }
     
-SpaceVect SpaceVect::limit(cpFloat _limit) const
+SpaceVect SpaceVect::limit(SpaceFloat _limit) const
 {
 	if (lengthSq() > _limit*_limit) {
 		return normalizeSafe() * _limit;
@@ -130,7 +126,7 @@ SpaceVect SpaceVect::limit(cpFloat _limit) const
 	}
 }
 
-SpaceVect SpaceVect::setMag(cpFloat mag) const
+SpaceVect SpaceVect::setMag(SpaceFloat mag) const
 {
 	if (isZero())
 		return *this;
@@ -163,19 +159,19 @@ SpaceVect SpaceVect::normalizeSafe() const {
 	}
 }
 
-SpaceVect SpaceVect::clamp(cpFloat len) const {
+SpaceVect SpaceVect::clamp(SpaceFloat len) const {
 	return (lengthSq() > len*len) ? normalize() * len : *this;
 }
 
-cpFloat SpaceVect::toAngle() const {
-	return cpfatan2(y, x);
+SpaceFloat SpaceVect::toAngle() const {
+	return atan2(y, x);
 }
 
-cpFloat SpaceVect::dot(SpaceVect v1, SpaceVect v2) {
+SpaceFloat SpaceVect::dot(SpaceVect v1, SpaceVect v2) {
 	return v1.x * v2.x + v1.y * v2.y;
 }
 
-cpFloat SpaceVect::cross(SpaceVect v1, SpaceVect v2) {
+SpaceFloat SpaceVect::cross(SpaceVect v1, SpaceVect v2) {
 	return v1.x*v2.y - v1.y*v2.x;
 }
 
@@ -213,11 +209,11 @@ SpaceVect SpaceVect::roundToNearestDirection(int numSlices) const{
 	else return ray(_len, float_pi*2.0 * closest * _step);
 }
 
-cpFloat SpaceVect::getMax() const {
+SpaceFloat SpaceVect::getMax() const {
 	return max(x, y);
 }
 
-SpaceVect SpaceVect::rotate(cpFloat angleRadians) const {
+SpaceVect SpaceVect::rotate(SpaceFloat angleRadians) const {
     double _cos = cos(angleRadians);
     double _sin = sin(angleRadians);
     return SpaceVect(
@@ -226,29 +222,19 @@ SpaceVect SpaceVect::rotate(cpFloat angleRadians) const {
     );
 }
 
-SpaceVect SpaceVect::lerp(SpaceVect v1, SpaceVect v2, cpFloat t) {
+SpaceVect SpaceVect::lerp(SpaceVect v1, SpaceVect v2, SpaceFloat t) {
 	return v1 * (1 - t) + v2 * t;
 }
 
-SpaceVect SpaceVect::lerpconst(SpaceVect v1, SpaceVect v2, cpFloat d) {
+SpaceVect SpaceVect::lerpconst(SpaceVect v1, SpaceVect v2, SpaceFloat d) {
 	return v1 + (v2 - v1).clamp( d);
 }
 
-SpaceVect SpaceVect::slerp(SpaceVect v1, SpaceVect v2, cpFloat t) {
-	auto tmp = cpvslerp(v1, v2, t);
-	return SpaceVect(tmp.x, tmp.y);
-}
-
-SpaceVect SpaceVect::slerpconst(SpaceVect v1, SpaceVect v2, cpFloat a) {
-	auto tmp = cpvslerpconst(v1, v2, a);
-	return SpaceVect(tmp.x, tmp.y);
-}
-
-cpFloat SpaceVect::dist(SpaceVect v1, SpaceVect v2) {
+SpaceFloat SpaceVect::dist(SpaceVect v1, SpaceVect v2) {
 	return (v1-v2).length();
 }
 
-cpFloat SpaceVect::distSq(SpaceVect v1, SpaceVect v2) {
+SpaceFloat SpaceVect::distSq(SpaceVect v1, SpaceVect v2) {
 	return (v1-v2).lengthSq();
 }
 
@@ -256,8 +242,8 @@ bool SpaceVect::fuzzyMatch(SpaceVect v1, SpaceVect v2) {
 	return distSq(v1, v2) < 1e-4;
 }
 
-SpaceVect SpaceVect::forAngle(cpFloat a) {
-	return SpaceVect(cpfcos(a), cpfsin(a));
+SpaceVect SpaceVect::forAngle(SpaceFloat a) {
+	return SpaceVect(cos(a), sin(a));
 }
     
 const SpaceVect SpaceVect::zero = SpaceVect(0.0f,0.0f);

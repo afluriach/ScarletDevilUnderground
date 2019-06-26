@@ -28,7 +28,6 @@ typedef pair<double, double> double_pair;
 typedef pair<int,int> IntVec2;
 typedef tuple<long, long, long> TimerTriplet;
 typedef map<type_index, pair<unsigned int, unsigned int>> EnemyStatsMap;
-typedef cpFloat SpaceFloat;
 typedef vector<SpaceVect> Path;
 
 typedef unsigned int LightID;
