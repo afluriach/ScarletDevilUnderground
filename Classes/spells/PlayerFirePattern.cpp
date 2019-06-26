@@ -63,6 +63,7 @@ bullet_properties StarbowBreak::generateProps(int angle)
 		baseMass *sizeScale*sizeScale,
 		baseSpeed / sizeScale,
 		SpaceVect(baseRadius * sizeScale, 0.0),
+		0.0,
 		bullet_damage(to_float(baseDamage*sizeScale)),
 		"starbowBreak"+boost::lexical_cast<string>(angle+1),
 	};

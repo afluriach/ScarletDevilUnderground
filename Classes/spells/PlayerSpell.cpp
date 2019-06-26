@@ -107,10 +107,12 @@ void LavaeteinnSpell::init()
 	speedScale = getCasterAs<Agent>()->getAttribute(Attribute::attackSpeed);
 
 	auto params = Bullet::makeParams(pos, angle, SpaceVect::zero, angular_speed * speedScale);
+	auto props = app::getBullet("lavaeteinn");
 
-	lavaeteinnBullet = getSpace()->createObject<Lavaeteinn>(
+	lavaeteinnBullet = getSpace()->createObject<BulletImpl>(
 		params,
-		bullet_attributes::getDefault()
+		getCasterAs<Agent>()->getBulletAttributes(props),
+		props
 	);
 
 	fireTimer = length / bulletSpawnCount;
@@ -171,6 +173,7 @@ void PlayerCounterClock::init()
 
 	Player* p = getCasterAs<Player>();
 	SpaceVect pos = caster->getPos();
+	auto props = app::getBullet("flandreCounterClockBullet");
 
 	if (p) {
 		p->setFiringSuppressed(true);
@@ -180,9 +183,10 @@ void PlayerCounterClock::init()
 	{
 		SpaceVect disp = SpaceVect::ray(2.0 + offset, (i/2.0) * float_pi);
 
-		bullets[i] = getSpace()->createObject<FlandreCounterClockBullet>(
+		bullets[i] = getSpace()->createObject<BulletImpl>(
 			Bullet::makeParams(pos + disp, (i / 2.0) * float_pi),
-			bullet_attributes::getDefault()
+			getCasterAs<Agent>()->getBulletAttributes(props),
+			props
 		);
 	}
 }
@@ -338,7 +342,9 @@ const SpaceFloat PlayerIceShield::inv_circumference = 1.0 / circumference;
 
 PlayerIceShield::PlayerIceShield(GObject* caster) :
 	PlayerSpell(caster)
-{}
+{
+	props = app::getBullet("cirnoIceShieldBullet");
+}
 
 void PlayerIceShield::init()
 {
@@ -351,9 +357,10 @@ void PlayerIceShield::init()
 		SpaceFloat angle = (1.0 * i / bulletCount) * (float_pi * 2.0);
 		SpaceVect pos = SpaceVect::ray(distance, angle);
 		
-		bullets[i] = getSpace()->createObject<CirnoIceShieldBullet>(
+		bullets[i] = getSpace()->createObject<BulletImpl>(
 			Bullet::makeParams(origin + pos,angle - float_pi / 2.0),
-			bullet_attributes::getDefault()
+			getCasterAs<Agent>()->getBulletAttributes(props),
+			props
 		);
 	}
 }

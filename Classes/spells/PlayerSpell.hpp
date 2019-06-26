@@ -12,9 +12,6 @@
 #include "Spell.hpp"
 #include "spell_types.hpp"
 
-class CirnoIceShieldBullet;
-class FlandreCounterClockBullet;
-
 //Apply power drain and deactive spell if applicable
 class PlayerSpell : public Spell {
 public:
@@ -100,7 +97,7 @@ public:
 
 	inline virtual SpaceFloat getLength() const { return -1.0; }
 protected:
-	array<object_ref<FlandreCounterClockBullet>, 4> bullets;
+	array<object_ref<BulletImpl>, 4> bullets;
 	SpaceFloat angular_pos = 0.0;
 };
 
@@ -185,7 +182,8 @@ public:
 
 	inline virtual SpaceFloat getLength() const { return -1.0; }
 protected:
-	array<object_ref<CirnoIceShieldBullet>, bulletCount> bullets;
+	array<object_ref<BulletImpl>, bulletCount> bullets;
+	shared_ptr<bullet_properties> props;
 	SpaceFloat crntAngle = 0.0;
 };
 

@@ -344,8 +344,9 @@ bool parseObject(tinyxml2::XMLElement* elem, shared_ptr<LightArea>* result)
 
 bool parseObject(tinyxml2::XMLElement* elem, shared_ptr<bullet_properties>* result)
 {
-	SpaceFloat speed;
+	SpaceFloat speed = 0.0;
 	SpaceVect dimensions;
+	SpaceFloat knockback = 0.0;
 
 	DamageInfo damage;
 
@@ -355,6 +356,8 @@ bool parseObject(tinyxml2::XMLElement* elem, shared_ptr<bullet_properties>* resu
 	int hitCount = 1;
 	int ricochetCount = 0;
 	bool directionalLaunch = true;
+	bool ignoreObstacles = false;
+	bool deflectBullets = false;
 
 	getNumericAttr(elem, "speed", &speed);
 	if (!getVector(elem, "dimensions", &dimensions)) {
@@ -368,17 +371,22 @@ bool parseObject(tinyxml2::XMLElement* elem, shared_ptr<bullet_properties>* resu
 	getNumericAttr(elem, "hitCount", &hitCount);
 	getNumericAttr(elem, "ricochet", &ricochetCount);
 	getNumericAttr(elem, "directionalLaunch", &directionalLaunch);
+	getNumericAttr(elem, "ignoreObstacles", &ignoreObstacles);
+	getNumericAttr(elem, "deflectBullets", &deflectBullets);
 
 	*result = make_shared<bullet_properties>(bullet_properties{
 		0.1,
 		speed,
 		dimensions,
+		knockback,
 		damage,
 		sprite,
 		lightSource,
 		to_char(hitCount),
 		to_char(ricochetCount),
-		directionalLaunch
+		directionalLaunch,
+		ignoreObstacles,
+		deflectBullets
 	});
 	return true;
 }

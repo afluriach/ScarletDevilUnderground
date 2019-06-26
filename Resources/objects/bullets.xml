@@ -19,6 +19,17 @@
 		sprite="catadioptricBullet3"
 		ricochet="2"
 	/>
+	<cirnoIceShieldBullet
+		speed="9.0"
+		radius="0.3"
+		knockback="99"
+		damage="10"
+		element="iceDamage"
+		sprite="cirnoIceBullet"
+		hitCount="-1"
+		ignoreObstacles="true"
+		deflectBullets="true"
+	/>
 	<cirnoSmallIceBullet
 		speed="9.0"
 		radius="0.3"
@@ -47,6 +58,17 @@
 		damage="3.0"
 		sprite="flandreBigOrb1"
 	/>
+	<flandreCounterClockBullet
+		speed="0.0"
+		radius="0.15"
+		damage="1.5"
+		damage-type="melee"
+		sprite="flandreCounterClock"
+		hitCount="-1"
+		directionalLaunch="false"
+		ignoreObstacles="true"
+		deflectBullets="true"
+	/>
 	<flandrePolarBullet
 		speed="0.0"
 		radius="0.15"
@@ -62,6 +84,17 @@
 		damage="1.0"
 		sprite="flandreOrb"
 		lightSource="polarMotionOrb"
+	/>
+	<lavaeteinn
+		speed="0.0"
+		dimensions="2.0,0.5"
+		knockback="30"
+		damage="5"
+		damage-type="melee"
+		sprite="lavaeteinn"
+		hitCount="-1"
+		directionalLaunch="false"
+		ignoreObstacles="true"
 	/>
 	<rumiaFastOrb1
 		speed="9.0"

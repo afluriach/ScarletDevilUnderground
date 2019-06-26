@@ -67,50 +67,6 @@ public:
 	virtual void update();
 };
 
-class Lavaeteinn : public Bullet
-{
-public:
-	Lavaeteinn(
-		shared_ptr<object_params> params,
-		const bullet_attributes& attributes
-	);
-
-	virtual inline string getSprite() const { return "lavaeteinn"; }
-
-	virtual DamageInfo getDamageInfo() const;
-	inline virtual SpaceFloat getKnockbackForce() const { return 30.0; }
-
-//	virtual void initializeGraphics();
-//	virtual void update();
-};
-
-class FlandreCounterClockBullet : public Bullet
-{
-public:
-	cons(FlandreCounterClockBullet);
-
-	virtual inline string getSprite() const { return "flandreCounterClock"; }
-
-	virtual DamageInfo getDamageInfo() const;
-	virtual inline SpaceFloat getKnockbackForce() const { return 50.0; }
-};
-
-class CirnoIceShieldBullet : public Bullet
-{
-public:
-	static const string props;
-
-	cons(CirnoIceShieldBullet);
-
-	virtual inline SpaceFloat getMaxSpeed() const { return 9.0; }
-
-	virtual inline string getSprite() const { return "cirnoIceBullet"; }
-
-	virtual DamageInfo getDamageInfo() const;
-
-	inline virtual SpaceFloat getKnockbackForce() const { return 99.0; }
-};
-
 #undef cons
 
 #endif /* PlayerBullet_hpp */

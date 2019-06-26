@@ -164,6 +164,8 @@ BulletImpl::BulletImpl(
 {
 	hitCount = props->hitCount;
 	ricochetCount = props->ricochetCount;
+	ignoreObstacleCollision = props->ignoreObstacles;
+	deflectBullets = props->deflectBullets;
 }
 
 void BulletImpl::init()

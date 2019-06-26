@@ -20,6 +20,7 @@ struct bullet_properties
 	SpaceFloat mass;
 	SpaceFloat speed;
 	SpaceVect dimensions;
+	SpaceFloat knockback;
 
 	DamageInfo damage;
 
@@ -29,6 +30,8 @@ struct bullet_properties
 	char hitCount = 1;
 	char ricochetCount = 0;
 	bool directionalLaunch = true;
+	bool ignoreObstacles = false;
+	bool deflectBullets = false;
 };
 
 //The attributes of the creating agent that can affect this object. These are 
@@ -108,6 +111,7 @@ public:
 
 	virtual void init();
 
+	virtual inline SpaceFloat getKnockbackForce() const { return props->knockback; }
 	virtual inline SpaceFloat getMaxSpeed() const { return props->speed; }
 
 	virtual void initializeGraphics();
