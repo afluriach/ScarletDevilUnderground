@@ -34,7 +34,7 @@ void applyDesiredVelocity(GObject* obj, SpaceVect desired, SpaceFloat accelerati
 	SpaceFloat dv = acceleration * app::params.secondsPerFrame;
 
     //Default case, apply maximum acceleration
-    if(square(dv) < vv.lengthSq()){
+    if(square_expr(dv) < vv.lengthSq()){
 		SpaceFloat f = obj->getMass() * acceleration;
         SpaceVect ff = f * vv.normalizeSafe();
         obj->applyForceForSingleFrame(ff);

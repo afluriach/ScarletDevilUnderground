@@ -24,7 +24,7 @@
 
 #define expand_vector2(v)  ((v).x) , ((v).y) 
 
-#define square(n) ( (n) * (n) )
+#define square_expr(n) ( (n) * (n) )
 
 #define set_float_arg(field, def) field = getFloatOrDefault(args, #field, def);
 #define init_float_field(field,default) field(getFloatOrDefault(args, #field, default))
