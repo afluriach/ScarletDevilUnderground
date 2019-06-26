@@ -62,7 +62,7 @@ bullet_properties StarbowBreak::generateProps(int angle)
 	return bullet_properties{
 		baseMass *sizeScale*sizeScale,
 		baseSpeed / sizeScale,
-		baseRadius * sizeScale,
+		SpaceVect(baseRadius * sizeScale, 0.0),
 		bullet_damage(to_float(baseDamage*sizeScale)),
 		"starbowBreak"+boost::lexical_cast<string>(angle+1),
 	};
@@ -213,6 +213,7 @@ ScarletDaggerPattern::ScarletDaggerPattern(Agent *const agent, int level) :
 		props[level].spreadAngle,
 		props[level].bulletCount
 	),
+	BulletImplPattern<BulletImpl>(app::getBullet("scarletDagger")),
 	level(level)
 {}
 

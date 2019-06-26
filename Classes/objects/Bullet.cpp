@@ -158,7 +158,7 @@ BulletImpl::BulletImpl(
 	Bullet(
 		params,
 		attributes,
-		physics_params(props->radius, 0.1)
+		physics_params(props->dimensions, 0.1)
 	),
 	props(props)
 {

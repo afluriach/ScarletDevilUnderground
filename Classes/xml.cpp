@@ -117,6 +117,28 @@ bool getNumericAttr(tinyxml2::XMLElement* elem, const string& name, T* result)
 	return false;
 }
 
+bool getVector(tinyxml2::XMLElement* elem, const string& name, SpaceVect* result)
+{
+	const char* attr = elem->Attribute(name.c_str());
+
+	if (attr) {
+		try {
+			vector<string> tokens = splitString(attr, ",");
+			if (tokens.size() == 2) {
+				SpaceVect _result;
+				_result.x = boost::lexical_cast<double>(tokens.at(0));
+				_result.y = boost::lexical_cast<double>(tokens.at(1));
+				*result = _result;
+				return true;
+			}
+		}
+		catch (boost::bad_lexical_cast ex) {
+			log("Unable to parse XML attribute %s", name);
+		}
+	}
+	return false;
+}
+
 DamageInfo getDamageInfo(tinyxml2::XMLElement* elem, DamageType type)
 {
 	DamageInfo result = { 0.0f, Attribute::end, type };
@@ -323,7 +345,7 @@ bool parseObject(tinyxml2::XMLElement* elem, shared_ptr<LightArea>* result)
 bool parseObject(tinyxml2::XMLElement* elem, shared_ptr<bullet_properties>* result)
 {
 	SpaceFloat speed;
-	SpaceFloat radius;
+	SpaceVect dimensions;
 
 	DamageInfo damage;
 
@@ -335,7 +357,9 @@ bool parseObject(tinyxml2::XMLElement* elem, shared_ptr<bullet_properties>* resu
 	bool directionalLaunch = true;
 
 	getNumericAttr(elem, "speed", &speed);
-	getNumericAttr(elem, "radius", &radius);
+	if (!getVector(elem, "dimensions", &dimensions)) {
+		getNumericAttr(elem, "radius", &dimensions.x);
+	}
 
 	damage = getDamageInfo(elem, DamageType::bullet);
 
@@ -348,7 +372,7 @@ bool parseObject(tinyxml2::XMLElement* elem, shared_ptr<bullet_properties>* resu
 	*result = make_shared<bullet_properties>(bullet_properties{
 		0.1,
 		speed,
-		radius,
+		dimensions,
 		damage,
 		sprite,
 		lightSource,

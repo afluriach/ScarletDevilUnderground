@@ -37,21 +37,6 @@ public:
 	virtual shared_ptr<LightArea> getLightSource() const;
 };
 
-class ScarletDagger : public Bullet
-{
-public:
-	static const string props;
-
-	ScarletDagger(shared_ptr<object_params> params, const bullet_attributes& attributes);
-
-	virtual inline SpaceFloat getMaxSpeed() const { return app::getBullet("scarletDagger")->speed; }
-
-	virtual inline DamageInfo getDamageInfo() const { return app::getBullet("scarletDagger")->damage; }
-
-	virtual inline string getSprite() const { return "scarletDagger"; }
-	virtual shared_ptr<LightArea> getLightSource() const;
-};
-
 class FlanPolarBullet : public BulletImpl
 {
 public:

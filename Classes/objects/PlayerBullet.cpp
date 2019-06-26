@@ -25,7 +25,7 @@ StarbowBreakBullet::StarbowBreakBullet(
 shared_ptr<LightArea> StarbowBreakBullet::getLightSource() const {
 	return CircleLightArea::create(
 		getPos(),
-		props->radius * 4.0f,
+		props->dimensions.x * 4.0f,
 		toColor4F(app::getSprite(getSprite()).color),
 		0.25
 	);
@@ -42,28 +42,11 @@ CatadioptricBullet::CatadioptricBullet(
 shared_ptr<LightArea> CatadioptricBullet::getLightSource() const {
 	return CircleLightArea::create(
 		getPos(),
-		props->radius * 4.0f,
+		props->dimensions.x * 4.0f,
 		Color4F::BLUE*0.5f + Color4F::GREEN*0.5f,
 		0.25
 	);
 }
-
-const string ScarletDagger::props = "scarletDagger";
-
-ScarletDagger::ScarletDagger(
-	shared_ptr<object_params> params,
-	const bullet_attributes& attributes
-) :
-	Bullet(
-		params,
-		attributes,
-		physics_params(SpaceVect(0.8, 0.175), 0.1)
-	)
-{}
-
-shared_ptr<LightArea> ScarletDagger::getLightSource() const {
-	return app::getLight("scarletDagger");
-};
 
 const string FlanPolarBullet::props = "flandrePolarBullet";
 const SpaceFloat FlanPolarBullet::A = 5.0;

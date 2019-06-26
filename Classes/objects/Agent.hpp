@@ -43,7 +43,7 @@ public:
 	inline gobject_ref bulletCheckSpawn(shared_ptr<object_params> params)
 	{
 		auto props = app::getBullet(ObjectCls::props);
-		SpaceFloat radius = props->radius;
+		SpaceFloat radius = props->dimensions.getMax();
 
 		if (!isBulletObstacle(params->pos, radius))
 			return space->createObject<ObjectCls>(
@@ -59,7 +59,7 @@ public:
 		shared_ptr<object_params> params,
 		shared_ptr<bullet_properties> props
 	){
-		if (!isBulletObstacle(params->pos, props->radius))
+		if (!isBulletObstacle(params->pos, props->dimensions.getMax()))
 			return space->createObject<ObjectCls>(
 				params,
 				getBulletAttributes(props),

@@ -72,6 +72,7 @@
 	<scarletDagger
 		speed="6.0"
 		damage="5.0"
+		dimensions="0.8,0.175"
 		sprite="scarletDagger"
 		lightSource="scarletDagger"
 		directionalLaunch="true"

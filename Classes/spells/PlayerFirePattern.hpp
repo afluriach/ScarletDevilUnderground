@@ -91,7 +91,7 @@ public:
 	inline virtual float getCost() const { return 20.0f; }
 };
 
-class ScarletDaggerPattern : public MultiBulletSpreadPattern, public FirePatternImpl<ScarletDagger>
+class ScarletDaggerPattern : public MultiBulletSpreadPattern, public PlayerBulletImplPattern
 {
 public:
 	struct properties

@@ -19,7 +19,7 @@ struct bullet_properties
 {
 	SpaceFloat mass;
 	SpaceFloat speed;
-	SpaceFloat radius;
+	SpaceVect dimensions;
 
 	DamageInfo damage;
 
