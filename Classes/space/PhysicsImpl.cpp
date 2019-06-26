@@ -24,6 +24,11 @@
 #include "Upgrade.hpp"
 #include "Wall.hpp"
 
+void boxtest()
+{
+	auto world = make_unique<b2World>(b2Vec2_zero);
+}
+
 bool isRadarSensorType(GType type)
 {
 	return type == GType::enemySensor || type == GType::playerGrazeRadar;

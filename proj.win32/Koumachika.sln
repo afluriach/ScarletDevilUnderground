@@ -26,6 +26,8 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "glfw", "..\glfw\src\glfw.vc
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "libnoise", "..\libnoise\libnoise.vcxproj", "{B834FF5A-52AE-4B61-AA6B-ACDDE7D01DB8}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "libbox2d", "..\cocos2d\external\Box2D\proj.win32\libbox2d.vcxproj", "{929480E7-23C0-4DF6-8456-096D71547116}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Win32 = Debug|Win32
@@ -127,6 +129,20 @@ Global
 		{B834FF5A-52AE-4B61-AA6B-ACDDE7D01DB8}.RelWithDebInfo|Win32.Build.0 = Release|Win32
 		{B834FF5A-52AE-4B61-AA6B-ACDDE7D01DB8}.RelWithDebInfo|x64.ActiveCfg = Release|Win32
 		{B834FF5A-52AE-4B61-AA6B-ACDDE7D01DB8}.RelWithDebInfo|x64.Build.0 = Release|Win32
+		{929480E7-23C0-4DF6-8456-096D71547116}.Debug|Win32.ActiveCfg = Debug|Win32
+		{929480E7-23C0-4DF6-8456-096D71547116}.Debug|Win32.Build.0 = Debug|Win32
+		{929480E7-23C0-4DF6-8456-096D71547116}.Debug|x64.ActiveCfg = Debug|Win32
+		{929480E7-23C0-4DF6-8456-096D71547116}.MinSizeRel|Win32.ActiveCfg = Release|Win32
+		{929480E7-23C0-4DF6-8456-096D71547116}.MinSizeRel|Win32.Build.0 = Release|Win32
+		{929480E7-23C0-4DF6-8456-096D71547116}.MinSizeRel|x64.ActiveCfg = Release|Win32
+		{929480E7-23C0-4DF6-8456-096D71547116}.MinSizeRel|x64.Build.0 = Release|Win32
+		{929480E7-23C0-4DF6-8456-096D71547116}.Release|Win32.ActiveCfg = Release|Win32
+		{929480E7-23C0-4DF6-8456-096D71547116}.Release|Win32.Build.0 = Release|Win32
+		{929480E7-23C0-4DF6-8456-096D71547116}.Release|x64.ActiveCfg = Release|Win32
+		{929480E7-23C0-4DF6-8456-096D71547116}.RelWithDebInfo|Win32.ActiveCfg = Release|Win32
+		{929480E7-23C0-4DF6-8456-096D71547116}.RelWithDebInfo|Win32.Build.0 = Release|Win32
+		{929480E7-23C0-4DF6-8456-096D71547116}.RelWithDebInfo|x64.ActiveCfg = Release|Win32
+		{929480E7-23C0-4DF6-8456-096D71547116}.RelWithDebInfo|x64.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

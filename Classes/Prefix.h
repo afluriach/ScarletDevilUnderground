@@ -56,6 +56,7 @@
 //All external libraries used by this app.
 #include "AL/al.h"
 #include "AL/alc.h"
+#include "Box2D/Box2D.h"
 #include "chipmunk.h"
 #include "cocos2d.h"
 #include "tinyxml2/tinyxml2.h"
