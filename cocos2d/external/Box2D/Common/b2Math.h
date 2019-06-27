@@ -19,14 +19,15 @@
 #ifndef B2_MATH_H
 #define B2_MATH_H
 
+#include <algorithm>
+
 #include <Box2D/Common/b2Settings.h>
 #include <math.h>
 
 /// This function is used to ensure that a floating point number is not a NaN or infinity.
 inline bool b2IsValid(float32 x)
 {
-	int32 ix = *reinterpret_cast<int32*>(&x);
-	return (ix & 0x7f800000) != 0x7f800000;
+	return !isnan(x);
 }
 
 /// This is a approximate yet fast inverse square-root.
@@ -46,8 +47,8 @@ inline float32 b2InvSqrt(float32 x)
 	return x;
 }
 
-#define	b2Sqrt(x)	sqrtf(x)
-#define	b2Atan2(y, x)	atan2f(y, x)
+#define	b2Sqrt(x)	sqrt(x)
+#define	b2Atan2(y, x)	atan2(y, x)
 
 /// A 2D column vector.
 struct b2Vec2
@@ -304,16 +305,16 @@ struct b2Rot
 	explicit b2Rot(float32 angle)
 	{
 		/// TODO_ERIN optimize
-		s = sinf(angle);
-		c = cosf(angle);
+		s = sin(angle);
+		c = cos(angle);
 	}
 
 	/// Set using an angle in radians.
 	void Set(float32 angle)
 	{
 		/// TODO_ERIN optimize
-		s = sinf(angle);
-		c = cosf(angle);
+		s = sin(angle);
+		c = cos(angle);
 	}
 
 	/// Set to the identity rotation
@@ -628,10 +629,9 @@ inline b2Mat22 b2Abs(const b2Mat22& A)
 	return b2Mat22(b2Abs(A.ex), b2Abs(A.ey));
 }
 
-template <typename T>
-inline T b2Min(T a, T b)
+inline float64 b2Min(float64 a, float64 b)
 {
-	return a < b ? a : b;
+	return std::min(a, b);
 }
 
 inline b2Vec2 b2Min(const b2Vec2& a, const b2Vec2& b)
@@ -639,8 +639,7 @@ inline b2Vec2 b2Min(const b2Vec2& a, const b2Vec2& b)
 	return b2Vec2(b2Min(a.x, b.x), b2Min(a.y, b.y));
 }
 
-template <typename T>
-inline T b2Max(T a, T b)
+inline float64 b2Max(float64 a, float64 b)
 {
 	return a > b ? a : b;
 }
@@ -650,8 +649,7 @@ inline b2Vec2 b2Max(const b2Vec2& a, const b2Vec2& b)
 	return b2Vec2(b2Max(a.x, b.x), b2Max(a.y, b.y));
 }
 
-template <typename T>
-inline T b2Clamp(T a, T low, T high)
+inline float64 b2Clamp(float64 a, float64 low, float64 high)
 {
 	return b2Max(low, b2Min(a, high));
 }
@@ -712,7 +710,7 @@ inline void b2Sweep::Advance(float32 alpha)
 inline void b2Sweep::Normalize()
 {
 	float32 twoPi = 2.0f * b2_pi;
-	float32 d =  twoPi * floorf(a0 / twoPi);
+	float32 d =  twoPi * floor(a0 / twoPi);
 	a0 -= d;
 	a -= d;
 }
