@@ -228,8 +228,6 @@ bool physics_context::obstacleFeeler(const GObject * agent, SpaceVect _feeler) c
 
 GObject* physics_context::interactibleObjectFeeler(const GObject* agent, SpaceVect feeler) const
 {
-	log("interactible: %f,%f", feeler.length(), feeler.toAngle());
-
 	GObject* obj = objectFeeler(
 		agent,
 		feeler,

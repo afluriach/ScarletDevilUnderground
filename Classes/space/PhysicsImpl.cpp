@@ -45,6 +45,7 @@ void ContactListener::BeginContact(b2Contact* contact)
 
 	GType typeA = static_cast<GType>(contact->GetFixtureA()->GetFilterData().categoryBits);
 	GType typeB = static_cast<GType>(contact->GetFixtureB()->GetFilterData().categoryBits);
+	PhysicsImpl::collision_type actual = make_pair(typeA, typeB);
 
 	if (isRadarSensorType(typeA) && isRadarSensorType(typeB)) {
 		log("sensors should not collide with each other");
@@ -61,18 +62,18 @@ void ContactListener::BeginContact(b2Contact* contact)
 		return;
 	}
 
-	if (typeA < typeB) {
-		auto it = phys->beginContactHandlers.find(PhysicsImpl::collision_type(typeA, typeB));
-		if (it != phys->beginContactHandlers.end()) {
-			(phys->*(it->second))(a, b, contact);
-		}
+	if (typeA > typeB) {
+		swap(actual.first, actual.second);
+		swap(a, b);
 	}
-	//If the same physics type is colliding, order doesn't matter
-	else {
-		auto it = phys->beginContactHandlers.find(PhysicsImpl::collision_type(typeB, typeA));
-		if (it != phys->beginContactHandlers.end()) {
-			(phys->*(it->second))(b, a, contact);
-		}
+
+	auto it = phys->beginContactHandlers.find(actual);
+	if (it != phys->beginContactHandlers.end()) {
+
+		if (it->second.second)
+			swap(a, b);
+
+		(phys->*(it->second.first))(a, b, contact);
 	}
 }
 
@@ -83,6 +84,7 @@ void ContactListener::EndContact(b2Contact* contact)
 
 	GType typeA = static_cast<GType>(contact->GetFixtureA()->GetFilterData().categoryBits);
 	GType typeB = static_cast<GType>(contact->GetFixtureB()->GetFilterData().categoryBits);
+	PhysicsImpl::collision_type actual = make_pair(typeA, typeB);
 
 	if (isRadarSensorType(typeA) && isRadarSensorType(typeB)) {
 		log("sensors should not collide with each other");
@@ -99,18 +101,18 @@ void ContactListener::EndContact(b2Contact* contact)
 		return;
 	}
 
-	if (typeA < typeB) {
-		auto it = phys->endContactHandlers.find(PhysicsImpl::collision_type(typeA, typeB));
-		if (it != phys->endContactHandlers.end()) {
-			(phys->*(it->second))(a, b, contact);
-		}
+	if (typeA > typeB) {
+		swap(actual.first, actual.second);
+		swap(a, b);
 	}
-	//If the same physics type is colliding, order doesn't matter
-	else {
-		auto it = phys->endContactHandlers.find(PhysicsImpl::collision_type(typeB, typeA));
-		if (it != phys->endContactHandlers.end()) {
-			(phys->*(it->second))(b, a, contact);
-		}
+
+	auto it = phys->endContactHandlers.find(actual);
+	if (it != phys->endContactHandlers.end()) {
+
+		if (it->second.second)
+			swap(a, b);
+
+		(phys->*(it->second.first))(a, b, contact);
 	}
 }
 
@@ -300,14 +302,17 @@ void PhysicsImpl::AddHandler(
 	void(PhysicsImpl::*end)(GObject*, GObject*, b2Contact*)
 ){
 	auto actual = types;
+	bool _swap = false;
 
-	if (actual.first > actual.second)
+	if (actual.first > actual.second) {
 		swap(actual.first, actual.second);
+		_swap = true;
+	}
 
 	if (begin)
-		beginContactHandlers[actual] = begin;
+		beginContactHandlers[actual] = make_pair(begin, _swap);
 	if (end)
-		endContactHandlers[actual] = end;
+		endContactHandlers[actual] = make_pair(end, _swap);
 
 	emplaceIfEmpty(collisionMasks, types.first, to_uint(0));
 	emplaceIfEmpty(collisionMasks, types.second, to_uint(0));

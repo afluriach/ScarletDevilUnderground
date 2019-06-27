@@ -102,8 +102,17 @@ protected:
 	unique_ptr<ContactListener> contactListener;
 
 	unordered_map<GType, unsigned int> collisionMasks;
-	unordered_map<collision_type, int(PhysicsImpl::*)(GObject*, GObject*, b2Contact*), boost::hash<collision_type>> beginContactHandlers;
-	unordered_map<collision_type, void(PhysicsImpl::*)(GObject*, GObject*, b2Contact*), boost::hash<collision_type>> endContactHandlers;
+	unordered_map<
+		collision_type,
+		pair<int(PhysicsImpl::*)(GObject*, GObject*, b2Contact*), bool>,
+		boost::hash<collision_type>
+	> beginContactHandlers;
+	
+	unordered_map<
+		collision_type,
+		pair<void(PhysicsImpl::*)(GObject*, GObject*, b2Contact*), bool>,
+		boost::hash<collision_type>
+	> endContactHandlers;
 };
 
 #endif 
