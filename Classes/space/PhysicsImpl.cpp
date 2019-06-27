@@ -114,6 +114,20 @@ void ContactListener::EndContact(b2Contact* contact)
 	}
 }
 
+const unordered_map<GType, int> PhysicsImpl::typeGroups = {
+	{ GType::bomb, 1 },
+	{ GType::enemy, 1 },
+	{ GType::environment, 1 },
+	{ GType::npc, 1 },
+	{ GType::player, 1 },
+	{ GType::wall, 1 }
+};
+
+int PhysicsImpl::getGroup(GType type)
+{
+	return getOrDefault(typeGroups, type, 0);
+}
+
 PhysicsImpl::PhysicsImpl(GSpace* space) :
 	gspace(space),
 	world(space->world)
@@ -133,18 +147,11 @@ void PhysicsImpl::addCollisionHandlers()
 	_addHandlerNoEnd(playerBullet, enemy, playerBulletEnemyBegin);
 	_addHandlerNoEnd(playerBullet, environment, bulletEnvironment);
 	_addHandlerNoEnd(enemyBullet, environment, bulletEnvironment);
-	_addHandlerNoEnd(playerBullet, foliage, noCollide);
-	_addHandlerNoEnd(enemyBullet, foliage, noCollide);
 	_addHandlerNoEnd(playerBullet, enemyBullet, bulletBulletBegin);
 	_addHandlerNoEnd(player, foliage, playerFlowerBegin);
     _addHandlerNoEnd(player,playerPickup,playerPickupBegin);
-    _addHandlerNoEnd(player,npc,collide);
 	_addHandlerNoEnd(playerBullet, wall, bulletWall);
 	_addHandlerNoEnd(enemyBullet, wall, bulletWall);    
-
-	_addHandlerNoEnd(enemy, enemy, collide);
-	_addHandlerNoEnd(environment, environment, collide);
-	_addHandlerNoEnd(npc, npc, collide);
 
 	_addHandler(floorSegment, player, floorObjectBegin, floorObjectEnd);
 	_addHandler(floorSegment, enemy, floorObjectBegin, floorObjectEnd);
@@ -207,7 +214,7 @@ pair<b2Body*, b2Fixture*> PhysicsImpl::createCircleBody(
 	fixture.isSensor = sensor;
 	fixture.filter.categoryBits = to_uint(type);
 	fixture.filter.maskBits = collisionMasks.at(type);
-	fixture.filter.groupIndex = 0;
+	fixture.filter.groupIndex = getGroup(type);
 	fixture.filter.layers = to_uint(layers);
 
 	shape = body->CreateFixture(&fixture);
@@ -258,7 +265,7 @@ pair<b2Body*, b2Fixture*> PhysicsImpl::createRectangleBody(
 	fixture.isSensor = sensor;
 	fixture.filter.categoryBits = to_uint(type);
 	fixture.filter.maskBits = collisionMasks.at(type);
-	fixture.filter.groupIndex = 0.0;
+	fixture.filter.groupIndex = getGroup(type);
 	fixture.filter.layers = to_uint(layers);
 
 	shape = body->CreateFixture(&fixture);
@@ -444,16 +451,6 @@ int PhysicsImpl::bulletEnvironment(GObject* bullet, GObject* environment, b2Cont
 		}
 	}
     
-    return 1;
-}
-
-int PhysicsImpl::noCollide(GObject* a, GObject* b, b2Contact* arb)
-{
-    return 0;
-}
-
-int PhysicsImpl::collide(GObject* a, GObject* b, b2Contact* arb)
-{
     return 1;
 }
 

@@ -36,10 +36,9 @@ public:
 	static const int positionSteps;
 	static const int velocitySteps;
 
-	static int beginContact(b2Contact* arb, b2World* space, void* data);
-	static void endContact(b2Contact* arb, b2World* space, void* data);
-	static int beginContactSensor(b2Contact* arb, b2World* space, void* data);
-	static void endContactSensor(b2Contact* arb, b2World* space, void* data);
+	static const unordered_map<GType, int> typeGroups;
+
+	static int getGroup(GType);
 
 	PhysicsImpl(GSpace* space);
 
@@ -83,8 +82,6 @@ protected:
 	int playerFlowerBegin(GObject* a, GObject* b, b2Contact* arb);
 	int playerPickupBegin(GObject* a, GObject* b, b2Contact* arb);
 	int bulletEnvironment(GObject* a, GObject* b, b2Contact* arb);
-	int noCollide(GObject* a, GObject* b, b2Contact* arb);
-	int collide(GObject* a, GObject* b, b2Contact* arb);
 	int bulletWall(GObject* bullet, GObject* unused, b2Contact* arb);
 	int floorObjectBegin(GObject* floorSegment, GObject* obj, b2Contact* arb);
 	void floorObjectEnd(GObject* floorSegment, GObject* obj, b2Contact* arb);
