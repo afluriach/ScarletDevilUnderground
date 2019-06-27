@@ -29,6 +29,15 @@ bool isRadarSensorType(GType type)
 	return type == GType::enemySensor || type == GType::playerGrazeRadar;
 }
 
+b2BodyType getMassType(SpaceFloat mass)
+{
+	return static_cast<b2BodyType>(
+		to_int(b2_staticBody)*bool_int(mass < 0.0) +
+		to_int(b2_kinematicBody)*bool_int(mass == 0.0) +
+		to_int(b2_dynamicBody)*bool_int(mass > 0.0)
+	);
+}
+
 void ContactListener::BeginContact(b2Contact* contact)
 {
 	GObject* a = static_cast<GObject*>(contact->GetFixtureA()->GetUserData());
@@ -107,7 +116,7 @@ void ContactListener::EndContact(b2Contact* contact)
 
 PhysicsImpl::PhysicsImpl(GSpace* space) :
 	gspace(space),
-	physicsSpace(space->world)
+	world(space->world)
 {
 	contactListener = make_unique<ContactListener>(this);
 	space->world->SetContactListener(contactListener.get());
@@ -147,7 +156,121 @@ void PhysicsImpl::addCollisionHandlers()
 	_addHandler(enemy, areaSensor, enemyAreaSensorBegin, enemyAreaSensorEnd);
 	_addHandler(npc, areaSensor, npcAreaSensorBegin, npcAreaSensorEnd);
 	_addHandler(environment, areaSensor, environmentAreaSensorBegin, environmentAreaSensorEnd);
+
+	collisionMasks.insert_or_assign(GType::playerGrazeRadar, to_uint(GType::enemyBullet));
+	collisionMasks.insert_or_assign(
+		GType::enemySensor,
+		to_uint(GType::enemy) | to_uint(GType::enemyBullet) | to_uint(GType::player) | to_uint(GType::playerBullet)
+	);
 }
+
+pair<b2Body*, b2Fixture*> PhysicsImpl::createCircleBody(
+	const SpaceVect& center,
+	SpaceFloat radius,
+	SpaceFloat mass,
+	GType type,
+	PhysicsLayers layers,
+	bool sensor,
+	void* obj
+) {
+	if (radius <= 0.0) {
+		log("createCircleBody: invalid radius!");
+		return make_pair(nullptr, nullptr);
+	}
+
+	b2Body* body;
+	b2Fixture* shape;
+
+	b2BodyDef def;
+	def.type = getMassType(mass);
+	def.position = toBox2D(center);
+	def.angle = 0.0;
+
+	if (type == GType::player || type == GType::enemy || type == GType::npc) {
+		def.fixedRotation = true;
+	}
+
+	body = world->CreateBody(&def);
+
+	if (mass > 0.0) {
+		b2MassData massData{ mass,b2Vec2_zero, circleMomentOfInertia(mass,radius) };
+		body->SetMassData(&massData);
+	}
+
+	b2CircleShape circle;
+	circle.m_radius = radius;
+	circle.m_p = b2Vec2_zero;
+
+	b2FixtureDef fixture;
+	fixture.userData = obj;
+	fixture.shape = &circle;
+	fixture.isSensor = sensor;
+	fixture.filter.categoryBits = to_uint(type);
+	fixture.filter.maskBits = collisionMasks.at(type);
+	fixture.filter.groupIndex = 0;
+	fixture.filter.layers = to_uint(layers);
+
+	shape = body->CreateFixture(&fixture);
+
+	if (def.type == b2_staticBody && (type == GType::environment || type == GType::wall)) {
+		gspace->addNavObstacle(center, SpaceVect(radius*2.0, radius*2.0));
+	}
+
+	return make_pair(body, shape);
+}
+
+pair<b2Body*, b2Fixture*> PhysicsImpl::createRectangleBody(
+	const SpaceVect& center,
+	const SpaceVect& dim,
+	SpaceFloat mass,
+	GType type,
+	PhysicsLayers layers,
+	bool sensor,
+	void* obj
+) {
+
+	if (dim.x <= 0.0 || dim.y <= 0.0) {
+		log("createRectangleBody: invalid dimensions");
+		return make_pair(nullptr, nullptr);
+	}
+
+	b2Body* body;
+	b2Fixture* shape;
+
+	b2BodyDef def;
+	def.type = getMassType(mass);
+	def.position = toBox2D(center);
+	def.angle = 0.0;
+
+	body = world->CreateBody(&def);
+
+	if (mass > 0.0) {
+		b2MassData massData{ mass,b2Vec2_zero, rectangleMomentOfInertia(mass,dim) };
+		body->SetMassData(&massData);
+	}
+
+	b2PolygonShape rect;
+	rect.SetAsBox(dim.x * 0.5, dim.y * 0.5, b2Vec2_zero, 0.0);
+
+	b2FixtureDef fixture;
+	fixture.userData = obj;
+	fixture.shape = &rect;
+	fixture.isSensor = sensor;
+	fixture.filter.categoryBits = to_uint(type);
+	fixture.filter.maskBits = collisionMasks.at(type);
+	fixture.filter.groupIndex = 0.0;
+	fixture.filter.layers = to_uint(layers);
+
+	shape = body->CreateFixture(&fixture);
+
+	if (mass < 0.0 && (type == GType::environment || type == GType::wall)) {
+		gspace->addNavObstacle(center, dim);
+	}
+
+
+	return make_pair(body, shape);
+}
+
 
 const bool PhysicsImpl::logPhysicsHandlers = false;
 
@@ -178,6 +301,12 @@ void PhysicsImpl::AddHandler(
 		beginContactHandlers[actual] = begin;
 	if (end)
 		endContactHandlers[actual] = end;
+
+	emplaceIfEmpty(collisionMasks, types.first, to_uint(0));
+	emplaceIfEmpty(collisionMasks, types.second, to_uint(0));
+
+	collisionMasks.at(types.first) |= to_uint(types.second);
+	collisionMasks.at(types.second) |= to_uint(types.first);
 }
 
 void PhysicsImpl::logHandler(const string& name, GObject* a, GObject* b)

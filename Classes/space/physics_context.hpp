@@ -14,9 +14,6 @@ class GSpace;
 class physics_context
 {
 public:
-	static const bool logBodyCreation;
-	static const unordered_map<GType, uint32> collisionMasks;
-
 	inline physics_context(GSpace* space) : space(space) {}
 
 	pair<b2Body*, b2Fixture*> createCircleBody(

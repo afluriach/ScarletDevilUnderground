@@ -12,45 +12,7 @@
 #include "GObjectMixins.hpp"
 #include "GSpace.hpp"
 #include "physics_context.hpp"
-
-const bool physics_context::logBodyCreation = false;
-
-#define g(x) to_uint(GType::x)
-
-const unordered_map<GType, uint32> physics_context::collisionMasks = {
-	{ GType::areaSensor, g(player) | g(enemy) | g(npc) | g(environment) },
-	{ GType::bomb, g(player) | g(enemy) | g(npc) | g(environment) | g(wall) | g(floorSegment) },
-	{ GType::enemy, g(player) | g(playerBullet) | g(playerGrazeRadar) | g(enemy) | g(environment) | g(npc) | g(floorSegment)| g(areaSensor) | g(wall)},
-	{ GType::enemyBullet, g(player) | g(playerBullet) | g(playerGrazeRadar) | g(environment) | g(wall) },
-	{ GType::enemySensor, g(player) | g(playerBullet) | g(enemy) | g(bomb)},
-	{ GType::environment, g(player) | g(playerBullet) | g(enemy) | g(enemyBullet) | g(environment) | g(wall) },
-	{ GType::foliage, g(player)},
-	{ GType::floorSegment, g(enemy) | g(environment) | g(npc) | g(player) },
-	{ GType::npc, g(player) | g(environment) | g(wall)},
-	{ GType::player, g(enemy) | g(enemyBullet) | g(environment) | g(playerPickup) | g(npc) | g(floorSegment) | g(areaSensor) | g(wall) | g(enemySensor) },
-	{ GType::playerPickup, g(player) },
-	{ GType::playerBullet, g(enemy) | g(enemyBullet) | g(environment) | g(npc) | g(wall) },
-	{ GType::playerGrazeRadar, g(enemyBullet) },
-	{ GType::wall, g(player) | g(playerBullet) | g(enemy) | g(enemyBullet) | g(environment) | g(npc) | g(floorSegment) | g(areaSensor) }
-};
-
-b2BodyType getMassType(SpaceFloat mass)
-{
-	if (mass < 0.0)
-		return b2_staticBody;
-	else if (mass > 0.0)
-		return b2_dynamicBody;
-	else
-		return b2_kinematicBody;
-}
-
-//void setShapeProperties(cpShape* shape, PhysicsLayers layers, GType type, bool sensor)
-//{
-//	shape->layers = to_uint(layers);
-//	shape->group = 0;
-//	shape->collision_type = to_uint(type);
-//	shape->sensor = sensor;
-//}
+#include "PhysicsImpl.hpp"
 
 pair<b2Body*, b2Fixture*> physics_context::createCircleBody(
     const SpaceVect& center,
@@ -61,50 +23,16 @@ pair<b2Body*, b2Fixture*> physics_context::createCircleBody(
     bool sensor,
     void* obj
 ){    
-	if (radius <= 0.0) {
-		log("createCircleBody: invalid radius!");
-		return make_pair(nullptr, nullptr);
-	}
-    
-	b2Body* body;
-	b2Fixture* shape;
+	return space->physicsImpl->createCircleBody(
+		center,
+		radius,
+		mass,
+		type,
+		layers,
+		sensor,
+		obj
+	);
 
-	b2BodyDef def;
-	def.type = getMassType(mass);
-	def.position = toBox2D(center);
-	def.angle = 0.0;
-
-	if (type == GType::player || type == GType::enemy || type == GType::npc) {
-		def.fixedRotation = true;
-	}
-
-	body = space->world->CreateBody(&def);
-
-	if (mass > 0.0) {
-		b2MassData massData{ mass,b2Vec2_zero, circleMomentOfInertia(mass,radius) };
-		body->SetMassData(&massData);
-	}
-
-	b2CircleShape circle;
-	circle.m_radius = radius;
-	circle.m_p = b2Vec2_zero;
-
-	b2FixtureDef fixture;
-	fixture.userData = obj;
-	fixture.shape = &circle;
-	fixture.isSensor = sensor;
-	fixture.filter.categoryBits = to_uint(type);
-	fixture.filter.maskBits = collisionMasks.at(type);
-	fixture.filter.groupIndex = 0;
-	fixture.filter.layers = to_uint(layers);
-
-	shape = body->CreateFixture(&fixture);
-
-	if (def.type == b2_staticBody && (type == GType::environment || type == GType::wall)) {
-		space->addNavObstacle(center, SpaceVect(radius*2.0, radius*2.0));
-	}
-
-    return make_pair(body,shape);
 }
 
 pair<b2Body*, b2Fixture*> physics_context::createRectangleBody(
@@ -116,47 +44,15 @@ pair<b2Body*, b2Fixture*> physics_context::createRectangleBody(
     bool sensor,
     void* obj
 ){
-    
-	if (dim.x <= 0.0 || dim.y <= 0.0) {
-		log("createRectangleBody: invalid dimensions");
-		return make_pair(nullptr, nullptr);
-	}
-
-	b2Body* body;
-	b2Fixture* shape;
-
-	b2BodyDef def;
-	def.type = getMassType(mass);
-	def.position = toBox2D(center);
-	def.angle = 0.0;
-
-	body = space->world->CreateBody(&def);
-
-	if (mass > 0.0) {
-		b2MassData massData{ mass,b2Vec2_zero, rectangleMomentOfInertia(mass,dim) };
-		body->SetMassData(&massData);
-	}
-
-	b2PolygonShape rect;
-	rect.SetAsBox(dim.x * 0.5, dim.y * 0.5, b2Vec2_zero, 0.0);
-
-	b2FixtureDef fixture;
-	fixture.userData = obj;
-	fixture.shape = &rect;
-	fixture.isSensor = sensor;
-	fixture.filter.categoryBits = to_uint(type);
-	fixture.filter.maskBits = collisionMasks.at(type);
-	fixture.filter.groupIndex = 0.0;
-	fixture.filter.layers = to_uint(layers);
-
-	shape = body->CreateFixture(&fixture);
-
-	if (mass < 0.0 && (type == GType::environment || type == GType::wall)) {
-		space->addNavObstacle(center, dim);
-	}
-
-
-	return make_pair(body, shape);
+	return space->physicsImpl->createRectangleBody(
+		center,
+		dim,
+		mass,
+		type,
+		layers,
+		sensor,
+		obj
+	);
 }
 
 //Static bodies are not actually added to the physics engine, but they 

@@ -26,6 +26,7 @@ class PhysicsImpl
 {
 public:
 	friend class ContactListener;
+	friend class physics_context;
 
 	typedef pair<GObject*, GObject*> object_pair;
 	typedef pair<GType, GType> collision_type;
@@ -45,6 +46,25 @@ public:
 	void addCollisionHandlers();
 
 protected:
+
+	pair<b2Body*, b2Fixture*> createCircleBody(
+		const SpaceVect& center,
+		SpaceFloat radius,
+		SpaceFloat mass,
+		GType type,
+		PhysicsLayers layers,
+		bool sensor,
+		void* obj
+	);
+	pair<b2Body*, b2Fixture*> createRectangleBody(
+		const SpaceVect& center,
+		const SpaceVect& dim,
+		SpaceFloat mass,
+		GType type,
+		PhysicsLayers layers,
+		bool sensor,
+		void* obj
+	);
 
 	void AddHandler(
 		collision_type types,
@@ -81,9 +101,10 @@ protected:
 	void sensorEnd(RadarSensor* radar, GObject* target, b2Contact* arb);
 
 	GSpace* gspace;
-	b2World* physicsSpace;
+	b2World* world;
 	unique_ptr<ContactListener> contactListener;
 
+	unordered_map<GType, unsigned int> collisionMasks;
 	unordered_map<collision_type, int(PhysicsImpl::*)(GObject*, GObject*, b2Contact*), boost::hash<collision_type>> beginContactHandlers;
 	unordered_map<collision_type, void(PhysicsImpl::*)(GObject*, GObject*, b2Contact*), boost::hash<collision_type>> endContactHandlers;
 };
