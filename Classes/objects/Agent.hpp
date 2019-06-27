@@ -132,7 +132,6 @@ public:
 
 	inline RadarSensor* getRadar() { return radar; }
 
-	virtual void initializeBody();
 	virtual void initializeRadar(GSpace& space);
 	virtual void removePhysicsObjects();
 

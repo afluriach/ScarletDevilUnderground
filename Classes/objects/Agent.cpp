@@ -524,13 +524,6 @@ DamageInfo Agent::touchEffect() const
 		return DamageInfo{};
 }
 
-void Agent::initializeBody()
-{
-	GObject::initializeBody();
-
-	body->SetFixedRotation(true);
-}
-
 void Agent::initializeRadar(GSpace& space)
 {
 	auto attr = sensor_attributes{

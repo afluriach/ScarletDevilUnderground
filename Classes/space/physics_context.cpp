@@ -74,6 +74,10 @@ pair<b2Body*, b2Fixture*> physics_context::createCircleBody(
 	def.position = toBox2D(center);
 	def.angle = 0.0;
 
+	if (type == GType::player || type == GType::enemy || type == GType::npc) {
+		def.fixedRotation = true;
+	}
+
 	body = space->world->CreateBody(&def);
 
 	if (mass > 0.0) {
