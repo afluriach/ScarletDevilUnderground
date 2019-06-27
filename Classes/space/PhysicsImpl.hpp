@@ -46,14 +46,11 @@ public:
 
 protected:
 
-	template<GType TypeA, GType TypeB>
-	inline void AddHandler(int(PhysicsImpl::*begin)(GObject*, GObject*, b2Contact*), void(PhysicsImpl::*end)(GObject*, GObject*, b2Contact*))
-	{
-		if (begin)
-			beginContactHandlers[collision_type(TypeA, TypeB)] = begin;
-		if (end)
-			endContactHandlers[collision_type(TypeA, TypeB)] = end;
-	}
+	void AddHandler(
+		collision_type types,
+		int(PhysicsImpl::*begin)(GObject*, GObject*, b2Contact*),
+		void(PhysicsImpl::*end)(GObject*, GObject*, b2Contact*)
+	);
 
 	void logHandler(const string& base, b2Contact* arb);
 	void logHandler(const string& name, GObject* a, GObject* b);

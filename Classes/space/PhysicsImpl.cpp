@@ -52,13 +52,14 @@ void ContactListener::BeginContact(b2Contact* contact)
 		return;
 	}
 
-	{
+	if (typeA < typeB) {
 		auto it = phys->beginContactHandlers.find(PhysicsImpl::collision_type(typeA, typeB));
 		if (it != phys->beginContactHandlers.end()) {
 			(phys->*(it->second))(a, b, contact);
 		}
 	}
-	{
+	//If the same physics type is colliding, order doesn't matter
+	else {
 		auto it = phys->beginContactHandlers.find(PhysicsImpl::collision_type(typeB, typeA));
 		if (it != phys->beginContactHandlers.end()) {
 			(phys->*(it->second))(b, a, contact);
@@ -89,13 +90,14 @@ void ContactListener::EndContact(b2Contact* contact)
 		return;
 	}
 
-	{
+	if (typeA < typeB) {
 		auto it = phys->endContactHandlers.find(PhysicsImpl::collision_type(typeA, typeB));
 		if (it != phys->endContactHandlers.end()) {
 			(phys->*(it->second))(a, b, contact);
 		}
 	}
-	{
+	//If the same physics type is colliding, order doesn't matter
+	else {
 		auto it = phys->endContactHandlers.find(PhysicsImpl::collision_type(typeB, typeA));
 		if (it != phys->endContactHandlers.end()) {
 			(phys->*(it->second))(b, a, contact);
@@ -111,8 +113,8 @@ PhysicsImpl::PhysicsImpl(GSpace* space) :
 	space->world->SetContactListener(contactListener.get());
 }
 
-#define _addHandler(a,b,begin,end) AddHandler<GType::a, GType::b>(&PhysicsImpl::begin,&PhysicsImpl::end)
-#define _addHandlerNoEnd(a,b,begin) AddHandler<GType::a, GType::b>(&PhysicsImpl::begin,nullptr)
+#define _addHandler(a,b,begin,end) AddHandler(make_pair(GType::a, GType::b), &PhysicsImpl::begin,&PhysicsImpl::end)
+#define _addHandlerNoEnd(a,b,begin) AddHandler(make_pair(GType::a, GType::b), &PhysicsImpl::begin,nullptr)
 #define _addSensor(a,b) AddSensorHandler(GType::a, GType::b)
 
 void PhysicsImpl::addCollisionHandlers()
@@ -160,6 +162,22 @@ void PhysicsImpl::logHandler(const string& base, b2Contact* contact)
 
         log("%s: %s, %s", base.c_str(), a->getName(), b->getName());
     }
+}
+
+void PhysicsImpl::AddHandler(
+	collision_type types,
+	int(PhysicsImpl::*begin)(GObject*, GObject*, b2Contact*),
+	void(PhysicsImpl::*end)(GObject*, GObject*, b2Contact*)
+){
+	auto actual = types;
+
+	if (actual.first > actual.second)
+		swap(actual.first, actual.second);
+
+	if (begin)
+		beginContactHandlers[actual] = begin;
+	if (end)
+		endContactHandlers[actual] = end;
 }
 
 void PhysicsImpl::logHandler(const string& name, GObject* a, GObject* b)
