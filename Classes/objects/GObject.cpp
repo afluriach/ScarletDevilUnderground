@@ -47,7 +47,7 @@ GObject::~GObject()
 
 void GObject::removePhysicsObjects()
 {
-	space->physicsContext->removeObject(bodyShape, body, getMass() <= 0.0);
+	space->physicsContext->removeObject(body);
 }
 
 void GObject::removeGraphics(bool removeSprite)
@@ -261,7 +261,7 @@ Vec2 GObject::getInitialCenterPix()
 }
 
 SpaceVect GObject::getPos() const {
-    return cpBodyGetPos(body);
+    return body->GetPosition();
 }
 
 SpaceVect GObject::getDeltaPos() const {
@@ -269,15 +269,15 @@ SpaceVect GObject::getDeltaPos() const {
 }
 
 void GObject::setPos(SpaceVect p){
-	cpBodySetPos(body, p);
+	body->SetTransform(toBox2D(p), body->GetAngle());
 }
     
 void GObject::setAngle(SpaceFloat a){
-	cpBodySetAngle(body, canonicalAngle(a));
+	body->SetTransform(body->GetPosition(), canonicalAngle(a));
 }
     
 SpaceFloat GObject::getAngle() const {
-    return canonicalAngle(cpBodyGetAngle(body));
+	return canonicalAngle(body->GetAngle());
 }
 
 void GObject::rotate(SpaceFloat a){
@@ -294,27 +294,27 @@ void GObject::setDirection(Direction d) {
 }
     
 SpaceVect GObject::getVel() const {
-    return cpBodyGetVel(body);
+    return body->GetLinearVelocity();
 }
     
 void GObject::setVel(SpaceVect v) {
-	cpBodySetVel(body, v);
+	body->SetLinearVelocity(toBox2D(v));
 }
 
 SpaceFloat GObject::getAngularVel() const{
-    return cpBodyGetAngVel(body);
+    return body->GetAngularVelocity();
 }
     
 void GObject::setAngularVel(SpaceFloat w){
-	cpBodySetAngVel(body, w);
+	body->SetAngularVelocity(w);
 }
 
 void GObject::applyForceForSingleFrame(SpaceVect f){
-	cpBodyApplyImpulse(body, f * app::params.secondsPerFrame, SpaceVect::zero);
+	body->ApplyLinearImpulse(toBox2D(f * app::params.secondsPerFrame), toBox2D(getPos()), true);
 }
 
 void GObject::applyImpulse(SpaceVect i) {
-	cpBodyApplyImpulse(body, i, SpaceVect::zero);
+	body->ApplyLinearImpulse(toBox2D(i), toBox2D(getPos()), true);
 }
 
 void GObject::applyImpulse(SpaceFloat mag, SpaceFloat angle){
@@ -335,12 +335,12 @@ void GObject::removeParametricMove()
 
 PhysicsLayers GObject::getCrntLayers() const
 {
-	return static_cast<PhysicsLayers>(bodyShape->layers);
+	return static_cast<PhysicsLayers>(bodyShape->GetLayers());
 }
 
 void GObject::setLayers(PhysicsLayers layers)
 {
-	bodyShape->layers = to_uint(layers);
+	bodyShape->SetLayers(to_uint(layers));
 
 	if ( !bitwise_and_bool(PhysicsLayers::floor, layers) ) {
 		crntFloorCenterContact = nullptr;
@@ -444,17 +444,17 @@ void GObject::onEndContactFloorSegment(FloorSegment* fs)
 
 SpaceRect GObject::getBoundingBox() const
 {
-	return cpShapeGetBB(bodyShape);
+	return bodyShape->ComputeAABB();
 }
 
 SpaceVect GObject::getDimensions() const
 {
-	return getBoundingBox().dimensions;
+	return dimensions;
 }
 
 SpaceFloat GObject::getMomentOfInertia() const
 {
-	return cpBodyGetMoment(body);
+	return body->GetInertia();
 }
 
 SpaceFloat GObject::getRadius() const
@@ -471,7 +471,7 @@ void GObject::initializeBody()
 	}
 	else if(dimensions.y > 0.0)
 	{
-		tie(bodyShape, body) = space->physicsContext->createRectangleBody(
+		tie(body, bodyShape) = space->physicsContext->createRectangleBody(
 			prevPos,
 			dimensions,
 			getMass(),
@@ -483,7 +483,7 @@ void GObject::initializeBody()
 	}
 	else
 	{
-		tie(bodyShape, body) = space->physicsContext->createCircleBody(
+		tie(body, bodyShape) = space->physicsContext->createCircleBody(
 			prevPos,
 			dimensions.x,
 			getMass(),

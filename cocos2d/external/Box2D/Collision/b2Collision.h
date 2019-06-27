@@ -184,6 +184,13 @@ struct b2AABB
 		return 2.0f * (wx + wy);
 	}
 
+	/// Combine a point into this.
+	void Combine(const b2Vec2& p)
+	{
+		lowerBound = b2Min(lowerBound, p);
+		upperBound = b2Max(upperBound, p);
+	}
+
 	/// Combine an AABB into this one.
 	void Combine(const b2AABB& aabb)
 	{
@@ -211,8 +218,8 @@ struct b2AABB
 
 	bool RayCast(b2RayCastOutput* output, const b2RayCastInput& input) const;
 
-	b2Vec2 lowerBound;	///< the lower vertex
-	b2Vec2 upperBound;	///< the upper vertex
+	b2Vec2 lowerBound = b2Vec2_zero;	///< the lower vertex
+	b2Vec2 upperBound = b2Vec2_zero;	///< the upper vertex
 };
 
 /// Compute the collision manifold between two circles.

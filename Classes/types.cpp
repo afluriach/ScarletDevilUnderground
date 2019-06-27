@@ -50,9 +50,10 @@ SpaceRect::SpaceRect() :
 	dimensions(SpaceVect::zero)
 {}
 
-SpaceRect::SpaceRect(const cpBB& bb) :
-	SpaceRect(bb.l, bb.b, bb.r - bb.l, bb.t - bb.b)
-{}
+SpaceRect::SpaceRect(const b2AABB& bb) :
+	SpaceRect(bb.GetCenter(), bb.GetExtents())
+{
+}
 
 SpaceRect::SpaceRect(SpaceVect center, SpaceVect dimensions) :
 	center(center),

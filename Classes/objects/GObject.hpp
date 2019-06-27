@@ -213,8 +213,8 @@ public:
 	PhysicsLayers getCrntLayers() const;
 	void setLayers(PhysicsLayers layers);
 
-	inline bool getBodySensor() { return cpShapeGetSensor(bodyShape); }
-	inline void setBodySensor(bool val) { cpShapeSetSensor(bodyShape, val); }
+	inline bool getBodySensor() { return bodyShape->IsSensor(); }
+	inline void setBodySensor(bool val) { bodyShape->SetSensor(val); }
 
 	//A default of 0 signifies undefined. Using -1 to indicate static or positive for dynamic.
 	inline SpaceFloat getMass() const { return mass; }
@@ -314,8 +314,8 @@ protected:
 	unique_ptr<ai::StateMachine> fsm;
 
 //physics
-	cpBody* body = nullptr;
-	cpShape* bodyShape = nullptr;
+	b2Body* body = nullptr;
+	b2Fixture* bodyShape = nullptr;
 
 	SpaceVect dimensions;
 	SpaceFloat mass;

@@ -209,7 +209,7 @@ PhysicsLayers Barrier::getLayers() const
 
 void Barrier::setSealed(bool b)
 {
-	cpShapeSetSensor(bodyShape, !b);
+	setBodySensor(!b);
 	space->graphicsNodeAction(&Node::setVisible, spriteID, b);
 }
 

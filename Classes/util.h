@@ -19,6 +19,7 @@ SpaceVect toChipmunk(const cocos2d::CCSize& rhs);
 SpaceVect toChipmunk(const IntVec2& ivec);
 SpaceVect toChipmunkWithCentering(const IntVec2& ivec);
 Vec3 toVec3(const SpaceVect& rhs, float y = 0.0f);
+b2Vec2 toBox2D(const SpaceVect& v);
 IntVec2 toIntVector(const cocos2d::CCSize& rhs);
 IntVec2 toIntVector(const SpaceVect& rhs);
 IntVec2 toIntVector(const string& s);

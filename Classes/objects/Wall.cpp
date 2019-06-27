@@ -52,7 +52,7 @@ void BreakableWall::hit()
 
 void BreakableWall::applyBreak()
 {
-	cpShapeSetSensor(bodyShape, true);
+	setBodySensor(true);
 	space->eraseTile(getPos(), "wall_tiles");
 	hidden = true;
 }

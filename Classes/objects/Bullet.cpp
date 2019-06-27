@@ -71,7 +71,7 @@ void Bullet::onAgentCollide(Agent* other, SpaceVect n)
 	if (hitCount > 0) --hitCount;
 
 	if (getKnockbackForce() != 0.0) {
-		other->applyImpulse(-n * getKnockbackForce());
+		other->applyImpulse(-1.0 * n * getKnockbackForce());
 	}
 
 	if (hitCount == 0) {

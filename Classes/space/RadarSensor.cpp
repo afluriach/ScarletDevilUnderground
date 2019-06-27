@@ -27,7 +27,7 @@ RadarSensor::RadarSensor(
 {
 	setFovAngle(attributes.fovAngle);
 
-	tie(shape, body) = agent->space->physicsContext->createCircleBody(
+	tie(body, shape) = agent->space->physicsContext->createCircleBody(
 		agent->getPos(),
 		attributes.radius,
 		0.1,
@@ -36,12 +36,14 @@ RadarSensor::RadarSensor(
 		true,
 		this
 	);
+
+	body->SetFixedRotation(true);
 }
 
 RadarSensor::~RadarSensor()
 {
 	if (body && shape) {
-		agent->space->physicsContext->removeObject(shape, body, false);
+		agent->space->physicsContext->removeObject(body);
 	}
 }
 
@@ -99,8 +101,7 @@ void RadarSensor::setFovAngle(SpaceFloat angle)
 void RadarSensor::update()
 {
 	if (agent) {
-		cpBodySetPos(body, agent->getPos());
-		cpBodySetAngle(body, agent->getAngle());
+		body->SetTransform(toBox2D(agent->getPos()), agent->getAngle());
 	}
 
 	for (GObject* obj : objectsInRange)
@@ -171,17 +172,17 @@ SpaceFloat RadarSensor::getSensedObjectDistance(GType type)
 }
 
 SpaceVect RadarSensor::getPos() const {
-	return cpBodyGetPos(body);
+	return body->GetPosition();
 }
 
 void RadarSensor::setPos(SpaceVect p) const {
-	cpBodySetPos(body, p);
+	body->SetTransform(toBox2D(p), getAngle());
 }
 
 void RadarSensor::setAngle(SpaceFloat a) const {
-	cpBodySetAngle(body, canonicalAngle(a));
+	body->SetTransform(toBox2D(getPos()), a);
 }
 
 SpaceFloat RadarSensor::getAngle() const {
-	return canonicalAngle(cpBodyGetAngle(body));
+	return body->GetAngle();
 }

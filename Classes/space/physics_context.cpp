@@ -15,15 +15,44 @@
 
 const bool physics_context::logBodyCreation = false;
 
-void setShapeProperties(cpShape* shape, PhysicsLayers layers, GType type, bool sensor)
+#define g(x) to_uint(GType::x)
+
+const unordered_map<GType, uint32> physics_context::collisionMasks = {
+	{ GType::areaSensor, g(player) | g(enemy) | g(npc) | g(environment) },
+	{ GType::bomb, g(player) | g(enemy) | g(npc) | g(environment) | g(wall) | g(floorSegment) },
+	{ GType::enemy, g(player) | g(playerBullet) | g(playerGrazeRadar) | g(enemy) | g(environment) | g(npc) | g(floorSegment)| g(areaSensor) | g(wall)},
+	{ GType::enemyBullet, g(player) | g(playerBullet) | g(playerGrazeRadar) | g(environment) | g(wall) },
+	{ GType::enemySensor, g(player) | g(playerBullet) | g(enemy) | g(bomb)},
+	{ GType::environment, g(player) | g(playerBullet) | g(enemy) | g(enemyBullet) | g(environment) | g(wall) },
+	{ GType::foliage, g(player)},
+	{ GType::floorSegment, g(enemy) | g(environment) | g(npc) | g(player) },
+	{ GType::npc, g(player) | g(environment) | g(wall)},
+	{ GType::player, g(enemy) | g(enemyBullet) | g(environment) | g(playerPickup) | g(npc) | g(floorSegment) | g(areaSensor) | g(wall) | g(enemySensor) },
+	{ GType::playerPickup, g(player) },
+	{ GType::playerBullet, g(enemy) | g(enemyBullet) | g(environment) | g(npc) | g(wall) },
+	{ GType::playerGrazeRadar, g(enemyBullet) },
+	{ GType::wall, g(player) | g(playerBullet) | g(enemy) | g(enemyBullet) | g(environment) | g(npc) | g(floorSegment) | g(areaSensor) }
+};
+
+b2BodyType getMassType(SpaceFloat mass)
 {
-	shape->layers = to_uint(layers);
-	shape->group = 0;
-	shape->collision_type = to_uint(type);
-	shape->sensor = sensor;
+	if (mass < 0.0)
+		return b2_staticBody;
+	else if (mass > 0.0)
+		return b2_dynamicBody;
+	else
+		return b2_kinematicBody;
 }
 
-pair<cpShape*, cpBody*> physics_context::createCircleBody(
+//void setShapeProperties(cpShape* shape, PhysicsLayers layers, GType type, bool sensor)
+//{
+//	shape->layers = to_uint(layers);
+//	shape->group = 0;
+//	shape->collision_type = to_uint(type);
+//	shape->sensor = sensor;
+//}
+
+pair<b2Body*, b2Fixture*> physics_context::createCircleBody(
     const SpaceVect& center,
     SpaceFloat radius,
     SpaceFloat mass,
@@ -37,33 +66,44 @@ pair<cpShape*, cpBody*> physics_context::createCircleBody(
 		return make_pair(nullptr, nullptr);
 	}
     
-	cpBody* body;
-	cpShape* shape;
+	b2Body* body;
+	b2Fixture* shape;
 
-    if(mass <= 0.0){
-        body = cpBodyNewStatic();
-        if(type == GType::environment || type == GType::wall)
-            space->addNavObstacle(center, SpaceVect(radius*2.0, radius*2.0));
-    }
-    else{
-        body = cpBodyNew(mass, circleMomentOfInertia(mass, radius));
-		cpSpaceAddBody(space->space, body);
+	b2BodyDef def;
+	def.type = getMassType(mass);
+	def.position = toBox2D(center);
+	def.angle = 0.0;
+
+	body = space->world->CreateBody(&def);
+
+	if (mass > 0.0) {
+		b2MassData massData{ mass,b2Vec2_zero, circleMomentOfInertia(mass,radius) };
+		body->SetMassData(&massData);
 	}
 
-	cpBodySetPos(body, center);
+	b2CircleShape circle;
+	circle.m_radius = radius;
+	circle.m_p = b2Vec2_zero;
 
-    shape = cpCircleShapeNew(body, radius, cpvzero);
-	cpSpaceAddShape(space->space, shape);
-    
-    setShapeProperties(shape, layers, type, sensor);
-    
-	shape->data = obj;
-	body->data = obj;
+	b2FixtureDef fixture;
+	fixture.userData = obj;
+	fixture.shape = &circle;
+	fixture.isSensor = sensor;
+	fixture.filter.categoryBits = to_uint(type);
+	fixture.filter.maskBits = collisionMasks.at(type);
+	fixture.filter.groupIndex = 0;
+	fixture.filter.layers = to_uint(layers);
 
-    return make_pair(shape,body);
+	shape = body->CreateFixture(&fixture);
+
+	if (def.type == b2_staticBody && (type == GType::environment || type == GType::wall)) {
+		space->addNavObstacle(center, SpaceVect(radius*2.0, radius*2.0));
+	}
+
+    return make_pair(body,shape);
 }
 
-pair<cpShape*, cpBody*> physics_context::createRectangleBody(
+pair<b2Body*, b2Fixture*> physics_context::createRectangleBody(
     const SpaceVect& center,
     const SpaceVect& dim,
     SpaceFloat mass,
@@ -78,128 +118,48 @@ pair<cpShape*, cpBody*> physics_context::createRectangleBody(
 		return make_pair(nullptr, nullptr);
 	}
 
-	cpBody* body;
-	cpShape* shape;
+	b2Body* body;
+	b2Fixture* shape;
 
-	if (mass <= 0.0) {
-		body = cpBodyNewStatic();
-		if (type == GType::environment || type == GType::wall)
-			space->addNavObstacle(center, dim);
+	b2BodyDef def;
+	def.type = getMassType(mass);
+	def.position = toBox2D(center);
+	def.angle = 0.0;
+
+	body = space->world->CreateBody(&def);
+
+	if (mass > 0.0) {
+		b2MassData massData{ mass,b2Vec2_zero, rectangleMomentOfInertia(mass,dim) };
+		body->SetMassData(&massData);
 	}
-	else {
-		body = cpBodyNew(mass, rectangleMomentOfInertia(mass, dim));
-		cpSpaceAddBody(space->space, body);
+
+	b2PolygonShape rect;
+	rect.SetAsBox(dim.x * 0.5, dim.y * 0.5, b2Vec2_zero, 0.0);
+
+	b2FixtureDef fixture;
+	fixture.userData = obj;
+	fixture.shape = &rect;
+	fixture.isSensor = sensor;
+	fixture.filter.categoryBits = to_uint(type);
+	fixture.filter.maskBits = collisionMasks.at(type);
+	fixture.filter.groupIndex = 0.0;
+	fixture.filter.layers = to_uint(layers);
+
+	shape = body->CreateFixture(&fixture);
+
+	if (mass < 0.0 && (type == GType::environment || type == GType::wall)) {
+		space->addNavObstacle(center, dim);
 	}
-    
-	cpBodySetPos(body, center);
 
-	shape = cpBoxShapeNew(body, dim.x, dim.y);
-	cpSpaceAddShape(space->space, shape);
 
-	setShapeProperties(shape, layers, type, sensor);
-
-	shape->data = obj;
-	body->data = obj;
-
-	return make_pair(shape, body);
+	return make_pair(body, shape);
 }
 
 //Static bodies are not actually added to the physics engine, but they 
 //need to be deallocated.
-void physics_context::removeObject(cpShape* shape, cpBody* body, bool staticBody)
+void physics_context::removeObject(b2Body* body)
 {
-	if (shape) {
-		cpSpaceRemoveShape(space->space, shape);
-		cpShapeFree(shape);
-	}
-	if (body) {
-		if (!staticBody) {
-			cpSpaceRemoveBody(space->space, body);
-		}
-		cpBodyFree(body);
-	}
-}
-
-struct FeelerData
-{
-	//input data
-	const GObject* agent = nullptr;
-	unsigned int gtype;
-
-	//output data
-	double distance = 1.0;
-	GObject* result = nullptr;
-};
-
-void feelerCallback(cpShape *shape, cpFloat t, cpVect n, void *data)
-{
-	FeelerData* queryData = static_cast<FeelerData*>(data);
-	GObject* obj = to_gobject(shape->data);
-
-	if (obj && (to_uint(shape->collision_type) & queryData->gtype) && obj != queryData->agent && t < queryData->distance && t != 0.0) {
-		queryData->distance = t;
-		queryData->result = obj;
-	}
-}
-
-struct PointQueryData
-{
-	//input data
-	const GObject* agent;
-	unsigned int gtype;
-
-	//output
-	GObject* result = nullptr;
-};
-
-void pointQueryCallback(cpShape *shape, void *data)
-{
-	PointQueryData* queryData = static_cast<PointQueryData*>(data);
-	GObject* obj = to_gobject(shape->data);
-
-	if (obj && (to_uint(shape->collision_type) & queryData->gtype)) {
-		queryData->result = obj;
-	}
-}
-
-struct ShapeQueryData
-{
-	const GObject* agent;
-	unsigned gtype;
-
-	unordered_set<GObject*> results;
-};
-
-void shapeQueryCallback(cpShape *shape, cpContactPointSet *points, void *data)
-{
-	ShapeQueryData* queryData = static_cast<ShapeQueryData*>(data);
-	GObject* obj = to_gobject(shape->data);
-
-	if (obj && obj != queryData->agent && (to_uint(shape->collision_type) & queryData->gtype)) {
-		queryData->results.insert(obj);
-	}
-}
-
-struct FeelerQueryData
-{
-	const GObject* agent;
-	unsigned int gtype;
-	cpBody* queryBody;
-
-	SpaceFloat distance = 0.0;
-};
-
-void feelerQueryCallback(cpShape* shape, cpContactPointSet* points, void* data)
-{
-	FeelerQueryData* queryData = static_cast<FeelerQueryData*>(data);
-	GObject* obj = to_gobject(shape->data);
-
-	if (obj && obj != queryData->agent && (to_uint(shape->collision_type) & queryData->gtype)) {
-		for_irange(i, 0, points->count) {
-			SpaceVect local = cpBodyWorld2Local(queryData->queryBody, points->points[i].point);
-			queryData->distance = min(queryData->distance, local.x);
-		}
-	}
+	space->world->DestroyBody(body);
 }
 
 SpaceFloat physics_context::distanceFeeler(const GObject * agent, SpaceVect _feeler, GType gtype) const
@@ -211,11 +171,22 @@ SpaceFloat physics_context::distanceFeeler(const GObject * agent, SpaceVect _fee
 {
     SpaceVect start = agent->getPos();
     SpaceVect end = start + _feeler;
-	FeelerData queryData = { agent, to_uint(gtype) };
 
-	cpSpaceSegmentQuery(space->space, start, end, to_uint(layers), 0, feelerCallback, &queryData);
-        
-    return queryData.distance*_feeler.length();
+	//Distance along the segment is scaled [0,1].
+	SpaceFloat closest = 1.0;
+
+	b2RayCastCallback callback = [gtype, layers, &closest](b2Fixture* fixture, const SpaceVect& point, const SpaceVect& normal, float64 fraction)-> float64 {
+		GObject* obj = static_cast<GObject*>(fixture->GetUserData());
+		GType type = static_cast<GType>(fixture->GetFilterData().categoryBits);
+		if ( bitwise_and_bool(type, gtype) && bitwise_and_bool(obj->getLayers(), layers)) {
+			closest = fraction;
+		}
+		return 0.0;
+	};
+
+	space->world->RayCast(callback, toBox2D(start), toBox2D(end));
+
+	return closest * _feeler.length();
 }
 
 SpaceFloat physics_context::wallDistanceFeeler(const GObject * agent, SpaceVect feeler) const
@@ -292,22 +263,47 @@ bool physics_context::feeler(const GObject * agent, SpaceVect _feeler, GType gty
 {
     SpaceVect start = agent->getPos();
     SpaceVect end = start + _feeler;
-	FeelerData queryData = { agent, to_uint(gtype) };
+	bool collision = false;
 
-	cpSpaceSegmentQuery(space->space, start, end, to_uint(layers), 0, feelerCallback, &queryData);
+	b2RayCastCallback callback = [gtype, layers, &collision](b2Fixture* fixture, const SpaceVect& point, const SpaceVect& normal, float64 fraction)-> float64 {
+		GObject* obj = static_cast<GObject*>(fixture->GetUserData());
+		GType type = static_cast<GType>(fixture->GetFilterData().categoryBits);
+		if ( bitwise_and_bool(type,gtype) && bitwise_and_bool(obj->getLayers(), layers)) {
+			collision = true;
+		}
+		return 0.0;
+	};
 
-    return queryData.distance < 1.0;
+	space->world->RayCast(callback, toBox2D(start), toBox2D(end));
+
+	return collision;
 }
 
 GObject* physics_context::objectFeeler(const GObject * agent, SpaceVect feeler, GType gtype, PhysicsLayers layers) const
 {
 	SpaceVect start = agent->getPos();
 	SpaceVect end = start + feeler;
-	FeelerData queryData = { agent, to_uint(gtype) };
+	GObject* bestResult = nullptr;
+	SpaceFloat bestRatio = 1.0;
 
-	cpSpaceSegmentQuery(space->space, start, end, to_uint(layers), 0, feelerCallback, &queryData);
+	b2RayCastCallback callback = [gtype, layers, &bestRatio, &bestResult](b2Fixture* fixture, const b2Vec2& point, const b2Vec2& normal, float64 fraction)-> float64 {
+		GObject* obj = static_cast<GObject*>(fixture->GetUserData());
+		GType type = static_cast<GType>(fixture->GetFilterData().categoryBits);
+		if (
+			obj &&
+			fraction < bestRatio &&
+			bitwise_and_bool(type, gtype) &&
+			bitwise_and_bool(obj->getLayers(), layers)
+		) {
+			bestResult = obj;
+			bestRatio = fraction;
+		}
+		return fraction;
+	};
 
-	return queryData.result;
+	space->world->RayCast(callback, toBox2D(start), toBox2D(end));
+
+	return bestResult;
 }
 
 bool physics_context::wallFeeler(const GObject * agent, SpaceVect _feeler) const
@@ -332,6 +328,8 @@ bool physics_context::obstacleFeeler(const GObject * agent, SpaceVect _feeler) c
 
 GObject* physics_context::interactibleObjectFeeler(const GObject* agent, SpaceVect feeler) const
 {
+	log("interactible: %f,%f", feeler.length(), feeler.toAngle());
+
 	GObject* obj = objectFeeler(
 		agent,
 		feeler,
@@ -375,11 +373,21 @@ GObject * physics_context::queryAdjacentTiles(
 
 GObject * physics_context::pointQuery(SpaceVect pos, GType type, PhysicsLayers layers) const
 {
-	PointQueryData queryData = { nullptr, to_uint(type) };
+	GObject* result = nullptr;
 
-	cpSpacePointQuery(space->space, pos, to_uint(layers), 0, pointQueryCallback, &queryData);
+	b2QueryCallback callback = [type, layers, &result](b2Fixture* fixture) -> bool {
+		GObject* obj = static_cast<GObject*>(fixture->GetUserData());
+		GType _type = static_cast<GType>(fixture->GetFilterData().categoryBits);
+		if ( bitwise_and_bool(type,_type) && bitwise_and_bool(obj->getLayers(), layers)) {
+			result = obj;
+			return false;
+		}
+		return true;
+	};
 
-	return queryData.result;
+	space->world->QueryAABB(callback, b2AABB{ toBox2D(pos), toBox2D(pos) });
+
+	return result;
 }
 
 bool physics_context::rectangleQuery(
@@ -390,18 +398,24 @@ bool physics_context::rectangleQuery(
 	SpaceFloat angle
 ) const
 {
-	ShapeQueryData data = { nullptr, to_uint(type) };
-	cpBody* body = cpBodyNewStatic();
-	cpShape* area = cpBoxShapeNew(body, dimensions.x, dimensions.y);
+	bool collision = false;
 
-	cpBodySetPos(body, center);
-	cpBodySetAngle(body, angle);
-	setShapeProperties(area, layers, GType::none, false);
+	b2QueryCallback callback = [type, layers, &collision](b2Fixture* fixture) -> bool {
+		GObject* obj = static_cast<GObject*>(fixture->GetUserData());
+		GType _type = static_cast<GType>(fixture->GetFilterData().categoryBits);
+		if (bitwise_and_bool(type, _type) && bitwise_and_bool(obj->getLayers(), layers)) {
+			collision = true;
+			return false;
+		}
+		return true;
+	};
 
-	cpSpaceShapeQuery(space->space, area, shapeQueryCallback, &data);
-	cpBodyFree(body);
+	space->world->QueryAABB(
+		callback,
+		b2AABB{ toBox2D(center - 0.5*dimensions), toBox2D(center + 0.5 * dimensions) }
+	);
 
-	return !data.results.empty();
+	return collision;
 }
 
 SpaceFloat physics_context::rectangleFeelerQuery(
@@ -413,18 +427,9 @@ SpaceFloat physics_context::rectangleFeelerQuery(
 	SpaceFloat angle
 ) const
 {
-	cpBody* body = cpBodyNewStatic();
-	FeelerQueryData data = { agent, to_uint(type), body, dimensions.x };
-	cpShape* area = cpBoxShapeNew(body, dimensions.x, dimensions.y);
+	SpaceVect _feeler = SpaceVect::ray(dimensions.x, angle);
 
-	cpBodySetPos(body, center);
-	cpBodySetAngle(body, angle);
-	setShapeProperties(area, layers, GType::none, false);
-
-	cpSpaceShapeQuery(space->space, area, feelerQueryCallback, &data);
-	cpBodyFree(body);
-
-	return data.distance;
+	return distanceFeeler(agent, _feeler, type, layers);
 }
 
 unordered_set<GObject*> physics_context::rectangleObjectQuery(
@@ -435,18 +440,23 @@ unordered_set<GObject*> physics_context::rectangleObjectQuery(
 	SpaceFloat angle
 ) const
 {
-	ShapeQueryData data = { nullptr, to_uint(type) };
-	cpBody* body = cpBodyNewStatic();
-	cpShape* area = cpBoxShapeNew(body, dimensions.x, dimensions.y);
+	unordered_set<GObject*> result;
 
-	cpBodySetPos(body, center);
-	cpBodySetAngle(body, angle);
-	setShapeProperties(area, layers, GType::none, false);
+	b2QueryCallback callback = [type, layers, &result](b2Fixture* fixture) -> bool {
+		GObject* obj = static_cast<GObject*>(fixture->GetUserData());
+		GType _type = static_cast<GType>(fixture->GetFilterData().categoryBits);
+		if (bitwise_and_bool(type, _type) && bitwise_and_bool(obj->getLayers(), layers) && obj) {
+			result.insert(obj);
+		}
+		return true;
+	};
 
-	cpSpaceShapeQuery(space->space, area, shapeQueryCallback, &data);
-	cpBodyFree(body);
+	space->world->QueryAABB(
+		callback,
+		b2AABB{ toBox2D(center - 0.5*dimensions), toBox2D(center + 0.5 * dimensions) }
+	);
 
-	return data.results;
+	return result;
 }
 
 bool physics_context::obstacleRadiusQuery(
@@ -468,15 +478,26 @@ unordered_set<GObject*> physics_context::radiusQuery(
 	PhysicsLayers layers
 ) const
 {
-	ShapeQueryData data = { agent, to_uint(type) };
-	cpBody* body = cpBodyNewStatic();
-	cpShape* circle = cpCircleShapeNew(body, radius, SpaceVect::zero);
+	unordered_set<GObject*> result;
+	SpaceVect rv(radius, radius);
+	SpaceFloat agentRadius = agent ? agent->getRadius() : 0.0;
 
-	cpBodySetPos(body, center);
-	setShapeProperties(circle, layers, GType::none, false);
+	b2QueryCallback callback = [type, layers, center, radius, agentRadius, &result](b2Fixture* fixture) -> bool {
+		GObject* obj = static_cast<GObject*>(fixture->GetUserData());
+		GType _type = static_cast<GType>(fixture->GetFilterData().categoryBits);
+		if (bitwise_and_bool(type, _type) && bitwise_and_bool(obj->getLayers(), layers) && obj) {
+			SpaceFloat dist = (center - obj->getPos()).length();
 
-	cpSpaceShapeQuery(space->space, circle, shapeQueryCallback, &data);
-	cpBodyFree(body);
+			if(dist < radius - agentRadius - obj->getRadius())
+				result.insert(obj);
+		}
+		return true;
+	};
 
-	return data.results;
+	space->world->QueryAABB(
+		callback,
+		b2AABB{ toBox2D(center - rv), toBox2D(center + rv) }
+	);
+
+	return result;
 }

@@ -15,10 +15,11 @@ class physics_context
 {
 public:
 	static const bool logBodyCreation;
+	static const unordered_map<GType, uint32> collisionMasks;
 
 	inline physics_context(GSpace* space) : space(space) {}
 
-	pair<cpShape*, cpBody*> createCircleBody(
+	pair<b2Body*, b2Fixture*> createCircleBody(
 		const SpaceVect& center,
 		SpaceFloat radius,
 		SpaceFloat mass,
@@ -27,7 +28,7 @@ public:
 		bool sensor,
 		void* obj
 	);
-	pair<cpShape*, cpBody*> createRectangleBody(
+	pair<b2Body*, b2Fixture*> createRectangleBody(
 		const SpaceVect& center,
 		const SpaceVect& dim,
 		SpaceFloat mass,
@@ -37,7 +38,7 @@ public:
 		void* obj
 	);
 
-	void removeObject(cpShape* shape, cpBody* body, bool staticBody);
+	void removeObject(b2Body* body);
 
 	GObject * queryAdjacentTiles(
 		SpaceVect pos,

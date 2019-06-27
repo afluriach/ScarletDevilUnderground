@@ -39,8 +39,7 @@ GSpace::GSpace(GScene* gscene) :
 	graphicsContext(gscene->graphicsContext.get()),
 	randomFloat(0.0, 1.0)
 {
-	space = cpSpaceNew();
-    cpSpaceSetGravity(space, cpv(0,0));
+	world = new b2World(b2Vec2_zero);
 
 	physicsContext = make_unique<physics_context>(this);
 	physicsImpl = make_unique<PhysicsImpl>(this);
@@ -78,7 +77,7 @@ GSpace::~GSpace()
     if(navMask)
         delete navMask;
 
-	cpSpaceFree(space);
+	delete world;
 }
 
 GState* GSpace::getState() {
@@ -140,7 +139,7 @@ void GSpace::update()
 #endif
 
     //physics step
-	cpSpaceStep(space, app::params.secondsPerFrame);
+	world->Step(app::params.secondsPerFrame, 1, 1);
     
 #if USE_TIMERS
 	chrono::steady_clock::time_point t3 = chrono::steady_clock::now();

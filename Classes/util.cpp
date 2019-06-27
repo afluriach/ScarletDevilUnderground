@@ -170,6 +170,11 @@ Vec3 toVec3(const SpaceVect& rhs, float y)
 	return { to_float(rhs.x), y, to_float(rhs.y) };
 }
 
+b2Vec2 toBox2D(const SpaceVect& v)
+{
+	return b2Vec2(v.x, v.y);
+}
+
 CCRect operator*(const CCRect& lhs, float rhs)
 {
 	return CCRect(lhs.getMinX()*rhs, lhs.getMinY()*rhs, lhs.getWidth()*rhs, lhs.getHeight()*rhs);

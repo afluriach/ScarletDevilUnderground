@@ -65,7 +65,7 @@ public:
 	}
 
 	inline void onEndDetect(GObject* obj) {
-		if (on_detect) on_detect(obj);
+		if (on_end_detect) on_end_detect(obj);
 	}
 
 	inline GType getTargetType() { return targetType; }
@@ -86,8 +86,8 @@ protected:
 	GType targetType;
 
 	GObject* agent;
-	cpBody* body;
-	cpShape* shape;
+	b2Body* body;
+	b2Fixture* shape;
 
 	bool detectEssence = false;
 };

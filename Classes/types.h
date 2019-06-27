@@ -129,7 +129,7 @@ class SpaceRect
 {
 public:
 	SpaceRect();
-	SpaceRect(const cpBB& bb);
+	SpaceRect(const b2AABB& box);
 	SpaceRect(SpaceVect center, SpaceVect dimensions);
 	SpaceRect(SpaceFloat llX, SpaceFloat llY, SpaceFloat width, SpaceFloat height);
 

@@ -80,7 +80,7 @@ private:
 	GScene *const gscene;
 	graphics_context* graphicsContext;
     
-	cpSpace *space = nullptr;
+	b2World *world = nullptr;
 	unique_ptr<PhysicsImpl> physicsImpl;
 	
 	unsigned int frame = 0;

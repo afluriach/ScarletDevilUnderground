@@ -20,6 +20,8 @@ public:
 	/// Copy constructor
 	SpaceVect(const SpaceVect&);
 
+	inline SpaceVect(const b2Vec2& v) : x(v.x), y(v.y) {}
+
 	SpaceVect& operator/=(const SpaceFloat v);
 	SpaceVect& operator*=(const SpaceFloat v);
 	SpaceVect& operator-=(const SpaceVect& rhs);

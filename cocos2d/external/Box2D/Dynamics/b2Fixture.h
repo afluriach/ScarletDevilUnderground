@@ -36,19 +36,22 @@ struct b2Filter
 		categoryBits = 0x0001;
 		maskBits = 0xFFFF;
 		groupIndex = 0;
+		layers = 0;
 	}
 
 	/// The collision category bits. Normally you would just set one bit.
-	uint16 categoryBits;
+	uint32 categoryBits;
 
 	/// The collision mask bits. This states the categories that this
 	/// shape would accept for collision.
-	uint16 maskBits;
+	uint32 maskBits;
 
 	/// Collision groups allow a certain group of objects to never collide (negative)
 	/// or always collide (positive). Zero means no collision group. Non-zero group
 	/// filtering always wins against the mask bits.
-	int16 groupIndex;
+	int32 groupIndex;
+
+	uint32 layers;
 };
 
 /// A fixture definition is used to create a fixture. This class defines an
@@ -124,6 +127,9 @@ public:
 	/// @return the true if the shape is a sensor.
 	bool IsSensor() const;
 
+	uint32 GetLayers() const;
+	void SetLayers(uint32 layers);
+
 	/// Set the contact filtering data. This will not update contacts until the next time
 	/// step when either parent body is active and awake.
 	/// This automatically calls Refilter.
@@ -192,6 +198,8 @@ public:
 	/// the body transform.
 	const b2AABB& GetAABB(int32 childIndex) const;
 
+	b2AABB ComputeAABB() const;
+
 	/// Dump this fixture to the log file.
 	void Dump(int32 bodyIndex);
 
@@ -253,6 +261,16 @@ inline const b2Shape* b2Fixture::GetShape() const
 inline bool b2Fixture::IsSensor() const
 {
 	return m_isSensor;
+}
+
+inline uint32 b2Fixture::GetLayers() const
+{
+	return m_filter.layers;
+}
+
+inline void b2Fixture::SetLayers(uint32 layers)
+{
+	m_filter.layers = layers;
 }
 
 inline const b2Filter& b2Fixture::GetFilterData() const
