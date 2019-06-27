@@ -32,6 +32,8 @@ public:
 	typedef pair<object_pair, collision_type> contact;
 
 	static const bool logPhysicsHandlers;
+	static const int positionSteps;
+	static const int velocitySteps;
 
 	static int beginContact(b2Contact* arb, b2World* space, void* data);
 	static void endContact(b2Contact* arb, b2World* space, void* data);

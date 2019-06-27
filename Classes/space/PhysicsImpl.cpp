@@ -149,6 +149,9 @@ void PhysicsImpl::addCollisionHandlers()
 
 const bool PhysicsImpl::logPhysicsHandlers = false;
 
+const int PhysicsImpl::positionSteps = 12;
+const int PhysicsImpl::velocitySteps = 12;
+
 void PhysicsImpl::logHandler(const string& base, b2Contact* contact)
 {
     if(logPhysicsHandlers){

@@ -139,7 +139,11 @@ void GSpace::update()
 #endif
 
     //physics step
-	world->Step(app::params.secondsPerFrame, 1, 1);
+	world->Step(
+		app::params.secondsPerFrame,
+		PhysicsImpl::velocitySteps,
+		PhysicsImpl::positionSteps
+	);
     
 #if USE_TIMERS
 	chrono::steady_clock::time_point t3 = chrono::steady_clock::now();
