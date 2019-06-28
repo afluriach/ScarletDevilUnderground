@@ -17,6 +17,7 @@ class ContactListener : public b2ContactListener
 public:
 	inline ContactListener(PhysicsImpl* phys) : phys(phys) {}
 
+	virtual void PreSolve(b2Contact* contact, const b2Manifold* oldManifold);
 	virtual void BeginContact(b2Contact* contact);
 	virtual void EndContact(b2Contact* contact);
 	PhysicsImpl* phys;
@@ -65,6 +66,8 @@ protected:
 		void* obj
 	);
 
+	void addCollide(GType a, GType b);
+
 	void AddHandler(
 		collision_type types,
 		int(PhysicsImpl::*begin)(GObject*, GObject*, b2Contact*),
@@ -102,6 +105,13 @@ protected:
 	unique_ptr<ContactListener> contactListener;
 
 	unordered_map<GType, unsigned int> collisionMasks;
+
+	unordered_map<
+		collision_type,
+		void (PhysicsImpl::*)(b2Contact*, const b2Manifold*),
+		boost::hash<collision_type>
+	> presolveHandlers;
+
 	unordered_map<
 		collision_type,
 		pair<int(PhysicsImpl::*)(GObject*, GObject*, b2Contact*), bool>,

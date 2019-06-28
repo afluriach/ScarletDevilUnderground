@@ -526,12 +526,16 @@ DamageInfo Agent::touchEffect() const
 
 void Agent::initializeRadar(GSpace& space)
 {
+	GType type = getRadarType();
 	auto attr = sensor_attributes{
 		getRadarRadius(),
 		getDefaultFovAngle(),
-		getRadarType(),
+		type,
 		hasEssenceRadar()
 	};
+
+	if (type == GType::none)
+		return;
 
 	if (attr.radius <= 0.0) {
 		log("%s has zero radius", getName());

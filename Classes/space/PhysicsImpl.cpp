@@ -29,6 +29,16 @@ bool isRadarSensorType(GType type)
 	return type == GType::enemySensor || type == GType::playerGrazeRadar;
 }
 
+bool isBulletType(GType type)
+{
+	return type == GType::enemyBullet || type == GType::playerBullet;
+}
+
+bool isAgentType(GType type)
+{
+	return type == GType::enemy || type == GType::player || type == GType::npc;
+}
+
 b2BodyType getMassType(SpaceFloat mass)
 {
 	return static_cast<b2BodyType>(
@@ -38,13 +48,53 @@ b2BodyType getMassType(SpaceFloat mass)
 	);
 }
 
-void ContactListener::BeginContact(b2Contact* contact)
+pair<GType, GType> getFixtureTypes(b2Contact* contact)
+{
+	GType typeA = static_cast<GType>(contact->GetFixtureA()->GetFilterData().categoryBits);
+	GType typeB = static_cast<GType>(contact->GetFixtureB()->GetFilterData().categoryBits);
+
+	return make_pair(typeA, typeB);
+}
+
+pair<GObject*, GObject*> getObjects(b2Contact* contact)
 {
 	GObject* a = static_cast<GObject*>(contact->GetFixtureA()->GetUserData());
 	GObject* b = static_cast<GObject*>(contact->GetFixtureB()->GetUserData());
 
-	GType typeA = static_cast<GType>(contact->GetFixtureA()->GetFilterData().categoryBits);
-	GType typeB = static_cast<GType>(contact->GetFixtureB()->GetFilterData().categoryBits);
+	return make_pair(a, b);
+}
+
+#define _getTypes() tie(typeA,typeB) = getFixtureTypes(contact)
+
+void ContactListener::PreSolve(b2Contact* contact, const b2Manifold* oldManifold)
+{
+	GObject *a, *b;
+	tie(a, b) = getObjects(contact);
+
+	GType typeA, typeB;
+	_getTypes();
+
+	log("Presolve request for types %X x %X", to_int(typeA), to_int(typeB));
+
+	auto it1 = phys->presolveHandlers.find(make_pair(typeA, typeB));
+	if (it1 != phys->presolveHandlers.end()) {
+		(phys->*(it1->second))(contact, oldManifold);
+	}
+	else {
+		auto it2 = phys->presolveHandlers.find(make_pair(typeB, typeA));
+		if (it2 != phys->presolveHandlers.end()) {
+			(phys->*(it2->second))(contact, oldManifold);
+		}
+	}
+}
+
+void ContactListener::BeginContact(b2Contact* contact)
+{
+	GObject *a, *b;
+	tie(a, b) = getObjects(contact);
+
+	GType typeA, typeB;
+	_getTypes();
 	PhysicsImpl::collision_type actual = make_pair(typeA, typeB);
 
 	if (isRadarSensorType(typeA) && isRadarSensorType(typeB)) {
@@ -79,11 +129,11 @@ void ContactListener::BeginContact(b2Contact* contact)
 
 void ContactListener::EndContact(b2Contact* contact)
 {
-	GObject* a = static_cast<GObject*>(contact->GetFixtureA()->GetUserData());
-	GObject* b = static_cast<GObject*>(contact->GetFixtureB()->GetUserData());
+	GObject *a, *b;
+	tie(a, b) = getObjects(contact);
 
-	GType typeA = static_cast<GType>(contact->GetFixtureA()->GetFilterData().categoryBits);
-	GType typeB = static_cast<GType>(contact->GetFixtureB()->GetFilterData().categoryBits);
+	GType typeA, typeB;
+	_getTypes();
 	PhysicsImpl::collision_type actual = make_pair(typeA, typeB);
 
 	if (isRadarSensorType(typeA) && isRadarSensorType(typeB)) {
@@ -140,10 +190,17 @@ PhysicsImpl::PhysicsImpl(GSpace* space) :
 
 #define _addHandler(a,b,begin,end) AddHandler(make_pair(GType::a, GType::b), &PhysicsImpl::begin,&PhysicsImpl::end)
 #define _addHandlerNoEnd(a,b,begin) AddHandler(make_pair(GType::a, GType::b), &PhysicsImpl::begin,nullptr)
-#define _addSensor(a,b) AddSensorHandler(GType::a, GType::b)
+#define _collide(a,b) addCollide(GType::a, GType::b);
 
 void PhysicsImpl::addCollisionHandlers()
 {
+	_collide(playerGrazeRadar, enemyBullet);
+	_collide(enemySensor, bomb);
+	_collide(enemySensor, enemy);
+	_collide(enemySensor, enemyBullet);
+	_collide(enemySensor, player);
+	_collide(enemySensor, playerBullet);
+
 	_addHandler(player, enemy, playerEnemyBegin, playerEnemyEnd);
 	_addHandlerNoEnd(player, enemyBullet, playerEnemyBulletBegin);
 	_addHandlerNoEnd(playerBullet, enemy, playerBulletEnemyBegin);
@@ -165,12 +222,6 @@ void PhysicsImpl::addCollisionHandlers()
 	_addHandler(enemy, areaSensor, enemyAreaSensorBegin, enemyAreaSensorEnd);
 	_addHandler(npc, areaSensor, npcAreaSensorBegin, npcAreaSensorEnd);
 	_addHandler(environment, areaSensor, environmentAreaSensorBegin, environmentAreaSensorEnd);
-
-	collisionMasks.insert_or_assign(GType::playerGrazeRadar, to_uint(GType::enemyBullet));
-	collisionMasks.insert_or_assign(
-		GType::enemySensor,
-		to_uint(GType::enemy) | to_uint(GType::enemyBullet) | to_uint(GType::player) | to_uint(GType::playerBullet)
-	);
 }
 
 pair<b2Body*, b2Fixture*> PhysicsImpl::createCircleBody(
@@ -195,7 +246,7 @@ pair<b2Body*, b2Fixture*> PhysicsImpl::createCircleBody(
 	def.position = toBox2D(center);
 	def.angle = 0.0;
 
-	if (type == GType::player || type == GType::enemy || type == GType::npc) {
+	if (isAgentType(type)) {
 		def.fixedRotation = true;
 	}
 
@@ -296,6 +347,15 @@ void PhysicsImpl::logHandler(const string& base, b2Contact* contact)
     }
 }
 
+void PhysicsImpl::addCollide(GType a, GType b)
+{
+	emplaceIfEmpty(collisionMasks, a, to_uint(0));
+	emplaceIfEmpty(collisionMasks, b, to_uint(0));
+
+	collisionMasks.at(a) |= to_uint(b);
+	collisionMasks.at(b) |= to_uint(a);
+}
+
 void PhysicsImpl::AddHandler(
 	collision_type types,
 	int(PhysicsImpl::*begin)(GObject*, GObject*, b2Contact*),
@@ -314,11 +374,7 @@ void PhysicsImpl::AddHandler(
 	if (end)
 		endContactHandlers[actual] = make_pair(end, _swap);
 
-	emplaceIfEmpty(collisionMasks, types.first, to_uint(0));
-	emplaceIfEmpty(collisionMasks, types.second, to_uint(0));
-
-	collisionMasks.at(types.first) |= to_uint(types.second);
-	collisionMasks.at(types.second) |= to_uint(types.first);
+	addCollide(types.first, types.second);
 }
 
 void PhysicsImpl::logHandler(const string& name, GObject* a, GObject* b)

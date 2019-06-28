@@ -430,6 +430,7 @@ private:
 
 	// This is used to prevent connected bodies from colliding.
 	// It may lie, depending on the collideConnected flag.
+	// This function no longer checks that at least one body type is dynamic.
 	bool ShouldCollide(const b2Body* other) const;
 
 	void Advance(float32 t);

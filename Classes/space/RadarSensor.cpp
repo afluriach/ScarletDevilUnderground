@@ -30,14 +30,12 @@ RadarSensor::RadarSensor(
 	tie(body, shape) = agent->space->physicsContext->createCircleBody(
 		agent->getPos(),
 		attributes.radius,
-		0.1,
+		0.0,
 		attributes.targetType,
 		PhysicsLayers::all,
 		true,
 		this
 	);
-
-	body->SetFixedRotation(true);
 }
 
 RadarSensor::~RadarSensor()
