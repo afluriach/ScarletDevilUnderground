@@ -439,7 +439,10 @@ void GObject::onEndContactFloorSegment(FloorSegment* fs)
 
 SpaceRect GObject::getBoundingBox() const
 {
-	return bodyShape->ComputeAABB();
+	return SpaceRect(
+		getPos(),
+		dimensions.x == 0 ? SpaceVect(dimensions.x, dimensions.x) : dimensions
+	);
 }
 
 SpaceVect GObject::getDimensions() const

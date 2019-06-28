@@ -230,34 +230,7 @@ b2AABB b2Fixture::ComputeAABB() const
 {
 	b2AABB result;
 
-	switch (m_shape->GetType())
-	{
-	case b2Shape::e_circle:
-	{
-		b2CircleShape* circle = (b2CircleShape*)m_shape;
-
-		b2Vec2 center = b2Mul(m_body->GetTransform(), circle->m_p);
-		float64 radius = circle->m_radius;
-
-		result.lowerBound = b2Vec2(-radius, -radius);
-		result.upperBound = b2Vec2(-radius, -radius);
-	}
-	break;
-	case b2Shape::e_polygon:
-	{
-		b2PolygonShape* poly = (b2PolygonShape*)m_shape;
-		int32 vertexCount = poly->m_count;
-
-		for (int32 i = 0; i < vertexCount; ++i)
-		{
-			b2Vec2 vertex = b2Mul(m_body->GetTransform(), poly->m_vertices[i]);
-			result.Combine(vertex);
-		}
-	}
-	break;
-	default:
-		break;
-	}
+	m_shape->ComputeAABB(&result, m_body->GetTransform(), 0);
 
 	return result;
 }

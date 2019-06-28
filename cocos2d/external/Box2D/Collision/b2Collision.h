@@ -176,6 +176,11 @@ struct b2AABB
 		return 0.5f * (upperBound - lowerBound);
 	}
 
+	b2Vec2 GetDimensions() const
+	{
+		return (upperBound - lowerBound);
+	}
+
 	/// Get the perimeter length
 	float32 GetPerimeter() const
 	{

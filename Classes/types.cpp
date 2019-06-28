@@ -51,7 +51,7 @@ SpaceRect::SpaceRect() :
 {}
 
 SpaceRect::SpaceRect(const b2AABB& bb) :
-	SpaceRect(bb.GetCenter(), bb.GetExtents())
+	SpaceRect(bb.GetCenter(), bb.GetDimensions())
 {
 }
 
