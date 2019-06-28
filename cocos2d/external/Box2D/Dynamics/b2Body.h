@@ -164,6 +164,8 @@ public:
 	/// @return the world transform of the body's origin.
 	const b2Transform& GetTransform() const;
 
+	void SetPosition(const b2Vec2& position);
+
 	/// Get the world body origin position.
 	/// @return the world position of the body's origin.
 	const b2Vec2& GetPosition() const;
@@ -171,6 +173,8 @@ public:
 	/// Get the angle in radians.
 	/// @return the current world rotation angle in radians.
 	float32 GetAngle() const;
+
+	void SetAngle(float32 angle);
 
 	/// Get the world position of the center of mass.
 	const b2Vec2& GetWorldCenter() const;
@@ -417,6 +421,9 @@ private:
 
 	b2Body(const b2BodyDef* bd, b2World* world);
 	~b2Body();
+
+	//Called in SetTransform, also used in SetPosition/SetAngle
+	void updateTransform();
 
 	void SynchronizeFixtures();
 	void SynchronizeTransform();

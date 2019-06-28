@@ -196,6 +196,9 @@ public:
     SpaceVect getFacingVector() const;
     virtual void setDirection(Direction d);
     
+	SpaceFloat getBodyAngle() const;
+	void setBodyAngle(SpaceFloat a);
+
     SpaceVect getVel() const;
     void setVel(SpaceVect v);
     
@@ -322,6 +325,7 @@ protected:
 
 	//Position where the object was loaded
 	SpaceVect prevPos = SpaceVect::zero;
+	SpaceFloat angle = 0.0;
 	SpaceFloat prevAngle = 0.0;
 
 	parametric_space_function parametric_f;
