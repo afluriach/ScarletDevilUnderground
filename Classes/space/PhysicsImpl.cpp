@@ -245,6 +245,7 @@ pair<b2Body*, b2Fixture*> PhysicsImpl::createCircleBody(
 	def.type = getMassType(mass);
 	def.position = toBox2D(center);
 	def.angle = 0.0;
+	def.bullet = isBulletType(type);
 
 	if (isAgentType(type)) {
 		def.fixedRotation = true;
@@ -301,6 +302,7 @@ pair<b2Body*, b2Fixture*> PhysicsImpl::createRectangleBody(
 	def.type = getMassType(mass);
 	def.position = toBox2D(center);
 	def.angle = 0.0;
+	def.bullet = isBulletType(type);
 
 	body = world->CreateBody(&def);
 
@@ -503,7 +505,7 @@ int PhysicsImpl::bulletEnvironment(GObject* bullet, GObject* environment, b2Cont
 	b2Manifold* manifold = contact->GetManifold();
 
 	if (_b && environment && !_sensor) {
-		if (!_b->applyRicochet(manifold->localNormal)) {
+		if (!_b->applyRicochet(-1.0 * manifold->localNormal)) {
 			_b->onEnvironmentCollide(environment);
 
 			if (auto _hs = dynamic_cast<Headstone*>(environment)) {
@@ -523,7 +525,7 @@ int PhysicsImpl::bulletWall(GObject* bullet, GObject* wall, b2Contact* contact)
 	b2Manifold* manifold = contact->GetManifold();
 
 	if (_b && _w && !_sensor) {
-		if(!_b->applyRicochet(manifold->localNormal))
+		if(!_b->applyRicochet(-1.0 * manifold->localNormal))
 			_b->onWallCollide(_w);
 	}
 
