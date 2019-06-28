@@ -17,12 +17,6 @@ const boost::rational<int> Launcher::fireInterval(1,4);
 Launcher::Launcher(GSpace* space, ObjectIDType id, const ValueMap& args) :
 	GObject(MapParams(), physics_params(args, -1.0))
 {
-	auto it = args.find("direction");
-	if (it != args.end()) {
-		Direction dir = stringToDirection(it->second.asString());
-		if (dir != Direction::none)
-			setInitialAngle(dirToPhysicsAngle(dir));
-	}
 }
 
 void Launcher::update()

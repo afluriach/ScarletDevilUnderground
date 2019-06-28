@@ -27,12 +27,6 @@ Pyramid::Pyramid(GSpace* space, ObjectIDType id, const ValueMap& args) :
 {
 	angular_speed = toRads(getFloatOrDefault(args, "angular_speed", 0.0f));
 
-	auto it = args.find("direction");
-	if (it != args.end()) {
-		Direction dir = stringToDirection(it->second.asString());
-		if (dir != Direction::none)
-			setInitialAngle(dirToPhysicsAngle(dir));
-	}
 }
 
 void Pyramid::update()

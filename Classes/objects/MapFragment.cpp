@@ -24,7 +24,7 @@
 }
 
 MapFragment::MapFragment(GSpace* space, ObjectIDType id, const ValueMap& args) :
-	GObject(MapParams(), physics_params(0.5, -1.0)),
+	GObject(MapParamsPointUp(), physics_params(0.5, -1.0)),
 	mapFragmentId(getIntOrDefault(args, "id", -1))
 {
 	if (mapFragmentId == -1) {
@@ -36,8 +36,6 @@ MapFragment::MapFragment(GSpace* space, ObjectIDType id, const ValueMap& args) :
 	else if (mapFragmentId >= space->getScene()->getMapFragmentsList().size()) {
 		log("MapFragment: invalid ID");
 	}
-
-	setInitialAngle(float_pi / 2.0);
 }
 
 void MapFragment::onAcquire()

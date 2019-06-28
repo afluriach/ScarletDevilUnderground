@@ -48,6 +48,11 @@ object_params::object_params(GSpace* space, ObjectIDType id, const ValueMap& arg
 {
 	hidden = getBoolOrDefault(args, "hidden", false);
 	name = getStringOrDefault(args, "name", "");
+
+	Direction dir = getDirectionOrDefault(args, Direction::none);
+	if (dir != Direction::none) {
+		angle = dirToPhysicsAngle(dir);
+	}
 }
 
 physics_params::physics_params(SpaceFloat radius, SpaceFloat mass) :

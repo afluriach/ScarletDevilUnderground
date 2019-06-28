@@ -373,6 +373,7 @@ void Agent::initializeGraphics()
 		sceneLayer(),
 		getInitialCenterPix()
 	);
+	animation->setAngle(angle);
 
 	agentOverlay = space->createSprite(
 		&graphics_context::createAgentBodyShader,

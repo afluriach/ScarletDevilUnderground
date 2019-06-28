@@ -43,9 +43,8 @@ bool Headstone::conditionalLoad(GSpace* space, ObjectIDType id, const ValueMap& 
 }
 
 Headstone::Headstone(GSpace* space, ObjectIDType id, const ValueMap& args) :
-	GObject(MapParams(), physics_params(args, -1.0)) 
+	GObject(MapParamsPointUp(), physics_params(args, -1.0)) 
 {
-	setInitialDirectionOrDefault(args, Direction::up);
 	maxHP = getFloatOrDefault(args, "hp", -1.0f);
 	hp = maxHP;
 }
