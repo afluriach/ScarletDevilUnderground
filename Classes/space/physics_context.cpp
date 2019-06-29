@@ -75,17 +75,16 @@ SpaceFloat physics_context::distanceFeeler(const GObject * agent, SpaceVect _fee
 	//Distance along the segment is scaled [0,1].
 	SpaceFloat closest = 1.0;
 
-	b2RayCastCallback callback = [gtype, layers, &closest](b2Fixture* fixture, const SpaceVect& point, const SpaceVect& normal, float64 fraction)-> float64 {
-		GObject* obj = static_cast<GObject*>(fixture->GetUserData());
-		GType type = static_cast<GType>(fixture->GetFilterData().categoryBits);
-		if ( bitwise_and_bool(type, gtype) && bitwise_and_bool(obj->getLayers(), layers)) {
-			closest = fraction;
-			return closest;
-		}
-		else return 1.0;
+	b2Filter filter;
+	filter.maskBits = to_uint(gtype);
+	filter.layers = to_uint(layers);
+
+	b2RayCastCallback callback = [&closest](b2Fixture* fixture, const SpaceVect& point, const SpaceVect& normal, float64 fraction)-> float64 {
+		closest = fraction;
+		return closest;
 	};
 
-	space->world->RayCast(callback, toBox2D(start), toBox2D(end));
+	space->world->RayCast(callback, toBox2D(start), toBox2D(end), filter);
 
 	return closest * _feeler.length();
 }
@@ -164,21 +163,19 @@ bool physics_context::feeler(const GObject * agent, SpaceVect _feeler, GType gty
 {
     SpaceVect start = agent->getPos();
     SpaceVect end = start + _feeler;
+
+	b2Filter filter;
+	filter.maskBits = to_uint(gtype);
+	filter.layers = to_uint(layers);
+
 	bool collision = false;
 
-	b2RayCastCallback callback = [gtype, layers, &collision](b2Fixture* fixture, const SpaceVect& point, const SpaceVect& normal, float64 fraction)-> float64 {
-		GObject* obj = static_cast<GObject*>(fixture->GetUserData());
-		GType type = static_cast<GType>(fixture->GetFilterData().categoryBits);
-		if ( bitwise_and_bool(type,gtype) && bitwise_and_bool(obj->getLayers(), layers)) {
-			collision = true;
-			return 0.0;
-		}
-		else {
-			return 1.0;
-		}
+	b2RayCastCallback callback = [&collision](b2Fixture* fixture, const SpaceVect& point, const SpaceVect& normal, float64 fraction)-> float64 {
+		collision = true;
+		return 0.0;
 	};
 
-	space->world->RayCast(callback, toBox2D(start), toBox2D(end));
+	space->world->RayCast(callback, toBox2D(start), toBox2D(end), filter);
 
 	return collision;
 }
@@ -190,15 +187,13 @@ GObject* physics_context::objectFeeler(const GObject * agent, SpaceVect feeler, 
 	GObject* bestResult = nullptr;
 	SpaceFloat bestRatio = 1.0;
 
-	b2RayCastCallback callback = [gtype, layers, &bestRatio, &bestResult](b2Fixture* fixture, const b2Vec2& point, const b2Vec2& normal, float64 fraction)-> float64 {
+	b2Filter filter;
+	filter.maskBits = to_uint(gtype);
+	filter.layers = to_uint(layers);
+
+	b2RayCastCallback callback = [&bestRatio, &bestResult](b2Fixture* fixture, const b2Vec2& point, const b2Vec2& normal, float64 fraction)-> float64 {
 		GObject* obj = static_cast<GObject*>(fixture->GetUserData());
-		GType type = static_cast<GType>(fixture->GetFilterData().categoryBits);
-		if (
-			obj &&
-			fraction < bestRatio &&
-			bitwise_and_bool(type, gtype) &&
-			bitwise_and_bool(obj->getLayers(), layers)
-		) {
+		if (obj && fraction < bestRatio) {
 			bestResult = obj;
 			bestRatio = fraction;
 			return fraction;
@@ -208,7 +203,7 @@ GObject* physics_context::objectFeeler(const GObject * agent, SpaceVect feeler, 
 		}
 	};
 
-	space->world->RayCast(callback, toBox2D(start), toBox2D(end));
+	space->world->RayCast(callback, toBox2D(start), toBox2D(end), filter);
 
 	return bestResult;
 }
@@ -280,17 +275,20 @@ GObject * physics_context::pointQuery(SpaceVect pos, GType type, PhysicsLayers l
 {
 	GObject* result = nullptr;
 
+	b2Filter filter;
+	filter.maskBits = to_uint(type);
+	filter.layers = to_uint(layers);
+
 	b2QueryCallback callback = [type, layers, &result](b2Fixture* fixture) -> bool {
 		GObject* obj = static_cast<GObject*>(fixture->GetUserData());
-		GType _type = static_cast<GType>(fixture->GetFilterData().categoryBits);
-		if ( bitwise_and_bool(type,_type) && bitwise_and_bool(obj->getLayers(), layers)) {
+		if (obj) {
 			result = obj;
 			return false;
 		}
 		return true;
 	};
 
-	space->world->QueryAABB(callback, b2AABB{ toBox2D(pos), toBox2D(pos) });
+	space->world->QueryAABB(callback, b2AABB{ toBox2D(pos), toBox2D(pos) }, filter);
 
 	return result;
 }

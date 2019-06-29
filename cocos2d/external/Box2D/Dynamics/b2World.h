@@ -112,7 +112,10 @@ public:
 	/// provided AABB.
 	/// @param callback a user implemented callback class.
 	/// @param aabb the query box.
-	void QueryAABB(b2QueryCallback callback, const b2AABB& aabb) const;
+	/// @param filter defines the types of fixtures to collide with. Use a filter with categoryBits and
+	/// layers both 0xFFFFFFFF for previous behavior, to collide with all objects that physically
+	/// overlap with the line.
+	void QueryAABB(b2QueryCallback callback, const b2AABB& aabb, const b2Filter& filter) const;
 
 	void QueryShape(
 		b2QueryCallback callback,
@@ -128,7 +131,15 @@ public:
 	/// @param callback a user implemented callback class.
 	/// @param point1 the ray starting point
 	/// @param point2 the ray ending point
-	void RayCast(b2RayCastCallback callback, const b2Vec2& point1, const b2Vec2& point2) const;
+	/// @param filter defines the types of fixtures to collide with. Use a filter with categoryBits and
+	/// layers both 0xFFFFFFFF for previous behavior, to collide with all objects that physically
+	/// overlap with the line.
+	void RayCast(
+		b2RayCastCallback callback,
+		const b2Vec2& point1,
+		const b2Vec2& point2,
+		const b2Filter& filter
+	) const;
 
 	/// Get the world body list. With the returned body, use b2Body::GetNext to get
 	/// the next body in the world list. A NULL body indicates the end of the list.
