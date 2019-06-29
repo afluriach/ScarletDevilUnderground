@@ -117,6 +117,8 @@ public:
 	/// overlap with the line.
 	void QueryAABB(b2QueryCallback callback, const b2AABB& aabb, const b2Filter& filter) const;
 
+	void QueryPoint(b2QueryCallback callback, const b2Vec2& p, const b2Filter& filter) const;
+
 	void QueryShape(
 		b2QueryCallback callback,
 		//The transform applied to the shape (position & angle), as though it were in a body.

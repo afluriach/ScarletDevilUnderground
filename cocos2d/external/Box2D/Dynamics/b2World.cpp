@@ -1002,6 +1002,39 @@ void b2World::QueryAABB(b2QueryCallback callback, const b2AABB& aabb, const b2Fi
 	m_contactManager.m_broadPhase.Query(&wrapper, aabb);
 }
 
+struct b2WorldQueryPointWrapper
+{
+	bool QueryCallback(int32 proxyId)
+	{
+		b2Fixture* fixture;
+		int32 index;
+		std::tie(fixture, index) = broadPhase->GetFixture(proxyId);
+		b2Filter _filter = fixture->GetFilterData();
+
+		if (_filter.isQueryCollide(filter) && fixture->TestPoint(target)) {
+			return callback(fixture);
+		}
+		else {
+			return true;
+		}
+	}
+
+	const b2BroadPhase* broadPhase;
+	b2Vec2 target;
+	b2QueryCallback callback;
+	b2Filter filter;
+};
+
+void b2World::QueryPoint(b2QueryCallback callback, const b2Vec2& p, const b2Filter& filter) const
+{
+	b2WorldQueryPointWrapper wrapper;
+	wrapper.broadPhase = &m_contactManager.m_broadPhase;
+	wrapper.target = p;
+	wrapper.callback = callback;
+	wrapper.filter = filter;
+	m_contactManager.m_broadPhase.Query(&wrapper, b2AABB{ p, p });
+}
+
 struct b2WorldQueryShapeWrapper
 {
 	void QueryShapeCallback(int32 proxyId)

@@ -288,7 +288,7 @@ GObject * physics_context::pointQuery(SpaceVect pos, GType type, PhysicsLayers l
 		return true;
 	};
 
-	space->world->QueryAABB(callback, b2AABB{ toBox2D(pos), toBox2D(pos) }, filter);
+	space->world->QueryPoint(callback, toBox2D(pos), filter);
 
 	return result;
 }
