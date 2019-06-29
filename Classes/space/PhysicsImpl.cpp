@@ -66,28 +66,6 @@ pair<GObject*, GObject*> getObjects(b2Contact* contact)
 
 #define _getTypes() tie(typeA,typeB) = getFixtureTypes(contact)
 
-void ContactListener::PreSolve(b2Contact* contact, const b2Manifold* oldManifold)
-{
-	GObject *a, *b;
-	tie(a, b) = getObjects(contact);
-
-	GType typeA, typeB;
-	_getTypes();
-
-	log("Presolve request for types %X x %X", to_int(typeA), to_int(typeB));
-
-	auto it1 = phys->presolveHandlers.find(make_pair(typeA, typeB));
-	if (it1 != phys->presolveHandlers.end()) {
-		(phys->*(it1->second))(contact, oldManifold);
-	}
-	else {
-		auto it2 = phys->presolveHandlers.find(make_pair(typeB, typeA));
-		if (it2 != phys->presolveHandlers.end()) {
-			(phys->*(it2->second))(contact, oldManifold);
-		}
-	}
-}
-
 void ContactListener::BeginContact(b2Contact* contact)
 {
 	GObject *a, *b;
