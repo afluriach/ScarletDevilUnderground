@@ -31,6 +31,9 @@ public:
 	typedef pair<GObject*, GObject*> object_pair;
 	typedef pair<GType, GType> collision_type;
 	typedef pair<object_pair, collision_type> contact;
+	typedef function<void(b2Contact*)> contact_func;
+	typedef void(*pairwise_obj_func)(GObject*, GObject*, b2Contact*);
+	typedef void(*radarsensor_func)(RadarSensor*, GObject*, b2Contact*);
 
 	static const bool logPhysicsHandlers;
 	static const int positionSteps;
@@ -67,10 +70,13 @@ protected:
 
 	void addCollide(GType a, GType b);
 
+	//This function will set both types to collide with each other pairwise in 
+	//the collision masks. It will also install the callback with the lower
+	//numeric value first, except for pairs of the same type.
 	void AddHandler(
 		collision_type types,
-		void (*begin)(GObject*, GObject*, b2Contact*),
-		void(*end)(GObject*, GObject*, b2Contact*)
+		contact_func begin,
+		contact_func end
 	);
 
 	GSpace* gspace;
@@ -81,13 +87,13 @@ protected:
 
 	unordered_map<
 		collision_type,
-		pair<void(*)(GObject*, GObject*, b2Contact*), bool>,
+		contact_func,
 		boost::hash<collision_type>
 	> beginContactHandlers;
 	
 	unordered_map<
 		collision_type,
-		pair<void(*)(GObject*, GObject*, b2Contact*), bool>,
+		contact_func,
 		boost::hash<collision_type>
 	> endContactHandlers;
 };

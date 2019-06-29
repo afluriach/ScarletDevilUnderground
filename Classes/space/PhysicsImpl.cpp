@@ -46,6 +46,43 @@ void environmentAreaSensorEnd(GObject* obj, GObject* areaSensor, b2Contact* arb)
 void sensorStart(RadarSensor* radar, GObject* target, b2Contact* arb);
 void sensorEnd(RadarSensor* radar, GObject* target, b2Contact* arb);
 
+bool isReverseMatch(PhysicsImpl::collision_type pairA, PhysicsImpl::collision_type pairB)
+{
+	return pairA.first == pairB.second && pairA.second == pairB.first;
+}
+
+PhysicsImpl::collision_type getCanonicalPair(PhysicsImpl::collision_type in)
+{
+	auto result = in;
+	if (result.first > result.second) {
+		swap(result.first, result.second);
+	}
+
+	return result;
+}
+
+PhysicsImpl::contact_func makeObjectPairFunc(PhysicsImpl::pairwise_obj_func f, PhysicsImpl::collision_type types)
+{
+	return [f, types](b2Contact* contact) -> void {
+		auto crntTypes = getFixtureTypes(contact);
+		PhysicsImpl::object_pair objects = getObjects(contact);
+
+		if (types == crntTypes) {
+			f(objects.first, objects.second, contact);
+		}
+		else if (isReverseMatch(crntTypes, types)) {
+			f(objects.second, objects.first, contact);
+		}
+		else {
+			log(
+				"makeObjectPairFunc: called for invalid typepair %X,%X",
+				to_uint(crntTypes.first),
+				to_uint(crntTypes.second)
+			);
+		}
+	};
+}
+
 bool isRadarSensorType(GType type)
 {
 	return type == GType::enemySensor || type == GType::playerGrazeRadar;
@@ -78,6 +115,24 @@ pair<GType, GType> getFixtureTypes(b2Contact* contact)
 	return make_pair(typeA, typeB);
 }
 
+PhysicsImpl::contact_func makeSensorHandler(PhysicsImpl::radarsensor_func f, PhysicsImpl::collision_type types)
+{
+	return [f, types](b2Contact* contact) -> void {
+		auto crntTypes = getFixtureTypes(contact);
+		//Presumably, only one of these is a GObject.
+		PhysicsImpl::object_pair objects = getObjects(contact);
+
+		if (types == crntTypes) {
+			auto sensor = static_cast<RadarSensor*>(contact->GetFixtureA()->GetUserData());
+			f(sensor, objects.second, contact);
+		}
+		else if (isReverseMatch(crntTypes, types)) {
+			auto sensor = static_cast<RadarSensor*>(contact->GetFixtureB()->GetUserData());
+			f(sensor, objects.first, contact);
+		}
+	};
+}
+
 pair<GObject*, GObject*> getObjects(b2Contact* contact)
 {
 	GObject* a = static_cast<GObject*>(contact->GetFixtureA()->GetUserData());
@@ -90,79 +145,21 @@ pair<GObject*, GObject*> getObjects(b2Contact* contact)
 
 void ContactListener::BeginContact(b2Contact* contact)
 {
-	GObject *a, *b;
-	tie(a, b) = getObjects(contact);
+	PhysicsImpl::collision_type types = getCanonicalPair( getFixtureTypes(contact) );
 
-	GType typeA, typeB;
-	_getTypes();
-	PhysicsImpl::collision_type actual = make_pair(typeA, typeB);
-
-	if (isRadarSensorType(typeA) && isRadarSensorType(typeB)) {
-		log("sensors should not collide with each other");
-		return;
-	}
-	else if (isRadarSensorType(typeA)) {
-		RadarSensor* sensor = static_cast<RadarSensor*>(contact->GetFixtureA()->GetUserData());
-		sensorStart(sensor, b, contact);
-		return;
-	}
-	else if (isRadarSensorType(typeB)) {
-		RadarSensor* sensor = static_cast<RadarSensor*>(contact->GetFixtureB()->GetUserData());
-		sensorStart(sensor, a, contact);
-		return;
-	}
-
-	if (typeA > typeB) {
-		swap(actual.first, actual.second);
-		swap(a, b);
-	}
-
-	auto it = phys->beginContactHandlers.find(actual);
+	auto it = phys->beginContactHandlers.find(types);
 	if (it != phys->beginContactHandlers.end()) {
-
-		if (it->second.second)
-			swap(a, b);
-
-		(it->second.first)(a, b, contact);
+		(it->second)(contact);
 	}
 }
 
 void ContactListener::EndContact(b2Contact* contact)
 {
-	GObject *a, *b;
-	tie(a, b) = getObjects(contact);
+	PhysicsImpl::collision_type types = getCanonicalPair( getFixtureTypes(contact) );
 
-	GType typeA, typeB;
-	_getTypes();
-	PhysicsImpl::collision_type actual = make_pair(typeA, typeB);
-
-	if (isRadarSensorType(typeA) && isRadarSensorType(typeB)) {
-		log("sensors should not collide with each other");
-		return;
-	}
-	else if (isRadarSensorType(typeA)) {
-		RadarSensor* sensor = static_cast<RadarSensor*>(contact->GetFixtureA()->GetUserData());
-		sensorEnd(sensor, b, contact);
-		return;
-	}
-	else if (isRadarSensorType(typeB)) {
-		RadarSensor* sensor = static_cast<RadarSensor*>(contact->GetFixtureB()->GetUserData());
-		sensorEnd(sensor, a, contact);
-		return;
-	}
-
-	if (typeA > typeB) {
-		swap(actual.first, actual.second);
-		swap(a, b);
-	}
-
-	auto it = phys->endContactHandlers.find(actual);
+	auto it = phys->endContactHandlers.find(types);
 	if (it != phys->endContactHandlers.end()) {
-
-		if (it->second.second)
-			swap(a, b);
-
-		(it->second.first)(a, b, contact);
+		(it->second)(contact);
 	}
 }
 
@@ -188,18 +185,37 @@ PhysicsImpl::PhysicsImpl(GSpace* space) :
 	space->world->SetContactListener(contactListener.get());
 }
 
-#define _addHandler(a,b,begin,end) AddHandler(make_pair(GType::a, GType::b), &begin,&end)
-#define _addHandlerNoEnd(a,b,begin) AddHandler(make_pair(GType::a, GType::b), &begin,nullptr)
+#define _addHandler(a,b,begin,end) \
+AddHandler( \
+	make_pair(GType::a, GType::b), \
+	makeObjectPairFunc(&begin, make_pair(GType::a, GType::b)), \
+	makeObjectPairFunc(&end, make_pair(GType::a, GType::b)) \
+)
+
+#define _addHandlerNoEnd(a,b,begin) \
+AddHandler( \
+	make_pair(GType::a, GType::b), \
+	makeObjectPairFunc(&begin, make_pair(GType::a, GType::b)), \
+	nullptr \
+)
+
+#define _addSensorHandler(a,b) \
+AddHandler( \
+	make_pair(GType::a, GType::b), \
+	makeSensorHandler(&sensorStart, make_pair(GType::a, GType::b)), \
+	makeSensorHandler(&sensorEnd, make_pair(GType::a, GType::b)) \
+)
+
 #define _collide(a,b) addCollide(GType::a, GType::b);
 
 void PhysicsImpl::addCollisionHandlers()
 {
-	_collide(playerGrazeRadar, enemyBullet);
-	_collide(enemySensor, bomb);
-	_collide(enemySensor, enemy);
-	_collide(enemySensor, enemyBullet);
-	_collide(enemySensor, player);
-	_collide(enemySensor, playerBullet);
+	_addSensorHandler(playerGrazeRadar, enemyBullet);
+	_addSensorHandler(enemySensor, bomb);
+	_addSensorHandler(enemySensor, enemy);
+	_addSensorHandler(enemySensor, enemyBullet);
+	_addSensorHandler(enemySensor, player);
+	_addSensorHandler(enemySensor, playerBullet);
 
 	_addHandler(player, enemy, playerEnemyBegin, playerEnemyEnd);
 	_addHandlerNoEnd(player, enemyBullet, playerEnemyBulletBegin);
@@ -349,21 +365,18 @@ void PhysicsImpl::addCollide(GType a, GType b)
 
 void PhysicsImpl::AddHandler(
 	collision_type types,
-	void (*begin)(GObject*, GObject*, b2Contact*),
-	void(*end)(GObject*, GObject*, b2Contact*)
+	contact_func begin,
+	contact_func end
 ){
 	auto actual = types;
-	bool _swap = false;
-
 	if (actual.first > actual.second) {
 		swap(actual.first, actual.second);
-		_swap = true;
 	}
 
 	if (begin)
-		beginContactHandlers[actual] = make_pair(begin, _swap);
+		beginContactHandlers[actual] = begin;
 	if (end)
-		endContactHandlers[actual] = make_pair(end, _swap);
+		endContactHandlers[actual] = end;
 
 	addCollide(types.first, types.second);
 }
