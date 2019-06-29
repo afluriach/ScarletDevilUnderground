@@ -1000,8 +1000,12 @@ struct b2WorldQueryShapeWrapper
 		b2Fixture* fixture;
 		int32 index;
 		std::tie(fixture, index) = broadPhase->GetFixture(proxyId);
-		
-		if (fixture->ShapeQuery(shape, xf, index)) {
+		b2Filter _filter = fixture->GetFilterData();
+
+		if (
+			_filter.isQueryCollide(filter) &&
+			fixture->ShapeQuery(shape, xf, index)
+		) {
 			callback(fixture);
 		}
 	}
@@ -1010,15 +1014,21 @@ struct b2WorldQueryShapeWrapper
 	const b2Shape* shape;
 	b2QueryCallback callback;
 	b2Transform xf;
+	b2Filter filter;
 };
 
-void b2World::QueryShape(b2QueryCallback callback, const b2Transform& xf, const b2Shape* shape) const
-{
+void b2World::QueryShape(
+	b2QueryCallback callback,
+	const b2Transform& xf,
+	const b2Shape* shape,
+	const b2Filter& filter
+) const{
 	b2WorldQueryShapeWrapper wrapper;
 	wrapper.broadPhase = &m_contactManager.m_broadPhase;
 	wrapper.callback = callback;
 	wrapper.shape = shape;
 	wrapper.xf = xf;
+	wrapper.filter = filter;
 	m_contactManager.m_broadPhase.QueryShape(&wrapper, xf, shape);
 }
 

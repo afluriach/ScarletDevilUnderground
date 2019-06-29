@@ -25,6 +25,7 @@
     <ClCompile Include="..\Collision\Shapes\b2PolygonShape.cpp" />
     <ClCompile Include="..\Common\b2BlockAllocator.cpp" />
     <ClCompile Include="..\Common\b2Draw.cpp" />
+    <ClCompile Include="..\Common\b2Filter.cpp" />
     <ClCompile Include="..\Common\b2Math.cpp" />
     <ClCompile Include="..\Common\b2Settings.cpp" />
     <ClCompile Include="..\Common\b2StackAllocator.cpp" />
@@ -72,6 +73,7 @@
     <ClInclude Include="..\Collision\Shapes\b2Shape.h" />
     <ClInclude Include="..\Common\b2BlockAllocator.h" />
     <ClInclude Include="..\Common\b2Draw.h" />
+    <ClInclude Include="..\Common\b2Filter.h" />
     <ClInclude Include="..\Common\b2GrowableStack.h" />
     <ClInclude Include="..\Common\b2Math.h" />
     <ClInclude Include="..\Common\b2Settings.h" />

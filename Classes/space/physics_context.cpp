@@ -301,19 +301,16 @@ bool physics_context::rectangleQuery(
 	rect.SetAsBox(dimensions.x * 0.5, dimensions.y * 0.5);
 	b2Transform xf;
 	xf.Set(toBox2D(center), angle);
+	b2Filter filter;
+	filter.maskBits = to_uint(type);
+	filter.layers = to_uint(layers);
 
 	b2QueryCallback callback = [type, layers, &collision](b2Fixture* fixture) -> bool {
-		GObject* obj = static_cast<GObject*>(fixture->GetUserData());
-		GType _type = static_cast<GType>(fixture->GetFilterData().categoryBits);
-		PhysicsLayers _layers = static_cast<PhysicsLayers>(fixture->GetFilterData().layers);
-		if (bitwise_and_bool(type, _type) && bitwise_and_bool(_layers, layers)) {
-			collision = true;
-			return false;
-		}
-		return true;
+		collision = true;
+		return false;
 	};
 
-	space->world->QueryShape(callback, xf, &rect);
+	space->world->QueryShape(callback, xf, &rect, filter);
 
 	return collision;
 }
@@ -345,18 +342,19 @@ unordered_set<GObject*> physics_context::rectangleObjectQuery(
 	rect.SetAsBox(dimensions.x * 0.5, dimensions.y * 0.5);
 	b2Transform xf;
 	xf.Set(toBox2D(center), angle);
+	b2Filter filter;
+	filter.maskBits = to_uint(type);
+	filter.layers = to_uint(layers);
 
 	b2QueryCallback callback = [type, layers, &result](b2Fixture* fixture) -> bool {
 		GObject* obj = static_cast<GObject*>(fixture->GetUserData());
-		GType _type = static_cast<GType>(fixture->GetFilterData().categoryBits);
-		PhysicsLayers _layers = static_cast<PhysicsLayers>(fixture->GetFilterData().layers);
-		if (bitwise_and_bool(type, _type) && bitwise_and_bool(_layers, layers) && obj) {
+		if (obj) {
 			result.insert(obj);
 		}
 		return true;
 	};
 
-	space->world->QueryShape(callback, xf, &rect);
+	space->world->QueryShape(callback, xf, &rect, filter);
 
 	return result;
 }
@@ -385,18 +383,19 @@ unordered_set<GObject*> physics_context::radiusQuery(
 	circle.m_radius = radius;
 	b2Transform xf;
 	xf.Set(toBox2D(center), 0.0);
+	b2Filter filter;
+	filter.maskBits = to_uint(type);
+	filter.layers = to_uint(layers);
 
 	b2QueryCallback callback = [type, layers, center, radius, &result](b2Fixture* fixture) -> bool {
 		GObject* obj = static_cast<GObject*>(fixture->GetUserData());
-		GType _type = static_cast<GType>(fixture->GetFilterData().categoryBits);
-		PhysicsLayers _layers = static_cast<PhysicsLayers>(fixture->GetFilterData().layers);
-		if (bitwise_and_bool(type, _type) && bitwise_and_bool(_layers, layers) && obj) {
+		if (obj) {
 			result.insert(obj);
 		}
 		return true;
 	};
 
-	space->world->QueryShape(callback, xf, &circle);
+	space->world->QueryShape(callback, xf, &circle, filter);
 
 	return result;
 }

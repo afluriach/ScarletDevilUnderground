@@ -19,6 +19,7 @@
 #ifndef B2_WORLD_H
 #define B2_WORLD_H
 
+#include <Box2D/Common/b2Filter.h>
 #include <Box2D/Common/b2Math.h>
 #include <Box2D/Common/b2BlockAllocator.h>
 #include <Box2D/Common/b2StackAllocator.h>
@@ -113,7 +114,13 @@ public:
 	/// @param aabb the query box.
 	void QueryAABB(b2QueryCallback callback, const b2AABB& aabb) const;
 
-	void QueryShape(b2QueryCallback callback, const b2Transform& xf, const b2Shape* shape) const;
+	void QueryShape(
+		b2QueryCallback callback,
+		//The transform applied to the shape (position & angle), as though it were in a body.
+		const b2Transform& xf,
+		const b2Shape* shape,
+		const b2Filter& filter
+	) const;
 
 	/// Ray-cast the world for all fixtures in the path of the ray. Your callback
 	/// controls whether you get the closest point, any point, or n-points.

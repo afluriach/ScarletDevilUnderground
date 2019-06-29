@@ -19,6 +19,7 @@
 #ifndef B2_FIXTURE_H
 #define B2_FIXTURE_H
 
+#include <Box2D/Common/b2Filter.h>
 #include <Box2D/Dynamics/b2Body.h>
 #include <Box2D/Collision/b2Collision.h>
 #include <Box2D/Collision/Shapes/b2Shape.h>
@@ -27,32 +28,6 @@ class b2BlockAllocator;
 class b2Body;
 class b2BroadPhase;
 class b2Fixture;
-
-/// This holds contact filtering data.
-struct b2Filter
-{
-	b2Filter()
-	{
-		categoryBits = 0x0001;
-		maskBits = 0xFFFF;
-		groupIndex = 0;
-		layers = 0;
-	}
-
-	/// The collision category bits. Normally you would just set one bit.
-	uint32 categoryBits;
-
-	/// The collision mask bits. This states the categories that this
-	/// shape would accept for collision.
-	uint32 maskBits;
-
-	/// Collision groups allow a certain group of objects to never collide (negative)
-	/// or always collide (positive). Zero means no collision group. Non-zero group
-	/// filtering always wins against the mask bits.
-	int32 groupIndex;
-
-	uint32 layers;
-};
 
 /// A fixture definition is used to create a fixture. This class defines an
 /// abstract fixture definition. You can reuse fixture definitions safely.

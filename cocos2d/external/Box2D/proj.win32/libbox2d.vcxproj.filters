@@ -162,6 +162,9 @@
     <ClCompile Include="..\Rope\b2Rope.cpp">
       <Filter>Rope</Filter>
     </ClCompile>
+    <ClCompile Include="..\Common\b2Filter.cpp">
+      <Filter>Common</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\Collision\b2BroadPhase.h">
@@ -303,5 +306,8 @@
       <Filter>Rope</Filter>
     </ClInclude>
     <ClInclude Include="..\Box2D.h" />
+    <ClInclude Include="..\Common\b2Filter.h">
+      <Filter>Common</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>
