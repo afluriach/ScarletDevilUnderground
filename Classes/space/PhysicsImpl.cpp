@@ -338,7 +338,7 @@ void PhysicsImpl::addCollide(GType a, GType b)
 
 void PhysicsImpl::AddHandler(
 	collision_type types,
-	int(PhysicsImpl::*begin)(GObject*, GObject*, b2Contact*),
+	void (PhysicsImpl::*begin)(GObject*, GObject*, b2Contact*),
 	void(PhysicsImpl::*end)(GObject*, GObject*, b2Contact*)
 ){
 	auto actual = types;
@@ -363,7 +363,7 @@ void PhysicsImpl::logHandler(const string& name, GObject* a, GObject* b)
         log("%s: %s, %s", name, a->getName(), b->getName());
 }
 
-int PhysicsImpl::playerEnemyBegin(GObject* a, GObject* b, b2Contact* arb)
+void PhysicsImpl::playerEnemyBegin(GObject* a, GObject* b, b2Contact* arb)
 {    
     Player* p = dynamic_cast<Player*>(a);
     Enemy* e = dynamic_cast<Enemy*>(b);
@@ -377,8 +377,6 @@ int PhysicsImpl::playerEnemyBegin(GObject* a, GObject* b, b2Contact* arb)
 		p->onTouchAgent(e);
 		e->onTouchAgent(p);
 	}
-
-    return 1;
 }
 
 void PhysicsImpl::playerEnemyEnd(GObject* a, GObject* b, b2Contact* arb)
@@ -394,7 +392,7 @@ void PhysicsImpl::playerEnemyEnd(GObject* a, GObject* b, b2Contact* arb)
 	logHandler("playerEnemyEnd", a,b);
 }
 
-int PhysicsImpl::playerEnemyBulletBegin(GObject* playerObj, GObject* bullet, b2Contact* contact)
+void PhysicsImpl::playerEnemyBulletBegin(GObject* playerObj, GObject* bullet, b2Contact* contact)
 {
     Player* player = dynamic_cast<Player*>(playerObj);
 	Bullet* _bullet = dynamic_cast<Bullet*>(bullet);
@@ -408,11 +406,9 @@ int PhysicsImpl::playerEnemyBulletBegin(GObject* playerObj, GObject* bullet, b2C
 		_bullet->onAgentCollide(player, manifold.normal);
 		player->onBulletCollide(_bullet);
 	}
-
-    return 1;
 }
 
-int PhysicsImpl::playerBulletEnemyBegin(GObject* a, GObject* b, b2Contact* contact)
+void PhysicsImpl::playerBulletEnemyBegin(GObject* a, GObject* b, b2Contact* contact)
 {    
     Bullet* bullet = dynamic_cast<Bullet*>(a);
     Agent* _enemy_agent = dynamic_cast<Agent*>(b);
@@ -431,11 +427,9 @@ int PhysicsImpl::playerBulletEnemyBegin(GObject* a, GObject* b, b2Contact* conta
 
     if(logPhysicsHandlers)
         log("%s hit by %s", b->getName(), a->getName());
-    
-    return 1;
 }
 
-int PhysicsImpl::bulletBulletBegin(GObject* a, GObject* b, b2Contact* arb)
+void PhysicsImpl::bulletBulletBegin(GObject* a, GObject* b, b2Contact* arb)
 {
 	Bullet* _a = dynamic_cast<Bullet*>(a);
 	Bullet* _b = dynamic_cast<Bullet*>(b);
@@ -444,19 +438,15 @@ int PhysicsImpl::bulletBulletBegin(GObject* a, GObject* b, b2Contact* arb)
 		_a->onBulletCollide(_b);
 		_b->onBulletCollide(_a);
 	}
-
-	return 0;
 }
 
-int PhysicsImpl::playerFlowerBegin(GObject* a, GObject* b, b2Contact* arb)
+void PhysicsImpl::playerFlowerBegin(GObject* a, GObject* b, b2Contact* arb)
 {
     if(logPhysicsHandlers)
         log("%s stepped on", b->getName());
-    
-    return 1;
 }
 
-int PhysicsImpl::playerPickupBegin(GObject* a, GObject* b, b2Contact* arb)
+void PhysicsImpl::playerPickupBegin(GObject* a, GObject* b, b2Contact* arb)
 {
     Player* p = dynamic_cast<Player*>(a);
     
@@ -472,11 +462,9 @@ int PhysicsImpl::playerPickupBegin(GObject* a, GObject* b, b2Contact* arb)
 	else if (auto _map = dynamic_cast<MapFragment*>(b)) {
 		_map->onAcquire();
 	}
-    
-    return 0;
 }
 
-int PhysicsImpl::bulletEnvironment(GObject* bullet, GObject* environment, b2Contact* contact)
+void PhysicsImpl::bulletEnvironment(GObject* bullet, GObject* environment, b2Contact* contact)
 {
 	Bullet* _b = dynamic_cast<Bullet*>(bullet);
 	bool _sensor = environment->getBodySensor();
@@ -491,11 +479,9 @@ int PhysicsImpl::bulletEnvironment(GObject* bullet, GObject* environment, b2Cont
 			}
 		}
 	}
-    
-    return 1;
 }
 
-int PhysicsImpl::bulletWall(GObject* bullet, GObject* wall, b2Contact* contact)
+void PhysicsImpl::bulletWall(GObject* bullet, GObject* wall, b2Contact* contact)
 {
 	Bullet* _b = dynamic_cast<Bullet*>(bullet);
 	Wall* _w = dynamic_cast<Wall*>(wall);
@@ -506,26 +492,19 @@ int PhysicsImpl::bulletWall(GObject* bullet, GObject* wall, b2Contact* contact)
 		if(!_b->applyRicochet(-1.0 * manifold->localNormal))
 			_b->onWallCollide(_w);
 	}
-
-    return 1;
 }
 
-int PhysicsImpl::floorObjectBegin(GObject* floorSegment, GObject* obj, b2Contact* arb)
+void PhysicsImpl::floorObjectBegin(GObject* floorSegment, GObject* obj, b2Contact* arb)
 {
 	FloorSegment* fs = dynamic_cast<FloorSegment*>(floorSegment);
 
 	if (dynamic_cast<FloorSegment*>(obj)) {
 		log("GSpace::floorObjectBegin: FloorSegment should not collide with another one.");
-		return 0;
 	}
-
 	else if (!fs || !obj) {
-		return 0;
 	}
-
 	else{
 		obj->onContactFloorSegment(fs);
-		return 1;
 	}
 }
 
@@ -547,7 +526,7 @@ void PhysicsImpl::floorObjectEnd(GObject* floorSegment, GObject* obj, b2Contact*
 	}
 }
 
-int PhysicsImpl::playerAreaSensorBegin(GObject* a, GObject *b, b2Contact* arb)
+void PhysicsImpl::playerAreaSensorBegin(GObject* a, GObject *b, b2Contact* arb)
 {
 	Player* p = dynamic_cast<Player*>(a);
 	AreaSensor* as = dynamic_cast<AreaSensor*>(b);
@@ -555,7 +534,6 @@ int PhysicsImpl::playerAreaSensorBegin(GObject* a, GObject *b, b2Contact* arb)
 	if (p && as) {
 		as->onPlayerContact(p);
 	}
-	return 1;
 }
 
 void PhysicsImpl::playerAreaSensorEnd(GObject* a, GObject *b, b2Contact* arb)
@@ -568,7 +546,7 @@ void PhysicsImpl::playerAreaSensorEnd(GObject* a, GObject *b, b2Contact* arb)
 	}
 }
 
-int PhysicsImpl::enemyAreaSensorBegin(GObject* a, GObject *b, b2Contact* arb)
+void PhysicsImpl::enemyAreaSensorBegin(GObject* a, GObject *b, b2Contact* arb)
 {
 	Enemy* e = dynamic_cast<Enemy*>(a);
 	AreaSensor* as = dynamic_cast<AreaSensor*>(b);
@@ -576,7 +554,6 @@ int PhysicsImpl::enemyAreaSensorBegin(GObject* a, GObject *b, b2Contact* arb)
 	if (e && as) {
 		as->onEnemyContact(e);
 	}
-	return 1;
 }
 
 void PhysicsImpl::enemyAreaSensorEnd(GObject* a, GObject *b, b2Contact* arb)
@@ -589,7 +566,7 @@ void PhysicsImpl::enemyAreaSensorEnd(GObject* a, GObject *b, b2Contact* arb)
 	}
 }
 
-int PhysicsImpl::npcAreaSensorBegin(GObject* a, GObject *b, b2Contact* arb)
+void PhysicsImpl::npcAreaSensorBegin(GObject* a, GObject *b, b2Contact* arb)
 {
 	Agent* npc = dynamic_cast<Agent*>(a);
 	AreaSensor* as = dynamic_cast<AreaSensor*>(b);
@@ -597,7 +574,6 @@ int PhysicsImpl::npcAreaSensorBegin(GObject* a, GObject *b, b2Contact* arb)
 	if (npc && as) {
 		as->onNPCContact(npc);
 	}
-	return 1;
 }
 
 void PhysicsImpl::npcAreaSensorEnd(GObject* a, GObject *b, b2Contact* arb)
@@ -610,15 +586,13 @@ void PhysicsImpl::npcAreaSensorEnd(GObject* a, GObject *b, b2Contact* arb)
 	}
 }
 
-int PhysicsImpl::environmentAreaSensorBegin(GObject* obj, GObject* areaSensor, b2Contact* arb)
+void PhysicsImpl::environmentAreaSensorBegin(GObject* obj, GObject* areaSensor, b2Contact* arb)
 {
 	AreaSensor* _s = dynamic_cast<AreaSensor*>(areaSensor);
 
 	if (_s && obj) {
 		_s->onEnvironmentalObjectContact(obj);
 	}
-
-	return 1;
 }
 
 void PhysicsImpl::environmentAreaSensorEnd(GObject* areaSensor, GObject* obj, b2Contact* arb)
@@ -630,13 +604,11 @@ void PhysicsImpl::environmentAreaSensorEnd(GObject* areaSensor, GObject* obj, b2
 	}
 }
 
-int PhysicsImpl::sensorStart(RadarSensor* radar, GObject* target, b2Contact* arb)
+void PhysicsImpl::sensorStart(RadarSensor* radar, GObject* target, b2Contact* arb)
 {
 	if (logPhysicsHandlers)
 		log("radar sensed %s.", target->getName());
 	radar->radarCollision(target);
-
-	return 1;
 }
 
 void PhysicsImpl::sensorEnd(RadarSensor* radar, GObject* target, b2Contact* arb)

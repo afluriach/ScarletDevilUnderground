@@ -69,34 +69,34 @@ protected:
 
 	void AddHandler(
 		collision_type types,
-		int(PhysicsImpl::*begin)(GObject*, GObject*, b2Contact*),
+		void (PhysicsImpl::*begin)(GObject*, GObject*, b2Contact*),
 		void(PhysicsImpl::*end)(GObject*, GObject*, b2Contact*)
 	);
 
 	void logHandler(const string& base, b2Contact* arb);
 	void logHandler(const string& name, GObject* a, GObject* b);
 
-	int playerEnemyBegin(GObject* a, GObject* b, b2Contact* arb);
+	void playerEnemyBegin(GObject* a, GObject* b, b2Contact* arb);
 	void playerEnemyEnd(GObject* a, GObject* b, b2Contact* arb);
-	int playerEnemyBulletBegin(GObject* playerObj, GObject* bullet, b2Contact* arb);
-	int playerBulletEnemyBegin(GObject* a, GObject* b, b2Contact* arb);
-	int bulletBulletBegin(GObject* a, GObject* b, b2Contact* arb);
-	int playerFlowerBegin(GObject* a, GObject* b, b2Contact* arb);
-	int playerPickupBegin(GObject* a, GObject* b, b2Contact* arb);
-	int bulletEnvironment(GObject* a, GObject* b, b2Contact* arb);
-	int bulletWall(GObject* bullet, GObject* unused, b2Contact* arb);
-	int floorObjectBegin(GObject* floorSegment, GObject* obj, b2Contact* arb);
+	void playerEnemyBulletBegin(GObject* playerObj, GObject* bullet, b2Contact* arb);
+	void playerBulletEnemyBegin(GObject* a, GObject* b, b2Contact* arb);
+	void bulletBulletBegin(GObject* a, GObject* b, b2Contact* arb);
+	void playerFlowerBegin(GObject* a, GObject* b, b2Contact* arb);
+	void playerPickupBegin(GObject* a, GObject* b, b2Contact* arb);
+	void bulletEnvironment(GObject* a, GObject* b, b2Contact* arb);
+	void bulletWall(GObject* bullet, GObject* unused, b2Contact* arb);
+	void floorObjectBegin(GObject* floorSegment, GObject* obj, b2Contact* arb);
 	void floorObjectEnd(GObject* floorSegment, GObject* obj, b2Contact* arb);
-	int playerAreaSensorBegin(GObject* a, GObject *b, b2Contact* arb);
+	void playerAreaSensorBegin(GObject* a, GObject *b, b2Contact* arb);
 	void playerAreaSensorEnd(GObject* a, GObject *b, b2Contact* arb);
-	int enemyAreaSensorBegin(GObject* a, GObject *b, b2Contact* arb);
+	void enemyAreaSensorBegin(GObject* a, GObject *b, b2Contact* arb);
 	void enemyAreaSensorEnd(GObject* a, GObject *b, b2Contact* arb);
-	int npcAreaSensorBegin(GObject* a, GObject *b, b2Contact* arb);
+	void npcAreaSensorBegin(GObject* a, GObject *b, b2Contact* arb);
 	void npcAreaSensorEnd(GObject* a, GObject *b, b2Contact* arb);
-	int environmentAreaSensorBegin(GObject* obj, GObject* areaSensor, b2Contact* arb);
+	void environmentAreaSensorBegin(GObject* obj, GObject* areaSensor, b2Contact* arb);
 	void environmentAreaSensorEnd(GObject* obj, GObject* areaSensor, b2Contact* arb);
 
-	int sensorStart(RadarSensor* radar, GObject* target, b2Contact* arb);
+	void sensorStart(RadarSensor* radar, GObject* target, b2Contact* arb);
 	void sensorEnd(RadarSensor* radar, GObject* target, b2Contact* arb);
 
 	GSpace* gspace;
@@ -107,7 +107,7 @@ protected:
 
 	unordered_map<
 		collision_type,
-		pair<int(PhysicsImpl::*)(GObject*, GObject*, b2Contact*), bool>,
+		pair<void(PhysicsImpl::*)(GObject*, GObject*, b2Contact*), bool>,
 		boost::hash<collision_type>
 	> beginContactHandlers;
 	
