@@ -24,27 +24,28 @@
 #include "Upgrade.hpp"
 #include "Wall.hpp"
 
-void playerEnemyBegin(GObject* a, GObject* b, b2Contact* arb);
-void playerEnemyEnd(GObject* a, GObject* b, b2Contact* arb);
-void playerEnemyBulletBegin(GObject* playerObj, GObject* bullet, b2Contact* arb);
-void playerBulletEnemyBegin(GObject* a, GObject* b, b2Contact* arb);
-void bulletBulletBegin(GObject* a, GObject* b, b2Contact* arb);
-void playerPickupBegin(GObject* a, GObject* b, b2Contact* arb);
-void bulletEnvironment(GObject* a, GObject* b, b2Contact* arb);
-void bulletWall(GObject* bullet, GObject* unused, b2Contact* arb);
-void floorObjectBegin(GObject* floorSegment, GObject* obj, b2Contact* arb);
-void floorObjectEnd(GObject* floorSegment, GObject* obj, b2Contact* arb);
-void playerAreaSensorBegin(GObject* a, GObject *b, b2Contact* arb);
-void playerAreaSensorEnd(GObject* a, GObject *b, b2Contact* arb);
-void enemyAreaSensorBegin(GObject* a, GObject *b, b2Contact* arb);
-void enemyAreaSensorEnd(GObject* a, GObject *b, b2Contact* arb);
-void npcAreaSensorBegin(GObject* a, GObject *b, b2Contact* arb);
-void npcAreaSensorEnd(GObject* a, GObject *b, b2Contact* arb);
-void environmentAreaSensorBegin(GObject* obj, GObject* areaSensor, b2Contact* arb);
-void environmentAreaSensorEnd(GObject* obj, GObject* areaSensor, b2Contact* arb);
-
 void sensorStart(RadarSensor* radar, GObject* target, b2Contact* arb);
 void sensorEnd(RadarSensor* radar, GObject* target, b2Contact* arb);
+
+template<typename T, typename U>
+pair<T*, U*> getCastObjects(b2Contact* contact)
+{
+	GObject* a = static_cast<GObject*>(contact->GetFixtureA()->GetUserData());
+	GObject* b = static_cast<GObject*>(contact->GetFixtureB()->GetUserData());
+
+	return make_pair(
+		dynamic_cast<T*>(a),
+		dynamic_cast<U*>(b)
+	);
+}
+
+pair<GObject*, GObject*> getObjects(b2Contact* contact)
+{
+	GObject* a = static_cast<GObject*>(contact->GetFixtureA()->GetUserData());
+	GObject* b = static_cast<GObject*>(contact->GetFixtureB()->GetUserData());
+
+	return make_pair(a, b);
+}
 
 bool isReverseMatch(PhysicsImpl::collision_type pairA, PhysicsImpl::collision_type pairB)
 {
@@ -61,24 +62,23 @@ PhysicsImpl::collision_type getCanonicalPair(PhysicsImpl::collision_type in)
 	return result;
 }
 
-PhysicsImpl::contact_func makeObjectPairFunc(PhysicsImpl::pairwise_obj_func f, PhysicsImpl::collision_type types)
+template <typename T, typename U>
+PhysicsImpl::contact_func makeObjectPairFunc(void(*f)(T*, U*, b2Contact*), PhysicsImpl::collision_type types)
 {
 	return [f, types](b2Contact* contact) -> void {
 		auto crntTypes = getFixtureTypes(contact);
-		PhysicsImpl::object_pair objects = getObjects(contact);
+		T* t = nullptr;
+		U* u = nullptr;
 
 		if (types == crntTypes) {
-			f(objects.first, objects.second, contact);
+			tie(t, u) = getCastObjects<T, U>(contact);
 		}
 		else if (isReverseMatch(crntTypes, types)) {
-			f(objects.second, objects.first, contact);
+			tie(u, t) = getCastObjects<U, T>(contact);
 		}
-		else {
-			log(
-				"makeObjectPairFunc: called for invalid typepair %X,%X",
-				to_uint(crntTypes.first),
-				to_uint(crntTypes.second)
-			);
+
+		if (t && u) {
+			f(t, u, contact);
 		}
 	};
 }
@@ -131,14 +131,6 @@ PhysicsImpl::contact_func makeSensorHandler(PhysicsImpl::radarsensor_func f, Phy
 			f(sensor, objects.first, contact);
 		}
 	};
-}
-
-pair<GObject*, GObject*> getObjects(b2Contact* contact)
-{
-	GObject* a = static_cast<GObject*>(contact->GetFixtureA()->GetUserData());
-	GObject* b = static_cast<GObject*>(contact->GetFixtureB()->GetUserData());
-
-	return make_pair(a, b);
 }
 
 #define _getTypes() tie(typeA,typeB) = getFixtureTypes(contact)
@@ -207,37 +199,6 @@ AddHandler( \
 )
 
 #define _collide(a,b) addCollide(GType::a, GType::b);
-
-void PhysicsImpl::addCollisionHandlers()
-{
-	_addSensorHandler(playerGrazeRadar, enemyBullet);
-	_addSensorHandler(enemySensor, bomb);
-	_addSensorHandler(enemySensor, enemy);
-	_addSensorHandler(enemySensor, enemyBullet);
-	_addSensorHandler(enemySensor, player);
-	_addSensorHandler(enemySensor, playerBullet);
-
-	_addHandler(player, enemy, playerEnemyBegin, playerEnemyEnd);
-	_addHandlerNoEnd(player, enemyBullet, playerEnemyBulletBegin);
-	_addHandlerNoEnd(playerBullet, enemy, playerBulletEnemyBegin);
-	_addHandlerNoEnd(playerBullet, environment, bulletEnvironment);
-	_addHandlerNoEnd(enemyBullet, environment, bulletEnvironment);
-	_addHandlerNoEnd(playerBullet, enemyBullet, bulletBulletBegin);
-    _addHandlerNoEnd(player,playerPickup,playerPickupBegin);
-	_addHandlerNoEnd(playerBullet, wall, bulletWall);
-	_addHandlerNoEnd(enemyBullet, wall, bulletWall);    
-
-	_addHandler(floorSegment, player, floorObjectBegin, floorObjectEnd);
-	_addHandler(floorSegment, enemy, floorObjectBegin, floorObjectEnd);
-	_addHandler(floorSegment, npc, floorObjectBegin, floorObjectEnd);
-	_addHandler(floorSegment, environment, floorObjectBegin, floorObjectEnd);
-	_addHandler(floorSegment, bomb, floorObjectBegin, floorObjectEnd);
-
-	_addHandler(player, areaSensor, playerAreaSensorBegin, playerAreaSensorEnd);
-	_addHandler(enemy, areaSensor, enemyAreaSensorBegin, enemyAreaSensorEnd);
-	_addHandler(npc, areaSensor, npcAreaSensorBegin, npcAreaSensorEnd);
-	_addHandler(environment, areaSensor, environmentAreaSensorBegin, environmentAreaSensorEnd);
-}
 
 pair<b2Body*, b2Fixture*> PhysicsImpl::createCircleBody(
 	const SpaceVect& center,
@@ -381,79 +342,44 @@ void PhysicsImpl::AddHandler(
 	addCollide(types.first, types.second);
 }
 
-void playerEnemyBegin(GObject* a, GObject* b, b2Contact* arb)
+void playerEnemyBegin(Player* p, Enemy* e, b2Contact* arb)
 {    
-    Player* p = dynamic_cast<Player*>(a);
-    Enemy* e = dynamic_cast<Enemy*>(b);
-    
-    if(!p)
-        log("%s is not a Player", a->getName().c_str());
-    if(!e)
-        log("%s is not an Enemy", b->getName().c_str());
-    
-	if (p && e) {
-		p->onTouchAgent(e);
-		e->onTouchAgent(p);
-	}
+	p->onTouchAgent(e);
+	e->onTouchAgent(p);
 }
 
-void playerEnemyEnd(GObject* a, GObject* b, b2Contact* arb)
+void playerEnemyEnd(Player* p, Enemy* e, b2Contact* arb)
 {
-	Player* p = dynamic_cast<Player*>(a);
-	Enemy* e = dynamic_cast<Enemy*>(b);
-
-	if (p && e) {
-		p->onEndTouchAgent(e);
-		e->onEndTouchAgent(p);
-	}    
+	p->onEndTouchAgent(e);
+	e->onEndTouchAgent(p);    
 }
 
-void playerEnemyBulletBegin(GObject* playerObj, GObject* bullet, b2Contact* contact)
+void playerEnemyBulletBegin(Player* player, Bullet* _bullet, b2Contact* contact)
 {
-    Player* player = dynamic_cast<Player*>(playerObj);
-	Bullet* _bullet = dynamic_cast<Bullet*>(bullet);
 	b2WorldManifold manifold;
 	contact->GetWorldManifold(&manifold);
 
-	if (player && _bullet) {
-		_bullet->onAgentCollide(player, manifold.normal);
-		player->onBulletCollide(_bullet);
-	}
+	_bullet->onAgentCollide(player, manifold.normal);
+	player->onBulletCollide(_bullet);
 }
 
-void playerBulletEnemyBegin(GObject* a, GObject* b, b2Contact* contact)
+void playerBulletEnemyBegin(Bullet* bullet, Agent* _enemy_agent, b2Contact* contact)
 {    
-    Bullet* bullet = dynamic_cast<Bullet*>(a);
-    Agent* _enemy_agent = dynamic_cast<Agent*>(b);
 	b2WorldManifold manifold;
 	contact->GetWorldManifold(&manifold);
 
-    if(!bullet)
-        log("%s is not a Bullet", a->getName().c_str());
-    if(!_enemy_agent)
-        log("%s is not an Enemy", b->getName().c_str());
-    
-	if (bullet && _enemy_agent){
-		bullet->onAgentCollide(_enemy_agent, manifold.normal);
-		_enemy_agent->onBulletCollide(bullet);
-	}
+	bullet->onAgentCollide(_enemy_agent, manifold.normal);
+	_enemy_agent->onBulletCollide(bullet);
 }
 
-void bulletBulletBegin(GObject* a, GObject* b, b2Contact* arb)
+void bulletBulletBegin(Bullet* _a, Bullet* _b, b2Contact* arb)
 {
-	Bullet* _a = dynamic_cast<Bullet*>(a);
-	Bullet* _b = dynamic_cast<Bullet*>(b);
-
-	if (_a && _b) {
-		_a->onBulletCollide(_b);
-		_b->onBulletCollide(_a);
-	}
+	_a->onBulletCollide(_b);
+	_b->onBulletCollide(_a);
 }
 
-void playerPickupBegin(GObject* a, GObject* b, b2Contact* arb)
+void playerPickupBegin(Player* p, GObject* b, b2Contact* arb)
 {
-    Player* p = dynamic_cast<Player*>(a);
-    
     if(auto c = dynamic_cast<Collectible*>(b)){
         p->onCollectible(c);
     }
@@ -468,13 +394,12 @@ void playerPickupBegin(GObject* a, GObject* b, b2Contact* arb)
 	}
 }
 
-void bulletEnvironment(GObject* bullet, GObject* environment, b2Contact* contact)
+void bulletEnvironment(Bullet* _b, GObject* environment, b2Contact* contact)
 {
-	Bullet* _b = dynamic_cast<Bullet*>(bullet);
 	bool _sensor = environment->getBodySensor();
 	b2Manifold* manifold = contact->GetManifold();
 
-	if (_b && environment && !_sensor) {
+	if (environment && !_sensor) {
 		if (!_b->applyRicochet(-1.0 * manifold->localNormal)) {
 			_b->onEnvironmentCollide(environment);
 
@@ -485,127 +410,65 @@ void bulletEnvironment(GObject* bullet, GObject* environment, b2Contact* contact
 	}
 }
 
-void bulletWall(GObject* bullet, GObject* wall, b2Contact* contact)
+void bulletWall(Bullet* _b, Wall* _w, b2Contact* contact)
 {
-	Bullet* _b = dynamic_cast<Bullet*>(bullet);
-	Wall* _w = dynamic_cast<Wall*>(wall);
-	bool _sensor = wall->getBodySensor();
+	bool _sensor = _w->getBodySensor();
 	b2Manifold* manifold = contact->GetManifold();
 
-	if (_b && _w && !_sensor) {
+	if (!_sensor) {
 		if(!_b->applyRicochet(-1.0 * manifold->localNormal))
 			_b->onWallCollide(_w);
 	}
 }
 
-void floorObjectBegin(GObject* floorSegment, GObject* obj, b2Contact* arb)
+void floorObjectBegin(FloorSegment* fs, GObject* obj, b2Contact* arb)
 {
-	FloorSegment* fs = dynamic_cast<FloorSegment*>(floorSegment);
-
-	if (dynamic_cast<FloorSegment*>(obj)) {
-		log("GSpace::floorObjectBegin: FloorSegment should not collide with another one.");
-	}
-	else if (!fs || !obj) {
-	}
-	else{
-		obj->onContactFloorSegment(fs);
-	}
+	obj->onContactFloorSegment(fs);
 }
 
-void floorObjectEnd(GObject* floorSegment, GObject* obj, b2Contact* arb)
+void floorObjectEnd(FloorSegment* fs, GObject* obj, b2Contact* arb)
 {
-	FloorSegment* fs = dynamic_cast<FloorSegment*>(floorSegment);
-
-	if (dynamic_cast<FloorSegment*>(obj)) {
-		log("GSpace::floorObjectEnd: FloorSegment should not collide with another one.");
-		return;
-	}
-
-	else if (!fs || !obj) {
-		return;
-	}
-
-	else {
-		obj->onEndContactFloorSegment(fs);
-	}
+	obj->onEndContactFloorSegment(fs);
 }
 
-void playerAreaSensorBegin(GObject* a, GObject *b, b2Contact* arb)
+void playerAreaSensorBegin(Player* p, AreaSensor* as, b2Contact* arb)
 {
-	Player* p = dynamic_cast<Player*>(a);
-	AreaSensor* as = dynamic_cast<AreaSensor*>(b);
-
-	if (p && as) {
-		as->onPlayerContact(p);
-	}
+	as->onPlayerContact(p);
 }
 
-void playerAreaSensorEnd(GObject* a, GObject *b, b2Contact* arb)
+void playerAreaSensorEnd(Player* p, AreaSensor* as, b2Contact* arb)
 {
-	Player* p = dynamic_cast<Player*>(a);
-	AreaSensor* as = dynamic_cast<AreaSensor*>(b);
-
-	if (p && as) {
-		as->onPlayerEndContact(p);
-	}
+	as->onPlayerEndContact(p);
 }
 
-void enemyAreaSensorBegin(GObject* a, GObject *b, b2Contact* arb)
+void enemyAreaSensorBegin(Enemy* e, AreaSensor* as, b2Contact* arb)
 {
-	Enemy* e = dynamic_cast<Enemy*>(a);
-	AreaSensor* as = dynamic_cast<AreaSensor*>(b);
-
-	if (e && as) {
-		as->onEnemyContact(e);
-	}
+	as->onEnemyContact(e);
 }
 
-void enemyAreaSensorEnd(GObject* a, GObject *b, b2Contact* arb)
+void enemyAreaSensorEnd(Enemy* e, AreaSensor* as, b2Contact* arb)
 {
-	Enemy* e = dynamic_cast<Enemy*>(a);
-	AreaSensor* as = dynamic_cast<AreaSensor*>(b);
-
-	if (e && as) {
-		as->onEnemyEndContact(e);
-	}
+	as->onEnemyEndContact(e);
 }
 
-void npcAreaSensorBegin(GObject* a, GObject *b, b2Contact* arb)
+void npcAreaSensorBegin(Agent* npc, AreaSensor* as, b2Contact* arb)
 {
-	Agent* npc = dynamic_cast<Agent*>(a);
-	AreaSensor* as = dynamic_cast<AreaSensor*>(b);
-
-	if (npc && as) {
-		as->onNPCContact(npc);
-	}
+	as->onNPCContact(npc);
 }
 
-void npcAreaSensorEnd(GObject* a, GObject *b, b2Contact* arb)
+void npcAreaSensorEnd(Agent* npc, AreaSensor* as, b2Contact* arb)
 {
-	Agent* npc = dynamic_cast<Agent*>(a);
-	AreaSensor* as = dynamic_cast<AreaSensor*>(b);
-
-	if (npc && as) {
-		as->onNPCEndContact(npc);
-	}
+	as->onNPCEndContact(npc);
 }
 
-void environmentAreaSensorBegin(GObject* obj, GObject* areaSensor, b2Contact* arb)
+void environmentAreaSensorBegin(GObject* obj, AreaSensor* _s, b2Contact* arb)
 {
-	AreaSensor* _s = dynamic_cast<AreaSensor*>(areaSensor);
-
-	if (_s && obj) {
-		_s->onEnvironmentalObjectContact(obj);
-	}
+	_s->onEnvironmentalObjectContact(obj);
 }
 
-void environmentAreaSensorEnd(GObject* areaSensor, GObject* obj, b2Contact* arb)
+void environmentAreaSensorEnd(GObject* obj, AreaSensor* _s, b2Contact* arb)
 {
-	AreaSensor* _s = dynamic_cast<AreaSensor*>(areaSensor);
-
-	if (_s && obj) {
-		_s->onEnvironmentalObjectEndContact(obj);
-	}
+	_s->onEnvironmentalObjectEndContact(obj);
 }
 
 void sensorStart(RadarSensor* radar, GObject* target, b2Contact* arb)
@@ -616,4 +479,35 @@ void sensorStart(RadarSensor* radar, GObject* target, b2Contact* arb)
 void sensorEnd(RadarSensor* radar, GObject* target, b2Contact* arb)
 {
 	radar->radarEndCollision(target);
+}
+
+void PhysicsImpl::addCollisionHandlers()
+{
+	_addSensorHandler(playerGrazeRadar, enemyBullet);
+	_addSensorHandler(enemySensor, bomb);
+	_addSensorHandler(enemySensor, enemy);
+	_addSensorHandler(enemySensor, enemyBullet);
+	_addSensorHandler(enemySensor, player);
+	_addSensorHandler(enemySensor, playerBullet);
+
+	_addHandler(player, enemy, playerEnemyBegin, playerEnemyEnd);
+	_addHandlerNoEnd(player, enemyBullet, playerEnemyBulletBegin);
+	_addHandlerNoEnd(playerBullet, enemy, playerBulletEnemyBegin);
+	_addHandlerNoEnd(playerBullet, environment, bulletEnvironment);
+	_addHandlerNoEnd(enemyBullet, environment, bulletEnvironment);
+	_addHandlerNoEnd(playerBullet, enemyBullet, bulletBulletBegin);
+	_addHandlerNoEnd(player, playerPickup, playerPickupBegin);
+	_addHandlerNoEnd(playerBullet, wall, bulletWall);
+	_addHandlerNoEnd(enemyBullet, wall, bulletWall);
+
+	_addHandler(floorSegment, player, floorObjectBegin, floorObjectEnd);
+	_addHandler(floorSegment, enemy, floorObjectBegin, floorObjectEnd);
+	_addHandler(floorSegment, npc, floorObjectBegin, floorObjectEnd);
+	_addHandler(floorSegment, environment, floorObjectBegin, floorObjectEnd);
+	_addHandler(floorSegment, bomb, floorObjectBegin, floorObjectEnd);
+
+	_addHandler(player, areaSensor, playerAreaSensorBegin, playerAreaSensorEnd);
+	_addHandler(enemy, areaSensor, enemyAreaSensorBegin, enemyAreaSensorEnd);
+	_addHandler(npc, areaSensor, npcAreaSensorBegin, npcAreaSensorEnd);
+	_addHandler(environment, areaSensor, environmentAreaSensorBegin, environmentAreaSensorEnd);
 }
