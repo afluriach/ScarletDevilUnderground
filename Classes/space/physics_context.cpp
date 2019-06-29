@@ -80,8 +80,9 @@ SpaceFloat physics_context::distanceFeeler(const GObject * agent, SpaceVect _fee
 		GType type = static_cast<GType>(fixture->GetFilterData().categoryBits);
 		if ( bitwise_and_bool(type, gtype) && bitwise_and_bool(obj->getLayers(), layers)) {
 			closest = fraction;
+			return closest;
 		}
-		return 0.0;
+		else return 1.0;
 	};
 
 	space->world->RayCast(callback, toBox2D(start), toBox2D(end));
@@ -170,8 +171,11 @@ bool physics_context::feeler(const GObject * agent, SpaceVect _feeler, GType gty
 		GType type = static_cast<GType>(fixture->GetFilterData().categoryBits);
 		if ( bitwise_and_bool(type,gtype) && bitwise_and_bool(obj->getLayers(), layers)) {
 			collision = true;
+			return 0.0;
 		}
-		return 0.0;
+		else {
+			return 1.0;
+		}
 	};
 
 	space->world->RayCast(callback, toBox2D(start), toBox2D(end));
@@ -197,8 +201,11 @@ GObject* physics_context::objectFeeler(const GObject * agent, SpaceVect feeler, 
 		) {
 			bestResult = obj;
 			bestRatio = fraction;
+			return fraction;
 		}
-		return fraction;
+		else {
+			return 1.0;
+		}
 	};
 
 	space->world->RayCast(callback, toBox2D(start), toBox2D(end));
