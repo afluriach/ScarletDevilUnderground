@@ -993,14 +993,42 @@ void b2World::QueryAABB(b2QueryCallback callback, const b2AABB& aabb) const
 	m_contactManager.m_broadPhase.Query(&wrapper, aabb);
 }
 
+struct b2WorldQueryShapeWrapper
+{
+	void QueryShapeCallback(int32 proxyId)
+	{
+		b2Fixture* fixture;
+		int32 index;
+		std::tie(fixture, index) = broadPhase->GetFixture(proxyId);
+		
+		if (fixture->ShapeQuery(shape, xf, index)) {
+			callback(fixture);
+		}
+	}
+
+	const b2BroadPhase* broadPhase;
+	const b2Shape* shape;
+	b2QueryCallback callback;
+	b2Transform xf;
+};
+
+void b2World::QueryShape(b2QueryCallback callback, const b2Transform& xf, const b2Shape* shape) const
+{
+	b2WorldQueryShapeWrapper wrapper;
+	wrapper.broadPhase = &m_contactManager.m_broadPhase;
+	wrapper.callback = callback;
+	wrapper.shape = shape;
+	wrapper.xf = xf;
+	m_contactManager.m_broadPhase.QueryShape(&wrapper, xf, shape);
+}
+
 struct b2WorldRayCastWrapper
 {
 	float32 RayCastCallback(const b2RayCastInput& input, int32 proxyId)
 	{
-		void* userData = broadPhase->GetUserData(proxyId);
-		b2FixtureProxy* proxy = (b2FixtureProxy*)userData;
-		b2Fixture* fixture = proxy->fixture;
-		int32 index = proxy->childIndex;
+		b2Fixture* fixture;
+		int32 index;
+		std::tie(fixture, index) = broadPhase->GetFixture(proxyId);
 		b2RayCastOutput output;
 		bool hit = fixture->RayCast(&output, input, index);
 

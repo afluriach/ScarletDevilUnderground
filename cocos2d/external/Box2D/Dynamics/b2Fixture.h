@@ -167,6 +167,12 @@ public:
 	/// @param input the ray-cast input parameters.
 	bool RayCast(b2RayCastOutput* output, const b2RayCastInput& input, int32 childIndex) const;
 
+	bool ShapeQuery(
+		const b2Shape* shape,
+		const b2Transform& xf,
+		int32 childIndex
+	) const;
+
 	/// Get the mass data for this fixture. The mass data is based on the density and
 	/// the shape. The rotational inertia is about the shape's origin. This operation
 	/// may be expensive.

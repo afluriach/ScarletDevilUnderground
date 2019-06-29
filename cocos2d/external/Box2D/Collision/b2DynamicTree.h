@@ -91,6 +91,9 @@ public:
 	template <typename T>
 	void Query(T* callback, const b2AABB& aabb) const;
 
+	template <typename T>
+	void QueryShape(T* callback, const b2Transform& xf, const b2Shape* shape) const;
+
 	/// Ray-cast against the proxies in the tree. This relies on the callback
 	/// to perform a exact ray-cast in the case were the proxy contains a shape.
 	/// The callback also performs the any collision filtering. This has performance
@@ -196,6 +199,39 @@ inline void b2DynamicTree::Query(T* callback, const b2AABB& aabb) const
 				stack.Push(node->child1);
 				stack.Push(node->child2);
 			}
+		}
+	}
+}
+
+template <typename T>
+inline void b2DynamicTree::QueryShape(T* callback, const b2Transform& xf, const b2Shape* shape) const
+{
+	b2GrowableStack<int32, 256> stack;
+	stack.Push(m_root);
+	b2AABB aabb;
+	shape->ComputeAABB(&aabb, xf, 0);
+
+	while (stack.GetCount() > 0)
+	{
+		int32 nodeId = stack.Pop();
+		if (nodeId == b2_nullNode)
+		{
+			continue;
+		}
+
+		const b2TreeNode* node = m_nodes + nodeId;
+
+		if (!b2TestOverlap(node->aabb, aabb))
+			continue;
+
+		if (node->IsLeaf())
+		{
+			callback->QueryShapeCallback(nodeId);
+		}
+		else
+		{
+			stack.Push(node->child1);
+			stack.Push(node->child2);
 		}
 	}
 }

@@ -113,6 +113,8 @@ public:
 	/// @param aabb the query box.
 	void QueryAABB(b2QueryCallback callback, const b2AABB& aabb) const;
 
+	void QueryShape(b2QueryCallback callback, const b2Transform& xf, const b2Shape* shape) const;
+
 	/// Ray-cast the world for all fixtures in the path of the ray. Your callback
 	/// controls whether you get the closest point, any point, or n-points.
 	/// The ray-cast ignores shapes that contain the starting point.

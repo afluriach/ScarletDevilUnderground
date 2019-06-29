@@ -297,21 +297,23 @@ bool physics_context::rectangleQuery(
 ) const
 {
 	bool collision = false;
+	b2PolygonShape rect;
+	rect.SetAsBox(dimensions.x * 0.5, dimensions.y * 0.5);
+	b2Transform xf;
+	xf.Set(toBox2D(center), angle);
 
 	b2QueryCallback callback = [type, layers, &collision](b2Fixture* fixture) -> bool {
 		GObject* obj = static_cast<GObject*>(fixture->GetUserData());
 		GType _type = static_cast<GType>(fixture->GetFilterData().categoryBits);
-		if (bitwise_and_bool(type, _type) && bitwise_and_bool(obj->getLayers(), layers)) {
+		PhysicsLayers _layers = static_cast<PhysicsLayers>(fixture->GetFilterData().layers);
+		if (bitwise_and_bool(type, _type) && bitwise_and_bool(_layers, layers)) {
 			collision = true;
 			return false;
 		}
 		return true;
 	};
 
-	space->world->QueryAABB(
-		callback,
-		b2AABB{ toBox2D(center - 0.5*dimensions), toBox2D(center + 0.5 * dimensions) }
-	);
+	space->world->QueryShape(callback, xf, &rect);
 
 	return collision;
 }
@@ -339,20 +341,22 @@ unordered_set<GObject*> physics_context::rectangleObjectQuery(
 ) const
 {
 	unordered_set<GObject*> result;
+	b2PolygonShape rect;
+	rect.SetAsBox(dimensions.x * 0.5, dimensions.y * 0.5);
+	b2Transform xf;
+	xf.Set(toBox2D(center), angle);
 
 	b2QueryCallback callback = [type, layers, &result](b2Fixture* fixture) -> bool {
 		GObject* obj = static_cast<GObject*>(fixture->GetUserData());
 		GType _type = static_cast<GType>(fixture->GetFilterData().categoryBits);
-		if (bitwise_and_bool(type, _type) && bitwise_and_bool(obj->getLayers(), layers) && obj) {
+		PhysicsLayers _layers = static_cast<PhysicsLayers>(fixture->GetFilterData().layers);
+		if (bitwise_and_bool(type, _type) && bitwise_and_bool(_layers, layers) && obj) {
 			result.insert(obj);
 		}
 		return true;
 	};
 
-	space->world->QueryAABB(
-		callback,
-		b2AABB{ toBox2D(center - 0.5*dimensions), toBox2D(center + 0.5 * dimensions) }
-	);
+	space->world->QueryShape(callback, xf, &rect);
 
 	return result;
 }
@@ -377,25 +381,22 @@ unordered_set<GObject*> physics_context::radiusQuery(
 ) const
 {
 	unordered_set<GObject*> result;
-	SpaceVect rv(radius, radius);
-	SpaceFloat agentRadius = agent ? agent->getRadius() : 0.0;
+	b2CircleShape circle;
+	circle.m_radius = radius;
+	b2Transform xf;
+	xf.Set(toBox2D(center), 0.0);
 
-	b2QueryCallback callback = [type, layers, center, radius, agentRadius, &result](b2Fixture* fixture) -> bool {
+	b2QueryCallback callback = [type, layers, center, radius, &result](b2Fixture* fixture) -> bool {
 		GObject* obj = static_cast<GObject*>(fixture->GetUserData());
 		GType _type = static_cast<GType>(fixture->GetFilterData().categoryBits);
-		if (bitwise_and_bool(type, _type) && bitwise_and_bool(obj->getLayers(), layers) && obj) {
-			SpaceFloat dist = (center - obj->getPos()).length();
-
-			if(dist < radius - agentRadius - obj->getRadius())
-				result.insert(obj);
+		PhysicsLayers _layers = static_cast<PhysicsLayers>(fixture->GetFilterData().layers);
+		if (bitwise_and_bool(type, _type) && bitwise_and_bool(_layers, layers) && obj) {
+			result.insert(obj);
 		}
 		return true;
 	};
 
-	space->world->QueryAABB(
-		callback,
-		b2AABB{ toBox2D(center - rv), toBox2D(center + rv) }
-	);
+	space->world->QueryShape(callback, xf, &circle);
 
 	return result;
 }

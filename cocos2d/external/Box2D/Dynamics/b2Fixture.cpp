@@ -226,6 +226,11 @@ void b2Fixture::SetSensor(bool sensor)
 	}
 }
 
+bool b2Fixture::ShapeQuery(const b2Shape* shape, const b2Transform& xf, int32 childIndex) const
+{
+	return m_shape->ShapeQuery(shape, m_body->GetTransform(), xf, childIndex);
+}
+
 b2AABB b2Fixture::ComputeAABB() const
 {
 	b2AABB result;
