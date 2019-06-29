@@ -267,7 +267,7 @@ public:
 
 	//BEGIN AUDIO
 	
-	ALuint playSoundSpatial(
+	virtual ALuint playSoundSpatial(
 		const string& path,
 		float volume = 1.0f,
 		bool loop = false,

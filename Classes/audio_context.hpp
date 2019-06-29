@@ -25,7 +25,7 @@ public:
 	ALuint getSoundSource();
 	ALuint initSoundSource(const Vec3& pos, const Vec3& vel, bool relative);
 	void loadSound(const string& path);
-	ALuint playSound(const string& path, float volume);
+	ALuint playSound(const string& path, float volume, bool loop = false);
 	ALuint playSoundSpatial(
 		const string& path,
 		const Vec3& pos,

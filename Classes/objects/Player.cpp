@@ -471,6 +471,18 @@ void Player::update()
 	}
 }
 
+ALuint Player::playSoundSpatial(const string& path, float volume, bool loop, float yPos)
+{
+	ALuint soundSource = space->audioContext->playSound(
+		path,
+		volume,
+		loop
+	);
+
+	return soundSource;
+}
+
+
 SpaceFloat Player::getSpeedMultiplier()
 {
 	if (isSprintActive) {

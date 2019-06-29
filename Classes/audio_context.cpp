@@ -174,7 +174,7 @@ void audio_context::loadSound(const string& path)
 	}
 }
 
-ALuint audio_context::playSound(const string& path, float volume)
+ALuint audio_context::playSound(const string& path, float volume, bool loop)
 {
 	audioMutex.lock();
 
@@ -183,6 +183,7 @@ ALuint audio_context::playSound(const string& path, float volume)
 
 	if (source != 0 && sound != 0) {
 		alSourcei(source, AL_BUFFER, sound);
+		alSourcei(source, AL_LOOPING, loop);
 		alSourcePlay(source);
 		check_error("play-sound");
 		activeSources.insert(source);

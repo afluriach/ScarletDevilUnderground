@@ -90,6 +90,14 @@ public:
 
 	virtual void onZeroHP();
 
+	//Since the Player is the sound source, override this to avoid playing zero-distance sounds.
+	virtual ALuint playSoundSpatial(
+		const string& path,
+		float volume = 1.0f,
+		bool loop = false,
+		float yPos = 0.0f
+	);
+
 	void checkMovementControls(const ControlInfo& cs);
 	void checkFireControls(const ControlInfo& cs);
 	void checkBombControls(const ControlInfo& cs);
