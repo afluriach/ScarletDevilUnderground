@@ -53,12 +53,6 @@ void RadarSensor::radarCollision(GObject* obj)
 		return;
 
 	objectsInRange.insert(obj);
-
-	if (isObjectVisible(obj)) {
-		onDetect(obj);
-		visibleObjects.insert(obj);
-	}
-
 }
 void RadarSensor::radarEndCollision(GObject* obj)
 {

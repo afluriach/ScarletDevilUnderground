@@ -21,6 +21,8 @@ struct sensor_attributes
 class RadarSensor
 {
 public:
+	friend class GSpace;
+
 	RadarSensor(
 		GObject* agent,
 		const sensor_attributes& attributes,
@@ -28,8 +30,6 @@ public:
 		unary_gobject_function on_end_detect
 	);
 	~RadarSensor();
-
-	void update();
 
 	void radarCollision(GObject* other);
 	void radarEndCollision(GObject* other);
@@ -71,6 +71,8 @@ public:
 	inline GType getTargetType() { return targetType; }
 
 protected:
+	void update();
+
 	unordered_set<GObject*> objectsInRange;
 	unordered_set<GObject*> visibleObjects;
 

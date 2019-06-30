@@ -160,10 +160,7 @@ void GSpace::update()
 	}
 	addGraphicsAction(&graphics_context::spriteSpatialUpdate, spriteUpdates);
 
-	for (auto radar : radarSensors) {
-		radar->update();
-	}
-
+	updateSensors();
 	magicEffectSystem->update();
 
     for(GObject* obj : updateObjects){
@@ -199,6 +196,13 @@ void GSpace::update()
 #endif
 
     ++frame;
+}
+
+void GSpace::updateSensors()
+{
+	for (auto radar : radarSensors) {
+		radar->update();
+	}
 }
 
 void GSpace::updateSoundSources()

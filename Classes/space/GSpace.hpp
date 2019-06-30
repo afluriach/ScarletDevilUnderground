@@ -64,6 +64,7 @@ public:
 	}
 
     void update();
+	void updateSensors();
 	void updateSoundSources();
     void processAdditions();
 
