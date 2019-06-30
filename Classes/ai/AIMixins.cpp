@@ -38,17 +38,17 @@ void RadarObject::initializeRadar(GSpace& space)
 		bind(&RadarObject::onDetect, this, placeholders::_1),
 		bind(&RadarObject::onEndDetect, this, placeholders::_1)
 	);
-}
 
-void RadarObject::_update()
-{
-	if (radar)
-		radar->update();
+	if(radar)
+		space.insertSensor(radar);
 }
 
 void RadarObject::removePhysicsObjects()
 {
 	GObject::removePhysicsObjects();
 
-	if (radar) delete radar;
+	if (radar) {
+		space->removeSensor(radar);
+		delete radar;
+	}
 }

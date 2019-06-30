@@ -129,7 +129,6 @@ void Agent::init()
 void Agent::update()
 {
 	GObject::update();
-	if (radar) radar->update();
 
 	if (attributeSystem[Attribute::hp] <= 0.0f && attributeSystem[Attribute::maxHP] >  0.0f) {
 		onZeroHP();
@@ -549,13 +548,20 @@ void Agent::initializeRadar(GSpace& space)
 		bind(&Agent::onDetect, this, placeholders::_1),
 		bind(&Agent::onEndDetect, this, placeholders::_1)
 	);
+
+	if (radar) {
+		space.insertSensor(radar);
+	}
 }
 
 void Agent::removePhysicsObjects()
 {
 	GObject::removePhysicsObjects();
 
-	if (radar) delete radar;
+	if (radar) {
+		space->removeSensor(radar);
+		delete radar;
+	}
 }
 
 void Agent::updateAgentOverlay()

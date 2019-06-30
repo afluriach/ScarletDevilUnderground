@@ -210,6 +210,9 @@ public:
 		));
 	}
 
+	inline void insertSensor(RadarSensor* sensor) { radarSensors.insert(sensor); }
+	inline void removeSensor(RadarSensor* sensor) { radarSensors.erase(sensor); }
+
 	void addInitAction(zero_arity_function f);
 	void addObjectAction(zero_arity_function f);
 	void addSceneAction(zero_arity_function f);
@@ -281,6 +284,7 @@ private:
 	unordered_map<type_index, unsigned int> totalSpawnCount;
 	unordered_map<type_index, unsigned int> enemiesDefeated;
 	set<GObject*> updateObjects;
+	set<RadarSensor*> radarSensors;
 	unordered_map<int, RoomSensor*> roomSensors;
 	unordered_map<string, ValueMap> dynamicLoadObjects;
 	//For objects that actually need ValueMap args to persist until init,

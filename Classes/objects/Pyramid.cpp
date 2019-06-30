@@ -32,7 +32,6 @@ Pyramid::Pyramid(GSpace* space, ObjectIDType id, const ValueMap& args) :
 void Pyramid::update()
 {
 	GObject::update();
-	RadarObject::_update();
 
 	setAngle(getAngle() + angular_speed * app::params.secondsPerFrame);
 

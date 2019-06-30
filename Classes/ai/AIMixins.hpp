@@ -19,8 +19,6 @@ class RadarObject : virtual public GObject
 public:
 	RadarObject();
 
-	void _update();
-
 	virtual SpaceFloat getRadarRadius() const = 0;
 	virtual GType getRadarType() const = 0;
     virtual inline SpaceFloat getDefaultFovAngle() const {return 0.0;}

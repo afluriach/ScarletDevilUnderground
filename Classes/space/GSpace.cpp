@@ -26,6 +26,7 @@
 #include "PhysicsImpl.hpp"
 #include "Player.hpp"
 #include "PlayScene.hpp"
+#include "RadarSensor.hpp"
 #include "replay.h"
 #include "Spawner.hpp"
 #include "Spell.hpp"
@@ -158,6 +159,10 @@ void GSpace::update()
 		}
 	}
 	addGraphicsAction(&graphics_context::spriteSpatialUpdate, spriteUpdates);
+
+	for (auto radar : radarSensors) {
+		radar->update();
+	}
 
 	magicEffectSystem->update();
 
