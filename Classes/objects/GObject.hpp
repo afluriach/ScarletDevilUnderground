@@ -143,6 +143,9 @@ public:
 	virtual void onPitfall();
 	inline virtual void onRemove() {}
 
+	inline int getCrntRoom() const { return crntRoom; }
+	virtual void setCrntRoom(int roomIndex);
+
 	//Activation
 	inline virtual void activate() {};
 	inline virtual void deactivate() {};
@@ -314,6 +317,7 @@ protected:
 
 //logic
 	unique_ptr<ai::StateMachine> fsm;
+	int crntRoom = -1;
 
 //physics
 	b2Body* body = nullptr;

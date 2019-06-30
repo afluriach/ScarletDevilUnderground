@@ -222,15 +222,17 @@ public:
 
 	void eraseTile(const SpaceVect& p, string layer);
 	void eraseTile(int mapID, IntVec2 pos, string layer);
-	void updatePlayerMapLocation(const SpaceVect& pos);
+	void updatePlayerMapLocation(int roomID);
 	void addMapArea(const SpaceRect& area);
 	SpaceRect getCameraArea();
+	void updateCamera();
 	const vector<SpaceRect>& getMapAreas();
 	int getMapLocation(SpaceRect r);
 	pair<int, IntVec2> getTilePosition(SpaceVect p);
 	bool isInCameraArea(SpaceRect r);
 	bool isInPlayerRoom(SpaceVect v);
 	int getPlayerRoom();
+	Player* getPlayer();
 	void applyMapFragment(int mapFragmentID);
 	void increaseSpawnTotal(type_index t, unsigned int count);
 	void registerEnemyDefeated(type_index t);

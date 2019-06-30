@@ -45,7 +45,7 @@ IllusionDialDagger::IllusionDialDagger(shared_ptr<object_params> params,const bu
 
 SpaceFloat IllusionDialDagger::targetViewAngle()
 {
-    GObject* target = space->getObject("player");
+    GObject* target = space->getPlayer();
 
     if(target)
         return ai::viewAngleToTarget(this,target);
@@ -55,7 +55,7 @@ SpaceFloat IllusionDialDagger::targetViewAngle()
 
 void IllusionDialDagger::launch()
 {
-    GObject* target = space->getObject("player");
+    GObject* target = space->getPlayer();
 
     if(target){
         setVel(SpaceVect::ray(getMaxSpeed(), getAngle()));

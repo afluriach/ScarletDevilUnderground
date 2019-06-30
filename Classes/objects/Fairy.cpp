@@ -197,7 +197,7 @@ Fairy2::Fairy2(GSpace* space, ObjectIDType id, const ValueMap& args) :
 
 void Fairy2::addFleeThread()
 {
-	GObject* player = space->getObject("player");
+	GObject* player = space->getPlayer();
 	auto fleeThread = make_shared<ai::Thread>(
 		make_shared<ai::Flee>(fsm.get(), player, 5.0f),
 		fsm.get(),

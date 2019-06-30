@@ -34,6 +34,48 @@ AreaSensor::AreaSensor(GSpace* space, ObjectIDType id, SpaceVect center, SpaceVe
 {
 }
 
+void AreaSensor::beginContact(GObject* obj)
+{
+	switch (obj->getType())
+	{
+	case GType::player:
+		onPlayerContact(dynamic_cast<Player*>(obj));
+	break;
+	case GType::enemy:
+		onEnemyContact(dynamic_cast<Enemy*>(obj));
+	break;
+	case GType::npc:
+		onNPCContact(dynamic_cast<Agent*>(obj));
+	break;
+	case GType::environment:
+		onEnvironmentalObjectContact(obj);
+	break;
+	default:
+	break;
+	}
+}
+
+void AreaSensor::endContact(GObject* obj)
+{
+	switch (obj->getType())
+	{
+	case GType::player:
+		onPlayerEndContact(dynamic_cast<Player*>(obj));
+		break;
+	case GType::enemy:
+		onEnemyEndContact(dynamic_cast<Enemy*>(obj));
+		break;
+	case GType::npc:
+		onNPCEndContact(dynamic_cast<Agent*>(obj));
+		break;
+	case GType::environment:
+		onEnvironmentalObjectEndContact(obj);
+	break;
+	default:
+	break;
+	}
+}
+
 PhysicsLayers AreaSensor::getLayers() const{
     return PhysicsLayers::all;
 }
@@ -123,6 +165,24 @@ RoomSensor::RoomSensor(GSpace* space, ObjectIDType id, SpaceVect center, SpaceVe
 	if (!startState.empty()) {
 		auto f = ai::Function::constructState(startState, fsm.get(), props);
 		fsm->addThread(f);
+	}
+}
+
+void RoomSensor::beginContact(GObject* obj)
+{
+	AreaSensor::beginContact(obj);
+
+	obj->setCrntRoom(mapID);
+}
+
+void RoomSensor::endContact(GObject* obj)
+{
+	AreaSensor::endContact(obj);
+
+	int prevID = obj->getCrntRoom();
+
+	if (prevID == mapID) {
+		obj->setCrntRoom(-1);
 	}
 }
 

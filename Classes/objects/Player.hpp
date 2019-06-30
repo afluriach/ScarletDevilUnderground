@@ -50,6 +50,7 @@ public:
 	inline virtual ~Player() {}
     
 	virtual void onPitfall();
+	virtual void setCrntRoom(int roomIndex);
 
 	void equipFirePatterns();
 	void equipSpells();

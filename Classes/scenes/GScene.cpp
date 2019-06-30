@@ -357,6 +357,10 @@ void GScene::setUnitPosition(const SpaceVect& v)
 		(-app::pixelsPerTile*v.x + app::params.width / 2)*spaceZoom - app::params.width/2,
 		(-app::pixelsPerTile*v.y + app::params.height / 2)*spaceZoom - app::params.height/2
 	);
+
+	if (tilemaps.size() > 1) {
+		updateMultimapVisibility(v);
+	}
 }
 
 SpaceRect GScene::getCameraArea()

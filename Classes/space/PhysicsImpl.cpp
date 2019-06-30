@@ -431,44 +431,14 @@ void floorObjectEnd(FloorSegment* fs, GObject* obj, b2Contact* arb)
 	obj->onEndContactFloorSegment(fs);
 }
 
-void playerAreaSensorBegin(Player* p, AreaSensor* as, b2Contact* arb)
+void objectAreaSensorBegin(GObject* obj, AreaSensor* areaSensor, b2Contact* contact)
 {
-	as->onPlayerContact(p);
+	areaSensor->beginContact(obj);
 }
 
-void playerAreaSensorEnd(Player* p, AreaSensor* as, b2Contact* arb)
+void objectAreaSensorEnd(GObject* obj, AreaSensor* areaSensor, b2Contact* contact)
 {
-	as->onPlayerEndContact(p);
-}
-
-void enemyAreaSensorBegin(Enemy* e, AreaSensor* as, b2Contact* arb)
-{
-	as->onEnemyContact(e);
-}
-
-void enemyAreaSensorEnd(Enemy* e, AreaSensor* as, b2Contact* arb)
-{
-	as->onEnemyEndContact(e);
-}
-
-void npcAreaSensorBegin(Agent* npc, AreaSensor* as, b2Contact* arb)
-{
-	as->onNPCContact(npc);
-}
-
-void npcAreaSensorEnd(Agent* npc, AreaSensor* as, b2Contact* arb)
-{
-	as->onNPCEndContact(npc);
-}
-
-void environmentAreaSensorBegin(GObject* obj, AreaSensor* _s, b2Contact* arb)
-{
-	_s->onEnvironmentalObjectContact(obj);
-}
-
-void environmentAreaSensorEnd(GObject* obj, AreaSensor* _s, b2Contact* arb)
-{
-	_s->onEnvironmentalObjectEndContact(obj);
+	areaSensor->endContact(obj);
 }
 
 void sensorStart(RadarSensor* radar, GObject* target, b2Contact* arb)
@@ -506,8 +476,8 @@ void PhysicsImpl::addCollisionHandlers()
 	_addHandler(floorSegment, environment, floorObjectBegin, floorObjectEnd);
 	_addHandler(floorSegment, bomb, floorObjectBegin, floorObjectEnd);
 
-	_addHandler(player, areaSensor, playerAreaSensorBegin, playerAreaSensorEnd);
-	_addHandler(enemy, areaSensor, enemyAreaSensorBegin, enemyAreaSensorEnd);
-	_addHandler(npc, areaSensor, npcAreaSensorBegin, npcAreaSensorEnd);
-	_addHandler(environment, areaSensor, environmentAreaSensorBegin, environmentAreaSensorEnd);
+	_addHandler(player, areaSensor, objectAreaSensorBegin, objectAreaSensorEnd);
+	_addHandler(enemy, areaSensor, objectAreaSensorBegin, objectAreaSensorEnd);
+	_addHandler(npc, areaSensor, objectAreaSensorBegin, objectAreaSensorEnd);
+	_addHandler(environment, areaSensor, objectAreaSensorBegin, objectAreaSensorEnd);
 }

@@ -84,6 +84,15 @@ void Player::onPitfall()
 	startRespawn();
 }
 
+void Player::setCrntRoom(int roomIndex)
+{
+	GObject::setCrntRoom(roomIndex);
+
+	if (roomIndex != -1) {
+		space->updatePlayerMapLocation(roomIndex);
+	}
+}
+
 void Player::equipFirePatterns()
 {
 	firePatterns.clear();
@@ -446,7 +455,6 @@ void Player::update()
 	space->audioContext->setSoundListenerPos(getPos(), getVel(), float_pi/2.0);
 
 	if (playScene) {
-		space->updatePlayerMapLocation(getPos());
 		space->addHudAction(&HUD::updateHUD, attributeSystem);
 
 		ControlInfo cs = space->getControlInfo();

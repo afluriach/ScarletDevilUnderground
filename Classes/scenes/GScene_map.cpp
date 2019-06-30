@@ -402,12 +402,9 @@ void GScene::loadLights(const TMXTiledMap& map, IntVec2 offset)
 	graphicsContext->addPolyLightSource(id, AmbientLightArea::create( center, dimensions, color));
 }
 
-void GScene::updateMapVisibility(SpaceVect playerPos)
+void GScene::updateMapVisibility(int roomID)
 {
-	if (tilemaps.size() > 1) {
-		updateMultimapVisibility(playerPos);
-	}
-	updateRoomsVisited(playerPos);
+	updateRoomsVisited(roomID);
 }
 
 void GScene::updateMultimapVisibility(SpaceVect playerPos)
@@ -420,14 +417,10 @@ void GScene::updateMultimapVisibility(SpaceVect playerPos)
 	}
 }
 
-void GScene::updateRoomsVisited(SpaceVect playerPos)
+void GScene::updateRoomsVisited(int roomID)
 {
-	for (size_t i = 0; i < mapAreas.size(); ++i) {
-		if (mapAreas.at(i).containsPoint(playerPos)) {
-			crntMap = i;
-			mapAreasVisited.at(i) = true;
-		}
-	}
+	crntMap = roomID;
+	mapAreasVisited.at(roomID) = true;
 }
 
 void GScene::setRoomDiscovered(size_t idx)

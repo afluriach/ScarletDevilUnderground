@@ -117,8 +117,6 @@ GScene* GSpace::getScene()
 
 void GSpace::update()
 {
-	updateSoundSources();
-
 	objectActionsMutex.lock();
 	for (auto f : objectActions) {
 		f();
@@ -146,6 +144,9 @@ void GSpace::update()
 		PhysicsImpl::positionSteps
 	);
     
+	updateSoundSources();
+	updateCamera();
+
 #if USE_TIMERS
 	chrono::steady_clock::time_point t3 = chrono::steady_clock::now();
 #endif
@@ -415,6 +416,7 @@ void GSpace::processAdditions()
 			objByType[typeid(*obj)].insert(obj);
 		}
 
+		addVirtualTrack<Player>(obj);
 		addVirtualTrack<Enemy>(obj);
 		addVirtualTrack<Bullet>(obj);
 		addVirtualTrack<FloorSegment>(obj);
@@ -497,6 +499,7 @@ void GSpace::processRemoval(GObject* obj, bool _removeSprite)
 		objByType[typeid(*obj)].erase(obj);
 	}
 
+	removeVirtualTrack<Player>(obj);
 	removeVirtualTrack<Enemy>(obj);
 	removeVirtualTrack<Bullet>(obj);
 	removeVirtualTrack<FloorSegment>(obj);
@@ -763,23 +766,14 @@ void GSpace::eraseTile(int mapID, IntVec2 pos, string layer)
 	addSceneAction(bind(&GScene::eraseTile, gscene, mapID, pos, layer));
 }
 
-void GSpace::updatePlayerMapLocation(const SpaceVect& pos)
+void GSpace::updatePlayerMapLocation(int roomID)
 {
-	for (size_t i = 0; i < mapAreas.size(); ++i) {
-		if (mapAreas.at(i).containsPoint(pos)) {
-			crntMap = i;
+	crntMap = roomID;
 
-			if (crntChamber != ChamberID::invalid_id) {
-				crntState->chamberStats.at(to_size_t(crntChamber)).roomsVisited.set(i);
-			}
-		}
+	if (crntChamber != ChamberID::invalid_id) {
+		crntState->chamberStats.at(to_size_t(crntChamber)).roomsVisited.set(roomID);
+		addSceneAction(bind(&GScene::updateMapVisibility, gscene, roomID));
 	}
-
-	cameraArea = calculateCameraArea(pos);
-
-	addSceneAction(bind(&GScene::updateMapVisibility, gscene, pos));
-
-	addSceneAction(bind(&GScene::setUnitPosition, gscene, pos));
 }
 
 void GSpace::addMapArea(const SpaceRect& area)
@@ -790,6 +784,15 @@ void GSpace::addMapArea(const SpaceRect& area)
 SpaceRect GSpace::getCameraArea()
 {
 	return cameraArea;
+}
+
+void GSpace::updateCamera()
+{
+	if (auto p = getPlayer()) {
+		SpaceVect pos = p->getPos();
+		cameraArea = calculateCameraArea(pos);
+		addSceneAction(bind(&GScene::setUnitPosition, gscene, pos));
+	}
 }
 
 const vector<SpaceRect>& GSpace::getMapAreas()
@@ -838,6 +841,27 @@ void GSpace::applyMapFragment(int mapFragmentID)
 
 		addSceneAction(bind(&GScene::applyMapFragment, gscene, mapFragmentID));
 		addHudAction(&HUD::setMapCounter, getState()->getMapFragmentCount(crntChamber));
+	}
+}
+
+Player* GSpace::getPlayer()
+{
+	auto objects = getObjectsByType(typeid(Player));
+
+#if DEV_MODE
+	if (objects->size() > 1) {
+		log("getPlayer: multiple player objects");
+	}
+	else if (objects->empty()) {
+		log("getPlayer: no player object!");
+	}
+#endif
+
+	if (!objects->empty()) {
+		return dynamic_cast<Player*>(*objects->begin());
+	}
+	else {
+		return nullptr;
 	}
 }
 

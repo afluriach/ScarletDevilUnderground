@@ -148,9 +148,9 @@ public:
 	void eraseTile(int mapID, IntVec2 pos, string layer);
 
 	inline bool isMultiMap() const { return tilemaps.size() > 1; }
-	void updateMapVisibility(SpaceVect playerPos);
+	void updateMapVisibility(int roomID);
+	void updateRoomsVisited(int roomID);
 	void updateMultimapVisibility(SpaceVect playerPos);
-	void updateRoomsVisited(SpaceVect playerPos);
 	void unlockAllRooms();
 	void setRoomDiscovered(size_t idx);
 	void applyMapFragment(int idx);

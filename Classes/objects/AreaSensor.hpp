@@ -26,6 +26,9 @@ public:
 
 	inline virtual ~AreaSensor() {}
 
+	virtual void beginContact(GObject* obj);
+	virtual void endContact(GObject* obj);
+
 	virtual inline bool getSensor() const { return true; }
     virtual inline GType getType() const {return GType::areaSensor;}
     virtual PhysicsLayers getLayers() const;
@@ -72,6 +75,9 @@ public:
 	RoomSensor(GSpace* space, ObjectIDType id, const ValueMap& obj);
 	RoomSensor(GSpace* space, ObjectIDType id, SpaceVect center, SpaceVect dimensions, int mapID, const ValueMap& props);
 
+	virtual void beginContact(GObject* obj);
+	virtual void endContact(GObject* obj);
+
 	virtual void onPlayerContact(Player* p);
 	virtual void onPlayerEndContact(Player* p);
 
@@ -84,6 +90,7 @@ public:
 	unsigned int activateSpawners(type_index t, unsigned int count);
 	inline SpaceFloat getTimeInRoom()const { return timeInRoom; }
 	inline bool getCleared() const { return isCleared; }
+	inline int getID() const { return mapID; }
 	
 	const int mapID;
 protected:

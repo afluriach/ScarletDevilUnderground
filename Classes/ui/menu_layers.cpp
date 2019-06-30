@@ -632,7 +632,7 @@ void MapMenu::drawMaps()
 	vector<object_ref<Door>> doors = playScene->getSpace()->getObjectsByTypeAs<Door>();
 	vector<object_ref<Enemy>> enemies = playScene->getSpace()->getObjectsByTypeAs<Enemy>();
 	GObject* goal = playScene->getSpace()->getObject("goal");
-	GObject* player = playScene->getSpace()->getObject("player");
+	GObject* player = playScene->getSpace()->getPlayer();
 
 	for (auto ref : floors)
 	{

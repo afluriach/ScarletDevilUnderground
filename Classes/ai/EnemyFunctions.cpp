@@ -56,7 +56,7 @@ update_return BlueFairyPowerAttack::update()
 
 void BatMain::onEnter()
 {
-	target = getSpace()->getObject("player");
+	target = getSpace()->getPlayer();
 }
 
 update_return BatMain::update()
@@ -69,7 +69,7 @@ update_return BatMain::update()
 
 void FacerMain::onEnter()
 {
-	target = getSpace()->getObject("player");
+	target = getSpace()->getPlayer();
 }
 
 update_return FacerMain::update()
@@ -94,7 +94,7 @@ bool FacerMain::onBulletHit(Bullet* b)
 
 void FollowerMain::onEnter()
 {
-	target = getSpace()->getObject("player");
+	target = getSpace()->getPlayer();
 }
 
 update_return FollowerMain::update()
@@ -123,7 +123,7 @@ void MarisaCollectMain::onEnter()
 
 update_return MarisaCollectMain::update()
 {
-	GObject* player = getSpace()->getObject("player");
+	GObject* player = getSpace()->getPlayer();
 
 	if (player)
 		return_push(ai::FollowPath::pathToTarget(fsm, player));

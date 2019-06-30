@@ -427,7 +427,6 @@ void ghost_fairy_npc(StateMachine* fsm, const ValueMap& args)
 
 void collect_marisa(StateMachine* fsm, const ValueMap& args)
 {
-	gobject_ref player = fsm->getSpace()->getObjectRef("player");
 	fsm->addThread(make_shared<MarisaCollectMain>(fsm));
 }
 

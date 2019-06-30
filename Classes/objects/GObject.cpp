@@ -178,6 +178,11 @@ void GObject::onPitfall()
 	space->removeObjectWithAnimation(this, pitfallShrinkAction());
 }
 
+void GObject::setCrntRoom(int roomIndex)
+{
+	crntRoom = roomIndex;
+}
+
 void GObject::updateFSM() {
 	if (fsm && !isFrozen)
 		fsm->update();
