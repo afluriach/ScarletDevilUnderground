@@ -162,6 +162,7 @@ protected:
 	unique_ptr<AgentAnimationContext> animation;
 
 	bool shieldActive = false;
+	bool wasShieldActive = false;
 };
 
 class GenericAgent : public Agent

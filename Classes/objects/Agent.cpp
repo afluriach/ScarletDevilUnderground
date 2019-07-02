@@ -345,7 +345,6 @@ bool Agent::consumeStamina(int val)
 
 void Agent::setShieldActive(bool v)
 {
-	space->graphicsNodeAction(&Node::setVisible, agentOverlay, v);
 	shieldActive = v;
 }
 
@@ -386,7 +385,7 @@ void Agent::initializeGraphics()
 		getInitialCenterPix()
 	);
 	//Should be false, but in case shield has already been activated.
-	space->graphicsNodeAction(&Node::setVisible, agentOverlay, shieldActive);
+	space->graphicsNodeAction(&Node::setVisible, agentOverlay, false);
 }
 
 void Agent::setAngle(SpaceFloat a)
@@ -567,6 +566,11 @@ void Agent::removePhysicsObjects()
 
 void Agent::updateAgentOverlay()
 {
+	//	space->graphicsNodeAction(&Node::setVisible, agentOverlay, v);
+	if ( (shieldActive && !wasShieldActive) || (!shieldActive && wasShieldActive) ) {
+		space->graphicsNodeAction(&Node::setVisible, agentOverlay, shieldActive);
+	}
+
 	if (shieldActive) {
 		space->addGraphicsAction(
 			&graphics_context::setSpritePosition,
@@ -579,6 +583,7 @@ void Agent::updateAgentOverlay()
 			toCocosAngle(getAngle())
 		);
 	}
+	wasShieldActive = shieldActive;
 }
 
 void Agent::updateAnimation()
