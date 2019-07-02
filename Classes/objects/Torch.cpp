@@ -38,15 +38,9 @@ Torch::Torch(GSpace* space, ObjectIDType id, const ValueMap& args) :
 	}
 }
 
-void Torch::update()
-{
-	GObject::update();
-	timerDecrement(darkness, darknessDrain);
-}
-
 void Torch::initializeGraphics()
 {
-	baseSpriteID = space->createSprite(
+	spriteID = space->createSprite(
 		&graphics_context::createSprite,
 		string("sprites/torch.png"),
 		GraphicsLayer::ground,
@@ -68,6 +62,20 @@ void Torch::initializeGraphics()
 	}
 }
 
+sprite_update Torch::updateSprite()
+{
+	bool crntVisible = space->isInPlayerRoom(crntRoom);
+
+	if (isInFade && crntVisible) {
+		space->graphicsNodeAction(&Node::setVisible, flameSpriteID, true);
+	}
+	else if (!isInFade && !crntVisible) {
+		space->graphicsNodeAction(&Node::setVisible, flameSpriteID, false);
+	}
+
+	return GObject::updateSprite();
+}
+
 void Torch::setActive(bool active)
 {
     isActive = active;
@@ -75,12 +83,12 @@ void Torch::setActive(bool active)
 
 	space->graphicsNodeAction(&Node::setVisible, flameSpriteID, active);
 
-	if (active && lightSourceID == 0) {
+	if (active && lightID == 0) {
 		addLightSource();
 	}
-	else if(lightSourceID != 0) {
-		space->addGraphicsAction(&graphics_context::removeLightSource, lightSourceID);
-		lightSourceID = 0;
+	else if(lightID != 0) {
+		space->addGraphicsAction(&graphics_context::removeLightSource, lightID);
+		lightID = 0;
 	}
 }
 
@@ -91,7 +99,16 @@ bool Torch::getActive()
 
 void Torch::applyDarkness(float v)
 {
+	unsigned int crntFrame = space->getFrame();
+
 	darkness += v;
+
+	//lazily apply drain since last hit
+	if (lastDarknessFrame > 0 && lastDarknessFrame != space->getFrame()) {
+		darkness -= (crntFrame - lastDarknessFrame) * app::params.secondsPerFrame * darknessDrain;
+		darkness = max(darkness, 0.0f);
+		lastDarknessFrame = crntFrame;
+	}
 
 	if (darkness >= 1.0f) {
 		setActive(false);
@@ -100,12 +117,12 @@ void Torch::applyDarkness(float v)
 
 void Torch::addLightSource()
 {
-	lightSourceID = space->addLightSource(
+	lightID = space->addLightSource(
 		CircleLightArea::create( getPos(),lightRadius,toColor4F(color)*intensity, flood )
 	);
 	space->addGraphicsAction(
 		&graphics_context::setLightSourceNoise,
-		lightSourceID,
+		lightID,
 		perlin_light_state{ toColor4F(color)*intensity, boost::math::float_constants::pi, 0.0f, 4.0f, 0.3f}
 	);
 }

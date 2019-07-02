@@ -19,8 +19,6 @@ public:
 
 	Torch(GSpace* space, ObjectIDType id, const ValueMap& args);
 
-	virtual void update();
-
     virtual inline GType getType() const {return GType::environment;}
     virtual inline GraphicsLayer sceneLayer() const {return GraphicsLayer::ground;}
 
@@ -29,7 +27,8 @@ public:
 	virtual inline string interactionIcon(Player* p) { return "sprites/torch.png"; }
 
     virtual void initializeGraphics();
-    
+	virtual sprite_update updateSprite();
+
     void setActive(bool active);
     bool getActive();
 	void applyDarkness(float v);
@@ -37,8 +36,6 @@ public:
 	void addLightSource();
 protected:
 	string colorName;
-	LightID lightSourceID = 0;
-	SpriteID baseSpriteID = 0;
 	SpriteID flameSpriteID = 0;
 	Color3B color = Color3B(255,255,255);
 	float intensity = 1.0f;
@@ -46,6 +43,7 @@ protected:
 	float flood = 0.5f;
 	float lightRadius = 3.0f;
 	float darkness = 0.0f;
+	unsigned int lastDarknessFrame = 0;
 	bool isActive = false;
 };
 

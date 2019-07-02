@@ -251,7 +251,7 @@ public:
 	inline virtual string getSprite() const { return ""; }
 	inline virtual shared_ptr<LightArea> getLightSource() const { return nullptr; }
 	int sceneLayerAsInt() const;
-    sprite_update updateSprite();
+    virtual sprite_update updateSprite();
 	void initLightSource();
 	//If "id" is not provided, the object's defaut sprite, spriteID, will be
 	//used, assuming it is valid.
