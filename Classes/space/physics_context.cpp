@@ -392,9 +392,9 @@ unordered_set<GObject*> physics_context::radiusQuery(
 	filter.maskBits = to_uint(type);
 	filter.layers = to_uint(layers);
 
-	b2QueryCallback callback = [type, layers, center, radius, &result](b2Fixture* fixture) -> bool {
+	b2QueryCallback callback = [agent, type, layers, center, radius, &result](b2Fixture* fixture) -> bool {
 		GObject* obj = static_cast<GObject*>(fixture->GetUserData());
-		if (obj) {
+		if (obj && obj != agent) {
 			result.insert(obj);
 		}
 		return true;
