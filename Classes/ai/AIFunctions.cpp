@@ -976,7 +976,7 @@ update_return FireIfTargetVisible::update()
 		return_pop();
 	}
 	
-	if (agent->getRadar()->isObjectVisible(target.get()) && getSpace()->isInPlayerRoom(agent->getPos()))
+	if (agent->getRadar()->isObjectVisible(target.get()) && getSpace()->isInPlayerRoom(agent->getCrntRoom()))
 	{
 		if (fp->fireIfPossible()) {
 			agent->playSoundSpatial("sfx/shot.wav");

@@ -9,9 +9,9 @@
 #ifndef MapFragment_hpp
 #define MapFragment_hpp
 
-#include "GObject.hpp"
+#include "InventoryObject.hpp"
 
-class MapFragment : public GObject
+class MapFragment : public InventoryObject
 {
 public:
 	static bool conditionalLoad(GSpace* space, ObjectIDType id, const ValueMap& args);
@@ -24,6 +24,7 @@ public:
 
 	virtual inline GraphicsLayer sceneLayer() const { return GraphicsLayer::floor; }
 	virtual inline string getSprite() const { return "mapFragment"; }
+	virtual inline string itemName() const { return "Map Fragment"; }
 
 	void onAcquire();
 

@@ -61,16 +61,6 @@ bool GScene::isInCameraArea(SpaceRect r)
 	return cameraArea.intersectsRect(r);
 }
 
-bool GScene::isInPlayerRoom(SpaceVect v)
-{
-	return isInArea(mapAreas, v, crntMap);
-}
-
-int GScene::getPlayerRoom()
-{
-	return crntMap;
-}
-
 void GScene::eraseTile(int mapID, IntVec2 pos, string layer)
 {
 	TMXTiledMap* map = tilemaps.at(mapID);
@@ -355,7 +345,7 @@ void GScene::loadRoomFromMap(const SpaceRect& mapBounds, int roomID, const Value
 {
 	gspace->createObject(GObject::make_object_factory<RoomSensor>(
 		mapBounds.center,
-		mapBounds.dimensions,
+		mapBounds.dimensions - SpaceVect(1.0, 1.0),
 		roomID,
 		properties
 	));
@@ -371,6 +361,7 @@ void GScene::loadRoomsLayer(const TMXTiledMap& map)
 	{
 		ValueMap objAsMap = obj.asValueMap();
 		SpaceRect area = getUnitspaceRectangle(objAsMap, make_pair(0,0));
+		area.dimensions -= SpaceVect(1.0, 1.0);
 		convertToUnitSpace(objAsMap, make_pair(0,0));
 
 		gspace->createObject(GObject::make_object_factory<RoomSensor>(objAsMap));

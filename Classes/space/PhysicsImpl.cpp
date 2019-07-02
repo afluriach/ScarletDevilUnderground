@@ -378,20 +378,9 @@ void bulletBulletBegin(Bullet* _a, Bullet* _b, b2Contact* arb)
 	_b->onBulletCollide(_a);
 }
 
-void playerPickupBegin(Player* p, GObject* b, b2Contact* arb)
+void playerPickupBegin(Player* p, InventoryObject* inv, b2Contact* arb)
 {
-    if(auto c = dynamic_cast<Collectible*>(b)){
-        p->onCollectible(c);
-    }
-	else if (auto u = dynamic_cast<Upgrade*>(b)) {
-		p->applyUpgrade(u);
-	}
-	else if (auto inv = dynamic_cast<InventoryObject*>(b)) {
-		inv->onPlayerContact();
-	}
-	else if (auto _map = dynamic_cast<MapFragment*>(b)) {
-		_map->onAcquire();
-	}
+	inv->onPlayerContact();
 }
 
 void bulletEnvironment(Bullet* _b, GObject* environment, b2Contact* contact)

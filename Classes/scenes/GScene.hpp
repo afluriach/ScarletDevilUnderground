@@ -143,8 +143,6 @@ public:
 	const vector<bool>& getAreasVisibleOnMap();
 	int getMapLocation(SpaceRect r);
 	bool isInCameraArea(SpaceRect r);
-	bool isInPlayerRoom(SpaceVect v);
-	int getPlayerRoom();
 	void eraseTile(int mapID, IntVec2 pos, string layer);
 
 	inline bool isMultiMap() const { return tilemaps.size() > 1; }

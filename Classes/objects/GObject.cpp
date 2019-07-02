@@ -183,6 +183,19 @@ void GObject::setCrntRoom(int roomIndex)
 	crntRoom = roomIndex;
 }
 
+void GObject::updateRoomQuery()
+{
+	GObject* result = space->physicsContext->pointQuery(
+		getPos(),
+		GType::areaSensor,
+		PhysicsLayers::all
+	);
+
+	if (auto rs = dynamic_cast<RoomSensor*>(result)) {
+		setCrntRoom(rs->getID());
+	}
+}
+
 void GObject::updateFSM() {
 	if (fsm && !isFrozen)
 		fsm->update();
@@ -532,7 +545,7 @@ int GObject::sceneLayerAsInt() const {
 
 sprite_update GObject::updateSprite()
 {
-	bool visible = space->isInPlayerRoom(getPos());
+	bool visible = space->isInPlayerRoom(crntRoom);
 	bool updateRequired = false;
 	bool fadeOut = false;
 	bool fadeIn = false;

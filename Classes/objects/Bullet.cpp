@@ -20,6 +20,7 @@ bullet_attributes bullet_attributes::getDefault()
 		SpaceVect::zero,
 		nullptr,
 		GType::enemyBullet,
+		-1,
 		1.0f,
 		1.0f
 	};
@@ -52,6 +53,7 @@ Bullet::Bullet(
 	GObject(params, phys),
 	attributes(attributes)
 {
+	crntRoom = attributes.startRoom;
 }
 
 void Bullet::onWallCollide(Wall* wall)

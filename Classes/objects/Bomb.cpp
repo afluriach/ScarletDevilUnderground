@@ -23,6 +23,7 @@ Bomb::Bomb(shared_ptr<object_params> params) :
 void Bomb::init()
 {
 	GObject::init();
+	updateRoomQuery();
 
 	countdown = getFuseTime();
 	fuseSound = playSoundSpatial("sfx/bomb_fuse.wav");

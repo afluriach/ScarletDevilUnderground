@@ -587,7 +587,7 @@ bool MapMenu::init()
 	SpaceVect areaSize = playScene->getMapSize();
 	size_t roomCount = playScene->getMapAreas().size();
 
-	playerRoom = playScene->getPlayerRoom();
+	playerRoom = playScene->getSpace()->getPlayerRoom();
 
 	backgroundNode = DrawNode::create();
 	addChild(backgroundNode,1);

@@ -34,6 +34,8 @@ class FloorSegment;
 class GObject
 {
 public:
+	friend class GSpace;
+
 	typedef function<GObject*(GSpace*, ObjectIDType, const ValueMap&) > AdapterType;
 
 	enum class initOrder {
@@ -145,6 +147,7 @@ public:
 
 	inline int getCrntRoom() const { return crntRoom; }
 	virtual void setCrntRoom(int roomIndex);
+	void updateRoomQuery();
 
 	//Activation
 	inline virtual void activate() {};

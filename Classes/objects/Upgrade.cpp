@@ -25,7 +25,7 @@ bool Upgrade::conditionalLoad(GSpace* space, ObjectIDType id, const ValueMap& ar
 }
 
 Upgrade::Upgrade(GSpace* space, ObjectIDType id, const ValueMap& args) :
-	GObject(MapParamsPointUp(), physics_params(0.75, -1.0)),
+	InventoryObject(MapParamsPointUp(), physics_params(0.75, -1.0)),
 	attribute(AttributeSystem::getAttribute(getStringOrDefault(args, "attr", ""))),
 	upgrade_id(getIntOrDefault(args, "id", -1))
 {
@@ -38,4 +38,9 @@ Upgrade::Upgrade(GSpace* space, ObjectIDType id, const ValueMap& args) :
 string Upgrade::getSprite() const
 {
 	return AttributeSystem::upgradeAttributes.at(attribute).sprite;
+}
+
+string Upgrade::itemName() const
+{
+	return AttributeSystem::attributeNameMap.left.at(attribute);
 }

@@ -43,6 +43,7 @@ struct bullet_attributes
 	SpaceVect casterVelocity;
 	object_ref<Agent> caster;
 	GType type;
+	int startRoom = -1;
 
 	float attackDamage = 1.0f;
 	float bulletSpeed = 1.0f;

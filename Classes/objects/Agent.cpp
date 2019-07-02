@@ -66,6 +66,7 @@ bullet_attributes Agent::getBulletAttributes(shared_ptr<bullet_properties> props
 	bullet_attributes result;
 
 	result.caster = object_ref<Agent>(this);
+	result.startRoom = crntRoom;
 	result.casterVelocity = getVel();
 	result.type = getType() == GType::player ? GType::playerBullet : GType::enemyBullet;
 	result.attackDamage = getAttribute(Attribute::attack);

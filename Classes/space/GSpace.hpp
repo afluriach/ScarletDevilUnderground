@@ -226,11 +226,13 @@ public:
 	void addMapArea(const SpaceRect& area);
 	SpaceRect getCameraArea();
 	void updateCamera();
+	void setCameraPosition(SpaceVect pos);
 	const vector<SpaceRect>& getMapAreas();
 	int getMapLocation(SpaceRect r);
 	pair<int, IntVec2> getTilePosition(SpaceVect p);
 	bool isInCameraArea(SpaceRect r);
 	bool isInPlayerRoom(SpaceVect v);
+	bool isInPlayerRoom(int roomID);
 	int getPlayerRoom();
 	Player* getPlayer();
 	void applyMapFragment(int mapFragmentID);

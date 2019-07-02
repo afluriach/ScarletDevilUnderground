@@ -13,8 +13,22 @@
 #include "InventoryObject.hpp"
 
 InventoryObject::InventoryObject(GSpace* space, ObjectIDType id, const ValueMap& args) :
-	GObject(MapParams(), physics_params(0.5, -1.0))
+	InventoryObject(space, id, args, physics_params(0.5, -1.0))
 {}
+
+InventoryObject::InventoryObject(GSpace* space, ObjectIDType id, const ValueMap& args, const physics_params& phys) :
+	GObject(MapParams(), phys)
+{}
+
+InventoryObject::InventoryObject(shared_ptr<object_params> params, const physics_params& phys) :
+	GObject(params, phys)
+{}
+
+void InventoryObject::init()
+{
+	GObject::init();
+	updateRoomQuery();
+}
 
 void InventoryObject::onPlayerContact()
 {

@@ -24,7 +24,7 @@
 }
 
 MapFragment::MapFragment(GSpace* space, ObjectIDType id, const ValueMap& args) :
-	GObject(MapParamsPointUp(), physics_params(0.5, -1.0)),
+	InventoryObject(MapParamsPointUp(), physics_params(0.5, -1.0)),
 	mapFragmentId(getIntOrDefault(args, "id", -1))
 {
 	if (mapFragmentId == -1) {

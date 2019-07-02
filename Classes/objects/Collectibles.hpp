@@ -9,7 +9,7 @@
 #ifndef Collectibles_hpp
 #define Collectibles_hpp
 
-#include "GObject.hpp"
+#include "InventoryObject.hpp"
 
 enum class collectible_id
 {
@@ -39,7 +39,7 @@ struct collectible_properties
 	float val;
 };
 
-class Collectible : public GObject
+class Collectible : public InventoryObject
 {
 public:
 	static const boost::bimap<collectible_id, string> collectibleNameMap;
@@ -53,11 +53,9 @@ public:
 	Collectible(GSpace* space, ObjectIDType id, SpaceVect pos, collectible_id collectibleID);
 	inline virtual ~Collectible() {}
 
-	virtual inline GType getType() const { return GType::playerPickup; }
-	virtual inline bool getSensor() const { return true; }
-
 	virtual inline GraphicsLayer sceneLayer() const { return GraphicsLayer::floor; }
 	virtual string getSprite() const;
+	virtual string itemName() const;
 
 	AttributeMap getEffect() const;
 protected:

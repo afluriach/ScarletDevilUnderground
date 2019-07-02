@@ -16,16 +16,21 @@
 class InventoryObject : public GObject
 {
 public:
-	MapObjCons(InventoryObject);
+	InventoryObject(GSpace* space, ObjectIDType id, const ValueMap& args);
+	InventoryObject(GSpace* space, ObjectIDType id, const ValueMap& args, const physics_params& phys);
+	InventoryObject(shared_ptr<object_params> params, const physics_params& phys);
 
-    virtual inline GType getType() const {return GType::playerPickup;}
+	virtual void init();
+
+	virtual inline GType getType() const { return GType::playerPickup; }
+	virtual inline bool getSensor() const { return true; }
 	virtual inline PhysicsLayers getLayers() const { return PhysicsLayers::floor; }
 
     virtual inline GraphicsLayer sceneLayer() const {return GraphicsLayer::floor;}
     
     //virtual API for item interaction
-    virtual bool canAcquire() = 0;
-    virtual void onAcquire() {}
+	virtual inline bool canAcquire() { return true; }
+    virtual inline void onAcquire() {}
     virtual string itemName() const = 0;
 
 	void onPlayerContact();

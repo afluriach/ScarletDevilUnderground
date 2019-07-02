@@ -9,9 +9,9 @@
 #ifndef Upgrade_hpp
 #define Upgrade_hpp
 
-#include "GObject.hpp"
+#include "InventoryObject.hpp"
 
-class Upgrade : public GObject
+class Upgrade : public InventoryObject
 {
 public:
 	static bool conditionalLoad(GSpace* space, ObjectIDType id, const ValueMap& args);
@@ -24,6 +24,7 @@ public:
 
 	virtual inline GraphicsLayer sceneLayer() const { return GraphicsLayer::floor; }
 	virtual string getSprite() const;
+	virtual string itemName() const;
 
 	//Which particular instance of this upgrade.
 	const unsigned int upgrade_id;

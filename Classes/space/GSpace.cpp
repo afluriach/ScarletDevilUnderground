@@ -790,9 +790,14 @@ void GSpace::updateCamera()
 {
 	if (auto p = getPlayer()) {
 		SpaceVect pos = p->getPos();
-		cameraArea = calculateCameraArea(pos);
-		addSceneAction(bind(&GScene::setUnitPosition, gscene, pos));
+		setCameraPosition(pos);
 	}
+}
+
+void GSpace::setCameraPosition(SpaceVect pos)
+{
+	cameraArea = calculateCameraArea(pos);
+	addSceneAction(bind(&GScene::setUnitPosition, gscene, pos));
 }
 
 const vector<SpaceRect>& GSpace::getMapAreas()
@@ -813,6 +818,11 @@ bool GSpace::isInCameraArea(SpaceRect r)
 bool GSpace::isInPlayerRoom(SpaceVect v)
 {
 	return isInArea(mapAreas, v, crntMap);
+}
+
+bool GSpace::isInPlayerRoom(int roomID)
+{
+	return roomID == crntMap;
 }
 
 pair<int, IntVec2> GSpace::getTilePosition(SpaceVect p)
@@ -849,11 +859,14 @@ Player* GSpace::getPlayer()
 	auto objects = getObjectsByType(typeid(Player));
 
 #if DEV_MODE
-	if (objects->size() > 1) {
-		log("getPlayer: multiple player objects");
-	}
-	else if (objects->empty()) {
-		log("getPlayer: no player object!");
+	if (objByUUID.size() > 0)
+	{
+		if (objects->size() > 1) {
+			log("getPlayer: multiple player objects");
+		}
+		else if (objects->empty()) {
+			log("getPlayer: no player object!");
+		}
 	}
 #endif
 
