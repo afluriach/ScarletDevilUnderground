@@ -323,11 +323,11 @@ void GObject::setAngularVel(SpaceFloat w){
 }
 
 void GObject::applyForceForSingleFrame(SpaceVect f){
-	body->ApplyLinearImpulse(toBox2D(f * app::params.secondsPerFrame), toBox2D(getPos()), true);
+	body->ApplyLinearImpulseToCenter(toBox2D(f * app::params.secondsPerFrame), true);
 }
 
 void GObject::applyImpulse(SpaceVect i) {
-	body->ApplyLinearImpulse(toBox2D(i), toBox2D(getPos()), true);
+	body->ApplyLinearImpulseToCenter(toBox2D(i), true);
 }
 
 void GObject::applyImpulse(SpaceFloat mag, SpaceFloat angle){
