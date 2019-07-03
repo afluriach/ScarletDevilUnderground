@@ -361,10 +361,13 @@ void GScene::loadRoomsLayer(const TMXTiledMap& map)
 	{
 		ValueMap objAsMap = obj.asValueMap();
 		SpaceRect area = getUnitspaceRectangle(objAsMap, make_pair(0,0));
-		area.dimensions -= SpaceVect(1.0, 1.0);
-		convertToUnitSpace(objAsMap, make_pair(0,0));
 
-		gspace->createObject(GObject::make_object_factory<RoomSensor>(objAsMap));
+		gspace->createObject(GObject::make_object_factory<RoomSensor>(
+			area.center,
+			area.dimensions - SpaceVect(1.0, 1.0),
+			objAsMap.at("name").asInt(),
+			objAsMap
+		));
 
 		mapAreas.push_back(area);
 		gspace->addMapArea(area);
