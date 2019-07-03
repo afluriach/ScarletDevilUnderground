@@ -342,34 +342,25 @@ void PhysicsImpl::AddHandler(
 	addCollide(types.first, types.second);
 }
 
-void playerEnemyBegin(Player* p, Enemy* e, b2Contact* arb)
+void agentAgentBegin(Agent* a, Agent* b, b2Contact* arb)
 {    
-	p->onTouchAgent(e);
-	e->onTouchAgent(p);
+	a->onTouchAgent(b);
+	b->onTouchAgent(a);
 }
 
-void playerEnemyEnd(Player* p, Enemy* e, b2Contact* arb)
+void agentAgentEnd(Agent* a, Agent* b, b2Contact* arb)
 {
-	p->onEndTouchAgent(e);
-	e->onEndTouchAgent(p);    
+	a->onEndTouchAgent(b);
+	b->onEndTouchAgent(a);
 }
 
-void playerEnemyBulletBegin(Player* player, Bullet* _bullet, b2Contact* contact)
+void agentBulletBegin(Agent* a, Bullet* b, b2Contact* contact)
 {
 	b2WorldManifold manifold;
 	contact->GetWorldManifold(&manifold);
 
-	_bullet->onAgentCollide(player, manifold.normal);
-	player->onBulletCollide(_bullet);
-}
-
-void playerBulletEnemyBegin(Bullet* bullet, Agent* _enemy_agent, b2Contact* contact)
-{    
-	b2WorldManifold manifold;
-	contact->GetWorldManifold(&manifold);
-
-	bullet->onAgentCollide(_enemy_agent, manifold.normal);
-	_enemy_agent->onBulletCollide(bullet);
+	b->onAgentCollide(a, manifold.normal);
+	a->onBulletCollide(b);
 }
 
 void bulletBulletBegin(Bullet* _a, Bullet* _b, b2Contact* arb)
@@ -449,9 +440,9 @@ void PhysicsImpl::addCollisionHandlers()
 	_addSensorHandler(enemySensor, player);
 	_addSensorHandler(enemySensor, playerBullet);
 
-	_addHandler(player, enemy, playerEnemyBegin, playerEnemyEnd);
-	_addHandlerNoEnd(player, enemyBullet, playerEnemyBulletBegin);
-	_addHandlerNoEnd(playerBullet, enemy, playerBulletEnemyBegin);
+	_addHandler(player, enemy, agentAgentBegin, agentAgentEnd);
+	_addHandlerNoEnd(player, enemyBullet, agentBulletBegin);
+	_addHandlerNoEnd(enemy, playerBullet, agentBulletBegin);
 	_addHandlerNoEnd(playerBullet, environment, bulletEnvironment);
 	_addHandlerNoEnd(enemyBullet, environment, bulletEnvironment);
 	_addHandlerNoEnd(playerBullet, enemyBullet, bulletBulletBegin);
