@@ -82,7 +82,7 @@ void b2MotorJoint::InitVelocityConstraints(const b2SolverData& data)
 	b2Rot qA(aA), qB(aB);
 
 	// Compute the effective mass matrix.
-	m_rA = b2Mul(qA, -m_localCenterA);
+	m_rA = b2Mul(qA, m_linearOffset - m_localCenterA);
 	m_rB = b2Mul(qB, -m_localCenterB);
 
 	// J = [-I -r1_skew I r2_skew]
@@ -111,7 +111,7 @@ void b2MotorJoint::InitVelocityConstraints(const b2SolverData& data)
 		m_angularMass = 1.0f / m_angularMass;
 	}
 
-	m_linearError = cB + m_rB - cA - m_rA - b2Mul(qA, m_linearOffset);
+	m_linearError = cB + m_rB - cA - m_rA;
 	m_angularError = aB - aA - m_angularOffset;
 
 	if (data.step.warmStarting)
