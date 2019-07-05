@@ -138,11 +138,13 @@ void GSpace::update()
 #endif
 
     //physics step
+	isInPhysicsStep = true;
 	world->Step(
 		app::params.secondsPerFrame,
 		PhysicsImpl::velocitySteps,
 		PhysicsImpl::positionSteps
 	);
+	isInPhysicsStep = false;
     
 	updateSoundSources();
 	updateCamera();
@@ -163,6 +165,10 @@ void GSpace::update()
 
 	updateSensors();
 	magicEffectSystem->update();
+
+	for (auto entry : updateMessages)
+		entry();
+	updateMessages.clear();
 
     for(GObject* obj : updateObjects){
         obj->update();
@@ -700,6 +706,11 @@ EnemyStatsMap GSpace::getEnemyStats()
 void GSpace::addInitAction(zero_arity_function f)
 {
 	initMessages.push_back(f);
+}
+
+void GSpace::addUpdateAction(zero_arity_function f)
+{
+	updateMessages.push_back(f);
 }
 
 void GSpace::addObjectAction(zero_arity_function f)

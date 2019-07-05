@@ -33,7 +33,6 @@ GObject::GObject(shared_ptr<object_params> params, const physics_params& phys) :
 	dimensions(phys.dimensions),
 	mass(phys.mass),
 	prevPos(params->pos),
-	angle(params->angle),
 	prevAngle(params->angle),
 	hidden(params->hidden)
 {
@@ -274,23 +273,29 @@ SpaceVect GObject::getDeltaPos() const {
 }
 
 void GObject::setPos(SpaceVect p){
-	body->SetPosition(toBox2D(p));
+	if (space->isInCallback()) {
+		space->addUpdateAction([this, p]()->void {
+			body->SetPosition(toBox2D(p));
+		});
+	}
+	else {
+		body->SetPosition(toBox2D(p));
+	}
 }
     
 void GObject::setAngle(SpaceFloat a){
-	angle = a;
+	if (space->isInCallback()) {
+		space->addUpdateAction([this,a]()->void {
+			body->SetAngle(a);
+		});
+	}
+	else {
+		body->SetAngle(a);
+	}
 }
     
 SpaceFloat GObject::getAngle() const {
-	return angle;
-}
-
-SpaceFloat GObject::getBodyAngle() const {
 	return canonicalAngle(body->GetAngle());
-}
-
-void GObject::setBodyAngle(SpaceFloat a) {
-	body->SetAngle(a);
 }
 
 void GObject::rotate(SpaceFloat a){

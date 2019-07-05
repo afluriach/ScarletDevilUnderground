@@ -54,6 +54,7 @@ public:
     void setSize(int x, int y);
     
 	inline ChamberID getCrntChamber() const { return crntChamber; }
+	inline bool isInCallback() const { return isInPhysicsStep; }
 	unsigned int getFrame() const;
 	unsigned long getTimeUsed() const;
 	GScene* getScene();
@@ -196,6 +197,7 @@ public:
 	inline void removeSensor(RadarSensor* sensor) { radarSensors.erase(sensor); }
 
 	void addInitAction(zero_arity_function f);
+	void addUpdateAction(zero_arity_function f);
 	void addObjectAction(zero_arity_function f);
 	void addSceneAction(zero_arity_function f);
 	void createDialog(string res, bool autoAdvance);
@@ -352,6 +354,7 @@ protected:
 	bool isRunningReplay = false;
 	bool suppressAction = false;
 	bool isMultiMap;
+	bool isInPhysicsStep = false;
 
 //OBJECT MANIPULATION
 
@@ -372,6 +375,9 @@ protected:
 	//Messages for objects that have been queued for addition on the next frame. 
 	//These will be run right after init is run for recently created objects.
 	vector<zero_arity_function> initMessages;
+	//Messages for objects that will be run before the next update cycle.
+	vector<zero_arity_function> updateMessages;
+
 	//Objects whose additions have been processsed last frame. Physics has been initialized but
 	//init has not yet run; it will run at start of frame.
 	vector<GObject*> addedLastFrame;
