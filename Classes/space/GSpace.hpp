@@ -68,25 +68,6 @@ public:
 	void updateSoundSources();
     void processAdditions();
 
-	audio_context* audioContext;
-	unique_ptr<physics_context> physicsContext;
-	unique_ptr<MagicEffectSystem> magicEffectSystem;
-private:
-	list<pair<GObject*, ALuint>> activeSounds;
-
-	unique_ptr<GState> crntState;
-	ChamberID crntChamber;
-
-	//The graphics destination to use for all objects constructed in this space.
-	GScene *const gscene;
-	graphics_context* graphicsContext;
-    
-	b2World *world = nullptr;
-	unique_ptr<PhysicsImpl> physicsImpl;
-	
-	unsigned int frame = 0;
-    IntVec2 spaceSize;
-	unsigned long timeUsed = 0;
 //BEGIN OBJECT MANIPULATION
 public:
     static const bool logObjectArgs;
@@ -281,56 +262,6 @@ private:
 		}
 	}
 
-    unordered_map<unsigned int, GObject*> objByUUID;
-    unordered_map<string, GObject*> objByName;
-	unordered_set<string> warningNames;
-	unordered_map<type_index, unordered_set<GObject*>> objByType;
-	unordered_map<type_index, unsigned int> initialObjectCount;
-	unordered_map<type_index, unsigned int> totalSpawnCount;
-	unordered_map<type_index, unsigned int> enemiesDefeated;
-	set<GObject*> updateObjects;
-	set<RadarSensor*> radarSensors;
-	unordered_map<int, RoomSensor*> roomSensors;
-	unordered_map<string, ValueMap> dynamicLoadObjects;
-	//For objects that actually need ValueMap args to persist until init,
-	//without having to store them by value in the object itself.
-	unordered_map<ObjectIDType, ValueMap> valueMapArgs;
-
-	SpaceRect cameraArea;
-	int crntMap = -1;
-	vector<SpaceRect> mapAreas;
-
-	ControlInfo controlInfo;
-	unique_ptr<Replay> controlReplay;
-	
-	vector<zero_arity_function> sceneActions;
-	vector<zero_arity_function> objectActions;
-	mutex objectActionsMutex;
-
-	bool isRunningReplay = false;
-	bool suppressAction = false;
-	bool isMultiMap;
-
-	uniform_real_distribution<float> randomFloat;
-	mt19937 randomEngine;
-
-	unsigned int nextObjUUID = 1;
-	unsigned int lastAddedUUID = 0;
-    
-    //"Objects" which have been queued for addition. The generator function, when added, is also
-	//paired to a UUID, i.e. the UUID is actually determined when the object generator is added,
-	//so that a ref can be returned in the same frame.
-    vector<generator_pair> toAdd;
-	//Messages for objects that have been queued for addition on the next frame. 
-	//These will be run right after init is run for recently created objects.
-	vector<zero_arity_function> initMessages;
-    //Objects whose additions have been processsed last frame. Physics has been initialized but
-    //init has not yet run; it will run at start of frame.
-    vector<GObject*> addedLastFrame;
-
-    //Objects which have been queued for removal. Will be removed at end of frame.
-    list<GObject*> toRemove;
-	list<pair<GObject*, ActionGeneratorType>> toRemoveWithAnimation;
 //END OBJECT MANIPULATION
 
 //BEGIN GRAPHICS
@@ -390,15 +321,86 @@ public:
 	FloorSegment* floorSegmentPointQuery(SpaceVect pos);
 
     inline boost::dynamic_bitset<>* getNavMask() const { return navMask;}
-private:
+//END NAVIGATION    
+
+	audio_context* audioContext;
+	unique_ptr<physics_context> physicsContext;
+	unique_ptr<MagicEffectSystem> magicEffectSystem;
+
+protected:
+//LOGIC
+	ControlInfo controlInfo;
+	unique_ptr<Replay> controlReplay;
+	unique_ptr<GState> crntState;
+	b2World *world = nullptr;
+	unique_ptr<PhysicsImpl> physicsImpl;
+	GScene *const gscene;
+	//This should be protected, since objects are not supposed to use it directly, 
+	//but rather make function-bind messages from its methods.
+	graphics_context* graphicsContext;
+
+	SpaceRect cameraArea;
+	IntVec2 spaceSize;
+	unsigned int frame = 0;
+	unsigned long timeUsed = 0;
+	ChamberID crntChamber;
+	int crntMap = -1;
+
+	list<pair<GObject*, ALuint>> activeSounds;
+	vector<SpaceRect> mapAreas;
+
+	bool isRunningReplay = false;
+	bool suppressAction = false;
+	bool isMultiMap;
+
+//OBJECT MANIPULATION
+
+	vector<zero_arity_function> sceneActions;
+	vector<zero_arity_function> objectActions;
+	mutex objectActionsMutex;
+
+	uniform_real_distribution<float> randomFloat;
+	mt19937 randomEngine;
+
+	unsigned int nextObjUUID = 1;
+	unsigned int lastAddedUUID = 0;
+
+	//"Objects" which have been queued for addition. The generator function, when added, is also
+	//paired to a UUID, i.e. the UUID is actually determined when the object generator is added,
+	//so that a ref can be returned in the same frame.
+	vector<generator_pair> toAdd;
+	//Messages for objects that have been queued for addition on the next frame. 
+	//These will be run right after init is run for recently created objects.
+	vector<zero_arity_function> initMessages;
+	//Objects whose additions have been processsed last frame. Physics has been initialized but
+	//init has not yet run; it will run at start of frame.
+	vector<GObject*> addedLastFrame;
+	//Objects which have been queued for removal. Will be removed at end of frame.
+	list<GObject*> toRemove;
+	list<pair<GObject*, ActionGeneratorType>> toRemoveWithAnimation;
+
+	unordered_map<unsigned int, GObject*> objByUUID;
+	unordered_map<string, GObject*> objByName;
+	unordered_set<string> warningNames;
+	unordered_map<type_index, unordered_set<GObject*>> objByType;
+	unordered_map<type_index, unsigned int> initialObjectCount;
+	unordered_map<type_index, unsigned int> totalSpawnCount;
+	unordered_map<type_index, unsigned int> enemiesDefeated;
+	set<GObject*> updateObjects;
+	set<RadarSensor*> radarSensors;
+	unordered_map<int, RoomSensor*> roomSensors;
+	unordered_map<string, ValueMap> dynamicLoadObjects;
+	//For objects that actually need ValueMap args to persist until init,
+	//without having to store them by value in the object itself.
+	unordered_map<ObjectIDType, ValueMap> valueMapArgs;
+//NAVIGATION
 	void unmarkObstacleTile(int x, int y);
 	void markObstacleTile(int x, int y);
     bool isObstacleTile(int x, int y) const;
     
 	unordered_map<string, Path> paths;
 	unordered_map<string, SpaceVect> waypoints;
-    boost::dynamic_bitset<>* navMask = nullptr;
-//END NAVIGATION    
+	boost::dynamic_bitset<>* navMask = nullptr;
 };
 
 #endif /* GSpace_hpp */
