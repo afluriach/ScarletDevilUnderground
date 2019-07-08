@@ -47,20 +47,3 @@ shared_ptr<LightArea> CatadioptricBullet::getLightSource() const {
 		0.25
 	);
 }
-
-const string FlandrePolarMotionOrb::props = "flandrePolarMotionOrb";
-
-FlandrePolarMotionOrb::FlandrePolarMotionOrb(
-	shared_ptr<object_params> params,
-	const bullet_attributes& attributes
-) :
-	BulletImpl(params, attributes, app::getBullet(props))
-{}
-
-void FlandrePolarMotionOrb::update()
-{
-	GObject::update();
-
-	applyForceForSingleFrame(SpaceVect::ray(20.0, getAngle() + float_pi / 2.0));
-	rotate(app::params.secondsPerFrame * float_pi);
-}

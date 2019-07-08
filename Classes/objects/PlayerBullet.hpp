@@ -37,16 +37,6 @@ public:
 	virtual shared_ptr<LightArea> getLightSource() const;
 };
 
-class FlandrePolarMotionOrb : public BulletImpl
-{
-public:
-	static const string props;
-
-	cons(FlandrePolarMotionOrb);
-
-	virtual void update();
-};
-
 #undef cons
 
 #endif /* PlayerBullet_hpp */

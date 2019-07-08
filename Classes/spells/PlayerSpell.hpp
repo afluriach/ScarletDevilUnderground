@@ -138,23 +138,6 @@ protected:
 	shared_ptr<bullet_properties> props;
 };
 
-class PlayerWhirlShot : public PlayerSpell {
-public:
-	static const string name;
-	static const string description;
-	static const string icon;
-	static const float cost;
-	static const SpellCostType costType;
-
-	static const int bulletCount;
-
-	PlayerWhirlShot(GObject* caster);
-
-	GET_DESC(PlayerWhirlShot)
-	virtual void init();
-	inline virtual SpaceFloat getLength() const { return 0.0; }
-};
-
 class PlayerDarkMist : public PlayerSpell {
 public:
 	static const string name;

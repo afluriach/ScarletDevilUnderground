@@ -290,33 +290,6 @@ void PlayerScarletRose::end()
 	}
 }
 
-const string PlayerWhirlShot::name = "PlayerWhirlShot";
-const string PlayerWhirlShot::description = "";
-const string PlayerWhirlShot::icon = "sprites/ui/whirl_shot.png";
-const float PlayerWhirlShot::cost = 10.0f;
-const SpellCostType PlayerWhirlShot::costType = enum_bitwise_or(SpellCostType, stamina, initial);
-
-const int PlayerWhirlShot::bulletCount = 8;
-
-PlayerWhirlShot::PlayerWhirlShot(GObject* caster) :
-	PlayerSpell(caster)
-{}
-
-void PlayerWhirlShot::init()
-{
-	SpaceFloat angleStep = float_pi * 2.0 / bulletCount;
-	Agent* agent = dynamic_cast<Agent*>(caster);
-
-	for_irange(i, 0, bulletCount)
-	{
-		SpaceFloat angle = i * angleStep;
-		agent->bulletCheckSpawn<FlandrePolarMotionOrb>(Bullet::makeParams(
-			agent->getPos() + SpaceVect::ray(1.0, angle),
-			angle
-		));
-	}
-}
-
 const string PlayerDarkMist::name = "PlayerDarkMist";
 const string PlayerDarkMist::description = "";
 const float PlayerDarkMist::cost = 7.5f;
