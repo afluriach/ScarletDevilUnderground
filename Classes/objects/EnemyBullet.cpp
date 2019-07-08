@@ -65,43 +65,6 @@ void IllusionDialDagger::launch()
         debug_log("player missing");
 }
 
-void IllusionDialDagger::update()
-{
-	GObject::update();
-
-	if (drawNodeID != 0) {
-		space->graphicsNodeAction(
-			&Node::setRotation,
-			drawNodeID,
-			to_float(-toDegrees(getAngle()))
-		);
-	}
-}
-
-void IllusionDialDagger::initializeGraphics()
-{
-	GObject::initializeGraphics();
-
-	SpaceVect _dim = getDimensions();
-	float hWidth = to_float(_dim.x / 2.0 * app::pixelsPerTile);
-	float hHeight = to_float(_dim.y / 2.0 * app::pixelsPerTile);
-	
-	drawNodeID = space->createSprite(
-		&graphics_context::createDrawNode,
-		GraphicsLayer::agentOverlay,
-		getInitialCenterPix(),
-		1.0f
-	);
-	space->graphicsNodeAction(
-		&DrawNode::drawSolidRect,
-		drawNodeID,
-		Vec2(-hWidth, -hHeight),
-		Vec2(hWidth, hHeight),
-		Color4F(.66f, .75f, .66f, .7f)
-	);
-	space->graphicsNodeAction(&Node::setVisible, drawNodeID, false);
-}
-
 const string YinYangOrb::props = "yinYangOrb";
 
 YinYangOrb::YinYangOrb(shared_ptr<object_params> params, const bullet_attributes& attributes) :

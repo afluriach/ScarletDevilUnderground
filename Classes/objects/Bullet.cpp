@@ -56,6 +56,43 @@ Bullet::Bullet(
 	crntRoom = attributes.startRoom;
 }
 
+void Bullet::initializeGraphics()
+{
+	GObject::initializeGraphics();
+
+	drawNodeID = space->createSprite(
+		&graphics_context::createDrawNode,
+		GraphicsLayer::agentOverlay,
+		getInitialCenterPix(),
+		1.0f
+	);
+
+	if (dimensions.y == 0.0) {
+		space->graphicsNodeAction(
+			static_cast<void(DrawNode::*)(const Vec2&, float, float, unsigned int, const Color4F&)>(&DrawNode::drawSolidCircle),
+			drawNodeID,
+			Vec2::ZERO,
+			to_float(dimensions.x * app::pixelsPerTile),
+			0.0f,
+			to_uint(32),
+			Color4F(.66f, .75f, .66f, .7f)
+		);
+	}
+	else {
+		Vec2 pixelExtents = toCocos(dimensions) * app::pixelsPerTile * 0.5f;
+		swap(pixelExtents.x, pixelExtents.y);
+		space->graphicsNodeAction(
+			&DrawNode::drawSolidRect,
+			drawNodeID,
+			-pixelExtents,
+			pixelExtents,
+			Color4F(.66f, .75f, .66f, .7f)
+		);
+	}
+
+	space->graphicsNodeAction(&Node::setVisible, drawNodeID, false);
+}
+
 void Bullet::onWallCollide(Wall* wall)
 {
 	if(!ignoreObstacleCollision)
@@ -177,9 +214,4 @@ void BulletImpl::init()
 	if (props->directionalLaunch) {
 		setVel(calculateLaunchVelocity());
 	}
-}
-
-void BulletImpl::initializeGraphics()
-{
-	GObject::initializeGraphics();
 }

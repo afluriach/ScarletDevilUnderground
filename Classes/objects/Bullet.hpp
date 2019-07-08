@@ -72,6 +72,7 @@ public:
 	virtual inline bool getSensor() const { return true; }
 	virtual inline PhysicsLayers getLayers() const { return PhysicsLayers::ground; }
 
+	virtual void initializeGraphics();
 	virtual inline GraphicsLayer sceneLayer() const { return GraphicsLayer::ground; }
 
 	//Interface
@@ -115,7 +116,6 @@ public:
 	virtual inline SpaceFloat getKnockbackForce() const { return props->knockback; }
 	virtual inline SpaceFloat getMaxSpeed() const { return props->speed; }
 
-	virtual void initializeGraphics();
 	virtual inline string getSprite() const { return props->sprite; }
 	virtual inline shared_ptr<LightArea> getLightSource() const { return app::getLight(props->lightSource); }
 

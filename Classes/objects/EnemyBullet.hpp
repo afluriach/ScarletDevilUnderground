@@ -40,13 +40,9 @@ public:
 	virtual inline SpaceFloat getMaxSpeed() const { return 3.0; }
     
     virtual inline string getSprite() const {return "illusionDagger";}
-
-	virtual void initializeGraphics();
     
     SpaceFloat targetViewAngle();
     void launch();
-
-	virtual void update();
 };
 
 class YinYangOrb : public BulletImpl
