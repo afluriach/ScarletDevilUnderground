@@ -126,21 +126,3 @@ void RumiaDemarcation2Bullet::update()
 
 	setVel(SpaceVect::ray(getMaxSpeed(), getAngle()));
 }
-
-const string RumiaDarknessBullet::props = "rumiaDarknessBullet";
-
-RumiaDarknessBullet::RumiaDarknessBullet(
-	shared_ptr<object_params> params,
-	const bullet_attributes& attributes
-) :
-	BulletImpl(params,attributes,app::getBullet(props))
-{
-	setShield(false);
-
-	addMagicEffect(make_shared<RadiusEffect>(
-		this,
-		DamageInfo{7.5f,Attribute::darknessDamage,DamageType::effectArea},
-		2.0,
-		GType::player
-	));
-}

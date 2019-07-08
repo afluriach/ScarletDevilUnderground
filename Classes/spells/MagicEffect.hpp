@@ -11,6 +11,8 @@
 
 #include "object_ref.hpp"
 
+class RadarSensor;
+
 class MagicEffect
 {
 public:
@@ -36,6 +38,38 @@ public:
 	GObject* agent;
 	float magnitude;
 	state crntState;
+};
+
+class RadiusEffect : public MagicEffect
+{
+public:
+	RadiusEffect(GObject* agent, SpaceFloat radius, GType type);
+
+	virtual void init();
+	virtual void update();
+	virtual void end();
+
+	//interface for sensor
+	void onContact(GObject* obj);
+	void onEndContact(GObject* obj);
+
+	virtual void onHit(GObject* target) = 0;
+protected:
+	unordered_set<GObject*> contacts;
+	RadarSensor* sensor = nullptr;
+
+	SpaceFloat radius;
+	GType type;
+};
+
+class DamageRadiusEffect : public RadiusEffect
+{
+public:
+	DamageRadiusEffect(GObject* agent, DamageInfo damage, SpaceFloat radius, GType type);
+
+	virtual void onHit(GObject* target);
+protected:
+	DamageInfo damage;
 };
 
 #endif /* MagicEffect_hpp */

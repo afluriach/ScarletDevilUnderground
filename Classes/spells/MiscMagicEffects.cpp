@@ -17,18 +17,6 @@
 #include "Player.hpp"
 #include "SpellUtil.hpp"
 
-RadiusEffect::RadiusEffect(GObject* agent, DamageInfo damage, SpaceFloat radius, GType type) :
-	MagicEffect(agent),
-	damage(damage),
-	radius(radius),
-	type(type)
-{}
-
-void RadiusEffect::update()
-{
-	radialEffectArea(agent, radius, type, damage);
-}
-
 FreezeStatusEffect::FreezeStatusEffect(GObject* agent) :
 	MagicEffect(agent, 0.0f)
 {}

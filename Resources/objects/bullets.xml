@@ -167,14 +167,6 @@
 		damage="7.5"
 		sprite="rumiaBullet2"
 	/>
-	<rumiaDarknessBullet
-		speed="6.0"
-		radius="0.2"
-		damage="15.0"
-		element="darknessDamage"
-		lightSource="rumiaDarknessBullet"
-		hitCount="-1"
-	/>
 	<rumiaDemarcationBullet
 		speed="4.5"
 		radius="0.1"

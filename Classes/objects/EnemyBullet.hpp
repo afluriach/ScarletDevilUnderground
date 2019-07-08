@@ -70,18 +70,6 @@ public:
 	virtual void update();
 };
 
-class RumiaDarknessBullet : public BulletImpl
-{
-public:
-	static const string props;
-
-	RumiaDarknessBullet(
-		shared_ptr<object_params> params,
-		const bullet_attributes& attributes
-	);
-};
-
-
 #undef cons
 
 #endif /* Bullet_hpp */
