@@ -9,8 +9,6 @@
 #ifndef controls_h
 #define controls_h
 
-#include "enum.h"
-
 enum class ControlAction
 {
 	begin = 1,

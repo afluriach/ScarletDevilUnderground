@@ -10,7 +10,6 @@
 
 #include "AIUtil.hpp"
 #include "Door.hpp"
-#include "enum.h"
 #include "graphics_context.hpp"
 #include "GSpace.hpp"
 #include "GState.hpp"

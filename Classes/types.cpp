@@ -11,7 +11,6 @@
 #include "App.h"
 #include "app_constants.hpp"
 #include "Attributes.hpp"
-#include "enum.h"
 
 namespace app {
 	app_params params;

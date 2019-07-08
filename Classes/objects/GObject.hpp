@@ -9,7 +9,6 @@
 #ifndef GObject_hpp
 #define GObject_hpp
 
-#include "enum.h"
 #include "graphics_types.h"
 #include "multifunction.h"
 #include "object_params.hpp"

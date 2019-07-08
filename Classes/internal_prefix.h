@@ -48,7 +48,6 @@
 #include "Attributes.hpp"
 #include "audio_context.hpp"
 #include "controls.h"
-#include "enum.h"
 #include "FileIO.hpp"
 #include "functional.hpp"
 #include "GSpace.hpp"

@@ -9,7 +9,6 @@
 #ifndef AI_hpp
 #define AI_hpp
 
-#include "enum.h"
 #include "object_ref.hpp"
 
 class Agent;

@@ -10,7 +10,6 @@
 #define ControlAssignment_h
 
 #include "controls.h"
-#include "enum.h"
 #include "value_map.hpp"
 
 template<typename E>

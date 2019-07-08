@@ -9,7 +9,6 @@
 #include "Prefix.h"
 
 #include "Block.hpp"
-#include "enum.h"
 #include "value_map.hpp"
 
 Block::Block(GSpace* space, ObjectIDType id, const ValueMap& args) :

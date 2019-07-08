@@ -10,7 +10,6 @@
 #define GState_hpp
 
 #include "Attributes.hpp"
-#include "enum.h"
 
 struct ChamberStats
 {

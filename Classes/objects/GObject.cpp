@@ -11,7 +11,6 @@
 #include "AI.hpp"
 #include "app_constants.hpp"
 #include "audio_context.hpp"
-#include "enum.h"
 #include "FloorSegment.hpp"
 #include "Graphics.h"
 #include "graphics_context.hpp"

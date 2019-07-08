@@ -8,7 +8,6 @@
 
 #include "Prefix.h"
 
-#include "enum.h"
 #include "GAnimation.hpp"
 
 AnimationSpriteSequence AnimationSpriteSequence::loadFromRasterImage(const string& path, int cols, int rows)

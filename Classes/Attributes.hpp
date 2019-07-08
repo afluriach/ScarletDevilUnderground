@@ -9,8 +9,6 @@
 #ifndef Attributes_hpp
 #define Attributes_hpp
 
-#include "enum.h"
-
 #define hp_damage_map(x) AttributeMap{ {Attribute::hp, -x} }
 
 enum class Attribute {

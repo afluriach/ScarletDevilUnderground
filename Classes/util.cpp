@@ -9,7 +9,6 @@
 #include "Prefix.h"
 
 #include "app_constants.hpp"
-#include "enum.h"
 
 const SpaceFloat primaryAngles[4] = {0.0, float_pi * 0.5, float_pi, float_pi * 1.5};
 
