@@ -117,6 +117,15 @@ bool getNumericAttr(tinyxml2::XMLElement* elem, const string& name, T* result)
 	return false;
 }
 
+bool getColorAttr(tinyxml2::XMLElement* elem, const string& name, Color4F* result)
+{
+	if (auto attr = elem->Attribute(name.c_str())) {
+		*result = toColor(string(attr));
+		return true;
+	}
+	return false;
+}
+
 bool getVector(tinyxml2::XMLElement* elem, const string& name, SpaceVect* result)
 {
 	const char* attr = elem->Attribute(name.c_str());
@@ -252,25 +261,6 @@ bool parseObject(tinyxml2::XMLElement* elem, IntVec2* result)
 	return false;
 }
 
-bool parseObject(tinyxml2::XMLElement* elem, Color4F* result)
-{
-	if (auto attr = elem->Attribute("color")) {
-		*result = toColor4F(string(attr));
-		return true;
-	}
-	else if (auto attr = elem->Attribute("color-3b")) {
-		*result = toColor4F(toColor3B(string(attr)));
-		return true;
-	}
-	else if (auto attr = elem->Attribute("color-hsv")) {
-		*result = hsva4F(string(attr));
-		return true;
-	}
-	else {
-		return false;
-	}
-}
-
 bool parseObject(tinyxml2::XMLElement* elem, sprite_properties* result)
 {
 	string filename;
@@ -289,7 +279,7 @@ bool parseObject(tinyxml2::XMLElement* elem, sprite_properties* result)
 	}
 
 	parseObject(elem, &size);
-	parseObject(elem, &_color);
+	getColorAttr(elem, "color", &_color);
 	getNumericAttr(elem, "dpi", &dpi);
 	getNumericAttr(elem, "duration", &duration);
 	getNumericAttr(elem, "ref-size", &referenceSize);
@@ -317,7 +307,7 @@ bool parseObject(tinyxml2::XMLElement* elem, shared_ptr<LightArea>* result)
 
 			getNumericAttr(elem, "radius", &_result->radius);
 			getNumericAttr(elem, "flood", &_result->flood);
-			parseObject(elem, &_result->color);
+			getColorAttr(elem, "color", &_result->color);
 
 			(*result) = _result;
 			return true;
@@ -327,7 +317,7 @@ bool parseObject(tinyxml2::XMLElement* elem, shared_ptr<LightArea>* result)
 			auto _result = make_shared<SpriteLightArea>();
 			string spriteName;
 
-			parseObject(elem, &_result->color);
+			getColorAttr(elem, "color", &_result->color);
 			getNumericAttr(elem, "scale", &_result->scale);
 
 			if (getStringAttr(elem, "sprite", &spriteName)) {

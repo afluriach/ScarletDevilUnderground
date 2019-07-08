@@ -25,9 +25,35 @@ cocos2d::CCSize getScreenSize()
     return Director::getInstance()->getVisibleSize();
 }
 
+Color4F toColor(const string& s)
+{
+	vector<string> t1 = splitString(s, ":");
+	Color4F result;
+
+	if (t1.size() > 1 && boost::iequals(t1[0], "3b"))
+	{
+		result = toColor4F(toColor3B(t1[1]));
+	}
+	else if (t1.size() > 1 && boost::iequals(t1[0],"hsv"))
+	{
+		result = hsva4F(t1[1]);
+	}
+	else
+	{
+		result = toColor4F(t1.back());
+	}
+
+	return result;
+}
+
 Color3B toColor3B(const string& s)
 {
 	vector<string> tokens = splitString(s, ",");
+
+	if (tokens.size() != 3) {
+		log("toColor3B: invalid string %s", s);
+		return Color3B::BLACK;
+	}
 
 	return Color3B(
 		boost::lexical_cast<int>(tokens[0]),
@@ -103,13 +129,16 @@ Color4F hsva4F(const string& s)
 {
 	vector<string> tokens = splitString(s, ",");
 
-	if (tokens.size() != 3)
+	if (tokens.size() != 3 && tokens.size() != 4) {
+		log("hsva4F: invalid string %s", s);
 		return Color4F::BLACK;
+	}
 
 	return hsva4F(
 		boost::lexical_cast<float>(tokens[0]),
 		boost::lexical_cast<float>(tokens[1]),
-		boost::lexical_cast<float>(tokens[2])
+		boost::lexical_cast<float>(tokens[2]),
+		tokens.size() == 3 ? 1.0f : boost::lexical_cast<float>(tokens[3])
 	);
 }
 
@@ -127,14 +156,16 @@ Color4F toColor4F(const string& s)
 {
 	vector<string> tokens = splitString(s, ",");
 
-	if (tokens.size() != 4)
+	if (tokens.size() != 3 && tokens.size() != 4) {
+		log("toColor4F: invalid string %s", s);
 		return Color4F::BLACK;
+	}
 
 	return Color4F(
 		boost::lexical_cast<float>(tokens[0]),
 		boost::lexical_cast<float>(tokens[1]),
 		boost::lexical_cast<float>(tokens[2]),
-		boost::lexical_cast<float>(tokens[3])
+		tokens.size() == 3 ? 1.0f : boost::lexical_cast<float>(tokens[3])
 	);
 }
 

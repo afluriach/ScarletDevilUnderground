@@ -24,6 +24,10 @@ Color4F hsva4F(float h, float s, float v, float a = 1.0f);
 Color4F hsva4F(const string& s);
 Color4F toColor4F(Color3B);
 Color4F toColor4F(const string& s);
+//This function accepts a color string in a number of formats.
+//By default it is assumed to be 3F/4F, unless prefixed with
+//"3b:" or "hsv:".
+Color4F toColor(const string& s);
 
 Color4F operator*(const Color4F& lhs, float rhs);
 Color4F operator+(const Color4F& lhs, const Color4F& rhs);

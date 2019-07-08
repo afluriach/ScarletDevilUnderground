@@ -102,11 +102,11 @@
 	<star-purple ref-size="0.125" />
 	<star-red ref-size="0.125" />
 	<star-yellow ref-size="0.125" />
-	<starbowBreak1 color-hsv="0.0,0.5,1.0" file="starbow_break_bullet" ref-size="0.83" />
-	<starbowBreak2 color-hsv="48.0,0.5,1.0" file="starbow_break_bullet" ref-size="0.83" />
-	<starbowBreak3 color-hsv="120.0,0.5,1.0" file="starbow_break_bullet" ref-size="0.83" />
-	<starbowBreak4 color-hsv="180.0,0.5,1.0" file="starbow_break_bullet" ref-size="0.83" />
-	<starbowBreak5 color-hsv="315.0,0.5,1.0" file="starbow_break_bullet" ref-size="0.83" />
+	<starbowBreak1 color="hsv:0.0,0.5,1.0" file="starbow_break_bullet" ref-size="0.83" />
+	<starbowBreak2 color="hsv:48.0,0.5,1.0" file="starbow_break_bullet" ref-size="0.83" />
+	<starbowBreak3 color="hsv:120.0,0.5,1.0" file="starbow_break_bullet" ref-size="0.83" />
+	<starbowBreak4 color="hsv:180.0,0.5,1.0" file="starbow_break_bullet" ref-size="0.83" />
+	<starbowBreak5 color="hsv:315.0,0.5,1.0" file="starbow_break_bullet" ref-size="0.83" />
 	<waterBullet dpi="32" file="water_bullet" />
 	<yinYangOrb file="yin-yang-orb" ref-size="0.5" />
 </sprites>
