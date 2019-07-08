@@ -17,7 +17,7 @@ class RedFairy;
 class RadiusEffect : public MagicEffect
 {
 public:
-	RadiusEffect(gobject_ref target, DamageInfo damage, SpaceFloat radius, GType type);
+	RadiusEffect(GObject* agent, DamageInfo damage, SpaceFloat radius, GType type);
 
 	inline virtual void init() {}
 	virtual void update();
@@ -31,7 +31,7 @@ protected:
 class FreezeStatusEffect : public MagicEffect
 {
 public:
-	FreezeStatusEffect(gobject_ref target);
+	FreezeStatusEffect(GObject* agent);
 
 	virtual void init();
 	virtual void update();
@@ -43,7 +43,7 @@ protected:
 class DarknessCurseEffect : public MagicEffect
 {
 public:
-	DarknessCurseEffect(gobject_ref target);
+	DarknessCurseEffect(Agent* agent);
 
 	virtual void init();
 	virtual void update();
@@ -55,7 +55,7 @@ protected:
 class RedFairyStress : public MagicEffect
 {
 public:
-	RedFairyStress(object_ref<Agent> _agent);
+	RedFairyStress(Agent* agent);
 
 	inline virtual void init() {}
 	virtual void update();
@@ -68,7 +68,7 @@ protected:
 class GhostProtection : public MagicEffect
 {
 public:
-	GhostProtection(object_ref<Agent> _agent);
+	GhostProtection(Agent* agent);
 
 	virtual void init();
 	virtual void update();
@@ -83,7 +83,7 @@ class BulletSpeedFromHP : public MagicEffect
 {
 public:
 	BulletSpeedFromHP(
-		object_ref<Agent> _agent,
+		Agent* agent,
 		float_pair debuffRange,
 		float_pair buffRange,
 		float maxDebuff,

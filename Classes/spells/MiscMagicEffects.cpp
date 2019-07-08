@@ -17,8 +17,8 @@
 #include "Player.hpp"
 #include "SpellUtil.hpp"
 
-RadiusEffect::RadiusEffect(gobject_ref target, DamageInfo damage, SpaceFloat radius, GType type) :
-	MagicEffect(target),
+RadiusEffect::RadiusEffect(GObject* agent, DamageInfo damage, SpaceFloat radius, GType type) :
+	MagicEffect(agent),
 	damage(damage),
 	radius(radius),
 	type(type)
@@ -26,21 +26,20 @@ RadiusEffect::RadiusEffect(gobject_ref target, DamageInfo damage, SpaceFloat rad
 
 void RadiusEffect::update()
 {
-	radialEffectArea(target.get(), radius, type, damage);
+	radialEffectArea(agent, radius, type, damage);
 }
 
-FreezeStatusEffect::FreezeStatusEffect(gobject_ref target) :
-	MagicEffect(target, 0.0f)
+FreezeStatusEffect::FreezeStatusEffect(GObject* agent) :
+	MagicEffect(agent, 0.0f)
 {}
 
 void FreezeStatusEffect::init()
 {
-	GObject* _target = target.get();
-	Player* _player = dynamic_cast<Player*>(_target);
+	Player* _player = dynamic_cast<Player*>(agent);
 
-	_target->addGraphicsAction(freezeEffectAction());
+	agent->addGraphicsAction(freezeEffectAction());
 
-	_target->setFrozen(true);
+	agent->setFrozen(true);
 
 	if (_player) {
 		_player->setFiringSuppressed(true);
@@ -57,20 +56,19 @@ void FreezeStatusEffect::update()
 	}
 
 	else {
-		ai::applyDesiredVelocity(target.get(), SpaceVect::zero, target.get()->getMaxAcceleration());
+		ai::applyDesiredVelocity(agent, SpaceVect::zero, agent->getMaxAcceleration());
 	}
 }
 
 void FreezeStatusEffect::end()
 {
-	GObject* _target = target.get();
-	Player* _player = dynamic_cast<Player*>(_target);
+	Player* _player = dynamic_cast<Player*>(agent);
 
 	//Stop sprite effect, assuming the effect ended early.
-	_target->stopGraphicsAction(cocos_action_tag::freeze_status);
-	_target->addGraphicsAction(freezeEffectEndAction());
+	agent->stopGraphicsAction(cocos_action_tag::freeze_status);
+	agent->addGraphicsAction(freezeEffectEndAction());
 
-	_target->setFrozen(false);
+	agent->setFrozen(false);
 
 	if (_player) {
 		_player->setFiringSuppressed(false);
@@ -78,13 +76,10 @@ void FreezeStatusEffect::end()
 	}
 }
 
-DarknessCurseEffect::DarknessCurseEffect(gobject_ref target) :
-	MagicEffect(target, 0.0f)
+DarknessCurseEffect::DarknessCurseEffect(Agent* agent) :
+	MagicEffect(agent, 0.0f),
+	agent(agent)
 {
-	agent = dynamic_cast<Agent*>(target.get());
-	if(!agent){
-		log("DarknessCurseEffect should only be attached to Agents.");
-	}
 }
 
 void DarknessCurseEffect::init()
@@ -109,17 +104,11 @@ void DarknessCurseEffect::end()
 	agent->stopGraphicsAction(cocos_action_tag::darkness_curse);
 }
 
-RedFairyStress::RedFairyStress(object_ref<Agent> _agent) :
-	MagicEffect(_agent, 1.0f),
-	agent(_agent.get())
+RedFairyStress::RedFairyStress(Agent* agent) :
+	MagicEffect(agent, 1.0f),
+	agent(agent)
 {
-	if (agent) {
-		baseAttackSpeed = agent->getAttribute(Attribute::attackSpeed);
-	}
-	else {
-		log("RedFairyStress should only be attached to Agents.");
-		crntState = state::expired;
-	}
+	baseAttackSpeed = agent->getAttribute(Attribute::attackSpeed);
 }
 
 void RedFairyStress::update()
@@ -137,9 +126,9 @@ void RedFairyStress::end()
 	agent->getAttributeSystem()->set(Attribute::attackSpeed, baseAttackSpeed);
 }
 
-GhostProtection::GhostProtection(object_ref<Agent> _agent) :
-	MagicEffect(_agent, 1.0f),
-	agent(_agent.get())
+GhostProtection::GhostProtection(Agent* agent) :
+	MagicEffect(agent, 1.0f),
+	agent(agent)
 {
 }
 
@@ -168,14 +157,14 @@ void GhostProtection::update()
 }
 
 BulletSpeedFromHP::BulletSpeedFromHP(
-	object_ref<Agent> _agent,
+	Agent* agent,
 	float_pair debuffRange,
 	float_pair buffRange,
 	float maxDebuff,
 	float maxBuff
 ) :
-	MagicEffect(_agent, 1.0f),
-	agent(_agent.get()),
+	MagicEffect(agent, 1.0f),
+	agent(agent),
 	debuffRange(debuffRange),
 	buffRange(buffRange),
 	maxDebuff(maxDebuff),

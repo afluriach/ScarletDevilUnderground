@@ -11,12 +11,12 @@
 #include "GObject.hpp"
 #include "MagicEffect.hpp"
 
-MagicEffect::MagicEffect(gobject_ref target, float magnitude) :
-target(target),
+MagicEffect::MagicEffect(GObject* agent, float magnitude) :
+agent(agent),
 magnitude(magnitude),
 crntState(state::created)
 {}
 
 GSpace* MagicEffect::getSpace() const {
-	return target.get()->space;
+	return agent->space;
 }

@@ -218,7 +218,7 @@ void follower(StateMachine* fsm, const ValueMap& args) {
 
 void ghost_fairy(StateMachine* fsm, const ValueMap& args)
 {
-	fsm->getObject()->addMagicEffect(make_shared<GhostProtection>(fsm->getObject()));
+	fsm->getObject()->addMagicEffect(make_shared<GhostProtection>(fsm->getAgent()));
 
 	fsm->addDetectFunction(
 		GType::player,

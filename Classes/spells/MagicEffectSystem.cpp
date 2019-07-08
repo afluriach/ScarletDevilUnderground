@@ -36,7 +36,7 @@ void MagicEffectSystem::applyAdd()
 	for (auto it = magicEffectsToAdd.begin(); it != magicEffectsToAdd.end(); ++it)
 	{
 		shared_ptr<MagicEffect> newEffect = *it;
-		GObject* obj = newEffect->target.get();
+		GObject* obj = newEffect->agent;
 
 		emplaceIfEmpty(effectObjects, obj);
 		effectObjects.at(obj).push_back(newEffect);

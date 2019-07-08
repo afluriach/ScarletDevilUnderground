@@ -22,8 +22,8 @@ public:
 		expired,
 	};
 
-	inline MagicEffect(gobject_ref target) : MagicEffect(target, 0.0f) {}
-	MagicEffect(gobject_ref target, float magnitude);
+	inline MagicEffect(GObject* agent) : MagicEffect(agent, 0.0f) {}
+	MagicEffect(GObject* agent, float magnitude);
 
 	GSpace* getSpace() const;
 
@@ -33,7 +33,7 @@ public:
 	virtual void update() = 0;
 	virtual void end() = 0;
 
-	gobject_ref target;
+	GObject* agent;
 	float magnitude;
 	state crntState;
 };
