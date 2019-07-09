@@ -389,11 +389,15 @@ void GScene::loadLights(const TMXTiledMap& map, IntVec2 offset)
 	}
 
 	LightID id = graphicsContext->getLightID();
-
 	SpaceVect dimensions = toChipmunk(map.getMapSize());
 	SpaceVect center = toChipmunk(offset) + dimensions / 2.0;
 
-	graphicsContext->addPolyLightSource(id, AmbientLightArea::create( center, dimensions, color));
+	graphicsContext->addPolyLightSource(
+		id,
+		AmbientLightArea::create( dimensions, color),
+		center,
+		0.0
+	);
 }
 
 void GScene::updateMapVisibility(int roomID)

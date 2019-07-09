@@ -43,7 +43,7 @@ public:
 	virtual void onDetect(GObject* other);
 	virtual void onEndDetect(GObject* other);
 
-	virtual void initializeGraphics();
+	virtual shared_ptr<LightArea> getLightSource() const;
 protected:
 	unordered_set<object_ref<Agent>> targets;
 	SpaceFloat angular_speed = 0.0;

@@ -652,9 +652,7 @@ void GObject::initLightSource()
 {
 	auto source = getLightSource();
 	if (source) {
-		lightID = space->addLightSource(source);
-		space->addGraphicsAction(&graphics_context::setLightSourcePosition, lightID, prevPos);
-		space->addGraphicsAction(&graphics_context::setLightSourceAngle, lightID, prevAngle);
+		lightID = space->addLightSource(source, prevPos, prevAngle);
 	}
 }
 

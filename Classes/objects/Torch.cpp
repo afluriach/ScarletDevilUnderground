@@ -118,7 +118,9 @@ void Torch::applyDarkness(float v)
 void Torch::addLightSource()
 {
 	lightID = space->addLightSource(
-		CircleLightArea::create( getPos(),lightRadius,toColor4F(color)*intensity, flood )
+		CircleLightArea::create( lightRadius,toColor4F(color)*intensity, flood ),
+		getPos(),
+		0.0
 	);
 	space->addGraphicsAction(
 		&graphics_context::setLightSourceNoise,

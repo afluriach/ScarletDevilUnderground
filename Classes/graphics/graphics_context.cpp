@@ -106,17 +106,17 @@ void graphics_context::_removeSprite(SpriteID id)
 	animationNodes.erase(id);
 }
 
-void graphics_context::addPolyLightSource(LightID id, shared_ptr<LightArea> light)
+void graphics_context::addPolyLightSource(LightID id, shared_ptr<LightArea> light, SpaceVect pos, SpaceFloat angle)
 {
 	if (!light) return;
 
-	_polyAddLight<CircleLightArea>(id, light);
-	_polyAddLight<AmbientLightArea>(id, light);
-	_polyAddLight<ConeLightArea>(id, light);
-	_polyAddLight<SpriteLightArea>(id, light);
+	_polyAddLight<CircleLightArea>(id, light, pos, angle);
+	_polyAddLight<AmbientLightArea>(id, light, pos, angle);
+	_polyAddLight<ConeLightArea>(id, light, pos, angle);
+	_polyAddLight<SpriteLightArea>(id, light, pos, angle);
 }
 
-void graphics_context::addLightSource(LightID id, CircleLightArea light)
+void graphics_context::addLightSource(LightID id, CircleLightArea light, SpaceVect pos, SpaceFloat angle)
 {
 	bool mask = light.color.a < 0.0f;
 	if (mask)
@@ -136,23 +136,23 @@ void graphics_context::addLightSource(LightID id, CircleLightArea light)
 	else
 		g->setBlendFunc(BlendFunc{ GL_ONE,GL_ONE });
 
-	g->setPosition(toCocos(light.origin) * app::pixelsPerTile);
+	g->setPosition(toCocos(pos) * app::pixelsPerTile);
 	g->setContentSize(bounds);
 	scene->getLayer(GScene::sceneLayers::lightmap)->addChild(g, mask ? 1 : 0);
 
 	lightmapNodes.insert_or_assign(id, g);
 }
 
-void graphics_context::addLightSource(LightID id, AmbientLightArea light)
+void graphics_context::addLightSource(LightID id, AmbientLightArea light, SpaceVect pos, SpaceFloat angle)
 {
 	AmbientLightNode* node = Node::ccCreate<AmbientLightNode>(light);
 	node->setBlendFunc(BlendFunc{ GL_ONE,GL_ONE });
-	node->setPosition(toCocos(light.origin) * app::pixelsPerTile);
+	node->setPosition(toCocos(pos) * app::pixelsPerTile);
 	scene->getLayer(GScene::sceneLayers::lightmap)->addChild(node);
 	lightmapNodes.insert_or_assign(id, node);
 }
 
-void graphics_context::addLightSource(LightID id, ConeLightArea light)
+void graphics_context::addLightSource(LightID id, ConeLightArea light, SpaceVect pos, SpaceFloat angle)
 {
 	ConeShader* cs = Node::ccCreate<ConeShader>(
 		light.color,
@@ -162,7 +162,7 @@ void graphics_context::addLightSource(LightID id, ConeLightArea light)
 		0.0
 		);
 
-	cs->setPosition(toCocos(light.origin) * app::pixelsPerTile);
+	cs->setPosition(toCocos(pos) * app::pixelsPerTile);
 	cs->setBlendFunc(BlendFunc{ GL_ONE,GL_ONE });
 	cs->setContentSize(CCSize(light.radius, light.radius) * 2.0f * app::pixelsPerTile);
 	scene->getLayer(GScene::sceneLayers::lightmap)->addChild(cs);
@@ -170,11 +170,11 @@ void graphics_context::addLightSource(LightID id, ConeLightArea light)
 	lightmapNodes.insert_or_assign(id, cs);
 }
 
-void graphics_context::addLightSource(LightID id, SpriteLightArea light)
+void graphics_context::addLightSource(LightID id, SpriteLightArea light, SpaceVect pos, SpaceFloat angle)
 {
 	Sprite* s = Sprite::create(light.texName);
 
-	s->setPosition(toCocos(light.origin) * app::pixelsPerTile);
+	s->setPosition(toCocos(pos) * app::pixelsPerTile);
 	s->setBlendFunc(BlendFunc{ GL_ONE,GL_ONE });
 	s->setScale(light.scale);
 	s->setColor(toColor3B(light.color));

@@ -36,13 +36,9 @@ SunArea::SunArea(GSpace* space, ObjectIDType id, const ValueMap& args) :
 {
 }
 
-void SunArea::initializeGraphics()
+shared_ptr<LightArea> SunArea::getLightSource() const
 {
-	space->addLightSource(AmbientLightArea::create(
-		getPos(),
-		getDimensions(),
-		toColor4F(Color3B(192, 192, 82))
-	));
+	return AmbientLightArea::create(getDimensions(), toColor4F(Color3B(192, 192, 82)));
 }
 
 GraphicsLayer SunArea::sceneLayer() const{

@@ -25,11 +25,11 @@ public:
 	SpriteID getSpriteID();
 	LightID getLightID();
 
-	void addPolyLightSource(LightID id, shared_ptr<LightArea> light);
-	void addLightSource(LightID id, CircleLightArea light);
-	void addLightSource(LightID id, AmbientLightArea light);
-	void addLightSource(LightID id, ConeLightArea light);
-	void addLightSource(LightID id, SpriteLightArea light);
+	void addPolyLightSource(LightID id, shared_ptr<LightArea> light, SpaceVect pos, SpaceFloat angle);
+	void addLightSource(LightID id, CircleLightArea light, SpaceVect pos, SpaceFloat angle);
+	void addLightSource(LightID id, AmbientLightArea light, SpaceVect pos, SpaceFloat angle);
+	void addLightSource(LightID id, ConeLightArea light, SpaceVect pos, SpaceFloat angle);
+	void addLightSource(LightID id, SpriteLightArea light, SpaceVect pos, SpaceFloat angle);
 
 	void removeLightSource(LightID id);
 	void setLightSourcePosition(LightID id, SpaceVect pos);
@@ -86,10 +86,10 @@ protected:
 	}
 
 	template<class C>
-	bool _polyAddLight(LightID id, shared_ptr<LightArea> light)
+	bool _polyAddLight(LightID id, shared_ptr<LightArea> light, SpaceVect pos, SpaceFloat angle)
 	{
 		if (auto _l = dynamic_cast<C*>(light.get())) {
-			addLightSource(id, *_l);
+			addLightSource(id, *_l, pos, angle);
 			return true;
 		}
 		return false;

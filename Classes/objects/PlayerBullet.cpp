@@ -24,7 +24,6 @@ StarbowBreakBullet::StarbowBreakBullet(
 
 shared_ptr<LightArea> StarbowBreakBullet::getLightSource() const {
 	return CircleLightArea::create(
-		getPos(),
 		props->dimensions.x * 4.0f,
 		toColor4F(app::getSprite(getSprite()).color),
 		0.25
@@ -41,7 +40,6 @@ CatadioptricBullet::CatadioptricBullet(
 
 shared_ptr<LightArea> CatadioptricBullet::getLightSource() const {
 	return CircleLightArea::create(
-		getPos(),
 		props->dimensions.x * 4.0f,
 		Color4F::BLUE*0.5f + Color4F::GREEN*0.5f,
 		0.25

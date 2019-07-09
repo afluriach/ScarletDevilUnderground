@@ -44,7 +44,6 @@ enum class cocos_action_tag
 class LightArea
 {
 public:
-	SpaceVect origin;
 	Color4F color;
 
 	virtual type_index getType() const = 0;
@@ -54,7 +53,6 @@ class AmbientLightArea : public LightArea
 {
 public:
 	static shared_ptr<AmbientLightArea> create(
-		SpaceVect pos,
 		SpaceVect dimensions,
 		Color4F color
 	);
@@ -70,7 +68,6 @@ class CircleLightArea : public LightArea
 {
 public:
 	static shared_ptr<CircleLightArea> create(
-		SpaceVect pos,
 		SpaceFloat radius,
 		Color4F color,
 		float flood
@@ -88,7 +85,6 @@ class ConeLightArea : public LightArea
 {
 public:
 	static shared_ptr<ConeLightArea> create(
-		SpaceVect pos,
 		SpaceFloat radius,
 		SpaceFloat width,
 		Color4F color
@@ -106,7 +102,6 @@ class SpriteLightArea : public LightArea
 {
 public:
 	static shared_ptr<SpriteLightArea> create(
-		SpaceVect pos,
 		const string& spritePath,
 		Color4F color,
 		float scale = 1.0f

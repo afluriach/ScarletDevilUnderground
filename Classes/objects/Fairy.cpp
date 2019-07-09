@@ -118,7 +118,11 @@ void RedFairy::onZeroHP()
 	);
 	playSoundSpatial("sfx/red_fairy_explosion.wav");
 
-	LightID light = space->addLightSource(CircleLightArea::create( getPos(), explosionRadius, Color4F::RED, 0.25 ));
+	LightID light = space->addLightSource(
+		CircleLightArea::create( explosionRadius, Color4F::RED, 0.25 ),
+		getPos(),
+		0.0
+	);
 	space->addGraphicsAction(&graphics_context::autoremoveLightSource, light, 1.0f);
 }
 

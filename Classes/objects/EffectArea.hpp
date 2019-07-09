@@ -30,7 +30,7 @@ class SunArea : public EffectArea
 public:
 	MapObjCons(SunArea);
 
-	virtual void initializeGraphics();
+	virtual shared_ptr<LightArea> getLightSource() const;
 	virtual GraphicsLayer sceneLayer() const;
 	virtual DamageInfo getDamageInfo() const;
 };

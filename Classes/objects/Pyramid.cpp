@@ -76,17 +76,11 @@ void Pyramid::onEndDetect(GObject* other)
 		targets.erase(agent);
 }
 
-void Pyramid::initializeGraphics()
+shared_ptr<LightArea> Pyramid::getLightSource() const
 {
-	GObject::initializeGraphics();
-
-	SpaceFloat a = getAngle();
-
-	lightID = space->addLightSource(ConeLightArea::create(
-		getPos(),
+	return ConeLightArea::create(
 		coneLength,
 		coneWidth,
 		coneColor
-	));
-	space->addGraphicsAction(&graphics_context::setLightSourceAngle, lightID, getAngle());
+	);
 }
