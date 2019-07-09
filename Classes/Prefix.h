@@ -107,8 +107,8 @@ using namespace luabridge;
 
 typedef double SpaceFloat;
 
-#include "enum.h"
 #include "macros.h"
+#include "enum.h"
 #include "vect.hpp"
 #include "types.h"
 #include "util.h"

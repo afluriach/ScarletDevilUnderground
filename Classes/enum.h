@@ -37,6 +37,13 @@ constexpr inline bitset<enum_size> make_enum_bitfield(E input)
 	return result;
 }
 
+template<typename E, typename... Params>
+constexpr E enum_bitwise_or_v(E first, Params... params)
+{
+	unsigned int result = ( to_uint(first) | ... | to_uint(params) );
+	return static_cast<E>(result);
+}
+
 #define enum_bitfield2(cls, a, b) (make_enum_bitfield(cls::a) | make_enum_bitfield(cls::b))
 #define enum_bitfield3(cls, a, b, c) (make_enum_bitfield(cls::a) | make_enum_bitfield(cls::b) | make_enum_bitfield(cls::c))
 
@@ -45,10 +52,10 @@ constexpr inline bitset<enum_size> make_enum_bitfield(E input)
 #define enum_increment(cls,lval) lval = static_cast<cls>( static_cast<int>(lval) + 1 )
 #define enum_foreach(cls,var_name,begin,end) for(cls var_name=cls::begin; var_name < cls::end; enum_increment(cls, var_name) )
 
-#define enum_bitwise_or(cls,a,b) static_cast<cls>(static_cast<unsigned int>(cls::a) | static_cast<unsigned int>(cls::b))
-#define enum_bitwise_or3(cls,a,b,c) static_cast<cls>(static_cast<unsigned int>(cls::a) | static_cast<unsigned int>(cls::b) | static_cast<unsigned int>(cls::c))
-#define enum_bitwise_or4(cls,a,b,c,d) static_cast<cls>(static_cast<unsigned int>(cls::a) | static_cast<unsigned int>(cls::b) | static_cast<unsigned int>(cls::c) | static_cast<unsigned int>(cls::d))
-#define enum_bitwise_or5(cls,a,b,c,d,e) static_cast<cls>(static_cast<unsigned int>(cls::a) | static_cast<unsigned int>(cls::b) | static_cast<unsigned int>(cls::c) | static_cast<unsigned int>(cls::d) | static_cast<unsigned int>(cls::e))
+#define enum_bitwise_or(cls,a,b) enum_bitwise_or_v<cls>(cls::a, cls::b)
+#define enum_bitwise_or3(cls,a,b,c) enum_bitwise_or_v<cls>(cls::a, cls::b, cls::c)
+#define enum_bitwise_or4(cls,a,b,c,d) enum_bitwise_or_v<cls>(cls::a, cls::b, cls::c, cls::d)
+#define enum_bitwise_or5(cls,a,b,c,d,e) enum_bitwise_or_v<cls>(cls::a, cls::b, cls::c, cls::d, cls::e)
 
 #define bitwise_and_bool(a,b) static_cast<bool>(static_cast<unsigned int>(a) & static_cast<unsigned int>(b))
 #define bitwise_and(cls,a,b) static_cast<cls>(static_cast<unsigned int>(a) & static_cast<unsigned int>(b))
