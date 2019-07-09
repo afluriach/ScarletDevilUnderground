@@ -143,6 +143,13 @@
 		element="iceDamage"
 		sprite="iceFairyBullet"
 	/>
+	<illusionDialDagger
+		speed="3.0"
+		dimensions="0.8,0.175"
+		damage="5.0"
+		sprite="illusionDagger"
+		directionalLaunch="false"
+	/>	
 	<launcherBullet
 		speed="10.0"
 		radius="0.3"
@@ -180,6 +187,7 @@
 		sprite="rumiaDemarcationBullet"
 		hitCount="-1"
 		directionalLaunch="false"
+		ignoreObstacles="true"
 	/>
 	<rumiaPinwheelBullet
 		speed="4.5"

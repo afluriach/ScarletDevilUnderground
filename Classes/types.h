@@ -233,4 +233,11 @@ enum class TimerType {
 	end
 };
 
+enum class parametric_type {
+	none = 0,
+
+	position,
+	velocity,
+};
+
 #endif /* types_h */

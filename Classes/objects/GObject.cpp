@@ -237,6 +237,12 @@ void GObject::launch() {
 	setVel(SpaceVect::ray(getMaxSpeed(), getAngle()));
 }
 
+void GObject::launchAtTarget(GObject* target)
+{
+	setVel(SpaceVect::ray(getMaxSpeed(), getAngle()));
+	setAngularVel(0.0f);
+}
+
 void GObject::setInitialVelocity(const SpaceVect& v){
 	space->addInitAction( [v, this]() -> void {
 		setVel(v);
@@ -338,16 +344,18 @@ void GObject::applyImpulse(SpaceFloat mag, SpaceFloat angle){
    applyImpulse(SpaceVect::ray(mag,angle));
 }
 
-void GObject::setParametricMove(parametric_space_function f)
+void GObject::setParametricMove(parametric_space_function f, parametric_type move_type)
 {
 	parametric_t = 0.0;
 	parametric_f = f;
+	parametric_move = move_type;
 }
 
 void GObject::removeParametricMove()
 {
 	parametric_t = -1.0;
 	parametric_f = nullptr;
+	parametric_move = parametric_type::none;
 }
 
 PhysicsLayers GObject::getCrntLayers() const
@@ -521,7 +529,17 @@ void GObject::updateParametricMove()
 	auto f = parametric_f;
 
 	if (t >= 0.0 && f) {
-		setPos(f(t));
+		switch (parametric_move)
+		{
+		case parametric_type::position:
+			setPos(f(t));
+		break;
+		case parametric_type::velocity:
+			setVel(f(t));
+		break;
+		default:
+		break;
+		}
 		timerIncrement(t);
 	}
 }

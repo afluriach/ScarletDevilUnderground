@@ -85,9 +85,11 @@ void ReimuEnemy::spawnOrbs()
 			SpaceVect::zero,
 			float_pi
 		);
-		orbs[i] = space->createObject<YinYangOrb>(
+		auto props = app::getBullet("yinYangOrb");
+		orbs[i] = space->createObject<BulletImpl>(
 			params,
-			getBulletAttributes(app::getBullet(YinYangOrb::props))
+			getBulletAttributes(props),
+			props
 		);
 	}
 }

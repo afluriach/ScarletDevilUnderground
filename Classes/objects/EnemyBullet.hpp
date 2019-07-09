@@ -31,41 +31,6 @@ public:
     virtual inline string getSprite() const {return "star-"+color;}
 };
 
-class IllusionDialDagger : public Bullet
-{
-public:
-    //IllusionDaggerBullet(const ValueMap& args);
-    IllusionDialDagger(shared_ptr<object_params> params, const bullet_attributes& attributes);
-
-	virtual inline SpaceFloat getMaxSpeed() const { return 3.0; }
-    
-    virtual inline string getSprite() const {return "illusionDagger";}
-    
-    SpaceFloat targetViewAngle();
-    void launch();
-};
-
-class YinYangOrb : public BulletImpl
-{
-public:
-	static const string props;
-
-	YinYangOrb(shared_ptr<object_params> params, const bullet_attributes& attributes);
-};
-
-class RumiaDemarcation2Bullet : public BulletImpl
-{
-public:
-	static const string props;
-
-	RumiaDemarcation2Bullet(
-		shared_ptr<object_params> params,
-		const bullet_attributes& attributes
-	);
-
-	virtual void update();
-};
-
 #undef cons
 
 #endif /* Bullet_hpp */

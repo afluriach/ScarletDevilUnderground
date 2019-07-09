@@ -134,17 +134,25 @@ void DarknessSignDemarcation2::generate()
 {
 	SpaceVect origin = caster->getPos();
 	SpaceFloat radialStep = float_pi * 2.0 / bulletsPerBurst;
+	auto props = app::getBullet("rumiaDemarcationBullet2");
 
 	for_irange(i, 0, bulletsPerBurst)
 	{
 		SpaceVect pos = origin + SpaceVect::ray(launchDist, i*radialStep);
 		SpaceFloat angle = radialStep * i ;
-		auto params = Bullet::makeParams(pos, angle, SpaceVect::zero, (i % 2 ? 1.0 : -1.0)*angularSpeed);
+		SpaceFloat angularVel = (i % 2 ? 1.0 : -1.0)*angularSpeed;
+		auto params = Bullet::makeParams(pos, angle, SpaceVect::zero, angularVel);
 
-		gobject_ref bullet = getCasterAs<Agent>()->bulletCheckSpawn<RumiaDemarcation2Bullet>(
-			params
+		gobject_ref bullet = getCasterAs<Agent>()->bulletImplCheckSpawn<BulletImpl>(
+			params,
+			props
 		);
 		bullets.insert(bullet);
+
+		parametric_space_function f = [props, angle, angularVel](SpaceFloat t)->SpaceVect {
+			return SpaceVect::ray(props->speed, angle + t*angularVel);
+		};
+		caster->makeInitMessage(&GObject::setParametricMove, bullet, f, parametric_type::velocity);
 	}
 }
 

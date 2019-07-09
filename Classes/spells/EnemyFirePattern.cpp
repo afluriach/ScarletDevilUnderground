@@ -100,19 +100,11 @@ bool ReimuWavePattern::fire()
 	gobject_ref b1 = agent->bulletImplCheckSpawn<BulletImpl>(params, props);
 	gobject_ref b2 = agent->bulletImplCheckSpawn<BulletImpl>(params, props);
 
-	agent->makeInitMessage(&GObject::setParametricMove, b1, getParametricFunction(
-		pos,
-		angle,
-		props->speed,
-		0.0
-	));
+	auto f1 = getParametricFunction(pos, angle, props->speed, 0.0);
+	auto f2 = getParametricFunction(pos, angle, props->speed, 0.5);
 
-	agent->makeInitMessage(&GObject::setParametricMove, b2, getParametricFunction(
-		pos,
-		angle,
-		props->speed,
-		0.5
-	));
+	agent->makeInitMessage(&GObject::setParametricMove, b1, f1, parametric_type::position);
+	agent->makeInitMessage(&GObject::setParametricMove, b2, f2, parametric_type::position);
 
 	return true;
 }

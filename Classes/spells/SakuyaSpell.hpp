@@ -31,7 +31,7 @@ public:
 
 	static const int count;
 
-	vector<object_ref<IllusionDialDagger>> bullets;
+	vector<object_ref<Bullet>> bullets;
 	vector<bool> launch_flags;
 	unsigned int framesSinceLastFire = 0;
 
@@ -43,6 +43,9 @@ public:
 	GET_DESC(IllusionDial)
 	virtual void init();
 	virtual void end();
+protected:
+	shared_ptr<bullet_properties> props;
+	GObject* target = nullptr;
 };
 
 

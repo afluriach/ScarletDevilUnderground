@@ -36,6 +36,9 @@ IllusionDial::IllusionDial(GObject* caster) :
 
 void IllusionDial::init()
 {
+	target = caster->space->getPlayer();
+	props = app::getBullet("illusionDialDagger");
+
 	//refactor utility function for this
 	//getFloatOrDefault(args, "radius", radius);
 
@@ -48,9 +51,10 @@ void IllusionDial::init()
 			i % 2 ? angular_speed : -angular_speed
 		);
 
-		bullets[i] = getSpace()->createObject<IllusionDialDagger>(
+		bullets[i] = getSpace()->createObject<BulletImpl>(
 			params,
-			bullet_attributes::getDefault()
+			bullet_attributes::getDefault(),
+			props
 		);
 	}
 }
@@ -71,7 +75,7 @@ void IllusionDial::update()
 			if (bullets[i].isValid() && !launch_flags[i]) {
 				allBulletsConsumed = false;
 
-				SpaceFloat crnt = bullets[i].get()->targetViewAngle();
+				SpaceFloat crnt =  ai::viewAngleToTarget( bullets[i].get(), target);
 
 				if (!isinf(crnt) && abs(crnt) < best_angle)
 					best = i;
@@ -81,7 +85,7 @@ void IllusionDial::update()
 
 		if (best != -1 && best_angle < max_angle_margin)
 		{
-			bullets[best].get()->launch();
+			bullets[best].get()->launchAtTarget(target);
 			launch_flags[best] = true;
 			framesSinceLastFire = 0;
 		}

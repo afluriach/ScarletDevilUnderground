@@ -170,6 +170,7 @@ public:
 	//BEGIN PHYSICS
 	
 	void launch();
+	void launchAtTarget(GObject* target);
     void setInitialVelocity(const SpaceVect& v);
     void setInitialAngle(SpaceFloat a);
     void setInitialAngularVelocity(SpaceFloat w);
@@ -211,7 +212,10 @@ public:
 	void applyImpulse(SpaceVect i);
 	void applyImpulse(SpaceFloat mag, SpaceFloat angle);
 
-	void setParametricMove(parametric_space_function f);
+	void setParametricMove(
+		parametric_space_function f,
+		parametric_type move_type = parametric_type::position
+	);
 	void removeParametricMove();
 
 	PhysicsLayers getCrntLayers() const;
@@ -330,6 +334,7 @@ protected:
 
 	parametric_space_function parametric_f;
 	SpaceFloat parametric_t = -1.0;
+	parametric_type parametric_move = parametric_type::none;
 
 	FloorSegment* crntFloorCenterContact = nullptr;
 	unordered_set<FloorSegment*> crntFloorContacts;

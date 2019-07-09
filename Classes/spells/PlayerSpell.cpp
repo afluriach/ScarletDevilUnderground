@@ -272,7 +272,7 @@ void PlayerScarletRose::update()
 				return this->origin + parametric_motion(t + _t);
 			};
 
-			caster->makeInitMessage(&GObject::setParametricMove, ref, f );
+			caster->makeInitMessage(&GObject::setParametricMove, ref, f, parametric_type::position );
 		}
 
 		timer -= fireInterval;
