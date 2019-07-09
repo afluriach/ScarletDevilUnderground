@@ -9,7 +9,7 @@
 #include "Prefix.h"
 
 #include "Agent.hpp"
-#include "EnemyBullet.hpp"
+#include "Bullet.hpp"
 #include "GSpace.hpp"
 #include "PatchouliSpell.hpp"
 

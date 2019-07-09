@@ -9,9 +9,9 @@
 #include "Prefix.h"
 
 #include "AreaSensor.hpp"
+#include "Bullet.hpp"
 #include "Collectibles.hpp"
 #include "Enemy.hpp"
-#include "EnemyBullet.hpp"
 #include "EnvironmentalObjects.hpp"
 #include "FloorSegment.hpp"
 #include "GObject.hpp"

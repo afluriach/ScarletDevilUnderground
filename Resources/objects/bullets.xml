@@ -196,6 +196,13 @@
 		sprite="rumiaPinwheelBullet"
 		directionalLaunch="false"
 	/>
+	<starBullet
+		damage="1"
+		radius="0.2"
+		speed="6.0"
+		knockback="150"
+		directionalLaunch="true"
+	/>
 	<waterBullet
 		speed="-1.0"
 		radius="0.3"

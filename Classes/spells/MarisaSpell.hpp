@@ -21,13 +21,13 @@ public:
 	static const string description;
 	static const float cost;
 
-	static const SpaceFloat speed;
 	static const SpaceFloat width;
-	static const SpaceFloat radius;
 	static const SpaceFloat duration;
 	static const SpaceFloat offset;
 
 	static const unsigned int count;
+
+	static const vector<string> colors;
 
 	StarlightTyphoon(GObject* caster);
 	inline virtual ~StarlightTyphoon() {}

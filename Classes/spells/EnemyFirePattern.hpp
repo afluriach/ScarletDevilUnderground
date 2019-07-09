@@ -9,7 +9,7 @@
 #ifndef EnemyFirePattern_hpp
 #define EnemyFirePattern_hpp
 
-#include "EnemyBullet.hpp"
+#include "Bullet.hpp"
 #include "FirePattern.hpp"
 
 typedef BulletImplPattern<BulletImpl> EnemyBulletImplPattern;

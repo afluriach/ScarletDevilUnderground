@@ -18,7 +18,6 @@
 #include "Desk.hpp"
 #include "Door.hpp"
 #include "EffectArea.hpp"
-#include "EnemyBullet.hpp"
 #include "EnvironmentalObjects.hpp"
 #include "Fairy.hpp"
 #include "FairyNPC.hpp"

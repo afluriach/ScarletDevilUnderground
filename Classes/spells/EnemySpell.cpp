@@ -9,8 +9,8 @@
 #include "Prefix.h"
 
 #include "app_constants.hpp"
+#include "Bullet.hpp"
 #include "Enemy.hpp"
-#include "EnemyBullet.hpp"
 #include "EnemySpell.hpp"
 #include "graphics_context.hpp"
 #include "GSpace.hpp"

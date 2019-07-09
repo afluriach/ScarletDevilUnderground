@@ -9,7 +9,7 @@
 #include "Prefix.h"
 
 #include "Agent.hpp"
-#include "EnemyBullet.hpp"
+#include "Bullet.hpp"
 #include "GSpace.hpp"
 #include "MarisaSpell.hpp"
 
@@ -17,13 +17,21 @@ const string StarlightTyphoon::name = "StarlightTyphoon";
 const string StarlightTyphoon::description = "";
 const float StarlightTyphoon::cost = 0.0f;
 
-const SpaceFloat StarlightTyphoon::speed = 6.0;
 const SpaceFloat StarlightTyphoon::width = float_pi / 4.0;
-const SpaceFloat StarlightTyphoon::radius = 0.2;
 const SpaceFloat StarlightTyphoon::duration = 1.0;
 const SpaceFloat StarlightTyphoon::offset = 0.7;
 
 const unsigned int StarlightTyphoon::count = 30;
+
+const vector<string> StarlightTyphoon::colors = {
+	"blue",
+	"green",
+	"grey",
+	"indigo",
+	"purple",
+	"red",
+	"yellow"
+};
 
 StarlightTyphoon::StarlightTyphoon(GObject* caster) :
 	Spell(caster)
@@ -43,16 +51,19 @@ void StarlightTyphoon::fire()
 
 	//The angle variation, will be added to the base direction.
 	SpaceFloat arcPos = space->getRandomFloat(-width, width) + caster->getAngle();
-	SpaceFloat crntSpeed = space->getRandomFloat(speed*0.5, speed*1.5);
-	SpaceFloat crntRadius = space->getRandomFloat(radius*0.7, radius*1.3);
-
 	SpaceVect pos = caster->getPos() + SpaceVect::ray(offset, angle);
 	auto params = Bullet::makeParams(pos, arcPos);
 
-	space->createObject<StarBullet>(
+	auto props = make_shared<bullet_properties>();
+	*props = *app::getBullet("starBullet");
+	props->sprite = "star-" + colors[getSpace()->getRandomInt(0, colors.size() - 1)];
+	props->dimensions.x *= space->getRandomFloat(0.7, 1.3);
+	props->speed *= space->getRandomFloat(0.5, 1.5);
+
+	space->createObject<BulletImpl>(
 		params,
-		bullet_attributes::getDefault(),
-		StarBullet::colors[getSpace()->getRandomInt(0, StarBullet::colors.size() - 1)]
+		getCasterAs<Agent>()->getBulletAttributes(props),
+		props
 	);
 }
 

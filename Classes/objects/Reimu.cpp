@@ -9,7 +9,7 @@
 #include "Prefix.h"
 
 #include "AIFunctions.hpp"
-#include "EnemyBullet.hpp"
+#include "Bullet.hpp"
 #include "EnemyFirePattern.hpp"
 #include "GSpace.hpp"
 #include "Reimu.hpp"

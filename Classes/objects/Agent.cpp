@@ -13,7 +13,6 @@
 #include "app_constants.hpp"
 #include "Bullet.hpp"
 #include "Enemy.hpp"
-#include "EnemyBullet.hpp"
 #include "FirePattern.hpp"
 #include "GAnimation.hpp"
 #include "graphics_context.hpp"

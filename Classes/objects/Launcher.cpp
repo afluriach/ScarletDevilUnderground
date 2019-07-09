@@ -8,7 +8,7 @@
 
 #include "Prefix.h"
 
-#include "EnemyBullet.hpp"
+#include "Bullet.hpp"
 #include "GSpace.hpp"
 #include "Launcher.hpp"
 

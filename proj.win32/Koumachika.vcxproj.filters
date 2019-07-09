@@ -219,9 +219,6 @@
     <ClCompile Include="..\Classes\spells\PlayerFirePattern.cpp">
       <Filter>src\spells</Filter>
     </ClCompile>
-    <ClCompile Include="..\Classes\objects\EnemyBullet.cpp">
-      <Filter>src\objects</Filter>
-    </ClCompile>
     <ClCompile Include="..\Classes\FileIO.cpp">
       <Filter>src</Filter>
     </ClCompile>
@@ -595,9 +592,6 @@
     </ClInclude>
     <ClInclude Include="..\Classes\spells\PlayerFirePattern.hpp">
       <Filter>src\spells</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Classes\objects\EnemyBullet.hpp">
-      <Filter>src\objects</Filter>
     </ClInclude>
     <ClInclude Include="..\Classes\FileIO.hpp">
       <Filter>src</Filter>
