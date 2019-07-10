@@ -143,7 +143,7 @@ int GreenFairyPowerAttack::spawn()
 	SpaceFloat angleStep = float_pi * 2.0 / bulletsPerWave;
 
 	for_irange(i, 0, bulletsPerWave){
-		 spawnCount += to_int(getCasterAs<Agent>()->bulletImplCheckSpawn<BulletImpl>(
+		 spawnCount += to_int(getCasterAs<Agent>()->bulletImplCheckSpawn(
 			Bullet::makeParams(caster->getPos(),angleStep * i),
 			 app::getBullet("greenFairyBullet")
 		).isFuture());

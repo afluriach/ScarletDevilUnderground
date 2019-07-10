@@ -74,6 +74,19 @@ bullet_attributes Agent::getBulletAttributes(shared_ptr<bullet_properties> props
 	return result;
 }
 
+object_ref<BulletImpl> Agent::bulletImplCheckSpawn(
+	shared_ptr<object_params> params,
+	shared_ptr<bullet_properties> props
+) {
+	if (!isBulletObstacle(params->pos, props->dimensions.getMax()))
+		return space->createObject<BulletImpl>(
+			params,
+			getBulletAttributes(props),
+			props
+		);
+	else
+		return nullptr;
+}
 
 void Agent::initFSM()
 {

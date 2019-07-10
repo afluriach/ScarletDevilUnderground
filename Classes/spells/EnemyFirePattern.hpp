@@ -12,9 +12,7 @@
 #include "Bullet.hpp"
 #include "FirePattern.hpp"
 
-typedef BulletImplPattern<BulletImpl> EnemyBulletImplPattern;
-
-class IceFairyBulletPattern : public SingleBulletFixedIntervalPattern, public EnemyBulletImplPattern
+class IceFairyBulletPattern : public SingleBulletFixedIntervalPattern, public BulletImplPattern
 {
 public:
 	IceFairyBulletPattern(Agent *const agent);
@@ -25,7 +23,7 @@ public:
 	inline virtual float getCooldownTime() { return 2.0f; }
 };
 
-class Fairy1BulletPattern : public MultiBulletSpreadPattern, public EnemyBulletImplPattern
+class Fairy1BulletPattern : public MultiBulletSpreadPattern, public BulletImplPattern
 {
 public:
 	Fairy1BulletPattern(
@@ -41,7 +39,7 @@ public:
 	inline virtual float getCooldownTime() { return 1.5f; }
 };
 
-class GreenFairyBulletPattern : public RadiusPattern, public EnemyBulletImplPattern
+class GreenFairyBulletPattern : public RadiusPattern, public BulletImplPattern
 {
 public:
 	GreenFairyBulletPattern(
@@ -56,7 +54,7 @@ public:
 	inline virtual float getCooldownTime() { return 1.5f; }
 };
 
-class BlueFairyFirePattern : public BurstPattern, public EnemyBulletImplPattern
+class BlueFairyFirePattern : public BurstPattern, public BulletImplPattern
 {
 public:
 	BlueFairyFirePattern(Agent *const agent);
@@ -99,7 +97,7 @@ protected:
 	shared_ptr<bullet_properties> props;
 };
 
-class RumiaBurstPattern : public BurstPattern, public EnemyBulletImplPattern
+class RumiaBurstPattern : public BurstPattern, public BulletImplPattern
 {
 public:
 	RumiaBurstPattern(Agent *const agent);
@@ -108,7 +106,7 @@ public:
 	inline virtual string iconPath() const { return ""; }
 };
 
-class RumiaBurstPattern2 : public BurstPattern, public EnemyBulletImplPattern
+class RumiaBurstPattern2 : public BurstPattern, public BulletImplPattern
 {
 public:
 	RumiaBurstPattern2(Agent *const agent);

@@ -38,36 +38,10 @@ public:
 	inline virtual ~Agent() {}
 
 	bullet_attributes getBulletAttributes(shared_ptr<bullet_properties> props) const;
-
-	template<class ObjectCls>
-	inline gobject_ref bulletCheckSpawn(shared_ptr<object_params> params)
-	{
-		auto props = app::getBullet(ObjectCls::props);
-		SpaceFloat radius = props->dimensions.getMax();
-
-		if (!isBulletObstacle(params->pos, radius))
-			return space->createObject<ObjectCls>(
-				params,
-				getBulletAttributes(props)
-			);
-		else
-			return nullptr;
-	}
-
-	template<class ObjectCls>
-	inline object_ref<ObjectCls> bulletImplCheckSpawn(
+	object_ref<BulletImpl> bulletImplCheckSpawn(
 		shared_ptr<object_params> params,
 		shared_ptr<bullet_properties> props
-	){
-		if (!isBulletObstacle(params->pos, props->dimensions.getMax()))
-			return space->createObject<ObjectCls>(
-				params,
-				getBulletAttributes(props),
-				props
-			);
-		else
-			return nullptr;
-	}
+	);
 
 	void initFSM();
 	void initAttributes();

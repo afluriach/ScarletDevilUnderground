@@ -39,7 +39,6 @@ protected:
 	Agent * const agent;
 };
 
-template<class C>
 class BulletImplPattern : virtual public FirePattern
 {
 public:
@@ -55,36 +54,13 @@ public:
 	{
 		SpaceVect _pos = agent->getPos() + SpaceVect::ray(getLaunchDistance(), angle) + posOffset;
 
-		return agent->bulletImplCheckSpawn<C>(
+		return agent->bulletImplCheckSpawn(
 			Bullet::makeParams(_pos, angle),
 			props
 		).isFuture();
 	}
 
 	shared_ptr<bullet_properties> props;
-};
-
-template<class C>
-class FirePatternImpl : virtual public FirePattern
-{
-public:
-	inline FirePatternImpl() {}
-	virtual inline ~FirePatternImpl() {}
-
-	inline virtual bool spawn(SpaceFloat angle)
-	{
-		return spawn(SpaceVect::zero , angle);
-	}
-
-	inline virtual bool spawn(SpaceVect posOffset, SpaceFloat angle)
-	{
-		SpaceVect _pos = agent->getPos() + SpaceVect::ray(getLaunchDistance(), angle) + posOffset;
-
-		return agent->bulletCheckSpawn<C>(
-			Bullet::makeParams(_pos, angle)
-		).isFuture();
-	}
-
 };
 
 class SingleBulletFixedIntervalPattern : virtual public FirePattern

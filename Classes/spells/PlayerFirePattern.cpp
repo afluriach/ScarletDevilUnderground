@@ -16,7 +16,7 @@
 MagicMissile::MagicMissile(Agent *const agent, int level) :
 	SingleBulletFixedIntervalPattern(agent),
 	FirePattern(agent),
-	PlayerBulletImplPattern(app::getBullet("flandreFastOrb1"))
+	BulletImplPattern(app::getBullet("flandreFastOrb1"))
 {
 }
 
@@ -72,7 +72,7 @@ bool StarbowBreak::spawnBullet(int angle, bool left)
 	bool fired = false;
 
 	if (agent->getAttribute(Attribute::stamina) >= cost) {
-		fired = agent->bulletImplCheckSpawn<BulletImpl>(
+		fired = agent->bulletImplCheckSpawn(
 			Bullet::makeParams(pos,_angle), 
 			makeSharedCopy(generateProps(angle))
 		).isFuture();
@@ -138,7 +138,7 @@ bool Catadioptric::spawnTail(SpaceFloat angleOffset)
 	double _angle = agent->getAngle() + angleOffset;
 	SpaceVect pos = agent->getPos() + SpaceVect::ray(1.0, _angle);
 
-	fired |= agent->bulletImplCheckSpawn<BulletImpl>(
+	fired |= agent->bulletImplCheckSpawn(
 		Bullet::makeParams(pos, _angle),
 		app::getBullet("catadioptricBullet1")
 	).isFuture();
@@ -154,7 +154,7 @@ bool Catadioptric::spawnTail(SpaceFloat angleOffset)
 		SpaceFloat actualAngle = _angle + getSpace()->getRandomFloat(-1.0f, 1.0f)*angleSpread / 4.0;
 		props->speed += -secondarySpeedVariation + step*i;
 
-		fired |= agent->bulletImplCheckSpawn<BulletImpl>(
+		fired |= agent->bulletImplCheckSpawn(
 			Bullet::makeParams(pos, actualAngle),
 			props
 		).isFuture();
@@ -172,7 +172,7 @@ bool Catadioptric::spawnTail(SpaceFloat angleOffset)
 
 		props->speed += -tertiarySpeedVariation + step * i;
 
-		fired |= agent->bulletImplCheckSpawn<BulletImpl>(
+		fired |= agent->bulletImplCheckSpawn(
 			Bullet::makeParams(pos,actualAngle),
 			props
 		).isFuture();
@@ -209,21 +209,21 @@ ScarletDaggerPattern::ScarletDaggerPattern(Agent *const agent, int level) :
 		props[level].spreadAngle,
 		props[level].bulletCount
 	),
-	BulletImplPattern<BulletImpl>(app::getBullet("scarletDagger")),
+	BulletImplPattern(app::getBullet("scarletDagger")),
 	level(level)
 {}
 
 FlandreBigOrbPattern::FlandreBigOrbPattern(Agent *const agent) :
 	SingleBulletFixedIntervalPattern(agent),
 	FirePattern(agent),
-	PlayerBulletImplPattern(app::getBullet("flandreBigOrb1"))
+	BulletImplPattern(app::getBullet("flandreBigOrb1"))
 {
 }
 
 FlandreFastOrbPattern::FlandreFastOrbPattern(Agent *const agent) :
 	SingleBulletFixedIntervalPattern(agent),
 	FirePattern(agent),
-	PlayerBulletImplPattern(app::getBullet("flandreFastOrb1"))
+	BulletImplPattern(app::getBullet("flandreFastOrb1"))
 {
 }
 
@@ -232,7 +232,7 @@ const float FlandreWideAnglePattern1::cooldown = 0.25f;
 FlandreWideAnglePattern1::FlandreWideAnglePattern1(Agent *const agent) :
 	MultiBulletSpreadPattern(agent, cooldown, float_pi / 8.0, 3),
 	FirePattern(agent),
-	PlayerBulletImplPattern(app::getBullet("flandreFastOrb1"))
+	BulletImplPattern(app::getBullet("flandreFastOrb1"))
 {}
 
 const float FlandreWideAnglePattern2::cooldown = 0.25f;
@@ -240,13 +240,13 @@ const float FlandreWideAnglePattern2::cooldown = 0.25f;
 FlandreWideAnglePattern2::FlandreWideAnglePattern2(Agent *const agent) :
 	MultiBulletSpreadPattern(agent, cooldown, float_pi / 4.0, 5),
 	FirePattern(agent),
-	PlayerBulletImplPattern(app::getBullet("flandreFastOrb1"))
+	BulletImplPattern(app::getBullet("flandreFastOrb1"))
 {}
 
 RumiaFastOrbPattern::RumiaFastOrbPattern(Agent *const agent) :
 	SingleBulletFixedIntervalPattern(agent),
 	FirePattern(agent),
-	PlayerBulletImplPattern(app::getBullet("rumiaFastOrb1"))
+	BulletImplPattern(app::getBullet("rumiaFastOrb1"))
 {}
 
 const float RumiaParallelPattern::cooldown = 1.0f / 6.0f;
@@ -254,17 +254,17 @@ const float RumiaParallelPattern::cooldown = 1.0f / 6.0f;
 RumiaParallelPattern::RumiaParallelPattern(Agent *const agent) :
 	MultiBulletParallelPattern(agent, cooldown, 1.0, 3),
 	FirePattern(agent),
-	PlayerBulletImplPattern(app::getBullet("rumiaFastOrb1"))
+	BulletImplPattern(app::getBullet("rumiaFastOrb1"))
 {}
 
 CirnoLargeIceBulletPattern::CirnoLargeIceBulletPattern(Agent *const agent) :
 	SingleBulletFixedIntervalPattern(agent),
 	FirePattern(agent),
-	PlayerBulletImplPattern(app::getBullet("cirnoLargeIceBullet"))
+	BulletImplPattern(app::getBullet("cirnoLargeIceBullet"))
 {}
 
 CirnoSmallIceBulletPattern::CirnoSmallIceBulletPattern(Agent *const agent) :
 	SingleBulletFixedIntervalPattern(agent),
 	FirePattern(agent),
-	PlayerBulletImplPattern(app::getBullet("cirnoSmallIceBullet"))
+	BulletImplPattern(app::getBullet("cirnoSmallIceBullet"))
 {}

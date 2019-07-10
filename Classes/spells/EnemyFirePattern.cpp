@@ -14,7 +14,7 @@
 IceFairyBulletPattern::IceFairyBulletPattern(Agent *const agent) :
 	SingleBulletFixedIntervalPattern(agent),
 	FirePattern(agent),
-	EnemyBulletImplPattern(app::getBullet("iceFairyBullet"))
+	BulletImplPattern(app::getBullet("iceFairyBullet"))
 {
 }
 
@@ -26,7 +26,7 @@ Fairy1BulletPattern::Fairy1BulletPattern(
 ) :
 	MultiBulletSpreadPattern(agent, fireInterval, sideAngleSpread, bulletCount),
 	FirePattern(agent),
-	EnemyBulletImplPattern(app::getBullet("fairy1Bullet"))
+	BulletImplPattern(app::getBullet("fairy1Bullet"))
 {
 }
 
@@ -37,27 +37,27 @@ GreenFairyBulletPattern::GreenFairyBulletPattern(
 ) :
 	RadiusPattern(agent, fireInterval, bulletCount),
 	FirePattern(agent),
-	EnemyBulletImplPattern(app::getBullet("greenFairyBullet"))
+	BulletImplPattern(app::getBullet("greenFairyBullet"))
 {
 }
 
 BlueFairyFirePattern::BlueFairyFirePattern(Agent *const agent) :
 	FirePattern(agent),
 	BurstPattern(agent, 1.5, 0.5, 3),
-	EnemyBulletImplPattern(app::getBullet("blueFairyBullet"))
+	BulletImplPattern(app::getBullet("blueFairyBullet"))
 {
 }
 
 RumiaBurstPattern::RumiaBurstPattern(Agent *const agent) :
 	FirePattern(agent),
 	BurstPattern(agent, 1.5, 0.25, 3),
-	EnemyBulletImplPattern(app::getBullet("rumiaBullet"))
+	BulletImplPattern(app::getBullet("rumiaBullet"))
 {}
 
 RumiaBurstPattern2::RumiaBurstPattern2(Agent *const agent) :
 	FirePattern(agent),
 	BurstPattern(agent, 0.9, 0.33, 6),
-	EnemyBulletImplPattern(app::getBullet("rumiaBullet2"))
+	BulletImplPattern(app::getBullet("rumiaBullet2"))
 {}
 
 const SpaceFloat ReimuWavePattern::omega = float_pi * 2.0;
@@ -97,8 +97,8 @@ bool ReimuWavePattern::fire()
 	SpaceFloat angle = agent->getAngle();
 	auto params = Bullet::makeParams(pos, angle);
 
-	gobject_ref b1 = agent->bulletImplCheckSpawn<BulletImpl>(params, props);
-	gobject_ref b2 = agent->bulletImplCheckSpawn<BulletImpl>(params, props);
+	gobject_ref b1 = agent->bulletImplCheckSpawn(params, props);
+	gobject_ref b2 = agent->bulletImplCheckSpawn(params, props);
 
 	auto f1 = getParametricFunction(pos, angle, props->speed, 0.0);
 	auto f2 = getParametricFunction(pos, angle, props->speed, 0.5);

@@ -11,8 +11,6 @@
 
 #include "FirePattern.hpp"
 
-typedef BulletImplPattern<BulletImpl> PlayerBulletImplPattern;
-
 enum class PlayerFirePatternID
 {
 	magicMissile,
@@ -21,7 +19,7 @@ enum class PlayerFirePatternID
 	scarletDagger,
 };
 
-class MagicMissile : public SingleBulletFixedIntervalPattern, public PlayerBulletImplPattern
+class MagicMissile : public SingleBulletFixedIntervalPattern, public BulletImplPattern
 {
 public:
 	MagicMissile(Agent *const agent, int level);
@@ -85,7 +83,7 @@ public:
 	inline virtual float getCost() const { return 20.0f; }
 };
 
-class ScarletDaggerPattern : public MultiBulletSpreadPattern, public PlayerBulletImplPattern
+class ScarletDaggerPattern : public MultiBulletSpreadPattern, public BulletImplPattern
 {
 public:
 	struct properties
@@ -107,7 +105,7 @@ protected:
 	int level;
 };
 
-class FlandreBigOrbPattern : public SingleBulletFixedIntervalPattern, public PlayerBulletImplPattern
+class FlandreBigOrbPattern : public SingleBulletFixedIntervalPattern, public BulletImplPattern
 {
 public:
 	FlandreBigOrbPattern(Agent *const agent);
@@ -117,7 +115,7 @@ public:
 	virtual float getCooldownTime() { return 1.0f; }
 };
 
-class FlandreFastOrbPattern : public SingleBulletFixedIntervalPattern, public PlayerBulletImplPattern
+class FlandreFastOrbPattern : public SingleBulletFixedIntervalPattern, public BulletImplPattern
 {
 public:
 	FlandreFastOrbPattern(Agent *const agent);
@@ -127,7 +125,7 @@ public:
 	virtual float getCooldownTime() { return 1.0f / 6.0f; }
 };
 
-class FlandreWideAnglePattern1 : public MultiBulletSpreadPattern, public PlayerBulletImplPattern
+class FlandreWideAnglePattern1 : public MultiBulletSpreadPattern, public BulletImplPattern
 {
 public:
 	static const float cooldown;
@@ -137,7 +135,7 @@ public:
 	inline virtual string iconPath() const { return "sprites/fire_patterns/flandre_fast_orb.png"; }
 };
 
-class FlandreWideAnglePattern2 : public MultiBulletSpreadPattern, public PlayerBulletImplPattern
+class FlandreWideAnglePattern2 : public MultiBulletSpreadPattern, public BulletImplPattern
 {
 public:
 	static const float cooldown;
@@ -147,7 +145,7 @@ public:
 	inline virtual string iconPath() const { return "sprites/fire_patterns/flandre_fast_orb.png"; }
 };
 
-class RumiaFastOrbPattern : public SingleBulletFixedIntervalPattern, public PlayerBulletImplPattern
+class RumiaFastOrbPattern : public SingleBulletFixedIntervalPattern, public BulletImplPattern
 {
 public:
 	RumiaFastOrbPattern(Agent *const agent);
@@ -157,7 +155,7 @@ public:
 	virtual float getCooldownTime() { return 1.0f / 6.0f; }
 };
 
-class RumiaParallelPattern : public MultiBulletParallelPattern, public PlayerBulletImplPattern
+class RumiaParallelPattern : public MultiBulletParallelPattern, public BulletImplPattern
 {
 public:
 	static const float cooldown;
@@ -167,7 +165,7 @@ public:
 	inline virtual string iconPath() const { return "sprites/fire_patterns/rumia_fast_orb.png"; }
 };
 
-class CirnoLargeIceBulletPattern : public SingleBulletFixedIntervalPattern, public PlayerBulletImplPattern
+class CirnoLargeIceBulletPattern : public SingleBulletFixedIntervalPattern, public BulletImplPattern
 {
 public:
 	CirnoLargeIceBulletPattern(Agent *const agent);
@@ -177,7 +175,7 @@ public:
 	virtual float getCooldownTime() { return 1.0f; }
 };
 
-class CirnoSmallIceBulletPattern : public SingleBulletFixedIntervalPattern, public PlayerBulletImplPattern
+class CirnoSmallIceBulletPattern : public SingleBulletFixedIntervalPattern, public BulletImplPattern
 {
 public:
 	CirnoSmallIceBulletPattern(Agent *const agent);
