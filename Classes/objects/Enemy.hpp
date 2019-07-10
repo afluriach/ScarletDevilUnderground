@@ -18,6 +18,7 @@ struct enemy_properties
 	string sprite;
 	string attributes;
 	string ai_package;
+	string firepattern;
 
 	//Strictly radius for now, as Enemy->Agent still is a CircleBody
 	SpaceFloat radius = 0.0;

@@ -25,50 +25,6 @@
 #include "SpellUtil.hpp"
 #include "value_map.hpp"
 
-const string GhostFairy::baseAttributes = "ghostFairy";
-const string GhostFairy::properName = "Ghost Fairy";
-
-GhostFairy::GhostFairy(GSpace* space, ObjectIDType id, const ValueMap& args) :
-	Enemy(
-		space, id, args,
-		baseAttributes,
-		defaultSize,
-		10.0,
-		collectible_id::hm1
-	)
-{
-	setFirePattern("GhostFairyBulletPattern");
-}
-
-const string Fairy1::baseAttributes = "fairy1";
-
-Fairy1::Fairy1(GSpace* space, ObjectIDType id, const ValueMap& args) :
-	Enemy(
-		space, id, args,
-		baseAttributes,
-		defaultSize,
-		40.0,
-		collectible_id::hm1
-	)
-{
-	setFirePattern("Fairy1BulletPattern");
-}
-
-const string BlueFairy::baseAttributes = "blueFairy";
-const string BlueFairy::properName = "Blue Fairy";
-
-BlueFairy::BlueFairy(GSpace* space, ObjectIDType id, const ValueMap& args) :
-	Enemy(
-		space, id, args,
-		baseAttributes,
-		defaultSize,
-		25.0,
-		collectible_id::hm1
-	)
-{
-	setFirePattern("BlueFairyFirePattern");
-}
-
 const string RedFairy::baseAttributes = "redFairy";
 const string RedFairy::properName = "Red Fairy";
 
@@ -124,45 +80,6 @@ void RedFairy::onZeroHP()
 		0.0
 	);
 	space->addGraphicsAction(&graphics_context::autoremoveLightSource, light, 1.0f);
-}
-
-const string GreenFairy1::baseAttributes = "greenFairy1";
-const string GreenFairy1::properName = "Green Fairy I";
-
-GreenFairy1::GreenFairy1(GSpace* space, ObjectIDType id, const ValueMap& args) :
-	Enemy(
-		space, id, args,
-		baseAttributes,
-		defaultSize,
-		15.0,
-		collectible_id::hm1
-	)
-{
-	setFirePattern("GreenFairy1");
-}
-
-const string GreenFairy2::baseAttributes = "greenFairy2";
-const string GreenFairy2::properName = "Green Fairy II";
-
-GreenFairy2::GreenFairy2(GSpace* space, ObjectIDType id, const ValueMap& args) :
-	Enemy(
-		space, id, args,
-		baseAttributes,
-		defaultSize,
-		25.0,
-		collectible_id::hm2
-	)
-{
-	setFirePattern("GreenFairy2");
-}
-
-void GreenFairy2::onRemove()
-{
-	Enemy::onRemove();
-
-	if (firePattern) {
-		firePattern->fireIfPossible();
-	}
 }
 
 const string ZombieFairy::baseAttributes = "zombieFairy";
@@ -270,18 +187,4 @@ object_ref<Fairy2> Fairy2::requestHandler(object_ref<Fairy2> other)
 	else {
 		return nullptr;
 	}
-}
-
-const string IceFairy::baseAttributes = "iceFairy"; 
-
-IceFairy::IceFairy(GSpace* space, ObjectIDType id, const ValueMap& args) :
-	Enemy(
-		space, id, args,
-		baseAttributes,
-		defaultSize,
-		40.0,
-		collectible_id::magic2
-	)
-{
-	setFirePattern("IceFairyBulletPattern");
 }

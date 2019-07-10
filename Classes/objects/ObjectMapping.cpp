@@ -138,7 +138,6 @@ void GObject::initObjectInfo()
 {
 	objectInfo = {
 
-	entry_same(BlueFairy),
 	conditional_entry(BlueFairyNPC),
 	entry_same(BreakableWall),
 	entry_same(CollectGlyph),
@@ -147,24 +146,19 @@ void GObject::initObjectInfo()
 	entry_same(DarknessArea),
 	entry_same(Desk),
 	entry_same(Door),
-	entry_same(Fairy1),
 	entry_same(Fairy2),
 	entry_same(FairyMaid),
 	entry_same(Flower),
 	item_entry_same(ForestBook1),
 	entry_same(GenericAgent),
-	entry_same(GhostFairy),
 	conditional_entry(GhostFairyNPC),
 	entry_same(GhostHeadstone),
 	entry_same(GhostHeadstoneSensor),
 	entry_same(Glyph),
 	entry_same(Goal),
 	item_entry_same(GraveyardBook1),
-	entry_same(GreenFairy1),
-	entry_same(GreenFairy2),
 	conditional_entry(Headstone),
 	entry_same(HiddenSubroomSensor),
-	entry_same(IceFairy),
 	entry_same(IcePlatform),
 	entry_same(Launcher),
 	conditional_entry(MapFragment),
@@ -232,15 +226,9 @@ const unordered_set<type_index> GSpace::trackedTypes = {
 };
 
 const unordered_set<type_index> GSpace::enemyTypes = {
-	typeid(Fairy1),
 	typeid(Fairy2),
-	typeid(IceFairy),
 
-	typeid(GhostFairy),
 	typeid(RedFairy),
-	typeid(GreenFairy1),
-	typeid(GreenFairy2),
-	typeid(BlueFairy),
 	typeid(ZombieFairy),
 	
 	typeid(Rumia1),

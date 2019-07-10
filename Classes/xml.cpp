@@ -220,6 +220,7 @@ bool parseObject(tinyxml2::XMLElement* elem, shared_ptr<enemy_properties>* resul
 	getStringAttr(elem, "sprite", &props.sprite);
 	getStringAttr(elem, "attributes", &props.attributes);
 	getStringAttr(elem, "ai_package", &props.ai_package);
+	getStringAttr(elem, "firepattern", &props.firepattern);
 
 	autoName(elem->Name(), props.sprite);
 	autoName(elem->Name(), props.attributes);

@@ -13,6 +13,21 @@
 		isFlying="true"
 	/>
 
+	<BlueFairy
+		name="Blue Fairy"
+
+		sprite="blueFairy"
+		ai_package=""
+		attributes="blueFairy"
+		firepattern="BlueFairyFirePattern"
+		
+		mass="25"
+		viewRange="5"
+		viewAngle="90"
+
+		collectible="hm1"		
+	/>
+	
 	<CollectMarisa
 		name="Marisa Kirisame"
 		sprite="marisa"
@@ -34,6 +49,20 @@
 		mass="40"
 	/>
 
+	<Fairy1
+		name="Fairy I"
+
+		sprite="greenFairy"
+		attributes="fairy1"
+		firepattern="Fairy1BulletPattern"
+		
+		mass="40"
+		viewRange="6"
+		viewAngle="0"
+
+		collectible="hm1"		
+	/>
+	
 	<Follower
 		sprite="follower"
 		ai_package="follower"
@@ -53,6 +82,66 @@
 		viewAngle="0"
 
 		collectible="nil"		
+	/>
+	
+ 	<GhostFairy
+		name="Ghost Fairy"
+
+		sprite="ghostFairy"
+		ai_package="ghost_fairy"
+		attributes="ghostFairy"
+		firepattern="GhostFairyBulletPattern"
+		
+		mass="10"
+		viewRange="3"
+		viewAngle="0"
+
+		collectible="hm1"		
+	/>
+
+	<GreenFairy1
+		name="Green Fairy I"
+
+		sprite="greenFairy"
+		ai_package="green_fairy1"
+		attributes="greenFairy1"
+		firepattern="GreenFairy1"
+		
+		mass="15"
+		viewRange="4.5"
+		viewAngle="0"
+
+		collectible="hm1"		
+	/>
+
+	<GreenFairy2
+		name="Green Fairy II"
+
+		sprite="greenFairy2"
+		ai_package="green_fairy2"
+		attributes="greenFairy2"
+		firepattern="GreenFairy2"
+		
+		mass="25"
+		viewRange="6.0"
+		viewAngle="0"
+
+		collectible="hm2"		
+	/>
+
+	<IceFairy
+		name="Ice Fairy"
+
+		sprite="blueFairy2"
+		ai_package="ice_fairy"
+		attributes="iceFairy"
+		firepattern="IceFairyBulletPattern"
+		
+		mass="40"
+		viewRange="6.0"
+		viewAngle="45"
+
+		collectible="magic2"		
 	/>
 	
  	<Sakuya

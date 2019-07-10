@@ -74,7 +74,8 @@ EnemyImpl::EnemyImpl(
 	),
 	props(props)
 {
-
+	if (props->firepattern.size() > 0)
+		setFirePattern(props->firepattern);
 }
 
 DamageInfo EnemyImpl::touchEffect() const{

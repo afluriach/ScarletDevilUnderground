@@ -12,53 +12,6 @@
 #include "Collectibles.hpp"
 #include "Enemy.hpp"
 
-class GhostFairy : public Enemy
-{
-public:
-	static const string baseAttributes;
-	static const string properName;
-
-	GhostFairy(GSpace* space, ObjectIDType id, const ValueMap& args);
-
-	virtual inline GType getType() const { return GType::enemy; }
-	virtual inline GType getRadarType() const { return GType::enemySensor; }
-	virtual inline SpaceFloat getRadarRadius() const { return 3.0; }
-	virtual inline SpaceFloat getDefaultFovAngle() const { return 0.0; }
-
-	virtual inline string getSprite() const { return "ghostFairy"; }
-
-	virtual inline string initStateMachine() { return "ghost_fairy"; }
-};
-
-class Fairy1 : public Enemy
-{
-public:
-	static const string baseAttributes;
-
-	Fairy1(GSpace* space, ObjectIDType id, const ValueMap& args);
-
-	virtual inline SpaceFloat getRadarRadius() const { return 6.0; }
-	virtual inline SpaceFloat getDefaultFovAngle() const { return 0.0; }
-
-	inline string getSprite() const { return "greenFairy"; }
-};
-
-class BlueFairy : public Enemy
-{
-public:
-	static const string baseAttributes;
-	static const string properName;
-
-	BlueFairy(GSpace* space, ObjectIDType id, const ValueMap& args);
-
-	virtual inline SpaceFloat getMaxSpeed() const { return 2.5; }
-	virtual inline SpaceFloat getMaxAcceleration() const { return 6.0; }
-	virtual inline SpaceFloat getRadarRadius() const { return 5.0; }
-	virtual inline SpaceFloat getDefaultFovAngle() const { return float_pi * 0.5; }
-
-	inline string getSprite() const { return "blueFairy"; }
-};
-
 class RedFairy : public Enemy
 {
 public:
@@ -81,40 +34,6 @@ public:
 	virtual inline string initStateMachine() { return "red_fairy"; }
 	virtual void onZeroHP();
 };
-
-class GreenFairy1 : public Enemy
-{
-public:
-	static const string baseAttributes;
-	static const string properName;
-
-	GreenFairy1(GSpace* space, ObjectIDType id, const ValueMap& args);
-
-	virtual inline SpaceFloat getRadarRadius() const { return 4.5; }
-	virtual inline SpaceFloat getDefaultFovAngle() const { return float_pi; }
-
-	inline string getSprite() const { return "greenFairy"; }
-
-	virtual inline string initStateMachine() { return "green_fairy1"; }
-};
-
-class GreenFairy2 : public Enemy
-{
-public:
-	static const string baseAttributes;
-	static const string properName;
-
-	GreenFairy2(GSpace* space, ObjectIDType id, const ValueMap& args);
-
-	virtual inline SpaceFloat getRadarRadius() const { return 6.0; }
-	virtual inline SpaceFloat getDefaultFovAngle() const { return 0.0; }
-
-	inline string getSprite() const { return "greenFairy2"; }
-
-	virtual inline string initStateMachine() { return "green_fairy2"; }
-	virtual void onRemove();
-};
-
 
 class ZombieFairy : public Enemy
 {
@@ -181,21 +100,6 @@ protected:
 	ai_state crntState = ai_state::normal;
 	unsigned int supportThread = 0;
 	object_ref<Fairy2> supportingAgent;
-};
-
-class IceFairy : public Enemy
-{
-public:
-	static const string baseAttributes;
-
-	IceFairy(GSpace* space, ObjectIDType id, const ValueMap& args);
-
-	virtual inline SpaceFloat getRadarRadius() const { return 6.0; }
-	virtual inline SpaceFloat getDefaultFovAngle() const { return float_pi / 4.0; }
-
-	inline string getSprite() const { return "blueFairy2"; }
-
-	virtual inline string initStateMachine() { return "ice_fairy"; }
 };
 
 #endif /* Fairy_hpp */
