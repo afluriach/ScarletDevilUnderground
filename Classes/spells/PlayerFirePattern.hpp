@@ -10,7 +10,6 @@
 #define PlayerFirePattern_hpp
 
 #include "FirePattern.hpp"
-#include "PlayerBullet.hpp"
 
 typedef BulletImplPattern<BulletImpl> PlayerBulletImplPattern;
 
@@ -36,19 +35,14 @@ class StarbowBreak : public FirePattern
 public:
 	static constexpr int anglesCount = 5;
 
-	static const float baseDamage;
 	static const float baseCost;
 	static const float baseFireInterval;
 	static const array<float, anglesCount> angleIntervalScales;
-
-	static const double baseMass;
-	static const double baseSpeed;
 
 	static const double angleVariation;
 	static const double angleStep;
 
 	static const double launchDist;
-	static const double baseRadius;
 	static const array<double, anglesCount> radiusScales;
 
 	StarbowBreak(Agent *const agent, int level);

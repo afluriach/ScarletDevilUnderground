@@ -205,7 +205,6 @@ xcopy "$(ProjectDir)..\Resources" "$(OutDir)" /D /E /I /F /Y</Command>
     <ClCompile Include="..\Classes\objects\object_ref.cpp" />
     <ClCompile Include="..\Classes\objects\Patchouli.cpp" />
     <ClCompile Include="..\Classes\objects\Player.cpp" />
-    <ClCompile Include="..\Classes\objects\PlayerBullet.cpp" />
     <ClCompile Include="..\Classes\objects\Pyramid.cpp" />
     <ClCompile Include="..\Classes\objects\Reimu.cpp" />
     <ClCompile Include="..\Classes\objects\Rumia.cpp" />
@@ -334,7 +333,6 @@ xcopy "$(ProjectDir)..\Resources" "$(OutDir)" /D /E /I /F /Y</Command>
     <ClInclude Include="..\Classes\objects\object_ref.hpp" />
     <ClInclude Include="..\Classes\objects\Patchouli.hpp" />
     <ClInclude Include="..\Classes\objects\Player.hpp" />
-    <ClInclude Include="..\Classes\objects\PlayerBullet.hpp" />
     <ClInclude Include="..\Classes\objects\Pyramid.hpp" />
     <ClInclude Include="..\Classes\objects\Reimu.hpp" />
     <ClInclude Include="..\Classes\objects\Rumia.hpp" />

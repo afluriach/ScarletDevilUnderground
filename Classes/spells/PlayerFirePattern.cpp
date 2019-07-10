@@ -9,8 +9,8 @@
 #include "Prefix.h"
 
 #include "Agent.hpp"
+#include "Bullet.hpp"
 #include "GSpace.hpp"
-#include "PlayerBullet.hpp"
 #include "PlayerFirePattern.hpp"
 
 MagicMissile::MagicMissile(Agent *const agent, int level) :
@@ -20,7 +20,6 @@ MagicMissile::MagicMissile(Agent *const agent, int level) :
 {
 }
 
-const float StarbowBreak::baseDamage = 2.0f;
 const float StarbowBreak::baseCost = 1.0f;
 const float StarbowBreak::baseFireInterval = 1.0f / 5.0f;
 const array<float, StarbowBreak::anglesCount> StarbowBreak::angleIntervalScales = {
@@ -31,14 +30,10 @@ const array<float, StarbowBreak::anglesCount> StarbowBreak::angleIntervalScales 
 	0.4f
 };
 
-const double StarbowBreak::baseMass = 1.0;
-const double StarbowBreak::baseSpeed = 6.0;
-
 const double StarbowBreak::angleVariation = float_pi * 0.25;
 const double StarbowBreak::angleStep = angleVariation / (anglesCount - 1);
 
 const double StarbowBreak::launchDist = 1.0;
-const double StarbowBreak::baseRadius = 0.15;
 const array<double, StarbowBreak::anglesCount> StarbowBreak::radiusScales = {
 	0.75,
 	0.5,
@@ -57,16 +52,16 @@ bullet_properties StarbowBreak::generateProps(int angle)
 	//damage and mass should be proportional to size
 	//speed should be inversely proportional to size
 	//angle colors
+	bullet_properties result = *app::getBullet("starbowBullet");
 	double sizeScale = radiusScales[angle];
 
-	return bullet_properties{
-		baseMass *sizeScale*sizeScale,
-		baseSpeed / sizeScale,
-		SpaceVect(baseRadius * sizeScale, 0.0),
-		0.0,
-		bullet_damage(to_float(baseDamage*sizeScale)),
-		"starbowBreak"+boost::lexical_cast<string>(angle+1),
-	};
+	result.speed /= sizeScale;
+	result.dimensions.x *= sizeScale;
+	result.damage.mag *= sizeScale;
+	result.sprite = "starbowBreak" + boost::lexical_cast<string>(angle + 1);
+	result.lightSource = "starbowBreak" + boost::lexical_cast<string>(angle + 1);
+
+	return result;
 }
 
 bool StarbowBreak::spawnBullet(int angle, bool left)
@@ -77,7 +72,7 @@ bool StarbowBreak::spawnBullet(int angle, bool left)
 	bool fired = false;
 
 	if (agent->getAttribute(Attribute::stamina) >= cost) {
-		fired = agent->bulletImplCheckSpawn<StarbowBreakBullet>(
+		fired = agent->bulletImplCheckSpawn<BulletImpl>(
 			Bullet::makeParams(pos,_angle), 
 			makeSharedCopy(generateProps(angle))
 		).isFuture();
@@ -143,7 +138,7 @@ bool Catadioptric::spawnTail(SpaceFloat angleOffset)
 	double _angle = agent->getAngle() + angleOffset;
 	SpaceVect pos = agent->getPos() + SpaceVect::ray(1.0, _angle);
 
-	fired |= agent->bulletImplCheckSpawn<CatadioptricBullet>(
+	fired |= agent->bulletImplCheckSpawn<BulletImpl>(
 		Bullet::makeParams(pos, _angle),
 		app::getBullet("catadioptricBullet1")
 	).isFuture();
@@ -159,7 +154,7 @@ bool Catadioptric::spawnTail(SpaceFloat angleOffset)
 		SpaceFloat actualAngle = _angle + getSpace()->getRandomFloat(-1.0f, 1.0f)*angleSpread / 4.0;
 		props->speed += -secondarySpeedVariation + step*i;
 
-		fired |= agent->bulletImplCheckSpawn<CatadioptricBullet>(
+		fired |= agent->bulletImplCheckSpawn<BulletImpl>(
 			Bullet::makeParams(pos, actualAngle),
 			props
 		).isFuture();
@@ -177,7 +172,7 @@ bool Catadioptric::spawnTail(SpaceFloat angleOffset)
 
 		props->speed += -tertiarySpeedVariation + step * i;
 
-		fired |= agent->bulletImplCheckSpawn<CatadioptricBullet>(
+		fired |= agent->bulletImplCheckSpawn<BulletImpl>(
 			Bullet::makeParams(pos,actualAngle),
 			props
 		).isFuture();

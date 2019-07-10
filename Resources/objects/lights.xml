@@ -15,4 +15,15 @@
 	<yinYangOrb type="sprite" sprite="yin-yang-orb" color="0.5,0.25,0.25,1.0" scale="3.0"/>
 	
 	<spellcard type="circle" radius="3.0" color="3b:94,145,140" flood="0.5"/>
+
+	<catadioptric1 type="circle" radius="2.0" color="0.0,0.5,0.5" flood="0.25" />
+	<catadioptric2 type="circle" radius="1.0" color="0.0,0.5,0.5" flood="0.25" />
+	<catadioptric3 type="circle" radius="0.5" color="0.0,0.5,0.5" flood="0.25" />
+	
+	<starbowBreak1 type="circle" radius="0.6" color="hsv:0.0,0.5,1.0" />
+	<starbowBreak2 type="circle" radius="0.4" color="hsv:48.0,0.5,1.0" />
+	<starbowBreak3 type="circle" radius="0.533333" color="hsv:120.0,0.5,1.0" />
+	<starbowBreak4 type="circle" radius="0.2" color="hsv:180.0,0.5,1.0" />
+	<starbowBreak5 type="circle" radius="0.266666" color="hsv:315.0,0.5,1.0" />
+
 </lights>
