@@ -8,8 +8,10 @@
 
 #include "Prefix.h"
 
+#include "FirePatternImpl.hpp"
 #include "GSpace.hpp"
 #include "PlayerFirePattern.hpp"
+#include "xml.hpp"
 
 template<class C>
 FirePatternGeneratorType factoryAdapter()
@@ -19,9 +21,21 @@ FirePatternGeneratorType factoryAdapter()
 	};
 }
 
+FirePatternGeneratorType implFactoryAdapter(string fpName)
+{
+	return [fpName](Agent* agent, int level) -> shared_ptr<FirePattern> {
+		auto props = app::getFirePattern(fpName);
+
+		return make_shared<FirePatternImpl>(agent, props);
+	};
+}
+
+#define fp_impl(x) { #x , implFactoryAdapter(#x) }
+
 const unordered_map<string, FirePatternGeneratorType> FirePattern::playerFirePatterns = {
-	{ "MagicMissile", factoryAdapter<MagicMissile>() },
+	fp_impl(MagicMissile),
+	fp_impl(ScarletDaggerPattern),
+
 	{ "Catadioptric", factoryAdapter<Catadioptric>() },
-	{ "ScarletDagger", factoryAdapter<ScarletDaggerPattern>() },
 	{ "StarbowBreak", factoryAdapter<StarbowBreak>() },
 };

@@ -11,6 +11,7 @@
 #include "Attributes.hpp"
 #include "Bullet.hpp"
 #include "FileIO.hpp"
+#include "FirePatternImpl.hpp"
 #include "Graphics.h"
 #include "graphics_types.h"
 
@@ -19,6 +20,7 @@ namespace app {
 unordered_map<string, AttributeMap> attributes;
 unordered_map<string, shared_ptr<bullet_properties>> bullets;
 unordered_map<string, shared_ptr<enemy_properties>> enemies;
+unordered_map<string, shared_ptr<firepattern_properties>> firePatterns;
 unordered_map<string, floorsegment_properties> floors;
 unordered_map<string, shared_ptr<LightArea>> lights;
 unordered_map<string, sprite_properties> sprites;
@@ -50,6 +52,11 @@ void loadEnemies()
 	}
 }
 
+void loadFirePatterns()
+{
+	loadObjects<shared_ptr<firepattern_properties>>("objects/fire-patterns.xml", app::firePatterns);
+}
+
 void loadFloors()
 {
 	loadObjects<floorsegment_properties>("objects/floors.xml", app::floors);
@@ -73,6 +80,11 @@ shared_ptr<bullet_properties> getBullet(const string& name)
 shared_ptr<enemy_properties> getEnemy(const string& name)
 {
 	return getOrDefault(enemies, name);
+}
+
+shared_ptr<firepattern_properties> getFirePattern(const string& name)
+{
+	return getOrDefault(firePatterns, name);
 }
 
 shared_ptr<LightArea> getLight(const string& name)
@@ -237,6 +249,80 @@ bool parseObject(tinyxml2::XMLElement* elem, shared_ptr<enemy_properties>* resul
 
 	*result = make_shared<enemy_properties>(props);
 	return true;
+}
+
+bool parseObject(tinyxml2::XMLElement* elem, shared_ptr<firepattern_properties>* _output)
+{
+	SpaceFloat distance = FirePattern::defaultLaunchDistance;
+	SpaceFloat interval = 0.0;
+	SpaceFloat burstInterval = 0.0;
+	int burstCount = 1;
+
+	SpaceFloat sideAngle = 0.0;
+	int bulletCount = 1;
+
+	float staminaCost = 0.0f;
+
+	string iconRes;
+	string bulletName;
+	string type;
+	bool match = false;
+	if (!getStringAttr(elem, "type", &type)) {
+		log("fire pattern %s does not have a type.", elem->Name());
+		return false;
+	}
+
+	getNumericAttr(elem, "distance", &distance);
+	getNumericAttr(elem, "interval", &interval);
+	getNumericAttr(elem, "burstInterval", &burstInterval);
+	getNumericAttr(elem, "burstCount", &burstCount);
+
+	getNumericAttr(elem, "sideAngle", &sideAngle);
+	getNumericAttr(elem, "bulletCount", &bulletCount);
+
+	getNumericAttr(elem, "cost", &staminaCost);
+
+	getStringAttr(elem, "bullet", &bulletName);
+	getStringAttr(elem, "icon", &iconRes);
+
+	if (boost::iequals(type, "single")) {
+		*_output = firepattern_properties::makeSingle(
+			app::getBullet(bulletName),
+			interval,
+			distance,
+			burstInterval,
+			burstCount
+		);
+		match = true;
+	}
+	else if (boost::iequals(type, "spread")){
+		*_output = firepattern_properties::makeSpread(
+			app::getBullet(bulletName),
+			interval,
+			distance,
+			burstInterval,
+			burstCount,
+			toRads(sideAngle),
+			bulletCount
+		);
+		match = true;
+	}
+	else if (boost::iequals(type, "radius")) {
+		*_output = firepattern_properties::makeRadius(
+			app::getBullet(bulletName),
+			interval,
+			distance,
+			bulletCount
+		);
+		match = true;
+	}
+
+	if (match) {
+		(*_output)->staminaCost = staminaCost;
+		(*_output)->icon = iconRes;
+	}
+
+	return match;
 }
 
 bool parseObject(tinyxml2::XMLElement* elem, floorsegment_properties* result)

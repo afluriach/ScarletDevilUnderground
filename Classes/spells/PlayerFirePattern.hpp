@@ -19,15 +19,6 @@ enum class PlayerFirePatternID
 	scarletDagger,
 };
 
-class MagicMissile : public SingleBulletFixedIntervalPattern, public BulletImplPattern
-{
-public:
-	MagicMissile(Agent *const agent, int level);
-
-	inline virtual string iconPath() const { return "sprites/ui/magic_missile.png"; }
-	inline virtual float getCooldownTime() { return 0.125f; }
-};
-
 class StarbowBreak : public FirePattern
 {
 public:
@@ -48,16 +39,11 @@ public:
 	bullet_properties generateProps(int angle);
 	bool spawnBullet(int angle, bool left);
 
-	virtual bool fire();
-	inline virtual bool fireIfPossible() { return fire(); }
-	inline virtual bool spawn(SpaceFloat angle) { return false; }
-	inline virtual bool spawn(SpaceVect posOffset, SpaceFloat angle) { return false; }
 	inline virtual string iconPath() const { return "sprites/ui/starbow_break.png"; }
-
 	virtual void update();
-	//unused
-	inline virtual float getCooldownTime() { return 0.0f; }
 protected:
+	virtual bool fire();
+
 	array<float, anglesCount> timers = {};
 };
 
@@ -70,119 +56,18 @@ public:
 	static const SpaceFloat secondarySpeedVariation;
 	static const SpaceFloat tertiarySpeedVariation;
 	static const SpaceFloat angleSpread;
+	static const SpaceFloat fireInterval;
 
 	Catadioptric(Agent *const agent, int level);
 
-	bool spawnTail(SpaceFloat angleOffset);
-
-	virtual bool fire();
-	inline virtual bool spawn(SpaceFloat angle) { return false; }
-	inline virtual bool spawn(SpaceVect posOffset, SpaceFloat angle) { return false; }
-	inline virtual float getCooldownTime() { return 1.5f; }
+	inline virtual void update() { timerDecrement(cooldown); }
 	inline virtual string iconPath() const { return "sprites/ui/catadioptric.png"; }
 	inline virtual float getCost() const { return 20.0f; }
-};
-
-class ScarletDaggerPattern : public MultiBulletSpreadPattern, public BulletImplPattern
-{
-public:
-	struct properties
-	{
-		SpaceFloat spreadAngle;
-		float fireInterval;
-		int bulletCount;
-	};
-
-	static constexpr int levelsCount = 3;
-	static const array<properties, levelsCount> props;
-
-	ScarletDaggerPattern(Agent *const agent, int level);
-
-	inline virtual string iconPath() const { return "sprites/scarlet_dagger.png"; }
-	inline virtual float getCooldownTime() { return props[level].fireInterval; }
-	inline virtual float getCost() const { return 4.0f; }
 protected:
-	int level;
-};
+	virtual bool fire();
+	bool spawnTail(SpaceFloat angleOffset);
 
-class FlandreBigOrbPattern : public SingleBulletFixedIntervalPattern, public BulletImplPattern
-{
-public:
-	FlandreBigOrbPattern(Agent *const agent);
-
-	virtual string iconPath() const { return "sprites/fire_patterns/flandre_big_orb.png"; }
-
-	virtual float getCooldownTime() { return 1.0f; }
-};
-
-class FlandreFastOrbPattern : public SingleBulletFixedIntervalPattern, public BulletImplPattern
-{
-public:
-	FlandreFastOrbPattern(Agent *const agent);
-
-	virtual string iconPath() const { return "sprites/fire_patterns/flandre_fast_orb.png"; }
-
-	virtual float getCooldownTime() { return 1.0f / 6.0f; }
-};
-
-class FlandreWideAnglePattern1 : public MultiBulletSpreadPattern, public BulletImplPattern
-{
-public:
-	static const float cooldown;
-
-	FlandreWideAnglePattern1(Agent *const agent);
-
-	inline virtual string iconPath() const { return "sprites/fire_patterns/flandre_fast_orb.png"; }
-};
-
-class FlandreWideAnglePattern2 : public MultiBulletSpreadPattern, public BulletImplPattern
-{
-public:
-	static const float cooldown;
-
-	FlandreWideAnglePattern2(Agent *const agent);
-
-	inline virtual string iconPath() const { return "sprites/fire_patterns/flandre_fast_orb.png"; }
-};
-
-class RumiaFastOrbPattern : public SingleBulletFixedIntervalPattern, public BulletImplPattern
-{
-public:
-	RumiaFastOrbPattern(Agent *const agent);
-
-	virtual string iconPath() const { return "sprites/fire_patterns/rumia_fast_orb.png"; }
-
-	virtual float getCooldownTime() { return 1.0f / 6.0f; }
-};
-
-class RumiaParallelPattern : public MultiBulletParallelPattern, public BulletImplPattern
-{
-public:
-	static const float cooldown;
-
-	RumiaParallelPattern(Agent *const agent);
-
-	inline virtual string iconPath() const { return "sprites/fire_patterns/rumia_fast_orb.png"; }
-};
-
-class CirnoLargeIceBulletPattern : public SingleBulletFixedIntervalPattern, public BulletImplPattern
-{
-public:
-	CirnoLargeIceBulletPattern(Agent *const agent);
-
-	virtual string iconPath() const { return "sprites/fire_patterns/cirno_large_ice_bullet.png"; }
-
-	virtual float getCooldownTime() { return 1.0f; }
-};
-
-class CirnoSmallIceBulletPattern : public SingleBulletFixedIntervalPattern, public BulletImplPattern
-{
-public:
-	CirnoSmallIceBulletPattern(Agent *const agent);
-
-	virtual string iconPath() const { return "sprites/fire_patterns/cirno_large_ice_bullet.png"; }
-
-	virtual float getCooldownTime() { return 0.25f; }
+	SpaceFloat cooldown = 0.0;
 };
 
 #endif /* PlayerFirePattern_hpp */

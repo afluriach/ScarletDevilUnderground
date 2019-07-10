@@ -13,10 +13,10 @@
 #include "app_constants.hpp"
 #include "audio_context.hpp"
 #include "Bomb.hpp"
-#include "EnemyFirePattern.hpp"
 #include "EnemyFunctions.hpp"
 #include "EnemySpell.hpp"
 #include "Fairy.hpp"
+#include "FirePatternImpl.hpp"
 #include "graphics_context.hpp"
 #include "GSpace.hpp"
 #include "GState.hpp"
@@ -37,7 +37,7 @@ GhostFairy::GhostFairy(GSpace* space, ObjectIDType id, const ValueMap& args) :
 		collectible_id::hm1
 	)
 {
-	firePattern = make_shared<Fairy1BulletPattern>(this, 1.5, float_pi / 6.0, 3);
+	setFirePattern("GhostFairyBulletPattern");
 }
 
 const string Fairy1::baseAttributes = "fairy1";
@@ -51,7 +51,7 @@ Fairy1::Fairy1(GSpace* space, ObjectIDType id, const ValueMap& args) :
 		collectible_id::hm1
 	)
 {
-	firePattern = make_shared<Fairy1BulletPattern>(this, 1.5, float_pi / 6.0, 3);
+	setFirePattern("Fairy1BulletPattern");
 }
 
 const string BlueFairy::baseAttributes = "blueFairy";
@@ -66,7 +66,7 @@ BlueFairy::BlueFairy(GSpace* space, ObjectIDType id, const ValueMap& args) :
 		collectible_id::hm1
 	)
 {
-	firePattern = make_shared<BlueFairyFirePattern>(this);
+	setFirePattern("BlueFairyFirePattern");
 }
 
 const string RedFairy::baseAttributes = "redFairy";
@@ -85,7 +85,7 @@ RedFairy::RedFairy(GSpace* space, ObjectIDType id, const ValueMap& args) :
 		collectible_id::hm2
 	)
 {
-	firePattern = make_shared<Fairy1BulletPattern>(this, 3.0, float_pi / 6.0, 2);
+	setFirePattern("RedFairy");
 }
 
 ParamsGeneratorType RedFairy::getBombs()
@@ -138,7 +138,7 @@ GreenFairy1::GreenFairy1(GSpace* space, ObjectIDType id, const ValueMap& args) :
 		collectible_id::hm1
 	)
 {
-	firePattern = make_shared<GreenFairyBulletPattern>(this, 1.5, 8);
+	setFirePattern("GreenFairy1");
 }
 
 const string GreenFairy2::baseAttributes = "greenFairy2";
@@ -153,7 +153,7 @@ GreenFairy2::GreenFairy2(GSpace* space, ObjectIDType id, const ValueMap& args) :
 		collectible_id::hm2
 	)
 {
-	firePattern = make_shared<GreenFairyBulletPattern>(this, 1.5, 16);
+	setFirePattern("GreenFairy2");
 }
 
 void GreenFairy2::onRemove()
@@ -283,5 +283,5 @@ IceFairy::IceFairy(GSpace* space, ObjectIDType id, const ValueMap& args) :
 		collectible_id::magic2
 	)
 {
-	firePattern = make_shared<IceFairyBulletPattern>(this);
+	setFirePattern("IceFairyBulletPattern");
 }

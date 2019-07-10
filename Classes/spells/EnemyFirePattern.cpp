@@ -11,57 +11,9 @@
 #include "EnemyFirePattern.hpp"
 #include "GSpace.hpp"
 
-IceFairyBulletPattern::IceFairyBulletPattern(Agent *const agent) :
-	SingleBulletFixedIntervalPattern(agent),
-	FirePattern(agent),
-	BulletImplPattern(app::getBullet("iceFairyBullet"))
-{
-}
-
-Fairy1BulletPattern::Fairy1BulletPattern(
-	Agent *const agent,
-	float fireInterval,
-	SpaceFloat sideAngleSpread,
-	int bulletCount
-) :
-	MultiBulletSpreadPattern(agent, fireInterval, sideAngleSpread, bulletCount),
-	FirePattern(agent),
-	BulletImplPattern(app::getBullet("fairy1Bullet"))
-{
-}
-
-GreenFairyBulletPattern::GreenFairyBulletPattern(
-	Agent *const agent,
-	float fireInterval,
-	int bulletCount
-) :
-	RadiusPattern(agent, fireInterval, bulletCount),
-	FirePattern(agent),
-	BulletImplPattern(app::getBullet("greenFairyBullet"))
-{
-}
-
-BlueFairyFirePattern::BlueFairyFirePattern(Agent *const agent) :
-	FirePattern(agent),
-	BurstPattern(agent, 1.5, 0.5, 3),
-	BulletImplPattern(app::getBullet("blueFairyBullet"))
-{
-}
-
-RumiaBurstPattern::RumiaBurstPattern(Agent *const agent) :
-	FirePattern(agent),
-	BurstPattern(agent, 1.5, 0.25, 3),
-	BulletImplPattern(app::getBullet("rumiaBullet"))
-{}
-
-RumiaBurstPattern2::RumiaBurstPattern2(Agent *const agent) :
-	FirePattern(agent),
-	BurstPattern(agent, 0.9, 0.33, 6),
-	BulletImplPattern(app::getBullet("rumiaBullet2"))
-{}
-
 const SpaceFloat ReimuWavePattern::omega = float_pi * 2.0;
 const SpaceFloat ReimuWavePattern::amplitude = 2.0;
+const SpaceFloat ReimuWavePattern::fireInterval = 0.75;
 
 SpaceVect ReimuWavePattern::parametric_move(
 	SpaceFloat t,
@@ -105,6 +57,8 @@ bool ReimuWavePattern::fire()
 
 	agent->makeInitMessage(&GObject::setParametricMove, b1, f1, parametric_type::position);
 	agent->makeInitMessage(&GObject::setParametricMove, b2, f2, parametric_type::position);
+
+	cooldown = fireInterval;
 
 	return true;
 }

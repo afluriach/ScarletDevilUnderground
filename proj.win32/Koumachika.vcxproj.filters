@@ -396,6 +396,9 @@
     <ClCompile Include="..\Classes\objects\NPC.cpp">
       <Filter>src\objects</Filter>
     </ClCompile>
+    <ClCompile Include="..\Classes\spells\FirePatternImpl.cpp">
+      <Filter>src\spells</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="main.h">
@@ -757,6 +760,9 @@
     </ClInclude>
     <ClInclude Include="..\Classes\objects\NPC.hpp">
       <Filter>src\objects</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\spells\FirePatternImpl.hpp">
+      <Filter>src\spells</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

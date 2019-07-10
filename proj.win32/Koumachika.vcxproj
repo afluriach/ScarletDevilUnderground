@@ -244,6 +244,7 @@ xcopy "$(ProjectDir)..\Resources" "$(OutDir)" /D /E /I /F /Y</Command>
     <ClCompile Include="..\Classes\spells\EnemyFirePattern.cpp" />
     <ClCompile Include="..\Classes\spells\EnemySpell.cpp" />
     <ClCompile Include="..\Classes\spells\FirePattern.cpp" />
+    <ClCompile Include="..\Classes\spells\FirePatternImpl.cpp" />
     <ClCompile Include="..\Classes\spells\FirePatternMapping.cpp" />
     <ClCompile Include="..\Classes\spells\MagicEffect.cpp" />
     <ClCompile Include="..\Classes\spells\MagicEffectSystem.cpp" />
@@ -367,6 +368,7 @@ xcopy "$(ProjectDir)..\Resources" "$(OutDir)" /D /E /I /F /Y</Command>
     <ClInclude Include="..\Classes\spells\EnemyFirePattern.hpp" />
     <ClInclude Include="..\Classes\spells\EnemySpell.hpp" />
     <ClInclude Include="..\Classes\spells\FirePattern.hpp" />
+    <ClInclude Include="..\Classes\spells\FirePatternImpl.hpp" />
     <ClInclude Include="..\Classes\spells\MagicEffect.hpp" />
     <ClInclude Include="..\Classes\spells\MagicEffectSystem.hpp" />
     <ClInclude Include="..\Classes\spells\MarisaSpell.hpp" />

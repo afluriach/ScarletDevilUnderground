@@ -13,13 +13,6 @@
 #include "GSpace.hpp"
 #include "PlayerFirePattern.hpp"
 
-MagicMissile::MagicMissile(Agent *const agent, int level) :
-	SingleBulletFixedIntervalPattern(agent),
-	FirePattern(agent),
-	BulletImplPattern(app::getBullet("flandreFastOrb1"))
-{
-}
-
 const float StarbowBreak::baseCost = 1.0f;
 const float StarbowBreak::baseFireInterval = 1.0f / 5.0f;
 const array<float, StarbowBreak::anglesCount> StarbowBreak::angleIntervalScales = {
@@ -127,6 +120,7 @@ const int Catadioptric::tertiaryBulletCount = 12;
 const SpaceFloat Catadioptric::secondarySpeedVariation = 2.0;
 const SpaceFloat Catadioptric::tertiarySpeedVariation = 1.0;
 const SpaceFloat Catadioptric::angleSpread = float_pi / 8.0;
+const SpaceFloat Catadioptric::fireInterval = 1.5;
 
 Catadioptric::Catadioptric(Agent *const agent, int level) :
 	FirePattern(agent)
@@ -183,6 +177,9 @@ bool Catadioptric::spawnTail(SpaceFloat angleOffset)
 
 bool Catadioptric::fire()
 {
+	if (cooldown > 0.0)
+		return false;
+
 	bool fired = false;
 	SpaceFloat spread = angleSpread * 2.0;
 	SpaceFloat angleStep = spread / (tailCount - 1);
@@ -192,79 +189,8 @@ bool Catadioptric::fire()
 		fired |= spawnTail( -angleSpread + angleStep*i);
 	}
 
+	if (fired)
+		cooldown = fireInterval;
+
 	return fired;
 }
-
-const array<ScarletDaggerPattern::properties, ScarletDaggerPattern::levelsCount> ScarletDaggerPattern::props = {
-//	ScarletDaggerPattern::properties{0.0, 2.0f / 3.0f, 1},
-	ScarletDaggerPattern::properties{float_pi / 12.0, 0.5f, 3},
-	ScarletDaggerPattern::properties{float_pi / 8.0, 0.5f, 5},
-};
-
-ScarletDaggerPattern::ScarletDaggerPattern(Agent *const agent, int level) :
-	FirePattern(agent),
-	MultiBulletSpreadPattern(
-		agent,
-		props[level].fireInterval,
-		props[level].spreadAngle,
-		props[level].bulletCount
-	),
-	BulletImplPattern(app::getBullet("scarletDagger")),
-	level(level)
-{}
-
-FlandreBigOrbPattern::FlandreBigOrbPattern(Agent *const agent) :
-	SingleBulletFixedIntervalPattern(agent),
-	FirePattern(agent),
-	BulletImplPattern(app::getBullet("flandreBigOrb1"))
-{
-}
-
-FlandreFastOrbPattern::FlandreFastOrbPattern(Agent *const agent) :
-	SingleBulletFixedIntervalPattern(agent),
-	FirePattern(agent),
-	BulletImplPattern(app::getBullet("flandreFastOrb1"))
-{
-}
-
-const float FlandreWideAnglePattern1::cooldown = 0.25f;
-
-FlandreWideAnglePattern1::FlandreWideAnglePattern1(Agent *const agent) :
-	MultiBulletSpreadPattern(agent, cooldown, float_pi / 8.0, 3),
-	FirePattern(agent),
-	BulletImplPattern(app::getBullet("flandreFastOrb1"))
-{}
-
-const float FlandreWideAnglePattern2::cooldown = 0.25f;
-
-FlandreWideAnglePattern2::FlandreWideAnglePattern2(Agent *const agent) :
-	MultiBulletSpreadPattern(agent, cooldown, float_pi / 4.0, 5),
-	FirePattern(agent),
-	BulletImplPattern(app::getBullet("flandreFastOrb1"))
-{}
-
-RumiaFastOrbPattern::RumiaFastOrbPattern(Agent *const agent) :
-	SingleBulletFixedIntervalPattern(agent),
-	FirePattern(agent),
-	BulletImplPattern(app::getBullet("rumiaFastOrb1"))
-{}
-
-const float RumiaParallelPattern::cooldown = 1.0f / 6.0f;
-
-RumiaParallelPattern::RumiaParallelPattern(Agent *const agent) :
-	MultiBulletParallelPattern(agent, cooldown, 1.0, 3),
-	FirePattern(agent),
-	BulletImplPattern(app::getBullet("rumiaFastOrb1"))
-{}
-
-CirnoLargeIceBulletPattern::CirnoLargeIceBulletPattern(Agent *const agent) :
-	SingleBulletFixedIntervalPattern(agent),
-	FirePattern(agent),
-	BulletImplPattern(app::getBullet("cirnoLargeIceBullet"))
-{}
-
-CirnoSmallIceBulletPattern::CirnoSmallIceBulletPattern(Agent *const agent) :
-	SingleBulletFixedIntervalPattern(agent),
-	FirePattern(agent),
-	BulletImplPattern(app::getBullet("cirnoSmallIceBullet"))
-{}

@@ -38,7 +38,7 @@ const string Rumia1::properName = "Rumia I";
 Rumia1::Rumia1(GSpace* space, ObjectIDType id, const ValueMap& args) :
 	Rumia(space,id,args,baseAttributes)
 {
-	firePattern = make_shared<RumiaBurstPattern>(this);
+	setFirePattern("RumiaBurstPattern");
 }
 
 void Rumia1::onZeroHP()
@@ -53,7 +53,7 @@ const string Rumia2::properName = "Rumia II";
 Rumia2::Rumia2(GSpace* space, ObjectIDType id, const ValueMap& args) :
 	Rumia(space, id, args, baseAttributes)
 {
-	firePattern = make_shared<RumiaBurstPattern2>(this);
+	setFirePattern("RumiaBurstPattern2");
 }
 
 void Rumia2::onZeroHP()

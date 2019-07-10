@@ -327,6 +327,7 @@ void App::loadObjects()
 
 	app::loadAttributes();
 	app::loadBullets();
+	app::loadFirePatterns();
 	app::loadFloors();
 	app::loadLights();
 	app::loadSprites();

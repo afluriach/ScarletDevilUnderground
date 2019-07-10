@@ -70,6 +70,7 @@ public:
 	void modifyAttribute(Attribute id, float val);
 	inline AttributeSystem* getAttributeSystem() { return &attributeSystem; }
 	inline FirePattern* getFirePattern() const { return firePattern.get(); }
+	bool setFirePattern(string firePattern);
 
 	virtual SpaceFloat getTraction() const;
 

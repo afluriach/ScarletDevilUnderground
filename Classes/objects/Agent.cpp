@@ -14,6 +14,7 @@
 #include "Bullet.hpp"
 #include "Enemy.hpp"
 #include "FirePattern.hpp"
+#include "FirePatternImpl.hpp"
 #include "GAnimation.hpp"
 #include "graphics_context.hpp"
 #include "GraphicsNodes.hpp"
@@ -290,6 +291,20 @@ float Agent::getAttribute(Attribute id) const
 void Agent::modifyAttribute(Attribute id, float val)
 {
 	attributeSystem.modifyAttribute(id, val);
+}
+
+bool Agent::setFirePattern(string firePattern)
+{
+	auto props = app::getFirePattern(firePattern);
+
+	if (props) {
+		this->firePattern = make_shared<FirePatternImpl>(this, props);
+	}
+	else{
+		log("Unknown fire pattern: %s", firePattern);
+	}
+
+	return to_bool(props);
 }
 
 SpaceFloat Agent::getTraction() const

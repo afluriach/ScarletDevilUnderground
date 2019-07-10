@@ -25,7 +25,6 @@
 #include "HUD.hpp"
 #include "physics_context.hpp"
 #include "Player.hpp"
-#include "PlayerFirePattern.hpp"
 #include "PlayerSpell.hpp"
 #include "PlayScene.hpp"
 #include "SpellDescriptor.hpp"
@@ -96,8 +95,6 @@ void Player::setCrntRoom(int roomIndex)
 void Player::equipFirePatterns()
 {
 	firePatterns.clear();
-
-	firePatterns.push_back(make_shared<MagicMissile>(this,0));
 
 	for (auto entry : FirePattern::playerFirePatterns)
 	{
