@@ -164,6 +164,8 @@ App::App()
 {
     appInst = this;
 
+	LogSystem::initThread();
+
 	log("\nKouma started at %s", getNowTimestamp());
 
 #if !DEV_MODE
@@ -208,6 +210,7 @@ App::~App()
 	}
 
     log("app exiting");
+	LogSystem::exit();
 }
 
 //Called in AppController.mm. This appears to be for Mac/iOS only.

@@ -112,8 +112,6 @@ Director::Director()
 : _isStatusLabelUpdated(true),
 renderTimesBuffer(60)
 {
-	std::string path = FileUtils::getInstance()->getWritablePath() + std::string("log.txt");
-	log_ofs.open(path, std::ofstream::app | std::ofstream::ate);
 }
 
 bool Director::init(void)
@@ -210,13 +208,6 @@ Director::~Director(void)
     Configuration::destroyInstance();
 
     s_SharedDirector = nullptr;
-}
-
-void Director::logOutput(std::string s)
-{
-	logMutex.lock();
-	outputBuffer.push_back(s);
-	logMutex.unlock();
 }
 
 void Director::setDefaultValues(void)
@@ -1369,19 +1360,6 @@ void DisplayLinkDirector::mainLoop()
     {
         drawScene();
      
-		std::vector<std::string> _outbuf;
-		bool _print = false;
-
-		logMutex.lock();
-		std::swap(_outbuf, outputBuffer);
-		logMutex.unlock();
-
-		for (string s : _outbuf)
-		{
-			log_ofs << s << std::endl;
-			cocos2d::log("%s", s.c_str());
-		}
-
         // release the objects
         PoolManager::getInstance()->getCurrentPool()->clear();
     }

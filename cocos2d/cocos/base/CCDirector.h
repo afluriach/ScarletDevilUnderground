@@ -146,8 +146,6 @@ public:
     virtual ~Director();
     virtual bool init();
 
-	void logOutput(std::string s);
-
     // attribute
 
     /** Gets current running Scene. Director can only run one Scene at a time. */
@@ -564,9 +562,6 @@ protected:
     float _accumDt;
     float _frameRate;
 	boost::circular_buffer<std::chrono::duration<long, std::micro>> renderTimesBuffer;
-	std::vector<std::string> outputBuffer;
-	std::ofstream log_ofs;
-	std::mutex logMutex;
     
     LabelAtlas *_FPSLabel;
     LabelAtlas *_drawnBatchesLabel;
