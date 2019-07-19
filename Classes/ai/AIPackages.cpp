@@ -14,6 +14,7 @@
 #include "AIUtil.hpp"
 #include "Bomb.hpp"
 #include "EnemyFunctions.hpp"
+#include "EnemySpell.hpp"
 #include "Fairy.hpp"
 #include "GSpace.hpp"
 #include "MiscMagicEffects.hpp"
@@ -377,6 +378,8 @@ void zombie_fairy(StateMachine* fsm, const ValueMap& args)
 			sm.removeThread("Seek");
 		}
 	);
+
+	fsm->getObject()->cast(make_shared<TorchDarkness>(fsm->getAgent()));
 }
 
 void fairy2(StateMachine* fsm, const ValueMap& args) {

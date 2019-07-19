@@ -211,7 +211,6 @@ xcopy "$(ProjectDir)..\Resources" "$(OutDir)" /D /E /I /F /Y</Command>
     <ClCompile Include="..\Classes\objects\SakuyaNPC.cpp" />
     <ClCompile Include="..\Classes\objects\Sign.cpp" />
     <ClCompile Include="..\Classes\objects\Spawner.cpp" />
-    <ClCompile Include="..\Classes\objects\Stalker.cpp" />
     <ClCompile Include="..\Classes\objects\TeleportPad.cpp" />
     <ClCompile Include="..\Classes\objects\Torch.cpp" />
     <ClCompile Include="..\Classes\objects\Upgrade.cpp" />
@@ -340,7 +339,6 @@ xcopy "$(ProjectDir)..\Resources" "$(OutDir)" /D /E /I /F /Y</Command>
     <ClInclude Include="..\Classes\objects\SakuyaNPC.hpp" />
     <ClInclude Include="..\Classes\objects\Sign.hpp" />
     <ClInclude Include="..\Classes\objects\Spawner.hpp" />
-    <ClInclude Include="..\Classes\objects\Stalker.hpp" />
     <ClInclude Include="..\Classes\objects\TeleportPad.hpp" />
     <ClInclude Include="..\Classes\objects\Torch.hpp" />
     <ClInclude Include="..\Classes\objects\Upgrade.hpp" />

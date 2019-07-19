@@ -114,9 +114,6 @@
     <ClCompile Include="..\Classes\objects\Player.cpp">
       <Filter>src\objects</Filter>
     </ClCompile>
-    <ClCompile Include="..\Classes\objects\Stalker.cpp">
-      <Filter>src\objects</Filter>
-    </ClCompile>
     <ClCompile Include="..\Classes\objects\Torch.cpp">
       <Filter>src\objects</Filter>
     </ClCompile>
@@ -498,9 +495,6 @@
       <Filter>src\objects</Filter>
     </ClInclude>
     <ClInclude Include="..\Classes\objects\Reimu.hpp">
-      <Filter>src\objects</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Classes\objects\Stalker.hpp">
       <Filter>src\objects</Filter>
     </ClInclude>
     <ClInclude Include="..\Classes\objects\Torch.hpp">

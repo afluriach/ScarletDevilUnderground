@@ -82,27 +82,6 @@ void RedFairy::onZeroHP()
 	space->addGraphicsAction(&graphics_context::autoremoveLightSource, light, 1.0f);
 }
 
-const string ZombieFairy::baseAttributes = "zombieFairy";
-const string ZombieFairy::properName = "Zombie Fairy";
-
-ZombieFairy::ZombieFairy(GSpace* space, ObjectIDType id, const ValueMap& args) :
-	Enemy(
-		space, id, args,
-		baseAttributes,
-		defaultSize,
-		25.0,
-		collectible_id::hm2
-	)
-{
-}
-
-void ZombieFairy::init()
-{
-	Agent::init();
-
-	cast(make_shared<TorchDarkness>(this));
-}
-
 const string Fairy2::baseAttributes = "fairy2";
 const float Fairy2::lowHealthRatio = 0.5f;
 

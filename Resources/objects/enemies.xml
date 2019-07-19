@@ -217,6 +217,20 @@
 		element="slimeDamage"
 		collectible="hm2"
 	/>
+
+ 	<Stalker
+		sprite="stalker"
+		ai_package="stalker"
+		attributes="stalker"
+		
+		mass="40"
+		viewRange="6.0"
+		viewAngle="0"
+
+		collectible="magic1"
+		
+		detectEssence="true"
+	/>
 	
 	<Tewi
 		sprite="tewi"
@@ -225,6 +239,21 @@
 		
 		mass="40"
 		viewRange="6"
+	/>
+
+	<ZombieFairy
+		name="Zombie Fairy"
+		sprite="zombieFairy"
+		ai_package="zombie_fairy"
+		attributes="zombieFairy"
+		
+		mass="25"
+		viewRange="6.0"
+		viewAngle="0"
+
+		damage="20"
+		element="darknessDamage"
+		collectible="hm2"
 	/>
 	
 <!-- 	<t

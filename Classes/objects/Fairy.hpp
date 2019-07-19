@@ -35,28 +35,6 @@ public:
 	virtual void onZeroHP();
 };
 
-class ZombieFairy : public Enemy
-{
-public:
-	static const string baseAttributes;
-	static const string properName;
-
-	ZombieFairy(GSpace* space, ObjectIDType id, const ValueMap& args);
-
-	virtual void init();
-
-	inline virtual DamageInfo touchEffect() const {
-		return DamageInfo{ 20.0f, Attribute::darknessDamage, DamageType::touch };
-	}
-
-	virtual inline SpaceFloat getRadarRadius() const { return 6.0; }
-	virtual inline SpaceFloat getDefaultFovAngle() const { return 0.0; }
-
-	inline string getSprite() const { return "zombieFairy"; }
-
-	virtual inline string initStateMachine() { return "zombie_fairy"; }
-};
-
 class Fairy2 : public Enemy
 {
 public:

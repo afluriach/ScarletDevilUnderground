@@ -40,7 +40,6 @@
 #include "SakuyaNPC.hpp"
 #include "Sign.hpp"
 #include "Spawner.hpp"
-#include "Stalker.hpp"
 #include "TeleportPad.hpp"
 #include "Torch.hpp"
 #include "Upgrade.hpp"
@@ -181,14 +180,12 @@ void GObject::initObjectInfo()
 	entry_same(Sign),
 	entry_same(Spawner),
 	conditional_entry(Spellcard),
-	entry_same(Stalker),
 	entry_same(SunArea),
 	entry_same(TeleportPad),
 	entry_same(Torch),
 	conditional_entry(Upgrade),
 	entry_same(Wall),
 	entry_same(WaterFloor),
-	entry_same(ZombieFairy),
 
 	{ "Player", playerObjectInfo() }
 
@@ -229,14 +226,11 @@ const unordered_set<type_index> GSpace::enemyTypes = {
 	typeid(Fairy2),
 
 	typeid(RedFairy),
-	typeid(ZombieFairy),
 	
 	typeid(Rumia1),
 	typeid(Rumia2),
 	typeid(PatchouliEnemy),
 	typeid(ReimuEnemy),
-
-	typeid(Stalker),
 };
 
 #define _nameTypeEntry(cls) {#cls, typeid(cls)}
