@@ -88,5 +88,16 @@ protected:
 	Agent * agent;
 };
 
+class DrainStaminaFromMovement : public MagicEffect
+{
+public:
+	DrainStaminaFromMovement(Agent* agent);
+
+	inline virtual void init() {}
+	virtual void update();
+	inline virtual void end() {}
+protected:
+	Agent* agent;
+};
 
 #endif /* MiscMagicEffects_hpp */

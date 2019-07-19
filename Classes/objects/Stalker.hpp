@@ -24,9 +24,6 @@ public:
 	virtual inline string getSprite() const {return "stalker";}
 
 	virtual inline string initStateMachine() { return "stalker"; }
-	virtual void teleport(SpaceVect pos);
-
-	virtual void update();
 protected:
 	SpaceVect prev_pos;
 };

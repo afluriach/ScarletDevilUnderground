@@ -297,10 +297,13 @@ void StalkerMain::onEnter()
 
 update_return StalkerMain::update()
 {
-	return_push_if_true(
-		agent->getAttribute(Attribute::stamina) <= 0.0f,
-		fsm->make<Cast>(make_spell_generator<Teleport>())
-	);
+	if (agent->getAttribute(Attribute::stamina) <= 0.0f) {
+		agent->getAttributeSystem()->setFullStamina();
+		return_push(fsm->make<Cast>(make_spell_generator<Teleport>()));
+	}
+	else {
+		return_steady();
+	}
 }
 
 }//end NS

@@ -24,18 +24,3 @@ Stalker::Stalker(GSpace* space, ObjectIDType id, const ValueMap& args) :
 		collectible_id::magic1
 	)
 {}
-
-void Stalker::update()
-{
-	Enemy::update();
-
-	SpaceFloat dp = getVel().length() * app::params.secondsPerFrame;
-	modifyAttribute(Attribute::stamina, -dp);
-}
-
-void Stalker::teleport(SpaceVect pos)
-{
-	attributeSystem.setFullStamina();
-	
-	GObject::teleport(pos);
-}

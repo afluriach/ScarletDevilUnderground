@@ -189,3 +189,15 @@ void BulletSpeedFromHP::end()
 {
 	agent->getAttributeSystem()->set(Attribute::bulletSpeed, baseBulletSpeed);
 }
+
+DrainStaminaFromMovement::DrainStaminaFromMovement(Agent* agent) :
+	MagicEffect(agent),
+	agent(agent)
+{
+}
+
+void DrainStaminaFromMovement::update()
+{
+	SpaceFloat dp = agent->getVel().length() * app::params.secondsPerFrame;
+	agent->modifyAttribute(Attribute::stamina, -dp);
+}
