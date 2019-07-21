@@ -34,6 +34,9 @@ constexpr size_t lockCount = to_size_t(ResourceLock::end);
 
 typedef pair<int, shared_ptr<Function>> update_return;
 
+//for functions that target an object
+typedef function<shared_ptr<Function>(StateMachine*, GObject*)> AITargetFunctionGenerator;
+
 #define FuncGetName(cls) inline virtual string getName() const {return #cls;}
 #define GetLockmask(l) inline virtual bitset<lockCount> getLockMask() { return make_enum_bitfield(ResourceLock::l); }
 #define GetLockmask2(l, m) inline virtual bitset<lockCount> getLockMask() { return make_enum_bitfield(ResourceLock::l) | make_enum_bitfield(ResourceLock::m); }
@@ -156,6 +159,8 @@ public:
 	void onBulletBlock(Bullet* b);
 	void onAlert(Player* p);
 
+	void addWhileDetectHandler(GType type, AITargetFunctionGenerator gen);
+
 	void addDetectFunction(GType t, detect_function f);
 	void addEndDetectFunction(GType t, detect_function f);
 	void removeDetectFunction(GType t);
@@ -216,6 +221,14 @@ protected:
 template<class FuncCls, typename... Params>
 inline void Function::push(Params... params) {
 	fsm->push<FuncCls>(params...);
+}
+
+template<class FuncCls, typename... Params>
+inline AITargetFunctionGenerator makeTargetFunctionGenerator(Params... params)
+{
+	return[params...](StateMachine* fsm, GObject* obj)->shared_ptr<Function> {
+		return make_shared<FuncCls>(fsm, obj, params...);
+	};
 }
 
 } //end NS

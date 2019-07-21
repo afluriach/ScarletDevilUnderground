@@ -10,6 +10,7 @@
 
 #include "Agent.hpp"
 #include "AI.hpp"
+#include "AIFunctions.hpp"
 #include "AIMixins.hpp"
 #include "AreaSensor.hpp"
 #include "GSpace.hpp"
@@ -269,6 +270,11 @@ void StateMachine::onAlert(Player* p)
 	alerted = true;
 }
 
+void StateMachine::addWhileDetectHandler(GType type, AITargetFunctionGenerator gen)
+{
+	auto detect = make_shared<WhileDetect>(this, type, gen);
+	addThread(detect);
+}
 
 void StateMachine::addDetectFunction(GType t, detect_function f)
 {

@@ -13,6 +13,19 @@
 
 namespace ai{
 
+class WhileDetect : public Function {
+public:
+	WhileDetect(StateMachine* fsm, GType type, AITargetFunctionGenerator gen);
+
+	virtual void onEnter();
+	virtual update_return update();
+	virtual void onExit();
+protected:
+	shared_ptr<Thread> thread;
+	AITargetFunctionGenerator gen;
+	GType type;
+};
+
 class Seek : public Function {
 public:
 	Seek(StateMachine* fsm, GObject* target, bool usePathfinding, SpaceFloat margin = 0.0);

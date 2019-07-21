@@ -27,18 +27,8 @@ namespace ai {
 
 void maintain_distance(StateMachine* fsm, const ValueMap& args)
 {
-	fsm->addDetectFunction(
-		GType::player,
-		[](StateMachine& sm, GObject* target) -> void {
-			sm.addThread(make_shared<MaintainDistance>(&sm, target, 4.5f, 1.5f));
-		}
-	);
-	fsm->addEndDetectFunction(
-		GType::player,
-		[](StateMachine& sm, GObject* target) -> void {
-			sm.removeThread("MaintainDistance");
-		}
-	);
+	auto engage = makeTargetFunctionGenerator<MaintainDistance>(4.5f, 1.5f);
+	fsm->addWhileDetectHandler(GType::player, engage);
 }
 
 void circle_and_fire(StateMachine* fsm, const ValueMap& args)
@@ -108,50 +98,21 @@ void blue_fairy_follow_path(StateMachine* fsm, const ValueMap& args)
 //Used for Slime; should not try to use pathfinding
 void engage_player_in_room(StateMachine* fsm, const ValueMap& args)
 {
-	fsm->addDetectFunction(
-		GType::player,
-		[](StateMachine& sm, GObject* target) -> void {
-			sm.addThread(make_shared<Seek>(&sm, target, false));
-		}
-	);
-	fsm->addEndDetectFunction(
-		GType::player,
-		[](StateMachine& sm, GObject* target) -> void {
-			sm.removeThread("Seek");
-		}
-	);
+	auto engage = makeTargetFunctionGenerator<Seek>(false);
+	fsm->addWhileDetectHandler(GType::player, engage);
 }
 
 void seek_player(StateMachine* fsm, const ValueMap& args)
 {
-	fsm->addDetectFunction(
-		GType::player,
-		[](StateMachine& sm, GObject* target) -> void {
-			sm.addThread(make_shared<Seek>(&sm, target, true));
-		}
-	);
-	fsm->addEndDetectFunction(
-		GType::player,
-		[](StateMachine& sm, GObject* target) -> void {
-			sm.removeThread("Seek");
-		}
-	);
+	auto engage = makeTargetFunctionGenerator<Seek>(true);
+	fsm->addWhileDetectHandler(GType::player, engage);
 }
 
 void flee_player(StateMachine* fsm, const ValueMap& args) {
-	fsm->addDetectFunction(
-		GType::player,
-		[](StateMachine& sm, GObject* target) -> void {
-			sm.addThread(make_shared<Flee>(&sm, target, 1.5));
-		}
-	);
-	fsm->addEndDetectFunction(
-		GType::player,
-		[](StateMachine& sm, GObject* target) -> void {
-			sm.removeThread("Flee");
-		}
-	);
+	auto engage = makeTargetFunctionGenerator<Flee>(1.5);
+
 	fsm->addThread(make_shared<IdleWait>(fsm));
+	fsm->addWhileDetectHandler(GType::player, engage);
 }
 
 void idle(StateMachine* fsm, const ValueMap& args)
@@ -363,18 +324,8 @@ void zombie_fairy(StateMachine* fsm, const ValueMap& args)
 		sm.addThread(make_shared<Wander>(&sm, 2.0, 3.0, 1.5, 3.0));
 	});
 
-	fsm->addDetectFunction(
-		GType::player,
-		[](StateMachine& sm, GObject* target) -> void {
-			sm.addThread(make_shared<Seek>(&sm, target, true));
-		}
-	);
-	fsm->addEndDetectFunction(
-		GType::player,
-		[](StateMachine& sm, GObject* target) -> void {
-			sm.removeThread("Seek");
-		}
-	);
+	auto engage = makeTargetFunctionGenerator<Seek>(true);
+	fsm->addWhileDetectHandler(GType::player, engage);
 
 	fsm->getObject()->cast(make_shared<TorchDarkness>(fsm->getAgent()));
 }
@@ -416,13 +367,8 @@ void ghost_fairy_npc(StateMachine* fsm, const ValueMap& args)
 {
 	fsm->addThread(make_shared<Wander>(fsm));
 
-	fsm->addDetectFunction(
-		GType::player,
-		[](StateMachine& sm, GObject* target) -> void {
-			if (!sm.isThreadRunning("Seek"))
-				sm.addThread(make_shared<Seek>(&sm, target, true, 1.5));
-		}
-	);
+	auto seek = makeTargetFunctionGenerator<Seek>(true, 1.5);
+	fsm->addWhileDetectHandler(GType::player, seek);
 }
 
 void collect_marisa(StateMachine* fsm, const ValueMap& args)
@@ -497,39 +443,14 @@ void sakuya_npc(StateMachine* fsm, const ValueMap& args)
 
 void scorpion1(StateMachine* fsm, const ValueMap& args)
 {
-	fsm->addDetectFunction(
-		GType::player,
-		[](StateMachine& sm, GObject* target) -> void {
-			sm.addThread(make_shared<Scurry>(
-				&sm,
-				target,
-				3.0,
-				-1.0
-			));
-		}
-	);
-	fsm->addEndDetectFunction(
-		GType::player,
-		[](StateMachine& sm, GObject* target) -> void {
-			sm.removeThread("Scurry");
-		}
-	);
+	auto engage = makeTargetFunctionGenerator<Scurry>(3.0, -1.0);
+	fsm->addWhileDetectHandler(GType::player, engage);
 }
 
 void scorpion2(StateMachine* fsm, const ValueMap& args)
 {
-	fsm->addDetectFunction(
-		GType::player,
-		[](StateMachine& sm, GObject* target) -> void {
-			sm.addThread(make_shared<Flank>(&sm, target, 1.0, 1.0));
-		}
-	);
-	fsm->addEndDetectFunction(
-		GType::player,
-		[](StateMachine& sm, GObject* target) -> void {
-			sm.removeThread("Flank");
-		}
-	);
+	auto engage = makeTargetFunctionGenerator<Flank>(1.0, 1.0);
+	fsm->addWhileDetectHandler(GType::player, engage);
 }
 
 void stalker(StateMachine* fsm, const ValueMap& args)

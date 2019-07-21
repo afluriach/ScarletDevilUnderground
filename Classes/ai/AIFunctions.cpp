@@ -22,6 +22,42 @@
 
 namespace ai{
 
+WhileDetect::WhileDetect(StateMachine* fsm, GType type, AITargetFunctionGenerator gen) :
+	Function(fsm),
+	type(type),
+	gen(gen)
+{
+}
+
+void WhileDetect::onEnter()
+{
+	fsm->addDetectFunction(
+		type,
+		[this](StateMachine& sm, GObject* target) -> void {
+			if(!this->thread)
+				this->thread = sm.addThread(gen(fsm, target));
+		}
+	);
+	fsm->addEndDetectFunction(
+		type,
+		[this](StateMachine& sm, GObject* target) -> void {
+			sm.removeThread(this->thread);
+			this->thread.reset();
+		}
+	);
+}
+
+update_return WhileDetect::update()
+{
+	return_steady();
+}
+
+void WhileDetect::onExit()
+{
+	fsm->removeDetectFunction(type);
+	fsm->removeEndDetectFunction(type);
+}
+
 Seek::Seek(StateMachine* fsm, const ValueMap& args) :
 	Function(fsm)
 {
