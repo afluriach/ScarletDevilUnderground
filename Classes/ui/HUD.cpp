@@ -10,6 +10,7 @@
 
 #include "App.h"
 #include "Enemy.hpp"
+#include "Graphics.h"
 #include "GraphicsNodes.hpp"
 #include "GScene.hpp"
 #include "GSpace.hpp"

@@ -26,7 +26,6 @@
 #include "FloorSegment.hpp"
 #include "GObject.hpp"
 #include "GObjectMixins.hpp"
-#include "object_ref.hpp"
 #include "object_params.hpp"
 #include "Player.hpp"
 #include "Spawner.hpp"

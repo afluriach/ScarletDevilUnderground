@@ -11,6 +11,7 @@
 #include "Desk.hpp"
 #include "GSpace.hpp"
 #include "PlayScene.hpp"
+#include "value_map.hpp"
 
 Desk::Desk(GSpace* space, ObjectIDType id, const ValueMap& args) :
 GObject(MapParamsPointUp(), MapRectPhys(-1.0))

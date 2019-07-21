@@ -12,6 +12,7 @@
 #include "CollectGlyph.hpp"
 #include "GSpace.hpp"
 #include "object_params.hpp"
+#include "value_map.hpp"
 
 CollectGlyph::CollectGlyph(GSpace* space, ObjectIDType id, const ValueMap& args) :
 	GObject(MapParamsPointUp(), physics_params(args, -1.0))

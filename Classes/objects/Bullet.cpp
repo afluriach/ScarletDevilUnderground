@@ -9,6 +9,7 @@
 #include "Prefix.h"
 
 #include "Agent.hpp"
+#include "app_constants.hpp"
 #include "Bullet.hpp"
 #include "graphics_context.hpp"
 #include "GSpace.hpp"

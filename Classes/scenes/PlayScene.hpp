@@ -9,6 +9,7 @@
 #ifndef PlayScene_hpp
 #define PlayScene_hpp
 
+#include "functional.hpp"
 #include "GScene.hpp"
 
 class GObject;

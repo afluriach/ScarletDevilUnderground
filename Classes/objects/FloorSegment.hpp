@@ -10,7 +10,6 @@
 #define FloorSegment_hpp
 
 #include "GObject.hpp"
-#include "object_ref.hpp"
 
 class FloorSegment : public GObject
 {

@@ -8,6 +8,7 @@
 
 #include "Prefix.h"
 
+#include "Graphics.h"
 #include "graphics_context.hpp"
 #include "GSpace.hpp"
 #include "Torch.hpp"

@@ -10,7 +10,6 @@
 #define Player_hpp
 
 #include "Agent.hpp"
-#include "object_ref.hpp"
 
 class Collectible;
 struct ControlInfo;

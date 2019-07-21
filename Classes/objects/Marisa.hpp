@@ -9,8 +9,6 @@
 #ifndef Marisa_h
 #define Marisa_h
 
-#include "Enemy.hpp"
-#include "object_ref.hpp"
 #include "NPC.hpp"
 
 class MarisaNPC : public NPC

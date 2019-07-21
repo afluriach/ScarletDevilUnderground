@@ -10,6 +10,7 @@
 
 #include "AI.hpp"
 #include "app_constants.hpp"
+#include "AreaSensor.hpp"
 #include "audio_context.hpp"
 #include "FloorSegment.hpp"
 #include "Graphics.h"

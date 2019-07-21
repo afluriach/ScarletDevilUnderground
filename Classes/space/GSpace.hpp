@@ -11,7 +11,6 @@
 
 #include "controls.h"
 #include "graphics_types.h"
-#include "object_ref.hpp"
 
 class audio_context;
 class FloorSegment;
@@ -22,6 +21,7 @@ class GState;
 class HUD;
 class MagicEffectSystem;
 class PlayScene;
+class RadarSensor;
 class Replay;
 class RoomSensor;
 

@@ -15,7 +15,9 @@
 #include "Enemy.hpp"
 #include "FirePattern.hpp"
 #include "FirePatternImpl.hpp"
+#include "FloorSegment.hpp"
 #include "GAnimation.hpp"
+#include "Graphics.h"
 #include "graphics_context.hpp"
 #include "GraphicsNodes.hpp"
 #include "GSpace.hpp"
@@ -59,6 +61,10 @@ Agent::Agent(
 	attributes(baseAttributes)
 {
 	space->addValueMapArgs(uuid, args);
+}
+
+Agent::~Agent()
+{
 }
 
 bullet_attributes Agent::getBulletAttributes(shared_ptr<bullet_properties> props) const

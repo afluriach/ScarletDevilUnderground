@@ -15,6 +15,7 @@
 #include "FileIO.hpp"
 #include "functional.hpp"
 #include "GObject.hpp"
+#include "Graphics.h"
 #include "GScene.hpp"
 #include "GSpace.hpp"
 #include "HUD.hpp"

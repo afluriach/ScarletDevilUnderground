@@ -9,8 +9,10 @@
 #include "Prefix.h"
 
 #include "Agent.hpp"
+#include "AIUtil.hpp"
 #include "Bullet.hpp"
 #include "GSpace.hpp"
+#include "Player.hpp"
 #include "SakuyaSpell.hpp"
 
 const string IllusionDial::name = "IllusionDial";

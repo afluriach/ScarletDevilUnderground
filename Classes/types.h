@@ -10,7 +10,11 @@
 #define types_h
 
 class Agent;
-namespace ai { class StateMachine; }
+namespace ai {
+	class Function;
+	class StateMachine;
+	class Thread;
+}
 class Bullet;
 class FirePattern;
 class GObject;
@@ -20,6 +24,8 @@ class Player;
 class Spell;
 
 enum class Attribute : int;
+
+enum class GraphicsLayer : int;
 
 typedef map<Attribute, float> AttributeMap;
 

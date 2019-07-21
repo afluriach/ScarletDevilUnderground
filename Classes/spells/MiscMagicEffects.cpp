@@ -11,6 +11,7 @@
 #include "Agent.hpp"
 #include "AIUtil.hpp"
 #include "GObject.hpp"
+#include "Graphics.h"
 #include "graphics_context.hpp"
 #include "GSpace.hpp"
 #include "MiscMagicEffects.hpp"

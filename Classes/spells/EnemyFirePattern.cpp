@@ -8,6 +8,7 @@
 
 #include "Prefix.h"
 
+#include "AIUtil.hpp"
 #include "EnemyFirePattern.hpp"
 #include "GSpace.hpp"
 

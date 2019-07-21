@@ -11,8 +11,6 @@
 
 class GSpace;
 
-#include "object_ref.hpp"
-
 void printValueMap(const ValueMap& obj);
 bool validateStringArg(const ValueMap& args, string name);
 bool validateMapArg(const ValueMap& args, string name);

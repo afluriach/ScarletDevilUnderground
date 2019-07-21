@@ -43,6 +43,7 @@
 #include "TeleportPad.hpp"
 #include "Torch.hpp"
 #include "Upgrade.hpp"
+#include "value_map.hpp"
 #include "Wall.hpp"
 #include "xml.hpp"
 

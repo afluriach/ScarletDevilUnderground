@@ -9,8 +9,6 @@
 #ifndef MagicEffect_hpp
 #define MagicEffect_hpp
 
-#include "object_ref.hpp"
-
 class RadarSensor;
 
 class MagicEffect

@@ -10,9 +10,6 @@
 #define AIPackages_hpp
 
 namespace ai {
-	class Function;
-	class StateMachine;
-
 	#define pfunc(n) void n(StateMachine* fsm, const ValueMap& args)
 
 	void maintain_distance(StateMachine* fsm, const ValueMap& args);

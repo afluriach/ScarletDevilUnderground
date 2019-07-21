@@ -11,6 +11,7 @@
 #include "GSpace.hpp"
 #include "GState.hpp"
 #include "Upgrade.hpp"
+#include "value_map.hpp"
 
 bool Upgrade::conditionalLoad(GSpace* space, ObjectIDType id, const ValueMap& args)
 {

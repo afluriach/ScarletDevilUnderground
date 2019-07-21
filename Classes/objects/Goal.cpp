@@ -11,6 +11,7 @@
 #include "Goal.hpp"
 #include "GSpace.hpp"
 #include "PlayScene.hpp"
+#include "value_map.hpp"
 
 Goal::Goal(GSpace* space, ObjectIDType id, const ValueMap& args) :
 	GObject(MapParamsPointUp(), MapRectPhys(-1.0))

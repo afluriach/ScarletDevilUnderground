@@ -10,7 +10,6 @@
 
 #include "GObject.hpp"
 #include "GSpace.hpp"
-#include "object_ref.hpp"
 
 GObject* _object_ref_get_gobject(GSpace* space, unsigned int uuid)
 {    

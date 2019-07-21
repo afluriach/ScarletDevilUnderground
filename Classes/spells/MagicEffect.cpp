@@ -8,7 +8,9 @@
 
 #include "Prefix.h"
 
+#include "Agent.hpp"
 #include "GObject.hpp"
+#include "GSpace.hpp"
 #include "MagicEffect.hpp"
 #include "RadarSensor.hpp"
 

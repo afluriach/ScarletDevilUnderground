@@ -10,7 +10,6 @@
 #define AreaSensor_hpp
 
 #include "GObject.hpp"
-#include "object_ref.hpp"
 
 class Door;
 class Enemy;

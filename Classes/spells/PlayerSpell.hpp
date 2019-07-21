@@ -12,6 +12,8 @@
 #include "Spell.hpp"
 #include "spell_types.hpp"
 
+class BulletImpl;
+
 //Apply power drain and deactive spell if applicable
 class PlayerSpell : public Spell {
 public:

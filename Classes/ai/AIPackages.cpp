@@ -18,7 +18,6 @@
 #include "Fairy.hpp"
 #include "GSpace.hpp"
 #include "MiscMagicEffects.hpp"
-#include "object_ref.hpp"
 #include "Patchouli.hpp"
 #include "Player.hpp"
 #include "Reimu.hpp"

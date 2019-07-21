@@ -114,6 +114,7 @@ typedef double SpaceFloat;
 #include "util.h"
 #include "log.hpp"
 #include "xml.hpp"
+#include "object_ref.hpp"
 
 #define DEV_MODE 1
 #define INTERNAL_PREFIX 0

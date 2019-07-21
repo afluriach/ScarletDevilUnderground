@@ -13,6 +13,7 @@
 #include "Attributes.hpp"
 #include "Bullet.hpp"
 
+class AgentAnimationContext;
 struct bullet_properties;
 class FirePattern;
 
@@ -35,7 +36,7 @@ public:
 		SpaceFloat radius,
 		SpaceFloat mass
 	);
-	inline virtual ~Agent() {}
+	virtual ~Agent();
 
 	bullet_attributes getBulletAttributes(shared_ptr<bullet_properties> props) const;
 	object_ref<BulletImpl> bulletImplCheckSpawn(

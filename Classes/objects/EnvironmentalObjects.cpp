@@ -9,6 +9,7 @@
 #include "Prefix.h"
 
 #include "EnvironmentalObjects.hpp"
+#include "Graphics.h"
 #include "graphics_context.hpp"
 #include "GSpace.hpp"
 #include "GState.hpp"

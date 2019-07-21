@@ -10,7 +10,6 @@
 #define EnemySpell_hpp
 
 #include "Attributes.hpp"
-#include "object_ref.hpp"
 #include "Spell.hpp"
 
 class TeleportPad;

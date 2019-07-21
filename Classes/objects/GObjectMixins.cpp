@@ -16,7 +16,6 @@
 #include "GObjectMixins.hpp"
 #include "graphics_context.hpp"
 #include "GSpace.hpp"
-#include "object_ref.hpp"
 #include "physics_context.hpp"
 #include "value_map.hpp"
 #include "Wall.hpp"

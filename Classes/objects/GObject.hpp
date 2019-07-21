@@ -13,10 +13,6 @@
 #include "multifunction.h"
 #include "object_params.hpp"
 
-namespace ai {
-	class Function;
-	class StateMachine;
-}
 class Player;
 class Bullet;
 class GSpace;

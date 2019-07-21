@@ -10,6 +10,7 @@
 
 #include "Attributes.hpp"
 #include "Bullet.hpp"
+#include "Enemy.hpp"
 #include "FileIO.hpp"
 #include "FirePatternImpl.hpp"
 #include "Graphics.h"

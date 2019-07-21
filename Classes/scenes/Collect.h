@@ -9,7 +9,6 @@
 #ifndef CollectScene_h
 #define CollectScene_h
 
-#include "object_ref.hpp"
 #include "PlayScene.hpp"
 
 class Collect : public PlayScene

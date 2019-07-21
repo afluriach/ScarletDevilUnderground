@@ -9,8 +9,6 @@
 #ifndef AI_hpp
 #define AI_hpp
 
-#include "object_ref.hpp"
-
 class Agent;
 class GObject;
 class GSpace;
@@ -33,10 +31,6 @@ enum class ResourceLock
 };
 
 constexpr size_t lockCount = to_size_t(ResourceLock::end);
-
-class Function;
-class StateMachine;
-class Thread;
 
 typedef pair<int, shared_ptr<Function>> update_return;
 

@@ -9,6 +9,7 @@
 #include "Prefix.h"
 
 #include "Bomb.hpp"
+#include "Graphics.h"
 #include "graphics_context.hpp"
 #include "GSpace.hpp"
 #include "SpellUtil.hpp"
