@@ -52,6 +52,23 @@ typedef function<shared_ptr<Function>(StateMachine*, GObject*)> AITargetFunction
 #define return_push_if_true(x, s) return make_pair( 0, (x) ? (s) : nullptr )
 #define return_push_if_valid(x) return make_pair( 0, (x) ? (x) : nullptr )
 
+enum class event_type
+{
+	bulletHit,
+	bulletBlock,
+
+	end
+};
+
+class Event
+{
+public:
+	Event(event_type eventType, any data);
+
+	event_type eventType;
+	any data;
+};
+
 class Function
 {
 public:
@@ -80,12 +97,10 @@ public:
 
 	inline virtual void onEnter() {}
     inline virtual void onReturn() {}
-	//Returns this to continue running, nullptr to pop, and other to push
 	inline virtual update_return update() { return_pop(); }
 	inline virtual void onExit() {}
     
-	inline virtual bool onBulletHit(Bullet* b) { return false; }
-	inline virtual bool onBulletBlock(Bullet* b) { return false; }
+	inline virtual bool onEvent(Event event) { return false; }
 
     inline virtual string getName() const {return "Function";}
     
@@ -105,8 +120,7 @@ public:
 
 	void update();
 
-	bool onBulletHit(Bullet* b);
-	bool onBulletBlock(Bullet* b);
+	bool onEvent(Event event);
 
 	void push(shared_ptr<Function> newState);
 	void pop();

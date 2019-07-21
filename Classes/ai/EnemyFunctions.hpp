@@ -47,7 +47,7 @@ public:
 
 	virtual void onEnter();
 	virtual update_return update();
-	virtual bool onBulletHit(Bullet* b);
+	virtual bool onEvent(Event event);
 	FuncGetName(FacerMain)
 protected:
 	gobject_ref target = nullptr;
@@ -59,7 +59,7 @@ public:
 
 	virtual void onEnter();
 	virtual update_return update();
-	virtual bool onBulletHit(Bullet* b);
+	virtual bool onEvent(Event event);
 	FuncGetName(FollowerMain)
 protected:
 	gobject_ref target = nullptr;

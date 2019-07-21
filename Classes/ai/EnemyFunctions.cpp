@@ -88,10 +88,15 @@ update_return FacerMain::update()
 	return_pop_if_false(target.isValid());
 }
 
-bool FacerMain::onBulletHit(Bullet* b)
+bool FacerMain::onEvent(Event event)
 {
-	agent->rotate(float_pi / 2);
-	return true;
+	bool handle = event.eventType == event_type::bulletHit;
+
+	if (handle) {
+		agent->rotate(float_pi * 0.5);
+	}
+
+	return handle;
 }
 
 void FollowerMain::onEnter()
@@ -113,10 +118,15 @@ update_return FollowerMain::update()
 	return_pop_if_false(target.isValid());
 }
 
-bool FollowerMain::onBulletHit(Bullet* b)
+bool FollowerMain::onEvent(Event event)
 {
-	agent->rotate(-0.5f*float_pi);
-	return true;
+	bool handle = event.eventType == event_type::bulletHit;
+
+	if (handle) {
+		agent->rotate(float_pi * -0.5);
+	}
+
+	return handle;
 }
 
 void MarisaCollectMain::onEnter()

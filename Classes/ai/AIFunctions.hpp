@@ -26,6 +26,29 @@ protected:
 	GType type;
 };
 
+class CompositeFunction : public Function {
+public:
+	//create empty
+	CompositeFunction(StateMachine* fsm);
+
+	template<class FuncCls, typename... Params>
+	inline void addFunction(Params... params)
+	{
+		addFunction(make_shared<FuncCls>(fsm, params...));
+	}
+
+	virtual void onEnter();
+	virtual update_return update();
+	virtual bool onEvent(Event event);
+	virtual void onExit();
+
+	void addFunction(shared_ptr<Function> f);
+	void removeFunction(shared_ptr<Function> f);
+protected:
+	list<shared_ptr<Function>> functions;
+	bool hasInit = false;
+};
+
 class Seek : public Function {
 public:
 	Seek(StateMachine* fsm, GObject* target, bool usePathfinding, SpaceFloat margin = 0.0);
@@ -260,7 +283,7 @@ public:
 	virtual update_return update();
 	virtual void onExit();
 
-	virtual bool onBulletHit(Bullet* b);
+	virtual bool onEvent(Event event);
 
 	virtual bitset<lockCount> getLockMask();
 

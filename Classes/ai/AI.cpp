@@ -20,6 +20,12 @@
 
 namespace ai{
 
+Event::Event(event_type eventType, any data) :
+	eventType(eventType),
+	data(data)
+{
+}
+
 shared_ptr<Function> Function::constructState(
 	const string& type,
 	StateMachine* fsm,
@@ -87,14 +93,9 @@ void Thread::update()
 	}
 }
 
-bool Thread::onBulletHit(Bullet* b)
+bool Thread::onEvent(Event event)
 {
-	return callInterface(&Function::onBulletHit, b);
-}
-
-bool Thread::onBulletBlock(Bullet* b)
-{
-	return callInterface(&Function::onBulletBlock, b);
+	return callInterface(&Function::onEvent, event);
 }
 
 void Thread::push(shared_ptr<Function> newState)
@@ -254,12 +255,16 @@ void StateMachine::onEndDetect(GObject* obj)
 
 void StateMachine::onBulletHit(Bullet* b)
 {
-	callInterface(&Function::onBulletHit, b);
+	Event event(event_type::bulletHit, make_any<Bullet*>(b));
+
+	callInterface(&Function::onEvent, event);
 }
 
 void StateMachine::onBulletBlock(Bullet* b)
 {
-	callInterface(&Function::onBulletBlock, b);
+	Event event(event_type::bulletBlock, make_any<Bullet*>(b));
+
+	callInterface(&Function::onEvent, event);
 }
 
 void StateMachine::onAlert(Player* p)

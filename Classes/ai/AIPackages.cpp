@@ -71,10 +71,12 @@ void blue_fairy_follow_path(StateMachine* fsm, const ValueMap& args)
 
 	if (path) {
 		fsm->setAlertFunction([path](StateMachine& sm, Player* p) -> void {
-			sm.addThread(make_shared<FollowPath>(&sm, *path, true, true));
-			sm.addThread(make_shared<LookTowardsFire>(&sm, true));
-			sm.addThread(make_shared<FireOnStress>(&sm, 5.0f));
-			sm.addThread(make_shared<BlueFairyPowerAttack>(&sm));
+			auto comp = make_shared<CompositeFunction>(&sm);
+			comp->addFunction<FollowPath>(*path, true, true);
+			comp->addFunction<LookTowardsFire>(true);
+			comp->addFunction<FireOnStress>(5.0f);
+			comp->addFunction<BlueFairyPowerAttack>();
+			sm.addThread(comp);
 		});
 	}
 }

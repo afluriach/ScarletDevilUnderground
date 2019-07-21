@@ -58,6 +58,86 @@ void WhileDetect::onExit()
 	fsm->removeEndDetectFunction(type);
 }
 
+CompositeFunction::CompositeFunction(StateMachine* fsm) :
+	Function(fsm)
+{
+}
+
+void CompositeFunction::onEnter()
+{
+	for (auto f : functions) {
+		f->onEnter();
+	}
+	hasInit = true;
+}
+
+update_return CompositeFunction::update()
+{
+	bitset<lockCount> locks;
+
+	for (auto it = functions.rbegin(); it != functions.rend(); ++it) {
+		bitset<lockCount> crntLock = (*it)->getLockMask();
+
+		if ((crntLock & locks).any()) {
+			continue;
+		}
+
+		locks &= crntLock;
+		update_return result = (*it)->update();
+		
+		if (result.second) {
+			log("CompositeFunction sub-function %s should not push!", (*it)->getName());
+		}
+		if (result.first < 0) {
+			log("CompositeFunction sub-function %s should not pop!", (*it)->getName());
+		}		
+	}
+
+	return_steady();
+}
+
+bool CompositeFunction::onEvent(Event event)
+{
+	for (auto it = functions.rbegin(); it != functions.rend(); ++it) {
+		if ((*it)->onEvent(event)) {
+			return true;
+		}
+	}
+	return false;
+}
+
+void CompositeFunction::onExit()
+{
+	for (auto f : functions) {
+		f->onExit();
+	}
+}
+
+void CompositeFunction::addFunction(shared_ptr<Function> f)
+{
+	if (hasInit) {
+		f->onEnter();
+	}
+	functions.push_back(f);
+}
+
+void CompositeFunction::removeFunction(shared_ptr<Function> f)
+{
+	auto it = functions.begin();
+	while (it != functions.end()) {
+		if (*it == f) {
+			if (hasInit) {
+				f->onExit();
+				functions.erase(it);
+				return;
+			}
+		}
+		else {
+			++it;
+		}
+	}
+}
+
 Seek::Seek(StateMachine* fsm, const ValueMap& args) :
 	Function(fsm)
 {
@@ -711,8 +791,13 @@ void LookTowardsFire::onExit()
 {
 }
 
-bool LookTowardsFire::onBulletHit(Bullet* b)
+bool LookTowardsFire::onEvent(Event event)
 {
+	if (event.eventType != event_type::bulletHit) {
+		return false;
+	}
+	Bullet* b = any_cast<Bullet*>(event.data);
+
 	SpaceVect bulletDirection = b->getVel().normalizeSafe().rotate(float_pi);
 	hitAccumulator += hitCost;
 	directionAccumulator += bulletDirection;
