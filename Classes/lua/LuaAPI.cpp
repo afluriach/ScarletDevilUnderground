@@ -308,7 +308,6 @@ const vector<string> Inst::luaIncludes = {
 
 			.addFunction("addThread", &GObject::addThread)
 			.addFunction("printFSM", &GObject::printFSM)
-			.addFunction("removeThreadByID", static_cast<void(GObject::*)(unsigned int)>(&GObject::removeThread))
 			.addFunction("removeThreadByName", static_cast<void(GObject::*)(const string&)>(&GObject::removeThread))
 
 		.endClass()

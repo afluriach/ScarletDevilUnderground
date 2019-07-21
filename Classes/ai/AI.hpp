@@ -87,8 +87,6 @@ public:
 	inline virtual update_return update() { return_pop(); }
 	inline virtual void onExit() {}
     
-    inline virtual void onDelay() {}
-    
 	inline virtual bool onBulletHit(Bullet* b) { return false; }
 	inline virtual bool onBulletBlock(Bullet* b) { return false; }
 
@@ -103,35 +101,23 @@ protected:
 
 class Thread
 {
-public:
-    typedef int priority_type;
-    
+public:    
 	friend class StateMachine;
     
-    const unsigned int uuid;
-
 	Thread(shared_ptr<Function> threadMain, StateMachine* sm);
-	Thread(
-        shared_ptr<Function> threadMain,
-        StateMachine* sm,
-        priority_type priority,
-        bitset<lockCount> lockMask
-    );
 
 	void update();
-    void onDelay();
 
 	bool onBulletHit(Bullet* b);
 	bool onBulletBlock(Bullet* b);
 
 	void push(shared_ptr<Function> newState);
 	void pop();
+	void popToRoot();
     
 	shared_ptr<Function> getTop();
     string getStack();
 	string getMainFuncName();
-	void setResetOnBlock(bool reset);
-
 protected:
 	//Calls a particular Function interface method, starting with the top of the stack,
 	//and continuing until a handler returns to indicate it handled the event.
@@ -149,11 +135,6 @@ protected:
 
 	list<shared_ptr<Function>> call_stack;
 	StateMachine* sm;
-	bool completed = false;
-    bool resetOnBlock = false;
-    priority_type priority = 0;
-    bitset<lockCount> lockMask;
-    static unsigned int nextUUID;
 };
 
 class StateMachine
@@ -167,8 +148,8 @@ public:
 	void update();
 
 	void addThread(shared_ptr<Thread> thread);
-    unsigned int addThread(shared_ptr<Function> threadMain, Thread::priority_type priority = 0);
-    void removeThread(unsigned int uuid);
+    shared_ptr<Thread> addThread(shared_ptr<Function> threadMain);
+    void removeThread(shared_ptr<Thread> thread);
     //Remove thread(s) that have the given main function.
     void removeThread(const string& mainName);
 	bool isThreadRunning(const string& mainName);
@@ -214,36 +195,26 @@ protected:
 	template<typename... Params>
 	bool callInterface(bool (Function::*method)(Params...), Params... params)
 	{
-		for (auto priority_it = threads_by_priority.rbegin(); priority_it != threads_by_priority.rend(); ++priority_it)
+		for (auto thread_it = current_threads.rbegin(); thread_it != current_threads.rend(); ++thread_it)
 		{
-			for (unsigned int uuid : priority_it->second)
-			{
-				Thread* crnt = current_threads[uuid].get();
+			Thread* crnt = thread_it->get();
 
-				if (crnt->callInterface(method, params...))
-					return true;
-			}
+			if (crnt->callInterface(method, params...))
+				return true;
 		}
 		return false;
 	}
 
-	void applyAddThreads();
-	void applyRemoveThreads();
 	void removeCompletedThreads();
 
 	GObject *const agent;
-
-	unordered_set<unsigned int> threadsToRemove;
-	list<shared_ptr<Thread>> threadsToAdd;
 
 	alert_function alertHandler;
 	unordered_map<GType, detect_function> detectHandlers;
 	unordered_map<GType, detect_function> endDetectHandlers;
 
-	map<unsigned int,shared_ptr<Thread>> current_threads;
-    map<int, list<unsigned int>> threads_by_priority;
+	list<shared_ptr<Thread>> current_threads;
     unsigned int frame;
-	unsigned int nextCallbackID = 1;
 	Thread* crntThread = nullptr;
 	bool alerted = false;
 };

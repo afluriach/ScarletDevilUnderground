@@ -199,7 +199,7 @@ void GObject::updateFSM() {
 		fsm->update();
 }
 
-unsigned int GObject::addThread(shared_ptr<ai::Function> threadMain) {
+shared_ptr<ai::Thread> GObject::addThread(shared_ptr<ai::Function> threadMain) {
 	if (!fsm) {
 		fsm = make_unique<ai::StateMachine>(this);
 	}
@@ -207,9 +207,9 @@ unsigned int GObject::addThread(shared_ptr<ai::Function> threadMain) {
 	return fsm->addThread(threadMain);
 }
 
-void GObject::removeThread(unsigned int uuid) {
+void GObject::removeThread(shared_ptr<ai::Thread> t) {
 	if (fsm) {
-		fsm->removeThread(uuid);
+		fsm->removeThread(t);
 	}
 }
 

@@ -57,41 +57,18 @@ physics_context* Function::getPhys() const {
 	return getSpace()->physicsContext.get();
 }
 
-unsigned int Thread::nextUUID = 1;
-
 Thread::Thread(shared_ptr<Function> threadMain, StateMachine* sm) :
-Thread(threadMain, sm, 0, bitset<lockCount>())
+	sm(sm)
 {
-}
-
-Thread::Thread(
-    shared_ptr<Function> threadMain,
-    StateMachine* sm,
-    priority_type priority,
-    bitset<lockCount> lockMask
-) :
-uuid(nextUUID++),
-priority(priority),
-lockMask(lockMask),
-sm(sm)
-{
-	if (!threadMain) {
-		log("thread created with null main!");
-		completed = true;
-	}
-	else {
+	if (threadMain) {
 		push(threadMain);
 	}
 }
 
 void Thread::update()
 {
-	if (call_stack.empty()) {
-		completed = true;
-		return;
-	}
-
-	Function* crnt = call_stack.back().get();
+	Function* crnt = !call_stack.empty() ? call_stack.back().get() : nullptr;
+	if (!crnt) return;
 
 	if (!crnt->hasRunInit) {
 		crnt->onEnter();
@@ -107,16 +84,6 @@ void Thread::update()
 	if (result.second.get()) {
 		push(result.second);
 	}
-}
-
-void Thread::onDelay()
-{
-    if(resetOnBlock)
-    {
-        while(call_stack.size() > 1){
-            pop();
-        }
-    }
 }
 
 bool Thread::onBulletHit(Bullet* b)
@@ -147,6 +114,13 @@ void Thread::pop()
 		call_stack.back()->onReturn();
 }
 
+void Thread::popToRoot()
+{
+	while (call_stack.size() > 1) {
+		pop();
+	}
+}
+
 shared_ptr<Function> Thread::getTop()
 {
 	return call_stack.back();
@@ -173,10 +147,6 @@ string Thread::getMainFuncName() {
 	return !call_stack.empty() ? call_stack.front()->getName() : "";
 }
 
-void Thread::setResetOnBlock(bool reset) {
-	resetOnBlock = reset;
-}
-
 StateMachine::StateMachine(GObject *const agent) :
 agent(agent)
 {
@@ -188,114 +158,75 @@ void StateMachine::update()
     bitset<lockCount> locks;
     
 	removeCompletedThreads();
-	applyRemoveThreads();
-	applyAddThreads();
     
-    for(auto priority_it = threads_by_priority.rbegin(); priority_it != threads_by_priority.rend(); ++priority_it)
+    for(auto thread_it = current_threads.rbegin(); thread_it != current_threads.rend(); ++thread_it)
     {
-        for(unsigned int uuid: priority_it->second)
+        crntThread = thread_it->get();
+            
+        bitset<lockCount> lockMask = crntThread->call_stack.back()->getLockMask();
+            
+        if(!(locks & lockMask).any() )
         {
-            crntThread = current_threads[uuid].get();
-            
-            //Take union of thread locks & current function locks
-            bitset<lockCount> lockMask = crntThread->lockMask | crntThread->call_stack.back()->getLockMask();
-            
-            if(!(locks & lockMask).any() )
-            {
-                //The current function in this thread does not require a lock that has
-                //already been acquired this frame.
+            //The current function in this thread does not require a lock that has
+            //already been acquired this frame.
                 
-                locks |= lockMask;
+            locks |= lockMask;
                 
-                crntThread->update();
-            }
-            else
-            {
-                //Call the thread onDelay if there was a conflict with the thread
-                //lock bits.
-                if((locks & crntThread->lockMask).any()){
-                    crntThread->onDelay();
-                }
-                if((locks & crntThread->call_stack.back()->getLockMask()).any()){
-                    crntThread->call_stack.back()->onDelay();
-                }
-            }
-            crntThread = nullptr;
+            crntThread->update();
         }
+        crntThread = nullptr;
     }
 }
 
 void StateMachine::addThread(shared_ptr<Thread> thread)
 {
-	if (!thread->call_stack.empty()) {
-		threadsToAdd.push_back(thread);
-		log("%s: FSM creating Thread %s.", agent->getName().c_str(), thread->call_stack.back()->getName());
-	}
-	else {
-		log("%s: FSM creating empty Thread.", agent->getName().c_str());
-	}
+	current_threads.push_back(thread);
 }
 
-unsigned int StateMachine::addThread(shared_ptr<Function> threadMain, Thread::priority_type priority)
+shared_ptr<Thread> StateMachine::addThread(shared_ptr<Function> threadMain)
 {
-	auto t = make_shared<Thread>(
-		threadMain,
-		this,
-		priority,
-		bitset<lockCount>()
-	);
+	auto t = make_shared<Thread>(threadMain,this);
 
    addThread(t);
-   return t->uuid;
+   return t;
 }
 
-void StateMachine::applyAddThreads()
+void StateMachine::removeThread(shared_ptr<Thread> t)
 {
-	for (shared_ptr<Thread> thread : threadsToAdd)
-	{
-		current_threads[thread->uuid] = thread;
-
-		emplaceIfEmpty(threads_by_priority, thread->priority);
-		threads_by_priority[thread->priority].push_back(thread->uuid);
-	}
-	threadsToAdd.clear();
-}
-
-void StateMachine::removeThread(unsigned int uuid)
-{
-	threadsToRemove.insert(uuid);
+	current_threads.remove(t);
 }
 
 void StateMachine::removeThread(const string& mainName)
 {
-    for(auto it = current_threads.begin(); it != current_threads.end(); ++it)
-    {
-        if(it->second->getMainFuncName() == mainName){
-            threadsToRemove.insert(it->second->uuid);
-        }
-    }
+	auto it = current_threads.begin();
+	while (it != current_threads.end()) {
+		if ((*it)->getMainFuncName() == mainName) {
+			it = current_threads.erase(it);
+		}
+		else {
+			++it;
+		}
+	}
 }
 
 void StateMachine::removeCompletedThreads()
 {
-    vector<unsigned int> toRemove;
-    
-    for(auto it = current_threads.begin(); it != current_threads.end(); ++it){
-        if(it->second->completed || it->second->call_stack.empty()){
-            toRemove.push_back(it->first);
-        }
-    }
-    
-    for(unsigned int uuid: toRemove){
-        removeThread(uuid);
-    }
+	auto it = current_threads.begin();
+	while (it != current_threads.end()) {
+		if ((*it)->call_stack.empty()) {
+			it = current_threads.erase(it);
+		}
+		else {
+			++it;
+		}
+	}
 }
 
 bool StateMachine::isThreadRunning(const string& mainName)
 {
 	for (auto it = current_threads.begin(); it != current_threads.end(); ++it)
 	{
-		if (it->second->getMainFuncName() == mainName) return true;
+		if ( (*it)->getMainFuncName() == mainName) return true;
 	}
 	return false;
 }
@@ -303,22 +234,6 @@ bool StateMachine::isThreadRunning(const string& mainName)
 int StateMachine::getThreadCount()
 {
 	return current_threads.size();
-}
-
-void StateMachine::applyRemoveThreads()
-{
-	for (unsigned int uuid : threadsToRemove)
-	{
-		if (current_threads.find(uuid) != current_threads.end()) {
-			auto t = current_threads[uuid];
-			if (!t->call_stack.empty()) {
-				log("%s: FSM removing Thread %s.", agent->getName().c_str(), t->call_stack.back()->getName());
-			}
-			threads_by_priority[t->priority].remove(uuid);
-			current_threads.erase(uuid);
-		}
-	}
-	threadsToRemove.clear();
 }
 
 void StateMachine::onDetect(GObject* obj)
@@ -398,8 +313,8 @@ string StateMachine::toString()
     
     for(auto it = current_threads.begin(); it != current_threads.end(); ++it)
     {
-        Thread* t = it->second.get();
-        ss << "thread " << t->uuid << ", pri " << t->priority << ", stack:  " << t->getStack() << "\n";
+        Thread* t = it->get();
+        ss << "thread " << t << ", stack:  " << t->getStack() << "\n";
     }
     return ss.str();
 }

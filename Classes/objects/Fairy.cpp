@@ -100,9 +100,7 @@ void Fairy2::addFleeThread()
 	GObject* player = space->getPlayer();
 	auto fleeThread = make_shared<ai::Thread>(
 		make_shared<ai::Flee>(fsm.get(), player, 5.0f),
-		fsm.get(),
-		to_int(ai_priority::flee),
-		bitset<ai::lockCount>()
+		fsm.get()
 	);
 	fsm->addThread(fleeThread);
 }
@@ -115,22 +113,18 @@ void Fairy2::addSupportThread(object_ref<Fairy2> other)
 		return;
 	}
 
-	auto t = make_shared<ai::Thread>(
+	supportThread = make_shared<ai::Thread>(
 		make_shared<ai::OccupyMidpoint>(fsm.get(), other.getBaseRef(), player),
-		fsm.get(),
-		to_int(ai_priority::support),
-		bitset<ai::lockCount>()
+		fsm.get()
 	);
-	supportThread = t->uuid;
-
-	fsm->addThread(t);
+	fsm->addThread(supportThread);
 }
 
 void Fairy2::removeSupportThread()
 {
-	if (supportThread != 0) {
+	if (supportThread) {
 		fsm->removeThread(supportThread);
-		supportThread = 0;
+		supportThread.reset();
 	}
 }
 

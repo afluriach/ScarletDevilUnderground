@@ -76,7 +76,7 @@ public:
 	void acknowledgeHandaler(object_ref<Fairy2> supportTarget);
 protected:
 	ai_state crntState = ai_state::normal;
-	unsigned int supportThread = 0;
+	shared_ptr<ai::Thread> supportThread = 0;
 	object_ref<Fairy2> supportingAgent;
 };
 

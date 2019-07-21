@@ -159,8 +159,8 @@ public:
 
 	//StateMachine
 	void updateFSM();
-	unsigned int addThread(shared_ptr<ai::Function> threadMain);
-	void removeThread(unsigned int uuid);
+	shared_ptr<ai::Thread> addThread(shared_ptr<ai::Function> threadMain);
+	void removeThread(shared_ptr<ai::Thread> t);
 	void removeThread(const string& name);
 	void printFSM();
 	void setFrozen(bool val);
