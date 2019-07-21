@@ -60,7 +60,9 @@ public:
 
 	Flock(StateMachine* fsm);
 
+	virtual void onEnter();
 	virtual update_return update();
+	virtual void onExit();
 
 	void onDetectNeighbor(Agent* agent);
 	void endDetectNeighbor(Agent* agent);

@@ -62,23 +62,7 @@ void circle_around_point(StateMachine* fsm, const ValueMap& args)
 
 void flock(StateMachine* fsm, const ValueMap& args)
 {
-	shared_ptr<Flock> flock = make_shared<Flock>(fsm);
-
-	fsm->addThread(flock);
-
-	fsm->addDetectFunction(
-		GType::enemy,
-		[flock](StateMachine& sm, GObject* target) -> void {
-			flock->onDetectNeighbor(dynamic_cast<Agent*>(target));
-		}
-	);
-
-	fsm->addEndDetectFunction(
-		GType::enemy,
-		[flock](StateMachine& sm, GObject* target) -> void {
-			flock->endDetectNeighbor(dynamic_cast<Agent*>(target));
-		}
-	);
+	fsm->addThread(make_shared<Flock>(fsm));
 }
 
 void blue_fairy_follow_path(StateMachine* fsm, const ValueMap& args)

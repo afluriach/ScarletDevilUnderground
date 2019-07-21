@@ -161,6 +161,23 @@ Flock::Flock(StateMachine* fsm) :
 {
 }
 
+void Flock::onEnter()
+{
+	fsm->addDetectFunction(
+		GType::enemy,
+		[this](StateMachine& sm, GObject* target) -> void {
+			this->onDetectNeighbor(dynamic_cast<Agent*>(target));
+		}
+	);
+
+	fsm->addEndDetectFunction(
+		GType::enemy,
+		[this](StateMachine& sm, GObject* target) -> void {
+			this->endDetectNeighbor(dynamic_cast<Agent*>(target));
+		}
+	);
+}
+
 update_return Flock::update()
 {
 	SpaceVect _separate = separate() * 1.5;
@@ -172,6 +189,12 @@ update_return Flock::update()
 	agent->applyForceForSingleFrame(sum.setMag(agent->getMaxAcceleration()) );
 
 	return_steady();
+}
+
+void Flock::onExit()
+{
+	fsm->removeDetectFunction(GType::enemy);
+	fsm->removeEndDetectFunction(GType::enemy);
 }
 
 void Flock::onDetectNeighbor(Agent* agent)
