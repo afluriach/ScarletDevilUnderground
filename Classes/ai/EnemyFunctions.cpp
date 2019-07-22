@@ -159,37 +159,41 @@ ReimuYinYangOrbs::ReimuYinYangOrbs(StateMachine* fsm) :
 {
 }
 
-void ReimuYinYangOrbs::onEnter()
-{
-	Agent* agent = getAgent();
-	for_irange(i, 0, orbCount)
-	{
-		SpaceFloat angle = float_pi * (0.25 + i * 0.5);
-		auto params = Bullet::makeParams(
-			agent->getPos() + SpaceVect::ray(1.5, angle),
-			angle,
-			SpaceVect::zero,
-			float_pi
-		);
-		auto props = app::getBullet("yinYangOrb");
-		orbs[i] = getSpace()->createObject<BulletImpl>(
-			params,
-			agent->getBulletAttributes(props),
-			props
-		);
-	}
-}
-
 bool ReimuYinYangOrbs::onEvent(Event event)
 {
-	if (event.eventType != event_type::zeroHP) return false;
-
-	for_irange(i, 0, orbCount)
-	{
-		getSpace()->removeObject(orbs[i].get());
+	if (event.isDetectPlayer() && !active) {
+		Agent* agent = getAgent();
+		for_irange(i, 0, orbCount)
+		{
+			SpaceFloat angle = float_pi * (0.25 + i * 0.5);
+			auto params = Bullet::makeParams(
+				agent->getPos() + SpaceVect::ray(1.5, angle),
+				angle,
+				SpaceVect::zero,
+				float_pi
+			);
+			auto props = app::getBullet("yinYangOrb");
+			orbs[i] = getSpace()->createObject<BulletImpl>(
+				params,
+				agent->getBulletAttributes(props),
+				props
+				);
+		}
+		
+		active = true;
+		return true;
 	}
 
-	return true;
+	else if (event.eventType == event_type::zeroHP && active) {
+		for_irange(i, 0, orbCount)
+		{
+			getSpace()->removeObject(orbs[i].get());
+		}
+
+		return true;
+	}
+
+	return false;
 }
 
 const SpaceFloat RumiaMain1::dsdDistMargin = 5.0;

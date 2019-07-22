@@ -33,11 +33,10 @@ public:
 	);
 
 	ReimuWavePattern(Agent *const agent);
-
-	inline virtual void upate() { timerDecrement(cooldown); }
-protected:
+	
 	virtual bool fire();
-
+	inline virtual void update() { timerDecrement(cooldown); }
+protected:
 	shared_ptr<bullet_properties> props;
 	SpaceFloat cooldown = 0.0;
 };

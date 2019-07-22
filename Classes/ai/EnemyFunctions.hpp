@@ -90,10 +90,10 @@ public:
 
 	ReimuYinYangOrbs(StateMachine* fsm);
 
-	virtual void onEnter();
 	virtual bool onEvent(Event event);
 protected:
 	array<gobject_ref, orbCount> orbs;
+	bool active = false;
 };
 
 class RumiaMain1 : public Function

@@ -46,6 +46,8 @@ ReimuWavePattern::ReimuWavePattern(Agent *const agent) :
 
 bool ReimuWavePattern::fire()
 {
+	if (cooldown > 0.0) return false;
+
 	SpaceVect pos = agent->getPos();
 	SpaceFloat angle = agent->getAngle();
 	auto params = Bullet::makeParams(pos, angle);

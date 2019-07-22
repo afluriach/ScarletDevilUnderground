@@ -185,3 +185,7 @@ end
 function quitToTitle()
 	runScene("TitleMenu")
 end
+
+function teleport(door)
+	App.getCrntScene():teleportToDoor(door)
+end
