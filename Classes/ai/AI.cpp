@@ -162,7 +162,7 @@ agent(agent)
 
 void StateMachine::update()
 {
-    bitset<lockCount> locks;
+    lock_mask locks;
     
 	removeCompletedThreads();
     
@@ -170,7 +170,7 @@ void StateMachine::update()
     {
         crntThread = thread_it->get();
             
-        bitset<lockCount> lockMask = crntThread->call_stack.back()->getLockMask();
+        lock_mask lockMask = crntThread->call_stack.back()->getLockMask();
             
         if(!(locks & lockMask).any() )
         {
@@ -302,6 +302,11 @@ void StateMachine::addWhileDetectHandler(GType type, AITargetFunctionGenerator g
 {
 	auto detect = make_shared<WhileDetect>(this, type, gen);
 	addThread(detect);
+}
+
+void StateMachine::addFleeBomb()
+{
+	addWhileDetectHandler(GType::bomb, makeTargetFunctionGenerator<Flee>(-1.0));
 }
 
 void StateMachine::addDetectFunction(GType t, detect_function f)

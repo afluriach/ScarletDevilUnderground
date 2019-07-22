@@ -74,10 +74,10 @@ void CompositeFunction::onEnter()
 
 update_return CompositeFunction::update()
 {
-	bitset<lockCount> locks;
+	lock_mask locks;
 
 	for (auto it = functions.rbegin(); it != functions.rend(); ++it) {
-		bitset<lockCount> crntLock = (*it)->getLockMask();
+		lock_mask crntLock = (*it)->getLockMask();
 
 		if ((crntLock & locks).any()) {
 			continue;
@@ -112,6 +112,22 @@ void CompositeFunction::onExit()
 	for (auto f : functions) {
 		f->onExit();
 	}
+}
+
+lock_mask CompositeFunction::getLockMask()
+{
+	lock_mask result;
+
+	for (auto f : functions) {
+		result &= f->getLockMask();
+	}
+
+	return result;
+}
+
+string CompositeFunction::getName()
+{
+	return "CompositeFunction";
 }
 
 void CompositeFunction::addFunction(shared_ptr<Function> f)
@@ -840,14 +856,14 @@ bool LookTowardsFire::onEvent(Event event)
 	return true;
 }
 
-bitset<lockCount> LookTowardsFire::getLockMask()
+lock_mask LookTowardsFire::getLockMask()
 {
 	return looking ? (
 		useShield ?
 			enum_bitfield3(ResourceLock, movement, look, shield) :
 			enum_bitfield2(ResourceLock, movement, look)
 		) :
-		bitset<lockCount>()
+		lock_mask()
 	;
 }
 

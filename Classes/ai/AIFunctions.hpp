@@ -41,6 +41,8 @@ public:
 	virtual update_return update();
 	virtual bool onEvent(Event event);
 	virtual void onExit();
+	virtual lock_mask getLockMask();
+	virtual string getName();
 
 	void addFunction(shared_ptr<Function> f);
 	void removeFunction(shared_ptr<Function> f);
@@ -175,8 +177,8 @@ public:
 
 	virtual update_return update();
 
-	inline virtual bitset<lockCount> getLockMask() {
-		return active ? make_enum_bitfield(ResourceLock::movement) : bitset<lockCount>();
+	inline virtual lock_mask getLockMask() {
+		return active ? make_enum_bitfield(ResourceLock::movement) : lock_mask();
 	}
 
 	FuncGetName(EvadePlayerProjectiles)
@@ -295,7 +297,7 @@ public:
 
 	virtual bool onEvent(Event event);
 
-	virtual bitset<lockCount> getLockMask();
+	virtual lock_mask getLockMask();
 
 	FuncGetName(LookTowardsFire)
 protected:

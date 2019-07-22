@@ -192,22 +192,7 @@ void red_fairy(StateMachine* fsm, const ValueMap& args)
 		sm.addThread(make_shared<Wander>(&sm, 1.5, 2.5, 2.0, 3.0));
 	});
 
-	fsm->addDetectFunction(
-		GType::bomb,
-		[](StateMachine& sm, GObject* target) -> void {
-			if (sm.isThreadRunning("Flee")) return;
-			if (Bomb* bomb = dynamic_cast<Bomb*>(target)) {
-				sm.addThread(make_shared<Flee>(&sm, target, bomb->getBlastRadius()));
-			}
-		}
-	);
-
-	fsm->addEndDetectFunction(
-		GType::bomb,
-		[](StateMachine& sm, GObject* target) -> void {
-			sm.removeThread("Flee");
-		}
-	);
+	fsm->addFleeBomb();
 
 	fsm->addDetectFunction(
 		GType::player,
@@ -238,6 +223,8 @@ void red_fairy(StateMachine* fsm, const ValueMap& args)
 }
 void green_fairy1(StateMachine* fsm, const ValueMap& args)
 {
+	fsm->addFleeBomb();
+
 	fsm->getObject()->addMagicEffect(make_shared<BulletSpeedFromHP>(
 		fsm->getAgent(),
 		make_pair(0.25f, 0.75f),
@@ -251,27 +238,12 @@ void green_fairy1(StateMachine* fsm, const ValueMap& args)
 		sm.addThread(make_shared<EvadePlayerProjectiles>(&sm));
 		sm.addThread(make_shared<FireOnStress>(&sm, 5.0f));
 	});
-
-	fsm->addDetectFunction(
-		GType::bomb,
-		[](StateMachine& sm, GObject* target) -> void {
-			if (sm.isThreadRunning("Flee")) return;
-			if (Bomb* bomb = dynamic_cast<Bomb*>(target)) {
-				sm.addThread(make_shared<Flee>(&sm, target, bomb->getBlastRadius()));
-			}
-		}
-	);
-
-	fsm->addEndDetectFunction(
-		GType::bomb,
-		[](StateMachine& sm, GObject* target) -> void {
-			sm.removeThread("Flee");
-		}
-	);
 }
 
 void green_fairy2(StateMachine* fsm, const ValueMap& args)
 {
+	fsm->addFleeBomb();
+
 	fsm->getObject()->addMagicEffect(make_shared<BulletSpeedFromHP>(
 		fsm->getAgent(),
 		make_pair(0.25f, 0.5f),
@@ -285,23 +257,6 @@ void green_fairy2(StateMachine* fsm, const ValueMap& args)
 		sm.addThread(make_shared<EvadePlayerProjectiles>(&sm));
 		sm.addThread(make_shared<FireOnStress>(&sm, 5.0f));
 	});
-
-	fsm->addDetectFunction(
-		GType::bomb,
-		[](StateMachine& sm, GObject* target) -> void {
-			if (sm.isThreadRunning("Flee")) return;
-			if (Bomb* bomb = dynamic_cast<Bomb*>(target)) {
-				sm.addThread(make_shared<Flee>(&sm, target, bomb->getBlastRadius()));
-			}
-		}
-	);
-
-	fsm->addEndDetectFunction(
-		GType::bomb,
-		[](StateMachine& sm, GObject* target) -> void {
-			sm.removeThread("Flee");
-		}
-	);
 }
 
 void zombie_fairy(StateMachine* fsm, const ValueMap& args)

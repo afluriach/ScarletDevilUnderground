@@ -32,14 +32,15 @@ enum class ResourceLock
 
 constexpr size_t lockCount = to_size_t(ResourceLock::end);
 
+typedef bitset<lockCount> lock_mask;
 typedef pair<int, shared_ptr<Function>> update_return;
 
 //for functions that target an object
 typedef function<shared_ptr<Function>(StateMachine*, GObject*)> AITargetFunctionGenerator;
 
 #define FuncGetName(cls) inline virtual string getName() const {return #cls;}
-#define GetLockmask(l) inline virtual bitset<lockCount> getLockMask() { return make_enum_bitfield(ResourceLock::l); }
-#define GetLockmask2(l, m) inline virtual bitset<lockCount> getLockMask() { return make_enum_bitfield(ResourceLock::l) | make_enum_bitfield(ResourceLock::m); }
+#define GetLockmask(l) inline virtual lock_mask getLockMask() { return make_enum_bitfield(ResourceLock::l); }
+#define GetLockmask2(l, m) inline virtual lock_mask getLockMask() { return make_enum_bitfield(ResourceLock::l) | make_enum_bitfield(ResourceLock::m); }
 
 #define return_pop() return make_pair(-1, nullptr)
 #define return_push(x) return make_pair(0, x)
@@ -111,7 +112,7 @@ public:
 
     inline virtual string getName() const {return "Function";}
     
-    inline virtual bitset<lockCount> getLockMask() { return bitset<lockCount>();}
+    inline virtual lock_mask getLockMask() { return lock_mask();}
 protected:
 	StateMachine *const fsm;
 	Agent *const agent;
@@ -183,6 +184,7 @@ public:
 	void onZeroHP();
 
 	void addWhileDetectHandler(GType type, AITargetFunctionGenerator gen);
+	void addFleeBomb();
 
 	void addDetectFunction(GType t, detect_function f);
 	void addEndDetectFunction(GType t, detect_function f);
