@@ -115,6 +115,7 @@ bool Thread::onEvent(Event event)
 
 void Thread::push(shared_ptr<Function> newState)
 {
+	sm->checkAddHandler(newState);
 	call_stack.push_back(newState);
 }
 
@@ -122,6 +123,8 @@ void Thread::pop()
 {
 	if (call_stack.empty())
 		return;
+
+	sm->checkRemoveHandler(call_stack.back());
 	Function* crnt = call_stack.back().get();
 
 	crnt->onExit();
@@ -244,6 +247,31 @@ void StateMachine::removeCompletedThreads()
 	}
 }
 
+void StateMachine::checkAddHandler(shared_ptr<Function> f)
+{
+	event_bitset events = f->getEvents();
+
+	if (events.any()) {
+		functions.push_back(f);
+	}
+}
+
+void StateMachine::checkRemoveHandler(shared_ptr<Function> f)
+{
+	event_bitset events = f->getEvents();
+
+	if (events.any()) {
+		functions.remove(f);
+	}
+}
+
+void StateMachine::handleEvent(Event event)
+{
+	for (auto f : functions) {
+		f->onEvent(event);
+	}
+}
+
 bool StateMachine::isThreadRunning(const string& mainName)
 {
 	for (auto it = current_threads.begin(); it != current_threads.end(); ++it)
@@ -261,7 +289,7 @@ int StateMachine::getThreadCount()
 void StateMachine::onDetect(GObject* obj)
 {
 	Event event(event_type::detect, make_any<GObject*>(obj));
-	callInterface(&Function::onEvent, event);
+	handleEvent(event);
 
 	auto it = detectHandlers.find(obj->getType());
 	if (it != detectHandlers.end()) {
@@ -271,7 +299,7 @@ void StateMachine::onDetect(GObject* obj)
 void StateMachine::onEndDetect(GObject* obj)
 {
 	Event event(event_type::endDetect, make_any<GObject*>(obj));
-	callInterface(&Function::onEvent, event);
+	handleEvent(event);
 
 	auto it = endDetectHandlers.find(obj->getType());
 	if (it != endDetectHandlers.end()) {
@@ -282,15 +310,13 @@ void StateMachine::onEndDetect(GObject* obj)
 void StateMachine::onBulletHit(Bullet* b)
 {
 	Event event(event_type::bulletHit, make_any<Bullet*>(b));
-
-	callInterface(&Function::onEvent, event);
+	handleEvent(event);
 }
 
 void StateMachine::onBulletBlock(Bullet* b)
 {
 	Event event(event_type::bulletBlock, make_any<Bullet*>(b));
-
-	callInterface(&Function::onEvent, event);
+	handleEvent(event);
 }
 
 void StateMachine::onAlert(Player* p)
@@ -304,8 +330,7 @@ void StateMachine::onAlert(Player* p)
 void StateMachine::onZeroHP()
 {
 	Event event(event_type::zeroHP, any());
-
-	callInterface(&Function::onEvent, event);
+	handleEvent(event);
 }
 
 void StateMachine::addWhileDetectHandler(GType type, AITargetFunctionGenerator gen)

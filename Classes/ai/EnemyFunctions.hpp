@@ -48,6 +48,7 @@ public:
 	virtual void onEnter();
 	virtual update_return update();
 	virtual bool onEvent(Event event);
+	virtual event_bitset getEvents();
 	FuncGetName(FacerMain)
 protected:
 	gobject_ref target = nullptr;
@@ -60,6 +61,7 @@ public:
 	virtual void onEnter();
 	virtual update_return update();
 	virtual bool onEvent(Event event);
+	virtual event_bitset getEvents();
 	FuncGetName(FollowerMain)
 protected:
 	gobject_ref target = nullptr;
@@ -91,6 +93,7 @@ public:
 	ReimuYinYangOrbs(StateMachine* fsm);
 
 	virtual bool onEvent(Event event);
+	virtual event_bitset getEvents();
 protected:
 	array<gobject_ref, orbCount> orbs;
 	bool active = false;

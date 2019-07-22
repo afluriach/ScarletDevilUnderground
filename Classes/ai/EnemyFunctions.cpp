@@ -88,6 +88,11 @@ update_return FacerMain::update()
 	return_pop_if_false(target.isValid());
 }
 
+event_bitset FacerMain::getEvents()
+{
+	return make_enum_bitfield(event_type::bulletHit);
+}
+
 bool FacerMain::onEvent(Event event)
 {
 	bool handle = event.eventType == event_type::bulletHit;
@@ -116,6 +121,11 @@ update_return FollowerMain::update()
 	}
 
 	return_pop_if_false(target.isValid());
+}
+
+event_bitset FollowerMain::getEvents()
+{
+	return make_enum_bitfield(event_type::bulletHit);
 }
 
 bool FollowerMain::onEvent(Event event)
@@ -157,6 +167,11 @@ update_return MarisaForestMain::update()
 ReimuYinYangOrbs::ReimuYinYangOrbs(StateMachine* fsm) :
 	Function(fsm)
 {
+}
+
+event_bitset ReimuYinYangOrbs::getEvents()
+{
+	return enum_bitfield2(event_type, detect, zeroHP);
 }
 
 bool ReimuYinYangOrbs::onEvent(Event event)

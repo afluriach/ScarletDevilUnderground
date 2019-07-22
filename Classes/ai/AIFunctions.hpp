@@ -18,6 +18,7 @@ public:
 	WhileDetect(StateMachine* fsm, GType type, AITargetFunctionGenerator gen);
 
 	virtual bool onEvent(Event event);
+	virtual event_bitset getEvents();
 protected:
 	shared_ptr<Thread> thread;
 	AITargetFunctionGenerator gen;
@@ -38,6 +39,7 @@ public:
 	virtual void onEnter();
 	virtual update_return update();
 	virtual bool onEvent(Event event);
+	virtual event_bitset getEvents();
 	virtual void onExit();
 	virtual lock_mask getLockMask();
 	virtual string getName();
@@ -46,6 +48,7 @@ public:
 	void removeFunction(shared_ptr<Function> f);
 protected:
 	list<shared_ptr<Function>> functions;
+	event_bitset events;
 	bool hasInit = false;
 };
 
@@ -54,6 +57,7 @@ public:
 	BossFightHandler(StateMachine* fsm, string startDialog, string endDialog);
 
 	virtual bool onEvent(Event event);
+	virtual event_bitset getEvents();
 protected:
 	string startDialog, endDialog;
 	bool hasRunStart = false, hasRunEnd = false;
@@ -294,6 +298,7 @@ public:
 	virtual void onExit();
 
 	virtual bool onEvent(Event event);
+	virtual event_bitset getEvents();
 
 	virtual lock_mask getLockMask();
 

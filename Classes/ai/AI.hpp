@@ -30,9 +30,25 @@ enum class ResourceLock
     end,
 };
 
+enum class event_type
+{
+	begin = 0,
+	bulletBlock = 0,
+	bulletHit,
+
+	detect,
+	endDetect,
+
+	zeroHP,
+
+	end
+};
+
 constexpr size_t lockCount = to_size_t(ResourceLock::end);
+constexpr size_t eventCount = to_size_t(event_type::end);
 
 typedef bitset<lockCount> lock_mask;
+typedef bitset<eventCount> event_bitset;
 typedef pair<int, shared_ptr<Function>> update_return;
 
 //for functions that target an object
@@ -52,19 +68,6 @@ typedef function<shared_ptr<Function>(StateMachine*, GObject*)> AITargetFunction
 
 #define return_push_if_true(x, s) return make_pair( 0, (x) ? (s) : nullptr )
 #define return_push_if_valid(x) return make_pair( 0, (x) ? (x) : nullptr )
-
-enum class event_type
-{
-	bulletHit,
-	bulletBlock,
-
-	detect,
-	endDetect,
-
-	zeroHP,
-
-	end
-};
 
 class Event
 {
@@ -112,6 +115,7 @@ public:
 	inline virtual void onExit() {}
     
 	inline virtual bool onEvent(Event event) { return false; }
+	inline virtual event_bitset getEvents() { return event_bitset(); }
 
     inline virtual string getName() const {return "Function";}
     
@@ -162,6 +166,8 @@ protected:
 class StateMachine
 {
 public:
+	friend class Thread;
+
 	typedef function<void(StateMachine*, const ValueMap&) > PackageType;
 	static const unordered_map<string, StateMachine::PackageType> packages;
 
@@ -243,6 +249,9 @@ protected:
 	}
 
 	void removeCompletedThreads();
+	void checkAddHandler(shared_ptr<Function> f);
+	void checkRemoveHandler(shared_ptr<Function> f);
+	void handleEvent(Event event);
 
 	GObject *const agent;
 

@@ -30,6 +30,11 @@ WhileDetect::WhileDetect(StateMachine* fsm, GType type, AITargetFunctionGenerato
 {
 }
 
+event_bitset WhileDetect::getEvents()
+{
+	return enum_bitfield2(event_type, detect, endDetect);
+}
+
 bool WhileDetect::onEvent(Event event)
 {
 	if (event.getDetectType() == type) {
@@ -82,6 +87,11 @@ update_return CompositeFunction::update()
 	return_steady();
 }
 
+event_bitset CompositeFunction::getEvents()
+{
+	return events;
+}
+
 bool CompositeFunction::onEvent(Event event)
 {
 	for (auto it = functions.rbegin(); it != functions.rend(); ++it) {
@@ -121,6 +131,8 @@ void CompositeFunction::addFunction(shared_ptr<Function> f)
 		f->onEnter();
 	}
 	functions.push_back(f);
+
+	events &= f->getEvents();
 }
 
 void CompositeFunction::removeFunction(shared_ptr<Function> f)
@@ -147,6 +159,11 @@ BossFightHandler::BossFightHandler(StateMachine* fsm, string startDialog, string
 {
 }
  
+event_bitset BossFightHandler::getEvents()
+{
+	return enum_bitfield2(event_type, detect, zeroHP);
+}
+
 bool BossFightHandler::onEvent(Event event)
 {
 	if (event.isDetectPlayer() && !hasRunStart) {
@@ -821,6 +838,11 @@ update_return LookTowardsFire::update()
 
 void LookTowardsFire::onExit()
 {
+}
+
+event_bitset LookTowardsFire::getEvents()
+{
+	return make_enum_bitfield(event_type::bulletHit);
 }
 
 bool LookTowardsFire::onEvent(Event event)
