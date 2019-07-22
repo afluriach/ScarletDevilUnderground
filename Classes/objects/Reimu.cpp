@@ -34,70 +34,7 @@ ReimuEnemy::ReimuEnemy(GSpace* space, ObjectIDType id, const ValueMap& args) :
 		defaultSize,
 		40.0,
 		collectible_id::magic2
-	),
-	activations(getStringOrDefault(args, "activations", ""))
+	)
 {
 	firePattern = make_shared<ReimuWavePattern>(this);
-}
-
-void ReimuEnemy::onZeroHP()
-{
-	space->createDialog("dialogs/reimu_forest_post_fight", false);
-	unlockDoors();
-	removeOrbs();
-	Agent::onZeroHP();
-}
-
-void ReimuEnemy::lockDoors()
-{
-	vector<string> names = splitString(activations, " ");
-
-	for (string name : names)
-	{
-		GObject* ao = space->getObject(name);
-		if (ao) {
-			ao->activate();
-		}
-	}
-}
-
-void ReimuEnemy::unlockDoors()
-{
-	vector<string> names = splitString(activations, " ");
-
-	for (string name : names)
-	{
-		GObject* ao = space->getObject(name);
-		if (ao) {
-			ao->deactivate();
-		}
-	}
-}
-
-void ReimuEnemy::spawnOrbs()
-{
-	for_irange(i, 0, orbCount)
-	{
-		SpaceFloat angle = float_pi * (0.25 + i*0.5);
-		auto params = Bullet::makeParams(
-			getPos() + SpaceVect::ray(1.5, angle),
-			angle,
-			SpaceVect::zero,
-			float_pi
-		);
-		auto props = app::getBullet("yinYangOrb");
-		orbs[i] = space->createObject<BulletImpl>(
-			params,
-			getBulletAttributes(props),
-			props
-		);
-	}
-}
-
-void ReimuEnemy::removeOrbs()
-{
-	for_irange(i, 0, orbCount)
-	{
-		space->removeObject(orbs[i].get());
-	}
 }

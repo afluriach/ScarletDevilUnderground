@@ -19,6 +19,7 @@ class GSpace;
 class Spell;
 class MagicEffect;
 class FloorSegment;
+class RoomSensor;
 
 #define MapObjCons(cls) cls(GSpace* space, ObjectIDType id, const ValueMap& args)
 #define MapObjForwarding(cls) cls(space,id,args)
@@ -140,8 +141,9 @@ public:
 	virtual void onPitfall();
 	inline virtual void onRemove() {}
 
-	inline int getCrntRoom() const { return crntRoom; }
-	virtual void setCrntRoom(int roomIndex);
+	inline RoomSensor* getCrntRoom() const { return crntRoom; }
+	int getCrntRoomID() const;
+	virtual void setCrntRoom(RoomSensor* room);
 	void updateRoomQuery();
 
 	//Activation
@@ -316,7 +318,7 @@ protected:
 
 //logic
 	unique_ptr<ai::StateMachine> fsm;
-	int crntRoom = -1;
+	RoomSensor* crntRoom = nullptr;
 
 //physics
 	b2Body* body = nullptr;

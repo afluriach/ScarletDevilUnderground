@@ -31,19 +31,10 @@ public:
 class ReimuEnemy : public Enemy
 {
 public:
-	static constexpr int orbCount = 4;
-
 	static const string baseAttributes;
 	static const string properName;
 
 	MapObjCons(ReimuEnemy);
-
-	void lockDoors();
-	void unlockDoors();
-	void spawnOrbs();
-	void removeOrbs();
-
-	virtual void onZeroHP();
 
 	virtual inline SpaceFloat getRadarRadius() const { return 5.0; }
 	virtual inline GType getRadarType() const { return GType::enemySensor; }
@@ -55,9 +46,6 @@ public:
 	virtual inline GraphicsLayer sceneLayer() const { return GraphicsLayer::ground; }
 
 	virtual inline string initStateMachine() { return "reimu_enemy"; }
-protected:
-	string activations;
-	array<gobject_ref, orbCount> orbs;
 };
 
 #endif /* Reimu_h */

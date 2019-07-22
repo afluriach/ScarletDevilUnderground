@@ -177,9 +177,13 @@ void GObject::onPitfall()
 	space->removeObjectWithAnimation(this, pitfallShrinkAction());
 }
 
-void GObject::setCrntRoom(int roomIndex)
+int GObject::getCrntRoomID() const {
+	return crntRoom ? crntRoom->getID() : -1;
+}
+
+void GObject::setCrntRoom(RoomSensor* room)
 {
-	crntRoom = roomIndex;
+	crntRoom = room;
 }
 
 void GObject::updateRoomQuery()
@@ -191,7 +195,7 @@ void GObject::updateRoomQuery()
 	);
 
 	if (auto rs = dynamic_cast<RoomSensor*>(result)) {
-		setCrntRoom(rs->getID());
+		setCrntRoom(rs);
 	}
 }
 
@@ -568,7 +572,7 @@ int GObject::sceneLayerAsInt() const {
 
 sprite_update GObject::updateSprite()
 {
-	bool visible = space->isInPlayerRoom(crntRoom);
+	bool visible = space->isInPlayerRoom(getCrntRoomID());
 	bool updateRequired = false;
 	bool fadeOut = false;
 	bool fadeIn = false;

@@ -11,6 +11,7 @@
 #include "Agent.hpp"
 #include "AIFunctions.hpp"
 #include "AIUtil.hpp"
+#include "AreaSensor.hpp"
 #include "audio_context.hpp"
 #include "Bullet.hpp"
 #include "FirePattern.hpp"
@@ -136,6 +137,35 @@ void CompositeFunction::removeFunction(shared_ptr<Function> f)
 			++it;
 		}
 	}
+}
+
+BossFightHandler::BossFightHandler(StateMachine* fsm, string startDialog, string endDialog) :
+	Function(fsm),
+	startDialog(startDialog),
+	endDialog(endDialog)
+{
+}
+ 
+bool BossFightHandler::onEvent(Event event)
+{
+	if (event.isDetectPlayer() && !hasRunStart) {
+		if (!startDialog.empty()) {
+			fsm->getSpace()->createDialog(startDialog, false);
+		}
+		hasRunStart = true;
+		return true;
+	}
+
+	if (event.eventType == event_type::zeroHP && !hasRunEnd) {
+		if (!endDialog.empty()) {
+			fsm->getSpace()->createDialog(endDialog, false);
+		}
+		fsm->getObject()->getCrntRoom()->deactivateBossObjects();
+		hasRunEnd = true;
+		return true;
+	}
+
+	return false;
 }
 
 Seek::Seek(StateMachine* fsm, const ValueMap& args) :
@@ -1120,7 +1150,7 @@ update_return FireIfTargetVisible::update()
 		return_pop();
 	}
 	
-	if (agent->getRadar()->isObjectVisible(target.get()) && getSpace()->isInPlayerRoom(agent->getCrntRoom()))
+	if (agent->getRadar()->isObjectVisible(target.get()) && getSpace()->isInPlayerRoom(agent->getCrntRoomID()))
 	{
 		if (fp->fireIfPossible()) {
 			agent->playSoundSpatial("sfx/shot.wav");

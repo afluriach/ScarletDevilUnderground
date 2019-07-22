@@ -65,7 +65,7 @@ void Torch::initializeGraphics()
 
 sprite_update Torch::updateSprite()
 {
-	bool crntVisible = space->isInPlayerRoom(crntRoom);
+	bool crntVisible = space->isInPlayerRoom(getCrntRoomID());
 
 	if (isInFade && crntVisible) {
 		space->graphicsNodeAction(&Node::setVisible, flameSpriteID, true);

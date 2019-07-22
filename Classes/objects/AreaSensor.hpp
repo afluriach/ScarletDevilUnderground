@@ -85,6 +85,8 @@ public:
 
 	void updateTrapDoors();
 	void updateBoss();
+	void activateBossObjects();
+	void deactivateBossObjects();
 	unsigned int activateAllSpawners();
 	unsigned int activateSpawners(type_index t, unsigned int count);
 	inline SpaceFloat getTimeInRoom()const { return timeInRoom; }
@@ -96,10 +98,11 @@ protected:
 	bool isClearedState();
 
 	vector<string> trapDoorNames;
+	vector<string> bossActivationNames;
 	string spawnOnClear;
 
-	unordered_set<GObject*> doors;
-	unordered_set<Spawner*> spawners;
+	vector<GObject*> doors;
+	vector<GObject*> bossActivations;
 	unordered_map<type_index, vector<Spawner*>> spawnersByType;
 	SpaceFloat timeInRoom = 0.0;
 

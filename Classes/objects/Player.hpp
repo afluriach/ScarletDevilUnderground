@@ -49,7 +49,7 @@ public:
 	inline virtual ~Player() {}
     
 	virtual void onPitfall();
-	virtual void setCrntRoom(int roomIndex);
+	virtual void setCrntRoom(RoomSensor* room);
 
 	void equipFirePatterns();
 	void equipSpells();

@@ -157,6 +157,7 @@ RoomSensor::RoomSensor(GSpace* space, ObjectIDType id, SpaceVect center, SpaceVe
 	string startState = getStringOrDefault(props, "startState", "");
 
 	trapDoorNames = splitString(getStringOrDefault(props, "trap_doors", ""), " ");
+	bossActivationNames = splitString(getStringOrDefault(props, "boss_activation_targets", ""), " ");
 	spawnOnClear = getStringOrDefault(props, "spawn_on_clear", "");
 	bossName = getStringOrDefault(props, "boss", "");
 
@@ -172,17 +173,17 @@ void RoomSensor::beginContact(GObject* obj)
 {
 	AreaSensor::beginContact(obj);
 
-	obj->setCrntRoom(mapID);
+	obj->setCrntRoom(this);
 }
 
 void RoomSensor::endContact(GObject* obj)
 {
 	AreaSensor::endContact(obj);
 
-	int prevID = obj->getCrntRoom();
+	RoomSensor* prev = obj->getCrntRoom();
 
-	if (prevID == mapID) {
-		obj->setCrntRoom(-1);
+	if (prev == this) {
+		obj->setCrntRoom(nullptr);
 	}
 }
 
@@ -206,19 +207,11 @@ void RoomSensor::init()
 {
 	GObject::init();
 
-	for (string name : trapDoorNames) {
-		if (name.empty())
-			continue;
-
-		GObject* d = space->getObject(name);
-		if (d) {
-			doors.insert(d);
-		}
-		else {
-			log("RoomSensor: unknown trap door %s.", getName());
-		}
-	}
+	doors = space->getObjectsAs<GObject>(trapDoorNames);
 	trapDoorNames.clear();
+
+	bossActivations = space->getObjectsAs<GObject>(bossActivationNames);
+	bossActivationNames.clear();
 
 	unordered_set<Spawner*> _spawners = space->physicsContext->rectangleQueryByType<Spawner>(
 		getPos(),
@@ -228,7 +221,6 @@ void RoomSensor::init()
 	);
 
 	for (Spawner* s : _spawners) {
-		spawners.insert(s);
 		type_index _type = s->getSpawnType();
 		emplaceIfEmpty<type_index, vector<Spawner*>>(spawnersByType, _type);
 		spawnersByType.at(_type).push_back(s);
@@ -313,12 +305,26 @@ void RoomSensor::updateBoss()
 	}
 }
 
+void RoomSensor::activateBossObjects()
+{
+	for (auto obj : bossActivations)
+		obj->activate();
+}
+
+void RoomSensor::deactivateBossObjects()
+{
+	for (auto obj : bossActivations)
+		obj->deactivate();
+}
+
 unsigned int RoomSensor::activateAllSpawners()
 {
 	unsigned int count = 0;
 
-	for (Spawner* s : spawners){
-		count += to_uint(s->spawn().isFuture());
+	for (auto entry : spawnersByType) {
+		for (Spawner* s : entry.second) {
+			count += to_uint(s->spawn().isFuture());
+		}
 	}
 
 	return count;

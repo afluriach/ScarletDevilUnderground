@@ -26,6 +26,11 @@ Event::Event(event_type eventType, any data) :
 {
 }
 
+bool Event::isDetectPlayer()
+{
+	return eventType == event_type::detect && any_cast<GObject*>(data)->getType() == GType::player;
+}
+
 shared_ptr<Function> Function::constructState(
 	const string& type,
 	StateMachine* fsm,
@@ -180,6 +185,11 @@ void StateMachine::update()
     }
 }
 
+void StateMachine::addFunction(shared_ptr<Function> function)
+{
+	functions.push_back(function);
+}
+
 void StateMachine::addThread(shared_ptr<Thread> thread)
 {
 	current_threads.push_back(thread);
@@ -240,6 +250,9 @@ int StateMachine::getThreadCount()
 
 void StateMachine::onDetect(GObject* obj)
 {
+	Event event(event_type::detect, make_any<GObject*>(obj));
+	callInterface(&Function::onEvent, event);
+
 	auto it = detectHandlers.find(obj->getType());
 	if (it != detectHandlers.end()) {
 		it->second(*this, obj);
@@ -247,6 +260,9 @@ void StateMachine::onDetect(GObject* obj)
 }
 void StateMachine::onEndDetect(GObject* obj)
 {
+	Event event(event_type::endDetect, make_any<GObject*>(obj));
+	callInterface(&Function::onEvent, event);
+
 	auto it = endDetectHandlers.find(obj->getType());
 	if (it != endDetectHandlers.end()) {
 		it->second(*this, obj);
@@ -273,6 +289,13 @@ void StateMachine::onAlert(Player* p)
 		alertHandler(*this, p);
 	}
 	alerted = true;
+}
+
+void StateMachine::onZeroHP()
+{
+	Event event(event_type::zeroHP, any());
+
+	callInterface(&Function::onEvent, event);
 }
 
 void StateMachine::addWhileDetectHandler(GType type, AITargetFunctionGenerator gen)

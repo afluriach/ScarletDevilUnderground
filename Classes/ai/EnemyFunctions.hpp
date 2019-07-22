@@ -83,6 +83,19 @@ public:
 	FuncGetName(MarisaForestMain)
 };
 
+class ReimuYinYangOrbs : public Function
+{
+public:
+	static constexpr int orbCount = 4;
+
+	ReimuYinYangOrbs(StateMachine* fsm);
+
+	virtual void onEnter();
+	virtual bool onEvent(Event event);
+protected:
+	array<gobject_ref, orbCount> orbs;
+};
+
 class RumiaMain1 : public Function
 {
 public:

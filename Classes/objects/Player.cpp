@@ -10,6 +10,7 @@
 
 #include "AIUtil.hpp"
 #include "App.h"
+#include "AreaSensor.hpp"
 #include "audio_context.hpp"
 #include "Bomb.hpp"
 #include "Bullet.hpp"
@@ -85,12 +86,12 @@ void Player::onPitfall()
 	startRespawn();
 }
 
-void Player::setCrntRoom(int roomIndex)
+void Player::setCrntRoom(RoomSensor* room)
 {
-	GObject::setCrntRoom(roomIndex);
+	GObject::setCrntRoom(room);
 
-	if (roomIndex != -1) {
-		space->updatePlayerMapLocation(roomIndex);
+	if (room) {
+		space->updatePlayerMapLocation(room->getID());
 	}
 }
 

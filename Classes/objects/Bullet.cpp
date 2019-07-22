@@ -21,7 +21,7 @@ bullet_attributes bullet_attributes::getDefault()
 		SpaceVect::zero,
 		nullptr,
 		GType::enemyBullet,
-		-1,
+		nullptr,
 		1.0f,
 		1.0f
 	};

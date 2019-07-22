@@ -154,6 +154,44 @@ update_return MarisaForestMain::update()
 	return_push(fsm->make<ai::Cast>(make_spell_generator<StarlightTyphoon>()));
 }
 
+ReimuYinYangOrbs::ReimuYinYangOrbs(StateMachine* fsm) :
+	Function(fsm)
+{
+}
+
+void ReimuYinYangOrbs::onEnter()
+{
+	Agent* agent = getAgent();
+	for_irange(i, 0, orbCount)
+	{
+		SpaceFloat angle = float_pi * (0.25 + i * 0.5);
+		auto params = Bullet::makeParams(
+			agent->getPos() + SpaceVect::ray(1.5, angle),
+			angle,
+			SpaceVect::zero,
+			float_pi
+		);
+		auto props = app::getBullet("yinYangOrb");
+		orbs[i] = getSpace()->createObject<BulletImpl>(
+			params,
+			agent->getBulletAttributes(props),
+			props
+		);
+	}
+}
+
+bool ReimuYinYangOrbs::onEvent(Event event)
+{
+	if (event.eventType != event_type::zeroHP) return false;
+
+	for_irange(i, 0, orbCount)
+	{
+		getSpace()->removeObject(orbs[i].get());
+	}
+
+	return true;
+}
+
 const SpaceFloat RumiaMain1::dsdDistMargin = 5.0;
 const SpaceFloat RumiaMain1::dsdLength = 5.0;
 const SpaceFloat RumiaMain1::dsdCooldown = 15.0;

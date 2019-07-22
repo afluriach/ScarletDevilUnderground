@@ -57,6 +57,11 @@ enum class event_type
 	bulletHit,
 	bulletBlock,
 
+	detect,
+	endDetect,
+
+	zeroHP,
+
 	end
 };
 
@@ -64,6 +69,8 @@ class Event
 {
 public:
 	Event(event_type eventType, any data);
+
+	bool isDetectPlayer();
 
 	event_type eventType;
 	any data;
@@ -158,6 +165,7 @@ public:
 
 	void update();
 
+	void addFunction(shared_ptr<Function> function);
 	void addThread(shared_ptr<Thread> thread);
     shared_ptr<Thread> addThread(shared_ptr<Function> threadMain);
     void removeThread(shared_ptr<Thread> thread);
@@ -172,6 +180,7 @@ public:
 	void onBulletHit(Bullet* b);
 	void onBulletBlock(Bullet* b);
 	void onAlert(Player* p);
+	void onZeroHP();
 
 	void addWhileDetectHandler(GType type, AITargetFunctionGenerator gen);
 
@@ -180,6 +189,11 @@ public:
 	void removeDetectFunction(GType t);
 	void removeEndDetectFunction(GType t);
 	void setAlertFunction(alert_function f);
+
+	template<class FuncCls, typename... Params>
+	inline void addFunction(Params... params) {
+		addFunction(make_shared<FuncCls>(this, params...));
+	}
 
 	template<class FuncCls, typename... Params>
 	inline shared_ptr<FuncCls> make(Params... params) {
@@ -208,6 +222,11 @@ protected:
 	template<typename... Params>
 	bool callInterface(bool (Function::*method)(Params...), Params... params)
 	{
+		for (auto f : functions)
+		{
+			(f.get()->*method)(params...);
+		}
+
 		for (auto thread_it = current_threads.rbegin(); thread_it != current_threads.rend(); ++thread_it)
 		{
 			Thread* crnt = thread_it->get();
@@ -227,6 +246,7 @@ protected:
 	unordered_map<GType, detect_function> endDetectHandlers;
 
 	list<shared_ptr<Thread>> current_threads;
+	list<shared_ptr<Function>> functions;
     unsigned int frame;
 	Thread* crntThread = nullptr;
 	bool alerted = false;

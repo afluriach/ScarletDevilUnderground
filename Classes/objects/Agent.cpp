@@ -215,6 +215,7 @@ void Agent::onEndDetect(GObject* obj)
 
 void Agent::onZeroHP()
 {
+	fsm->onZeroHP();
 	space->removeObject(this);
 }
 

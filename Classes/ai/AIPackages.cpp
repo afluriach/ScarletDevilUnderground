@@ -375,14 +375,14 @@ void patchouli_enemy(StateMachine* fsm, const ValueMap& args)
 void reimu_enemy(StateMachine* fsm, const ValueMap& args)
 {
 	auto agent = dynamic_cast<ReimuEnemy*>(fsm->getObject());
+	auto boss = make_shared<BossFightHandler>(fsm, "dialogs/reimu_forest_pre_fight", "dialogs/reimu_forest_post_fight");
+	fsm->addFunction(boss);
+	fsm->addFunction<ReimuYinYangOrbs>();
 
 	fsm->addDetectFunction(
 		GType::player,
 		[agent](StateMachine& sm, GObject* target) -> void {
-			if (!sm.isThreadRunning("ReimuMain")) {
-				sm.getSpace()->createDialog("dialogs/reimu_forest_pre_fight", false);
-				agent->lockDoors();
-				agent->spawnOrbs();
+			if (!sm.isThreadRunning("Flank")) {
 				sm.addThread(make_shared<FireAtTarget>(&sm, target));
 				sm.addThread(make_shared<Flank>(&sm, target, 3.0, 2.0));
 			}

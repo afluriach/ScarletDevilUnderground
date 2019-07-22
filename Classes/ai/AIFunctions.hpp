@@ -49,6 +49,16 @@ protected:
 	bool hasInit = false;
 };
 
+class BossFightHandler : public Function {
+public:
+	BossFightHandler(StateMachine* fsm, string startDialog, string endDialog);
+
+	virtual bool onEvent(Event event);
+protected:
+	string startDialog, endDialog;
+	bool hasRunStart = false, hasRunEnd = false;
+};
+
 class Seek : public Function {
 public:
 	Seek(StateMachine* fsm, GObject* target, bool usePathfinding, SpaceFloat margin = 0.0);
