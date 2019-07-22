@@ -189,7 +189,10 @@ Direction Door::getEntryDirection()
 }
 
 Barrier::Barrier(GSpace* space, ObjectIDType id, const ValueMap& args) :
-	GObject(MapParamsPointUp(), MapRectPhys(-1.0))
+	GObject(
+		make_shared<object_params>(space, id, args, true),
+		MapRectPhys(-1.0)
+	)
 {
 	sealed = getBoolOrDefault(args, "sealed", false);
 }

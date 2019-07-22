@@ -143,6 +143,7 @@ public:
 	inline vector<T*> getObjectsAs(const vector<string>& names) const {
 		assert_gobject(T);
 		vector<T*> result;
+		result.reserve(names.size());
 
 		for (string s : names)
 		{

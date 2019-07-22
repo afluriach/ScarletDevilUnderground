@@ -152,6 +152,7 @@ bool BossFightHandler::onEvent(Event event)
 		if (!startDialog.empty()) {
 			fsm->getSpace()->createDialog(startDialog, false);
 		}
+		fsm->getObject()->getCrntRoom()->activateBossObjects();
 		hasRunStart = true;
 		return true;
 	}
