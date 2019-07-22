@@ -72,6 +72,9 @@ public:
 	Event(event_type eventType, any data);
 
 	bool isDetectPlayer();
+	//returns none type if event is not a detection
+	GType getDetectType();
+	GType getEndDetectType();
 
 	event_type eventType;
 	any data;

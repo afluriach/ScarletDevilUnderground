@@ -28,7 +28,17 @@ Event::Event(event_type eventType, any data) :
 
 bool Event::isDetectPlayer()
 {
-	return eventType == event_type::detect && any_cast<GObject*>(data)->getType() == GType::player;
+	return getDetectType() == GType::player;
+}
+
+GType Event::getDetectType()
+{
+	return eventType == event_type::detect ? any_cast<GObject*>(data)->getType() : GType::none;
+}
+
+GType Event::getEndDetectType()
+{
+	return eventType == event_type::endDetect ? any_cast<GObject*>(data)->getType() : GType::none;
 }
 
 shared_ptr<Function> Function::constructState(
@@ -301,7 +311,7 @@ void StateMachine::onZeroHP()
 void StateMachine::addWhileDetectHandler(GType type, AITargetFunctionGenerator gen)
 {
 	auto detect = make_shared<WhileDetect>(this, type, gen);
-	addThread(detect);
+	addFunction(detect);
 }
 
 void StateMachine::addFleeBomb()

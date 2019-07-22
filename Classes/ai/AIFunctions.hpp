@@ -17,9 +17,7 @@ class WhileDetect : public Function {
 public:
 	WhileDetect(StateMachine* fsm, GType type, AITargetFunctionGenerator gen);
 
-	virtual void onEnter();
-	virtual update_return update();
-	virtual void onExit();
+	virtual bool onEvent(Event event);
 protected:
 	shared_ptr<Thread> thread;
 	AITargetFunctionGenerator gen;

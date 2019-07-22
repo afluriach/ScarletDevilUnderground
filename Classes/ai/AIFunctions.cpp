@@ -30,33 +30,18 @@ WhileDetect::WhileDetect(StateMachine* fsm, GType type, AITargetFunctionGenerato
 {
 }
 
-void WhileDetect::onEnter()
+bool WhileDetect::onEvent(Event event)
 {
-	fsm->addDetectFunction(
-		type,
-		[this](StateMachine& sm, GObject* target) -> void {
-			if(!this->thread)
-				this->thread = sm.addThread(gen(fsm, target));
-		}
-	);
-	fsm->addEndDetectFunction(
-		type,
-		[this](StateMachine& sm, GObject* target) -> void {
-			sm.removeThread(this->thread);
-			this->thread.reset();
-		}
-	);
-}
+	if (event.getDetectType() == type) {
+		if (!thread)
+			thread = fsm->addThread(gen(fsm, any_cast<GObject*>(event.data)));
 
-update_return WhileDetect::update()
-{
-	return_steady();
-}
-
-void WhileDetect::onExit()
-{
-	fsm->removeDetectFunction(type);
-	fsm->removeEndDetectFunction(type);
+		return true;
+	}
+	else if (event.getEndDetectType() == type) {
+		fsm->removeThread(thread);
+		thread.reset();
+	}
 }
 
 CompositeFunction::CompositeFunction(StateMachine* fsm) :
