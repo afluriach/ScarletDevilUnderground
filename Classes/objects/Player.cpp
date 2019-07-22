@@ -187,14 +187,6 @@ void Player::checkMovementControls(const ControlInfo& cs)
 		return;
 	}
 
-	lookModeHoldTimer = (lookModeHoldTimer + app::params.secondsPerFrame)*to_int(cs.isControlActionDown(ControlAction::center_look));
-	isAutoLookToggled = isAutoLookToggled && cs.isControlActionDown(ControlAction::center_look);
-
-	if (lookModeHoldTimer >= centerLookHoldThresh && !isAutoLookToggled) {
-		isAutoLook = !isAutoLook;
-		isAutoLookToggled = true;
-	}
-
 	if (cs.isControlActionPressed(ControlAction::focus)) {
 		space->setBulletBodiesVisible(true);
 	}
@@ -205,8 +197,7 @@ void Player::checkMovementControls(const ControlInfo& cs)
 	setFocusMode(cs.isControlActionDown(ControlAction::focus) && !isSprintActive && !space->getSuppressAction());
 
     SpaceVect moveDir = cs.left_v;
-	SpaceVect facing = isAutoLook && cs.right_v.lengthSq() < ControlRegister::deadzone2 || 
-		cs.isControlActionDown(ControlAction::center_look) ?
+	SpaceVect facing = cs.isControlActionDown(ControlAction::center_look) ?
 		cs.left_v : cs.right_v;
 	
 	timerDecrement(sprintTimer);

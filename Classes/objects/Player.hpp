@@ -140,7 +140,6 @@ protected:
 
 	unordered_set<Bullet*> grazeContacts;
 
-	float lookModeHoldTimer = 0.0f;
 	float interactCooldown = 0.0f;
 	float bombCooldown = 0.0f;
 
@@ -155,8 +154,6 @@ protected:
 
 	//Override spell cooldown
 	bool isPowerAttack = false;
-	bool isAutoLook = false;
-	bool isAutoLookToggled = false;
 	bool isAutoFire = false;
 	bool suppressFiring = false;
 	bool suppressMovement = false;
