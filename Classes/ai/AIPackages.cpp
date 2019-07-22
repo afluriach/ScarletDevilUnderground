@@ -184,8 +184,24 @@ void ghost_fairy(StateMachine* fsm, const ValueMap& args)
 void red_fairy(StateMachine* fsm, const ValueMap& args)
 {
 	RedFairy* agent = dynamic_cast<RedFairy*>(fsm->getObject());
-
 	auto bombgen = agent->getBombs();
+	AITargetFunctionGenerator engage = [bombgen](StateMachine* fsm, GObject* target) -> shared_ptr<Function> {
+		auto comp = make_shared<CompositeFunction>(fsm);
+		comp->addFunction<ThrowBombs>(
+			target,
+			bombgen,
+			4.0,
+			4.0,
+			3.0,
+			1.5,
+			RedFairy::bombCost
+			);
+		comp->addFunction<FireAtTarget>(target);
+		comp->addFunction<MaintainDistance>(target, 3.0f, 0.5f);
+
+		return comp;
+	};
+
 	agent->addMagicEffect(make_shared<RedFairyStress>(agent));
 
 	fsm->setAlertFunction([](StateMachine& sm, Player* p)->void {
@@ -193,34 +209,16 @@ void red_fairy(StateMachine* fsm, const ValueMap& args)
 	});
 
 	fsm->addFleeBomb();
-
-	fsm->addDetectFunction(
-		GType::player,
-		[bombgen](StateMachine& sm, GObject* target) -> void {
-			sm.addThread(make_shared<ThrowBombs>(
-				&sm,
-				target,
-				bombgen,
-				4.0,
-				4.0,
-				3.0,
-				1.5,
-				RedFairy::bombCost
-			));
-			sm.addThread(make_shared<FireAtTarget>(&sm, target));
-			sm.addThread(make_shared<MaintainDistance>(&sm, target, 3.0f, 0.5f));
-		}
-	);
-
-	fsm->addEndDetectFunction(
-		GType::player,
-		[](StateMachine& sm, GObject* target) -> void {
-			sm.removeThread("ThrowBombs");
-			sm.removeThread("FireAtTarget");
-			sm.removeThread("MaintainDistance");
-		}
-	);
+	fsm->addWhileDetectHandler(GType::player, engage);
 }
+
+void greenFairyEngage(StateMachine& sm, Player* p)
+{
+	sm.addThread(make_shared<Wander>(&sm, 0.75, 1.5, 2.0, 4.0));
+	sm.addThread(make_shared<EvadePlayerProjectiles>(&sm));
+	sm.addThread(make_shared<FireOnStress>(&sm, 5.0f));
+}
+
 void green_fairy1(StateMachine* fsm, const ValueMap& args)
 {
 	fsm->addFleeBomb();
@@ -233,11 +231,7 @@ void green_fairy1(StateMachine* fsm, const ValueMap& args)
 		0.25f
 	));
 
-	fsm->setAlertFunction([](StateMachine& sm, Player* p)->void {
-		sm.addThread(make_shared<Wander>(&sm, 0.75, 1.5, 2.0, 4.0));
-		sm.addThread(make_shared<EvadePlayerProjectiles>(&sm));
-		sm.addThread(make_shared<FireOnStress>(&sm, 5.0f));
-	});
+	fsm->setAlertFunction(&greenFairyEngage);
 }
 
 void green_fairy2(StateMachine* fsm, const ValueMap& args)
@@ -252,11 +246,7 @@ void green_fairy2(StateMachine* fsm, const ValueMap& args)
 		0.25f
 	));
 
-	fsm->setAlertFunction([](StateMachine& sm, Player* p)->void {
-		sm.addThread(make_shared<Wander>(&sm, 0.75, 1.5, 2.0, 4.0));
-		sm.addThread(make_shared<EvadePlayerProjectiles>(&sm));
-		sm.addThread(make_shared<FireOnStress>(&sm, 5.0f));
-	});
+	fsm->setAlertFunction(&greenFairyEngage);
 }
 
 void zombie_fairy(StateMachine* fsm, const ValueMap& args)
