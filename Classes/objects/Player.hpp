@@ -53,7 +53,6 @@ public:
 
 	void equipFirePatterns();
 	void equipSpells();
-	SpaceFloat getSpellLength();
 	void equipPowerAttacks();
 
     //setting for player object sensing

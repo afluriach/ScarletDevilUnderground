@@ -165,10 +165,6 @@ void GObject::update()
 	updateFloorSegment();
 	
 	updateParametricMove();
-
-	prevPos = getPos();
-	prevAngle = getAngle();
-
 	updateFSM();
 }
 
@@ -579,8 +575,12 @@ sprite_update GObject::updateSprite()
 	SpaceVect p = getPos();
 	SpaceFloat a = getAngle();
 
-	if (p != prevPos || a != prevAngle)
+	if (p != prevPos || a != prevAngle) {
 		updateRequired = true;
+
+		prevPos = p;
+		prevAngle = a;
+	}
 
 	if (!visible && !isInFade) {
 		isInFade = true;

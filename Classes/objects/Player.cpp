@@ -142,18 +142,6 @@ void Player::equipSpells()
 	);
 }
 
-SpaceFloat Player::getSpellLength()
-{
-	PlayerSpell* ps = dynamic_cast<PlayerSpell*>(crntSpell.get());
-
-	if (!isSpellActive() || !ps) {
-		return 0.0;
-	}
-	else {
-		return ps->getLength();
-	}
-}
-
 void Player::equipPowerAttacks()
 {
 	powerAttacks.clear();
