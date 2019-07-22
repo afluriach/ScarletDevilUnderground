@@ -115,7 +115,7 @@ bool Thread::onEvent(Event event)
 
 void Thread::push(shared_ptr<Function> newState)
 {
-	sm->checkAddHandler(newState);
+	sm->addFunction(newState);
 	call_stack.push_back(newState);
 }
 
@@ -124,7 +124,7 @@ void Thread::pop()
 	if (call_stack.empty())
 		return;
 
-	sm->checkRemoveHandler(call_stack.back());
+	sm->removeFunction(call_stack.back());
 	Function* crnt = call_stack.back().get();
 
 	crnt->onExit();
@@ -200,7 +200,17 @@ void StateMachine::update()
 
 void StateMachine::addFunction(shared_ptr<Function> function)
 {
-	functions.push_back(function);
+	event_bitset events = function->getEvents();
+	if(events.any())
+		functions.push_back(make_pair(events, function));
+}
+
+void StateMachine::removeFunction(shared_ptr<Function> function)
+{
+	event_bitset events = function->getEvents();
+	if (events.any()) {
+		functions.remove(make_pair(events, function));
+	}
 }
 
 void StateMachine::addThread(shared_ptr<Thread> thread)
@@ -247,28 +257,13 @@ void StateMachine::removeCompletedThreads()
 	}
 }
 
-void StateMachine::checkAddHandler(shared_ptr<Function> f)
-{
-	event_bitset events = f->getEvents();
-
-	if (events.any()) {
-		functions.push_back(f);
-	}
-}
-
-void StateMachine::checkRemoveHandler(shared_ptr<Function> f)
-{
-	event_bitset events = f->getEvents();
-
-	if (events.any()) {
-		functions.remove(f);
-	}
-}
-
 void StateMachine::handleEvent(Event event)
 {
-	for (auto f : functions) {
-		f->onEvent(event);
+	auto _type = make_enum_bitfield(event.eventType);
+
+	for (auto entry : functions) {
+		if( (entry.first & _type).any() )
+			entry.second->onEvent(event);
 	}
 }
 

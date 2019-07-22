@@ -50,6 +50,7 @@ constexpr size_t eventCount = to_size_t(event_type::end);
 typedef bitset<lockCount> lock_mask;
 typedef bitset<eventCount> event_bitset;
 typedef pair<int, shared_ptr<Function>> update_return;
+typedef pair<event_bitset, shared_ptr<Function>> function_entry;
 
 //for functions that target an object
 typedef function<shared_ptr<Function>(StateMachine*, GObject*)> AITargetFunctionGenerator;
@@ -176,6 +177,7 @@ public:
 	void update();
 
 	void addFunction(shared_ptr<Function> function);
+	void removeFunction(shared_ptr<Function> function);
 	void addThread(shared_ptr<Thread> thread);
     shared_ptr<Thread> addThread(shared_ptr<Function> threadMain);
     void removeThread(shared_ptr<Thread> thread);
@@ -249,8 +251,6 @@ protected:
 	}
 
 	void removeCompletedThreads();
-	void checkAddHandler(shared_ptr<Function> f);
-	void checkRemoveHandler(shared_ptr<Function> f);
 	void handleEvent(Event event);
 
 	GObject *const agent;
@@ -260,7 +260,7 @@ protected:
 	unordered_map<GType, detect_function> endDetectHandlers;
 
 	list<shared_ptr<Thread>> current_threads;
-	list<shared_ptr<Function>> functions;
+	list<function_entry> functions;
     unsigned int frame;
 	Thread* crntThread = nullptr;
 	bool alerted = false;
