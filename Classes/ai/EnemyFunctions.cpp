@@ -360,18 +360,29 @@ update_return SakuyaNPC1::update()
 	return_push(fsm->make<Wander>(0.25, 0.75, 4.0, 1.0));
 }
 
-void StalkerMain::onEnter()
+update_return StalkerMain::update()
 {
+	return_steady();
 }
 
-update_return StalkerMain::update()
+bool StalkerMain::onEvent(Event event)
+{
+	if (event.eventType == event_type::zeroStamina) {
+		applyTeleport();
+	}
+	return true;
+}
+
+event_bitset StalkerMain::getEvents()
+{
+	return make_enum_bitfield(event_type::zeroStamina);
+}
+
+void StalkerMain::applyTeleport()
 {
 	if (agent->getAttribute(Attribute::stamina) <= 0.0f) {
 		agent->getAttributeSystem()->setFullStamina();
-		return_push(fsm->make<Cast>(make_spell_generator<Teleport>()));
-	}
-	else {
-		return_steady();
+		push<Cast>(make_spell_generator<Teleport>());
 	}
 }
 

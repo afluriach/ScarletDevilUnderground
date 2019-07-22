@@ -153,6 +153,9 @@ void Agent::update()
 	if (attributeSystem[Attribute::hp] <= 0.0f && attributeSystem[Attribute::maxHP] >  0.0f) {
 		onZeroHP();
 	}
+	if (attributeSystem[Attribute::stamina] <= 0.0f && attributeSystem[Attribute::maxStamina] > 0.0f) {
+		fsm->onZeroStamina();
+	}
 
 	bool hasFreezeEffect = space->magicEffectSystem->hasMagicEffect<FreezeStatusEffect>(this);
 

@@ -60,7 +60,10 @@ Function::Function(StateMachine* fsm) :
 {}
 
 void Function::pop() {
-	fsm->pop();
+	if (thread)
+		thread->pop();
+	else
+		log("Function::pop: %s is not stackful!", getName());
 }
 
 GSpace* Function::getSpace() const {
@@ -115,6 +118,7 @@ bool Thread::onEvent(Event event)
 
 void Thread::push(shared_ptr<Function> newState)
 {
+	newState->thread = this;
 	sm->addFunction(newState);
 	call_stack.push_back(newState);
 }
@@ -124,6 +128,7 @@ void Thread::pop()
 	if (call_stack.empty())
 		return;
 
+	call_stack.back()->thread = nullptr;
 	sm->removeFunction(call_stack.back());
 	Function* crnt = call_stack.back().get();
 
@@ -181,9 +186,7 @@ void StateMachine::update()
     
     for(auto thread_it = current_threads.rbegin(); thread_it != current_threads.rend(); ++thread_it)
     {
-        crntThread = thread_it->get();
-            
-        lock_mask lockMask = crntThread->call_stack.back()->getLockMask();
+        lock_mask lockMask = (*thread_it)->call_stack.back()->getLockMask();
             
         if(!(locks & lockMask).any() )
         {
@@ -192,9 +195,8 @@ void StateMachine::update()
                 
             locks |= lockMask;
                 
-            crntThread->update();
+			(*thread_it)->update();
         }
-        crntThread = nullptr;
     }
 }
 
@@ -216,6 +218,7 @@ void StateMachine::removeFunction(shared_ptr<Function> function)
 void StateMachine::addThread(shared_ptr<Thread> thread)
 {
 	current_threads.push_back(thread);
+	addFunction(thread->getTop());
 }
 
 shared_ptr<Thread> StateMachine::addThread(shared_ptr<Function> threadMain)
@@ -328,6 +331,12 @@ void StateMachine::onZeroHP()
 	handleEvent(event);
 }
 
+void StateMachine::onZeroStamina()
+{
+	Event event(event_type::zeroStamina, any());
+	handleEvent(event);
+}
+
 void StateMachine::addWhileDetectHandler(GType type, AITargetFunctionGenerator gen)
 {
 	auto detect = make_shared<WhileDetect>(this, type, gen);
@@ -364,16 +373,6 @@ void StateMachine::setAlertFunction(alert_function f)
 	alertHandler = f;
 }
 
-void StateMachine::push(shared_ptr<Function> f)
-{
-	crntThread->push(f);
-}
-
-void StateMachine::pop()
-{
-	crntThread->pop();
-}
-
 string StateMachine::toString()
 {
     stringstream ss;
@@ -402,10 +401,6 @@ RoomSensor* StateMachine::getRoomSensor() {
 
 unsigned int StateMachine::getFrame() {
 	return frame;
-}
-
-Thread* StateMachine::getCrntThread() {
-	return crntThread;
 }
 
 }//end NS

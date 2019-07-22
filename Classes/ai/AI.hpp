@@ -40,6 +40,7 @@ enum class event_type
 	endDetect,
 
 	zeroHP,
+	zeroStamina,
 
 	end
 };
@@ -123,6 +124,7 @@ public:
     inline virtual lock_mask getLockMask() { return lock_mask();}
 protected:
 	StateMachine *const fsm;
+	Thread* thread = nullptr;
 	Agent *const agent;
 	bool hasRunInit = false;
 };
@@ -193,6 +195,7 @@ public:
 	void onBulletBlock(Bullet* b);
 	void onAlert(Player* p);
 	void onZeroHP();
+	void onZeroStamina();
 
 	void addWhileDetectHandler(GType type, AITargetFunctionGenerator gen);
 	void addFleeBomb();
@@ -212,21 +215,12 @@ public:
 	inline shared_ptr<FuncCls> make(Params... params) {
 		return make_shared<FuncCls>(this, params...);
 	}
-
-	//wrappers for the current thread
-	template<class FuncCls, typename... Params>
-	inline void push(Params... params) {
-		push(make<FuncCls>(params...));
-	}
-	void push(shared_ptr<Function> f);
-	void pop();
     
 	GSpace* getSpace();
 	inline GObject* getObject() { return agent; }
 	Agent* getAgent();
 	RoomSensor* getRoomSensor();
 	unsigned int getFrame();
-	Thread* getCrntThread();
     string toString();
 protected:
 	//Calls a particular Function interface method, using Thread::callInterface,
@@ -262,13 +256,17 @@ protected:
 	list<shared_ptr<Thread>> current_threads;
 	list<function_entry> functions;
     unsigned int frame;
-	Thread* crntThread = nullptr;
 	bool alerted = false;
 };
 
 template<class FuncCls, typename... Params>
 inline void Function::push(Params... params) {
-	fsm->push<FuncCls>(params...);
+	if (thread) {
+		thread->push(make_shared<FuncCls>(fsm, params...));
+	}
+	else {
+		log("Function::push: %s is not stackful!", getName());
+	}
 }
 
 template<class FuncCls, typename... Params>
