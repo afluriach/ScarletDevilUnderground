@@ -446,6 +446,7 @@ bool parseObject(tinyxml2::XMLElement* elem, shared_ptr<bullet_properties>* resu
 
 	getStringAttr(elem, "sprite", &sprite);
 	getStringAttr(elem, "lightSource", &lightSource);
+	getNumericAttr(elem, "knockback", &knockback);
 	getNumericAttr(elem, "hitCount", &hitCount);
 	getNumericAttr(elem, "ricochet", &ricochetCount);
 	getNumericAttr(elem, "directionalLaunch", &directionalLaunch);

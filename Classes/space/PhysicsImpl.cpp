@@ -133,6 +133,19 @@ PhysicsImpl::contact_func makeSensorHandler(PhysicsImpl::radarsensor_func f, Phy
 	};
 }
 
+//By convention, it assumes the Bullet is object A in the callback.
+//This means checking whether this is a reverse match according to fixture order.
+SpaceVect getBulletNormal(b2Contact* contact)
+{
+	unsigned int typeB = contact->GetFixtureB()->GetFilterData().categoryBits;
+	bool reverse = bitwise_and_bool(typeB, enum_bitwise_or(GType, playerBullet, enemyBullet));
+
+	b2WorldManifold manifold;
+	contact->GetWorldManifold(&manifold);
+
+	return manifold.normal * (reverse ? -1.0 : 1.0);
+}
+
 #define _getTypes() tie(typeA,typeB) = getFixtureTypes(contact)
 
 void ContactListener::BeginContact(b2Contact* contact)
@@ -356,10 +369,7 @@ void agentAgentEnd(Agent* a, Agent* b, b2Contact* arb)
 
 void agentBulletBegin(Agent* a, Bullet* b, b2Contact* contact)
 {
-	b2WorldManifold manifold;
-	contact->GetWorldManifold(&manifold);
-
-	b->onAgentCollide(a, manifold.normal);
+	b->onAgentCollide(a, -1.0 * getBulletNormal(contact));
 	a->onBulletCollide(b);
 }
 
@@ -377,10 +387,9 @@ void playerPickupBegin(Player* p, InventoryObject* inv, b2Contact* arb)
 void bulletEnvironment(Bullet* _b, GObject* environment, b2Contact* contact)
 {
 	bool _sensor = environment->getBodySensor();
-	b2Manifold* manifold = contact->GetManifold();
 
 	if (environment && !_sensor) {
-		if (!_b->applyRicochet(-1.0 * manifold->localNormal)) {
+		if (!_b->applyRicochet(getBulletNormal(contact))) {
 			_b->onEnvironmentCollide(environment);
 
 			if (auto _hs = dynamic_cast<Headstone*>(environment)) {
@@ -393,10 +402,9 @@ void bulletEnvironment(Bullet* _b, GObject* environment, b2Contact* contact)
 void bulletWall(Bullet* _b, Wall* _w, b2Contact* contact)
 {
 	bool _sensor = _w->getBodySensor();
-	b2Manifold* manifold = contact->GetManifold();
 
 	if (!_sensor) {
-		if(!_b->applyRicochet(-1.0 * manifold->localNormal))
+		if(!_b->applyRicochet(getBulletNormal(contact)))
 			_b->onWallCollide(_w);
 	}
 }

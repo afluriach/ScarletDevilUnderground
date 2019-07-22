@@ -181,12 +181,7 @@ void b2Contact::Update(b2ContactListener* listener)
 	touching = m_manifold.pointCount > 0;
 
 	// Is this contact a sensor?
-	if (sensor)
-	{
-		// Sensors aren't supposed to generate manifolds, so hide this.
-		m_manifold.pointCount = 0;
-	}
-	else
+	if (!sensor)
 	{
 		// Match old contact ids to new contact ids and copy the
 		// stored impulses to warm start the solver.
