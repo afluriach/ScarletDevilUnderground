@@ -146,6 +146,10 @@ void GSpace::update()
 	);
 	isInPhysicsStep = false;
     
+	for (auto entry : updateMessages)
+		entry();
+	updateMessages.clear();
+
 	updateSoundSources();
 	updateCamera();
 
@@ -165,10 +169,6 @@ void GSpace::update()
 
 	updateSensors();
 	magicEffectSystem->update();
-
-	for (auto entry : updateMessages)
-		entry();
-	updateMessages.clear();
 
     for(GObject* obj : updateObjects){
         obj->update();
