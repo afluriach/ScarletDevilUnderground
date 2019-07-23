@@ -352,19 +352,6 @@ Flock::Flock(StateMachine* fsm) :
 
 void Flock::onEnter()
 {
-	fsm->addDetectFunction(
-		GType::enemy,
-		[this](StateMachine& sm, GObject* target) -> void {
-			this->onDetectNeighbor(dynamic_cast<Agent*>(target));
-		}
-	);
-
-	fsm->addEndDetectFunction(
-		GType::enemy,
-		[this](StateMachine& sm, GObject* target) -> void {
-			this->endDetectNeighbor(dynamic_cast<Agent*>(target));
-		}
-	);
 }
 
 update_return Flock::update()
@@ -382,8 +369,24 @@ update_return Flock::update()
 
 void Flock::onExit()
 {
-	fsm->removeDetectFunction(GType::enemy);
-	fsm->removeEndDetectFunction(GType::enemy);
+}
+
+bool Flock::onEvent(Event event)
+{
+	if (event.getDetectType() == GType::enemy) {
+		onDetectNeighbor(dynamic_cast<Agent*>(any_cast<GObject*>(event.data)));
+		return true;
+	}
+	else if (event.getEndDetectType() == GType::enemy) {
+		endDetectNeighbor(dynamic_cast<Agent*>(any_cast<GObject*>(event.data)));
+		return true;
+	}
+	return false;
+}
+
+event_bitset Flock::getEvents()
+{
+	return enum_bitfield2(event_type, detect, endDetect);
 }
 
 void Flock::onDetectNeighbor(Agent* agent)

@@ -114,6 +114,9 @@ public:
 	virtual update_return update();
 	virtual void onExit();
 
+	virtual bool onEvent(Event event);
+	virtual event_bitset getEvents();
+
 	void onDetectNeighbor(Agent* agent);
 	void endDetectNeighbor(Agent* agent);
 
