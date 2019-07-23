@@ -212,6 +212,11 @@ public:
 	}
 
 	template<class FuncCls, typename... Params>
+	inline void addThread(Params... params) {
+		addThread(make_shared<FuncCls>(this, params...));
+	}
+
+	template<class FuncCls, typename... Params>
 	inline shared_ptr<FuncCls> make(Params... params) {
 		return make_shared<FuncCls>(this, params...);
 	}

@@ -137,18 +137,8 @@ void wander_and_flee_player(StateMachine* fsm, const ValueMap& args)
 }
 
 void bat(StateMachine* fsm, const ValueMap& args) {
-	fsm->addDetectFunction(
-		GType::player,
-		[](StateMachine& sm, GObject* target) -> void {
-			sm.addThread(make_shared<BatMain>(&sm));
-		}
-	);
-	fsm->addEndDetectFunction(
-		GType::player,
-		[](StateMachine& sm, GObject* target) -> void {
-			sm.removeThread("BatMain");
-		}
-	);
+	auto engage = makeTargetFunctionGenerator<BatMain>();
+	fsm->addWhileDetectHandler(GType::player, engage);
 }
 
 void facer(StateMachine* fsm, const ValueMap& args)
@@ -195,7 +185,7 @@ void red_fairy(StateMachine* fsm, const ValueMap& args)
 			3.0,
 			1.5,
 			RedFairy::bombCost
-			);
+		);
 		comp->addFunction<FireAtTarget>(target);
 		comp->addFunction<MaintainDistance>(target, 3.0f, 0.5f);
 
@@ -277,21 +267,13 @@ void fairy2(StateMachine* fsm, const ValueMap& args) {
 }
 
 void ice_fairy(StateMachine* fsm, const ValueMap& args) {
-	fsm->addDetectFunction(
-		GType::player,
-		[](StateMachine& sm, GObject* target) -> void {
-			sm.addThread(make_shared<FireAtTarget>(&sm, target));
-			sm.addThread(make_shared<MaintainDistance>(&sm, target, 3.0f, 1.0f));
-		}
-	);
-
-	fsm->addEndDetectFunction(
-		GType::player,
-		[](StateMachine& sm, GObject* target) -> void {
-			sm.removeThread("FireAtTarget");
-			sm.removeThread("MaintainDistance");
-		}
-	);
+	auto engage = [](StateMachine* fsm, GObject* target) -> shared_ptr<Function> {
+		auto comp = make_shared<CompositeFunction>(fsm);
+		comp->addFunction<FireAtTarget>(target);
+		comp->addFunction<MaintainDistance>(target, 3.0f, 1.0f);
+		return comp;
+	};
+	fsm->addWhileDetectHandler(GType::player, engage);
 }
 
 void ghost_fairy_npc(StateMachine* fsm, const ValueMap& args)
@@ -386,24 +368,10 @@ void scorpion2(StateMachine* fsm, const ValueMap& args)
 
 void stalker(StateMachine* fsm, const ValueMap& args)
 {
-	auto t1 = make_shared<ai::Thread>(
-		make_shared<StalkerMain>(fsm),
-		fsm
-	);
-	fsm->addThread(t1);
+	auto engage = makeTargetFunctionGenerator<Seek>(true);
 
-	fsm->addDetectFunction(
-		GType::player,
-		[](StateMachine& sm, GObject* target) -> void {
-			sm.addThread(make_shared<Seek>(&sm, target, true));
-		}
-	);
-	fsm->addEndDetectFunction(
-		GType::player,
-		[](StateMachine& sm, GObject* target) -> void {
-			sm.removeThread("Seek");
-		}
-	);
+	fsm->addThread<StalkerMain>();
+	fsm->addWhileDetectHandler(GType::player, engage);
 
 	fsm->getAgent()->getAttributeSystem()->setFullStamina();
 	fsm->getAgent()->addMagicEffect(make_shared<DrainStaminaFromMovement>(fsm->getAgent()));

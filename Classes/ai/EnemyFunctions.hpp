@@ -32,7 +32,7 @@ protected:
 
 class BatMain : public Function {
 public:
-	inline BatMain(StateMachine* fsm) : Function(fsm) {}
+	inline BatMain(StateMachine* fsm, gobject_ref target) : Function(fsm), target(target) {}
 
 	virtual void onEnter();
 	virtual update_return update();

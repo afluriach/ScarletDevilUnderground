@@ -58,7 +58,6 @@ update_return BlueFairyPowerAttack::update()
 
 void BatMain::onEnter()
 {
-	target = getSpace()->getPlayer();
 }
 
 update_return BatMain::update()
@@ -192,7 +191,7 @@ bool ReimuYinYangOrbs::onEvent(Event event)
 				params,
 				agent->getBulletAttributes(props),
 				props
-				);
+			);
 		}
 		
 		active = true;
