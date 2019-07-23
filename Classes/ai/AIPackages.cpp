@@ -200,6 +200,7 @@ void red_fairy(StateMachine* fsm, const ValueMap& args)
 
 	fsm->addFleeBomb();
 	fsm->addWhileDetectHandler(GType::player, engage);
+	fsm->addFunction<ExplodeOnZeroHP>(bomb_damage(20.0f), 4.0);
 }
 
 void greenFairyEngage(StateMachine& sm, Player* p)

@@ -29,8 +29,6 @@
 const string RedFairy::baseAttributes = "redFairy";
 const string RedFairy::properName = "Red Fairy";
 
-const DamageInfo RedFairy::explosionEffect = bomb_damage(20.0f);
-const SpaceFloat RedFairy::explosionRadius = 4.0;
 const float RedFairy::bombCost = 20.0f;
 
 RedFairy::RedFairy(GSpace* space, ObjectIDType id, const ValueMap& args) :
@@ -50,37 +48,6 @@ ParamsGeneratorType RedFairy::getBombs()
 	return [](shared_ptr<object_params> params) -> ObjectGeneratorType {
 		return GObject::params_object_factory<RedFairyBomb>(params);
 	};
-}
-
-void RedFairy::onZeroHP()
-{
-	Agent::onZeroHP();
-	explosion(this, explosionRadius, explosionEffect);
-	SpriteID bombSprite = space->createSprite(
-		&graphics_context::createSprite,
-		string("sprites/explosion.png"),
-		GraphicsLayer::overhead,
-		toCocos(getPos()) * app::pixelsPerTile,
-		1.0f
-	);
-	space->graphicsNodeAction(
-		&Node::setColor,
-		bombSprite,
-		Color3B::RED
-	);
-	space->addGraphicsAction(
-		&graphics_context::runSpriteAction,
-		bombSprite,
-		bombAnimationAction(explosionRadius / Bomb::explosionSpriteRadius, true)
-	);
-	playSoundSpatial("sfx/red_fairy_explosion.wav");
-
-	LightID light = space->addLightSource(
-		CircleLightArea::create( explosionRadius, Color4F::RED, 0.25 ),
-		getPos(),
-		0.0
-	);
-	space->addGraphicsAction(&graphics_context::autoremoveLightSource, light, 1.0f);
 }
 
 const string Fairy2::baseAttributes = "fairy2";

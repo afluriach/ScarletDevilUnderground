@@ -11,14 +11,19 @@
 #include "Agent.hpp"
 #include "AIFunctions.hpp"
 #include "AIUtil.hpp"
+#include "app_constants.hpp"
 #include "AreaSensor.hpp"
 #include "audio_context.hpp"
+#include "Bomb.hpp"
 #include "Bullet.hpp"
 #include "FirePattern.hpp"
+#include "Graphics.h"
+#include "graphics_context.hpp"
 #include "GSpace.hpp"
 #include "physics_context.hpp"
 #include "RadarSensor.hpp"
 #include "Spell.hpp"
+#include "SpellUtil.hpp"
 #include "value_map.hpp"
 
 namespace ai{
@@ -228,6 +233,61 @@ update_return Seek::update()
 	}
 
 	return_pop_if_false(target.isValid());
+}
+
+ExplodeOnZeroHP::ExplodeOnZeroHP(StateMachine* fsm, DamageInfo damage, SpaceFloat radius) :
+	Function(fsm),
+	damage(damage),
+	radius(radius)
+{
+}
+
+bool ExplodeOnZeroHP::onEvent(Event event)
+{
+	if (event.eventType == event_type::zeroHP) {
+		explode();
+		return true;
+	}
+	return false;
+}
+
+event_bitset ExplodeOnZeroHP::getEvents()
+{
+	return make_enum_bitfield(event_type::zeroHP);
+}
+
+void ExplodeOnZeroHP::explode()
+{
+	GObject* obj = fsm->getObject();
+	GSpace* space = getSpace();
+
+	explosion(obj, radius, damage);
+
+	SpriteID bombSprite = space->createSprite(
+		&graphics_context::createSprite,
+		string("sprites/explosion.png"),
+		GraphicsLayer::overhead,
+		toCocos(obj->getPos()) * app::pixelsPerTile,
+		1.0f
+	);
+	space->graphicsNodeAction(
+		&Node::setColor,
+		bombSprite,
+		Color3B::RED
+	);
+	space->addGraphicsAction(
+		&graphics_context::runSpriteAction,
+		bombSprite,
+		bombAnimationAction(radius / Bomb::explosionSpriteRadius, true)
+	);
+	obj->playSoundSpatial("sfx/red_fairy_explosion.wav");
+
+	LightID light = space->addLightSource(
+		CircleLightArea::create(radius, Color4F::RED, 0.25),
+		obj->getPos(),
+		0.0
+	);
+	space->addGraphicsAction(&graphics_context::autoremoveLightSource, light, 1.0f);
 }
 
 MaintainDistance::MaintainDistance(StateMachine* fsm, gobject_ref target, SpaceFloat distance, SpaceFloat margin) :

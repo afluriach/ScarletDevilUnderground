@@ -78,6 +78,19 @@ protected:
 	bool usePathfinding;
 };
 
+class ExplodeOnZeroHP : public Function {
+public:
+	ExplodeOnZeroHP(StateMachine* fsm, DamageInfo damage, SpaceFloat radius);
+
+	virtual bool onEvent(Event event);
+	virtual event_bitset getEvents();
+protected:
+	void explode();
+
+	DamageInfo damage;
+	SpaceFloat radius;
+};
+
 class MaintainDistance : public Function {
 public:
     MaintainDistance(StateMachine* fsm, gobject_ref target, SpaceFloat distance, SpaceFloat margin);

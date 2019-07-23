@@ -18,8 +18,6 @@ public:
 	static const string baseAttributes;
 	static const string properName;
 
-	static const DamageInfo explosionEffect;
-	static const SpaceFloat explosionRadius;
 	static const float bombCost;
 
 	RedFairy(GSpace* space, ObjectIDType id, const ValueMap& args);
@@ -32,7 +30,6 @@ public:
 	inline string getSprite() const { return "redFairy"; }
 
 	virtual inline string initStateMachine() { return "red_fairy"; }
-	virtual void onZeroHP();
 };
 
 class Fairy2 : public Enemy
