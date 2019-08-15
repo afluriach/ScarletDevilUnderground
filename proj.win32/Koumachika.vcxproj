@@ -93,7 +93,7 @@
     <Link>
       <AdditionalDependencies>OpenAL32.lib;sndfile.lib;libnoise.lib;Lua.lib;libcocos2d.lib;xinput.lib;legacy_stdio_definitions.lib;glew32.lib;gainputstatic-debug.lib;%(AdditionalDependencies);$(_COCOS_LIB_WIN32_BEGIN);$(_COCOS_LIB_WIN32_END)</AdditionalDependencies>
       <OutputFile>$(OutDir)$(ProjectName).exe</OutputFile>
-      <AdditionalLibraryDirectories>C:\Users\toni\git\kouma\libnoise\win32\Debug;C:\Users\toni\git\kouma\cocos2d\external\win32-specific\gles\prebuilt;$(OutDir);%(AdditionalLibraryDirectories);$(_COCOS_LIB_PATH_WIN32_BEGIN);$(_COCOS_LIB_PATH_WIN32_END);C:\Users\toni\git\kouma\gainput\lib\win32</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>C:\Users\toni\git\kouma\glfw\src\Debug;C:\Users\toni\git\kouma\libnoise\win32\Debug;C:\Users\toni\git\kouma\cocos2d\external\win32-specific\gles\prebuilt;$(OutDir);%(AdditionalLibraryDirectories);$(_COCOS_LIB_PATH_WIN32_BEGIN);$(_COCOS_LIB_PATH_WIN32_END);C:\Users\toni\git\kouma\gainput\lib\win32</AdditionalLibraryDirectories>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <SubSystem>Windows</SubSystem>
       <TargetMachine>MachineX86</TargetMachine>
@@ -128,7 +128,7 @@ xcopy "$(ProjectDir)..\Resources" "$(OutDir)" /D /E /I /F /Y</Command>
     <Link>
       <AdditionalDependencies>OpenAL32.lib;sndfile.lib;libnoise.lib;Lua.lib;libcocos2d.lib;xinput.lib;legacy_stdio_definitions.lib;glew32.lib;gainputstatic-release.lib;libcurl_imp.lib;websockets.lib;%(AdditionalDependencies);$(_COCOS_LIB_WIN32_BEGIN);$(_COCOS_LIB_WIN32_END)</AdditionalDependencies>
       <OutputFile>$(OutDir)$(ProjectName).exe</OutputFile>
-      <AdditionalLibraryDirectories>C:\Users\toni\git\kouma\libnoise\win32\Release;C:\Users\toni\git\kouma\cocos2d\external\win32-specific\gles\prebuilt;$(OutDir);%(AdditionalLibraryDirectories);$(_COCOS_LIB_PATH_WIN32_BEGIN);$(_COCOS_LIB_PATH_WIN32_END);C:\Users\toni\git\kouma\gainput\lib\win32</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>C:\Users\toni\git\kouma\glfw\src\Release;C:\Users\toni\git\kouma\libnoise\win32\Release;C:\Users\toni\git\kouma\cocos2d\external\win32-specific\gles\prebuilt;$(OutDir);%(AdditionalLibraryDirectories);$(_COCOS_LIB_PATH_WIN32_BEGIN);$(_COCOS_LIB_PATH_WIN32_END);C:\Users\toni\git\kouma\gainput\lib\win32</AdditionalLibraryDirectories>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <SubSystem>Windows</SubSystem>
       <OptimizeReferences>true</OptimizeReferences>
@@ -395,9 +395,6 @@ xcopy "$(ProjectDir)..\Resources" "$(OutDir)" /D /E /I /F /Y</Command>
     <ProjectReference Include="..\cocos2d\cocos\2d\libcocos2d.vcxproj">
       <Project>{98a51ba8-fc3a-415b-ac8f-8c7bd464e93e}</Project>
       <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
-    </ProjectReference>
-    <ProjectReference Include="..\cocos2d\cocos\editor-support\spine\proj.win32\libSpine.vcxproj">
-      <Project>{b7c2a162-dec9-4418-972e-240ab3cbfcae}</Project>
     </ProjectReference>
     <ProjectReference Include="..\cocos2d\external\Box2D\proj.win32\libbox2d.vcxproj">
       <Project>{929480e7-23c0-4df6-8456-096d71547116}</Project>
