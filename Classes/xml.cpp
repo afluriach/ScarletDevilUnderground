@@ -9,6 +9,7 @@
 #include "Prefix.h"
 
 #include "Attributes.hpp"
+#include "Bomb.hpp"
 #include "Bullet.hpp"
 #include "Enemy.hpp"
 #include "FileIO.hpp"
@@ -19,6 +20,7 @@
 namespace app {
 
 unordered_map<string, AttributeMap> attributes;
+unordered_map<string, shared_ptr<bomb_properties>> bombs;
 unordered_map<string, shared_ptr<bullet_properties>> bullets;
 unordered_map<string, shared_ptr<enemy_properties>> enemies;
 unordered_map<string, shared_ptr<firepattern_properties>> firePatterns;
@@ -36,6 +38,11 @@ GObject::AdapterType enemyAdapter(shared_ptr<enemy_properties> props)
 void loadAttributes()
 {
 	loadObjects<AttributeMap>("objects/attributes.xml", app::attributes);
+}
+
+void loadBombs()
+{
+	loadObjects<shared_ptr<bomb_properties>>("objects/bombs.xml", app::bombs);
 }
 
 void loadBullets()
@@ -71,6 +78,11 @@ void loadLights()
 void loadSprites()
 {
 	loadObjects<sprite_properties>("objects/sprites.xml", app::sprites);
+}
+
+shared_ptr<bomb_properties> getBomb(const string& name)
+{
+	return getOrDefault(bombs, name);
 }
 
 shared_ptr<bullet_properties> getBullet(const string& name)
@@ -468,6 +480,36 @@ bool parseObject(tinyxml2::XMLElement* elem, shared_ptr<bullet_properties>* resu
 		deflectBullets
 	});
 	return true;
+}
+
+bool parseObject(tinyxml2::XMLElement* elem, shared_ptr<bomb_properties>* result)
+{
+	bomb_properties props = {
+		"",
+		"",
+		1.0f / 16.0f,
+		0.0,
+		0.0,
+		DamageInfo()
+	};
+
+	getStringAttr(elem, "sprite", &props.sprite);
+	getStringAttr(elem, "exposionSound", &props.explosionSound);
+
+	getNumericAttr(elem, "friction", &props.friction);
+	getNumericAttr(elem, "blastRadius", &props.blastRadius);
+	getNumericAttr(elem, "fuseTime", &props.fuseTime);
+
+	props.damage = getDamageInfo(elem, DamageType::bomb);
+
+	if (props.blastRadius <= 0.0f || props.fuseTime <= 0.0f) {
+		log("bomb properties missing");
+		return false;
+	}
+	else {
+		*result = make_shared<bomb_properties>(props);
+		return true;
+	}
 }
 
 }

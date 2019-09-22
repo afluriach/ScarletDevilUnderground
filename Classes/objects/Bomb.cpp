@@ -16,8 +16,9 @@
 
 const SpaceFloat Bomb::explosionSpriteRadius = 2.0;
 
-Bomb::Bomb(shared_ptr<object_params> params) :
-	GObject(params, physics_params(0.5, 1.0))
+Bomb::Bomb(shared_ptr<object_params> params, shared_ptr<bomb_properties> props) :
+	GObject(params, physics_params(0.5, 1.0)),
+	props(props)
 {
 }
 
@@ -66,14 +67,4 @@ void Bomb::detonate()
 		0.0
 	);
 	space->addGraphicsAction(&graphics_context::autoremoveLightSource, light, 1.0f);
-}
-
-PlayerBomb::PlayerBomb(shared_ptr<object_params> params) :
-	Bomb(params)
-{
-}
-
-RedFairyBomb::RedFairyBomb(shared_ptr<object_params> params) :
-	Bomb(params)
-{
 }

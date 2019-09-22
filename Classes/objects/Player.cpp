@@ -361,7 +361,10 @@ void Player::checkBombControls(const ControlInfo& cs)
 			bombVel += SpaceVect::ray(bombThrowSpeed, getAngle());
 
 		if (canPlaceBomb(bombPos)) {
-			space->createObject<PlayerBomb>(make_shared<object_params>(bombPos,bombVel));
+			space->createObject<Bomb>(
+				make_shared<object_params>(bombPos,bombVel),
+				app::getBomb("PlayerBomb")
+			);
 			attributeSystem.modifyAttribute(Attribute::mp, -bombCost);
 			bombCooldown = bombCooldownTime;
 		}

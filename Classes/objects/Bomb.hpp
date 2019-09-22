@@ -12,15 +12,26 @@
 #include "Attributes.hpp"
 #include "GObject.hpp"
 
+struct bomb_properties
+{
+	string sprite;
+	string explosionSound;
+
+	float friction = 1.0f / 16.0f;
+	float blastRadius;
+	float fuseTime;
+	DamageInfo damage;
+};
+
 class Bomb : public GObject
 {
 public:
 	static const SpaceFloat explosionSpriteRadius;
 
-	Bomb(shared_ptr<object_params> params);
+	Bomb(shared_ptr<object_params> params, shared_ptr<bomb_properties> props);
 	inline virtual ~Bomb() {}
 
-	virtual inline SpaceFloat uk() const { return 0.0625; }
+	virtual inline SpaceFloat uk() const { return props->friction; }
 	virtual inline bool getSensor() const { return false; }
 	virtual inline PhysicsLayers getLayers() const { return enum_bitwise_or( PhysicsLayers,ground,floor); }
 	virtual inline GraphicsLayer sceneLayer() const { return GraphicsLayer::ground; }
@@ -31,47 +42,18 @@ public:
 	void detonate();
 
 	//Interface
-	virtual DamageInfo getDamageInfo() const = 0;
-	virtual SpaceFloat getFuseTime() const = 0;
-	virtual SpaceFloat getBlastRadius() const = 0;
-	virtual string getExplosionSound() const { return ""; }
+	virtual DamageInfo getDamageInfo() const { return props->damage; }
+	virtual SpaceFloat getFuseTime() const { return props->fuseTime; }
+	virtual SpaceFloat getBlastRadius() const { return props->blastRadius; }
+
+	virtual string getExplosionSound() const { return props->explosionSound; }
+	virtual string getSprite() const { return props->sprite; }
 protected:
+	shared_ptr<bomb_properties> props;
+
 	SpaceFloat countdown;
 	ALuint fuseSound = 0;
 	bool detonated = false;
 };
-
-class PlayerBomb : public Bomb
-{
-public:
-	PlayerBomb(shared_ptr<object_params> params);
-
-	virtual inline string getSprite() const { return "redBomb"; }
-
-	inline virtual DamageInfo getDamageInfo() const {
-		return bomb_damage(20.0f);
-	};
-
-	virtual SpaceFloat getFuseTime() const { return 3.0; }
-	virtual SpaceFloat getBlastRadius() const { return 4.0; }
-	virtual string getExplosionSound() const { return "sfx/bomb_explosion1.wav"; }
-};
-
-class RedFairyBomb : public Bomb
-{
-public:
-	RedFairyBomb(shared_ptr<object_params> params);
-
-	virtual inline string getSprite() const { return "redBomb"; }
-
-	inline virtual DamageInfo getDamageInfo() const {
-		return bomb_damage(20.0f);
-	};
-
-	virtual SpaceFloat getFuseTime() const { return 1.2; }
-	virtual SpaceFloat getBlastRadius() const { return 3.0; }
-	virtual string getExplosionSound() const { return "sfx/bomb_explosion2.wav"; }
-};
-
 
 #endif /* Bomb_hpp */

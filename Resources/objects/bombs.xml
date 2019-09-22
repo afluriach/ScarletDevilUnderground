@@ -1,0 +1,19 @@
+<bombs>
+	<PlayerBomb
+		sprite="redBomb"
+		explosionSound="bomb_explosion1"
+		
+		fuseTime="3.0"
+		blastRadius="4.0"
+		damage="20.0"
+	/>
+	
+	<RedFairyBomb
+		sprite="redBomb"
+		explosionSound="bomb_explosion2"
+		
+		fuseTime="1.2"
+		blastRadius="3.0"
+		damage="20.0"
+	/>
+</bombs>

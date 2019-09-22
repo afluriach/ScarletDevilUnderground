@@ -329,6 +329,7 @@ void App::loadObjects()
 	GObject::initNameMap();
 
 	app::loadAttributes();
+	app::loadBombs();
 	app::loadBullets();
 	app::loadFirePatterns();
 	app::loadFloors();

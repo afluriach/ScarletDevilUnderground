@@ -173,13 +173,13 @@ void ghost_fairy(StateMachine* fsm, const ValueMap& args)
 
 void red_fairy(StateMachine* fsm, const ValueMap& args)
 {
-	RedFairy* agent = dynamic_cast<RedFairy*>(fsm->getObject());
-	auto bombgen = agent->getBombs();
-	AITargetFunctionGenerator engage = [bombgen](StateMachine* fsm, GObject* target) -> shared_ptr<Function> {
+	Agent* agent = fsm->getAgent();
+
+	AITargetFunctionGenerator engage = [](StateMachine* fsm, GObject* target) -> shared_ptr<Function> {
 		auto comp = make_shared<CompositeFunction>(fsm);
 		comp->addFunction<ThrowBombs>(
 			target,
-			bombgen,
+			"RedFairyBomb",
 			4.0,
 			4.0,
 			3.0,

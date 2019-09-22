@@ -43,13 +43,6 @@ RedFairy::RedFairy(GSpace* space, ObjectIDType id, const ValueMap& args) :
 	setFirePattern("RedFairy");
 }
 
-ParamsGeneratorType RedFairy::getBombs()
-{
-	return [](shared_ptr<object_params> params) -> ObjectGeneratorType {
-		return GObject::params_object_factory<RedFairyBomb>(params);
-	};
-}
-
 const string Fairy2::baseAttributes = "fairy2";
 const float Fairy2::lowHealthRatio = 0.5f;
 
