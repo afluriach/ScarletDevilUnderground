@@ -169,10 +169,7 @@ xcopy "$(ProjectDir)..\Resources" "$(OutDir)" /D /E /I /F /Y</Command>
     <ClCompile Include="..\Classes\graphics\graphics_types.cpp" />
     <ClCompile Include="..\Classes\log.cpp" />
     <ClCompile Include="..\Classes\lua\LuaAPI.cpp" />
-    <ClCompile Include="..\Classes\lua\LuaConvert.cpp" />
-    <ClCompile Include="..\Classes\lua\LuaCWrappers.cpp" />
     <ClCompile Include="..\Classes\lua\LuaShell.cpp" />
-    <ClCompile Include="..\Classes\lua\LuaWrap.cpp" />
     <ClCompile Include="..\Classes\objects\Agent.cpp" />
     <ClCompile Include="..\Classes\objects\AreaSensor.cpp" />
     <ClCompile Include="..\Classes\objects\Block.cpp" />
@@ -295,10 +292,7 @@ xcopy "$(ProjectDir)..\Resources" "$(OutDir)" /D /E /I /F /Y</Command>
     <ClInclude Include="..\Classes\internal_prefix.h" />
     <ClInclude Include="..\Classes\log.hpp" />
     <ClInclude Include="..\Classes\lua\LuaAPI.hpp" />
-    <ClInclude Include="..\Classes\lua\LuaConvert.h" />
-    <ClInclude Include="..\Classes\lua\LuaError.h" />
     <ClInclude Include="..\Classes\lua\LuaShell.hpp" />
-    <ClInclude Include="..\Classes\lua\LuaWrap.h" />
     <ClInclude Include="..\Classes\macros.h" />
     <ClInclude Include="..\Classes\multifunction.h" />
     <ClInclude Include="..\Classes\objects\Agent.hpp" />

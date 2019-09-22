@@ -63,16 +63,7 @@
     <ClCompile Include="..\Classes\lua\LuaAPI.cpp">
       <Filter>src\lua</Filter>
     </ClCompile>
-    <ClCompile Include="..\Classes\lua\LuaConvert.cpp">
-      <Filter>src\lua</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Classes\lua\LuaCWrappers.cpp">
-      <Filter>src\lua</Filter>
-    </ClCompile>
     <ClCompile Include="..\Classes\lua\LuaShell.cpp">
-      <Filter>src\lua</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Classes\lua\LuaWrap.cpp">
       <Filter>src\lua</Filter>
     </ClCompile>
     <ClCompile Include="..\Classes\objects\Agent.cpp">
@@ -434,16 +425,7 @@
     <ClInclude Include="..\Classes\lua\LuaAPI.hpp">
       <Filter>src\lua</Filter>
     </ClInclude>
-    <ClInclude Include="..\Classes\lua\LuaConvert.h">
-      <Filter>src\lua</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Classes\lua\LuaError.h">
-      <Filter>src\lua</Filter>
-    </ClInclude>
     <ClInclude Include="..\Classes\lua\LuaShell.hpp">
-      <Filter>src\lua</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Classes\lua\LuaWrap.h">
       <Filter>src\lua</Filter>
     </ClInclude>
     <ClInclude Include="..\Classes\objects\Agent.hpp">

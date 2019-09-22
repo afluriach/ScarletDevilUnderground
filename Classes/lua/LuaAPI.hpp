@@ -45,17 +45,11 @@ namespace Lua
         
         const string name;
         
-        static const unordered_map<string,function<int(lua_State*)>> cfunctions;
         static const vector<string> luaIncludes;
         static const bool logInst = false;
         
-        static int dispatch(lua_State* L);
-    
         void installApi();
-        void installWrappers();
         void loadLibraries();
-        void installNameFunction(const string& name);
-        void installFunction(lua_CFunction func, const string& name);
         void setGlobal(LuaRef ref, const string& name);
         
         template<typename T>
