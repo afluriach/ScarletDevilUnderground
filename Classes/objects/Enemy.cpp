@@ -119,3 +119,7 @@ shared_ptr<LightArea> EnemyImpl::getLightSource() const {
 string EnemyImpl::initStateMachine(){
 	return props->ai_package;
 }
+
+string EnemyImpl::getProperName() const {
+	return props->name;
+}

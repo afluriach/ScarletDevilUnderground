@@ -337,6 +337,12 @@ void StateMachine::onZeroStamina()
 	handleEvent(event);
 }
 
+void StateMachine::addOnDetectHandler(GType type, AITargetFunctionGenerator gen)
+{
+	auto detect = make_shared<OnDetect>(this, type, gen);
+	addFunction(detect);
+}
+
 void StateMachine::addWhileDetectHandler(GType type, AITargetFunctionGenerator gen)
 {
 	auto detect = make_shared<WhileDetect>(this, type, gen);

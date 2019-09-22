@@ -28,6 +28,27 @@
 
 namespace ai{
 
+OnDetect::OnDetect(StateMachine* fsm, GType type, AITargetFunctionGenerator gen) :
+	Function(fsm),
+	type(type),
+	gen(gen)
+{
+}
+
+event_bitset OnDetect::getEvents()
+{
+	return make_enum_bitfield(event_type::detect);
+}
+
+bool OnDetect::onEvent(Event event)
+{
+	if (event.getDetectType() == type && !thread) {
+		thread = fsm->addThread(gen(fsm, any_cast<GObject*>(event.data)));
+		return true;
+	}
+	return false;
+}
+
 WhileDetect::WhileDetect(StateMachine* fsm, GType type, AITargetFunctionGenerator gen) :
 	Function(fsm),
 	type(type),
@@ -51,7 +72,9 @@ bool WhileDetect::onEvent(Event event)
 	else if (event.getEndDetectType() == type) {
 		fsm->removeThread(thread);
 		thread.reset();
+		return true;
 	}
+	return false;
 }
 
 CompositeFunction::CompositeFunction(StateMachine* fsm) :

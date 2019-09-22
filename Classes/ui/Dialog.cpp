@@ -38,7 +38,10 @@ void Dialog::setDialog(const string& res)
     processDialogFile(io::loadTextFile(res));
     
     frameNum = 0;
-    runFrame();
+	if (dialog.size() > 0)
+		runFrame();
+	else
+		log("Empty dialog %s created.", res);
 }
 
 //Enabled by default, allows cursor to appear and listen for action

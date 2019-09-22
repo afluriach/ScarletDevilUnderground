@@ -13,6 +13,18 @@
 
 namespace ai{
 
+class OnDetect : public Function {
+public:
+	OnDetect(StateMachine* fsm, GType type, AITargetFunctionGenerator gen);
+
+	virtual bool onEvent(Event event);
+	virtual event_bitset getEvents();
+protected:
+	shared_ptr<Thread> thread;
+	AITargetFunctionGenerator gen;
+	GType type;
+};
+
 class WhileDetect : public Function {
 public:
 	WhileDetect(StateMachine* fsm, GType type, AITargetFunctionGenerator gen);

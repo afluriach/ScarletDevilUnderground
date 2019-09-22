@@ -320,28 +320,20 @@ void reimu_enemy(StateMachine* fsm, const ValueMap& args)
 
 void rumia1(StateMachine* fsm, const ValueMap& args)
 {
-	fsm->addDetectFunction(
-		GType::player,
-		[](StateMachine& sm, GObject* target) -> void {
-			if (sm.getThreadCount() > 0) return;
-			sm.getSpace()->createDialog("dialogs/rumia1", false);
-			sm.addThread(make_shared<RumiaMain1>(&sm, target));
-		}
-	);
+	auto engage = makeTargetFunctionGenerator<RumiaMain1>();
+	auto boss = make_shared<BossFightHandler>(fsm, "dialogs/rumia1", "dialogs/rumia2");
+
+	fsm->addFunction(boss);
+	fsm->addOnDetectHandler(GType::player, engage);
 }
 
 void rumia2(StateMachine* fsm, const ValueMap& args)
 {
-	fsm->addDetectFunction(
-		GType::player,
-		[](StateMachine& sm, GObject* target) -> void {
-			if (sm.getThreadCount() > 0) return;
-			sm.getSpace()->createDialog("dialogs/rumia3", false);
-			sm.addThread(make_shared<RumiaDSD2>(&sm));
-			sm.addThread(make_shared<FireAtTarget>(&sm, target));
-			sm.addThread(make_shared<Flank>(&sm, target, 3.0, 1.0));
-		}
-	);
+	auto engage = makeTargetFunctionGenerator<RumiaMain2>();
+	auto boss = make_shared<BossFightHandler>(fsm, "dialogs/rumia3", "dialogs/rumia4");
+
+	fsm->addFunction(boss);
+	fsm->addOnDetectHandler(GType::player, engage);
 }
 
 void sakuya(StateMachine* fsm, const ValueMap& args)

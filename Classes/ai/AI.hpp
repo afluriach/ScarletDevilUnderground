@@ -197,6 +197,7 @@ public:
 	void onZeroHP();
 	void onZeroStamina();
 
+	void addOnDetectHandler(GType type, AITargetFunctionGenerator gen);
 	void addWhileDetectHandler(GType type, AITargetFunctionGenerator gen);
 	void addFleeBomb();
 

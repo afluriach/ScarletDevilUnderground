@@ -36,7 +36,6 @@
 #include "Player.hpp"
 #include "Pyramid.hpp"
 #include "Reimu.hpp"
-#include "Rumia.hpp"
 #include "SakuyaNPC.hpp"
 #include "Sign.hpp"
 #include "Spawner.hpp"
@@ -174,8 +173,6 @@ void GObject::initObjectInfo()
 	entry_same(RedFairy),
 	entry_same(Reimu),
 	entry_same(ReimuEnemy),
-	entry_same(Rumia1),
-	entry_same(Rumia2),
 	entry_same(SakuyaNPC),
 	entry_same(Sapling),
 	entry_same(Sign),
@@ -228,8 +225,6 @@ const unordered_set<type_index> GSpace::enemyTypes = {
 
 	typeid(RedFairy),
 	
-	typeid(Rumia1),
-	typeid(Rumia2),
 	typeid(PatchouliEnemy),
 	typeid(ReimuEnemy),
 };

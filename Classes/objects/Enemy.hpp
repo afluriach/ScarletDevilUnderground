@@ -82,9 +82,8 @@ public:
 	virtual shared_ptr<LightArea> getLightSource() const;
 
 	virtual string initStateMachine();
-	//onZeroHP() - should be in AI
-	//on engage dialog
-	//on defeat dialog?
+
+	virtual string getProperName() const;
 protected:
 	shared_ptr<enemy_properties> props;
 };

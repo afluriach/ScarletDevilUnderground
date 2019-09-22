@@ -118,7 +118,7 @@ public:
 	//object identification, init, and update
 
 	string getTypeName() const;
-	string getProperName() const;
+	virtual string getProperName() const;
 
 	inline string getName() const {
 		return (name.empty()) ? getTypeName() : name;

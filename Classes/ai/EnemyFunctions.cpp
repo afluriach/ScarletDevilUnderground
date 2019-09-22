@@ -259,6 +259,26 @@ void RumiaMain1::onExit()
 	fsm->removeThread("FireAtTarget");
 }
 
+RumiaMain2::RumiaMain2(StateMachine* fsm, gobject_ref target) :
+	Function(fsm),
+	target(target)
+{
+}
+
+update_return RumiaMain2::update()
+{
+	if (!flankThread) {
+		fsm->addThread<Flank>(target, 3.0, 1.0);
+	}
+
+	auto comp = make_shared<CompositeFunction>(fsm);
+
+	comp->addFunction<RumiaDSD2>();
+	comp->addFunction<FireAtTarget>(target);
+
+	return_push(comp);
+}
+
 const vector<double_pair> RumiaDSD2::demarcationSizeIntervals = {
 	make_pair(9.0, float_pi * 8.0 / 3.0),
 	make_pair(12.0, float_pi * 2.0 / 3.0),

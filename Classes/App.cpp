@@ -395,6 +395,11 @@ bool App::loadProfile(const string& name)
 	unique_ptr<GState> result = io::loadProfileState(name);
 
 	if (result.get()){
+
+		if (app::params.unlockAllEquips) {
+			result->setUpgradeLevels(4);
+		}
+
 		crntProfileName = name;
 		crntState = move(result);
 		return true;

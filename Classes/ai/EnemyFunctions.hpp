@@ -120,6 +120,17 @@ protected:
 	size_t intervalIdx = 0;
 };
 
+class RumiaMain2 : public Function
+{
+public:
+	RumiaMain2(StateMachine* fsm, gobject_ref target);
+
+	virtual update_return update();
+protected:
+	shared_ptr<Function> flankThread;
+	gobject_ref target;
+};
+
 class RumiaDSD2 : public ai::Function
 {
 public:

@@ -144,6 +144,44 @@
 		collectible="magic2"		
 	/>
 	
+	<Rumia1
+		name="Rumia"
+	
+		sprite="rumia"
+		light="rumiaEnemy"
+		ai_package="rumia1"
+		attributes="rumia1"
+		firepattern="RumiaBurstPattern"
+		
+		mass="20.0"
+		viewRange="6.0"
+		viewAngle="0.0"
+
+		collectible="nil"
+		
+		detectEssence="false"
+		isFlying="false"
+	/>
+
+	<Rumia2
+		name="Rumia II"
+	
+		sprite="rumia"
+		light="rumiaEnemy"
+		ai_package="rumia2"
+		attributes="rumia2"
+		firepattern="RumiaBurstPattern2"
+		
+		mass="20.0"
+		viewRange="6.0"
+		viewAngle="0.0"
+
+		collectible="nil"
+		
+		detectEssence="false"
+		isFlying="false"
+	/>
+	
  	<Sakuya
 		sprite="sakuya"
 		ai_package="sakuya"
