@@ -68,16 +68,16 @@
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <LibraryPath>D:\dev\libsndfile\Release;D:\dev\openal-soft\Debug;D:\dev\boost_1_69_0\stage\lib;$(MSBuildProgramFiles32)\Microsoft SDKs\Windows\v7.1A\lib;$(LibraryPath)</LibraryPath>
-    <IncludePath>D:\dev\libsndfile\src;D:\dev\openal-soft\include;C:\Users\toni\git\kouma\libnoise\src;C:\Users\toni\git\kouma\glfw\include\GLFW;C:\Users\toni\git\kouma\cocos2d\LuaBridge;C:\Users\toni\git\kouma\cocos2d\lua;D:\dev\boost_1_69_0;$(IncludePath)</IncludePath>
+    <IncludePath>D:\dev\sol2-3.0.3\include;D:\dev\libsndfile\src;D:\dev\openal-soft\include;C:\Users\toni\git\kouma\libnoise\src;C:\Users\toni\git\kouma\glfw\include\GLFW;C:\Users\toni\git\kouma\cocos2d\lua;D:\dev\boost_1_69_0;$(IncludePath)</IncludePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <LibraryPath>D:\dev\libsndfile\Release;D:\dev\openal-soft\Release;D:\dev\boost_1_69_0\stage\lib;$(MSBuildProgramFiles32)\Microsoft SDKs\Windows\v7.1A\lib;$(LibraryPath)</LibraryPath>
-    <IncludePath>D:\dev\libsndfile\src;D:\dev\openal-soft\include;C:\Users\toni\git\kouma\libnoise\src;C:\Users\toni\git\kouma\glfw\include\GLFW;C:\Users\toni\git\kouma\cocos2d\LuaBridge;D:\dev\boost_1_69_0;C:\Users\toni\git\kouma\cocos2d\lua;$(IncludePath)</IncludePath>
+    <IncludePath>D:\dev\sol2-3.0.3\include;D:\dev\libsndfile\src;D:\dev\openal-soft\include;C:\Users\toni\git\kouma\libnoise\src;C:\Users\toni\git\kouma\glfw\include\GLFW;D:\dev\boost_1_69_0;C:\Users\toni\git\kouma\cocos2d\lua;$(IncludePath)</IncludePath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
       <Optimization>Disabled</Optimization>
-      <AdditionalIncludeDirectories>C:\Program Files (x86)\FMOD SoundSystem\FMOD Studio API Windows\api\lowlevel\inc;C:\Users\toni\git\kouma\gainput\include;C:\Users\toni\git\kouma\Classes\graphics;C:\Users\toni\git\kouma\Classes\controls;C:\Users\toni\git\kouma\Classes\ai;C:\Users\toni\git\kouma\Classes\lua;C:\Users\toni\git\kouma\Classes\spells;C:\Users\toni\git\kouma\Classes\space;C:\Users\toni\git\kouma\Classes\objects;C:\Users\toni\git\kouma\Classes\ui;C:\Users\toni\git\kouma\Classes\scenes;$(EngineRoot)cocos\audio\include;$(EngineRoot)external;C:\Users\toni\git\kouma\cocos2d\LuaBridge;C:\Users\toni\git\kouma\cocos2d\LuaBridge\detail;C:\Users\toni\git\kouma\cocos2d\lua;$(EngineRoot)extensions;..\Classes;..;%(AdditionalIncludeDirectories);$(_COCOS_HEADER_WIN32_BEGIN);$(_COCOS_HEADER_WIN32_END)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>C:\Users\toni\git\kouma\gainput\include;C:\Users\toni\git\kouma\Classes\graphics;C:\Users\toni\git\kouma\Classes\controls;C:\Users\toni\git\kouma\Classes\ai;C:\Users\toni\git\kouma\Classes\lua;C:\Users\toni\git\kouma\Classes\spells;C:\Users\toni\git\kouma\Classes\space;C:\Users\toni\git\kouma\Classes\objects;C:\Users\toni\git\kouma\Classes\ui;C:\Users\toni\git\kouma\Classes\scenes;$(EngineRoot)external;C:\Users\toni\git\kouma\cocos2d\lua;$(EngineRoot)extensions;..\Classes;..;%(AdditionalIncludeDirectories);$(_COCOS_HEADER_WIN32_BEGIN);$(_COCOS_HEADER_WIN32_END)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>_SILENCE_ALL_CXX17_DEPRECATION_WARNINGS=1;CC_STATIC=1;GLEW_STATIC=1;AL_LIBTYPE_STATIC=1;WIN32;_DEBUG;_WINDOWS;_USE_MATH_DEFINES;GL_GLEXT_PROTOTYPES;COCOS2D_DEBUG=1;_CRT_SECURE_NO_WARNINGS;_SCL_SECURE_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <MinimalRebuild>false</MinimalRebuild>
       <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
@@ -112,7 +112,7 @@ xcopy "$(ProjectDir)..\Resources" "$(OutDir)" /D /E /I /F /Y</Command>
     <ClCompile>
       <Optimization>MaxSpeed</Optimization>
       <IntrinsicFunctions>true</IntrinsicFunctions>
-      <AdditionalIncludeDirectories>C:\Program Files (x86)\FMOD SoundSystem\FMOD Studio API Windows\api\lowlevel\inc;C:\Users\toni\git\kouma\Classes\ai;C:\Users\toni\git\kouma\Classes\graphics;C:\Users\toni\git\kouma\Classes\controls;C:\Users\toni\git\kouma\Classes\lua;C:\Users\toni\git\kouma\Classes\objects;C:\Users\toni\git\kouma\Classes\space;C:\Users\toni\git\kouma\Classes\spells;C:\Users\toni\git\kouma\Classes\ui;C:\Users\toni\git\kouma\Classes\scenes;$(EngineRoot)cocos\audio\include;$(EngineRoot)external;C:\Users\toni\git\kouma\cocos2d\LuaBridge;C:\Users\toni\git\kouma\cocos2d\LuaBridge\detail;C:\Users\toni\git\kouma\cocos2d\lua;$(EngineRoot)extensions;..\Classes;..;%(AdditionalIncludeDirectories);$(_COCOS_HEADER_WIN32_BEGIN);$(_COCOS_HEADER_WIN32_END);C:\Users\toni\git\kouma\gainput\include</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>C:\Users\toni\git\kouma\Classes\ai;C:\Users\toni\git\kouma\Classes\graphics;C:\Users\toni\git\kouma\Classes\controls;C:\Users\toni\git\kouma\Classes\lua;C:\Users\toni\git\kouma\Classes\objects;C:\Users\toni\git\kouma\Classes\space;C:\Users\toni\git\kouma\Classes\spells;C:\Users\toni\git\kouma\Classes\ui;C:\Users\toni\git\kouma\Classes\scenes;$(EngineRoot)external;C:\Users\toni\git\kouma\cocos2d\lua;$(EngineRoot)extensions;..\Classes;..;%(AdditionalIncludeDirectories);$(_COCOS_HEADER_WIN32_BEGIN);$(_COCOS_HEADER_WIN32_END);C:\Users\toni\git\kouma\gainput\include</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>_SILENCE_ALL_CXX17_DEPRECATION_WARNINGS=1;CC_STATIC=1;GLEW_STATIC=1;AL_LIBTYPE_STATIC=1;WIN32;NDEBUG;_WINDOWS;_USE_MATH_DEFINES;GL_GLEXT_PROTOTYPES;_CRT_SECURE_NO_WARNINGS;_SCL_SECURE_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
       <FunctionLevelLinking>true</FunctionLevelLinking>

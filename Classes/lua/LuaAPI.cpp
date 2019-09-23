@@ -31,51 +31,22 @@ namespace Lua{
 const vector<string> Inst::luaIncludes = {
 	"util",
 	"class",
-	"math",
 	"serpent",
 	"repl",
 	"gobject",
 	"ai"
 };
 
-    //Raise Lua exception
-    void error(lua_State* L, const string& msg)
-    {
-        lua_pushstring(L, msg.c_str());
-        lua_error(L);
-    }
-    
-    void runscript(string name){
-        App::lua->runFile("scripts/"+name+".lua");
-    }
-
-    void requireType(lua_State* L, const string& name, LuaRef ref, int typeID)
-    {
-        if(!ref.isType(typeID)){
-            error(
-                L,
-                StringUtils::format(
-                    "%s: expected %s, got %s.",
-                    name.c_str(),
-                    ttypename(typeID),
-                    ref.getTypeName()
-                )
-            );
-        }
-    }
-    
-    void replThreadMain(Inst * inst)
-    {
-        inst->call("open_repl", vector<LuaRef>());
-    }
-
-//Lua API methods
-
     Inst::Inst(const string& name) : name(name)
     {
-        state = luaL_newstate();
-        //Load standard libraries
-        luaL_openlibs(state);
+		_state.open_libraries(
+			sol::lib::base,
+			sol::lib::math,
+			sol::lib::string,
+			sol::lib::table,
+			sol::lib::utf8
+		);
+
         installApi();
         loadLibraries();
         
@@ -84,9 +55,7 @@ const vector<string> Inst::luaIncludes = {
     }
     
     Inst::~Inst()
-    {
-        lua_close(state);
-        
+    {        
         if(logInst)
             log("Lua Inst closed: %s.", name.c_str());
     }
@@ -98,271 +67,146 @@ const vector<string> Inst::luaIncludes = {
         }
     }
         
-    void Inst::setGlobal(LuaRef ref, const string& name)
-    {
-        ref.push(state);
-        lua_setglobal(state, name.c_str());
-    }
-        
     void Inst::runString(const string& str)
-    {        
-        int error = luaL_dostring(state, str.c_str());
-        
-        if(error)
-            log("Lua error: %s", lua_tostring(state,-1));
+    {
+		_state.script(str);
     }
     
     void Inst::runFile(const string& path)
     {
-        luaL_loadfile(state, io::getRealPath(path).c_str());
-        docall(state, 0, LUA_MULTRET);
-    }
-
-    bool Inst::globalExists(const string& name)
-    {
-        lua_getglobal(state, name.c_str());
-        bool result = !lua_isnil(state, -1);
-        lua_pop(state, 1);
-        
-        return result;
-    }
-
-    vector<LuaRef> Inst::callIfExists(const string& name, const vector<LuaRef>& params)
-    {
-        if(!globalExists(name))
-            return vector<LuaRef>();
-        
-        return call(name, params);
+		runString(io::loadTextFile(path));
     }
     
     void Inst::callIfExistsNoReturn(const string& name)
     {
-        if(!globalExists(name))
-            return;
-        
-        return callNoReturn(name);
+		sol::function f = _state["init"];
+
+		if (f) f();
     }
-    
-    void Inst::callIfExistsNoReturn(const string& name, const vector<LuaRef>& params)
-    {
-        if(!globalExists(name))
-            return;
         
-        call(name, params);
-    }
-    
     void Inst::callNoReturn(const string& name)
     {
-        lua_pushglobaltable(state);
-        lua_getfield(state, -1, name.c_str());
-        //Remove global table after pushing function to call
-        lua_remove(state, -2);
-        
-        try{
-        
-            int error = docall(state, 0, 0);
-
-            if(error)
-            {
-                log("Lua::Inst::call: %s, error: %s", name.c_str(), lua_tostring(state,-1));
-            }
-        }
-        catch(lua_runtime_error ex){
-            log("Lua::Inst, %s: runtime exception %s.", name.c_str(), ex.what());
-        }
-    };
-
-    vector<LuaRef> Inst::call(const string& name, const vector<LuaRef>& params)
-    {
-        int top = lua_gettop(state);
-        
-        lua_pushglobaltable(state);
-        lua_getfield(state, -1, name.c_str());
-        //Remove global table after pushing function to call
-        lua_remove(state, -2);
-        
-        for(auto const& r: params)
-        {
-            r.push(state);
-        }
-        
-        try{
-        
-            int error = docall(state, params.size(), LUA_MULTRET);
-
-            if(error)
-            {
-                log("Lua::Inst::call: %s, error: %s", name.c_str(), lua_tostring(state,-1));
-                return vector<LuaRef>();
-            }
-            else
-            {
-                int nResults = lua_gettop(state) - top;
-                vector<LuaRef> results;
-                
-                for_irange(i,0,nResults){
-                    LuaRef ref(state);
-                    ref.pop(state);
-                    results.push_back(ref);
-                }
-                reverse(results.begin(), results.end());
-                return results;
-            }
-        }
-        catch(lua_runtime_error ex){
-            log("Lua::Inst, %s: runtime exception %s.", name.c_str(), ex.what());
-            return vector<LuaRef>();
-        }
+		_state[name]();
     };
     
-#define addFuncSame(x) addFunction(#x, &__cls::x)
-
+#define newType(x) _state.new_usertype<x>(#x);
+#define addFuncSame(v,x) v[#x] = &_cls::x;
+	
     void Inst::installApi()
     {
-		getGlobalNamespace(state)
+		auto app = newType(App);
+		#define _cls App
 
-		.beginClass<App>("App")
-			.addStaticFunction("runOverworldScene", static_cast<GScene*(*)(string,string)>(&App::runOverworldScene))
-			.addStaticFunction("getCrntScene", &App::getCrntScene)
-			.addStaticFunction("getCrntState", &App::getCrntState)
-			.addStaticFunction("printGlDebug", &App::printGlDebug)
+		app["runOverworldScene"] = static_cast<GScene*(*)(string, string)>(&App::runOverworldScene);
+
+		addFuncSame(app,getCrntScene);
+		addFuncSame(app, getCrntState);
+		addFuncSame(app, printGlDebug);
 #if USE_TIMERS
-			.addStaticFunction("printTimerInfo", &App::printTimerInfo)
-			.addStaticFunction("setLogTimers", &App::setLogTimers)
+		addFuncSame(app, printTimerInfo);
+		addFuncSame(app, setLogTimers);
 #endif
-			.addStaticFunction("setFullscreen", &App::setFullscreen)
-			.addStaticFunction("setVsync", &App::setVsync)
-			.addStaticFunction("setMultithread", &App::setMultithread)
-			.addStaticFunction("setResolution", &App::setResolution)
-			.addStaticFunction("setFramerate", &App::setFramerate)
-			.addStaticFunction("setPlayer", &App::setPlayer)
-			.addStaticFunction("setUnlockAllEquips", &App::setUnlockAllEquips)
-			.addStaticFunction("loadProfile", &App::loadProfile)
-			.addStaticFunction("saveProfile", &App::saveProfile)
+		addFuncSame(app, setFullscreen);
+		addFuncSame(app, setVsync);
+		addFuncSame(app, setMultithread);
+		addFuncSame(app, setResolution);
+		addFuncSame(app, setFramerate);
+		addFuncSame(app, setPlayer);
+		addFuncSame(app, setUnlockAllEquips);
+		addFuncSame(app, loadProfile);
+		addFuncSame(app, saveProfile);
 
-			.addStaticFunction("clearAllKeys", &App::clearAllKeys)
-			.addStaticFunction("clearKeyAction", &App::clearKeyAction)
-			.addStaticFunction("addKeyAction", &App::addKeyAction)
+		addFuncSame(app, clearAllKeys);
+		addFuncSame(app, clearKeyAction);
+		addFuncSame(app, addKeyAction);
 #if use_gamepad
-			.addStaticFunction("clearAllButtons", &App::clearAllButtons)
-			.addStaticFunction("clearButtonAction", &App::clearButtonAction)
-			.addStaticFunction("addButtonAction", &App::addButtonAction)
+		addFuncSame(app, clearAllButtons);
+		addFuncSame(app, clearButtonAction);
+		addFuncSame(app, addButtonAction);
 #endif
-		.endClass()
+		
+		auto attr = newType(AttributeSystem);
+		#define _cls AttributeSystem
 
-#define __cls AttributeSystem
-		.beginClass<AttributeSystem>("AttributeSystem")
-			.addFunction("getByName", &AttributeSystem::get)
-			.addFunction("setByName", static_cast<void(AttributeSystem::*)(string, float)>(&AttributeSystem::set))
-			.addFunction("getByID", &AttributeSystem::operator[])
-			.addFunction("setByID", &AttributeSystem::_set)
-			.addFunction("modifyAttribute", static_cast<void(AttributeSystem::*)(Attribute, float)>(&AttributeSystem::modifyAttribute))
-			.addFuncSame(setFullHP)
-			.addFuncSame(setFullMP)
-			.addFuncSame(setFullStamina)
-		.endClass()
+		attr["getByName"] = &AttributeSystem::get;
+		attr["setByName"] = static_cast<void(AttributeSystem::*)(string, float)>(&AttributeSystem::set);
+		attr["getByID"] = &AttributeSystem::operator[];
+		attr["setByID"] = &AttributeSystem::_set;
+		attr["modifyAttribute"] = static_cast<void(AttributeSystem::*)(Attribute, float)>(&AttributeSystem::modifyAttribute);
 
-#undef __cls
+		addFuncSame(attr, setFullHP);
+		addFuncSame(attr, setFullMP);
+		addFuncSame(attr, setFullStamina);
 
-		.beginClass<GObject>("GObject")
-			.addFunction("cast", &GObject::cast)
-			.addFunction("getAngle", &GObject::getAngle)
-			.addFunction("getAngularVel", &GObject::getAngularVel)
-			.addFunction("getPos", &GObject::getPos)
-			.addFunction("getVel", &GObject::getVel)
-			.addFunction("setAngle", &GObject::setAngle)
-			.addFunction("setAngularVel", &GObject::setAngularVel)
-			.addFunction("setPos", &GObject::setPos)
-			.addFunction("setVel", &GObject::setVel)
-			.addFunction("setSpriteShader", &GObject::setSpriteShader)
-			.addFunction("setVel", &GObject::setPos)
-			.addFunction("stopSpell", &GObject::stopSpell)
+		auto gobject = newType(GObject);
+		#define _cls GObject
 
-			.addFunction("addThread", &GObject::addThread)
-			.addFunction("printFSM", &GObject::printFSM)
-			.addFunction("removeThreadByName", static_cast<void(GObject::*)(const string&)>(&GObject::removeThread))
-
-		.endClass()
-#define __cls Agent
-		.deriveClass<Agent,GObject>("Agent")
-			.addFuncSame(getAttributeSystem)
-		.endClass()
-#undef __cls
-
-		.beginClass<GScene>("GScene")
-			.addStaticFunction("runScene", &GScene::runScene)
-			.addStaticFunction("runSceneWithReplay", &GScene::runSceneWithReplay)
-			.addStaticData("suppressGameOver", &GScene::suppressGameOver)
-			.addFunction("createDialog", static_cast<void(GScene::*)(const string&,bool)>(&GScene::createDialog))
-			.addFunction("getSpace", &GScene::getSpace)
-			.addFunction("setPaused", &GScene::setPaused)
-			.addFunction("stopDialog", &GScene::stopDialog)
-			.addFunction("teleportToDoor", &GScene::teleportToDoor)
-			.addFunction("setRoomVisible", &GScene::setRoomVisible)
-			.addFunction("unlockAllRooms", &GScene::unlockAllRooms)
-		.endClass()
-
-		.deriveClass<PlayScene,GScene>("PlayScene")
-			.addFunction("saveReplayData", &PlayScene::saveReplayData)
-		.endClass()
-
-		.beginClass<GSpace>("GSpace")
-			.addFunction("createObject", static_cast<gobject_ref (GSpace::*)(const ValueMap&)>(&GSpace::createObject))
-			.addFunction("getFrame", &GSpace::getFrame)
-			.addFunction("getObjectByName", static_cast<GObject*(GSpace::*)(const string&) const>(&GSpace::getObject))
-			.addFunction("getObjectAsAgent", &GSpace::getObjectAs<Agent>)
-			.addFunction("getObjectCount", &GSpace::getObjectCount)
-			.addFunction("getObjectNames", &GSpace::getObjectNames)
-			.addFunction("getUUIDNameMap", &GSpace::getUUIDNameMap)
-			.addFunction("isObstacle", &GSpace::isObstacle)
-			.addFunction("removeObject", static_cast<void(GSpace::*)(const string&)>(&GSpace::removeObject))
-		.endClass()
+		addFuncSame(gobject, cast);
+		addFuncSame(gobject, getAngle);
+		addFuncSame(gobject, getAngularVel);
+		addFuncSame(gobject, getPos);
+		addFuncSame(gobject, getVel);
+		addFuncSame(gobject, setAngle);
+		addFuncSame(gobject, setAngularVel);
+		addFuncSame(gobject, setPos);
+		addFuncSame(gobject, setVel);
+		addFuncSame(gobject, setSpriteShader);
+		addFuncSame(gobject, setVel);
+		addFuncSame(gobject, stopSpell);
+		addFuncSame(gobject, printFSM);
 			
-		.beginClass<GState>("GState")
-			.addFunction("addItem", &GState::addItem)
-			.addFunction("hasItem", &GState::hasItem)
-			.addFunction("registerChamberCompleted", &GState::_registerChamberCompleted)
-			.addFunction("registerUpgrade", &GState::_registerUpgrade)
-			.addFunction("setUpgradeLevels", &GState::setUpgradeLevels)
-		.endClass()
+		gobject["removeThreadByName"] = static_cast<void(GObject::*)(const string&)>(&GObject::removeThread);
 
-		.beginClass<HUD>("HUD")
-			.addFunction("setMansionMode", &HUD::setMansionMode)
-			.addFunction("setObjectiveCounter", &HUD::setObjectiveCounter)
-			.addFunction("setObjectiveCounterVisible", &HUD::setObjectiveCounterVisible)
-		.endClass()
+		auto agent = _state.new_usertype<Agent>("Agent", sol::base_classes, sol::bases<GObject>());
+		#define _cls Agent
 
-		.beginClass<SpaceVect>("SpaceVect")
-			.addConstructor<void(*)(double,double)>()
-			.addData("x", &SpaceVect::x)
-			.addData("y", &SpaceVect::y)
-		.endClass()
+		addFuncSame(agent, getAttributeSystem);
+
+		auto gscene = newType(GScene);
+		#define _cls GScene
+
+		addFuncSame(gscene, runScene);
+		addFuncSame(gscene, runSceneWithReplay);
+		addFuncSame(gscene, getSpace);
+		addFuncSame(gscene, setPaused);
+		addFuncSame(gscene, stopDialog);
+		addFuncSame(gscene, teleportToDoor);
+		addFuncSame(gscene, setRoomVisible);
+		addFuncSame(gscene, unlockAllRooms);
+		
+		gscene["createDialog"] = static_cast<void(GScene::*)(const string&, bool)>(&GScene::createDialog);
+
+		auto playscene = _state.new_usertype<PlayScene>("PlayScene", sol::base_classes, sol::bases<GScene>());
+		#define _cls PlayScene
+		
+		addFuncSame(playscene, saveReplayData);
+
+		auto gspace = newType(GSpace);
+		#define _cls GSpace
+
+		gspace["createObject"] = static_cast<gobject_ref(GSpace::*)(const ValueMap&)>(&GSpace::createObject);
+		gspace["getObjectByName"] = static_cast<GObject*(GSpace::*)(const string&) const>(&GSpace::getObject);
+		addFuncSame(gspace, getFrame);
+		addFuncSame(gspace, getObjectCount);
+		addFuncSame(gspace, getObjectNames);
+		addFuncSame(gspace, getUUIDNameMap);
+		addFuncSame(gspace, isObstacle);
+		gspace["removeObject"] = static_cast<void(GSpace::*)(const string&)>(&GSpace::removeObject);
 			
-		.beginNamespace("ai")
-			.addFunction("applyDesiredVelocity",&ai::applyDesiredVelocity)
-			.addFunction("seek", &ai::seek)
-			.addFunction("flee", &ai::flee)
-			.addFunction("isFacingTarget", &ai::isFacingTarget)
-			.addFunction("isFacingTargetsBack", &ai::isFacingTargetsBack)
-			.addFunction("isLineOfSight", &ai::isLineOfSight)
-			.addFunction("directionToTarget", &ai::directionToTarget)
-			.addFunction("displacementToTarget", &ai::displacementToTarget)
-			.addFunction("distanceToTarget", static_cast<SpaceFloat(*)(const GObject*, const GObject*)>(&ai::distanceToTarget))
-			.addFunction("viewAngleToTarget", &ai::viewAngleToTarget)
-		.endNamespace()
-		;
+		auto gstate = newType(GState);
+		#define _cls GState
+
+		addFuncSame(gstate, addItem);
+		addFuncSame(gstate, hasItem);
+		addFuncSame(gstate, _registerChamberCompleted);
+		addFuncSame(gstate, registerUpgrade);
+		addFuncSame(gstate, setUpgradeLevels);
+
+		auto hud = newType(HUD);
+		#define _cls HUD
+
+		addFuncSame(hud, setMansionMode);
+		addFuncSame(hud, setObjectiveCounter);
+		addFuncSame(hud, setObjectiveCounterVisible);
     }
-
-	string Inst::getSerialized(const string& name) {
-		return callOneReturn("get_serialized", makeArgs(name), "");
-	}
-
-	void Inst::setSerialized(const string& name, const string& val) {
-		call("set_serialized", makeArgs(name, val));
-	}
-
-	string Inst::callSerialized(const string& name, const string& args) {
-		return callOneReturn("call_serialized", makeArgs(name, args), "");
-	}
-
 }

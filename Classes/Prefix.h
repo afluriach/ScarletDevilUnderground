@@ -62,7 +62,7 @@
 #include "tinyxml2/tinyxml2.h"
 #include "ui/CocosGUI.h"
 #include "lua.hpp"
-#include "LuaBridge.h"
+#include "sol/sol.hpp"
 #include "noise.h"
 #include "sndfile.h"
 
@@ -101,7 +101,6 @@
 
 using namespace std;
 USING_NS_CC;
-using namespace luabridge;
 
 #define make_shared boost::make_local_shared
 #define shared_ptr boost::local_shared_ptr
