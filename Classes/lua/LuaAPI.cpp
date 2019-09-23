@@ -32,8 +32,6 @@ const vector<string> Inst::luaIncludes = {
 	"util",
 	"class",
 	"serpent",
-	"repl",
-	"gobject",
 	"ai"
 };
 
