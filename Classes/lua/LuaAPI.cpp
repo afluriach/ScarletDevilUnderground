@@ -30,7 +30,7 @@ namespace Lua{
 
 const vector<string> Inst::luaIncludes = {
 	"util",
-	"class",
+	"30log-global",
 	"serpent",
 	"ai"
 };
@@ -67,7 +67,12 @@ const vector<string> Inst::luaIncludes = {
         
     void Inst::runString(const string& str)
     {
-		_state.script(str);
+		try {
+			_state.script(str);
+		}
+		catch (sol::error e){
+			log("script %s error: %s", name, e.what());
+		}
     }
     
     void Inst::runFile(const string& path)
@@ -77,7 +82,7 @@ const vector<string> Inst::luaIncludes = {
     
     void Inst::callIfExistsNoReturn(const string& name)
     {
-		sol::function f = _state["init"];
+		sol::function f = _state[name];
 
 		if (f) f();
     }
