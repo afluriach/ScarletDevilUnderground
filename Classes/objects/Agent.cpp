@@ -111,6 +111,9 @@ void Agent::initFSM()
 		auto f = it->second;
 		f(fsm.get(), args);
 	}
+	else if(!packageName.empty()) {
+		fsm->runScriptPackage(packageName);
+	}
 
 	if (packageName.empty()) {
 		log("Agent %s, AI package not provided", getName());

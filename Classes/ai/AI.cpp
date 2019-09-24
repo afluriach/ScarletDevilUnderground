@@ -16,6 +16,7 @@
 #include "GSpace.hpp"
 #include "GObject.hpp"
 #include "GObjectMixins.hpp"
+#include "LuaAPI.hpp"
 #include "value_map.hpp"
 
 namespace ai{
@@ -172,10 +173,31 @@ string Thread::getMainFuncName() {
 	return !call_stack.empty() ? call_stack.front()->getName() : "";
 }
 
+unique_ptr<Lua::Inst> StateMachine::scriptVM;
+
 StateMachine::StateMachine(GObject *const agent) :
 agent(agent)
 {
     frame = getSpace()->getFrame();
+}
+
+bool StateMachine::runScriptPackage(const string& name)
+{
+	sol::function p = scriptVM->getFunction(name);
+
+	if (p) {
+		try {
+			p(this);
+		}
+		catch (const sol::error& e) {
+			log("script package %s error: %s", name, e.what());
+			return false;
+		}
+		return true;
+	}
+	else {
+		return false;
+	}
 }
 
 void StateMachine::update()
@@ -215,10 +237,11 @@ void StateMachine::removeFunction(shared_ptr<Function> function)
 	}
 }
 
-void StateMachine::addThread(shared_ptr<Thread> thread)
+shared_ptr<Thread> StateMachine::addThread(shared_ptr<Thread> thread)
 {
 	current_threads.push_back(thread);
 	addFunction(thread->getTop());
+	return thread;
 }
 
 shared_ptr<Thread> StateMachine::addThread(shared_ptr<Function> threadMain)

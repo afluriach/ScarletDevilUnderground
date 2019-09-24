@@ -15,7 +15,6 @@ namespace ai {
 	void maintain_distance(StateMachine* fsm, const ValueMap& args);
 	void circle_and_fire(StateMachine* fsm, const ValueMap& args);
 	void circle_around_point(StateMachine* fsm, const ValueMap& args);
-	void flock(StateMachine* fsm, const ValueMap& args);
 
 	void blue_fairy_follow_path(StateMachine* fsm, const ValueMap& args);
 

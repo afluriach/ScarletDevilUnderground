@@ -60,11 +60,6 @@ void circle_around_point(StateMachine* fsm, const ValueMap& args)
 	});
 }
 
-void flock(StateMachine* fsm, const ValueMap& args)
-{
-	fsm->addThread(make_shared<Flock>(fsm));
-}
-
 void blue_fairy_follow_path(StateMachine* fsm, const ValueMap& args)
 {
 	const Path* path = fsm->getSpace()->getPath(getStringOrDefault(args, "pathName", ""));
@@ -380,7 +375,6 @@ const unordered_map<string, StateMachine::PackageType> StateMachine::packages = 
 	package(maintain_distance),
 	package(circle_and_fire),
 	package(circle_around_point),
-	package(flock),
 	package(blue_fairy_follow_path),
 	package(engage_player_in_room),
 	package(seek_player),

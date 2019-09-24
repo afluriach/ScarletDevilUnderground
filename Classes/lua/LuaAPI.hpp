@@ -30,8 +30,10 @@ namespace Lua
         void runFile(const string& path);
                 
         void callNoReturn(const string& name);
-        void callIfExistsNoReturn(const string& name);        
-	protected:
+        void callIfExistsNoReturn(const string& name);
+
+		inline sol::function getFunction(const string& name) { return _state[name]; }
+
 		sol::state _state;
     };    
 }

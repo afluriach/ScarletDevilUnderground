@@ -14,6 +14,7 @@ class GObject;
 class GSpace;
 class physics_context;
 class RoomSensor;
+namespace Lua { class Inst; }
 
 namespace ai{
 
@@ -175,14 +176,17 @@ public:
 
 	typedef function<void(StateMachine*, const ValueMap&) > PackageType;
 	static const unordered_map<string, StateMachine::PackageType> packages;
+	static unique_ptr<Lua::Inst> scriptVM;
 
     StateMachine(GObject *const agent);
+
+	bool runScriptPackage(const string& name);
 
 	void update();
 
 	void addFunction(shared_ptr<Function> function);
 	void removeFunction(shared_ptr<Function> function);
-	void addThread(shared_ptr<Thread> thread);
+	shared_ptr<Thread> addThread(shared_ptr<Thread> thread);
     shared_ptr<Thread> addThread(shared_ptr<Function> threadMain);
     void removeThread(shared_ptr<Thread> thread);
     //Remove thread(s) that have the given main function.
@@ -215,8 +219,8 @@ public:
 	}
 
 	template<class FuncCls, typename... Params>
-	inline void addThread(Params... params) {
-		addThread(make_shared<FuncCls>(this, params...));
+	inline shared_ptr<Thread> addThread(Params... params) {
+		return addThread(make_shared<FuncCls>(this, params...));
 	}
 
 	template<class FuncCls, typename... Params>

@@ -185,6 +185,9 @@ App::App()
 	lua->runFile("scripts/init.lua");    
 #endif
 
+	ai::StateMachine::scriptVM = make_unique<Lua::Inst>("AI-FSM");
+	ai::StateMachine::scriptVM->runFile("scripts/ai-packages.lua");
+
 #if USE_TIMERS
 	timerSystem = make_unique<TimerSystem>();
 #endif

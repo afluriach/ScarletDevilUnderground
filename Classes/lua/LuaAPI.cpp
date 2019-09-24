@@ -10,6 +10,7 @@
 
 #include "Agent.hpp"
 #include "AI.hpp"
+#include "AIFunctions.hpp"
 #include "AIMixins.hpp"
 #include "AIUtil.hpp"
 #include "App.h"
@@ -26,6 +27,12 @@
 //Copied from ltm.h.
 //#define ttypename(x)	luaT_typenames_[(x) + 1]
 //extern const char *const luaT_typenames_[LUA_NUMTAGS+2];
+
+template<typename T, typename... Params>
+shared_ptr<ai::Function> create(ai::StateMachine* fsm, Params... params)
+{
+	return make_shared<T>(fsm, params...);
+}
 
 namespace Lua{
 
@@ -312,7 +319,7 @@ const vector<string> Inst::luaIncludes = {
 		addFuncSame(sm, removeFunction);
 		sm["addThread"] = sol::overload(
 			static_cast<shared_ptr<ai::Thread>(ai::StateMachine::*)(shared_ptr<ai::Function>)>(&ai::StateMachine::addThread),
-			static_cast<void(ai::StateMachine::*)(shared_ptr<ai::Thread>)>(&ai::StateMachine::addThread)
+			static_cast<shared_ptr<ai::Thread>(ai::StateMachine::*)(shared_ptr<ai::Thread>)>(&ai::StateMachine::addThread)
 		);
 		sm["removeThread"] = sol::overload(
 			static_cast<void(ai::StateMachine::*)(shared_ptr<ai::Thread>)>(&ai::StateMachine::removeThread),
@@ -328,5 +335,13 @@ const vector<string> Inst::luaIncludes = {
 		addFuncSame(sm, getAgent);
 		addFuncSame(sm, getFrame);
 		addFuncSame(sm, toString);
+
+		auto flock = _state.new_usertype<ai::Flock>(
+			"Flock",
+			sol::base_classes, sol::bases<ai::Function>()
+		);
+		_state["ai"]["Flock"] = flock;
+		_state["ai"]["Flock"]["create"] = &create<ai::Flock>;
+
 	}
 }
