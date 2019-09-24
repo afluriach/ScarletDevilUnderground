@@ -343,5 +343,19 @@ const vector<string> Inst::luaIncludes = {
 		_state["ai"]["Flock"] = flock;
 		_state["ai"]["Flock"]["create"] = &create<ai::Flock>;
 
+		auto idle = _state.new_usertype<ai::IdleWait>(
+			"IdleWait",
+			sol::base_classes, sol::bases<ai::Function>()
+		);
+		_state["ai"]["IdleWait"] = idle;
+		_state["ai"]["IdleWait"]["create"] = &create<ai::IdleWait>;
+
+		auto wander = _state.new_usertype<ai::Wander>(
+			"Wander",
+			sol::base_classes, sol::bases<ai::Function>()
+			);
+		_state["ai"]["Wander"] = wander;
+		_state["ai"]["Wander"]["create"] = &create<ai::Wander>;
+
 	}
 }

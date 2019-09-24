@@ -21,8 +21,6 @@ namespace ai {
 	void engage_player_in_room(StateMachine* fsm, const ValueMap& args);
 	void seek_player(StateMachine* fsm, const ValueMap& args);
 	void flee_player(StateMachine* fsm, const ValueMap& args);
-	void idle(StateMachine* fsm, const ValueMap& args);
-	void wander(StateMachine* fsm, const ValueMap& args);
 
 	pfunc(wander_and_flee_player);
 	pfunc(bat);

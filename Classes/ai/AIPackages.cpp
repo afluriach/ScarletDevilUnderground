@@ -96,16 +96,6 @@ void flee_player(StateMachine* fsm, const ValueMap& args) {
 	fsm->addWhileDetectHandler(GType::player, engage);
 }
 
-void idle(StateMachine* fsm, const ValueMap& args)
-{
-	fsm->addThread(make_shared<IdleWait>(fsm));
-}
-
-void wander(StateMachine* fsm, const ValueMap& args)
-{
-	fsm->addThread(make_shared<Wander>(fsm));
-}
-
 void wander_and_flee_player(StateMachine* fsm, const ValueMap& args)
 {
 	auto wanderThread = make_shared<Thread>(
@@ -379,8 +369,6 @@ const unordered_map<string, StateMachine::PackageType> StateMachine::packages = 
 	package(engage_player_in_room),
 	package(seek_player),
 	package(flee_player),
-	package(idle),
-	package(wander),
 	package(wander_and_flee_player),
 	package(bat),
 	package(facer),
