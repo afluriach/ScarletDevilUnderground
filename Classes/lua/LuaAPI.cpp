@@ -15,6 +15,7 @@
 #include "App.h"
 #include "FileIO.hpp"
 #include "GObject.hpp"
+#include "Graphics.h"
 #include "GScene.hpp"
 #include "GSpace.hpp"
 #include "GState.hpp"
@@ -94,7 +95,8 @@ const vector<string> Inst::luaIncludes = {
     
 #define newType(x) _state.new_usertype<x>(#x);
 #define addFuncSame(v,x) v[#x] = &_cls::x;
-	
+#define cFuncSame(v,x) v[#x] = &x;
+
     void Inst::installApi()
     {
 		auto app = newType(App);
@@ -144,6 +146,8 @@ const vector<string> Inst::luaIncludes = {
 		auto gobject = newType(GObject);
 		#define _cls GObject
 
+		addFuncSame(gobject, addGraphicsAction);
+		addFuncSame(gobject, stopGraphicsAction);
 		addFuncSame(gobject, cast);
 		addFuncSame(gobject, getAngle);
 		addFuncSame(gobject, getAngularVel);
@@ -211,5 +215,22 @@ const vector<string> Inst::luaIncludes = {
 		addFuncSame(hud, setMansionMode);
 		addFuncSame(hud, setObjectiveCounter);
 		addFuncSame(hud, setObjectiveCounterVisible);
-    }
+
+		auto graphics = _state.create_table();
+		_state["graphics"] = graphics;
+
+		cFuncSame(graphics, indefiniteFlickerAction);
+		cFuncSame(graphics, flickerAction);
+		cFuncSame(graphics, flickerTintAction);
+		cFuncSame(graphics, comboFlickerTintAction);
+		cFuncSame(graphics, spellcardFlickerTintAction);
+		cFuncSame(graphics, darknessCurseFlickerTintAction);
+		cFuncSame(graphics, tintToAction);
+		cFuncSame(graphics, motionBlurStretch);
+		cFuncSame(graphics, bombAnimationAction);
+		cFuncSame(graphics, freezeEffectAction);
+		cFuncSame(graphics, freezeEffectEndAction);
+		cFuncSame(graphics, objectFadeOut);
+		cFuncSame(graphics, damageIndicatorAction);
+	}
 }

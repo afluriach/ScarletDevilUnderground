@@ -50,6 +50,13 @@ typedef function<shared_ptr<Spell>(GObject*)> SpellGeneratorType;
 typedef function<shared_ptr<FirePattern>(Agent*, int)> FirePatternGeneratorType;
 //
 
+struct GraphicsAction
+{
+	ActionGeneratorType generator;
+
+	inline GraphicsAction(ActionGeneratorType generator) : generator(generator) {}
+};
+
 typedef function<void(ai::StateMachine&, Player*)> alert_function;
 typedef function<void(ai::StateMachine&, GObject*)> detect_function;
 typedef function<void(GObject*)> unary_gobject_function;

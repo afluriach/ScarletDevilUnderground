@@ -301,7 +301,7 @@ void ExplodeOnZeroHP::explode()
 	space->addGraphicsAction(
 		&graphics_context::runSpriteAction,
 		bombSprite,
-		bombAnimationAction(radius / Bomb::explosionSpriteRadius, true)
+		bombAnimationAction(radius / Bomb::explosionSpriteRadius, true).generator
 	);
 	obj->playSoundSpatial("sfx/red_fairy_explosion.wav");
 

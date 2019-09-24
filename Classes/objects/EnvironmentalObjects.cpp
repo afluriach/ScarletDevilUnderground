@@ -97,7 +97,7 @@ void GhostHeadstone::init()
 	space->addGraphicsAction(
 		&graphics_context::runSpriteAction,
 		spriteID,
-		indefiniteFlickerAction(0.333f, 48, 96)
+		indefiniteFlickerAction(0.333f, 48, 96).generator
 	);
 }
 

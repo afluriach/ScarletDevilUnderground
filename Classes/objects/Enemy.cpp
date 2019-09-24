@@ -38,7 +38,7 @@ void Enemy::runDamageFlicker()
 		space->addGraphicsAction(
 			&graphics_context::runSpriteAction,
 			spriteID,
-			flickerAction(0.3f, 1.2f, 81)
+			flickerAction(0.3f, 1.2f, 81).generator
 		);
 	}
 }

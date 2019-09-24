@@ -170,7 +170,7 @@ void GObject::update()
 
 void GObject::onPitfall()
 {
-	space->removeObjectWithAnimation(this, pitfallShrinkAction());
+	space->removeObjectWithAnimation(this, pitfallShrinkAction().generator);
 }
 
 int GObject::getCrntRoomID() const {
@@ -661,7 +661,7 @@ void GObject::initLightSource()
 	}
 }
 
-void GObject::addGraphicsAction(ActionGeneratorType gen, SpriteID id )
+void GObject::addGraphicsAction(GraphicsAction action, SpriteID id )
 {
 	SpriteID actual = id == 0 ? spriteID : id;
 
@@ -669,7 +669,7 @@ void GObject::addGraphicsAction(ActionGeneratorType gen, SpriteID id )
 		space->addGraphicsAction(
 			&graphics_context::runSpriteAction,
 			actual,
-			gen
+			action.generator
 		);
 	}
 }

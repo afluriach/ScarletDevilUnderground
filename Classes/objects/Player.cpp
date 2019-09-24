@@ -82,7 +82,7 @@ void Player::onPitfall()
 		return;
 	}
 
-	space->addGraphicsAction(&graphics_context::runSpriteAction, spriteID, pitfallShrinkAction());
+	space->addGraphicsAction(&graphics_context::runSpriteAction, spriteID, pitfallShrinkAction().generator);
 	startRespawn();
 }
 
@@ -399,7 +399,7 @@ void Player::updateCombo()
 	if (attributeSystem[Attribute::combo] >= AttributeSystem::maxComboPoints && !isComboActive) {
 		isComboActive = true;
 		attributeSystem.modifyAttribute(Attribute::attack, 0.25f);
-		space->addGraphicsAction(&graphics_context::runSpriteAction, spriteID, comboFlickerTintAction());
+		space->addGraphicsAction(&graphics_context::runSpriteAction, spriteID, comboFlickerTintAction().generator);
 	}
 	else if (!attributeSystem.isNonzero(Attribute::combo) && isComboActive) {
 		isComboActive = false;
@@ -578,7 +578,7 @@ bool Player::hit(DamageInfo damage){
 			hitFlickerInterval,
 			attributeSystem[Attribute::hitProtectionInterval],
 			81
-		)
+		).generator
 	);
 
 	space->addHudAction(

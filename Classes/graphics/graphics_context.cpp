@@ -290,7 +290,7 @@ void graphics_context::createDamageIndicator(float val, SpaceVect pos)
 	label->setScale(2.0f);
 
 	scene->getSpaceLayer()->addChild(label, to_uint(GraphicsLayer::agentOverlay));
-	label->runAction(damageIndicatorAction(startPos)());
+	label->runAction(damageIndicatorAction(startPos).generator());
 }
 
 void graphics_context::createAgentBodyShader(
@@ -396,11 +396,11 @@ void graphics_context::spriteSpatialUpdate(vector<sprite_update> spriteUpdates)
 
 		if (entry.fadeOut) {
 			stopSpriteAction(entry.spriteID, cocos_action_tag::object_fade);
-			runSpriteAction(entry.spriteID, objectFadeOut(objectFadeOutTime, objectFadeOpacity));
+			runSpriteAction(entry.spriteID, objectFadeOut(objectFadeOutTime, objectFadeOpacity).generator);
 		}
 		if (entry.fadeIn) {
 			stopSpriteAction(entry.spriteID, cocos_action_tag::object_fade);
-			runSpriteAction(entry.spriteID, objectFadeOut(objectFadeInTime, 255));
+			runSpriteAction(entry.spriteID, objectFadeOut(objectFadeInTime, 255).generator);
 		}
 	}
 }

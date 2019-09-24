@@ -73,7 +73,7 @@ void Spellcard::initializeGraphics()
 	space->addGraphicsAction(
 		&graphics_context::runSpriteAction,
 		spriteID,
-		spellcardFlickerTintAction()
+		spellcardFlickerTintAction().generator
 	);
 }
 

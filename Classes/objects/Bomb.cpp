@@ -59,7 +59,7 @@ void Bomb::detonate()
 		spriteID,
 		string("sprites/explosion.png")
 	);
-	space->removeObjectWithAnimation(this, bombAnimationAction(getBlastRadius() / explosionSpriteRadius, false));
+	space->removeObjectWithAnimation(this, bombAnimationAction(getBlastRadius() / explosionSpriteRadius, false).generator);
 
 	LightID light = space->addLightSource(
 		CircleLightArea::create(getBlastRadius()*1.5,Color4F::ORANGE,0.5),

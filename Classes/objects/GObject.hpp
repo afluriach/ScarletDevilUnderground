@@ -253,7 +253,7 @@ public:
 	void initLightSource();
 	//If "id" is not provided, the object's defaut sprite, spriteID, will be
 	//used, assuming it is valid.
-	void addGraphicsAction(ActionGeneratorType gen, SpriteID id = 0);
+	void addGraphicsAction(GraphicsAction action, SpriteID id = 0);
 	void stopGraphicsAction(cocos_action_tag tag, SpriteID id = 0);
 	void setSpriteZoom(float zoom);
 	void setSpriteOpacity(unsigned char op);

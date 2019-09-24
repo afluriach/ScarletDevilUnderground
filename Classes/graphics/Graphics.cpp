@@ -193,7 +193,7 @@ FiniteTimeAction* flickerTint(float interval, float length, Color3B tint)
 	return loop;
 }
 
-ActionGeneratorType indefiniteFlickerAction(float interval, unsigned char opacity1, unsigned char opacity2)
+GraphicsAction indefiniteFlickerAction(float interval, unsigned char opacity1, unsigned char opacity2)
 {
 	return [=]() -> FiniteTimeAction* {
 		Sequence* flicker = Sequence::createWithTwoActions(
@@ -206,7 +206,7 @@ ActionGeneratorType indefiniteFlickerAction(float interval, unsigned char opacit
 	};
 }
 
-ActionGeneratorType indefiniteColorFlickerAction(float interval, pair<Color3B,Color3B> colors, cocos_action_tag tag)
+GraphicsAction indefiniteColorFlickerAction(float interval, pair<Color3B,Color3B> colors, cocos_action_tag tag)
 {
 	return [=]() -> FiniteTimeAction* {
 		Sequence* flicker = Sequence::createWithTwoActions(
@@ -221,7 +221,7 @@ ActionGeneratorType indefiniteColorFlickerAction(float interval, pair<Color3B,Co
 	};
 }
 
-ActionGeneratorType flickerAction(float interval, float length, unsigned char opacity)
+GraphicsAction flickerAction(float interval, float length, unsigned char opacity)
 {
 	return [interval,length,opacity]() -> FiniteTimeAction* {
 		int nCycles = length / interval;
@@ -233,7 +233,7 @@ ActionGeneratorType flickerAction(float interval, float length, unsigned char op
 	};
 }
 
-ActionGeneratorType flickerTintAction(float interval, float length, Color3B tint)
+GraphicsAction flickerTintAction(float interval, float length, Color3B tint)
 {
 	return [interval,length,tint]() -> FiniteTimeAction* {
 		int nCycles = length / interval;
@@ -249,7 +249,7 @@ ActionGeneratorType flickerTintAction(float interval, float length, Color3B tint
 	};
 }
 
-ActionGeneratorType comboFlickerTintAction()
+GraphicsAction comboFlickerTintAction()
 {
 	return indefiniteColorFlickerAction(
 		0.25f,
@@ -258,7 +258,7 @@ ActionGeneratorType comboFlickerTintAction()
 	);
 }
 
-ActionGeneratorType spellcardFlickerTintAction()
+GraphicsAction spellcardFlickerTintAction()
 {
 	return indefiniteColorFlickerAction(
 		0.4f,
@@ -267,7 +267,7 @@ ActionGeneratorType spellcardFlickerTintAction()
 	);
 }
 
-ActionGeneratorType darknessCurseFlickerTintAction()
+GraphicsAction darknessCurseFlickerTintAction()
 {
 	return indefiniteColorFlickerAction(
 		0.4f,
@@ -281,21 +281,21 @@ FiniteTimeAction* tintTo(Color3B tint, float length)
 	return TintTo::createRecursive(length, tint);
 }
 
-ActionGeneratorType tintToAction(Color3B tint, float length)
+GraphicsAction tintToAction(Color3B tint, float length)
 {
 	return [tint, length]() -> FiniteTimeAction* {
 		return TintTo::createRecursive(length, tint);
 	};
 }
 
-ActionGeneratorType pitfallShrinkAction()
+GraphicsAction pitfallShrinkAction()
 {
 	return []() -> FiniteTimeAction* {
 		return ScaleTo::create(fallAnimationTime, 0.0f);
 	};
 }
 
-ActionGeneratorType bombAnimationAction(float expand_ratio, bool removeAfter)
+GraphicsAction bombAnimationAction(float expand_ratio, bool removeAfter)
 {
 	return [expand_ratio, removeAfter]() -> FiniteTimeAction* {
 
@@ -325,7 +325,7 @@ ActionGeneratorType bombAnimationAction(float expand_ratio, bool removeAfter)
 	};
 }
 
-ActionGeneratorType motionBlurStretch(float duration, float angle, float opacity, float scale)
+GraphicsAction motionBlurStretch(float duration, float angle, float opacity, float scale)
 {
 	return [duration,angle,opacity,scale]() -> FiniteTimeAction* {
 		Sequence* sequence = Sequence::create(
@@ -339,7 +339,7 @@ ActionGeneratorType motionBlurStretch(float duration, float angle, float opacity
 	};
 }
 
-ActionGeneratorType freezeEffectAction()
+GraphicsAction freezeEffectAction()
 {
 	return []() -> FiniteTimeAction* {
 		FiniteTimeAction* action = TintTo::createRecursive(0.5f, Color3B(64, 64, 255));
@@ -348,7 +348,7 @@ ActionGeneratorType freezeEffectAction()
 	};
 }
 
-ActionGeneratorType freezeEffectEndAction()
+GraphicsAction freezeEffectEndAction()
 {
 	return []() -> FiniteTimeAction* {
 		FiniteTimeAction* action = TintTo::createRecursive(0.5f, Color3B(255, 255, 255));
@@ -357,7 +357,7 @@ ActionGeneratorType freezeEffectEndAction()
 	};
 }
 
-ActionGeneratorType objectFadeOut(float duration, unsigned char targetOpacity)
+GraphicsAction objectFadeOut(float duration, unsigned char targetOpacity)
 {
 	return [duration,targetOpacity]() -> FiniteTimeAction* {
 		FiniteTimeAction* action = FadeTo::create(duration, targetOpacity);
@@ -366,7 +366,7 @@ ActionGeneratorType objectFadeOut(float duration, unsigned char targetOpacity)
 	};
 }
 
-ActionGeneratorType damageIndicatorAction(const Vec2& start_pos)
+GraphicsAction damageIndicatorAction(const Vec2& start_pos)
 {
 	Vec2 end_pos = start_pos + Vec2(0.0f, app::pixelsPerTile);
 	return [end_pos]() -> FiniteTimeAction* {
