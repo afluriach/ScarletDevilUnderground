@@ -93,9 +93,12 @@ const vector<string> Inst::luaIncludes = {
 		_state[name]();
     };
     
+#define enum_entry(cls, x) { #x, cls::x }
+
 #define newType(x) _state.new_usertype<x>(#x);
 #define addFuncSame(v,x) v[#x] = &_cls::x;
 #define cFuncSame(v,x) v[#x] = &x;
+#define cFuncSameNS(v,ns,x) v[#x] = &ns::x;
 
     void Inst::installApi()
     {
@@ -130,6 +133,16 @@ const vector<string> Inst::luaIncludes = {
 		addFuncSame(app, addButtonAction);
 #endif
 		
+		auto app_consts = _state.create_table();
+		_state["app_constants"] = app_consts;
+		
+		cFuncSameNS(app_consts, app, baseWidth);
+		cFuncSameNS(app_consts, app, baseHeight);
+		cFuncSameNS(app_consts, app, pixelsPerTile);
+		cFuncSameNS(app_consts, app, tilesPerPixel);
+		cFuncSameNS(app_consts, app, viewWidth);
+		cFuncSameNS(app_consts, app, Gaccel);
+
 		auto attr = newType(AttributeSystem);
 		#define _cls AttributeSystem
 
@@ -232,5 +245,88 @@ const vector<string> Inst::luaIncludes = {
 		cFuncSame(graphics, freezeEffectEndAction);
 		cFuncSame(graphics, objectFadeOut);
 		cFuncSame(graphics, damageIndicatorAction);
+
+		auto _ai = _state.create_table();
+		_state["ai"] = _ai;
+
+		auto _event_type = _state.new_enum<ai::event_type, true>(
+			"event_type",
+			{
+				enum_entry(ai::event_type, begin),
+				enum_entry(ai::event_type, bulletBlock),
+				enum_entry(ai::event_type, bulletHit),
+				enum_entry(ai::event_type, detect),
+				enum_entry(ai::event_type, endDetect),
+				enum_entry(ai::event_type, zeroHP),
+				enum_entry(ai::event_type, zeroStamina),
+				enum_entry(ai::event_type, end),
+			}
+		);
+
+		_ai["event_type"] = _event_type;
+
+		auto event = _state.new_usertype<ai::Event>("Event");
+		#define _cls ai::Event
+		_ai["Event"] = event;
+		
+		addFuncSame(event, isDetectPlayer);
+		addFuncSame(event, getDetectType);
+		addFuncSame(event, getEndDetectType);
+		addFuncSame(event, getEventType);
+
+		#define _cls ai::Function
+		auto func = _state.new_usertype<ai::Function>("Function");
+		_ai["Function"] = func;
+
+		addFuncSame(func, getSpace);
+		addFuncSame(func, getAgent);
+		addFuncSame(func, onEnter);
+		addFuncSame(func, update);
+		addFuncSame(func, onReturn);
+		addFuncSame(func, onExit);
+		addFuncSame(func, onEvent);
+		addFuncSame(func, getEvents);
+		addFuncSame(func, getName);
+
+		#define _cls ai::Thread
+		auto thread = _state.new_usertype<ai::Thread>(
+			"Thread",
+			sol::constructors < ai::Thread(shared_ptr < ai::Function>, ai::StateMachine*) > ()
+		);
+		_ai["Thread"] = thread;
+
+		addFuncSame(thread, update);
+		addFuncSame(thread, onEvent);
+		addFuncSame(thread, push);
+		addFuncSame(thread, pop);
+		addFuncSame(thread, popToRoot);
+		addFuncSame(thread, getTop);
+		addFuncSame(thread, getStack);
+		addFuncSame(thread, getMainFuncName);
+
+		#define _cls ai::StateMachine
+		auto sm = _state.new_usertype<ai::StateMachine>("StateMachine");
+		_state["ai"]["StateMachine"] = sm;
+
+		sm["addFunction"] = static_cast<void(ai::StateMachine::*)(shared_ptr<ai::Function>)>(&ai::StateMachine::addFunction);
+		addFuncSame(sm, removeFunction);
+		sm["addThread"] = sol::overload(
+			static_cast<shared_ptr<ai::Thread>(ai::StateMachine::*)(shared_ptr<ai::Function>)>(&ai::StateMachine::addThread),
+			static_cast<void(ai::StateMachine::*)(shared_ptr<ai::Thread>)>(&ai::StateMachine::addThread)
+		);
+		sm["removeThread"] = sol::overload(
+			static_cast<void(ai::StateMachine::*)(shared_ptr<ai::Thread>)>(&ai::StateMachine::removeThread),
+			static_cast<void(ai::StateMachine::*)(const string&)>(&ai::StateMachine::removeThread)
+		);
+		addFuncSame(sm, isThreadRunning);
+		addFuncSame(sm, getThreadCount);
+
+		addFuncSame(sm, addFleeBomb);
+
+		addFuncSame(sm, getSpace);
+		addFuncSame(sm, getObject);
+		addFuncSame(sm, getAgent);
+		addFuncSame(sm, getFrame);
+		addFuncSame(sm, toString);
 	}
 }

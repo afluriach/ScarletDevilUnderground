@@ -81,6 +81,8 @@ public:
 	GType getDetectType();
 	GType getEndDetectType();
 
+	inline event_type getEventType() const { return eventType; }
+
 	event_type eventType;
 	any data;
 };
