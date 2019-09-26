@@ -14,18 +14,40 @@
 #include "MagicEffect.hpp"
 #include "RadarSensor.hpp"
 
-MagicEffect::MagicEffect(GObject* agent, float magnitude) :
+MagicEffect::MagicEffect(GObject* agent, float length, float magnitude, flag_bits _flags) :
 agent(agent),
+length(length),
 magnitude(magnitude),
+_flags(_flags),
 crntState(state::created)
-{}
+{
+	if (!_flags.any()) {
+		log("Warning, empty MagicEffect created.");
+	}
+}
 
 GSpace* MagicEffect::getSpace() const {
 	return agent->space;
 }
 
+bool MagicEffect::isImmediate() const
+{
+	return (_flags & make_enum_bitfield(flags::immediate)).any();
+}
+
+bool MagicEffect::isTimed() const
+{
+	return (_flags & make_enum_bitfield(flags::timed)).any();
+
+}
+
+bool MagicEffect::isActive() const
+{
+	return (_flags & make_enum_bitfield(flags::active)).any();
+}
+
 RadiusEffect::RadiusEffect(GObject* agent, SpaceFloat radius, GType type) :
-	MagicEffect(agent),
+	MagicEffect(agent, -1.0f, 0.0f, enum_bitfield2(flags, indefinite, active)),
 	radius(radius),
 	type(type)
 {}

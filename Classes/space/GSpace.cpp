@@ -59,7 +59,7 @@ GSpace::GSpace(GScene* gscene) :
 	controlReplay->frame_rate = app::params.framesPerSecond;
 	crntState = make_unique<GState>();
 
-	magicEffectSystem = make_unique<MagicEffectSystem>();
+	magicEffectSystem = make_unique<MagicEffectSystem>(this);
 }
 
 GSpace::~GSpace()

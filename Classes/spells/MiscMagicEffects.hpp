@@ -17,10 +17,9 @@ class RedFairy;
 class FreezeStatusEffect : public MagicEffect
 {
 public:
-	FreezeStatusEffect(GObject* agent);
+	FreezeStatusEffect(GObject* agent, float length);
 
 	virtual void init();
-	virtual void update();
 	virtual void end();
 protected:
 	float timer = 0.0f;

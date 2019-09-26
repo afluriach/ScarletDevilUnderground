@@ -43,6 +43,7 @@
 #include <map>
 #include <memory>
 #include <mutex>
+#include <queue>
 #include <random>
 #include <set>
 #include <thread>

@@ -10,13 +10,30 @@
 
 #include "MagicEffectSystem.hpp"
 
-MagicEffectSystem::MagicEffectSystem()
+bool timedEntry::operator>(const timedEntry& rhs) const
+{
+	if (endFrame > rhs.endFrame)
+		return true;
+	else {
+		return effect.get() > rhs.effect.get();
+	}
+}
+
+MagicEffectSystem::MagicEffectSystem(GSpace* gspace) :
+	timedRemovals(),
+	gspace(gspace)
 {
 }
 
 void MagicEffectSystem::addEffect(shared_ptr<MagicEffect> effect)
 {
-	magicEffectsToAdd.push_back(effect);
+	if(isValidConfig(effect))
+		magicEffectsToAdd.push_back(effect);
+}
+
+void MagicEffectSystem::removeEffect(shared_ptr<MagicEffect> effect)
+{
+	magicEffectsToRemove.push_back(effect);
 }
 
 void MagicEffectSystem::removeObjectEffects(GObject* obj)
@@ -38,15 +55,33 @@ void MagicEffectSystem::applyAdd()
 		shared_ptr<MagicEffect> newEffect = *it;
 		GObject* obj = newEffect->agent;
 
-		emplaceIfEmpty(effectObjects, obj);
-		effectObjects.at(obj).push_back(newEffect);
-
 		if (!newEffect || newEffect.get()->crntState != MagicEffect::state::created) {
-			log("GObject::addMagicEffect: invalid magic effect");
+			log("invalid magic effect not in created state");
 			continue;
 		}
 
-		magicEffects.push_back(newEffect);
+		newEffect->init();
+		newEffect->crntState = MagicEffect::state::active;
+
+		if (!newEffect->isImmediate()) {
+			emplaceIfEmpty(effectObjects, obj);
+			effectObjects.at(obj).push_back(newEffect);
+
+			magicEffects.push_back(newEffect);
+
+			if (newEffect->isActive()) {
+				updateEffects.push_back(newEffect);
+			}
+
+			if (newEffect->isTimed()) {
+				float length = newEffect->length;
+				if (length > 0.0f) {
+					unsigned int endFrame = gspace->getFrame() + app::params.framesPerSecond * length;
+					
+					timedRemovals.push(timedEntry{ endFrame, newEffect });
+				}
+			}
+		}
 	}
 
 	magicEffectsToAdd.clear();
@@ -56,28 +91,24 @@ void MagicEffectSystem::update()
 {
 	applyAdd();
 
-	for (auto it = magicEffects.begin(); it != magicEffects.end(); ++it)
+	for (auto it = updateEffects.begin(); it != updateEffects.end(); ++it)
 	{
 		MagicEffect* _crntEffect = (*it).get();
+		_crntEffect->update();
+	}
 
-		switch (_crntEffect->crntState)
-		{
-		case MagicEffect::state::created:
-			_crntEffect->init();
-			_crntEffect->crntState = MagicEffect::state::active;
-			//intentional fall through - update will be first called on the same frame as init
-		case MagicEffect::state::active:
-			_crntEffect->update();
-			break;
-		case MagicEffect::state::ending:
-			_crntEffect->end();
-			_crntEffect->crntState = MagicEffect::state::expired;
-			magicEffectsToRemove.push_back(*it);
-			break;
-		default:
-			log("Invalid MagicEffect state %d", to_int(_crntEffect->crntState));
-			break;
-		}
+	processTimedRemovals();
+	applyRemove();
+}
+
+void MagicEffectSystem::processTimedRemovals()
+{
+	unsigned int crntFrame = gspace->getFrame();
+
+	while (!timedRemovals.empty() && timedRemovals.top().endFrame <= crntFrame)
+	{
+		removeEffect(timedRemovals.top().effect);
+		timedRemovals.pop();
 	}
 }
 
@@ -85,7 +116,27 @@ void MagicEffectSystem::applyRemove()
 {
 	for (auto it = magicEffectsToRemove.begin(); it != magicEffectsToRemove.end(); ++it)
 	{
+		(*it)->crntState = MagicEffect::state::ending;
+		(*it)->end();
+
 		magicEffects.remove(*it);
+
+		if ( (*it)->isActive() ) {
+			updateEffects.remove(*it);
+		}
 	}
 	magicEffectsToRemove.clear();
+}
+
+bool MagicEffectSystem::isValidConfig(shared_ptr<MagicEffect> effect)
+{
+	if (bool_int(effect->_flags[to_size_t(MagicEffect::flags::immediate)]) +
+		bool_int(effect->_flags[to_size_t(MagicEffect::flags::indefinite)]) +
+		bool_int(effect->_flags[to_size_t(MagicEffect::flags::timed)]) != 1
+	){
+		log("Invalid time properties; exactly one time flag should be set.");
+		return false;
+	}
+
+	return true;
 }

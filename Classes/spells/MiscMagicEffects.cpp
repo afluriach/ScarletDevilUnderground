@@ -18,8 +18,8 @@
 #include "Player.hpp"
 #include "SpellUtil.hpp"
 
-FreezeStatusEffect::FreezeStatusEffect(GObject* agent) :
-	MagicEffect(agent, 0.0f)
+FreezeStatusEffect::FreezeStatusEffect(GObject* agent, float length) :
+	MagicEffect(agent, length, 0.0f, make_enum_bitfield(flags::timed))
 {}
 
 void FreezeStatusEffect::init()
@@ -33,19 +33,6 @@ void FreezeStatusEffect::init()
 	if (_player) {
 		_player->setFiringSuppressed(true);
 		_player->setMovementSuppressed(true);
-	}
-}
-
-void FreezeStatusEffect::update()
-{
-	timerIncrement(timer);
-
-	if (timer >= 5.0f) {
-		crntState = state::ending;
-	}
-
-	else {
-		ai::applyDesiredVelocity(agent, SpaceVect::zero, agent->getMaxAcceleration());
 	}
 }
 
@@ -66,7 +53,7 @@ void FreezeStatusEffect::end()
 }
 
 DarknessCurseEffect::DarknessCurseEffect(Agent* agent) :
-	MagicEffect(agent, 0.0f),
+	MagicEffect(agent, 0.0f, 0.0f, enum_bitfield2(flags, indefinite, active)),
 	agent(agent)
 {
 }
@@ -94,7 +81,7 @@ void DarknessCurseEffect::end()
 }
 
 RedFairyStress::RedFairyStress(Agent* agent) :
-	MagicEffect(agent, 1.0f),
+	MagicEffect(agent, 0.0f, 0.0, enum_bitfield2(flags, indefinite, active)),
 	agent(agent)
 {
 	baseAttackSpeed = agent->getAttribute(Attribute::attackSpeed);
@@ -116,7 +103,7 @@ void RedFairyStress::end()
 }
 
 GhostProtection::GhostProtection(Agent* agent) :
-	MagicEffect(agent, 1.0f),
+	MagicEffect(agent, 0.0f, 0.0f, enum_bitfield2(flags, indefinite, active)),
 	agent(agent)
 {
 }
@@ -152,7 +139,7 @@ BulletSpeedFromHP::BulletSpeedFromHP(
 	float maxDebuff,
 	float maxBuff
 ) :
-	MagicEffect(agent, 1.0f),
+	MagicEffect(agent, 0.0f, 0.0f, enum_bitfield2(flags, indefinite, active)),
 	agent(agent),
 	debuffRange(debuffRange),
 	buffRange(buffRange),
@@ -192,7 +179,7 @@ void BulletSpeedFromHP::end()
 }
 
 DrainStaminaFromMovement::DrainStaminaFromMovement(Agent* agent) :
-	MagicEffect(agent),
+	MagicEffect(agent, 0.0f, 0.0f, enum_bitfield2(flags, indefinite, active)),
 	agent(agent)
 {
 }
