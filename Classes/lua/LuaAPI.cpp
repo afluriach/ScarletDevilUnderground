@@ -14,6 +14,7 @@
 #include "AIMixins.hpp"
 #include "AIUtil.hpp"
 #include "App.h"
+#include "app_constants.hpp"
 #include "FileIO.hpp"
 #include "GObject.hpp"
 #include "Graphics.h"

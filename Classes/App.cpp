@@ -1,5 +1,6 @@
 #include "Prefix.h"
 
+#include "AI.hpp"
 #include "App.h"
 #include "app_constants.hpp"
 #include "audio_context.hpp"

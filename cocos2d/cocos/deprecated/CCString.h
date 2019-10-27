@@ -84,7 +84,7 @@ public:
      * @js NA
      * @lua NA
      */
-    bool initWithFormat(const char* format, ...) CC_FORMAT_PRINTF(2, 3);
+    bool initWithFormat(const char* format, ...);
 
     /** convert to int value 
      * @js NA
@@ -162,7 +162,7 @@ public:
      *          it means that you needn't do a release operation unless you retain it.
      * @js NA
      */
-    static __String* createWithFormat(const char* format, ...) CC_FORMAT_PRINTF(1, 2);
+    static __String* createWithFormat(const char* format, ...);
 
     /** create a string with binary data 
      *  @return A String pointer which is an autorelease object pointer,
@@ -217,7 +217,7 @@ std::string toString(T arg)
     return ss.str();
 }
 
-std::string CC_DLL format(const char* format, ...) CC_FORMAT_PRINTF(1, 2);
+std::string CC_DLL format(const char* format, ...);
     
 } // namespace StringUtils {
 

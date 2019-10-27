@@ -31,6 +31,7 @@
 #include <string>
 #include <mutex>
 #include <vector>
+#include <functional>
 #ifdef OPENAL_PLAIN_INCLUDES
 #include <al.h>
 #else

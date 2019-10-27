@@ -31,6 +31,7 @@
 #include <string>
 #include <condition_variable>
 #include <thread>
+#include <functional>
 #ifdef OPENAL_PLAIN_INCLUDES
 #include <al.h>
 #else

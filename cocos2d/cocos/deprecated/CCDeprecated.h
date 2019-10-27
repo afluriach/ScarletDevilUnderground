@@ -982,10 +982,6 @@ CC_DEPRECATED_ATTRIBUTE const ResolutionPolicy kResolutionUnKnown       = Resolu
 #define kCCFlipedAll                  kFlipedAll
 #define kCCFlippedMask                kTMXFlippedMask
 
-
-/** use log() instead */
-CC_DEPRECATED_ATTRIBUTE void CC_DLL CCLog(const char * pszFormat, ...) CC_FORMAT_PRINTF(1, 2);
-
 CC_DEPRECATED_ATTRIBUTE void CC_DLL ccDrawInit();
 CC_DEPRECATED_ATTRIBUTE void CC_DLL ccDrawFree();
 CC_DEPRECATED_ATTRIBUTE void CC_DLL ccDrawPoint( const Vec2& point );

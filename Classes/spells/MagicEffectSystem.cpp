@@ -8,6 +8,7 @@
 
 #include "Prefix.h"
 
+#include "GSpace.hpp"
 #include "MagicEffectSystem.hpp"
 
 bool timedEntry::operator>(const timedEntry& rhs) const
