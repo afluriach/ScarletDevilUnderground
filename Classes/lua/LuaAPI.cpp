@@ -110,6 +110,28 @@ const vector<string> Inst::luaIncludes = {
 
     void Inst::installApi()
     {
+		auto gtype = _state.new_enum<GType, true>(
+			"GType",
+			{
+				enum_entry(GType, none),
+				enum_entry(GType, player),
+				enum_entry(GType, playerBullet),
+				enum_entry(GType, enemy),
+				enum_entry(GType, enemyBullet),
+				enum_entry(GType, environment),
+				enum_entry(GType, foliage),
+				enum_entry(GType, wall),
+				enum_entry(GType, areaSensor),
+				enum_entry(GType, enemySensor),
+				enum_entry(GType, playerGrazeRadar),
+				enum_entry(GType, playerPickup),
+				enum_entry(GType, npc),
+				enum_entry(GType, floorSegment),
+				enum_entry(GType, bomb),
+				enum_entry(GType, all),
+			}
+		);
+
 		auto app = newType(App);
 		#define _cls App
 
@@ -330,6 +352,7 @@ const vector<string> Inst::luaIncludes = {
 		addFuncSame(sm, getThreadCount);
 
 		addFuncSame(sm, addFleeBomb);
+		addFuncSame(sm, addWhileDetectHandler);
 
 		addFuncSame(sm, getSpace);
 		addFuncSame(sm, getObject);
@@ -354,9 +377,17 @@ const vector<string> Inst::luaIncludes = {
 		auto wander = _state.new_usertype<ai::Wander>(
 			"Wander",
 			sol::base_classes, sol::bases<ai::Function>()
-			);
+		);
 		_state["ai"]["Wander"] = wander;
 		_state["ai"]["Wander"]["create"] = &create<ai::Wander>;
 
+		auto maintain_distance = _state.new_usertype<ai::MaintainDistance>(
+			"MaintainDistance",
+			sol::base_classes, sol::bases<ai::Function>()
+		);
+		_state["ai"]["MaintainDistance"] = maintain_distance;
+		_state["ai"]["MaintainDistance"]["create"] = &create<ai::MaintainDistance, gobject_ref, SpaceFloat, SpaceFloat>;
+		_state["ai"]["MaintainDistance"]["makeTargetFunctionGenerator"] = &ai::makeTargetFunctionGenerator<ai::MaintainDistance, SpaceFloat, SpaceFloat>;
+		//_state["ai"]["MaintainDistance"].set_function("makeTargetFunctionGenerator", &ai::makeTargetFunctionGenerator<ai::MaintainDistance, SpaceFloat, SpaceFloat>);
 	}
 }

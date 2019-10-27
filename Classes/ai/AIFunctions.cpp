@@ -320,14 +320,6 @@ distance(distance),
 margin(margin)
 {}
 
-MaintainDistance::MaintainDistance(StateMachine* fsm, const ValueMap& args) :
-Function(fsm)
-{
-    target = getObjRefFromStringField(getSpace(), args, "target");
-    distance = getFloat(args, "distance");
-    margin = getFloat(args, "margin");
-}
-
 update_return MaintainDistance::update()
 {
 	Agent* agent = fsm->getAgent();

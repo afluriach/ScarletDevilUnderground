@@ -25,12 +25,6 @@
 
 namespace ai {
 
-void maintain_distance(StateMachine* fsm, const ValueMap& args)
-{
-	auto engage = makeTargetFunctionGenerator<MaintainDistance>(4.5f, 1.5f);
-	fsm->addWhileDetectHandler(GType::player, engage);
-}
-
 void circle_and_fire(StateMachine* fsm, const ValueMap& args)
 {
 	fsm->setAlertFunction([](StateMachine& sm, Player* p)->void {
@@ -362,7 +356,6 @@ void evade_player_projectiles(StateMachine* fsm, const ValueMap& args) {
 #define package(name) {#name, &name}
 
 const unordered_map<string, StateMachine::PackageType> StateMachine::packages = {
-	package(maintain_distance),
 	package(circle_and_fire),
 	package(circle_around_point),
 	package(blue_fairy_follow_path),

@@ -106,7 +106,6 @@ protected:
 class MaintainDistance : public Function {
 public:
     MaintainDistance(StateMachine* fsm, gobject_ref target, SpaceFloat distance, SpaceFloat margin);
-    MaintainDistance(StateMachine* fsm, const ValueMap& args);
     
 	virtual update_return update();
     GetLockmask(movement)    
