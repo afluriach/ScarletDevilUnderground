@@ -26,12 +26,10 @@ static constexpr Function::AdapterType consAdapter()
 #define entry_same(cls) entry(#cls, cls)
 
 const unordered_map<string, Function::AdapterType> Function::adapters = {
-	entry_same(Flee),
 	entry_same(FollowPath),
 	entry_same(IdleWait),
 	entry_same(MoveToPoint),
 	entry_same(MultiSpawnSequence),
-	entry_same(Seek),
 	entry_same(SequentialClearSpawn),
 	entry_same(TimedSpawnSequence),
 	entry_same(Wander)

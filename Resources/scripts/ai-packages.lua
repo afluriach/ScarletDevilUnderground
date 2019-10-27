@@ -14,3 +14,19 @@ function maintain_distance(fsm)
 	engage = ai.MaintainDistance.makeTargetFunctionGenerator(4.5, 1.5)
 	fsm:addWhileDetectHandler(GType.player, engage)
 end
+
+--Used for large enemy (slimes) that should not try to use pathfinding to follow player
+function engage_player_in_room(fsm)
+	engage = ai.Seek.makeTargetFunctionGenerator(false, 0.0)
+	fsm:addWhileDetectHandler(GType.player, engage)
+end
+
+function seek_player(fsm)
+	engage = ai.Seek.makeTargetFunctionGenerator(true, 0.0)
+	fsm:addWhileDetectHandler(GType.player, engage)
+end
+
+function flee_player(fsm)
+	engage = ai.Flee.makeTargetFunctionGenerator(1.5)
+	fsm:addWhileDetectHandler(GType.player, engage)
+end

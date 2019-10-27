@@ -381,6 +381,22 @@ const vector<string> Inst::luaIncludes = {
 		_state["ai"]["Wander"] = wander;
 		_state["ai"]["Wander"]["create"] = &create<ai::Wander>;
 
+		auto flee = _state.new_usertype<ai::Flee>(
+			"Flee",
+			sol::base_classes, sol::bases<ai::Function>()
+		);
+		_state["ai"]["Flee"] = flee;
+		_state["ai"]["Flee"]["create"] = &create<ai::Flee, GObject*, SpaceFloat>;
+		_state["ai"]["Flee"]["makeTargetFunctionGenerator"] = &ai::makeTargetFunctionGenerator<ai::Flee, SpaceFloat>;
+
+		auto seek = _state.new_usertype<ai::Seek>(
+			"Seek",
+			sol::base_classes, sol::bases<ai::Function>()
+		);
+		_state["ai"]["Seek"] = seek;
+		_state["ai"]["Seek"]["create"] = &create<ai::Seek, GObject*, bool, SpaceFloat>;
+		_state["ai"]["Seek"]["makeTargetFunctionGenerator"] = &ai::makeTargetFunctionGenerator<ai::Seek, bool, SpaceFloat>;
+
 		auto maintain_distance = _state.new_usertype<ai::MaintainDistance>(
 			"MaintainDistance",
 			sol::base_classes, sol::bases<ai::Function>()

@@ -70,26 +70,6 @@ void blue_fairy_follow_path(StateMachine* fsm, const ValueMap& args)
 	}
 }
 
-//Used for Slime; should not try to use pathfinding
-void engage_player_in_room(StateMachine* fsm, const ValueMap& args)
-{
-	auto engage = makeTargetFunctionGenerator<Seek>(false);
-	fsm->addWhileDetectHandler(GType::player, engage);
-}
-
-void seek_player(StateMachine* fsm, const ValueMap& args)
-{
-	auto engage = makeTargetFunctionGenerator<Seek>(true);
-	fsm->addWhileDetectHandler(GType::player, engage);
-}
-
-void flee_player(StateMachine* fsm, const ValueMap& args) {
-	auto engage = makeTargetFunctionGenerator<Flee>(1.5);
-
-	fsm->addThread(make_shared<IdleWait>(fsm));
-	fsm->addWhileDetectHandler(GType::player, engage);
-}
-
 void wander_and_flee_player(StateMachine* fsm, const ValueMap& args)
 {
 	auto wanderThread = make_shared<Thread>(
@@ -359,9 +339,6 @@ const unordered_map<string, StateMachine::PackageType> StateMachine::packages = 
 	package(circle_and_fire),
 	package(circle_around_point),
 	package(blue_fairy_follow_path),
-	package(engage_player_in_room),
-	package(seek_player),
-	package(flee_player),
 	package(wander_and_flee_player),
 	package(bat),
 	package(facer),

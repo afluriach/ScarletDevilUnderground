@@ -215,13 +215,6 @@ bool BossFightHandler::onEvent(Event event)
 	return false;
 }
 
-Seek::Seek(StateMachine* fsm, const ValueMap& args) :
-	Function(fsm)
-{
-    target = getObjRefFromStringField(fsm->getSpace(), args, "target_name");
-	usePathfinding = getBoolOrDefault(args, "use_pathfinding", false);
-}
-
 Seek::Seek(StateMachine* fsm, GObject* target, bool usePathfinding, SpaceFloat margin) :
 	Function(fsm),
 	target(target),
@@ -598,28 +591,6 @@ Flee::Flee(StateMachine* fsm, GObject* target, SpaceFloat distance) :
 	target(target),
 	distance(distance)
 {}
-
-
-Flee::Flee(StateMachine* fsm, const ValueMap& args) : 
-	Function(fsm)
-{
-    if(args.find("target_name") == args.end()){
-        log("Seek::Seek: target_name missing.");
-    }
-    target = getSpace()->getObject(args.at("target_name").asString());
-    
-    if(!target.isValid()){
-        log("Flee::Flee: target object %s not found.", args.at("target_name").asString().c_str() );
-    }
-    
-    if(args.find("flee_distance") == args.end()){
-        log("Flee::Flee: flee_distance missing.");
-		distance = 0.0;
-    }
-    else{
-        distance = args.at("flee_distance").asFloat();
-    }
-}
 
 update_return Flee::update()
 {

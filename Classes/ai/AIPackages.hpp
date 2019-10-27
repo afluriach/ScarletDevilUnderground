@@ -17,10 +17,6 @@ namespace ai {
 
 	void blue_fairy_follow_path(StateMachine* fsm, const ValueMap& args);
 
-	void engage_player_in_room(StateMachine* fsm, const ValueMap& args);
-	void seek_player(StateMachine* fsm, const ValueMap& args);
-	void flee_player(StateMachine* fsm, const ValueMap& args);
-
 	pfunc(wander_and_flee_player);
 	pfunc(bat);
 	pfunc(facer);

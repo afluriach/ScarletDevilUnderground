@@ -78,7 +78,6 @@ protected:
 class Seek : public Function {
 public:
 	Seek(StateMachine* fsm, GObject* target, bool usePathfinding, SpaceFloat margin = 0.0);
-    Seek(StateMachine* fsm, const ValueMap& args);
     
 	virtual update_return update();
     
@@ -188,7 +187,6 @@ protected:
 class Flee : public Function {
 public:
 	Flee(StateMachine* fsm, GObject* target, SpaceFloat distance);
-    Flee(StateMachine* fsm, const ValueMap& args);
     
 	virtual update_return update();
 
