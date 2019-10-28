@@ -219,6 +219,7 @@ public:
 	bool isInPlayerRoom(int roomID);
 	int getPlayerRoom();
 	Player* getPlayer();
+	gobject_ref getPlayerAsRef();
 	void applyMapFragment(int mapFragmentID);
 	void increaseSpawnTotal(type_index t, unsigned int count);
 	void registerEnemyDefeated(type_index t);

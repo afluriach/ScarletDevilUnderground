@@ -21,10 +21,26 @@
 
 namespace ai{
 
+update_return::update_return() :
+	update_return(0, nullptr)
+{
+}
+
+update_return::update_return(int idx, shared_ptr<Function> f) :
+	idx(idx),
+	f(f)
+{
+}
+
 Event::Event(event_type eventType, any data) :
 	eventType(eventType),
 	data(data)
 {
+}
+
+bool Event::isBulletHit()
+{
+	return eventType == event_type::bulletHit;
 }
 
 bool Event::isDetectPlayer()
@@ -103,12 +119,12 @@ void Thread::update()
 
 	update_return result = crnt->update();
 
-	for (int i = 0; i < -result.first && !call_stack.empty(); ++i) {
+	for (int i = 0; i < -result.idx && !call_stack.empty(); ++i) {
 		pop();
 	}
 
-	if (result.second.get()) {
-		push(result.second);
+	if (result.f.get()) {
+		push(result.f);
 	}
 }
 

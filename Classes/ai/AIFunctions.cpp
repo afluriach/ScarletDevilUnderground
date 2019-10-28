@@ -20,6 +20,7 @@
 #include "Graphics.h"
 #include "graphics_context.hpp"
 #include "GSpace.hpp"
+#include "LuaAPI.hpp"
 #include "physics_context.hpp"
 #include "RadarSensor.hpp"
 #include "Spell.hpp"
@@ -104,10 +105,10 @@ update_return CompositeFunction::update()
 		locks &= crntLock;
 		update_return result = (*it)->update();
 		
-		if (result.second) {
+		if (result.f) {
 			log("CompositeFunction sub-function %s should not push!", (*it)->getName());
 		}
-		if (result.first < 0) {
+		if (result.idx < 0) {
 			log("CompositeFunction sub-function %s should not pop!", (*it)->getName());
 		}		
 	}
@@ -177,6 +178,100 @@ void CompositeFunction::removeFunction(shared_ptr<Function> f)
 		else {
 			++it;
 		}
+	}
+}
+
+AITargetFunctionGenerator ScriptFunction::targetGenerator(const string& cls)
+{
+	return makeTargetFunctionGenerator<ScriptFunction>(cls);
+}
+
+ScriptFunction::ScriptFunction(StateMachine* fsm, const string& cls) :
+	Function(fsm),
+	cls(cls)
+{
+	obj = ai::StateMachine::scriptVM->_state[cls](fsm);
+}
+
+ScriptFunction::ScriptFunction(StateMachine* fsm, GObject* target, const string& cls) :
+	Function(fsm),
+	cls(cls)
+{
+	obj = ai::StateMachine::scriptVM->_state[cls](fsm, gobject_ref(target));
+}
+
+void ScriptFunction::onEnter()
+{
+	sol::function f = obj["onEnter"];
+	if (f) f(obj);
+}
+
+update_return ScriptFunction::update()
+{
+	sol::function f = obj["update"];
+
+	if (f) {
+		update_return result = f(obj);
+		return result;
+	}
+	else {
+		return_steady();
+	}
+}
+
+bool ScriptFunction::onEvent(Event event)
+{
+	sol::function f = obj["onEvent"];
+	if (f) {
+		bool result = f(obj, event);
+		return result;
+	}
+	else {
+		return false;
+	}
+}
+
+event_bitset ScriptFunction::getEvents()
+{
+	sol::function f = obj["getEvents"];
+	if (f) {
+		event_bitset result = f(obj);
+		return result;
+	}
+	else {
+		return event_bitset();
+	}
+}
+
+void ScriptFunction::onExit()
+{
+	sol::function f = obj["onExit"];
+	if (f) {
+		f(obj);
+	}
+}
+
+lock_mask ScriptFunction::getLockMask()
+{
+	sol::function f = obj["getLockMask"];
+	if (f) {
+		lock_mask result = f(obj);
+		return result;
+	}
+	else {
+		return lock_mask();
+	}
+}
+
+string ScriptFunction::getName()
+{
+	sol::function f = obj["getName"];
+	if (f) {
+		string result = f(obj);
+		return result;
+	}
+	else {
+		return cls;
 	}
 }
 

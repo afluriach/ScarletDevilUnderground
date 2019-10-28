@@ -132,6 +132,13 @@ const vector<string> Inst::luaIncludes = {
 			}
 		);
 
+		auto vect = _state.new_usertype<SpaceVect>(
+			"SpaceVect",
+			sol::constructors<SpaceVect()>()
+		);
+
+		vect["ray"] = &SpaceVect::ray;
+
 		auto app = newType(App);
 		#define _cls App
 
@@ -186,16 +193,24 @@ const vector<string> Inst::luaIncludes = {
 		addFuncSame(attr, setFullMP);
 		addFuncSame(attr, setFullStamina);
 
+		auto objref = newType(gobject_ref);
+		objref["isValid"] = &gobject_ref::isValid;
+		objref["isFuture"] = &gobject_ref::isFuture;
+		objref["get"] = &gobject_ref::get;
+		objref["getID"] = &gobject_ref::getID;
+
 		auto gobject = newType(GObject);
 		#define _cls GObject
 
 		addFuncSame(gobject, addGraphicsAction);
 		addFuncSame(gobject, stopGraphicsAction);
 		addFuncSame(gobject, cast);
+		addFuncSame(gobject, getMaxSpeed);
 		addFuncSame(gobject, getAngle);
 		addFuncSame(gobject, getAngularVel);
 		addFuncSame(gobject, getPos);
 		addFuncSame(gobject, getVel);
+		addFuncSame(gobject, rotate);
 		addFuncSame(gobject, setAngle);
 		addFuncSame(gobject, setAngularVel);
 		addFuncSame(gobject, setPos);
@@ -236,6 +251,7 @@ const vector<string> Inst::luaIncludes = {
 
 		gspace["createObject"] = static_cast<gobject_ref(GSpace::*)(const ValueMap&)>(&GSpace::createObject);
 		gspace["getObjectByName"] = static_cast<GObject*(GSpace::*)(const string&) const>(&GSpace::getObject);
+		addFuncSame(gspace, getPlayerAsRef);
 		addFuncSame(gspace, getFrame);
 		addFuncSame(gspace, getObjectCount);
 		addFuncSame(gspace, getObjectNames);
@@ -279,7 +295,16 @@ const vector<string> Inst::luaIncludes = {
 		auto _ai = _state.create_table();
 		_state["ai"] = _ai;
 
-		auto _event_type = _state.new_enum<ai::event_type, true>(
+		_ai["isFacingTarget"] = &ai::isFacingTarget;
+		_ai["isFacingTargetsBack"] = &ai::isFacingTargetsBack;
+
+		auto _update_return = _state.new_usertype<ai::update_return>(
+			"update_return",
+			sol::constructors<ai::update_return(), ai::update_return(int,shared_ptr<ai::Function>)>()
+		);
+		_ai["update_return"] = _update_return;
+
+		auto _event_type = _ai.new_enum<ai::event_type, true>(
 			"event_type",
 			{
 				enum_entry(ai::event_type, begin),
@@ -293,12 +318,13 @@ const vector<string> Inst::luaIncludes = {
 			}
 		);
 
-		_ai["event_type"] = _event_type;
+		_ai["event_type_bitfield"] = &make_enum_bitfield<ai::event_type>;
 
 		auto event = _state.new_usertype<ai::Event>("Event");
 		#define _cls ai::Event
 		_ai["Event"] = event;
 		
+		addFuncSame(event, isBulletHit);
 		addFuncSame(event, isDetectPlayer);
 		addFuncSame(event, getDetectType);
 		addFuncSame(event, getEndDetectType);
@@ -317,6 +343,10 @@ const vector<string> Inst::luaIncludes = {
 		addFuncSame(func, onEvent);
 		addFuncSame(func, getEvents);
 		addFuncSame(func, getName);
+
+		func["makeNullShared"] = []() -> shared_ptr<ai::Function> {
+			return nullptr;
+		};
 
 		#define _cls ai::Thread
 		auto thread = _state.new_usertype<ai::Thread>(
@@ -360,6 +390,12 @@ const vector<string> Inst::luaIncludes = {
 		addFuncSame(sm, getFrame);
 		addFuncSame(sm, toString);
 
+		auto scriptFunc = _state.new_usertype<ai::ScriptFunction>("ScriptFunction");
+		_ai["ScriptFunction"] = scriptFunc;
+
+		scriptFunc["create"] = &create<ai::ScriptFunction, const string&>;
+		scriptFunc["targetGenerator"] = &ai::ScriptFunction::targetGenerator;
+
 		auto flock = _state.new_usertype<ai::Flock>(
 			"Flock",
 			sol::base_classes, sol::bases<ai::Function>()
@@ -380,6 +416,13 @@ const vector<string> Inst::luaIncludes = {
 		);
 		_state["ai"]["Wander"] = wander;
 		_state["ai"]["Wander"]["create"] = &create<ai::Wander>;
+
+		auto flank = _state.new_usertype<ai::Flank>(
+			"Flank",
+			sol::base_classes, sol::bases<ai::Function>()
+		);
+		_state["ai"]["Flank"] = flank;
+		_state["ai"]["Flank"]["create"] = &create<ai::Flank, gobject_ref, double, double>;
 
 		auto flee = _state.new_usertype<ai::Flee>(
 			"Flee",

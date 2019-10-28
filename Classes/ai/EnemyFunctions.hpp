@@ -30,43 +30,6 @@ protected:
 	SpaceFloat timer = cooldown;
 };
 
-class BatMain : public Function {
-public:
-	inline BatMain(StateMachine* fsm, gobject_ref target) : Function(fsm), target(target) {}
-
-	virtual void onEnter();
-	virtual update_return update();
-	FuncGetName(BatMain)
-protected:
-	gobject_ref target = nullptr;
-};
-
-class FacerMain : public Function {
-public:
-	inline FacerMain(StateMachine* fsm) : Function(fsm) {}
-
-	virtual void onEnter();
-	virtual update_return update();
-	virtual bool onEvent(Event event);
-	virtual event_bitset getEvents();
-	FuncGetName(FacerMain)
-protected:
-	gobject_ref target = nullptr;
-};
-
-class FollowerMain : public Function {
-public:
-	inline FollowerMain(StateMachine* fsm) : Function(fsm) {}
-
-	virtual void onEnter();
-	virtual update_return update();
-	virtual bool onEvent(Event event);
-	virtual event_bitset getEvents();
-	FuncGetName(FollowerMain)
-protected:
-	gobject_ref target = nullptr;
-};
-
 class MarisaCollectMain : public Function {
 public:
 	inline MarisaCollectMain(StateMachine* fsm) : Function(fsm) {}

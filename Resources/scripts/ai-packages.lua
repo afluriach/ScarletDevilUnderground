@@ -30,3 +30,23 @@ function flee_player(fsm)
 	engage = ai.Flee.makeTargetFunctionGenerator(1.5)
 	fsm:addWhileDetectHandler(GType.player, engage)
 end
+
+function ghost_fairy_npc(fsm)
+	fsm:addThread(ai.Wander.create(fsm))
+	
+	seek = ai.Seek.makeTargetFunctionGenerator(true, 1.5)
+	fsm:addWhileDetectHandler(GType.player, seek)
+end
+
+function bat(fsm)
+	engage = ai.ScriptFunction.targetGenerator("BatEngage")
+	fsm:addWhileDetectHandler(GType.player, engage)
+end
+
+function facer(fsm)
+	fsm:addThread( ai.ScriptFunction.create(fsm, "Facer") )
+end
+
+function follower(fsm)
+	fsm:addThread( ai.ScriptFunction.create(fsm, "Follower") )
+end

@@ -64,6 +64,26 @@ protected:
 	bool hasInit = false;
 };
 
+class ScriptFunction : public Function {
+public:
+	static AITargetFunctionGenerator targetGenerator(const string& cls);
+
+	ScriptFunction(StateMachine* fsm, const string& cls);
+	ScriptFunction(StateMachine* fsm, GObject* target, const string& cls);
+
+	virtual void onEnter();
+	virtual update_return update();
+	virtual bool onEvent(Event event);
+	virtual event_bitset getEvents();
+	virtual void onExit();
+	virtual lock_mask getLockMask();
+	virtual string getName();
+
+protected:
+	string cls;
+	sol::table obj;
+};
+
 class BossFightHandler : public Function {
 public:
 	BossFightHandler(StateMachine* fsm, string startDialog, string endDialog);

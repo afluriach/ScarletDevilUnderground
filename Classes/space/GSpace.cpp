@@ -889,6 +889,11 @@ Player* GSpace::getPlayer()
 	}
 }
 
+gobject_ref GSpace::getPlayerAsRef()
+{
+	return getPlayer();
+}
+
 //END OBJECT MANIPULATION
 
 //BEGIN NAVIGATION

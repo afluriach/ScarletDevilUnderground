@@ -18,6 +18,8 @@ namespace Lua { class Inst; }
 
 namespace ai{
 
+class Function;
+
 enum class ResourceLock
 {
     begin = 0,
@@ -51,7 +53,6 @@ constexpr size_t eventCount = to_size_t(event_type::end);
 
 typedef bitset<lockCount> lock_mask;
 typedef bitset<eventCount> event_bitset;
-typedef pair<int, shared_ptr<Function>> update_return;
 typedef pair<event_bitset, shared_ptr<Function>> function_entry;
 
 //for functions that target an object
@@ -61,22 +62,32 @@ typedef function<shared_ptr<Function>(StateMachine*, GObject*)> AITargetFunction
 #define GetLockmask(l) inline virtual lock_mask getLockMask() { return make_enum_bitfield(ResourceLock::l); }
 #define GetLockmask2(l, m) inline virtual lock_mask getLockMask() { return make_enum_bitfield(ResourceLock::l) | make_enum_bitfield(ResourceLock::m); }
 
-#define return_pop() return make_pair(-1, nullptr)
-#define return_push(x) return make_pair(0, x)
-#define _steady() make_pair(0, nullptr)
+#define return_pop() return update_return(-1, nullptr)
+#define return_push(x) return update_return(0, x)
+#define _steady() update_return(0, nullptr)
 #define return_steady() return _steady()
 
-#define return_pop_if_false(x) return make_pair( (x) ? 0 : -1, nullptr)
-#define return_pop_if_true(x) return make_pair( (x) ? -1 : 0, nullptr)
+#define return_pop_if_false(x) return update_return( (x) ? 0 : -1, nullptr)
+#define return_pop_if_true(x) return update_return( (x) ? -1 : 0, nullptr)
 
-#define return_push_if_true(x, s) return make_pair( 0, (x) ? (s) : nullptr )
-#define return_push_if_valid(x) return make_pair( 0, (x) ? (x) : nullptr )
+#define return_push_if_true(x, s) return update_return( 0, (x) ? (s) : nullptr )
+#define return_push_if_valid(x) return update_return( 0, (x) ? (x) : nullptr )
+
+struct update_return
+{
+	update_return();
+	update_return(int idx, shared_ptr<Function> f);
+
+	int idx;
+	shared_ptr<Function> f;
+};
 
 class Event
 {
 public:
 	Event(event_type eventType, any data);
 
+	bool isBulletHit();
 	bool isDetectPlayer();
 	//returns none type if event is not a detection
 	GType getDetectType();

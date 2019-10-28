@@ -95,21 +95,6 @@ void wander_and_flee_player(StateMachine* fsm, const ValueMap& args)
 	fsm->addThread(wanderThread);
 }
 
-void bat(StateMachine* fsm, const ValueMap& args) {
-	auto engage = makeTargetFunctionGenerator<BatMain>();
-	fsm->addWhileDetectHandler(GType::player, engage);
-}
-
-void facer(StateMachine* fsm, const ValueMap& args)
-{
-	fsm->addThread(make_shared<FacerMain>(fsm));
-}
-
-void follower(StateMachine* fsm, const ValueMap& args) {
-	fsm->addThread(make_shared<FollowerMain>(fsm));
-}
-
-
 void ghost_fairy(StateMachine* fsm, const ValueMap& args)
 {
 	fsm->getObject()->addMagicEffect(make_shared<GhostProtection>(fsm->getAgent()));
@@ -236,14 +221,6 @@ void ice_fairy(StateMachine* fsm, const ValueMap& args) {
 	fsm->addWhileDetectHandler(GType::player, engage);
 }
 
-void ghost_fairy_npc(StateMachine* fsm, const ValueMap& args)
-{
-	fsm->addThread(make_shared<Wander>(fsm));
-
-	auto seek = makeTargetFunctionGenerator<Seek>(true, 1.5);
-	fsm->addWhileDetectHandler(GType::player, seek);
-}
-
 void collect_marisa(StateMachine* fsm, const ValueMap& args)
 {
 	fsm->addThread(make_shared<MarisaCollectMain>(fsm));
@@ -340,9 +317,6 @@ const unordered_map<string, StateMachine::PackageType> StateMachine::packages = 
 	package(circle_around_point),
 	package(blue_fairy_follow_path),
 	package(wander_and_flee_player),
-	package(bat),
-	package(facer),
-	package(follower),
 	package(ghost_fairy),
 	package(red_fairy),
 	package(green_fairy1),
@@ -350,7 +324,6 @@ const unordered_map<string, StateMachine::PackageType> StateMachine::packages = 
 	package(zombie_fairy),
 	package(fairy2),
 	package(ice_fairy),
-	package(ghost_fairy_npc),
 	package(collect_marisa),
 	package(forest_marisa),
 	package(patchouli_enemy),
