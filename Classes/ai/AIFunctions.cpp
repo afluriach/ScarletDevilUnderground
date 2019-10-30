@@ -22,6 +22,7 @@
 #include "GSpace.hpp"
 #include "LuaAPI.hpp"
 #include "physics_context.hpp"
+#include "Player.hpp"
 #include "RadarSensor.hpp"
 #include "Spell.hpp"
 #include "SpellUtil.hpp"
@@ -76,6 +77,51 @@ bool WhileDetect::onEvent(Event event)
 		return true;
 	}
 	return false;
+}
+
+OnAlert::OnAlert(StateMachine* fsm, AITargetFunctionGenerator gen) :
+	Function(fsm),
+	gen(gen)
+{
+}
+
+bool OnAlert::onEvent(Event event)
+{
+	Player* p = event.getRoomAlert();
+	GObject* obj = p;
+
+	if (p) {
+		fsm->addThread(gen(fsm, obj));
+	}
+
+	return p;
+}
+
+event_bitset OnAlert::getEvents()
+{
+	return make_enum_bitfield(event_type::roomAlert);
+}
+
+OnAlertFunction::OnAlertFunction(StateMachine* fsm, alert_function f) :
+	Function(fsm),
+	f(f)
+{
+}
+
+bool OnAlertFunction::onEvent(Event event)
+{
+	Player* p = event.getRoomAlert();
+
+	if (p) {
+		f(fsm, p);
+	}
+
+	return p;
+}
+
+event_bitset OnAlertFunction::getEvents()
+{
+	return make_enum_bitfield(event_type::roomAlert);
 }
 
 CompositeFunction::CompositeFunction(StateMachine* fsm) :
@@ -708,10 +754,6 @@ update_return Flee::update()
 }
 
 EvadePlayerProjectiles::EvadePlayerProjectiles(StateMachine* fsm) : 
-	Function(fsm)
-{}
-
-EvadePlayerProjectiles::EvadePlayerProjectiles(StateMachine* fsm, const ValueMap& args) : 
 	Function(fsm)
 {}
 

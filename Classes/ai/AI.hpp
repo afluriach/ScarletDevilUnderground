@@ -42,6 +42,8 @@ enum class event_type
 	detect,
 	endDetect,
 
+	roomAlert,
+
 	zeroHP,
 	zeroStamina,
 
@@ -92,6 +94,8 @@ public:
 	//returns none type if event is not a detection
 	GType getDetectType();
 	GType getEndDetectType();
+
+	Player* getRoomAlert();
 
 	inline event_type getEventType() const { return eventType; }
 
@@ -214,6 +218,7 @@ public:
 	void onZeroHP();
 	void onZeroStamina();
 
+	void addAlertHandler(AITargetFunctionGenerator gen);
 	void addOnDetectHandler(GType type, AITargetFunctionGenerator gen);
 	void addWhileDetectHandler(GType type, AITargetFunctionGenerator gen);
 	void addFleeBomb();
@@ -222,7 +227,7 @@ public:
 	void addEndDetectFunction(GType t, detect_function f);
 	void removeDetectFunction(GType t);
 	void removeEndDetectFunction(GType t);
-	void setAlertFunction(alert_function f);
+	void addAlertFunction(alert_function f);
 
 	template<class FuncCls, typename... Params>
 	inline void addFunction(Params... params) {
@@ -272,14 +277,12 @@ protected:
 
 	GObject *const agent;
 
-	alert_function alertHandler;
 	unordered_map<GType, detect_function> detectHandlers;
 	unordered_map<GType, detect_function> endDetectHandlers;
 
 	list<shared_ptr<Thread>> current_threads;
 	list<function_entry> functions;
     unsigned int frame;
-	bool alerted = false;
 };
 
 template<class FuncCls, typename... Params>

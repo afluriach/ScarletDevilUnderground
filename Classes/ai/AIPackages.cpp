@@ -27,9 +27,9 @@ namespace ai {
 
 void circle_and_fire(StateMachine* fsm, const ValueMap& args)
 {
-	fsm->setAlertFunction([](StateMachine& sm, Player* p)->void {
-		sm.addThread(make_shared<LookAround>(&sm, float_pi / 4.0));
-		sm.addThread(make_shared<FireIfTargetVisible>(&sm, p));
+	fsm->addAlertFunction([](StateMachine* sm, Player* p)->void {
+		sm->addThread(make_shared<LookAround>(sm, float_pi / 4.0));
+		sm->addThread(make_shared<FireIfTargetVisible>(sm, p));
 	});
 }
 
@@ -46,11 +46,11 @@ void circle_around_point(StateMachine* fsm, const ValueMap& args)
 		waypointValid = true;
 	}
 
-	fsm->setAlertFunction([waypoint, angularPos, waypointValid](StateMachine& sm, Player* p)->void {
+	fsm->addAlertFunction([waypoint, angularPos, waypointValid](StateMachine* sm, Player* p)->void {
 		if (waypointValid) {
-			sm.addThread(make_shared<CircleAround>(&sm, waypoint, angularPos, float_pi / 4.0));
+			sm->addThread(make_shared<CircleAround>(sm, waypoint, angularPos, float_pi / 4.0));
 		}
-		sm.addThread(make_shared<FireIfTargetVisible>(&sm, p));
+		sm->addThread(make_shared<FireIfTargetVisible>(sm, p));
 	});
 }
 
@@ -59,13 +59,13 @@ void blue_fairy_follow_path(StateMachine* fsm, const ValueMap& args)
 	const Path* path = fsm->getSpace()->getPath(getStringOrDefault(args, "pathName", ""));
 
 	if (path) {
-		fsm->setAlertFunction([path](StateMachine& sm, Player* p) -> void {
-			auto comp = make_shared<CompositeFunction>(&sm);
+		fsm->addAlertFunction([path](StateMachine* sm, Player* p) -> void {
+			auto comp = make_shared<CompositeFunction>(sm);
 			comp->addFunction<FollowPath>(*path, true, true);
 			comp->addFunction<LookTowardsFire>(true);
 			comp->addFunction<FireOnStress>(5.0f);
 			comp->addFunction<BlueFairyPowerAttack>();
-			sm.addThread(comp);
+			sm->addThread(comp);
 		});
 	}
 }
@@ -138,8 +138,8 @@ void red_fairy(StateMachine* fsm, const ValueMap& args)
 
 	agent->addMagicEffect(make_shared<RedFairyStress>(agent));
 
-	fsm->setAlertFunction([](StateMachine& sm, Player* p)->void {
-		sm.addThread(make_shared<Wander>(&sm, 1.5, 2.5, 2.0, 3.0));
+	fsm->addAlertFunction([](StateMachine* sm, Player* p)->void {
+		sm->addThread(make_shared<Wander>(sm, 1.5, 2.5, 2.0, 3.0));
 	});
 
 	fsm->addFleeBomb();
@@ -147,11 +147,11 @@ void red_fairy(StateMachine* fsm, const ValueMap& args)
 	fsm->addFunction<ExplodeOnZeroHP>(bomb_damage(20.0f), 4.0);
 }
 
-void greenFairyEngage(StateMachine& sm, Player* p)
+void greenFairyEngage(StateMachine* sm, Player* p)
 {
-	sm.addThread(make_shared<Wander>(&sm, 0.75, 1.5, 2.0, 4.0));
-	sm.addThread(make_shared<EvadePlayerProjectiles>(&sm));
-	sm.addThread(make_shared<FireOnStress>(&sm, 5.0f));
+	sm->addThread(make_shared<Wander>(sm, 0.75, 1.5, 2.0, 4.0));
+	sm->addThread(make_shared<EvadePlayerProjectiles>(sm));
+	sm->addThread(make_shared<FireOnStress>(sm, 5.0f));
 }
 
 void green_fairy1(StateMachine* fsm, const ValueMap& args)
@@ -166,7 +166,7 @@ void green_fairy1(StateMachine* fsm, const ValueMap& args)
 		0.25f
 	));
 
-	fsm->setAlertFunction(&greenFairyEngage);
+	fsm->addAlertFunction(&greenFairyEngage);
 }
 
 void green_fairy2(StateMachine* fsm, const ValueMap& args)
@@ -181,13 +181,13 @@ void green_fairy2(StateMachine* fsm, const ValueMap& args)
 		0.25f
 	));
 
-	fsm->setAlertFunction(&greenFairyEngage);
+	fsm->addAlertFunction(&greenFairyEngage);
 }
 
 void zombie_fairy(StateMachine* fsm, const ValueMap& args)
 {
-	fsm->setAlertFunction([](StateMachine& sm, Player* p)->void {
-		sm.addThread(make_shared<Wander>(&sm, 2.0, 3.0, 1.5, 3.0));
+	fsm->addAlertFunction([](StateMachine* sm, Player* p)->void {
+		sm->addThread(make_shared<Wander>(sm, 2.0, 3.0, 1.5, 3.0));
 	});
 
 	auto engage = makeTargetFunctionGenerator<Seek>(true);
@@ -277,24 +277,6 @@ void sakuya(StateMachine* fsm, const ValueMap& args)
 	fsm->addThread(make_shared<SakuyaMain>(fsm));
 }
 
-void sakuya_npc(StateMachine* fsm, const ValueMap& args)
-{
-	fsm->addThread(make_shared<SakuyaNPC1>(fsm));
-}
-
-
-void scorpion1(StateMachine* fsm, const ValueMap& args)
-{
-	auto engage = makeTargetFunctionGenerator<Scurry>(3.0, -1.0);
-	fsm->addWhileDetectHandler(GType::player, engage);
-}
-
-void scorpion2(StateMachine* fsm, const ValueMap& args)
-{
-	auto engage = makeTargetFunctionGenerator<Flank>(1.0, 1.0);
-	fsm->addWhileDetectHandler(GType::player, engage);
-}
-
 void stalker(StateMachine* fsm, const ValueMap& args)
 {
 	auto engage = makeTargetFunctionGenerator<Seek>(true);
@@ -331,9 +313,6 @@ const unordered_map<string, StateMachine::PackageType> StateMachine::packages = 
 	package(rumia1),
 	package(rumia2),
 	package(sakuya),
-	package(sakuya_npc),
-	package(scorpion1),
-	package(scorpion2),
 	package(stalker),
 	package(evade_player_projectiles),
 };

@@ -57,7 +57,7 @@ struct GraphicsAction
 	inline GraphicsAction(ActionGeneratorType generator) : generator(generator) {}
 };
 
-typedef function<void(ai::StateMachine&, Player*)> alert_function;
+typedef function<void(ai::StateMachine*, Player*)> alert_function;
 typedef function<void(ai::StateMachine&, GObject*)> detect_function;
 typedef function<void(GObject*)> unary_gobject_function;
 

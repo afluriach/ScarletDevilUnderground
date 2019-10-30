@@ -50,3 +50,17 @@ end
 function follower(fsm)
 	fsm:addThread( ai.ScriptFunction.create(fsm, "Follower") )
 end
+
+function sakuya_npc(fsm)
+	fsm:addThread( ai.ScriptFunction.create(fsm, "SakuyaNPC1") )
+end
+
+function scorpion1(fsm)
+	engage = ai.Scurry.makeTargetFunctionGenerator(3.0, -1.0)
+	fsm:addWhileDetectHandler(GType.player, engage)
+end
+
+function scorpion2(fsm)
+	engage = ai.Flank.makeTargetFunctionGenerator(3.0, -1.0)
+	fsm:addWhileDetectHandler(GType.player, engage)
+end

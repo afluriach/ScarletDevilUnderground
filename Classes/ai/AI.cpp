@@ -58,6 +58,11 @@ GType Event::getEndDetectType()
 	return eventType == event_type::endDetect ? any_cast<GObject*>(data)->getType() : GType::none;
 }
 
+Player* Event::getRoomAlert()
+{
+	return eventType == event_type::roomAlert ? any_cast<Player*>(data) : nullptr;
+}
+
 shared_ptr<Function> Function::constructState(
 	const string& type,
 	StateMachine* fsm,
@@ -358,10 +363,8 @@ void StateMachine::onBulletBlock(Bullet* b)
 
 void StateMachine::onAlert(Player* p)
 {
-	if (!alerted && alertHandler) {
-		alertHandler(*this, p);
-	}
-	alerted = true;
+	Event event(event_type::roomAlert, make_any<Player*>(p));
+	handleEvent(event);
 }
 
 void StateMachine::onZeroHP()
@@ -413,9 +416,16 @@ void StateMachine::removeEndDetectFunction(GType t)
 	endDetectHandlers.erase(t);
 }
 
-void StateMachine::setAlertFunction(alert_function f)
+void StateMachine::addAlertHandler(AITargetFunctionGenerator gen)
 {
-	alertHandler = f;
+	auto alert = make_shared<OnAlert>(this, gen);
+	addFunction(alert);
+}
+
+void StateMachine::addAlertFunction(alert_function f)
+{
+	auto alert = make_shared<OnAlertFunction>(this, f);
+	addFunction(alert);
 }
 
 string StateMachine::toString()

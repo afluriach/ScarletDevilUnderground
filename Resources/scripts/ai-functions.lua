@@ -82,3 +82,13 @@ end
 function Follower:getEvents()
 	return ai.event_type_bitfield(ai.event_type.bulletHit)
 end
+
+SakuyaNPC1 = class("SakuyaNPC1")
+
+function SakuyaNPC1:init(fsm)
+	self.fsm = fsm
+end
+
+function SakuyaNPC1:update()
+	return push_return(ai.Wander.create(self.fsm, 0.25, 0.75, 4.0, 1.0))
+end

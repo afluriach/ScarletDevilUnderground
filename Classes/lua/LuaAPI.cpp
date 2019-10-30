@@ -23,6 +23,7 @@
 #include "GState.hpp"
 #include "HUD.hpp"
 #include "LuaAPI.hpp"
+#include "Player.hpp"
 #include "PlayScene.hpp"
 
 //Copied from ltm.h.
@@ -227,6 +228,8 @@ const vector<string> Inst::luaIncludes = {
 
 		addFuncSame(agent, getAttributeSystem);
 
+		auto player = _state.new_usertype<Player>("Player", sol::base_classes, sol::bases<Agent>());
+
 		auto gscene = newType(GScene);
 		#define _cls GScene
 
@@ -382,6 +385,8 @@ const vector<string> Inst::luaIncludes = {
 		addFuncSame(sm, getThreadCount);
 
 		addFuncSame(sm, addFleeBomb);
+		addFuncSame(sm, addAlertHandler);
+		addFuncSame(sm, addAlertFunction);
 		addFuncSame(sm, addWhileDetectHandler);
 
 		addFuncSame(sm, getSpace);
@@ -415,7 +420,10 @@ const vector<string> Inst::luaIncludes = {
 			sol::base_classes, sol::bases<ai::Function>()
 		);
 		_state["ai"]["Wander"] = wander;
-		_state["ai"]["Wander"]["create"] = &create<ai::Wander>;
+		_state["ai"]["Wander"]["create"] = sol::overload(
+			&create<ai::Wander>,
+			&create<ai::Wander,SpaceFloat, SpaceFloat, SpaceFloat, SpaceFloat>
+		);
 
 		auto flank = _state.new_usertype<ai::Flank>(
 			"Flank",
@@ -423,6 +431,7 @@ const vector<string> Inst::luaIncludes = {
 		);
 		_state["ai"]["Flank"] = flank;
 		_state["ai"]["Flank"]["create"] = &create<ai::Flank, gobject_ref, double, double>;
+		_state["ai"]["Flank"]["makeTargetFunctionGenerator"] = &ai::makeTargetFunctionGenerator<ai::Flank, SpaceFloat, SpaceFloat>;
 
 		auto flee = _state.new_usertype<ai::Flee>(
 			"Flee",
@@ -439,6 +448,14 @@ const vector<string> Inst::luaIncludes = {
 		_state["ai"]["Seek"] = seek;
 		_state["ai"]["Seek"]["create"] = &create<ai::Seek, GObject*, bool, SpaceFloat>;
 		_state["ai"]["Seek"]["makeTargetFunctionGenerator"] = &ai::makeTargetFunctionGenerator<ai::Seek, bool, SpaceFloat>;
+
+		auto scurry = _state.new_usertype < ai::Scurry> (
+			"Scurry",
+			sol::base_classes, sol::bases<ai::Function>()
+		);
+		_state["ai"]["Scurry"] = scurry;
+		_state["ai"]["Scurry"]["create"] = scurry;
+		_state["ai"]["Scurry"]["makeTargetFunctionGenerator"] = &ai::makeTargetFunctionGenerator<ai::Scurry, SpaceFloat, SpaceFloat>;
 
 		auto maintain_distance = _state.new_usertype<ai::MaintainDistance>(
 			"MaintainDistance",

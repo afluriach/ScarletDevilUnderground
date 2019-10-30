@@ -136,15 +136,6 @@ protected:
 	SpaceVect target;
 };
 
-class SakuyaNPC1 : public Function {
-public:
-	inline SakuyaNPC1(StateMachine* fsm) : Function(fsm) {}
-
-	virtual void onEnter();
-	virtual update_return update();
-	FuncGetName(SakuyaMain)
-};
-
 class StalkerMain : public Function {
 public:
 	inline StalkerMain(StateMachine* fsm) : Function(fsm) {}

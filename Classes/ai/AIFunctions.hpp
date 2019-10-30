@@ -37,6 +37,26 @@ protected:
 	GType type;
 };
 
+class OnAlert : public Function {
+public:
+	OnAlert(StateMachine* fsm, AITargetFunctionGenerator gen);
+
+	virtual bool onEvent(Event event);
+	virtual event_bitset getEvents();
+protected:
+	AITargetFunctionGenerator gen;
+};
+
+class OnAlertFunction : public Function {
+public:
+	OnAlertFunction(StateMachine* fsm, alert_function f);
+
+	virtual bool onEvent(Event event);
+	virtual event_bitset getEvents();
+protected:
+	alert_function f;
+};
+
 class CompositeFunction : public Function {
 public:
 	//create empty
@@ -220,7 +240,6 @@ protected:
 class EvadePlayerProjectiles : public Function {
 public:
 	EvadePlayerProjectiles(StateMachine* fsm);
-	EvadePlayerProjectiles(StateMachine* fsm, const ValueMap& args);
 
 	virtual update_return update();
 

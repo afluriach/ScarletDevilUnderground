@@ -287,16 +287,6 @@ update_return IllusionDash::update()
 	}
 }
 
-void SakuyaNPC1::onEnter()
-{
-
-}
-
-update_return SakuyaNPC1::update()
-{
-	return_push(fsm->make<Wander>(0.25, 0.75, 4.0, 1.0));
-}
-
 update_return StalkerMain::update()
 {
 	return_steady();
