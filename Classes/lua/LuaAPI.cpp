@@ -25,6 +25,7 @@
 #include "LuaAPI.hpp"
 #include "Player.hpp"
 #include "PlayScene.hpp"
+#include "xml.hpp"
 
 //Copied from ltm.h.
 //#define ttypename(x)	luaT_typenames_[(x) + 1]
@@ -133,6 +134,85 @@ const vector<string> Inst::luaIncludes = {
 			}
 		);
 
+		auto damageType = _state.new_enum <DamageType, true>(
+			"DamageType",
+			{
+				enum_entry(DamageType, bullet),
+				enum_entry(DamageType, bomb),
+				enum_entry(DamageType, effectArea),
+				enum_entry(DamageType, touch),
+				enum_entry(DamageType, melee),
+				enum_entry(DamageType, pitfall),
+			}
+		);
+
+		auto _attr = _state.new_enum <Attribute, true>(
+			"Attribute",
+			{
+				enum_entry(Attribute, hp),
+				enum_entry(Attribute, mp),
+				enum_entry(Attribute, stamina),
+				enum_entry(Attribute, hitProtection),
+				enum_entry(Attribute, spellCooldown),
+
+				enum_entry(Attribute, maxHP),
+				enum_entry(Attribute, maxMP),
+				enum_entry(Attribute, maxStamina),
+				enum_entry(Attribute, hitProtectionInterval),
+				enum_entry(Attribute, spellCooldownInterval),
+
+				enum_entry(Attribute, hpRegen),
+				enum_entry(Attribute, mpRegen),
+				enum_entry(Attribute, staminaRegen),
+
+				enum_entry(Attribute, keys),
+				enum_entry(Attribute, combo),
+				enum_entry(Attribute, touchDamage),
+
+				enum_entry(Attribute, attack),
+				enum_entry(Attribute, attackSpeed),
+				enum_entry(Attribute, bulletSpeed),
+
+				enum_entry(Attribute, shieldLevel),
+
+				enum_entry(Attribute, stress),
+				enum_entry(Attribute, stressDecay),
+				enum_entry(Attribute, stressFromHits),
+				enum_entry(Attribute, stressFromBlocks),
+				enum_entry(Attribute, stressFromDetects),
+
+				enum_entry(Attribute, agility),
+				enum_entry(Attribute, speed),
+				enum_entry(Attribute, acceleration),
+
+				enum_entry(Attribute, bombSensitivity),
+				enum_entry(Attribute, bulletSensitivity),
+				enum_entry(Attribute, meleeSensitivity),
+
+				enum_entry(Attribute, iceSensitivity),
+				enum_entry(Attribute, sunSensitivity),
+				enum_entry(Attribute, darknessSensitivity),
+				enum_entry(Attribute, poisonSensitivity),
+				enum_entry(Attribute, slimeSensitivity),
+
+				enum_entry(Attribute, iceDamage),
+				enum_entry(Attribute, sunDamage),
+				enum_entry(Attribute, darknessDamage),
+				enum_entry(Attribute, poisonDamage),
+				enum_entry(Attribute, slimeDamage),
+			}
+		);
+
+		auto damageInfo = _state.new_usertype<DamageInfo>(
+			"DamageInfo",
+			sol::constructors< DamageInfo(), DamageInfo(float,DamageType), DamageInfo(float,Attribute,DamageType) >()
+		);
+
+		damageInfo["mag"] = &DamageInfo::mag;
+		damageInfo["element"] = &DamageInfo::element;
+		damageInfo["type"] = &DamageInfo::type;
+		damageInfo["scale"] = &DamageInfo::operator*;
+
 		auto vect = _state.new_usertype<SpaceVect>(
 			"SpaceVect",
 			sol::constructors<SpaceVect()>()
@@ -171,6 +251,8 @@ const vector<string> Inst::luaIncludes = {
 		addFuncSame(app, addButtonAction);
 #endif
 		
+		app["getBullet"] = &app::getBullet;
+
 		auto app_consts = _state.create_table();
 		_state["app_constants"] = app_consts;
 		
@@ -200,6 +282,13 @@ const vector<string> Inst::luaIncludes = {
 		objref["get"] = &gobject_ref::get;
 		objref["getID"] = &gobject_ref::getID;
 
+		auto objparams = _state.new_usertype<object_params>(
+			"object_params",
+			sol::constructors<
+				object_params()
+			>()
+		);
+
 		auto gobject = newType(GObject);
 		#define _cls GObject
 
@@ -228,6 +317,7 @@ const vector<string> Inst::luaIncludes = {
 		#define _cls Agent
 
 		addFuncSame(agent, getAttributeSystem);
+		addFuncSame(agent, getBulletAttributes);
 
 		addFuncSame(agent, isFiringSuppressed);
 		addFuncSame(agent, setFiringSuppressed);
@@ -235,6 +325,29 @@ const vector<string> Inst::luaIncludes = {
 		addFuncSame(agent, setMovementSuppressed);
 
 		auto player = _state.new_usertype<Player>("Player", sol::base_classes, sol::bases<Agent>());
+
+		#define _cls bullet_properties
+		auto bullet_props = _state.new_usertype<bullet_properties>("bullet_properties");
+		addFuncSame(bullet_props, mass);
+		addFuncSame(bullet_props, speed);
+		addFuncSame(bullet_props, dimensions);
+		addFuncSame(bullet_props, knockback);
+
+		addFuncSame(bullet_props, damage);
+
+		addFuncSame(bullet_props, sprite);
+		addFuncSame(bullet_props, lightSource);
+
+		addFuncSame(bullet_props, hitCount);
+		addFuncSame(bullet_props, ricochetCount);
+		addFuncSame(bullet_props, directionalLaunch);
+		addFuncSame(bullet_props, ignoreObstacles);
+		addFuncSame(bullet_props, deflectBullets);
+
+		bullet_props["clone"] = &bullet_properties::clone;
+
+		auto bullet = _state.new_usertype<Bullet>("Bullet", sol::base_classes, sol::bases<GObject>());
+		bullet["makeParams"] = &Bullet::makeParams;
 
 		auto gscene = newType(GScene);
 		#define _cls GScene
@@ -260,6 +373,7 @@ const vector<string> Inst::luaIncludes = {
 
 		gspace["createObject"] = static_cast<gobject_ref(GSpace::*)(const ValueMap&)>(&GSpace::createObject);
 		gspace["getObjectByName"] = static_cast<GObject*(GSpace::*)(const string&) const>(&GSpace::getObject);
+		addFuncSame(gspace, createBullet);
 		addFuncSame(gspace, getPlayerAsRef);
 		addFuncSame(gspace, getFrame);
 		addFuncSame(gspace, getObjectCount);

@@ -27,6 +27,9 @@ bullet_attributes bullet_attributes::getDefault()
 	};
 }
 
+bullet_properties bullet_properties::clone() {
+	return *this;
+}
 
 const bool Bullet::logRicochets = false;
 

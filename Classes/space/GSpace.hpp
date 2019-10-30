@@ -90,6 +90,11 @@ public:
 	const ValueMap* getDynamicObject(const string& name) const;
 	gobject_ref createObject(const ValueMap& obj);
 	gobject_ref createObject(ObjectGeneratorType factory);
+	gobject_ref createBullet(
+		shared_ptr<object_params> params,
+		const bullet_attributes& attributes,
+		shared_ptr<bullet_properties> props
+	);
 
 	inline void addValueMapArgs(ObjectIDType id, const ValueMap& args) {
 		valueMapArgs.insert_or_assign(id, args);

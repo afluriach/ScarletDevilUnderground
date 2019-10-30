@@ -298,6 +298,14 @@ gobject_ref GSpace::createObject(ObjectGeneratorType generator)
 	return gobject_ref(this,id);
 }
 
+gobject_ref GSpace::createBullet(
+	shared_ptr<object_params> params,
+	const bullet_attributes& attributes,
+	shared_ptr<bullet_properties> props
+) {
+	return createObject<BulletImpl>(params, attributes, props);
+}
+
 void GSpace::addSpatialSound(GObject* sourceObj, ALuint soundSource)
 {
 	activeSounds.push_back(make_pair(sourceObj, soundSource));

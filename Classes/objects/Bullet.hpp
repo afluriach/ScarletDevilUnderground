@@ -32,6 +32,8 @@ struct bullet_properties
 	bool directionalLaunch = true;
 	bool ignoreObstacles = false;
 	bool deflectBullets = false;
+
+	bullet_properties clone();
 };
 
 //The attributes of the creating agent that can affect this object. These are 
