@@ -228,6 +228,11 @@ const vector<string> Inst::luaIncludes = {
 
 		addFuncSame(agent, getAttributeSystem);
 
+		addFuncSame(agent, isFiringSuppressed);
+		addFuncSame(agent, setFiringSuppressed);
+		addFuncSame(agent, isMovementSuppressed);
+		addFuncSame(agent, setMovementSuppressed);
+
 		auto player = _state.new_usertype<Player>("Player", sol::base_classes, sol::bases<Agent>());
 
 		auto gscene = newType(GScene);

@@ -60,6 +60,12 @@ public:
 	virtual void onZeroHP();
 	virtual void onRemove();
 
+	inline bool isFiringSuppressed() const { return suppressFiring; }
+	inline void setFiringSuppressed(bool mode) { suppressFiring = mode; }
+
+	inline bool isMovementSuppressed() const { return suppressMovement; }
+	inline void setMovementSuppressed(bool mode) { suppressMovement = mode; }
+
 	//polymorphic spellcasting - for attribute cost
 	virtual bool cast(shared_ptr<Spell> spell);
 	virtual void updateSpells();
@@ -139,6 +145,9 @@ protected:
 
 	bool shieldActive = false;
 	bool wasShieldActive = false;
+
+	bool suppressFiring = false;
+	bool suppressMovement = false;
 };
 
 class GenericAgent : public Agent
