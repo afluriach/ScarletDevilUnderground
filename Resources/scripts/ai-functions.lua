@@ -1,11 +1,11 @@
-BatEngage = class("BatEngage")
+ai.BatEngage = class("BatEngage")
 
-function BatEngage:init(fsm, target)
+function ai.BatEngage:init(fsm, target)
 	self.fsm, self.target = fsm, target
 	
 end
 
-function BatEngage:update()
+function ai.BatEngage:update()
 	if self.target:isValid() then
 		return push_return( ai.Flank.create(self.fsm, self.target, 2.0, 1.0) )
 	else
@@ -13,17 +13,17 @@ function BatEngage:update()
 	end
 end
 
-Facer = class("Facer")
+ai.Facer = class("Facer")
 
-function Facer:init(fsm)
+function ai.Facer:init(fsm)
 	self.fsm = fsm
 end
 
-function Facer:onEnter()
+function ai.Facer:onEnter()
 	self.target = self.fsm:getSpace():getPlayerAsRef()
 end
 
-function Facer:update()
+function ai.Facer:update()
 	if self.target:isValid() then
 		local agent = self.fsm:getObject()
 		local target = self.target:get()
@@ -37,28 +37,28 @@ function Facer:update()
 	return steady_return()
 end
 
-function Facer:onEvent(event)
+function ai.Facer:onEvent(event)
 	if event:isBulletHit() then
 		self.fsm:getObject():rotate( math.pi * 0.5 )
 	end
 	return handle
 end
 
-function Facer:getEvents()
+function ai.Facer:getEvents()
 	return ai.event_type_bitfield(ai.event_type.bulletHit)
 end
 
-Follower = class("Follower")
+ai.Follower = class("Follower")
 
-function Follower:init(fsm)
+function ai.Follower:init(fsm)
 	self.fsm = fsm
 end
 
-function Follower:onEnter()
+function ai.Follower:onEnter()
 	self.target = self.fsm:getSpace():getPlayerAsRef()
 end
 
-function Follower:update()
+function ai.Follower:update()
 	if self.target:isValid() then
 		local agent = self.fsm:getObject()
 		local target = self.target:get()
@@ -72,23 +72,23 @@ function Follower:update()
 	return steady_return()
 end
 
-function Follower:onEvent(event)
+function ai.Follower:onEvent(event)
 	if event:isBulletHit() then
 		self.fsm:getObject():rotate( math.pi * -0.5 )
 	end
 	return handle
 end
 
-function Follower:getEvents()
+function ai.Follower:getEvents()
 	return ai.event_type_bitfield(ai.event_type.bulletHit)
 end
 
-SakuyaNPC1 = class("SakuyaNPC1")
+ai.SakuyaNPC1 = class("SakuyaNPC1")
 
-function SakuyaNPC1:init(fsm)
+function ai.SakuyaNPC1:init(fsm)
 	self.fsm = fsm
 end
 
-function SakuyaNPC1:update()
+function ai.SakuyaNPC1:update()
 	return push_return(ai.Wander.create(self.fsm, 0.25, 0.75, 4.0, 1.0))
 end

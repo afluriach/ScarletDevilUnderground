@@ -218,6 +218,7 @@ const vector<string> Inst::luaIncludes = {
 		addFuncSame(gobject, setVel);
 		addFuncSame(gobject, setSpriteShader);
 		addFuncSame(gobject, setVel);
+		addFuncSame(gobject, setFrozen);
 		addFuncSame(gobject, stopSpell);
 		addFuncSame(gobject, printFSM);
 			

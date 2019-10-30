@@ -19,6 +19,7 @@ class graphics_context;
 class GScene;
 class GState;
 class HUD;
+namespace Lua { class Inst; }
 class MagicEffectSystem;
 class PlayScene;
 class RadarSensor;
@@ -43,6 +44,8 @@ public:
 	friend class physics_context;
 	friend class PhysicsImpl;
 	typedef pair<ObjectGeneratorType, ObjectIDType> generator_pair;
+
+	static unique_ptr<Lua::Inst> scriptVM;
 
     GSpace(GScene* gscene);    
     ~GSpace();

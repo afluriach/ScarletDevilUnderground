@@ -194,8 +194,6 @@ string Thread::getMainFuncName() {
 	return !call_stack.empty() ? call_stack.front()->getName() : "";
 }
 
-unique_ptr<Lua::Inst> StateMachine::scriptVM;
-
 StateMachine::StateMachine(GObject *const agent) :
 agent(agent)
 {
@@ -204,7 +202,7 @@ agent(agent)
 
 bool StateMachine::runScriptPackage(const string& name)
 {
-	sol::function p = scriptVM->getFunction(name);
+	sol::function p = GSpace::scriptVM->getFunction(name);
 
 	if (p) {
 		try {

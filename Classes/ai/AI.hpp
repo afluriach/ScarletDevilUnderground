@@ -191,7 +191,6 @@ public:
 
 	typedef function<void(StateMachine*, const ValueMap&) > PackageType;
 	static const unordered_map<string, StateMachine::PackageType> packages;
-	static unique_ptr<Lua::Inst> scriptVM;
 
     StateMachine(GObject *const agent);
 
