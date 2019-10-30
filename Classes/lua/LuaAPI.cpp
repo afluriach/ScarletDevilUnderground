@@ -301,11 +301,10 @@ const vector<string> Inst::luaIncludes = {
 		_ai["isFacingTarget"] = &ai::isFacingTarget;
 		_ai["isFacingTargetsBack"] = &ai::isFacingTargetsBack;
 
-		auto _update_return = _state.new_usertype<ai::update_return>(
+		auto _update_return = _ai.new_usertype<ai::update_return>(
 			"update_return",
 			sol::constructors<ai::update_return(), ai::update_return(int,shared_ptr<ai::Function>)>()
 		);
-		_ai["update_return"] = _update_return;
 
 		auto _event_type = _ai.new_enum<ai::event_type, true>(
 			"event_type",
@@ -323,9 +322,8 @@ const vector<string> Inst::luaIncludes = {
 
 		_ai["event_type_bitfield"] = &make_enum_bitfield<ai::event_type>;
 
-		auto event = _state.new_usertype<ai::Event>("Event");
+		auto event = _ai.new_usertype<ai::Event>("Event");
 		#define _cls ai::Event
-		_ai["Event"] = event;
 		
 		addFuncSame(event, isBulletHit);
 		addFuncSame(event, isDetectPlayer);
@@ -334,8 +332,7 @@ const vector<string> Inst::luaIncludes = {
 		addFuncSame(event, getEventType);
 
 		#define _cls ai::Function
-		auto func = _state.new_usertype<ai::Function>("Function");
-		_ai["Function"] = func;
+		auto func = _ai.new_usertype<ai::Function>("Function");
 
 		addFuncSame(func, getSpace);
 		addFuncSame(func, getAgent);
@@ -368,8 +365,7 @@ const vector<string> Inst::luaIncludes = {
 		addFuncSame(thread, getMainFuncName);
 
 		#define _cls ai::StateMachine
-		auto sm = _state.new_usertype<ai::StateMachine>("StateMachine");
-		_state["ai"]["StateMachine"] = sm;
+		auto sm = _ai.new_usertype<ai::StateMachine>("StateMachine");
 
 		sm["addFunction"] = static_cast<void(ai::StateMachine::*)(shared_ptr<ai::Function>)>(&ai::StateMachine::addFunction);
 		addFuncSame(sm, removeFunction);
@@ -395,75 +391,65 @@ const vector<string> Inst::luaIncludes = {
 		addFuncSame(sm, getFrame);
 		addFuncSame(sm, toString);
 
-		auto scriptFunc = _state.new_usertype<ai::ScriptFunction>("ScriptFunction");
-		_ai["ScriptFunction"] = scriptFunc;
+		auto scriptFunc = _ai.new_usertype<ai::ScriptFunction>("ScriptFunction");
 
 		scriptFunc["create"] = &create<ai::ScriptFunction, const string&>;
 		scriptFunc["targetGenerator"] = &ai::ScriptFunction::targetGenerator;
 
-		auto flock = _state.new_usertype<ai::Flock>(
+		auto flock = _ai.new_usertype<ai::Flock>(
 			"Flock",
 			sol::base_classes, sol::bases<ai::Function>()
 		);
-		_state["ai"]["Flock"] = flock;
-		_state["ai"]["Flock"]["create"] = &create<ai::Flock>;
+		flock["create"] = &create<ai::Flock>;
 
-		auto idle = _state.new_usertype<ai::IdleWait>(
+		auto idle = _ai.new_usertype<ai::IdleWait>(
 			"IdleWait",
 			sol::base_classes, sol::bases<ai::Function>()
 		);
-		_state["ai"]["IdleWait"] = idle;
-		_state["ai"]["IdleWait"]["create"] = &create<ai::IdleWait>;
+		idle["create"] = &create<ai::IdleWait>;
 
-		auto wander = _state.new_usertype<ai::Wander>(
+		auto wander = _ai.new_usertype<ai::Wander>(
 			"Wander",
 			sol::base_classes, sol::bases<ai::Function>()
 		);
-		_state["ai"]["Wander"] = wander;
-		_state["ai"]["Wander"]["create"] = sol::overload(
+		wander["create"] = sol::overload(
 			&create<ai::Wander>,
 			&create<ai::Wander,SpaceFloat, SpaceFloat, SpaceFloat, SpaceFloat>
 		);
 
-		auto flank = _state.new_usertype<ai::Flank>(
+		auto flank = _ai.new_usertype<ai::Flank>(
 			"Flank",
 			sol::base_classes, sol::bases<ai::Function>()
 		);
-		_state["ai"]["Flank"] = flank;
-		_state["ai"]["Flank"]["create"] = &create<ai::Flank, gobject_ref, double, double>;
-		_state["ai"]["Flank"]["makeTargetFunctionGenerator"] = &ai::makeTargetFunctionGenerator<ai::Flank, SpaceFloat, SpaceFloat>;
+		flank["create"] = &create<ai::Flank, gobject_ref, double, double>;
+		flank["makeTargetFunctionGenerator"] = &ai::makeTargetFunctionGenerator<ai::Flank, SpaceFloat, SpaceFloat>;
 
-		auto flee = _state.new_usertype<ai::Flee>(
+		auto flee = _ai.new_usertype<ai::Flee>(
 			"Flee",
 			sol::base_classes, sol::bases<ai::Function>()
 		);
-		_state["ai"]["Flee"] = flee;
-		_state["ai"]["Flee"]["create"] = &create<ai::Flee, GObject*, SpaceFloat>;
-		_state["ai"]["Flee"]["makeTargetFunctionGenerator"] = &ai::makeTargetFunctionGenerator<ai::Flee, SpaceFloat>;
+		flee["create"] = &create<ai::Flee, GObject*, SpaceFloat>;
+		flee["makeTargetFunctionGenerator"] = &ai::makeTargetFunctionGenerator<ai::Flee, SpaceFloat>;
 
-		auto seek = _state.new_usertype<ai::Seek>(
+		auto seek = _ai.new_usertype<ai::Seek>(
 			"Seek",
 			sol::base_classes, sol::bases<ai::Function>()
 		);
-		_state["ai"]["Seek"] = seek;
-		_state["ai"]["Seek"]["create"] = &create<ai::Seek, GObject*, bool, SpaceFloat>;
-		_state["ai"]["Seek"]["makeTargetFunctionGenerator"] = &ai::makeTargetFunctionGenerator<ai::Seek, bool, SpaceFloat>;
+		seek["create"] = &create<ai::Seek, GObject*, bool, SpaceFloat>;
+		seek["makeTargetFunctionGenerator"] = &ai::makeTargetFunctionGenerator<ai::Seek, bool, SpaceFloat>;
 
-		auto scurry = _state.new_usertype < ai::Scurry> (
+		auto scurry = _ai.new_usertype < ai::Scurry> (
 			"Scurry",
 			sol::base_classes, sol::bases<ai::Function>()
 		);
-		_state["ai"]["Scurry"] = scurry;
-		_state["ai"]["Scurry"]["create"] = scurry;
-		_state["ai"]["Scurry"]["makeTargetFunctionGenerator"] = &ai::makeTargetFunctionGenerator<ai::Scurry, SpaceFloat, SpaceFloat>;
+		scurry["create"] = &create<ai::Scurry,GObject*, SpaceFloat, SpaceFloat>;
+		scurry["makeTargetFunctionGenerator"] = &ai::makeTargetFunctionGenerator<ai::Scurry, SpaceFloat, SpaceFloat>;
 
-		auto maintain_distance = _state.new_usertype<ai::MaintainDistance>(
+		auto maintain_distance = _ai.new_usertype<ai::MaintainDistance>(
 			"MaintainDistance",
 			sol::base_classes, sol::bases<ai::Function>()
 		);
-		_state["ai"]["MaintainDistance"] = maintain_distance;
-		_state["ai"]["MaintainDistance"]["create"] = &create<ai::MaintainDistance, gobject_ref, SpaceFloat, SpaceFloat>;
-		_state["ai"]["MaintainDistance"]["makeTargetFunctionGenerator"] = &ai::makeTargetFunctionGenerator<ai::MaintainDistance, SpaceFloat, SpaceFloat>;
-		//_state["ai"]["MaintainDistance"].set_function("makeTargetFunctionGenerator", &ai::makeTargetFunctionGenerator<ai::MaintainDistance, SpaceFloat, SpaceFloat>);
+		maintain_distance["create"] = &create<ai::MaintainDistance, gobject_ref, SpaceFloat, SpaceFloat>;
+		maintain_distance["makeTargetFunctionGenerator"] = &ai::makeTargetFunctionGenerator<ai::MaintainDistance, SpaceFloat, SpaceFloat>;
 	}
 }
