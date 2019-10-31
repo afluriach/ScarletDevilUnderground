@@ -236,14 +236,18 @@ ScriptFunction::ScriptFunction(StateMachine* fsm, const string& cls) :
 	Function(fsm),
 	cls(cls)
 {
-	obj = GSpace::scriptVM->_state["ai"][cls](fsm);
+	Function* f_this = this;
+
+	obj = GSpace::scriptVM->_state["ai"][cls](f_this);
 }
 
 ScriptFunction::ScriptFunction(StateMachine* fsm, GObject* target, const string& cls) :
 	Function(fsm),
 	cls(cls)
 {
-	obj = GSpace::scriptVM->_state["ai"][cls](fsm, gobject_ref(target));
+	Function* f_this = this;
+
+	obj = GSpace::scriptVM->_state["ai"][cls](f_this, gobject_ref(target));
 }
 
 void ScriptFunction::onEnter()

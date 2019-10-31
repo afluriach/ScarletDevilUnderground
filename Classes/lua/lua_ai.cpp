@@ -66,7 +66,9 @@ namespace Lua{
 		#define _cls ai::Function
 		auto func = _ai.new_usertype<ai::Function>("Function");
 
+		addFuncSame(func, fsm);
 		addFuncSame(func, getSpace);
+		func["getObject"] = &ai::Function::getAgentObject;
 		addFuncSame(func, getAgent);
 		addFuncSame(func, onEnter);
 		addFuncSame(func, update);

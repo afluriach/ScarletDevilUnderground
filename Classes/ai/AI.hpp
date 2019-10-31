@@ -140,10 +140,11 @@ public:
     inline virtual string getName() const {return "Function";}
     
     inline virtual lock_mask getLockMask() { return lock_mask();}
+
+	StateMachine* const fsm;
+	Agent* const agent;
 protected:
-	StateMachine *const fsm;
 	Thread* thread = nullptr;
-	Agent *const agent;
 	bool hasRunInit = false;
 };
 
