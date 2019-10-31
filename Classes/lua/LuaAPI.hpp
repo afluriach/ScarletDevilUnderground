@@ -31,6 +31,8 @@ namespace Lua
         static const bool logInst = false;
         
 		void addAI();
+		void addGObject();
+		void addTypes();
 
         void installApi();
         void loadLibraries();
