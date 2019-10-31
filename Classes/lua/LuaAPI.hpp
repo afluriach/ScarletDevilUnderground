@@ -11,6 +11,13 @@
 
 namespace Lua
 {
+	#define enum_entry(cls, x) { #x, cls::x }
+
+	#define newType(x) _state.new_usertype<x>(#x);
+	#define addFuncSame(v,x) v[#x] = &_cls::x;
+	#define cFuncSame(v,x) v[#x] = &x;
+	#define cFuncSameNS(v,ns,x) v[#x] = &ns::x;
+
     //Wraps a VM instance and interfaces with it.
     class Inst
     {
@@ -23,6 +30,8 @@ namespace Lua
         static const vector<string> luaIncludes;
         static const bool logInst = false;
         
+		void addAI();
+
         void installApi();
         void loadLibraries();
         
