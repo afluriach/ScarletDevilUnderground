@@ -55,6 +55,9 @@ public:
 	inline virtual void update() {}
 	inline virtual void end() {}
 
+	//remove this - queues this magic effect for removal, can be called within an update
+	void remove();
+
 	GObject* agent;
 	float length, magnitude;
 	state crntState;

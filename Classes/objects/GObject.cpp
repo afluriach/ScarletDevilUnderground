@@ -767,7 +767,7 @@ void GObject::updateSpells()
 	}
 }
 
-void GObject::addMagicEffect(shared_ptr<MagicEffect> newEffect)
+void GObject::addMagicEffect(MagicEffect* newEffect)
 {
 	space->magicEffectSystem->addEffect(newEffect);
 }

@@ -12,6 +12,7 @@
 #include "GObject.hpp"
 #include "GSpace.hpp"
 #include "MagicEffect.hpp"
+#include "MagicEffectSystem.hpp"
 #include "RadarSensor.hpp"
 
 MagicEffect::MagicEffect(GObject* agent, float length, float magnitude, flag_bits _flags) :
@@ -38,12 +39,16 @@ bool MagicEffect::isImmediate() const
 bool MagicEffect::isTimed() const
 {
 	return (_flags & make_enum_bitfield(flags::timed)).any();
-
 }
 
 bool MagicEffect::isActive() const
 {
 	return (_flags & make_enum_bitfield(flags::active)).any();
+}
+
+void MagicEffect::remove()
+{
+	getSpace()->magicEffectSystem->removeEffect(this);
 }
 
 RadiusEffect::RadiusEffect(GObject* agent, SpaceFloat radius, GType type) :

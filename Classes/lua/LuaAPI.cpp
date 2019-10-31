@@ -248,6 +248,7 @@ const vector<string> Inst::luaIncludes = {
 
 		addAI();
 		addGObject();
+		addMagic();
 		addTypes();
 	}
 }

@@ -32,6 +32,7 @@ namespace Lua
         
 		void addAI();
 		void addGObject();
+		void addMagic();
 		void addTypes();
 
         void installApi();

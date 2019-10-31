@@ -97,7 +97,7 @@ void wander_and_flee_player(StateMachine* fsm, const ValueMap& args)
 
 void ghost_fairy(StateMachine* fsm, const ValueMap& args)
 {
-	fsm->getObject()->addMagicEffect(make_shared<GhostProtection>(fsm->getAgent()));
+	fsm->getObject()->addMagicEffect( new GhostProtection(fsm->getAgent()));
 
 	fsm->addDetectFunction(
 		GType::player,
@@ -136,7 +136,7 @@ void red_fairy(StateMachine* fsm, const ValueMap& args)
 		return comp;
 	};
 
-	agent->addMagicEffect(make_shared<RedFairyStress>(agent));
+	agent->addMagicEffect(new RedFairyStress(agent));
 
 	fsm->addAlertFunction([](StateMachine* sm, Player* p)->void {
 		sm->addThread(make_shared<Wander>(sm, 1.5, 2.5, 2.0, 3.0));
@@ -158,7 +158,7 @@ void green_fairy1(StateMachine* fsm, const ValueMap& args)
 {
 	fsm->addFleeBomb();
 
-	fsm->getObject()->addMagicEffect(make_shared<BulletSpeedFromHP>(
+	fsm->getObject()->addMagicEffect(new BulletSpeedFromHP(
 		fsm->getAgent(),
 		make_pair(0.25f, 0.75f),
 		make_pair(0.75f, 1.0f),
@@ -173,7 +173,7 @@ void green_fairy2(StateMachine* fsm, const ValueMap& args)
 {
 	fsm->addFleeBomb();
 
-	fsm->getObject()->addMagicEffect(make_shared<BulletSpeedFromHP>(
+	fsm->getObject()->addMagicEffect(new BulletSpeedFromHP(
 		fsm->getAgent(),
 		make_pair(0.25f, 0.5f),
 		make_pair(0.5f, 1.0f),
@@ -285,7 +285,7 @@ void stalker(StateMachine* fsm, const ValueMap& args)
 	fsm->addWhileDetectHandler(GType::player, engage);
 
 	fsm->getAgent()->getAttributeSystem()->setFullStamina();
-	fsm->getAgent()->addMagicEffect(make_shared<DrainStaminaFromMovement>(fsm->getAgent()));
+	fsm->getAgent()->addMagicEffect(new DrainStaminaFromMovement(fsm->getAgent()));
 }
 
 void evade_player_projectiles(StateMachine* fsm, const ValueMap& args) {

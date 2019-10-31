@@ -14,7 +14,7 @@
 struct timedEntry
 {
 	unsigned int endFrame;
-	shared_ptr<MagicEffect> effect;
+	MagicEffect* effect;
 
 	bool operator>(const timedEntry& rhs) const;
 };
@@ -27,8 +27,8 @@ public:
 
 	MagicEffectSystem(GSpace* gspace);
 
-	void addEffect(shared_ptr<MagicEffect> effect);
-	void removeEffect(shared_ptr<MagicEffect> effect);
+	void addEffect(MagicEffect* effect);
+	void removeEffect(MagicEffect* effect);
 	void removeObjectEffects(GObject* obj);
 
 	template<class T>
@@ -38,7 +38,7 @@ public:
 		if (it == effectObjects.end()) return false;
 
 		for (auto entry : it->second) {
-			if (dynamic_cast<T*>(entry.get())) {
+			if (dynamic_cast<T*>(entry)) {
 				return true;
 			}
 		}
@@ -52,20 +52,20 @@ protected:
 	//if applicable, and added timed to magicEffectsToRemove.
 	void processTimedRemovals();
 
-	bool isValidConfig(shared_ptr<MagicEffect> effect);
+	bool isValidConfig(MagicEffect* effect);
 
-	map<GObject*, list<shared_ptr<MagicEffect>>> effectObjects;
+	map<GObject*, list<MagicEffect*>> effectObjects;
 	
 	//Store all timed effects by their ending time as frame number.
 	priority_queue<timedEntry, vector<timedEntry>, greater<timedEntry>> timedRemovals;
 
-	list<shared_ptr<MagicEffect>> updateEffects;
+	list<MagicEffect*> updateEffects;
 
 	//need to store timed magic effects sorted by ending time
 	//need to store magic effects that requie an update sepearately
-	list<shared_ptr<MagicEffect>> magicEffects;
-	list<shared_ptr<MagicEffect>> magicEffectsToAdd;
-	list<shared_ptr<MagicEffect>> magicEffectsToRemove;
+	list<MagicEffect*> magicEffects;
+	list<MagicEffect*> magicEffectsToAdd;
+	list<MagicEffect*> magicEffectsToRemove;
 
 	GSpace* gspace;
 };
