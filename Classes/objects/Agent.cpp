@@ -160,10 +160,10 @@ void Agent::update()
 		fsm->onZeroStamina();
 	}
 
-	bool hasFreezeEffect = space->magicEffectSystem->hasMagicEffect<FreezeStatusEffect>(this);
+	bool hasFreezeEffect = space->magicEffectSystem->hasScriptedEffect(this, "FreezeStatus");
 
 	if (attributeSystem[Attribute::iceDamage] >= AttributeSystem::maxElementDamage && !hasFreezeEffect) {
-		addMagicEffect(new FreezeStatusEffect(this, 5.0f));
+		addMagicEffect(new ScriptedMagicEffect("FreezeStatus", this, 5.0f, 0.0f));
 		attributeSystem.modifyAttribute(Attribute::iceDamage, -AttributeSystem::maxElementDamage);
 	}
 	if (attributeSystem[Attribute::sunDamage] >= AttributeSystem::maxElementDamage) {

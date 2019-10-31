@@ -47,6 +47,7 @@ GSpace::GSpace(GScene* gscene) :
 		scriptVM = make_unique<Lua::Inst>("GSpace");
 		scriptVM->runFile("scripts/ai-functions.lua");
 		scriptVM->runFile("scripts/ai-packages.lua");
+		scriptVM->runFile("scripts/magic-effects.lua");
 	}
 
 	world = new b2World(b2Vec2_zero);

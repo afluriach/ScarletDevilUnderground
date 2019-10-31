@@ -11,6 +11,7 @@
 #include "Agent.hpp"
 #include "GObject.hpp"
 #include "GSpace.hpp"
+#include "LuaAPI.hpp"
 #include "MagicEffect.hpp"
 #include "MagicEffectSystem.hpp"
 #include "RadarSensor.hpp"
@@ -49,6 +50,61 @@ bool MagicEffect::isActive() const
 void MagicEffect::remove()
 {
 	getSpace()->magicEffectSystem->removeEffect(this);
+}
+
+MagicEffect::flag_bits ScriptedMagicEffect::getFlags(string clsName)
+{
+	sol::table cls = GSpace::scriptVM->_state["effects"][clsName];
+
+	if (!cls) {
+		log("ScriptedMagicEffect::getFlags: %s does not exist", clsName);
+		return flag_bits();
+	}
+
+	sol::function getFlags = cls["getFlags"];
+	return getFlags ? getFlags() : flag_bits();
+}
+
+ScriptedMagicEffect::ScriptedMagicEffect(string clsName, GObject* agent) :
+	ScriptedMagicEffect(clsName, agent, 0.0f, 0.0f)
+{
+}
+
+ScriptedMagicEffect::ScriptedMagicEffect(string clsName, GObject* agent, float length, float magnitude) :
+	MagicEffect(agent, length, magnitude, getFlags(clsName)),
+	clsName(clsName)
+{
+	auto cls = GSpace::scriptVM->_state["effects"][clsName];
+
+	if (!cls) {
+		log("ScriptedMagicEffect: %s not found", clsName);
+	}
+
+	obj = cls(agent, length, magnitude);
+}
+
+void ScriptedMagicEffect::init()
+{
+	if (obj) {
+		sol::function f = obj["onEnter"];
+		if (f) f(obj);
+	}
+}
+
+void ScriptedMagicEffect::update()
+{
+	if (obj) {
+		sol::function f = obj["update"];
+		if (f) f(obj);
+	}
+}
+
+void ScriptedMagicEffect::end()
+{
+	if (obj) {
+		sol::function f = obj["onExit"];
+		if (f) f(obj);
+	}
 }
 
 RadiusEffect::RadiusEffect(GObject* agent, SpaceFloat radius, GType type) :

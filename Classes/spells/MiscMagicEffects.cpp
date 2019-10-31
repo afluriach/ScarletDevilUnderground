@@ -18,40 +18,6 @@
 #include "Player.hpp"
 #include "SpellUtil.hpp"
 
-FreezeStatusEffect::FreezeStatusEffect(GObject* agent, float length) :
-	MagicEffect(agent, length, 0.0f, make_enum_bitfield(flags::timed))
-{}
-
-void FreezeStatusEffect::init()
-{
-	Player* _player = dynamic_cast<Player*>(agent);
-
-	agent->addGraphicsAction(freezeEffectAction());
-
-	agent->setFrozen(true);
-
-	if (_player) {
-		_player->setFiringSuppressed(true);
-		_player->setMovementSuppressed(true);
-	}
-}
-
-void FreezeStatusEffect::end()
-{
-	Player* _player = dynamic_cast<Player*>(agent);
-
-	//Stop sprite effect, assuming the effect ended early.
-	agent->stopGraphicsAction(cocos_action_tag::freeze_status);
-	agent->addGraphicsAction(freezeEffectEndAction());
-
-	agent->setFrozen(false);
-
-	if (_player) {
-		_player->setFiringSuppressed(false);
-		_player->setMovementSuppressed(false);
-	}
-}
-
 DarknessCurseEffect::DarknessCurseEffect(Agent* agent) :
 	MagicEffect(agent, 0.0f, 0.0f, enum_bitfield2(flags, indefinite, active)),
 	agent(agent)

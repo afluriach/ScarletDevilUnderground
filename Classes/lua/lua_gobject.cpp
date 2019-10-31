@@ -40,6 +40,7 @@ namespace Lua{
 		addFuncSame(gobject, stopSpell);
 		addFuncSame(gobject, printFSM);
 			
+		gobject["getAsAgent"] = &GObject::getAs<Agent>;
 		gobject["removeThreadByName"] = static_cast<void(GObject::*)(const string&)>(&GObject::removeThread);
 
 		auto agent = _state.new_usertype<Agent>("Agent", sol::base_classes, sol::bases<GObject>());

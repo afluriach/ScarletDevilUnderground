@@ -128,6 +128,11 @@ public:
 		return uuid;
 	}
 
+	template<typename T>
+	inline T* getAs(){
+		return dynamic_cast<T*>(this);
+	}
+
 	inline bool isAnonymous() const { return name.empty(); }
 	inline bool isHidden() const { return hidden; }
 

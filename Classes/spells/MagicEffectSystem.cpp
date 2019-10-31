@@ -51,6 +51,19 @@ void MagicEffectSystem::removeObjectEffects(GObject* obj)
 	applyRemove();
 }
 
+bool MagicEffectSystem::hasScriptedEffect(GObject* obj, string clsName)
+{
+	auto it = effectObjects.find(obj);
+	if (it == effectObjects.end()) return false;
+
+	for (auto entry : it->second) {
+		if (auto script = dynamic_cast<ScriptedMagicEffect*>(entry)) {
+			if(script->getClsName() == clsName) return true;
+		}
+	}
+	return false;
+}
+
 void MagicEffectSystem::applyAdd()
 {
 	for (auto it = magicEffectsToAdd.begin(); it != magicEffectsToAdd.end(); ++it)
@@ -126,6 +139,11 @@ void MagicEffectSystem::applyRemove()
 
 		if ( (*it)->isActive() ) {
 			updateEffects.remove(*it);
+		}
+
+		auto effectIt = effectObjects.find((*it)->agent);
+		if (effectIt != effectObjects.end()) {
+			effectIt->second.remove(*it);
 		}
 
 		delete (*it);

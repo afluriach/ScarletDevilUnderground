@@ -31,6 +31,8 @@ public:
 	void removeEffect(MagicEffect* effect);
 	void removeObjectEffects(GObject* obj);
 
+	bool hasScriptedEffect(GObject* obj, string clsName);
+
 	template<class T>
 	inline bool hasMagicEffect(GObject* obj)
 	{

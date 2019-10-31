@@ -64,6 +64,24 @@ public:
 	flag_bits _flags;
 };
 
+class ScriptedMagicEffect : public MagicEffect
+{
+public:
+	static flag_bits getFlags(string clsName);
+
+	ScriptedMagicEffect(string clsName, GObject* agent);
+	ScriptedMagicEffect(string clsName, GObject* agent, float length, float magnitude);
+
+	virtual void init();
+	virtual void update();
+	virtual void end();
+
+	inline string getClsName() const { return clsName; }
+protected:
+	string clsName;
+	sol::table obj;
+};
+
 class RadiusEffect : public MagicEffect
 {
 public:
