@@ -266,11 +266,6 @@ void AttributeSystem::set(Attribute id, float x)
 	attributes.at(to_size_t(id)) = x;
 }
 
-void AttributeSystem::_set(int id, float val)
-{
-	set(static_cast<Attribute>(id), val);
-}
-
 void AttributeSystem::update()
 {
 	applyIncidentRegen();

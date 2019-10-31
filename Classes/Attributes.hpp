@@ -117,7 +117,6 @@ public:
 	float get(string name) const;
 	void set(string name, float val);
 	void set(Attribute id, float val);
-	void _set(int id, float val);
 
 	void update();
 	void applyIncidentRegen();

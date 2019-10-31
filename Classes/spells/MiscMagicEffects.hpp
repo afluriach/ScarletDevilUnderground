@@ -14,18 +14,6 @@
 class Agent;
 class RedFairy;
 
-class DarknessCurseEffect : public MagicEffect
-{
-public:
-	DarknessCurseEffect(Agent* agent);
-
-	virtual void init();
-	virtual void update();
-	virtual void end();
-protected:
-	Agent* agent;
-};
-
 class RedFairyStress : public MagicEffect
 {
 public:

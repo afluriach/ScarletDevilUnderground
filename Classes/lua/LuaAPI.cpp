@@ -137,12 +137,20 @@ const vector<string> Inst::luaIncludes = {
 		auto attr = newType(AttributeSystem);
 		#define _cls AttributeSystem
 
-		attr["getByName"] = &AttributeSystem::get;
-		attr["setByName"] = static_cast<void(AttributeSystem::*)(string, float)>(&AttributeSystem::set);
-		attr["getByID"] = &AttributeSystem::operator[];
-		attr["setByID"] = &AttributeSystem::_set;
+		attr["get"] = sol::overload(
+			&AttributeSystem::get,
+			&AttributeSystem::operator[]
+		);
+
+		attr["set"] = sol::overload(
+			static_cast<void(AttributeSystem::*)(string, float)>(&AttributeSystem::set),
+			static_cast<void(AttributeSystem::*)(Attribute, float)>(&AttributeSystem::set)
+		);
+
 		attr["modifyAttribute"] = static_cast<void(AttributeSystem::*)(Attribute, float)>(&AttributeSystem::modifyAttribute);
 
+		addFuncSame(attr, timerDecrement);
+		addFuncSame(attr, timerIncrement);
 		addFuncSame(attr, setFullHP);
 		addFuncSame(attr, setFullMP);
 		addFuncSame(attr, setFullStamina);
@@ -228,6 +236,20 @@ const vector<string> Inst::luaIncludes = {
 		addFuncSame(hud, setMansionMode);
 		addFuncSame(hud, setObjectiveCounter);
 		addFuncSame(hud, setObjectiveCounterVisible);
+
+		auto action_tags = _state.new_enum<cocos_action_tag, true>(
+			"cocos_action_tag",
+			{
+				enum_entry(cocos_action_tag, illusion_dash),
+				enum_entry(cocos_action_tag, damage_flicker),
+				enum_entry(cocos_action_tag, object_fade),
+				enum_entry(cocos_action_tag, hit_protection_flicker),
+				enum_entry(cocos_action_tag, combo_mode_flicker),
+				enum_entry(cocos_action_tag, freeze_status),
+				enum_entry(cocos_action_tag, darkness_curse),
+				enum_entry(cocos_action_tag, game_over_tint),
+			}
+		);
 
 		auto graphics = _state.create_table();
 		_state["graphics"] = graphics;

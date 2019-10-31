@@ -75,12 +75,13 @@ ScriptedMagicEffect::ScriptedMagicEffect(string clsName, GObject* agent, float l
 	clsName(clsName)
 {
 	auto cls = GSpace::scriptVM->_state["effects"][clsName];
+	MagicEffect* super_this = this;
 
 	if (!cls) {
 		log("ScriptedMagicEffect: %s not found", clsName);
 	}
 
-	obj = cls(agent, length, magnitude);
+	obj = cls(super_this, agent, length, magnitude);
 }
 
 void ScriptedMagicEffect::init()

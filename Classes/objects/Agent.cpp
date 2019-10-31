@@ -170,7 +170,7 @@ void Agent::update()
 		onZeroHP();
 	}
 	if (attributeSystem[Attribute::darknessDamage] >= AttributeSystem::maxElementDamage) {
-		addMagicEffect(new DarknessCurseEffect(this));
+		addMagicEffect(new ScriptedMagicEffect("DarknessCurse", this));
 	}
 	if (attributeSystem[Attribute::poisonDamage] >= AttributeSystem::maxElementDamage) {
 		onZeroHP();

@@ -18,34 +18,6 @@
 #include "Player.hpp"
 #include "SpellUtil.hpp"
 
-DarknessCurseEffect::DarknessCurseEffect(Agent* agent) :
-	MagicEffect(agent, 0.0f, 0.0f, enum_bitfield2(flags, indefinite, active)),
-	agent(agent)
-{
-}
-
-void DarknessCurseEffect::init()
-{
-	agent->setInhibitSpellcasting(true);
-	agent->stopSpell();
-	agent->addGraphicsAction(darknessCurseFlickerTintAction());
-}
-
-void DarknessCurseEffect::update()
-{
-	auto& as = *agent->getAttributeSystem();
-	if (as[Attribute::darknessDamage] <= 0.0f) {
-		crntState = state::ending;
-	}
-	as.timerDecrement(Attribute::darknessDamage, 9.0f);
-}
-
-void DarknessCurseEffect::end()
-{
-	agent->setInhibitSpellcasting(false);
-	agent->stopGraphicsAction(cocos_action_tag::darkness_curse);
-}
-
 RedFairyStress::RedFairyStress(Agent* agent) :
 	MagicEffect(agent, 0.0f, 0.0, enum_bitfield2(flags, indefinite, active)),
 	agent(agent)

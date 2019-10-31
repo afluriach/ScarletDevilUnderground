@@ -47,6 +47,7 @@ namespace Lua{
 		addFuncSame(effect, isImmediate);
 		addFuncSame(effect, isTimed);
 		addFuncSame(effect, isActive);
+		addFuncSame(effect, remove);
 
 		effect["onEnter"] = &MagicEffect::init;
 		effect["update"] = &MagicEffect::update;
