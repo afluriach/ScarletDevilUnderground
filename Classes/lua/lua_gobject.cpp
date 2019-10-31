@@ -48,6 +48,7 @@ namespace Lua{
 		auto agent = _state.new_usertype<Agent>("Agent", sol::base_classes, sol::bases<GObject>());
 		#define _cls Agent
 
+		addFuncSame(agent, getAttribute);
 		addFuncSame(agent, getAttributeSystem);
 		addFuncSame(agent, getBulletAttributes);
 

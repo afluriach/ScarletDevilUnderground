@@ -36,6 +36,7 @@ public:
     static const vector<string> shaderFiles;
 	static const unordered_map<string, InterfaceFunction> interfaceFuntions;
     
+	static const app_params& getParams();
 	static Vec2 getScreenCenter();    
 	static float getScale();
 

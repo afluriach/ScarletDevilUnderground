@@ -509,6 +509,11 @@ void AttributeSystem::timerIncrement(Attribute id, Attribute maxID, float scale)
 	crnt_val = min(crnt_val, max_val);
 }
 
+bool AttributeSystem::isZero(Attribute id) const
+{
+	return attributes.at(to_size_t(id)) == 0.0f;
+}
+
 bool AttributeSystem::isNonzero(Attribute id) const
 {
 	return attributes.at(to_size_t(id)) != 0.0f;
@@ -527,4 +532,9 @@ void AttributeSystem::setTimedProtection(float seconds)
 void AttributeSystem::resetProtection()
 {
 	attributes.at(to_size_t(Attribute::hitProtection)) = 0.0f;
+}
+
+bool AttributeSystem::hasHitProtection() const
+{
+	return isNonzero(Attribute::hitProtection);
 }

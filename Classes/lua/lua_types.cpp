@@ -122,5 +122,10 @@ namespace Lua{
 		);
 
 		vect["ray"] = &SpaceVect::ray;
+
+#define _cls app_params
+		auto params = _state.new_usertype<app_params>("app_params");
+		
+		addFuncSame(params, getFrameInterval);
 	}
 }

@@ -155,6 +155,10 @@ Vec2 App::getScreenCenter()
 	return Vec2(app::params.width / 2, app::params.height / 2);
 }
 
+const app_params& App::getParams()
+{
+	return app::params;
+}
 
 float App::getScale()
 {

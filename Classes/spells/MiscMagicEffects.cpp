@@ -40,36 +40,6 @@ void RedFairyStress::end()
 	agent->getAttributeSystem()->set(Attribute::attackSpeed, baseAttackSpeed);
 }
 
-GhostProtection::GhostProtection(Agent* agent) :
-	MagicEffect(agent, 0.0f, 0.0f, enum_bitfield2(flags, indefinite, active)),
-	agent(agent)
-{
-}
-
-void GhostProtection::init()
-{
-	crntHP = agent->getAttribute(Attribute::hp);
-}
-
-void GhostProtection::update()
-{
-	float _hp = agent->getAttribute(Attribute::hp);
-	float delta = crntHP - _hp;
-
-	accumulator += delta / agent->getAttribute(Attribute::maxHP) * 12.5f;
-
-	if (accumulator >= 1.0f && agent->getAttribute(Attribute::hitProtection) == 0.0f)
-	{
-		agent->addGraphicsAction(flickerAction(0.25f, 5.0f, 128));
-		agent->getAttributeSystem()->setTimedProtection(5.0f);
-
-		accumulator = 0.0f;
-	}
-	if(crntHP != _hp)
-		crntHP = _hp;
-	timerDecrement(accumulator, 0.5f);
-}
-
 BulletSpeedFromHP::BulletSpeedFromHP(
 	Agent* agent,
 	float_pair debuffRange,

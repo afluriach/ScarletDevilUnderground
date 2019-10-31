@@ -102,6 +102,7 @@ struct DamageInfo
 struct app_params
 {
 	float getScale() const;
+	double getFrameInterval() const;
 
 	unsigned int width = 1600;
 	unsigned int height = 1000;

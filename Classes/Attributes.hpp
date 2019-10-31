@@ -137,10 +137,12 @@ public:
 	void modifyAttribute(Attribute mod, Attribute addend, float scale = 1.0f);
 	void timerDecrement(Attribute id, float scale = 1.0f);
 	void timerIncrement(Attribute id, Attribute maxID, float scale);
+	bool isZero(Attribute id) const;
 	bool isNonzero(Attribute id) const;
 	void setProtection();
 	void setTimedProtection(float seconds);
 	void resetProtection();
+	bool hasHitProtection() const;
 
 	void setFullHP();
 	void setFullMP();

@@ -97,7 +97,7 @@ void wander_and_flee_player(StateMachine* fsm, const ValueMap& args)
 
 void ghost_fairy(StateMachine* fsm, const ValueMap& args)
 {
-	fsm->getObject()->addMagicEffect( new GhostProtection(fsm->getAgent()));
+	fsm->getObject()->addMagicEffect( new ScriptedMagicEffect("GhostProtection", fsm->getAgent()));
 
 	fsm->addDetectFunction(
 		GType::player,

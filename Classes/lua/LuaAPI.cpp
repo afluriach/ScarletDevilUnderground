@@ -96,6 +96,7 @@ const vector<string> Inst::luaIncludes = {
 
 		app["runOverworldScene"] = static_cast<GScene*(*)(string, string)>(&App::runOverworldScene);
 
+		addFuncSame(app, getParams);
 		addFuncSame(app,getCrntScene);
 		addFuncSame(app, getCrntState);
 		addFuncSame(app, printGlDebug);
@@ -149,6 +150,10 @@ const vector<string> Inst::luaIncludes = {
 
 		attr["modifyAttribute"] = static_cast<void(AttributeSystem::*)(Attribute, float)>(&AttributeSystem::modifyAttribute);
 
+		addFuncSame(attr, isZero);
+		addFuncSame(attr, isNonzero);
+		addFuncSame(attr, hasHitProtection);
+		addFuncSame(attr, setTimedProtection);
 		addFuncSame(attr, timerDecrement);
 		addFuncSame(attr, timerIncrement);
 		addFuncSame(attr, setFullHP);
