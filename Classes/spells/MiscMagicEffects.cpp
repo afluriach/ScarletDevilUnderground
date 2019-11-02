@@ -18,28 +18,6 @@
 #include "Player.hpp"
 #include "SpellUtil.hpp"
 
-RedFairyStress::RedFairyStress(Agent* agent) :
-	MagicEffect(agent, 0.0f, 0.0, enum_bitfield2(flags, indefinite, active)),
-	agent(agent)
-{
-	baseAttackSpeed = agent->getAttribute(Attribute::attackSpeed);
-}
-
-void RedFairyStress::update()
-{
-	auto& as = *agent->getAttributeSystem();
-
-	as.set(
-		Attribute::attackSpeed,
-		baseAttackSpeed + max(25.0f, as[Attribute::stress]) / 25.0f
-	);
-}
-
-void RedFairyStress::end()
-{
-	agent->getAttributeSystem()->set(Attribute::attackSpeed, baseAttackSpeed);
-}
-
 BulletSpeedFromHP::BulletSpeedFromHP(
 	Agent* agent,
 	float_pair debuffRange,

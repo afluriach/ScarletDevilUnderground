@@ -89,3 +89,28 @@ function effects.GhostProtection:update()
 	self.crntHP = _hp
 	self.accumulator = timerDecrement(self.accumulator, 0.5)
 end
+
+effects.RedFairyStress = class('RedFairyStress')
+
+function effects.RedFairyStress.getFlags()
+	return MagicEffect.make_flags_bitfield(
+		MagicEffect_flags.indefinite,
+		MagicEffect_flags.active
+	)	
+end
+
+function effects.RedFairyStress:init(super, target)
+	self.agent = target:getAsAgent()
+end
+
+function effects.RedFairyStress:onEnter()
+	self.baseAttackSpeed = self.agent:getAttribute(Attribute.attackSpeed)
+end
+
+function effects.RedFairyStress:update()
+	as = self.agent:getAttributeSystem()
+end
+
+function effects.RedFairyStress:onExit()
+	self.agent:getAttributeSystem():set(Attribute.attackSpeed, self.baseAttackSpeed)
+end

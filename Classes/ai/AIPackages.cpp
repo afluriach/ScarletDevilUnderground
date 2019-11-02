@@ -136,7 +136,7 @@ void red_fairy(StateMachine* fsm, const ValueMap& args)
 		return comp;
 	};
 
-	agent->addMagicEffect(new RedFairyStress(agent));
+	agent->addMagicEffect(new ScriptedMagicEffect("RedFairyStress", agent));
 
 	fsm->addAlertFunction([](StateMachine* sm, Player* p)->void {
 		sm->addThread(make_shared<Wander>(sm, 1.5, 2.5, 2.0, 3.0));
