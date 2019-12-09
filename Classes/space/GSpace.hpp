@@ -13,6 +13,8 @@
 #include "graphics_types.h"
 
 class audio_context;
+struct bullet_attributes;
+struct bullet_properties;
 class FloorSegment;
 class GObject;
 class graphics_context;
