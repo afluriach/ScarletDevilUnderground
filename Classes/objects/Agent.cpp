@@ -558,10 +558,7 @@ void Agent::applyAttributeEffects(AttributeMap attributeEffect)
 
 DamageInfo Agent::touchEffect() const
 {
-	if (attributeSystem.isNonzero(Attribute::touchDamage))
-		return DamageInfo{ attributeSystem[Attribute::touchDamage] , Attribute::end, DamageType::touch };
-	else
-		return DamageInfo{};
+	return DamageInfo{};
 }
 
 void Agent::initializeRadar(GSpace& space)

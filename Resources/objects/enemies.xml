@@ -11,6 +11,8 @@
 
 		collectible="nil"		
 		isFlying="true"
+		
+		damage="5.0"
 	/>
 
 	<BlueFairy
@@ -25,6 +27,7 @@
 		viewRange="5"
 		viewAngle="90"
 
+		damage="5.0"
 		collectible="hm1"		
 	/>
 	
@@ -111,6 +114,7 @@
 		viewRange="4.5"
 		viewAngle="0"
 
+		damage="3.0"
 		collectible="hm1"		
 	/>
 
@@ -126,6 +130,7 @@
 		viewRange="6.0"
 		viewAngle="0"
 
+		damage="6.0"
 		collectible="hm2"		
 	/>
 

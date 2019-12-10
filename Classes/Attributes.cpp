@@ -47,8 +47,6 @@ const boost::bimap<Attribute, string> AttributeSystem::attributeNameMap = boost:
 	entry(keys)
 	entry(combo)
 
-	entry(touchDamage)
-
 	entry(attack)
 	entry(attackSpeed)
 	entry(bulletSpeed)

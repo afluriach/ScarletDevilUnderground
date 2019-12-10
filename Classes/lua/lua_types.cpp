@@ -70,7 +70,6 @@ namespace Lua{
 
 				enum_entry(Attribute, keys),
 				enum_entry(Attribute, combo),
-				enum_entry(Attribute, touchDamage),
 
 				enum_entry(Attribute, attack),
 				enum_entry(Attribute, attackSpeed),

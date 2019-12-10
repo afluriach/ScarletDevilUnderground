@@ -2,7 +2,6 @@
 	<bat>
 		<maxHP val="50"/>
 		<agility val="2.0"/>
-		<touchDamage val="5.0"/>
 	</bat>
 	<blueFairy>
 		<shieldLevel val="1"/>
@@ -11,7 +10,6 @@
 		<maxStamina val="50"/>
 		<staminaRegen val="0.02"/>
 		<agility val="2.5"/>
-		<touchDamage val="5.0"/>
 		<stressFromHits val="1.5"/>
 		<stressFromBlocks val="1.0"/>
 		<bombSensitivity val="1.25"/>
@@ -44,13 +42,11 @@
 	<greenFairy1>
 		<maxHP val="60"/>
 		<agility val="3.0"/>
-		<touchDamage val="3.0"/>
 		<stressFromHits val="0.5"/>
 	</greenFairy1>
 	<greenFairy2>
 		<maxHP val="90"/>
 		<agility val="4.0"/>
-		<touchDamage val="6.0"/>
 		<stressFromDetects val="0.25"/>
 		<stressFromHits val="0.5"/>
 	</greenFairy2>
@@ -75,7 +71,6 @@
 		<maxHP val="120"/>
 		<maxMP val="80"/>
 		<agility val="1.5"/>
-		<touchDamage val="10.0"/>
 		<stressFromHits val="1.0"/>
 		<bombSensitivity val="0.5"/>
 		<bulletSensitivity val="0.75"/>
@@ -84,7 +79,6 @@
 	<reimu>
 		<maxHP val="100"/>
 		<maxMP val="5"/>
-		<touchDamage val="10.0"/>
 		<speed val="2.0"/>
 		<acceleration val="4.0"/>
 	</reimu>
