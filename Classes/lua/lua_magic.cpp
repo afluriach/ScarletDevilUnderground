@@ -8,10 +8,14 @@
 
 #include "Prefix.h"
 
+#include "Agent.hpp"
 #include "GObject.hpp"
 #include "GSpace.hpp"
 #include "MagicEffect.hpp"
 #include "LuaAPI.hpp"
+#include "Player.hpp"
+#include "Spell.hpp"
+#include "SpellDescriptor.hpp"
 
 namespace Lua{
     
@@ -59,5 +63,42 @@ namespace Lua{
 		addFuncSame(effect, crntState);
 		addFuncSame(effect, _flags);
 
+		_state.new_enum<SpellCostType, true>(
+			"SpellCostType",
+			{
+				enum_entry(SpellCostType, none),
+
+				enum_entry(SpellCostType, mp),
+				enum_entry(SpellCostType, stamina),
+
+				enum_entry(SpellCostType, initial),
+				enum_entry(SpellCostType, ongoing),
+			}
+		);
+
+		auto spell = _state.new_usertype<Spell>("Spell");
+#define _cls Spell
+
+		spell["onEnter"] = &Spell::init;
+		spell["update"] = &Spell::update;
+		spell["onExit"] = &Spell::end;
+
+		spell["getCasterObject"] = &Spell::getCasterAs<GObject>;
+		spell["getCasterAsAgent"] = &Spell::getCasterAs<Agent>;
+		spell["getCasterAsPlayer"] = &Spell::getCasterAs<Player>;
+
+		auto spell_desc = _state.new_usertype<SpellDesc>("SpellDescriptor");
+#define _cls SpellDesc
+
+		addFuncSame(spell_desc, getName);
+		addFuncSame(spell_desc, getDescription);
+		addFuncSame(spell_desc, getIcon);
+
+		addFuncSame(spell_desc, getCost);
+		addFuncSame(spell_desc, getCostType);
+
+		addFuncSame(spell_desc, generate);
+		addFuncSame(spell_desc, getGenerator);
 	}
+
 }
