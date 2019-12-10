@@ -8,6 +8,7 @@
 
 #include "Prefix.h"
 
+#include "Agent.hpp"
 #include "Attributes.hpp"
 
 const float AttributeSystem::maxElementDamage = 100.0f;
@@ -60,8 +61,8 @@ const boost::bimap<Attribute, string> AttributeSystem::attributeNameMap = boost:
 	entry(stressFromDetects)
 
 	entry(agility)
-	entry(speed)
-	entry(acceleration)
+	entry(maxSpeed)
+	entry(maxAcceleration)
 
 	entry(bombSensitivity)
 	entry(bulletSensitivity)
@@ -102,13 +103,13 @@ AttributeArray AttributeSystem::getAttributeSet(const AttributeMap& input)
 		result[to_size_t(it->first)] = it->second;
 	}
 
-	if (result[to_size_t(Attribute::speed)] == 0.0f && result[to_size_t(Attribute::acceleration)] == 0.0f)
+	if (result[to_size_t(Attribute::maxSpeed)] == 0.0f && result[to_size_t(Attribute::maxAcceleration)] == 0.0f)
 	{
 		float agility = result[to_size_t(Attribute::agility)];
 		float_pair speedAccel = calculateAgilityAttributes(agility);
 
-		result[to_size_t(Attribute::speed)] = speedAccel.first;
-		result[to_size_t(Attribute::acceleration)] = speedAccel.second;
+		result[to_size_t(Attribute::maxSpeed)] = speedAccel.first;
+		result[to_size_t(Attribute::maxAcceleration)] = speedAccel.second;
 	}
 
 	return result;
@@ -404,8 +405,8 @@ void AttributeSystem::modifyAgility(float dx)
 	float agility = attributes.at(to_size_t(Attribute::agility));
 	float_pair speedAccel = calculateAgilityAttributes(agility);
 
-	attributes.at(to_size_t(Attribute::speed)) = speedAccel.first;
-	attributes.at(to_size_t(Attribute::acceleration)) = speedAccel.second;
+	attributes.at(to_size_t(Attribute::maxSpeed)) = speedAccel.first;
+	attributes.at(to_size_t(Attribute::maxAcceleration)) = speedAccel.second;
 }
 
 void AttributeSystem::modifyIncidentAttribute(Attribute id, Attribute maxID, float x)

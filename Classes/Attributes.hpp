@@ -46,8 +46,8 @@ enum class Attribute {
 	stressFromDetects,
 
 	agility,
-	speed,
-	acceleration,
+	maxSpeed,
+	maxAcceleration,
 
 	bombSensitivity,
 	bulletSensitivity,

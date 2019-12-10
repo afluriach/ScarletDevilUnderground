@@ -337,12 +337,12 @@ SpaceFloat Agent::getTraction() const
 
 SpaceFloat Agent::getMaxSpeed() const
 {
-	return attributeSystem[Attribute::speed];
+	return attributeSystem[Attribute::maxSpeed];
 }
 
 SpaceFloat Agent::getMaxAcceleration() const
 {
-	return attributeSystem[Attribute::acceleration];
+	return attributeSystem[Attribute::maxAcceleration];
 }
 
 float Agent::getMaxHealth() const
