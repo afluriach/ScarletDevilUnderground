@@ -46,6 +46,9 @@ enum class Attribute {
 	stressFromDetects,
 
 	agility,
+
+	currentSpeed,
+	speedRatio,
 	maxSpeed,
 	maxAcceleration,
 
@@ -116,7 +119,7 @@ public:
 	void set(string name, float val);
 	void set(Attribute id, float val);
 
-	void update();
+	void update(Agent* agent);
 	void applyIncidentRegen();
 	void applyElementDecay();
 

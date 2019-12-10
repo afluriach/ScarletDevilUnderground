@@ -36,16 +36,20 @@ protected:
 	Agent * agent;
 };
 
-class DrainStaminaFromMovement : public MagicEffect
+//Uses currentSpeed attribute to determine amount of movement, applied per frame.
+class DrainFromMovement : public MagicEffect
 {
 public:
-	DrainStaminaFromMovement(Agent* agent);
+	DrainFromMovement(Agent* agent, Attribute attr, float unitsPerMeter);
 
 	inline virtual void init() {}
 	virtual void update();
 	inline virtual void end() {}
 protected:
 	Agent* agent;
+	Attribute attr;
+	//This ratio converts currentSpeed (m/s) to attribute units per frame.
+	float _ratio;
 };
 
 #endif /* MiscMagicEffects_hpp */

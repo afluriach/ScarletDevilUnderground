@@ -285,7 +285,7 @@ void stalker(StateMachine* fsm, const ValueMap& args)
 	fsm->addWhileDetectHandler(GType::player, engage);
 
 	fsm->getAgent()->getAttributeSystem()->setFullStamina();
-	fsm->getAgent()->addMagicEffect(new DrainStaminaFromMovement(fsm->getAgent()));
+	fsm->getAgent()->addMagicEffect(new DrainFromMovement(fsm->getAgent(), Attribute::stamina, 1.0f));
 }
 
 void evade_player_projectiles(StateMachine* fsm, const ValueMap& args) {

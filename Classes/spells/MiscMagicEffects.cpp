@@ -64,14 +64,15 @@ void BulletSpeedFromHP::end()
 	agent->getAttributeSystem()->set(Attribute::bulletSpeed, baseBulletSpeed);
 }
 
-DrainStaminaFromMovement::DrainStaminaFromMovement(Agent* agent) :
+DrainFromMovement::DrainFromMovement(Agent* agent, Attribute attr, float unitsPerMeter) :
 	MagicEffect(agent, 0.0f, 0.0f, enum_bitfield2(flags, indefinite, active)),
-	agent(agent)
+	agent(agent),
+	attr(attr)
 {
+	_ratio = -1.0f * app::params.secondsPerFrame * unitsPerMeter;
 }
 
-void DrainStaminaFromMovement::update()
+void DrainFromMovement::update()
 {
-	SpaceFloat dp = agent->getVel().length() * app::params.secondsPerFrame;
-	agent->modifyAttribute(Attribute::stamina, -dp);
+	agent->modifyAttribute(attr, _ratio * agent->getAttribute(Attribute::currentSpeed) );
 }

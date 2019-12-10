@@ -84,6 +84,9 @@ namespace Lua{
 				enum_entry(Attribute, stressFromDetects),
 
 				enum_entry(Attribute, agility),
+
+				enum_entry(Attribute, currentSpeed),
+				enum_entry(Attribute, speedRatio),
 				enum_entry(Attribute, maxSpeed),
 				enum_entry(Attribute, maxAcceleration),
 

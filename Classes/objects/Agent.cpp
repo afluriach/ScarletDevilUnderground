@@ -181,7 +181,7 @@ void Agent::update()
 	}
 
 	if (firePattern) firePattern->update();
-	attributeSystem.update();
+	attributeSystem.update(this);
 	updateAgentOverlay();
 	updateAnimation();
 }

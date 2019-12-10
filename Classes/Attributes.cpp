@@ -61,6 +61,9 @@ const boost::bimap<Attribute, string> AttributeSystem::attributeNameMap = boost:
 	entry(stressFromDetects)
 
 	entry(agility)
+
+	entry(currentSpeed)
+	entry(speedRatio)
 	entry(maxSpeed)
 	entry(maxAcceleration)
 
@@ -265,13 +268,20 @@ void AttributeSystem::set(Attribute id, float x)
 	attributes.at(to_size_t(id)) = x;
 }
 
-void AttributeSystem::update()
+void AttributeSystem::update(Agent* agent)
 {
 	applyIncidentRegen();
 	applyElementDecay();
 	timerDecrement(Attribute::stress, (*this)[Attribute::stressDecay]);
 	if ((*this)[Attribute::hitProtection] != -1.0f)
 		timerDecrement(Attribute::hitProtection);
+
+	set(Attribute::currentSpeed, agent->getVel().length());
+	set(Attribute::speedRatio,
+		(*this)[Attribute::maxSpeed] > 0.0f ?
+		(*this)[Attribute::currentSpeed] / (*this)[Attribute::maxSpeed] :
+		0.0f
+	);
 }
 
 void AttributeSystem::applyIncidentRegen()
