@@ -277,17 +277,6 @@ void sakuya(StateMachine* fsm, const ValueMap& args)
 	fsm->addThread(make_shared<SakuyaMain>(fsm));
 }
 
-void stalker(StateMachine* fsm, const ValueMap& args)
-{
-	auto engage = makeTargetFunctionGenerator<Seek>(true);
-
-	fsm->addThread<StalkerMain>();
-	fsm->addWhileDetectHandler(GType::player, engage);
-
-	fsm->getAgent()->getAttributeSystem()->setFullStamina();
-	fsm->getAgent()->addMagicEffect(new DrainFromMovement(fsm->getAgent(), Attribute::stamina, 1.0f));
-}
-
 void evade_player_projectiles(StateMachine* fsm, const ValueMap& args) {
 	fsm->addThread(make_shared<EvadePlayerProjectiles>(fsm));
 }
@@ -313,7 +302,6 @@ const unordered_map<string, StateMachine::PackageType> StateMachine::packages = 
 	package(rumia1),
 	package(rumia2),
 	package(sakuya),
-	package(stalker),
 	package(evade_player_projectiles),
 };
 

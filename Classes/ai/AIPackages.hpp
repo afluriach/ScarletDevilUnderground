@@ -34,7 +34,6 @@ namespace ai {
 	pfunc(rumia1);
 	pfunc(rumia2);
 	pfunc(sakuya);
-	pfunc(stalker);
 	pfunc(evade_player_projectiles);
 
 } //end NS

@@ -11,11 +11,18 @@
 #include "Agent.hpp"
 #include "GObject.hpp"
 #include "GSpace.hpp"
+#include "MiscMagicEffects.hpp"
 #include "MagicEffect.hpp"
 #include "LuaAPI.hpp"
 #include "Player.hpp"
 #include "Spell.hpp"
 #include "SpellDescriptor.hpp"
+
+template<typename T, typename... Params>
+MagicEffect* createEffect(Params... params)
+{
+	return new T(params...);
+}
 
 namespace Lua{
     
@@ -62,6 +69,18 @@ namespace Lua{
 		addFuncSame(effect, magnitude);
 		addFuncSame(effect, crntState);
 		addFuncSame(effect, _flags);
+
+		auto teleport = effects.new_usertype<Teleport>(
+			"Teleport",
+			sol::base_classes, sol::bases<MagicEffect>()
+		);
+		teleport["create"] = &createEffect<Teleport, GObject*>;
+
+		auto drainFromMovement = effects.new_usertype<DrainFromMovement>(
+			"DrainFromMovement",
+			sol::base_classes, sol::bases<MagicEffect>()
+		);
+		drainFromMovement["create"] = &createEffect<DrainFromMovement, Agent*, Attribute, float>;
 
 		_state.new_enum<SpellCostType, true>(
 			"SpellCostType",

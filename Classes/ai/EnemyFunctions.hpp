@@ -136,18 +136,6 @@ protected:
 	SpaceVect target;
 };
 
-class StalkerMain : public Function {
-public:
-	inline StalkerMain(StateMachine* fsm) : Function(fsm) {}
-
-	virtual bool onEvent(Event event);
-	virtual update_return update();
-	virtual event_bitset getEvents();
-	FuncGetName(StalkerMain)
-
-	void applyTeleport();
-};
-
 } //end NS
 
 #endif /* EnemyFunctions_hpp */

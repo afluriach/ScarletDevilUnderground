@@ -288,30 +288,4 @@ update_return IllusionDash::update()
 	}
 }
 
-update_return StalkerMain::update()
-{
-	return_steady();
-}
-
-bool StalkerMain::onEvent(Event event)
-{
-	if (event.eventType == event_type::zeroStamina) {
-		applyTeleport();
-	}
-	return true;
-}
-
-event_bitset StalkerMain::getEvents()
-{
-	return make_enum_bitfield(event_type::zeroStamina);
-}
-
-void StalkerMain::applyTeleport()
-{
-	if (agent->getAttribute(Attribute::stamina) <= 0.0f) {
-		agent->getAttributeSystem()->setFullStamina();
-		agent->addMagicEffect(new Teleport(agent));
-	}
-}
-
 }//end NS

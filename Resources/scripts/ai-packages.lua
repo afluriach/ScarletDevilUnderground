@@ -64,3 +64,16 @@ function scorpion2(fsm)
 	engage = ai.Flank.makeTargetFunctionGenerator(3.0, -1.0)
 	fsm:addWhileDetectHandler(GType.player, engage)
 end
+
+function stalker(fsm)
+	fsm:addThread( ai.ScriptFunction.create(fsm, "StalkerTeleport") )
+
+	engage = ai.Seek.makeTargetFunctionGenerator(true, 0.0)
+	fsm:addWhileDetectHandler( GType.player, engage )
+	
+	fsm:getAgent():addMagicEffect(effects.DrainFromMovement.create(
+		fsm:getAgent(),
+		Attribute.stamina,
+		1.0
+	) ) 
+end

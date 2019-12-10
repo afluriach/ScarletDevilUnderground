@@ -92,3 +92,28 @@ end
 function ai.SakuyaNPC1:update()
 	return push_return(ai.Wander.create(self.super.fsm, 0.25, 0.75, 4.0, 1.0))
 end
+
+ai.StalkerTeleport = class("StalkerTeleport")
+
+function ai.StalkerTeleport:init(super)
+	self.super = super
+end
+
+function ai.StalkerTeleport:onEvent(event)
+	if event:getEventType() == ai.event_type.zeroStamina then
+		self:applyTeleport()
+		return true
+	end
+	return false
+end
+
+function ai.StalkerTeleport:getEvents()
+	return ai.event_type_bitfield(ai.event_type.zeroStamina)
+end
+
+function ai.StalkerTeleport:applyTeleport()
+	agent = self.super:getAgent()
+
+	agent:getAttributeSystem():setFullStamina()
+	agent:addMagicEffect( effects.Teleport.create(agent) )
+end
