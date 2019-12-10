@@ -16,6 +16,7 @@
 #include "Graphics.h"
 #include "GSpace.hpp"
 #include "MarisaSpell.hpp"
+#include "MiscMagicEffects.hpp"
 #include "Player.hpp"
 #include "RadarSensor.hpp"
 #include "RumiaSpells.hpp"
@@ -309,7 +310,7 @@ void StalkerMain::applyTeleport()
 {
 	if (agent->getAttribute(Attribute::stamina) <= 0.0f) {
 		agent->getAttributeSystem()->setFullStamina();
-		push<Cast>(make_spell_generator<Teleport>());
+		agent->addMagicEffect(new Teleport(agent));
 	}
 }
 

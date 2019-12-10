@@ -19,48 +19,6 @@
 #include "TeleportPad.hpp"
 #include "Torch.hpp"
 
-const string Teleport::name = "Teleport";
-const string Teleport::description = "";
-const float Teleport::cost = 0.0f;
-
-Teleport::Teleport(GObject* caster) :
-	Spell(caster),
-	targets(getSpace()->getObjectsByTypeAs<TeleportPad>())
-{
-}
-
-void Teleport::init()
-{
-}
-
-void Teleport::update()
-{
-	bool success = false;
-
-	for (auto ref : targets)
-	{
-		if (ref.isValid() && !ref.get()->isObstructed()) {
-			log("%s teleported to %s.", caster->getName().c_str(), ref.get()->getName().c_str());
-			caster->teleport(ref.get()->getPos());
-			ref.get()->setTeleportActive(true);
-			success = true;
-			toUse = ref;
-			break;
-		}
-	}
-
-	if (success) {
-		active = false;
-	}
-}
-
-void Teleport::end()
-{
-	if (toUse.isValid()) {
-		toUse.get()->setTeleportActive(false);
-	}
-}
-
 const SpaceFloat TorchDarkness::radius = 2.5f;
 const float TorchDarkness::effectMagnitude = 0.2f;
 

@@ -12,6 +12,7 @@
 #include "MagicEffect.hpp"
 
 class Agent;
+class TeleportPad;
 
 class BulletSpeedFromHP : public MagicEffect
 {
@@ -50,6 +51,19 @@ protected:
 	Attribute attr;
 	//This ratio converts currentSpeed (m/s) to attribute units per frame.
 	float _ratio;
+};
+
+class Teleport : public MagicEffect {
+public:
+	Teleport(GObject* target);
+	inline virtual ~Teleport() {}
+
+	virtual void init();
+	virtual void update();
+	virtual void end();
+protected:
+	vector<object_ref<TeleportPad>> targets;
+	object_ref<TeleportPad> toUse;
 };
 
 #endif /* MiscMagicEffects_hpp */

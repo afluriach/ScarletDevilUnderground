@@ -12,26 +12,7 @@
 #include "Attributes.hpp"
 #include "Spell.hpp"
 
-class TeleportPad;
 class Torch;
-
-class Teleport : public Spell {
-public:
-	static const string name;
-	static const string description;
-	static const float cost;
-
-	Teleport(GObject* caster);
-	inline virtual ~Teleport() {}
-
-	GET_DESC(Teleport)
-	virtual void init();
-	virtual void update();
-	virtual void end();
-protected:
-	vector<object_ref<TeleportPad>> targets;
-	object_ref<TeleportPad> toUse;
-};
 
 class TorchDarkness : public Spell
 {
