@@ -197,17 +197,16 @@ enum class GType{
     enemy = 0x4,
     enemyBullet = 0x8,
     environment = 0x10,
-    foliage = 0x20,
-    wall = 0x40,
-	areaSensor = 0x80,
-    enemySensor = 0x100,
-    playerGrazeRadar = 0x200,
-    playerPickup = 0x400,
-    npc = 0x800,
-	floorSegment = 0x1000,
-	bomb = 0x2000,
+    wall = 0x20,
+	areaSensor = 0x40,
+    enemySensor = 0x80,
+    playerGrazeRadar = 0x100,
+    playerPickup = 0x200,
+    npc = 0x400,
+	floorSegment = 0x800,
+	bomb = 0x1000,
 
-	all = 0x3FFF
+	all = 0x1FFF
 };
 
 extern const GType bombObstacles;

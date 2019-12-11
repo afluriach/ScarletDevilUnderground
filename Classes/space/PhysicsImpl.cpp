@@ -255,10 +255,7 @@ pair<b2Body*, b2Fixture*> PhysicsImpl::createCircleBody(
 	fixture.userData = obj;
 	fixture.shape = &circle;
 	fixture.isSensor = sensor;
-	fixture.filter.categoryBits = to_uint(type);
-	fixture.filter.maskBits = collisionMasks.at(type);
-	fixture.filter.groupIndex = getGroup(type);
-	fixture.filter.layers = to_uint(layers);
+	fixture.filter = generateFilter(type, layers);
 
 	shape = body->CreateFixture(&fixture);
 
@@ -307,10 +304,7 @@ pair<b2Body*, b2Fixture*> PhysicsImpl::createRectangleBody(
 	fixture.userData = obj;
 	fixture.shape = &rect;
 	fixture.isSensor = sensor;
-	fixture.filter.categoryBits = to_uint(type);
-	fixture.filter.maskBits = collisionMasks.at(type);
-	fixture.filter.groupIndex = getGroup(type);
-	fixture.filter.layers = to_uint(layers);
+	fixture.filter = generateFilter(type, layers);
 
 	shape = body->CreateFixture(&fixture);
 
@@ -322,6 +316,17 @@ pair<b2Body*, b2Fixture*> PhysicsImpl::createRectangleBody(
 	return make_pair(body, shape);
 }
 
+b2Filter PhysicsImpl::generateFilter(GType type, PhysicsLayers layers)
+{
+	b2Filter filter;
+
+	filter.categoryBits = to_uint(type);
+	filter.maskBits = collisionMasks.at(type);
+	filter.groupIndex = getGroup(type);
+	filter.layers = to_uint(layers);
+
+	return filter;
+}
 
 const bool PhysicsImpl::logPhysicsHandlers = false;
 

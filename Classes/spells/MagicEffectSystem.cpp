@@ -141,9 +141,16 @@ void MagicEffectSystem::processTimedRemovals()
 
 void MagicEffectSystem::applyRemove()
 {
-	for (auto it = magicEffectsToRemove.begin(); it != magicEffectsToRemove.end(); ++it)
+	while (!magicEffectsToRemove.empty())
 	{
-		MagicEffect* crnt = getByID(*it).get();
+		unsigned int targetID = magicEffectsToRemove.front();
+		MagicEffect* crnt = getByID(targetID).get();
+		magicEffectsToRemove.pop_front();
+
+		if (!crnt) {
+			log("MagicEffectSystem: attempt to remove invalid effect ID %d!", targetID);
+			continue;
+		}
 
 		crnt->crntState = MagicEffect::state::ending;
 		crnt->end();
@@ -159,7 +166,6 @@ void MagicEffectSystem::applyRemove()
 			effectIt->second.erase(crnt);
 		}
 	}
-	magicEffectsToRemove.clear();
 }
 
 bool MagicEffectSystem::isValidConfig(MagicEffect* effect)

@@ -22,7 +22,6 @@
 #include "Fairy.hpp"
 #include "FairyNPC.hpp"
 #include "FloorSegment.hpp"
-#include "Flower.h"
 #include "Goal.hpp"
 #include "Glyph.hpp"
 #include "GSpace.hpp"
@@ -147,7 +146,6 @@ void GObject::initObjectInfo()
 	entry_same(Door),
 	entry_same(Fairy2),
 	entry_same(FairyMaid),
-	entry_same(Flower),
 	item_entry_same(ForestBook1),
 	entry_same(GenericAgent),
 	conditional_entry(GhostFairyNPC),

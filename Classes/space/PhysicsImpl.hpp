@@ -68,6 +68,8 @@ protected:
 		void* obj
 	);
 
+	b2Filter generateFilter(GType type, PhysicsLayers layers);
+
 	void addCollide(GType a, GType b);
 
 	//This function will set both types to collide with each other pairwise in 

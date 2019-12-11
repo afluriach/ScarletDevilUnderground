@@ -24,7 +24,6 @@ namespace Lua{
 				enum_entry(GType, enemy),
 				enum_entry(GType, enemyBullet),
 				enum_entry(GType, environment),
-				enum_entry(GType, foliage),
 				enum_entry(GType, wall),
 				enum_entry(GType, areaSensor),
 				enum_entry(GType, enemySensor),

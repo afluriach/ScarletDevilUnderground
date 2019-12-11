@@ -23,7 +23,6 @@ public:
 	virtual void init();
 
 	virtual inline GType getType() const { return GType::playerPickup; }
-	virtual inline bool getSensor() const { return true; }
 	virtual inline PhysicsLayers getLayers() const { return PhysicsLayers::floor; }
 
     virtual inline GraphicsLayer sceneLayer() const {return GraphicsLayer::floor;}

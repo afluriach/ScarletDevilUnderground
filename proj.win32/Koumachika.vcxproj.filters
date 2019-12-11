@@ -249,9 +249,6 @@
     <ClCompile Include="..\Classes\objects\Meiling.cpp">
       <Filter>src\objects</Filter>
     </ClCompile>
-    <ClCompile Include="..\Classes\objects\Flower.cpp">
-      <Filter>src\objects</Filter>
-    </ClCompile>
     <ClCompile Include="..\Classes\spells\RumiaSpells.cpp">
       <Filter>src\spells</Filter>
     </ClCompile>
@@ -453,9 +450,6 @@
       <Filter>src\objects</Filter>
     </ClInclude>
     <ClInclude Include="..\Classes\objects\Collectibles.hpp">
-      <Filter>src\objects</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Classes\objects\Flower.h">
       <Filter>src\objects</Filter>
     </ClInclude>
     <ClInclude Include="..\Classes\objects\Glyph.hpp">

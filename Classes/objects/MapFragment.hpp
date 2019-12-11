@@ -20,7 +20,6 @@ public:
 	virtual inline ~MapFragment() {}
 
 	virtual inline GType getType() const { return GType::playerPickup; }
-	virtual inline bool getSensor() const { return true; }
 
 	virtual inline GraphicsLayer sceneLayer() const { return GraphicsLayer::floor; }
 	virtual inline string getSprite() const { return "mapFragment"; }
