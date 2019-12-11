@@ -230,6 +230,11 @@ void GObject::setFrozen(bool val) {
 	isFrozen = val;
 }
 
+bool GObject::hit(DamageInfo damage)
+{
+	return false;
+}
+
 //END LOGIC
 
 //BEGIN PHYSICS

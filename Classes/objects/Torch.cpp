@@ -8,6 +8,7 @@
 
 #include "Prefix.h"
 
+#include "Attributes.hpp"
 #include "Graphics.h"
 #include "graphics_context.hpp"
 #include "GSpace.hpp"
@@ -128,6 +129,17 @@ void Torch::addLightSource()
 		lightID,
 		perlin_light_state{ toColor4F(color)*intensity, boost::math::float_constants::pi, 0.0f, 4.0f, 0.3f}
 	);
+}
+
+bool Torch::hit(DamageInfo damage)
+{
+	bool apply = damage.element == Attribute::darknessDamage && damage.mag > 0.0f && getActive();
+
+	if (apply) {
+		applyDarkness(damage.mag);
+	}
+
+	return apply;
 }
 
 void Torch::interact(Player* p)

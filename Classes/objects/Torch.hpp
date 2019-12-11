@@ -31,10 +31,12 @@ public:
 
     void setActive(bool active);
     bool getActive();
-	void applyDarkness(float v);
     
-	void addLightSource();
+	virtual bool hit(DamageInfo damage);
 protected:
+	void addLightSource();
+	void applyDarkness(float v);
+
 	string colorName;
 	SpriteID flameSpriteID = 0;
 	Color3B color = Color3B(255,255,255);

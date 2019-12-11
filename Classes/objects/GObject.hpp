@@ -168,6 +168,8 @@ public:
 	void printFSM();
 	void setFrozen(bool val);
 
+	virtual bool hit(DamageInfo damage);
+
 	//END LOGIC
 
 	//BEGIN PHYSICS

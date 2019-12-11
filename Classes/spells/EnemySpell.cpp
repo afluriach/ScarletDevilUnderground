@@ -43,7 +43,7 @@ void TorchDarkness::update()
 	{
 		if (crnt->getActive())
 		{
-			crnt->applyDarkness(effectMagnitude * app::params.secondsPerFrame);
+			crnt->hit(DamageInfo{effectMagnitude, Attribute::darknessDamage, DamageType::effectArea });
 		}
 	}
 }

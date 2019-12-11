@@ -442,6 +442,7 @@ void sensorEnd(RadarSensor* radar, GObject* target, b2Contact* arb)
 void PhysicsImpl::addCollisionHandlers()
 {
 	_addSensorHandler(playerGrazeRadar, enemyBullet);
+	_addSensorHandler(enemySensor, environment);
 	_addSensorHandler(enemySensor, bomb);
 	_addSensorHandler(enemySensor, enemy);
 	_addSensorHandler(enemySensor, enemyBullet);
