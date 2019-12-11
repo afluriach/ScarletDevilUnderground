@@ -13,6 +13,7 @@
 #include "GObject.hpp"
 #include "LuaAPI.hpp"
 #include "Player.hpp"
+#include "Torch.hpp"
 
 namespace Lua{
     
@@ -24,6 +25,7 @@ namespace Lua{
 		addFuncSame(gobject, addGraphicsAction);
 		addFuncSame(gobject, stopGraphicsAction);
 		addFuncSame(gobject, cast);
+		addFuncSame(gobject, hit);
 		addFuncSame(gobject, addMagicEffect);
 		addFuncSame(gobject, getMaxSpeed);
 		addFuncSame(gobject, getAngle);
@@ -49,6 +51,7 @@ namespace Lua{
 		auto agent = _state.new_usertype<Agent>("Agent", sol::base_classes, sol::bases<GObject>());
 		#define _cls Agent
 
+		addFuncSame(agent, hit);
 		addFuncSame(agent, getAttribute);
 		addFuncSame(agent, getAttributeSystem);
 		addFuncSame(agent, getBulletAttributes);
@@ -62,5 +65,11 @@ namespace Lua{
 
 		auto bullet = _state.new_usertype<Bullet>("Bullet", sol::base_classes, sol::bases<GObject>());
 		bullet["makeParams"] = &Bullet::makeParams;
+
+		auto torch = _state.new_usertype<Torch>("Torch", sol::base_classes, sol::bases <GObject>());
+#define _cls Torch
+		addFuncSame(torch, getActive);
+		addFuncSame(torch, setActive);
+		addFuncSame(torch, hit);
 	}
 }

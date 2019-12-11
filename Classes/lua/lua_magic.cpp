@@ -19,9 +19,9 @@
 #include "SpellDescriptor.hpp"
 
 template<typename T, typename... Params>
-MagicEffect* createEffect(Params... params)
+shared_ptr<MagicEffect> createEffect(Params... params)
 {
-	return new T(params...);
+	return make_shared<T>(params...);
 }
 
 namespace Lua{

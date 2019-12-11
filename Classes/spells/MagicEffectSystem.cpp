@@ -11,6 +11,8 @@
 #include "GSpace.hpp"
 #include "MagicEffectSystem.hpp"
 
+unsigned int MagicEffectSystem::nextID;
+
 bool timedEntry::operator>(const timedEntry& rhs) const
 {
 	if (endFrame > rhs.endFrame)
@@ -24,19 +26,23 @@ MagicEffectSystem::MagicEffectSystem(GSpace* gspace) :
 	timedRemovals(),
 	gspace(gspace)
 {
+	nextID = 1;
 }
 
-void MagicEffectSystem::addEffect(MagicEffect* effect)
+void MagicEffectSystem::addEffect(shared_ptr<MagicEffect> effect)
 {
-	if(isValidConfig(effect))
+	if(isValidConfig(effect.get()))
 		magicEffectsToAdd.push_back(effect);
-	else
-		delete effect;
 }
 
-void MagicEffectSystem::removeEffect(MagicEffect* effect)
+void MagicEffectSystem::removeEffect(shared_ptr<MagicEffect> effect)
 {
-	magicEffectsToRemove.push_back(effect);
+	removeEffect(effect->id);
+}
+
+void MagicEffectSystem::removeEffect(unsigned int id)
+{
+	magicEffectsToRemove.push_back(id);
 }
 
 void MagicEffectSystem::removeObjectEffects(GObject* obj)
@@ -44,11 +50,16 @@ void MagicEffectSystem::removeObjectEffects(GObject* obj)
 	auto it = effectObjects.find(obj);
 	if (it != effectObjects.end()) {
 		for (auto entry : it->second) {
-			magicEffectsToRemove.push_back(entry);
+			magicEffectsToRemove.push_back(entry->id);
 		}
 	}
 
 	applyRemove();
+}
+
+shared_ptr<MagicEffect> MagicEffectSystem::getByID(unsigned int id)
+{
+	return getOrDefault(magicEffects, id);
 }
 
 bool MagicEffectSystem::hasScriptedEffect(GObject* obj, string clsName)
@@ -68,7 +79,7 @@ void MagicEffectSystem::applyAdd()
 {
 	for (auto it = magicEffectsToAdd.begin(); it != magicEffectsToAdd.end(); ++it)
 	{
-		MagicEffect* newEffect = *it;
+		MagicEffect* newEffect = it->get();
 		GObject* obj = newEffect->agent;
 
 		if (!newEffect || newEffect->crntState != MagicEffect::state::created) {
@@ -81,12 +92,12 @@ void MagicEffectSystem::applyAdd()
 
 		if (!newEffect->isImmediate()) {
 			emplaceIfEmpty(effectObjects, obj);
-			effectObjects.at(obj).push_back(newEffect);
+			effectObjects.at(obj).insert(newEffect);
 
-			magicEffects.push_back(newEffect);
+			magicEffects.insert_or_assign(newEffect->id, *it);
 
 			if (newEffect->isActive()) {
-				updateEffects.push_back(newEffect);
+				updateEffects.insert(newEffect);
 			}
 
 			if (newEffect->isTimed()) {
@@ -123,7 +134,7 @@ void MagicEffectSystem::processTimedRemovals()
 
 	while (!timedRemovals.empty() && timedRemovals.top().endFrame <= crntFrame)
 	{
-		removeEffect(timedRemovals.top().effect);
+		removeEffect(timedRemovals.top().effect->id);
 		timedRemovals.pop();
 	}
 }
@@ -132,21 +143,21 @@ void MagicEffectSystem::applyRemove()
 {
 	for (auto it = magicEffectsToRemove.begin(); it != magicEffectsToRemove.end(); ++it)
 	{
-		(*it)->crntState = MagicEffect::state::ending;
-		(*it)->end();
+		MagicEffect* crnt = getByID(*it).get();
 
-		magicEffects.remove(*it);
+		crnt->crntState = MagicEffect::state::ending;
+		crnt->end();
 
-		if ( (*it)->isActive() ) {
-			updateEffects.remove(*it);
+		magicEffects.erase(crnt->id);
+
+		if ( crnt->isActive() ) {
+			updateEffects.erase(crnt);
 		}
 
-		auto effectIt = effectObjects.find((*it)->agent);
+		auto effectIt = effectObjects.find(crnt->agent);
 		if (effectIt != effectObjects.end()) {
-			effectIt->second.remove(*it);
+			effectIt->second.erase(crnt);
 		}
-
-		delete (*it);
 	}
 	magicEffectsToRemove.clear();
 }

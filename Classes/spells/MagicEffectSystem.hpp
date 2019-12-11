@@ -19,18 +19,28 @@ struct timedEntry
 	bool operator>(const timedEntry& rhs) const;
 };
 
+struct effectCompareID
+{
+	inline bool operator()(const MagicEffect* left, const MagicEffect* right) const
+	{
+		return left->id < right->id;
+	}
+};
+
 class MagicEffectSystem
 {
 public:
-
 	friend class GSpace;
+	friend class MagicEffect;
 
 	MagicEffectSystem(GSpace* gspace);
 
-	void addEffect(MagicEffect* effect);
-	void removeEffect(MagicEffect* effect);
+	void addEffect(shared_ptr<MagicEffect> effect);
+	void removeEffect(shared_ptr<MagicEffect> effect);
+	void removeEffect(unsigned int id);
 	void removeObjectEffects(GObject* obj);
 
+	shared_ptr<MagicEffect> getByID(unsigned int id);
 	bool hasScriptedEffect(GObject* obj, string clsName);
 
 	template<class T>
@@ -47,6 +57,8 @@ public:
 		return false;
 	}
 protected:
+	static unsigned int nextID;
+
 	void applyAdd();
 	void applyRemove();
 	void update();
@@ -56,18 +68,16 @@ protected:
 
 	bool isValidConfig(MagicEffect* effect);
 
-	map<GObject*, list<MagicEffect*>> effectObjects;
+	map<GObject*, set<MagicEffect*, effectCompareID>> effectObjects;
 	
 	//Store all timed effects by their ending time as frame number.
 	priority_queue<timedEntry, vector<timedEntry>, greater<timedEntry>> timedRemovals;
 
-	list<MagicEffect*> updateEffects;
+	set<MagicEffect*, effectCompareID> updateEffects;
 
-	//need to store timed magic effects sorted by ending time
-	//need to store magic effects that requie an update sepearately
-	list<MagicEffect*> magicEffects;
-	list<MagicEffect*> magicEffectsToAdd;
-	list<MagicEffect*> magicEffectsToRemove;
+	map<unsigned int, shared_ptr<MagicEffect>> magicEffects;
+	list<shared_ptr<MagicEffect>> magicEffectsToAdd;
+	list<unsigned int> magicEffectsToRemove;
 
 	GSpace* gspace;
 };

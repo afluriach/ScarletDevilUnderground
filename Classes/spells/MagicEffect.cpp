@@ -26,6 +26,8 @@ crntState(state::created)
 	if (!_flags.any()) {
 		log("Warning, empty MagicEffect created.");
 	}
+
+	id = getSpace()->magicEffectSystem->nextID++;
 }
 
 GSpace* MagicEffect::getSpace() const {
@@ -49,7 +51,7 @@ bool MagicEffect::isActive() const
 
 void MagicEffect::remove()
 {
-	getSpace()->magicEffectSystem->removeEffect(this);
+	getSpace()->magicEffectSystem->removeEffect(id);
 }
 
 MagicEffect::flag_bits ScriptedMagicEffect::getFlags(string clsName)

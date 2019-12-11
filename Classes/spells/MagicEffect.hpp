@@ -61,6 +61,7 @@ public:
 	GObject* agent;
 	float length, magnitude;
 	state crntState;
+	unsigned int id;
 	flag_bits _flags;
 };
 
