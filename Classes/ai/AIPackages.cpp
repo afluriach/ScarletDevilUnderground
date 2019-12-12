@@ -268,10 +268,6 @@ void sakuya(StateMachine* fsm, const ValueMap& args)
 	fsm->addThread(make_shared<SakuyaMain>(fsm));
 }
 
-void evade_player_projectiles(StateMachine* fsm, const ValueMap& args) {
-	fsm->addThread(make_shared<Evade>(fsm, GType::playerBullet));
-}
-
 #define package(name) {#name, &name}
 
 const unordered_map<string, StateMachine::PackageType> StateMachine::packages = {
@@ -293,7 +289,6 @@ const unordered_map<string, StateMachine::PackageType> StateMachine::packages = 
 	package(rumia1),
 	package(rumia2),
 	package(sakuya),
-	package(evade_player_projectiles),
 };
 
 }//end NS

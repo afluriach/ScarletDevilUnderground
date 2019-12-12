@@ -172,6 +172,12 @@ namespace Lua{
 		seek["create"] = &create<ai::Seek, GObject*, bool, SpaceFloat>;
 		seek["makeTargetFunctionGenerator"] = &ai::makeTargetFunctionGenerator<ai::Seek, bool, SpaceFloat>;
 
+		auto evade = _ai.new_usertype<ai::Evade>(
+			"Evade",
+			sol::base_classes, sol::bases<ai::Function>()
+		);
+		evade["create"] = &create<ai::Evade, GType>;
+
 		auto scurry = _ai.new_usertype < ai::Scurry> (
 			"Scurry",
 			sol::base_classes, sol::bases<ai::Function>()

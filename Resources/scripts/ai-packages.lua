@@ -21,6 +21,10 @@ function engage_player_in_room(fsm)
 	fsm:addWhileDetectHandler(GType.player, engage)
 end
 
+function evade_player_projectiles(fsm)
+	fsm:addThread(ai.Evade.create(fsm, GType.playerBullet))
+end
+
 function seek_player(fsm)
 	engage = ai.Seek.makeTargetFunctionGenerator(true, 0.0)
 	fsm:addWhileDetectHandler(GType.player, engage)
