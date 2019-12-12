@@ -26,6 +26,7 @@ public:
 	virtual inline SpaceFloat getDefaultFovAngle() const { return 0.0; }
 
 	inline string getSprite() const { return "redFairy"; }
+	virtual inline string getTypeName() const { return "RedFairy"; }
 
 	virtual inline string initStateMachine() { return "red_fairy"; }
 };
@@ -57,6 +58,7 @@ public:
 	virtual inline SpaceFloat getDefaultFovAngle() const { return float_pi / 4.0; }
 
 	inline string getSprite() const { return "redFairy2"; }
+	virtual inline string getTypeName() const { return "Fairy2"; }
 
 	virtual inline string initStateMachine() { return "fairy2"; }
 	void addFleeThread();

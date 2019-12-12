@@ -41,6 +41,21 @@ gobject_ref getObjRefFromStringField(GSpace* space, const ValueMap& args, const 
 void convertToUnitSpace(ValueMap& arg, IntVec2 offset);
 SpaceRect getUnitspaceRectangle(const ValueMap& tileMapObj, IntVec2 offset);
 
+inline vector<string> getStringVector(
+	const ValueMap& obj,
+	string name,
+	int startIdx = 1
+) {
+	vector<string> result;
+	ValueVector fields = getVector(obj, name, startIdx);
+
+	for (Value v : fields) {
+		result.push_back(v.asString());
+	}
+
+	return result;
+}
+
 template<typename T>
 inline vector<T> getObjectVector(
 	const ValueMap& obj,

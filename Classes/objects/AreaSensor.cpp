@@ -96,8 +96,8 @@ void AreaSensor::onPlayerEndContact(Player* p) {
 void AreaSensor::onEnemyContact(Enemy*e) {
 	enemies.insert(e);
 
-	emplaceIfEmpty<type_index, unsigned int>(enemyCountsByType, typeid(*e), 0);
-	++enemyCountsByType.at(typeid(*e));
+	emplaceIfEmpty<string, unsigned int>(enemyCountsByType, e->getTypeName(), 0);
+	++enemyCountsByType.at(e->getTypeName());
 
 	if (player) {
 		e->sendAlert(player);
@@ -105,7 +105,7 @@ void AreaSensor::onEnemyContact(Enemy*e) {
 }
 
 void AreaSensor::onEnemyEndContact(Enemy* e) {
-	--enemyCountsByType.at(typeid(*e));
+	--enemyCountsByType.at(e->getTypeName());
 	enemies.erase(e);
 }
 
@@ -117,9 +117,9 @@ void AreaSensor::onEnvironmentalObjectEndContact(GObject* obj) {
 	environmentalObjects.erase(obj);
 }
 
-unsigned int AreaSensor::getEnemyCount(type_index t)
+unsigned int AreaSensor::getEnemyCount(string typeName)
 {
-	return getOrDefault(enemyCountsByType, t, to_uint(0));
+	return getOrDefault(enemyCountsByType, typeName, to_uint(0));
 }
 
 HiddenSubroomSensor::HiddenSubroomSensor(GSpace* space, ObjectIDType id, const ValueMap& args) :
@@ -221,8 +221,8 @@ void RoomSensor::init()
 	);
 
 	for (Spawner* s : _spawners) {
-		type_index _type = s->getSpawnType();
-		emplaceIfEmpty<type_index, vector<Spawner*>>(spawnersByType, _type);
+		string _type = s->getSpawnType();
+		emplaceIfEmpty<string, vector<Spawner*>>(spawnersByType, _type);
 		spawnersByType.at(_type).push_back(s);
 	}
 
@@ -330,12 +330,12 @@ unsigned int RoomSensor::activateAllSpawners()
 	return count;
 }
 
-unsigned int RoomSensor::activateSpawners(type_index t, unsigned int count)
+unsigned int RoomSensor::activateSpawners(string t, unsigned int count)
 {
 	unsigned int result = 0;
 	auto it = spawnersByType.find(t);
 	if (it == spawnersByType.end()) {
-		log("Unknown spawner type %s", t.name());
+		log("Unknown spawner type %s", t);
 		return 0;
 	}
 

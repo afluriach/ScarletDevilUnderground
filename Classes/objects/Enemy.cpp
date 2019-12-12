@@ -30,6 +30,12 @@ Enemy::Enemy(
 	),
 	drop_id(drop_id)
 {
+	if (space->getFrame() == 0){
+		space->registerEnemyStaticLoaded(getTypeName());
+	}
+	else {
+		space->registerEnemySpawned(getTypeName());
+	}
 }
 
 void Enemy::runDamageFlicker()
@@ -59,7 +65,7 @@ void Enemy::onRemove()
 	if(drop_id != collectible_id::nil){
 		space->createObject(Collectible::create(space, drop_id, getPos()));
 	}
-	space->registerEnemyDefeated(typeid(*this));
+	space->registerEnemyDefeated(getTypeName());
 }
 
 EnemyImpl::EnemyImpl(
@@ -122,4 +128,8 @@ string EnemyImpl::initStateMachine(){
 
 string EnemyImpl::getProperName() const {
 	return props->name;
+}
+
+string EnemyImpl::getTypeName() const {
+	return props->typeName;
 }

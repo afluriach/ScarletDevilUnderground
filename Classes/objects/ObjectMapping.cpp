@@ -213,13 +213,4 @@ const unordered_set<type_index> GSpace::trackedTypes = {
 	typeid(Wall),
 };
 
-const unordered_set<type_index> GSpace::enemyTypes = {
-	typeid(Fairy2),
-
-	typeid(RedFairy),
-	
-	typeid(PatchouliEnemy),
-	typeid(ReimuEnemy),
-};
-
 #define _nameTypeEntry(cls) {#cls, typeid(cls)}

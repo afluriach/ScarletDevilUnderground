@@ -27,7 +27,7 @@ public:
 
 struct sequence_entry
 {
-	type_index type;
+	string type;
 	//the threshold before spawning more. Default 0, meaning there must be zero
 	//remaining of the given type before spawning more.
 	int minCount;
@@ -47,7 +47,7 @@ public:
 protected:
 	int entryIdx = 0;
 	vector<sequence_entry> spawnEntries;
-	unordered_map<type_index, unsigned int> totalSpawns;
+	unordered_map<string, unsigned int> totalSpawns;
 };
 
 struct timed_sequence_entry

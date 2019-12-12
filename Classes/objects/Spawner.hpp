@@ -27,7 +27,7 @@ public:
 	virtual bool isObstructed() const;
 	bool canSpawn() const;
 
-	type_index getSpawnType() const;
+	string getSpawnType() const;
 	int getRemainingSpawns() const;
 	int getSpawnLimit() const;
 	int getSpawnCount() const;

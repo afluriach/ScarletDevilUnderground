@@ -36,7 +36,7 @@ update_return SequentialClearSpawn::update()
 MultiSpawnSequence::MultiSpawnSequence(StateMachine* fsm, const ValueMap& args) :
 	Function(fsm)
 {
-	vector<type_index> types = getObjectVector<type_index>(args, &GObject::getTypeIndex, "type");
+	vector<string> types = getStringVector(args, "type");
 	vector<int> totalCounts = getObjectVector<int>(args, &boost::lexical_cast<int, string>, "totalCount");
 
 	if (types.size() == totalCounts.size()) {
@@ -64,7 +64,7 @@ MultiSpawnSequence::MultiSpawnSequence(StateMachine* fsm, const ValueMap& args) 
 				waveCounts.at(i),
 				totalCounts.at(i)
 			});
-			fsm->getSpace()->increaseSpawnTotal(types.at(i), totalCounts.at(i));
+			fsm->getSpace()->increasePotentialSpawnTotal(types.at(i), totalCounts.at(i));
 			totalSpawns.insert_or_assign(types.at(i), 0);
 		}
 	}

@@ -40,6 +40,7 @@ public:
 	virtual inline SpaceFloat getDefaultFovAngle() const { return 0.0; }
 
 	virtual inline GType getType() const { return GType::enemy; }
+	virtual inline string getTypeName() const { return "ReimuEnemy"; }
 
 	virtual inline string getSprite() const { return "reimu"; }
 	virtual inline GraphicsLayer sceneLayer() const { return GraphicsLayer::ground; }

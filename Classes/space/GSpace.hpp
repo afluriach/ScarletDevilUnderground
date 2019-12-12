@@ -78,7 +78,6 @@ public:
 public:
     static const bool logObjectArgs;
 	static const unordered_set<type_index> trackedTypes;
-	static const unordered_set<type_index> enemyTypes;
 
 	void addSpatialSound(GObject* sourceObj, ALuint soundSource);
 	void removeSpatialSound(ALuint soundSource);
@@ -189,7 +188,6 @@ public:
     
 	void setBulletBodiesVisible(bool b);
 
-	void setInitialObjectCount();
 	EnemyStatsMap getEnemyStats();
 
 	template<typename ...Args>
@@ -231,8 +229,11 @@ public:
 	Player* getPlayer();
 	gobject_ref getPlayerAsRef();
 	void applyMapFragment(int mapFragmentID);
-	void increaseSpawnTotal(type_index t, unsigned int count);
-	void registerEnemyDefeated(type_index t);
+
+	void registerEnemyStaticLoaded(string s);
+	void registerEnemySpawned(string s);
+	void increasePotentialSpawnTotal(string t, unsigned int count);
+	void registerEnemyDefeated(string t);
 
 	void teleportPlayerToDoor(string doorName);
 	void setSuppressAction(bool b);
@@ -401,9 +402,13 @@ protected:
 	unordered_map<string, GObject*> objByName;
 	unordered_set<string> warningNames;
 	unordered_map<type_index, unordered_set<GObject*>> objByType;
-	unordered_map<type_index, unsigned int> initialObjectCount;
-	unordered_map<type_index, unsigned int> totalSpawnCount;
-	unordered_map<type_index, unsigned int> enemiesDefeated;
+
+	set<string> enemyTypes;
+	unordered_map<string, unsigned int> initialEnemyCount;
+	unordered_map<string, unsigned int> actualSpawnCount;
+	unordered_map<string, unsigned int> potentialSpawnCount;
+	unordered_map<string, unsigned int> enemiesDefeated;
+	
 	set<GObject*> updateObjects;
 	set<RadarSensor*> radarSensors;
 	unordered_map<int, RoomSensor*> roomSensors;

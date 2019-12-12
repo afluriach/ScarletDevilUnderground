@@ -198,7 +198,6 @@ protected:
 	//object layer, initialized from each map object's properties.
 	void loadRoomsLayer(const TMXTiledMap& map);
 
-	void initEnemyStats();
 	void spaceUpdateMain();
 
 	void renderSpace();

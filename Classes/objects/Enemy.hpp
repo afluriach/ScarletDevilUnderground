@@ -15,6 +15,7 @@
 struct enemy_properties
 {
 	string name;
+	string typeName;
 	string sprite;
 	string attributes;
 	string ai_package;
@@ -82,6 +83,7 @@ public:
 
 	virtual string initStateMachine();
 
+	virtual string getTypeName() const;
 	virtual string getProperName() const;
 protected:
 	shared_ptr<enemy_properties> props;

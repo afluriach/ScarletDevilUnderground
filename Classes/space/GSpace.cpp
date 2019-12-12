@@ -60,10 +60,6 @@ GSpace::GSpace(GScene* gscene) :
 		objByType[t] = unordered_set<GObject*>();
 	}
 
-	for (type_index t : enemyTypes) {
-		objByType[t] = unordered_set<GObject*>();
-	}
-
 	controlReplay = make_unique<Replay>();
 	controlReplay->scene_name = GScene::crntSceneName;
 	controlReplay->frame_rate = app::params.framesPerSecond;
@@ -390,7 +386,7 @@ const unordered_set<GObject*>* GSpace::getObjectsByType(type_index t) const
 
 bool GSpace::isTrackedType(type_index t) const
 {
-	return trackedTypes.find(t) != trackedTypes.end() || enemyTypes.find(t) != enemyTypes.end();
+	return trackedTypes.find(t) != trackedTypes.end();
 }
 
 bool GSpace::isValid(unsigned int uuid) const
@@ -552,13 +548,29 @@ bool GSpace::isNoUpdateObject(GObject* obj)
 	;
 }
 
-void GSpace::increaseSpawnTotal(type_index t, unsigned int count)
+void GSpace::registerEnemyStaticLoaded(string s)
 {
-	emplaceIfEmpty(totalSpawnCount, t, to_uint(0));
-	totalSpawnCount.at(t) += count;
+	enemyTypes.insert(s);
+	emplaceIfEmpty(initialEnemyCount, s, 0u);
+
+	++initialEnemyCount.at(s);
 }
 
-void GSpace::registerEnemyDefeated(type_index t)
+void GSpace::registerEnemySpawned(string s)
+{
+	enemyTypes.insert(s);
+	emplaceIfEmpty(actualSpawnCount, s, 0u);
+
+	++actualSpawnCount.at(s);
+}
+
+void GSpace::increasePotentialSpawnTotal(string t, unsigned int count)
+{
+	emplaceIfEmpty(potentialSpawnCount, t, to_uint(0));
+	potentialSpawnCount.at(t) += count;
+}
+
+void GSpace::registerEnemyDefeated(string t)
 {
 	emplaceIfEmpty(enemiesDefeated, t, to_uint(0));
 	++enemiesDefeated.at(t);
@@ -692,22 +704,14 @@ unsigned int GSpace::getAndIncrementObjectUUID()
 	return nextObjUUID++;
 }
 
-void GSpace::setInitialObjectCount()
-{
-	for (auto entry : objByType)
-	{
-		initialObjectCount[entry.first] = entry.second.size();
-	}
-}
-
 EnemyStatsMap GSpace::getEnemyStats()
 {
 	EnemyStatsMap result;
 
-	for (type_index t : enemyTypes)
+	for (string t : enemyTypes)
 	{
-		unsigned int initial = getOrDefault(initialObjectCount, t, to_uint(0));
-		unsigned int spawnTotal = getOrDefault(totalSpawnCount, t, to_uint(0));
+		unsigned int initial = getOrDefault(initialEnemyCount, t, to_uint(0));
+		unsigned int spawnTotal = getOrDefault(potentialSpawnCount, t, to_uint(0));
 		if (initial == 0 && spawnTotal == 0) {
 			continue;
 		}

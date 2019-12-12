@@ -229,6 +229,8 @@ bool parseObject(tinyxml2::XMLElement* elem, shared_ptr<enemy_properties>* resul
 	const char* collectibleAttr;
 	const char* lightAttr;
 
+	props.typeName = elem->Name();
+
 	getStringAttr(elem, "name", &props.name);
 	getStringAttr(elem, "sprite", &props.sprite);
 	getStringAttr(elem, "attributes", &props.attributes);

@@ -108,10 +108,6 @@ control_listener(make_unique<ControlListener>())
 		wrap_method(GScene, runScriptInit, this),
 		to_int(initOrder::postLoadObjects)
 	);
-	multiInit.insertWithOrder(
-		wrap_method(GScene, initEnemyStats, this),
-		to_int(initOrder::postLoadObjects)
-	);
 
     //Create the sublayers at construction (so they are available to mixins at construction time).
     //But do not add sublayers until init time.
@@ -417,11 +413,6 @@ void GScene::popMenuIfNonroot()
 
 	menuStack.back()->setVisible(true);
 	menuStack.back()->setControlsActive(true);
-}
-
-void GScene::initEnemyStats()
-{
-	gspace->setInitialObjectCount();
 }
 
 void GScene::spaceUpdateMain()

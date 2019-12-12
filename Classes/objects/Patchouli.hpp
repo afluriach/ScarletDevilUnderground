@@ -40,6 +40,7 @@ public:
 	inline GraphicsLayer sceneLayer() const { return GraphicsLayer::ground; }
 
 	inline virtual string initStateMachine() { return "patchouli_enemy"; }
+	virtual inline string getTypeName() const { return "PatchouliEnemy"; }
 };
 
 #endif /* Patchouli_hpp */

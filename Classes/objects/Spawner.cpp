@@ -19,9 +19,9 @@ MapObjForwarding(AreaSensor),
 spawn_args(args),
 spawnLimit(getIntOrDefault(args, "spawn_limit", defaultSpawnLimit))
 {
-	type_index spawnType = getSpawnType();
-	if (spawnLimit != defaultSpawnLimit && spawnType != typeid(Spawner)) {
-		space->increaseSpawnTotal(spawnType, spawnLimit);
+	string spawnType = getSpawnType();
+	if (spawnLimit != -1 && spawnType != "") {
+		space->increasePotentialSpawnTotal(spawnType, spawnLimit);
 	}
 }
 
@@ -35,17 +35,10 @@ gobject_ref Spawner::spawn()
 	return space->createObject(spawn_args);
 }
 
-type_index Spawner::getSpawnType() const
+string Spawner::getSpawnType() const
 {
 	string type = spawn_args.at("type").asString();
-	const object_info* info = getObjectInfo(type);
-	if (info) {
-		return info->type;
-	}
-	else {
-		log("Spawner::getSpawnType(): unknown enemy type %s.", type.c_str());
-		return typeid(Spawner);
-	}
+	return type;
 }
 
 int Spawner::getRemainingSpawns() const

@@ -526,7 +526,7 @@ string ChamberCompletedMenu::enemyStatsMsg()
 	{
 		result +=
 			"\n" +
-			GObject::properNameByType(entry.first) + " : " + 
+			entry.first + " : " + 
 			boost::lexical_cast<string>(entry.second.first)  + " / " +
 			boost::lexical_cast<string>(entry.second.second)
 		;
