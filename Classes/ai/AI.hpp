@@ -19,6 +19,7 @@ namespace Lua { class Inst; }
 namespace ai{
 
 class Function;
+class OnDetectFunction;
 
 enum class ResourceLock
 {
@@ -223,10 +224,7 @@ public:
 	void addWhileDetectHandler(GType type, AITargetFunctionGenerator gen);
 	void addFleeBomb();
 
-	void addDetectFunction(GType t, detect_function f);
-	void addEndDetectFunction(GType t, detect_function f);
-	void removeDetectFunction(GType t);
-	void removeEndDetectFunction(GType t);
+	void addDetectFunction(GType t, detect_function begin, detect_function end);
 	void addAlertFunction(alert_function f);
 
 	template<class FuncCls, typename... Params>
@@ -276,9 +274,6 @@ protected:
 	void handleEvent(Event event);
 
 	GObject *const agent;
-
-	unordered_map<GType, detect_function> detectHandlers;
-	unordered_map<GType, detect_function> endDetectHandlers;
 
 	list<shared_ptr<Thread>> current_threads;
 	list<function_entry> functions;

@@ -82,11 +82,7 @@ void wander_and_flee_player(StateMachine* fsm, const ValueMap& args)
 		[wanderThread](StateMachine& sm, GObject* target) -> void {
 			wanderThread->popToRoot();
 			sm.addThread(make_shared<Flee>(&sm, target, 3.0f));
-		}
-	);
-
-	fsm->addEndDetectFunction(
-		GType::player,
+		},
 		[=](StateMachine& sm, GObject* target) -> void {
 			fsm->removeThread("Flee");
 		}
@@ -104,10 +100,7 @@ void ghost_fairy(StateMachine* fsm, const ValueMap& args)
 		[](StateMachine& sm, GObject* target) -> void {
 			sm.addThread(make_shared<Flank>(&sm, target, 4.0, 0.75));
 			sm.addThread(make_shared<FireAtTarget>(&sm, target));
-		}
-	);
-	fsm->addEndDetectFunction(
-		GType::player,
+		},
 		[](StateMachine& sm, GObject* target) -> void {
 			sm.removeThread("MaintainDistance");
 			sm.removeThread("FireAtTarget");
@@ -201,10 +194,7 @@ void fairy2(StateMachine* fsm, const ValueMap& args) {
 		GType::player,
 		[](StateMachine& sm, GObject* target) -> void {
 			sm.addThread(make_shared<MaintainDistance>(&sm, target, 3.0f, 1.0f));
-		}
-	);
-	fsm->addEndDetectFunction(
-		GType::player,
+		},
 		[](StateMachine& sm, GObject* target) -> void {
 			sm.removeThread("MaintainDistance");
 		}
@@ -250,7 +240,8 @@ void reimu_enemy(StateMachine* fsm, const ValueMap& args)
 				sm.addThread(make_shared<FireAtTarget>(&sm, target));
 				sm.addThread(make_shared<Flank>(&sm, target, 3.0, 2.0));
 			}
-		}
+		},
+		[agent](StateMachine& sm, GObject* target) -> void {}
 	);
 }
 

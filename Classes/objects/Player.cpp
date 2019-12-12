@@ -522,22 +522,6 @@ void Player::applyAttributeModifier(Attribute id, float val)
 	attributeSystem.modifyAttribute(id, val);
 }
 
-void Player::onDetect(GObject* other)
-{
-	Bullet* b = dynamic_cast<Bullet*>(other);
-	if (b) {
-		onGrazeTouch(b);
-	}
-}
-
-void Player::onEndDetect(GObject* other)
-{
-	Bullet* b = dynamic_cast<Bullet*>(other);
-	if (b) {
-		onGrazeCleared(b);
-	}
-}
-
 void Player::setProtection()
 {
 	attributeSystem.setProtection();

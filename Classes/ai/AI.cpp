@@ -11,7 +11,6 @@
 #include "Agent.hpp"
 #include "AI.hpp"
 #include "AIFunctions.hpp"
-#include "AIMixins.hpp"
 #include "AreaSensor.hpp"
 #include "GSpace.hpp"
 #include "GObject.hpp"
@@ -330,21 +329,11 @@ void StateMachine::onDetect(GObject* obj)
 {
 	Event event(event_type::detect, make_any<GObject*>(obj));
 	handleEvent(event);
-
-	auto it = detectHandlers.find(obj->getType());
-	if (it != detectHandlers.end()) {
-		it->second(*this, obj);
-	}
 }
 void StateMachine::onEndDetect(GObject* obj)
 {
 	Event event(event_type::endDetect, make_any<GObject*>(obj));
 	handleEvent(event);
-
-	auto it = endDetectHandlers.find(obj->getType());
-	if (it != endDetectHandlers.end()) {
-		it->second(*this, obj);
-	}
 }
 
 void StateMachine::onBulletHit(Bullet* b)
@@ -394,24 +383,10 @@ void StateMachine::addFleeBomb()
 	addWhileDetectHandler(GType::bomb, makeTargetFunctionGenerator<Flee>(-1.0));
 }
 
-void StateMachine::addDetectFunction(GType t, detect_function f)
+void StateMachine::addDetectFunction(GType t, detect_function begin, detect_function end)
 {
-	detectHandlers.insert_or_assign(t, f);
-}
-
-void StateMachine::addEndDetectFunction(GType t, detect_function f)
-{
-	endDetectHandlers.insert_or_assign(t, f);
-}
-
-void StateMachine::removeDetectFunction(GType t)
-{
-	detectHandlers.erase(t);
-}
-
-void StateMachine::removeEndDetectFunction(GType t)
-{
-	endDetectHandlers.erase(t);
+	auto detect = make_shared<OnDetectFunction>(this, t, begin, end);
+	addFunction(detect);
 }
 
 void StateMachine::addAlertHandler(AITargetFunctionGenerator gen)

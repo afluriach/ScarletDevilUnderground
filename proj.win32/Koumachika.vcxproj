@@ -149,7 +149,6 @@ xcopy "$(ProjectDir)..\Resources" "$(OutDir)" /D /E /I /F /Y</Command>
   <ItemGroup>
     <ClCompile Include="..\Classes\ai\AI.cpp" />
     <ClCompile Include="..\Classes\ai\AIFunctions.cpp" />
-    <ClCompile Include="..\Classes\ai\AIMixins.cpp" />
     <ClCompile Include="..\Classes\ai\AIPackages.cpp" />
     <ClCompile Include="..\Classes\ai\AIUtil.cpp" />
     <ClCompile Include="..\Classes\ai\EnemyFunctions.cpp" />
@@ -190,7 +189,6 @@ xcopy "$(ProjectDir)..\Resources" "$(OutDir)" /D /E /I /F /Y</Command>
     <ClCompile Include="..\Classes\objects\Fairy.cpp" />
     <ClCompile Include="..\Classes\objects\FairyNPC.cpp" />
     <ClCompile Include="..\Classes\objects\FloorSegment.cpp" />
-    <ClCompile Include="..\Classes\objects\Glyph.cpp" />
     <ClCompile Include="..\Classes\objects\Goal.cpp" />
     <ClCompile Include="..\Classes\objects\GObject.cpp" />
     <ClCompile Include="..\Classes\objects\GObjectMixins.cpp" />
@@ -206,7 +204,6 @@ xcopy "$(ProjectDir)..\Resources" "$(OutDir)" /D /E /I /F /Y</Command>
     <ClCompile Include="..\Classes\objects\object_ref.cpp" />
     <ClCompile Include="..\Classes\objects\Patchouli.cpp" />
     <ClCompile Include="..\Classes\objects\Player.cpp" />
-    <ClCompile Include="..\Classes\objects\Pyramid.cpp" />
     <ClCompile Include="..\Classes\objects\Reimu.cpp" />
     <ClCompile Include="..\Classes\objects\SakuyaNPC.cpp" />
     <ClCompile Include="..\Classes\objects\Sign.cpp" />
@@ -272,7 +269,6 @@ xcopy "$(ProjectDir)..\Resources" "$(OutDir)" /D /E /I /F /Y</Command>
   <ItemGroup>
     <ClInclude Include="..\Classes\ai\AI.hpp" />
     <ClInclude Include="..\Classes\ai\AIFunctions.hpp" />
-    <ClInclude Include="..\Classes\ai\AIMixins.hpp" />
     <ClInclude Include="..\Classes\ai\AIPackages.hpp" />
     <ClInclude Include="..\Classes\ai\AIUtil.hpp" />
     <ClInclude Include="..\Classes\ai\EnemyFunctions.hpp" />
@@ -314,7 +310,6 @@ xcopy "$(ProjectDir)..\Resources" "$(OutDir)" /D /E /I /F /Y</Command>
     <ClInclude Include="..\Classes\objects\Fairy.hpp" />
     <ClInclude Include="..\Classes\objects\FairyNPC.hpp" />
     <ClInclude Include="..\Classes\objects\FloorSegment.hpp" />
-    <ClInclude Include="..\Classes\objects\Glyph.hpp" />
     <ClInclude Include="..\Classes\objects\Goal.hpp" />
     <ClInclude Include="..\Classes\objects\GObject.hpp" />
     <ClInclude Include="..\Classes\objects\GObjectMixins.hpp" />
@@ -329,7 +324,6 @@ xcopy "$(ProjectDir)..\Resources" "$(OutDir)" /D /E /I /F /Y</Command>
     <ClInclude Include="..\Classes\objects\object_ref.hpp" />
     <ClInclude Include="..\Classes\objects\Patchouli.hpp" />
     <ClInclude Include="..\Classes\objects\Player.hpp" />
-    <ClInclude Include="..\Classes\objects\Pyramid.hpp" />
     <ClInclude Include="..\Classes\objects\Reimu.hpp" />
     <ClInclude Include="..\Classes\objects\SakuyaNPC.hpp" />
     <ClInclude Include="..\Classes\objects\Sign.hpp" />

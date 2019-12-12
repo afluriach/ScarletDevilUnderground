@@ -20,7 +20,6 @@ public:
 
 	virtual inline SpaceFloat getRadarRadius() const { return 3.0; }
 	virtual inline SpaceFloat getDefaultFovAngle() const { return 0.0; }
-	virtual inline GType getRadarType() const { return GType::enemySensor; }
 
 	inline string getSprite() const { return "blueFairy"; }
 };
@@ -48,7 +47,6 @@ public:
 
 	GhostFairyNPC(GSpace* space, ObjectIDType id, const ValueMap& args);
 
-	virtual inline GType getRadarType() const { return GType::enemySensor; }
 	virtual inline SpaceFloat getRadarRadius() const { return 3.0; }
 	virtual inline SpaceFloat getDefaultFovAngle() const { return 0.0; }
 

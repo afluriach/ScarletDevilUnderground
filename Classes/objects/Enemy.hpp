@@ -56,7 +56,6 @@ public:
 	virtual void onRemove();
 
 	virtual inline GType getType() const { return GType::enemy; }
-	virtual inline GType getRadarType() const { return GType::enemySensor; }
 protected:
 	collectible_id drop_id = collectible_id::nil;
 };

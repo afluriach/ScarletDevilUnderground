@@ -563,16 +563,12 @@ DamageInfo Agent::touchEffect() const
 
 void Agent::initializeRadar(GSpace& space)
 {
-	GType type = getRadarType();
 	auto attr = sensor_attributes{
 		getRadarRadius(),
 		getDefaultFovAngle(),
-		type,
+		GType::enemySensor,
 		hasEssenceRadar()
 	};
-
-	if (type == GType::none)
-		return;
 
 	if (attr.radius <= 0.0) {
 		log("%s has zero radius", getName());
@@ -636,16 +632,4 @@ void Agent::updateAnimation()
 			playSoundSpatial(sfxRes, 0.5f, false, -1.0f);
 		}
 	}
-}
-
-const string GenericAgent::baseAttributes = "genericAgent";
-
-GenericAgent::GenericAgent(GSpace* space, ObjectIDType id, const ValueMap& args) :
-	Agent(
-		space,id,args,
-		baseAttributes,
-		defaultSize,
-		20.0
-	)
-{
 }

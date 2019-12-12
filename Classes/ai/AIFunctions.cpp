@@ -51,6 +51,36 @@ bool OnDetect::onEvent(Event event)
 	return false;
 }
 
+OnDetectFunction::OnDetectFunction(
+	StateMachine* fsm,
+	GType type,
+	detect_function beginDetect,
+	detect_function endDetect
+) :
+	Function(fsm),
+	type(type),
+	beginDetect(beginDetect),
+	endDetect(endDetect)
+{}
+
+event_bitset OnDetectFunction::getEvents()
+{
+	return enum_bitfield2(event_type, detect, endDetect);
+}
+
+bool OnDetectFunction::onEvent(Event event)
+{
+	if (event.getDetectType() == type) {
+		beginDetect(*fsm, any_cast<GObject*>(event.data));
+		return true;
+	}
+	else if (event.getEndDetectType() == type) {
+		endDetect(*fsm, any_cast<GObject*>(event.data));
+		return true;
+	}
+	return false;
+}
+
 WhileDetect::WhileDetect(StateMachine* fsm, GType type, AITargetFunctionGenerator gen) :
 	Function(fsm),
 	type(type),

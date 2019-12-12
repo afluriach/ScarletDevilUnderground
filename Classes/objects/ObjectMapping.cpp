@@ -23,7 +23,6 @@
 #include "FairyNPC.hpp"
 #include "FloorSegment.hpp"
 #include "Goal.hpp"
-#include "Glyph.hpp"
 #include "GSpace.hpp"
 #include "GState.hpp"
 #include "Items.hpp"
@@ -33,7 +32,6 @@
 #include "Meiling.hpp"
 #include "Patchouli.hpp"
 #include "Player.hpp"
-#include "Pyramid.hpp"
 #include "Reimu.hpp"
 #include "SakuyaNPC.hpp"
 #include "Sign.hpp"
@@ -147,11 +145,9 @@ void GObject::initObjectInfo()
 	entry_same(Fairy2),
 	entry_same(FairyMaid),
 	item_entry_same(ForestBook1),
-	entry_same(GenericAgent),
 	conditional_entry(GhostFairyNPC),
 	entry_same(GhostHeadstone),
 	entry_same(GhostHeadstoneSensor),
-	entry_same(Glyph),
 	entry_same(Goal),
 	item_entry_same(GraveyardBook1),
 	conditional_entry(Headstone),
@@ -167,7 +163,6 @@ void GObject::initObjectInfo()
 	entry_same(PatchouliEnemy),
 	entry_same(Pitfall),
 	entry_same(PressurePlate),
-	entry_same(Pyramid),
 	entry_same(RedFairy),
 	entry_same(Reimu),
 	entry_same(ReimuEnemy),

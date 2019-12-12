@@ -25,6 +25,22 @@ protected:
 	GType type;
 };
 
+class OnDetectFunction : public Function {
+public:
+	OnDetectFunction(
+		StateMachine* fsm,
+		GType type,
+		detect_function beginDetect,
+		detect_function endDetect
+	);
+
+	virtual bool onEvent(Event event);
+	virtual event_bitset getEvents();
+protected:
+	detect_function beginDetect, endDetect;
+	GType type;
+};
+
 class WhileDetect : public Function {
 public:
 	WhileDetect(StateMachine* fsm, GType type, AITargetFunctionGenerator gen);

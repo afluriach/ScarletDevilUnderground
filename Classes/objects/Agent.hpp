@@ -9,13 +9,13 @@
 #ifndef Agent_hpp
 #define Agent_hpp
 
-#include "AIMixins.hpp"
 #include "Attributes.hpp"
 #include "Bullet.hpp"
 
 class AgentAnimationContext;
 struct bullet_properties;
 class FirePattern;
+class RadarSensor;
 
 #define AgentMapForward(x) Agent(space,id,args,x)
 
@@ -108,7 +108,6 @@ public:
 
 	//sensor interface
 	virtual SpaceFloat getRadarRadius() const { return 0.0; }
-	virtual GType getRadarType() const { return GType::none; }
 	virtual SpaceFloat getDefaultFovAngle() const { return 0.0; }
 	virtual inline bool hasEssenceRadar() const { return false; }
 
@@ -148,25 +147,6 @@ protected:
 
 	bool suppressFiring = false;
 	bool suppressMovement = false;
-};
-
-class GenericAgent : public Agent
-{
-public:
-	static const string baseAttributes;
-
-	MapObjCons(GenericAgent);
-
-	virtual inline SpaceFloat getRadarRadius() const { return 3.0;  }
-    virtual inline GType getRadarType() const { return GType::enemySensor;}
-	virtual inline SpaceFloat getDefaultFovAngle() const { return 0.0; }
-    
-    virtual inline GType getType() const {return GType::npc;}
-        
-    inline string getSprite() const {return "genericAgent";}
-    //inline GraphicsLayer sceneLayer() const {return GraphicsLayer::ground;}
-
-	inline virtual string initStateMachine() { return "wander_and_flee_player"; }
 };
 
 #endif /* Agent_hpp */

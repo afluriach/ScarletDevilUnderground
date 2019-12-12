@@ -54,9 +54,6 @@
     <ClCompile Include="..\Classes\ai\AI.cpp">
       <Filter>src\ai</Filter>
     </ClCompile>
-    <ClCompile Include="..\Classes\ai\AIMixins.cpp">
-      <Filter>src\ai</Filter>
-    </ClCompile>
     <ClCompile Include="..\Classes\ai\StateMapping.cpp">
       <Filter>src\ai</Filter>
     </ClCompile>
@@ -76,9 +73,6 @@
       <Filter>src\objects</Filter>
     </ClCompile>
     <ClCompile Include="..\Classes\objects\Collectibles.cpp">
-      <Filter>src\objects</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Classes\objects\Glyph.cpp">
       <Filter>src\objects</Filter>
     </ClCompile>
     <ClCompile Include="..\Classes\objects\GObject.cpp">
@@ -155,9 +149,6 @@
     </ClCompile>
     <ClCompile Include="..\Classes\scenes\Desert.cpp">
       <Filter>src\scenes</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Classes\objects\Pyramid.cpp">
-      <Filter>src\objects</Filter>
     </ClCompile>
     <ClCompile Include="..\Classes\objects\Marisa.cpp">
       <Filter>src\objects</Filter>
@@ -428,9 +419,6 @@
     <ClInclude Include="..\Classes\ai\AI.hpp">
       <Filter>src\ai</Filter>
     </ClInclude>
-    <ClInclude Include="..\Classes\ai\AIMixins.hpp">
-      <Filter>src\ai</Filter>
-    </ClInclude>
     <ClInclude Include="..\Classes\lua\LuaAPI.hpp">
       <Filter>src\lua</Filter>
     </ClInclude>
@@ -450,9 +438,6 @@
       <Filter>src\objects</Filter>
     </ClInclude>
     <ClInclude Include="..\Classes\objects\Collectibles.hpp">
-      <Filter>src\objects</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Classes\objects\Glyph.hpp">
       <Filter>src\objects</Filter>
     </ClInclude>
     <ClInclude Include="..\Classes\objects\GObject.hpp">
@@ -529,9 +514,6 @@
     </ClInclude>
     <ClInclude Include="..\Classes\scenes\Desert.hpp">
       <Filter>src\scenes</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Classes\objects\Pyramid.hpp">
-      <Filter>src\objects</Filter>
     </ClInclude>
     <ClInclude Include="..\Classes\scenes\menu_scenes.h">
       <Filter>src\scenes</Filter>
