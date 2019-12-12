@@ -253,9 +253,9 @@ protected:
     SpaceFloat distance;
 };
 
-class EvadePlayerProjectiles : public Function {
+class Evade : public Function {
 public:
-	EvadePlayerProjectiles(StateMachine* fsm);
+	Evade(StateMachine* fsm, GType type);
 
 	virtual update_return update();
 
@@ -263,8 +263,9 @@ public:
 		return active ? make_enum_bitfield(ResourceLock::movement) : lock_mask();
 	}
 
-	FuncGetName(EvadePlayerProjectiles)
+	FuncGetName(Evade)
 protected:
+	GType type;
 	bool active = false;
 };
 

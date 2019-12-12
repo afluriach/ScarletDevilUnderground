@@ -787,13 +787,14 @@ update_return Flee::update()
 	return_pop_if_false(target.isValid());
 }
 
-EvadePlayerProjectiles::EvadePlayerProjectiles(StateMachine* fsm) : 
-	Function(fsm)
+Evade::Evade(StateMachine* fsm, GType type) : 
+	Function(fsm),
+	type(type)
 {}
 
-update_return EvadePlayerProjectiles::update()
+update_return Evade::update()
 {
-	list<GObject*> objs = agent->getRadar()->getSensedObjectsByGtype(GType::playerBullet);
+	list<GObject*> objs = agent->getRadar()->getSensedObjectsByGtype(type);
 	
 	GObject* closest = nullptr;
 	SpaceFloat closestDistance = numeric_limits<SpaceFloat>::infinity();

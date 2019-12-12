@@ -143,7 +143,7 @@ void red_fairy(StateMachine* fsm, const ValueMap& args)
 void greenFairyEngage(StateMachine* sm, Player* p)
 {
 	sm->addThread(make_shared<Wander>(sm, 0.75, 1.5, 2.0, 4.0));
-	sm->addThread(make_shared<EvadePlayerProjectiles>(sm));
+	sm->addThread(make_shared<Evade>(sm, GType::playerBullet));
 	sm->addThread(make_shared<FireOnStress>(sm, 5.0f));
 }
 
@@ -269,7 +269,7 @@ void sakuya(StateMachine* fsm, const ValueMap& args)
 }
 
 void evade_player_projectiles(StateMachine* fsm, const ValueMap& args) {
-	fsm->addThread(make_shared<EvadePlayerProjectiles>(fsm));
+	fsm->addThread(make_shared<Evade>(fsm, GType::playerBullet));
 }
 
 #define package(name) {#name, &name}
