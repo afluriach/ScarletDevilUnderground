@@ -89,7 +89,6 @@ public:
 	virtual bool onEvent(Event event);
 	virtual event_bitset getEvents();
 	virtual void onExit();
-	virtual lock_mask getLockMask();
 	virtual string getName();
 
 	void addFunction(shared_ptr<Function> f);
@@ -112,7 +111,6 @@ public:
 	virtual bool onEvent(Event event);
 	virtual event_bitset getEvents();
 	virtual void onExit();
-	virtual lock_mask getLockMask();
 	virtual string getName();
 
 protected:
@@ -137,7 +135,6 @@ public:
     
 	virtual update_return update();
     
-	GetLockmask(movement)
 	FuncGetName(Seek)
 protected:
 	gobject_ref target;
@@ -163,7 +160,6 @@ public:
     MaintainDistance(StateMachine* fsm, gobject_ref target, SpaceFloat distance, SpaceFloat margin);
     
 	virtual update_return update();
-    GetLockmask(movement)    
     FuncGetName(MaintainDistance)
 protected:
 	gobject_ref target;
@@ -190,7 +186,6 @@ public:
 	SpaceVect align();
 	SpaceVect cohesion();
 
-	GetLockmask2(movement, look)
 	FuncGetName(Flock)
 protected:
 	unordered_set<object_ref<Agent>> neighbors;
@@ -202,7 +197,6 @@ public:
 
 	virtual update_return update();
 
-	GetLockmask(movement)
 	FuncGetName(OccupyPoint)
 protected:
 	SpaceVect target;
@@ -214,7 +208,6 @@ public:
 
 	virtual update_return update();
 
-	GetLockmask(movement)
 	FuncGetName(OccupyMidpoint)
 protected:
 	gobject_ref target1, target2;
@@ -231,7 +224,6 @@ public:
 
 	virtual update_return update();
 
-	GetLockmask(movement)
 	FuncGetName(Scurry)
 protected:
 	unsigned int startFrame, endFrame;
@@ -246,7 +238,6 @@ public:
     
 	virtual update_return update();
 
-	GetLockmask(movement)
 	FuncGetName(Flee)
 protected:
 	gobject_ref target;
@@ -258,10 +249,6 @@ public:
 	Evade(StateMachine* fsm, GType type);
 
 	virtual update_return update();
-
-	inline virtual lock_mask getLockMask() {
-		return active ? make_enum_bitfield(ResourceLock::movement) : lock_mask();
-	}
 
 	FuncGetName(Evade)
 protected:
@@ -276,7 +263,6 @@ public:
 	IdleWait(StateMachine* fsm);
 
 	virtual update_return update();
-	GetLockmask(movement)
 	FuncGetName(IdleWait)
 private:
     int remaining;
@@ -288,7 +274,6 @@ public:
 
 	virtual update_return update();
 
-	GetLockmask(look)
 	FuncGetName(LookAround)
 private:
 	SpaceFloat angularVelocity;
@@ -306,7 +291,6 @@ public:
 	virtual void init();
 	virtual update_return update();
 
-	GetLockmask(look)
 	FuncGetName(CircleAround)
 private:
 	SpaceVect center;
@@ -325,7 +309,6 @@ public:
 
 	virtual void init();
 	virtual update_return update();
-	GetLockmask(movement);
 	FuncGetName(Flank);
 
 	bool wallQuery(SpaceVect pos);
@@ -345,7 +328,6 @@ public:
 
 	virtual update_return update();
 
-	GetLockmask(look)
 	FuncGetName(QuadDirectionLookAround)
 private:
 	boost::rational<int> secondsPerDirection;
@@ -359,7 +341,6 @@ public:
 
 	virtual update_return update();
 
-	GetLockmask(look)
 	FuncGetName(AimAtTarget)
 private:
 	gobject_ref target;
@@ -381,8 +362,6 @@ public:
 	virtual bool onEvent(Event event);
 	virtual event_bitset getEvents();
 
-	virtual lock_mask getLockMask();
-
 	FuncGetName(LookTowardsFire)
 protected:
 	unsigned int hitCallbackID = 0;
@@ -402,7 +381,6 @@ public:
     
 	virtual update_return update();
 
-	GetLockmask(movement)
     FuncGetName(MoveToPoint)
 protected:
     SpaceVect target;
@@ -414,7 +392,6 @@ public:
 
 	virtual update_return update();
 
-	GetLockmask(movement)
 	FuncGetName(BezierMove)
 protected:
 	array<SpaceVect, 3> points;
@@ -428,7 +405,6 @@ public:
 
 	virtual update_return update();
 
-	GetLockmask(movement)
 	FuncGetName(PolarMove)
 protected:
 	SpaceFloat force;
@@ -447,7 +423,6 @@ public:
 	inline virtual ~FollowPath() {}
 
 	virtual update_return update();
-	GetLockmask(movement)
 	FuncGetName(FollowPath)
 protected:
 	Path path;
@@ -479,7 +454,6 @@ public:
 
 	virtual update_return update();
 
-	GetLockmask(movement)
 	FuncGetName(Wander)
 protected:
     SpaceFloat minWait, maxWait;
@@ -505,7 +479,6 @@ public:
 	virtual update_return update();
 	virtual void onExit();
 
-	GetLockmask(spellcasting)
 	FuncGetName(Cast)
 protected:
 	SpellGeneratorType spell_generator;
@@ -521,7 +494,6 @@ public:
 	virtual update_return update();
 	virtual void onExit();
 
-	GetLockmask(spellcasting)
 	FuncGetName(HPCast)
 protected:
 	SpellGeneratorType spell_generator;
@@ -541,7 +513,6 @@ public:
 	virtual update_return update();
 	virtual void onExit();
 
-	GetLockmask(spellcasting)
 	FuncGetName(HPCastSequence)
 protected:
 	int crntInterval = -1;
@@ -555,7 +526,6 @@ public:
 
 	virtual update_return update();
 
-	GetLockmask(fire)
 	FuncGetName(FireOnStress)
 protected:
 	float stressPerShot;
@@ -567,7 +537,6 @@ public:
 
 	virtual update_return update();
 
-	GetLockmask2(look,fire)
 	FuncGetName(FireAtTarget)
 protected:
 	gobject_ref target;
@@ -579,7 +548,6 @@ public:
 
 	virtual update_return update();
 
-	GetLockmask(fire)
 	FuncGetName(FireIfTargetsVisible)
 protected:
 	gobject_ref target;
@@ -604,7 +572,6 @@ public:
 	SpaceFloat getInterval();
 	float score(SpaceVect pos, SpaceFloat angle);
 
-	GetLockmask(bomb)
 	FuncGetName(ThrowBombs)
 protected:
 	SpaceFloat countdown;

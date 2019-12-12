@@ -21,19 +21,6 @@ namespace ai{
 class Function;
 class OnDetectFunction;
 
-enum class ResourceLock
-{
-    begin = 0,
-    movement = 0,
-	look,
-	spellcasting,
-	fire,
-	shield,
-	bomb,
-    
-    end,
-};
-
 enum class event_type
 {
 	begin = 0,
@@ -51,10 +38,8 @@ enum class event_type
 	end
 };
 
-constexpr size_t lockCount = to_size_t(ResourceLock::end);
 constexpr size_t eventCount = to_size_t(event_type::end);
 
-typedef bitset<lockCount> lock_mask;
 typedef bitset<eventCount> event_bitset;
 typedef pair<event_bitset, shared_ptr<Function>> function_entry;
 
@@ -140,8 +125,6 @@ public:
 
     inline virtual string getName() const {return "Function";}
     
-    inline virtual lock_mask getLockMask() { return lock_mask();}
-
 	StateMachine* const fsm;
 	Agent* const agent;
 protected:

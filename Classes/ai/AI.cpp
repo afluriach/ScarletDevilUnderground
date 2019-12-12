@@ -220,23 +220,11 @@ bool StateMachine::runScriptPackage(const string& name)
 
 void StateMachine::update()
 {
-    lock_mask locks;
-    
 	removeCompletedThreads();
     
     for(auto thread_it = current_threads.rbegin(); thread_it != current_threads.rend(); ++thread_it)
     {
-        lock_mask lockMask = (*thread_it)->call_stack.back()->getLockMask();
-            
-        if(!(locks & lockMask).any() )
-        {
-            //The current function in this thread does not require a lock that has
-            //already been acquired this frame.
-                
-            locks |= lockMask;
-                
-			(*thread_it)->update();
-        }
+		(*thread_it)->update();
     }
 }
 

@@ -169,16 +169,7 @@ void CompositeFunction::onEnter()
 
 update_return CompositeFunction::update()
 {
-	lock_mask locks;
-
 	for (auto it = functions.rbegin(); it != functions.rend(); ++it) {
-		lock_mask crntLock = (*it)->getLockMask();
-
-		if ((crntLock & locks).any()) {
-			continue;
-		}
-
-		locks &= crntLock;
 		update_return result = (*it)->update();
 		
 		if (result.f) {
@@ -212,17 +203,6 @@ void CompositeFunction::onExit()
 	for (auto f : functions) {
 		f->onExit();
 	}
-}
-
-lock_mask CompositeFunction::getLockMask()
-{
-	lock_mask result;
-
-	for (auto f : functions) {
-		result &= f->getLockMask();
-	}
-
-	return result;
 }
 
 string CompositeFunction::getName()
@@ -328,18 +308,6 @@ void ScriptFunction::onExit()
 	sol::function f = obj["onExit"];
 	if (f) {
 		f(obj);
-	}
-}
-
-lock_mask ScriptFunction::getLockMask()
-{
-	sol::function f = obj["getLockMask"];
-	if (f) {
-		lock_mask result = f(obj);
-		return result;
-	}
-	else {
-		return lock_mask();
 	}
 }
 
@@ -1082,17 +1050,6 @@ bool LookTowardsFire::onEvent(Event event)
 	}
 
 	return true;
-}
-
-lock_mask LookTowardsFire::getLockMask()
-{
-	return looking ? (
-		useShield ?
-			enum_bitfield3(ResourceLock, movement, look, shield) :
-			enum_bitfield2(ResourceLock, movement, look)
-		) :
-		lock_mask()
-	;
 }
 
 const double MoveToPoint::arrivalMargin = 0.125;
