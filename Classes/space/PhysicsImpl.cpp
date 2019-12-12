@@ -230,11 +230,7 @@ pair<b2Body*, b2Fixture*> PhysicsImpl::createCircleBody(
 	b2Body* body;
 	b2Fixture* shape;
 
-	b2BodyDef def;
-	def.type = getMassType(mass);
-	def.position = toBox2D(center);
-	def.angle = 0.0;
-	def.bullet = isBulletType(type);
+	b2BodyDef def = generateBodyDef(type, center, mass);
 
 	if (isAgentType(type)) {
 		def.fixedRotation = true;
@@ -259,9 +255,7 @@ pair<b2Body*, b2Fixture*> PhysicsImpl::createCircleBody(
 
 	shape = body->CreateFixture(&fixture);
 
-	if (def.type == b2_staticBody && (type == GType::environment || type == GType::wall)) {
-		gspace->addNavObstacle(center, SpaceVect(radius*2.0, radius*2.0));
-	}
+	checkAddNavObstacle(type, center, SpaceVect(radius*2.0, radius*2.0), mass);
 
 	return make_pair(body, shape);
 }
@@ -284,12 +278,7 @@ pair<b2Body*, b2Fixture*> PhysicsImpl::createRectangleBody(
 	b2Body* body;
 	b2Fixture* shape;
 
-	b2BodyDef def;
-	def.type = getMassType(mass);
-	def.position = toBox2D(center);
-	def.angle = 0.0;
-	def.bullet = isBulletType(type);
-
+	b2BodyDef def = generateBodyDef(type, center, mass);
 	body = world->CreateBody(&def);
 
 	if (mass > 0.0) {
@@ -308,10 +297,7 @@ pair<b2Body*, b2Fixture*> PhysicsImpl::createRectangleBody(
 
 	shape = body->CreateFixture(&fixture);
 
-	if (mass < 0.0 && (type == GType::environment || type == GType::wall)) {
-		gspace->addNavObstacle(center, dim);
-	}
-
+	checkAddNavObstacle(type, center, dim, mass);
 
 	return make_pair(body, shape);
 }
@@ -326,6 +312,25 @@ b2Filter PhysicsImpl::generateFilter(GType type, PhysicsLayers layers)
 	filter.layers = to_uint(layers);
 
 	return filter;
+}
+
+b2BodyDef PhysicsImpl::generateBodyDef(GType type, SpaceVect center, SpaceFloat mass)
+{
+	b2BodyDef def;
+
+	def.type = getMassType(mass);
+	def.position = toBox2D(center);
+	def.angle = 0.0;
+	def.bullet = isBulletType(type);
+
+	return def;
+}
+
+void PhysicsImpl::checkAddNavObstacle(GType type, SpaceVect center, SpaceVect dim, SpaceFloat mass)
+{
+	if (mass < 0.0 && (type == GType::environment || type == GType::wall)) {
+		gspace->addNavObstacle(center, dim);
+	}
 }
 
 const bool PhysicsImpl::logPhysicsHandlers = false;
