@@ -30,8 +30,8 @@ void sensorEnd(RadarSensor* radar, GObject* target, b2Contact* arb);
 template<typename T, typename U>
 pair<T*, U*> getCastObjects(b2Contact* contact)
 {
-	GObject* a = static_cast<GObject*>(contact->GetFixtureA()->GetUserData());
-	GObject* b = static_cast<GObject*>(contact->GetFixtureB()->GetUserData());
+	GObject* a = any_cast<GObject*>(contact->GetFixtureA()->GetUserData());
+	GObject* b = any_cast<GObject*>(contact->GetFixtureB()->GetUserData());
 
 	return make_pair(
 		dynamic_cast<T*>(a),
@@ -41,8 +41,8 @@ pair<T*, U*> getCastObjects(b2Contact* contact)
 
 pair<GObject*, GObject*> getObjects(b2Contact* contact)
 {
-	GObject* a = static_cast<GObject*>(contact->GetFixtureA()->GetUserData());
-	GObject* b = static_cast<GObject*>(contact->GetFixtureB()->GetUserData());
+	GObject* a = any_cast<GObject*>(contact->GetFixtureA()->GetUserData());
+	GObject* b = any_cast<GObject*>(contact->GetFixtureB()->GetUserData());
 
 	return make_pair(a, b);
 }
@@ -119,16 +119,16 @@ PhysicsImpl::contact_func makeSensorHandler(PhysicsImpl::radarsensor_func f, Phy
 {
 	return [f, types](b2Contact* contact) -> void {
 		auto crntTypes = getFixtureTypes(contact);
-		//Presumably, only one of these is a GObject.
-		PhysicsImpl::object_pair objects = getObjects(contact);
 
 		if (types == crntTypes) {
-			auto sensor = static_cast<RadarSensor*>(contact->GetFixtureA()->GetUserData());
-			f(sensor, objects.second, contact);
+			auto sensor = any_cast<RadarSensor*>(contact->GetFixtureA()->GetUserData());
+			auto object = any_cast<GObject*>(contact->GetFixtureB()->GetUserData());
+			f(sensor, object, contact);
 		}
 		else if (isReverseMatch(crntTypes, types)) {
-			auto sensor = static_cast<RadarSensor*>(contact->GetFixtureB()->GetUserData());
-			f(sensor, objects.first, contact);
+			auto sensor = any_cast<RadarSensor*>(contact->GetFixtureB()->GetUserData());
+			auto object = any_cast<GObject*>(contact->GetFixtureA()->GetUserData());
+			f(sensor, object, contact);
 		}
 	};
 }
@@ -220,7 +220,7 @@ pair<b2Body*, b2Fixture*> PhysicsImpl::createCircleBody(
 	GType type,
 	PhysicsLayers layers,
 	bool sensor,
-	void* obj
+	std::any data
 ) {
 	if (radius <= 0.0) {
 		log("createCircleBody: invalid radius!");
@@ -248,7 +248,7 @@ pair<b2Body*, b2Fixture*> PhysicsImpl::createCircleBody(
 	circle.m_p = b2Vec2_zero;
 
 	b2FixtureDef fixture;
-	fixture.userData = obj;
+	fixture.userData = data;
 	fixture.shape = &circle;
 	fixture.isSensor = sensor;
 	fixture.filter = generateFilter(type, layers);
@@ -267,7 +267,7 @@ pair<b2Body*, b2Fixture*> PhysicsImpl::createRectangleBody(
 	GType type,
 	PhysicsLayers layers,
 	bool sensor,
-	void* obj
+	std::any data
 ) {
 
 	if (dim.x <= 0.0 || dim.y <= 0.0) {
@@ -290,7 +290,7 @@ pair<b2Body*, b2Fixture*> PhysicsImpl::createRectangleBody(
 	rect.SetAsBox(dim.x * 0.5, dim.y * 0.5, b2Vec2_zero, 0.0);
 
 	b2FixtureDef fixture;
-	fixture.userData = obj;
+	fixture.userData = data;
 	fixture.shape = &rect;
 	fixture.isSensor = sensor;
 	fixture.filter = generateFilter(type, layers);

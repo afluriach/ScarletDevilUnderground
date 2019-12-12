@@ -512,7 +512,7 @@ void GObject::initializeBody()
 			getType(),
 			getLayers(),
 			getSensor(),
-			to_gobject(this)
+			make_any<GObject*>(this)
 		);
 	}
 	else
@@ -524,7 +524,7 @@ void GObject::initializeBody()
 			getType(),
 			getLayers(),
 			getSensor(),
-			to_gobject(this)
+			make_any<GObject*>(this)
 		);
 	}
 }

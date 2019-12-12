@@ -23,7 +23,7 @@ public:
 		GType type,
 		PhysicsLayers layers,
 		bool sensor,
-		void* obj
+		std::any data
 	);
 	pair<b2Body*, b2Fixture*> createRectangleBody(
 		const SpaceVect& center,
@@ -32,7 +32,7 @@ public:
 		GType type,
 		PhysicsLayers layers,
 		bool sensor,
-		void* obj
+		std::any data
 	);
 
 	void removeObject(b2Body* body);

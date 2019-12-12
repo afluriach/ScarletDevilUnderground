@@ -34,7 +34,7 @@ RadarSensor::RadarSensor(
 		attributes.targetType,
 		PhysicsLayers::all,
 		true,
-		this
+		make_any<RadarSensor*>(this)
 	);
 }
 

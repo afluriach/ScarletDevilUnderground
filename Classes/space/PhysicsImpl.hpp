@@ -56,7 +56,7 @@ protected:
 		GType type,
 		PhysicsLayers layers,
 		bool sensor,
-		void* obj
+		std::any data
 	);
 	pair<b2Body*, b2Fixture*> createRectangleBody(
 		const SpaceVect& center,
@@ -65,7 +65,7 @@ protected:
 		GType type,
 		PhysicsLayers layers,
 		bool sensor,
-		void* obj
+		std::any data
 	);
 
 	b2Filter generateFilter(GType type, PhysicsLayers layers);
