@@ -26,23 +26,6 @@
 #include "SpellUtil.hpp"
 #include "value_map.hpp"
 
-const string RedFairy::baseAttributes = "redFairy";
-const string RedFairy::properName = "Red Fairy";
-
-const float RedFairy::bombCost = 20.0f;
-
-RedFairy::RedFairy(GSpace* space, ObjectIDType id, const ValueMap& args) :
-	Enemy(
-		space, id, args,
-		baseAttributes,
-		defaultSize,
-		25.0,
-		collectible_id::hm2
-	)
-{
-	setFirePattern("RedFairy");
-}
-
 const string Fairy2::baseAttributes = "fairy2";
 const float Fairy2::lowHealthRatio = 0.5f;
 

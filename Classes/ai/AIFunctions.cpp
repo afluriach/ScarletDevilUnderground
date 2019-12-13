@@ -1498,21 +1498,15 @@ update_return FireOnStress::update()
 ThrowBombs::ThrowBombs(
 	StateMachine* fsm,
 	gobject_ref target,
-	string bombType,
+	shared_ptr<bomb_properties> bombType,
 	SpaceFloat throwingSpeed,
-	SpaceFloat baseInterval,
-	SpaceFloat blastRadius,
-	SpaceFloat fuseTime,
-	float cost
+	SpaceFloat baseInterval
 ) :
 	Function(fsm),
 	target(target),
 	bombType(bombType),
 	throwingSpeed(throwingSpeed),
-	baseInterval(baseInterval),
-	blastRadius(blastRadius),
-	fuseTime(fuseTime),
-	cost(cost)
+	baseInterval(baseInterval)
 {
 }
 
@@ -1523,13 +1517,16 @@ void ThrowBombs::init()
 
 update_return ThrowBombs::update()
 {
-	if (!target.isValid()) {
+	if (!target.isValid() || !bombType) {
 		return_pop();
 	}
 
+	SpaceFloat fuseTime = bombType->fuseTime;
+	SpaceFloat blastRadius = bombType->blastRadius;
+
 	timerDecrement(countdown);
 
-	if (countdown <= 0.0 && agent->getAttribute(Attribute::mp) >= cost) {
+	if (countdown <= 0.0 && agent->getAttribute(Attribute::mp) >= bombType->cost) {
 		SpaceFloat angle = directionToTarget(agent, target.get()->getPos()).toAngle();
 		SpaceVect pos = agent->getPos() + SpaceVect::ray(1.0, angle);
 		SpaceVect vel = agent->getVel() + SpaceVect::ray(throwingSpeed, angle);
@@ -1566,7 +1563,7 @@ update_return ThrowBombs::update()
 
 			getSpace()->createObject<Bomb>(
 				make_shared<object_params>(bombPos, bombVel),
-				app::getBomb(bombType)
+				bombType
 			);
 
 			countdown = getInterval();
@@ -1582,8 +1579,8 @@ SpaceFloat ThrowBombs::getInterval()
 
 float ThrowBombs::score(SpaceVect pos, SpaceFloat angle)
 {
-	SpaceVect predictedPos = pos + SpaceVect::ray(1.0 + fuseTime * throwingSpeed, angle);
-	return bombScore(getSpace(), predictedPos, blastRadius);
+	SpaceVect predictedPos = pos + SpaceVect::ray(1.0 + bombType->fuseTime * throwingSpeed, angle);
+	return bombScore(getSpace(), predictedPos, bombType->blastRadius);
 }
 
 }//end NS

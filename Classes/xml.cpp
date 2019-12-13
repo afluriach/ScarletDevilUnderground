@@ -492,6 +492,7 @@ bool parseObject(tinyxml2::XMLElement* elem, shared_ptr<bomb_properties>* result
 		1.0f / 16.0f,
 		0.0,
 		0.0,
+		0.0f,
 		DamageInfo()
 	};
 
@@ -501,6 +502,7 @@ bool parseObject(tinyxml2::XMLElement* elem, shared_ptr<bomb_properties>* result
 	getNumericAttr(elem, "friction", &props.friction);
 	getNumericAttr(elem, "blastRadius", &props.blastRadius);
 	getNumericAttr(elem, "fuseTime", &props.fuseTime);
+	getNumericAttr(elem, "cost", &props.cost);
 
 	props.damage = getDamageInfo(elem, DamageType::bomb);
 

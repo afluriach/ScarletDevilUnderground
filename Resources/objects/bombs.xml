@@ -6,6 +6,7 @@
 		fuseTime="3.0"
 		blastRadius="4.0"
 		damage="20.0"
+		cost="5.0"
 	/>
 	
 	<RedFairyBomb
@@ -15,5 +16,6 @@
 		fuseTime="1.2"
 		blastRadius="3.0"
 		damage="20.0"
+		cost="20.0"
 	/>
 </bombs>

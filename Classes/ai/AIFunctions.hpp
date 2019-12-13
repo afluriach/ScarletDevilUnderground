@@ -558,12 +558,9 @@ public:
 	ThrowBombs(
 		StateMachine* fsm,
 		gobject_ref target,
-		string bombType,
+		shared_ptr<bomb_properties> bombType,
 		SpaceFloat throwingSpeed,
-		SpaceFloat baseInterval,
-		SpaceFloat blastRadius,
-		SpaceFloat fuseTime,
-		float cost
+		SpaceFloat baseInterval
 	);
 
 	virtual void init();
@@ -574,14 +571,12 @@ public:
 
 	FuncGetName(ThrowBombs)
 protected:
+	shared_ptr<bomb_properties> bombType;
+
 	SpaceFloat countdown;
 	SpaceFloat throwingSpeed;
 	SpaceFloat baseInterval;
-	SpaceFloat blastRadius;
-	SpaceFloat fuseTime;
 	gobject_ref target;
-	string bombType;
-	float cost;
 };
 
 

@@ -48,7 +48,6 @@ const SpaceFloat Player::bombThrowSpeed = 3.0;
 const SpaceFloat Player::interactDistance = 1.25;
 const SpaceFloat Player::grazeRadius = 0.7;
 
-const float Player::bombCost = 5.0f;
 const float Player::sprintCost = 7.5f;
 
 Player::Player(GSpace* space, ObjectIDType id, const SpaceVect& pos, Direction d) :
@@ -175,6 +174,7 @@ void Player::init()
 		equipFirePatterns();
 		equipSpells();
 		equipPowerAttacks();
+		crntBomb = app::getBomb("PlayerBomb");
 	}
 
 	respawnPos = getPos();
@@ -353,7 +353,8 @@ void Player::checkBombControls(const ControlInfo& cs)
 	if (!suppressFiring &&
 		cs.isControlActionPressed(ControlAction::bomb) &&
 		bombCooldown <= 0.0f &&
-		attributeSystem[Attribute::mp] >= bombCost)
+		crntBomb &&
+		attributeSystem[Attribute::mp] >= crntBomb->cost)
 	{
 		SpaceVect bombPos = getPos() + SpaceVect::ray(1.5, getAngle());
 		SpaceVect bombVel = getVel();
@@ -363,9 +364,9 @@ void Player::checkBombControls(const ControlInfo& cs)
 		if (canPlaceBomb(bombPos)) {
 			space->createObject<Bomb>(
 				make_shared<object_params>(bombPos,bombVel),
-				app::getBomb("PlayerBomb")
+				crntBomb
 			);
-			attributeSystem.modifyAttribute(Attribute::mp, -bombCost);
+			attributeSystem.modifyAttribute(Attribute::mp, crntBomb->cost);
 			bombCooldown = bombCooldownTime;
 		}
 	}

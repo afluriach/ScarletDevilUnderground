@@ -148,6 +148,21 @@
 
 		collectible="magic2"		
 	/>
+
+	<RedFairy
+		name="Red Fairy"
+
+		sprite="redFairy"
+		ai_package="red_fairy"
+		attributes="redFairy"
+		firepattern="RedFairy"
+		
+		mass="25"
+		viewRange="7.5"
+		viewAngle="0"
+
+		collectible="hm2"		
+	/>
 	
 	<Rumia1
 		name="Rumia"

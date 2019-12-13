@@ -116,12 +116,9 @@ void red_fairy(StateMachine* fsm, const ValueMap& args)
 		auto comp = make_shared<CompositeFunction>(fsm);
 		comp->addFunction<ThrowBombs>(
 			target,
-			"RedFairyBomb",
+			app::getBomb("RedFairyBomb"),
 			4.0,
-			4.0,
-			3.0,
-			1.5,
-			RedFairy::bombCost
+			4.0
 		);
 		comp->addFunction<FireAtTarget>(target);
 		comp->addFunction<MaintainDistance>(target, 3.0f, 0.5f);

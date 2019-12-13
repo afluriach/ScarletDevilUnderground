@@ -12,25 +12,6 @@
 #include "Collectibles.hpp"
 #include "Enemy.hpp"
 
-class RedFairy : public Enemy
-{
-public:
-	static const string baseAttributes;
-	static const string properName;
-
-	static const float bombCost;
-
-	RedFairy(GSpace* space, ObjectIDType id, const ValueMap& args);
-
-	virtual inline SpaceFloat getRadarRadius() const { return 7.5; }
-	virtual inline SpaceFloat getDefaultFovAngle() const { return 0.0; }
-
-	inline string getSprite() const { return "redFairy"; }
-	virtual inline string getTypeName() const { return "RedFairy"; }
-
-	virtual inline string initStateMachine() { return "red_fairy"; }
-};
-
 class Fairy2 : public Enemy
 {
 public:

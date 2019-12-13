@@ -20,6 +20,8 @@ struct bomb_properties
 	float friction = 1.0f / 16.0f;
 	float blastRadius;
 	float fuseTime;
+	float cost;
+
 	DamageInfo damage;
 };
 

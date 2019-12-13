@@ -11,6 +11,7 @@
 
 #include "Agent.hpp"
 
+struct bomb_properties;
 class Collectible;
 struct ControlInfo;
 class ControlState;
@@ -38,7 +39,6 @@ public:
 	static const SpaceFloat interactDistance;
 	static const SpaceFloat grazeRadius;
 
-	static const float bombCost;
 	static const float sprintCost;
 
 	Player(GSpace* space, ObjectIDType id, const SpaceVect& pos, Direction d);
@@ -133,6 +133,7 @@ protected:
 	float interactCooldown = 0.0f;
 	float bombCooldown = 0.0f;
 
+	shared_ptr<bomb_properties> crntBomb;
 	vector<shared_ptr<FirePattern>> firePatterns;
 	vector<shared_ptr<SpellDesc>> powerAttacks;
 	vector<shared_ptr<SpellDesc>> spells;
