@@ -101,7 +101,7 @@ void Player::equipFirePatterns()
 	for (auto entry : FirePattern::playerFirePatterns)
 	{
 		if (space->getState()->hasItem(entry.first) || app::params.unlockAllEquips) {
-			shared_ptr<FirePattern> pattern = entry.second(this, 0);
+			shared_ptr<FirePattern> pattern = entry.second(this);
 
 			if (pattern) {
 				firePatterns.push_back(pattern);

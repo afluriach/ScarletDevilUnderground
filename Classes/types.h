@@ -47,7 +47,7 @@ typedef function<GObject*(GSpace*, ObjectIDType)> ObjectGeneratorType;
 typedef function<ObjectGeneratorType(shared_ptr<object_params> )> ParamsGeneratorType;
 typedef function<FiniteTimeAction*()> ActionGeneratorType;
 typedef function<shared_ptr<Spell>(GObject*)> SpellGeneratorType;
-typedef function<shared_ptr<FirePattern>(Agent*, int)> FirePatternGeneratorType;
+typedef function<shared_ptr<FirePattern>(Agent*)> FirePatternGeneratorType;
 //
 
 struct GraphicsAction

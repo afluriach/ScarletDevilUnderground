@@ -11,8 +11,6 @@
 
 #include "Agent.hpp"
 
-enum class PlayerFirePatternID : int;
-
 class FirePattern
 {
 public:

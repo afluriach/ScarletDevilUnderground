@@ -35,7 +35,7 @@ const array<double, StarbowBreak::anglesCount> StarbowBreak::radiusScales = {
 	1.0 / 3.0
 };
 
-StarbowBreak::StarbowBreak(Agent *const agent, int level) :
+StarbowBreak::StarbowBreak(Agent *const agent) :
 	FirePattern(agent)
 {}
 
@@ -122,7 +122,7 @@ const SpaceFloat Catadioptric::tertiarySpeedVariation = 1.0;
 const SpaceFloat Catadioptric::angleSpread = float_pi / 8.0;
 const SpaceFloat Catadioptric::fireInterval = 1.5;
 
-Catadioptric::Catadioptric(Agent *const agent, int level) :
+Catadioptric::Catadioptric(Agent *const agent) :
 	FirePattern(agent)
 {}
 

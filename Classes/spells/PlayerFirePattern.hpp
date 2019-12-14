@@ -11,14 +11,6 @@
 
 #include "FirePattern.hpp"
 
-enum class PlayerFirePatternID
-{
-	magicMissile,
-	starbowBreak,
-	catadioptric,
-	scarletDagger,
-};
-
 class StarbowBreak : public FirePattern
 {
 public:
@@ -34,7 +26,7 @@ public:
 	static const double launchDist;
 	static const array<double, anglesCount> radiusScales;
 
-	StarbowBreak(Agent *const agent, int level);
+	StarbowBreak(Agent *const agent);
 
 	bullet_properties generateProps(int angle);
 	bool spawnBullet(int angle, bool left);
@@ -58,7 +50,7 @@ public:
 	static const SpaceFloat angleSpread;
 	static const SpaceFloat fireInterval;
 
-	Catadioptric(Agent *const agent, int level);
+	Catadioptric(Agent *const agent);
 
 	inline virtual void update() { timerDecrement(cooldown); }
 	inline virtual string iconPath() const { return "sprites/ui/catadioptric.png"; }
