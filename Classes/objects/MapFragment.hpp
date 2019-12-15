@@ -19,8 +19,6 @@ public:
 	MapFragment(GSpace* space, ObjectIDType id, const ValueMap& args);
 	virtual inline ~MapFragment() {}
 
-	virtual inline GType getType() const { return GType::playerPickup; }
-
 	virtual inline GraphicsLayer sceneLayer() const { return GraphicsLayer::floor; }
 	virtual inline string getSprite() const { return "mapFragment"; }
 	virtual inline string itemName() const { return "Map Fragment"; }

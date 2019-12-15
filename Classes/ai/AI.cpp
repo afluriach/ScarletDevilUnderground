@@ -14,7 +14,6 @@
 #include "AreaSensor.hpp"
 #include "GSpace.hpp"
 #include "GObject.hpp"
-#include "GObjectMixins.hpp"
 #include "LuaAPI.hpp"
 #include "value_map.hpp"
 

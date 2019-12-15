@@ -78,9 +78,6 @@
     <ClCompile Include="..\Classes\objects\GObject.cpp">
       <Filter>src\objects</Filter>
     </ClCompile>
-    <ClCompile Include="..\Classes\objects\GObjectMixins.cpp">
-      <Filter>src\objects</Filter>
-    </ClCompile>
     <ClCompile Include="..\Classes\objects\InventoryObject.cpp">
       <Filter>src\objects</Filter>
     </ClCompile>
@@ -441,9 +438,6 @@
       <Filter>src\objects</Filter>
     </ClInclude>
     <ClInclude Include="..\Classes\objects\GObject.hpp">
-      <Filter>src\objects</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Classes\objects\GObjectMixins.hpp">
       <Filter>src\objects</Filter>
     </ClInclude>
     <ClInclude Include="..\Classes\objects\InventoryObject.hpp">

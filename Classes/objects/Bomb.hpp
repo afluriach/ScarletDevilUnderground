@@ -37,7 +37,6 @@ public:
 	virtual inline bool getSensor() const { return false; }
 	virtual inline PhysicsLayers getLayers() const { return enum_bitwise_or( PhysicsLayers,ground,floor); }
 	virtual inline GraphicsLayer sceneLayer() const { return GraphicsLayer::ground; }
-	virtual inline GType getType() const { return GType::bomb; }
 
 	virtual void init();
 	virtual void update();

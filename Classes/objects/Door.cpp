@@ -20,7 +20,7 @@
 Door::Door(GSpace* space, ObjectIDType id, const ValueMap& args) :
 	GObject(
 		make_shared<object_params>(space,id,args, true),
-		MapRectPhys(-1.0)
+		MapRectPhys(GType::environment, -1.0)
 	)
 {
 	locked = getBoolOrDefault(args, "locked", false);
@@ -191,7 +191,7 @@ Direction Door::getEntryDirection()
 Barrier::Barrier(GSpace* space, ObjectIDType id, const ValueMap& args) :
 	GObject(
 		make_shared<object_params>(space, id, args, true),
-		MapRectPhys(-1.0)
+		MapRectPhys(GType::environment, -1.0)
 	)
 {
 	sealed = getBoolOrDefault(args, "sealed", false);

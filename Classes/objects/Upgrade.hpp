@@ -19,8 +19,6 @@ public:
 	Upgrade(GSpace* space, ObjectIDType id, const ValueMap& args);
 	virtual inline ~Upgrade() {}
 
-	virtual inline GType getType() const { return GType::playerPickup; }
-
 	virtual inline GraphicsLayer sceneLayer() const { return GraphicsLayer::floor; }
 	virtual string getSprite() const;
 	virtual string itemName() const;

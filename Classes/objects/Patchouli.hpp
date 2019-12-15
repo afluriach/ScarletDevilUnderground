@@ -17,8 +17,6 @@ class Patchouli : public NPC
 public:
 	Patchouli(GSpace* space, ObjectIDType id, const ValueMap& args);
     
-    virtual inline GType getType() const {return GType::npc;}
-    
     inline string getSprite() const {return "patchouli";}
     inline GraphicsLayer sceneLayer() const {return GraphicsLayer::ground;}
 

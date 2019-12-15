@@ -19,7 +19,6 @@ public:
     virtual string getSprite() const {return "desk";}
     virtual GraphicsLayer sceneLayer() const {return GraphicsLayer::ground;}
     
-    virtual inline GType getType() const {return GType::environment;}
 	virtual inline PhysicsLayers getLayers() const { return PhysicsLayers::ground; }
 
 	virtual inline string interactionIcon(Player* p) { return "sprites/desk.png"; }

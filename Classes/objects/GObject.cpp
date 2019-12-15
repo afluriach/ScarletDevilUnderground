@@ -30,6 +30,7 @@ GObject::GObject(shared_ptr<object_params> params, const physics_params& phys) :
 	space(params->space),
 	name(params->name),
 	uuid(params->id),
+	type(phys.type),
 	dimensions(phys.dimensions),
 	mass(phys.mass),
 	prevPos(params->pos),

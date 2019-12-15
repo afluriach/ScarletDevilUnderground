@@ -44,7 +44,7 @@ bool Headstone::conditionalLoad(GSpace* space, ObjectIDType id, const ValueMap& 
 }
 
 Headstone::Headstone(GSpace* space, ObjectIDType id, const ValueMap& args) :
-	GObject(MapParamsPointUp(), physics_params(args, -1.0)) 
+	GObject(MapParamsPointUp(), physics_params(GType::environment, args, -1.0)) 
 {
 	maxHP = getFloatOrDefault(args, "hp", -1.0f);
 	hp = maxHP;
@@ -102,7 +102,7 @@ void GhostHeadstone::init()
 }
 
 Sapling::Sapling(GSpace* space, ObjectIDType id, const ValueMap& args) :
-	GObject(MapParamsPointUp(), physics_params(args, -1.0)) 
+	GObject(MapParamsPointUp(), physics_params(GType::environment, args, -1.0)) 
 {
 }
 
@@ -113,7 +113,7 @@ bool Mushroom::conditionalLoad(GSpace* space, ObjectIDType id, const ValueMap& a
 }
 
 Mushroom::Mushroom(GSpace* space, ObjectIDType id, const ValueMap& args) :
-	GObject(MapParamsPointUp(), physics_params(args, -1.0)) 
+	GObject(MapParamsPointUp(), physics_params(GType::environment, args, -1.0)) 
 {
 	objectID = getIntOrDefault(args, "id", -1);
 }

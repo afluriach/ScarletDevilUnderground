@@ -51,7 +51,7 @@ const SpaceFloat Player::grazeRadius = 0.7;
 const float Player::sprintCost = 7.5f;
 
 Player::Player(GSpace* space, ObjectIDType id, const SpaceVect& pos, Direction d) :
-	Agent(space, id, "player", pos,d)
+	Agent(space, id, GType::player, "player", pos,d)
 {
 	attributes = FlandrePC::baseAttributes;
 }
@@ -61,7 +61,7 @@ Player::Player(
 	const string& attributes
 ) :
 	Agent(
-		space,id,args,
+		space,id,GType::player, args,
 		attributes,
 		defaultSize,
 		20.0

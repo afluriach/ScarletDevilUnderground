@@ -17,7 +17,6 @@ public:
 	FloorSegment(GSpace* space, ObjectIDType id, const ValueMap& args, bool isStatic = true);
 	virtual ~FloorSegment();
 
-	virtual inline GType getType() const { return GType::floorSegment; }
 	virtual PhysicsLayers getLayers() const { return PhysicsLayers::floor; }
 	virtual inline bool getSensor() const { return true; }
 

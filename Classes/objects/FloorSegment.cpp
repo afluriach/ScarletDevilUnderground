@@ -13,7 +13,7 @@
 #include "value_map.hpp"
 
 FloorSegment::FloorSegment(GSpace* space, ObjectIDType id, const ValueMap& args, bool isStatic) :
-	GObject(MapParams(), MapRectPhys(isStatic ? -1.0 : 1.0))
+	GObject(MapParams(), MapRectPhys(GType::floorSegment, isStatic ? -1.0 : 1.0))
 {
 }
 

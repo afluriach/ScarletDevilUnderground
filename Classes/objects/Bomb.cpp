@@ -17,7 +17,7 @@
 const SpaceFloat Bomb::explosionSpriteRadius = 2.0;
 
 Bomb::Bomb(shared_ptr<object_params> params, shared_ptr<bomb_properties> props) :
-	GObject(params, physics_params(0.5, 1.0)),
+	GObject(params, physics_params(GType::bomb, 0.5, 1.0)),
 	props(props)
 {
 }

@@ -15,7 +15,7 @@
 const boost::rational<int> Launcher::fireInterval(1,4);
 
 Launcher::Launcher(GSpace* space, ObjectIDType id, const ValueMap& args) :
-	GObject(MapParams(), physics_params(args, -1.0))
+	GObject(MapParams(), physics_params(GType::environment, args, -1.0))
 {
 }
 

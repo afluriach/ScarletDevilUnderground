@@ -21,8 +21,6 @@ public:
     virtual inline string getSprite() const {return "glyph";}
     virtual inline GraphicsLayer sceneLayer() const {return GraphicsLayer::ground;}
     
-    virtual inline GType getType() const {return GType::environment;}
-    
 	virtual bool canInteract(Player* p);
 	virtual void interact(Player* p);
 	virtual string interactionIcon(Player* p);

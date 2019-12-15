@@ -23,8 +23,6 @@ public:
 		SpaceFloat mass
 	);
 
-	virtual inline GType getType() const { return GType::npc; }
-
 	//provides an interface to make an agent an interactible object with dialog.
 	virtual bool canInteract(Player* p);
 	virtual void interact(Player* p);

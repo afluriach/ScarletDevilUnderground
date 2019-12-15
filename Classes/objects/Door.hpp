@@ -28,7 +28,6 @@ public:
 	virtual inline string getSprite() const { return "door"; }
     virtual inline GraphicsLayer sceneLayer() const {return GraphicsLayer::ground;}
 
-    virtual inline GType getType() const {return GType::environment;}
     virtual PhysicsLayers getLayers() const;
 
 	virtual bool canInteract(Player* p);
@@ -76,7 +75,6 @@ public:
 	virtual inline string getSprite() const { return "barrier"; }
 	virtual inline GraphicsLayer sceneLayer() const { return GraphicsLayer::ground; }
 
-	virtual inline GType getType() const { return GType::environment; }
 	virtual PhysicsLayers getLayers() const;
 
 	virtual void activate();

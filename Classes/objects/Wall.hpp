@@ -18,7 +18,6 @@ public:
 	Wall(GSpace* space, ObjectIDType id, SpaceVect center, SpaceVect dimensions);
 	virtual inline ~Wall() {}
 
-    virtual inline GType getType() const {return GType::wall;}
     virtual PhysicsLayers getLayers() const;    
 };
 

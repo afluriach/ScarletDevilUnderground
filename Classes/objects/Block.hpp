@@ -20,7 +20,6 @@ public:
     virtual GraphicsLayer sceneLayer() const {return GraphicsLayer::ground;}
     
     virtual inline SpaceFloat uk() const {return 0.5;}
-    virtual inline GType getType() const {return GType::environment;}
     virtual PhysicsLayers getLayers() const;
 };
 #endif /* Block_hpp */

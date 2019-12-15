@@ -23,7 +23,6 @@ public:
     virtual string getSprite() const {return "goal";}
     virtual GraphicsLayer sceneLayer() const {return GraphicsLayer::ground;}
     
-    virtual inline GType getType() const {return GType::environment;}
 	virtual inline PhysicsLayers getLayers() const { return PhysicsLayers::ground; }
 
 	virtual bool canInteract(Player* p);

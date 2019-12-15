@@ -66,8 +66,6 @@ public:
 	virtual void onBulletCollide(Bullet* b);
 	virtual void onBulletHitTarget(Bullet* bullet, Agent* target);
     virtual bool hit(DamageInfo damage);
-
-    virtual inline GType getType() const {return GType::player;}
     
     inline GraphicsLayer sceneLayer() const {return GraphicsLayer::ground;}
     

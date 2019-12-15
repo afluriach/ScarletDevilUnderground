@@ -25,7 +25,7 @@ Enemy::Enemy(
 	collectible_id drop_id
 ) :
 	Agent(
-		space,id,args,
+		space,id,GType::enemy, args,
 		baseAttributes,radius,mass
 	),
 	drop_id(drop_id)

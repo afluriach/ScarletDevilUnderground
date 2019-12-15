@@ -12,7 +12,7 @@
 #include "value_map.hpp"
 
 Block::Block(GSpace* space, ObjectIDType id, const ValueMap& args) :
-	GObject(MapParamsPointUp(), MapRectPhys(40.0))
+	GObject(MapParamsPointUp(), MapRectPhys(GType::environment, 40.0))
 {
 }
 

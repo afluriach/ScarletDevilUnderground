@@ -70,7 +70,6 @@ public:
 	);
 	inline virtual ~Bullet() {}
 
-	virtual inline GType getType() const { return attributes.type; }
 	virtual inline bool getSensor() const { return true; }
 	virtual inline PhysicsLayers getLayers() const { return PhysicsLayers::ground; }
 

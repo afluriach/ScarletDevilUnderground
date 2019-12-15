@@ -14,7 +14,7 @@
 #include "value_map.hpp"
 
 Desk::Desk(GSpace* space, ObjectIDType id, const ValueMap& args) :
-GObject(MapParamsPointUp(), MapRectPhys(-1.0))
+GObject(MapParamsPointUp(), MapRectPhys(GType::environment, -1.0))
 {
 }
 

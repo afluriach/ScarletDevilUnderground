@@ -19,7 +19,6 @@ public:
 
 	Torch(GSpace* space, ObjectIDType id, const ValueMap& args);
 
-    virtual inline GType getType() const {return GType::environment;}
     virtual inline GraphicsLayer sceneLayer() const {return GraphicsLayer::ground;}
 
 	virtual inline bool canInteract(Player* p) { return true; }

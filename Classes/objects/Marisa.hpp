@@ -16,7 +16,6 @@ class MarisaNPC : public NPC
 public:
 	MapObjCons(MarisaNPC);
 
-	virtual inline GType getType() const { return GType::npc; }
 	inline string getSprite() const { return "marisa"; }
 
 	inline virtual bool isDialogAvailable() { return true; }

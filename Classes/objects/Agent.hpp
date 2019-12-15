@@ -27,10 +27,11 @@ public:
 	static const Color4F shieldConeColor;
 	static const float bodyOutlineWidth;
 
-	Agent(GSpace* space, ObjectIDType id, const string& name, const SpaceVect& pos, Direction d);
+	Agent(GSpace* space, ObjectIDType id, GType type, const string& name, const SpaceVect& pos, Direction d);
 	Agent(
 		GSpace* space,
 		ObjectIDType id,
+		GType type,
 		const ValueMap& args,
 		const string& baseAttributes,
 		SpaceFloat radius,
@@ -115,9 +116,6 @@ public:
 
 	virtual void initializeRadar(GSpace& space);
 	virtual void removePhysicsObjects();
-
-	//physics/motor interface
-	virtual GType getType() const = 0;
 
 	//graphics interface
 	virtual void initializeGraphics();

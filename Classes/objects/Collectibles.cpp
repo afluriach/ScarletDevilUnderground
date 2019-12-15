@@ -88,7 +88,7 @@ collectible_id Collectible::getCollectibleID(const string& name)
 }
 
 Collectible::Collectible(GSpace* space, ObjectIDType id, SpaceVect pos, collectible_id collectibleID) :
-	InventoryObject(PosAngleParams(pos, float_pi * 0.5), physics_params(SpaceVect(0.5,0.5), -1.0)),
+	InventoryObject(PosAngleParams(pos, float_pi * 0.5), physics_params(GType::playerPickup, SpaceVect(0.5,0.5), -1.0)),
 	collectibleID(collectibleID)
 {
 }

@@ -27,7 +27,6 @@ public:
 	virtual string getSprite() const;
     virtual inline GraphicsLayer sceneLayer() const {return GraphicsLayer::ground;}
     
-    virtual inline GType getType() const {return GType::environment;}
 	virtual inline PhysicsLayers getLayers() const { return PhysicsLayers::all; }
 protected:
 	static boost::icl::interval_map<float, int> intervals;
@@ -52,7 +51,6 @@ public:
 	virtual string getSprite() const { return "sapling"; }
 	virtual GraphicsLayer sceneLayer() const { return GraphicsLayer::ground; }
 
-	virtual inline GType getType() const { return GType::environment; }
 	virtual inline PhysicsLayers getLayers() const { return PhysicsLayers::all; }
 };
 
@@ -66,7 +64,6 @@ public:
 	virtual string getSprite() const { return "mushroom"; }
 	virtual GraphicsLayer sceneLayer() const { return GraphicsLayer::ground; }
 
-	virtual inline GType getType() const { return GType::environment; }
 	virtual inline PhysicsLayers getLayers() const { return PhysicsLayers::all; }
 
 	virtual inline bool canInteract(Player* p) { return true; }

@@ -9,7 +9,6 @@
 #include "Prefix.h"
 
 #include "GObject.hpp"
-#include "GObjectMixins.hpp"
 #include "GSpace.hpp"
 #include "physics_context.hpp"
 #include "PhysicsImpl.hpp"

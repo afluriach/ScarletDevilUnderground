@@ -10,11 +10,8 @@
 #define Sign_hpp
 
 #include "GObject.hpp"
-#include "GObjectMixins.hpp"
 
-class Sign :
-	virtual public GObject,
-	public DialogEntity
+class Sign : public GObject
 {
 public:
 	MapObjCons(Sign);
@@ -22,11 +19,13 @@ public:
 	inline virtual string getSprite() const { return "sign"; }
     virtual inline GraphicsLayer sceneLayer() const {return GraphicsLayer::ground;}
 
-    virtual inline GType getType() const {return GType::environment;}
 	inline virtual PhysicsLayers getLayers() const { return PhysicsLayers::all; }
 
-	inline virtual bool isDialogAvailable() { return true; }
-	inline virtual string getDialog() { return "dialogs/"+dialogRes; }
+	//Dialog interaction.
+	virtual bool canInteract(Player* p);
+	virtual void interact(Player* p);
+	virtual string interactionIcon(Player* p);
+
 protected:
 	string dialogRes;
 };

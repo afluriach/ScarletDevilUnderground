@@ -17,8 +17,6 @@ class Reimu : public NPC
 public:
 	MapObjCons(Reimu);
     
-    virtual inline GType getType() const {return GType::npc;}
-    
     virtual inline string getSprite() const {return "reimu";}
     virtual inline GraphicsLayer sceneLayer() const {return GraphicsLayer::ground;}
     
@@ -39,7 +37,6 @@ public:
 	virtual inline SpaceFloat getRadarRadius() const { return 5.0; }
 	virtual inline SpaceFloat getDefaultFovAngle() const { return 0.0; }
 
-	virtual inline GType getType() const { return GType::enemy; }
 	virtual inline string getTypeName() const { return "ReimuEnemy"; }
 
 	virtual inline string getSprite() const { return "reimu"; }

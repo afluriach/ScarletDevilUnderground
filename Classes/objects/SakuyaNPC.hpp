@@ -18,7 +18,6 @@ public:
 
 	MapObjCons(SakuyaNPC);
 
-	virtual inline GType getType() const { return GType::npc; }
     virtual inline SpaceFloat getRadarRadius() const {return 6.0;}
     virtual inline SpaceFloat getDefaultFovAngle() const {return 0.0;}
 
