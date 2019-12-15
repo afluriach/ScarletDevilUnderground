@@ -12,10 +12,6 @@
 #include "value_map.hpp"
 
 Block::Block(GSpace* space, ObjectIDType id, const ValueMap& args) :
-	GObject(MapParamsPointUp(), MapRectPhys(GType::environment, 40.0))
+	GObject(MapParamsPointUp(), MapRectPhys(GType::environment, eyeLevelHeightLayers, 40.0))
 {
-}
-
-PhysicsLayers Block::getLayers() const{
-    return enum_bitwise_or3(PhysicsLayers,floor,ground,eyeLevel);
 }

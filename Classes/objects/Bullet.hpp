@@ -71,7 +71,6 @@ public:
 	inline virtual ~Bullet() {}
 
 	virtual inline bool getSensor() const { return true; }
-	virtual inline PhysicsLayers getLayers() const { return PhysicsLayers::ground; }
 
 	virtual void initializeGraphics();
 	virtual inline GraphicsLayer sceneLayer() const { return GraphicsLayer::ground; }

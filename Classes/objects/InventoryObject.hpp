@@ -22,8 +22,6 @@ public:
 
 	virtual void init();
 
-	virtual inline PhysicsLayers getLayers() const { return PhysicsLayers::floor; }
-
     virtual inline GraphicsLayer sceneLayer() const {return GraphicsLayer::floor;}
     
     //virtual API for item interaction

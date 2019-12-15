@@ -129,3 +129,7 @@ bool isValidChamber(ChamberID id)
 {
 	return id >= ChamberID::begin && id < ChamberID::end;
 }
+
+const PhysicsLayers onGroundLayers = enum_bitwise_or(PhysicsLayers, floor, ground);
+const PhysicsLayers eyeLevelHeightLayers = enum_bitwise_or3(PhysicsLayers, floor, ground, eyeLevel);
+const PhysicsLayers flyingLayers = PhysicsLayers::ground;

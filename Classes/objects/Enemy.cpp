@@ -22,10 +22,14 @@ Enemy::Enemy(
 	const string& baseAttributes,
 	SpaceFloat radius,
 	SpaceFloat mass,
-	collectible_id drop_id
+	collectible_id drop_id,
+	bool isFlying
 ) :
 	Agent(
-		space,id,GType::enemy, args,
+		space,id,
+		GType::enemy,
+		isFlying ? flyingLayers : onGroundLayers,
+		args,
 		baseAttributes,radius,mass
 	),
 	drop_id(drop_id)
@@ -77,7 +81,8 @@ EnemyImpl::EnemyImpl(
 		props->attributes,
 		props->radius,
 		props->mass,
-		props->collectible
+		props->collectible,
+		props->isFlying
 	),
 	props(props)
 {
@@ -107,11 +112,6 @@ SpaceFloat EnemyImpl::getRadarRadius() const {
 
 SpaceFloat EnemyImpl::getDefaultFovAngle() const {
 	return props->viewAngle;
-}
-
-PhysicsLayers EnemyImpl::getLayers() const {
-
-	return props->isFlying ? PhysicsLayers::ground : enum_bitwise_or(PhysicsLayers, ground, floor);
 }
 
 string EnemyImpl::getSprite() const {

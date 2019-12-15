@@ -14,7 +14,7 @@
 #include "value_map.hpp"
 
 Goal::Goal(GSpace* space, ObjectIDType id, const ValueMap& args) :
-	GObject(MapParamsPointUp(), MapRectPhys(GType::environment, -1.0))
+	GObject(MapParamsPointUp(), MapRectPhys(GType::environment, PhysicsLayers::ground, -1.0))
 {
 	playScene = space->getSceneAs<PlayScene>();
 

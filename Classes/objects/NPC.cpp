@@ -20,7 +20,7 @@ NPC::NPC(
 	SpaceFloat mass
 ) : 
 	Agent(
-		space, id, GType::npc, args,
+		space, id, GType::npc, onGroundLayers, args,
 		baseAttributes,
 		radius,
 		mass

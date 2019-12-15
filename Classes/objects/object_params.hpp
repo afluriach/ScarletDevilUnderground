@@ -48,17 +48,18 @@ class physics_params
 {
 public:
 	//Create circle body with fixed radius and mass
-	physics_params(GType type, SpaceFloat radius, SpaceFloat mass);
+	physics_params(GType type, PhysicsLayers layers, SpaceFloat radius, SpaceFloat mass);
 	//Create rectangle body with fixed dimensions and mass
-	physics_params(GType type, SpaceVect dimensions, SpaceFloat mass);
+	physics_params(GType type, PhysicsLayers layers, SpaceVect dimensions, SpaceFloat mass);
 	//Create rectangle body with variable dimensions and default mass
-	physics_params(GType type, const ValueMap& args, SpaceFloat mass);
+	physics_params(GType type, PhysicsLayers layers, const ValueMap& args, SpaceFloat mass);
 
 	SpaceVect dimensions;
 	SpaceFloat mass;
 	GType type;
+	PhysicsLayers layers;
 };
 
-#define MapRectPhys(type, m) physics_params(type, args, m)
+#define MapRectPhys(type, layers, m) physics_params(type, layers, args, m)
 
 #endif

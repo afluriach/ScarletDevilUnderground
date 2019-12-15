@@ -37,10 +37,10 @@ const Color4F Agent::bodyOutlineColor = hsva4F(270.0f, 0.2f, 0.7f, 0.667f);
 const Color4F Agent::shieldConeColor = Color4F(.37f, .56f, .57f, 0.5f);
 const float Agent::bodyOutlineWidth = 4.0f;
 
-Agent::Agent(GSpace* space, ObjectIDType id, GType type, const string& name, const SpaceVect& pos, Direction d) :
+Agent::Agent(GSpace* space, ObjectIDType id, GType type, PhysicsLayers layers, const string& name, const SpaceVect& pos, Direction d) :
 	GObject(
 		make_shared<object_params>(space, id, name, pos, dirToPhysicsAngle(d)),
-		physics_params(type, defaultSize, 20.0)
+		physics_params(type, layers, defaultSize, 20.0)
 	)
 {
 	space->addValueMapArgs(uuid, {});
@@ -50,6 +50,7 @@ Agent::Agent(
 	GSpace* space,
 	ObjectIDType id,
 	GType type,
+	PhysicsLayers layers,
 	const ValueMap& args,
 	const string& baseAttributes,
 	SpaceFloat radius,
@@ -57,7 +58,7 @@ Agent::Agent(
 ) :
 	GObject(
 		make_shared<object_params>(space, id, args),
-		physics_params(type, radius, mass)
+		physics_params(type, layers, radius, mass)
 	),
 	attributes(baseAttributes)
 {

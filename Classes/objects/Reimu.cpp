@@ -33,7 +33,8 @@ ReimuEnemy::ReimuEnemy(GSpace* space, ObjectIDType id, const ValueMap& args) :
 		baseAttributes,
 		defaultSize,
 		40.0,
-		collectible_id::magic2
+		collectible_id::magic2,
+		false
 	)
 {
 	firePattern = make_shared<ReimuWavePattern>(this);

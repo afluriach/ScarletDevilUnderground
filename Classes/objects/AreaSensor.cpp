@@ -22,14 +22,14 @@
 #include "value_map.hpp"
 
 AreaSensor::AreaSensor(GSpace* space, ObjectIDType id, const ValueMap& args) :
-	GObject(MapParams(), physics_params(GType::areaSensor, args, -1.0))
+	GObject(MapParams(), physics_params(GType::areaSensor, PhysicsLayers::all, args, -1.0))
 {
 }
 
 AreaSensor::AreaSensor(GSpace* space, ObjectIDType id, SpaceVect center, SpaceVect dim) :
 	GObject(
 		make_shared<object_params>(space, id, "", center, 0.0),
-		physics_params(GType::areaSensor, dim, -1.0)
+		physics_params(GType::areaSensor, PhysicsLayers::all, dim, -1.0)
 	)
 {
 }
@@ -74,10 +74,6 @@ void AreaSensor::endContact(GObject* obj)
 	default:
 	break;
 	}
-}
-
-PhysicsLayers AreaSensor::getLayers() const{
-    return PhysicsLayers::all;
 }
 
 bool AreaSensor::isObstructed() const

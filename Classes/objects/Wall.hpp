@@ -17,8 +17,6 @@ public:
 	MapObjCons(Wall);
 	Wall(GSpace* space, ObjectIDType id, SpaceVect center, SpaceVect dimensions);
 	virtual inline ~Wall() {}
-
-    virtual PhysicsLayers getLayers() const;    
 };
 
 class BreakableWall : public Wall

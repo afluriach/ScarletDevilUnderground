@@ -13,7 +13,7 @@
 #include "InventoryObject.hpp"
 
 InventoryObject::InventoryObject(GSpace* space, ObjectIDType id, const ValueMap& args) :
-	InventoryObject(space, id, args, physics_params(GType::playerPickup, 0.5, -1.0))
+	InventoryObject(space, id, args, physics_params(GType::playerPickup, PhysicsLayers::ground, 0.5, -1.0))
 {}
 
 InventoryObject::InventoryObject(GSpace* space, ObjectIDType id, const ValueMap& args, const physics_params& phys) :

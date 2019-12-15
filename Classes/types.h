@@ -237,6 +237,10 @@ enum class PhysicsLayers{
     all = 15
 };
 
+extern const PhysicsLayers onGroundLayers;
+extern const PhysicsLayers eyeLevelHeightLayers;
+extern const PhysicsLayers flyingLayers;
+
 enum class TimerType {
 	begin = 0,
 	gobject = 0,

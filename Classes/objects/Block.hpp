@@ -20,6 +20,5 @@ public:
     virtual GraphicsLayer sceneLayer() const {return GraphicsLayer::ground;}
     
     virtual inline SpaceFloat uk() const {return 0.5;}
-    virtual PhysicsLayers getLayers() const;
 };
 #endif /* Block_hpp */

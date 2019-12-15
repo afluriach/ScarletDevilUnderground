@@ -29,7 +29,6 @@ public:
 	virtual void endContact(GObject* obj);
 
 	virtual inline bool getSensor() const { return true; }
-    virtual PhysicsLayers getLayers() const;
 
 	virtual bool isObstructed() const;
 

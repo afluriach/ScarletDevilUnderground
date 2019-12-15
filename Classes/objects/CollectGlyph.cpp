@@ -15,7 +15,7 @@
 #include "value_map.hpp"
 
 CollectGlyph::CollectGlyph(GSpace* space, ObjectIDType id, const ValueMap& args) :
-	GObject(MapParamsPointUp(), physics_params(GType::environment, args, -1.0))
+	GObject(MapParamsPointUp(), physics_params(GType::environment, PhysicsLayers::ground, args, -1.0))
 {
 	collectScene = space->getSceneAs<Collect>();
 

@@ -23,8 +23,6 @@ public:
     virtual string getSprite() const {return "goal";}
     virtual GraphicsLayer sceneLayer() const {return GraphicsLayer::ground;}
     
-	virtual inline PhysicsLayers getLayers() const { return PhysicsLayers::ground; }
-
 	virtual bool canInteract(Player* p);
 	virtual void interact(Player* p);
 	virtual inline string interactionIcon(Player* p) { return "sprites/ui/goal.png"; }

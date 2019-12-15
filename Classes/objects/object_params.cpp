@@ -55,21 +55,24 @@ object_params::object_params(GSpace* space, ObjectIDType id, const ValueMap& arg
 	}
 }
 
-physics_params::physics_params(GType type, SpaceFloat radius, SpaceFloat mass) :
+physics_params::physics_params(GType type, PhysicsLayers layers, SpaceFloat radius, SpaceFloat mass) :
 	type(type),
+	layers(layers),
 	dimensions(SpaceVect(radius,0.0)),
 	mass(mass)
 {}
 
-physics_params::physics_params(GType type, SpaceVect dimensions, SpaceFloat mass) :
+physics_params::physics_params(GType type, PhysicsLayers layers, SpaceVect dimensions, SpaceFloat mass) :
 	type(type),
+	layers(layers),
 	dimensions(dimensions),
 	mass(mass)
 {}
 
-physics_params::physics_params(GType type, const ValueMap& args, SpaceFloat mass)
+physics_params::physics_params(GType type, PhysicsLayers layers, const ValueMap& args, SpaceFloat mass)
 {
 	this->type = type;
+	this->layers = layers;
 	dimensions = getObjectDimensions(args);
 	this->mass = getFloatOrDefault(args, "mass", mass);
 }

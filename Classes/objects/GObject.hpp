@@ -235,7 +235,7 @@ public:
 	inline virtual SpaceFloat uk() const { return 0.0; }
 	inline GType getType() const { return type; }
 	virtual inline bool getSensor() const { return false; }
-	virtual inline PhysicsLayers getLayers() const { return enum_bitwise_or(PhysicsLayers,floor,ground) ; }
+	inline PhysicsLayers getLayers() const { return layers; }
 
 	inline virtual SpaceFloat getMaxSpeed() const { return 0; }
 	inline virtual SpaceFloat getMaxAcceleration() const { return 0; }
@@ -334,6 +334,7 @@ protected:
 	SpaceVect dimensions;
 	SpaceFloat mass;
 	GType type;
+	PhysicsLayers layers;
 
 	SpaceVect prevPos = SpaceVect::zero;
 	SpaceFloat prevAngle = 0.0;

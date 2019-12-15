@@ -46,7 +46,8 @@ public:
 		const string& baseAttributes,
 		SpaceFloat radius,
 		SpaceFloat mass,
-		collectible_id drop_id
+		collectible_id drop_id,
+		bool isFlying
 	);
 
 	inline virtual ~Enemy() {}
@@ -55,8 +56,6 @@ public:
 
 	virtual bool hit(DamageInfo damage);
 	virtual void onRemove();
-
-	virtual inline GType getType() const { return GType::enemy; }
 protected:
 	collectible_id drop_id = collectible_id::nil;
 };
@@ -75,8 +74,6 @@ public:
 	virtual bool hasEssenceRadar() const;
 	virtual SpaceFloat getRadarRadius() const;
 	virtual SpaceFloat getDefaultFovAngle() const;
-
-	virtual PhysicsLayers getLayers() const;
 
 	virtual string getSprite() const;
 	virtual shared_ptr<LightArea> getLightSource() const;

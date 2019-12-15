@@ -14,10 +14,9 @@
 class FloorSegment : public GObject
 {
 public:
-	FloorSegment(GSpace* space, ObjectIDType id, const ValueMap& args, bool isStatic = true);
+	FloorSegment(GSpace* space, ObjectIDType id, const ValueMap& args, bool isStatic, bool isBelowFloor);
 	virtual ~FloorSegment();
 
-	virtual PhysicsLayers getLayers() const { return PhysicsLayers::floor; }
 	virtual inline bool getSensor() const { return true; }
 
 	virtual inline SpaceFloat getFrictionCoeff() const { return 1.0; }
@@ -98,8 +97,6 @@ public:
 	virtual void onContact(GObject* obj);
 	virtual void onEndContact(GObject* obj);
 	virtual void exclusiveFloorEffect(GObject* obj);
-
-	virtual PhysicsLayers getLayers() const { return PhysicsLayers::belowFloor; }
 };
 
 class WaterFloor : public FloorSegment
@@ -110,8 +107,6 @@ public:
 	virtual void onContact(GObject* obj);
 	virtual void onEndContact(GObject* obj);
 	virtual void exclusiveFloorEffect(GObject* obj);
-
-	virtual PhysicsLayers getLayers() const { return PhysicsLayers::belowFloor; }
 };
 
 #endif /* FloorSegment_hpp */

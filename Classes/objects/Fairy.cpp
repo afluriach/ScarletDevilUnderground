@@ -35,7 +35,8 @@ Fairy2::Fairy2(GSpace* space, ObjectIDType id, const ValueMap& args) :
 		baseAttributes,
 		defaultSize,
 		40.0,
-		collectible_id::hm2
+		collectible_id::hm2,
+		false
 	)
 {}
 

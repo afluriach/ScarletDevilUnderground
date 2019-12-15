@@ -35,7 +35,6 @@ public:
 
 	virtual inline SpaceFloat uk() const { return props->friction; }
 	virtual inline bool getSensor() const { return false; }
-	virtual inline PhysicsLayers getLayers() const { return enum_bitwise_or( PhysicsLayers,ground,floor); }
 	virtual inline GraphicsLayer sceneLayer() const { return GraphicsLayer::ground; }
 
 	virtual void init();

@@ -19,8 +19,6 @@ public:
 	inline virtual string getSprite() const { return "sign"; }
     virtual inline GraphicsLayer sceneLayer() const {return GraphicsLayer::ground;}
 
-	inline virtual PhysicsLayers getLayers() const { return PhysicsLayers::all; }
-
 	//Dialog interaction.
 	virtual bool canInteract(Player* p);
 	virtual void interact(Player* p);

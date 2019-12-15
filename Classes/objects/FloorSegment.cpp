@@ -12,8 +12,21 @@
 #include "GSpace.hpp"
 #include "value_map.hpp"
 
-FloorSegment::FloorSegment(GSpace* space, ObjectIDType id, const ValueMap& args, bool isStatic) :
-	GObject(MapParams(), MapRectPhys(GType::floorSegment, isStatic ? -1.0 : 1.0))
+FloorSegment::FloorSegment(
+	GSpace* space,
+	ObjectIDType id,
+	const ValueMap& args,
+	bool isStatic,
+	bool isBelowFloor
+) :
+	GObject(
+		MapParams(),
+		MapRectPhys(
+			GType::floorSegment,
+			isBelowFloor ? PhysicsLayers::belowFloor : PhysicsLayers::floor,
+			isStatic ? -1.0 : 1.0
+		)
+	)
 {
 }
 
@@ -23,7 +36,7 @@ FloorSegment::~FloorSegment()
 }
 
 FloorSegmentImpl::FloorSegmentImpl(GSpace* space, ObjectIDType id, const ValueMap& args, const string& type) :
-	MapObjForwarding(FloorSegment)
+	FloorSegment(space,id,args, true, false)
 {
 	auto it = app::floors.find(type);
 	if (it != app::floors.end()) {
@@ -46,7 +59,7 @@ string FloorSegmentImpl::getFootstepSfx() const {
 const SpaceFloat MovingPlatform::defaultSpeed = 1.0;
 
 MovingPlatform::MovingPlatform(GSpace* space, ObjectIDType id, const ValueMap& args) :
-	FloorSegment(space,id,args,false)
+	FloorSegment(space,id,args,false, false)
 {
 	pathName = getStringOrDefault(args, "path", "");
 }
@@ -118,7 +131,7 @@ MovingPlatform(space, id, args)
 }
 
 PressurePlate::PressurePlate(GSpace* space, ObjectIDType id, const ValueMap& args) :
-	FloorSegment(space, id, args)
+	FloorSegment(space, id, args, true, false)
 {
 	targetNames = splitString(getStringOrDefault(args, "target", ""), " ");
 }
@@ -166,7 +179,7 @@ void PressurePlate::onEndContact(GObject* obj)
 }
 
 Pitfall::Pitfall(GSpace* space, ObjectIDType id, const ValueMap& args) :
-FloorSegment(space,id,args)
+FloorSegment(space,id,args, true, true)
 {
 }
 
@@ -184,7 +197,7 @@ void Pitfall::exclusiveFloorEffect(GObject* obj)
 }
 
 WaterFloor::WaterFloor(GSpace* space, ObjectIDType id, const ValueMap& args) :
-	FloorSegment(space, id, args)
+	FloorSegment(space, id, args, true, true)
 {
 }
 
