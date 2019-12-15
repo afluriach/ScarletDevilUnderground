@@ -234,7 +234,7 @@ public:
 	SpaceFloat getRadius() const;
 	inline virtual SpaceFloat uk() const { return 0.0; }
 	inline GType getType() const { return type; }
-	virtual inline bool getSensor() const { return false; }
+	inline bool getSensor() const { return sensor; }
 	inline PhysicsLayers getLayers() const { return layers; }
 
 	inline virtual SpaceFloat getMaxSpeed() const { return 0; }
@@ -322,6 +322,7 @@ protected:
 	bool isInFade = false;
 	bool inhibitSpellcasting = false;
 	bool isFrozen = false;
+	bool sensor = false;
 
 //logic
 	unique_ptr<ai::StateMachine> fsm;

@@ -28,8 +28,6 @@ public:
 	virtual void beginContact(GObject* obj);
 	virtual void endContact(GObject* obj);
 
-	virtual inline bool getSensor() const { return true; }
-
 	virtual bool isObstructed() const;
 
 	virtual void onPlayerContact(Player*);

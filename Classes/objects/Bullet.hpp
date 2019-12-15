@@ -70,8 +70,6 @@ public:
 	);
 	inline virtual ~Bullet() {}
 
-	virtual inline bool getSensor() const { return true; }
-
 	virtual void initializeGraphics();
 	virtual inline GraphicsLayer sceneLayer() const { return GraphicsLayer::ground; }
 

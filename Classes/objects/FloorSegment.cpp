@@ -21,7 +21,7 @@ FloorSegment::FloorSegment(
 ) :
 	GObject(
 		MapParams(),
-		MapRectPhys(
+		MapRectPhysSensor(
 			GType::floorSegment,
 			isBelowFloor ? PhysicsLayers::belowFloor : PhysicsLayers::floor,
 			isStatic ? -1.0 : 1.0

@@ -34,7 +34,6 @@ public:
 	inline virtual ~Bomb() {}
 
 	virtual inline SpaceFloat uk() const { return props->friction; }
-	virtual inline bool getSensor() const { return false; }
 	virtual inline GraphicsLayer sceneLayer() const { return GraphicsLayer::ground; }
 
 	virtual void init();

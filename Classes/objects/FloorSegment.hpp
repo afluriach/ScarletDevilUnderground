@@ -17,8 +17,6 @@ public:
 	FloorSegment(GSpace* space, ObjectIDType id, const ValueMap& args, bool isStatic, bool isBelowFloor);
 	virtual ~FloorSegment();
 
-	virtual inline bool getSensor() const { return true; }
-
 	virtual inline SpaceFloat getFrictionCoeff() const { return 1.0; }
 	
 	virtual inline string getFootstepSfx() const { return ""; }

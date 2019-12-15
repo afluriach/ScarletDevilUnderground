@@ -201,7 +201,7 @@ BulletImpl::BulletImpl(
 	Bullet(
 		params,
 		attributes,
-		physics_params(attributes.type, PhysicsLayers::ground, props->dimensions, 0.0)
+		physics_params(attributes.type, PhysicsLayers::ground, props->dimensions, 0.0, true)
 	),
 	props(props)
 {
