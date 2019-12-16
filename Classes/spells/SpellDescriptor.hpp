@@ -15,7 +15,6 @@ class Spell;
 #include "spell_types.hpp"
 
 make_static_member_detector(cost)
-make_static_member_detector(costType)
 make_static_member_detector(icon)
 
 class SpellDesc
@@ -25,8 +24,7 @@ public:
 	virtual string getDescription() const = 0;
 	virtual string getIcon() const = 0;
 
-	virtual float getCost() const = 0;
-	virtual SpellCostType getCostType() const = 0;
+	virtual spell_cost getCost() const = 0;
 
 	virtual shared_ptr<Spell> generate(GObject* caster) = 0;
 	virtual SpellGeneratorType getGenerator() = 0;
@@ -47,18 +45,11 @@ public:
 			return "";
 	}
 
-	virtual inline float getCost() const {
+	virtual inline spell_cost getCost() const {
 		if constexpr(has_cost<T>::value)
 			return T::cost;
 		else
-			return 0.0f;
-	}
-
-	virtual inline SpellCostType getCostType() const {
-		if constexpr(has_costType<T>::value)
-			return T::costType;
-		else
-			return SpellCostType::none;
+			return spell_cost{};
 	}
 
 	virtual inline shared_ptr<Spell> generate(GObject* caster)

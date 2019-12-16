@@ -9,15 +9,18 @@
 #ifndef spell_types_hpp
 #define spell_types_hpp
 
-enum class SpellCostType
+struct spell_cost
 {
-	none = 0,
+	float initial_mp = 0.0f;
+	float initial_stamina = 0.0f;
 
-	mp = 1,
-	stamina = 2,
+	//units per second
+	float ongoing_mp = 0.0f;
+	float ongoing_stamina = 0.0f;
 
-	initial = 4,
-	ongoing = 8,
+	static spell_cost initialMP(float mp);
+	static spell_cost initialStamina(float stamina);
+	static spell_cost ongoingMP(float mp);
 };
 
 #endif /* spell_types_hpp */

@@ -750,28 +750,26 @@ bool GObject::cast(shared_ptr<Spell> spell)
 		crntSpell->end();
 	}
 	spell->init();
-	crntSpell = spell;
+
+	if (spell->length != 0.0) {
+		crntSpell = spell;
+		crntSpell->crntState = Spell::state::active;
+	}
 
 	return true;
 }
 
 void GObject::stopSpell()
 {
-	if (crntSpell.get())
-		crntSpell->end();
-	crntSpell.reset();
+	if (crntSpell.get()) {
+		crntSpell->runEnd();
+	}
 }
 
 void GObject::updateSpells()
 {
 	if (crntSpell.get()) {
-		if (crntSpell->isActive()) {
-			crntSpell->update();
-		}
-		else {
-			crntSpell->end();
-			crntSpell = nullptr;
-		}
+		crntSpell->runUpdate();
 	}
 }
 

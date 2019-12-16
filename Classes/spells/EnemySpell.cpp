@@ -26,7 +26,7 @@ const string TorchDarkness::name = "TorchDarkness";
 const string TorchDarkness::description = "";
 
 TorchDarkness::TorchDarkness(GObject* caster) :
-	Spell(caster)
+	Spell(caster, -1.0, 0.0)
 {}
 
 void TorchDarkness::update()
@@ -58,7 +58,7 @@ const SpaceFloat BlueFairyBomb::radius = 2.5;
 const SpaceFloat BlueFairyBomb::angularSpeed = float_pi * 0.5;
 
 BlueFairyBomb::BlueFairyBomb(GObject* caster) :
-	Spell(caster)
+	Spell(caster, BlueFairyBomb::length, 0.0)
 {}
 
 void BlueFairyBomb::init()
@@ -74,51 +74,15 @@ void BlueFairyBomb::init()
 
 void BlueFairyBomb::update()
 {
-	timerIncrement(timer);
-
 	getSpace()->graphicsNodeAction(
 		&Node::setRotation,
 		sprite,
-		toCocosAngle(canonicalAngle(angularSpeed * timer))
+		toCocosAngle(canonicalAngle(angularSpeed * t))
 	);
 	radialEffectArea(caster, radius, GType::player, damage);
-
-	if (timer >= length)
-		active = false;
 }
 
 void BlueFairyBomb::end()
 {
 	getSpace()->addGraphicsAction(&graphics_context::removeSprite, sprite);
-}
-
-const string GreenFairyPowerAttack::name = "GreenFairyPowerAttack";
-const string GreenFairyPowerAttack::description = "";
-
-int GreenFairyPowerAttack::spawn()
-{
-	int spawnCount = 0;
-	SpaceFloat angleStep = float_pi * 2.0 / bulletsPerWave;
-
-	for_irange(i, 0, bulletsPerWave){
-		 spawnCount += to_int(getCasterAs<Agent>()->bulletImplCheckSpawn(
-			Bullet::makeParams(caster->getPos(),angleStep * i),
-			 app::getBullet("greenFairyBullet")
-		).isFuture());
-	}
-	return spawnCount;
-}
-
-void GreenFairyPowerAttack::update()
-{
-	timerIncrement(timer);
-
-	if (timer >= interval)
-	{
-		spawn();
-		timer -= interval;
-		++wavesFired;
-
-		active = (wavesFired < waveCount);
-	}
 }

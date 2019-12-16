@@ -15,7 +15,6 @@
 
 const string StarlightTyphoon::name = "StarlightTyphoon";
 const string StarlightTyphoon::description = "";
-const float StarlightTyphoon::cost = 0.0f;
 
 const SpaceFloat StarlightTyphoon::width = float_pi / 4.0;
 const SpaceFloat StarlightTyphoon::duration = 1.0;
@@ -34,7 +33,7 @@ const vector<string> StarlightTyphoon::colors = {
 };
 
 StarlightTyphoon::StarlightTyphoon(GObject* caster) :
-	Spell(caster)
+	Spell(caster, duration, 0.0)
 {
 	angle = caster->getAngle();
 
@@ -70,15 +69,10 @@ void StarlightTyphoon::fire()
 void StarlightTyphoon::update()
 {
 	accumulator += shotsPerFrame;
-	timerIncrement(elapsed);
 
 	while (accumulator >= 1) {
 		fire();
 		accumulator -= 1;
-	}
-
-	if (elapsed > duration) {
-		caster->stopSpell();
 	}
 }
 

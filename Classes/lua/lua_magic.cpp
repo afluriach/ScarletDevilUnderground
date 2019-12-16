@@ -17,6 +17,7 @@
 #include "Player.hpp"
 #include "Spell.hpp"
 #include "SpellDescriptor.hpp"
+#include "spell_types.hpp"
 
 template<typename T, typename... Params>
 shared_ptr<MagicEffect> createEffect(Params... params)
@@ -82,18 +83,16 @@ namespace Lua{
 		);
 		drainFromMovement["create"] = &createEffect<DrainFromMovement, Agent*, Attribute, float>;
 
-		_state.new_enum<SpellCostType, true>(
-			"SpellCostType",
-			{
-				enum_entry(SpellCostType, none),
+		auto spellcost = _state.new_usertype<spell_cost>("spell_cost");
+#define _cls spell_cost
+		addFuncSame(spellcost, initial_mp);
+		addFuncSame(spellcost, initial_stamina);
+		addFuncSame(spellcost, ongoing_mp);
+		addFuncSame(spellcost, ongoing_stamina);
 
-				enum_entry(SpellCostType, mp),
-				enum_entry(SpellCostType, stamina),
-
-				enum_entry(SpellCostType, initial),
-				enum_entry(SpellCostType, ongoing),
-			}
-		);
+		addFuncSame(spellcost, initialMP);
+		addFuncSame(spellcost, initialStamina);
+		addFuncSame(spellcost, ongoingMP);
 
 		auto spell = _state.new_usertype<Spell>("Spell");
 #define _cls Spell
@@ -114,7 +113,6 @@ namespace Lua{
 		addFuncSame(spell_desc, getIcon);
 
 		addFuncSame(spell_desc, getCost);
-		addFuncSame(spell_desc, getCostType);
 
 		addFuncSame(spell_desc, generate);
 		addFuncSame(spell_desc, getGenerator);

@@ -31,6 +31,7 @@ class GObject
 {
 public:
 	friend class GSpace;
+	friend class Spell;
 
 	typedef function<GObject*(GSpace*, ObjectIDType, const ValueMap&) > AdapterType;
 

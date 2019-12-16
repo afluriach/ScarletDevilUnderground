@@ -11,11 +11,10 @@
 
 #include "Spell.hpp"
 
-class FireStarburst : public PeriodicSpell {
+class FireStarburst : public Spell {
 public:
 	static const string name;
 	static const string description;
-	static const float cost;
 
 	static constexpr float bulletSpeed = 6.0f;
 
@@ -23,11 +22,8 @@ public:
 	inline virtual ~FireStarburst() {}
 
 	GET_DESC(FireStarburst)
-	inline virtual void init() {}
-	inline virtual void end() {}
 
-	inline virtual float interval() const { return 0.5f; }
-	virtual void runPeriodic();
+	virtual void update();
 protected:
 	shared_ptr<bullet_properties> bulletProps;
 };
@@ -36,14 +32,12 @@ class FlameFence : public Spell {
 public:
 	static const string name;
 	static const string description;
-	static const float cost;
 
 	FlameFence(GObject* caster);
 	inline virtual ~FlameFence() {}
 
 	GET_DESC(FlameFence)
 	virtual void init();
-	virtual void update();
 	virtual void end();
 protected:
 	vector<gobject_ref> bullets;
@@ -54,7 +48,6 @@ class Whirlpool1 : public Spell {
 public:
 	static const string name;
 	static const string description;
-	static const float cost;
 
 	static const int shotsPerSecond;
 
@@ -78,7 +71,6 @@ class Whirlpool2 : public Spell {
 public:
 	static const string name;
 	static const string description;
-	static const float cost;
 
 	static const int shotsPerSecond;
 
@@ -97,6 +89,5 @@ protected:
 	SpaceFloat shotTimer = 0.0;
 	shared_ptr<bullet_properties> bulletProps;
 };
-
 
 #endif /* PatchouliSpell_hpp */

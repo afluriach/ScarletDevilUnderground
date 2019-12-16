@@ -236,19 +236,9 @@ bool Agent::cast(shared_ptr<Spell> spell)
 {
 	if (!spell->getDescriptor()) return GObject::cast(spell);
 
-	float cost = spell->getDescriptor()->getCost();
-	SpellCostType costType = spell->getDescriptor()->getCostType();
-
-	if (cost == 0.0f || costType == SpellCostType::none)
-		return GObject::cast(spell);
-
-	float mpCost = cost *
-		bitwise_and_bool(costType, SpellCostType::mp) *
-		bitwise_and_bool(costType, SpellCostType::initial);
-
-	float staminaCost = cost *
-		bitwise_and_bool(costType, SpellCostType::stamina) *
-		bitwise_and_bool(costType, SpellCostType::initial);
+	spell_cost cost = spell->getDescriptor()->getCost();
+	float mpCost = cost.initial_mp;
+	float staminaCost = cost.initial_stamina;
 
 	if (mpCost > attributeSystem[Attribute::mp] || staminaCost > attributeSystem[Attribute::stamina])
 		return false;
@@ -269,21 +259,9 @@ void Agent::updateSpells()
 	};
 	if (!crntSpell->getDescriptor()) return;
 
-	float cost = crntSpell->getDescriptor()->getCost();
-	SpellCostType costType = crntSpell->getDescriptor()->getCostType();
-
-	if (cost == 0.0f || costType == SpellCostType::none) return;
-
-	float mpCost =
-		bitwise_and_bool(costType, SpellCostType::mp) *
-		bitwise_and_bool(costType, SpellCostType::ongoing) *
-		cost * app::params.secondsPerFrame
-	;
-	float staminaCost =
-		bitwise_and_bool(costType, SpellCostType::stamina) *
-		bitwise_and_bool(costType, SpellCostType::ongoing) *
-		cost * app::params.secondsPerFrame
-	;
+	spell_cost cost = crntSpell->getDescriptor()->getCost();
+	float mpCost = cost.ongoing_mp * app::params.secondsPerFrame;
+	float staminaCost = cost.ongoing_stamina * app::params.secondsPerFrame;
 
 	if (mpCost > attributeSystem[Attribute::mp] || staminaCost > attributeSystem[Attribute::stamina]) {
 		stopSpell();

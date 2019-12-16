@@ -9,6 +9,8 @@
 #ifndef Spell_hpp
 #define Spell_hpp
 
+#include "spell_types.hpp"
+
 #define STANDARD_CONS(name) inline name(GObject* caster) : Spell(caster) {}
 #define GET_DESC(name) virtual inline shared_ptr<SpellDesc> getDescriptor() { return Spell::getDescriptorByName(#name); }
 
@@ -20,13 +22,25 @@ class Torch;
 class Spell
 {
 public:
+	friend class GObject;
+
+	enum class state
+	{
+		created = 1,
+		active,
+		ending,
+		expired,
+	};
+
     static const unordered_map<string,shared_ptr<SpellDesc>> spellDescriptors;
 	static const vector<string> playerSpells;
 	static const vector<string> playerPowerAttacks;
 
 	static shared_ptr<SpellDesc> getDescriptorByName(const string& name);
 
-	Spell(GObject* caster);
+	//length: -1 means indefinite, 0 means immediate
+	//updateInterval: -1 means no update, 0 means every frame, units in seconds.
+	Spell(GObject* caster, SpaceFloat length, SpaceFloat updateInterval, spell_cost cost = spell_cost{});
 	virtual ~Spell();
     
 	bool isActive() const;
@@ -40,12 +54,22 @@ public:
 
 	virtual shared_ptr<SpellDesc> getDescriptor() = 0;
 
-    virtual void init() = 0;
-    virtual void update() = 0;
-    virtual void end() = 0;
+	inline virtual void init() {}
+	inline virtual void update() {}
+	inline virtual void end() {}
 protected:
+	void runUpdate();
+	void runEnd();
+
+	spell_cost _cost;
+	SpaceFloat length;
+	SpaceFloat updateInterval;
+
+	SpaceFloat t = 0.0;
+	SpaceFloat lastUpdate = 0.0;
+
     GObject* caster;
-    bool active = true;
+	state crntState = state::created;
 };
 
 template<class C>
@@ -55,18 +79,5 @@ inline static SpellGeneratorType make_spell_generator()
 		return make_shared<C>(caster);
 	};
 }
-
-class PeriodicSpell : public Spell{
-public:
-
-	inline PeriodicSpell(GObject* caster) : Spell(caster) {}
-	inline virtual ~PeriodicSpell() {}
-
-    virtual float interval() const = 0;
-    virtual void runPeriodic() = 0;
-	void update();
-protected:
-    float timeSince = 0;
-};
 
 #endif /* Spell_hpp */

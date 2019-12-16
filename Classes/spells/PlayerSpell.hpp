@@ -14,28 +14,12 @@
 
 class BulletImpl;
 
-//Apply power drain and deactive spell if applicable
-class PlayerSpell : public Spell {
-public:
-	inline PlayerSpell(GObject* caster) : Spell(caster) {}
-	inline virtual ~PlayerSpell() {}
-
-	virtual void init();
-	virtual void update();
-	virtual void end();
-
-	virtual SpaceFloat getLength() const = 0;
-protected:
-	SpaceFloat timeInSpell = 0.0;
-};
-
-class PlayerBatMode : public PlayerSpell{
+class PlayerBatMode : public Spell{
 public:
 	static const string name;
 	static const string description;
 	static const string icon;
-	static const float cost;
-	static const SpellCostType costType;
+	static const spell_cost cost;
 
 	PlayerBatMode(GObject* caster);
 	inline virtual ~PlayerBatMode() {}
@@ -43,18 +27,15 @@ public:
 	GET_DESC(PlayerBatMode)
     virtual void init();
     virtual void end();
-
-	inline virtual SpaceFloat getLength() const { return -1.0; }
 };
 
-class LavaeteinnSpell : public PlayerSpell
+class LavaeteinnSpell : public Spell
 {
 public:
 	static const string name;
 	static const string description;
 	static const string icon;
-	static const float cost;
-	static const SpellCostType costType;
+	static const spell_cost cost;
 
 	static const SpaceFloat length;
 	static const SpaceFloat angleWidth;
@@ -69,8 +50,6 @@ public:
 	virtual void init();
 	virtual void update();
 	virtual void end();
-
-	inline virtual SpaceFloat getLength() const { return length; }
 protected:
 	gobject_ref lavaeteinnBullet;
 	SpaceFloat fireTimer;
@@ -78,13 +57,12 @@ protected:
 	SpaceFloat speedScale;
 };
 
-class PlayerCounterClock : public PlayerSpell {
+class PlayerCounterClock : public Spell {
 public:
 	static const string name;
 	static const string description;
 	static const string icon;
-	static const float cost;
-	static const SpellCostType costType;
+	static const spell_cost cost;
 
 	static const SpaceFloat offset;
 	static const SpaceFloat angular_speed;
@@ -96,20 +74,17 @@ public:
 	virtual void init();
 	virtual void update();
 	virtual void end();
-
-	inline virtual SpaceFloat getLength() const { return -1.0; }
 protected:
 	array<object_ref<BulletImpl>, 4> bullets;
 	SpaceFloat angular_pos = 0.0;
 };
 
-class PlayerScarletRose : public PlayerSpell {
+class PlayerScarletRose : public Spell {
 public:
 	static const string name;
 	static const string description;
 	static const string icon;
-	static const float cost;
-	static const SpellCostType costType;
+	static const spell_cost cost;
 
 	static const SpaceFloat fireInterval;
 	static const int fireCount;
@@ -130,8 +105,6 @@ public:
 	virtual void update();
 	virtual void end();
 
-	inline virtual SpaceFloat getLength() const { return 4.0; }
-
 	const SpaceVect origin;
 	unordered_set<gobject_ref> bullets;
 	SpaceFloat timer = 0.0;
@@ -140,28 +113,25 @@ protected:
 	shared_ptr<bullet_properties> props;
 };
 
-class PlayerDarkMist : public PlayerSpell {
+class PlayerDarkMist : public Spell {
 public:
 	static const string name;
 	static const string description;
-	static const float cost;
+	static const spell_cost cost;
 
 	PlayerDarkMist(GObject* caster);
 
 	GET_DESC(PlayerDarkMist)
 	virtual void init();
 	virtual void end();
-
-	inline virtual SpaceFloat getLength() const { return -1.0; }
 };
 
-class PlayerIceShield : public PlayerSpell {
+class PlayerIceShield : public Spell {
 public:
 	static const string name;
 	static const string description;
 	static const string icon;
-	static const float cost;
-	static const SpellCostType costType;
+	static const spell_cost cost;
 
 	static constexpr size_t bulletCount = 8;
 	static const SpaceFloat speed;
@@ -176,8 +146,6 @@ public:
 	virtual void init();
 	virtual void update();
 	virtual void end();
-
-	inline virtual SpaceFloat getLength() const { return -1.0; }
 protected:
 	array<object_ref<BulletImpl>, bulletCount> bullets;
 	shared_ptr<bullet_properties> props;

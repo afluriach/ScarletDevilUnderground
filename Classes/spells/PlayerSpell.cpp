@@ -14,44 +14,17 @@
 #include "Player.hpp"
 #include "PlayerSpell.hpp"
 
-void PlayerSpell::init()
-{
-}
-
-void PlayerSpell::update()
-{
-	timerIncrement(timeInSpell);
-	SpaceFloat length = getLength();
-
-	if(length >= 0.0 && timeInSpell >= length) {
-		active = false;
-	}
-}
-
-void PlayerSpell::end()
-{
-	Player* p = getCasterAs<Player>();
-
-	if (p) {
-		p->onSpellStop();
-	}
-}
-
 const string PlayerBatMode::name = "PlayerBatMode";
 const string PlayerBatMode::description = "";
 const string PlayerBatMode::icon = "sprites/ui/bat_mode.png";
-const float PlayerBatMode::cost = 5.0f;
-const SpellCostType PlayerBatMode::costType = enum_bitwise_or(SpellCostType, mp, ongoing);
-
+const spell_cost PlayerBatMode::cost = spell_cost::ongoingMP(5.0f);
 
 PlayerBatMode::PlayerBatMode(GObject* caster) :
-	PlayerSpell(caster)
+	Spell(caster, -1.0, -1.0, PlayerBatMode::cost)
 {}
 
 void PlayerBatMode::init()
 {
-	PlayerSpell::init();
-
 	Player* p = getCasterAs<Player>();
 
 	if (p) {
@@ -67,8 +40,6 @@ void PlayerBatMode::init()
 
 void PlayerBatMode::end()
 {
-	PlayerSpell::end();
-
 	Player* p = getCasterAs<Player>();
 
 	if (p) {
@@ -85,8 +56,7 @@ void PlayerBatMode::end()
 const string LavaeteinnSpell::name = "LavaeteinnSpell";
 const string LavaeteinnSpell::description = "";
 const string LavaeteinnSpell::icon = "sprites/ui/lavaeteinn.png";
-const float LavaeteinnSpell::cost = 12.5f;
-const SpellCostType LavaeteinnSpell::costType = enum_bitwise_or(SpellCostType, stamina, initial);
+const spell_cost LavaeteinnSpell::cost = spell_cost::initialStamina(12.5f);
 
 const SpaceFloat LavaeteinnSpell::length = 2.0 / 3.0;
 const SpaceFloat LavaeteinnSpell::angleWidth = float_pi / 2.0;
@@ -94,13 +64,11 @@ const SpaceFloat LavaeteinnSpell::angular_speed = angleWidth * 2.0 / length;
 const int LavaeteinnSpell::bulletSpawnCount = 8;
 
 LavaeteinnSpell::LavaeteinnSpell(GObject* caster) :
-	PlayerSpell(caster)
+	Spell(caster, LavaeteinnSpell::length, 0.0, LavaeteinnSpell::cost)
 {}
 
 void LavaeteinnSpell::init()
 {
-	PlayerSpell::init();
-
 	SpaceFloat angle = canonicalAngle(caster->getAngle() - angleWidth);
 	SpaceVect pos = caster->getPos() + SpaceVect::ray(1.5, angle);
 	speedScale = getCasterAs<Agent>()->getAttribute(Attribute::attackSpeed);
@@ -120,8 +88,6 @@ void LavaeteinnSpell::init()
 
 void LavaeteinnSpell::update()
 {
-	PlayerSpell::update();
-
 	timerDecrement(fireTimer);
 	timerIncrement(angularPos, angular_speed * speedScale);
 
@@ -146,8 +112,6 @@ void LavaeteinnSpell::update()
 
 void LavaeteinnSpell::end()
 {
-	PlayerSpell::end();
-
 	if (lavaeteinnBullet.isValid()) {
 		getSpace()->removeObject(lavaeteinnBullet);
 	}
@@ -156,20 +120,17 @@ void LavaeteinnSpell::end()
 const string PlayerCounterClock::name = "PlayerCounterClock";
 const string PlayerCounterClock::description = "";
 const string PlayerCounterClock::icon = "sprites/ui/counterclock.png";
-const float PlayerCounterClock::cost = 7.5f;
-const SpellCostType PlayerCounterClock::costType = enum_bitwise_or(SpellCostType, mp, ongoing);
+const spell_cost PlayerCounterClock::cost = spell_cost::ongoingMP(7.5f);
 
 const SpaceFloat PlayerCounterClock::offset = 0.75;
 const SpaceFloat PlayerCounterClock::angular_speed = 9.0;
 
 PlayerCounterClock::PlayerCounterClock(GObject* caster) :
-	PlayerSpell(caster)
+	Spell(caster, -1.0, 0.0, PlayerCounterClock::cost)
 {}
 
 void PlayerCounterClock::init()
 {
-	PlayerSpell::init();
-
 	Player* p = getCasterAs<Player>();
 	SpaceVect pos = caster->getPos();
 	auto props = app::getBullet("flandreCounterClockBullet");
@@ -192,7 +153,6 @@ void PlayerCounterClock::init()
 
 void PlayerCounterClock::update()
 {
-	PlayerSpell::update();
 	angular_pos += angular_speed * app::params.secondsPerFrame;
 
 	SpaceVect pos = caster->getPos();
@@ -210,8 +170,6 @@ void PlayerCounterClock::update()
 
 void PlayerCounterClock::end()
 {
-	PlayerSpell::end();
-
 	Player* p = getCasterAs<Player>();
 
 	if (p) {
@@ -229,8 +187,7 @@ void PlayerCounterClock::end()
 const string PlayerScarletRose::name = "PlayerScarletRose";
 const string PlayerScarletRose::description = "";
 const string PlayerScarletRose::icon = "sprites/ui/scarlet_rose.png";
-const float PlayerScarletRose::cost = 15.0f;
-const SpellCostType PlayerScarletRose::costType = enum_bitwise_or(SpellCostType, mp, initial);
+const spell_cost PlayerScarletRose::cost = spell_cost::initialMP(15.0f);
 
 const SpaceFloat PlayerScarletRose::fireInterval = 0.2;
 const int PlayerScarletRose::fireCount = 6;
@@ -247,7 +204,7 @@ SpaceVect PlayerScarletRose::parametric_motion(SpaceFloat t)
 }
 
 PlayerScarletRose::PlayerScarletRose(GObject* caster) :
-	PlayerSpell(caster),
+	Spell(caster, 4.0, fireInterval, PlayerScarletRose::cost),
 	origin(caster->getPos())
 {
 	props = app::getBullet("flandrePolarBullet");
@@ -255,11 +212,7 @@ PlayerScarletRose::PlayerScarletRose(GObject* caster) :
 
 void PlayerScarletRose::update()
 {
-	PlayerSpell::update();
-
-	timerIncrement(timer);
-
-	if (timer >= fireInterval && launchCount < fireCount) {
+	if (launchCount < fireCount) {
 		for_irange(i, 0, 8) {
 			SpaceFloat t = float_pi / B * i;
 			gobject_ref ref = getSpace()->createObject<BulletImpl>(
@@ -282,8 +235,6 @@ void PlayerScarletRose::update()
 
 void PlayerScarletRose::end()
 {
-	PlayerSpell::end();
-
 	for (auto ref : bullets) {
 		if (ref.isValid())
 			getSpace()->removeObject(ref);
@@ -292,24 +243,20 @@ void PlayerScarletRose::end()
 
 const string PlayerDarkMist::name = "PlayerDarkMist";
 const string PlayerDarkMist::description = "";
-const float PlayerDarkMist::cost = 7.5f;
+const spell_cost PlayerDarkMist::cost = spell_cost::ongoingMP(7.5f);
 
 PlayerDarkMist::PlayerDarkMist(GObject* caster) :
-	PlayerSpell(caster)
+	Spell(caster, -1.0, -1.0)
 {}
 
 void PlayerDarkMist::init()
 {
-	PlayerSpell::init();
-
 	caster->setSpriteOpacity(to_uchar(128));
 	caster->setInvisible(true);
 }
 
 void PlayerDarkMist::end()
 {
-	PlayerSpell::end();
-
 	caster->setSpriteOpacity(to_uchar(255));
 	caster->setInvisible(false);
 }
@@ -317,8 +264,7 @@ void PlayerDarkMist::end()
 const string PlayerIceShield::name = "PlayerIceShield";
 const string PlayerIceShield::description = "";
 const string PlayerIceShield::icon = "sprites/ui/ice_shield.png";
-const float PlayerIceShield::cost = 12.5f;
-const SpellCostType PlayerIceShield::costType = enum_bitwise_or3(SpellCostType, mp, initial, ongoing);
+const spell_cost PlayerIceShield::cost = spell_cost::initialMP(12.5f);
 
 const SpaceFloat PlayerIceShield::speed = 9.0;
 
@@ -327,15 +273,13 @@ const SpaceFloat PlayerIceShield::circumference = 2.0 * float_pi * distance;
 const SpaceFloat PlayerIceShield::inv_circumference = 1.0 / circumference;
 
 PlayerIceShield::PlayerIceShield(GObject* caster) :
-	PlayerSpell(caster)
+	Spell(caster, -1.0, 0.0, PlayerIceShield::cost)
 {
 	props = app::getBullet("cirnoIceShieldBullet");
 }
 
 void PlayerIceShield::init()
 {
-	PlayerSpell::init();
-
 	SpaceVect origin = caster->getPos();
 
 	for_irange(i,0,bulletCount)
@@ -353,8 +297,6 @@ void PlayerIceShield::init()
 
 void PlayerIceShield::update()
 {
-	PlayerSpell::update();
-
 	//Update angle based on linear speed
 	SpaceFloat dp = app::params.secondsPerFrame * speed;
 	crntAngle += dp * inv_circumference * float_pi * 2.0;
@@ -381,8 +323,6 @@ void PlayerIceShield::update()
 
 void PlayerIceShield::end()
 {
-	PlayerSpell::end();
-
 	for (auto ref : bullets)
 	{
 		if (ref.isValid()) {

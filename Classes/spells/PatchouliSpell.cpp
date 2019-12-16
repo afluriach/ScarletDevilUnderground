@@ -15,17 +15,16 @@
 
 const string FireStarburst::name = "FireStarburst";
 const string FireStarburst::description = "";
-const float FireStarburst::cost = 0.0f;
 
 FireStarburst::FireStarburst(GObject* caster) : 
-	PeriodicSpell(caster)
+	Spell(caster, -1.0, 0.5)
 {
 	bulletProps = make_shared<bullet_properties>();
 	*bulletProps = *app::getBullet("fireBullet");
 	bulletProps->speed = bulletSpeed;
 }
 
-void FireStarburst::runPeriodic()
+void FireStarburst::update()
 {
 	SpaceVect pos = caster->getPos();
 	for_irange(i, 0, 8)
@@ -44,10 +43,9 @@ void FireStarburst::runPeriodic()
 
 const string FlameFence::name = "FlameFence";
 const string FlameFence::description = "";
-const float FlameFence::cost = 0.0f;
 
 FlameFence::FlameFence(GObject* caster) :
-	Spell(caster)
+	Spell(caster, -1.0, 0)
 {
 	bulletProps = make_shared<bullet_properties>();
 	*bulletProps = *app::getBullet("fireBullet");
@@ -76,10 +74,6 @@ void FlameFence::init()
 	}
 }
 
-void FlameFence::update()
-{
-}
-
 void FlameFence::end()
 {
 	for (gobject_ref bullet : bullets) {
@@ -90,7 +84,6 @@ void FlameFence::end()
 
 const string Whirlpool1::name = "Whirlpool1";
 const string Whirlpool1::description = "";
-const float Whirlpool1::cost = 0.0f;
 
 const int Whirlpool1::shotsPerSecond = 4;
 
@@ -99,7 +92,7 @@ const SpaceFloat Whirlpool1::angularOffset = float_pi / 12.0;
 const SpaceFloat Whirlpool1::bulletSpeed = 6.0;
 
 Whirlpool1::Whirlpool1(GObject* caster) :
-	Spell(caster)
+	Spell(caster, -1.0, 0.0)
 {
 	bulletProps = make_shared<bullet_properties>();
 	*bulletProps = *app::getBullet("waterBullet");
@@ -149,7 +142,6 @@ void Whirlpool1::end()
 
 const string Whirlpool2::name = "Whirlpool2";
 const string Whirlpool2::description = "";
-const float Whirlpool2::cost = 0.0f;
 
 const int Whirlpool2::shotsPerSecond = 6;
 
@@ -158,7 +150,7 @@ const SpaceFloat Whirlpool2::angularOffset = float_pi / 10.0;
 const SpaceFloat Whirlpool2::bulletSpeed = 7.5;
 
 Whirlpool2::Whirlpool2(GObject* caster) :
-	Spell(caster)
+	Spell(caster, -1.0, 0.0)
 {
 	bulletProps = make_shared<bullet_properties>();
 	*bulletProps = *app::getBullet("waterBullet");

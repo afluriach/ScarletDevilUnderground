@@ -31,7 +31,7 @@ const float IllusionDial::max_angle_margin = float_pi / 12.0f;
 const float IllusionDial::min_fire_interval = 1.0f / 3.0f;
 
 IllusionDial::IllusionDial(GObject* caster) :
-	Spell(caster),
+	Spell(caster, -1.0, 0.0),
 	bullets(count),
 	launch_flags(count, false)
 {}
@@ -93,8 +93,7 @@ void IllusionDial::update()
 		}
 		else if (allBulletsConsumed)
 		{
-			//Deactivate spell if all bullets are consumed.
-			active = false;
+			runEnd();
 		}
 	}
 }
