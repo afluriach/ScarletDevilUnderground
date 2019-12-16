@@ -1720,15 +1720,6 @@ public:
     
     virtual void setOpacityModifyRGB(bool value) {CC_UNUSED_PARAM(value);}
     virtual bool isOpacityModifyRGB() const { return false; };
-
-    void setOnEnterCallback(const std::function<void()>& callback) { _onEnterCallback = callback; }
-    const std::function<void()>& getOnEnterCallback() const { return _onEnterCallback; }   
-    void setOnExitCallback(const std::function<void()>& callback) { _onExitCallback = callback; }
-    const std::function<void()>& getOnExitCallback() const { return _onExitCallback; }   
-    void setonEnterTransitionDidFinishCallback(const std::function<void()>& callback) { _onEnterTransitionDidFinishCallback = callback; }
-    const std::function<void()>& getonEnterTransitionDidFinishCallback() const { return _onEnterTransitionDidFinishCallback; }   
-    void setonExitTransitionDidStartCallback(const std::function<void()>& callback) { _onExitTransitionDidStartCallback = callback; }
-    const std::function<void()>& getonExitTransitionDidStartCallback() const { return _onExitTransitionDidStartCallback; }
     
     /** get & set camera mask, the node is visible by the camera whose camera flag & node's camera mask is true */
     unsigned short getCameraMask() const { return _cameraMask; }
@@ -1886,11 +1877,6 @@ protected:
     // camera mask, it is visible only when _cameraMask & current camera' camera flag is true
     unsigned short _cameraMask;
     
-    std::function<void()> _onEnterCallback;
-    std::function<void()> _onExitCallback;
-    std::function<void()> _onEnterTransitionDidFinishCallback;
-    std::function<void()> _onExitTransitionDidStartCallback;
-
 private:
     CC_DISALLOW_COPY_AND_ASSIGN(Node);
     
