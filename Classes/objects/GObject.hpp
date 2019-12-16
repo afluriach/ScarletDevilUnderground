@@ -34,13 +34,6 @@ public:
 
 	typedef function<GObject*(GSpace*, ObjectIDType, const ValueMap&) > AdapterType;
 
-	enum class initOrder {
-		base=1,
-		loadAttributes,
-		postLoadAttributes,
-		initFSM
-	};
-
 	struct object_info
 	{
 		AdapterType consAdapter;
