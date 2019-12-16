@@ -82,8 +82,9 @@ ScriptedMagicEffect::ScriptedMagicEffect(string clsName, GObject* agent, float l
 	if (!cls) {
 		log("ScriptedMagicEffect: %s not found", clsName);
 	}
-
-	obj = cls(super_this, agent, length, magnitude);
+	else {
+		obj = cls(super_this, agent, length, magnitude);
+	}
 }
 
 void ScriptedMagicEffect::init()
