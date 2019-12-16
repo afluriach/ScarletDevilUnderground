@@ -9,6 +9,8 @@
 #include "Prefix.h"
 
 #include "GObject.hpp"
+#include "GSpace.hpp"
+#include "LuaAPI.hpp"
 #include "Spell.hpp"
 #include "SpellDescriptor.hpp"
 
@@ -25,6 +27,17 @@ spell_cost spell_cost::initialStamina(float stamina)
 spell_cost spell_cost::ongoingMP(float mp)
 {
 	return spell_cost{ 0.0f, 0.0f, mp, 0.0f };
+}
+
+spell_params::spell_params(
+	SpaceFloat length,
+	SpaceFloat updateInterval,
+	spell_cost cost
+) :
+	length(length),
+	updateInterval(updateInterval),
+	cost(cost)
+{
 }
 
 Spell::Spell(GObject* caster, spell_params params) :
@@ -77,3 +90,60 @@ shared_ptr<SpellDesc> Spell::getDescriptorByName(const string& name)
 		return nullptr;
 }
 
+spell_params ScriptedSpell::getParams(string clsName)
+{
+	sol::table cls = GSpace::scriptVM->_state["spells"][clsName];
+
+	if (!cls) {
+		log("ScriptedSpell class %s does not exist!", clsName);
+		return spell_params();
+	}
+
+	sol::function f = cls["getParams"];
+	return f ? f() : spell_params();
+}
+
+ScriptedSpell::ScriptedSpell(GObject* caster, string clsName) :
+	Spell(caster, getParams(clsName)),
+	clsName(clsName)
+{
+	auto cls = GSpace::scriptVM->_state["spells"][clsName];
+	Spell* super_this = this;
+
+	if (cls) {
+		obj = cls(super_this, caster);
+	}
+}
+
+ScriptedSpell::~ScriptedSpell()
+{
+}
+
+shared_ptr<SpellDesc> ScriptedSpell::getDescriptor()
+{
+	return make_shared<ScriptedSpellDescriptor>(clsName);
+}
+
+void ScriptedSpell::init()
+{
+	if (obj) {
+		sol::function f = obj["onEnter"];
+		if (f) f(obj);
+	}
+}
+
+void ScriptedSpell::update()
+{
+	if (obj) {
+		sol::function f = obj["update"];
+		if (f) f(obj);
+	}
+}
+
+void ScriptedSpell::end()
+{
+	if (obj) {
+		sol::function f = obj["onExit"];
+		if (f) f(obj);
+	}
+}

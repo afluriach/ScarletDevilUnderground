@@ -241,26 +241,6 @@ void PlayerScarletRose::end()
 	}
 }
 
-const string PlayerDarkMist::name = "PlayerDarkMist";
-const string PlayerDarkMist::description = "";
-const spell_cost PlayerDarkMist::cost = spell_cost::ongoingMP(7.5f);
-
-PlayerDarkMist::PlayerDarkMist(GObject* caster) :
-	Spell(caster, spell_params{ -1.0, -1.0 })
-{}
-
-void PlayerDarkMist::init()
-{
-	caster->setSpriteOpacity(to_uchar(128));
-	caster->setInvisible(true);
-}
-
-void PlayerDarkMist::end()
-{
-	caster->setSpriteOpacity(to_uchar(255));
-	caster->setInvisible(false);
-}
-
 const string PlayerIceShield::name = "PlayerIceShield";
 const string PlayerIceShield::description = "";
 const string PlayerIceShield::icon = "sprites/ui/ice_shield.png";

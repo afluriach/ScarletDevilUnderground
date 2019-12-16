@@ -37,10 +37,11 @@ namespace Lua{
 		addFuncSame(gobject, setAngularVel);
 		addFuncSame(gobject, setPos);
 		addFuncSame(gobject, setVel);
-		addFuncSame(gobject, setSpriteShader);
+		addFuncSame(gobject, setSpriteOpacity);
 		addFuncSame(gobject, setVel);
 		addFuncSame(gobject, setFrozen);
 		addFuncSame(gobject, setInhibitSpellcasting);
+		addFuncSame(gobject, setInvisible);
 
 		addFuncSame(gobject, stopSpell);
 		addFuncSame(gobject, printFSM);

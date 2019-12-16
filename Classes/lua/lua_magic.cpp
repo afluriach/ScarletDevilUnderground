@@ -32,6 +32,9 @@ namespace Lua{
 		auto effects = _state.create_table();
 		_state["effects"] = effects;
 
+		auto spells = _state.create_table();
+		_state["spells"] = spells;
+
 #define _cls MagicEffect
 		auto effect = _state.new_usertype<MagicEffect>(
 			"MagicEffect"
@@ -93,6 +96,17 @@ namespace Lua{
 		addFuncSame(spellcost, initialMP);
 		addFuncSame(spellcost, initialStamina);
 		addFuncSame(spellcost, ongoingMP);
+
+		auto spellparams = _state.new_usertype<spell_params>(
+			"spell_params",
+			sol::constructors<
+				spell_params(),
+				spell_params(SpaceFloat),
+				spell_params(SpaceFloat, SpaceFloat), 
+				spell_params(SpaceFloat,SpaceFloat,spell_cost)
+			>()
+		);
+#define _cls spell_params
 
 		auto spell = _state.new_usertype<Spell>("Spell");
 #define _cls Spell

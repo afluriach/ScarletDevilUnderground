@@ -262,10 +262,6 @@ public:
 	//Create Node which graphically reprensets this object and adds it to Layer
 	virtual void initializeGraphics();
 	
-	inline virtual void setSpriteShader(const string& shaderName){
-        log("GObject::setSpriteShader: virtual base, no implementation for %s!", getName());
-    }
-
 	inline SpriteID getSpriteID() const { return spriteID; }
 
     //END GRAPHICS

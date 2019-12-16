@@ -25,6 +25,8 @@ struct spell_cost
 
 struct spell_params
 {
+	spell_params(SpaceFloat length = 0.0, SpaceFloat updateInterval = 0.0, spell_cost cost = spell_cost{});
+
 	SpaceFloat length = 0.0;
 	SpaceFloat updateInterval = 0.0;
 	spell_cost cost = {};

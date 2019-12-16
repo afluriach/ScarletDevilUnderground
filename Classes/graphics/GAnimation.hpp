@@ -57,7 +57,6 @@ public:
     static constexpr SpaceFloat stepSize = 0.4;
     static constexpr SpaceFloat midstepSize = 0.2;
     
-	void setSpriteShader(const string& shader);
     void loadAnimation(const string& _sprite);    
 
 	void setFrame(int animFrame);

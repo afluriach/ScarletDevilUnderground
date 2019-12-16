@@ -20,6 +20,9 @@ make_static_member_detector(icon)
 class SpellDesc
 {
 public:
+	inline SpellDesc() {}
+	virtual inline ~SpellDesc() {}
+
 	virtual string getName() const = 0;
 	virtual string getDescription() const = 0;
 	virtual string getIcon() const = 0;
@@ -30,11 +33,33 @@ public:
 	virtual SpellGeneratorType getGenerator() = 0;
 };
 
+class ScriptedSpellDescriptor : public SpellDesc
+{
+public:
+	static sol::table getClsObject(const string& clsName);
+
+	ScriptedSpellDescriptor(string clsName);
+	virtual inline ~ScriptedSpellDescriptor() {}
+
+	virtual string getName() const;
+	virtual string getDescription() const;
+	virtual string getIcon() const;
+	virtual spell_cost getCost() const;
+
+	virtual shared_ptr<Spell> generate(GObject* caster);
+	virtual SpellGeneratorType getGenerator();
+protected:
+	string clsName;
+};
+
 //Use CRTP to get static constants from Spell class.
 template<class T>
 class SpellDescImpl : public SpellDesc
 {
 public:
+	inline SpellDescImpl() {}
+	virtual inline ~SpellDescImpl() {}
+
 	virtual inline string getName() const { return T::name; }
 	virtual inline string getDescription() const { return T::description; }
 

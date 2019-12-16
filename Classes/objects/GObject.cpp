@@ -708,7 +708,7 @@ void GObject::setSpriteZoom(float zoom)
 void GObject::setSpriteOpacity(unsigned char op)
 {
 	if (spriteID != 0) {
-		space->graphicsNodeAction(&Node::setOpacity, spriteID, to_uchar(128));
+		space->graphicsNodeAction(&Node::setOpacity, spriteID, to_uchar(op));
 	}
 	else {
 		log("GObject::setSpriteOpacity: %s does not have a sprite!", getName());

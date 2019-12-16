@@ -48,6 +48,7 @@ GSpace::GSpace(GScene* gscene) :
 		scriptVM->runFile("scripts/ai-functions.lua");
 		scriptVM->runFile("scripts/ai-packages.lua");
 		scriptVM->runFile("scripts/magic-effects.lua");
+		scriptVM->runFile("scripts/spells/player-spells.lua");
 	}
 
 	world = new b2World(b2Vec2_zero);

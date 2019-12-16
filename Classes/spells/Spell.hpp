@@ -81,4 +81,20 @@ inline static SpellGeneratorType make_spell_generator()
 	};
 }
 
+class ScriptedSpell : public Spell {
+public:
+	static spell_params getParams(string clsName);
+
+	ScriptedSpell(GObject* caster, string clsName);
+	virtual ~ScriptedSpell();
+
+	virtual shared_ptr<SpellDesc> getDescriptor();
+	virtual void init();
+	virtual void update();
+	virtual void end();
+protected:
+	string clsName;
+	sol::table obj;
+};
+
 #endif /* Spell_hpp */

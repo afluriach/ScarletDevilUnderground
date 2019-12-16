@@ -20,6 +20,7 @@
 #define entry(name,cls) {name, createDesc<cls>()}
 //To make an entry where the name matches the class
 #define entry_same(cls) entry(#cls, cls)
+#define script_entry(cls) { #cls, make_shared<ScriptedSpellDescriptor>(#cls)}
 
 template<typename T>
 constexpr shared_ptr<SpellDesc> createDesc()
@@ -28,6 +29,7 @@ constexpr shared_ptr<SpellDesc> createDesc()
 }
 
 const unordered_map<string, shared_ptr<SpellDesc>> Spell::spellDescriptors = {
+	script_entry(DarkMist),
 	entry_same(DarknessSignDemarcation),
 	entry_same(DarknessSignDemarcation2),
 	entry_same(FireStarburst),
@@ -37,7 +39,6 @@ const unordered_map<string, shared_ptr<SpellDesc>> Spell::spellDescriptors = {
 	entry_same(NightSignPinwheel),
 	entry_same(PlayerBatMode),
 	entry_same(PlayerCounterClock),
-	entry_same(PlayerDarkMist),
 	entry_same(PlayerIceShield),
 	entry_same(PlayerScarletRose),
 	entry_same(StarlightTyphoon),
@@ -47,6 +48,7 @@ const unordered_map<string, shared_ptr<SpellDesc>> Spell::spellDescriptors = {
 };
 
 const vector<string> Spell::playerSpells = {
+	"DarkMist",
 	"PlayerBatMode",
 	"PlayerCounterClock",
 	"PlayerIceShield",

@@ -113,19 +113,6 @@ protected:
 	shared_ptr<bullet_properties> props;
 };
 
-class PlayerDarkMist : public Spell {
-public:
-	static const string name;
-	static const string description;
-	static const spell_cost cost;
-
-	PlayerDarkMist(GObject* caster);
-
-	GET_DESC(PlayerDarkMist)
-	virtual void init();
-	virtual void end();
-};
-
 class PlayerIceShield : public Spell {
 public:
 	static const string name;
