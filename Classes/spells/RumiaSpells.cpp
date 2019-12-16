@@ -26,7 +26,7 @@ const int DarknessSignDemarcation::legCount = 8;
 const int DarknessSignDemarcation::bulletsPerLeg = 3;
 
 DarknessSignDemarcation::DarknessSignDemarcation(GObject* caster) :
-	Spell(caster, -1.0, 0.0)
+	Spell(caster, spell_params{ -1.0, 0.0 })
 {
 }
 
@@ -90,7 +90,7 @@ DarknessSignDemarcation2::DarknessSignDemarcation2(GObject* caster) :
 {}
 
 DarknessSignDemarcation2::DarknessSignDemarcation2(GObject* caster, SpaceFloat angularSpeed) :
-	Spell(caster, -1.0, 0.0),
+	Spell(caster, spell_params{ -1.0, 0.0 }),
 	angularSpeed(angularSpeed)
 {
 }
@@ -168,7 +168,7 @@ const SpaceFloat NightSignPinwheel::legStartDist = 1.0;
 const SpaceFloat NightSignPinwheel::legAngleSkew = float_pi / NightSignPinwheel::legCount;
 
 NightSignPinwheel::NightSignPinwheel(GObject* caster) :
-	Spell(caster, -1.0, 0.0)
+	Spell(caster, spell_params{ -1.0, 0.0 })
 {
 }
 

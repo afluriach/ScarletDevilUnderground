@@ -26,7 +26,7 @@ const string TorchDarkness::name = "TorchDarkness";
 const string TorchDarkness::description = "";
 
 TorchDarkness::TorchDarkness(GObject* caster) :
-	Spell(caster, -1.0, 0.0)
+	Spell(caster, spell_params{ -1.0, 0.0 })
 {}
 
 void TorchDarkness::update()
@@ -58,7 +58,7 @@ const SpaceFloat BlueFairyBomb::radius = 2.5;
 const SpaceFloat BlueFairyBomb::angularSpeed = float_pi * 0.5;
 
 BlueFairyBomb::BlueFairyBomb(GObject* caster) :
-	Spell(caster, BlueFairyBomb::length, 0.0)
+	Spell(caster, spell_params{ BlueFairyBomb::length, 0.0 })
 {}
 
 void BlueFairyBomb::init()

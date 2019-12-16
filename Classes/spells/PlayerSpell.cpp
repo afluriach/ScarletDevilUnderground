@@ -20,7 +20,7 @@ const string PlayerBatMode::icon = "sprites/ui/bat_mode.png";
 const spell_cost PlayerBatMode::cost = spell_cost::ongoingMP(5.0f);
 
 PlayerBatMode::PlayerBatMode(GObject* caster) :
-	Spell(caster, -1.0, -1.0, PlayerBatMode::cost)
+	Spell(caster, spell_params{ -1.0, -1.0, PlayerBatMode::cost })
 {}
 
 void PlayerBatMode::init()
@@ -64,7 +64,7 @@ const SpaceFloat LavaeteinnSpell::angular_speed = angleWidth * 2.0 / length;
 const int LavaeteinnSpell::bulletSpawnCount = 8;
 
 LavaeteinnSpell::LavaeteinnSpell(GObject* caster) :
-	Spell(caster, LavaeteinnSpell::length, 0.0, LavaeteinnSpell::cost)
+	Spell(caster, spell_params{ LavaeteinnSpell::length, 0.0, LavaeteinnSpell::cost })
 {}
 
 void LavaeteinnSpell::init()
@@ -126,7 +126,7 @@ const SpaceFloat PlayerCounterClock::offset = 0.75;
 const SpaceFloat PlayerCounterClock::angular_speed = 9.0;
 
 PlayerCounterClock::PlayerCounterClock(GObject* caster) :
-	Spell(caster, -1.0, 0.0, PlayerCounterClock::cost)
+	Spell(caster, spell_params{ -1.0, 0.0, PlayerCounterClock::cost })
 {}
 
 void PlayerCounterClock::init()
@@ -204,7 +204,7 @@ SpaceVect PlayerScarletRose::parametric_motion(SpaceFloat t)
 }
 
 PlayerScarletRose::PlayerScarletRose(GObject* caster) :
-	Spell(caster, 4.0, fireInterval, PlayerScarletRose::cost),
+	Spell(caster, spell_params{ 4.0, fireInterval, PlayerScarletRose::cost }),
 	origin(caster->getPos())
 {
 	props = app::getBullet("flandrePolarBullet");
@@ -246,7 +246,7 @@ const string PlayerDarkMist::description = "";
 const spell_cost PlayerDarkMist::cost = spell_cost::ongoingMP(7.5f);
 
 PlayerDarkMist::PlayerDarkMist(GObject* caster) :
-	Spell(caster, -1.0, -1.0)
+	Spell(caster, spell_params{ -1.0, -1.0 })
 {}
 
 void PlayerDarkMist::init()
@@ -273,7 +273,7 @@ const SpaceFloat PlayerIceShield::circumference = 2.0 * float_pi * distance;
 const SpaceFloat PlayerIceShield::inv_circumference = 1.0 / circumference;
 
 PlayerIceShield::PlayerIceShield(GObject* caster) :
-	Spell(caster, -1.0, 0.0, PlayerIceShield::cost)
+	Spell(caster, spell_params{ -1.0, 0.0, PlayerIceShield::cost })
 {
 	props = app::getBullet("cirnoIceShieldBullet");
 }

@@ -27,11 +27,11 @@ spell_cost spell_cost::ongoingMP(float mp)
 	return spell_cost{ 0.0f, 0.0f, mp, 0.0f };
 }
 
-Spell::Spell(GObject* caster, SpaceFloat length, SpaceFloat updateInterval, spell_cost cost) :
+Spell::Spell(GObject* caster, spell_params params) :
 	caster(caster),
-	length(length),
-	updateInterval(updateInterval),
-	_cost(cost)
+	length(params.length),
+	updateInterval(params.updateInterval),
+	_cost(params.cost)
 {}
 
 Spell::~Spell() {}

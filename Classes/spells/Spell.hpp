@@ -40,7 +40,7 @@ public:
 
 	//length: -1 means indefinite, 0 means immediate
 	//updateInterval: -1 means no update, 0 means every frame, units in seconds.
-	Spell(GObject* caster, SpaceFloat length, SpaceFloat updateInterval, spell_cost cost = spell_cost{});
+	Spell(GObject* caster, spell_params params);
 	virtual ~Spell();
     
 	bool isActive() const;
@@ -61,6 +61,7 @@ protected:
 	void runUpdate();
 	void runEnd();
 
+	//spell_params
 	spell_cost _cost;
 	SpaceFloat length;
 	SpaceFloat updateInterval;

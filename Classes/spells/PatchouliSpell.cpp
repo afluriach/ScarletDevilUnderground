@@ -17,7 +17,7 @@ const string FireStarburst::name = "FireStarburst";
 const string FireStarburst::description = "";
 
 FireStarburst::FireStarburst(GObject* caster) : 
-	Spell(caster, -1.0, 0.5)
+	Spell(caster, spell_params{ -1.0, 0.5 })
 {
 	bulletProps = make_shared<bullet_properties>();
 	*bulletProps = *app::getBullet("fireBullet");
@@ -45,7 +45,7 @@ const string FlameFence::name = "FlameFence";
 const string FlameFence::description = "";
 
 FlameFence::FlameFence(GObject* caster) :
-	Spell(caster, -1.0, 0)
+	Spell(caster, spell_params{ -1.0, 0 })
 {
 	bulletProps = make_shared<bullet_properties>();
 	*bulletProps = *app::getBullet("fireBullet");
@@ -92,7 +92,7 @@ const SpaceFloat Whirlpool1::angularOffset = float_pi / 12.0;
 const SpaceFloat Whirlpool1::bulletSpeed = 6.0;
 
 Whirlpool1::Whirlpool1(GObject* caster) :
-	Spell(caster, -1.0, 0.0)
+	Spell(caster, spell_params{ -1.0, 0.0 })
 {
 	bulletProps = make_shared<bullet_properties>();
 	*bulletProps = *app::getBullet("waterBullet");
@@ -150,7 +150,7 @@ const SpaceFloat Whirlpool2::angularOffset = float_pi / 10.0;
 const SpaceFloat Whirlpool2::bulletSpeed = 7.5;
 
 Whirlpool2::Whirlpool2(GObject* caster) :
-	Spell(caster, -1.0, 0.0)
+	Spell(caster, spell_params{ -1.0, 0.0 })
 {
 	bulletProps = make_shared<bullet_properties>();
 	*bulletProps = *app::getBullet("waterBullet");

@@ -23,4 +23,11 @@ struct spell_cost
 	static spell_cost ongoingMP(float mp);
 };
 
+struct spell_params
+{
+	SpaceFloat length = 0.0;
+	SpaceFloat updateInterval = 0.0;
+	spell_cost cost = {};
+};
+
 #endif /* spell_types_hpp */

@@ -33,7 +33,7 @@ const vector<string> StarlightTyphoon::colors = {
 };
 
 StarlightTyphoon::StarlightTyphoon(GObject* caster) :
-	Spell(caster, duration, 0.0)
+	Spell(caster, spell_params{ duration, 0.0 })
 {
 	angle = caster->getAngle();
 
