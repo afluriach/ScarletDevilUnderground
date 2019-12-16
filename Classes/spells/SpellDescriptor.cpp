@@ -39,6 +39,9 @@ string ScriptedSpellDescriptor::getName() const
 
 		return obj ? obj.as<string>() : string("");
 	}
+	else {
+		return string();
+	}
 }
 
 string ScriptedSpellDescriptor::getDescription() const
