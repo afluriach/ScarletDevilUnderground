@@ -15,6 +15,12 @@ const float AttributeSystem::maxElementDamage = 100.0f;
 const float AttributeSystem::maxComboPoints = 75.0f;
 const float AttributeSystem::comboPointsDrainPerSecond = 15.0f;
 
+const map<IncidentAttribute, IncidentAttributeEntry> AttributeSystem::incidentAttributes = {
+	{ IncidentAttribute::hp, {Attribute::hp, Attribute::maxHP, Attribute::hpRegen} },
+	{ IncidentAttribute::mp, {Attribute::mp, Attribute::maxMP, Attribute::mpRegen} },
+	{ IncidentAttribute::stamina, {Attribute::stamina, Attribute::maxStamina, Attribute::staminaRegen} },
+};
+
 const unordered_map<Attribute, UpgradeInfo> AttributeSystem::upgradeAttributes = {
 	{Attribute::maxHP, UpgradeInfo{ 25.0f, "hp_upgrade"}},
 	{Attribute::maxMP, UpgradeInfo{ 25.0f, "mp_upgrade"}},
@@ -286,9 +292,9 @@ void AttributeSystem::update(Agent* agent)
 
 void AttributeSystem::applyIncidentRegen()
 {
-	timerIncrement(Attribute::hp, Attribute::maxHP, (*this)[Attribute::hpRegen] * (*this)[Attribute::maxHP]);
-	timerIncrement(Attribute::mp, Attribute::maxMP, (*this)[Attribute::mpRegen] * (*this)[Attribute::maxMP]);
-	timerIncrement(Attribute::stamina, Attribute::maxStamina, (*this)[Attribute::staminaRegen] * (*this)[Attribute::maxStamina]);
+	for (auto& const entry : incidentAttributes) {
+		timerIncrement(entry.second.current, entry.second.maximum, (*this)[entry.second.regeneration] * (*this)[entry.second.maximum]);
+	}
 }
 
 void AttributeSystem::applyElementDecay()

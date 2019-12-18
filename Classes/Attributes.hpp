@@ -75,6 +75,22 @@ enum class Attribute {
 	end = endElementDamage,
 };
 
+enum class IncidentAttribute
+{
+	hp,
+	mp,
+	stamina,
+
+	end
+};
+
+struct IncidentAttributeEntry
+{
+	Attribute current;
+	Attribute maximum;
+	Attribute regeneration;
+};
+
 struct UpgradeInfo
 {
 	float step;
@@ -107,6 +123,7 @@ public:
 
 	static constexpr size_t upgradeCount = 8;
 
+	static const map<IncidentAttribute, IncidentAttributeEntry> incidentAttributes;
 	static const unordered_map<Attribute, UpgradeInfo> upgradeAttributes;
 	static const boost::bimap<Attribute, string> attributeNameMap;
 
