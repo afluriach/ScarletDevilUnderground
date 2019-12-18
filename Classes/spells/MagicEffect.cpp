@@ -54,6 +54,10 @@ void MagicEffect::remove()
 	getSpace()->magicEffectSystem->removeEffect(id);
 }
 
+ImmediateMagicEffect::ImmediateMagicEffect(GObject* agent, float magnitude) :
+	MagicEffect(agent, 0.0f, magnitude, make_enum_bitfield(flags::immediate))
+{}
+
 MagicEffect::flag_bits ScriptedMagicEffect::getFlags(string clsName)
 {
 	sol::table cls = GSpace::scriptVM->_state["effects"][clsName];

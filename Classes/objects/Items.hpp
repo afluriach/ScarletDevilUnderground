@@ -19,8 +19,8 @@ public:
 	virtual inline string getSprite() const { return "forestBook"; }
 	virtual inline string itemName() const { return "ForestBook1"; }
 
-	inline virtual bool canAcquire() { return true; }
-	virtual void onAcquire();
+	inline virtual bool canAcquire(Player* player) { return true; }
+	virtual void onAcquire(Player* player);
 };
 
 class GraveyardBook1 : public InventoryObject
@@ -31,8 +31,8 @@ public:
 	virtual inline string getSprite() const { return "graveyardBook"; }
 	virtual inline string itemName() const { return "GraveyardBook1"; }
 
-	inline virtual bool canAcquire() { return true; }
-	virtual void onAcquire();
+	inline virtual bool canAcquire(Player* player) { return true; }
+	virtual void onAcquire(Player* player);
 };
 
 class Spellcard : public InventoryObject
@@ -47,8 +47,8 @@ public:
 	virtual inline string getSprite() const { return "spellcard"; }
 	virtual inline string itemName() const { return name; }
 
-	inline virtual bool canAcquire() { return true; }
-	virtual void onAcquire();
+	inline virtual bool canAcquire(Player* player) { return true; }
+	virtual void onAcquire(Player* player);
 protected:
 	string name;
 };

@@ -38,7 +38,7 @@ MapFragment::MapFragment(GSpace* space, ObjectIDType id, const ValueMap& args) :
 	}
 }
 
-void MapFragment::onAcquire()
+void MapFragment::onAcquire(Player* player)
 {
 	space->applyMapFragment(mapFragmentId);
 	space->removeObject(this);

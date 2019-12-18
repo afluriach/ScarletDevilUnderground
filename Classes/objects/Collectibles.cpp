@@ -9,8 +9,10 @@
 #include "Prefix.h"
 
 #include "Attributes.hpp"
+#include "AttributeEffects.hpp"
 #include "Collectibles.hpp"
 #include "GSpace.hpp"
+#include "MagicEffect.hpp"
 #include "value_map.hpp"
 
 #define entry(x) (collectible_id::x, #x)
@@ -88,23 +90,34 @@ collectible_id Collectible::getCollectibleID(const string& name)
 }
 
 Collectible::Collectible(GSpace* space, ObjectIDType id, SpaceVect pos, collectible_id collectibleID) :
-	InventoryObject(PosAngleParams(pos, float_pi * 0.5), physics_params(GType::playerPickup, onGroundLayers, SpaceVect(0.5,0.5), -1.0, true)),
-	collectibleID(collectibleID)
+	InventoryObject(PosAngleParams(pos, float_pi * 0.5), physics_params(GType::playerPickup, onGroundLayers, SpaceVect(0.5,0.5), -1.0, true))
 {
+	auto it = propertiesMap.find(collectibleID);
+	effect = make_shared<MagicEffectDescImpl<RestoreAttribute, Attribute>>(it->second.attr);
+	magnitude = it->second.val;
+	sprite = it->second.sprite;
 }
 
 string Collectible::getSprite() const
 {
-	auto it = propertiesMap.find(collectibleID);
-	return it->second.sprite;
+	return sprite;
 }
 
 string Collectible::itemName() const {
-	return collectibleID != collectible_id::nil ? collectibleNameMap.left.at(collectibleID) : "";
+	return "";
 }
 
-AttributeMap Collectible::getEffect() const
+shared_ptr<MagicEffectDescriptor> Collectible::getEffect(GObject* target) const
 {
-	auto it = propertiesMap.find(collectibleID);
-	return { {it->second.attr, it->second.val} };
+	return effect;
+}
+
+bool Collectible::canAcquire(Player* player) {
+	return effect->canApply(player, magnitude);
+}
+
+void Collectible::onAcquire(Player* player) {
+	player->addMagicEffect(effect->generate(player, magnitude));
+	space->removeObject(this);
+	playSoundSpatial("sfx/powerup.wav");
 }

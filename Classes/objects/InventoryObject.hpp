@@ -25,11 +25,11 @@ public:
     virtual inline GraphicsLayer sceneLayer() const {return GraphicsLayer::floor;}
     
     //virtual API for item interaction
-	virtual inline bool canAcquire() { return true; }
-    virtual inline void onAcquire() {}
+	virtual inline bool canAcquire(Player* player) { return true; }
+    virtual inline void onAcquire(Player* player) {}
     virtual string itemName() const = 0;
 
-	void onPlayerContact();
+	void onPlayerContact(Player* player);
 };
 
 #endif /* InventoryObject_hpp */

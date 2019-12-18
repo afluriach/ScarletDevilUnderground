@@ -23,7 +23,7 @@ public:
 	virtual inline string getSprite() const { return "mapFragment"; }
 	virtual inline string itemName() const { return "Map Fragment"; }
 
-	void onAcquire();
+	virtual void onAcquire(Player* player);
 
 	const int mapFragmentId;
 };

@@ -26,6 +26,7 @@
 #include "GSpace.hpp"
 #include "GState.hpp"
 #include "HUD.hpp"
+#include "MagicEffect.hpp"
 #include "physics_context.hpp"
 #include "Player.hpp"
 #include "PlayerSpell.hpp"
@@ -574,15 +575,6 @@ bool Player::hit(DamageInfo damage){
 
 	playSoundSpatial("sfx/player_damage.wav");
 	return true;
-}
-
-void Player::onCollectible(Collectible* coll)
-{
-	if (canApplyAttributeEffects(coll->getEffect())) {
-		applyAttributeEffects(coll->getEffect());
-		space->removeObject(coll);
-		playSoundSpatial("sfx/powerup.wav");
-	}
 }
 
 void Player::useDoor(Door* interactTarget)

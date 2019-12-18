@@ -19,12 +19,12 @@
 #include "SpellUtil.hpp"
 #include "TeleportPad.hpp"
 
-DrainFromMovement::DrainFromMovement(Agent* agent, Attribute attr, float unitsPerMeter) :
-	MagicEffect(agent, 0.0f, 0.0f, enum_bitfield2(flags, indefinite, active)),
+DrainFromMovement::DrainFromMovement(Agent* agent, float magnitude, Attribute attr) :
+	MagicEffect(agent, 0.0f, magnitude, enum_bitfield2(flags, indefinite, active)),
 	agent(agent),
 	attr(attr)
 {
-	_ratio = -1.0f * app::params.secondsPerFrame * unitsPerMeter;
+	_ratio = -1.0f * app::params.secondsPerFrame * magnitude;
 }
 
 void DrainFromMovement::update()

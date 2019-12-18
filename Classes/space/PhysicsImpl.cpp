@@ -394,7 +394,7 @@ void bulletBulletBegin(Bullet* _a, Bullet* _b, b2Contact* arb)
 
 void playerPickupBegin(Player* p, InventoryObject* inv, b2Contact* arb)
 {
-	inv->onPlayerContact();
+	inv->onPlayerContact(p);
 }
 
 void bulletEnvironment(Bullet* _b, GObject* environment, b2Contact* contact)

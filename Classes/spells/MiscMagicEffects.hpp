@@ -18,7 +18,7 @@ class TeleportPad;
 class DrainFromMovement : public MagicEffect
 {
 public:
-	DrainFromMovement(Agent* agent, Attribute attr, float unitsPerMeter);
+	DrainFromMovement(Agent* agent, float magnitude, Attribute attr);
 
 	inline virtual void init() {}
 	virtual void update();

@@ -84,7 +84,7 @@ namespace Lua{
 			"DrainFromMovement",
 			sol::base_classes, sol::bases<MagicEffect>()
 		);
-		drainFromMovement["create"] = &createEffect<DrainFromMovement, Agent*, Attribute, float>;
+		drainFromMovement["create"] = &createEffect<DrainFromMovement, Agent*, float, Attribute>;
 
 		auto spellcost = _state.new_usertype<spell_cost>("spell_cost");
 #define _cls spell_cost

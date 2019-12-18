@@ -11,6 +11,8 @@
 
 class RadarSensor;
 
+make_static_member_detector(canApply)
+
 class MagicEffect
 {
 public:
@@ -63,6 +65,47 @@ public:
 	state crntState;
 	unsigned int id;
 	flag_bits _flags;
+};
+
+class MagicEffectDescriptor
+{
+public:
+	inline MagicEffectDescriptor() {}
+	virtual inline ~MagicEffectDescriptor() {}
+
+	virtual bool canApply(GObject* target, float magnitude) const = 0;
+	virtual shared_ptr<MagicEffect> generate(GObject* target, float magnitude) const = 0;
+};
+
+template<class T, typename... Params>
+class MagicEffectDescImpl : public MagicEffectDescriptor
+{
+public:
+	inline MagicEffectDescImpl(tuple<Params...> params) :
+		_params(params)
+	{
+	}
+
+	inline virtual bool canApply(GObject* target, float magnitude) const {
+		if constexpr (has_canApply<T>::value) {
+			return T::canApply(target, magnitude, get<Params>(_params)...);
+		}
+		else {
+			return true;
+		}
+	}
+
+	inline virtual shared_ptr<MagicEffect> generate(GObject* target, float magnitude) const {
+		return make_shared<T>(target, magnitude, get<Params>(_params)...);
+	}
+protected:
+	tuple<Params...> _params;
+};
+
+class ImmediateMagicEffect : public MagicEffect
+{
+public:
+	ImmediateMagicEffect(GObject* agent, float magnitude);
 };
 
 class ScriptedMagicEffect : public MagicEffect

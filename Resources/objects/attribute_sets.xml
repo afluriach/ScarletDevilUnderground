@@ -149,6 +149,7 @@
 		<maxHP val="125"/>
 		<maxMP val="75"/>
 		<maxStamina val="125"/>
+		<mpRegen val="0.005"/>
 		<staminaRegen val="0.05"/>
 		<agility val="1.0"/>
 		<hitProtectionInterval val="1.0"/>
@@ -160,6 +161,7 @@
 		<maxHP val="100"/>
 		<maxMP val="100"/>
 		<maxStamina val="100"/>
+		<mpRegen val="0.005"/>
 		<staminaRegen val="0.05"/>
 		<agility val="2.0"/>
 		<hitProtectionInterval val="1.0"/>
@@ -171,6 +173,7 @@
 		<maxHP val="75"/>
 		<maxMP val="125"/>
 		<maxStamina val="75"/>
+		<mpRegen val="0.005"/>
 		<staminaRegen val="0.05"/>
 		<agility val="3.0"/>
 		<hitProtectionInterval val="1.0"/>

@@ -524,18 +524,6 @@ bool Agent::hit(DamageInfo damage)
 	return true;
 }
 
-bool Agent::canApplyAttributeEffects(AttributeMap attributeEffect)
-{
-	for (auto& entry : attributeEffect)
-	{
-		if (!attributeSystem.canApplyAttribute(entry.first, entry.second)) {
-			return false;
-		}
-	}
-	return true;
-}
-
-
 void Agent::applyAttributeEffects(AttributeMap attributeEffect)
 {
 	attributeSystem.apply(attributeEffect);

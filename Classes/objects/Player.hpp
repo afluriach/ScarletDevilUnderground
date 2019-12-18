@@ -101,7 +101,6 @@ public:
 	virtual AttributeMap getAttributeUpgrades() const;
 	void applyAttributeModifier(Attribute id, float val);
     
-    void onCollectible(Collectible* coll);
 	void useDoor(Door* interactTarget);
 	void moveToDestinationDoor(Door* dest);
 	void applyUpgrade(Upgrade* up);

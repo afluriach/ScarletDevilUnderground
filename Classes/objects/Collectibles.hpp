@@ -11,6 +11,8 @@
 
 #include "InventoryObject.hpp"
 
+class MagicEffectDescriptor;
+
 enum class collectible_id
 {
 	nil,
@@ -57,9 +59,14 @@ public:
 	virtual string getSprite() const;
 	virtual string itemName() const;
 
-	AttributeMap getEffect() const;
+	shared_ptr<MagicEffectDescriptor> getEffect(GObject* target) const;
+
+	virtual bool canAcquire(Player* player);
+	virtual void onAcquire(Player* player);
 protected:
-	collectible_id collectibleID;
+	string sprite;
+	shared_ptr<MagicEffectDescriptor> effect;
+	float magnitude;
 };
 
 #endif /* Collectibles_hpp */

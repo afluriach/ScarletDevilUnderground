@@ -15,12 +15,6 @@ const float AttributeSystem::maxElementDamage = 100.0f;
 const float AttributeSystem::maxComboPoints = 75.0f;
 const float AttributeSystem::comboPointsDrainPerSecond = 15.0f;
 
-const map<IncidentAttribute, IncidentAttributeEntry> AttributeSystem::incidentAttributes = {
-	{ IncidentAttribute::hp, {Attribute::hp, Attribute::maxHP, Attribute::hpRegen} },
-	{ IncidentAttribute::mp, {Attribute::mp, Attribute::maxMP, Attribute::mpRegen} },
-	{ IncidentAttribute::stamina, {Attribute::stamina, Attribute::maxStamina, Attribute::staminaRegen} },
-};
-
 const unordered_map<Attribute, UpgradeInfo> AttributeSystem::upgradeAttributes = {
 	{Attribute::maxHP, UpgradeInfo{ 25.0f, "hp_upgrade"}},
 	{Attribute::maxMP, UpgradeInfo{ 25.0f, "mp_upgrade"}},
@@ -276,7 +270,10 @@ void AttributeSystem::set(Attribute id, float x)
 
 void AttributeSystem::update(Agent* agent)
 {
-	applyIncidentRegen();
+	applyIncidentRegen(hp);
+	applyIncidentRegen(mp);
+	applyIncidentRegen(stamina);
+
 	applyElementDecay();
 	timerDecrement(Attribute::stress, (*this)[Attribute::stressDecay]);
 	if ((*this)[Attribute::hitProtection] != -1.0f)
@@ -290,11 +287,9 @@ void AttributeSystem::update(Agent* agent)
 	);
 }
 
-void AttributeSystem::applyIncidentRegen()
+void AttributeSystem::applyIncidentRegen(IncidentAttributeEntry entry)
 {
-	for (auto& const entry : incidentAttributes) {
-		timerIncrement(entry.second.current, entry.second.maximum, (*this)[entry.second.regeneration] * (*this)[entry.second.maximum]);
-	}
+	timerIncrement(entry.current, entry.maximum, (*this)[entry.regeneration] * (*this)[entry.maximum]);
 }
 
 void AttributeSystem::applyElementDecay()
@@ -304,19 +299,24 @@ void AttributeSystem::applyElementDecay()
 	}
 }
 
+float AttributeSystem::getIncidentRatio(IncidentAttributeEntry entry) const
+{
+	return (*this)[entry.maximum] > 0.0f ? (*this)[entry.current] / (*this)[entry.maximum] : 0.0f;
+}
+
 float AttributeSystem::getHealthRatio() const
 {
-	return (*this)[Attribute::maxHP] > 0.0f ? (*this)[Attribute::hp] / (*this)[Attribute::maxHP] : 0.0f;
+	return getIncidentRatio(hp);
 }
 
 float AttributeSystem::getMagicRatio() const
 {
-	return (*this)[Attribute::maxMP] > 0.0f ? (*this)[Attribute::mp] / (*this)[Attribute::maxMP] : 0.0f;
+	return getIncidentRatio(mp);
 }
 
 float AttributeSystem::getStaminaRatio() const
 {
-	return (*this)[Attribute::maxStamina] > 0.0f ? (*this)[Attribute::stamina] / (*this)[Attribute::maxStamina] : 0.0f;
+	return getIncidentRatio(stamina);
 }
 
 float AttributeSystem::applyDamage(DamageInfo damage)
@@ -374,19 +374,29 @@ float AttributeSystem::getWithinRange(float input, float min, float max)
 	else return input;
 }
 
+void AttributeSystem::setFull(IncidentAttributeEntry entry)
+{
+	attributes.at(to_size_t(entry.current)) = attributes.at(to_size_t(entry.maximum));
+}
+
+void AttributeSystem::setEmpty(IncidentAttributeEntry entry)
+{
+	attributes.at(to_size_t(entry.current)) = 0;
+}
+
 void AttributeSystem::setFullHP()
 {
-	attributes.at(to_size_t(Attribute::hp)) = attributes.at(to_size_t(Attribute::maxHP));
+	setFull(hp);
 }
 
 void AttributeSystem::setFullMP()
 {
-	attributes.at(to_size_t(Attribute::mp)) = attributes.at(to_size_t(Attribute::maxMP));
+	setFull(mp);
 }
 
 void AttributeSystem::setEmptyMP()
 {
-	attributes.at(to_size_t(Attribute::mp)) = 0;
+	setEmpty(mp);
 }
 
 void AttributeSystem::setHitProtection()
@@ -406,12 +416,12 @@ void AttributeSystem::resetCombo()
 
 void AttributeSystem::setFullStamina()
 {
-	attributes.at(to_size_t(Attribute::stamina)) = attributes.at(to_size_t(Attribute::maxStamina));
+	setFull(stamina);
 }
 
 void AttributeSystem::setEmptyStamina()
 {
-	attributes.at(to_size_t(Attribute::stamina)) = 0.0f;
+	setEmpty(stamina);
 }
 
 void AttributeSystem::modifyAgility(float dx)
@@ -425,9 +435,9 @@ void AttributeSystem::modifyAgility(float dx)
 	attributes.at(to_size_t(Attribute::maxAcceleration)) = speedAccel.second;
 }
 
-void AttributeSystem::modifyIncidentAttribute(Attribute id, Attribute maxID, float x)
+void AttributeSystem::modifyIncidentAttribute(IncidentAttributeEntry entry, float x)
 {
-	attributes.at(to_size_t(id)) = getWithinRange(attributes.at(to_size_t(id)) + x, 0, attributes.at(to_size_t(maxID)));
+	attributes.at(to_size_t(entry.current)) = getWithinRange(attributes.at(to_size_t(entry.current)) + x, 0, attributes.at(to_size_t(entry.maximum)));
 }
 
 void AttributeSystem::applyElementalDamage(Attribute id, Attribute sensitivity, float x)
@@ -441,14 +451,22 @@ void AttributeSystem::applyElementalDamage(Attribute id, Attribute sensitivity, 
 	}
 }
 
+bool AttributeSystem::canApplyIncidentAttribute(IncidentAttributeEntry entry) const
+{
+	return attributes.at(to_size_t(entry.current)) < attributes.at(to_size_t(entry.maximum));
+}
+
 bool AttributeSystem::canApplyAttribute(Attribute id, float x)
 {
 	switch (id)
 	{
 	case Attribute::hp:
-		return attributes.at(to_size_t(Attribute::hp)) < attributes.at(to_size_t(Attribute::maxHP));
+		return canApplyIncidentAttribute(hp);
 	case Attribute::mp:
-		return attributes.at(to_size_t(Attribute::mp)) < attributes.at(to_size_t(Attribute::maxMP));
+		return canApplyIncidentAttribute(mp);
+	case Attribute::stamina:
+		return canApplyIncidentAttribute(stamina);
+
 	case Attribute::keys:
 		return true;
 	default:
@@ -462,13 +480,13 @@ void AttributeSystem::modifyAttribute(Attribute id, float x)
 	switch (id)
 	{
 	case Attribute::hp:
-		modifyIncidentAttribute(Attribute::hp, Attribute::maxHP, x);
+		modifyIncidentAttribute(hp, x);
 		break;
 	case Attribute::mp:
-		modifyIncidentAttribute(Attribute::mp, Attribute::maxMP, x);
+		modifyIncidentAttribute(mp, x);
 		break;
 	case Attribute::stamina:
-		modifyIncidentAttribute(Attribute::stamina, Attribute::maxStamina, x);
+		modifyIncidentAttribute(stamina, x);
 		break;
 
 	case Attribute::agility:

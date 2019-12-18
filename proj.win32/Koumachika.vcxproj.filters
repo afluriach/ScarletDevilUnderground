@@ -381,6 +381,9 @@
     <ClCompile Include="..\Classes\lua\lua_magic.cpp">
       <Filter>src\lua</Filter>
     </ClCompile>
+    <ClCompile Include="..\Classes\spells\AttributeEffects.cpp">
+      <Filter>src\spells</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="main.h">
@@ -714,6 +717,9 @@
       <Filter>src\objects</Filter>
     </ClInclude>
     <ClInclude Include="..\Classes\spells\FirePatternImpl.hpp">
+      <Filter>src\spells</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\spells\AttributeEffects.hpp">
       <Filter>src\spells</Filter>
     </ClInclude>
   </ItemGroup>

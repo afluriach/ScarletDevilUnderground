@@ -75,15 +75,6 @@ enum class Attribute {
 	end = endElementDamage,
 };
 
-enum class IncidentAttribute
-{
-	hp,
-	mp,
-	stamina,
-
-	end
-};
-
 struct IncidentAttributeEntry
 {
 	Attribute current;
@@ -102,6 +93,10 @@ typedef array<float, to_size_t(Attribute::end)> AttributeArray;
 class AttributeSystem
 {
 public:
+	static constexpr IncidentAttributeEntry hp = { Attribute::hp, Attribute::maxHP, Attribute::hpRegen };
+	static constexpr IncidentAttributeEntry mp = { Attribute::mp, Attribute::maxMP, Attribute::mpRegen };
+	static constexpr IncidentAttributeEntry stamina = { Attribute::stamina, Attribute::maxStamina, Attribute::staminaRegen };
+
 	static pair<float, float> calculateAgilityAttributes(float agility);
 
 	static AttributeMap scale(const AttributeMap& input, float scale);
@@ -123,7 +118,6 @@ public:
 
 	static constexpr size_t upgradeCount = 8;
 
-	static const map<IncidentAttribute, IncidentAttributeEntry> incidentAttributes;
 	static const unordered_map<Attribute, UpgradeInfo> upgradeAttributes;
 	static const boost::bimap<Attribute, string> attributeNameMap;
 
@@ -137,9 +131,10 @@ public:
 	void set(Attribute id, float val);
 
 	void update(Agent* agent);
-	void applyIncidentRegen();
+	void applyIncidentRegen(IncidentAttributeEntry entry);
 	void applyElementDecay();
 
+	float getIncidentRatio(IncidentAttributeEntry entry) const;
 	float getHealthRatio() const;
 	float getMagicRatio() const;
 	float getStaminaRatio() const;
@@ -148,7 +143,8 @@ public:
 	void apply(const AttributeMap& effects);
 	float getAttackMultiplier() const;
 	float getTypeSensitivity(DamageType type) const;
-	void modifyIncidentAttribute(Attribute id, Attribute maxID, float x);
+	bool canApplyIncidentAttribute(IncidentAttributeEntry entry) const;
+	void modifyIncidentAttribute(IncidentAttributeEntry entry, float x);
 	void applyElementalDamage(Attribute id, Attribute maxID, float x);
 	bool canApplyAttribute(Attribute id, float x);
 	void modifyAttribute(Attribute id, float x);
@@ -162,6 +158,8 @@ public:
 	void resetProtection();
 	bool hasHitProtection() const;
 
+	void setFull(IncidentAttributeEntry entry);
+	void setEmpty(IncidentAttributeEntry entry);
 	void setFullHP();
 	void setFullMP();
 	void setEmptyMP();

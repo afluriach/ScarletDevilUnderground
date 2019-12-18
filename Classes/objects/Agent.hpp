@@ -104,7 +104,6 @@ public:
 
 	inline virtual void onBulletHitTarget(Bullet* bullet, Agent* target) {}
 	virtual bool hit(DamageInfo damage);
-	bool canApplyAttributeEffects(AttributeMap attributeEffect);
 	void applyAttributeEffects(AttributeMap attributeEffects);
 	virtual DamageInfo touchEffect() const;
 

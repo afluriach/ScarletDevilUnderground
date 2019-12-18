@@ -30,11 +30,13 @@ void InventoryObject::init()
 	updateRoomQuery();
 }
 
-void InventoryObject::onPlayerContact()
+void InventoryObject::onPlayerContact(Player* player)
 {
-	if (canAcquire()) {
-		onAcquire();
-		space->getState()->itemRegistry.insert(itemName());
+	if (canAcquire(player)) {
+		onAcquire(player);
+		string _name = itemName();
+		if(!_name.empty())
+			space->getState()->itemRegistry.insert(_name);
 
 		//remove item object
 		space->removeObject(this);

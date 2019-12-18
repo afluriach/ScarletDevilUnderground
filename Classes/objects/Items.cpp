@@ -22,7 +22,7 @@ ForestBook1::ForestBook1(GSpace* space, ObjectIDType id, const ValueMap& args) :
 	MapObjForwarding(InventoryObject)
 {}
 
-void ForestBook1::onAcquire()
+void ForestBook1::onAcquire(Player* player)
 {
 	space->createDialog("dialogs/book_acquired", false);
 }
@@ -31,7 +31,7 @@ GraveyardBook1::GraveyardBook1(GSpace* space, ObjectIDType id, const ValueMap& a
 	MapObjForwarding(InventoryObject)
 {}
 
-void GraveyardBook1::onAcquire()
+void GraveyardBook1::onAcquire(Player* player)
 {
 	space->createDialog("dialogs/book_acquired", false);
 }
@@ -77,10 +77,10 @@ void Spellcard::initializeGraphics()
 	);
 }
 
-void Spellcard::onAcquire()
+void Spellcard::onAcquire(Player* player)
 {
 	space->getState()->itemRegistry.insert(name);
 	space->removeObject(this);
-	space->getObjectAs<Player>("player")->equipSpells();
-	space->getObjectAs<Player>("player")->equipFirePatterns();
+	player->equipSpells();
+	player->equipFirePatterns();
 }
