@@ -24,7 +24,7 @@
 }
 
 MapFragment::MapFragment(GSpace* space, ObjectIDType id, const ValueMap& args) :
-	InventoryObject(MapParamsPointUp(), physics_params(GType::playerPickup, PhysicsLayers::ground, 0.5, -1.0)),
+	InventoryObject(MapParamsPointUp(), physics_params(GType::playerPickup, PhysicsLayers::ground, 0.5, -1.0, true)),
 	mapFragmentId(getIntOrDefault(args, "id", -1))
 {
 	if (mapFragmentId == -1) {
