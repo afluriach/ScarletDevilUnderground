@@ -90,6 +90,13 @@ EnemyImpl::EnemyImpl(
 		setFirePattern(props->firepattern);
 }
 
+void EnemyImpl::init()
+{
+	Agent::init();
+
+	loadEffects();
+}
+
 DamageInfo EnemyImpl::touchEffect() const{
 	return props->touchEffect;
 }
@@ -132,4 +139,13 @@ string EnemyImpl::getProperName() const {
 
 string EnemyImpl::getTypeName() const {
 	return props->typeName;
+}
+
+void EnemyImpl::loadEffects()
+{
+	vector<string> effectNames = splitString(props->effects, ",");
+
+	for (string name : effectNames) {
+		addMagicEffect(make_shared<ScriptedMagicEffect>(name, this));
+	}
 }

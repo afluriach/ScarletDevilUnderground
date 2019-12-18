@@ -94,6 +94,8 @@
 		ai_package="ghost_fairy"
 		attributes="ghostFairy"
 		firepattern="GhostFairyBulletPattern"
+
+		effects="GhostProtection"
 		
 		mass="10"
 		viewRange="3"
@@ -156,6 +158,8 @@
 		ai_package="red_fairy"
 		attributes="redFairy"
 		firepattern="RedFairy"
+		
+		effects="RedFairyStress"
 		
 		mass="25"
 		viewRange="7.5"

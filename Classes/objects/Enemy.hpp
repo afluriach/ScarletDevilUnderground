@@ -20,6 +20,7 @@ struct enemy_properties
 	string attributes;
 	string ai_package;
 	string firepattern;
+	string effects;
 
 	//Strictly radius for now, as Enemy->Agent still is a CircleBody
 	SpaceFloat radius = 0.0;
@@ -68,6 +69,8 @@ public:
 		shared_ptr<enemy_properties> props
 	);
 
+	virtual void init();
+
 	virtual DamageInfo touchEffect() const;
 	virtual AttributeMap getBaseAttributes() const;
 
@@ -83,6 +86,8 @@ public:
 	virtual string getTypeName() const;
 	virtual string getProperName() const;
 protected:
+	void loadEffects();
+
 	shared_ptr<enemy_properties> props;
 };
 

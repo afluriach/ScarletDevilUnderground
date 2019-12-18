@@ -93,8 +93,6 @@ void wander_and_flee_player(StateMachine* fsm, const ValueMap& args)
 
 void ghost_fairy(StateMachine* fsm, const ValueMap& args)
 {
-	fsm->getObject()->addMagicEffect( make_shared<ScriptedMagicEffect>("GhostProtection", fsm->getAgent()));
-
 	fsm->addDetectFunction(
 		GType::player,
 		[](StateMachine& sm, GObject* target) -> void {
@@ -125,8 +123,6 @@ void red_fairy(StateMachine* fsm, const ValueMap& args)
 
 		return comp;
 	};
-
-	agent->addMagicEffect(make_shared<ScriptedMagicEffect>("RedFairyStress", agent));
 
 	fsm->addAlertFunction([](StateMachine* sm, Player* p)->void {
 		sm->addThread(make_shared<Wander>(sm, 1.5, 2.5, 2.0, 3.0));
