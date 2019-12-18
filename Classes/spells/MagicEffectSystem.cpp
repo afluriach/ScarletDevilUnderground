@@ -155,8 +155,6 @@ void MagicEffectSystem::applyRemove()
 		crnt->crntState = MagicEffect::state::ending;
 		crnt->end();
 
-		magicEffects.erase(crnt->id);
-
 		if ( crnt->isActive() ) {
 			updateEffects.erase(crnt);
 		}
@@ -165,6 +163,9 @@ void MagicEffectSystem::applyRemove()
 		if (effectIt != effectObjects.end()) {
 			effectIt->second.erase(crnt);
 		}
+
+		//Typically, this will cause the shared refcount to go to zero, and the crnt effect will be deallocated.
+		magicEffects.erase(crnt->id);
 	}
 }
 
