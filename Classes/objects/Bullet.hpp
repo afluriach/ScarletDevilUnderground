@@ -66,16 +66,19 @@ public:
 	Bullet(
 		shared_ptr<object_params> params,
 		const bullet_attributes& attributes,
-		const physics_params& phys
+		shared_ptr<bullet_properties> props
 	);
 	inline virtual ~Bullet() {}
 
+	virtual void init();
 	virtual void initializeGraphics();
 	virtual inline GraphicsLayer sceneLayer() const { return GraphicsLayer::ground; }
+	virtual inline string getSprite() const { return props->sprite; }
+	virtual inline shared_ptr<LightArea> getLightSource() const { return app::getLight(props->lightSource); }
+	virtual inline SpaceFloat getMaxSpeed() const { return props->speed; }
 
-	//Interface
-	virtual inline DamageInfo getDamageInfo() const { return DamageInfo{}; }
-	virtual inline SpaceFloat getKnockbackForce() const { return 0.0; }
+	inline DamageInfo getDamageInfo() const { return props->damage; }
+	inline SpaceFloat getKnockbackForce() const { return props->knockback; }
 
 	void onWallCollide(Wall* wall);
 	void onEnvironmentCollide(GObject* obj);
@@ -86,40 +89,12 @@ public:
 	SpaceVect calculateLaunchVelocity();
 	bool applyRicochet(SpaceVect n);
 	void setBodyVisible(bool b);
-	//Shield bullet is no-collide with normal obstacles, and is not consumed
-	//upon contactwith an enemy. It may also destroy other bullets
-	//(of non-matching type) it collides with.
-	void setShield(bool deflectBullets);
 protected:
 	bullet_attributes attributes;
+	shared_ptr<bullet_properties> props;
 
 	int ricochetCount = 0;
 	int hitCount = 1;
-	bool deflectBullets = false;
-	bool ignoreObstacleCollision = false;
-};
-
-class BulletImpl : public Bullet
-{
-public:
-	BulletImpl(
-		shared_ptr<object_params> params,
-		const bullet_attributes& attributes,
-		shared_ptr<bullet_properties> props
-	);
-	inline virtual ~BulletImpl() {}
-
-	virtual void init();
-
-	virtual inline SpaceFloat getKnockbackForce() const { return props->knockback; }
-	virtual inline SpaceFloat getMaxSpeed() const { return props->speed; }
-
-	virtual inline string getSprite() const { return props->sprite; }
-	virtual inline shared_ptr<LightArea> getLightSource() const { return app::getLight(props->lightSource); }
-
-	virtual inline DamageInfo getDamageInfo() const { return props->damage; }
-protected:
-	shared_ptr<bullet_properties> props;
 };
 
 #endif /* Bullet_hpp */

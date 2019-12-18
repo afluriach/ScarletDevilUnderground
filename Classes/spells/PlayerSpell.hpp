@@ -12,8 +12,6 @@
 #include "Spell.hpp"
 #include "spell_types.hpp"
 
-class BulletImpl;
-
 class PlayerBatMode : public Spell{
 public:
 	static const string name;
@@ -75,7 +73,7 @@ public:
 	virtual void update();
 	virtual void end();
 protected:
-	array<object_ref<BulletImpl>, 4> bullets;
+	array<object_ref<Bullet>, 4> bullets;
 	SpaceFloat angular_pos = 0.0;
 };
 
@@ -134,7 +132,7 @@ public:
 	virtual void update();
 	virtual void end();
 protected:
-	array<object_ref<BulletImpl>, bulletCount> bullets;
+	array<object_ref<Bullet>, bulletCount> bullets;
 	shared_ptr<bullet_properties> props;
 	SpaceFloat crntAngle = 0.0;
 };

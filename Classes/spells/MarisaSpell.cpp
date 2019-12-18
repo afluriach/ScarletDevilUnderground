@@ -59,7 +59,7 @@ void StarlightTyphoon::fire()
 	props->dimensions.x *= space->getRandomFloat(0.7, 1.3);
 	props->speed *= space->getRandomFloat(0.5, 1.5);
 
-	space->createObject<BulletImpl>(
+	space->createBullet(
 		params,
 		getCasterAs<Agent>()->getBulletAttributes(props),
 		props

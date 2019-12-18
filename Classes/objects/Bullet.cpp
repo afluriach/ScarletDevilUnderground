@@ -52,11 +52,17 @@ shared_ptr<object_params> Bullet::makeParams(
 Bullet::Bullet(
 	shared_ptr<object_params> params,
 	const bullet_attributes& attributes,
-	const physics_params& phys
+	shared_ptr<bullet_properties> props
 ) :
-	GObject(params, phys),
-	attributes(attributes)
+	GObject(
+		params,
+		physics_params(attributes.type, PhysicsLayers::ground, props->dimensions, 0.0, true)
+	),
+	props(props)
 {
+	hitCount = props->hitCount;
+	ricochetCount = props->ricochetCount;
+
 	crntRoom = attributes.startRoom;
 }
 
@@ -99,13 +105,13 @@ void Bullet::initializeGraphics()
 
 void Bullet::onWallCollide(Wall* wall)
 {
-	if(!ignoreObstacleCollision)
+	if(!props->ignoreObstacles)
 		space->removeObject(this);
 }
 
 void Bullet::onEnvironmentCollide(GObject* obj)
 {
-	if(!ignoreObstacleCollision)
+	if(!props->ignoreObstacles)
 		space->removeObject(this);
 }
 
@@ -128,7 +134,7 @@ void Bullet::onAgentCollide(Agent* other, SpaceVect n)
 
 void Bullet::onBulletCollide(Bullet* bullet)
 {
-	if (deflectBullets && !bullet->deflectBullets && getType() != bullet->getType()) {
+	if (props->deflectBullets && !bullet->props->deflectBullets && getType() != bullet->getType()) {
 		space->removeObject(bullet);
 	}
 }
@@ -186,32 +192,7 @@ void Bullet::setBodyVisible(bool b)
 	}
 }
 
-void Bullet::setShield(bool deflectBullets)
-{
-	hitCount = -1;
-	ignoreObstacleCollision = true;
-	this->deflectBullets = deflectBullets;
-}
-
-BulletImpl::BulletImpl(
-	shared_ptr<object_params> params,
-	const bullet_attributes& attributes,
-	shared_ptr<bullet_properties> props
-) :
-	Bullet(
-		params,
-		attributes,
-		physics_params(attributes.type, PhysicsLayers::ground, props->dimensions, 0.0, true)
-	),
-	props(props)
-{
-	hitCount = props->hitCount;
-	ricochetCount = props->ricochetCount;
-	ignoreObstacleCollision = props->ignoreObstacles;
-	deflectBullets = props->deflectBullets;
-}
-
-void BulletImpl::init()
+void Bullet::init()
 {
 	GObject::init();
 

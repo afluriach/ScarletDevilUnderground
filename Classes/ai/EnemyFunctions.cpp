@@ -106,7 +106,7 @@ bool ReimuYinYangOrbs::onEvent(Event event)
 				float_pi
 			);
 			auto props = app::getBullet("yinYangOrb");
-			orbs[i] = getSpace()->createObject<BulletImpl>(
+			orbs[i] = getSpace()->createBullet(
 				params,
 				agent->getBulletAttributes(props),
 				props

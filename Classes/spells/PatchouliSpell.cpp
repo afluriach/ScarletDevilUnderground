@@ -33,7 +33,7 @@ void FireStarburst::update()
 
 		SpaceVect crntPos = pos + SpaceVect::ray(1, angle);
 
-		getSpace()->createObject<BulletImpl>(
+		getSpace()->createBullet(
 			Bullet::makeParams(pos,angle),
 			getCasterAs<Agent>()->getBulletAttributes(bulletProps),
 			bulletProps
@@ -65,7 +65,7 @@ void FlameFence::init()
 			SpaceVect pos(center);
 			pos += SpaceVect(x, y) + rowSkew;
 
-			bullets.push_back(getSpace()->createObject<BulletImpl>(
+			bullets.push_back(getSpace()->createBullet(
 				Bullet::makeParams(pos,0.0f),
 				getCasterAs<Agent>()->getBulletAttributes(bulletProps),
 				bulletProps
@@ -124,7 +124,7 @@ void Whirlpool1::update()
 	if (shotTimer <= 0.0) {
 
 		for_irange(i, 0, 6) {
-			getSpace()->createObject<BulletImpl>(
+			getSpace()->createBullet(
 				Bullet::makeParams(pos + SpaceVect::ray(1.0, angles[i]), angles[i]),
 				getCasterAs<Agent>()->getBulletAttributes(bulletProps),
 				bulletProps
@@ -191,7 +191,7 @@ void Whirlpool2::update()
 	if (shotTimer <= 0.0) {
 
 		for_irange(i, 0, 12) {
-			getSpace()->createObject<BulletImpl>(
+			getSpace()->createBullet(
 				Bullet::makeParams(pos + SpaceVect::ray(1.0, angles[i]), angles[i]),
 				getCasterAs<Agent>()->getBulletAttributes(bulletProps),
 				bulletProps

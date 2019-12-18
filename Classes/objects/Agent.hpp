@@ -41,7 +41,7 @@ public:
 	virtual ~Agent();
 
 	bullet_attributes getBulletAttributes(shared_ptr<bullet_properties> props) const;
-	object_ref<BulletImpl> bulletImplCheckSpawn(
+	object_ref<Bullet> bulletImplCheckSpawn(
 		shared_ptr<object_params> params,
 		shared_ptr<bullet_properties> props
 	);

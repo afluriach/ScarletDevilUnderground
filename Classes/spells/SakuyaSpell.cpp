@@ -53,7 +53,7 @@ void IllusionDial::init()
 			i % 2 ? angular_speed : -angular_speed
 		);
 
-		bullets[i] = getSpace()->createObject<BulletImpl>(
+		bullets[i] = getSpace()->createBullet(
 			params,
 			bullet_attributes::getDefault(),
 			props

@@ -198,6 +198,7 @@ void GObject::initObjectInfo()
 }
 
 const unordered_set<type_index> GSpace::trackedTypes = {
+	typeid(Bullet),
 	typeid(Door),
 	typeid(RoomSensor),
 	typeid(Spawner),
@@ -207,7 +208,6 @@ const unordered_set<type_index> GSpace::trackedTypes = {
 	//virtual tracked types
 	typeid(Player),
 	typeid(Enemy),
-	typeid(Bullet),
 	typeid(FloorSegment),
 };
 

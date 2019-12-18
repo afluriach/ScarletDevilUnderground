@@ -301,7 +301,7 @@ gobject_ref GSpace::createBullet(
 	const bullet_attributes& attributes,
 	shared_ptr<bullet_properties> props
 ) {
-	return createObject<BulletImpl>(params, attributes, props);
+	return createObject<Bullet>(params, attributes, props);
 }
 
 void GSpace::addSpatialSound(GObject* sourceObj, ALuint soundSource)
@@ -437,7 +437,6 @@ void GSpace::processAdditions()
 
 		addVirtualTrack<Player>(obj);
 		addVirtualTrack<Enemy>(obj);
-		addVirtualTrack<Bullet>(obj);
 		addVirtualTrack<FloorSegment>(obj);
 
 		if (RoomSensor* rs = dynamic_cast<RoomSensor*>(obj)) {
@@ -519,7 +518,6 @@ void GSpace::processRemoval(GObject* obj, bool _removeSprite)
 
 	removeVirtualTrack<Player>(obj);
 	removeVirtualTrack<Enemy>(obj);
-	removeVirtualTrack<Bullet>(obj);
 	removeVirtualTrack<FloorSegment>(obj);
     
 	if (RoomSensor* rs = dynamic_cast<RoomSensor*>(obj)) {

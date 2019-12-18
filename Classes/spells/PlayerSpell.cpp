@@ -76,7 +76,7 @@ void LavaeteinnSpell::init()
 	auto params = Bullet::makeParams(pos, angle, SpaceVect::zero, angular_speed * speedScale);
 	auto props = app::getBullet("lavaeteinn");
 
-	lavaeteinnBullet = getSpace()->createObject<BulletImpl>(
+	lavaeteinnBullet = getSpace()->createBullet(
 		params,
 		getCasterAs<Agent>()->getBulletAttributes(props),
 		props
@@ -101,7 +101,7 @@ void LavaeteinnSpell::update()
 			caster->getPos() + SpaceVect::ray(2.0, angularPos),
 			angularPos
 		);
-		getSpace()->createObject<BulletImpl>(
+		getSpace()->createBullet(
 			params,
 			getCasterAs<Agent>()->getBulletAttributes(props),
 			props
@@ -143,7 +143,7 @@ void PlayerCounterClock::init()
 	{
 		SpaceVect disp = SpaceVect::ray(2.0 + offset, (i/2.0) * float_pi);
 
-		bullets[i] = getSpace()->createObject<BulletImpl>(
+		bullets[i] = getSpace()->createBullet(
 			Bullet::makeParams(pos + disp, (i / 2.0) * float_pi),
 			getCasterAs<Agent>()->getBulletAttributes(props),
 			props
@@ -215,7 +215,7 @@ void PlayerScarletRose::update()
 	if (launchCount < fireCount) {
 		for_irange(i, 0, 8) {
 			SpaceFloat t = float_pi / B * i;
-			gobject_ref ref = getSpace()->createObject<BulletImpl>(
+			gobject_ref ref = getSpace()->createBullet(
 				Bullet::makeParams(origin,0.0),
 				getCasterAs<Agent>()->getBulletAttributes(props),
 				props
@@ -267,7 +267,7 @@ void PlayerIceShield::init()
 		SpaceFloat angle = (1.0 * i / bulletCount) * (float_pi * 2.0);
 		SpaceVect pos = SpaceVect::ray(distance, angle);
 		
-		bullets[i] = getSpace()->createObject<BulletImpl>(
+		bullets[i] = getSpace()->createBullet(
 			Bullet::makeParams(origin + pos,angle - float_pi / 2.0),
 			getCasterAs<Agent>()->getBulletAttributes(props),
 			props
