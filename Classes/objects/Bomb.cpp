@@ -17,7 +17,7 @@
 const SpaceFloat Bomb::explosionSpriteRadius = 2.0;
 
 Bomb::Bomb(shared_ptr<object_params> params, shared_ptr<bomb_properties> props) :
-	GObject(params, physics_params(GType::bomb, onGroundLayers, 0.5, 1.0)),
+	GObject(params, physics_params(enum_bitwise_or(GType, bomb, canDamage), onGroundLayers, 0.5, 1.0)),
 	props(props)
 {
 }
@@ -67,4 +67,13 @@ void Bomb::detonate()
 		0.0
 	);
 	space->addGraphicsAction(&graphics_context::autoremoveLightSource, light, 1.0f);
+}
+
+bool Bomb::hit(DamageInfo damage)
+{
+	if (damage.isExplosion()) {
+		detonate();
+	}
+
+	return damage.isExplosion();
 }

@@ -30,7 +30,11 @@
   <object id="31" x="2048" y="1152" width="128" height="896"/>
   <object id="32" x="0" y="128" width="128" height="896"/>
   <object id="62" x="1152" y="2048" width="1024" height="128"/>
-  <object id="68" type="BreakableWall" x="2048" y="1024" width="128" height="128"/>
+  <object id="68" x="2048" y="1024" width="128" height="128">
+   <properties>
+    <property name="breakable" value="true"/>
+   </properties>
+  </object>
  </objectgroup>
  <objectgroup name="objects">
   <object id="58" name="door-g2-west" type="Door" x="0" y="1024" width="128" height="128">

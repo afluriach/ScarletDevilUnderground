@@ -95,7 +95,9 @@ bool isBulletType(GType type)
 
 bool isAgentType(GType type)
 {
-	return type == GType::enemy || type == GType::player || type == GType::npc;
+	GType targetTypes = enum_bitwise_or3(GType, enemy, npc, player);
+
+	return bitwise_and_bool(targetTypes, type);
 }
 
 b2BodyType getMassType(SpaceFloat mass)
@@ -109,8 +111,8 @@ b2BodyType getMassType(SpaceFloat mass)
 
 pair<GType, GType> getFixtureTypes(b2Contact* contact)
 {
-	GType typeA = static_cast<GType>(contact->GetFixtureA()->GetFilterData().categoryBits);
-	GType typeB = static_cast<GType>(contact->GetFixtureB()->GetFilterData().categoryBits);
+	GType typeA = getBaseType(static_cast<GType>(contact->GetFixtureA()->GetFilterData().categoryBits));
+	GType typeB = getBaseType(static_cast<GType>(contact->GetFixtureB()->GetFilterData().categoryBits));
 
 	return make_pair(typeA, typeB);
 }
@@ -305,10 +307,11 @@ pair<b2Body*, b2Fixture*> PhysicsImpl::createRectangleBody(
 b2Filter PhysicsImpl::generateFilter(GType type, PhysicsLayers layers)
 {
 	b2Filter filter;
+	GType baseType = getBaseType(type);
 
 	filter.categoryBits = to_uint(type);
-	filter.maskBits = collisionMasks.at(type);
-	filter.groupIndex = getGroup(type);
+	filter.maskBits = collisionMasks.at(baseType);
+	filter.groupIndex = getGroup(baseType);
 	filter.layers = to_uint(layers);
 
 	return filter;

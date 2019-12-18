@@ -14,18 +14,17 @@
 class Wall : public GObject
 {
 public: 
+	static GType getWallType(bool breakable);
+
 	MapObjCons(Wall);
-	Wall(GSpace* space, ObjectIDType id, SpaceVect center, SpaceVect dimensions);
+	Wall(GSpace* space, ObjectIDType id, SpaceVect center, SpaceVect dimensions, bool breakable = false);
+
 	virtual inline ~Wall() {}
-};
 
-class BreakableWall : public Wall
-{
-public:
-	MapObjCons(BreakableWall);
-	void hit();
+	virtual bool hit(DamageInfo damage);
 	void applyBreak();
+protected:
+	bool breakable;
 };
-
 
 #endif /* Wall_hpp */

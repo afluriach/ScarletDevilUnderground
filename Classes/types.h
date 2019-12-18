@@ -85,7 +85,9 @@ struct DamageInfo
 {
 	DamageInfo();
 	DamageInfo(float mag, DamageType type);
-	DamageInfo(float mag, Attribute element, DamageType type);
+	DamageInfo(float mag, Attribute element, DamageType type, SpaceVect knockback = SpaceVect::zero);
+
+	SpaceVect knockback = SpaceVect::zero;
 
 	float mag = 0.0f;
 	//It is initialized to Attribute::end;
@@ -93,6 +95,7 @@ struct DamageInfo
 	DamageType type = DamageType::end;
 
 	DamageInfo operator*(float rhs);
+	bool isExplosion();
 };
 
 #define bullet_damage(x) DamageInfo(x, Attribute::end, DamageType::bullet)
@@ -206,13 +209,17 @@ enum class GType{
 	floorSegment = 0x800,
 	bomb = 0x1000,
 
-	all = 0x1FFF
+	all = 0x1FFF,
+
+	canDamage = 0x2000,
 };
 
 extern const GType bombObstacles;
 extern const GType bulletObstacles;
 extern const GType agentObstacles;
 extern const GType interactibleObjects;
+
+GType getBaseType(GType type);
 
 enum class PlayerCharacter {
 	flandre = 0,

@@ -48,7 +48,11 @@
     <property name="hidden" value="true"/>
    </properties>
   </object>
-  <object id="120" type="BreakableWall" x="1280" y="2560" width="128" height="128"/>
+  <object id="120" x="1280" y="2560" width="128" height="128">
+   <properties>
+    <property name="breakable" value="true"/>
+   </properties>
+  </object>
   <object id="121" x="1408" y="0" width="1280" height="128"/>
   <object id="122" x="2816" y="0" width="2048" height="128"/>
  </objectgroup>

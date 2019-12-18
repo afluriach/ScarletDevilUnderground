@@ -496,7 +496,7 @@ void GObject::initializeBody()
 			prevPos,
 			dimensions,
 			getMass(),
-			getType(),
+			getFullType(),
 			getLayers(),
 			getSensor(),
 			make_any<GObject*>(this)
@@ -508,7 +508,7 @@ void GObject::initializeBody()
 			prevPos,
 			dimensions.x,
 			getMass(),
-			getType(),
+			getFullType(),
 			getLayers(),
 			getSensor(),
 			make_any<GObject*>(this)

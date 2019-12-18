@@ -135,7 +135,6 @@ void GObject::initObjectInfo()
 	objectInfo = {
 
 	conditional_entry(BlueFairyNPC),
-	entry_same(BreakableWall),
 	entry_same(CollectGlyph),
 	entry_same(Barrier),
 	entry_same(Block),
@@ -203,13 +202,13 @@ const unordered_set<type_index> GSpace::trackedTypes = {
 	typeid(RoomSensor),
 	typeid(Spawner),
 	typeid(TeleportPad),
+	typeid(Wall),
 
 	//virtual tracked types
 	typeid(Player),
 	typeid(Enemy),
 	typeid(Bullet),
 	typeid(FloorSegment),
-	typeid(Wall),
 };
 
 #define _nameTypeEntry(cls) {#cls, typeid(cls)}

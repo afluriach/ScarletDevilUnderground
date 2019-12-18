@@ -29,8 +29,16 @@
   <object id="29" x="0" y="1152" width="128" height="1024"/>
   <object id="32" x="0" y="128" width="128" height="896"/>
   <object id="62" x="1152" y="2048" width="1024" height="128"/>
-  <object id="69" type="BreakableWall" x="0" y="1024" width="128" height="128"/>
-  <object id="70" type="BreakableWall" x="1024" y="2048" width="128" height="128"/>
+  <object id="69" x="0" y="1024" width="128" height="128">
+   <properties>
+    <property name="breakable" value="true"/>
+   </properties>
+  </object>
+  <object id="70" x="1024" y="2048" width="128" height="128">
+   <properties>
+    <property name="breakable" value="true"/>
+   </properties>
+  </object>
  </objectgroup>
  <objectgroup name="objects">
   <object id="75" type="Torch" x="1280" y="1920" width="128" height="128">

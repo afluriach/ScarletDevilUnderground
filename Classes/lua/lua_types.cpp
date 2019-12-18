@@ -109,9 +109,15 @@ namespace Lua{
 
 		auto damageInfo = _state.new_usertype<DamageInfo>(
 			"DamageInfo",
-			sol::constructors< DamageInfo(), DamageInfo(float, DamageType), DamageInfo(float, Attribute, DamageType) >()
+			sol::constructors<
+				DamageInfo(),
+				DamageInfo(float, DamageType),
+				DamageInfo(float, Attribute, DamageType),
+				DamageInfo(float, Attribute, DamageType, SpaceVect)
+			>()
 		);
 
+		damageInfo["knockback"] = &DamageInfo::knockback;
 		damageInfo["mag"] = &DamageInfo::mag;
 		damageInfo["element"] = &DamageInfo::element;
 		damageInfo["type"] = &DamageInfo::type;

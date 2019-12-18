@@ -28,7 +28,11 @@
   <object id="28" x="128" y="2048" width="2048" height="128"/>
   <object id="29" x="0" y="128" width="128" height="2048"/>
   <object id="31" x="2048" y="1152" width="128" height="896"/>
-  <object id="81" type="BreakableWall" x="2048" y="1024" width="128" height="128"/>
+  <object id="81" x="2048" y="1024" width="128" height="128">
+   <properties>
+    <property name="breakable" value="true"/>
+   </properties>
+  </object>
  </objectgroup>
  <objectgroup name="objects">
   <object id="83" type="Spellcard" x="1024" y="1024" width="128" height="128">

@@ -41,12 +41,14 @@ public:
 	void detonate();
 
 	//Interface
-	virtual DamageInfo getDamageInfo() const { return props->damage; }
-	virtual SpaceFloat getFuseTime() const { return props->fuseTime; }
-	virtual SpaceFloat getBlastRadius() const { return props->blastRadius; }
+	inline DamageInfo getDamageInfo() const { return props->damage; }
+	inline SpaceFloat getFuseTime() const { return props->fuseTime; }
+	inline SpaceFloat getBlastRadius() const { return props->blastRadius; }
 
-	virtual string getExplosionSound() const { return props->explosionSound; }
-	virtual string getSprite() const { return props->sprite; }
+	inline string getExplosionSound() const { return props->explosionSound; }
+
+	inline virtual string getSprite() const { return props->sprite; }
+	virtual bool hit(DamageInfo damage);
 protected:
 	shared_ptr<bomb_properties> props;
 

@@ -120,8 +120,16 @@
   <object id="168" x="2176" y="4352" width="2176" height="128"/>
   <object id="169" x="4352" y="4352" width="1024" height="128"/>
   <object id="170" x="4352" y="4224" width="1024" height="128"/>
-  <object id="171" type="BreakableWall" x="5376" y="4352" width="128" height="128"/>
-  <object id="172" type="BreakableWall" x="5376" y="4224" width="128" height="128"/>
+  <object id="171" x="5376" y="4352" width="128" height="128">
+   <properties>
+    <property name="breakable" value="true"/>
+   </properties>
+  </object>
+  <object id="172" x="5376" y="4224" width="128" height="128">
+   <properties>
+    <property name="breakable" value="true"/>
+   </properties>
+  </object>
   <object id="173" x="5504" y="2048" width="896" height="128"/>
   <object id="174" x="6400" y="2176" width="128" height="2176"/>
   <object id="175" x="6400" y="4352" width="128" height="2048"/>
@@ -129,8 +137,6 @@
   <object id="177" x="0" y="4352" width="128" height="2176"/>
  </objectgroup>
  <objectgroup name="objects">
-  <object id="119" type="BreakableWall" x="5376" y="4224" width="128" height="128"/>
-  <object id="120" type="BreakableWall" x="5376" y="4352" width="128" height="128"/>
   <object id="131" type="Goal" x="1024" y="1024" width="128" height="128"/>
   <object id="142" name="player" type="Player" x="3200" y="8448" width="128" height="128"/>
   <object id="179" type="Bat" x="3200" y="5376" width="128" height="128"/>

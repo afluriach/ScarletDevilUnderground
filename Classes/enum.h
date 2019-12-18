@@ -52,6 +52,8 @@ constexpr E enum_bitwise_or_v(E first, Params... params)
 #define enum_increment(cls,lval) lval = static_cast<cls>( static_cast<int>(lval) + 1 )
 #define enum_foreach(cls,var_name,begin,end) for(cls var_name=cls::begin; var_name < cls::end; enum_increment(cls, var_name) )
 
+#define bitwise_or(cls,a,b) static_cast<cls>(static_cast<unsigned int>(a) | static_cast<unsigned int>(b))
+
 #define enum_bitwise_or(cls,a,b) enum_bitwise_or_v<cls>(cls::a, cls::b)
 #define enum_bitwise_or3(cls,a,b,c) enum_bitwise_or_v<cls>(cls::a, cls::b, cls::c)
 #define enum_bitwise_or4(cls,a,b,c,d) enum_bitwise_or_v<cls>(cls::a, cls::b, cls::c, cls::d)

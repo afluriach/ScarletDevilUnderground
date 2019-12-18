@@ -28,15 +28,21 @@ DamageInfo::DamageInfo(float mag, DamageType type) :
 	type(type)
 {}
 
-DamageInfo::DamageInfo(float mag, Attribute element, DamageType type) : 
+DamageInfo::DamageInfo(float mag, Attribute element, DamageType type, SpaceVect knockback) : 
 	mag(mag),
 	element(element),
-	type(type)
+	type(type),
+	knockback(knockback)
 {}
 
 DamageInfo DamageInfo::operator*(float rhs)
 {
 	return DamageInfo{ mag * rhs, element, type };
+}
+
+bool DamageInfo::isExplosion()
+{
+	return type == DamageType::bomb && mag > 0.0f;
 }
 
 float app_params::getScale() const
@@ -124,6 +130,11 @@ const GType bombObstacles = enum_bitwise_or4(GType, enemy, environment, wall, bo
 const GType bulletObstacles = enum_bitwise_or4(GType, player, enemy, environment, wall);
 const GType interactibleObjects = enum_bitwise_or(GType, npc, environment);
 const GType agentObstacles = enum_bitwise_or5(GType, wall, enemy, environment, npc, player);
+
+GType getBaseType(GType type)
+{
+	return bitwise_and(GType, type, GType::all);
+}
 
 bool isValidChamber(ChamberID id)
 {

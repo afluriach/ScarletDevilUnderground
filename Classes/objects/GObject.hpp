@@ -223,7 +223,8 @@ public:
 	inline SpaceFloat getMass() const { return mass; }
 	SpaceFloat getRadius() const;
 	inline virtual SpaceFloat uk() const { return 0.0; }
-	inline GType getType() const { return type; }
+	inline GType getType() const { return getBaseType(type); }
+	inline GType getFullType() const { return type; }
 	inline bool getSensor() const { return sensor; }
 	inline PhysicsLayers getLayers() const { return layers; }
 

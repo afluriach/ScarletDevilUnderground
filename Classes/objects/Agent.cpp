@@ -40,7 +40,7 @@ const float Agent::bodyOutlineWidth = 4.0f;
 Agent::Agent(GSpace* space, ObjectIDType id, GType type, PhysicsLayers layers, const string& name, const SpaceVect& pos, Direction d) :
 	GObject(
 		make_shared<object_params>(space, id, name, pos, dirToPhysicsAngle(d)),
-		physics_params(type, layers, defaultSize, 20.0)
+		physics_params(bitwise_or(GType, type, GType::canDamage), layers, defaultSize, 20.0)
 	)
 {
 	space->addValueMapArgs(uuid, {});
@@ -58,7 +58,7 @@ Agent::Agent(
 ) :
 	GObject(
 		make_shared<object_params>(space, id, args),
-		physics_params(type, layers, radius, mass)
+		physics_params(bitwise_or(GType, type, GType::canDamage), layers, radius, mass)
 	),
 	attributes(baseAttributes)
 {
@@ -516,6 +516,10 @@ bool Agent::hit(DamageInfo damage)
 
 	float hp = attributeSystem.applyDamage(damage);
 	space->addGraphicsAction(&graphics_context::createDamageIndicator, hp, getPos());
+
+	if (!damage.knockback.isZero() ) {
+		applyImpulse(damage.knockback);
+	}
 
 	return true;
 }

@@ -439,7 +439,6 @@ void GSpace::processAdditions()
 		addVirtualTrack<Enemy>(obj);
 		addVirtualTrack<Bullet>(obj);
 		addVirtualTrack<FloorSegment>(obj);
-		addVirtualTrack<Wall>(obj);
 
 		if (RoomSensor* rs = dynamic_cast<RoomSensor*>(obj)) {
 			roomSensors.insert_or_assign(rs->mapID, rs);
@@ -522,7 +521,6 @@ void GSpace::processRemoval(GObject* obj, bool _removeSprite)
 	removeVirtualTrack<Enemy>(obj);
 	removeVirtualTrack<Bullet>(obj);
 	removeVirtualTrack<FloorSegment>(obj);
-	removeVirtualTrack<Wall>(obj);
     
 	if (RoomSensor* rs = dynamic_cast<RoomSensor*>(obj)) {
 		roomSensors.erase(rs->mapID);

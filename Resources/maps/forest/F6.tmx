@@ -40,7 +40,11 @@
   <object id="117" x="0" y="2560" width="1280" height="128"/>
   <object id="118" x="0" y="128" width="128" height="2432"/>
   <object id="119" x="2560" y="1408" width="128" height="1280"/>
-  <object id="120" type="BreakableWall" x="2560" y="1280" width="128" height="128"/>
+  <object id="120" x="2560" y="1280" width="128" height="128">
+   <properties>
+    <property name="breakable" value="true"/>
+   </properties>
+  </object>
   <object id="121" x="2688" y="1024" width="1536" height="128">
    <properties>
     <property name="hidden" value="true"/>

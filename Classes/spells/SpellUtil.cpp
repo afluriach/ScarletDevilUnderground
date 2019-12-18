@@ -21,46 +21,26 @@ void explosion(const GObject* source, SpaceFloat radius, DamageInfo baseDamage)
 {
 	physics_context* physicsContext = source->space->physicsContext.get();
 
-	unordered_set<Agent*> targets = physicsContext->radiusQueryByType<Agent>(
+	unordered_set<GObject*> targets = physicsContext->radiusQuery(
 		source,
 		source->getPos(),
 		radius,
-		enum_bitwise_or3(GType, enemy, player, npc),
+		GType::canDamage,
 		PhysicsLayers::all
 	);
 
-	for (Agent* target : targets)
+	for (GObject* target : targets)
 	{
+		DamageInfo crntDamage = baseDamage;
+
 		float scale = getExplosionScale(source, target, radius);
 		SpaceFloat knockback = baseDamage.mag * 5.0f * scale;
 
-		target->hit(baseDamage * scale);
+		crntDamage = crntDamage*scale;
+		crntDamage.knockback = calculateExplosionKnockback(source, target, knockback);
+
+		target->hit(crntDamage);
 		log("Hit %s at scale %f.", target->getName().c_str(), scale);
-		applyKnockback(source, target, knockback);
-	}
-
-	unordered_set<BreakableWall*> walls = physicsContext->radiusQueryByType<BreakableWall>(
-		source,
-		source->getPos(),
-		radius,
-		GType::wall,
-		PhysicsLayers::all
-	);
-
-	for (BreakableWall* bw : walls){
-		bw->hit();
-	}
-
-	unordered_set<Bomb*> bombs = physicsContext->radiusQueryByType<Bomb>(
-		source,
-		source->getPos(),
-		radius,
-		GType::bomb,
-		PhysicsLayers::all
-	);
-
-	for (Bomb* bomb : bombs) {
-		bomb->detonate();
 	}
 }
 
@@ -82,10 +62,10 @@ float getExplosionScale(const SpaceVect& pos, const GObject* target, SpaceFloat 
 		return 1.0f - (dist - halfRadius) / halfRadius;
 }
 
-void applyKnockback(const GObject* source, GObject* target, SpaceFloat mag)
+SpaceVect calculateExplosionKnockback(const GObject* source, GObject* target, SpaceFloat mag)
 {
 	SpaceVect d = ai::directionToTarget(source, target->getPos());
-	target->applyImpulse(d * mag);
+	return d * mag;
 }
 
 void radialEffectArea(const GObject* source, SpaceFloat radius, GType targets, DamageInfo damage)
