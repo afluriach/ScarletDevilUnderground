@@ -37,7 +37,7 @@ GObject::AdapterType enemyAdapter(shared_ptr<enemy_properties> props)
 
 void loadAttributes()
 {
-	loadObjects<AttributeMap>("objects/attributes.xml", app::attributes);
+	loadObjects<AttributeMap>("objects/attribute_sets.xml", app::attributes);
 }
 
 void loadBombs()
