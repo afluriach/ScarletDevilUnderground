@@ -163,6 +163,13 @@ RoomSensor::RoomSensor(GSpace* space, ObjectIDType id, SpaceVect center, SpaceVe
 		auto f = ai::Function::constructState(startState, fsm.get(), props);
 		fsm->addThread(f);
 	}
+
+	space->addRoomSensor(this);
+}
+
+RoomSensor::~RoomSensor()
+{
+	space->removeRoomSensor(this);
 }
 
 void RoomSensor::beginContact(GObject* obj)

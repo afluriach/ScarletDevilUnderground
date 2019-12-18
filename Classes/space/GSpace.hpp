@@ -229,6 +229,8 @@ public:
 	Player* getPlayer();
 	gobject_ref getPlayerAsRef();
 	void applyMapFragment(int mapFragmentID);
+	void addRoomSensor(RoomSensor* rs);
+	void removeRoomSensor(RoomSensor* rs);
 
 	void registerEnemyStaticLoaded(string s);
 	void registerEnemySpawned(string s);

@@ -70,6 +70,8 @@ public:
 	RoomSensor(GSpace* space, ObjectIDType id, const ValueMap& obj);
 	RoomSensor(GSpace* space, ObjectIDType id, SpaceVect center, SpaceVect dimensions, int mapID, const ValueMap& props);
 
+	virtual ~RoomSensor();
+
 	virtual void beginContact(GObject* obj);
 	virtual void endContact(GObject* obj);
 

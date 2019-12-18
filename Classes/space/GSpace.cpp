@@ -439,10 +439,6 @@ void GSpace::processAdditions()
 		addVirtualTrack<Enemy>(obj);
 		addVirtualTrack<FloorSegment>(obj);
 
-		if (RoomSensor* rs = dynamic_cast<RoomSensor*>(obj)) {
-			roomSensors.insert_or_assign(rs->mapID, rs);
-		}
-
         if(!obj->isAnonymous())
             objByName[obj->name] = obj;
         objByUUID[obj->uuid] = obj;
@@ -520,10 +516,6 @@ void GSpace::processRemoval(GObject* obj, bool _removeSprite)
 	removeVirtualTrack<Enemy>(obj);
 	removeVirtualTrack<FloorSegment>(obj);
     
-	if (RoomSensor* rs = dynamic_cast<RoomSensor*>(obj)) {
-		roomSensors.erase(rs->mapID);
-	}
-
 	if (obj->getMass() <= 0.0 && (obj->getType() == GType::environment || obj->getType() == GType::wall)) {
 		removeNavObstacle(obj->getPos(), obj->getDimensions());
 	}
@@ -880,6 +872,16 @@ void GSpace::applyMapFragment(int mapFragmentID)
 		addSceneAction(bind(&GScene::applyMapFragment, gscene, mapFragmentID));
 		addHudAction(&HUD::setMapCounter, getState()->getMapFragmentCount(crntChamber));
 	}
+}
+
+void GSpace::addRoomSensor(RoomSensor* rs)
+{
+	roomSensors.insert_or_assign(rs->mapID, rs);
+}
+
+void GSpace::removeRoomSensor(RoomSensor* rs)
+{
+	roomSensors.erase(rs->mapID);
 }
 
 Player* GSpace::getPlayer()
