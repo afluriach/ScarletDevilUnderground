@@ -10,7 +10,6 @@
 #define GObject_hpp
 
 #include "graphics_types.h"
-#include "multifunction.h"
 #include "object_params.hpp"
 
 class Player;
@@ -170,9 +169,6 @@ public:
 	
 	void launch();
 	void launchAtTarget(GObject* target);
-    void setInitialVelocity(const SpaceVect& v);
-    void setInitialAngle(SpaceFloat a);
-    void setInitialAngularVelocity(SpaceFloat w);
     Vec2 getInitialCenterPix();
 
 	virtual inline void teleport(SpaceVect pos) { setPos(pos); }
@@ -234,9 +230,7 @@ public:
 	inline virtual SpaceFloat getMaxSpeed() const { return 0; }
 	inline virtual SpaceFloat getMaxAcceleration() const { return 0; }
 
-	//Called before adding the the object to space.
-	virtual void initializeBody();
-	inline virtual void initializeRadar(GSpace& space) {};
+	void initializeBody();
 
 	void updateParametricMove();
 

@@ -39,9 +39,11 @@ GObject::GObject(shared_ptr<object_params> params, const physics_params& phys) :
 	prevAngle(params->angle),
 	hidden(params->hidden)
 {
-	setInitialAngle(params->angle);
-	if (params->vel != SpaceVect::zero) setInitialVelocity(params->vel);
-	if (params->angularVel != 0.0) setInitialAngularVelocity(params->angularVel);
+	initializeBody();
+
+	setAngle(params->angle);
+	setVel(params->vel);
+	setAngularVel(params->angularVel);
 }
 
 GObject::~GObject()
@@ -250,24 +252,6 @@ void GObject::launchAtTarget(GObject* target)
 {
 	setVel(SpaceVect::ray(getMaxSpeed(), getAngle()));
 	setAngularVel(0.0f);
-}
-
-void GObject::setInitialVelocity(const SpaceVect& v){
-	space->addInitAction( [v, this]() -> void {
-		setVel(v);
-	} );
-}
-
-void GObject::setInitialAngle(SpaceFloat a){
-	space->addInitAction( [a, this]() -> void {
-		setAngle(a);
-	} );
-}
-
-void GObject::setInitialAngularVelocity(SpaceFloat w){
-	space->addInitAction( [w, this]() -> void{
-		setAngularVel(w);
-	} );
 }
 
 Vec2 GObject::getInitialCenterPix()

@@ -147,6 +147,7 @@ void Agent::init()
 {
 	GObject::init();
 
+	initializeRadar();
 	initFSM();
 	initAttributes();
 }
@@ -541,7 +542,7 @@ DamageInfo Agent::touchEffect() const
 	return DamageInfo{};
 }
 
-void Agent::initializeRadar(GSpace& space)
+void Agent::initializeRadar()
 {
 	auto attr = sensor_attributes{
 		getRadarRadius(),
@@ -563,7 +564,7 @@ void Agent::initializeRadar(GSpace& space)
 	);
 
 	if (radar) {
-		space.insertSensor(radar);
+		space->insertSensor(radar);
 	}
 }
 

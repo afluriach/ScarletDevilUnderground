@@ -429,8 +429,6 @@ void GSpace::processAdditions()
             continue;
         }
 
-        obj->initializeBody();
-        obj->initializeRadar(*this);
         obj->initializeGraphics();
 
 		if (isTrackedType(typeid(*obj))) {
