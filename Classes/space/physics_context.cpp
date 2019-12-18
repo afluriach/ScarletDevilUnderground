@@ -232,7 +232,7 @@ GObject* physics_context::interactibleObjectFeeler(const GObject* agent, SpaceVe
 	GObject* obj = objectFeeler(
 		agent,
 		feeler,
-		interactibleObjects,
+		GType::interactible,
 		agent->getCrntLayers()
 	);
 

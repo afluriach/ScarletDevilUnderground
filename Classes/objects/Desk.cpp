@@ -14,7 +14,7 @@
 #include "value_map.hpp"
 
 Desk::Desk(GSpace* space, ObjectIDType id, const ValueMap& args) :
-GObject(MapParamsPointUp(), MapRectPhys(GType::environment, PhysicsLayers::ground, -1.0))
+GObject(MapParamsPointUp(), MapRectPhys(enum_bitwise_or(GType, environment, interactible), PhysicsLayers::ground, -1.0))
 {
 }
 

@@ -20,7 +20,7 @@
 Door::Door(GSpace* space, ObjectIDType id, const ValueMap& args) :
 	GObject(
 		make_shared<object_params>(space,id,args, true),
-		MapRectPhys(GType::environment, PhysicsLayers::all, -1.0)
+		MapRectPhys(enum_bitwise_or(GType, environment, interactible), PhysicsLayers::all, -1.0)
 	)
 {
 	locked = getBoolOrDefault(args, "locked", false);

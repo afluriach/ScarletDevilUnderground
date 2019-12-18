@@ -113,7 +113,7 @@ bool Mushroom::conditionalLoad(GSpace* space, ObjectIDType id, const ValueMap& a
 }
 
 Mushroom::Mushroom(GSpace* space, ObjectIDType id, const ValueMap& args) :
-	GObject(MapParamsPointUp(), physics_params(GType::environment, PhysicsLayers::ground, args, -1.0)) 
+	GObject(MapParamsPointUp(), physics_params(enum_bitwise_or(GType, environment, interactible), PhysicsLayers::ground, args, -1.0))
 {
 	objectID = getIntOrDefault(args, "id", -1);
 }

@@ -12,7 +12,7 @@
 #include "value_map.hpp"
 
 Sign::Sign(GSpace* space, ObjectIDType id, const ValueMap& args) :
-	GObject(MapParamsPointUp(), MapRectPhys(GType::environment, PhysicsLayers::all, -1.0))
+	GObject(MapParamsPointUp(), MapRectPhys(enum_bitwise_or(GType, environment, interactible), PhysicsLayers::all, -1.0))
 {
 	dialogRes = getStringOrDefault(args, "dialog", "");
 }

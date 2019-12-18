@@ -212,12 +212,12 @@ enum class GType{
 	all = 0x1FFF,
 
 	canDamage = 0x2000,
+	interactible = 0x4000,
 };
 
 extern const GType bombObstacles;
 extern const GType bulletObstacles;
 extern const GType agentObstacles;
-extern const GType interactibleObjects;
 
 GType getBaseType(GType type);
 
