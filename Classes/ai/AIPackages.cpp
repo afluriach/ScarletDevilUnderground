@@ -143,30 +143,12 @@ void greenFairyEngage(StateMachine* sm, Player* p)
 void green_fairy1(StateMachine* fsm, const ValueMap& args)
 {
 	fsm->addFleeBomb();
-
-	fsm->getObject()->addMagicEffect(make_shared<BulletSpeedFromHP>(
-		fsm->getAgent(),
-		make_pair(0.25f, 0.75f),
-		make_pair(0.75f, 1.0f),
-		0.5f,
-		0.25f
-	));
-
 	fsm->addAlertFunction(&greenFairyEngage);
 }
 
 void green_fairy2(StateMachine* fsm, const ValueMap& args)
 {
 	fsm->addFleeBomb();
-
-	fsm->getObject()->addMagicEffect(make_shared<BulletSpeedFromHP>(
-		fsm->getAgent(),
-		make_pair(0.25f, 0.5f),
-		make_pair(0.5f, 1.0f),
-		1.0f / 3.0f,
-		0.25f
-	));
-
 	fsm->addAlertFunction(&greenFairyEngage);
 }
 

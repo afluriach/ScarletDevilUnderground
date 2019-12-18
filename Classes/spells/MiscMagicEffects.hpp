@@ -14,29 +14,6 @@
 class Agent;
 class TeleportPad;
 
-class BulletSpeedFromHP : public MagicEffect
-{
-public:
-	BulletSpeedFromHP(
-		Agent* agent,
-		float_pair debuffRange,
-		float_pair buffRange,
-		float maxDebuff,
-		float maxBuff
-	);
-
-	inline virtual void init() {}
-	virtual void update();
-	virtual void end();
-protected:
-	float baseBulletSpeed;
-	float_pair debuffRange;
-	float_pair buffRange;
-	float maxDebuff;
-	float maxBuff;
-	Agent * agent;
-};
-
 //Uses currentSpeed attribute to determine amount of movement, applied per frame.
 class DrainFromMovement : public MagicEffect
 {
