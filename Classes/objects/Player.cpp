@@ -612,24 +612,12 @@ void Player::applyUpgrade(Upgrade* up)
 	float step = AttributeSystem::upgradeAttributes.at(at).step;
 	attributeSystem.modifyAttribute(at, step);
 
-	switch (at)
-	{
-	case Attribute::maxHP:
-		attributeSystem.modifyAttribute(Attribute::hp, step);
-	break;
-	case Attribute::maxMP:
-		attributeSystem.modifyAttribute(Attribute::mp, step);
-	break;
-	case Attribute::maxStamina:
-		attributeSystem.modifyAttribute(Attribute::stamina, step);
-	break;
-	case Attribute::shieldLevel:
+	if (at == Attribute::shieldLevel) {
 		space->graphicsNodeAction(
 			&AgentBodyShader::setShieldLevel,
 			agentOverlay,
 			attributeSystem[Attribute::shieldLevel]
 		);
-	break;
 	}
 
 	space->getState()->registerUpgrade(at, up->upgrade_id);

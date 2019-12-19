@@ -43,5 +43,10 @@ string Upgrade::getSprite() const
 
 string Upgrade::itemName() const
 {
-	return AttributeSystem::attributeNameMap.left.at(attribute);
+	return "";
+}
+
+void Upgrade::onAcquire(Player* player)
+{
+	player->applyUpgrade(this);
 }

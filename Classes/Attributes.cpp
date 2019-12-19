@@ -440,6 +440,12 @@ void AttributeSystem::modifyIncidentAttribute(IncidentAttributeEntry entry, floa
 	attributes.at(to_size_t(entry.current)) = getWithinRange(attributes.at(to_size_t(entry.current)) + x, 0, attributes.at(to_size_t(entry.maximum)));
 }
 
+void AttributeSystem::modifyIncidentAttributeMaximum(IncidentAttributeEntry entry, float x)
+{
+	attributes.at(to_size_t(entry.maximum)) += x;
+	modifyIncidentAttribute(entry, x);
+}
+
 void AttributeSystem::applyElementalDamage(Attribute id, Attribute sensitivity, float x)
 {
 	//If applying damage, the amount is scaled proportional to sensitivity
@@ -477,6 +483,8 @@ bool AttributeSystem::canApplyAttribute(Attribute id, float x)
 
 void AttributeSystem::modifyAttribute(Attribute id, float x)
 {
+	if (x == 0.0f) return;
+
 	switch (id)
 	{
 	case Attribute::hp:
@@ -487,6 +495,16 @@ void AttributeSystem::modifyAttribute(Attribute id, float x)
 		break;
 	case Attribute::stamina:
 		modifyIncidentAttribute(stamina, x);
+		break;
+
+	case Attribute::maxHP:
+		modifyIncidentAttributeMaximum(hp, x);
+		break;
+	case Attribute::maxMP:
+		modifyIncidentAttributeMaximum(mp, x);
+		break;
+	case Attribute::maxStamina:
+		modifyIncidentAttributeMaximum(stamina, x);
 		break;
 
 	case Attribute::agility:
@@ -512,6 +530,11 @@ void AttributeSystem::modifyAttribute(Attribute id, float x)
 	case Attribute::slimeDamage:
 		applyElementalDamage(Attribute::slimeDamage, Attribute::slimeSensitivity, x);
 		break;
+
+	case Attribute::currentSpeed:
+	case Attribute::speedRatio:
+		break;
+
 	default:
 		attributes.at(to_size_t(id)) += x;
 		break;

@@ -22,6 +22,7 @@ public:
 	virtual inline GraphicsLayer sceneLayer() const { return GraphicsLayer::floor; }
 	virtual string getSprite() const;
 	virtual string itemName() const;
+	virtual void onAcquire(Player* player);
 
 	//Which particular instance of this upgrade.
 	const unsigned int upgrade_id;

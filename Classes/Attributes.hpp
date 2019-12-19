@@ -145,6 +145,7 @@ public:
 	float getTypeSensitivity(DamageType type) const;
 	bool canApplyIncidentAttribute(IncidentAttributeEntry entry) const;
 	void modifyIncidentAttribute(IncidentAttributeEntry entry, float x);
+	void modifyIncidentAttributeMaximum(IncidentAttributeEntry entry, float x);
 	void applyElementalDamage(Attribute id, Attribute maxID, float x);
 	bool canApplyAttribute(Attribute id, float x);
 	void modifyAttribute(Attribute id, float x);
