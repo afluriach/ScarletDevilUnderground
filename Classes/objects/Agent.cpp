@@ -132,10 +132,6 @@ void Agent::initAttributes()
 	attributeSystem = getBaseAttributes();
 	applyAttributeEffects(getAttributeUpgrades());
 
-	attributeSystem.setFullHP();
-	attributeSystem.setFullMP();
-	attributeSystem.setFullStamina();
-
 	space->graphicsNodeAction(
 		&AgentBodyShader::setShieldLevel,
 		agentOverlay,

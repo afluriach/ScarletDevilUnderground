@@ -30,6 +30,14 @@ enum class Attribute {
 	mpRegen,
 	staminaRegen,
 
+	hpInv,
+	mpInv,
+	staminaInv,
+
+	hpRatio,
+	mpRatio,
+	staminaRatio,
+
 	keys,
 	combo,
 
@@ -80,6 +88,10 @@ struct IncidentAttributeEntry
 	Attribute current;
 	Attribute maximum;
 	Attribute regeneration;
+
+	//Derived
+	Attribute maximum_inverse;
+	Attribute ratio;
 };
 
 struct UpgradeInfo
@@ -93,9 +105,9 @@ typedef array<float, to_size_t(Attribute::end)> AttributeArray;
 class AttributeSystem
 {
 public:
-	static constexpr IncidentAttributeEntry hp = { Attribute::hp, Attribute::maxHP, Attribute::hpRegen };
-	static constexpr IncidentAttributeEntry mp = { Attribute::mp, Attribute::maxMP, Attribute::mpRegen };
-	static constexpr IncidentAttributeEntry stamina = { Attribute::stamina, Attribute::maxStamina, Attribute::staminaRegen };
+	static constexpr IncidentAttributeEntry hp = { Attribute::hp, Attribute::maxHP, Attribute::hpRegen, Attribute::hpInv, Attribute::hpRatio};
+	static constexpr IncidentAttributeEntry mp = { Attribute::mp, Attribute::maxMP, Attribute::mpRegen, Attribute::mpInv, Attribute::mpRatio };
+	static constexpr IncidentAttributeEntry stamina = { Attribute::stamina, Attribute::maxStamina, Attribute::staminaRegen, Attribute::staminaInv, Attribute::staminaRatio };
 
 	static pair<float, float> calculateAgilityAttributes(float agility);
 
@@ -146,6 +158,7 @@ public:
 	bool canApplyIncidentAttribute(IncidentAttributeEntry entry) const;
 	void modifyIncidentAttribute(IncidentAttributeEntry entry, float x);
 	void modifyIncidentAttributeMaximum(IncidentAttributeEntry entry, float x);
+	void setIncidentMaxInv(IncidentAttributeEntry entry);
 	void applyElementalDamage(Attribute id, Attribute maxID, float x);
 	bool canApplyAttribute(Attribute id, float x);
 	void modifyAttribute(Attribute id, float x);

@@ -227,15 +227,23 @@ float AttributeSystem::getAttribute(const AttributeMap& attr, Attribute id, floa
 }
 
 AttributeSystem::AttributeSystem() :
-attributes(getBlankAttributeSet())
+AttributeSystem(getBlankAttributeSet())
 {}
 
 AttributeSystem::AttributeSystem(const AttributeArray& baseAttributes) :
 attributes(baseAttributes)
-{}
+{
+	setIncidentMaxInv(hp);
+	setIncidentMaxInv(mp);
+	setIncidentMaxInv(stamina);
+
+	setFullHP();
+	setFullMP();
+	setFullStamina();
+}
 
 AttributeSystem::AttributeSystem(const AttributeMap& baseAttributesMap) :
-attributes(getAttributeSet(baseAttributesMap))
+AttributeSystem(getAttributeSet(baseAttributesMap))
 {}
 
 float AttributeSystem::operator[](Attribute id) const
@@ -289,7 +297,7 @@ void AttributeSystem::update(Agent* agent)
 
 void AttributeSystem::applyIncidentRegen(IncidentAttributeEntry entry)
 {
-	timerIncrement(entry.current, entry.maximum, (*this)[entry.regeneration] * (*this)[entry.maximum]);
+	modifyIncidentAttribute(entry, (*this)[entry.regeneration] * (*this)[entry.maximum] * app::params.secondsPerFrame);
 }
 
 void AttributeSystem::applyElementDecay()
@@ -301,7 +309,7 @@ void AttributeSystem::applyElementDecay()
 
 float AttributeSystem::getIncidentRatio(IncidentAttributeEntry entry) const
 {
-	return (*this)[entry.maximum] > 0.0f ? (*this)[entry.current] / (*this)[entry.maximum] : 0.0f;
+	return (*this)[entry.ratio];
 }
 
 float AttributeSystem::getHealthRatio() const
@@ -377,11 +385,13 @@ float AttributeSystem::getWithinRange(float input, float min, float max)
 void AttributeSystem::setFull(IncidentAttributeEntry entry)
 {
 	attributes.at(to_size_t(entry.current)) = attributes.at(to_size_t(entry.maximum));
+	attributes.at(to_size_t(entry.ratio)) = 1.0f;
 }
 
 void AttributeSystem::setEmpty(IncidentAttributeEntry entry)
 {
-	attributes.at(to_size_t(entry.current)) = 0;
+	attributes.at(to_size_t(entry.current)) = 0.0f;
+	attributes.at(to_size_t(entry.ratio)) = 0.0f;
 }
 
 void AttributeSystem::setFullHP()
@@ -438,12 +448,22 @@ void AttributeSystem::modifyAgility(float dx)
 void AttributeSystem::modifyIncidentAttribute(IncidentAttributeEntry entry, float x)
 {
 	attributes.at(to_size_t(entry.current)) = getWithinRange(attributes.at(to_size_t(entry.current)) + x, 0, attributes.at(to_size_t(entry.maximum)));
+	attributes.at(to_size_t(entry.ratio)) = attributes.at(to_size_t(entry.current)) * attributes.at(to_size_t(entry.maximum_inverse));
 }
 
 void AttributeSystem::modifyIncidentAttributeMaximum(IncidentAttributeEntry entry, float x)
 {
 	attributes.at(to_size_t(entry.maximum)) += x;
+	setIncidentMaxInv(entry);
 	modifyIncidentAttribute(entry, x);
+}
+
+void AttributeSystem::setIncidentMaxInv(IncidentAttributeEntry entry)
+{
+	float max = attributes.at(to_size_t(entry.maximum));
+
+	if(max > 0.0f)
+		attributes.at(to_size_t(entry.maximum_inverse)) = 1.0f / max;
 }
 
 void AttributeSystem::applyElementalDamage(Attribute id, Attribute sensitivity, float x)
@@ -531,6 +551,12 @@ void AttributeSystem::modifyAttribute(Attribute id, float x)
 		applyElementalDamage(Attribute::slimeDamage, Attribute::slimeSensitivity, x);
 		break;
 
+	case Attribute::hpInv:
+	case Attribute::mpInv:
+	case Attribute::staminaInv:
+	case Attribute::hpRatio:
+	case Attribute::mpRatio:
+	case Attribute::staminaRatio:
 	case Attribute::currentSpeed:
 	case Attribute::speedRatio:
 		break;
