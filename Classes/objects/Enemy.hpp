@@ -29,7 +29,7 @@ struct enemy_properties
 	SpaceFloat viewAngle = 0.0;
 
 	DamageInfo touchEffect;
-	collectible_id collectible = collectible_id::nil;
+	string collectible;
 
 	shared_ptr<LightArea> lightSource;
 
@@ -47,7 +47,7 @@ public:
 		const string& baseAttributes,
 		SpaceFloat radius,
 		SpaceFloat mass,
-		collectible_id drop_id,
+		string drop_id,
 		bool isFlying
 	);
 
@@ -58,7 +58,7 @@ public:
 	virtual bool hit(DamageInfo damage);
 	virtual void onRemove();
 protected:
-	collectible_id drop_id = collectible_id::nil;
+	string drop_id;
 };
 
 class EnemyImpl : public Enemy

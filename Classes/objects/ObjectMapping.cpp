@@ -90,7 +90,7 @@ GObject::AdapterType playerAdapter()
 	};
 }
 
-GObject::AdapterType collectibleAdapter(collectible_id coll_id)
+GObject::AdapterType collectibleAdapter(string coll_id)
 {
 	return [=](GSpace* space, ObjectIDType id, const ValueMap& args) -> GObject* {
 		SpaceVect pos = getObjectPos(args);
@@ -180,7 +180,7 @@ void GObject::initObjectInfo()
 
 	};
 
-#define collectible_entry(name,id) {#name, collectibleAdapter(collectible_id::id)}
+#define collectible_entry(name,id) {#name, collectibleAdapter(#id)}
 #define enemy_entry(name,id) {#name, enemyAdapter(#id)}
 
 	namedObjectTypes = {

@@ -1,0 +1,40 @@
+<effects>
+	<health1
+		type="RestoreAttribute"
+		mag="5.0"
+		attr="hp"
+	/>
+	<health2
+		type="RestoreAttribute"
+		mag="25.0"
+		attr="hp"
+	/>
+	<health3
+		type="RestoreAttribute"
+		mag="100.0"
+		attr="hp"
+	/>
+
+	<key
+		type="RestoreAttribute"
+		mag="1.0"
+		attr="keys"
+	/>
+	
+	<magic1
+		type="RestoreAttribute"
+		mag="5.0"
+		attr="mp"
+	/>
+	<magic2
+		type="RestoreAttribute"
+		mag="25.0"
+		attr="mp"
+	/>
+	<magic3
+		type="RestoreAttribute"
+		mag="100.0"
+		attr="mp"
+	/>
+	
+</effects>

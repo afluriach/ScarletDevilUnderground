@@ -1,0 +1,32 @@
+<collectibles>
+	<health1
+		sprite="auto"
+		effect="auto"
+	/>
+	<health2
+		sprite="auto"
+		effect="auto"
+	/>
+	<health3
+		sprite="auto"
+		effect="auto"
+	/>
+
+	<key
+		sprite="auto"
+		effect="auto"
+	/>
+	
+	<magic1
+		sprite="auto"
+		effect="auto"
+	/>
+	<magic2
+		sprite="auto"
+		effect="auto"
+	/>
+	<magic3
+		sprite="auto"
+		effect="auto"
+	/>
+</collectibles>

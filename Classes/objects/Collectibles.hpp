@@ -13,46 +13,18 @@
 
 class MagicEffectDescriptor;
 
-enum class collectible_id
-{
-	nil,
-
-	health1,
-	health2,
-	health3,
-
-	magic1,
-	magic2,
-	magic3,
-
-	//random health or magic
-	hm1,
-	hm2,
-	hm3,
-
-	key,
-};
-
 struct collectible_properties
 {
 	string sprite;
-
-	Attribute attr;
-	float val;
+	shared_ptr<MagicEffectDescriptor> effect;
 };
 
 class Collectible : public InventoryObject
 {
 public:
-	static const boost::bimap<collectible_id, string> collectibleNameMap;
+	static ObjectGeneratorType create(GSpace* space, string id, SpaceVect pos);
 
-	static const unordered_map<collectible_id, collectible_properties> propertiesMap;
-	static const unordered_map<collectible_id, function<collectible_id(GSpace*)>> vMap;
-
-	static ObjectGeneratorType create(GSpace* space, collectible_id id, SpaceVect pos);
-	static collectible_id getCollectibleID(const string& name);
-
-	Collectible(GSpace* space, ObjectIDType id, SpaceVect pos, collectible_id collectibleID);
+	Collectible(GSpace* space, ObjectIDType id, SpaceVect pos, string collectibleID);
 	inline virtual ~Collectible() {}
 
 	virtual inline GraphicsLayer sceneLayer() const { return GraphicsLayer::floor; }

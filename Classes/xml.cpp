@@ -8,20 +8,25 @@
 
 #include "Prefix.h"
 
+#include "AttributeEffects.hpp"
 #include "Attributes.hpp"
 #include "Bomb.hpp"
 #include "Bullet.hpp"
+#include "Collectibles.hpp"
 #include "Enemy.hpp"
 #include "FileIO.hpp"
 #include "FirePatternImpl.hpp"
 #include "Graphics.h"
 #include "graphics_types.h"
+#include "MagicEffect.hpp"
 
 namespace app {
 
 unordered_map<string, AttributeMap> attributes;
 unordered_map<string, shared_ptr<bomb_properties>> bombs;
 unordered_map<string, shared_ptr<bullet_properties>> bullets;
+unordered_map<string, collectible_properties> collectibles;
+unordered_map<string, shared_ptr<MagicEffectDescriptor>> effects;
 unordered_map<string, shared_ptr<enemy_properties>> enemies;
 unordered_map<string, shared_ptr<firepattern_properties>> firePatterns;
 unordered_map<string, floorsegment_properties> floors;
@@ -48,6 +53,16 @@ void loadBombs()
 void loadBullets()
 {
 	loadObjects<shared_ptr<bullet_properties>>("objects/bullets.xml", app::bullets);
+}
+
+void loadCollectibles()
+{
+	loadObjects<collectible_properties>("objects/collectibles.xml", app::collectibles);
+}
+
+void loadEffects()
+{
+	loadObjects<shared_ptr<MagicEffectDescriptor>>("objects/magic-effects.xml", app::effects);
 }
 
 void loadEnemies()
@@ -90,6 +105,16 @@ shared_ptr<bullet_properties> getBullet(const string& name)
 	return getOrDefault(bullets, name);
 }
 
+collectible_properties getCollectible(const string& name)
+{
+	return getOrDefault(collectibles, name);
+}
+
+shared_ptr<MagicEffectDescriptor> getEffect(const string& name)
+{
+	return getOrDefault(effects, name);
+}
+
 shared_ptr<enemy_properties> getEnemy(const string& name)
 {
 	return getOrDefault(enemies, name);
@@ -113,6 +138,23 @@ sprite_properties getSprite(const string& name)
 AttributeMap getAttributes(const string& name)
 {
 	return getOrDefault(attributes, name);
+}
+
+//get Attribute attribute [sic]
+bool getAttributeAttr(tinyxml2::XMLElement* elem, const string& name, Attribute* result)
+{
+	const char* attr = elem->Attribute(name.c_str());
+	bool success = false;
+
+	if (attr) {
+		Attribute crntAttr = AttributeSystem::getAttribute(attr);
+		if (crntAttr != Attribute::end) {
+			*result = crntAttr;
+			success = true;
+		}
+	}
+
+	return success;
 }
 
 bool getStringAttr(tinyxml2::XMLElement* elem, const string& name, string* result)
@@ -178,11 +220,7 @@ DamageInfo getDamageInfo(tinyxml2::XMLElement* elem, DamageType type)
 	DamageInfo result = { 0.0f, Attribute::end, type };
 
 	getNumericAttr(elem, "damage", &result.mag);
-
-	const char* elemental = elem->Attribute("element");
-	if (elemental) {
-		result.element = AttributeSystem::getAttribute(elemental);
-	}
+	getAttributeAttr(elem, "element", &result.element);
 
 	return result;
 }
@@ -249,11 +287,7 @@ bool parseObject(tinyxml2::XMLElement* elem, shared_ptr<enemy_properties>* resul
 
 	props.touchEffect = getDamageInfo(elem, DamageType::touch);
 
-	collectibleAttr = elem->Attribute("collectible");
-
-	if (collectibleAttr) {
-		props.collectible = Collectible::getCollectibleID(collectibleAttr);
-	}
+	getStringAttr(elem, "collectible", &props.collectible);
 
 	lightAttr = elem->Attribute("light");
 
@@ -515,6 +549,52 @@ bool parseObject(tinyxml2::XMLElement* elem, shared_ptr<bomb_properties>* result
 		*result = make_shared<bomb_properties>(props);
 		return true;
 	}
+}
+
+bool parseObject(tinyxml2::XMLElement* elem, shared_ptr<MagicEffectDescriptor>* result)
+{
+	string _type;
+	bool success = false;
+	getStringAttr(elem, "type", &_type);
+
+	if (_type == "RestoreAttribute") {
+		Attribute attr;
+		float mag;
+
+		getAttributeAttr(elem, "attr", &attr);
+		getNumericAttr(elem, "mag", &mag);
+
+		if (attr != Attribute::end && mag > 0.0f) {
+			*result = make_shared< MagicEffectDescImpl<RestoreAttribute, Attribute>>(mag, attr);
+			success = true;
+		}
+	}
+
+	return success;
+}
+
+bool parseObject(tinyxml2::XMLElement* elem, collectible_properties* result)
+{
+	collectible_properties coll;
+	string effect;
+
+	getStringAttr(elem, "sprite", &coll.sprite);
+	getStringAttr(elem, "effect", &effect);
+
+	if (coll.sprite == "auto") {
+		coll.sprite = elem->Name();
+	}
+	if (effect == "auto") {
+		effect = elem->Name();
+	}
+
+	coll.effect = getEffect(effect);
+
+	if (coll.effect) {
+		*result = coll;
+	}
+
+	return static_cast<bool>(coll.effect);
 }
 
 }

@@ -33,7 +33,7 @@ ReimuEnemy::ReimuEnemy(GSpace* space, ObjectIDType id, const ValueMap& args) :
 		baseAttributes,
 		defaultSize,
 		40.0,
-		collectible_id::magic2,
+		"magic2",
 		false
 	)
 {

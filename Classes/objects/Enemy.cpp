@@ -22,7 +22,7 @@ Enemy::Enemy(
 	const string& baseAttributes,
 	SpaceFloat radius,
 	SpaceFloat mass,
-	collectible_id drop_id,
+	string drop_id,
 	bool isFlying
 ) :
 	Agent(
@@ -66,7 +66,7 @@ bool Enemy::hit(DamageInfo damage)
 void Enemy::onRemove()
 {
 	Agent::onRemove();
-	if(drop_id != collectible_id::nil){
+	if(!drop_id.empty()){
 		space->createObject(Collectible::create(space, drop_id, getPos()));
 	}
 	space->registerEnemyDefeated(getTypeName());

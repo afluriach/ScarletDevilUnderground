@@ -67,7 +67,7 @@ PatchouliEnemy::PatchouliEnemy(GSpace* space, ObjectIDType id, const ValueMap& a
 		baseAttributes,
 		defaultSize,
 		30.0,
-		collectible_id::magic2,
+		"magic2",
 		false
 	)
 {}

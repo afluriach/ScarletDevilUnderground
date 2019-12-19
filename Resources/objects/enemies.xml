@@ -9,7 +9,7 @@
 		viewRange="5.0"
 		viewAngle="0"
 
-		collectible="nil"		
+		collectible="health1,magic1"		
 		isFlying="true"
 		
 		damage="5.0"
@@ -28,7 +28,7 @@
 		viewAngle="90"
 
 		damage="5.0"
-		collectible="hm1"		
+		collectible="health1,magic1"		
 	/>
 	
 	<CollectMarisa
@@ -63,7 +63,7 @@
 		viewRange="6"
 		viewAngle="0"
 
-		collectible="hm1"		
+		collectible="health1,magic1"		
 	/>
 	
 	<Follower
@@ -101,7 +101,7 @@
 		viewRange="3"
 		viewAngle="0"
 
-		collectible="hm1"		
+		collectible="health1,magic1"		
 	/>
 
 	<GreenFairy1
@@ -117,7 +117,7 @@
 		viewAngle="0"
 
 		damage="3.0"
-		collectible="hm1"		
+		collectible="health1,magic1"		
 	/>
 
 	<GreenFairy2
@@ -133,7 +133,7 @@
 		viewAngle="0"
 
 		damage="6.0"
-		collectible="hm2"		
+		collectible="health2,magic2"		
 	/>
 
 	<IceFairy
@@ -165,7 +165,7 @@
 		viewRange="7.5"
 		viewAngle="0"
 
-		collectible="hm2"		
+		collectible="health2,magic2"		
 	/>
 	
 	<Rumia1
@@ -230,7 +230,7 @@
 
 		damage="5"
 		element="poisonDamage"
-		collectible="hm1"		
+		collectible="health1,magic1"		
 	/>
 
 	<Scorpion2
@@ -245,7 +245,7 @@
 
 		damage="15"
 		element="poisonDamage"
-		collectible="hm2"		
+		collectible="health2,magic2"		
 	/>
 
 	<Slime1
@@ -261,7 +261,7 @@
 
 		damage="5"
 		element="slimeDamage"
-		collectible="hm1"		
+		collectible="health1,magic1"		
 	/>
 
 	<Slime2
@@ -277,7 +277,7 @@
 
 		damage="15"
 		element="slimeDamage"
-		collectible="hm2"
+		collectible="health2,magic2"
 	/>
 
  	<Stalker
@@ -315,7 +315,7 @@
 
 		damage="20"
 		element="darknessDamage"
-		collectible="hm2"
+		collectible="health2,magic2"
 	/>
 	
 <!-- 	<t
