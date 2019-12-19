@@ -83,9 +83,9 @@ template<class T, typename... Params>
 class MagicEffectDescImpl : public MagicEffectDescriptor
 {
 public:
-	inline MagicEffectDescImpl(float baseMagnitude, tuple<Params...> params) :
+	inline MagicEffectDescImpl(float baseMagnitude, Params... params) :
 		MagicEffectDescriptor(baseMagnitude),
-		_params(params)
+		_params(forward_as_tuple(params...))
 	{
 	}
 

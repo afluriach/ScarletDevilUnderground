@@ -558,14 +558,28 @@ bool parseObject(tinyxml2::XMLElement* elem, shared_ptr<MagicEffectDescriptor>* 
 	getStringAttr(elem, "type", &_type);
 
 	if (_type == "RestoreAttribute") {
-		Attribute attr;
-		float mag;
+		Attribute attr = Attribute::end;
+		float mag = 0.0f;
 
 		getAttributeAttr(elem, "attr", &attr);
 		getNumericAttr(elem, "mag", &mag);
 
 		if (attr != Attribute::end && mag > 0.0f) {
 			*result = make_shared< MagicEffectDescImpl<RestoreAttribute, Attribute>>(mag, attr);
+			success = true;
+		}
+	}
+	else if (_type == "BuffAttribute") {
+		Attribute attr = Attribute::end;
+		float mag = 0.0f;
+		float length = 0.0f;
+
+		getAttributeAttr(elem, "attr", &attr);
+		getNumericAttr(elem, "mag", &mag);
+		getNumericAttr(elem, "length", &length);
+
+		if (attr != Attribute::end && mag > 0.0f && length > 0.0f) {
+			*result = make_shared< MagicEffectDescImpl<BuffAttribute, float, Attribute>>(mag, length, attr);
 			success = true;
 		}
 	}

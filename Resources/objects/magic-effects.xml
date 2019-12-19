@@ -37,4 +37,17 @@
 		attr="mp"
 	/>
 	
+	<speed1
+		type="BuffAttribute"
+		mag="1.0"
+		length="15.0"
+		attr="agility"
+	/>
+	<speed2
+		type="BuffAttribute"
+		mag="2.0"
+		length="60.0"
+		attr="agility"
+	/>
+	
 </effects>

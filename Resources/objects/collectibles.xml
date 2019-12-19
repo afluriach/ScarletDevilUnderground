@@ -29,4 +29,14 @@
 		sprite="auto"
 		effect="auto"
 	/>
+	
+	<speed1
+		sprite="auto"
+		effect="auto"
+	/>
+	<speed2
+		sprite="auto"
+		effect="auto"
+	/>
+	
 </collectibles>

@@ -23,4 +23,15 @@ public:
 	const Attribute attr;
 };
 
+class BuffAttribute : public MagicEffect
+{
+public:
+	BuffAttribute(GObject* target, float magnitude, float length, Attribute attr);
+
+	virtual void init();
+	virtual void end();
+
+	const Attribute attr;
+};
+
 #endif /* RestoreAttribute_hpp */

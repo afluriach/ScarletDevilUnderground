@@ -62,6 +62,8 @@
 	<magic1 />
 	<magic2 />
 	<magic3 />
+	<speed1 />
+	<speed2 />
 	
 	<hp_upgrade />
 	<mp_upgrade />

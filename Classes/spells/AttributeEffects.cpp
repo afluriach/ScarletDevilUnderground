@@ -34,3 +34,23 @@ void RestoreAttribute::init()
 		_agent->modifyAttribute(attr, magnitude);
 	}
 }
+
+BuffAttribute::BuffAttribute(GObject* target, float magnitude, float length, Attribute attr) :
+	MagicEffect(target, length, magnitude, make_enum_bitfield(flags::timed)),
+	attr(attr)
+{
+}
+
+void BuffAttribute::init()
+{
+	if (auto _agent = dynamic_cast<Agent*>(agent)) {
+		_agent->modifyAttribute(attr, magnitude);
+	}
+}
+
+void BuffAttribute::end()
+{
+	if (auto _agent = dynamic_cast<Agent*>(agent)) {
+		_agent->modifyAttribute(attr, -magnitude);
+	}
+}

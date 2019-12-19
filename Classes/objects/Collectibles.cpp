@@ -63,9 +63,11 @@ shared_ptr<MagicEffectDescriptor> Collectible::getEffect(GObject* target) const
 }
 
 bool Collectible::canAcquire(Player* player) {
-	return effect->canApply(player, 1.0f);
+	return effect && effect->canApply(player, 1.0f);
 }
 
+//If this is an invalid Collectible (null effect), canAcquire should return false
+//and this code shouldn't run.
 void Collectible::onAcquire(Player* player) {
 	player->addMagicEffect(effect->generate(player, 1.0f));
 	space->removeObject(this);
