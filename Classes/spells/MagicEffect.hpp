@@ -70,25 +70,29 @@ public:
 class MagicEffectDescriptor
 {
 public:
-	inline MagicEffectDescriptor() {}
+	inline MagicEffectDescriptor(float baseMagnitude) : baseMagnitude(baseMagnitude) {}
 	virtual inline ~MagicEffectDescriptor() {}
 
 	virtual bool canApply(GObject* target, float magnitude) const = 0;
 	virtual shared_ptr<MagicEffect> generate(GObject* target, float magnitude) const = 0;
+protected:
+	float baseMagnitude;
 };
 
 template<class T, typename... Params>
 class MagicEffectDescImpl : public MagicEffectDescriptor
 {
 public:
-	inline MagicEffectDescImpl(tuple<Params...> params) :
+	inline MagicEffectDescImpl(float baseMagnitude, tuple<Params...> params) :
+		MagicEffectDescriptor(baseMagnitude),
 		_params(params)
 	{
 	}
 
 	inline virtual bool canApply(GObject* target, float magnitude) const {
+		float actualMag = baseMagnitude * magnitude;
 		if constexpr (has_canApply<T>::value) {
-			return T::canApply(target, magnitude, get<Params>(_params)...);
+			return T::canApply(target, actualMag, get<Params>(_params)...);
 		}
 		else {
 			return true;
@@ -96,7 +100,8 @@ public:
 	}
 
 	inline virtual shared_ptr<MagicEffect> generate(GObject* target, float magnitude) const {
-		return make_shared<T>(target, magnitude, get<Params>(_params)...);
+		float actualMag = baseMagnitude * magnitude;
+		return make_shared<T>(target, actualMag, get<Params>(_params)...);
 	}
 protected:
 	tuple<Params...> _params;

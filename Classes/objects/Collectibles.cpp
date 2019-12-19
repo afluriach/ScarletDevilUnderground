@@ -93,8 +93,7 @@ Collectible::Collectible(GSpace* space, ObjectIDType id, SpaceVect pos, collecti
 	InventoryObject(PosAngleParams(pos, float_pi * 0.5), physics_params(GType::playerPickup, onGroundLayers, SpaceVect(0.5,0.5), -1.0, true))
 {
 	auto it = propertiesMap.find(collectibleID);
-	effect = make_shared<MagicEffectDescImpl<RestoreAttribute, Attribute>>(it->second.attr);
-	magnitude = it->second.val;
+	effect = make_shared<MagicEffectDescImpl<RestoreAttribute, Attribute>>(it->second.val, it->second.attr);
 	sprite = it->second.sprite;
 }
 
@@ -113,11 +112,11 @@ shared_ptr<MagicEffectDescriptor> Collectible::getEffect(GObject* target) const
 }
 
 bool Collectible::canAcquire(Player* player) {
-	return effect->canApply(player, magnitude);
+	return effect->canApply(player, 1.0f);
 }
 
 void Collectible::onAcquire(Player* player) {
-	player->addMagicEffect(effect->generate(player, magnitude));
+	player->addMagicEffect(effect->generate(player, 1.0f));
 	space->removeObject(this);
 	playSoundSpatial("sfx/powerup.wav");
 }

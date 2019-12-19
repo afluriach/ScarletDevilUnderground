@@ -66,7 +66,6 @@ public:
 protected:
 	string sprite;
 	shared_ptr<MagicEffectDescriptor> effect;
-	float magnitude;
 };
 
 #endif /* Collectibles_hpp */
