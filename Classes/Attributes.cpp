@@ -45,6 +45,14 @@ const boost::bimap<Attribute, string> AttributeSystem::attributeNameMap = boost:
 	entry(mpRegen)
 	entry(staminaRegen)
 
+	entry(hpInv)
+	entry(mpInv)
+	entry(staminaInv)
+
+	entry(hpRatio)
+	entry(mpRatio)
+	entry(staminaRatio)
+
 	entry(keys)
 	entry(combo)
 

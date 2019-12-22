@@ -67,6 +67,14 @@ namespace Lua{
 				enum_entry(Attribute, mpRegen),
 				enum_entry(Attribute, staminaRegen),
 
+				enum_entry(Attribute, hpInv),
+				enum_entry(Attribute, mpInv),
+				enum_entry(Attribute, staminaInv),
+
+				enum_entry(Attribute, hpRatio),
+				enum_entry(Attribute, mpRatio),
+				enum_entry(Attribute, staminaRatio),
+
 				enum_entry(Attribute, keys),
 				enum_entry(Attribute, combo),
 
