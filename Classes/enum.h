@@ -28,7 +28,7 @@ void bitset_enum_set(bitset<bitset_size>& _b, E e, bool value)
 }
 
 template<typename E, size_t enum_size = to_size_t(E::end)>
-constexpr inline bitset<enum_size> make_enum_bitfield(E input)
+inline bitset<enum_size> make_enum_bitfield(E input)
 {
 	bitset<enum_size> result;
 

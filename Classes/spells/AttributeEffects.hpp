@@ -11,7 +11,7 @@
 
 #include "MagicEffect.hpp"
 
-class RestoreAttribute : public ImmediateMagicEffect
+class RestoreAttribute : public MagicEffect
 {
 public:
 	static bool canApply(GObject* target, float magnitude, Attribute attr);

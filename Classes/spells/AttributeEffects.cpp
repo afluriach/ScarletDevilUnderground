@@ -22,7 +22,7 @@ bool RestoreAttribute::canApply(GObject* target, float magnitude, Attribute attr
 }
 
 RestoreAttribute::RestoreAttribute(GObject* target, float magnitude, Attribute attr) :
-	ImmediateMagicEffect(target, magnitude),
+	MagicEffect(target, 0.0f, magnitude, immediate),
 	attr(attr)
 {
 	

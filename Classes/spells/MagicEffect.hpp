@@ -42,6 +42,8 @@ public:
 	static constexpr size_t flagCount = to_size_t(flags::end);
 	typedef bitset<flagCount> flag_bits;
 
+	static const flag_bits immediate;
+
 	inline MagicEffect(GObject* agent) : MagicEffect(agent, 0.0f, 0.0f, flag_bits()) {}
 	MagicEffect(GObject* agent, float length, float magnitude, flag_bits _flags);
 
@@ -105,12 +107,6 @@ public:
 	}
 protected:
 	tuple<Params...> _params;
-};
-
-class ImmediateMagicEffect : public MagicEffect
-{
-public:
-	ImmediateMagicEffect(GObject* agent, float magnitude);
 };
 
 class ScriptedMagicEffect : public MagicEffect

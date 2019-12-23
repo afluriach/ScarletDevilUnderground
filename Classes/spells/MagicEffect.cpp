@@ -16,6 +16,8 @@
 #include "MagicEffectSystem.hpp"
 #include "RadarSensor.hpp"
 
+const MagicEffect::flag_bits MagicEffect::immediate = make_enum_bitfield(flags::immediate);
+
 MagicEffect::MagicEffect(GObject* agent, float length, float magnitude, flag_bits _flags) :
 agent(agent),
 length(length),
@@ -53,10 +55,6 @@ void MagicEffect::remove()
 {
 	getSpace()->magicEffectSystem->removeEffect(id);
 }
-
-ImmediateMagicEffect::ImmediateMagicEffect(GObject* agent, float magnitude) :
-	MagicEffect(agent, 0.0f, magnitude, make_enum_bitfield(flags::immediate))
-{}
 
 MagicEffect::flag_bits ScriptedMagicEffect::getFlags(string clsName)
 {
