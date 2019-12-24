@@ -74,17 +74,8 @@ namespace Lua{
 		addFuncSame(effect, crntState);
 		addFuncSame(effect, _flags);
 
-		auto teleport = effects.new_usertype<Teleport>(
-			"Teleport",
-			sol::base_classes, sol::bases<MagicEffect>()
-		);
-		teleport["create"] = &createEffect<Teleport, GObject*>;
-
-		auto drainFromMovement = effects.new_usertype<DrainFromMovement>(
-			"DrainFromMovement",
-			sol::base_classes, sol::bases<MagicEffect>()
-		);
-		drainFromMovement["create"] = &createEffect<DrainFromMovement, Agent*, float, Attribute>;
+		effects["Teleport"] = &createEffect<Teleport, GObject*>;
+		effects["DrainFromMovement"] = &createEffect<DrainFromMovement, GObject*, float, Attribute>;
 
 		auto spellcost = _state.new_usertype<spell_cost>("spell_cost");
 #define _cls spell_cost
