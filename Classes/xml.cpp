@@ -569,7 +569,7 @@ bool parseObject(tinyxml2::XMLElement* elem, shared_ptr<MagicEffectDescriptor>* 
 			success = true;
 		}
 	}
-	else if (_type == "BuffAttribute") {
+	else if (_type == "FortifyAttribute") {
 		Attribute attr = Attribute::end;
 		float mag = 0.0f;
 		float length = 0.0f;
@@ -579,7 +579,7 @@ bool parseObject(tinyxml2::XMLElement* elem, shared_ptr<MagicEffectDescriptor>* 
 		getNumericAttr(elem, "length", &length);
 
 		if (attr != Attribute::end && mag > 0.0f && length > 0.0f) {
-			*result = make_shared< MagicEffectDescImpl<BuffAttribute, float, Attribute>>(mag, length, attr);
+			*result = make_shared< MagicEffectDescImpl<FortifyAttribute, float, Attribute>>(mag, length, attr);
 			success = true;
 		}
 	}

@@ -23,10 +23,10 @@ public:
 	const Attribute attr;
 };
 
-class BuffAttribute : public MagicEffect
+class FortifyAttribute : public MagicEffect
 {
 public:
-	BuffAttribute(GObject* target, float magnitude, float length, Attribute attr);
+	FortifyAttribute(GObject* target, float magnitude, float length, Attribute attr);
 
 	virtual void init();
 	virtual void end();
