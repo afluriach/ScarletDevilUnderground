@@ -80,7 +80,7 @@ void MagicEffectSystem::applyAdd()
 	for (auto it = magicEffectsToAdd.begin(); it != magicEffectsToAdd.end(); ++it)
 	{
 		MagicEffect* newEffect = it->get();
-		GObject* obj = newEffect->agent;
+		GObject* obj = newEffect->target;
 
 		if (!newEffect || newEffect->crntState != MagicEffect::state::created) {
 			log("invalid magic effect not in created state");
@@ -159,7 +159,7 @@ void MagicEffectSystem::applyRemove()
 			updateEffects.erase(crnt);
 		}
 
-		auto effectIt = effectObjects.find(crnt->agent);
+		auto effectIt = effectObjects.find(crnt->target);
 		if (effectIt != effectObjects.end()) {
 			effectIt->second.erase(crnt);
 		}

@@ -76,7 +76,7 @@ function stalker(fsm)
 	fsm:addWhileDetectHandler( GType.player, engage )
 	
 	fsm:getAgent():addMagicEffect(effects.DrainFromMovement.create(
-		fsm:getAgent(),
+		fsm:getObject(),
 		1.0,
 		Attribute.stamina
 	))

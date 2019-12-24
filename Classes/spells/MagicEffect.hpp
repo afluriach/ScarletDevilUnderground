@@ -44,8 +44,8 @@ public:
 
 	static const flag_bits immediate;
 
-	inline MagicEffect(GObject* agent) : MagicEffect(agent, 0.0f, 0.0f, flag_bits()) {}
-	MagicEffect(GObject* agent, float length, float magnitude, flag_bits _flags);
+	inline MagicEffect(GObject* target) : MagicEffect(target, 0.0f, 0.0f, flag_bits()) {}
+	MagicEffect(GObject* target, float length, float magnitude, flag_bits _flags);
 
 	GSpace* getSpace() const;
 
@@ -62,7 +62,7 @@ public:
 	//remove this - queues this magic effect for removal, can be called within an update
 	void remove();
 
-	GObject* agent;
+	GObject* target;
 	float length, magnitude;
 	state crntState;
 	unsigned int id;
@@ -114,8 +114,8 @@ class ScriptedMagicEffect : public MagicEffect
 public:
 	static flag_bits getFlags(string clsName);
 
-	ScriptedMagicEffect(string clsName, GObject* agent);
-	ScriptedMagicEffect(string clsName, GObject* agent, float length, float magnitude);
+	ScriptedMagicEffect(string clsName, GObject* target);
+	ScriptedMagicEffect(string clsName, GObject* target, float length, float magnitude);
 
 	virtual void init();
 	virtual void update();
@@ -152,7 +152,7 @@ protected:
 class DamageRadiusEffect : public RadiusEffect
 {
 public:
-	DamageRadiusEffect(GObject* agent, DamageInfo damage, SpaceFloat radius, GType type);
+	DamageRadiusEffect(GObject* target, DamageInfo damage, SpaceFloat radius, GType type);
 
 	virtual void onHit(GObject* target);
 protected:

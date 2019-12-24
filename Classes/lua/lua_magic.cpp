@@ -68,7 +68,7 @@ namespace Lua{
 		effect["update"] = &MagicEffect::update;
 		effect["onExit"] = &MagicEffect::end;
 
-		addFuncSame(effect, agent);
+		addFuncSame(effect, target);
 		addFuncSame(effect, length);
 		addFuncSame(effect, magnitude);
 		addFuncSame(effect, crntState);

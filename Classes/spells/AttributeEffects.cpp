@@ -30,7 +30,7 @@ RestoreAttribute::RestoreAttribute(GObject* target, float magnitude, Attribute a
 
 void RestoreAttribute::init()
 {
-	if (auto _agent = dynamic_cast<Agent*>(agent)) {
+	if (auto _agent = dynamic_cast<Agent*>(target)) {
 		_agent->modifyAttribute(attr, magnitude);
 	}
 }
@@ -43,14 +43,14 @@ FortifyAttribute::FortifyAttribute(GObject* target, float magnitude, float lengt
 
 void FortifyAttribute::init()
 {
-	if (auto _agent = dynamic_cast<Agent*>(agent)) {
+	if (auto _agent = dynamic_cast<Agent*>(target)) {
 		_agent->modifyAttribute(attr, magnitude);
 	}
 }
 
 void FortifyAttribute::end()
 {
-	if (auto _agent = dynamic_cast<Agent*>(agent)) {
+	if (auto _agent = dynamic_cast<Agent*>(target)) {
 		_agent->modifyAttribute(attr, -magnitude);
 	}
 }

@@ -18,8 +18,8 @@
 
 const MagicEffect::flag_bits MagicEffect::immediate = make_enum_bitfield(flags::immediate);
 
-MagicEffect::MagicEffect(GObject* agent, float length, float magnitude, flag_bits _flags) :
-agent(agent),
+MagicEffect::MagicEffect(GObject* target, float length, float magnitude, flag_bits _flags) :
+target(target),
 length(length),
 magnitude(magnitude),
 _flags(_flags),
@@ -33,7 +33,7 @@ crntState(state::created)
 }
 
 GSpace* MagicEffect::getSpace() const {
-	return agent->space;
+	return target->space;
 }
 
 bool MagicEffect::isImmediate() const
@@ -113,8 +113,8 @@ void ScriptedMagicEffect::end()
 	}
 }
 
-RadiusEffect::RadiusEffect(GObject* agent, SpaceFloat radius, GType type) :
-	MagicEffect(agent, -1.0f, 0.0f, enum_bitfield2(flags, indefinite, active)),
+RadiusEffect::RadiusEffect(GObject* target, SpaceFloat radius, GType type) :
+	MagicEffect(target, -1.0f, 0.0f, enum_bitfield2(flags, indefinite, active)),
 	radius(radius),
 	type(type)
 {}
@@ -129,13 +129,13 @@ void RadiusEffect::init()
 	};
 
 	sensor = new RadarSensor(
-		agent,
+		target,
 		attr,
 		bind(&RadiusEffect::onContact, this, placeholders::_1),
 		bind(&RadiusEffect::onEndContact, this, placeholders::_1)
 	);
 
-	agent->space->insertSensor(sensor);
+	target->space->insertSensor(sensor);
 }
 
 void RadiusEffect::update()
@@ -147,7 +147,7 @@ void RadiusEffect::update()
 void RadiusEffect::end()
 {
 	if (sensor) {
-		agent->space->removeSensor(sensor);
+		target->space->removeSensor(sensor);
 		delete sensor;
 	}
 }

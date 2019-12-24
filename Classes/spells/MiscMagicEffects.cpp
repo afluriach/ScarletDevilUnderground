@@ -19,17 +19,18 @@
 #include "SpellUtil.hpp"
 #include "TeleportPad.hpp"
 
-DrainFromMovement::DrainFromMovement(Agent* agent, float magnitude, Attribute attr) :
-	MagicEffect(agent, 0.0f, magnitude, enum_bitfield2(flags, indefinite, active)),
-	agent(agent),
+DrainFromMovement::DrainFromMovement(GObject* target, float magnitude, Attribute attr) :
+	MagicEffect(target, 0.0f, magnitude, enum_bitfield2(flags, indefinite, active)),
 	attr(attr)
 {
 	_ratio = -1.0f * app::params.secondsPerFrame * magnitude;
+	agent = dynamic_cast<Agent*>(target);
 }
 
 void DrainFromMovement::update()
 {
-	agent->modifyAttribute(attr, _ratio * agent->getAttribute(Attribute::currentSpeed) );
+	if(agent)
+		agent->modifyAttribute(attr, _ratio * agent->getAttribute(Attribute::currentSpeed) );
 }
 
 Teleport::Teleport(GObject* target) :
@@ -49,8 +50,8 @@ void Teleport::update()
 	for (auto ref : targets)
 	{
 		if (ref.isValid() && !ref.get()->isObstructed()) {
-			log("%s teleported to %s.", agent->getName().c_str(), ref.get()->getName().c_str());
-			agent->teleport(ref.get()->getPos());
+			log("%s teleported to %s.", target->getName().c_str(), ref.get()->getName().c_str());
+			target->teleport(ref.get()->getPos());
 			ref.get()->setTeleportActive(true);
 			success = true;
 			toUse = ref;
