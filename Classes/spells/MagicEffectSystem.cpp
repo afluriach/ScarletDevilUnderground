@@ -17,9 +17,10 @@ bool timedEntry::operator>(const timedEntry& rhs) const
 {
 	if (endFrame > rhs.endFrame)
 		return true;
-	else {
+	else if (endFrame < rhs.endFrame)
+		return false;
+	else
 		return effect->id > rhs.effect->id;
-	}
 }
 
 MagicEffectSystem::MagicEffectSystem(GSpace* gspace) :

@@ -45,7 +45,7 @@ public:
 	static const flag_bits immediate;
 
 	inline MagicEffect(GObject* target) : MagicEffect(target, 0.0f, 0.0f, flag_bits()) {}
-	MagicEffect(GObject* target, float length, float magnitude, flag_bits _flags);
+	MagicEffect(GObject* target, float magnitude, float length, flag_bits _flags);
 
 	GSpace* getSpace() const;
 
@@ -72,38 +72,33 @@ public:
 class MagicEffectDescriptor
 {
 public:
-	inline MagicEffectDescriptor(float baseMagnitude) : baseMagnitude(baseMagnitude) {}
+	inline MagicEffectDescriptor() {}
 	virtual inline ~MagicEffectDescriptor() {}
 
-	virtual bool canApply(GObject* target, float magnitude) const = 0;
-	virtual shared_ptr<MagicEffect> generate(GObject* target, float magnitude) const = 0;
-protected:
-	float baseMagnitude;
+	virtual bool canApply(GObject* target, float magnitude, float length) const = 0;
+	virtual shared_ptr<MagicEffect> generate(GObject* target, float magnitude, float length) const = 0;
 };
 
 template<class T, typename... Params>
 class MagicEffectDescImpl : public MagicEffectDescriptor
 {
 public:
-	inline MagicEffectDescImpl(float baseMagnitude, Params... params) :
-		MagicEffectDescriptor(baseMagnitude),
+	inline MagicEffectDescImpl(Params... params) :
 		_params(forward_as_tuple(params...))
 	{
 	}
 
-	inline virtual bool canApply(GObject* target, float magnitude) const {
-		float actualMag = baseMagnitude * magnitude;
+	inline virtual bool canApply(GObject* target, float magnitude, float length) const {
 		if constexpr (has_canApply<T>::value) {
-			return T::canApply(target, actualMag, get<Params>(_params)...);
+			return T::canApply(target, magnitude, length, get<Params>(_params)...);
 		}
 		else {
 			return true;
 		}
 	}
 
-	inline virtual shared_ptr<MagicEffect> generate(GObject* target, float magnitude) const {
-		float actualMag = baseMagnitude * magnitude;
-		return make_shared<T>(target, actualMag, get<Params>(_params)...);
+	inline virtual shared_ptr<MagicEffect> generate(GObject* target, float magnitude, float length) const {
+		return make_shared<T>(target, magnitude, length, get<Params>(_params)...);
 	}
 protected:
 	tuple<Params...> _params;
@@ -115,7 +110,7 @@ public:
 	static flag_bits getFlags(string clsName);
 
 	ScriptedMagicEffect(string clsName, GObject* target);
-	ScriptedMagicEffect(string clsName, GObject* target, float length, float magnitude);
+	ScriptedMagicEffect(string clsName, GObject* target, float magnitude, float length);
 
 	virtual void init();
 	virtual void update();

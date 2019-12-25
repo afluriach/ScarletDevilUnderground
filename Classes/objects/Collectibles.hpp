@@ -17,6 +17,8 @@ struct collectible_properties
 {
 	string sprite;
 	shared_ptr<MagicEffectDescriptor> effect;
+	float magnitude;
+	float length;
 };
 
 class Collectible : public InventoryObject
@@ -38,6 +40,8 @@ public:
 protected:
 	string sprite;
 	shared_ptr<MagicEffectDescriptor> effect;
+	float effectLength;
+	float effectMagnitude;
 };
 
 #endif /* Collectibles_hpp */

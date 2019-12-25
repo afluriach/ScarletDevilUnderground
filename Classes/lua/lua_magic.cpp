@@ -76,7 +76,7 @@ namespace Lua{
 		addFuncSame(effect, _flags);
 
 		effects["Teleport"] = &createEffect<Teleport, GObject*>;
-		effects["DrainFromMovement"] = &createEffect<DrainFromMovement, GObject*, float, Attribute>;
+		effects["DrainFromMovement"] = &createEffect<DrainFromMovement, GObject*, float, float, Attribute>;
 
 		auto spellcost = _state.new_usertype<spell_cost>("spell_cost");
 #define _cls spell_cost

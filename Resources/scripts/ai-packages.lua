@@ -78,6 +78,7 @@ function stalker(fsm)
 	fsm:getAgent():addMagicEffect(effects.DrainFromMovement(
 		fsm:getObject(),
 		1.0,
+		-1.0,
 		Attribute.stamina
 	))
 end

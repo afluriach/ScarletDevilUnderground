@@ -559,27 +559,21 @@ bool parseObject(tinyxml2::XMLElement* elem, shared_ptr<MagicEffectDescriptor>* 
 
 	if (_type == "RestoreAttribute") {
 		Attribute attr = Attribute::end;
-		float mag = 0.0f;
 
 		getAttributeAttr(elem, "attr", &attr);
-		getNumericAttr(elem, "mag", &mag);
 
-		if (attr != Attribute::end && mag > 0.0f) {
-			*result = make_shared< MagicEffectDescImpl<RestoreAttribute, Attribute>>(mag, attr);
+		if (attr != Attribute::end) {
+			*result = make_shared< MagicEffectDescImpl<RestoreAttribute, Attribute>>(attr);
 			success = true;
 		}
 	}
 	else if (_type == "FortifyAttribute") {
 		Attribute attr = Attribute::end;
-		float mag = 0.0f;
-		float length = 0.0f;
 
 		getAttributeAttr(elem, "attr", &attr);
-		getNumericAttr(elem, "mag", &mag);
-		getNumericAttr(elem, "length", &length);
 
-		if (attr != Attribute::end && mag > 0.0f && length > 0.0f) {
-			*result = make_shared< MagicEffectDescImpl<FortifyAttribute, float, Attribute>>(mag, length, attr);
+		if (attr != Attribute::end) {
+			*result = make_shared< MagicEffectDescImpl<FortifyAttribute, Attribute>>(attr);
 			success = true;
 		}
 	}
@@ -592,14 +586,16 @@ bool parseObject(tinyxml2::XMLElement* elem, collectible_properties* result)
 	collectible_properties coll;
 	string effect;
 
+	coll.magnitude = 0.0f;
+	coll.length = 0.0f;
+
 	getStringAttr(elem, "sprite", &coll.sprite);
 	getStringAttr(elem, "effect", &effect);
+	getNumericAttr(elem, "magnitude", &coll.magnitude);
+	getNumericAttr(elem, "length", &coll.length);
 
 	if (coll.sprite == "auto") {
 		coll.sprite = elem->Name();
-	}
-	if (effect == "auto") {
-		effect = elem->Name();
 	}
 
 	coll.effect = getEffect(effect);

@@ -11,7 +11,7 @@
 #include "Agent.hpp"
 #include "AttributeEffects.hpp"
 
-bool RestoreAttribute::canApply(GObject* target, float magnitude, Attribute attr)
+bool RestoreAttribute::canApply(GObject* target, float magnitude, float length, Attribute attr)
 {
 	if (auto _agent = dynamic_cast<Agent*>(target)) {
 		return _agent->getAttributeSystem()->canApplyAttribute(attr, magnitude);
@@ -21,8 +21,8 @@ bool RestoreAttribute::canApply(GObject* target, float magnitude, Attribute attr
 	}
 }
 
-RestoreAttribute::RestoreAttribute(GObject* target, float magnitude, Attribute attr) :
-	MagicEffect(target, 0.0f, magnitude, immediate),
+RestoreAttribute::RestoreAttribute(GObject* target, float magnitude, float length, Attribute attr) :
+	MagicEffect(target, magnitude, length, immediate),
 	attr(attr)
 {
 	
@@ -36,7 +36,7 @@ void RestoreAttribute::init()
 }
 
 FortifyAttribute::FortifyAttribute(GObject* target, float magnitude, float length, Attribute attr) :
-	MagicEffect(target, length, magnitude, make_enum_bitfield(flags::timed)),
+	MagicEffect(target, magnitude, length, make_enum_bitfield(flags::timed)),
 	attr(attr)
 {
 }
@@ -55,8 +55,8 @@ void FortifyAttribute::end()
 	}
 }
 
-DrainFromMovement::DrainFromMovement(GObject* target, float magnitude, Attribute attr) :
-	MagicEffect(target, 0.0f, magnitude, enum_bitfield2(flags, indefinite, active)),
+DrainFromMovement::DrainFromMovement(GObject* target, float magnitude, float length, Attribute attr) :
+	MagicEffect(target, magnitude, length, enum_bitfield2(flags, indefinite, active)),
 	attr(attr)
 {
 	_ratio = -1.0f * app::params.secondsPerFrame * magnitude;

@@ -14,9 +14,9 @@
 class RestoreAttribute : public MagicEffect
 {
 public:
-	static bool canApply(GObject* target, float magnitude, Attribute attr);
+	static bool canApply(GObject* target, float magnitude, float length, Attribute attr);
 
-	RestoreAttribute(GObject* target, float magnitude, Attribute attr);
+	RestoreAttribute(GObject* target, float magnitude, float length, Attribute attr);
 
 	virtual void init();
 
@@ -38,7 +38,7 @@ public:
 class DrainFromMovement : public MagicEffect
 {
 public:
-	DrainFromMovement(GObject* target, float magnitude, Attribute attr);
+	DrainFromMovement(GObject* target, float magnitude, float length, Attribute attr);
 
 	inline virtual void init() {}
 	virtual void update();

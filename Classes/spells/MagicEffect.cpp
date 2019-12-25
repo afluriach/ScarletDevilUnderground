@@ -18,7 +18,7 @@
 
 const MagicEffect::flag_bits MagicEffect::immediate = make_enum_bitfield(flags::immediate);
 
-MagicEffect::MagicEffect(GObject* target, float length, float magnitude, flag_bits _flags) :
+MagicEffect::MagicEffect(GObject* target, float magnitude, float length, flag_bits _flags) :
 target(target),
 length(length),
 magnitude(magnitude),
@@ -74,8 +74,8 @@ ScriptedMagicEffect::ScriptedMagicEffect(string clsName, GObject* agent) :
 {
 }
 
-ScriptedMagicEffect::ScriptedMagicEffect(string clsName, GObject* agent, float length, float magnitude) :
-	MagicEffect(agent, length, magnitude, getFlags(clsName)),
+ScriptedMagicEffect::ScriptedMagicEffect(string clsName, GObject* agent, float magnitude, float length) :
+	MagicEffect(agent, magnitude, length, getFlags(clsName)),
 	clsName(clsName)
 {
 	auto cls = GSpace::scriptVM->_state["effects"][clsName];
@@ -85,7 +85,7 @@ ScriptedMagicEffect::ScriptedMagicEffect(string clsName, GObject* agent, float l
 		log("ScriptedMagicEffect: %s not found", clsName);
 	}
 	else {
-		obj = cls(super_this, agent, length, magnitude);
+		obj = cls(super_this, agent, magnitude, length);
 	}
 }
 
@@ -114,7 +114,7 @@ void ScriptedMagicEffect::end()
 }
 
 RadiusEffect::RadiusEffect(GObject* target, SpaceFloat radius, GType type) :
-	MagicEffect(target, -1.0f, 0.0f, enum_bitfield2(flags, indefinite, active)),
+	MagicEffect(target, -0.0f, -1.0f, enum_bitfield2(flags, indefinite, active)),
 	radius(radius),
 	type(type)
 {}
