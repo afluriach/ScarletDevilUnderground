@@ -54,3 +54,17 @@ void FortifyAttribute::end()
 		_agent->modifyAttribute(attr, -magnitude);
 	}
 }
+
+DrainFromMovement::DrainFromMovement(GObject* target, float magnitude, Attribute attr) :
+	MagicEffect(target, 0.0f, magnitude, enum_bitfield2(flags, indefinite, active)),
+	attr(attr)
+{
+	_ratio = -1.0f * app::params.secondsPerFrame * magnitude;
+	agent = dynamic_cast<Agent*>(target);
+}
+
+void DrainFromMovement::update()
+{
+	if (agent)
+		agent->modifyAttribute(attr, _ratio * agent->getAttribute(Attribute::currentSpeed));
+}

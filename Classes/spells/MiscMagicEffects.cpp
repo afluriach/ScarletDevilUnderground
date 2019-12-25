@@ -8,30 +8,12 @@
 
 #include "Prefix.h"
 
-#include "Agent.hpp"
 #include "AIUtil.hpp"
 #include "GObject.hpp"
-#include "Graphics.h"
-#include "graphics_context.hpp"
 #include "GSpace.hpp"
 #include "MiscMagicEffects.hpp"
-#include "Player.hpp"
 #include "SpellUtil.hpp"
 #include "TeleportPad.hpp"
-
-DrainFromMovement::DrainFromMovement(GObject* target, float magnitude, Attribute attr) :
-	MagicEffect(target, 0.0f, magnitude, enum_bitfield2(flags, indefinite, active)),
-	attr(attr)
-{
-	_ratio = -1.0f * app::params.secondsPerFrame * magnitude;
-	agent = dynamic_cast<Agent*>(target);
-}
-
-void DrainFromMovement::update()
-{
-	if(agent)
-		agent->modifyAttribute(attr, _ratio * agent->getAttribute(Attribute::currentSpeed) );
-}
 
 Teleport::Teleport(GObject* target) :
 	MagicEffect(target, 0.0f, 0.0f, enum_bitfield2(flags, indefinite, active)),

@@ -34,4 +34,20 @@ public:
 	const Attribute attr;
 };
 
+//Uses currentSpeed attribute to determine amount of movement, applied per frame.
+class DrainFromMovement : public MagicEffect
+{
+public:
+	DrainFromMovement(GObject* target, float magnitude, Attribute attr);
+
+	inline virtual void init() {}
+	virtual void update();
+	inline virtual void end() {}
+protected:
+	Agent* agent;
+	Attribute attr;
+	//This ratio converts currentSpeed (m/s) to attribute units per frame.
+	float _ratio;
+};
+
 #endif /* RestoreAttribute_hpp */

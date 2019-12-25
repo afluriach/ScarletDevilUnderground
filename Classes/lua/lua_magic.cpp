@@ -9,6 +9,7 @@
 #include "Prefix.h"
 
 #include "Agent.hpp"
+#include "AttributeEffects.hpp"
 #include "GObject.hpp"
 #include "GSpace.hpp"
 #include "MiscMagicEffects.hpp"
