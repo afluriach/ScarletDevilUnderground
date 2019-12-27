@@ -16,16 +16,14 @@
 #include "MagicEffectSystem.hpp"
 #include "RadarSensor.hpp"
 
-const MagicEffect::flag_bits MagicEffect::immediate = make_enum_bitfield(flags::immediate);
-
-MagicEffect::MagicEffect(GObject* target, float magnitude, float length, flag_bits _flags) :
+MagicEffect::MagicEffect(GObject* target, float magnitude, float length, effect_flags _flags) :
 target(target),
 length(length),
 magnitude(magnitude),
 _flags(_flags),
 crntState(state::created)
 {
-	if (!_flags.any()) {
+	if (_flags == effect_flags::none) {
 		log("Warning, empty MagicEffect created.");
 	}
 
@@ -38,17 +36,17 @@ GSpace* MagicEffect::getSpace() const {
 
 bool MagicEffect::isImmediate() const
 {
-	return (_flags & make_enum_bitfield(flags::immediate)).any();
+	return bitwise_and_bool(_flags, effect_flags::immediate);
 }
 
 bool MagicEffect::isTimed() const
 {
-	return (_flags & make_enum_bitfield(flags::timed)).any();
+	return bitwise_and_bool(_flags, effect_flags::timed);
 }
 
 bool MagicEffect::isActive() const
 {
-	return (_flags & make_enum_bitfield(flags::active)).any();
+	return bitwise_and_bool(_flags, effect_flags::active);
 }
 
 void MagicEffect::remove()
@@ -56,17 +54,18 @@ void MagicEffect::remove()
 	getSpace()->magicEffectSystem->removeEffect(id);
 }
 
-MagicEffect::flag_bits ScriptedMagicEffect::getFlags(string clsName)
+effect_flags ScriptedMagicEffect::getFlags(string clsName)
 {
 	sol::table cls = GSpace::scriptVM->_state["effects"][clsName];
 
 	if (!cls) {
 		log("ScriptedMagicEffect::getFlags: %s does not exist", clsName);
-		return flag_bits();
+		return effect_flags::none;
 	}
 
-	sol::function getFlags = cls["getFlags"];
-	return getFlags ? getFlags() : flag_bits();
+	sol::object obj = cls["flags"];
+
+	return obj ? obj.as<effect_flags>() : effect_flags::none;
 }
 
 ScriptedMagicEffect::ScriptedMagicEffect(GObject* agent, float magnitude, float length, string clsName) :
@@ -109,7 +108,7 @@ void ScriptedMagicEffect::end()
 }
 
 RadiusEffect::RadiusEffect(GObject* target, SpaceFloat radius, GType type) :
-	MagicEffect(target, -0.0f, -1.0f, enum_bitfield2(flags, indefinite, active)),
+	MagicEffect(target, -0.0f, -1.0f, enum_bitwise_or(effect_flags, indefinite, active)),
 	radius(radius),
 	type(type)
 {}

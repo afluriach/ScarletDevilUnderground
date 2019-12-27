@@ -16,7 +16,7 @@
 #include "TeleportPad.hpp"
 
 Teleport::Teleport(GObject* target, float magnitude, float length) :
-	MagicEffect(target, magnitude, length, enum_bitfield2(flags, indefinite, active)),
+	MagicEffect(target, magnitude, length, enum_bitwise_or(effect_flags, indefinite, active)),
 	targets(getSpace()->getObjectsByTypeAs<TeleportPad>())
 {
 }

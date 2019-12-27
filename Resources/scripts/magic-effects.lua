@@ -1,7 +1,5 @@
 effects.FreezeStatus = class('FreezeStatus', {
-	getFlags = function()
-		return MagicEffect.make_flags_bitfield(MagicEffect_flags.timed)
-	end,
+	flags = effect_flags.timed,
 	init = function(self, super, target)
 		self.target = target:getAsAgent()
 	end,
@@ -20,12 +18,7 @@ effects.FreezeStatus = class('FreezeStatus', {
 })
 
 effects.DarknessCurse = class('DarknessCurse', {
-	getFlags = function()
-		return MagicEffect.make_flags_bitfield(
-			MagicEffect_flags.indefinite,
-			MagicEffect_flags.active
-		)
-	end,
+	flags = effect_flags.indefinite | effect_flags.active,
 	init = function(self, super, target)
 		self.super = super
 		self.agent = target:getAsAgent()
@@ -50,12 +43,7 @@ effects.DarknessCurse = class('DarknessCurse', {
 })
 
 effects.GhostProtection = class('GhostProtection', {
-	getFlags = function()
-		return MagicEffect.make_flags_bitfield(
-			MagicEffect_flags.indefinite,
-			MagicEffect_flags.active
-		)
-	end,
+	flags = effect_flags.indefinite | effect_flags.active,
 	init = function(self, super, target)
 		self.super = super
 		self.agent = target:getAsAgent()

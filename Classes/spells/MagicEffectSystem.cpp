@@ -172,13 +172,5 @@ void MagicEffectSystem::applyRemove()
 
 bool MagicEffectSystem::isValidConfig(MagicEffect* effect)
 {
-	if (bool_int(effect->_flags[to_size_t(MagicEffect::flags::immediate)]) +
-		bool_int(effect->_flags[to_size_t(MagicEffect::flags::indefinite)]) +
-		bool_int(effect->_flags[to_size_t(MagicEffect::flags::timed)]) != 1
-	){
-		log("Invalid time properties; exactly one time flag should be set.");
-		return false;
-	}
-
-	return true;
+	return effect->_flags != effect_flags::none;
 }

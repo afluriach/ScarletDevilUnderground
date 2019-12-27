@@ -13,6 +13,21 @@ class RadarSensor;
 
 make_static_member_detector(canApply)
 
+enum class effect_flags
+{
+	none = 0x0,
+
+	//Effect is simply applied on attach to object, and doesn't actually need to be stored.
+	immediate = 0x1,
+	//Effect does not have time length, parameter will be ignored.
+	indefinite = 0x2,
+	//Effect should have a physically real (positive) time length.
+	timed = 0x4,
+
+	//The effect uses update.
+	active = 0x8,
+};
+
 class MagicEffect
 {
 public:
@@ -24,28 +39,8 @@ public:
 		expired,
 	};
 
-	enum class flags
-	{
-		//Effect is simply applied on attach to object, and doesn't actually need to be stored.
-		immediate = 0,
-		//Effect does not have time length, parameter will be ignored.
-		indefinite,
-		//Effect should have a physically real (positive) time length.
-		timed,
-		
-		//The effect uses update.
-		active,
-
-		end,
-	};
-
-	static constexpr size_t flagCount = to_size_t(flags::end);
-	typedef bitset<flagCount> flag_bits;
-
-	static const flag_bits immediate;
-
-	inline MagicEffect(GObject* target) : MagicEffect(target, 0.0f, 0.0f, flag_bits()) {}
-	MagicEffect(GObject* target, float magnitude, float length, flag_bits _flags);
+	inline MagicEffect(GObject* target) : MagicEffect(target, 0.0f, 0.0f, effect_flags::none) {}
+	MagicEffect(GObject* target, float magnitude, float length, effect_flags _flags);
 
 	GSpace* getSpace() const;
 
@@ -66,7 +61,7 @@ public:
 	float length, magnitude;
 	state crntState;
 	unsigned int id;
-	flag_bits _flags;
+	effect_flags _flags;
 };
 
 class MagicEffectDescriptor
@@ -107,7 +102,7 @@ protected:
 class ScriptedMagicEffect : public MagicEffect
 {
 public:
-	static flag_bits getFlags(string clsName);
+	static effect_flags getFlags(string clsName);
 
 	ScriptedMagicEffect(GObject* target, float magnitude, float length, string clsName);
 

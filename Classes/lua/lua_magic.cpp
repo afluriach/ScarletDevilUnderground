@@ -41,21 +41,16 @@ namespace Lua{
 			"MagicEffect"
 		);
 
-		_state.new_enum<MagicEffect::flags, true>(
-			"MagicEffect_flags",
+		auto flags = _state.new_enum<effect_flags, true>(
+			"effect_flags",
 			{
-				enum_entry(MagicEffect::flags, immediate),
-				enum_entry(MagicEffect::flags, indefinite),
-				enum_entry(MagicEffect::flags, timed),
+				enum_entry(effect_flags, none),
 
-				enum_entry(MagicEffect::flags, active),
-			}
-		);
+				enum_entry(effect_flags, immediate),
+				enum_entry(effect_flags, indefinite),
+				enum_entry(effect_flags, timed),
 
-		effect["make_flags_bitfield"] = sol::overload(
-			&make_enum_bitfield<MagicEffect::flags>,
-			[](MagicEffect::flags a, MagicEffect::flags b) -> MagicEffect::flag_bits {
-				return make_enum_bitfield(a) | make_enum_bitfield(b);
+				enum_entry(effect_flags, active),
 			}
 		);
 
