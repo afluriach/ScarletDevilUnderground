@@ -15,8 +15,8 @@
 #include "SpellUtil.hpp"
 #include "TeleportPad.hpp"
 
-Teleport::Teleport(GObject* target) :
-	MagicEffect(target, 0.0f, 0.0f, enum_bitfield2(flags, indefinite, active)),
+Teleport::Teleport(GObject* target, float magnitude, float length) :
+	MagicEffect(target, magnitude, length, enum_bitfield2(flags, indefinite, active)),
 	targets(getSpace()->getObjectsByTypeAs<TeleportPad>())
 {
 }

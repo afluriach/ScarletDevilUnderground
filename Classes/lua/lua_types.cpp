@@ -142,5 +142,10 @@ namespace Lua{
 		auto params = _state.new_usertype<app_params>("app_params");
 		
 		addFuncSame(params, getFrameInterval);
+
+		auto _app = _state.create_table();
+		_state["app"] = _app;
+
+		_app["getEffect"] = &app::getEffect;
 	}
 }

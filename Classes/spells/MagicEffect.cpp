@@ -69,12 +69,7 @@ MagicEffect::flag_bits ScriptedMagicEffect::getFlags(string clsName)
 	return getFlags ? getFlags() : flag_bits();
 }
 
-ScriptedMagicEffect::ScriptedMagicEffect(string clsName, GObject* agent) :
-	ScriptedMagicEffect(clsName, agent, 0.0f, 0.0f)
-{
-}
-
-ScriptedMagicEffect::ScriptedMagicEffect(string clsName, GObject* agent, float magnitude, float length) :
+ScriptedMagicEffect::ScriptedMagicEffect(GObject* agent, float magnitude, float length, string clsName) :
 	MagicEffect(agent, magnitude, length, getFlags(clsName)),
 	clsName(clsName)
 {

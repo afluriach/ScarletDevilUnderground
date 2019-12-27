@@ -109,8 +109,7 @@ class ScriptedMagicEffect : public MagicEffect
 public:
 	static flag_bits getFlags(string clsName);
 
-	ScriptedMagicEffect(string clsName, GObject* target);
-	ScriptedMagicEffect(string clsName, GObject* target, float magnitude, float length);
+	ScriptedMagicEffect(GObject* target, float magnitude, float length, string clsName);
 
 	virtual void init();
 	virtual void update();

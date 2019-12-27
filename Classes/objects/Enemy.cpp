@@ -146,6 +146,13 @@ void EnemyImpl::loadEffects()
 	vector<string> effectNames = splitString(props->effects, ",");
 
 	for (string name : effectNames) {
-		addMagicEffect(make_shared<ScriptedMagicEffect>(name, this));
+		auto effectDesc = app::getEffect(name);
+
+		if (effectDesc) {
+			applyMagicEffect(effectDesc, 0.0f, -1.0f);
+		}
+		else {
+			log("Unknown MagicEffect: %s", name);
+		}
 	}
 }

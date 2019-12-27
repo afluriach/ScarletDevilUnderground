@@ -26,7 +26,7 @@ namespace Lua{
 		addFuncSame(gobject, stopGraphicsAction);
 		addFuncSame(gobject, cast);
 		addFuncSame(gobject, hit);
-		addFuncSame(gobject, addMagicEffect);
+		addFuncSame(gobject, applyMagicEffect);
 		addFuncSame(gobject, getMaxSpeed);
 		addFuncSame(gobject, getAngle);
 		addFuncSame(gobject, getAngularVel);

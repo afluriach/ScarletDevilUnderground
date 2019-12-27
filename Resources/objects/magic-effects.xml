@@ -12,5 +12,27 @@
 		type="FortifyAttribute"
 		attr="agility"
 	/>
+
+	<DrainStaminaFromMovement
+		type="DrainFromMovement"
+		attr="stamina"
+	/>
+	
+	<Teleport
+		type="Teleport"
+	/>
+	
+	<FreezeStatus
+		type="ScriptedEffect"
+		class="auto"
+	/>
+	<DarknessCurse
+		type="ScriptedEffect"
+		class="auto"
+	/>
+	<GhostProtection
+		type="ScriptedEffect"
+		class="auto"
+	/>
 	
 </effects>

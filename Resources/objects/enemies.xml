@@ -159,8 +159,6 @@
 		attributes="redFairy"
 		firepattern="RedFairy"
 		
-		effects="RedFairyStress"
-		
 		mass="25"
 		viewRange="7.5"
 		viewAngle="0"

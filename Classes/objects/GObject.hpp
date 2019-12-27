@@ -17,6 +17,7 @@ class Bullet;
 class GSpace;
 class Spell;
 class MagicEffect;
+class MagicEffectDescriptor;
 class FloorSegment;
 class RoomSensor;
 
@@ -277,6 +278,7 @@ public:
 
 	virtual bool cast(shared_ptr<Spell> spell);
 	void addMagicEffect(shared_ptr<MagicEffect> effect);
+	bool applyMagicEffect(shared_ptr<MagicEffectDescriptor> effect, float magnitude, float length);
 
 	void stopSpell();
 	virtual void updateSpells();

@@ -19,6 +19,7 @@
 #include "Graphics.h"
 #include "graphics_types.h"
 #include "MagicEffect.hpp"
+#include "MiscMagicEffects.hpp"
 
 namespace app {
 
@@ -574,6 +575,33 @@ bool parseObject(tinyxml2::XMLElement* elem, shared_ptr<MagicEffectDescriptor>* 
 
 		if (attr != Attribute::end) {
 			*result = make_shared< MagicEffectDescImpl<FortifyAttribute, Attribute>>(attr);
+			success = true;
+		}
+	}
+	else if (_type == "Teleport") {
+		*result = make_shared< MagicEffectDescImpl<Teleport>>();
+		success = true;
+	}
+	else if (_type == "DrainFromMovement") {
+		Attribute attr = Attribute::end;
+
+		getAttributeAttr(elem, "attr", &attr);
+
+		if (attr != Attribute::end) {
+			*result = make_shared< MagicEffectDescImpl<DrainFromMovement, Attribute>>(attr);
+			success = true;
+		}
+	}
+	else if (_type == "ScriptedEffect") {
+		string clsName;
+
+		getStringAttr(elem, "class", &clsName);
+
+		if (clsName == "auto")
+			clsName = elem->Name();
+
+		if (!clsName.empty()) {
+			*result = make_shared< MagicEffectDescImpl<ScriptedMagicEffect, string> >(clsName);
 			success = true;
 		}
 	}

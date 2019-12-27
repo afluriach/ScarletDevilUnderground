@@ -80,23 +80,3 @@ effects.GhostProtection = class('GhostProtection', {
 	end
 })
 
-effects.RedFairyStress = class('RedFairyStress', {
-	getFlags = function()
-		return MagicEffect.make_flags_bitfield(
-			MagicEffect_flags.indefinite,
-			MagicEffect_flags.active
-		)	
-	end,
-	init = function(self, super, target)
-		self.agent = target:getAsAgent()
-	end,
-	onEnter = function(self)
-		self.baseAttackSpeed = self.agent:getAttribute(Attribute.attackSpeed)
-	end,
-	update = function(self)
-		as = self.agent:getAttributeSystem()
-	end,
-	onExit = function(self)
-		self.agent:getAttributeSystem():set(Attribute.attackSpeed, self.baseAttackSpeed)
-	end
-})

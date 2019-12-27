@@ -762,4 +762,16 @@ void GObject::addMagicEffect(shared_ptr<MagicEffect> newEffect)
 	space->magicEffectSystem->addEffect(newEffect);
 }
 
+bool GObject::applyMagicEffect(shared_ptr<MagicEffectDescriptor> effect, float magnitude, float length)
+{
+	bool success = false;
+
+	if (effect->canApply(this, magnitude, length)) {
+		addMagicEffect(effect->generate(this, magnitude, length));
+		success = true;
+	}
+
+	return success;
+}
+
 //END SPELLS
