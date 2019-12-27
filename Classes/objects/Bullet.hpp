@@ -17,7 +17,6 @@ class Wall;
 
 struct bullet_properties
 {
-	SpaceFloat mass;
 	SpaceFloat speed;
 	SpaceVect dimensions;
 	SpaceFloat knockback;

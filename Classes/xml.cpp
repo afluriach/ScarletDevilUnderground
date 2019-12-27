@@ -484,7 +484,6 @@ bool parseObject(tinyxml2::XMLElement* elem, shared_ptr<bullet_properties>* resu
 	getNumericAttr(elem, "deflectBullets", &deflectBullets);
 
 	*result = make_shared<bullet_properties>(bullet_properties{
-		0.1,
 		speed,
 		dimensions,
 		knockback,

@@ -175,7 +175,6 @@ const vector<string> Inst::luaIncludes = {
 
 		#define _cls bullet_properties
 		auto bullet_props = _state.new_usertype<bullet_properties>("bullet_properties");
-		addFuncSame(bullet_props, mass);
 		addFuncSame(bullet_props, speed);
 		addFuncSame(bullet_props, dimensions);
 		addFuncSame(bullet_props, knockback);
