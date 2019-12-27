@@ -16,18 +16,18 @@
 #include "MagicEffectSystem.hpp"
 #include "RadarSensor.hpp"
 
-MagicEffect::MagicEffect(GObject* target, float magnitude, float length, effect_flags _flags) :
-target(target),
+MagicEffect::MagicEffect(effect_params params, float magnitude, float length, effect_flags _flags) :
+target(params.target),
 length(length),
 magnitude(magnitude),
 _flags(_flags),
+id(params.id),
+desc(params.desc),
 crntState(state::created)
 {
 	if (_flags == effect_flags::none) {
 		log("Warning, empty MagicEffect created.");
 	}
-
-	id = getSpace()->magicEffectSystem->nextID++;
 }
 
 GSpace* MagicEffect::getSpace() const {
@@ -68,8 +68,8 @@ effect_flags ScriptedMagicEffect::getFlags(string clsName)
 	return obj ? obj.as<effect_flags>() : effect_flags::none;
 }
 
-ScriptedMagicEffect::ScriptedMagicEffect(GObject* agent, float magnitude, float length, string clsName) :
-	MagicEffect(agent, magnitude, length, getFlags(clsName)),
+ScriptedMagicEffect::ScriptedMagicEffect(effect_params params, float magnitude, float length, string clsName) :
+	MagicEffect(params, magnitude, length, getFlags(clsName)),
 	clsName(clsName)
 {
 	auto cls = GSpace::scriptVM->_state["effects"][clsName];
@@ -79,7 +79,7 @@ ScriptedMagicEffect::ScriptedMagicEffect(GObject* agent, float magnitude, float 
 		log("ScriptedMagicEffect: %s not found", clsName);
 	}
 	else {
-		obj = cls(super_this, agent, magnitude, length);
+		obj = cls(super_this);
 	}
 }
 
@@ -107,8 +107,8 @@ void ScriptedMagicEffect::end()
 	}
 }
 
-RadiusEffect::RadiusEffect(GObject* target, SpaceFloat radius, GType type) :
-	MagicEffect(target, -0.0f, -1.0f, enum_bitwise_or(effect_flags, indefinite, active)),
+RadiusEffect::RadiusEffect(effect_params params, SpaceFloat radius, GType type) :
+	MagicEffect(params, -0.0f, -1.0f, enum_bitwise_or(effect_flags, indefinite, active)),
 	radius(radius),
 	type(type)
 {}
@@ -158,8 +158,8 @@ void RadiusEffect::onEndContact(GObject* obj)
 		contacts.erase(obj);
 }
 
-DamageRadiusEffect::DamageRadiusEffect(GObject* agent, DamageInfo damage, SpaceFloat radius, GType type) :
-	RadiusEffect(agent, radius, type),
+DamageRadiusEffect::DamageRadiusEffect(effect_params params, DamageInfo damage, SpaceFloat radius, GType type) :
+	RadiusEffect(params, radius, type),
 	damage(damage)
 {}
 

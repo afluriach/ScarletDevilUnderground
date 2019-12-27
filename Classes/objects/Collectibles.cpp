@@ -71,7 +71,7 @@ bool Collectible::canAcquire(Player* player) {
 //If this is an invalid Collectible (null effect), canAcquire should return false
 //and this code shouldn't run.
 void Collectible::onAcquire(Player* player) {
-	player->addMagicEffect(effect->generate(player, effectMagnitude, effectLength));
+	player->applyMagicEffect(effect, effectMagnitude, effectLength);
 	space->removeObject(this);
 	playSoundSpatial("sfx/powerup.wav");
 }

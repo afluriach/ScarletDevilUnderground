@@ -1,25 +1,26 @@
 effects.FreezeStatus = class('FreezeStatus', {
 	flags = effect_flags.timed,
-	init = function(self, super, target)
-		self.target = target:getAsAgent()
+	init = function(self, super)
+		self.super = super
+		self.agent = self.super.target:getAsAgent()
 	end,
 	onEnter = function(self)
-		self.target:addGraphicsAction(graphics.freezeEffectAction(), 0)
-		self.target:setFrozen(true)
-		self.target:setFiringSuppressed(true)
-		self.target:setMovementSuppressed(true)
+		self.agent:addGraphicsAction(graphics.freezeEffectAction(), 0)
+		self.agent:setFrozen(true)
+		self.agent:setFiringSuppressed(true)
+		self.agent:setMovementSuppressed(true)
 	end,
 	onExit = function(self)
-		self.target:addGraphicsAction(graphics.freezeEffectEndAction(), 0)
-		self.target:setFrozen(false)
-		self.target:setFiringSuppressed(false)
-		self.target:setMovementSuppressed(false)
+		self.agent:addGraphicsAction(graphics.freezeEffectEndAction(), 0)
+		self.agent:setFrozen(false)
+		self.agent:setFiringSuppressed(false)
+		self.agent:setMovementSuppressed(false)
 	end
 })
 
 effects.DarknessCurse = class('DarknessCurse', {
 	flags = effect_flags.indefinite | effect_flags.active,
-	init = function(self, super, target)
+	init = function(self, super)
 		self.super = super
 		self.agent = target:getAsAgent()
 	end,
@@ -44,9 +45,9 @@ effects.DarknessCurse = class('DarknessCurse', {
 
 effects.GhostProtection = class('GhostProtection', {
 	flags = effect_flags.indefinite | effect_flags.active,
-	init = function(self, super, target)
+	init = function(self, super)
 		self.super = super
-		self.agent = target:getAsAgent()
+		self.agent = super.target:getAsAgent()
 	end,
 	onEnter = function(self)
 		self.crntHP = self.agent:getAttribute(Attribute.hp)

@@ -16,7 +16,7 @@ class RestoreAttribute : public MagicEffect
 public:
 	static bool canApply(GObject* target, float magnitude, float length, Attribute attr);
 
-	RestoreAttribute(GObject* target, float magnitude, float length, Attribute attr);
+	RestoreAttribute(effect_params params, float magnitude, float length, Attribute attr);
 
 	virtual void init();
 
@@ -26,7 +26,7 @@ public:
 class FortifyAttribute : public MagicEffect
 {
 public:
-	FortifyAttribute(GObject* target, float magnitude, float length, Attribute attr);
+	FortifyAttribute(effect_params params, float magnitude, float length, Attribute attr);
 
 	virtual void init();
 	virtual void end();
@@ -38,7 +38,7 @@ public:
 class DrainFromMovement : public MagicEffect
 {
 public:
-	DrainFromMovement(GObject* target, float magnitude, float length, Attribute attr);
+	DrainFromMovement(effect_params params, float magnitude, float length, Attribute attr);
 
 	inline virtual void init() {}
 	virtual void update();

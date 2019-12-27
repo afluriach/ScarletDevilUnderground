@@ -35,6 +35,8 @@ public:
 
 	MagicEffectSystem(GSpace* gspace);
 
+	bool applyEffect(GObject* target, shared_ptr<MagicEffectDescriptor> effect, float magnitude, float length);
+
 	void addEffect(shared_ptr<MagicEffect> effect);
 	void removeEffect(shared_ptr<MagicEffect> effect);
 	void removeEffect(unsigned int id);
@@ -57,8 +59,6 @@ public:
 		return false;
 	}
 protected:
-	static unsigned int nextID;
-
 	void applyAdd();
 	void applyRemove();
 	void update();
@@ -80,6 +80,7 @@ protected:
 	list<unsigned int> magicEffectsToRemove;
 
 	GSpace* gspace;
+	unsigned int nextID = 1;
 };
 
 #endif

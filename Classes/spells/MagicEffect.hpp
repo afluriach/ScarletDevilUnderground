@@ -28,6 +28,13 @@ enum class effect_flags
 	active = 0x8,
 };
 
+struct effect_params
+{
+	GObject* target;
+	unsigned int id;
+	shared_ptr<MagicEffectDescriptor> desc;
+};
+
 class MagicEffect
 {
 public:
@@ -39,8 +46,7 @@ public:
 		expired,
 	};
 
-	inline MagicEffect(GObject* target) : MagicEffect(target, 0.0f, 0.0f, effect_flags::none) {}
-	MagicEffect(GObject* target, float magnitude, float length, effect_flags _flags);
+	MagicEffect(effect_params params, float magnitude, float length, effect_flags _flags);
 
 	GSpace* getSpace() const;
 
@@ -57,6 +63,7 @@ public:
 	//remove this - queues this magic effect for removal, can be called within an update
 	void remove();
 
+	shared_ptr<MagicEffectDescriptor> desc;
 	GObject* target;
 	float length, magnitude;
 	state crntState;
@@ -71,7 +78,7 @@ public:
 	virtual inline ~MagicEffectDescriptor() {}
 
 	virtual bool canApply(GObject* target, float magnitude, float length) const = 0;
-	virtual shared_ptr<MagicEffect> generate(GObject* target, float magnitude, float length) const = 0;
+	virtual shared_ptr<MagicEffect> generate(effect_params params, float magnitude, float length) const = 0;
 };
 
 template<class T, typename... Params>
@@ -92,8 +99,8 @@ public:
 		}
 	}
 
-	inline virtual shared_ptr<MagicEffect> generate(GObject* target, float magnitude, float length) const {
-		return make_shared<T>(target, magnitude, length, get<Params>(_params)...);
+	inline virtual shared_ptr<MagicEffect> generate(effect_params params, float magnitude, float length) const {
+		return make_shared<T>(params, magnitude, length, get<Params>(_params)...);
 	}
 protected:
 	tuple<Params...> _params;
@@ -104,7 +111,7 @@ class ScriptedMagicEffect : public MagicEffect
 public:
 	static effect_flags getFlags(string clsName);
 
-	ScriptedMagicEffect(GObject* target, float magnitude, float length, string clsName);
+	ScriptedMagicEffect(effect_params params, float magnitude, float length, string clsName);
 
 	virtual void init();
 	virtual void update();
@@ -119,7 +126,7 @@ protected:
 class RadiusEffect : public MagicEffect
 {
 public:
-	RadiusEffect(GObject* agent, SpaceFloat radius, GType type);
+	RadiusEffect(effect_params params, SpaceFloat radius, GType type);
 
 	virtual void init();
 	virtual void update();
@@ -141,7 +148,7 @@ protected:
 class DamageRadiusEffect : public RadiusEffect
 {
 public:
-	DamageRadiusEffect(GObject* target, DamageInfo damage, SpaceFloat radius, GType type);
+	DamageRadiusEffect(effect_params params, DamageInfo damage, SpaceFloat radius, GType type);
 
 	virtual void onHit(GObject* target);
 protected:

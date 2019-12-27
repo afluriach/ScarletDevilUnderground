@@ -15,7 +15,7 @@ class TeleportPad;
 
 class Teleport : public MagicEffect {
 public:
-	Teleport(GObject* target, float magnitude, float length);
+	Teleport(effect_params params, float magnitude, float length);
 	inline virtual ~Teleport() {}
 
 	virtual void init();

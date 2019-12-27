@@ -11,8 +11,6 @@
 #include "GSpace.hpp"
 #include "MagicEffectSystem.hpp"
 
-unsigned int MagicEffectSystem::nextID;
-
 bool timedEntry::operator>(const timedEntry& rhs) const
 {
 	if (endFrame > rhs.endFrame)
@@ -28,6 +26,19 @@ MagicEffectSystem::MagicEffectSystem(GSpace* gspace) :
 	gspace(gspace)
 {
 	nextID = 1;
+}
+
+bool MagicEffectSystem::applyEffect(GObject* target, shared_ptr<MagicEffectDescriptor> effect, float magnitude, float length)
+{
+	bool success = false;
+
+	if (effect->canApply(target, magnitude, length)) {
+		effect_params params = { target, nextID++, effect };
+		addEffect(effect->generate(params, magnitude, length));
+		success = true;
+	}
+
+	return success;
 }
 
 void MagicEffectSystem::addEffect(shared_ptr<MagicEffect> effect)

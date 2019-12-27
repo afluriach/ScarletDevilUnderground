@@ -21,8 +21,8 @@ bool RestoreAttribute::canApply(GObject* target, float magnitude, float length, 
 	}
 }
 
-RestoreAttribute::RestoreAttribute(GObject* target, float magnitude, float length, Attribute attr) :
-	MagicEffect(target, magnitude, length, effect_flags::immediate),
+RestoreAttribute::RestoreAttribute(effect_params params, float magnitude, float length, Attribute attr) :
+	MagicEffect(params, magnitude, length, effect_flags::immediate),
 	attr(attr)
 {
 	
@@ -35,8 +35,8 @@ void RestoreAttribute::init()
 	}
 }
 
-FortifyAttribute::FortifyAttribute(GObject* target, float magnitude, float length, Attribute attr) :
-	MagicEffect(target, magnitude, length, effect_flags::timed),
+FortifyAttribute::FortifyAttribute(effect_params params, float magnitude, float length, Attribute attr) :
+	MagicEffect(params, magnitude, length, effect_flags::timed),
 	attr(attr)
 {
 }
@@ -55,8 +55,8 @@ void FortifyAttribute::end()
 	}
 }
 
-DrainFromMovement::DrainFromMovement(GObject* target, float magnitude, float length, Attribute attr) :
-	MagicEffect(target, magnitude, length, enum_bitwise_or(effect_flags, indefinite, active)),
+DrainFromMovement::DrainFromMovement(effect_params params, float magnitude, float length, Attribute attr) :
+	MagicEffect(params, magnitude, length, enum_bitwise_or(effect_flags, indefinite, active)),
 	attr(attr)
 {
 	_ratio = -1.0f * app::params.secondsPerFrame * magnitude;
