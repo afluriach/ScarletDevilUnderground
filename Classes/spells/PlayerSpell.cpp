@@ -32,7 +32,7 @@ void PlayerBatMode::init()
 		p->setSpriteZoom(4.0f);
 
 		p->setFiringSuppressed(true);
-		p->applyAttributeModifier(Attribute::agility, 1.5f);
+		p->modifyAttribute(Attribute::agility, 1.5f);
 		p->setLayers(PhysicsLayers::ground);
 		p->setProtection();
 	}
@@ -47,7 +47,7 @@ void PlayerBatMode::end()
 		p->setSpriteZoom(1.0f);
 
 		p->setFiringSuppressed(false);
-		p->applyAttributeModifier(Attribute::agility, -1.5f);
+		p->modifyAttribute(Attribute::agility, -1.5f);
 		p->setLayers(enum_bitwise_or(PhysicsLayers, floor, ground));
 		p->resetProtection();
 	}

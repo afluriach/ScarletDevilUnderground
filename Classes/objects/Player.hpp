@@ -99,7 +99,6 @@ public:
 	void useKey();
 
 	virtual AttributeMap getAttributeUpgrades() const;
-	void applyAttributeModifier(Attribute id, float val);
     
 	void useDoor(Door* interactTarget);
 	void moveToDestinationDoor(Door* dest);

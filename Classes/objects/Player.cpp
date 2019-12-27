@@ -514,16 +514,6 @@ AttributeMap Player::getAttributeUpgrades() const
 	return space->getState()->getUpgrades();
 }
 
-void Player::applyAttributeModifier(Attribute id, float val)
-{
-	if (id >= Attribute::end) {
-		log("invalid attribute %d", to_int(id));
-		return;
-	}
-
-	attributeSystem.modifyAttribute(id, val);
-}
-
 void Player::setProtection()
 {
 	attributeSystem.setProtection();
