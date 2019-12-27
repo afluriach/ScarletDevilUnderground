@@ -264,6 +264,7 @@ xcopy "$(ProjectDir)..\Resources" "$(OutDir)" /D /E /I /F /Y</Command>
     <ClCompile Include="..\Classes\value_map.cpp" />
     <ClCompile Include="..\Classes\vect.cpp" />
     <ClCompile Include="..\Classes\xml.cpp" />
+    <ClCompile Include="..\Classes\xml_effects.cpp" />
     <ClCompile Include="main.cpp" />
   </ItemGroup>
   <ItemGroup>

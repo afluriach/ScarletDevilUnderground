@@ -168,23 +168,6 @@ bool getStringAttr(tinyxml2::XMLElement* elem, const string& name, string* resul
 	return attr;
 }
 
-template<typename T>
-bool getNumericAttr(tinyxml2::XMLElement* elem, const string& name, T* result)
-{
-	const char* attr = elem->Attribute(name.c_str());
-
-	if (attr) {
-		try {
-			*result = boost::lexical_cast<T, string>(attr);
-			return true;
-		}
-		catch (boost::bad_lexical_cast ex) {
-			log("Unable to parse XML attribute %s", name);
-		}
-	}
-	return false;
-}
-
 bool getColorAttr(tinyxml2::XMLElement* elem, const string& name, Color4F* result)
 {
 	if (auto attr = elem->Attribute(name.c_str())) {
@@ -550,63 +533,6 @@ bool parseObject(tinyxml2::XMLElement* elem, shared_ptr<bomb_properties>* result
 		*result = make_shared<bomb_properties>(props);
 		return true;
 	}
-}
-
-bool parseObject(tinyxml2::XMLElement* elem, shared_ptr<MagicEffectDescriptor>* result)
-{
-	string _type;
-	bool success = false;
-	getStringAttr(elem, "type", &_type);
-
-	if (_type == "RestoreAttribute") {
-		Attribute attr = Attribute::end;
-
-		getAttributeAttr(elem, "attr", &attr);
-
-		if (attr != Attribute::end) {
-			*result = make_shared< MagicEffectDescImpl<RestoreAttribute, Attribute>>(attr);
-			success = true;
-		}
-	}
-	else if (_type == "FortifyAttribute") {
-		Attribute attr = Attribute::end;
-
-		getAttributeAttr(elem, "attr", &attr);
-
-		if (attr != Attribute::end) {
-			*result = make_shared< MagicEffectDescImpl<FortifyAttribute, Attribute>>(attr);
-			success = true;
-		}
-	}
-	else if (_type == "Teleport") {
-		*result = make_shared< MagicEffectDescImpl<Teleport>>();
-		success = true;
-	}
-	else if (_type == "DrainFromMovement") {
-		Attribute attr = Attribute::end;
-
-		getAttributeAttr(elem, "attr", &attr);
-
-		if (attr != Attribute::end) {
-			*result = make_shared< MagicEffectDescImpl<DrainFromMovement, Attribute>>(attr);
-			success = true;
-		}
-	}
-	else if (_type == "ScriptedEffect") {
-		string clsName;
-
-		getStringAttr(elem, "class", &clsName);
-
-		if (clsName == "auto")
-			clsName = elem->Name();
-
-		if (!clsName.empty()) {
-			*result = make_shared< MagicEffectDescImpl<ScriptedMagicEffect, string> >(clsName);
-			success = true;
-		}
-	}
-
-	return success;
 }
 
 bool parseObject(tinyxml2::XMLElement* elem, collectible_properties* result)

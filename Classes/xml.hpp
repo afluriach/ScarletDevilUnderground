@@ -18,6 +18,10 @@ class LightArea;
 class MagicEffectDescriptor;
 
 namespace app {
+	typedef function< bool(tinyxml2::XMLElement*, shared_ptr<MagicEffectDescriptor>*)> effect_parser;
+
+	extern const unordered_map<string, effect_parser> effectParsers;
+
 	extern unordered_map<string, AttributeMap> attributes;
 	extern unordered_map<string, shared_ptr<bomb_properties>> bombs;
 	extern unordered_map<string, shared_ptr<bullet_properties>> bullets;
@@ -90,6 +94,29 @@ namespace app {
 	bool parseObject(tinyxml2::XMLElement* elem, shared_ptr<bomb_properties>* result);
 	bool parseObject(tinyxml2::XMLElement* elem, shared_ptr<MagicEffectDescriptor>* result);
 	bool parseObject(tinyxml2::XMLElement* elem, collectible_properties* result);
+
+	bool getAttributeAttr(tinyxml2::XMLElement* elem, const string& name, Attribute* result);
+	bool getStringAttr(tinyxml2::XMLElement* elem, const string& name, string* result);
+	bool getColorAttr(tinyxml2::XMLElement* elem, const string& name, Color4F* result);
+	bool getVector(tinyxml2::XMLElement* elem, const string& name, SpaceVect* result);
+	DamageInfo getDamageInfo(tinyxml2::XMLElement* elem, DamageType type);
+
+	template<typename T>
+	bool getNumericAttr(tinyxml2::XMLElement* elem, const string& name, T* result)
+	{
+		const char* attr = elem->Attribute(name.c_str());
+
+		if (attr) {
+			try {
+				*result = boost::lexical_cast<T, string>(attr);
+				return true;
+			}
+			catch (boost::bad_lexical_cast ex) {
+				log("Unable to parse XML attribute %s", name);
+			}
+		}
+		return false;
+	}
 }
 
 #endif 
