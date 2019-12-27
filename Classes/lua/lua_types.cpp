@@ -148,5 +148,7 @@ namespace Lua{
 		_state["app"] = _app;
 
 		_app["getEffect"] = &app::getEffect;
+
+		_app["log"] = &log_print<>;
 	}
 }
