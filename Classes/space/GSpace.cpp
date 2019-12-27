@@ -37,20 +37,21 @@ class RadarObject;
 
 unique_ptr<Lua::Inst> GSpace::scriptVM;
 
+void GSpace::loadScriptVM()
+{
+	scriptVM = make_unique<Lua::Inst>("GSpace");
+	scriptVM->runFile("scripts/ai-functions.lua");
+	scriptVM->runFile("scripts/ai-packages.lua");
+	scriptVM->runFile("scripts/magic-effects.lua");
+	scriptVM->runFile("scripts/spells/player-spells.lua");
+}
+
 GSpace::GSpace(GScene* gscene) :
 	gscene(gscene),
 	audioContext(App::audioContext.get()),
 	graphicsContext(gscene->graphicsContext.get()),
 	randomFloat(0.0, 1.0)
 {
-	if (!scriptVM) {
-		scriptVM = make_unique<Lua::Inst>("GSpace");
-		scriptVM->runFile("scripts/ai-functions.lua");
-		scriptVM->runFile("scripts/ai-packages.lua");
-		scriptVM->runFile("scripts/magic-effects.lua");
-		scriptVM->runFile("scripts/spells/player-spells.lua");
-	}
-
 	world = new b2World(b2Vec2_zero);
 
 	physicsContext = make_unique<physics_context>(this);

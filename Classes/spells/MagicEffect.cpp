@@ -16,11 +16,11 @@
 #include "MagicEffectSystem.hpp"
 #include "RadarSensor.hpp"
 
-MagicEffect::MagicEffect(effect_params params, float magnitude, float length, effect_flags _flags) :
+MagicEffect::MagicEffect(effect_params params, float magnitude, float length) :
 target(params.target),
 length(length),
 magnitude(magnitude),
-_flags(_flags),
+_flags(params.flags),
 id(params.id),
 desc(params.desc),
 crntState(state::created)
@@ -69,7 +69,7 @@ effect_flags ScriptedMagicEffect::getFlags(string clsName)
 }
 
 ScriptedMagicEffect::ScriptedMagicEffect(effect_params params, float magnitude, float length, string clsName) :
-	MagicEffect(params, magnitude, length, getFlags(clsName)),
+	MagicEffect(params, magnitude, length),
 	clsName(clsName)
 {
 	auto cls = GSpace::scriptVM->_state["effects"][clsName];
@@ -108,7 +108,7 @@ void ScriptedMagicEffect::end()
 }
 
 RadiusEffect::RadiusEffect(effect_params params, SpaceFloat radius, GType type) :
-	MagicEffect(params, -0.0f, -1.0f, enum_bitwise_or(effect_flags, indefinite, active)),
+	MagicEffect(params, -0.0f, -1.0f),
 	radius(radius),
 	type(type)
 {}

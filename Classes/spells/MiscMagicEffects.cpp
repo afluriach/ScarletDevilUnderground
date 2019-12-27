@@ -16,7 +16,7 @@
 #include "TeleportPad.hpp"
 
 Teleport::Teleport(effect_params params, float magnitude, float length) :
-	MagicEffect(params, magnitude, length, enum_bitwise_or(effect_flags, indefinite, active)),
+	MagicEffect(params, magnitude, length),
 	targets(getSpace()->getObjectsByTypeAs<TeleportPad>())
 {
 }

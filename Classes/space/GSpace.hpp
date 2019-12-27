@@ -47,6 +47,8 @@ public:
 	friend class PhysicsImpl;
 	typedef pair<ObjectGeneratorType, ObjectIDType> generator_pair;
 
+	static void loadScriptVM();
+
 	static unique_ptr<Lua::Inst> scriptVM;
 
     GSpace(GScene* gscene);    

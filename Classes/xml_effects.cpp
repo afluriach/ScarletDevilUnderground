@@ -24,7 +24,7 @@ bool restoreAttribute(tinyxml2::XMLElement* elem, shared_ptr<MagicEffectDescript
 	getAttributeAttr(elem, "attr", &attr);
 
 	if (attr != Attribute::end) {
-		*result = make_shared< MagicEffectDescImpl<RestoreAttribute, Attribute>>(attr);
+		*result = make_shared< MagicEffectDescImpl<RestoreAttribute, Attribute>>(elem->Name(), attr);
 		success = true;
 	}
 
@@ -39,7 +39,7 @@ bool fortifyAttribute(tinyxml2::XMLElement* elem, shared_ptr<MagicEffectDescript
 	getAttributeAttr(elem, "attr", &attr);
 
 	if (attr != Attribute::end) {
-		*result = make_shared< MagicEffectDescImpl<FortifyAttribute, Attribute>>(attr);
+		*result = make_shared< MagicEffectDescImpl<FortifyAttribute, Attribute>>(elem->Name(), attr);
 		success = true;
 	}
 
@@ -48,7 +48,7 @@ bool fortifyAttribute(tinyxml2::XMLElement* elem, shared_ptr<MagicEffectDescript
 
 bool teleport(tinyxml2::XMLElement* elem, shared_ptr<MagicEffectDescriptor>* result)
 {
-	*result = make_shared< MagicEffectDescImpl<Teleport>>();
+	*result = make_shared< MagicEffectDescImpl<Teleport>>(elem->Name());
 	return true;
 }
 
@@ -60,7 +60,7 @@ bool drainFromMovement(tinyxml2::XMLElement* elem, shared_ptr<MagicEffectDescrip
 	getAttributeAttr(elem, "attr", &attr);
 
 	if (attr != Attribute::end) {
-		*result = make_shared< MagicEffectDescImpl<DrainFromMovement, Attribute>>(attr);
+		*result = make_shared< MagicEffectDescImpl<DrainFromMovement, Attribute>>(elem->Name(), attr);
 		success = true;
 	}
 
@@ -78,7 +78,7 @@ bool scriptedEffect(tinyxml2::XMLElement* elem, shared_ptr<MagicEffectDescriptor
 		clsName = elem->Name();
 
 	if (!clsName.empty()) {
-		*result = make_shared< MagicEffectDescImpl<ScriptedMagicEffect, string> >(clsName);
+		*result = make_shared<MagicEffectDescImpl<ScriptedMagicEffect,string>>(elem->Name(), clsName);
 		success = true;
 	}
 

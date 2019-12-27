@@ -12,6 +12,7 @@
 class RadarSensor;
 
 make_static_member_detector(canApply)
+make_static_member_detector(flags)
 
 enum class effect_flags
 {
@@ -32,6 +33,7 @@ struct effect_params
 {
 	GObject* target;
 	unsigned int id;
+	effect_flags flags;
 	shared_ptr<MagicEffectDescriptor> desc;
 };
 
@@ -46,7 +48,7 @@ public:
 		expired,
 	};
 
-	MagicEffect(effect_params params, float magnitude, float length, effect_flags _flags);
+	MagicEffect(effect_params params, float magnitude, float length);
 
 	GSpace* getSpace() const;
 
@@ -74,18 +76,38 @@ public:
 class MagicEffectDescriptor
 {
 public:
-	inline MagicEffectDescriptor() {}
+	inline MagicEffectDescriptor(string typeName, effect_flags flags) :
+		typeName(typeName),
+		flags(flags)
+	{}
 	virtual inline ~MagicEffectDescriptor() {}
 
 	virtual bool canApply(GObject* target, float magnitude, float length) const = 0;
 	virtual shared_ptr<MagicEffect> generate(effect_params params, float magnitude, float length) const = 0;
+
+	inline string getTypeName() const { return typeName; }
+	inline effect_flags getFlags() const { return flags; }
+protected:
+	string typeName;
+	effect_flags flags;
 };
 
 template<class T, typename... Params>
 class MagicEffectDescImpl : public MagicEffectDescriptor
 {
 public:
-	inline MagicEffectDescImpl(Params... params) :
+	static effect_flags getFlags(Params... params)
+	{
+		if constexpr (has_flags<T>::value) {
+			return T::flags;
+		}
+		else {
+			return T::getFlags(params...);
+		}
+	}
+
+	inline MagicEffectDescImpl(string typeName, Params... params) :
+		MagicEffectDescriptor(typeName, getFlags(params...)),
 		_params(forward_as_tuple(params...))
 	{
 	}

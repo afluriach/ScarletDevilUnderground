@@ -330,6 +330,8 @@ void App::loadShaders()
 
 void App::loadObjects()
 {
+	GSpace::loadScriptVM();
+
 	GObject::initObjectInfo();
 	GObject::initNameMap();
 

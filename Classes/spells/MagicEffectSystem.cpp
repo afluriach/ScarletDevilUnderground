@@ -33,7 +33,7 @@ bool MagicEffectSystem::applyEffect(GObject* target, shared_ptr<MagicEffectDescr
 	bool success = false;
 
 	if (effect->canApply(target, magnitude, length)) {
-		effect_params params = { target, nextID++, effect };
+		effect_params params = { target, nextID++, effect->getFlags(), effect };
 		addEffect(effect->generate(params, magnitude, length));
 		success = true;
 	}
