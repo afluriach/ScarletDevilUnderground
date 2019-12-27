@@ -8,6 +8,7 @@
 
 #include "Prefix.h"
 
+#include "AI.hpp"
 #include "AreaSensor.hpp"
 #include "Door.hpp"
 #include "Enemy.hpp"

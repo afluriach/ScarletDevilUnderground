@@ -8,7 +8,6 @@
 
 #include "Prefix.h"
 
-#include "AttributeEffects.hpp"
 #include "Attributes.hpp"
 #include "Bomb.hpp"
 #include "Bullet.hpp"
@@ -18,8 +17,6 @@
 #include "FirePatternImpl.hpp"
 #include "Graphics.h"
 #include "graphics_types.h"
-#include "MagicEffect.hpp"
-#include "MiscMagicEffects.hpp"
 
 namespace app {
 

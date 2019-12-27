@@ -10,6 +10,7 @@
 
 #include "GSpace.hpp"
 #include "LuaAPI.hpp"
+#include "Spell.hpp"
 #include "SpellDescriptor.hpp"
 
 sol::table ScriptedSpellDescriptor::getClsObject(const string& clsName)

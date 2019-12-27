@@ -10,6 +10,7 @@
 
 #include "GSpace.hpp"
 #include "GState.hpp"
+#include "Player.hpp"
 #include "Upgrade.hpp"
 #include "value_map.hpp"
 
