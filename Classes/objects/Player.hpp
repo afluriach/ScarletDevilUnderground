@@ -59,10 +59,6 @@ public:
 	inline virtual SpaceFloat getRadarRadius() const { return grazeRadius; }
     inline virtual SpaceFloat getDefaultFovAngle() const { return 0.0;}
 
-	void setProtection();
-	void setTimedProtection(SpaceFloat seconds);
-	void resetProtection();
-
 	virtual void onBulletCollide(Bullet* b, SpaceVect n);
 	virtual void onBulletHitTarget(Bullet* bullet, Agent* target);
     virtual bool hit(DamageInfo damage, SpaceVect n);

@@ -512,21 +512,6 @@ AttributeMap Player::getAttributeUpgrades() const
 	return space->getState()->getUpgrades();
 }
 
-void Player::setProtection()
-{
-	attributeSystem.setProtection();
-}
-
-void Player::setTimedProtection(SpaceFloat seconds)
-{
-	attributeSystem.setTimedProtection(seconds);
-}
-
-void Player::resetProtection()
-{
-	attributeSystem.resetProtection();;
-}
-
 void Player::onBulletCollide(Bullet* b, SpaceVect n)
 {
 	grazeContacts.erase(b);

@@ -56,6 +56,10 @@ namespace Lua{
 		addFuncSame(agent, getAttributeSystem);
 		addFuncSame(agent, getBulletAttributes);
 
+		addFuncSame(agent, setProtection);
+		addFuncSame(agent, setTimedProtection);
+		addFuncSame(agent, resetProtection);
+
 		addFuncSame(agent, isFiringSuppressed);
 		addFuncSame(agent, setFiringSuppressed);
 		addFuncSame(agent, isMovementSuppressed);

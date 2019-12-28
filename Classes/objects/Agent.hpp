@@ -93,6 +93,10 @@ public:
 	int getMagic();
 	bool consumeStamina(int val);
 
+	void setProtection();
+	void setTimedProtection(SpaceFloat seconds);
+	void resetProtection();
+
 	void setShieldActive(bool v);
 	inline bool isShieldActive() const { return shieldActive; }
 	bool isShield(Bullet* b);
