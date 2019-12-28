@@ -15,6 +15,7 @@
 #define GET_DESC(name) virtual inline shared_ptr<SpellDesc> getDescriptor() { return Spell::getDescriptorByName(#name); }
 
 class GObject;
+class MagicEffectDescriptor;
 class SpellDesc;
 class TeleportPad;
 class Torch;
@@ -95,6 +96,18 @@ public:
 protected:
 	string clsName;
 	sol::table obj;
+};
+
+class ApplySelfEffect : public Spell
+{
+public:
+	ApplySelfEffect(GObject* caster, spell_params params, shared_ptr<MagicEffectDescriptor> effect);
+
+	virtual void init();
+	virtual void end();
+protected:
+	shared_ptr<MagicEffectDescriptor> effect;
+	unsigned int effectID = 0;
 };
 
 #endif /* Spell_hpp */

@@ -19,38 +19,8 @@ const string PlayerBatMode::icon = "sprites/ui/bat_mode.png";
 const spell_cost PlayerBatMode::cost = spell_cost::ongoingMP(5.0f);
 
 PlayerBatMode::PlayerBatMode(GObject* caster) :
-	Spell(caster, spell_params{ -1.0, -1.0, PlayerBatMode::cost })
+	ApplySelfEffect(caster, spell_params{ -1.0, -1.0, PlayerBatMode::cost }, app::getEffect("BatTransform"))
 {}
-
-void PlayerBatMode::init()
-{
-	Player* p = getCasterAs<Player>();
-
-	if (p) {
-		p->setSprite("flandre_bat");
-		p->setSpriteZoom(4.0f);
-
-		p->setFiringSuppressed(true);
-		p->modifyAttribute(Attribute::agility, 1.5f);
-		p->setLayers(PhysicsLayers::ground);
-		p->setProtection();
-	}
-}
-
-void PlayerBatMode::end()
-{
-	Player* p = getCasterAs<Player>();
-
-	if (p) {
-		p->setSprite("flandre");
-		p->setSpriteZoom(1.0f);
-
-		p->setFiringSuppressed(false);
-		p->modifyAttribute(Attribute::agility, -1.5f);
-		p->setLayers(enum_bitwise_or(PhysicsLayers, floor, ground));
-		p->resetProtection();
-	}
-}
 
 const string LavaeteinnSpell::name = "LavaeteinnSpell";
 const string LavaeteinnSpell::description = "";

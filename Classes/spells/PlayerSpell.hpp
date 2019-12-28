@@ -12,7 +12,7 @@
 #include "Spell.hpp"
 #include "spell_types.hpp"
 
-class PlayerBatMode : public Spell{
+class PlayerBatMode : public ApplySelfEffect{
 public:
 	static const string name;
 	static const string description;
@@ -23,8 +23,6 @@ public:
 	inline virtual ~PlayerBatMode() {}
 
 	GET_DESC(PlayerBatMode)
-    virtual void init();
-    virtual void end();
 };
 
 class LavaeteinnSpell : public Spell

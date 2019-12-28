@@ -274,7 +274,7 @@ public:
 	//BEGIN SPELLS
 
 	virtual bool cast(shared_ptr<Spell> spell);
-	bool applyMagicEffect(shared_ptr<MagicEffectDescriptor> effect, float magnitude, float length);
+	unsigned int applyMagicEffect(shared_ptr<MagicEffectDescriptor> effect, float magnitude, float length);
 
 	void stopSpell();
 	virtual void updateSpells();

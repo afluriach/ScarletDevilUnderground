@@ -9,6 +9,7 @@
 #include "Prefix.h"
 
 #include "LuaAPI.hpp"
+#include "MagicEffectSystem.hpp"
 #include "Spell.hpp"
 #include "SpellDescriptor.hpp"
 
@@ -143,5 +144,23 @@ void ScriptedSpell::end()
 	if (obj) {
 		sol::function f = obj["onExit"];
 		if (f) f(obj);
+	}
+}
+
+ApplySelfEffect::ApplySelfEffect(GObject* caster,  spell_params params, shared_ptr<MagicEffectDescriptor> effect) :
+	Spell(caster, params),
+	effect(effect)
+{
+}
+
+void ApplySelfEffect::init()
+{
+	effectID = caster->applyMagicEffect(effect, 0.0f, -1.0f);
+}
+
+void ApplySelfEffect::end()
+{
+	if (effectID != 0) {
+		getSpace()->magicEffectSystem->removeEffect(effectID);
 	}
 }

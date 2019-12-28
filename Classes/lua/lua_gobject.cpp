@@ -23,6 +23,7 @@ namespace Lua{
 
 		addFuncSame(gobject, addGraphicsAction);
 		addFuncSame(gobject, stopGraphicsAction);
+		addFuncSame(gobject, setSpriteZoom);
 		addFuncSame(gobject, cast);
 		addFuncSame(gobject, hit);
 		addFuncSame(gobject, applyMagicEffect);
@@ -38,6 +39,7 @@ namespace Lua{
 		addFuncSame(gobject, setVel);
 		addFuncSame(gobject, setSpriteOpacity);
 		addFuncSame(gobject, setVel);
+		addFuncSame(gobject, setLayers);
 		addFuncSame(gobject, setFrozen);
 		addFuncSame(gobject, setInhibitSpellcasting);
 		addFuncSame(gobject, setInvisible);
@@ -51,10 +53,14 @@ namespace Lua{
 		auto agent = _state.new_usertype<Agent>("Agent", sol::base_classes, sol::bases<GObject>());
 		#define _cls Agent
 
+		addFuncSame(agent, setSprite);
+		
 		addFuncSame(agent, hit);
 		addFuncSame(agent, getAttribute);
 		addFuncSame(agent, getAttributeSystem);
 		addFuncSame(agent, getBulletAttributes);
+
+		addFuncSame(agent, modifyAttribute);
 
 		addFuncSame(agent, setProtection);
 		addFuncSame(agent, setTimedProtection);

@@ -36,6 +36,19 @@ namespace Lua{
 			}
 		);
 
+		auto layers = _state.new_enum<PhysicsLayers, true>(
+			"PhysicsLayers",
+			{
+				enum_entry(PhysicsLayers, none),
+				enum_entry(PhysicsLayers, belowFloor),
+				enum_entry(PhysicsLayers, floor),
+				enum_entry(PhysicsLayers, ground),
+				enum_entry(PhysicsLayers, eyeLevel),
+
+				enum_entry(PhysicsLayers, all),
+			}
+		);
+
 		auto damageType = _state.new_enum <DamageType, true>(
 			"DamageType",
 			{

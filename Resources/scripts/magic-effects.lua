@@ -1,3 +1,32 @@
+effects.BatTransform = class('BatTransform', {
+	flags = effect_flags.indefinite,
+	init = function(self, super)
+		self.super = super
+	end,
+	onEnter = function(self)
+		local a = self.super.target:getAsAgent()
+		
+		a:setSprite('flandre_bat')
+		a:setSpriteZoom(4.0)
+		
+		a:setFiringSuppressed(true)
+		a:modifyAttribute(Attribute.agility, 1.5)
+		a:setLayers(PhysicsLayers.ground)
+		a:setProtection()
+	end,
+	onExit = function(self)
+		local a = self.super.target:getAsAgent()
+		
+		a:setSprite('flandre')
+		a:setSpriteZoom(1.0)
+		
+		a:setFiringSuppressed(false)
+		a:modifyAttribute(Attribute.agility, -1.5)
+		a:setLayers( PhysicsLayers.floor | PhysicsLayers.ground )
+		a:resetProtection()
+	end
+})
+
 effects.FreezeStatus = class('FreezeStatus', {
 	flags = effect_flags.timed,
 	init = function(self, super)

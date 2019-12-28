@@ -27,17 +27,17 @@ MagicEffectSystem::MagicEffectSystem(GSpace* gspace) :
 	nextID = 1;
 }
 
-bool MagicEffectSystem::applyEffect(GObject* target, shared_ptr<MagicEffectDescriptor> effect, float magnitude, float length)
+unsigned int MagicEffectSystem::applyEffect(GObject* target, shared_ptr<MagicEffectDescriptor> effect, float magnitude, float length)
 {
-	bool success = false;
+	unsigned int id = 0;
 
 	if (effect->canApply(target, magnitude, length)) {
-		effect_params params = { target, nextID++, effect->getFlags(), effect };
+		id = nextID++;
+		effect_params params = { target, id, effect->getFlags(), effect };
 		addEffect(effect->generate(params, magnitude, length));
-		success = true;
 	}
 
-	return success;
+	return id;
 }
 
 void MagicEffectSystem::addEffect(shared_ptr<MagicEffect> effect)

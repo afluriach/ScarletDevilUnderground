@@ -756,7 +756,7 @@ void GObject::updateSpells()
 	}
 }
 
-bool GObject::applyMagicEffect(shared_ptr<MagicEffectDescriptor> effect, float magnitude, float length)
+unsigned int GObject::applyMagicEffect(shared_ptr<MagicEffectDescriptor> effect, float magnitude, float length)
 {
 	return space->magicEffectSystem->applyEffect(this, effect, magnitude, length);
 }
