@@ -99,6 +99,7 @@ struct DamageInfo
 
 	DamageInfo operator*(float rhs);
 	bool isExplosion();
+	bool isValid();
 };
 
 struct app_params

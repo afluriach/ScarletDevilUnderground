@@ -62,6 +62,11 @@ bool DamageInfo::isExplosion()
 	return type == DamageType::bomb && mag > 0.0f;
 }
 
+bool DamageInfo::isValid()
+{
+	return mag > 0.0f && type != DamageType::end;
+}
+
 float app_params::getScale() const
 {
 	return 1.0f * width / app::baseWidth;

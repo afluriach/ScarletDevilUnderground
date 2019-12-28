@@ -196,15 +196,18 @@ bool getVector(tinyxml2::XMLElement* elem, const string& name, SpaceVect* result
 	return false;
 }
 
-DamageInfo getDamageInfo(tinyxml2::XMLElement* elem, DamageType type)
+bool getDamageInfo(tinyxml2::XMLElement* elem, DamageInfo* result)
 {
-	DamageInfo result;
+	DamageInfo _result;
 
-	getNumericAttr(elem, "damage", &result.mag);
-	getNumericAttr(elem, "knockback", &result.knockback);
-	getAttributeAttr(elem, "element", &result.element);
+	getNumericAttr(elem, "damage", &_result.mag);
+	getNumericAttr(elem, "knockback", &_result.knockback);
+	getAttributeAttr(elem, "element", &_result.element);
 
-	return result;
+	if (_result.isValid())
+		*result = _result;
+
+	return _result.isValid();
 }
 
 bool autoName(const string& name, string& field)
@@ -267,7 +270,8 @@ bool parseObject(tinyxml2::XMLElement* elem, shared_ptr<enemy_properties>* resul
 	getNumericAttr(elem, "viewAngle", &props.viewAngle);
 	getNumericAttr(elem, "viewRange", &props.viewRange);
 
-	props.touchEffect = getDamageInfo(elem, DamageType::touch);
+	 getDamageInfo(elem, &props.touchEffect);
+	 props.touchEffect.type = DamageType::touch;
 
 	getStringAttr(elem, "collectible", &props.collectible);
 
@@ -456,7 +460,7 @@ bool parseObject(tinyxml2::XMLElement* elem, shared_ptr<bullet_properties>* resu
 	SpaceFloat speed = 0.0;
 	SpaceVect dimensions;
 
-	DamageInfo damage;
+	DamageInfo damage(0.0f, DamageType::bullet);
 
 	string sprite;
 	string lightSource;
@@ -472,7 +476,7 @@ bool parseObject(tinyxml2::XMLElement* elem, shared_ptr<bullet_properties>* resu
 		getNumericAttr(elem, "radius", &dimensions.x);
 	}
 
-	damage = getDamageInfo(elem, DamageType::bullet);
+	getDamageInfo(elem, &damage);
 
 	getStringAttr(elem, "sprite", &sprite);
 	getStringAttr(elem, "lightSource", &lightSource);
@@ -506,7 +510,7 @@ bool parseObject(tinyxml2::XMLElement* elem, shared_ptr<bomb_properties>* result
 		0.0,
 		0.0,
 		0.0f,
-		DamageInfo()
+		DamageInfo(0.0f, DamageType::bomb)
 	};
 
 	getStringAttr(elem, "sprite", &props.sprite);
@@ -517,7 +521,7 @@ bool parseObject(tinyxml2::XMLElement* elem, shared_ptr<bomb_properties>* result
 	getNumericAttr(elem, "fuseTime", &props.fuseTime);
 	getNumericAttr(elem, "cost", &props.cost);
 
-	props.damage = getDamageInfo(elem, DamageType::bomb);
+	getDamageInfo(elem, &props.damage);
 
 	if (props.blastRadius <= 0.0f || props.fuseTime <= 0.0f) {
 		log("bomb properties missing");
