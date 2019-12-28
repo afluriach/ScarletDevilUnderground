@@ -25,8 +25,9 @@ struct bullet_properties
 	string sprite;
 	string lightSource;
 
-	char hitCount = 1;
-	char ricochetCount = 0;
+	int hitCount = 1;
+	int ricochetCount = 0;
+
 	bool directionalLaunch = true;
 	bool ignoreObstacles = false;
 	bool deflectBullets = false;
@@ -45,6 +46,7 @@ struct bullet_attributes
 	GType type;
 	RoomSensor* startRoom = nullptr;
 
+	float size = 1.0f;
 	float attackDamage = 1.0f;
 	float bulletSpeed = 1.0f;
 };

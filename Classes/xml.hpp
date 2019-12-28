@@ -100,6 +100,26 @@ namespace app {
 	bool getDamageInfo(tinyxml2::XMLElement* elem, DamageInfo* result);
 
 	template<typename T>
+	bool copyBaseObject(
+		tinyxml2::XMLElement* elem,
+		unordered_map<string, shared_ptr<T>>& _map,
+		T* output
+	) {
+		string base;
+		if (getStringAttr(elem, "base", &base)) {
+			auto _base = getOrDefault(_map, base);
+			if (_base) {
+				*output = *_base;
+				return true;
+			}
+			else {
+				log("%s: unknown base %s type: %s", elem->Name(), typeid(T).name(), base);
+			}
+		}
+		return false;
+	}
+
+	template<typename T>
 	bool getNumericAttr(tinyxml2::XMLElement* elem, const string& name, T* result)
 	{
 		const char* attr = elem->Attribute(name.c_str());

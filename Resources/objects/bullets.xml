@@ -212,6 +212,35 @@
 		knockback="150"
 		directionalLaunch="true"
 	/>
+	<starBulletBlue
+		base="starBullet"
+		sprite="star-blue"
+	/>
+	<starBulletGreen
+		base="starBullet"
+		sprite="star-green"
+	/>
+	<starBulletGrey
+		base="starBullet"
+		sprite="star-grey"
+	/>
+	<starBulletIndigo
+		base="starBullet"
+		sprite="star-indigo"
+	/>
+	<starBulletPurple
+		base="starBullet"
+		sprite="star-purple"
+	/>
+	<starBulletRed
+		base="starBullet"
+		sprite="star-red"
+	/>
+	<starBulletYellow
+		base="starBullet"
+		sprite="star-yellow"
+	/>
+
 	<waterBullet
 		speed="-1.0"
 		radius="0.3"

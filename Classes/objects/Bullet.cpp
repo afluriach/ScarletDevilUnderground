@@ -23,6 +23,7 @@ bullet_attributes bullet_attributes::getDefault()
 		GType::enemyBullet,
 		nullptr,
 		1.0f,
+		1.0f,
 		1.0f
 	};
 }
@@ -56,7 +57,7 @@ Bullet::Bullet(
 ) :
 	GObject(
 		params,
-		physics_params(attributes.type, PhysicsLayers::ground, props->dimensions, 0.0, true)
+		physics_params(attributes.type, PhysicsLayers::ground, props->dimensions * attributes.size, 0.0, true)
 	),
 	props(props)
 {

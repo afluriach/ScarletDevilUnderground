@@ -23,13 +23,13 @@ const SpaceFloat StarlightTyphoon::offset = 0.7;
 const unsigned int StarlightTyphoon::count = 30;
 
 const vector<string> StarlightTyphoon::colors = {
-	"blue",
-	"green",
-	"grey",
-	"indigo",
-	"purple",
-	"red",
-	"yellow"
+	"starBulletBlue",
+	"starBulletGreen",
+	"starBulletGrey",
+	"starBulletIndigo",
+	"starBulletPurple",
+	"starBulletRed",
+	"starBulletYellow"
 };
 
 StarlightTyphoon::StarlightTyphoon(GObject* caster) :
@@ -53,15 +53,16 @@ void StarlightTyphoon::fire()
 	SpaceVect pos = caster->getPos() + SpaceVect::ray(offset, angle);
 	auto params = Bullet::makeParams(pos, arcPos);
 
-	auto props = make_shared<bullet_properties>();
-	*props = *app::getBullet("starBullet");
-	props->sprite = "star-" + colors[getSpace()->getRandomInt(0, colors.size() - 1)];
-	props->dimensions.x *= space->getRandomFloat(0.7, 1.3);
-	props->speed *= space->getRandomFloat(0.5, 1.5);
+	string bulletType = colors[getSpace()->getRandomInt(0, colors.size() - 1)];
+	auto props = app::getBullet(bulletType);
+
+	bullet_attributes attrs = getCasterAs<Agent>()->getBulletAttributes(props);
+	attrs.size = space->getRandomFloat(0.7, 1.3);
+	attrs.bulletSpeed *= space->getRandomFloat(0.5, 1.5);
 
 	space->createBullet(
 		params,
-		getCasterAs<Agent>()->getBulletAttributes(props),
+		attrs,
 		props
 	);
 }

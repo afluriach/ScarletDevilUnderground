@@ -198,23 +198,18 @@ bool getVector(tinyxml2::XMLElement* elem, const string& name, SpaceVect* result
 
 bool getDamageInfo(tinyxml2::XMLElement* elem, DamageInfo* result)
 {
-	DamageInfo _result;
+	getNumericAttr(elem, "damage", &result->mag);
+	getNumericAttr(elem, "knockback", &result->knockback);
+	getAttributeAttr(elem, "element", &result->element);
 
-	getNumericAttr(elem, "damage", &_result.mag);
-	getNumericAttr(elem, "knockback", &_result.knockback);
-	getAttributeAttr(elem, "element", &_result.element);
-
-	if (_result.isValid())
-		*result = _result;
-
-	return _result.isValid();
+	return result->mag > 0.0f;
 }
 
-bool autoName(const string& name, string& field)
+bool autoName(tinyxml2::XMLElement* elem, string& field)
 {
 	bool result = field == "auto";
 	if (result) {
-		field = name;
+		field = elem->Name();
 	}
 	return result;
 }
@@ -261,9 +256,9 @@ bool parseObject(tinyxml2::XMLElement* elem, shared_ptr<enemy_properties>* resul
 	getStringAttr(elem, "firepattern", &props.firepattern);
 	getStringAttr(elem, "effects", &props.effects);
 
-	autoName(elem->Name(), props.sprite);
-	autoName(elem->Name(), props.attributes);
-	autoName(elem->Name(), props.ai_package);
+	autoName(elem, props.sprite);
+	autoName(elem, props.attributes);
+	autoName(elem, props.ai_package);
 
 	getNumericAttr(elem, "radius", &props.radius);
 	getNumericAttr(elem, "mass", &props.mass);
@@ -457,47 +452,37 @@ bool parseObject(tinyxml2::XMLElement* elem, shared_ptr<LightArea>* result)
 
 bool parseObject(tinyxml2::XMLElement* elem, shared_ptr<bullet_properties>* result)
 {
-	SpaceFloat speed = 0.0;
-	SpaceVect dimensions;
+	bullet_properties props{
+		0.0,
+		SpaceVect::zero,
+		DamageInfo(0.0f, DamageType::bullet),
+		string(),
+		string(),
+		1,
+		0,
+		true,
+		false,
+		false
+	};
+	
+	copyBaseObject(elem, bullets, &props);
 
-	DamageInfo damage(0.0f, DamageType::bullet);
-
-	string sprite;
-	string lightSource;
-
-	int hitCount = 1;
-	int ricochetCount = 0;
-	bool directionalLaunch = true;
-	bool ignoreObstacles = false;
-	bool deflectBullets = false;
-
-	getNumericAttr(elem, "speed", &speed);
-	if (!getVector(elem, "dimensions", &dimensions)) {
-		getNumericAttr(elem, "radius", &dimensions.x);
+	getNumericAttr(elem, "speed", &props.speed);
+	if (!getVector(elem, "dimensions", &props.dimensions)) {
+		getNumericAttr(elem, "radius", &props.dimensions.x);
 	}
 
-	getDamageInfo(elem, &damage);
+	getDamageInfo(elem, &props.damage);
 
-	getStringAttr(elem, "sprite", &sprite);
-	getStringAttr(elem, "lightSource", &lightSource);
-	getNumericAttr(elem, "hitCount", &hitCount);
-	getNumericAttr(elem, "ricochet", &ricochetCount);
-	getNumericAttr(elem, "directionalLaunch", &directionalLaunch);
-	getNumericAttr(elem, "ignoreObstacles", &ignoreObstacles);
-	getNumericAttr(elem, "deflectBullets", &deflectBullets);
+	getStringAttr(elem, "sprite", &props.sprite);
+	getStringAttr(elem, "lightSource", &props.lightSource);
+	getNumericAttr(elem, "hitCount", &props.hitCount);
+	getNumericAttr(elem, "ricochet", &props.ricochetCount);
+	getNumericAttr(elem, "directionalLaunch", &props.directionalLaunch);
+	getNumericAttr(elem, "ignoreObstacles", &props.ignoreObstacles);
+	getNumericAttr(elem, "deflectBullets", &props.deflectBullets);
 
-	*result = make_shared<bullet_properties>(bullet_properties{
-		speed,
-		dimensions,
-		damage,
-		sprite,
-		lightSource,
-		to_char(hitCount),
-		to_char(ricochetCount),
-		directionalLaunch,
-		ignoreObstacles,
-		deflectBullets
-	});
+	*result = make_shared<bullet_properties>(props);
 	return true;
 }
 
@@ -546,9 +531,7 @@ bool parseObject(tinyxml2::XMLElement* elem, collectible_properties* result)
 	getNumericAttr(elem, "magnitude", &coll.magnitude);
 	getNumericAttr(elem, "length", &coll.length);
 
-	if (coll.sprite == "auto") {
-		coll.sprite = elem->Name();
-	}
+	autoName(elem, coll.sprite);
 
 	coll.effect = getEffect(effect);
 
