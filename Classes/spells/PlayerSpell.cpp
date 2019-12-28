@@ -264,13 +264,14 @@ void PlayerIceShield::init()
 	for_irange(i,0,bulletCount)
 	{
 		SpaceFloat angle = (1.0 * i / bulletCount) * (float_pi * 2.0);
-		SpaceVect pos = SpaceVect::ray(distance, angle);
-		
-		bullets[i] = getSpace()->createBullet(
-			Bullet::makeParams(origin + pos,angle - float_pi / 2.0),
-			getCasterAs<Agent>()->getBulletAttributes(props),
-			props
-		);
+
+		bullets[i] = getCasterAs<Agent>()->spawnBullet(
+			props,
+			SpaceVect::ray(distance, angle),
+			SpaceVect::zero,
+			angle - float_pi * 0.5,
+			0.0
+		);		
 	}
 }
 

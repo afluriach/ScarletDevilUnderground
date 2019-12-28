@@ -40,6 +40,14 @@ public:
 	virtual ~Agent();
 
 	bullet_attributes getBulletAttributes(shared_ptr<bullet_properties> props) const;
+
+	object_ref<Bullet> spawnBullet(
+		shared_ptr<bullet_properties> props,
+		SpaceVect displacement,
+		SpaceVect velocity,
+		SpaceFloat angle,
+		SpaceFloat angularVelocity
+	);
 	object_ref<Bullet> bulletImplCheckSpawn(
 		shared_ptr<object_params> params,
 		shared_ptr<bullet_properties> props

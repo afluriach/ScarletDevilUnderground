@@ -45,17 +45,12 @@ void IllusionDial::init()
 
 	for_irange(i, 0, count)
 	{
-		auto params = Bullet::makeParams(
-			caster->getPos() + SpaceVect::ray(radius, arc_start + i * arc_spacing),
-			0.0,
+		bullets[i] = getCasterAs<Agent>()->spawnBullet(
+			props,
+			SpaceVect::ray(radius, arc_start + i * arc_spacing),
 			SpaceVect::zero,
+			0.0,
 			i % 2 ? angular_speed : -angular_speed
-		);
-
-		bullets[i] = getSpace()->createBullet(
-			params,
-			bullet_attributes::getDefault(),
-			props
 		);
 	}
 }

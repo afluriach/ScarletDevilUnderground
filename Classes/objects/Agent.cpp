@@ -83,6 +83,20 @@ bullet_attributes Agent::getBulletAttributes(shared_ptr<bullet_properties> props
 	return result;
 }
 
+object_ref<Bullet> Agent::spawnBullet(
+	shared_ptr<bullet_properties> props,
+	SpaceVect displacement,
+	SpaceVect velocity,
+	SpaceFloat angle,
+	SpaceFloat angularVelocity
+) {
+	return space->createBullet(
+		Bullet::makeParams(getPos() + displacement, angle, velocity, angularVelocity),
+		getBulletAttributes(props),
+		props
+	);
+}
+
 object_ref<Bullet> Agent::bulletImplCheckSpawn(
 	shared_ptr<object_params> params,
 	shared_ptr<bullet_properties> props
