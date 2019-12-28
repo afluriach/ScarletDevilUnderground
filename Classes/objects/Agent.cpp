@@ -529,7 +529,7 @@ void Agent::applyAttributeEffects(AttributeMap attributeEffect)
 
 DamageInfo Agent::touchEffect() const
 {
-	return DamageInfo{};
+	return DamageInfo();
 }
 
 void Agent::initializeRadar()

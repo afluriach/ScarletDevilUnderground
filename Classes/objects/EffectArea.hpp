@@ -22,7 +22,7 @@ public:
     
 	virtual void update();
 
-	virtual inline DamageInfo getDamageInfo() const { return DamageInfo{}; }
+	virtual inline DamageInfo getDamageInfo() const { return DamageInfo(); }
 };
 
 class SunArea : public EffectArea
