@@ -118,6 +118,7 @@ typedef double SpaceFloat;
 #include "object_ref.hpp"
 
 #define DEV_MODE 1
+#define GSPACE_MULTITHREAD 1
 #define INTERNAL_PREFIX 0
 
 #if INTERNAL_PREFIX

@@ -140,7 +140,7 @@ control_listener(make_unique<ControlListener>())
 GScene::~GScene()
 {
 	isExit.store(true);
-	if (app::params.multithread) {
+	if constexpr(GSPACE_MULTITHREAD) {
 		spaceUpdateCondition.notify_one();
 		spaceUpdateThread->join();
 	}
@@ -209,7 +209,7 @@ bool GScene::init()
 		setRoomsVisible(stats.roomsVisited);
 	}
 
-	if (app::params.multithread) {
+	if constexpr (GSPACE_MULTITHREAD) {
 		spaceUpdateToRun.store(false);
 		spaceUpdateThread = make_unique<thread>(&GScene::spaceUpdateMain, this);
 	}
@@ -227,7 +227,7 @@ void GScene::update(float dt)
 			info
 		));
 
-		if (app::params.multithread) {
+		if constexpr (GSPACE_MULTITHREAD) {
 			spaceUpdateToRun.store(true);
 			spaceUpdateCondition.notify_one();
 		}
@@ -470,7 +470,7 @@ void GScene::runScriptUpdate()
 
 void GScene::waitForSpaceThread()
 {
-	if (!app::params.multithread) return;
+	if constexpr (!GSPACE_MULTITHREAD) return;
 
 	unique_lock<mutex> mlock(spaceUpdateConditionMutex);
 	spaceUpdateCondition.wait(

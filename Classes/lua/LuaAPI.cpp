@@ -106,7 +106,6 @@ const vector<string> Inst::luaIncludes = {
 #endif
 		addFuncSame(app, setFullscreen);
 		addFuncSame(app, setVsync);
-		addFuncSame(app, setMultithread);
 		addFuncSame(app, setResolution);
 		addFuncSame(app, setFramerate);
 		addFuncSame(app, setPlayer);

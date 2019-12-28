@@ -112,7 +112,6 @@ struct app_params
 
 	bool fullscreen = false;
 	bool vsync = true;
-	bool multithread = true;
 	bool showTimers = false;
 
 	float difficultyScale = 1.0f;

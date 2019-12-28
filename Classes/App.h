@@ -54,7 +54,6 @@ public:
 
 	static void setFullscreen(bool fs);
 	static void setVsync(bool v);
-	static void setMultithread(bool v);
 	static void setShowTimers(bool v);
 	static void setResolution(unsigned int width, unsigned int height);
 	static void setFramerate(unsigned int fps);

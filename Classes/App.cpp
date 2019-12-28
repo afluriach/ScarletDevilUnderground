@@ -9,6 +9,7 @@
 #include "functional.hpp"
 #include "GObject.hpp"
 #include "GScene.hpp"
+#include "GSpace.hpp"
 #include "GState.hpp"
 #include "LuaAPI.hpp"
 #include "menu_scenes.h"
@@ -35,7 +36,6 @@ const vector<string> App::shaderFiles = {
 const unordered_map<string, InterfaceFunction> App::interfaceFuntions = {
 	entry2(framerate, setFramerate),
 	entry2(fullscreen, setFullscreen),
-	entry2(multithread, setMultithread),
 	entry2(resolution, setResolution),
 	entry2(vsync, setVsync),
 	entry2(difficulty, setDifficulty),
@@ -125,11 +125,6 @@ void App::setFullscreen(bool fs)
 void App::setVsync(bool v)
 {
 	app::params.vsync = v;
-}
-
-void App::setMultithread(bool v)
-{
-	app::params.multithread = v;
 }
 
 void App::setShowTimers(bool v)

@@ -10,6 +10,7 @@
 
 #include "Agent.hpp"
 #include "AIFunctions.hpp"
+#include "AIUtil.hpp"
 #include "app_constants.hpp"
 #include "Bullet.hpp"
 #include "Enemy.hpp"
