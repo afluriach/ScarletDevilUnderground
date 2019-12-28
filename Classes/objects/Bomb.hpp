@@ -9,9 +9,6 @@
 #ifndef Bomb_hpp
 #define Bomb_hpp
 
-#include "Attributes.hpp"
-#include "GObject.hpp"
-
 struct bomb_properties
 {
 	string sprite;

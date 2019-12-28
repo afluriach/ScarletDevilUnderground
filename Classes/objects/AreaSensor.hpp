@@ -9,8 +9,6 @@
 #ifndef AreaSensor_hpp
 #define AreaSensor_hpp
 
-#include "GObject.hpp"
-
 class Door;
 class Enemy;
 class GhostHeadstone;

@@ -9,8 +9,6 @@
 #ifndef Wall_hpp
 #define Wall_hpp
 
-#include "GObject.hpp"
-
 class Wall : public GObject
 {
 public: 

@@ -9,8 +9,6 @@
 #ifndef InventoryObject_hpp
 #define InventoryObject_hpp
 
-#include "GObject.hpp"
-
 //Represents an object that can be collected from the environment.
 //It is static, disappears once obtained.
 class InventoryObject : public GObject

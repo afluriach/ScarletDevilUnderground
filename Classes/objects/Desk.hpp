@@ -9,8 +9,6 @@
 #ifndef Desk_hpp
 #define Desk_hpp
 
-#include "GObject.hpp"
-
 class Desk : public GObject
 {
 public:

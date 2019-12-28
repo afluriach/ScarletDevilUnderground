@@ -10,7 +10,6 @@
 
 #include "Agent.hpp"
 #include "Bullet.hpp"
-#include "GObject.hpp"
 #include "LuaAPI.hpp"
 #include "Player.hpp"
 #include "Torch.hpp"

@@ -9,8 +9,6 @@
 #ifndef Sign_hpp
 #define Sign_hpp
 
-#include "GObject.hpp"
-
 class Sign : public GObject
 {
 public:

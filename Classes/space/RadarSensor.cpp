@@ -9,7 +9,6 @@
 #include "Prefix.h"
 
 #include "AIUtil.hpp"
-#include "GObject.hpp"
 #include "physics_context.hpp"
 #include "RadarSensor.hpp"
 

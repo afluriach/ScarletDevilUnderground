@@ -10,7 +10,6 @@
 
 #include "Collect.h"
 #include "CollectGlyph.hpp"
-#include "object_params.hpp"
 #include "value_map.hpp"
 
 CollectGlyph::CollectGlyph(GSpace* space, ObjectIDType id, const ValueMap& args) :

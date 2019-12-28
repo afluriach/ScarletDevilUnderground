@@ -9,8 +9,6 @@
 #ifndef EnvironmentalObjects_hpp
 #define EnvironmentalObjects_hpp
 
-#include "GObject.hpp"
-
 class Headstone : public GObject
 {
 public:

@@ -9,7 +9,6 @@
 #include "Prefix.h"
 
 #include "App.h"
-#include "Attributes.hpp"
 #include "Door.hpp"
 #include "Enemy.hpp"
 #include "FileIO.hpp"

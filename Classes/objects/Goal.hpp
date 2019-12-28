@@ -9,8 +9,6 @@
 #ifndef Goal_hpp
 #define Goal_hpp
 
-#include "GObject.hpp"
-
 class PlayScene;
 
 class Goal : public GObject

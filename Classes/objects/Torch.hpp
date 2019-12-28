@@ -9,8 +9,6 @@
 #ifndef Torch_hpp
 #define Torch_hpp
 
-#include "GObject.hpp"
-
 class Torch : public GObject
 {
 public:

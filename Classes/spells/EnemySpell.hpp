@@ -9,7 +9,6 @@
 #ifndef EnemySpell_hpp
 #define EnemySpell_hpp
 
-#include "Attributes.hpp"
 #include "Spell.hpp"
 
 class Torch;

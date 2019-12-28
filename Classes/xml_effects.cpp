@@ -9,7 +9,6 @@
 #include "Prefix.h"
 
 #include "AttributeEffects.hpp"
-#include "Attributes.hpp"
 #include "MagicEffect.hpp"
 #include "MiscMagicEffects.hpp"
 #include "xml.hpp"

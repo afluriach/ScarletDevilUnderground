@@ -8,7 +8,6 @@
 
 #include "Prefix.h"
 
-#include "Attributes.hpp"
 #include "Bomb.hpp"
 #include "Bullet.hpp"
 #include "Collectibles.hpp"
@@ -16,7 +15,6 @@
 #include "FileIO.hpp"
 #include "FirePatternImpl.hpp"
 #include "Graphics.h"
-#include "graphics_types.h"
 
 namespace app {
 

@@ -9,8 +9,6 @@
 #ifndef GState_hpp
 #define GState_hpp
 
-#include "Attributes.hpp"
-
 struct ChamberStats
 {
 	unsigned int totalTimeMS = 0;

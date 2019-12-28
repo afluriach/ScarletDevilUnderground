@@ -9,7 +9,6 @@
 #include "Prefix.h"
 
 #include "app_constants.hpp"
-#include "graphics_types.h"
 #include "GraphicsNodes.hpp"
 
 bool ShaderNode::init()

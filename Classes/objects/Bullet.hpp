@@ -9,9 +9,6 @@
 #ifndef Bullet_hpp
 #define Bullet_hpp
 
-#include "Attributes.hpp"
-#include "GObject.hpp"
-
 class Agent;
 class Wall;
 

@@ -9,7 +9,6 @@
 #ifndef GScene_hpp
 #define GScene_hpp
 
-#include "graphics_types.h"
 #include "multifunction.h"
 
 class AgentBodyShader;

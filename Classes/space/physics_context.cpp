@@ -8,7 +8,6 @@
 
 #include "Prefix.h"
 
-#include "GObject.hpp"
 #include "physics_context.hpp"
 #include "PhysicsImpl.hpp"
 

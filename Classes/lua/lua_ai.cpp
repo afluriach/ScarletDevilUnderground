@@ -12,7 +12,6 @@
 #include "AI.hpp"
 #include "AIFunctions.hpp"
 #include "AIUtil.hpp"
-#include "GObject.hpp"
 #include "LuaAPI.hpp"
 #include "Player.hpp"
 

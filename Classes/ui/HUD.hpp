@@ -9,8 +9,6 @@
 #ifndef HUD_hpp
 #define HUD_hpp
 
-#include "Attributes.hpp"
-
 class Enemy;
 class LinearMeter;
 class Player;

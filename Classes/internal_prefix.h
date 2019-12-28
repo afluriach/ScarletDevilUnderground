@@ -16,15 +16,12 @@
 #include "GAnimation.hpp"
 #include "Graphics.h"
 #include "graphics_context.hpp"
-#include "graphics_types.h"
 #include "GraphicsNodes.hpp"
 
 #include "Agent.hpp"
 #include "Bullet.hpp"
 #include "Enemy.hpp"
 #include "FloorSegment.hpp"
-#include "GObject.hpp"
-#include "object_params.hpp"
 #include "Player.hpp"
 #include "Spawner.hpp"
 
@@ -42,7 +39,6 @@
 
 #include "App.h"
 #include "app_constants.hpp"
-#include "Attributes.hpp"
 #include "audio_context.hpp"
 #include "FileIO.hpp"
 #include "functional.hpp"

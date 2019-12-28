@@ -9,8 +9,6 @@
 #ifndef Launcher_hpp
 #define Launcher_hpp
 
-#include "GObject.hpp"
-
 class FirePattern;
 
 class Launcher : public GObject

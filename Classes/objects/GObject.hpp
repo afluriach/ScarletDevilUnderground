@@ -9,9 +9,6 @@
 #ifndef GObject_hpp
 #define GObject_hpp
 
-#include "graphics_types.h"
-#include "object_params.hpp"
-
 class Player;
 class Bullet;
 class GSpace;

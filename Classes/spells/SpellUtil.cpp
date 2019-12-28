@@ -11,7 +11,6 @@
 #include "Agent.hpp"
 #include "AIUtil.hpp"
 #include "Bomb.hpp"
-#include "GObject.hpp"
 #include "physics_context.hpp"
 #include "SpellUtil.hpp"
 #include "Wall.hpp"

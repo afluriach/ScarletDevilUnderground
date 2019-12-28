@@ -9,8 +9,6 @@
 #ifndef graphics_context_hpp
 #define graphics_context_hpp
 
-#include "graphics_types.h"
-
 class GAnimation;
 class GScene;
 

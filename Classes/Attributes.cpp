@@ -9,7 +9,7 @@
 #include "Prefix.h"
 
 #include "Agent.hpp"
-#include "Attributes.hpp"
+//#include "Attributes.hpp"
 
 const float AttributeSystem::maxElementDamage = 100.0f;
 const float AttributeSystem::maxComboPoints = 75.0f;

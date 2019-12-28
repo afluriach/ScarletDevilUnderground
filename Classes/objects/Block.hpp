@@ -9,8 +9,6 @@
 #ifndef Block_hpp
 #define Block_hpp
 
-#include "GObject.hpp"
-
 class Block : public GObject
 {
 public:

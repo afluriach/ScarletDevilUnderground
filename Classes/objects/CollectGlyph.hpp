@@ -9,8 +9,6 @@
 #ifndef CollectGlyph_h
 #define CollectGlyph_h
 
-#include "GObject.hpp"
-
 class Collect;
 
 class CollectGlyph : public GObject

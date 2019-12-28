@@ -13,7 +13,6 @@
 #include "Dialog.hpp"
 #include "FileIO.hpp"
 #include "functional.hpp"
-#include "GObject.hpp"
 #include "graphics_context.hpp"
 #include "GScene.hpp"
 #include "LuaAPI.hpp"

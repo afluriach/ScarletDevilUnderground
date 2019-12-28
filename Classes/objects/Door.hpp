@@ -9,8 +9,6 @@
 #ifndef Door_hpp
 #define Door_hpp
 
-#include "GObject.hpp"
-
 class Door : public GObject
 {
 public:

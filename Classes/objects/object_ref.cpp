@@ -8,8 +8,6 @@
 
 #include "Prefix.h"
 
-#include "GObject.hpp"
-
 GObject* _object_ref_get_gobject(GSpace* space, unsigned int uuid)
 {    
     if(!space)

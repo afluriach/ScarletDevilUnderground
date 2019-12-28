@@ -12,7 +12,6 @@
 #include "App.h"
 #include "app_constants.hpp"
 #include "FileIO.hpp"
-#include "GObject.hpp"
 #include "Graphics.h"
 #include "GScene.hpp"
 #include "GState.hpp"

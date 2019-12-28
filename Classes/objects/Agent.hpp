@@ -9,7 +9,6 @@
 #ifndef Agent_hpp
 #define Agent_hpp
 
-#include "Attributes.hpp"
 #include "Bullet.hpp"
 
 class AgentAnimationContext;

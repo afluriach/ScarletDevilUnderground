@@ -9,8 +9,6 @@
 #ifndef FloorSegment_hpp
 #define FloorSegment_hpp
 
-#include "GObject.hpp"
-
 class FloorSegment : public GObject
 {
 public:

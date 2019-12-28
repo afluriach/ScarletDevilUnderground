@@ -8,8 +8,6 @@
 
 #include "Prefix.h"
 
-#include "graphics_types.h"
-
 shared_ptr<AmbientLightArea> AmbientLightArea::create(
 	SpaceVect dimensions,
 	Color4F color

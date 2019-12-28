@@ -9,8 +9,6 @@
 #ifndef Graphics_h
 #define Graphics_h
 
-#include "graphics_types.h"
-
 extern const float fallAnimationTime;
 
 extern const float objectFadeOutTime;

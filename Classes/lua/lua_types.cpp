@@ -8,7 +8,6 @@
 
 #include "Prefix.h"
 
-#include "Attributes.hpp"
 #include "LuaAPI.hpp"
 #include "MagicEffect.hpp"
 

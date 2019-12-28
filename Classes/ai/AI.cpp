@@ -12,7 +12,6 @@
 #include "AI.hpp"
 #include "AIFunctions.hpp"
 #include "AreaSensor.hpp"
-#include "GObject.hpp"
 #include "LuaAPI.hpp"
 #include "value_map.hpp"
 

@@ -12,7 +12,6 @@
 #include "AreaSensor.hpp"
 #include "functional.hpp"
 #include "FloorSegment.hpp"
-#include "GObject.hpp"
 #include "Graphics.h"
 #include "graphics_context.hpp"
 #include "GScene.hpp"

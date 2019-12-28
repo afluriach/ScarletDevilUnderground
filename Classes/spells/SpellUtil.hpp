@@ -9,8 +9,6 @@
 #ifndef SpellUtil_hpp
 #define SpellUtil_hpp
 
-#include "Attributes.hpp"
-
 class GObject;
 
 void explosion(const GObject* source, SpaceFloat radius, DamageInfo baseDamage);

@@ -112,12 +112,16 @@ typedef double SpaceFloat;
 #include "enum.h"
 #include "vect.hpp"
 #include "types.h"
+#include "graphics_types.h"
 #include "util.h"
 #include "log.hpp"
 #include "xml.hpp"
 #include "object_ref.hpp"
+#include "object_params.hpp"
 #include "controls.h"
 #include "GSpace.hpp"
+#include "GObject.hpp"
+#include "Attributes.hpp"
 
 #define DEV_MODE 1
 #define GSPACE_MULTITHREAD 1

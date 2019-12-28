@@ -13,7 +13,6 @@
 #include "Graphics.h"
 #include "graphics_context.hpp"
 #include "GraphicsNodes.hpp"
-#include "graphics_types.h"
 #include "GScene.hpp"
 
 void graphics_context::update()
