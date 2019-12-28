@@ -14,7 +14,6 @@
 #include "EnemyFunctions.hpp"
 #include "EnemySpell.hpp"
 #include "Graphics.h"
-#include "GSpace.hpp"
 #include "MarisaSpell.hpp"
 #include "MiscMagicEffects.hpp"
 #include "Player.hpp"

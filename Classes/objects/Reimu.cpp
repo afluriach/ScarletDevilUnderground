@@ -11,7 +11,6 @@
 #include "AIFunctions.hpp"
 #include "Bullet.hpp"
 #include "EnemyFirePattern.hpp"
-#include "GSpace.hpp"
 #include "Reimu.hpp"
 #include "value_map.hpp"
 

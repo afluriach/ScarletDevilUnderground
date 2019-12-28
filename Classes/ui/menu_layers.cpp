@@ -10,13 +10,11 @@
 
 #include "App.h"
 #include "Attributes.hpp"
-#include "controls.h"
 #include "Door.hpp"
 #include "Enemy.hpp"
 #include "FileIO.hpp"
 #include "FloorSegment.hpp"
 #include "Graphics.h"
-#include "GSpace.hpp"
 #include "GState.hpp"
 #include "menu_layers.h"
 #include "menu_scenes.h"

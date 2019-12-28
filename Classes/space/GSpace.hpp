@@ -9,9 +9,6 @@
 #ifndef GSpace_hpp
 #define GSpace_hpp
 
-#include "controls.h"
-#include "graphics_types.h"
-
 class audio_context;
 struct bullet_attributes;
 struct bullet_properties;

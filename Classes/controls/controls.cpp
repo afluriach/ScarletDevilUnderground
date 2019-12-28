@@ -10,7 +10,7 @@
 
 #include "App.h"
 #include "ControlAssignment.h"
-#include "controls.h"
+//#include "controls.h"
 #include "functional.hpp"
 #include "GScene.hpp"
 

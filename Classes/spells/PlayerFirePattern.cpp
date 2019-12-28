@@ -10,7 +10,6 @@
 
 #include "Agent.hpp"
 #include "Bullet.hpp"
-#include "GSpace.hpp"
 #include "PlayerFirePattern.hpp"
 
 const float StarbowBreak::baseCost = 1.0f;

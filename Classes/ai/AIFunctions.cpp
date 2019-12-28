@@ -19,7 +19,6 @@
 #include "FirePattern.hpp"
 #include "Graphics.h"
 #include "graphics_context.hpp"
-#include "GSpace.hpp"
 #include "LuaAPI.hpp"
 #include "physics_context.hpp"
 #include "Player.hpp"

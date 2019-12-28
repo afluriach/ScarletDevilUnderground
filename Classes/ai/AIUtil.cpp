@@ -12,7 +12,6 @@
 #include "AI.hpp"
 #include "AIUtil.hpp"
 #include "Bullet.hpp"
-#include "GSpace.hpp"
 #include "physics_context.hpp"
 #include "SpellUtil.hpp"
 

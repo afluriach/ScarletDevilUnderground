@@ -10,7 +10,6 @@
 
 #include "Agent.hpp"
 #include "Bullet.hpp"
-#include "GSpace.hpp"
 #include "PatchouliSpell.hpp"
 
 const string FireStarburst::name = "FireStarburst";

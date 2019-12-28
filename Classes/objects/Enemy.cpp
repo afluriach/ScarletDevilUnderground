@@ -12,7 +12,6 @@
 #include "Enemy.hpp"
 #include "Graphics.h"
 #include "graphics_context.hpp"
-#include "GSpace.hpp"
 #include "Player.hpp"
 
 Enemy::Enemy(

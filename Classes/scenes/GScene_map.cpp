@@ -16,7 +16,6 @@
 #include "Graphics.h"
 #include "graphics_context.hpp"
 #include "GScene.hpp"
-#include "GSpace.hpp"
 #include "Spawner.hpp"
 #include "value_map.hpp"
 

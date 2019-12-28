@@ -23,7 +23,6 @@
 #include "FairyNPC.hpp"
 #include "FloorSegment.hpp"
 #include "Goal.hpp"
-#include "GSpace.hpp"
 #include "GState.hpp"
 #include "Items.hpp"
 #include "Launcher.hpp"

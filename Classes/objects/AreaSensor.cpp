@@ -14,7 +14,6 @@
 #include "Enemy.hpp"
 #include "FairyNPC.hpp"
 #include "graphics_context.hpp"
-#include "GSpace.hpp"
 #include "HUD.hpp"
 #include "physics_context.hpp"
 #include "Player.hpp"

@@ -8,7 +8,6 @@
 
 #include "Prefix.h"
 
-#include "GSpace.hpp"
 #include "NPC.hpp"
 
 NPC::NPC(

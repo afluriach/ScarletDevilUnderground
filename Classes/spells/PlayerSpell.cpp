@@ -10,7 +10,6 @@
 
 #include "Bullet.hpp"
 #include "graphics_context.hpp"
-#include "GSpace.hpp"
 #include "Player.hpp"
 #include "PlayerSpell.hpp"
 

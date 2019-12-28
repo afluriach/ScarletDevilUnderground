@@ -8,7 +8,6 @@
 
 #include "Prefix.h"
 
-#include "GSpace.hpp"
 #include "object_params.hpp"
 #include "physics_context.hpp"
 #include "value_map.hpp"

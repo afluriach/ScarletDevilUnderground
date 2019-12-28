@@ -9,7 +9,6 @@
 #include "Prefix.h"
 
 #include "Bullet.hpp"
-#include "GSpace.hpp"
 #include "Launcher.hpp"
 
 const boost::rational<int> Launcher::fireInterval(1,4);

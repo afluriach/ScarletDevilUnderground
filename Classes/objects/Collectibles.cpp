@@ -9,7 +9,6 @@
 #include "Prefix.h"
 
 #include "Collectibles.hpp"
-#include "GSpace.hpp"
 #include "MagicEffect.hpp"
 #include "Player.hpp"
 #include "value_map.hpp"

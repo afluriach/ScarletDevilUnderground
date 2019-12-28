@@ -9,7 +9,6 @@
 #include "Prefix.h"
 
 #include "FirePatternImpl.hpp"
-#include "GSpace.hpp"
 #include "PlayerFirePattern.hpp"
 #include "xml.hpp"
 

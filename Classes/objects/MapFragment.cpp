@@ -9,7 +9,6 @@
 #include "Prefix.h"
 
 #include "GScene.hpp"
-#include "GSpace.hpp"
 #include "GState.hpp"
 #include "MapFragment.hpp"
 #include "value_map.hpp"

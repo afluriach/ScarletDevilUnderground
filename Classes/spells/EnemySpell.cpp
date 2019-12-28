@@ -13,7 +13,6 @@
 #include "Enemy.hpp"
 #include "EnemySpell.hpp"
 #include "graphics_context.hpp"
-#include "GSpace.hpp"
 #include "physics_context.hpp"
 #include "SpellUtil.hpp"
 #include "TeleportPad.hpp"

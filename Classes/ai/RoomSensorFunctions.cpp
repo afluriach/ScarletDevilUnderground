@@ -9,7 +9,6 @@
 #include "Prefix.h"
 
 #include "AreaSensor.hpp"
-#include "GSpace.hpp"
 #include "RoomSensorFunctions.hpp"
 #include "Spawner.hpp"
 #include "value_map.hpp"

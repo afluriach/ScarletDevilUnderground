@@ -13,7 +13,6 @@
 #include "Graphics.h"
 #include "GraphicsNodes.hpp"
 #include "GScene.hpp"
-#include "GSpace.hpp"
 #include "HUD.hpp"
 #include "Player.hpp"
 

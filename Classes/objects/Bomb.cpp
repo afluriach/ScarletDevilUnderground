@@ -11,7 +11,6 @@
 #include "Bomb.hpp"
 #include "Graphics.h"
 #include "graphics_context.hpp"
-#include "GSpace.hpp"
 #include "SpellUtil.hpp"
 
 const SpaceFloat Bomb::explosionSpriteRadius = 2.0;

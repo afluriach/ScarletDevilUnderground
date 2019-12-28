@@ -10,7 +10,6 @@
 
 #include "Agent.hpp"
 #include "Bullet.hpp"
-#include "GSpace.hpp"
 #include "MarisaSpell.hpp"
 
 const string StarlightTyphoon::name = "StarlightTyphoon";

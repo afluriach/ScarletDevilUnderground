@@ -10,7 +10,6 @@
 
 #include "App.h"
 #include "Door.hpp"
-#include "GSpace.hpp"
 #include "GState.hpp"
 #include "HUD.hpp"
 #include "OverworldScene.hpp"

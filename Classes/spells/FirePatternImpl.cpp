@@ -10,7 +10,6 @@
 
 #include "Bullet.hpp"
 #include "FirePatternImpl.hpp"
-#include "GSpace.hpp"
 
 shared_ptr<firepattern_properties> firepattern_properties::makeSingle(
 	shared_ptr<bullet_properties> props,

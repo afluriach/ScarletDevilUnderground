@@ -116,6 +116,8 @@ typedef double SpaceFloat;
 #include "log.hpp"
 #include "xml.hpp"
 #include "object_ref.hpp"
+#include "controls.h"
+#include "GSpace.hpp"
 
 #define DEV_MODE 1
 #define GSPACE_MULTITHREAD 1

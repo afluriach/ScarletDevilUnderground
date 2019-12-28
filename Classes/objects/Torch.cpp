@@ -11,7 +11,6 @@
 #include "Attributes.hpp"
 #include "Graphics.h"
 #include "graphics_context.hpp"
-#include "GSpace.hpp"
 #include "Torch.hpp"
 #include "value_map.hpp"
 

@@ -10,7 +10,6 @@
 
 #include "AIUtil.hpp"
 #include "EnemyFirePattern.hpp"
-#include "GSpace.hpp"
 
 const SpaceFloat ReimuWavePattern::omega = float_pi * 2.0;
 const SpaceFloat ReimuWavePattern::amplitude = 2.0;

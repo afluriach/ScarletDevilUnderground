@@ -11,7 +11,6 @@
 #include "Agent.hpp"
 #include "AttributeEffects.hpp"
 #include "GObject.hpp"
-#include "GSpace.hpp"
 #include "MiscMagicEffects.hpp"
 #include "MagicEffect.hpp"
 #include "LuaAPI.hpp"

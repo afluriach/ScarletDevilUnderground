@@ -18,7 +18,7 @@
 #include "FloorSegment.hpp"
 #include "Graph.hpp"
 #include "graphics_context.hpp"
-#include "GSpace.hpp"
+//#include "GSpace.hpp"
 #include "HUD.hpp"
 #include "LuaAPI.hpp"
 #include "MagicEffectSystem.hpp"

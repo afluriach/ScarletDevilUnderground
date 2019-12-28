@@ -12,7 +12,6 @@
 #include "app_constants.hpp"
 #include "Bullet.hpp"
 #include "graphics_context.hpp"
-#include "GSpace.hpp"
 #include "MagicEffect.hpp"
 
 bullet_attributes bullet_attributes::getDefault()

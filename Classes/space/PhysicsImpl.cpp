@@ -15,7 +15,6 @@
 #include "EnvironmentalObjects.hpp"
 #include "FloorSegment.hpp"
 #include "GObject.hpp"
-#include "GSpace.hpp"
 #include "InventoryObject.hpp"
 #include "MapFragment.hpp"
 #include "PhysicsImpl.hpp"

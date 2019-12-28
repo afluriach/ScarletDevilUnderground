@@ -8,7 +8,6 @@
 
 #include "Prefix.h"
 
-#include "GSpace.hpp"
 #include "Sign.hpp"
 #include "value_map.hpp"
 

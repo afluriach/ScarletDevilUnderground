@@ -8,8 +8,6 @@
 
 #include "Prefix.h"
 
-#include "controls.h"
-
 #define key_action_1(key_id,action_id) {EventKeyboard::KeyCode::key_id, make_enum_bitfield(ControlAction::action_id)}
 #define key_action_2(key_id,action1,action2) {EventKeyboard::KeyCode::key_id, make_enum_bitfield(ControlAction::action1) | make_enum_bitfield(ControlAction::action2)}
 #define key_action_3(key_id,action1,action2,action3) {EventKeyboard::KeyCode::key_id, make_enum_bitfield(ControlAction::action1) | make_enum_bitfield(ControlAction::action2) | make_enum_bitfield(ControlAction::action3)}

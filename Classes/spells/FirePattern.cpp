@@ -9,7 +9,6 @@
 #include "Prefix.h"
 
 #include "FirePattern.hpp"
-#include "GSpace.hpp"
 
 const SpaceFloat FirePattern::defaultLaunchDistance = 1.0;
 

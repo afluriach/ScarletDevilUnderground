@@ -9,7 +9,6 @@
 #include "Prefix.h"
 
 #include "FloorSegment.hpp"
-#include "GSpace.hpp"
 #include "value_map.hpp"
 
 FloorSegment::FloorSegment(

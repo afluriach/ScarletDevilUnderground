@@ -9,7 +9,6 @@
 #include "Prefix.h"
 
 #include "App.h"
-#include "controls.h"
 #include "FileIO.hpp"
 #include "GState.hpp"
 #include "replay.h"

@@ -21,7 +21,6 @@
 #include "Graphics.h"
 #include "graphics_context.hpp"
 #include "GraphicsNodes.hpp"
-#include "GSpace.hpp"
 #include "MagicEffect.hpp"
 #include "MagicEffectSystem.hpp"
 #include "MiscMagicEffects.hpp"

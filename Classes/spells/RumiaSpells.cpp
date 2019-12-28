@@ -10,7 +10,6 @@
 
 #include "Agent.hpp"
 #include "Bullet.hpp"
-#include "GSpace.hpp"
 #include "RumiaSpells.hpp"
 #include "value_map.hpp"
 

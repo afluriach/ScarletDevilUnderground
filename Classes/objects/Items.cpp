@@ -11,7 +11,6 @@
 #include "FirePattern.hpp"
 #include "Graphics.h"
 #include "graphics_context.hpp"
-#include "GSpace.hpp"
 #include "GState.hpp"
 #include "Items.hpp"
 #include "Player.hpp"

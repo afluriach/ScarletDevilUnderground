@@ -16,7 +16,6 @@
 #include "EnemyFunctions.hpp"
 #include "EnemySpell.hpp"
 #include "Fairy.hpp"
-#include "GSpace.hpp"
 #include "MiscMagicEffects.hpp"
 #include "Patchouli.hpp"
 #include "Player.hpp"

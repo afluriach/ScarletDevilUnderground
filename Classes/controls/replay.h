@@ -9,7 +9,6 @@
 #ifndef replay_h
 #define replay_h
 
-#include "controls.h"
 #include "GState.hpp"
 
 class Replay

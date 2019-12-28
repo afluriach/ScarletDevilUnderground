@@ -10,7 +10,6 @@
 
 #include "GAnimation.hpp"
 #include "graphics_context.hpp"
-#include "GSpace.hpp"
 
 AnimationSpriteSequence AnimationSpriteSequence::loadFromRasterImage(const string& path, int cols, int rows)
 {

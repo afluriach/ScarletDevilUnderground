@@ -10,7 +10,6 @@
 
 #include "AIUtil.hpp"
 #include "GObject.hpp"
-#include "GSpace.hpp"
 #include "MiscMagicEffects.hpp"
 #include "SpellUtil.hpp"
 #include "TeleportPad.hpp"

@@ -10,7 +10,6 @@
 
 #include "AIFunctions.hpp"
 #include "FairyNPC.hpp"
-#include "GSpace.hpp"
 #include "GState.hpp"
 #include "HUD.hpp"
 #include "MiscMagicEffects.hpp"

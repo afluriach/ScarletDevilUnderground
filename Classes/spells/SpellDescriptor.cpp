@@ -8,7 +8,6 @@
 
 #include "Prefix.h"
 
-#include "GSpace.hpp"
 #include "LuaAPI.hpp"
 #include "Spell.hpp"
 #include "SpellDescriptor.hpp"

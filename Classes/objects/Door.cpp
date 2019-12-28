@@ -11,7 +11,6 @@
 #include "AIUtil.hpp"
 #include "Door.hpp"
 #include "graphics_context.hpp"
-#include "GSpace.hpp"
 #include "GState.hpp"
 #include "physics_context.hpp"
 #include "Player.hpp"

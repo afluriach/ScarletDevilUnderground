@@ -9,7 +9,6 @@
 #include "Prefix.h"
 
 #include "App.h"
-#include "controls.h"
 #include "Dialog.hpp"
 #include "FileIO.hpp"
 #include "Graphics.h"

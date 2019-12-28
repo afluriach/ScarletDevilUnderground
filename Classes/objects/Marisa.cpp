@@ -9,7 +9,6 @@
 #include "Prefix.h"
 
 #include "AIFunctions.hpp"
-#include "GSpace.hpp"
 #include "Marisa.hpp"
 #include "MarisaSpell.hpp"
 

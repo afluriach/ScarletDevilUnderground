@@ -9,7 +9,6 @@
 #include "Prefix.h"
 
 #include "Desk.hpp"
-#include "GSpace.hpp"
 #include "PlayScene.hpp"
 #include "value_map.hpp"
 

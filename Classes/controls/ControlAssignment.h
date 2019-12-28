@@ -9,7 +9,6 @@
 #ifndef ControlAssignment_h
 #define ControlAssignment_h
 
-#include "controls.h"
 #include "value_map.hpp"
 
 template<typename E>
