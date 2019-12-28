@@ -556,7 +556,7 @@ SpaceVect Flock::separate()
 
 	for (auto ref : neighbors)
 	{
-		Agent* other = ref.get();
+		GObject* other = ref.get();
 		SpaceVect disp = agent->getPos() - other->getPos();
 
 		//Actual magnitude added from interaction is 1/x.
@@ -596,7 +596,7 @@ SpaceVect Flock::align()
 
 	for (auto ref : neighbors)
 	{
-		Agent* other = ref.get();
+		GObject* other = ref.get();
 
 		sum += other->getVel();
 		++count;
@@ -623,7 +623,7 @@ SpaceVect Flock::cohesion()
 
 	for (auto ref : neighbors)
 	{
-		Agent* other = ref.get();
+		GObject* other = ref.get();
 
 		sum += other->getPos();
 		++count;

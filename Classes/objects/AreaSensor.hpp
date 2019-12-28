@@ -103,7 +103,7 @@ protected:
 	SpaceFloat timeInRoom = 0.0;
 
 	string bossName;
-	object_ref<Enemy> boss;
+	gobject_ref boss;
 
 	bool isCleared = false;
 	bool isBossActive = false;
@@ -124,7 +124,7 @@ public:
 	virtual void onPlayerContact(Player*);
 
 protected:
-	unordered_set<object_ref<GhostFairyNPC>> fairies;
+	unordered_set<gobject_ref> fairies;
 	string targetName;
 	gobject_ref target;
 	int cost = 0;

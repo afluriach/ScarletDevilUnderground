@@ -109,12 +109,12 @@ public:
 	}
         
 	template<class C, typename... Args>
-	inline object_ref<C> createObject(Args... args) {
+	inline gobject_ref createObject(Args... args) {
 		return createObject(GObject::make_object_factory<C>(args...));
 	}
 
 	template<class C, typename... Args>
-	inline object_ref<C> createObject(shared_ptr<object_params> params, Args... args) {
+	inline gobject_ref createObject(shared_ptr<object_params> params, Args... args) {
 		return createObject(GObject::params_object_factory<C>(params, args...));
 	}
 
@@ -134,12 +134,6 @@ public:
 	RoomSensor* getRoomSensor(int id) const;
 
 	const unordered_set<GObject*>* getObjectsByType(type_index t) const;
-
-    template<typename T>
-    inline object_ref<T> getObjectRefAs(const string& name) const{
-		assert_gobject(T);
-		return object_ref<T>(getObject(name));
-    }
 
 	template<typename T>
 	inline T* getObjectAs(const string& name) const {
@@ -163,13 +157,13 @@ public:
 	}
 
 	template<typename T>
-	inline vector<object_ref<T>> getObjectsByTypeAs() const {
+	inline vector<gobject_ref> getObjectsByTypeAs() const {
 		assert_gobject(T);
 		const unordered_set<GObject*>* base = getObjectsByType(typeid(T));
 		
-		if (!base) return vector<object_ref<T>>();
+		if (!base) return vector<gobject_ref>();
 
-		vector<object_ref<T>> result;
+		vector<gobject_ref> result;
 		result.reserve(base->size());
 
 		for (GObject* basePtr : *base) {

@@ -49,7 +49,7 @@ void Fairy2::addFleeThread()
 	fsm->addThread(fleeThread);
 }
 
-void Fairy2::addSupportThread(object_ref<Fairy2> other)
+void Fairy2::addSupportThread(gobject_ref other)
 {
 	gobject_ref player = space->getObjectRef("player");
 
@@ -58,7 +58,7 @@ void Fairy2::addSupportThread(object_ref<Fairy2> other)
 	}
 
 	supportThread = make_shared<ai::Thread>(
-		make_shared<ai::OccupyMidpoint>(fsm.get(), other.getBaseRef(), player),
+		make_shared<ai::OccupyMidpoint>(fsm.get(), other.get(), player),
 		fsm.get()
 	);
 	fsm->addThread(supportThread);
@@ -84,7 +84,7 @@ void Fairy2::update()
 		auto refs = space->getObjectsByTypeAs<Fairy2>();
 
 		for (auto ref : refs) {
-			Fairy2* f = ref.get();
+			Fairy2* f = ref.getAs<Fairy2>();
 
 			if (f->requestHandler(this).isValid()) {
 				crntState = ai_state::fleeWithSupport;
@@ -94,7 +94,7 @@ void Fairy2::update()
 	}
 }
 
-object_ref<Fairy2> Fairy2::requestHandler(object_ref<Fairy2> other)
+gobject_ref Fairy2::requestHandler(gobject_ref other)
 {
 	if (other.isValid() && crntState == ai_state::normal) {
 		crntState = ai_state::supportOffered;

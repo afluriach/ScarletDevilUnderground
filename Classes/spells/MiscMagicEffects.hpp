@@ -24,8 +24,8 @@ public:
 	virtual void update();
 	virtual void end();
 protected:
-	vector<object_ref<TeleportPad>> targets;
-	object_ref<TeleportPad> toUse;
+	vector<gobject_ref> targets;
+	gobject_ref toUse;
 };
 
 #endif /* MiscMagicEffects_hpp */

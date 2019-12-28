@@ -39,7 +39,7 @@ struct bullet_attributes
 	static bullet_attributes getDefault();
 
 	SpaceVect casterVelocity;
-	object_ref<Agent> caster;
+	gobject_ref caster;
 	GType type;
 	RoomSensor* startRoom = nullptr;
 

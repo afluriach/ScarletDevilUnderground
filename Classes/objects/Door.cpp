@@ -65,7 +65,7 @@ void Door::init()
 		if (adjacent.isValid() &&
 			entryDirection == Direction::none &&
 			doorType != door_type::one_way_source &&
-			adjacent.get()->doorType != door_type::one_way_destination
+			adjacent.getAs<Door>()->doorType != door_type::one_way_destination
 		) {
 			entryDirection = angleToDirection((getPos() - adjacent.get()->getPos()).toAngle());
 		}
@@ -174,7 +174,7 @@ void Door::setSealed(bool b)
 
 Door* Door::getAdjacent()
 {
-	return adjacent.get();
+	return adjacent.getAs<Door>();
 }
 
 SpaceVect Door::getEntryPosition()

@@ -124,7 +124,7 @@ void Bullet::onAgentCollide(Agent* other, SpaceVect n)
 	}
 
 	if (attributes.caster.isValid() ) {
-		attributes.caster.get()->onBulletHitTarget(this, other);
+		attributes.caster.getAs<Agent>()->onBulletHitTarget(this, other);
 	}
 }
 

@@ -29,10 +29,11 @@ void Teleport::update()
 
 	for (auto ref : targets)
 	{
-		if (ref.isValid() && !ref.get()->isObstructed()) {
-			log("%s teleported to %s.", target->getName().c_str(), ref.get()->getName().c_str());
+		TeleportPad* crnt = ref.getAs<TeleportPad>();
+		if (crnt && !crnt->isObstructed()) {
+			log("%s teleported to %s.", target->getName().c_str(), crnt->getName().c_str());
 			target->teleport(ref.get()->getPos());
-			ref.get()->setTeleportActive(true);
+			crnt->setTeleportActive(true);
 			success = true;
 			toUse = ref;
 			break;
@@ -47,6 +48,6 @@ void Teleport::update()
 void Teleport::end()
 {
 	if (toUse.isValid()) {
-		toUse.get()->setTeleportActive(false);
+		toUse.getAs<TeleportPad>()->setTeleportActive(false);
 	}
 }

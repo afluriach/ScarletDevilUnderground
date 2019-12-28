@@ -71,7 +71,7 @@ public:
 	virtual void update();
 	virtual void end();
 protected:
-	array<object_ref<Bullet>, 4> bullets;
+	array<gobject_ref, 4> bullets;
 	SpaceFloat angular_pos = 0.0;
 };
 
@@ -130,7 +130,7 @@ public:
 	virtual void update();
 	virtual void end();
 protected:
-	array<object_ref<Bullet>, bulletCount> bullets;
+	array<gobject_ref, bulletCount> bullets;
 	shared_ptr<bullet_properties> props;
 	SpaceFloat crntAngle = 0.0;
 };

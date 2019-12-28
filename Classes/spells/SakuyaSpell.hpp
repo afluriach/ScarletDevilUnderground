@@ -31,7 +31,7 @@ public:
 
 	static const int count;
 
-	vector<object_ref<Bullet>> bullets;
+	vector<gobject_ref> bullets;
 	vector<bool> launch_flags;
 	unsigned int framesSinceLastFire = 0;
 

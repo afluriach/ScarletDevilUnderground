@@ -624,16 +624,16 @@ void MapMenu::backPressed()
 
 void MapMenu::drawMaps()
 {
-	vector<object_ref<Wall>> walls = playScene->getSpace()->getObjectsByTypeAs<Wall>();
-	vector<object_ref<FloorSegment>> floors = playScene->getSpace()->getObjectsByTypeAs<FloorSegment>();
-	vector<object_ref<Door>> doors = playScene->getSpace()->getObjectsByTypeAs<Door>();
-	vector<object_ref<Enemy>> enemies = playScene->getSpace()->getObjectsByTypeAs<Enemy>();
+	vector<gobject_ref> walls = playScene->getSpace()->getObjectsByTypeAs<Wall>();
+	vector<gobject_ref> floors = playScene->getSpace()->getObjectsByTypeAs<FloorSegment>();
+	vector<gobject_ref> doors = playScene->getSpace()->getObjectsByTypeAs<Door>();
+	vector<gobject_ref> enemies = playScene->getSpace()->getObjectsByTypeAs<Enemy>();
 	GObject* goal = playScene->getSpace()->getObject("goal");
 	GObject* player = playScene->getSpace()->getPlayer();
 
 	for (auto ref : floors)
 	{
-		FloorSegment* floor = ref.get();
+		FloorSegment* floor = ref.getAs<FloorSegment>();
 
 		if (dynamic_cast<MovingPlatform*>(floor) || floor->isHidden()) {
 			continue;
@@ -662,7 +662,7 @@ void MapMenu::drawMaps()
 		if (!ref.get()->isHidden()) {
 			drawObject(
 				ref.get()->getBoundingBox(),
-				ref.get()->isLocked() ? Color4F::RED : doorColor
+				ref.getAs<Door>()->isLocked() ? Color4F::RED : doorColor
 			);
 		}
 	}

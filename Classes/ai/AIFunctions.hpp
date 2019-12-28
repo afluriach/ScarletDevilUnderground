@@ -188,7 +188,7 @@ public:
 
 	FuncGetName(Flock)
 protected:
-	unordered_set<object_ref<Agent>> neighbors;
+	unordered_set<gobject_ref> neighbors;
 };
 
 class OccupyPoint : public Function {

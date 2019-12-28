@@ -18,46 +18,36 @@ bool _object_ref_is_future(GSpace* space, unsigned int uuid);
 ObjectIDType _object_ref_get_uuid(const GObject* obj);
 GSpace* _object_ref_get_space(const GObject* obj);
 
-template<class T>
-class object_ref
+class gobject_ref
 {
 public:
-    inline object_ref():
+    inline gobject_ref():
     uuid(0),
 	space(nullptr)
     {}
 
-	template<class U>
-	inline object_ref(object_ref<U> rhs) :
+	inline gobject_ref(const gobject_ref& rhs) :
 		space(rhs.getSpace()),
 		uuid(rhs.getID())
 	{}
 
-    inline object_ref(GSpace* space, unsigned int uuid):
+    inline gobject_ref(GSpace* space, unsigned int uuid):
     uuid(uuid),
 	space(space)
     {}
 
-	object_ref(const GObject* obj) :
+	gobject_ref(const GObject* obj) :
 		uuid(_object_ref_get_uuid(obj)),
 		space(_object_ref_get_space(obj))
 	{}
 
-	inline object_ref(const object_ref<GObject>& ref) : 
-		uuid(ref.getID()),
-		space(ref.getSpace())
-	{}
-
-    inline T* get() const{
+	template<class T>
+    inline T* getAs() const{
         return dynamic_cast<T*>(_object_ref_get_gobject(space,uuid));
     }
 
-    inline GObject* getBase() const{
-        return get();
-    }
-
-	inline object_ref<GObject> getBaseRef() const {
-		return get();
+    inline GObject* get() const{
+		return _object_ref_get_gobject(space, uuid);
 	}
 
     inline bool isValid()const{
@@ -72,22 +62,18 @@ public:
         if(!rhs)
             return uuid == 0;
         else
-            return this->space && rhs->space && uuid == _object_ref_get_uuid(rhs);
+            return space == _object_ref_get_space(rhs) && uuid == _object_ref_get_uuid(rhs);
     }
 
-    inline bool operator==(const GObject& rhs)const{
-        return this == &rhs;
-    }
-
-	inline bool operator==(const object_ref<T>& rhs)const {
+	inline bool operator==(const gobject_ref& rhs)const {
 		return this->space == rhs.space && this->uuid == rhs.uuid;
 	}
 
-	inline bool operator!=(const object_ref<T>& rhs)const {
+	inline bool operator!=(const gobject_ref& rhs)const {
 		return this->space != rhs.space || this->uuid != rhs.uuid;
 	}
 
-	inline bool operator<(const object_ref<T>& rhs) const {
+	inline bool operator<(const gobject_ref& rhs) const {
 		return this->uuid < rhs.uuid;
 	}
 
@@ -104,13 +90,11 @@ protected:
     ObjectIDType uuid;
 };
 
-typedef object_ref<GObject> gobject_ref;
-
 namespace std {
-	template<typename T>
-	struct hash<object_ref<T>>
+	template<>
+	struct hash<gobject_ref>
 	{
-		inline size_t operator()(const object_ref<T>& k) const {
+		inline size_t operator()(const gobject_ref& k) const {
 			return std::hash<ObjectIDType>{}(k.getID());
 		}
 	};

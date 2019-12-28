@@ -41,14 +41,14 @@ public:
 
 	bullet_attributes getBulletAttributes(shared_ptr<bullet_properties> props) const;
 
-	object_ref<Bullet> spawnBullet(
+	gobject_ref spawnBullet(
 		shared_ptr<bullet_properties> props,
 		SpaceVect displacement,
 		SpaceVect velocity,
 		SpaceFloat angle,
 		SpaceFloat angularVelocity
 	);
-	object_ref<Bullet> launchBullet(
+	gobject_ref launchBullet(
 		shared_ptr<bullet_properties> props,
 		SpaceVect displacement,
 		SpaceFloat angle,

@@ -43,19 +43,19 @@ public:
 
 	virtual inline string initStateMachine() { return "fairy2"; }
 	void addFleeThread();
-	void addSupportThread(object_ref<Fairy2> other);
+	void addSupportThread(gobject_ref other);
 	void removeSupportThread();
 
 	virtual void update();
 
 	void requestSupport();
-	object_ref<Fairy2> requestHandler(object_ref<Fairy2> other);
-	void responseHandler(object_ref<Fairy2> supporting);
-	void acknowledgeHandaler(object_ref<Fairy2> supportTarget);
+	gobject_ref requestHandler(gobject_ref other);
+	void responseHandler(gobject_ref supporting);
+	void acknowledgeHandaler(gobject_ref supportTarget);
 protected:
 	ai_state crntState = ai_state::normal;
 	shared_ptr<ai::Thread> supportThread = 0;
-	object_ref<Fairy2> supportingAgent;
+	gobject_ref supportingAgent;
 };
 
 #endif /* Fairy_hpp */

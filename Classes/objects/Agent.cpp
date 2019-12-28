@@ -73,7 +73,7 @@ bullet_attributes Agent::getBulletAttributes(shared_ptr<bullet_properties> props
 {
 	bullet_attributes result;
 
-	result.caster = object_ref<Agent>(this);
+	result.caster = gobject_ref(this);
 	result.startRoom = crntRoom;
 	result.casterVelocity = getVel();
 	result.type = getType() == GType::player ? GType::playerBullet : GType::enemyBullet;
@@ -83,7 +83,7 @@ bullet_attributes Agent::getBulletAttributes(shared_ptr<bullet_properties> props
 	return result;
 }
 
-object_ref<Bullet> Agent::spawnBullet(
+gobject_ref Agent::spawnBullet(
 	shared_ptr<bullet_properties> props,
 	SpaceVect displacement,
 	SpaceVect velocity,
@@ -97,7 +97,7 @@ object_ref<Bullet> Agent::spawnBullet(
 	);
 }
 
-object_ref<Bullet> Agent::launchBullet(
+gobject_ref Agent::launchBullet(
 	shared_ptr<bullet_properties> props,
 	SpaceVect displacement,
 	SpaceFloat angle,

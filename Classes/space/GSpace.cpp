@@ -491,11 +491,11 @@ void GSpace::removeObjectWithAnimation(GObject* obj, ActionGeneratorType action)
 
 void GSpace::setBulletBodiesVisible(bool b)
 {
-	vector<object_ref<Bullet>> bullets = getObjectsByTypeAs<Bullet>();
+	vector<gobject_ref> bullets = getObjectsByTypeAs<Bullet>();
 
 	for (auto ref : bullets)
 	{
-		ref.get()->setBodyVisible(b);
+		ref.getAs<Bullet>()->setBodyVisible(b);
 	}
 }
 

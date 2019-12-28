@@ -229,7 +229,7 @@ void RoomSensor::init()
 		spawnersByType.at(_type).push_back(s);
 	}
 
-	boss = space->getObjectRefAs<Enemy>(bossName);
+	boss = space->getObjectRef(bossName);
 }
 
 void RoomSensor::update()
@@ -280,11 +280,12 @@ void RoomSensor::updateBoss()
 	if (!isBossActive)
 	{
 		if (boss.isValid() && player) {
+			Enemy* _boss = boss.getAs<Enemy>();
 			space->addHudAction(
 				&HUD::setEnemyInfo,
-				boss.get()->getProperName(),
-				boss.get()->getAttribute(Attribute::hp),
-				boss.get()->getAttribute(Attribute::maxHP)
+				_boss->getProperName(),
+				_boss->getAttribute(Attribute::hp),
+				_boss->getAttribute(Attribute::maxHP)
 			);
 
 			isBossActive = true;
@@ -297,7 +298,7 @@ void RoomSensor::updateBoss()
 		if (boss.isValid() && player) {
 			space->addHudAction(
 				&HUD::updateEnemyInfo,
-				boss.get()->getAttribute(Attribute::hp)
+				boss.getAs<Enemy>()->getAttribute(Attribute::hp)
 			);
 		}
 

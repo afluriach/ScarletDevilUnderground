@@ -56,7 +56,7 @@ protected:
 	Direction entryDirection;
 	string destination;
 	string destinationMap;
-	object_ref<Door> adjacent;
+	gobject_ref adjacent;
 	door_type doorType;
 	bool sealed = false;
 	bool locked = false;
