@@ -68,17 +68,16 @@ LavaeteinnSpell::LavaeteinnSpell(GObject* caster) :
 
 void LavaeteinnSpell::init()
 {
+	auto props = app::getBullet("lavaeteinn");
 	SpaceFloat angle = canonicalAngle(caster->getAngle() - angleWidth);
-	SpaceVect pos = caster->getPos() + SpaceVect::ray(1.5, angle);
 	speedScale = getCasterAs<Agent>()->getAttribute(Attribute::attackSpeed);
 
-	auto params = Bullet::makeParams(pos, angle, SpaceVect::zero, angular_speed * speedScale);
-	auto props = app::getBullet("lavaeteinn");
-
-	lavaeteinnBullet = getSpace()->createBullet(
-		params,
-		getCasterAs<Agent>()->getBulletAttributes(props),
-		props
+	lavaeteinnBullet = getCasterAs<Agent>()->spawnBullet(
+		props,
+		SpaceVect::ray(1.5, angle),
+		SpaceVect::zero,
+		angle,
+		angular_speed * speedScale
 	);
 
 	fireTimer = length / bulletSpawnCount;
@@ -96,15 +95,7 @@ void LavaeteinnSpell::update()
 
 	if (fireTimer <= 0.0) {
 		auto props = app::getBullet("flandreFastOrb1");
-		auto params = Bullet::makeParams(
-			caster->getPos() + SpaceVect::ray(2.0, angularPos),
-			angularPos
-		);
-		getSpace()->createBullet(
-			params,
-			getCasterAs<Agent>()->getBulletAttributes(props),
-			props
-		);
+		getCasterAs<Agent>()->launchBullet(props, SpaceVect::ray(2.0, angularPos), angularPos);
 		fireTimer = length / bulletSpawnCount;
 	}
 }
@@ -142,11 +133,7 @@ void PlayerCounterClock::init()
 	{
 		SpaceVect disp = SpaceVect::ray(2.0 + offset, (i/2.0) * float_pi);
 
-		bullets[i] = getSpace()->createBullet(
-			Bullet::makeParams(pos + disp, (i / 2.0) * float_pi),
-			getCasterAs<Agent>()->getBulletAttributes(props),
-			props
-		);
+		bullets[i] = p->spawnBullet(props, disp, SpaceVect::zero, (i / 2.0) * float_pi, 0.0);
 	}
 }
 
@@ -214,10 +201,12 @@ void PlayerScarletRose::update()
 	if (launchCount < fireCount) {
 		for_irange(i, 0, 8) {
 			SpaceFloat t = float_pi / B * i;
-			gobject_ref ref = getSpace()->createBullet(
-				Bullet::makeParams(origin,0.0),
-				getCasterAs<Agent>()->getBulletAttributes(props),
-				props
+			gobject_ref ref = getCasterAs<Agent>()->spawnBullet(
+				props,
+				SpaceVect::zero,
+				SpaceVect::zero,
+				0.0,
+				0.0
 			);
 
 			parametric_space_function f = [t, this](SpaceFloat _t)->SpaceVect {
