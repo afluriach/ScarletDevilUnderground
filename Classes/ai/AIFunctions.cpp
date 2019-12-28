@@ -951,31 +951,6 @@ bool Flank::wallQuery(SpaceVect pos)
 	);
 }
 
-QuadDirectionLookAround::QuadDirectionLookAround(
-	StateMachine* fsm,
-	boost::rational<int> secondsPerDirection,
-	bool clockwise
-) :
-Function(fsm),
-secondsPerDirection(secondsPerDirection),
-timeRemaining(secondsPerDirection),
-clockwise(clockwise)
-{
-
-}
-
-update_return QuadDirectionLookAround::update()
-{
-	timerDecrement(timeRemaining);
-
-	if (timeRemaining <= 0) {
-		agent->rotate(float_pi / 2.0 * (clockwise ? 1.0 : -1.0));
-		timeRemaining = secondsPerDirection;
-	}
-
-	return_steady();
-}
-
 AimAtTarget::AimAtTarget(StateMachine* fsm, gobject_ref target) :
 Function(fsm),
 target(target)

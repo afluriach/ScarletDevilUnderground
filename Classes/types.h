@@ -119,7 +119,6 @@ struct app_params
 
 	unsigned int framesPerSecond = 60;
 	double secondsPerFrame = 1.0 / framesPerSecond;
-	boost::rational<int> secondsPerFrameRational = boost::rational<int>(1, framesPerSecond);
 };
 
 struct floorsegment_properties {

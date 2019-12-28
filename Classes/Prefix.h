@@ -92,7 +92,6 @@
 #include <boost/icl/interval_map.hpp>
 #include <boost/range/adaptor/map.hpp>
 #include <boost/range/irange.hpp>
-#include <boost/rational.hpp>
 #include <boost/serialization/array.hpp>
 #include <boost/serialization/bitset.hpp>
 #include <boost/serialization/set.hpp>

@@ -59,7 +59,7 @@ PlayerCharacter App::crntPC = PlayerCharacter::flandre;
 
 #if USE_TIMERS
 unique_ptr<TimerSystem> App::timerSystem;
-boost::rational<int> App::timerPrintAccumulator(1);
+SpaceFloat App::timerPrintAccumulator = 1.0;
 mutex App::timerMutex;
 #endif
 
@@ -139,7 +139,6 @@ void App::setFramerate(unsigned int fps)
 {
 	app::params.framesPerSecond = fps;
 	app::params.secondsPerFrame = 1.0 / fps;
-	app::params.secondsPerFrameRational = boost::rational<int>(1, fps);
 }
 
 Vec2 App::getScreenCenter()
@@ -523,7 +522,7 @@ void App::updateTimerSystem()
 
 		if (timerPrintAccumulator <= 0) {
 			printTimerInfo();
-			timerPrintAccumulator = boost::rational<int>(1);
+			timerPrintAccumulator = 1.0;
 		}
 	}
 	timerMutex.unlock();

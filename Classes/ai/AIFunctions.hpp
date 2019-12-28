@@ -318,23 +318,6 @@ private:
 	SpaceFloat wallMargin;
 };
 
-class QuadDirectionLookAround : public Function {
-public:
-	QuadDirectionLookAround(
-		StateMachine* fsm,
-		boost::rational<int> secondsPerDirection,
-		bool clockwise
-	);
-
-	virtual update_return update();
-
-	FuncGetName(QuadDirectionLookAround)
-private:
-	boost::rational<int> secondsPerDirection;
-	boost::rational<int> timeRemaining;
-	bool clockwise;
-};
-
 class AimAtTarget : public Function {
 public:
 	AimAtTarget(StateMachine* fsm, gobject_ref target);

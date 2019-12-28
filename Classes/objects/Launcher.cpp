@@ -11,7 +11,7 @@
 #include "Bullet.hpp"
 #include "Launcher.hpp"
 
-const boost::rational<int> Launcher::fireInterval(1,4);
+const SpaceFloat Launcher::fireInterval = 0.25;
 
 Launcher::Launcher(GSpace* space, ObjectIDType id, const ValueMap& args) :
 	GObject(MapParams(), physics_params(GType::environment, eyeLevelHeightLayers, args, -1.0))

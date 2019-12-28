@@ -312,11 +312,6 @@ SpaceFloat toRads(SpaceFloat deg)
 	return deg * float_pi / 180.0;
 }
 
-void timerDecrement(boost::rational<int>& x)
-{
-	x = max(x - app::params.secondsPerFrameRational, boost::rational<int>(0));
-}
-
 void timerDecrement(float& x)
 {
 	x = max(x - to_float(app::params.secondsPerFrame), 0.0f);

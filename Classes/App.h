@@ -118,7 +118,7 @@ public:
     static unique_ptr<Lua::Inst> lua;
 #if USE_TIMERS
 	static unique_ptr<TimerSystem> timerSystem;
-	static boost::rational<int> timerPrintAccumulator;
+	static SpaceFloat timerPrintAccumulator;
 	static mutex timerMutex;
 #endif
 	static PlayerCharacter crntPC;
