@@ -121,8 +121,7 @@ namespace Lua{
 			sol::constructors<
 				DamageInfo(),
 				DamageInfo(float, DamageType),
-				DamageInfo(float, Attribute, DamageType),
-				DamageInfo(float, Attribute, DamageType, SpaceVect)
+				DamageInfo(float, DamageType, Attribute, float)
 			>()
 		);
 

@@ -235,7 +235,7 @@ void GObject::setFrozen(bool val) {
 	isFrozen = val;
 }
 
-bool GObject::hit(DamageInfo damage)
+bool GObject::hit(DamageInfo damage, SpaceVect n)
 {
 	return false;
 }

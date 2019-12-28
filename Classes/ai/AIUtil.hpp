@@ -36,6 +36,7 @@ array<SpaceFloat, 4> obstacleFeelerQuad(const GObject* agent, SpaceFloat distanc
 array<SpaceFloat, 8> obstacleFeeler8(const GObject* agent, SpaceFloat distance);
 int chooseBestDirection(const array<SpaceFloat, 8>& feelers, SpaceFloat desired_angle, SpaceFloat min_distance);
 
+SpaceVect directionToTarget(SpaceVect source, SpaceVect target);
 SpaceVect directionToTarget(const GObject* agent, SpaceVect target);
 SpaceVect displacementToTarget(const GObject* agent, SpaceVect target);
 SpaceFloat distanceToTarget(const GObject* agent, const GObject* target);

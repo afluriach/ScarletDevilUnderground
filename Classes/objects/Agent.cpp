@@ -176,7 +176,7 @@ void Agent::update()
 	}
 
 	for (auto other : touchTargets) {
-		other->hit(touchEffect());
+		other->hit(touchEffect(), ai::directionToTarget(this, other->getPos()));
 	}
 
 	if (firePattern) firePattern->update();
@@ -472,13 +472,13 @@ float Agent::getShieldCost(SpaceVect n)
 	return shieldCosts[3][level - 1];
 }
 
-void Agent::onBulletCollide(Bullet* b)
+void Agent::onBulletCollide(Bullet* b, SpaceVect n)
 {
 	DamageInfo damage = b->getScaledDamageInfo();
 
 	if (!isShield(b)) {
 		attributeSystem.modifyAttribute(Attribute::stress, Attribute::stressFromHits, damage.mag);
-		hit(damage);
+		hit(damage, n);
 		if(fsm) fsm->onBulletHit(b);
 	}
 	else {
@@ -498,7 +498,7 @@ void Agent::onEndTouchAgent(Agent* other)
 	touchTargets.erase(other);
 }
 
-bool Agent::hit(DamageInfo damage)
+bool Agent::hit(DamageInfo damage, SpaceVect n)
 {
 	if (attributeSystem.isNonzero(Attribute::hitProtection) || damage.mag == 0.0f)
 		return false;
@@ -513,8 +513,10 @@ bool Agent::hit(DamageInfo damage)
 	float hp = attributeSystem.applyDamage(damage);
 	space->addGraphicsAction(&graphics_context::createDamageIndicator, hp, getPos());
 
-	if (!damage.knockback.isZero() ) {
-		applyImpulse(damage.knockback);
+	SpaceVect knockback = n * damage.knockback;
+
+	if (!knockback.isZero() ) {
+		applyImpulse(knockback);
 	}
 
 	return true;

@@ -63,9 +63,9 @@ public:
 	void setTimedProtection(SpaceFloat seconds);
 	void resetProtection();
 
-	virtual void onBulletCollide(Bullet* b);
+	virtual void onBulletCollide(Bullet* b, SpaceVect n);
 	virtual void onBulletHitTarget(Bullet* bullet, Agent* target);
-    virtual bool hit(DamageInfo damage);
+    virtual bool hit(DamageInfo damage, SpaceVect n);
     
     inline GraphicsLayer sceneLayer() const {return GraphicsLayer::ground;}
     

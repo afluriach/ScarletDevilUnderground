@@ -166,6 +166,6 @@ DamageRadiusEffect::DamageRadiusEffect(effect_params params, DamageInfo damage, 
 void DamageRadiusEffect::onHit(GObject* target)
 {
 	if (auto agent = dynamic_cast<Agent*>(target)) {
-		agent->hit(damage);
+		agent->hit(damage, ai::directionToTarget(sensor->getPos(), target->getPos()) );
 	}
 }

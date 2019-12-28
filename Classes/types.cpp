@@ -16,28 +16,45 @@ namespace app {
 	app_params params;
 }
 
+DamageInfo DamageInfo::bomb(float mag)
+{
+	return DamageInfo(mag, DamageType::bomb);
+}
+
+DamageInfo DamageInfo::bullet(float mag)
+{
+	return DamageInfo(mag, DamageType::bullet);
+}
+
+DamageInfo DamageInfo::melee(float mag)
+{
+	return DamageInfo(mag, DamageType::melee);
+}
+
 DamageInfo::DamageInfo() :
 	mag(0.0f),
+	knockback(0.0f),
 	element(Attribute::end),
 	type(DamageType::end)
 {}
 
 DamageInfo::DamageInfo(float mag, DamageType type) :
 	mag(mag),
+	knockback(0.0f),
 	element(Attribute::end),
 	type(type)
 {}
 
-DamageInfo::DamageInfo(float mag, Attribute element, DamageType type, SpaceVect knockback) : 
+DamageInfo::DamageInfo(float mag, DamageType type, Attribute element, float knockback) :
 	mag(mag),
-	element(element),
 	type(type),
+	element(element),
 	knockback(knockback)
 {}
 
 DamageInfo DamageInfo::operator*(float rhs)
 {
-	return DamageInfo{ mag * rhs, element, type };
+	return DamageInfo(mag * rhs, type, element, knockback * rhs);
 }
 
 bool DamageInfo::isExplosion()

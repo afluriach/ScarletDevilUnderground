@@ -19,7 +19,6 @@ struct bullet_properties
 {
 	SpaceFloat speed;
 	SpaceVect dimensions;
-	SpaceFloat knockback;
 
 	DamageInfo damage;
 
@@ -77,7 +76,6 @@ public:
 	virtual inline SpaceFloat getMaxSpeed() const { return props->speed; }
 
 	inline DamageInfo getDamageInfo() const { return props->damage; }
-	inline SpaceFloat getKnockbackForce() const { return props->knockback; }
 
 	void onWallCollide(Wall* wall);
 	void onEnvironmentCollide(GObject* obj);

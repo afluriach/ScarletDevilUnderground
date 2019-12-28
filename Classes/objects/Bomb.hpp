@@ -48,7 +48,7 @@ public:
 	inline string getExplosionSound() const { return props->explosionSound; }
 
 	inline virtual string getSprite() const { return props->sprite; }
-	virtual bool hit(DamageInfo damage);
+	virtual bool hit(DamageInfo damage, SpaceVect n);
 protected:
 	shared_ptr<bomb_properties> props;
 

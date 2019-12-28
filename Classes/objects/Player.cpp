@@ -529,10 +529,10 @@ void Player::resetProtection()
 	attributeSystem.resetProtection();;
 }
 
-void Player::onBulletCollide(Bullet* b)
+void Player::onBulletCollide(Bullet* b, SpaceVect n)
 {
 	grazeContacts.erase(b);
-	Agent::onBulletCollide(b);
+	Agent::onBulletCollide(b, n);
 }
 
 void Player::onBulletHitTarget(Bullet* bullet, Agent* target)
@@ -540,8 +540,8 @@ void Player::onBulletHitTarget(Bullet* bullet, Agent* target)
 	applyCombo(6);
 }
 
-bool Player::hit(DamageInfo damage){
-	if (!Agent::hit(damage))
+bool Player::hit(DamageInfo damage, SpaceVect n){
+	if (!Agent::hit(damage, n))
 		return false;
 
 	attributeSystem.setHitProtection();
@@ -669,7 +669,7 @@ void Player::applyRespawn()
 	respawnMaskTimer = 0.25;
 
 	if(!space->getSuppressAction())
-		hit(DamageInfo{25.0f, Attribute::end, DamageType::pitfall});
+		hit(DamageInfo(25.0f, DamageType::pitfall), SpaceVect::zero);
 }
 
 bool Player::canPlaceBomb(SpaceVect pos)

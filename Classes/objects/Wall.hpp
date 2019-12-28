@@ -21,7 +21,7 @@ public:
 
 	virtual inline ~Wall() {}
 
-	virtual bool hit(DamageInfo damage);
+	virtual bool hit(DamageInfo damage, SpaceVect n);
 	void applyBreak();
 protected:
 	bool breakable;

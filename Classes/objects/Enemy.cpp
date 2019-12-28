@@ -53,9 +53,9 @@ void Enemy::runDamageFlicker()
 	}
 }
 
-bool Enemy::hit(DamageInfo damage)
+bool Enemy::hit(DamageInfo damage, SpaceVect n)
 {
-	if (!Agent::hit(damage))
+	if (!Agent::hit(damage, n))
 		return false;
 
 	runDamageFlicker();

@@ -31,7 +31,7 @@ public:
     void setActive(bool active);
     bool getActive();
     
-	virtual bool hit(DamageInfo damage);
+	virtual bool hit(DamageInfo damage, SpaceVect n);
 protected:
 	void addLightSource();
 	void applyDarkness(float v);

@@ -131,7 +131,7 @@ void Torch::addLightSource()
 	);
 }
 
-bool Torch::hit(DamageInfo damage)
+bool Torch::hit(DamageInfo damage, SpaceVect n)
 {
 	bool apply = damage.element == Attribute::darknessDamage && damage.mag > 0.0f && getActive();
 

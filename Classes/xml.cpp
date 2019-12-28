@@ -198,9 +198,10 @@ bool getVector(tinyxml2::XMLElement* elem, const string& name, SpaceVect* result
 
 DamageInfo getDamageInfo(tinyxml2::XMLElement* elem, DamageType type)
 {
-	DamageInfo result = { 0.0f, Attribute::end, type };
+	DamageInfo result;
 
 	getNumericAttr(elem, "damage", &result.mag);
+	getNumericAttr(elem, "knockback", &result.knockback);
 	getAttributeAttr(elem, "element", &result.element);
 
 	return result;
@@ -454,7 +455,6 @@ bool parseObject(tinyxml2::XMLElement* elem, shared_ptr<bullet_properties>* resu
 {
 	SpaceFloat speed = 0.0;
 	SpaceVect dimensions;
-	SpaceFloat knockback = 0.0;
 
 	DamageInfo damage;
 
@@ -476,7 +476,6 @@ bool parseObject(tinyxml2::XMLElement* elem, shared_ptr<bullet_properties>* resu
 
 	getStringAttr(elem, "sprite", &sprite);
 	getStringAttr(elem, "lightSource", &lightSource);
-	getNumericAttr(elem, "knockback", &knockback);
 	getNumericAttr(elem, "hitCount", &hitCount);
 	getNumericAttr(elem, "ricochet", &ricochetCount);
 	getNumericAttr(elem, "directionalLaunch", &directionalLaunch);
@@ -486,7 +485,6 @@ bool parseObject(tinyxml2::XMLElement* elem, shared_ptr<bullet_properties>* resu
 	*result = make_shared<bullet_properties>(bullet_properties{
 		speed,
 		dimensions,
-		knockback,
 		damage,
 		sprite,
 		lightSource,

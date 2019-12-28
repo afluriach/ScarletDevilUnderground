@@ -32,14 +32,10 @@ void explosion(const GObject* source, SpaceFloat radius, DamageInfo baseDamage)
 	for (GObject* target : targets)
 	{
 		DamageInfo crntDamage = baseDamage;
-
 		float scale = getExplosionScale(source, target, radius);
-		SpaceFloat knockback = baseDamage.mag * 5.0f * scale;
-
 		crntDamage = crntDamage*scale;
-		crntDamage.knockback = calculateExplosionKnockback(source, target, knockback);
 
-		target->hit(crntDamage);
+		target->hit(crntDamage, ai::directionToTarget(source, target->getPos()));
 		log("Hit %s at scale %f.", target->getName().c_str(), scale);
 	}
 }
@@ -62,12 +58,6 @@ float getExplosionScale(const SpaceVect& pos, const GObject* target, SpaceFloat 
 		return 1.0f - (dist - halfRadius) / halfRadius;
 }
 
-SpaceVect calculateExplosionKnockback(const GObject* source, GObject* target, SpaceFloat mag)
-{
-	SpaceVect d = ai::directionToTarget(source, target->getPos());
-	return d * mag;
-}
-
 void radialEffectArea(const GObject* source, SpaceFloat radius, GType targets, DamageInfo damage)
 {
 	unordered_set<Agent*> agents = source->space->physicsContext->radiusQueryByType<Agent>(
@@ -79,6 +69,6 @@ void radialEffectArea(const GObject* source, SpaceFloat radius, GType targets, D
 	);
 
 	for (Agent* agent : agents){
-		agent->hit(damage);
+		agent->hit(damage, ai::directionToTarget(source, agent->getPos()));
 	}
 }

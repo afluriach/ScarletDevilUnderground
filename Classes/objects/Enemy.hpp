@@ -55,7 +55,7 @@ public:
 
 	void runDamageFlicker();
 
-	virtual bool hit(DamageInfo damage);
+	virtual bool hit(DamageInfo damage, SpaceVect n);
 	virtual void onRemove();
 protected:
 	string drop_id;

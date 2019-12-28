@@ -162,7 +162,7 @@ public:
 	void printFSM();
 	void setFrozen(bool val);
 
-	virtual bool hit(DamageInfo damage);
+	virtual bool hit(DamageInfo damage, SpaceVect n);
 
 	//END LOGIC
 

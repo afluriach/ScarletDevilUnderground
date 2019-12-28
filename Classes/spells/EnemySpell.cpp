@@ -43,16 +43,15 @@ void TorchDarkness::update()
 	{
 		if (crnt->getActive())
 		{
-			crnt->hit(DamageInfo{effectMagnitude, Attribute::darknessDamage, DamageType::effectArea });
+			crnt->hit(DamageInfo(effectMagnitude, DamageType::effectArea, Attribute::darknessDamage, 0.0f), SpaceVect::zero);
 		}
 	}
 }
 
-const DamageInfo BlueFairyBomb::damage = DamageInfo{
+const DamageInfo BlueFairyBomb::damage = DamageInfo(
 	10.0f,
-	Attribute::end,
 	DamageType::effectArea
-};
+);
 const SpaceFloat BlueFairyBomb::length = 1.5;
 const SpaceFloat BlueFairyBomb::radius = 2.5;
 const SpaceFloat BlueFairyBomb::angularSpeed = float_pi * 0.5;

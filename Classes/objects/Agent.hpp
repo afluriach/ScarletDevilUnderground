@@ -98,12 +98,12 @@ public:
 	inline bool isShieldActive() const { return shieldActive; }
 	bool isShield(Bullet* b);
 	float getShieldCost(SpaceVect n);
-	virtual void onBulletCollide(Bullet* b);
+	virtual void onBulletCollide(Bullet* b, SpaceVect n);
 	void onTouchAgent(Agent* other);
 	void onEndTouchAgent(Agent* other);
 
 	inline virtual void onBulletHitTarget(Bullet* bullet, Agent* target) {}
-	virtual bool hit(DamageInfo damage);
+	virtual bool hit(DamageInfo damage, SpaceVect n);
 	void applyAttributeEffects(AttributeMap attributeEffects);
 	virtual DamageInfo touchEffect() const;
 

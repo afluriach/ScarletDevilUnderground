@@ -83,24 +83,23 @@ enum class DamageType
 
 struct DamageInfo
 {
+	static DamageInfo bomb(float mag);
+	static DamageInfo bullet(float mag);
+	static DamageInfo melee(float mag);
+
 	DamageInfo();
 	DamageInfo(float mag, DamageType type);
-	DamageInfo(float mag, Attribute element, DamageType type, SpaceVect knockback = SpaceVect::zero);
-
-	SpaceVect knockback = SpaceVect::zero;
+	DamageInfo(float mag, DamageType type, Attribute element, float knockback);
 
 	float mag = 0.0f;
+	float knockback = 0.0f;
 	//It is initialized to Attribute::end;
 	Attribute element;
-	DamageType type = DamageType::end;
+	DamageType type;
 
 	DamageInfo operator*(float rhs);
 	bool isExplosion();
 };
-
-#define bullet_damage(x) DamageInfo(x, Attribute::end, DamageType::bullet)
-#define bomb_damage(x) DamageInfo(x, Attribute::end, DamageType::bomb)
-#define melee_damage(x) DamageInfo(x, Attribute::end, DamageType::melee)
 
 struct app_params
 {

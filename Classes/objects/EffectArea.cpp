@@ -28,7 +28,7 @@ void EffectArea::update()
 	//GObject::update();
 
 	if (player){
-		player->hit(getDamageInfo());
+		player->hit(getDamageInfo(), SpaceVect::zero);
 	}
 }
 
@@ -47,7 +47,7 @@ GraphicsLayer SunArea::sceneLayer() const{
 }
 
 DamageInfo SunArea::getDamageInfo() const {
-	return DamageInfo{5.0f, Attribute::sunDamage, DamageType::effectArea};
+	return DamageInfo(5.0f, DamageType::effectArea, Attribute::sunDamage, 0.0f);
 }
 
 DarknessArea::DarknessArea(GSpace* space, ObjectIDType id, const ValueMap& args) :
@@ -83,7 +83,7 @@ void DarknessArea::update()
 DamageInfo DarknessArea::getDamageInfo() const {
 	return
 		active ? 
-		DamageInfo{5.0f, Attribute::darknessDamage, DamageType::effectArea} :
-		DamageInfo{}
+		DamageInfo(5.0f, DamageType::effectArea, Attribute::darknessDamage, 0.0f) :
+		DamageInfo()
 	;
 }

@@ -146,9 +146,14 @@ SpaceVect projectileEvasion(const GObject* bullet, const GObject* agent)
 	return trajectoryScaled - displacementToTarget;
 }
 
+SpaceVect directionToTarget(SpaceVect source, SpaceVect target)
+{
+	return (target - source).normalizeSafe();
+}
+
 SpaceVect directionToTarget(const GObject* agent, SpaceVect target)
 {
-    return (target - agent->getPos()).normalize();
+    return (target - agent->getPos()).normalizeSafe();
 }
 
 SpaceVect displacementToTarget(const GObject* agent, SpaceVect target)

@@ -382,8 +382,10 @@ void agentAgentEnd(Agent* a, Agent* b, b2Contact* arb)
 
 void agentBulletBegin(Agent* a, Bullet* b, b2Contact* contact)
 {
-	b->onAgentCollide(a, -1.0 * getBulletNormal(contact));
-	a->onBulletCollide(b);
+	SpaceVect n = getBulletNormal(contact);
+
+	b->onAgentCollide(a, -1.0 * n);
+	a->onBulletCollide(b, n);
 }
 
 void bulletBulletBegin(Bullet* _a, Bullet* _b, b2Contact* arb)

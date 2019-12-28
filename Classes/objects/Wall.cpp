@@ -31,7 +31,7 @@ Wall::Wall(GSpace* space, ObjectIDType id, SpaceVect center, SpaceVect dimension
 	breakable(breakable)
 {}
 
-bool Wall::hit(DamageInfo damage)
+bool Wall::hit(DamageInfo damage, SpaceVect n)
 {
 	if (!breakable || !damage.isExplosion()) {
 		return false;

@@ -69,7 +69,7 @@ void Bomb::detonate()
 	space->addGraphicsAction(&graphics_context::autoremoveLightSource, light, 1.0f);
 }
 
-bool Bomb::hit(DamageInfo damage)
+bool Bomb::hit(DamageInfo damage, SpaceVect n)
 {
 	if (damage.isExplosion()) {
 		detonate();
