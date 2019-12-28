@@ -75,6 +75,7 @@ namespace Lua{
 		addFuncSame(spellcost, ongoing_mp);
 		addFuncSame(spellcost, ongoing_stamina);
 
+		addFuncSame(spellcost, none);
 		addFuncSame(spellcost, initialMP);
 		addFuncSame(spellcost, initialStamina);
 		addFuncSame(spellcost, ongoingMP);

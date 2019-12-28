@@ -75,7 +75,7 @@ protected:
 };
 
 template<class C>
-inline static SpellGeneratorType make_spell_generator()
+inline SpellGeneratorType make_spell_generator()
 {
 	return [](GObject* caster) -> shared_ptr<Spell> {
 		return make_shared<C>(caster);
@@ -85,6 +85,7 @@ inline static SpellGeneratorType make_spell_generator()
 class ScriptedSpell : public Spell {
 public:
 	static spell_params getParams(string clsName);
+	static SpellGeneratorType generator(string clsName);
 
 	ScriptedSpell(GObject* caster, string clsName);
 	virtual ~ScriptedSpell();

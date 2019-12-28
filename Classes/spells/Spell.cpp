@@ -13,6 +13,11 @@
 #include "Spell.hpp"
 #include "SpellDescriptor.hpp"
 
+spell_cost spell_cost::none()
+{
+	return spell_cost{ 0.0f,0.0f,0.0f,0.0f };
+}
+
 spell_cost spell_cost::initialMP(float mp)
 {
 	return spell_cost{ mp, 0.0f, 0.0f, 0.0f };
@@ -100,6 +105,13 @@ spell_params ScriptedSpell::getParams(string clsName)
 
 	sol::function f = cls["getParams"];
 	return f ? f() : spell_params();
+}
+
+SpellGeneratorType ScriptedSpell::generator(string clsName)
+{
+	return [clsName](GObject* caster) -> shared_ptr<Spell> {
+		return make_shared<ScriptedSpell>(caster, clsName);
+	};
 }
 
 ScriptedSpell::ScriptedSpell(GObject* caster, string clsName) :

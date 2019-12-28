@@ -242,13 +242,23 @@
 	/>
 
 	<waterBullet
-		speed="-1.0"
 		radius="0.3"
 		damage="5.0"
 		sprite="waterBullet"
 		lightSource="waterBullet"
 		directionalLaunch="true"
 	/>
+	<waterBullet1
+		base="waterBullet"
+		speed="6.0"
+		damage="5.0"
+	/>
+	<waterBullet2
+		base="waterBullet"
+		speed="9.0"
+		damage="10.0"
+	/>
+	
 	<yinYangOrb
 		speed="4.5"
 		radius="0.5"

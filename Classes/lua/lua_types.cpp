@@ -8,6 +8,7 @@
 
 #include "Prefix.h"
 
+#include "Bullet.hpp"
 #include "LuaAPI.hpp"
 #include "MagicEffect.hpp"
 
@@ -158,6 +159,7 @@ namespace Lua{
 		auto _app = _state.create_table();
 		_state["app"] = _app;
 
+		_app["getBullet"] = &app::getBullet;
 		_app["getEffect"] = &app::getEffect;
 
 		_app["log"] = &log_print<>;

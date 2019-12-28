@@ -18,6 +18,7 @@ struct spell_cost
 	float ongoing_mp = 0.0f;
 	float ongoing_stamina = 0.0f;
 
+	static spell_cost none();
 	static spell_cost initialMP(float mp);
 	static spell_cost initialStamina(float stamina);
 	static spell_cost ongoingMP(float mp);

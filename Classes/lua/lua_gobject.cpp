@@ -62,6 +62,36 @@ namespace Lua{
 
 		addFuncSame(agent, modifyAttribute);
 
+		agent["launchBullet"] = sol::overload(
+			[](
+				Agent* agent,
+				shared_ptr<bullet_properties> props,
+				SpaceVect displacement,
+				SpaceFloat angle
+			) -> gobject_ref {
+				return agent->launchBullet(props, displacement, angle);
+			},
+			[](
+				Agent* agent,
+				shared_ptr<bullet_properties> props,
+				SpaceVect displacement,
+				SpaceFloat angle,
+				SpaceFloat angularVelocity
+			) -> gobject_ref {
+				return agent->launchBullet(props, displacement, angle, angularVelocity);
+			},
+			[](
+				Agent* agent,
+				shared_ptr<bullet_properties> props,
+				SpaceVect displacement,
+				SpaceFloat angle,
+				SpaceFloat angularVelocity,
+				bool obstacleCheck
+			) -> gobject_ref {
+				return agent->launchBullet(props, displacement, angle, angularVelocity, obstacleCheck);
+			}
+		);
+
 		addFuncSame(agent, setProtection);
 		addFuncSame(agent, setTimedProtection);
 		addFuncSame(agent, resetProtection);

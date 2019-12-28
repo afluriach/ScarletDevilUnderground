@@ -44,6 +44,7 @@ void GSpace::loadScriptVM()
 	scriptVM->runFile("scripts/ai-packages.lua");
 	scriptVM->runFile("scripts/magic-effects.lua");
 	scriptVM->runFile("scripts/spells/player-spells.lua");
+	scriptVM->runFile("scripts/spells/patchouli-spells.lua");
 }
 
 GSpace::GSpace(GScene* gscene) :

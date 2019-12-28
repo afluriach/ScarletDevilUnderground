@@ -120,8 +120,6 @@ const vector<string> Inst::luaIncludes = {
 		addFuncSame(app, addButtonAction);
 #endif
 		
-		app["getBullet"] = &app::getBullet;
-
 		auto app_consts = _state.create_table();
 		_state["app_constants"] = app_consts;
 		
@@ -267,6 +265,22 @@ const vector<string> Inst::luaIncludes = {
 		cFuncSame(graphics, freezeEffectEndAction);
 		cFuncSame(graphics, objectFadeOut);
 		cFuncSame(graphics, damageIndicatorAction);
+
+		auto util = _state.create_table();
+		_state["util"] = util;
+
+		//Lua does not support passing primitves by reference, thus sol does not
+		//support wrapping the C++ version of these functions.
+		util["timerDecrement"] = [](SpaceFloat input) -> SpaceFloat {
+			SpaceFloat result = input;
+			timerDecrement(result);
+			return result;
+		};
+		util["timerIncrement"] = [](SpaceFloat input) -> SpaceFloat {
+			SpaceFloat result = input;
+			timerIncrement(result);
+			return result;
+		};
 
 		addAI();
 		addGObject();
