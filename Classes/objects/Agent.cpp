@@ -100,27 +100,20 @@ object_ref<Bullet> Agent::spawnBullet(
 object_ref<Bullet> Agent::launchBullet(
 	shared_ptr<bullet_properties> props,
 	SpaceVect displacement,
-	SpaceFloat angle
+	SpaceFloat angle,
+	SpaceFloat angularVelocity,
+	bool obstacleCheck
 ) {
+	SpaceVect position = getPos() + displacement;
+
+	if (obstacleCheck && isBulletObstacle(position, props->dimensions.getMax()))
+		return nullptr;
+
 	return space->createBullet(
-		Bullet::makeParams(getPos() + displacement, angle),
+		Bullet::makeParams(position, angle, SpaceVect::zero, angularVelocity),
 		getBulletAttributes(props),
 		props
 	);
-}
-
-object_ref<Bullet> Agent::bulletImplCheckSpawn(
-	shared_ptr<object_params> params,
-	shared_ptr<bullet_properties> props
-) {
-	if (!isBulletObstacle(params->pos, props->dimensions.getMax()))
-		return space->createBullet(
-			params,
-			getBulletAttributes(props),
-			props
-		);
-	else
-		return nullptr;
 }
 
 void Agent::initFSM()

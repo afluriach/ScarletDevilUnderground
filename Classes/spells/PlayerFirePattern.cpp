@@ -59,14 +59,15 @@ bullet_properties StarbowBreak::generateProps(int angle)
 bool StarbowBreak::spawnBullet(int angle, bool left)
 {
 	double _angle = agent->getAngle() + angleStep * angle * (left ? 1.0 : -1.0);
-	SpaceVect pos = agent->getPos() + SpaceVect::ray(launchDist, _angle);
+	SpaceVect pos = SpaceVect::ray(launchDist, _angle);
 	float cost = baseCost * radiusScales[angle];
 	bool fired = false;
 
 	if (agent->getAttribute(Attribute::stamina) >= cost) {
-		fired = agent->bulletImplCheckSpawn(
-			Bullet::makeParams(pos,_angle), 
-			makeSharedCopy(generateProps(angle))
+		fired = agent->launchBullet(
+			makeSharedCopy(generateProps(angle)),
+			pos,
+			_angle 
 		).isFuture();
 
 		if (fired)
@@ -129,11 +130,12 @@ bool Catadioptric::spawnTail(SpaceFloat angleOffset)
 {
 	bool fired = false;
 	double _angle = agent->getAngle() + angleOffset;
-	SpaceVect pos = agent->getPos() + SpaceVect::ray(1.0, _angle);
+	SpaceVect pos = SpaceVect::ray(1.0, _angle);
 
-	fired |= agent->bulletImplCheckSpawn(
-		Bullet::makeParams(pos, _angle),
-		app::getBullet("catadioptricBullet1")
+	fired |= agent->launchBullet(
+		app::getBullet("catadioptricBullet1"),
+		pos,
+		_angle
 	).isFuture();
 
 	for_irange(i, 0, secondaryBulletCount)
@@ -147,9 +149,10 @@ bool Catadioptric::spawnTail(SpaceFloat angleOffset)
 		SpaceFloat actualAngle = _angle + getSpace()->getRandomFloat(-1.0f, 1.0f)*angleSpread / 4.0;
 		props->speed += -secondarySpeedVariation + step*i;
 
-		fired |= agent->bulletImplCheckSpawn(
-			Bullet::makeParams(pos, actualAngle),
-			props
+		fired |= agent->launchBullet(
+			props,
+			pos,
+			actualAngle
 		).isFuture();
 	}
 
@@ -165,9 +168,10 @@ bool Catadioptric::spawnTail(SpaceFloat angleOffset)
 
 		props->speed += -tertiarySpeedVariation + step * i;
 
-		fired |= agent->bulletImplCheckSpawn(
-			Bullet::makeParams(pos,actualAngle),
-			props
+		fired |= agent->launchBullet(
+			props,
+			pos,
+			actualAngle
 		).isFuture();
 	}
 

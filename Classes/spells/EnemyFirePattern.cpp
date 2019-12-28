@@ -49,10 +49,9 @@ bool ReimuWavePattern::fire()
 
 	SpaceVect pos = agent->getPos();
 	SpaceFloat angle = agent->getAngle();
-	auto params = Bullet::makeParams(pos, angle);
 
-	gobject_ref b1 = agent->bulletImplCheckSpawn(params, props);
-	gobject_ref b2 = agent->bulletImplCheckSpawn(params, props);
+	gobject_ref b1 = agent->launchBullet(props, SpaceVect::zero, angle);
+	gobject_ref b2 = agent->launchBullet(props, SpaceVect::zero, angle);
 
 	auto f1 = getParametricFunction(pos, angle, props->speed, 0.0);
 	auto f2 = getParametricFunction(pos, angle, props->speed, 0.5);

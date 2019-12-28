@@ -51,11 +51,9 @@ public:
 	object_ref<Bullet> launchBullet(
 		shared_ptr<bullet_properties> props,
 		SpaceVect displacement,
-		SpaceFloat angle
-	);
-	object_ref<Bullet> bulletImplCheckSpawn(
-		shared_ptr<object_params> params,
-		shared_ptr<bullet_properties> props
+		SpaceFloat angle,
+		SpaceFloat angularVelocity = 0.0,
+		bool obstacleCheck = true
 	);
 
 	void initFSM();

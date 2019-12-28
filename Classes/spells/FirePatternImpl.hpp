@@ -68,7 +68,7 @@ public:
 	virtual void update();
 protected:
 	bool createBullet(SpaceVect offset, SpaceFloat angle);
-	bool emit(SpaceVect origin, SpaceFloat angle, const bullet_emitter& be);
+	bool emit(SpaceFloat angle, const bullet_emitter& be);
 
 	shared_ptr<firepattern_properties> props;
 

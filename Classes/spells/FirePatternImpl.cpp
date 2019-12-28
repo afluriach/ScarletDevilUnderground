@@ -114,7 +114,7 @@ bool FirePatternImpl::fire()
 	SpaceFloat angle = props->rotate ? agent->getAngle() : 0.0;
 
 	for (auto emitter : props->emitters) {
-		bool _s = emit(origin, angle, emitter);
+		bool _s = emit(angle, emitter);
 		success = success || _s;
 	}
 
@@ -132,20 +132,16 @@ bool FirePatternImpl::fire()
 	return success;
 }
 
-bool FirePatternImpl::createBullet(SpaceVect pos, SpaceFloat angle)
+bool FirePatternImpl::createBullet(SpaceVect offset, SpaceFloat angle)
 {
-	gobject_ref ref = agent->bulletImplCheckSpawn(
-		Bullet::makeParams(pos, angle),
-		props->bullet
-	);
-
+	gobject_ref ref = agent->launchBullet(props->bullet, offset, angle);
 	return ref.isFuture();
 }
 
-bool FirePatternImpl::emit(SpaceVect origin, SpaceFloat angle, const bullet_emitter& be)
+bool FirePatternImpl::emit(SpaceFloat angle, const bullet_emitter& be)
 {
 	SpaceVect _offset = be.offset.rotate(angle);
 	SpaceFloat _angle = be.angle + angle;
 
-	return createBullet(origin + _offset, _angle);
+	return createBullet( _offset, _angle);
 }

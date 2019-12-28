@@ -95,20 +95,16 @@ bool ReimuYinYangOrbs::onEvent(Event event)
 {
 	if (event.isDetectPlayer() && !active) {
 		Agent* agent = getAgent();
+		auto props = app::getBullet("yinYangOrb");
 		for_irange(i, 0, orbCount)
 		{
 			SpaceFloat angle = float_pi * (0.25 + i * 0.5);
-			auto params = Bullet::makeParams(
-				agent->getPos() + SpaceVect::ray(1.5, angle),
+			orbs[i] = agent->launchBullet(
+				props,
+				SpaceVect::ray(1.5, angle),
 				angle,
-				SpaceVect::zero,
-				float_pi
-			);
-			auto props = app::getBullet("yinYangOrb");
-			orbs[i] = getSpace()->createBullet(
-				params,
-				agent->getBulletAttributes(props),
-				props
+				float_pi,
+				false
 			);
 		}
 		
