@@ -25,17 +25,15 @@ FireStarburst::FireStarburst(GObject* caster) :
 
 void FireStarburst::update()
 {
-	SpaceVect pos = caster->getPos();
 	for_irange(i, 0, 8)
 	{
 		SpaceFloat angle = float_pi * i / 4.0;
+		SpaceVect crntPos = SpaceVect::ray(1, angle);
 
-		SpaceVect crntPos = pos + SpaceVect::ray(1, angle);
-
-		getSpace()->createBullet(
-			Bullet::makeParams(pos,angle),
-			getCasterAs<Agent>()->getBulletAttributes(bulletProps),
-			bulletProps
+		getCasterAs<Agent>()->launchBullet(
+			bulletProps,
+			crntPos,
+			angle
 		);
 	}
 }
@@ -54,21 +52,20 @@ FlameFence::FlameFence(GObject* caster) :
 
 void FlameFence::init()
 {
-	SpaceVect center = caster->getPos();
-
 	for (int y = -10; y < 10; y += 2)
 	{
 		SpaceVect rowSkew(y % 2 ? 0.5 : 0, 0);
 		for (int x = -10; x < 10; x += 2)
 		{
-			SpaceVect pos(center);
-			pos += SpaceVect(x, y) + rowSkew;
+			SpaceVect pos = SpaceVect(x, y) + rowSkew;
 
-			bullets.push_back(getSpace()->createBullet(
-				Bullet::makeParams(pos,0.0f),
-				getCasterAs<Agent>()->getBulletAttributes(bulletProps),
-				bulletProps
-			));
+			getCasterAs<Agent>()->spawnBullet(
+				bulletProps,
+				pos,
+				SpaceVect::zero,
+				0.0,
+				0.0
+			);
 		}
 	}
 }
@@ -123,10 +120,10 @@ void Whirlpool1::update()
 	if (shotTimer <= 0.0) {
 
 		for_irange(i, 0, 6) {
-			getSpace()->createBullet(
-				Bullet::makeParams(pos + SpaceVect::ray(1.0, angles[i]), angles[i]),
-				getCasterAs<Agent>()->getBulletAttributes(bulletProps),
-				bulletProps
+			getCasterAs<Agent>()->launchBullet(
+				bulletProps,
+				SpaceVect::ray(1.0, angles[i]),
+				angles[i]
 			);
 		}
 
@@ -190,10 +187,10 @@ void Whirlpool2::update()
 	if (shotTimer <= 0.0) {
 
 		for_irange(i, 0, 12) {
-			getSpace()->createBullet(
-				Bullet::makeParams(pos + SpaceVect::ray(1.0, angles[i]), angles[i]),
-				getCasterAs<Agent>()->getBulletAttributes(bulletProps),
-				bulletProps
+			getCasterAs<Agent>()->launchBullet(
+				bulletProps,
+				SpaceVect::ray(1.0, angles[i]),
+				angles[i]
 			);
 		}
 

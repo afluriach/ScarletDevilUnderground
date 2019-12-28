@@ -48,6 +48,11 @@ public:
 		SpaceFloat angle,
 		SpaceFloat angularVelocity
 	);
+	object_ref<Bullet> launchBullet(
+		shared_ptr<bullet_properties> props,
+		SpaceVect displacement,
+		SpaceFloat angle
+	);
 	object_ref<Bullet> bulletImplCheckSpawn(
 		shared_ptr<object_params> params,
 		shared_ptr<bullet_properties> props

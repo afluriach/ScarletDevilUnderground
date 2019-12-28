@@ -97,6 +97,18 @@ object_ref<Bullet> Agent::spawnBullet(
 	);
 }
 
+object_ref<Bullet> Agent::launchBullet(
+	shared_ptr<bullet_properties> props,
+	SpaceVect displacement,
+	SpaceFloat angle
+) {
+	return space->createBullet(
+		Bullet::makeParams(getPos() + displacement, angle),
+		getBulletAttributes(props),
+		props
+	);
+}
+
 object_ref<Bullet> Agent::bulletImplCheckSpawn(
 	shared_ptr<object_params> params,
 	shared_ptr<bullet_properties> props
