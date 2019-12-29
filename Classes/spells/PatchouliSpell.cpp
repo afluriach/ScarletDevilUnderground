@@ -59,13 +59,13 @@ void FlameFence::init()
 		{
 			SpaceVect pos = SpaceVect(x, y) + rowSkew;
 
-			getCasterAs<Agent>()->spawnBullet(
+			bullets.push_back(getCasterAs<Agent>()->spawnBullet(
 				bulletProps,
 				pos,
 				SpaceVect::zero,
 				0.0,
 				0.0
-			);
+			));
 		}
 	}
 }
