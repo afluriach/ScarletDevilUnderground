@@ -12,7 +12,6 @@
 #include "PatchouliSpell.hpp"
 #include "PlayerSpell.hpp"
 #include "RumiaSpells.hpp"
-#include "SakuyaSpell.hpp"
 #include "Spell.hpp"
 #include "SpellDescriptor.hpp"
 
@@ -33,7 +32,7 @@ const unordered_map<string, shared_ptr<SpellDesc>> Spell::spellDescriptors = {
 	entry_same(DarknessSignDemarcation2),
 	entry_same(FireStarburst),
 	entry_same(FlameFence),
-	entry_same(IllusionDial),
+	script_entry(IllusionDial),
 	entry_same(LavaeteinnSpell),
 	entry_same(NightSignPinwheel),
 	entry_same(PlayerBatMode),

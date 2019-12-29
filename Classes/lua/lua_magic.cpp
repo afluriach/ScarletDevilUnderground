@@ -94,9 +94,7 @@ namespace Lua{
 		auto spell = _state.new_usertype<Spell>("Spell");
 #define _cls Spell
 
-		spell["onEnter"] = &Spell::init;
-		spell["update"] = &Spell::update;
-		spell["onExit"] = &Spell::end;
+		spell["runEnd"] = &Spell::runEnd;
 
 		spell["getCasterObject"] = &Spell::getCasterAs<GObject>;
 		spell["getCasterAsAgent"] = &Spell::getCasterAs<Agent>;

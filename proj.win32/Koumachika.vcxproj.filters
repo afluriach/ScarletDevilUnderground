@@ -243,9 +243,6 @@
     <ClCompile Include="..\Classes\spells\EnemySpell.cpp">
       <Filter>src\spells</Filter>
     </ClCompile>
-    <ClCompile Include="..\Classes\spells\SakuyaSpell.cpp">
-      <Filter>src\spells</Filter>
-    </ClCompile>
     <ClCompile Include="..\Classes\ai\AIFunctions.cpp">
       <Filter>src\ai</Filter>
     </ClCompile>
@@ -591,9 +588,6 @@
       <Filter>src\spells</Filter>
     </ClInclude>
     <ClInclude Include="..\Classes\spells\EnemySpell.hpp">
-      <Filter>src\spells</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Classes\spells\SakuyaSpell.hpp">
       <Filter>src\spells</Filter>
     </ClInclude>
     <ClInclude Include="..\Classes\ai\AIFunctions.hpp">

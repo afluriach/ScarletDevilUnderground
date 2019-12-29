@@ -30,6 +30,7 @@ namespace Lua{
 
 		_ai["isFacingTarget"] = &ai::isFacingTarget;
 		_ai["isFacingTargetsBack"] = &ai::isFacingTargetsBack;
+		_ai["viewAngleToTarget"] = &ai::viewAngleToTarget;
 
 		auto _update_return = _ai.new_usertype<ai::update_return>(
 			"update_return",

@@ -221,13 +221,18 @@ const vector<string> Inst::luaIncludes = {
 		gspace["createObject"] = static_cast<gobject_ref(GSpace::*)(const ValueMap&)>(&GSpace::createObject);
 		gspace["getObjectByName"] = static_cast<GObject*(GSpace::*)(const string&) const>(&GSpace::getObject);
 		addFuncSame(gspace, createBullet);
+		addFuncSame(gspace, getPlayer);
 		addFuncSame(gspace, getPlayerAsRef);
 		addFuncSame(gspace, getFrame);
 		addFuncSame(gspace, getObjectCount);
 		addFuncSame(gspace, getObjectNames);
 		addFuncSame(gspace, getUUIDNameMap);
 		addFuncSame(gspace, isObstacle);
-		gspace["removeObject"] = static_cast<void(GSpace::*)(const string&)>(&GSpace::removeObject);
+		gspace["removeObject"] = sol::overload(
+			static_cast<void(GSpace::*)(const string&)>(&GSpace::removeObject),
+			static_cast<void(GSpace::*)(gobject_ref)>(&GSpace::removeObject),
+			static_cast<void(GSpace::*)(GObject*)>(&GSpace::removeObject)
+		);
 		addFuncSame(gspace, getRandomInt);
 		gspace["getRandomFloat"] = sol::overload(
 			static_cast<float(GSpace::*)()>(&GSpace::getRandomFloat),

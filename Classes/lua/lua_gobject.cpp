@@ -39,6 +39,7 @@ namespace Lua{
 		addFuncSame(gobject, setVel);
 		addFuncSame(gobject, setSpriteOpacity);
 		addFuncSame(gobject, setVel);
+		addFuncSame(gobject, launchAtTarget);
 		addFuncSame(gobject, setLayers);
 		addFuncSame(gobject, setFrozen);
 		addFuncSame(gobject, setInhibitSpellcasting);
@@ -59,6 +60,7 @@ namespace Lua{
 		addFuncSame(agent, getAttribute);
 		addFuncSame(agent, getAttributeSystem);
 		addFuncSame(agent, getBulletAttributes);
+		addFuncSame(agent, spawnBullet);
 
 		addFuncSame(agent, modifyAttribute);
 

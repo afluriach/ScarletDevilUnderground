@@ -18,7 +18,6 @@
 #include "Player.hpp"
 #include "RadarSensor.hpp"
 #include "RumiaSpells.hpp"
-#include "SakuyaSpell.hpp"
 
 namespace ai{
 
@@ -235,7 +234,7 @@ void SakuyaMain::onEnter()
 
 update_return SakuyaMain::update()
 {
-	return_push(fsm->make<Cast>(make_spell_generator<IllusionDial>()));
+	return_push(fsm->make<Cast>(ScriptedSpell::generator("IllusionDial")));
 }
 
 const SpaceFloat IllusionDash::scale = 2.5;

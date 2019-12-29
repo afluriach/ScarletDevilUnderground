@@ -58,9 +58,10 @@ public:
 	inline virtual void init() {}
 	inline virtual void update() {}
 	inline virtual void end() {}
+
+	void runEnd();
 protected:
 	void runUpdate();
-	void runEnd();
 
 	//spell_params
 	spell_cost _cost;
