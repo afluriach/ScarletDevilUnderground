@@ -144,6 +144,7 @@ namespace Lua{
 		damageInfo["type"] = &DamageInfo::type;
 		damageInfo["scale"] = &DamageInfo::operator*;
 
+#define _cls SpaceVect
 		auto vect = _state.new_usertype<SpaceVect>(
 			"SpaceVect",
 			sol::constructors<
@@ -152,10 +153,33 @@ namespace Lua{
 				SpaceVect(SpaceFloat,SpaceFloat)
 			>(),
 			sol::meta_function::addition,
-			sol::resolve<SpaceVect(const SpaceVect&,const SpaceVect&)>(&operator+)
+			sol::resolve<SpaceVect(const SpaceVect&,const SpaceVect&)>(&operator+),
+			sol::meta_function::subtraction,
+			sol::resolve<SpaceVect(const SpaceVect&, const SpaceVect&)>(&operator-)
 		);
 
-		vect["ray"] = &SpaceVect::ray;
+		vect["scale"] = static_cast<SpaceVect(*)(const SpaceVect&, SpaceFloat)>(&operator*);
+		vect["divide"] = static_cast<SpaceVect(*)(const SpaceVect&, SpaceFloat)>(&operator/);
+		addFuncSame(vect, length);
+		addFuncSame(vect, lengthSq);
+		addFuncSame(vect, setMag);
+		addFuncSame(vect, isZero);
+		vect["normalize"] = &SpaceVect::normalizeSafe;
+		addFuncSame(vect, clamp);
+		addFuncSame(vect, toAngle);
+		vect["rotate"] = [](SpaceVect v, SpaceFloat a) -> SpaceVect { return v.rotate(a); };
+		addFuncSame(vect, getMax);
+
+		addFuncSame(vect, x);
+		addFuncSame(vect, y);
+
+		addFuncSame(vect, ray);
+		addFuncSame(vect, dot);
+		addFuncSame(vect, cross);
+		addFuncSame(vect, project);
+		addFuncSame(vect, dist);
+		addFuncSame(vect, distSq);
+		addFuncSame(vect, fuzzyMatch);
 
 #define _cls app_params
 		auto params = _state.new_usertype<app_params>("app_params");
