@@ -90,7 +90,7 @@ end
 
 function spells.IllusionDial:onExit()
 	for i,ref in ipairs(self.bullets) do
-		if ref:isValid() then
+		if ref:isValid() and not self.launch_flags[i] then
 			self.super:getSpace():removeObject(ref)
 		end
 	end
