@@ -101,6 +101,7 @@ namespace Lua{
 		spell["getCasterObject"] = &Spell::getCasterAs<GObject>;
 		spell["getCasterAsAgent"] = &Spell::getCasterAs<Agent>;
 		spell["getCasterAsPlayer"] = &Spell::getCasterAs<Player>;
+		spell["getSpace"] = &Spell::getSpace;
 
 		auto spell_desc = _state.new_usertype<SpellDesc>("SpellDescriptor");
 #define _cls SpellDesc

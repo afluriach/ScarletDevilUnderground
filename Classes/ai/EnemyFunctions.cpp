@@ -14,7 +14,6 @@
 #include "EnemyFunctions.hpp"
 #include "EnemySpell.hpp"
 #include "Graphics.h"
-#include "MarisaSpell.hpp"
 #include "MiscMagicEffects.hpp"
 #include "Player.hpp"
 #include "RadarSensor.hpp"
@@ -78,7 +77,7 @@ void MarisaForestMain::onEnter()
 
 update_return MarisaForestMain::update()
 {
-	return_push(fsm->make<ai::Cast>(make_spell_generator<StarlightTyphoon>()));
+	return_push(fsm->make<ai::Cast>(ScriptedSpell::generator("StarlightTyphoon")));
 }
 
 ReimuYinYangOrbs::ReimuYinYangOrbs(StateMachine* fsm) :

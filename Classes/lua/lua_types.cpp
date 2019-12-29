@@ -146,7 +146,13 @@ namespace Lua{
 
 		auto vect = _state.new_usertype<SpaceVect>(
 			"SpaceVect",
-			sol::constructors<SpaceVect()>()
+			sol::constructors<
+				SpaceVect(),
+				SpaceVect(const SpaceVect&),
+				SpaceVect(SpaceFloat,SpaceFloat)
+			>(),
+			sol::meta_function::addition,
+			sol::resolve<SpaceVect(const SpaceVect&,const SpaceVect&)>(&operator+)
 		);
 
 		vect["ray"] = &SpaceVect::ray;
@@ -155,6 +161,15 @@ namespace Lua{
 		auto params = _state.new_usertype<app_params>("app_params");
 		
 		addFuncSame(params, getFrameInterval);
+		addFuncSame(params, width);
+		addFuncSame(params, height);
+		addFuncSame(params, fullscreen);
+		addFuncSame(params, vsync);
+		addFuncSame(params, showTimers);
+		addFuncSame(params, difficultyScale);
+		addFuncSame(params, unlockAllEquips);
+		addFuncSame(params, framesPerSecond);
+		addFuncSame(params, secondsPerFrame);
 
 		auto _app = _state.create_table();
 		_state["app"] = _app;

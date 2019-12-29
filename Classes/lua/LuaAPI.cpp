@@ -186,6 +186,16 @@ const vector<string> Inst::luaIncludes = {
 
 		bullet_props["clone"] = &bullet_properties::clone;
 
+		#define _cls bullet_attributes
+		auto bullet_attr = _state.new_usertype<bullet_attributes>("bullet_attributes");
+		addFuncSame(bullet_attr, getDefault);
+		addFuncSame(bullet_attr, casterVelocity);
+		addFuncSame(bullet_attr, caster);
+		addFuncSame(bullet_attr, type);
+		addFuncSame(bullet_attr, size);
+		addFuncSame(bullet_attr, attackDamage);
+		addFuncSame(bullet_attr, bulletSpeed);
+
 		auto gscene = newType(GScene);
 		#define _cls GScene
 
@@ -218,7 +228,12 @@ const vector<string> Inst::luaIncludes = {
 		addFuncSame(gspace, getUUIDNameMap);
 		addFuncSame(gspace, isObstacle);
 		gspace["removeObject"] = static_cast<void(GSpace::*)(const string&)>(&GSpace::removeObject);
-			
+		addFuncSame(gspace, getRandomInt);
+		gspace["getRandomFloat"] = sol::overload(
+			static_cast<float(GSpace::*)()>(&GSpace::getRandomFloat),
+			static_cast<float(GSpace::*)(float,float)>(&GSpace::getRandomFloat)
+		);
+
 		auto gstate = newType(GState);
 		#define _cls GState
 

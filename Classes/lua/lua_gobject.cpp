@@ -104,7 +104,11 @@ namespace Lua{
 		auto player = _state.new_usertype<Player>("Player", sol::base_classes, sol::bases<Agent>());
 
 		auto bullet = _state.new_usertype<Bullet>("Bullet", sol::base_classes, sol::bases<GObject>());
-		bullet["makeParams"] = &Bullet::makeParams;
+		bullet["makeParams"] = sol::overload(
+			[](SpaceVect pos, SpaceFloat angle)->shared_ptr<object_params> { return Bullet::makeParams(pos, angle); },
+			[](SpaceVect pos, SpaceFloat angle, SpaceVect vel)->shared_ptr<object_params> { return Bullet::makeParams(pos, angle, vel); },
+			[](SpaceVect pos, SpaceFloat angle, SpaceVect vel, SpaceFloat angularVel)->shared_ptr<object_params> { return Bullet::makeParams(pos, angle, vel,angularVel); }
+		);
 
 		auto torch = _state.new_usertype<Torch>("Torch", sol::base_classes, sol::bases <GObject>());
 #define _cls Torch

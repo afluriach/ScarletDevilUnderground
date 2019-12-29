@@ -9,7 +9,6 @@
 #include "Prefix.h"
 
 #include "EnemySpell.hpp"
-#include "MarisaSpell.hpp"
 #include "PatchouliSpell.hpp"
 #include "PlayerSpell.hpp"
 #include "RumiaSpells.hpp"
@@ -41,7 +40,7 @@ const unordered_map<string, shared_ptr<SpellDesc>> Spell::spellDescriptors = {
 	entry_same(PlayerCounterClock),
 	entry_same(PlayerIceShield),
 	entry_same(PlayerScarletRose),
-	entry_same(StarlightTyphoon),
+	script_entry(StarlightTyphoon),
 	entry_same(TorchDarkness),
 	script_entry(Whirlpool1),
 	script_entry(Whirlpool2),

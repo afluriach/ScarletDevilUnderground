@@ -10,7 +10,6 @@
 
 #include "AIFunctions.hpp"
 #include "Marisa.hpp"
-#include "MarisaSpell.hpp"
 
 class GObject;
 
