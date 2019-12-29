@@ -9,7 +9,6 @@
 #include "Prefix.h"
 
 #include "EnemySpell.hpp"
-#include "PatchouliSpell.hpp"
 #include "PlayerSpell.hpp"
 #include "RumiaSpells.hpp"
 #include "Spell.hpp"
@@ -30,8 +29,8 @@ const unordered_map<string, shared_ptr<SpellDesc>> Spell::spellDescriptors = {
 	script_entry(DarkMist),
 	entry_same(DarknessSignDemarcation),
 	entry_same(DarknessSignDemarcation2),
-	entry_same(FireStarburst),
-	entry_same(FlameFence),
+	script_entry(FireStarburst),
+	script_entry(FlameFence),
 	script_entry(IllusionDial),
 	entry_same(LavaeteinnSpell),
 	entry_same(NightSignPinwheel),

@@ -1,3 +1,63 @@
+spells.FireStarburst = class('FireStarburst', {
+	name = 'Fire Starburst',
+	description = '',
+	getParams = function()
+		return spell_params.new(-1.0, 0.5, spell_cost.none())		
+	end,
+	init = function(self, super)
+		self.super = super
+		self.props = app.getBullet('fireStarburstBullet')
+		self.agent = super:getCasterAsAgent()
+	end,
+	update = function(self)
+		for i=0,7 do
+			local angle = math.pi * i * 0.25
+			local pos = SpaceVect.ray(1.0, angle)
+			
+			self.agent:launchBullet(self.props, pos, angle)
+		end
+	end
+})
+
+spells.FlameFence = class('FlameFence', {
+	name = 'Flame Fence',
+	description = '',
+	getParams = function()
+		return spell_params.new(-1.0, 0.0, spell_cost.none())		
+	end,
+	init = function(self, super)
+		self.bullets = {}
+		self.super = super
+		self.props = app.getBullet('fireFenceBullet')
+		self.agent = super:getCasterAsAgent()
+	end,
+	onEnter = function(self)
+		for y=-10,10,2 do
+			local rowSkew = SpaceVect.new( y % 2 ~= 0 and 0.5 or 0.0, 0.0 )
+			
+			for x=-10,10,2 do
+				local pos = SpaceVect.new(x,y) + rowSkew
+				local ref = self.agent:spawnBullet(
+					self.props,
+					pos,
+					SpaceVect.new(),
+					0.0,
+					0.0
+				)
+				self.bullets[ref] = true
+			end
+		end
+	end,
+	onExit = function(self)
+		local space = self.super:getSpace()
+		for ref, _v in pairs(self.bullets) do
+			if ref:isValid() then
+				space:removeObject(ref)
+			end
+		end
+	end
+})
+
 spells.Whirlpool1 = class('Whirlpool1', {
 	name = 'Whirlpool',
 	description = '',

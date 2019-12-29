@@ -137,6 +137,18 @@
 		radius="0.3"
 		damage="5.0"
 		sprite="fireBullet"
+		directionalLaunch="false"
+	/>
+	<fireFenceBullet
+		base="fireBullet"
+		
+		speed = "0.0"
+		directionalLaunch="false"
+	/>
+	<fireStarburstBullet
+		base="fireBullet"
+		
+		speed = "6.0"
 		directionalLaunch="true"
 	/>
 	<greenFairyBullet

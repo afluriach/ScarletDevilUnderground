@@ -11,7 +11,7 @@
 #include "AIFunctions.hpp"
 #include "GState.hpp"
 #include "Patchouli.hpp"
-#include "PatchouliSpell.hpp"
+#include "Spell.hpp"
 
 Patchouli::Patchouli(GSpace* space, ObjectIDType id, const ValueMap& args) :
 	NPC(
@@ -54,8 +54,8 @@ const vector<float_pair> PatchouliEnemy::intervals = {
 };
 
 const vector<SpellGeneratorType> PatchouliEnemy::spells = {
-	make_spell_generator<FireStarburst>(),
-	make_spell_generator<FlameFence>(),
+	ScriptedSpell::generator("FireStarburst"),
+	ScriptedSpell::generator("FlameFence"),
 	ScriptedSpell::generator("Whirlpool1"),
 	ScriptedSpell::generator("Whirlpool2"),
 };
