@@ -21,11 +21,7 @@ function spells.IllusionDial:init(super)
 	self.super = super
 	self.agent = super:getCasterAsAgent()
 	self.timeSinceLastFire = 0.0
-	self.bullets = {}
-	self.launch_flags = {}
-	for i=1,self.count do
-		self.launch_flags[i] = false
-	end
+	self.bullets = gobject_ref_unordered_set()
 end
 
 function spells.IllusionDial:onEnter()
@@ -33,13 +29,14 @@ function spells.IllusionDial:onEnter()
 	self.props = app.getBullet('illusionDialDagger')
 	
 	for i=1,self.count do
-		self.bullets[i] = self.agent:spawnBullet(
+		local ref = self.agent:spawnBullet(
 			self.props,
 			SpaceVect.ray(self.radius, self.arc_start + i * self.arc_spacing),
 			SpaceVect.new(),
 			0.0,
 			i % 2 ~= 0 and self.angular_speed or -self.angular_speed
 		)
+		self.bullets[ref] = true
 	end
 end
 
@@ -57,40 +54,34 @@ function spells.IllusionDial:update()
 end
 
 function spells.IllusionDial:allBulletsConsumed()
-	for i=1,self.count do
-		if self.bullets[i]:isValid() and not self.launch_flags[i] then
-			return false
-		end
-	end
-	
-	return true
+	return self.bullets:size() == 0
 end
 
 function spells.IllusionDial:tryLaunch()
-	local best = -1
+	local best
 	local best_angle = math.pi
 	local target = self.targetRef:get()
 	
-	for i=1,self.count do
-		if self.bullets[i]:isValid() and not self.launch_flags[i] then
-			local crnt = ai.viewAngleToTarget(self.bullets[i]:get(),target)
+	for _i, ref in pairs(self.bullets) do
+		if ref:isValid() then
+			local crnt = ai.viewAngleToTarget(ref:get(),target)
 			if crnt ~= math.huge and math.abs(crnt) < best_angle then
-				best = i
+				best = ref
 				best_angle = math.abs(crnt)
 			end
 		end
 	end
 	
-	if best ~= -1 and best_angle < self.max_angle_margin then
-		self.bullets[best]:get():launchAtTarget(target)
-		self.launch_flags[best] = true
+	if best and best_angle < self.max_angle_margin then
+		best:get():launchAtTarget(target)
+		self.bullets[best] = nil
 		self.timeSinceLastFire = 0.0
 	end
 end
 
 function spells.IllusionDial:onExit()
-	for i,ref in ipairs(self.bullets) do
-		if ref:isValid() and not self.launch_flags[i] then
+	for _i,ref in pairs(self.bullets) do
+		if ref:isValid() then
 			self.super:getSpace():removeObject(ref)
 		end
 	end

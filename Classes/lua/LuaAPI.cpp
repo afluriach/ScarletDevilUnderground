@@ -155,7 +155,14 @@ const vector<string> Inst::luaIncludes = {
 		addFuncSame(attr, setFullMP);
 		addFuncSame(attr, setFullStamina);
 
-		auto objref = newType(gobject_ref);
+		auto objref = _state.new_usertype<gobject_ref>(
+			"gobject_ref",
+			sol::constructors<
+			gobject_ref(),
+			gobject_ref(const gobject_ref&),
+			gobject_ref(const GObject*)
+			>()
+		);
 		objref["isValid"] = &gobject_ref::isValid;
 		objref["isFuture"] = &gobject_ref::isFuture;
 		objref["get"] = &gobject_ref::get;
