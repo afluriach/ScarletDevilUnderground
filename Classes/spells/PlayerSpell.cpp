@@ -41,7 +41,7 @@ void LavaeteinnSpell::init()
 	SpaceFloat angle = canonicalAngle(caster->getAngle() - angleWidth);
 	speedScale = getCasterAs<Agent>()->getAttribute(Attribute::attackSpeed);
 
-	lavaeteinnBullet = getCasterAs<Agent>()->spawnBullet(
+	lavaeteinnBullet = spawnBullet(
 		props,
 		SpaceVect::ray(1.5, angle),
 		SpaceVect::zero,
@@ -64,7 +64,7 @@ void LavaeteinnSpell::update()
 
 	if (fireTimer <= 0.0) {
 		auto props = app::getBullet("flandreFastOrb1");
-		getCasterAs<Agent>()->launchBullet(props, SpaceVect::ray(2.0, angularPos), angularPos);
+		launchBullet(props, SpaceVect::ray(2.0, angularPos), angularPos);
 		fireTimer = length / bulletSpawnCount;
 	}
 }
@@ -102,7 +102,7 @@ void PlayerCounterClock::init()
 	{
 		SpaceVect disp = SpaceVect::ray(2.0 + offset, (i/2.0) * float_pi);
 
-		bullets[i] = p->spawnBullet(props, disp, SpaceVect::zero, (i / 2.0) * float_pi, 0.0);
+		bullets[i] = spawnBullet(props, disp, SpaceVect::zero, (i / 2.0) * float_pi, 0.0);
 	}
 }
 
@@ -170,7 +170,7 @@ void PlayerScarletRose::update()
 	if (launchCount < fireCount) {
 		for_irange(i, 0, 8) {
 			SpaceFloat t = float_pi / B * i;
-			gobject_ref ref = getCasterAs<Agent>()->spawnBullet(
+			gobject_ref ref = spawnBullet(
 				props,
 				SpaceVect::zero,
 				SpaceVect::zero,
@@ -223,7 +223,7 @@ void PlayerIceShield::init()
 	{
 		SpaceFloat angle = (1.0 * i / bulletCount) * (float_pi * 2.0);
 
-		bullets[i] = getCasterAs<Agent>()->spawnBullet(
+		bullets[i] = spawnBullet(
 			props,
 			SpaceVect::ray(distance, angle),
 			SpaceVect::zero,
