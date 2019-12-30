@@ -24,6 +24,7 @@ class PlayScene;
 class RadarSensor;
 class Replay;
 class RoomSensor;
+class SpellSystem;
 
 #define OBJS_FROM_ARB \
     GObject* a = static_cast<GObject*>(arb->body_a_private->data); \
@@ -42,6 +43,7 @@ public:
 	friend class GScene;
 	friend class physics_context;
 	friend class PhysicsImpl;
+	friend class SpellSystem;
 	typedef pair<ObjectGeneratorType, ObjectIDType> generator_pair;
 
 	static void loadScriptVM();
@@ -336,6 +338,7 @@ public:
 	audio_context* audioContext;
 	unique_ptr<physics_context> physicsContext;
 	unique_ptr<MagicEffectSystem> magicEffectSystem;
+	unique_ptr<SpellSystem> spellSystem;
 
 protected:
 //LOGIC

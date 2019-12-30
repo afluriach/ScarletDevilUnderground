@@ -33,13 +33,11 @@ const boost::bimap<Attribute, string> AttributeSystem::attributeNameMap = boost:
 	entry(mp)
 	entry(stamina)
 	entry(hitProtection)
-	entry(spellCooldown)
 
 	entry(maxHP)
 	entry(maxMP)
 	entry(maxStamina)
 	entry(hitProtectionInterval)
-	entry(spellCooldownInterval)
 
 	entry(hpRegen)
 	entry(mpRegen)
@@ -420,11 +418,6 @@ void AttributeSystem::setEmptyMP()
 void AttributeSystem::setHitProtection()
 {
 	attributes.at(to_size_t(Attribute::hitProtection)) = attributes.at(to_size_t(Attribute::hitProtectionInterval));
-}
-
-void AttributeSystem::setSpellCooldown()
-{
-	attributes.at(to_size_t(Attribute::spellCooldown)) = attributes.at(to_size_t(Attribute::spellCooldownInterval));
 }
 
 void AttributeSystem::resetCombo()

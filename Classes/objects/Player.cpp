@@ -30,11 +30,13 @@
 #include "PlayerSpell.hpp"
 #include "PlayScene.hpp"
 #include "SpellDescriptor.hpp"
+#include "SpellSystem.hpp"
 #include "Upgrade.hpp"
 
 const float Player::centerLookHoldThresh = 0.3f;
 const float Player::interactCooldownTime = 0.1f;
 const float Player::bombCooldownTime = 1.0f;
+const float Player::spellCooldownTime = 1.0f;
 
 const float Player::hitFlickerInterval = 0.333f;
 
@@ -234,11 +236,12 @@ void Player::checkMovementControls(const ControlInfo& cs)
 
 void Player::updateSpellControls(const ControlInfo& cs)
 {
-	if (crntSpell.get() && cs.isControlActionPressed(ControlAction::spell))
+	if (crntSpell && cs.isControlActionPressed(ControlAction::spell))
 	{
-		stopSpell();
+		space->spellSystem->stopSpell(crntSpell);
+		crntSpell = 0;
 	}
-	else if(!crntSpell.get() && spells.size() > 0 && spellIdx != -1)
+	else if(!crntSpell && spells.size() > 0 && spellIdx != -1)
     {		
 		if (cs.isControlActionPressed(ControlAction::spell_previous)) {
 			--spellIdx;
@@ -253,19 +256,20 @@ void Player::updateSpellControls(const ControlInfo& cs)
 			space->addHudAction(&HUD::setSpellIcon, spells.at(spellIdx)->getIcon());
 		}
 		
-		SpellDesc* equippedSpell = nullptr;
+		shared_ptr<SpellDesc> equippedSpell;
 
 		if (spellIdx >= 0 && spellIdx < to_int(spells.size())) {
-			equippedSpell = spells.at(spellIdx).get();
+			equippedSpell = spells.at(spellIdx);
 		}
 
 		if (
 			!inhibitSpellcasting && 
 			cs.isControlActionPressed(ControlAction::spell) &&
 			equippedSpell &&
-			!attributeSystem.isNonzero(Attribute::spellCooldown)
+			spellCooldown <= 0.0f
 		) {
-			if (cast(equippedSpell->generate(this))) {
+			crntSpell = space->spellSystem->cast(equippedSpell, this);
+			if (crntSpell) {
 				attributeSystem.resetCombo();
 				playSoundSpatial("sfx/player_spellcard.wav");
 			}
@@ -276,11 +280,11 @@ void Player::updateSpellControls(const ControlInfo& cs)
 void Player::onSpellStop()
 {
 	if (!isPowerAttack) {
-		attributeSystem.setSpellCooldown();
+		spellCooldown = spellCooldownTime;
 
 		space->addHudAction(
 			&HUD::runMagicFlicker,
-			getAttribute(Attribute::spellCooldownInterval),
+			spellCooldownTime,
 			hitFlickerInterval
 		);
 	}
@@ -335,10 +339,10 @@ void Player::checkFireControls(const ControlInfo& cs)
 		!suppressFiring &&
 		cs.isControlActionPressed(ControlAction::power_attack) &&
 		powerAttackIdx != -1 &&
-		!isSpellActive()
+		!crntSpell
 	)
 	{
-		if (cast(powerAttacks.at(powerAttackIdx)->generate(this))) {
+		if ( space->spellSystem->cast(powerAttacks.at(powerAttackIdx), this)) {
 			playSoundSpatial("sfx/player_power_attack.wav");
 			isPowerAttack = true;
 		}

@@ -1346,39 +1346,49 @@ update_return Operation::update() {
 	return_pop();
 }
 
-Cast::Cast(StateMachine* fsm, SpellGeneratorType spell_generator, SpaceFloat length) :
+Cast::Cast(StateMachine* fsm, shared_ptr<SpellDesc> spell_desc, SpaceFloat length) :
 Function(fsm),
-spell_generator(spell_generator),
+spell_desc(spell_desc),
 length(length)
 {
 }
 
 void Cast::onEnter()
 {
-	agent->cast(spell_generator(agent));
+	castSpell(spell_desc);
 }
 
 update_return Cast::update()
 {
 	timerIncrement(timer);
 
-	if (length > 0.0 && timer >= length)
-		agent->stopSpell();
-
-	if (!agent->isSpellActive())
+	//Spell of length zero doesn't need to be stopped.
+	//It indicates that this Cast function is supposed to be immediate.
+	if (length == 0.0)
 		return_pop();
-	else
+
+	if (length != -1.0 && timer >= length) {
+		stopSpell();
+		return_pop();
+	}
+	//removal is not immediately processed
+	
+	if (!isSpellActive()) {
+		return_pop();
+	}
+	else {
 		return_steady();
+	}
 }
 
 void Cast::onExit()
 {
-	agent->stopSpell();
+	stopSpell();
 }
 
-HPCast::HPCast(StateMachine* fsm, SpellGeneratorType spell_generator, float hp_difference) :
+HPCast::HPCast(StateMachine* fsm, shared_ptr<SpellDesc> spell_desc, float hp_difference) :
 	Function(fsm),
-	spell_generator(spell_generator),
+	spell_desc(spell_desc),
 	hp_difference(hp_difference)
 {
 }
@@ -1386,16 +1396,16 @@ HPCast::HPCast(StateMachine* fsm, SpellGeneratorType spell_generator, float hp_d
 void HPCast::onEnter()
 {
 	caster_starting = agent->getHealth();
-	agent->cast(spell_generator(agent));
+	castSpell(spell_desc);
 }
 
 update_return HPCast::update()
 {
 	if (agent->getHealth() < (caster_starting - hp_difference)) {
-		agent->stopSpell();
+		stopSpell();
 	}
 
-	if (!agent->isSpellActive()) {
+	if (!isSpellActive()) {
 		return_pop();
 	}
 	else {
@@ -1405,12 +1415,12 @@ update_return HPCast::update()
 
 void HPCast::onExit()
 {
-	agent->stopSpell();
+	stopSpell();
 }
 
 HPCastSequence::HPCastSequence(
 	StateMachine* fsm,
-	const vector<SpellGeneratorType>& spells,
+	const vector<shared_ptr<SpellDesc>>& spells,
 	const boost::icl::interval_map<float, int> intervals
 ) :
 	Function(fsm),
@@ -1421,10 +1431,6 @@ HPCastSequence::HPCastSequence(
 
 void HPCastSequence::onEnter()
 {
-	if (agent->isSpellActive()) {
-		log("HPCastSequence::onEnter: %s already has spell active.", agent->getName());
-		agent->stopSpell();
-	}
 }
 
 update_return HPCastSequence::update()
@@ -1438,10 +1444,10 @@ update_return HPCastSequence::update()
 	}
 
 	if (newInterval != crntInterval && crntInterval != -1) {
-		agent->stopSpell();
+		stopSpell();
 	}
 	if (newInterval != crntInterval && newInterval != -1) {
-		agent->cast(spells.at(newInterval)(agent));
+		castSpell(spells.at(newInterval));
 	}
 	crntInterval = newInterval;
 
@@ -1451,7 +1457,7 @@ update_return HPCastSequence::update()
 void HPCastSequence::onExit()
 {
 	if (crntInterval != -1) {
-		agent->stopSpell();
+		stopSpell();
 	}
 }
 

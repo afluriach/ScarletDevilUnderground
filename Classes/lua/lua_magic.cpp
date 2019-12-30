@@ -94,7 +94,7 @@ namespace Lua{
 		auto spell = _state.new_usertype<Spell>("Spell");
 #define _cls Spell
 
-		spell["runEnd"] = &Spell::runEnd;
+		spell["stop"] = &Spell::stop;
 
 		spell["getCasterObject"] = &Spell::getCasterAs<GObject>;
 		spell["getCasterAsAgent"] = &Spell::getCasterAs<Agent>;
@@ -124,9 +124,6 @@ namespace Lua{
 		addFuncSame(spell_desc, getIcon);
 
 		addFuncSame(spell_desc, getCost);
-
-		addFuncSame(spell_desc, generate);
-		addFuncSame(spell_desc, getGenerator);
 	}
 
 }

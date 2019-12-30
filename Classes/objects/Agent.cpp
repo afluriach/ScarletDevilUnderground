@@ -204,11 +204,8 @@ void Agent::onRemove()
 	space->addGraphicsAction(&graphics_context::removeSprite, agentOverlay);
 }
 
-bool Agent::cast(shared_ptr<Spell> spell)
+bool Agent::applyInitialSpellCost(const spell_cost& cost)
 {
-	if (!spell->getDescriptor()) return GObject::cast(spell);
-
-	spell_cost cost = spell->getDescriptor()->getCost();
 	float mpCost = cost.initial_mp;
 	float staminaCost = cost.initial_stamina;
 
@@ -218,29 +215,22 @@ bool Agent::cast(shared_ptr<Spell> spell)
 	attributeSystem.modifyAttribute(Attribute::mp, -mpCost);
 	attributeSystem.modifyAttribute(Attribute::stamina, -staminaCost);
 
-	return GObject::cast(spell);
+	return true;
 }
 
-void Agent::updateSpells()
+bool Agent::applyOngoingSpellCost(const spell_cost& cost)
 {
-	GObject::updateSpells();
-
-	if (!crntSpell) {
-		attributeSystem.timerDecrement(Attribute::spellCooldown);
-		return;
-	};
-	if (!crntSpell->getDescriptor()) return;
-
-	spell_cost cost = crntSpell->getDescriptor()->getCost();
 	float mpCost = cost.ongoing_mp * app::params.secondsPerFrame;
 	float staminaCost = cost.ongoing_stamina * app::params.secondsPerFrame;
 
 	if (mpCost > attributeSystem[Attribute::mp] || staminaCost > attributeSystem[Attribute::stamina]) {
-		stopSpell();
+		return false;
 	}
 
 	attributeSystem.modifyAttribute(Attribute::stamina, -staminaCost);
 	attributeSystem.modifyAttribute(Attribute::mp, -mpCost);
+
+	return true;
 }
 
 AttributeMap Agent::getBaseAttributes() const

@@ -51,11 +51,10 @@ effects.DarknessCurse = class('DarknessCurse', {
 	flags = effect_flags.indefinite | effect_flags.active,
 	init = function(self, super)
 		self.super = super
-		self.agent = target:getAsAgent()
+		self.agent = self.super.target:getAsAgent()
 	end,
 	onEnter = function(self, target)
 		self.agent:setInhibitSpellcasting(true)
-		self.agent:stopSpell()
 		self.agent:addGraphicsAction(graphics.darknessCurseFlickerTintAction(), 0)
 	end,
 	update = function(self)

@@ -13,6 +13,7 @@ class AgentAnimationContext;
 struct bullet_properties;
 class FirePattern;
 class RadarSensor;
+struct spell_cost;
 
 #define AgentMapForward(x) Agent(space,id,args,x)
 
@@ -57,9 +58,8 @@ public:
 	inline bool isMovementSuppressed() const { return suppressMovement; }
 	inline void setMovementSuppressed(bool mode) { suppressMovement = mode; }
 
-	//polymorphic spellcasting - for attribute cost
-	virtual bool cast(shared_ptr<Spell> spell);
-	virtual void updateSpells();
+	virtual bool applyInitialSpellCost(const spell_cost& cost);
+	virtual bool applyOngoingSpellCost(const spell_cost& cost);
 
 	virtual bullet_attributes getBulletAttributes(shared_ptr<bullet_properties> props) const;
 

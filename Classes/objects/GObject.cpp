@@ -22,6 +22,7 @@
 #include "physics_context.hpp"
 #include "Spell.hpp"
 #include "SpellDescriptor.hpp"
+#include "SpellSystem.hpp"
 #include "value_map.hpp"
 
 unordered_map<type_index, string> GObject::typeNameMap;
@@ -166,7 +167,6 @@ void GObject::init()
 
 void GObject::update()
 {
-	updateSpells();
 	updateFloorSegment();
 	
 	updateParametricMove();
@@ -777,33 +777,9 @@ void GObject::stopSound(ALuint sourceID)
 
 //BEGIN SPELLS
 
-bool GObject::cast(shared_ptr<Spell> spell)
+unsigned int GObject::cast(shared_ptr<SpellDesc> desc)
 {
-	if (crntSpell.get()) {
-		crntSpell->end();
-	}
-	spell->init();
-
-	if (spell->length != 0.0) {
-		crntSpell = spell;
-		crntSpell->crntState = Spell::state::active;
-	}
-
-	return true;
-}
-
-void GObject::stopSpell()
-{
-	if (crntSpell.get()) {
-		crntSpell->runEnd();
-	}
-}
-
-void GObject::updateSpells()
-{
-	if (crntSpell.get()) {
-		crntSpell->runUpdate();
-	}
+	return space->spellSystem->cast(desc, this);
 }
 
 unsigned int GObject::applyMagicEffect(shared_ptr<MagicEffectDescriptor> effect, float magnitude, float length)

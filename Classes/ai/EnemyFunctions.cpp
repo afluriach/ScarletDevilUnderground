@@ -35,18 +35,18 @@ update_return BlueFairyPowerAttack::update()
 	SpaceFloat targetDist = agent->getRadar()->getSensedObjectDistance(GType::player);
 	auto& as = *agent->getAttributeSystem();
 
-	if(!agent->isSpellActive()) timerDecrement(timer);
+	if(!isSpellActive()) timerDecrement(timer);
 	accumulator = 
 		(accumulator + app::params.secondsPerFrame) * 
 		to_int(!isnan(targetDist) && targetDist < triggerDist);
 
 	if (
-		!agent->isSpellActive() &&
+		!isSpellActive() &&
 		as[Attribute::mp] >= cost &&
 		accumulator >= triggerLength &&
 		timer <= 0.0
 	) {
-		agent->cast(make_shared<BlueFairyBomb>(agent));
+		castSpell(Spell::getDescriptorByName("BlueFairyBomb"));
 		accumulator = 0.0;
 		timer = cooldown;
 	}
@@ -76,7 +76,7 @@ void MarisaForestMain::onEnter()
 
 update_return MarisaForestMain::update()
 {
-	return_push(fsm->make<ai::Cast>(ScriptedSpell::generator("StarlightTyphoon")));
+	return_push(fsm->make<ai::Cast>(Spell::getDescriptorByName("StarlightTyphoon"), -1.0));
 }
 
 ReimuYinYangOrbs::ReimuYinYangOrbs(StateMachine* fsm) :
@@ -158,7 +158,7 @@ update_return RumiaMain1::update()
 	if (canCast && willCast) {
 		dsdTimer = dsdCooldown;
 		fsm->removeThread("FireAtTarget");
-		return_push(fsm->make<ai::Cast>(make_spell_generator<DarknessSignDemarcation>(), dsdLength));
+		return_push(fsm->make<ai::Cast>(Spell::getDescriptorByName("DarknessSignDemarcation"), dsdLength));
 	}
 	else {
 		return_steady();
@@ -191,41 +191,19 @@ update_return RumiaMain2::update()
 	return_push(comp);
 }
 
-const vector<double_pair> RumiaDSD2::demarcationSizeIntervals = {
-	make_pair(9.0, float_pi * 8.0 / 3.0),
-	make_pair(12.0, float_pi * 2.0 / 3.0),
-	make_pair(10.0, float_pi * 4.0 / 3.0),
-};
-
 void RumiaDSD2::onEnter()
 {
-	agent->cast(make_shared<DarknessSignDemarcation2>(
-		agent,
-		demarcationSizeIntervals.at(0).second
-	));
+	castSpell( Spell::getDescriptorByName("DarknessSignDemarcation2"));
 }
 
 update_return RumiaDSD2::update()
 {
-	timerIncrement(timer);
-
-	if (timer >= demarcationSizeIntervals.at(intervalIdx).first) {
-		++intervalIdx;
-		intervalIdx %= demarcationSizeIntervals.size();
-		timer = 0.0;
-
-		agent->cast(make_shared<DarknessSignDemarcation2>(
-			agent,
-			demarcationSizeIntervals.at(intervalIdx).second
-		));
-	}
-
 	return_steady();
 }
 
 void RumiaDSD2::onExit()
 {
-	agent->stopSpell();
+	stopSpell();
 }
 
 void SakuyaMain::onEnter()
@@ -234,7 +212,10 @@ void SakuyaMain::onEnter()
 
 update_return SakuyaMain::update()
 {
-	return_push(fsm->make<Cast>(ScriptedSpell::generator("IllusionDial")));
+	return update_return{
+		0,
+		fsm->make<Cast>(Spell::getDescriptorByName("IllusionDial"), -1.0)
+	};
 }
 
 const SpaceFloat IllusionDash::scale = 2.5;

@@ -456,7 +456,7 @@ protected:
 
 class Cast : public Function {
 public:
-	Cast(StateMachine* fsm, SpellGeneratorType spell_generator, SpaceFloat length = 0.0);
+	Cast(StateMachine* fsm, shared_ptr<SpellDesc> spell_desc, SpaceFloat length);
 
 	virtual void onEnter();
 	virtual update_return update();
@@ -464,14 +464,14 @@ public:
 
 	FuncGetName(Cast)
 protected:
-	SpellGeneratorType spell_generator;
+	shared_ptr<SpellDesc> spell_desc;
 	SpaceFloat timer = 0.0;
 	SpaceFloat length;
 };
 
 class HPCast : public Function {
 public:
-	HPCast(StateMachine* fsm, SpellGeneratorType spell_generator, float hp_difference);
+	HPCast(StateMachine* fsm, shared_ptr<SpellDesc> spell_desc, float hp_difference);
 
 	virtual void onEnter();
 	virtual update_return update();
@@ -479,7 +479,7 @@ public:
 
 	FuncGetName(HPCast)
 protected:
-	SpellGeneratorType spell_generator;
+	shared_ptr<SpellDesc> spell_desc;
 	float caster_starting;
 	float hp_difference;
 };
@@ -488,7 +488,7 @@ class HPCastSequence : public Function {
 public:
 	HPCastSequence(
 		StateMachine* fsm,
-		const vector<SpellGeneratorType>& spells,
+		const vector<shared_ptr<SpellDesc>>& spells,
 		const boost::icl::interval_map<float, int> intervals
 	);
 
@@ -499,7 +499,7 @@ public:
 	FuncGetName(HPCastSequence)
 protected:
 	int crntInterval = -1;
-	vector<SpellGeneratorType> spells;
+	vector<shared_ptr<SpellDesc>> spells;
 	boost::icl::interval_map<float, int> intervals;
 };
 

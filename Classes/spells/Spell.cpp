@@ -12,6 +12,7 @@
 #include "MagicEffectSystem.hpp"
 #include "Spell.hpp"
 #include "SpellDescriptor.hpp"
+#include "SpellSystem.hpp"
 
 spell_cost spell_cost::none()
 {
@@ -44,18 +45,16 @@ spell_params::spell_params(
 {
 }
 
-Spell::Spell(GObject* caster, spell_params params) :
+Spell::Spell(GObject* caster, shared_ptr<SpellDesc> desc, unsigned int id, spell_params params) :
 	caster(caster),
+	descriptor(desc),
+	id(id),
 	length(params.length),
 	updateInterval(params.updateInterval),
 	_cost(params.cost)
 {}
 
 Spell::~Spell() {}
-
-bool Spell::isActive() const {
-	return crntState == state::active;
-}
 
 GSpace* Spell::getSpace() const {
 	return caster->space;
@@ -97,16 +96,13 @@ void Spell::runUpdate()
 	}
 
 	if (length > 0.0 && t >= length) {
-		runEnd();
+		stop();
 	}
 }
 
-void Spell::runEnd()
+void Spell::stop()
 {
-	crntState = state::ending;
-	end();
-	caster->crntSpell.reset();
-	crntState = state::expired;
+	getSpace()->spellSystem->stopSpell(id);
 }
 
 shared_ptr<SpellDesc> Spell::getDescriptorByName(const string& name)
@@ -132,15 +128,8 @@ spell_params ScriptedSpell::getParams(string clsName)
 	return f ? f() : spell_params();
 }
 
-SpellGeneratorType ScriptedSpell::generator(string clsName)
-{
-	return [clsName](GObject* caster) -> shared_ptr<Spell> {
-		return make_shared<ScriptedSpell>(caster, clsName);
-	};
-}
-
-ScriptedSpell::ScriptedSpell(GObject* caster, string clsName) :
-	Spell(caster, getParams(clsName)),
+ScriptedSpell::ScriptedSpell(GObject* caster, shared_ptr<SpellDesc> desc, unsigned int id, string clsName) :
+	Spell(caster,desc,id, getParams(clsName)),
 	clsName(clsName)
 {
 	auto cls = GSpace::scriptVM->_state["spells"][clsName];
@@ -153,11 +142,6 @@ ScriptedSpell::ScriptedSpell(GObject* caster, string clsName) :
 
 ScriptedSpell::~ScriptedSpell()
 {
-}
-
-shared_ptr<SpellDesc> ScriptedSpell::getDescriptor()
-{
-	return make_shared<ScriptedSpellDescriptor>(clsName);
 }
 
 void ScriptedSpell::init()
@@ -184,8 +168,8 @@ void ScriptedSpell::end()
 	}
 }
 
-ApplySelfEffect::ApplySelfEffect(GObject* caster,  spell_params params, shared_ptr<MagicEffectDescriptor> effect) :
-	Spell(caster, params),
+ApplySelfEffect::ApplySelfEffect(GObject* caster, shared_ptr<SpellDesc> desc, unsigned int id, spell_params params, shared_ptr<MagicEffectDescriptor> effect) :
+	Spell(caster, desc, id, params),
 	effect(effect)
 {
 }

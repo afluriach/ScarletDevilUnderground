@@ -24,14 +24,7 @@ class Spell
 {
 public:
 	friend class GObject;
-
-	enum class state
-	{
-		created = 1,
-		active,
-		ending,
-		expired,
-	};
+	friend class SpellSystem;
 
     static const unordered_map<string,shared_ptr<SpellDesc>> spellDescriptors;
 	static const vector<string> playerSpells;
@@ -41,11 +34,9 @@ public:
 
 	//length: -1 means indefinite, 0 means immediate
 	//updateInterval: -1 means no update, 0 means every frame, units in seconds.
-	Spell(GObject* caster, spell_params params);
+	Spell(GObject* caster, shared_ptr<SpellDesc> desc, unsigned int id, spell_params params);
 	virtual ~Spell();
     
-	bool isActive() const;
-
 	template<class T>
 	inline T* getCasterAs() const{
 		return dynamic_cast<T*>(caster);
@@ -70,13 +61,13 @@ public:
 		bool obstacleCheck = true
 	);
 
-	virtual shared_ptr<SpellDesc> getDescriptor() = 0;
+	inline shared_ptr<SpellDesc> getDescriptor() const { return descriptor; }
 
 	inline virtual void init() {}
 	inline virtual void update() {}
 	inline virtual void end() {}
 
-	void runEnd();
+	void stop();
 protected:
 	void runUpdate();
 
@@ -88,27 +79,18 @@ protected:
 	SpaceFloat t = 0.0;
 	SpaceFloat lastUpdate = 0.0;
 
+	shared_ptr<SpellDesc> descriptor;
     GObject* caster;
-	state crntState = state::created;
+	unsigned int id;
 };
-
-template<class C>
-inline SpellGeneratorType make_spell_generator()
-{
-	return [](GObject* caster) -> shared_ptr<Spell> {
-		return make_shared<C>(caster);
-	};
-}
 
 class ScriptedSpell : public Spell {
 public:
 	static spell_params getParams(string clsName);
-	static SpellGeneratorType generator(string clsName);
 
-	ScriptedSpell(GObject* caster, string clsName);
+	ScriptedSpell(GObject* caster, shared_ptr<SpellDesc> desc, unsigned int id, string clsName);
 	virtual ~ScriptedSpell();
 
-	virtual shared_ptr<SpellDesc> getDescriptor();
 	virtual void init();
 	virtual void update();
 	virtual void end();
@@ -120,7 +102,7 @@ protected:
 class ApplySelfEffect : public Spell
 {
 public:
-	ApplySelfEffect(GObject* caster, spell_params params, shared_ptr<MagicEffectDescriptor> effect);
+	ApplySelfEffect(GObject* caster, shared_ptr<SpellDesc> desc, unsigned int id, spell_params params, shared_ptr<MagicEffectDescriptor> effect);
 
 	virtual void init();
 	virtual void end();

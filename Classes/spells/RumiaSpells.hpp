@@ -25,7 +25,7 @@ public:
 	static const int legCount;
 	static const int bulletsPerLeg;
 
-	DarknessSignDemarcation(GObject* caster);
+	DarknessSignDemarcation(GObject* caster, shared_ptr<SpellDesc> desc, unsigned int id);
 	inline virtual ~DarknessSignDemarcation() {}
 
 	GET_DESC(DarknessSignDemarcation)
@@ -53,8 +53,7 @@ public:
 	static const int burstCount;
 	static const int bulletsPerBurst;
 
-	DarknessSignDemarcation2(GObject* caster);
-	DarknessSignDemarcation2(GObject* caster, SpaceFloat angularSpeed);
+	DarknessSignDemarcation2(GObject* caster, shared_ptr<SpellDesc> desc, unsigned int id);
 	inline virtual ~DarknessSignDemarcation2() {}
 
 	GET_DESC(DarknessSignDemarcation2)
@@ -82,7 +81,7 @@ public:
 	static const SpaceFloat legStartDist;
 	static const SpaceFloat legAngleSkew;
 
-	NightSignPinwheel(GObject* caster);
+	NightSignPinwheel(GObject* caster, shared_ptr<SpellDesc> desc, unsigned int id);
 	inline virtual ~NightSignPinwheel() {}
 
 	GET_DESC(NightSignPinwheel)

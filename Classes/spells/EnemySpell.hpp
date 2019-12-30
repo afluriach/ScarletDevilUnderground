@@ -22,10 +22,8 @@ public:
 	static const SpaceFloat radius;
 	static const float effectMagnitude;
 
-	TorchDarkness(GObject* caster);
+	TorchDarkness(GObject* caster, shared_ptr<SpellDesc> desc, unsigned int id);
 	inline virtual ~TorchDarkness() {}
-
-	GET_DESC(TorchDarkness)
 
 	virtual void update();
 };
@@ -33,15 +31,16 @@ public:
 class BlueFairyBomb : public Spell
 {
 public:
+	static const string name;
+	static const string description;
+
 	static const DamageInfo damage;
 	static const SpaceFloat length;
 	static const SpaceFloat radius;
 	static const SpaceFloat angularSpeed;
 
-	BlueFairyBomb(GObject* caster);
+	BlueFairyBomb(GObject* caster, shared_ptr<SpellDesc> desc, unsigned int id);
 	inline virtual ~BlueFairyBomb() {}
-
-	GET_DESC(BlueFairyBomb);
 
 	virtual void init();
 	virtual void update();

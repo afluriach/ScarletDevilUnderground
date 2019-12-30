@@ -28,6 +28,7 @@ public:
 protected:
 	SpaceFloat accumulator = 0.0;
 	SpaceFloat timer = cooldown;
+	unsigned int spellID = 0;
 };
 
 class MarisaCollectMain : public Function {
@@ -98,8 +99,6 @@ class RumiaDSD2 : public ai::Function
 {
 public:
 	inline RumiaDSD2(StateMachine* fsm) : Function(fsm) {}
-
-	static const vector<double_pair> demarcationSizeIntervals;
 
 	virtual void onEnter();
 	virtual update_return update();

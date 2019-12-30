@@ -17,6 +17,8 @@ class MagicEffect;
 class MagicEffectDescriptor;
 class FloorSegment;
 class RoomSensor;
+struct spell_cost;
+class SpellDesc;
 
 #define MapObjCons(cls) cls(GSpace* space, ObjectIDType id, const ValueMap& args)
 #define MapObjForwarding(cls) cls(space,id,args)
@@ -160,6 +162,8 @@ public:
 	void setFrozen(bool val);
 
 	virtual bool hit(DamageInfo damage, SpaceVect n);
+	inline virtual bool applyInitialSpellCost(const spell_cost& cost) { return true; }
+	inline virtual bool applyOngoingSpellCost(const spell_cost& cost) { return true; }
 
 	//Bullets
 	virtual bullet_attributes getBulletAttributes(shared_ptr<bullet_properties> props) const;
@@ -292,17 +296,10 @@ public:
 
 	//BEGIN SPELLS
 
-	virtual bool cast(shared_ptr<Spell> spell);
+	unsigned int cast(shared_ptr<SpellDesc> desc);
 	unsigned int applyMagicEffect(shared_ptr<MagicEffectDescriptor> effect, float magnitude, float length);
 
-	void stopSpell();
-	virtual void updateSpells();
-
 	inline void setInhibitSpellcasting(bool v) { inhibitSpellcasting = v; }
-
-	inline bool isSpellActive() const {
-		return static_cast<bool>(crntSpell);
-	}
 
 	//END SPELLS
 
@@ -353,9 +350,6 @@ protected:
 	SpriteID spriteID = 0;
 	SpriteID drawNodeID = 0;
 	LightID lightID = 0;
-
-//spells
-	shared_ptr<Spell> crntSpell;
 };
 
 #endif /* GObject_hpp */

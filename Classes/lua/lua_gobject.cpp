@@ -61,7 +61,6 @@ namespace Lua{
 		);
 
 
-		addFuncSame(gobject, stopSpell);
 		addFuncSame(gobject, printFSM);
 			
 		gobject["getAsAgent"] = &GObject::getAs<Agent>;

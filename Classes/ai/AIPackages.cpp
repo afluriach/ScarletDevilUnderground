@@ -20,6 +20,7 @@
 #include "Patchouli.hpp"
 #include "Player.hpp"
 #include "Reimu.hpp"
+#include "SpellSystem.hpp"
 #include "value_map.hpp"
 
 namespace ai {
@@ -160,7 +161,7 @@ void zombie_fairy(StateMachine* fsm, const ValueMap& args)
 	auto engage = makeTargetFunctionGenerator<Seek>(true);
 	fsm->addWhileDetectHandler(GType::player, engage);
 
-	fsm->getObject()->cast(make_shared<TorchDarkness>(fsm->getAgent()));
+	fsm->getSpace()->spellSystem->cast(Spell::getDescriptorByName("TorchDarkness"),fsm->getAgent());
 }
 
 void fairy2(StateMachine* fsm, const ValueMap& args) {
@@ -197,7 +198,16 @@ void forest_marisa(StateMachine* fsm, const ValueMap& args)
 
 void patchouli_enemy(StateMachine* fsm, const ValueMap& args)
 {
-	fsm->addThread(make_shared<HPCastSequence>(fsm, PatchouliEnemy::spells, makeIntervalMap(PatchouliEnemy::intervals)));
+	fsm->addThread(make_shared<HPCastSequence>(
+		fsm,
+		vector<shared_ptr<SpellDesc>>{
+			Spell::getDescriptorByName("FireStarburst"),
+			Spell::getDescriptorByName("FlameFence"),
+			Spell::getDescriptorByName("Whirlpool1"),
+			Spell::getDescriptorByName("Whirlpool2"),
+		},
+		makeIntervalMap(PatchouliEnemy::intervals)
+	));
 }
 
 void reimu_enemy(StateMachine* fsm, const ValueMap& args)

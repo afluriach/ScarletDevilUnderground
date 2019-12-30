@@ -28,7 +28,7 @@ function spells.IllusionDial:onEnter()
 	self.targetRef = self.super:getSpace():getPlayerAsRef()
 	self.props = app.getBullet('illusionDialDagger')
 	
-	for i=1,self.count do
+	for i=0,self.count-1 do
 		local ref = self.agent:spawnBullet(
 			self.props,
 			SpaceVect.ray(self.radius, self.arc_start + i * self.arc_spacing),
@@ -48,7 +48,7 @@ function spells.IllusionDial:update()
 			self.timeSinceLastFire = 0.0
 		end
 		if self:allBulletsConsumed() then
-			self.super:runEnd()
+			self.super:stop()
 		end		
 	end
 end

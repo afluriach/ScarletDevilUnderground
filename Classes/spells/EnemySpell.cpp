@@ -23,8 +23,8 @@ const float TorchDarkness::effectMagnitude = 0.2f;
 const string TorchDarkness::name = "TorchDarkness";
 const string TorchDarkness::description = "";
 
-TorchDarkness::TorchDarkness(GObject* caster) :
-	Spell(caster, spell_params{ -1.0, 0.0 })
+TorchDarkness::TorchDarkness(GObject* caster, shared_ptr<SpellDesc> desc, unsigned int id) :
+	Spell(caster, desc, id, spell_params{ -1.0, 0.0 })
 {}
 
 void TorchDarkness::update()
@@ -46,6 +46,9 @@ void TorchDarkness::update()
 	}
 }
 
+const string BlueFairyBomb::name = "BlueFairyBomb";
+const string BlueFairyBomb::description = "";
+
 const DamageInfo BlueFairyBomb::damage = DamageInfo(
 	10.0f,
 	DamageType::effectArea
@@ -54,8 +57,8 @@ const SpaceFloat BlueFairyBomb::length = 1.5;
 const SpaceFloat BlueFairyBomb::radius = 2.5;
 const SpaceFloat BlueFairyBomb::angularSpeed = float_pi * 0.5;
 
-BlueFairyBomb::BlueFairyBomb(GObject* caster) :
-	Spell(caster, spell_params{ BlueFairyBomb::length, 0.0 })
+BlueFairyBomb::BlueFairyBomb(GObject* caster, shared_ptr<SpellDesc> desc, unsigned int id) :
+	Spell(caster, desc, id, spell_params{ BlueFairyBomb::length, 0.0 })
 {}
 
 void BlueFairyBomb::init()

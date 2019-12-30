@@ -53,13 +53,6 @@ const vector<float_pair> PatchouliEnemy::intervals = {
 	make_pair(0.0f,50.0f),
 };
 
-const vector<SpellGeneratorType> PatchouliEnemy::spells = {
-	ScriptedSpell::generator("FireStarburst"),
-	ScriptedSpell::generator("FlameFence"),
-	ScriptedSpell::generator("Whirlpool1"),
-	ScriptedSpell::generator("Whirlpool2"),
-};
-
 PatchouliEnemy::PatchouliEnemy(GSpace* space, ObjectIDType id, const ValueMap& args) :
 	Enemy(
 		space, id, args,

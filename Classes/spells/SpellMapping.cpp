@@ -26,6 +26,7 @@ constexpr shared_ptr<SpellDesc> createDesc()
 }
 
 const unordered_map<string, shared_ptr<SpellDesc>> Spell::spellDescriptors = {
+	entry_same(BlueFairyBomb),
 	script_entry(DarkMist),
 	entry_same(DarknessSignDemarcation),
 	entry_same(DarknessSignDemarcation2),

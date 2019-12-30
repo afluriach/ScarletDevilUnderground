@@ -69,13 +69,11 @@ namespace Lua{
 				enum_entry(Attribute, mp),
 				enum_entry(Attribute, stamina),
 				enum_entry(Attribute, hitProtection),
-				enum_entry(Attribute, spellCooldown),
 
 				enum_entry(Attribute, maxHP),
 				enum_entry(Attribute, maxMP),
 				enum_entry(Attribute, maxStamina),
 				enum_entry(Attribute, hitProtectionInterval),
-				enum_entry(Attribute, spellCooldownInterval),
 
 				enum_entry(Attribute, hpRegen),
 				enum_entry(Attribute, mpRegen),

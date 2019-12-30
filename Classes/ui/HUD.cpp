@@ -238,9 +238,6 @@ const vector<pair<Attribute, RadialMeterSettings>> MagicEffects::meterSettings =
 	{ Attribute::hitProtection,
 		{ "sprites/ui/hit_protection.png",Color4F(.42f,.29f,.29f,1.0f),Color4F(.86f,.16f,.19f,1.0f) }
 	},
-	{ Attribute::spellCooldown,
-		{ "sprites/ui/spell_cooldown.png",Color4F(.4f,.4f,.4f,1.0f),Color4F(.37f,.56f,.57f,1.0f) }
-	}
 };
 
 MagicEffects::MagicEffects()
@@ -658,7 +655,6 @@ void HUD::updateHUD(AttributeSystem playerAttributes)
 	setKeyCount(to_int(playerAttributes[Attribute::keys]));
 
 	setEffect(Attribute::hitProtection, Attribute::hitProtectionInterval, &playerAttributes);
-	setEffect(Attribute::spellCooldown, Attribute::spellCooldownInterval, &playerAttributes);
 	setEffect(Attribute::combo, AttributeSystem::maxComboPoints, &playerAttributes);
 
 	enum_foreach(Attribute, elem, beginElementDamage, endElementDamage) {

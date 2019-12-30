@@ -18,13 +18,11 @@ enum class Attribute {
 	mp,
 	stamina,
 	hitProtection,
-	spellCooldown,
 
 	maxHP,
 	maxMP,
 	maxStamina,
 	hitProtectionInterval,
-	spellCooldownInterval,
 
 	hpRegen,
 	mpRegen,
@@ -180,7 +178,6 @@ public:
 	void setFullStamina();
 	void setEmptyStamina();
 	void setHitProtection();
-	void setSpellCooldown();
 	void resetCombo();
 
 	void modifyAgility(float dx);

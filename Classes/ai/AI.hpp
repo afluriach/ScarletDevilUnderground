@@ -14,6 +14,7 @@ class GObject;
 class GSpace;
 class physics_context;
 class RoomSensor;
+class SpellDesc;
 namespace Lua { class Inst; }
 
 namespace ai{
@@ -115,6 +116,10 @@ public:
 	Agent* getAgent() const;
 	physics_context* getPhys() const;
 
+	bool castSpell(shared_ptr<SpellDesc> desc);
+	bool isSpellActive();
+	void stopSpell();
+
 	inline virtual void onEnter() {}
     inline virtual void onReturn() {}
 	inline virtual update_return update() { return_pop(); }
@@ -128,6 +133,7 @@ public:
 	StateMachine* const fsm;
 	Agent* const agent;
 protected:
+	unsigned int spellID = 0;
 	Thread* thread = nullptr;
 	bool hasRunInit = false;
 };

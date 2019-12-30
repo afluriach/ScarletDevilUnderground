@@ -28,6 +28,7 @@ public:
 	static const float centerLookHoldThresh;
     static const float interactCooldownTime;
 	static const float bombCooldownTime;
+	static const float spellCooldownTime;
     static const float hitFlickerInterval;
 
 	static const SpaceFloat sprintSpeedRatio;
@@ -124,6 +125,8 @@ protected:
 
 	float interactCooldown = 0.0f;
 	float bombCooldown = 0.0f;
+	float spellCooldown = 0.0f;
+	unsigned int crntSpell = 0;
 
 	shared_ptr<bomb_properties> crntBomb;
 	vector<shared_ptr<FirePattern>> firePatterns;

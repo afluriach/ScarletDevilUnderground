@@ -17,8 +17,8 @@ const string PlayerBatMode::description = "";
 const string PlayerBatMode::icon = "sprites/ui/bat_mode.png";
 const spell_cost PlayerBatMode::cost = spell_cost::ongoingMP(5.0f);
 
-PlayerBatMode::PlayerBatMode(GObject* caster) :
-	ApplySelfEffect(caster, spell_params{ -1.0, -1.0, PlayerBatMode::cost }, app::getEffect("BatTransform"))
+PlayerBatMode::PlayerBatMode(GObject* caster, shared_ptr<SpellDesc> desc, unsigned int id) :
+	ApplySelfEffect(caster, desc, id, spell_params{ -1.0, -1.0, PlayerBatMode::cost }, app::getEffect("BatTransform"))
 {}
 
 const string LavaeteinnSpell::name = "LavaeteinnSpell";
@@ -31,8 +31,8 @@ const SpaceFloat LavaeteinnSpell::angleWidth = float_pi / 2.0;
 const SpaceFloat LavaeteinnSpell::angular_speed = angleWidth * 2.0 / length;
 const int LavaeteinnSpell::bulletSpawnCount = 8;
 
-LavaeteinnSpell::LavaeteinnSpell(GObject* caster) :
-	Spell(caster, spell_params{ LavaeteinnSpell::length, 0.0, LavaeteinnSpell::cost })
+LavaeteinnSpell::LavaeteinnSpell(GObject* caster, shared_ptr<SpellDesc> desc, unsigned int id) :
+	Spell(caster, desc, id, spell_params{ LavaeteinnSpell::length, 0.0, LavaeteinnSpell::cost })
 {}
 
 void LavaeteinnSpell::init()
@@ -84,8 +84,8 @@ const spell_cost PlayerCounterClock::cost = spell_cost::ongoingMP(7.5f);
 const SpaceFloat PlayerCounterClock::offset = 0.75;
 const SpaceFloat PlayerCounterClock::angular_speed = 9.0;
 
-PlayerCounterClock::PlayerCounterClock(GObject* caster) :
-	Spell(caster, spell_params{ -1.0, 0.0, PlayerCounterClock::cost })
+PlayerCounterClock::PlayerCounterClock(GObject* caster, shared_ptr<SpellDesc> desc, unsigned int id) :
+	Spell(caster, desc, id, spell_params{ -1.0, 0.0, PlayerCounterClock::cost })
 {}
 
 void PlayerCounterClock::init()
@@ -158,8 +158,8 @@ SpaceVect PlayerScarletRose::parametric_motion(SpaceFloat t)
 	return SpaceVect::ray(r, theta);
 }
 
-PlayerScarletRose::PlayerScarletRose(GObject* caster) :
-	Spell(caster, spell_params{ 4.0, fireInterval, PlayerScarletRose::cost }),
+PlayerScarletRose::PlayerScarletRose(GObject* caster, shared_ptr<SpellDesc> desc, unsigned int id) :
+	Spell(caster, desc, id, spell_params{ 4.0, fireInterval, PlayerScarletRose::cost }),
 	origin(caster->getPos())
 {
 	props = app::getBullet("flandrePolarBullet");
@@ -209,8 +209,8 @@ const SpaceFloat PlayerIceShield::distance = 3.0;
 const SpaceFloat PlayerIceShield::circumference = 2.0 * float_pi * distance;
 const SpaceFloat PlayerIceShield::inv_circumference = 1.0 / circumference;
 
-PlayerIceShield::PlayerIceShield(GObject* caster) :
-	Spell(caster, spell_params{ -1.0, 0.0, PlayerIceShield::cost })
+PlayerIceShield::PlayerIceShield(GObject* caster, shared_ptr<SpellDesc> desc, unsigned int id) :
+	Spell(caster, desc, id, spell_params{ -1.0, 0.0, PlayerIceShield::cost })
 {
 	props = app::getBullet("cirnoIceShieldBullet");
 }

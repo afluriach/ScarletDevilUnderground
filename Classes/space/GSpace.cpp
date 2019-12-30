@@ -31,6 +31,7 @@
 #include "replay.h"
 #include "Spawner.hpp"
 #include "Spell.hpp"
+#include "SpellSystem.hpp"
 #include "Wall.hpp"
 
 class RadarObject;
@@ -71,6 +72,7 @@ GSpace::GSpace(GScene* gscene) :
 	crntState = make_unique<GState>();
 
 	magicEffectSystem = make_unique<MagicEffectSystem>(this);
+	spellSystem = make_unique<SpellSystem>(this);
 }
 
 GSpace::~GSpace()
@@ -180,6 +182,7 @@ void GSpace::update()
 
 	updateSensors();
 	magicEffectSystem->update();
+	spellSystem->update();
 
     for(GObject* obj : updateObjects){
         obj->update();
@@ -504,7 +507,9 @@ void GSpace::setBulletBodiesVisible(bool b)
 
 void GSpace::processRemoval(GObject* obj, bool _removeSprite)
 {
+	spellSystem->stopObjectSpells(obj);
 	magicEffectSystem->removeObjectEffects(obj);
+
 	obj->onRemove();
 
     objByName.erase(obj->name);
@@ -524,7 +529,7 @@ void GSpace::processRemoval(GObject* obj, bool _removeSprite)
 		removeNavObstacle(obj->getPos(), obj->getDimensions());
 	}
 
-	obj->stopSpell();
+	spellSystem->stopObjectSpells(obj);
 	obj->removePhysicsObjects();
 	obj->removeGraphics(_removeSprite);
 

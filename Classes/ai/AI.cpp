@@ -13,6 +13,8 @@
 #include "AIFunctions.hpp"
 #include "AreaSensor.hpp"
 #include "LuaAPI.hpp"
+#include "SpellDescriptor.hpp"
+#include "SpellSystem.hpp"
 #include "value_map.hpp"
 
 namespace ai{
@@ -98,6 +100,26 @@ Agent* Function::getAgent() const {
 
 physics_context* Function::getPhys() const {
 	return getSpace()->physicsContext.get();
+}
+
+bool Function::castSpell(shared_ptr<SpellDesc> desc)
+{
+	if (spellID != 0)
+		stopSpell();
+
+	spellID = getAgentObject()->cast(desc);
+	return spellID != 0;
+}
+
+bool Function::isSpellActive()
+{
+	return spellID != 0 && getSpace()->spellSystem->isSpellActive(spellID);
+}
+
+void Function::stopSpell()
+{
+	getSpace()->spellSystem->stopSpell(spellID);
+	spellID = 0;
 }
 
 Thread::Thread(shared_ptr<Function> threadMain, StateMachine* sm) :

@@ -378,6 +378,9 @@
     <ClCompile Include="..\Classes\xml_effects.cpp">
       <Filter>src</Filter>
     </ClCompile>
+    <ClCompile Include="..\Classes\spells\SpellSystem.cpp">
+      <Filter>src\spells</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="main.h">
@@ -705,6 +708,9 @@
       <Filter>src\spells</Filter>
     </ClInclude>
     <ClInclude Include="..\Classes\spells\AttributeEffects.hpp">
+      <Filter>src\spells</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\spells\SpellSystem.hpp">
       <Filter>src\spells</Filter>
     </ClInclude>
   </ItemGroup>
