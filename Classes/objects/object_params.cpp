@@ -79,3 +79,20 @@ physics_params::physics_params(GType type, PhysicsLayers layers, const ValueMap&
 	this->mass = getFloatOrDefault(args, "mass", mass);
 	this->sensor = sensor;
 }
+
+bullet_attributes bullet_attributes::getDefault()
+{
+	return bullet_attributes{
+		SpaceVect::zero,
+		nullptr,
+		GType::enemyBullet,
+		nullptr,
+		1.0f,
+		1.0f,
+		1.0f
+	};
+}
+
+bullet_properties bullet_properties::clone() {
+	return *this;
+}

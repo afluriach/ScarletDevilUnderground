@@ -9,8 +9,6 @@
 #ifndef Agent_hpp
 #define Agent_hpp
 
-#include "Bullet.hpp"
-
 class AgentAnimationContext;
 struct bullet_properties;
 class FirePattern;
@@ -39,29 +37,10 @@ public:
 	);
 	virtual ~Agent();
 
-	bullet_attributes getBulletAttributes(shared_ptr<bullet_properties> props) const;
-
-	gobject_ref spawnBullet(
-		shared_ptr<bullet_properties> props,
-		SpaceVect displacement,
-		SpaceVect velocity,
-		SpaceFloat angle,
-		SpaceFloat angularVelocity
-	);
-	gobject_ref launchBullet(
-		shared_ptr<bullet_properties> props,
-		SpaceVect displacement,
-		SpaceFloat angle,
-		SpaceFloat angularVelocity = 0.0,
-		bool obstacleCheck = true
-	);
-
 	void initFSM();
 	void initAttributes();
 	virtual void init();
 	virtual void update();
-
-	bool isBulletObstacle(SpaceVect pos, SpaceFloat radius);
 
 	void sendAlert(Player* p);
 
@@ -81,6 +60,8 @@ public:
 	//polymorphic spellcasting - for attribute cost
 	virtual bool cast(shared_ptr<Spell> spell);
 	virtual void updateSpells();
+
+	virtual bullet_attributes getBulletAttributes(shared_ptr<bullet_properties> props) const;
 
 	//attribute interface
 	AttributeMap getBaseAttributes() const;

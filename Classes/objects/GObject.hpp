@@ -161,6 +161,25 @@ public:
 
 	virtual bool hit(DamageInfo damage, SpaceVect n);
 
+	//Bullets
+	virtual bullet_attributes getBulletAttributes(shared_ptr<bullet_properties> props) const;
+	bool isBulletObstacle(SpaceVect pos, SpaceFloat radius);
+
+	gobject_ref spawnBullet(
+		shared_ptr<bullet_properties> props,
+		SpaceVect displacement,
+		SpaceVect velocity,
+		SpaceFloat angle,
+		SpaceFloat angularVelocity
+	);
+	gobject_ref launchBullet(
+		shared_ptr<bullet_properties> props,
+		SpaceVect displacement,
+		SpaceFloat angle,
+		SpaceFloat angularVelocity = 0.0,
+		bool obstacleCheck = true
+	);
+
 	//END LOGIC
 
 	//BEGIN PHYSICS

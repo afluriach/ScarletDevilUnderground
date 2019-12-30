@@ -14,25 +14,6 @@
 #include "graphics_context.hpp"
 #include "MagicEffect.hpp"
 
-bullet_attributes bullet_attributes::getDefault()
-{
-	return bullet_attributes{
-		SpaceVect::zero,
-		nullptr,
-		GType::enemyBullet,
-		nullptr,
-		1.0f,
-		1.0f,
-		1.0f
-	};
-}
-
-bullet_properties bullet_properties::clone() {
-	return *this;
-}
-
-const bool Bullet::logRicochets = false;
-
 shared_ptr<object_params> Bullet::makeParams(
 	SpaceVect pos,
 	SpaceFloat angle,

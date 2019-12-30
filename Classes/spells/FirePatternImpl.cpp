@@ -8,7 +8,6 @@
 
 #include "Prefix.h"
 
-#include "Bullet.hpp"
 #include "FirePatternImpl.hpp"
 
 shared_ptr<firepattern_properties> firepattern_properties::makeSingle(

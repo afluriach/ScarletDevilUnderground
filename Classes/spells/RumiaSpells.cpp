@@ -9,7 +9,6 @@
 #include "Prefix.h"
 
 #include "Agent.hpp"
-#include "Bullet.hpp"
 #include "RumiaSpells.hpp"
 #include "value_map.hpp"
 

@@ -8,7 +8,6 @@
 
 #include "Prefix.h"
 
-#include "Bullet.hpp"
 #include "graphics_context.hpp"
 #include "Player.hpp"
 #include "PlayerSpell.hpp"

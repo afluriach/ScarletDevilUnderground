@@ -61,6 +61,31 @@ GSpace* Spell::getSpace() const {
 	return caster->space;
 }
 
+bullet_attributes Spell::getBulletAttributes(shared_ptr<bullet_properties> props) const
+{
+	return caster->getBulletAttributes(props);
+}
+
+gobject_ref Spell::spawnBullet(
+	shared_ptr<bullet_properties> props,
+	SpaceVect displacement,
+	SpaceVect velocity,
+	SpaceFloat angle,
+	SpaceFloat angularVelocity
+) {
+	return caster->spawnBullet(props, displacement, velocity, angle, angularVelocity);
+}
+
+gobject_ref Spell::launchBullet(
+	shared_ptr<bullet_properties> props,
+	SpaceVect displacement,
+	SpaceFloat angle,
+	SpaceFloat angularVelocity,
+	bool obstacleCheck
+) {
+	return caster->launchBullet(props, displacement, angle, angularVelocity, obstacleCheck);
+}
+
 void Spell::runUpdate()
 {
 	timerIncrement(t);

@@ -83,39 +83,6 @@ bullet_attributes Agent::getBulletAttributes(shared_ptr<bullet_properties> props
 	return result;
 }
 
-gobject_ref Agent::spawnBullet(
-	shared_ptr<bullet_properties> props,
-	SpaceVect displacement,
-	SpaceVect velocity,
-	SpaceFloat angle,
-	SpaceFloat angularVelocity
-) {
-	return space->createBullet(
-		Bullet::makeParams(getPos() + displacement, angle, velocity, angularVelocity),
-		getBulletAttributes(props),
-		props
-	);
-}
-
-gobject_ref Agent::launchBullet(
-	shared_ptr<bullet_properties> props,
-	SpaceVect displacement,
-	SpaceFloat angle,
-	SpaceFloat angularVelocity,
-	bool obstacleCheck
-) {
-	SpaceVect position = getPos() + displacement;
-
-	if (obstacleCheck && isBulletObstacle(position, props->dimensions.getMax()))
-		return nullptr;
-
-	return space->createBullet(
-		Bullet::makeParams(position, angle, SpaceVect::zero, angularVelocity),
-		getBulletAttributes(props),
-		props
-	);
-}
-
 void Agent::initFSM()
 {
 	fsm = make_unique<ai::StateMachine>(this);
@@ -202,17 +169,6 @@ void Agent::update()
 	attributeSystem.update(this);
 	updateAgentOverlay();
 	updateAnimation();
-}
-
-bool Agent::isBulletObstacle(SpaceVect pos, SpaceFloat radius)
-{
-	return space->physicsContext->obstacleRadiusQuery(
-		this,
-		pos,
-		radius,
-		bulletObstacles,
-		PhysicsLayers::ground
-	);
 }
 
 void Agent::sendAlert(Player* p)

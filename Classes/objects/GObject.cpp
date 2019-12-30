@@ -12,6 +12,7 @@
 #include "app_constants.hpp"
 #include "AreaSensor.hpp"
 #include "audio_context.hpp"
+#include "Bullet.hpp"
 #include "FloorSegment.hpp"
 #include "Graphics.h"
 #include "graphics_context.hpp"
@@ -237,6 +238,55 @@ void GObject::setFrozen(bool val) {
 bool GObject::hit(DamageInfo damage, SpaceVect n)
 {
 	return false;
+}
+
+bullet_attributes GObject::getBulletAttributes(shared_ptr<bullet_properties> props) const
+{
+	return bullet_attributes::getDefault();
+}
+
+bool GObject::isBulletObstacle(SpaceVect pos, SpaceFloat radius)
+{
+	return space->physicsContext->obstacleRadiusQuery(
+		this,
+		pos,
+		radius,
+		bulletObstacles,
+		PhysicsLayers::ground
+	);
+}
+
+gobject_ref GObject::spawnBullet(
+	shared_ptr<bullet_properties> props,
+	SpaceVect displacement,
+	SpaceVect velocity,
+	SpaceFloat angle,
+	SpaceFloat angularVelocity
+) {
+	return space->createBullet(
+		Bullet::makeParams(getPos() + displacement, angle, velocity, angularVelocity),
+		getBulletAttributes(props),
+		props
+	);
+}
+
+gobject_ref GObject::launchBullet(
+	shared_ptr<bullet_properties> props,
+	SpaceVect displacement,
+	SpaceFloat angle,
+	SpaceFloat angularVelocity,
+	bool obstacleCheck
+) {
+	SpaceVect position = getPos() + displacement;
+
+	if (obstacleCheck && isBulletObstacle(position, props->dimensions.getMax()))
+		return nullptr;
+
+	return space->createBullet(
+		Bullet::makeParams(position, angle, SpaceVect::zero, angularVelocity),
+		getBulletAttributes(props),
+		props
+	);
 }
 
 //END LOGIC

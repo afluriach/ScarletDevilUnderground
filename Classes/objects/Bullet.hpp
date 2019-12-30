@@ -12,46 +12,10 @@
 class Agent;
 class Wall;
 
-struct bullet_properties
-{
-	SpaceFloat speed;
-	SpaceVect dimensions;
-
-	DamageInfo damage;
-
-	string sprite;
-	string lightSource;
-
-	int hitCount = 1;
-	int ricochetCount = 0;
-
-	bool directionalLaunch = true;
-	bool ignoreObstacles = false;
-	bool deflectBullets = false;
-
-	bullet_properties clone();
-};
-
-//The attributes of the creating agent that can affect this object. These are 
-//captured from the agent when the bullet object factory is created.
-struct bullet_attributes
-{
-	static bullet_attributes getDefault();
-
-	SpaceVect casterVelocity;
-	gobject_ref caster;
-	GType type;
-	RoomSensor* startRoom = nullptr;
-
-	float size = 1.0f;
-	float attackDamage = 1.0f;
-	float bulletSpeed = 1.0f;
-};
-
 class Bullet : public GObject
 {
 public:
-	static const bool logRicochets;
+	static constexpr bool logRicochets = false;
 
 	static shared_ptr<object_params> makeParams(
 		SpaceVect pos,

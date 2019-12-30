@@ -101,6 +101,21 @@ namespace Lua{
 		spell["getCasterAsPlayer"] = &Spell::getCasterAs<Player>;
 		spell["getSpace"] = &Spell::getSpace;
 
+		spell["getBulletAttributes"] = &Spell::getBulletAttributes;
+		spell["spawnBullet"] = &Spell::spawnBullet;
+
+		spell["launchBullet"] = sol::overload(
+			[](Spell* spell, shared_ptr<bullet_properties> props, SpaceVect displacement, SpaceFloat angle) -> gobject_ref {
+				return spell->launchBullet(props, displacement, angle);
+			},
+			[](Spell* spell, shared_ptr<bullet_properties> props, SpaceVect displacement, SpaceFloat angle, SpaceFloat angularVelocity ) -> gobject_ref {
+				return spell->launchBullet(props, displacement, angle, angularVelocity);
+			},
+			[](Spell* spell,shared_ptr<bullet_properties> props,SpaceVect displacement,SpaceFloat angle,SpaceFloat angularVelocity,bool obstacleCheck) -> gobject_ref {
+				return spell->launchBullet(props, displacement, angle, angularVelocity, obstacleCheck);
+			}
+		);
+
 		auto spell_desc = _state.new_usertype<SpellDesc>("SpellDescriptor");
 #define _cls SpellDesc
 

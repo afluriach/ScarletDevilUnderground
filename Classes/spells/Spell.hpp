@@ -47,11 +47,28 @@ public:
 	bool isActive() const;
 
 	template<class T>
-	inline T* getCasterAs(){
+	inline T* getCasterAs() const{
 		return dynamic_cast<T*>(caster);
 	}
 
 	GSpace* getSpace() const;
+
+	bullet_attributes getBulletAttributes(shared_ptr<bullet_properties> props) const;
+
+	gobject_ref spawnBullet(
+		shared_ptr<bullet_properties> props,
+		SpaceVect displacement,
+		SpaceVect velocity,
+		SpaceFloat angle,
+		SpaceFloat angularVelocity
+	);
+	gobject_ref launchBullet(
+		shared_ptr<bullet_properties> props,
+		SpaceVect displacement,
+		SpaceFloat angle,
+		SpaceFloat angularVelocity = 0.0,
+		bool obstacleCheck = true
+	);
 
 	virtual shared_ptr<SpellDesc> getDescriptor() = 0;
 
