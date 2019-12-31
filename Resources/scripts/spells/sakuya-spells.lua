@@ -55,7 +55,6 @@ end
 
 function spells.IllusionDial:onBulletRemove(b)
 	self.bullets[b:getRef()] = nil
-	app.log('size is now' .. self.bullets:size())
 end
 
 function spells.IllusionDial:allBulletsConsumed()

@@ -17,7 +17,10 @@ class SpellSystem
 public:
 	friend class GSpace;
 
+	static constexpr bool logSpells = false;
+
 	SpellSystem(GSpace* gspace);
+	~SpellSystem();
 
 	unsigned int cast(shared_ptr<SpellDesc> desc, GObject* caster);
 
@@ -27,6 +30,7 @@ public:
 	void onRemove(unsigned int id, Bullet* b);
 protected:
 	void applyRemove(unsigned int id);
+	void applyRemovals();
 	void stopObjectSpells(GObject* obj);
 	void update();
 	

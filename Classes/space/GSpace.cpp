@@ -529,7 +529,6 @@ void GSpace::processRemoval(GObject* obj, bool _removeSprite)
 		removeNavObstacle(obj->getPos(), obj->getDimensions());
 	}
 
-	spellSystem->stopObjectSpells(obj);
 	obj->removePhysicsObjects();
 	obj->removeGraphics(_removeSprite);
 

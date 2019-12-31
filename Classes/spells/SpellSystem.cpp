@@ -17,6 +17,19 @@ SpellSystem::SpellSystem(GSpace* gspace) :
 {
 }
 
+SpellSystem::~SpellSystem()
+{
+	//Really, this shouldn't be necessary, since stopObjectSpell() will called in the GSpace
+	//destructor, as each GObject is removed.
+	//for (auto entry : spells) {
+	//	stopSpell(entry.first);
+	//}
+
+	//This part is necessary, to ensure that if a Spell gets stopped the frame before the GSpace is
+	//unloaded, the Spell will still get deleted.
+	applyRemovals();
+}
+
 unsigned int SpellSystem::cast(shared_ptr<SpellDesc> desc, GObject* caster)
 {
 	if (!desc) {
@@ -37,11 +50,18 @@ unsigned int SpellSystem::cast(shared_ptr<SpellDesc> desc, GObject* caster)
 
 	spell->init();
 
+	if (logSpells) {
+		log("Spell %s (%u) created and initialized.", spell->getDescriptor()->getName(), spell->id);
+	}
+
 	if (spell->length != 0.0){
 		spells.insert_or_assign(id, spell);
 		objectSpells.insert(make_pair(caster, id));
 	}
 	else {
+		if (logSpells) {
+			log("Immediate spell %s (%u) deleted.", spell->getDescriptor()->getName(), spell->id);
+		}
 		delete spell;
 	}
 
@@ -54,11 +74,15 @@ void SpellSystem::stopSpell(unsigned int id)
 
 	auto it = spells.find(id);
 	if (it != spells.end()) {
+		if (logSpells) {
+			log("Spell %s (%u) stopped.", it->second->getDescriptor()->getName(), it->second->id);
+		}
+
 		it->second->end();
 		toRemove.push_back(id);
 	}
 	else {
-		log("stopSpell(): spell ID % does not exist!", id);
+		log("stopSpell(): spell ID %u does not exist!", id);
 	}
 }
 
@@ -82,6 +106,10 @@ void SpellSystem::applyRemove(unsigned int id)
 {
 	auto it = spells.find(id);
 	if (it != spells.end()) {
+		if (logSpells) {
+			log("Spell %s (%u) erased.", it->second->getDescriptor()->getName(), it->second->id);
+		}
+
 		//erase object-spell entry
 		eraseEntry(objectSpells, make_pair(it->second->caster, it->first));
 		delete it->second;
@@ -102,12 +130,17 @@ void SpellSystem::stopObjectSpells(GObject* obj)
 	}
 }
 
-void SpellSystem::update()
+void SpellSystem::applyRemovals()
 {
 	for (auto id : toRemove) {
 		applyRemove(id);
 	}
 	toRemove.clear();
+}
+
+void SpellSystem::update()
+{
+	applyRemovals();
 
 	for (auto it = spells.begin(); it != spells.end(); ++it) {
 		if (!it->second->caster->applyOngoingSpellCost(it->second->getDescriptor()->getCost())) {
