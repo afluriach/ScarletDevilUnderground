@@ -131,6 +131,8 @@ protected:
 
 class Seek : public Function {
 public:
+	static constexpr double pathfindingCooldown = 0.25;
+
 	enum class states {
 		direct_seek,
 		pathfinding,
@@ -147,6 +149,7 @@ protected:
 	shared_ptr<Function> pathFunction;
 	gobject_ref target;
 	SpaceFloat margin;
+	SpaceFloat lastPathfind = 0.0;
 	states crntState = states::direct_seek;
 	bool usePathfinding;
 };

@@ -154,10 +154,6 @@ void green_fairy2(StateMachine* fsm, const ValueMap& args)
 
 void zombie_fairy(StateMachine* fsm, const ValueMap& args)
 {
-	fsm->addAlertFunction([](StateMachine* sm, Player* p)->void {
-		sm->addThread(make_shared<Wander>(sm, 2.0, 3.0, 1.5, 3.0));
-	});
-
 	auto engage = makeTargetFunctionGenerator<Seek>(true);
 	fsm->addWhileDetectHandler(GType::player, engage);
 

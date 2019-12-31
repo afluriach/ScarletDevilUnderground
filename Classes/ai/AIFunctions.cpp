@@ -367,26 +367,32 @@ Seek::Seek(StateMachine* fsm, GObject* target, bool usePathfinding, SpaceFloat m
 update_return Seek::update()
 {
 	GObject* agent = getObject();
+	timerDecrement(lastPathfind);
 
 	if (!target.isValid()) {
 		crntState = states::no_target;
 	}
 	else if (crntState == states::pathfinding && !isObstacleBetweenTarget(agent, target.get())) {
-		log("Seek exited pathfinding %u", getSpace()->getFrame());
 		crntState = states::direct_seek;
 		pathFunction.reset();
 	}
-	else if (usePathfinding && crntState == states::direct_seek && isObstacleBetweenTarget(agent, target.get())) {
-		log("Seek entered pathfinding %u", getSpace()->getFrame());
-		crntState = states::pathfinding;
+	else if (
+		usePathfinding &&
+		crntState == states::direct_seek &&
+		lastPathfind <= 0.0 &&
+		isObstacleBetweenTarget(agent, target.get())
+	){
 		pathFunction = ai::FollowPath::pathToTarget(fsm, target.get());
+		lastPathfind = pathfindingCooldown;
+
+		if (pathFunction) {
+			crntState = states::pathfinding;
+		}
 	}
 	else if (distanceToTarget(agent, target.get()->getPos()) < margin) {
-		log("Seek entered arrive %u", getSpace()->getFrame());
 		crntState = states::arriving;
 	}
 	else if (crntState == states::arriving && distanceToTarget(agent, target.get()->getPos()) > margin) {
-		log("Seek exited arrive %u", getSpace()->getFrame());
 		crntState = states::direct_seek;
 	}
 
@@ -1165,12 +1171,19 @@ shared_ptr<FollowPath> FollowPath::pathToTarget(
 	}
 	Agent* agent = fsm->getAgent();
 
+	Path path = fsm->getSpace()->pathToTile(
+		toIntVector(agent->getPos()),
+		toIntVector(target.get()->getPos())
+	);
+
+	if (path.empty()) {
+		log("%s (%u) no path to target", agent->getName(), agent->getUUID());
+		return nullptr;
+	}
+
 	return make_shared<FollowPath>(
 		fsm,
-		fsm->getSpace()->pathToTile(
-			toIntVector(agent->getPos()),
-			toIntVector(target.get()->getPos())
-		),
+		path,
 		false,
 		false
 	);
@@ -1215,13 +1228,11 @@ update_return FollowPath::update()
 		agent->setDirection(toDirection(ai::directionToTarget(agent, path[currentTarget])));
 		bool arrived = moveToPoint(agent, path[currentTarget], MoveToPoint::arrivalMargin, stopForObstacle);
 		currentTarget += arrived;
-		log("FollowPath: applied move to point, current index %d", currentTarget);
 	}
 	else if (loop && path.size() > 0) {
 		currentTarget = 0;
 	}
 	else {
-		log("FollowPath: pop");
 		return_pop();
 	}
 
