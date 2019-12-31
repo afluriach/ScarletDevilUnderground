@@ -256,7 +256,8 @@ bool GObject::isBulletObstacle(SpaceVect pos, SpaceFloat radius)
 	);
 }
 
-gobject_ref GObject::spawnBullet(
+gobject_ref GObject::_spawnBullet(
+	const bullet_attributes& attributes,
 	shared_ptr<bullet_properties> props,
 	SpaceVect displacement,
 	SpaceVect velocity,
@@ -265,12 +266,30 @@ gobject_ref GObject::spawnBullet(
 ) {
 	return space->createBullet(
 		Bullet::makeParams(getPos() + displacement, angle, velocity, angularVelocity),
-		getBulletAttributes(props),
+		attributes,
 		props
 	);
 }
 
-gobject_ref GObject::launchBullet(
+gobject_ref GObject::spawnBullet(
+	shared_ptr<bullet_properties> props,
+	SpaceVect displacement,
+	SpaceVect velocity,
+	SpaceFloat angle,
+	SpaceFloat angularVelocity
+) {
+	return _spawnBullet(
+		getBulletAttributes(props),
+		props,
+		displacement,
+		velocity,
+		angle,
+		angularVelocity
+	);
+}
+
+gobject_ref GObject::_launchBullet(
+	const bullet_attributes& attributes,
 	shared_ptr<bullet_properties> props,
 	SpaceVect displacement,
 	SpaceFloat angle,
@@ -284,8 +303,25 @@ gobject_ref GObject::launchBullet(
 
 	return space->createBullet(
 		Bullet::makeParams(position, angle, SpaceVect::zero, angularVelocity),
-		getBulletAttributes(props),
+		attributes,
 		props
+	);
+}
+
+gobject_ref GObject::launchBullet(
+	shared_ptr<bullet_properties> props,
+	SpaceVect displacement,
+	SpaceFloat angle,
+	SpaceFloat angularVelocity,
+	bool obstacleCheck
+) {
+	return _launchBullet(
+		getBulletAttributes(props),
+		props,
+		displacement,
+		angle,
+		angularVelocity,
+		obstacleCheck
 	);
 }
 

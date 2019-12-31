@@ -70,6 +70,14 @@ bool SpellSystem::isSpellActive(unsigned int id)
 	return it != spells.end();
 }
 
+void SpellSystem::onRemove(unsigned int id, Bullet* b)
+{
+	auto it = spells.find(id);
+	if (it != spells.end()) {
+		it->second->onBulletRemove(b);
+	}
+}
+
 void SpellSystem::applyRemove(unsigned int id)
 {
 	auto it = spells.find(id);

@@ -169,6 +169,24 @@ public:
 	virtual bullet_attributes getBulletAttributes(shared_ptr<bullet_properties> props) const;
 	bool isBulletObstacle(SpaceVect pos, SpaceFloat radius);
 
+	//Used by Spell, to override bullet attributes.
+	gobject_ref GObject::_spawnBullet(
+		const bullet_attributes& attributes,
+		shared_ptr<bullet_properties> props,
+		SpaceVect displacement,
+		SpaceVect velocity,
+		SpaceFloat angle,
+		SpaceFloat angularVelocity
+	);
+	gobject_ref _launchBullet(
+		const bullet_attributes& attributes,
+		shared_ptr<bullet_properties> props,
+		SpaceVect displacement,
+		SpaceFloat angle,
+		SpaceFloat angularVelocity,
+		bool obstacleCheck
+	);
+
 	gobject_ref spawnBullet(
 		shared_ptr<bullet_properties> props,
 		SpaceVect displacement,

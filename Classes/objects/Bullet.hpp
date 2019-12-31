@@ -32,6 +32,7 @@ public:
 	inline virtual ~Bullet() {}
 
 	virtual void init();
+	virtual void onRemove();
 	virtual void initializeGraphics();
 	virtual inline GraphicsLayer sceneLayer() const { return GraphicsLayer::ground; }
 	virtual inline string getSprite() const { return props->sprite; }

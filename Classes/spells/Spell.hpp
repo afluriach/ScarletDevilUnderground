@@ -14,6 +14,7 @@
 #define STANDARD_CONS(name) inline name(GObject* caster) : Spell(caster) {}
 #define GET_DESC(name) virtual inline shared_ptr<SpellDesc> getDescriptor() { return Spell::getDescriptorByName(#name); }
 
+class Bullet;
 class GObject;
 class MagicEffectDescriptor;
 class SpellDesc;
@@ -66,6 +67,7 @@ public:
 	inline virtual void init() {}
 	inline virtual void update() {}
 	inline virtual void end() {}
+	inline virtual void onBulletRemove(Bullet* b) {}
 
 	void stop();
 protected:
@@ -94,6 +96,7 @@ public:
 	virtual void init();
 	virtual void update();
 	virtual void end();
+	virtual void onBulletRemove(Bullet* b);
 protected:
 	string clsName;
 	sol::table obj;

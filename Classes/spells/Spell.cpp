@@ -8,6 +8,7 @@
 
 #include "Prefix.h"
 
+#include "Bullet.hpp"
 #include "LuaAPI.hpp"
 #include "MagicEffectSystem.hpp"
 #include "Spell.hpp"
@@ -62,7 +63,9 @@ GSpace* Spell::getSpace() const {
 
 bullet_attributes Spell::getBulletAttributes(shared_ptr<bullet_properties> props) const
 {
-	return caster->getBulletAttributes(props);
+	auto result = caster->getBulletAttributes(props);
+	result.sourceSpell = id;
+	return result;
 }
 
 gobject_ref Spell::spawnBullet(
@@ -72,7 +75,14 @@ gobject_ref Spell::spawnBullet(
 	SpaceFloat angle,
 	SpaceFloat angularVelocity
 ) {
-	return caster->spawnBullet(props, displacement, velocity, angle, angularVelocity);
+	return caster->_spawnBullet(
+		getBulletAttributes(props),
+		props,
+		displacement,
+		velocity,
+		angle,
+		angularVelocity
+	);
 }
 
 gobject_ref Spell::launchBullet(
@@ -82,7 +92,14 @@ gobject_ref Spell::launchBullet(
 	SpaceFloat angularVelocity,
 	bool obstacleCheck
 ) {
-	return caster->launchBullet(props, displacement, angle, angularVelocity, obstacleCheck);
+	return caster->_launchBullet(
+		getBulletAttributes(props),
+		props,
+		displacement,
+		angle,
+		angularVelocity,
+		obstacleCheck
+	);
 }
 
 void Spell::runUpdate()
@@ -165,6 +182,14 @@ void ScriptedSpell::end()
 	if (obj) {
 		sol::function f = obj["onExit"];
 		if (f) f(obj);
+	}
+}
+
+void ScriptedSpell::onBulletRemove(Bullet* b)
+{
+	if (obj) {
+		sol::function f = obj["onBulletRemove"];
+		if (f) f(obj, b);
 	}
 }
 

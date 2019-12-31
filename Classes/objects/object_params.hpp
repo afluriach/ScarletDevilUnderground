@@ -98,6 +98,7 @@ struct bullet_attributes
 	gobject_ref caster;
 	GType type;
 	RoomSensor* startRoom = nullptr;
+	unsigned int sourceSpell = 0;
 
 	float size = 1.0f;
 	float attackDamage = 1.0f;

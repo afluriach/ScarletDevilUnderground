@@ -13,6 +13,7 @@
 #include "Bullet.hpp"
 #include "graphics_context.hpp"
 #include "MagicEffect.hpp"
+#include "SpellSystem.hpp"
 
 shared_ptr<object_params> Bullet::makeParams(
 	SpaceVect pos,
@@ -39,6 +40,7 @@ Bullet::Bullet(
 		params,
 		physics_params(attributes.type, PhysicsLayers::ground, props->dimensions * attributes.size, 0.0, true)
 	),
+	attributes(attributes),
 	props(props)
 {
 	hitCount = props->hitCount;
@@ -175,5 +177,12 @@ void Bullet::init()
 
 	if (props->directionalLaunch) {
 		setVel(calculateLaunchVelocity());
+	}
+}
+
+void Bullet::onRemove()
+{
+	if (attributes.sourceSpell) {
+		space->spellSystem->onRemove(attributes.sourceSpell, this);
 	}
 }

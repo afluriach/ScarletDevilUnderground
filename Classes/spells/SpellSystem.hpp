@@ -9,6 +9,7 @@
 #ifndef SpellSystem_hpp
 #define SpellSystem_hpp
 
+class Bullet;
 class Spell;
 
 class SpellSystem
@@ -22,6 +23,8 @@ public:
 
 	void stopSpell(unsigned int id);
 	bool isSpellActive(unsigned int id);
+
+	void onRemove(unsigned int id, Bullet* b);
 protected:
 	void applyRemove(unsigned int id);
 	void stopObjectSpells(GObject* obj);

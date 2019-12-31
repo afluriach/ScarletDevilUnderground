@@ -63,7 +63,11 @@ namespace Lua{
 
 		addFuncSame(gobject, printFSM);
 			
+		gobject["getRef"] = [](const GObject* obj) -> gobject_ref { return gobject_ref(obj); };
 		gobject["getAsAgent"] = &GObject::getAs<Agent>;
+		gobject["getAsBullet"] = &GObject::getAs<Bullet>;
+		gobject["getAsPlayer"] = &GObject::getAs<Player>;
+		gobject["getAsTorch"] = &GObject::getAs<Torch>;
 		gobject["removeThreadByName"] = static_cast<void(GObject::*)(const string&)>(&GObject::removeThread);
 
 		auto agent = _state.new_usertype<Agent>("Agent", sol::base_classes, sol::bases<GObject>());
