@@ -112,7 +112,7 @@ public:
 	void pop();
 
 	GSpace* getSpace() const;
-	GObject* getAgentObject() const;
+	GObject* getObject() const;
 	Agent* getAgent() const;
 	physics_context* getPhys() const;
 
@@ -131,7 +131,6 @@ public:
     inline virtual string getName() const {return "Function";}
     
 	StateMachine* const fsm;
-	Agent* const agent;
 protected:
 	unsigned int spellID = 0;
 	Thread* thread = nullptr;

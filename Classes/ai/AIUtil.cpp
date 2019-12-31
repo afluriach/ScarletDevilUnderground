@@ -194,7 +194,7 @@ bool isInFieldOfView(GObject* agent, SpaceVect target, SpaceFloat fovAngleScalar
 	return scalar >= fovAngleScalarProduct;
 }
 
-bool isObstacle(Agent* agent, SpaceVect target)
+bool isObstacle(const GObject* agent, SpaceVect target)
 {
 	SpaceFloat maxSpeed = agent->getMaxSpeed();
 	SpaceFloat acceleration = agent->getMaxAcceleration();
@@ -210,7 +210,7 @@ bool isObstacle(Agent* agent, SpaceVect target)
 	return dist < distanceMargin;
 }
 
-bool isObstacleBetweenTarget(Agent* agent, const GObject* target)
+bool isObstacleBetweenTarget(const GObject* agent, const GObject* target)
 {
 	return agent->space->physicsContext->obstacleToTarget(
 		agent,
@@ -219,7 +219,7 @@ bool isObstacleBetweenTarget(Agent* agent, const GObject* target)
 	);
 }
 
-SpaceVect compute_seek(Agent* agent, SpaceVect target)
+SpaceVect compute_seek(const GObject* agent, SpaceVect target)
 {
 	SpaceVect displacement = target - agent->getPos();
 

@@ -67,7 +67,7 @@ namespace Lua{
 
 		addFuncSame(func, fsm);
 		addFuncSame(func, getSpace);
-		func["getObject"] = &ai::Function::getAgentObject;
+		func["getObject"] = &ai::Function::getObject;
 		addFuncSame(func, getAgent);
 		addFuncSame(func, onEnter);
 		addFuncSame(func, update);

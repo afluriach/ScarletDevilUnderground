@@ -32,6 +32,7 @@ BlueFairyPowerAttack::BlueFairyPowerAttack(StateMachine* fsm) :
 
 update_return BlueFairyPowerAttack::update()
 {
+	Agent* agent = getAgent();
 	SpaceFloat targetDist = agent->getRadar()->getSensedObjectDistance(GType::player);
 	auto& as = *agent->getAttributeSystem();
 
@@ -148,6 +149,7 @@ update_return RumiaMain1::update()
 {
 	timerDecrement(dsdTimer);
 
+	Agent* agent = getAgent();
 	auto& as = *agent->getAttributeSystem();
 	bool canCast = dsdTimer <= 0.0 && as[Attribute::mp] >= dsdCost;
 	bool willCast =
@@ -237,6 +239,7 @@ IllusionDash::IllusionDash(StateMachine* fsm, const ValueMap& args) :
 
 void IllusionDash::onEnter()
 {
+	GObject* agent = getObject();
 	SpaceVect disp = displacementToTarget(agent, target);
 
 	agent->setVel(disp.normalizeSafe()*speed);
@@ -250,6 +253,7 @@ void IllusionDash::onEnter()
 
 update_return IllusionDash::update()
 {
+	GObject* agent = getObject();
 	SpaceVect disp = displacementToTarget(agent, target);
 	agent->setVel(disp.normalizeSafe()*speed);
 

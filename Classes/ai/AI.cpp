@@ -75,8 +75,7 @@ shared_ptr<Function> Function::constructState(
 }
 
 Function::Function(StateMachine* fsm) :
-	fsm(fsm),
-	agent(fsm->getAgent())
+	fsm(fsm)
 {}
 
 void Function::pop() {
@@ -90,7 +89,7 @@ GSpace* Function::getSpace() const {
 	return fsm->getSpace();
 }
 
-GObject* Function::getAgentObject() const {
+GObject* Function::getObject() const {
 	return fsm->getObject();
 }
 
@@ -107,7 +106,7 @@ bool Function::castSpell(shared_ptr<SpellDesc> desc)
 	if (spellID != 0)
 		stopSpell();
 
-	spellID = getAgentObject()->cast(desc);
+	spellID = getObject()->cast(desc);
 	return spellID != 0;
 }
 
