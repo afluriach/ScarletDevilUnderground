@@ -12,6 +12,10 @@
 #include "SpellDescriptor.hpp"
 #include "SpellSystem.hpp"
 
+bool spellCompareID::operator()(const Spell* left, const Spell* right) const {
+	return left->getID() < right->getID();
+}
+
 SpellSystem::SpellSystem(GSpace* gspace) :
 	gspace(gspace)
 {
@@ -19,14 +23,6 @@ SpellSystem::SpellSystem(GSpace* gspace) :
 
 SpellSystem::~SpellSystem()
 {
-	//Really, this shouldn't be necessary, since stopObjectSpell() will called in the GSpace
-	//destructor, as each GObject is removed.
-	//for (auto entry : spells) {
-	//	stopSpell(entry.first);
-	//}
-
-	//This part is necessary, to ensure that if a Spell gets stopped the frame before the GSpace is
-	//unloaded, the Spell will still get deleted.
 	applyRemovals();
 }
 
@@ -51,16 +47,17 @@ unsigned int SpellSystem::cast(shared_ptr<SpellDesc> desc, GObject* caster)
 	spell->init();
 
 	if (logSpells) {
-		log("Spell %s (%u) created and initialized.", spell->getDescriptor()->getName(), spell->id);
+		log("Spell %s (%u) created and initialized.", spell->getName(), spell->id);
 	}
 
 	if (spell->length != 0.0){
 		spells.insert_or_assign(id, spell);
 		objectSpells.insert(make_pair(caster, id));
+		additions.push_back(spell);
 	}
 	else {
 		if (logSpells) {
-			log("Immediate spell %s (%u) deleted.", spell->getDescriptor()->getName(), spell->id);
+			log("Immediate spell %s (%u) deleted.", spell->getName(), spell->id);
 		}
 		delete spell;
 	}
@@ -75,11 +72,14 @@ void SpellSystem::stopSpell(unsigned int id)
 	auto it = spells.find(id);
 	if (it != spells.end()) {
 		if (logSpells) {
-			log("Spell %s (%u) stopped.", it->second->getDescriptor()->getName(), it->second->id);
+			log("Spell %s (%u) stopped.", it->second->getName(), it->second->id);
 		}
 
 		it->second->end();
-		toRemove.push_back(id);
+		removals.insert(it->second);
+
+		eraseEntry(objectSpells, make_pair(it->second->caster, it->first));
+		spells.erase(it);
 	}
 	else {
 		log("stopSpell(): spell ID %u does not exist!", id);
@@ -102,19 +102,10 @@ void SpellSystem::onRemove(unsigned int id, Bullet* b)
 	}
 }
 
-void SpellSystem::applyRemove(unsigned int id)
+void SpellSystem::applyRemove(Spell* spell)
 {
-	auto it = spells.find(id);
-	if (it != spells.end()) {
-		if (logSpells) {
-			log("Spell %s (%u) erased.", it->second->getDescriptor()->getName(), it->second->id);
-		}
-
-		//erase object-spell entry
-		eraseEntry(objectSpells, make_pair(it->second->caster, it->first));
-		delete it->second;
-		spells.erase(it);
-	}
+	updateSpells.erase(spell);
+	delete spell;
 }
 
 void SpellSystem::stopObjectSpells(GObject* obj)
@@ -132,22 +123,28 @@ void SpellSystem::stopObjectSpells(GObject* obj)
 
 void SpellSystem::applyRemovals()
 {
-	for (auto id : toRemove) {
-		applyRemove(id);
+	for (auto spell : removals) {
+		applyRemove(spell);
 	}
-	toRemove.clear();
+	removals.clear();
 }
 
 void SpellSystem::update()
 {
+	for (auto spell : additions) {
+		updateSpells.insert(spell);
+	}
+	additions.clear();
+
 	applyRemovals();
 
-	for (auto it = spells.begin(); it != spells.end(); ++it) {
-		if (!it->second->caster->applyOngoingSpellCost(it->second->getDescriptor()->getCost())) {
-			stopSpell(it->second->id);
+	for (auto it = updateSpells.begin(); it != updateSpells.end(); ++it) {
+		Spell* crnt = *it;
+		if (!crnt->caster->applyOngoingSpellCost(crnt->getCost())) {
+			stopSpell(crnt->id);
 		}
 		else {
-			it->second->runUpdate();
+			crnt->runUpdate();
 		}
 	}
 }

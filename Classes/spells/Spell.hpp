@@ -63,6 +63,9 @@ public:
 	);
 
 	inline shared_ptr<SpellDesc> getDescriptor() const { return descriptor; }
+	unsigned int getID() const;
+	string getName() const;
+	spell_cost getCost() const;
 
 	inline virtual void init() {}
 	inline virtual void update() {}

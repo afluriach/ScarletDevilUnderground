@@ -96,6 +96,10 @@ namespace Lua{
 
 		spell["stop"] = &Spell::stop;
 
+		spell["getID"] = &Spell::getID;
+		spell["getName"] = &Spell::getName;
+		spell["getCost"] = &Spell::getCost;
+		spell["getDescriptor"] = &Spell::getDescriptor;
 		spell["getCasterObject"] = &Spell::getCasterAs<GObject>;
 		spell["getCasterAsAgent"] = &Spell::getCasterAs<Agent>;
 		spell["getCasterAsPlayer"] = &Spell::getCasterAs<Player>;

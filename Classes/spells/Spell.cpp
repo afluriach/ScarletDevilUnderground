@@ -102,6 +102,18 @@ gobject_ref Spell::launchBullet(
 	);
 }
 
+unsigned int Spell::getID() const {
+	return id;
+}
+
+string Spell::getName() const {
+	return descriptor->getName();
+}
+
+spell_cost Spell::getCost() const {
+	return descriptor->getCost();
+}
+
 void Spell::runUpdate()
 {
 	timerIncrement(t);

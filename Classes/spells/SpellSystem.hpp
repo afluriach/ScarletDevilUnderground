@@ -12,6 +12,11 @@
 class Bullet;
 class Spell;
 
+struct spellCompareID
+{
+	bool operator()(const Spell* left, const Spell* right) const;
+};
+
 class SpellSystem
 {
 public:
@@ -29,13 +34,17 @@ public:
 
 	void onRemove(unsigned int id, Bullet* b);
 protected:
-	void applyRemove(unsigned int id);
+	void applyRemove(Spell* spell);
 	void applyRemovals();
 	void stopObjectSpells(GObject* obj);
 	void update();
 	
-	list<unsigned int> toRemove;
+	list<Spell*> additions;
+	//This is a set in order to ensure against double-deletion
+	set<Spell*> removals;
+
 	map<unsigned int, Spell*> spells;
+	set<Spell*, spellCompareID> updateSpells;
 	multimap<GObject*, unsigned int> objectSpells;
 
 	GSpace* gspace;
