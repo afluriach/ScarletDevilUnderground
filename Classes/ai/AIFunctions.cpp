@@ -367,22 +367,48 @@ Seek::Seek(StateMachine* fsm, GObject* target, bool usePathfinding, SpaceFloat m
 update_return Seek::update()
 {
 	GObject* agent = getObject();
-	if (target.isValid()) {
-		if (usePathfinding && isObstacleBetweenTarget(agent, target.get())) {
-			shared_ptr<Function> pathFunction = ai::PathToTarget::create(fsm, target.get());
-			return_push_if_valid(pathFunction);
-		}
-		else if (distanceToTarget(agent, target.get()->getPos()) < margin) {
-			arrive(agent, target.get()->getPos());
-		}
-		else {
-			seek(
-				agent,
-				target.get()->getPos(),
-				agent->getMaxSpeed(),
-				agent->getMaxAcceleration()
-			);
-		}
+
+	if (!target.isValid()) {
+		crntState = states::no_target;
+	}
+	else if (crntState == states::pathfinding && !isObstacleBetweenTarget(agent, target.get())) {
+		log("Seek exited pathfinding %u", getSpace()->getFrame());
+		crntState = states::direct_seek;
+		pathFunction.reset();
+	}
+	else if (usePathfinding && crntState == states::direct_seek && isObstacleBetweenTarget(agent, target.get())) {
+		log("Seek entered pathfinding %u", getSpace()->getFrame());
+		crntState = states::pathfinding;
+		pathFunction = ai::FollowPath::pathToTarget(fsm, target.get());
+	}
+	else if (distanceToTarget(agent, target.get()->getPos()) < margin) {
+		log("Seek entered arrive %u", getSpace()->getFrame());
+		crntState = states::arriving;
+	}
+	else if (crntState == states::arriving && distanceToTarget(agent, target.get()->getPos()) > margin) {
+		log("Seek exited arrive %u", getSpace()->getFrame());
+		crntState = states::direct_seek;
+	}
+
+	switch (crntState)
+	{
+	case states::direct_seek:
+		seek(
+			agent,
+			target.get()->getPos(),
+			agent->getMaxSpeed(),
+			agent->getMaxAcceleration()
+		);
+	break;
+	case states::pathfinding:
+		pathFunction->update();
+	break;
+	case states::arriving:
+		arrive(agent, target.get()->getPos());
+	break;
+	}
+
+	if (crntState != states::no_target) {
 		agent->setDirection(toDirection(
             ai::directionToTarget(
                 agent,
@@ -1189,49 +1215,17 @@ update_return FollowPath::update()
 		agent->setDirection(toDirection(ai::directionToTarget(agent, path[currentTarget])));
 		bool arrived = moveToPoint(agent, path[currentTarget], MoveToPoint::arrivalMargin, stopForObstacle);
 		currentTarget += arrived;
+		log("FollowPath: applied move to point, current index %d", currentTarget);
 	}
 	else if (loop && path.size() > 0) {
 		currentTarget = 0;
 	}
 	else {
+		log("FollowPath: pop");
 		return_pop();
 	}
 
 	return_steady();
-}
-
-shared_ptr<PathToTarget> PathToTarget::create(StateMachine* fsm, GObject* target)
-{
-	SpaceVect start = fsm->getAgent()->getPos();
-	SpaceVect endpoint = target->getPos();
-
-	Path p = fsm->getSpace()->pathToTile(
-		toIntVector(start),
-		toIntVector(endpoint)
-	);
-
-	if (p.empty()) {
-		log("%s was unable to find path to target!", fsm->getAgent()->getProperName());
-		return nullptr;
-	}
-
-	return make_shared<PathToTarget>(fsm, p, target);
-}
-
-PathToTarget::PathToTarget(StateMachine* fsm, Path path, gobject_ref target) :
-	FollowPath(fsm, path, false, false),
-	target(target)
-{
-}
-
-update_return PathToTarget::update()
-{
-	if (ai::isObstacleBetweenTarget(getObject(), target.get())) {
-		return_pop();
-	}
-	else {
-		return FollowPath::update();
-	}
 }
 
 Wander::Wander(StateMachine* fsm, const ValueMap& args) :

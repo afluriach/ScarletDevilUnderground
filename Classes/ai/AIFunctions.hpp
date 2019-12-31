@@ -131,14 +131,23 @@ protected:
 
 class Seek : public Function {
 public:
+	enum class states {
+		direct_seek,
+		pathfinding,
+		arriving,
+		no_target,
+	};
+
 	Seek(StateMachine* fsm, GObject* target, bool usePathfinding, SpaceFloat margin = 0.0);
     
 	virtual update_return update();
     
 	FuncGetName(Seek)
 protected:
+	shared_ptr<Function> pathFunction;
 	gobject_ref target;
 	SpaceFloat margin;
+	states crntState = states::direct_seek;
 	bool usePathfinding;
 };
 
@@ -412,18 +421,6 @@ protected:
 	size_t currentTarget = 0;
 	bool loop = false;
 	bool stopForObstacle = false;
-};
-
-class PathToTarget : public FollowPath {
-public:
-	static shared_ptr<PathToTarget> create(StateMachine* fsm, GObject* target);
-
-	PathToTarget(StateMachine* fsm, Path path, gobject_ref target);
-
-	virtual update_return update();
-	FuncGetName(PathToTarget)
-protected:
-	gobject_ref target;
 };
 
 class Wander : public Function {
