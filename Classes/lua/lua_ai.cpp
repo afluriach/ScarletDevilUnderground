@@ -129,26 +129,12 @@ namespace Lua{
 		scriptFunc["create"] = &create<ai::ScriptFunction, const string&>;
 		scriptFunc["targetGenerator"] = &ai::ScriptFunction::targetGenerator;
 
-		auto flock = _ai.new_usertype<ai::Flock>(
-			"Flock",
-			sol::base_classes, sol::bases<ai::Function>()
-		);
-		flock["create"] = &create<ai::Flock>;
 
-		auto idle = _ai.new_usertype<ai::IdleWait>(
-			"IdleWait",
+		auto evade = _ai.new_usertype<ai::Evade>(
+			"Evade",
 			sol::base_classes, sol::bases<ai::Function>()
 		);
-		idle["create"] = &create<ai::IdleWait>;
-
-		auto wander = _ai.new_usertype<ai::Wander>(
-			"Wander",
-			sol::base_classes, sol::bases<ai::Function>()
-		);
-		wander["create"] = sol::overload(
-			&create<ai::Wander>,
-			&create<ai::Wander,SpaceFloat, SpaceFloat, SpaceFloat, SpaceFloat>
-		);
+		evade["create"] = &create<ai::Evade, GType>;
 
 		auto flank = _ai.new_usertype<ai::Flank>(
 			"Flank",
@@ -164,25 +150,17 @@ namespace Lua{
 		flee["create"] = &create<ai::Flee, GObject*, SpaceFloat>;
 		flee["makeTargetFunctionGenerator"] = &ai::makeTargetFunctionGenerator<ai::Flee, SpaceFloat>;
 
-		auto seek = _ai.new_usertype<ai::Seek>(
-			"Seek",
+		auto flock = _ai.new_usertype<ai::Flock>(
+			"Flock",
 			sol::base_classes, sol::bases<ai::Function>()
 		);
-		seek["create"] = &create<ai::Seek, GObject*, bool, SpaceFloat>;
-		seek["makeTargetFunctionGenerator"] = &ai::makeTargetFunctionGenerator<ai::Seek, bool, SpaceFloat>;
+		flock["create"] = &create<ai::Flock>;
 
-		auto evade = _ai.new_usertype<ai::Evade>(
-			"Evade",
+		auto idle = _ai.new_usertype<ai::IdleWait>(
+			"IdleWait",
 			sol::base_classes, sol::bases<ai::Function>()
 		);
-		evade["create"] = &create<ai::Evade, GType>;
-
-		auto scurry = _ai.new_usertype < ai::Scurry> (
-			"Scurry",
-			sol::base_classes, sol::bases<ai::Function>()
-		);
-		scurry["create"] = &create<ai::Scurry,GObject*, SpaceFloat, SpaceFloat>;
-		scurry["makeTargetFunctionGenerator"] = &ai::makeTargetFunctionGenerator<ai::Scurry, SpaceFloat, SpaceFloat>;
+		idle["create"] = &create<ai::IdleWait>;
 
 		auto maintain_distance = _ai.new_usertype<ai::MaintainDistance>(
 			"MaintainDistance",
@@ -190,5 +168,28 @@ namespace Lua{
 		);
 		maintain_distance["create"] = &create<ai::MaintainDistance, gobject_ref, SpaceFloat, SpaceFloat>;
 		maintain_distance["makeTargetFunctionGenerator"] = &ai::makeTargetFunctionGenerator<ai::MaintainDistance, SpaceFloat, SpaceFloat>;
+
+		auto scurry = _ai.new_usertype < ai::Scurry>(
+			"Scurry",
+			sol::base_classes, sol::bases<ai::Function>()
+		);
+		scurry["create"] = &create<ai::Scurry, GObject*, SpaceFloat, SpaceFloat>;
+		scurry["makeTargetFunctionGenerator"] = &ai::makeTargetFunctionGenerator<ai::Scurry, SpaceFloat, SpaceFloat>;
+
+		auto seek = _ai.new_usertype<ai::Seek>(
+			"Seek",
+			sol::base_classes, sol::bases<ai::Function>()
+		);
+		seek["create"] = &create<ai::Seek, GObject*, bool, SpaceFloat>;
+		seek["makeTargetFunctionGenerator"] = &ai::makeTargetFunctionGenerator<ai::Seek, bool, SpaceFloat>;
+
+		auto wander = _ai.new_usertype<ai::Wander>(
+			"Wander",
+			sol::base_classes, sol::bases<ai::Function>()
+		);
+		wander["create"] = sol::overload(
+			&create<ai::Wander>,
+			&create<ai::Wander, SpaceFloat, SpaceFloat, SpaceFloat, SpaceFloat>
+		);
 	}
 }
