@@ -166,8 +166,6 @@ update_return RumiaMain1::update()
 
 void RumiaMain1::onExit()
 {
-	fsm->removeThread("Flank");
-	fsm->removeThread("FireAtTarget");
 }
 
 RumiaMain2::RumiaMain2(StateMachine* fsm, gobject_ref target) :
@@ -176,18 +174,24 @@ RumiaMain2::RumiaMain2(StateMachine* fsm, gobject_ref target) :
 {
 }
 
+void RumiaMain2::onEnter()
+{
+	flank = fsm->make<Flank>(target, 3.0, 1.0);
+	flank->onEnter();
+
+	dsd = fsm->make<RumiaDSD2>();
+	dsd->onEnter();
+
+	fire = fsm->make<FireAtTarget>(target);
+	fire->onEnter();
+}
+
 update_return RumiaMain2::update()
 {
-	if (!flankThread) {
-		fsm->addThread<Flank>(target, 3.0, 1.0);
-	}
+	autoUpdateFunction(flank);
+	autoUpdateFunction(fire);
 
-	auto comp = make_shared<CompositeFunction>(fsm);
-
-	comp->addFunction<RumiaDSD2>();
-	comp->addFunction<FireAtTarget>(target);
-
-	return_push(comp);
+	return_steady();
 }
 
 void RumiaDSD2::onEnter()

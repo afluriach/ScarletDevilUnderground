@@ -17,7 +17,10 @@ namespace ai{
 
 class AimAtTarget;
 class Cast;
+class FireAtTarget;
+class Flank;
 class FollowPath;
+class RumiaDSD2;
 
 class BlueFairyPowerAttack : public ai::Function {
 public:
@@ -100,9 +103,13 @@ class RumiaMain2 : public Function
 public:
 	RumiaMain2(StateMachine* fsm, gobject_ref target);
 
+	virtual void onEnter();
 	virtual update_return update();
 protected:
-	shared_ptr<Function> flankThread;
+	shared_ptr<FireAtTarget> fire;
+	shared_ptr<Flank> flank;
+	shared_ptr<RumiaDSD2> dsd;
+
 	gobject_ref target;
 };
 
