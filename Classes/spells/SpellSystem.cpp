@@ -104,6 +104,11 @@ void SpellSystem::stopObjectSpells(GObject* obj)
 
 void SpellSystem::update()
 {
+	for (auto id : toRemove) {
+		applyRemove(id);
+	}
+	toRemove.clear();
+
 	for (auto it = spells.begin(); it != spells.end(); ++it) {
 		if (!it->second->caster->applyOngoingSpellCost(it->second->getDescriptor()->getCost())) {
 			stopSpell(it->second->id);
@@ -112,9 +117,4 @@ void SpellSystem::update()
 			it->second->runUpdate();
 		}
 	}
-
-	for(auto id : toRemove) {
-		applyRemove(id);
-	}
-	toRemove.clear();
 }
