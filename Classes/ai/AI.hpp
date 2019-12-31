@@ -95,6 +95,14 @@ class Function
 public:
 	friend class Thread;
 
+	template<class C>
+	inline static void autoUpdateFunction(shared_ptr<C>& f) {
+		if (f && !f->isCompleted())
+			f->update();
+		if (f && f->isCompleted())
+			f.reset();
+	}
+
 	Function(StateMachine* fsm);
 	inline virtual ~Function() {}
 
@@ -123,6 +131,7 @@ public:
 	inline virtual void onEnter() {}
     inline virtual void onReturn() {}
 	inline virtual update_return update() { return_pop(); }
+	inline virtual bool isCompleted() { return true; }
 	inline virtual void onExit() {}
     
 	inline virtual bool onEvent(Event event) { return false; }

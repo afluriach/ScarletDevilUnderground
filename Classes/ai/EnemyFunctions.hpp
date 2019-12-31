@@ -15,6 +15,8 @@ class SpellDesc;
 
 namespace ai{
 
+class FollowPath;
+
 class BlueFairyPowerAttack : public ai::Function {
 public:
 	static const SpaceFloat cooldown;
@@ -38,6 +40,8 @@ public:
 	virtual void onEnter();
 	virtual update_return update();
 	FuncGetName(MarisaCollectMain)
+protected:
+	shared_ptr<FollowPath> moveFunction;
 };
 
 class MarisaForestMain : public Function {

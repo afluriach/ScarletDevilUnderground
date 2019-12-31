@@ -40,7 +40,7 @@
 	<flower_sky />
 	<flower_violet />
 	<goal />
-	<glyph dpi="256" ref-size="0.6667"/>
+	<glyph dpi="512" ref-size="0.6667"/>
 	<headstone />
 	<icePlatform file="ice_platform" ref-size="2.0" />
 	<launcher />

@@ -13,6 +13,8 @@
 
 namespace ai{
 
+class MoveToPoint;
+
 class OnDetect : public Function {
 public:
 	OnDetect(StateMachine* fsm, GType type, AITargetFunctionGenerator gen);
@@ -238,6 +240,7 @@ public:
 
 	FuncGetName(Scurry)
 protected:
+	shared_ptr<MoveToPoint> moveFunction;
 	unsigned int startFrame, endFrame;
 	SpaceFloat distance;
 	bool scurryLeft = true;
@@ -325,6 +328,7 @@ public:
 
 	bool wallQuery(SpaceVect pos);
 private:
+	shared_ptr<MoveToPoint> moveFunction;
 	gobject_ref target;
 	SpaceFloat desiredDistance;
 	SpaceFloat wallMargin;
@@ -374,11 +378,13 @@ public:
     MoveToPoint(StateMachine* fsm, const ValueMap& args);
 	MoveToPoint(StateMachine* fsm, SpaceVect target);
     
+	virtual inline bool isCompleted() const { return arrived; }
 	virtual update_return update();
 
     FuncGetName(MoveToPoint)
 protected:
     SpaceVect target;
+	bool arrived = false;
 };
 
 class BezierMove : public Function {
@@ -417,6 +423,7 @@ public:
 	FollowPath(StateMachine* fsm, Path path, bool loop, bool stopForObstacle);
 	inline virtual ~FollowPath() {}
 
+	virtual inline bool isCompleted() const { return completed; }
 	virtual update_return update();
 	FuncGetName(FollowPath)
 protected:
@@ -424,6 +431,7 @@ protected:
 	size_t currentTarget = 0;
 	bool loop = false;
 	bool stopForObstacle = false;
+	bool completed = false;
 };
 
 class Wander : public Function {
@@ -439,6 +447,7 @@ public:
 
 	FuncGetName(Wander)
 protected:
+	shared_ptr<MoveToPoint> moveFunction;
     SpaceFloat minWait, maxWait;
     SpaceFloat minDist, maxDist;
 	SpaceFloat waitTimer = 0.0;

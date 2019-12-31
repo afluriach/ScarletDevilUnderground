@@ -62,11 +62,14 @@ void MarisaCollectMain::onEnter()
 update_return MarisaCollectMain::update()
 {
 	GObject* player = getSpace()->getPlayer();
+	
+	autoUpdateFunction(moveFunction);
 
-	if (player)
-		return_push(ai::FollowPath::pathToTarget(fsm, player));
-	else
-		return_pop();
+	if (player && !moveFunction) {
+		moveFunction = ai::FollowPath::pathToTarget(fsm, player);
+	}
+
+	return_steady();
 }
 
 void MarisaForestMain::onEnter()

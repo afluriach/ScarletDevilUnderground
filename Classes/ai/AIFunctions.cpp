@@ -745,10 +745,14 @@ target(_target)
 update_return Scurry::update()
 {
 	GObject* agent = getObject();
+	autoUpdateFunction(moveFunction);
 
 	if (!target.isValid() || endFrame != 0 && getSpace()->getFrame() >= endFrame) {
 		return_pop();
 	}
+
+	if (moveFunction)
+		return_steady();
 
 	SpaceVect displacement = displacementToTarget(agent, target.get()->getPos());
 
@@ -762,13 +766,12 @@ update_return Scurry::update()
 	int direction = chooseBestDirection(obstacleFeelers, angle, distance);
 
 	if (direction != -1) {
-		return_push(fsm->make<MoveToPoint>(
+		moveFunction = fsm->make<MoveToPoint>(
 			agent->getPos() + SpaceVect::ray(distance, direction * float_pi / 4.0)
-		));
+		);
 	}
-	else {
-		return_steady();
-	}
+
+	return_steady();
 }
 
 Flee::Flee(StateMachine* fsm, GObject* target, SpaceFloat distance) :
@@ -953,6 +956,11 @@ update_return Flank::update()
 		return_pop();
 	}
 
+	autoUpdateFunction(moveFunction);
+
+	if (moveFunction)
+		return_steady();
+
 	GObject* agent = getObject();
 	SpaceVect target_pos;
 	SpaceVect pos = target.get()->getPos();
@@ -979,7 +987,7 @@ update_return Flank::update()
 		target_pos = rear_pos;
 	}
 	if (!target_pos.isZero()) {
-		return_push( fsm->make<MoveToPoint>(target_pos) );
+		moveFunction = fsm->make<MoveToPoint>(target_pos);
 	}
 	else {
 		applyDesiredVelocity(agent, SpaceVect::zero, agent->getMaxAcceleration());
@@ -1119,7 +1127,9 @@ MoveToPoint::MoveToPoint(StateMachine* fsm, SpaceVect target) :
 
 update_return MoveToPoint::update()
 {
-	bool arrived = moveToPoint(getObject(), target, arrivalMargin, false);
+	if (!arrived) {
+		arrived = moveToPoint(getObject(), target, arrivalMargin, false);
+	}
 	
 	return_pop_if_true(arrived);
 }
@@ -1233,6 +1243,7 @@ update_return FollowPath::update()
 		currentTarget = 0;
 	}
 	else {
+		completed = true;
 		return_pop();
 	}
 
@@ -1303,6 +1314,7 @@ update_return Wander::update()
 	GObject* agent = getObject();
 
 	timerDecrement(waitTimer);
+	autoUpdateFunction(moveFunction);
 
 	if (waitTimer <= 0.0) {
 		pair<Direction, SpaceFloat> movement = chooseMovement();
