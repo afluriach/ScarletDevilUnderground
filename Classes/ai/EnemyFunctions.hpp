@@ -15,6 +15,8 @@ class SpellDesc;
 
 namespace ai{
 
+class AimAtTarget;
+class Cast;
 class FollowPath;
 
 class BlueFairyPowerAttack : public ai::Function {
@@ -51,6 +53,9 @@ public:
 	virtual void onEnter();
 	virtual update_return update();
 	FuncGetName(MarisaForestMain)
+protected:
+	shared_ptr<AimAtTarget> aimFunction;
+	shared_ptr<Cast> castFunction;
 };
 
 class ReimuYinYangOrbs : public Function
@@ -83,6 +88,8 @@ public:
 	virtual void onExit();
 	FuncGetName(RumiaMain1);
 protected:
+	shared_ptr<FireAtTarget> fireFunction;
+	shared_ptr<Flank> moveFunction;
 	gobject_ref target;
 	SpaceFloat dsdTimer = 0.0;
 	size_t intervalIdx = 0;

@@ -469,6 +469,7 @@ public:
 
 	virtual void onEnter();
 	virtual update_return update();
+	inline virtual bool isCompleted() { return completed; }
 	virtual void onExit();
 
 	FuncGetName(Cast)
@@ -476,6 +477,7 @@ protected:
 	shared_ptr<SpellDesc> spell_desc;
 	SpaceFloat timer = 0.0;
 	SpaceFloat length;
+	bool completed = false;
 };
 
 class HPCast : public Function {

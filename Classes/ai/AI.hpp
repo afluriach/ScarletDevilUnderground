@@ -131,7 +131,7 @@ public:
 	inline virtual void onEnter() {}
     inline virtual void onReturn() {}
 	inline virtual update_return update() { return_pop(); }
-	inline virtual bool isCompleted() { return true; }
+	inline virtual bool isCompleted() { return false; }
 	inline virtual void onExit() {}
     
 	inline virtual bool onEvent(Event event) { return false; }

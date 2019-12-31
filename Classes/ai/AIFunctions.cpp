@@ -1410,21 +1410,24 @@ update_return Cast::update()
 
 	//Spell of length zero doesn't need to be stopped.
 	//It indicates that this Cast function is supposed to be immediate.
-	if (length == 0.0)
+	if (length == 0.0) {
+		completed = true;
 		return_pop();
+	}
 
 	if (length != -1.0 && timer >= length) {
 		stopSpell();
+		completed = true;
 		return_pop();
 	}
 	//removal is not immediately processed
 	
 	if (!isSpellActive()) {
+		completed = true;
 		return_pop();
 	}
-	else {
-		return_steady();
-	}
+	
+	return_steady();
 }
 
 void Cast::onExit()

@@ -75,12 +75,20 @@ update_return MarisaCollectMain::update()
 void MarisaForestMain::onEnter()
 {
 	gobject_ref player = fsm->getSpace()->getObjectRef("player");
-	fsm->addThread(make_shared<ai::AimAtTarget>(fsm, player));
+	aimFunction = make_shared<ai::AimAtTarget>(fsm, player);
 }
 
 update_return MarisaForestMain::update()
 {
-	return_push(fsm->make<ai::Cast>(Spell::getDescriptorByName("StarlightTyphoon"), -1.0));
+	autoUpdateFunction(aimFunction);
+	autoUpdateFunction(castFunction);
+
+	if (!castFunction) {
+		castFunction = fsm->make<ai::Cast>(Spell::getDescriptorByName("StarlightTyphoon"), -1.0);
+		castFunction->onEnter();
+	}
+
+	return_steady();
 }
 
 ReimuYinYangOrbs::ReimuYinYangOrbs(StateMachine* fsm) :
@@ -139,35 +147,21 @@ RumiaMain1::RumiaMain1(ai::StateMachine* fsm, gobject_ref target) :
 
 void RumiaMain1::onEnter()
 {
-	fsm->addThread(make_shared<ai::Flank>(fsm, target, 3.0, 1.0));
-	fsm->addThread(make_shared<ai::FireAtTarget>(fsm, target));
+	moveFunction = make_shared<ai::Flank>(fsm, target, 3.0, 1.0);
+	fireFunction = make_shared<ai::FireAtTarget>(fsm, target);
 }
 
 void RumiaMain1::onReturn()
 {
-	fsm->addThread(make_shared<ai::FireAtTarget>(fsm, target));
 }
 
 update_return RumiaMain1::update()
 {
 	timerDecrement(dsdTimer);
-
-	Agent* agent = getAgent();
-	auto& as = *agent->getAttributeSystem();
-	bool canCast = dsdTimer <= 0.0 && as[Attribute::mp] >= dsdCost;
-	bool willCast =
-		distanceToTarget(agent->getPos(), target.get()->getPos()) < dsdDistMargin &&
-		as.getMagicRatio() > as.getHealthRatio()
-	;
-
-	if (canCast && willCast) {
-		dsdTimer = dsdCooldown;
-		fsm->removeThread("FireAtTarget");
-		return_push(fsm->make<ai::Cast>(Spell::getDescriptorByName("DarknessSignDemarcation"), dsdLength));
-	}
-	else {
-		return_steady();
-	}
+	autoUpdateFunction(fireFunction);
+	autoUpdateFunction(moveFunction);
+	
+	return_steady();
 }
 
 void RumiaMain1::onExit()
