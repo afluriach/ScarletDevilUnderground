@@ -264,6 +264,7 @@ public:
 	Evade(StateMachine* fsm, GType type);
 
 	virtual update_return update();
+	inline virtual bool isActive() { return active; }
 
 	FuncGetName(Evade)
 protected:
@@ -444,6 +445,7 @@ public:
 	pair<Direction, SpaceFloat> chooseMovement();
 
 	virtual update_return update();
+	virtual void reset();
 
 	FuncGetName(Wander)
 protected:

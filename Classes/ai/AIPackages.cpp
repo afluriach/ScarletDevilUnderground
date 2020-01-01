@@ -133,25 +133,6 @@ void red_fairy(StateMachine* fsm, const ValueMap& args)
 	fsm->addFunction<ExplodeOnZeroHP>(DamageInfo(20.0f, DamageType::bomb, Attribute::end, 100.0f), 4.0);
 }
 
-void greenFairyEngage(StateMachine* sm, Player* p)
-{
-	sm->addThread(make_shared<Wander>(sm, 0.75, 1.5, 2.0, 4.0));
-	sm->addThread(make_shared<Evade>(sm, GType::playerBullet));
-	sm->addThread(make_shared<FireOnStress>(sm, 5.0f));
-}
-
-void green_fairy1(StateMachine* fsm, const ValueMap& args)
-{
-	fsm->addFleeBomb();
-	fsm->addAlertFunction(&greenFairyEngage);
-}
-
-void green_fairy2(StateMachine* fsm, const ValueMap& args)
-{
-	fsm->addFleeBomb();
-	fsm->addAlertFunction(&greenFairyEngage);
-}
-
 void zombie_fairy(StateMachine* fsm, const ValueMap& args)
 {
 	auto engage = makeTargetFunctionGenerator<Seek>(true);
@@ -257,8 +238,6 @@ const unordered_map<string, StateMachine::PackageType> StateMachine::packages = 
 	package(wander_and_flee_player),
 	package(ghost_fairy),
 	package(red_fairy),
-	package(green_fairy1),
-	package(green_fairy2),
 	package(zombie_fairy),
 	package(fairy2),
 	package(ice_fairy),

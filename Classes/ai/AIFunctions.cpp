@@ -1312,26 +1312,31 @@ pair<Direction, SpaceFloat> Wander::chooseMovement()
 update_return Wander::update()
 {
 	GObject* agent = getObject();
-
-	timerDecrement(waitTimer);
 	autoUpdateFunction(moveFunction);
 
-	if (waitTimer <= 0.0) {
+	if (!moveFunction) {
+		timerDecrement(waitTimer);
+		applyDesiredVelocity(agent, SpaceVect::zero, agent->getMaxAcceleration());
+	}
+
+	if (waitTimer <= 0.0 && !moveFunction) {
 		pair<Direction, SpaceFloat> movement = chooseMovement();
 
 		if (movement.first != Direction::none && movement.second > 0.0) {
 			agent->setDirection(movement.first);
 			waitTimer = fsm->getSpace()->getRandomFloat(minWait, maxWait);
-			return_push( fsm->make<MoveToPoint>(
+			moveFunction = fsm->make<MoveToPoint>(
 				agent->getPos() + dirToVector(movement.first)*movement.second
-			));
+			);
 		}
-	}
-	else {
-		applyDesiredVelocity(agent, SpaceVect::zero, agent->getMaxAcceleration());
 	}
 
 	return_steady();
+}
+
+void Wander::reset()
+{
+	moveFunction.reset();
 }
 
 FireAtTarget::FireAtTarget(StateMachine* fsm, gobject_ref target) :

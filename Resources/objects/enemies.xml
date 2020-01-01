@@ -108,7 +108,7 @@
 		name="Green Fairy I"
 
 		sprite="greenFairy"
-		ai_package="green_fairy1"
+		ai_package="green_fairy"
 		attributes="greenFairy1"
 		firepattern="GreenFairy1"
 		
@@ -124,7 +124,7 @@
 		name="Green Fairy II"
 
 		sprite="greenFairy2"
-		ai_package="green_fairy2"
+		ai_package="green_fairy"
 		attributes="greenFairy2"
 		firepattern="GreenFairy2"
 		

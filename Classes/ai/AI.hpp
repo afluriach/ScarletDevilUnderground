@@ -130,7 +130,9 @@ public:
 
 	inline virtual void onEnter() {}
     inline virtual void onReturn() {}
+	inline virtual void reset() {}
 	inline virtual update_return update() { return_pop(); }
+	inline virtual bool isActive() { return false; }
 	inline virtual bool isCompleted() { return false; }
 	inline virtual void onExit() {}
     

@@ -42,6 +42,11 @@ function ghost_fairy_npc(fsm)
 	fsm:addWhileDetectHandler(GType.player, seek)
 end
 
+function green_fairy(fsm)
+	fsm:addFleeBomb()
+	fsm:addAlertHandler( ai.ScriptFunction.targetGenerator("GreenFairy") )
+end
+
 function bat(fsm)
 	engage = ai.ScriptFunction.targetGenerator("BatEngage")
 	fsm:addWhileDetectHandler(GType.player, engage)

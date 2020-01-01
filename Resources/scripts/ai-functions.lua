@@ -83,6 +83,34 @@ function ai.Follower:getEvents()
 	return ai.event_type_bitfield(ai.event_type.bulletHit)
 end
 
+ai.GreenFairy = class("GreenFairy")
+
+function ai.GreenFairy:init(super)
+	self.super = super
+end
+
+function ai.GreenFairy:onEnter()
+	self.wander = ai.Wander.create(self.super.fsm, 0.75, 1.5, 2.0, 4.0)
+	self.wander:onEnter()
+	self.evade = ai.Evade.create(self.super.fsm, GType.playerBullet)
+	self.evade:onEnter()
+	self.fire = ai.FireOnStress.create(self.super.fsm, 5.0)
+	self.fire:onEnter()
+end
+
+function ai.GreenFairy:update()
+	self.evade:update()
+	self.fire:update()
+
+	if self.evade:isActive() then
+		self.wander:reset()
+	else
+		self.wander:update()
+	end
+		
+	return steady_return()
+end
+
 ai.SakuyaNPC1 = class("SakuyaNPC1")
 
 function ai.SakuyaNPC1:init(super)

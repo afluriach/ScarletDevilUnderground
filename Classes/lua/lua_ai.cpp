@@ -71,6 +71,9 @@ namespace Lua{
 		addFuncSame(func, getAgent);
 		addFuncSame(func, onEnter);
 		addFuncSame(func, update);
+		addFuncSame(func, reset);
+		addFuncSame(func, isActive);
+		addFuncSame(func, isCompleted);
 		addFuncSame(func, onReturn);
 		addFuncSame(func, onExit);
 		addFuncSame(func, onEvent);
@@ -191,5 +194,11 @@ namespace Lua{
 			&create<ai::Wander>,
 			&create<ai::Wander, SpaceFloat, SpaceFloat, SpaceFloat, SpaceFloat>
 		);
+
+		auto fireOnStress = _ai.new_usertype<ai::FireOnStress>(
+			"FireOnStress",
+			sol::base_classes, sol::bases<ai::Function>()
+		);
+		fireOnStress["create"] = &create<ai::FireOnStress, float>;
 	}
 }

@@ -22,8 +22,6 @@ namespace ai {
 	pfunc(follower);
 	pfunc(ghost_fairy);
 	pfunc(red_fairy);
-	pfunc(green_fairy1);
-	pfunc(green_fairy2);
 	pfunc(zombie_fairy);
 	pfunc(fairy2);
 	pfunc(ice_fairy);
