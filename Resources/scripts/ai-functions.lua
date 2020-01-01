@@ -111,6 +111,27 @@ function ai.GreenFairy:update()
 	return steady_return()
 end
 
+ai.Rumia1 = class("Rumia1")
+
+function ai.Rumia1:init(super, target)
+	self.super = super
+	self.target = target
+end
+
+function ai.Rumia1:onEnter()
+	self.moveFunction = ai.Flank.create(self.super.fsm, self.target, 3.0, 1.0)
+	self.moveFunction:onEnter()
+	self.fireFunction = ai.FireAtTarget.create(self.super.fsm, self.target)
+	self.fireFunction:onEnter()
+end
+
+function ai.Rumia1:update()
+	self.moveFunction = ai.autoUpdateFunction(self.moveFunction)
+	self.fireFunction = ai.autoUpdateFunction(self.fireFunction)
+	
+	return steady_return()
+end
+
 ai.SakuyaNPC1 = class("SakuyaNPC1")
 
 function ai.SakuyaNPC1:init(super)

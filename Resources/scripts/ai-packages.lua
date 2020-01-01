@@ -60,6 +60,14 @@ function follower(fsm)
 	fsm:addThread( ai.ScriptFunction.create(fsm, "Follower") )
 end
 
+function rumia1(fsm)
+	local engage = ai.ScriptFunction.targetGenerator("Rumia1")
+	local boss = ai.BossFightHandler.create(fsm, 'dialogs/rumia1', 'dialogs/rumia2')
+	
+	fsm:addFunction(boss)
+	fsm:addOnDetectHandler(GType.player, engage)
+end
+
 function sakuya_npc(fsm)
 	fsm:addThread( ai.ScriptFunction.create(fsm, "SakuyaNPC1") )
 end

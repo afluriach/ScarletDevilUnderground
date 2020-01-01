@@ -75,29 +75,6 @@ protected:
 	bool active = false;
 };
 
-class RumiaMain1 : public Function
-{
-public:
-	static const SpaceFloat dsdDistMargin;
-	static const SpaceFloat dsdLength;
-	static const SpaceFloat dsdCooldown;
-	static const float dsdCost;
-
-	RumiaMain1(StateMachine* fsm, gobject_ref target);
-
-	virtual void onEnter();
-	virtual void onReturn();
-	virtual update_return update();
-	virtual void onExit();
-	FuncGetName(RumiaMain1);
-protected:
-	shared_ptr<FireAtTarget> fireFunction;
-	shared_ptr<Flank> moveFunction;
-	gobject_ref target;
-	SpaceFloat dsdTimer = 0.0;
-	size_t intervalIdx = 0;
-};
-
 class RumiaMain2 : public Function
 {
 public:

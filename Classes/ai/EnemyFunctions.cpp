@@ -134,40 +134,6 @@ bool ReimuYinYangOrbs::onEvent(Event event)
 	return false;
 }
 
-const SpaceFloat RumiaMain1::dsdDistMargin = 5.0;
-const SpaceFloat RumiaMain1::dsdLength = 5.0;
-const SpaceFloat RumiaMain1::dsdCooldown = 15.0;
-const float RumiaMain1::dsdCost = 5.0f;
-
-RumiaMain1::RumiaMain1(ai::StateMachine* fsm, gobject_ref target) :
-	ai::Function(fsm),
-	target(target)
-{
-}
-
-void RumiaMain1::onEnter()
-{
-	moveFunction = make_shared<ai::Flank>(fsm, target, 3.0, 1.0);
-	fireFunction = make_shared<ai::FireAtTarget>(fsm, target);
-}
-
-void RumiaMain1::onReturn()
-{
-}
-
-update_return RumiaMain1::update()
-{
-	timerDecrement(dsdTimer);
-	autoUpdateFunction(fireFunction);
-	autoUpdateFunction(moveFunction);
-	
-	return_steady();
-}
-
-void RumiaMain1::onExit()
-{
-}
-
 RumiaMain2::RumiaMain2(StateMachine* fsm, gobject_ref target) :
 	Function(fsm),
 	target(target)

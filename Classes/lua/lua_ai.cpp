@@ -32,6 +32,12 @@ namespace Lua{
 		_ai["isFacingTargetsBack"] = &ai::isFacingTargetsBack;
 		_ai["viewAngleToTarget"] = &ai::viewAngleToTarget;
 
+		_ai["autoUpdateFunction"] = [](shared_ptr<ai::Function> f) -> shared_ptr<ai::Function> {
+			auto result = f;
+			ai::Function::autoUpdateFunction(result);
+			return result;
+		};
+
 		auto _update_return = _ai.new_usertype<ai::update_return>(
 			"update_return",
 			sol::constructors<ai::update_return(), ai::update_return(int,shared_ptr<ai::Function>)>()
@@ -119,6 +125,7 @@ namespace Lua{
 		addFuncSame(sm, addFleeBomb);
 		addFuncSame(sm, addAlertHandler);
 		addFuncSame(sm, addAlertFunction);
+		addFuncSame(sm, addOnDetectHandler);
 		addFuncSame(sm, addWhileDetectHandler);
 
 		addFuncSame(sm, getSpace);
@@ -195,10 +202,23 @@ namespace Lua{
 			&create<ai::Wander, SpaceFloat, SpaceFloat, SpaceFloat, SpaceFloat>
 		);
 
+		auto fireAtTarget = _ai.new_usertype<ai::FireAtTarget>(
+			"FireAtTarget",
+			sol::base_classes, sol::bases<ai::Function>()
+		);
+		fireAtTarget["create"] = &create<ai::FireAtTarget, gobject_ref>;
+		fireAtTarget["makeTargetFunctionGenerator"] = &ai::makeTargetFunctionGenerator<ai::FireAtTarget>;
+
 		auto fireOnStress = _ai.new_usertype<ai::FireOnStress>(
 			"FireOnStress",
 			sol::base_classes, sol::bases<ai::Function>()
 		);
 		fireOnStress["create"] = &create<ai::FireOnStress, float>;
+
+		auto boss = _ai.new_usertype<ai::BossFightHandler>(
+			"BossFightHandler",
+			sol::base_classes, sol::bases<ai::Function>()
+		);
+		boss["create"] = &create<ai::BossFightHandler, string, string>;
 	}
 }

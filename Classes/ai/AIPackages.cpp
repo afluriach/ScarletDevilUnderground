@@ -70,27 +70,6 @@ void blue_fairy_follow_path(StateMachine* fsm, const ValueMap& args)
 	}
 }
 
-void wander_and_flee_player(StateMachine* fsm, const ValueMap& args)
-{
-	auto wanderThread = make_shared<Thread>(
-		make_shared<Wander>(fsm, 1.0, 3.0, 2.0, 4.0),
-		fsm
-	);
-
-	fsm->addDetectFunction(
-		GType::player,
-		[wanderThread](StateMachine& sm, GObject* target) -> void {
-			wanderThread->popToRoot();
-			sm.addThread(make_shared<Flee>(&sm, target, 3.0f));
-		},
-		[=](StateMachine& sm, GObject* target) -> void {
-			fsm->removeThread("Flee");
-		}
-	);
-
-	fsm->addThread(wanderThread);
-}
-
 void ghost_fairy(StateMachine* fsm, const ValueMap& args)
 {
 	fsm->addDetectFunction(
@@ -206,15 +185,6 @@ void reimu_enemy(StateMachine* fsm, const ValueMap& args)
 	);
 }
 
-void rumia1(StateMachine* fsm, const ValueMap& args)
-{
-	auto engage = makeTargetFunctionGenerator<RumiaMain1>();
-	auto boss = make_shared<BossFightHandler>(fsm, "dialogs/rumia1", "dialogs/rumia2");
-
-	fsm->addFunction(boss);
-	fsm->addOnDetectHandler(GType::player, engage);
-}
-
 void rumia2(StateMachine* fsm, const ValueMap& args)
 {
 	auto engage = makeTargetFunctionGenerator<RumiaMain2>();
@@ -235,7 +205,6 @@ const unordered_map<string, StateMachine::PackageType> StateMachine::packages = 
 	package(circle_and_fire),
 	package(circle_around_point),
 	package(blue_fairy_follow_path),
-	package(wander_and_flee_player),
 	package(ghost_fairy),
 	package(red_fairy),
 	package(zombie_fairy),
@@ -245,7 +214,6 @@ const unordered_map<string, StateMachine::PackageType> StateMachine::packages = 
 	package(forest_marisa),
 	package(patchouli_enemy),
 	package(reimu_enemy),
-	package(rumia1),
 	package(rumia2),
 	package(sakuya),
 };
