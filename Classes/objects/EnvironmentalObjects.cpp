@@ -108,7 +108,7 @@ Sapling::Sapling(GSpace* space, ObjectIDType id, const ValueMap& args) :
 bool Mushroom::conditionalLoad(GSpace* space, ObjectIDType id, const ValueMap& args)
 {
 	int objectID = getIntOrDefault(args, "id", -1);
-	return objectID != -1 && !space->getState()->isMushroomAcquired(objectID);
+	return objectID != -1 && !space->getState()->hasAttribute("mushroom" + boost::lexical_cast<string>(objectID));
 }
 
 Mushroom::Mushroom(GSpace* space, ObjectIDType id, const ValueMap& args) :
@@ -119,8 +119,9 @@ Mushroom::Mushroom(GSpace* space, ObjectIDType id, const ValueMap& args) :
 
 void Mushroom::interact(Player* p)
 {
-	space->getState()->registerMushroomAcquired(objectID);
-	++space->getState()->mushroomCount;
+	space->getState()->setAttribute("mushroom" + boost::lexical_cast<string>(objectID), 1);
+	space->getState()->incrementAttribute("mushroomCount");
+
 	space->removeObject(this);
-	space->addHudAction<string, int>(&HUD::setObjectiveCounter, "sprites/mushroom.png", space->getState()->mushroomCount);
+	space->addHudAction<string, int>(&HUD::setObjectiveCounter, "sprites/mushroom.png", space->getState()->getAttribute("mushroomCount"));
 }

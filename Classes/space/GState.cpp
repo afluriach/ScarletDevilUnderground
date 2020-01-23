@@ -35,26 +35,6 @@ bool GState::hasItem(string name)
 	return itemRegistry.find(name) != itemRegistry.end();
 }
 
-void GState::registerMushroomAcquired(int id)
-{
-	mushroomFlags |= (1 << id);
-}
-
-bool GState::isMushroomAcquired(int id)
-{
-	return (mushroomFlags >> id) & 1;
-}
-
-void GState::setBlueFairyLevel(int id)
-{
-	blueFairies = id;
-}
-
-int GState::getBlueFairyLevel()
-{
-	return blueFairies;
-}
-
 void GState::registerChamberAvailable(ChamberID id)
 {
 	if (isValidChamber(id)) {
@@ -173,6 +153,42 @@ AttributeSystem GState::getPlayerStats()
 	AttributeSystem result(app::getAttributes(FlandrePC::baseAttributes));
 	result.apply(getUpgrades());
 	return result;
+}
+
+void GState::setAttribute(string name, int val)
+{
+	attributes.insert_or_assign(name, val);
+}
+
+int GState::getAttribute(string name)
+{
+	return getOrDefault(attributes, name, 0);
+}
+
+bool GState::hasAttribute(string name)
+{
+	return attributes.find(name) != attributes.end();
+}
+
+void GState::incrementAttribute(string name)
+{
+	auto it = attributes.find(name);
+
+	if(it != attributes.end()){
+		++it->second;
+	}
+	else {
+		attributes.insert_or_assign(name, 1);
+	}
+}
+
+void GState::subtractAttribute(string name, int val)
+{
+	auto it = attributes.find(name);
+
+	if (it != attributes.end()) {
+		it->second -= val;
+	}
 }
 
 void GState::setUpgradeLevels(int level)

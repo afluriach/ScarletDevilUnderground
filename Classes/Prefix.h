@@ -94,6 +94,7 @@
 #include <boost/range/irange.hpp>
 #include <boost/serialization/array.hpp>
 #include <boost/serialization/bitset.hpp>
+#include <boost/serialization/map.hpp>
 #include <boost/serialization/set.hpp>
 #include <boost/serialization/vector.hpp>
 #include <boost/smart_ptr/local_shared_ptr.hpp>

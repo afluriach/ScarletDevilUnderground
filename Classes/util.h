@@ -114,6 +114,13 @@ V getOrDefault(const map<K, V>& _map, const K& _key)
 }
 
 template<typename K, typename V>
+V getOrDefault(const map<K, V>& _map, const K& _key, const V& _default)
+{
+	auto it = _map.find(_key);
+	return it != _map.end() ? it->second : _default;
+}
+
+template<typename K, typename V>
 void emplaceIfEmpty(unordered_map<K, V>& _map, const K& _key, const V& _default)
 {
 	auto it = _map.find(_key);

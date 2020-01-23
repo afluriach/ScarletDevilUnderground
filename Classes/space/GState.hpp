@@ -28,6 +28,7 @@ struct ChamberStats
 		ar & timesCompleted;
 		ar & maxEnemiesDefeated;
 		ar & roomsVisited;
+		ar & mapFragments;
 	}
 };
 
@@ -55,36 +56,24 @@ public:
 
 	static void initProfiles();
 
+	map<string, int> attributes;
     set<string> itemRegistry;
 	CharacterUpgrade upgrades;
 	array<bool, to_size_t(ChamberID::end)> chambersAvailable = {};
 	array<ChamberStats, to_size_t(ChamberID::end)> chamberStats = {};
 
-	unsigned char mushroomFlags = 0;
-	unsigned char mushroomCount = 0;
-	unsigned char blueFairies = 0;
-
     template<class Archive>
     void serialize(Archive& ar, const unsigned int version)
     {
+		ar & attributes;
         ar & itemRegistry;
 		ar & upgrades;
 		ar & chambersAvailable;
 		ar & chamberStats;
-
-		ar & mushroomFlags;
-		ar & mushroomCount;
-		ar & blueFairies;
     }
 
 	void addItem(string name);
 	bool hasItem(string name);
-
-	void registerMushroomAcquired(int id);
-	bool isMushroomAcquired(int id);
-
-	void setBlueFairyLevel(int id);
-	int getBlueFairyLevel();
 
 	void registerChamberAvailable(ChamberID id);
 	//Only used for testing
@@ -103,6 +92,12 @@ public:
 	float getUpgradeLevel(Attribute at);
 	AttributeMap getUpgrades();
 	AttributeSystem getPlayerStats();
+
+	void setAttribute(string name, int val);
+	int getAttribute(string name);
+	bool hasAttribute(string name);
+	void incrementAttribute(string name);
+	void subtractAttribute(string name, int val);
 
 	//Apply all upgrades that are available at a certain point, for testing.
 	void setUpgradeLevels(int level);

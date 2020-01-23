@@ -33,7 +33,7 @@ FairyMaid::FairyMaid(GSpace* space, ObjectIDType id, const ValueMap& args) :
 bool BlueFairyNPC::conditionalLoad(GSpace* space, ObjectIDType id, const ValueMap& args)
 {
 	int level = getIntOrDefault(args, "level", 0);
-	return level > space->getState()->getBlueFairyLevel();
+	return level > space->getState()->getAttribute("BlueFairyLevel");
 }
 
 BlueFairyNPC::BlueFairyNPC(GSpace* space, ObjectIDType id, const ValueMap& args) :
@@ -49,21 +49,22 @@ BlueFairyNPC::BlueFairyNPC(GSpace* space, ObjectIDType id, const ValueMap& args)
 
 string BlueFairyNPC::getDialog()
 {
-	if (level > space->getState()->getBlueFairyLevel() + 1) return "dialogs/blue_fairy_no";
+	if (level > space->getState()->getAttribute("BlueFairyLevel") + 1) return "dialogs/blue_fairy_no";
 	else {
-		if (space->getState()->mushroomCount >= level) return "dialogs/blue_fairy_satisfied";
+		if (space->getState()->getAttribute("mushroomCount") >= level) return "dialogs/blue_fairy_satisfied";
 		else return "dialogs/blue_fairy_request_"+boost::lexical_cast<string>(level);
 	}
 }
 
 void BlueFairyNPC::onDialogEnd()
 {
-	if (level == space->getState()->getBlueFairyLevel() + 1 && space->getState()->mushroomCount >= level) {
-		++space->getState()->blueFairies;
-		space->getState()->mushroomCount -= level;
+	if (level == space->getState()->getAttribute("BlueFairyLevel") + 1 && space->getState()->getAttribute("mushroomCount") >= level) {
+		space->getState()->incrementAttribute("BlueFairyLevel");
+		space->getState()->subtractAttribute("mushroomCount", level);
+
 		space->removeObject(this);
 
-		space->addHudAction<string,int>(&HUD::setObjectiveCounter, "sprites/mushroom.png", space->getState()->mushroomCount);
+		space->addHudAction<string,int>(&HUD::setObjectiveCounter, "sprites/mushroom.png", space->getState()->getAttribute("mushroomCount"));
 	} 
 }
 
