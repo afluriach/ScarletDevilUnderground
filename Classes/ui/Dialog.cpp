@@ -8,13 +8,11 @@
 
 #include "Prefix.h"
 
-#include "App.h"
 #include "Dialog.hpp"
 #include "FileIO.hpp"
 #include "Graphics.h"
 #include "GraphicsNodes.hpp"
 #include "GScene.hpp"
-#include "GState.hpp"
 #include "LuaAPI.hpp"
 
 const Color4F Dialog::backgroundColor = Color4F(0.5, 0.5, 0.5, 0.5);

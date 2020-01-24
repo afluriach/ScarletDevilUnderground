@@ -8,7 +8,6 @@
 
 #include "Prefix.h"
 
-#include "App.h"
 #include "AreaSensor.hpp"
 #include "audio_context.hpp"
 #include "Bullet.hpp"
@@ -28,7 +27,6 @@
 #include "Player.hpp"
 #include "PlayScene.hpp"
 #include "RadarSensor.hpp"
-#include "replay.h"
 #include "Spawner.hpp"
 #include "Spell.hpp"
 #include "SpellSystem.hpp"
@@ -66,11 +64,6 @@ GSpace::GSpace(GScene* gscene) :
 		objByType[t] = unordered_set<GObject*>();
 	}
 
-	controlReplay = make_unique<Replay>();
-	controlReplay->scene_name = GScene::crntSceneName;
-	controlReplay->frame_rate = app::params.framesPerSecond;
-	crntState = make_unique<GState>();
-
 	magicEffectSystem = make_unique<MagicEffectSystem>(this);
 	spellSystem = make_unique<SpellSystem>(this);
 }
@@ -94,19 +87,10 @@ GSpace::~GSpace()
 	delete world;
 }
 
-GState* GSpace::getState() {
-	if (dynamic_cast<OverworldScene*>(gscene)) {
-		return App::crntState.get();
-	}
-	else {
-		return crntState.get();
-	}
-}
-
 ChamberStats& GSpace::getCrntChamberStats()
 {
-	crntState->checkInitAreaState(crntChamber);
-	return crntState->chamberStats.at(crntChamber);
+	App::crntState->checkInitAreaState(crntChamber);
+	return App::crntState->chamberStats.at(crntChamber);
 }
 
 IntVec2 GSpace::getSize() const {
@@ -142,8 +126,6 @@ void GSpace::update()
 	}
 	objectActions.clear();
 	objectActionsMutex.unlock();
-
-	updateControlInfo();
 
 #if USE_TIMERS
 	chrono::steady_clock::time_point t1 = chrono::steady_clock::now();
@@ -618,11 +600,6 @@ void GSpace::setRandomSeed(unsigned int seed)
 
 	randomEngine.seed(seed);
 	randomFloat.reset();
-
-	if (!isRunningReplay) {
-		log("Random seed %u saved.", seed);
-		controlReplay->random_seed = seed;
-	}
 }
 
 float GSpace::getRandomFloat() {
@@ -647,46 +624,12 @@ vector<int> GSpace::getRandomShuffle(int n) {
 	return result;
 }
 
-void GSpace::loadReplay(unique_ptr<Replay> replay)
-{
-	if (app::params.framesPerSecond != replay->frame_rate) {
-		log("loadReplay with different frame rate!");
-		return;
-	}
-
-	isRunningReplay = true;
-	setRandomSeed(replay->random_seed);
-	*crntState.get() = replay->crnt_state;
-	controlReplay = move(replay);
-}
-
 ControlInfo GSpace::getControlInfo() const {
 	return controlInfo;
 }
 
 void GSpace::setControlInfo(ControlInfo info) {
 	controlInfo = info;
-}
-
-void GSpace::updateControlInfo()
-{
-	if (isRunningReplay)
-	{
-		if (frame >= controlReplay->control_data.size()) {
-			addSceneAction(bind(&PlayScene::triggerReplayCompleted, getSceneAs<PlayScene>()));
-		}
-		else {
-			controlInfo = controlReplay->getControlInfo(frame);
-		}
-	}
-	else if(controlReplay)
-	{
-		controlReplay->control_data.push_back(getControlState(controlInfo));
-
-		if (controlReplay->control_data.size() != frame + 1) {
-			log("frame %ud, control replay has %ud frames.", frame, controlReplay->control_data.size());
-		}
-	}
 }
 
 unordered_map<int,string> GSpace::getUUIDNameMap() const
@@ -878,10 +821,10 @@ int GSpace::getPlayerRoom()
 
 void GSpace::applyMapFragment(int mapFragmentID)
 {
-	getState()->registerMapFragment(crntChamber, mapFragmentID);
+	App::crntState->registerMapFragment(crntChamber, mapFragmentID);
 
 	addSceneAction(bind(&GScene::applyMapFragment, gscene, mapFragmentID));
-	addHudAction(&HUD::setMapCounter, getState()->getMapFragmentCount(crntChamber));
+	addHudAction(&HUD::setMapCounter, App::crntState->getMapFragmentCount(crntChamber));
 }
 
 void GSpace::addRoomSensor(RoomSensor* rs)

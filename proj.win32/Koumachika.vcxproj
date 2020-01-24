@@ -159,7 +159,6 @@ xcopy "$(ProjectDir)..\Resources" "$(OutDir)" /D /E /I /F /Y</Command>
     <ClCompile Include="..\Classes\audio_context.cpp" />
     <ClCompile Include="..\Classes\controls\ControlMapping.cpp" />
     <ClCompile Include="..\Classes\controls\controls.cpp" />
-    <ClCompile Include="..\Classes\controls\replay.cpp" />
     <ClCompile Include="..\Classes\FileIO.cpp" />
     <ClCompile Include="..\Classes\Graph.cpp" />
     <ClCompile Include="..\Classes\graphics\GAnimation.cpp" />
@@ -278,7 +277,6 @@ xcopy "$(ProjectDir)..\Resources" "$(OutDir)" /D /E /I /F /Y</Command>
     <ClInclude Include="..\Classes\audio_context.hpp" />
     <ClInclude Include="..\Classes\controls\ControlAssignment.h" />
     <ClInclude Include="..\Classes\controls\controls.h" />
-    <ClInclude Include="..\Classes\controls\replay.h" />
     <ClInclude Include="..\Classes\enum.h" />
     <ClInclude Include="..\Classes\FileIO.hpp" />
     <ClInclude Include="..\Classes\functional.hpp" />

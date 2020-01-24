@@ -333,9 +333,6 @@
     <ClCompile Include="..\Classes\controls\controls.cpp">
       <Filter>src\controls</Filter>
     </ClCompile>
-    <ClCompile Include="..\Classes\controls\replay.cpp">
-      <Filter>src\controls</Filter>
-    </ClCompile>
     <ClCompile Include="..\Classes\graphics\graphics_types.cpp">
       <Filter>src\graphics</Filter>
     </ClCompile>
@@ -681,9 +678,6 @@
       <Filter>src\controls</Filter>
     </ClInclude>
     <ClInclude Include="..\Classes\controls\controls.h">
-      <Filter>src\controls</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Classes\controls\replay.h">
       <Filter>src\controls</Filter>
     </ClInclude>
     <ClInclude Include="..\Classes\xml.hpp">

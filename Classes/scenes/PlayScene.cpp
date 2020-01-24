@@ -8,7 +8,6 @@
 
 #include "Prefix.h"
 
-#include "App.h"
 #include "audio_context.hpp"
 #include "Dialog.hpp"
 #include "FileIO.hpp"
@@ -20,7 +19,6 @@
 #include "multifunction.h"
 #include "Player.hpp"
 #include "PlayScene.hpp"
-#include "replay.h"
 #include "value_map.hpp"
 
 void printGroup(TMXObjectGroup* group)
@@ -197,18 +195,6 @@ void PlayScene::triggerSceneCompleted()
 	triggerMenu(&PlayScene::showSceneCompletedMenu);
 }
 
-void PlayScene::showReplayCompletedMenu()
-{
-	logPerformance();
-	showMenu(Node::ccCreate<ReplayCompletedMenu>());
-}
-
-void PlayScene::triggerReplayCompleted()
-{
-	setPaused(true);
-	triggerMenu(&PlayScene::showReplayCompletedMenu);
-}
-
 void PlayScene::enterMap()
 {
 	if (isShowingMenu || isOverworld)
@@ -262,35 +248,6 @@ void PlayScene::exitWorldSelect()
 GScene* PlayScene::getReplacementScene()
 {
 	return Node::ccCreate<PlayScene>(sceneName, maps);
-}
-
-bool PlayScene::loadReplayData(const string& filename)
-{
-	return loadReplayData(io::getControlReplay(filename));
-}
-
-bool PlayScene::loadReplayData(unique_ptr<Replay> _replay)
-{
-	bool b = _replay.get();
-
-	gspace->loadReplay(move(_replay));
-
-	isRunningReplay = b;
-	return b;
-}
-
-void PlayScene::saveReplayData(const string& filename)
-{
-	if (!isRunningReplay) {
-		io::saveControlReplay(filename, gspace->getReplay());
-	}
-}
-
-void PlayScene::autosaveReplayData()
-{
-	if (!isRunningReplay) {
-		io::autosaveControlReplay(sceneName, gspace->getReplay());
-	}
 }
 
 void PlayScene::showMenu(MenuLayer* menu)

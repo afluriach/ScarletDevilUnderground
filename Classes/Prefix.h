@@ -122,6 +122,8 @@ typedef double SpaceFloat;
 #include "GSpace.hpp"
 #include "GObject.hpp"
 #include "Attributes.hpp"
+#include "App.h"
+#include "GState.hpp"
 
 #define DEV_MODE 1
 #define GSPACE_MULTITHREAD 1

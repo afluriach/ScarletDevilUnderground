@@ -8,7 +8,6 @@
 
 #include "Prefix.h"
 
-#include "App.h"
 #include "LuaAPI.hpp"
 #include "LuaShell.hpp"
 

@@ -11,7 +11,6 @@
 #include "EnvironmentalObjects.hpp"
 #include "Graphics.h"
 #include "graphics_context.hpp"
-#include "GState.hpp"
 #include "HUD.hpp"
 #include "PlayScene.hpp"
 #include "value_map.hpp"
@@ -39,7 +38,7 @@ bool Headstone::conditionalLoad(GSpace* space, ObjectIDType id, const ValueMap& 
 	if (level == 0)
 		return true;
 	else
-		return !space->getState()->isChamberCompleted("Graveyard" + boost::lexical_cast<string>(level));
+		return !App::crntState->isChamberCompleted("Graveyard" + boost::lexical_cast<string>(level));
 }
 
 Headstone::Headstone(GSpace* space, ObjectIDType id, const ValueMap& args) :
@@ -108,7 +107,7 @@ Sapling::Sapling(GSpace* space, ObjectIDType id, const ValueMap& args) :
 bool Mushroom::conditionalLoad(GSpace* space, ObjectIDType id, const ValueMap& args)
 {
 	int objectID = getIntOrDefault(args, "id", -1);
-	return objectID != -1 && !space->getState()->hasAttribute("mushroom" + boost::lexical_cast<string>(objectID));
+	return objectID != -1 && !App::crntState->hasAttribute("mushroom" + boost::lexical_cast<string>(objectID));
 }
 
 Mushroom::Mushroom(GSpace* space, ObjectIDType id, const ValueMap& args) :
@@ -119,9 +118,9 @@ Mushroom::Mushroom(GSpace* space, ObjectIDType id, const ValueMap& args) :
 
 void Mushroom::interact(Player* p)
 {
-	space->getState()->setAttribute("mushroom" + boost::lexical_cast<string>(objectID), 1);
-	space->getState()->incrementAttribute("mushroomCount");
+	App::crntState->setAttribute("mushroom" + boost::lexical_cast<string>(objectID), 1);
+	App::crntState->incrementAttribute("mushroomCount");
 
 	space->removeObject(this);
-	space->addHudAction<string, int>(&HUD::setObjectiveCounter, "sprites/mushroom.png", space->getState()->getAttribute("mushroomCount"));
+	space->addHudAction<string, int>(&HUD::setObjectiveCounter, "sprites/mushroom.png", App::crntState->getAttribute("mushroomCount"));
 }

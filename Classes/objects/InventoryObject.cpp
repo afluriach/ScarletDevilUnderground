@@ -8,7 +8,6 @@
 
 #include "Prefix.h"
 
-#include "GState.hpp"
 #include "InventoryObject.hpp"
 
 InventoryObject::InventoryObject(GSpace* space, ObjectIDType id, const ValueMap& args) :
@@ -35,7 +34,7 @@ void InventoryObject::onPlayerContact(Player* player)
 		onAcquire(player);
 		string _name = itemName();
 		if(!_name.empty())
-			space->getState()->itemRegistry.insert(_name);
+			App::crntState->itemRegistry.insert(_name);
 
 		//remove item object
 		space->removeObject(this);

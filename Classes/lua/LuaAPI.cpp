@@ -9,12 +9,10 @@
 #include "Prefix.h"
 
 #include "Agent.hpp"
-#include "App.h"
 #include "app_constants.hpp"
 #include "FileIO.hpp"
 #include "Graphics.h"
 #include "GScene.hpp"
-#include "GState.hpp"
 #include "HUD.hpp"
 #include "LuaAPI.hpp"
 #include "Player.hpp"
@@ -207,7 +205,6 @@ const vector<string> Inst::luaIncludes = {
 		#define _cls GScene
 
 		addFuncSame(gscene, runScene);
-		addFuncSame(gscene, runSceneWithReplay);
 		addFuncSame(gscene, getSpace);
 		addFuncSame(gscene, setPaused);
 		addFuncSame(gscene, stopDialog);
@@ -220,8 +217,6 @@ const vector<string> Inst::luaIncludes = {
 		auto playscene = _state.new_usertype<PlayScene>("PlayScene", sol::base_classes, sol::bases<GScene>());
 		#define _cls PlayScene
 		
-		addFuncSame(playscene, saveReplayData);
-
 		auto gspace = newType(GSpace);
 		#define _cls GSpace
 

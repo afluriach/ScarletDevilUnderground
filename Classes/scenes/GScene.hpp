@@ -90,13 +90,10 @@ public:
 	static const bool scriptLog;
 
 	static string crntSceneName;
-	static string crntReplayName;
 	static bool suppressGameOver;
 
 	static GScene* runScene(const string& name);
-	static void runSceneWithReplay(const string& replayName);
 	static void restartScene();
-	static void restartReplayScene();
 
 	vector<MapEntry> singleMapEntry(const string& mapName);
 	static const IntVec2 getRoomOffset(IntVec2 roomSize, int roomGridX, int roomGridY);

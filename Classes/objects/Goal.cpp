@@ -41,7 +41,7 @@ bool Goal::canInteract(Player* p)
 
 void Goal::interact(Player* p)
 {
-	if (isBlocked || space->getIsRunningReplay()) return;
+	if (isBlocked) return;
 
 	space->addSceneAction(
 		[=]()->void { playScene->triggerSceneCompleted(); }

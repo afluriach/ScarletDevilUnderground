@@ -9,7 +9,6 @@
 #ifndef LibraryOpening_h
 #define LibraryOpening_h
 
-#include "App.h"
 #include "Dialog.hpp"
 #include "functional.hpp"
 #include "GScene.hpp"

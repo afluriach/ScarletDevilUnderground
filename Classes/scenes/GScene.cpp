@@ -8,7 +8,6 @@
 
 #include "Prefix.h"
 
-#include "App.h"
 #include "app_constants.hpp"
 #include "Dialog.hpp"
 #include "FileIO.hpp"
@@ -19,14 +18,12 @@
 #include "LuaShell.hpp"
 #include "menu.h"
 #include "PlayScene.hpp"
-#include "replay.h"
 #include "value_map.hpp"
 
 const int GScene::dialogEdgeMargin = 30;
 const bool GScene::scriptLog = false;
 
 string GScene::crntSceneName;
-string GScene::crntReplayName;
 bool GScene::suppressGameOver = false;
 
 GScene* GScene::runScene(const string& name)
@@ -44,37 +41,9 @@ GScene* GScene::runScene(const string& name)
     }
 }
 
-void GScene::runSceneWithReplay(const string& replayName)
-{
-	unique_ptr<Replay> controlReplay = io::getControlReplay(replayName);
-
-	if (controlReplay) {
-		if (controlReplay->frame_rate != app::params.framesPerSecond) {
-			log("Attempt to load %d FPS replay, current frame rate is %d.",
-				controlReplay->frame_rate,
-				app::params.framesPerSecond
-			);
-			return;
-		}
-
-		GScene* _scene = runScene(controlReplay->scene_name);
-		PlayScene* ps = dynamic_cast<PlayScene*>(_scene);
-
-		if (ps) {
-			ps->loadReplayData(move(controlReplay));
-			crntReplayName = replayName;
-		}
-	}
-}
-
 void GScene::restartScene()
 {
 	runScene(crntSceneName);
-}
-
-void GScene::restartReplayScene()
-{
-	runSceneWithReplay(crntReplayName);
 }
 
 GScene::GScene(const string& sceneName, const vector<MapEntry>& maps) :
@@ -186,7 +155,6 @@ bool GScene::init()
 	string current = getCurrentLevel();
 	gspace->setRandomSeed(to_uint(time(nullptr)));
 	gspace->crntChamber = current;
-	*gspace->crntState.get() = *App::crntState.get();
 
 	multiInit();
 

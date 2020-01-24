@@ -17,7 +17,6 @@ class HUD;
 class MapMenu;
 class MenuLayer;
 class PauseMenu;
-class Replay;
 
 class PlayScene : public GScene
 {
@@ -35,11 +34,6 @@ public:
 	virtual void update(float dt);
 
 	void showVisibleRooms();
-
-	bool loadReplayData(const string& filename);
-	bool loadReplayData(unique_ptr<Replay> _replay);
-	void saveReplayData(const string& filename);
-	void autosaveReplayData();
 
     void applyCameraControls();
 
@@ -63,9 +57,6 @@ public:
 	void triggerSceneCompleted();
 	void showSceneCompletedMenu();
 
-	void triggerReplayCompleted();
-	void showReplayCompletedMenu();
-
 	virtual GScene* getReplacementScene();
 
 	inline void setIsOverworld(bool val) { isOverworld = val; }
@@ -81,7 +72,6 @@ private:
 
 	SpaceFloat cameraMoveTilesPerSecond = 3.0;
 
-	bool isRunningReplay = false;
 	bool isShowingMenu = false;
 	bool isOverworld = false;
 };

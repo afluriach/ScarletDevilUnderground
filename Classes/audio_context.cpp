@@ -8,7 +8,6 @@
 
 #include "Prefix.h"
 
-#include "App.h"
 #include "Resources.hpp"
 #include "audio_context.hpp"
 

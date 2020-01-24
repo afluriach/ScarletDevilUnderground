@@ -37,15 +37,12 @@
 
 #include "menu_layers.h"
 
-#include "App.h"
 #include "app_constants.hpp"
 #include "audio_context.hpp"
 #include "FileIO.hpp"
 #include "functional.hpp"
-#include "GState.hpp"
 #include "multifunction.h"
 #include "physics_context.hpp"
-#include "replay.h"
 #include "Resources.hpp"
 #include "value_map.hpp"
 

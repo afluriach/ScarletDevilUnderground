@@ -9,7 +9,6 @@
 #include "Prefix.h"
 
 #include "AIUtil.hpp"
-#include "App.h"
 #include "AreaSensor.hpp"
 #include "audio_context.hpp"
 #include "Bomb.hpp"
@@ -22,7 +21,6 @@
 #include "Graphics.h"
 #include "graphics_context.hpp"
 #include "GraphicsNodes.hpp"
-#include "GState.hpp"
 #include "HUD.hpp"
 #include "MagicEffect.hpp"
 #include "physics_context.hpp"
@@ -101,7 +99,7 @@ void Player::equipFirePatterns()
 
 	for (auto entry : FirePattern::playerFirePatterns)
 	{
-		if (space->getState()->hasItem(entry.first) || app::params.unlockAllEquips) {
+		if (App::crntState->hasItem(entry.first) || app::params.unlockAllEquips) {
 			shared_ptr<FirePattern> pattern = entry.second(this);
 
 			if (pattern) {
@@ -125,7 +123,7 @@ void Player::equipSpells()
 
 	for (string spellName : Spell::playerSpells)
 	{
-		if (!app::params.unlockAllEquips && !space->getState()->hasItem(spellName))
+		if (!app::params.unlockAllEquips && !App::crntState->hasItem(spellName))
 			continue;
 
 		shared_ptr<SpellDesc> desc = Spell::getDescriptorByName(spellName);
@@ -426,11 +424,9 @@ void Player::onZeroHP()
 	if (!GScene::suppressGameOver) {
 		space->audioContext->playSound("sfx/player_death.wav", 0.5f);
 
-		if (!space->getIsRunningReplay()) {
-			space->addSceneAction(
-				[=]()->void { playScene->triggerGameOver(); }
-			);
-		}
+		space->addSceneAction(
+			[=]()->void { playScene->triggerGameOver(); }
+		);
 	}
 }
 
@@ -513,7 +509,7 @@ void Player::useKey()
 
 AttributeMap Player::getAttributeUpgrades() const
 {
-	return space->getState()->getUpgrades();
+	return App::crntState->getUpgrades();
 }
 
 void Player::onBulletCollide(Bullet* b, SpaceVect n)
@@ -597,7 +593,7 @@ void Player::applyUpgrade(Upgrade* up)
 		);
 	}
 
-	space->getState()->registerUpgrade(at, up->upgrade_id);
+	App::crntState->registerUpgrade(at, up->upgrade_id);
 	space->removeObject(up);
 }
 

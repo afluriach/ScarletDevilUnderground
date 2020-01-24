@@ -8,9 +8,7 @@
 
 #include "Prefix.h"
 
-#include "App.h"
 #include "Door.hpp"
-#include "GState.hpp"
 #include "HUD.hpp"
 #include "OverworldScene.hpp"
 #include "Player.hpp"

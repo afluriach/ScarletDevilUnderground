@@ -9,7 +9,7 @@
 #include "Prefix.h"
 
 #include "FileIO.hpp"
-#include "GState.hpp"
+//#include "GState.hpp"
 #include "Player.hpp"
 
 vector<bool> GState::profileSlotsInUse;

@@ -1,13 +1,11 @@
 #include "Prefix.h"
 
 #include "AI.hpp"
-#include "App.h"
 #include "app_constants.hpp"
 #include "audio_context.hpp"
 #include "FileIO.hpp"
 #include "functional.hpp"
 #include "GScene.hpp"
-#include "GState.hpp"
 #include "LuaAPI.hpp"
 #include "menu_scenes.h"
 #include "OpeningScene.hpp"

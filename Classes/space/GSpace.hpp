@@ -23,7 +23,6 @@ namespace Lua { class Inst; }
 class MagicEffectSystem;
 class PlayScene;
 class RadarSensor;
-class Replay;
 class RoomSensor;
 class SpellSystem;
 
@@ -54,13 +53,10 @@ public:
     GSpace(GScene* gscene);    
     ~GSpace();
     
-	//Will return this GSpace's state if running a chamber scene, else the App::crntState.
-	GState* getState();
-	ChamberStats& getCrntChamberStats();
-
 	IntVec2 getSize() const;
     void setSize(int x, int y);
     
+	ChamberStats& getCrntChamberStats();
 	inline string getCrntChamber() const { return crntChamber; }
 	inline bool isInCallback() const { return isInPhysicsStep; }
 	unsigned int getFrame() const;
@@ -248,13 +244,9 @@ public:
 	//Generate the numbers [0,N) in a random order
 	vector<int> getRandomShuffle(int n);
 
-	void loadReplay(unique_ptr<Replay> replay);
-	inline const Replay* getReplay() { return controlReplay.get(); }
 	ControlInfo getControlInfo() const;
 	void setControlInfo(ControlInfo info);
-	inline bool getIsRunningReplay() { return isRunningReplay; }
 private:
-	void updateControlInfo();
     void processRemovals();
     void initObjects();
     void processRemoval(GObject* obj, bool removeSprite);
@@ -345,8 +337,6 @@ public:
 protected:
 //LOGIC
 	ControlInfo controlInfo;
-	unique_ptr<Replay> controlReplay;
-	unique_ptr<GState> crntState;
 	b2World *world = nullptr;
 	unique_ptr<PhysicsImpl> physicsImpl;
 	GScene *const gscene;
@@ -364,7 +354,6 @@ protected:
 	list<pair<GObject*, ALuint>> activeSounds;
 	vector<SpaceRect> mapAreas;
 
-	bool isRunningReplay = false;
 	bool suppressAction = false;
 	bool isMultiMap;
 	bool isInPhysicsStep = false;

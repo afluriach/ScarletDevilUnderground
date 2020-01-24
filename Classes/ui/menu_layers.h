@@ -30,7 +30,6 @@ public:
 private:
 	static void newGame();
 	static void loadGame();
-	static void loadReplay();
 	static void sceneSelect();
 	static void worldSelect();
 };
@@ -87,17 +86,6 @@ private:
 	
 	Label* title;
 	PlayerInfo* info;
-};
-
-class LoadReplayMenu : public FileSelectMenu
-{
-public:
-	static const string title;
-
-	LoadReplayMenu();
-	inline virtual ~LoadReplayMenu() {}
-private:
-	static void loadReplay(string filename);
 };
 
 class SceneSelect : public TextListMenuImpl<SceneSelect>
@@ -189,17 +177,6 @@ protected:
 	unsigned int frameCount;
 	EnemyStatsMap enemyStats;
 	PlayScene* playScene;
-};
-
-class ReplayCompletedMenu : public TextListMenuImpl<ReplayCompletedMenu>
-{
-public:
-	static const string title;
-	static const vector<string> entries;
-	static const vector<zero_arity_function> entryActions;
-
-	inline ReplayCompletedMenu() {}
-	inline virtual ~ReplayCompletedMenu() {}
 };
 
 class MapMenu : public MenuLayer

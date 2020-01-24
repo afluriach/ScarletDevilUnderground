@@ -11,7 +11,6 @@
 #include "FirePattern.hpp"
 #include "Graphics.h"
 #include "graphics_context.hpp"
-#include "GState.hpp"
 #include "Items.hpp"
 #include "Player.hpp"
 #include "Spell.hpp"
@@ -44,7 +43,7 @@ bool Spellcard::conditionalLoad(GSpace* space, ObjectIDType id, const ValueMap& 
 		return false;
 	}
 
-	return !space->getState()->hasItem(spellName);
+	return !App::crntState->hasItem(spellName);
 }
 
 Spellcard::Spellcard(GSpace* space, ObjectIDType id, const ValueMap& args) :
@@ -78,7 +77,7 @@ void Spellcard::initializeGraphics()
 
 void Spellcard::onAcquire(Player* player)
 {
-	space->getState()->itemRegistry.insert(name);
+	App::crntState->itemRegistry.insert(name);
 	space->removeObject(this);
 	player->equipSpells();
 	player->equipFirePatterns();

@@ -10,7 +10,6 @@
 
 #include "AIFunctions.hpp"
 #include "FairyNPC.hpp"
-#include "GState.hpp"
 #include "HUD.hpp"
 #include "MiscMagicEffects.hpp"
 #include "Player.hpp"
@@ -33,7 +32,7 @@ FairyMaid::FairyMaid(GSpace* space, ObjectIDType id, const ValueMap& args) :
 bool BlueFairyNPC::conditionalLoad(GSpace* space, ObjectIDType id, const ValueMap& args)
 {
 	int level = getIntOrDefault(args, "level", 0);
-	return level > space->getState()->getAttribute("BlueFairyLevel");
+	return level > App::crntState->getAttribute("BlueFairyLevel");
 }
 
 BlueFairyNPC::BlueFairyNPC(GSpace* space, ObjectIDType id, const ValueMap& args) :
@@ -49,22 +48,22 @@ BlueFairyNPC::BlueFairyNPC(GSpace* space, ObjectIDType id, const ValueMap& args)
 
 string BlueFairyNPC::getDialog()
 {
-	if (level > space->getState()->getAttribute("BlueFairyLevel") + 1) return "dialogs/blue_fairy_no";
+	if (level > App::crntState->getAttribute("BlueFairyLevel") + 1) return "dialogs/blue_fairy_no";
 	else {
-		if (space->getState()->getAttribute("mushroomCount") >= level) return "dialogs/blue_fairy_satisfied";
+		if (App::crntState->getAttribute("mushroomCount") >= level) return "dialogs/blue_fairy_satisfied";
 		else return "dialogs/blue_fairy_request_"+boost::lexical_cast<string>(level);
 	}
 }
 
 void BlueFairyNPC::onDialogEnd()
 {
-	if (level == space->getState()->getAttribute("BlueFairyLevel") + 1 && space->getState()->getAttribute("mushroomCount") >= level) {
-		space->getState()->incrementAttribute("BlueFairyLevel");
-		space->getState()->subtractAttribute("mushroomCount", level);
+	if (level == App::crntState->getAttribute("BlueFairyLevel") + 1 && App::crntState->getAttribute("mushroomCount") >= level) {
+		App::crntState->incrementAttribute("BlueFairyLevel");
+		App::crntState->subtractAttribute("mushroomCount", level);
 
 		space->removeObject(this);
 
-		space->addHudAction<string,int>(&HUD::setObjectiveCounter, "sprites/mushroom.png", space->getState()->getAttribute("mushroomCount"));
+		space->addHudAction<string,int>(&HUD::setObjectiveCounter, "sprites/mushroom.png", App::crntState->getAttribute("mushroomCount"));
 	} 
 }
 
@@ -74,7 +73,7 @@ bool GhostFairyNPC::conditionalLoad(GSpace* space, ObjectIDType id, const ValueM
 	int levelCount = 4;
 
 	if (level > 0) {
-		return space->getState()->isChamberCompleted("Graveyard" + level);
+		return App::crntState->isChamberCompleted("Graveyard" + level);
 	}
 	else {
 		return true;

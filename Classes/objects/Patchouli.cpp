@@ -9,7 +9,6 @@
 #include "Prefix.h"
 
 #include "AIFunctions.hpp"
-#include "GState.hpp"
 #include "Patchouli.hpp"
 #include "Spell.hpp"
 
@@ -23,10 +22,10 @@ Patchouli::Patchouli(GSpace* space, ObjectIDType id, const ValueMap& args) :
 {}
 
 string Patchouli::getDialog() {
-	if (space->getState()->hasItem("GraveyardBook1") && !space->getState()->isChamberAvailable("Graveyard1")) {
+	if (App::crntState->hasItem("GraveyardBook1") && !App::crntState->isChamberAvailable("Graveyard1")) {
 		return "dialogs/graveyard_book";
 	}
-	else if (space->getState()->hasItem("ForestBook1") && !space->getState()->isChamberAvailable("Forest1")) {
+	else if (App::crntState->hasItem("ForestBook1") && !App::crntState->isChamberAvailable("Forest1")) {
 		return "dialogs/forest_book";
 	}
 	else {
@@ -36,11 +35,11 @@ string Patchouli::getDialog() {
 
 void Patchouli::onDialogEnd()
 {
-	if (space->getState()->hasItem("GraveyardBook1")) {
-		space->getState()->registerChamberAvailable("Graveyard1");
+	if (App::crntState->hasItem("GraveyardBook1")) {
+		App::crntState->registerChamberAvailable("Graveyard1");
 	}
-	if (space->getState()->hasItem("ForestBook1")) {
-		space->getState()->registerChamberAvailable("Forest1");
+	if (App::crntState->hasItem("ForestBook1")) {
+		App::crntState->registerChamberAvailable("Forest1");
 	}
 }
 

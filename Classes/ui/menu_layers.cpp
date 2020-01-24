@@ -8,13 +8,11 @@
 
 #include "Prefix.h"
 
-#include "App.h"
 #include "Door.hpp"
 #include "Enemy.hpp"
 #include "FileIO.hpp"
 #include "FloorSegment.hpp"
 #include "Graphics.h"
-#include "GState.hpp"
 #include "menu_layers.h"
 #include "menu_scenes.h"
 #include "PlayScene.hpp"
@@ -35,7 +33,6 @@ const string TitleMenu::title = App::title;
 const vector<string> TitleMenu::entries = {
 	"New Game",
 	"Load Game",
-	"Load Replay",
 #if DEV_MODE
 	"Scene Select",
 	"World Select",
@@ -46,7 +43,6 @@ const vector<string> TitleMenu::entries = {
 const vector <zero_arity_function > TitleMenu::entryActions = {
 	newGame,
 	loadGame,
-	loadReplay,
 #if DEV_MODE
 	sceneSelect,
 	worldSelect,
@@ -62,11 +58,6 @@ void TitleMenu::newGame()
 void TitleMenu::loadGame()
 {
 	App::getCrntScene()->pushMenu(Node::ccCreate<LoadProfileMenu>());
-}
-
-void TitleMenu::loadReplay()
-{
-	App::getCrntScene()->pushMenu(Node::ccCreate<LoadReplayMenu>());
 }
 
 void TitleMenu::sceneSelect()
@@ -210,18 +201,6 @@ void LoadProfileDetailMenu::loadProfile()
 {
 	App::loadProfile(profileName);
 	App::runOverworldScene();
-}
-
-const string LoadReplayMenu::title = "Load Replay";
-
-LoadReplayMenu::LoadReplayMenu() :
-	FileSelectMenu(title, io::getReplays(), LoadReplayMenu::loadReplay)
-{
-}
-
-void LoadReplayMenu::loadReplay(string filename)
-{
-	GScene::runSceneWithReplay(filename);
 }
 
 const string SceneSelect::title = "Scene Select";
@@ -399,16 +378,11 @@ const string GameOverMenu::title = "GAME OVER";
 
 const vector<string> GameOverMenu::entries = {
 	"Restart",
-	"Save Replay",
 	"Exit to title"
 };
 
 const vector<zero_arity_function> GameOverMenu::entryActions = {
 	&App::restartScene,
-	[]()->void {
-		if (auto playScene = dynamic_cast<PlayScene*>(App::getCrntScene()))
-			playScene->autosaveReplayData();
-	},
 	&App::runTitleScene
 };
 
@@ -461,7 +435,6 @@ bool ChamberCompletedMenu::init()
 
 	string current = playScene->getCurrentLevel();
 	if (!current.empty()) {
-		*App::crntState.get() = *playScene->getSpace()->getState();
 		updateSaveState();
 
 		string next = playScene->getNextLevel();
@@ -474,7 +447,6 @@ bool ChamberCompletedMenu::init()
 	}
 
 	App::autosaveProfile();
-	playScene->autosaveReplayData();
 
 	return true;
 }
@@ -544,18 +516,6 @@ pair<unsigned int, unsigned int> ChamberCompletedMenu::totalEnemyCount()
 
 	return result;
 }
-
-const string ReplayCompletedMenu::title = "End of replay";
-
-const vector<string> ReplayCompletedMenu::entries = {
-	"Replay",
-	"Exit to title"
-};
-
-const vector<zero_arity_function> ReplayCompletedMenu::entryActions = {
-	&GScene::restartReplayScene,
-	&App::runTitleScene
-};
 
 const int MapMenu::margin = 64;
 

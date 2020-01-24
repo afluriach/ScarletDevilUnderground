@@ -9,7 +9,6 @@
 #include "Prefix.h"
 
 #include "Agent.hpp"
-#include "App.h"
 #include "AreaSensor.hpp"
 #include "Block.hpp"
 #include "Bullet.hpp"
@@ -23,7 +22,6 @@
 #include "FairyNPC.hpp"
 #include "FloorSegment.hpp"
 #include "Goal.hpp"
-#include "GState.hpp"
 #include "Items.hpp"
 #include "Launcher.hpp"
 #include "MapFragment.hpp"
@@ -57,7 +55,7 @@ template <typename T>
 constexpr GObject::AdapterType itemAdapter(const string& name)
 {
     return [=](GSpace* space, ObjectIDType id, const ValueMap& args) -> GObject* {
-        if(space->getState()->hasItem(name))
+        if(App::crntState->hasItem(name))
             return nullptr;
         else return new T(space,id,args);
     };

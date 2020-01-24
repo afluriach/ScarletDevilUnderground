@@ -19,7 +19,6 @@
 #include "FirePatternImpl.hpp"
 #include "Graphics.h"
 #include "graphics_context.hpp"
-#include "GState.hpp"
 #include "MiscMagicEffects.hpp"
 #include "Player.hpp"
 #include "SpellUtil.hpp"

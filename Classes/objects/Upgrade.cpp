@@ -8,7 +8,6 @@
 
 #include "Prefix.h"
 
-#include "GState.hpp"
 #include "Player.hpp"
 #include "Upgrade.hpp"
 #include "value_map.hpp"
@@ -21,7 +20,7 @@ bool Upgrade::conditionalLoad(GSpace* space, ObjectIDType id, const ValueMap& ar
 	return (
 		upgradeID != -1 &&
 		attr != Attribute::end &&
-		!space->getState()->isUpgradeAcquired(attr, upgradeID)
+		!App::crntState->isUpgradeAcquired(attr, upgradeID)
 	);
 }
 

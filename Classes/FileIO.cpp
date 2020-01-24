@@ -8,10 +8,7 @@
 
 #include "Prefix.h"
 
-#include "App.h"
 #include "FileIO.hpp"
-#include "GState.hpp"
-#include "replay.h"
 
 using namespace boost::filesystem;
 
@@ -140,11 +137,6 @@ set<string> getProfiles()
 	return getFileNamesInFolder(getProfilePath());
 }
 
-set<string> getReplays()
-{
-	return getFileNamesInFolder(getReplayFolderPath());
-}
-
 string loadTextFile(const string& res)
 {
 	return FileUtils::getInstance()->getStringFromFile(res);
@@ -158,21 +150,11 @@ void checkCreateSubfolders()
 		log("profiles/ folder created.");
 		f->createDirectory(getProfilePath());
 	}
-
-	if (!f->isDirectoryExist(getReplayFolderPath())) {
-		f->createDirectory(getReplayFolderPath());
-		log("replays/ folder created.");
-	}
 }
 
 string getProfilePath()
 {
 	return App::getBaseDataPath() + "profiles/";
-}
-
-string getReplayFolderPath()
-{
-	return App::getBaseDataPath() + "replays/";
 }
 
 string getControlMappingPath()
@@ -199,24 +181,6 @@ bool saveProfileState(const GState* state, string name)
 {
 	string profilePath = io::getProfilePath() + name + ".profile";
 	return saveData<GState>(state, profilePath, true);
-}
-
-unique_ptr<Replay> getControlReplay(string name)
-{
-	string filepath = io::getReplayFolderPath() + name + ".replay";
-	return loadData<Replay>(filepath);
-}
-
-void autosaveControlReplay(string sceneName, const Replay* cr)
-{
-	string filepath = io::getReplayFolderPath() + sceneName + " " + getNowTimestamp() + ".replay";
-	saveData<Replay>(cr, filepath, false);
-}
-
-void saveControlReplay(string name, const Replay* cr)
-{
-	string filepath = io::getReplayFolderPath() + name + ".replay";
-	saveData<Replay>(cr, filepath, false);
 }
 
 }

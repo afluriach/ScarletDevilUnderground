@@ -11,7 +11,6 @@
 #include "AIUtil.hpp"
 #include "Door.hpp"
 #include "graphics_context.hpp"
-#include "GState.hpp"
 #include "physics_context.hpp"
 #include "Player.hpp"
 #include "value_map.hpp"
@@ -39,7 +38,7 @@ Door::Door(GSpace* space, ObjectIDType id, const ValueMap& args) :
 
 	string sealed_until = getStringOrDefault(args, "sealed_until_completed", "");
 	if (sealed_until != "") {
-		sealed = !space->getState()->isChamberCompleted(sealed_until);
+		sealed = !App::crntState->isChamberCompleted(sealed_until);
 	}
 }
 
