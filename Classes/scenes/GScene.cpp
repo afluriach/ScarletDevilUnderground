@@ -183,28 +183,14 @@ bool GScene::init()
 		}
 	}
     
+	string current = getCurrentLevel();
 	gspace->setRandomSeed(to_uint(time(nullptr)));
+	gspace->crntChamber = current;
 	*gspace->crntState.get() = *App::crntState.get();
-
-	ChamberID crnt = getCurrentLevel();
-	if (crnt != ChamberID::end)
-	{
-		const ChamberStats& stats = App::crntState->chamberStats.at(to_size_t(crnt));
-		gspace->crntChamber = crnt;
-	}
-	else
-	{
-		gspace->crntChamber = ChamberID::invalid_id;
-	}
 
 	multiInit();
 
 	gspace->isMultiMap = isMultiMap();
-
-	if (crnt != ChamberID::end) {
-		const ChamberStats& stats = App::crntState->chamberStats.at(to_size_t(crnt));
-		setRoomsVisible(stats.roomsVisited);
-	}
 
 	if constexpr (GSPACE_MULTITHREAD) {
 		spaceUpdateToRun.store(false);

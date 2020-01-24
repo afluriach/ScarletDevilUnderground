@@ -35,55 +35,36 @@ bool GState::hasItem(string name)
 	return itemRegistry.find(name) != itemRegistry.end();
 }
 
-void GState::registerChamberAvailable(ChamberID id)
+void GState::registerChamberAvailable(string id)
 {
-	if (isValidChamber(id)) {
-		chambersAvailable.at(to_size_t(id)) = true;
-	}
-	else {
-		log("GState::registerChamberAvailable: invalid ID %d", to_int(id));
+	if (!id.empty()) {
+		chambersAvailable.insert(id);
 	}
 }
 
-void GState::_registerChamberCompleted(int id) {
-	if (isValidChamber(static_cast<ChamberID>(id))) {
-		ChamberStats& stats = chamberStats.at(to_size_t(id));
-		stats.timesCompleted = max<unsigned char>(stats.timesCompleted, 1);
-	}
-	else {
-		log("GState::_registerChamberCompleted: invalid ID %d", to_int(id));
-	}
+void GState::_registerChamberCompleted(string name) {
+	checkInitAreaState(name);
+	unsigned char& completions = chamberStats.at(name).timesCompleted;
+	completions = max<unsigned char>(completions, 1);
 }
 
-bool GState::isChamberAvailable(ChamberID id)
+bool GState::isChamberAvailable(string id)
 {
-	if (isValidChamber(id)) {
-		return chambersAvailable.at(to_size_t(id));
-	}
-	else {
-		log("GState::isChamberAvailable: invalid ID %d", to_int(id));
-		return false;
-	}
+	return chambersAvailable.find(id) != chambersAvailable.end();
 }
 
-bool GState::isChamberCompleted(ChamberID id)
+bool GState::isChamberCompleted(string id)
 {
-	if (isValidChamber(id)) {
-		return chamberStats.at(to_size_t(id)).timesCompleted > 0;
-	}
-	else {
-		log("GState::isChamberCompleted: invalid ID %d", to_int(id));
-		return false;
-	}
+	auto it = chamberStats.find(id);
+	return it != chamberStats.end() ? it->second.timesCompleted > 0 : false;
 }
 
 int GState::chambersCompletedCount()
 {
 	int result = 0;
 
-	enum_foreach(ChamberID, id, begin, end) {
-		if (isChamberCompleted(id))
-			++result;
+	for (auto entry : chamberStats) {
+		result += bool_int(entry.second.timesCompleted > 0);
 	}
 
 	return result;
@@ -93,22 +74,29 @@ unsigned int GState::totalChamberTime()
 {
 	unsigned int result = 0;
 
-	enum_foreach(ChamberID, id, begin, end) {
-		result += chamberStats.at(to_size_t(id)).totalTimeMS;
+	for (auto entry : chamberStats) {
+		result += entry.second.totalTimeMS;
 	}
 
 	return result;
 }
 
-int GState::getMapFragmentCount(ChamberID chamber)
+int GState::getMapFragmentCount(string chamber)
 {
-	return chamberStats.at(to_size_t(chamber)).mapFragments.count();
+	auto it = chamberStats.find(chamber);
+
+	return it != chamberStats.end() ? it->second.mapFragments.count() : 0;
 }
 
-void GState::registerMapFragment(ChamberID chamber, int mapID)
+void GState::registerMapFragment(string chamber, int mapID)
 {
+	checkInitAreaState(chamber);
+
 	if (mapID >= 0 && mapID < maxMapFragmentsPerChamber) {
-		chamberStats.at(to_size_t(chamber)).mapFragments.set(mapID);
+		chamberStats.at(chamber).mapFragments.set(mapID);
+	}
+	else {
+		log("GState::registerMapFragment: cannot register mapID %d!", mapID);
 	}
 }
 
@@ -155,6 +143,11 @@ AttributeSystem GState::getPlayerStats()
 	return result;
 }
 
+void GState::checkInitAreaState(string name)
+{
+	emplaceIfEmpty(chamberStats, name);
+}
+
 void GState::setAttribute(string name, int val)
 {
 	attributes.insert_or_assign(name, val);
@@ -172,6 +165,9 @@ bool GState::hasAttribute(string name)
 
 void GState::incrementAttribute(string name)
 {
+	emplaceIfEmpty(attributes, name, 0);
+	++attributes.at(name);
+
 	auto it = attributes.find(name);
 
 	if(it != attributes.end()){

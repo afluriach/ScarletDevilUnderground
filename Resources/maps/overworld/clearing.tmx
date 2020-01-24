@@ -128,7 +128,7 @@
     <property name="dest_map" value="forest"/>
     <property name="dir" value="down"/>
     <property name="path" value="true"/>
-    <property name="sealed_until_completed" value="2"/>
+    <property name="sealed_until_completed" value="Graveyard3"/>
    </properties>
   </object>
   <object id="59" name="to_graveyard" type="Door" x="1152" y="5888" width="384" height="256">
@@ -146,8 +146,8 @@
   </object>
   <object id="61" type="Upgrade" x="5632" y="384" width="128" height="128">
    <properties>
+    <property name="attr" value="shieldLevel"/>
     <property name="id" value="0"/>
-	<property name="attr" value="shieldLevel"/>
    </properties>
   </object>
  </objectgroup>

@@ -37,9 +37,9 @@ Door::Door(GSpace* space, ObjectIDType id, const ValueMap& args) :
 	else
 		doorType = door_type::pair;
 
-	int sealed_until = getIntOrDefault(args, "sealed_until_completed", 0);
-	if (sealed_until != 0) {
-		sealed = !space->getState()->isChamberCompleted(static_cast<ChamberID>(sealed_until));
+	string sealed_until = getStringOrDefault(args, "sealed_until_completed", "");
+	if (sealed_until != "") {
+		sealed = !space->getState()->isChamberCompleted(sealed_until);
 	}
 }
 

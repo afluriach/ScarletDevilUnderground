@@ -19,7 +19,8 @@
 	if (mapFragmentId < 0 || mapFragmentId >= maxMapFragmentsPerChamber)
 		return false;
 
-	return !space->getState()->chamberStats.at(to_size_t(space->getCrntChamber())).mapFragments[mapFragmentId];
+	ChamberStats& stats = space->getCrntChamberStats();
+	return !stats.mapFragments[mapFragmentId];
 }
 
 MapFragment::MapFragment(GSpace* space, ObjectIDType id, const ValueMap& args) :

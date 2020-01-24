@@ -24,11 +24,8 @@ class PlayScene : public GScene
 public:
 	typedef function<PlayScene* () > AdapterType;
 
-	static const unordered_map<ChamberID, AdapterType> adapters;
     static const Color3B fadeoutColor;
     static const float fadeoutLength;
-
-	static PlayScene* runScene(ChamberID id);
 
     PlayScene(const string& name);
 	PlayScene(const string& sceneName, const vector<MapEntry>& maps);
@@ -36,6 +33,8 @@ public:
 	virtual ~PlayScene();
 
 	virtual void update(float dt);
+
+	void showVisibleRooms();
 
 	bool loadReplayData(const string& filename);
 	bool loadReplayData(unique_ptr<Replay> _replay);

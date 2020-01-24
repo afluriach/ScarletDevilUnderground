@@ -34,12 +34,12 @@ boost::icl::interval_map<float, int> Headstone::intervals = makeIntervalMap(dama
 
 bool Headstone::conditionalLoad(GSpace* space, ObjectIDType id, const ValueMap& args)
 {
-	int level = getIntOrDefault(args, "level", -1);
+	int level = getIntOrDefault(args, "level", 0);
 
-	if (level == -1)
+	if (level == 0)
 		return true;
 	else
-		return !space->getState()->isChamberCompleted(enum_add(ChamberID, graveyard1, level - 1));
+		return !space->getState()->isChamberCompleted("Graveyard" + boost::lexical_cast<string>(level));
 }
 
 Headstone::Headstone(GSpace* space, ObjectIDType id, const ValueMap& args) :

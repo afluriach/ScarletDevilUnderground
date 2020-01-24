@@ -13,7 +13,7 @@
 
 bool Meiling1::conditionalLoad(GSpace* space, ObjectIDType id, const ValueMap& args)
 {
-	return !space->getState()->isChamberCompleted(ChamberID::graveyard4);
+	return !space->getState()->isChamberCompleted("Graveyard3");
 }
 
 Meiling1::Meiling1(GSpace* space, ObjectIDType id, const ValueMap& args) :

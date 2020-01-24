@@ -76,13 +76,3 @@ const unordered_map<string, GScene::AdapterType> GScene::adapters = {
 	entry_same(TitleMenuScene),
 	PlaySceneMapName(Wander)
 };
-
-const unordered_map<ChamberID, PlayScene::AdapterType> PlayScene::adapters = {
-	{ChamberID::graveyard1, adapterPS<Graveyard1>() },
-	{ChamberID::graveyard2, adapterPS<Graveyard2>() },
-	{ChamberID::graveyard3, adapterPS<Graveyard3>() },
-	{ChamberID::graveyard4, adapterPS<Graveyard4>() },
-	{ChamberID::forest1, adapterPS<Forest>() },
-	{ChamberID::desert1, adapterPS<Desert>() },
-	{ChamberID::mine1, adapterPS<Mine>() },
-};

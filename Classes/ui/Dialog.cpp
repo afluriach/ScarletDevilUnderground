@@ -145,7 +145,7 @@ void Dialog::setNextScene(const string& next)
 	onEnd.push_back(bind(&GScene::runScene, next));
 }
 
-void Dialog::unlockChamber(ChamberID id)
+void Dialog::unlockChamber(string id)
 {
 	App::crntState->registerChamberAvailable(id);
 }
@@ -279,9 +279,9 @@ void Dialog::processDialogFile(const string& text)
 					continue;
 				}
 
-				dialog.push_back(makeAction<ChamberID>(
+				dialog.push_back(makeAction<string>(
 					&Dialog::unlockChamber,
-					static_cast<ChamberID>(boost::lexical_cast<int>(tokens[1]))
+					tokens[1]
 				));
 			}
 			else if (boost::starts_with(line, ":setName ")) {

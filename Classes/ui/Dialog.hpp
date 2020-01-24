@@ -64,7 +64,7 @@ public:
     
     void runLuaScript(const string& script);
     void setNextScene(const string& next);
-	void unlockChamber(ChamberID id);
+	void unlockChamber(string id);
 	void setNameLabel(string label);
 	void clearNameLabel();
 private:

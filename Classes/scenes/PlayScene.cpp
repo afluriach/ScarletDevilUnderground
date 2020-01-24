@@ -37,20 +37,6 @@ void printGroup(TMXObjectGroup* group)
 const Color3B PlayScene::fadeoutColor = Color3B(192,96,96);
 const float PlayScene::fadeoutLength = 3.0f;
 
-PlayScene* PlayScene::runScene(ChamberID id)
-{
-	auto it = adapters.find(id);
-
-	if (it == adapters.end()) {
-		log("runScene: invalid chamber ID %d", to_int(id));
-		return nullptr;
-	}
-	else
-	{
-		return it->second();
-	}
-}
-
 PlayScene::PlayScene(const string& mapName) :
 	PlayScene(mapName, singleMapEntry(mapName))
 {}
@@ -62,6 +48,10 @@ GScene(sceneName, maps)
         wrap_method(PlayScene,addHUD,this),
         to_int(initOrder::initHUD)
     );
+	multiInit.insertWithOrder(
+		wrap_method(PlayScene, showVisibleRooms, this),
+		to_int(initOrder::showRooms)
+	);
 
     control_listener->addPressListener(
         ControlAction::pause,
@@ -85,6 +75,14 @@ void PlayScene::update(float dt)
 	GScene::update(dt);
 
 	if(!isPaused) hud->update();
+}
+
+void PlayScene::showVisibleRooms()
+{
+	auto it = App::crntState->chamberStats.find(getCurrentLevel());
+	if (it != App::crntState->chamberStats.end()) {
+		setRoomsVisible(it->second.roomsVisited);
+	}
 }
 
 void PlayScene::applyCameraControls()

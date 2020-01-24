@@ -41,6 +41,9 @@ public:
         core = 1,
         //Loading map objects if applicable
         mapLoad,
+		//For PlayScene, if area has already been visited and rooms are marked visible in App state,
+		//initialize with rooms visible.
+		showRooms,
         //Running GSpace::loadAdditions, if applicable
         loadObjects,
         initHUD,
@@ -107,10 +110,10 @@ public:
 	virtual GScene* getReplacementScene();
 	GSpace* getSpace();
 
-	inline virtual ChamberID getCurrentLevel() const { return ChamberID::invalid_id; }
+	inline string getCurrentLevel() const { return sceneName; }
 	//Return the ID of the next level, if applicable. This is used to transition
 	//to next stage, and also to apply availibility unlock to that stage.
-	inline virtual ChamberID getNextLevel() const { return ChamberID::invalid_id; }
+	inline virtual string getNextLevel() const { return ""; }
 	inline virtual MapFragmentsList getMapFragmentsList() const { return MapFragmentsList(); }
 
     void setPaused(bool p);

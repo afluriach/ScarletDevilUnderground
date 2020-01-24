@@ -115,7 +115,7 @@ class WorldSelect : public TextListMenuLayer
 {
 public:
 	static const string title;
-	static const vector<ChamberID> chamberIDs;
+	static const vector<string> chamberIDs;
 	static const vector<pair<string,zero_arity_function>> entries;
 
 	static string nextScene;
@@ -174,7 +174,7 @@ public:
 	static const string title;
 	static const vector<entry> entries;
 
-	static vector<entry> getEntries(ChamberID nextLevel);
+	static vector<entry> getEntries(string nextLevel);
 
 	ChamberCompletedMenu(PlayScene* playScene);
 	inline virtual ~ChamberCompletedMenu() {}

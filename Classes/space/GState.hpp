@@ -56,11 +56,11 @@ public:
 
 	static void initProfiles();
 
-	map<string, int> attributes;
-    set<string> itemRegistry;
+	unordered_map<string, int> attributes;
+    unordered_set<string> itemRegistry;
 	CharacterUpgrade upgrades;
-	array<bool, to_size_t(ChamberID::end)> chambersAvailable = {};
-	array<ChamberStats, to_size_t(ChamberID::end)> chamberStats = {};
+	unordered_set<string> chambersAvailable;
+	unordered_map<string, ChamberStats> chamberStats;
 
     template<class Archive>
     void serialize(Archive& ar, const unsigned int version)
@@ -75,16 +75,16 @@ public:
 	void addItem(string name);
 	bool hasItem(string name);
 
-	void registerChamberAvailable(ChamberID id);
+	void registerChamberAvailable(string id);
 	//Only used for testing
-	void _registerChamberCompleted(int id);
-	bool isChamberAvailable(ChamberID id);
-	bool isChamberCompleted(ChamberID id);
+	void _registerChamberCompleted(string name);
+	bool isChamberAvailable(string id);
+	bool isChamberCompleted(string id);
 	int chambersCompletedCount();
 	unsigned int totalChamberTime();
 
-	int getMapFragmentCount(ChamberID chamber);
-	void registerMapFragment(ChamberID chamber, int mapID);
+	int getMapFragmentCount(string chamber);
+	void registerMapFragment(string chamber, int mapID);
 
 	void _registerUpgrade(unsigned int at, unsigned int id);
 	void registerUpgrade(Attribute at, unsigned int id);
@@ -92,6 +92,8 @@ public:
 	float getUpgradeLevel(Attribute at);
 	AttributeMap getUpgrades();
 	AttributeSystem getPlayerStats();
+
+	void checkInitAreaState(string name);
 
 	void setAttribute(string name, int val);
 	int getAttribute(string name);

@@ -23,10 +23,10 @@ Patchouli::Patchouli(GSpace* space, ObjectIDType id, const ValueMap& args) :
 {}
 
 string Patchouli::getDialog() {
-	if (space->getState()->hasItem("GraveyardBook1") && !space->getState()->isChamberAvailable(ChamberID::graveyard1)) {
+	if (space->getState()->hasItem("GraveyardBook1") && !space->getState()->isChamberAvailable("Graveyard1")) {
 		return "dialogs/graveyard_book";
 	}
-	else if (space->getState()->hasItem("ForestBook1") && !space->getState()->isChamberAvailable(ChamberID::forest1)) {
+	else if (space->getState()->hasItem("ForestBook1") && !space->getState()->isChamberAvailable("Forest1")) {
 		return "dialogs/forest_book";
 	}
 	else {
@@ -37,10 +37,10 @@ string Patchouli::getDialog() {
 void Patchouli::onDialogEnd()
 {
 	if (space->getState()->hasItem("GraveyardBook1")) {
-		space->getState()->registerChamberAvailable(ChamberID::graveyard1);
+		space->getState()->registerChamberAvailable("Graveyard1");
 	}
 	if (space->getState()->hasItem("ForestBook1")) {
-		space->getState()->registerChamberAvailable(ChamberID::forest1);
+		space->getState()->registerChamberAvailable("Forest1");
 	}
 }
 

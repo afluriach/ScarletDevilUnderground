@@ -163,23 +163,6 @@ public:
 	SpaceVect center, dimensions;
 };
 
-enum class ChamberID
-{
-	begin = 0,
-	graveyard1 = begin,
-	graveyard2,
-	graveyard3,
-	graveyard4,
-	forest1,
-	desert1,
-	mine1,
-
-	end,
-	invalid_id = end
-};
-
-bool isValidChamber(ChamberID id);
-
 enum class Direction{
     none = 0,
     right,

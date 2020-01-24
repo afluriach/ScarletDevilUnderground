@@ -180,7 +180,7 @@ bool LoadProfileDetailMenu::init()
 		string levelsMsg = boost::str(
 			boost::format("Levels cleared: %d / %d") % 
 			profileState->chambersCompletedCount() % 
-			to_int(ChamberID::end)
+			WorldSelect::entries.size()
 		);
 		Label* levels = createTextLabel(levelsMsg, 32);
 		levels->setPosition(width * 0.5f, height * 0.75f);
@@ -270,26 +270,22 @@ const vector<pair<string,zero_arity_function>> WorldSelect::entries = {
 	entry(Graveyard2),
 	entry(Graveyard3),
 	entry(Graveyard4),
-#if DEV_MODE
 	entry(Forest),
 	entry(Desert),
 	entry(Mine),
-#endif
 	{ "Back", &WorldSelect::back }
 };
 
 #undef entry
 
-const vector<ChamberID> WorldSelect::chamberIDs = {
-	ChamberID::graveyard1,
-	ChamberID::graveyard2,
-	ChamberID::graveyard3,
-	ChamberID::graveyard4,
-#if DEV_MODE
-	ChamberID::forest1,
-	ChamberID::desert1,
-	ChamberID::mine1,
-#endif
+const vector<string> WorldSelect::chamberIDs = {
+	"Graveyard1",
+	"Graveyard2",
+	"Graveyard3",
+	"Graveyard4",
+	"Forest1",
+	"Desert1",
+	"Mine1",
 };
 
 string WorldSelect::nextScene = "";
@@ -424,11 +420,11 @@ const vector<pair<string,zero_arity_function>> ChamberCompletedMenu::entries = {
 	{ "Exit to title", &App::runTitleScene}
 };
 
-vector<TextListMenuLayer::entry> ChamberCompletedMenu::getEntries(ChamberID nextLevel)
+vector<TextListMenuLayer::entry> ChamberCompletedMenu::getEntries(string nextLevel)
 {
 	vector<entry> result;
 
-	if (nextLevel != ChamberID::invalid_id) {
+	if (!nextLevel.empty()) {
 		result.push_back(make_pair(
 			"Next Level",
 			[nextLevel]() -> void { PlayScene::runScene(nextLevel); }
@@ -463,17 +459,18 @@ bool ChamberCompletedMenu::init()
 	addChild(statsLabel, 0);
 	statsLabel->setPosition(Vec2(width * 0.5f, height * 0.5f));
 
-	if (playScene->getCurrentLevel() != ChamberID::invalid_id) {
+	string current = playScene->getCurrentLevel();
+	if (!current.empty()) {
 		*App::crntState.get() = *playScene->getSpace()->getState();
 		updateSaveState();
 
-		ChamberID nextID = playScene->getNextLevel();
-		if (nextID != ChamberID::invalid_id) {
-			App::crntState->registerChamberAvailable(nextID);
+		string next = playScene->getNextLevel();
+		if (!next.empty()) {
+			App::crntState->registerChamberAvailable(next);
 		}
 	}
 	else {
-		log("ChamberCompletedMenu: invalid ID");
+		log("ChamberCompletedMenu: play scene has empty name.");
 	}
 
 	App::autosaveProfile();
@@ -484,10 +481,14 @@ bool ChamberCompletedMenu::init()
 
 void ChamberCompletedMenu::updateSaveState()
 {
-	ChamberID crnt = playScene->getCurrentLevel();
-	if (crnt == ChamberID::invalid_id) return;
+	string crnt = playScene->getCurrentLevel();
 
-	ChamberStats& crntStats = App::crntState->chamberStats.at(to_size_t(crnt));
+	if (crnt.empty()) {
+		log("ChamberCompletedMenu::updateSaveState: crnt scene is empty!");
+		return;
+	}
+
+	ChamberStats& crntStats = App::crntState->chamberStats.at(crnt);
 	unsigned int timeMS = frameCount * app::params.secondsPerFrame * 1000;
 	unsigned char enemies = totalEnemyCount().first;
 

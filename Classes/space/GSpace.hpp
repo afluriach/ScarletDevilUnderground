@@ -12,6 +12,7 @@
 class audio_context;
 struct bullet_attributes;
 struct bullet_properties;
+struct ChamberStats;
 class FloorSegment;
 class GObject;
 class graphics_context;
@@ -55,11 +56,12 @@ public:
     
 	//Will return this GSpace's state if running a chamber scene, else the App::crntState.
 	GState* getState();
+	ChamberStats& getCrntChamberStats();
 
 	IntVec2 getSize() const;
     void setSize(int x, int y);
     
-	inline ChamberID getCrntChamber() const { return crntChamber; }
+	inline string getCrntChamber() const { return crntChamber; }
 	inline bool isInCallback() const { return isInPhysicsStep; }
 	unsigned int getFrame() const;
 	unsigned long getTimeUsed() const;
@@ -356,7 +358,7 @@ protected:
 	IntVec2 spaceSize;
 	unsigned int frame = 0;
 	unsigned long timeUsed = 0;
-	ChamberID crntChamber;
+	string crntChamber;
 	int crntMap = -1;
 
 	list<pair<GObject*, ALuint>> activeSounds;

@@ -103,6 +103,12 @@ GState* GSpace::getState() {
 	}
 }
 
+ChamberStats& GSpace::getCrntChamberStats()
+{
+	crntState->checkInitAreaState(crntChamber);
+	return crntState->chamberStats.at(crntChamber);
+}
+
 IntVec2 GSpace::getSize() const {
 	return spaceSize;
 }
@@ -797,11 +803,9 @@ void GSpace::eraseTile(int mapID, IntVec2 pos, string layer)
 void GSpace::updatePlayerMapLocation(int roomID)
 {
 	crntMap = roomID;
+	getCrntChamberStats().roomsVisited.set(roomID);
 
-	if (crntChamber != ChamberID::invalid_id) {
-		crntState->chamberStats.at(to_size_t(crntChamber)).roomsVisited.set(roomID);
-		addSceneAction(bind(&GScene::updateMapVisibility, gscene, roomID));
-	}
+	addSceneAction(bind(&GScene::updateMapVisibility, gscene, roomID));
 }
 
 void GSpace::addMapArea(const SpaceRect& area)
@@ -874,12 +878,10 @@ int GSpace::getPlayerRoom()
 
 void GSpace::applyMapFragment(int mapFragmentID)
 {
-	if (crntChamber != ChamberID::end) {
-		getState()->registerMapFragment(crntChamber, mapFragmentID);
+	getState()->registerMapFragment(crntChamber, mapFragmentID);
 
-		addSceneAction(bind(&GScene::applyMapFragment, gscene, mapFragmentID));
-		addHudAction(&HUD::setMapCounter, getState()->getMapFragmentCount(crntChamber));
-	}
+	addSceneAction(bind(&GScene::applyMapFragment, gscene, mapFragmentID));
+	addHudAction(&HUD::setMapCounter, getState()->getMapFragmentCount(crntChamber));
 }
 
 void GSpace::addRoomSensor(RoomSensor* rs)
