@@ -14,9 +14,11 @@
 #include "FileIO.hpp"
 #include "FirePatternImpl.hpp"
 #include "Graphics.h"
+#include "PlayScene.hpp"
 
 namespace app {
 
+unordered_map<string, area_properties> areas;
 unordered_map<string, AttributeMap> attributes;
 unordered_map<string, shared_ptr<bomb_properties>> bombs;
 unordered_map<string, shared_ptr<bullet_properties>> bullets;
@@ -33,6 +35,11 @@ GObject::AdapterType enemyAdapter(shared_ptr<enemy_properties> props)
 	return [=](GSpace* space, ObjectIDType id, const ValueMap& args) -> GObject* {
 		return new EnemyImpl(space, id, args, props);
 	};
+}
+
+void loadAreas()
+{
+	loadObjects<area_properties>("objects/areas.xml", app::areas);
 }
 
 void loadAttributes()
@@ -88,6 +95,11 @@ void loadLights()
 void loadSprites()
 {
 	loadObjects<sprite_properties>("objects/sprites.xml", app::sprites);
+}
+
+area_properties getArea(const string& name)
+{
+	return getOrDefault(areas, name);
 }
 
 shared_ptr<bomb_properties> getBomb(const string& name)
@@ -209,6 +221,63 @@ bool autoName(tinyxml2::XMLElement* elem, string& field)
 		field = elem->Name();
 	}
 	return result;
+}
+
+bool parseObject(tinyxml2::XMLElement* elem, area_properties* result)
+{
+	area_properties props;
+
+	props.sceneName = elem->Name();
+	getStringAttr(elem, "next", &props.next);
+	if (props.next == "none") props.next.clear();
+
+	getColorAttr(elem, "ambient_light", &props.ambientLight);
+
+	tinyxml2::XMLElement* rooms = elem->FirstChildElement();
+
+	if (rooms)
+	{
+		//load multi-map
+
+		SpaceVect roomSize;
+		getVector(rooms, "size", &roomSize);
+
+		string prefix;
+		getStringAttr(rooms, "prefix", &prefix);
+
+		for (
+			tinyxml2::XMLElement* r = rooms->FirstChildElement();
+			r != nullptr;
+			r = r->NextSiblingElement()
+		) {
+			string roomMapName = prefix + string(r->Name());
+			IntVec2 offset;
+			SpaceVect temp;
+
+			if (getVector(r, "offset", &temp)) {
+				props.maps.push_back(make_pair(roomMapName, IntVec2(temp.x, temp.y)));
+			}
+			else if (getVector(r, "tile_offset", &temp)) {
+				props.maps.push_back(make_pair(roomMapName, IntVec2(temp.x * roomSize.x, temp.y * roomSize.y)));
+
+				if (roomSize.isZero()) {
+					log("areas.xml: %s:%s: tile_offset when no room size!", props.sceneName, roomMapName);
+				}
+			}
+		}
+	}
+	else
+	{
+		//load single room
+		string _map;
+		getStringAttr(elem, "map", &_map);
+		autoName(elem, _map);
+
+		props.maps.push_back(make_pair(_map, IntVec2(0,0)));
+	}
+
+	*result = props;
+	return true;
 }
 
 bool parseObject(tinyxml2::XMLElement* elem, AttributeMap* result)

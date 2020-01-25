@@ -184,7 +184,7 @@
     <property name="dest_map" value="graveyard_inner_area"/>
     <property name="dir" value="up"/>
     <property name="path" value="true"/>
-    <property name="sealed_until_completed" value="Graveyard3"/>
+    <property name="sealed_until_completed" value="graveyard3"/>
    </properties>
   </object>
   <object id="155" type="Torch" x="2944" y="1024" width="128" height="128"/>

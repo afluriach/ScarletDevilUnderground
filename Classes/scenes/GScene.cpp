@@ -19,7 +19,9 @@
 #include "menu.h"
 #include "PlayScene.hpp"
 #include "value_map.hpp"
+#include "xml.hpp"
 
+const Color4F GScene::defaultAmbientLight = Color4F(0.5f, 0.5f, 0.5f, 1.0f);
 const int GScene::dialogEdgeMargin = 30;
 const bool GScene::scriptLog = false;
 
@@ -29,16 +31,29 @@ bool GScene::suppressGameOver = false;
 GScene* GScene::runScene(const string& name)
 {
     auto it = adapters.find(name);
-    
-    if(it == adapters.end()){
-        log("runScene: %s not found", name.c_str());
-		return nullptr;
-    }
-    else
-    {
+	area_properties props;
+	props = app::getArea(name);
+
+	//Run built-in scene adapter
+	if (it != adapters.end()) {
 		crntSceneName = name;
 		return it->second();
     }
+	//Action scene from area_properties
+	else if (!props.sceneName.empty()) {
+		crntSceneName = name;
+		return App::createAndRunScene<PlayScene>(props);
+	}
+	//Action scene with default settings from map file.
+	else if (FileUtils::getInstance()->isFileExist("maps/" + name + ".tmx")) {
+		crntSceneName = name;
+		log("Warning, creating scene %s from map file instead of properties!", name);
+		return App::createAndRunScene<PlayScene>(name);
+	}
+	else {
+		log("runScene: %s not found", name.c_str());
+		return nullptr;
+	}
 }
 
 void GScene::restartScene()

@@ -86,6 +86,7 @@ public:
 	//Defined in SceneMapping.cpp.
     static const unordered_map<string,AdapterType> adapters;
 
+	static const Color4F defaultAmbientLight;
 	static const int dialogEdgeMargin;
 	static const bool scriptLog;
 
@@ -117,7 +118,7 @@ public:
 	inline virtual void enterPause() {}
 	inline virtual void exitPause() {}
 
-	inline virtual Color4F getDefaultAmbientLight() const { return Color4F(0.5f, 0.5f, 0.5f,1.0f); }
+	inline virtual Color4F getDefaultAmbientLight() const { return defaultAmbientLight; }
 
 	void createDialog(const string& res, bool autoAdvance);
 	void createDialog(const string& res, bool autoAdvance, zero_arity_function f);

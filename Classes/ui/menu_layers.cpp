@@ -226,10 +226,10 @@ const vector<zero_arity_function> SceneSelect::entryActions = {
 	{ sceneLaunchAdapterByName("FacerFloor") },
 	{ sceneLaunchAdapterByName("SakuyaRoom") },
 	{ sceneLaunchAdapterByName("MarisaRoom") },
-	{ sceneLaunchAdapterByName("Library") },
+	{ sceneLaunchAdapterByName("library") },
 	{ sceneLaunchAdapterByName("FR1") },
-	{ sceneLaunchAdapterByName("IceCave") },
-	{ sceneLaunchAdapterByName("Forest") },
+	{ sceneLaunchAdapterByName("ice_cave") },
+	{ sceneLaunchAdapterByName("forest1") },
 
 	{ &App::popMenu }
 };
@@ -245,26 +245,26 @@ const string WorldSelect::title = "Select World";
 #define entry(x) {#x, menuPushAdapter(#x)}
 
 const vector<pair<string,zero_arity_function>> WorldSelect::entries = {
-	entry(Graveyard1),
-	entry(Graveyard2),
-	entry(Graveyard3),
-	entry(Graveyard4),
-	entry(Forest),
-	entry(Desert),
-	entry(Mine),
+	entry(graveyard1),
+	entry(graveyard2),
+	entry(graveyard3),
+	entry(graveyard4),
+	entry(forest1),
+	entry(desert1),
+	entry(mine1),
 	{ "Back", &WorldSelect::back }
 };
 
 #undef entry
 
 const vector<string> WorldSelect::chamberIDs = {
-	"Graveyard1",
-	"Graveyard2",
-	"Graveyard3",
-	"Graveyard4",
-	"Forest1",
-	"Desert1",
-	"Mine1",
+	"graveyard1",
+	"graveyard2",
+	"graveyard3",
+	"graveyard4",
+	"forest1",
+	"desert1",
+	"mine1",
 };
 
 string WorldSelect::nextScene = "";

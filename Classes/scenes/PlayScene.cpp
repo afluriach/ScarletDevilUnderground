@@ -32,15 +32,31 @@ void printGroup(TMXObjectGroup* group)
     }
 }
 
+area_properties area_properties::singleMap(string name)
+{
+	area_properties result;
+
+	result.sceneName = name;
+	result.maps.push_back(make_pair(name, IntVec2(0, 0)));
+
+	return result;
+}
+
+area_properties::area_properties() :
+	ambientLight(GScene::defaultAmbientLight)
+{
+}
+
 const Color3B PlayScene::fadeoutColor = Color3B(192,96,96);
 const float PlayScene::fadeoutLength = 3.0f;
 
 PlayScene::PlayScene(const string& mapName) :
-	PlayScene(mapName, singleMapEntry(mapName))
+	PlayScene(area_properties::singleMap(mapName))
 {}
 
-PlayScene::PlayScene(const string& sceneName, const vector<MapEntry>& maps) :
-GScene(sceneName, maps)
+PlayScene::PlayScene(area_properties props) :
+GScene(props.sceneName, props.maps),
+props(props)
 {
     multiInit.insertWithOrder(
         wrap_method(PlayScene,addHUD,this),
@@ -81,16 +97,6 @@ void PlayScene::showVisibleRooms()
 	if (it != App::crntState->chamberStats.end()) {
 		setRoomsVisible(it->second.roomsVisited);
 	}
-}
-
-void PlayScene::applyCameraControls()
-{
-    Vec2 arrowState = toCocos(App::control_register->getRightVector());
-    if(!arrowState.isZero()){
-		Vec2 cameraPos = Vec2(cameraArea.center.x, cameraArea.center.y);
-
-		setUnitPosition(toChipmunk(cameraPos + arrowState * cameraMoveTilesPerSecond * app::params.secondsPerFrame));
-    }
 }
 
 void PlayScene::addHUD()
@@ -135,8 +141,15 @@ void PlayScene::enterPause()
 
 	waitForSpaceThread();
 
-	pauseMenu = Node::ccCreate<PauseMenu>(isOverworld, gspace->getObjectAs<Player>("player"));
-	pushMenu(pauseMenu);
+	Player* player = gspace->getObjectAs<Player>("player");
+
+	if (player) {
+		pauseMenu = Node::ccCreate<PauseMenu>(isOverworld, player);
+		pushMenu(pauseMenu);
+	}
+	else {
+		log("PlayScene::enterPause: no Player object!");
+	}
 }
 
 void PlayScene::exitPause()
@@ -148,6 +161,11 @@ void PlayScene::exitPause()
 	setPaused(false);
 	isShowingMenu = false;
 	hud->resetAutohide();
+}
+
+Color4F PlayScene::getDefaultAmbientLight() const
+{
+	return props.ambientLight;
 }
 
 void PlayScene::pauseAnimations()
@@ -247,7 +265,7 @@ void PlayScene::exitWorldSelect()
 
 GScene* PlayScene::getReplacementScene()
 {
-	return Node::ccCreate<PlayScene>(sceneName, maps);
+	return Node::ccCreate<PlayScene>(props);
 }
 
 void PlayScene::showMenu(MenuLayer* menu)

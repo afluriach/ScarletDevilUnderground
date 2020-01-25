@@ -135,17 +135,11 @@
     <ClCompile Include="..\Classes\objects\Goal.cpp">
       <Filter>src\objects</Filter>
     </ClCompile>
-    <ClCompile Include="..\Classes\scenes\Mine.cpp">
-      <Filter>src\scenes</Filter>
-    </ClCompile>
     <ClCompile Include="..\Classes\objects\Launcher.cpp">
       <Filter>src\objects</Filter>
     </ClCompile>
     <ClCompile Include="..\Classes\objects\EffectArea.cpp">
       <Filter>src\objects</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Classes\scenes\Desert.cpp">
-      <Filter>src\scenes</Filter>
     </ClCompile>
     <ClCompile Include="..\Classes\objects\Marisa.cpp">
       <Filter>src\objects</Filter>
@@ -159,9 +153,6 @@
     <ClCompile Include="..\Classes\scenes\menu_scenes.cpp">
       <Filter>src\scenes</Filter>
     </ClCompile>
-    <ClCompile Include="..\Classes\scenes\IceCave.cpp">
-      <Filter>src\scenes</Filter>
-    </ClCompile>
     <ClCompile Include="..\Classes\objects\Enemy.cpp">
       <Filter>src\objects</Filter>
     </ClCompile>
@@ -173,12 +164,6 @@
     </ClCompile>
     <ClCompile Include="..\Classes\objects\Spawner.cpp">
       <Filter>src\objects</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Classes\scenes\Forest.cpp">
-      <Filter>src\scenes</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Classes\scenes\Graveyard.cpp">
-      <Filter>src\scenes</Filter>
     </ClCompile>
     <ClCompile Include="..\Classes\spells\PlayerSpell.cpp">
       <Filter>src\spells</Filter>
@@ -203,9 +188,6 @@
     </ClCompile>
     <ClCompile Include="..\Classes\types.cpp">
       <Filter>src</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Classes\scenes\Library.cpp">
-      <Filter>src\scenes</Filter>
     </ClCompile>
     <ClCompile Include="..\Classes\vect.cpp">
       <Filter>src</Filter>
@@ -494,22 +476,13 @@
     <ClInclude Include="..\Classes\objects\Goal.hpp">
       <Filter>src\objects</Filter>
     </ClInclude>
-    <ClInclude Include="..\Classes\scenes\Mine.hpp">
-      <Filter>src\scenes</Filter>
-    </ClInclude>
     <ClInclude Include="..\Classes\objects\Launcher.hpp">
       <Filter>src\objects</Filter>
     </ClInclude>
     <ClInclude Include="..\Classes\objects\EffectArea.hpp">
       <Filter>src\objects</Filter>
     </ClInclude>
-    <ClInclude Include="..\Classes\scenes\Desert.hpp">
-      <Filter>src\scenes</Filter>
-    </ClInclude>
     <ClInclude Include="..\Classes\scenes\menu_scenes.h">
-      <Filter>src\scenes</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Classes\scenes\IceCave.hpp">
       <Filter>src\scenes</Filter>
     </ClInclude>
     <ClInclude Include="..\Classes\objects\Enemy.hpp">
@@ -523,12 +496,6 @@
     </ClInclude>
     <ClInclude Include="..\Classes\objects\Spawner.hpp">
       <Filter>src\objects</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Classes\scenes\Forest.hpp">
-      <Filter>src\scenes</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Classes\scenes\Graveyard.hpp">
-      <Filter>src\scenes</Filter>
     </ClInclude>
     <ClInclude Include="..\Classes\spells\PlayerSpell.hpp">
       <Filter>src\spells</Filter>
@@ -550,9 +517,6 @@
     </ClInclude>
     <ClInclude Include="..\Classes\objects\AreaSensor.hpp">
       <Filter>src\objects</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Classes\scenes\Library.hpp">
-      <Filter>src\scenes</Filter>
     </ClInclude>
     <ClInclude Include="..\Classes\vect.hpp">
       <Filter>src</Filter>

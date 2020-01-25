@@ -9,6 +9,7 @@
 #ifndef xml_hpp
 #define xml_hpp
 
+struct area_properties;
 struct bomb_properties;
 struct bullet_properties;
 struct collectible_properties;
@@ -22,6 +23,7 @@ namespace app {
 
 	extern const unordered_map<string, effect_parser> effectParsers;
 
+	extern unordered_map<string, area_properties> areas;
 	extern unordered_map<string, AttributeMap> attributes;
 	extern unordered_map<string, shared_ptr<bomb_properties>> bombs;
 	extern unordered_map<string, shared_ptr<bullet_properties>> bullets;
@@ -33,6 +35,7 @@ namespace app {
 	extern unordered_map<string, shared_ptr<LightArea>> lights;
 	extern unordered_map<string, sprite_properties> sprites;
 
+	void loadAreas();
 	void loadAttributes();
 	void loadBombs();
 	void loadBullets();
@@ -44,6 +47,7 @@ namespace app {
 	void loadLights();
 	void loadSprites();
 
+	area_properties getArea(const string& name);
 	shared_ptr<bomb_properties> getBomb(const string& name);
 	shared_ptr<bullet_properties> getBullet(const string& name);
 	collectible_properties getCollectible(const string& name);
@@ -82,6 +86,7 @@ namespace app {
 		}
 	}
 
+	bool parseObject(tinyxml2::XMLElement* elem, area_properties* result);
 	bool parseObject(tinyxml2::XMLElement* elem, AttributeMap* result);
 	bool parseObject(tinyxml2::XMLElement* elem, shared_ptr<enemy_properties>* result);
 	bool parseObject(tinyxml2::XMLElement* elem, shared_ptr<firepattern_properties>* result);

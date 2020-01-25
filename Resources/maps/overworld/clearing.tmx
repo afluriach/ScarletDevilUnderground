@@ -128,7 +128,7 @@
     <property name="dest_map" value="forest"/>
     <property name="dir" value="down"/>
     <property name="path" value="true"/>
-    <property name="sealed_until_completed" value="Graveyard3"/>
+    <property name="sealed_until_completed" value="graveyard3"/>
    </properties>
   </object>
   <object id="59" name="to_graveyard" type="Door" x="1152" y="5888" width="384" height="256">

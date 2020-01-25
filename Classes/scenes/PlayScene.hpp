@@ -18,6 +18,18 @@ class MapMenu;
 class MenuLayer;
 class PauseMenu;
 
+struct area_properties
+{
+	static area_properties singleMap(string name);
+
+	area_properties();
+
+	string sceneName;
+	string next;
+	vector<GScene::MapEntry> maps;
+	Color4F ambientLight;
+};
+
 class PlayScene : public GScene
 {
 public:
@@ -27,7 +39,7 @@ public:
     static const float fadeoutLength;
 
     PlayScene(const string& name);
-	PlayScene(const string& sceneName, const vector<MapEntry>& maps);
+	PlayScene(area_properties props);
 
 	virtual ~PlayScene();
 
@@ -35,12 +47,12 @@ public:
 
 	void showVisibleRooms();
 
-    void applyCameraControls();
-
 	void onPausePressed();
 	virtual void enterPause();
 	virtual void exitPause();
     
+	virtual Color4F getDefaultAmbientLight() const;
+
 	void onMapPressed();
 	void enterMap();
 	void exitMap();
@@ -59,6 +71,7 @@ public:
 
 	virtual GScene* getReplacementScene();
 
+	inline virtual string getNextLevel() const { return props.next; }
 	inline void setIsOverworld(bool val) { isOverworld = val; }
 
     HUD* hud = nullptr;
@@ -70,7 +83,7 @@ private:
 	void showMenu(MenuLayer* menu);
 	void triggerMenu( void (PlayScene::*m)(void) );
 
-	SpaceFloat cameraMoveTilesPerSecond = 3.0;
+	area_properties props;
 
 	bool isShowingMenu = false;
 	bool isOverworld = false;

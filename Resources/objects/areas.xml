@@ -1,0 +1,115 @@
+<areas>
+
+	<Library map="auto" ambient_light="0.5,0.5,0.2" />
+
+	<graveyard1 map="auto" next="graveyard2" ambient_light="rgb:0.3,0.45,0.45" />
+	
+	<graveyard2 next="graveyard3" ambient_light="rgb:0.3,0.45,0.45" >
+		<rooms size="17,17" prefix="graveyard2/">
+			<G0 tile_offset="0,3"/>
+			<G1 tile_offset="1,3"/>
+			<G2 tile_offset="2,3"/>
+			<G3 tile_offset="3,3"/>
+
+			<G4 tile_offset="0,2"/>
+			<G5 tile_offset="1,2"/>
+			<G6 tile_offset="2,2"/>
+			<G7 tile_offset="3,2"/>
+
+			<G8 tile_offset="0,1"/>
+			<G9 tile_offset="1,1"/>
+			<G10 tile_offset="2,1"/>
+			<G11 tile_offset="3,1"/>
+
+			<G12 tile_offset="0,0"/>
+			<G13 tile_offset="1,0"/>
+			<G14 tile_offset="2,0"/>
+			<G15 tile_offset="3,0"/>
+		</rooms>
+	</graveyard2>
+
+	<graveyard3 map="auto" next="graveyard4" ambient_light="rgb:0.225,0.333,0.333" />
+	
+	<graveyard4 next="none" ambient_light="rgb:0.225,0.333,0.333">
+		<rooms size="17,17" prefix="graveyard4/" >
+			<G0 tile_offset="0,3" />
+			<G1 tile_offset="1,3" />
+			<G2 tile_offset="2,3" />
+			<G3 tile_offset="3,3" />
+
+			<G4 tile_offset="0,2" />
+			<G5 tile_offset="1,2" />
+			<G6 tile_offset="2,2" />
+			<G7 tile_offset="3,2" />
+
+			<G8 tile_offset="0,1" />
+			<G9 tile_offset="1,1" />
+			<G10 tile_offset="2,1" />
+			<G11 tile_offset="3,1" />
+
+			<G12 tile_offset="0,0" />
+			<G13 tile_offset="1,0" />
+			<G14 tile_offset="2,0" />
+			<G15 tile_offset="3,0" />
+		</rooms>
+	</graveyard4>
+
+	<forest1 next="none" >
+		<rooms size="17,17" prefix="forest/" >
+			<F0 offset="53,16" />
+			<F1 offset="70,16" />
+			<F2 offset="87,16" />
+			
+			<F3 offset="0,1" />
+			<F4 offset="39,39" />
+			<F5 offset="0,38" />
+			<F6 offset="11,77" />
+			<F7 offset="11,98" />
+			<F8 offset="44,77" />
+			<F9 offset="87,98" />
+			<F10 offset="104,16" />
+			<F11 offset="83,57" />
+
+		</rooms>
+	</forest1>
+
+	<desert1 next="none" ambient_light="rgb:0.7,0.7,0.3" >
+		<rooms size="17,17" prefix="desert/" >
+			<D2 tile_offset="0,0" />
+			<D0 tile_offset="1,0" />
+			<D1 tile_offset="2,0" />
+			<D3 tile_offset="3,0" />
+			<D4 tile_offset="4,0" />
+		</rooms>
+	</desert1>
+	
+	<mine1 next="none" ambient_light="rgb:0.4,0.4,0.6" >
+		<rooms size="17,17" prefix="mine/" >
+			<M10 tile_offset="0,0" />
+			<M9 tile_offset="2,0" />
+
+			<M2 tile_offset="0,1" />
+			<M7 tile_offset="1,1" />
+			<M1 tile_offset="2,1" />
+			<M4 tile_offset="3,1" />
+
+			<M5 tile_offset="0,2" />
+			<M8 tile_offset="2,2" />
+
+			<M6 tile_offset="0,3" />
+			<M0 tile_offset="1,3" />
+			<M3 tile_offset="2,3" />
+			<M4 tile_offset="3,3" />
+		</rooms>
+	</mine1>
+	
+	<ice_cave next="none">
+		<rooms size="17,17" prefix="ice_cave/" >
+			<C9 tile_offset="0,2" />
+
+			<C6 tile_offset="0,3" />
+			<C0 tile_offset="1,3" />
+			<C4 tile_offset="2,2" />
+		</rooms>
+	</ice_cave>		
+</areas>
