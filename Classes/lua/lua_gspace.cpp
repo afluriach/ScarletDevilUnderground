@@ -90,5 +90,15 @@ namespace Lua{
 		addFuncSame(gstate, _registerChamberCompleted);
 		addFuncSame(gstate, registerUpgrade);
 		addFuncSame(gstate, setUpgradeLevels);
+
+		addFuncSame(gstate, registerChamberAvailable);
+		addFuncSame(gstate, isChamberAvailable);
+		addFuncSame(gstate, isChamberCompleted);
+
+		addFuncSame(gstate, setAttribute);
+		addFuncSame(gstate, getAttribute);
+		addFuncSame(gstate, hasAttribute);
+		addFuncSame(gstate, incrementAttribute);
+		addFuncSame(gstate, subtractAttribute);
 	}
 }
