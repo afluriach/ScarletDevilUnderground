@@ -86,15 +86,43 @@ namespace app {
 		}
 	}
 
+	template<typename T>
+	inline void loadObjectsShared(string filename, unordered_map<string, shared_ptr<T>>& _map)
+	{
+		tinyxml2::XMLDocument objects;
+		auto error = objects.Parse(io::loadTextFile(filename).c_str());
+
+		if (error != tinyxml2::XML_SUCCESS) {
+			log("XML error: %d", error);
+			return;
+		}
+
+		tinyxml2::XMLNode* root = objects.FirstChild();
+
+		for (
+			tinyxml2::XMLElement* crnt = root->FirstChildElement();
+			crnt != nullptr;
+			crnt = crnt->NextSiblingElement())
+		{
+			shared_ptr<T> object = make_shared<T>();
+			if (parseObject(crnt, object)) {
+				_map.insert_or_assign(crnt->Name(), object);
+			}
+			else {
+				log("%s : %s failed to load!", filename, crnt->Name());
+			}
+		}
+	}
+
 	bool parseObject(tinyxml2::XMLElement* elem, area_properties* result);
 	bool parseObject(tinyxml2::XMLElement* elem, AttributeMap* result);
-	bool parseObject(tinyxml2::XMLElement* elem, shared_ptr<enemy_properties>* result);
+	bool parseObject(tinyxml2::XMLElement* elem, shared_ptr<enemy_properties> result);
 	bool parseObject(tinyxml2::XMLElement* elem, shared_ptr<firepattern_properties>* result);
 	bool parseObject(tinyxml2::XMLElement* elem, floorsegment_properties* result);
 	bool parseObject(tinyxml2::XMLElement* elem, sprite_properties* result);
 	bool parseObject(tinyxml2::XMLElement* elem, shared_ptr<LightArea>* result);
-	bool parseObject(tinyxml2::XMLElement* elem, shared_ptr<bullet_properties>* result);
-	bool parseObject(tinyxml2::XMLElement* elem, shared_ptr<bomb_properties>* result);
+	bool parseObject(tinyxml2::XMLElement* elem, shared_ptr<bullet_properties> result);
+	bool parseObject(tinyxml2::XMLElement* elem, shared_ptr<bomb_properties> result);
 	bool parseObject(tinyxml2::XMLElement* elem, shared_ptr<MagicEffectDescriptor>* result);
 	bool parseObject(tinyxml2::XMLElement* elem, collectible_properties* result);
 

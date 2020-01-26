@@ -49,12 +49,12 @@ void loadAttributes()
 
 void loadBombs()
 {
-	loadObjects<shared_ptr<bomb_properties>>("objects/bombs.xml", app::bombs);
+	loadObjectsShared<bomb_properties>("objects/bombs.xml", app::bombs);
 }
 
 void loadBullets()
 {
-	loadObjects<shared_ptr<bullet_properties>>("objects/bullets.xml", app::bullets);
+	loadObjectsShared<bullet_properties>("objects/bullets.xml", app::bullets);
 }
 
 void loadCollectibles()
@@ -69,7 +69,7 @@ void loadEffects()
 
 void loadEnemies()
 {
-	loadObjects<shared_ptr<enemy_properties>>("objects/enemies.xml", app::enemies);
+	loadObjectsShared<enemy_properties>("objects/enemies.xml", app::enemies);
 
 	for (auto entry : enemies)
 	{
@@ -306,7 +306,7 @@ bool parseObject(tinyxml2::XMLElement* elem, AttributeMap* result)
 	return true;
 }
 
-bool parseObject(tinyxml2::XMLElement* elem, shared_ptr<enemy_properties>* result)
+bool parseObject(tinyxml2::XMLElement* elem, shared_ptr<enemy_properties> result)
 {
 	enemy_properties props;
 	props.radius = Agent::defaultSize;
@@ -345,7 +345,7 @@ bool parseObject(tinyxml2::XMLElement* elem, shared_ptr<enemy_properties>* resul
 	getNumericAttr(elem, "detectEssence", &props.detectEssence);
 	getNumericAttr(elem, "isFlying", &props.isFlying);
 
-	*result = make_shared<enemy_properties>(props);
+	*result = props;
 	return true;
 }
 
@@ -516,7 +516,7 @@ bool parseObject(tinyxml2::XMLElement* elem, shared_ptr<LightArea>* result)
 	return false;
 }
 
-bool parseObject(tinyxml2::XMLElement* elem, shared_ptr<bullet_properties>* result)
+bool parseObject(tinyxml2::XMLElement* elem, shared_ptr<bullet_properties> result)
 {
 	bullet_properties props{
 		0.0,
@@ -548,11 +548,11 @@ bool parseObject(tinyxml2::XMLElement* elem, shared_ptr<bullet_properties>* resu
 	getNumericAttr(elem, "ignoreObstacles", &props.ignoreObstacles);
 	getNumericAttr(elem, "deflectBullets", &props.deflectBullets);
 
-	*result = make_shared<bullet_properties>(props);
+	*result = props;
 	return true;
 }
 
-bool parseObject(tinyxml2::XMLElement* elem, shared_ptr<bomb_properties>* result)
+bool parseObject(tinyxml2::XMLElement* elem, shared_ptr<bomb_properties> result)
 {
 	bomb_properties props = {
 		"",
@@ -579,7 +579,7 @@ bool parseObject(tinyxml2::XMLElement* elem, shared_ptr<bomb_properties>* result
 		return false;
 	}
 	else {
-		*result = make_shared<bomb_properties>(props);
+		*result = props;
 		return true;
 	}
 }
