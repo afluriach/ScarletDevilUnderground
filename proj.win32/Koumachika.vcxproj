@@ -170,8 +170,11 @@ xcopy "$(ProjectDir)..\Resources" "$(OutDir)" /D /E /I /F /Y</Command>
     <ClCompile Include="..\Classes\lua\lua_ai.cpp" />
     <ClCompile Include="..\Classes\lua\LuaAPI.cpp" />
     <ClCompile Include="..\Classes\lua\LuaShell.cpp" />
+    <ClCompile Include="..\Classes\lua\lua_app.cpp" />
     <ClCompile Include="..\Classes\lua\lua_gobject.cpp" />
+    <ClCompile Include="..\Classes\lua\lua_gspace.cpp" />
     <ClCompile Include="..\Classes\lua\lua_magic.cpp" />
+    <ClCompile Include="..\Classes\lua\lua_scene.cpp" />
     <ClCompile Include="..\Classes\lua\lua_types.cpp" />
     <ClCompile Include="..\Classes\objects\Agent.cpp" />
     <ClCompile Include="..\Classes\objects\AreaSensor.cpp" />

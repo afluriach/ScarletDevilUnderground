@@ -8,16 +8,8 @@
 
 #include "Prefix.h"
 
-#include "Agent.hpp"
-#include "app_constants.hpp"
 #include "FileIO.hpp"
-#include "Graphics.h"
-#include "GScene.hpp"
-#include "HUD.hpp"
 #include "LuaAPI.hpp"
-#include "Player.hpp"
-#include "PlayScene.hpp"
-#include "xml.hpp"
 
 namespace Lua{
 
@@ -87,207 +79,6 @@ const vector<string> Inst::luaIncludes = {
     
     void Inst::installApi()
     {
-		auto app = newType(App);
-		#define _cls App
-
-		app["runOverworldScene"] = static_cast<GScene*(*)(string, string)>(&App::runOverworldScene);
-
-		addFuncSame(app, getParams);
-		addFuncSame(app,getCrntScene);
-		addFuncSame(app, getCrntState);
-		addFuncSame(app, printGlDebug);
-#if USE_TIMERS
-		addFuncSame(app, printTimerInfo);
-		addFuncSame(app, setLogTimers);
-#endif
-		addFuncSame(app, setFullscreen);
-		addFuncSame(app, setVsync);
-		addFuncSame(app, setResolution);
-		addFuncSame(app, setFramerate);
-		addFuncSame(app, setPlayer);
-		addFuncSame(app, setUnlockAllEquips);
-		addFuncSame(app, loadProfile);
-		addFuncSame(app, saveProfile);
-
-		addFuncSame(app, clearAllKeys);
-		addFuncSame(app, clearKeyAction);
-		addFuncSame(app, addKeyAction);
-#if use_gamepad
-		addFuncSame(app, clearAllButtons);
-		addFuncSame(app, clearButtonAction);
-		addFuncSame(app, addButtonAction);
-#endif
-		
-		auto app_consts = _state.create_table();
-		_state["app_constants"] = app_consts;
-		
-		cFuncSameNS(app_consts, app, baseWidth);
-		cFuncSameNS(app_consts, app, baseHeight);
-		cFuncSameNS(app_consts, app, pixelsPerTile);
-		cFuncSameNS(app_consts, app, tilesPerPixel);
-		cFuncSameNS(app_consts, app, viewWidth);
-		cFuncSameNS(app_consts, app, Gaccel);
-
-		auto attr = newType(AttributeSystem);
-		#define _cls AttributeSystem
-
-		attr["get"] = sol::overload(
-			&AttributeSystem::get,
-			&AttributeSystem::operator[]
-		);
-
-		attr["set"] = sol::overload(
-			static_cast<void(AttributeSystem::*)(string, float)>(&AttributeSystem::set),
-			static_cast<void(AttributeSystem::*)(Attribute, float)>(&AttributeSystem::set)
-		);
-
-		attr["modifyAttribute"] = static_cast<void(AttributeSystem::*)(Attribute, float)>(&AttributeSystem::modifyAttribute);
-
-		addFuncSame(attr, isZero);
-		addFuncSame(attr, isNonzero);
-		addFuncSame(attr, hasHitProtection);
-		addFuncSame(attr, setTimedProtection);
-		addFuncSame(attr, timerDecrement);
-		addFuncSame(attr, timerIncrement);
-		addFuncSame(attr, setFullHP);
-		addFuncSame(attr, setFullMP);
-		addFuncSame(attr, setFullStamina);
-
-		auto objref = _state.new_usertype<gobject_ref>(
-			"gobject_ref",
-			sol::constructors<
-			gobject_ref(),
-			gobject_ref(const gobject_ref&),
-			gobject_ref(const GObject*)
-			>()
-		);
-		objref["isValid"] = &gobject_ref::isValid;
-		objref["isFuture"] = &gobject_ref::isFuture;
-		objref["get"] = &gobject_ref::get;
-		objref["getID"] = &gobject_ref::getID;
-
-		auto objparams = _state.new_usertype<object_params>(
-			"object_params",
-			sol::constructors<
-				object_params()
-			>()
-		);
-
-		#define _cls bullet_properties
-		auto bullet_props = _state.new_usertype<bullet_properties>("bullet_properties");
-		addFuncSame(bullet_props, speed);
-		addFuncSame(bullet_props, dimensions);
-
-		addFuncSame(bullet_props, damage);
-
-		addFuncSame(bullet_props, sprite);
-		addFuncSame(bullet_props, lightSource);
-
-		addFuncSame(bullet_props, hitCount);
-		addFuncSame(bullet_props, ricochetCount);
-		addFuncSame(bullet_props, directionalLaunch);
-		addFuncSame(bullet_props, ignoreObstacles);
-		addFuncSame(bullet_props, deflectBullets);
-
-		bullet_props["clone"] = &bullet_properties::clone;
-
-		#define _cls bullet_attributes
-		auto bullet_attr = _state.new_usertype<bullet_attributes>("bullet_attributes");
-		addFuncSame(bullet_attr, getDefault);
-		addFuncSame(bullet_attr, casterVelocity);
-		addFuncSame(bullet_attr, caster);
-		addFuncSame(bullet_attr, type);
-		addFuncSame(bullet_attr, size);
-		addFuncSame(bullet_attr, attackDamage);
-		addFuncSame(bullet_attr, bulletSpeed);
-
-		auto gscene = newType(GScene);
-		#define _cls GScene
-
-		addFuncSame(gscene, runScene);
-		addFuncSame(gscene, getSpace);
-		addFuncSame(gscene, setPaused);
-		addFuncSame(gscene, stopDialog);
-		addFuncSame(gscene, teleportToDoor);
-		addFuncSame(gscene, setRoomVisible);
-		addFuncSame(gscene, unlockAllRooms);
-		
-		gscene["createDialog"] = static_cast<void(GScene::*)(const string&, bool)>(&GScene::createDialog);
-
-		auto playscene = _state.new_usertype<PlayScene>("PlayScene", sol::base_classes, sol::bases<GScene>());
-		#define _cls PlayScene
-		
-		auto gspace = newType(GSpace);
-		#define _cls GSpace
-
-		gspace["createObject"] = static_cast<gobject_ref(GSpace::*)(const ValueMap&)>(&GSpace::createObject);
-		gspace["getObjectByName"] = static_cast<GObject*(GSpace::*)(const string&) const>(&GSpace::getObject);
-		addFuncSame(gspace, createBullet);
-		addFuncSame(gspace, getPlayer);
-		addFuncSame(gspace, getPlayerAsRef);
-		addFuncSame(gspace, getFrame);
-		addFuncSame(gspace, getObjectCount);
-		addFuncSame(gspace, getObjectNames);
-		addFuncSame(gspace, getUUIDNameMap);
-		addFuncSame(gspace, isObstacle);
-		gspace["removeObject"] = sol::overload(
-			static_cast<void(GSpace::*)(const string&)>(&GSpace::removeObject),
-			static_cast<void(GSpace::*)(gobject_ref)>(&GSpace::removeObject),
-			static_cast<void(GSpace::*)(GObject*)>(&GSpace::removeObject)
-		);
-		addFuncSame(gspace, getRandomInt);
-		gspace["getRandomFloat"] = sol::overload(
-			static_cast<float(GSpace::*)()>(&GSpace::getRandomFloat),
-			static_cast<float(GSpace::*)(float,float)>(&GSpace::getRandomFloat)
-		);
-
-		auto gstate = newType(GState);
-		#define _cls GState
-
-		addFuncSame(gstate, addItem);
-		addFuncSame(gstate, hasItem);
-		addFuncSame(gstate, _registerChamberCompleted);
-		addFuncSame(gstate, registerUpgrade);
-		addFuncSame(gstate, setUpgradeLevels);
-
-		auto hud = newType(HUD);
-		#define _cls HUD
-
-		addFuncSame(hud, setMansionMode);
-		addFuncSame(hud, setObjectiveCounter);
-		addFuncSame(hud, setObjectiveCounterVisible);
-
-		auto action_tags = _state.new_enum<cocos_action_tag, true>(
-			"cocos_action_tag",
-			{
-				enum_entry(cocos_action_tag, illusion_dash),
-				enum_entry(cocos_action_tag, damage_flicker),
-				enum_entry(cocos_action_tag, object_fade),
-				enum_entry(cocos_action_tag, hit_protection_flicker),
-				enum_entry(cocos_action_tag, combo_mode_flicker),
-				enum_entry(cocos_action_tag, freeze_status),
-				enum_entry(cocos_action_tag, darkness_curse),
-				enum_entry(cocos_action_tag, game_over_tint),
-			}
-		);
-
-		auto graphics = _state.create_table();
-		_state["graphics"] = graphics;
-
-		cFuncSame(graphics, indefiniteFlickerAction);
-		cFuncSame(graphics, flickerAction);
-		cFuncSame(graphics, flickerTintAction);
-		cFuncSame(graphics, comboFlickerTintAction);
-		cFuncSame(graphics, spellcardFlickerTintAction);
-		cFuncSame(graphics, darknessCurseFlickerTintAction);
-		cFuncSame(graphics, tintToAction);
-		cFuncSame(graphics, motionBlurStretch);
-		cFuncSame(graphics, bombAnimationAction);
-		cFuncSame(graphics, freezeEffectAction);
-		cFuncSame(graphics, freezeEffectEndAction);
-		cFuncSame(graphics, objectFadeOut);
-		cFuncSame(graphics, damageIndicatorAction);
-
 		auto util = _state.create_table();
 		_state["util"] = util;
 
@@ -305,8 +96,11 @@ const vector<string> Inst::luaIncludes = {
 		};
 
 		addAI();
+		addApp();
 		addGObject();
+		addGSpace();
 		addMagic();
+		addScene();
 		addTypes();
 	}
 }

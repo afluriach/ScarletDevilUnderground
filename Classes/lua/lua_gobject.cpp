@@ -18,6 +18,68 @@ namespace Lua{
     
     void Inst::addGObject()
     {
+		auto objref = _state.new_usertype<gobject_ref>(
+			"gobject_ref",
+			sol::constructors<
+				gobject_ref(),
+				gobject_ref(const gobject_ref&),
+				gobject_ref(const GObject*)
+			>()
+		);
+		objref["isValid"] = &gobject_ref::isValid;
+		objref["isFuture"] = &gobject_ref::isFuture;
+		objref["get"] = &gobject_ref::get;
+		objref["getID"] = &gobject_ref::getID;
+
+		auto objparams = _state.new_usertype<object_params>(
+			"object_params",
+			sol::constructors<
+				object_params()
+			>()
+		);
+
+#define _cls bullet_properties
+		auto bullet_props = _state.new_usertype<bullet_properties>("bullet_properties");
+		addFuncSame(bullet_props, speed);
+		addFuncSame(bullet_props, dimensions);
+
+		addFuncSame(bullet_props, damage);
+
+		addFuncSame(bullet_props, sprite);
+		addFuncSame(bullet_props, lightSource);
+
+		addFuncSame(bullet_props, hitCount);
+		addFuncSame(bullet_props, ricochetCount);
+		addFuncSame(bullet_props, directionalLaunch);
+		addFuncSame(bullet_props, ignoreObstacles);
+		addFuncSame(bullet_props, deflectBullets);
+
+		bullet_props["clone"] = &bullet_properties::clone;
+
+#define _cls bullet_attributes
+		auto bullet_attr = _state.new_usertype<bullet_attributes>("bullet_attributes");
+		addFuncSame(bullet_attr, getDefault);
+		addFuncSame(bullet_attr, casterVelocity);
+		addFuncSame(bullet_attr, caster);
+		addFuncSame(bullet_attr, type);
+		addFuncSame(bullet_attr, size);
+		addFuncSame(bullet_attr, attackDamage);
+		addFuncSame(bullet_attr, bulletSpeed);
+
+		auto action_tags = _state.new_enum<cocos_action_tag, true>(
+			"cocos_action_tag",
+			{
+				enum_entry(cocos_action_tag, illusion_dash),
+				enum_entry(cocos_action_tag, damage_flicker),
+				enum_entry(cocos_action_tag, object_fade),
+				enum_entry(cocos_action_tag, hit_protection_flicker),
+				enum_entry(cocos_action_tag, combo_mode_flicker),
+				enum_entry(cocos_action_tag, freeze_status),
+				enum_entry(cocos_action_tag, darkness_curse),
+				enum_entry(cocos_action_tag, game_over_tint),
+			}
+		);
+
 		auto gobject = newType(GObject);
 		#define _cls GObject
 

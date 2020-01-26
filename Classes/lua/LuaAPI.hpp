@@ -31,8 +31,11 @@ namespace Lua
         static const bool logInst = false;
         
 		void addAI();
+		void addApp();
 		void addGObject();
+		void addGSpace();
 		void addMagic();
+		void addScene();
 		void addTypes();
 
         void installApi();
