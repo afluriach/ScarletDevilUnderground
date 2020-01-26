@@ -159,7 +159,6 @@ void GObject::initObjectInfo()
 	entry_same(PatchouliEnemy),
 	entry_same(Pitfall),
 	entry_same(PressurePlate),
-	entry_same(Reimu),
 	entry_same(ReimuEnemy),
 	entry_same(SakuyaNPC),
 	entry_same(Sapling),

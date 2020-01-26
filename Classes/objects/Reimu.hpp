@@ -12,20 +12,6 @@
 #include "Enemy.hpp"
 #include "NPC.hpp"
 
-class Reimu : public NPC
-{
-public:
-	MapObjCons(Reimu);
-    
-    virtual inline string getSprite() const {return "reimu";}
-    virtual inline GraphicsLayer sceneLayer() const {return GraphicsLayer::ground;}
-    
-    inline virtual bool isDialogAvailable(){ return true;}
-    inline virtual string getDialog(){
-        return "dialogs/warning_about_rumia";
-    }
-};
-
 class ReimuEnemy : public Enemy
 {
 public:

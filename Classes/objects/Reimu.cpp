@@ -13,15 +13,6 @@
 #include "Reimu.hpp"
 #include "value_map.hpp"
 
-Reimu::Reimu(GSpace* space, ObjectIDType id, const ValueMap& args) :
-	NPC(
-		space, id, args,
-		"",
-		defaultSize,
-		-1.0
-	)
-{}
-
 const string ReimuEnemy::baseAttributes = "reimu";
 const string ReimuEnemy::properName = "Reimu Hakurei";
 
