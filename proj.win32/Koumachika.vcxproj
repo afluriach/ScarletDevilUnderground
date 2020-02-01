@@ -188,7 +188,6 @@ xcopy "$(ProjectDir)..\Resources" "$(OutDir)" /D /E /I /F /Y</Command>
     <ClCompile Include="..\Classes\objects\EffectArea.cpp" />
     <ClCompile Include="..\Classes\objects\Enemy.cpp" />
     <ClCompile Include="..\Classes\objects\EnvironmentalObjects.cpp" />
-    <ClCompile Include="..\Classes\objects\Fairy.cpp" />
     <ClCompile Include="..\Classes\objects\FairyNPC.cpp" />
     <ClCompile Include="..\Classes\objects\FloorSegment.cpp" />
     <ClCompile Include="..\Classes\objects\Goal.cpp" />
@@ -205,7 +204,6 @@ xcopy "$(ProjectDir)..\Resources" "$(OutDir)" /D /E /I /F /Y</Command>
     <ClCompile Include="..\Classes\objects\object_ref.cpp" />
     <ClCompile Include="..\Classes\objects\Patchouli.cpp" />
     <ClCompile Include="..\Classes\objects\Player.cpp" />
-    <ClCompile Include="..\Classes\objects\Reimu.cpp" />
     <ClCompile Include="..\Classes\objects\SakuyaNPC.cpp" />
     <ClCompile Include="..\Classes\objects\Sign.cpp" />
     <ClCompile Include="..\Classes\objects\Spawner.cpp" />
@@ -301,7 +299,6 @@ xcopy "$(ProjectDir)..\Resources" "$(OutDir)" /D /E /I /F /Y</Command>
     <ClInclude Include="..\Classes\objects\EffectArea.hpp" />
     <ClInclude Include="..\Classes\objects\Enemy.hpp" />
     <ClInclude Include="..\Classes\objects\EnvironmentalObjects.hpp" />
-    <ClInclude Include="..\Classes\objects\Fairy.hpp" />
     <ClInclude Include="..\Classes\objects\FairyNPC.hpp" />
     <ClInclude Include="..\Classes\objects\FloorSegment.hpp" />
     <ClInclude Include="..\Classes\objects\Goal.hpp" />
@@ -317,7 +314,6 @@ xcopy "$(ProjectDir)..\Resources" "$(OutDir)" /D /E /I /F /Y</Command>
     <ClInclude Include="..\Classes\objects\object_ref.hpp" />
     <ClInclude Include="..\Classes\objects\Patchouli.hpp" />
     <ClInclude Include="..\Classes\objects\Player.hpp" />
-    <ClInclude Include="..\Classes\objects\Reimu.hpp" />
     <ClInclude Include="..\Classes\objects\SakuyaNPC.hpp" />
     <ClInclude Include="..\Classes\objects\Sign.hpp" />
     <ClInclude Include="..\Classes\objects\Spawner.hpp" />

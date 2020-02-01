@@ -33,7 +33,7 @@ unordered_map<string, sprite_properties> sprites;
 GObject::AdapterType enemyAdapter(shared_ptr<enemy_properties> props)
 {
 	return [=](GSpace* space, ObjectIDType id, const ValueMap& args) -> GObject* {
-		return new EnemyImpl(space, id, args, props);
+		return new Enemy(space, id, args, props);
 	};
 }
 

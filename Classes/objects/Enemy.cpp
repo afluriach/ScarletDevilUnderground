@@ -18,20 +18,18 @@ Enemy::Enemy(
 	GSpace* space,
 	ObjectIDType id,
 	const ValueMap& args,
-	const string& baseAttributes,
-	SpaceFloat radius,
-	SpaceFloat mass,
-	string drop_id,
-	bool isFlying
+	shared_ptr<enemy_properties> props
 ) :
 	Agent(
 		space,id,
 		GType::enemy,
-		isFlying ? flyingLayers : onGroundLayers,
+		props->isFlying ? flyingLayers : onGroundLayers,
 		args,
-		baseAttributes,radius,mass
+		props->attributes,
+		props->radius,
+		props->mass
 	),
-	drop_id(drop_id)
+	props(props)
 {
 	if (space->getFrame() == 0){
 		space->registerEnemyStaticLoaded(getTypeName());
@@ -39,6 +37,9 @@ Enemy::Enemy(
 	else {
 		space->registerEnemySpawned(getTypeName());
 	}
+
+	if (props->firepattern.size() > 0)
+		setFirePattern(props->firepattern);
 }
 
 void Enemy::runDamageFlicker()
@@ -65,42 +66,24 @@ bool Enemy::hit(DamageInfo damage, SpaceVect n)
 void Enemy::onRemove()
 {
 	Agent::onRemove();
-	if(!drop_id.empty()){
-		space->createObject(Collectible::create(space, drop_id, getPos()));
+	if(!props->collectible.empty()){
+		space->createObject(Collectible::create(space, props->collectible, getPos()));
 	}
 	space->registerEnemyDefeated(getTypeName());
 }
 
-EnemyImpl::EnemyImpl(
-	GSpace* space, ObjectIDType id, const ValueMap& args,
-	shared_ptr<enemy_properties> props
-) :
-	Enemy(
-		space,id,args,
-		props->attributes,
-		props->radius,
-		props->mass,
-		props->collectible,
-		props->isFlying
-	),
-	props(props)
-{
-	if (props->firepattern.size() > 0)
-		setFirePattern(props->firepattern);
-}
-
-void EnemyImpl::init()
+void Enemy::init()
 {
 	Agent::init();
 
 	loadEffects();
 }
 
-DamageInfo EnemyImpl::touchEffect() const{
+DamageInfo Enemy::touchEffect() const{
 	return props->touchEffect;
 }
 
-AttributeMap EnemyImpl::getBaseAttributes() const {
+AttributeMap Enemy::getBaseAttributes() const {
 	auto result = app::getAttributes(props->attributes);
 	if (result.empty()) {
 		log("EnemyImpl: unknown attributes set %s", props->attributes);
@@ -108,39 +91,39 @@ AttributeMap EnemyImpl::getBaseAttributes() const {
 	return result;
 }
 
-bool EnemyImpl::hasEssenceRadar() const {
+bool Enemy::hasEssenceRadar() const {
 	return props->detectEssence;
 }
 
-SpaceFloat EnemyImpl::getRadarRadius() const {
+SpaceFloat Enemy::getRadarRadius() const {
 	return props->viewRange;
 }
 
-SpaceFloat EnemyImpl::getDefaultFovAngle() const {
+SpaceFloat Enemy::getDefaultFovAngle() const {
 	return props->viewAngle;
 }
 
-string EnemyImpl::getSprite() const {
+string Enemy::getSprite() const {
 	return props->sprite;
 }
 
-shared_ptr<LightArea> EnemyImpl::getLightSource() const {
+shared_ptr<LightArea> Enemy::getLightSource() const {
 	return props->lightSource;
 }
 
-string EnemyImpl::initStateMachine(){
+string Enemy::initStateMachine(){
 	return props->ai_package;
 }
 
-string EnemyImpl::getProperName() const {
+string Enemy::getProperName() const {
 	return props->name;
 }
 
-string EnemyImpl::getTypeName() const {
+string Enemy::getTypeName() const {
 	return props->typeName;
 }
 
-void EnemyImpl::loadEffects()
+void Enemy::loadEffects()
 {
 	vector<string> effectNames = splitString(props->effects, ",");
 

@@ -166,6 +166,33 @@
 		collectible="health2,magic2"		
 	/>
 	
+	<PatchouliEnemy
+		name="Patchouli"
+		
+		sprite="patchouli"
+		ai_package="patchouli_enemy"
+		attributes="patchouliEnemy"
+		
+		mass="30"
+		
+		collectible="magic2"
+	/>
+	
+	<ReimuEnemy
+		name="Reimu Hakurei"
+		
+		sprite="reimu"
+		ai_package="reimu_enemy"
+		attributes="reimu"
+		firepattern="ReimuWavePattern"
+		
+		mass="40"
+		viewRange="5.0"
+		viewAngle="0.0"
+		
+		collectible="magic2"
+	/>
+	
 	<Rumia1
 		name="Rumia"
 	

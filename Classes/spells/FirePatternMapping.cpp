@@ -8,6 +8,7 @@
 
 #include "Prefix.h"
 
+#include "EnemyFirePattern.hpp"
 #include "FirePatternImpl.hpp"
 #include "PlayerFirePattern.hpp"
 #include "xml.hpp"
@@ -37,4 +38,6 @@ const unordered_map<string, FirePatternGeneratorType> FirePattern::playerFirePat
 
 	{ "Catadioptric", factoryAdapter<Catadioptric>() },
 	{ "StarbowBreak", factoryAdapter<StarbowBreak>() },
+
+	{ "ReimuWavePattern", factoryAdapter<ReimuWavePattern>() },
 };

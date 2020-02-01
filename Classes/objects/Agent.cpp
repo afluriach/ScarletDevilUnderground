@@ -254,12 +254,20 @@ bool Agent::setFirePattern(string firePattern)
 
 	if (props) {
 		this->firePattern = make_shared<FirePatternImpl>(this, props);
+		return true;
 	}
 	else{
-		log("Unknown fire pattern: %s", firePattern);
+		auto it = FirePattern::playerFirePatterns.find(firePattern);
+		if (it != FirePattern::playerFirePatterns.end()) {
+			this->firePattern = it->second(this);
+			return true;
+		}
+		else {
+			log("Unknown fire pattern: %s", firePattern);
+		}
 	}
 
-	return to_bool(props);
+	return false;
 }
 
 SpaceFloat Agent::getTraction() const

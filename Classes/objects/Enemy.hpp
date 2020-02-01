@@ -44,50 +44,32 @@ public:
 		GSpace* space,
 		ObjectIDType id,
 		const ValueMap& args,
-		const string& baseAttributes,
-		SpaceFloat radius,
-		SpaceFloat mass,
-		string drop_id,
-		bool isFlying
+		shared_ptr<enemy_properties> props
 	);
 
 	inline virtual ~Enemy() {}
 
-	void runDamageFlicker();
-
-	virtual bool hit(DamageInfo damage, SpaceVect n);
-	virtual void onRemove();
-protected:
-	string drop_id;
-};
-
-class EnemyImpl : public Enemy
-{
-public:
-	EnemyImpl(
-		GSpace* space, ObjectIDType id, const ValueMap& args,
-		shared_ptr<enemy_properties> props
-	);
-
 	virtual void init();
+	virtual void onRemove();
 
-	virtual DamageInfo touchEffect() const;
-	virtual AttributeMap getBaseAttributes() const;
+	void runDamageFlicker();
+	virtual string getSprite() const;
+	virtual shared_ptr<LightArea> getLightSource() const;
 
 	virtual bool hasEssenceRadar() const;
 	virtual SpaceFloat getRadarRadius() const;
 	virtual SpaceFloat getDefaultFovAngle() const;
 
-	virtual string getSprite() const;
-	virtual shared_ptr<LightArea> getLightSource() const;
-
 	virtual string initStateMachine();
+	void loadEffects();
+
+	virtual DamageInfo touchEffect() const;
+	virtual AttributeMap getBaseAttributes() const;
+	virtual bool hit(DamageInfo damage, SpaceVect n);
 
 	virtual string getTypeName() const;
 	virtual string getProperName() const;
 protected:
-	void loadEffects();
-
 	shared_ptr<enemy_properties> props;
 };
 

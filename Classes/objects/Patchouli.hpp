@@ -25,19 +25,4 @@ public:
 	virtual void onDialogEnd();
 };
 
-class PatchouliEnemy : public Enemy
-{
-public:
-	static const string baseAttributes;
-	static const vector<float_pair> intervals;
-
-	PatchouliEnemy(GSpace* space, ObjectIDType id, const ValueMap& args);
-
-	inline string getSprite() const { return "patchouli"; }
-	inline GraphicsLayer sceneLayer() const { return GraphicsLayer::ground; }
-
-	inline virtual string initStateMachine() { return "patchouli_enemy"; }
-	virtual inline string getTypeName() const { return "PatchouliEnemy"; }
-};
-
 #endif /* Patchouli_hpp */

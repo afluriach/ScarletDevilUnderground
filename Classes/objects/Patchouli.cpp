@@ -42,23 +42,3 @@ void Patchouli::onDialogEnd()
 		App::crntState->registerChamberAvailable("forest1");
 	}
 }
-
-const string PatchouliEnemy::baseAttributes = "patchouliEnemy";
-
-const vector<float_pair> PatchouliEnemy::intervals = {
-	make_pair(200.0f,250.0f),
-	make_pair(150.0f, 180.f),
-	make_pair(100.0f,150.0f),
-	make_pair(0.0f,50.0f),
-};
-
-PatchouliEnemy::PatchouliEnemy(GSpace* space, ObjectIDType id, const ValueMap& args) :
-	Enemy(
-		space, id, args,
-		baseAttributes,
-		defaultSize,
-		30.0,
-		"magic2",
-		false
-	)
-{}

@@ -18,7 +18,6 @@
 #include "Door.hpp"
 #include "EffectArea.hpp"
 #include "EnvironmentalObjects.hpp"
-#include "Fairy.hpp"
 #include "FairyNPC.hpp"
 #include "FloorSegment.hpp"
 #include "Goal.hpp"
@@ -29,7 +28,6 @@
 #include "Meiling.hpp"
 #include "Patchouli.hpp"
 #include "Player.hpp"
-#include "Reimu.hpp"
 #include "SakuyaNPC.hpp"
 #include "Sign.hpp"
 #include "Spawner.hpp"
@@ -138,7 +136,6 @@ void GObject::initObjectInfo()
 	entry_same(DarknessArea),
 	entry_same(Desk),
 	entry_same(Door),
-	entry_same(Fairy2),
 	entry_same(FairyMaid),
 	item_entry_same(ForestBook1),
 	conditional_entry(GhostFairyNPC),
@@ -156,10 +153,8 @@ void GObject::initObjectInfo()
 	entry_same(MovingPlatform),
 	conditional_entry(Mushroom),
 	entry_same(Patchouli),
-	entry_same(PatchouliEnemy),
 	entry_same(Pitfall),
 	entry_same(PressurePlate),
-	entry_same(ReimuEnemy),
 	entry_same(SakuyaNPC),
 	entry_same(Sapling),
 	entry_same(Sign),
@@ -196,6 +191,7 @@ void GObject::initObjectInfo()
 const unordered_set<type_index> GSpace::trackedTypes = {
 	typeid(Bullet),
 	typeid(Door),
+	typeid(Enemy),
 	typeid(RoomSensor),
 	typeid(Spawner),
 	typeid(TeleportPad),
@@ -203,7 +199,6 @@ const unordered_set<type_index> GSpace::trackedTypes = {
 
 	//virtual tracked types
 	typeid(Player),
-	typeid(Enemy),
 	typeid(FloorSegment),
 };
 

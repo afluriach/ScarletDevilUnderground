@@ -15,11 +15,8 @@
 #include "Bomb.hpp"
 #include "EnemyFunctions.hpp"
 #include "EnemySpell.hpp"
-#include "Fairy.hpp"
 #include "MiscMagicEffects.hpp"
-#include "Patchouli.hpp"
 #include "Player.hpp"
-#include "Reimu.hpp"
 #include "SpellSystem.hpp"
 #include "value_map.hpp"
 
@@ -154,6 +151,13 @@ void forest_marisa(StateMachine* fsm, const ValueMap& args)
 
 void patchouli_enemy(StateMachine* fsm, const ValueMap& args)
 {
+	const vector<float_pair> intervals = {
+		make_pair(200.0f,250.0f),
+		make_pair(150.0f, 180.f),
+		make_pair(100.0f,150.0f),
+		make_pair(0.0f,50.0f),
+	};
+
 	fsm->addThread(make_shared<HPCastSequence>(
 		fsm,
 		vector<shared_ptr<SpellDesc>>{
@@ -162,26 +166,26 @@ void patchouli_enemy(StateMachine* fsm, const ValueMap& args)
 			Spell::getDescriptorByName("Whirlpool1"),
 			Spell::getDescriptorByName("Whirlpool2"),
 		},
-		makeIntervalMap(PatchouliEnemy::intervals)
+		makeIntervalMap(intervals)
 	));
 }
 
 void reimu_enemy(StateMachine* fsm, const ValueMap& args)
 {
-	auto agent = dynamic_cast<ReimuEnemy*>(fsm->getObject());
+	auto object = fsm->getObject();
 	auto boss = make_shared<BossFightHandler>(fsm, "dialogs/reimu_forest_pre_fight", "dialogs/reimu_forest_post_fight");
 	fsm->addFunction(boss);
 	fsm->addFunction<ReimuYinYangOrbs>();
 
 	fsm->addDetectFunction(
 		GType::player,
-		[agent](StateMachine& sm, GObject* target) -> void {
+		[object](StateMachine& sm, GObject* target) -> void {
 			if (!sm.isThreadRunning("Flank")) {
 				sm.addThread(make_shared<FireAtTarget>(&sm, target));
 				sm.addThread(make_shared<Flank>(&sm, target, 3.0, 2.0));
 			}
 		},
-		[agent](StateMachine& sm, GObject* target) -> void {}
+		[object](StateMachine& sm, GObject* target) -> void {}
 	);
 }
 
