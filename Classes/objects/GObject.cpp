@@ -278,8 +278,10 @@ gobject_ref GObject::spawnBullet(
 	SpaceFloat angle,
 	SpaceFloat angularVelocity
 ) {
+	bullet_attributes attr = getBulletAttributes(props);
+
 	return _spawnBullet(
-		getBulletAttributes(props),
+		attr,
 		props,
 		displacement,
 		velocity,

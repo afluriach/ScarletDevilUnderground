@@ -424,6 +424,12 @@ void GSpace::processAdditions()
             continue;
         }
 
+		if (!obj->body) {
+			log("Object %s failed to load physics body!", obj->getName());
+			delete obj;
+			continue;
+		}
+
         obj->initializeGraphics();
 
 		if (isTrackedType(typeid(*obj))) {

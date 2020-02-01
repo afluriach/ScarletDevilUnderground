@@ -74,9 +74,18 @@ PhysicsImpl::contact_func makeObjectPairFunc(void(*f)(T*, U*, b2Contact*), Physi
 		else if (isReverseMatch(crntTypes, types)) {
 			tie(u, t) = getCastObjects<U, T>(contact);
 		}
+		else {
+			log("Object pair function, unknown type pair 0x%x,0x%x!", to_int(crntTypes.first), to_int(crntTypes.second));
+		}
 
 		if (t && u) {
 			f(t, u, contact);
+		}
+		else {
+			if (!t)
+				log("Failed to cast first object to type %s!", typeid(T).name());
+			if (!u)
+				log("Failed to cast second object to type %s!", typeid(U).name());
 		}
 	};
 }
@@ -227,6 +236,12 @@ pair<b2Body*, b2Fixture*> PhysicsImpl::createCircleBody(
 		return make_pair(nullptr, nullptr);
 	}
 
+	if (!isValidType(type)) {
+		log("createCircleBody: Invalid type %x!", to_int(getBaseType(type)));
+		return make_pair(nullptr, nullptr);
+	}
+
+
 	b2Body* body;
 	b2Fixture* shape;
 
@@ -286,6 +301,11 @@ pair<b2Body*, b2Fixture*> PhysicsImpl::createRectangleBody(
 		body->SetMassData(&massData);
 	}
 
+	if (!isValidType(type)){
+		log("createCircleBody: Invalid type %x!", to_int(getBaseType(type)));
+		return make_pair(nullptr, nullptr);
+	}
+
 	b2PolygonShape rect;
 	rect.SetAsBox(dim.x * 0.5, dim.y * 0.5, b2Vec2_zero, 0.0);
 
@@ -300,6 +320,11 @@ pair<b2Body*, b2Fixture*> PhysicsImpl::createRectangleBody(
 	checkAddNavObstacle(type, center, dim, mass);
 
 	return make_pair(body, shape);
+}
+
+bool PhysicsImpl::isValidType(GType type) const
+{
+	return collisionMasks.find(getBaseType(type)) != collisionMasks.end();
 }
 
 b2Filter PhysicsImpl::generateFilter(GType type, PhysicsLayers layers)
