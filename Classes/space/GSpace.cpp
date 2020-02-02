@@ -42,6 +42,7 @@ void GSpace::loadScriptVM()
 	scriptVM->runFile("scripts/ai-functions.lua");
 	scriptVM->runFile("scripts/ai-packages.lua");
 	scriptVM->runFile("scripts/magic-effects.lua");
+	scriptVM->runFile("scripts/npc.lua");
 	scriptVM->runFile("scripts/spells/marisa-spells.lua");
 	scriptVM->runFile("scripts/spells/player-spells.lua");
 	scriptVM->runFile("scripts/spells/patchouli-spells.lua");
@@ -436,8 +437,6 @@ void GSpace::processAdditions()
 			objByType[typeid(*obj)].insert(obj);
 		}
 
-		addVirtualTrack<Player>(obj);
-		addVirtualTrack<Enemy>(obj);
 		addVirtualTrack<FloorSegment>(obj);
 
         if(!obj->isAnonymous())
@@ -515,8 +514,6 @@ void GSpace::processRemoval(GObject* obj, bool _removeSprite)
 		objByType[typeid(*obj)].erase(obj);
 	}
 
-	removeVirtualTrack<Player>(obj);
-	removeVirtualTrack<Enemy>(obj);
 	removeVirtualTrack<FloorSegment>(obj);
     
 	if (obj->getMass() <= 0.0 && (obj->getType() == GType::environment || obj->getType() == GType::wall)) {

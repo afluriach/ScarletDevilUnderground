@@ -69,9 +69,11 @@ namespace Lua{
 		addFuncSame(event, getEventType);
 
 		#define _cls ai::Function
-		auto func = _ai.new_usertype<ai::Function>("Function");
+		auto func = _ai.new_usertype<ai::Function>(
+			"Function",
+			"fsm", sol::property(&ai::Function::getFSM)
+		);
 
-		addFuncSame(func, fsm);
 		addFuncSame(func, getSpace);
 		func["getObject"] = &ai::Function::getObject;
 		addFuncSame(func, getAgent);

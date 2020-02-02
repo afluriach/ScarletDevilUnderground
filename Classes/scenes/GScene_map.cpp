@@ -263,8 +263,15 @@ void GScene::loadObjectGroup(TMXObjectGroup* group, IntVec2 offset)
 	for(const Value& obj: objects)
 	{
 		ValueMap objAsMap = obj.asValueMap();
-		convertToUnitSpace(objAsMap, offset);
-		gspace->createObject(objAsMap);
+		string _type = getStringOrDefault(objAsMap, "type", "");
+		if (_type == "Player") {
+			log("warning: Player type map object");
+			gspace->addWaypoint("player_start", getUnitspaceRectangle(objAsMap, offset).center);
+		}
+		else {
+			convertToUnitSpace(objAsMap, offset);
+			gspace->createObject(objAsMap);
+		}
 	}
 }
 

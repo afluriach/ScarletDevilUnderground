@@ -15,7 +15,47 @@ class FirePattern;
 class RadarSensor;
 struct spell_cost;
 
-#define AgentMapForward(x) Agent(space,id,args,x)
+class agent_properties
+{
+public:
+	inline agent_properties() {}
+	virtual inline ~agent_properties() {}
+
+	string name;
+	string typeName;
+	string sprite;
+	string attributes;
+	string ai_package;
+	string effects;
+
+	shared_ptr<LightArea> lightSource;
+
+	SpaceFloat radius = 0.0;
+	SpaceFloat mass = 0.0;
+	SpaceFloat viewRange = 0.0;
+	SpaceFloat viewAngle = 0.0;
+
+	bool detectEssence = false;
+	bool isFlying = false;
+};
+
+//Physics parameters for Agent that will often vary by individual placement,
+struct agent_attributes
+{
+	inline string getName() const { return name; }
+	inline int getLevel() const { return level; }
+
+	string name;
+	string ai_package;
+	string waypoint;
+	string path;
+
+	SpaceVect pos;
+	SpaceFloat angle = 0.0;
+	PhysicsLayers layers;
+
+	int level = 0;
+};
 
 class Agent : public GObject
 {
@@ -25,23 +65,29 @@ public:
 	static const Color4F shieldConeColor;
 	static const float bodyOutlineWidth;
 
-	Agent(GSpace* space, ObjectIDType id, GType type, PhysicsLayers layers, const string& name, const SpaceVect& pos, Direction d);
+	static bool conditionalLoad(GSpace* space, const agent_attributes& attrs, shared_ptr<agent_properties> props);
+	static agent_attributes parseAttributes(const ValueMap& args);
+
 	Agent(
 		GSpace* space,
 		ObjectIDType id,
 		GType type,
-		PhysicsLayers layers,
-		const ValueMap& args,
-		const string& baseAttributes,
-		SpaceFloat radius,
-		SpaceFloat mass
+		const agent_attributes& attr,
+		shared_ptr<agent_properties> props
 	);
 	virtual ~Agent();
 
 	void initFSM();
 	void initAttributes();
+	AttributeMap getBaseAttributes() const;
+	void checkInitScriptObject();
 	virtual void init();
 	virtual void update();
+
+	inline virtual string getProperName() const { return props->name; }
+	inline virtual string getClsName() const { return props->typeName; }
+
+	inline int getLevel() const { return level; }
 
 	void sendAlert(Player* p);
 
@@ -63,8 +109,10 @@ public:
 
 	virtual bullet_attributes getBulletAttributes(shared_ptr<bullet_properties> props) const;
 
+	virtual string getSprite() const;
+	virtual shared_ptr<LightArea> getLightSource() const;
+
 	//attribute interface
-	AttributeMap getBaseAttributes() const;
 	virtual inline AttributeMap getAttributeUpgrades() const { return AttributeMap(); }
 	float getAttribute(Attribute id) const;
 	void modifyAttribute(Attribute id, float val);
@@ -103,9 +151,9 @@ public:
 	virtual DamageInfo touchEffect() const;
 
 	//sensor interface
-	virtual SpaceFloat getRadarRadius() const { return 0.0; }
-	virtual SpaceFloat getDefaultFovAngle() const { return 0.0; }
-	virtual inline bool hasEssenceRadar() const { return false; }
+	bool hasEssenceRadar() const;
+	SpaceFloat getRadarRadius() const;
+	SpaceFloat getDefaultFovAngle() const;
 
 	inline RadarSensor* getRadar() { return radar; }
 
@@ -121,18 +169,19 @@ public:
 
 	void resetAnimation();
 	void setSprite(const string& sprite);
-	//AI interface
-	inline virtual string initStateMachine() { return ""; }
 protected:
 	void updateAgentOverlay();
 	void updateAnimation();
 
+	int level = 0;
 	SpriteID agentOverlay = 0;
 	AttributeSystem attributeSystem;
-	string attributes;
+	string ai_package;
+
 	shared_ptr<FirePattern> firePattern;
 	unordered_set<Agent*> touchTargets;
 	RadarSensor* radar = nullptr;
+	shared_ptr<agent_properties> props;
 	unique_ptr<AgentAnimationContext> animation;
 
 	bool shieldActive = false;

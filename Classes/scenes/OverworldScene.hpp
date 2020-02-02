@@ -18,8 +18,8 @@ public:
 	inline virtual ~OverworldScene() {}
 
 	void initHUD();
-	void loadPlayer();
 
+	inline virtual string getPlayerStart() const { return start; }
 	virtual GScene* getReplacementScene();
 protected:
 	string mapName;

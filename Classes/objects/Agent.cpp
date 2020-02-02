@@ -21,6 +21,7 @@
 #include "Graphics.h"
 #include "graphics_context.hpp"
 #include "GraphicsNodes.hpp"
+#include "LuaAPI.hpp"
 #include "MagicEffect.hpp"
 #include "MagicEffectSystem.hpp"
 #include "MiscMagicEffects.hpp"
@@ -37,32 +38,64 @@ const Color4F Agent::bodyOutlineColor = hsva4F(270.0f, 0.2f, 0.7f, 0.667f);
 const Color4F Agent::shieldConeColor = Color4F(.37f, .56f, .57f, 0.5f);
 const float Agent::bodyOutlineWidth = 4.0f;
 
-Agent::Agent(GSpace* space, ObjectIDType id, GType type, PhysicsLayers layers, const string& name, const SpaceVect& pos, Direction d) :
-	GObject(
-		make_shared<object_params>(space, id, name, pos, dirToPhysicsAngle(d)),
-		physics_params(bitwise_or(GType, type, GType::canDamage), layers, defaultSize, 20.0)
-	)
+agent_attributes Agent::parseAttributes(const ValueMap& args)
 {
-	space->addValueMapArgs(uuid, {});
+	agent_attributes result;
+
+	result.ai_package = getStringOrDefault(args, "ai_package", "");
+	result.level = getIntOrDefault(args, "level", 0);
+	result.name = getStringOrDefault(args, "name", "");
+	result.pos = getObjectPos(args);
+
+	Direction dir = getDirectionOrDefault(args, Direction::none);
+	if (dir != Direction::none) {
+		result.angle = dirToPhysicsAngle(dir);
+	}
+
+	return result;
+}
+
+bool Agent::conditionalLoad(GSpace* space, const agent_attributes& attrs, shared_ptr<agent_properties> props)
+{
+	auto& cls = space->scriptVM->_state["objects"][props->typeName];
+
+	if (cls) {
+		sol::function f = cls["conditionalLoad"];
+
+		if (f && !f(space, attrs, props)) {
+			log("object load canceled");
+			return false;
+		}
+	}
+
+	return true;
 }
 
 Agent::Agent(
 	GSpace* space,
 	ObjectIDType id,
 	GType type,
-	PhysicsLayers layers,
-	const ValueMap& args,
-	const string& baseAttributes,
-	SpaceFloat radius,
-	SpaceFloat mass
+	const agent_attributes& attr,
+	shared_ptr<agent_properties> props
 ) :
 	GObject(
-		make_shared<object_params>(space, id, args),
-		physics_params(bitwise_or(GType, type, GType::canDamage), layers, radius, mass)
+		make_shared<object_params>(space, id, attr.name, attr.pos, attr.angle),
+		physics_params(
+			type,
+			props->isFlying ? flyingLayers : onGroundLayers,
+			props->radius,
+			props->mass
+		)
 	),
-	attributes(baseAttributes)
+	props(props),
+	level(attr.level)
 {
-	space->addValueMapArgs(uuid, args);
+	if (props->ai_package.empty() && attr.ai_package.empty() && type != GType::player) {
+		log("Agent %s: no AI package!", getName());
+	}
+	else {
+		ai_package = attr.ai_package.size() > 0 ? attr.ai_package : props->ai_package;
+	}
 }
 
 Agent::~Agent()
@@ -83,34 +116,54 @@ bullet_attributes Agent::getBulletAttributes(shared_ptr<bullet_properties> props
 	return result;
 }
 
+string Agent::getSprite() const
+{
+	return props->sprite;
+}
+
+shared_ptr<LightArea> Agent::getLightSource() const
+{
+	return props->lightSource;
+}
+
+bool Agent::hasEssenceRadar() const {
+	return props->detectEssence;
+}
+
+SpaceFloat Agent::getRadarRadius() const {
+	return props->viewRange;
+}
+
+SpaceFloat Agent::getDefaultFovAngle() const {
+	return props->viewAngle;
+}
+
+void Agent::checkInitScriptObject()
+{
+	auto &cls = space->scriptVM->_state["objects"][getClsName()];
+
+	if (cls) {
+		scriptObj = cls(this);
+	}
+}
+
 void Agent::initFSM()
 {
 	fsm = make_unique<ai::StateMachine>(this);
 
-	const ValueMap& args = space->getValueMapArgs(uuid);
-	string packageName = getStringOrDefault(args, "ai_package", "");
-
-	if (packageName.empty()) {
-		packageName = initStateMachine();
-	}
-
-	auto it = ai::StateMachine::packages.find(packageName);
+	auto it = ai::StateMachine::packages.find(ai_package);
 	if (it != ai::StateMachine::packages.end()) {
+		ValueMap args;
+
 		auto f = it->second;
 		f(fsm.get(), args);
 	}
-	else if(!packageName.empty()) {
-		fsm->runScriptPackage(packageName);
+	else if(ai_package.size() > 0) {
+		fsm->runScriptPackage(ai_package);
 	}
-
-	if (packageName.empty()) {
-		log("Agent %s, AI package not provided", getName());
+	else{
+		log("Agent %s, unknown AI package %s!", getName(), ai_package);
 	}
-	else if(it == ai::StateMachine::packages.end()){
-		log("Agent %s, AI package %s not found", getName(), packageName);
-	}
-
-	space->removeValueMapArgs(uuid);
 }
 
 void Agent::initAttributes()
@@ -235,7 +288,7 @@ bool Agent::applyOngoingSpellCost(const spell_cost& cost)
 
 AttributeMap Agent::getBaseAttributes() const
 {
-	return !attributes.empty() ? app::getAttributes(attributes) : AttributeMap();
+	return !props->attributes.empty() ? app::getAttributes(props->attributes) : AttributeMap();
 }
 
 float Agent::getAttribute(Attribute id) const

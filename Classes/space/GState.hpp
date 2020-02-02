@@ -58,6 +58,7 @@ public:
 
 	unordered_map<string, int> attributes;
     unordered_set<string> itemRegistry;
+	unordered_set<string> dialogs;
 	CharacterUpgrade upgrades;
 	unordered_set<string> chambersAvailable;
 	unordered_map<string, ChamberStats> chamberStats;
@@ -74,6 +75,7 @@ public:
 
 	void addItem(string name);
 	bool hasItem(string name);
+	bool hasCompletedDialog(string name);
 
 	void registerChamberAvailable(string id);
 	//Only used for testing

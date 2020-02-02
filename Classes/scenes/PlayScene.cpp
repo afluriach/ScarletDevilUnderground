@@ -10,6 +10,7 @@
 
 #include "audio_context.hpp"
 #include "Dialog.hpp"
+#include "Door.hpp"
 #include "FileIO.hpp"
 #include "functional.hpp"
 #include "Graphics.h"
@@ -66,10 +67,16 @@ props(props)
 		wrap_method(PlayScene, showVisibleRooms, this),
 		to_int(initOrder::showRooms)
 	);
+	multiInit.insertWithOrder(
+		wrap_method(PlayScene, loadPlayer, this),
+		to_int(initOrder::postLoadObjects)
+	);
 
     control_listener->addPressListener(
         ControlAction::pause,
-        [=]()-> void {onPausePressed(); }
+        [this]()-> void {
+			this->onPausePressed();
+		}
     );
 
 	control_listener->addPressListener(
@@ -89,6 +96,30 @@ void PlayScene::update(float dt)
 	GScene::update(dt);
 
 	if(!isPaused) hud->update();
+}
+
+void PlayScene::loadPlayer()
+{
+	string start = getPlayerStart();
+	Door * door = gspace->getObjectAs<Door>(start);
+	SpaceVect player_start = gspace->getWaypoint(start);
+	agent_attributes attr;
+
+	if (door) {
+		attr.pos = door->getEntryPosition();
+		attr.angle = dirToPhysicsAngle(door->getEntryDirection());
+		
+		gspace->createObject<Player>(attr, App::crntPC);	
+	}
+	else if (!player_start.isZero()){
+		attr.pos = player_start;
+		attr.angle = dirToPhysicsAngle(Direction::up);
+
+		gspace->createObject<Player>(attr, App::crntPC);
+	}
+	else{
+		log("Scene %s, unknown player start!", getName());
+	}
 }
 
 void PlayScene::showVisibleRooms()
@@ -137,19 +168,18 @@ void PlayScene::enterPause()
 	App::audioContext->pauseSounds();
 	setPaused(true);
 	isShowingMenu = true;
-	if(!isOverworld) hud->showHidden();
+	if(hud) hud->showHidden();
 
 	waitForSpaceThread();
 
-	Player* player = gspace->getObjectAs<Player>("player");
+	Player* player = gspace->getPlayer();
 
-	if (player) {
-		pauseMenu = Node::ccCreate<PauseMenu>(isOverworld, player);
-		pushMenu(pauseMenu);
-	}
-	else {
+	if (!player) {
 		log("PlayScene::enterPause: no Player object!");
 	}
+
+	pauseMenu = Node::ccCreate<PauseMenu>(isOverworld, player);
+	pushMenu(pauseMenu);
 }
 
 void PlayScene::exitPause()

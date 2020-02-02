@@ -188,7 +188,6 @@ xcopy "$(ProjectDir)..\Resources" "$(OutDir)" /D /E /I /F /Y</Command>
     <ClCompile Include="..\Classes\objects\EffectArea.cpp" />
     <ClCompile Include="..\Classes\objects\Enemy.cpp" />
     <ClCompile Include="..\Classes\objects\EnvironmentalObjects.cpp" />
-    <ClCompile Include="..\Classes\objects\FairyNPC.cpp" />
     <ClCompile Include="..\Classes\objects\FloorSegment.cpp" />
     <ClCompile Include="..\Classes\objects\Goal.cpp" />
     <ClCompile Include="..\Classes\objects\GObject.cpp" />
@@ -196,15 +195,11 @@ xcopy "$(ProjectDir)..\Resources" "$(OutDir)" /D /E /I /F /Y</Command>
     <ClCompile Include="..\Classes\objects\Items.cpp" />
     <ClCompile Include="..\Classes\objects\Launcher.cpp" />
     <ClCompile Include="..\Classes\objects\MapFragment.cpp" />
-    <ClCompile Include="..\Classes\objects\Marisa.cpp" />
-    <ClCompile Include="..\Classes\objects\Meiling.cpp" />
     <ClCompile Include="..\Classes\objects\NPC.cpp" />
     <ClCompile Include="..\Classes\objects\ObjectMapping.cpp" />
     <ClCompile Include="..\Classes\objects\object_params.cpp" />
     <ClCompile Include="..\Classes\objects\object_ref.cpp" />
-    <ClCompile Include="..\Classes\objects\Patchouli.cpp" />
     <ClCompile Include="..\Classes\objects\Player.cpp" />
-    <ClCompile Include="..\Classes\objects\SakuyaNPC.cpp" />
     <ClCompile Include="..\Classes\objects\Sign.cpp" />
     <ClCompile Include="..\Classes\objects\Spawner.cpp" />
     <ClCompile Include="..\Classes\objects\TeleportPad.cpp" />
@@ -299,7 +294,6 @@ xcopy "$(ProjectDir)..\Resources" "$(OutDir)" /D /E /I /F /Y</Command>
     <ClInclude Include="..\Classes\objects\EffectArea.hpp" />
     <ClInclude Include="..\Classes\objects\Enemy.hpp" />
     <ClInclude Include="..\Classes\objects\EnvironmentalObjects.hpp" />
-    <ClInclude Include="..\Classes\objects\FairyNPC.hpp" />
     <ClInclude Include="..\Classes\objects\FloorSegment.hpp" />
     <ClInclude Include="..\Classes\objects\Goal.hpp" />
     <ClInclude Include="..\Classes\objects\GObject.hpp" />
@@ -307,14 +301,10 @@ xcopy "$(ProjectDir)..\Resources" "$(OutDir)" /D /E /I /F /Y</Command>
     <ClInclude Include="..\Classes\objects\Items.hpp" />
     <ClInclude Include="..\Classes\objects\Launcher.hpp" />
     <ClInclude Include="..\Classes\objects\MapFragment.hpp" />
-    <ClInclude Include="..\Classes\objects\Marisa.hpp" />
-    <ClInclude Include="..\Classes\objects\Meiling.hpp" />
     <ClInclude Include="..\Classes\objects\NPC.hpp" />
     <ClInclude Include="..\Classes\objects\object_params.hpp" />
     <ClInclude Include="..\Classes\objects\object_ref.hpp" />
-    <ClInclude Include="..\Classes\objects\Patchouli.hpp" />
     <ClInclude Include="..\Classes\objects\Player.hpp" />
-    <ClInclude Include="..\Classes\objects\SakuyaNPC.hpp" />
     <ClInclude Include="..\Classes\objects\Sign.hpp" />
     <ClInclude Include="..\Classes\objects\Spawner.hpp" />
     <ClInclude Include="..\Classes\objects\TeleportPad.hpp" />

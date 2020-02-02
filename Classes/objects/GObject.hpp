@@ -102,6 +102,18 @@ public:
 		});
 	}
 
+	template<typename... Args>
+	inline void runVoidScriptMethod(string name, Args... args)
+	{
+		scriptObj[name](scriptObj, args...);
+	}
+
+	template<typename R, typename... Args>
+	inline R runScriptMethod(string name, Args... args)
+	{
+		return scriptObj[name](scriptObj, args...);
+	}
+
 	GObject(shared_ptr<object_params> params, const physics_params& phys);
     virtual ~GObject();
 
@@ -110,8 +122,11 @@ public:
 
 	//object identification, init, and update
 
+	inline GSpace* getSpace() const { return space; }
+
 	string getTypeName() const;
 	virtual string getProperName() const;
+	virtual string getClsName() const;
 
 	inline string getName() const {
 		return (name.empty()) ? getTypeName() : name;
@@ -160,6 +175,10 @@ public:
 	void removeThread(const string& name);
 	void printFSM();
 	void setFrozen(bool val);
+
+	//Lua
+	void scriptInitialize();
+	bool hasMethod(const string& name);
 
 	virtual bool hit(DamageInfo damage, SpaceVect n);
 	inline virtual bool applyInitialSpellCost(const spell_cost& cost) { return true; }
@@ -342,6 +361,7 @@ protected:
 	bool sensor = false;
 
 //logic
+	sol::table scriptObj;
 	unique_ptr<ai::StateMachine> fsm;
 	RoomSensor* crntRoom = nullptr;
 

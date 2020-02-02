@@ -11,6 +11,7 @@
 #include "Agent.hpp"
 #include "Bullet.hpp"
 #include "LuaAPI.hpp"
+#include "NPC.hpp"
 #include "Player.hpp"
 #include "Torch.hpp"
 
@@ -18,6 +19,9 @@ namespace Lua{
     
     void Inst::addGObject()
     {
+		auto objects = _state.create_table();
+		_state["objects"] = objects;
+
 		auto objref = _state.new_usertype<gobject_ref>(
 			"gobject_ref",
 			sol::constructors<
@@ -36,6 +40,17 @@ namespace Lua{
 			sol::constructors<
 				object_params()
 			>()
+		);
+
+		auto agent_props = _state.new_usertype<agent_properties>(
+			"agent_properties"
+		);
+
+		auto agent_attrs = _state.new_usertype<agent_attributes>(
+			"agent_attributes",
+
+			"name", sol::property(&agent_attributes::getName),
+			"level", sol::property(&agent_attributes::getLevel)
 		);
 
 #define _cls bullet_properties
@@ -109,6 +124,8 @@ namespace Lua{
 
 		addFuncSame(gobject, getBulletAttributes);
 		addFuncSame(gobject, spawnBullet);
+		addFuncSame(gobject, getSpace);
+		addFuncSame(gobject, getName);
 
 		gobject["launchBullet"] = sol::overload(
 			[](GObject* obj, shared_ptr<bullet_properties> props,SpaceVect displacement,SpaceFloat angle) -> gobject_ref {
@@ -122,9 +139,9 @@ namespace Lua{
 			}
 		);
 
-
 		addFuncSame(gobject, printFSM);
 			
+		gobject["asGObject"] = &GObject::getAs<GObject>;
 		gobject["getRef"] = [](const GObject* obj) -> gobject_ref { return gobject_ref(obj); };
 		gobject["getAsAgent"] = &GObject::getAs<Agent>;
 		gobject["getAsBullet"] = &GObject::getAs<Bullet>;
@@ -138,6 +155,7 @@ namespace Lua{
 		addFuncSame(agent, setSprite);
 		
 		addFuncSame(agent, hit);
+		addFuncSame(agent, getLevel);
 		addFuncSame(agent, getAttribute);
 		addFuncSame(agent, getAttributeSystem);
 
@@ -152,7 +170,10 @@ namespace Lua{
 		addFuncSame(agent, isMovementSuppressed);
 		addFuncSame(agent, setMovementSuppressed);
 
-		auto player = _state.new_usertype<Player>("Player", sol::base_classes, sol::bases<Agent>());
+		auto npc = _state.new_usertype<NPC>("NPC", sol::base_classes, sol::bases<GObject, Agent>());
+#define _cls NPC
+
+		auto player = _state.new_usertype<Player>("Player", sol::base_classes, sol::bases<GObject, Agent>());
 
 		auto bullet = _state.new_usertype<Bullet>("Bullet", sol::base_classes, sol::bases<GObject>());
 		bullet["makeParams"] = sol::overload(

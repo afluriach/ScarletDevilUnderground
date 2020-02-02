@@ -22,17 +22,9 @@
 
 namespace ai {
 
-void circle_and_fire(StateMachine* fsm, const ValueMap& args)
-{
-	fsm->addAlertFunction([](StateMachine* sm, Player* p)->void {
-		sm->addThread(make_shared<LookAround>(sm, float_pi / 4.0));
-		sm->addThread(make_shared<FireIfTargetVisible>(sm, p));
-	});
-}
-
 void circle_around_point(StateMachine* fsm, const ValueMap& args)
 {
-	string waypointName = getStringOrDefault(args, "waypoint", "");
+	string waypointName = fsm->getObject()->getName();
 	SpaceVect waypoint;
 	SpaceFloat angularPos;
 	bool waypointValid = false;
@@ -53,7 +45,8 @@ void circle_around_point(StateMachine* fsm, const ValueMap& args)
 
 void blue_fairy_follow_path(StateMachine* fsm, const ValueMap& args)
 {
-	const Path* path = fsm->getSpace()->getPath(getStringOrDefault(args, "pathName", ""));
+	string name = fsm->getObject()->getName();
+	const Path* path = fsm->getSpace()->getPath(name);
 
 	if (path) {
 		fsm->addAlertFunction([path](StateMachine* sm, Player* p) -> void {
@@ -206,7 +199,6 @@ void sakuya(StateMachine* fsm, const ValueMap& args)
 #define package(name) {#name, &name}
 
 const unordered_map<string, StateMachine::PackageType> StateMachine::packages = {
-	package(circle_and_fire),
 	package(circle_around_point),
 	package(blue_fairy_follow_path),
 	package(ghost_fairy),

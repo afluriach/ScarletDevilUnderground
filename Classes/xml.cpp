@@ -14,6 +14,7 @@
 #include "FileIO.hpp"
 #include "FirePatternImpl.hpp"
 #include "Graphics.h"
+#include "NPC.hpp"
 #include "PlayScene.hpp"
 
 namespace app {
@@ -28,12 +29,35 @@ unordered_map<string, shared_ptr<enemy_properties>> enemies;
 unordered_map<string, shared_ptr<firepattern_properties>> firePatterns;
 unordered_map<string, floorsegment_properties> floors;
 unordered_map<string, shared_ptr<LightArea>> lights;
+unordered_map<string, shared_ptr<npc_properties>> npc;
+unordered_map<string, shared_ptr<agent_properties>> players;
 unordered_map<string, sprite_properties> sprites;
 
 GObject::AdapterType enemyAdapter(shared_ptr<enemy_properties> props)
 {
-	return [=](GSpace* space, ObjectIDType id, const ValueMap& args) -> GObject* {
-		return new Enemy(space, id, args, props);
+	return [props](GSpace* space, ObjectIDType id, const ValueMap& args) -> GObject* {
+		agent_attributes attr = Agent::parseAttributes(args);
+	
+		if (Agent::conditionalLoad(space, attr, props)) {
+			return new Enemy(space, id, attr, props);
+		}
+		else {
+			return nullptr;
+		}
+	};
+}
+
+GObject::AdapterType npcAdapter(shared_ptr<npc_properties> props)
+{
+	return [props](GSpace* space, ObjectIDType id, const ValueMap& args) -> GObject* {
+		agent_attributes attr = Agent::parseAttributes(args);
+
+		if (Agent::conditionalLoad(space, attr, props)) {
+			return new NPC(space, id, attr, props);
+		}
+		else {
+			return nullptr;
+		}
 	};
 }
 
@@ -71,8 +95,7 @@ void loadEnemies()
 {
 	loadObjectsShared<enemy_properties>("objects/enemies.xml", app::enemies);
 
-	for (auto entry : enemies)
-	{
+	for (auto entry : enemies){
 		GObject::namedObjectTypes.insert_or_assign(entry.first, enemyAdapter(entry.second));
 	}
 }
@@ -90,6 +113,20 @@ void loadFloors()
 void loadLights()
 {
 	loadObjects<shared_ptr<LightArea>>("objects/lights.xml", app::lights);
+}
+
+void loadNPCs()
+{
+	loadObjectsShared<npc_properties>("objects/npc.xml", app::npc);
+
+	for (auto entry : npc){
+		GObject::namedObjectTypes.insert_or_assign(entry.first, npcAdapter(entry.second));
+	}
+}
+
+void loadPlayers()
+{
+	loadObjectsShared<agent_properties>("objects/players.xml", app::players);
 }
 
 void loadSprites()
@@ -135,6 +172,16 @@ shared_ptr<firepattern_properties> getFirePattern(const string& name)
 shared_ptr<LightArea> getLight(const string& name)
 {
 	return getOrDefault(lights, name);
+}
+
+shared_ptr<agent_properties> getNPC(const string& name)
+{
+	return getOrDefault(npc, name);
+}
+
+shared_ptr<agent_properties> getPlayer(const string& name)
+{
+	return getOrDefault(players, name);
 }
 
 sprite_properties getSprite(const string& name)
@@ -223,6 +270,94 @@ bool autoName(tinyxml2::XMLElement* elem, string& field)
 	return result;
 }
 
+bool parseCondition(string s, function<bool(NPC*)>* f)
+{
+	vector<string> tokens = splitString(s, ":");
+
+	if (tokens.size() != 2) {
+		log("Invalid condition string: %s", s);
+		return false;
+	}
+
+	if (tokens[0] == "hasItem") {
+		string item = tokens[1];
+		*f = [item](NPC* n) -> bool {
+			return App::crntState->hasItem(item);
+		};
+		return true;
+	}
+	else if (tokens[0] == "scriptMethod") {
+		string name = tokens[1];
+		*f = [name](NPC* n) -> bool {
+			if (!n->hasMethod(name)) {
+				log("condition scriptMethod %s does not exist!", name);
+				return false;
+			}
+			else {
+				return n->runScriptMethod<bool>(name);
+			}
+		};
+		return true;
+	}
+	else if (tokens[0] == "attributeEQ") {
+		vector<string> t = splitString(tokens[1], ",");
+		string attribute = t[0];
+		int val = boost::lexical_cast<int>(t[1]);
+		*f = [attribute, val](NPC* n) -> bool {
+			return App::crntState->getAttribute(attribute) == val;
+		};
+		return true;
+	}
+	else {
+		log("Unknown condition function %s!", tokens[0]);
+	}
+
+	return false;
+}
+
+bool parseEffect(string s, function<void(NPC*)>* f)
+{
+	vector<string> tokens = splitString(s, ":");
+
+	if (tokens.size() != 2) {
+		log("Invalid condition string: %s", s);
+		return false;
+	}
+
+	if (tokens[0] == "registerChamberAvailable") {
+		string chamber = tokens[1];
+		*f = [chamber](NPC* n) -> void {
+			App::crntState->registerChamberAvailable(chamber);
+		};
+		return true;
+	}
+	else if (tokens[0] == "scriptMethod") {
+		string name = tokens[1];
+		*f = [name](NPC* n) -> void  {
+			if (!n->hasMethod(name)) {
+				log("effect scriptMethod %s does not exist!", name);
+			}
+			else {
+				n->runVoidScriptMethod(name);
+			}
+		};
+		return true;
+	}
+	else if (tokens[0] == "addItem") {
+		string item = tokens[1];
+		*f = [item](NPC* n) -> void {
+			App::crntState->addItem(item);
+		};
+		return true;
+	}
+	else {
+		log("Unknown effect function %s!", tokens[0]);
+	}
+
+	return false;
+}
+
+
 bool parseObject(tinyxml2::XMLElement* elem, area_properties* result)
 {
 	area_properties props;
@@ -306,46 +441,86 @@ bool parseObject(tinyxml2::XMLElement* elem, AttributeMap* result)
 	return true;
 }
 
+bool parseObject(tinyxml2::XMLElement* elem, shared_ptr<agent_properties> result)
+{
+	result->typeName = elem->Name();
+	result->radius = Agent::defaultSize;
+
+	getStringAttr(elem, "name", &result->name);
+	getStringAttr(elem, "sprite", &result->sprite);
+	getStringAttr(elem, "attributes", &result->attributes);
+	getStringAttr(elem, "ai_package", &result->ai_package);
+	getStringAttr(elem, "effects", &result->effects);
+
+	getSubObject(elem, "light", &result->lightSource, lights, true);
+
+	autoName(elem, result->sprite);
+	autoName(elem, result->attributes);
+	autoName(elem, result->ai_package);
+
+	getNumericAttr(elem, "radius", &result->radius);
+	getNumericAttr(elem, "mass", &result->mass);
+	getNumericAttr(elem, "viewAngle", &result->viewAngle);
+	getNumericAttr(elem, "viewRange", &result->viewRange);
+
+	getNumericAttr(elem, "detectEssence", &result->detectEssence);
+	getNumericAttr(elem, "isFlying", &result->isFlying);
+
+	return true;
+}
+
 bool parseObject(tinyxml2::XMLElement* elem, shared_ptr<enemy_properties> result)
 {
-	enemy_properties props;
-	props.radius = Agent::defaultSize;
-	const char* collectibleAttr;
-	const char* lightAttr;
+	parseObject(elem, static_cast<shared_ptr<agent_properties>>(result));
 
-	props.typeName = elem->Name();
+	getStringAttr(elem, "firepattern", &result->firepattern);
+	getStringAttr(elem, "collectible", &result->collectible);
 
-	getStringAttr(elem, "name", &props.name);
-	getStringAttr(elem, "sprite", &props.sprite);
-	getStringAttr(elem, "attributes", &props.attributes);
-	getStringAttr(elem, "ai_package", &props.ai_package);
-	getStringAttr(elem, "firepattern", &props.firepattern);
-	getStringAttr(elem, "effects", &props.effects);
+	getDamageInfo(elem, &result->touchEffect);
+	result->touchEffect.type = DamageType::touch;
 
-	autoName(elem, props.sprite);
-	autoName(elem, props.attributes);
-	autoName(elem, props.ai_package);
+	return true;
+}
 
-	getNumericAttr(elem, "radius", &props.radius);
-	getNumericAttr(elem, "mass", &props.mass);
-	getNumericAttr(elem, "viewAngle", &props.viewAngle);
-	getNumericAttr(elem, "viewRange", &props.viewRange);
+bool parseDialogs(tinyxml2::XMLElement* elem, list<shared_ptr<dialog_entry>>& result)
+{
+	if (!elem) return false;
 
-	 getDamageInfo(elem, &props.touchEffect);
-	 props.touchEffect.type = DamageType::touch;
+	for (
+		tinyxml2::XMLElement* d = elem->FirstChildElement();
+		d != nullptr;
+		d = d->NextSiblingElement()
+	) {
+		string condition;
+		string effect;
+		getStringAttr(d, "condition", &condition);
+		getStringAttr(d, "effect", &effect);
 
-	getStringAttr(elem, "collectible", &props.collectible);
+		auto entry = make_shared<dialog_entry>();
+		entry->dialog = string(d->Name());
 
-	lightAttr = elem->Attribute("light");
+		if (condition.size() > 0)
+			parseCondition(condition, &entry->condition);
+		if (effect.size() > 0)
+			parseEffect(effect, &entry->effect);
 
-	if (lightAttr) {
-		props.lightSource = getLight(lightAttr);
+		getNumericAttr(d, "once", &entry->once);
+
+		result.push_back(entry);
 	}
 
-	getNumericAttr(elem, "detectEssence", &props.detectEssence);
-	getNumericAttr(elem, "isFlying", &props.isFlying);
+	return true;
+}
 
-	*result = props;
+bool parseObject(tinyxml2::XMLElement* elem, shared_ptr<npc_properties> result)
+{
+	parseObject(elem, static_cast<shared_ptr<agent_properties>>(result));
+
+	tinyxml2::XMLElement* dialogs = elem->FirstChildElement("dialogs");
+	if (dialogs) {
+		parseDialogs(dialogs, result->dialogs);
+	}
+
 	return true;
 }
 

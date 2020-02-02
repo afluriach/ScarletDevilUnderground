@@ -12,29 +12,15 @@
 #include "Agent.hpp"
 #include "Collectibles.hpp"
 
-struct enemy_properties
+class enemy_properties : public agent_properties
 {
-	string name;
-	string typeName;
-	string sprite;
-	string attributes;
-	string ai_package;
+public:
+	inline enemy_properties() {}
+
 	string firepattern;
-	string effects;
-
-	//Strictly radius for now, as Enemy->Agent still is a CircleBody
-	SpaceFloat radius = 0.0;
-	SpaceFloat mass = 0.0;
-	SpaceFloat viewRange = 0.0;
-	SpaceFloat viewAngle = 0.0;
-
-	DamageInfo touchEffect;
 	string collectible;
 
-	shared_ptr<LightArea> lightSource;
-
-	bool detectEssence = false;
-	bool isFlying = false;
+	DamageInfo touchEffect;
 };
 
 class Enemy : public Agent
@@ -43,7 +29,7 @@ public:
 	Enemy(
 		GSpace* space,
 		ObjectIDType id,
-		const ValueMap& args,
+		const agent_attributes& attr,
 		shared_ptr<enemy_properties> props
 	);
 
@@ -53,22 +39,11 @@ public:
 	virtual void onRemove();
 
 	void runDamageFlicker();
-	virtual string getSprite() const;
-	virtual shared_ptr<LightArea> getLightSource() const;
 
-	virtual bool hasEssenceRadar() const;
-	virtual SpaceFloat getRadarRadius() const;
-	virtual SpaceFloat getDefaultFovAngle() const;
-
-	virtual string initStateMachine();
 	void loadEffects();
 
 	virtual DamageInfo touchEffect() const;
-	virtual AttributeMap getBaseAttributes() const;
 	virtual bool hit(DamageInfo damage, SpaceVect n);
-
-	virtual string getTypeName() const;
-	virtual string getProperName() const;
 protected:
 	shared_ptr<enemy_properties> props;
 };

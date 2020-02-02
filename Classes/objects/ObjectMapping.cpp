@@ -17,18 +17,14 @@
 #include "Desk.hpp"
 #include "Door.hpp"
 #include "EffectArea.hpp"
+#include "Enemy.hpp"
 #include "EnvironmentalObjects.hpp"
-#include "FairyNPC.hpp"
 #include "FloorSegment.hpp"
 #include "Goal.hpp"
 #include "Items.hpp"
 #include "Launcher.hpp"
 #include "MapFragment.hpp"
-#include "Marisa.hpp"
-#include "Meiling.hpp"
-#include "Patchouli.hpp"
 #include "Player.hpp"
-#include "SakuyaNPC.hpp"
 #include "Sign.hpp"
 #include "Spawner.hpp"
 #include "TeleportPad.hpp"
@@ -69,22 +65,6 @@ GObject::AdapterType conditionalLoadAdapter()
 	};
 }
 
-GObject::AdapterType playerAdapter()
-{
-	return [](GSpace* space, ObjectIDType id, const ValueMap& args) -> GObject* {
-		switch (App::crntPC) {
-		case PlayerCharacter::flandre:
-			return new FlandrePC(space,id,args);
-		case PlayerCharacter::rumia:
-			return new RumiaPC(space,id,args);
-		case PlayerCharacter::cirno:
-			return new CirnoPC(space,id,args);
-		default:
-			return nullptr;
-		}
-	};
-}
-
 GObject::AdapterType collectibleAdapter(string coll_id)
 {
 	return [=](GSpace* space, ObjectIDType id, const ValueMap& args) -> GObject* {
@@ -108,11 +88,6 @@ GObject::object_info makeObjectInfo(GObject::AdapterType adapter)
 	};
 }
 
-GObject::object_info playerObjectInfo()
-{
-	return makeObjectInfo<Player>(playerAdapter());
-}
-
 #define entry(name,cls) {name, makeObjectInfo<cls>(consAdapter<cls>())}
 //To make an entry where the name matches the class
 #define entry_same(cls) entry(#cls, cls)
@@ -129,16 +104,13 @@ void GObject::initObjectInfo()
 {
 	objectInfo = {
 
-	conditional_entry(BlueFairyNPC),
 	entry_same(CollectGlyph),
 	entry_same(Barrier),
 	entry_same(Block),
 	entry_same(DarknessArea),
 	entry_same(Desk),
 	entry_same(Door),
-	entry_same(FairyMaid),
 	item_entry_same(ForestBook1),
-	conditional_entry(GhostFairyNPC),
 	entry_same(GhostHeadstone),
 	entry_same(GhostHeadstoneSensor),
 	entry_same(Goal),
@@ -148,14 +120,10 @@ void GObject::initObjectInfo()
 	entry_same(IcePlatform),
 	entry_same(Launcher),
 	conditional_entry(MapFragment),
-	entry_same(MarisaNPC),
-	conditional_entry(Meiling1),
 	entry_same(MovingPlatform),
 	conditional_entry(Mushroom),
-	entry_same(Patchouli),
 	entry_same(Pitfall),
 	entry_same(PressurePlate),
-	entry_same(SakuyaNPC),
 	entry_same(Sapling),
 	entry_same(Sign),
 	entry_same(Spawner),
@@ -166,8 +134,6 @@ void GObject::initObjectInfo()
 	conditional_entry(Upgrade),
 	entry_same(Wall),
 	entry_same(WaterFloor),
-
-	{ "Player", playerObjectInfo() }
 
 	};
 
@@ -192,13 +158,13 @@ const unordered_set<type_index> GSpace::trackedTypes = {
 	typeid(Bullet),
 	typeid(Door),
 	typeid(Enemy),
+	typeid(Player),
 	typeid(RoomSensor),
 	typeid(Spawner),
 	typeid(TeleportPad),
 	typeid(Wall),
 
 	//virtual tracked types
-	typeid(Player),
 	typeid(FloorSegment),
 };
 

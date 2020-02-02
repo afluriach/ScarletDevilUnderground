@@ -17,17 +17,15 @@
 Enemy::Enemy(
 	GSpace* space,
 	ObjectIDType id,
-	const ValueMap& args,
+	const agent_attributes& attr,
 	shared_ptr<enemy_properties> props
 ) :
 	Agent(
-		space,id,
-		GType::enemy,
-		props->isFlying ? flyingLayers : onGroundLayers,
-		args,
-		props->attributes,
-		props->radius,
-		props->mass
+		space,
+		id,
+		enum_bitwise_or(GType, enemy,canDamage),
+		attr,
+		props
 	),
 	props(props)
 {
@@ -81,46 +79,6 @@ void Enemy::init()
 
 DamageInfo Enemy::touchEffect() const{
 	return props->touchEffect;
-}
-
-AttributeMap Enemy::getBaseAttributes() const {
-	auto result = app::getAttributes(props->attributes);
-	if (result.empty()) {
-		log("EnemyImpl: unknown attributes set %s", props->attributes);
-	}
-	return result;
-}
-
-bool Enemy::hasEssenceRadar() const {
-	return props->detectEssence;
-}
-
-SpaceFloat Enemy::getRadarRadius() const {
-	return props->viewRange;
-}
-
-SpaceFloat Enemy::getDefaultFovAngle() const {
-	return props->viewAngle;
-}
-
-string Enemy::getSprite() const {
-	return props->sprite;
-}
-
-shared_ptr<LightArea> Enemy::getLightSource() const {
-	return props->lightSource;
-}
-
-string Enemy::initStateMachine(){
-	return props->ai_package;
-}
-
-string Enemy::getProperName() const {
-	return props->name;
-}
-
-string Enemy::getTypeName() const {
-	return props->typeName;
 }
 
 void Enemy::loadEffects()

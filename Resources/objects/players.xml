@@ -1,0 +1,23 @@
+<players>
+    <FlandrePC
+        sprite="flandre"
+        light="flandrePC"
+        attributes="flandrePC"
+        mass="20.0"
+    />
+
+    <RumiaPC
+        sprite="rumia"
+        light="rumiaPC"
+        attributes="rumiaPC"
+        mass="20.0"
+    />
+
+    <CirnoPC
+        sprite="cirno"
+        light="cirnoPC"
+        attributes="cirnoPC"
+        mass="20.0"
+    />
+    
+</players>

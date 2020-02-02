@@ -11,31 +11,55 @@
 
 #include "Agent.hpp"
 
+class NPC;
+
+struct dialog_entry
+{
+	dialog_entry();
+	dialog_entry(string dialog);
+	dialog_entry(
+		function<bool(NPC*)> condition,
+		function<void(NPC*)> effect,
+		string dialog,
+		bool once
+	);
+
+	function<bool(NPC*)> condition;
+	function<void(NPC*)> effect;
+
+	string dialog;
+	bool once = false;
+};
+
+class npc_properties : public agent_properties
+{
+public:
+	inline npc_properties() {}
+
+	list<shared_ptr<dialog_entry>> dialogs;
+};
+
 class NPC : public Agent
 {
 public:
 	NPC(
 		GSpace* space,
 		ObjectIDType id,
-		const ValueMap& args,
-		const string& baseAttributes,
-		SpaceFloat radius,
-		SpaceFloat mass
+		const agent_attributes& attr,
+		shared_ptr<npc_properties> props
 	);
 
 	//provides an interface to make an agent an interactible object with dialog.
 	virtual bool canInteract(Player* p);
 	virtual void interact(Player* p);
 	virtual string interactionIcon(Player* p);
-
-	//The base implementation will show a dialog interaction as available if dialog field is set.
-	//Otherwise, override these to provide a dialog.
-	virtual bool isDialogAvailable();
-	virtual string getDialog();
-
-	inline virtual void onDialogEnd() {}
 protected:
-	string dialog;
+	bool isDialogAvailable();
+	shared_ptr<dialog_entry> getDialog();
+	void onDialogEnd();
+
+	shared_ptr<npc_properties> props;
+	shared_ptr<dialog_entry> crntDialog;
 };
 
 #endif

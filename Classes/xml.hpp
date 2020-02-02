@@ -9,14 +9,16 @@
 #ifndef xml_hpp
 #define xml_hpp
 
+class agent_properties;
 struct area_properties;
 struct bomb_properties;
 struct bullet_properties;
 struct collectible_properties;
-struct enemy_properties;
+class enemy_properties;
 struct firepattern_properties;
 class LightArea;
 class MagicEffectDescriptor;
+class npc_properties;
 
 namespace app {
 	typedef function< bool(tinyxml2::XMLElement*, shared_ptr<MagicEffectDescriptor>*)> effect_parser;
@@ -33,6 +35,8 @@ namespace app {
 	extern unordered_map<string, shared_ptr<firepattern_properties>> firePatterns;
 	extern unordered_map<string, floorsegment_properties> floors;
 	extern unordered_map<string, shared_ptr<LightArea>> lights;
+	extern unordered_map<string, shared_ptr<npc_properties>> npc;
+	extern unordered_map<string, shared_ptr<agent_properties>> players;
 	extern unordered_map<string, sprite_properties> sprites;
 
 	void loadAreas();
@@ -45,6 +49,8 @@ namespace app {
 	void loadFirePatterns();
 	void loadFloors();
 	void loadLights();
+	void loadNPCs();
+	void loadPlayers();
 	void loadSprites();
 
 	area_properties getArea(const string& name);
@@ -55,6 +61,8 @@ namespace app {
 	shared_ptr<enemy_properties> getEnemy(const string& name);
 	shared_ptr<firepattern_properties> getFirePattern(const string& name);
 	shared_ptr<LightArea> getLight(const string& name);
+	shared_ptr<agent_properties> getNPC(const string& name);
+	shared_ptr<agent_properties> getPlayer(const string& name);
 	sprite_properties getSprite(const string& name);
 	AttributeMap getAttributes(const string& name);
 
@@ -114,9 +122,11 @@ namespace app {
 		}
 	}
 
+	bool parseObject(tinyxml2::XMLElement* elem, shared_ptr<agent_properties> result);
 	bool parseObject(tinyxml2::XMLElement* elem, area_properties* result);
 	bool parseObject(tinyxml2::XMLElement* elem, AttributeMap* result);
 	bool parseObject(tinyxml2::XMLElement* elem, shared_ptr<enemy_properties> result);
+	bool parseObject(tinyxml2::XMLElement* elem, shared_ptr<npc_properties> result);
 	bool parseObject(tinyxml2::XMLElement* elem, shared_ptr<firepattern_properties>* result);
 	bool parseObject(tinyxml2::XMLElement* elem, floorsegment_properties* result);
 	bool parseObject(tinyxml2::XMLElement* elem, sprite_properties* result);
@@ -150,6 +160,30 @@ namespace app {
 			}
 		}
 		return false;
+	}
+
+	template<typename T>
+	bool getSubObject(
+		tinyxml2::XMLElement* elem,
+		string fieldName,
+		shared_ptr<T>* result,
+		const unordered_map<string, shared_ptr<T>>& _map,
+		bool autoName
+	) {
+		string field;
+		getStringAttr(elem, fieldName, &field);
+
+		if (autoName && field == "auto") {
+			field = elem->Name();
+		}
+
+		auto it = _map.find(field);
+
+		if (it != _map.end()) {
+			*result = it->second;
+		}
+
+		return it != _map.end();
 	}
 
 	template<typename T>

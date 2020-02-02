@@ -1,0 +1,96 @@
+<npcs>
+
+	<BlueFairyNPC
+		sprite="blueFairy"
+		mass="-1.0"
+	>
+		<dialogs>
+			<blue_fairy_satisfied
+				condition="scriptMethod:satisfy_condition"
+				effect="scriptMethod:satisfy_effect"
+			/>
+			<blue_fairy_request_1
+				condition="scriptMethod:request_condition1"
+			/>
+			<blue_fairy_request_2
+				condition="scriptMethod:request_condition2"
+			/>
+			<blue_fairy_request_3
+				condition="scriptMethod:request_condition3"
+			/>
+			<blue_fairy_no />
+		</dialogs>
+	</BlueFairyNPC>
+
+	<FairyMaid
+		sprite="blueFairy"
+		attributes="fairyMaid"
+	
+		mass="10"
+		viewRange="3"
+		viewAngle="0"
+	/>
+
+	<GhostFairyNPC
+		sprite="ghostFairy"
+		ai_package="ghost_fairy_npc"
+	
+		mass="10"
+		viewRange="3"
+		viewAngle="0"
+	/>
+
+	<MarisaNPC
+		sprite="marisa"
+		mass="-1.0"
+	>
+		<dialogs>
+			<marisa1 effect="addItem:ForestBook1" once="true" />
+			<marisa3 condition="attributeEQ:BlueFairyLevel,3" />
+			<marisa2 />
+		</dialogs>
+	</MarisaNPC>
+	
+	<Meiling1
+		sprite="meiling"
+		mass="-1.0"
+	>
+		<dialogs>
+			<meiling1 />
+		</dialogs>	
+	</Meiling1>
+	
+	<Patchouli
+		sprite="patchouli"
+		mass="-1.0"
+	>
+		<dialogs>
+			<graveyard_book
+				condition="hasItem:GraveyardBook1"
+				effect="registerChamberAvailable:graveyard1"
+				once="true"
+			/>
+			<forest_book
+				condition="hasItem:ForestBook1"
+				effect="registerChamberAvailable:forest1"
+				once="true"
+			/>
+			<patchouli1 />
+		</dialogs>
+	</Patchouli>
+	
+	<SakuyaNPC
+		sprite="sakuya"
+		ai_package="sakuya_npc"
+		attributes="sakuyaNPC"
+		
+		mass="40"
+		viewRange="6"
+		viewAngle="0"
+	>
+		<dialogs>
+			<sakuya1 />
+		</dialogs>
+	</SakuyaNPC>
+	
+</npcs>

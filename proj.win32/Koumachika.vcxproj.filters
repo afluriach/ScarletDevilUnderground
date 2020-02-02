@@ -90,9 +90,6 @@
     <ClCompile Include="..\Classes\objects\ObjectMapping.cpp">
       <Filter>src\objects</Filter>
     </ClCompile>
-    <ClCompile Include="..\Classes\objects\Patchouli.cpp">
-      <Filter>src\objects</Filter>
-    </ClCompile>
     <ClCompile Include="..\Classes\objects\Player.cpp">
       <Filter>src\objects</Filter>
     </ClCompile>
@@ -138,9 +135,6 @@
     <ClCompile Include="..\Classes\objects\EffectArea.cpp">
       <Filter>src\objects</Filter>
     </ClCompile>
-    <ClCompile Include="..\Classes\objects\Marisa.cpp">
-      <Filter>src\objects</Filter>
-    </ClCompile>
     <ClCompile Include="..\Classes\scenes\Collect.cpp">
       <Filter>src\scenes</Filter>
     </ClCompile>
@@ -151,9 +145,6 @@
       <Filter>src\scenes</Filter>
     </ClCompile>
     <ClCompile Include="..\Classes\objects\Enemy.cpp">
-      <Filter>src\objects</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Classes\objects\SakuyaNPC.cpp">
       <Filter>src\objects</Filter>
     </ClCompile>
     <ClCompile Include="..\Classes\objects\TeleportPad.cpp">
@@ -207,9 +198,6 @@
     <ClCompile Include="..\Classes\scenes\OverworldScene.cpp">
       <Filter>src\scenes</Filter>
     </ClCompile>
-    <ClCompile Include="..\Classes\objects\Meiling.cpp">
-      <Filter>src\objects</Filter>
-    </ClCompile>
     <ClCompile Include="..\Classes\spells\RumiaSpells.cpp">
       <Filter>src\spells</Filter>
     </ClCompile>
@@ -238,9 +226,6 @@
       <Filter>src\objects</Filter>
     </ClCompile>
     <ClCompile Include="..\Classes\objects\FloorSegment.cpp">
-      <Filter>src\objects</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Classes\objects\FairyNPC.cpp">
       <Filter>src\objects</Filter>
     </ClCompile>
     <ClCompile Include="..\Classes\spells\SpellUtil.cpp">
@@ -428,13 +413,7 @@
     <ClInclude Include="..\Classes\objects\Items.hpp">
       <Filter>src\objects</Filter>
     </ClInclude>
-    <ClInclude Include="..\Classes\objects\Marisa.hpp">
-      <Filter>src\objects</Filter>
-    </ClInclude>
     <ClInclude Include="..\Classes\objects\object_ref.hpp">
-      <Filter>src\objects</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Classes\objects\Patchouli.hpp">
       <Filter>src\objects</Filter>
     </ClInclude>
     <ClInclude Include="..\Classes\objects\Player.hpp">
@@ -485,9 +464,6 @@
     <ClInclude Include="..\Classes\objects\Enemy.hpp">
       <Filter>src\objects</Filter>
     </ClInclude>
-    <ClInclude Include="..\Classes\objects\SakuyaNPC.hpp">
-      <Filter>src\objects</Filter>
-    </ClInclude>
     <ClInclude Include="..\Classes\objects\TeleportPad.hpp">
       <Filter>src\objects</Filter>
     </ClInclude>
@@ -536,9 +512,6 @@
     <ClInclude Include="..\Classes\scenes\OverworldScene.hpp">
       <Filter>src\scenes</Filter>
     </ClInclude>
-    <ClInclude Include="..\Classes\objects\Meiling.hpp">
-      <Filter>src\objects</Filter>
-    </ClInclude>
     <ClInclude Include="..\Classes\spells\RumiaSpells.hpp">
       <Filter>src\spells</Filter>
     </ClInclude>
@@ -561,9 +534,6 @@
       <Filter>src\objects</Filter>
     </ClInclude>
     <ClInclude Include="..\Classes\objects\FloorSegment.hpp">
-      <Filter>src\objects</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Classes\objects\FairyNPC.hpp">
       <Filter>src\objects</Filter>
     </ClInclude>
     <ClInclude Include="..\Classes\spells\SpellUtil.hpp">

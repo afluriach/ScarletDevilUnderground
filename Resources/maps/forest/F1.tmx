@@ -41,32 +41,28 @@
     <property name="dir" value="left"/>
    </properties>
   </object>
-  <object id="52" type="Fairy1" x="1024" y="768" width="128" height="128">
+  <object id="52" name="fairy1-1" type="Fairy1" x="1024" y="768" width="128" height="128">
    <properties>
     <property name="ai_package" value="circle_around_point"/>
     <property name="direction" value="up"/>
-    <property name="waypoint" value="wp1"/>
    </properties>
   </object>
-  <object id="53" type="Fairy1" x="1280" y="1024" width="128" height="128">
+  <object id="53" name="fairy1-1" type="Fairy1" x="1280" y="1024" width="128" height="128">
    <properties>
     <property name="ai_package" value="circle_around_point"/>
     <property name="direction" value="right"/>
-    <property name="waypoint" value="wp1"/>
    </properties>
   </object>
-  <object id="55" type="Fairy1" x="768" y="1024" width="128" height="128">
+  <object id="55" name="fairy1-1" type="Fairy1" x="768" y="1024" width="128" height="128">
    <properties>
     <property name="ai_package" value="circle_around_point"/>
     <property name="direction" value="left"/>
-    <property name="waypoint" value="wp1"/>
    </properties>
   </object>
-  <object id="56" type="Fairy1" x="1024" y="1280" width="128" height="128">
+  <object id="56" name="fairy1-1" type="Fairy1" x="1024" y="1280" width="128" height="128">
    <properties>
     <property name="ai_package" value="circle_around_point"/>
     <property name="direction" value="down"/>
-    <property name="waypoint" value="wp1"/>
    </properties>
   </object>
   <object id="57" type="Health2" x="256" y="256" width="128" height="128"/>
@@ -75,6 +71,6 @@
   <object id="60" type="Magic2" x="1792" y="1792" width="128" height="128"/>
  </objectgroup>
  <objectgroup name="waypoints">
-  <object id="54" name="wp1" x="1024" y="1024" width="128" height="128"/>
+  <object id="54" name="fairy1-1" x="1024" y="1024" width="128" height="128"/>
  </objectgroup>
 </map>

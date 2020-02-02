@@ -61,22 +61,19 @@
     <property name="dir" value="left"/>
    </properties>
   </object>
-  <object id="172" type="BlueFairy" x="1152" y="256" width="128" height="128">
+  <object id="172" name="blueFairy8-1" type="BlueFairy" x="1152" y="256" width="128" height="128">
    <properties>
     <property name="ai_package" value="blue_fairy_follow_path"/>
-    <property name="pathName" value="path-f8-1"/>
    </properties>
   </object>
-  <object id="174" type="BlueFairy" x="3712" y="2304" width="128" height="128">
+  <object id="174" name="blueFairy8-2" type="BlueFairy" x="3712" y="2304" width="128" height="128">
    <properties>
     <property name="ai_package" value="blue_fairy_follow_path"/>
-    <property name="pathName" value="path-f8-2"/>
    </properties>
   </object>
-  <object id="173" type="BlueFairy" x="1664" y="1280" width="128" height="128">
+  <object id="173" name="blueFairy8-3" type="BlueFairy" x="1664" y="1280" width="128" height="128">
    <properties>
     <property name="ai_package" value="blue_fairy_follow_path"/>
-    <property name="pathName" value="path-f8-3"/>
    </properties>
   </object>
   <object id="175" type="GreenFairy2" x="640" y="3328" width="128" height="128"/>
@@ -89,13 +86,13 @@
   <object id="182" type="GreenFairy2" x="4736" y="1280" width="128" height="128"/>
  </objectgroup>
  <objectgroup name="paths">
-  <object id="168" name="path-f8-1" x="1216" y="320">
+  <object id="168" name="blueFairy8-1" x="1216" y="320">
    <polyline points="0,0 0,3072 3072,3072 3072,0"/>
   </object>
-  <object id="169" name="path-f8-3" x="1728" y="1344">
+  <object id="169" name="blueFairy8-3" x="1728" y="1344">
    <polyline points="0,0 2048,0"/>
   </object>
-  <object id="171" name="path-f8-2" x="3776" y="2368">
+  <object id="171" name="blueFairy8-2" x="3776" y="2368">
    <polyline points="0,0 -2048,0"/>
   </object>
  </objectgroup>

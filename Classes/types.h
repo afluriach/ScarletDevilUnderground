@@ -201,14 +201,6 @@ extern const GType agentObstacles;
 
 GType getBaseType(GType type);
 
-enum class PlayerCharacter {
-	flandre = 0,
-	rumia,
-	cirno,
-
-	end
-};
-
 //Layers are interpreted as a bitmask.
 //For now, multilayer physics is not being used.
 enum class PhysicsLayers{

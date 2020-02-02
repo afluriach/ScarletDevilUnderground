@@ -158,11 +158,18 @@ string GObject::getProperName() const
 	return properNameByType(typeid(*this));
 }
 
+string GObject::getClsName() const
+{
+	return "";
+}
+
 //BEGIN LOGIC
 
 void GObject::init()
 {
 	initLightSource();
+	
+	scriptInitialize();
 }
 
 void GObject::update()
@@ -233,6 +240,22 @@ void GObject::printFSM() {
 
 void GObject::setFrozen(bool val) {
 	isFrozen = val;
+}
+
+void GObject::scriptInitialize()
+{
+	if (scriptObj) {
+		sol::function f = scriptObj["initialize"];
+		if (f) f(scriptObj);
+	}
+}
+
+bool GObject::hasMethod(const string& name)
+{
+	if (!scriptObj) return false;
+
+	sol::function f = scriptObj[name];
+	return to_bool(f);
 }
 
 bool GObject::hit(DamageInfo damage, SpaceVect n)

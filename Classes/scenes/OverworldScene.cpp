@@ -22,10 +22,6 @@ start(start)
 		bind(&OverworldScene::initHUD, this),
 		to_int(initOrder::postInitHUD)
 	);
-	multiInit.insertWithOrder(
-		bind(&OverworldScene::loadPlayer, this),
-		to_int(initOrder::postLoadObjects)
-	);
 }
 
 void OverworldScene::initHUD()
@@ -39,27 +35,6 @@ void OverworldScene::initHUD()
 
 	if ( (mapName == "overworld/forest" || mapName == "overworld/forest_lake") && App::getCrntState()->hasAttribute("mushroomCount") ) {
 		hud->setObjectiveCounter("sprites/mushroom.png", App::getCrntState()->getAttribute("mushroomCount"));
-	}
-}
-
-void OverworldScene::loadPlayer()
-{
-	Door* door = gspace->getObjectAs<Door>(start);
-	SpaceVect player_start = gspace->getWaypoint(start);
-
-	if (door) {
-		SpaceVect pos = door->getEntryPosition();
-		Direction d = door->getEntryDirection();
-
-		gspace->createObject<FlandrePC>(pos, d);
-	}
-	else if(!player_start.isZero())
-	{
-		gspace->createObject<FlandrePC>(player_start, Direction::up);
-	}
-	else
-	{
-		log("Overworld scene %s, unknown player start!", mapName.c_str());
 	}
 }
 

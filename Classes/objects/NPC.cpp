@@ -8,23 +8,47 @@
 
 #include "Prefix.h"
 
+#include "LuaAPI.hpp"
 #include "NPC.hpp"
+
+dialog_entry::dialog_entry() {}
+
+dialog_entry::dialog_entry(string dialog) :
+	dialog(dialog)
+{}
+
+dialog_entry::dialog_entry(
+	function<bool(NPC*)> condition,
+	function<void(NPC*)> effect,
+	string dialog,
+	bool once
+) :
+	condition(condition),
+	effect(effect),
+	dialog(dialog),
+	once(once)
+{}
 
 NPC::NPC(
 	GSpace* space,
 	ObjectIDType id,
-	const ValueMap& args,
-	const string& baseAttributes,
-	SpaceFloat radius,
-	SpaceFloat mass
+	const agent_attributes& attr,
+	shared_ptr<npc_properties> props
 ) : 
 	Agent(
-		space, id, enum_bitwise_or(GType, npc, interactible), onGroundLayers, args,
-		baseAttributes,
-		radius,
-		mass
-	)
+		space,
+		id,
+		enum_bitwise_or(GType, npc, interactible),
+		attr,
+		props
+	),
+	props(props)
 {
+	auto& cls = space->scriptVM->_state["objects"][getClsName()];
+
+	if (cls) {
+		scriptObj = cls(this);
+	}
 }
 
 bool NPC::canInteract(Player* p)
@@ -34,11 +58,17 @@ bool NPC::canInteract(Player* p)
 
 void NPC::interact(Player* p)
 {
-	string _dialog = getDialog();
+	if (crntDialog) {
+		log("NPC %s attempt to start dialog when one is already active!", getName());
+		return;
+	}
 
-	if (!_dialog.empty()) {
+	auto _dialog = getDialog();
+
+	if (_dialog) {
+		crntDialog = _dialog;
 		space->createDialog(
-			getDialog(),
+			string("dialogs/") + _dialog->dialog,
 			false,
 			[this]()->void {onDialogEnd(); }
 		);
@@ -49,12 +79,33 @@ string NPC::interactionIcon(Player* p) {
 	return "sprites/ui/dialog.png";
 }
 
-bool NPC::isDialogAvailable()
+shared_ptr<dialog_entry> NPC::getDialog()
 {
-	return !dialog.empty();
+	for (auto dialog : props->dialogs) {
+		bool noReplay = dialog->once && App::crntState->hasCompletedDialog(dialog->dialog);
+		bool condition = !dialog->condition || dialog->condition(this);
+
+		if (!noReplay && condition)
+			return dialog;
+	}
+
+	return nullptr;
 }
 
-string NPC::getDialog()
+void NPC::onDialogEnd()
 {
-	return dialog;
+	if (crntDialog) {
+		if (crntDialog->effect) {
+			crntDialog->effect(this);
+		}
+
+		App::crntState->dialogs.insert(crntDialog->dialog);
+
+		crntDialog.reset();
+	}
+}
+
+bool NPC::isDialogAvailable()
+{
+	return props->dialogs.size() > 0;
 }

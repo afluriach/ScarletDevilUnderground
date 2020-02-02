@@ -106,6 +106,8 @@ public:
 	Function(StateMachine* fsm);
 	inline virtual ~Function() {}
 
+	inline StateMachine* getFSM() const { return fsm; }
+
     typedef function<shared_ptr<Function>(StateMachine* fsm, const ValueMap&) > AdapterType;
     static const unordered_map<string, Function::AdapterType> adapters;
     

@@ -42,10 +42,11 @@ public:
 
 	static const float sprintCost;
 
-	Player(GSpace* space, ObjectIDType id, const SpaceVect& pos, Direction d);
 	Player(
-		GSpace* space, ObjectIDType id, const ValueMap& args,
-		const string& attributes
+		GSpace* space,
+		ObjectIDType id,
+		const agent_attributes& attr,
+		shared_ptr<agent_properties> props
 	);
 	inline virtual ~Player() {}
     
@@ -145,42 +146,6 @@ protected:
 	bool isFocusActive = false;
 	bool isRespawnActive = false;
 	bool isComboActive = false;
-};
-
-class FlandrePC : public Player
-{
-public:
-	static const string baseAttributes;
-
-	MapObjCons(FlandrePC);
-	FlandrePC(GSpace* space, ObjectIDType id, const SpaceVect& pos, Direction d);
-
-	virtual inline string getSprite() const { return "flandre"; }
-
-	virtual shared_ptr<LightArea> getLightSource() const;
-};
-
-class RumiaPC : public Player
-{
-public:
-	static const string baseAttributes;
-
-	MapObjCons(RumiaPC);
-
-	virtual inline string getSprite() const { return "rumia"; }
-
-	virtual shared_ptr<LightArea> getLightSource() const;
-};
-
-class CirnoPC : public Player
-{
-public:
-	static const string baseAttributes;
-
-	MapObjCons(CirnoPC);
-	
-	virtual inline string getSprite() const { return "cirno"; }
-	virtual shared_ptr<LightArea> getLightSource() const;
 };
 
 #endif /* Player_hpp */

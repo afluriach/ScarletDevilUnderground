@@ -49,21 +49,18 @@ const SpaceFloat Player::grazeRadius = 0.7;
 
 const float Player::sprintCost = 7.5f;
 
-Player::Player(GSpace* space, ObjectIDType id, const SpaceVect& pos, Direction d) :
-	Agent(space, id, GType::player, onGroundLayers, "player", pos,d)
-{
-	attributes = FlandrePC::baseAttributes;
-}
-
 Player::Player(
-	GSpace* space, ObjectIDType id, const ValueMap& args,
-	const string& attributes
+	GSpace* space,
+	ObjectIDType id,
+	const agent_attributes& attr,
+	shared_ptr<agent_properties> props
 ) :
 	Agent(
-		space,id,GType::player, onGroundLayers, args,
-		attributes,
-		defaultSize,
-		20.0
+		space,
+		id,
+		enum_bitwise_or(GType,player,canDamage),
+		attr,
+		props
 	)
 {
 	playScene = space->getSceneAs<PlayScene>();
@@ -664,47 +661,4 @@ bool Player::canPlaceBomb(SpaceVect pos)
 		bombObstacles,
 		PhysicsLayers::ground
 	);
-}
-
-const string FlandrePC::baseAttributes = "flandrePC";
-
-FlandrePC::FlandrePC(GSpace* space, ObjectIDType id, const ValueMap& args) :
-	Player(space,id,args,baseAttributes)
-{}
-
-FlandrePC::FlandrePC(GSpace* space, ObjectIDType id, const SpaceVect& pos, Direction d) :
-	Player(space, id, pos, d)
-{
-	playScene = space->getSceneAs<PlayScene>();
-
-	if (!playScene) {
-		throw runtime_error("Player created outside of PlayScene!");
-	}
-}
-
-shared_ptr<LightArea> FlandrePC::getLightSource() const
-{
-	return app::getLight("flandrePC");
-}
-
-const string RumiaPC::baseAttributes = "rumiaPC";
-
-RumiaPC::RumiaPC(GSpace* space, ObjectIDType id, const ValueMap& args) :
-	Player(space,id,args,baseAttributes)
-{}
-
-shared_ptr<LightArea> RumiaPC::getLightSource() const
-{
-	return app::getLight("rumiaPC");
-}
-
-const string CirnoPC::baseAttributes = "cirnoPC";
-
-CirnoPC::CirnoPC(GSpace* space, ObjectIDType id, const ValueMap& args) :
-	Player(space,id,args,baseAttributes)
-{}
-
-shared_ptr<LightArea> CirnoPC::getLightSource() const
-{
-	return app::getLight("cirnoPC");
 }

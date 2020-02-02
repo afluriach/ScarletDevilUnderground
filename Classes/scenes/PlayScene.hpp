@@ -45,12 +45,14 @@ public:
 
 	virtual void update(float dt);
 
+	void loadPlayer();
 	void showVisibleRooms();
 
 	void onPausePressed();
 	virtual void enterPause();
 	virtual void exitPause();
     
+	inline virtual string getPlayerStart() const { return "player_start"; }
 	virtual Color4F getDefaultAmbientLight() const;
 
 	void onMapPressed();

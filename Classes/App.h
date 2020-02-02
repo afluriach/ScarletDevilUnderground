@@ -7,6 +7,7 @@
 The reason for implement as private inheritance is to hide some interface call by Director.
 */
 
+class agent_properties;
 class audio_context;
 class ControlRegister;
 class Dialog;
@@ -58,7 +59,7 @@ public:
 	static void setResolution(unsigned int width, unsigned int height);
 	static void setFramerate(unsigned int fps);
 
-	static void setPlayer(int id);
+	static void setPlayer(string id);
 	static void setUnlockAllEquips(bool v);
 	static void setDifficulty(float scale);
 
@@ -121,7 +122,7 @@ public:
 	static SpaceFloat timerPrintAccumulator;
 	static mutex timerMutex;
 #endif
-	static PlayerCharacter crntPC;
+	static shared_ptr<agent_properties> crntPC;
     
 	static const string& getBaseDataPath();
 	static GState* getCrntState();

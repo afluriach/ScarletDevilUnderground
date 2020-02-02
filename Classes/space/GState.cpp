@@ -35,6 +35,11 @@ bool GState::hasItem(string name)
 	return itemRegistry.find(name) != itemRegistry.end();
 }
 
+bool GState::hasCompletedDialog(string name)
+{
+	return dialogs.find(name) != dialogs.end();
+}
+
 void GState::registerChamberAvailable(string id)
 {
 	if (!id.empty()) {
@@ -138,7 +143,7 @@ AttributeMap GState::getUpgrades()
 
 AttributeSystem GState::getPlayerStats()
 {
-	AttributeSystem result(app::getAttributes(FlandrePC::baseAttributes));
+	AttributeSystem result(app::getAttributes(App::crntPC->attributes));
 	result.apply(getUpgrades());
 	return result;
 }
@@ -167,15 +172,6 @@ void GState::incrementAttribute(string name)
 {
 	emplaceIfEmpty(attributes, name, 0);
 	++attributes.at(name);
-
-	auto it = attributes.find(name);
-
-	if(it != attributes.end()){
-		++it->second;
-	}
-	else {
-		attributes.insert_or_assign(name, 1);
-	}
 }
 
 void GState::subtractAttribute(string name, int val)

@@ -304,29 +304,6 @@ void WorldSelect::back()
 	}
 }
 
-zero_arity_function characterSelectAdapter(PlayerCharacter pc) {
-	return [pc]() -> void {
-		App::crntPC = pc;
-		GScene::runScene(WorldSelect::nextScene);
-	};
-}
-
-const string CharacterSelect::title = "Select Character";
-
-const vector<string> CharacterSelect::entries = {
-	"Flandre",
-	"Rumia",
-	"Cirno",
-	"Back"
-};
-
-const vector<zero_arity_function> CharacterSelect::entryActions = {
-	characterSelectAdapter(PlayerCharacter::flandre),
-	characterSelectAdapter(PlayerCharacter::rumia),
-	characterSelectAdapter(PlayerCharacter::cirno),
-	&App::popMenu
-};
-
 const string PauseMenu::title = "";
 
 const vector<string> PauseMenu::overworldEntries = {
@@ -363,10 +340,12 @@ PauseMenu::PauseMenu(bool overworld, Player* player) :
 	),
 	player(player)
 {
-	PlayerInfo* info = Node::ccCreate<PlayerInfo>(player->getAttributeSystem());
+	if (player) {
+		PlayerInfo* info = Node::ccCreate<PlayerInfo>(player->getAttributeSystem());
 
-	info->setPosition(app::params.width * 0.75f, app::params.height * 0.66f);
-	addChild(info, 3);
+		info->setPosition(app::params.width * 0.75f, app::params.height * 0.66f);
+		addChild(info, 3);
+	}
 }
 
 void PauseMenu::worldSelect()

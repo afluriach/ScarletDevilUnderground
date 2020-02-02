@@ -53,7 +53,7 @@ unique_ptr<audio_context> App::audioContext;
 unique_ptr<GState> App::crntState;
 string App::crntProfileName;
 unique_ptr<Lua::Inst> App::lua;
-PlayerCharacter App::crntPC = PlayerCharacter::flandre;
+shared_ptr<agent_properties> App::crntPC;
 
 #if USE_TIMERS
 unique_ptr<TimerSystem> App::timerSystem;
@@ -324,6 +324,9 @@ void App::loadObjects()
 	GObject::initObjectInfo();
 	GObject::initNameMap();
 
+	app::loadSprites();
+	app::loadLights();
+
 	app::loadAreas();
 	app::loadAttributes();
 	app::loadBombs();
@@ -333,9 +336,11 @@ void App::loadObjects()
 	app::loadCollectibles();
 	app::loadFirePatterns();
 	app::loadFloors();
-	app::loadLights();
-	app::loadSprites();
 	app::loadEnemies();
+	app::loadNPCs();
+	app::loadPlayers();
+
+	App::crntPC = app::getPlayer("FlandrePC");
 }
 
 void App::runTitleScene()
@@ -432,9 +437,9 @@ bool App::autosaveProfile()
 	return io::saveProfileState(crntState.get(), "autosave");
 }
 
-void App::setPlayer(int id)
+void App::setPlayer(string id)
 {
-	crntPC = static_cast<PlayerCharacter>(id);
+	crntPC = app::getPlayer(id);
 }
 
 void App::setUnlockAllEquips(bool v)
