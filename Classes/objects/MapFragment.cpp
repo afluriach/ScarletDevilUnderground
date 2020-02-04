@@ -23,7 +23,7 @@
 }
 
 MapFragment::MapFragment(GSpace* space, ObjectIDType id, const ValueMap& args) :
-	InventoryObject(MapParamsPointUp(), physics_params(GType::playerPickup, PhysicsLayers::ground, 0.5, -1.0, true)),
+	GObject(MapParamsPointUp(), physics_params(GType::playerPickup, PhysicsLayers::ground, 0.5, -1.0, true)),
 	mapFragmentId(getIntOrDefault(args, "id", -1))
 {
 	if (mapFragmentId == -1) {
@@ -35,6 +35,10 @@ MapFragment::MapFragment(GSpace* space, ObjectIDType id, const ValueMap& args) :
 	else if (mapFragmentId >= space->getScene()->getMapFragmentsList().size()) {
 		log("MapFragment: invalid ID");
 	}
+}
+
+void MapFragment::onPlayerContact(Player* p) {
+	onAcquire(p);
 }
 
 void MapFragment::onAcquire(Player* player)

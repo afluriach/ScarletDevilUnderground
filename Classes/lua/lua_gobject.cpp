@@ -11,6 +11,7 @@
 #include "Agent.hpp"
 #include "Bullet.hpp"
 #include "LuaAPI.hpp"
+#include "Item.hpp"
 #include "NPC.hpp"
 #include "Player.hpp"
 #include "Torch.hpp"
@@ -98,8 +99,15 @@ namespace Lua{
 		auto gobject = newType(GObject);
 		#define _cls GObject
 
-		addFuncSame(gobject, addGraphicsAction);
-		addFuncSame(gobject, stopGraphicsAction);
+		gobject["addGraphicsAction"] = sol::overload(
+			static_cast<void(GObject::*)(GraphicsAction)>(&GObject::addGraphicsAction),
+			static_cast<void(GObject::*)(GraphicsAction, SpriteID)>(&GObject::addGraphicsAction)
+		);
+		gobject["stopGraphicsAction"] = sol::overload(
+			static_cast<void(GObject::*)(cocos_action_tag)>(&GObject::stopGraphicsAction),
+			static_cast<void(GObject::*)(cocos_action_tag, SpriteID)>(&GObject::stopGraphicsAction)
+		);
+
 		addFuncSame(gobject, setSpriteZoom);
 		addFuncSame(gobject, cast);
 		addFuncSame(gobject, hit);
@@ -175,6 +183,8 @@ namespace Lua{
 
 		auto player = _state.new_usertype<Player>("Player", sol::base_classes, sol::bases<GObject, Agent>());
 
+		player["equipItems"] = &Player::equipItems;
+
 		auto bullet = _state.new_usertype<Bullet>("Bullet", sol::base_classes, sol::bases<GObject>());
 		bullet["makeParams"] = sol::overload(
 			[](SpaceVect pos, SpaceFloat angle)->shared_ptr<object_params> { return Bullet::makeParams(pos, angle); },
@@ -187,5 +197,12 @@ namespace Lua{
 		addFuncSame(torch, getActive);
 		addFuncSame(torch, setActive);
 		addFuncSame(torch, hit);
+
+#define _cls Item
+		auto item = _state.new_usertype<Item>(
+			"Item",
+			sol::base_classes, sol::bases<GObject>()
+		);
 	}
+
 }

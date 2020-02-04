@@ -763,27 +763,33 @@ void GObject::initLightSource()
 	}
 }
 
+void GObject::addGraphicsAction(GraphicsAction action)
+{
+	addGraphicsAction(action, spriteID);
+}
+
 void GObject::addGraphicsAction(GraphicsAction action, SpriteID id )
 {
-	SpriteID actual = id == 0 ? spriteID : id;
-
-	if (actual != 0) {
+	if (id != 0) {
 		space->addGraphicsAction(
 			&graphics_context::runSpriteAction,
-			actual,
+			id,
 			action.generator
 		);
 	}
 }
 
+void GObject::stopGraphicsAction(cocos_action_tag tag)
+{
+	stopGraphicsAction(tag, spriteID);
+}
+
 void GObject::stopGraphicsAction(cocos_action_tag tag, SpriteID id)
 {
-	SpriteID actual = id == 0 ? spriteID : id;
-
-	if (actual != 0) {
+	if (id != 0) {
 		space->addGraphicsAction(
 			&graphics_context::stopSpriteAction,
-			actual,
+			id,
 			tag
 		);
 	}

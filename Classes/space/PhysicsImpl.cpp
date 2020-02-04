@@ -14,7 +14,6 @@
 #include "Enemy.hpp"
 #include "EnvironmentalObjects.hpp"
 #include "FloorSegment.hpp"
-#include "InventoryObject.hpp"
 #include "MapFragment.hpp"
 #include "PhysicsImpl.hpp"
 #include "Player.hpp"
@@ -417,7 +416,7 @@ void bulletBulletBegin(Bullet* _a, Bullet* _b, b2Contact* arb)
 	_b->onBulletCollide(_a);
 }
 
-void playerPickupBegin(Player* p, InventoryObject* inv, b2Contact* arb)
+void playerPickupBegin(Player* p, GObject* inv, b2Contact* arb)
 {
 	inv->onPlayerContact(p);
 }

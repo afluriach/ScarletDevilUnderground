@@ -21,7 +21,7 @@
 #include "EnvironmentalObjects.hpp"
 #include "FloorSegment.hpp"
 #include "Goal.hpp"
-#include "Items.hpp"
+#include "Item.hpp"
 #include "Launcher.hpp"
 #include "MapFragment.hpp"
 #include "Player.hpp"
@@ -43,15 +43,17 @@ constexpr GObject::AdapterType consAdapter()
     return [](GSpace* space, ObjectIDType id, const ValueMap& args) -> GObject* { return new T(space,id,args); };
 }
 
-//Inventory adaptor: will return nullptr if the item has already been acquired,
-//meaning item will not be added.
-template <typename T>
-constexpr GObject::AdapterType itemAdapter(const string& name)
+GObject::AdapterType itemAdapter()
 {
     return [=](GSpace* space, ObjectIDType id, const ValueMap& args) -> GObject* {
-        if(App::crntState->hasItem(name))
-            return nullptr;
-        else return new T(space,id,args);
+		item_attributes attr = Item::parseAttributes(args);
+		string typeName = getStringOrDefault(args, "item", "");
+		auto itemProps = app::getItem(typeName);
+
+		if (!itemProps || !Item::conditionalLoad(space, attr, itemProps))
+			return nullptr;
+        else
+			return new Item(space,id,attr, itemProps);
     };
 }
 
@@ -94,9 +96,6 @@ GObject::object_info makeObjectInfo(GObject::AdapterType adapter)
 
 #define conditional_entry(name) {#name, makeObjectInfo<name>(conditionalLoadAdapter<name>())}
 
-#define item_entry(name,cls,itemKey) {name, makeObjectInfo<cls>(itemAdapter<cls>(#itemKey))}
-#define item_entry_same(cls) item_entry(#cls,cls,cls)
-
 unordered_map<string, GObject::object_info> GObject::objectInfo;
 unordered_map<string, GObject::AdapterType> GObject::namedObjectTypes;
 
@@ -110,14 +109,13 @@ void GObject::initObjectInfo()
 	entry_same(DarknessArea),
 	entry_same(Desk),
 	entry_same(Door),
-	item_entry_same(ForestBook1),
 	entry_same(GhostHeadstone),
 	entry_same(GhostHeadstoneSensor),
 	entry_same(Goal),
-	item_entry_same(GraveyardBook1),
 	conditional_entry(Headstone),
 	entry_same(HiddenSubroomSensor),
 	entry_same(IcePlatform),
+	{"Item", makeObjectInfo<Item>(itemAdapter())},
 	entry_same(Launcher),
 	conditional_entry(MapFragment),
 	entry_same(MovingPlatform),
@@ -127,7 +125,6 @@ void GObject::initObjectInfo()
 	entry_same(Sapling),
 	entry_same(Sign),
 	entry_same(Spawner),
-	conditional_entry(Spellcard),
 	entry_same(SunArea),
 	entry_same(TeleportPad),
 	entry_same(Torch),
@@ -158,6 +155,7 @@ const unordered_set<type_index> GSpace::trackedTypes = {
 	typeid(Bullet),
 	typeid(Door),
 	typeid(Enemy),
+	typeid(Item),
 	typeid(Player),
 	typeid(RoomSensor),
 	typeid(Spawner),

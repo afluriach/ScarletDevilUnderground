@@ -9,8 +9,6 @@
 #ifndef Collectibles_hpp
 #define Collectibles_hpp
 
-#include "InventoryObject.hpp"
-
 class MagicEffectDescriptor;
 
 struct collectible_properties
@@ -21,7 +19,7 @@ struct collectible_properties
 	float length;
 };
 
-class Collectible : public InventoryObject
+class Collectible : public GObject
 {
 public:
 	static ObjectGeneratorType create(GSpace* space, string id, SpaceVect pos);
@@ -33,10 +31,12 @@ public:
 	virtual string getSprite() const;
 	virtual string itemName() const;
 
+	virtual void onPlayerContact(Player* p);
+
 	shared_ptr<MagicEffectDescriptor> getEffect(GObject* target) const;
 
-	virtual bool canAcquire(Player* player);
-	virtual void onAcquire(Player* player);
+	bool canAcquire(Player* player);
+	void onAcquire(Player* player);
 protected:
 	string sprite;
 	shared_ptr<MagicEffectDescriptor> effect;

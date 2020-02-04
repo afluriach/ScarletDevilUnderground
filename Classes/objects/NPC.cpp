@@ -44,8 +44,7 @@ NPC::NPC(
 	),
 	props(props)
 {
-	auto& cls = space->scriptVM->_state["objects"][getClsName()];
-
+	auto& cls = space->scriptVM->_state["objects"][props->typeName];
 	if (cls) {
 		scriptObj = cls(this);
 	}

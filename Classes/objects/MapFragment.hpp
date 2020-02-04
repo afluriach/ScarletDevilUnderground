@@ -9,9 +9,7 @@
 #ifndef MapFragment_hpp
 #define MapFragment_hpp
 
-#include "InventoryObject.hpp"
-
-class MapFragment : public InventoryObject
+class MapFragment : public GObject
 {
 public:
 	static bool conditionalLoad(GSpace* space, ObjectIDType id, const ValueMap& args);
@@ -23,7 +21,8 @@ public:
 	virtual inline string getSprite() const { return "mapFragment"; }
 	virtual inline string itemName() const { return "Map Fragment"; }
 
-	virtual void onAcquire(Player* player);
+	virtual void onPlayerContact(Player* p);
+	void onAcquire(Player* player);
 
 	const int mapFragmentId;
 };

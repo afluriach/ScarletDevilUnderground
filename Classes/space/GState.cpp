@@ -27,12 +27,38 @@ void GState::initProfiles()
 
 void GState::addItem(string name)
 {
-	itemRegistry.insert(name);
+	emplaceIfEmpty(itemRegistry, name, 0u);
+	++itemRegistry.at(name);
+}
+
+void GState::addItem(string name, unsigned int count)
+{
+	emplaceIfEmpty(itemRegistry, name, 0u);
+	itemRegistry.at(name) += count;
+}
+
+bool GState::removeItem(string name)
+{
+	return removeItem(name, 1);
+}
+
+bool GState::removeItem(string name, unsigned int count)
+{
+	auto it = itemRegistry.find(name);
+
+	if (it == itemRegistry.end() || it->second < count) {
+		return false;
+	}
+	else {
+		it->second -= count;
+		return true;
+	}
 }
 
 bool GState::hasItem(string name)
 {
-	return itemRegistry.find(name) != itemRegistry.end();
+	auto it = itemRegistry.find(name);
+	return it != itemRegistry.end() && it->second != 0;
 }
 
 bool GState::hasCompletedDialog(string name)
@@ -196,7 +222,7 @@ void GState::setUpgradeLevels(int level)
 		registerUpgrade(Attribute::maxHP, 2);
 		registerUpgrade(Attribute::maxStamina, 0);
 
-		itemRegistry.insert("PlayerBatMode");
+		addItem("PlayerBatMode");
 	}
 
 	if (level >= 2)
@@ -208,15 +234,15 @@ void GState::setUpgradeLevels(int level)
 		registerUpgrade(Attribute::attackSpeed, 1);
 		registerUpgrade(Attribute::stamina, 1);
 
-		itemRegistry.insert("ScarletDagger");
-		itemRegistry.insert("Catadioptric");
+		addItem("ScarletDagger");
+		addItem("Catadioptric");
 	}
 
 	if (level >= 3)
 	{
 		registerUpgrade(Attribute::shieldLevel, 1);
 
-		itemRegistry.insert("StarbowBreak");
+		addItem("StarbowBreak");
 	}
 
 	if (level >= 4)
@@ -224,6 +250,6 @@ void GState::setUpgradeLevels(int level)
 		registerUpgrade(Attribute::attackSpeed, 0);
 		registerUpgrade(Attribute::bulletSpeed, 1);
 
-		itemRegistry.insert("PlayerCounterClock");
+		addItem("PlayerCounterClock");
 	}
 }

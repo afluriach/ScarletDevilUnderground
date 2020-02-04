@@ -12,7 +12,6 @@
 #include "AreaSensor.hpp"
 #include "Door.hpp"
 #include "Enemy.hpp"
-#include "FairyNPC.hpp"
 #include "graphics_context.hpp"
 #include "HUD.hpp"
 #include "physics_context.hpp"
@@ -379,6 +378,10 @@ void GhostHeadstoneSensor::init()
 	}
 	else {
 		target = space->getObjectRef(targetName);
+
+		if (!target.isValid()) {
+			log("GhostHeadstoneSensor %s, invalid target %s.", getName(), targetName);
+		}
 	}
 }
 
@@ -402,8 +405,8 @@ void GhostHeadstoneSensor::checkActivate()
 
 void GhostHeadstoneSensor::onNPCContact(Agent* agent)
 {
-	if (auto fairy = dynamic_cast<GhostFairyNPC*>(agent)) {
-		fairies.insert(fairy);
+	if (agent->getClsName() == "GhostFairyNPC") {
+		fairies.insert(agent);
 	}
 
 	checkActivate();
@@ -411,8 +414,8 @@ void GhostHeadstoneSensor::onNPCContact(Agent* agent)
 
 void GhostHeadstoneSensor::onNPCEndContact(Agent* agent)
 {
-	if (auto fairy = dynamic_cast<GhostFairyNPC*>(agent)) {
-		fairies.erase(fairy);
+	if (agent->getClsName() == "GhostFairyNPC") {
+		fairies.erase(agent);
 	}
 }
 

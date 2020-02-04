@@ -16,6 +16,7 @@ struct bullet_properties;
 struct collectible_properties;
 class enemy_properties;
 struct firepattern_properties;
+class item_properties;
 class LightArea;
 class MagicEffectDescriptor;
 class npc_properties;
@@ -34,6 +35,7 @@ namespace app {
 	extern unordered_map<string, shared_ptr<enemy_properties>> enemies;
 	extern unordered_map<string, shared_ptr<firepattern_properties>> firePatterns;
 	extern unordered_map<string, floorsegment_properties> floors;
+	extern unordered_map<string, shared_ptr<item_properties>> items;
 	extern unordered_map<string, shared_ptr<LightArea>> lights;
 	extern unordered_map<string, shared_ptr<npc_properties>> npc;
 	extern unordered_map<string, shared_ptr<agent_properties>> players;
@@ -48,6 +50,7 @@ namespace app {
 	void loadEnemies();
 	void loadFirePatterns();
 	void loadFloors();
+	void loadItems();
 	void loadLights();
 	void loadNPCs();
 	void loadPlayers();
@@ -60,6 +63,7 @@ namespace app {
 	shared_ptr<MagicEffectDescriptor> getEffect(const string& name);
 	shared_ptr<enemy_properties> getEnemy(const string& name);
 	shared_ptr<firepattern_properties> getFirePattern(const string& name);
+	shared_ptr<item_properties> getItem(const string& name);
 	shared_ptr<LightArea> getLight(const string& name);
 	shared_ptr<agent_properties> getNPC(const string& name);
 	shared_ptr<agent_properties> getPlayer(const string& name);
@@ -134,6 +138,7 @@ namespace app {
 	bool parseObject(tinyxml2::XMLElement* elem, shared_ptr<bullet_properties> result);
 	bool parseObject(tinyxml2::XMLElement* elem, shared_ptr<bomb_properties> result);
 	bool parseObject(tinyxml2::XMLElement* elem, shared_ptr<MagicEffectDescriptor>* result);
+	bool parseObject(tinyxml2::XMLElement* elem, shared_ptr<item_properties> result);
 	bool parseObject(tinyxml2::XMLElement* elem, collectible_properties* result);
 
 	bool getAttributeAttr(tinyxml2::XMLElement* elem, const string& name, Attribute* result);
@@ -160,6 +165,30 @@ namespace app {
 			}
 		}
 		return false;
+	}
+
+	template<typename T>
+	bool copyBaseObjectShared(
+		tinyxml2::XMLElement * elem,
+		unordered_map<string, shared_ptr<T>> & _map,
+		shared_ptr<T> output
+	) {
+		string base;
+		if (getStringAttr(elem, "base", &base)) {
+			shared_ptr<T> _base = getOrDefault(_map, base);
+			if (_base) {
+				*output = *_base;
+				return true;
+				
+			}
+			else {
+				log("%s: unknown base %s type: %s", elem->Name(), typeid(T).name(), base);
+				
+			}
+			
+		}
+		return false;
+		
 	}
 
 	template<typename T>

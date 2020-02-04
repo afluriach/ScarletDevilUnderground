@@ -35,9 +35,9 @@
   </object>
  </objectgroup>
  <objectgroup name="objects">
-  <object id="83" type="Spellcard" x="1024" y="1024" width="128" height="128">
+  <object id="83" type="Item" x="1024" y="1024" width="128" height="128">
    <properties>
-    <property name="spell" value="Catadioptric"/>
+    <property name="item" value="Catadioptric"/>
    </properties>
   </object>
   <object id="84" type="Torch" x="128" y="128" width="128" height="128">

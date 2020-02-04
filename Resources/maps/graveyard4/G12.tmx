@@ -35,9 +35,9 @@
     <property name="dir" value="left"/>
    </properties>
   </object>
-  <object id="69" type="Spellcard" x="1024" y="1024" width="128" height="128">
+  <object id="69" type="Item" x="1024" y="1024" width="128" height="128">
    <properties>
-    <property name="spell" value="PlayerCounterClock"/>
+    <property name="item" value="PlayerCounterClock"/>
    </properties>
   </object>
  </objectgroup>

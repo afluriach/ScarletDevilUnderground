@@ -57,7 +57,7 @@ public:
 	static void initProfiles();
 
 	unordered_map<string, int> attributes;
-    unordered_set<string> itemRegistry;
+    unordered_map<string, unsigned int> itemRegistry;
 	unordered_set<string> dialogs;
 	CharacterUpgrade upgrades;
 	unordered_set<string> chambersAvailable;
@@ -74,7 +74,10 @@ public:
     }
 
 	void addItem(string name);
+	void addItem(string name, unsigned int count);
 	bool hasItem(string name);
+	bool removeItem(string name);
+	bool removeItem(string name, unsigned int count);
 	bool hasCompletedDialog(string name);
 
 	void registerChamberAvailable(string id);

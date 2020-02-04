@@ -191,8 +191,7 @@ xcopy "$(ProjectDir)..\Resources" "$(OutDir)" /D /E /I /F /Y</Command>
     <ClCompile Include="..\Classes\objects\FloorSegment.cpp" />
     <ClCompile Include="..\Classes\objects\Goal.cpp" />
     <ClCompile Include="..\Classes\objects\GObject.cpp" />
-    <ClCompile Include="..\Classes\objects\InventoryObject.cpp" />
-    <ClCompile Include="..\Classes\objects\Items.cpp" />
+    <ClCompile Include="..\Classes\objects\Item.cpp" />
     <ClCompile Include="..\Classes\objects\Launcher.cpp" />
     <ClCompile Include="..\Classes\objects\MapFragment.cpp" />
     <ClCompile Include="..\Classes\objects\NPC.cpp" />
@@ -297,8 +296,7 @@ xcopy "$(ProjectDir)..\Resources" "$(OutDir)" /D /E /I /F /Y</Command>
     <ClInclude Include="..\Classes\objects\FloorSegment.hpp" />
     <ClInclude Include="..\Classes\objects\Goal.hpp" />
     <ClInclude Include="..\Classes\objects\GObject.hpp" />
-    <ClInclude Include="..\Classes\objects\InventoryObject.hpp" />
-    <ClInclude Include="..\Classes\objects\Items.hpp" />
+    <ClInclude Include="..\Classes\objects\Item.hpp" />
     <ClInclude Include="..\Classes\objects\Launcher.hpp" />
     <ClInclude Include="..\Classes\objects\MapFragment.hpp" />
     <ClInclude Include="..\Classes\objects\NPC.hpp" />

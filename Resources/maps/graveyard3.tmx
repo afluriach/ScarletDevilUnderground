@@ -443,9 +443,9 @@
   </object>
  </objectgroup>
  <objectgroup name="dynamic_load">
-  <object id="335" name="starbowBreak" type="Spellcard" x="3200" y="1024" width="128" height="128">
+  <object id="335" name="starbowBreak" type="Item" x="3200" y="1024" width="128" height="128">
    <properties>
-    <property name="spell" value="StarbowBreak"/>
+    <property name="item" value="StarbowBreak"/>
    </properties>
   </object>
   <object id="336" name="shieldUpgrade" type="Upgrade" x="5376" y="5376" width="128" height="128">

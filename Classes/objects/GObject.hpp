@@ -168,6 +168,9 @@ public:
 	inline virtual void interact(Player* p) {} 
 	inline virtual string interactionIcon(Player* p) { return ""; }
 
+	//physics
+	inline virtual void onPlayerContact(Player* p) {}
+
 	//StateMachine
 	void updateFSM();
 	shared_ptr<ai::Thread> addThread(shared_ptr<ai::Function> threadMain);
@@ -307,8 +310,10 @@ public:
 	void initLightSource();
 	//If "id" is not provided, the object's defaut sprite, spriteID, will be
 	//used, assuming it is valid.
-	void addGraphicsAction(GraphicsAction action, SpriteID id = 0);
-	void stopGraphicsAction(cocos_action_tag tag, SpriteID id = 0);
+	void addGraphicsAction(GraphicsAction action);
+	void addGraphicsAction(GraphicsAction action, SpriteID id);
+	void stopGraphicsAction(cocos_action_tag tag);
+	void stopGraphicsAction(cocos_action_tag tag, SpriteID id);
 	void setSpriteZoom(float zoom);
 	void setSpriteOpacity(unsigned char op);
 

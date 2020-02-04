@@ -56,6 +56,7 @@ public:
 	void equipFirePatterns();
 	void equipSpells();
 	void equipPowerAttacks();
+	void equipItems();
 
     //setting for player object sensing
 	inline virtual SpaceFloat getRadarRadius() const { return grazeRadius; }

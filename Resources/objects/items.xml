@@ -1,0 +1,22 @@
+<items>
+    <ForestBook1
+        sprite="forestBook"
+        dialog="book_acquired"
+    />
+    <GraveyardBook1
+        sprite="graveyardBook"
+        dialog="book_acquired"
+    />
+    
+    <Spellcard
+        sprite="spellcard"
+        light="spellcard"
+		cls="auto"
+    />
+    
+    <Catadioptric base="Spellcard" />
+    <PlayerBatMode base="Spellcard" /> 
+    <PlayerCounterClock base="Spellcard" />
+    <starbowBreak base="Spellcard" /> 
+    
+</items>

@@ -336,6 +336,7 @@ void App::loadObjects()
 	app::loadCollectibles();
 	app::loadFirePatterns();
 	app::loadFloors();
+	app::loadItems();
 	app::loadEnemies();
 	app::loadNPCs();
 	app::loadPlayers();

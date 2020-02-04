@@ -25,7 +25,7 @@ bool Upgrade::conditionalLoad(GSpace* space, ObjectIDType id, const ValueMap& ar
 }
 
 Upgrade::Upgrade(GSpace* space, ObjectIDType id, const ValueMap& args) :
-	InventoryObject(MapParamsPointUp(), physics_params(GType::playerPickup, PhysicsLayers::ground, 0.75, -1.0, true)),
+	GObject(MapParamsPointUp(), physics_params(GType::playerPickup, PhysicsLayers::ground, 0.75, -1.0, true)),
 	attribute(AttributeSystem::getAttribute(getStringOrDefault(args, "attr", ""))),
 	upgrade_id(getIntOrDefault(args, "id", -1))
 {
@@ -43,6 +43,10 @@ string Upgrade::getSprite() const
 string Upgrade::itemName() const
 {
 	return "";
+}
+
+void Upgrade::onPlayerContact(Player* p) {
+	onAcquire(p);
 }
 
 void Upgrade::onAcquire(Player* player)

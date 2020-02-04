@@ -34,7 +34,7 @@ ObjectGeneratorType Collectible::create(GSpace* space, string id, SpaceVect pos)
 }
 
 Collectible::Collectible(GSpace* space, ObjectIDType id, SpaceVect pos, string collectibleID) :
-	InventoryObject(PosAngleParams(pos, float_pi * 0.5), physics_params(GType::playerPickup, onGroundLayers, SpaceVect(0.5,0.5), -1.0, true))
+	GObject(PosAngleParams(pos, float_pi * 0.5), physics_params(GType::playerPickup, onGroundLayers, SpaceVect(0.5,0.5), -1.0, true))
 {
 	collectible_properties props = app::getCollectible(collectibleID);
 
@@ -61,6 +61,12 @@ string Collectible::itemName() const {
 shared_ptr<MagicEffectDescriptor> Collectible::getEffect(GObject* target) const
 {
 	return effect;
+}
+
+void Collectible::onPlayerContact(Player* p)
+{
+	if (canAcquire(p))
+		onAcquire(p);
 }
 
 bool Collectible::canAcquire(Player* player) {

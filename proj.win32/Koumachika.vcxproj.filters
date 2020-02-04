@@ -78,12 +78,6 @@
     <ClCompile Include="..\Classes\objects\GObject.cpp">
       <Filter>src\objects</Filter>
     </ClCompile>
-    <ClCompile Include="..\Classes\objects\InventoryObject.cpp">
-      <Filter>src\objects</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Classes\objects\Items.cpp">
-      <Filter>src\objects</Filter>
-    </ClCompile>
     <ClCompile Include="..\Classes\objects\object_ref.cpp">
       <Filter>src\objects</Filter>
     </ClCompile>
@@ -348,6 +342,9 @@
     <ClCompile Include="..\Classes\lua\lua_scene.cpp">
       <Filter>src\lua</Filter>
     </ClCompile>
+    <ClCompile Include="..\Classes\objects\Item.cpp">
+      <Filter>src\objects</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="main.h">
@@ -405,12 +402,6 @@
       <Filter>src\objects</Filter>
     </ClInclude>
     <ClInclude Include="..\Classes\objects\GObject.hpp">
-      <Filter>src\objects</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Classes\objects\InventoryObject.hpp">
-      <Filter>src\objects</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Classes\objects\Items.hpp">
       <Filter>src\objects</Filter>
     </ClInclude>
     <ClInclude Include="..\Classes\objects\object_ref.hpp">
@@ -637,6 +628,9 @@
     </ClInclude>
     <ClInclude Include="..\Classes\spells\SpellSystem.hpp">
       <Filter>src\spells</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\objects\Item.hpp">
+      <Filter>src\objects</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

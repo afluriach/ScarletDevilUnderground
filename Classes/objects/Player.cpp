@@ -157,6 +157,12 @@ void Player::equipPowerAttacks()
 	);
 }
 
+void Player::equipItems()
+{
+	equipSpells();
+	equipFirePatterns();
+}
+
 SpaceVect Player::getInteractFeeler() const
 {
 	return SpaceVect::ray(interactDistance, getAngle());

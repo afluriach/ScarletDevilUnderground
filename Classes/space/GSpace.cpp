@@ -42,6 +42,7 @@ void GSpace::loadScriptVM()
 	scriptVM->runFile("scripts/ai-functions.lua");
 	scriptVM->runFile("scripts/ai-packages.lua");
 	scriptVM->runFile("scripts/magic-effects.lua");
+	scriptVM->runFile("scripts/items.lua");
 	scriptVM->runFile("scripts/npc.lua");
 	scriptVM->runFile("scripts/spells/marisa-spells.lua");
 	scriptVM->runFile("scripts/spells/player-spells.lua");
@@ -711,7 +712,7 @@ void GSpace::createDialog(string res, bool autoAdvance, zero_arity_function f)
 void GSpace::teleportPlayerToDoor(string doorName)
 {
 	Door* d = getObjectAs<Door>(doorName);
-	Player* p = getObjectAs<Player>("player");
+	Player* p = getPlayer();
 
 	if (d && p) {
 		p->moveToDestinationDoor(d);

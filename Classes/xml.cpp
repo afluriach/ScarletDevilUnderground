@@ -14,6 +14,7 @@
 #include "FileIO.hpp"
 #include "FirePatternImpl.hpp"
 #include "Graphics.h"
+#include "Item.hpp"
 #include "NPC.hpp"
 #include "PlayScene.hpp"
 
@@ -28,6 +29,7 @@ unordered_map<string, shared_ptr<MagicEffectDescriptor>> effects;
 unordered_map<string, shared_ptr<enemy_properties>> enemies;
 unordered_map<string, shared_ptr<firepattern_properties>> firePatterns;
 unordered_map<string, floorsegment_properties> floors;
+unordered_map<string, shared_ptr<item_properties>> items;
 unordered_map<string, shared_ptr<LightArea>> lights;
 unordered_map<string, shared_ptr<npc_properties>> npc;
 unordered_map<string, shared_ptr<agent_properties>> players;
@@ -54,6 +56,20 @@ GObject::AdapterType npcAdapter(shared_ptr<npc_properties> props)
 
 		if (Agent::conditionalLoad(space, attr, props)) {
 			return new NPC(space, id, attr, props);
+		}
+		else {
+			return nullptr;
+		}
+	};
+}
+
+GObject::AdapterType itemAdapter(shared_ptr<item_properties> props)
+{
+	return [props](GSpace* space, ObjectIDType id, const ValueMap& args) -> GObject* {
+		item_attributes attr = Item::parseAttributes(args);
+
+		if (Item::conditionalLoad(space, attr, props)) {
+			return new Item(space, id, attr, props);
 		}
 		else {
 			return nullptr;
@@ -108,6 +124,15 @@ void loadFirePatterns()
 void loadFloors()
 {
 	loadObjects<floorsegment_properties>("objects/floors.xml", app::floors);
+}
+
+void loadItems()
+{
+	loadObjectsShared<item_properties>("objects/items.xml", app::items);
+
+	for (auto entry : items) {
+		GObject::namedObjectTypes.insert_or_assign(entry.first, itemAdapter(entry.second));
+	}
 }
 
 void loadLights()
@@ -167,6 +192,11 @@ shared_ptr<enemy_properties> getEnemy(const string& name)
 shared_ptr<firepattern_properties> getFirePattern(const string& name)
 {
 	return getOrDefault(firePatterns, name);
+}
+
+shared_ptr<item_properties> getItem(const string& name)
+{
+	return getOrDefault(items, name);
 }
 
 shared_ptr<LightArea> getLight(const string& name)
@@ -758,6 +788,25 @@ bool parseObject(tinyxml2::XMLElement* elem, shared_ptr<bomb_properties> result)
 		return true;
 	}
 }
+
+bool parseObject(tinyxml2::XMLElement * elem, shared_ptr<item_properties> result)
+ {
+	copyBaseObjectShared(elem, items, result);	
+	
+	result->name = elem->Name();
+
+	getStringAttr(elem, "cls", &result->scriptName);
+	autoName(elem, result->scriptName);
+
+	getStringAttr(elem, "sprite", &result->sprite);
+	autoName(elem, result->sprite);
+
+	getSubObject(elem, "light", &result->light, app::lights, true);
+
+	getStringAttr(elem, "dialog", &result->onAcquireDialog);
+
+	return true;
+ }
 
 bool parseObject(tinyxml2::XMLElement* elem, collectible_properties* result)
 {

@@ -85,7 +85,15 @@ namespace Lua{
 		auto gstate = newType(GState);
 #define _cls GState
 
-		addFuncSame(gstate, addItem);
+		gstate["addItem"] = sol::overload(
+			static_cast<void(GState::*)(string)>(&GState::addItem),
+			static_cast<void(GState::*)(string, unsigned int)>(&GState::addItem)
+		);
+		gstate["removeItem"] = sol::overload(
+			static_cast<bool(GState::*)(string)>(&GState::removeItem),
+			static_cast<bool(GState::*)(string, unsigned int)>(&GState::removeItem)
+		);
+
 		addFuncSame(gstate, hasItem);
 		addFuncSame(gstate, _registerChamberCompleted);
 		addFuncSame(gstate, registerUpgrade);
