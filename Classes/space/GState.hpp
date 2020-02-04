@@ -59,6 +59,7 @@ public:
 	unordered_map<string, int> attributes;
     unordered_map<string, unsigned int> itemRegistry;
 	unordered_set<string> dialogs;
+	unordered_set<string> objectRemovals;
 	CharacterUpgrade upgrades;
 	unordered_set<string> chambersAvailable;
 	unordered_map<string, ChamberStats> chamberStats;
@@ -68,6 +69,8 @@ public:
     {
 		ar & attributes;
         ar & itemRegistry;
+		ar & dialogs;
+		ar & objectRemovals;
 		ar & upgrades;
 		ar & chambersAvailable;
 		ar & chamberStats;
@@ -76,9 +79,12 @@ public:
 	void addItem(string name);
 	void addItem(string name, unsigned int count);
 	bool hasItem(string name);
+	unsigned int getItemCount(string name);
 	bool removeItem(string name);
 	bool removeItem(string name, unsigned int count);
 	bool hasCompletedDialog(string name);
+	void addObjectRemoval(string areaName, string objectName);
+	bool isObjectRemoved(string areaName, string objectName);
 
 	void registerChamberAvailable(string id);
 	//Only used for testing

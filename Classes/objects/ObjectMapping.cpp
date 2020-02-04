@@ -119,7 +119,6 @@ void GObject::initObjectInfo()
 	entry_same(Launcher),
 	conditional_entry(MapFragment),
 	entry_same(MovingPlatform),
-	conditional_entry(Mushroom),
 	entry_same(Pitfall),
 	entry_same(PressurePlate),
 	entry_same(Sapling),

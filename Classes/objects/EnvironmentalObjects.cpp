@@ -103,24 +103,3 @@ Sapling::Sapling(GSpace* space, ObjectIDType id, const ValueMap& args) :
 	GObject(MapParamsPointUp(), physics_params(GType::environment, eyeLevelHeightLayers, args, -1.0))
 {
 }
-
-bool Mushroom::conditionalLoad(GSpace* space, ObjectIDType id, const ValueMap& args)
-{
-	int objectID = getIntOrDefault(args, "id", -1);
-	return objectID != -1 && !App::crntState->hasAttribute("mushroom" + boost::lexical_cast<string>(objectID));
-}
-
-Mushroom::Mushroom(GSpace* space, ObjectIDType id, const ValueMap& args) :
-	GObject(MapParamsPointUp(), physics_params(enum_bitwise_or(GType, environment, interactible), PhysicsLayers::ground, args, -1.0))
-{
-	objectID = getIntOrDefault(args, "id", -1);
-}
-
-void Mushroom::interact(Player* p)
-{
-	App::crntState->setAttribute("mushroom" + boost::lexical_cast<string>(objectID), 1);
-	App::crntState->incrementAttribute("mushroomCount");
-
-	space->removeObject(this);
-	space->addHudAction<string, int>(&HUD::setObjectiveCounter, "sprites/mushroom.png", App::crntState->getAttribute("mushroomCount"));
-}

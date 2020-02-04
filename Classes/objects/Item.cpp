@@ -29,7 +29,12 @@ item_attributes Item::parseAttributes(const ValueMap& args)
 
 bool Item::conditionalLoad(GSpace* space, const item_attributes& attr, shared_ptr<item_properties> props)
 {
-	return true;
+	if (attr.name.empty()) {
+		log("Un-named item!");
+		return true;
+	}
+
+	return !App::crntState->isObjectRemoved(space->getCrntChamber(), attr.name);
 }
 
 Item::Item(GSpace* space, ObjectIDType id, const item_attributes& attr, shared_ptr<item_properties> props) :
@@ -61,7 +66,8 @@ void Item::onPlayerContact(Player* p)
 		log("Empty item!");
 	}
 
-	runVoidScriptMethod<Player*>("onAcquire", p);
+	if(p->hasMethod("onAcquire"))
+		runVoidScriptMethod<Player*>("onAcquire", p);
 
 	if (!props->onAcquireDialog.empty()) {
 		space->createDialog("dialogs/" + props->onAcquireDialog, false);

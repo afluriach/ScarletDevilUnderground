@@ -72,6 +72,7 @@ GSpace::GSpace(GScene* gscene) :
 
 GSpace::~GSpace()
 {
+	isUnloading = true;
     //Process removal modified objByUUID.
     vector<GObject*> objs;
 
@@ -505,6 +506,10 @@ void GSpace::processRemoval(GObject* obj, bool _removeSprite)
 	magicEffectSystem->removeObjectEffects(obj);
 
 	obj->onRemove();
+
+	if (!isUnloading && obj->name.size() > 0 && crntChamber.size() > 0) {
+		App::crntState->addObjectRemoval(crntChamber, obj->name);
+	}
 
     objByName.erase(obj->name);
     objByUUID.erase(obj->uuid);

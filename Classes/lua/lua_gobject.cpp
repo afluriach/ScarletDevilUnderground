@@ -96,7 +96,11 @@ namespace Lua{
 			}
 		);
 
-		auto gobject = newType(GObject);
+		auto gobject = _state.new_usertype<GObject>(
+			"GObject",
+			"space", &GObject::getSpace
+		);
+
 		#define _cls GObject
 
 		gobject["addGraphicsAction"] = sol::overload(

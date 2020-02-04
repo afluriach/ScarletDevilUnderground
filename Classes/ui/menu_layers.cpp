@@ -13,6 +13,7 @@
 #include "FileIO.hpp"
 #include "FloorSegment.hpp"
 #include "Graphics.h"
+#include "Item.hpp"
 #include "menu_layers.h"
 #include "menu_scenes.h"
 #include "PlayScene.hpp"
@@ -340,6 +341,10 @@ PauseMenu::PauseMenu(bool overworld, Player* player) :
 	),
 	player(player)
 {
+	InventoryInfo* inventory = Node::ccCreate<InventoryInfo>();
+	inventory->setPosition(app::params.width * 0.25f, app::params.height * 0.5f);
+	addChild(inventory, 3);
+
 	if (player) {
 		PlayerInfo* info = Node::ccCreate<PlayerInfo>(player->getAttributeSystem());
 
@@ -660,6 +665,49 @@ const vector<pair<Attribute, string>> PlayerInfo::displayAttributes = {
 	{ Attribute::bulletSpeed, "Bullet Speed" },
 	{ Attribute::shieldLevel, "Shield" },
 };
+
+InventoryInfo::InventoryInfo()
+{
+}
+
+bool InventoryInfo::init()
+{
+	Node::init();
+
+	float scale = App::getScale();
+	int idx = 0;
+
+	for (auto const& entry : App::crntState->itemRegistry)
+	{
+		shared_ptr<item_properties> props = app::getItem(entry.first);
+		if (entry.second == 0 || !props) continue;
+
+		string text = props->name;
+		sprite_properties sprite = app::getSprite(props->sprite);
+
+		if (entry.second > 1) {
+			text += " (" + boost::lexical_cast<string>(entry.second) + ")";
+		}
+
+		Label* label = createTextLabel(text, 32 * scale);
+		label->setPosition(0.0f, -64.0f * idx * scale);
+		label->setAlignment(TextHAlignment::RIGHT);
+		addChild(label);
+
+		if (sprite.filename.size() > 0) {
+			Sprite* _icon = Sprite::create("sprites/" + sprite.filename + ".png");
+			if (_icon) {
+				_icon->setScale(0.25f * scale);
+				_icon->setPosition(-192.0f * scale, -64.0f * idx * scale);
+				addChild(_icon);
+			}
+		}
+
+		++idx;
+	}
+
+	return true;
+}
 
 PlayerInfo::PlayerInfo(const AttributeSystem* stats) :
 	stats(stats)

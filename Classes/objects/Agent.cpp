@@ -57,6 +57,10 @@ agent_attributes Agent::parseAttributes(const ValueMap& args)
 
 bool Agent::conditionalLoad(GSpace* space, const agent_attributes& attrs, shared_ptr<agent_properties> props)
 {
+	if (attrs.name.size() > 0 && App::crntState->isObjectRemoved(space->getCrntChamber(), attrs.name)) {
+		return false;
+	}
+
 	auto& cls = space->scriptVM->_state["objects"][props->typeName];
 
 	if (cls) {

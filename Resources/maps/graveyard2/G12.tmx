@@ -35,7 +35,7 @@
   </object>
  </objectgroup>
  <objectgroup name="objects">
-  <object id="83" type="Item" x="1024" y="1024" width="128" height="128">
+  <object id="83" name="catadioptricSpell" type="Item" x="1024" y="1024" width="128" height="128">
    <properties>
     <property name="item" value="Catadioptric"/>
    </properties>

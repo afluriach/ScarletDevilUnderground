@@ -217,6 +217,14 @@ protected:
 
 };
 
+class InventoryInfo : public Node
+{
+public:
+	InventoryInfo();
+
+	virtual bool init();
+};
+
 class PlayerInfo : public Node
 {
 public:

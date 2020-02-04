@@ -8,6 +8,10 @@
         dialog="book_acquired"
     />
     
+	<Mushroom
+		sprite="mushroom"
+	/>
+	
     <Spellcard
         sprite="spellcard"
         light="spellcard"

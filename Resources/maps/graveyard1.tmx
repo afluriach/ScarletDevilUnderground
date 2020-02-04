@@ -223,7 +223,7 @@
    </properties>
   </object>
   <object id="182" name="rumia" type="Rumia1" x="3200" y="1024" width="128" height="128"/>
-  <object id="244" type="Item" x="1280" y="1024" width="128" height="128">
+  <object id="244" name="batModeSpell" type="Item" x="1280" y="1024" width="128" height="128">
    <properties>
     <property name="item" value="PlayerBatMode"/>
    </properties>

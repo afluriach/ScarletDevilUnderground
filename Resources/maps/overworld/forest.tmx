@@ -86,39 +86,27 @@
   <object id="124" x="6272" y="2560" width="384" height="128"/>
  </objectgroup>
  <objectgroup name="objects">
-  <object id="52" type="Mushroom" x="320" y="3776" width="128" height="128">
-   <properties>
-    <property name="id" value="2"/>
-   </properties>
-  </object>
-  <object id="53" type="BlueFairyNPC" x="3072" y="3200" width="128" height="128">
+  <object id="52" name="mushroom3" type="Mushroom" x="320" y="3776" width="128" height="128"/>
+  <object id="53" name="blueFairy3" type="BlueFairyNPC" x="3072" y="3200" width="128" height="128">
    <properties>
     <property name="direction" value="left"/>
     <property name="level" value="3"/>
    </properties>
   </object>
-  <object id="55" type="Mushroom" x="7040" y="2176" width="128" height="128">
-   <properties>
-    <property name="id" value="1"/>
-   </properties>
-  </object>
-  <object id="56" type="BlueFairyNPC" x="4352" y="1024" width="128" height="128">
+  <object id="55" name="mushroom2" type="Mushroom" x="7040" y="2176" width="128" height="128"/>
+  <object id="56" name="blueFairy1" type="BlueFairyNPC" x="4352" y="1024" width="128" height="128">
    <properties>
     <property name="direction" value="down"/>
     <property name="level" value="1"/>
    </properties>
   </object>
-  <object id="57" type="MarisaNPC" x="4352" y="256" width="128" height="128">
+  <object id="57" name="marisa" type="MarisaNPC" x="4352" y="256" width="128" height="128">
    <properties>
     <property name="direction" value="down"/>
    </properties>
   </object>
-  <object id="58" type="Mushroom" x="3584" y="256" width="128" height="128">
-   <properties>
-    <property name="id" value="0"/>
-   </properties>
-  </object>
-  <object id="59" type="BlueFairyNPC" x="1536" y="896" width="128" height="128">
+  <object id="58" name="mushroom1" type="Mushroom" x="3584" y="256" width="128" height="128"/>
+  <object id="59" name="blueFairy2" type="BlueFairyNPC" x="1536" y="896" width="128" height="128">
    <properties>
     <property name="direction" value="down"/>
     <property name="level" value="2"/>
@@ -142,8 +130,8 @@
   </object>
   <object id="126" type="Upgrade" x="5120" y="512" width="128" height="128">
    <properties>
+    <property name="attr" value="maxMP"/>
     <property name="id" value="0"/>
-	<property name="attr" value="maxMP"/>
    </properties>
   </object>
  </objectgroup>

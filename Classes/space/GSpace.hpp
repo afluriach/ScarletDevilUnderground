@@ -357,6 +357,7 @@ protected:
 	bool suppressAction = false;
 	bool isMultiMap;
 	bool isInPhysicsStep = false;
+	bool isUnloading = false;
 
 //OBJECT MANIPULATION
 

@@ -35,7 +35,7 @@
     <property name="dir" value="left"/>
    </properties>
   </object>
-  <object id="69" type="Item" x="1024" y="1024" width="128" height="128">
+  <object id="69" name="counterClockSpell" type="Item" x="1024" y="1024" width="128" height="128">
    <properties>
     <property name="item" value="PlayerCounterClock"/>
    </properties>

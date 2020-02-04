@@ -63,7 +63,7 @@
     <property name="level" value="1"/>
    </properties>
   </object>
-  <object id="114" type="GraveyardBook1" x="2944" y="5888" width="128" height="128"/>
+  <object id="114" name="gb1" type="GraveyardBook1" x="2944" y="5888" width="128" height="128"/>
   <object id="115" name="headstone3" type="GhostHeadstone" x="960" y="2304" width="256" height="256"/>
   <object id="117" type="GhostFairyNPC" x="1280" y="1280" width="128" height="128">
    <properties>

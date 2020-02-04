@@ -61,9 +61,36 @@ bool GState::hasItem(string name)
 	return it != itemRegistry.end() && it->second != 0;
 }
 
+unsigned int GState::getItemCount(string name)
+{
+	auto it = itemRegistry.find(name);
+	return it != itemRegistry.end() ? it->second : 0;
+}
+
 bool GState::hasCompletedDialog(string name)
 {
 	return dialogs.find(name) != dialogs.end();
+}
+
+void GState::addObjectRemoval(string areaName, string objectName)
+{
+	if (areaName.size() > 0 && objectName.size() > 0) {
+		objectRemovals.insert(areaName + "." + objectName);
+	}
+	else {
+		log("addObjectRemoval: invalid parameters!");
+	}
+}
+
+bool GState::isObjectRemoved(string areaName, string objectName)
+{
+	if (areaName.size() > 0 && objectName.size() > 0) {
+		string key = areaName + "." + objectName;
+		return objectRemovals.find(key) != objectRemovals.end();
+	}
+	else {
+		log("isObjectRemoved: invalid parameters!");
+	}
 }
 
 void GState::registerChamberAvailable(string id)

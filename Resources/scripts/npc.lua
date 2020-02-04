@@ -1,20 +1,15 @@
 objects.BlueFairyNPC = class("BlueFairyNPC")
 
-function objects.BlueFairyNPC.conditionalLoad(space,attrs,props)
-	return attrs.level > App.getCrntState():getAttribute("BlueFairyLevel")
-end
-
 function objects.BlueFairyNPC:init(super)
 	self.super = super
 end
 
 function objects.BlueFairyNPC:correct_order(idx)
-	app.log("Level: " .. self.super:getLevel())
 	return idx == self.super:getLevel() and idx == App.getCrntState():getAttribute("BlueFairyLevel") + 1	
 end
 
 function objects.BlueFairyNPC:satisfy_condition()
-	return  App.getCrntState():getAttribute("mushroomCount") >= self.super:getLevel() and
+	return  App.getCrntState():getItemCount("Mushroom") >= self.super:getLevel() and
 	self.super:getLevel() == App.getCrntState():getAttribute("BlueFairyLevel") + 1
 end
 
@@ -35,7 +30,7 @@ function objects.BlueFairyNPC:satisfy_effect()
 	app.log("satisfy_effect" .. self.super:getName())
 
 	App.getCrntState():incrementAttribute("BlueFairyLevel")
-	App.getCrntState():subtractAttribute("mushroomCount", self.super:getLevel())
+	App.getCrntState():removeItem("Mushroom", self.super:getLevel())
 	
 	self.super:getSpace():removeObject(self.super:asGObject())
 end

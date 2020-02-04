@@ -95,6 +95,7 @@ namespace Lua{
 		);
 
 		addFuncSame(gstate, hasItem);
+		addFuncSame(gstate, getItemCount);
 		addFuncSame(gstate, _registerChamberCompleted);
 		addFuncSame(gstate, registerUpgrade);
 		addFuncSame(gstate, setUpgradeLevels);
