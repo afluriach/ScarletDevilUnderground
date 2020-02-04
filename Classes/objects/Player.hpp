@@ -101,7 +101,7 @@ public:
     
 	void useDoor(Door* interactTarget);
 	void moveToDestinationDoor(Door* dest);
-	void applyUpgrade(Upgrade* up);
+	void applyUpgrade(Attribute attr, float val);
 
 	void applyCombo(int b);
 

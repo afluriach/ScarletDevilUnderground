@@ -15,17 +15,6 @@ const float AttributeSystem::maxElementDamage = 100.0f;
 const float AttributeSystem::maxComboPoints = 75.0f;
 const float AttributeSystem::comboPointsDrainPerSecond = 15.0f;
 
-const unordered_map<Attribute, UpgradeInfo> AttributeSystem::upgradeAttributes = {
-	{Attribute::maxHP, UpgradeInfo{ 25.0f, "hp_upgrade"}},
-	{Attribute::maxMP, UpgradeInfo{ 25.0f, "mp_upgrade"}},
-	{Attribute::maxStamina, UpgradeInfo{ 25.0f, "stamina_upgrade"}},
-	{Attribute::agility, UpgradeInfo{ 1.0f, "agility_upgrade"}},
-	{Attribute::attack, UpgradeInfo{ 0.25f, "attack_upgrade"}},
-	{Attribute::attackSpeed, UpgradeInfo{ 0.25f, "attack_speed_upgrade"}},
-	{Attribute::shieldLevel, UpgradeInfo{ 1.0f, "shield_upgrade"}},
-	{Attribute::bulletSpeed, UpgradeInfo{ 0.5f, "bullet_speed_upgrade"}},
-};
-
 #define entry(x) (Attribute::x, #x)
 
 const boost::bimap<Attribute, string> AttributeSystem::attributeNameMap = boost::assign::list_of<boost::bimap<Attribute, string>::relation>()
@@ -107,7 +96,7 @@ AttributeArray AttributeSystem::getAttributeSet(const AttributeMap& input)
 {
 	AttributeArray result = getBlankAttributeSet();
 
-	for (map<Attribute, float>::const_iterator it = input.cbegin(); it != input.cend(); ++it)
+	for (unordered_map<Attribute, float>::const_iterator it = input.cbegin(); it != input.cend(); ++it)
 	{
 		result[to_size_t(it->first)] = it->second;
 	}

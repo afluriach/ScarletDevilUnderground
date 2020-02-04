@@ -430,7 +430,7 @@
   <object id="138" name="5" x="4352" y="4352" width="2176" height="2176">
    <properties>
     <property name="minCount3" value="1"/>
-    <property name="spawn_on_clear" value="shieldUpgrade"/>
+    <property name="spawn_on_clear" value="shield_upgrade"/>
     <property name="startState" value="MultiSpawnSequence"/>
     <property name="totalCount1" value="5"/>
     <property name="totalCount2" value="2"/>
@@ -448,11 +448,6 @@
     <property name="item" value="StarbowBreak"/>
    </properties>
   </object>
-  <object id="336" name="shieldUpgrade" type="Upgrade" x="5376" y="5376" width="128" height="128">
-   <properties>
-    <property name="id" value="1"/>
-	<property name="attr" value="shieldLevel"/>
-   </properties>
-  </object>
+  <object id="336" name="shield_upgrade" type="shield_upgrade" x="5376" y="5376" width="128" height="128"/>
  </objectgroup>
 </map>

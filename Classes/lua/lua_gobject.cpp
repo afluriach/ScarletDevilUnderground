@@ -138,6 +138,7 @@ namespace Lua{
 		addFuncSame(gobject, spawnBullet);
 		addFuncSame(gobject, getSpace);
 		addFuncSame(gobject, getName);
+		addFuncSame(gobject, getClsName);
 
 		gobject["launchBullet"] = sol::overload(
 			[](GObject* obj, shared_ptr<bullet_properties> props,SpaceVect displacement,SpaceFloat angle) -> gobject_ref {
@@ -186,8 +187,10 @@ namespace Lua{
 #define _cls NPC
 
 		auto player = _state.new_usertype<Player>("Player", sol::base_classes, sol::bases<GObject, Agent>());
+#define _cls Player
 
-		player["equipItems"] = &Player::equipItems;
+		addFuncSame(player, applyUpgrade);
+		addFuncSame(player, equipItems);
 
 		auto bullet = _state.new_usertype<Bullet>("Bullet", sol::base_classes, sol::bases<GObject>());
 		bullet["makeParams"] = sol::overload(

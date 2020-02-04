@@ -112,7 +112,7 @@
     <property name="level" value="2"/>
    </properties>
   </object>
-  <object id="60" name="clearing_path" type="Door" x="1408" y="4480" width="384" height="256">
+  <object id="61" name="clearing_path" type="Door" x="1408" y="4480" width="384" height="256">
    <properties>
     <property name="dest" value="forest_path"/>
     <property name="dest_map" value="clearing"/>
@@ -120,19 +120,6 @@
     <property name="path" value="true"/>
    </properties>
   </object>
-  <object id="61" name="forest_lake_path" type="Door" x="1536" y="512" width="128" height="128">
-   <properties>
-    <property name="dest" value="forest_path"/>
-    <property name="dest_map" value="forest_lake"/>
-    <property name="dir" value="down"/>
-    <property name="path" value="true"/>
-   </properties>
-  </object>
-  <object id="126" type="Upgrade" x="5120" y="512" width="128" height="128">
-   <properties>
-    <property name="attr" value="maxMP"/>
-    <property name="id" value="0"/>
-   </properties>
-  </object>
+  <object id="126" name="mp_upgrade" type="mp_upgrade" x="5120" y="512" width="128" height="128"/>
  </objectgroup>
 </map>

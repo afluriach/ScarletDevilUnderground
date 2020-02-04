@@ -27,7 +27,7 @@ enum class Attribute : int;
 
 enum class GraphicsLayer : int;
 
-typedef map<Attribute, float> AttributeMap;
+typedef unordered_map<Attribute, float> AttributeMap;
 
 typedef pair<float, float> float_pair;
 typedef pair<double, double> double_pair;

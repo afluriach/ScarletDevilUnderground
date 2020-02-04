@@ -118,20 +118,10 @@
     <property name="level" value="0"/>
    </properties>
   </object>
-  <object id="131" type="Upgrade" x="5376" y="1024" width="128" height="128">
-   <properties>
-    <property name="attr" value="attack"/>
-    <property name="id" value="1"/>
-   </properties>
-  </object>
+  <object id="131" name="attack_upgrade" type="attack_upgrade" x="5376" y="1024" width="128" height="128"/>
   <object id="132" name="headstone5" type="GhostHeadstone" x="2304" y="1792" width="256" height="256"/>
   <object id="133" name="headstone6" type="GhostHeadstone" x="3968" y="1792" width="256" height="256"/>
-  <object id="134" type="Upgrade" x="5376" y="5760" width="128" height="128">
-   <properties>
-    <property name="attr" value="maxHP"/>
-    <property name="id" value="2"/>
-   </properties>
-  </object>
+  <object id="134" name="hp_upgrade" type="hp_upgrade" x="5376" y="5760" width="128" height="128"/>
   <object id="135" type="GhostFairyNPC" x="5760" y="5504" width="128" height="128">
    <properties>
     <property name="level" value="2"/>
@@ -152,12 +142,7 @@
     <property name="level" value="3"/>
    </properties>
   </object>
-  <object id="139" type="Upgrade" x="1024" y="6016" width="128" height="128">
-   <properties>
-    <property name="attr" value="maxMP"/>
-    <property name="id" value="1"/>
-   </properties>
-  </object>
+  <object id="139" name="mp_upgrade" type="mp_upgrade" x="1024" y="6016" width="128" height="128"/>
   <object id="141" type="GhostFairyNPC" x="1024" y="3200" width="128" height="128">
    <properties>
     <property name="level" value="2"/>

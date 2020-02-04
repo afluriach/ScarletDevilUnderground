@@ -32,17 +32,6 @@ struct ChamberStats
 	}
 };
 
-struct CharacterUpgrade
-{
-	array<bitset<AttributeSystem::upgradeCount>, to_size_t(Attribute::end)> upgrades = {};
-
-	template<class Archive>
-	void serialize(Archive& ar, const unsigned int version)
-	{
-		ar & upgrades;
-	}
-};
-
 //All of the persistent state associated with a single profile.
 class GState
 {
@@ -60,9 +49,9 @@ public:
     unordered_map<string, unsigned int> itemRegistry;
 	unordered_set<string> dialogs;
 	unordered_set<string> objectRemovals;
-	CharacterUpgrade upgrades;
 	unordered_set<string> chambersAvailable;
 	unordered_map<string, ChamberStats> chamberStats;
+	unordered_map<Attribute, float> attributeUpgrades;
 
     template<class Archive>
     void serialize(Archive& ar, const unsigned int version)
@@ -71,9 +60,9 @@ public:
         ar & itemRegistry;
 		ar & dialogs;
 		ar & objectRemovals;
-		ar & upgrades;
 		ar & chambersAvailable;
 		ar & chamberStats;
+		ar & attributeUpgrades;
     }
 
 	void addItem(string name);
@@ -85,6 +74,7 @@ public:
 	bool hasCompletedDialog(string name);
 	void addObjectRemoval(string areaName, string objectName);
 	bool isObjectRemoved(string areaName, string objectName);
+	void applyAttributeUpgrade(Attribute attr, float val);
 
 	void registerChamberAvailable(string id);
 	//Only used for testing
@@ -97,11 +87,6 @@ public:
 	int getMapFragmentCount(string chamber);
 	void registerMapFragment(string chamber, int mapID);
 
-	void _registerUpgrade(unsigned int at, unsigned int id);
-	void registerUpgrade(Attribute at, unsigned int id);
-	bool isUpgradeAcquired(Attribute at, unsigned int id);
-	float getUpgradeLevel(Attribute at);
-	AttributeMap getUpgrades();
 	AttributeSystem getPlayerStats();
 
 	void checkInitAreaState(string name);
@@ -111,9 +96,6 @@ public:
 	bool hasAttribute(string name);
 	void incrementAttribute(string name);
 	void subtractAttribute(string name, int val);
-
-	//Apply all upgrades that are available at a certain point, for testing.
-	void setUpgradeLevels(int level);
 };
 
 #endif /* GState_hpp */

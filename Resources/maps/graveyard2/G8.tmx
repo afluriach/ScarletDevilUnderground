@@ -41,12 +41,7 @@
   </object>
  </objectgroup>
  <objectgroup name="objects">
-  <object id="82" type="Upgrade" x="1024" y="1024" width="128" height="128">
-   <properties>
-    <property name="id" value="1"/>
-	<property name="attr" value="agility"/>
-   </properties>
-  </object>
+  <object id="82" name="agility_upgrade" type="agility_upgrade" x="1024" y="1024" width="128" height="128"/>
   <object id="83" type="Torch" x="768" y="128" width="128" height="128">
    <properties>
     <property name="active" value="true"/>

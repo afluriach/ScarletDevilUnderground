@@ -61,11 +61,6 @@
     <property name="active" value="true"/>
    </properties>
   </object>
-  <object id="71" type="Upgrade" x="1024" y="1024" width="128" height="128">
-   <properties>
-    <property name="id" value="0"/>
-	<property name="attr" value="attackSpeed"/>
-   </properties>
-  </object>
+  <object id="71" name="attack_speed_upgrade" type="attack_speed_upgrade" x="1024" y="1024" width="128" height="128"/>
  </objectgroup>
 </map>

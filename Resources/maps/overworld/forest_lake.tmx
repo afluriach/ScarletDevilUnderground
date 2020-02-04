@@ -108,12 +108,7 @@
     <property name="path" value="true"/>
    </properties>
   </object>
-  <object id="104" type="Upgrade" x="5632" y="2688" width="128" height="128">
-   <properties>
-    <property name="attr" value="agility"/>
-    <property name="id" value="0"/>
-   </properties>
-  </object>
+  <object id="104" name="agility_upgrade" type="agility_upgrade" x="5632" y="2688" width="128" height="128"/>
  </objectgroup>
  <objectgroup name="paths">
   <object id="53" name="path1" x="2560" y="3200">

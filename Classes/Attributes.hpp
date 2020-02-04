@@ -128,7 +128,6 @@ public:
 
 	static constexpr size_t upgradeCount = 8;
 
-	static const unordered_map<Attribute, UpgradeInfo> upgradeAttributes;
 	static const boost::bimap<Attribute, string> attributeNameMap;
 
 	AttributeSystem();

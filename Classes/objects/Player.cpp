@@ -29,7 +29,6 @@
 #include "PlayScene.hpp"
 #include "SpellDescriptor.hpp"
 #include "SpellSystem.hpp"
-#include "Upgrade.hpp"
 
 const float Player::centerLookHoldThresh = 0.3f;
 const float Player::interactCooldownTime = 0.1f;
@@ -512,7 +511,7 @@ void Player::useKey()
 
 AttributeMap Player::getAttributeUpgrades() const
 {
-	return App::crntState->getUpgrades();
+	return App::crntState->attributeUpgrades;
 }
 
 void Player::onBulletCollide(Bullet* b, SpaceVect n)
@@ -582,13 +581,11 @@ void Player::moveToDestinationDoor(Door* dest)
 	respawnAngle = dirToPhysicsAngle(dest->getEntryDirection());
 }
 
-void Player::applyUpgrade(Upgrade* up)
+void Player::applyUpgrade(Attribute attr, float val)
 {
-	Attribute at = up->attribute;
-	float step = AttributeSystem::upgradeAttributes.at(at).step;
-	attributeSystem.modifyAttribute(at, step);
+	attributeSystem.modifyAttribute(attr, val);
 
-	if (at == Attribute::shieldLevel) {
+	if (attr == Attribute::shieldLevel) {
 		space->graphicsNodeAction(
 			&AgentBodyShader::setShieldLevel,
 			agentOverlay,
@@ -596,8 +593,7 @@ void Player::applyUpgrade(Upgrade* up)
 		);
 	}
 
-	App::crntState->registerUpgrade(at, up->upgrade_id);
-	space->removeObject(up);
+	App::crntState->applyAttributeUpgrade(attr, val);
 }
 
 void Player::onGrazeTouch(Bullet* bullet)

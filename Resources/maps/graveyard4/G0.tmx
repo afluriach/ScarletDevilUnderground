@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <map version="1.0" tiledversion="1.0.3" orientation="orthogonal" renderorder="right-down" width="17" height="17" tilewidth="128" tileheight="128" nextobjectid="81">
  <properties>
-  <property name="spawn_on_clear" value="key0 bsUpgrade"/>
+  <property name="spawn_on_clear" value="key0 bullet_speed_upgrade"/>
  </properties>
  <tileset firstgid="1" name="wall" tilewidth="128" tileheight="128" tilecount="4" columns="2">
   <image source="../fence.png" width="256" height="256"/>
@@ -61,11 +61,6 @@
  </objectgroup>
  <objectgroup name="dynamic_load">
   <object id="75" name="key0" type="Key" x="1024" y="1024" width="128" height="128"/>
-  <object id="80" name="bsUpgrade" type="Upgrade" x="1024" y="384" width="128" height="128">
-   <properties>
-    <property name="id" value="1"/>
-	<property name="attr" value="bulletSpeed"/>
-   </properties>
-  </object>
+  <object id="80" name="bullet_speed_upgrade" type="bullet_speed_upgrade" x="1024" y="384" width="128" height="128"/>
  </objectgroup>
 </map>

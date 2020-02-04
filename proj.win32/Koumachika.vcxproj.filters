@@ -159,9 +159,6 @@
     <ClCompile Include="..\Classes\FileIO.cpp">
       <Filter>src</Filter>
     </ClCompile>
-    <ClCompile Include="..\Classes\objects\Upgrade.cpp">
-      <Filter>src\objects</Filter>
-    </ClCompile>
     <ClCompile Include="..\Classes\objects\Door.cpp">
       <Filter>src\objects</Filter>
     </ClCompile>
@@ -472,9 +469,6 @@
     </ClInclude>
     <ClInclude Include="..\Classes\FileIO.hpp">
       <Filter>src</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Classes\objects\Upgrade.hpp">
-      <Filter>src\objects</Filter>
     </ClInclude>
     <ClInclude Include="..\Classes\objects\Door.hpp">
       <Filter>src\objects</Filter>

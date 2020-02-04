@@ -63,11 +63,6 @@
     <property name="direction" value="up"/>
    </properties>
   </object>
-  <object id="47" type="Upgrade" x="1024" y="1024" width="128" height="128">
-   <properties>
-    <property name="id" value="0"/>
-	<property name="attr" value="agility"/>
-   </properties>
-  </object>
+  <object id="47" name="agility_upgrade" type="agility_upgrade" x="1024" y="1024" width="128" height="128"/>
  </objectgroup>
 </map>

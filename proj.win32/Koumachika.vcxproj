@@ -203,7 +203,6 @@ xcopy "$(ProjectDir)..\Resources" "$(OutDir)" /D /E /I /F /Y</Command>
     <ClCompile Include="..\Classes\objects\Spawner.cpp" />
     <ClCompile Include="..\Classes\objects\TeleportPad.cpp" />
     <ClCompile Include="..\Classes\objects\Torch.cpp" />
-    <ClCompile Include="..\Classes\objects\Upgrade.cpp" />
     <ClCompile Include="..\Classes\objects\Wall.cpp" />
     <ClCompile Include="..\Classes\Prefix.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Create</PrecompiledHeader>
@@ -307,7 +306,6 @@ xcopy "$(ProjectDir)..\Resources" "$(OutDir)" /D /E /I /F /Y</Command>
     <ClInclude Include="..\Classes\objects\Spawner.hpp" />
     <ClInclude Include="..\Classes\objects\TeleportPad.hpp" />
     <ClInclude Include="..\Classes\objects\Torch.hpp" />
-    <ClInclude Include="..\Classes\objects\Upgrade.hpp" />
     <ClInclude Include="..\Classes\objects\Wall.hpp" />
     <ClInclude Include="..\Classes\Prefix.h" />
     <ClInclude Include="..\Classes\Resources.hpp" />

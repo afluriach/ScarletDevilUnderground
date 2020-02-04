@@ -18,7 +18,6 @@
 #include "PhysicsImpl.hpp"
 #include "Player.hpp"
 #include "RadarSensor.hpp"
-#include "Upgrade.hpp"
 #include "Wall.hpp"
 
 void sensorStart(RadarSensor* radar, GObject* target, b2Contact* arb);

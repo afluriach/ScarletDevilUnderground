@@ -29,7 +29,6 @@
 #include "Spawner.hpp"
 #include "TeleportPad.hpp"
 #include "Torch.hpp"
-#include "Upgrade.hpp"
 #include "value_map.hpp"
 #include "Wall.hpp"
 #include "xml.hpp"
@@ -49,6 +48,10 @@ GObject::AdapterType itemAdapter()
 		item_attributes attr = Item::parseAttributes(args);
 		string typeName = getStringOrDefault(args, "item", "");
 		auto itemProps = app::getItem(typeName);
+
+		if (!itemProps) {
+			log("Unknown Item type: %s", typeName);
+		}
 
 		if (!itemProps || !Item::conditionalLoad(space, attr, itemProps))
 			return nullptr;
@@ -127,7 +130,6 @@ void GObject::initObjectInfo()
 	entry_same(SunArea),
 	entry_same(TeleportPad),
 	entry_same(Torch),
-	conditional_entry(Upgrade),
 	entry_same(Wall),
 	entry_same(WaterFloor),
 

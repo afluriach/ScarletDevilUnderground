@@ -127,12 +127,7 @@
     <property name="direction" value="down"/>
    </properties>
   </object>
-  <object id="124" type="Upgrade" x="2688" y="3968" width="128" height="128">
-   <properties>
-    <property name="id" value="0"/>
-	<property name="attr" value="attack"/>
-   </properties>
-  </object>
+  <object id="124" name="attack_upgrade" type="attack_upgrade" x="2688" y="3968" width="128" height="128"/>
  </objectgroup>
  <objectgroup name="subrooms">
   <object id="109" x="0" y="896" width="1280" height="1664"/>

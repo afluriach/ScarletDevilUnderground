@@ -45,12 +45,7 @@
     <property name="door_type" value="one_way_source"/>
    </properties>
   </object>
-  <object id="70" type="Upgrade" x="4736" y="1024" width="128" height="128">
-   <properties>
-    <property name="id" value="1"/>
-	<property name="attr" value="shieldLevel"/>
-   </properties>
-  </object>
+  <object id="70" name="shield_upgrade" type="shield_upgrade" x="4736" y="1024" width="128" height="128"/>
  </objectgroup>
  <objectgroup name="waypoints"/>
 </map>

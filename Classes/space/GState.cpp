@@ -90,7 +90,15 @@ bool GState::isObjectRemoved(string areaName, string objectName)
 	}
 	else {
 		log("isObjectRemoved: invalid parameters!");
+		return false;
 	}
+}
+
+void GState::applyAttributeUpgrade(Attribute attr, float val)
+{
+	emplaceIfEmpty(attributeUpgrades, attr, 0.0f);
+
+	attributeUpgrades.at(attr) += val;
 }
 
 void GState::registerChamberAvailable(string id)
@@ -158,46 +166,10 @@ void GState::registerMapFragment(string chamber, int mapID)
 	}
 }
 
-void GState::_registerUpgrade(unsigned int at, unsigned int id)
-{
-	registerUpgrade(static_cast<Attribute>(at), id);
-}
-
-void GState::registerUpgrade(Attribute at, unsigned int id)
-{
-	upgrades.upgrades.at(to_size_t(at)) |= make_bitfield<AttributeSystem::upgradeCount>(id);
-}
-
-bool GState::isUpgradeAcquired(Attribute at, unsigned int id)
-{
-	if (id >= upgrades.upgrades.size()) {
-		log("Invalid upgrade id %s, attribute %d", to_int(id), to_int(at));
-		return false;
-	}
-	return upgrades.upgrades.at(to_size_t(at))[id];
-}
-
-float GState::getUpgradeLevel(Attribute at)
-{
-	return upgrades.upgrades.at(to_size_t(at)).count();
-}
-
-AttributeMap GState::getUpgrades()
-{
-	AttributeMap result;
-
-	for (pair<Attribute, UpgradeInfo> entry : AttributeSystem::upgradeAttributes)
-	{
-		result.insert_or_assign(entry.first, entry.second.step * getUpgradeLevel(entry.first));
-	}
-
-	return result;
-}
-
 AttributeSystem GState::getPlayerStats()
 {
 	AttributeSystem result(app::getAttributes(App::crntPC->attributes));
-	result.apply(getUpgrades());
+	result.apply(attributeUpgrades);
 	return result;
 }
 
@@ -233,50 +205,5 @@ void GState::subtractAttribute(string name, int val)
 
 	if (it != attributes.end()) {
 		it->second -= val;
-	}
-}
-
-void GState::setUpgradeLevels(int level)
-{
-	if (level >= 0)
-	{
-		registerUpgrade(Attribute::maxHP, 0);
-		registerUpgrade(Attribute::shieldLevel, 0);
-	}
-
-	if (level >= 1)
-	{
-		registerUpgrade(Attribute::maxHP, 2);
-		registerUpgrade(Attribute::maxStamina, 0);
-
-		addItem("PlayerBatMode");
-	}
-
-	if (level >= 2)
-	{
-		registerUpgrade(Attribute::maxMP, 1);
-		registerUpgrade(Attribute::agility, 1);
-		registerUpgrade(Attribute::bulletSpeed, 0);
-
-		registerUpgrade(Attribute::attackSpeed, 1);
-		registerUpgrade(Attribute::stamina, 1);
-
-		addItem("ScarletDagger");
-		addItem("Catadioptric");
-	}
-
-	if (level >= 3)
-	{
-		registerUpgrade(Attribute::shieldLevel, 1);
-
-		addItem("StarbowBreak");
-	}
-
-	if (level >= 4)
-	{
-		registerUpgrade(Attribute::attackSpeed, 0);
-		registerUpgrade(Attribute::bulletSpeed, 1);
-
-		addItem("PlayerCounterClock");
 	}
 }

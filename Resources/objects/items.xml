@@ -23,4 +23,19 @@
     <PlayerCounterClock base="Spellcard" />
     <starbowBreak base="Spellcard" /> 
     
+	<Upgrade
+		cls="auto"
+		radius="0.75"
+		addToInventory="false"
+	/>
+	
+	<hp_upgrade base="Upgrade" sprite="auto" />
+	<mp_upgrade base="Upgrade" sprite="auto" />
+	<stamina_upgrade base="Upgrade" sprite="auto" />
+	<agility_upgrade base="Upgrade" sprite="auto" />
+	<attack_upgrade base="Upgrade" sprite="auto" />
+	<attack_speed_upgrade base="Upgrade" sprite="auto" />
+	<shield_upgrade base="Upgrade" sprite="auto" />
+	<bullet_speed_upgrade base="Upgrade" sprite="auto" />
+
 </items>

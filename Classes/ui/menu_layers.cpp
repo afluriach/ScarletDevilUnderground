@@ -653,17 +653,17 @@ void MapMenu::drawObject(SpaceRect rect, Color4F color, Color4F highlightColor, 
 }
 
 const vector<PlayerInfo::IncidentAttrEntry> PlayerInfo::displayIncidentAttributes = {
-	{ Attribute::hp, Attribute::maxHP, "HP" },
-	{ Attribute::mp, Attribute::maxMP, "MP" },
-	{ Attribute::stamina, Attribute::maxStamina, "Stamina" },
+	{ Attribute::hp, Attribute::maxHP, "HP", "hp_upgrade" },
+	{ Attribute::mp, Attribute::maxMP, "MP", "mp_upgrade" },
+	{ Attribute::stamina, Attribute::maxStamina, "Stamina", "stamina_upgrade" },
 };
 
-const vector<pair<Attribute, string>> PlayerInfo::displayAttributes = {
-	{ Attribute::agility, "Agility" },
-	{ Attribute::attack, "Attack Damage" },
-	{ Attribute::attackSpeed, "Attack Speed" },
-	{ Attribute::bulletSpeed, "Bullet Speed" },
-	{ Attribute::shieldLevel, "Shield" },
+const vector<PlayerInfo::AttrEntry> PlayerInfo::displayAttributes = {
+	{ Attribute::agility, "Agility", "agility_upgrade" },
+	{ Attribute::attack, "Attack Damage", "attack_upgrade" },
+	{ Attribute::attackSpeed, "Attack Speed", "attack_speed_upgrade" },
+	{ Attribute::bulletSpeed, "Bullet Speed", "bullet_speed_upgrade" },
+	{ Attribute::shieldLevel, "Shield", "shield_upgrade" },
 };
 
 InventoryInfo::InventoryInfo()
@@ -727,7 +727,7 @@ bool PlayerInfo::init()
 		auto entry = displayIncidentAttributes.at(i);
 		float attr = (*stats)[get<0>(entry)];
 		float maxAttr = (*stats)[get<1>(entry)];
-		string icon = AttributeSystem::upgradeAttributes.at(get<1>(entry)).sprite;
+		string icon = get<3>(entry);
 		string text = boost::str(boost::format("%s: %s / %s") %
 			get<2>(entry) %
 			floatToStringOptionalDecimal(attr) %
@@ -741,10 +741,10 @@ bool PlayerInfo::init()
 	for_irange(i, 0, displayAttributes.size())
 	{
 		auto entry = displayAttributes.at(i);
-		string icon = AttributeSystem::upgradeAttributes.at(entry.first).sprite;
+		string icon = get<2>(entry);
 		string text = boost::str(boost::format("%s: %s") %
-			entry.second.c_str() %
-			boost::lexical_cast<string>((*stats)[entry.first])
+			get<1>(entry) %
+			boost::lexical_cast<string>((*stats)[ get<0>(entry)])
 		);
 
 		addEntry(icon, text, i + displayIncidentAttributes.size());

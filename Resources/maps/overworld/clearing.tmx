@@ -144,11 +144,6 @@
     <property name="direction" value="down"/>
    </properties>
   </object>
-  <object id="61" type="Upgrade" x="5632" y="384" width="128" height="128">
-   <properties>
-    <property name="attr" value="shieldLevel"/>
-    <property name="id" value="0"/>
-   </properties>
-  </object>
+  <object id="61" name="shield_upgrade" type="shield_upgrade" x="5632" y="384" width="128" height="128"/>
  </objectgroup>
 </map>

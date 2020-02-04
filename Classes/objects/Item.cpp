@@ -49,6 +49,10 @@ Item::Item(GSpace* space, ObjectIDType id, const item_attributes& attr, shared_p
 	if (cls) {
 		scriptObj = cls(this);
 	}
+
+	if (props->name.empty()) {
+		log("Empty item!");
+	}
 }
 
 void Item::init()
@@ -58,15 +62,12 @@ void Item::init()
 }
 
 void Item::onPlayerContact(Player* p)
-{	
-	if (!props->name.empty()) {
+{
+	if (!props->name.empty() && props->addToInventory) {
 		App::crntState->addItem(props->name);
 	}
-	else {
-		log("Empty item!");
-	}
 
-	if(p->hasMethod("onAcquire"))
+	if(hasMethod("onAcquire"))
 		runVoidScriptMethod<Player*>("onAcquire", p);
 
 	if (!props->onAcquireDialog.empty()) {

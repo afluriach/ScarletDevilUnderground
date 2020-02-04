@@ -228,10 +228,11 @@ public:
 class PlayerInfo : public Node
 {
 public:
-	typedef tuple<Attribute, Attribute, string> IncidentAttrEntry;
+	typedef tuple<Attribute, Attribute, string, string> IncidentAttrEntry;
+	typedef tuple<Attribute, string, string> AttrEntry;
 
 	static const vector<IncidentAttrEntry> displayIncidentAttributes;
-	static const vector<pair<Attribute, string>> displayAttributes;
+	static const vector<AttrEntry> displayAttributes;
 
 	PlayerInfo(const AttributeSystem* stats);
 	inline virtual ~PlayerInfo() {}

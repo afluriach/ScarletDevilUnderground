@@ -805,6 +805,8 @@ bool parseObject(tinyxml2::XMLElement * elem, shared_ptr<item_properties> result
 
 	getStringAttr(elem, "dialog", &result->onAcquireDialog);
 
+	getNumericAttr(elem, "addToInventory", &result->addToInventory);
+
 	return true;
  }
 

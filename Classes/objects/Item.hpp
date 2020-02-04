@@ -23,6 +23,8 @@ public:
 	string scriptName;
 	string sprite;
 	string onAcquireDialog;
+
+	bool addToInventory = true;
 };
 
 struct item_attributes
