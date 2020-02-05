@@ -9,12 +9,10 @@
 #ifndef Bomb_hpp
 #define Bomb_hpp
 
-struct bomb_properties
+struct bomb_properties : public object_properties
 {
-	string sprite;
 	string explosionSound;
 
-	float friction = 1.0f / 16.0f;
 	float blastRadius;
 	float fuseTime;
 	float cost;

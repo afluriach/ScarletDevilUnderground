@@ -65,18 +65,29 @@ public:
 	bool sensor;
 };
 
+class object_properties
+{
+public:
+	string sprite;
+	boost::shared_ptr<LightArea> light;
+
+	string properName;
+	string clsName;
+
+	SpaceVect dimensions;
+	SpaceFloat mass;
+	SpaceFloat friction;
+};
+
 #define MapRectPhys(type, layers, m) physics_params(type, layers, args, m)
 #define MapRectPhysSensor(type, layers, m) physics_params(type, layers, args, m, true)
 
-struct bullet_properties
+class bullet_properties : public object_properties
 {
+public:
 	SpaceFloat speed;
-	SpaceVect dimensions;
 
 	DamageInfo damage;
-
-	string sprite;
-	string lightSource;
 
 	int hitCount = 1;
 	int ricochetCount = 0;

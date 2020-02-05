@@ -4,14 +4,14 @@
 		radius="0.5"
 		damage="3.0"
 		sprite="catadioptricBullet1"
-		lightSource="catadioptric1"
+		light="catadioptric1"
 	/>
 	<catadioptricBullet2
 		speed="4.5"
 		radius="0.25"
 		damage="1.5"
 		sprite="catadioptricBullet2"
-		lightSource="catadioptric2"
+		light="catadioptric2"
 		ricochet="1"
 	/>
 	<catadioptricBullet3
@@ -19,7 +19,7 @@
 		radius="0.125"
 		damage="0.5"
 		sprite="catadioptricBullet3"
-		lightSource="catadioptric3"
+		light="catadioptric3"
 		ricochet="2"
 	/>
 	<cirnoIceShieldBullet
@@ -53,7 +53,7 @@
 		radius="0.15"
 		damage="1.0"
 		sprite="flandreOrb"
-		lightSource="flandreFastOrb"
+		light="flandreFastOrb"
 	/>
 	<flandreBigOrb1
 		speed="4.5"
@@ -77,7 +77,7 @@
 		radius="0.15"
 		damage="2.0"
 		sprite="flandreOrb"
-		lightSource="flandrePolarOrb"
+		light="flandrePolarOrb"
 		hitCount="-1"
 		directionalLaunch="false"
 	/>
@@ -86,7 +86,7 @@
 		radius="0.15"
 		damage="1.0"
 		sprite="flandreOrb"
-		lightSource="polarMotionOrb"
+		light="polarMotionOrb"
 	/>
 	<lavaeteinn
 		speed="0.0"
@@ -110,7 +110,7 @@
 		damage="5.0"
 		dimensions="0.8,0.175"
 		sprite="scarletDagger"
-		lightSource="scarletDagger"
+		light="scarletDagger"
 		directionalLaunch="true"
 	/>
 	<starbowBullet
@@ -257,7 +257,7 @@
 		radius="0.3"
 		damage="5.0"
 		sprite="waterBullet"
-		lightSource="waterBullet"
+		light="waterBullet"
 		directionalLaunch="true"
 	/>
 	<waterBullet1
@@ -276,7 +276,7 @@
 		radius="0.5"
 		damage="10.0"
 		sprite="yinYangOrb"
-		lightSource="yinYangOrb"
+		light="yinYangOrb"
 		hitCount="-1"
 		ricochet="-1"
 	/>

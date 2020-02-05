@@ -61,7 +61,7 @@ bool Agent::conditionalLoad(GSpace* space, const agent_attributes& attrs, local_
 		return false;
 	}
 
-	auto& cls = space->scriptVM->_state["objects"][props->typeName];
+	auto& cls = space->scriptVM->_state["objects"][props->clsName];
 
 	if (cls) {
 		sol::function f = cls["conditionalLoad"];
@@ -87,7 +87,7 @@ Agent::Agent(
 		physics_params(
 			type,
 			props->isFlying ? flyingLayers : onGroundLayers,
-			props->radius,
+			props->dimensions,
 			props->mass
 		)
 	),
@@ -127,7 +127,7 @@ string Agent::getSprite() const
 
 boost::shared_ptr<LightArea> Agent::getLightSource() const
 {
-	return props->lightSource;
+	return props->light;
 }
 
 bool Agent::hasEssenceRadar() const {

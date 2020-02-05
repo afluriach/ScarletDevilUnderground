@@ -1,20 +1,24 @@
 <items>
     <ForestBook1
+		name="Forest Book"
         sprite="forestBook"
         dialog="book_acquired"
     />
     <GraveyardBook1
+		name="Graveyard Book"
         sprite="graveyardBook"
         dialog="book_acquired"
     />
     
 	<MapFragment
 		cls="auto"
-		properName="Map Fragment"
+		name="Map Fragment"
 		sprite="mapFragment"
+		addToInventory="false"
 	/>
 
 	<Mushroom
+		name="Forest Mushroom"
 		sprite="mushroom"
 	/>
 	
@@ -24,10 +28,10 @@
 		cls="auto"
     />
     
-    <Catadioptric base="Spellcard" />
-    <PlayerBatMode base="Spellcard" /> 
-    <PlayerCounterClock base="Spellcard" />
-    <starbowBreak base="Spellcard" /> 
+    <Catadioptric base="Spellcard" name="Catadioptric"/>
+    <PlayerBatMode base="Spellcard" name="Bat Mode" /> 
+    <PlayerCounterClock base="Spellcard" name="Counter Cloock" />
+    <starbowBreak base="Spellcard" name="Starbow Break" /> 
     
 	<Upgrade
 		cls="auto"

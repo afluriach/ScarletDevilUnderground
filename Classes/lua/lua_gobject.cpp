@@ -43,8 +43,12 @@ namespace Lua{
 			>()
 		);
 
+#define _cls object_properties
+		auto object_props = _state.new_usertype<object_properties>("object_properties");
+
 		auto agent_props = _state.new_usertype<agent_properties>(
-			"agent_properties"
+			"agent_properties",
+			sol::base_classes, sol::bases<object_properties>()
 		);
 
 		auto agent_attrs = _state.new_usertype<agent_attributes>(
@@ -55,14 +59,14 @@ namespace Lua{
 		);
 
 #define _cls bullet_properties
-		auto bullet_props = _state.new_usertype<bullet_properties>("bullet_properties");
+		auto bullet_props = _state.new_usertype<bullet_properties>(
+			"bullet_properties",
+			sol::base_classes, sol::bases<object_properties>()
+		);
+
 		addFuncSame(bullet_props, speed);
-		addFuncSame(bullet_props, dimensions);
 
 		addFuncSame(bullet_props, damage);
-
-		addFuncSame(bullet_props, sprite);
-		addFuncSame(bullet_props, lightSource);
 
 		addFuncSame(bullet_props, hitCount);
 		addFuncSame(bullet_props, ricochetCount);

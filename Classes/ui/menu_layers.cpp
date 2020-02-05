@@ -682,7 +682,7 @@ bool InventoryInfo::init()
 		boost::local_shared_ptr<item_properties> props = app::getItem(entry.first);
 		if (entry.second == 0 || !props) continue;
 
-		string text = props->name;
+		string text = props->properName;
 		sprite_properties sprite = app::getSprite(props->sprite);
 
 		if (entry.second > 1) {

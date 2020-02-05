@@ -13,8 +13,7 @@
 #include "Player.hpp"
 #include "value_map.hpp"
 
-item_properties::item_properties() :
-	dimensions(0.5, 0.0)
+item_properties::item_properties()
 {}
 
 item_attributes Item::parseAttributes(const ValueMap& args)
@@ -49,10 +48,6 @@ Item::Item(GSpace* space, ObjectIDType id, const item_attributes& attr, local_sh
 	if (cls) {
 		scriptObj = cls(this);
 	}
-
-	if (props->name.empty()) {
-		log("Empty item!");
-	}
 }
 
 void Item::init()
@@ -63,8 +58,8 @@ void Item::init()
 
 void Item::onPlayerContact(Player* p)
 {
-	if (!props->name.empty() && props->addToInventory) {
-		App::crntState->addItem(props->name);
+	if (!props->clsName.empty() && props->addToInventory) {
+		App::crntState->addItem(props->clsName);
 	}
 
 	if(hasMethod("onAcquire"))

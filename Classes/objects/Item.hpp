@@ -11,17 +11,12 @@
 
 class LightArea;
 
-class item_properties
+class item_properties : public object_properties
 {
 public:
 	item_properties();
 
-	boost::shared_ptr<LightArea> light;
-	SpaceVect dimensions;
-
-	string name;
 	string scriptName;
-	string sprite;
 	string onAcquireDialog;
 
 	bool addToInventory = true;
@@ -42,7 +37,7 @@ public:
 
 	Item(GSpace* space, ObjectIDType id, const item_attributes& attr, local_shared_ptr<item_properties> props);
 
-	inline virtual string getClsName() const { return props->name; }
+	inline virtual string getClsName() const { return props->clsName; }
 
 	virtual void init();
 

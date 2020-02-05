@@ -15,23 +15,16 @@ class FirePattern;
 class RadarSensor;
 struct spell_cost;
 
-class agent_properties
+class agent_properties : public object_properties
 {
 public:
 	inline agent_properties() {}
 	virtual inline ~agent_properties() {}
 
-	string name;
-	string typeName;
-	string sprite;
 	string attributes;
 	string ai_package;
 	string effects;
 
-	boost::shared_ptr<LightArea> lightSource;
-
-	SpaceFloat radius = 0.0;
-	SpaceFloat mass = 0.0;
 	SpaceFloat viewRange = 0.0;
 	SpaceFloat viewAngle = 0.0;
 
@@ -52,7 +45,6 @@ struct agent_attributes
 
 	SpaceVect pos;
 	SpaceFloat angle = 0.0;
-	PhysicsLayers layers;
 
 	int level = 0;
 };
@@ -84,8 +76,8 @@ public:
 	virtual void init();
 	virtual void update();
 
-	inline virtual string getProperName() const { return props->name; }
-	inline virtual string getClsName() const { return props->typeName; }
+	inline virtual string getProperName() const { return props->properName; }
+	inline virtual string getClsName() const { return props->clsName; }
 
 	inline int getLevel() const { return level; }
 

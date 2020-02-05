@@ -471,25 +471,39 @@ bool parseObject(tinyxml2::XMLElement* elem, AttributeMap* result)
 	return true;
 }
 
+bool parseObject(tinyxml2::XMLElement* elem, local_shared_ptr<object_properties> result)
+{
+	result->clsName = elem->Name();
+	getStringAttr(elem, "name", &result->properName);
+
+	if (!getVector(elem, "dimensions", &result->dimensions)) {
+		getNumericAttr(elem, "radius", &result->dimensions.x);
+	}
+	getNumericAttr(elem, "mass", &result->mass);
+	getNumericAttr(elem, "friction", &result->friction);
+
+	getStringAttr(elem, "sprite", &result->sprite);
+	autoName(elem, result->sprite);
+	getSubObject(elem, "light", &result->light, lights, true);
+
+	return true;
+}
+
 bool parseObject(tinyxml2::XMLElement* elem, local_shared_ptr<agent_properties> result)
 {
-	result->typeName = elem->Name();
-	result->radius = Agent::defaultSize;
+	parseObject(elem, static_cast<local_shared_ptr<object_properties>>(result));
 
-	getStringAttr(elem, "name", &result->name);
-	getStringAttr(elem, "sprite", &result->sprite);
+	if (result->dimensions.x == 0.0) {
+		result->dimensions.x = Agent::defaultSize;
+	}
+
 	getStringAttr(elem, "attributes", &result->attributes);
 	getStringAttr(elem, "ai_package", &result->ai_package);
 	getStringAttr(elem, "effects", &result->effects);
 
-	getSubObject(elem, "light", &result->lightSource, lights, true);
-
-	autoName(elem, result->sprite);
 	autoName(elem, result->attributes);
 	autoName(elem, result->ai_package);
 
-	getNumericAttr(elem, "radius", &result->radius);
-	getNumericAttr(elem, "mass", &result->mass);
 	getNumericAttr(elem, "viewAngle", &result->viewAngle);
 	getNumericAttr(elem, "viewRange", &result->viewRange);
 
@@ -723,68 +737,40 @@ bool parseObject(tinyxml2::XMLElement* elem, boost::shared_ptr<LightArea>* resul
 
 bool parseObject(tinyxml2::XMLElement* elem, local_shared_ptr<bullet_properties> result)
 {
-	bullet_properties props{
-		0.0,
-		SpaceVect::zero,
-		DamageInfo(0.0f, DamageType::bullet),
-		string(),
-		string(),
-		1,
-		0,
-		true,
-		false,
-		false
-	};
-	
-	copyBaseObject(elem, bullets, &props);
+	copyBaseObjectShared(elem, bullets, result);
+	parseObject(elem, static_cast<local_shared_ptr<object_properties>>(result));
 
-	getNumericAttr(elem, "speed", &props.speed);
-	if (!getVector(elem, "dimensions", &props.dimensions)) {
-		getNumericAttr(elem, "radius", &props.dimensions.x);
-	}
+	result->damage.type = DamageType::bullet;
 
-	getDamageInfo(elem, &props.damage);
+	getNumericAttr(elem, "speed", &result->speed);
+	getDamageInfo(elem, &result->damage);
 
-	getStringAttr(elem, "sprite", &props.sprite);
-	getStringAttr(elem, "lightSource", &props.lightSource);
-	getNumericAttr(elem, "hitCount", &props.hitCount);
-	getNumericAttr(elem, "ricochet", &props.ricochetCount);
-	getNumericAttr(elem, "directionalLaunch", &props.directionalLaunch);
-	getNumericAttr(elem, "ignoreObstacles", &props.ignoreObstacles);
-	getNumericAttr(elem, "deflectBullets", &props.deflectBullets);
+	getNumericAttr(elem, "hitCount", &result->hitCount);
+	getNumericAttr(elem, "ricochet", &result->ricochetCount);
+	getNumericAttr(elem, "directionalLaunch", &result->directionalLaunch);
+	getNumericAttr(elem, "ignoreObstacles", &result->ignoreObstacles);
+	getNumericAttr(elem, "deflectBullets", &result->deflectBullets);
 
-	*result = props;
 	return true;
 }
 
 bool parseObject(tinyxml2::XMLElement* elem, local_shared_ptr<bomb_properties> result)
 {
-	bomb_properties props = {
-		"",
-		"",
-		1.0f / 16.0f,
-		0.0,
-		0.0,
-		0.0f,
-		DamageInfo(0.0f, DamageType::bomb)
-	};
+	parseObject(elem, static_cast<local_shared_ptr<object_properties>>(result));
 
-	getStringAttr(elem, "sprite", &props.sprite);
-	getStringAttr(elem, "exposionSound", &props.explosionSound);
+	getStringAttr(elem, "explosionSound", &result->explosionSound);
 
-	getNumericAttr(elem, "friction", &props.friction);
-	getNumericAttr(elem, "blastRadius", &props.blastRadius);
-	getNumericAttr(elem, "fuseTime", &props.fuseTime);
-	getNumericAttr(elem, "cost", &props.cost);
+	getNumericAttr(elem, "blastRadius", &result->blastRadius);
+	getNumericAttr(elem, "fuseTime", &result->fuseTime);
+	getNumericAttr(elem, "cost", &result->cost);
 
-	getDamageInfo(elem, &props.damage);
+	getDamageInfo(elem, &result->damage);
 
-	if (props.blastRadius <= 0.0f || props.fuseTime <= 0.0f) {
+	if (result->blastRadius <= 0.0f || result->fuseTime <= 0.0f) {
 		log("bomb properties missing");
 		return false;
 	}
 	else {
-		*result = props;
 		return true;
 	}
 }
@@ -792,16 +778,14 @@ bool parseObject(tinyxml2::XMLElement* elem, local_shared_ptr<bomb_properties> r
 bool parseObject(tinyxml2::XMLElement * elem, local_shared_ptr<item_properties> result)
  {
 	copyBaseObjectShared(elem, items, result);	
-	
-	result->name = elem->Name();
+	parseObject(elem, static_cast<local_shared_ptr<object_properties>>(result));
+
+	if (result->dimensions.x == 0.0) {
+		result->dimensions.x = 0.5;
+	}
 
 	getStringAttr(elem, "cls", &result->scriptName);
 	autoName(elem, result->scriptName);
-
-	getStringAttr(elem, "sprite", &result->sprite);
-	autoName(elem, result->sprite);
-
-	getSubObject(elem, "light", &result->light, app::lights, true);
 
 	getStringAttr(elem, "dialog", &result->onAcquireDialog);
 
