@@ -209,6 +209,7 @@ public:
 	void eraseTile(int mapID, IntVec2 pos, string layer);
 	void updatePlayerMapLocation(int roomID);
 	void addMapArea(const SpaceRect& area);
+	void registerRoomMapped(int roomID);
 	SpaceRect getCameraArea();
 	void updateCamera();
 	void setCameraPosition(SpaceVect pos);
@@ -221,7 +222,6 @@ public:
 	int getPlayerRoom();
 	Player* getPlayer();
 	gobject_ref getPlayerAsRef();
-	void applyMapFragment(int mapFragmentID);
 	void addRoomSensor(RoomSensor* rs);
 	void removeRoomSensor(RoomSensor* rs);
 

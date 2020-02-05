@@ -23,7 +23,6 @@
 #include "Goal.hpp"
 #include "Item.hpp"
 #include "Launcher.hpp"
-#include "MapFragment.hpp"
 #include "Player.hpp"
 #include "Sign.hpp"
 #include "Spawner.hpp"
@@ -120,7 +119,6 @@ void GObject::initObjectInfo()
 	entry_same(IcePlatform),
 	{"Item", makeObjectInfo<Item>(itemAdapter())},
 	entry_same(Launcher),
-	conditional_entry(MapFragment),
 	entry_same(MovingPlatform),
 	entry_same(Pitfall),
 	entry_same(PressurePlate),

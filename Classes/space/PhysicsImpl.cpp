@@ -14,7 +14,6 @@
 #include "Enemy.hpp"
 #include "EnvironmentalObjects.hpp"
 #include "FloorSegment.hpp"
-#include "MapFragment.hpp"
 #include "PhysicsImpl.hpp"
 #include "Player.hpp"
 #include "RadarSensor.hpp"

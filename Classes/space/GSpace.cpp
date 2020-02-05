@@ -765,6 +765,14 @@ void GSpace::addMapArea(const SpaceRect& area)
 	mapAreas.push_back(area);
 }
 
+void GSpace::registerRoomMapped(int roomID)
+{
+	if (roomID >= 0 && roomID < maxRoomsPerChamber) {
+		getCrntChamberStats().roomsMapped.set(roomID, true);
+		addSceneAction(bind(&GScene::setRoomDiscovered, gscene, roomID));
+	}
+}
+
 SpaceRect GSpace::getCameraArea()
 {
 	return cameraArea;
@@ -826,14 +834,6 @@ pair<int, IntVec2> GSpace::getTilePosition(SpaceVect p)
 int GSpace::getPlayerRoom()
 {
 	return crntMap;
-}
-
-void GSpace::applyMapFragment(int mapFragmentID)
-{
-	App::crntState->registerMapFragment(crntChamber, mapFragmentID);
-
-	addSceneAction(bind(&GScene::applyMapFragment, gscene, mapFragmentID));
-	addHudAction(&HUD::setMapCounter, App::crntState->getMapFragmentCount(crntChamber));
 }
 
 void GSpace::addRoomSensor(RoomSensor* rs)

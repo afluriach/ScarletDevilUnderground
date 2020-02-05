@@ -213,9 +213,6 @@
     <ClCompile Include="..\Classes\scenes\GScene_map.cpp">
       <Filter>src\scenes</Filter>
     </ClCompile>
-    <ClCompile Include="..\Classes\objects\MapFragment.cpp">
-      <Filter>src\objects</Filter>
-    </ClCompile>
     <ClCompile Include="..\Classes\objects\FloorSegment.cpp">
       <Filter>src\objects</Filter>
     </ClCompile>
@@ -514,9 +511,6 @@
     </ClInclude>
     <ClInclude Include="..\Classes\scenes\GScene.hpp">
       <Filter>src\scenes</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Classes\objects\MapFragment.hpp">
-      <Filter>src\objects</Filter>
     </ClInclude>
     <ClInclude Include="..\Classes\objects\FloorSegment.hpp">
       <Filter>src\objects</Filter>

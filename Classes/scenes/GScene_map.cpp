@@ -428,14 +428,10 @@ void GScene::setRoomDiscovered(size_t idx)
 	mapAreasVisibleOnMap.at(idx) = true;
 }
 
-void GScene::applyMapFragment(int idx)
+void GScene::setRoomsDiscovered(rooms_bitmask rooms)
 {
-	const MapFragmentsList& fragments = getMapFragmentsList();
-
-	if (idx >= 0 && idx < fragments.size()) {
-		for (int roomID : fragments.at(idx)) {
-			setRoomDiscovered(roomID);
-		}
+	for_irange(i, 0, rooms.size()) {
+		if (rooms[i]) setRoomDiscovered(i);
 	}
 }
 

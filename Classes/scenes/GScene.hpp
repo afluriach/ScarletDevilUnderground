@@ -151,7 +151,7 @@ public:
 	void updateMultimapVisibility(SpaceVect playerPos);
 	void unlockAllRooms();
 	void setRoomDiscovered(size_t idx);
-	void applyMapFragment(int idx);
+	void setRoomsDiscovered(rooms_bitmask rooms);
 	void setRoomVisible(size_t idx);
 	void setRoomsVisible(rooms_bitmask rooms);
 	

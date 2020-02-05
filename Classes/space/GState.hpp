@@ -18,7 +18,7 @@ struct ChamberStats
 	unsigned char maxEnemiesDefeated = 0;
 
 	rooms_bitmask roomsVisited;
-	map_fragments_bitmask mapFragments;
+	rooms_bitmask roomsMapped;
 
 	template<class Archive>
 	void serialize(Archive& ar, const unsigned int version)
@@ -28,7 +28,7 @@ struct ChamberStats
 		ar & timesCompleted;
 		ar & maxEnemiesDefeated;
 		ar & roomsVisited;
-		ar & mapFragments;
+		ar & roomsMapped;
 	}
 };
 
@@ -83,9 +83,6 @@ public:
 	bool isChamberCompleted(string id);
 	int chambersCompletedCount();
 	unsigned int totalChamberTime();
-
-	int getMapFragmentCount(string chamber);
-	void registerMapFragment(string chamber, int mapID);
 
 	AttributeSystem getPlayerStats();
 

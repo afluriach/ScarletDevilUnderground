@@ -127,6 +127,7 @@ void PlayScene::showVisibleRooms()
 	auto it = App::crntState->chamberStats.find(getCurrentLevel());
 	if (it != App::crntState->chamberStats.end()) {
 		setRoomsVisible(it->second.roomsVisited);
+		setRoomsDiscovered(it->second.roomsMapped);
 	}
 }
 

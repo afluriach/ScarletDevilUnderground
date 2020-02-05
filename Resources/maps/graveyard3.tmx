@@ -250,11 +250,7 @@
   <object id="226" type="GhostFairy" x="3840" y="3200" width="128" height="128"/>
   <object id="227" type="GhostFairy" x="3200" y="3456" width="128" height="128"/>
   <object id="228" type="GhostFairy" x="2560" y="3200" width="128" height="128"/>
-  <object id="229" type="MapFragment" x="1408" y="5376" width="128" height="128">
-   <properties>
-    <property name="id" value="0"/>
-   </properties>
-  </object>
+  <object id="229" name="g3_map1" type="MapFragment" x="1408" y="5376" width="128" height="128"/>
   <object id="277" type="Headstone" x="4736" y="4736" width="256" height="256"/>
   <object id="278" type="Headstone" x="5888" y="4736" width="256" height="256">
    <properties>

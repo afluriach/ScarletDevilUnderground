@@ -82,6 +82,8 @@ namespace Lua{
 			static_cast<float(GSpace::*)(float, float)>(&GSpace::getRandomFloat)
 		);
 
+		addFuncSame(gspace, registerRoomMapped);
+
 		auto gstate = newType(GState);
 #define _cls GState
 

@@ -98,7 +98,7 @@ namespace Lua{
 
 		auto gobject = _state.new_usertype<GObject>(
 			"GObject",
-			"space", &GObject::getSpace
+			"space", sol::property(&GObject::getSpace)
 		);
 
 		#define _cls GObject

@@ -1,3 +1,26 @@
+objects.MapFragment = class('MapFragment')
+
+objects.MapFragment.fragments = {
+	g3_map1 = {0,1,3,5}
+}
+
+function objects.MapFragment:init(super)
+	self.super = super
+end
+
+function objects.MapFragment:onAcquire(p)
+	local f = self.fragments[self.super:getName()]
+	
+	if not f then
+		app.log('Unknown map fragment: ' .. self.super:getName())
+		return
+	end
+	
+	for _i,v in ipairs(f) do
+		self.super.space:registerRoomMapped(v)		
+	end
+end
+
 objects.Spellcard = class('Spellcard')
 
 function objects.Spellcard:init(super)

@@ -147,25 +147,6 @@ unsigned int GState::totalChamberTime()
 	return result;
 }
 
-int GState::getMapFragmentCount(string chamber)
-{
-	auto it = chamberStats.find(chamber);
-
-	return it != chamberStats.end() ? it->second.mapFragments.count() : 0;
-}
-
-void GState::registerMapFragment(string chamber, int mapID)
-{
-	checkInitAreaState(chamber);
-
-	if (mapID >= 0 && mapID < maxMapFragmentsPerChamber) {
-		chamberStats.at(chamber).mapFragments.set(mapID);
-	}
-	else {
-		log("GState::registerMapFragment: cannot register mapID %d!", mapID);
-	}
-}
-
 AttributeSystem GState::getPlayerStats()
 {
 	AttributeSystem result(app::getAttributes(App::crntPC->attributes));
