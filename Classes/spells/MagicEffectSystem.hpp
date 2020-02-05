@@ -35,14 +35,14 @@ public:
 
 	MagicEffectSystem(GSpace* gspace);
 
-	unsigned int applyEffect(GObject* target, shared_ptr<MagicEffectDescriptor> effect, float magnitude, float length);
+	unsigned int applyEffect(GObject* target, local_shared_ptr<MagicEffectDescriptor> effect, float magnitude, float length);
 
-	void addEffect(shared_ptr<MagicEffect> effect);
-	void removeEffect(shared_ptr<MagicEffect> effect);
+	void addEffect(local_shared_ptr<MagicEffect> effect);
+	void removeEffect(local_shared_ptr<MagicEffect> effect);
 	void removeEffect(unsigned int id);
 	void removeObjectEffects(GObject* obj);
 
-	shared_ptr<MagicEffect> getByID(unsigned int id);
+	local_shared_ptr<MagicEffect> getByID(unsigned int id);
 	bool hasScriptedEffect(GObject* obj, string clsName);
 
 	template<class T>
@@ -75,8 +75,8 @@ protected:
 
 	set<MagicEffect*, effectCompareID> updateEffects;
 
-	map<unsigned int, shared_ptr<MagicEffect>> magicEffects;
-	list<shared_ptr<MagicEffect>> magicEffectsToAdd;
+	map<unsigned int, local_shared_ptr<MagicEffect>> magicEffects;
+	list<local_shared_ptr<MagicEffect>> magicEffectsToAdd;
 	list<unsigned int> magicEffectsToRemove;
 
 	GSpace* gspace;

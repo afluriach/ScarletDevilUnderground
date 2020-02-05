@@ -17,7 +17,7 @@ class Bullet : public GObject
 public:
 	static constexpr bool logRicochets = false;
 
-	static shared_ptr<object_params> makeParams(
+	static local_shared_ptr<object_params> makeParams(
 		SpaceVect pos,
 		SpaceFloat angle,
 		SpaceVect vel = SpaceVect::zero,
@@ -25,9 +25,9 @@ public:
 	);
 
 	Bullet(
-		shared_ptr<object_params> params,
+		local_shared_ptr<object_params> params,
 		const bullet_attributes& attributes,
-		shared_ptr<bullet_properties> props
+		local_shared_ptr<bullet_properties> props
 	);
 	inline virtual ~Bullet() {}
 
@@ -36,7 +36,7 @@ public:
 	virtual void initializeGraphics();
 	virtual inline GraphicsLayer sceneLayer() const { return GraphicsLayer::ground; }
 	virtual inline string getSprite() const { return props->sprite; }
-	virtual inline shared_ptr<LightArea> getLightSource() const { return app::getLight(props->lightSource); }
+	virtual inline boost::shared_ptr<LightArea> getLightSource() const { return app::getLight(props->lightSource); }
 	virtual inline SpaceFloat getMaxSpeed() const { return props->speed; }
 
 	inline DamageInfo getDamageInfo() const { return props->damage; }
@@ -52,7 +52,7 @@ public:
 	void setBodyVisible(bool b);
 protected:
 	bullet_attributes attributes;
-	shared_ptr<bullet_properties> props;
+	local_shared_ptr<bullet_properties> props;
 
 	int ricochetCount = 0;
 	int hitCount = 1;

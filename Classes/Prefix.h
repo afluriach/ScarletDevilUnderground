@@ -103,8 +103,8 @@
 using namespace std;
 USING_NS_CC;
 
-#define make_shared boost::make_local_shared
-#define shared_ptr boost::local_shared_ptr
+using boost::make_local_shared;
+using boost::local_shared_ptr;
 
 typedef double SpaceFloat;
 

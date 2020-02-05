@@ -23,7 +23,7 @@ const int DarknessSignDemarcation::burstCount = 4;
 const int DarknessSignDemarcation::legCount = 8;
 const int DarknessSignDemarcation::bulletsPerLeg = 3;
 
-DarknessSignDemarcation::DarknessSignDemarcation(GObject* caster, shared_ptr<SpellDesc> desc, unsigned int id) :
+DarknessSignDemarcation::DarknessSignDemarcation(GObject* caster, local_shared_ptr<SpellDesc> desc, unsigned int id) :
 	Spell(caster, desc, id, spell_params{ -1.0, 0.0 })
 {
 }
@@ -84,7 +84,7 @@ const SpaceFloat DarknessSignDemarcation2::angleSkew = float_pi * 4.0 / 3.0;
 const int DarknessSignDemarcation2::burstCount = 4;
 const int DarknessSignDemarcation2::bulletsPerBurst = 24;
 
-DarknessSignDemarcation2::DarknessSignDemarcation2(GObject* caster, shared_ptr<SpellDesc> desc, unsigned int id) :
+DarknessSignDemarcation2::DarknessSignDemarcation2(GObject* caster, local_shared_ptr<SpellDesc> desc, unsigned int id) :
 	Spell(caster, desc, id, spell_params{ -1.0, 0.0 }),
 	angularSpeed(angleSkew)
 {
@@ -163,7 +163,7 @@ const SpaceFloat NightSignPinwheel::legLength = 3.0;
 const SpaceFloat NightSignPinwheel::legStartDist = 1.0;
 const SpaceFloat NightSignPinwheel::legAngleSkew = float_pi / NightSignPinwheel::legCount;
 
-NightSignPinwheel::NightSignPinwheel(GObject* caster, shared_ptr<SpellDesc> desc, unsigned int id) :
+NightSignPinwheel::NightSignPinwheel(GObject* caster, local_shared_ptr<SpellDesc> desc, unsigned int id) :
 	Spell(caster, desc, id, spell_params{ -1.0, 0.0 })
 {
 }

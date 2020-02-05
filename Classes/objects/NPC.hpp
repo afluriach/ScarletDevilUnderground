@@ -36,7 +36,7 @@ class npc_properties : public agent_properties
 public:
 	inline npc_properties() {}
 
-	list<shared_ptr<dialog_entry>> dialogs;
+	list<local_shared_ptr<dialog_entry>> dialogs;
 };
 
 class NPC : public Agent
@@ -46,7 +46,7 @@ public:
 		GSpace* space,
 		ObjectIDType id,
 		const agent_attributes& attr,
-		shared_ptr<npc_properties> props
+		local_shared_ptr<npc_properties> props
 	);
 
 	//provides an interface to make an agent an interactible object with dialog.
@@ -55,11 +55,11 @@ public:
 	virtual string interactionIcon(Player* p);
 protected:
 	bool isDialogAvailable();
-	shared_ptr<dialog_entry> getDialog();
+	local_shared_ptr<dialog_entry> getDialog();
 	void onDialogEnd();
 
-	shared_ptr<npc_properties> props;
-	shared_ptr<dialog_entry> crntDialog;
+	local_shared_ptr<npc_properties> props;
+	local_shared_ptr<dialog_entry> crntDialog;
 };
 
 #endif

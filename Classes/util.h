@@ -68,9 +68,9 @@ string getTimeString(unsigned int millis);
 string floatToStringOptionalDecimal(float val);
 
 template<typename T>
-inline shared_ptr<T> makeSharedCopy(const T& val)
+inline local_shared_ptr<T> makeSharedCopy(const T& val)
 {
-	auto result = make_shared<T>();
+	auto result = make_local_shared<T>();
 	*result = val;
 
 	return result;

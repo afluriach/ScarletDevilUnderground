@@ -19,9 +19,9 @@
 #include "spell_types.hpp"
 
 template<typename T, typename... Params>
-shared_ptr<MagicEffect> createEffect(Params... params)
+local_shared_ptr<MagicEffect> createEffect(Params... params)
 {
-	return make_shared<T>(params...);
+	return make_local_shared<T>(params...);
 }
 
 namespace Lua{
@@ -109,13 +109,13 @@ namespace Lua{
 		spell["spawnBullet"] = &Spell::spawnBullet;
 
 		spell["launchBullet"] = sol::overload(
-			[](Spell* spell, shared_ptr<bullet_properties> props, SpaceVect displacement, SpaceFloat angle) -> gobject_ref {
+			[](Spell* spell, local_shared_ptr<bullet_properties> props, SpaceVect displacement, SpaceFloat angle) -> gobject_ref {
 				return spell->launchBullet(props, displacement, angle);
 			},
-			[](Spell* spell, shared_ptr<bullet_properties> props, SpaceVect displacement, SpaceFloat angle, SpaceFloat angularVelocity ) -> gobject_ref {
+			[](Spell* spell, local_shared_ptr<bullet_properties> props, SpaceVect displacement, SpaceFloat angle, SpaceFloat angularVelocity ) -> gobject_ref {
 				return spell->launchBullet(props, displacement, angle, angularVelocity);
 			},
-			[](Spell* spell,shared_ptr<bullet_properties> props,SpaceVect displacement,SpaceFloat angle,SpaceFloat angularVelocity,bool obstacleCheck) -> gobject_ref {
+			[](Spell* spell,local_shared_ptr<bullet_properties> props,SpaceVect displacement,SpaceFloat angle,SpaceFloat angularVelocity,bool obstacleCheck) -> gobject_ref {
 				return spell->launchBullet(props, displacement, angle, angularVelocity, obstacleCheck);
 			}
 		);

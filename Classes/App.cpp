@@ -53,7 +53,7 @@ unique_ptr<audio_context> App::audioContext;
 unique_ptr<GState> App::crntState;
 string App::crntProfileName;
 unique_ptr<Lua::Inst> App::lua;
-shared_ptr<agent_properties> App::crntPC;
+boost::shared_ptr<agent_properties> App::crntPC;
 
 #if USE_TIMERS
 unique_ptr<TimerSystem> App::timerSystem;

@@ -17,15 +17,15 @@
 #define entry(name,cls) {name, createDesc<cls>()}
 //To make an entry where the name matches the class
 #define entry_same(cls) entry(#cls, cls)
-#define script_entry(cls) { #cls, make_shared<ScriptedSpellDescriptor>(#cls)}
+#define script_entry(cls) { #cls, make_local_shared<ScriptedSpellDescriptor>(#cls)}
 
 template<typename T>
-constexpr shared_ptr<SpellDesc> createDesc()
+constexpr local_shared_ptr<SpellDesc> createDesc()
 {
-	return make_shared<SpellDescImpl<T>>();
+	return make_local_shared<SpellDescImpl<T>>();
 }
 
-const unordered_map<string, shared_ptr<SpellDesc>> Spell::spellDescriptors = {
+const unordered_map<string, local_shared_ptr<SpellDesc>> Spell::spellDescriptors = {
 	entry_same(BlueFairyBomb),
 	script_entry(DarkMist),
 	entry_same(DarknessSignDemarcation),

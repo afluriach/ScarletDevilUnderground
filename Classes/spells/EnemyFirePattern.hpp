@@ -37,7 +37,7 @@ public:
 	virtual bool fire();
 	inline virtual void update() { timerDecrement(cooldown); }
 protected:
-	shared_ptr<bullet_properties> props;
+	local_shared_ptr<bullet_properties> props;
 	SpaceFloat cooldown = 0.0;
 };
 

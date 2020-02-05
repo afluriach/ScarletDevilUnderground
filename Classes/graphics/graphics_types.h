@@ -51,7 +51,7 @@ public:
 class AmbientLightArea : public LightArea
 {
 public:
-	static shared_ptr<AmbientLightArea> create(
+	static boost::shared_ptr<AmbientLightArea> create(
 		SpaceVect dimensions,
 		Color4F color
 	);
@@ -66,7 +66,7 @@ public:
 class CircleLightArea : public LightArea
 {
 public:
-	static shared_ptr<CircleLightArea> create(
+	static boost::shared_ptr<CircleLightArea> create(
 		SpaceFloat radius,
 		Color4F color,
 		float flood
@@ -83,7 +83,7 @@ public:
 class ConeLightArea : public LightArea
 {
 public:
-	static shared_ptr<ConeLightArea> create(
+	static boost::shared_ptr<ConeLightArea> create(
 		SpaceFloat radius,
 		SpaceFloat width,
 		Color4F color
@@ -100,7 +100,7 @@ public:
 class SpriteLightArea : public LightArea
 {
 public:
-	static shared_ptr<SpriteLightArea> create(
+	static boost::shared_ptr<SpriteLightArea> create(
 		const string& spritePath,
 		Color4F color,
 		float scale = 1.0f

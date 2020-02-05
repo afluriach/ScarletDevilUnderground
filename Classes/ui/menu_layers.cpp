@@ -679,7 +679,7 @@ bool InventoryInfo::init()
 
 	for (auto const& entry : App::crntState->itemRegistry)
 	{
-		shared_ptr<item_properties> props = app::getItem(entry.first);
+		boost::local_shared_ptr<item_properties> props = app::getItem(entry.first);
 		if (entry.second == 0 || !props) continue;
 
 		string text = props->name;

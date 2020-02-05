@@ -22,7 +22,7 @@ public:
 	static const SpaceFloat radius;
 	static const float effectMagnitude;
 
-	TorchDarkness(GObject* caster, shared_ptr<SpellDesc> desc, unsigned int id);
+	TorchDarkness(GObject* caster, local_shared_ptr<SpellDesc> desc, unsigned int id);
 	inline virtual ~TorchDarkness() {}
 
 	virtual void update();
@@ -39,7 +39,7 @@ public:
 	static const SpaceFloat radius;
 	static const SpaceFloat angularSpeed;
 
-	BlueFairyBomb(GObject* caster, shared_ptr<SpellDesc> desc, unsigned int id);
+	BlueFairyBomb(GObject* caster, local_shared_ptr<SpellDesc> desc, unsigned int id);
 	inline virtual ~BlueFairyBomb() {}
 
 	virtual void init();

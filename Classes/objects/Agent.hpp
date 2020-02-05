@@ -28,7 +28,7 @@ public:
 	string ai_package;
 	string effects;
 
-	shared_ptr<LightArea> lightSource;
+	boost::shared_ptr<LightArea> lightSource;
 
 	SpaceFloat radius = 0.0;
 	SpaceFloat mass = 0.0;
@@ -65,7 +65,7 @@ public:
 	static const Color4F shieldConeColor;
 	static const float bodyOutlineWidth;
 
-	static bool conditionalLoad(GSpace* space, const agent_attributes& attrs, shared_ptr<agent_properties> props);
+	static bool conditionalLoad(GSpace* space, const agent_attributes& attrs, local_shared_ptr<agent_properties> props);
 	static agent_attributes parseAttributes(const ValueMap& args);
 
 	Agent(
@@ -73,7 +73,7 @@ public:
 		ObjectIDType id,
 		GType type,
 		const agent_attributes& attr,
-		shared_ptr<agent_properties> props
+		local_shared_ptr<agent_properties> props
 	);
 	virtual ~Agent();
 
@@ -107,10 +107,10 @@ public:
 	virtual bool applyInitialSpellCost(const spell_cost& cost);
 	virtual bool applyOngoingSpellCost(const spell_cost& cost);
 
-	virtual bullet_attributes getBulletAttributes(shared_ptr<bullet_properties> props) const;
+	virtual bullet_attributes getBulletAttributes(local_shared_ptr<bullet_properties> props) const;
 
 	virtual string getSprite() const;
-	virtual shared_ptr<LightArea> getLightSource() const;
+	virtual boost::shared_ptr<LightArea> getLightSource() const;
 
 	//attribute interface
 	virtual inline AttributeMap getAttributeUpgrades() const { return AttributeMap(); }
@@ -178,10 +178,10 @@ protected:
 	AttributeSystem attributeSystem;
 	string ai_package;
 
-	shared_ptr<FirePattern> firePattern;
+	local_shared_ptr<FirePattern> firePattern;
 	unordered_set<Agent*> touchTargets;
 	RadarSensor* radar = nullptr;
-	shared_ptr<agent_properties> props;
+	local_shared_ptr<agent_properties> props;
 	unique_ptr<AgentAnimationContext> animation;
 
 	bool shieldActive = false;

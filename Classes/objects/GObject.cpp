@@ -27,7 +27,7 @@
 
 unordered_map<type_index, string> GObject::typeNameMap;
 
-GObject::GObject(shared_ptr<object_params> params, const physics_params& phys) :
+GObject::GObject(local_shared_ptr<object_params> params, const physics_params& phys) :
 	space(params->space),
 	name(params->name),
 	uuid(params->id),
@@ -212,7 +212,7 @@ void GObject::updateFSM() {
 		fsm->update();
 }
 
-shared_ptr<ai::Thread> GObject::addThread(shared_ptr<ai::Function> threadMain) {
+local_shared_ptr<ai::Thread> GObject::addThread(local_shared_ptr<ai::Function> threadMain) {
 	if (!fsm) {
 		fsm = make_unique<ai::StateMachine>(this);
 	}
@@ -220,7 +220,7 @@ shared_ptr<ai::Thread> GObject::addThread(shared_ptr<ai::Function> threadMain) {
 	return fsm->addThread(threadMain);
 }
 
-void GObject::removeThread(shared_ptr<ai::Thread> t) {
+void GObject::removeThread(local_shared_ptr<ai::Thread> t) {
 	if (fsm) {
 		fsm->removeThread(t);
 	}
@@ -263,7 +263,7 @@ bool GObject::hit(DamageInfo damage, SpaceVect n)
 	return false;
 }
 
-bullet_attributes GObject::getBulletAttributes(shared_ptr<bullet_properties> props) const
+bullet_attributes GObject::getBulletAttributes(local_shared_ptr<bullet_properties> props) const
 {
 	return bullet_attributes::getDefault();
 }
@@ -281,7 +281,7 @@ bool GObject::isBulletObstacle(SpaceVect pos, SpaceFloat radius)
 
 gobject_ref GObject::_spawnBullet(
 	const bullet_attributes& attributes,
-	shared_ptr<bullet_properties> props,
+	local_shared_ptr<bullet_properties> props,
 	SpaceVect displacement,
 	SpaceVect velocity,
 	SpaceFloat angle,
@@ -295,7 +295,7 @@ gobject_ref GObject::_spawnBullet(
 }
 
 gobject_ref GObject::spawnBullet(
-	shared_ptr<bullet_properties> props,
+	local_shared_ptr<bullet_properties> props,
 	SpaceVect displacement,
 	SpaceVect velocity,
 	SpaceFloat angle,
@@ -315,7 +315,7 @@ gobject_ref GObject::spawnBullet(
 
 gobject_ref GObject::_launchBullet(
 	const bullet_attributes& attributes,
-	shared_ptr<bullet_properties> props,
+	local_shared_ptr<bullet_properties> props,
 	SpaceVect displacement,
 	SpaceFloat angle,
 	SpaceFloat angularVelocity,
@@ -334,7 +334,7 @@ gobject_ref GObject::_launchBullet(
 }
 
 gobject_ref GObject::launchBullet(
-	shared_ptr<bullet_properties> props,
+	local_shared_ptr<bullet_properties> props,
 	SpaceVect displacement,
 	SpaceFloat angle,
 	SpaceFloat angularVelocity,
@@ -844,12 +844,12 @@ void GObject::stopSound(ALuint sourceID)
 
 //BEGIN SPELLS
 
-unsigned int GObject::cast(shared_ptr<SpellDesc> desc)
+unsigned int GObject::cast(local_shared_ptr<SpellDesc> desc)
 {
 	return space->spellSystem->cast(desc, this);
 }
 
-unsigned int GObject::applyMagicEffect(shared_ptr<MagicEffectDescriptor> effect, float magnitude, float length)
+unsigned int GObject::applyMagicEffect(local_shared_ptr<MagicEffectDescriptor> effect, float magnitude, float length)
 {
 	return space->magicEffectSystem->applyEffect(this, effect, magnitude, length);
 }

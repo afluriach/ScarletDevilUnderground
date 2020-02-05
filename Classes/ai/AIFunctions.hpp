@@ -22,7 +22,7 @@ public:
 	virtual bool onEvent(Event event);
 	virtual event_bitset getEvents();
 protected:
-	shared_ptr<Thread> thread;
+	local_shared_ptr<Thread> thread;
 	AITargetFunctionGenerator gen;
 	GType type;
 };
@@ -50,7 +50,7 @@ public:
 	virtual bool onEvent(Event event);
 	virtual event_bitset getEvents();
 protected:
-	shared_ptr<Thread> thread;
+	local_shared_ptr<Thread> thread;
 	AITargetFunctionGenerator gen;
 	GType type;
 };
@@ -83,7 +83,7 @@ public:
 	template<class FuncCls, typename... Params>
 	inline void addFunction(Params... params)
 	{
-		addFunction(make_shared<FuncCls>(fsm, params...));
+		addFunction(make_local_shared<FuncCls>(fsm, params...));
 	}
 
 	virtual void onEnter();
@@ -93,10 +93,10 @@ public:
 	virtual void onExit();
 	virtual string getName();
 
-	void addFunction(shared_ptr<Function> f);
-	void removeFunction(shared_ptr<Function> f);
+	void addFunction(local_shared_ptr<Function> f);
+	void removeFunction(local_shared_ptr<Function> f);
 protected:
-	list<shared_ptr<Function>> functions;
+	list<local_shared_ptr<Function>> functions;
 	event_bitset events;
 	bool hasInit = false;
 };
@@ -148,7 +148,7 @@ public:
     
 	FuncGetName(Seek)
 protected:
-	shared_ptr<Function> pathFunction;
+	local_shared_ptr<Function> pathFunction;
 	gobject_ref target;
 	SpaceFloat margin;
 	SpaceFloat lastPathfind = 0.0;
@@ -240,7 +240,7 @@ public:
 
 	FuncGetName(Scurry)
 protected:
-	shared_ptr<MoveToPoint> moveFunction;
+	local_shared_ptr<MoveToPoint> moveFunction;
 	unsigned int startFrame, endFrame;
 	SpaceFloat distance;
 	bool scurryLeft = true;
@@ -329,7 +329,7 @@ public:
 
 	bool wallQuery(SpaceVect pos);
 private:
-	shared_ptr<MoveToPoint> moveFunction;
+	local_shared_ptr<MoveToPoint> moveFunction;
 	gobject_ref target;
 	SpaceFloat desiredDistance;
 	SpaceFloat wallMargin;
@@ -415,7 +415,7 @@ protected:
 
 class FollowPath : public Function {
 public:
-	static shared_ptr<FollowPath> pathToTarget(
+	static local_shared_ptr<FollowPath> pathToTarget(
 		StateMachine* fsm,
 		gobject_ref target
 	);
@@ -449,7 +449,7 @@ public:
 
 	FuncGetName(Wander)
 protected:
-	shared_ptr<MoveToPoint> moveFunction;
+	local_shared_ptr<MoveToPoint> moveFunction;
     SpaceFloat minWait, maxWait;
     SpaceFloat minDist, maxDist;
 	SpaceFloat waitTimer = 0.0;
@@ -467,7 +467,7 @@ protected:
 
 class Cast : public Function {
 public:
-	Cast(StateMachine* fsm, shared_ptr<SpellDesc> spell_desc, SpaceFloat length);
+	Cast(StateMachine* fsm, local_shared_ptr<SpellDesc> spell_desc, SpaceFloat length);
 
 	virtual void onEnter();
 	virtual update_return update();
@@ -476,7 +476,7 @@ public:
 
 	FuncGetName(Cast)
 protected:
-	shared_ptr<SpellDesc> spell_desc;
+	local_shared_ptr<SpellDesc> spell_desc;
 	SpaceFloat timer = 0.0;
 	SpaceFloat length;
 	bool completed = false;
@@ -484,7 +484,7 @@ protected:
 
 class HPCast : public Function {
 public:
-	HPCast(StateMachine* fsm, shared_ptr<SpellDesc> spell_desc, float hp_difference);
+	HPCast(StateMachine* fsm, local_shared_ptr<SpellDesc> spell_desc, float hp_difference);
 
 	virtual void onEnter();
 	virtual update_return update();
@@ -492,7 +492,7 @@ public:
 
 	FuncGetName(HPCast)
 protected:
-	shared_ptr<SpellDesc> spell_desc;
+	local_shared_ptr<SpellDesc> spell_desc;
 	float caster_starting;
 	float hp_difference;
 };
@@ -501,7 +501,7 @@ class HPCastSequence : public Function {
 public:
 	HPCastSequence(
 		StateMachine* fsm,
-		const vector<shared_ptr<SpellDesc>>& spells,
+		const vector<local_shared_ptr<SpellDesc>>& spells,
 		const boost::icl::interval_map<float, int> intervals
 	);
 
@@ -512,7 +512,7 @@ public:
 	FuncGetName(HPCastSequence)
 protected:
 	int crntInterval = -1;
-	vector<shared_ptr<SpellDesc>> spells;
+	vector<local_shared_ptr<SpellDesc>> spells;
 	boost::icl::interval_map<float, int> intervals;
 };
 
@@ -554,7 +554,7 @@ public:
 	ThrowBombs(
 		StateMachine* fsm,
 		gobject_ref target,
-		shared_ptr<bomb_properties> bombType,
+		local_shared_ptr<bomb_properties> bombType,
 		SpaceFloat throwingSpeed,
 		SpaceFloat baseInterval
 	);
@@ -567,7 +567,7 @@ public:
 
 	FuncGetName(ThrowBombs)
 protected:
-	shared_ptr<bomb_properties> bombType;
+	local_shared_ptr<bomb_properties> bombType;
 
 	SpaceFloat countdown;
 	SpaceFloat throwingSpeed;

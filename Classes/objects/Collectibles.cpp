@@ -58,7 +58,7 @@ string Collectible::itemName() const {
 	return "";
 }
 
-shared_ptr<MagicEffectDescriptor> Collectible::getEffect(GObject* target) const
+local_shared_ptr<MagicEffectDescriptor> Collectible::getEffect(GObject* target) const
 {
 	return effect;
 }

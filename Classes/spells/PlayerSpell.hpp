@@ -19,7 +19,7 @@ public:
 	static const string icon;
 	static const spell_cost cost;
 
-	PlayerBatMode(GObject* caster, shared_ptr<SpellDesc> desc, unsigned int id);
+	PlayerBatMode(GObject* caster, local_shared_ptr<SpellDesc> desc, unsigned int id);
 	inline virtual ~PlayerBatMode() {}
 
 	GET_DESC(PlayerBatMode)
@@ -39,7 +39,7 @@ public:
 
 	static const int bulletSpawnCount;
 
-	LavaeteinnSpell(GObject* caster, shared_ptr<SpellDesc> desc, unsigned int id);
+	LavaeteinnSpell(GObject* caster, local_shared_ptr<SpellDesc> desc, unsigned int id);
 	inline virtual ~LavaeteinnSpell() {}
 
 	GET_DESC(LavaeteinnSpell);
@@ -63,7 +63,7 @@ public:
 	static const SpaceFloat offset;
 	static const SpaceFloat angular_speed;
 
-	PlayerCounterClock(GObject* caster, shared_ptr<SpellDesc> desc, unsigned int id);
+	PlayerCounterClock(GObject* caster, local_shared_ptr<SpellDesc> desc, unsigned int id);
 	inline virtual ~PlayerCounterClock() {}
 
 	GET_DESC(PlayerCounterClock)
@@ -95,7 +95,7 @@ public:
 
 	static SpaceVect parametric_motion(SpaceFloat t);
 
-	PlayerScarletRose(GObject* caster, shared_ptr<SpellDesc> desc, unsigned int id);
+	PlayerScarletRose(GObject* caster, local_shared_ptr<SpellDesc> desc, unsigned int id);
 
 	GET_DESC(PlayerScarletRose)
 	virtual void update();
@@ -106,7 +106,7 @@ public:
 	SpaceFloat timer = 0.0;
 	int launchCount = 0;
 protected:
-	shared_ptr<bullet_properties> props;
+	local_shared_ptr<bullet_properties> props;
 };
 
 class PlayerIceShield : public Spell {
@@ -122,7 +122,7 @@ public:
 	static const SpaceFloat circumference;
 	static const SpaceFloat inv_circumference;
 
-	PlayerIceShield(GObject* caster, shared_ptr<SpellDesc> desc, unsigned int id);
+	PlayerIceShield(GObject* caster, local_shared_ptr<SpellDesc> desc, unsigned int id);
 	inline virtual ~PlayerIceShield() {}
 
 	GET_DESC(PlayerIceShield)
@@ -131,7 +131,7 @@ public:
 	virtual void end();
 protected:
 	array<gobject_ref, bulletCount> bullets;
-	shared_ptr<bullet_properties> props;
+	local_shared_ptr<bullet_properties> props;
 	SpaceFloat crntAngle = 0.0;
 };
 

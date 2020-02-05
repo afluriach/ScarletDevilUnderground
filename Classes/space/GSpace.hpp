@@ -91,9 +91,9 @@ public:
 	gobject_ref createObject(const ValueMap& obj);
 	gobject_ref createObject(ObjectGeneratorType factory);
 	gobject_ref createBullet(
-		shared_ptr<object_params> params,
+		local_shared_ptr<object_params> params,
 		const bullet_attributes& attributes,
-		shared_ptr<bullet_properties> props
+		local_shared_ptr<bullet_properties> props
 	);
 
 	inline void addValueMapArgs(ObjectIDType id, const ValueMap& args) {
@@ -114,7 +114,7 @@ public:
 	}
 
 	template<class C, typename... Args>
-	inline gobject_ref createObject(shared_ptr<object_params> params, Args... args) {
+	inline gobject_ref createObject(local_shared_ptr<object_params> params, Args... args) {
 		return createObject(GObject::params_object_factory<C>(params, args...));
 	}
 
@@ -277,7 +277,7 @@ public:
 	//will call the corresponding scene method immediately to retrieve the ID.
 	//However, nextSpriteID/nextLightID is an atomic integer, so it will not use a mutex.
 
-	LightID addLightSource(shared_ptr<LightArea> light, SpaceVect pos, SpaceFloat angle);
+	LightID addLightSource(boost::shared_ptr<LightArea> light, SpaceVect pos, SpaceFloat angle);
 
 	template<typename... Args>
 	inline void addLightmapAction(void (graphics_context::*m)(Args...), Args... args)

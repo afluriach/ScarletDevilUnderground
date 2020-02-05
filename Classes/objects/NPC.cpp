@@ -33,7 +33,7 @@ NPC::NPC(
 	GSpace* space,
 	ObjectIDType id,
 	const agent_attributes& attr,
-	shared_ptr<npc_properties> props
+	local_shared_ptr<npc_properties> props
 ) : 
 	Agent(
 		space,
@@ -78,7 +78,7 @@ string NPC::interactionIcon(Player* p) {
 	return "sprites/ui/dialog.png";
 }
 
-shared_ptr<dialog_entry> NPC::getDialog()
+local_shared_ptr<dialog_entry> NPC::getDialog()
 {
 	for (auto dialog : props->dialogs) {
 		bool noReplay = dialog->once && App::crntState->hasCompletedDialog(dialog->dialog);

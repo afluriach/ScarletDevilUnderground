@@ -17,7 +17,7 @@
 
 Door::Door(GSpace* space, ObjectIDType id, const ValueMap& args) :
 	GObject(
-		make_shared<object_params>(space,id,args, true),
+		make_local_shared<object_params>(space,id,args, true),
 		MapRectPhys(enum_bitwise_or(GType, environment, interactible), PhysicsLayers::all, -1.0)
 	)
 {
@@ -188,7 +188,7 @@ Direction Door::getEntryDirection()
 
 Barrier::Barrier(GSpace* space, ObjectIDType id, const ValueMap& args) :
 	GObject(
-		make_shared<object_params>(space, id, args, true),
+		make_local_shared<object_params>(space, id, args, true),
 		MapRectPhys(GType::environment, PhysicsLayers::all, -1.0)
 	)
 {

@@ -141,13 +141,13 @@ namespace Lua{
 		addFuncSame(gobject, getClsName);
 
 		gobject["launchBullet"] = sol::overload(
-			[](GObject* obj, shared_ptr<bullet_properties> props,SpaceVect displacement,SpaceFloat angle) -> gobject_ref {
+			[](GObject* obj, local_shared_ptr<bullet_properties> props,SpaceVect displacement,SpaceFloat angle) -> gobject_ref {
 				return obj->launchBullet(props, displacement, angle);
 			},
-			[](GObject* obj, shared_ptr<bullet_properties> props, SpaceVect displacement, SpaceFloat angle, SpaceFloat angularVelocity) -> gobject_ref {
+			[](GObject* obj, local_shared_ptr<bullet_properties> props, SpaceVect displacement, SpaceFloat angle, SpaceFloat angularVelocity) -> gobject_ref {
 				return obj->launchBullet(props, displacement, angle, angularVelocity);
 			},
-			[](GObject* obj, shared_ptr<bullet_properties> props, SpaceVect displacement, SpaceFloat angle, SpaceFloat angularVelocity, bool obstacleCheck) -> gobject_ref {
+			[](GObject* obj, local_shared_ptr<bullet_properties> props, SpaceVect displacement, SpaceFloat angle, SpaceFloat angularVelocity, bool obstacleCheck) -> gobject_ref {
 				return obj->launchBullet(props, displacement, angle, angularVelocity, obstacleCheck);
 			}
 		);
@@ -194,9 +194,9 @@ namespace Lua{
 
 		auto bullet = _state.new_usertype<Bullet>("Bullet", sol::base_classes, sol::bases<GObject>());
 		bullet["makeParams"] = sol::overload(
-			[](SpaceVect pos, SpaceFloat angle)->shared_ptr<object_params> { return Bullet::makeParams(pos, angle); },
-			[](SpaceVect pos, SpaceFloat angle, SpaceVect vel)->shared_ptr<object_params> { return Bullet::makeParams(pos, angle, vel); },
-			[](SpaceVect pos, SpaceFloat angle, SpaceVect vel, SpaceFloat angularVel)->shared_ptr<object_params> { return Bullet::makeParams(pos, angle, vel,angularVel); }
+			[](SpaceVect pos, SpaceFloat angle)->local_shared_ptr<object_params> { return Bullet::makeParams(pos, angle); },
+			[](SpaceVect pos, SpaceFloat angle, SpaceVect vel)->local_shared_ptr<object_params> { return Bullet::makeParams(pos, angle, vel); },
+			[](SpaceVect pos, SpaceFloat angle, SpaceVect vel, SpaceFloat angularVel)->local_shared_ptr<object_params> { return Bullet::makeParams(pos, angle, vel,angularVel); }
 		);
 
 		auto torch = _state.new_usertype<Torch>("Torch", sol::base_classes, sol::bases <GObject>());

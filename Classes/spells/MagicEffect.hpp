@@ -34,7 +34,7 @@ struct effect_params
 	GObject* target;
 	unsigned int id;
 	effect_flags flags;
-	shared_ptr<MagicEffectDescriptor> desc;
+	local_shared_ptr<MagicEffectDescriptor> desc;
 };
 
 class MagicEffect
@@ -65,7 +65,7 @@ public:
 	//remove this - queues this magic effect for removal, can be called within an update
 	void remove();
 
-	shared_ptr<MagicEffectDescriptor> desc;
+	local_shared_ptr<MagicEffectDescriptor> desc;
 	GObject* target;
 	float length, magnitude;
 	state crntState;
@@ -83,7 +83,7 @@ public:
 	virtual inline ~MagicEffectDescriptor() {}
 
 	virtual bool canApply(GObject* target, float magnitude, float length) const = 0;
-	virtual shared_ptr<MagicEffect> generate(effect_params params, float magnitude, float length) const = 0;
+	virtual local_shared_ptr<MagicEffect> generate(effect_params params, float magnitude, float length) const = 0;
 
 	inline string getTypeName() const { return typeName; }
 	inline effect_flags getFlags() const { return flags; }
@@ -121,8 +121,8 @@ public:
 		}
 	}
 
-	inline virtual shared_ptr<MagicEffect> generate(effect_params params, float magnitude, float length) const {
-		return make_shared<T>(params, magnitude, length, get<Params>(_params)...);
+	inline virtual local_shared_ptr<MagicEffect> generate(effect_params params, float magnitude, float length) const {
+		return make_local_shared<T>(params, magnitude, length, get<Params>(_params)...);
 	}
 protected:
 	tuple<Params...> _params;

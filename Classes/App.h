@@ -122,7 +122,7 @@ public:
 	static SpaceFloat timerPrintAccumulator;
 	static mutex timerMutex;
 #endif
-	static shared_ptr<agent_properties> crntPC;
+	static boost::shared_ptr<agent_properties> crntPC;
     
 	static const string& getBaseDataPath();
 	static GState* getCrntState();

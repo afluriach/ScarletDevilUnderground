@@ -46,7 +46,7 @@ public:
 	virtual update_return update();
 	FuncGetName(MarisaCollectMain)
 protected:
-	shared_ptr<FollowPath> moveFunction;
+	local_shared_ptr<FollowPath> moveFunction;
 };
 
 class MarisaForestMain : public Function {
@@ -57,8 +57,8 @@ public:
 	virtual update_return update();
 	FuncGetName(MarisaForestMain)
 protected:
-	shared_ptr<AimAtTarget> aimFunction;
-	shared_ptr<Cast> castFunction;
+	local_shared_ptr<AimAtTarget> aimFunction;
+	local_shared_ptr<Cast> castFunction;
 };
 
 class ReimuYinYangOrbs : public Function
@@ -83,9 +83,9 @@ public:
 	virtual void onEnter();
 	virtual update_return update();
 protected:
-	shared_ptr<FireAtTarget> fire;
-	shared_ptr<Flank> flank;
-	shared_ptr<RumiaDSD2> dsd;
+	local_shared_ptr<FireAtTarget> fire;
+	local_shared_ptr<Flank> flank;
+	local_shared_ptr<RumiaDSD2> dsd;
 
 	gobject_ref target;
 };

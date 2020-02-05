@@ -26,7 +26,7 @@ SpellSystem::~SpellSystem()
 	applyRemovals();
 }
 
-unsigned int SpellSystem::cast(shared_ptr<SpellDesc> desc, GObject* caster)
+unsigned int SpellSystem::cast(local_shared_ptr<SpellDesc> desc, GObject* caster)
 {
 	if (!desc) {
 		log("cast(): null SpellDescriptor!");

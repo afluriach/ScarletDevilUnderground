@@ -14,7 +14,7 @@ class MagicEffectDescriptor;
 struct collectible_properties
 {
 	string sprite;
-	shared_ptr<MagicEffectDescriptor> effect;
+	local_shared_ptr<MagicEffectDescriptor> effect;
 	float magnitude;
 	float length;
 };
@@ -33,13 +33,13 @@ public:
 
 	virtual void onPlayerContact(Player* p);
 
-	shared_ptr<MagicEffectDescriptor> getEffect(GObject* target) const;
+	local_shared_ptr<MagicEffectDescriptor> getEffect(GObject* target) const;
 
 	bool canAcquire(Player* player);
 	void onAcquire(Player* player);
 protected:
 	string sprite;
-	shared_ptr<MagicEffectDescriptor> effect;
+	local_shared_ptr<MagicEffectDescriptor> effect;
 	float effectLength;
 	float effectMagnitude;
 };

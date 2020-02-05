@@ -18,9 +18,9 @@
 namespace Lua{
     
 	template<typename T, typename... Params>
-	shared_ptr<ai::Function> create(ai::StateMachine* fsm, Params... params)
+	local_shared_ptr<ai::Function> create(ai::StateMachine* fsm, Params... params)
 	{
-		return make_shared<T>(fsm, params...);
+		return make_local_shared<T>(fsm, params...);
 	}
 
     void Inst::addAI()
@@ -32,7 +32,7 @@ namespace Lua{
 		_ai["isFacingTargetsBack"] = &ai::isFacingTargetsBack;
 		_ai["viewAngleToTarget"] = &ai::viewAngleToTarget;
 
-		_ai["autoUpdateFunction"] = [](shared_ptr<ai::Function> f) -> shared_ptr<ai::Function> {
+		_ai["autoUpdateFunction"] = [](local_shared_ptr<ai::Function> f) -> local_shared_ptr<ai::Function> {
 			auto result = f;
 			ai::Function::autoUpdateFunction(result);
 			return result;
@@ -40,7 +40,7 @@ namespace Lua{
 
 		auto _update_return = _ai.new_usertype<ai::update_return>(
 			"update_return",
-			sol::constructors<ai::update_return(), ai::update_return(int,shared_ptr<ai::Function>)>()
+			sol::constructors<ai::update_return(), ai::update_return(int,local_shared_ptr<ai::Function>)>()
 		);
 
 		auto _event_type = _ai.new_enum<ai::event_type, true>(
@@ -88,14 +88,14 @@ namespace Lua{
 		addFuncSame(func, getEvents);
 		addFuncSame(func, getName);
 
-		func["makeNullShared"] = []() -> shared_ptr<ai::Function> {
+		func["makeNullShared"] = []() -> local_shared_ptr<ai::Function> {
 			return nullptr;
 		};
 
 		#define _cls ai::Thread
 		auto thread = _state.new_usertype<ai::Thread>(
 			"Thread",
-			sol::constructors < ai::Thread(shared_ptr < ai::Function>, ai::StateMachine*) > ()
+			sol::constructors < ai::Thread(local_shared_ptr < ai::Function>, ai::StateMachine*) > ()
 		);
 		_ai["Thread"] = thread;
 
@@ -111,14 +111,14 @@ namespace Lua{
 		#define _cls ai::StateMachine
 		auto sm = _ai.new_usertype<ai::StateMachine>("StateMachine");
 
-		sm["addFunction"] = static_cast<void(ai::StateMachine::*)(shared_ptr<ai::Function>)>(&ai::StateMachine::addFunction);
+		sm["addFunction"] = static_cast<void(ai::StateMachine::*)(local_shared_ptr<ai::Function>)>(&ai::StateMachine::addFunction);
 		addFuncSame(sm, removeFunction);
 		sm["addThread"] = sol::overload(
-			static_cast<shared_ptr<ai::Thread>(ai::StateMachine::*)(shared_ptr<ai::Function>)>(&ai::StateMachine::addThread),
-			static_cast<shared_ptr<ai::Thread>(ai::StateMachine::*)(shared_ptr<ai::Thread>)>(&ai::StateMachine::addThread)
+			static_cast<local_shared_ptr<ai::Thread>(ai::StateMachine::*)(local_shared_ptr<ai::Function>)>(&ai::StateMachine::addThread),
+			static_cast<local_shared_ptr<ai::Thread>(ai::StateMachine::*)(local_shared_ptr<ai::Thread>)>(&ai::StateMachine::addThread)
 		);
 		sm["removeThread"] = sol::overload(
-			static_cast<void(ai::StateMachine::*)(shared_ptr<ai::Thread>)>(&ai::StateMachine::removeThread),
+			static_cast<void(ai::StateMachine::*)(local_shared_ptr<ai::Thread>)>(&ai::StateMachine::removeThread),
 			static_cast<void(ai::StateMachine::*)(const string&)>(&ai::StateMachine::removeThread)
 		);
 		addFuncSame(sm, isThreadRunning);

@@ -76,7 +76,7 @@ spell_cost ScriptedSpellDescriptor::getCost() const
 	return params.cost;
 }
 
-Spell* ScriptedSpellDescriptor::generate(GObject* caster, shared_ptr<SpellDesc> desc, unsigned int id)
+Spell* ScriptedSpellDescriptor::generate(GObject* caster, local_shared_ptr<SpellDesc> desc, unsigned int id)
 {
 	return new ScriptedSpell(caster, desc, id, clsName);
 }

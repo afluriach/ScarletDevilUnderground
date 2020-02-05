@@ -46,7 +46,7 @@ public:
 		GSpace* space,
 		ObjectIDType id,
 		const agent_attributes& attr,
-		shared_ptr<agent_properties> props
+		local_shared_ptr<agent_properties> props
 	);
 	inline virtual ~Player() {}
     
@@ -130,10 +130,10 @@ protected:
 	float spellCooldown = 0.0f;
 	unsigned int crntSpell = 0;
 
-	shared_ptr<bomb_properties> crntBomb;
-	vector<shared_ptr<FirePattern>> firePatterns;
-	vector<shared_ptr<SpellDesc>> powerAttacks;
-	vector<shared_ptr<SpellDesc>> spells;
+	local_shared_ptr<bomb_properties> crntBomb;
+	vector<local_shared_ptr<FirePattern>> firePatterns;
+	vector<local_shared_ptr<SpellDesc>> powerAttacks;
+	vector<local_shared_ptr<SpellDesc>> spells;
 	int firePatternIdx = -1;
 	int powerAttackIdx = -1;
 	int spellIdx = -1;

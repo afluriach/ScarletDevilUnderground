@@ -10,14 +10,14 @@
 
 #include "FirePatternImpl.hpp"
 
-shared_ptr<firepattern_properties> firepattern_properties::makeSingle(
-	shared_ptr<bullet_properties> props,
+local_shared_ptr<firepattern_properties> firepattern_properties::makeSingle(
+	local_shared_ptr<bullet_properties> props,
 	SpaceFloat interval,
 	SpaceFloat distance,
 	SpaceFloat burstInterval,
 	int burstCount
 ) {
-	auto result = make_shared<firepattern_properties>();
+	auto result = make_local_shared<firepattern_properties>();
 
 	result->bullet = props;
 	result->fireInterval = interval;
@@ -32,13 +32,13 @@ shared_ptr<firepattern_properties> firepattern_properties::makeSingle(
 	return result;
 }
 
-shared_ptr<firepattern_properties>firepattern_properties::makeRadius(
-	shared_ptr<bullet_properties> props,
+local_shared_ptr<firepattern_properties>firepattern_properties::makeRadius(
+	local_shared_ptr<bullet_properties> props,
 	SpaceFloat interval,
 	SpaceFloat distance,
 	int count
 ) {
-	auto result = make_shared<firepattern_properties>();
+	auto result = make_local_shared<firepattern_properties>();
 	SpaceFloat angleStep = float_pi * 2.0 / count;
 
 	result->bullet = props;
@@ -58,8 +58,8 @@ shared_ptr<firepattern_properties>firepattern_properties::makeRadius(
 	return result;
 }
 
-shared_ptr<firepattern_properties> firepattern_properties::makeSpread(
-	shared_ptr<bullet_properties> props,
+local_shared_ptr<firepattern_properties> firepattern_properties::makeSpread(
+	local_shared_ptr<bullet_properties> props,
 	SpaceFloat interval,
 	SpaceFloat distance,
 	SpaceFloat burstInterval,
@@ -67,7 +67,7 @@ shared_ptr<firepattern_properties> firepattern_properties::makeSpread(
 	SpaceFloat sideAngle,
 	int emitterCount
 ) {
-	auto result = make_shared<firepattern_properties>();
+	auto result = make_local_shared<firepattern_properties>();
 	SpaceFloat spread = sideAngle * 2.0;
 	SpaceFloat angleStep = spread / (emitterCount - 1);
 
@@ -90,7 +90,7 @@ shared_ptr<firepattern_properties> firepattern_properties::makeSpread(
 
 FirePatternImpl::FirePatternImpl(
 	Agent *const agent,
-	shared_ptr<firepattern_properties> props
+	local_shared_ptr<firepattern_properties> props
 ) :
 	FirePattern(agent),
 	props(props)

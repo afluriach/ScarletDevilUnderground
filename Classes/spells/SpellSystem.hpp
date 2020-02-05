@@ -27,7 +27,7 @@ public:
 	SpellSystem(GSpace* gspace);
 	~SpellSystem();
 
-	unsigned int cast(shared_ptr<SpellDesc> desc, GObject* caster);
+	unsigned int cast(local_shared_ptr<SpellDesc> desc, GObject* caster);
 
 	void stopSpell(unsigned int id);
 	bool isSpellActive(unsigned int id);

@@ -46,7 +46,7 @@ spell_params::spell_params(
 {
 }
 
-Spell::Spell(GObject* caster, shared_ptr<SpellDesc> desc, unsigned int id, spell_params params) :
+Spell::Spell(GObject* caster, local_shared_ptr<SpellDesc> desc, unsigned int id, spell_params params) :
 	caster(caster),
 	descriptor(desc),
 	id(id),
@@ -61,7 +61,7 @@ GSpace* Spell::getSpace() const {
 	return caster->space;
 }
 
-bullet_attributes Spell::getBulletAttributes(shared_ptr<bullet_properties> props) const
+bullet_attributes Spell::getBulletAttributes(local_shared_ptr<bullet_properties> props) const
 {
 	auto result = caster->getBulletAttributes(props);
 	result.sourceSpell = id;
@@ -69,7 +69,7 @@ bullet_attributes Spell::getBulletAttributes(shared_ptr<bullet_properties> props
 }
 
 gobject_ref Spell::spawnBullet(
-	shared_ptr<bullet_properties> props,
+	local_shared_ptr<bullet_properties> props,
 	SpaceVect displacement,
 	SpaceVect velocity,
 	SpaceFloat angle,
@@ -86,7 +86,7 @@ gobject_ref Spell::spawnBullet(
 }
 
 gobject_ref Spell::launchBullet(
-	shared_ptr<bullet_properties> props,
+	local_shared_ptr<bullet_properties> props,
 	SpaceVect displacement,
 	SpaceFloat angle,
 	SpaceFloat angularVelocity,
@@ -134,7 +134,7 @@ void Spell::stop()
 	getSpace()->spellSystem->stopSpell(id);
 }
 
-shared_ptr<SpellDesc> Spell::getDescriptorByName(const string& name)
+local_shared_ptr<SpellDesc> Spell::getDescriptorByName(const string& name)
 {
 	auto it = spellDescriptors.find(name);
 
@@ -157,7 +157,7 @@ spell_params ScriptedSpell::getParams(string clsName)
 	return f ? f() : spell_params();
 }
 
-ScriptedSpell::ScriptedSpell(GObject* caster, shared_ptr<SpellDesc> desc, unsigned int id, string clsName) :
+ScriptedSpell::ScriptedSpell(GObject* caster, local_shared_ptr<SpellDesc> desc, unsigned int id, string clsName) :
 	Spell(caster,desc,id, getParams(clsName)),
 	clsName(clsName)
 {
@@ -205,7 +205,7 @@ void ScriptedSpell::onBulletRemove(Bullet* b)
 	}
 }
 
-ApplySelfEffect::ApplySelfEffect(GObject* caster, shared_ptr<SpellDesc> desc, unsigned int id, spell_params params, shared_ptr<MagicEffectDescriptor> effect) :
+ApplySelfEffect::ApplySelfEffect(GObject* caster, local_shared_ptr<SpellDesc> desc, unsigned int id, spell_params params, local_shared_ptr<MagicEffectDescriptor> effect) :
 	Spell(caster, desc, id, params),
 	effect(effect)
 {

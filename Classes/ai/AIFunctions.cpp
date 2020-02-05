@@ -209,7 +209,7 @@ string CompositeFunction::getName()
 	return "CompositeFunction";
 }
 
-void CompositeFunction::addFunction(shared_ptr<Function> f)
+void CompositeFunction::addFunction(local_shared_ptr<Function> f)
 {
 	if (hasInit) {
 		f->onEnter();
@@ -219,7 +219,7 @@ void CompositeFunction::addFunction(shared_ptr<Function> f)
 	events &= f->getEvents();
 }
 
-void CompositeFunction::removeFunction(shared_ptr<Function> f)
+void CompositeFunction::removeFunction(local_shared_ptr<Function> f)
 {
 	auto it = functions.begin();
 	while (it != functions.end()) {
@@ -1172,7 +1172,7 @@ update_return PolarMove::update()
 	return_steady();
 }
 
-shared_ptr<FollowPath> FollowPath::pathToTarget(
+local_shared_ptr<FollowPath> FollowPath::pathToTarget(
 	StateMachine* fsm,
 	gobject_ref target
 ){
@@ -1191,7 +1191,7 @@ shared_ptr<FollowPath> FollowPath::pathToTarget(
 		return nullptr;
 	}
 
-	return make_shared<FollowPath>(
+	return make_local_shared<FollowPath>(
 		fsm,
 		path,
 		false,
@@ -1397,7 +1397,7 @@ update_return Operation::update() {
 	return_pop();
 }
 
-Cast::Cast(StateMachine* fsm, shared_ptr<SpellDesc> spell_desc, SpaceFloat length) :
+Cast::Cast(StateMachine* fsm, local_shared_ptr<SpellDesc> spell_desc, SpaceFloat length) :
 Function(fsm),
 spell_desc(spell_desc),
 length(length)
@@ -1440,7 +1440,7 @@ void Cast::onExit()
 	stopSpell();
 }
 
-HPCast::HPCast(StateMachine* fsm, shared_ptr<SpellDesc> spell_desc, float hp_difference) :
+HPCast::HPCast(StateMachine* fsm, local_shared_ptr<SpellDesc> spell_desc, float hp_difference) :
 	Function(fsm),
 	spell_desc(spell_desc),
 	hp_difference(hp_difference)
@@ -1474,7 +1474,7 @@ void HPCast::onExit()
 
 HPCastSequence::HPCastSequence(
 	StateMachine* fsm,
-	const vector<shared_ptr<SpellDesc>>& spells,
+	const vector<local_shared_ptr<SpellDesc>>& spells,
 	const boost::icl::interval_map<float, int> intervals
 ) :
 	Function(fsm),
@@ -1533,7 +1533,7 @@ update_return FireOnStress::update()
 ThrowBombs::ThrowBombs(
 	StateMachine* fsm,
 	gobject_ref target,
-	shared_ptr<bomb_properties> bombType,
+	local_shared_ptr<bomb_properties> bombType,
 	SpaceFloat throwingSpeed,
 	SpaceFloat baseInterval
 ) :
@@ -1599,7 +1599,7 @@ update_return ThrowBombs::update()
 			SpaceVect bombVel = agent->getVel() + SpaceVect::ray(throwingSpeed, angle);
 
 			getSpace()->createObject<Bomb>(
-				make_shared<object_params>(bombPos, bombVel),
+				make_local_shared<object_params>(bombPos, bombVel),
 				bombType
 			);
 

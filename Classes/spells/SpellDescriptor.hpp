@@ -29,7 +29,7 @@ public:
 
 	virtual spell_cost getCost() const = 0;
 
-	virtual Spell* generate(GObject* caster, shared_ptr<SpellDesc> desc, unsigned int id) = 0;
+	virtual Spell* generate(GObject* caster, local_shared_ptr<SpellDesc> desc, unsigned int id) = 0;
 };
 
 class ScriptedSpellDescriptor : public SpellDesc
@@ -45,7 +45,7 @@ public:
 	virtual string getIcon() const;
 	virtual spell_cost getCost() const;
 
-	virtual Spell* generate(GObject* caster, shared_ptr<SpellDesc> desc, unsigned int id);
+	virtual Spell* generate(GObject* caster, local_shared_ptr<SpellDesc> desc, unsigned int id);
 protected:
 	string clsName;
 };
@@ -75,7 +75,7 @@ public:
 			return spell_cost{};
 	}
 
-	virtual inline Spell* generate(GObject* caster, shared_ptr<SpellDesc> desc, unsigned int id)
+	virtual inline Spell* generate(GObject* caster, local_shared_ptr<SpellDesc> desc, unsigned int id)
 	{
 		return new T(caster, desc, id);
 	}

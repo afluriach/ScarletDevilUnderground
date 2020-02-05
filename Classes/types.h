@@ -44,9 +44,9 @@ typedef function<void(void)> zero_arity_function;
 typedef function<void(const vector<string>&)> InterfaceFunction;
 
 typedef function<GObject*(GSpace*, ObjectIDType)> ObjectGeneratorType;
-typedef function<ObjectGeneratorType(shared_ptr<object_params> )> ParamsGeneratorType;
+typedef function<ObjectGeneratorType(local_shared_ptr<object_params> )> ParamsGeneratorType;
 typedef function<FiniteTimeAction*()> ActionGeneratorType;
-typedef function<shared_ptr<FirePattern>(Agent*)> FirePatternGeneratorType;
+typedef function<local_shared_ptr<FirePattern>(Agent*)> FirePatternGeneratorType;
 //
 
 struct GraphicsAction

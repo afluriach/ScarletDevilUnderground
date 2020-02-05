@@ -37,9 +37,9 @@ void circle_around_point(StateMachine* fsm, const ValueMap& args)
 
 	fsm->addAlertFunction([waypoint, angularPos, waypointValid](StateMachine* sm, Player* p)->void {
 		if (waypointValid) {
-			sm->addThread(make_shared<CircleAround>(sm, waypoint, angularPos, float_pi / 4.0));
+			sm->addThread(make_local_shared<CircleAround>(sm, waypoint, angularPos, float_pi / 4.0));
 		}
-		sm->addThread(make_shared<FireIfTargetVisible>(sm, p));
+		sm->addThread(make_local_shared<FireIfTargetVisible>(sm, p));
 	});
 }
 
@@ -50,7 +50,7 @@ void blue_fairy_follow_path(StateMachine* fsm, const ValueMap& args)
 
 	if (path) {
 		fsm->addAlertFunction([path](StateMachine* sm, Player* p) -> void {
-			auto comp = make_shared<CompositeFunction>(sm);
+			auto comp = make_local_shared<CompositeFunction>(sm);
 			comp->addFunction<FollowPath>(*path, true, true);
 			comp->addFunction<LookTowardsFire>(true);
 			comp->addFunction<FireOnStress>(5.0f);
@@ -65,8 +65,8 @@ void ghost_fairy(StateMachine* fsm, const ValueMap& args)
 	fsm->addDetectFunction(
 		GType::player,
 		[](StateMachine& sm, GObject* target) -> void {
-			sm.addThread(make_shared<Flank>(&sm, target, 4.0, 0.75));
-			sm.addThread(make_shared<FireAtTarget>(&sm, target));
+			sm.addThread(make_local_shared<Flank>(&sm, target, 4.0, 0.75));
+			sm.addThread(make_local_shared<FireAtTarget>(&sm, target));
 		},
 		[](StateMachine& sm, GObject* target) -> void {
 			sm.removeThread("MaintainDistance");
@@ -79,8 +79,8 @@ void red_fairy(StateMachine* fsm, const ValueMap& args)
 {
 	Agent* agent = fsm->getAgent();
 
-	AITargetFunctionGenerator engage = [](StateMachine* fsm, GObject* target) -> shared_ptr<Function> {
-		auto comp = make_shared<CompositeFunction>(fsm);
+	AITargetFunctionGenerator engage = [](StateMachine* fsm, GObject* target) -> local_shared_ptr<Function> {
+		auto comp = make_local_shared<CompositeFunction>(fsm);
 		comp->addFunction<ThrowBombs>(
 			target,
 			app::getBomb("RedFairyBomb"),
@@ -94,7 +94,7 @@ void red_fairy(StateMachine* fsm, const ValueMap& args)
 	};
 
 	fsm->addAlertFunction([](StateMachine* sm, Player* p)->void {
-		sm->addThread(make_shared<Wander>(sm, 1.5, 2.5, 2.0, 3.0));
+		sm->addThread(make_local_shared<Wander>(sm, 1.5, 2.5, 2.0, 3.0));
 	});
 
 	fsm->addFleeBomb();
@@ -114,7 +114,7 @@ void fairy2(StateMachine* fsm, const ValueMap& args) {
 	fsm->addDetectFunction(
 		GType::player,
 		[](StateMachine& sm, GObject* target) -> void {
-			sm.addThread(make_shared<MaintainDistance>(&sm, target, 3.0f, 1.0f));
+			sm.addThread(make_local_shared<MaintainDistance>(&sm, target, 3.0f, 1.0f));
 		},
 		[](StateMachine& sm, GObject* target) -> void {
 			sm.removeThread("MaintainDistance");
@@ -123,8 +123,8 @@ void fairy2(StateMachine* fsm, const ValueMap& args) {
 }
 
 void ice_fairy(StateMachine* fsm, const ValueMap& args) {
-	auto engage = [](StateMachine* fsm, GObject* target) -> shared_ptr<Function> {
-		auto comp = make_shared<CompositeFunction>(fsm);
+	auto engage = [](StateMachine* fsm, GObject* target) -> local_shared_ptr<Function> {
+		auto comp = make_local_shared<CompositeFunction>(fsm);
 		comp->addFunction<FireAtTarget>(target);
 		comp->addFunction<MaintainDistance>(target, 3.0f, 1.0f);
 		return comp;
@@ -134,12 +134,12 @@ void ice_fairy(StateMachine* fsm, const ValueMap& args) {
 
 void collect_marisa(StateMachine* fsm, const ValueMap& args)
 {
-	fsm->addThread(make_shared<MarisaCollectMain>(fsm));
+	fsm->addThread(make_local_shared<MarisaCollectMain>(fsm));
 }
 
 void forest_marisa(StateMachine* fsm, const ValueMap& args)
 {
-	fsm->addThread(make_shared<MarisaForestMain>(fsm));
+	fsm->addThread(make_local_shared<MarisaForestMain>(fsm));
 }
 
 void patchouli_enemy(StateMachine* fsm, const ValueMap& args)
@@ -151,9 +151,9 @@ void patchouli_enemy(StateMachine* fsm, const ValueMap& args)
 		make_pair(0.0f,50.0f),
 	};
 
-	fsm->addThread(make_shared<HPCastSequence>(
+	fsm->addThread(make_local_shared<HPCastSequence>(
 		fsm,
-		vector<shared_ptr<SpellDesc>>{
+		vector<local_shared_ptr<SpellDesc>>{
 			Spell::getDescriptorByName("FireStarburst"),
 			Spell::getDescriptorByName("FlameFence"),
 			Spell::getDescriptorByName("Whirlpool1"),
@@ -166,7 +166,7 @@ void patchouli_enemy(StateMachine* fsm, const ValueMap& args)
 void reimu_enemy(StateMachine* fsm, const ValueMap& args)
 {
 	auto object = fsm->getObject();
-	auto boss = make_shared<BossFightHandler>(fsm, "dialogs/reimu_forest_pre_fight", "dialogs/reimu_forest_post_fight");
+	auto boss = make_local_shared<BossFightHandler>(fsm, "dialogs/reimu_forest_pre_fight", "dialogs/reimu_forest_post_fight");
 	fsm->addFunction(boss);
 	fsm->addFunction<ReimuYinYangOrbs>();
 
@@ -174,8 +174,8 @@ void reimu_enemy(StateMachine* fsm, const ValueMap& args)
 		GType::player,
 		[object](StateMachine& sm, GObject* target) -> void {
 			if (!sm.isThreadRunning("Flank")) {
-				sm.addThread(make_shared<FireAtTarget>(&sm, target));
-				sm.addThread(make_shared<Flank>(&sm, target, 3.0, 2.0));
+				sm.addThread(make_local_shared<FireAtTarget>(&sm, target));
+				sm.addThread(make_local_shared<Flank>(&sm, target, 3.0, 2.0));
 			}
 		},
 		[object](StateMachine& sm, GObject* target) -> void {}
@@ -185,7 +185,7 @@ void reimu_enemy(StateMachine* fsm, const ValueMap& args)
 void rumia2(StateMachine* fsm, const ValueMap& args)
 {
 	auto engage = makeTargetFunctionGenerator<RumiaMain2>();
-	auto boss = make_shared<BossFightHandler>(fsm, "dialogs/rumia3", "dialogs/rumia4");
+	auto boss = make_local_shared<BossFightHandler>(fsm, "dialogs/rumia3", "dialogs/rumia4");
 
 	fsm->addFunction(boss);
 	fsm->addOnDetectHandler(GType::player, engage);
@@ -193,7 +193,7 @@ void rumia2(StateMachine* fsm, const ValueMap& args)
 
 void sakuya(StateMachine* fsm, const ValueMap& args)
 {
-	fsm->addThread(make_shared<SakuyaMain>(fsm));
+	fsm->addThread(make_local_shared<SakuyaMain>(fsm));
 }
 
 #define package(name) {#name, &name}

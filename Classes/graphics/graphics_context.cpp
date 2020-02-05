@@ -105,7 +105,7 @@ void graphics_context::_removeSprite(SpriteID id)
 	animationNodes.erase(id);
 }
 
-void graphics_context::addPolyLightSource(LightID id, shared_ptr<LightArea> light, SpaceVect pos, SpaceFloat angle)
+void graphics_context::addPolyLightSource(LightID id, boost::shared_ptr<LightArea> light, SpaceVect pos, SpaceFloat angle)
 {
 	if (!light) return;
 

@@ -24,7 +24,7 @@ update_return::update_return() :
 {
 }
 
-update_return::update_return(int idx, shared_ptr<Function> f) :
+update_return::update_return(int idx, local_shared_ptr<Function> f) :
 	idx(idx),
 	f(f)
 {
@@ -61,7 +61,7 @@ Player* Event::getRoomAlert()
 	return eventType == event_type::roomAlert ? any_cast<Player*>(data) : nullptr;
 }
 
-shared_ptr<Function> Function::constructState(
+local_shared_ptr<Function> Function::constructState(
 	const string& type,
 	StateMachine* fsm,
 	const ValueMap& args
@@ -101,7 +101,7 @@ physics_context* Function::getPhys() const {
 	return getSpace()->physicsContext.get();
 }
 
-bool Function::castSpell(shared_ptr<SpellDesc> desc)
+bool Function::castSpell(local_shared_ptr<SpellDesc> desc)
 {
 	if (spellID != 0)
 		stopSpell();
@@ -121,7 +121,7 @@ void Function::stopSpell()
 	spellID = 0;
 }
 
-Thread::Thread(shared_ptr<Function> threadMain, StateMachine* sm) :
+Thread::Thread(local_shared_ptr<Function> threadMain, StateMachine* sm) :
 	sm(sm)
 {
 	if (threadMain) {
@@ -155,7 +155,7 @@ bool Thread::onEvent(Event event)
 	return callInterface(&Function::onEvent, event);
 }
 
-void Thread::push(shared_ptr<Function> newState)
+void Thread::push(local_shared_ptr<Function> newState)
 {
 	newState->thread = this;
 	sm->addFunction(newState);
@@ -185,7 +185,7 @@ void Thread::popToRoot()
 	}
 }
 
-shared_ptr<Function> Thread::getTop()
+local_shared_ptr<Function> Thread::getTop()
 {
 	return call_stack.back();
 }
@@ -246,14 +246,14 @@ void StateMachine::update()
     }
 }
 
-void StateMachine::addFunction(shared_ptr<Function> function)
+void StateMachine::addFunction(local_shared_ptr<Function> function)
 {
 	event_bitset events = function->getEvents();
 	if(events.any())
 		functions.push_back(make_pair(events, function));
 }
 
-void StateMachine::removeFunction(shared_ptr<Function> function)
+void StateMachine::removeFunction(local_shared_ptr<Function> function)
 {
 	event_bitset events = function->getEvents();
 	if (events.any()) {
@@ -261,22 +261,22 @@ void StateMachine::removeFunction(shared_ptr<Function> function)
 	}
 }
 
-shared_ptr<Thread> StateMachine::addThread(shared_ptr<Thread> thread)
+local_shared_ptr<Thread> StateMachine::addThread(local_shared_ptr<Thread> thread)
 {
 	current_threads.push_back(thread);
 	addFunction(thread->getTop());
 	return thread;
 }
 
-shared_ptr<Thread> StateMachine::addThread(shared_ptr<Function> threadMain)
+local_shared_ptr<Thread> StateMachine::addThread(local_shared_ptr<Function> threadMain)
 {
-	auto t = make_shared<Thread>(threadMain,this);
+	auto t = make_local_shared<Thread>(threadMain,this);
 
    addThread(t);
    return t;
 }
 
-void StateMachine::removeThread(shared_ptr<Thread> t)
+void StateMachine::removeThread(local_shared_ptr<Thread> t)
 {
 	current_threads.remove(t);
 }
@@ -374,13 +374,13 @@ void StateMachine::onZeroStamina()
 
 void StateMachine::addOnDetectHandler(GType type, AITargetFunctionGenerator gen)
 {
-	auto detect = make_shared<OnDetect>(this, type, gen);
+	auto detect = make_local_shared<OnDetect>(this, type, gen);
 	addFunction(detect);
 }
 
 void StateMachine::addWhileDetectHandler(GType type, AITargetFunctionGenerator gen)
 {
-	auto detect = make_shared<WhileDetect>(this, type, gen);
+	auto detect = make_local_shared<WhileDetect>(this, type, gen);
 	addFunction(detect);
 }
 
@@ -391,19 +391,19 @@ void StateMachine::addFleeBomb()
 
 void StateMachine::addDetectFunction(GType t, detect_function begin, detect_function end)
 {
-	auto detect = make_shared<OnDetectFunction>(this, t, begin, end);
+	auto detect = make_local_shared<OnDetectFunction>(this, t, begin, end);
 	addFunction(detect);
 }
 
 void StateMachine::addAlertHandler(AITargetFunctionGenerator gen)
 {
-	auto alert = make_shared<OnAlert>(this, gen);
+	auto alert = make_local_shared<OnAlert>(this, gen);
 	addFunction(alert);
 }
 
 void StateMachine::addAlertFunction(alert_function f)
 {
-	auto alert = make_shared<OnAlertFunction>(this, f);
+	auto alert = make_local_shared<OnAlertFunction>(this, f);
 	addFunction(alert);
 }
 

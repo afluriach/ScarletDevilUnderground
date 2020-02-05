@@ -75,7 +75,7 @@ update_return MarisaCollectMain::update()
 void MarisaForestMain::onEnter()
 {
 	gobject_ref player = fsm->getSpace()->getObjectRef("player");
-	aimFunction = make_shared<ai::AimAtTarget>(fsm, player);
+	aimFunction = make_local_shared<ai::AimAtTarget>(fsm, player);
 }
 
 update_return MarisaForestMain::update()

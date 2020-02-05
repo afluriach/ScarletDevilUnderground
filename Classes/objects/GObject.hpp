@@ -22,8 +22,8 @@ class SpellDesc;
 
 #define MapObjCons(cls) cls(GSpace* space, ObjectIDType id, const ValueMap& args)
 #define MapObjForwarding(cls) cls(space,id,args)
-#define MapObjParams() GObject(make_shared<object_params>(space,id,args))
-#define ParamsCons(cls) cls(shared_ptr<object_params> params)
+#define MapObjParams() GObject(make_local_shared<object_params>(space,id,args))
+#define ParamsCons(cls) cls(local_shared_ptr<object_params> params)
 #define ParamsForwarding(cls) cls(params)
 
 class GObject
@@ -77,7 +77,7 @@ public:
 	}
 
 	template<class ObjectCls, typename... ConsArgs>
-	static inline ObjectGeneratorType params_object_factory(shared_ptr<object_params> params, ConsArgs... args)
+	static inline ObjectGeneratorType params_object_factory(local_shared_ptr<object_params> params, ConsArgs... args)
 	{
 		return[params, args...](GSpace* space, ObjectIDType id)->GObject* {
 			params->space = space;
@@ -114,7 +114,7 @@ public:
 		return scriptObj[name](scriptObj, args...);
 	}
 
-	GObject(shared_ptr<object_params> params, const physics_params& phys);
+	GObject(local_shared_ptr<object_params> params, const physics_params& phys);
     virtual ~GObject();
 
 	virtual void removePhysicsObjects();
@@ -173,8 +173,8 @@ public:
 
 	//StateMachine
 	void updateFSM();
-	shared_ptr<ai::Thread> addThread(shared_ptr<ai::Function> threadMain);
-	void removeThread(shared_ptr<ai::Thread> t);
+	local_shared_ptr<ai::Thread> addThread(local_shared_ptr<ai::Function> threadMain);
+	void removeThread(local_shared_ptr<ai::Thread> t);
 	void removeThread(const string& name);
 	void printFSM();
 	void setFrozen(bool val);
@@ -188,13 +188,13 @@ public:
 	inline virtual bool applyOngoingSpellCost(const spell_cost& cost) { return true; }
 
 	//Bullets
-	virtual bullet_attributes getBulletAttributes(shared_ptr<bullet_properties> props) const;
+	virtual bullet_attributes getBulletAttributes(local_shared_ptr<bullet_properties> props) const;
 	bool isBulletObstacle(SpaceVect pos, SpaceFloat radius);
 
 	//Used by Spell, to override bullet attributes.
 	gobject_ref GObject::_spawnBullet(
 		const bullet_attributes& attributes,
-		shared_ptr<bullet_properties> props,
+		local_shared_ptr<bullet_properties> props,
 		SpaceVect displacement,
 		SpaceVect velocity,
 		SpaceFloat angle,
@@ -202,7 +202,7 @@ public:
 	);
 	gobject_ref _launchBullet(
 		const bullet_attributes& attributes,
-		shared_ptr<bullet_properties> props,
+		local_shared_ptr<bullet_properties> props,
 		SpaceVect displacement,
 		SpaceFloat angle,
 		SpaceFloat angularVelocity,
@@ -210,14 +210,14 @@ public:
 	);
 
 	gobject_ref spawnBullet(
-		shared_ptr<bullet_properties> props,
+		local_shared_ptr<bullet_properties> props,
 		SpaceVect displacement,
 		SpaceVect velocity,
 		SpaceFloat angle,
 		SpaceFloat angularVelocity
 	);
 	gobject_ref launchBullet(
-		shared_ptr<bullet_properties> props,
+		local_shared_ptr<bullet_properties> props,
 		SpaceVect displacement,
 		SpaceFloat angle,
 		SpaceFloat angularVelocity = 0.0,
@@ -304,7 +304,7 @@ public:
         //The Z-order used by Cocos2D.
 	virtual GraphicsLayer sceneLayer() const;
 	inline virtual string getSprite() const { return ""; }
-	inline virtual shared_ptr<LightArea> getLightSource() const { return nullptr; }
+	inline virtual boost::shared_ptr<LightArea> getLightSource() const { return nullptr; }
 	int sceneLayerAsInt() const;
     virtual sprite_update updateSprite();
 	void initLightSource();
@@ -338,8 +338,8 @@ public:
 
 	//BEGIN SPELLS
 
-	unsigned int cast(shared_ptr<SpellDesc> desc);
-	unsigned int applyMagicEffect(shared_ptr<MagicEffectDescriptor> effect, float magnitude, float length);
+	unsigned int cast(local_shared_ptr<SpellDesc> desc);
+	unsigned int applyMagicEffect(local_shared_ptr<MagicEffectDescriptor> effect, float magnitude, float length);
 
 	inline void setInhibitSpellcasting(bool v) { inhibitSpellcasting = v; }
 

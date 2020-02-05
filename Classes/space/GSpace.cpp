@@ -295,9 +295,9 @@ gobject_ref GSpace::createObject(ObjectGeneratorType generator)
 }
 
 gobject_ref GSpace::createBullet(
-	shared_ptr<object_params> params,
+	local_shared_ptr<object_params> params,
 	const bullet_attributes& attributes,
-	shared_ptr<bullet_properties> props
+	local_shared_ptr<bullet_properties> props
 ) {
 	return createObject<Bullet>(params, attributes, props);
 }
@@ -1020,7 +1020,7 @@ vector<SpaceVect> GSpace::pathToTile(IntVec2 begin, IntVec2 end)
 
 //END NAVIGATION
 
-LightID GSpace::addLightSource(shared_ptr<LightArea> light, SpaceVect pos, SpaceFloat angle)
+LightID GSpace::addLightSource(boost::shared_ptr<LightArea> light, SpaceVect pos, SpaceFloat angle)
 {
 	LightID id = graphicsContext->getLightID();
 

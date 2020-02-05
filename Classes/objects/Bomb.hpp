@@ -27,7 +27,7 @@ class Bomb : public GObject
 public:
 	static const SpaceFloat explosionSpriteRadius;
 
-	Bomb(shared_ptr<object_params> params, shared_ptr<bomb_properties> props);
+	Bomb(local_shared_ptr<object_params> params, local_shared_ptr<bomb_properties> props);
 	inline virtual ~Bomb() {}
 
 	virtual inline SpaceFloat uk() const { return props->friction; }
@@ -47,7 +47,7 @@ public:
 	inline virtual string getSprite() const { return props->sprite; }
 	virtual bool hit(DamageInfo damage, SpaceVect n);
 protected:
-	shared_ptr<bomb_properties> props;
+	local_shared_ptr<bomb_properties> props;
 
 	SpaceFloat countdown;
 	ALuint fuseSound = 0;

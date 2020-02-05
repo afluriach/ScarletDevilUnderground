@@ -16,17 +16,17 @@
 template<class C>
 FirePatternGeneratorType factoryAdapter()
 {
-	return [](Agent* agent) -> shared_ptr<FirePattern> {
-		return make_shared<C>(agent);
+	return [](Agent* agent) -> local_shared_ptr<FirePattern> {
+		return make_local_shared<C>(agent);
 	};
 }
 
 FirePatternGeneratorType implFactoryAdapter(string fpName)
 {
-	return [fpName](Agent* agent) -> shared_ptr<FirePattern> {
+	return [fpName](Agent* agent) -> local_shared_ptr<FirePattern> {
 		auto props = app::getFirePattern(fpName);
 
-		return make_shared<FirePatternImpl>(agent, props);
+		return make_local_shared<FirePatternImpl>(agent, props);
 	};
 }
 

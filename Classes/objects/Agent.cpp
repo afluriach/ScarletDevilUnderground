@@ -55,7 +55,7 @@ agent_attributes Agent::parseAttributes(const ValueMap& args)
 	return result;
 }
 
-bool Agent::conditionalLoad(GSpace* space, const agent_attributes& attrs, shared_ptr<agent_properties> props)
+bool Agent::conditionalLoad(GSpace* space, const agent_attributes& attrs, local_shared_ptr<agent_properties> props)
 {
 	if (attrs.name.size() > 0 && App::crntState->isObjectRemoved(space->getCrntChamber(), attrs.name)) {
 		return false;
@@ -80,10 +80,10 @@ Agent::Agent(
 	ObjectIDType id,
 	GType type,
 	const agent_attributes& attr,
-	shared_ptr<agent_properties> props
+	local_shared_ptr<agent_properties> props
 ) :
 	GObject(
-		make_shared<object_params>(space, id, attr.name, attr.pos, attr.angle),
+		make_local_shared<object_params>(space, id, attr.name, attr.pos, attr.angle),
 		physics_params(
 			type,
 			props->isFlying ? flyingLayers : onGroundLayers,
@@ -106,7 +106,7 @@ Agent::~Agent()
 {
 }
 
-bullet_attributes Agent::getBulletAttributes(shared_ptr<bullet_properties> props) const
+bullet_attributes Agent::getBulletAttributes(local_shared_ptr<bullet_properties> props) const
 {
 	bullet_attributes result;
 
@@ -125,7 +125,7 @@ string Agent::getSprite() const
 	return props->sprite;
 }
 
-shared_ptr<LightArea> Agent::getLightSource() const
+boost::shared_ptr<LightArea> Agent::getLightSource() const
 {
 	return props->lightSource;
 }
@@ -310,7 +310,7 @@ bool Agent::setFirePattern(string firePattern)
 	auto props = app::getFirePattern(firePattern);
 
 	if (props) {
-		this->firePattern = make_shared<FirePatternImpl>(this, props);
+		this->firePattern = make_local_shared<FirePatternImpl>(this, props);
 		return true;
 	}
 	else{

@@ -22,20 +22,20 @@ namespace app {
 
 unordered_map<string, area_properties> areas;
 unordered_map<string, AttributeMap> attributes;
-unordered_map<string, shared_ptr<bomb_properties>> bombs;
-unordered_map<string, shared_ptr<bullet_properties>> bullets;
+unordered_map<string, local_shared_ptr<bomb_properties>> bombs;
+unordered_map<string, local_shared_ptr<bullet_properties>> bullets;
 unordered_map<string, collectible_properties> collectibles;
-unordered_map<string, shared_ptr<MagicEffectDescriptor>> effects;
-unordered_map<string, shared_ptr<enemy_properties>> enemies;
-unordered_map<string, shared_ptr<firepattern_properties>> firePatterns;
+unordered_map<string, local_shared_ptr<MagicEffectDescriptor>> effects;
+unordered_map<string, local_shared_ptr<enemy_properties>> enemies;
+unordered_map<string, local_shared_ptr<firepattern_properties>> firePatterns;
 unordered_map<string, floorsegment_properties> floors;
-unordered_map<string, shared_ptr<item_properties>> items;
-unordered_map<string, shared_ptr<LightArea>> lights;
-unordered_map<string, shared_ptr<npc_properties>> npc;
-unordered_map<string, shared_ptr<agent_properties>> players;
+unordered_map<string, local_shared_ptr<item_properties>> items;
+unordered_map<string, boost::shared_ptr<LightArea>> lights;
+unordered_map<string, local_shared_ptr<npc_properties>> npc;
+unordered_map<string, local_shared_ptr<agent_properties>> players;
 unordered_map<string, sprite_properties> sprites;
 
-GObject::AdapterType enemyAdapter(shared_ptr<enemy_properties> props)
+GObject::AdapterType enemyAdapter(local_shared_ptr<enemy_properties> props)
 {
 	return [props](GSpace* space, ObjectIDType id, const ValueMap& args) -> GObject* {
 		agent_attributes attr = Agent::parseAttributes(args);
@@ -49,7 +49,7 @@ GObject::AdapterType enemyAdapter(shared_ptr<enemy_properties> props)
 	};
 }
 
-GObject::AdapterType npcAdapter(shared_ptr<npc_properties> props)
+GObject::AdapterType npcAdapter(local_shared_ptr<npc_properties> props)
 {
 	return [props](GSpace* space, ObjectIDType id, const ValueMap& args) -> GObject* {
 		agent_attributes attr = Agent::parseAttributes(args);
@@ -63,7 +63,7 @@ GObject::AdapterType npcAdapter(shared_ptr<npc_properties> props)
 	};
 }
 
-GObject::AdapterType itemAdapter(shared_ptr<item_properties> props)
+GObject::AdapterType itemAdapter(local_shared_ptr<item_properties> props)
 {
 	return [props](GSpace* space, ObjectIDType id, const ValueMap& args) -> GObject* {
 		item_attributes attr = Item::parseAttributes(args);
@@ -104,7 +104,7 @@ void loadCollectibles()
 
 void loadEffects()
 {
-	loadObjects<shared_ptr<MagicEffectDescriptor>>("objects/magic-effects.xml", app::effects);
+	loadObjects<local_shared_ptr<MagicEffectDescriptor>>("objects/magic-effects.xml", app::effects);
 }
 
 void loadEnemies()
@@ -118,7 +118,7 @@ void loadEnemies()
 
 void loadFirePatterns()
 {
-	loadObjects<shared_ptr<firepattern_properties>>("objects/fire-patterns.xml", app::firePatterns);
+	loadObjects<local_shared_ptr<firepattern_properties>>("objects/fire-patterns.xml", app::firePatterns);
 }
 
 void loadFloors()
@@ -137,7 +137,7 @@ void loadItems()
 
 void loadLights()
 {
-	loadObjects<shared_ptr<LightArea>>("objects/lights.xml", app::lights);
+	loadObjects<boost::shared_ptr<LightArea>>("objects/lights.xml", app::lights);
 }
 
 void loadNPCs()
@@ -164,12 +164,12 @@ area_properties getArea(const string& name)
 	return getOrDefault(areas, name);
 }
 
-shared_ptr<bomb_properties> getBomb(const string& name)
+local_shared_ptr<bomb_properties> getBomb(const string& name)
 {
 	return getOrDefault(bombs, name);
 }
 
-shared_ptr<bullet_properties> getBullet(const string& name)
+local_shared_ptr<bullet_properties> getBullet(const string& name)
 {
 	return getOrDefault(bullets, name);
 }
@@ -179,37 +179,37 @@ collectible_properties getCollectible(const string& name)
 	return getOrDefault(collectibles, name);
 }
 
-shared_ptr<MagicEffectDescriptor> getEffect(const string& name)
+local_shared_ptr<MagicEffectDescriptor> getEffect(const string& name)
 {
 	return getOrDefault(effects, name);
 }
 
-shared_ptr<enemy_properties> getEnemy(const string& name)
+local_shared_ptr<enemy_properties> getEnemy(const string& name)
 {
 	return getOrDefault(enemies, name);
 }
 
-shared_ptr<firepattern_properties> getFirePattern(const string& name)
+local_shared_ptr<firepattern_properties> getFirePattern(const string& name)
 {
 	return getOrDefault(firePatterns, name);
 }
 
-shared_ptr<item_properties> getItem(const string& name)
+local_shared_ptr<item_properties> getItem(const string& name)
 {
 	return getOrDefault(items, name);
 }
 
-shared_ptr<LightArea> getLight(const string& name)
+boost::shared_ptr<LightArea> getLight(const string& name)
 {
 	return getOrDefault(lights, name);
 }
 
-shared_ptr<agent_properties> getNPC(const string& name)
+local_shared_ptr<agent_properties> getNPC(const string& name)
 {
 	return getOrDefault(npc, name);
 }
 
-shared_ptr<agent_properties> getPlayer(const string& name)
+local_shared_ptr<agent_properties> getPlayer(const string& name)
 {
 	return getOrDefault(players, name);
 }
@@ -471,7 +471,7 @@ bool parseObject(tinyxml2::XMLElement* elem, AttributeMap* result)
 	return true;
 }
 
-bool parseObject(tinyxml2::XMLElement* elem, shared_ptr<agent_properties> result)
+bool parseObject(tinyxml2::XMLElement* elem, local_shared_ptr<agent_properties> result)
 {
 	result->typeName = elem->Name();
 	result->radius = Agent::defaultSize;
@@ -499,9 +499,9 @@ bool parseObject(tinyxml2::XMLElement* elem, shared_ptr<agent_properties> result
 	return true;
 }
 
-bool parseObject(tinyxml2::XMLElement* elem, shared_ptr<enemy_properties> result)
+bool parseObject(tinyxml2::XMLElement* elem, local_shared_ptr<enemy_properties> result)
 {
-	parseObject(elem, static_cast<shared_ptr<agent_properties>>(result));
+	parseObject(elem, static_cast<local_shared_ptr<agent_properties>>(result));
 
 	getStringAttr(elem, "firepattern", &result->firepattern);
 	getStringAttr(elem, "collectible", &result->collectible);
@@ -512,7 +512,7 @@ bool parseObject(tinyxml2::XMLElement* elem, shared_ptr<enemy_properties> result
 	return true;
 }
 
-bool parseDialogs(tinyxml2::XMLElement* elem, list<shared_ptr<dialog_entry>>& result)
+bool parseDialogs(tinyxml2::XMLElement* elem, list<local_shared_ptr<dialog_entry>>& result)
 {
 	if (!elem) return false;
 
@@ -526,7 +526,7 @@ bool parseDialogs(tinyxml2::XMLElement* elem, list<shared_ptr<dialog_entry>>& re
 		getStringAttr(d, "condition", &condition);
 		getStringAttr(d, "effect", &effect);
 
-		auto entry = make_shared<dialog_entry>();
+		auto entry = make_local_shared<dialog_entry>();
 		entry->dialog = string(d->Name());
 
 		if (condition.size() > 0)
@@ -542,9 +542,9 @@ bool parseDialogs(tinyxml2::XMLElement* elem, list<shared_ptr<dialog_entry>>& re
 	return true;
 }
 
-bool parseObject(tinyxml2::XMLElement* elem, shared_ptr<npc_properties> result)
+bool parseObject(tinyxml2::XMLElement* elem, local_shared_ptr<npc_properties> result)
 {
-	parseObject(elem, static_cast<shared_ptr<agent_properties>>(result));
+	parseObject(elem, static_cast<local_shared_ptr<agent_properties>>(result));
 
 	tinyxml2::XMLElement* dialogs = elem->FirstChildElement("dialogs");
 	if (dialogs) {
@@ -554,7 +554,7 @@ bool parseObject(tinyxml2::XMLElement* elem, shared_ptr<npc_properties> result)
 	return true;
 }
 
-bool parseObject(tinyxml2::XMLElement* elem, shared_ptr<firepattern_properties>* _output)
+bool parseObject(tinyxml2::XMLElement* elem, local_shared_ptr<firepattern_properties>* _output)
 {
 	SpaceFloat distance = FirePattern::defaultLaunchDistance;
 	SpaceFloat interval = 0.0;
@@ -684,7 +684,7 @@ bool parseObject(tinyxml2::XMLElement* elem, sprite_properties* result)
 	return true;
 }
 
-bool parseObject(tinyxml2::XMLElement* elem, shared_ptr<LightArea>* result)
+bool parseObject(tinyxml2::XMLElement* elem, boost::shared_ptr<LightArea>* result)
 {
 	if (auto attr = elem->Attribute("type"))
 	{
@@ -692,7 +692,7 @@ bool parseObject(tinyxml2::XMLElement* elem, shared_ptr<LightArea>* result)
 
 		if (type == "circle")
 		{
-			auto _result = make_shared<CircleLightArea>();
+			auto _result = boost::make_shared<CircleLightArea>();
 
 			getNumericAttr(elem, "radius", &_result->radius);
 			getNumericAttr(elem, "flood", &_result->flood);
@@ -703,7 +703,7 @@ bool parseObject(tinyxml2::XMLElement* elem, shared_ptr<LightArea>* result)
 		}
 		else if (type == "sprite")
 		{
-			auto _result = make_shared<SpriteLightArea>();
+			auto _result = boost::make_shared<SpriteLightArea>();
 			string spriteName;
 
 			getColorAttr(elem, "color", &_result->color);
@@ -721,7 +721,7 @@ bool parseObject(tinyxml2::XMLElement* elem, shared_ptr<LightArea>* result)
 	return false;
 }
 
-bool parseObject(tinyxml2::XMLElement* elem, shared_ptr<bullet_properties> result)
+bool parseObject(tinyxml2::XMLElement* elem, local_shared_ptr<bullet_properties> result)
 {
 	bullet_properties props{
 		0.0,
@@ -757,7 +757,7 @@ bool parseObject(tinyxml2::XMLElement* elem, shared_ptr<bullet_properties> resul
 	return true;
 }
 
-bool parseObject(tinyxml2::XMLElement* elem, shared_ptr<bomb_properties> result)
+bool parseObject(tinyxml2::XMLElement* elem, local_shared_ptr<bomb_properties> result)
 {
 	bomb_properties props = {
 		"",
@@ -789,7 +789,7 @@ bool parseObject(tinyxml2::XMLElement* elem, shared_ptr<bomb_properties> result)
 	}
 }
 
-bool parseObject(tinyxml2::XMLElement * elem, shared_ptr<item_properties> result)
+bool parseObject(tinyxml2::XMLElement * elem, local_shared_ptr<item_properties> result)
  {
 	copyBaseObjectShared(elem, items, result);	
 	

@@ -42,10 +42,10 @@ enum class event_type
 constexpr size_t eventCount = to_size_t(event_type::end);
 
 typedef bitset<eventCount> event_bitset;
-typedef pair<event_bitset, shared_ptr<Function>> function_entry;
+typedef pair<event_bitset, local_shared_ptr<Function>> function_entry;
 
 //for functions that target an object
-typedef function<shared_ptr<Function>(StateMachine*, GObject*)> AITargetFunctionGenerator;
+typedef function<local_shared_ptr<Function>(StateMachine*, GObject*)> AITargetFunctionGenerator;
 
 #define FuncGetName(cls) inline virtual string getName() const {return #cls;}
 #define GetLockmask(l) inline virtual lock_mask getLockMask() { return make_enum_bitfield(ResourceLock::l); }
@@ -65,10 +65,10 @@ typedef function<shared_ptr<Function>(StateMachine*, GObject*)> AITargetFunction
 struct update_return
 {
 	update_return();
-	update_return(int idx, shared_ptr<Function> f);
+	update_return(int idx, local_shared_ptr<Function> f);
 
 	int idx;
-	shared_ptr<Function> f;
+	local_shared_ptr<Function> f;
 };
 
 class Event
@@ -96,7 +96,7 @@ public:
 	friend class Thread;
 
 	template<class C>
-	inline static void autoUpdateFunction(shared_ptr<C>& f) {
+	inline static void autoUpdateFunction(local_shared_ptr<C>& f) {
 		if (f && !f->isCompleted())
 			f->update();
 		if (f && f->isCompleted())
@@ -108,10 +108,10 @@ public:
 
 	inline StateMachine* getFSM() const { return fsm; }
 
-    typedef function<shared_ptr<Function>(StateMachine* fsm, const ValueMap&) > AdapterType;
+    typedef function<local_shared_ptr<Function>(StateMachine* fsm, const ValueMap&) > AdapterType;
     static const unordered_map<string, Function::AdapterType> adapters;
     
-    static shared_ptr<Function> constructState(
+    static local_shared_ptr<Function> constructState(
 		const string& type,
 		StateMachine* fsm,
 		const ValueMap& args
@@ -126,7 +126,7 @@ public:
 	Agent* getAgent() const;
 	physics_context* getPhys() const;
 
-	bool castSpell(shared_ptr<SpellDesc> desc);
+	bool castSpell(local_shared_ptr<SpellDesc> desc);
 	bool isSpellActive();
 	void stopSpell();
 
@@ -155,17 +155,17 @@ class Thread
 public:    
 	friend class StateMachine;
     
-	Thread(shared_ptr<Function> threadMain, StateMachine* sm);
+	Thread(local_shared_ptr<Function> threadMain, StateMachine* sm);
 
 	void update();
 
 	bool onEvent(Event event);
 
-	void push(shared_ptr<Function> newState);
+	void push(local_shared_ptr<Function> newState);
 	void pop();
 	void popToRoot();
     
-	shared_ptr<Function> getTop();
+	local_shared_ptr<Function> getTop();
     string getStack();
 	string getMainFuncName();
 protected:
@@ -183,7 +183,7 @@ protected:
 		return false;
 	}
 
-	list<shared_ptr<Function>> call_stack;
+	list<local_shared_ptr<Function>> call_stack;
 	StateMachine* sm;
 };
 
@@ -201,11 +201,11 @@ public:
 
 	void update();
 
-	void addFunction(shared_ptr<Function> function);
-	void removeFunction(shared_ptr<Function> function);
-	shared_ptr<Thread> addThread(shared_ptr<Thread> thread);
-    shared_ptr<Thread> addThread(shared_ptr<Function> threadMain);
-    void removeThread(shared_ptr<Thread> thread);
+	void addFunction(local_shared_ptr<Function> function);
+	void removeFunction(local_shared_ptr<Function> function);
+	local_shared_ptr<Thread> addThread(local_shared_ptr<Thread> thread);
+    local_shared_ptr<Thread> addThread(local_shared_ptr<Function> threadMain);
+    void removeThread(local_shared_ptr<Thread> thread);
     //Remove thread(s) that have the given main function.
     void removeThread(const string& mainName);
 	bool isThreadRunning(const string& mainName);
@@ -230,17 +230,17 @@ public:
 
 	template<class FuncCls, typename... Params>
 	inline void addFunction(Params... params) {
-		addFunction(make_shared<FuncCls>(this, params...));
+		addFunction(make_local_shared<FuncCls>(this, params...));
 	}
 
 	template<class FuncCls, typename... Params>
-	inline shared_ptr<Thread> addThread(Params... params) {
-		return addThread(make_shared<FuncCls>(this, params...));
+	inline local_shared_ptr<Thread> addThread(Params... params) {
+		return addThread(make_local_shared<FuncCls>(this, params...));
 	}
 
 	template<class FuncCls, typename... Params>
-	inline shared_ptr<FuncCls> make(Params... params) {
-		return make_shared<FuncCls>(this, params...);
+	inline local_shared_ptr<FuncCls> make(Params... params) {
+		return make_local_shared<FuncCls>(this, params...);
 	}
     
 	GSpace* getSpace();
@@ -276,7 +276,7 @@ protected:
 
 	GObject *const agent;
 
-	list<shared_ptr<Thread>> current_threads;
+	list<local_shared_ptr<Thread>> current_threads;
 	list<function_entry> functions;
     unsigned int frame;
 };
@@ -284,7 +284,7 @@ protected:
 template<class FuncCls, typename... Params>
 inline void Function::push(Params... params) {
 	if (thread) {
-		thread->push(make_shared<FuncCls>(fsm, params...));
+		thread->push(make_local_shared<FuncCls>(fsm, params...));
 	}
 	else {
 		log("Function::push: %s is not stackful!", getName());
@@ -294,8 +294,8 @@ inline void Function::push(Params... params) {
 template<class FuncCls, typename... Params>
 inline AITargetFunctionGenerator makeTargetFunctionGenerator(Params... params)
 {
-	return[params...](StateMachine* fsm, GObject* obj)->shared_ptr<Function> {
-		return make_shared<FuncCls>(fsm, obj, params...);
+	return[params...](StateMachine* fsm, GObject* obj)->local_shared_ptr<Function> {
+		return make_local_shared<FuncCls>(fsm, obj, params...);
 	};
 }
 

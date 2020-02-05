@@ -140,7 +140,7 @@ bool Catadioptric::spawnTail(SpaceFloat angleOffset)
 	for_irange(i, 0, secondaryBulletCount)
 	{
 		auto baseProps = app::getBullet("catadioptricBullet2");
-		auto props = make_shared<bullet_properties>();
+		auto props = make_local_shared<bullet_properties>();
 		*props = *baseProps;
 
 		SpaceFloat variation = secondarySpeedVariation * 2.0;
@@ -158,7 +158,7 @@ bool Catadioptric::spawnTail(SpaceFloat angleOffset)
 	for_irange(i, 0, tertiaryBulletCount)
 	{
 		auto baseProps = app::getBullet("catadioptricBullet3");
-		auto props = make_shared<bullet_properties>();
+		auto props = make_local_shared<bullet_properties>();
 		*props = *baseProps;
 
 		SpaceFloat variation = tertiarySpeedVariation * 2.0;

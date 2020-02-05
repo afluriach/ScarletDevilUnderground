@@ -15,7 +15,7 @@
 
 namespace app {
 
-bool restoreAttribute(tinyxml2::XMLElement* elem, shared_ptr<MagicEffectDescriptor>* result)
+bool restoreAttribute(tinyxml2::XMLElement* elem, local_shared_ptr<MagicEffectDescriptor>* result)
 {
 	Attribute attr = Attribute::end;
 	bool success = false;
@@ -23,14 +23,14 @@ bool restoreAttribute(tinyxml2::XMLElement* elem, shared_ptr<MagicEffectDescript
 	getAttributeAttr(elem, "attr", &attr);
 
 	if (attr != Attribute::end) {
-		*result = make_shared< MagicEffectDescImpl<RestoreAttribute, Attribute>>(elem->Name(), attr);
+		*result = make_local_shared< MagicEffectDescImpl<RestoreAttribute, Attribute>>(elem->Name(), attr);
 		success = true;
 	}
 
 	return success;
 }
 
-bool fortifyAttribute(tinyxml2::XMLElement* elem, shared_ptr<MagicEffectDescriptor>* result)
+bool fortifyAttribute(tinyxml2::XMLElement* elem, local_shared_ptr<MagicEffectDescriptor>* result)
 {
 	Attribute attr = Attribute::end;
 	bool success = false;
@@ -38,20 +38,20 @@ bool fortifyAttribute(tinyxml2::XMLElement* elem, shared_ptr<MagicEffectDescript
 	getAttributeAttr(elem, "attr", &attr);
 
 	if (attr != Attribute::end) {
-		*result = make_shared< MagicEffectDescImpl<FortifyAttribute, Attribute>>(elem->Name(), attr);
+		*result = make_local_shared< MagicEffectDescImpl<FortifyAttribute, Attribute>>(elem->Name(), attr);
 		success = true;
 	}
 
 	return success;
 }
 
-bool teleport(tinyxml2::XMLElement* elem, shared_ptr<MagicEffectDescriptor>* result)
+bool teleport(tinyxml2::XMLElement* elem, local_shared_ptr<MagicEffectDescriptor>* result)
 {
-	*result = make_shared< MagicEffectDescImpl<Teleport>>(elem->Name());
+	*result = make_local_shared< MagicEffectDescImpl<Teleport>>(elem->Name());
 	return true;
 }
 
-bool drainFromMovement(tinyxml2::XMLElement* elem, shared_ptr<MagicEffectDescriptor>* result)
+bool drainFromMovement(tinyxml2::XMLElement* elem, local_shared_ptr<MagicEffectDescriptor>* result)
 {
 	Attribute attr = Attribute::end;
 	bool success = false;
@@ -59,14 +59,14 @@ bool drainFromMovement(tinyxml2::XMLElement* elem, shared_ptr<MagicEffectDescrip
 	getAttributeAttr(elem, "attr", &attr);
 
 	if (attr != Attribute::end) {
-		*result = make_shared< MagicEffectDescImpl<DrainFromMovement, Attribute>>(elem->Name(), attr);
+		*result = make_local_shared< MagicEffectDescImpl<DrainFromMovement, Attribute>>(elem->Name(), attr);
 		success = true;
 	}
 
 	return success;
 }
 
-bool scriptedEffect(tinyxml2::XMLElement* elem, shared_ptr<MagicEffectDescriptor>* result)
+bool scriptedEffect(tinyxml2::XMLElement* elem, local_shared_ptr<MagicEffectDescriptor>* result)
 {
 	string clsName;
 	bool success = false;
@@ -77,7 +77,7 @@ bool scriptedEffect(tinyxml2::XMLElement* elem, shared_ptr<MagicEffectDescriptor
 		clsName = elem->Name();
 
 	if (!clsName.empty()) {
-		*result = make_shared<MagicEffectDescImpl<ScriptedMagicEffect,string>>(elem->Name(), clsName);
+		*result = make_local_shared<MagicEffectDescImpl<ScriptedMagicEffect,string>>(elem->Name(), clsName);
 		success = true;
 	}
 
@@ -92,7 +92,7 @@ const unordered_map<string, effect_parser> effectParsers = {
 	{"ScriptedEffect", &scriptedEffect},
 };
 
-bool parseObject(tinyxml2::XMLElement* elem, shared_ptr<MagicEffectDescriptor>* result)
+bool parseObject(tinyxml2::XMLElement* elem, local_shared_ptr<MagicEffectDescriptor>* result)
 {
 	string _type;
 	bool success = false;

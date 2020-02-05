@@ -27,7 +27,7 @@ MagicEffectSystem::MagicEffectSystem(GSpace* gspace) :
 	nextID = 1;
 }
 
-unsigned int MagicEffectSystem::applyEffect(GObject* target, shared_ptr<MagicEffectDescriptor> effect, float magnitude, float length)
+unsigned int MagicEffectSystem::applyEffect(GObject* target, local_shared_ptr<MagicEffectDescriptor> effect, float magnitude, float length)
 {
 	unsigned int id = 0;
 
@@ -40,13 +40,13 @@ unsigned int MagicEffectSystem::applyEffect(GObject* target, shared_ptr<MagicEff
 	return id;
 }
 
-void MagicEffectSystem::addEffect(shared_ptr<MagicEffect> effect)
+void MagicEffectSystem::addEffect(local_shared_ptr<MagicEffect> effect)
 {
 	if(isValidConfig(effect.get()))
 		magicEffectsToAdd.push_back(effect);
 }
 
-void MagicEffectSystem::removeEffect(shared_ptr<MagicEffect> effect)
+void MagicEffectSystem::removeEffect(local_shared_ptr<MagicEffect> effect)
 {
 	removeEffect(effect->id);
 }
@@ -68,7 +68,7 @@ void MagicEffectSystem::removeObjectEffects(GObject* obj)
 	applyRemove();
 }
 
-shared_ptr<MagicEffect> MagicEffectSystem::getByID(unsigned int id)
+local_shared_ptr<MagicEffect> MagicEffectSystem::getByID(unsigned int id)
 {
 	return getOrDefault(magicEffects, id);
 }

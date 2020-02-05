@@ -52,7 +52,7 @@ Player::Player(
 	GSpace* space,
 	ObjectIDType id,
 	const agent_attributes& attr,
-	shared_ptr<agent_properties> props
+	local_shared_ptr<agent_properties> props
 ) :
 	Agent(
 		space,
@@ -96,7 +96,7 @@ void Player::equipFirePatterns()
 	for (auto entry : FirePattern::playerFirePatterns)
 	{
 		if (App::crntState->hasItem(entry.first) || app::params.unlockAllEquips) {
-			shared_ptr<FirePattern> pattern = entry.second(this);
+			local_shared_ptr<FirePattern> pattern = entry.second(this);
 
 			if (pattern) {
 				firePatterns.push_back(pattern);
@@ -122,7 +122,7 @@ void Player::equipSpells()
 		if (!app::params.unlockAllEquips && !App::crntState->hasItem(spellName))
 			continue;
 
-		shared_ptr<SpellDesc> desc = Spell::getDescriptorByName(spellName);
+		local_shared_ptr<SpellDesc> desc = Spell::getDescriptorByName(spellName);
 		if (desc) {
 			spells.push_back(desc);
 		}
@@ -142,7 +142,7 @@ void Player::equipPowerAttacks()
 
 	for (string spellName : Spell::playerPowerAttacks)
 	{
-		shared_ptr<SpellDesc> desc = Spell::getDescriptorByName(spellName);
+		local_shared_ptr<SpellDesc> desc = Spell::getDescriptorByName(spellName);
 		if (desc) {
 			powerAttacks.push_back(desc);
 		}
@@ -256,7 +256,7 @@ void Player::updateSpellControls(const ControlInfo& cs)
 			space->addHudAction(&HUD::setSpellIcon, spells.at(spellIdx)->getIcon());
 		}
 		
-		shared_ptr<SpellDesc> equippedSpell;
+		local_shared_ptr<SpellDesc> equippedSpell;
 
 		if (spellIdx >= 0 && spellIdx < to_int(spells.size())) {
 			equippedSpell = spells.at(spellIdx);
@@ -366,7 +366,7 @@ void Player::checkBombControls(const ControlInfo& cs)
 
 		if (canPlaceBomb(bombPos)) {
 			space->createObject<Bomb>(
-				make_shared<object_params>(bombPos,bombVel),
+				make_local_shared<object_params>(bombPos,bombVel),
 				crntBomb
 			);
 			attributeSystem.modifyAttribute(Attribute::mp, crntBomb->cost);

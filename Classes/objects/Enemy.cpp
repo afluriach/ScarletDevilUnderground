@@ -18,7 +18,7 @@ Enemy::Enemy(
 	GSpace* space,
 	ObjectIDType id,
 	const agent_attributes& attr,
-	shared_ptr<enemy_properties> props
+	local_shared_ptr<enemy_properties> props
 ) :
 	Agent(
 		space,

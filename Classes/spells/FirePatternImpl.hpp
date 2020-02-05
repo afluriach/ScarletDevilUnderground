@@ -19,21 +19,21 @@ struct bullet_emitter
 
 struct firepattern_properties
 {
-	static shared_ptr<firepattern_properties> makeSingle(
-		shared_ptr<bullet_properties> props,
+	static local_shared_ptr<firepattern_properties> makeSingle(
+		local_shared_ptr<bullet_properties> props,
 		SpaceFloat interval,
 		SpaceFloat distance,
 		SpaceFloat burstInterval = 0.0,
 		int burstCount = 1
 	);
-	static shared_ptr<firepattern_properties> makeRadius(
-		shared_ptr<bullet_properties> props,
+	static local_shared_ptr<firepattern_properties> makeRadius(
+		local_shared_ptr<bullet_properties> props,
 		SpaceFloat interval,
 		SpaceFloat distance,
 		int count
 	);
-	static shared_ptr<firepattern_properties> makeSpread(
-		shared_ptr<bullet_properties> props,
+	static local_shared_ptr<firepattern_properties> makeSpread(
+		local_shared_ptr<bullet_properties> props,
 		SpaceFloat interval,
 		SpaceFloat distance,
 		SpaceFloat burstInterval,
@@ -43,7 +43,7 @@ struct firepattern_properties
 	);
 
 	vector<bullet_emitter> emitters;
-	shared_ptr<bullet_properties> bullet;
+	local_shared_ptr<bullet_properties> bullet;
 
 	SpaceFloat fireInterval;
 	SpaceFloat burstInterval;
@@ -58,7 +58,7 @@ struct firepattern_properties
 class FirePatternImpl : public FirePattern
 {
 public:
-	FirePatternImpl(Agent *const agent, shared_ptr<firepattern_properties> props);
+	FirePatternImpl(Agent *const agent, local_shared_ptr<firepattern_properties> props);
 	virtual inline ~FirePatternImpl() {}
 
 	inline virtual string iconPath() const { return props->icon; }
@@ -70,7 +70,7 @@ protected:
 	bool createBullet(SpaceVect offset, SpaceFloat angle);
 	bool emit(SpaceFloat angle, const bullet_emitter& be);
 
-	shared_ptr<firepattern_properties> props;
+	local_shared_ptr<firepattern_properties> props;
 
 	float cooldownTimer = 0.0f;
 	int crntBurstCount = 0;
