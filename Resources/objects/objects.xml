@@ -5,6 +5,13 @@
 		friction="0.5"
 		layers="eyeLevelHeight"
 	/>
+	<Desk
+		cls="auto"
+		sprite="desk"
+		interactible="true"
+		interactionIcon="sprites/desk.png"
+		mass="-1.0"
+	/>
 	<Sapling
 		sprite="sapling"
 		layers="eyeLevelHeight"

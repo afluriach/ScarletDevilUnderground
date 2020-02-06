@@ -182,7 +182,6 @@ xcopy "$(ProjectDir)..\Resources" "$(OutDir)" /D /E /I /F /Y</Command>
     <ClCompile Include="..\Classes\objects\Bullet.cpp" />
     <ClCompile Include="..\Classes\objects\CollectGlyph.cpp" />
     <ClCompile Include="..\Classes\objects\Collectibles.cpp" />
-    <ClCompile Include="..\Classes\objects\Desk.cpp" />
     <ClCompile Include="..\Classes\objects\Door.cpp" />
     <ClCompile Include="..\Classes\objects\EffectArea.cpp" />
     <ClCompile Include="..\Classes\objects\Enemy.cpp" />
@@ -287,7 +286,6 @@ xcopy "$(ProjectDir)..\Resources" "$(OutDir)" /D /E /I /F /Y</Command>
     <ClInclude Include="..\Classes\objects\Bullet.hpp" />
     <ClInclude Include="..\Classes\objects\CollectGlyph.hpp" />
     <ClInclude Include="..\Classes\objects\Collectibles.hpp" />
-    <ClInclude Include="..\Classes\objects\Desk.hpp" />
     <ClInclude Include="..\Classes\objects\Door.hpp" />
     <ClInclude Include="..\Classes\objects\EffectArea.hpp" />
     <ClInclude Include="..\Classes\objects\Enemy.hpp" />

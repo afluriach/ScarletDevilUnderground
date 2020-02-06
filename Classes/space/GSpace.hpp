@@ -202,6 +202,7 @@ public:
 	void addUpdateAction(zero_arity_function f);
 	void addObjectAction(zero_arity_function f);
 	void addSceneAction(zero_arity_function f);
+	void enterWorldSelect();
 	void createDialog(string res, bool autoAdvance);
 	void createDialog(string res, bool autoAdvance, zero_arity_function f);
 

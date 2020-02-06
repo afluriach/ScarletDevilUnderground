@@ -84,6 +84,8 @@ namespace Lua{
 
 		addFuncSame(gspace, registerRoomMapped);
 
+		addFuncSame(gspace, enterWorldSelect);
+
 		auto gstate = newType(GState);
 #define _cls GState
 

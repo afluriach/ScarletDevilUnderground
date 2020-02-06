@@ -44,6 +44,7 @@ void GSpace::loadScriptVM()
 	scriptVM->runFile("scripts/magic-effects.lua");
 	scriptVM->runFile("scripts/items.lua");
 	scriptVM->runFile("scripts/npc.lua");
+	scriptVM->runFile("scripts/objects.lua");
 	scriptVM->runFile("scripts/spells/marisa-spells.lua");
 	scriptVM->runFile("scripts/spells/player-spells.lua");
 	scriptVM->runFile("scripts/spells/patchouli-spells.lua");
@@ -698,6 +699,13 @@ void GSpace::addObjectAction(zero_arity_function f)
 void GSpace::addSceneAction(zero_arity_function f)
 {
 	sceneActions.push_back(f);
+}
+
+void GSpace::enterWorldSelect()
+{
+	addSceneAction(
+		[this]()->void { this->getSceneAs<PlayScene>()->enterWorldSelect(); }
+	);
 }
 
 void GSpace::createDialog(string res, bool autoAdvance)

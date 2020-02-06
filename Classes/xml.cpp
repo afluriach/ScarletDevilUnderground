@@ -28,7 +28,7 @@ unordered_map<string, local_shared_ptr<bullet_properties>> bullets;
 unordered_map<string, collectible_properties> collectibles;
 unordered_map<string, local_shared_ptr<MagicEffectDescriptor>> effects;
 unordered_map<string, local_shared_ptr<enemy_properties>> enemies;
-unordered_map<string, local_shared_ptr<object_properties>> environmentObjects;
+unordered_map<string, local_shared_ptr<environment_object_properties>> environmentObjects;
 unordered_map<string, local_shared_ptr<firepattern_properties>> firePatterns;
 unordered_map<string, floorsegment_properties> floors;
 unordered_map<string, local_shared_ptr<item_properties>> items;
@@ -79,7 +79,7 @@ GObject::AdapterType itemAdapter(local_shared_ptr<item_properties> props)
 	};
 }
 
-GObject::AdapterType environmentObjectAdapter(local_shared_ptr<object_properties> props)
+GObject::AdapterType environmentObjectAdapter(local_shared_ptr<environment_object_properties> props)
 {
 	return [props](GSpace* space, ObjectIDType id, const ValueMap& args) -> GObject* {
 		return new EnvironmentObject(space, id, args, props);
@@ -127,7 +127,7 @@ void loadEnemies()
 
 void loadEnvironmentObjects()
 {
-	loadObjectsShared<object_properties>("objects/objects.xml", app::environmentObjects);
+	loadObjectsShared<environment_object_properties>("objects/objects.xml", app::environmentObjects);
 
 	for (auto entry : environmentObjects) {
 		GObject::namedObjectTypes.insert_or_assign(entry.first, environmentObjectAdapter(entry.second));
@@ -207,7 +207,7 @@ local_shared_ptr<enemy_properties> getEnemy(const string& name)
 	return getOrDefault(enemies, name);
 }
 
-local_shared_ptr<object_properties> getEnvironemntObject(const string& name)
+local_shared_ptr<environment_object_properties> getEnvironemntObject(const string& name)
 {
 	return getOrDefault(environmentObjects, name);
 }
@@ -508,6 +508,29 @@ bool parseObject(tinyxml2::XMLElement* elem, local_shared_ptr<object_properties>
 	getStringAttr(elem, "sprite", &result->sprite);
 	autoName(elem, result->sprite);
 	getSubObject(elem, "light", &result->light, lights, true);
+
+	return true;
+}
+
+bool parseObject(tinyxml2::XMLElement* elem, local_shared_ptr<environment_object_properties> result)
+{
+	parseObject(elem, static_cast<local_shared_ptr<object_properties>>(result));
+
+	getStringAttr(elem, "cls", &result->scriptName);
+	autoName(elem, result->scriptName);
+
+	getStringAttr(elem, "interactionIcon", &result->interactionIcon);
+	getNumericAttr(elem, "interactible", &result->interactible);
+
+	string layers;
+	getStringAttr(elem, "layers", &layers);
+	result->layers = parseLayers(layers);
+	if (result->layers == PhysicsLayers::none) {
+		if (!layers.empty()) {
+			log("invalid object layers: %s", layers);
+		}
+		result->layers = PhysicsLayers::onGround;
+	}
 
 	return true;
 }

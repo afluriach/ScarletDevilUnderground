@@ -13,7 +13,6 @@
 #include "Bullet.hpp"
 #include "CollectGlyph.hpp"
 #include "Collectibles.hpp"
-#include "Desk.hpp"
 #include "Door.hpp"
 #include "EffectArea.hpp"
 #include "Enemy.hpp"
@@ -107,7 +106,6 @@ void GObject::initObjectInfo()
 	entry_same(CollectGlyph),
 	entry_same(Barrier),
 	entry_same(DarknessArea),
-	entry_same(Desk),
 	entry_same(Door),
 	entry_same(GhostHeadstone),
 	entry_same(Goal),

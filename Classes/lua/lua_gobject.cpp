@@ -10,6 +10,7 @@
 
 #include "Agent.hpp"
 #include "Bullet.hpp"
+#include "EnvironmentObject.hpp"
 #include "LuaAPI.hpp"
 #include "Item.hpp"
 #include "NPC.hpp"
@@ -201,6 +202,11 @@ namespace Lua{
 			[](SpaceVect pos, SpaceFloat angle)->local_shared_ptr<object_params> { return Bullet::makeParams(pos, angle); },
 			[](SpaceVect pos, SpaceFloat angle, SpaceVect vel)->local_shared_ptr<object_params> { return Bullet::makeParams(pos, angle, vel); },
 			[](SpaceVect pos, SpaceFloat angle, SpaceVect vel, SpaceFloat angularVel)->local_shared_ptr<object_params> { return Bullet::makeParams(pos, angle, vel,angularVel); }
+		);
+
+		auto environment = _state.new_usertype<EnvironmentObject>(
+			"EnvironmentObject",
+			sol::base_classes, sol::bases<GObject>()
 		);
 
 		auto torch = _state.new_usertype<Torch>("Torch", sol::base_classes, sol::bases <GObject>());
