@@ -49,7 +49,13 @@ Headstone::Headstone(GSpace* space, ObjectIDType id, const ValueMap& args) :
 	hp = maxHP;
 }
 
-void Headstone::hit(float damage)
+bool Headstone::hit(DamageInfo damage, SpaceVect n)
+{
+	_hit(damage.mag);
+	return true;
+}
+
+void Headstone::_hit(float damage)
 {
 	if (maxHP != -1.0f)
 	{

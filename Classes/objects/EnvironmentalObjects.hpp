@@ -22,7 +22,8 @@ public:
 	MapObjCons(Headstone);
 	virtual inline ~Headstone() {}
     
-	void hit(float damage);
+	virtual bool hit(DamageInfo damage, SpaceVect n);
+	void _hit(float damage);
 
 	virtual string getSprite() const;
     virtual inline GraphicsLayer sceneLayer() const {return GraphicsLayer::ground;}

@@ -12,7 +12,6 @@
 #include "Bullet.hpp"
 #include "Collectibles.hpp"
 #include "Enemy.hpp"
-#include "EnvironmentalObjects.hpp"
 #include "FloorSegment.hpp"
 #include "PhysicsImpl.hpp"
 #include "Player.hpp"
@@ -424,12 +423,11 @@ void bulletEnvironment(Bullet* _b, GObject* environment, b2Contact* contact)
 	bool _sensor = environment->getBodySensor();
 
 	if (environment && !_sensor) {
-		if (!_b->applyRicochet(getBulletNormal(contact))) {
+		SpaceVect n = getBulletNormal(contact);
+		if (!_b->applyRicochet(n)) {
 			_b->onEnvironmentCollide(environment);
 
-			if (auto _hs = dynamic_cast<Headstone*>(environment)) {
-				_hs->hit(_b->getScaledDamageInfo().mag);
-			}
+			environment->hit(_b->getScaledDamageInfo(), n);
 		}
 	}
 }
