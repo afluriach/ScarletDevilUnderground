@@ -75,8 +75,8 @@ public:
 	string clsName;
 
 	SpaceVect dimensions;
-	SpaceFloat mass;
-	SpaceFloat friction;
+	SpaceFloat mass = 0.0;
+	SpaceFloat friction = 0.0;
 };
 
 #define MapRectPhys(type, layers, m) physics_params(type, layers, args, m)

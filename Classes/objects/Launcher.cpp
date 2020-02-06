@@ -14,7 +14,7 @@
 const SpaceFloat Launcher::fireInterval = 0.25;
 
 Launcher::Launcher(GSpace* space, ObjectIDType id, const ValueMap& args) :
-	GObject(MapParams(), physics_params(GType::environment, eyeLevelHeightLayers, args, -1.0))
+	GObject(MapParams(), physics_params(GType::environment, PhysicsLayers::eyeLevelHeight, args, -1.0))
 {
 }
 

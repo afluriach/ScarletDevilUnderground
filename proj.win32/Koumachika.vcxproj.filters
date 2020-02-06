@@ -66,9 +66,6 @@
     <ClCompile Include="..\Classes\objects\Agent.cpp">
       <Filter>src\objects</Filter>
     </ClCompile>
-    <ClCompile Include="..\Classes\objects\Block.cpp">
-      <Filter>src\objects</Filter>
-    </ClCompile>
     <ClCompile Include="..\Classes\objects\Bullet.cpp">
       <Filter>src\objects</Filter>
     </ClCompile>
@@ -345,6 +342,9 @@
     <ClCompile Include="..\Classes\space\Sensor.cpp">
       <Filter>src\space</Filter>
     </ClCompile>
+    <ClCompile Include="..\Classes\objects\EnvironmentObject.cpp">
+      <Filter>src\objects</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="main.h">
@@ -387,9 +387,6 @@
       <Filter>src\lua</Filter>
     </ClInclude>
     <ClInclude Include="..\Classes\objects\Agent.hpp">
-      <Filter>src\objects</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Classes\objects\Block.hpp">
       <Filter>src\objects</Filter>
     </ClInclude>
     <ClInclude Include="..\Classes\objects\Bullet.hpp">
@@ -631,6 +628,9 @@
     </ClInclude>
     <ClInclude Include="..\Classes\space\Sensor.hpp">
       <Filter>src\space</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\objects\EnvironmentObject.hpp">
+      <Filter>src\objects</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

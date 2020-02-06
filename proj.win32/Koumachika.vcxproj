@@ -178,7 +178,6 @@ xcopy "$(ProjectDir)..\Resources" "$(OutDir)" /D /E /I /F /Y</Command>
     <ClCompile Include="..\Classes\lua\lua_types.cpp" />
     <ClCompile Include="..\Classes\objects\Agent.cpp" />
     <ClCompile Include="..\Classes\objects\AreaSensor.cpp" />
-    <ClCompile Include="..\Classes\objects\Block.cpp" />
     <ClCompile Include="..\Classes\objects\Bomb.cpp" />
     <ClCompile Include="..\Classes\objects\Bullet.cpp" />
     <ClCompile Include="..\Classes\objects\CollectGlyph.cpp" />
@@ -188,6 +187,7 @@ xcopy "$(ProjectDir)..\Resources" "$(OutDir)" /D /E /I /F /Y</Command>
     <ClCompile Include="..\Classes\objects\EffectArea.cpp" />
     <ClCompile Include="..\Classes\objects\Enemy.cpp" />
     <ClCompile Include="..\Classes\objects\EnvironmentalObjects.cpp" />
+    <ClCompile Include="..\Classes\objects\EnvironmentObject.cpp" />
     <ClCompile Include="..\Classes\objects\FloorSegment.cpp" />
     <ClCompile Include="..\Classes\objects\Goal.cpp" />
     <ClCompile Include="..\Classes\objects\GObject.cpp" />
@@ -283,7 +283,6 @@ xcopy "$(ProjectDir)..\Resources" "$(OutDir)" /D /E /I /F /Y</Command>
     <ClInclude Include="..\Classes\multifunction.h" />
     <ClInclude Include="..\Classes\objects\Agent.hpp" />
     <ClInclude Include="..\Classes\objects\AreaSensor.hpp" />
-    <ClInclude Include="..\Classes\objects\Block.hpp" />
     <ClInclude Include="..\Classes\objects\Bomb.hpp" />
     <ClInclude Include="..\Classes\objects\Bullet.hpp" />
     <ClInclude Include="..\Classes\objects\CollectGlyph.hpp" />
@@ -293,6 +292,7 @@ xcopy "$(ProjectDir)..\Resources" "$(OutDir)" /D /E /I /F /Y</Command>
     <ClInclude Include="..\Classes\objects\EffectArea.hpp" />
     <ClInclude Include="..\Classes\objects\Enemy.hpp" />
     <ClInclude Include="..\Classes\objects\EnvironmentalObjects.hpp" />
+    <ClInclude Include="..\Classes\objects\EnvironmentObject.hpp" />
     <ClInclude Include="..\Classes\objects\FloorSegment.hpp" />
     <ClInclude Include="..\Classes\objects\Goal.hpp" />
     <ClInclude Include="..\Classes\objects\GObject.hpp" />

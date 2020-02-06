@@ -1,0 +1,13 @@
+<objects>
+	<Block
+		sprite="block"
+		mass="40"
+		friction="0.5"
+		layers="eyeLevelHeight"
+	/>
+	<Sapling
+		sprite="sapling"
+		layers="eyeLevelHeight"
+		mass="-1.0"
+	/>
+</objects>

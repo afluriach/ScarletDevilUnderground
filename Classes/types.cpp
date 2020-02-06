@@ -9,6 +9,7 @@
 #include "Prefix.h"
 
 #include "app_constants.hpp"
+#include "LuaAPI.hpp"
 
 namespace app {
 	app_params params;
@@ -155,6 +156,26 @@ GType getBaseType(GType type)
 	return bitwise_and(GType, type, GType::all);
 }
 
-const PhysicsLayers onGroundLayers = enum_bitwise_or(PhysicsLayers, floor, ground);
-const PhysicsLayers eyeLevelHeightLayers = enum_bitwise_or3(PhysicsLayers, floor, ground, eyeLevel);
-const PhysicsLayers flyingLayers = PhysicsLayers::ground;
+GType parseType(string s)
+{
+	sol::object obj = GSpace::scriptVM->_state["GType"][s];
+
+	if (obj) {
+		return obj.as<GType>();
+	}
+	else {
+		return GType::none;
+	}
+}
+
+PhysicsLayers parseLayers(string s)
+{
+	sol::object obj = GSpace::scriptVM->_state["PhysicsLayers"][s];
+
+	if (obj) {
+		return obj.as<PhysicsLayers>();
+	}
+	else {
+		return PhysicsLayers::none;
+	}
+}

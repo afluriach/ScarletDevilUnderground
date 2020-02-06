@@ -86,7 +86,7 @@ Agent::Agent(
 		make_local_shared<object_params>(space, id, attr.name, attr.pos, attr.angle),
 		physics_params(
 			type,
-			props->isFlying ? flyingLayers : onGroundLayers,
+			props->isFlying ? PhysicsLayers::flying : PhysicsLayers::onGround,
 			props->dimensions,
 			props->mass
 		)

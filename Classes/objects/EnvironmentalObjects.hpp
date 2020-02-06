@@ -54,15 +54,4 @@ protected:
 	unordered_set<GObject*> fairies;
 };
 
-class Sapling : public GObject
-{
-public:
-	MapObjCons(Sapling);
-
-	virtual string getSprite() const { return "sapling"; }
-	virtual GraphicsLayer sceneLayer() const { return GraphicsLayer::ground; }
-
-	virtual inline PhysicsLayers getLayers() const { return PhysicsLayers::all; }
-};
-
 #endif /* EnvironmentalObjects_hpp */

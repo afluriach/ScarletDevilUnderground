@@ -43,7 +43,7 @@ bool Headstone::conditionalLoad(GSpace* space, ObjectIDType id, const ValueMap& 
 }
 
 Headstone::Headstone(GSpace* space, ObjectIDType id, const ValueMap& args) :
-	GObject(make_local_shared<object_params>(space, id, args, true), physics_params(GType::environment, eyeLevelHeightLayers, args, -1.0))
+	GObject(make_local_shared<object_params>(space, id, args, true), physics_params(GType::environment, PhysicsLayers::eyeLevelHeight, args, -1.0))
 {
 	maxHP = getFloatOrDefault(args, "hp", -1.0f);
 	hp = maxHP;
@@ -158,9 +158,4 @@ void GhostHeadstone::onEndContact(GObject* obj)
 	if (obj->getType() == GType::npc && obj->getClsName() == "GhostFairyNPC") {
 		fairies.erase(obj);
 	}
-}
-
-Sapling::Sapling(GSpace* space, ObjectIDType id, const ValueMap& args) :
-	GObject(MapParamsPointUp(), physics_params(GType::environment, eyeLevelHeightLayers, args, -1.0))
-{
 }

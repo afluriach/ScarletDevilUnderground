@@ -46,6 +46,9 @@ namespace Lua{
 				enum_entry(PhysicsLayers, ground),
 				enum_entry(PhysicsLayers, eyeLevel),
 
+				enum_entry(PhysicsLayers, flying),
+				enum_entry(PhysicsLayers, onGround),
+				enum_entry(PhysicsLayers, eyeLevelHeight),
 				enum_entry(PhysicsLayers, all),
 			}
 		);

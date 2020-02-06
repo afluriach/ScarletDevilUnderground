@@ -11,6 +11,7 @@
 #include "Bomb.hpp"
 #include "Collectibles.hpp"
 #include "Enemy.hpp"
+#include "EnvironmentObject.hpp"
 #include "FileIO.hpp"
 #include "FirePatternImpl.hpp"
 #include "Graphics.h"
@@ -27,6 +28,7 @@ unordered_map<string, local_shared_ptr<bullet_properties>> bullets;
 unordered_map<string, collectible_properties> collectibles;
 unordered_map<string, local_shared_ptr<MagicEffectDescriptor>> effects;
 unordered_map<string, local_shared_ptr<enemy_properties>> enemies;
+unordered_map<string, local_shared_ptr<object_properties>> environmentObjects;
 unordered_map<string, local_shared_ptr<firepattern_properties>> firePatterns;
 unordered_map<string, floorsegment_properties> floors;
 unordered_map<string, local_shared_ptr<item_properties>> items;
@@ -77,6 +79,13 @@ GObject::AdapterType itemAdapter(local_shared_ptr<item_properties> props)
 	};
 }
 
+GObject::AdapterType environmentObjectAdapter(local_shared_ptr<object_properties> props)
+{
+	return [props](GSpace* space, ObjectIDType id, const ValueMap& args) -> GObject* {
+		return new EnvironmentObject(space, id, args, props);
+	};
+}
+
 void loadAreas()
 {
 	loadObjects<area_properties>("objects/areas.xml", app::areas);
@@ -113,6 +122,15 @@ void loadEnemies()
 
 	for (auto entry : enemies){
 		GObject::namedObjectTypes.insert_or_assign(entry.first, enemyAdapter(entry.second));
+	}
+}
+
+void loadEnvironmentObjects()
+{
+	loadObjectsShared<object_properties>("objects/objects.xml", app::environmentObjects);
+
+	for (auto entry : environmentObjects) {
+		GObject::namedObjectTypes.insert_or_assign(entry.first, environmentObjectAdapter(entry.second));
 	}
 }
 
@@ -187,6 +205,11 @@ local_shared_ptr<MagicEffectDescriptor> getEffect(const string& name)
 local_shared_ptr<enemy_properties> getEnemy(const string& name)
 {
 	return getOrDefault(enemies, name);
+}
+
+local_shared_ptr<object_properties> getEnvironemntObject(const string& name)
+{
+	return getOrDefault(environmentObjects, name);
 }
 
 local_shared_ptr<firepattern_properties> getFirePattern(const string& name)

@@ -10,7 +10,6 @@
 
 #include "Agent.hpp"
 #include "AreaSensor.hpp"
-#include "Block.hpp"
 #include "Bullet.hpp"
 #include "CollectGlyph.hpp"
 #include "Collectibles.hpp"
@@ -107,7 +106,6 @@ void GObject::initObjectInfo()
 
 	entry_same(CollectGlyph),
 	entry_same(Barrier),
-	entry_same(Block),
 	entry_same(DarknessArea),
 	entry_same(Desk),
 	entry_same(Door),
@@ -121,7 +119,6 @@ void GObject::initObjectInfo()
 	entry_same(MovingPlatform),
 	entry_same(Pitfall),
 	entry_same(PressurePlate),
-	entry_same(Sapling),
 	entry_same(Sign),
 	entry_same(Spawner),
 	entry_same(SunArea),

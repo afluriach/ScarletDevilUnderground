@@ -20,6 +20,7 @@ class item_properties;
 class LightArea;
 class MagicEffectDescriptor;
 class npc_properties;
+class object_properties;
 
 namespace app {
 	typedef function< bool(tinyxml2::XMLElement*, local_shared_ptr<MagicEffectDescriptor>*)> effect_parser;
@@ -33,6 +34,7 @@ namespace app {
 	extern unordered_map<string, collectible_properties> collectibles;
 	extern unordered_map<string, local_shared_ptr<MagicEffectDescriptor>> effects;
 	extern unordered_map<string, local_shared_ptr<enemy_properties>> enemies;
+	extern unordered_map<string, local_shared_ptr<object_properties>> environmentObjects;
 	extern unordered_map<string, local_shared_ptr<firepattern_properties>> firePatterns;
 	extern unordered_map<string, floorsegment_properties> floors;
 	extern unordered_map<string, local_shared_ptr<item_properties>> items;
@@ -48,6 +50,7 @@ namespace app {
 	void loadCollectibles();
 	void loadEffects();
 	void loadEnemies();
+	void loadEnvironmentObjects();
 	void loadFirePatterns();
 	void loadFloors();
 	void loadItems();
@@ -62,6 +65,7 @@ namespace app {
 	collectible_properties getCollectible(const string& name);
 	local_shared_ptr<MagicEffectDescriptor> getEffect(const string& name);
 	local_shared_ptr<enemy_properties> getEnemy(const string& name);
+	local_shared_ptr<object_properties> getEnvironemntObject(const string& name);
 	local_shared_ptr<firepattern_properties> getFirePattern(const string& name);
 	local_shared_ptr<item_properties> getItem(const string& name);
 	boost::shared_ptr<LightArea> getLight(const string& name);
@@ -126,6 +130,7 @@ namespace app {
 		}
 	}
 
+	bool parseObject(tinyxml2::XMLElement* elem, local_shared_ptr<object_properties> result);
 	bool parseObject(tinyxml2::XMLElement* elem, local_shared_ptr<agent_properties> result);
 	bool parseObject(tinyxml2::XMLElement* elem, area_properties* result);
 	bool parseObject(tinyxml2::XMLElement* elem, AttributeMap* result);

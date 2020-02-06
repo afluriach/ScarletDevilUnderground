@@ -200,6 +200,7 @@ extern const GType bulletObstacles;
 extern const GType agentObstacles;
 
 GType getBaseType(GType type);
+GType parseType(string s);
 
 //Layers are interpreted as a bitmask.
 //For now, multilayer physics is not being used.
@@ -212,13 +213,14 @@ enum class PhysicsLayers{
     ground = 4,
     eyeLevel = 8,
     
+	flying = ground,
+	onGround  = floor + ground,
+	eyeLevelHeight = floor + ground + eyeLevel,
     //must be the bitwise or of all layers
     all = 15
 };
 
-extern const PhysicsLayers onGroundLayers;
-extern const PhysicsLayers eyeLevelHeightLayers;
-extern const PhysicsLayers flyingLayers;
+PhysicsLayers parseLayers(string s);
 
 enum class TimerType {
 	begin = 0,

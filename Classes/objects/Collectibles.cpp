@@ -34,7 +34,7 @@ ObjectGeneratorType Collectible::create(GSpace* space, string id, SpaceVect pos)
 }
 
 Collectible::Collectible(GSpace* space, ObjectIDType id, SpaceVect pos, string collectibleID) :
-	GObject(PosAngleParams(pos, float_pi * 0.5), physics_params(GType::playerPickup, onGroundLayers, SpaceVect(0.5,0.5), -1.0, true))
+	GObject(PosAngleParams(pos, float_pi * 0.5), physics_params(GType::playerPickup, PhysicsLayers::onGround, SpaceVect(0.5,0.5), -1.0, true))
 {
 	collectible_properties props = app::getCollectible(collectibleID);
 
