@@ -42,9 +42,11 @@ GObject::GObject(local_shared_ptr<object_params> params, const physics_params& p
 {
 	initializeBody();
 
-	setAngle(params->angle);
-	setVel(params->vel);
-	setAngularVel(params->angularVel);
+	if (body) {
+		setAngle(params->angle);
+		setVel(params->vel);
+		setAngularVel(params->angularVel);
+	}
 }
 
 GObject::~GObject()

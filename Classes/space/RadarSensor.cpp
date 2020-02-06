@@ -32,7 +32,7 @@ RadarSensor::RadarSensor(
 		attributes.targetType,
 		PhysicsLayers::all,
 		true,
-		make_any<RadarSensor*>(this)
+		make_any<Sensor*>(this)
 	);
 }
 
@@ -45,14 +45,14 @@ RadarSensor::~RadarSensor()
 
 //Objects that gain/lose visibility because they enter/exit sensor range will be
 //processed during the next update.
-void RadarSensor::radarCollision(GObject* obj)
+void RadarSensor::collision(GObject* obj)
 {
 	if (agent == obj)
 		return;
 
 	objectsInRange.insert(obj);
 }
-void RadarSensor::radarEndCollision(GObject* obj)
+void RadarSensor::endCollision(GObject* obj)
 {
 	if (agent == obj)
 		return;

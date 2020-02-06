@@ -112,7 +112,6 @@ void GObject::initObjectInfo()
 	entry_same(Desk),
 	entry_same(Door),
 	entry_same(GhostHeadstone),
-	entry_same(GhostHeadstoneSensor),
 	entry_same(Goal),
 	conditional_entry(Headstone),
 	entry_same(HiddenSubroomSensor),

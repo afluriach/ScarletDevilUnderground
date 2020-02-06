@@ -324,6 +324,9 @@ public:
 	void addWaypoint(string name, SpaceVect w);
 	SpaceVect getWaypoint(string name) const;
 
+	void addArea(string name, SpaceRect a);
+	SpaceRect getArea(string name) const;
+
 	FloorSegment* floorSegmentPointQuery(SpaceVect pos);
 
     inline boost::dynamic_bitset<>* getNavMask() const { return navMask;}
@@ -413,6 +416,7 @@ protected:
     
 	unordered_map<string, Path> paths;
 	unordered_map<string, SpaceVect> waypoints;
+	unordered_map<string, SpaceRect> areas;
 	boost::dynamic_bitset<>* navMask = nullptr;
 };
 

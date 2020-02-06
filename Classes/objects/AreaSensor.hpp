@@ -110,24 +110,4 @@ protected:
 	bool isTrapActive = false;
 };
 
-class GhostHeadstoneSensor : public AreaSensor
-{
-public:
-	MapObjCons(GhostHeadstoneSensor);
-
-	virtual void init();
-	void checkActivate();
-
-	virtual void onNPCContact(Agent* agent);
-	virtual void onNPCEndContact(Agent* agent);
-
-	virtual void onPlayerContact(Player*);
-
-protected:
-	unordered_set<gobject_ref> fairies;
-	string targetName;
-	gobject_ref target;
-	int cost = 0;
-};
-
 #endif /* AreaSensor_hpp */

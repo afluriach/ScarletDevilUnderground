@@ -339,6 +339,12 @@
     <ClCompile Include="..\Classes\objects\Item.cpp">
       <Filter>src\objects</Filter>
     </ClCompile>
+    <ClCompile Include="..\Classes\space\RectangleSensor.cpp">
+      <Filter>src\space</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\space\Sensor.cpp">
+      <Filter>src\space</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="main.h">
@@ -619,6 +625,12 @@
     </ClInclude>
     <ClInclude Include="..\Classes\objects\Item.hpp">
       <Filter>src\objects</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\space\RectangleSensor.hpp">
+      <Filter>src\space</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\space\Sensor.hpp">
+      <Filter>src\space</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

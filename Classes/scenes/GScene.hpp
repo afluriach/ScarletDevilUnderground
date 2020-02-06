@@ -188,6 +188,7 @@ protected:
 	//data that is loaded to GSpace for AI use
 	void loadPaths(const TMXTiledMap& map, IntVec2 offset);
 	void loadWaypoints(const TMXTiledMap& map, IntVec2 offset);
+	void loadAreas(const TMXTiledMap& map, IntVec2 offset);
 
 	void loadSubrooms(const TMXTiledMap& map, IntVec2 offset);
 	void loadLights(const TMXTiledMap& map, IntVec2 offset);

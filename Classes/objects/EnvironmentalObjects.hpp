@@ -9,6 +9,8 @@
 #ifndef EnvironmentalObjects_hpp
 #define EnvironmentalObjects_hpp
 
+class RectangleSensor;
+
 class Headstone : public GObject
 {
 public:
@@ -39,6 +41,16 @@ public:
 	MapObjCons(GhostHeadstone);
 
 	virtual void init();
+
+	virtual void removePhysicsObjects();
+
+	void checkActivate();
+	void onContact(GObject* obj);
+	void onEndContact(GObject* obj);
+protected:
+	int cost = -1;
+	RectangleSensor* sensor = nullptr;
+	unordered_set<GObject*> fairies;
 };
 
 class Sapling : public GObject

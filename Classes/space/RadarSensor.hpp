@@ -9,6 +9,8 @@
 #ifndef RadarSensor_hpp
 #define RadarSesnor_hpp
 
+#include "Sensor.hpp"
+
 struct sensor_attributes
 {
 	SpaceFloat radius;
@@ -18,7 +20,7 @@ struct sensor_attributes
 	bool isEssence;
 };
 
-class RadarSensor
+class RadarSensor : public Sensor
 {
 public:
 	friend class GSpace;
@@ -31,8 +33,8 @@ public:
 	);
 	~RadarSensor();
 
-	void radarCollision(GObject* other);
-	void radarEndCollision(GObject* other);
+	virtual void collision(GObject* other);
+	virtual void endCollision(GObject* other);
 
 	//Find the [visible] object that the agent is most directly facing.
 	GObject* getSensedObject();

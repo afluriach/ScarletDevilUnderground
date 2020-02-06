@@ -911,6 +911,28 @@ SpaceVect GSpace::getWaypoint(string name) const
 	}
 }
 
+void GSpace::addArea(string name, SpaceRect a)
+{
+	if (areas.find(name) != areas.end()) {
+		log("Duplicate area name %s!", name);
+	}
+
+	areas.insert_or_assign(name, a);
+}
+
+SpaceRect GSpace::getArea(string name) const
+{
+	auto it = areas.find(name);
+
+	if (it != areas.end()) {
+		return it->second;
+	}
+	else {
+		log("Unknown area name %s!", name);
+		return SpaceRect();
+	}
+}
+
 FloorSegment* GSpace::floorSegmentPointQuery(SpaceVect pos)
 {
 	return dynamic_cast<FloorSegment*>(physicsContext->pointQuery(

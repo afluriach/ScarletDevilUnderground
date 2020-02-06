@@ -11,6 +11,7 @@
 
 class GObject;
 class GSpace;
+class Sensor;
 
 class ContactListener : public b2ContactListener
 {
@@ -33,7 +34,7 @@ public:
 	typedef pair<object_pair, collision_type> contact;
 	typedef function<void(b2Contact*)> contact_func;
 	typedef void(*pairwise_obj_func)(GObject*, GObject*, b2Contact*);
-	typedef void(*radarsensor_func)(RadarSensor*, GObject*, b2Contact*);
+	typedef void(*sensor_func)(Sensor*, GObject*, b2Contact*);
 
 	static const bool logPhysicsHandlers;
 	static const int positionSteps;

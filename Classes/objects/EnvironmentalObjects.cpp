@@ -13,6 +13,7 @@
 #include "graphics_context.hpp"
 #include "HUD.hpp"
 #include "PlayScene.hpp"
+#include "RectangleSensor.hpp"
 #include "value_map.hpp"
 
 const vector<string> Headstone::damageSprites = {
@@ -86,6 +87,7 @@ string Headstone::getSprite() const {
 GhostHeadstone::GhostHeadstone(GSpace* space, ObjectIDType id, const ValueMap& args) :
 	Headstone(space,id,args) 
 {
+	cost = getIntOrDefault(args, "cost", -1);
 }
 
 void GhostHeadstone::init()
@@ -97,6 +99,59 @@ void GhostHeadstone::init()
 		spriteID,
 		indefiniteFlickerAction(0.333f, 48, 96).generator
 	);
+
+	sensor = new RectangleSensor(
+		this,
+		space->getArea(getName()),
+		enum_bitwise_or(GType, npc, player),
+		bind(&GhostHeadstone::onContact, this, placeholders::_1),
+		bind(&GhostHeadstone::onEndContact, this, placeholders::_1)
+	);
+}
+
+void GhostHeadstone::removePhysicsObjects()
+{
+	GObject::removePhysicsObjects();
+
+	if (sensor) {
+		delete sensor;
+	}
+}
+
+void GhostHeadstone::checkActivate()
+{
+	if (fairies.size() >= cost)
+	{
+		//These objects will actually be removed when removals are processed,
+		//but it will not run more than once for this sensor.
+		for (int i = 0; i < cost; ++i) {
+			auto it = fairies.begin();
+			if (it != fairies.end()) {
+				space->removeObject(*it);
+				fairies.erase(it);
+			}
+		}
+
+		space->removeObject(this);
+	}
+}
+
+void GhostHeadstone::onContact(GObject* obj)
+{
+	if (obj->getType() == GType::player) {
+		checkActivate();
+	}
+	else if (obj->getType() == GType::npc && obj->getClsName() == "GhostFairyNPC") {
+		fairies.insert(obj);
+		checkActivate();
+	}
+}
+
+void GhostHeadstone::onEndContact(GObject* obj)
+{
+	if (obj->getType() == GType::npc && obj->getClsName() == "GhostFairyNPC") {
+		fairies.erase(obj);
+	}
 }
 
 Sapling::Sapling(GSpace* space, ObjectIDType id, const ValueMap& args) :

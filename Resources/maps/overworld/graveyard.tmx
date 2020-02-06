@@ -64,7 +64,11 @@
    </properties>
   </object>
   <object id="114" name="gb1" type="GraveyardBook1" x="2944" y="5888" width="128" height="128"/>
-  <object id="115" name="headstone3" type="GhostHeadstone" x="960" y="2304" width="256" height="256"/>
+  <object id="115" name="headstone3" type="GhostHeadstone" x="960" y="2304" width="256" height="256">
+   <properties>
+    <property name="cost" value="2"/>
+   </properties>
+  </object>
   <object id="117" type="GhostFairyNPC" x="1280" y="1280" width="128" height="128">
    <properties>
     <property name="level" value="2"/>
@@ -75,9 +79,21 @@
     <property name="level" value="3"/>
    </properties>
   </object>
-  <object id="120" name="headstone2" type="GhostHeadstone" x="960" y="3968" width="256" height="256"/>
-  <object id="121" name="headstone1" type="GhostHeadstone" x="5312" y="3968" width="256" height="256"/>
-  <object id="122" name="headstone4" type="GhostHeadstone" x="5312" y="2304" width="256" height="256"/>
+  <object id="120" name="headstone2" type="GhostHeadstone" x="960" y="3968" width="256" height="256">
+   <properties>
+    <property name="cost" value="2"/>
+   </properties>
+  </object>
+  <object id="121" name="headstone1" type="GhostHeadstone" x="5312" y="3968" width="256" height="256">
+   <properties>
+    <property name="cost" value="1"/>
+   </properties>
+  </object>
+  <object id="122" name="headstone4" type="GhostHeadstone" x="5312" y="2304" width="256" height="256">
+   <properties>
+    <property name="cost" value="4"/>
+   </properties>
+  </object>
   <object id="123" type="GhostFairyNPC" x="4608" y="256" width="128" height="128">
    <properties>
     <property name="level" value="0"/>
@@ -119,8 +135,16 @@
    </properties>
   </object>
   <object id="131" name="attack_upgrade" type="attack_upgrade" x="5376" y="1024" width="128" height="128"/>
-  <object id="132" name="headstone5" type="GhostHeadstone" x="2304" y="1792" width="256" height="256"/>
-  <object id="133" name="headstone6" type="GhostHeadstone" x="3968" y="1792" width="256" height="256"/>
+  <object id="132" name="headstone5" type="GhostHeadstone" x="2304" y="1792" width="256" height="256">
+   <properties>
+    <property name="cost" value="0"/>
+   </properties>
+  </object>
+  <object id="133" name="headstone6" type="GhostHeadstone" x="3968" y="1792" width="256" height="256">
+   <properties>
+    <property name="cost" value="0"/>
+   </properties>
+  </object>
   <object id="134" name="hp_upgrade" type="hp_upgrade" x="5376" y="5760" width="128" height="128"/>
   <object id="135" type="GhostFairyNPC" x="5760" y="5504" width="128" height="128">
    <properties>
@@ -187,42 +211,12 @@
   <object id="167" type="Torch" x="3456" y="6144" width="128" height="128"/>
   <object id="168" type="Torch" x="2944" y="6144" width="128" height="128"/>
  </objectgroup>
- <objectgroup name="sensors">
-  <object id="144" type="GhostHeadstoneSensor" x="5120" y="3776" width="640" height="448">
-   <properties>
-    <property name="cost" value="1"/>
-    <property name="target" value="headstone1"/>
-   </properties>
-  </object>
-  <object id="145" type="GhostHeadstoneSensor" x="768" y="3776" width="640" height="448">
-   <properties>
-    <property name="cost" value="2"/>
-    <property name="target" value="headstone2"/>
-   </properties>
-  </object>
-  <object id="146" type="GhostHeadstoneSensor" x="768" y="2304" width="640" height="448">
-   <properties>
-    <property name="cost" value="2"/>
-    <property name="target" value="headstone3"/>
-   </properties>
-  </object>
-  <object id="148" type="GhostHeadstoneSensor" x="5120" y="2304" width="640" height="448">
-   <properties>
-    <property name="cost" value="4"/>
-    <property name="target" value="headstone4"/>
-   </properties>
-  </object>
-  <object id="149" type="GhostHeadstoneSensor" x="2304" y="1664" width="384" height="384">
-   <properties>
-    <property name="cost" value="0"/>
-    <property name="target" value="headstone5"/>
-   </properties>
-  </object>
-  <object id="150" type="GhostHeadstoneSensor" x="3840" y="1664" width="384" height="384">
-   <properties>
-    <property name="cost" value="0"/>
-    <property name="target" value="headstone6"/>
-   </properties>
-  </object>
+ <objectgroup name="areas">
+  <object id="144" name="headstone1" x="5120" y="3776" width="640" height="448"/>
+  <object id="145" name="headstone2" x="768" y="3776" width="640" height="448"/>
+  <object id="146" name="headstone3" x="768" y="2304" width="640" height="448"/>
+  <object id="148" name="headstone4" x="5120" y="2304" width="640" height="448"/>
+  <object id="149" name="headstone5" x="2304" y="1664" width="384" height="384"/>
+  <object id="150" name="headstone6" x="3840" y="1664" width="384" height="384"/>
  </objectgroup>
 </map>

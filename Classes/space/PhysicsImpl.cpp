@@ -16,11 +16,11 @@
 #include "FloorSegment.hpp"
 #include "PhysicsImpl.hpp"
 #include "Player.hpp"
-#include "RadarSensor.hpp"
+#include "Sensor.hpp"
 #include "Wall.hpp"
 
-void sensorStart(RadarSensor* radar, GObject* target, b2Contact* arb);
-void sensorEnd(RadarSensor* radar, GObject* target, b2Contact* arb);
+void sensorStart(Sensor* radar, GObject* target, b2Contact* arb);
+void sensorEnd(Sensor* radar, GObject* target, b2Contact* arb);
 
 template<typename T, typename U>
 pair<T*, U*> getCastObjects(b2Contact* contact)
@@ -121,18 +121,18 @@ pair<GType, GType> getFixtureTypes(b2Contact* contact)
 	return make_pair(typeA, typeB);
 }
 
-PhysicsImpl::contact_func makeSensorHandler(PhysicsImpl::radarsensor_func f, PhysicsImpl::collision_type types)
+PhysicsImpl::contact_func makeSensorHandler(PhysicsImpl::sensor_func f, PhysicsImpl::collision_type types)
 {
 	return [f, types](b2Contact* contact) -> void {
 		auto crntTypes = getFixtureTypes(contact);
 
 		if (types == crntTypes) {
-			auto sensor = any_cast<RadarSensor*>(contact->GetFixtureA()->GetUserData());
+			auto sensor = any_cast<Sensor*>(contact->GetFixtureA()->GetUserData());
 			auto object = any_cast<GObject*>(contact->GetFixtureB()->GetUserData());
 			f(sensor, object, contact);
 		}
 		else if (isReverseMatch(crntTypes, types)) {
-			auto sensor = any_cast<RadarSensor*>(contact->GetFixtureB()->GetUserData());
+			auto sensor = any_cast<Sensor*>(contact->GetFixtureB()->GetUserData());
 			auto object = any_cast<GObject*>(contact->GetFixtureA()->GetUserData());
 			f(sensor, object, contact);
 		}
@@ -464,14 +464,14 @@ void objectAreaSensorEnd(GObject* obj, AreaSensor* areaSensor, b2Contact* contac
 	areaSensor->endContact(obj);
 }
 
-void sensorStart(RadarSensor* radar, GObject* target, b2Contact* arb)
+void sensorStart(Sensor* radar, GObject* target, b2Contact* arb)
 {
-	radar->radarCollision(target);
+	radar->collision(target);
 }
 
-void sensorEnd(RadarSensor* radar, GObject* target, b2Contact* arb)
+void sensorEnd(Sensor* radar, GObject* target, b2Contact* arb)
 {
-	radar->radarEndCollision(target);
+	radar->endCollision(target);
 }
 
 void PhysicsImpl::addCollisionHandlers()
@@ -481,6 +481,7 @@ void PhysicsImpl::addCollisionHandlers()
 	_addSensorHandler(enemySensor, bomb);
 	_addSensorHandler(enemySensor, enemy);
 	_addSensorHandler(enemySensor, enemyBullet);
+	_addSensorHandler(enemySensor, npc);
 	_addSensorHandler(enemySensor, player);
 	_addSensorHandler(enemySensor, playerBullet);
 
