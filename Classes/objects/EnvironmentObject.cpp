@@ -64,7 +64,29 @@ void EnvironmentObject::interact(Player* p)
 
 bool EnvironmentObject::hit(DamageInfo damage, SpaceVect n)
 {
-	return false;
+	if (hasMethod("hit")) {
+		runVoidScriptMethod<DamageInfo, SpaceVect>("hit", damage, n);
+	}
+
+	return true;
+}
+
+void EnvironmentObject::init()
+{
+	GObject::init();
+
+	if (hasMethod("initialize")) {
+		runVoidScriptMethod("initialize");
+	}
+}
+
+void EnvironmentObject::update()
+{
+	GObject::update();
+
+	if (hasMethod("update")) {
+		runVoidScriptMethod("update");
+	}
 }
 
 string EnvironmentObject::getSprite() const {

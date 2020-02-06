@@ -47,6 +47,7 @@ object_params::object_params(GSpace* space, ObjectIDType id, const ValueMap& arg
 	)
 {
 	hidden = getBoolOrDefault(args, "hidden", false);
+	active = getBoolOrDefault(args, "active", false);
 	name = getStringOrDefault(args, "name", "");
 
 	Direction dir = getDirectionOrDefault(args, Direction::none);

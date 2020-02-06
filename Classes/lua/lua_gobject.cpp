@@ -103,6 +103,7 @@ namespace Lua{
 
 		auto gobject = _state.new_usertype<GObject>(
 			"GObject",
+			"active", sol::property(&EnvironmentObject::getActive),
 			"space", sol::property(&GObject::getSpace)
 		);
 
@@ -117,6 +118,7 @@ namespace Lua{
 			static_cast<void(GObject::*)(cocos_action_tag, SpriteID)>(&GObject::stopGraphicsAction)
 		);
 
+		addFuncSame(gobject, playSoundSpatial);
 		addFuncSame(gobject, setSpriteZoom);
 		addFuncSame(gobject, cast);
 		addFuncSame(gobject, hit);
@@ -132,12 +134,16 @@ namespace Lua{
 		addFuncSame(gobject, setPos);
 		addFuncSame(gobject, setVel);
 		addFuncSame(gobject, setSpriteOpacity);
-		addFuncSame(gobject, setVel);
+		addFuncSame(gobject, setSpriteVisible);
+		addFuncSame(gobject, setBodySensor);
+		addFuncSame(gobject, getBodySensor);
 		addFuncSame(gobject, launchAtTarget);
 		addFuncSame(gobject, setLayers);
 		addFuncSame(gobject, setFrozen);
 		addFuncSame(gobject, setInhibitSpellcasting);
 		addFuncSame(gobject, setInvisible);
+		addFuncSame(gobject, activate);
+		addFuncSame(gobject, deactivate);
 
 		addFuncSame(gobject, getBulletAttributes);
 		addFuncSame(gobject, spawnBullet);

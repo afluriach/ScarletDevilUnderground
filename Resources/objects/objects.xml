@@ -1,4 +1,10 @@
 <objects>
+	<Barrier
+		cls="auto"
+		sprite="barrier"
+		layers="all"
+		mass="-1.0"
+	/>
 	<Block
 		sprite="block"
 		mass="40"
@@ -10,6 +16,19 @@
 		sprite="desk"
 		interactible="true"
 		interactionIcon="sprites/desk.png"
+		mass="-1.0"
+	/>
+	<Goal
+		cls="auto"
+		sprite="goal"
+		interactible="true"
+		interactionIcon="sprites/ui/goal.png"
+		mass="-1.0"		
+	/>
+	<Launcher
+		cls="auto"
+		sprite="launcher"
+		layers="eyeLevelHeight"
 		mass="-1.0"
 	/>
 	<Sapling

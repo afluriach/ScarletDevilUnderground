@@ -52,7 +52,7 @@
   </object>
   <object id="189" name="barrier-f9-4" type="Barrier" x="640" y="768" width="128" height="128">
    <properties>
-    <property name="sealed" value="true"/>
+    <property name="active" value="true"/>
    </properties>
   </object>
   <object id="190" name="reimu" type="ReimuEnemy" x="2304" y="1216" width="128" height="128" visible="0"/>

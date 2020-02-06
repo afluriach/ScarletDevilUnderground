@@ -708,6 +708,20 @@ void GSpace::enterWorldSelect()
 	);
 }
 
+void GSpace::triggerSceneCompleted()
+{
+	PlayScene* playScene = getSceneAs<PlayScene>();
+
+	if (!playScene) {
+		log("GSpace::triggerSceneCompleted: not a PlayScene");
+		return;
+	}
+
+	addSceneAction(
+		[playScene]()->void { playScene->triggerSceneCompleted(); }
+	);
+}
+
 void GSpace::createDialog(string res, bool autoAdvance)
 {
 	addSceneAction(

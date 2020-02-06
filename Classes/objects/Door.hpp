@@ -65,23 +65,4 @@ protected:
 	bool path = false;
 };
 
-class Barrier : public GObject
-{
-public:
-	MapObjCons(Barrier);
-
-	virtual inline string getSprite() const { return "barrier"; }
-	virtual inline GraphicsLayer sceneLayer() const { return GraphicsLayer::ground; }
-
-	virtual PhysicsLayers getLayers() const;
-
-	virtual void activate();
-	virtual void deactivate();
-
-	void setSealed(bool b);
-	virtual void init();
-protected:
-	bool sealed = false;
-};
-
 #endif /* Door_hpp */

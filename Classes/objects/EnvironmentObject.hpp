@@ -25,6 +25,9 @@ public:
 
 	virtual bool hit(DamageInfo damage, SpaceVect n);
 
+	virtual void init();
+	virtual void update();
+
 	virtual string interactionIcon(Player* p);
 	virtual bool canInteract(Player* p);
 	virtual void interact(Player* p);

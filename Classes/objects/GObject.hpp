@@ -160,8 +160,9 @@ public:
 	void updateRoomQuery();
 
 	//Activation
-	inline virtual void activate() {};
-	inline virtual void deactivate() {};
+	inline bool getActive() const { return active; }
+	virtual void activate();
+	virtual void deactivate();
 
 	//Interaction
 	inline virtual bool canInteract(Player* p) { return false; }
@@ -316,6 +317,7 @@ public:
 	void stopGraphicsAction(cocos_action_tag tag, SpriteID id);
 	void setSpriteZoom(float zoom);
 	void setSpriteOpacity(unsigned char op);
+	void setSpriteVisible(bool val);
 
 	//Create Node which graphically reprensets this object and adds it to Layer
 	virtual void initializeGraphics();
@@ -357,6 +359,7 @@ public:
 	const string name;
 
 protected:
+	bool active = false;
 	bool hidden = false;
 	bool rotateSprite = false;
 	bool isInvisible = false;

@@ -18,9 +18,7 @@
 #include "Enemy.hpp"
 #include "EnvironmentalObjects.hpp"
 #include "FloorSegment.hpp"
-#include "Goal.hpp"
 #include "Item.hpp"
-#include "Launcher.hpp"
 #include "Player.hpp"
 #include "Spawner.hpp"
 #include "TeleportPad.hpp"
@@ -103,16 +101,13 @@ void GObject::initObjectInfo()
 	objectInfo = {
 
 	entry_same(CollectGlyph),
-	entry_same(Barrier),
 	entry_same(DarknessArea),
 	entry_same(Door),
 	entry_same(GhostHeadstone),
-	entry_same(Goal),
 	conditional_entry(Headstone),
 	entry_same(HiddenSubroomSensor),
 	entry_same(IcePlatform),
 	{"Item", makeObjectInfo<Item>(itemAdapter())},
-	entry_same(Launcher),
 	entry_same(MovingPlatform),
 	entry_same(Pitfall),
 	entry_same(PressurePlate),

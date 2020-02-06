@@ -38,6 +38,7 @@ GObject::GObject(local_shared_ptr<object_params> params, const physics_params& p
 	mass(phys.mass),
 	prevPos(params->pos),
 	prevAngle(params->angle),
+	active(params->active),
 	hidden(params->hidden)
 {
 	initializeBody();
@@ -206,6 +207,23 @@ void GObject::updateRoomQuery()
 
 	if (auto rs = dynamic_cast<RoomSensor*>(result)) {
 		setCrntRoom(rs);
+	}
+}
+
+void GObject::activate()
+{
+	active = true;
+
+	if (hasMethod("onActivate")) {
+		runVoidScriptMethod("onActivate");
+	}
+}
+void GObject::deactivate()
+{
+	active = false;
+
+	if (hasMethod("onDeactivate")) {
+		runVoidScriptMethod("onDeactivate");
 	}
 }
 
@@ -817,6 +835,11 @@ void GObject::setSpriteOpacity(unsigned char op)
 	}
 }
 
+void GObject::setSpriteVisible(bool val)
+{
+	if(spriteID != 0)
+		space->graphicsNodeAction(&Node::setVisible, spriteID, val);
+}
 
 //END GRAPHICS
 

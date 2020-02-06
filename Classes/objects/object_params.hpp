@@ -41,6 +41,7 @@ public:
 	SpaceFloat angularVel = 0.0;
 
 	bool hidden = false;
+	bool active = false;
 };
 
 #define MapParams() make_local_shared<object_params>(space, id, args)
