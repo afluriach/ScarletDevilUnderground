@@ -86,16 +86,8 @@
     <property name="stairs" value="true"/>
    </properties>
   </object>
-  <object id="55" type="Sign" x="2112" y="1152" width="128" height="128">
-   <properties>
-    <property name="dialog" value="sign_flans_room"/>
-   </properties>
-  </object>
-  <object id="56" type="Sign" x="1728" y="1920" width="128" height="128">
-   <properties>
-    <property name="dialog" value="sign_library"/>
-   </properties>
-  </object>
+  <object id="55" name="sign_flans_room" type="Sign" x="2112" y="1152" width="128" height="128"/>
+  <object id="56" name="sign_library" type="Sign" x="1728" y="1920" width="128" height="128"/>
   <object id="57" name="hp_upgrade" type="hp_upgrade" x="1920" y="4288" width="128" height="128"/>
  </objectgroup>
  <objectgroup name="floor">

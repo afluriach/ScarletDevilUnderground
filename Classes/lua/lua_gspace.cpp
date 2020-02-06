@@ -84,6 +84,10 @@ namespace Lua{
 
 		addFuncSame(gspace, registerRoomMapped);
 
+		gspace["createDialog"] = sol::overload(
+			static_cast<void(GSpace::*)(string, bool)>(&GSpace::createDialog),
+			static_cast<void(GSpace::*)(string, bool, zero_arity_function)>(&GSpace::createDialog)
+		);
 		addFuncSame(gspace, enterWorldSelect);
 
 		auto gstate = newType(GState);

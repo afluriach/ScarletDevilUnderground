@@ -22,7 +22,6 @@
 #include "Item.hpp"
 #include "Launcher.hpp"
 #include "Player.hpp"
-#include "Sign.hpp"
 #include "Spawner.hpp"
 #include "TeleportPad.hpp"
 #include "Torch.hpp"
@@ -117,7 +116,6 @@ void GObject::initObjectInfo()
 	entry_same(MovingPlatform),
 	entry_same(Pitfall),
 	entry_same(PressurePlate),
-	entry_same(Sign),
 	entry_same(Spawner),
 	entry_same(SunArea),
 	entry_same(TeleportPad),

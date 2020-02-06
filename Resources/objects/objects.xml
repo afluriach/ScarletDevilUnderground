@@ -17,4 +17,11 @@
 		layers="eyeLevelHeight"
 		mass="-1.0"
 	/>
+	<Sign
+		cls="auto"
+		sprite="sign"
+		interactible="true"
+		interactionIcon="sprites/sign.png"
+		mass="-1.0"
+	/>
 </objects>

@@ -174,9 +174,6 @@
     <ClCompile Include="..\Classes\scenes\OpeningScene.cpp">
       <Filter>src\scenes</Filter>
     </ClCompile>
-    <ClCompile Include="..\Classes\objects\Sign.cpp">
-      <Filter>src\objects</Filter>
-    </ClCompile>
     <ClCompile Include="..\Classes\objects\EnvironmentalObjects.cpp">
       <Filter>src\objects</Filter>
     </ClCompile>
@@ -481,9 +478,6 @@
     </ClInclude>
     <ClInclude Include="..\Classes\scenes\OpeningScene.hpp">
       <Filter>src\scenes</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Classes\objects\Sign.hpp">
-      <Filter>src\objects</Filter>
     </ClInclude>
     <ClInclude Include="..\Classes\objects\EnvironmentalObjects.hpp">
       <Filter>src\objects</Filter>

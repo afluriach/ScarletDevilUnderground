@@ -67,16 +67,8 @@
     <property name="locked" value="true"/>
    </properties>
   </object>
-  <object id="29" type="Sign" x="1728" y="1920" width="128" height="128">
-   <properties>
-    <property name="dialog" value="remillias_room"/>
-   </properties>
-  </object>
-  <object id="30" type="Sign" x="2112" y="1152" width="128" height="128">
-   <properties>
-    <property name="dialog" value="sakuyas_room"/>
-   </properties>
-  </object>
+  <object id="29" name="remillias_room" type="Sign" x="1728" y="1920" width="128" height="128"/>
+  <object id="30" name="sakuyas_room" type="Sign" x="2112" y="1152" width="128" height="128"/>
  </objectgroup>
  <objectgroup name="floor">
   <object id="51" type="MansionFloor" x="1024" y="128" width="1920" height="1024"/>

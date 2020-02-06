@@ -20,7 +20,7 @@ EnvironmentObject::EnvironmentObject(
 	local_shared_ptr<environment_object_properties> props
 ) :
 	GObject(
-		MapParamsPointUp(),
+		make_local_shared<object_params>(space, id, args, true),
 		physics_params(
 			props->interactible ? enum_bitwise_or(GType,environment,interactible) : GType::environment,
 			props->layers,

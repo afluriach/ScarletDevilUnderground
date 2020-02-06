@@ -95,26 +95,10 @@
   <object id="56" x="256" y="3584" width="2048" height="128"/>
  </objectgroup>
  <objectgroup name="objects">
-  <object id="28" type="Sign" x="3392" y="3136" width="128" height="128">
-   <properties>
-    <property name="dialog" value="demo_msg"/>
-   </properties>
-  </object>
-  <object id="42" type="Sign" x="4288" y="960" width="128" height="128">
-   <properties>
-    <property name="dialog" value="to_forest"/>
-   </properties>
-  </object>
-  <object id="45" type="Sign" x="1536" y="5632" width="128" height="128">
-   <properties>
-    <property name="dialog" value="to_graveyard"/>
-   </properties>
-  </object>
-  <object id="46" type="Sign" x="2496" y="2752" width="128" height="128">
-   <properties>
-    <property name="dialog" value="to_sdm"/>
-   </properties>
-  </object>
+  <object id="28" name="demo_msg" type="Sign" x="3392" y="3136" width="128" height="128"/>
+  <object id="42" name="to_forest" type="Sign" x="4288" y="960" width="128" height="128"/>
+  <object id="45" name="to_graveyard" type="Sign" x="1536" y="5632" width="128" height="128"/>
+  <object id="46" name="to_sdm" type="Sign" x="2496" y="2752" width="128" height="128"/>
   <object id="51" name="mansion_door" type="Door" x="768" y="2944" width="128" height="128">
    <properties>
     <property name="dest" value="door5"/>
