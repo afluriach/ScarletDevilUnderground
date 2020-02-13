@@ -26,6 +26,8 @@ FloorSegment::FloorSegment(
 	SpaceFloat mass
 ) :
 	GObject(
+		space,
+		id,
 		MapParams(),
 		MapRectPhysSensor(
 			GType::floorSegment,
@@ -58,7 +60,7 @@ SpaceFloat FloorSegment::getTraction() const {
 const SpaceFloat MovingPlatform::defaultSpeed = 1.0;
 
 MovingPlatform::MovingPlatform(GSpace* space, ObjectIDType id, const ValueMap& args) :
-	FloorSegment(space,id,args, 0.0)
+	FloorSegment(space,id,args, float_pi * 0.5)
 {
 }
 
@@ -182,6 +184,8 @@ Pitfall::Pitfall(
 	const ValueMap& args
 ) :
 	GObject(
+		space,
+		id,
 		MapParams(),
 		MapRectPhysSensor(
 			GType::floorSegment,

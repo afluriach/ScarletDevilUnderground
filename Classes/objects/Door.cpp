@@ -17,7 +17,9 @@
 
 Door::Door(GSpace* space, ObjectIDType id, const ValueMap& args) :
 	GObject(
-		make_local_shared<object_params>(space,id,args, true),
+		space,
+		id,
+		object_params(args),
 		MapRectPhys(enum_bitwise_or(GType, environment, interactible), PhysicsLayers::all, -1.0)
 	)
 {

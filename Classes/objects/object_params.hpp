@@ -17,8 +17,6 @@ class object_params
 public:
 	inline object_params() {}
 	object_params(
-		GSpace* space,
-		ObjectIDType id,
 		const string& name,
 		const SpaceVect& pos,
 		SpaceFloat angle = float_pi * 0.5
@@ -28,15 +26,12 @@ public:
 		const SpaceVect& vel,
 		SpaceFloat angle = float_pi * 0.5
 	);
-	object_params(GSpace* space, ObjectIDType id, const ValueMap& args, bool rotateUp = false);
-
-	GSpace* space = nullptr;
-	ObjectIDType id = 0;
+	object_params(const ValueMap& args);
 
 	string name;
 
 	SpaceVect pos;
-	SpaceFloat angle = 0.0;
+	SpaceFloat angle = float_pi * 0.5;
 	SpaceVect vel;
 	SpaceFloat angularVel = 0.0;
 
@@ -44,9 +39,7 @@ public:
 	bool active = false;
 };
 
-#define MapParams() make_local_shared<object_params>(space, id, args)
-#define PosAngleParams(pos,angle) make_local_shared<object_params>(space, id, "", pos, angle)
-#define MapParamsPointUp() PosAngleParams(getObjectPos(args), float_pi * 0.5)
+#define MapParams() object_params(args)
 
 class physics_params
 {

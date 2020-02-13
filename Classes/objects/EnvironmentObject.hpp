@@ -21,7 +21,12 @@ public:
 class EnvironmentObject : public GObject
 {
 public:
-	EnvironmentObject(GSpace* space, ObjectIDType id, const ValueMap& args, local_shared_ptr<environment_object_properties> props);
+	EnvironmentObject(
+		GSpace* space,
+		ObjectIDType id,
+		const ValueMap& args,
+		local_shared_ptr<environment_object_properties> props
+	);
 
 	virtual bool hit(DamageInfo damage, SpaceVect n);
 

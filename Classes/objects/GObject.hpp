@@ -23,9 +23,7 @@ class SpellDesc;
 
 #define MapObjCons(cls) cls(GSpace* space, ObjectIDType id, const ValueMap& args)
 #define MapObjForwarding(cls) cls(space,id,args)
-#define MapObjParams() GObject(make_local_shared<object_params>(space,id,args))
-#define ParamsCons(cls) cls(local_shared_ptr<object_params> params)
-#define ParamsForwarding(cls) cls(params)
+#define MapObjParams() GObject(object_params(args))
 
 struct parametric_motion
 {
@@ -70,10 +68,10 @@ public:
 	static void initNameMap();
 	static void initObjectInfo();
 
-	template<class ObjectCls, typename... ConsArgs>
-	static inline GObject* create(GSpace* space, ObjectIDType id, ConsArgs...args)
+	template<class ObjectCls, typename... ConsArgs, typename... Params>
+	static inline GObject* create(GSpace* space, ObjectIDType id, Params... params)
 	{
-		return new ObjectCls(space,id,args...);
+		return new ObjectCls(space,id,std::forward<ConsArgs>(params)...);
 	}
 
 	template<class ObjectCls, typename... ConsArgs>
@@ -81,17 +79,6 @@ public:
 	{
 		return [args...](GSpace* space, ObjectIDType id) -> GObject* {
 			return create<ObjectCls, ConsArgs...>(space, id, args...);
-		};
-	}
-
-	template<class ObjectCls, typename... ConsArgs>
-	static inline ObjectGeneratorType params_object_factory(local_shared_ptr<object_params> params, ConsArgs... args)
-	{
-		return[params, args...](GSpace* space, ObjectIDType id)->GObject* {
-			params->space = space;
-			params->id = id;
-
-			return new ObjectCls(params, args...);
 		};
 	}
 
@@ -122,7 +109,12 @@ public:
 		return scriptObj[name](scriptObj, args...);
 	}
 
-	GObject(local_shared_ptr<object_params> params, const physics_params& phys);
+	GObject(
+		GSpace* space,
+		ObjectIDType id,
+		const object_params& params,
+		const physics_params& phys
+	);
     virtual ~GObject();
 
 	virtual void removePhysicsObjects();

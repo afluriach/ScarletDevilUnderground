@@ -22,7 +22,16 @@ const unordered_map<string, Color3B> Torch::colorMap = {
 const float Torch::darknessDrain = 0.1f;
 
 Torch::Torch(GSpace* space, ObjectIDType id, const ValueMap& args) :
-	GObject(MapParams(), MapRectPhys(enum_bitwise_or(GType, environment, interactible), PhysicsLayers::onGround, -1.0))
+	GObject(
+		space,
+		id,
+		MapParams(),
+		MapRectPhys(
+			enum_bitwise_or(GType, environment, interactible),
+			PhysicsLayers::onGround,
+			-1.0
+		)
+	)
 {
 	isActive = getBoolOrDefault(args, "active", false);
 	intensity = getFloatOrDefault(args, "intensity", intensity);

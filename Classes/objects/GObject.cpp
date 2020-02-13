@@ -27,26 +27,31 @@
 
 unordered_map<type_index, string> GObject::typeNameMap;
 
-GObject::GObject(local_shared_ptr<object_params> params, const physics_params& phys) :
-	space(params->space),
-	name(params->name),
-	uuid(params->id),
+GObject::GObject(
+	GSpace* space,
+	ObjectIDType id,
+	const object_params& params,
+	const physics_params& phys
+) :
+	space(space),
+	name(params.name),
+	uuid(id),
 	type(phys.type),
 	layers(phys.layers),
 	sensor(phys.sensor),
 	dimensions(phys.dimensions),
 	mass(phys.mass),
-	prevPos(params->pos),
-	prevAngle(params->angle),
-	active(params->active),
-	hidden(params->hidden)
+	prevPos(params.pos),
+	prevAngle(params.angle),
+	active(params.active),
+	hidden(params.hidden)
 {
 	initializeBody();
 
 	if (body) {
-		setAngle(params->angle);
-		setVel(params->vel);
-		setAngularVel(params->angularVel);
+		setAngle(params.angle);
+		setVel(params.vel);
+		setAngularVel(params.angularVel);
 	}
 }
 
@@ -414,16 +419,16 @@ void GObject::setPos(SpaceVect p){
 void GObject::setAngle(SpaceFloat a){
 	if (space->isInCallback()) {
 		space->addUpdateAction([this,a]()->void {
-			body->SetAngle(a);
+			body->SetAngle(a - float_pi*0.5);
 		});
 	}
 	else {
-		body->SetAngle(a);
+		body->SetAngle(a - float_pi*0.5);
 	}
 }
     
 SpaceFloat GObject::getAngle() const {
-	return canonicalAngle(body->GetAngle());
+	return canonicalAngle(body->GetAngle() + float_pi*0.5);
 }
 
 void GObject::rotate(SpaceFloat a){

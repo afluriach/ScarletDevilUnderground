@@ -300,7 +300,7 @@ gobject_ref GSpace::createObject(ObjectGeneratorType generator)
 }
 
 gobject_ref GSpace::createBullet(
-	local_shared_ptr<object_params> params,
+	const object_params& params,
 	const bullet_attributes& attributes,
 	local_shared_ptr<bullet_properties> props
 ) {

@@ -83,7 +83,9 @@ Agent::Agent(
 	local_shared_ptr<agent_properties> props
 ) :
 	GObject(
-		make_local_shared<object_params>(space, id, attr.name, attr.pos, attr.angle),
+		space,
+		id,
+		object_params(attr.name, attr.pos, attr.angle),
 		physics_params(
 			type,
 			props->isFlying ? PhysicsLayers::flying : PhysicsLayers::onGround,

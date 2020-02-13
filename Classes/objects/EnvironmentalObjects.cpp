@@ -43,7 +43,7 @@ bool Headstone::conditionalLoad(GSpace* space, ObjectIDType id, const ValueMap& 
 }
 
 Headstone::Headstone(GSpace* space, ObjectIDType id, const ValueMap& args) :
-	GObject(make_local_shared<object_params>(space, id, args, true), physics_params(GType::environment, PhysicsLayers::eyeLevelHeight, args, -1.0))
+	GObject(space, id, object_params(args), physics_params(GType::environment, PhysicsLayers::eyeLevelHeight, args, -1.0))
 {
 	maxHP = getFloatOrDefault(args, "hp", -1.0f);
 	hp = maxHP;

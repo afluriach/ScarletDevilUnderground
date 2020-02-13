@@ -366,7 +366,7 @@ void Player::checkBombControls(const ControlInfo& cs)
 
 		if (canPlaceBomb(bombPos)) {
 			space->createObject<Bomb>(
-				make_local_shared<object_params>(bombPos,bombVel),
+				object_params(bombPos,bombVel),
 				crntBomb
 			);
 			attributeSystem.modifyAttribute(Attribute::mp, crntBomb->cost);

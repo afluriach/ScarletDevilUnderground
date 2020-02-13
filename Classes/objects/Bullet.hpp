@@ -17,7 +17,7 @@ class Bullet : public GObject
 public:
 	static constexpr bool logRicochets = false;
 
-	static local_shared_ptr<object_params> makeParams(
+	static object_params makeParams(
 		SpaceVect pos,
 		SpaceFloat angle,
 		SpaceVect vel = SpaceVect::zero,
@@ -25,7 +25,9 @@ public:
 	);
 
 	Bullet(
-		local_shared_ptr<object_params> params,
+		GSpace* space,
+		ObjectIDType id,
+		const object_params& params,
 		const bullet_attributes& attributes,
 		local_shared_ptr<bullet_properties> props
 	);

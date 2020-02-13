@@ -38,7 +38,9 @@ bool Item::conditionalLoad(GSpace* space, const item_attributes& attr, local_sha
 
 Item::Item(GSpace* space, ObjectIDType id, const item_attributes& attr, local_shared_ptr<item_properties> props) :
 	GObject(
-		make_local_shared<object_params>(space,id,attr.name, attr.pos),
+		space,
+		id,
+		object_params(attr.name, attr.pos),
 		physics_params(GType::playerPickup, PhysicsLayers::ground, 0.5, -1.0, true)
 	),
 	props(props)

@@ -159,7 +159,7 @@ void graphics_context::addLightSource(LightID id, ConeLightArea light, SpaceVect
 		Vec2::ZERO,
 		light.angleWidth,
 		0.0
-		);
+	);
 
 	cs->setPosition(toCocos(pos) * app::pixelsPerTile);
 	cs->setBlendFunc(BlendFunc{ GL_ONE,GL_ONE });

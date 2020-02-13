@@ -1599,7 +1599,7 @@ update_return ThrowBombs::update()
 			SpaceVect bombVel = agent->getVel() + SpaceVect::ray(throwingSpeed, angle);
 
 			getSpace()->createObject<Bomb>(
-				make_local_shared<object_params>(bombPos, bombVel),
+				object_params(bombPos, bombVel),
 				bombType
 			);
 

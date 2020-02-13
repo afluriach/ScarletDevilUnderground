@@ -205,9 +205,9 @@ namespace Lua{
 
 		auto bullet = _state.new_usertype<Bullet>("Bullet", sol::base_classes, sol::bases<GObject>());
 		bullet["makeParams"] = sol::overload(
-			[](SpaceVect pos, SpaceFloat angle)->local_shared_ptr<object_params> { return Bullet::makeParams(pos, angle); },
-			[](SpaceVect pos, SpaceFloat angle, SpaceVect vel)->local_shared_ptr<object_params> { return Bullet::makeParams(pos, angle, vel); },
-			[](SpaceVect pos, SpaceFloat angle, SpaceVect vel, SpaceFloat angularVel)->local_shared_ptr<object_params> { return Bullet::makeParams(pos, angle, vel,angularVel); }
+			[](SpaceVect pos, SpaceFloat angle) -> object_params { return Bullet::makeParams(pos, angle); },
+			[](SpaceVect pos, SpaceFloat angle, SpaceVect vel) -> object_params { return Bullet::makeParams(pos, angle, vel); },
+			[](SpaceVect pos, SpaceFloat angle, SpaceVect vel, SpaceFloat angularVel) -> object_params { return Bullet::makeParams(pos, angle, vel,angularVel); }
 		);
 
 		auto environment = _state.new_usertype<EnvironmentObject>(

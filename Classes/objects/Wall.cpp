@@ -24,7 +24,9 @@ Wall::Wall(GSpace* space, ObjectIDType id, const ValueMap& args) :
 
 Wall::Wall(GSpace* space, ObjectIDType id, SpaceVect center, SpaceVect dimensions, bool breakable) :
 	GObject(
-		PosAngleParams(center, 0.0),
+		space,
+		id,
+		object_params(center, SpaceVect::zero, float_pi*0.5),
 		physics_params(getWallType(breakable), PhysicsLayers::all, dimensions, -1.0)
 	),
 	breakable(breakable)

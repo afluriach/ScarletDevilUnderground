@@ -15,28 +15,32 @@
 #include "MagicEffect.hpp"
 #include "SpellSystem.hpp"
 
-local_shared_ptr<object_params> Bullet::makeParams(
+object_params Bullet::makeParams(
 	SpaceVect pos,
 	SpaceFloat angle,
 	SpaceVect vel,
 	SpaceFloat angularVel
 ) {
-	auto result = make_local_shared<object_params>();
+	object_params result;
 
-	result->pos = pos;
-	result->angle = angle;
-	result->vel = vel;
-	result->angularVel = angularVel;
+	result.pos = pos;
+	result.angle = angle;
+	result.vel = vel;
+	result.angularVel = angularVel;
 
 	return result;
 }
 
 Bullet::Bullet(
-	local_shared_ptr<object_params> params,
+	GSpace* space,
+	ObjectIDType id,
+	const object_params& params,
 	const bullet_attributes& attributes,
 	local_shared_ptr<bullet_properties> props
 ) :
 	GObject(
+		space,
+		id,
 		params,
 		physics_params(attributes.type, PhysicsLayers::ground, props->dimensions * attributes.size, 0.0, true)
 	),

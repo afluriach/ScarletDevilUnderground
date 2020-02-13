@@ -25,7 +25,12 @@ class Bomb : public GObject
 public:
 	static const SpaceFloat explosionSpriteRadius;
 
-	Bomb(local_shared_ptr<object_params> params, local_shared_ptr<bomb_properties> props);
+	Bomb(
+		GSpace* space,
+		ObjectIDType id,
+		const object_params& params,
+		local_shared_ptr<bomb_properties> props
+	);
 	inline virtual ~Bomb() {}
 
 	virtual inline SpaceFloat uk() const { return props->friction; }

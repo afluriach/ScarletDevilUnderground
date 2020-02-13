@@ -93,7 +93,7 @@ public:
 	gobject_ref createObject(const ValueMap& obj);
 	gobject_ref createObject(ObjectGeneratorType factory);
 	gobject_ref createBullet(
-		local_shared_ptr<object_params> params,
+		const object_params& params,
 		const bullet_attributes& attributes,
 		local_shared_ptr<bullet_properties> props
 	);
@@ -113,11 +113,6 @@ public:
 	template<class C, typename... Args>
 	inline gobject_ref createObject(Args... args) {
 		return createObject(GObject::make_object_factory<C>(args...));
-	}
-
-	template<class C, typename... Args>
-	inline gobject_ref createObject(local_shared_ptr<object_params> params, Args... args) {
-		return createObject(GObject::params_object_factory<C>(params, args...));
 	}
 
 	bool isTrackedType(type_index t) const;
