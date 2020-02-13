@@ -58,6 +58,7 @@ constexpr E enum_bitwise_or_v(E first, Params... params)
 #define enum_bitwise_or3(cls,a,b,c) enum_bitwise_or_v<cls>(cls::a, cls::b, cls::c)
 #define enum_bitwise_or4(cls,a,b,c,d) enum_bitwise_or_v<cls>(cls::a, cls::b, cls::c, cls::d)
 #define enum_bitwise_or5(cls,a,b,c,d,e) enum_bitwise_or_v<cls>(cls::a, cls::b, cls::c, cls::d, cls::e)
+#define enum_bitwise_or6(cls,a,b,c,d,e,f) enum_bitwise_or_v<cls>(cls::a, cls::b, cls::c, cls::d, cls::e, cls::f)
 
 #define bitwise_and_bool(a,b) static_cast<bool>(static_cast<unsigned int>(a) & static_cast<unsigned int>(b))
 #define bitwise_and(cls,a,b) static_cast<cls>(static_cast<unsigned int>(a) & static_cast<unsigned int>(b))

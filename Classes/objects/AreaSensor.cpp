@@ -35,88 +35,19 @@ AreaSensor::AreaSensor(GSpace* space, ObjectIDType id, SpaceVect center, SpaceVe
 {
 }
 
+bool AreaSensor::isObstructed() const
+{
+	return obstacleCount > 0;
+}
+
 void AreaSensor::beginContact(GObject* obj)
 {
-	switch (obj->getType())
-	{
-	case GType::player:
-		onPlayerContact(dynamic_cast<Player*>(obj));
-	break;
-	case GType::enemy:
-		onEnemyContact(dynamic_cast<Enemy*>(obj));
-	break;
-	case GType::npc:
-		onNPCContact(dynamic_cast<Agent*>(obj));
-	break;
-	case GType::environment:
-		onEnvironmentalObjectContact(obj);
-	break;
-	default:
-	break;
-	}
+	++obstacleCount;
 }
 
 void AreaSensor::endContact(GObject* obj)
 {
-	switch (obj->getType())
-	{
-	case GType::player:
-		onPlayerEndContact(dynamic_cast<Player*>(obj));
-		break;
-	case GType::enemy:
-		onEnemyEndContact(dynamic_cast<Enemy*>(obj));
-		break;
-	case GType::npc:
-		onNPCEndContact(dynamic_cast<Agent*>(obj));
-		break;
-	case GType::environment:
-		onEnvironmentalObjectEndContact(obj);
-	break;
-	default:
-	break;
-	}
-}
-
-bool AreaSensor::isObstructed() const
-{
-	return player || !enemies.empty() || !environmentalObjects.empty();
-}
-
-void AreaSensor::onPlayerContact(Player* p) {
-	player = p;
-}
-
-void AreaSensor::onPlayerEndContact(Player* p) {
-	player = nullptr;
-}
-
-void AreaSensor::onEnemyContact(Enemy*e) {
-	enemies.insert(e);
-
-	emplaceIfEmpty<string, unsigned int>(enemyCountsByType, e->getTypeName(), 0);
-	++enemyCountsByType.at(e->getTypeName());
-
-	if (player) {
-		e->sendAlert(player);
-	}
-}
-
-void AreaSensor::onEnemyEndContact(Enemy* e) {
-	--enemyCountsByType.at(e->getTypeName());
-	enemies.erase(e);
-}
-
-void AreaSensor::onEnvironmentalObjectContact(GObject* obj) {
-	environmentalObjects.insert(obj);
-}
-
-void AreaSensor::onEnvironmentalObjectEndContact(GObject* obj) {
-	environmentalObjects.erase(obj);
-}
-
-unsigned int AreaSensor::getEnemyCount(string typeName)
-{
-	return getOrDefault(enemyCountsByType, typeName, to_uint(0));
+	--obstacleCount;
 }
 
 HiddenSubroomSensor::HiddenSubroomSensor(GSpace* space, ObjectIDType id, const ValueMap& args) :
@@ -178,6 +109,13 @@ void RoomSensor::beginContact(GObject* obj)
 	AreaSensor::beginContact(obj);
 
 	obj->setCrntRoom(this);
+
+	if (obj->getType() == GType::player) {
+		onPlayerContact(dynamic_cast<Player*>(obj));
+	}
+	else if (obj->getType() == GType::enemy) {
+		onEnemyContact(dynamic_cast<Enemy*>(obj));
+	}
 }
 
 void RoomSensor::endContact(GObject* obj)
@@ -189,11 +127,18 @@ void RoomSensor::endContact(GObject* obj)
 	if (prev == this) {
 		obj->setCrntRoom(nullptr);
 	}
+
+	if (obj->getType() == GType::player) {
+		onPlayerEndContact(dynamic_cast<Player*>(obj));
+	}
+	else if (obj->getType() == GType::enemy) {
+		onEnemyEndContact(dynamic_cast<Enemy*>(obj));
+	}
 }
 
 void RoomSensor::onPlayerContact(Player* p)
 {
-	AreaSensor::onPlayerContact(p);
+	player = p;
 	log("Player entered room %d.", mapID);
 
 	for (Enemy* e : enemies){
@@ -203,8 +148,29 @@ void RoomSensor::onPlayerContact(Player* p)
 
 void RoomSensor::onPlayerEndContact(Player* p)
 {
-	AreaSensor::onPlayerEndContact(p);
 	log("Player left room %d.", mapID);
+	player = nullptr;
+}
+
+void RoomSensor::onEnemyContact(Enemy* e) {
+	enemies.insert(e);
+
+	emplaceIfEmpty<string, unsigned int>(enemyCountsByType, e->getTypeName(), 0);
+	++enemyCountsByType.at(e->getTypeName());
+
+	if (player) {
+		e->sendAlert(player);
+	}
+}
+
+void RoomSensor::onEnemyEndContact(Enemy* e) {
+	--enemyCountsByType.at(e->getTypeName());
+	enemies.erase(e);
+}
+
+unsigned int RoomSensor::getEnemyCount(string typeName)
+{
+	return getOrDefault(enemyCountsByType, typeName, to_uint(0));
 }
 
 void RoomSensor::init()

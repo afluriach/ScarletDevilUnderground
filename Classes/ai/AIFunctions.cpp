@@ -1578,7 +1578,7 @@ update_return ThrowBombs::update()
 				agent,
 				pos,
 				0.5,
-				bombObstacles,
+				obstacles,
 				PhysicsLayers::ground
 			) &&
 			//bomb is likely to travel a significant distance

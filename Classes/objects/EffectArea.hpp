@@ -20,9 +20,14 @@ public:
 	MapObjCons(EffectArea);
 	inline virtual ~EffectArea(){}
     
+	virtual void beginContact(GObject* obj);
+	virtual void endContact(GObject* obj);
+
 	virtual void update();
 
 	virtual inline DamageInfo getDamageInfo() const { return DamageInfo(); }
+protected:
+	unordered_set<GObject*> targets;
 };
 
 class SunArea : public EffectArea

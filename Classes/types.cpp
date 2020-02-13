@@ -147,9 +147,7 @@ bool SpaceRect::containsPoint(const SpaceVect& point) const
 	);
 }
 
-const GType bombObstacles = enum_bitwise_or4(GType, enemy, environment, wall, bomb);
-const GType bulletObstacles = enum_bitwise_or4(GType, player, enemy, environment, wall);
-const GType agentObstacles = enum_bitwise_or5(GType, wall, enemy, environment, npc, player);
+const GType obstacles = enum_bitwise_or6(GType, player, enemy, environment, wall, bomb, npc);
 
 GType getBaseType(GType type)
 {

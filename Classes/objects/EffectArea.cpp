@@ -21,13 +21,25 @@ MapObjForwarding(AreaSensor)
 {
 }
 
+void EffectArea::beginContact(GObject* obj)
+{
+	AreaSensor::beginContact(obj);
+	targets.insert(obj);
+}
+
+void EffectArea::endContact(GObject* obj)
+{
+	AreaSensor::endContact(obj);
+	targets.erase(obj);
+}
+
 void EffectArea::update()
 {
 	//shouldn't actually be necessary
 	//GObject::update();
 
-	if (player){
-		player->hit(getDamageInfo(), SpaceVect::zero);
+	for ( auto target : targets){
+		target->hit(getDamageInfo(), SpaceVect::zero);
 	}
 }
 

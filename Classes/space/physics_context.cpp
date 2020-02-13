@@ -96,7 +96,7 @@ SpaceFloat physics_context::obstacleDistanceFeeler(const GObject * agent, SpaceV
 	SpaceFloat d = distanceFeeler(
 		agent,
 		_feeler,
-		agentObstacles,
+		obstacles,
 		agent->getCrntLayers()
 	);
 
@@ -113,7 +113,7 @@ SpaceFloat physics_context::obstacleDistanceFeeler(const GObject * agent, SpaceV
 		agent,
 		center,
 		dimensions,
-		agentObstacles,
+		obstacles,
 		agent->getCrntLayers(),
 		feeler.toAngle()
 	);
@@ -131,7 +131,7 @@ bool physics_context::obstacleToTarget(const GObject * agent, const GObject* tar
 	unordered_set<GObject*> result = rectangleObjectQuery(
 		center,
 		dimensions,
-		agentObstacles,
+		obstacles,
 		agent->getCrntLayers(), feeler.toAngle()
 	);
 	
@@ -220,7 +220,7 @@ bool physics_context::obstacleFeeler(const GObject * agent, SpaceVect _feeler) c
 	return feeler(
 		agent,
 		_feeler,
-		agentObstacles,
+		obstacles,
 		agent->getCrntLayers()
 	);
 }

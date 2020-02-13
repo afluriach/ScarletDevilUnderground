@@ -27,27 +27,8 @@ public:
 	virtual void endContact(GObject* obj);
 
 	virtual bool isObstructed() const;
-
-	virtual void onPlayerContact(Player*);
-	virtual void onPlayerEndContact(Player*);
-
-	void onEnemyContact(Enemy*);
-	void onEnemyEndContact(Enemy*);
-
-	inline virtual void onNPCContact(Agent*) {}
-	inline virtual void onNPCEndContact(Agent*) {}
-
-	void onEnvironmentalObjectContact(GObject*);
-	void onEnvironmentalObjectEndContact(GObject*);
-
-	inline bool hasEnemies() const { return !enemies.empty(); }
-	inline bool hasPlayer() const { return player != nullptr; }
-	unsigned int getEnemyCount(string typeName);
 protected:
-	unordered_set<Enemy*> enemies;
-	unordered_map<string, unsigned int> enemyCountsByType;
-	unordered_set<GObject*> environmentalObjects;
-	Player* player = nullptr;
+	unsigned int obstacleCount = 0;
 };
 
 class HiddenSubroomSensor :
@@ -73,6 +54,9 @@ public:
 	virtual void beginContact(GObject* obj);
 	virtual void endContact(GObject* obj);
 
+	void onEnemyContact(Enemy*);
+	void onEnemyEndContact(Enemy*);
+
 	virtual void onPlayerContact(Player* p);
 	virtual void onPlayerEndContact(Player* p);
 
@@ -88,10 +72,18 @@ public:
 	inline SpaceFloat getTimeInRoom()const { return timeInRoom; }
 	inline bool getCleared() const { return isCleared; }
 	inline int getID() const { return mapID; }
+
+	inline bool hasEnemies() const { return !enemies.empty(); }
+	inline bool hasPlayer() const { return player != nullptr; }
+	unsigned int getEnemyCount(string typeName);
 	
 	const int mapID;
 protected:
 	bool isClearedState();
+
+	unordered_set<Enemy*> enemies;
+	unordered_map<string, unsigned int> enemyCountsByType;
+	Player* player = nullptr;
 
 	vector<string> trapDoorNames;
 	vector<string> bossActivationNames;

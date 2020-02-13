@@ -299,7 +299,7 @@ bool GObject::isBulletObstacle(SpaceVect pos, SpaceFloat radius)
 		this,
 		pos,
 		radius,
-		bulletObstacles,
+		obstacles,
 		PhysicsLayers::ground
 	);
 }

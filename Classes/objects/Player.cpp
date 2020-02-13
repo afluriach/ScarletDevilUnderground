@@ -660,7 +660,7 @@ bool Player::canPlaceBomb(SpaceVect pos)
 		this,
 		pos,
 		0.5,
-		bombObstacles,
+		obstacles,
 		PhysicsLayers::ground
 	);
 }

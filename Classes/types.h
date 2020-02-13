@@ -194,9 +194,7 @@ enum class GType{
 	interactible = 0x4000,
 };
 
-extern const GType bombObstacles;
-extern const GType bulletObstacles;
-extern const GType agentObstacles;
+extern const GType obstacles;
 
 GType getBaseType(GType type);
 GType parseType(string s);
