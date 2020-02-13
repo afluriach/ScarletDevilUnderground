@@ -15,6 +15,7 @@ class GSpace;
 class Spell;
 class MagicEffect;
 class MagicEffectDescriptor;
+struct parametric_motion_state;
 class FloorSegment;
 class RoomSensor;
 struct spell_cost;
@@ -25,6 +26,13 @@ class SpellDesc;
 #define MapObjParams() GObject(make_local_shared<object_params>(space,id,args))
 #define ParamsCons(cls) cls(local_shared_ptr<object_params> params)
 #define ParamsForwarding(cls) cls(params)
+
+struct parametric_motion
+{
+	parametric_space_function parametric_f;
+	SpaceFloat parametric_t = -1.0;
+	parametric_type parametric_move = parametric_type::none;
+};
 
 class GObject
 {
@@ -371,6 +379,7 @@ protected:
 //logic
 	sol::table scriptObj;
 	unique_ptr<ai::StateMachine> fsm;
+	unique_ptr<parametric_motion> parametricMotion;
 	RoomSensor* crntRoom = nullptr;
 
 //physics
@@ -384,10 +393,6 @@ protected:
 
 	SpaceVect prevPos = SpaceVect::zero;
 	SpaceFloat prevAngle = 0.0;
-
-	parametric_space_function parametric_f;
-	SpaceFloat parametric_t = -1.0;
-	parametric_type parametric_move = parametric_type::none;
 
 	FloorSegment* crntFloorCenterContact = nullptr;
 	unordered_set<FloorSegment*> crntFloorContacts;

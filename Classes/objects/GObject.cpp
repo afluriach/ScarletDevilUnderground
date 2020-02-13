@@ -469,16 +469,16 @@ void GObject::applyImpulse(SpaceFloat mag, SpaceFloat angle){
 
 void GObject::setParametricMove(parametric_space_function f, parametric_type move_type)
 {
-	parametric_t = 0.0;
-	parametric_f = f;
-	parametric_move = move_type;
+	parametricMotion = make_unique<parametric_motion>();
+
+	parametricMotion->parametric_t = 0.0;
+	parametricMotion->parametric_f = f;
+	parametricMotion->parametric_move = move_type;
 }
 
 void GObject::removeParametricMove()
 {
-	parametric_t = -1.0;
-	parametric_f = nullptr;
-	parametric_move = parametric_type::none;
+	parametricMotion.reset();
 }
 
 PhysicsLayers GObject::getCrntLayers() const
@@ -648,11 +648,14 @@ void GObject::initializeBody()
 
 void GObject::updateParametricMove()
 {
-	SpaceFloat& t = parametric_t;
-	auto f = parametric_f;
+	if (!parametricMotion)
+		return;
+
+	SpaceFloat& t = parametricMotion->parametric_t;
+	auto f = parametricMotion->parametric_f;
 
 	if (t >= 0.0 && f) {
-		switch (parametric_move)
+		switch (parametricMotion->parametric_move)
 		{
 		case parametric_type::position:
 			setPos(f(t));
