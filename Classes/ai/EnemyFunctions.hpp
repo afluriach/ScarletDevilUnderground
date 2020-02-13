@@ -38,17 +38,6 @@ protected:
 	unsigned int spellID = 0;
 };
 
-class MarisaCollectMain : public Function {
-public:
-	inline MarisaCollectMain(StateMachine* fsm) : Function(fsm) {}
-
-	virtual void onEnter();
-	virtual update_return update();
-	FuncGetName(MarisaCollectMain)
-protected:
-	local_shared_ptr<FollowPath> moveFunction;
-};
-
 class MarisaForestMain : public Function {
 public:
 	inline MarisaForestMain(StateMachine* fsm) : Function(fsm) {}

@@ -180,7 +180,6 @@ xcopy "$(ProjectDir)..\Resources" "$(OutDir)" /D /E /I /F /Y</Command>
     <ClCompile Include="..\Classes\objects\AreaSensor.cpp" />
     <ClCompile Include="..\Classes\objects\Bomb.cpp" />
     <ClCompile Include="..\Classes\objects\Bullet.cpp" />
-    <ClCompile Include="..\Classes\objects\CollectGlyph.cpp" />
     <ClCompile Include="..\Classes\objects\Collectibles.cpp" />
     <ClCompile Include="..\Classes\objects\Door.cpp" />
     <ClCompile Include="..\Classes\objects\EffectArea.cpp" />
@@ -204,7 +203,6 @@ xcopy "$(ProjectDir)..\Resources" "$(OutDir)" /D /E /I /F /Y</Command>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
     </ClCompile>
     <ClCompile Include="..\Classes\Resources.cpp" />
-    <ClCompile Include="..\Classes\scenes\Collect.cpp" />
     <ClCompile Include="..\Classes\scenes\GScene.cpp" />
     <ClCompile Include="..\Classes\scenes\GScene_graphics.cpp" />
     <ClCompile Include="..\Classes\scenes\GScene_map.cpp" />
@@ -281,7 +279,6 @@ xcopy "$(ProjectDir)..\Resources" "$(OutDir)" /D /E /I /F /Y</Command>
     <ClInclude Include="..\Classes\objects\AreaSensor.hpp" />
     <ClInclude Include="..\Classes\objects\Bomb.hpp" />
     <ClInclude Include="..\Classes\objects\Bullet.hpp" />
-    <ClInclude Include="..\Classes\objects\CollectGlyph.hpp" />
     <ClInclude Include="..\Classes\objects\Collectibles.hpp" />
     <ClInclude Include="..\Classes\objects\Door.hpp" />
     <ClInclude Include="..\Classes\objects\EffectArea.hpp" />
@@ -301,7 +298,6 @@ xcopy "$(ProjectDir)..\Resources" "$(OutDir)" /D /E /I /F /Y</Command>
     <ClInclude Include="..\Classes\objects\Wall.hpp" />
     <ClInclude Include="..\Classes\Prefix.h" />
     <ClInclude Include="..\Classes\Resources.hpp" />
-    <ClInclude Include="..\Classes\scenes\Collect.h" />
     <ClInclude Include="..\Classes\scenes\GScene.hpp" />
     <ClInclude Include="..\Classes\scenes\LibraryOpening.h" />
     <ClInclude Include="..\Classes\scenes\menu_scenes.h" />

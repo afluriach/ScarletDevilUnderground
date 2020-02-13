@@ -120,12 +120,6 @@
     <ClCompile Include="..\Classes\objects\EffectArea.cpp">
       <Filter>src\objects</Filter>
     </ClCompile>
-    <ClCompile Include="..\Classes\scenes\Collect.cpp">
-      <Filter>src\scenes</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Classes\objects\CollectGlyph.cpp">
-      <Filter>src\objects</Filter>
-    </ClCompile>
     <ClCompile Include="..\Classes\scenes\menu_scenes.cpp">
       <Filter>src\scenes</Filter>
     </ClCompile>
@@ -359,9 +353,6 @@
     <ClInclude Include="..\Classes\enum.h">
       <Filter>src</Filter>
     </ClInclude>
-    <ClInclude Include="..\Classes\scenes\Collect.h">
-      <Filter>src\scenes</Filter>
-    </ClInclude>
     <ClInclude Include="..\Classes\scenes\LibraryOpening.h">
       <Filter>src\scenes</Filter>
     </ClInclude>
@@ -378,9 +369,6 @@
       <Filter>src\objects</Filter>
     </ClInclude>
     <ClInclude Include="..\Classes\objects\Bullet.hpp">
-      <Filter>src\objects</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Classes\objects\CollectGlyph.hpp">
       <Filter>src\objects</Filter>
     </ClInclude>
     <ClInclude Include="..\Classes\objects\Collectibles.hpp">

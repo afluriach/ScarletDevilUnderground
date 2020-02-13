@@ -132,11 +132,6 @@ void ice_fairy(StateMachine* fsm, const ValueMap& args) {
 	fsm->addWhileDetectHandler(GType::player, engage);
 }
 
-void collect_marisa(StateMachine* fsm, const ValueMap& args)
-{
-	fsm->addThread(make_local_shared<MarisaCollectMain>(fsm));
-}
-
 void forest_marisa(StateMachine* fsm, const ValueMap& args)
 {
 	fsm->addThread(make_local_shared<MarisaForestMain>(fsm));
@@ -206,7 +201,6 @@ const unordered_map<string, StateMachine::PackageType> StateMachine::packages = 
 	package(zombie_fairy),
 	package(fairy2),
 	package(ice_fairy),
-	package(collect_marisa),
 	package(forest_marisa),
 	package(patchouli_enemy),
 	package(reimu_enemy),

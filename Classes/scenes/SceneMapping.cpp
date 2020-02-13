@@ -8,7 +8,6 @@
 
 #include "Prefix.h"
 
-#include "Collect.h"
 #include "LibraryOpening.h"
 #include "menu_scenes.h"
 #include "OpeningScene.hpp"
@@ -38,7 +37,6 @@ GScene::AdapterType playSceneAdapter(const string& name)
 }
 
 const unordered_map<string, GScene::AdapterType> GScene::adapters = {
-	entry_same(Collect),
 	entry_same(LibraryOpening),
 	{"Mansion", []()->GScene* { return App::runOverworldScene(); }},
 	entry_same(OpeningScene),

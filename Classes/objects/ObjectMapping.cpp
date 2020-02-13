@@ -11,7 +11,6 @@
 #include "Agent.hpp"
 #include "AreaSensor.hpp"
 #include "Bullet.hpp"
-#include "CollectGlyph.hpp"
 #include "Collectibles.hpp"
 #include "Door.hpp"
 #include "EffectArea.hpp"
@@ -100,7 +99,6 @@ void GObject::initObjectInfo()
 {
 	objectInfo = {
 
-	entry_same(CollectGlyph),
 	entry_same(DarknessArea),
 	entry_same(Door),
 	entry_same(GhostHeadstone),

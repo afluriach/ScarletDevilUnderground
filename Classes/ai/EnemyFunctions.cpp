@@ -55,23 +55,6 @@ update_return BlueFairyPowerAttack::update()
 	return_steady();
 }
 
-void MarisaCollectMain::onEnter()
-{
-}
-
-update_return MarisaCollectMain::update()
-{
-	GObject* player = getSpace()->getPlayer();
-	
-	autoUpdateFunction(moveFunction);
-
-	if (player && !moveFunction) {
-		moveFunction = ai::FollowPath::pathToTarget(fsm, player);
-	}
-
-	return_steady();
-}
-
 void MarisaForestMain::onEnter()
 {
 	gobject_ref player = fsm->getSpace()->getObjectRef("player");
