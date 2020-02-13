@@ -37,7 +37,7 @@ namespace app {
 	extern unordered_map<string, local_shared_ptr<enemy_properties>> enemies;
 	extern unordered_map<string, local_shared_ptr<environment_object_properties>> environmentObjects;
 	extern unordered_map<string, local_shared_ptr<firepattern_properties>> firePatterns;
-	extern unordered_map<string, floorsegment_properties> floors;
+	extern unordered_map<string, local_shared_ptr<floorsegment_properties>> floors;
 	extern unordered_map<string, local_shared_ptr<item_properties>> items;
 	extern unordered_map<string, boost::shared_ptr<LightArea>> lights;
 	extern unordered_map<string, local_shared_ptr<npc_properties>> npc;
@@ -68,6 +68,7 @@ namespace app {
 	local_shared_ptr<enemy_properties> getEnemy(const string& name);
 	local_shared_ptr<environment_object_properties> getEnvironemntObject(const string& name);
 	local_shared_ptr<firepattern_properties> getFirePattern(const string& name);
+	local_shared_ptr<floorsegment_properties> getFloor(const string& name);
 	local_shared_ptr<item_properties> getItem(const string& name);
 	boost::shared_ptr<LightArea> getLight(const string& name);
 	local_shared_ptr<agent_properties> getNPC(const string& name);
@@ -139,7 +140,7 @@ namespace app {
 	bool parseObject(tinyxml2::XMLElement* elem, local_shared_ptr<enemy_properties> result);
 	bool parseObject(tinyxml2::XMLElement* elem, local_shared_ptr<npc_properties> result);
 	bool parseObject(tinyxml2::XMLElement* elem, local_shared_ptr<firepattern_properties>* result);
-	bool parseObject(tinyxml2::XMLElement* elem, floorsegment_properties* result);
+	bool parseObject(tinyxml2::XMLElement* elem, local_shared_ptr<floorsegment_properties> result);
 	bool parseObject(tinyxml2::XMLElement* elem, sprite_properties* result);
 	bool parseObject(tinyxml2::XMLElement* elem, boost::shared_ptr<LightArea>* result);
 	bool parseObject(tinyxml2::XMLElement* elem, local_shared_ptr<bullet_properties> result);

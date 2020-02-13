@@ -12,28 +12,17 @@
 class FloorSegment : public GObject
 {
 public:
-	FloorSegment(GSpace* space, ObjectIDType id, const ValueMap& args, bool isStatic, bool isBelowFloor);
+	FloorSegment(GSpace* space, ObjectIDType id, const ValueMap& args);
+	FloorSegment(GSpace* space, ObjectIDType id, const ValueMap& args, SpaceFloat mass);
 	virtual ~FloorSegment();
 
-	virtual inline SpaceFloat getFrictionCoeff() const { return 1.0; }
-	
-	virtual inline string getFootstepSfx() const { return ""; }
+	virtual SpaceFloat getTraction() const;
+	virtual string getFootstepSfx() const;
 
 	virtual void onContact(GObject* obj) {};
 	virtual void onEndContact(GObject* obj) {};
-	virtual inline void exclusiveFloorEffect(GObject* obj) {}
-};
-
-class FloorSegmentImpl : public FloorSegment
-{
-public:
-	FloorSegmentImpl(GSpace* space, ObjectIDType id, const ValueMap& args, const string& type);
-	virtual ~FloorSegmentImpl();
-
-	virtual inline SpaceFloat getFrictionCoeff() const { return props.traction; }
-	virtual string getFootstepSfx() const;
 protected:
-	floorsegment_properties props;
+	local_shared_ptr<floorsegment_properties> props;
 };
 
 class MovingPlatform:
@@ -55,7 +44,6 @@ public:
 
 	virtual inline SpaceFloat getMaxSpeed() const { return defaultSpeed; }
 protected:
-	string pathName = "";
 	const Path * path = nullptr;
 	size_t crntSegment = 0;
 	SpaceFloat distanceToTarget = 0.0;
@@ -67,7 +55,7 @@ public:
 	MapObjCons(IcePlatform);
 	virtual inline string getSprite() const { return "icePlatform"; }
 	virtual inline string getFootstepSfx() const { return "sfx/footstep_ice.wav"; }
-	virtual inline SpaceFloat getFrictionCoeff() const { return 0.2; }
+	virtual inline SpaceFloat getTraction() const { return 0.2; }
 };
 
 class PressurePlate : public FloorSegment
@@ -76,6 +64,8 @@ public:
 	MapObjCons(PressurePlate);
 
 	virtual void init();
+	virtual inline string getFootstepSfx() const { return "sfx/footstep_ice.wav"; }
+	virtual inline SpaceFloat getTraction() const { return 1.0; }
 
 	virtual void onContact(GObject* obj);
 	virtual void onEndContact(GObject* obj);
@@ -85,23 +75,11 @@ protected:
 	vector<gobject_ref> target;
 };
 
-class Pitfall : public FloorSegment
+class Pitfall : public GObject
 {
 public:
 	MapObjCons(Pitfall);
 
-	virtual void onContact(GObject* obj);
-	virtual void onEndContact(GObject* obj);
-	virtual void exclusiveFloorEffect(GObject* obj);
-};
-
-class WaterFloor : public FloorSegment
-{
-public:
-	MapObjCons(WaterFloor);
-
-	virtual void onContact(GObject* obj);
-	virtual void onEndContact(GObject* obj);
 	virtual void exclusiveFloorEffect(GObject* obj);
 };
 

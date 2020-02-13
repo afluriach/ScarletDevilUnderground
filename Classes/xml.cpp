@@ -14,6 +14,7 @@
 #include "EnvironmentObject.hpp"
 #include "FileIO.hpp"
 #include "FirePatternImpl.hpp"
+#include "FloorSegment.hpp"
 #include "Graphics.h"
 #include "Item.hpp"
 #include "NPC.hpp"
@@ -30,7 +31,7 @@ unordered_map<string, local_shared_ptr<MagicEffectDescriptor>> effects;
 unordered_map<string, local_shared_ptr<enemy_properties>> enemies;
 unordered_map<string, local_shared_ptr<environment_object_properties>> environmentObjects;
 unordered_map<string, local_shared_ptr<firepattern_properties>> firePatterns;
-unordered_map<string, floorsegment_properties> floors;
+unordered_map<string, local_shared_ptr<floorsegment_properties>> floors;
 unordered_map<string, local_shared_ptr<item_properties>> items;
 unordered_map<string, boost::shared_ptr<LightArea>> lights;
 unordered_map<string, local_shared_ptr<npc_properties>> npc;
@@ -76,6 +77,13 @@ GObject::AdapterType itemAdapter(local_shared_ptr<item_properties> props)
 		else {
 			return nullptr;
 		}
+	};
+}
+
+GObject::AdapterType floorAdapter(local_shared_ptr<floorsegment_properties> props)
+{
+	return [props](GSpace* space, ObjectIDType id, const ValueMap& args) -> GObject* {
+		return new FloorSegment(space, id, args);
 	};
 }
 
@@ -141,7 +149,11 @@ void loadFirePatterns()
 
 void loadFloors()
 {
-	loadObjects<floorsegment_properties>("objects/floors.xml", app::floors);
+	loadObjectsShared<floorsegment_properties>("objects/floors.xml", app::floors);
+
+	for (auto entry : floors) {
+		GObject::namedObjectTypes.insert_or_assign(entry.first, floorAdapter(entry.second));
+	}
 }
 
 void loadItems()
@@ -210,6 +222,11 @@ local_shared_ptr<enemy_properties> getEnemy(const string& name)
 local_shared_ptr<environment_object_properties> getEnvironemntObject(const string& name)
 {
 	return getOrDefault(environmentObjects, name);
+}
+
+local_shared_ptr<floorsegment_properties> getFloor(const string& name)
+{
+	return getOrDefault(floors, name);
 }
 
 local_shared_ptr<firepattern_properties> getFirePattern(const string& name)
@@ -688,15 +705,11 @@ bool parseObject(tinyxml2::XMLElement* elem, local_shared_ptr<firepattern_proper
 	return match;
 }
 
-bool parseObject(tinyxml2::XMLElement* elem, floorsegment_properties* result)
+bool parseObject(tinyxml2::XMLElement* elem, local_shared_ptr<floorsegment_properties> result)
 {
-	string sfx;
-	double traction = 1.0;
+	getStringAttr(elem, "sfx", &result->sfxRes);
+	getNumericAttr(elem, "traction", &result->traction);
 
-	getStringAttr(elem, "sfx", &sfx);
-	getNumericAttr(elem, "traction", &traction);
-
-	*result = floorsegment_properties{ sfx, traction };
 	return true;
 }
 

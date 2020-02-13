@@ -259,13 +259,7 @@ void GScene::loadFloorSegments(const TMXTiledMap& map, IntVec2 offset)
 	{
 		ValueMap objAsMap = obj.asValueMap();
 		convertToUnitSpace(objAsMap, offset);
-		string type = getStringOrDefault(objAsMap, "type", "");
-		if (!GObject::getObjectInfo(type)) {
-			gspace->createObject(GObject::make_object_factory<FloorSegmentImpl>(objAsMap, type));
-		}
-		else {
-			gspace->createObject(objAsMap);
-		}
+		gspace->createObject(objAsMap);
 	}
 }
 

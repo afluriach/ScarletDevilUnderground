@@ -529,12 +529,12 @@ void GObject::updateFloorSegment()
 	if (crntFloorCenterContact) {
 		SpaceFloat _uk = uk();
 		if (_uk > 0.0) {
-			updateFriction(_uk * crntFloorCenterContact->getFrictionCoeff());
+			updateFriction(_uk * crntFloorCenterContact->getTraction());
 		}
 	}
 	//If not touching any floor, check for pitfall.
 	else if(crntFloorContacts.empty()){
-		FloorSegment* pitfall = space->floorSegmentPointQuery(p);
+		Pitfall* pitfall = space->pitfallPointQuery(p);
 		if (pitfall) pitfall->exclusiveFloorEffect(this);
 	}
 }
@@ -669,7 +669,7 @@ void GObject::updateParametricMove()
 
 SpaceFloat GObject::getTraction() const
 {
-	return (crntFloorCenterContact && isOnFloor()) ? crntFloorCenterContact->getFrictionCoeff() : 1.0;
+	return (crntFloorCenterContact && isOnFloor()) ? crntFloorCenterContact->getTraction() : 1.0;
 }
 
 //END PHYSICS

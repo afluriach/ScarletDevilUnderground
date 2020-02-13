@@ -571,6 +571,7 @@ void MapMenu::drawMaps()
 {
 	vector<gobject_ref> walls = playScene->getSpace()->getObjectsByTypeAs<Wall>();
 	vector<gobject_ref> floors = playScene->getSpace()->getObjectsByTypeAs<FloorSegment>();
+	vector<gobject_ref> pitfalls = playScene->getSpace()->getObjectsByTypeAs<Pitfall>();
 	vector<gobject_ref> doors = playScene->getSpace()->getObjectsByTypeAs<Door>();
 	vector<gobject_ref> enemies = playScene->getSpace()->getObjectsByTypeAs<Enemy>();
 	GObject* goal = playScene->getSpace()->getObject("goal");
@@ -578,17 +579,19 @@ void MapMenu::drawMaps()
 
 	for (auto ref : floors)
 	{
-		FloorSegment* floor = ref.getAs<FloorSegment>();
+		GObject* floor = ref.get();
 
-		if (dynamic_cast<MovingPlatform*>(floor) || floor->isHidden()) {
+		if (floor->isHidden()) {
 			continue;
-		}
-		else if(dynamic_cast<Pitfall*>(floor)) {
-			drawObject(floor->getBoundingBox(), Color4F::BLACK);
 		}
 		else {
 			drawObject(floor->getBoundingBox(), floorColor, floorColorCrnt, floorColorFade);
 		}
+	}
+
+	for (auto ref : pitfalls){
+		GObject* floor = ref.get();
+		drawObject(floor->getBoundingBox(), Color4F::BLACK);
 	}
 
 	for (auto ref : walls){

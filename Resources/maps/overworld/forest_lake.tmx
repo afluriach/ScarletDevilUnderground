@@ -62,7 +62,7 @@
   <object id="98" type="BridgeFloor" x="5632" y="2048" width="128" height="384"/>
   <object id="99" type="BridgeFloor" x="3712" y="1920" width="3200" height="128"/>
   <object id="100" type="GrassFloor" x="5376" y="2432" width="640" height="640"/>
-  <object id="101" type="WaterFloor" x="0" y="0" width="8192" height="6144"/>
+  <object id="101" type="Pitfall" x="0" y="0" width="8192" height="6144"/>
  </objectgroup>
  <objectgroup name="walls">
   <object id="70" x="4992" y="5376" width="128" height="640"/>

@@ -116,7 +116,6 @@ void GObject::initObjectInfo()
 	entry_same(TeleportPad),
 	entry_same(Torch),
 	entry_same(Wall),
-	entry_same(WaterFloor),
 
 	};
 
@@ -141,15 +140,14 @@ const unordered_set<type_index> GSpace::trackedTypes = {
 	typeid(Bullet),
 	typeid(Door),
 	typeid(Enemy),
+	typeid(FloorSegment),
 	typeid(Item),
+	typeid(Pitfall),
 	typeid(Player),
 	typeid(RoomSensor),
 	typeid(Spawner),
 	typeid(TeleportPad),
 	typeid(Wall),
-
-	//virtual tracked types
-	typeid(FloorSegment),
 };
 
 #define _nameTypeEntry(cls) {#cls, typeid(cls)}

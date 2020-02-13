@@ -113,6 +113,10 @@ unsigned int GSpace::getFrame() const{
 	return frame;
 }
 
+SpaceFloat GSpace::getTime() const {
+	return frame * app::params.secondsPerFrame;
+}
+
 unsigned long GSpace::getTimeUsed() const {
 	return timeUsed;
 }
@@ -440,8 +444,6 @@ void GSpace::processAdditions()
 			objByType[typeid(*obj)].insert(obj);
 		}
 
-		addVirtualTrack<FloorSegment>(obj);
-
         if(!obj->isAnonymous())
             objByName[obj->name] = obj;
         objByUUID[obj->uuid] = obj;
@@ -520,8 +522,6 @@ void GSpace::processRemoval(GObject* obj, bool _removeSprite)
 	if (isTrackedType(typeid(*obj))) {
 		objByType[typeid(*obj)].erase(obj);
 	}
-
-	removeVirtualTrack<FloorSegment>(obj);
     
 	if (obj->getMass() <= 0.0 && (obj->getType() == GType::environment || obj->getType() == GType::wall)) {
 		removeNavObstacle(obj->getPos(), obj->getDimensions());
@@ -955,9 +955,9 @@ SpaceRect GSpace::getArea(string name) const
 	}
 }
 
-FloorSegment* GSpace::floorSegmentPointQuery(SpaceVect pos)
+Pitfall* GSpace::pitfallPointQuery(SpaceVect pos)
 {
-	return dynamic_cast<FloorSegment*>(physicsContext->pointQuery(
+	return dynamic_cast<Pitfall*>(physicsContext->pointQuery(
 		pos,
 		GType::floorSegment,
 		PhysicsLayers::belowFloor

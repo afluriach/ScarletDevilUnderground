@@ -21,6 +21,7 @@ class GState;
 class HUD;
 namespace Lua { class Inst; }
 class MagicEffectSystem;
+class Pitfall;
 class PlayScene;
 class RadarSensor;
 class RoomSensor;
@@ -60,6 +61,7 @@ public:
 	inline string getCrntChamber() const { return crntChamber; }
 	inline bool isInCallback() const { return isInPhysicsStep; }
 	unsigned int getFrame() const;
+	SpaceFloat getTime() const;
 	unsigned long getTimeUsed() const;
 	GScene* getScene();
 
@@ -253,22 +255,6 @@ private:
     void initObjects();
     void processRemoval(GObject* obj, bool removeSprite);
 	bool isNoUpdateObject(GObject* obj);
-    
-	template<class C>
-	inline void addVirtualTrack(GObject* obj)
-	{
-		if (dynamic_cast<C*>(obj)) {
-			objByType[typeid(C)].insert(obj);
-		}
-	}
-
-	template<class C>
-	inline void removeVirtualTrack(GObject* obj)
-	{
-		if (dynamic_cast<C*>(obj)) {
-			objByType[typeid(C)].erase(obj);
-		}
-	}
 
 //END OBJECT MANIPULATION
 
@@ -329,7 +315,7 @@ public:
 	void addArea(string name, SpaceRect a);
 	SpaceRect getArea(string name) const;
 
-	FloorSegment* floorSegmentPointQuery(SpaceVect pos);
+	Pitfall* pitfallPointQuery(SpaceVect pos);
 
     inline boost::dynamic_bitset<>* getNavMask() const { return navMask;}
 //END NAVIGATION    

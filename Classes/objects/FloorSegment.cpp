@@ -14,19 +14,32 @@
 FloorSegment::FloorSegment(
 	GSpace* space,
 	ObjectIDType id,
+	const ValueMap& args
+) :
+	FloorSegment(space, id, args, -1.0)
+{}
+
+FloorSegment::FloorSegment(
+	GSpace* space,
+	ObjectIDType id,
 	const ValueMap& args,
-	bool isStatic,
-	bool isBelowFloor
+	SpaceFloat mass
 ) :
 	GObject(
 		MapParams(),
 		MapRectPhysSensor(
 			GType::floorSegment,
-			isBelowFloor ? PhysicsLayers::belowFloor : PhysicsLayers::floor,
-			isStatic ? -1.0 : 1.0
+			PhysicsLayers::floor,
+			mass
 		)
 	)
 {
+	string type = getStringOrDefault(args, "type", "");
+	props = app::getFloor(type);
+	
+	if(!props){
+		log("Unknown floor type: %s", type);
+	}
 }
 
 FloorSegment::~FloorSegment()
@@ -34,33 +47,19 @@ FloorSegment::~FloorSegment()
 
 }
 
-FloorSegmentImpl::FloorSegmentImpl(GSpace* space, ObjectIDType id, const ValueMap& args, const string& type) :
-	FloorSegment(space,id,args, true, false)
-{
-	auto it = app::floors.find(type);
-	if (it != app::floors.end()) {
-		props = it->second;
-	}
-	else {
-		log("Unknown floor type: %s", type);
-	}
+string FloorSegment::getFootstepSfx() const {
+	return props->sfxRes.empty() ? "" : "sfx/" + props->sfxRes + ".wav";
 }
 
-FloorSegmentImpl::~FloorSegmentImpl()
-{
-
-}
-
-string FloorSegmentImpl::getFootstepSfx() const {
-	return props.sfxRes.empty() ? "" : "sfx/" + props.sfxRes + ".wav";
+SpaceFloat FloorSegment::getTraction() const {
+	return props->traction;
 }
 
 const SpaceFloat MovingPlatform::defaultSpeed = 1.0;
 
 MovingPlatform::MovingPlatform(GSpace* space, ObjectIDType id, const ValueMap& args) :
-	FloorSegment(space,id,args,false, false)
+	FloorSegment(space,id,args, 0.0)
 {
-	pathName = getStringOrDefault(args, "path", "");
 }
 
 MovingPlatform::~MovingPlatform()
@@ -71,9 +70,9 @@ void MovingPlatform::init()
 {
 	GObject::init();
 
-	if (!pathName.empty()) {
-		path = space->getPath(pathName);
-		pathName.clear();
+	string name = getName();
+	if (!name.empty()) {
+		path = space->getPath(name);
 	}
 	else {
 		log("MovingPlatform::init: path name not provided!");
@@ -130,7 +129,7 @@ MovingPlatform(space, id, args)
 }
 
 PressurePlate::PressurePlate(GSpace* space, ObjectIDType id, const ValueMap& args) :
-	FloorSegment(space, id, args, true, false)
+	FloorSegment(space, id, args)
 {
 	targetNames = splitString(getStringOrDefault(args, "target", ""), " ");
 }
@@ -177,38 +176,23 @@ void PressurePlate::onEndContact(GObject* obj)
 	}
 }
 
-Pitfall::Pitfall(GSpace* space, ObjectIDType id, const ValueMap& args) :
-FloorSegment(space,id,args, true, true)
-{
-}
-
-void Pitfall::onContact(GObject* obj)
-{
-}
-
-void Pitfall::onEndContact(GObject* obj)
+Pitfall::Pitfall(
+	GSpace* space,
+	ObjectIDType id,
+	const ValueMap& args
+) :
+	GObject(
+		MapParams(),
+		MapRectPhysSensor(
+			GType::floorSegment,
+			PhysicsLayers::belowFloor,
+			-1.0
+		)
+	)
 {
 }
 
 void Pitfall::exclusiveFloorEffect(GObject* obj)
-{
-	obj->onPitfall();
-}
-
-WaterFloor::WaterFloor(GSpace* space, ObjectIDType id, const ValueMap& args) :
-	FloorSegment(space, id, args, true, true)
-{
-}
-
-void WaterFloor::onContact(GObject* obj)
-{
-}
-
-void WaterFloor::onEndContact(GObject* obj)
-{
-}
-
-void WaterFloor::exclusiveFloorEffect(GObject* obj)
 {
 	obj->onPitfall();
 }
