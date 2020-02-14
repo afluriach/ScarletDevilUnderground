@@ -71,11 +71,6 @@ float app_params::getScale() const
 	return 1.0f * width / app::baseWidth;
 }
 
-double app_params::getFrameInterval() const
-{
-	return secondsPerFrame;
-}
-
 SpaceRect::SpaceRect() :
 	center(SpaceVect::zero),
 	dimensions(SpaceVect::zero)

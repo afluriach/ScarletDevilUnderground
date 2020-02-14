@@ -75,6 +75,12 @@ public:
 	//Return component with largest value
 	SpaceFloat getMax() const;
 
+	inline SpaceFloat get_x() const { return x; }
+	inline SpaceFloat get_y() const { return x; }
+
+	void set_x(SpaceFloat _x) { x = _x; }
+	void set_y(SpaceFloat _y) { y = _y; }
+
 	/// x component
 	SpaceFloat x;
 

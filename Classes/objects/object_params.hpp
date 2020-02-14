@@ -105,6 +105,24 @@ struct bullet_attributes
 	float size = 1.0f;
 	float attackDamage = 1.0f;
 	float bulletSpeed = 1.0f;
+
+	inline SpaceVect getCasterVel() const { return casterVelocity; }
+	inline gobject_ref getCaster() const { return caster; }
+	inline GType getType() const { return type; }
+	inline RoomSensor* getStartRoom() const { return startRoom; }
+	inline unsigned int getSourceSpell() const { return sourceSpell; }
+	inline float getSize() const { return size; }
+	inline float getAttackDamage() const { return attackDamage; }
+	inline float getBulletSpeed() const { return bulletSpeed; }
+
+	inline void setCasterVel(SpaceVect v) { casterVelocity = v; }
+	inline void setCaster(gobject_ref v) { caster = v; }
+	inline void setType(GType v) { type = v; }
+	inline void setStartRoom(RoomSensor* v) { startRoom = v; }
+	inline void setSourceSpell(unsigned int v) { sourceSpell = v; }
+	inline void setSize(float v) { size = v; }
+	inline void setAttackDamage(float v) { attackDamage = v; }
+	inline void setBulletSpeed(float v) { bulletSpeed = v; }
 };
 
 #endif

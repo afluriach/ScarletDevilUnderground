@@ -18,6 +18,16 @@ struct spell_cost
 	float ongoing_mp = 0.0f;
 	float ongoing_stamina = 0.0f;
 
+	inline float get_initial_mp() const { return initial_mp; }
+	inline float get_initial_stamina() const { return initial_stamina; }
+	inline float get_ongoing_mp() const { return ongoing_mp; }
+	inline float get_ongoing_stamina() const { return ongoing_stamina; }
+
+	inline void set_initial_mp(float v) { initial_mp = v; }
+	inline void set_initial_stamina(float v) { initial_stamina = v; }
+	inline void set_ongoing_mp(float v) { ongoing_mp = v; }
+	inline void set_ongoing_stamina(float v) { ongoing_stamina = v; }
+
 	static spell_cost none();
 	static spell_cost initialMP(float mp);
 	static spell_cost initialStamina(float stamina);

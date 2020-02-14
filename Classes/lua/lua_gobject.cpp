@@ -65,27 +65,18 @@ namespace Lua{
 			sol::base_classes, sol::bases<object_properties>()
 		);
 
-		addFuncSame(bullet_props, speed);
-
-		addFuncSame(bullet_props, damage);
-
-		addFuncSame(bullet_props, hitCount);
-		addFuncSame(bullet_props, ricochetCount);
-		addFuncSame(bullet_props, directionalLaunch);
-		addFuncSame(bullet_props, ignoreObstacles);
-		addFuncSame(bullet_props, deflectBullets);
-
-		bullet_props["clone"] = &bullet_properties::clone;
-
 #define _cls bullet_attributes
-		auto bullet_attr = _state.new_usertype<bullet_attributes>("bullet_attributes");
+		auto bullet_attr = _state.new_usertype<bullet_attributes>(
+			"bullet_attributes",
+			"casterVelocity", sol::property(&bullet_attributes::getCasterVel, &bullet_attributes::setCasterVel),
+			"caster", sol::property(&bullet_attributes::getCaster, &bullet_attributes::setCaster),
+			"type", sol::property(&bullet_attributes::getType, &bullet_attributes::setType),
+			"spell", sol::property(&bullet_attributes::getSourceSpell, &bullet_attributes::setSourceSpell),
+			"size", sol::property(&bullet_attributes::getSize, &bullet_attributes::setSize),
+			"attackDamage", sol::property(&bullet_attributes::getAttackDamage, &bullet_attributes::setAttackDamage),
+			"bulletSpeed", sol::property(&bullet_attributes::getBulletSpeed, &bullet_attributes::setBulletSpeed)
+		);
 		addFuncSame(bullet_attr, getDefault);
-		addFuncSame(bullet_attr, casterVelocity);
-		addFuncSame(bullet_attr, caster);
-		addFuncSame(bullet_attr, type);
-		addFuncSame(bullet_attr, size);
-		addFuncSame(bullet_attr, attackDamage);
-		addFuncSame(bullet_attr, bulletSpeed);
 
 		auto action_tags = _state.new_enum<cocos_action_tag, true>(
 			"cocos_action_tag",

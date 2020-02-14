@@ -89,6 +89,16 @@ struct DamageInfo
 	DamageInfo(float mag, DamageType type);
 	DamageInfo(float mag, DamageType type, Attribute element, float knockback);
 
+	inline float get_mag() const { return mag; }
+	inline float get_knockback() const { return knockback; }
+	inline Attribute get_element() const { return element; }
+	inline DamageType get_type() const { return type; }
+
+	inline void set_mag(float _mag) { mag = _mag; }
+	inline void set_knockback(float _knockback) { knockback = _knockback; }
+	inline void set_element(Attribute _element) { element = _element; }
+	inline void set_type(DamageType _type) { type = _type; }
+
 	float mag = 0.0f;
 	float knockback = 0.0f;
 	//It is initialized to Attribute::end;
@@ -103,7 +113,16 @@ struct DamageInfo
 struct app_params
 {
 	float getScale() const;
-	double getFrameInterval() const;
+
+	inline unsigned int getWidth() const { return width; }
+	inline unsigned int getHeight() const { return height; }
+	inline bool getFullscreen() const { return fullscreen; }
+	inline bool getVsync() const { return vsync; }
+	inline bool getShowTimers() const { return showTimers; }
+	inline float getDifficultyScale() const { return difficultyScale; }
+	inline bool getUnlockAll() const { return unlockAllEquips; }
+	inline unsigned int getFPS() const { return framesPerSecond; }
+	inline double getFrameInterval() const { return secondsPerFrame; }
 
 	unsigned int width = 1600;
 	unsigned int height = 1000;

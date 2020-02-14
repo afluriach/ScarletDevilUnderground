@@ -62,6 +62,14 @@ public:
 	inline virtual void update() {}
 	inline virtual void end() {}
 
+	inline local_shared_ptr<MagicEffectDescriptor> getDesc() const { return desc; }
+	inline GObject* getTarget() const { return target; }
+	inline float getLength() const { return length; }
+	inline float getMagnitude() const { return magnitude; }
+	inline state getState() const { return crntState; }
+	inline unsigned int getID() const { return id; }
+	inline effect_flags getFlags() const { return _flags; }
+
 	//remove this - queues this magic effect for removal, can be called within an update
 	void remove();
 

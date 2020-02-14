@@ -37,6 +37,12 @@ namespace Lua{
 #define _cls MagicEffect
 		auto effect = _state.new_usertype<MagicEffect>(
 			"MagicEffect"
+			"MagicEffect",
+			"target", sol::property(&MagicEffect::getTarget),
+			"length", sol::property(&MagicEffect::getLength),
+			"magnitude", sol::property(&MagicEffect::getMagnitude),
+			"state", sol::property(&MagicEffect::getState),
+			"flags", sol::property(&MagicEffect::getFlags)
 		);
 
 		auto flags = _state.new_enum<effect_flags, true>(
@@ -62,13 +68,13 @@ namespace Lua{
 		effect["update"] = &MagicEffect::update;
 		effect["onExit"] = &MagicEffect::end;
 
-		addFuncSame(effect, target);
-		addFuncSame(effect, length);
-		addFuncSame(effect, magnitude);
-		addFuncSame(effect, crntState);
-		addFuncSame(effect, _flags);
-
-		auto spellcost = _state.new_usertype<spell_cost>("spell_cost");
+		auto spellcost = _state.new_usertype<spell_cost>(
+			"spell_cost",
+			"initial_mp", sol::property(&spell_cost::get_initial_mp, &spell_cost::set_initial_mp),
+			"initial_stamina", sol::property(&spell_cost::get_initial_stamina, &spell_cost::set_initial_stamina),
+			"ongoing_mp", sol::property(&spell_cost::get_ongoing_mp, &spell_cost::set_ongoing_mp),
+			"ongoing_stamina", sol::property(&spell_cost::get_ongoing_stamina, &spell_cost::set_ongoing_stamina)
+		);
 #define _cls spell_cost
 		addFuncSame(spellcost, initial_mp);
 		addFuncSame(spellcost, initial_stamina);

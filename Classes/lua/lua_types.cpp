@@ -136,13 +136,13 @@ namespace Lua{
 				DamageInfo(),
 				DamageInfo(float, DamageType),
 				DamageInfo(float, DamageType, Attribute, float)
-			>()
+			>(),
+			"mag", sol::property(&DamageInfo::get_mag, &DamageInfo::set_mag),
+			"knockback", sol::property(&DamageInfo::get_knockback, &DamageInfo::set_knockback),
+			"element", sol::property(&DamageInfo::get_element, &DamageInfo::set_element),
+			"type", sol::property(&DamageInfo::get_type, &DamageInfo::set_type)
 		);
 
-		damageInfo["knockback"] = &DamageInfo::knockback;
-		damageInfo["mag"] = &DamageInfo::mag;
-		damageInfo["element"] = &DamageInfo::element;
-		damageInfo["type"] = &DamageInfo::type;
 		damageInfo["scale"] = &DamageInfo::operator*;
 
 #define _cls SpaceVect
@@ -153,6 +153,8 @@ namespace Lua{
 				SpaceVect(const SpaceVect&),
 				SpaceVect(SpaceFloat,SpaceFloat)
 			>(),
+			"x", sol::property(&SpaceVect::get_x, &SpaceVect::set_x),
+			"y", sol::property(&SpaceVect::get_y, &SpaceVect::set_y),
 			sol::meta_function::addition,
 			sol::resolve<SpaceVect(const SpaceVect&,const SpaceVect&)>(&operator+),
 			sol::meta_function::subtraction,
@@ -183,18 +185,18 @@ namespace Lua{
 		addFuncSame(vect, fuzzyMatch);
 
 #define _cls app_params
-		auto params = _state.new_usertype<app_params>("app_params");
-		
-		addFuncSame(params, getFrameInterval);
-		addFuncSame(params, width);
-		addFuncSame(params, height);
-		addFuncSame(params, fullscreen);
-		addFuncSame(params, vsync);
-		addFuncSame(params, showTimers);
-		addFuncSame(params, difficultyScale);
-		addFuncSame(params, unlockAllEquips);
-		addFuncSame(params, framesPerSecond);
-		addFuncSame(params, secondsPerFrame);
+		auto params = _state.new_usertype<app_params>(
+			"app_params",
+			"width", sol::property(&app_params::getWidth),
+			"height", sol::property(&app_params::getHeight),
+			"fullscreen", sol::property(&app_params::getFullscreen),
+			"vsync", sol::property(&app_params::getVsync),
+			"showTimers", sol::property(&app_params::getShowTimers),
+			"difficultyScale", sol::property(&app_params::getDifficultyScale),
+			"unlockAllEquips", sol::property(&app_params::getUnlockAll),
+			"framesPerSecond", sol::property(&app_params::getFPS),
+			"secondsPerFrame", sol::property(&app_params::getFrameInterval)
+		);
 
 		_state["gobject_ref_unordered_set"] = []()->unordered_set<gobject_ref> { return unordered_set<gobject_ref>(); };
 
