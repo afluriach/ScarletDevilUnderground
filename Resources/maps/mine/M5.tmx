@@ -20,17 +20,17 @@
   <object id="38" type="MineFloor" x="896" y="1664" width="384" height="512"/>
   <object id="39" type="Pitfall" x="256" y="128" width="640" height="1920"/>
   <object id="40" type="Pitfall" x="1280" y="128" width="640" height="1920"/>
-  <object id="42" name="plate1" type="PressurePlate" x="896" y="1536" width="384" height="128">
+  <object id="42" name="plate1" type="CavePressurePlate" x="896" y="1536" width="384" height="128">
    <properties>
     <property name="target" value="launcher1 launcher2 launcher3 launcher4 launcher5 launcher6"/>
    </properties>
   </object>
-  <object id="43" type="PressurePlate" x="896" y="512" width="384" height="128">
+  <object id="43" type="CavePressurePlate" x="896" y="512" width="384" height="128">
    <properties>
     <property name="target" value="launcher13 launcher14 launcher15 launcher16 launcher17 launcher18"/>
    </properties>
   </object>
-  <object id="44" type="PressurePlate" x="896" y="1024" width="384" height="128">
+  <object id="44" type="CavePressurePlate" x="896" y="1024" width="384" height="128">
    <properties>
     <property name="target" value="launcher7 launcher8 launcher9 launcher10 launcher11 launcher12"/>
    </properties>

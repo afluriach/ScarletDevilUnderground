@@ -83,7 +83,15 @@ GObject::AdapterType itemAdapter(local_shared_ptr<item_properties> props)
 GObject::AdapterType floorAdapter(local_shared_ptr<floorsegment_properties> props)
 {
 	return [props](GSpace* space, ObjectIDType id, const ValueMap& args) -> GObject* {
-		return new FloorSegment(space, id, args);
+		if (props->platform) {
+			return new MovingPlatform(space, id, args, props);
+		}
+		else if (props->pressurePlate) {
+			return new PressurePlate(space, id, args, props);
+		}
+		else {
+			return new FloorSegment(space, id, args, props);
+		}
 	};
 }
 
@@ -708,7 +716,12 @@ bool parseObject(tinyxml2::XMLElement* elem, local_shared_ptr<firepattern_proper
 bool parseObject(tinyxml2::XMLElement* elem, local_shared_ptr<floorsegment_properties> result)
 {
 	getStringAttr(elem, "sfx", &result->sfxRes);
+	getStringAttr(elem, "sprite", &result->sprite);
+
 	getNumericAttr(elem, "traction", &result->traction);
+
+	getNumericAttr(elem, "platform", &result->platform);
+	getNumericAttr(elem, "pressurePlate", &result->pressurePlate);
 
 	return true;
 }

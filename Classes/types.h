@@ -121,7 +121,12 @@ struct app_params
 
 struct floorsegment_properties {
 	string sfxRes;
+	string sprite;
+
 	double traction = 1.0;
+
+	bool platform = false;
+	bool pressurePlate = false;
 };
 
 struct sprite_properties {

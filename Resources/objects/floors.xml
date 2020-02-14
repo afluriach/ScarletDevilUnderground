@@ -7,4 +7,31 @@
     <StoneFloor sfx="footstep_stone"/>
     <SandFloor sfx="footstep_sand" traction="0.5"/>
     <GrassFloor sfx="footstep_grass" traction="0.666667"/>
+	
+	<CavePlatform
+		sprite="movingPlatform"
+		sfx="footstep_stone"
+		traction="0.75"
+		platform="true"
+	/>
+	
+	<IcePlatform
+		sprite="icePlatform"
+		sfx="footstep_ice"
+		traction="0.2"
+		platform="true"
+	/>
+
+	<LakePlatform
+		sprite="icePlatform"
+		sfx="footstep_ice"
+		traction="0.8"
+		platform="true"
+	/>
+		
+	<CavePressurePlate
+		sfx="footstep_ice"
+		pressurePlate="true"
+	/>
+	
 </floors>

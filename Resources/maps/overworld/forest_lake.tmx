@@ -74,26 +74,10 @@
   <object id="78" x="1792" y="4224" width="128" height="1408"/>
  </objectgroup>
  <objectgroup name="objects">
-  <object id="52" name="mp1" type="MovingPlatform" x="2432" y="3072" width="256" height="256">
-   <properties>
-    <property name="path" value="path1"/>
-   </properties>
-  </object>
-  <object id="54" name="mp2" type="MovingPlatform" x="1152" y="2560" width="256" height="256">
-   <properties>
-    <property name="path" value="path2"/>
-   </properties>
-  </object>
-  <object id="57" name="mp3" type="MovingPlatform" x="1152" y="2304" width="256" height="256">
-   <properties>
-    <property name="path" value="path3"/>
-   </properties>
-  </object>
-  <object id="59" name="mp4" type="MovingPlatform" x="3456" y="1792" width="256" height="256">
-   <properties>
-    <property name="path" value="path4"/>
-   </properties>
-  </object>
+  <object id="52" name="mp1" type="LakePlatform" x="2432" y="3072" width="256" height="256"/>
+  <object id="54" name="mp2" type="LakePlatform" x="1152" y="2560" width="256" height="256"/>
+  <object id="57" name="mp3" type="LakePlatform" x="1152" y="2304" width="256" height="256"/>
+  <object id="59" name="mp4" type="LakePlatform" x="3456" y="1792" width="256" height="256"/>
   <object id="62" type="Block" x="6912" y="4224" width="128" height="128"/>
   <object id="63" type="Block" x="6912" y="2304" width="128" height="128"/>
   <object id="64" name="mushroom3" type="Mushroom" x="6528" y="3456" width="128" height="128"/>
@@ -111,16 +95,16 @@
   <object id="104" name="agility_upgrade" type="agility_upgrade" x="5632" y="2688" width="128" height="128"/>
  </objectgroup>
  <objectgroup name="paths">
-  <object id="53" name="path1" x="2560" y="3200">
+  <object id="53" name="mp1" x="2560" y="3200">
    <polyline points="0,0 -512,0 -512,-512 0,-512"/>
   </object>
-  <object id="56" name="path2" x="1280" y="2688">
+  <object id="56" name="mp2" x="1280" y="2688">
    <polyline points="0,0 512,0 512,512 0,512"/>
   </object>
-  <object id="58" name="path3" x="1280" y="2432">
+  <object id="58" name="mp3" x="1280" y="2432">
    <polyline points="0,0 1024,0 1024,-512 0,-512"/>
   </object>
-  <object id="61" name="path4" x="3584" y="1920">
+  <object id="61" name="mp4" x="3584" y="1920">
    <polyline points="0,0 -1024,0 -1024,512 0,512"/>
   </object>
  </objectgroup>

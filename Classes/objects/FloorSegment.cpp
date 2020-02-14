@@ -14,16 +14,8 @@
 FloorSegment::FloorSegment(
 	GSpace* space,
 	ObjectIDType id,
-	const ValueMap& args
-) :
-	FloorSegment(space, id, args, -1.0)
-{}
-
-FloorSegment::FloorSegment(
-	GSpace* space,
-	ObjectIDType id,
 	const ValueMap& args,
-	SpaceFloat mass
+	local_shared_ptr<floorsegment_properties> props
 ) :
 	GObject(
 		space,
@@ -32,16 +24,11 @@ FloorSegment::FloorSegment(
 		MapRectPhysSensor(
 			GType::floorSegment,
 			PhysicsLayers::floor,
-			mass
+			props->platform ? 0.0 : -1.0
 		)
-	)
-{
-	string type = getStringOrDefault(args, "type", "");
-	props = app::getFloor(type);
-	
-	if(!props){
-		log("Unknown floor type: %s", type);
-	}
+	),
+	props(props)
+{	
 }
 
 FloorSegment::~FloorSegment()
@@ -59,14 +46,23 @@ SpaceFloat FloorSegment::getTraction() const {
 
 const SpaceFloat MovingPlatform::defaultSpeed = 1.0;
 
-MovingPlatform::MovingPlatform(GSpace* space, ObjectIDType id, const ValueMap& args) :
-	FloorSegment(space,id,args, float_pi * 0.5)
+MovingPlatform::MovingPlatform(
+	GSpace* space,
+	ObjectIDType id,
+	const ValueMap& args,
+	local_shared_ptr<floorsegment_properties> props
+) :
+	FloorSegment(space,id,args,props)
 {
 }
 
 MovingPlatform::~MovingPlatform()
 {
 }
+
+//string MovingPlatform::getSprite() const {
+//	return props->sprite;
+//}
 
 void MovingPlatform::init()
 {
@@ -125,13 +121,13 @@ void MovingPlatform::setWaypoint(size_t idx)
 	setVel(dir*getMaxSpeed());
 }
 
-IcePlatform::IcePlatform(GSpace* space, ObjectIDType id, const ValueMap& args) :
-MovingPlatform(space, id, args)
-{
-}
-
-PressurePlate::PressurePlate(GSpace* space, ObjectIDType id, const ValueMap& args) :
-	FloorSegment(space, id, args)
+PressurePlate::PressurePlate(
+	GSpace* space,
+	ObjectIDType id,
+	const ValueMap& args,
+	local_shared_ptr<floorsegment_properties> props
+) :
+	FloorSegment(space, id, args, props)
 {
 	targetNames = splitString(getStringOrDefault(args, "target", ""), " ");
 }

@@ -12,8 +12,12 @@
 class FloorSegment : public GObject
 {
 public:
-	FloorSegment(GSpace* space, ObjectIDType id, const ValueMap& args);
-	FloorSegment(GSpace* space, ObjectIDType id, const ValueMap& args, SpaceFloat mass);
+	FloorSegment(
+		GSpace* space,
+		ObjectIDType id,
+		const ValueMap& args,
+		local_shared_ptr<floorsegment_properties> props
+	);
 	virtual ~FloorSegment();
 
 	virtual SpaceFloat getTraction() const;
@@ -31,8 +35,15 @@ public FloorSegment
 public:
 	static const SpaceFloat defaultSpeed;
 
-	MapObjCons(MovingPlatform);
+	MovingPlatform(
+		GSpace* space,
+		ObjectIDType id,
+		const ValueMap& args,
+		local_shared_ptr<floorsegment_properties> props
+	);
 	virtual ~MovingPlatform();
+
+//	virtual string getSprite() const;
 
 	virtual void init();
 	virtual void update();
@@ -49,23 +60,17 @@ protected:
 	SpaceFloat distanceToTarget = 0.0;
 };
 
-class IcePlatform : public MovingPlatform
-{
-public:
-	MapObjCons(IcePlatform);
-	virtual inline string getSprite() const { return "icePlatform"; }
-	virtual inline string getFootstepSfx() const { return "sfx/footstep_ice.wav"; }
-	virtual inline SpaceFloat getTraction() const { return 0.2; }
-};
-
 class PressurePlate : public FloorSegment
 {
 public:
-	MapObjCons(PressurePlate);
+	PressurePlate(
+		GSpace* space,
+		ObjectIDType id,
+		const ValueMap& args,
+		local_shared_ptr<floorsegment_properties> props
+	);
 
 	virtual void init();
-	virtual inline string getFootstepSfx() const { return "sfx/footstep_ice.wav"; }
-	virtual inline SpaceFloat getTraction() const { return 1.0; }
 
 	virtual void onContact(GObject* obj);
 	virtual void onEndContact(GObject* obj);

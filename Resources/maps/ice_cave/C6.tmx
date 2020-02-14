@@ -39,11 +39,7 @@
   <object id="31" x="2048" y="1152" width="128" height="896"/>
  </objectgroup>
  <objectgroup name="objects">
-  <object id="45" name="platform1" type="IcePlatform" x="1280" y="1792" width="256" height="256">
-   <properties>
-    <property name="path" value="path1"/>
-   </properties>
-  </object>
+  <object id="45" name="platform1" type="IcePlatform" x="1280" y="1792" width="256" height="256"/>
   <object id="55" name="door-c6-south" type="Door" x="1024" y="2048" width="128" height="128">
    <properties>
     <property name="dir" value="up"/>
@@ -56,7 +52,7 @@
   </object>
  </objectgroup>
  <objectgroup name="paths">
-  <object id="46" name="path1" x="1408" y="1920">
+  <object id="46" name="platform1" x="1408" y="1920">
    <polyline points="0,0 0,-512 512,-512 0,-512"/>
   </object>
  </objectgroup>
