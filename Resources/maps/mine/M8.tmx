@@ -40,18 +40,8 @@
   <object id="56" x="1152" y="0" width="896" height="128"/>
  </objectgroup>
  <objectgroup name="objects">
-  <object id="72" name="platform1" type="CavePlatform" x="512" y="128" width="384" height="384"/>
-  <object id="75" name="platform2" type="CavePlatform" x="1280" y="1664" width="384" height="384"/>
   <object id="78" type="Bat" x="1792" y="1792" width="128" height="128"/>
   <object id="77" type="Bat" x="256" y="1024" width="128" height="128"/>
   <object id="76" type="Bat" x="1792" y="256" width="128" height="128"/>
- </objectgroup>
- <objectgroup name="paths">
-  <object id="73" name="platform1" x="704" y="320">
-   <polyline points="0,0 0,1536"/>
-  </object>
-  <object id="74" name="platform2" x="1472" y="1856">
-   <polyline points="0,0 0,-1536"/>
-  </object>
  </objectgroup>
 </map>

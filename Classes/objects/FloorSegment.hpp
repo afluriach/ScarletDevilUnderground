@@ -29,37 +29,6 @@ protected:
 	local_shared_ptr<floorsegment_properties> props;
 };
 
-class MovingPlatform:
-public FloorSegment
-{
-public:
-	static const SpaceFloat defaultSpeed;
-
-	MovingPlatform(
-		GSpace* space,
-		ObjectIDType id,
-		const ValueMap& args,
-		local_shared_ptr<floorsegment_properties> props
-	);
-	virtual ~MovingPlatform();
-
-//	virtual string getSprite() const;
-
-	virtual void init();
-	virtual void update();
-
-	void setWaypoint(size_t idx);
-	void setNextWaypoint();
-
-	virtual inline string getSprite() const { return "movingPlatform"; }
-
-	virtual inline SpaceFloat getMaxSpeed() const { return defaultSpeed; }
-protected:
-	const Path * path = nullptr;
-	size_t crntSegment = 0;
-	SpaceFloat distanceToTarget = 0.0;
-};
-
 class PressurePlate : public FloorSegment
 {
 public:

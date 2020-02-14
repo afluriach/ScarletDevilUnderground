@@ -536,8 +536,10 @@ void GSpace::processRemoval(GObject* obj, bool _removeSprite)
 bool GSpace::isNoUpdateObject(GObject* obj)
 {
 	return
-		typeid(*obj) == typeid(Wall) || 
-		(dynamic_cast<FloorSegment*>(obj) && typeid(*obj) != typeid(MovingPlatform))
+		typeid(*obj) == typeid(Wall) ||
+		typeid(*obj) == typeid(PressurePlate) ||
+		typeid(*obj) == typeid(FloorSegment) ||
+		typeid(*obj) == typeid(Pitfall)
 	;
 }
 

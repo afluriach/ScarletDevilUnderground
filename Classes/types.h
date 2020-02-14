@@ -125,7 +125,6 @@ struct floorsegment_properties {
 
 	double traction = 1.0;
 
-	bool platform = false;
 	bool pressurePlate = false;
 };
 
