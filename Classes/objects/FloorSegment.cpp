@@ -52,47 +52,48 @@ PressurePlate::PressurePlate(
 ) :
 	FloorSegment(space, id, args, props)
 {
-	targetNames = splitString(getStringOrDefault(args, "target", ""), " ");
-}
-
-void PressurePlate::init()
-{
-	GObject::init();
+	vector<string> targetNames = splitString(getStringOrDefault(args, "target", ""), " ");
+	targets.reserve(targetNames.size());
 
 	for (string _name : targetNames)
 	{
-		target.push_back(space->getObjectRef(_name));
+		targets.push_back(space->getObjectRef(_name));
 	}
-	
-	targetNames.clear();
+
 }
 
 void PressurePlate::onContact(GObject* obj)
 {
-	bool wasInactive = crntContacts.empty();
-
-	crntContacts.insert(obj);
-
-	if (wasInactive) {
-		for (gobject_ref _t : target) {
-			if (_t.isValid()) {
-				_t.get()->activate();
-			}
-		}
+	if (contactCount == 0) {
+		runActivate();
 	}
+
+	++contactCount;
 }
 
 void PressurePlate::onEndContact(GObject* obj)
 {
-	bool wasActive = !crntContacts.empty();
+	if (contactCount == 1) {
+		runDeactivate();
+	}
 
-	crntContacts.erase(obj);
+	--contactCount;
+}
 
-	if (wasActive && crntContacts.empty()) {
-		for (gobject_ref _t : target) {
-			if (_t.isValid()) {
-				_t.get()->deactivate();
-			}
+void PressurePlate::runActivate()
+{
+	for (gobject_ref _t : targets) {
+		if (_t.isValid()) {
+			_t.get()->activate();
+		}
+	}
+}
+
+void PressurePlate::runDeactivate()
+{
+	for (gobject_ref _t : targets) {
+		if (_t.isValid()) {
+			_t.get()->deactivate();
 		}
 	}
 }

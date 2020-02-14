@@ -17,7 +17,6 @@ class object_params
 public:
 	inline object_params() {}
 	object_params(
-		const string& name,
 		const SpaceVect& pos,
 		SpaceFloat angle = float_pi * 0.5
 	);
@@ -27,8 +26,6 @@ public:
 		SpaceFloat angle = float_pi * 0.5
 	);
 	object_params(const ValueMap& args);
-
-	string name;
 
 	SpaceVect pos;
 	SpaceFloat angle = float_pi * 0.5;

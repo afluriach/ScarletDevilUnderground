@@ -34,7 +34,6 @@ GObject::GObject(
 	const physics_params& phys
 ) :
 	space(space),
-	name(params.name),
 	uuid(id),
 	type(phys.type),
 	layers(phys.layers),
@@ -169,6 +168,11 @@ string GObject::getProperName() const
 string GObject::getClsName() const
 {
 	return "";
+}
+
+string GObject::getName() const
+{
+	return space->getObjectName(uuid);
 }
 
 //BEGIN LOGIC

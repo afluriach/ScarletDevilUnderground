@@ -68,8 +68,6 @@ namespace Lua{
 		addFuncSame(gspace, getPlayerAsRef);
 		addFuncSame(gspace, getFrame);
 		addFuncSame(gspace, getObjectCount);
-		addFuncSame(gspace, getObjectNames);
-		addFuncSame(gspace, getUUIDNameMap);
 		addFuncSame(gspace, isObstacle);
 		gspace["removeObject"] = sol::overload(
 			static_cast<void(GSpace::*)(const string&)>(&GSpace::removeObject),

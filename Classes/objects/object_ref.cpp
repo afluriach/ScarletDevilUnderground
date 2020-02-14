@@ -8,7 +8,7 @@
 
 #include "Prefix.h"
 
-GObject* _object_ref_get_gobject(GSpace* space, unsigned int uuid)
+GObject* _object_ref_get_gobject(const GSpace* space, unsigned int uuid)
 {    
     if(!space)
         return nullptr;
@@ -16,7 +16,7 @@ GObject* _object_ref_get_gobject(GSpace* space, unsigned int uuid)
     return space->getObject(uuid);
 }
 
-bool _object_ref_is_valid(GSpace* space, unsigned int uuid)
+bool _object_ref_is_valid(const GSpace* space, unsigned int uuid)
 {   
     if(!space)
         return false;
@@ -24,7 +24,7 @@ bool _object_ref_is_valid(GSpace* space, unsigned int uuid)
     return space->isValid(uuid);
 }
 
-bool _object_ref_is_future(GSpace* space, unsigned int uuid)
+bool _object_ref_is_future(const GSpace* space, unsigned int uuid)
 {
 	if (!space)
 		return false;

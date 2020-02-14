@@ -127,10 +127,7 @@ public:
 	string getTypeName() const;
 	virtual string getProperName() const;
 	virtual string getClsName() const;
-
-	inline string getName() const {
-		return (name.empty()) ? getTypeName() : name;
-	}
+	string getName() const;
 
 	inline ObjectIDType getUUID() const {
 		return uuid;
@@ -141,7 +138,6 @@ public:
 		return dynamic_cast<T*>(this);
 	}
 
-	inline bool isAnonymous() const { return name.empty(); }
 	inline bool isHidden() const { return hidden; }
 
 	//BEGIN LOGIC
@@ -356,7 +352,6 @@ public:
 
 	GSpace *const space;
 	const ObjectIDType uuid;
-	const string name;
 
 protected:
 	bool active = false;

@@ -12,9 +12,9 @@
 class GObject;
 class GSpace;
 
-GObject* _object_ref_get_gobject(GSpace* space, unsigned int uuid);
-bool _object_ref_is_valid(GSpace* space, unsigned int uuid);
-bool _object_ref_is_future(GSpace* space, unsigned int uuid);
+GObject* _object_ref_get_gobject(const GSpace* space, unsigned int uuid);
+bool _object_ref_is_valid(const GSpace* space, unsigned int uuid);
+bool _object_ref_is_future(const GSpace* space, unsigned int uuid);
 ObjectIDType _object_ref_get_uuid(const GObject* obj);
 GSpace* _object_ref_get_space(const GObject* obj);
 
@@ -31,7 +31,7 @@ public:
 		uuid(rhs.getID())
 	{}
 
-    inline gobject_ref(GSpace* space, unsigned int uuid):
+    inline gobject_ref(const GSpace* space, unsigned int uuid):
     uuid(uuid),
 	space(space)
     {}
@@ -81,12 +81,12 @@ public:
 		return uuid;
 	}
 
-	inline GSpace* getSpace() const {
+	inline const GSpace* getSpace() const {
 		return space;
 	}
 
 protected:
-	GSpace * space;
+	const GSpace * space;
     ObjectIDType uuid;
 };
 

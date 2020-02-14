@@ -85,7 +85,7 @@ Agent::Agent(
 	GObject(
 		space,
 		id,
-		object_params(attr.name, attr.pos, attr.angle),
+		object_params(attr.pos, attr.angle),
 		physics_params(
 			type,
 			props->isFlying ? PhysicsLayers::flying : PhysicsLayers::onGround,

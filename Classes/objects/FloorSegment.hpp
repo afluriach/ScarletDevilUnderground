@@ -39,14 +39,14 @@ public:
 		local_shared_ptr<floorsegment_properties> props
 	);
 
-	virtual void init();
-
 	virtual void onContact(GObject* obj);
 	virtual void onEndContact(GObject* obj);
+
+	void runActivate();
+	void runDeactivate();
 protected:
-	unordered_set<gobject_ref> crntContacts;
-	vector<string> targetNames;
-	vector<gobject_ref> target;
+	vector<gobject_ref> targets;
+	unsigned int contactCount = 0;
 };
 
 class Pitfall : public GObject

@@ -40,7 +40,7 @@ Item::Item(GSpace* space, ObjectIDType id, const item_attributes& attr, local_sh
 	GObject(
 		space,
 		id,
-		object_params(attr.name, attr.pos),
+		object_params(attr.pos),
 		physics_params(GType::playerPickup, PhysicsLayers::ground, 0.5, -1.0, true)
 	),
 	props(props)

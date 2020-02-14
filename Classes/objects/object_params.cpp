@@ -12,11 +12,9 @@
 #include "value_map.hpp"
 
 object_params::object_params(
-	const string& name,
 	const SpaceVect& pos,
 	SpaceFloat angle
 ) :
-	name(name),
 	pos(pos),
 	angle(angle)
 {
@@ -35,14 +33,12 @@ object_params::object_params(
 
 object_params::object_params(const ValueMap& args) :
 	object_params(
-		getStringOrDefault(args, "name", ""),
 		getObjectPos(args),
 		float_pi * 0.5
 	)
 {
 	hidden = getBoolOrDefault(args, "hidden", false);
 	active = getBoolOrDefault(args, "active", false);
-	name = getStringOrDefault(args, "name", "");
 
 	Direction dir = getDirectionOrDefault(args, Direction::none);
 	if (dir != Direction::none) {

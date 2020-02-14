@@ -30,6 +30,7 @@
 #include "Spawner.hpp"
 #include "Spell.hpp"
 #include "SpellSystem.hpp"
+#include "value_map.hpp"
 #include "Wall.hpp"
 
 class RadarObject;
@@ -285,9 +286,16 @@ const ValueMap* GSpace::getDynamicObject(const string& name) const
 
 gobject_ref GSpace::createObject(const ValueMap& obj)
 {
-    string type = obj.at("type").asString();
+	string type = getStringOrDefault(obj, "type", "");
+    string name = getStringOrDefault(obj, "name", "");
 	
-	return createObject(GObject::factoryMethodByType(type, obj));
+	gobject_ref result = createObject(GObject::factoryMethodByType(type, obj));
+
+	if (result.getID() != 0) {
+		objectNames.left.insert(make_pair(name, result.getID()));
+	}
+
+	return result;
 }
 
 gobject_ref GSpace::createObject(ObjectGeneratorType generator)
@@ -351,7 +359,13 @@ void GSpace::addWallBlock(const SpaceRect& area)
 
 gobject_ref GSpace::getObjectRef(const string& name) const
 {
-	return getObject(name);
+	auto it = objectNames.left.find(name);
+	if (it != objectNames.left.end()) {
+		return gobject_ref(this, it->second);
+	}
+	else {
+		return gobject_ref();
+	}
 }
 
 gobject_ref GSpace::getObjectRef(unsigned int uuid) const
@@ -361,11 +375,14 @@ gobject_ref GSpace::getObjectRef(unsigned int uuid) const
 
 GObject* GSpace::getObject(const string& name) const
 {
-	if (warningNames.find(name) != warningNames.end()) {
-		log("Warning: object name %s is not unique!", name.c_str());
+	auto it = objectNames.left.find(name);
+	if (it != objectNames.left.end()) {
+		return getObject(it->second);
 	}
-
-	return getOrDefault(objByName, name, to_gobject(nullptr));
+	else {
+		log("getObject: \"%s\" not found!", name);
+		return nullptr;
+	}
 }
 
 GObject* GSpace::getObject(unsigned int uuid) const
@@ -388,6 +405,17 @@ const unordered_set<GObject*>* GSpace::getObjectsByType(type_index t) const
 	return &(objByType.at(t));
 }
 
+string GSpace::getObjectName(ObjectIDType id) const
+{
+	auto it = objectNames.right.find(id);
+	if (it != objectNames.right.end()) {
+		return it->second;
+	}
+	else {
+		return string();
+	}
+}
+
 bool GSpace::isTrackedType(type_index t) const
 {
 	return trackedTypes.find(t) != trackedTypes.end();
@@ -403,14 +431,6 @@ bool GSpace::isFutureObject(ObjectIDType uuid) const
 	return uuid != 0 && uuid > lastAddedUUID && uuid < nextObjUUID;
 }
 
-vector<string> GSpace::getObjectNames() const
-{
-    auto key = [](pair<string,GObject*> e){return e.first;};
-    vector<string> names(objByName.size());
-    transform(objByName.begin(), objByName.end(), names.begin(), key);
-    return names;
-}
-
 void GSpace::processAdditions()
 {
     for(const generator_pair& generator: toAdd)
@@ -421,10 +441,6 @@ void GSpace::processAdditions()
 			continue;
 
 		lastAddedUUID = generator.second;
-
-        if(!obj->isAnonymous() && objByName.find(obj->name) != objByName.end()){
-			warningNames.insert(obj->name);
-        }
 
         if(objByUUID.find(obj->uuid) != objByUUID.end()){
             log("Object %s, %d UUID is not unique!", obj->getName(), obj->uuid);
@@ -444,8 +460,6 @@ void GSpace::processAdditions()
 			objByType[typeid(*obj)].insert(obj);
 		}
 
-        if(!obj->isAnonymous())
-            objByName[obj->name] = obj;
         objByUUID[obj->uuid] = obj;
 
 		if (!isNoUpdateObject(obj)) {
@@ -460,13 +474,13 @@ void GSpace::processAdditions()
 
 void GSpace::removeObject(const string& name)
 {
-    auto it = objByName.find(name);
-    if(it == objByName.end()){
+    auto it = objectNames.left.find(name);
+    if(it == objectNames.left.end()){
         log("removeObject: %s not found", name.c_str());
         return;
     }
     
-    toRemove.push_back(it->second);
+    toRemove.push_back( objByUUID[it->second]);
 }
 
 void GSpace::removeObject(GObject* obj)
@@ -510,11 +524,12 @@ void GSpace::processRemoval(GObject* obj, bool _removeSprite)
 
 	obj->onRemove();
 
-	if (!isUnloading && obj->name.size() > 0 && crntChamber.size() > 0) {
-		App::crntState->addObjectRemoval(crntChamber, obj->name);
+	string name = getObjectName(obj->uuid);
+	if (!isUnloading && name.size() > 0 && crntChamber.size() > 0) {
+		App::crntState->addObjectRemoval(crntChamber, name);
 	}
 
-    objByName.erase(obj->name);
+	objectNames.right.erase(obj->uuid);
     objByUUID.erase(obj->uuid);
 	updateObjects.erase(obj);
 	removeSpatialSounds(obj);
@@ -642,17 +657,6 @@ ControlInfo GSpace::getControlInfo() const {
 
 void GSpace::setControlInfo(ControlInfo info) {
 	controlInfo = info;
-}
-
-unordered_map<int,string> GSpace::getUUIDNameMap() const
-{
-    unordered_map<int,string> result;
-    
-    for(auto it = objByUUID.begin(); it != objByUUID.end(); ++it)
-    {
-        result[it->first] = it->second->name;
-    }
-    return result;
 }
 
 unsigned int GSpace::getAndIncrementObjectUUID()

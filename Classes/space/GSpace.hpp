@@ -118,8 +118,6 @@ public:
 	bool isTrackedType(type_index t) const;
     bool isValid(unsigned int uuid) const;
 	bool isFutureObject(ObjectIDType uuid) const;
-    vector<string> getObjectNames() const;
-    unordered_map<int,string> getUUIDNameMap() const;
     inline int getObjectCount() const { return objByUUID.size();}
 	unsigned int getAndIncrementObjectUUID();
 
@@ -131,6 +129,8 @@ public:
 	RoomSensor* getRoomSensor(int id) const;
 
 	const unordered_set<GObject*>* getObjectsByType(type_index t) const;
+
+	string getObjectName(ObjectIDType id) const;
 
 	template<typename T>
 	inline T* getObjectAs(const string& name) const {
@@ -374,9 +374,8 @@ protected:
 	list<GObject*> toRemove;
 	list<pair<GObject*, ActionGeneratorType>> toRemoveWithAnimation;
 
-	unordered_map<unsigned int, GObject*> objByUUID;
-	unordered_map<string, GObject*> objByName;
-	unordered_set<string> warningNames;
+	unordered_map<ObjectIDType, GObject*> objByUUID;
+	boost::bimap<string, ObjectIDType> objectNames;
 	unordered_map<type_index, unordered_set<GObject*>> objByType;
 
 	set<string> enemyTypes;

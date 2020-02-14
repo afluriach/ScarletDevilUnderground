@@ -29,7 +29,7 @@ AreaSensor::AreaSensor(GSpace* space, ObjectIDType id, SpaceVect center, SpaceVe
 	GObject(
 		space,
 		id,
-		object_params("", center, 0.0),
+		object_params(center, 0.0),
 		physics_params(GType::areaSensor, PhysicsLayers::all, dim, -1.0, true)
 	)
 {
