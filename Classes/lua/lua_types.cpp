@@ -200,6 +200,10 @@ namespace Lua{
 
 		_state["gobject_ref_unordered_set"] = []()->unordered_set<gobject_ref> { return unordered_set<gobject_ref>(); };
 
+		auto value_map = _state.new_usertype<ValueMap>(
+			"ValueMap"
+		);
+
 		auto _app = _state.create_table();
 		_state["app"] = _app;
 

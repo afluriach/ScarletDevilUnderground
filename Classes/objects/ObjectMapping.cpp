@@ -103,7 +103,6 @@ void GObject::initObjectInfo()
 	no_adapter_entry(EnvironmentObject),
 	no_adapter_entry(FloorSegment),
 	entry_same(GhostHeadstone),
-	conditional_entry(Headstone),
 	entry_same(HiddenSubroomSensor),
 	{"Item", makeObjectInfo<Item>(itemAdapter())},
 	no_adapter_entry(NPC),

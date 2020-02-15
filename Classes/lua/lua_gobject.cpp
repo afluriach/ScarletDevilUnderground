@@ -126,6 +126,7 @@ namespace Lua{
 		addFuncSame(gobject, setVel);
 		addFuncSame(gobject, setSpriteOpacity);
 		addFuncSame(gobject, setSpriteVisible);
+		addFuncSame(gobject, setSpriteTexture);
 		addFuncSame(gobject, setBodySensor);
 		addFuncSame(gobject, getBodySensor);
 		addFuncSame(gobject, launchAtTarget);

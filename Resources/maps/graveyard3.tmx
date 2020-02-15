@@ -252,87 +252,27 @@
   <object id="228" type="GhostFairy" x="2560" y="3200" width="128" height="128"/>
   <object id="229" name="g3_map1" type="MapFragment" x="1408" y="5376" width="128" height="128"/>
   <object id="277" type="Headstone" x="4736" y="4736" width="256" height="256"/>
-  <object id="278" type="Headstone" x="5888" y="4736" width="256" height="256">
-   <properties>
-    <property name="hp" value="50"/>
-   </properties>
-  </object>
-  <object id="279" type="Headstone" x="5312" y="4736" width="256" height="256">
-   <properties>
-    <property name="hp" value="50"/>
-   </properties>
-  </object>
+  <object id="278" type="DestructibleHeadstone" x="5888" y="4736" width="256" height="256" />
+  <object id="279" type="DestructibleHeadstone" x="5312" y="4736" width="256" height="256" />
   <object id="281" type="Headstone" x="4736" y="5888" width="256" height="256"/>
-  <object id="282" type="Headstone" x="5888" y="5888" width="256" height="256">
-   <properties>
-    <property name="hp" value="50"/>
-   </properties>
-  </object>
-  <object id="283" type="Headstone" x="5312" y="5888" width="256" height="256">
-   <properties>
-    <property name="hp" value="50"/>
-   </properties>
-  </object>
+  <object id="282" type="DestructibleHeadstone" x="5888" y="5888" width="256" height="256" />
+  <object id="283" type="DestructibleHeadstone" x="5312" y="5888" width="256" height="256" />
   <object id="284" type="Headstone" x="5888" y="5312" width="256" height="256"/>
-  <object id="296" type="Headstone" x="2560" y="1536" width="256" height="256">
-   <properties>
-    <property name="hp" value="100"/>
-   </properties>
-  </object>
-  <object id="297" type="Headstone" x="3712" y="1536" width="256" height="256">
-   <properties>
-    <property name="hp" value="100"/>
-   </properties>
-  </object>
-  <object id="298" type="Headstone" x="3712" y="384" width="256" height="256">
-   <properties>
-    <property name="hp" value="100"/>
-   </properties>
-  </object>
+  <object id="296" type="DestructibleHeadstone" x="2560" y="1536" width="256" height="256" />
+  <object id="297" type="DestructibleHeadstone" x="3712" y="1536" width="256" height="256" />
+  <object id="298" type="Headstone" x="3712" y="384" width="256" height="256" />
   <object id="299" type="Headstone" x="3136" y="384" width="256" height="256"/>
-  <object id="300" type="Headstone" x="2560" y="384" width="256" height="256">
-   <properties>
-    <property name="hp" value="100"/>
-   </properties>
-  </object>
+  <object id="300" type="DestructibleHeadstone" x="2560" y="384" width="256" height="256" />
   <object id="301" type="Headstone" x="3136" y="1536" width="256" height="256"/>
-  <object id="302" type="Headstone" x="5824" y="384" width="256" height="256">
-   <properties>
-    <property name="hp" value="75"/>
-   </properties>
-  </object>
-  <object id="303" type="Headstone" x="5824" y="896" width="256" height="256">
-   <properties>
-    <property name="hp" value="75"/>
-   </properties>
-  </object>
+  <object id="302" type="DestructibleHeadstone" x="5824" y="384" width="256" height="256" />
+  <object id="303" type="DestructibleHeadstone" x="5824" y="896" width="256" height="256" />
   <object id="304" type="Headstone" x="4736" y="384" width="256" height="256"/>
-  <object id="305" type="Headstone" x="5248" y="384" width="256" height="256">
-   <properties>
-    <property name="hp" value="75"/>
-   </properties>
-  </object>
+  <object id="305" type="DestructibleHeadstone" x="5248" y="384" width="256" height="256" />
   <object id="306" type="Headstone" x="5824" y="1408" width="256" height="256"/>
-  <object id="307" type="Headstone" x="5824" y="2560" width="256" height="256">
-   <properties>
-    <property name="hp" value="50"/>
-   </properties>
-  </object>
-  <object id="308" type="Headstone" x="5824" y="3072" width="256" height="256">
-   <properties>
-    <property name="hp" value="50"/>
-   </properties>
-  </object>
-  <object id="309" type="Headstone" x="4736" y="3584" width="256" height="256">
-   <properties>
-    <property name="hp" value="50"/>
-   </properties>
-  </object>
-  <object id="310" type="Headstone" x="5248" y="3584" width="256" height="256">
-   <properties>
-    <property name="hp" value="50"/>
-   </properties>
-  </object>
+  <object id="307" type="DestructibleHeadstone" x="5824" y="2560" width="256" height="256" />
+  <object id="308" type="DestructibleHeadstone" x="5824" y="3072" width="256" height="256" />
+  <object id="309" type="DestructibleHeadstone" x="4736" y="3584" width="256" height="256" />
+  <object id="310" type="DestructibleHeadstone" x="5248" y="3584" width="256" height="256" />
   <object id="311" type="Headstone" x="5824" y="3584" width="256" height="256"/>
   <object id="312" type="ZombieFairy" x="1024" y="2816" width="128" height="128"/>
   <object id="313" type="ZombieFairy" x="1408" y="3200" width="128" height="128"/>

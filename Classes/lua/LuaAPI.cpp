@@ -10,6 +10,7 @@
 
 #include "FileIO.hpp"
 #include "LuaAPI.hpp"
+#include "value_map.hpp"
 
 namespace Lua{
 
@@ -94,6 +95,11 @@ const vector<string> Inst::luaIncludes = {
 			timerIncrement(result);
 			return result;
 		};
+
+		util["getStringOrDefault"] = &getStringOrDefault;
+		util["getIntOrDefault"] = &getIntOrDefault;
+		util["getFloatOrDefault"] = &getFloatOrDefault;
+		util["getBoolOrDefault"] = &getBoolOrDefault;
 
 		addAI();
 		addApp();

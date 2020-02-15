@@ -252,11 +252,7 @@
   <object id="272" type="Headstone" x="4736" y="4736" width="256" height="256"/>
   <object id="273" type="Headstone" x="5888" y="4736" width="256" height="256"/>
   <object id="274" type="Headstone" x="4736" y="5888" width="256" height="256"/>
-  <object id="279" type="Headstone" x="5312" y="5312" width="256" height="256">
-   <properties>
-    <property name="hp" value="50"/>
-   </properties>
-  </object>
+  <object id="279" type="DestructibleHeadstone" x="5312" y="5312" width="256" height="256" />
   <object id="280" name="stamina_upgrade" type="stamina_upgrade" x="5376" y="5376" width="128" height="128"/>
   <object id="281" type="Torch" x="2944" y="7552" width="128" height="128">
    <properties>

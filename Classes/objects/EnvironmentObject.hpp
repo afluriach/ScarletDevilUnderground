@@ -21,6 +21,13 @@ public:
 class EnvironmentObject : public GObject
 {
 public:
+	static bool conditionalLoad(
+		GSpace* space,
+		ObjectIDType id,
+		const ValueMap& args,
+		local_shared_ptr<environment_object_properties> props
+	);
+
 	EnvironmentObject(
 		GSpace* space,
 		ObjectIDType id,

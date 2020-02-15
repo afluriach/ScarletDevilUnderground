@@ -18,11 +18,21 @@
 		interactionIcon="sprites/desk.png"
 		mass="-1.0"
 	/>
+	<DestructibleHeadstone
+		cls="auto"
+		sprite="headstone"
+		mass="-1.0"		
+	/>
 	<Goal
 		cls="auto"
 		sprite="goal"
 		interactible="true"
 		interactionIcon="sprites/ui/goal.png"
+		mass="-1.0"		
+	/>
+	<Headstone
+		cls="auto"
+		sprite="strongHeadstone"
 		mass="-1.0"		
 	/>
 	<Launcher

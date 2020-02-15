@@ -862,6 +862,17 @@ void GObject::setSpriteVisible(bool val)
 		space->graphicsNodeAction(&Node::setVisible, spriteID, val);
 }
 
+void GObject::setSpriteTexture(const string& texture)
+{
+	if (spriteID != 0) {
+		space->addGraphicsAction(
+			&graphics_context::setSpriteTexture,
+			spriteID,
+			texture
+		);
+	}
+}
+
 //END GRAPHICS
 
 //BEGIN AUDIO

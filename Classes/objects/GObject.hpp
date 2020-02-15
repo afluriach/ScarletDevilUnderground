@@ -310,6 +310,7 @@ public:
 	void setSpriteZoom(float zoom);
 	void setSpriteOpacity(unsigned char op);
 	void setSpriteVisible(bool val);
+	void setSpriteTexture(const string& texture);
 
 	//Create Node which graphically reprensets this object and adds it to Layer
 	virtual void initializeGraphics();

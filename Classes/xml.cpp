@@ -95,7 +95,12 @@ GObject::AdapterType floorAdapter(local_shared_ptr<floorsegment_properties> prop
 GObject::AdapterType environmentObjectAdapter(local_shared_ptr<environment_object_properties> props)
 {
 	return [props](GSpace* space, ObjectIDType id, const ValueMap& args) -> GObject* {
-		return new EnvironmentObject(space, id, args, props);
+		if (EnvironmentObject::conditionalLoad(space, id, args, props)) {
+			return new EnvironmentObject(space, id, args, props);
+		}
+		else {
+			return nullptr;
+		}
 	};
 }
 

@@ -13,6 +13,26 @@
 #include "Player.hpp"
 #include "value_map.hpp"
 
+bool EnvironmentObject::conditionalLoad(
+	GSpace* space,
+	ObjectIDType id,
+	const ValueMap& args,
+	local_shared_ptr<environment_object_properties> props
+) {
+	auto& cls = space->scriptVM->_state["objects"][props->clsName];
+
+	if (cls) {
+		sol::function f = cls["conditionalLoad"];
+
+		if (f && !f(space, id, args, props)) {
+			log("object load canceled");
+			return false;
+		}
+	}
+
+	return true;
+}
+
 EnvironmentObject::EnvironmentObject(
 	GSpace* space,
 	ObjectIDType id,
