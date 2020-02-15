@@ -15,9 +15,11 @@
 #include "Door.hpp"
 #include "EffectArea.hpp"
 #include "Enemy.hpp"
+#include "EnvironmentObject.hpp"
 #include "EnvironmentalObjects.hpp"
 #include "FloorSegment.hpp"
 #include "Item.hpp"
+#include "NPC.hpp"
 #include "Player.hpp"
 #include "Spawner.hpp"
 #include "TeleportPad.hpp"
@@ -74,15 +76,9 @@ GObject::AdapterType collectibleAdapter(string coll_id)
 template <class C>
 GObject::object_info makeObjectInfo(GObject::AdapterType adapter)
 {
-	string name;
-	if constexpr(has_properName<C>::value) {
-		name = C::properName;
-	}
-
 	return GObject::object_info{
 		adapter,
-		type_index(typeid(C)),
-		name
+		type_index(typeid(C))
 	};
 }
 
@@ -90,6 +86,7 @@ GObject::object_info makeObjectInfo(GObject::AdapterType adapter)
 //To make an entry where the name matches the class
 #define entry_same(cls) entry(#cls, cls)
 
+#define no_adapter_entry(name) {#name, makeObjectInfo<name>(nullptr)}
 #define conditional_entry(name) {#name, makeObjectInfo<name>(conditionalLoadAdapter<name>())}
 
 unordered_map<string, GObject::object_info> GObject::objectInfo;
@@ -99,13 +96,20 @@ void GObject::initObjectInfo()
 {
 	objectInfo = {
 
+	no_adapter_entry(Bullet),
 	entry_same(DarknessArea),
 	entry_same(Door),
+	no_adapter_entry(Enemy),
+	no_adapter_entry(EnvironmentObject),
+	no_adapter_entry(FloorSegment),
 	entry_same(GhostHeadstone),
 	conditional_entry(Headstone),
 	entry_same(HiddenSubroomSensor),
 	{"Item", makeObjectInfo<Item>(itemAdapter())},
+	no_adapter_entry(NPC),
 	entry_same(Pitfall),
+	no_adapter_entry(Player),
+	no_adapter_entry(PressurePlate),
 	entry_same(Spawner),
 	entry_same(SunArea),
 	entry_same(TeleportPad),

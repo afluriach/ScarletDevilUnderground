@@ -45,7 +45,7 @@ public:
 	inline SpaceFloat getFuseTime() const { return props->fuseTime; }
 	inline SpaceFloat getBlastRadius() const { return props->blastRadius; }
 
-	inline string getExplosionSound() const { return props->explosionSound; }
+	inline string getExplosionSound() const { return "sfx/" + props->explosionSound + ".wav"; }
 
 	inline virtual string getSprite() const { return props->sprite; }
 	virtual bool hit(DamageInfo damage, SpaceVect n);

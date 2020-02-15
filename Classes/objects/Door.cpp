@@ -52,7 +52,7 @@ void Door::init()
 		adjacent = space->getObjectAs<Door>(destination);
 
 		if (!adjacent.isValid()) {
-			log("Door %s, unknown destination %s.", getName().c_str(), destination.c_str());
+			log("Door %s, unknown destination %s.", getName(), destination);
 		}
 	}
 

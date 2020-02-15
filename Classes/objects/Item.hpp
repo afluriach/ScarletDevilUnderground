@@ -38,6 +38,7 @@ public:
 	Item(GSpace* space, ObjectIDType id, const item_attributes& attr, local_shared_ptr<item_properties> props);
 
 	inline virtual string getClsName() const { return props->clsName; }
+	inline virtual string getProperName() const { return props->properName; }
 
 	virtual void init();
 

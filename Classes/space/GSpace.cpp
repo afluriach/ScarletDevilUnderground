@@ -443,7 +443,7 @@ void GSpace::processAdditions()
 		lastAddedUUID = generator.second;
 
         if(objByUUID.find(obj->uuid) != objByUUID.end()){
-            log("Object %s, %d UUID is not unique!", obj->getName(), obj->uuid);
+            log("Object UUID is not unique: %s", obj->toString());
             delete obj;
             continue;
         }

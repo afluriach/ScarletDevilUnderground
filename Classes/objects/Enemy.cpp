@@ -30,10 +30,10 @@ Enemy::Enemy(
 	props(props)
 {
 	if (space->getFrame() == 0){
-		space->registerEnemyStaticLoaded(getTypeName());
+		space->registerEnemyStaticLoaded(getClsName());
 	}
 	else {
-		space->registerEnemySpawned(getTypeName());
+		space->registerEnemySpawned(getClsName());
 	}
 
 	if (props->firepattern.size() > 0)
@@ -67,7 +67,7 @@ void Enemy::onRemove()
 	if(!props->collectible.empty()){
 		space->createObject(Collectible::create(space, props->collectible, getPos()));
 	}
-	space->registerEnemyDefeated(getTypeName());
+	space->registerEnemyDefeated(getClsName());
 }
 
 void Enemy::init()

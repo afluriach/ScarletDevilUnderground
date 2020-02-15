@@ -33,6 +33,8 @@ public:
 	);
 	inline virtual ~Bullet() {}
 
+	inline virtual string getClsName() const { return props->clsName; }
+
 	virtual void init();
 	virtual void onRemove();
 	virtual void initializeGraphics();

@@ -31,7 +31,7 @@ void Teleport::update()
 	{
 		TeleportPad* crnt = ref.getAs<TeleportPad>();
 		if (crnt && !crnt->isObstructed()) {
-			log("%s teleported to %s.", target->getName().c_str(), crnt->getName().c_str());
+			log("%s teleported to %s.", target->toString(), crnt->toString());
 			target->teleport(ref.get()->getPos());
 			crnt->setTeleportActive(true);
 			success = true;

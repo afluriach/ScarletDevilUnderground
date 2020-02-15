@@ -102,15 +102,6 @@ ObjectGeneratorType GObject::factoryMethodByType(const string& type, const Value
 	};
 }
 
-string GObject::properNameByType(type_index t)
-{
-	const object_info* info = getObjectInfo(t);
-	if (info)
-		return info->properName;
-	else
-		return "";
-}
-
 const GObject::object_info* GObject::getObjectInfo(string name)
 {
 	auto it = objectInfo.find(name);
@@ -155,14 +146,9 @@ void GObject::initNameMap()
 	}
 }
 
-string GObject::getTypeName() const
-{
-	return getOrDefault<type_index, string>(typeNameMap, typeid(*this), "GObject");
-}
-
 string GObject::getProperName() const
 {
-	return properNameByType(typeid(*this));
+	return "";
 }
 
 string GObject::getClsName() const
@@ -173,6 +159,29 @@ string GObject::getClsName() const
 string GObject::getName() const
 {
 	return space->getObjectName(uuid);
+}
+
+string GObject::getTypeIndexName() const
+{
+	return getOrDefault<type_index, string>(typeNameMap, typeid(*this), "GObject");
+}
+
+string GObject::toString() const
+{
+	stringstream s;
+	string _cls = getClsName();
+	string name = getName();
+	s << getTypeIndexName() << ":" << uuid;
+
+	if (_cls.size() > 0) {
+		s << "(" << _cls << ")";
+	}
+
+	if (name.size() > 0) {
+		s << "\"" << name << "\"";
+	}
+
+	return s.str();
 }
 
 //BEGIN LOGIC
@@ -833,7 +842,7 @@ void GObject::setSpriteZoom(float zoom)
 		space->addGraphicsAction(&graphics_context::setSpriteZoom, spriteID, zoom);
 	}
 	else {
-		log("GObject::setSpriteZoom: %s does not have a sprite!", getName());
+		log("GObject::setSpriteZoom: %s does not have a sprite!", toString());
 	}
 }
 
@@ -843,7 +852,7 @@ void GObject::setSpriteOpacity(unsigned char op)
 		space->graphicsNodeAction(&Node::setOpacity, spriteID, to_uchar(op));
 	}
 	else {
-		log("GObject::setSpriteOpacity: %s does not have a sprite!", getName());
+		log("GObject::setSpriteOpacity: %s does not have a sprite!", toString());
 	}
 }
 

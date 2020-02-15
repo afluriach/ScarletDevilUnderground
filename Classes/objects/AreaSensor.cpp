@@ -155,8 +155,8 @@ void RoomSensor::onPlayerEndContact(Player* p)
 void RoomSensor::onEnemyContact(Enemy* e) {
 	enemies.insert(e);
 
-	emplaceIfEmpty<string, unsigned int>(enemyCountsByType, e->getTypeName(), 0);
-	++enemyCountsByType.at(e->getTypeName());
+	emplaceIfEmpty<string, unsigned int>(enemyCountsByType, e->getClsName(), 0);
+	++enemyCountsByType.at(e->getClsName());
 
 	if (player) {
 		e->sendAlert(player);
@@ -164,7 +164,7 @@ void RoomSensor::onEnemyContact(Enemy* e) {
 }
 
 void RoomSensor::onEnemyEndContact(Enemy* e) {
-	--enemyCountsByType.at(e->getTypeName());
+	--enemyCountsByType.at(e->getClsName());
 	enemies.erase(e);
 }
 

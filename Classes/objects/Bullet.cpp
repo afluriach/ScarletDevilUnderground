@@ -156,7 +156,7 @@ bool Bullet::applyRicochet(SpaceVect n)
 	if (logRicochets) {
 		log(
 			"%s, %d velocity from %f,%f to %f,%f",
-			getName().c_str(),
+			toString(),
 			space->getFrame(),
 			v.length(),
 			v.toAngle(),

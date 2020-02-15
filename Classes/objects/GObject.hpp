@@ -44,7 +44,6 @@ public:
 	{
 		AdapterType consAdapter;
 		type_index type;
-		string properName;
 	};
 
     static constexpr bool logCreateObjects = false;
@@ -60,7 +59,6 @@ public:
 
 	static GObject* constructByType(GSpace* space, ObjectIDType id, const string& type, const ValueMap& args);
 	static ObjectGeneratorType factoryMethodByType(const string& type, const ValueMap& args);
-	static string properNameByType(type_index t);
 	static bool isValidObjectType(string typeName);
 	static const object_info* getObjectInfo(string name);
 	static const object_info* getObjectInfo(type_index t);
@@ -123,15 +121,13 @@ public:
 	//object identification, init, and update
 
 	inline GSpace* getSpace() const { return space; }
+	inline ObjectIDType getUUID() const { return uuid; }
 
-	string getTypeName() const;
 	virtual string getProperName() const;
 	virtual string getClsName() const;
 	string getName() const;
-
-	inline ObjectIDType getUUID() const {
-		return uuid;
-	}
+	string getTypeIndexName() const;
+	string toString() const;
 
 	template<typename T>
 	inline T* getAs(){

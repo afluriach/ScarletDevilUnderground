@@ -97,7 +97,7 @@ Agent::Agent(
 	level(attr.level)
 {
 	if (props->ai_package.empty() && attr.ai_package.empty() && type != GType::player) {
-		log("Agent %s: no AI package!", getName());
+		log("%s: no AI package!", toString());
 	}
 	else {
 		ai_package = attr.ai_package.size() > 0 ? attr.ai_package : props->ai_package;
