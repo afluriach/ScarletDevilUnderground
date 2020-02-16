@@ -66,7 +66,7 @@ function spells.IllusionDial:tryLaunch()
 	local best_angle = math.pi
 	local target = self.targetRef:get()
 	
-	for _i, ref in ipairs(self.bullets:getArray()) do
+	self.bullets:for_each(function(ref)
 		if ref:isValid() then
 			local crnt = ai.viewAngleToTarget(ref:get(),target)
 			if crnt ~= math.huge and math.abs(crnt) < best_angle then
@@ -74,7 +74,7 @@ function spells.IllusionDial:tryLaunch()
 				best_angle = math.abs(crnt)
 			end
 		end
-	end
+	end)
 	
 	if best and best_angle < self.max_angle_margin then
 		best:get():launchAtTarget(target)
@@ -84,9 +84,9 @@ function spells.IllusionDial:tryLaunch()
 end
 
 function spells.IllusionDial:onExit()
-	for _i,ref in ipairs(self.bullets:getArray()) do
+	self.bullets:for_each(function(ref)
 		if ref:isValid() then
 			self.super:getSpace():removeObject(ref)
 		end
-	end
+	end)
 end

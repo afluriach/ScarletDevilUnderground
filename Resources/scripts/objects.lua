@@ -103,11 +103,11 @@ function objects.GhostHeadstone:init(super, args)
 end
 
 function objects.GhostHeadstone:applyRemoval()
-	for _i, ref in ipairs(self.fairies:getArray()) do
+	self.fairies:for_each(function(ref)
 		if ref:isValid() then
 			self.super.space:removeObject(ref)
 		end
-	end
+	end)
 	self.fairies:clear()
 end
 

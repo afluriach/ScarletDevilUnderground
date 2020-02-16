@@ -43,6 +43,13 @@ namespace Lua{
 			return _set.size();
 		}
 
+		inline void for_each(function<void(const gobject_ref&)> f) const
+		{
+			for (auto const& ref : _set) {
+				f(ref);
+			}
+		}
+
 		inline sol::table getArray() const
 		{
 			int idx = 1;
@@ -248,6 +255,7 @@ namespace Lua{
 		hashset["erase"] = &hashset_gobject_ref::erase;
 		hashset["clear"] = &hashset_gobject_ref::clear;
 		hashset["size"] = &hashset_gobject_ref::size;
+		hashset["for_each"] = &hashset_gobject_ref::for_each;
 		hashset["getArray"] = &hashset_gobject_ref::getArray;
 
 		auto value_map = _state.new_usertype<ValueMap>(
