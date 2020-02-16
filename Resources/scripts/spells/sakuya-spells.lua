@@ -21,7 +21,7 @@ function spells.IllusionDial:init(super)
 	self.super = super
 	self.agent = super:getCasterAsAgent()
 	self.timeSinceLastFire = 0.0
-	self.bullets = gobject_ref_unordered_set()
+	self.bullets = hashset_gobject_ref.new()
 end
 
 function spells.IllusionDial:onEnter()
@@ -36,7 +36,7 @@ function spells.IllusionDial:onEnter()
 			0.0,
 			i % 2 ~= 0 and self.angular_speed or -self.angular_speed
 		)
-		self.bullets[ref] = true
+		self.bullets:insert(ref)
 	end
 end
 
@@ -54,7 +54,7 @@ function spells.IllusionDial:update()
 end
 
 function spells.IllusionDial:onBulletRemove(b)
-	self.bullets[b:getRef()] = nil
+	self.bullets:erase(b:getRef())
 end
 
 function spells.IllusionDial:allBulletsConsumed()
@@ -66,7 +66,7 @@ function spells.IllusionDial:tryLaunch()
 	local best_angle = math.pi
 	local target = self.targetRef:get()
 	
-	for _i, ref in pairs(self.bullets) do
+	for _i, ref in ipairs(self.bullets:getArray()) do
 		if ref:isValid() then
 			local crnt = ai.viewAngleToTarget(ref:get(),target)
 			if crnt ~= math.huge and math.abs(crnt) < best_angle then
@@ -78,13 +78,13 @@ function spells.IllusionDial:tryLaunch()
 	
 	if best and best_angle < self.max_angle_margin then
 		best:get():launchAtTarget(target)
-		self.bullets[best] = nil
+		self.bullets:erase(best)
 		self.timeSinceLastFire = 0.0
 	end
 end
 
 function spells.IllusionDial:onExit()
-	for _i,ref in pairs(self.bullets) do
+	for _i,ref in ipairs(self.bullets:getArray()) do
 		if ref:isValid() then
 			self.super:getSpace():removeObject(ref)
 		end

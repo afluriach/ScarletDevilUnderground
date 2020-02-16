@@ -392,7 +392,13 @@ void GScene::spaceUpdateMain()
 		);
 
 		if (!isExit) {
-			gspace->update();
+			try {
+				gspace->update();
+			}
+			catch (sol::error e){
+				log("%s", e.what());
+				exit(0);
+			}
 			spaceUpdateToRun.store(false);
 			spaceUpdateCondition.notify_one();
 		}

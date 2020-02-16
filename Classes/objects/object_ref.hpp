@@ -57,13 +57,14 @@ public:
 	inline bool isFuture()const {
 		return _object_ref_is_future(space, uuid);
 	}
-    
-    inline bool operator==(const GObject* rhs)const{
-        if(!rhs)
-            return uuid == 0;
-        else
-            return space == _object_ref_get_space(rhs) && uuid == _object_ref_get_uuid(rhs);
-    }
+
+	inline gobject_ref& operator=(const gobject_ref& rhs) {
+		uuid = rhs.uuid;
+		space = rhs.space;
+
+		return *this;
+	}
+
 
 	inline bool operator==(const gobject_ref& rhs)const {
 		return this->space == rhs.space && this->uuid == rhs.uuid;

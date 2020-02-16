@@ -14,6 +14,48 @@
 
 namespace Lua{
     
+	struct hashset_gobject_ref
+	{
+		unordered_set<gobject_ref> _set;
+
+		inline void insert(const gobject_ref& ref)
+		{
+			_set.insert(ref);
+		}
+
+		inline void erase(const gobject_ref& ref)
+		{
+			_set.erase(ref);
+		}
+
+		inline bool contains(const gobject_ref& ref) const
+		{
+			return _set.find(ref) != _set.end();
+		}
+
+		inline void clear()
+		{
+			_set.clear();
+		}
+
+		inline size_t size() const
+		{
+			return _set.size();
+		}
+
+		inline sol::table getArray() const
+		{
+			int idx = 1;
+			sol::table t = GSpace::scriptVM->_state.create_table();
+
+			for (auto const& ref : _set) {
+				t[idx++] = ref;
+			}
+
+			return t;
+		}
+	};
+
 	void Inst::addTypes()
 	{
 		auto gtype = _state.new_enum<GType, true>(
@@ -198,7 +240,15 @@ namespace Lua{
 			"secondsPerFrame", sol::property(&app_params::getFrameInterval)
 		);
 
-		_state["gobject_ref_unordered_set"] = []()->unordered_set<gobject_ref> { return unordered_set<gobject_ref>(); };
+		auto hashset = _state.new_usertype<hashset_gobject_ref>(
+			"hashset_gobject_ref"
+		);
+		hashset["insert"] = &hashset_gobject_ref::insert;
+		hashset["contains"] = &hashset_gobject_ref::contains;
+		hashset["erase"] = &hashset_gobject_ref::erase;
+		hashset["clear"] = &hashset_gobject_ref::clear;
+		hashset["size"] = &hashset_gobject_ref::size;
+		hashset["getArray"] = &hashset_gobject_ref::getArray;
 
 		auto value_map = _state.new_usertype<ValueMap>(
 			"ValueMap"

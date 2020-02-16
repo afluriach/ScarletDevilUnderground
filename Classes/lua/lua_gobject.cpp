@@ -30,12 +30,13 @@ namespace Lua{
 				gobject_ref(),
 				gobject_ref(const gobject_ref&),
 				gobject_ref(const GObject*)
-			>()
+			>(),
+			sol::meta_function::equal_to, &gobject_ref::operator==,
+			"id", sol::property(&gobject_ref::getID)
 		);
 		objref["isValid"] = &gobject_ref::isValid;
 		objref["isFuture"] = &gobject_ref::isFuture;
 		objref["get"] = &gobject_ref::get;
-		objref["getID"] = &gobject_ref::getID;
 
 		auto objparams = _state.new_usertype<object_params>(
 			"object_params",

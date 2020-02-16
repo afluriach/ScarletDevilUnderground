@@ -98,20 +98,17 @@ objects.GhostHeadstone = class('GhostHeadstone')
 
 function objects.GhostHeadstone:init(super, args)
 	self.super = super
-	self.fairies = gobject_ref_unordered_set()
+	self.fairies = hashset_gobject_ref.new()
 	self.cost = util.getIntOrDefault(args, "cost", 0)
 end
 
 function objects.GhostHeadstone:applyRemoval()
-	app.log('removal started')
-	for _i, ref in pairs(self.fairies) do
+	for _i, ref in ipairs(self.fairies:getArray()) do
 		if ref:isValid() then
 			self.super.space:removeObject(ref)
 		end
 	end
-	app.log('removed')
 	self.fairies:clear()
-	app.log('set cleared')
 end
 
 function objects.GhostHeadstone:checkActivate()
@@ -123,12 +120,10 @@ end
 
 function objects.GhostHeadstone:onContact(obj)
 	if obj:getType() == GType.player then
-		app.log('player detected')
 		self:checkActivate()
 	elseif obj:getType() == GType.npc and obj:getClsName() == 'GhostFairyNPC' then
-		app.log('fairy detected')
-		self.fairies[obj:getRef()] = true
-		app.log('inserted into set')
+		local ref = obj:getRef()
+		self.fairies:insert(ref)
 		self:checkActivate()
 	end
 end
@@ -146,8 +141,6 @@ function objects.GhostHeadstone:initialize()
 		function(obj) self:onContact(obj) end,
 		function(obj) self:onEndContact(obj) end
 	)
-	
-	app.log('GhostHeadstone sensor created')
 end
 
 function objects.GhostHeadstone:onRemove()
