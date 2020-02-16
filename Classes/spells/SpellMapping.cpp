@@ -27,22 +27,15 @@ constexpr local_shared_ptr<SpellDesc> createDesc()
 
 const unordered_map<string, local_shared_ptr<SpellDesc>> Spell::spellDescriptors = {
 	entry_same(BlueFairyBomb),
-	script_entry(DarkMist),
 	entry_same(DarknessSignDemarcation),
 	entry_same(DarknessSignDemarcation2),
-	script_entry(FireStarburst),
-	script_entry(FlameFence),
-	script_entry(IllusionDial),
 	entry_same(LavaeteinnSpell),
 	entry_same(NightSignPinwheel),
 	entry_same(PlayerBatMode),
 	entry_same(PlayerCounterClock),
 	entry_same(PlayerIceShield),
 	entry_same(PlayerScarletRose),
-	script_entry(StarlightTyphoon),
 	entry_same(TorchDarkness),
-	script_entry(Whirlpool1),
-	script_entry(Whirlpool2),
 };
 
 const vector<string> Spell::playerSpells = {

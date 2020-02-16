@@ -1,0 +1,9 @@
+<spells>
+	<DarkMist type="ScriptedSpell" class="auto" />
+	<FireStarburst type="ScriptedSpell" class="auto" />
+	<FlameFence type="ScriptedSpell" class="auto" />
+	<IllusionDial type="ScriptedSpell" class="auto" />
+	<StarlightTyphoon type="ScriptedSpell" class="auto" />
+	<Whirlpool1 type="ScriptedSpell" class="auto" />
+	<Whirlpool2 type="ScriptedSpell" class="auto" />
+</spells>

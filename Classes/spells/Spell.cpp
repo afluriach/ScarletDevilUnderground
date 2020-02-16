@@ -141,7 +141,7 @@ local_shared_ptr<SpellDesc> Spell::getDescriptorByName(const string& name)
 	if (it != spellDescriptors.end())
 		return it->second;
 	else
-		return nullptr;
+		return app::getSpell(name);
 }
 
 spell_params ScriptedSpell::getParams(string clsName)

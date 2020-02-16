@@ -22,10 +22,13 @@ class LightArea;
 class MagicEffectDescriptor;
 class npc_properties;
 class object_properties;
+class SpellDesc;
 
 namespace app {
 	typedef function< bool(tinyxml2::XMLElement*, local_shared_ptr<MagicEffectDescriptor>*)> effect_parser;
+	typedef function< bool(tinyxml2::XMLElement*, local_shared_ptr<SpellDesc>*)> spell_parser;
 
+	extern const unordered_map<string, spell_parser> spellParsers;
 	extern const unordered_map<string, effect_parser> effectParsers;
 
 	extern unordered_map<string, area_properties> areas;
@@ -42,6 +45,7 @@ namespace app {
 	extern unordered_map<string, boost::shared_ptr<LightArea>> lights;
 	extern unordered_map<string, local_shared_ptr<npc_properties>> npc;
 	extern unordered_map<string, local_shared_ptr<agent_properties>> players;
+	extern unordered_map <string, local_shared_ptr<SpellDesc>> spells;
 	extern unordered_map<string, sprite_properties> sprites;
 
 	void loadAreas();
@@ -58,6 +62,7 @@ namespace app {
 	void loadLights();
 	void loadNPCs();
 	void loadPlayers();
+	void loadSpells();
 	void loadSprites();
 
 	area_properties getArea(const string& name);
@@ -73,6 +78,7 @@ namespace app {
 	boost::shared_ptr<LightArea> getLight(const string& name);
 	local_shared_ptr<agent_properties> getNPC(const string& name);
 	local_shared_ptr<agent_properties> getPlayer(const string& name);
+	local_shared_ptr<SpellDesc> getSpell(const string& name);
 	sprite_properties getSprite(const string& name);
 	AttributeMap getAttributes(const string& name);
 
@@ -148,6 +154,7 @@ namespace app {
 	bool parseObject(tinyxml2::XMLElement* elem, local_shared_ptr<MagicEffectDescriptor>* result);
 	bool parseObject(tinyxml2::XMLElement* elem, local_shared_ptr<item_properties> result);
 	bool parseObject(tinyxml2::XMLElement* elem, collectible_properties* result);
+	bool parseObject(tinyxml2::XMLElement * elem, local_shared_ptr<SpellDesc>* result);
 
 	bool getAttributeAttr(tinyxml2::XMLElement* elem, const string& name, Attribute* result);
 	bool getStringAttr(tinyxml2::XMLElement* elem, const string& name, string* result);

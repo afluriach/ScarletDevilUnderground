@@ -36,6 +36,7 @@ unordered_map<string, local_shared_ptr<item_properties>> items;
 unordered_map<string, boost::shared_ptr<LightArea>> lights;
 unordered_map<string, local_shared_ptr<npc_properties>> npc;
 unordered_map<string, local_shared_ptr<agent_properties>> players;
+unordered_map<string, local_shared_ptr<SpellDesc>> spells;
 unordered_map<string, sprite_properties> sprites;
 
 GObject::AdapterType enemyAdapter(local_shared_ptr<enemy_properties> props)
@@ -127,6 +128,11 @@ void loadCollectibles()
 void loadEffects()
 {
 	loadObjects<local_shared_ptr<MagicEffectDescriptor>>("objects/magic-effects.xml", app::effects);
+}
+
+void loadSpells()
+{
+	loadObjects<local_shared_ptr<SpellDesc>>("objects/spells.xml", app::spells);
 }
 
 void loadEnemies()
@@ -257,6 +263,11 @@ local_shared_ptr<agent_properties> getNPC(const string& name)
 local_shared_ptr<agent_properties> getPlayer(const string& name)
 {
 	return getOrDefault(players, name);
+}
+
+local_shared_ptr<SpellDesc> getSpell(const string& name)
+{
+	return getOrDefault(spells, name);
 }
 
 sprite_properties getSprite(const string& name)
