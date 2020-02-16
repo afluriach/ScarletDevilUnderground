@@ -19,7 +19,6 @@
 #include "menu.h"
 #include "PlayScene.hpp"
 #include "value_map.hpp"
-#include "xml.hpp"
 
 const Color4F GScene::defaultAmbientLight = Color4F(0.5f, 0.5f, 0.5f, 1.0f);
 const int GScene::dialogEdgeMargin = 30;

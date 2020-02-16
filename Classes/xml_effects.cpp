@@ -11,7 +11,6 @@
 #include "AttributeEffects.hpp"
 #include "MagicEffect.hpp"
 #include "MiscMagicEffects.hpp"
-#include "xml.hpp"
 
 namespace app {
 

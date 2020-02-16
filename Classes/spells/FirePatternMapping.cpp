@@ -11,7 +11,6 @@
 #include "EnemyFirePattern.hpp"
 #include "FirePatternImpl.hpp"
 #include "PlayerFirePattern.hpp"
-#include "xml.hpp"
 
 template<class C>
 FirePatternGeneratorType factoryAdapter()

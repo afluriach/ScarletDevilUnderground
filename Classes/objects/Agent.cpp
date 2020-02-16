@@ -32,7 +32,6 @@
 #include "SpellDescriptor.hpp"
 #include "spell_types.hpp"
 #include "value_map.hpp"
-#include "xml.hpp"
 
 const Color4F Agent::bodyOutlineColor = hsva4F(270.0f, 0.2f, 0.7f, 0.667f);
 const Color4F Agent::shieldConeColor = Color4F(.37f, .56f, .57f, 0.5f);

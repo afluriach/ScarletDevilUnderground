@@ -25,7 +25,6 @@
 #include "Torch.hpp"
 #include "value_map.hpp"
 #include "Wall.hpp"
-#include "xml.hpp"
 
 make_static_member_detector(properName)
 
