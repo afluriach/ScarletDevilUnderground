@@ -552,7 +552,6 @@ bool GSpace::isNoUpdateObject(GObject* obj)
 {
 	return
 		typeid(*obj) == typeid(Wall) ||
-		typeid(*obj) == typeid(PressurePlate) ||
 		typeid(*obj) == typeid(FloorSegment) ||
 		typeid(*obj) == typeid(Pitfall)
 	;

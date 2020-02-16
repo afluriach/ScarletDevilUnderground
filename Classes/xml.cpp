@@ -83,12 +83,7 @@ GObject::AdapterType itemAdapter(local_shared_ptr<item_properties> props)
 GObject::AdapterType floorAdapter(local_shared_ptr<floorsegment_properties> props)
 {
 	return [props](GSpace* space, ObjectIDType id, const ValueMap& args) -> GObject* {
-		if (props->pressurePlate) {
-			return new PressurePlate(space, id, args, props);
-		}
-		else {
-			return new FloorSegment(space, id, args, props);
-		}
+		return new FloorSegment(space, id, args, props);
 	};
 }
 

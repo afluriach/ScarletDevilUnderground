@@ -106,7 +106,6 @@ void GObject::initObjectInfo()
 	no_adapter_entry(NPC),
 	entry_same(Pitfall),
 	no_adapter_entry(Player),
-	no_adapter_entry(PressurePlate),
 	entry_same(Spawner),
 	entry_same(SunArea),
 	entry_same(TeleportPad),

@@ -29,6 +29,13 @@ FloorSegment::FloorSegment(
 	),
 	props(props)
 {	
+	vector<string> targetNames = splitString(getStringOrDefault(args, "target", ""), " ");
+	targets.reserve(targetNames.size());
+
+	for (string _name : targetNames)
+	{
+		targets.push_back(space->getObjectRef(_name));
+	}
 }
 
 FloorSegment::~FloorSegment()
@@ -44,25 +51,7 @@ SpaceFloat FloorSegment::getTraction() const {
 	return props->traction;
 }
 
-PressurePlate::PressurePlate(
-	GSpace* space,
-	ObjectIDType id,
-	const ValueMap& args,
-	local_shared_ptr<floorsegment_properties> props
-) :
-	FloorSegment(space, id, args, props)
-{
-	vector<string> targetNames = splitString(getStringOrDefault(args, "target", ""), " ");
-	targets.reserve(targetNames.size());
-
-	for (string _name : targetNames)
-	{
-		targets.push_back(space->getObjectRef(_name));
-	}
-
-}
-
-void PressurePlate::onContact(GObject* obj)
+void FloorSegment::onContact(GObject* obj)
 {
 	if (contactCount == 0) {
 		runActivate();
@@ -71,7 +60,7 @@ void PressurePlate::onContact(GObject* obj)
 	++contactCount;
 }
 
-void PressurePlate::onEndContact(GObject* obj)
+void FloorSegment::onEndContact(GObject* obj)
 {
 	if (contactCount == 1) {
 		runDeactivate();
@@ -80,7 +69,7 @@ void PressurePlate::onEndContact(GObject* obj)
 	--contactCount;
 }
 
-void PressurePlate::runActivate()
+void FloorSegment::runActivate()
 {
 	for (gobject_ref _t : targets) {
 		if (_t.isValid()) {
@@ -89,7 +78,7 @@ void PressurePlate::runActivate()
 	}
 }
 
-void PressurePlate::runDeactivate()
+void FloorSegment::runDeactivate()
 {
 	for (gobject_ref _t : targets) {
 		if (_t.isValid()) {
