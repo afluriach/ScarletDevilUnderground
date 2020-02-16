@@ -16,7 +16,6 @@
 #include "EffectArea.hpp"
 #include "Enemy.hpp"
 #include "EnvironmentObject.hpp"
-#include "EnvironmentalObjects.hpp"
 #include "FloorSegment.hpp"
 #include "Item.hpp"
 #include "NPC.hpp"
@@ -102,7 +101,6 @@ void GObject::initObjectInfo()
 	no_adapter_entry(Enemy),
 	no_adapter_entry(EnvironmentObject),
 	no_adapter_entry(FloorSegment),
-	entry_same(GhostHeadstone),
 	entry_same(HiddenSubroomSensor),
 	{"Item", makeObjectInfo<Item>(itemAdapter())},
 	no_adapter_entry(NPC),

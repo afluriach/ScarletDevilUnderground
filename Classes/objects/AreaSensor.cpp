@@ -50,6 +50,35 @@ void AreaSensor::endContact(GObject* obj)
 	--obstacleCount;
 }
 
+AreaSensorImpl::AreaSensorImpl(
+	GSpace* space,
+	ObjectIDType id,
+	SpaceRect rect,
+	GType targets,
+	unary_gobject_function onContact,
+	unary_gobject_function onEndContact
+) :
+	AreaSensor(space,id,rect.center, rect.dimensions),
+	targets(targets),
+	onContact(onContact),
+	onEndContact(onEndContact)
+{
+}
+
+void AreaSensorImpl::beginContact(GObject* obj)
+{
+	if (bitwise_and_bool(obj->getType(), targets) && onContact) {
+		onContact(obj);
+	}
+}
+
+void AreaSensorImpl::endContact(GObject* obj)
+{
+	if (bitwise_and_bool(obj->getType(), targets) && onEndContact) {
+		onEndContact(obj);
+	}
+}
+
 HiddenSubroomSensor::HiddenSubroomSensor(GSpace* space, ObjectIDType id, const ValueMap& args) :
 	MapObjForwarding(AreaSensor),
 	roomID(getIntOrDefault(args, "id", -1))

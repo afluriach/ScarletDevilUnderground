@@ -94,6 +94,68 @@ function objects.Goal:interact(p)
 	self.super.space:triggerSceneCompleted()
 end
 
+objects.GhostHeadstone = class('GhostHeadstone')
+
+function objects.GhostHeadstone:init(super, args)
+	self.super = super
+	self.fairies = gobject_ref_unordered_set()
+	self.cost = util.getIntOrDefault(args, "cost", 0)
+end
+
+function objects.GhostHeadstone:applyRemoval()
+	app.log('removal started')
+	for _i, ref in pairs(self.fairies) do
+		if ref:isValid() then
+			self.super.space:removeObject(ref)
+		end
+	end
+	app.log('removed')
+	self.fairies:clear()
+	app.log('set cleared')
+end
+
+function objects.GhostHeadstone:checkActivate()
+	if self.fairies:size() >= self.cost then
+		self:applyRemoval()
+		self.super.space:removeObject(self.super:getRef())
+	end
+end
+
+function objects.GhostHeadstone:onContact(obj)
+	if obj:getType() == GType.player then
+		app.log('player detected')
+		self:checkActivate()
+	elseif obj:getType() == GType.npc and obj:getClsName() == 'GhostFairyNPC' then
+		app.log('fairy detected')
+		self.fairies[obj:getRef()] = true
+		app.log('inserted into set')
+		self:checkActivate()
+	end
+end
+
+function objects.GhostHeadstone:onEndContact(obj)
+	if obj:getType() == GType.npc and obj:getClsName() == 'GhostFairyNPC' then
+		self.fairies:erase(obj:getRef())
+	end
+end
+
+function objects.GhostHeadstone:initialize()	
+	self.sensor = self.super.space:createAreaSensor(
+		self.super.space:getArea(self.super:getName()),
+		GType.player | GType.npc,
+		function(obj) self:onContact(obj) end,
+		function(obj) self:onEndContact(obj) end
+	)
+	
+	app.log('GhostHeadstone sensor created')
+end
+
+function objects.GhostHeadstone:onRemove()
+	if self.sensor then
+		self.super.space:removeObject(self.sensor)
+	end
+end
+
 objects.Headstone = class('Headstone')
 
 function objects.Headstone.conditionalLoad(space, id, args)

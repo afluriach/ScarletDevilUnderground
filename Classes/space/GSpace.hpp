@@ -195,6 +195,13 @@ public:
 	inline void insertSensor(RadarSensor* sensor) { radarSensors.insert(sensor); }
 	inline void removeSensor(RadarSensor* sensor) { radarSensors.erase(sensor); }
 
+	gobject_ref createAreaSensor(
+		SpaceRect rect,
+		GType targets,
+		unary_gobject_function onContact,
+		unary_gobject_function onEndContact
+	);
+
 	void addInitAction(zero_arity_function f);
 	void addUpdateAction(zero_arity_function f);
 	void addObjectAction(zero_arity_function f);

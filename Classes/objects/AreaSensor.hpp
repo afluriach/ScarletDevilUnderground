@@ -31,6 +31,26 @@ protected:
 	unsigned int obstacleCount = 0;
 };
 
+class AreaSensorImpl : public AreaSensor
+{
+public:
+	AreaSensorImpl(
+		GSpace* space,
+		ObjectIDType id,
+		SpaceRect rect,
+		GType targets,
+		unary_gobject_function onContact,
+		unary_gobject_function onEndContact
+	);
+
+	virtual void beginContact(GObject* obj);
+	virtual void endContact(GObject* obj);
+protected:
+	GType targets;
+	unary_gobject_function onContact;
+	unary_gobject_function onEndContact;
+};
+
 class HiddenSubroomSensor :
 	public AreaSensor
 {

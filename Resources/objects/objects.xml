@@ -30,6 +30,10 @@
 		interactionIcon="sprites/ui/goal.png"
 		mass="-1.0"		
 	/>
+	<GhostHeadstone
+		cls="auto"
+		sprite="headstone"
+	/>
 	<Headstone
 		cls="auto"
 		sprite="strongHeadstone"

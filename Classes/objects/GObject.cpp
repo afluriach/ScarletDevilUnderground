@@ -201,6 +201,13 @@ void GObject::update()
 	updateFSM();
 }
 
+void GObject::onRemove()
+{
+	if (scriptObj && hasMethod("onRemove")) {
+		runVoidScriptMethod("onRemove");
+	}
+}
+
 void GObject::onPitfall()
 {
 	space->removeObjectWithAnimation(this, pitfallShrinkAction().generator);

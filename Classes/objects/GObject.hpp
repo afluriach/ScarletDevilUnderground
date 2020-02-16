@@ -144,7 +144,7 @@ public:
 	virtual void update();
 
 	virtual void onPitfall();
-	inline virtual void onRemove() {}
+	virtual void onRemove();
 
 	inline RoomSensor* getCrntRoom() const { return crntRoom; }
 	int getCrntRoomID() const;

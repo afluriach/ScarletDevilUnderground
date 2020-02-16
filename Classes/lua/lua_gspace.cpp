@@ -63,6 +63,7 @@ namespace Lua{
 
 		gspace["createObject"] = static_cast<gobject_ref(GSpace::*)(const ValueMap&)>(&GSpace::createObject);
 		gspace["getObjectByName"] = static_cast<GObject * (GSpace::*)(const string&) const>(&GSpace::getObject);
+		addFuncSame(gspace, createAreaSensor);
 		addFuncSame(gspace, createBullet);
 		addFuncSame(gspace, getPlayer);
 		addFuncSame(gspace, getPlayerAsRef);
@@ -79,6 +80,10 @@ namespace Lua{
 			static_cast<float(GSpace::*)()>(&GSpace::getRandomFloat),
 			static_cast<float(GSpace::*)(float, float)>(&GSpace::getRandomFloat)
 		);
+
+		addFuncSame(gspace, getPath);
+		addFuncSame(gspace, getWaypoint);
+		addFuncSame(gspace, getArea);
 
 		addFuncSame(gspace, registerRoomMapped);
 

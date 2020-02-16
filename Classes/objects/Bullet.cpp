@@ -186,6 +186,8 @@ void Bullet::init()
 
 void Bullet::onRemove()
 {
+	GObject::onRemove();
+
 	if (attributes.sourceSpell) {
 		space->spellSystem->onRemove(attributes.sourceSpell, this);
 	}

@@ -184,7 +184,6 @@ xcopy "$(ProjectDir)..\Resources" "$(OutDir)" /D /E /I /F /Y</Command>
     <ClCompile Include="..\Classes\objects\Door.cpp" />
     <ClCompile Include="..\Classes\objects\EffectArea.cpp" />
     <ClCompile Include="..\Classes\objects\Enemy.cpp" />
-    <ClCompile Include="..\Classes\objects\EnvironmentalObjects.cpp" />
     <ClCompile Include="..\Classes\objects\EnvironmentObject.cpp" />
     <ClCompile Include="..\Classes\objects\FloorSegment.cpp" />
     <ClCompile Include="..\Classes\objects\GObject.cpp" />
@@ -283,7 +282,6 @@ xcopy "$(ProjectDir)..\Resources" "$(OutDir)" /D /E /I /F /Y</Command>
     <ClInclude Include="..\Classes\objects\Door.hpp" />
     <ClInclude Include="..\Classes\objects\EffectArea.hpp" />
     <ClInclude Include="..\Classes\objects\Enemy.hpp" />
-    <ClInclude Include="..\Classes\objects\EnvironmentalObjects.hpp" />
     <ClInclude Include="..\Classes\objects\EnvironmentObject.hpp" />
     <ClInclude Include="..\Classes\objects\FloorSegment.hpp" />
     <ClInclude Include="..\Classes\objects\GObject.hpp" />

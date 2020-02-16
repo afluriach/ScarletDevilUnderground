@@ -55,7 +55,7 @@ EnvironmentObject::EnvironmentObject(
 	if (props->scriptName.size() > 0) {
 		auto& cls = space->scriptVM->_state["objects"][props->scriptName];
 		if (cls) {
-			scriptObj = cls(this);
+			scriptObj = cls(this, args);
 		}
 	}
 }

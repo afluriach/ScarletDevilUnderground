@@ -260,6 +260,8 @@ void Agent::onZeroHP()
 
 void Agent::onRemove()
 {
+	GObject::onRemove();
+
 	space->addGraphicsAction(&graphics_context::removeSprite, agentOverlay);
 }
 

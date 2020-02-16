@@ -685,6 +685,15 @@ EnemyStatsMap GSpace::getEnemyStats()
 	return result;
 }
 
+gobject_ref GSpace::createAreaSensor(
+	SpaceRect rect,
+	GType targets,
+	unary_gobject_function onContact,
+	unary_gobject_function onEndContact
+){
+	return createObject<AreaSensorImpl>(rect, targets, onContact, onEndContact);
+}
+
 void GSpace::addInitAction(zero_arity_function f)
 {
 	initMessages.push_back(f);

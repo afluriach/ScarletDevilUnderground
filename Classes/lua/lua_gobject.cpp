@@ -142,6 +142,8 @@ namespace Lua{
 		addFuncSame(gobject, getSpace);
 		addFuncSame(gobject, getName);
 		addFuncSame(gobject, getClsName);
+		addFuncSame(gobject, getType);
+		addFuncSame(gobject, getFullType);
 
 		gobject["launchBullet"] = sol::overload(
 			[](GObject* obj, local_shared_ptr<bullet_properties> props,SpaceVect displacement,SpaceFloat angle) -> gobject_ref {
