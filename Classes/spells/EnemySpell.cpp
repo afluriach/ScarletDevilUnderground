@@ -13,6 +13,7 @@
 #include "EnemySpell.hpp"
 #include "graphics_context.hpp"
 #include "physics_context.hpp"
+#include "SpellDescriptor.hpp"
 #include "SpellUtil.hpp"
 #include "TeleportPad.hpp"
 #include "Torch.hpp"

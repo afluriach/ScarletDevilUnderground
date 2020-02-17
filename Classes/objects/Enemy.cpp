@@ -12,6 +12,7 @@
 #include "Enemy.hpp"
 #include "Graphics.h"
 #include "graphics_context.hpp"
+#include "MagicEffect.hpp"
 #include "Player.hpp"
 
 Enemy::Enemy(
@@ -38,6 +39,10 @@ Enemy::Enemy(
 
 	if (props->firepattern.size() > 0)
 		setFirePattern(props->firepattern);
+}
+
+Enemy::~Enemy()
+{
 }
 
 void Enemy::runDamageFlicker()

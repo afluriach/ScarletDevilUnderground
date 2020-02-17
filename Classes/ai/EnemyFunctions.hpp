@@ -30,6 +30,7 @@ public:
 	static const float cost;
 
 	BlueFairyPowerAttack(StateMachine* fsm);
+	~BlueFairyPowerAttack();
 
 	virtual update_return update();
 protected:
@@ -41,6 +42,7 @@ protected:
 class MarisaForestMain : public Function {
 public:
 	inline MarisaForestMain(StateMachine* fsm) : Function(fsm) {}
+	~MarisaForestMain();
 
 	virtual void onEnter();
 	virtual update_return update();
@@ -56,6 +58,7 @@ public:
 	static constexpr int orbCount = 4;
 
 	ReimuYinYangOrbs(StateMachine* fsm);
+	~ReimuYinYangOrbs();
 
 	virtual bool onEvent(Event event);
 	virtual event_bitset getEvents();
@@ -68,6 +71,7 @@ class RumiaMain2 : public Function
 {
 public:
 	RumiaMain2(StateMachine* fsm, gobject_ref target);
+	~RumiaMain2();
 
 	virtual void onEnter();
 	virtual update_return update();
@@ -83,6 +87,7 @@ class RumiaDSD2 : public ai::Function
 {
 public:
 	inline RumiaDSD2(StateMachine* fsm) : Function(fsm) {}
+	~RumiaDSD2();
 
 	virtual void onEnter();
 	virtual update_return update();
@@ -96,6 +101,7 @@ protected:
 class SakuyaMain : public Function {
 public:
 	inline SakuyaMain(StateMachine* fsm) : Function(fsm) {}
+	~SakuyaMain();
 
 	virtual void onEnter();
 	virtual update_return update();
@@ -105,6 +111,7 @@ public:
 class IllusionDash : public Function {
 public:
 	inline IllusionDash(StateMachine* fsm) : Function(fsm) {}
+	~IllusionDash();
 
 	IllusionDash(StateMachine* fsm, SpaceVect _target);
 	IllusionDash(StateMachine* fsm, const ValueMap& args);

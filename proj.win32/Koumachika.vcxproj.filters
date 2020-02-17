@@ -327,6 +327,9 @@
     <ClCompile Include="..\Classes\xml_spells.cpp">
       <Filter>src</Filter>
     </ClCompile>
+    <ClCompile Include="..\Classes\shared_ptr.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="main.h">
@@ -592,6 +595,9 @@
     </ClInclude>
     <ClInclude Include="..\Classes\objects\EnvironmentObject.hpp">
       <Filter>src\objects</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\shared_ptr.hpp">
+      <Filter>src</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

@@ -103,11 +103,9 @@
 using namespace std;
 USING_NS_CC;
 
-using boost::make_local_shared;
-using boost::local_shared_ptr;
-
 typedef double SpaceFloat;
 
+#include "shared_ptr.hpp"
 #include "macros.h"
 #include "enum.h"
 #include "vect.hpp"

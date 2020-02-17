@@ -29,6 +29,10 @@ dialog_entry::dialog_entry(
 	once(once)
 {}
 
+npc_properties::~npc_properties()
+{
+}
+
 NPC::NPC(
 	GSpace* space,
 	ObjectIDType id,
@@ -48,6 +52,10 @@ NPC::NPC(
 	if (cls) {
 		scriptObj = cls(this);
 	}
+}
+
+NPC::~NPC()
+{
 }
 
 bool NPC::canInteract(Player* p)

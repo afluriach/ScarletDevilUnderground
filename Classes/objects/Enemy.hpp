@@ -33,7 +33,7 @@ public:
 		local_shared_ptr<enemy_properties> props
 	);
 
-	inline virtual ~Enemy() {}
+	~Enemy();
 
 	virtual void init();
 	virtual void onRemove();

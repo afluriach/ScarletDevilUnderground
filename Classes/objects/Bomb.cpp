@@ -36,6 +36,10 @@ Bomb::Bomb(
 {
 }
 
+Bomb::~Bomb()
+{
+}
+
 void Bomb::init()
 {
 	GObject::init();

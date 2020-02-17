@@ -13,8 +13,10 @@
 #include "EnvironmentObject.hpp"
 #include "LuaAPI.hpp"
 #include "Item.hpp"
+#include "MagicEffect.hpp"
 #include "NPC.hpp"
 #include "Player.hpp"
+#include "SpellDescriptor.hpp"
 #include "Torch.hpp"
 
 namespace Lua{

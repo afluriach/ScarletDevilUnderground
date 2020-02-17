@@ -9,8 +9,10 @@
 #include "Prefix.h"
 
 #include "graphics_context.hpp"
+#include "MagicEffect.hpp"
 #include "Player.hpp"
 #include "PlayerSpell.hpp"
+#include "SpellDescriptor.hpp"
 
 const string PlayerBatMode::name = "PlayerBatMode";
 const string PlayerBatMode::description = "";
@@ -20,6 +22,10 @@ const spell_cost PlayerBatMode::cost = spell_cost::ongoingMP(5.0f);
 PlayerBatMode::PlayerBatMode(GObject* caster, local_shared_ptr<SpellDesc> desc, unsigned int id) :
 	ApplySelfEffect(caster, desc, id, spell_params{ -1.0, -1.0, PlayerBatMode::cost }, app::getEffect("BatTransform"))
 {}
+
+PlayerBatMode::~PlayerBatMode()
+{
+}
 
 const string LavaeteinnSpell::name = "LavaeteinnSpell";
 const string LavaeteinnSpell::description = "";
@@ -34,6 +40,10 @@ const int LavaeteinnSpell::bulletSpawnCount = 8;
 LavaeteinnSpell::LavaeteinnSpell(GObject* caster, local_shared_ptr<SpellDesc> desc, unsigned int id) :
 	Spell(caster, desc, id, spell_params{ LavaeteinnSpell::length, 0.0, LavaeteinnSpell::cost })
 {}
+
+LavaeteinnSpell::~LavaeteinnSpell()
+{
+}
 
 void LavaeteinnSpell::init()
 {
@@ -87,6 +97,10 @@ const SpaceFloat PlayerCounterClock::angular_speed = 9.0;
 PlayerCounterClock::PlayerCounterClock(GObject* caster, local_shared_ptr<SpellDesc> desc, unsigned int id) :
 	Spell(caster, desc, id, spell_params{ -1.0, 0.0, PlayerCounterClock::cost })
 {}
+
+PlayerCounterClock::~PlayerCounterClock()
+{
+}
 
 void PlayerCounterClock::init()
 {
@@ -165,6 +179,10 @@ PlayerScarletRose::PlayerScarletRose(GObject* caster, local_shared_ptr<SpellDesc
 	props = app::getBullet("flandrePolarBullet");
 }
 
+PlayerScarletRose::~PlayerScarletRose()
+{
+}
+
 void PlayerScarletRose::update()
 {
 	if (launchCount < fireCount) {
@@ -213,6 +231,10 @@ PlayerIceShield::PlayerIceShield(GObject* caster, local_shared_ptr<SpellDesc> de
 	Spell(caster, desc, id, spell_params{ -1.0, 0.0, PlayerIceShield::cost })
 {
 	props = app::getBullet("cirnoIceShieldBullet");
+}
+
+PlayerIceShield::~PlayerIceShield()
+{
 }
 
 void PlayerIceShield::init()

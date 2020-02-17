@@ -1,5 +1,6 @@
 #include "Prefix.h"
 
+#include "Agent.hpp"
 #include "AI.hpp"
 #include "app_constants.hpp"
 #include "audio_context.hpp"
@@ -11,6 +12,8 @@
 #include "OpeningScene.hpp"
 #include "OverworldScene.hpp"
 #include "Resources.hpp"
+#include "Spell.hpp"
+#include "SpellDescriptor.hpp"
 
 const string App::title = "Kouma";
 
@@ -53,7 +56,6 @@ unique_ptr<audio_context> App::audioContext;
 unique_ptr<GState> App::crntState;
 string App::crntProfileName;
 unique_ptr<Lua::Inst> App::lua;
-boost::shared_ptr<agent_properties> App::crntPC;
 
 #if USE_TIMERS
 unique_ptr<TimerSystem> App::timerSystem;
@@ -205,6 +207,7 @@ App::~App()
 
     log("app exiting");
 	LogSystem::exit();
+	shared_ptr_system::inst.reset();
 }
 
 //Called in AppController.mm. This appears to be for Mac/iOS only.
@@ -324,6 +327,8 @@ void App::loadObjects()
 	GObject::initObjectInfo();
 	GObject::initNameMap();
 
+	Spell::initDescriptors();
+
 	app::loadSprites();
 	app::loadLights();
 
@@ -343,7 +348,7 @@ void App::loadObjects()
 	app::loadNPCs();
 	app::loadPlayers();
 
-	App::crntPC = app::getPlayer("FlandrePC");
+	GSpace::playerCharacter = app::getPlayer("FlandrePC");
 }
 
 void App::runTitleScene()
@@ -437,7 +442,7 @@ bool App::autosaveProfile()
 
 void App::setPlayer(string id)
 {
-	crntPC = app::getPlayer(id);
+	GSpace::playerCharacter = app::getPlayer(id);
 }
 
 void App::setUnlockAllEquips(bool v)

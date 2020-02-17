@@ -468,6 +468,7 @@ protected:
 class Cast : public Function {
 public:
 	Cast(StateMachine* fsm, local_shared_ptr<SpellDesc> spell_desc, SpaceFloat length);
+	~Cast();
 
 	virtual void onEnter();
 	virtual update_return update();
@@ -485,6 +486,7 @@ protected:
 class HPCast : public Function {
 public:
 	HPCast(StateMachine* fsm, local_shared_ptr<SpellDesc> spell_desc, float hp_difference);
+	~HPCast();
 
 	virtual void onEnter();
 	virtual update_return update();
@@ -504,6 +506,7 @@ public:
 		const vector<local_shared_ptr<SpellDesc>>& spells,
 		const boost::icl::interval_map<float, int> intervals
 	);
+	~HPCastSequence();
 
 	virtual void onEnter();
 	virtual update_return update();

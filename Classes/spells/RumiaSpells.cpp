@@ -11,6 +11,7 @@
 #include "Agent.hpp"
 #include "RumiaSpells.hpp"
 #include "value_map.hpp"
+#include "SpellDescriptor.hpp"
 
 const string DarknessSignDemarcation::name = "DarknessSignDemarcation";
 const string DarknessSignDemarcation::description = "";

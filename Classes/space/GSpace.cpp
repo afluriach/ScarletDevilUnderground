@@ -29,6 +29,7 @@
 #include "RadarSensor.hpp"
 #include "Spawner.hpp"
 #include "Spell.hpp"
+#include "SpellDescriptor.hpp"
 #include "SpellSystem.hpp"
 #include "value_map.hpp"
 #include "Wall.hpp"
@@ -36,6 +37,8 @@
 class RadarObject;
 
 unique_ptr<Lua::Inst> GSpace::scriptVM;
+
+local_shared_ptr<agent_properties> GSpace::playerCharacter;
 
 void GSpace::loadScriptVM()
 {

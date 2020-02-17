@@ -14,10 +14,12 @@
 #include "EnemyFunctions.hpp"
 #include "EnemySpell.hpp"
 #include "Graphics.h"
+#include "MagicEffect.hpp"
 #include "MiscMagicEffects.hpp"
 #include "Player.hpp"
 #include "RadarSensor.hpp"
 #include "RumiaSpells.hpp"
+#include "SpellDescriptor.hpp"
 
 namespace ai{
 
@@ -29,6 +31,10 @@ const float BlueFairyPowerAttack::cost = 15.0f;
 BlueFairyPowerAttack::BlueFairyPowerAttack(StateMachine* fsm) :
 	Function(fsm)
 {}
+
+BlueFairyPowerAttack::~BlueFairyPowerAttack()
+{
+}
 
 update_return BlueFairyPowerAttack::update()
 {
@@ -55,6 +61,10 @@ update_return BlueFairyPowerAttack::update()
 	return_steady();
 }
 
+MarisaForestMain::~MarisaForestMain()
+{
+}
+
 void MarisaForestMain::onEnter()
 {
 	gobject_ref player = fsm->getSpace()->getObjectRef("player");
@@ -76,6 +86,10 @@ update_return MarisaForestMain::update()
 
 ReimuYinYangOrbs::ReimuYinYangOrbs(StateMachine* fsm) :
 	Function(fsm)
+{
+}
+
+ReimuYinYangOrbs::~ReimuYinYangOrbs()
 {
 }
 
@@ -123,6 +137,10 @@ RumiaMain2::RumiaMain2(StateMachine* fsm, gobject_ref target) :
 {
 }
 
+RumiaMain2::~RumiaMain2()
+{
+}
+
 void RumiaMain2::onEnter()
 {
 	flank = fsm->make<Flank>(target, 3.0, 1.0);
@@ -143,6 +161,10 @@ update_return RumiaMain2::update()
 	return_steady();
 }
 
+RumiaDSD2::~RumiaDSD2()
+{
+}
+
 void RumiaDSD2::onEnter()
 {
 	castSpell( Spell::getDescriptorByName("DarknessSignDemarcation2"));
@@ -156,6 +178,10 @@ update_return RumiaDSD2::update()
 void RumiaDSD2::onExit()
 {
 	stopSpell();
+}
+
+SakuyaMain::~SakuyaMain()
+{
 }
 
 void SakuyaMain::onEnter()
@@ -185,6 +211,10 @@ IllusionDash::IllusionDash(StateMachine* fsm, const ValueMap& args) :
 	auto t = args.at("target").asValueMap();
 
 	target = SpaceVect(t.at("x").asFloat(), t.at("y").asFloat());
+}
+
+IllusionDash::~IllusionDash()
+{
 }
 
 void IllusionDash::onEnter()

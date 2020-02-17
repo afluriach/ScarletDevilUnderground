@@ -31,7 +31,7 @@ public:
 		const bullet_attributes& attributes,
 		local_shared_ptr<bullet_properties> props
 	);
-	inline virtual ~Bullet() {}
+	~Bullet();
 
 	inline virtual string getClsName() const { return props->clsName; }
 

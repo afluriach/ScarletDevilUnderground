@@ -109,13 +109,13 @@ void PlayScene::loadPlayer()
 		attr.pos = door->getEntryPosition();
 		attr.angle = dirToPhysicsAngle(door->getEntryDirection());
 		
-		gspace->createObject<Player>(attr, App::crntPC);	
+		gspace->createObject<Player>(attr, GSpace::playerCharacter);	
 	}
 	else if (!player_start.isZero()){
 		attr.pos = player_start;
 		attr.angle = dirToPhysicsAngle(Direction::up);
 
-		gspace->createObject<Player>(attr, App::crntPC);
+		gspace->createObject<Player>(attr, GSpace::playerCharacter);
 	}
 	else{
 		log("Scene %s, unknown player start!", getName());

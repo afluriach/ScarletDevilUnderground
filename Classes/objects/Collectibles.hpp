@@ -13,6 +13,8 @@ class MagicEffectDescriptor;
 
 struct collectible_properties
 {
+	~collectible_properties();
+
 	string sprite;
 	local_shared_ptr<MagicEffectDescriptor> effect;
 	float magnitude;
@@ -25,7 +27,7 @@ public:
 	static ObjectGeneratorType create(GSpace* space, string id, SpaceVect pos);
 
 	Collectible(GSpace* space, ObjectIDType id, SpaceVect pos, string collectibleID);
-	inline virtual ~Collectible() {}
+	~Collectible();
 
 	virtual inline GraphicsLayer sceneLayer() const { return GraphicsLayer::floor; }
 	virtual string getSprite() const;

@@ -35,6 +35,7 @@ class npc_properties : public agent_properties
 {
 public:
 	inline npc_properties() {}
+	~npc_properties();
 
 	list<local_shared_ptr<dialog_entry>> dialogs;
 };
@@ -48,6 +49,8 @@ public:
 		const agent_attributes& attr,
 		local_shared_ptr<npc_properties> props
 	);
+
+	~NPC();
 
 	//provides an interface to make an agent an interactible object with dialog.
 	virtual bool canInteract(Player* p);

@@ -35,6 +35,8 @@ public:
 		local_shared_ptr<environment_object_properties> props
 	);
 
+	~EnvironmentObject();
+
 	virtual bool hit(DamageInfo damage, SpaceVect n);
 
 	virtual void init();

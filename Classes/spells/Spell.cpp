@@ -211,6 +211,10 @@ ApplySelfEffect::ApplySelfEffect(GObject* caster, local_shared_ptr<SpellDesc> de
 {
 }
 
+ApplySelfEffect::~ApplySelfEffect()
+{
+}
+
 void ApplySelfEffect::init()
 {
 	effectID = caster->applyMagicEffect(effect, 0.0f, -1.0f);

@@ -60,6 +60,10 @@ EnvironmentObject::EnvironmentObject(
 	}
 }
 
+EnvironmentObject::~EnvironmentObject()
+{
+}
+
 string EnvironmentObject::interactionIcon(Player* p)
 {
 	return props->interactionIcon;

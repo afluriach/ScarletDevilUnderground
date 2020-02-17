@@ -34,6 +34,7 @@ public:
 	friend class MagicEffect;
 
 	MagicEffectSystem(GSpace* gspace);
+	~MagicEffectSystem();
 
 	unsigned int applyEffect(GObject* target, local_shared_ptr<MagicEffectDescriptor> effect, float magnitude, float length);
 

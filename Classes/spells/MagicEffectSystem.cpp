@@ -27,6 +27,10 @@ MagicEffectSystem::MagicEffectSystem(GSpace* gspace) :
 	nextID = 1;
 }
 
+MagicEffectSystem::~MagicEffectSystem()
+{
+}
+
 unsigned int MagicEffectSystem::applyEffect(GObject* target, local_shared_ptr<MagicEffectDescriptor> effect, float magnitude, float length)
 {
 	unsigned int id = 0;

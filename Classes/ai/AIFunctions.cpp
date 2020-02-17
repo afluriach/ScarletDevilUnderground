@@ -24,6 +24,7 @@
 #include "Player.hpp"
 #include "RadarSensor.hpp"
 #include "Spell.hpp"
+#include "SpellDescriptor.hpp"
 #include "SpellUtil.hpp"
 #include "value_map.hpp"
 
@@ -1404,6 +1405,10 @@ length(length)
 {
 }
 
+Cast::~Cast()
+{
+}
+
 void Cast::onEnter()
 {
 	castSpell(spell_desc);
@@ -1447,6 +1452,10 @@ HPCast::HPCast(StateMachine* fsm, local_shared_ptr<SpellDesc> spell_desc, float 
 {
 }
 
+HPCast::~HPCast()
+{
+}
+
 void HPCast::onEnter()
 {
 	caster_starting = getAgent()->getHealth();
@@ -1480,6 +1489,10 @@ HPCastSequence::HPCastSequence(
 	Function(fsm),
 	spells(spells),
 	intervals(intervals)
+{
+}
+
+HPCastSequence::~HPCastSequence()
 {
 }
 

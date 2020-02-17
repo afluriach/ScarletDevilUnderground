@@ -59,7 +59,7 @@ class FirePatternImpl : public FirePattern
 {
 public:
 	FirePatternImpl(Agent *const agent, local_shared_ptr<firepattern_properties> props);
-	virtual inline ~FirePatternImpl() {}
+	~FirePatternImpl();
 
 	inline virtual string iconPath() const { return props->icon; }
 	inline virtual float getCost() const { return props->staminaCost; }

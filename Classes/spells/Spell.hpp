@@ -27,11 +27,13 @@ public:
 	friend class GObject;
 	friend class SpellSystem;
 
-    static const unordered_map<string,local_shared_ptr<SpellDesc>> spellDescriptors;
+    static unordered_map<string,local_shared_ptr<SpellDesc>> spellDescriptors;
 	static const vector<string> playerSpells;
 	static const vector<string> playerPowerAttacks;
 
 	static local_shared_ptr<SpellDesc> getDescriptorByName(const string& name);
+
+	static void initDescriptors();
 
 	//length: -1 means indefinite, 0 means immediate
 	//updateInterval: -1 means no update, 0 means every frame, units in seconds.
@@ -109,6 +111,7 @@ class ApplySelfEffect : public Spell
 {
 public:
 	ApplySelfEffect(GObject* caster, local_shared_ptr<SpellDesc> desc, unsigned int id, spell_params params, local_shared_ptr<MagicEffectDescriptor> effect);
+	~ApplySelfEffect();
 
 	virtual void init();
 	virtual void end();

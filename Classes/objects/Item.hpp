@@ -36,6 +36,7 @@ public:
 	static bool conditionalLoad(GSpace* space, const item_attributes& attr, local_shared_ptr<item_properties> props);
 
 	Item(GSpace* space, ObjectIDType id, const item_attributes& attr, local_shared_ptr<item_properties> props);
+	~Item();
 
 	inline virtual string getClsName() const { return props->clsName; }
 	inline virtual string getProperName() const { return props->properName; }

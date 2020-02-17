@@ -31,7 +31,7 @@ public:
 		const object_params& params,
 		local_shared_ptr<bomb_properties> props
 	);
-	inline virtual ~Bomb() {}
+	~Bomb();
 
 	virtual inline SpaceFloat uk() const { return props->friction; }
 	virtual inline GraphicsLayer sceneLayer() const { return GraphicsLayer::ground; }

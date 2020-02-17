@@ -78,6 +78,10 @@ Function::Function(StateMachine* fsm) :
 	fsm(fsm)
 {}
 
+Function::~Function()
+{
+}
+
 void Function::pop() {
 	if (thread)
 		thread->pop();
@@ -127,6 +131,10 @@ Thread::Thread(local_shared_ptr<Function> threadMain, StateMachine* sm) :
 	if (threadMain) {
 		push(threadMain);
 	}
+}
+
+Thread::~Thread()
+{
 }
 
 void Thread::update()
@@ -215,6 +223,10 @@ StateMachine::StateMachine(GObject *const agent) :
 agent(agent)
 {
     frame = getSpace()->getFrame();
+}
+
+StateMachine::~StateMachine()
+{
 }
 
 bool StateMachine::runScriptPackage(const string& name)

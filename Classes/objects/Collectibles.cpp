@@ -13,6 +13,10 @@
 #include "Player.hpp"
 #include "value_map.hpp"
 
+collectible_properties::~collectible_properties()
+{
+}
+
 ObjectGeneratorType Collectible::create(GSpace* space, string id, SpaceVect pos)
 {
 	vector<string> tokens;
@@ -58,6 +62,10 @@ Collectible::Collectible(GSpace* space, ObjectIDType id, SpaceVect pos, string c
 
 	effectLength = props.length;
 	effectMagnitude = props.magnitude;
+}
+
+Collectible::~Collectible()
+{
 }
 
 string Collectible::getSprite() const

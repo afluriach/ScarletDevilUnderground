@@ -25,18 +25,20 @@ constexpr local_shared_ptr<SpellDesc> createDesc()
 	return make_local_shared<SpellDescImpl<T>>();
 }
 
-const unordered_map<string, local_shared_ptr<SpellDesc>> Spell::spellDescriptors = {
-	entry_same(BlueFairyBomb),
-	entry_same(DarknessSignDemarcation),
-	entry_same(DarknessSignDemarcation2),
-	entry_same(LavaeteinnSpell),
-	entry_same(NightSignPinwheel),
-	entry_same(PlayerBatMode),
-	entry_same(PlayerCounterClock),
-	entry_same(PlayerIceShield),
-	entry_same(PlayerScarletRose),
-	entry_same(TorchDarkness),
-};
+void Spell::initDescriptors() {
+	spellDescriptors.insert(entry_same(BlueFairyBomb));
+	spellDescriptors.insert(entry_same(DarknessSignDemarcation));
+	spellDescriptors.insert(entry_same(DarknessSignDemarcation2));
+	spellDescriptors.insert(entry_same(LavaeteinnSpell));
+	spellDescriptors.insert(entry_same(NightSignPinwheel));
+	spellDescriptors.insert(entry_same(PlayerBatMode));
+	spellDescriptors.insert(entry_same(PlayerCounterClock));
+	spellDescriptors.insert(entry_same(PlayerIceShield));
+	spellDescriptors.insert(entry_same(PlayerScarletRose));
+	spellDescriptors.insert(entry_same(TorchDarkness));
+}
+
+unordered_map<string, local_shared_ptr<SpellDesc>> Spell::spellDescriptors;
 
 const vector<string> Spell::playerSpells = {
 	"DarkMist",

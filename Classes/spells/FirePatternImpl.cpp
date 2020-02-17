@@ -97,6 +97,10 @@ FirePatternImpl::FirePatternImpl(
 {
 }
 
+FirePatternImpl::~FirePatternImpl()
+{
+}
+
 void FirePatternImpl::update()
 {
 	timerDecrement(cooldownTimer);

@@ -104,7 +104,7 @@ public:
 	}
 
 	Function(StateMachine* fsm);
-	inline virtual ~Function() {}
+	virtual ~Function();
 
 	inline StateMachine* getFSM() const { return fsm; }
 
@@ -156,6 +156,7 @@ public:
 	friend class StateMachine;
     
 	Thread(local_shared_ptr<Function> threadMain, StateMachine* sm);
+	~Thread();
 
 	void update();
 
@@ -196,6 +197,7 @@ public:
 	static const unordered_map<string, StateMachine::PackageType> packages;
 
     StateMachine(GObject *const agent);
+	~StateMachine();
 
 	bool runScriptPackage(const string& name);
 

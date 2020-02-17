@@ -50,6 +50,7 @@ public:
 	static void loadScriptVM();
 
 	static unique_ptr<Lua::Inst> scriptVM;
+	static local_shared_ptr<agent_properties> playerCharacter;
 
     GSpace(GScene* gscene);    
     ~GSpace();

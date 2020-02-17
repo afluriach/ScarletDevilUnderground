@@ -53,6 +53,10 @@ Bullet::Bullet(
 	crntRoom = attributes.startRoom;
 }
 
+Bullet::~Bullet()
+{
+}
+
 void Bullet::initializeGraphics()
 {
 	GObject::initializeGraphics();

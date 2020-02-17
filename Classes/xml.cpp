@@ -17,8 +17,10 @@
 #include "FloorSegment.hpp"
 #include "Graphics.h"
 #include "Item.hpp"
+#include "MagicEffect.hpp"
 #include "NPC.hpp"
 #include "PlayScene.hpp"
+#include "SpellDescriptor.hpp"
 
 namespace app {
 

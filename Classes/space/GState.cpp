@@ -149,7 +149,7 @@ unsigned int GState::totalChamberTime()
 
 AttributeSystem GState::getPlayerStats()
 {
-	AttributeSystem result(app::getAttributes(App::crntPC->attributes));
+	AttributeSystem result(app::getAttributes(GSpace::playerCharacter->attributes));
 	result.apply(attributeUpgrades);
 	return result;
 }

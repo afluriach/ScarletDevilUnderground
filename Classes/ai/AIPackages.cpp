@@ -17,6 +17,7 @@
 #include "EnemySpell.hpp"
 #include "MiscMagicEffects.hpp"
 #include "Player.hpp"
+#include "SpellDescriptor.hpp"
 #include "SpellSystem.hpp"
 #include "value_map.hpp"
 

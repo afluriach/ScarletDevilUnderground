@@ -48,7 +48,7 @@ public:
 		const agent_attributes& attr,
 		local_shared_ptr<agent_properties> props
 	);
-	inline virtual ~Player() {}
+	~Player();
     
 	virtual void onPitfall();
 	virtual void setCrntRoom(RoomSensor* room);

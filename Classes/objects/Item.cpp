@@ -52,6 +52,10 @@ Item::Item(GSpace* space, ObjectIDType id, const item_attributes& attr, local_sh
 	}
 }
 
+Item::~Item()
+{
+}
+
 void Item::init()
 {
 	GObject::init();

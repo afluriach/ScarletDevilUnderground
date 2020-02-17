@@ -273,6 +273,21 @@ namespace sol {
 			return ptr.get();
 		}
 	};
+
+	template <typename T>
+	struct unique_usertype_traits<local_shared_ptr<T>> {
+		typedef T type;
+		typedef local_shared_ptr<T> actual_type;
+		static const bool value = true;
+
+		static bool is_null(const actual_type& ptr) {
+			return ptr == nullptr;
+		}
+
+		static type* get(const actual_type& ptr) {
+			return ptr.get();
+		}
+	};
 }
 
 #endif /* types_h */
