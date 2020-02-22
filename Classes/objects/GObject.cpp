@@ -913,9 +913,9 @@ unsigned int GObject::cast(local_shared_ptr<SpellDesc> desc)
 	return space->spellSystem->cast(desc, this);
 }
 
-unsigned int GObject::applyMagicEffect(local_shared_ptr<MagicEffectDescriptor> effect, float magnitude, float length)
+unsigned int GObject::applyMagicEffect(local_shared_ptr<MagicEffectDescriptor> effect, effect_attributes attr)
 {
-	return space->magicEffectSystem->applyEffect(this, effect, magnitude, length);
+	return space->magicEffectSystem->applyEffect(this, effect, attr);
 }
 
 //END SPELLS

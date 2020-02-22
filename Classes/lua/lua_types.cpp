@@ -105,12 +105,14 @@ namespace Lua{
 		auto damageType = _state.new_enum <DamageType, true>(
 			"DamageType",
 			{
+				enum_entry(DamageType, none),
 				enum_entry(DamageType, bullet),
 				enum_entry(DamageType, bomb),
 				enum_entry(DamageType, effectArea),
 				enum_entry(DamageType, touch),
 				enum_entry(DamageType, melee),
 				enum_entry(DamageType, pitfall),
+				enum_entry(DamageType, item),
 			}
 		);
 

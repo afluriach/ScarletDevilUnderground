@@ -880,13 +880,10 @@ bool parseObject(tinyxml2::XMLElement* elem, collectible_properties* result)
 	collectible_properties coll;
 	string effect;
 
-	coll.magnitude = 0.0f;
-	coll.length = 0.0f;
-
 	getStringAttr(elem, "sprite", &coll.sprite);
 	getStringAttr(elem, "effect", &effect);
-	getNumericAttr(elem, "magnitude", &coll.magnitude);
-	getNumericAttr(elem, "length", &coll.length);
+	getNumericAttr(elem, "magnitude", &coll.attr.magnitude);
+	getNumericAttr(elem, "length", &coll.attr.length);
 
 	autoName(elem, coll.sprite);
 

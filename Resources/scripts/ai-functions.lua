@@ -164,5 +164,5 @@ function ai.StalkerTeleport:applyTeleport()
 	agent = self.super:getAgent()
 
 	agent:getAttributeSystem():setFullStamina()
-	agent:applyMagicEffect( app.getEffect("Teleport"), 0.0, -1.0 )
+	agent:applyMagicEffect( app.getEffect("Teleport"), effect_attributes.new(0.0, -1.0) )
 end

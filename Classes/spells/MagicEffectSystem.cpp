@@ -31,14 +31,17 @@ MagicEffectSystem::~MagicEffectSystem()
 {
 }
 
-unsigned int MagicEffectSystem::applyEffect(GObject* target, local_shared_ptr<MagicEffectDescriptor> effect, float magnitude, float length)
-{
+unsigned int MagicEffectSystem::applyEffect(
+	GObject* target,
+	local_shared_ptr<MagicEffectDescriptor> effect,
+	effect_attributes attr
+){
 	unsigned int id = 0;
 
-	if (effect->canApply(target, magnitude, length)) {
+	if (effect->canApply(target, attr)) {
 		id = nextID++;
-		effect_params params = { target, id, effect->getFlags(), effect };
-		addEffect(effect->generate(params, magnitude, length));
+		effect_params params = { target, id, effect->getFlags(), effect, attr };
+		addEffect(effect->generate(params));
 	}
 
 	return id;

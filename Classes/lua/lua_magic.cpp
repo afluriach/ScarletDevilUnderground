@@ -34,6 +34,25 @@ namespace Lua{
 		auto spells = _state.create_table();
 		_state["spells"] = spells;
 
+		auto effattr = _state.new_usertype<effect_attributes>(
+			"effect_attributes",
+			sol::constructors<
+				effect_attributes(float, float),
+				effect_attributes(float,float,float,DamageType)
+			>(),
+			"magnitude", sol::property(&effect_attributes::get_magnitude, &effect_attributes::set_magnitude),
+			"length", sol::property(&effect_attributes::get_length, &effect_attributes::set_length),
+			"radius", sol::property(&effect_attributes::get_radius, &effect_attributes::set_radius),
+			"type", sol::property(&effect_attributes::get_type, &effect_attributes::set_type)
+		);
+
+		auto effdesc = _state.new_usertype<MagicEffectDescriptor>(
+			"MagicEffectDescriptor",
+			"flags", sol::property(&MagicEffectDescriptor::getFlags),
+			"typeName", sol::property(&MagicEffectDescriptor::getTypeName)
+		);
+		effdesc["canApply"] = &MagicEffectDescriptor::canApply;
+
 #define _cls MagicEffect
 		auto effect = _state.new_usertype<MagicEffect>(
 			"MagicEffect"

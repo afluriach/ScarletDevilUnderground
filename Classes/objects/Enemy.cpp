@@ -94,7 +94,7 @@ void Enemy::loadEffects()
 		auto effectDesc = app::getEffect(name);
 
 		if (effectDesc) {
-			applyMagicEffect(effectDesc, 0.0f, -1.0f);
+			applyMagicEffect(effectDesc, effect_attributes(0.0f, -1.0f));
 		}
 		else {
 			log("Unknown MagicEffect: %s", name);

@@ -59,9 +59,9 @@ Collectible::Collectible(GSpace* space, ObjectIDType id, SpaceVect pos, string c
 
 	effect = props.effect;
 	sprite = props.sprite;
+	attrs = props.attr;
 
-	effectLength = props.length;
-	effectMagnitude = props.magnitude;
+	attrs.type = DamageType::item;
 }
 
 Collectible::~Collectible()
@@ -89,13 +89,13 @@ void Collectible::onPlayerContact(Player* p)
 }
 
 bool Collectible::canAcquire(Player* player) {
-	return effect && effect->canApply(player, effectMagnitude, effectLength);
+	return effect && effect->canApply(player, attrs);
 }
 
 //If this is an invalid Collectible (null effect), canAcquire should return false
 //and this code shouldn't run.
 void Collectible::onAcquire(Player* player) {
-	player->applyMagicEffect(effect, effectMagnitude, effectLength);
+	player->applyMagicEffect(effect, attrs);
 	space->removeObject(this);
 	playSoundSpatial("sfx/powerup.wav");
 }

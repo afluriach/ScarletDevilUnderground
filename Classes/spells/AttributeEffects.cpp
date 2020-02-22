@@ -11,18 +11,18 @@
 #include "Agent.hpp"
 #include "AttributeEffects.hpp"
 
-bool RestoreAttribute::canApply(GObject* target, float magnitude, float length, Attribute attr)
+bool RestoreAttribute::canApply(GObject* target, effect_attributes attrs, Attribute attr)
 {
 	if (auto _agent = dynamic_cast<Agent*>(target)) {
-		return _agent->getAttributeSystem()->canApplyAttribute(attr, magnitude);
+		return _agent->getAttributeSystem()->canApplyAttribute(attr, attrs.magnitude);
 	}
 	else {
 		return false;
 	}
 }
 
-RestoreAttribute::RestoreAttribute(effect_params params, float magnitude, float length, Attribute attr) :
-	MagicEffect(params, magnitude, length),
+RestoreAttribute::RestoreAttribute(effect_params params, Attribute attr) :
+	MagicEffect(params),
 	attr(attr)
 {
 	
@@ -35,8 +35,8 @@ void RestoreAttribute::init()
 	}
 }
 
-FortifyAttribute::FortifyAttribute(effect_params params, float magnitude, float length, Attribute attr) :
-	MagicEffect(params, magnitude, length),
+FortifyAttribute::FortifyAttribute(effect_params params, Attribute attr) :
+	MagicEffect(params),
 	attr(attr)
 {
 }
@@ -55,8 +55,8 @@ void FortifyAttribute::end()
 	}
 }
 
-DrainFromMovement::DrainFromMovement(effect_params params, float magnitude, float length, Attribute attr) :
-	MagicEffect(params, magnitude, length),
+DrainFromMovement::DrainFromMovement(effect_params params, Attribute attr) :
+	MagicEffect(params),
 	attr(attr)
 {
 	_ratio = -1.0f * app::params.secondsPerFrame * magnitude;

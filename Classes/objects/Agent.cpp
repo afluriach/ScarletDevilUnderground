@@ -206,14 +206,14 @@ void Agent::update()
 	bool hasFreezeEffect = space->magicEffectSystem->hasScriptedEffect(this, "FreezeStatus");
 
 	if (attributeSystem[Attribute::iceDamage] >= AttributeSystem::maxElementDamage && !hasFreezeEffect) {
-		applyMagicEffect( app::getEffect("FreezeStatus"), 0.0f, 5.0f);
+		applyMagicEffect( app::getEffect("FreezeStatus"), effect_attributes(0.0f, 5.0f));
 		attributeSystem.modifyAttribute(Attribute::iceDamage, -AttributeSystem::maxElementDamage);
 	}
 	if (attributeSystem[Attribute::sunDamage] >= AttributeSystem::maxElementDamage) {
 		onZeroHP();
 	}
 	if (attributeSystem[Attribute::darknessDamage] >= AttributeSystem::maxElementDamage) {
-		applyMagicEffect(app::getEffect("DarknessCurse"), 0.0f, -1.0f);
+		applyMagicEffect(app::getEffect("DarknessCurse"), effect_attributes(0.0f, -1.0f));
 	}
 	if (attributeSystem[Attribute::poisonDamage] >= AttributeSystem::maxElementDamage) {
 		onZeroHP();

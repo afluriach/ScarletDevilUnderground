@@ -16,9 +16,9 @@ class RestoreAttribute : public MagicEffect
 public:
 	static constexpr effect_flags flags = effect_flags::immediate;
 
-	static bool canApply(GObject* target, float magnitude, float length, Attribute attr);
+	static bool canApply(GObject* target, effect_attributes attrs, Attribute attr);
 
-	RestoreAttribute(effect_params params, float magnitude, float length, Attribute attr);
+	RestoreAttribute(effect_params params, Attribute attr);
 
 	virtual void init();
 
@@ -30,7 +30,7 @@ class FortifyAttribute : public MagicEffect
 public:
 	static constexpr effect_flags flags = effect_flags::timed;
 
-	FortifyAttribute(effect_params params, float magnitude, float length, Attribute attr);
+	FortifyAttribute(effect_params params, Attribute attr);
 
 	virtual void init();
 	virtual void end();
@@ -44,7 +44,7 @@ class DrainFromMovement : public MagicEffect
 public:
 	static constexpr effect_flags flags = enum_bitwise_or(effect_flags, indefinite, active);
 
-	DrainFromMovement(effect_params params, float magnitude, float length, Attribute attr);
+	DrainFromMovement(effect_params params, Attribute attr);
 
 	inline virtual void init() {}
 	virtual void update();

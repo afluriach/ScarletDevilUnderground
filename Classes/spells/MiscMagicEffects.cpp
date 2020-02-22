@@ -13,8 +13,8 @@
 #include "SpellUtil.hpp"
 #include "TeleportPad.hpp"
 
-Teleport::Teleport(effect_params params, float magnitude, float length) :
-	MagicEffect(params, magnitude, length),
+Teleport::Teleport(effect_params params) :
+	MagicEffect(params),
 	targets(getSpace()->getObjectsByTypeAs<TeleportPad>())
 {
 }

@@ -36,7 +36,11 @@ public:
 	MagicEffectSystem(GSpace* gspace);
 	~MagicEffectSystem();
 
-	unsigned int applyEffect(GObject* target, local_shared_ptr<MagicEffectDescriptor> effect, float magnitude, float length);
+	unsigned int applyEffect(
+		GObject* target,
+		local_shared_ptr<MagicEffectDescriptor> effect,
+		effect_attributes attr
+	);
 
 	void addEffect(local_shared_ptr<MagicEffect> effect);
 	void removeEffect(local_shared_ptr<MagicEffect> effect);

@@ -217,7 +217,7 @@ ApplySelfEffect::~ApplySelfEffect()
 
 void ApplySelfEffect::init()
 {
-	effectID = caster->applyMagicEffect(effect, 0.0f, -1.0f);
+	effectID = caster->applyMagicEffect(effect, effect_attributes(0.0f, -1.0f));
 }
 
 void ApplySelfEffect::end()

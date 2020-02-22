@@ -334,7 +334,7 @@ public:
 	//BEGIN SPELLS
 
 	unsigned int cast(local_shared_ptr<SpellDesc> desc);
-	unsigned int applyMagicEffect(local_shared_ptr<MagicEffectDescriptor> effect, float magnitude, float length);
+	unsigned int applyMagicEffect(local_shared_ptr<MagicEffectDescriptor> effect, effect_attributes attr);
 
 	inline void setInhibitSpellcasting(bool v) { inhibitSpellcasting = v; }
 

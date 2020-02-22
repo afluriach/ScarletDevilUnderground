@@ -17,8 +17,7 @@ struct collectible_properties
 
 	string sprite;
 	local_shared_ptr<MagicEffectDescriptor> effect;
-	float magnitude;
-	float length;
+	effect_attributes attr;
 };
 
 class Collectible : public GObject
@@ -42,8 +41,7 @@ public:
 protected:
 	string sprite;
 	local_shared_ptr<MagicEffectDescriptor> effect;
-	float effectLength;
-	float effectMagnitude;
+	effect_attributes attrs;
 };
 
 #endif /* Collectibles_hpp */

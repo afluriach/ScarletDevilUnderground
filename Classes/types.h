@@ -69,14 +69,15 @@ typedef bitset<maxMapFragmentsPerChamber> map_fragments_bitmask;
 
 enum class DamageType
 {
+	none,
+
 	bullet,
 	bomb,
 	effectArea,
 	touch,
 	melee,
 	pitfall,
-
-	end
+	item,
 };
 
 struct DamageInfo
@@ -108,6 +109,46 @@ struct DamageInfo
 	DamageInfo operator*(float rhs);
 	bool isExplosion();
 	bool isValid();
+};
+
+struct effect_attributes
+{
+	inline effect_attributes() {}
+
+	inline effect_attributes(
+		float magnitude,
+		float length
+	) :	
+		magnitude(magnitude),
+		length(length)
+	{}
+
+	inline effect_attributes(
+		float magnitude,
+		float length,
+		float radius,
+		DamageType type
+	) :
+		magnitude(magnitude),
+		length(length),
+		radius(radius),
+		type(type)
+	{}
+
+	float magnitude = 0.0f;
+	float length = 0.0f;
+	float radius = 0.0f;
+	DamageType type = DamageType::none;
+
+	getter(float,magnitude)
+	getter(float, radius)
+	getter(float,length)
+	getter(DamageType,type)
+
+	setter(float, magnitude)
+	setter(float, length)
+	setter(float, radius)
+	setter(DamageType, type)
 };
 
 struct app_params

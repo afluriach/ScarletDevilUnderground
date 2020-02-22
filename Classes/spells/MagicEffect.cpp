@@ -15,10 +15,10 @@
 #include "MagicEffectSystem.hpp"
 #include "RadarSensor.hpp"
 
-MagicEffect::MagicEffect(effect_params params, float magnitude, float length) :
+MagicEffect::MagicEffect(effect_params params) :
 target(params.target),
-length(length),
-magnitude(magnitude),
+length(params.attr.length),
+magnitude(params.attr.magnitude),
 _flags(params.flags),
 id(params.id),
 desc(params.desc),
@@ -67,8 +67,8 @@ effect_flags ScriptedMagicEffect::getFlags(string clsName)
 	return obj ? obj.as<effect_flags>() : effect_flags::none;
 }
 
-ScriptedMagicEffect::ScriptedMagicEffect(effect_params params, float magnitude, float length, string clsName) :
-	MagicEffect(params, magnitude, length),
+ScriptedMagicEffect::ScriptedMagicEffect(effect_params params, string clsName) :
+	MagicEffect(params),
 	clsName(clsName)
 {
 	auto cls = GSpace::scriptVM->_state["effects"][clsName];
@@ -106,9 +106,9 @@ void ScriptedMagicEffect::end()
 	}
 }
 
-RadiusEffect::RadiusEffect(effect_params params, SpaceFloat radius, GType type) :
-	MagicEffect(params, -0.0f, -1.0f),
-	radius(radius),
+RadiusEffect::RadiusEffect(effect_params params, GType type) :
+	MagicEffect(params),
+	radius(params.attr.radius),
 	type(type)
 {}
 
@@ -157,8 +157,8 @@ void RadiusEffect::onEndContact(GObject* obj)
 		contacts.erase(obj);
 }
 
-DamageRadiusEffect::DamageRadiusEffect(effect_params params, DamageInfo damage, SpaceFloat radius, GType type) :
-	RadiusEffect(params, radius, type),
+DamageRadiusEffect::DamageRadiusEffect(effect_params params, DamageInfo damage, GType type) :
+	RadiusEffect(params, type),
 	damage(damage)
 {}
 

@@ -34,6 +34,9 @@
 
 #define delete_if(ptr) if(ptr) { delete ptr; ptr = nullptr; }
 
+#define getter(type,field) inline type get_ ## field() const { return field;}
+#define setter(type,field) inline void set_ ## field(type v) { field = v;}
+
 #define make_static_member_detector(x) \
 template<typename T> \
 struct has_##x \

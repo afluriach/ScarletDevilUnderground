@@ -34,7 +34,7 @@ DamageInfo::DamageInfo() :
 	mag(0.0f),
 	knockback(0.0f),
 	element(Attribute::end),
-	type(DamageType::end)
+	type(DamageType::none)
 {}
 
 DamageInfo::DamageInfo(float mag, DamageType type) :
@@ -63,7 +63,7 @@ bool DamageInfo::isExplosion()
 
 bool DamageInfo::isValid()
 {
-	return mag > 0.0f && type != DamageType::end;
+	return mag > 0.0f && type != DamageType::none;
 }
 
 float app_params::getScale() const
