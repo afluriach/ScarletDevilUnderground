@@ -11,6 +11,7 @@
 
 #include "Spell.hpp"
 #include "spell_types.hpp"
+#include "SpellImpl.hpp"
 
 class PlayerBatMode : public ApplySelfEffect{
 public:

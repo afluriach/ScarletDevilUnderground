@@ -232,6 +232,7 @@ xcopy "$(ProjectDir)..\Resources" "$(OutDir)" /D /E /I /F /Y</Command>
     <ClCompile Include="..\Classes\spells\RumiaSpells.cpp" />
     <ClCompile Include="..\Classes\spells\Spell.cpp" />
     <ClCompile Include="..\Classes\spells\SpellDescriptor.cpp" />
+    <ClCompile Include="..\Classes\spells\SpellImpl.cpp" />
     <ClCompile Include="..\Classes\spells\SpellMapping.cpp" />
     <ClCompile Include="..\Classes\spells\SpellSystem.cpp" />
     <ClCompile Include="..\Classes\spells\SpellUtil.cpp" />
@@ -325,6 +326,7 @@ xcopy "$(ProjectDir)..\Resources" "$(OutDir)" /D /E /I /F /Y</Command>
     <ClInclude Include="..\Classes\spells\RumiaSpells.hpp" />
     <ClInclude Include="..\Classes\spells\Spell.hpp" />
     <ClInclude Include="..\Classes\spells\SpellDescriptor.hpp" />
+    <ClInclude Include="..\Classes\spells\SpellImpl.hpp" />
     <ClInclude Include="..\Classes\spells\SpellSystem.hpp" />
     <ClInclude Include="..\Classes\spells\SpellUtil.hpp" />
     <ClInclude Include="..\Classes\spells\spell_types.hpp" />

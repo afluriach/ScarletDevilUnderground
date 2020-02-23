@@ -330,6 +330,9 @@
     <ClCompile Include="..\Classes\shared_ptr.cpp">
       <Filter>src</Filter>
     </ClCompile>
+    <ClCompile Include="..\Classes\spells\SpellImpl.cpp">
+      <Filter>src\spells</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="main.h">
@@ -598,6 +601,9 @@
     </ClInclude>
     <ClInclude Include="..\Classes\shared_ptr.hpp">
       <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\spells\SpellImpl.hpp">
+      <Filter>src\spells</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

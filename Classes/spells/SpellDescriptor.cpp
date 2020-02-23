@@ -11,6 +11,7 @@
 #include "LuaAPI.hpp"
 #include "Spell.hpp"
 #include "SpellDescriptor.hpp"
+#include "SpellImpl.hpp"
 
 sol::table ScriptedSpellDescriptor::getClsObject(const string& clsName)
 {
