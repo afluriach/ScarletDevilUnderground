@@ -35,7 +35,7 @@ class SunArea : public EffectArea
 public:
 	MapObjCons(SunArea);
 
-	virtual boost::shared_ptr<LightArea> getLightSource() const;
+	virtual shared_ptr<LightArea> getLightSource() const;
 	virtual GraphicsLayer sceneLayer() const;
 	virtual DamageInfo getDamageInfo() const;
 };

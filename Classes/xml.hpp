@@ -42,7 +42,7 @@ namespace app {
 	extern unordered_map<string, local_shared_ptr<firepattern_properties>> firePatterns;
 	extern unordered_map<string, local_shared_ptr<floorsegment_properties>> floors;
 	extern unordered_map<string, local_shared_ptr<item_properties>> items;
-	extern unordered_map<string, boost::shared_ptr<LightArea>> lights;
+	extern unordered_map<string, shared_ptr<LightArea>> lights;
 	extern unordered_map<string, local_shared_ptr<npc_properties>> npc;
 	extern unordered_map<string, local_shared_ptr<agent_properties>> players;
 	extern unordered_map <string, local_shared_ptr<SpellDesc>> spells;
@@ -75,7 +75,7 @@ namespace app {
 	local_shared_ptr<firepattern_properties> getFirePattern(const string& name);
 	local_shared_ptr<floorsegment_properties> getFloor(const string& name);
 	local_shared_ptr<item_properties> getItem(const string& name);
-	boost::shared_ptr<LightArea> getLight(const string& name);
+	shared_ptr<LightArea> getLight(const string& name);
 	local_shared_ptr<agent_properties> getNPC(const string& name);
 	local_shared_ptr<agent_properties> getPlayer(const string& name);
 	local_shared_ptr<SpellDesc> getSpell(const string& name);
@@ -148,7 +148,7 @@ namespace app {
 	bool parseObject(tinyxml2::XMLElement* elem, local_shared_ptr<firepattern_properties>* result);
 	bool parseObject(tinyxml2::XMLElement* elem, local_shared_ptr<floorsegment_properties> result);
 	bool parseObject(tinyxml2::XMLElement* elem, sprite_properties* result);
-	bool parseObject(tinyxml2::XMLElement* elem, boost::shared_ptr<LightArea>* result);
+	bool parseObject(tinyxml2::XMLElement* elem, shared_ptr<LightArea>* result);
 	bool parseObject(tinyxml2::XMLElement* elem, local_shared_ptr<bullet_properties> result);
 	bool parseObject(tinyxml2::XMLElement* elem, local_shared_ptr<bomb_properties> result);
 	bool parseObject(tinyxml2::XMLElement* elem, local_shared_ptr<MagicEffectDescriptor>* result);
@@ -234,8 +234,8 @@ namespace app {
 	bool getSubObject(
 		tinyxml2::XMLElement* elem,
 		string fieldName,
-		boost::shared_ptr<T>* result,
-		const unordered_map<string, boost::shared_ptr<T>>& _map,
+		shared_ptr<T>* result,
+		const unordered_map<string, shared_ptr<T>>& _map,
 		bool autoName
 	) {
 		string field;

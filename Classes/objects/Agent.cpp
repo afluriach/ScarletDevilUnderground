@@ -126,7 +126,7 @@ string Agent::getSprite() const
 	return props->sprite;
 }
 
-boost::shared_ptr<LightArea> Agent::getLightSource() const
+shared_ptr<LightArea> Agent::getLightSource() const
 {
 	return props->light;
 }

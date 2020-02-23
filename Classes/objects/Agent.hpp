@@ -102,7 +102,7 @@ public:
 	virtual bullet_attributes getBulletAttributes(local_shared_ptr<bullet_properties> props) const;
 
 	virtual string getSprite() const;
-	virtual boost::shared_ptr<LightArea> getLightSource() const;
+	virtual shared_ptr<LightArea> getLightSource() const;
 
 	//attribute interface
 	virtual inline AttributeMap getAttributeUpgrades() const { return AttributeMap(); }

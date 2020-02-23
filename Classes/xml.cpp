@@ -35,7 +35,7 @@ unordered_map<string, local_shared_ptr<environment_object_properties>> environme
 unordered_map<string, local_shared_ptr<firepattern_properties>> firePatterns;
 unordered_map<string, local_shared_ptr<floorsegment_properties>> floors;
 unordered_map<string, local_shared_ptr<item_properties>> items;
-unordered_map<string, boost::shared_ptr<LightArea>> lights;
+unordered_map<string, shared_ptr<LightArea>> lights;
 unordered_map<string, local_shared_ptr<npc_properties>> npc;
 unordered_map<string, local_shared_ptr<agent_properties>> players;
 unordered_map<string, local_shared_ptr<SpellDesc>> spells;
@@ -180,7 +180,7 @@ void loadItems()
 
 void loadLights()
 {
-	loadObjects<boost::shared_ptr<LightArea>>("objects/lights.xml", app::lights);
+	loadObjects<shared_ptr<LightArea>>("objects/lights.xml", app::lights);
 }
 
 void loadNPCs()
@@ -252,7 +252,7 @@ local_shared_ptr<item_properties> getItem(const string& name)
 	return getOrDefault(items, name);
 }
 
-boost::shared_ptr<LightArea> getLight(const string& name)
+shared_ptr<LightArea> getLight(const string& name)
 {
 	return getOrDefault(lights, name);
 }
@@ -779,7 +779,7 @@ bool parseObject(tinyxml2::XMLElement* elem, sprite_properties* result)
 	return true;
 }
 
-bool parseObject(tinyxml2::XMLElement* elem, boost::shared_ptr<LightArea>* result)
+bool parseObject(tinyxml2::XMLElement* elem, shared_ptr<LightArea>* result)
 {
 	if (auto attr = elem->Attribute("type"))
 	{
@@ -787,7 +787,7 @@ bool parseObject(tinyxml2::XMLElement* elem, boost::shared_ptr<LightArea>* resul
 
 		if (type == "circle")
 		{
-			auto _result = boost::make_shared<CircleLightArea>();
+			auto _result = make_shared<CircleLightArea>();
 
 			getNumericAttr(elem, "radius", &_result->radius);
 			getNumericAttr(elem, "flood", &_result->flood);
@@ -798,7 +798,7 @@ bool parseObject(tinyxml2::XMLElement* elem, boost::shared_ptr<LightArea>* resul
 		}
 		else if (type == "sprite")
 		{
-			auto _result = boost::make_shared<SpriteLightArea>();
+			auto _result = make_shared<SpriteLightArea>();
 			string spriteName;
 
 			getColorAttr(elem, "color", &_result->color);

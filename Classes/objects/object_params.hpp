@@ -60,7 +60,7 @@ class object_properties
 {
 public:
 	string sprite;
-	boost::shared_ptr<LightArea> light;
+	shared_ptr<LightArea> light;
 
 	string properName;
 	string clsName;

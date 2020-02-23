@@ -8,11 +8,11 @@
 
 #include "Prefix.h"
 
-boost::shared_ptr<AmbientLightArea> AmbientLightArea::create(
+shared_ptr<AmbientLightArea> AmbientLightArea::create(
 	SpaceVect dimensions,
 	Color4F color
 ) {
-	auto result = boost::make_shared<AmbientLightArea>();
+	auto result = make_shared<AmbientLightArea>();
 
 	result->dimensions = dimensions;
 	result->color = color;
@@ -20,12 +20,12 @@ boost::shared_ptr<AmbientLightArea> AmbientLightArea::create(
 	return result;
 }
 
-boost::shared_ptr<CircleLightArea> CircleLightArea::create(
+shared_ptr<CircleLightArea> CircleLightArea::create(
 	SpaceFloat radius,
 	Color4F color,
 	float flood
 ) {
-	auto result = boost::make_shared<CircleLightArea>();
+	auto result = make_shared<CircleLightArea>();
 
 	result->radius = radius;
 	result->color = color;
@@ -34,12 +34,12 @@ boost::shared_ptr<CircleLightArea> CircleLightArea::create(
 	return result;
 }
 
-boost::shared_ptr<ConeLightArea> ConeLightArea::create(
+shared_ptr<ConeLightArea> ConeLightArea::create(
 	SpaceFloat radius,
 	SpaceFloat width,
 	Color4F color
 ) {
-	auto result = boost::make_shared<ConeLightArea>();
+	auto result = make_shared<ConeLightArea>();
 
 	result->radius = radius;
 	result->angleWidth = width;
@@ -48,12 +48,12 @@ boost::shared_ptr<ConeLightArea> ConeLightArea::create(
 	return result;
 }
 
-boost::shared_ptr<SpriteLightArea> SpriteLightArea::create(
+shared_ptr<SpriteLightArea> SpriteLightArea::create(
 	const string& spritePath,
 	Color4F color,
 	float scale
 ) {
-	auto result = boost::make_shared<SpriteLightArea>();
+	auto result = make_shared<SpriteLightArea>();
 
 	result->texName = spritePath;
 	result->color = color;

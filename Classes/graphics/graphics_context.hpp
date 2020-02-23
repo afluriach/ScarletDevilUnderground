@@ -23,7 +23,7 @@ public:
 	SpriteID getSpriteID();
 	LightID getLightID();
 
-	void addPolyLightSource(LightID id, boost::shared_ptr<LightArea> light, SpaceVect pos, SpaceFloat angle);
+	void addPolyLightSource(LightID id, shared_ptr<LightArea> light, SpaceVect pos, SpaceFloat angle);
 	void addLightSource(LightID id, CircleLightArea light, SpaceVect pos, SpaceFloat angle);
 	void addLightSource(LightID id, AmbientLightArea light, SpaceVect pos, SpaceFloat angle);
 	void addLightSource(LightID id, ConeLightArea light, SpaceVect pos, SpaceFloat angle);
@@ -84,7 +84,7 @@ protected:
 	}
 
 	template<class C>
-	bool _polyAddLight(LightID id, boost::shared_ptr<LightArea> light, SpaceVect pos, SpaceFloat angle)
+	bool _polyAddLight(LightID id, shared_ptr<LightArea> light, SpaceVect pos, SpaceFloat angle)
 	{
 		if (auto _l = dynamic_cast<C*>(light.get())) {
 			addLightSource(id, *_l, pos, angle);

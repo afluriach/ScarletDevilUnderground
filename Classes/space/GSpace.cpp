@@ -1081,7 +1081,7 @@ vector<SpaceVect> GSpace::pathToTile(IntVec2 begin, IntVec2 end)
 
 //END NAVIGATION
 
-LightID GSpace::addLightSource(boost::shared_ptr<LightArea> light, SpaceVect pos, SpaceFloat angle)
+LightID GSpace::addLightSource(shared_ptr<LightArea> light, SpaceVect pos, SpaceFloat angle)
 {
 	LightID id = graphicsContext->getLightID();
 

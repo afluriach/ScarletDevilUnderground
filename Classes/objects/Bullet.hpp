@@ -40,7 +40,7 @@ public:
 	virtual void initializeGraphics();
 	virtual inline GraphicsLayer sceneLayer() const { return GraphicsLayer::ground; }
 	virtual inline string getSprite() const { return props->sprite; }
-	virtual inline boost::shared_ptr<LightArea> getLightSource() const { return props->light; }
+	virtual inline shared_ptr<LightArea> getLightSource() const { return props->light; }
 	virtual inline SpaceFloat getMaxSpeed() const { return props->speed; }
 
 	inline DamageInfo getDamageInfo() const { return props->damage; }

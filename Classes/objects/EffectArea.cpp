@@ -48,7 +48,7 @@ SunArea::SunArea(GSpace* space, ObjectIDType id, const ValueMap& args) :
 {
 }
 
-boost::shared_ptr<LightArea> SunArea::getLightSource() const
+shared_ptr<LightArea> SunArea::getLightSource() const
 {
 	return AmbientLightArea::create(getDimensions(), toColor4F(Color3B(192, 192, 82)));
 }
