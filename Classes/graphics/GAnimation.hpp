@@ -57,7 +57,7 @@ public:
     static constexpr SpaceFloat stepSize = 0.4;
     static constexpr SpaceFloat midstepSize = 0.2;
     
-    void loadAnimation(const string& _sprite);    
+    void loadAnimation(shared_ptr<sprite_properties> _sprite);    
 
 	void setFrame(int animFrame);
     void setDirection(Direction dir);
@@ -85,13 +85,13 @@ public:
 	inline AgentAnimationContext(GSpace* space) : space(space) {}
 
 	SpriteID initializeGraphics(
-		const string& sprite,
+		shared_ptr<sprite_properties> sprite,
 		SpaceFloat radius,
 		GraphicsLayer glayer,
 		Vec2 centerPix
 	);
 
-	void setSprite(const string& name);
+	void setSprite(shared_ptr<sprite_properties> sprite);
 	void setAngle(SpaceFloat a);
 	void setDirection(Direction d);
 	bool accumulate(SpaceFloat dx);

@@ -29,7 +29,7 @@ public:
 	~Collectible();
 
 	virtual inline GraphicsLayer sceneLayer() const { return GraphicsLayer::floor; }
-	virtual string getSprite() const;
+	virtual shared_ptr<sprite_properties> getSprite() const;
 	virtual string itemName() const;
 
 	virtual void onPlayerContact(Player* p);

@@ -46,7 +46,7 @@ public:
 	virtual bool canInteract(Player* p);
 	virtual void interact(Player* p);
 
-	virtual string getSprite() const;
+	virtual shared_ptr<sprite_properties> getSprite() const;
 	virtual GraphicsLayer sceneLayer() const;
 
 	virtual SpaceFloat uk() const;

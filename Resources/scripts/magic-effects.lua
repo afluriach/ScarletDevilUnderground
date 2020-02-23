@@ -6,7 +6,7 @@ effects.BatTransform = class('BatTransform', {
 	onEnter = function(self)
 		local a = self.super.target:getAsAgent()
 		
-		a:setSprite('flandre_bat')
+		a:setSprite(app.getSprite('flandre_bat'))
 		a:setSpriteZoom(4.0)
 		
 		a:setFiringSuppressed(true)
@@ -17,7 +17,7 @@ effects.BatTransform = class('BatTransform', {
 	onExit = function(self)
 		local a = self.super.target:getAsAgent()
 		
-		a:setSprite('flandre')
+		a:setSprite(app.getSprite('flandre'))
 		a:setSpriteZoom(1.0)
 		
 		a:setFiringSuppressed(false)

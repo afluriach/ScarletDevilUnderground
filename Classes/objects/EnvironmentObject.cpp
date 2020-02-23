@@ -115,7 +115,7 @@ void EnvironmentObject::update()
 	}
 }
 
-string EnvironmentObject::getSprite() const {
+shared_ptr<sprite_properties> EnvironmentObject::getSprite() const {
 	return props->sprite;
 }
 

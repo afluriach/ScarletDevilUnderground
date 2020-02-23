@@ -686,7 +686,7 @@ bool InventoryInfo::init()
 		if (entry.second == 0 || !props) continue;
 
 		string text = props->properName;
-		sprite_properties sprite = app::getSprite(props->sprite);
+		shared_ptr<sprite_properties> sprite = props->sprite;
 
 		if (entry.second > 1) {
 			text += " (" + boost::lexical_cast<string>(entry.second) + ")";
@@ -697,8 +697,8 @@ bool InventoryInfo::init()
 		label->setAlignment(TextHAlignment::RIGHT);
 		addChild(label);
 
-		if (sprite.filename.size() > 0) {
-			Sprite* _icon = Sprite::create("sprites/" + sprite.filename + ".png");
+		if (sprite->filename.size() > 0) {
+			Sprite* _icon = Sprite::create("sprites/" + sprite->filename + ".png");
 			if (_icon) {
 				_icon->setScale(0.25f * scale);
 				_icon->setPosition(-192.0f * scale, -64.0f * idx * scale);

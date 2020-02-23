@@ -59,7 +59,7 @@ public:
 class object_properties
 {
 public:
-	string sprite;
+	shared_ptr<sprite_properties> sprite;
 	shared_ptr<LightArea> light;
 
 	string properName;

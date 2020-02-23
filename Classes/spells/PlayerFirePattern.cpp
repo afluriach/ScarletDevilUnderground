@@ -49,7 +49,7 @@ bullet_properties StarbowBreak::generateProps(int angle)
 	result.speed /= sizeScale;
 	result.dimensions.x *= sizeScale;
 	result.damage.mag *= sizeScale;
-	result.sprite = "starbowBreak" + boost::lexical_cast<string>(angle + 1);
+	result.sprite = app::getSprite("starbowBreak" + boost::lexical_cast<string>(angle + 1));
 	result.light = app::getLight("starbowBreak" + boost::lexical_cast<string>(angle + 1));
 
 	return result;

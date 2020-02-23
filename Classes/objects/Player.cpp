@@ -644,7 +644,7 @@ void Player::applyRespawn()
 	space->addGraphicsAction(
 		&graphics_context::setSpriteZoom,
 		spriteID,
-		getSpriteZoom(app::getSprite(getSprite()), getRadius())
+		getSpriteZoom(getSprite(), getRadius())
 	);
 
 	isRespawnActive = false;

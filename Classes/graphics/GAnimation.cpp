@@ -124,9 +124,9 @@ void TimedLoopAnimation::update()
     sprite->setSpriteFrame(sequence.frames.at(crntFrame));
 }
 
-void PatchConAnimation::loadAnimation(const string& _sprite)
+void PatchConAnimation::loadAnimation(shared_ptr<sprite_properties> _sprite)
 {
-	sprite_properties _props = app::getSprite(_sprite);
+	sprite_properties _props = *_sprite.get();
 	string path = "sprites/" + _props.filename + ".png";
 	bool agentAnimation = _props.size == make_pair(3, 4);
 
@@ -179,7 +179,7 @@ void PatchConAnimation::setFrame(int animFrame)
 }
 
 SpriteID AgentAnimationContext::initializeGraphics(
-	const string& sprite,
+	shared_ptr<sprite_properties> sprite,
 	SpaceFloat radius,
 	GraphicsLayer glayer,
 	Vec2 centerPix
@@ -196,13 +196,13 @@ SpriteID AgentAnimationContext::initializeGraphics(
 	return spriteID;
 }
 
-void AgentAnimationContext::setSprite(const string& name)
+void AgentAnimationContext::setSprite(shared_ptr<sprite_properties> sprite)
 {
 	if (spriteID != 0) {
 		space->graphicsNodeAction(
 			&PatchConAnimation::loadAnimation,
 			spriteID,
-			name
+			sprite
 		);
 	}
 }

@@ -41,7 +41,7 @@ public:
 	void createDrawNode(SpriteID id, GraphicsLayer sceneLayer, Vec2 pos, float zoom);
 	void createAgentSprite(
 		SpriteID id,
-		string _sprite,
+		shared_ptr<sprite_properties> _sprite,
 		SpaceFloat agentSize,
 		GraphicsLayer sceneLayer,
 		Vec2 pos

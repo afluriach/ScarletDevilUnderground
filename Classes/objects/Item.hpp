@@ -44,7 +44,7 @@ public:
 	virtual void init();
 
 	inline virtual GraphicsLayer sceneLayer() const { return GraphicsLayer::floor; }
-	inline virtual string getSprite() const { return props->sprite; }
+	inline virtual shared_ptr<sprite_properties> getSprite() const { return props->sprite; }
 	inline virtual shared_ptr<LightArea> getLightSource() const { return props->light; }
 
 	virtual void onPlayerContact(Player* p);

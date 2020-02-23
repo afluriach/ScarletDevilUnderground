@@ -121,7 +121,7 @@ bullet_attributes Agent::getBulletAttributes(local_shared_ptr<bullet_properties>
 	return result;
 }
 
-string Agent::getSprite() const
+shared_ptr<sprite_properties> Agent::getSprite() const
 {
 	return props->sprite;
 }
@@ -478,7 +478,7 @@ void Agent::resetAnimation()
 	}
 }
 
-void Agent::setSprite(const string& sprite)
+void Agent::setSprite(shared_ptr<sprite_properties> sprite)
 {
 	if (animation) {
 		animation->setSprite(sprite);

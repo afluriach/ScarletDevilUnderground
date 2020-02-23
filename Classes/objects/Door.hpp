@@ -23,7 +23,7 @@ public:
 
 	virtual void init();
 	
-	virtual inline string getSprite() const { return "door"; }
+	virtual inline shared_ptr<sprite_properties> getSprite() const { return app::getSprite("door"); }
     virtual inline GraphicsLayer sceneLayer() const {return GraphicsLayer::ground;}
 
     virtual PhysicsLayers getLayers() const;

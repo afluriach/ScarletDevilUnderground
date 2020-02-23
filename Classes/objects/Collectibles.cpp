@@ -68,9 +68,9 @@ Collectible::~Collectible()
 {
 }
 
-string Collectible::getSprite() const
+shared_ptr<sprite_properties> Collectible::getSprite() const
 {
-	return sprite;
+	return app::getSprite(sprite);
 }
 
 string Collectible::itemName() const {

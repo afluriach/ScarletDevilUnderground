@@ -260,14 +260,14 @@ void graphics_context::createDrawNode(SpriteID id, GraphicsLayer sceneLayer, Vec
 
 void graphics_context::createAgentSprite(
 	SpriteID id,
-	string _sprite,
+	shared_ptr<sprite_properties> _sprite,
 	SpaceFloat agentSize,
 	GraphicsLayer sceneLayer,
 	Vec2 pos
 ){
-	sprite_properties sprite = app::getSprite(_sprite);
+	sprite_properties sprite = *_sprite;
 
-	float zoom = getSpriteZoom(sprite, agentSize);
+	float zoom = getSpriteZoom(_sprite, agentSize);
 	if (sprite.size != make_pair(3, 4) && sprite.size != make_pair(4, 4)) {
 		log("Invalid agent animation size %d,%d.", sprite.size.first, sprite.size.second);
 		return;

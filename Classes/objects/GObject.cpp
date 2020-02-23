@@ -758,12 +758,15 @@ sprite_update GObject::updateSprite()
 
 void GObject::initializeGraphics()
 {
-	sprite_properties _sprite = app::getSprite(getSprite());
+	auto sprite = getSprite();
+	if (!sprite)
+		return;
+	sprite_properties& _sprite = *sprite.get();
 
 	if (_sprite.filename.empty())
 		return;
 
-	float zoom = getSpriteZoom(_sprite, getRadius());
+	float zoom = getSpriteZoom(sprite, getRadius());
 	string resPath = "sprites/" + _sprite.filename + ".png";
 	
 	rotateSprite = true;
@@ -781,7 +784,7 @@ void GObject::initializeGraphics()
 		_sprite.size.first > 1 &&
 		_sprite.size.second == 1 &&
 		_sprite.duration > 0.0f
-		) {
+	) {
 		spriteID = space->createSprite(
 			&graphics_context::createLoopAnimation,
 			_sprite.filename,

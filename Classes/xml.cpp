@@ -39,7 +39,7 @@ unordered_map<string, shared_ptr<LightArea>> lights;
 unordered_map<string, local_shared_ptr<npc_properties>> npc;
 unordered_map<string, local_shared_ptr<agent_properties>> players;
 unordered_map<string, local_shared_ptr<SpellDesc>> spells;
-unordered_map<string, sprite_properties> sprites;
+unordered_map<string, shared_ptr<sprite_properties>> sprites;
 
 GObject::AdapterType enemyAdapter(local_shared_ptr<enemy_properties> props)
 {
@@ -199,7 +199,7 @@ void loadPlayers()
 
 void loadSprites()
 {
-	loadObjects<sprite_properties>("objects/sprites.xml", app::sprites);
+	loadObjects<shared_ptr<sprite_properties>>("objects/sprites.xml", app::sprites);
 }
 
 area_properties getArea(const string& name)
@@ -272,7 +272,7 @@ local_shared_ptr<SpellDesc> getSpell(const string& name)
 	return getOrDefault(spells, name);
 }
 
-sprite_properties getSprite(const string& name)
+shared_ptr<sprite_properties> getSprite(const string& name)
 {
 	return getOrDefault(sprites, name);
 }
@@ -540,9 +540,8 @@ bool parseObject(tinyxml2::XMLElement* elem, local_shared_ptr<object_properties>
 	getNumericAttr(elem, "mass", &result->mass);
 	getNumericAttr(elem, "friction", &result->friction);
 
-	getStringAttr(elem, "sprite", &result->sprite);
-	autoName(elem, result->sprite);
 	getSubObject(elem, "light", &result->light, lights, true);
+	getSubObject(elem, "sprite", &result->sprite, sprites, true);
 
 	return true;
 }
@@ -745,7 +744,7 @@ bool parseObject(tinyxml2::XMLElement* elem, IntVec2* result)
 	return false;
 }
 
-bool parseObject(tinyxml2::XMLElement* elem, sprite_properties* result)
+bool parseObject(tinyxml2::XMLElement* elem, shared_ptr<sprite_properties>* result)
 {
 	string filename;
 	IntVec2 size = make_pair(1, 1);
@@ -768,14 +767,14 @@ bool parseObject(tinyxml2::XMLElement* elem, sprite_properties* result)
 	getNumericAttr(elem, "duration", &duration);
 	getNumericAttr(elem, "ref-size", &referenceSize);
 
-	*result = sprite_properties{
+	*result = make_shared<sprite_properties>(sprite_properties{
 		filename,
 		size,
 		dpi,
 		referenceSize,
 		duration,
 		toColor3B(_color)
-	};
+	});
 	return true;
 }
 

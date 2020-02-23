@@ -101,7 +101,7 @@ public:
 
 	virtual bullet_attributes getBulletAttributes(local_shared_ptr<bullet_properties> props) const;
 
-	virtual string getSprite() const;
+	virtual shared_ptr<sprite_properties> getSprite() const;
 	virtual shared_ptr<LightArea> getLightSource() const;
 
 	//attribute interface
@@ -160,7 +160,7 @@ public:
 	virtual void setDirection(Direction d);
 
 	void resetAnimation();
-	void setSprite(const string& sprite);
+	void setSprite(shared_ptr<sprite_properties> sprite);
 protected:
 	void updateAgentOverlay();
 	void updateAnimation();
