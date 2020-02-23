@@ -15,18 +15,24 @@ public:
 	typedef unsigned int id_type;
 	typedef unsigned int count_type;
 
+	struct shared_object_entry
+	{
+		id_type id;
+		count_type count;
+	};
+
 	static unique_ptr<shared_ptr_system> inst;
 	static shared_ptr_system* get();
 
 	shared_ptr_system();
 
-	void acquire(id_type id);
-	id_type create();
-	bool release(id_type id);
+	void acquire(shared_object_entry* shared);
+	shared_object_entry* create();
+	bool release(shared_object_entry* entry);
 
 protected:
 
-	unordered_map<id_type, count_type> refs;
+	unordered_map<id_type, shared_object_entry> refs;
 	id_type nextID = 1;
 };
 
@@ -45,36 +51,28 @@ public:
 	inline local_shared_ptr(T* t)
 	{
 		obj = t;
-		id = shared_ptr_system::get()->create();
+		shared = shared_ptr_system::get()->create();
 	}
 
 	inline local_shared_ptr(const local_shared_ptr<T>& rhs)
 	{
-		obj = rhs.obj;
-		id = rhs.id;
-
-		if (id != 0)
-			shared_ptr_system::get()->acquire(id);
+		copy(rhs);
 	}
 
 	//"Copy" constructor, but actually static upcast
 	template<typename U, enable_if_t<is_base_of<T, U>::value, int> = 0>
 	inline local_shared_ptr(const local_shared_ptr<U>& rhs)
 	{
-		obj = rhs.obj;
-		id = rhs.id;
-
-		if(id != 0)
-			shared_ptr_system::get()->acquire(id);
+		copy(rhs);
 	}
 
 	inline local_shared_ptr(local_shared_ptr<T>&& rhs)
 	{
 		obj = rhs.obj;
-		id = rhs.id;
+		shared = rhs.shared;
 
 		rhs.obj = nullptr;
-		rhs.id = 0;
+		rhs.shared = nullptr;
 	}
 
 	//Move existing
@@ -82,49 +80,30 @@ public:
 	inline local_shared_ptr(local_shared_ptr<U>&& rhs)
 	{
 		obj = rhs.obj;
-		id = rhs.id;
+		shared = rhs.shared;
 
 		rhs.obj = nullptr;
-		rhs.id = 0;
+		rhs.shared = nullptr;
 	}
 
 	inline ~local_shared_ptr()
 	{
-		if(id != 0)
-			release();
+		reset();
 	}
 
 	inline local_shared_ptr<T>& operator=(const local_shared_ptr<T>& rhs) {
-		if (id != 0) {
-			release();
-		}
-
-		obj = rhs.obj;
-		id = rhs.id;
-
-		if (id != 0)
-			shared_ptr_system::get()->acquire(id);
-
+		copy(rhs);
 		return *this;
 	}
 
 	template<typename U, enable_if_t<is_base_of<T, U>::value, int> = 0>
 	inline local_shared_ptr<T>& operator=(const local_shared_ptr<U>& rhs) {
-		if (id != 0) {
-			release();
-		}
-
-		obj = rhs.obj;
-		id = rhs.id;
-
-		if(id != 0)
-			shared_ptr_system::get()->acquire(id);
-
+		copy(rhs);
 		return *this;
 	}
 
 	inline void reset() {
-		if (id != 0) {
+		if (shared) {
 			release();
 		}
 	}
@@ -150,21 +129,31 @@ public:
 	}
 
 protected:
+	template<typename U>
+	inline void copy(const local_shared_ptr<U>& rhs) {
+		reset();
+
+		obj = rhs.obj;
+		shared = rhs.shared;
+
+		if (shared)
+			shared_ptr_system::get()->acquire(shared);
+	}
 
 	inline void release()
 	{
-		bool destruct = shared_ptr_system::inst && shared_ptr_system::get()->release(id);
+		bool destruct = shared_ptr_system::inst && shared && shared_ptr_system::get()->release(shared);
 
 		if (destruct) {
 			delete obj;
 		}
 
 		obj = nullptr;
-		id = 0;
+		shared = nullptr;
 	}
 
 	T* obj = nullptr;
-	shared_ptr_system::id_type id = 0;
+	shared_ptr_system::shared_object_entry* shared = nullptr;
 };
 
 template<typename T, typename... Params>
