@@ -40,10 +40,10 @@ namespace Lua{
 				effect_attributes(float, float),
 				effect_attributes(float,float,float,DamageType)
 			>(),
-			"magnitude", sol::property(&effect_attributes::get_magnitude, &effect_attributes::set_magnitude),
-			"length", sol::property(&effect_attributes::get_length, &effect_attributes::set_length),
-			"radius", sol::property(&effect_attributes::get_radius, &effect_attributes::set_radius),
-			"type", sol::property(&effect_attributes::get_type, &effect_attributes::set_type)
+			rw_prop(effect_attributes, magnitude),
+			rw_prop(effect_attributes, length),
+			rw_prop(effect_attributes, radius),
+			rw_prop(effect_attributes, type)
 		);
 
 		auto effdesc = _state.new_usertype<MagicEffectDescriptor>(
@@ -89,10 +89,10 @@ namespace Lua{
 
 		auto spellcost = _state.new_usertype<spell_cost>(
 			"spell_cost",
-			"initial_mp", sol::property(&spell_cost::get_initial_mp, &spell_cost::set_initial_mp),
-			"initial_stamina", sol::property(&spell_cost::get_initial_stamina, &spell_cost::set_initial_stamina),
-			"ongoing_mp", sol::property(&spell_cost::get_ongoing_mp, &spell_cost::set_ongoing_mp),
-			"ongoing_stamina", sol::property(&spell_cost::get_ongoing_stamina, &spell_cost::set_ongoing_stamina)
+			rw_prop(spell_cost,initial_mp),
+			rw_prop(spell_cost, initial_stamina),
+			rw_prop(spell_cost, ongoing_mp),
+			rw_prop(spell_cost, ongoing_stamina)
 		);
 #define _cls spell_cost
 		addFuncSame(spellcost, initial_mp);

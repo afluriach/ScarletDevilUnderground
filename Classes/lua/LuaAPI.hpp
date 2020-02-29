@@ -18,6 +18,9 @@ namespace Lua
 	#define cFuncSame(v,x) v[#x] = &x;
 	#define cFuncSameNS(v,ns,x) v[#x] = &ns::x;
 
+	#define get_prop(cls,func) #func, sol::property(&cls::get_ ## func)
+	#define rw_prop(cls,func) #func, sol::property(&cls::get_ ## func, &cls::set_ ## func)
+
     //Wraps a VM instance and interfaces with it.
     class Inst
     {
@@ -36,7 +39,9 @@ namespace Lua
 		void addGSpace();
 		void addMagic();
 		void addScene();
+		void addStructures();
 		void addTypes();
+		void addUtil();
 
         void installApi();
         void loadLibraries();

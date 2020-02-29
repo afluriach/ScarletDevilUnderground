@@ -10,7 +10,6 @@
 
 #include "FileIO.hpp"
 #include "LuaAPI.hpp"
-#include "value_map.hpp"
 
 namespace Lua{
 
@@ -80,33 +79,14 @@ const vector<string> Inst::luaIncludes = {
     
     void Inst::installApi()
     {
-		auto util = _state.create_table();
-		_state["util"] = util;
-
-		//Lua does not support passing primitves by reference, thus sol does not
-		//support wrapping the C++ version of these functions.
-		util["timerDecrement"] = [](SpaceFloat input) -> SpaceFloat {
-			SpaceFloat result = input;
-			timerDecrement(result);
-			return result;
-		};
-		util["timerIncrement"] = [](SpaceFloat input) -> SpaceFloat {
-			SpaceFloat result = input;
-			timerIncrement(result);
-			return result;
-		};
-
-		util["getStringOrDefault"] = &getStringOrDefault;
-		util["getIntOrDefault"] = &getIntOrDefault;
-		util["getFloatOrDefault"] = &getFloatOrDefault;
-		util["getBoolOrDefault"] = &getBoolOrDefault;
-
 		addAI();
 		addApp();
 		addGObject();
 		addGSpace();
 		addMagic();
 		addScene();
+		addStructures();
 		addTypes();
+		addUtil();
 	}
 }

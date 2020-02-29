@@ -14,55 +14,6 @@
 
 namespace Lua{
     
-	struct hashset_gobject_ref
-	{
-		unordered_set<gobject_ref> _set;
-
-		inline void insert(const gobject_ref& ref)
-		{
-			_set.insert(ref);
-		}
-
-		inline void erase(const gobject_ref& ref)
-		{
-			_set.erase(ref);
-		}
-
-		inline bool contains(const gobject_ref& ref) const
-		{
-			return _set.find(ref) != _set.end();
-		}
-
-		inline void clear()
-		{
-			_set.clear();
-		}
-
-		inline size_t size() const
-		{
-			return _set.size();
-		}
-
-		inline void for_each(function<void(const gobject_ref&)> f) const
-		{
-			for (auto const& ref : _set) {
-				f(ref);
-			}
-		}
-
-		inline sol::table getArray() const
-		{
-			int idx = 1;
-			sol::table t = GSpace::scriptVM->_state.create_table();
-
-			for (auto const& ref : _set) {
-				t[idx++] = ref;
-			}
-
-			return t;
-		}
-	};
-
 	void Inst::addTypes()
 	{
 		auto gtype = _state.new_enum<GType, true>(
@@ -188,10 +139,10 @@ namespace Lua{
 				DamageInfo(float, DamageType),
 				DamageInfo(float, DamageType, Attribute, float)
 			>(),
-			"mag", sol::property(&DamageInfo::get_mag, &DamageInfo::set_mag),
-			"knockback", sol::property(&DamageInfo::get_knockback, &DamageInfo::set_knockback),
-			"element", sol::property(&DamageInfo::get_element, &DamageInfo::set_element),
-			"type", sol::property(&DamageInfo::get_type, &DamageInfo::set_type)
+			rw_prop(DamageInfo, mag),
+			rw_prop(DamageInfo, knockback),
+			rw_prop(DamageInfo, element),
+			rw_prop(DamageInfo, type)
 		);
 
 		damageInfo["scale"] = &DamageInfo::operator*;
@@ -234,31 +185,6 @@ namespace Lua{
 		addFuncSame(vect, dist);
 		addFuncSame(vect, distSq);
 		addFuncSame(vect, fuzzyMatch);
-
-#define _cls app_params
-		auto params = _state.new_usertype<app_params>(
-			"app_params",
-			"width", sol::property(&app_params::getWidth),
-			"height", sol::property(&app_params::getHeight),
-			"fullscreen", sol::property(&app_params::getFullscreen),
-			"vsync", sol::property(&app_params::getVsync),
-			"showTimers", sol::property(&app_params::getShowTimers),
-			"difficultyScale", sol::property(&app_params::getDifficultyScale),
-			"unlockAllEquips", sol::property(&app_params::getUnlockAll),
-			"framesPerSecond", sol::property(&app_params::getFPS),
-			"secondsPerFrame", sol::property(&app_params::getFrameInterval)
-		);
-
-		auto hashset = _state.new_usertype<hashset_gobject_ref>(
-			"hashset_gobject_ref"
-		);
-		hashset["insert"] = &hashset_gobject_ref::insert;
-		hashset["contains"] = &hashset_gobject_ref::contains;
-		hashset["erase"] = &hashset_gobject_ref::erase;
-		hashset["clear"] = &hashset_gobject_ref::clear;
-		hashset["size"] = &hashset_gobject_ref::size;
-		hashset["for_each"] = &hashset_gobject_ref::for_each;
-		hashset["getArray"] = &hashset_gobject_ref::getArray;
 
 		auto value_map = _state.new_usertype<ValueMap>(
 			"ValueMap"

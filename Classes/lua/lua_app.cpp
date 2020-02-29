@@ -56,5 +56,19 @@ namespace Lua{
 		cFuncSameNS(app_consts, app, tilesPerPixel);
 		cFuncSameNS(app_consts, app, viewWidth);
 		cFuncSameNS(app_consts, app, Gaccel);
+
+#define _cls app_params
+		auto params = _state.new_usertype<app_params>(
+			"app_params",
+			"width", sol::property(&app_params::getWidth),
+			"height", sol::property(&app_params::getHeight),
+			"fullscreen", sol::property(&app_params::getFullscreen),
+			"vsync", sol::property(&app_params::getVsync),
+			"showTimers", sol::property(&app_params::getShowTimers),
+			"difficultyScale", sol::property(&app_params::getDifficultyScale),
+			"unlockAllEquips", sol::property(&app_params::getUnlockAll),
+			"framesPerSecond", sol::property(&app_params::getFPS),
+			"secondsPerFrame", sol::property(&app_params::getFrameInterval)
+		);
 	}
 }
