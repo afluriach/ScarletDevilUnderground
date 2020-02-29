@@ -27,6 +27,13 @@ enum class Attribute : int;
 
 enum class GraphicsLayer : int;
 
+template<typename T>
+using local_allocator = boost::fast_pool_allocator<
+	T,
+	boost::default_user_allocator_new_delete,
+	boost::details::pool::null_mutex
+>;
+
 typedef unordered_map<Attribute, float> AttributeMap;
 
 typedef pair<float, float> float_pair;

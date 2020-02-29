@@ -12,6 +12,7 @@
 #include "GSpace.hpp"
 #include "LuaAPI.hpp"
 #include "MagicEffectSystem.hpp"
+#include "SpellDescriptor.hpp"
 #include "SpellImpl.hpp"
 
 spell_params ScriptedSpell::getParams(string clsName)

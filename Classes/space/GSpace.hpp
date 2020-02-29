@@ -345,7 +345,7 @@ protected:
 	string crntChamber;
 	int crntMap = -1;
 
-	list<pair<GObject*, ALuint>> activeSounds;
+	list<pair<GObject*, ALuint>, local_allocator<pair<GObject*, ALuint>>> activeSounds;
 	vector<SpaceRect> mapAreas;
 
 	bool suppressAction = false;
@@ -379,8 +379,8 @@ protected:
 	//init has not yet run; it will run at start of frame.
 	vector<GObject*> addedLastFrame;
 	//Objects which have been queued for removal. Will be removed at end of frame.
-	list<GObject*> toRemove;
-	list<pair<GObject*, ActionGeneratorType>> toRemoveWithAnimation;
+	list<GObject*, local_allocator<GObject*>> toRemove;
+	list<pair<GObject*, ActionGeneratorType>, local_allocator<pair<GObject*, ActionGeneratorType>>> toRemoveWithAnimation;
 
 	unordered_map<ObjectIDType, GObject*> objByUUID;
 	boost::bimap<string, ObjectIDType> objectNames;

@@ -90,6 +90,7 @@
 #include <boost/lexical_cast.hpp>
 #include <boost/math/constants/constants.hpp>
 #include <boost/icl/interval_map.hpp>
+#include <boost/pool/pool_alloc.hpp>
 #include <boost/range/adaptor/map.hpp>
 #include <boost/range/irange.hpp>
 #include <boost/serialization/array.hpp>
