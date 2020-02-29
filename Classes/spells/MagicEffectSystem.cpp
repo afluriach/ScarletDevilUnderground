@@ -12,9 +12,9 @@
 
 bool timedEntry::operator>(const timedEntry& rhs) const
 {
-	if (endFrame > rhs.endFrame)
+	if (endTime > rhs.endTime)
 		return true;
-	else if (endFrame < rhs.endFrame)
+	else if (endTime < rhs.endTime)
 		return false;
 	else
 		return effect->id > rhs.effect->id;
@@ -118,13 +118,8 @@ void MagicEffectSystem::applyAdd()
 				updateEffects.insert(newEffect);
 			}
 
-			if (newEffect->isTimed()) {
-				float length = newEffect->length;
-				if (length > 0.0f) {
-					unsigned int endFrame = gspace->getFrame() + app::params.framesPerSecond * length;
-					
-					timedRemovals.push(timedEntry{ endFrame, newEffect });
-				}
+			if (newEffect->length > 0.0f) {
+				addTimedEntry(newEffect);
 			}
 		}
 	}
@@ -148,13 +143,19 @@ void MagicEffectSystem::update()
 
 void MagicEffectSystem::processTimedRemovals()
 {
-	unsigned int crntFrame = gspace->getFrame();
+	SpaceFloat crntTime = gspace->getTime();
 
-	while (!timedRemovals.empty() && timedRemovals.top().endFrame <= crntFrame)
+	while (!timedRemovals.empty() && timedRemovals.top().endTime <= crntTime)
 	{
 		removeEffect(timedRemovals.top().effect->id);
 		timedRemovals.pop();
 	}
+}
+
+void MagicEffectSystem::addTimedEntry(MagicEffect* newEffect)
+{
+	SpaceFloat endTime = gspace->getTime() + newEffect->length;
+	timedRemovals.push(timedEntry{ endTime, newEffect });
 }
 
 void MagicEffectSystem::applyRemove()

@@ -13,7 +13,7 @@
 
 struct timedEntry
 {
-	unsigned int endFrame;
+	SpaceFloat endTime;
 	MagicEffect* effect;
 
 	bool operator>(const timedEntry& rhs) const;
@@ -70,6 +70,7 @@ protected:
 	//Examined and updates the timed removals heap, removing entries from the heap
 	//if applicable, and added timed to magicEffectsToRemove.
 	void processTimedRemovals();
+	void addTimedEntry(MagicEffect* newEffect);
 
 	bool isValidConfig(MagicEffect* effect);
 

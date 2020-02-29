@@ -118,7 +118,7 @@ unsigned int GSpace::getFrame() const{
 }
 
 SpaceFloat GSpace::getTime() const {
-	return frame * app::params.secondsPerFrame;
+	return elapsedTime;
 }
 
 unsigned long GSpace::getTimeUsed() const {
@@ -217,6 +217,7 @@ void GSpace::update()
 #endif
 
     ++frame;
+	elapsedTime += app::params.secondsPerFrame;
 }
 
 void GSpace::updateSensors()

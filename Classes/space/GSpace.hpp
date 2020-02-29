@@ -327,6 +327,7 @@ protected:
 	SpaceRect cameraArea;
 	IntVec2 spaceSize;
 	unsigned int frame = 0;
+	SpaceFloat elapsedTime = 0.0;
 	unsigned long timeUsed = 0;
 	string crntChamber;
 	int crntMap = -1;
