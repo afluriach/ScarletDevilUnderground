@@ -29,8 +29,9 @@ void shared_ptr_system::acquire(shared_object_entry* entry)
 shared_ptr_system::shared_object_entry* shared_ptr_system::create()
 {
 	id_type id = nextID++;
-	auto result = refs.insert_or_assign(id, shared_object_entry{id, 1});
-	return &result.first->second;
+	auto entry = new shared_object_entry(id);
+	auto result = refs.insert_or_assign(id, entry);
+	return entry;
 }
 
 bool shared_ptr_system::release(shared_object_entry* entry)
@@ -42,5 +43,6 @@ bool shared_ptr_system::release(shared_object_entry* entry)
 
 	auto it = refs.find(entry->id);
 	refs.erase(it);
+	delete entry;
 	return true;
 }

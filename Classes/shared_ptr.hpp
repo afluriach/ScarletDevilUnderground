@@ -17,6 +17,11 @@ public:
 
 	struct shared_object_entry
 	{
+		inline shared_object_entry(id_type id) :
+			id(id),
+			count(1)
+		{}
+
 		id_type id;
 		count_type count;
 	};
@@ -32,7 +37,7 @@ public:
 
 protected:
 
-	unordered_map<id_type, shared_object_entry> refs;
+	unordered_map<id_type, shared_object_entry*> refs;
 	id_type nextID = 1;
 };
 
