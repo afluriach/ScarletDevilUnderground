@@ -150,8 +150,7 @@ protected:
 		bool destruct = shared_ptr_system::inst && shared && shared_ptr_system::get()->release(shared);
 
 		if (destruct) {
-			obj->~T();
-			local_allocator<T>::deallocate(obj);
+			allocator_delete<T>(obj);
 		}
 
 		obj = nullptr;
@@ -165,8 +164,7 @@ protected:
 template<typename T, typename... Params>
 inline local_shared_ptr<T> make_local_shared(Params... params)
 {
-	T* obj = local_allocator<T>::allocate();
-	new(obj) T(params...);
+	T* obj = allocator_new<T>(params...);
 	return local_shared_ptr<T>(obj);
 }
 
