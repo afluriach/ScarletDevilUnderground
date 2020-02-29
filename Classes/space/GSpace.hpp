@@ -78,8 +78,6 @@ public:
 
 //BEGIN OBJECT MANIPULATION
 public:
-    static const bool logObjectArgs;
-	static const unordered_set<type_index> trackedTypes;
 
 	void addSpatialSound(GObject* sourceObj, ALuint soundSource);
 	void removeSpatialSound(ALuint soundSource);
@@ -98,18 +96,6 @@ public:
 		const bullet_attributes& attributes,
 		local_shared_ptr<bullet_properties> props
 	);
-
-	inline void addValueMapArgs(ObjectIDType id, const ValueMap& args) {
-		valueMapArgs.insert_or_assign(id, args);
-	}
-
-	inline void removeValueMapArgs(ObjectIDType id) {
-		valueMapArgs.erase(id);
-	}
-
-	inline const ValueMap& getValueMapArgs(ObjectIDType id) {
-		return valueMapArgs.at(id);
-	}
         
 	template<class C, typename... Args>
 	inline gobject_ref createObject(Args... args) {
@@ -396,9 +382,6 @@ protected:
 	set<RadarSensor*> radarSensors;
 	unordered_map<int, RoomSensor*> roomSensors;
 	unordered_map<string, ValueMap> dynamicLoadObjects;
-	//For objects that actually need ValueMap args to persist until init,
-	//without having to store them by value in the object itself.
-	unordered_map<ObjectIDType, ValueMap> valueMapArgs;
 //NAVIGATION
 	void unmarkObstacleTile(int x, int y);
 	void markObstacleTile(int x, int y);

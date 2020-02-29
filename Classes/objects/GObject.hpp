@@ -47,6 +47,7 @@ public:
 	};
 
     static constexpr bool logCreateObjects = false;
+	static const unordered_set<type_index> trackedTypes;
 	//Map each class name to a constructor adapter function.
 	static unordered_map<string, object_info> objectInfo;
 	//Map named object subtypes to the function that creates the corresponding object.

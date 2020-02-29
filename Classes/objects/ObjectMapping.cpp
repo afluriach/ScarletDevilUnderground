@@ -132,7 +132,7 @@ void GObject::initObjectInfo()
 
 }
 
-const unordered_set<type_index> GSpace::trackedTypes = {
+const unordered_set<type_index> GObject::trackedTypes = {
 	typeid(Bullet),
 	typeid(Door),
 	typeid(Enemy),

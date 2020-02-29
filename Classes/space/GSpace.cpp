@@ -67,7 +67,7 @@ GSpace::GSpace(GScene* gscene) :
 	physicsImpl = make_unique<PhysicsImpl>(this);
     physicsImpl->addCollisionHandlers();
 
-	for (type_index t : trackedTypes) {
+	for (type_index t : GObject::trackedTypes) {
 		objByType[t] = unordered_set<GObject*>();
 	}
 
@@ -242,7 +242,6 @@ void GSpace::updateSoundSources()
 
 //BEGIN OBJECT MANIPULATION
 
-const bool GSpace::logObjectArgs = false;
 
 void GSpace::addDynamicLoadObject(const ValueMap& obj)
 {
@@ -421,7 +420,7 @@ string GSpace::getObjectName(ObjectIDType id) const
 
 bool GSpace::isTrackedType(type_index t) const
 {
-	return trackedTypes.find(t) != trackedTypes.end();
+	return GObject::trackedTypes.find(t) != GObject::trackedTypes.end();
 }
 
 bool GSpace::isValid(unsigned int uuid) const
