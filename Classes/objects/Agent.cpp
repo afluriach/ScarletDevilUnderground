@@ -594,7 +594,7 @@ void Agent::initializeRadar()
 		return;
 	}
 
-	radar = new RadarSensor(
+	radar = allocator_new<RadarSensor>(
 		this,
 		attr,
 		bind(&Agent::onDetect, this, placeholders::_1),
@@ -612,7 +612,7 @@ void Agent::removePhysicsObjects()
 
 	if (radar) {
 		space->removeSensor(radar);
-		delete radar;
+		allocator_delete(radar);
 	}
 }
 

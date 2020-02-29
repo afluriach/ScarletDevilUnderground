@@ -47,7 +47,7 @@ GObject::AdapterType enemyAdapter(local_shared_ptr<enemy_properties> props)
 		agent_attributes attr = Agent::parseAttributes(args);
 	
 		if (Agent::conditionalLoad(space, attr, props)) {
-			return new Enemy(space, id, attr, props);
+			return allocator_new<Enemy>(space, id, attr, props);
 		}
 		else {
 			return nullptr;
@@ -61,7 +61,7 @@ GObject::AdapterType npcAdapter(local_shared_ptr<npc_properties> props)
 		agent_attributes attr = Agent::parseAttributes(args);
 
 		if (Agent::conditionalLoad(space, attr, props)) {
-			return new NPC(space, id, attr, props);
+			return allocator_new<NPC>(space, id, attr, props);
 		}
 		else {
 			return nullptr;
@@ -75,7 +75,7 @@ GObject::AdapterType itemAdapter(local_shared_ptr<item_properties> props)
 		item_attributes attr = Item::parseAttributes(args);
 
 		if (Item::conditionalLoad(space, attr, props)) {
-			return new Item(space, id, attr, props);
+			return allocator_new<Item>(space, id, attr, props);
 		}
 		else {
 			return nullptr;
@@ -86,7 +86,7 @@ GObject::AdapterType itemAdapter(local_shared_ptr<item_properties> props)
 GObject::AdapterType floorAdapter(local_shared_ptr<floorsegment_properties> props)
 {
 	return [props](GSpace* space, ObjectIDType id, const ValueMap& args) -> GObject* {
-		return new FloorSegment(space, id, args, props);
+		return allocator_new<FloorSegment>(space, id, args, props);
 	};
 }
 
@@ -94,7 +94,7 @@ GObject::AdapterType environmentObjectAdapter(local_shared_ptr<environment_objec
 {
 	return [props](GSpace* space, ObjectIDType id, const ValueMap& args) -> GObject* {
 		if (EnvironmentObject::conditionalLoad(space, id, args, props)) {
-			return new EnvironmentObject(space, id, args, props);
+			return allocator_new<EnvironmentObject>(space, id, args, props);
 		}
 		else {
 			return nullptr;

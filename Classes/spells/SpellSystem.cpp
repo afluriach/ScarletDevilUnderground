@@ -59,7 +59,7 @@ unsigned int SpellSystem::cast(local_shared_ptr<SpellDesc> desc, GObject* caster
 		if (logSpells) {
 			log("Immediate spell %s (%u) deleted.", spell->getName(), spell->id);
 		}
-		delete spell;
+		allocator_delete(spell);
 	}
 
 	return id;
@@ -105,7 +105,7 @@ void SpellSystem::onRemove(unsigned int id, Bullet* b)
 void SpellSystem::applyRemove(Spell* spell)
 {
 	updateSpells.erase(spell);
-	delete spell;
+	allocator_delete(spell);
 }
 
 void SpellSystem::stopObjectSpells(GObject* obj)

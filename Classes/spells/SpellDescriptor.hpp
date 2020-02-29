@@ -77,7 +77,7 @@ public:
 
 	virtual inline Spell* generate(GObject* caster, local_shared_ptr<SpellDesc> desc, unsigned int id)
 	{
-		return new T(caster, desc, id);
+		return allocator_new<T>(caster, desc, id);
 	}
 };
 

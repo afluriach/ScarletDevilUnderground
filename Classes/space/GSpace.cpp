@@ -447,13 +447,13 @@ void GSpace::processAdditions()
 
         if(objByUUID.find(obj->uuid) != objByUUID.end()){
             log("Object UUID is not unique: %s", obj->toString());
-            delete obj;
+            allocator_delete(obj);
             continue;
         }
 
 		if (!obj->body) {
 			log("Object %s failed to load physics body!", obj->getName());
-			delete obj;
+			allocator_delete(obj);
 			continue;
 		}
 
@@ -548,7 +548,7 @@ void GSpace::processRemoval(GObject* obj, bool _removeSprite)
 	obj->removePhysicsObjects();
 	obj->removeGraphics(_removeSprite);
 
-	delete obj;
+	allocator_delete(obj);
 }
 
 bool GSpace::isNoUpdateObject(GObject* obj)

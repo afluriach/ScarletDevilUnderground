@@ -121,7 +121,7 @@ void RadiusEffect::init()
 		true
 	};
 
-	sensor = new RadarSensor(
+	sensor = allocator_new<RadarSensor>(
 		target,
 		attr,
 		bind(&RadiusEffect::onContact, this, placeholders::_1),
@@ -141,7 +141,7 @@ void RadiusEffect::end()
 {
 	if (sensor) {
 		target->space->removeSensor(sensor);
-		delete sensor;
+		allocator_delete(sensor);
 	}
 }
 

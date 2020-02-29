@@ -69,7 +69,7 @@ public:
 	template<class ObjectCls, typename... ConsArgs, typename... Params>
 	static inline GObject* create(GSpace* space, ObjectIDType id, Params... params)
 	{
-		return new ObjectCls(space,id,std::forward<ConsArgs>(params)...);
+		return allocator_new<ObjectCls>(space,id,std::forward<ConsArgs>(params)...);
 	}
 
 	template<class ObjectCls, typename... ConsArgs>

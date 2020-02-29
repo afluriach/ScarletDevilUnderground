@@ -32,7 +32,9 @@ make_static_member_detector(properName)
 template <typename T>
 constexpr GObject::AdapterType consAdapter()
 {
-    return [](GSpace* space, ObjectIDType id, const ValueMap& args) -> GObject* { return new T(space,id,args); };
+    return [](GSpace* space, ObjectIDType id, const ValueMap& args) -> GObject* {
+		return allocator_new<T>(space,id,args);
+	};
 }
 
 GObject::AdapterType itemAdapter()
@@ -49,7 +51,7 @@ GObject::AdapterType itemAdapter()
 		if (!itemProps || !Item::conditionalLoad(space, attr, itemProps))
 			return nullptr;
         else
-			return new Item(space,id,attr, itemProps);
+			return allocator_new<Item>(space,id,attr, itemProps);
     };
 }
 
@@ -59,7 +61,7 @@ GObject::AdapterType conditionalLoadAdapter()
 	return [=](GSpace* space, ObjectIDType id, const ValueMap& args) -> GObject* {
 		if (!T::conditionalLoad(space, id, args) )
 			return nullptr;
-		else return new T(space, id, args);
+		else return allocator_new<T>(space, id, args);
 	};
 }
 
@@ -67,7 +69,7 @@ GObject::AdapterType collectibleAdapter(string coll_id)
 {
 	return [=](GSpace* space, ObjectIDType id, const ValueMap& args) -> GObject* {
 		SpaceVect pos = getObjectPos(args);
-		return new Collectible(space, id, pos, coll_id);
+		return allocator_new<Collectible>(space, id, pos, coll_id);
 	};
 }
 
