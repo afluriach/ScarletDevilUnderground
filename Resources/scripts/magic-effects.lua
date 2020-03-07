@@ -78,13 +78,13 @@ effects.GhostProtection = class('GhostProtection', {
 		self.agent = super.target:getAsAgent()
 	end,
 	onEnter = function(self)
-		self.crntHP = self.agent:getAttribute(Attribute.hp)
+		self.crntHP = self.agent:get(Attribute.hp)
 		self.accumulator = 0
 	end,
 	update = function(self)
-		_hp = self.agent:getAttribute(Attribute.hp)
+		_hp = self.agent:get(Attribute.hp)
 		delta = self.crntHP - _hp
-		self.accumulator = self.accumulator + delta / self.agent:getAttribute(Attribute.maxHP) * 12.5
+		self.accumulator = self.accumulator + delta / self.agent:get(Attribute.maxHP) * 12.5
 		
 		if self.accumulator >= 1.0 and self.agent:getAttributeSystem():isZero(Attribute.hitProtection) then
 			self.agent:addGraphicsAction(graphics.flickerAction(0.25, 5.0, 128) )

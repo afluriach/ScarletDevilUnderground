@@ -62,7 +62,7 @@ bool StarbowBreak::spawnBullet(int angle, bool left)
 	float cost = baseCost * radiusScales[angle];
 	bool fired = false;
 
-	if (agent->getAttribute(Attribute::stamina) >= cost) {
+	if (agent->get(Attribute::stamina) >= cost) {
 		fired = agent->launchBullet(
 			makeSharedCopy(generateProps(angle)),
 			pos,
@@ -107,7 +107,7 @@ bool StarbowBreak::fire()
 
 void StarbowBreak::update()
 {
-	double attackSpeed = agent->getAttribute(Attribute::attackSpeed);
+	double attackSpeed = agent->get(Attribute::attackSpeed);
 	for_irange(i, 0, anglesCount) {
 		timerDecrement(timers[i], angleIntervalScales[i] * attackSpeed);
 	}

@@ -105,6 +105,7 @@ Agent::Agent(
 
 Agent::~Agent()
 {
+	allocator_delete(attributeSystem);
 }
 
 bullet_attributes Agent::getBulletAttributes(local_shared_ptr<bullet_properties> props) const
@@ -115,8 +116,8 @@ bullet_attributes Agent::getBulletAttributes(local_shared_ptr<bullet_properties>
 	result.startRoom = crntRoom;
 	result.casterVelocity = getVel();
 	result.type = getType() == GType::player ? GType::playerBullet : GType::enemyBullet;
-	result.attackDamage = getAttribute(Attribute::attack);
-	result.bulletSpeed = getAttribute(Attribute::bulletSpeed);
+	result.attackDamage = get(Attribute::attack);
+	result.bulletSpeed = get(Attribute::bulletSpeed);
 
 	return result;
 }
@@ -173,13 +174,13 @@ void Agent::initFSM()
 
 void Agent::initAttributes()
 {
-	attributeSystem = getBaseAttributes();
+	attributeSystem = allocator_new<AttributeSystem>(getBaseAttributes());
 	applyAttributeEffects(getAttributeUpgrades());
 
 	space->graphicsNodeAction(
 		&AgentBodyShader::setShieldLevel,
 		agentOverlay,
-		getAttribute(Attribute::shieldLevel)
+		get(Attribute::shieldLevel)
 	);
 }
 
@@ -187,35 +188,35 @@ void Agent::init()
 {
 	GObject::init();
 
+	initAttributes();
 	initializeRadar();
 	initFSM();
-	initAttributes();
 }
 
 void Agent::update()
 {
 	GObject::update();
 
-	if (attributeSystem[Attribute::hp] <= 0.0f && attributeSystem[Attribute::maxHP] >  0.0f) {
+	if ( (*this)[Attribute::hp] <= 0.0f && (*this)[Attribute::maxHP] >  0.0f) {
 		onZeroHP();
 	}
-	if (attributeSystem[Attribute::stamina] <= 0.0f && attributeSystem[Attribute::maxStamina] > 0.0f) {
+	if ((*this)[Attribute::stamina] <= 0.0f && (*this)[Attribute::maxStamina] > 0.0f) {
 		fsm->onZeroStamina();
 	}
 
 	bool hasFreezeEffect = space->magicEffectSystem->hasScriptedEffect(this, "FreezeStatus");
 
-	if (attributeSystem[Attribute::iceDamage] >= AttributeSystem::maxElementDamage && !hasFreezeEffect) {
+	if ( (*this)[Attribute::iceDamage] >= AttributeSystem::maxElementDamage && !hasFreezeEffect) {
 		applyMagicEffect( app::getEffect("FreezeStatus"), effect_attributes(0.0f, 5.0f));
-		attributeSystem.modifyAttribute(Attribute::iceDamage, -AttributeSystem::maxElementDamage);
+		modifyAttribute(Attribute::iceDamage, -AttributeSystem::maxElementDamage);
 	}
-	if (attributeSystem[Attribute::sunDamage] >= AttributeSystem::maxElementDamage) {
+	if ( (*this)[Attribute::sunDamage] >= AttributeSystem::maxElementDamage) {
 		onZeroHP();
 	}
-	if (attributeSystem[Attribute::darknessDamage] >= AttributeSystem::maxElementDamage) {
+	if ( (*this)[Attribute::darknessDamage] >= AttributeSystem::maxElementDamage) {
 		applyMagicEffect(app::getEffect("DarknessCurse"), effect_attributes(0.0f, -1.0f));
 	}
-	if (attributeSystem[Attribute::poisonDamage] >= AttributeSystem::maxElementDamage) {
+	if ( (*this)[Attribute::poisonDamage] >= AttributeSystem::maxElementDamage) {
 		onZeroHP();
 	}
 
@@ -224,7 +225,7 @@ void Agent::update()
 	}
 
 	if (firePattern) firePattern->update();
-	attributeSystem.update(this);
+	attributeSystem->update(this);
 	updateAgentOverlay();
 	updateAnimation();
 }
@@ -238,7 +239,7 @@ void Agent::sendAlert(Player* p)
 void Agent::onDetect(GObject* obj)
 {
 	if (obj->getType() == GType::playerBullet) {
-		attributeSystem.modifyAttribute(Attribute::stress, Attribute::stressFromDetects);
+		modifyAttribute(Attribute::stress, Attribute::stressFromDetects);
 	}
 
 	if(fsm)
@@ -269,11 +270,11 @@ bool Agent::applyInitialSpellCost(const spell_cost& cost)
 	float mpCost = cost.initial_mp;
 	float staminaCost = cost.initial_stamina;
 
-	if (mpCost > attributeSystem[Attribute::mp] || staminaCost > attributeSystem[Attribute::stamina])
+	if (mpCost > (*this)[Attribute::mp] || staminaCost > (*this)[Attribute::stamina])
 		return false;
 
-	attributeSystem.modifyAttribute(Attribute::mp, -mpCost);
-	attributeSystem.modifyAttribute(Attribute::stamina, -staminaCost);
+	modifyAttribute(Attribute::mp, -mpCost);
+	modifyAttribute(Attribute::stamina, -staminaCost);
 
 	return true;
 }
@@ -283,12 +284,12 @@ bool Agent::applyOngoingSpellCost(const spell_cost& cost)
 	float mpCost = cost.ongoing_mp * app::params.secondsPerFrame;
 	float staminaCost = cost.ongoing_stamina * app::params.secondsPerFrame;
 
-	if (mpCost > attributeSystem[Attribute::mp] || staminaCost > attributeSystem[Attribute::stamina]) {
+	if (mpCost > (*this)[Attribute::mp] || staminaCost > (*this)[Attribute::stamina]) {
 		return false;
 	}
 
-	attributeSystem.modifyAttribute(Attribute::stamina, -staminaCost);
-	attributeSystem.modifyAttribute(Attribute::mp, -mpCost);
+	modifyAttribute(Attribute::stamina, -staminaCost);
+	modifyAttribute(Attribute::mp, -mpCost);
 
 	return true;
 }
@@ -298,14 +299,33 @@ AttributeMap Agent::getBaseAttributes() const
 	return !props->attributes.empty() ? app::getAttributes(props->attributes) : AttributeMap();
 }
 
-float Agent::getAttribute(Attribute id) const
+float Agent::get(Attribute id) const
 {
-	return attributeSystem[id];
+	return (*this)[id];
 }
 
 void Agent::modifyAttribute(Attribute id, float val)
 {
-	attributeSystem.modifyAttribute(id, val);
+	attributeSystem->modifyAttribute(id, val);
+}
+
+void Agent::modifyAttribute(Attribute mod, Attribute addend)
+{
+	modifyAttribute(mod, addend, 1.0f);
+}
+
+void Agent::modifyAttribute(Attribute mod, Attribute addend, float scale)
+{
+	attributeSystem->modifyAttribute(mod, addend, scale);
+}
+
+bool Agent::consume(Attribute attr, float val)
+{
+	if ((*this)[attr] >= val) {
+		modifyAttribute(attr, -val);
+		return true;
+	}
+	return false;
 }
 
 bool Agent::setFirePattern(string firePattern)
@@ -332,14 +352,14 @@ bool Agent::setFirePattern(string firePattern)
 
 SpaceFloat Agent::getTraction() const
 {
-	if (getAttribute(Attribute::iceSensitivity) >= 1.0f) {
+	if (get(Attribute::iceSensitivity) >= 1.0f) {
 		return GObject::getTraction();
 	}
 	else
 	{
 		SpaceFloat traction = GObject::getTraction();
 
-		traction += (1.0 - traction) * (1.0 - getAttribute(Attribute::iceSensitivity));
+		traction += (1.0 - traction) * (1.0 - get(Attribute::iceSensitivity));
 
 		return traction;
 	}
@@ -347,50 +367,12 @@ SpaceFloat Agent::getTraction() const
 
 SpaceFloat Agent::getMaxSpeed() const
 {
-	return attributeSystem[Attribute::maxSpeed];
+	return (*this)[Attribute::maxSpeed];
 }
 
 SpaceFloat Agent::getMaxAcceleration() const
 {
-	return attributeSystem[Attribute::maxAcceleration];
-}
-
-float Agent::getMaxHealth() const
-{
-	return attributeSystem[Attribute::maxHP];
-}
-
-int Agent::getHealth()
-{
-	return attributeSystem[Attribute::hp];
-}
-
-SpaceFloat Agent::getHealthRatio()
-{
-	if (attributeSystem[Attribute::maxHP] == 0.0f) {
-		return 0.0;
-	}
-
-	return attributeSystem[Attribute::hp] / attributeSystem[Attribute::maxHP];
-}
-
-int Agent::getStamina()
-{
-	return attributeSystem[Attribute::stamina];
-}
-
-int Agent::getMagic()
-{
-	return attributeSystem[Attribute::mp];
-}
-
-bool Agent::consumeStamina(int val)
-{
-	if (getStamina() >= val) {
-		attributeSystem.modifyAttribute(Attribute::stamina, -val);
-		return true;
-	}
-	return false;
+	return (*this)[Attribute::maxAcceleration];
 }
 
 void Agent::setShieldActive(bool v)
@@ -400,13 +382,13 @@ void Agent::setShieldActive(bool v)
 
 bool Agent::isShield(Bullet * b)
 {
-	if (getAttribute(Attribute::shieldLevel) <= 0.0f || !shieldActive)
+	if (get(Attribute::shieldLevel) <= 0.0f || !shieldActive)
 		return false;
 
 	SpaceVect d = -1.0 * b->getVel().normalizeSafe();
 	float cost = getShieldCost(d);
 
-	if (cost == -1.0f || cost > getAttribute(Attribute::stamina))
+	if (cost == -1.0f || cost > get(Attribute::stamina))
 		return false;
 
 	modifyAttribute(Attribute::stamina, -cost);
@@ -493,7 +475,7 @@ const array<SpaceFloat, 4> shieldScalars = {
 float Agent::getShieldCost(SpaceVect n)
 {
 	SpaceFloat scalar = SpaceVect::dot(n, SpaceVect::ray(1.0, getAngle()));
-	int level = min<int>(attributeSystem[Attribute::shieldLevel], shieldCosts.size()+1);
+	int level = min<int>( (*this)[Attribute::shieldLevel], shieldCosts.size()+1);
 
 	for_irange(i,0,shieldScalars.size()) {
 		if (scalar >= shieldScalars[i]) {
@@ -510,12 +492,12 @@ void Agent::onBulletCollide(Bullet* b, SpaceVect n)
 	DamageInfo damage = b->getScaledDamageInfo();
 
 	if (!isShield(b)) {
-		attributeSystem.modifyAttribute(Attribute::stress, Attribute::stressFromHits, damage.mag);
+		modifyAttribute(Attribute::stress, Attribute::stressFromHits, damage.mag);
 		hit(damage, n);
 		if(fsm) fsm->onBulletHit(b);
 	}
 	else {
-		attributeSystem.modifyAttribute(Attribute::stress, Attribute::stressFromBlocks, damage.mag);
+		modifyAttribute(Attribute::stress, Attribute::stressFromBlocks, damage.mag);
 		if(fsm) fsm->onBulletBlock(b);
 	}
 }
@@ -533,7 +515,7 @@ void Agent::onEndTouchAgent(Agent* other)
 
 bool Agent::hit(DamageInfo damage, SpaceVect n)
 {
-	if (attributeSystem.isNonzero(Attribute::hitProtection) || damage.mag == 0.0f)
+	if (attributeSystem->isNonzero(Attribute::hitProtection) || damage.mag == 0.0f)
 		return false;
 
 	if (dynamic_cast<Enemy*>(this)) {
@@ -543,7 +525,7 @@ bool Agent::hit(DamageInfo damage, SpaceVect n)
 		damage.mag *= app::params.difficultyScale;
 	}
 
-	float hp = attributeSystem.applyDamage(damage);
+	float hp = attributeSystem->applyDamage(damage);
 	space->addGraphicsAction(&graphics_context::createDamageIndicator, hp, getPos());
 
 	SpaceVect knockback = n * damage.knockback;
@@ -557,7 +539,7 @@ bool Agent::hit(DamageInfo damage, SpaceVect n)
 
 void Agent::applyAttributeEffects(AttributeMap attributeEffect)
 {
-	attributeSystem.apply(attributeEffect);
+	attributeSystem->apply(attributeEffect);
 }
 
 DamageInfo Agent::touchEffect() const

@@ -99,14 +99,18 @@ public:
 	virtual shared_ptr<LightArea> getLightSource() const;
 
 	//attribute interface
-	inline void increment(Attribute attr) { attributeSystem.increment(attr); }
-	inline void decrement(Attribute attr) { attributeSystem.decrement(attr); }
-	inline bool isActive(Attribute attr) const { return attributeSystem.isNonzero(attr); }
+	inline void increment(Attribute attr) { attributeSystem->increment(attr); }
+	inline void decrement(Attribute attr) { attributeSystem->decrement(attr); }
+	inline bool isActive(Attribute attr) const { return attributeSystem->isNonzero(attr); }
 
 	virtual inline AttributeMap getAttributeUpgrades() const { return AttributeMap(); }
-	float getAttribute(Attribute id) const;
+	float get(Attribute id) const;
+	inline float operator[](Attribute attr) const { return (*attributeSystem)[attr]; }
 	void modifyAttribute(Attribute id, float val);
-	inline AttributeSystem* getAttributeSystem() { return &attributeSystem; }
+	void modifyAttribute(Attribute mod, Attribute addend);
+	void modifyAttribute(Attribute mod, Attribute addend, float scale);
+	bool consume(Attribute attr, float val);
+	inline AttributeSystem* getAttributeSystem() { return attributeSystem; }
 	inline FirePattern* getFirePattern() const { return firePattern.get(); }
 	bool setFirePattern(string firePattern);
 
@@ -114,14 +118,6 @@ public:
 
 	virtual SpaceFloat getMaxSpeed() const;
 	virtual SpaceFloat getMaxAcceleration() const;
-
-	virtual float getMaxHealth() const;
-
-	int getHealth();
-	SpaceFloat getHealthRatio();
-	int getStamina();
-	int getMagic();
-	bool consumeStamina(int val);
 
 	void setShieldActive(bool v);
 	inline bool isShieldActive() const { return shieldActive; }
@@ -161,12 +157,12 @@ protected:
 
 	int level = 0;
 	SpriteID agentOverlay = 0;
-	AttributeSystem attributeSystem;
 	string ai_package;
 
 	local_shared_ptr<FirePattern> firePattern;
 	unordered_set<Agent*> touchTargets;
 	RadarSensor* radar = nullptr;
+	AttributeSystem* attributeSystem = nullptr;
 	local_shared_ptr<agent_properties> props;
 	unique_ptr<AgentAnimationContext> animation;
 

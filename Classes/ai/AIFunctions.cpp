@@ -1458,13 +1458,13 @@ HPCast::~HPCast()
 
 void HPCast::onEnter()
 {
-	caster_starting = getAgent()->getHealth();
+	caster_starting = getAgent()->get(Attribute::hp);
 	castSpell(spell_desc);
 }
 
 update_return HPCast::update()
 {
-	if (getAgent()->getHealth() < (caster_starting - hp_difference)) {
+	if (getAgent()->get(Attribute::hp) < (caster_starting - hp_difference)) {
 		stopSpell();
 	}
 
@@ -1502,7 +1502,7 @@ void HPCastSequence::onEnter()
 
 update_return HPCastSequence::update()
 {
-	float hp = getAgent()->getHealth();
+	float hp = getAgent()->get(Attribute::hp);
 	int newInterval = -1;
 
 	auto it = intervals.find(hp);
@@ -1537,7 +1537,7 @@ FireOnStress::FireOnStress(StateMachine* fsm, float stressPerShot) :
 update_return FireOnStress::update()
 {
 	Agent* agent = getAgent();
-	if (agent->getAttribute(Attribute::stress) >= stressPerShot && agent->getFirePattern()->fireIfPossible()) {
+	if (agent->get(Attribute::stress) >= stressPerShot && agent->getFirePattern()->fireIfPossible()) {
 		agent->modifyAttribute(Attribute::stress, -stressPerShot);
 	}
 	return_steady();
@@ -1576,7 +1576,7 @@ update_return ThrowBombs::update()
 
 	timerDecrement(countdown);
 
-	if (countdown <= 0.0 && agent->getAttribute(Attribute::mp) >= bombType->cost) {
+	if (countdown <= 0.0 && agent->get(Attribute::mp) >= bombType->cost) {
 		SpaceFloat angle = directionToTarget(agent, target.get()->getPos()).toAngle();
 		SpaceVect pos = agent->getPos() + SpaceVect::ray(1.0, angle);
 		SpaceVect vel = agent->getVel() + SpaceVect::ray(throwingSpeed, angle);

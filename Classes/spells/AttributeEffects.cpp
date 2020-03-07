@@ -66,7 +66,7 @@ DrainFromMovement::DrainFromMovement(effect_params params, Attribute attr) :
 void DrainFromMovement::update()
 {
 	if (agent)
-		agent->modifyAttribute(attr, _ratio * agent->getAttribute(Attribute::currentSpeed));
+		agent->modifyAttribute(attr, Attribute::currentSpeed, _ratio);
 }
 
 SetBoolAttribute::SetBoolAttribute(effect_params params, Attribute attr) :

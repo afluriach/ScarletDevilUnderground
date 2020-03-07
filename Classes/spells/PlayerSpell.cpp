@@ -49,7 +49,7 @@ void LavaeteinnSpell::init()
 {
 	auto props = app::getBullet("lavaeteinn");
 	SpaceFloat angle = canonicalAngle(caster->getAngle() - angleWidth);
-	speedScale = getCasterAs<Agent>()->getAttribute(Attribute::attackSpeed);
+	speedScale = getCasterAs<Agent>()->get(Attribute::attackSpeed);
 
 	lavaeteinnBullet = spawnBullet(
 		props,

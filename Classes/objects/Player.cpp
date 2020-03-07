@@ -210,11 +210,11 @@ void Player::checkMovementControls(const ControlInfo& cs)
 		cs.isControlActionDown(ControlAction::sprint) &&
 		!moveDir.isZero() && 
 		!space->getSuppressAction() &&
-		attributeSystem[Attribute::stamina] >= sprintCost
+		(*this)[Attribute::stamina] >= sprintCost
 	) {
 		isSprintActive = true;
 		sprintTimer = sprintTime;
-		attributeSystem.modifyAttribute(Attribute::stamina, -sprintCost);
+		consume(Attribute::stamina, sprintCost);
 		sprintDirection = moveDir.isZero() ? SpaceVect::ray(1.0, getAngle()) : moveDir.normalizeSafe();
 	}
 	else if (isSprintActive && sprintTimer <= 0.0) {
@@ -273,7 +273,7 @@ void Player::updateSpellControls(const ControlInfo& cs)
 		) {
 			crntSpell = space->spellSystem->cast(equippedSpell, this);
 			if (crntSpell) {
-				attributeSystem.resetCombo();
+				attributeSystem->resetCombo();
 				playSoundSpatial("sfx/player_spellcard.wav");
 			}
 		}
@@ -309,9 +309,9 @@ void Player::checkFireControls(const ControlInfo& cs)
 	if (!isActive(Attribute::inhibitFiring) && isFireButton && getFirePattern()){
 		float fireCost = getFirePattern()->getCost();
 
-		if (attributeSystem[Attribute::stamina] >= fireCost && getFirePattern()->fireIfPossible()) {
+		if ( (*this)[Attribute::stamina] >= fireCost && getFirePattern()->fireIfPossible()) {
 			playSoundSpatial("sfx/shot.wav", 1.0f);
-			attributeSystem.modifyAttribute(Attribute::stamina, -fireCost);
+			consume(Attribute::stamina, fireCost);
 		}
 	}
 	else if (cs.isControlActionPressed(ControlAction::fire_pattern_previous) && getFirePattern()) {
@@ -360,7 +360,7 @@ void Player::checkBombControls(const ControlInfo& cs)
 		cs.isControlActionPressed(ControlAction::bomb) &&
 		bombCooldown <= 0.0f &&
 		crntBomb &&
-		attributeSystem[Attribute::mp] >= crntBomb->cost)
+		(*this)[Attribute::mp] >= crntBomb->cost)
 	{
 		SpaceVect bombPos = getPos() + SpaceVect::ray(1.5, getAngle());
 		SpaceVect bombVel = getVel();
@@ -372,7 +372,7 @@ void Player::checkBombControls(const ControlInfo& cs)
 				object_params(bombPos,bombVel),
 				crntBomb
 			);
-			attributeSystem.modifyAttribute(Attribute::mp, crntBomb->cost);
+			consume(Attribute::mp, crntBomb->cost);
 			bombCooldown = bombCooldownTime;
 		}
 	}
@@ -403,14 +403,14 @@ void Player::checkItemInteraction(const ControlInfo& cs)
 
 void Player::updateCombo()
 {
-	if (attributeSystem[Attribute::combo] >= AttributeSystem::maxComboPoints && !isComboActive) {
+	if ( (*this)[Attribute::combo] >= AttributeSystem::maxComboPoints && !isComboActive) {
 		isComboActive = true;
-		attributeSystem.modifyAttribute(Attribute::attack, 0.25f);
+		modifyAttribute(Attribute::attack, 0.25f);
 		space->addGraphicsAction(&graphics_context::runSpriteAction, spriteID, comboFlickerTintAction().generator);
 	}
-	else if (!attributeSystem.isNonzero(Attribute::combo) && isComboActive) {
+	else if (!attributeSystem->isNonzero(Attribute::combo) && isComboActive) {
 		isComboActive = false;
-		attributeSystem.modifyAttribute(Attribute::attack, -0.25f);
+		modifyAttribute(Attribute::attack, -0.25f);
 		space->addGraphicsAction(
 			&graphics_context::stopSpriteAction,
 			spriteID,
@@ -419,8 +419,8 @@ void Player::updateCombo()
 		space->graphicsNodeAction(&Node::setColor, spriteID, Color3B::WHITE);
 	}
 
-	if (attributeSystem[Attribute::combo] > 0) {
-		attributeSystem.modifyAttribute(Attribute::combo, -app::params.secondsPerFrame * 15.0f);
+	if ( (*this)[Attribute::combo] > 0.0f) {
+		modifyAttribute(Attribute::combo, -app::params.secondsPerFrame * 15.0f);
 	}
 }
 
@@ -442,7 +442,7 @@ void Player::update()
 	space->audioContext->setSoundListenerPos(getPos(), getVel(), float_pi/2.0);
 
 	if (playScene) {
-		space->addHudAction(&HUD::updateHUD, attributeSystem);
+		space->addHudAction(&HUD::updateHUD, *attributeSystem);
 
 		ControlInfo cs = space->getControlInfo();
 
@@ -520,7 +520,7 @@ bool Player::hit(DamageInfo damage, SpaceVect n){
 	if (!Agent::hit(damage, n))
 		return false;
 
-	attributeSystem.set(Attribute::combo, 0.0f);
+	attributeSystem->set(Attribute::combo, 0.0f);
 
 	playSoundSpatial("sfx/player_damage.wav");
 	return true;
@@ -557,13 +557,13 @@ void Player::moveToDestinationDoor(Door* dest)
 
 void Player::applyUpgrade(Attribute attr, float val)
 {
-	attributeSystem.modifyAttribute(attr, val);
+	modifyAttribute(attr, val);
 
 	if (attr == Attribute::shieldLevel) {
 		space->graphicsNodeAction(
 			&AgentBodyShader::setShieldLevel,
 			agentOverlay,
-			attributeSystem[Attribute::shieldLevel]
+			(*this)[Attribute::shieldLevel]
 		);
 	}
 
@@ -586,14 +586,14 @@ void Player::onGrazeCleared(Bullet* bullet)
 
 void Player::applyGraze(int p)
 {
-	attributeSystem.modifyAttribute(Attribute::stamina, isComboActive ? p* 2 : p);
+	modifyAttribute(Attribute::stamina, isComboActive ? p* 2 : p);
 	applyCombo(p*6);
 	playSoundSpatial("sfx/graze.wav");
 }
 
 void Player::applyCombo(int b)
 {
-	attributeSystem.modifyAttribute(Attribute::combo, b);
+	modifyAttribute(Attribute::combo, b);
 }
 
 void Player::startRespawn()

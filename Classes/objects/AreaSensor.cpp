@@ -280,8 +280,8 @@ void RoomSensor::updateBoss()
 			space->addHudAction(
 				&HUD::setEnemyInfo,
 				_boss->getProperName(),
-				_boss->getAttribute(Attribute::hp),
-				_boss->getAttribute(Attribute::maxHP)
+				_boss->get(Attribute::hp),
+				_boss->get(Attribute::maxHP)
 			);
 
 			isBossActive = true;
@@ -294,7 +294,7 @@ void RoomSensor::updateBoss()
 		if (boss.isValid() && player) {
 			space->addHudAction(
 				&HUD::updateEnemyInfo,
-				boss.getAs<Enemy>()->getAttribute(Attribute::hp)
+				boss.getAs<Enemy>()->get(Attribute::hp)
 			);
 		}
 

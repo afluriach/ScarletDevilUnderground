@@ -175,10 +175,14 @@ namespace Lua{
 		
 		addFuncSame(agent, hit);
 		addFuncSame(agent, getLevel);
-		addFuncSame(agent, getAttribute);
+		addFuncSame(agent, get);
 		addFuncSame(agent, getAttributeSystem);
 
-		addFuncSame(agent, modifyAttribute);
+		agent["modifyAttribute"] = sol::overload(
+			static_cast< void(Agent::*)(Attribute,float) >(&Agent::modifyAttribute),
+			static_cast< void(Agent::*)(Attribute, Attribute) >(&Agent::modifyAttribute),
+			static_cast< void(Agent::*)(Attribute, Attribute, float) >(&Agent::modifyAttribute)
+		);
 
 		addFuncSame(agent, increment);
 		addFuncSame(agent, decrement);
