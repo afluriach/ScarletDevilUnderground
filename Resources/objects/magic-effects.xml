@@ -26,6 +26,28 @@
 		type="ScriptedEffect"
 		class="auto"
 	/>
+
+	<SetInhibitFiring
+		type="SetBoolAttribute"
+		attr="inhibitFiring"
+	/>
+	<SetInhibitMovement
+		type="SetBoolAttribute"
+		attr="inhibitMovement"
+	/>
+	<SetInhibitSpellcasting
+		type="SetBoolAttribute"
+		attr="inhibitSpellcasting"
+	/>
+	
+	<SetHitProtection
+		type="SetBoolAttribute"
+		attr="hitProtection"
+	/>	
+	<SetInvisibility
+		type="SetBoolAttribute"
+		attr="invisibility"
+	/>
 	
 	<FreezeStatus
 		type="ScriptedEffect"

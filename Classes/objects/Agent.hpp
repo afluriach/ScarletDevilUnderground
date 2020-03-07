@@ -172,9 +172,6 @@ protected:
 
 	bool shieldActive = false;
 	bool wasShieldActive = false;
-
-	bool suppressFiring = false;
-	bool suppressMovement = false;
 };
 
 #endif /* Agent_hpp */
