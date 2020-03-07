@@ -17,6 +17,7 @@
 
 MagicEffect::MagicEffect(effect_params params) :
 target(params.target),
+agent(dynamic_cast<Agent*>(params.target)),
 length(params.attr.length),
 magnitude(params.attr.magnitude),
 _flags(params.flags),
@@ -38,14 +39,19 @@ bool MagicEffect::isImmediate() const
 	return bitwise_and_bool(_flags, effect_flags::immediate);
 }
 
-bool MagicEffect::isTimed() const
+bool MagicEffect::isDurable() const
 {
-	return bitwise_and_bool(_flags, effect_flags::timed);
+	return bitwise_and_bool(_flags, effect_flags::durable);
 }
 
 bool MagicEffect::isActive() const
 {
 	return bitwise_and_bool(_flags, effect_flags::active);
+}
+
+bool MagicEffect::isAgentEffect() const
+{
+	return bitwise_and_bool(_flags, effect_flags::agent);
 }
 
 void MagicEffect::remove()

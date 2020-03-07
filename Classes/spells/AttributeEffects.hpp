@@ -14,7 +14,7 @@
 class RestoreAttribute : public MagicEffect
 {
 public:
-	static constexpr effect_flags flags = effect_flags::immediate;
+	static constexpr effect_flags flags = enum_bitwise_or(effect_flags, immediate, agent);
 
 	static bool canApply(GObject* target, effect_attributes attrs, Attribute attr);
 
@@ -28,7 +28,7 @@ public:
 class FortifyAttribute : public MagicEffect
 {
 public:
-	static constexpr effect_flags flags = effect_flags::timed;
+	static constexpr effect_flags flags = enum_bitwise_or(effect_flags, durable, agent);
 
 	FortifyAttribute(effect_params params, Attribute attr);
 
@@ -42,7 +42,7 @@ public:
 class DrainFromMovement : public MagicEffect
 {
 public:
-	static constexpr effect_flags flags = enum_bitwise_or(effect_flags, indefinite, active);
+	static constexpr effect_flags flags = enum_bitwise_or3(effect_flags, durable, active, agent);
 
 	DrainFromMovement(effect_params params, Attribute attr);
 
@@ -60,7 +60,7 @@ protected:
 class SetBoolAttribute : public MagicEffect
 {
 public:
-	static constexpr effect_flags flags = effect_flags::timed;
+	static constexpr effect_flags flags = enum_bitwise_or(effect_flags, durable, agent);
 
 	SetBoolAttribute(effect_params params, Attribute attr);
 

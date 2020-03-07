@@ -1,10 +1,10 @@
 effects.BatTransform = class('BatTransform', {
-	flags = effect_flags.indefinite,
+	flags = effect_flags.durable,
 	init = function(self, super)
 		self.super = super
 	end,
 	onEnter = function(self)
-		local a = self.super.target:getAsAgent()
+		local a = self.super.agent
 		
 		a:setSprite(app.getSprite('flandre_bat'))
 		a:setSpriteZoom(4.0)
@@ -15,7 +15,7 @@ effects.BatTransform = class('BatTransform', {
 		a:setLayers(PhysicsLayers.ground)
 	end,
 	onExit = function(self)
-		local a = self.super.target:getAsAgent()
+		local a = self.super.agent
 		
 		a:setSprite(app.getSprite('flandre'))
 		a:setSpriteZoom(1.0)
@@ -28,10 +28,10 @@ effects.BatTransform = class('BatTransform', {
 })
 
 effects.FreezeStatus = class('FreezeStatus', {
-	flags = effect_flags.timed,
+	flags = effect_flags.durable,
 	init = function(self, super)
 		self.super = super
-		self.agent = self.super.target:getAsAgent()
+		self.agent = self.super.agent
 	end,
 	onEnter = function(self)
 		self.agent:addGraphicsAction(graphics.freezeEffectAction())
@@ -48,10 +48,10 @@ effects.FreezeStatus = class('FreezeStatus', {
 })
 
 effects.DarknessCurse = class('DarknessCurse', {
-	flags = effect_flags.indefinite | effect_flags.active,
+	flags = effect_flags.durable | effect_flags.active,
 	init = function(self, super)
 		self.super = super
-		self.agent = self.super.target:getAsAgent()
+		self.agent = self.super.agent
 	end,
 	onEnter = function(self, target)
 		self.agent:increment(Attribute.inhibitSpellcasting)
@@ -72,10 +72,10 @@ effects.DarknessCurse = class('DarknessCurse', {
 })
 
 effects.GhostProtection = class('GhostProtection', {
-	flags = effect_flags.indefinite | effect_flags.active,
+	flags = effect_flags.durable | effect_flags.active,
 	init = function(self, super)
 		self.super = super
-		self.agent = super.target:getAsAgent()
+		self.agent = super.agent
 	end,
 	onEnter = function(self)
 		self.crntHP = self.agent:get(Attribute.hp)

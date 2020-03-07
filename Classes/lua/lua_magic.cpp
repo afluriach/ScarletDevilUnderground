@@ -58,6 +58,7 @@ namespace Lua{
 			"MagicEffect"
 			"MagicEffect",
 			"target", sol::property(&MagicEffect::getTarget),
+			"agent", sol::property(&MagicEffect::getAgent),
 			"length", sol::property(&MagicEffect::getLength),
 			"magnitude", sol::property(&MagicEffect::getMagnitude),
 			"state", sol::property(&MagicEffect::getState),
@@ -70,17 +71,18 @@ namespace Lua{
 				enum_entry(effect_flags, none),
 
 				enum_entry(effect_flags, immediate),
-				enum_entry(effect_flags, indefinite),
-				enum_entry(effect_flags, timed),
+				enum_entry(effect_flags, durable),
 
 				enum_entry(effect_flags, active),
+				enum_entry(effect_flags, agent),
 			}
 		);
 
 		addFuncSame(effect, getSpace);
 		addFuncSame(effect, isImmediate);
-		addFuncSame(effect, isTimed);
+		addFuncSame(effect, isDurable);
 		addFuncSame(effect, isActive);
+		addFuncSame(effect, isAgentEffect);
 		addFuncSame(effect, remove);
 
 		effect["onEnter"] = &MagicEffect::init;

@@ -15,7 +15,7 @@ class TeleportPad;
 
 class Teleport : public MagicEffect {
 public:
-	static constexpr effect_flags flags = enum_bitwise_or(effect_flags, indefinite, active);
+	static constexpr effect_flags flags = enum_bitwise_or(effect_flags, durable, active);
 
 	Teleport(effect_params params);
 	inline virtual ~Teleport() {}

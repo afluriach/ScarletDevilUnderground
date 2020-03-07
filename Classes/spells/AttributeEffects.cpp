@@ -30,9 +30,7 @@ RestoreAttribute::RestoreAttribute(effect_params params, Attribute attr) :
 
 void RestoreAttribute::init()
 {
-	if (auto _agent = dynamic_cast<Agent*>(target)) {
-		_agent->modifyAttribute(attr, magnitude);
-	}
+	agent->modifyAttribute(attr, magnitude);
 }
 
 FortifyAttribute::FortifyAttribute(effect_params params, Attribute attr) :
@@ -43,16 +41,12 @@ FortifyAttribute::FortifyAttribute(effect_params params, Attribute attr) :
 
 void FortifyAttribute::init()
 {
-	if (auto _agent = dynamic_cast<Agent*>(target)) {
-		_agent->modifyAttribute(attr, magnitude);
-	}
+	agent->modifyAttribute(attr, magnitude);
 }
 
 void FortifyAttribute::end()
 {
-	if (auto _agent = dynamic_cast<Agent*>(target)) {
-		_agent->modifyAttribute(attr, -magnitude);
-	}
+	agent->modifyAttribute(attr, -magnitude);
 }
 
 DrainFromMovement::DrainFromMovement(effect_params params, Attribute attr) :
@@ -77,12 +71,10 @@ SetBoolAttribute::SetBoolAttribute(effect_params params, Attribute attr) :
 
 void SetBoolAttribute::init()
 {
-	auto agent = dynamic_cast<Agent*>(target);
 	agent->increment(attr);
 }
 
 void SetBoolAttribute::end()
 {
-	auto agent = dynamic_cast<Agent*>(target);
 	agent->decrement(attr);
 }

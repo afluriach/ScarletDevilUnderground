@@ -18,15 +18,15 @@ enum class effect_flags
 {
 	none = 0x0,
 
-	//Effect is simply applied on attach to object, and doesn't actually need to be stored.
+	//Effect is applied on attach to object, and is not stored in system.
 	immediate = 0x1,
-	//Effect does not have time length, parameter will be ignored.
-	indefinite = 0x2,
-	//Effect should have a physically real (positive) time length.
-	timed = 0x4,
+	//Effect persists for some amount of time, either a positive time length, or indefinite.
+	durable = 0x2,
 
 	//The effect uses update.
-	active = 0x8,
+	active = 0x4,
+	//The effect can only be attached to Agents, typically for affecting Attribute .
+	agent = 0x8,
 };
 
 struct effect_params
@@ -54,8 +54,9 @@ public:
 	GSpace* getSpace() const;
 
 	bool isImmediate() const;
-	bool isTimed() const;
+	bool isDurable() const;
 	bool isActive() const;
+	bool isAgentEffect() const;
 
 	inline virtual ~MagicEffect() {}
 
@@ -65,6 +66,7 @@ public:
 
 	inline local_shared_ptr<MagicEffectDescriptor> getDesc() const { return desc; }
 	inline GObject* getTarget() const { return target; }
+	inline Agent* getAgent() const { return agent; }
 	inline float getLength() const { return length; }
 	inline float getMagnitude() const { return magnitude; }
 	inline state getState() const { return crntState; }
@@ -76,6 +78,7 @@ public:
 
 	local_shared_ptr<MagicEffectDescriptor> desc;
 	GObject* target;
+	Agent* agent = nullptr;
 	float length, magnitude;
 	state crntState;
 	unsigned int id;
