@@ -21,12 +21,10 @@ const boost::bimap<Attribute, string> AttributeSystem::attributeNameMap = boost:
 	entry(hp)
 	entry(mp)
 	entry(stamina)
-	entry(hitProtection)
 
 	entry(maxHP)
 	entry(maxMP)
 	entry(maxStamina)
-	entry(hitProtectionInterval)
 
 	entry(hpRegen)
 	entry(mpRegen)
@@ -40,7 +38,13 @@ const boost::bimap<Attribute, string> AttributeSystem::attributeNameMap = boost:
 	entry(mpRatio)
 	entry(staminaRatio)
 
-	entry(keys)
+	entry(inhibitFiring)
+	entry(inhibitMovement)
+	entry(inhibitSpellcasting)
+
+	entry(hitProtection)
+	entry(invisibility)
+
 	entry(combo)
 
 	entry(attack)
@@ -271,6 +275,16 @@ void AttributeSystem::set(Attribute id, float x)
 	attributes.at(to_size_t(id)) = x;
 }
 
+void AttributeSystem::increment(Attribute a)
+{
+	attributes.at(to_size_t(a)) += 1.0f;
+}
+
+void AttributeSystem::decrement(Attribute a)
+{
+	attributes.at(to_size_t(a)) -= 1.0f;
+}
+
 void AttributeSystem::update(Agent* agent)
 {
 	applyIncidentRegen(hp);
@@ -279,8 +293,6 @@ void AttributeSystem::update(Agent* agent)
 
 	applyElementDecay();
 	timerDecrement(Attribute::stress, (*this)[Attribute::stressDecay]);
-	if ((*this)[Attribute::hitProtection] != -1.0f)
-		timerDecrement(Attribute::hitProtection);
 
 	set(Attribute::currentSpeed, agent->getVel().length());
 	set(Attribute::speedRatio,
@@ -404,11 +416,6 @@ void AttributeSystem::setEmptyMP()
 	setEmpty(mp);
 }
 
-void AttributeSystem::setHitProtection()
-{
-	attributes.at(to_size_t(Attribute::hitProtection)) = attributes.at(to_size_t(Attribute::hitProtectionInterval));
-}
-
 void AttributeSystem::resetCombo()
 {
 	attributes.at(to_size_t(Attribute::combo)) = 0.0f;
@@ -483,8 +490,6 @@ bool AttributeSystem::canApplyAttribute(Attribute id, float x)
 	case Attribute::stamina:
 		return canApplyIncidentAttribute(stamina);
 
-	case Attribute::keys:
-		return true;
 	default:
 		log("AttributeSystem::canApplyAttribute: invalid attribute %d.", to_int(id));
 		return true;
@@ -589,24 +594,4 @@ bool AttributeSystem::isZero(Attribute id) const
 bool AttributeSystem::isNonzero(Attribute id) const
 {
 	return attributes.at(to_size_t(id)) != 0.0f;
-}
-
-void AttributeSystem::setProtection()
-{
-	attributes.at(to_size_t(Attribute::hitProtection)) = -1.0f;
-}
-
-void AttributeSystem::setTimedProtection(float seconds)
-{
-	attributes.at(to_size_t(Attribute::hitProtection)) = seconds;
-}
-
-void AttributeSystem::resetProtection()
-{
-	attributes.at(to_size_t(Attribute::hitProtection)) = 0.0f;
-}
-
-bool AttributeSystem::hasHitProtection() const
-{
-	return isNonzero(Attribute::hitProtection);
 }

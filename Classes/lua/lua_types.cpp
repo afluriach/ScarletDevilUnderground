@@ -73,12 +73,10 @@ namespace Lua{
 				enum_entry(Attribute, hp),
 				enum_entry(Attribute, mp),
 				enum_entry(Attribute, stamina),
-				enum_entry(Attribute, hitProtection),
 
 				enum_entry(Attribute, maxHP),
 				enum_entry(Attribute, maxMP),
 				enum_entry(Attribute, maxStamina),
-				enum_entry(Attribute, hitProtectionInterval),
 
 				enum_entry(Attribute, hpRegen),
 				enum_entry(Attribute, mpRegen),
@@ -92,7 +90,13 @@ namespace Lua{
 				enum_entry(Attribute, mpRatio),
 				enum_entry(Attribute, staminaRatio),
 
-				enum_entry(Attribute, keys),
+				enum_entry(Attribute, inhibitFiring),
+				enum_entry(Attribute, inhibitMovement),
+				enum_entry(Attribute, inhibitSpellcasting),
+
+				enum_entry(Attribute, hitProtection),
+				enum_entry(Attribute, invisibility),
+
 				enum_entry(Attribute, combo),
 
 				enum_entry(Attribute, attack),

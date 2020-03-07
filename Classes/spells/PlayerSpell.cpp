@@ -109,7 +109,7 @@ void PlayerCounterClock::init()
 	auto props = app::getBullet("flandreCounterClockBullet");
 
 	if (p) {
-		p->setFiringSuppressed(true);
+		p->increment(Attribute::inhibitFiring);
 	}
 
 	for_irange(i, 0, 4)
@@ -142,7 +142,7 @@ void PlayerCounterClock::end()
 	Player* p = getCasterAs<Player>();
 
 	if (p) {
-		p->setFiringSuppressed(false);
+		p->decrement(Attribute::inhibitFiring);
 	}
 
 	for (auto ref : bullets)

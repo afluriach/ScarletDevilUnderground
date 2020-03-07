@@ -56,4 +56,18 @@ protected:
 	float _ratio;
 };
 
+//Increments Attribute while the effect is active.
+class SetBoolAttribute : public MagicEffect
+{
+public:
+	static constexpr effect_flags flags = effect_flags::timed;
+
+	SetBoolAttribute(effect_params params, Attribute attr);
+
+	virtual void init();
+	virtual void end();
+
+	const Attribute attr;
+};
+
 #endif /* RestoreAttribute_hpp */

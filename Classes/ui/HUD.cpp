@@ -476,12 +476,6 @@ bool HUD::init()
 	staminaMeter->setMax(100);
 	staminaMeter->setVisible(false);
 
-	keyMeter = Node::ccCreate<Counter>("sprites/key.png", 0);
-	keyMeter->setPosition(width * 0.4f, height - 64 * scale);
-	addChild(keyMeter, 2);
-	keyMeter->setScale(scale*0.8f);
-	keyMeter->setVisible(false);
-
 	mapFragmentMeter = Node::ccCreate<Counter>("sprites/map.png", 0);
 	mapFragmentMeter->setPosition(width * 0.5f, height - 64 * scale);
 	addChild(mapFragmentMeter, 2);
@@ -610,7 +604,6 @@ void HUD::setMansionMode(bool val)
 	hpMeter->setVisible(!val);
 	mpMeter->setVisible(!val);
 	staminaMeter->setVisible(!val);
-	keyMeter->setVisible(!val);
 
 	firePatternIcon->setVisible(!val);
 }
@@ -651,9 +644,6 @@ void HUD::updateHUD(AttributeSystem playerAttributes)
 	setMaxStamina(to_int(playerAttributes[Attribute::maxStamina]));
 	setStamina(to_int(playerAttributes[Attribute::stamina]));
 
-	setKeyCount(to_int(playerAttributes[Attribute::keys]));
-
-	setEffect(Attribute::hitProtection, Attribute::hitProtectionInterval, &playerAttributes);
 	setEffect(Attribute::combo, AttributeSystem::maxComboPoints, &playerAttributes);
 
 	enum_foreach(Attribute, elem, beginElementDamage, endElementDamage) {
@@ -709,14 +699,6 @@ void HUD::setMaxStamina(int v)
 	}
 }
 
-void HUD::setKeyCount(int count)
-{
-	if (count != keyMeter->getVal()) {
-		resetVisibility(keyMeter);
-		keyMeter->setVal(count);
-	}
-}
-
 void HUD::setEffect(Attribute id, Attribute max_id, const AttributeSystem* attr)
 {
 	setEffect(id, (*attr)[max_id], attr);
@@ -764,7 +746,6 @@ void HUD::showHidden()
 	showHiddenNode(hpMeter);
 	showHiddenNode(mpMeter);
 	showHiddenNode(staminaMeter);
-	showHiddenNode(keyMeter);
 	showHiddenNode(mapFragmentMeter);
 	showHiddenNode(firePatternIcon);
 	showHiddenNode(spellIcon);
@@ -777,7 +758,6 @@ void HUD::resetAutohide()
 	resetNodeAutohide(hpMeter);
 	resetNodeAutohide(mpMeter);
 	resetNodeAutohide(staminaMeter);
-	resetNodeAutohide(keyMeter);
 	resetNodeAutohide(mapFragmentMeter);
 	resetNodeAutohide(firePatternIcon);
 	resetNodeAutohide(spellIcon);

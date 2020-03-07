@@ -337,16 +337,7 @@ public:
 	unsigned int cast(local_shared_ptr<SpellDesc> desc);
 	unsigned int applyMagicEffect(local_shared_ptr<MagicEffectDescriptor> effect, effect_attributes attr);
 
-	inline void setInhibitSpellcasting(bool v) { inhibitSpellcasting = v; }
-
 	//END SPELLS
-
-	//BEGIN SENSORY
-
-	inline bool getInvisible() { return isInvisible; }
-	inline void setInvisible(bool val) { isInvisible = val; }
-	
-	//END SENSORY
 
 	GSpace *const space;
 	const ObjectIDType uuid;
@@ -355,9 +346,7 @@ protected:
 	bool active = false;
 	bool hidden = false;
 	bool rotateSprite = false;
-	bool isInvisible = false;
 	bool isInFade = false;
-	bool inhibitSpellcasting = false;
 	bool isFrozen = false;
 	bool sensor = false;
 

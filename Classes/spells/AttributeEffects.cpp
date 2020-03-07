@@ -68,3 +68,21 @@ void DrainFromMovement::update()
 	if (agent)
 		agent->modifyAttribute(attr, _ratio * agent->getAttribute(Attribute::currentSpeed));
 }
+
+SetBoolAttribute::SetBoolAttribute(effect_params params, Attribute attr) :
+	MagicEffect(params),
+	attr(attr)
+{
+}
+
+void SetBoolAttribute::init()
+{
+	auto agent = dynamic_cast<Agent*>(target);
+	agent->increment(attr);
+}
+
+void SetBoolAttribute::end()
+{
+	auto agent = dynamic_cast<Agent*>(target);
+	agent->decrement(attr);
+}

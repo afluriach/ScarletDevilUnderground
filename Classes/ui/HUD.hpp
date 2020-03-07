@@ -180,7 +180,6 @@ public:
 	LinearMeter* mpMeter;
 	LinearMeter* staminaMeter;
 
-	Counter* keyMeter;
 	Counter* mapFragmentMeter;
 	Counter* objectiveCounter;
 
@@ -207,7 +206,6 @@ public:
 
 	void setStamina(int);
 	void setMaxStamina(int);
-	void setKeyCount(int);
 
 	void setEffect(Attribute id, Attribute max_id, const AttributeSystem* attr);
 	void setEffect(Attribute id, float maxVal, const AttributeSystem* attr);

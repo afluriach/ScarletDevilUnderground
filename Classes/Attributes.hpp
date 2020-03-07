@@ -17,12 +17,10 @@ enum class Attribute {
 	hp = 0,
 	mp,
 	stamina,
-	hitProtection,
 
 	maxHP,
 	maxMP,
 	maxStamina,
-	hitProtectionInterval,
 
 	hpRegen,
 	mpRegen,
@@ -36,7 +34,13 @@ enum class Attribute {
 	mpRatio,
 	staminaRatio,
 
-	keys,
+	inhibitFiring,
+	inhibitMovement,
+	inhibitSpellcasting,
+
+	hitProtection,
+	invisibility,
+
 	combo,
 
 	attack,
@@ -139,6 +143,9 @@ public:
 	void set(string name, float val);
 	void set(Attribute id, float val);
 
+	void increment(Attribute a);
+	void decrement(Attribute a);
+
 	void update(Agent* agent);
 	void applyIncidentRegen(IncidentAttributeEntry entry);
 	void applyElementDecay();
@@ -165,9 +172,6 @@ public:
 	bool isZero(Attribute id) const;
 	bool isNonzero(Attribute id) const;
 	void setProtection();
-	void setTimedProtection(float seconds);
-	void resetProtection();
-	bool hasHitProtection() const;
 
 	void setFull(IncidentAttributeEntry entry);
 	void setEmpty(IncidentAttributeEntry entry);
@@ -176,7 +180,6 @@ public:
 	void setEmptyMP();
 	void setFullStamina();
 	void setEmptyStamina();
-	void setHitProtection();
 	void resetCombo();
 
 	void modifyAgility(float dx);

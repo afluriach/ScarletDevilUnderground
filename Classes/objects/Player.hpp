@@ -94,9 +94,6 @@ public:
 	SpaceFloat getSpeedMultiplier();
 	void setFocusMode(bool b);
 
-	unsigned int getKeyCount() const;
-	void useKey();
-
 	virtual AttributeMap getAttributeUpgrades() const;
     
 	void useDoor(Door* interactTarget);

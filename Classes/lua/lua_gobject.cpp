@@ -135,8 +135,6 @@ namespace Lua{
 		addFuncSame(gobject, launchAtTarget);
 		addFuncSame(gobject, setLayers);
 		addFuncSame(gobject, setFrozen);
-		addFuncSame(gobject, setInhibitSpellcasting);
-		addFuncSame(gobject, setInvisible);
 		addFuncSame(gobject, activate);
 		addFuncSame(gobject, deactivate);
 
@@ -182,14 +180,9 @@ namespace Lua{
 
 		addFuncSame(agent, modifyAttribute);
 
-		addFuncSame(agent, setProtection);
-		addFuncSame(agent, setTimedProtection);
-		addFuncSame(agent, resetProtection);
-
-		addFuncSame(agent, isFiringSuppressed);
-		addFuncSame(agent, setFiringSuppressed);
-		addFuncSame(agent, isMovementSuppressed);
-		addFuncSame(agent, setMovementSuppressed);
+		addFuncSame(agent, increment);
+		addFuncSame(agent, decrement);
+		addFuncSame(agent, isActive);
 
 		auto npc = _state.new_usertype<NPC>("NPC", sol::base_classes, sol::bases<GObject, Agent>());
 #define _cls NPC

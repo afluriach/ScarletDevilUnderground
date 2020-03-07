@@ -152,7 +152,6 @@
 		<mpRegen val="0.005"/>
 		<staminaRegen val="0.05"/>
 		<agility val="1.0"/>
-		<hitProtectionInterval val="1.0"/>
 		<iceSensitivity val="0.0"/>
 	</cirnoPC>
 	<flandrePC>
@@ -163,7 +162,6 @@
 		<mpRegen val="0.005"/>
 		<staminaRegen val="0.05"/>
 		<agility val="2.0"/>
-		<hitProtectionInterval val="1.0"/>
 		<iceSensitivity val="2.0"/>
 		<sunSensitivity val="5.0"/>
 	</flandrePC>
@@ -174,7 +172,6 @@
 		<mpRegen val="0.005"/>
 		<staminaRegen val="0.05"/>
 		<agility val="3.0"/>
-		<hitProtectionInterval val="1.0"/>
 		<sunSensitivity val="0.0"/>
 		<darknessSensitivity val="0.0"/>
 	</rumiaPC>

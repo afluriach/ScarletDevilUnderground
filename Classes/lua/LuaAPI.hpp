@@ -52,6 +52,19 @@ namespace Lua
         void callNoReturn(const string& name);
         void callIfExistsNoReturn(const string& name);
 
+		template<typename T>
+		inline T getEnum(const string& clsName, const string& s, T _default)
+		{
+			sol::object obj = GSpace::scriptVM->_state[clsName][s];
+
+			if (obj) {
+				return obj.as<T>();
+			}
+			else {
+				return _default;
+			}
+		}
+
 		inline sol::function getFunction(const string& name) { return _state[name]; }
 
 		sol::state _state;

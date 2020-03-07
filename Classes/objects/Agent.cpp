@@ -393,21 +393,6 @@ bool Agent::consumeStamina(int val)
 	return false;
 }
 
-void Agent::setProtection()
-{
-	attributeSystem.setProtection();
-}
-
-void Agent::setTimedProtection(SpaceFloat seconds)
-{
-	attributeSystem.setTimedProtection(seconds);
-}
-
-void Agent::resetProtection()
-{
-	attributeSystem.resetProtection();
-}
-
 void Agent::setShieldActive(bool v)
 {
 	shieldActive = v;

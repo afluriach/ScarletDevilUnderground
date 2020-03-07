@@ -48,18 +48,23 @@ public:
 	inline bool isSource() const { return doorType == door_type::one_way_source; }
 	inline bool isDestination() const { return doorType == door_type::one_way_destination; }
 
+	bool canUnlock(Player* p) const;
+	bool unlock(Player* p);
+
 	inline bool isOnewayDoor() const {
 		return doorType == door_type::one_way_destination || doorType == door_type::one_way_source;
 	}
 protected:
 	//the angle/offset when this door is used as a destination
 	Direction entryDirection;
+	string keyItem;
 	string destination;
 	string destinationMap;
 	gobject_ref adjacent;
 	door_type doorType;
 	bool sealed = false;
 	bool locked = false;
+	bool consumeKey = false;
 	
 	bool stairs = false;
 	bool path = false;

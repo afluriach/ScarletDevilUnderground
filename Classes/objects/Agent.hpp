@@ -90,12 +90,6 @@ public:
 	virtual void onZeroHP();
 	virtual void onRemove();
 
-	inline bool isFiringSuppressed() const { return suppressFiring; }
-	inline void setFiringSuppressed(bool mode) { suppressFiring = mode; }
-
-	inline bool isMovementSuppressed() const { return suppressMovement; }
-	inline void setMovementSuppressed(bool mode) { suppressMovement = mode; }
-
 	virtual bool applyInitialSpellCost(const spell_cost& cost);
 	virtual bool applyOngoingSpellCost(const spell_cost& cost);
 
@@ -105,6 +99,10 @@ public:
 	virtual shared_ptr<LightArea> getLightSource() const;
 
 	//attribute interface
+	inline void increment(Attribute attr) { attributeSystem.increment(attr); }
+	inline void decrement(Attribute attr) { attributeSystem.decrement(attr); }
+	inline bool isActive(Attribute attr) const { return attributeSystem.isNonzero(attr); }
+
 	virtual inline AttributeMap getAttributeUpgrades() const { return AttributeMap(); }
 	float getAttribute(Attribute id) const;
 	void modifyAttribute(Attribute id, float val);
@@ -124,10 +122,6 @@ public:
 	int getStamina();
 	int getMagic();
 	bool consumeStamina(int val);
-
-	void setProtection();
-	void setTimedProtection(SpaceFloat seconds);
-	void resetProtection();
 
 	void setShieldActive(bool v);
 	inline bool isShieldActive() const { return shieldActive; }

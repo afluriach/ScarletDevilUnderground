@@ -187,7 +187,7 @@ void Player::init()
 
 void Player::checkMovementControls(const ControlInfo& cs)
 {
-	if (suppressMovement){
+	if (isActive(Attribute::inhibitMovement)){
 		return;
 	}
 
@@ -266,7 +266,7 @@ void Player::updateSpellControls(const ControlInfo& cs)
 		}
 
 		if (
-			!inhibitSpellcasting && 
+			!isActive(Attribute::inhibitSpellcasting) && 
 			cs.isControlActionPressed(ControlAction::spell) &&
 			equippedSpell &&
 			spellCooldown <= 0.0f
@@ -306,7 +306,7 @@ void Player::checkFireControls(const ControlInfo& cs)
 	}
 
 	//Fire if arrow key is pressed
-	if (!suppressFiring && isFireButton && getFirePattern()){
+	if (!isActive(Attribute::inhibitFiring) && isFireButton && getFirePattern()){
 		float fireCost = getFirePattern()->getCost();
 
 		if (attributeSystem[Attribute::stamina] >= fireCost && getFirePattern()->fireIfPossible()) {
@@ -339,7 +339,7 @@ void Player::checkFireControls(const ControlInfo& cs)
 		space->addHudAction(&HUD::setPowerAttackIcon,powerAttacks.at(powerAttackIdx)->getIcon());
 	}
 	else if (
-		!suppressFiring &&
+		!isActive(Attribute::inhibitFiring) &&
 		cs.isControlActionPressed(ControlAction::power_attack) &&
 		powerAttackIdx != -1 &&
 		!crntSpell
@@ -356,7 +356,7 @@ void Player::checkBombControls(const ControlInfo& cs)
 {
 	timerDecrement(bombCooldown);
 
-	if (!suppressFiring &&
+	if (!isActive(Attribute::inhibitFiring) &&
 		cs.isControlActionPressed(ControlAction::bomb) &&
 		bombCooldown <= 0.0f &&
 		crntBomb &&
@@ -500,18 +500,6 @@ void Player::setFocusMode(bool b)
 	setShieldActive(b);
 }
 
-unsigned int Player::getKeyCount() const
-{
-	return attributeSystem[Attribute::keys];
-}
-
-void Player::useKey()
-{
-	if (getKeyCount() > 0) {
-		attributeSystem.modifyAttribute(Attribute::keys, -1.0f);
-	}
-}
-
 AttributeMap Player::getAttributeUpgrades() const
 {
 	return App::crntState->attributeUpgrades;
@@ -532,24 +520,7 @@ bool Player::hit(DamageInfo damage, SpaceVect n){
 	if (!Agent::hit(damage, n))
 		return false;
 
-	attributeSystem.setHitProtection();
 	attributeSystem.set(Attribute::combo, 0.0f);
-
-	space->addGraphicsAction(
-		&graphics_context::runSpriteAction,
-		spriteID,
-		flickerAction(
-			hitFlickerInterval,
-			attributeSystem[Attribute::hitProtectionInterval],
-			81
-		).generator
-	);
-
-	space->addHudAction(
-		&HUD::runHealthFlicker,
-		attributeSystem[Attribute::hitProtectionInterval],
-		hitFlickerInterval
-	);
 
 	playSoundSpatial("sfx/player_damage.wav");
 	return true;
@@ -630,8 +601,8 @@ void Player::startRespawn()
 	isRespawnActive = true;
 	respawnTimer = fallAnimationTime;
 
-	suppressFiring = true;
-	suppressMovement = true;
+	increment(Attribute::inhibitFiring);
+	increment(Attribute::inhibitMovement);
 	setVel(SpaceVect::zero);
 }
 
@@ -648,8 +619,8 @@ void Player::applyRespawn()
 	);
 
 	isRespawnActive = false;
-	suppressFiring = false;
-	suppressMovement = false;
+	decrement(Attribute::inhibitFiring);
+	decrement(Attribute::inhibitMovement);
 
 	respawnMaskTimer = 0.25;
 

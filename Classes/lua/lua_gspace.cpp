@@ -33,8 +33,6 @@ namespace Lua{
 
 		addFuncSame(attr, isZero);
 		addFuncSame(attr, isNonzero);
-		addFuncSame(attr, hasHitProtection);
-		addFuncSame(attr, setTimedProtection);
 		addFuncSame(attr, timerDecrement);
 		addFuncSame(attr, timerIncrement);
 		addFuncSame(attr, setFullHP);

@@ -23,6 +23,9 @@ Door::Door(GSpace* space, ObjectIDType id, const ValueMap& args) :
 		MapRectPhys(enum_bitwise_or(GType, environment, interactible), PhysicsLayers::all, -1.0)
 	)
 {
+	consumeKey = getBoolOrDefault(args, "consumeKey", false);
+	keyItem = getStringOrDefault(args, "keyItem", "");
+
 	locked = getBoolOrDefault(args, "locked", false);
 	stairs = getBoolOrDefault(args, "stairs", false);
 	path = getBoolOrDefault(args, "path", false);
@@ -117,12 +120,31 @@ string Door::getDoorDirectionString() const
 	return directionToString(getDoorDirection());
 }
 
+bool Door::canUnlock(Player* p) const
+{
+	return
+		locked &&
+		keyItem.size() > 0 &&
+		App::getCrntState()->hasItem(keyItem)
+	;
+}
+
+bool Door::unlock(Player* p)
+{
+	locked = false;
+	if (consumeKey) {
+		App::getCrntState()->removeItem(keyItem);
+	}
+
+	return true;
+}
+
 bool Door::canInteract(Player* p)
 {
 	return doorType != door_type::one_way_destination &&
 		(adjacent.isValid() || !destinationMap.empty()) &&
 		!sealed &&
-		(!locked || p->getKeyCount() > 0)
+		(!locked || canUnlock(p) )
 	;
 }
 
@@ -132,8 +154,7 @@ void Door::interact(Player* p)
 		p->useDoor(this);
 	}
 	else if(locked){
-		p->useKey();
-		locked = false;
+		unlock(p);
 		space->graphicsNodeAction(&Node::setColor, spriteID, Color3B::WHITE);
 	}
 }

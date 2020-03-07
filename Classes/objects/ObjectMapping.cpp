@@ -123,7 +123,6 @@ void GObject::initObjectInfo()
 	collectible_entry(Health1, health1),
 	collectible_entry(Health2, health2),
 	collectible_entry(Health3, health3),
-	collectible_entry(Key, key),
 	collectible_entry(Magic1, magic1),
 	collectible_entry(Magic2, magic2),
 	collectible_entry(Magic3, magic3),

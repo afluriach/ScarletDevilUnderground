@@ -8,22 +8,22 @@ effects.BatTransform = class('BatTransform', {
 		
 		a:setSprite(app.getSprite('flandre_bat'))
 		a:setSpriteZoom(4.0)
-		
-		a:setFiringSuppressed(true)
+
+		a:increment(Attribute.hitProtection)		
+		a:increment(Attribute.inhibitFiring)
 		a:modifyAttribute(Attribute.agility, 1.5)
 		a:setLayers(PhysicsLayers.ground)
-		a:setProtection()
 	end,
 	onExit = function(self)
 		local a = self.super.target:getAsAgent()
 		
 		a:setSprite(app.getSprite('flandre'))
 		a:setSpriteZoom(1.0)
-		
-		a:setFiringSuppressed(false)
+
+		a:decrement(Attribute.hitProtection)				
+		a:decrement(Attribute.inhibitFiring)
 		a:modifyAttribute(Attribute.agility, -1.5)
 		a:setLayers( PhysicsLayers.floor | PhysicsLayers.ground )
-		a:resetProtection()
 	end
 })
 
@@ -36,14 +36,14 @@ effects.FreezeStatus = class('FreezeStatus', {
 	onEnter = function(self)
 		self.agent:addGraphicsAction(graphics.freezeEffectAction())
 		self.agent:setFrozen(true)
-		self.agent:setFiringSuppressed(true)
-		self.agent:setMovementSuppressed(true)
+		self.agent:increment(Attribute.inhibitFiring)
+		self.agent:increment(Attribute.inhibitMovement)
 	end,
 	onExit = function(self)
 		self.agent:addGraphicsAction(graphics.freezeEffectEndAction())
 		self.agent:setFrozen(false)
-		self.agent:setFiringSuppressed(false)
-		self.agent:setMovementSuppressed(false)
+		self.agent:decrement(Attribute.inhibitFiring)
+		self.agent:decrement(Attribute.inhibitMovement)
 	end
 })
 
@@ -54,7 +54,7 @@ effects.DarknessCurse = class('DarknessCurse', {
 		self.agent = self.super.target:getAsAgent()
 	end,
 	onEnter = function(self, target)
-		self.agent:setInhibitSpellcasting(true)
+		self.agent:increment(Attribute.inhibitSpellcasting)
 		self.agent:addGraphicsAction(graphics.darknessCurseFlickerTintAction())
 	end,
 	update = function(self)
@@ -66,7 +66,7 @@ effects.DarknessCurse = class('DarknessCurse', {
 		as:timerDecrement(Attribute.darknessDamage, 9.0)
 	end,
 	onExit = function(self)
-		self.agent:setInhibitSpellcasting(false)
+		self.agent:decrement(Attribute.inhibitSpellcasting)
 		self.agent:stopGraphicsAction(cocos_action_tag.darkness_curse)
 	end
 })
@@ -86,9 +86,12 @@ effects.GhostProtection = class('GhostProtection', {
 		delta = self.crntHP - _hp
 		self.accumulator = self.accumulator + delta / self.agent:getAttribute(Attribute.maxHP) * 12.5
 		
-		if self.accumulator >= 1.0 and not self.agent:getAttributeSystem():hasHitProtection() then
+		if self.accumulator >= 1.0 and self.agent:getAttributeSystem():isZero(Attribute.hitProtection) then
 			self.agent:addGraphicsAction(graphics.flickerAction(0.25, 5.0, 128) )
-			self.agent:getAttributeSystem():setTimedProtection(5.0)
+			self.agent:applyMagicEffect(
+				app.getEffect("SetHitProtection"),
+				effect_attributes.new(0.0, 5.0)
+			)
 			self.accumulator = 0
 		end
 		

@@ -65,6 +65,21 @@ bool drainFromMovement(tinyxml2::XMLElement* elem, local_shared_ptr<MagicEffectD
 	return success;
 }
 
+bool setBoolAttribute(tinyxml2::XMLElement* elem, local_shared_ptr<MagicEffectDescriptor>* result)
+{
+	Attribute attr = Attribute::end;
+	bool success = false;
+
+	getAttributeAttr(elem, "attr", &attr);
+
+	if (attr != Attribute::end) {
+		*result = make_local_shared< MagicEffectDescImpl<SetBoolAttribute, Attribute>>(elem->Name(), attr);
+		success = true;
+	}
+
+	return success;
+}
+
 bool scriptedEffect(tinyxml2::XMLElement* elem, local_shared_ptr<MagicEffectDescriptor>* result)
 {
 	string clsName;
@@ -88,6 +103,7 @@ const unordered_map<string, effect_parser> effectParsers = {
 	{"FortifyAttribute", &fortifyAttribute},
 	{"Teleport", &teleport},
 	{"DrainFromMovement", &drainFromMovement},
+	{"SetBoolAttribute", &setBoolAttribute},
 	{"ScriptedEffect", &scriptedEffect},
 };
 

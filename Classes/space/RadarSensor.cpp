@@ -8,6 +8,7 @@
 
 #include "Prefix.h"
 
+#include "Agent.hpp"
 #include "AIUtil.hpp"
 #include "physics_context.hpp"
 #include "RadarSensor.hpp"
@@ -67,8 +68,9 @@ void RadarSensor::endCollision(GObject* obj)
 
 bool RadarSensor::isObjectVisible(GObject* other)
 {
-	if (other->getInvisible())
-		return false;
+	if (auto agent = dynamic_cast<Agent*>(other))
+		if (agent->isActive(Attribute::invisibility))
+			return false;
 
 	bool isFov = fovAngle == 0.0 ? true : ai::isInFieldOfView(agent,  other->getPos(), fovScalar);
 	bool isLos = detectEssence ? true : ai::isLineOfSight(agent, other);

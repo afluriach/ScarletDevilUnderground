@@ -151,24 +151,10 @@ GType getBaseType(GType type)
 
 GType parseType(string s)
 {
-	sol::object obj = GSpace::scriptVM->_state["GType"][s];
-
-	if (obj) {
-		return obj.as<GType>();
-	}
-	else {
-		return GType::none;
-	}
+	return GSpace::scriptVM->getEnum<GType>("GType", s, GType::none);
 }
 
 PhysicsLayers parseLayers(string s)
 {
-	sol::object obj = GSpace::scriptVM->_state["PhysicsLayers"][s];
-
-	if (obj) {
-		return obj.as<PhysicsLayers>();
-	}
-	else {
-		return PhysicsLayers::none;
-	}
+	return GSpace::scriptVM->getEnum<PhysicsLayers>("PhysicsLayers", s, PhysicsLayers::none);
 }
