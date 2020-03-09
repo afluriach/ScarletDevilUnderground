@@ -43,7 +43,7 @@ Collectible::Collectible(GSpace* space, ObjectIDType id, SpaceVect pos, string c
 		id,
 		object_params(pos, SpaceVect::zero, float_pi*0.5),
 		physics_params(
-			GType::playerPickup,
+			GType::item,
 			PhysicsLayers::onGround,
 			SpaceVect(0.5,0.5),
 			-1.0,

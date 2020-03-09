@@ -29,7 +29,7 @@ RadarSensor::RadarSensor(
 		agent->getPos(),
 		attributes.radius,
 		0.0,
-		GType::enemySensor,
+		GType::agentSensor,
 		PhysicsLayers::all,
 		true,
 		make_any<Sensor*>(this)

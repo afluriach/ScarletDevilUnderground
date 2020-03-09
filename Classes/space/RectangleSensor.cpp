@@ -27,7 +27,7 @@ RectangleSensor::RectangleSensor(
 		area.center,
 		area.dimensions,
 		0.0,
-		GType::enemySensor,
+		GType::agentSensor,
 		PhysicsLayers::all,
 		true,
 		make_any<Sensor*>(this)

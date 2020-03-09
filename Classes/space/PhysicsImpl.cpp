@@ -88,7 +88,7 @@ PhysicsImpl::contact_func makeObjectPairFunc(void(*f)(T*, U*, b2Contact*), Physi
 
 bool isRadarSensorType(GType type)
 {
-	return type == GType::enemySensor || type == GType::playerGrazeRadar;
+	return type == GType::agentSensor || type == GType::playerGrazeRadar;
 }
 
 bool isBulletType(GType type)
@@ -413,7 +413,7 @@ void bulletBulletBegin(Bullet* _a, Bullet* _b, b2Contact* arb)
 	_b->onBulletCollide(_a);
 }
 
-void playerPickupBegin(Player* p, GObject* inv, b2Contact* arb)
+void itemBegin(Player* p, GObject* inv, b2Contact* arb)
 {
 	inv->onPlayerContact(p);
 }
@@ -475,13 +475,13 @@ void sensorEnd(Sensor* radar, GObject* target, b2Contact* arb)
 void PhysicsImpl::addCollisionHandlers()
 {
 	_addSensorHandler(playerGrazeRadar, enemyBullet);
-	_addSensorHandler(enemySensor, environment);
-	_addSensorHandler(enemySensor, bomb);
-	_addSensorHandler(enemySensor, enemy);
-	_addSensorHandler(enemySensor, enemyBullet);
-	_addSensorHandler(enemySensor, npc);
-	_addSensorHandler(enemySensor, player);
-	_addSensorHandler(enemySensor, playerBullet);
+	_addSensorHandler(agentSensor, environment);
+	_addSensorHandler(agentSensor, bomb);
+	_addSensorHandler(agentSensor, enemy);
+	_addSensorHandler(agentSensor, enemyBullet);
+	_addSensorHandler(agentSensor, npc);
+	_addSensorHandler(agentSensor, player);
+	_addSensorHandler(agentSensor, playerBullet);
 
 	_addHandler(player, enemy, agentAgentBegin, agentAgentEnd);
 	_addHandlerNoEnd(player, enemyBullet, agentBulletBegin);
@@ -489,7 +489,7 @@ void PhysicsImpl::addCollisionHandlers()
 	_addHandlerNoEnd(playerBullet, environment, bulletEnvironment);
 	_addHandlerNoEnd(enemyBullet, environment, bulletEnvironment);
 	_addHandlerNoEnd(playerBullet, enemyBullet, bulletBulletBegin);
-	_addHandlerNoEnd(player, playerPickup, playerPickupBegin);
+	_addHandlerNoEnd(player, item, itemBegin);
 	_addHandlerNoEnd(playerBullet, wall, bulletWall);
 	_addHandlerNoEnd(enemyBullet, wall, bulletWall);
 
