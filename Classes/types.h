@@ -112,21 +112,25 @@ struct DamageInfo
 	DamageInfo(float mag, DamageType type);
 	DamageInfo(float mag, DamageType type, Attribute element, float knockback);
 
-	inline float get_mag() const { return mag; }
-	inline float get_knockback() const { return knockback; }
-	inline Attribute get_element() const { return element; }
-	inline DamageType get_type() const { return type; }
+	getter(float, mag);
+	getter(float, knockback);
+	getter(Attribute, element);
+	getter(DamageType, type);
+	getter(bool, damageOverTime);
 
-	inline void set_mag(float _mag) { mag = _mag; }
-	inline void set_knockback(float _knockback) { knockback = _knockback; }
-	inline void set_element(Attribute _element) { element = _element; }
-	inline void set_type(DamageType _type) { type = _type; }
+	setter(float, mag);
+	setter(float, knockback);
+	setter(Attribute, element);
+	setter(DamageType, type);
+	setter(bool, damageOverTime);
 
 	float mag = 0.0f;
 	float knockback = 0.0f;
 	//It is initialized to Attribute::end;
 	Attribute element;
 	DamageType type;
+
+	bool damageOverTime = false;
 
 	DamageInfo operator*(float rhs);
 	bool isExplosion();

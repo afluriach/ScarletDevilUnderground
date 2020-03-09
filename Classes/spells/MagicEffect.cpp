@@ -23,6 +23,7 @@ magnitude(params.attr.magnitude),
 _flags(params.flags),
 id(params.id),
 desc(params.desc),
+damageType(params.attr.type),
 crntState(state::created)
 {
 	if (_flags == effect_flags::none) {

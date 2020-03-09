@@ -132,7 +132,7 @@
 		<maxHP val="120"/>
 		<maxSpeed val="2.0"/>
 		<maxAcceleration val="10.0"/>
-		<darknessSensitivity val="1.25"/>
+		<darknessSensitivity val="0.0"/>
 	</zombieFairy>
 	
 	<fairyMaid>

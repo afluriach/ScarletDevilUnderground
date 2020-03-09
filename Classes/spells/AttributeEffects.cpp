@@ -78,3 +78,17 @@ void SetBoolAttribute::end()
 {
 	agent->decrement(attr);
 }
+
+DamageOverTime::DamageOverTime(effect_params params, Attribute element) :
+	MagicEffect(params),
+	element(element)
+{
+}
+
+void DamageOverTime::update()
+{
+	DamageInfo damage(magnitude, damageType, element, 0.0f);
+	damage.damageOverTime = true;
+
+	target->hit(damage, SpaceVect::zero);
+}

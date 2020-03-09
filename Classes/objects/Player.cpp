@@ -522,7 +522,10 @@ bool Player::hit(DamageInfo damage, SpaceVect n){
 
 	attributeSystem->set(Attribute::combo, 0.0f);
 
-	playSoundSpatial("sfx/player_damage.wav");
+	if (!damage.damageOverTime) {
+		playSoundSpatial("sfx/player_damage.wav");
+	}
+
 	return true;
 }
 

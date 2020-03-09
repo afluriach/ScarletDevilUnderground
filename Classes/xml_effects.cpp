@@ -80,6 +80,21 @@ bool setBoolAttribute(tinyxml2::XMLElement* elem, local_shared_ptr<MagicEffectDe
 	return success;
 }
 
+bool damageOverTime(tinyxml2::XMLElement* elem, local_shared_ptr<MagicEffectDescriptor>* result)
+{
+	Attribute element;
+	bool success = false;
+
+	getAttributeAttr(elem, "element", &element);
+
+	if (element != Attribute::end) {
+		*result = make_local_shared< MagicEffectDescImpl<DamageOverTime, Attribute> >(elem->Name(), element);
+		success = true;
+	}
+
+	return success;
+}
+
 bool scriptedEffect(tinyxml2::XMLElement* elem, local_shared_ptr<MagicEffectDescriptor>* result)
 {
 	string clsName;
@@ -104,6 +119,7 @@ const unordered_map<string, effect_parser> effectParsers = {
 	{"Teleport", &teleport},
 	{"DrainFromMovement", &drainFromMovement},
 	{"SetBoolAttribute", &setBoolAttribute},
+	{"DamageOverTime", &damageOverTime},
 	{"ScriptedEffect", &scriptedEffect},
 };
 

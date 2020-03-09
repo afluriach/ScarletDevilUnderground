@@ -81,6 +81,7 @@ public:
 	Agent* agent = nullptr;
 	float length, magnitude;
 	state crntState;
+	DamageType damageType;
 	unsigned int id;
 	effect_flags _flags;
 };

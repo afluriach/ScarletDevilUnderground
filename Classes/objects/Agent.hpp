@@ -160,7 +160,6 @@ protected:
 	string ai_package;
 
 	local_shared_ptr<FirePattern> firePattern;
-	unordered_set<Agent*> touchTargets;
 	RadarSensor* radar = nullptr;
 	AttributeSystem* attributeSystem = nullptr;
 	local_shared_ptr<agent_properties> props;

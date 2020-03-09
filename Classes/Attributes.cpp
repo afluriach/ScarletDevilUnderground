@@ -337,19 +337,23 @@ float AttributeSystem::getStaminaRatio() const
 float AttributeSystem::applyDamage(DamageInfo damage)
 {
 	if ((*this)[Attribute::maxHP] <= 0.0f) {
-		return -1.0f;
+		return 0.0f;
 	}
 
+	float timeScale = damage.damageOverTime ? app::params.secondsPerFrame : 1.0f;
 	float elementSensitivity = damage.element != Attribute::end ? (*this)[getElementSensitivity(damage.element)] : 1.0f;
 	float typeSensitivity = getTypeSensitivity(damage.type);
+	float scale = timeScale * elementSensitivity * typeSensitivity;
 
-	modifyAttribute(Attribute::hp, -damage.mag * typeSensitivity * elementSensitivity);
+	modifyAttribute(Attribute::hp, -damage.mag * scale);
 
 	if (damage.element != Attribute::end) {
-		modifyAttribute(damage.element, damage.mag * typeSensitivity);
+		//Should not be scaled by element sensitivity, since element sensitivity will
+		//be applied to accumulated element damage.
+		modifyAttribute(damage.element, damage.mag * timeScale * typeSensitivity);
 	}
 
-	return damage.mag * elementSensitivity * typeSensitivity;
+	return damage.mag * scale;
 }
 
 void AttributeSystem::apply(const AttributeMap& effects)

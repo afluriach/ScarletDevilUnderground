@@ -146,7 +146,8 @@ namespace Lua{
 			rw_prop(DamageInfo, mag),
 			rw_prop(DamageInfo, knockback),
 			rw_prop(DamageInfo, element),
-			rw_prop(DamageInfo, type)
+			rw_prop(DamageInfo, type),
+			rw_prop(DamageInfo, damageOverTime)
 		);
 
 		damageInfo["scale"] = &DamageInfo::operator*;

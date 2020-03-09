@@ -220,10 +220,6 @@ void Agent::update()
 		onZeroHP();
 	}
 
-	for (auto other : touchTargets) {
-		other->hit(touchEffect(), ai::directionToTarget(this, other->getPos()));
-	}
-
 	if (firePattern) firePattern->update();
 	attributeSystem->update(this);
 	updateAgentOverlay();
@@ -504,13 +500,11 @@ void Agent::onBulletCollide(Bullet* b, SpaceVect n)
 
 void Agent::onTouchAgent(Agent* other)
 {
-	if(getType() != other->getType())
-		touchTargets.insert(other);
+	other->hit(touchEffect(), ai::directionToTarget(this, other->getPos()));
 }
 
 void Agent::onEndTouchAgent(Agent* other)
 {
-	touchTargets.erase(other);
 }
 
 bool Agent::hit(DamageInfo damage, SpaceVect n)
@@ -526,7 +520,10 @@ bool Agent::hit(DamageInfo damage, SpaceVect n)
 	}
 
 	float hp = attributeSystem->applyDamage(damage);
-	space->addGraphicsAction(&graphics_context::createDamageIndicator, hp, getPos());
+
+	if (!damage.damageOverTime && hp > 0.0f) {
+		space->addGraphicsAction(&graphics_context::createDamageIndicator, hp, getPos());
+	}
 
 	SpaceVect knockback = n * damage.knockback;
 

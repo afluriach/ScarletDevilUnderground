@@ -61,8 +61,11 @@ bool Enemy::hit(DamageInfo damage, SpaceVect n)
 	if (!Agent::hit(damage, n))
 		return false;
 
-	runDamageFlicker();
-	playSoundSpatial("sfx/enemy_damage.wav");
+	if (!damage.damageOverTime) {
+		runDamageFlicker();
+		playSoundSpatial("sfx/enemy_damage.wav");
+	}
+
 	return true;
 }
 
