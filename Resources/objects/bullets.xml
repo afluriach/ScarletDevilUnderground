@@ -21,6 +21,7 @@
 		sprite="catadioptricBullet3"
 		light="catadioptric3"
 		ricochet="2"
+		invisible="true"
 	/>
 	<cirnoIceShieldBullet
 		speed="9.0"

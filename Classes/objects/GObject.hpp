@@ -165,6 +165,9 @@ public:
 	//physics
 	inline virtual void onPlayerContact(Player* p) {}
 
+	//sensory
+	inline virtual bool isInvisible() const { return false; }
+
 	//StateMachine
 	void updateFSM();
 	local_shared_ptr<ai::Thread> addThread(local_shared_ptr<ai::Function> threadMain);

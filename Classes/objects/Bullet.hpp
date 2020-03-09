@@ -45,6 +45,8 @@ public:
 
 	inline DamageInfo getDamageInfo() const { return props->damage; }
 
+	inline virtual bool isInvisible() const { return props->invisible; }
+
 	void onWallCollide(Wall* wall);
 	void onEnvironmentCollide(GObject* obj);
 	void onAgentCollide(Agent* agent, SpaceVect n);

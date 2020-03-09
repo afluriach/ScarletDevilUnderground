@@ -115,6 +115,8 @@ public:
 	inline FirePattern* getFirePattern() const { return firePattern.get(); }
 	bool setFirePattern(string firePattern);
 
+	inline virtual bool isInvisible() const { return attributeSystem->isNonzero(Attribute::invisibility); }
+
 	virtual SpaceFloat getTraction() const;
 
 	virtual SpaceFloat getMaxSpeed() const;

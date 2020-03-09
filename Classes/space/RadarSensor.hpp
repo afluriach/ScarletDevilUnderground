@@ -15,7 +15,6 @@ struct sensor_attributes
 {
 	SpaceFloat radius;
 	SpaceFloat fovAngle;
-	GType targetType;
 	
 	bool isEssence;
 };
@@ -56,9 +55,6 @@ public:
 	inline void onEndDetect(GObject* obj) {
 		if (on_end_detect) on_end_detect(obj);
 	}
-
-	inline GType getTargetType() { return targetType; }
-
 protected:
 	void update();
 
@@ -73,8 +69,6 @@ protected:
 	//If 0, FOV is not considered and this is a radius sensor.
 	SpaceFloat fovAngle = 0.0;
 	SpaceFloat fovScalar = 0.0;
-
-	GType targetType;
 
 	GObject* agent;
 	b2Body* body;

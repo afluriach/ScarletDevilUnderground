@@ -83,6 +83,7 @@ public:
 	int hitCount = 1;
 	int ricochetCount = 0;
 
+	bool invisible = false;
 	bool directionalLaunch = true;
 	bool ignoreObstacles = false;
 	bool deflectBullets = false;

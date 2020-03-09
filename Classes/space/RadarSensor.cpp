@@ -19,7 +19,6 @@ RadarSensor::RadarSensor(
 	unary_gobject_function on_detect,
 	unary_gobject_function on_end_detect
 ) :
-	targetType(attributes.targetType),
 	agent(agent),
 	on_detect(on_detect),
 	on_end_detect(on_end_detect)
@@ -30,7 +29,7 @@ RadarSensor::RadarSensor(
 		agent->getPos(),
 		attributes.radius,
 		0.0,
-		attributes.targetType,
+		GType::enemySensor,
 		PhysicsLayers::all,
 		true,
 		make_any<Sensor*>(this)
@@ -68,9 +67,8 @@ void RadarSensor::endCollision(GObject* obj)
 
 bool RadarSensor::isObjectVisible(GObject* other)
 {
-	if (auto agent = dynamic_cast<Agent*>(other))
-		if (agent->isActive(Attribute::invisibility))
-			return false;
+	if (other->isInvisible())
+		return false;
 
 	bool isFov = fovAngle == 0.0 ? true : ai::isInFieldOfView(agent,  other->getPos(), fovScalar);
 	bool isLos = detectEssence ? true : ai::isLineOfSight(agent, other);

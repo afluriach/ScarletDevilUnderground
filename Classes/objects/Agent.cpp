@@ -549,7 +549,6 @@ void Agent::initializeRadar()
 	auto attr = sensor_attributes{
 		getRadarRadius(),
 		getDefaultFovAngle(),
-		GType::enemySensor,
 		hasEssenceRadar()
 	};
 

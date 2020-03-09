@@ -124,7 +124,6 @@ void RadiusEffect::init()
 	sensor_attributes attr = {
 		radius,
 		0.0,
-		GType::enemySensor,
 		true
 	};
 
