@@ -160,8 +160,6 @@ public:
 
 	void update();
 
-	bool onEvent(Event event);
-
 	void push(local_shared_ptr<Function> newState);
 	void pop();
 	void popToRoot();
@@ -170,20 +168,6 @@ public:
     string getStack();
 	string getMainFuncName();
 protected:
-	//Calls a particular Function interface method, starting with the top of the stack,
-	//and continuing until a handler returns to indicate it handled the event.
-	//This function in turns returns whether any function in the stack handled the event.
-	template<typename... Params>
-	bool callInterface(bool (Function::*method)(Params...), Params... params)
-	{
-		for (auto it = call_stack.rbegin(); it != call_stack.rend(); ++it) {
-			Function* f = it->get();
-			if ( (f->*method)(params...))
-				return true;
-		}
-		return false;
-	}
-
 	list<local_shared_ptr<Function>> call_stack;
 	StateMachine* sm;
 };
@@ -260,14 +244,7 @@ protected:
 	{
 		for (auto f : functions)
 		{
-			(f.get()->*method)(params...);
-		}
-
-		for (auto thread_it = current_threads.rbegin(); thread_it != current_threads.rend(); ++thread_it)
-		{
-			Thread* crnt = thread_it->get();
-
-			if (crnt->callInterface(method, params...))
+			if ((f.get()->*method)(params...))
 				return true;
 		}
 		return false;

@@ -42,19 +42,6 @@ public:
 	list<GObject*> getSensedObjectsByGtype(GType type);
 	SpaceFloat getSensedObjectDistance(GType type);
 
-	template<class C>
-	inline list<C*> getSensedObjectsByType()
-	{
-		list<C*> result;
-
-		for (GObject* obj : visibleObjects) {
-			C* c = dynamic_cast<C*>(obj);
-			if (c) result.push_back(c);
-		}
-
-		return result;
-	}
-
 	SpaceVect getPos() const;
 	void setPos(SpaceVect p) const;
 	void setAngle(SpaceFloat a) const;

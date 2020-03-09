@@ -100,7 +100,6 @@ namespace Lua{
 		_ai["Thread"] = thread;
 
 		addFuncSame(thread, update);
-		addFuncSame(thread, onEvent);
 		addFuncSame(thread, push);
 		addFuncSame(thread, pop);
 		addFuncSame(thread, popToRoot);

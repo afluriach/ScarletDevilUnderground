@@ -158,11 +158,6 @@ void Thread::update()
 	}
 }
 
-bool Thread::onEvent(Event event)
-{
-	return callInterface(&Function::onEvent, event);
-}
-
 void Thread::push(local_shared_ptr<Function> newState)
 {
 	newState->thread = this;
