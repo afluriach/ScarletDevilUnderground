@@ -52,21 +52,6 @@ protected:
 	local_shared_ptr<Cast> castFunction;
 };
 
-class ReimuYinYangOrbs : public Function
-{
-public:
-	static constexpr int orbCount = 4;
-
-	ReimuYinYangOrbs(StateMachine* fsm);
-	~ReimuYinYangOrbs();
-
-	virtual bool onEvent(Event event);
-	virtual event_bitset getEvents();
-protected:
-	array<gobject_ref, orbCount> orbs;
-	bool active = false;
-};
-
 class RumiaMain2 : public Function
 {
 public:

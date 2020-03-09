@@ -84,53 +84,6 @@ update_return MarisaForestMain::update()
 	return_steady();
 }
 
-ReimuYinYangOrbs::ReimuYinYangOrbs(StateMachine* fsm) :
-	Function(fsm)
-{
-}
-
-ReimuYinYangOrbs::~ReimuYinYangOrbs()
-{
-}
-
-event_bitset ReimuYinYangOrbs::getEvents()
-{
-	return enum_bitfield2(event_type, detect, zeroHP);
-}
-
-bool ReimuYinYangOrbs::onEvent(Event event)
-{
-	if (event.isDetectPlayer() && !active) {
-		Agent* agent = getAgent();
-		auto props = app::getBullet("yinYangOrb");
-		for_irange(i, 0, orbCount)
-		{
-			SpaceFloat angle = float_pi * (0.25 + i * 0.5);
-			orbs[i] = agent->launchBullet(
-				props,
-				SpaceVect::ray(1.5, angle),
-				angle,
-				float_pi,
-				false
-			);
-		}
-		
-		active = true;
-		return true;
-	}
-
-	else if (event.eventType == event_type::zeroHP && active) {
-		for_irange(i, 0, orbCount)
-		{
-			getSpace()->removeObject(orbs[i].get());
-		}
-
-		return true;
-	}
-
-	return false;
-}
-
 RumiaMain2::RumiaMain2(StateMachine* fsm, gobject_ref target) :
 	Function(fsm),
 	target(target)

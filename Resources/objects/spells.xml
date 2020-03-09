@@ -6,4 +6,5 @@
 	<StarlightTyphoon type="ScriptedSpell" class="auto" />
 	<Whirlpool1 type="ScriptedSpell" class="auto" />
 	<Whirlpool2 type="ScriptedSpell" class="auto" />
+	<YinYangOrbs type="ScriptedSpell" class="auto" />
 </spells>

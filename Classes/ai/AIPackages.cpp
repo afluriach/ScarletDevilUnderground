@@ -164,12 +164,12 @@ void reimu_enemy(StateMachine* fsm, const ValueMap& args)
 	auto object = fsm->getObject();
 	auto boss = make_local_shared<BossFightHandler>(fsm, "dialogs/reimu_forest_pre_fight", "dialogs/reimu_forest_post_fight");
 	fsm->addFunction(boss);
-	fsm->addFunction<ReimuYinYangOrbs>();
 
 	fsm->addDetectFunction(
 		GType::player,
 		[object](StateMachine& sm, GObject* target) -> void {
 			if (!sm.isThreadRunning("Flank")) {
+				object->cast(app::getSpell("YinYangOrbs"));
 				sm.addThread(make_local_shared<FireAtTarget>(&sm, target));
 				sm.addThread(make_local_shared<Flank>(&sm, target, 3.0, 2.0));
 			}
