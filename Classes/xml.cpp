@@ -25,7 +25,6 @@
 namespace app {
 
 unordered_map<string, area_properties> areas;
-unordered_map<string, AttributeMap> attributes;
 unordered_map<string, local_shared_ptr<bomb_properties>> bombs;
 unordered_map<string, local_shared_ptr<bullet_properties>> bullets;
 unordered_map<string, collectible_properties> collectibles;
@@ -105,11 +104,6 @@ GObject::AdapterType environmentObjectAdapter(local_shared_ptr<environment_objec
 void loadAreas()
 {
 	loadObjects<area_properties>("objects/areas.xml", app::areas);
-}
-
-void loadAttributes()
-{
-	loadObjects<AttributeMap>("objects/attribute_sets.xml", app::attributes);
 }
 
 void loadBombs()
@@ -275,11 +269,6 @@ local_shared_ptr<SpellDesc> getSpell(const string& name)
 shared_ptr<sprite_properties> getSprite(const string& name)
 {
 	return getOrDefault(sprites, name);
-}
-
-AttributeMap getAttributes(const string& name)
-{
-	return getOrDefault(attributes, name);
 }
 
 //get Attribute attribute [sic]
@@ -577,11 +566,14 @@ bool parseObject(tinyxml2::XMLElement* elem, local_shared_ptr<agent_properties> 
 		result->dimensions.x = Agent::defaultSize;
 	}
 
-	getStringAttr(elem, "attributes", &result->attributes);
+	tinyxml2::XMLElement* attributes = elem->FirstChildElement("attributes");
+	if (attributes) {
+		parseObject(attributes, &result->attributes);
+	}
+
 	getStringAttr(elem, "ai_package", &result->ai_package);
 	getStringAttr(elem, "effects", &result->effects);
 
-	autoName(elem, result->attributes);
 	autoName(elem, result->ai_package);
 
 	getNumericAttr(elem, "viewAngle", &result->viewAngle);

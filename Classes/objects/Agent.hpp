@@ -21,7 +21,8 @@ public:
 	inline agent_properties() {}
 	virtual inline ~agent_properties() {}
 
-	string attributes;
+	AttributeMap attributes;
+
 	string ai_package;
 	string effects;
 

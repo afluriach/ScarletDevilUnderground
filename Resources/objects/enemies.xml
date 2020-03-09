@@ -3,7 +3,6 @@
 		name="Bat"
 		sprite="bat"
 		ai_package="bat"
-		attributes="bat"
 		
 		mass="10"
 		viewRange="5.0"
@@ -13,14 +12,18 @@
 		isFlying="true"
 		
 		damage="5.0"
-	/>
+	>
+		<attributes>
+			<maxHP val="50"/>
+			<agility val="2.0"/>
+		</attributes>
+	</Bat>
 
 	<BlueFairy
 		name="Blue Fairy"
 
 		sprite="blueFairy"
 		ai_package=""
-		attributes="blueFairy"
 		firepattern="BlueFairyFirePattern"
 		
 		mass="25"
@@ -29,21 +32,39 @@
 
 		damage="5.0"
 		collectible="health1,magic1"		
-	/>
+	>
+		<attributes>
+			<shieldLevel val="1"/>
+			<maxHP val="90"/>
+			<maxMP val="75"/>
+			<maxStamina val="50"/>
+			<staminaRegen val="0.02"/>
+			<agility val="2.5"/>
+			<stressFromHits val="1.5"/>
+			<stressFromBlocks val="1.0"/>
+			<bombSensitivity val="1.25"/>
+			<bulletSensitivity val="0.75"/>
+			<meleeSensitivity val="0.75"/>
+		</attributes>
+	</BlueFairy>
 	
 	<Facer
 		sprite="facer"
 		ai_package="facer"
-		attributes="ff"
 		
 		mass="40"
-	/>
+	>
+		<attributes>
+			<maxSpeed val="1.0"/>
+			<maxAcceleration val="4.5"/>
+			<bulletSensitivity val="0.0"/>
+		</attributes>
+	</Facer>
 
 	<Fairy1
 		name="Fairy I"
 
 		sprite="greenFairy"
-		attributes="fairy1"
 		firepattern="Fairy1BulletPattern"
 		
 		mass="40"
@@ -51,35 +72,50 @@
 		viewAngle="0"
 
 		collectible="health1,magic1"		
-	/>
+	>
+		<attributes>
+			<maxHP val="30"/>
+			<maxSpeed val="3.0"/>
+			<maxAcceleration val="4.5"/>
+		</attributes>
+	</Fairy1>
 	
 	<Follower
 		sprite="follower"
 		ai_package="follower"
-		attributes="ff"
 		
 		mass="40"
-	/>
+	>
+		<attributes>
+			<maxSpeed val="1.0"/>
+			<maxAcceleration val="4.5"/>
+			<bulletSensitivity val="0.0"/>
+		</attributes>
+	</Follower>
 
 	<ForestMarisa
 		name="Marisa Kirisame"
 		sprite="marisa"
 		ai_package="forest_marisa"
-		attributes="marisa"
 		
 		mass="33"
 		viewRange="6.0"
 		viewAngle="0"
 
 		collectible="nil"		
-	/>
+	>
+		<attributes>
+			<maxHP val="100"/>
+			<maxSpeed val="3.0"/>
+			<maxAcceleration val="6.0"/>
+		</attributes>
+	</ForestMarisa>
 	
  	<GhostFairy
 		name="Ghost Fairy"
 
 		sprite="ghostFairy"
 		ai_package="ghost_fairy"
-		attributes="ghostFairy"
 		firepattern="GhostFairyBulletPattern"
 
 		effects="GhostProtection"
@@ -89,14 +125,19 @@
 		viewAngle="0"
 
 		collectible="health1,magic1"		
-	/>
+	>
+		<attributes>
+			<maxHP val="75"/>
+			<agility val="2.5"/>
+			<bulletSensitivity val="1.25"/>
+		</attributes>
+	</GhostFairy>
 
 	<GreenFairy1
 		name="Green Fairy I"
 
 		sprite="greenFairy"
 		ai_package="green_fairy"
-		attributes="greenFairy1"
 		firepattern="GreenFairy1"
 		
 		mass="15"
@@ -105,14 +146,19 @@
 
 		damage="3.0"
 		collectible="health1,magic1,speed1"		
-	/>
+	>
+		<attributes>
+			<maxHP val="60"/>
+			<agility val="3.0"/>
+			<stressFromHits val="0.5"/>
+		</attributes>
+	</GreenFairy1>
 
 	<GreenFairy2
 		name="Green Fairy II"
 
 		sprite="greenFairy2"
 		ai_package="green_fairy"
-		attributes="greenFairy2"
 		firepattern="GreenFairy2"
 		
 		mass="25"
@@ -121,14 +167,20 @@
 
 		damage="6.0"
 		collectible="health2,magic2,speed2"		
-	/>
+	>
+		<attributes>
+			<maxHP val="90"/>
+			<agility val="4.0"/>
+			<stressFromDetects val="0.25"/>
+			<stressFromHits val="0.5"/>
+		</attributes>
+	</GreenFairy2>
 
 	<IceFairy
 		name="Ice Fairy"
 
 		sprite="blueFairy2"
 		ai_package="ice_fairy"
-		attributes="iceFairy"
 		firepattern="IceFairyBulletPattern"
 		
 		mass="40"
@@ -136,14 +188,20 @@
 		viewAngle="45"
 
 		collectible="magic2"		
-	/>
+	>
+		<attributes>
+			<maxHP val="15"/>
+			<maxSpeed val="4.5"/>
+			<maxAcceleration val="4.5"/>
+			<iceSensitivity val="0.0"/>
+		</attributes>
+	</IceFairy>
 
 	<RedFairy
 		name="Red Fairy"
 
 		sprite="redFairy"
 		ai_package="red_fairy"
-		attributes="redFairy"
 		firepattern="RedFairy"
 		
 		mass="25"
@@ -151,26 +209,41 @@
 		viewAngle="0"
 
 		collectible="health2,magic2"		
-	/>
+	>
+		<attributes>
+			<maxHP val="120"/>
+			<maxMP val="80"/>
+			<agility val="1.5"/>
+			<stressFromHits val="1.0"/>
+			<bombSensitivity val="0.5"/>
+			<bulletSensitivity val="0.75"/>
+			<meleeSensitivity val="1.25"/>
+		</attributes>
+	</RedFairy>
 	
 	<PatchouliEnemy
 		name="Patchouli"
 		
 		sprite="patchouli"
 		ai_package="patchouli_enemy"
-		attributes="patchouliEnemy"
 		
 		mass="30"
 		
 		collectible="magic2"
-	/>
+	>
+		<attributes>
+			<maxHP val="300"/>
+			<maxMP val="5"/>
+			<maxSpeed val="2.0"/>
+			<maxAcceleration val="4.0"/>
+		</attributes>
+	</PatchouliEnemy>
 	
 	<ReimuEnemy
 		name="Reimu Hakurei"
 		
 		sprite="reimu"
 		ai_package="reimu_enemy"
-		attributes="reimu"
 		firepattern="ReimuWavePattern"
 		
 		mass="40"
@@ -178,7 +251,14 @@
 		viewAngle="0.0"
 		
 		collectible="magic2"
-	/>
+	>
+		<attributes>
+			<maxHP val="100"/>
+			<maxMP val="5"/>
+			<maxSpeed val="2.0"/>
+			<maxAcceleration val="4.0"/>
+		</attributes>
+	</ReimuEnemy>
 	
 	<Rumia1
 		name="Rumia"
@@ -186,7 +266,6 @@
 		sprite="rumia"
 		light="rumiaEnemy"
 		ai_package="rumia1"
-		attributes="rumia1"
 		firepattern="RumiaBurstPattern"
 		
 		mass="20.0"
@@ -197,7 +276,13 @@
 		
 		detectEssence="false"
 		isFlying="false"
-	/>
+	>
+		<attributes>
+			<maxHP val="250"/>
+			<maxMP val="50"/>
+			<agility val="2.0"/>
+		</attributes>
+	</Rumia1>
 
 	<Rumia2
 		name="Rumia II"
@@ -205,7 +290,6 @@
 		sprite="rumia"
 		light="rumiaEnemy"
 		ai_package="rumia2"
-		attributes="rumia2"
 		firepattern="RumiaBurstPattern2"
 		
 		mass="20.0"
@@ -216,25 +300,35 @@
 		
 		detectEssence="false"
 		isFlying="false"
-	/>
+	>
+		<attributes>
+			<maxHP val="50"/>
+			<maxMP val="50"/>
+			<agility val="2.5"/>
+		</attributes>
+	</Rumia2>
 	
  	<Sakuya
 		sprite="sakuya"
 		ai_package="sakuya"
-		attributes="sakuya"
 		
 		mass="40"
 		viewRange="6"
 		viewAngle="0"
 
 		collectible="nil"		
-	/>
+	>
+		<attributes>
+			<maxHP val="30"/>
+			<maxSpeed val="3.0"/>
+			<maxAcceleration val="4.5"/>
+		</attributes>
+	</Sakuya>
 	
 	<Scorpion1
 		name="Scorpion I"
 		sprite="scorpion"
 		ai_package="scorpion1"
-		attributes="scorpion1"
 		
 		mass="10"
 		viewRange="6"
@@ -243,13 +337,18 @@
 		damage="5"
 		element="poisonDamage"
 		collectible="health1,magic1"		
-	/>
+	>
+		<attributes>
+			<maxHP val="25"/>
+			<maxSpeed val="2.0"/>
+			<maxAcceleration val="6.0"/>
+		</attributes>
+	</Scorpion1>
 
 	<Scorpion2
 		name="Scorpion II"
 		sprite="scorpion2"
 		ai_package="scorpion2"
-		attributes="scorpion2"
 		
 		mass="10"
 		viewRange="6"
@@ -258,13 +357,18 @@
 		damage="15"
 		element="poisonDamage"
 		collectible="health2,magic2"		
-	/>
+	>
+		<attributes>
+			<maxHP val="50"/>
+			<maxSpeed val="3.0"/>
+			<maxAcceleration val="9.0"/>
+		</attributes>
+	</Scorpion2>
 
 	<Slime1
 		name="Slime I"
 		sprite="slime"
 		ai_package="engage_player_in_room"
-		attributes="slime1"
 		
 		radius="0.875"
 		mass="40"
@@ -274,13 +378,18 @@
 		damage="5"
 		element="slimeDamage"
 		collectible="health1,magic1"		
-	/>
+	>
+		<attributes>
+			<maxHP val="15"/>
+			<maxSpeed val="3.3"/>
+			<maxAcceleration val="3.0"/>
+		</attributes>
+	</Slime1>
 
 	<Slime2
 		name="Slime II"
 		sprite="slime"
 		ai_package="engage_player_in_room"
-		attributes="slime2"
 
 		radius="1.75"
 		mass="40"
@@ -290,12 +399,17 @@
 		damage="15"
 		element="slimeDamage"
 		collectible="health2,magic2"
-	/>
+	>
+		<attributes>
+			<maxHP val="50"/>
+			<maxSpeed val="2.4"/>
+			<maxAcceleration val="3.0"/>
+		</attributes>
+	</Slime2>
 
  	<Stalker
 		sprite="stalker"
 		ai_package="stalker"
-		attributes="stalker"
 		
 		mass="40"
 		viewRange="6.0"
@@ -304,16 +418,28 @@
 		collectible="magic1"
 		
 		detectEssence="true"
-	/>
+	>
+		<attributes>
+			<maxHP val="12"/>
+			<maxStamina val="10"/>
+			<maxSpeed val="1.5"/>
+			<maxAcceleration val="4.5"/>
+		</attributes>
+	</Stalker>
 	
 	<Tewi
 		sprite="tewi"
 		ai_package="evade_player_projectiles"
-		attributes="tewi"
 		
 		mass="40"
 		viewRange="6"
-	/>
+	>
+		<attributes>
+			<maxHP val="5.0"/>
+			<maxSpeed val="6.0"/>
+			<maxAcceleration val="36.0"/>
+		</attributes>
+	</Tewi>
 
 	<ZombieFairy
 		name="Zombie Fairy"
@@ -328,7 +454,14 @@
 		damage="20"
 		element="darknessDamage"
 		collectible="health2,magic2"
-	/>
+	>
+		<attributes>
+			<maxHP val="120"/>
+			<maxSpeed val="2.0"/>
+			<maxAcceleration val="10.0"/>
+			<darknessSensitivity val="0.0"/>
+		</attributes>
+	</ZombieFairy>
 	
 <!-- 	<t
 		sprite="auto"

@@ -2,22 +2,53 @@
     <FlandrePC
         sprite="flandre"
         light="flandrePC"
-        attributes="flandrePC"
         mass="20.0"
-    />
+    >
+		<attributes>
+			<shieldLevel val="1"/>
+			<maxHP val="100"/>
+			<maxMP val="100"/>
+			<maxStamina val="100"/>
+			<mpRegen val="0.005"/>
+			<staminaRegen val="0.05"/>
+			<agility val="2.0"/>
+			<iceSensitivity val="2.0"/>
+			<sunSensitivity val="5.0"/>
+		</attributes>
+	</FlandrePC>
 
     <RumiaPC
         sprite="rumia"
         light="rumiaPC"
-        attributes="rumiaPC"
         mass="20.0"
-    />
+    >
+		<attributes>
+			<maxHP val="75"/>
+			<maxMP val="125"/>
+			<maxStamina val="75"/>
+			<mpRegen val="0.005"/>
+			<staminaRegen val="0.05"/>
+			<agility val="3.0"/>
+			<sunSensitivity val="0.0"/>
+			<darknessSensitivity val="0.0"/>
+		</attributes>
+	</RumiaPC>
 
     <CirnoPC
         sprite="cirno"
         light="cirnoPC"
-        attributes="cirnoPC"
         mass="20.0"
-    />
+    >
+		<attributes>
+			<shieldLevel val="1"/>
+			<maxHP val="125"/>
+			<maxMP val="75"/>
+			<maxStamina val="125"/>
+			<mpRegen val="0.005"/>
+			<staminaRegen val="0.05"/>
+			<agility val="1.0"/>
+			<iceSensitivity val="0.0"/>
+		</attributes>
+	</CirnoPC>
     
 </players>

@@ -292,7 +292,7 @@ bool Agent::applyOngoingSpellCost(const spell_cost& cost)
 
 AttributeMap Agent::getBaseAttributes() const
 {
-	return !props->attributes.empty() ? app::getAttributes(props->attributes) : AttributeMap();
+	return props->attributes;
 }
 
 float Agent::get(Attribute id) const

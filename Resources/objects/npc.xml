@@ -23,13 +23,16 @@
 	</BlueFairyNPC>
 
 	<FairyMaid
-		sprite="blueFairy"
-		attributes="fairyMaid"
-	
+		sprite="blueFairy"	
 		mass="10"
 		viewRange="3"
 		viewAngle="0"
-	/>
+	>
+		<attributes>
+			<maxSpeed val="3.0" />
+			<maxAcceleration val="4.5" />
+		</attributes>
+	</FairyMaid>
 
 	<GhostFairyNPC
 		sprite="ghostFairy"
@@ -82,12 +85,15 @@
 	<SakuyaNPC
 		sprite="sakuya"
 		ai_package="sakuya_npc"
-		attributes="sakuyaNPC"
 		
 		mass="40"
 		viewRange="6"
 		viewAngle="0"
 	>
+		<attributes
+			maxSpeed="3.0"
+			maxAcceleration="4.5"
+		/>
 		<dialogs>
 			<sakuya1 />
 		</dialogs>

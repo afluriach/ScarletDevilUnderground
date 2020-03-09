@@ -32,7 +32,6 @@ namespace app {
 	extern const unordered_map<string, effect_parser> effectParsers;
 
 	extern unordered_map<string, area_properties> areas;
-	extern unordered_map<string, AttributeMap> attributes;
 	extern unordered_map<string, local_shared_ptr<bomb_properties>> bombs;
 	extern unordered_map<string, local_shared_ptr<bullet_properties>> bullets;
 	extern unordered_map<string, collectible_properties> collectibles;
@@ -49,7 +48,6 @@ namespace app {
 	extern unordered_map<string, shared_ptr<sprite_properties>> sprites;
 
 	void loadAreas();
-	void loadAttributes();
 	void loadBombs();
 	void loadBullets();
 	void loadCollectibles();
@@ -80,7 +78,6 @@ namespace app {
 	local_shared_ptr<agent_properties> getPlayer(const string& name);
 	local_shared_ptr<SpellDesc> getSpell(const string& name);
 	shared_ptr<sprite_properties> getSprite(const string& name);
-	AttributeMap getAttributes(const string& name);
 
 	template<typename T>
 	inline void loadObjects(string filename, unordered_map<string,T>& _map)

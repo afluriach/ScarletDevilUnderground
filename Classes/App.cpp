@@ -333,7 +333,6 @@ void App::loadObjects()
 	app::loadLights();
 
 	app::loadAreas();
-	app::loadAttributes();
 	app::loadBombs();
 	app::loadBullets();
 	app::loadEffects();
