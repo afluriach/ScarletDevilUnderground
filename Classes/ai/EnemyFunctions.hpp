@@ -93,24 +93,6 @@ public:
 	FuncGetName(SakuyaMain)
 };
 
-class IllusionDash : public Function {
-public:
-	inline IllusionDash(StateMachine* fsm) : Function(fsm) {}
-	~IllusionDash();
-
-	IllusionDash(StateMachine* fsm, SpaceVect _target);
-	IllusionDash(StateMachine* fsm, const ValueMap& args);
-	static const SpaceFloat scale;
-	static const SpaceFloat opacity;
-	static const SpaceFloat speed;
-
-	virtual void onEnter();
-	virtual update_return update();
-	FuncGetName(IllusionDash)
-protected:
-	SpaceVect target;
-};
-
 } //end NS
 
 #endif /* EnemyFunctions_hpp */
