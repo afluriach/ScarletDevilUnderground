@@ -25,11 +25,7 @@
   <object id="42" type="Pitfall" x="384" y="1280" width="256" height="640"/>
   <object id="43" type="Pitfall" x="128" y="1152" width="256" height="768"/>
   <object id="44" type="IceFloor" x="640" y="256" width="1280" height="1664"/>
-  <object id="45" type="CavePressurePlate" x="384" y="896" width="256" height="384">
-   <properties>
-    <property name="target" value="spawner1 spawner2 spawner3"/>
-   </properties>
-  </object>
+  <object id="45" type="IceFloor" x="384" y="896" width="256" height="384"/>
   <object id="46" type="IceFloor" x="0" y="1024" width="384" height="128"/>
  </objectgroup>
  <objectgroup name="walls">
@@ -57,8 +53,8 @@
   </object>
  </objectgroup>
  <objectgroup name="spawners">
-  <object id="51" name="spawner1" type="Scorpion1" x="1216" y="256" width="128" height="128"/>
-  <object id="52" name="spawner2" type="Scorpion1" x="1216" y="1792" width="128" height="128"/>
-  <object id="53" name="spawner3" type="Scorpion1" x="1216" y="1024" width="128" height="128"/>
+  <object id="51" name="spawner1" x="1216" y="256" width="128" height="128"/>
+  <object id="52" name="spawner2" x="1216" y="1792" width="128" height="128"/>
+  <object id="53" name="spawner3" x="1216" y="1024" width="128" height="128"/>
  </objectgroup>
 </map>

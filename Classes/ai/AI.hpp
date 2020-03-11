@@ -108,15 +108,6 @@ public:
 
 	inline StateMachine* getFSM() const { return fsm; }
 
-    typedef function<local_shared_ptr<Function>(StateMachine* fsm, const ValueMap&) > AdapterType;
-    static const unordered_map<string, Function::AdapterType> adapters;
-    
-    static local_shared_ptr<Function> constructState(
-		const string& type,
-		StateMachine* fsm,
-		const ValueMap& args
-	);
-
 	template<class FuncCls, typename... Params>
 	void push(Params... params);
 	void pop();

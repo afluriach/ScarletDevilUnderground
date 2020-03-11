@@ -111,19 +111,10 @@ RoomSensor::RoomSensor(GSpace* space, ObjectIDType id, SpaceVect center, SpaceVe
 	AreaSensor(space,id,center,dimensions),
 	mapID(mapID)
 {
-	string startState = getStringOrDefault(props, "startState", "");
-
 	trapDoorNames = splitString(getStringOrDefault(props, "trap_doors", ""), " ");
 	bossActivationNames = splitString(getStringOrDefault(props, "boss_activation_targets", ""), " ");
 	spawnOnClear = getStringOrDefault(props, "spawn_on_clear", "");
 	bossName = getStringOrDefault(props, "boss", "");
-
-	fsm = make_unique<ai::StateMachine>(this);
-
-	if (!startState.empty()) {
-		auto f = ai::Function::constructState(startState, fsm.get(), props);
-		fsm->addThread(f);
-	}
 
 	space->addRoomSensor(this);
 }
@@ -352,5 +343,5 @@ unsigned int RoomSensor::activateSpawners(string t, unsigned int count)
 
 bool RoomSensor::isClearedState()
 {
-	return enemies.empty() && fsm->getThreadCount() == 0;
+	return enemies.empty();
 }

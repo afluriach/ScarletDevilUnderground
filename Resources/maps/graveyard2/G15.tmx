@@ -1,12 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <map version="1.0" tiledversion="1.0.3" orientation="orthogonal" renderorder="right-down" width="17" height="17" tilewidth="128" tileheight="128" nextobjectid="75">
  <properties>
-  <property name="minCount1" value="2"/>
   <property name="spawn_on_clear" value="bullet_speed_upgrade"/>
-  <property name="startState" value="MultiSpawnSequence"/>
-  <property name="totalCount" value="6"/>
-  <property name="type1" value="RedFairy"/>
-  <property name="waveCount1" value="3"/>
  </properties>
  <tileset firstgid="1" name="wall" tilewidth="128" tileheight="128" tilecount="4" columns="2">
   <image source="../fence.png" width="256" height="256"/>
@@ -76,8 +71,8 @@
   <object id="70" name="bullet_speed_upgrade" type="bullet_speed_upgrade" x="1024" y="1024" width="128" height="128"/>
  </objectgroup>
  <objectgroup name="spawners">
-  <object id="69" type="RedFairy" x="1024" y="1792" width="128" height="128"/>
-  <object id="67" type="RedFairy" x="1024" y="256" width="128" height="128"/>
-  <object id="68" type="RedFairy" x="1792" y="1024" width="128" height="128"/>
+  <object id="69" x="1024" y="1792" width="128" height="128"/>
+  <object id="67" x="1024" y="256" width="128" height="128"/>
+  <object id="68" x="1792" y="1024" width="128" height="128"/>
  </objectgroup>
 </map>

@@ -252,27 +252,27 @@
   <object id="228" type="GhostFairy" x="2560" y="3200" width="128" height="128"/>
   <object id="229" name="g3_map1" type="MapFragment" x="1408" y="5376" width="128" height="128"/>
   <object id="277" type="Headstone" x="4736" y="4736" width="256" height="256"/>
-  <object id="278" type="DestructibleHeadstone" x="5888" y="4736" width="256" height="256" />
-  <object id="279" type="DestructibleHeadstone" x="5312" y="4736" width="256" height="256" />
+  <object id="278" type="DestructibleHeadstone" x="5888" y="4736" width="256" height="256"/>
+  <object id="279" type="DestructibleHeadstone" x="5312" y="4736" width="256" height="256"/>
   <object id="281" type="Headstone" x="4736" y="5888" width="256" height="256"/>
-  <object id="282" type="DestructibleHeadstone" x="5888" y="5888" width="256" height="256" />
-  <object id="283" type="DestructibleHeadstone" x="5312" y="5888" width="256" height="256" />
+  <object id="282" type="DestructibleHeadstone" x="5888" y="5888" width="256" height="256"/>
+  <object id="283" type="DestructibleHeadstone" x="5312" y="5888" width="256" height="256"/>
   <object id="284" type="Headstone" x="5888" y="5312" width="256" height="256"/>
-  <object id="296" type="DestructibleHeadstone" x="2560" y="1536" width="256" height="256" />
-  <object id="297" type="DestructibleHeadstone" x="3712" y="1536" width="256" height="256" />
-  <object id="298" type="Headstone" x="3712" y="384" width="256" height="256" />
+  <object id="296" type="DestructibleHeadstone" x="2560" y="1536" width="256" height="256"/>
+  <object id="297" type="DestructibleHeadstone" x="3712" y="1536" width="256" height="256"/>
+  <object id="298" type="Headstone" x="3712" y="384" width="256" height="256"/>
   <object id="299" type="Headstone" x="3136" y="384" width="256" height="256"/>
-  <object id="300" type="DestructibleHeadstone" x="2560" y="384" width="256" height="256" />
+  <object id="300" type="DestructibleHeadstone" x="2560" y="384" width="256" height="256"/>
   <object id="301" type="Headstone" x="3136" y="1536" width="256" height="256"/>
-  <object id="302" type="DestructibleHeadstone" x="5824" y="384" width="256" height="256" />
-  <object id="303" type="DestructibleHeadstone" x="5824" y="896" width="256" height="256" />
+  <object id="302" type="DestructibleHeadstone" x="5824" y="384" width="256" height="256"/>
+  <object id="303" type="DestructibleHeadstone" x="5824" y="896" width="256" height="256"/>
   <object id="304" type="Headstone" x="4736" y="384" width="256" height="256"/>
-  <object id="305" type="DestructibleHeadstone" x="5248" y="384" width="256" height="256" />
+  <object id="305" type="DestructibleHeadstone" x="5248" y="384" width="256" height="256"/>
   <object id="306" type="Headstone" x="5824" y="1408" width="256" height="256"/>
-  <object id="307" type="DestructibleHeadstone" x="5824" y="2560" width="256" height="256" />
-  <object id="308" type="DestructibleHeadstone" x="5824" y="3072" width="256" height="256" />
-  <object id="309" type="DestructibleHeadstone" x="4736" y="3584" width="256" height="256" />
-  <object id="310" type="DestructibleHeadstone" x="5248" y="3584" width="256" height="256" />
+  <object id="307" type="DestructibleHeadstone" x="5824" y="2560" width="256" height="256"/>
+  <object id="308" type="DestructibleHeadstone" x="5824" y="3072" width="256" height="256"/>
+  <object id="309" type="DestructibleHeadstone" x="4736" y="3584" width="256" height="256"/>
+  <object id="310" type="DestructibleHeadstone" x="5248" y="3584" width="256" height="256"/>
   <object id="311" type="Headstone" x="5824" y="3584" width="256" height="256"/>
   <object id="312" type="ZombieFairy" x="1024" y="2816" width="128" height="128"/>
   <object id="313" type="ZombieFairy" x="1408" y="3200" width="128" height="128"/>
@@ -300,35 +300,27 @@
   <object id="346" type="Magic3" x="5248" y="896" width="128" height="128"/>
  </objectgroup>
  <objectgroup name="spawners">
-  <object id="293" name="spawner-g5-1" type="GhostFairy" x="4608" y="4608" width="128" height="128"/>
-  <object id="292" name="spawner-g5-2" type="GhostFairy" x="6144" y="4608" width="128" height="128"/>
-  <object id="291" name="spawner-g5-3" type="GhostFairy" x="4608" y="6144" width="128" height="128"/>
-  <object id="290" name="spawner-g5-4" type="GhostFairy" x="6144" y="6144" width="128" height="128"/>
-  <object id="289" name="spawner-g5-5" type="GreenFairy1" x="5664" y="4800" width="128" height="128"/>
-  <object id="288" name="spawner-g5-6" type="GreenFairy2" x="5632" y="5376" width="128" height="128"/>
-  <object id="285" name="spawner-g5-7" type="GreenFairy1" x="5056" y="4800" width="128" height="128"/>
-  <object id="295" type="Bat" x="1024" y="5376" width="128" height="128">
-   <properties>
-    <property name="spawn_limit" value="5"/>
-   </properties>
-  </object>
-  <object id="332" name="spawner4-3" type="GreenFairy1" x="5376" y="3200" width="128" height="128"/>
-  <object id="333" name="spawner4-2" type="GhostFairy" x="5632" y="2560" width="128" height="128"/>
-  <object id="334" name="spawner4-1" type="GreenFairy1" x="4992" y="2560" width="128" height="128"/>
-  <object id="338" type="GreenFairy2" x="3712" y="768" width="128" height="128"/>
-  <object id="339" type="RedFairy" x="3200" y="768" width="128" height="128"/>
-  <object id="340" type="RedFairy" x="3200" y="1280" width="128" height="128"/>
-  <object id="341" type="GhostFairy" x="2560" y="768" width="128" height="128"/>
-  <object id="342" type="GreenFairy2" x="2560" y="1280" width="128" height="128"/>
-  <object id="343" type="GhostFairy" x="3712" y="1280" width="128" height="128"/>
+  <object id="293" name="spawner-g5-1" x="4608" y="4608" width="128" height="128"/>
+  <object id="292" name="spawner-g5-2" x="6144" y="4608" width="128" height="128"/>
+  <object id="291" name="spawner-g5-3" x="4608" y="6144" width="128" height="128"/>
+  <object id="290" name="spawner-g5-4" x="6144" y="6144" width="128" height="128"/>
+  <object id="289" name="spawner-g5-5" x="5664" y="4800" width="128" height="128"/>
+  <object id="288" name="spawner-g5-6" x="5632" y="5376" width="128" height="128"/>
+  <object id="285" name="spawner-g5-7" x="5056" y="4800" width="128" height="128"/>
+  <object id="295" x="1024" y="5376" width="128" height="128"/>
+  <object id="332" name="spawner4-3" x="5376" y="3200" width="128" height="128"/>
+  <object id="333" name="spawner4-2" x="5632" y="2560" width="128" height="128"/>
+  <object id="334" name="spawner4-1" x="4992" y="2560" width="128" height="128"/>
+  <object id="338" x="3712" y="768" width="128" height="128"/>
+  <object id="339" x="3200" y="768" width="128" height="128"/>
+  <object id="340" x="3200" y="1280" width="128" height="128"/>
+  <object id="341" x="2560" y="768" width="128" height="128"/>
+  <object id="342" x="2560" y="1280" width="128" height="128"/>
+  <object id="343" x="3712" y="1280" width="128" height="128"/>
  </objectgroup>
  <objectgroup name="rooms">
   <object id="133" name="0" x="2176" y="4352" width="2176" height="2176"/>
-  <object id="134" name="1" x="0" y="4352" width="2176" height="2176">
-   <properties>
-    <property name="startState" value="SequentialClearSpawn"/>
-   </properties>
-  </object>
+  <object id="134" name="1" x="0" y="4352" width="2176" height="2176"/>
   <object id="135" name="2" x="0" y="2183" width="2176" height="2176">
    <properties>
     <property name="trap_doors" value="door-2e door-2n"/>
@@ -337,44 +329,19 @@
   <object id="136" name="3" x="2176" y="2176" width="2176" height="2176"/>
   <object id="137" name="4" x="4352" y="2176" width="2176" height="2176">
    <properties>
-    <property name="spawnTime1" value="5.0"/>
-    <property name="spawnTime2" value="15.0"/>
-    <property name="spawnTime3" value="30.0"/>
-    <property name="spawnTime4" value="60.0"/>
-    <property name="spawners1" value="spawner4-1 spawner4-2"/>
-    <property name="spawners2" value="spawner4-2 spawner4-3"/>
-    <property name="spawners3" value="spawner4-1 spawner4-3"/>
-    <property name="spawners4" value="spawner4-1 spawner4-2 spawner4-3"/>
-    <property name="startState" value="TimedSpawnSequence"/>
     <property name="trap_doors" value="door-4n"/>
    </properties>
   </object>
   <object id="139" name="6" x="2176" y="0" width="2176" height="2176">
    <properties>
     <property name="spawn_on_clear" value="starbowBreak"/>
-    <property name="startState" value="MultiSpawnSequence"/>
-    <property name="totalCount1" value="3"/>
-    <property name="totalCount2" value="2"/>
-    <property name="totalCount3" value="4"/>
-    <property name="type1" value="GhostFairy"/>
-    <property name="type2" value="RedFairy"/>
-    <property name="type3" value="GreenFairy2"/>
    </properties>
   </object>
   <object id="183" name="7" x="4352" y="0" width="2176" height="2176"/>
   <object id="184" name="8" x="0" y="0" width="2176" height="2176"/>
   <object id="138" name="5" x="4352" y="4352" width="2176" height="2176">
    <properties>
-    <property name="minCount3" value="1"/>
     <property name="spawn_on_clear" value="shield_upgrade"/>
-    <property name="startState" value="MultiSpawnSequence"/>
-    <property name="totalCount1" value="5"/>
-    <property name="totalCount2" value="2"/>
-    <property name="totalCount3" value="3"/>
-    <property name="type1" value="GreenFairy1"/>
-    <property name="type2" value="GreenFairy2"/>
-    <property name="type3" value="GhostFairy"/>
-    <property name="waveCount1" value="2"/>
    </properties>
   </object>
  </objectgroup>

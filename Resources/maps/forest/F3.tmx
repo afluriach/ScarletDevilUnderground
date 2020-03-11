@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <map version="1.0" tiledversion="1.0.3" orientation="orthogonal" renderorder="right-down" width="53" height="37" tilewidth="128" tileheight="128" nextobjectid="125">
  <properties>
-  <property name="startState" value="SequentialClearSpawn"/>
   <property name="trap_doors" value="door-f3-north door-f3-east"/>
  </properties>
  <tileset firstgid="1" name="dirt1" tilewidth="128" tileheight="128" tilecount="4" columns="2">
@@ -34,21 +33,9 @@
   </object>
  </objectgroup>
  <objectgroup name="spawners">
-  <object id="121" name="spawner-f3-3" type="GreenFairy1" x="5888" y="2688" width="128" height="128">
-   <properties>
-    <property name="spawn_limit" value="1"/>
-   </properties>
-  </object>
-  <object id="120" name="spawner-f3-2" type="GreenFairy1" x="4864" y="2688" width="128" height="128">
-   <properties>
-    <property name="spawn_limit" value="1"/>
-   </properties>
-  </object>
-  <object id="118" name="spawner-f3-1" type="GreenFairy1" x="3840" y="2688" width="128" height="128">
-   <properties>
-    <property name="spawn_limit" value="1"/>
-   </properties>
-  </object>
+  <object id="121" name="spawner-f3-3" x="5888" y="2688" width="128" height="128"/>
+  <object id="120" name="spawner-f3-2" x="4864" y="2688" width="128" height="128"/>
+  <object id="118" name="spawner-f3-1" x="3840" y="2688" width="128" height="128"/>
  </objectgroup>
  <objectgroup name="walls">
   <object id="57" x="0" y="896" width="128" height="1664">

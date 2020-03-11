@@ -61,19 +61,6 @@ Player* Event::getRoomAlert()
 	return eventType == event_type::roomAlert ? any_cast<Player*>(data) : nullptr;
 }
 
-local_shared_ptr<Function> Function::constructState(
-	const string& type,
-	StateMachine* fsm,
-	const ValueMap& args
-){
-	Function::AdapterType adapter = getOrDefault(Function::adapters, type);
-
-	if (adapter)
-		return adapter(fsm, args);
-	else
-		return nullptr;
-}
-
 Function::Function(StateMachine* fsm) :
 	fsm(fsm)
 {}
