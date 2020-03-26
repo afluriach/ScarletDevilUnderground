@@ -338,7 +338,6 @@ void App::loadObjects()
 	app::loadEffects();
 	app::loadSpells();
 	//Collectibles need to be loaded after MagicEffects.
-	app::loadCollectibles();
 	app::loadFirePatterns();
 	app::loadEnvironmentObjects();
 	app::loadFloors();

@@ -11,6 +11,7 @@
 #include "app_constants.hpp"
 #include "GScene.hpp"
 #include "LuaAPI.hpp"
+#include "MagicEffect.hpp"
 
 namespace Lua{
 
@@ -70,5 +71,15 @@ namespace Lua{
 			"framesPerSecond", sol::property(&app_params::getFPS),
 			"secondsPerFrame", sol::property(&app_params::getFrameInterval)
 		);
+
+		auto _app = _state.create_table();
+		_state["app"] = _app;
+
+		_app["getBullet"] = &app::getBullet;
+		_app["getEffect"] = &app::getEffect;
+
+		_app["getSprite"] = &app::getSprite;
+
+		_app["log"] = &log_print<>;
 	}
 }

@@ -12,6 +12,7 @@
 #include "Enemy.hpp"
 #include "Graphics.h"
 #include "graphics_context.hpp"
+#include "Item.hpp"
 #include "MagicEffect.hpp"
 #include "Player.hpp"
 
@@ -73,7 +74,7 @@ void Enemy::onRemove()
 {
 	Agent::onRemove();
 	if(!props->collectible.empty()){
-		space->createObject(Collectible::create(space, props->collectible, getPos()));
+		space->createObject( Item::create(space, props->collectible, getPos()) );
 	}
 	space->registerEnemyDefeated(getClsName());
 }

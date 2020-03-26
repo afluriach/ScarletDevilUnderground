@@ -10,7 +10,6 @@
 
 #include "AreaSensor.hpp"
 #include "Bullet.hpp"
-#include "Collectibles.hpp"
 #include "Enemy.hpp"
 #include "FloorSegment.hpp"
 #include "PhysicsImpl.hpp"

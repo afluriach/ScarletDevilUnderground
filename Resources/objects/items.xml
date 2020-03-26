@@ -48,4 +48,15 @@
 	<shield_upgrade base="Upgrade" sprite="auto" />
 	<bullet_speed_upgrade base="Upgrade" sprite="auto" />
 
+	<health1 sprite="auto" cls="Collectible" />
+	<health2 sprite="auto" cls="Collectible" />
+	<health3 sprite="auto" cls="Collectible" />
+
+	<magic1 sprite="auto" cls="Collectible" />
+	<magic2 sprite="auto" cls="Collectible" />
+	<magic3 sprite="auto" cls="Collectible" />
+
+	<speed1 sprite="auto" cls="Collectible" />
+	<speed2 sprite="auto" cls="Collectible" />
+
 </items>

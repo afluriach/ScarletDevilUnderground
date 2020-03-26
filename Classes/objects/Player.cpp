@@ -13,7 +13,6 @@
 #include "audio_context.hpp"
 #include "Bomb.hpp"
 #include "Bullet.hpp"
-#include "Collectibles.hpp"
 #include "Door.hpp"
 #include "FirePattern.hpp"
 #include "FloorSegment.hpp"

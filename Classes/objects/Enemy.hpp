@@ -10,7 +10,6 @@
 #define Enemy_hpp
 
 #include "Agent.hpp"
-#include "Collectibles.hpp"
 
 class enemy_properties : public agent_properties
 {

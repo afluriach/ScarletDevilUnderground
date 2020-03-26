@@ -9,7 +9,6 @@
 #include "Prefix.h"
 
 #include "Bomb.hpp"
-#include "Collectibles.hpp"
 #include "Enemy.hpp"
 #include "EnvironmentObject.hpp"
 #include "FileIO.hpp"
@@ -27,7 +26,6 @@ namespace app {
 unordered_map<string, area_properties> areas;
 unordered_map<string, local_shared_ptr<bomb_properties>> bombs;
 unordered_map<string, local_shared_ptr<bullet_properties>> bullets;
-unordered_map<string, collectible_properties> collectibles;
 unordered_map<string, local_shared_ptr<MagicEffectDescriptor>> effects;
 unordered_map<string, local_shared_ptr<enemy_properties>> enemies;
 unordered_map<string, local_shared_ptr<environment_object_properties>> environmentObjects;
@@ -114,11 +112,6 @@ void loadBombs()
 void loadBullets()
 {
 	loadObjectsShared<bullet_properties>("objects/bullets.xml", app::bullets);
-}
-
-void loadCollectibles()
-{
-	loadObjects<collectible_properties>("objects/collectibles.xml", app::collectibles);
 }
 
 void loadEffects()
@@ -209,11 +202,6 @@ local_shared_ptr<bomb_properties> getBomb(const string& name)
 local_shared_ptr<bullet_properties> getBullet(const string& name)
 {
 	return getOrDefault(bullets, name);
-}
-
-collectible_properties getCollectible(const string& name)
-{
-	return getOrDefault(collectibles, name);
 }
 
 local_shared_ptr<MagicEffectDescriptor> getEffect(const string& name)
@@ -849,7 +837,7 @@ bool parseObject(tinyxml2::XMLElement* elem, local_shared_ptr<bomb_properties> r
 }
 
 bool parseObject(tinyxml2::XMLElement * elem, local_shared_ptr<item_properties> result)
- {
+{
 	copyBaseObjectShared(elem, items, result);	
 	parseObject(elem, static_cast<local_shared_ptr<object_properties>>(result));
 
@@ -865,27 +853,6 @@ bool parseObject(tinyxml2::XMLElement * elem, local_shared_ptr<item_properties> 
 	getNumericAttr(elem, "addToInventory", &result->addToInventory);
 
 	return true;
- }
-
-bool parseObject(tinyxml2::XMLElement* elem, collectible_properties* result)
-{
-	collectible_properties coll;
-	string effect;
-
-	getStringAttr(elem, "sprite", &coll.sprite);
-	getStringAttr(elem, "effect", &effect);
-	getNumericAttr(elem, "magnitude", &coll.attr.magnitude);
-	getNumericAttr(elem, "length", &coll.attr.length);
-
-	autoName(elem, coll.sprite);
-
-	coll.effect = getEffect(effect);
-
-	if (coll.effect) {
-		*result = coll;
-	}
-
-	return static_cast<bool>(coll.effect);
 }
 
 }

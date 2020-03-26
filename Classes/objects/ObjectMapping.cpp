@@ -11,7 +11,6 @@
 #include "Agent.hpp"
 #include "AreaSensor.hpp"
 #include "Bullet.hpp"
-#include "Collectibles.hpp"
 #include "Door.hpp"
 #include "EffectArea.hpp"
 #include "Enemy.hpp"
@@ -65,14 +64,6 @@ GObject::AdapterType conditionalLoadAdapter()
 	};
 }
 
-GObject::AdapterType collectibleAdapter(string coll_id)
-{
-	return [=](GSpace* space, ObjectIDType id, const ValueMap& args) -> GObject* {
-		SpaceVect pos = getObjectPos(args);
-		return allocator_new<Collectible>(space, id, pos, coll_id);
-	};
-}
-
 template <class C>
 GObject::object_info makeObjectInfo(GObject::AdapterType adapter)
 {
@@ -112,20 +103,6 @@ void GObject::initObjectInfo()
 	entry_same(TeleportPad),
 	entry_same(Torch),
 	entry_same(Wall),
-
-	};
-
-#define collectible_entry(name,id) {#name, collectibleAdapter(#id)}
-#define enemy_entry(name,id) {#name, enemyAdapter(#id)}
-
-	namedObjectTypes = {
-	
-	collectible_entry(Health1, health1),
-	collectible_entry(Health2, health2),
-	collectible_entry(Health3, health3),
-	collectible_entry(Magic1, magic1),
-	collectible_entry(Magic2, magic2),
-	collectible_entry(Magic3, magic3),
 
 	};
 

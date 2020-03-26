@@ -195,14 +195,5 @@ namespace Lua{
 			"ValueMap"
 		);
 
-		auto _app = _state.create_table();
-		_state["app"] = _app;
-
-		_app["getBullet"] = &app::getBullet;
-		_app["getEffect"] = &app::getEffect;
-
-		_app["getSprite"] = &app::getSprite;
-
-		_app["log"] = &log_print<>;
 	}
 }

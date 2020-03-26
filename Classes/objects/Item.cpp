@@ -36,6 +36,29 @@ bool Item::conditionalLoad(GSpace* space, const item_attributes& attr, local_sha
 	return !App::crntState->isObjectRemoved(space->getCrntChamber(), attr.name);
 }
 
+ObjectGeneratorType Item::create(GSpace* space, string items, SpaceVect pos)
+{
+	vector<string> tokens;
+	string actual;
+	if (items.empty())
+		return GObject::null_object_factory();
+
+	tokens = splitString(items, ",");
+
+	if (tokens.size() > 1) {
+		int idx = space->getRandomInt(0, tokens.size() - 1);
+		actual = tokens[idx];
+	}
+	else {
+		actual = items;
+	}
+
+	auto props = app::getItem(actual);
+	item_attributes attr{ pos };
+
+	return GObject::make_object_factory<Item>(attr, props);
+}
+
 Item::Item(GSpace* space, ObjectIDType id, const item_attributes& attr, local_shared_ptr<item_properties> props) :
 	GObject(
 		space,
@@ -64,6 +87,14 @@ void Item::init()
 
 void Item::onPlayerContact(Player* p)
 {
+	bool canAcquire = true;
+	if (hasMethod("canAcquire")) {
+		canAcquire = runScriptMethod<bool, Player*>("canAcquire", p);
+	}
+
+	if (!canAcquire)
+		return;
+
 	if (!props->clsName.empty() && props->addToInventory) {
 		App::crntState->addItem(props->clsName);
 	}

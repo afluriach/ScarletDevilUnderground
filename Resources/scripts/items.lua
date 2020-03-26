@@ -1,3 +1,38 @@
+objects.Collectible = class('Collectible')
+
+objects.Collectible.info = {
+	health1 = {'RestoreHP', 5.0, 0.0},
+	health2 = {'RestoreHP', 25.0, 0.0},
+	health3 = {'RestoreHP', 100.0, 0.0},
+	magic1 = {'RestoreMP', 5.0, 0.0},
+	magic2 = {'RestoreMP', 25.0, 0.0},
+	magic3 = {'RestoreMP', 100.0, 0.0},
+	speed1 = {'FortifyAgility', 1.0, 15.0},
+	speed2 = {'FortifyAgility', 2.0, 60.0},
+}
+
+function objects.Collectible:init(super)
+	self.super = super
+	local info = self.info[super:getClsName()]
+
+	if not info then
+		app.log('Unknown Collectible type ' .. super:getClsName())
+	else
+		self.effect = app.getEffect(info[1])
+		self.attrs = effect_attributes.new( info[2], info[3] )
+	end
+end
+
+function objects.Collectible:canAcquire(player)
+	return self.effect:canApply(player, self.attrs)
+end
+
+function objects.Collectible:onAcquire(player)
+	player:applyMagicEffect(self.effect, self.attrs)
+	self.super.space:removeObject(self.super)
+	self.super:playSoundSpatial('sfx/powerup.wav', 1.0, false, 0.0)
+end
+
 objects.MapFragment = class('MapFragment')
 
 objects.MapFragment.fragments = {

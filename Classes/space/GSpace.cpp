@@ -11,7 +11,6 @@
 #include "AreaSensor.hpp"
 #include "audio_context.hpp"
 #include "Bullet.hpp"
-#include "Collectibles.hpp"
 #include "Door.hpp"
 #include "Enemy.hpp"
 #include "FloorSegment.hpp"
