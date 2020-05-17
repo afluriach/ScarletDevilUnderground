@@ -17,8 +17,6 @@ namespace ai {
 	pfunc(red_fairy);
 	pfunc(zombie_fairy);
 	pfunc(patchouli_enemy);
-	pfunc(reimu_enemy);
-	pfunc(rumia2);
 
 } //end NS
 

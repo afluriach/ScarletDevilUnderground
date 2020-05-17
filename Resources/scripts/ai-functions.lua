@@ -178,6 +178,27 @@ function ai.MarisaForestMain:update()
 	return steady_return()
 end
 
+ai.ReimuEnemy = class("ReimuEnemy")
+
+function ai.ReimuEnemy:init(super, target)
+	self.super = super
+	self.target = target
+	self.moveFunction = ai.Flank.create(self.super.fsm, self.target, 3.0, 2.0)
+end
+
+function ai.ReimuEnemy:onEnter()
+	self.super:castSpellManual(app.getSpell("YinYangOrbs"))
+	self.moveFunction:onEnter()
+end
+
+function ai.ReimuEnemy:update()
+	self.moveFunction:update()
+	self.super:aimAtTarget(self.target)
+	self.super:fire()
+	
+	return steady_return()
+end
+
 ai.Rumia1 = class("Rumia1")
 
 function ai.Rumia1:init(super, target)

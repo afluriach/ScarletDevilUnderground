@@ -90,6 +90,7 @@ namespace Lua{
 		addFuncSame(func, getName);
 
 		addFuncSame(func, castSpell);
+		addFuncSame(func, castSpellManual);
 		addFuncSame(func, isSpellActive);
 		addFuncSame(func, stopSpell);
 

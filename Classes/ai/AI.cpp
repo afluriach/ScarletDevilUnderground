@@ -133,6 +133,11 @@ bool Function::castSpell(local_shared_ptr<SpellDesc> desc)
 	return spellID != 0;
 }
 
+unsigned int Function::castSpellManual(local_shared_ptr<SpellDesc> desc)
+{
+	return getObject()->cast(desc);
+}
+
 bool Function::isSpellActive()
 {
 	return spellID != 0 && getSpace()->spellSystem->isSpellActive(spellID);

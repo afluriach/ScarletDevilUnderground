@@ -75,6 +75,18 @@ function forest_marisa(fsm)
 	fsm:addAlertHandler( ai.ScriptFunction.targetGenerator("MarisaForestMain") )
 end
 
+function reimu_enemy(fsm)
+	local boss = ai.BossFightHandler.create(
+		fsm,
+		'dialogs/reimu_forest_pre_fight',
+		'dialogs/reimu_forest_post_fight'
+	)
+	local engage = ai.ScriptFunction.targetGenerator("ReimuEnemy")
+	
+	fsm:addFunction(boss)
+	fsm:addOnDetectHandler(GType.player, engage)
+end
+
 function rumia1(fsm)
 	local engage = ai.ScriptFunction.targetGenerator("Rumia1")
 	local boss = ai.BossFightHandler.create(fsm, 'dialogs/rumia1', 'dialogs/rumia2')
