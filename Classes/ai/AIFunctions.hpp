@@ -272,18 +272,6 @@ protected:
 	bool active = false;
 };
 
-class IdleWait : public Function{
-public:
-    IdleWait(StateMachine* fsm, const ValueMap& args);
-	IdleWait(StateMachine* fsm, int frames);
-	IdleWait(StateMachine* fsm);
-
-	virtual update_return update();
-	FuncGetName(IdleWait)
-private:
-    int remaining;
-};
-
 class LookAround : public Function {
 public:
 	LookAround(StateMachine* fsm, SpaceFloat angularVelocity);
@@ -367,31 +355,6 @@ public:
 protected:
     SpaceVect target;
 	bool arrived = false;
-};
-
-class BezierMove : public Function {
-public:
-	BezierMove(StateMachine* fsm, array<SpaceVect, 3> points, SpaceFloat rate);
-
-	virtual update_return update();
-
-	FuncGetName(BezierMove)
-protected:
-	array<SpaceVect, 3> points;
-	SpaceFloat rate;
-	SpaceFloat t = 0.0;
-};
-
-class PolarMove : public Function {
-public:
-	PolarMove(StateMachine* fsm, SpaceFloat force, SpaceFloat angularSpeed);
-
-	virtual update_return update();
-
-	FuncGetName(PolarMove)
-protected:
-	SpaceFloat force;
-	SpaceFloat angularSpeed;
 };
 
 class FollowPath : public Function {

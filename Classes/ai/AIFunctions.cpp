@@ -843,52 +843,6 @@ update_return Evade::update()
 	return_steady();
 }
 
-IdleWait::IdleWait(StateMachine* fsm, const ValueMap& args) :
-	Function(fsm)
-{
-    auto it = args.find("waitTime");
-    
-    if(it == args.end()){
-        log("IdleWait::IdleWait: waitTime missing from ValueMap!");
-        remaining = 0;
-        return;
-    }
-    
-    if(!it->second.isNumber()){
-        log("IdleWait::IdleWait: waitTime is not a number!");
-        remaining = 0;
-        return;
-    }
-
-    if(it->second.asFloat() < 0.0f){
-        log("IdleWait::IdleWait: waitTime is negative!");
-        remaining = 0;
-        return;
-    }
-    
-    SpaceFloat waitSeconds = getFloat(args, "waitTime");
-    remaining = app::params.framesPerSecond * waitSeconds;
-}
-
-IdleWait::IdleWait(StateMachine* fsm, int frames) :
-	Function(fsm),
-	remaining(frames)
-{}
-
-IdleWait::IdleWait(StateMachine* fsm) :
-	Function(fsm),
-	remaining(-1)
-{}
-
-update_return IdleWait::update()
-{
-	GObject* agent = getObject();
-	--remaining;
-	ai::applyDesiredVelocity(agent, SpaceVect::zero, agent->getMaxAcceleration());
-
-	return_pop_if_false(remaining > 0);
-}
-
 LookAround::LookAround(StateMachine* fsm, SpaceFloat angularVelocity) :
 Function(fsm),
 angularVelocity(angularVelocity)
@@ -1100,44 +1054,6 @@ update_return MoveToPoint::update()
 	}
 	
 	return_pop_if_true(arrived);
-}
-
-BezierMove::BezierMove(StateMachine* fsm, array<SpaceVect, 3> points, SpaceFloat rate) :
-	Function(fsm),
-	points(points),
-	rate(rate)
-{
-}
-
-update_return BezierMove::update()
-{
-	GObject* agent = getObject();
-
-	agent->setPos(bezier(points, t));
-
-	timerIncrement(t, rate);
-	if (t >= 1.0) {
-		agent->setPos(bezier(points, 1.0));
-		return_pop();
-	}
-	else
-		return_steady();
-}
-
-PolarMove::PolarMove(StateMachine* fsm, SpaceFloat force, SpaceFloat angularSpeed) :
-	Function(fsm),
-	force(force),
-	angularSpeed(angularSpeed)
-{
-}
-
-update_return PolarMove::update()
-{
-	GObject* obj = fsm->getObject();
-	obj->applyForceForSingleFrame(SpaceVect::ray(force, obj->getAngle() + float_pi / 2.0));
-	obj->rotate(app::params.secondsPerFrame * angularSpeed);
-
-	return_steady();
 }
 
 local_shared_ptr<FollowPath> FollowPath::pathToTarget(

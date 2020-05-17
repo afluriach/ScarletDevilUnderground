@@ -169,12 +169,6 @@ namespace Lua{
 		);
 		flock["create"] = &create<ai::Flock>;
 
-		auto idle = _ai.new_usertype<ai::IdleWait>(
-			"IdleWait",
-			sol::base_classes, sol::bases<ai::Function>()
-		);
-		idle["create"] = &create<ai::IdleWait>;
-
 		auto maintain_distance = _ai.new_usertype<ai::MaintainDistance>(
 			"MaintainDistance",
 			sol::base_classes, sol::bases<ai::Function>()
