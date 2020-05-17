@@ -3,14 +3,20 @@ ai.BatEngage = class("BatEngage")
 function ai.BatEngage:init(super, target)
 	self.super, self.target = super, target
 	
+	self.moveFunction = ai.Flank.create(self.super.fsm, self.target, 2.0, 1.0)
+end
+
+function ai.BatEngage:onEnter()
+	self.moveFunction:onEnter()
 end
 
 function ai.BatEngage:update()
-	if self.target:isValid() then
-		return push_return( ai.Flank.create(self.super.fsm, self.target, 2.0, 1.0) )
-	else
+	if not self.target:isValid() then
 		return pop_return()
 	end
+	
+	self.moveFunction:update()
+	return steady_return()
 end
 
 ai.Facer = class("Facer")
@@ -191,10 +197,16 @@ ai.SakuyaNPC1 = class("SakuyaNPC1")
 
 function ai.SakuyaNPC1:init(super)
 	self.super = super
+	self.moveFunction = ai.Wander.create(self.super.fsm, 0.25, 0.75, 4.0, 1.0)
+end
+
+function ai.SakuyaNPC1:onEnter()
+	self.moveFunction:onEnter()
 end
 
 function ai.SakuyaNPC1:update()
-	return push_return(ai.Wander.create(self.super.fsm, 0.25, 0.75, 4.0, 1.0))
+	self.moveFunction:update()
+	return steady_return()
 end
 
 ai.StalkerTeleport = class("StalkerTeleport")
