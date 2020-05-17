@@ -113,18 +113,14 @@ end
 
 ai.MarisaForestMain = class("MarisaForestMain")
 
-function ai.MarisaForestMain:init(super)
+function ai.MarisaForestMain:init(super, target)
 	self.super = super
+	self.target = target
 end
 
-function ai.MarisaForestMain:update()
-	if not self.target then
-		self.target = self.super:getSpace():getPlayerAsRef()
-	end
-	
+function ai.MarisaForestMain:update()	
 	if not self.target or not self.target:isValid() then
-		self.target = nil
-		return steady_return()
+		return pop_return()
 	end
 	
 	self.super:aimAtTarget(self.target)

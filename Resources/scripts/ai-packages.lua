@@ -57,7 +57,7 @@ function follower(fsm)
 end
 
 function forest_marisa(fsm)
-	fsm:addThread( ai.ScriptFunction.create(fsm, "MarisaForestMain") )
+	fsm:addAlertHandler( ai.ScriptFunction.targetGenerator("MarisaForestMain") )
 end
 
 function rumia1(fsm)
