@@ -117,6 +117,8 @@ public:
 	Agent* getAgent() const;
 	physics_context* getPhys() const;
 
+	bool fire();
+
 	bool castSpell(local_shared_ptr<SpellDesc> desc);
 	bool isSpellActive();
 	void stopSpell();

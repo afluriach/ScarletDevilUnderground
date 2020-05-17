@@ -295,25 +295,6 @@ private:
 	SpaceFloat angularVelocity;
 };
 
-class CircleAround : public Function {
-public:
-	CircleAround(
-		StateMachine* fsm,
-		SpaceVect center,
-		SpaceFloat startingAngularPos,
-		SpaceFloat angularSpeed
-	);
-
-	virtual void init();
-	virtual update_return update();
-
-	FuncGetName(CircleAround)
-private:
-	SpaceVect center;
-	SpaceFloat angularSpeed;
-	SpaceFloat angularPosition;
-};
-
 class Flank : public Function {
 public:
 	Flank(
@@ -537,17 +518,6 @@ public:
 	virtual update_return update();
 
 	FuncGetName(FireAtTarget)
-protected:
-	gobject_ref target;
-};
-
-class FireIfTargetVisible : public Function {
-public:
-	FireIfTargetVisible(StateMachine* fsm, gobject_ref target);
-
-	virtual update_return update();
-
-	FuncGetName(FireIfTargetsVisible)
 protected:
 	gobject_ref target;
 };

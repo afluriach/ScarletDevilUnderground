@@ -12,6 +12,7 @@
 #include "AI.hpp"
 #include "AIFunctions.hpp"
 #include "AreaSensor.hpp"
+#include "FirePattern.hpp"
 #include "LuaAPI.hpp"
 #include "SpellDescriptor.hpp"
 #include "SpellSystem.hpp"
@@ -90,6 +91,25 @@ Agent* Function::getAgent() const {
 
 physics_context* Function::getPhys() const {
 	return getSpace()->physicsContext.get();
+}
+
+bool Function::fire()
+{
+	Agent* agent = getAgent();
+	FirePattern* fp = agent->getFirePattern();
+	bool fired = false;
+
+	if (!fp) {
+		log("%s: Attempt to fire without FirePattern!", getObject()->toString());
+		return false;
+	}
+
+	fired = fp->fireIfPossible();
+	if (fired) {
+		agent->playSoundSpatial("sfx/shot.wav");
+	}
+
+	return fired;
 }
 
 bool Function::castSpell(local_shared_ptr<SpellDesc> desc)

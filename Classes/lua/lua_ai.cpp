@@ -88,6 +88,8 @@ namespace Lua{
 		addFuncSame(func, getEvents);
 		addFuncSame(func, getName);
 
+		addFuncSame(func, fire);
+
 		func["makeNullShared"] = []() -> local_shared_ptr<ai::Function> {
 			return nullptr;
 		};

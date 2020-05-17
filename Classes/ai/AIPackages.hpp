@@ -12,8 +12,6 @@
 namespace ai {
 	#define pfunc(n) void n(StateMachine* fsm, const ValueMap& args)
 
-	void circle_around_point(StateMachine* fsm, const ValueMap& args);
-
 	void blue_fairy_follow_path(StateMachine* fsm, const ValueMap& args);
 
 	pfunc(facer);

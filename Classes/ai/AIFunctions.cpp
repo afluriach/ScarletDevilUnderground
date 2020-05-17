@@ -901,39 +901,6 @@ update_return LookAround::update()
 	return_steady();
 }
 
-CircleAround::CircleAround(
-	StateMachine* fsm,
-	SpaceVect center,
-	SpaceFloat startingAngularPos,
-	SpaceFloat angularSpeed
-) :
-Function(fsm),
-center(center),
-angularPosition(startingAngularPos),
-angularSpeed(angularSpeed)
-{
-}
-
-void CircleAround::init()
-{
-}
-
-update_return CircleAround::update()
-{
-	GObject* agent = getObject();
-	SpaceFloat radius = distanceToTarget(agent, center);
-	SpaceFloat angleDelta = angularSpeed * app::params.secondsPerFrame;
-
-	angularPosition += angleDelta;
-
-	SpaceVect agentPos = center + SpaceVect::ray(radius, angularPosition);
-
-	agent->setPos(agentPos);
-	agent->setAngle(angularPosition);
-
-	return_steady();
-}
-
 Flank::Flank(
 	StateMachine* fsm,
 	gobject_ref target,
@@ -1357,33 +1324,7 @@ update_return FireAtTarget::update()
 		directionToTarget(agent, target.get()->getPos()).toAngle()
 	);
 
-	if (fp->fireIfPossible()) {
-		agent->playSoundSpatial("sfx/shot.wav");
-	}
-
-	return_steady();
-}
-
-FireIfTargetVisible::FireIfTargetVisible(StateMachine* fsm, gobject_ref target) :
-	Function(fsm),
-	target(target)
-{}
-
-update_return FireIfTargetVisible::update()
-{
-	Agent* agent = getAgent();
-	FirePattern* fp = agent->getFirePattern();
-
-	if (!fp || !target.isValid()) {
-		return_pop();
-	}
-	
-	if (agent->getRadar()->isObjectVisible(target.get()) && getSpace()->isInPlayerRoom(agent->getCrntRoomID()))
-	{
-		if (fp->fireIfPossible()) {
-			agent->playSoundSpatial("sfx/shot.wav");
-		}
-	}
+	fire();
 
 	return_steady();
 }
@@ -1537,7 +1478,7 @@ FireOnStress::FireOnStress(StateMachine* fsm, float stressPerShot) :
 update_return FireOnStress::update()
 {
 	Agent* agent = getAgent();
-	if (agent->get(Attribute::stress) >= stressPerShot && agent->getFirePattern()->fireIfPossible()) {
+	if (agent->get(Attribute::stress) >= stressPerShot && fire()) {
 		agent->modifyAttribute(Attribute::stress, -stressPerShot);
 	}
 	return_steady();
