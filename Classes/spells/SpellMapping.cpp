@@ -10,7 +10,6 @@
 
 #include "EnemySpell.hpp"
 #include "PlayerSpell.hpp"
-#include "RumiaSpells.hpp"
 #include "Spell.hpp"
 #include "SpellDescriptor.hpp"
 
@@ -27,10 +26,7 @@ constexpr local_shared_ptr<SpellDesc> createDesc()
 
 void Spell::initDescriptors() {
 	spellDescriptors.insert(entry_same(BlueFairyBomb));
-	spellDescriptors.insert(entry_same(DarknessSignDemarcation));
-	spellDescriptors.insert(entry_same(DarknessSignDemarcation2));
 	spellDescriptors.insert(entry_same(LavaeteinnSpell));
-	spellDescriptors.insert(entry_same(NightSignPinwheel));
 	spellDescriptors.insert(entry_same(PlayerBatMode));
 	spellDescriptors.insert(entry_same(PlayerCounterClock));
 	spellDescriptors.insert(entry_same(PlayerIceShield));

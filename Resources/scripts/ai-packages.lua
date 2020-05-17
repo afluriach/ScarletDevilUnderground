@@ -36,6 +36,11 @@ function fairy2(fsm)
 	fsm:addWhileDetectHandler(GType.player, engage)
 end
 
+function ghost_fairy(fsm)
+	local engage = ai.ScriptFunction.targetGenerator("GhostFairyEngage")
+	fsm:addWhileDetectHandler(GType.player, engage)
+end
+
 function ghost_fairy_npc(fsm)
 	fsm:addThread(ai.Wander.create(fsm))
 	

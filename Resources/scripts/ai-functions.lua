@@ -109,6 +109,26 @@ function ai.FairyEngage:update()
 	return steady_return()
 end
 
+ai.GhostFairyEngage = class("GhostFairyEngage")
+
+function ai.GhostFairyEngage:init(super, target)
+	self.super = super
+	self.target = target
+end
+
+function ai.GhostFairyEngage:onEnter(super, target)
+	self.moveFunction = ai.Flank.create(self.super.fsm, self.target, 4.0, 0.75)
+	self.moveFunction:onEnter()
+end
+
+function ai.GhostFairyEngage:update()
+	self.moveFunction:update()
+	self.super:aimAtTarget(self.target)
+	self.super:fire()
+	
+	return steady_return()
+end
+
 ai.GreenFairy = class("GreenFairy")
 
 function ai.GreenFairy:init(super)

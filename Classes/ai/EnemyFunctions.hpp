@@ -39,37 +39,6 @@ protected:
 	unsigned int spellID = 0;
 };
 
-class RumiaMain2 : public Function
-{
-public:
-	RumiaMain2(StateMachine* fsm, gobject_ref target);
-	~RumiaMain2();
-
-	virtual void onEnter();
-	virtual update_return update();
-protected:
-	local_shared_ptr<FireAtTarget> fire;
-	local_shared_ptr<Flank> flank;
-	local_shared_ptr<RumiaDSD2> dsd;
-
-	gobject_ref target;
-};
-
-class RumiaDSD2 : public ai::Function
-{
-public:
-	inline RumiaDSD2(StateMachine* fsm) : Function(fsm) {}
-	~RumiaDSD2();
-
-	virtual void onEnter();
-	virtual update_return update();
-	virtual void onExit();
-	FuncGetName(RumiaDSD2);
-protected:
-	SpaceFloat timer = 0.0;
-	size_t intervalIdx = 0;
-};
-
 } //end NS
 
 #endif /* EnemyFunctions_hpp */

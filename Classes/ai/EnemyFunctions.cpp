@@ -18,7 +18,6 @@
 #include "MiscMagicEffects.hpp"
 #include "Player.hpp"
 #include "RadarSensor.hpp"
-#include "RumiaSpells.hpp"
 #include "SpellDescriptor.hpp"
 
 namespace ai{
@@ -59,55 +58,6 @@ update_return BlueFairyPowerAttack::update()
 	}
 
 	return_steady();
-}
-
-RumiaMain2::RumiaMain2(StateMachine* fsm, gobject_ref target) :
-	Function(fsm),
-	target(target)
-{
-}
-
-RumiaMain2::~RumiaMain2()
-{
-}
-
-void RumiaMain2::onEnter()
-{
-	flank = fsm->make<Flank>(target, 3.0, 1.0);
-	flank->onEnter();
-
-	dsd = fsm->make<RumiaDSD2>();
-	dsd->onEnter();
-
-	fire = fsm->make<FireAtTarget>(target);
-	fire->onEnter();
-}
-
-update_return RumiaMain2::update()
-{
-	autoUpdateFunction(flank);
-	autoUpdateFunction(fire);
-
-	return_steady();
-}
-
-RumiaDSD2::~RumiaDSD2()
-{
-}
-
-void RumiaDSD2::onEnter()
-{
-	castSpell( Spell::getDescriptorByName("DarknessSignDemarcation2"));
-}
-
-update_return RumiaDSD2::update()
-{
-	return_steady();
-}
-
-void RumiaDSD2::onExit()
-{
-	stopSpell();
 }
 
 }//end NS

@@ -40,21 +40,6 @@ void blue_fairy_follow_path(StateMachine* fsm, const ValueMap& args)
 	}
 }
 
-void ghost_fairy(StateMachine* fsm, const ValueMap& args)
-{
-	fsm->addDetectFunction(
-		GType::player,
-		[](StateMachine& sm, GObject* target) -> void {
-			sm.addThread(make_local_shared<Flank>(&sm, target, 4.0, 0.75));
-			sm.addThread(make_local_shared<FireAtTarget>(&sm, target));
-		},
-		[](StateMachine& sm, GObject* target) -> void {
-			sm.removeThread("MaintainDistance");
-			sm.removeThread("FireAtTarget");
-		}
-	);
-}
-
 void red_fairy(StateMachine* fsm, const ValueMap& args)
 {
 	Agent* agent = fsm->getAgent();
@@ -130,25 +115,14 @@ void reimu_enemy(StateMachine* fsm, const ValueMap& args)
 	);
 }
 
-void rumia2(StateMachine* fsm, const ValueMap& args)
-{
-	auto engage = makeTargetFunctionGenerator<RumiaMain2>();
-	auto boss = make_local_shared<BossFightHandler>(fsm, "dialogs/rumia3", "dialogs/rumia4");
-
-	fsm->addFunction(boss);
-	fsm->addOnDetectHandler(GType::player, engage);
-}
-
 #define package(name) {#name, &name}
 
 const unordered_map<string, StateMachine::PackageType> StateMachine::packages = {
 	package(blue_fairy_follow_path),
-	package(ghost_fairy),
 	package(red_fairy),
 	package(zombie_fairy),
 	package(patchouli_enemy),
 	package(reimu_enemy),
-	package(rumia2),
 };
 
 }//end NS

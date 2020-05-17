@@ -228,7 +228,6 @@ xcopy "$(ProjectDir)..\Resources" "$(OutDir)" /D /E /I /F /Y</Command>
     <ClCompile Include="..\Classes\spells\MiscMagicEffects.cpp" />
     <ClCompile Include="..\Classes\spells\PlayerFirePattern.cpp" />
     <ClCompile Include="..\Classes\spells\PlayerSpell.cpp" />
-    <ClCompile Include="..\Classes\spells\RumiaSpells.cpp" />
     <ClCompile Include="..\Classes\spells\Spell.cpp" />
     <ClCompile Include="..\Classes\spells\SpellDescriptor.cpp" />
     <ClCompile Include="..\Classes\spells\SpellImpl.cpp" />
@@ -320,7 +319,6 @@ xcopy "$(ProjectDir)..\Resources" "$(OutDir)" /D /E /I /F /Y</Command>
     <ClInclude Include="..\Classes\spells\MiscMagicEffects.hpp" />
     <ClInclude Include="..\Classes\spells\PlayerFirePattern.hpp" />
     <ClInclude Include="..\Classes\spells\PlayerSpell.hpp" />
-    <ClInclude Include="..\Classes\spells\RumiaSpells.hpp" />
     <ClInclude Include="..\Classes\spells\Spell.hpp" />
     <ClInclude Include="..\Classes\spells\SpellDescriptor.hpp" />
     <ClInclude Include="..\Classes\spells\SpellImpl.hpp" />
