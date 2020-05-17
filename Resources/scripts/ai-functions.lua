@@ -111,6 +111,27 @@ function ai.GreenFairy:update()
 	return steady_return()
 end
 
+ai.MarisaForestMain = class("MarisaForestMain")
+
+function ai.MarisaForestMain:init(super)
+	self.super = super
+end
+
+function ai.MarisaForestMain:update()
+	if not self.target then
+		self.target = self.super:getSpace():getPlayerAsRef()
+	end
+	
+	if not self.target or not self.target:isValid() then
+		self.target = nil
+		return steady_return()
+	end
+	
+	self.super:aimAtTarget(self.target)
+	
+	return push_return(ai.Cast.create(self.super.fsm, app.getSpell('StarlightTyphoon'), 1.0))
+end
+
 ai.Rumia1 = class("Rumia1")
 
 function ai.Rumia1:init(super, target)
@@ -130,6 +151,16 @@ function ai.Rumia1:update()
 	self.fireFunction = ai.autoUpdateFunction(self.fireFunction)
 	
 	return steady_return()
+end
+
+ai.SakuyaMain = class("SakuyaMain")
+
+function ai.SakuyaMain:init(super)
+    self.super = super
+end
+
+function ai.SakuyaMain:update()
+	return push_return(ai.Cast.create(self.super.fsm, app.getSpell('IllusionDial'), -1.0))
 end
 
 ai.SakuyaNPC1 = class("SakuyaNPC1")

@@ -112,11 +112,6 @@ void ice_fairy(StateMachine* fsm, const ValueMap& args) {
 	fsm->addWhileDetectHandler(GType::player, engage);
 }
 
-void forest_marisa(StateMachine* fsm, const ValueMap& args)
-{
-	fsm->addThread(make_local_shared<MarisaForestMain>(fsm));
-}
-
 void patchouli_enemy(StateMachine* fsm, const ValueMap& args)
 {
 	const vector<float_pair> intervals = {
@@ -166,11 +161,6 @@ void rumia2(StateMachine* fsm, const ValueMap& args)
 	fsm->addOnDetectHandler(GType::player, engage);
 }
 
-void sakuya(StateMachine* fsm, const ValueMap& args)
-{
-	fsm->addThread(make_local_shared<SakuyaMain>(fsm));
-}
-
 #define package(name) {#name, &name}
 
 const unordered_map<string, StateMachine::PackageType> StateMachine::packages = {
@@ -180,11 +170,9 @@ const unordered_map<string, StateMachine::PackageType> StateMachine::packages = 
 	package(zombie_fairy),
 	package(fairy2),
 	package(ice_fairy),
-	package(forest_marisa),
 	package(patchouli_enemy),
 	package(reimu_enemy),
 	package(rumia2),
-	package(sakuya),
 };
 
 }//end NS

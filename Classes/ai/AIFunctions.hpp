@@ -304,17 +304,6 @@ private:
 	SpaceFloat wallMargin;
 };
 
-class AimAtTarget : public Function {
-public:
-	AimAtTarget(StateMachine* fsm, gobject_ref target);
-
-	virtual update_return update();
-
-	FuncGetName(AimAtTarget)
-private:
-	gobject_ref target;
-};
-
 class LookTowardsFire : public Function {
 public:
 	static constexpr float hitCost = 0.375f;

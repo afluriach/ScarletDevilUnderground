@@ -930,23 +930,6 @@ bool Flank::wallQuery(SpaceVect pos)
 	);
 }
 
-AimAtTarget::AimAtTarget(StateMachine* fsm, gobject_ref target) :
-Function(fsm),
-target(target)
-{
-}
-
-update_return AimAtTarget::update()
-{
-	GObject* agent = getObject();
-
-	if (!target.isValid())
-		return_pop();
-
-	agent->setAngle(directionToTarget(agent, target.get()->getPos()).toAngle());
-	return_steady();
-}
-
 LookTowardsFire::LookTowardsFire(StateMachine* fsm, bool useShield) :
 	Function(fsm),
 	useShield(useShield)

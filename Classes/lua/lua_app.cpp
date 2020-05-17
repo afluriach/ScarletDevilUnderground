@@ -12,6 +12,7 @@
 #include "GScene.hpp"
 #include "LuaAPI.hpp"
 #include "MagicEffect.hpp"
+#include "SpellDescriptor.hpp"
 
 namespace Lua{
 
@@ -77,6 +78,7 @@ namespace Lua{
 
 		_app["getBullet"] = &app::getBullet;
 		_app["getEffect"] = &app::getEffect;
+		_app["getSpell"] = &app::getSpell;
 
 		_app["getSprite"] = &app::getSprite;
 

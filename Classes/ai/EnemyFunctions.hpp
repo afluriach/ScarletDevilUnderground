@@ -39,19 +39,6 @@ protected:
 	unsigned int spellID = 0;
 };
 
-class MarisaForestMain : public Function {
-public:
-	inline MarisaForestMain(StateMachine* fsm) : Function(fsm) {}
-	~MarisaForestMain();
-
-	virtual void onEnter();
-	virtual update_return update();
-	FuncGetName(MarisaForestMain)
-protected:
-	local_shared_ptr<AimAtTarget> aimFunction;
-	local_shared_ptr<Cast> castFunction;
-};
-
 class RumiaMain2 : public Function
 {
 public:
@@ -81,16 +68,6 @@ public:
 protected:
 	SpaceFloat timer = 0.0;
 	size_t intervalIdx = 0;
-};
-
-class SakuyaMain : public Function {
-public:
-	inline SakuyaMain(StateMachine* fsm) : Function(fsm) {}
-	~SakuyaMain();
-
-	virtual void onEnter();
-	virtual update_return update();
-	FuncGetName(SakuyaMain)
 };
 
 } //end NS

@@ -118,6 +118,7 @@ public:
 	physics_context* getPhys() const;
 
 	bool fire();
+	bool aimAtTarget(gobject_ref target);
 
 	bool castSpell(local_shared_ptr<SpellDesc> desc);
 	bool isSpellActive();

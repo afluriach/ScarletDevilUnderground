@@ -21,11 +21,9 @@ namespace ai {
 	pfunc(zombie_fairy);
 	pfunc(fairy2);
 	pfunc(ice_fairy);
-	pfunc(forest_marisa);
 	pfunc(patchouli_enemy);
 	pfunc(reimu_enemy);
 	pfunc(rumia2);
-	pfunc(sakuya);
 
 } //end NS
 

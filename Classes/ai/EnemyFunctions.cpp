@@ -61,29 +61,6 @@ update_return BlueFairyPowerAttack::update()
 	return_steady();
 }
 
-MarisaForestMain::~MarisaForestMain()
-{
-}
-
-void MarisaForestMain::onEnter()
-{
-	gobject_ref player = fsm->getSpace()->getObjectRef("player");
-	aimFunction = make_local_shared<ai::AimAtTarget>(fsm, player);
-}
-
-update_return MarisaForestMain::update()
-{
-	autoUpdateFunction(aimFunction);
-	autoUpdateFunction(castFunction);
-
-	if (!castFunction) {
-		castFunction = fsm->make<ai::Cast>(Spell::getDescriptorByName("StarlightTyphoon"), -1.0);
-		castFunction->onEnter();
-	}
-
-	return_steady();
-}
-
 RumiaMain2::RumiaMain2(StateMachine* fsm, gobject_ref target) :
 	Function(fsm),
 	target(target)
@@ -131,22 +108,6 @@ update_return RumiaDSD2::update()
 void RumiaDSD2::onExit()
 {
 	stopSpell();
-}
-
-SakuyaMain::~SakuyaMain()
-{
-}
-
-void SakuyaMain::onEnter()
-{
-}
-
-update_return SakuyaMain::update()
-{
-	return update_return{
-		0,
-		fsm->make<Cast>(Spell::getDescriptorByName("IllusionDial"), -1.0)
-	};
 }
 
 }//end NS

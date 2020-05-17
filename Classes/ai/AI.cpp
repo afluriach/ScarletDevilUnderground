@@ -11,6 +11,7 @@
 #include "Agent.hpp"
 #include "AI.hpp"
 #include "AIFunctions.hpp"
+#include "AIUtil.hpp"
 #include "AreaSensor.hpp"
 #include "FirePattern.hpp"
 #include "LuaAPI.hpp"
@@ -110,6 +111,17 @@ bool Function::fire()
 	}
 
 	return fired;
+}
+
+bool Function::aimAtTarget(gobject_ref target)
+{
+	GObject* agent = getObject();
+
+	if (!target.isValid())
+		return false;
+
+	agent->setAngle(directionToTarget(agent, target.get()->getPos()).toAngle());
+	return true;
 }
 
 bool Function::castSpell(local_shared_ptr<SpellDesc> desc)
