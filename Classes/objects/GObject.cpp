@@ -257,26 +257,6 @@ void GObject::updateFSM() {
 		fsm->update();
 }
 
-local_shared_ptr<ai::Thread> GObject::addThread(local_shared_ptr<ai::Function> threadMain) {
-	if (!fsm) {
-		fsm = make_unique<ai::StateMachine>(this);
-	}
-
-	return fsm->addThread(threadMain);
-}
-
-void GObject::removeThread(local_shared_ptr<ai::Thread> t) {
-	if (fsm) {
-		fsm->removeThread(t);
-	}
-}
-
-void GObject::removeThread(const string& name) {
-	if (fsm) {
-		fsm->removeThread(name);
-	}
-}
-
 void GObject::printFSM() {
 	if (fsm) {
 		log("%s", fsm->toString());
