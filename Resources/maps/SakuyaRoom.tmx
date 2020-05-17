@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.0" tiledversion="1.0.3" orientation="orthogonal" renderorder="right-down" width="17" height="17" tilewidth="128" tileheight="128" nextobjectid="25">
+<map version="1.0" tiledversion="1.0.3" orientation="orthogonal" renderorder="right-down" width="17" height="17" tilewidth="128" tileheight="128" nextobjectid="26">
  <properties>
   <property name="boss" value="sakuya"/>
  </properties>
@@ -11,6 +11,9 @@
    eJxjZGBgYBzFo3gUj+IBwgCTZgEi
   </data>
  </layer>
+ <objectgroup name="rooms">
+  <object id="25" name="0" x="0" y="0" width="2176" height="2144"/>
+ </objectgroup>
  <objectgroup name="objects">
   <object id="1" name="block1" type="Block" x="256" y="1792" width="128" height="128">
    <properties>

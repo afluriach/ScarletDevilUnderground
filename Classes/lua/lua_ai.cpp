@@ -89,6 +89,10 @@ namespace Lua{
 		addFuncSame(func, getEvents);
 		addFuncSame(func, getName);
 
+		addFuncSame(func, castSpell);
+		addFuncSame(func, isSpellActive);
+		addFuncSame(func, stopSpell);
+
 		addFuncSame(func, aimAtTarget);
 		addFuncSame(func, fire);
 
@@ -199,12 +203,6 @@ namespace Lua{
 			&create<ai::Wander>,
 			&create<ai::Wander, SpaceFloat, SpaceFloat, SpaceFloat, SpaceFloat>
 		);
-
-		auto cast = _ai.new_usertype<ai::Cast>(
-			"Cast",
-			sol::base_classes, sol::bases<ai::Function>()
-		);
-		cast["create"] = &create<ai::Cast, local_shared_ptr<SpellDesc>, SpaceFloat>;
 
 		auto fireAtTarget = _ai.new_usertype<ai::FireAtTarget>(
 			"FireAtTarget",

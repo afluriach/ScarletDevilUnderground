@@ -125,7 +125,11 @@ function ai.MarisaForestMain:update()
 	
 	self.super:aimAtTarget(self.target)
 	
-	return push_return(ai.Cast.create(self.super.fsm, app.getSpell('StarlightTyphoon'), 1.0))
+	if not self.super:isSpellActive() then
+		self.super:castSpell(app.getSpell('StarlightTyphoon'))
+	end
+
+	return steady_return()
 end
 
 ai.Rumia1 = class("Rumia1")
@@ -151,12 +155,16 @@ end
 
 ai.SakuyaMain = class("SakuyaMain")
 
-function ai.SakuyaMain:init(super)
+function ai.SakuyaMain:init(super, target)
     self.super = super
+	self.target = target
 end
 
 function ai.SakuyaMain:update()
-	return push_return(ai.Cast.create(self.super.fsm, app.getSpell('IllusionDial'), -1.0))
+	if not self.super:isSpellActive() then
+		self.super:castSpell(app.getSpell('IllusionDial'))
+	end
+	return steady_return()
 end
 
 ai.SakuyaNPC1 = class("SakuyaNPC1")

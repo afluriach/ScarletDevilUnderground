@@ -15,7 +15,7 @@
   </data>
  </layer>
  <objectgroup name="rooms">
-  <object id="14" x="0" y="0" width="2176" height="2144"/>
+  <object id="14" name="0" x="0" y="0" width="2176" height="2144"/>
  </objectgroup>
  <objectgroup name="objects">
   <object id="10" name="player" type="Player" x="1920" y="896" width="128" height="128"/>

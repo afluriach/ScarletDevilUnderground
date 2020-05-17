@@ -126,7 +126,7 @@ bool Function::aimAtTarget(gobject_ref target)
 
 bool Function::castSpell(local_shared_ptr<SpellDesc> desc)
 {
-	if (spellID != 0)
+	if (isSpellActive())
 		stopSpell();
 
 	spellID = getObject()->cast(desc);

@@ -69,7 +69,7 @@ function rumia1(fsm)
 end
 
 function sakuya(fsm)
-	fsm:addThread( ai.ScriptFunction.create(fsm, "SakuyaMain") )
+	fsm:addAlertHandler( ai.ScriptFunction.targetGenerator("SakuyaMain") )
 end
 
 function sakuya_npc(fsm)
