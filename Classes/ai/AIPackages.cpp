@@ -90,28 +90,6 @@ void zombie_fairy(StateMachine* fsm, const ValueMap& args)
 	fsm->getSpace()->spellSystem->cast(Spell::getDescriptorByName("TorchDarkness"),fsm->getAgent());
 }
 
-void fairy2(StateMachine* fsm, const ValueMap& args) {
-	fsm->addDetectFunction(
-		GType::player,
-		[](StateMachine& sm, GObject* target) -> void {
-			sm.addThread(make_local_shared<MaintainDistance>(&sm, target, 3.0f, 1.0f));
-		},
-		[](StateMachine& sm, GObject* target) -> void {
-			sm.removeThread("MaintainDistance");
-		}
-	);
-}
-
-void ice_fairy(StateMachine* fsm, const ValueMap& args) {
-	auto engage = [](StateMachine* fsm, GObject* target) -> local_shared_ptr<Function> {
-		auto comp = make_local_shared<CompositeFunction>(fsm);
-		comp->addFunction<FireAtTarget>(target);
-		comp->addFunction<MaintainDistance>(target, 3.0f, 1.0f);
-		return comp;
-	};
-	fsm->addWhileDetectHandler(GType::player, engage);
-}
-
 void patchouli_enemy(StateMachine* fsm, const ValueMap& args)
 {
 	const vector<float_pair> intervals = {
@@ -168,8 +146,6 @@ const unordered_map<string, StateMachine::PackageType> StateMachine::packages = 
 	package(ghost_fairy),
 	package(red_fairy),
 	package(zombie_fairy),
-	package(fairy2),
-	package(ice_fairy),
 	package(patchouli_enemy),
 	package(reimu_enemy),
 	package(rumia2),

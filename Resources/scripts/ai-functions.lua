@@ -83,6 +83,26 @@ function ai.Follower:getEvents()
 	return ai.event_type_bitfield(ai.event_type.bulletHit)
 end
 
+ai.FairyEngage = class("FairyEngage")
+
+function ai.FairyEngage:init(super, target)
+	self.super = super
+	self.target = target
+end
+
+function ai.FairyEngage:onEnter(super, target)
+	self.moveFunction = ai.MaintainDistance.create(self.super.fsm, self.target, 3.0, 1.0)
+	self.moveFunction:onEnter()
+end
+
+function ai.FairyEngage:update()
+	self.moveFunction:update()
+	self.super:aimAtTarget(self.target)
+	self.super:fire()
+	
+	return steady_return()
+end
+
 ai.GreenFairy = class("GreenFairy")
 
 function ai.GreenFairy:init(super)

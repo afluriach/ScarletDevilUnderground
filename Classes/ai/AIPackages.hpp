@@ -14,13 +14,9 @@ namespace ai {
 
 	void blue_fairy_follow_path(StateMachine* fsm, const ValueMap& args);
 
-	pfunc(facer);
-	pfunc(follower);
 	pfunc(ghost_fairy);
 	pfunc(red_fairy);
 	pfunc(zombie_fairy);
-	pfunc(fairy2);
-	pfunc(ice_fairy);
 	pfunc(patchouli_enemy);
 	pfunc(reimu_enemy);
 	pfunc(rumia2);

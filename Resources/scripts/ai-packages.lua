@@ -31,6 +31,11 @@ function flee_player(fsm)
 	fsm:addWhileDetectHandler(GType.player, engage)
 end
 
+function fairy2(fsm)
+	local engage = ai.ScriptFunction.targetGenerator("FairyEngage")
+	fsm:addWhileDetectHandler(GType.player, engage)
+end
+
 function ghost_fairy_npc(fsm)
 	fsm:addThread(ai.Wander.create(fsm))
 	
@@ -41,6 +46,11 @@ end
 function green_fairy(fsm)
 	fsm:addFleeBomb()
 	fsm:addAlertHandler( ai.ScriptFunction.targetGenerator("GreenFairy") )
+end
+
+function ice_fairy(fsm)
+	local engage = ai.ScriptFunction.targetGenerator("FairyEngage")
+	fsm:addWhileDetectHandler(GType.player, engage)
 end
 
 function bat(fsm)
