@@ -59,7 +59,7 @@ void RadarSensor::endCollision(GObject* obj)
 
 	objectsInRange.erase(obj);
 
-	if (visibleObjects.find(obj) != visibleObjects.end()) {
+	if (visibleObjects.contains(obj)) {
 		onEndDetect(obj);
 		visibleObjects.erase(obj);
 	}
@@ -94,10 +94,10 @@ void RadarSensor::update()
 		body->SetTransform(toBox2D(agent->getPos()), agent->getAngle());
 	}
 
-	for (GObject* obj : objectsInRange)
+	for (GObject* obj : objectsInRange.l)
 	{
 		bool currentlyVisible = isObjectVisible(obj);
-		bool previouslyVisible = visibleObjects.find(obj) != visibleObjects.end();
+		bool previouslyVisible = visibleObjects.contains(obj);
 
 		if (currentlyVisible && !previouslyVisible) {
 			onDetect(obj);
@@ -117,7 +117,7 @@ GObject* RadarSensor::getSensedObject()
 	SpaceFloat bestScalar = -1.0;
 	GObject* bestObj = nullptr;
 
-	for (GObject* obj : visibleObjects)
+	for (GObject* obj : visibleObjects.l)
 	{
 		SpaceVect displacementUnit = (obj->getPos() - getPos()).normalize();
 
@@ -133,16 +133,11 @@ GObject* RadarSensor::getSensedObject()
 	return bestObj;
 }
 
-list<GObject*> RadarSensor::getSensedObjects()
-{
-	return list<GObject*>(visibleObjects.begin(), visibleObjects.end());
-}
-
 list<GObject*> RadarSensor::getSensedObjectsByGtype(GType type)
 {
 	list<GObject*> result;
 
-	for (GObject* obj : visibleObjects) {
+	for (GObject* obj : visibleObjects.l) {
 		if (obj->getType() == type) result.push_back(obj);
 	}
 
@@ -153,7 +148,7 @@ SpaceFloat RadarSensor::getSensedObjectDistance(GType type)
 {
 	SpaceFloat result = numeric_limits<double>::infinity();
 
-	for (GObject* obj : visibleObjects) {
+	for (GObject* obj : visibleObjects.l) {
 		if (to_uint(obj->getType()) & to_uint(type)) {
 			result = min(result, ai::distanceToTarget(agent, obj));
 		}

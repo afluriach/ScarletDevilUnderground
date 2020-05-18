@@ -221,4 +221,53 @@ public:
 	map<TimerType, list<chrono::duration<long, micro>>> timerBuffer;
 };
 
+template<typename T>
+struct list_set
+{
+	list<T, local_allocator<T>> l;
+
+	inline void insert(const T& t)
+	{
+		if (!contains(t)) {
+			l.push_back(t);
+		}
+	}
+
+	inline void erase(const T& t)
+	{
+		for (auto it = l.begin(); it != l.end(); ++it) {
+			if (*it == t) {
+				l.erase(it);
+				return;
+			}
+		}
+	}
+
+	inline bool contains(const T& t) const
+	{
+		for (auto entry : l) {
+			if (entry == t)
+				return true;
+		}
+		return false;
+	}
+
+	inline void clear()
+	{
+		l.clear();
+	}
+
+	inline size_t size() const
+	{
+		return l.size();
+	}
+
+	inline void for_each(function<void(const T&)> f) const
+	{
+		for (auto const& t : l) {
+			f(t);
+		}
+	}
+};
+
 #endif /* util_h */

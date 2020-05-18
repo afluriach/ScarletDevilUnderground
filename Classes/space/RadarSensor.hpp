@@ -37,7 +37,6 @@ public:
 
 	//Find the [visible] object that the agent is most directly facing.
 	GObject* getSensedObject();
-	list<GObject*> getSensedObjects();
 	list<GObject*> getSensedObjectsByGtype(GType type);
 	SpaceFloat getSensedObjectDistance(GType type);
 
@@ -58,8 +57,8 @@ public:
 protected:
 	void update();
 
-	unordered_set<GObject*> objectsInRange;
-	unordered_set<GObject*> visibleObjects;
+	list_set<GObject*> objectsInRange;
+	list_set<GObject*> visibleObjects;
 
 	unary_gobject_function on_detect;
 	unary_gobject_function on_end_detect;
