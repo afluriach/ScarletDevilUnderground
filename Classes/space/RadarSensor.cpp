@@ -34,6 +34,11 @@ RadarSensor::RadarSensor(
 		true,
 		make_any<Sensor*>(this)
 	);
+
+	emplaceIfEmpty(visibleObjectsByType, GType::bomb);
+	emplaceIfEmpty(visibleObjectsByType, GType::player);
+	emplaceIfEmpty(visibleObjectsByType, GType::playerBullet);
+	emplaceIfEmpty(visibleObjectsByType, GType::enemy);
 }
 
 RadarSensor::~RadarSensor()
@@ -60,8 +65,7 @@ void RadarSensor::endCollision(GObject* obj)
 	objectsInRange.erase(obj);
 
 	if (visibleObjects.contains(obj)) {
-		onEndDetect(obj);
-		visibleObjects.erase(obj);
+		removeVisibleObject(obj);
 	}
 }
 
@@ -100,14 +104,34 @@ void RadarSensor::update()
 		bool previouslyVisible = visibleObjects.contains(obj);
 
 		if (currentlyVisible && !previouslyVisible) {
-			onDetect(obj);
-			visibleObjects.insert(obj);
+			addVisibleObject(obj);
 		}
 		else if (!currentlyVisible && previouslyVisible) {
-			onEndDetect(obj);
-			visibleObjects.erase(obj);
+			removeVisibleObject(obj);
 		}
 	}
+}
+
+void RadarSensor::addVisibleObject(GObject* obj)
+{
+	auto it = visibleObjectsByType.find(obj->getType());
+	if (it == visibleObjectsByType.end())
+		return;
+
+	onDetect(obj);
+	it->second.insert(obj);
+	visibleObjects.insert(obj);
+}
+
+void RadarSensor::removeVisibleObject(GObject* obj)
+{
+	auto it = visibleObjectsByType.find(obj->getType());
+	if (it == visibleObjectsByType.end())
+		return;
+
+	onEndDetect(obj);
+	it->second.erase(obj);
+	visibleObjects.erase(obj);
 }
 
 GObject* RadarSensor::getSensedObject()
@@ -133,25 +157,19 @@ GObject* RadarSensor::getSensedObject()
 	return bestObj;
 }
 
-list<GObject*> RadarSensor::getSensedObjectsByGtype(GType type)
+const object_list* RadarSensor::getSensedObjectsByGtype(GType type) const
 {
-	list<GObject*> result;
-
-	for (GObject* obj : visibleObjects.l) {
-		if (obj->getType() == type) result.push_back(obj);
-	}
-
-	return result;
+	auto it = visibleObjectsByType.find(type);
+	return it != visibleObjectsByType.end() ? &it->second.l : nullptr;
 }
 
 SpaceFloat RadarSensor::getSensedObjectDistance(GType type)
 {
 	SpaceFloat result = numeric_limits<double>::infinity();
+	const object_list* objs = getSensedObjectsByGtype(type);
 
-	for (GObject* obj : visibleObjects.l) {
-		if (to_uint(obj->getType()) & to_uint(type)) {
-			result = min(result, ai::distanceToTarget(agent, obj));
-		}
+	for (GObject* obj : *objs) {
+		result = min(result, ai::distanceToTarget(agent, obj));
 	}
 	return result;
 }

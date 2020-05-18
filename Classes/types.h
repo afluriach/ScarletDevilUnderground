@@ -62,6 +62,8 @@ typedef unsigned int LightID;
 typedef unsigned int SpriteID;
 typedef unsigned int ObjectIDType;
 
+typedef list<GObject*, local_allocator<GObject*>> object_list;
+
 typedef function<void(void)> zero_arity_function;
 typedef function<void(const vector<string>&)> InterfaceFunction;
 

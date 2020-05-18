@@ -811,12 +811,12 @@ Evade::Evade(StateMachine* fsm, GType type) :
 update_return Evade::update()
 {
 	Agent* agent = getAgent();
-	list<GObject*> objs = agent->getRadar()->getSensedObjectsByGtype(type);
+	const object_list* objs = agent->getRadar()->getSensedObjectsByGtype(type);
 	
 	GObject* closest = nullptr;
 	SpaceFloat closestDistance = numeric_limits<SpaceFloat>::infinity();
 	 
-	for(GObject* obj: objs)
+	for(GObject* obj: *objs)
 	{
 		SpaceFloat crntDist = distanceToTarget(obj, agent);
 
