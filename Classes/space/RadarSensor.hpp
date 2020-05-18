@@ -59,8 +59,13 @@ protected:
 
 	void addVisibleObject(GObject* obj);
 	void removeVisibleObject(GObject* obj);
+	void addVisibleBullet(GObject* obj);
+	void removeVisibleBullet(GObject* obj);
 
 	list_set<GObject*> objectsInRange;
+	//Bullets are handled separately. Visibility check will only be performed once.
+	list_set<GObject*> bulletsInRange;
+
 	list_set<GObject*> visibleObjects;
 	map<GType, list_set<GObject*>> visibleObjectsByType;
 

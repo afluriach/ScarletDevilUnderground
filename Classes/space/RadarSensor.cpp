@@ -55,17 +55,26 @@ void RadarSensor::collision(GObject* obj)
 	if (agent == obj)
 		return;
 
-	objectsInRange.insert(obj);
+	if (obj->getType() == GType::playerBullet)
+		bulletsInRange.insert(obj);
+	else
+		objectsInRange.insert(obj);
 }
 void RadarSensor::endCollision(GObject* obj)
 {
 	if (agent == obj)
 		return;
 
-	objectsInRange.erase(obj);
+	if (obj->getType() == GType::playerBullet) {
+		//Can be called even if object is not visible. 
+		removeVisibleBullet(obj);
+	}
+	else {
+		objectsInRange.erase(obj);
 
-	if (visibleObjects.contains(obj)) {
-		removeVisibleObject(obj);
+		if (visibleObjects.contains(obj)) {
+			removeVisibleObject(obj);
+		}
 	}
 }
 
@@ -110,6 +119,14 @@ void RadarSensor::update()
 			removeVisibleObject(obj);
 		}
 	}
+
+	for (GObject* obj : bulletsInRange.l)
+	{
+		if (isObjectVisible(obj)) {
+			addVisibleBullet(obj);
+		}
+	}
+	bulletsInRange.clear();
 }
 
 void RadarSensor::addVisibleObject(GObject* obj)
@@ -132,6 +149,28 @@ void RadarSensor::removeVisibleObject(GObject* obj)
 	onEndDetect(obj);
 	it->second.erase(obj);
 	visibleObjects.erase(obj);
+}
+
+void RadarSensor::addVisibleBullet(GObject* obj)
+{
+	auto it = visibleObjectsByType.find(obj->getType());
+	if (it == visibleObjectsByType.end())
+		return;
+
+	if (it->second.size() == 0) {
+		onDetect(obj);
+	}
+
+	it->second.insert(obj);
+}
+
+void RadarSensor::removeVisibleBullet(GObject* obj)
+{
+	auto it = visibleObjectsByType.find(obj->getType());
+	if (it == visibleObjectsByType.end())
+		return;
+
+	it->second.erase(obj);
 }
 
 GObject* RadarSensor::getSensedObject()

@@ -813,6 +813,11 @@ update_return Evade::update()
 	Agent* agent = getAgent();
 	const object_list* objs = agent->getRadar()->getSensedObjectsByGtype(type);
 	
+	if (!objs || objs->size() == 0) {
+		active = false;
+		return_pop();
+	}
+
 	GObject* closest = nullptr;
 	SpaceFloat closestDistance = numeric_limits<SpaceFloat>::infinity();
 	 
