@@ -209,6 +209,27 @@ function ai.MarisaForestMain:update()
 	return steady_return()
 end
 
+ai.PatchouliEnemy = class("PatchouliEnemy")
+
+ai.PatchouliEnemy.intervals = {
+	{200.0, 250.0, "FireStarburst"},
+	{150.0, 180.0, "FlameFence"},
+	{100.0, 150.0, "Whirlpool1"},
+	{0.0,   50.0,  "Whirlpool2"}
+}
+
+function ai.PatchouliEnemy:init(super, target)
+	self.super = super
+		
+	self.castFunction = ai.HPCastSequence(self.super, self.intervals)
+end
+
+function ai.PatchouliEnemy:update()
+	self.castFunction:update()
+
+	return steady_return()
+end
+
 ai.ReimuEnemy = class("ReimuEnemy")
 
 function ai.ReimuEnemy:init(super, target)
@@ -304,4 +325,36 @@ function ai.StalkerTeleport:applyTeleport()
 
 	agent:getAttributeSystem():setFullStamina()
 	agent:applyMagicEffect( app.getEffect("Teleport"), effect_attributes.new(0.0, -1.0) )
+end
+
+ai.HPCastSequence = class("HPCastSequence")
+
+function ai.HPCastSequence:init(super, intervalSpellMap)
+	self.super, self.intervalSpellMap = super, intervalSpellMap
+end
+
+function ai.HPCastSequence:getSpellIndex()
+	local hp = self.super:getAgent():get(Attribute.hp)
+	return intervalMapIndex(self.intervalSpellMap, hp)
+end
+
+function ai.HPCastSequence:update()
+	local newSpell = self:getSpellIndex()
+	
+	if newSpell ~= self.crntSpell and not self.crntSpell then
+		self.super:stopSpell()
+	end
+	
+	if newSpell ~= self.crntSpell and newSpell then
+		self.super:castSpell( app.getSpell(newSpell) )
+	end
+	
+	self.crntSpell = newSpell
+	return steady_return()
+end
+
+function ai.HPCastSequence:onExit()
+	if self.crntSpell then
+		self.super:stopSpell()
+	end
 end

@@ -80,6 +80,10 @@ function forest_marisa(fsm)
 	fsm:addAlertHandler( ai.ScriptFunction.targetGenerator("MarisaForestMain") )
 end
 
+function patchouli_enemy(fsm)	
+	fsm:addAlertHandler( ai.ScriptFunction.targetGenerator("PatchouliEnemy") )
+end
+
 function reimu_enemy(fsm)
 	local boss = ai.BossFightHandler.create(
 		fsm,

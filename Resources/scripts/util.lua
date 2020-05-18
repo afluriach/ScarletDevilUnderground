@@ -15,3 +15,13 @@ function timerIncrement(x, scale)
 	
 	return x + App.getParams().secondsPerFrame*scale
 end
+
+function intervalMapIndex(map, val)
+	for i,v in ipairs(map) do
+		if val >= v[1] and val < v[2] then
+			return v[3]
+		end
+	end
+
+	return nil
+end

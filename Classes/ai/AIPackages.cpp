@@ -67,33 +67,11 @@ void red_fairy(StateMachine* fsm, const ValueMap& args)
 	fsm->addFunction<ExplodeOnZeroHP>(DamageInfo(20.0f, DamageType::bomb, Attribute::end, 100.0f), 4.0);
 }
 
-void patchouli_enemy(StateMachine* fsm, const ValueMap& args)
-{
-	const vector<float_pair> intervals = {
-		make_pair(200.0f,250.0f),
-		make_pair(150.0f, 180.f),
-		make_pair(100.0f,150.0f),
-		make_pair(0.0f,50.0f),
-	};
-
-	fsm->addThread(make_local_shared<HPCastSequence>(
-		fsm,
-		vector<local_shared_ptr<SpellDesc>>{
-			Spell::getDescriptorByName("FireStarburst"),
-			Spell::getDescriptorByName("FlameFence"),
-			Spell::getDescriptorByName("Whirlpool1"),
-			Spell::getDescriptorByName("Whirlpool2"),
-		},
-		makeIntervalMap(intervals)
-	));
-}
-
 #define package(name) {#name, &name}
 
 const unordered_map<string, StateMachine::PackageType> StateMachine::packages = {
 	package(blue_fairy_follow_path),
 	package(red_fairy),
-	package(patchouli_enemy),
 };
 
 }//end NS
