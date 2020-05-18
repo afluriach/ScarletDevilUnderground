@@ -234,12 +234,16 @@ void Agent::sendAlert(Player* p)
 
 void Agent::onDetect(GObject* obj)
 {
+	if (!fsm) return;
+
 	if (obj->getType() == GType::playerBullet) {
 		modifyAttribute(Attribute::stress, Attribute::stressFromDetects);
+		fsm->onBulletDetect(dynamic_cast<Bullet*>(obj));
 	}
 
-	if(fsm)
+	else {
 		fsm->onDetect(obj);
+	}
 }
 
 void Agent::onEndDetect(GObject* obj)

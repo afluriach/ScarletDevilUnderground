@@ -133,6 +133,7 @@ ai.GreenFairy = class("GreenFairy")
 
 function ai.GreenFairy:init(super)
 	self.super = super
+	self.bulletDetect = false
 end
 
 function ai.GreenFairy:onEnter()
@@ -145,16 +146,29 @@ function ai.GreenFairy:onEnter()
 end
 
 function ai.GreenFairy:update()
-	self.evade:update()
-	self.fire:update()
 
-	if self.evade:isActive() then
+	if self.bulletDetect then
 		self.wander:reset()
-	else
-		self.wander:update()
-	end
+		self.bulletDetect = false
 		
-	return steady_return()
+		return push_return(self.evade)
+	else
+		self.fire:update()
+		self.wander:update()
+			
+		return steady_return()	
+	end
+end
+
+function ai.GreenFairy:onEvent(event)
+	if event:getEventType() == ai.event_type.bulletDetect then
+		self.bulletDetect = true
+	end
+	return false
+end
+
+function ai.GreenFairy:getEvents()
+	return ai.event_type_bitfield(ai.event_type.bulletDetect)
 end
 
 ai.MarisaForestMain = class("MarisaForestMain")

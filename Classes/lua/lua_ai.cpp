@@ -50,6 +50,7 @@ namespace Lua{
 				enum_entry(ai::event_type, begin),
 				enum_entry(ai::event_type, bulletBlock),
 				enum_entry(ai::event_type, bulletHit),
+				enum_entry(ai::event_type, bulletDetect),
 				enum_entry(ai::event_type, detect),
 				enum_entry(ai::event_type, endDetect),
 				enum_entry(ai::event_type, zeroHP),

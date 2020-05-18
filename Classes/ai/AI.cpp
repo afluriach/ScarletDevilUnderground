@@ -385,6 +385,12 @@ void StateMachine::onBulletBlock(Bullet* b)
 	handleEvent(event);
 }
 
+void StateMachine::onBulletDetect(Bullet* b)
+{
+	Event event(event_type::bulletDetect, make_any<Bullet*>(b));
+	handleEvent(event);
+}
+
 void StateMachine::onAlert(Player* p)
 {
 	Event event(event_type::roomAlert, make_any<Player*>(p));

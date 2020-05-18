@@ -27,6 +27,7 @@ enum class event_type
 	begin = 0,
 	bulletBlock = 0,
 	bulletHit,
+	bulletDetect,
 
 	detect,
 	endDetect,
@@ -197,6 +198,7 @@ public:
 
 	void onBulletHit(Bullet* b);
 	void onBulletBlock(Bullet* b);
+	void onBulletDetect(Bullet* b);
 	void onAlert(Player* p);
 	void onZeroHP();
 	void onZeroStamina();
