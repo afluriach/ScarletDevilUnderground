@@ -31,6 +31,7 @@ public:
 
 	void stopSpell(unsigned int id);
 	bool isSpellActive(unsigned int id);
+	bool isSpellActive(local_shared_ptr<SpellDesc> desc, GObject* caster);
 
 	void onRemove(unsigned int id, Bullet* b);
 protected:
@@ -45,7 +46,7 @@ protected:
 
 	map<unsigned int, Spell*> spells;
 	set<Spell*, spellCompareID> updateSpells;
-	multimap<GObject*, unsigned int> objectSpells;
+	multimap<GObject*, Spell*> objectSpells;
 
 	GSpace* gspace;
 	unsigned int nextID = 1;

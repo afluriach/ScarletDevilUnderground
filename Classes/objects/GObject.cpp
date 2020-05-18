@@ -896,6 +896,11 @@ unsigned int GObject::cast(local_shared_ptr<SpellDesc> desc)
 	return space->spellSystem->cast(desc, this);
 }
 
+bool GObject::isSpellActive(local_shared_ptr<SpellDesc> desc)
+{
+	return space->spellSystem->isSpellActive(desc, this);
+}
+
 unsigned int GObject::applyMagicEffect(local_shared_ptr<MagicEffectDescriptor> effect, effect_attributes attr)
 {
 	return space->magicEffectSystem->applyEffect(this, effect, attr);

@@ -88,7 +88,6 @@ sprite_update Torch::updateSprite()
 void Torch::setActive(bool active)
 {
     isActive = active;
-	darkness = 0.0f;
 
 	space->graphicsNodeAction(&Node::setVisible, flameSpriteID, active);
 
@@ -106,24 +105,6 @@ bool Torch::getActive()
     return isActive;
 }
 
-void Torch::applyDarkness(float v)
-{
-	unsigned int crntFrame = space->getFrame();
-
-	darkness += v;
-
-	//lazily apply drain since last hit
-	if (lastDarknessFrame > 0 && lastDarknessFrame != space->getFrame()) {
-		darkness -= (crntFrame - lastDarknessFrame) * app::params.secondsPerFrame * darknessDrain;
-		darkness = max(darkness, 0.0f);
-		lastDarknessFrame = crntFrame;
-	}
-
-	if (darkness >= 1.0f) {
-		setActive(false);
-	}
-}
-
 void Torch::addLightSource()
 {
 	lightID = space->addLightSource(
@@ -136,17 +117,6 @@ void Torch::addLightSource()
 		lightID,
 		perlin_light_state{ toColor4F(color)*intensity, boost::math::float_constants::pi, 0.0f, 4.0f, 0.3f}
 	);
-}
-
-bool Torch::hit(DamageInfo damage, SpaceVect n)
-{
-	bool apply = damage.element == Attribute::darknessDamage && damage.mag > 0.0f && getActive();
-
-	if (apply) {
-		applyDarkness(damage.mag);
-	}
-
-	return apply;
 }
 
 void Torch::interact(Player* p)

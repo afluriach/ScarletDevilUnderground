@@ -171,6 +171,23 @@ function ai.GreenFairy:getEvents()
 	return ai.event_type_bitfield(ai.event_type.bulletDetect)
 end
 
+ai.ZombieFairy = class("ZombieFairy")
+
+function ai.ZombieFairy:init(super, target)
+	self.super, self.target = super, target
+	
+	self.moveFunction = ai.Seek.create(self.super.fsm, self.target:get(), true, 0.0)
+end
+
+function ai.ZombieFairy:onEnter()
+	self.moveFunction:onEnter()	
+end
+
+function ai.ZombieFairy:update()
+	self.moveFunction:update()
+	return steady_return()
+end
+
 ai.MarisaForestMain = class("MarisaForestMain")
 
 function ai.MarisaForestMain:init(super, target)

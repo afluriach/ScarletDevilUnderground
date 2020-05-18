@@ -52,7 +52,7 @@ unsigned int SpellSystem::cast(local_shared_ptr<SpellDesc> desc, GObject* caster
 
 	if (spell->length != 0.0){
 		spells.insert_or_assign(id, spell);
-		objectSpells.insert(make_pair(caster, id));
+		objectSpells.insert(make_pair(caster, spell));
 		additions.push_back(spell);
 	}
 	else {
@@ -78,7 +78,7 @@ void SpellSystem::stopSpell(unsigned int id)
 		it->second->end();
 		removals.insert(it->second);
 
-		eraseEntry(objectSpells, make_pair(it->second->caster, it->first));
+		eraseEntry(objectSpells, make_pair(it->second->caster, it->second));
 		spells.erase(it);
 	}
 	else {
@@ -92,6 +92,21 @@ bool SpellSystem::isSpellActive(unsigned int id)
 
 	auto it = spells.find(id);
 	return it != spells.end();
+}
+
+bool SpellSystem::isSpellActive(local_shared_ptr<SpellDesc> desc, GObject* caster)
+{
+	auto keysRange = objectSpells.equal_range(caster);
+
+	for (auto it = keysRange.first; it != keysRange.second; ++it) {
+		Spell* crnt = it->second;
+
+		if (crnt->descriptor == desc) {
+			return true;
+		}
+	}
+
+	return false;
 }
 
 void SpellSystem::onRemove(unsigned int id, Bullet* b)
@@ -111,13 +126,9 @@ void SpellSystem::applyRemove(Spell* spell)
 void SpellSystem::stopObjectSpells(GObject* obj)
 {
 	auto keysRange = objectSpells.equal_range(obj);
-	vector<unsigned int> ids; 
 
-	for (auto it = keysRange.first; it != keysRange.second; ++it)
-		ids.push_back(it->second);
-
-	for (auto id : ids) {
-		stopSpell(id);
+	for (auto it = keysRange.first; it != keysRange.second; ++it) {
+		stopSpell(it->second->id);
 	}
 }
 

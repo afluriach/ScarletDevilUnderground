@@ -114,7 +114,9 @@ namespace Lua{
 
 		addFuncSame(gobject, playSoundSpatial);
 		addFuncSame(gobject, setSpriteZoom);
+
 		addFuncSame(gobject, cast);
+		addFuncSame(gobject, isSpellActive);
 		addFuncSame(gobject, hit);
 		addFuncSame(gobject, applyMagicEffect);
 		addFuncSame(gobject, getMaxSpeed);

@@ -27,12 +27,9 @@ public:
 	virtual sprite_update updateSprite();
 
     void setActive(bool active);
-    bool getActive();
-    
-	virtual bool hit(DamageInfo damage, SpaceVect n);
+    bool getActive();    
 protected:
 	void addLightSource();
-	void applyDarkness(float v);
 
 	string colorName;
 	SpriteID flameSpriteID = 0;
@@ -41,8 +38,6 @@ protected:
 	//The ratio of radius where the light is at full intensity.
 	float flood = 0.5f;
 	float lightRadius = 3.0f;
-	float darkness = 0.0f;
-	unsigned int lastDarknessFrame = 0;
 	bool isActive = false;
 };
 

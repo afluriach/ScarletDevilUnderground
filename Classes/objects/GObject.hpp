@@ -335,6 +335,7 @@ public:
 	//BEGIN SPELLS
 
 	unsigned int cast(local_shared_ptr<SpellDesc> desc);
+	bool isSpellActive(local_shared_ptr<SpellDesc> desc);
 	unsigned int applyMagicEffect(local_shared_ptr<MagicEffectDescriptor> effect, effect_attributes attr);
 
 	//END SPELLS

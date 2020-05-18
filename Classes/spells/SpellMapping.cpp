@@ -31,7 +31,6 @@ void Spell::initDescriptors() {
 	spellDescriptors.insert(entry_same(PlayerCounterClock));
 	spellDescriptors.insert(entry_same(PlayerIceShield));
 	spellDescriptors.insert(entry_same(PlayerScarletRose));
-	spellDescriptors.insert(entry_same(TorchDarkness));
 }
 
 unordered_map<string, local_shared_ptr<SpellDesc>> Spell::spellDescriptors;

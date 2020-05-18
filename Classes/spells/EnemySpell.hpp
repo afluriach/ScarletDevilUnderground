@@ -11,23 +11,6 @@
 
 #include "Spell.hpp"
 
-class Torch;
-
-class TorchDarkness : public Spell
-{
-public:
-	static const string name;
-	static const string description;
-
-	static const SpaceFloat radius;
-	static const float effectMagnitude;
-
-	TorchDarkness(GObject* caster, local_shared_ptr<SpellDesc> desc, unsigned int id);
-	inline virtual ~TorchDarkness() {}
-
-	virtual void update();
-};
-
 class BlueFairyBomb : public Spell
 {
 public:

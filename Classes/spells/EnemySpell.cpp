@@ -16,36 +16,6 @@
 #include "SpellDescriptor.hpp"
 #include "SpellUtil.hpp"
 #include "TeleportPad.hpp"
-#include "Torch.hpp"
-
-const SpaceFloat TorchDarkness::radius = 2.5f;
-const float TorchDarkness::effectMagnitude = 0.2f;
-
-const string TorchDarkness::name = "TorchDarkness";
-const string TorchDarkness::description = "";
-
-TorchDarkness::TorchDarkness(GObject* caster, local_shared_ptr<SpellDesc> desc, unsigned int id) :
-	Spell(caster, desc, id, spell_params{ -1.0, 0.0 })
-{}
-
-void TorchDarkness::update()
-{
-	unordered_set<Torch*> crntTorches = getSpace()->physicsContext->radiusQueryByType<Torch>(
-		caster,
-		caster->getPos(),
-		radius,
-		GType::environment,
-		PhysicsLayers::all
-	);
-
-	for (Torch* crnt : crntTorches)
-	{
-		if (crnt->getActive())
-		{
-			crnt->hit(DamageInfo(effectMagnitude, DamageType::effectArea, Attribute::darknessDamage, 0.0f), SpaceVect::zero);
-		}
-	}
-}
 
 const string BlueFairyBomb::name = "BlueFairyBomb";
 const string BlueFairyBomb::description = "";

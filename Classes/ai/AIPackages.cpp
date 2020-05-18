@@ -67,14 +67,6 @@ void red_fairy(StateMachine* fsm, const ValueMap& args)
 	fsm->addFunction<ExplodeOnZeroHP>(DamageInfo(20.0f, DamageType::bomb, Attribute::end, 100.0f), 4.0);
 }
 
-void zombie_fairy(StateMachine* fsm, const ValueMap& args)
-{
-	auto engage = makeTargetFunctionGenerator<Seek>(true);
-	fsm->addWhileDetectHandler(GType::player, engage);
-
-	fsm->getSpace()->spellSystem->cast(Spell::getDescriptorByName("TorchDarkness"),fsm->getAgent());
-}
-
 void patchouli_enemy(StateMachine* fsm, const ValueMap& args)
 {
 	const vector<float_pair> intervals = {
@@ -101,7 +93,6 @@ void patchouli_enemy(StateMachine* fsm, const ValueMap& args)
 const unordered_map<string, StateMachine::PackageType> StateMachine::packages = {
 	package(blue_fairy_follow_path),
 	package(red_fairy),
-	package(zombie_fairy),
 	package(patchouli_enemy),
 };
 

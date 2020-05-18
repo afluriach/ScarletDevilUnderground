@@ -58,6 +58,11 @@ function ice_fairy(fsm)
 	fsm:addWhileDetectHandler(GType.player, engage)
 end
 
+function zombie_fairy(fsm)
+	local engage = ai.ScriptFunction.targetGenerator("ZombieFairy")
+	fsm:addWhileDetectHandler(GType.player, engage)	
+end
+
 function bat(fsm)
 	engage = ai.ScriptFunction.targetGenerator("BatEngage")
 	fsm:addWhileDetectHandler(GType.player, engage)
