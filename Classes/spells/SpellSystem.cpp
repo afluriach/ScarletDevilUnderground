@@ -127,8 +127,15 @@ void SpellSystem::stopObjectSpells(GObject* obj)
 {
 	auto keysRange = objectSpells.equal_range(obj);
 
+	//This is required, as the keysRange iterator is invalidated once stopSpell is called.
+	list<unsigned int, local_allocator<unsigned int>> toRemove;
+
 	for (auto it = keysRange.first; it != keysRange.second; ++it) {
-		stopSpell(it->second->id);
+		toRemove.push_back(it->second->id);
+	}
+
+	for (auto id : toRemove) {
+		stopSpell(id);
 	}
 }
 
