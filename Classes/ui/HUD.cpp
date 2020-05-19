@@ -646,7 +646,7 @@ void HUD::updateHUD(AttributeSystem playerAttributes)
 
 	setEffect(Attribute::combo, AttributeSystem::maxComboPoints, &playerAttributes);
 
-	enum_foreach(Attribute, elem, beginElementDamage, endElementDamage) {
+	for (Attribute elem = AttributeSystem::beginElementDamage; elem <= AttributeSystem::endElementDamage; enum_increment(Attribute, elem)) {
 		setPercentValue(elem, to_int(playerAttributes[elem]));
 	}
 }

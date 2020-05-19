@@ -37,48 +37,14 @@ OnDetect::OnDetect(StateMachine* fsm, GType type, AITargetFunctionGenerator gen)
 {
 }
 
-event_bitset OnDetect::getEvents()
+event_type OnDetect::getEvents()
 {
-	return make_enum_bitfield(event_type::detect);
+	return event_type::detect;
 }
 
-bool OnDetect::onEvent(Event event)
+void OnDetect::detect(GObject* obj)
 {
-	if (event.getDetectType() == type && !thread) {
-		thread = fsm->addThread(gen(fsm, any_cast<GObject*>(event.data)));
-		return true;
-	}
-	return false;
-}
-
-OnDetectFunction::OnDetectFunction(
-	StateMachine* fsm,
-	GType type,
-	detect_function beginDetect,
-	detect_function endDetect
-) :
-	Function(fsm),
-	type(type),
-	beginDetect(beginDetect),
-	endDetect(endDetect)
-{}
-
-event_bitset OnDetectFunction::getEvents()
-{
-	return enum_bitfield2(event_type, detect, endDetect);
-}
-
-bool OnDetectFunction::onEvent(Event event)
-{
-	if (event.getDetectType() == type) {
-		beginDetect(*fsm, any_cast<GObject*>(event.data));
-		return true;
-	}
-	else if (event.getEndDetectType() == type) {
-		endDetect(*fsm, any_cast<GObject*>(event.data));
-		return true;
-	}
-	return false;
+	thread = fsm->addThread(gen(fsm, obj));
 }
 
 WhileDetect::WhileDetect(StateMachine* fsm, GType type, AITargetFunctionGenerator gen) :
@@ -88,25 +54,21 @@ WhileDetect::WhileDetect(StateMachine* fsm, GType type, AITargetFunctionGenerato
 {
 }
 
-event_bitset WhileDetect::getEvents()
+event_type WhileDetect::getEvents()
 {
-	return enum_bitfield2(event_type, detect, endDetect);
+	return enum_bitwise_or(event_type, detect, endDetect);
 }
 
-bool WhileDetect::onEvent(Event event)
+void WhileDetect::detect(GObject* obj)
 {
-	if (event.getDetectType() == type) {
-		if (!thread)
-			thread = fsm->addThread(gen(fsm, any_cast<GObject*>(event.data)));
+	if (!thread)
+		thread = fsm->addThread(gen(fsm, obj));
+}
 
-		return true;
-	}
-	else if (event.getEndDetectType() == type) {
-		fsm->removeThread(thread);
-		thread.reset();
-		return true;
-	}
-	return false;
+void WhileDetect::endDetect(GObject* obj)
+{
+	fsm->removeThread(thread);
+	thread.reset();
 }
 
 OnAlert::OnAlert(StateMachine* fsm, AITargetFunctionGenerator gen) :
@@ -115,21 +77,14 @@ OnAlert::OnAlert(StateMachine* fsm, AITargetFunctionGenerator gen) :
 {
 }
 
-bool OnAlert::onEvent(Event event)
+void OnAlert::roomAlert(Player* p)
 {
-	Player* p = event.getRoomAlert();
-	GObject* obj = p;
-
-	if (p) {
-		fsm->addThread(gen(fsm, obj));
-	}
-
-	return p;
+	fsm->addThread(gen(fsm, p));
 }
 
-event_bitset OnAlert::getEvents()
+event_type OnAlert::getEvents()
 {
-	return make_enum_bitfield(event_type::roomAlert);
+	return event_type::roomAlert;
 }
 
 OnAlertFunction::OnAlertFunction(StateMachine* fsm, alert_function f) :
@@ -138,20 +93,14 @@ OnAlertFunction::OnAlertFunction(StateMachine* fsm, alert_function f) :
 {
 }
 
-bool OnAlertFunction::onEvent(Event event)
+void OnAlertFunction::roomAlert(Player* p)
 {
-	Player* p = event.getRoomAlert();
-
-	if (p) {
-		f(fsm, p);
-	}
-
-	return p;
+	f(fsm, p);
 }
 
-event_bitset OnAlertFunction::getEvents()
+event_type OnAlertFunction::getEvents()
 {
-	return make_enum_bitfield(event_type::roomAlert);
+	return event_type::roomAlert;
 }
 
 CompositeFunction::CompositeFunction(StateMachine* fsm) :
@@ -183,21 +132,6 @@ update_return CompositeFunction::update()
 	return_steady();
 }
 
-event_bitset CompositeFunction::getEvents()
-{
-	return events;
-}
-
-bool CompositeFunction::onEvent(Event event)
-{
-	for (auto it = functions.rbegin(); it != functions.rend(); ++it) {
-		if ((*it)->onEvent(event)) {
-			return true;
-		}
-	}
-	return false;
-}
-
 void CompositeFunction::onExit()
 {
 	for (auto f : functions) {
@@ -216,8 +150,6 @@ void CompositeFunction::addFunction(local_shared_ptr<Function> f)
 		f->onEnter();
 	}
 	functions.push_back(f);
-
-	events &= f->getEvents();
 }
 
 void CompositeFunction::removeFunction(local_shared_ptr<Function> f)
@@ -279,27 +211,63 @@ update_return ScriptFunction::update()
 	}
 }
 
-bool ScriptFunction::onEvent(Event event)
+void ScriptFunction::bulletBlock(Bullet* b)
 {
-	sol::function f = obj["onEvent"];
-	if (f) {
-		bool result = f(obj, event);
-		return result;
-	}
-	else {
-		return false;
-	}
+	sol::function f = obj["bulletBlock"];
+	if (f) f(obj, b);
 }
 
-event_bitset ScriptFunction::getEvents()
+void ScriptFunction::bulletHit(Bullet* b)
+{
+	sol::function f = obj["bulletHit"];
+	if (f) f(obj, b);
+}
+
+void ScriptFunction::detect(GObject* _obj)
+{
+	sol::function f = obj["detect"];
+	if (f) f(obj, _obj);
+}
+
+void ScriptFunction::endDetect(GObject* _obj)
+{
+	sol::function f = obj["endDetect"];
+	if (f) f(obj, _obj);
+}
+
+void ScriptFunction::roomAlert(Player* p)
+{
+	sol::function f = obj["roomAlert"];
+	if (f) f(obj, p);
+}
+
+void ScriptFunction::zeroHP()
+{
+	sol::function f = obj["zeroHP"];
+	if (f) f(obj);
+}
+
+void ScriptFunction::zeroStamina()
+{
+	sol::function f = obj["zeroStamina"];
+	if (f) f(obj);
+}
+
+event_type ScriptFunction::getEvents()
 {
 	sol::function f = obj["getEvents"];
 	if (f) {
-		event_bitset result = f(obj);
+		event_type result = f(obj);
 		return result;
 	}
 	else {
-		return event_bitset();
+		if (!static_cast<sol::object>(obj["events"])) {
+			obj["events"] = checkEventMethods();
+		}
+
+		sol::object events = obj["events"];
+		event_type result = events.as<event_type>();
+		return result;
 	}
 }
 
@@ -323,6 +291,31 @@ string ScriptFunction::getName()
 	}
 }
 
+//if (hasMethod("zeroHP")) result |= make_enum_bitfield(event_type::zeroHP);
+#define c(name) if( hasMethod(#name) ) { result |= to_int(event_type::name); }
+
+event_type ScriptFunction::checkEventMethods()
+{
+	int result = 0;
+
+	c(bulletBlock);
+	c(bulletHit);
+	c(detect);
+	c(endDetect);
+	c(roomAlert);
+	c(zeroHP);
+	c(zeroStamina);
+
+	return static_cast<event_type>(result);
+}
+
+bool ScriptFunction::hasMethod(const string& name)
+{
+	sol::object f = obj[name.c_str()];
+	bool result = f.valid();
+	return result;
+}
+
 BossFightHandler::BossFightHandler(StateMachine* fsm, string startDialog, string endDialog) :
 	Function(fsm),
 	startDialog(startDialog),
@@ -330,32 +323,31 @@ BossFightHandler::BossFightHandler(StateMachine* fsm, string startDialog, string
 {
 }
  
-event_bitset BossFightHandler::getEvents()
+event_type BossFightHandler::getEvents()
 {
-	return enum_bitfield2(event_type, detect, zeroHP);
+	return enum_bitwise_or(event_type, detect, zeroHP);
 }
 
-bool BossFightHandler::onEvent(Event event)
+void BossFightHandler::detect(GObject* obj)
 {
-	if (event.isDetectPlayer() && !hasRunStart) {
+	if (obj->getType() == GType::player && !hasRunStart) {
 		if (!startDialog.empty()) {
 			fsm->getSpace()->createDialog(startDialog, false);
 		}
 		fsm->getObject()->getCrntRoom()->activateBossObjects();
 		hasRunStart = true;
-		return true;
 	}
+}
 
-	if (event.eventType == event_type::zeroHP && !hasRunEnd) {
+void BossFightHandler::zeroHP()
+{
+	if (!hasRunEnd) {
 		if (!endDialog.empty()) {
 			fsm->getSpace()->createDialog(endDialog, false);
 		}
 		fsm->getObject()->getCrntRoom()->deactivateBossObjects();
 		hasRunEnd = true;
-		return true;
 	}
-
-	return false;
 }
 
 Seek::Seek(StateMachine* fsm, GObject* target, bool usePathfinding, SpaceFloat margin) :
@@ -434,18 +426,14 @@ ExplodeOnZeroHP::ExplodeOnZeroHP(StateMachine* fsm, DamageInfo damage, SpaceFloa
 {
 }
 
-bool ExplodeOnZeroHP::onEvent(Event event)
+void ExplodeOnZeroHP::zeroHP()
 {
-	if (event.eventType == event_type::zeroHP) {
-		explode();
-		return true;
-	}
-	return false;
+	explode();
 }
 
-event_bitset ExplodeOnZeroHP::getEvents()
+event_type ExplodeOnZeroHP::getEvents()
 {
-	return make_enum_bitfield(event_type::zeroHP);
+	return event_type::zeroHP;
 }
 
 void ExplodeOnZeroHP::explode()
@@ -525,156 +513,6 @@ update_return MaintainDistance::update()
 	}
 
 	return_steady();
-}
-
-const SpaceFloat Flock::separationDesired = 5.0;
-
-Flock::Flock(StateMachine* fsm) :
-	Function(fsm)
-{
-}
-
-void Flock::onEnter()
-{
-}
-
-update_return Flock::update()
-{
-	GObject* agent = getObject();
-
-	SpaceVect _separate = separate() * 1.5;
-	SpaceVect _align = align() * 0.75;
-	SpaceVect _cohesion = cohesion() * 0.75;
-
-	SpaceVect sum = _separate + _align + _cohesion;
-
-	agent->applyForceForSingleFrame(sum.setMag(agent->getMaxAcceleration()) );
-
-	return_steady();
-}
-
-void Flock::onExit()
-{
-}
-
-bool Flock::onEvent(Event event)
-{
-	if (event.getDetectType() == GType::enemy) {
-		onDetectNeighbor(dynamic_cast<Agent*>(any_cast<GObject*>(event.data)));
-		return true;
-	}
-	else if (event.getEndDetectType() == GType::enemy) {
-		endDetectNeighbor(dynamic_cast<Agent*>(any_cast<GObject*>(event.data)));
-		return true;
-	}
-	return false;
-}
-
-event_bitset Flock::getEvents()
-{
-	return enum_bitfield2(event_type, detect, endDetect);
-}
-
-void Flock::onDetectNeighbor(Agent* agent)
-{
-	neighbors.insert(agent);
-}
-
-void Flock::endDetectNeighbor(Agent* agent)
-{
-	neighbors.erase(agent);
-}
-
-SpaceVect Flock::separate()
-{
-	SpaceVect steer_acc;
-	int count = 0;
-	GObject* agent = getObject();
-
-	for (auto ref : neighbors)
-	{
-		GObject* other = ref.get();
-		SpaceVect disp = agent->getPos() - other->getPos();
-
-		//Actual magnitude added from interaction is 1/x.
-		if (disp.lengthSq() < separationDesired*separationDesired) {
-			steer_acc += disp.normalizeSafe() / disp.length();
-			++count;
-		}
-	}
-
-	if (count > 0) {
-		steer_acc /= count;
-		steer_acc = steer_acc.normalize() * agent->getMaxSpeed();
-		steer_acc -= agent->getVel();
-		steer_acc.limit(agent->getMaxAcceleration());
-
-	}
-
-	array<SpaceFloat, 8> walls = ai::wallFeeler8(agent, separationDesired);
-
-	for (size_t i = 0; i < 8; ++i) {
-		if (walls[i] < separationDesired) {
-			SpaceVect v = SpaceVect::ray(1.0 / walls[i], i * float_pi / 4.0).rotate(float_pi);
-
-			steer_acc += v;
-			++count;
-		}
-	}
-
-	return steer_acc;
-}
-
-//Calculate average velocity of neighbors
-SpaceVect Flock::align()
-{
-	GObject* agent = getObject();
-
-	SpaceVect sum;
-	int count = 0;
-
-	for (auto ref : neighbors)
-	{
-		GObject* other = ref.get();
-
-		sum += other->getVel();
-		++count;
-	}
-
-	if (count > 0) {
-		sum /= count;
-
-		SpaceVect vel = sum.normalizeSafe() * agent->getMaxSpeed();
-		SpaceVect steer = vel - agent->getVel();
-
-		return steer.limit(agent->getMaxAcceleration());
-	}
-	else {
-		return SpaceVect::zero;
-	}
-}
-
-//Calculate average position of neighbors;
-SpaceVect Flock::cohesion()
-{
-	GObject* agent = getObject();
-	SpaceVect sum;
-	int count = 0;
-
-	for (auto ref : neighbors)
-	{
-		GObject* other = ref.get();
-
-		sum += other->getPos();
-		++count;
-	}
-
-	if (count > 0) {
-		return compute_seek(agent, sum / count);
-	}
-	else {
-		return SpaceVect::zero;
-	}
 }
 
 OccupyPoint::OccupyPoint(StateMachine* fsm, SpaceVect target) :
@@ -974,18 +812,13 @@ void LookTowardsFire::onExit()
 {
 }
 
-event_bitset LookTowardsFire::getEvents()
+event_type LookTowardsFire::getEvents()
 {
-	return make_enum_bitfield(event_type::bulletHit);
+	return event_type::bulletHit;
 }
 
-bool LookTowardsFire::onEvent(Event event)
+void LookTowardsFire::bulletHit(Bullet* b)
 {
-	if (event.eventType != event_type::bulletHit) {
-		return false;
-	}
-	Bullet* b = any_cast<Bullet*>(event.data);
-
 	SpaceVect bulletDirection = b->getVel().normalizeSafe().rotate(float_pi);
 	hitAccumulator += hitCost;
 	directionAccumulator += bulletDirection;
@@ -993,8 +826,6 @@ bool LookTowardsFire::onEvent(Event event)
 	if (looking) {
 		getObject()->setAngle(bulletDirection.toAngle());
 	}
-
-	return true;
 }
 
 const double MoveToPoint::arrivalMargin = 0.125;

@@ -12,6 +12,7 @@
 #include "AI.hpp"
 #include "AIFunctions.hpp"
 #include "AIUtil.hpp"
+#include "Bomb.hpp"
 #include "LuaAPI.hpp"
 #include "Player.hpp"
 #include "SpellDescriptor.hpp"
@@ -41,34 +42,29 @@ namespace Lua{
 
 		auto _update_return = _ai.new_usertype<ai::update_return>(
 			"update_return",
-			sol::constructors<ai::update_return(), ai::update_return(int,local_shared_ptr<ai::Function>)>()
+			sol::constructors<
+				ai::update_return(),
+				ai::update_return(int,local_shared_ptr<ai::Function>)
+			>(),
+			"idx", sol::property(&ai::update_return::get_idx),
+			"f", sol::property(&ai::update_return::get_f)
 		);
+		_update_return["isPop"] = &ai::update_return::isPop;
+		_update_return["isSteady"] = &ai::update_return::isSteady;
 
 		auto _event_type = _ai.new_enum<ai::event_type, true>(
 			"event_type",
 			{
-				enum_entry(ai::event_type, begin),
+				enum_entry(ai::event_type, none),
 				enum_entry(ai::event_type, bulletBlock),
 				enum_entry(ai::event_type, bulletHit),
-				enum_entry(ai::event_type, bulletDetect),
 				enum_entry(ai::event_type, detect),
 				enum_entry(ai::event_type, endDetect),
 				enum_entry(ai::event_type, zeroHP),
 				enum_entry(ai::event_type, zeroStamina),
-				enum_entry(ai::event_type, end),
+				enum_entry(ai::event_type, all),
 			}
 		);
-
-		_ai["event_type_bitfield"] = &make_enum_bitfield<ai::event_type>;
-
-		auto event = _ai.new_usertype<ai::Event>("Event");
-		#define _cls ai::Event
-		
-		addFuncSame(event, isBulletHit);
-		addFuncSame(event, isDetectPlayer);
-		addFuncSame(event, getDetectType);
-		addFuncSame(event, getEndDetectType);
-		addFuncSame(event, getEventType);
 
 		#define _cls ai::Function
 		auto func = _ai.new_usertype<ai::Function>(
@@ -86,7 +82,15 @@ namespace Lua{
 		addFuncSame(func, isCompleted);
 		addFuncSame(func, onReturn);
 		addFuncSame(func, onExit);
-		addFuncSame(func, onEvent);
+
+		addFuncSame(func, bulletBlock);
+		addFuncSame(func, bulletHit);
+		addFuncSame(func, detect);
+		addFuncSame(func, endDetect);
+		addFuncSame(func, roomAlert);
+		addFuncSame(func, zeroHP);
+		addFuncSame(func, zeroStamina);
+
 		addFuncSame(func, getEvents);
 		addFuncSame(func, getName);
 
@@ -170,12 +174,6 @@ namespace Lua{
 		flee["create"] = &create<ai::Flee, GObject*, SpaceFloat>;
 		flee["makeTargetFunctionGenerator"] = &ai::makeTargetFunctionGenerator<ai::Flee, SpaceFloat>;
 
-		auto flock = _ai.new_usertype<ai::Flock>(
-			"Flock",
-			sol::base_classes, sol::bases<ai::Function>()
-		);
-		flock["create"] = &create<ai::Flock>;
-
 		auto maintain_distance = _ai.new_usertype<ai::MaintainDistance>(
 			"MaintainDistance",
 			sol::base_classes, sol::bases<ai::Function>()
@@ -206,6 +204,12 @@ namespace Lua{
 			&create<ai::Wander, SpaceFloat, SpaceFloat, SpaceFloat, SpaceFloat>
 		);
 
+		auto follow_path = _ai.new_usertype<ai::FollowPath>(
+			"FollowPath",
+			sol::base_classes, sol::bases<ai::Function>()
+		);
+		follow_path["create"] = &create<ai::FollowPath, Path, bool, bool>;
+
 		auto fireAtTarget = _ai.new_usertype<ai::FireAtTarget>(
 			"FireAtTarget",
 			sol::base_classes, sol::bases<ai::Function>()
@@ -218,6 +222,19 @@ namespace Lua{
 			sol::base_classes, sol::bases<ai::Function>()
 		);
 		fireOnStress["create"] = &create<ai::FireOnStress, float>;
+
+		auto explode_on_zero_hp = _ai.new_usertype<ai::ExplodeOnZeroHP>(
+			"ExplodeOnZeroHP",
+			sol::base_classes, sol::bases<ai::Function>()
+		);
+		explode_on_zero_hp["create"] = &create<ai::ExplodeOnZeroHP, DamageInfo, SpaceFloat>;
+
+		auto throw_bomb = _ai.new_usertype<ai::ThrowBombs>(
+			"ThrowBombs",
+			sol::base_classes, sol::bases<ai::Function>()
+		);
+		throw_bomb["create"] = &create<ai::ThrowBombs, gobject_ref, local_shared_ptr<bomb_properties>, SpaceFloat, SpaceFloat>;
+		throw_bomb["makeTargetFunctionGenerator"] = &ai::makeTargetFunctionGenerator<ai::ThrowBombs, local_shared_ptr<bomb_properties>, SpaceFloat, SpaceFloat>;
 
 		auto boss = _ai.new_usertype<ai::BossFightHandler>(
 			"BossFightHandler",

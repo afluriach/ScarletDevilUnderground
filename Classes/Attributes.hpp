@@ -53,7 +53,6 @@ enum class Attribute {
 	stressDecay,
 	stressFromHits,
 	stressFromBlocks,
-	stressFromDetects,
 
 	agility,
 
@@ -67,22 +66,19 @@ enum class Attribute {
 	meleeSensitivity,
 
 	beginElementSensitivity,
-	iceSensitivity = beginElementSensitivity,
+	iceSensitivity,
 	sunSensitivity,
 	darknessSensitivity,
 	poisonSensitivity,
 	slimeSensitivity,
-	endElementSensitivity = slimeSensitivity,
 
-	beginElementDamage,
-	iceDamage = beginElementDamage,
+	iceDamage,
 	sunDamage,
 	darknessDamage,
 	poisonDamage,
 	slimeDamage,
 
-	endElementDamage,
-	end = endElementDamage,
+	none
 };
 
 struct IncidentAttributeEntry
@@ -102,7 +98,7 @@ struct UpgradeInfo
 	string sprite;
 };
 
-typedef array<float, to_size_t(Attribute::end)> AttributeArray;
+typedef array<float, to_size_t(Attribute::none)> AttributeArray;
 
 class AttributeSystem
 {
@@ -110,6 +106,12 @@ public:
 	static constexpr IncidentAttributeEntry hp = { Attribute::hp, Attribute::maxHP, Attribute::hpRegen, Attribute::hpInv, Attribute::hpRatio};
 	static constexpr IncidentAttributeEntry mp = { Attribute::mp, Attribute::maxMP, Attribute::mpRegen, Attribute::mpInv, Attribute::mpRatio };
 	static constexpr IncidentAttributeEntry stamina = { Attribute::stamina, Attribute::maxStamina, Attribute::staminaRegen, Attribute::staminaInv, Attribute::staminaRatio };
+
+	static constexpr Attribute beginElementSensitivity = Attribute::iceSensitivity;
+	static constexpr Attribute lastElementSensitivity = Attribute::slimeSensitivity;
+
+	static constexpr Attribute beginElementDamage = Attribute::iceDamage;
+	static constexpr Attribute endElementDamage = Attribute::slimeDamage;
 
 	static pair<float, float> calculateAgilityAttributes(float agility);
 

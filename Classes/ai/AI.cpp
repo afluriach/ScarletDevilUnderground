@@ -32,35 +32,14 @@ update_return::update_return(int idx, local_shared_ptr<Function> f) :
 {
 }
 
-Event::Event(event_type eventType, any data) :
-	eventType(eventType),
-	data(data)
+bool update_return::isSteady()
 {
+	return idx == 0;
 }
 
-bool Event::isBulletHit()
+bool update_return::isPop()
 {
-	return eventType == event_type::bulletHit;
-}
-
-bool Event::isDetectPlayer()
-{
-	return getDetectType() == GType::player;
-}
-
-GType Event::getDetectType()
-{
-	return eventType == event_type::detect ? any_cast<GObject*>(data)->getType() : GType::none;
-}
-
-GType Event::getEndDetectType()
-{
-	return eventType == event_type::endDetect ? any_cast<GObject*>(data)->getType() : GType::none;
-}
-
-Player* Event::getRoomAlert()
-{
-	return eventType == event_type::roomAlert ? any_cast<Player*>(data) : nullptr;
+	return idx < 0;
 }
 
 Function::Function(StateMachine* fsm) :
@@ -214,7 +193,10 @@ void Thread::popToRoot()
 
 local_shared_ptr<Function> Thread::getTop()
 {
-	return call_stack.back();
+	if (call_stack.size() > 0)
+		return call_stack.back();
+	else
+		return nullptr;
 }
 
 string Thread::getStack()
@@ -279,17 +261,23 @@ void StateMachine::update()
 
 void StateMachine::addFunction(local_shared_ptr<Function> function)
 {
-	event_bitset events = function->getEvents();
-	if(events.any())
+	if (!function) return;
+
+	event_type events = function->getEvents();
+	if (events != event_type::none) {
 		functions.push_back(make_pair(events, function));
+	}
+	else {
+		log("StateMachine::addFunction: Attempt to add function %s that doesn't handle any events.", function->getName());
+	}
 }
 
 void StateMachine::removeFunction(local_shared_ptr<Function> function)
 {
-	event_bitset events = function->getEvents();
-	if (events.any()) {
-		functions.remove(make_pair(events, function));
-	}
+	if (!function) return;
+
+	event_type events = function->getEvents();
+	functions.remove(make_pair(events, function));
 }
 
 local_shared_ptr<Thread> StateMachine::addThread(local_shared_ptr<Thread> thread)
@@ -338,16 +326,6 @@ void StateMachine::removeCompletedThreads()
 	}
 }
 
-void StateMachine::handleEvent(Event event)
-{
-	auto _type = make_enum_bitfield(event.eventType);
-
-	for (auto entry : functions) {
-		if( (entry.first & _type).any() )
-			entry.second->onEvent(event);
-	}
-}
-
 bool StateMachine::isThreadRunning(const string& mainName)
 {
 	for (auto it = current_threads.begin(); it != current_threads.end(); ++it)
@@ -364,49 +342,37 @@ int StateMachine::getThreadCount()
 
 void StateMachine::onDetect(GObject* obj)
 {
-	Event event(event_type::detect, make_any<GObject*>(obj));
-	handleEvent(event);
+	callInterface<GObject*>(ai::event_type::detect, &ai::Function::detect, obj);
 }
+
 void StateMachine::onEndDetect(GObject* obj)
 {
-	Event event(event_type::endDetect, make_any<GObject*>(obj));
-	handleEvent(event);
+	callInterface<GObject*>(ai::event_type::detect, &ai::Function::endDetect, obj);
 }
 
 void StateMachine::onBulletHit(Bullet* b)
 {
-	Event event(event_type::bulletHit, make_any<Bullet*>(b));
-	handleEvent(event);
+	callInterface<Bullet*>(ai::event_type::bulletHit, &ai::Function::bulletHit, b);
 }
 
 void StateMachine::onBulletBlock(Bullet* b)
 {
-	Event event(event_type::bulletBlock, make_any<Bullet*>(b));
-	handleEvent(event);
-}
-
-void StateMachine::onBulletDetect(Bullet* b)
-{
-	Event event(event_type::bulletDetect, make_any<Bullet*>(b));
-	handleEvent(event);
+	callInterface<Bullet*>(ai::event_type::bulletBlock, &ai::Function::bulletBlock, b);
 }
 
 void StateMachine::onAlert(Player* p)
 {
-	Event event(event_type::roomAlert, make_any<Player*>(p));
-	handleEvent(event);
+	callInterface<Player*>(ai::event_type::roomAlert, &ai::Function::roomAlert, p);
 }
 
 void StateMachine::onZeroHP()
 {
-	Event event(event_type::zeroHP, any());
-	handleEvent(event);
+	callInterface(ai::event_type::zeroHP, &ai::Function::zeroHP);
 }
 
 void StateMachine::onZeroStamina()
 {
-	Event event(event_type::zeroStamina, any());
-	handleEvent(event);
+	callInterface(ai::event_type::zeroStamina, &ai::Function::zeroStamina);
 }
 
 void StateMachine::addOnDetectHandler(GType type, AITargetFunctionGenerator gen)
@@ -424,12 +390,6 @@ void StateMachine::addWhileDetectHandler(GType type, AITargetFunctionGenerator g
 void StateMachine::addFleeBomb()
 {
 	addWhileDetectHandler(GType::bomb, makeTargetFunctionGenerator<Flee>(-1.0));
-}
-
-void StateMachine::addDetectFunction(GType t, detect_function begin, detect_function end)
-{
-	auto detect = make_local_shared<OnDetectFunction>(this, t, begin, end);
-	addFunction(detect);
 }
 
 void StateMachine::addAlertHandler(AITargetFunctionGenerator gen)

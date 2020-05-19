@@ -33,14 +33,14 @@ DamageInfo DamageInfo::melee(float mag)
 DamageInfo::DamageInfo() :
 	mag(0.0f),
 	knockback(0.0f),
-	element(Attribute::end),
+	element(Attribute::none),
 	type(DamageType::none)
 {}
 
 DamageInfo::DamageInfo(float mag, DamageType type) :
 	mag(mag),
 	knockback(0.0f),
-	element(Attribute::end),
+	element(Attribute::none),
 	type(type)
 {}
 

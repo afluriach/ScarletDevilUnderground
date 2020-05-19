@@ -109,7 +109,6 @@ namespace Lua{
 				enum_entry(Attribute, stressDecay),
 				enum_entry(Attribute, stressFromHits),
 				enum_entry(Attribute, stressFromBlocks),
-				enum_entry(Attribute, stressFromDetects),
 
 				enum_entry(Attribute, agility),
 
@@ -133,6 +132,8 @@ namespace Lua{
 				enum_entry(Attribute, darknessDamage),
 				enum_entry(Attribute, poisonDamage),
 				enum_entry(Attribute, slimeDamage),
+
+				enum_entry(Attribute, none)
 			}
 		);
 

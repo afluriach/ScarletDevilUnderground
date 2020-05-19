@@ -267,7 +267,7 @@ bool getAttributeAttr(tinyxml2::XMLElement* elem, const string& name, Attribute*
 
 	if (attr) {
 		Attribute crntAttr = AttributeSystem::getAttribute(attr);
-		if (crntAttr != Attribute::end) {
+		if (crntAttr != Attribute::none) {
 			*result = crntAttr;
 			success = true;
 		}
@@ -493,7 +493,7 @@ bool parseObject(tinyxml2::XMLElement* elem, AttributeMap* result)
 		Attribute crntAttr = AttributeSystem::getAttribute(attrName);
 		float val;
 
-		if (crntAttr != Attribute::end && getNumericAttr(crnt, "val", &val)) {
+		if (crntAttr != Attribute::none && getNumericAttr(crnt, "val", &val)) {
 			_result.insert_or_assign(crntAttr, val);
 		}
 		else {

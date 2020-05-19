@@ -19,27 +19,11 @@ class OnDetect : public Function {
 public:
 	OnDetect(StateMachine* fsm, GType type, AITargetFunctionGenerator gen);
 
-	virtual bool onEvent(Event event);
-	virtual event_bitset getEvents();
+	virtual void detect(GObject* obj);
+	virtual event_type getEvents();
 protected:
 	local_shared_ptr<Thread> thread;
 	AITargetFunctionGenerator gen;
-	GType type;
-};
-
-class OnDetectFunction : public Function {
-public:
-	OnDetectFunction(
-		StateMachine* fsm,
-		GType type,
-		detect_function beginDetect,
-		detect_function endDetect
-	);
-
-	virtual bool onEvent(Event event);
-	virtual event_bitset getEvents();
-protected:
-	detect_function beginDetect, endDetect;
 	GType type;
 };
 
@@ -47,8 +31,9 @@ class WhileDetect : public Function {
 public:
 	WhileDetect(StateMachine* fsm, GType type, AITargetFunctionGenerator gen);
 
-	virtual bool onEvent(Event event);
-	virtual event_bitset getEvents();
+	virtual void detect(GObject* obj);
+	virtual void endDetect(GObject* obj);
+	virtual event_type getEvents();
 protected:
 	local_shared_ptr<Thread> thread;
 	AITargetFunctionGenerator gen;
@@ -59,8 +44,8 @@ class OnAlert : public Function {
 public:
 	OnAlert(StateMachine* fsm, AITargetFunctionGenerator gen);
 
-	virtual bool onEvent(Event event);
-	virtual event_bitset getEvents();
+	virtual void roomAlert(Player* p);
+	virtual event_type getEvents();
 protected:
 	AITargetFunctionGenerator gen;
 };
@@ -69,8 +54,8 @@ class OnAlertFunction : public Function {
 public:
 	OnAlertFunction(StateMachine* fsm, alert_function f);
 
-	virtual bool onEvent(Event event);
-	virtual event_bitset getEvents();
+	virtual void roomAlert(Player* p);
+	virtual event_type getEvents();
 protected:
 	alert_function f;
 };
@@ -88,8 +73,6 @@ public:
 
 	virtual void onEnter();
 	virtual update_return update();
-	virtual bool onEvent(Event event);
-	virtual event_bitset getEvents();
 	virtual void onExit();
 	virtual string getName();
 
@@ -97,7 +80,6 @@ public:
 	void removeFunction(local_shared_ptr<Function> f);
 protected:
 	list<local_shared_ptr<Function>> functions;
-	event_bitset events;
 	bool hasInit = false;
 };
 
@@ -110,12 +92,25 @@ public:
 
 	virtual void onEnter();
 	virtual update_return update();
-	virtual bool onEvent(Event event);
-	virtual event_bitset getEvents();
 	virtual void onExit();
-	virtual string getName();
 
+	virtual void bulletBlock(Bullet* b);
+	virtual void bulletHit(Bullet* b);
+
+	virtual void detect(GObject* _obj);
+	virtual void endDetect(GObject* _obj);
+
+	virtual void roomAlert(Player* p);
+
+	virtual void zeroHP();
+	virtual void zeroStamina();
+
+	event_type getEvents();
+	 virtual string getName();
 protected:
+	event_type checkEventMethods();
+	bool hasMethod(const string& name);
+
 	string cls;
 	sol::table obj;
 };
@@ -124,8 +119,11 @@ class BossFightHandler : public Function {
 public:
 	BossFightHandler(StateMachine* fsm, string startDialog, string endDialog);
 
-	virtual bool onEvent(Event event);
-	virtual event_bitset getEvents();
+	virtual void detect(GObject* obj);
+	virtual void zeroHP();
+
+	virtual event_type getEvents();
+	FuncGetName(BossFightHandler);
 protected:
 	string startDialog, endDialog;
 	bool hasRunStart = false, hasRunEnd = false;
@@ -160,8 +158,8 @@ class ExplodeOnZeroHP : public Function {
 public:
 	ExplodeOnZeroHP(StateMachine* fsm, DamageInfo damage, SpaceFloat radius);
 
-	virtual bool onEvent(Event event);
-	virtual event_bitset getEvents();
+	virtual void zeroHP();
+	virtual event_type getEvents();
 protected:
 	void explode();
 
@@ -178,31 +176,6 @@ public:
 protected:
 	gobject_ref target;
     SpaceFloat distance, margin;
-};
-
-class Flock : public Function {
-public:
-	static const SpaceFloat separationDesired;
-
-	Flock(StateMachine* fsm);
-
-	virtual void onEnter();
-	virtual update_return update();
-	virtual void onExit();
-
-	virtual bool onEvent(Event event);
-	virtual event_bitset getEvents();
-
-	void onDetectNeighbor(Agent* agent);
-	void endDetectNeighbor(Agent* agent);
-
-	SpaceVect separate();
-	SpaceVect align();
-	SpaceVect cohesion();
-
-	FuncGetName(Flock)
-protected:
-	unordered_set<gobject_ref> neighbors;
 };
 
 class OccupyPoint : public Function {
@@ -317,8 +290,8 @@ public:
 	virtual update_return update();
 	virtual void onExit();
 
-	virtual bool onEvent(Event event);
-	virtual event_bitset getEvents();
+	virtual void bulletHit(Bullet* b);
+	virtual event_type getEvents();
 
 	FuncGetName(LookTowardsFire)
 protected:

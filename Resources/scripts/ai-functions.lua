@@ -43,15 +43,8 @@ function ai.Facer:update()
 	return steady_return()
 end
 
-function ai.Facer:onEvent(event)
-	if event:isBulletHit() then
-		self.super:getObject():rotate( math.pi * 0.5 )
-	end
-	return handle
-end
-
-function ai.Facer:getEvents()
-	return ai.event_type_bitfield(ai.event_type.bulletHit)
+function ai.Facer:bulletHit(b)
+	self.super:getObject():rotate( math.pi * 0.5 )
 end
 
 ai.Follower = class("Follower")
@@ -78,15 +71,8 @@ function ai.Follower:update()
 	return steady_return()
 end
 
-function ai.Follower:onEvent(event)
-	if event:isBulletHit() then
-		self.super:getObject():rotate( math.pi * -0.5 )
-	end
-	return handle
-end
-
-function ai.Follower:getEvents()
-	return ai.event_type_bitfield(ai.event_type.bulletHit)
+function ai.Follower:bulletHit(b)
+	self.super:getObject():rotate( math.pi * -0.5 )
 end
 
 ai.FairyEngage = class("FairyEngage")
@@ -147,10 +133,10 @@ end
 
 function ai.GreenFairy:update()
 
-	if self.bulletDetect then
+	local evadeResult = self.evade:update()
+	
+	if evadeResult:isSteady() then
 		self.wander:reset()
-		self.bulletDetect = false
-		
 		return push_return(self.evade)
 	else
 		self.fire:update()
@@ -158,17 +144,6 @@ function ai.GreenFairy:update()
 			
 		return steady_return()	
 	end
-end
-
-function ai.GreenFairy:onEvent(event)
-	if event:getEventType() == ai.event_type.bulletDetect then
-		self.bulletDetect = true
-	end
-	return false
-end
-
-function ai.GreenFairy:getEvents()
-	return ai.event_type_bitfield(ai.event_type.bulletDetect)
 end
 
 ai.ZombieFairy = class("ZombieFairy")
@@ -308,16 +283,8 @@ function ai.StalkerTeleport:init(super)
 	self.super = super
 end
 
-function ai.StalkerTeleport:onEvent(event)
-	if event:getEventType() == ai.event_type.zeroStamina then
-		self:applyTeleport()
-		return true
-	end
-	return false
-end
-
-function ai.StalkerTeleport:getEvents()
-	return ai.event_type_bitfield(ai.event_type.zeroStamina)
+function ai.StalkerTeleport:zeroStamina()
+	self:applyTeleport()
 end
 
 function ai.StalkerTeleport:applyTeleport()

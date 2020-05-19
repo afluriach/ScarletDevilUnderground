@@ -24,33 +24,28 @@ class OnDetectFunction;
 
 enum class event_type
 {
-	begin = 0,
-	bulletBlock = 0,
-	bulletHit,
-	bulletDetect,
+	none = 0x0,
 
-	detect,
-	endDetect,
+	bulletBlock = 0x1,
+	bulletHit = 0x2,
 
-	roomAlert,
+	detect = 0x4,
+	endDetect = 0x8,
 
-	zeroHP,
-	zeroStamina,
+	roomAlert = 0x10,
 
-	end
+	zeroHP = 0x20,
+	zeroStamina = 0x40,
+
+	all = 0x7F
 };
 
-constexpr size_t eventCount = to_size_t(event_type::end);
-
-typedef bitset<eventCount> event_bitset;
-typedef pair<event_bitset, local_shared_ptr<Function>> function_entry;
+typedef pair<event_type, local_shared_ptr<Function>> function_entry;
 
 //for functions that target an object
 typedef function<local_shared_ptr<Function>(StateMachine*, GObject*)> AITargetFunctionGenerator;
 
 #define FuncGetName(cls) inline virtual string getName() const {return #cls;}
-#define GetLockmask(l) inline virtual lock_mask getLockMask() { return make_enum_bitfield(ResourceLock::l); }
-#define GetLockmask2(l, m) inline virtual lock_mask getLockMask() { return make_enum_bitfield(ResourceLock::l) | make_enum_bitfield(ResourceLock::m); }
 
 #define return_pop() return update_return(-1, nullptr)
 #define return_push(x) return update_return(0, x)
@@ -70,25 +65,12 @@ struct update_return
 
 	int idx;
 	local_shared_ptr<Function> f;
-};
 
-class Event
-{
-public:
-	Event(event_type eventType, any data);
+	bool isSteady();
+	bool isPop();
 
-	bool isBulletHit();
-	bool isDetectPlayer();
-	//returns none type if event is not a detection
-	GType getDetectType();
-	GType getEndDetectType();
-
-	Player* getRoomAlert();
-
-	inline event_type getEventType() const { return eventType; }
-
-	event_type eventType;
-	any data;
+	getter(int, idx);
+	getter(local_shared_ptr<Function>, f);
 };
 
 class Function
@@ -133,10 +115,19 @@ public:
 	inline virtual bool isActive() { return false; }
 	inline virtual bool isCompleted() { return false; }
 	inline virtual void onExit() {}
-    
-	inline virtual bool onEvent(Event event) { return false; }
-	inline virtual event_bitset getEvents() { return event_bitset(); }
 
+	inline virtual void bulletBlock(Bullet* b) {}
+	inline virtual void bulletHit(Bullet* b) {}
+
+	inline virtual void detect(GObject* obj) {}
+	inline virtual void endDetect(GObject* obj) {}
+
+	inline virtual void roomAlert(Player* p) {}
+
+	inline virtual void zeroHP() {}
+	inline virtual void zeroStamina() {}
+
+	inline virtual event_type getEvents() { return event_type::none; }
     inline virtual string getName() const {return "Function";}
     
 	StateMachine* const fsm;
@@ -198,7 +189,6 @@ public:
 
 	void onBulletHit(Bullet* b);
 	void onBulletBlock(Bullet* b);
-	void onBulletDetect(Bullet* b);
 	void onAlert(Player* p);
 	void onZeroHP();
 	void onZeroStamina();
@@ -208,7 +198,6 @@ public:
 	void addWhileDetectHandler(GType type, AITargetFunctionGenerator gen);
 	void addFleeBomb();
 
-	void addDetectFunction(GType t, detect_function begin, detect_function end);
 	void addAlertFunction(alert_function f);
 
 	template<class FuncCls, typename... Params>
@@ -233,22 +222,26 @@ public:
 	unsigned int getFrame();
     string toString();
 protected:
-	//Calls a particular Function interface method, using Thread::callInterface,
-	//iterating through Threads in order of descending priority,
-	//until one of them handles the event.
 	template<typename... Params>
-	bool callInterface(bool (Function::*method)(Params...), Params... params)
+	void callInterface(event_type event, void (Function::*method)(Params...), Params... params)
 	{
-		for (auto f : functions)
+		for (auto t : current_threads)
 		{
-			if ((f.get()->*method)(params...))
-				return true;
+			auto f = t->getTop();
+			if (f && (to_int(f->getEvents()) & to_int(event)) ) {
+				(f.get()->*method)(params...);
+			}
 		}
-		return false;
+
+		for (auto entry : functions)
+		{
+			if ( to_int(entry.first) & to_int(event)) {
+				(entry.second.get()->*method)(params...);
+			}
+		}
 	}
 
 	void removeCompletedThreads();
-	void handleEvent(Event event);
 
 	GObject *const agent;
 

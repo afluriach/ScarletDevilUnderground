@@ -171,7 +171,6 @@
 		<attributes>
 			<maxHP val="90"/>
 			<agility val="4.0"/>
-			<stressFromDetects val="0.25"/>
 			<stressFromHits val="0.5"/>
 		</attributes>
 	</GreenFairy2>

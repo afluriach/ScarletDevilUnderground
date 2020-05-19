@@ -57,7 +57,6 @@ const boost::bimap<Attribute, string> AttributeSystem::attributeNameMap = boost:
 	entry(stressDecay)
 	entry(stressFromHits)
 	entry(stressFromBlocks)
-	entry(stressFromDetects)
 
 	entry(agility)
 
@@ -81,6 +80,8 @@ const boost::bimap<Attribute, string> AttributeSystem::attributeNameMap = boost:
 	entry(darknessDamage)
 	entry(poisonDamage)
 	entry(slimeDamage)
+
+	entry(none)
 ;
 
 #undef entry
@@ -132,7 +133,7 @@ AttributeMap AttributeSystem::getAttributeElementMap(Attribute element, float da
 
 AttributeArray AttributeSystem::getBlankAttributeSet()
 {
-	AttributeArray result = getZeroArray<float, to_size_t(Attribute::end)>();
+	AttributeArray result = getZeroArray<float, to_size_t(Attribute::none)>();
 
 	result[to_size_t(Attribute::attack)] = 1.0f;
 	result[to_size_t(Attribute::attackSpeed)] = 1.0f;
@@ -154,7 +155,7 @@ AttributeArray AttributeSystem::getBlankAttributeSet()
 
 AttributeArray AttributeSystem::getZeroAttributeSet()
 {
-	AttributeArray result = getZeroArray<float, to_size_t(Attribute::end)>();
+	AttributeArray result = getZeroArray<float, to_size_t(Attribute::none)>();
 
 	return result;
 }
@@ -163,8 +164,8 @@ Attribute AttributeSystem::getElementSensitivity(Attribute element)
 {
 	return static_cast<Attribute>(
 		to_int(element) - 
-		to_int(Attribute::beginElementDamage) + 
-		to_int(Attribute::beginElementSensitivity)
+		to_int(AttributeSystem::beginElementDamage) + 
+		to_int(AttributeSystem::beginElementSensitivity)
 	);
 }
 
@@ -172,15 +173,15 @@ Attribute AttributeSystem::getElement(Attribute elementSensitivity)
 {
 	return static_cast<Attribute>(
 		to_int(elementSensitivity) -
-		to_int(Attribute::beginElementSensitivity) +
-		to_int(Attribute::beginElementDamage)
+		to_int(AttributeSystem::beginElementSensitivity) +
+		to_int(AttributeSystem::beginElementDamage)
 	);
 }
 
 Attribute AttributeSystem::getAttribute(const string& name)
 {
 	auto it = attributeNameMap.right.find(name);
-	return it != attributeNameMap.right.end() ? it->second : Attribute::end;
+	return it != attributeNameMap.right.end() ? it->second : Attribute::none;
 }
 
 AttributeMap AttributeSystem::scale(const AttributeMap& input, float scale)
@@ -309,7 +310,7 @@ void AttributeSystem::applyIncidentRegen(IncidentAttributeEntry entry)
 
 void AttributeSystem::applyElementDecay()
 {
-	enum_foreach(Attribute, elem, beginElementDamage, endElementDamage) {
+	for (Attribute elem = AttributeSystem::beginElementDamage; elem <= AttributeSystem::endElementDamage; enum_increment(Attribute,elem)) {
 		timerDecrement(elem);
 	}
 }
@@ -341,13 +342,13 @@ float AttributeSystem::applyDamage(DamageInfo damage)
 	}
 
 	float timeScale = damage.damageOverTime ? app::params.secondsPerFrame : 1.0f;
-	float elementSensitivity = damage.element != Attribute::end ? (*this)[getElementSensitivity(damage.element)] : 1.0f;
+	float elementSensitivity = damage.element != Attribute::none ? (*this)[getElementSensitivity(damage.element)] : 1.0f;
 	float typeSensitivity = getTypeSensitivity(damage.type);
 	float scale = timeScale * elementSensitivity * typeSensitivity;
 
 	modifyAttribute(Attribute::hp, -damage.mag * scale);
 
-	if (damage.element != Attribute::end) {
+	if (damage.element != Attribute::none) {
 		//Should not be scaled by element sensitivity, since element sensitivity will
 		//be applied to accumulated element damage.
 		modifyAttribute(damage.element, damage.mag * timeScale * typeSensitivity);

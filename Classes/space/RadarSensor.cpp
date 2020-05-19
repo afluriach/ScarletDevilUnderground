@@ -157,10 +157,6 @@ void RadarSensor::addVisibleBullet(GObject* obj)
 	if (it == visibleObjectsByType.end())
 		return;
 
-	if (it->second.size() == 0) {
-		onDetect(obj);
-	}
-
 	it->second.insert(obj);
 }
 

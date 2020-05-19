@@ -16,12 +16,12 @@ namespace app {
 
 bool restoreAttribute(tinyxml2::XMLElement* elem, local_shared_ptr<MagicEffectDescriptor>* result)
 {
-	Attribute attr = Attribute::end;
+	Attribute attr = Attribute::none;
 	bool success = false;
 
 	getAttributeAttr(elem, "attr", &attr);
 
-	if (attr != Attribute::end) {
+	if (attr != Attribute::none) {
 		*result = make_local_shared< MagicEffectDescImpl<RestoreAttribute, Attribute>>(elem->Name(), attr);
 		success = true;
 	}
@@ -31,12 +31,12 @@ bool restoreAttribute(tinyxml2::XMLElement* elem, local_shared_ptr<MagicEffectDe
 
 bool fortifyAttribute(tinyxml2::XMLElement* elem, local_shared_ptr<MagicEffectDescriptor>* result)
 {
-	Attribute attr = Attribute::end;
+	Attribute attr = Attribute::none;
 	bool success = false;
 
 	getAttributeAttr(elem, "attr", &attr);
 
-	if (attr != Attribute::end) {
+	if (attr != Attribute::none) {
 		*result = make_local_shared< MagicEffectDescImpl<FortifyAttribute, Attribute>>(elem->Name(), attr);
 		success = true;
 	}
@@ -52,12 +52,12 @@ bool teleport(tinyxml2::XMLElement* elem, local_shared_ptr<MagicEffectDescriptor
 
 bool drainFromMovement(tinyxml2::XMLElement* elem, local_shared_ptr<MagicEffectDescriptor>* result)
 {
-	Attribute attr = Attribute::end;
+	Attribute attr = Attribute::none;
 	bool success = false;
 
 	getAttributeAttr(elem, "attr", &attr);
 
-	if (attr != Attribute::end) {
+	if (attr != Attribute::none) {
 		*result = make_local_shared< MagicEffectDescImpl<DrainFromMovement, Attribute>>(elem->Name(), attr);
 		success = true;
 	}
@@ -67,12 +67,12 @@ bool drainFromMovement(tinyxml2::XMLElement* elem, local_shared_ptr<MagicEffectD
 
 bool setBoolAttribute(tinyxml2::XMLElement* elem, local_shared_ptr<MagicEffectDescriptor>* result)
 {
-	Attribute attr = Attribute::end;
+	Attribute attr = Attribute::none;
 	bool success = false;
 
 	getAttributeAttr(elem, "attr", &attr);
 
-	if (attr != Attribute::end) {
+	if (attr != Attribute::none) {
 		*result = make_local_shared< MagicEffectDescImpl<SetBoolAttribute, Attribute>>(elem->Name(), attr);
 		success = true;
 	}
@@ -87,7 +87,7 @@ bool damageOverTime(tinyxml2::XMLElement* elem, local_shared_ptr<MagicEffectDesc
 
 	getAttributeAttr(elem, "element", &element);
 
-	if (element != Attribute::end) {
+	if (element != Attribute::none) {
 		*result = make_local_shared< MagicEffectDescImpl<DamageOverTime, Attribute> >(elem->Name(), element);
 		success = true;
 	}
