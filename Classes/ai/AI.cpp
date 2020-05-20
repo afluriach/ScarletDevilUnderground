@@ -164,7 +164,6 @@ void Thread::update()
 void Thread::push(local_shared_ptr<Function> newState)
 {
 	newState->thread = this;
-	sm->addFunction(newState);
 	call_stack.push_back(newState);
 }
 
@@ -174,7 +173,6 @@ void Thread::pop()
 		return;
 
 	call_stack.back()->thread = nullptr;
-	sm->removeFunction(call_stack.back());
 	Function* crnt = call_stack.back().get();
 
 	crnt->onExit();
@@ -283,7 +281,6 @@ void StateMachine::removeFunction(local_shared_ptr<Function> function)
 local_shared_ptr<Thread> StateMachine::addThread(local_shared_ptr<Thread> thread)
 {
 	current_threads.push_back(thread);
-	addFunction(thread->getTop());
 	return thread;
 }
 
