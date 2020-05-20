@@ -9,6 +9,7 @@
 #ifndef GSpace_hpp
 #define GSpace_hpp
 
+class agent_properties;
 class audio_context;
 struct bullet_attributes;
 struct bullet_properties;

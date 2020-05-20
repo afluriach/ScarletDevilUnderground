@@ -31,6 +31,8 @@ public:
 
 	bool detectEssence = false;
 	bool isFlying = false;
+
+	inline virtual type_index getType() const { return typeid(*this); }
 };
 
 //Physics parameters for Agent that will often vary by individual placement,

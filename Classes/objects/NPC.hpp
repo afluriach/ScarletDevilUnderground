@@ -38,6 +38,8 @@ public:
 	~npc_properties();
 
 	list<local_shared_ptr<dialog_entry>> dialogs;
+
+	inline virtual type_index getType() const { return typeid(*this); }
 };
 
 class NPC : public Agent

@@ -68,6 +68,8 @@ public:
 	SpaceVect dimensions;
 	SpaceFloat mass = 0.0;
 	SpaceFloat friction = 0.0;
+
+	inline virtual type_index getType() const { return typeid(*this); }
 };
 
 #define MapRectPhys(type, layers, m) physics_params(type, layers, args, m)
@@ -89,6 +91,8 @@ public:
 	bool deflectBullets = false;
 
 	bullet_properties clone();
+
+	inline virtual type_index getType() const { return typeid(*this); }
 };
 
 //The attributes of the creating agent that can affect this object. These are 
@@ -134,6 +138,8 @@ public:
 	double traction = 1.0;
 
 	bool pressurePlate = false;
+
+	inline virtual type_index getType() const { return typeid(*this); }
 };
 
 #endif

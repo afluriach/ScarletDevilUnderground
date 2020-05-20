@@ -20,6 +20,8 @@ public:
 	string onAcquireDialog;
 
 	bool addToInventory = true;
+
+	inline virtual type_index getType() const { return typeid(*this); }
 };
 
 struct item_attributes

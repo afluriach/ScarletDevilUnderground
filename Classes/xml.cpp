@@ -24,21 +24,30 @@
 namespace app {
 
 unordered_map<string, area_properties> areas;
-unordered_map<string, local_shared_ptr<bomb_properties>> bombs;
-unordered_map<string, local_shared_ptr<bullet_properties>> bullets;
 unordered_map<string, local_shared_ptr<MagicEffectDescriptor>> effects;
-unordered_map<string, local_shared_ptr<enemy_properties>> enemies;
-unordered_map<string, local_shared_ptr<environment_object_properties>> environmentObjects;
 unordered_map<string, local_shared_ptr<firepattern_properties>> firePatterns;
 unordered_map<string, local_shared_ptr<floorsegment_properties>> floors;
-unordered_map<string, local_shared_ptr<item_properties>> items;
 unordered_map<string, shared_ptr<LightArea>> lights;
-unordered_map<string, local_shared_ptr<npc_properties>> npc;
-unordered_map<string, local_shared_ptr<agent_properties>> players;
+unordered_map<string, local_shared_ptr<object_properties>> objects;
 unordered_map<string, local_shared_ptr<SpellDesc>> spells;
 unordered_map<string, shared_ptr<sprite_properties>> sprites;
 
-GObject::AdapterType enemyAdapter(local_shared_ptr<enemy_properties> props)
+GObject::AdapterType objectAdapter(local_shared_ptr<agent_properties> props)
+{
+	return nullptr;
+}
+
+GObject::AdapterType objectAdapter(local_shared_ptr<bomb_properties> props)
+{
+	return nullptr;
+}
+
+GObject::AdapterType objectAdapter(local_shared_ptr<bullet_properties> props)
+{
+	return nullptr;
+}
+
+GObject::AdapterType objectAdapter(local_shared_ptr<enemy_properties> props)
 {
 	return [props](GSpace* space, ObjectIDType id, const ValueMap& args) -> GObject* {
 		agent_attributes attr = Agent::parseAttributes(args);
@@ -52,7 +61,7 @@ GObject::AdapterType enemyAdapter(local_shared_ptr<enemy_properties> props)
 	};
 }
 
-GObject::AdapterType npcAdapter(local_shared_ptr<npc_properties> props)
+GObject::AdapterType objectAdapter(local_shared_ptr<npc_properties> props)
 {
 	return [props](GSpace* space, ObjectIDType id, const ValueMap& args) -> GObject* {
 		agent_attributes attr = Agent::parseAttributes(args);
@@ -66,7 +75,7 @@ GObject::AdapterType npcAdapter(local_shared_ptr<npc_properties> props)
 	};
 }
 
-GObject::AdapterType itemAdapter(local_shared_ptr<item_properties> props)
+GObject::AdapterType objectAdapter(local_shared_ptr<item_properties> props)
 {
 	return [props](GSpace* space, ObjectIDType id, const ValueMap& args) -> GObject* {
 		item_attributes attr = Item::parseAttributes(args);
@@ -80,14 +89,14 @@ GObject::AdapterType itemAdapter(local_shared_ptr<item_properties> props)
 	};
 }
 
-GObject::AdapterType floorAdapter(local_shared_ptr<floorsegment_properties> props)
+GObject::AdapterType objectAdapter(local_shared_ptr<floorsegment_properties> props)
 {
 	return [props](GSpace* space, ObjectIDType id, const ValueMap& args) -> GObject* {
 		return allocator_new<FloorSegment>(space, id, args, props);
 	};
 }
 
-GObject::AdapterType environmentObjectAdapter(local_shared_ptr<environment_object_properties> props)
+GObject::AdapterType objectAdapter(local_shared_ptr<environment_object_properties> props)
 {
 	return [props](GSpace* space, ObjectIDType id, const ValueMap& args) -> GObject* {
 		if (EnvironmentObject::conditionalLoad(space, id, args, props)) {
@@ -106,12 +115,12 @@ void loadAreas()
 
 void loadBombs()
 {
-	loadObjectsShared<bomb_properties>("objects/bombs.xml", app::bombs);
+	loadObjectsShared<bomb_properties>("objects/bombs.xml");
 }
 
 void loadBullets()
 {
-	loadObjectsShared<bullet_properties>("objects/bullets.xml", app::bullets);
+	loadObjectsShared<bullet_properties>("objects/bullets.xml");
 }
 
 void loadEffects()
@@ -126,20 +135,13 @@ void loadSpells()
 
 void loadEnemies()
 {
-	loadObjectsShared<enemy_properties>("objects/enemies.xml", app::enemies);
-
-	for (auto entry : enemies){
-		GObject::namedObjectTypes.insert_or_assign(entry.first, enemyAdapter(entry.second));
-	}
+	loadObjectsShared<enemy_properties>("objects/enemies.xml");
 }
 
 void loadEnvironmentObjects()
 {
-	loadObjectsShared<environment_object_properties>("objects/objects.xml", app::environmentObjects);
+	loadObjectsShared<environment_object_properties>("objects/objects.xml");
 
-	for (auto entry : environmentObjects) {
-		GObject::namedObjectTypes.insert_or_assign(entry.first, environmentObjectAdapter(entry.second));
-	}
 }
 
 void loadFirePatterns()
@@ -149,20 +151,12 @@ void loadFirePatterns()
 
 void loadFloors()
 {
-	loadObjectsShared<floorsegment_properties>("objects/floors.xml", app::floors);
-
-	for (auto entry : floors) {
-		GObject::namedObjectTypes.insert_or_assign(entry.first, floorAdapter(entry.second));
-	}
+	loadObjectsShared<floorsegment_properties>("objects/floors.xml");
 }
 
 void loadItems()
 {
-	loadObjectsShared<item_properties>("objects/items.xml", app::items);
-
-	for (auto entry : items) {
-		GObject::namedObjectTypes.insert_or_assign(entry.first, itemAdapter(entry.second));
-	}
+	loadObjectsShared<item_properties>("objects/items.xml");
 }
 
 void loadLights()
@@ -172,16 +166,12 @@ void loadLights()
 
 void loadNPCs()
 {
-	loadObjectsShared<npc_properties>("objects/npc.xml", app::npc);
-
-	for (auto entry : npc){
-		GObject::namedObjectTypes.insert_or_assign(entry.first, npcAdapter(entry.second));
-	}
+	loadObjectsShared<npc_properties>("objects/npc.xml");
 }
 
 void loadPlayers()
 {
-	loadObjectsShared<agent_properties>("objects/players.xml", app::players);
+	loadObjectsShared<agent_properties>("objects/players.xml");
 }
 
 void loadSprites()
@@ -196,32 +186,17 @@ area_properties getArea(const string& name)
 
 local_shared_ptr<bomb_properties> getBomb(const string& name)
 {
-	return getOrDefault(bombs, name);
+	return getObjectProperties<bomb_properties>(name);
 }
 
 local_shared_ptr<bullet_properties> getBullet(const string& name)
 {
-	return getOrDefault(bullets, name);
+	return getObjectProperties<bullet_properties>(name);
 }
 
 local_shared_ptr<MagicEffectDescriptor> getEffect(const string& name)
 {
 	return getOrDefault(effects, name);
-}
-
-local_shared_ptr<enemy_properties> getEnemy(const string& name)
-{
-	return getOrDefault(enemies, name);
-}
-
-local_shared_ptr<environment_object_properties> getEnvironemntObject(const string& name)
-{
-	return getOrDefault(environmentObjects, name);
-}
-
-local_shared_ptr<floorsegment_properties> getFloor(const string& name)
-{
-	return getOrDefault(floors, name);
 }
 
 local_shared_ptr<firepattern_properties> getFirePattern(const string& name)
@@ -231,7 +206,7 @@ local_shared_ptr<firepattern_properties> getFirePattern(const string& name)
 
 local_shared_ptr<item_properties> getItem(const string& name)
 {
-	return getOrDefault(items, name);
+	return getObjectProperties<item_properties>(name);
 }
 
 shared_ptr<LightArea> getLight(const string& name)
@@ -239,14 +214,9 @@ shared_ptr<LightArea> getLight(const string& name)
 	return getOrDefault(lights, name);
 }
 
-local_shared_ptr<agent_properties> getNPC(const string& name)
-{
-	return getOrDefault(npc, name);
-}
-
 local_shared_ptr<agent_properties> getPlayer(const string& name)
 {
-	return getOrDefault(players, name);
+	return getObjectProperties<agent_properties>(name);
 }
 
 local_shared_ptr<SpellDesc> getSpell(const string& name)
@@ -704,6 +674,8 @@ bool parseObject(tinyxml2::XMLElement* elem, local_shared_ptr<firepattern_proper
 
 bool parseObject(tinyxml2::XMLElement* elem, local_shared_ptr<floorsegment_properties> result)
 {
+	parseObject(elem, static_cast<local_shared_ptr<object_properties>>(result));
+
 	getStringAttr(elem, "sfx", &result->sfxRes);
 	getStringAttr(elem, "sprite", &result->sprite);
 
@@ -797,7 +769,6 @@ bool parseObject(tinyxml2::XMLElement* elem, shared_ptr<LightArea>* result)
 
 bool parseObject(tinyxml2::XMLElement* elem, local_shared_ptr<bullet_properties> result)
 {
-	copyBaseObjectShared(elem, bullets, result);
 	parseObject(elem, static_cast<local_shared_ptr<object_properties>>(result));
 
 	result->damage.type = DamageType::bullet;
@@ -838,7 +809,6 @@ bool parseObject(tinyxml2::XMLElement* elem, local_shared_ptr<bomb_properties> r
 
 bool parseObject(tinyxml2::XMLElement * elem, local_shared_ptr<item_properties> result)
 {
-	copyBaseObjectShared(elem, items, result);	
 	parseObject(elem, static_cast<local_shared_ptr<object_properties>>(result));
 
 	if (result->dimensions.x == 0.0) {

@@ -16,6 +16,8 @@ public:
 	string interactionIcon;
 	PhysicsLayers layers = PhysicsLayers::none;
 	bool interactible;
+
+	inline virtual type_index getType() const { return typeid(*this); }
 };
 
 class EnvironmentObject : public GObject

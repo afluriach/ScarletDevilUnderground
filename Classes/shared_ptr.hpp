@@ -113,6 +113,22 @@ public:
 		}
 	}
 
+	template<typename U>
+	inline local_shared_ptr<U> downcast() {
+		local_shared_ptr<U> result;
+
+		result.obj = dynamic_cast<U*>(obj);
+		result.shared = shared;
+
+		if (!result.obj)
+			result.shared = nullptr;
+
+		if (result.obj && shared)
+			shared_ptr_system::get()->acquire(shared);
+
+		return result;
+	}
+
 	inline bool operator==(const local_shared_ptr<T>& rhs) const {
 		return obj == rhs.obj;
 	}

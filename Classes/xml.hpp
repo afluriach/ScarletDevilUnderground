@@ -33,19 +33,21 @@ namespace app {
 	extern const unordered_map<string, effect_parser> effectParsers;
 
 	extern unordered_map<string, area_properties> areas;
-	extern unordered_map<string, local_shared_ptr<bomb_properties>> bombs;
-	extern unordered_map<string, local_shared_ptr<bullet_properties>> bullets;
 	extern unordered_map<string, local_shared_ptr<MagicEffectDescriptor>> effects;
-	extern unordered_map<string, local_shared_ptr<enemy_properties>> enemies;
-	extern unordered_map<string, local_shared_ptr<environment_object_properties>> environmentObjects;
 	extern unordered_map<string, local_shared_ptr<firepattern_properties>> firePatterns;
-	extern unordered_map<string, local_shared_ptr<floorsegment_properties>> floors;
-	extern unordered_map<string, local_shared_ptr<item_properties>> items;
 	extern unordered_map<string, shared_ptr<LightArea>> lights;
-	extern unordered_map<string, local_shared_ptr<npc_properties>> npc;
-	extern unordered_map<string, local_shared_ptr<agent_properties>> players;
+	extern unordered_map<string, local_shared_ptr<object_properties>> objects;
 	extern unordered_map <string, local_shared_ptr<SpellDesc>> spells;
 	extern unordered_map<string, shared_ptr<sprite_properties>> sprites;
+
+	GObject::AdapterType objectAdapter(local_shared_ptr<agent_properties> props); //NO-OP
+	GObject::AdapterType objectAdapter(local_shared_ptr<bomb_properties> props); //NO-OP
+	GObject::AdapterType objectAdapter(local_shared_ptr<bullet_properties> props); //NO-OP
+	GObject::AdapterType objectAdapter(local_shared_ptr<enemy_properties> props);
+	GObject::AdapterType objectAdapter(local_shared_ptr<npc_properties> props);
+	GObject::AdapterType objectAdapter(local_shared_ptr<item_properties> props);
+	GObject::AdapterType objectAdapter(local_shared_ptr<floorsegment_properties> props);
+	GObject::AdapterType objectAdapter(local_shared_ptr<environment_object_properties> props);
 
 	void loadAreas();
 	void loadBombs();
@@ -66,16 +68,32 @@ namespace app {
 	local_shared_ptr<bomb_properties> getBomb(const string& name);
 	local_shared_ptr<bullet_properties> getBullet(const string& name);
 	local_shared_ptr<MagicEffectDescriptor> getEffect(const string& name);
-	local_shared_ptr<enemy_properties> getEnemy(const string& name);
-	local_shared_ptr<environment_object_properties> getEnvironemntObject(const string& name);
 	local_shared_ptr<firepattern_properties> getFirePattern(const string& name);
-	local_shared_ptr<floorsegment_properties> getFloor(const string& name);
 	local_shared_ptr<item_properties> getItem(const string& name);
 	shared_ptr<LightArea> getLight(const string& name);
-	local_shared_ptr<agent_properties> getNPC(const string& name);
 	local_shared_ptr<agent_properties> getPlayer(const string& name);
 	local_shared_ptr<SpellDesc> getSpell(const string& name);
 	shared_ptr<sprite_properties> getSprite(const string& name);
+
+	template<typename T>
+	inline local_shared_ptr<T> getObjectProperties(const string& name)
+	{
+		local_shared_ptr<object_properties> obj = getOrDefault(app::objects, name);
+
+		if (!obj) {
+			log("%s not found!", name);
+			return nullptr;
+		}
+
+		local_shared_ptr<T> t = obj.downcast<T>();
+
+		if (!t) {
+			log("%s is not of type %s!", name, typeid(T).name());
+			return nullptr;
+		}
+
+		return t;
+	}
 
 	template<typename T>
 	inline void loadObjects(string filename, unordered_map<string,T>& _map)
@@ -106,7 +124,7 @@ namespace app {
 	}
 
 	template<typename T>
-	inline void loadObjectsShared(string filename, unordered_map<string, local_shared_ptr<T>>& _map)
+	inline void loadObjectsShared(string filename)
 	{
 		tinyxml2::XMLDocument objects;
 		auto error = objects.Parse(io::loadTextFile(filename).c_str());
@@ -124,8 +142,15 @@ namespace app {
 			crnt = crnt->NextSiblingElement())
 		{
 			local_shared_ptr<T> object = make_local_shared<T>();
+			copyBaseObjectShared<T>(crnt, object);
+
 			if (parseObject(crnt, object)) {
-				_map.insert_or_assign(crnt->Name(), object);
+				app::objects.insert_or_assign(crnt->Name(), object);
+
+				auto adapter = objectAdapter(object);
+				if (adapter) {
+					GObject::namedObjectTypes.insert_or_assign(crnt->Name(),adapter);
+				}
 			}
 			else {
 				log("%s : %s failed to load!", filename, crnt->Name());
@@ -179,12 +204,11 @@ namespace app {
 	template<typename T>
 	bool copyBaseObjectShared(
 		tinyxml2::XMLElement * elem,
-		unordered_map<string, local_shared_ptr<T>> & _map,
 		local_shared_ptr<T> output
 	) {
 		string base;
 		if (getStringAttr(elem, "base", &base)) {
-			local_shared_ptr<T> _base = getOrDefault(_map, base);
+			local_shared_ptr<T> _base = getObjectProperties<T>(base);
 			if (_base) {
 				*output = *_base;
 				return true;

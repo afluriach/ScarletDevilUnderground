@@ -20,6 +20,8 @@ public:
 	string collectible;
 
 	DamageInfo touchEffect;
+
+	inline virtual type_index getType() const { return typeid(*this); }
 };
 
 class Enemy : public Agent

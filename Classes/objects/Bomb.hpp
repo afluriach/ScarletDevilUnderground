@@ -18,6 +18,8 @@ struct bomb_properties : public object_properties
 	float cost;
 
 	DamageInfo damage;
+
+	inline virtual type_index getType() const { return typeid(*this); }
 };
 
 class Bomb : public GObject
