@@ -59,12 +59,18 @@ ObjectGeneratorType Item::create(GSpace* space, string items, SpaceVect pos)
 	return GObject::make_object_factory<Item>(attr, props);
 }
 
-Item::Item(GSpace* space, ObjectIDType id, const item_attributes& attr, local_shared_ptr<item_properties> props) :
+Item::Item(
+	GSpace* space,
+	ObjectIDType id,
+	const item_attributes& attr,
+	local_shared_ptr<item_properties> props
+) :
 	GObject(
 		space,
 		id,
 		object_params(attr.pos),
-		physics_params(GType::item, PhysicsLayers::ground, 0.5, -1.0, true)
+		physics_params(GType::item, PhysicsLayers::ground, 0.5, -1.0, true),
+		props
 	),
 	props(props)
 {

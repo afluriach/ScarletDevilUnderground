@@ -30,7 +30,8 @@ Bomb::Bomb(
 			PhysicsLayers::onGround,
 			0.5,
 			1.0
-		)
+		),
+		props
 	),
 	props(props)
 {

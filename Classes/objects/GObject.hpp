@@ -112,7 +112,8 @@ public:
 		GSpace* space,
 		ObjectIDType id,
 		const object_params& params,
-		const physics_params& phys
+		const physics_params& phys,
+		local_shared_ptr<object_properties> props
 	);
     virtual ~GObject();
 
@@ -124,8 +125,9 @@ public:
 	inline GSpace* getSpace() const { return space; }
 	inline ObjectIDType getUUID() const { return uuid; }
 
-	virtual string getProperName() const;
-	virtual string getClsName() const;
+	inline string getProperName() const { return props->properName; }
+	inline string getClsName() const { return props->clsName; }
+
 	string getName() const;
 	string getTypeIndexName() const;
 	string toString() const;
@@ -277,7 +279,7 @@ public:
 	//A default of 0 signifies undefined. Using -1 to indicate static or positive for dynamic.
 	inline SpaceFloat getMass() const { return mass; }
 	SpaceFloat getRadius() const;
-	inline virtual SpaceFloat uk() const { return 0.0; }
+	SpaceFloat uk() const;
 	inline GType getType() const { return getBaseType(type); }
 	inline GType getFullType() const { return type; }
 	inline bool getSensor() const { return sensor; }
@@ -297,8 +299,8 @@ public:
 	bool isGraphicsObject() const;
         //The Z-order used by Cocos2D.
 	virtual GraphicsLayer sceneLayer() const;
-	inline virtual shared_ptr<sprite_properties> getSprite() const { return nullptr; }
-	inline virtual shared_ptr<LightArea> getLightSource() const { return nullptr; }
+	virtual shared_ptr<sprite_properties> getSprite() const;
+	virtual shared_ptr<LightArea> getLightSource() const;
 	int sceneLayerAsInt() const;
     virtual sprite_update updateSprite();
 	void initLightSource();
@@ -353,6 +355,7 @@ protected:
 
 //logic
 	sol::table scriptObj;
+	local_shared_ptr<object_properties> props;
 	unique_ptr<ai::StateMachine> fsm;
 	unique_ptr<parametric_motion> parametricMotion;
 	RoomSensor* crntRoom = nullptr;

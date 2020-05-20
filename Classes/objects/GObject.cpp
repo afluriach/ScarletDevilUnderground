@@ -31,8 +31,10 @@ GObject::GObject(
 	GSpace* space,
 	ObjectIDType id,
 	const object_params& params,
-	const physics_params& phys
+	const physics_params& phys,
+	local_shared_ptr<object_properties> props
 ) :
+	props(props),
 	space(space),
 	uuid(id),
 	type(phys.type),
@@ -144,16 +146,6 @@ void GObject::initNameMap()
 	{
 		typeNameMap.insert_or_assign(entry.second.type, entry.first);
 	}
-}
-
-string GObject::getProperName() const
-{
-	return "";
-}
-
-string GObject::getClsName() const
-{
-	return "";
 }
 
 string GObject::getName() const
@@ -618,6 +610,13 @@ SpaceFloat GObject::getRadius() const
 	return dimensions.getMax();
 }
 
+SpaceFloat GObject::uk() const {
+	if (props)
+		return props->friction;
+	else
+		return 0.0;
+}
+
 void GObject::initializeBody()
 {
 	if (dimensions.isZero())
@@ -690,6 +689,22 @@ GraphicsLayer GObject::sceneLayer() const {
 
 bool GObject::isGraphicsObject() const {
 	return spriteID || drawNodeID || lightID;
+}
+
+shared_ptr<sprite_properties> GObject::getSprite() const
+{
+	if (props)
+		return props->sprite;
+	else
+		return nullptr;
+}
+
+shared_ptr<LightArea> GObject::getLightSource() const
+{
+	if (props)
+		return props->light;
+	else
+		return nullptr;
 }
 
 int GObject::sceneLayerAsInt() const {

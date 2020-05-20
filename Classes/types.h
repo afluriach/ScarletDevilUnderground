@@ -207,15 +207,6 @@ struct app_params
 	double secondsPerFrame = 1.0 / framesPerSecond;
 };
 
-struct floorsegment_properties {
-	string sfxRes;
-	string sprite;
-
-	double traction = 1.0;
-
-	bool pressurePlate = false;
-};
-
 struct sprite_properties {
 	string filename;
 	IntVec2 size;

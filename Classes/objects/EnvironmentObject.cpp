@@ -48,7 +48,8 @@ EnvironmentObject::EnvironmentObject(
 			props->layers,
 			args,
 			props->mass
-		)
+		),
+		props
 	),
 	props(props)
 {
@@ -121,8 +122,4 @@ shared_ptr<sprite_properties> EnvironmentObject::getSprite() const {
 
 GraphicsLayer EnvironmentObject::sceneLayer() const {
 	return GraphicsLayer::ground;
-}
-
-inline SpaceFloat EnvironmentObject::uk() const {
-	return props->friction;
 }

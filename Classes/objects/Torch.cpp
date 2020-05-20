@@ -30,7 +30,8 @@ Torch::Torch(GSpace* space, ObjectIDType id, const ValueMap& args) :
 			enum_bitwise_or(GType, environment, interactible),
 			PhysicsLayers::onGround,
 			-1.0
-		)
+		),
+		nullptr
 	)
 {
 	isActive = getBoolOrDefault(args, "active", false);

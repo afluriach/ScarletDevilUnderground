@@ -48,8 +48,6 @@ public:
 
 	virtual shared_ptr<sprite_properties> getSprite() const;
 	virtual GraphicsLayer sceneLayer() const;
-
-	virtual SpaceFloat uk() const;
 protected:
 	local_shared_ptr<environment_object_properties> props;
 };

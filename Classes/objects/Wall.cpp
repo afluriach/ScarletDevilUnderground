@@ -27,7 +27,8 @@ Wall::Wall(GSpace* space, ObjectIDType id, SpaceVect center, SpaceVect dimension
 		space,
 		id,
 		object_params(center, SpaceVect::zero, float_pi*0.5),
-		physics_params(getWallType(breakable), PhysicsLayers::all, dimensions, -1.0)
+		physics_params(getWallType(breakable), PhysicsLayers::all, dimensions, -1.0),
+		nullptr
 	),
 	breakable(breakable)
 {}

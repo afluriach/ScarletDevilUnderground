@@ -17,6 +17,7 @@ struct collectible_properties;
 class enemy_properties;
 class environment_object_properties;
 struct firepattern_properties;
+class floorsegment_properties;
 class item_properties;
 class LightArea;
 class MagicEffectDescriptor;

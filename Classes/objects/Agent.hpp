@@ -77,9 +77,6 @@ public:
 	virtual void init();
 	virtual void update();
 
-	inline virtual string getProperName() const { return props->properName; }
-	inline virtual string getClsName() const { return props->clsName; }
-
 	inline int getLevel() const { return level; }
 
 	void sendAlert(Player* p);
@@ -95,9 +92,6 @@ public:
 	virtual bool applyOngoingSpellCost(const spell_cost& cost);
 
 	virtual bullet_attributes getBulletAttributes(local_shared_ptr<bullet_properties> props) const;
-
-	virtual shared_ptr<sprite_properties> getSprite() const;
-	virtual shared_ptr<LightArea> getLightSource() const;
 
 	//attribute interface
 	inline void increment(Attribute attr) { attributeSystem->increment(attr); }

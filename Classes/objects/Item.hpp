@@ -39,14 +39,9 @@ public:
 	Item(GSpace* space, ObjectIDType id, const item_attributes& attr, local_shared_ptr<item_properties> props);
 	~Item();
 
-	inline virtual string getClsName() const { return props->clsName; }
-	inline virtual string getProperName() const { return props->properName; }
-
 	virtual void init();
 
 	inline virtual GraphicsLayer sceneLayer() const { return GraphicsLayer::floor; }
-	inline virtual shared_ptr<sprite_properties> getSprite() const { return props->sprite; }
-	inline virtual shared_ptr<LightArea> getLightSource() const { return props->light; }
 
 	virtual void onPlayerContact(Player* p);
 protected:

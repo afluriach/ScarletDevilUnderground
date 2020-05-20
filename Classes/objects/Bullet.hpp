@@ -33,14 +33,10 @@ public:
 	);
 	~Bullet();
 
-	inline virtual string getClsName() const { return props->clsName; }
-
 	virtual void init();
 	virtual void onRemove();
 	virtual void initializeGraphics();
 	virtual inline GraphicsLayer sceneLayer() const { return GraphicsLayer::ground; }
-	virtual inline shared_ptr<sprite_properties> getSprite() const { return props->sprite; }
-	virtual inline shared_ptr<LightArea> getLightSource() const { return props->light; }
 	virtual inline SpaceFloat getMaxSpeed() const { return props->speed; }
 
 	inline DamageInfo getDamageInfo() const { return props->damage; }

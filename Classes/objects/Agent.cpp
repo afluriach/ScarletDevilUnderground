@@ -90,7 +90,8 @@ Agent::Agent(
 			props->isFlying ? PhysicsLayers::flying : PhysicsLayers::onGround,
 			props->dimensions,
 			props->mass
-		)
+		),
+		props
 	),
 	props(props),
 	level(attr.level)
@@ -120,16 +121,6 @@ bullet_attributes Agent::getBulletAttributes(local_shared_ptr<bullet_properties>
 	result.bulletSpeed = get(Attribute::bulletSpeed);
 
 	return result;
-}
-
-shared_ptr<sprite_properties> Agent::getSprite() const
-{
-	return props->sprite;
-}
-
-shared_ptr<LightArea> Agent::getLightSource() const
-{
-	return props->light;
 }
 
 bool Agent::hasEssenceRadar() const {

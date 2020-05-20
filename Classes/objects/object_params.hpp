@@ -126,4 +126,14 @@ struct bullet_attributes
 	inline void setBulletSpeed(float v) { bulletSpeed = v; }
 };
 
+class floorsegment_properties : public object_properties {
+public:
+	string sfxRes;
+	string sprite;
+
+	double traction = 1.0;
+
+	bool pressurePlate = false;
+};
+
 #endif

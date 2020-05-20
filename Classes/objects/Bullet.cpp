@@ -42,7 +42,14 @@ Bullet::Bullet(
 		space,
 		id,
 		params,
-		physics_params(attributes.type, PhysicsLayers::ground, props->dimensions * attributes.size, 0.0, true)
+		physics_params(
+			attributes.type,
+			PhysicsLayers::ground,
+			props->dimensions * attributes.size,
+			0.0,
+			true
+		),
+		props
 	),
 	attributes(attributes),
 	props(props)
