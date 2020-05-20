@@ -103,19 +103,19 @@ void PlayScene::loadPlayer()
 	string start = getPlayerStart();
 	Door * door = gspace->getObjectAs<Door>(start);
 	SpaceVect player_start = gspace->getWaypoint(start);
-	agent_attributes attr;
+	object_params params;
 
 	if (door) {
-		attr.pos = door->getEntryPosition();
-		attr.angle = dirToPhysicsAngle(door->getEntryDirection());
+		params.pos = door->getEntryPosition();
+		params.angle = dirToPhysicsAngle(door->getEntryDirection());
 		
-		gspace->createObject<Player>(attr, GSpace::playerCharacter);	
+		gspace->createObject<Player>(params, GSpace::playerCharacter);
 	}
 	else if (!player_start.isZero()){
-		attr.pos = player_start;
-		attr.angle = dirToPhysicsAngle(Direction::up);
+		params.pos = player_start;
+		params.angle = dirToPhysicsAngle(Direction::up);
 
-		gspace->createObject<Player>(attr, GSpace::playerCharacter);
+		gspace->createObject<Player>(params, GSpace::playerCharacter);
 	}
 	else{
 		log("Scene %s, unknown player start!", getName());

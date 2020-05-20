@@ -43,9 +43,9 @@ end
 
 objects.GhostFairyNPC = class("GhostFairyNPC")
 
-function objects.GhostFairyNPC.conditionalLoad(space,attrs,props)	
-	if attrs.level > 0 then
-		return App.getCrntState():isChamberCompleted('graveyard' .. attrs.level)
+function objects.GhostFairyNPC.conditionalLoad(space,params,props)	
+	if params.level > 0 then
+		return App.getCrntState():isChamberCompleted('graveyard' .. params.level)
 	else
 		return true
 	end
@@ -53,6 +53,6 @@ end
 
 objects.Meiling1 = class("Meiling1")
 
-function objects.Meiling1.conditionalLoad(space,attrs,props)
+function objects.Meiling1.conditionalLoad(space,params,props)
 	return not App.getCrntState():isChamberCompleted("graveyard3")
 end

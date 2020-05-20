@@ -39,7 +39,7 @@ constexpr GObject::AdapterType consAdapter()
 GObject::AdapterType itemAdapter()
 {
     return [=](GSpace* space, ObjectIDType id, const ValueMap& args) -> GObject* {
-		item_attributes attr = Item::parseAttributes(args);
+		object_params params(args);
 		string typeName = getStringOrDefault(args, "item", "");
 		auto itemProps = app::getItem(typeName);
 
@@ -47,10 +47,10 @@ GObject::AdapterType itemAdapter()
 			log("Unknown Item type: %s", typeName);
 		}
 
-		if (!itemProps || !Item::conditionalLoad(space, attr, itemProps))
+		if (!itemProps || !Item::conditionalLoad(space, params, itemProps))
 			return nullptr;
         else
-			return allocator_new<Item>(space,id,attr, itemProps);
+			return allocator_new<Item>(space, id, params, itemProps);
     };
 }
 

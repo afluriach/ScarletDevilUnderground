@@ -16,24 +16,14 @@
 item_properties::item_properties()
 {}
 
-item_attributes Item::parseAttributes(const ValueMap& args)
+bool Item::conditionalLoad(GSpace* space, const object_params& params, local_shared_ptr<item_properties> props)
 {
-	item_attributes result;
-
-	result.name = getStringOrDefault(args, "name", "");
-	result.pos = getObjectPos(args);
-
-	return result;
-}
-
-bool Item::conditionalLoad(GSpace* space, const item_attributes& attr, local_shared_ptr<item_properties> props)
-{
-	if (attr.name.empty()) {
+	if (params.name.empty()) {
 		log("Un-named item!");
 		return true;
 	}
 
-	return !App::crntState->isObjectRemoved(space->getCrntChamber(), attr.name);
+	return !App::crntState->isObjectRemoved(space->getCrntChamber(), params.name);
 }
 
 ObjectGeneratorType Item::create(GSpace* space, string items, SpaceVect pos)
@@ -54,7 +44,7 @@ ObjectGeneratorType Item::create(GSpace* space, string items, SpaceVect pos)
 	}
 
 	auto props = app::getItem(actual);
-	item_attributes attr{ pos };
+	object_params attr(pos);
 
 	return GObject::make_object_factory<Item>(attr, props);
 }
@@ -62,13 +52,13 @@ ObjectGeneratorType Item::create(GSpace* space, string items, SpaceVect pos)
 Item::Item(
 	GSpace* space,
 	ObjectIDType id,
-	const item_attributes& attr,
+	const object_params& params,
 	local_shared_ptr<item_properties> props
 ) :
 	GObject(
 		space,
 		id,
-		object_params(attr.pos),
+		object_params(params.pos),
 		physics_params(GType::item, PhysicsLayers::ground, 0.5, -1.0, true),
 		props
 	),

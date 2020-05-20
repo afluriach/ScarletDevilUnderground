@@ -50,14 +50,14 @@ const float Player::sprintCost = 7.5f;
 Player::Player(
 	GSpace* space,
 	ObjectIDType id,
-	const agent_attributes& attr,
+	const object_params& params,
 	local_shared_ptr<agent_properties> props
 ) :
 	Agent(
 		space,
 		id,
 		enum_bitwise_or(GType,player,canDamage),
-		attr,
+		params,
 		props
 	)
 {

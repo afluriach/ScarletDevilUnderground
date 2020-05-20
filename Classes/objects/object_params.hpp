@@ -32,8 +32,30 @@ public:
 	SpaceVect vel;
 	SpaceFloat angularVel = 0.0;
 
+	string name;
+
+	int level = 0;
+
 	bool hidden = false;
 	bool active = false;
+
+	getter(SpaceVect, pos);
+	getter(SpaceFloat, angle);
+	getter(SpaceVect, vel);
+	getter(SpaceFloat, angularVel);
+	getter(string, name);
+	getter(int, level);
+	getter(bool, hidden);
+	getter(bool, active);
+
+	setter(SpaceVect, pos);
+	setter(SpaceFloat, angle);
+	setter(SpaceVect, vel);
+	setter(SpaceFloat, angularVel);
+	setter(string, name);
+	setter(int, level);
+	setter(bool, hidden);
+	setter(bool, active);
 };
 
 #define MapParams() object_params(args)

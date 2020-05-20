@@ -19,14 +19,14 @@
 Enemy::Enemy(
 	GSpace* space,
 	ObjectIDType id,
-	const agent_attributes& attr,
+	const object_params& params,
 	local_shared_ptr<enemy_properties> props
 ) :
 	Agent(
 		space,
 		id,
 		enum_bitwise_or(GType, enemy,canDamage),
-		attr,
+		params,
 		props
 	),
 	props(props)

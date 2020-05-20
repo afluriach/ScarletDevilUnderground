@@ -48,7 +48,7 @@ public:
 	NPC(
 		GSpace* space,
 		ObjectIDType id,
-		const agent_attributes& attr,
+		const object_params& params,
 		local_shared_ptr<npc_properties> props
 	);
 

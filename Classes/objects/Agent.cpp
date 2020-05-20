@@ -37,26 +37,9 @@ const Color4F Agent::bodyOutlineColor = hsva4F(270.0f, 0.2f, 0.7f, 0.667f);
 const Color4F Agent::shieldConeColor = Color4F(.37f, .56f, .57f, 0.5f);
 const float Agent::bodyOutlineWidth = 4.0f;
 
-agent_attributes Agent::parseAttributes(const ValueMap& args)
+bool Agent::conditionalLoad(GSpace* space, const object_params& params, local_shared_ptr<agent_properties> props)
 {
-	agent_attributes result;
-
-	result.ai_package = getStringOrDefault(args, "ai_package", "");
-	result.level = getIntOrDefault(args, "level", 0);
-	result.name = getStringOrDefault(args, "name", "");
-	result.pos = getObjectPos(args);
-
-	Direction dir = getDirectionOrDefault(args, Direction::none);
-	if (dir != Direction::none) {
-		result.angle = dirToPhysicsAngle(dir);
-	}
-
-	return result;
-}
-
-bool Agent::conditionalLoad(GSpace* space, const agent_attributes& attrs, local_shared_ptr<agent_properties> props)
-{
-	if (attrs.name.size() > 0 && App::crntState->isObjectRemoved(space->getCrntChamber(), attrs.name)) {
+	if (params.name.size() > 0 && App::crntState->isObjectRemoved(space->getCrntChamber(), params.name)) {
 		return false;
 	}
 
@@ -65,7 +48,7 @@ bool Agent::conditionalLoad(GSpace* space, const agent_attributes& attrs, local_
 	if (cls) {
 		sol::function f = cls["conditionalLoad"];
 
-		if (f && !f(space, attrs, props)) {
+		if (f && !f(space, params, props)) {
 			log("object load canceled");
 			return false;
 		}
@@ -78,13 +61,13 @@ Agent::Agent(
 	GSpace* space,
 	ObjectIDType id,
 	GType type,
-	const agent_attributes& attr,
+	const object_params& params,
 	local_shared_ptr<agent_properties> props
 ) :
 	GObject(
 		space,
 		id,
-		object_params(attr.pos, attr.angle),
+		params,
 		physics_params(
 			type,
 			props->isFlying ? PhysicsLayers::flying : PhysicsLayers::onGround,
@@ -94,13 +77,10 @@ Agent::Agent(
 		props
 	),
 	props(props),
-	level(attr.level)
+	level(params.level)
 {
-	if (props->ai_package.empty() && attr.ai_package.empty() && type != GType::player) {
+	if (props->ai_package.empty() && type != GType::player) {
 		log("%s: no AI package!", toString());
-	}
-	else {
-		ai_package = attr.ai_package.size() > 0 ? attr.ai_package : props->ai_package;
 	}
 }
 
@@ -148,18 +128,18 @@ void Agent::initFSM()
 {
 	fsm = make_unique<ai::StateMachine>(this);
 
-	auto it = ai::StateMachine::packages.find(ai_package);
+	auto it = ai::StateMachine::packages.find(props->ai_package);
 	if (it != ai::StateMachine::packages.end()) {
 		ValueMap args;
 
 		auto f = it->second;
 		f(fsm.get(), args);
 	}
-	else if(ai_package.size() > 0) {
-		fsm->runScriptPackage(ai_package);
+	else if(props->ai_package.size() > 0) {
+		fsm->runScriptPackage(props->ai_package);
 	}
 	else{
-		log("Agent %s, unknown AI package %s!", getName(), ai_package);
+		log("Agent %s, unknown AI package %s!", getName(), props->ai_package);
 	}
 }
 

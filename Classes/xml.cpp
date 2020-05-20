@@ -50,10 +50,10 @@ GObject::AdapterType objectAdapter(local_shared_ptr<bullet_properties> props)
 GObject::AdapterType objectAdapter(local_shared_ptr<enemy_properties> props)
 {
 	return [props](GSpace* space, ObjectIDType id, const ValueMap& args) -> GObject* {
-		agent_attributes attr = Agent::parseAttributes(args);
+		object_params params(args);
 	
-		if (Agent::conditionalLoad(space, attr, props)) {
-			return allocator_new<Enemy>(space, id, attr, props);
+		if (Agent::conditionalLoad(space, params, props)) {
+			return allocator_new<Enemy>(space, id, params, props);
 		}
 		else {
 			return nullptr;
@@ -64,10 +64,10 @@ GObject::AdapterType objectAdapter(local_shared_ptr<enemy_properties> props)
 GObject::AdapterType objectAdapter(local_shared_ptr<npc_properties> props)
 {
 	return [props](GSpace* space, ObjectIDType id, const ValueMap& args) -> GObject* {
-		agent_attributes attr = Agent::parseAttributes(args);
+		object_params params(args);
 
-		if (Agent::conditionalLoad(space, attr, props)) {
-			return allocator_new<NPC>(space, id, attr, props);
+		if (Agent::conditionalLoad(space, params, props)) {
+			return allocator_new<NPC>(space, id, params, props);
 		}
 		else {
 			return nullptr;
@@ -78,10 +78,10 @@ GObject::AdapterType objectAdapter(local_shared_ptr<npc_properties> props)
 GObject::AdapterType objectAdapter(local_shared_ptr<item_properties> props)
 {
 	return [props](GSpace* space, ObjectIDType id, const ValueMap& args) -> GObject* {
-		item_attributes attr = Item::parseAttributes(args);
+		object_params params(args);
 
-		if (Item::conditionalLoad(space, attr, props)) {
-			return allocator_new<Item>(space, id, attr, props);
+		if (Item::conditionalLoad(space, params, props)) {
+			return allocator_new<Item>(space, id, params, props);
 		}
 		else {
 			return nullptr;

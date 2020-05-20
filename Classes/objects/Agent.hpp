@@ -35,23 +35,6 @@ public:
 	inline virtual type_index getType() const { return typeid(*this); }
 };
 
-//Physics parameters for Agent that will often vary by individual placement,
-struct agent_attributes
-{
-	inline string getName() const { return name; }
-	inline int getLevel() const { return level; }
-
-	string name;
-	string ai_package;
-	string waypoint;
-	string path;
-
-	SpaceVect pos;
-	SpaceFloat angle = 0.0;
-
-	int level = 0;
-};
-
 class Agent : public GObject
 {
 public:
@@ -60,14 +43,13 @@ public:
 	static const Color4F shieldConeColor;
 	static const float bodyOutlineWidth;
 
-	static bool conditionalLoad(GSpace* space, const agent_attributes& attrs, local_shared_ptr<agent_properties> props);
-	static agent_attributes parseAttributes(const ValueMap& args);
+	static bool conditionalLoad(GSpace* space, const object_params& params, local_shared_ptr<agent_properties> props);
 
 	Agent(
 		GSpace* space,
 		ObjectIDType id,
 		GType type,
-		const agent_attributes& attr,
+		const object_params& params,
 		local_shared_ptr<agent_properties> props
 	);
 	virtual ~Agent();
@@ -156,7 +138,6 @@ protected:
 
 	int level = 0;
 	SpriteID agentOverlay = 0;
-	string ai_package;
 
 	local_shared_ptr<FirePattern> firePattern;
 	RadarSensor* radar = nullptr;

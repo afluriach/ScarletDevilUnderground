@@ -37,6 +37,10 @@ object_params::object_params(const ValueMap& args) :
 		float_pi * 0.5
 	)
 {
+	name = getStringOrDefault(args, "name", "");
+
+	level = getIntOrDefault(args, "level", 0);
+
 	hidden = getBoolOrDefault(args, "hidden", false);
 	active = getBoolOrDefault(args, "active", false);
 

@@ -36,14 +36,14 @@ npc_properties::~npc_properties()
 NPC::NPC(
 	GSpace* space,
 	ObjectIDType id,
-	const agent_attributes& attr,
+	const object_params& params,
 	local_shared_ptr<npc_properties> props
 ) : 
 	Agent(
 		space,
 		id,
 		enum_bitwise_or(GType, npc, interactible),
-		attr,
+		params,
 		props
 	),
 	props(props)

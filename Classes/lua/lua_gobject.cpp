@@ -44,7 +44,15 @@ namespace Lua{
 			"object_params",
 			sol::constructors<
 				object_params()
-			>()
+			>(),
+			rw_prop(object_params, pos),
+			rw_prop(object_params, angle),
+			rw_prop(object_params, vel),
+			rw_prop(object_params, angularVel),
+			rw_prop(object_params, name),
+			rw_prop(object_params, level),
+			rw_prop(object_params, hidden),
+			rw_prop(object_params, active)
 		);
 
 #define _cls object_properties
@@ -53,13 +61,6 @@ namespace Lua{
 		auto agent_props = _state.new_usertype<agent_properties>(
 			"agent_properties",
 			sol::base_classes, sol::bases<object_properties>()
-		);
-
-		auto agent_attrs = _state.new_usertype<agent_attributes>(
-			"agent_attributes",
-
-			"name", sol::property(&agent_attributes::getName),
-			"level", sol::property(&agent_attributes::getLevel)
 		);
 
 #define _cls bullet_properties

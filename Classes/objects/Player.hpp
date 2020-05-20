@@ -45,7 +45,7 @@ public:
 	Player(
 		GSpace* space,
 		ObjectIDType id,
-		const agent_attributes& attr,
+		const object_params& params,
 		local_shared_ptr<agent_properties> props
 	);
 	~Player();
