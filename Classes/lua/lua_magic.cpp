@@ -91,17 +91,12 @@ namespace Lua{
 
 		auto spellcost = _state.new_usertype<spell_cost>(
 			"spell_cost",
-			rw_prop(spell_cost,initial_mp),
+			rw_prop(spell_cost, initial_mp),
 			rw_prop(spell_cost, initial_stamina),
 			rw_prop(spell_cost, ongoing_mp),
 			rw_prop(spell_cost, ongoing_stamina)
 		);
 #define _cls spell_cost
-		addFuncSame(spellcost, initial_mp);
-		addFuncSame(spellcost, initial_stamina);
-		addFuncSame(spellcost, ongoing_mp);
-		addFuncSame(spellcost, ongoing_stamina);
-
 		addFuncSame(spellcost, none);
 		addFuncSame(spellcost, initialMP);
 		addFuncSame(spellcost, initialStamina);
