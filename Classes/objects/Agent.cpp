@@ -79,9 +79,7 @@ Agent::Agent(
 	props(props),
 	level(params.level)
 {
-	if (props->ai_package.empty() && type != GType::player) {
-		log("%s: no AI package!", toString());
-	}
+	ai_package = params.ai_package.size() > 0 ? params.ai_package : props->ai_package;
 }
 
 Agent::~Agent()
@@ -128,18 +126,23 @@ void Agent::initFSM()
 {
 	fsm = make_unique<ai::StateMachine>(this);
 
-	auto it = ai::StateMachine::packages.find(props->ai_package);
+	if (ai_package.empty() && type != GType::player) {
+		log("%s: no AI package!", toString());
+		return;
+	}
+
+	auto it = ai::StateMachine::packages.find(ai_package);
 	if (it != ai::StateMachine::packages.end()) {
 		ValueMap args;
 
 		auto f = it->second;
 		f(fsm.get(), args);
 	}
-	else if(props->ai_package.size() > 0) {
-		fsm->runScriptPackage(props->ai_package);
+	else if(ai_package.size() > 0) {
+		fsm->runScriptPackage(ai_package);
 	}
 	else{
-		log("Agent %s, unknown AI package %s!", getName(), props->ai_package);
+		log("Agent %s, unknown AI package %s!", getName(), ai_package);
 	}
 }
 

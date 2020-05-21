@@ -33,6 +33,7 @@ public:
 	SpaceFloat angularVel = 0.0;
 
 	string name;
+	string ai_package;
 
 	int level = 0;
 
@@ -44,6 +45,7 @@ public:
 	getter(SpaceVect, vel);
 	getter(SpaceFloat, angularVel);
 	getter(string, name);
+	getter(string, ai_package);
 	getter(int, level);
 	getter(bool, hidden);
 	getter(bool, active);
@@ -53,6 +55,7 @@ public:
 	setter(SpaceVect, vel);
 	setter(SpaceFloat, angularVel);
 	setter(string, name);
+	setter(string, ai_package);
 	setter(int, level);
 	setter(bool, hidden);
 	setter(bool, active);

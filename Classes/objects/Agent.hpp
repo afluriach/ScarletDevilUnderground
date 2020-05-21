@@ -136,6 +136,7 @@ protected:
 	void updateAgentOverlay();
 	void updateAnimation();
 
+	string ai_package;
 	int level = 0;
 	SpriteID agentOverlay = 0;
 
