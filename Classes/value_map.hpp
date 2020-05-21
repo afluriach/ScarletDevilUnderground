@@ -15,8 +15,6 @@ void printValueMap(const ValueMap& obj);
 bool validateStringArg(const ValueMap& args, string name);
 bool validateMapArg(const ValueMap& args, string name);
 
-ValueMap getSpawnArgs(const ValueMap& args);
-
 SpaceVect getObjectPos(const ValueMap& args);
 SpaceVect getObjectDimensions(const ValueMap& args);
 

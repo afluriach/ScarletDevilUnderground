@@ -17,7 +17,6 @@
 #include "physics_context.hpp"
 #include "Player.hpp"
 #include "PlayScene.hpp"
-#include "Spawner.hpp"
 #include "value_map.hpp"
 
 AreaSensor::AreaSensor(GSpace* space, ObjectIDType id, const ValueMap& args) :
@@ -210,19 +209,6 @@ void RoomSensor::init()
 	bossActivations = space->getObjectsAs<GObject>(bossActivationNames);
 	bossActivationNames.clear();
 
-	unordered_set<Spawner*> _spawners = space->physicsContext->rectangleQueryByType<Spawner>(
-		getPos(),
-		getDimensions(),
-		GType::areaSensor,
-		PhysicsLayers::all
-	);
-
-	for (Spawner* s : _spawners) {
-		string _type = s->getSpawnType();
-		emplaceIfEmpty<string, vector<Spawner*>>(spawnersByType, _type);
-		spawnersByType.at(_type).push_back(s);
-	}
-
 	boss = space->getObjectRef(bossName);
 }
 
@@ -313,39 +299,6 @@ void RoomSensor::deactivateBossObjects()
 {
 	for (auto obj : bossActivations)
 		obj->deactivate();
-}
-
-unsigned int RoomSensor::activateAllSpawners()
-{
-	unsigned int count = 0;
-
-	for (auto entry : spawnersByType) {
-		for (Spawner* s : entry.second) {
-			count += to_uint(s->spawn().isFuture());
-		}
-	}
-
-	return count;
-}
-
-unsigned int RoomSensor::activateSpawners(string t, unsigned int count)
-{
-	unsigned int result = 0;
-	auto it = spawnersByType.find(t);
-	if (it == spawnersByType.end()) {
-		log("Unknown spawner type %s", t);
-		return 0;
-	}
-
-	vector<int> indicies = space->getRandomShuffle(it->second.size());
-
-	for (int i = 0; i < it->second.size() && result < count; ++i) {
-		Spawner* s = it->second.at(indicies.at(i)); 
-		if (s->spawn().isFuture()) {
-			++result;
-		}
-	}
-	return result;
 }
 
 bool RoomSensor::isClearedState()

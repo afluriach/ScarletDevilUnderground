@@ -193,7 +193,6 @@ xcopy "$(ProjectDir)..\Resources" "$(OutDir)" /D /E /I /F /Y</Command>
     <ClCompile Include="..\Classes\objects\object_params.cpp" />
     <ClCompile Include="..\Classes\objects\object_ref.cpp" />
     <ClCompile Include="..\Classes\objects\Player.cpp" />
-    <ClCompile Include="..\Classes\objects\Spawner.cpp" />
     <ClCompile Include="..\Classes\objects\TeleportPad.cpp" />
     <ClCompile Include="..\Classes\objects\Torch.cpp" />
     <ClCompile Include="..\Classes\objects\Wall.cpp" />
@@ -290,7 +289,6 @@ xcopy "$(ProjectDir)..\Resources" "$(OutDir)" /D /E /I /F /Y</Command>
     <ClInclude Include="..\Classes\objects\object_params.hpp" />
     <ClInclude Include="..\Classes\objects\object_ref.hpp" />
     <ClInclude Include="..\Classes\objects\Player.hpp" />
-    <ClInclude Include="..\Classes\objects\Spawner.hpp" />
     <ClInclude Include="..\Classes\objects\TeleportPad.hpp" />
     <ClInclude Include="..\Classes\objects\Torch.hpp" />
     <ClInclude Include="..\Classes\objects\Wall.hpp" />

@@ -13,7 +13,6 @@ class Door;
 class Enemy;
 class GhostHeadstone;
 class GhostFairyNPC;
-class Spawner;
 
 class AreaSensor : public GObject
 {
@@ -87,8 +86,6 @@ public:
 	void updateBoss();
 	void activateBossObjects();
 	void deactivateBossObjects();
-	unsigned int activateAllSpawners();
-	unsigned int activateSpawners(string t, unsigned int count);
 	inline SpaceFloat getTimeInRoom()const { return timeInRoom; }
 	inline bool getCleared() const { return isCleared; }
 	inline int getID() const { return mapID; }
@@ -111,7 +108,6 @@ protected:
 
 	vector<GObject*> doors;
 	vector<GObject*> bossActivations;
-	unordered_map<string, vector<Spawner*>> spawnersByType;
 	SpaceFloat timeInRoom = 0.0;
 
 	string bossName;

@@ -23,7 +23,6 @@
 #include "Enemy.hpp"
 #include "FloorSegment.hpp"
 #include "Player.hpp"
-#include "Spawner.hpp"
 
 #include "GScene.hpp"
 #include "menu_scenes.h"

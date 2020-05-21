@@ -37,24 +37,6 @@ bool validateMapArg(const ValueMap& args, string name)
     return ( it != args.end() && args.at(name).isMap() );
 }
 
-ValueMap getSpawnArgs(const ValueMap& args)
-{
-	string obj_name = getStringOrDefault(args, "name", "");
-	string spawn_name = getStringOrDefault(args, "spawn_name", "");
-	string spawn_type = getStringOrDefault(args, "spawn_type", "");
-	ValueMap result = args;
-
-	if (spawn_name.empty())
-		log("Spawner %s, spawn_name missing!", obj_name.c_str());
-	if (spawn_type.empty())
-		log("Spawner %s, spawn_type missing!", obj_name.c_str());
-
-	result.insert_or_assign("name", spawn_name);
-	result.insert_or_assign("type", spawn_type);
-
-	return result;
-}
-
 SpaceVect getObjectPos(const ValueMap& args)
 {
 	return SpaceVect(getFloat(args, "pos_x"), getFloat(args, "pos_y"));
