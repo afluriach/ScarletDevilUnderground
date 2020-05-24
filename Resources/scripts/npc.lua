@@ -5,12 +5,12 @@ function objects.BlueFairyNPC:init(super)
 end
 
 function objects.BlueFairyNPC:correct_order(idx)
-	return idx == self.super:getLevel() and idx == App.getCrntState():getAttribute("BlueFairyLevel") + 1	
+	return idx == self.super.level and idx == App.state:getAttribute("BlueFairyLevel") + 1	
 end
 
 function objects.BlueFairyNPC:satisfy_condition()
-	return  App.getCrntState():getItemCount("Mushroom") >= self.super:getLevel() and
-	self.super:getLevel() == App.getCrntState():getAttribute("BlueFairyLevel") + 1
+	return  App.state:getItemCount("Mushroom") >= self.super.level and
+	self.super.level == App.state:getAttribute("BlueFairyLevel") + 1
 end
 
 function objects.BlueFairyNPC:request_condition1()
@@ -27,12 +27,12 @@ end
 
 function objects.BlueFairyNPC:satisfy_effect()
 
-	app.log("satisfy_effect" .. self.super:getName())
+	app.log("satisfy_effect" .. self.super.name)
 
-	App.getCrntState():incrementAttribute("BlueFairyLevel")
-	App.getCrntState():removeItem("Mushroom", self.super:getLevel())
+	App.state:incrementAttribute("BlueFairyLevel")
+	App.state:removeItem("Mushroom", self.super.level)
 	
-	self.super:getSpace():removeObject(self.super:asGObject())
+	self.super.space:removeObject(self.super:asGObject())
 end
 
 function objects.BlueFairyNPC:initialize()
@@ -45,7 +45,7 @@ objects.GhostFairyNPC = class("GhostFairyNPC")
 
 function objects.GhostFairyNPC.conditionalLoad(space,params,props)	
 	if params.level > 0 then
-		return App.getCrntState():isChamberCompleted('graveyard' .. params.level)
+		return App.state:isChamberCompleted('graveyard' .. params.level)
 	else
 		return true
 	end
@@ -54,5 +54,5 @@ end
 objects.Meiling1 = class("Meiling1")
 
 function objects.Meiling1.conditionalLoad(space,params,props)
-	return not App.getCrntState():isChamberCompleted("graveyard3")
+	return not App.state:isChamberCompleted("graveyard3")
 end

@@ -19,13 +19,13 @@ end
 
 function spells.IllusionDial:init(super)
 	self.super = super
-	self.agent = super:getCasterAsAgent()
+	self.agent = self.super.agent
 	self.timeSinceLastFire = 0.0
 	self.bullets = hashset_gobject_ref.new()
 end
 
 function spells.IllusionDial:onEnter()
-	self.targetRef = self.super:getSpace():getPlayerAsRef()
+	self.targetRef = self.super.space:getPlayerAsRef()
 	self.props = app.getBullet('illusionDialDagger')
 	
 	for i=0,self.count-1 do
@@ -86,7 +86,7 @@ end
 function spells.IllusionDial:onExit()
 	self.bullets:for_each(function(ref)
 		if ref:isValid() then
-			self.super:getSpace():removeObject(ref)
+			self.super.space:removeObject(ref)
 		end
 	end)
 end

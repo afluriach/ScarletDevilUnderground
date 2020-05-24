@@ -69,12 +69,12 @@ namespace Lua{
 		#define _cls ai::Function
 		auto func = _ai.new_usertype<ai::Function>(
 			"Function",
-			"fsm", sol::property(&ai::Function::getFSM)
+			"agent", sol::property(&ai::Function::getAgent),
+			"fsm", sol::property(&ai::Function::getFSM),
+			"object", sol::property(&ai::Function::getObject),
+			"space", sol::property(&ai::Function::getSpace)
 		);
 
-		addFuncSame(func, getSpace);
-		func["getObject"] = &ai::Function::getObject;
-		addFuncSame(func, getAgent);
 		addFuncSame(func, onEnter);
 		addFuncSame(func, update);
 		addFuncSame(func, reset);
@@ -122,7 +122,12 @@ namespace Lua{
 		addFuncSame(thread, getMainFuncName);
 
 		#define _cls ai::StateMachine
-		auto sm = _ai.new_usertype<ai::StateMachine>("StateMachine");
+		auto sm = _ai.new_usertype<ai::StateMachine>(
+			"StateMachine",
+			"agent", sol::property(&ai::StateMachine::getAgent),
+			"object", sol::property(&ai::StateMachine::getObject),
+			"space", sol::property(&ai::StateMachine::getSpace)
+		);
 
 		sm["addFunction"] = static_cast<void(ai::StateMachine::*)(local_shared_ptr<ai::Function>)>(&ai::StateMachine::addFunction);
 		addFuncSame(sm, removeFunction);
@@ -143,9 +148,6 @@ namespace Lua{
 		addFuncSame(sm, addOnDetectHandler);
 		addFuncSame(sm, addWhileDetectHandler);
 
-		addFuncSame(sm, getSpace);
-		addFuncSame(sm, getObject);
-		addFuncSame(sm, getAgent);
 		addFuncSame(sm, getFrame);
 		addFuncSame(sm, toString);
 

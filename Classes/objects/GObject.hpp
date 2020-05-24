@@ -128,6 +128,8 @@ public:
 	inline string getProperName() const { return props->properName; }
 	inline string getClsName() const { return props->clsName; }
 
+	inline virtual int getLevel() const { return 0; }
+
 	string getName() const;
 	string getTypeIndexName() const;
 	string toString() const;

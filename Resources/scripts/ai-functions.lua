@@ -26,12 +26,12 @@ function ai.Facer:init(super)
 end
 
 function ai.Facer:onEnter()
-	self.target = self.super:getSpace():getPlayerAsRef()
+	self.target = self.super.space:getPlayerAsRef()
 end
 
 function ai.Facer:update()
 	if self.target:isValid() then
-		local agent = self.super:getObject()
+		local agent = self.super.object
 		local target = self.target:get()
 		if ai.isFacingTarget(agent, target) then
 			agent:setVel( SpaceVect.ray(agent:getMaxSpeed(), agent:getAngle() ) )
@@ -44,7 +44,7 @@ function ai.Facer:update()
 end
 
 function ai.Facer:bulletHit(b)
-	self.super:getObject():rotate( math.pi * 0.5 )
+	self.super.object:rotate( math.pi * 0.5 )
 end
 
 ai.Follower = class("Follower")
@@ -54,12 +54,12 @@ function ai.Follower:init(super)
 end
 
 function ai.Follower:onEnter()
-	self.target = self.super:getSpace():getPlayerAsRef()
+	self.target = self.super.space:getPlayerAsRef()
 end
 
 function ai.Follower:update()
 	if self.target:isValid() then
-		local agent = self.super:getObject()
+		local agent = self.super.object
 		local target = self.target:get()
 		if ai.isFacingTargetsBack(agent, target) then
 			agent:setVel( SpaceVect.ray(agent:getMaxSpeed(), agent:getAngle() ) )
@@ -72,7 +72,7 @@ function ai.Follower:update()
 end
 
 function ai.Follower:bulletHit(b)
-	self.super:getObject():rotate( math.pi * -0.5 )
+	self.super.object:rotate( math.pi * -0.5 )
 end
 
 ai.FairyEngage = class("FairyEngage")
@@ -288,11 +288,11 @@ function ai.StalkerTeleport:zeroStamina()
 end
 
 function ai.StalkerTeleport:getTeleportPosition()
-	return self.super:getSpace():getRandomWaypoint('TeleportPad')
+	return self.super.space:getRandomWaypoint('TeleportPad')
 end
 
 function ai.StalkerTeleport:applyTeleport()
-	agent = self.super:getAgent()
+	agent = self.super.agent
 
 	agent:getAttributeSystem():setFullStamina()
 	agent:teleport( self:getTeleportPosition() )
@@ -305,7 +305,7 @@ function ai.HPCastSequence:init(super, intervalSpellMap)
 end
 
 function ai.HPCastSequence:getSpellIndex()
-	local hp = self.super:getAgent():get(Attribute.hp)
+	local hp = self.super.agent:get(Attribute.hp)
 	return intervalMapIndex(self.intervalSpellMap, hp)
 end
 

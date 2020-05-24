@@ -61,7 +61,7 @@ public:
 	virtual void init();
 	virtual void update();
 
-	inline int getLevel() const { return level; }
+	inline virtual int getLevel() const { return level; }
 
 	void sendAlert(Player* p);
 

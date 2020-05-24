@@ -18,14 +18,16 @@ namespace Lua{
 
 	void Inst::addApp()
 	{
-		auto app = newType(App);
+		auto app = _state.new_usertype<App>(
+			"App",
+			"state", sol::property(&App::getCrntState)
+		);
 #define _cls App
 
 		app["runOverworldScene"] = static_cast<GScene * (*)(string, string)>(&App::runOverworldScene);
 
 		addFuncSame(app, getParams);
 		addFuncSame(app, getCrntScene);
-		addFuncSame(app, getCrntState);
 		addFuncSame(app, printGlDebug);
 #if USE_TIMERS
 		addFuncSame(app, printTimerInfo);

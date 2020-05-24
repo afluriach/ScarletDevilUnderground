@@ -61,7 +61,8 @@ namespace Lua{
 			"length", sol::property(&MagicEffect::getLength),
 			"magnitude", sol::property(&MagicEffect::getMagnitude),
 			"state", sol::property(&MagicEffect::getState),
-			"flags", sol::property(&MagicEffect::getFlags)
+			"flags", sol::property(&MagicEffect::getFlags),
+			"space", sol::property(&MagicEffect::getSpace)
 		);
 
 		auto flags = _state.new_enum<effect_flags, true>(
@@ -77,7 +78,6 @@ namespace Lua{
 			}
 		);
 
-		addFuncSame(effect, getSpace);
 		addFuncSame(effect, isImmediate);
 		addFuncSame(effect, isDurable);
 		addFuncSame(effect, isActive);
@@ -112,19 +112,21 @@ namespace Lua{
 		);
 #define _cls spell_params
 
-		auto spell = _state.new_usertype<Spell>("Spell");
+		auto spell = _state.new_usertype<Spell>(
+			"Spell",
+			"agent", sol::property(&Spell::getCasterAs<Agent>),
+			"descriptor", sol::property(&Spell::getDescriptor),
+			"id", sol::property(&Spell::getID),
+			"name", sol::property(&Spell::getName),
+			"cost", sol::property(&Spell::getCost),
+			"object", sol::property(&Spell::getCasterAs<GObject>),
+			"space", sol::property(&Spell::getSpace)
+		);
 #define _cls Spell
 
 		spell["stop"] = &Spell::stop;
 
-		spell["getID"] = &Spell::getID;
-		spell["getName"] = &Spell::getName;
-		spell["getCost"] = &Spell::getCost;
-		spell["getDescriptor"] = &Spell::getDescriptor;
-		spell["getCasterObject"] = &Spell::getCasterAs<GObject>;
-		spell["getCasterAsAgent"] = &Spell::getCasterAs<Agent>;
 		spell["getCasterAsPlayer"] = &Spell::getCasterAs<Player>;
-		spell["getSpace"] = &Spell::getSpace;
 
 		spell["getBulletAttributes"] = &Spell::getBulletAttributes;
 		spell["spawnBullet"] = &Spell::spawnBullet;

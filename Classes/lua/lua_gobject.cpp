@@ -98,7 +98,10 @@ namespace Lua{
 
 		auto gobject = _state.new_usertype<GObject>(
 			"GObject",
-			"active", sol::property(&EnvironmentObject::getActive),
+			"active", sol::property(&GObject::getActive),
+			"level", sol::property(&GObject::getLevel),
+			"name", sol::property(&GObject::getName),
+			"id", sol::property(&GObject::getUUID),
 			"space", sol::property(&GObject::getSpace)
 		);
 

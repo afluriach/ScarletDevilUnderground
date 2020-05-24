@@ -44,10 +44,10 @@ function objects.MapFragment:init(super)
 end
 
 function objects.MapFragment:onAcquire(p)
-	local f = self.fragments[self.super:getName()]
+	local f = self.fragments[self.super.name]
 	
 	if not f then
-		app.log('Unknown map fragment: ' .. self.super:getName())
+		app.log('Unknown map fragment: ' .. self.super.name)
 		return
 	end
 	

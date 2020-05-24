@@ -8,7 +8,7 @@ end
 
 function spells.YinYangOrbs:init(super)
 	self.super = super
-	self.agent = super:getCasterAsAgent()
+	self.agent = self.super.agent
 end
 
 function spells.YinYangOrbs:onEnter()
@@ -29,6 +29,6 @@ end
 
 function spells.YinYangOrbs:onExit()
 	for _i,v in ipairs(self.orbs) do
-		self.super:getSpace():removeObject(v)
+		self.super.space:removeObject(v)
 	end
 end

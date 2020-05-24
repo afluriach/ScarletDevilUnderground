@@ -7,7 +7,7 @@ spells.FireStarburst = class('FireStarburst', {
 	init = function(self, super)
 		self.super = super
 		self.props = app.getBullet('fireStarburstBullet')
-		self.agent = super:getCasterAsAgent()
+		self.agent = self.super.agent
 	end,
 	update = function(self)
 		for i=0,7 do
@@ -29,7 +29,7 @@ spells.FlameFence = class('FlameFence', {
 		self.bullets = {}
 		self.super = super
 		self.props = app.getBullet('fireFenceBullet')
-		self.agent = super:getCasterAsAgent()
+		self.agent = self.super.agent
 	end,
 	onEnter = function(self)
 		for y=-10,10,2 do
@@ -49,10 +49,9 @@ spells.FlameFence = class('FlameFence', {
 		end
 	end,
 	onExit = function(self)
-		local space = self.super:getSpace()
 		for ref, _v in pairs(self.bullets) do
 			if ref:isValid() then
-				space:removeObject(ref)
+				self.super.space:removeObject(ref)
 			end
 		end
 	end
@@ -69,7 +68,7 @@ spells.Whirlpool1 = class('Whirlpool1', {
 	end,
 	init = function(self, super)
 		self.super = super
-		self.agent = super:getCasterAsAgent()
+		self.agent = self.super.agent
 		self.bulletProps = app.getBullet('waterBullet1')
 		self.shotTimer = 0.0
 		
@@ -113,7 +112,7 @@ spells.Whirlpool2 = class('Whirlpool2', {
 	end,
 	init = function(self, super)
 		self.super = super
-		self.agent = super:getCasterAsAgent()
+		self.agent = self.super.agent
 		self.bulletProps = app.getBullet('waterBullet2')
 		self.shotTimer = 0.0
 		

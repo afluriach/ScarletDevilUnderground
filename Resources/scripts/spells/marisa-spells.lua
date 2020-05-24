@@ -19,7 +19,7 @@ spells.StarlightTyphoon = class('StarlightTyphoon', {
 	end,
 	init = function(self, super)
 		self.super = super
-		self.agent = super:getCasterAsAgent()
+		self.agent = self.super.agent
 		self.angle = self.agent:getAngle()
 		self.shotsPerFrame = self.count / self.duration * App.getParams().secondsPerFrame
 		self.accumulator = 0.0

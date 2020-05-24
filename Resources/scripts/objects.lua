@@ -136,7 +136,7 @@ end
 
 function objects.GhostHeadstone:initialize()	
 	self.sensor = self.super.space:createAreaSensor(
-		self.super.space:getArea(self.super:getName()),
+		self.super.space:getArea(self.super.name),
 		GType.player | GType.npc,
 		function(obj) self:onContact(obj) end,
 		function(obj) self:onEndContact(obj) end
@@ -159,7 +159,7 @@ function objects.Headstone.conditionalLoad(space, id, args)
 		return false
 	end
 		
-	return not App.getCrntState():isChamberCompleted('graveyard' .. level)
+	return not App.state:isChamberCompleted('graveyard' .. level)
 end
 
 function objects.Headstone:init(super)
@@ -198,5 +198,5 @@ function objects.Sign:init(super)
 end
 
 function objects.Sign:interact(p)
-	self.super.space:createDialog('dialogs/' .. self.super:getName(), false)
+	self.super.space:createDialog('dialogs/' .. self.super.name, false)
 end

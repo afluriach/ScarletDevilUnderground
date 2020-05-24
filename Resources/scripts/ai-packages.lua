@@ -124,7 +124,7 @@ function stalker(fsm)
 	engage = ai.Seek.makeTargetFunctionGenerator(true, 0.0)
 	fsm:addWhileDetectHandler( GType.player, engage )
 	
-	fsm:getAgent():applyMagicEffect(
+	fsm.agent:applyMagicEffect(
 		app.getEffect("DrainStaminaFromMovement"),
 		effect_attributes.new(1.0, -1.0)
 	)	
