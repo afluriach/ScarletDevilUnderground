@@ -84,7 +84,7 @@
       <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
       <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
       <PrecompiledHeader>Use</PrecompiledHeader>
-      <WarningLevel>Level3</WarningLevel>
+      <WarningLevel>Level2</WarningLevel>
       <DebugInformationFormat>EditAndContinue</DebugInformationFormat>
       <DisableSpecificWarnings>4267;4251;4244;4099;%(DisableSpecificWarnings)</DisableSpecificWarnings>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
@@ -119,7 +119,7 @@ xcopy "$(ProjectDir)..\Resources" "$(OutDir)" /D /E /I /F /Y</Command>
       <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <PrecompiledHeader>Use</PrecompiledHeader>
-      <WarningLevel>Level3</WarningLevel>
+      <WarningLevel>Level2</WarningLevel>
       <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
       <DisableSpecificWarnings>4267;4251;4244;4099;%(DisableSpecificWarnings)</DisableSpecificWarnings>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
@@ -193,7 +193,6 @@ xcopy "$(ProjectDir)..\Resources" "$(OutDir)" /D /E /I /F /Y</Command>
     <ClCompile Include="..\Classes\objects\object_params.cpp" />
     <ClCompile Include="..\Classes\objects\object_ref.cpp" />
     <ClCompile Include="..\Classes\objects\Player.cpp" />
-    <ClCompile Include="..\Classes\objects\TeleportPad.cpp" />
     <ClCompile Include="..\Classes\objects\Torch.cpp" />
     <ClCompile Include="..\Classes\objects\Wall.cpp" />
     <ClCompile Include="..\Classes\Prefix.cpp">
@@ -225,7 +224,6 @@ xcopy "$(ProjectDir)..\Resources" "$(OutDir)" /D /E /I /F /Y</Command>
     <ClCompile Include="..\Classes\spells\FirePatternMapping.cpp" />
     <ClCompile Include="..\Classes\spells\MagicEffect.cpp" />
     <ClCompile Include="..\Classes\spells\MagicEffectSystem.cpp" />
-    <ClCompile Include="..\Classes\spells\MiscMagicEffects.cpp" />
     <ClCompile Include="..\Classes\spells\PlayerFirePattern.cpp" />
     <ClCompile Include="..\Classes\spells\PlayerSpell.cpp" />
     <ClCompile Include="..\Classes\spells\Spell.cpp" />
@@ -289,7 +287,6 @@ xcopy "$(ProjectDir)..\Resources" "$(OutDir)" /D /E /I /F /Y</Command>
     <ClInclude Include="..\Classes\objects\object_params.hpp" />
     <ClInclude Include="..\Classes\objects\object_ref.hpp" />
     <ClInclude Include="..\Classes\objects\Player.hpp" />
-    <ClInclude Include="..\Classes\objects\TeleportPad.hpp" />
     <ClInclude Include="..\Classes\objects\Torch.hpp" />
     <ClInclude Include="..\Classes\objects\Wall.hpp" />
     <ClInclude Include="..\Classes\Prefix.h" />
@@ -315,7 +312,6 @@ xcopy "$(ProjectDir)..\Resources" "$(OutDir)" /D /E /I /F /Y</Command>
     <ClInclude Include="..\Classes\spells\FirePatternImpl.hpp" />
     <ClInclude Include="..\Classes\spells\MagicEffect.hpp" />
     <ClInclude Include="..\Classes\spells\MagicEffectSystem.hpp" />
-    <ClInclude Include="..\Classes\spells\MiscMagicEffects.hpp" />
     <ClInclude Include="..\Classes\spells\PlayerFirePattern.hpp" />
     <ClInclude Include="..\Classes\spells\PlayerSpell.hpp" />
     <ClInclude Include="..\Classes\spells\Spell.hpp" />

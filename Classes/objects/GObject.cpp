@@ -389,6 +389,28 @@ Vec2 GObject::getInitialCenterPix()
     return toCocos(centerPix);
 }
 
+bool GObject::teleport(SpaceVect pos)
+{
+	bool success = !isObstacle(pos);
+
+	if (success) {
+		setPos(pos);
+	}
+
+	return success;
+}
+
+bool GObject::isObstacle(SpaceVect pos)
+{
+	return space->physicsContext->obstacleRadiusQuery(
+		this,
+		pos,
+		getRadius(),
+		obstacles,
+		PhysicsLayers::ground
+	);
+}
+
 SpaceVect GObject::getPos() const {
     return body->GetPosition();
 }

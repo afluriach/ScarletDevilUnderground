@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.0" tiledversion="1.0.3" orientation="orthogonal" renderorder="right-down" width="17" height="17" tilewidth="128" tileheight="128" nextobjectid="19">
+<map version="1.0" tiledversion="1.0.3" orientation="orthogonal" renderorder="right-down" width="17" height="17" tilewidth="128" tileheight="128" nextobjectid="20">
  <tileset firstgid="1" name="scarlet carpet texture" tilewidth="128" tileheight="128" tilecount="1" columns="1">
   <image source="scarlet carpet texture.png" width="128" height="128"/>
  </tileset>
@@ -58,9 +58,22 @@
    </properties>
   </object>
   <object id="14" name="goal" type="Goal" x="2048" y="1920" width="128" height="128"/>
-  <object id="15" name="tp1" type="TeleportPad" x="128" y="128" width="128" height="128"/>
-  <object id="16" name="tp3" type="TeleportPad" x="1024" y="768" width="128" height="128"/>
-  <object id="17" name="tp2" type="TeleportPad" x="1664" y="1664" width="128" height="128"/>
  </objectgroup>
- <objectgroup name="waypoints"/>
+ <objectgroup name="waypoints">
+  <object id="17" name="tp2" x="1664" y="1664" width="128" height="128">
+   <properties>
+    <property name="tags" value="TeleportPad"/>
+   </properties>
+  </object>
+  <object id="16" name="tp3" x="1024" y="768" width="128" height="128">
+   <properties>
+    <property name="tags" value="TeleportPad"/>
+   </properties>
+  </object>
+  <object id="15" name="tp1" x="128" y="128" width="128" height="128">
+   <properties>
+    <property name="tags" value="TeleportPad"/>
+   </properties>
+  </object>
+ </objectgroup>
 </map>

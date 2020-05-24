@@ -120,9 +120,6 @@
     <ClCompile Include="..\Classes\objects\Enemy.cpp">
       <Filter>src\objects</Filter>
     </ClCompile>
-    <ClCompile Include="..\Classes\objects\TeleportPad.cpp">
-      <Filter>src\objects</Filter>
-    </ClCompile>
     <ClCompile Include="..\Classes\spells\PlayerSpell.cpp">
       <Filter>src\spells</Filter>
     </ClCompile>
@@ -164,9 +161,6 @@
     </ClCompile>
     <ClCompile Include="..\Classes\ai\AIUtil.cpp">
       <Filter>src\ai</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Classes\spells\MiscMagicEffects.cpp">
-      <Filter>src\spells</Filter>
     </ClCompile>
     <ClCompile Include="..\Classes\scenes\GScene.cpp">
       <Filter>src\scenes</Filter>
@@ -416,9 +410,6 @@
     <ClInclude Include="..\Classes\objects\Enemy.hpp">
       <Filter>src\objects</Filter>
     </ClInclude>
-    <ClInclude Include="..\Classes\objects\TeleportPad.hpp">
-      <Filter>src\objects</Filter>
-    </ClInclude>
     <ClInclude Include="..\Classes\spells\PlayerSpell.hpp">
       <Filter>src\spells</Filter>
     </ClInclude>
@@ -457,9 +448,6 @@
     </ClInclude>
     <ClInclude Include="..\Classes\ai\AIUtil.hpp">
       <Filter>src\ai</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Classes\spells\MiscMagicEffects.hpp">
-      <Filter>src\spells</Filter>
     </ClInclude>
     <ClInclude Include="..\Classes\scenes\GScene.hpp">
       <Filter>src\scenes</Filter>

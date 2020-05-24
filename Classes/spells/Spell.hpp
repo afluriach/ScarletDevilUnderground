@@ -18,7 +18,6 @@ class Bullet;
 class GObject;
 class MagicEffectDescriptor;
 class SpellDesc;
-class TeleportPad;
 class Torch;
 
 class Spell

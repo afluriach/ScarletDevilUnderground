@@ -931,21 +931,66 @@ const Path* GSpace::getPath(string name) const
 	return it != paths.end() ? &(it->second) : nullptr;
 }
 
-void GSpace::addWaypoint(string name, SpaceVect w)
+void GSpace::addWaypoint(string name, const vector<string>& tags, SpaceVect w)
 {
-	waypoints.insert_or_assign(name, w);
+	addWaypoint(name, w);
+
+	for (auto tag : tags) {
+		addWaypoint(tag, w);
+	}
+}
+
+void GSpace::addWaypoint(string tag, SpaceVect w)
+{
+	if (tag.size() > 0) {
+		emplaceIfEmpty(waypoints, tag);
+		auto it = waypoints.find(tag);
+		it->second.push_back(w);
+	}
 }
 
 SpaceVect GSpace::getWaypoint(string name) const
 {
 	auto it = waypoints.find(name);
 
-	if (it == waypoints.end()) {
-		log("Unknown waypoint %s.", name.c_str());
+	if (it == waypoints.end() || it->second.empty()) {
+		log("getWaypoint: Unknown waypoint %s.", name.c_str());
 		return SpaceVect(0, 0);
 	}
+
+	if (it->second.size() > 1) {
+		log("getWaypoint: more than one waypoint for %s.", name.c_str());
+	}
+
+	return it->second.back();
+}
+
+const list<SpaceVect>* GSpace::getWaypoints(string name) const
+{
+	auto it = waypoints.find(name);
+
+	if (it == waypoints.end()) {
+		log("Unknown waypoint %s.", name.c_str());
+		return nullptr;
+	}
 	else {
-		return it->second;
+		return &it->second;
+	}
+}
+
+SpaceVect GSpace::getRandomWaypoint(string name)
+{
+	const list<SpaceVect>* w = getWaypoints(name);
+
+	if (!w || w->size() == 0) {
+		return SpaceVect::zero;
+	}
+	else if (w->size() == 1) {
+		return w->front();
+	}
+	else {
+		int idx = getRandomInt(0, w->size() - 1);
+		return listAt<SpaceVect>(*w, idx);
 	}
 }
 

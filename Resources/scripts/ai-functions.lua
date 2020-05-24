@@ -287,11 +287,15 @@ function ai.StalkerTeleport:zeroStamina()
 	self:applyTeleport()
 end
 
+function ai.StalkerTeleport:getTeleportPosition()
+	return self.super:getSpace():getRandomWaypoint('TeleportPad')
+end
+
 function ai.StalkerTeleport:applyTeleport()
 	agent = self.super:getAgent()
 
 	agent:getAttributeSystem():setFullStamina()
-	agent:applyMagicEffect( app.getEffect("Teleport"), effect_attributes.new(0.0, -1.0) )
+	agent:teleport( self:getTeleportPosition() )
 end
 
 ai.HPCastSequence = class("HPCastSequence")

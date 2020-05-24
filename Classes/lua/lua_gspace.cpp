@@ -81,6 +81,7 @@ namespace Lua{
 
 		addFuncSame(gspace, getPath);
 		addFuncSame(gspace, getWaypoint);
+		addFuncSame(gspace, getRandomWaypoint);
 		addFuncSame(gspace, getArea);
 
 		addFuncSame(gspace, registerRoomMapped);

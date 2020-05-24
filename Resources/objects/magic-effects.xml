@@ -18,10 +18,6 @@
 		attr="stamina"
 	/>
 	
-	<Teleport
-		type="Teleport"
-	/>
-	
 	<BatTransform
 		type="ScriptedEffect"
 		class="auto"

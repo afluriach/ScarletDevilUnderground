@@ -24,7 +24,6 @@
 #include "LuaAPI.hpp"
 #include "MagicEffect.hpp"
 #include "MagicEffectSystem.hpp"
-#include "MiscMagicEffects.hpp"
 #include "physics_context.hpp"
 #include "Player.hpp"
 #include "RadarSensor.hpp"

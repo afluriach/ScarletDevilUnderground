@@ -300,7 +300,10 @@ public:
 	const Path* getPath(string name) const;
 
 	void addWaypoint(string name, SpaceVect w);
+	void addWaypoint(string name, const vector<string>& tags, SpaceVect w);
 	SpaceVect getWaypoint(string name) const;
+	const list<SpaceVect>* getWaypoints(string name) const;
+	SpaceVect getRandomWaypoint(string name);
 
 	void addArea(string name, SpaceRect a);
 	SpaceRect getArea(string name) const;
@@ -390,7 +393,7 @@ protected:
     bool isObstacleTile(int x, int y) const;
     
 	unordered_map<string, Path> paths;
-	unordered_map<string, SpaceVect> waypoints;
+	unordered_map<string, list<SpaceVect>> waypoints;
 	unordered_map<string, SpaceRect> areas;
 	boost::dynamic_bitset<>* navMask = nullptr;
 };

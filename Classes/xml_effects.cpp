@@ -10,7 +10,6 @@
 
 #include "AttributeEffects.hpp"
 #include "MagicEffect.hpp"
-#include "MiscMagicEffects.hpp"
 
 namespace app {
 
@@ -42,12 +41,6 @@ bool fortifyAttribute(tinyxml2::XMLElement* elem, local_shared_ptr<MagicEffectDe
 	}
 
 	return success;
-}
-
-bool teleport(tinyxml2::XMLElement* elem, local_shared_ptr<MagicEffectDescriptor>* result)
-{
-	*result = make_local_shared< MagicEffectDescImpl<Teleport>>(elem->Name());
-	return true;
 }
 
 bool drainFromMovement(tinyxml2::XMLElement* elem, local_shared_ptr<MagicEffectDescriptor>* result)
@@ -116,7 +109,6 @@ bool scriptedEffect(tinyxml2::XMLElement* elem, local_shared_ptr<MagicEffectDesc
 const unordered_map<string, effect_parser> effectParsers = {
 	{"RestoreAttribute", &restoreAttribute},
 	{"FortifyAttribute", &fortifyAttribute},
-	{"Teleport", &teleport},
 	{"DrainFromMovement", &drainFromMovement},
 	{"SetBoolAttribute", &setBoolAttribute},
 	{"DamageOverTime", &damageOverTime},

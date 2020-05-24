@@ -19,7 +19,6 @@
 #include "Item.hpp"
 #include "NPC.hpp"
 #include "Player.hpp"
-#include "TeleportPad.hpp"
 #include "Torch.hpp"
 #include "value_map.hpp"
 #include "Wall.hpp"
@@ -86,6 +85,8 @@ void GObject::initObjectInfo()
 {
 	objectInfo = {
 
+	no_adapter_entry(AreaSensor),
+	no_adapter_entry(AreaSensorImpl),
 	no_adapter_entry(Bullet),
 	entry_same(DarknessArea),
 	entry_same(Door),
@@ -97,8 +98,8 @@ void GObject::initObjectInfo()
 	no_adapter_entry(NPC),
 	entry_same(Pitfall),
 	no_adapter_entry(Player),
+	no_adapter_entry(RoomSensor),
 	entry_same(SunArea),
-	entry_same(TeleportPad),
 	entry_same(Torch),
 	entry_same(Wall),
 
@@ -115,7 +116,6 @@ const unordered_set<type_index> GObject::trackedTypes = {
 	typeid(Pitfall),
 	typeid(Player),
 	typeid(RoomSensor),
-	typeid(TeleportPad),
 	typeid(Wall),
 };
 

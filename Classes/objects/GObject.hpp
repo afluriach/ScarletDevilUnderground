@@ -228,8 +228,9 @@ public:
 	void launchAtTarget(GObject* target);
     Vec2 getInitialCenterPix();
 
-	virtual inline void teleport(SpaceVect pos) { setPos(pos); }
-
+	bool teleport(SpaceVect pos);
+	//query if this object moving to the given position would encounter obstacle(s)
+	bool isObstacle(SpaceVect pos);
 	bool isOnFloor() const;
 	SpaceVect getFloorVelocity() const;
 	void updateFloorSegment();

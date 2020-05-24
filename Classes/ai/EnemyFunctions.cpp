@@ -15,7 +15,6 @@
 #include "EnemySpell.hpp"
 #include "Graphics.h"
 #include "MagicEffect.hpp"
-#include "MiscMagicEffects.hpp"
 #include "Player.hpp"
 #include "RadarSensor.hpp"
 #include "SpellDescriptor.hpp"

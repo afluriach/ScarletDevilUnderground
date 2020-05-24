@@ -15,7 +15,6 @@
 #include "physics_context.hpp"
 #include "SpellDescriptor.hpp"
 #include "SpellUtil.hpp"
-#include "TeleportPad.hpp"
 
 const string BlueFairyBomb::name = "BlueFairyBomb";
 const string BlueFairyBomb::description = "";

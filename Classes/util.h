@@ -206,6 +206,23 @@ namespace boost {
 
 boost::icl::interval_map<float, int> makeIntervalMap(const vector<float_pair>& intervals);
 
+//If index exceeds size of list, it will return the last element.
+template<typename T>
+T listAt(const list<T> l, int idx)
+{
+	auto it = l.begin();
+	int count = 0;
+
+	for (; it != l.end() && count < idx; ++it, ++count);
+
+	if (it == l.end()) {
+		return l.back();
+	}
+	else {
+		return *it;
+	}
+}
+
 class TimerSystem
 {
 public:

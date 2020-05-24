@@ -221,8 +221,10 @@ void GScene::loadWaypoints(const TMXTiledMap& map, IntVec2 offset)
 		SpaceRect rect = getUnitspaceRectangle(asMap, offset);
 
 		string name = asMap.at("name").asString();
+		string _tagstr = getStringOrDefault(asMap, "tags", "");
+		vector<string> tags = splitString(_tagstr, ",");
 
-		gspace->addWaypoint(name, rect.center);
+		gspace->addWaypoint(name, tags, rect.center);
 	}
 }
 

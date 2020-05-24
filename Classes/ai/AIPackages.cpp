@@ -15,7 +15,6 @@
 #include "Bomb.hpp"
 #include "EnemyFunctions.hpp"
 #include "EnemySpell.hpp"
-#include "MiscMagicEffects.hpp"
 #include "Player.hpp"
 #include "SpellDescriptor.hpp"
 #include "SpellSystem.hpp"

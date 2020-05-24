@@ -10,7 +10,6 @@
 
 #include "Agent.hpp"
 #include "AttributeEffects.hpp"
-#include "MiscMagicEffects.hpp"
 #include "MagicEffect.hpp"
 #include "LuaAPI.hpp"
 #include "Player.hpp"
