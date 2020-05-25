@@ -9,8 +9,6 @@
 #ifndef MagicEffect_hpp
 #define MagicEffect_hpp
 
-class RadarSensor;
-
 make_static_member_detector(canApply)
 make_static_member_detector(flags)
 

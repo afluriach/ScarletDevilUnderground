@@ -11,17 +11,6 @@
 
 #include "Agent.hpp"
 
-struct bomb_properties;
-class Collectible;
-struct ControlInfo;
-class ControlState;
-class Door;
-class EnemyBullet;
-class FirePattern;
-class SpellDesc;
-class PlayScene;
-class Upgrade;
-
 class Player : public Agent
 {
 public:

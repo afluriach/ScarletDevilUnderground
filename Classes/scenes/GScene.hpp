@@ -11,25 +11,6 @@
 
 #include "multifunction.h"
 
-class AgentBodyShader;
-class ConeShader;
-class ControlListener;
-class Dialog;
-class GAnimation;
-class GSpace;
-class HUD;
-class LuaShell;
-class MenuLayer;
-class PatchConAnimation;
-class PlayScene;
-class RadialGradient;
-
-namespace Lua{
-    class Inst;
-}
-
-typedef vector<vector<int>> MapFragmentsList;
-
 class GScene : public Scene
 {
 public:

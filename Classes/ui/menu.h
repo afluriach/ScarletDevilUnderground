@@ -9,7 +9,6 @@
 #ifndef menu_h
 #define menu_h
 
-class ControlListener;
 class SceneSelect;
 
 class MenuLayer : public Layer

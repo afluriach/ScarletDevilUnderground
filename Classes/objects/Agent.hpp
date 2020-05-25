@@ -9,12 +9,6 @@
 #ifndef Agent_hpp
 #define Agent_hpp
 
-class AgentAnimationContext;
-struct bullet_properties;
-class FirePattern;
-class RadarSensor;
-struct spell_cost;
-
 class agent_properties : public object_properties
 {
 public:

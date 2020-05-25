@@ -9,9 +9,6 @@
 #ifndef graphics_context_hpp
 #define graphics_context_hpp
 
-class GAnimation;
-class GScene;
-
 class graphics_context
 {
 public:

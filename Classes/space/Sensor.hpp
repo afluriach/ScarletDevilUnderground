@@ -9,8 +9,6 @@
 #ifndef Sensor_hpp
 #define Sesnor_hpp
 
-class GObject;
-
 class Sensor
 {
 public:

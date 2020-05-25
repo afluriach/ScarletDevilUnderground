@@ -9,9 +9,6 @@
 #ifndef object_params_hpp
 #define object_params_hpp
 
-class RoomSensor;
-class Spell;
-
 class object_params
 {
 public:

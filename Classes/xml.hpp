@@ -9,22 +9,6 @@
 #ifndef xml_hpp
 #define xml_hpp
 
-class agent_properties;
-struct area_properties;
-struct bomb_properties;
-struct bullet_properties;
-struct collectible_properties;
-class enemy_properties;
-class environment_object_properties;
-struct firepattern_properties;
-class floorsegment_properties;
-class item_properties;
-class LightArea;
-class MagicEffectDescriptor;
-class npc_properties;
-class object_properties;
-class SpellDesc;
-
 namespace app {
 	typedef function< bool(tinyxml2::XMLElement*, local_shared_ptr<MagicEffectDescriptor>*)> effect_parser;
 	typedef function< bool(tinyxml2::XMLElement*, SpellDesc**)> spell_parser;

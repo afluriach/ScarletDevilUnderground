@@ -9,8 +9,6 @@
 #ifndef physics_context_hpp
 #define physics_context_hpp
 
-class GSpace;
-
 class physics_context
 {
 public:

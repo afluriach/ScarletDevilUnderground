@@ -9,25 +9,6 @@
 #ifndef GSpace_hpp
 #define GSpace_hpp
 
-class agent_properties;
-class audio_context;
-struct bullet_attributes;
-struct bullet_properties;
-struct ChamberStats;
-class FloorSegment;
-class GObject;
-class graphics_context;
-class GScene;
-class GState;
-class HUD;
-namespace Lua { class Inst; }
-class MagicEffectSystem;
-class Pitfall;
-class PlayScene;
-class RadarSensor;
-class RoomSensor;
-class SpellSystem;
-
 #define OBJS_FROM_ARB \
     GObject* a = static_cast<GObject*>(arb->body_a_private->data); \
     GObject* b = static_cast<GObject*>(arb->body_b_private->data);

@@ -9,11 +9,6 @@
 #ifndef AreaSensor_hpp
 #define AreaSensor_hpp
 
-class Door;
-class Enemy;
-class GhostHeadstone;
-class GhostFairyNPC;
-
 class AreaSensor : public GObject
 {
 public:

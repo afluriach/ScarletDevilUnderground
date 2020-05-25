@@ -9,9 +9,6 @@
 #ifndef SpellDescriptor_hpp
 #define SpellDescriptor_hpp
 
-class GObject;
-class Spell;
-
 #include "spell_types.hpp"
 
 make_static_member_detector(cost)

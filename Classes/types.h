@@ -9,19 +9,83 @@
 #ifndef types_h
 #define types_h
 
+//commonly used forward declarations
+    //GObject types
 class Agent;
+class Bullet;
+class Door;
+class Enemy;
+class FloorSegment;
+class GObject;
+class NPC;
+class Pitfall;
+class Player;
+class RadarSensor;
+class RoomSensor;
+class Torch;
+class Wall;
+    //object property, parameter types
+class agent_properties;
+struct bomb_properties;
+struct bullet_attributes;
+struct bullet_properties;
+class enemy_properties;
+class environment_object_properties;
+class floorsegment_properties;
+class item_properties;
+class npc_properties;
+class object_params;
+class object_properties;
+    //graphics, scene types
+class AgentAnimationContext;
+class AgentBodyShader;
+class audio_context;
+class ConeShader;
+class Dialog;
+class GAnimation;
+class graphics_context;
+class GScene;
+class HUD;
+class LightArea;
+class LuaShell;
+class MapMenu;
+class MenuLayer;
+class PauseMenu;
+class PlayScene;
+class RadialGradient;
+	//magic
+class FirePattern;
+struct firepattern_properties;
+class MagicEffect;
+class MagicEffectDescriptor;
+class MagicEffectSystem;
+class Spell;
+struct spell_cost;
+class SpellDesc;
+class SpellSystem;
+	//misc
+struct area_properties;
+class AttributeSystem;
+struct ChamberStats;
+struct ControlInfo;
+class ControlListener;
+class ControlRegister;
+class ControlState;
+class GSpace;
+class GState;
+struct parametric_motion_state;
+class physics_context;
+class Sensor;
+
 namespace ai {
 	class Function;
 	class StateMachine;
 	class Thread;
 }
-class Bullet;
-class FirePattern;
-class GObject;
-class GSpace;
-class object_params;
-class Player;
-class Spell;
+
+namespace Lua {
+	class Inst;
+}
 
 enum class Attribute : int;
 

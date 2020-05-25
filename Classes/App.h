@@ -7,18 +7,8 @@
 The reason for implement as private inheritance is to hide some interface call by Director.
 */
 
-class agent_properties;
-class audio_context;
-class ControlRegister;
-class Dialog;
 class FileUtilsZip;
-class GScene;
-class GSpace;
-class GState;
-class HUD;
 class KeyRegister;
-namespace Lua { class Inst; }
-class PlayScene;
 class TimerSystem;
 
 #define USE_TIMERS 1

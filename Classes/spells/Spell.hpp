@@ -14,12 +14,6 @@
 #define STANDARD_CONS(name) inline name(GObject* caster) : Spell(caster) {}
 #define GET_DESC(name) virtual inline const SpellDesc* getDescriptor() { return Spell::getDescriptorByName(#name); }
 
-class Bullet;
-class GObject;
-class MagicEffectDescriptor;
-class SpellDesc;
-class Torch;
-
 class Spell
 {
 public:

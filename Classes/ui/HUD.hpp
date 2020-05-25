@@ -9,9 +9,7 @@
 #ifndef HUD_hpp
 #define HUD_hpp
 
-class Enemy;
 class LinearMeter;
-class Player;
 class RadialMeterShader;
 
 class IconMeter : public Node

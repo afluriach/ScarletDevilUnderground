@@ -11,8 +11,6 @@
 
 #include "Agent.hpp"
 
-class NPC;
-
 struct dialog_entry
 {
 	dialog_entry();

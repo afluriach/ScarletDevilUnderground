@@ -9,9 +9,6 @@
 #ifndef SpellSystem_hpp
 #define SpellSystem_hpp
 
-class Bullet;
-class Spell;
-
 struct spellCompareID
 {
 	bool operator()(const Spell* left, const Spell* right) const;

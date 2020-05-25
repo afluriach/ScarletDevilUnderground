@@ -9,10 +9,6 @@
 #ifndef PhysicsImpl_hpp
 #define PhysicsImpl_hpp
 
-class GObject;
-class GSpace;
-class Sensor;
-
 class ContactListener : public b2ContactListener
 {
 public:

@@ -9,18 +9,7 @@
 #ifndef AI_hpp
 #define AI_hpp
 
-class Agent;
-class GObject;
-class GSpace;
-class physics_context;
-class RoomSensor;
-class SpellDesc;
-namespace Lua { class Inst; }
-
 namespace ai{
-
-class Function;
-class OnDetectFunction;
 
 enum class event_type
 {

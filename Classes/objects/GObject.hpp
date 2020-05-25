@@ -9,18 +9,6 @@
 #ifndef GObject_hpp
 #define GObject_hpp
 
-class Player;
-class Bullet;
-class GSpace;
-class Spell;
-class MagicEffect;
-class MagicEffectDescriptor;
-struct parametric_motion_state;
-class FloorSegment;
-class RoomSensor;
-struct spell_cost;
-class SpellDesc;
-
 #define MapObjCons(cls) cls(GSpace* space, ObjectIDType id, const ValueMap& args)
 #define MapObjForwarding(cls) cls(space,id,args)
 #define MapObjParams() GObject(object_params(args))

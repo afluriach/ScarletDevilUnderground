@@ -9,9 +9,6 @@
 #ifndef Bullet_hpp
 #define Bullet_hpp
 
-class Agent;
-class Wall;
-
 class Bullet : public GObject
 {
 public:

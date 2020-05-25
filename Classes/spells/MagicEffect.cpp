@@ -13,7 +13,6 @@
 #include "LuaAPI.hpp"
 #include "MagicEffect.hpp"
 #include "MagicEffectSystem.hpp"
-#include "RadarSensor.hpp"
 
 MagicEffect::MagicEffect(effect_params params) :
 target(params.target),

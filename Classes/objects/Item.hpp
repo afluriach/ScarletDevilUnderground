@@ -9,8 +9,6 @@
 #ifndef Item_hpp
 #define Item_hpp
 
-class LightArea;
-
 class item_properties : public object_properties
 {
 public:

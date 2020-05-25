@@ -11,11 +11,6 @@
 
 #include "menu.h"
 
-enum class Attribute;
-class AttributeSystem;
-class GState;
-class PlayScene;
-class Player;
 class PlayerInfo;
 
 class TitleMenu : public TextListMenuImpl<TitleMenu>

@@ -12,12 +12,6 @@
 #include "functional.hpp"
 #include "GScene.hpp"
 
-class GObject;
-class HUD;
-class MapMenu;
-class MenuLayer;
-class PauseMenu;
-
 struct area_properties
 {
 	static area_properties singleMap(string name);
