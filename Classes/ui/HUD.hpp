@@ -178,9 +178,6 @@ public:
 	LinearMeter* mpMeter;
 	LinearMeter* staminaMeter;
 
-	Counter* mapFragmentMeter;
-	Counter* objectiveCounter;
-
 	MagicEffects* magicEffects;
 
     Sprite* interactionIcon;
@@ -213,12 +210,6 @@ public:
 	void runPowerFlicker(float duration);
 
 	void setPercentValue(Attribute element, int val);
-
-	void setObjectiveCounter(string iconRes, int val);
-	void setObjectiveCounterVisible(bool val);
-
-	void initMapCounter(int mapCount);
-	void setMapCounter(int val);
     
 	void setPerformanceStats();
 	void updatePerformanceStats();

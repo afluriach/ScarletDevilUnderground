@@ -476,22 +476,10 @@ bool HUD::init()
 	staminaMeter->setMax(100);
 	staminaMeter->setVisible(false);
 
-	mapFragmentMeter = Node::ccCreate<Counter>("sprites/map.png", 0);
-	mapFragmentMeter->setPosition(width * 0.5f, height - 64 * scale);
-	addChild(mapFragmentMeter, 2);
-	mapFragmentMeter->setScale(scale * 0.8f);
-	mapFragmentMeter->setVisible(false);
-
 	magicEffects = Node::ccCreate<MagicEffects>();
 	magicEffects->setPosition(width - 64 * scale, height - 64 * scale);
 	addChild(magicEffects, 2);
 	magicEffects->setScale(0.75f*scale);
-
-    objectiveCounter = Node::ccCreate<Counter>(showAll ? "sprites/ui/glyph.png" : "", 0);
-    objectiveCounter->setPosition(width * 0.3f, height - 64*scale);
-    addChild(objectiveCounter, 2);
-    objectiveCounter->setVisible(showAll);
-	objectiveCounter->setScale(scale * 0.8f);
     
     interactionIcon = Sprite::create();
     interactionIcon->setPosition(width - 256*scale, height - 96*scale);
@@ -532,29 +520,6 @@ bool HUD::init()
 	}
 
     return true;
-}
-
-void HUD::setObjectiveCounter(string iconRes, int val)
-{
-	resetVisibility(objectiveCounter);
-	objectiveCounter->setVal(val);
-	objectiveCounter->setIcon(iconRes);
-}
-
-void HUD::setObjectiveCounterVisible(bool val)
-{
-	objectiveCounter->setVisible(val);
-}
-
-void HUD::initMapCounter(int mapCount)
-{
-	mapFragmentMeter->setMaxVal(mapCount);
-}
-
-void HUD::setMapCounter(int val)
-{
-	resetVisibility(mapFragmentMeter);
-	mapFragmentMeter->setVal(val);
 }
 
 void HUD::setPerformanceStats()
@@ -746,7 +711,6 @@ void HUD::showHidden()
 	showHiddenNode(hpMeter);
 	showHiddenNode(mpMeter);
 	showHiddenNode(staminaMeter);
-	showHiddenNode(mapFragmentMeter);
 	showHiddenNode(firePatternIcon);
 	showHiddenNode(spellIcon);
 	showHiddenNode(powerAttackIcon);
@@ -758,7 +722,6 @@ void HUD::resetAutohide()
 	resetNodeAutohide(hpMeter);
 	resetNodeAutohide(mpMeter);
 	resetNodeAutohide(staminaMeter);
-	resetNodeAutohide(mapFragmentMeter);
 	resetNodeAutohide(firePatternIcon);
 	resetNodeAutohide(spellIcon);
 	resetNodeAutohide(powerAttackIcon);

@@ -93,7 +93,6 @@ public:
 	//Return the ID of the next level, if applicable. This is used to transition
 	//to next stage, and also to apply availibility unlock to that stage.
 	inline virtual string getNextLevel() const { return ""; }
-	inline virtual MapFragmentsList getMapFragmentsList() const { return MapFragmentsList(); }
 
     void setPaused(bool p);
 	inline virtual void enterPause() {}

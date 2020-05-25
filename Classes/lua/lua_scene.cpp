@@ -37,7 +37,5 @@ namespace Lua{
 #define _cls HUD
 
 		addFuncSame(hud, setMansionMode);
-		addFuncSame(hud, setObjectiveCounter);
-		addFuncSame(hud, setObjectiveCounterVisible);
 	}
 }

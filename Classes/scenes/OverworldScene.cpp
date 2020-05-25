@@ -32,10 +32,6 @@ void OverworldScene::initHUD()
 	gspace->addObjectAction([=]()->void {
 		gspace->setSuppressAction(true);
 	});
-
-	if ( (mapName == "overworld/forest" || mapName == "overworld/forest_lake") && App::getCrntState()->hasAttribute("mushroomCount") ) {
-		hud->setObjectiveCounter("sprites/mushroom.png", App::getCrntState()->getAttribute("mushroomCount"));
-	}
 }
 
 GScene* OverworldScene::getReplacementScene()
