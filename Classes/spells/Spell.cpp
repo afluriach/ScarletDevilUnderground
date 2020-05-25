@@ -43,7 +43,7 @@ spell_params::spell_params(
 {
 }
 
-Spell::Spell(GObject* caster, local_shared_ptr<SpellDesc> desc, unsigned int id, spell_params params) :
+Spell::Spell(GObject* caster, const SpellDesc* desc, unsigned int id, spell_params params) :
 	caster(caster),
 	descriptor(desc),
 	id(id),
@@ -131,7 +131,7 @@ void Spell::stop()
 	getSpace()->spellSystem->stopSpell(id);
 }
 
-local_shared_ptr<SpellDesc> Spell::getDescriptorByName(const string& name)
+const SpellDesc* Spell::getDescriptorByName(const string& name)
 {
 	auto it = spellDescriptors.find(name);
 

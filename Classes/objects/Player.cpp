@@ -124,7 +124,7 @@ void Player::equipSpells()
 		if (!app::params.unlockAllEquips && !App::crntState->hasItem(spellName))
 			continue;
 
-		local_shared_ptr<SpellDesc> desc = Spell::getDescriptorByName(spellName);
+		const SpellDesc* desc = Spell::getDescriptorByName(spellName);
 		if (desc) {
 			spells.push_back(desc);
 		}
@@ -144,7 +144,7 @@ void Player::equipPowerAttacks()
 
 	for (string spellName : Spell::playerPowerAttacks)
 	{
-		local_shared_ptr<SpellDesc> desc = Spell::getDescriptorByName(spellName);
+		const SpellDesc* desc = Spell::getDescriptorByName(spellName);
 		if (desc) {
 			powerAttacks.push_back(desc);
 		}
@@ -248,17 +248,17 @@ void Player::updateSpellControls(const ControlInfo& cs)
 		if (cs.isControlActionPressed(ControlAction::spell_previous)) {
 			--spellIdx;
 			if (spellIdx < 0) spellIdx += spells.size();
-			log("Spell %s equipped.", spells.at(spellIdx).get()->getName().c_str());
+			log("Spell %s equipped.", spells.at(spellIdx)->getName().c_str());
 			space->addHudAction(&HUD::setSpellIcon, spells.at(spellIdx)->getIcon());
 		}
 		else if (cs.isControlActionPressed(ControlAction::spell_next)) {
 			++spellIdx;
 			if (spellIdx >= to_int(spells.size())) spellIdx -= spells.size();
-			log("Spell %s equipped.", spells.at(spellIdx).get()->getName().c_str());
+			log("Spell %s equipped.", spells.at(spellIdx)->getName().c_str());
 			space->addHudAction(&HUD::setSpellIcon, spells.at(spellIdx)->getIcon());
 		}
 		
-		local_shared_ptr<SpellDesc> equippedSpell;
+		const SpellDesc* equippedSpell;
 
 		if (spellIdx >= 0 && spellIdx < to_int(spells.size())) {
 			equippedSpell = spells.at(spellIdx);

@@ -27,11 +27,11 @@ public:
 	SpellSystem(GSpace* gspace);
 	~SpellSystem();
 
-	unsigned int cast(local_shared_ptr<SpellDesc> desc, GObject* caster);
+	unsigned int cast(const SpellDesc* desc, GObject* caster);
 
 	void stopSpell(unsigned int id);
 	bool isSpellActive(unsigned int id);
-	bool isSpellActive(local_shared_ptr<SpellDesc> desc, GObject* caster);
+	bool isSpellActive(const SpellDesc* desc, GObject* caster);
 
 	void onRemove(unsigned int id, Bullet* b);
 protected:

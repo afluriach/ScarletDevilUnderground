@@ -28,7 +28,7 @@ spell_params ScriptedSpell::getParams(string clsName)
 	return f ? f() : spell_params();
 }
 
-ScriptedSpell::ScriptedSpell(GObject* caster, local_shared_ptr<SpellDesc> desc, unsigned int id, string clsName) :
+ScriptedSpell::ScriptedSpell(GObject* caster, const SpellDesc* desc, unsigned int id, string clsName) :
 	Spell(caster,desc,id, getParams(clsName)),
 	clsName(clsName)
 {
@@ -76,7 +76,7 @@ void ScriptedSpell::onBulletRemove(Bullet* b)
 	}
 }
 
-ApplySelfEffect::ApplySelfEffect(GObject* caster, local_shared_ptr<SpellDesc> desc, unsigned int id, spell_params params, local_shared_ptr<MagicEffectDescriptor> effect) :
+ApplySelfEffect::ApplySelfEffect(GObject* caster, const SpellDesc* desc, unsigned int id, spell_params params, local_shared_ptr<MagicEffectDescriptor> effect) :
 	Spell(caster, desc, id, params),
 	effect(effect)
 {

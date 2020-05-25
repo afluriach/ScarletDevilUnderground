@@ -19,9 +19,9 @@
 #define script_entry(cls) { #cls, make_local_shared<ScriptedSpellDescriptor>(#cls)}
 
 template<typename T>
-constexpr local_shared_ptr<SpellDesc> createDesc()
+const SpellDesc* createDesc()
 {
-	return make_local_shared<SpellDescImpl<T>>();
+	return new SpellDescImpl<T>();
 }
 
 void Spell::initDescriptors() {
@@ -33,7 +33,7 @@ void Spell::initDescriptors() {
 	spellDescriptors.insert(entry_same(PlayerScarletRose));
 }
 
-unordered_map<string, local_shared_ptr<SpellDesc>> Spell::spellDescriptors;
+unordered_map<string, const SpellDesc*> Spell::spellDescriptors;
 
 const vector<string> Spell::playerSpells = {
 	"DarkMist",

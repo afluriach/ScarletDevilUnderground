@@ -928,12 +928,12 @@ void GObject::stopSound(ALuint sourceID)
 
 //BEGIN SPELLS
 
-unsigned int GObject::cast(local_shared_ptr<SpellDesc> desc)
+unsigned int GObject::cast(const SpellDesc* desc)
 {
 	return space->spellSystem->cast(desc, this);
 }
 
-bool GObject::isSpellActive(local_shared_ptr<SpellDesc> desc)
+bool GObject::isSpellActive(const SpellDesc* desc)
 {
 	return space->spellSystem->isSpellActive(desc, this);
 }

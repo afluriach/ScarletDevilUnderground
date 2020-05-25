@@ -22,7 +22,7 @@ public:
 	static const SpaceFloat radius;
 	static const SpaceFloat angularSpeed;
 
-	BlueFairyBomb(GObject* caster, local_shared_ptr<SpellDesc> desc, unsigned int id);
+	BlueFairyBomb(GObject* caster, const SpellDesc* desc, unsigned int id);
 	inline virtual ~BlueFairyBomb() {}
 
 	virtual void init();

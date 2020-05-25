@@ -158,36 +158,4 @@ protected:
 	sol::table obj;
 };
 
-class RadiusEffect : public MagicEffect
-{
-public:
-	RadiusEffect(effect_params params, GType type);
-
-	virtual void init();
-	virtual void update();
-	virtual void end();
-
-	//interface for sensor
-	void onContact(GObject* obj);
-	void onEndContact(GObject* obj);
-
-	virtual void onHit(GObject* target) = 0;
-protected:
-	unordered_set<GObject*> contacts;
-	RadarSensor* sensor = nullptr;
-
-	SpaceFloat radius;
-	GType type;
-};
-
-class DamageRadiusEffect : public RadiusEffect
-{
-public:
-	DamageRadiusEffect(effect_params params, DamageInfo damage, GType type);
-
-	virtual void onHit(GObject* target);
-protected:
-	DamageInfo damage;
-};
-
 #endif /* MagicEffect_hpp */

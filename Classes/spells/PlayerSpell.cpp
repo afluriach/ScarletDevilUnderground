@@ -19,7 +19,7 @@ const string PlayerBatMode::description = "";
 const string PlayerBatMode::icon = "sprites/ui/bat_mode.png";
 const spell_cost PlayerBatMode::cost = spell_cost::ongoingMP(5.0f);
 
-PlayerBatMode::PlayerBatMode(GObject* caster, local_shared_ptr<SpellDesc> desc, unsigned int id) :
+PlayerBatMode::PlayerBatMode(GObject* caster, const SpellDesc* desc, unsigned int id) :
 	ApplySelfEffect(caster, desc, id, spell_params{ -1.0, -1.0, PlayerBatMode::cost }, app::getEffect("BatTransform"))
 {}
 
@@ -37,7 +37,7 @@ const SpaceFloat LavaeteinnSpell::angleWidth = float_pi / 2.0;
 const SpaceFloat LavaeteinnSpell::angular_speed = angleWidth * 2.0 / length;
 const int LavaeteinnSpell::bulletSpawnCount = 8;
 
-LavaeteinnSpell::LavaeteinnSpell(GObject* caster, local_shared_ptr<SpellDesc> desc, unsigned int id) :
+LavaeteinnSpell::LavaeteinnSpell(GObject* caster, const SpellDesc* desc, unsigned int id) :
 	Spell(caster, desc, id, spell_params{ LavaeteinnSpell::length, 0.0, LavaeteinnSpell::cost })
 {}
 
@@ -94,7 +94,7 @@ const spell_cost PlayerCounterClock::cost = spell_cost::ongoingMP(7.5f);
 const SpaceFloat PlayerCounterClock::offset = 0.75;
 const SpaceFloat PlayerCounterClock::angular_speed = 9.0;
 
-PlayerCounterClock::PlayerCounterClock(GObject* caster, local_shared_ptr<SpellDesc> desc, unsigned int id) :
+PlayerCounterClock::PlayerCounterClock(GObject* caster, const SpellDesc* desc, unsigned int id) :
 	Spell(caster, desc, id, spell_params{ -1.0, 0.0, PlayerCounterClock::cost })
 {}
 
@@ -172,7 +172,7 @@ SpaceVect PlayerScarletRose::parametric_motion(SpaceFloat t)
 	return SpaceVect::ray(r, theta);
 }
 
-PlayerScarletRose::PlayerScarletRose(GObject* caster, local_shared_ptr<SpellDesc> desc, unsigned int id) :
+PlayerScarletRose::PlayerScarletRose(GObject* caster, const SpellDesc* desc, unsigned int id) :
 	Spell(caster, desc, id, spell_params{ 4.0, fireInterval, PlayerScarletRose::cost }),
 	origin(caster->getPos())
 {
@@ -227,7 +227,7 @@ const SpaceFloat PlayerIceShield::distance = 3.0;
 const SpaceFloat PlayerIceShield::circumference = 2.0 * float_pi * distance;
 const SpaceFloat PlayerIceShield::inv_circumference = 1.0 / circumference;
 
-PlayerIceShield::PlayerIceShield(GObject* caster, local_shared_ptr<SpellDesc> desc, unsigned int id) :
+PlayerIceShield::PlayerIceShield(GObject* caster, const SpellDesc* desc, unsigned int id) :
 	Spell(caster, desc, id, spell_params{ -1.0, 0.0, PlayerIceShield::cost })
 {
 	props = app::getBullet("cirnoIceShieldBullet");

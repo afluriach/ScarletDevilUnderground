@@ -103,8 +103,8 @@ public:
 	bool fire();
 	bool aimAtTarget(gobject_ref target);
 
-	bool castSpell(local_shared_ptr<SpellDesc> desc);
-	unsigned int castSpellManual(local_shared_ptr<SpellDesc> desc);
+	bool castSpell(const SpellDesc* desc);
+	unsigned int castSpellManual(const SpellDesc* desc);
 	bool isSpellActive();
 	void stopSpell();
 

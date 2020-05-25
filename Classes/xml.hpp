@@ -27,7 +27,7 @@ class SpellDesc;
 
 namespace app {
 	typedef function< bool(tinyxml2::XMLElement*, local_shared_ptr<MagicEffectDescriptor>*)> effect_parser;
-	typedef function< bool(tinyxml2::XMLElement*, local_shared_ptr<SpellDesc>*)> spell_parser;
+	typedef function< bool(tinyxml2::XMLElement*, SpellDesc**)> spell_parser;
 
 	extern const unordered_map<string, spell_parser> spellParsers;
 	extern const unordered_map<string, effect_parser> effectParsers;
@@ -37,7 +37,7 @@ namespace app {
 	extern unordered_map<string, local_shared_ptr<firepattern_properties>> firePatterns;
 	extern unordered_map<string, shared_ptr<LightArea>> lights;
 	extern unordered_map<string, local_shared_ptr<object_properties>> objects;
-	extern unordered_map <string, local_shared_ptr<SpellDesc>> spells;
+	extern unordered_map <string, SpellDesc*> spells;
 	extern unordered_map<string, shared_ptr<sprite_properties>> sprites;
 
 	GObject::AdapterType objectAdapter(local_shared_ptr<agent_properties> props); //NO-OP
@@ -72,7 +72,7 @@ namespace app {
 	local_shared_ptr<item_properties> getItem(const string& name);
 	shared_ptr<LightArea> getLight(const string& name);
 	local_shared_ptr<agent_properties> getPlayer(const string& name);
-	local_shared_ptr<SpellDesc> getSpell(const string& name);
+	const SpellDesc* getSpell(const string& name);
 	shared_ptr<sprite_properties> getSprite(const string& name);
 
 	template<typename T>
@@ -173,7 +173,7 @@ namespace app {
 	bool parseObject(tinyxml2::XMLElement* elem, local_shared_ptr<bomb_properties> result);
 	bool parseObject(tinyxml2::XMLElement* elem, local_shared_ptr<MagicEffectDescriptor>* result);
 	bool parseObject(tinyxml2::XMLElement* elem, local_shared_ptr<item_properties> result);
-	bool parseObject(tinyxml2::XMLElement * elem, local_shared_ptr<SpellDesc>* result);
+	bool parseObject(tinyxml2::XMLElement * elem, SpellDesc** result);
 
 	bool getAttributeAttr(tinyxml2::XMLElement* elem, const string& name, Attribute* result);
 	bool getStringAttr(tinyxml2::XMLElement* elem, const string& name, string* result);

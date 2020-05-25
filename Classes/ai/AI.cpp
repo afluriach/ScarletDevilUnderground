@@ -103,7 +103,7 @@ bool Function::aimAtTarget(gobject_ref target)
 	return true;
 }
 
-bool Function::castSpell(local_shared_ptr<SpellDesc> desc)
+bool Function::castSpell(const SpellDesc* desc)
 {
 	if (isSpellActive())
 		stopSpell();
@@ -112,7 +112,7 @@ bool Function::castSpell(local_shared_ptr<SpellDesc> desc)
 	return spellID != 0;
 }
 
-unsigned int Function::castSpellManual(local_shared_ptr<SpellDesc> desc)
+unsigned int Function::castSpellManual(const SpellDesc* desc)
 {
 	return getObject()->cast(desc);
 }

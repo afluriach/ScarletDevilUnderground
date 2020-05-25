@@ -12,7 +12,7 @@
 
 namespace app {
 
-bool scriptedSpell(tinyxml2::XMLElement* elem, local_shared_ptr<SpellDesc>* result)
+bool scriptedSpell(tinyxml2::XMLElement* elem, SpellDesc** result)
 {
 	string cls;
 
@@ -23,7 +23,7 @@ bool scriptedSpell(tinyxml2::XMLElement* elem, local_shared_ptr<SpellDesc>* resu
 	}
 
 	if (cls.size() > 0) {
-		*result = make_local_shared<ScriptedSpellDescriptor>(cls);
+		*result = new ScriptedSpellDescriptor(cls);
 	}
 
 	return true;
@@ -33,7 +33,7 @@ const unordered_map<string, spell_parser> spellParsers = {
 	{"ScriptedSpell", &scriptedSpell},
 };
 
-bool parseObject(tinyxml2::XMLElement* elem, local_shared_ptr<SpellDesc>* result)
+bool parseObject(tinyxml2::XMLElement* elem, SpellDesc** result)
 {
 	string _type;
 	bool success = false;

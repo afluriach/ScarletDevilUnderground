@@ -27,7 +27,7 @@ const SpaceFloat BlueFairyBomb::length = 1.5;
 const SpaceFloat BlueFairyBomb::radius = 2.5;
 const SpaceFloat BlueFairyBomb::angularSpeed = float_pi * 0.5;
 
-BlueFairyBomb::BlueFairyBomb(GObject* caster, local_shared_ptr<SpellDesc> desc, unsigned int id) :
+BlueFairyBomb::BlueFairyBomb(GObject* caster, const SpellDesc* desc, unsigned int id) :
 	Spell(caster, desc, id, spell_params{ BlueFairyBomb::length, 0.0 })
 {}
 

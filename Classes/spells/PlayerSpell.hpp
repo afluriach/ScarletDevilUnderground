@@ -20,7 +20,7 @@ public:
 	static const string icon;
 	static const spell_cost cost;
 
-	PlayerBatMode(GObject* caster, local_shared_ptr<SpellDesc> desc, unsigned int id);
+	PlayerBatMode(GObject* caster, const SpellDesc* desc, unsigned int id);
 	~PlayerBatMode();
 
 	GET_DESC(PlayerBatMode)
@@ -40,7 +40,7 @@ public:
 
 	static const int bulletSpawnCount;
 
-	LavaeteinnSpell(GObject* caster, local_shared_ptr<SpellDesc> desc, unsigned int id);
+	LavaeteinnSpell(GObject* caster, const SpellDesc* desc, unsigned int id);
 	~LavaeteinnSpell();
 
 	GET_DESC(LavaeteinnSpell);
@@ -64,7 +64,7 @@ public:
 	static const SpaceFloat offset;
 	static const SpaceFloat angular_speed;
 
-	PlayerCounterClock(GObject* caster, local_shared_ptr<SpellDesc> desc, unsigned int id);
+	PlayerCounterClock(GObject* caster, const SpellDesc* desc, unsigned int id);
 	~PlayerCounterClock();
 
 	GET_DESC(PlayerCounterClock)
@@ -96,7 +96,7 @@ public:
 
 	static SpaceVect parametric_motion(SpaceFloat t);
 
-	PlayerScarletRose(GObject* caster, local_shared_ptr<SpellDesc> desc, unsigned int id);
+	PlayerScarletRose(GObject* caster, const SpellDesc* desc, unsigned int id);
 	~PlayerScarletRose();
 
 	GET_DESC(PlayerScarletRose)
@@ -124,7 +124,7 @@ public:
 	static const SpaceFloat circumference;
 	static const SpaceFloat inv_circumference;
 
-	PlayerIceShield(GObject* caster, local_shared_ptr<SpellDesc> desc, unsigned int id);
+	PlayerIceShield(GObject* caster, const SpellDesc* desc, unsigned int id);
 	~PlayerIceShield();
 
 	GET_DESC(PlayerIceShield)

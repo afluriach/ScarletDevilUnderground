@@ -15,7 +15,7 @@ class ScriptedSpell : public Spell {
 public:
 	static spell_params getParams(string clsName);
 
-	ScriptedSpell(GObject* caster, local_shared_ptr<SpellDesc> desc, unsigned int id, string clsName);
+	ScriptedSpell(GObject* caster, const SpellDesc* desc, unsigned int id, string clsName);
 	virtual ~ScriptedSpell();
 
 	virtual void init();
@@ -30,7 +30,7 @@ protected:
 class ApplySelfEffect : public Spell
 {
 public:
-	ApplySelfEffect(GObject* caster, local_shared_ptr<SpellDesc> desc, unsigned int id, spell_params params, local_shared_ptr<MagicEffectDescriptor> effect);
+	ApplySelfEffect(GObject* caster, const SpellDesc* desc, unsigned int id, spell_params params, local_shared_ptr<MagicEffectDescriptor> effect);
 	~ApplySelfEffect();
 
 	virtual void init();

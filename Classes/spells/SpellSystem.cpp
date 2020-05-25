@@ -26,7 +26,7 @@ SpellSystem::~SpellSystem()
 	applyRemovals();
 }
 
-unsigned int SpellSystem::cast(local_shared_ptr<SpellDesc> desc, GObject* caster)
+unsigned int SpellSystem::cast(const SpellDesc* desc, GObject* caster)
 {
 	if (!desc) {
 		log("cast(): null SpellDescriptor!");
@@ -42,7 +42,7 @@ unsigned int SpellSystem::cast(local_shared_ptr<SpellDesc> desc, GObject* caster
 	}
 
 	unsigned int id = nextID++;
-	Spell* spell = desc->generate(caster, desc, id);
+	Spell* spell = desc->generate(caster, id);
 
 	spell->init();
 
@@ -94,7 +94,7 @@ bool SpellSystem::isSpellActive(unsigned int id)
 	return it != spells.end();
 }
 
-bool SpellSystem::isSpellActive(local_shared_ptr<SpellDesc> desc, GObject* caster)
+bool SpellSystem::isSpellActive(const SpellDesc* desc, GObject* caster)
 {
 	auto keysRange = objectSpells.equal_range(caster);
 

@@ -129,8 +129,8 @@ protected:
 
 	local_shared_ptr<bomb_properties> crntBomb;
 	vector<local_shared_ptr<FirePattern>> firePatterns;
-	vector<local_shared_ptr<SpellDesc>> powerAttacks;
-	vector<local_shared_ptr<SpellDesc>> spells;
+	vector<const SpellDesc*> powerAttacks;
+	vector<const SpellDesc*> spells;
 	int firePatternIdx = -1;
 	int powerAttackIdx = -1;
 	int spellIdx = -1;

@@ -29,7 +29,7 @@ unordered_map<string, local_shared_ptr<firepattern_properties>> firePatterns;
 unordered_map<string, local_shared_ptr<floorsegment_properties>> floors;
 unordered_map<string, shared_ptr<LightArea>> lights;
 unordered_map<string, local_shared_ptr<object_properties>> objects;
-unordered_map<string, local_shared_ptr<SpellDesc>> spells;
+unordered_map<string, SpellDesc*> spells;
 unordered_map<string, shared_ptr<sprite_properties>> sprites;
 
 GObject::AdapterType objectAdapter(local_shared_ptr<agent_properties> props)
@@ -130,7 +130,7 @@ void loadEffects()
 
 void loadSpells()
 {
-	loadObjects<local_shared_ptr<SpellDesc>>("objects/spells.xml", app::spells);
+	loadObjects<SpellDesc*>("objects/spells.xml", app::spells);
 }
 
 void loadEnemies()
@@ -219,7 +219,7 @@ local_shared_ptr<agent_properties> getPlayer(const string& name)
 	return getObjectProperties<agent_properties>(name);
 }
 
-local_shared_ptr<SpellDesc> getSpell(const string& name)
+const SpellDesc* getSpell(const string& name)
 {
 	return getOrDefault(spells, name);
 }
