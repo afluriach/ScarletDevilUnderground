@@ -30,13 +30,19 @@ protected:
 class ApplySelfEffect : public Spell
 {
 public:
-	ApplySelfEffect(GObject* caster, const SpellDesc* desc, unsigned int id, spell_params params, local_shared_ptr<MagicEffectDescriptor> effect);
+	ApplySelfEffect(
+		GObject* caster,
+		const SpellDesc* desc,
+		unsigned int id,
+		spell_params params,
+		const MagicEffectDescriptor* effect
+	);
 	~ApplySelfEffect();
 
 	virtual void init();
 	virtual void end();
 protected:
-	local_shared_ptr<MagicEffectDescriptor> effect;
+	const MagicEffectDescriptor* effect;
 	unsigned int effectID = 0;
 };
 

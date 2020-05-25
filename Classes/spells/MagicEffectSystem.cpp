@@ -33,7 +33,7 @@ MagicEffectSystem::~MagicEffectSystem()
 
 unsigned int MagicEffectSystem::applyEffect(
 	GObject* target,
-	local_shared_ptr<MagicEffectDescriptor> effect,
+	const MagicEffectDescriptor* effect,
 	effect_attributes attr
 ){
 	unsigned int id = 0;

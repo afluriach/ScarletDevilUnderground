@@ -32,7 +32,7 @@ struct effect_params
 	GObject* target;
 	unsigned int id;
 	effect_flags flags;
-	local_shared_ptr<MagicEffectDescriptor> desc;
+	const MagicEffectDescriptor* desc;
 	effect_attributes attr;
 };
 
@@ -62,7 +62,7 @@ public:
 	inline virtual void update() {}
 	inline virtual void end() {}
 
-	inline local_shared_ptr<MagicEffectDescriptor> getDesc() const { return desc; }
+	inline const MagicEffectDescriptor* getDesc() const { return desc; }
 	inline GObject* getTarget() const { return target; }
 	inline Agent* getAgent() const { return agent; }
 	inline float getLength() const { return length; }
@@ -74,7 +74,7 @@ public:
 	//remove this - queues this magic effect for removal, can be called within an update
 	void remove();
 
-	local_shared_ptr<MagicEffectDescriptor> desc;
+	const MagicEffectDescriptor* desc;
 	GObject* target;
 	Agent* agent = nullptr;
 	float length, magnitude;

@@ -38,7 +38,7 @@ public:
 
 	unsigned int applyEffect(
 		GObject* target,
-		local_shared_ptr<MagicEffectDescriptor> effect,
+		const MagicEffectDescriptor* effect,
 		effect_attributes attr
 	);
 

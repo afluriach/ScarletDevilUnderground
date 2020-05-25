@@ -24,7 +24,7 @@
 namespace app {
 
 unordered_map<string, area_properties> areas;
-unordered_map<string, local_shared_ptr<MagicEffectDescriptor>> effects;
+unordered_map<string, MagicEffectDescriptor*> effects;
 unordered_map<string, local_shared_ptr<firepattern_properties>> firePatterns;
 unordered_map<string, local_shared_ptr<floorsegment_properties>> floors;
 unordered_map<string, shared_ptr<LightArea>> lights;
@@ -125,7 +125,7 @@ void loadBullets()
 
 void loadEffects()
 {
-	loadObjects<local_shared_ptr<MagicEffectDescriptor>>("objects/magic-effects.xml", app::effects);
+	loadObjects<MagicEffectDescriptor*>("objects/magic-effects.xml", app::effects);
 }
 
 void loadSpells()
@@ -194,7 +194,7 @@ local_shared_ptr<bullet_properties> getBullet(const string& name)
 	return getObjectProperties<bullet_properties>(name);
 }
 
-local_shared_ptr<MagicEffectDescriptor> getEffect(const string& name)
+const MagicEffectDescriptor* getEffect(const string& name)
 {
 	return getOrDefault(effects, name);
 }

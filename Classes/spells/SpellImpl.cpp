@@ -76,7 +76,13 @@ void ScriptedSpell::onBulletRemove(Bullet* b)
 	}
 }
 
-ApplySelfEffect::ApplySelfEffect(GObject* caster, const SpellDesc* desc, unsigned int id, spell_params params, local_shared_ptr<MagicEffectDescriptor> effect) :
+ApplySelfEffect::ApplySelfEffect(
+	GObject* caster,
+	const SpellDesc* desc,
+	unsigned int id,
+	spell_params params,
+	const MagicEffectDescriptor* effect
+) :
 	Spell(caster, desc, id, params),
 	effect(effect)
 {

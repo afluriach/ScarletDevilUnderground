@@ -938,7 +938,7 @@ bool GObject::isSpellActive(const SpellDesc* desc)
 	return space->spellSystem->isSpellActive(desc, this);
 }
 
-unsigned int GObject::applyMagicEffect(local_shared_ptr<MagicEffectDescriptor> effect, effect_attributes attr)
+unsigned int GObject::applyMagicEffect(const MagicEffectDescriptor* effect, effect_attributes attr)
 {
 	return space->magicEffectSystem->applyEffect(this, effect, attr);
 }

@@ -10,14 +10,14 @@
 #define xml_hpp
 
 namespace app {
-	typedef function< bool(tinyxml2::XMLElement*, local_shared_ptr<MagicEffectDescriptor>*)> effect_parser;
+	typedef function< bool(tinyxml2::XMLElement*, MagicEffectDescriptor**)> effect_parser;
 	typedef function< bool(tinyxml2::XMLElement*, SpellDesc**)> spell_parser;
 
 	extern const unordered_map<string, spell_parser> spellParsers;
 	extern const unordered_map<string, effect_parser> effectParsers;
 
 	extern unordered_map<string, area_properties> areas;
-	extern unordered_map<string, local_shared_ptr<MagicEffectDescriptor>> effects;
+	extern unordered_map<string, MagicEffectDescriptor*> effects;
 	extern unordered_map<string, local_shared_ptr<firepattern_properties>> firePatterns;
 	extern unordered_map<string, shared_ptr<LightArea>> lights;
 	extern unordered_map<string, local_shared_ptr<object_properties>> objects;
@@ -51,7 +51,7 @@ namespace app {
 	area_properties getArea(const string& name);
 	local_shared_ptr<bomb_properties> getBomb(const string& name);
 	local_shared_ptr<bullet_properties> getBullet(const string& name);
-	local_shared_ptr<MagicEffectDescriptor> getEffect(const string& name);
+	const MagicEffectDescriptor* getEffect(const string& name);
 	local_shared_ptr<firepattern_properties> getFirePattern(const string& name);
 	local_shared_ptr<item_properties> getItem(const string& name);
 	shared_ptr<LightArea> getLight(const string& name);
@@ -155,7 +155,7 @@ namespace app {
 	bool parseObject(tinyxml2::XMLElement* elem, shared_ptr<LightArea>* result);
 	bool parseObject(tinyxml2::XMLElement* elem, local_shared_ptr<bullet_properties> result);
 	bool parseObject(tinyxml2::XMLElement* elem, local_shared_ptr<bomb_properties> result);
-	bool parseObject(tinyxml2::XMLElement* elem, local_shared_ptr<MagicEffectDescriptor>* result);
+	bool parseObject(tinyxml2::XMLElement* elem, MagicEffectDescriptor** result);
 	bool parseObject(tinyxml2::XMLElement* elem, local_shared_ptr<item_properties> result);
 	bool parseObject(tinyxml2::XMLElement * elem, SpellDesc** result);
 

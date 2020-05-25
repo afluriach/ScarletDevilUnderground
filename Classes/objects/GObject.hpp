@@ -329,7 +329,7 @@ public:
 
 	unsigned int cast(const SpellDesc* desc);
 	bool isSpellActive(const SpellDesc* desc);
-	unsigned int applyMagicEffect(local_shared_ptr<MagicEffectDescriptor> effect, effect_attributes attr);
+	unsigned int applyMagicEffect(const MagicEffectDescriptor* effect, effect_attributes attr);
 
 	//END SPELLS
 
