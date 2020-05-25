@@ -112,29 +112,13 @@ void PlayerCounterClock::init()
 		p->increment(Attribute::inhibitFiring);
 	}
 
-	for_irange(i, 0, 4)
-	{
-		SpaceVect disp = SpaceVect::ray(2.0 + offset, (i/2.0) * float_pi);
-
-		bullets[i] = spawnBullet(props, disp, SpaceVect::zero, (i / 2.0) * float_pi, 0.0);
-	}
+	bullets = spawnBulletRadius(props, 2.0 + offset, 4);
 }
 
 void PlayerCounterClock::update()
 {
 	angular_pos += angular_speed * app::params.secondsPerFrame;
-
-	SpaceVect pos = caster->getPos();
-
-	for_irange(i, 0, 4)
-	{
-		SpaceVect disp = SpaceVect::ray(2.0 + offset, (i / 2.0) * float_pi + angular_pos);
-
-		if (bullets[i].isValid()) {
-			bullets[i].get()->setPos(pos + disp);
-			bullets[i].get()->setAngle((i / 2.0) * float_pi + angular_pos);
-		}
-	}
+	bulletCircle(bullets, 2.0 + offset, angular_pos);
 }
 
 void PlayerCounterClock::end()
@@ -150,69 +134,6 @@ void PlayerCounterClock::end()
 		if (ref.isValid()) {
 			getSpace()->removeObject(ref);
 		}
-	}
-}
-
-const string PlayerScarletRose::name = "PlayerScarletRose";
-const string PlayerScarletRose::description = "";
-const string PlayerScarletRose::icon = "sprites/ui/scarlet_rose.png";
-const spell_cost PlayerScarletRose::cost = spell_cost::initialMP(15.0f);
-
-const SpaceFloat PlayerScarletRose::fireInterval = 0.2;
-const int PlayerScarletRose::fireCount = 6;
-
-const SpaceFloat PlayerScarletRose::A = 5.0;
-const SpaceFloat PlayerScarletRose::B = 4.0;
-const SpaceFloat PlayerScarletRose::W = 1.0;
-
-SpaceVect PlayerScarletRose::parametric_motion(SpaceFloat t)
-{
-	SpaceFloat theta = t * W;
-	SpaceFloat r = A * cos(B*theta);
-	return SpaceVect::ray(r, theta);
-}
-
-PlayerScarletRose::PlayerScarletRose(GObject* caster, const SpellDesc* desc, unsigned int id) :
-	Spell(caster, desc, id, spell_params{ 4.0, fireInterval, PlayerScarletRose::cost }),
-	origin(caster->getPos())
-{
-	props = app::getBullet("flandrePolarBullet");
-}
-
-PlayerScarletRose::~PlayerScarletRose()
-{
-}
-
-void PlayerScarletRose::update()
-{
-	if (launchCount < fireCount) {
-		for_irange(i, 0, 8) {
-			SpaceFloat t = float_pi / B * i;
-			gobject_ref ref = spawnBullet(
-				props,
-				SpaceVect::zero,
-				SpaceVect::zero,
-				0.0,
-				0.0
-			);
-
-			parametric_space_function f = [t, this](SpaceFloat _t)->SpaceVect {
-				return this->origin + parametric_motion(t + _t);
-			};
-
-			caster->makeInitMessage(&GObject::setParametricMove, ref, f, parametric_type::position );
-		}
-
-		timer -= fireInterval;
-		++launchCount;
-	}
-}
-
-void PlayerScarletRose::end()
-{
-	for (auto ref : bullets) {
-		if (ref.isValid())
-			getSpace()->removeObject(ref);
 	}
 }
 
@@ -241,18 +162,7 @@ void PlayerIceShield::init()
 {
 	SpaceVect origin = caster->getPos();
 
-	for_irange(i,0,bulletCount)
-	{
-		SpaceFloat angle = (1.0 * i / bulletCount) * (float_pi * 2.0);
-
-		bullets[i] = spawnBullet(
-			props,
-			SpaceVect::ray(distance, angle),
-			SpaceVect::zero,
-			angle - float_pi * 0.5,
-			0.0
-		);		
-	}
+	bullets = spawnBulletRadius(props, distance, bulletCount);
 }
 
 void PlayerIceShield::update()
@@ -265,20 +175,7 @@ void PlayerIceShield::update()
 		crntAngle -= 2.0*float_pi;
 	}
 
-	SpaceVect origin = caster->getPos();
-
-	for_irange(i, 0, bulletCount)
-	{
-		SpaceFloat angle = (1.0 * i / bulletCount) * (float_pi * 2.0) + crntAngle;
-		SpaceVect pos = SpaceVect::ray(distance, angle);
-		SpaceVect vel = SpaceVect::ray(speed, angle - float_pi/2.0); 
-
-		if (bullets[i].isValid()) {
-			bullets[i].get()->setPos(origin + pos);
-			bullets[i].get()->setVel(vel);
-			bullets[i].get()->setAngle(angle);
-		}
-	}
+	bulletCircle(bullets, distance, crntAngle);
 }
 
 void PlayerIceShield::end()

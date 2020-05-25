@@ -57,6 +57,18 @@ public:
 		bool obstacleCheck = true
 	);
 
+	vector<gobject_ref> spawnBulletRadius(
+		local_shared_ptr<bullet_properties> props,
+		SpaceFloat displacement,
+		int count
+	);
+
+	void bulletCircle(
+		const vector<gobject_ref>& bullets,
+		SpaceFloat distance,
+		SpaceFloat angularPos
+	);
+
 	inline const SpellDesc* getDescriptor() const { return descriptor; }
 	unsigned int getID() const;
 	string getName() const;

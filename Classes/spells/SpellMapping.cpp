@@ -28,7 +28,6 @@ void Spell::initDescriptors() {
 	spellDescriptors.insert(entry_same(PlayerBatMode));
 	spellDescriptors.insert(entry_same(PlayerCounterClock));
 	spellDescriptors.insert(entry_same(PlayerIceShield));
-	spellDescriptors.insert(entry_same(PlayerScarletRose));
 }
 
 unordered_map<string, const SpellDesc*> Spell::spellDescriptors;
@@ -38,7 +37,6 @@ const vector<string> Spell::playerSpells = {
 	"PlayerBatMode",
 	"PlayerCounterClock",
 	"PlayerIceShield",
-	"PlayerScarletRose",
 };
 
 const vector<string> Spell::playerPowerAttacks = {

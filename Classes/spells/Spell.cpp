@@ -99,6 +99,52 @@ gobject_ref Spell::launchBullet(
 	);
 }
 
+vector<gobject_ref> Spell::spawnBulletRadius(
+	local_shared_ptr<bullet_properties> props,
+	SpaceFloat displacement,
+	int count
+) {
+	vector<gobject_ref> result;
+	result.reserve(count);
+
+	for_irange(i, 0, count)
+	{
+		SpaceFloat angle = (1.0 * i / count) * (float_pi * 2.0);
+
+		result.push_back(spawnBullet(
+			props,
+			SpaceVect::ray(displacement, angle),
+			SpaceVect::zero,
+			angle,
+			0.0
+		));
+	}
+
+	return result;
+}
+
+void Spell::bulletCircle(
+	const vector<gobject_ref>& bullets,
+	SpaceFloat distance,
+	SpaceFloat angularPos
+) {
+	if (bullets.empty()) return;
+
+	SpaceVect pos = caster->getPos();
+	SpaceFloat angleStep = float_pi * 2.0 / bullets.size();
+
+	for_irange(i, 0, bullets.size())
+	{
+		SpaceFloat angle = i * angleStep + angularPos;
+		SpaceVect disp = SpaceVect::ray(distance, angle);
+
+		if (bullets[i].isValid()) {
+			bullets[i].get()->setPos(pos + disp);
+			bullets[i].get()->setAngle(angle);
+		}
+	}
+}
+
 unsigned int Spell::getID() const {
 	return id;
 }

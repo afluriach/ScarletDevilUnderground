@@ -73,15 +73,6 @@
 		ignoreObstacles="true"
 		deflectBullets="true"
 	/>
-	<flandrePolarBullet
-		speed="0.0"
-		radius="0.15"
-		damage="2.0"
-		sprite="flandreOrb"
-		light="flandrePolarOrb"
-		hitCount="-1"
-		directionalLaunch="false"
-	/>
 	<flandrePolarMotionOrb
 		speed="9.0"
 		radius="0.15"
