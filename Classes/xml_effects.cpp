@@ -73,9 +73,24 @@ bool setBoolAttribute(tinyxml2::XMLElement* elem, MagicEffectDescriptor** result
 	return success;
 }
 
+bool applyDamage(tinyxml2::XMLElement* elem, MagicEffectDescriptor** result)
+{
+	Attribute element = Attribute::none;
+	bool success = false;
+
+	getAttributeAttr(elem, "element", &element);
+
+	if (element != Attribute::none) {
+		*result = new MagicEffectDescImpl<ApplyDamage, Attribute>(elem->Name(), element);
+		success = true;
+	}
+
+	return success;
+}
+
 bool damageOverTime(tinyxml2::XMLElement* elem, MagicEffectDescriptor** result)
 {
-	Attribute element;
+	Attribute element = Attribute::none;
 	bool success = false;
 
 	getAttributeAttr(elem, "element", &element);
@@ -111,6 +126,7 @@ const unordered_map<string, effect_parser> effectParsers = {
 	{"FortifyAttribute", &fortifyAttribute},
 	{"DrainFromMovement", &drainFromMovement},
 	{"SetBoolAttribute", &setBoolAttribute},
+	{"ApplyDamage", &applyDamage},
 	{"DamageOverTime", &damageOverTime},
 	{"ScriptedEffect", &scriptedEffect},
 };

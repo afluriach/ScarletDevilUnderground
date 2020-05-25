@@ -88,8 +88,8 @@ void GObject::initObjectInfo()
 	no_adapter_entry(AreaSensor),
 	no_adapter_entry(AreaSensorImpl),
 	no_adapter_entry(Bullet),
-	entry_same(DarknessArea),
 	entry_same(Door),
+	no_adapter_entry(EffectArea),
 	no_adapter_entry(Enemy),
 	no_adapter_entry(EnvironmentObject),
 	no_adapter_entry(FloorSegment),
@@ -99,7 +99,6 @@ void GObject::initObjectInfo()
 	entry_same(Pitfall),
 	no_adapter_entry(Player),
 	no_adapter_entry(RoomSensor),
-	entry_same(SunArea),
 	entry_same(Torch),
 	entry_same(Wall),
 

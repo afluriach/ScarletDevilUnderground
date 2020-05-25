@@ -13,7 +13,12 @@ class AreaSensor : public GObject
 {
 public:
 	AreaSensor(GSpace* space, ObjectIDType id, const ValueMap& args);
-	AreaSensor(GSpace* space, ObjectIDType id, SpaceVect center, SpaceVect dim);
+	AreaSensor(
+		GSpace* space,
+		ObjectIDType id,
+		const object_params& params,
+		local_shared_ptr<object_properties> props
+	);
 
 	inline virtual ~AreaSensor() {}
 
@@ -61,7 +66,13 @@ class RoomSensor : public AreaSensor
 {
 public:
 	RoomSensor(GSpace* space, ObjectIDType id, const ValueMap& obj);
-	RoomSensor(GSpace* space, ObjectIDType id, SpaceVect center, SpaceVect dimensions, int mapID, const ValueMap& props);
+	RoomSensor(
+		GSpace* space,
+		ObjectIDType id,
+		SpaceRect rect,
+		int mapID,
+		const ValueMap& props
+	);
 
 	virtual ~RoomSensor();
 

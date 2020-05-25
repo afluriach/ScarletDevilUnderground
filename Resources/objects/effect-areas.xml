@@ -1,0 +1,11 @@
+<areas>
+	<SunArea
+		effect="SunDamageOverTime"
+		magnitude="5.0"
+		light="sunArea"
+	/>
+	<DarknessArea
+		effect="DarknessDamageOverTime"
+		magnitude="5.0"
+	/>
+</areas>

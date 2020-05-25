@@ -21,10 +21,11 @@ FloorSegment::FloorSegment(
 		space,
 		id,
 		MapParams(),
-		MapRectPhysSensor(
+		physics_params(
 			GType::floorSegment,
 			PhysicsLayers::floor,
-			-1.0
+			-1.0,
+			true
 		),
 		props
 	),
@@ -97,10 +98,11 @@ Pitfall::Pitfall(
 		space,
 		id,
 		MapParams(),
-		MapRectPhysSensor(
+		physics_params(
 			GType::floorSegment,
 			PhysicsLayers::belowFloor,
-			-1.0
+			-1.0,
+			true
 		),
 		nullptr
 	)

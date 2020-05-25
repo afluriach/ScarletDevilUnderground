@@ -24,19 +24,24 @@ AreaSensor::AreaSensor(GSpace* space, ObjectIDType id, const ValueMap& args) :
 		space,
 		id,
 		MapParams(),
-		physics_params(GType::areaSensor, PhysicsLayers::all, args, -1.0, true),
+		physics_params(GType::areaSensor, PhysicsLayers::all, -1.0, true),
 		nullptr
 	)
 {
 }
 
-AreaSensor::AreaSensor(GSpace* space, ObjectIDType id, SpaceVect center, SpaceVect dim) :
+AreaSensor::AreaSensor(
+	GSpace* space,
+	ObjectIDType id,
+	const object_params& params, 
+	local_shared_ptr<object_properties> props
+) :
 	GObject(
 		space,
 		id,
-		object_params(center, 0.0),
-		physics_params(GType::areaSensor, PhysicsLayers::all, dim, -1.0, true),
-		nullptr
+		params,
+		physics_params(GType::areaSensor, PhysicsLayers::all, -1.0, true),
+		props
 	)
 {
 }
@@ -64,7 +69,7 @@ AreaSensorImpl::AreaSensorImpl(
 	unary_gobject_function onContact,
 	unary_gobject_function onEndContact
 ) :
-	AreaSensor(space,id,rect.center, rect.dimensions),
+	AreaSensor(space,id, object_params(rect), nullptr),
 	targets(targets),
 	onContact(onContact),
 	onEndContact(onEndContact)
@@ -106,15 +111,20 @@ RoomSensor::RoomSensor(GSpace* space, ObjectIDType id, const ValueMap& args) :
 	RoomSensor(
 		space,
 		id,
-		getObjectPos(args),
-		getObjectDimensions(args),
+		SpaceRect(getObjectPos(args),getObjectDimensions(args)),		
 		getIntOrDefault(args, "name", -1),
 		args
 	)
 {}
 
-RoomSensor::RoomSensor(GSpace* space, ObjectIDType id, SpaceVect center, SpaceVect dimensions, int mapID, const ValueMap& props) :
-	AreaSensor(space,id,center,dimensions),
+RoomSensor::RoomSensor(
+	GSpace* space,
+	ObjectIDType id,
+	SpaceRect rect,
+	int mapID,
+	const ValueMap& props
+) :
+	AreaSensor(space,id, object_params( rect), nullptr),
 	mapID(mapID)
 {
 	trapDoorNames = splitString(getStringOrDefault(props, "trap_doors", ""), " ");

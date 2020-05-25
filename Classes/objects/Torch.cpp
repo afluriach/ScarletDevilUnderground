@@ -26,7 +26,7 @@ Torch::Torch(GSpace* space, ObjectIDType id, const ValueMap& args) :
 		space,
 		id,
 		MapParams(),
-		MapRectPhys(
+		physics_params(
 			enum_bitwise_or(GType, environment, interactible),
 			PhysicsLayers::onGround,
 			-1.0

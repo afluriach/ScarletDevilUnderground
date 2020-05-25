@@ -22,12 +22,15 @@ public:
 		const SpaceVect& vel,
 		SpaceFloat angle = float_pi * 0.5
 	);
+	object_params(const SpaceRect& rect);
 	object_params(const ValueMap& args);
 
 	SpaceVect pos;
 	SpaceFloat angle = float_pi * 0.5;
 	SpaceVect vel;
 	SpaceFloat angularVel = 0.0;
+
+	SpaceVect dimensions = SpaceVect::zero;
 
 	string name;
 	string ai_package;
@@ -41,6 +44,7 @@ public:
 	getter(SpaceFloat, angle);
 	getter(SpaceVect, vel);
 	getter(SpaceFloat, angularVel);
+	getter(SpaceVect, dimensions);
 	getter(string, name);
 	getter(string, ai_package);
 	getter(int, level);
@@ -51,6 +55,7 @@ public:
 	setter(SpaceFloat, angle);
 	setter(SpaceVect, vel);
 	setter(SpaceFloat, angularVel);
+	setter(SpaceVect, dimensions);
 	setter(string, name);
 	setter(string, ai_package);
 	setter(int, level);
@@ -64,13 +69,9 @@ class physics_params
 {
 public:
 	//Create circle body with fixed radius and mass
-	physics_params(GType type, PhysicsLayers layers, SpaceFloat radius, SpaceFloat mass, bool sensor = false);
+	physics_params(GType type, PhysicsLayers layers, SpaceFloat mass, bool sensor = false);
 	//Create rectangle body with fixed dimensions and mass
-	physics_params(GType type, PhysicsLayers layers, SpaceVect dimensions, SpaceFloat mass, bool sensor = false);
-	//Create rectangle body with variable dimensions and default mass
-	physics_params(GType type, PhysicsLayers layers, const ValueMap& args, SpaceFloat mass, bool sensor = false);
 
-	SpaceVect dimensions;
 	SpaceFloat mass;
 	GType type;
 	PhysicsLayers layers;
@@ -93,9 +94,6 @@ public:
 
 	inline virtual type_index getType() const { return typeid(*this); }
 };
-
-#define MapRectPhys(type, layers, m) physics_params(type, layers, args, m)
-#define MapRectPhysSensor(type, layers, m) physics_params(type, layers, args, m, true)
 
 class bullet_properties : public object_properties
 {
@@ -125,7 +123,7 @@ struct bullet_attributes
 
 	SpaceVect casterVelocity;
 	gobject_ref caster;
-	GType type;
+	GType type = GType::none;
 	RoomSensor* startRoom = nullptr;
 	unsigned int sourceSpell = 0;
 
@@ -133,23 +131,24 @@ struct bullet_attributes
 	float attackDamage = 1.0f;
 	float bulletSpeed = 1.0f;
 
-	inline SpaceVect getCasterVel() const { return casterVelocity; }
-	inline gobject_ref getCaster() const { return caster; }
-	inline GType getType() const { return type; }
-	inline RoomSensor* getStartRoom() const { return startRoom; }
-	inline unsigned int getSourceSpell() const { return sourceSpell; }
-	inline float getSize() const { return size; }
-	inline float getAttackDamage() const { return attackDamage; }
-	inline float getBulletSpeed() const { return bulletSpeed; }
 
-	inline void setCasterVel(SpaceVect v) { casterVelocity = v; }
-	inline void setCaster(gobject_ref v) { caster = v; }
-	inline void setType(GType v) { type = v; }
-	inline void setStartRoom(RoomSensor* v) { startRoom = v; }
-	inline void setSourceSpell(unsigned int v) { sourceSpell = v; }
-	inline void setSize(float v) { size = v; }
-	inline void setAttackDamage(float v) { attackDamage = v; }
-	inline void setBulletSpeed(float v) { bulletSpeed = v; }
+	getter(SpaceVect, casterVelocity)
+	getter(gobject_ref, caster)
+	getter(GType, type)
+	getter(RoomSensor*, startRoom)
+	getter(unsigned int, sourceSpell)
+	getter(float, size)
+	getter(float, attackDamage)
+	getter(float, bulletSpeed)
+
+	setter(SpaceVect, casterVelocity)
+	setter(gobject_ref, caster)
+	setter(GType, type)
+	setter(RoomSensor*, startRoom)
+	setter(unsigned int, sourceSpell)
+	setter(float, size)
+	setter(float, attackDamage)
+	setter(float, bulletSpeed)
 };
 
 class floorsegment_properties : public object_properties {

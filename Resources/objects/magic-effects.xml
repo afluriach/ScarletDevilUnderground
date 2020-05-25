@@ -13,6 +13,48 @@
 		attr="agility"
 	/>
 
+	<IceDamage
+		type="ApplyDamage"
+		element="iceDamage"
+	/>
+	<SunDamage
+		type="ApplyDamage"
+		element="sunDamage"
+	/>
+	<DarknessDamage
+		type="ApplyDamage"
+		element="darknessDamage"
+	/>
+	<PoisonDamage
+		type="ApplyDamage"
+		element="poisonDamage"
+	/>
+	<SlimeDamage
+		type="ApplyDamage"
+		element="slimeDamage"
+	/>
+
+	<IceDamageOverTime
+		type="DamageOverTime"
+		element="iceDamage"
+	/>
+	<SunDamageOverTime
+		type="DamageOverTime"
+		element="sunDamage"
+	/>
+	<DarknessDamageOverTime
+		type="DamageOverTime"
+		element="darknessDamage"
+	/>
+	<PoisonDamageOverTime
+		type="DamageOverTime"
+		element="poisonDamage"
+	/>
+	<SlimeDamageOverTime
+		type="DamageOverTime"
+		element="slimeDamage"
+	/>
+	
 	<DrainStaminaFromMovement
 		type="DrainFromMovement"
 		attr="stamina"

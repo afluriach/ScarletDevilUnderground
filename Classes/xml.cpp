@@ -9,6 +9,7 @@
 #include "Prefix.h"
 
 #include "Bomb.hpp"
+#include "EffectArea.hpp"
 #include "Enemy.hpp"
 #include "EnvironmentObject.hpp"
 #include "FileIO.hpp"
@@ -45,6 +46,15 @@ GObject::AdapterType objectAdapter(local_shared_ptr<bomb_properties> props)
 GObject::AdapterType objectAdapter(local_shared_ptr<bullet_properties> props)
 {
 	return nullptr;
+}
+
+GObject::AdapterType objectAdapter(local_shared_ptr<effectarea_properties> props)
+{
+	return [props](GSpace* space, ObjectIDType id, const ValueMap& args) -> GObject* {
+		object_params params(args);
+
+		return allocator_new<EffectArea>(space, id, params, props);
+	};
 }
 
 GObject::AdapterType objectAdapter(local_shared_ptr<enemy_properties> props)
@@ -123,6 +133,11 @@ void loadBullets()
 	loadObjectsShared<bullet_properties>("objects/bullets.xml");
 }
 
+void loadEffectAreas()
+{
+	loadObjectsShared<effectarea_properties>("objects/effect-areas.xml");
+}
+
 void loadEffects()
 {
 	loadObjects<MagicEffectDescriptor*>("objects/magic-effects.xml", app::effects);
@@ -141,7 +156,6 @@ void loadEnemies()
 void loadEnvironmentObjects()
 {
 	loadObjectsShared<environment_object_properties>("objects/objects.xml");
-
 }
 
 void loadFirePatterns()
@@ -514,6 +528,28 @@ bool parseObject(tinyxml2::XMLElement* elem, local_shared_ptr<environment_object
 	}
 
 	return true;
+}
+
+bool parseObject(tinyxml2::XMLElement* elem, local_shared_ptr<effectarea_properties> result)
+{
+	parseObject(elem, static_cast<local_shared_ptr<object_properties>>(result));
+
+	string effectName;
+	float magnitude = 0.0f;
+
+	getNumericAttr(elem, "magnitude", &magnitude);
+	getStringAttr(elem, "effect", &effectName);
+
+	if (effectName.size() > 0) {
+		auto e = app::getEffect(effectName);
+		if (e) {
+			result->effect = e;
+			result->magnitude = magnitude;
+			return true;
+		}
+	}
+
+	return false;
 }
 
 bool parseObject(tinyxml2::XMLElement* elem, local_shared_ptr<agent_properties> result)

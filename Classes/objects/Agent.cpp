@@ -70,7 +70,6 @@ Agent::Agent(
 		physics_params(
 			type,
 			props->isFlying ? PhysicsLayers::flying : PhysicsLayers::onGround,
-			props->dimensions,
 			props->mass
 		),
 		props

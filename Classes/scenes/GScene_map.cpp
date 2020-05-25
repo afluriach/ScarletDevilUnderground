@@ -347,8 +347,7 @@ void GScene::loadWalls(const TMXTiledMap& map, IntVec2 offset)
 void GScene::loadRoomFromMap(const SpaceRect& mapBounds, int roomID, const ValueMap& properties)
 {
 	gspace->createObject(GObject::make_object_factory<RoomSensor>(
-		mapBounds.center,
-		mapBounds.dimensions - SpaceVect(1.0, 1.0),
+		SpaceRect(mapBounds.center, mapBounds.dimensions - SpaceVect(1.0, 1.0)),
 		roomID,
 		properties
 	));
@@ -366,8 +365,7 @@ void GScene::loadRoomsLayer(const TMXTiledMap& map)
 		SpaceRect area = getUnitspaceRectangle(objAsMap, make_pair(0,0));
 
 		gspace->createObject(GObject::make_object_factory<RoomSensor>(
-			area.center,
-			area.dimensions - SpaceVect(1.0, 1.0),
+			SpaceRect(area.center,area.dimensions - SpaceVect(1.0, 1.0)),
 			objAsMap.at("name").asInt(),
 			objAsMap
 		));

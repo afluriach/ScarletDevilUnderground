@@ -45,7 +45,6 @@ Bullet::Bullet(
 		physics_params(
 			attributes.type,
 			PhysicsLayers::ground,
-			props->dimensions * attributes.size,
 			0.0,
 			true
 		),

@@ -79,6 +79,18 @@ void SetBoolAttribute::end()
 	agent->decrement(attr);
 }
 
+ApplyDamage::ApplyDamage(effect_params params, Attribute element) :
+	MagicEffect(params),
+	element(element)
+{
+}
+
+void ApplyDamage::init()
+{
+	DamageInfo damage(magnitude, damageType, element, 0.0f);
+	target->hit(damage, SpaceVect::zero);
+}
+
 DamageOverTime::DamageOverTime(effect_params params, Attribute element) :
 	MagicEffect(params),
 	element(element)

@@ -70,6 +70,18 @@ public:
 	const Attribute attr;
 };
 
+class ApplyDamage : public MagicEffect
+{
+public:
+	static constexpr effect_flags flags = enum_bitwise_or(effect_flags, immediate, agent);
+
+	ApplyDamage(effect_params params, Attribute element);
+
+	virtual void init();
+protected:
+	Attribute element;
+};
+
 class DamageOverTime : public MagicEffect
 {
 public:

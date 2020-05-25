@@ -19,15 +19,15 @@ GType Wall::getWallType(bool breakable)
 }
 
 Wall::Wall(GSpace* space, ObjectIDType id, const ValueMap& args) :
-	Wall(space, id, getObjectPos(args), getObjectDimensions(args), getBoolOrDefault(args, "breakable", false))
+	Wall(space, id, SpaceRect(getObjectPos(args), getObjectDimensions(args)), getBoolOrDefault(args, "breakable", false))
 {}
 
-Wall::Wall(GSpace* space, ObjectIDType id, SpaceVect center, SpaceVect dimensions, bool breakable) :
+Wall::Wall(GSpace* space, ObjectIDType id, SpaceRect rect, bool breakable) :
 	GObject(
 		space,
 		id,
-		object_params(center, SpaceVect::zero, float_pi*0.5),
-		physics_params(getWallType(breakable), PhysicsLayers::all, dimensions, -1.0),
+		object_params(rect),
+		physics_params(getWallType(breakable), PhysicsLayers::all, -1.0),
 		nullptr
 	),
 	breakable(breakable)

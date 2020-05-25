@@ -12,95 +12,41 @@
 #include "EffectArea.hpp"
 #include "Graphics.h"
 #include "graphics_context.hpp"
+#include "MagicEffect.hpp"
+#include "MagicEffectSystem.hpp"
 #include "physics_context.hpp"
 #include "Player.hpp"
 #include "Torch.hpp"
 
-EffectArea::EffectArea(GSpace* space, ObjectIDType id, const ValueMap& args) :
-MapObjForwarding(AreaSensor)
+EffectArea::EffectArea(
+	GSpace* space,
+	ObjectIDType id,
+	const object_params& params,
+	local_shared_ptr<effectarea_properties> props
+) :
+	AreaSensor(space,id,params, props),
+	props(props)
 {
+	attr = effect_attributes(props->magnitude, -1.0f, 0.0f, DamageType::effectArea);
 }
 
 void EffectArea::beginContact(GObject* obj)
 {
 	AreaSensor::beginContact(obj);
-	targets.insert(obj);
+		
+	if (props->effect->canApply(obj, attr)) {
+		unsigned int effectID = obj->applyMagicEffect(props->effect, attr);
+		activeEffects.insert_or_assign(obj, effectID);
+	}
 }
 
 void EffectArea::endContact(GObject* obj)
 {
 	AreaSensor::endContact(obj);
-	targets.erase(obj);
-}
 
-void EffectArea::update()
-{
-	//shouldn't actually be necessary
-	//GObject::update();
-
-	for ( auto target : targets){
-		target->hit(getDamageInfo(), SpaceVect::zero);
-	}
-}
-
-SunArea::SunArea(GSpace* space, ObjectIDType id, const ValueMap& args) :
-	MapObjForwarding(EffectArea)
-{
-}
-
-shared_ptr<LightArea> SunArea::getLightSource() const
-{
-	return AmbientLightArea::create(getDimensions(), toColor4F(Color3B(192, 192, 82)));
-}
-
-GraphicsLayer SunArea::sceneLayer() const{
-	return GraphicsLayer::overhead;
-}
-
-DamageInfo SunArea::getDamageInfo() const {
-	auto result = DamageInfo(5.0f, DamageType::effectArea, Attribute::sunDamage, 0.0f);
-	result.damageOverTime = true;
-	return result;
-}
-
-DarknessArea::DarknessArea(GSpace* space, ObjectIDType id, const ValueMap& args) :
-	MapObjForwarding(EffectArea)
-{
-}
-
-void DarknessArea::init()
-{
-	GObject::init();
-
-	torches = space->physicsContext->rectangleQueryByType<Torch>(
-		getPos(),
-		getDimensions(),
-		GType::environment,
-		PhysicsLayers::all
-	);
-}
-
-void DarknessArea::update()
-{
-	EffectArea::update();
-
-	active = true;
-	for (Torch* t : torches) {
-		if (t->getActive()) {
-			active = false;
-			break;
-		}
-	}
-}
-
-DamageInfo DarknessArea::getDamageInfo() const {
-	
-	if (active) {
-		auto result = DamageInfo(5.0f, DamageType::effectArea, Attribute::darknessDamage, 0.0f);
-		result.damageOverTime = true;
-		return result;
-	}
-	else {
-		DamageInfo();
+	auto it = activeEffects.find(obj);
+	if (it != activeEffects.end()) {
+		space->magicEffectSystem->removeEffect(it->second);
+		activeEffects.erase(it);
 	}
 }

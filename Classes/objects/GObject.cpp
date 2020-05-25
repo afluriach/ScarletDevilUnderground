@@ -40,13 +40,15 @@ GObject::GObject(
 	type(phys.type),
 	layers(phys.layers),
 	sensor(phys.sensor),
-	dimensions(phys.dimensions),
 	mass(phys.mass),
 	prevPos(params.pos),
 	prevAngle(params.angle),
 	active(params.active),
 	hidden(params.hidden)
 {
+	dimensions = params.dimensions.isZero() ? 
+		(props ? props->dimensions : SpaceVect::zero) : 
+		params.dimensions;
 	initializeBody();
 
 	if (body) {

@@ -49,6 +49,7 @@ namespace Lua{
 			rw_prop(object_params, angle),
 			rw_prop(object_params, vel),
 			rw_prop(object_params, angularVel),
+			rw_prop(object_params, dimensions),
 			rw_prop(object_params, name),
 			rw_prop(object_params, level),
 			rw_prop(object_params, hidden),
@@ -72,13 +73,13 @@ namespace Lua{
 #define _cls bullet_attributes
 		auto bullet_attr = _state.new_usertype<bullet_attributes>(
 			"bullet_attributes",
-			"casterVelocity", sol::property(&bullet_attributes::getCasterVel, &bullet_attributes::setCasterVel),
-			"caster", sol::property(&bullet_attributes::getCaster, &bullet_attributes::setCaster),
-			"type", sol::property(&bullet_attributes::getType, &bullet_attributes::setType),
-			"spell", sol::property(&bullet_attributes::getSourceSpell, &bullet_attributes::setSourceSpell),
-			"size", sol::property(&bullet_attributes::getSize, &bullet_attributes::setSize),
-			"attackDamage", sol::property(&bullet_attributes::getAttackDamage, &bullet_attributes::setAttackDamage),
-			"bulletSpeed", sol::property(&bullet_attributes::getBulletSpeed, &bullet_attributes::setBulletSpeed)
+			rw_prop(bullet_attributes, casterVelocity),
+			rw_prop(bullet_attributes, caster),
+			rw_prop(bullet_attributes, type),
+			rw_prop(bullet_attributes, sourceSpell),
+			rw_prop(bullet_attributes, size),
+			rw_prop(bullet_attributes, attackDamage),
+			rw_prop(bullet_attributes, bulletSpeed)
 		);
 		addFuncSame(bullet_attr, getDefault);
 
@@ -203,11 +204,9 @@ namespace Lua{
 		addFuncSame(player, applyUpgrade);
 		addFuncSame(player, equipItems);
 
-		auto bullet = _state.new_usertype<Bullet>("Bullet", sol::base_classes, sol::bases<GObject>());
-		bullet["makeParams"] = sol::overload(
-			[](SpaceVect pos, SpaceFloat angle) -> object_params { return Bullet::makeParams(pos, angle); },
-			[](SpaceVect pos, SpaceFloat angle, SpaceVect vel) -> object_params { return Bullet::makeParams(pos, angle, vel); },
-			[](SpaceVect pos, SpaceFloat angle, SpaceVect vel, SpaceFloat angularVel) -> object_params { return Bullet::makeParams(pos, angle, vel,angularVel); }
+		auto bullet = _state.new_usertype<Bullet>(
+			"Bullet",
+			sol::base_classes, sol::bases<GObject>()
 		);
 
 		auto environment = _state.new_usertype<EnvironmentObject>(

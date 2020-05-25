@@ -27,6 +27,7 @@ namespace app {
 	GObject::AdapterType objectAdapter(local_shared_ptr<agent_properties> props); //NO-OP
 	GObject::AdapterType objectAdapter(local_shared_ptr<bomb_properties> props); //NO-OP
 	GObject::AdapterType objectAdapter(local_shared_ptr<bullet_properties> props); //NO-OP
+	GObject::AdapterType objectAdapter(local_shared_ptr<effectarea_properties> props);
 	GObject::AdapterType objectAdapter(local_shared_ptr<enemy_properties> props);
 	GObject::AdapterType objectAdapter(local_shared_ptr<npc_properties> props);
 	GObject::AdapterType objectAdapter(local_shared_ptr<item_properties> props);
@@ -36,6 +37,7 @@ namespace app {
 	void loadAreas();
 	void loadBombs();
 	void loadBullets();
+	void loadEffectAreas();
 	void loadEffects();
 	void loadEnemies();
 	void loadEnvironmentObjects();
@@ -144,6 +146,7 @@ namespace app {
 
 	bool parseObject(tinyxml2::XMLElement* elem, local_shared_ptr<object_properties> result);
 	bool parseObject(tinyxml2::XMLElement* elem, local_shared_ptr<environment_object_properties> result);
+	bool parseObject(tinyxml2::XMLElement* elem, local_shared_ptr<effectarea_properties> result);
 	bool parseObject(tinyxml2::XMLElement* elem, local_shared_ptr<agent_properties> result);
 	bool parseObject(tinyxml2::XMLElement* elem, area_properties* result);
 	bool parseObject(tinyxml2::XMLElement* elem, AttributeMap* result);

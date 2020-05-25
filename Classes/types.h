@@ -14,6 +14,7 @@
 class Agent;
 class Bullet;
 class Door;
+class EffectArea;
 class Enemy;
 class FloorSegment;
 class GObject;
@@ -29,6 +30,7 @@ class agent_properties;
 struct bomb_properties;
 struct bullet_attributes;
 struct bullet_properties;
+class effectarea_properties;
 class enemy_properties;
 class environment_object_properties;
 class floorsegment_properties;
@@ -232,10 +234,10 @@ struct effect_attributes
 	float radius = 0.0f;
 	DamageType type = DamageType::none;
 
-	getter(float,magnitude)
+	getter(float, magnitude)
 	getter(float, radius)
-	getter(float,length)
-	getter(DamageType,type)
+	getter(float, length)
+	getter(DamageType, type)
 
 	setter(float, magnitude)
 	setter(float, length)

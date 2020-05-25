@@ -31,6 +31,12 @@ object_params::object_params(
 {
 }
 
+object_params::object_params(const SpaceRect& rect) :
+	pos(rect.center),
+	dimensions(rect.dimensions)
+{
+}
+
 object_params::object_params(const ValueMap& args) :
 	object_params(
 		getObjectPos(args),
@@ -42,6 +48,8 @@ object_params::object_params(const ValueMap& args) :
 
 	level = getIntOrDefault(args, "level", 0);
 
+	dimensions = getObjectDimensions(args);
+
 	hidden = getBoolOrDefault(args, "hidden", false);
 	active = getBoolOrDefault(args, "active", false);
 
@@ -51,30 +59,12 @@ object_params::object_params(const ValueMap& args) :
 	}
 }
 
-physics_params::physics_params(GType type, PhysicsLayers layers, SpaceFloat radius, SpaceFloat mass, bool sensor) :
+physics_params::physics_params(GType type, PhysicsLayers layers, SpaceFloat mass, bool sensor) :
 	type(type),
 	layers(layers),
-	dimensions(SpaceVect(radius,0.0)),
 	mass(mass),
 	sensor(sensor)
 {}
-
-physics_params::physics_params(GType type, PhysicsLayers layers, SpaceVect dimensions, SpaceFloat mass, bool sensor) :
-	type(type),
-	layers(layers),
-	dimensions(dimensions),
-	mass(mass),
-	sensor(sensor)
-{}
-
-physics_params::physics_params(GType type, PhysicsLayers layers, const ValueMap& args, SpaceFloat mass, bool sensor)
-{
-	this->type = type;
-	this->layers = layers;
-	dimensions = getObjectDimensions(args);
-	this->mass = getFloatOrDefault(args, "mass", mass);
-	this->sensor = sensor;
-}
 
 bullet_attributes bullet_attributes::getDefault()
 {

@@ -356,7 +356,7 @@ void GSpace::addWallBlock(const SpaceVect& ll, const SpaceVect& ur)
 
 void GSpace::addWallBlock(const SpaceRect& area)
 {
-	createObject<Wall>(area.center, area.dimensions);
+	createObject<Wall>(area);
 }
 
 gobject_ref GSpace::getObjectRef(const string& name) const

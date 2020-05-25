@@ -28,7 +28,6 @@ Bomb::Bomb(
 		physics_params(
 			enum_bitwise_or(GType, bomb, canDamage),
 			PhysicsLayers::onGround,
-			0.5,
 			1.0
 		),
 		props

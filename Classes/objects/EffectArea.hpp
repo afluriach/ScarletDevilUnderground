@@ -11,44 +11,31 @@
 
 #include "AreaSensor.hpp"
 
+class effectarea_properties : public object_properties
+{
+public:
+	const MagicEffectDescriptor* effect;
+	float magnitude = 0.0f;
+};
+
 class EffectArea : public AreaSensor 
 {
 public:
-	MapObjCons(EffectArea);
+	EffectArea(
+		GSpace* space,
+		ObjectIDType id,
+		const object_params& params,
+		local_shared_ptr<effectarea_properties> props
+	);
 	inline virtual ~EffectArea(){}
     
 	virtual void beginContact(GObject* obj);
 	virtual void endContact(GObject* obj);
-
-	virtual void update();
-
-	virtual inline DamageInfo getDamageInfo() const { return DamageInfo(); }
 protected:
-	unordered_set<GObject*> targets;
-};
-
-class SunArea : public EffectArea
-{
-public:
-	MapObjCons(SunArea);
-
-	virtual shared_ptr<LightArea> getLightSource() const;
-	virtual GraphicsLayer sceneLayer() const;
-	virtual DamageInfo getDamageInfo() const;
-};
-
-class DarknessArea : public EffectArea
-{
-public:
-	MapObjCons(DarknessArea);
-
-	virtual void init();
-	virtual void update();
-
-	virtual DamageInfo getDamageInfo() const;
-protected:
-	unordered_set<Torch*> torches;
-	bool active = false;
+	local_shared_ptr<effectarea_properties> props;
+	
+	map<GObject*, unsigned int> activeEffects;
+	effect_attributes attr;
 };
 
 #endif /* EffectArea_hpp */

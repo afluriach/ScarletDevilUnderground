@@ -15,7 +15,7 @@ public:
 	static GType getWallType(bool breakable);
 
 	MapObjCons(Wall);
-	Wall(GSpace* space, ObjectIDType id, SpaceVect center, SpaceVect dimensions, bool breakable = false);
+	Wall(GSpace* space, ObjectIDType id, SpaceRect rect, bool breakable = false);
 
 	virtual inline ~Wall() {}
 
