@@ -120,7 +120,8 @@ namespace Lua{
 			"name", sol::property(&Spell::getName),
 			"cost", sol::property(&Spell::getCost),
 			"object", sol::property(&Spell::getCasterAs<GObject>),
-			"space", sol::property(&Spell::getSpace)
+			"space", sol::property(&Spell::getSpace),
+			"time", sol::property(&Spell::getTime)
 		);
 #define _cls Spell
 

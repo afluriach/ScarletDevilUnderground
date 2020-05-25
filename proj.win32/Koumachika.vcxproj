@@ -152,7 +152,6 @@ xcopy "$(ProjectDir)..\Resources" "$(OutDir)" /D /E /I /F /Y</Command>
     <ClCompile Include="..\Classes\ai\AIFunctions.cpp" />
     <ClCompile Include="..\Classes\ai\AIPackages.cpp" />
     <ClCompile Include="..\Classes\ai\AIUtil.cpp" />
-    <ClCompile Include="..\Classes\ai\EnemyFunctions.cpp" />
     <ClCompile Include="..\Classes\App.cpp" />
     <ClCompile Include="..\Classes\Attributes.cpp" />
     <ClCompile Include="..\Classes\audio_context.cpp" />
@@ -218,7 +217,6 @@ xcopy "$(ProjectDir)..\Resources" "$(OutDir)" /D /E /I /F /Y</Command>
     <ClCompile Include="..\Classes\space\Sensor.cpp" />
     <ClCompile Include="..\Classes\spells\AttributeEffects.cpp" />
     <ClCompile Include="..\Classes\spells\EnemyFirePattern.cpp" />
-    <ClCompile Include="..\Classes\spells\EnemySpell.cpp" />
     <ClCompile Include="..\Classes\spells\FirePattern.cpp" />
     <ClCompile Include="..\Classes\spells\FirePatternImpl.cpp" />
     <ClCompile Include="..\Classes\spells\FirePatternMapping.cpp" />
@@ -250,7 +248,6 @@ xcopy "$(ProjectDir)..\Resources" "$(OutDir)" /D /E /I /F /Y</Command>
     <ClInclude Include="..\Classes\ai\AIFunctions.hpp" />
     <ClInclude Include="..\Classes\ai\AIPackages.hpp" />
     <ClInclude Include="..\Classes\ai\AIUtil.hpp" />
-    <ClInclude Include="..\Classes\ai\EnemyFunctions.hpp" />
     <ClInclude Include="..\Classes\App.h" />
     <ClInclude Include="..\Classes\app_constants.hpp" />
     <ClInclude Include="..\Classes\Attributes.hpp" />
@@ -307,7 +304,6 @@ xcopy "$(ProjectDir)..\Resources" "$(OutDir)" /D /E /I /F /Y</Command>
     <ClInclude Include="..\Classes\space\Sensor.hpp" />
     <ClInclude Include="..\Classes\spells\AttributeEffects.hpp" />
     <ClInclude Include="..\Classes\spells\EnemyFirePattern.hpp" />
-    <ClInclude Include="..\Classes\spells\EnemySpell.hpp" />
     <ClInclude Include="..\Classes\spells\FirePattern.hpp" />
     <ClInclude Include="..\Classes\spells\FirePatternImpl.hpp" />
     <ClInclude Include="..\Classes\spells\MagicEffect.hpp" />

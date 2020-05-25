@@ -146,6 +146,53 @@ function ai.GreenFairy:update()
 	end
 end
 
+--When target (player) gets and stays within range for a certain time, it activates.
+ai.BlueFairyBomb = class("BlueFairyBomb")
+
+ai.BlueFairyBomb.cooldown = 4.0
+ai.BlueFairyBomb.triggerLength = 1.0
+ai.BlueFairyBomb.triggerDist = 2.0
+ai.BlueFairyBomb.cost = 15.0
+
+function ai.BlueFairyBomb:init(super)
+	self.super = super
+	self.accumulator = 0.0
+	self.timer = self.cooldown
+	self.spellID = 0
+end
+
+function ai.BlueFairyBomb:update()
+	local targetDist = self.super.agent:getSensedObjectDistance(GType.player)
+	
+	if not self.super:isSpellActive() then
+		self.timer = util.timerDecrement(self.timer)
+	end
+	
+	if not util.isinf(targetDist) and targetDist < self.triggerDist then
+		self.accumulator = util.timerIncrement(self.accumulator)
+	else
+		self.accumulator = 0.0
+	end
+	
+	if
+		not self.super:isSpellActive() and
+		self.super.agent:get(Attribute.mp) > self.cost and
+		self.accumulator >= self.triggerLength and
+		self.timer <= 0.0
+	then
+		self:activate()
+	end
+	
+	return steady_return()
+end
+
+function ai.BlueFairyBomb:activate()
+	if self.super:castSpell( app.getSpell('BlueFairyBomb') ) then
+		self.accumulator = 0.0
+		self.timer = self.cooldown
+	end
+end
+
 ai.ZombieFairy = class("ZombieFairy")
 
 function ai.ZombieFairy:init(super, target)

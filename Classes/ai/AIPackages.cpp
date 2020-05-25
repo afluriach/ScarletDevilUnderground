@@ -13,8 +13,6 @@
 #include "AIPackages.hpp"
 #include "AIUtil.hpp"
 #include "Bomb.hpp"
-#include "EnemyFunctions.hpp"
-#include "EnemySpell.hpp"
 #include "Player.hpp"
 #include "SpellDescriptor.hpp"
 #include "SpellSystem.hpp"
@@ -33,7 +31,7 @@ void blue_fairy_follow_path(StateMachine* fsm, const ValueMap& args)
 			comp->addFunction<FollowPath>(*path, true, true);
 			comp->addFunction<LookTowardsFire>(true);
 			comp->addFunction<FireOnStress>(5.0f);
-			comp->addFunction<BlueFairyPowerAttack>();
+			comp->addFunction<ScriptFunction>("BlueFairyBomb");
 			sm->addThread(comp);
 		});
 	}

@@ -111,6 +111,10 @@ spell_cost Spell::getCost() const {
 	return descriptor->getCost();
 }
 
+SpaceFloat Spell::getTime() const {
+	return t;
+}
+
 void Spell::runUpdate()
 {
 	timerIncrement(t);

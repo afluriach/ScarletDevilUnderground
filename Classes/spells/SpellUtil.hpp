@@ -12,6 +12,6 @@
 void explosion(const GObject* source, SpaceFloat radius, DamageInfo baseDamage);
 float getExplosionScale(const GObject* source, const GObject* target, SpaceFloat radius);
 float getExplosionScale(const SpaceVect& pos, const GObject* target, SpaceFloat radius);
-void radialEffectArea(const GObject* source, SpaceFloat radius, GType targets, DamageInfo damage);
+void radialDamageArea(const GObject* source, SpaceFloat radius, GType targets, DamageInfo damage);
 
 #endif /* SpellUtil_hpp */

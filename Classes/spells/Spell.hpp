@@ -61,6 +61,7 @@ public:
 	unsigned int getID() const;
 	string getName() const;
 	spell_cost getCost() const;
+	SpaceFloat getTime() const;
 
 	inline virtual void init() {}
 	inline virtual void update() {}

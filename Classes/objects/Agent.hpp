@@ -113,6 +113,7 @@ public:
 	SpaceFloat getDefaultFovAngle() const;
 
 	inline RadarSensor* getRadar() { return radar; }
+	SpaceFloat getSensedObjectDistance(GType type) const;
 
 	void initializeRadar();
 	virtual void removePhysicsObjects();

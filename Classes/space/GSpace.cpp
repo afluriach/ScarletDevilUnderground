@@ -47,6 +47,7 @@ void GSpace::loadScriptVM()
 	scriptVM->runFile("scripts/items.lua");
 	scriptVM->runFile("scripts/npc.lua");
 	scriptVM->runFile("scripts/objects.lua");
+	scriptVM->runFile("scripts/spells/fairy-spells.lua");
 	scriptVM->runFile("scripts/spells/marisa-spells.lua");
 	scriptVM->runFile("scripts/spells/player-spells.lua");
 	scriptVM->runFile("scripts/spells/patchouli-spells.lua");

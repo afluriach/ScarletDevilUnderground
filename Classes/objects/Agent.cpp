@@ -513,6 +513,10 @@ DamageInfo Agent::touchEffect() const
 	return DamageInfo();
 }
 
+SpaceFloat Agent::getSensedObjectDistance(GType type) const {
+	return radar->getSensedObjectDistance(type);
+}
+
 void Agent::initializeRadar()
 {
 	auto attr = sensor_attributes{

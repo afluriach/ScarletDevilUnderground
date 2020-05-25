@@ -56,7 +56,7 @@ float getExplosionScale(const SpaceVect& pos, const GObject* target, SpaceFloat 
 		return 1.0f - (dist - halfRadius) / halfRadius;
 }
 
-void radialEffectArea(const GObject* source, SpaceFloat radius, GType targets, DamageInfo damage)
+void radialDamageArea(const GObject* source, SpaceFloat radius, GType targets, DamageInfo damage)
 {
 	unordered_set<Agent*> agents = source->space->physicsContext->radiusQueryByType<Agent>(
 		source,

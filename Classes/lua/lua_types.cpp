@@ -9,6 +9,7 @@
 #include "Prefix.h"
 
 #include "Bullet.hpp"
+#include "graphics_types.h"
 #include "LuaAPI.hpp"
 #include "MagicEffect.hpp"
 
@@ -16,6 +17,18 @@ namespace Lua{
     
 	void Inst::addTypes()
 	{
+		auto glayers = _state.new_enum<GraphicsLayer, true>(
+			"GraphicsLayer",
+			{
+				enum_entry(GraphicsLayer, map),
+				enum_entry(GraphicsLayer, floor),
+				enum_entry(GraphicsLayer, ground),
+				enum_entry(GraphicsLayer, roomMask),
+				enum_entry(GraphicsLayer, agentOverlay),
+				enum_entry(GraphicsLayer, overhead)
+			}
+		);
+
 		auto gtype = _state.new_enum<GType, true>(
 			"GType",
 			{

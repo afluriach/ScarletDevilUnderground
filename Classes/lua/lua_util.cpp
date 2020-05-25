@@ -9,6 +9,7 @@
 #include "Prefix.h"
 
 #include "LuaAPI.hpp"
+#include "SpellUtil.hpp"
 #include "value_map.hpp"
 
 namespace Lua{    
@@ -31,10 +32,15 @@ void Inst::addUtil()
 		return result;
 	};
 
-	util["getStringOrDefault"] = &getStringOrDefault;
-	util["getIntOrDefault"] = &getIntOrDefault;
-	util["getFloatOrDefault"] = &getFloatOrDefault;
-	util["getBoolOrDefault"] = &getBoolOrDefault;
-}
+	util["isinf"] = &isinf<double>;
+	util["isnan"] = &isnan;
 
+	cFuncSame(util, getStringOrDefault);
+	cFuncSame(util, getIntOrDefault);
+	cFuncSame(util, getFloatOrDefault);
+	cFuncSame(util, getBoolOrDefault);
+
+	cFuncSame(util, explosion);
+	cFuncSame(util, radialDamageArea);
+}
 }

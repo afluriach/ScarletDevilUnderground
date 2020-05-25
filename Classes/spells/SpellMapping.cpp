@@ -8,7 +8,6 @@
 
 #include "Prefix.h"
 
-#include "EnemySpell.hpp"
 #include "PlayerSpell.hpp"
 #include "Spell.hpp"
 #include "SpellDescriptor.hpp"
@@ -25,7 +24,6 @@ const SpellDesc* createDesc()
 }
 
 void Spell::initDescriptors() {
-	spellDescriptors.insert(entry_same(BlueFairyBomb));
 	spellDescriptors.insert(entry_same(LavaeteinnSpell));
 	spellDescriptors.insert(entry_same(PlayerBatMode));
 	spellDescriptors.insert(entry_same(PlayerCounterClock));

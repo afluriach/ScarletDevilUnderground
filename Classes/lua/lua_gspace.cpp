@@ -8,7 +8,9 @@
 
 #include "Prefix.h"
 
+#include "app_constants.hpp"
 #include "Graphics.h"
+#include "graphics_context.hpp"
 #include "LuaAPI.hpp"
 #include "Player.hpp"
 
@@ -85,6 +87,36 @@ namespace Lua{
 		addFuncSame(gspace, getArea);
 
 		addFuncSame(gspace, registerRoomMapped);
+
+		gspace["createSprite"] = [](
+			GSpace* _this,
+			string sprite,
+			GraphicsLayer layer,
+			SpaceVect pos,
+			float zoom
+			) -> SpriteID {
+			return _this->createSprite(
+				&graphics_context::createSprite,
+				string("sprites/" + sprite + ".png"),
+				layer,
+				toCocos(pos) * app::pixelsPerTile,
+				to_float(zoom)
+			);
+		};
+		gspace["removeSprite"] = [](GSpace* _this,SpriteID id){
+			_this->addGraphicsAction(&graphics_context::removeSprite, id);
+		};
+		gspace["setRotation"] = [](
+			GSpace* _this,
+			SpriteID id,
+			SpaceFloat angle
+		) -> void {
+			_this->graphicsNodeAction(
+				&Node::setRotation,
+				id,
+				toCocosAngle(angle)
+			);
+		};
 
 		gspace["createDialog"] = sol::overload(
 			static_cast<void(GSpace::*)(string, bool)>(&GSpace::createDialog),

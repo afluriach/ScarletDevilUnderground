@@ -153,9 +153,6 @@
     <ClCompile Include="..\Classes\scenes\OverworldScene.cpp">
       <Filter>src\scenes</Filter>
     </ClCompile>
-    <ClCompile Include="..\Classes\spells\EnemySpell.cpp">
-      <Filter>src\spells</Filter>
-    </ClCompile>
     <ClCompile Include="..\Classes\ai\AIFunctions.cpp">
       <Filter>src\ai</Filter>
     </ClCompile>
@@ -179,9 +176,6 @@
     </ClCompile>
     <ClCompile Include="..\Classes\spells\FirePatternMapping.cpp">
       <Filter>src\spells</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Classes\ai\EnemyFunctions.cpp">
-      <Filter>src\ai</Filter>
     </ClCompile>
     <ClCompile Include="..\Classes\Resources.cpp">
       <Filter>src</Filter>
@@ -440,9 +434,6 @@
     <ClInclude Include="..\Classes\scenes\OverworldScene.hpp">
       <Filter>src\scenes</Filter>
     </ClInclude>
-    <ClInclude Include="..\Classes\spells\EnemySpell.hpp">
-      <Filter>src\spells</Filter>
-    </ClInclude>
     <ClInclude Include="..\Classes\ai\AIFunctions.hpp">
       <Filter>src\ai</Filter>
     </ClInclude>
@@ -460,9 +451,6 @@
     </ClInclude>
     <ClInclude Include="..\Classes\spells\spell_types.hpp">
       <Filter>src\spells</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Classes\ai\EnemyFunctions.hpp">
-      <Filter>src\ai</Filter>
     </ClInclude>
     <ClInclude Include="..\Classes\Resources.hpp">
       <Filter>src</Filter>

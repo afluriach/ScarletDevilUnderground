@@ -1,4 +1,6 @@
 <spells>
+	<BlueFairyBomb type="ScriptedSpell" class="auto" />
+
 	<DarkMist type="ScriptedSpell" class="auto" />
 	<FireStarburst type="ScriptedSpell" class="auto" />
 	<FlameFence type="ScriptedSpell" class="auto" />
