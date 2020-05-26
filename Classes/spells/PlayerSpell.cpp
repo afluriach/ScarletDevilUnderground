@@ -68,46 +68,22 @@ const SpaceFloat PlayerCounterClock::offset = 0.75;
 const SpaceFloat PlayerCounterClock::angular_speed = 9.0;
 
 PlayerCounterClock::PlayerCounterClock(GObject* caster, const SpellDesc* desc, unsigned int id) :
-	Spell(caster, desc, id, spell_params{ -1.0, 0.0, PlayerCounterClock::cost })
+	CirclingBullets(
+		caster,
+		desc,
+		id,
+		spell_params{ -1.0, 0.0, PlayerCounterClock::cost },
+		circling_bullets_params{
+			app::getBullet("flandreCounterClockBullet"),
+			2.0 + offset,
+			angular_speed,
+			4
+		}
+	)
 {}
 
 PlayerCounterClock::~PlayerCounterClock()
 {
-}
-
-void PlayerCounterClock::init()
-{
-	Player* p = getCasterAs<Player>();
-	SpaceVect pos = caster->getPos();
-	auto props = app::getBullet("flandreCounterClockBullet");
-
-	if (p) {
-		p->increment(Attribute::inhibitFiring);
-	}
-
-	bullets = spawnBulletRadius(props, 2.0 + offset, 4);
-}
-
-void PlayerCounterClock::update()
-{
-	angular_pos += angular_speed * app::params.secondsPerFrame;
-	bulletCircle(bullets, 2.0 + offset, angular_pos);
-}
-
-void PlayerCounterClock::end()
-{
-	Player* p = getCasterAs<Player>();
-
-	if (p) {
-		p->decrement(Attribute::inhibitFiring);
-	}
-
-	for (auto ref : bullets)
-	{
-		if (ref.isValid()) {
-			getSpace()->removeObject(ref);
-		}
-	}
 }
 
 const string PlayerIceShield::name = "PlayerIceShield";
@@ -115,49 +91,29 @@ const string PlayerIceShield::description = "";
 const string PlayerIceShield::icon = "sprites/ui/ice_shield.png";
 const spell_cost PlayerIceShield::cost = spell_cost::initialMP(12.5f);
 
-const SpaceFloat PlayerIceShield::speed = 9.0;
-
 const SpaceFloat PlayerIceShield::distance = 3.0;
 const SpaceFloat PlayerIceShield::circumference = 2.0 * float_pi * distance;
 const SpaceFloat PlayerIceShield::inv_circumference = 1.0 / circumference;
 
+const SpaceFloat PlayerIceShield::speed = 9.0;
+const SpaceFloat PlayerIceShield::angularSpeed = speed * inv_circumference * float_pi * 2.0;
+
 PlayerIceShield::PlayerIceShield(GObject* caster, const SpellDesc* desc, unsigned int id) :
-	Spell(caster, desc, id, spell_params{ -1.0, 0.0, PlayerIceShield::cost })
+	CirclingBullets(
+		caster,
+		desc,
+		id,
+		spell_params{ -1.0, 0.0, PlayerIceShield::cost },
+		circling_bullets_params{
+			app::getBullet("cirnoIceShieldBullet"),
+			distance,
+			angularSpeed,
+			bulletCount
+		}
+	)
 {
-	props = app::getBullet("cirnoIceShieldBullet");
 }
 
 PlayerIceShield::~PlayerIceShield()
 {
 }
-
-void PlayerIceShield::init()
-{
-	SpaceVect origin = caster->getPos();
-
-	bullets = spawnBulletRadius(props, distance, bulletCount);
-}
-
-void PlayerIceShield::update()
-{
-	//Update angle based on linear speed
-	SpaceFloat dp = app::params.secondsPerFrame * speed;
-	crntAngle += dp * inv_circumference * float_pi * 2.0;
-
-	if (crntAngle >= 2.0*float_pi) {
-		crntAngle -= 2.0*float_pi;
-	}
-
-	bulletCircle(bullets, distance, crntAngle);
-}
-
-void PlayerIceShield::end()
-{
-	for (auto ref : bullets)
-	{
-		if (ref.isValid()) {
-			getSpace()->removeObject(ref);
-		}
-	}
-}
-

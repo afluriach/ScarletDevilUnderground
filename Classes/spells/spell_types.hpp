@@ -43,6 +43,15 @@ struct spell_params
 	spell_cost cost = {};
 };
 
+struct circling_bullets_params
+{
+	local_shared_ptr<bullet_properties> bullet;
+
+	SpaceFloat distance = 0.0;
+	SpaceFloat angularSpeed = 0.0;
+	int bulletCount = 0;
+};
+
 struct melee_params
 {
 	SpaceFloat length = 0.0;

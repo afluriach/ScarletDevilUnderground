@@ -46,7 +46,7 @@ public:
 	GET_DESC(LavaeteinnSpell);
 };
 
-class PlayerCounterClock : public Spell {
+class PlayerCounterClock : public CirclingBullets {
 public:
 	static const string name;
 	static const string description;
@@ -60,15 +60,9 @@ public:
 	~PlayerCounterClock();
 
 	GET_DESC(PlayerCounterClock)
-	virtual void init();
-	virtual void update();
-	virtual void end();
-protected:
-	vector<gobject_ref> bullets;
-	SpaceFloat angular_pos = 0.0;
 };
 
-class PlayerIceShield : public Spell {
+class PlayerIceShield : public CirclingBullets {
 public:
 	static const string name;
 	static const string description;
@@ -77,6 +71,8 @@ public:
 
 	static constexpr size_t bulletCount = 8;
 	static const SpaceFloat speed;
+	static const SpaceFloat angularSpeed;
+
 	static const SpaceFloat distance;
 	static const SpaceFloat circumference;
 	static const SpaceFloat inv_circumference;
@@ -85,13 +81,6 @@ public:
 	~PlayerIceShield();
 
 	GET_DESC(PlayerIceShield)
-	virtual void init();
-	virtual void update();
-	virtual void end();
-protected:
-	vector<gobject_ref> bullets;
-	local_shared_ptr<bullet_properties> props;
-	SpaceFloat crntAngle = 0.0;
 };
 
 #endif /* PlayerSpell_hpp */

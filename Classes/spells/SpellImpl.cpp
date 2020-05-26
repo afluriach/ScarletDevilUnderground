@@ -153,3 +153,36 @@ void MeleeAttack::end()
 		getSpace()->removeObject(bullet);
 	}
 }
+
+CirclingBullets::CirclingBullets(
+	GObject* caster,
+	const SpellDesc* desc,
+	unsigned int id,
+	spell_params params,
+	circling_bullets_params _params
+) :
+	Spell(caster, desc, id, params),
+	params(_params)
+{
+}
+
+void CirclingBullets::init()
+{
+	bullets = spawnBulletRadius(params.bullet, params.distance, params.bulletCount);
+}
+
+void CirclingBullets::update()
+{
+	timerIncrement(angularPos, params.angularSpeed);
+	bulletCircle(bullets, params.distance, angularPos);
+}
+
+void CirclingBullets::end()
+{
+	for (auto ref : bullets)
+	{
+		if (ref.isValid()) {
+			getSpace()->removeObject(ref);
+		}
+	}
+}

@@ -69,4 +69,24 @@ protected:
 	gobject_ref bullet;
 };
 
+class CirclingBullets : public Spell
+{
+public:
+	CirclingBullets(
+		GObject* caster,
+		const SpellDesc* desc,
+		unsigned int id,
+		spell_params params,
+		circling_bullets_params _params
+	);
+
+	virtual void init();
+	virtual void update();
+	virtual void end();
+protected:
+	circling_bullets_params params;
+	vector<gobject_ref> bullets;
+	SpaceFloat angularPos = 0.0;
+};
+
 #endif 
