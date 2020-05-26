@@ -78,10 +78,13 @@ namespace Lua{
 		auto _app = _state.create_table();
 		_state["app"] = _app;
 
+		_app["addBullet"] = &app::addBullet;
+
 		_app["getBullet"] = &app::getBullet;
 		_app["getEffect"] = &app::getEffect;
 		_app["getSpell"] = &app::getSpell;
 
+		_app["getLight"] = &app::getLight;
 		_app["getSprite"] = &app::getSprite;
 
 		_app["log"] = &log_print<>;

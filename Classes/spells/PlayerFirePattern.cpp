@@ -37,22 +37,9 @@ StarbowBreak::StarbowBreak(Agent *const agent) :
 	FirePattern(agent)
 {}
 
-bullet_properties StarbowBreak::generateProps(int angle)
+local_shared_ptr<bullet_properties> StarbowBreak::getProps(int angle)
 {
-	//specify size multiplier for angle steps
-	//damage and mass should be proportional to size
-	//speed should be inversely proportional to size
-	//angle colors
-	bullet_properties result = *app::getBullet("starbowBullet");
-	double sizeScale = radiusScales[angle];
-
-	result.speed /= sizeScale;
-	result.dimensions.x *= sizeScale;
-	result.damage.mag *= sizeScale;
-	result.sprite = app::getSprite("starbowBreak" + boost::lexical_cast<string>(angle + 1));
-	result.light = app::getLight("starbowBreak" + boost::lexical_cast<string>(angle + 1));
-
-	return result;
+	return app::getBullet("starbowBullet" + boost::lexical_cast<string>(angle + 1));
 }
 
 bool StarbowBreak::spawnBullet(int angle, bool left)
@@ -64,7 +51,7 @@ bool StarbowBreak::spawnBullet(int angle, bool left)
 
 	if (agent->get(Attribute::stamina) >= cost) {
 		fired = agent->launchBullet(
-			makeSharedCopy(generateProps(angle)),
+			getProps(angle),
 			pos,
 			_angle 
 		).isFuture();

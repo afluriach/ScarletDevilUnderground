@@ -17,6 +17,7 @@
 #include "FloorSegment.hpp"
 #include "Graphics.h"
 #include "Item.hpp"
+#include "LuaAPI.hpp"
 #include "MagicEffect.hpp"
 #include "NPC.hpp"
 #include "PlayScene.hpp"
@@ -131,6 +132,9 @@ void loadBombs()
 void loadBullets()
 {
 	loadObjectsShared<bullet_properties>("objects/bullets.xml");
+
+	auto f = GSpace::scriptVM->getFunction("loadBullets");
+	if (f) f();
 }
 
 void loadEffectAreas()
@@ -241,6 +245,29 @@ const SpellDesc* getSpell(const string& name)
 shared_ptr<sprite_properties> getSprite(const string& name)
 {
 	return getOrDefault(sprites, name);
+}
+
+local_shared_ptr<bullet_properties> addBullet(const string& name, const string& base)
+{
+	local_shared_ptr<bullet_properties> result;
+	
+	if (name.empty()) return nullptr;
+
+	if (base.size() > 0) {
+		result = copyBaseObjectShared<bullet_properties>(base);
+
+		if (!result) {
+			log("addBullet(%s,%s): base not found", name, base);
+			return nullptr;
+		}
+	}
+	else {
+		result = make_local_shared<bullet_properties>();
+		result->clsName = name;
+	}
+
+	objects.insert_or_assign(name, result);
+	return result;
 }
 
 //get Attribute attribute [sic]

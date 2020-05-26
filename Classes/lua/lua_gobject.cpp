@@ -11,6 +11,7 @@
 #include "Agent.hpp"
 #include "Bullet.hpp"
 #include "EnvironmentObject.hpp"
+#include "graphics_types.h"
 #include "LuaAPI.hpp"
 #include "Item.hpp"
 #include "MagicEffect.hpp"
@@ -57,7 +58,16 @@ namespace Lua{
 		);
 
 #define _cls object_properties
-		auto object_props = _state.new_usertype<object_properties>("object_properties");
+		auto object_props = _state.new_usertype<object_properties>(
+			"object_properties",
+			rw_prop(object_properties, light),
+			rw_prop(object_properties, sprite),
+			rw_prop(object_properties, properName),
+			rw_prop(object_properties, clsName),
+			rw_prop(object_properties, dimensions),
+			rw_prop(object_properties, mass),
+			rw_prop(object_properties, friction)
+		);
 
 		auto agent_props = _state.new_usertype<agent_properties>(
 			"agent_properties",
@@ -67,7 +77,15 @@ namespace Lua{
 #define _cls bullet_properties
 		auto bullet_props = _state.new_usertype<bullet_properties>(
 			"bullet_properties",
-			sol::base_classes, sol::bases<object_properties>()
+			sol::base_classes, sol::bases<object_properties>(),
+			rw_prop(bullet_properties, speed),
+			rw_prop(bullet_properties, damage),
+			rw_prop(bullet_properties, hitCount),
+			rw_prop(bullet_properties, ricochetCount),
+			rw_prop(bullet_properties, invisible),
+			rw_prop(bullet_properties, directionalLaunch),
+			rw_prop(bullet_properties, ignoreObstacles),
+			rw_prop(bullet_properties, deflectBullets)
 		);
 
 #define _cls bullet_attributes

@@ -28,7 +28,7 @@ public:
 
 	StarbowBreak(Agent *const agent);
 
-	bullet_properties generateProps(int angle);
+	local_shared_ptr<bullet_properties> getProps(int angle);
 	bool spawnBullet(int angle, bool left);
 
 	inline virtual string iconPath() const { return "sprites/ui/starbow_break.png"; }

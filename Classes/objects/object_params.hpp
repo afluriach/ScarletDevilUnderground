@@ -93,6 +93,22 @@ public:
 	SpaceFloat friction = 0.0;
 
 	inline virtual type_index getType() const { return typeid(*this); }
+
+	getter(shared_ptr<sprite_properties>, sprite)
+	getter(shared_ptr<LightArea>, light)
+	getter(string, properName)
+	getter(string, clsName)
+	getter(SpaceVect, dimensions)
+	getter(SpaceFloat, mass)
+	getter(SpaceFloat, friction)
+
+	setter(shared_ptr<sprite_properties>, sprite)
+	setter(shared_ptr<LightArea>, light)
+	setter(string, properName)
+	setter(string, clsName)
+	setter(SpaceVect, dimensions)
+	setter(SpaceFloat, mass)
+	setter(SpaceFloat, friction)
 };
 
 class bullet_properties : public object_properties
@@ -113,6 +129,24 @@ public:
 	bullet_properties clone();
 
 	inline virtual type_index getType() const { return typeid(*this); }
+
+	getter(SpaceFloat, speed)
+	getter(DamageInfo, damage)
+	getter(int, hitCount)
+	getter(int, ricochetCount)
+	getter(bool, invisible)
+	getter(bool, directionalLaunch)
+	getter(bool, ignoreObstacles)
+	getter(bool, deflectBullets)
+
+	setter(SpaceFloat, speed)
+	setter(DamageInfo, damage)
+	setter(int, hitCount)
+	setter(int, ricochetCount)
+	setter(bool, invisible)
+	setter(bool, directionalLaunch)
+	setter(bool, ignoreObstacles)
+	setter(bool, deflectBullets)
 };
 
 //The attributes of the creating agent that can affect this object. These are 

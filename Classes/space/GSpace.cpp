@@ -43,6 +43,7 @@ void GSpace::loadScriptVM()
 	scriptVM = make_unique<Lua::Inst>("GSpace");
 	scriptVM->runFile("scripts/ai-functions.lua");
 	scriptVM->runFile("scripts/ai-packages.lua");
+	scriptVM->runFile("scripts/bullets.lua");
 	scriptVM->runFile("scripts/magic-effects.lua");
 	scriptVM->runFile("scripts/items.lua");
 	scriptVM->runFile("scripts/npc.lua");

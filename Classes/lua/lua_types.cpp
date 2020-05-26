@@ -154,6 +154,7 @@ namespace Lua{
 			"DamageInfo",
 			sol::constructors<
 				DamageInfo(),
+				DamageInfo(const DamageInfo&),
 				DamageInfo(float, DamageType),
 				DamageInfo(float, DamageType, Attribute, float)
 			>(),
@@ -204,6 +205,14 @@ namespace Lua{
 		addFuncSame(vect, dist);
 		addFuncSame(vect, distSq);
 		addFuncSame(vect, fuzzyMatch);
+
+		auto sprite_props = _state.new_usertype<sprite_properties>(
+			"sprite_properties"
+		);
+
+		auto lightArea = _state.new_usertype<LightArea>(
+			"LightArea"
+		);
 
 		auto value_map = _state.new_usertype<ValueMap>(
 			"ValueMap"

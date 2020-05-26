@@ -120,14 +120,13 @@ namespace Lua{
 			"name", sol::property(&Spell::getName),
 			"cost", sol::property(&Spell::getCost),
 			"object", sol::property(&Spell::getCasterAs<GObject>),
+			"player", sol::property(&Spell::getCasterAs<Player>),
 			"space", sol::property(&Spell::getSpace),
 			"time", sol::property(&Spell::getTime)
 		);
 #define _cls Spell
 
 		spell["stop"] = &Spell::stop;
-
-		spell["getCasterAsPlayer"] = &Spell::getCasterAs<Player>;
 
 		spell["getBulletAttributes"] = &Spell::getBulletAttributes;
 		spell["spawnBullet"] = &Spell::spawnBullet;
@@ -143,6 +142,8 @@ namespace Lua{
 				return spell->launchBullet(props, displacement, angle, angularVelocity, obstacleCheck);
 			}
 		);
+		addFuncSame(spell, spawnBulletRadius);
+		addFuncSame(spell, bulletCircle);
 
 		auto spell_desc = _state.new_usertype<SpellDesc>("SpellDescriptor");
 #define _cls SpellDesc

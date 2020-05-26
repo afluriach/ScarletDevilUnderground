@@ -61,6 +61,10 @@ namespace app {
 	const SpellDesc* getSpell(const string& name);
 	shared_ptr<sprite_properties> getSprite(const string& name);
 
+	//A new bullet_properties will be stores at the given name. It will be copied from the
+	//base if provided.
+	local_shared_ptr<bullet_properties> addBullet(const string& name, const string& base);
+
 	template<typename T>
 	inline local_shared_ptr<T> getObjectProperties(const string& name)
 	{
@@ -186,6 +190,19 @@ namespace app {
 			}
 		}
 		return false;
+	}
+
+	template<typename T>
+	local_shared_ptr<T> copyBaseObjectShared(const string& baseName) {
+		local_shared_ptr<T> _base = getObjectProperties<T>(baseName);
+		if (_base) {
+			local_shared_ptr<T> result = make_local_shared<T>();
+			*result = *_base;
+			return result;
+		}
+		else {
+			return nullptr;
+		}
 	}
 
 	template<typename T>
