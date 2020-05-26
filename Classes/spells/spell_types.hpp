@@ -43,4 +43,16 @@ struct spell_params
 	spell_cost cost = {};
 };
 
+struct melee_params
+{
+	SpaceFloat length = 0.0;
+	SpaceFloat swingDist = 0.0;
+	SpaceFloat sideAngleWidth = 0.0;
+
+	local_shared_ptr<bullet_properties> melee;
+	local_shared_ptr<bullet_properties> bullet;
+	SpaceFloat launchDist = 0.0;
+	int fireCount = 0;
+};
+
 #endif /* spell_types_hpp */

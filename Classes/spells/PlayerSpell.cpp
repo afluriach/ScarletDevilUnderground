@@ -38,52 +38,25 @@ const SpaceFloat LavaeteinnSpell::angular_speed = angleWidth * 2.0 / length;
 const int LavaeteinnSpell::bulletSpawnCount = 8;
 
 LavaeteinnSpell::LavaeteinnSpell(GObject* caster, const SpellDesc* desc, unsigned int id) :
-	Spell(caster, desc, id, spell_params{ LavaeteinnSpell::length, 0.0, LavaeteinnSpell::cost })
+	MeleeAttack(
+		caster,
+		desc,
+		id,
+		spell_params{ length, 0.0, cost },
+		melee_params{
+			length,
+			1.5,
+			angleWidth,
+			app::getBullet("lavaeteinn"),
+			app::getBullet("flandreFastOrb1"),
+			2.0,
+			8
+		}
+	)
 {}
 
 LavaeteinnSpell::~LavaeteinnSpell()
 {
-}
-
-void LavaeteinnSpell::init()
-{
-	auto props = app::getBullet("lavaeteinn");
-	SpaceFloat angle = canonicalAngle(caster->getAngle() - angleWidth);
-	speedScale = getCasterAs<Agent>()->get(Attribute::attackSpeed);
-
-	lavaeteinnBullet = spawnBullet(
-		props,
-		SpaceVect::ray(1.5, angle),
-		SpaceVect::zero,
-		angle,
-		angular_speed * speedScale
-	);
-
-	fireTimer = length / bulletSpawnCount;
-	angularPos = angle;
-}
-
-void LavaeteinnSpell::update()
-{
-	timerDecrement(fireTimer);
-	timerIncrement(angularPos, angular_speed * speedScale);
-
-	if (lavaeteinnBullet.isValid()) {
-		lavaeteinnBullet.get()->setPos(caster->getPos() + SpaceVect::ray(1.5, angularPos));
-	}
-
-	if (fireTimer <= 0.0) {
-		auto props = app::getBullet("flandreFastOrb1");
-		launchBullet(props, SpaceVect::ray(2.0, angularPos), angularPos);
-		fireTimer = length / bulletSpawnCount;
-	}
-}
-
-void LavaeteinnSpell::end()
-{
-	if (lavaeteinnBullet.isValid()) {
-		getSpace()->removeObject(lavaeteinnBullet);
-	}
 }
 
 const string PlayerCounterClock::name = "PlayerCounterClock";

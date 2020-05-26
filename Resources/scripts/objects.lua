@@ -183,7 +183,7 @@ function objects.Launcher:update()
 		pos = pos + SpaceVect.ray(1.0, self.super:getAngle())
 		
 		self.super.space:createBullet(
-			Bullet.makeParams(pos, self.super:getAngle()),
+			Bullet.makeParams(pos, self.super:getAngle(), SpaceVect.new(), 0.0),
 			bullet_attributes.getDefault(),
 			app.getBullet('launcherBullet')
 		)

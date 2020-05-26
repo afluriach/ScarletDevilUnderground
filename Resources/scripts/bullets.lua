@@ -26,8 +26,8 @@ function bullets.starbowBreak.addProps(idx)
 	damage.mag = damage.mag * sizeScale
 	crnt.damage = damage
 	
-	crnt:setSprite(app.getSprite('starbowBreak' .. idx))
-	crnt:setLight(app.getLight('starbowBreak' .. idx))
+	crnt.sprite = app.getSprite('starbowBreak' .. idx)
+	crnt.light = app.getLight('starbowBreak' .. idx)
 end
 
 function loadBullets()

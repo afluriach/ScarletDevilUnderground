@@ -46,4 +46,27 @@ protected:
 	unsigned int effectID = 0;
 };
 
+class MeleeAttack : public Spell
+{
+public:
+	MeleeAttack(
+		GObject* caster,
+		const SpellDesc* desc,
+		unsigned int id,
+		spell_params params,
+		melee_params melee
+	);
+
+	virtual void init();
+	virtual void update();
+	virtual void end();
+protected:
+	melee_params melee;
+
+	SpaceFloat fireTimer;
+	SpaceFloat angularPos;
+	SpaceFloat angular_speed;
+	gobject_ref bullet;
+};
+
 #endif 

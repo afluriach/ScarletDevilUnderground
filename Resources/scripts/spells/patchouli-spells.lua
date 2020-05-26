@@ -14,7 +14,7 @@ spells.FireStarburst = class('FireStarburst', {
 			local angle = math.pi * i * 0.25
 			local pos = SpaceVect.ray(1.0, angle)
 			
-			self.agent:launchBullet(self.props, pos, angle)
+			self.agent:launchBullet(self.props, pos, angle, 0.0, true)
 		end
 	end
 })
@@ -93,7 +93,9 @@ spells.Whirlpool1 = class('Whirlpool1', {
 			self.agent:launchBullet(
 				self.bulletProps,
 				SpaceVect.ray(1.0, angle + agentAngle),
-				angle + agentAngle
+				angle + agentAngle,
+				0.0,
+				true
 			)
 		end
 		
@@ -143,7 +145,9 @@ spells.Whirlpool2 = class('Whirlpool2', {
 			self.agent:launchBullet(
 				self.bulletProps,
 				SpaceVect.ray(1.0, angle + agentAngle),
-				angle + agentAngle
+				angle + agentAngle,
+				0.0,
+				true
 			)
 		end
 		

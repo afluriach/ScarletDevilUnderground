@@ -26,7 +26,7 @@ public:
 	GET_DESC(PlayerBatMode)
 };
 
-class LavaeteinnSpell : public Spell
+class LavaeteinnSpell : public MeleeAttack
 {
 public:
 	static const string name;
@@ -44,14 +44,6 @@ public:
 	~LavaeteinnSpell();
 
 	GET_DESC(LavaeteinnSpell);
-	virtual void init();
-	virtual void update();
-	virtual void end();
-protected:
-	gobject_ref lavaeteinnBullet;
-	SpaceFloat fireTimer;
-	SpaceFloat angularPos;
-	SpaceFloat speedScale;
 };
 
 class PlayerCounterClock : public Spell {

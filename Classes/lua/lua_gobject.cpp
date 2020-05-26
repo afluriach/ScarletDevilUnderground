@@ -165,6 +165,7 @@ namespace Lua{
 		addFuncSame(gobject, deactivate);
 
 		addFuncSame(gobject, getBulletAttributes);
+		addFuncSame(gobject, launchBullet);
 		addFuncSame(gobject, spawnBullet);
 		addFuncSame(gobject, getSpace);
 		addFuncSame(gobject, getName);
@@ -172,24 +173,14 @@ namespace Lua{
 		addFuncSame(gobject, getType);
 		addFuncSame(gobject, getFullType);
 
-		gobject["launchBullet"] = sol::overload(
-			[](GObject* obj, local_shared_ptr<bullet_properties> props,SpaceVect displacement,SpaceFloat angle) -> gobject_ref {
-				return obj->launchBullet(props, displacement, angle);
-			},
-			[](GObject* obj, local_shared_ptr<bullet_properties> props, SpaceVect displacement, SpaceFloat angle, SpaceFloat angularVelocity) -> gobject_ref {
-				return obj->launchBullet(props, displacement, angle, angularVelocity);
-			},
-			[](GObject* obj, local_shared_ptr<bullet_properties> props, SpaceVect displacement, SpaceFloat angle, SpaceFloat angularVelocity, bool obstacleCheck) -> gobject_ref {
-				return obj->launchBullet(props, displacement, angle, angularVelocity, obstacleCheck);
-			}
-		);
-
 		addFuncSame(gobject, printFSM);
 			
 		gobject["asGObject"] = &GObject::getAs<GObject>;
 		gobject["getRef"] = [](const GObject* obj) -> gobject_ref { return gobject_ref(obj); };
 		gobject["getAsAgent"] = &GObject::getAs<Agent>;
 		gobject["getAsBullet"] = &GObject::getAs<Bullet>;
+		gobject["getAsEnvironmentObject"] = &GObject::getAs<EnvironmentObject>;
+		gobject["getAsItem"] = &GObject::getAs<Item>;
 		gobject["getAsPlayer"] = &GObject::getAs<Player>;
 		gobject["getAsTorch"] = &GObject::getAs<Torch>;
 
@@ -201,6 +192,9 @@ namespace Lua{
 		addFuncSame(agent, hit);
 		addFuncSame(agent, getLevel);
 		addFuncSame(agent, get);
+		addFuncSame(agent, increment);
+		addFuncSame(agent, decrement);
+		addFuncSame(agent, isActive);
 		addFuncSame(agent, getAttributeSystem);
 
 		addFuncSame(agent, getSensedObjectDistance);
@@ -210,10 +204,6 @@ namespace Lua{
 			static_cast< void(Agent::*)(Attribute, Attribute) >(&Agent::modifyAttribute),
 			static_cast< void(Agent::*)(Attribute, Attribute, float) >(&Agent::modifyAttribute)
 		);
-
-		addFuncSame(agent, increment);
-		addFuncSame(agent, decrement);
-		addFuncSame(agent, isActive);
 
 		auto npc = _state.new_usertype<NPC>("NPC", sol::base_classes, sol::bases<GObject, Agent>());
 #define _cls NPC
@@ -228,6 +218,7 @@ namespace Lua{
 			"Bullet",
 			sol::base_classes, sol::bases<GObject>()
 		);
+		bullet["makeParams"] = &Bullet::makeParams;
 
 		auto environment = _state.new_usertype<EnvironmentObject>(
 			"EnvironmentObject",

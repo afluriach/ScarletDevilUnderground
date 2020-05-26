@@ -130,18 +130,8 @@ namespace Lua{
 
 		spell["getBulletAttributes"] = &Spell::getBulletAttributes;
 		spell["spawnBullet"] = &Spell::spawnBullet;
+		spell["launchBullet"] = &Spell::launchBullet;
 
-		spell["launchBullet"] = sol::overload(
-			[](Spell* spell, local_shared_ptr<bullet_properties> props, SpaceVect displacement, SpaceFloat angle) -> gobject_ref {
-				return spell->launchBullet(props, displacement, angle);
-			},
-			[](Spell* spell, local_shared_ptr<bullet_properties> props, SpaceVect displacement, SpaceFloat angle, SpaceFloat angularVelocity ) -> gobject_ref {
-				return spell->launchBullet(props, displacement, angle, angularVelocity);
-			},
-			[](Spell* spell,local_shared_ptr<bullet_properties> props,SpaceVect displacement,SpaceFloat angle,SpaceFloat angularVelocity,bool obstacleCheck) -> gobject_ref {
-				return spell->launchBullet(props, displacement, angle, angularVelocity, obstacleCheck);
-			}
-		);
 		addFuncSame(spell, spawnBulletRadius);
 		addFuncSame(spell, bulletCircle);
 

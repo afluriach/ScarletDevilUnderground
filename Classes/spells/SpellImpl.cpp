@@ -103,3 +103,53 @@ void ApplySelfEffect::end()
 		getSpace()->magicEffectSystem->removeEffect(effectID);
 	}
 }
+
+MeleeAttack::MeleeAttack(
+	GObject* caster,
+	const SpellDesc* desc,
+	unsigned int id,
+	spell_params params,
+	melee_params melee
+) :
+	Spell(caster, desc, id, params),
+	melee(melee)
+{
+}
+
+void MeleeAttack::init()
+{
+	SpaceFloat angle = canonicalAngle(caster->getAngle() - melee.sideAngleWidth);
+	angularPos = angle;
+	fireTimer = (melee.fireCount > 0) ? length / melee.fireCount : length;
+	angular_speed = melee.sideAngleWidth * 2.0 / melee.length;
+
+	bullet = spawnBullet(
+		melee.melee,
+		SpaceVect::ray(melee.swingDist, angle),
+		SpaceVect::zero,
+		angle,
+		angular_speed
+	);
+}
+
+void MeleeAttack::update()
+{
+	timerDecrement(fireTimer);
+	timerIncrement(angularPos, angular_speed);
+
+	if (bullet.isValid()) {
+		bullet.get()->setPos(caster->getPos() + SpaceVect::ray(melee.swingDist, angularPos));
+	}
+
+	if (melee.bullet && melee.fireCount > 0 && fireTimer <= 0.0) {
+		launchBullet(melee.bullet, SpaceVect::ray(melee.launchDist, angularPos), angularPos);
+		fireTimer = length / melee.fireCount;
+	}
+}
+
+void MeleeAttack::end()
+{
+	if (bullet.isValid()) {
+		getSpace()->removeObject(bullet);
+	}
+}
