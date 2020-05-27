@@ -94,6 +94,7 @@ public:
 	virtual SpaceFloat getMaxSpeed() const;
 	virtual SpaceFloat getMaxAcceleration() const;
 
+	bool canPlaceBomb(SpaceVect pos);
 	void setShieldActive(bool v);
 	inline bool isShieldActive() const { return shieldActive; }
 	bool isShield(Bullet* b);
@@ -135,7 +136,11 @@ protected:
 	int level = 0;
 	SpriteID agentOverlay = 0;
 
+	//equips
 	local_shared_ptr<FirePattern> firePattern;
+	local_shared_ptr<bomb_properties> crntBomb;
+	const SpellDesc* powerAttack;
+
 	RadarSensor* radar = nullptr;
 	AttributeSystem* attributeSystem = nullptr;
 	local_shared_ptr<agent_properties> props;

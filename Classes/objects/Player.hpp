@@ -51,7 +51,6 @@ public:
 	inline virtual SpaceFloat getRadarRadius() const { return grazeRadius; }
     inline virtual SpaceFloat getDefaultFovAngle() const { return 0.0;}
 
-	virtual void onBulletCollide(Bullet* b, SpaceVect n);
 	virtual void onBulletHitTarget(Bullet* bullet, Agent* target);
     virtual bool hit(DamageInfo damage, SpaceVect n);
     
@@ -90,18 +89,9 @@ public:
 	void applyUpgrade(Attribute attr, float val);
 
 	void applyCombo(int b);
-
-	//The bullet's graze "radar" has collided with Player.
-	void onGrazeTouch(Bullet* bullet);
-	//Effect is applied after the graze "radar" loses contact.
-	void onGrazeCleared(Bullet* bullet);
 protected:
-	void applyGraze(int p);
 	void startRespawn();
 	void applyRespawn();
-
-	bool canPlaceBomb(SpaceVect pos);
-
 	SpaceVect sprintDirection;
 	SpaceVect respawnPos;
 	SpaceFloat respawnAngle;
@@ -109,14 +99,11 @@ protected:
 	SpaceFloat respawnMaskTimer = 0.0;
 	SpaceFloat sprintTimer = 0.0;
 
-	unordered_set<Bullet*> grazeContacts;
-
 	float interactCooldown = 0.0f;
 	float bombCooldown = 0.0f;
 	float spellCooldown = 0.0f;
 	unsigned int crntSpell = 0;
 
-	local_shared_ptr<bomb_properties> crntBomb;
 	vector<local_shared_ptr<FirePattern>> firePatterns;
 	vector<const SpellDesc*> powerAttacks;
 	vector<const SpellDesc*> spells;

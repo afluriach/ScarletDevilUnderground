@@ -33,12 +33,12 @@ spells.StarlightTyphoon = class('StarlightTyphoon', {
 		local arcPos = space:getRandomFloat(-self.width, self.width) + self.agent:getAngle()
 		local pos = self.agent:getPos() + SpaceVect.ray(self.offset, self.angle)
 
-		local params = Bullet.makeParams(pos, arcPos, SpaceVect.new(), 0.0)
 		local props = self.bullets[space:getRandomInt(1,#self.bullets)]
 		local attrs = self.agent:getBulletAttributes(props)
 		attrs.size = space:getRandomFloat(0.7, 1.3)
 		attrs.bulletSpeed = attrs.bulletSpeed * space:getRandomFloat(0.5, 1.5)
-
+		local params = Bullet.makeParams(pos, arcPos, SpaceVect.new(), 0.0, props.dimensions:scale(attrs.size))
+		
 		space:createBullet(params,attrs,props)
 	end,
 	update = function(self)

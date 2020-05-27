@@ -14,11 +14,20 @@ class Bullet : public GObject
 public:
 	static constexpr bool logRicochets = false;
 
+	static object_params makeLaunchParams(
+		SpaceVect pos,
+		SpaceFloat angle,
+		SpaceFloat speed,
+		SpaceFloat angularVel,
+		SpaceVect dimensions
+	);
+
 	static object_params makeParams(
 		SpaceVect pos,
 		SpaceFloat angle,
-		SpaceVect vel = SpaceVect::zero,
-		SpaceFloat angularVel  = 0.0
+		SpaceVect vel,
+		SpaceFloat angularVel,
+		SpaceVect dimensions
 	);
 
 	Bullet(
@@ -30,7 +39,6 @@ public:
 	);
 	~Bullet();
 
-	virtual void init();
 	virtual void onRemove();
 	virtual void initializeGraphics();
 	virtual inline GraphicsLayer sceneLayer() const { return GraphicsLayer::ground; }
@@ -46,7 +54,6 @@ public:
 	void onBulletCollide(Bullet* bullet);
 
 	DamageInfo getScaledDamageInfo() const;
-	SpaceVect calculateLaunchVelocity();
 	bool applyRicochet(SpaceVect n);
 	void setBodyVisible(bool b);
 protected:

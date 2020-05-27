@@ -504,12 +504,6 @@ AttributeMap Player::getAttributeUpgrades() const
 	return App::crntState->attributeUpgrades;
 }
 
-void Player::onBulletCollide(Bullet* b, SpaceVect n)
-{
-	grazeContacts.erase(b);
-	Agent::onBulletCollide(b, n);
-}
-
 void Player::onBulletHitTarget(Bullet* bullet, Agent* target)
 {
 	applyCombo(6);
@@ -572,27 +566,6 @@ void Player::applyUpgrade(Attribute attr, float val)
 	App::crntState->applyAttributeUpgrade(attr, val);
 }
 
-void Player::onGrazeTouch(Bullet* bullet)
-{
-	grazeContacts.insert(bullet);
-}
-
-//Effect is applied after the graze "radar" loses contact.
-void Player::onGrazeCleared(Bullet* bullet)
-{
-	//If the bullet was removed from graze contacts, the player collided with it
-	if (grazeContacts.find(bullet) != grazeContacts.end()) {
-		applyGraze(1);
-	}
-}
-
-void Player::applyGraze(int p)
-{
-	modifyAttribute(Attribute::stamina, isComboActive ? p* 2 : p);
-	applyCombo(p*6);
-	playSoundSpatial("sfx/graze.wav");
-}
-
 void Player::applyCombo(int b)
 {
 	modifyAttribute(Attribute::combo, b);
@@ -630,13 +603,3 @@ void Player::applyRespawn()
 		hit(DamageInfo(25.0f, DamageType::pitfall), SpaceVect::zero);
 }
 
-bool Player::canPlaceBomb(SpaceVect pos)
-{
-	return !space->physicsContext->obstacleRadiusQuery(
-		this,
-		pos,
-		0.5,
-		obstacles,
-		PhysicsLayers::ground
-	);
-}

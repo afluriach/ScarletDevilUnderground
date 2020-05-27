@@ -80,6 +80,23 @@ bullet_attributes bullet_attributes::getDefault()
 	};
 }
 
+SpaceVect bullet_attributes::getDimensions(local_shared_ptr<bullet_properties> props) const
+{
+	return SpaceVect(
+		props->dimensions.x * size + sizeOffset,
+		props->dimensions.y == 0.0 ? 0.0 : props->dimensions.y * size + sizeOffset
+	);
+}
+
+SpaceFloat bullet_attributes::getLaunchSpeed(local_shared_ptr<bullet_properties> props, SpaceFloat angle) const
+{
+	SpaceFloat adjustedSpeed = props->speed * bulletSpeed + speedOffset;
+	SpaceFloat speedScalar = SpaceVect::dot(SpaceVect::ray(1.0, angle), casterVelocity);
+	speedScalar = speedScalar < 0.0 ? 0.0 : speedScalar;
+
+	return adjustedSpeed+speedScalar;
+}
+
 bullet_properties bullet_properties::clone() {
 	return *this;
 }

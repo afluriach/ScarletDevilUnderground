@@ -126,39 +126,30 @@ bool Catadioptric::spawnTail(SpaceFloat angleOffset)
 
 	for_irange(i, 0, secondaryBulletCount)
 	{
-		auto baseProps = app::getBullet("catadioptricBullet2");
-		auto props = make_local_shared<bullet_properties>();
-		*props = *baseProps;
+		auto props = app::getBullet("catadioptricBullet2");
 
 		SpaceFloat variation = secondarySpeedVariation * 2.0;
 		SpaceFloat step = variation / (secondaryBulletCount - 1);
 		SpaceFloat actualAngle = _angle + getSpace()->getRandomFloat(-1.0f, 1.0f)*angleSpread / 4.0;
-		props->speed += -secondarySpeedVariation + step*i;
 
-		fired |= agent->launchBullet(
-			props,
-			pos,
-			actualAngle
-		).isFuture();
+		auto attr = agent->getBulletAttributes(props);
+		attr.speedOffset = -secondarySpeedVariation + step * i;
+
+		agent->_launchBullet(attr, props, pos, actualAngle, 0.0, true);
 	}
 
 	for_irange(i, 0, tertiaryBulletCount)
 	{
-		auto baseProps = app::getBullet("catadioptricBullet3");
-		auto props = make_local_shared<bullet_properties>();
-		*props = *baseProps;
+		auto props = app::getBullet("catadioptricBullet3");
 
 		SpaceFloat variation = tertiarySpeedVariation * 2.0;
 		SpaceFloat step = variation / (tertiaryBulletCount - 1);
 		SpaceFloat actualAngle = _angle + getSpace()->getRandomFloat(-1.0f, 1.0f)*angleSpread / 2.0;
 
-		props->speed += -tertiarySpeedVariation + step * i;
+		auto attr = agent->getBulletAttributes(props);
+		attr.speedOffset = -tertiarySpeedVariation + step * i;
 
-		fired |= agent->launchBullet(
-			props,
-			pos,
-			actualAngle
-		).isFuture();
+		agent->_launchBullet(attr, props, pos, actualAngle, 0.0, true);
 	}
 
 	return fired;

@@ -83,7 +83,6 @@ namespace Lua{
 			rw_prop(bullet_properties, hitCount),
 			rw_prop(bullet_properties, ricochetCount),
 			rw_prop(bullet_properties, invisible),
-			rw_prop(bullet_properties, directionalLaunch),
 			rw_prop(bullet_properties, ignoreObstacles),
 			rw_prop(bullet_properties, deflectBullets)
 		);

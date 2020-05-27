@@ -12,6 +12,7 @@
 #include "AIFunctions.hpp"
 #include "AIUtil.hpp"
 #include "app_constants.hpp"
+#include "Bomb.hpp"
 #include "Bullet.hpp"
 #include "Enemy.hpp"
 #include "FirePattern.hpp"
@@ -328,6 +329,15 @@ SpaceFloat Agent::getMaxSpeed() const
 SpaceFloat Agent::getMaxAcceleration() const
 {
 	return (*this)[Attribute::maxAcceleration];
+}
+
+bool Agent::canPlaceBomb(SpaceVect pos)
+{
+	if (!crntBomb) {
+		return false;
+	}
+
+	return !isBulletObstacle(pos, crntBomb->dimensions.x);
 }
 
 void Agent::setShieldActive(bool v)

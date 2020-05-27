@@ -101,8 +101,6 @@
 		mass="33"
 		viewRange="6.0"
 		viewAngle="0"
-
-		collectible="nil"		
 	>
 		<attributes>
 			<maxHP val="100"/>
@@ -270,8 +268,6 @@
 		mass="20.0"
 		viewRange="6.0"
 		viewAngle="0.0"
-
-		collectible="nil"
 		
 		detectEssence="false"
 		isFlying="false"
@@ -294,8 +290,6 @@
 		mass="20.0"
 		viewRange="6.0"
 		viewAngle="0.0"
-
-		collectible="nil"
 		
 		detectEssence="false"
 		isFlying="false"
@@ -314,8 +308,6 @@
 		mass="40"
 		viewRange="6"
 		viewAngle="0"
-
-		collectible="nil"		
 	>
 		<attributes>
 			<maxHP val="30"/>

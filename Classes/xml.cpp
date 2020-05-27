@@ -842,7 +842,6 @@ bool parseObject(tinyxml2::XMLElement* elem, local_shared_ptr<bullet_properties>
 	getNumericAttr(elem, "hitCount", &result->hitCount);
 	getNumericAttr(elem, "ricochet", &result->ricochetCount);
 	getNumericAttr(elem, "invisible", &result->invisible);
-	getNumericAttr(elem, "directionalLaunch", &result->directionalLaunch);
 	getNumericAttr(elem, "ignoreObstacles", &result->ignoreObstacles);
 	getNumericAttr(elem, "deflectBullets", &result->deflectBullets);
 

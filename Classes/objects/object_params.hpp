@@ -124,7 +124,6 @@ public:
 	int ricochetCount = 0;
 
 	bool invisible = false;
-	bool directionalLaunch = true;
 	bool ignoreObstacles = false;
 	bool deflectBullets = false;
 
@@ -137,7 +136,6 @@ public:
 	getter(int, hitCount)
 	getter(int, ricochetCount)
 	getter(bool, invisible)
-	getter(bool, directionalLaunch)
 	getter(bool, ignoreObstacles)
 	getter(bool, deflectBullets)
 
@@ -146,7 +144,6 @@ public:
 	setter(int, hitCount)
 	setter(int, ricochetCount)
 	setter(bool, invisible)
-	setter(bool, directionalLaunch)
 	setter(bool, ignoreObstacles)
 	setter(bool, deflectBullets)
 };
@@ -164,9 +161,13 @@ struct bullet_attributes
 	unsigned int sourceSpell = 0;
 
 	float size = 1.0f;
+	float sizeOffset = 0.0f;
 	float attackDamage = 1.0f;
 	float bulletSpeed = 1.0f;
+	float speedOffset = 0.0f;
 
+	SpaceVect getDimensions(local_shared_ptr<bullet_properties> props) const;
+	SpaceFloat getLaunchSpeed(local_shared_ptr<bullet_properties> props, SpaceFloat angle) const;
 
 	getter(SpaceVect, casterVelocity)
 	getter(gobject_ref, caster)
@@ -176,6 +177,7 @@ struct bullet_attributes
 	getter(float, size)
 	getter(float, attackDamage)
 	getter(float, bulletSpeed)
+	getter(float, speedOffset)
 
 	setter(SpaceVect, casterVelocity)
 	setter(gobject_ref, caster)
@@ -185,6 +187,7 @@ struct bullet_attributes
 	setter(float, size)
 	setter(float, attackDamage)
 	setter(float, bulletSpeed)
+	setter(float, speedOffset)
 };
 
 class floorsegment_properties : public object_properties {

@@ -306,8 +306,10 @@ gobject_ref GObject::_spawnBullet(
 	SpaceFloat angle,
 	SpaceFloat angularVelocity
 ) {
+	SpaceVect dimensions = attributes.getDimensions(props);
+
 	return space->createBullet(
-		Bullet::makeParams(getPos() + displacement, angle, velocity, angularVelocity),
+		Bullet::makeParams(getPos() + displacement, angle, velocity, angularVelocity, dimensions),
 		attributes,
 		props
 	);
@@ -341,12 +343,14 @@ gobject_ref GObject::_launchBullet(
 	bool obstacleCheck
 ) {
 	SpaceVect position = getPos() + displacement;
+	SpaceVect dimensions = attributes.getDimensions(props);
+	SpaceFloat speed = attributes.getLaunchSpeed(props, angle);
 
-	if (obstacleCheck && isBulletObstacle(position, props->dimensions.getMax()))
+	if (obstacleCheck && isBulletObstacle(position, dimensions.getMax()))
 		return nullptr;
 
 	return space->createBullet(
-		Bullet::makeParams(position, angle, SpaceVect::zero, angularVelocity),
+		Bullet::makeLaunchParams(position, angle, speed, angularVelocity, dimensions),
 		attributes,
 		props
 	);

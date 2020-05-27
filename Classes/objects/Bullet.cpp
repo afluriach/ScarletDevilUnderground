@@ -15,11 +15,30 @@
 #include "MagicEffect.hpp"
 #include "SpellSystem.hpp"
 
+object_params Bullet::makeLaunchParams(
+	SpaceVect pos,
+	SpaceFloat angle,
+	SpaceFloat speed,
+	SpaceFloat angularVel,
+	SpaceVect dimensions
+) {
+	object_params result;
+
+	result.pos = pos;
+	result.angle = angle;
+	result.vel = SpaceVect::ray(speed,angle);
+	result.angularVel = angularVel;
+	result.dimensions = dimensions;
+
+	return result;
+}
+
 object_params Bullet::makeParams(
 	SpaceVect pos,
 	SpaceFloat angle,
 	SpaceVect vel,
-	SpaceFloat angularVel
+	SpaceFloat angularVel,
+	SpaceVect dimensions
 ) {
 	object_params result;
 
@@ -27,6 +46,7 @@ object_params Bullet::makeParams(
 	result.angle = angle;
 	result.vel = vel;
 	result.angularVel = angularVel;
+	result.dimensions = dimensions;
 
 	return result;
 }
@@ -139,16 +159,6 @@ DamageInfo Bullet::getScaledDamageInfo() const
 	return damage;
 }
 
-SpaceVect Bullet::calculateLaunchVelocity()
-{
-	SpaceFloat speed = getMaxSpeed() * attributes.bulletSpeed;
-	SpaceFloat angle = getAngle();
-	SpaceVect dir = SpaceVect::ray(1.0, angle);
-	SpaceFloat scalar = SpaceVect::dot(dir, attributes.casterVelocity);
-	scalar = scalar < 0.0 ? 0.0 : scalar;
-	return dir * (speed + scalar);
-}
-
 bool Bullet::applyRicochet(SpaceVect n)
 {
 	SpaceVect v = getVel();
@@ -182,15 +192,6 @@ void Bullet::setBodyVisible(bool b)
 {
 	if (drawNodeID != 0) {
 		space->graphicsNodeAction(&Node::setVisible, drawNodeID, b);
-	}
-}
-
-void Bullet::init()
-{
-	GObject::init();
-
-	if (props->directionalLaunch) {
-		setVel(calculateLaunchVelocity());
 	}
 }
 
