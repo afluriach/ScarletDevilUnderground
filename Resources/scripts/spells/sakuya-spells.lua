@@ -2,6 +2,8 @@ spells.IllusionDial = class('IllusionDial')
 
 spells.IllusionDial.name = 'Illusion Dial'
 spells.IllusionDial.description = ''
+spells.IllusionDial.cost = spell_cost.none()
+spells.IllusionDial.length = -1.0
 
 spells.IllusionDial.count = 16
 spells.IllusionDial.radius = 2.5
@@ -12,10 +14,6 @@ spells.IllusionDial.arc_spacing = spells.IllusionDial.arc_width / (spells.Illusi
 spells.IllusionDial.angular_speed = math.pi * 2.0 / 3.0
 spells.IllusionDial.max_angle_margin = math.pi / 12.0
 spells.IllusionDial.min_fire_interval = 1.0 / 3.0
-
-function spells.IllusionDial.getParams()
-	return spell_params.new(-1.0, 0.0, spell_cost.none())
-end
 
 function spells.IllusionDial:init(super)
 	self.super = super

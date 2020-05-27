@@ -12,7 +12,7 @@
 #include "spell_types.hpp"
 
 #define STANDARD_CONS(name) inline name(GObject* caster) : Spell(caster) {}
-#define GET_DESC(name) virtual inline const SpellDesc* getDescriptor() { return Spell::getDescriptorByName(#name); }
+#define GET_DESC(name) virtual inline const SpellDesc* getDescriptor() { return app::getSpell(#name); }
 
 class Spell
 {
@@ -20,17 +20,12 @@ public:
 	friend class GObject;
 	friend class SpellSystem;
 
-    static unordered_map<string, const SpellDesc*> spellDescriptors;
 	static const vector<string> playerSpells;
 	static const vector<string> playerPowerAttacks;
 
-	static const SpellDesc* getDescriptorByName(const string& name);
-
-	static void initDescriptors();
-
 	//length: -1 means indefinite, 0 means immediate
 	//updateInterval: -1 means no update, 0 means every frame, units in seconds.
-	Spell(GObject* caster, const SpellDesc* desc, unsigned int id, spell_params params);
+	Spell(GObject* caster, const SpellDesc* desc, unsigned int id);
 	virtual ~Spell();
     
 	template<class T>
@@ -83,11 +78,6 @@ public:
 	void stop();
 protected:
 	void runUpdate();
-
-	//spell_params
-	spell_cost _cost;
-	SpaceFloat length;
-	SpaceFloat updateInterval;
 
 	SpaceFloat t = 0.0;
 	SpaceFloat lastUpdate = 0.0;

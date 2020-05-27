@@ -17,30 +17,27 @@ make_static_member_detector(icon)
 class SpellDesc
 {
 public:
-	inline SpellDesc() {}
+	inline SpellDesc(spell_params params) : params(params) {}
 	virtual inline ~SpellDesc() {}
 
-	virtual string getName() const = 0;
-	virtual string getDescription() const = 0;
-	virtual string getIcon() const = 0;
-
-	virtual spell_cost getCost() const = 0;
+	inline string getName() const { return params.name; }
+	inline string getDescription() const { return params.description; }
+	inline string getIcon() const { return params.icon; }
+	inline spell_cost getCost() const { return params.cost; }
 
 	virtual Spell* generate(GObject* caster, unsigned int id) const = 0;
+
+	spell_params params;
 };
 
 class ScriptedSpellDescriptor : public SpellDesc
 {
 public:
 	static sol::table getClsObject(const string& clsName);
+	static spell_params getParams(const string& clsName);
 
 	ScriptedSpellDescriptor(string clsName);
 	virtual inline ~ScriptedSpellDescriptor() {}
-
-	virtual string getName() const;
-	virtual string getDescription() const;
-	virtual string getIcon() const;
-	virtual spell_cost getCost() const;
 
 	virtual Spell* generate(GObject* caster, unsigned int id) const;
 protected:
@@ -48,34 +45,22 @@ protected:
 };
 
 //Use CRTP to get static constants from Spell class.
-template<class T>
+template<class T, typename... ClsParams>
 class SpellDescImpl : public SpellDesc
 {
 public:
-	inline SpellDescImpl() {}
+	inline SpellDescImpl(spell_params params, ClsParams... _params) : 
+		SpellDesc(params),
+		clsparams(forward_as_tuple(_params)...)
+	{}
 	virtual inline ~SpellDescImpl() {}
-
-	virtual inline string getName() const { return T::name; }
-	virtual inline string getDescription() const { return T::description; }
-
-	virtual inline string getIcon() const {
-		if constexpr(has_icon<T>::value)
-			return T::icon;
-		else
-			return "";
-	}
-
-	virtual inline spell_cost getCost() const {
-		if constexpr(has_cost<T>::value)
-			return T::cost;
-		else
-			return spell_cost{};
-	}
 
 	virtual inline Spell* generate(GObject* caster, unsigned int id) const
 	{
-		return allocator_new<T>(caster, this, id);
+		return allocator_new<T>(caster, this, id, get<ClsParams>(clsparams)...);
 	}
+
+	tuple<ClsParams...> clsparams;
 };
 
 #endif /* SpellDescriptor_hpp */

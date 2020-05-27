@@ -50,7 +50,7 @@ unsigned int SpellSystem::cast(const SpellDesc* desc, GObject* caster)
 		log("Spell %s (%u) created and initialized.", spell->getName(), spell->id);
 	}
 
-	if (spell->length != 0.0){
+	if (spell->descriptor->params.length != 0.0){
 		spells.insert_or_assign(id, spell);
 		objectSpells.insert(make_pair(caster, spell));
 		additions.push_back(spell);

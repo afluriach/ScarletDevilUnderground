@@ -8,7 +8,6 @@
 
 #include "Prefix.h"
 
-#include "PlayerSpell.hpp"
 #include "Spell.hpp"
 #include "SpellDescriptor.hpp"
 
@@ -22,15 +21,6 @@ const SpellDesc* createDesc()
 {
 	return new SpellDescImpl<T>();
 }
-
-void Spell::initDescriptors() {
-	spellDescriptors.insert(entry_same(LavaeteinnSpell));
-	spellDescriptors.insert(entry_same(PlayerBatMode));
-	spellDescriptors.insert(entry_same(PlayerCounterClock));
-	spellDescriptors.insert(entry_same(PlayerIceShield));
-}
-
-unordered_map<string, const SpellDesc*> Spell::spellDescriptors;
 
 const vector<string> Spell::playerSpells = {
 	"DarkMist",

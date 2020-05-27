@@ -19,7 +19,23 @@ sol::table ScriptedSpellDescriptor::getClsObject(const string& clsName)
 	return result;
 }
 
+spell_params ScriptedSpellDescriptor::getParams(const string& clsName)
+{
+	sol::table obj = getClsObject(clsName);
+	spell_params result;
+
+	GSpace::scriptVM->getField<string>(obj, "name", &result.name);
+	GSpace::scriptVM->getField<string>(obj, "description", &result.description);
+	GSpace::scriptVM->getField<string>(obj, "icon", &result.icon);
+	GSpace::scriptVM->getField<SpaceFloat>(obj, "length", &result.length);
+	GSpace::scriptVM->getField<SpaceFloat>(obj, "updateInterval", &result.updateInterval);
+	GSpace::scriptVM->getField<spell_cost>(obj, "cost", &result.cost);
+
+	return result;
+}
+
 ScriptedSpellDescriptor::ScriptedSpellDescriptor(string clsName) :
+	SpellDesc(getParams(clsName)),
 	clsName(clsName)
 {
 	//this doesn't work because the spell descriptors are constructed in a map initializer,
@@ -30,51 +46,6 @@ ScriptedSpellDescriptor::ScriptedSpellDescriptor(string clsName) :
 	//if (!clsObject) {
 	//	log("ScriptedSpellDescriptor created for non-existant %s!", clsName);
 	//}
-}
-
-string ScriptedSpellDescriptor::getName() const
-{
-	auto clsObject = getClsObject(clsName);
-	if (clsObject) {
-		sol::object obj = clsObject["name"];
-
-		return obj ? obj.as<string>() : string("");
-	}
-	else {
-		return string();
-	}
-}
-
-string ScriptedSpellDescriptor::getDescription() const
-{
-	auto clsObject = getClsObject(clsName);
-	if (clsObject) {
-		sol::object obj = clsObject["description"];
-
-		return obj ? obj.as<string>() : string("");
-	}
-	else {
-		return string();
-	}
-}
-
-string ScriptedSpellDescriptor::getIcon() const
-{
-	auto clsObject = getClsObject(clsName);
-	if (clsObject) {
-		sol::object obj = clsObject["icon"];
-
-		return obj ? obj.as<string>() : string("");
-	}
-	else {
-		return string();
-	}
-}
-
-spell_cost ScriptedSpellDescriptor::getCost() const
-{
-	spell_params params = ScriptedSpell::getParams(clsName);
-	return params.cost;
 }
 
 Spell* ScriptedSpellDescriptor::generate(GObject* caster, unsigned int id) const

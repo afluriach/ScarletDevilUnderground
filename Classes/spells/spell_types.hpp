@@ -11,6 +11,14 @@
 
 struct spell_cost
 {
+	inline spell_cost() {}
+	inline spell_cost(float initial_mp, float initial_stamina, float ongoing_mp, float ongoing_stamina) :
+		initial_mp(initial_mp),
+		initial_stamina(initial_stamina),
+		ongoing_mp(ongoing_mp),
+		ongoing_stamina(ongoing_stamina)
+	{}
+
 	float initial_mp = 0.0f;
 	float initial_stamina = 0.0f;
 
@@ -36,11 +44,29 @@ struct spell_cost
 
 struct spell_params
 {
-	spell_params(SpaceFloat length = 0.0, SpaceFloat updateInterval = 0.0, spell_cost cost = spell_cost{});
+	inline spell_params() {}
+
+	string name;
+	string description;
+	string icon;
 
 	SpaceFloat length = 0.0;
 	SpaceFloat updateInterval = 0.0;
-	spell_cost cost = {};
+	spell_cost cost;
+
+	getter(string, name)
+	getter(string, description)
+	getter(string, icon)
+	getter(SpaceFloat, length)
+	getter(SpaceFloat, updateInterval)
+	getter(spell_cost, cost)
+
+	setter(string, name)
+	setter(string, description)
+	setter(string, icon)
+	setter(SpaceFloat, length)
+	setter(SpaceFloat, updateInterval)
+	setter(spell_cost, cost)
 };
 
 struct circling_bullets_params
@@ -54,7 +80,6 @@ struct circling_bullets_params
 
 struct melee_params
 {
-	SpaceFloat length = 0.0;
 	SpaceFloat swingDist = 0.0;
 	SpaceFloat sideAngleWidth = 0.0;
 

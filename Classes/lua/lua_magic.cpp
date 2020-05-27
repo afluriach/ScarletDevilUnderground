@@ -103,12 +103,12 @@ namespace Lua{
 
 		auto spellparams = _state.new_usertype<spell_params>(
 			"spell_params",
-			sol::constructors<
-				spell_params(),
-				spell_params(SpaceFloat),
-				spell_params(SpaceFloat, SpaceFloat), 
-				spell_params(SpaceFloat,SpaceFloat,spell_cost)
-			>()
+			sol::constructors< spell_params() >(),
+			rw_prop(spell_params, name),
+			rw_prop(spell_params, description),
+			rw_prop(spell_params, icon),
+			rw_prop(spell_params, length),
+			rw_prop(spell_params, cost)
 		);
 #define _cls spell_params
 

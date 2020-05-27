@@ -9,4 +9,44 @@
 	<Whirlpool1 type="ScriptedSpell" class="auto" />
 	<Whirlpool2 type="ScriptedSpell" class="auto" />
 	<YinYangOrbs type="ScriptedSpell" class="auto" />
+	
+	<LavaeteinnSpell
+		type="MeleeAttack"
+		icon="sprites/ui/lavaeteinn.png"
+		cost="initial_stamina:12.5"
+		length="0.66667"
+		swingDist="1.5"
+		angleWidth="90"
+		melee="lavaeteinn"
+		bullet="flandreFastOrb1"
+		launchDist="2.0"
+		fireCount="8"
+	/>
+	<PlayerBatMode
+		type="ApplySelfEffect"
+		icon="sprites/ui/bat_mode.png"
+		length="-1.0"
+		cost="ongoing_mp:5.0"
+		effect="BatTransform"
+	/>
+	<PlayerCounterClock
+		type="CirclingBullets"
+		icon="sprites/ui/counterclock.png"
+		length="-1.0"
+		cost="ongoing_mp:7.5"
+		bullet="flandreCounterClockBullet"
+		distance="2.75"
+		angularSpeed="9.0"
+		bulletCount="4"
+	/>
+	<PlayerIceShield
+		type="CirclingBullets"
+		icon="sprites/ui/ice_shield.png"
+		length="-1.0"
+		cost="ongoing_mp:7.5"
+		bullet="cirnoIceShieldBullet"
+		distance="3.0"
+		speed="9.0"
+		bulletCount="8"
+	/>
 </spells>

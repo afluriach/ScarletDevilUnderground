@@ -1,10 +1,11 @@
 spells.StarlightTyphoon = class('StarlightTyphoon', {
 	name = 'Starlight Typhoon',
 	description = '',
+	length = 1.0,
+
 	width = math.pi * 0.25,
 	offset = 0.7,
 	count = 30,
-	duration = 1.0,
 	bulletNames = {
 		"starBulletBlue",
 		"starBulletGreen",
@@ -14,14 +15,11 @@ spells.StarlightTyphoon = class('StarlightTyphoon', {
 		"starBulletRed",
 		"starBulletYellow"
 	},
-	getParams = function()
-		return spell_params.new(1.0, 0.0, spell_cost.none())
-	end,
 	init = function(self, super)
 		self.super = super
 		self.agent = self.super.agent
 		self.angle = self.agent:getAngle()
-		self.shotsPerFrame = self.count / self.duration * App.getParams().secondsPerFrame
+		self.shotsPerFrame = self.count / self.length * App.getParams().secondsPerFrame
 		self.accumulator = 0.0
 		
 		self.bullets = {}

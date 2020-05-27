@@ -34,7 +34,6 @@ public:
 		GObject* caster,
 		const SpellDesc* desc,
 		unsigned int id,
-		spell_params params,
 		const MagicEffectDescriptor* effect
 	);
 	~ApplySelfEffect();
@@ -53,7 +52,6 @@ public:
 		GObject* caster,
 		const SpellDesc* desc,
 		unsigned int id,
-		spell_params params,
 		melee_params melee
 	);
 
@@ -76,7 +74,6 @@ public:
 		GObject* caster,
 		const SpellDesc* desc,
 		unsigned int id,
-		spell_params params,
 		circling_bullets_params _params
 	);
 

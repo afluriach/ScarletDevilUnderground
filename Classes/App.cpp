@@ -327,8 +327,6 @@ void App::loadObjects()
 	GObject::initObjectInfo();
 	GObject::initNameMap();
 
-	Spell::initDescriptors();
-
 	app::loadSprites();
 	app::loadLights();
 

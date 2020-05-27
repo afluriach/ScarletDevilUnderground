@@ -120,9 +120,6 @@
     <ClCompile Include="..\Classes\objects\Enemy.cpp">
       <Filter>src\objects</Filter>
     </ClCompile>
-    <ClCompile Include="..\Classes\spells\PlayerSpell.cpp">
-      <Filter>src\spells</Filter>
-    </ClCompile>
     <ClCompile Include="..\Classes\spells\EnemyFirePattern.cpp">
       <Filter>src\spells</Filter>
     </ClCompile>
@@ -403,9 +400,6 @@
     </ClInclude>
     <ClInclude Include="..\Classes\objects\Enemy.hpp">
       <Filter>src\objects</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Classes\spells\PlayerSpell.hpp">
-      <Filter>src\spells</Filter>
     </ClInclude>
     <ClInclude Include="..\Classes\spells\EnemyFirePattern.hpp">
       <Filter>src\spells</Filter>

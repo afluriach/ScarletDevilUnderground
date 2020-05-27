@@ -29,7 +29,7 @@ spell_params ScriptedSpell::getParams(string clsName)
 }
 
 ScriptedSpell::ScriptedSpell(GObject* caster, const SpellDesc* desc, unsigned int id, string clsName) :
-	Spell(caster,desc,id, getParams(clsName)),
+	Spell(caster,desc,id),
 	clsName(clsName)
 {
 	auto cls = GSpace::scriptVM->_state["spells"][clsName];
@@ -80,10 +80,9 @@ ApplySelfEffect::ApplySelfEffect(
 	GObject* caster,
 	const SpellDesc* desc,
 	unsigned int id,
-	spell_params params,
 	const MagicEffectDescriptor* effect
 ) :
-	Spell(caster, desc, id, params),
+	Spell(caster, desc, id),
 	effect(effect)
 {
 }
@@ -108,10 +107,9 @@ MeleeAttack::MeleeAttack(
 	GObject* caster,
 	const SpellDesc* desc,
 	unsigned int id,
-	spell_params params,
 	melee_params melee
 ) :
-	Spell(caster, desc, id, params),
+	Spell(caster, desc, id),
 	melee(melee)
 {
 }
@@ -119,9 +117,10 @@ MeleeAttack::MeleeAttack(
 void MeleeAttack::init()
 {
 	SpaceFloat angle = canonicalAngle(caster->getAngle() - melee.sideAngleWidth);
+	SpaceFloat length = descriptor->params.length;
 	angularPos = angle;
 	fireTimer = (melee.fireCount > 0) ? length / melee.fireCount : length;
-	angular_speed = melee.sideAngleWidth * 2.0 / melee.length;
+	angular_speed = melee.sideAngleWidth * 2.0 / length;
 
 	bullet = spawnBullet(
 		melee.melee,
@@ -143,7 +142,7 @@ void MeleeAttack::update()
 
 	if (melee.bullet && melee.fireCount > 0 && fireTimer <= 0.0) {
 		launchBullet(melee.bullet, SpaceVect::ray(melee.launchDist, angularPos), angularPos);
-		fireTimer = length / melee.fireCount;
+		fireTimer = descriptor->params.length / melee.fireCount;
 	}
 }
 
@@ -158,10 +157,9 @@ CirclingBullets::CirclingBullets(
 	GObject* caster,
 	const SpellDesc* desc,
 	unsigned int id,
-	spell_params params,
 	circling_bullets_params _params
 ) :
-	Spell(caster, desc, id, params),
+	Spell(caster, desc, id),
 	params(_params)
 {
 }

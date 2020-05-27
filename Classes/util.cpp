@@ -99,6 +99,12 @@ string floatToRoundedString(float val, float denom)
 	return boost::lexical_cast<string>(roundedVal);
 }
 
+SpaceFloat linearToAngularSpeed(SpaceFloat speed, SpaceFloat radius)
+{
+	SpaceFloat circumference = 2.0 * float_pi * radius;
+	return circumference > 0.0 ? speed / circumference : 0.0;
+}
+
 IntVec2 toIntVector(const cocos2d::CCSize& rhs)
 {
     return IntVec2(rhs.width,rhs.height);

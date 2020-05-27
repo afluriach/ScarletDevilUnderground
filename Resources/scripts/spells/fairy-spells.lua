@@ -5,10 +5,6 @@ spells.BlueFairyBomb = class('BlueFairyBomb', {
 	radius = 2.5,
 	length = 0.75,
 	angularSpeed = math.pi * 0.5,
-	getParams = function()
-		--length
-		return spell_params.new(0.75, 0.0, spell_cost.none())
-	end,
 	init = function(self, super)
 		self.super = super
 	end,

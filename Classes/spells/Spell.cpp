@@ -14,42 +14,28 @@
 
 spell_cost spell_cost::none()
 {
-	return spell_cost{ 0.0f,0.0f,0.0f,0.0f };
+	return spell_cost( 0.0f, 0.0f, 0.0f, 0.0f );
 }
 
 spell_cost spell_cost::initialMP(float mp)
 {
-	return spell_cost{ mp, 0.0f, 0.0f, 0.0f };
+	return spell_cost( mp, 0.0f, 0.0f, 0.0f );
 }
 
 spell_cost spell_cost::initialStamina(float stamina)
 {
-	return spell_cost{ 0.0f, stamina, 0.0f, 0.0f };
+	return spell_cost( 0.0f, stamina, 0.0f, 0.0f );
 }
 
 spell_cost spell_cost::ongoingMP(float mp)
 {
-	return spell_cost{ 0.0f, 0.0f, mp, 0.0f };
+	return spell_cost( 0.0f, 0.0f, mp, 0.0f );
 }
 
-spell_params::spell_params(
-	SpaceFloat length,
-	SpaceFloat updateInterval,
-	spell_cost cost
-) :
-	length(length),
-	updateInterval(updateInterval),
-	cost(cost)
-{
-}
-
-Spell::Spell(GObject* caster, const SpellDesc* desc, unsigned int id, spell_params params) :
+Spell::Spell(GObject* caster, const SpellDesc* desc, unsigned int id) :
 	caster(caster),
 	descriptor(desc),
-	id(id),
-	length(params.length),
-	updateInterval(params.updateInterval),
-	_cost(params.cost)
+	id(id)
 {}
 
 Spell::~Spell() {}
@@ -166,6 +152,9 @@ void Spell::runUpdate()
 	timerIncrement(t);
 	timerIncrement(lastUpdate);
 
+	auto updateInterval = descriptor->params.updateInterval;
+	auto length = descriptor->params.length;
+
 	if (updateInterval >= 0.0 && lastUpdate >= updateInterval) {
 		update();
 		lastUpdate -= updateInterval;
@@ -179,14 +168,4 @@ void Spell::runUpdate()
 void Spell::stop()
 {
 	getSpace()->spellSystem->stopSpell(id);
-}
-
-const SpellDesc* Spell::getDescriptorByName(const string& name)
-{
-	auto it = spellDescriptors.find(name);
-
-	if (it != spellDescriptors.end())
-		return it->second;
-	else
-		return app::getSpell(name);
 }

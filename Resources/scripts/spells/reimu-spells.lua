@@ -1,10 +1,10 @@
 spells.YinYangOrbs = class('YinYangOrbs')
 
-spells.YinYangOrbs.orbCount = 4
+spells.YinYangOrbs.name = 'YinYangOrbs'
+spells.YinYangOrbs.length = -1.0
+spells.YinYangOrbs.cost = spell_cost.none()
 
-function spells.YinYangOrbs.getParams()
-	return spell_params.new(-1.0, -1.0, spell_cost.none())
-end
+spells.YinYangOrbs.orbCount = 4
 
 function spells.YinYangOrbs:init(super)
 	self.super = super

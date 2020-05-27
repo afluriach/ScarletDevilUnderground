@@ -1,9 +1,9 @@
 spells.FireStarburst = class('FireStarburst', {
 	name = 'Fire Starburst',
 	description = '',
-	getParams = function()
-		return spell_params.new(-1.0, 0.5, spell_cost.none())		
-	end,
+	length = -1.0,
+	updateInterval = 0.5,
+	cost = spell_cost.none(),
 	init = function(self, super)
 		self.super = super
 		self.props = app.getBullet('fireStarburstBullet')
@@ -22,9 +22,9 @@ spells.FireStarburst = class('FireStarburst', {
 spells.FlameFence = class('FlameFence', {
 	name = 'Flame Fence',
 	description = '',
-	getParams = function()
-		return spell_params.new(-1.0, 0.0, spell_cost.none())		
-	end,
+	length = -1.0,
+	updateInterval = -1.0,
+	cost = spell_cost.none(),
 	init = function(self, super)
 		self.bullets = {}
 		self.super = super
@@ -63,9 +63,9 @@ spells.Whirlpool1 = class('Whirlpool1', {
 	shotInterval = 0.25,
 	angularSpeed = math.pi / 6.0,
 	angularOffset = math.pi / 12.0,
-	getParams = function()
-		return spell_params.new(-1.0, 0.0, spell_cost.none())
-	end,
+	length = -1.0,
+	updateInterval = 0.0,
+	cost = spell_cost.none(),
 	init = function(self, super)
 		self.super = super
 		self.agent = self.super.agent
@@ -109,9 +109,9 @@ spells.Whirlpool2 = class('Whirlpool2', {
 	shotInterval = 1.0 / 6.0,
 	angularSpeed = math.pi / 5.0,
 	angularOffset = math.pi / 10.0,
-	getParams = function()
-		return spell_params.new(-1.0, 0.0, spell_cost.none())
-	end,
+	length = -1.0,
+	updateInterval = 0.0,
+	cost = spell_cost.none(),
 	init = function(self, super)
 		self.super = super
 		self.agent = self.super.agent

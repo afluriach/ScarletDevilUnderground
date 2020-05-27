@@ -233,7 +233,6 @@ namespace app {
 		tinyxml2::XMLElement* elem,
 		string fieldName,
 		local_shared_ptr<T>* result,
-		const unordered_map<string, local_shared_ptr<T>>& _map,
 		bool autoName
 	) {
 		string field;
@@ -243,13 +242,12 @@ namespace app {
 			field = elem->Name();
 		}
 
-		auto it = _map.find(field);
-
-		if (it != _map.end()) {
-			*result = it->second;
+		auto _result = getObjectProperties<T>(field);
+		if (_result) {
+			*result = _result;
 		}
 
-		return it != _map.end();
+		return result;
 	}
 
 	template<typename T>

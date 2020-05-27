@@ -24,8 +24,8 @@
 #include "MagicEffect.hpp"
 #include "physics_context.hpp"
 #include "Player.hpp"
-#include "PlayerSpell.hpp"
 #include "PlayScene.hpp"
+#include "Spell.hpp"
 #include "SpellDescriptor.hpp"
 #include "SpellSystem.hpp"
 
@@ -124,7 +124,7 @@ void Player::equipSpells()
 		if (!app::params.unlockAllEquips && !App::crntState->hasItem(spellName))
 			continue;
 
-		const SpellDesc* desc = Spell::getDescriptorByName(spellName);
+		const SpellDesc* desc = app::getSpell(spellName);
 		if (desc) {
 			spells.push_back(desc);
 		}
@@ -144,7 +144,7 @@ void Player::equipPowerAttacks()
 
 	for (string spellName : Spell::playerPowerAttacks)
 	{
-		const SpellDesc* desc = Spell::getDescriptorByName(spellName);
+		const SpellDesc* desc = app::getSpell(spellName);
 		if (desc) {
 			powerAttacks.push_back(desc);
 		}
