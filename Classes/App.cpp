@@ -207,7 +207,6 @@ App::~App()
 
     log("app exiting");
 	LogSystem::exit();
-	shared_ptr_system::inst.reset();
 }
 
 //Called in AppController.mm. This appears to be for Mac/iOS only.

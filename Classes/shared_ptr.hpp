@@ -9,38 +9,10 @@
 #ifndef shared_ptr_hpp
 #define shared_ptr_hpp
 
-class shared_ptr_system
-{
-public:
-	typedef unsigned int id_type;
-	typedef unsigned int count_type;
-
-	struct shared_object_entry
-	{
-		inline shared_object_entry(id_type id) :
-			id(id),
-			count(1)
-		{}
-
-		id_type id;
-		count_type count;
-	};
-
-	static unique_ptr<shared_ptr_system> inst;
-	static shared_ptr_system* get();
-
-	shared_ptr_system();
-
-	void acquire(shared_object_entry* shared);
-	shared_object_entry* create();
-	bool release(shared_object_entry* entry);
-
-protected:
-
-	unordered_map<id_type, shared_object_entry*> refs;
-	id_type nextID = 1;
-};
-
+//Intrusive refcount. There is no additional allocation or extra memory overhead,
+//meaning an extra field in the smart pointer to point to a control structure.
+//Instead, the overhead is the refcount field on every allocated object, and the
+//construction/destruction/copy semantics that apply increment/decrement the refcount.
 template<typename T>
 class local_shared_ptr
 {
@@ -48,15 +20,22 @@ public:
 	template <typename U>
 	friend class local_shared_ptr;
 
+	typedef int count_type;
+
 	inline local_shared_ptr() {}
 
 	inline local_shared_ptr(nullptr_t){
 	}
 
+	//Normally, create would be called here so that a shared object entry or counter of
+	//some type can be created. In this case, the use of an intrusive refcount means there is no need.
+	//This works for creating a new object, but also shared from this, or otherwise converting 
+	//raw ptr back to local_shared_ptr
 	inline local_shared_ptr(T* t)
 	{
 		obj = t;
-		shared = shared_ptr_system::get()->create();
+		acquire();
+		//create();
 	}
 
 	inline local_shared_ptr(const local_shared_ptr<T>& rhs)
@@ -74,10 +53,7 @@ public:
 	inline local_shared_ptr(local_shared_ptr<T>&& rhs)
 	{
 		obj = rhs.obj;
-		shared = rhs.shared;
-
 		rhs.obj = nullptr;
-		rhs.shared = nullptr;
 	}
 
 	//Move existing
@@ -85,10 +61,7 @@ public:
 	inline local_shared_ptr(local_shared_ptr<U>&& rhs)
 	{
 		obj = rhs.obj;
-		shared = rhs.shared;
-
 		rhs.obj = nullptr;
-		rhs.shared = nullptr;
 	}
 
 	inline ~local_shared_ptr()
@@ -108,7 +81,7 @@ public:
 	}
 
 	inline void reset() {
-		if (shared) {
+		if (obj) {
 			release();
 		}
 	}
@@ -118,13 +91,9 @@ public:
 		local_shared_ptr<U> result;
 
 		result.obj = dynamic_cast<U*>(obj);
-		result.shared = shared;
 
-		if (!result.obj)
-			result.shared = nullptr;
-
-		if (result.obj && shared)
-			shared_ptr_system::get()->acquire(shared);
+		if (result.obj)
+			acquire();
 
 		return result;
 	}
@@ -155,26 +124,40 @@ protected:
 		reset();
 
 		obj = rhs.obj;
-		shared = rhs.shared;
 
-		if (shared)
-			shared_ptr_system::get()->acquire(shared);
+		if (obj)
+			acquire();
+	}
+
+	//inline void create()
+	//{
+	//	obj->_refcount = 1;
+	//}
+
+	inline void acquire()
+	{
+		++obj->_refcount;
 	}
 
 	inline void release()
 	{
-		bool destruct = shared_ptr_system::inst && shared && shared_ptr_system::get()->release(shared);
+		_release();
+
+		bool destruct = obj->_refcount <= 0;
 
 		if (destruct) {
 			allocator_delete<T>(obj);
 		}
 
 		obj = nullptr;
-		shared = nullptr;
+	}
+
+	inline void _release()
+	{
+		--obj->_refcount;
 	}
 
 	T* obj = nullptr;
-	shared_ptr_system::shared_object_entry* shared = nullptr;
 };
 
 template<typename T, typename... Params>

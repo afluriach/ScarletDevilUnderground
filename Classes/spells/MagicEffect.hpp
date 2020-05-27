@@ -82,6 +82,8 @@ public:
 	DamageType damageType;
 	unsigned int id;
 	effect_flags _flags;
+
+	int _refcount = 0;
 };
 
 class MagicEffectDescriptor

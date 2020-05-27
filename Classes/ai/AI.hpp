@@ -120,6 +120,7 @@ public:
     inline virtual string getName() const {return "Function";}
     
 	StateMachine* const fsm;
+	int _refcount = 0;
 protected:
 	unsigned int spellID = 0;
 	Thread* thread = nullptr;
@@ -143,6 +144,8 @@ public:
 	local_shared_ptr<Function> getTop();
     string getStack();
 	string getMainFuncName();
+
+	int _refcount = 0;
 protected:
 	list<local_shared_ptr<Function>> call_stack;
 	StateMachine* sm;

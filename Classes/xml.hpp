@@ -21,7 +21,7 @@ namespace app {
 	extern unordered_map<string, local_shared_ptr<firepattern_properties>> firePatterns;
 	extern unordered_map<string, shared_ptr<LightArea>> lights;
 	extern unordered_map<string, local_shared_ptr<object_properties>> objects;
-	extern unordered_map <string, SpellDesc*> spells;
+	extern unordered_map<string, SpellDesc*> spells;
 	extern unordered_map<string, shared_ptr<sprite_properties>> sprites;
 
 	GObject::AdapterType objectAdapter(local_shared_ptr<agent_properties> props); //NO-OP

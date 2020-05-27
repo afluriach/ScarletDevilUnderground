@@ -53,6 +53,8 @@ struct firepattern_properties
 	float staminaCost = 0.0f;
 
 	bool rotate = true;
+
+	int _refcount = 0;
 };
 
 class FirePatternImpl : public FirePattern

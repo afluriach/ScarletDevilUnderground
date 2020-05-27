@@ -27,6 +27,8 @@ public:
 
 	virtual bool fireIfPossible();
 	inline virtual void update() {}
+
+	int _refcount = 0;
 protected:
 	virtual bool fire() = 0;
 

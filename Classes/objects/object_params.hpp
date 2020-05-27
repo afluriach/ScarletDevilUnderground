@@ -92,6 +92,8 @@ public:
 	SpaceFloat mass = 0.0;
 	SpaceFloat friction = 0.0;
 
+	int _refcount = 0;
+
 	inline virtual type_index getType() const { return typeid(*this); }
 
 	getter(shared_ptr<sprite_properties>, sprite)

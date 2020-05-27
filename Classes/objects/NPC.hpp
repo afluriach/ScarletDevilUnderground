@@ -27,6 +27,8 @@ struct dialog_entry
 
 	string dialog;
 	bool once = false;
+
+	int _refcount = 0;
 };
 
 class npc_properties : public agent_properties
