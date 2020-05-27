@@ -49,6 +49,27 @@ function green_fairy(fsm)
 	fsm:addAlertHandler( ai.ScriptFunction.targetGenerator("GreenFairy") )
 end
 
+function blue_fairy_follow_path(fsm)
+	fsm:addThread(ai.ScriptFunction.create(fsm, "BlueFairy"))
+end
+
+function red_fairy(fsm)
+	fsm:addFleeBomb()
+
+	local explode = ai.ExplodeOnZeroHP.create(
+		fsm,
+		DamageInfo.new(20.0, DamageType.bomb, Attribute.none, 100.0),
+		4.0
+	)
+	fsm:addFunction(explode)
+	
+	local wander = ai.Wander.makeTargetFunctionGenerator(1.5, 2.5, 2.0, 3.0)
+	fsm:addAlertHandler(wander)
+	
+	local engage = ai.ScriptFunction.targetGenerator("RedFairyEngage")
+	fsm:addWhileDetectHandler(GType.player, engage)
+end
+
 function ice_fairy(fsm)
 	local engage = ai.ScriptFunction.targetGenerator("FairyEngage")
 	fsm:addWhileDetectHandler(GType.player, engage)

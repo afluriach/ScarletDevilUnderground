@@ -129,18 +129,8 @@ void Agent::initFSM()
 		return;
 	}
 
-	auto it = ai::StateMachine::packages.find(ai_package);
-	if (it != ai::StateMachine::packages.end()) {
-		ValueMap args;
-
-		auto f = it->second;
-		f(fsm.get(), args);
-	}
-	else if(ai_package.size() > 0) {
+	if(ai_package.size() > 0) {
 		fsm->runScriptPackage(ai_package);
-	}
-	else{
-		log("Agent %s, unknown AI package %s!", getName(), ai_package);
 	}
 }
 

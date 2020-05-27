@@ -243,6 +243,7 @@ bool StateMachine::runScriptPackage(const string& name)
 		return true;
 	}
 	else {
+		log("Agent %s, unknown AI package %s!", agent->getName(), name);
 		return false;
 	}
 }

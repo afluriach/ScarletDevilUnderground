@@ -9,6 +9,7 @@
 #include "Prefix.h"
 
 #include "app_constants.hpp"
+#include "Bomb.hpp"
 #include "GScene.hpp"
 #include "LuaAPI.hpp"
 #include "MagicEffect.hpp"
@@ -80,6 +81,7 @@ namespace Lua{
 
 		_app["addBullet"] = &app::addBullet;
 
+		_app["getBomb"] = &app::getBomb;
 		_app["getBullet"] = &app::getBullet;
 		_app["getEffect"] = &app::getEffect;
 		_app["getSpell"] = &app::getSpell;

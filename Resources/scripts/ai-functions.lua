@@ -146,6 +146,71 @@ function ai.GreenFairy:update()
 	end
 end
 
+ai.RedFairyEngage = class("RedFairyEngage")
+
+function ai.RedFairyEngage:init(super, target)
+	self.super = super
+	self.target = target
+end
+
+function ai.RedFairyEngage:onEnter()
+	self.bombFunction = ai.ThrowBombs.create(
+		self.super.fsm,
+		self.target,
+		app.getBomb("RedFairyBomb"),
+		4.0,
+		4.0
+	)
+	self.bombFunction:onEnter()
+	
+	self.moveFunction = ai.MaintainDistance.create(self.super.fsm, self.target, 3.0, 0.5)
+	self.moveFunction:onEnter()
+end
+
+function ai.RedFairyEngage:update()
+	self.bombFunction:update()
+	self.moveFunction:update()
+	
+	self.super:aimAtTarget(self.target)
+	self.super:fire()
+	
+	return steady_return()
+end
+
+ai.BlueFairy = class("BlueFairy")
+
+function ai.BlueFairy:init(super)
+	self.super = super
+end
+
+function ai.BlueFairy:onEnter()
+	local path = self.super.space:getPath(self.super.object.name)
+	if path then
+		self.pathFunction = ai.FollowPath.create(self.super.fsm, path, true, true)
+		self.pathFunction:onEnter()
+	end
+	
+	self.lookFunction = ai.LookTowardsFire.create(self.super.fsm, true)
+	self.lookFunction:onEnter()
+	self.fireFunction = ai.FireOnStress.create(self.super.fsm, 5.0)
+	self.fireFunction:onEnter()
+	self.powerAttackFunction = ai.ScriptFunction.create(self.super.fsm, "BlueFairyBomb")
+	self.powerAttackFunction:onEnter()
+end
+
+function ai.BlueFairy:update()
+	
+	if self.pathFunction then
+		self.pathFunction:update()
+	end
+	
+	self.lookFunction:update()
+	self.fireFunction:update()
+	self.powerAttackFunction:update()
+	
+	return steady_return()
+end
+
 --When target (player) gets and stays within range for a certain time, it activates.
 ai.BlueFairyBomb = class("BlueFairyBomb")
 

@@ -153,9 +153,6 @@ class StateMachine
 public:
 	friend class Thread;
 
-	typedef function<void(StateMachine*, const ValueMap&) > PackageType;
-	static const unordered_map<string, StateMachine::PackageType> packages;
-
     StateMachine(GObject *const agent);
 	~StateMachine();
 
@@ -254,6 +251,14 @@ inline AITargetFunctionGenerator makeTargetFunctionGenerator(Params... params)
 {
 	return[params...](StateMachine* fsm, GObject* obj)->local_shared_ptr<Function> {
 		return make_local_shared<FuncCls>(fsm, obj, params...);
+	};
+}
+
+template<class FuncCls, typename... Params>
+inline AITargetFunctionGenerator targetFunctionGeneratorAdapter(Params... params)
+{
+	return[params...](StateMachine* fsm, GObject* obj)->local_shared_ptr<Function> {
+		return make_local_shared<FuncCls>(fsm, params...);
 	};
 }
 

@@ -2,6 +2,8 @@
 	<PlayerBomb
 		sprite="redBomb"
 		explosionSound="bomb_explosion1"
+
+		radius="0.5"
 		
 		fuseTime="3.0"
 		blastRadius="4.0"
@@ -13,6 +15,8 @@
 	<RedFairyBomb
 		sprite="redBomb"
 		explosionSound="bomb_explosion2"
+		
+		radius="0.5"
 		
 		fuseTime="1.2"
 		blastRadius="3.0"

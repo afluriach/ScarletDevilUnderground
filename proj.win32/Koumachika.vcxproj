@@ -150,7 +150,6 @@ xcopy "$(ProjectDir)..\Resources" "$(OutDir)" /D /E /I /F /Y</Command>
   <ItemGroup>
     <ClCompile Include="..\Classes\ai\AI.cpp" />
     <ClCompile Include="..\Classes\ai\AIFunctions.cpp" />
-    <ClCompile Include="..\Classes\ai\AIPackages.cpp" />
     <ClCompile Include="..\Classes\ai\AIUtil.cpp" />
     <ClCompile Include="..\Classes\App.cpp" />
     <ClCompile Include="..\Classes\Attributes.cpp" />
@@ -245,7 +244,6 @@ xcopy "$(ProjectDir)..\Resources" "$(OutDir)" /D /E /I /F /Y</Command>
   <ItemGroup>
     <ClInclude Include="..\Classes\ai\AI.hpp" />
     <ClInclude Include="..\Classes\ai\AIFunctions.hpp" />
-    <ClInclude Include="..\Classes\ai\AIPackages.hpp" />
     <ClInclude Include="..\Classes\ai\AIUtil.hpp" />
     <ClInclude Include="..\Classes\App.h" />
     <ClInclude Include="..\Classes\app_constants.hpp" />

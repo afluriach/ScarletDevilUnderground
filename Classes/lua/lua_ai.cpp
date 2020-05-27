@@ -205,12 +205,19 @@ namespace Lua{
 			&create<ai::Wander>,
 			&create<ai::Wander, SpaceFloat, SpaceFloat, SpaceFloat, SpaceFloat>
 		);
+		wander["makeTargetFunctionGenerator"] = &ai::targetFunctionGeneratorAdapter<ai::Wander>;
 
 		auto follow_path = _ai.new_usertype<ai::FollowPath>(
 			"FollowPath",
 			sol::base_classes, sol::bases<ai::Function>()
 		);
 		follow_path["create"] = &create<ai::FollowPath, Path, bool, bool>;
+
+		auto lookTowardsFire = _ai.new_usertype<ai::LookTowardsFire>(
+			"LookTowardsFire",
+			sol::base_classes, sol::bases<ai::Function>()
+		);
+		lookTowardsFire["create"] = &create<ai::LookTowardsFire, bool>;
 
 		auto fireAtTarget = _ai.new_usertype<ai::FireAtTarget>(
 			"FireAtTarget",
