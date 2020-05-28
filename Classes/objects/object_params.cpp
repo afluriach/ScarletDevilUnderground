@@ -69,6 +69,7 @@ physics_params::physics_params(GType type, PhysicsLayers layers, SpaceFloat mass
 bullet_attributes bullet_attributes::getDefault()
 {
 	return bullet_attributes{
+		nullptr,
 		SpaceVect::zero,
 		nullptr,
 		GType::enemyBullet,

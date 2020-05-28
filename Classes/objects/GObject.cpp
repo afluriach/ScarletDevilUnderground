@@ -334,6 +334,27 @@ gobject_ref GObject::spawnBullet(
 	);
 }
 
+gobject_ref GObject::parametricBullet(
+	local_shared_ptr<bullet_properties> props,
+	SpaceVect displacement,
+	parametric_space_function f,
+	SpaceFloat angle,
+	SpaceFloat angularVelocity,
+	bool obstacleCheck
+) {
+	bullet_attributes attr = getBulletAttributes(props);
+	attr.parametric = f;
+
+	return _launchBullet(
+		attr,
+		props,
+		displacement,
+		angle,
+		angularVelocity,
+		obstacleCheck
+	);
+}
+
 gobject_ref GObject::_launchBullet(
 	const bullet_attributes& attributes,
 	local_shared_ptr<bullet_properties> props,

@@ -154,6 +154,7 @@ struct bullet_attributes
 {
 	static bullet_attributes getDefault();
 
+	parametric_space_function parametric;
 	SpaceVect casterVelocity;
 	gobject_ref caster;
 	GType type = GType::none;
@@ -169,6 +170,7 @@ struct bullet_attributes
 	SpaceVect getDimensions(local_shared_ptr<bullet_properties> props) const;
 	SpaceFloat getLaunchSpeed(local_shared_ptr<bullet_properties> props, SpaceFloat angle) const;
 
+	getter(parametric_space_function, parametric)
 	getter(SpaceVect, casterVelocity)
 	getter(gobject_ref, caster)
 	getter(GType, type)
@@ -179,6 +181,7 @@ struct bullet_attributes
 	getter(float, bulletSpeed)
 	getter(float, speedOffset)
 
+	setter(parametric_space_function, parametric)
 	setter(SpaceVect, casterVelocity)
 	setter(gobject_ref, caster)
 	setter(GType, type)

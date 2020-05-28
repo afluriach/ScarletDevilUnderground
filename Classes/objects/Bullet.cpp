@@ -77,6 +77,10 @@ Bullet::Bullet(
 	ricochetCount = props->ricochetCount;
 
 	crntRoom = attributes.startRoom;
+
+	if (attributes.parametric) {
+		setParametricMove(attributes.parametric);
+	}
 }
 
 Bullet::~Bullet()

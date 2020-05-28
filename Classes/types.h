@@ -117,6 +117,7 @@ void allocator_delete(T* obj)
 
 typedef unordered_map<Attribute, float> AttributeMap;
 
+typedef pair<int, int> int_pair;
 typedef pair<float, float> float_pair;
 typedef pair<double, double> double_pair;
 typedef pair<int,int> IntVec2;

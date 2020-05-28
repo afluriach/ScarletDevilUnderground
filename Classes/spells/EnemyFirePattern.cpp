@@ -50,14 +50,11 @@ bool ReimuWavePattern::fire()
 	SpaceVect pos = agent->getPos();
 	SpaceFloat angle = agent->getAngle();
 
-	gobject_ref b1 = agent->launchBullet(props, SpaceVect::zero, angle);
-	gobject_ref b2 = agent->launchBullet(props, SpaceVect::zero, angle);
-
 	auto f1 = getParametricFunction(pos, angle, props->speed, 0.0);
 	auto f2 = getParametricFunction(pos, angle, props->speed, 0.5);
 
-	agent->makeInitMessage(&GObject::setParametricMove, b1, f1, parametric_type::position);
-	agent->makeInitMessage(&GObject::setParametricMove, b2, f2, parametric_type::position);
+	gobject_ref b1 = agent->parametricBullet(props, SpaceVect::zero, f1, angle);
+	gobject_ref b2 = agent->parametricBullet(props, SpaceVect::zero, f2, angle);
 
 	cooldown = fireInterval;
 

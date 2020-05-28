@@ -209,6 +209,14 @@ public:
 		SpaceFloat angularVelocity = 0.0,
 		bool obstacleCheck = true
 	);
+	gobject_ref parametricBullet(
+		local_shared_ptr<bullet_properties> props,
+		SpaceVect displacement,
+		parametric_space_function f,
+		SpaceFloat angle,
+		SpaceFloat angularVelocity = 0.0,
+		bool obstacleCheck = true
+	);
 
 	//END LOGIC
 
