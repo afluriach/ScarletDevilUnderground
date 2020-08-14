@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 46;
+	objectVersion = 53;
 	objects = {
 
 /* Begin PBXBuildFile section */
@@ -8902,10 +8902,11 @@
 				ORGANIZATIONNAME = "";
 			};
 			buildConfigurationList = 1551A339158F2AB200E66CFE /* Build configuration list for PBXProject "cocos2d_libs" */;
-			compatibilityVersion = "Xcode 3.2";
+			compatibilityVersion = "Xcode 11.4";
 			developmentRegion = English;
 			hasScannedForEncodings = 0;
 			knownRegions = (
+				English,
 				en,
 			);
 			mainGroup = 1551A334158F2AB200E66CFE;
@@ -10393,7 +10394,18 @@
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = macosx;
 				SKIP_INSTALL = YES;
-				USER_HEADER_SEARCH_PATHS = "$(SRCROOT)/.. $(SRCROOT)/../cocos $(SRCROOT)/../cocos/editor-support $(SRCROOT)/../external/chipmunk/include/chipmunk $(SRCROOT)/../external $(SRCROOT)/../extensions $(SRCROOT)/../external/poly2tri $(SRCROOT)/../external/poly2tri/common $(SRCROOT)/../external/poly2tri/sweep $(SRCROOT)/../../glfw/include/GLFW/";
+				USER_HEADER_SEARCH_PATHS = (
+					"$(SRCROOT)/..",
+					"$(SRCROOT)/../cocos",
+					"$(SRCROOT)/../cocos/editor-support",
+					"$(SRCROOT)/../external/chipmunk/include/chipmunk",
+					"$(SRCROOT)/../external",
+					"$(SRCROOT)/../extensions",
+					"$(SRCROOT)/../external/poly2tri",
+					"$(SRCROOT)/../external/poly2tri/common",
+					"$(SRCROOT)/../external/poly2tri/sweep",
+					"$(SRCROOT)/../../glfw/include/GLFW/",
+				);
 			};
 			name = Debug;
 		};
@@ -10462,7 +10474,18 @@
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = macosx;
 				SKIP_INSTALL = YES;
-				USER_HEADER_SEARCH_PATHS = "$(SRCROOT)/.. $(SRCROOT)/../cocos $(SRCROOT)/../cocos/editor-support $(SRCROOT)/../external/chipmunk/include/chipmunk $(SRCROOT)/../external $(SRCROOT)/../extensions $(SRCROOT)/../external/poly2tri $(SRCROOT)/../external/poly2tri/common $(SRCROOT)/../external/poly2tri/sweep $(SRCROOT)/../../glfw/include/GLFW/";
+				USER_HEADER_SEARCH_PATHS = (
+					"$(SRCROOT)/..",
+					"$(SRCROOT)/../cocos",
+					"$(SRCROOT)/../cocos/editor-support",
+					"$(SRCROOT)/../external/chipmunk/include/chipmunk",
+					"$(SRCROOT)/../external",
+					"$(SRCROOT)/../extensions",
+					"$(SRCROOT)/../external/poly2tri",
+					"$(SRCROOT)/../external/poly2tri/common",
+					"$(SRCROOT)/../external/poly2tri/sweep",
+					"$(SRCROOT)/../../glfw/include/GLFW/",
+				);
 				VALIDATE_PRODUCT = YES;
 			};
 			name = Release;
@@ -10499,7 +10522,20 @@
 				);
 				MACH_O_TYPE = staticlib;
 				OTHER_LDFLAGS = "";
-				USER_HEADER_SEARCH_PATHS = "$(inherited) $(SRCROOT)/../external/png/include/mac $(SRCROOT)/../external/tiff/include/mac $(SRCROOT)/../external/webp/include/mac $(SRCROOT)/../external/jpeg/include/mac $(SRCROOT)/../external/freetype2/include/mac $(SRCROOT)/../../glfw/include/GLFW/ $(SRCROOT)/../external/websockets/include/mac $(SRCROOT)/../external/chipmunk/include/chipmunk $(SRCROOT)/../external/curl/include/mac $(SRCROOT)/../external/freetype2/include/mac/freetype2 /Users/toni/dev/boost_1_59_0";
+				USER_HEADER_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(SRCROOT)/../external/png/include/mac",
+					"$(SRCROOT)/../external/tiff/include/mac",
+					"$(SRCROOT)/../external/webp/include/mac",
+					"$(SRCROOT)/../external/jpeg/include/mac",
+					"$(SRCROOT)/../external/freetype2/include/mac",
+					"$(SRCROOT)/../../glfw/include/GLFW/",
+					"$(SRCROOT)/../external/websockets/include/mac",
+					"$(SRCROOT)/../external/chipmunk/include/chipmunk",
+					"$(SRCROOT)/../external/curl/include/mac",
+					"$(SRCROOT)/../external/freetype2/include/mac/freetype2",
+					/Users/toni/dev/boost_1_59_0,
+				);
 				VALID_ARCHS = x86_64;
 			};
 			name = Debug;
@@ -10537,7 +10573,20 @@
 				);
 				MACH_O_TYPE = staticlib;
 				OTHER_LDFLAGS = "";
-				USER_HEADER_SEARCH_PATHS = "$(inherited) $(SRCROOT)/../external/png/include/mac $(SRCROOT)/../external/tiff/include/mac $(SRCROOT)/../external/webp/include/mac $(SRCROOT)/../external/jpeg/include/mac $(SRCROOT)/../external/freetype2/include/mac $(SRCROOT)/../../glfw/include/GLFW/ $(SRCROOT)/../external/websockets/include/mac $(SRCROOT)/../external/chipmunk/include/chipmunk $(SRCROOT)/../external/curl/include/mac $(SRCROOT)/../external/freetype2/include/mac/freetype2 /Users/toni/dev/boost_1_59_0";
+				USER_HEADER_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(SRCROOT)/../external/png/include/mac",
+					"$(SRCROOT)/../external/tiff/include/mac",
+					"$(SRCROOT)/../external/webp/include/mac",
+					"$(SRCROOT)/../external/jpeg/include/mac",
+					"$(SRCROOT)/../external/freetype2/include/mac",
+					"$(SRCROOT)/../../glfw/include/GLFW/",
+					"$(SRCROOT)/../external/websockets/include/mac",
+					"$(SRCROOT)/../external/chipmunk/include/chipmunk",
+					"$(SRCROOT)/../external/curl/include/mac",
+					"$(SRCROOT)/../external/freetype2/include/mac/freetype2",
+					/Users/toni/dev/boost_1_59_0,
+				);
 				VALID_ARCHS = x86_64;
 			};
 			name = Release;
@@ -10569,7 +10618,19 @@
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = "1,2";
-				USER_HEADER_SEARCH_PATHS = "$(inherited) $(SRCROOT)/../external/freetype2/include/ios $(SRCROOT)/../external/curl/include/ios $(SRCROOT)/../external/webp/include/ios $(SRCROOT)/../external/tiff/include/ios $(SRCROOT)/../external/jpeg/include/ios $(SRCROOT)/../external/png/include/ios $(SRCROOT)/../external/websockets/include/ios $(SRCROOT)/../external/chipmunk/include/chipmunk $(SRCROOT)/../external/freetype2/include/ios/freetype2 /Users/toni/dev/boost_1_59_0";
+				USER_HEADER_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(SRCROOT)/../external/freetype2/include/ios",
+					"$(SRCROOT)/../external/curl/include/ios",
+					"$(SRCROOT)/../external/webp/include/ios",
+					"$(SRCROOT)/../external/tiff/include/ios",
+					"$(SRCROOT)/../external/jpeg/include/ios",
+					"$(SRCROOT)/../external/png/include/ios",
+					"$(SRCROOT)/../external/websockets/include/ios",
+					"$(SRCROOT)/../external/chipmunk/include/chipmunk",
+					"$(SRCROOT)/../external/freetype2/include/ios/freetype2",
+					/Users/toni/dev/boost_1_59_0,
+				);
 				VALID_ARCHS = "arm64 armv7 x86_64";
 			};
 			name = Debug;
@@ -10601,7 +10662,19 @@
 				ONLY_ACTIVE_ARCH = NO;
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = "1,2";
-				USER_HEADER_SEARCH_PATHS = "$(inherited) $(SRCROOT)/../external/freetype2/include/ios $(SRCROOT)/../external/curl/include/ios $(SRCROOT)/../external/webp/include/ios $(SRCROOT)/../external/tiff/include/ios $(SRCROOT)/../external/jpeg/include/ios $(SRCROOT)/../external/png/include/ios $(SRCROOT)/../external/websockets/include/ios $(SRCROOT)/../external/chipmunk/include/chipmunk $(SRCROOT)/../external/freetype2/include/ios/freetype2 /Users/toni/dev/boost_1_59_0";
+				USER_HEADER_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(SRCROOT)/../external/freetype2/include/ios",
+					"$(SRCROOT)/../external/curl/include/ios",
+					"$(SRCROOT)/../external/webp/include/ios",
+					"$(SRCROOT)/../external/tiff/include/ios",
+					"$(SRCROOT)/../external/jpeg/include/ios",
+					"$(SRCROOT)/../external/png/include/ios",
+					"$(SRCROOT)/../external/websockets/include/ios",
+					"$(SRCROOT)/../external/chipmunk/include/chipmunk",
+					"$(SRCROOT)/../external/freetype2/include/ios/freetype2",
+					/Users/toni/dev/boost_1_59_0,
+				);
 				VALID_ARCHS = "arm64 armv7 x86_64";
 			};
 			name = Release;
