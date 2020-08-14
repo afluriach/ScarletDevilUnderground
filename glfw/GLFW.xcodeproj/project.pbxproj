@@ -950,9 +950,11 @@
 		0BD2FF986E2040C68BA1233A /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CLANG_CXX_LANGUAGE_STANDARD = "c++17";
 				COMBINE_HIDPI_IMAGES = YES;
 				EXECUTABLE_PREFIX = lib;
 				EXECUTABLE_SUFFIX = .a;
+				GCC_C_LANGUAGE_STANDARD = c99;
 				GCC_GENERATE_DEBUGGING_SYMBOLS = YES;
 				GCC_INLINES_ARE_PRIVATE_EXTERN = NO;
 				GCC_OPTIMIZATION_LEVEL = 0;
@@ -967,6 +969,7 @@
 				);
 				INSTALL_PATH = "";
 				LIBRARY_STYLE = STATIC;
+				MACOSX_DEPLOYMENT_TARGET = 10.10;
 				OTHER_CFLAGS = (
 					"-fPIC",
 					"-Wall",
@@ -977,6 +980,7 @@
 				SECTORDER_FLAGS = "";
 				SYMROOT = /Users/toni/Documents/Kouma/glfw/src;
 				USE_HEADERMAP = NO;
+				VALID_ARCHS = x86_64;
 				WARNING_CFLAGS = (
 					"-Wmost",
 					"-Wno-four-char-constants",
@@ -1007,9 +1011,11 @@
 		47ABDEC7A33442408A5DE6B7 /* MinSizeRel */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CLANG_CXX_LANGUAGE_STANDARD = "c++17";
 				COMBINE_HIDPI_IMAGES = YES;
 				EXECUTABLE_PREFIX = lib;
 				EXECUTABLE_SUFFIX = .a;
+				GCC_C_LANGUAGE_STANDARD = c99;
 				GCC_GENERATE_DEBUGGING_SYMBOLS = NO;
 				GCC_INLINES_ARE_PRIVATE_EXTERN = NO;
 				GCC_OPTIMIZATION_LEVEL = s;
@@ -1024,6 +1030,7 @@
 				);
 				INSTALL_PATH = "";
 				LIBRARY_STYLE = STATIC;
+				MACOSX_DEPLOYMENT_TARGET = 10.10;
 				OTHER_CFLAGS = (
 					"-DNDEBUG",
 					"-fPIC",
@@ -1035,6 +1042,7 @@
 				SECTORDER_FLAGS = "";
 				SYMROOT = /Users/toni/Documents/Kouma/glfw/src;
 				USE_HEADERMAP = NO;
+				VALID_ARCHS = x86_64;
 				WARNING_CFLAGS = (
 					"-Wmost",
 					"-Wno-four-char-constants",
@@ -1047,9 +1055,11 @@
 		575AFD6623C3444091BA20A6 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CLANG_CXX_LANGUAGE_STANDARD = "c++17";
 				COMBINE_HIDPI_IMAGES = YES;
 				EXECUTABLE_PREFIX = lib;
 				EXECUTABLE_SUFFIX = .a;
+				GCC_C_LANGUAGE_STANDARD = c99;
 				GCC_GENERATE_DEBUGGING_SYMBOLS = NO;
 				GCC_INLINES_ARE_PRIVATE_EXTERN = NO;
 				GCC_OPTIMIZATION_LEVEL = 3;
@@ -1064,6 +1074,7 @@
 				);
 				INSTALL_PATH = "";
 				LIBRARY_STYLE = STATIC;
+				MACOSX_DEPLOYMENT_TARGET = 10.10;
 				OTHER_CFLAGS = (
 					"-DNDEBUG",
 					"-fPIC",
@@ -1075,6 +1086,7 @@
 				SECTORDER_FLAGS = "";
 				SYMROOT = /Users/toni/Documents/Kouma/glfw/src;
 				USE_HEADERMAP = NO;
+				VALID_ARCHS = x86_64;
 				WARNING_CFLAGS = (
 					"-Wmost",
 					"-Wno-four-char-constants",
@@ -1087,9 +1099,11 @@
 		8E3F722524564A76A10D057C /* RelWithDebInfo */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CLANG_CXX_LANGUAGE_STANDARD = "c++17";
 				COMBINE_HIDPI_IMAGES = YES;
 				EXECUTABLE_PREFIX = lib;
 				EXECUTABLE_SUFFIX = .a;
+				GCC_C_LANGUAGE_STANDARD = c99;
 				GCC_GENERATE_DEBUGGING_SYMBOLS = YES;
 				GCC_INLINES_ARE_PRIVATE_EXTERN = NO;
 				GCC_OPTIMIZATION_LEVEL = 2;
@@ -1104,6 +1118,7 @@
 				);
 				INSTALL_PATH = "";
 				LIBRARY_STYLE = STATIC;
+				MACOSX_DEPLOYMENT_TARGET = 10.10;
 				OTHER_CFLAGS = (
 					"-DNDEBUG",
 					"-fPIC",
@@ -1115,6 +1130,7 @@
 				SECTORDER_FLAGS = "";
 				SYMROOT = /Users/toni/Documents/Kouma/glfw/src;
 				USE_HEADERMAP = NO;
+				VALID_ARCHS = x86_64;
 				WARNING_CFLAGS = (
 					"-Wmost",
 					"-Wno-four-char-constants",
