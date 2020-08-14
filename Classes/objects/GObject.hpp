@@ -178,7 +178,7 @@ public:
 	bool isBulletObstacle(SpaceVect pos, SpaceFloat radius);
 
 	//Used by Spell, to override bullet attributes.
-	gobject_ref GObject::_spawnBullet(
+	gobject_ref _spawnBullet(
 		const bullet_attributes& attributes,
 		local_shared_ptr<bullet_properties> props,
 		SpaceVect displacement,

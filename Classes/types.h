@@ -77,6 +77,7 @@ class GSpace;
 class GState;
 struct parametric_motion_state;
 class physics_context;
+class PhysicsImpl;
 class Sensor;
 
 namespace ai {

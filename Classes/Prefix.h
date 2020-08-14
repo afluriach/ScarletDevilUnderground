@@ -14,18 +14,23 @@
 #pragma warning(disable : 4250)
 #endif
 
-#if defined(TARGET_OS_OSX) && defined(__OBJC__)
-	#import <Cocoa/Cocoa.h>
+#ifdef CC_TARGET_OS_MAC
+    #import <OpenAL/al.h>
+    #import <OpenAL/alc.h>
+    #define ALuint uint32_t
+    #define use_gamepad 1
 #endif
 
-#if defined(TARGET_OS_IOS) && defined(__OBJC__)
-    #import <Foundation/Foundation.h>
-    #import <UIKit/UIKit.h>
+#ifdef CC_TARGET_OS_IPHONE
+    #import <OpenAL/al.h>
+    #import <OpenAL/alc.h>
+    #define ALuint uint32_t
+	#define use_gamepad 0
 #endif
 
-#if defined(TARGET_OS_IOS)
-    #define use_gamepad 0
-#else
+#if defined _WIN32
+    #include "AL/al.h"
+    #include "AL/alc.h"
     #define use_gamepad 1
 #endif
 
@@ -56,8 +61,6 @@
 #include <vector>
 
 //All external libraries used by this app.
-#include "AL/al.h"
-#include "AL/alc.h"
 #include "Box2D/Box2D.h"
 #include "cocos2d.h"
 #include "tinyxml2/tinyxml2.h"
@@ -117,8 +120,9 @@ typedef double SpaceFloat;
 #include "object_ref.hpp"
 #include "object_params.hpp"
 #include "controls.h"
-#include "GSpace.hpp"
 #include "GObject.hpp"
+#include "graphics_context.hpp"
+#include "GSpace.hpp"
 #include "xml.hpp"
 #include "Attributes.hpp"
 #include "App.h"
