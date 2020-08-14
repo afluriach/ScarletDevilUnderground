@@ -121,6 +121,8 @@
 		E25BCB0A24E73BD00032C1ED /* RectangleSensor.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E25BCAFC24E73BCF0032C1ED /* RectangleSensor.cpp */; };
 		E25BCB0B24E73BD00032C1ED /* GState.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E25BCAFD24E73BCF0032C1ED /* GState.cpp */; };
 		E25BCB0C24E73BD00032C1ED /* GState.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E25BCAFD24E73BCF0032C1ED /* GState.cpp */; };
+		E25BCB1624E73F720032C1ED /* libsndfile.a in Frameworks */ = {isa = PBXBuildFile; fileRef = E25BCB1524E73F720032C1ED /* libsndfile.a */; };
+		E25BCB1824E73F8A0032C1ED /* libnoiseutils-static.a in Frameworks */ = {isa = PBXBuildFile; fileRef = E25BCB1724E73F8A0032C1ED /* libnoiseutils-static.a */; };
 		E2610C471FE06A890079B36F /* libboost-combined.a in Frameworks */ = {isa = PBXBuildFile; fileRef = E2610C461FE06A890079B36F /* libboost-combined.a */; };
 		E26147BC1C005A1B008CA1D0 /* scripts in Resources */ = {isa = PBXBuildFile; fileRef = E26147BB1C005A1B008CA1D0 /* scripts */; };
 		E26147BD1C005A1B008CA1D0 /* scripts in Resources */ = {isa = PBXBuildFile; fileRef = E26147BB1C005A1B008CA1D0 /* scripts */; };
@@ -415,6 +417,8 @@
 		E25BCAFC24E73BCF0032C1ED /* RectangleSensor.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = RectangleSensor.cpp; path = space/RectangleSensor.cpp; sourceTree = "<group>"; };
 		E25BCAFD24E73BCF0032C1ED /* GState.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = GState.cpp; path = space/GState.cpp; sourceTree = "<group>"; };
 		E25BCAFE24E73BD00032C1ED /* GState.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = GState.hpp; path = space/GState.hpp; sourceTree = "<group>"; };
+		E25BCB1524E73F720032C1ED /* libsndfile.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libsndfile.a; path = ../../../../../opt/local/lib/libsndfile.a; sourceTree = "<group>"; };
+		E25BCB1724E73F8A0032C1ED /* libnoiseutils-static.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = "libnoiseutils-static.a"; path = "../../../dev/libnoise/noiseutils/libnoiseutils-static.a"; sourceTree = "<group>"; };
 		E2610C461FE06A890079B36F /* libboost-combined.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = "libboost-combined.a"; path = "../../../lib/boost59/ios/libboost-combined.a"; sourceTree = "<group>"; };
 		E26147BB1C005A1B008CA1D0 /* scripts */ = {isa = PBXFileReference; lastKnownFileType = folder; path = scripts; sourceTree = "<group>"; };
 		E26C24D324E739EA004067E0 /* audio_context.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = audio_context.cpp; sourceTree = "<group>"; };
@@ -562,6 +566,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				E25BCB1824E73F8A0032C1ED /* libnoiseutils-static.a in Frameworks */,
+				E25BCB1624E73F720032C1ED /* libsndfile.a in Frameworks */,
 				E2FC5A292097FBF200DA35D7 /* libglfw3.a in Frameworks */,
 				E2AEF5032089983000A4FC90 /* libgainputstatic.a in Frameworks */,
 				E29499A41FA1D4FC00179C82 /* libboost.a in Frameworks */,
@@ -632,6 +638,8 @@
 		29B97323FDCFA39411CA2CEA /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				E25BCB1724E73F8A0032C1ED /* libnoiseutils-static.a */,
+				E25BCB1524E73F720032C1ED /* libsndfile.a */,
 				E2AEF5022089982F00A4FC90 /* libgainputstatic.a */,
 				E2610C461FE06A890079B36F /* libboost-combined.a */,
 				E2D9A6EA1FE06252008E6D48 /* libboost.a */,
@@ -1485,8 +1493,9 @@
 				);
 				INFOPLIST_FILE = mac/Info.plist;
 				LIBRARY_SEARCH_PATHS = (
-					/Users/toni/lib/boost59/osx/build/x86_64/,
-					"$(SRCROOT)/../gainput/lib/mac",
+					/Users/toni/dev/gainput/lib,
+					/Users/toni/dev/libnoise/noiseutils,
+					/opt/local/lib,
 				);
 				MACOSX_DEPLOYMENT_TARGET = 10.10;
 				OTHER_LDFLAGS = (
@@ -1530,8 +1539,9 @@
 				);
 				INFOPLIST_FILE = mac/Info.plist;
 				LIBRARY_SEARCH_PATHS = (
-					/Users/toni/lib/boost59/osx/build/x86_64/,
-					"$(SRCROOT)/../gainput/lib/mac",
+					/Users/toni/dev/gainput/lib,
+					/Users/toni/dev/libnoise/noiseutils,
+					/opt/local/lib,
 				);
 				MACOSX_DEPLOYMENT_TARGET = 10.10;
 				OTHER_LDFLAGS = (
