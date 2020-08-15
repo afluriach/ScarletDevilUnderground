@@ -977,6 +977,7 @@
 				OTHER_LIBTOOLFLAGS = " ";
 				OTHER_REZFLAGS = "";
 				PRODUCT_NAME = glfw3;
+				SDKROOT = macosx;
 				SECTORDER_FLAGS = "";
 				SYMROOT = /Users/toni/Documents/Kouma/glfw/src;
 				USE_HEADERMAP = NO;
@@ -1039,6 +1040,7 @@
 				OTHER_LIBTOOLFLAGS = " ";
 				OTHER_REZFLAGS = "";
 				PRODUCT_NAME = glfw3;
+				SDKROOT = macosx;
 				SECTORDER_FLAGS = "";
 				SYMROOT = /Users/toni/Documents/Kouma/glfw/src;
 				USE_HEADERMAP = NO;
@@ -1083,6 +1085,7 @@
 				OTHER_LIBTOOLFLAGS = " ";
 				OTHER_REZFLAGS = "";
 				PRODUCT_NAME = glfw3;
+				SDKROOT = macosx;
 				SECTORDER_FLAGS = "";
 				SYMROOT = /Users/toni/Documents/Kouma/glfw/src;
 				USE_HEADERMAP = NO;
@@ -1127,6 +1130,7 @@
 				OTHER_LIBTOOLFLAGS = " ";
 				OTHER_REZFLAGS = "";
 				PRODUCT_NAME = glfw3;
+				SDKROOT = macosx;
 				SECTORDER_FLAGS = "";
 				SYMROOT = /Users/toni/Documents/Kouma/glfw/src;
 				USE_HEADERMAP = NO;
