@@ -77,14 +77,6 @@ public:
 	}
 
 	template<typename... Args>
-	void makeInitMessage(void (GObject::*m)(Args...), gobject_ref ref, Args... args)
-	{
-		space->addInitAction([m, ref, args...]() -> void {
-			(ref.get()->*m)(args...);
-		});
-	}
-
-	template<typename... Args>
 	inline void runVoidScriptMethod(string name, Args... args)
 	{
 		scriptObj[name](scriptObj, args...);

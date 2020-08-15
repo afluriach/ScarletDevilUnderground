@@ -117,7 +117,7 @@ public:
 
 	static AttributeMap scale(const AttributeMap& input, float scale);
 	static AttributeMap add(const AttributeMap& a, const AttributeMap& b);
-	static float getAttribute(const AttributeMap& attr, Attribute id, float default = 0.0f);
+	static float getAttribute(const AttributeMap& attr, Attribute id, float _default = 0.0f);
 	static AttributeArray getAttributeSet(const AttributeMap& input);
 	static AttributeMap getAttributeMap(Attribute id, float val);
 	static AttributeMap getAttributeElementMap(Attribute element, float damage, float elementScale = 1.0f);

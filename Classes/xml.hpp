@@ -65,6 +65,30 @@ namespace app {
 	//base if provided.
 	local_shared_ptr<bullet_properties> addBullet(const string& name, const string& base);
 
+    bool parseObject(tinyxml2::XMLElement* elem, local_shared_ptr<object_properties> result);
+    bool parseObject(tinyxml2::XMLElement* elem, local_shared_ptr<environment_object_properties> result);
+    bool parseObject(tinyxml2::XMLElement* elem, local_shared_ptr<effectarea_properties> result);
+    bool parseObject(tinyxml2::XMLElement* elem, local_shared_ptr<agent_properties> result);
+    bool parseObject(tinyxml2::XMLElement* elem, area_properties* result);
+    bool parseObject(tinyxml2::XMLElement* elem, AttributeMap* result);
+    bool parseObject(tinyxml2::XMLElement* elem, local_shared_ptr<enemy_properties> result);
+    bool parseObject(tinyxml2::XMLElement* elem, local_shared_ptr<npc_properties> result);
+    bool parseObject(tinyxml2::XMLElement* elem, local_shared_ptr<firepattern_properties>* result);
+    bool parseObject(tinyxml2::XMLElement* elem, local_shared_ptr<floorsegment_properties> result);
+    bool parseObject(tinyxml2::XMLElement* elem, shared_ptr<sprite_properties>* result);
+    bool parseObject(tinyxml2::XMLElement* elem, shared_ptr<LightArea>* result);
+    bool parseObject(tinyxml2::XMLElement* elem, local_shared_ptr<bullet_properties> result);
+    bool parseObject(tinyxml2::XMLElement* elem, local_shared_ptr<bomb_properties> result);
+    bool parseObject(tinyxml2::XMLElement* elem, MagicEffectDescriptor** result);
+    bool parseObject(tinyxml2::XMLElement* elem, local_shared_ptr<item_properties> result);
+    bool parseObject(tinyxml2::XMLElement * elem, SpellDesc** result);
+
+    bool getAttributeAttr(tinyxml2::XMLElement* elem, const string& name, Attribute* result);
+    bool getStringAttr(tinyxml2::XMLElement* elem, const string& name, string* result);
+    bool getColorAttr(tinyxml2::XMLElement* elem, const string& name, Color4F* result);
+    bool getVector(tinyxml2::XMLElement* elem, const string& name, SpaceVect* result);
+    bool getDamageInfo(tinyxml2::XMLElement* elem, DamageInfo* result);
+
 	template<typename T>
 	inline local_shared_ptr<T> getObjectProperties(const string& name)
 	{
@@ -84,6 +108,62 @@ namespace app {
 
 		return t;
 	}
+
+    template<typename T>
+    bool copyBaseObject(
+        tinyxml2::XMLElement* elem,
+        unordered_map<string, local_shared_ptr<T>>& _map,
+        T* output
+    ) {
+        string base;
+        if (getStringAttr(elem, "base", &base)) {
+            auto _base = getOrDefault(_map, base);
+            if (_base) {
+                *output = *_base;
+                return true;
+            }
+            else {
+                log("%s: unknown base %s type: %s", elem->Name(), typeid(T).name(), base);
+            }
+        }
+        return false;
+    }
+
+    template<typename T>
+    local_shared_ptr<T> copyBaseObjectShared(const string& baseName) {
+        local_shared_ptr<T> _base = getObjectProperties<T>(baseName);
+        if (_base) {
+            local_shared_ptr<T> result = make_local_shared<T>();
+            *result = *_base;
+            return result;
+        }
+        else {
+            return nullptr;
+        }
+    }
+
+    template<typename T>
+    bool copyBaseObjectShared(
+        tinyxml2::XMLElement * elem,
+        local_shared_ptr<T> output
+    ) {
+        string base;
+        if (getStringAttr(elem, "base", &base)) {
+            local_shared_ptr<T> _base = getObjectProperties<T>(base);
+            if (_base) {
+                *output = *_base;
+                return true;
+
+            }
+            else {
+                log("%s: unknown base %s type: %s", elem->Name(), typeid(T).name(), base);
+
+            }
+
+        }
+        return false;
+
+    }
 
 	template<typename T>
 	inline void loadObjects(string filename, unordered_map<string,T>& _map)
@@ -146,86 +226,6 @@ namespace app {
 				log("%s : %s failed to load!", filename, crnt->Name());
 			}
 		}
-	}
-
-	bool parseObject(tinyxml2::XMLElement* elem, local_shared_ptr<object_properties> result);
-	bool parseObject(tinyxml2::XMLElement* elem, local_shared_ptr<environment_object_properties> result);
-	bool parseObject(tinyxml2::XMLElement* elem, local_shared_ptr<effectarea_properties> result);
-	bool parseObject(tinyxml2::XMLElement* elem, local_shared_ptr<agent_properties> result);
-	bool parseObject(tinyxml2::XMLElement* elem, area_properties* result);
-	bool parseObject(tinyxml2::XMLElement* elem, AttributeMap* result);
-	bool parseObject(tinyxml2::XMLElement* elem, local_shared_ptr<enemy_properties> result);
-	bool parseObject(tinyxml2::XMLElement* elem, local_shared_ptr<npc_properties> result);
-	bool parseObject(tinyxml2::XMLElement* elem, local_shared_ptr<firepattern_properties>* result);
-	bool parseObject(tinyxml2::XMLElement* elem, local_shared_ptr<floorsegment_properties> result);
-	bool parseObject(tinyxml2::XMLElement* elem, shared_ptr<sprite_properties>* result);
-	bool parseObject(tinyxml2::XMLElement* elem, shared_ptr<LightArea>* result);
-	bool parseObject(tinyxml2::XMLElement* elem, local_shared_ptr<bullet_properties> result);
-	bool parseObject(tinyxml2::XMLElement* elem, local_shared_ptr<bomb_properties> result);
-	bool parseObject(tinyxml2::XMLElement* elem, MagicEffectDescriptor** result);
-	bool parseObject(tinyxml2::XMLElement* elem, local_shared_ptr<item_properties> result);
-	bool parseObject(tinyxml2::XMLElement * elem, SpellDesc** result);
-
-	bool getAttributeAttr(tinyxml2::XMLElement* elem, const string& name, Attribute* result);
-	bool getStringAttr(tinyxml2::XMLElement* elem, const string& name, string* result);
-	bool getColorAttr(tinyxml2::XMLElement* elem, const string& name, Color4F* result);
-	bool getVector(tinyxml2::XMLElement* elem, const string& name, SpaceVect* result);
-	bool getDamageInfo(tinyxml2::XMLElement* elem, DamageInfo* result);
-
-	template<typename T>
-	bool copyBaseObject(
-		tinyxml2::XMLElement* elem,
-		unordered_map<string, local_shared_ptr<T>>& _map,
-		T* output
-	) {
-		string base;
-		if (getStringAttr(elem, "base", &base)) {
-			auto _base = getOrDefault(_map, base);
-			if (_base) {
-				*output = *_base;
-				return true;
-			}
-			else {
-				log("%s: unknown base %s type: %s", elem->Name(), typeid(T).name(), base);
-			}
-		}
-		return false;
-	}
-
-	template<typename T>
-	local_shared_ptr<T> copyBaseObjectShared(const string& baseName) {
-		local_shared_ptr<T> _base = getObjectProperties<T>(baseName);
-		if (_base) {
-			local_shared_ptr<T> result = make_local_shared<T>();
-			*result = *_base;
-			return result;
-		}
-		else {
-			return nullptr;
-		}
-	}
-
-	template<typename T>
-	bool copyBaseObjectShared(
-		tinyxml2::XMLElement * elem,
-		local_shared_ptr<T> output
-	) {
-		string base;
-		if (getStringAttr(elem, "base", &base)) {
-			local_shared_ptr<T> _base = getObjectProperties<T>(base);
-			if (_base) {
-				*output = *_base;
-				return true;
-				
-			}
-			else {
-				log("%s: unknown base %s type: %s", elem->Name(), typeid(T).name(), base);
-				
-			}
-			
-		}
-		return false;
-		
 	}
 
 	template<typename T>

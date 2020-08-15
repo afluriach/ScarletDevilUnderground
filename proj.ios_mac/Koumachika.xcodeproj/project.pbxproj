@@ -80,8 +80,6 @@
 		E23E1B2D1C014A0A00F7FAC1 /* LuaShell.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E23E1B2A1C014A0A00F7FAC1 /* LuaShell.cpp */; };
 		E24450241C02CFA8006D78B0 /* ObjectMapping.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E24450231C02CFA8006D78B0 /* ObjectMapping.cpp */; };
 		E24450251C02CFA8006D78B0 /* ObjectMapping.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E24450231C02CFA8006D78B0 /* ObjectMapping.cpp */; };
-		E244502E1C03A760006D78B0 /* scenes.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E244502D1C03A760006D78B0 /* scenes.cpp */; };
-		E244502F1C03A760006D78B0 /* scenes.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E244502D1C03A760006D78B0 /* scenes.cpp */; };
 		E24450321C03D1DE006D78B0 /* SceneMapping.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E24450311C03D1DE006D78B0 /* SceneMapping.cpp */; };
 		E24450331C03D1DE006D78B0 /* SceneMapping.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E24450311C03D1DE006D78B0 /* SceneMapping.cpp */; };
 		E2480E1120E1EADC0028E491 /* Agent.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E21738F41FE609360045C4CB /* Agent.cpp */; };
@@ -377,7 +375,6 @@
 		E23E1B2A1C014A0A00F7FAC1 /* LuaShell.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = LuaShell.cpp; path = ../Classes/lua/LuaShell.cpp; sourceTree = SOURCE_ROOT; };
 		E23E1B2B1C014A0A00F7FAC1 /* LuaShell.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = LuaShell.hpp; path = ../Classes/lua/LuaShell.hpp; sourceTree = SOURCE_ROOT; };
 		E24450231C02CFA8006D78B0 /* ObjectMapping.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = ObjectMapping.cpp; path = ../Classes/objects/ObjectMapping.cpp; sourceTree = SOURCE_ROOT; };
-		E244502D1C03A760006D78B0 /* scenes.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = scenes.cpp; path = scenes/scenes.cpp; sourceTree = "<group>"; };
 		E24450311C03D1DE006D78B0 /* SceneMapping.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = SceneMapping.cpp; path = scenes/SceneMapping.cpp; sourceTree = "<group>"; };
 		E24620271CF77271007C2CB5 /* libboost_serialization.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libboost_serialization.a; path = ../../../../../../dev/boost_1_59_0/stage/lib/libboost_serialization.a; sourceTree = "<group>"; };
 		E259A5E120D6108F003288B5 /* enum.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = enum.h; sourceTree = "<group>"; };
@@ -514,6 +511,7 @@
 		E26C258C24E73AD8004067E0 /* menu_scenes.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = menu_scenes.h; path = scenes/menu_scenes.h; sourceTree = "<group>"; };
 		E26C258D24E73AD8004067E0 /* menu_scenes.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = menu_scenes.cpp; path = scenes/menu_scenes.cpp; sourceTree = "<group>"; };
 		E270E0DB1CF777B6004A5DBB /* libboost_serialization.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libboost_serialization.dylib; path = ../../../../../../dev/boost_1_59_0/stage/lib/libboost_serialization.dylib; sourceTree = "<group>"; };
+		E285F09724E77C3200B31BBF /* allocator.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = allocator.hpp; sourceTree = "<group>"; };
 		E28D89841BDFE7CD00F58903 /* util.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = util.cpp; sourceTree = "<group>"; };
 		E29499A11FA1D30700179C82 /* libboost.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libboost.a; path = ../../../lib/boost59/ios/build/arm64/libboost.a; sourceTree = "<group>"; };
 		E29499A31FA1D4FC00179C82 /* libboost.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libboost.a; path = ../../../lib/boost59/osx/build/x86_64/libboost.a; sourceTree = "<group>"; };
@@ -687,6 +685,7 @@
 		46880B8319C43A87006E1F66 /* Classes */ = {
 			isa = PBXGroup;
 			children = (
+				E285F09724E77C3200B31BBF /* allocator.hpp */,
 				E25BCAF024E73BC20032C1ED /* space */,
 				E25BCAE724E73BA00032C1ED /* controls */,
 				E25BCAD224E73B7C0032C1ED /* graphics */,
@@ -796,7 +795,6 @@
 				E26C258724E73AD8004067E0 /* OpeningScene.hpp */,
 				E26C258924E73AD8004067E0 /* OverworldScene.cpp */,
 				E26C258B24E73AD8004067E0 /* OverworldScene.hpp */,
-				E244502D1C03A760006D78B0 /* scenes.cpp */,
 				E24450311C03D1DE006D78B0 /* SceneMapping.cpp */,
 				E23122011BFA74AC00FEA94B /* LibraryOpening.h */,
 				E20A7D681BCD205E007F1A3B /* PlayScene.cpp */,
@@ -1194,7 +1192,6 @@
 				E25BCADD24E73B8B0032C1ED /* graphics_context.cpp in Sources */,
 				E26C24F924E739ED004067E0 /* xml_spells.cpp in Sources */,
 				E26C253524E73A41004067E0 /* MagicEffectSystem.cpp in Sources */,
-				E244502E1C03A760006D78B0 /* scenes.cpp in Sources */,
 				E25BCAE324E73B8B0032C1ED /* GraphicsNodes.cpp in Sources */,
 				E25BCB0124E73BD00032C1ED /* GSpace.cpp in Sources */,
 				E26C252324E73A41004067E0 /* MagicEffect.cpp in Sources */,
@@ -1326,7 +1323,6 @@
 				E26C259324E73AD8004067E0 /* OpeningScene.cpp in Sources */,
 				E223F3871CFCB75F00AD4133 /* Graph.cpp in Sources */,
 				E2080BCA1C00486000EB78DF /* LuaAPI.cpp in Sources */,
-				E244502F1C03A760006D78B0 /* scenes.cpp in Sources */,
 				E25BCB0224E73BD00032C1ED /* GSpace.cpp in Sources */,
 				E25BCB0C24E73BD00032C1ED /* GState.cpp in Sources */,
 				E2CDC5501C051FFC0017537B /* Bullet.cpp in Sources */,

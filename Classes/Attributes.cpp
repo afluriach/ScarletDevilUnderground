@@ -220,10 +220,10 @@ AttributeMap AttributeSystem::add(const AttributeMap& a, const AttributeMap& b)
 	return result;
 }
 
-float AttributeSystem::getAttribute(const AttributeMap& attr, Attribute id, float default)
+float AttributeSystem::getAttribute(const AttributeMap& attr, Attribute id, float _default)
 {
 	auto it = attr.find(id);
-	return it != attr.end() ? it->second : default;
+	return it != attr.end() ? it->second : _default;
 }
 
 AttributeSystem::AttributeSystem() :

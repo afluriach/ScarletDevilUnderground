@@ -109,6 +109,7 @@ USING_NS_CC;
 
 typedef double SpaceFloat;
 
+#include "allocator.hpp"
 #include "shared_ptr.hpp"
 #include "macros.h"
 #include "enum.h"
@@ -123,6 +124,7 @@ typedef double SpaceFloat;
 #include "GObject.hpp"
 #include "graphics_context.hpp"
 #include "GSpace.hpp"
+#include "FileIO.hpp"
 #include "xml.hpp"
 #include "Attributes.hpp"
 #include "App.h"
