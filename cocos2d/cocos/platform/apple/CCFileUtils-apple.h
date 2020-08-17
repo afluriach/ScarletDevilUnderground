@@ -29,6 +29,8 @@
 #include <string>
 #include <vector>
 
+#include <Foundation/NSBundle.h>
+
 #include "platform/CCFileUtils.h"
 #include "platform/CCPlatformMacros.h"
 #include "base/ccTypes.h"

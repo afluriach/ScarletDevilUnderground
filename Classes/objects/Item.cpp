@@ -64,7 +64,8 @@ Item::Item(
 	),
 	props(props)
 {
-	auto& cls = space->scriptVM->_state["objects"][props->scriptName];
+    auto objects = space->scriptVM->_state["objects"];
+	auto cls = objects[props->scriptName];
 
 	if (cls) {
 		scriptObj = cls(this);

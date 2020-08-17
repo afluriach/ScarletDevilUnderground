@@ -33,7 +33,7 @@ void Inst::addUtil()
 	};
 
 	util["isinf"] = &isinf<double>;
-	util["isnan"] = &isnan;
+	util["isnan"] = &isnan<double>;
 
 	cFuncSame(util, getStringOrDefault);
 	cFuncSame(util, getIntOrDefault);

@@ -27,7 +27,7 @@ make_static_member_detector(properName)
 
 //Adapters for mapping the name of a class to a factory adapter.
 template <typename T>
-constexpr GObject::AdapterType consAdapter()
+GObject::AdapterType consAdapter()
 {
     return [](GSpace* space, ObjectIDType id, const ValueMap& args) -> GObject* {
 		return allocator_new<T>(space,id,args);

@@ -20,11 +20,6 @@
 #include "Player.hpp"
 #include "Wall.hpp"
 
-template <typename T>
-zero_arity_function sceneLaunchAdapter() {
-	return []() -> void { app->runScene<T>(); };
-}
-
 zero_arity_function sceneLaunchAdapterByName(const string& name) {
 	return [=]() -> void { GScene::runScene(name); };
 }

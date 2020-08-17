@@ -36,7 +36,7 @@ THE SOFTWARE.
 #endif /* (CC_TARGET_PLATFORM == CC_PLATFORM_WIN32) */
 
 #if (CC_TARGET_PLATFORM == CC_PLATFORM_MAC)
-typedef void* id;
+typedef struct objc_object *id;
 #endif /* (CC_TARGET_PLATFORM == CC_PLATFORM_MAC) */
 
 /** There are some Resolution Policy for Adapt to the screen. */

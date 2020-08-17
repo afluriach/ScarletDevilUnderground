@@ -19,7 +19,8 @@ bool EnvironmentObject::conditionalLoad(
 	const ValueMap& args,
 	local_shared_ptr<environment_object_properties> props
 ) {
-	auto& cls = space->scriptVM->_state["objects"][props->clsName];
+    auto objects = space->scriptVM->_state["objects"];
+	auto cls = objects[props->clsName];
 
 	if (cls) {
 		sol::function f = cls["conditionalLoad"];
@@ -53,7 +54,8 @@ EnvironmentObject::EnvironmentObject(
 	props(props)
 {
 	if (props->scriptName.size() > 0) {
-		auto& cls = space->scriptVM->_state["objects"][props->scriptName];
+        auto objects = space->scriptVM->_state["objects"];
+		auto cls = objects[props->scriptName];
 		if (cls) {
 			scriptObj = cls(this, args);
 		}

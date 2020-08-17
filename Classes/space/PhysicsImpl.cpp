@@ -55,6 +55,14 @@ PhysicsImpl::collision_type getCanonicalPair(PhysicsImpl::collision_type in)
 	return result;
 }
 
+pair<GType, GType> getFixtureTypes(b2Contact* contact)
+{
+    GType typeA = getBaseType(static_cast<GType>(contact->GetFixtureA()->GetFilterData().categoryBits));
+    GType typeB = getBaseType(static_cast<GType>(contact->GetFixtureB()->GetFilterData().categoryBits));
+
+    return make_pair(typeA, typeB);
+}
+
 template <typename T, typename U>
 PhysicsImpl::contact_func makeObjectPairFunc(void(*f)(T*, U*, b2Contact*), PhysicsImpl::collision_type types)
 {
@@ -109,14 +117,6 @@ b2BodyType getMassType(SpaceFloat mass)
 		to_int(b2_kinematicBody)*bool_int(mass == 0.0) +
 		to_int(b2_dynamicBody)*bool_int(mass > 0.0)
 	);
-}
-
-pair<GType, GType> getFixtureTypes(b2Contact* contact)
-{
-	GType typeA = getBaseType(static_cast<GType>(contact->GetFixtureA()->GetFilterData().categoryBits));
-	GType typeB = getBaseType(static_cast<GType>(contact->GetFixtureB()->GetFilterData().categoryBits));
-
-	return make_pair(typeA, typeB);
 }
 
 PhysicsImpl::contact_func makeSensorHandler(PhysicsImpl::sensor_func f, PhysicsImpl::collision_type types)

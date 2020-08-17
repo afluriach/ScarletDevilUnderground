@@ -20,13 +20,13 @@
 #define PlaySceneMapName(cls) {#cls, playSceneAdapter(#cls)}
 
 template<typename T>
-constexpr GScene::AdapterType adapter()
+GScene::AdapterType adapter()
 {
     return []() -> GScene* { return App::createAndRunScene<T>();};
 }
 
 template<typename T>
-constexpr PlayScene::AdapterType adapterPS()
+PlayScene::AdapterType adapterPS()
 {
 	return []() -> PlayScene* { return App::createAndRunSceneAs<T,PlayScene>(); };
 }

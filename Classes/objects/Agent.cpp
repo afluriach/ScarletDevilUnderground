@@ -43,7 +43,8 @@ bool Agent::conditionalLoad(GSpace* space, const object_params& params, local_sh
 		return false;
 	}
 
-	auto& cls = space->scriptVM->_state["objects"][props->clsName];
+    auto objects = space->scriptVM->_state["objects"];
+	auto cls = objects[props->clsName];
 
 	if (cls) {
 		sol::function f = cls["conditionalLoad"];
@@ -114,7 +115,8 @@ SpaceFloat Agent::getDefaultFovAngle() const {
 
 void Agent::checkInitScriptObject()
 {
-	auto &cls = space->scriptVM->_state["objects"][getClsName()];
+    auto objects = space->scriptVM->_state["objects"];
+	auto cls = objects[getClsName()];
 
 	if (cls) {
 		scriptObj = cls(this);

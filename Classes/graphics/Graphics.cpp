@@ -195,7 +195,7 @@ FiniteTimeAction* flickerTint(float interval, float length, Color3B tint)
 
 GraphicsAction indefiniteFlickerAction(float interval, unsigned char opacity1, unsigned char opacity2)
 {
-	return [=]() -> FiniteTimeAction* {
+	auto f = [=]() -> FiniteTimeAction* {
 		Sequence* flicker = Sequence::createWithTwoActions(
 			FadeTo::create(interval / 2, opacity1),
 			FadeTo::create(interval / 2, opacity2)
@@ -204,11 +204,12 @@ GraphicsAction indefiniteFlickerAction(float interval, unsigned char opacity1, u
 
 		return loop;
 	};
+    return GraphicsAction(f);
 }
 
 GraphicsAction indefiniteColorFlickerAction(float interval, pair<Color3B,Color3B> colors, cocos_action_tag tag)
 {
-	return [=]() -> FiniteTimeAction* {
+	auto f = [=]() -> FiniteTimeAction* {
 		Sequence* flicker = Sequence::createWithTwoActions(
 			TintTo::createRecursive(interval * 0.5f, colors.first),
 			TintTo::createRecursive(interval * 0.5f, colors.second)
@@ -219,11 +220,12 @@ GraphicsAction indefiniteColorFlickerAction(float interval, pair<Color3B,Color3B
 
 		return loop;
 	};
+    return GraphicsAction(f);
 }
 
 GraphicsAction flickerAction(float interval, float length, unsigned char opacity)
 {
-	return [interval,length,opacity]() -> FiniteTimeAction* {
+	auto f = [interval,length,opacity]() -> FiniteTimeAction* {
 		int nCycles = length / interval;
 
 		Sequence* flicker = Sequence::createWithTwoActions(FadeTo::create(interval / 2, opacity), FadeTo::create(interval / 2, 255));
@@ -231,11 +233,12 @@ GraphicsAction flickerAction(float interval, float length, unsigned char opacity
 
 		return loop;
 	};
+    return GraphicsAction(f);
 }
 
 GraphicsAction flickerTintAction(float interval, float length, Color3B tint)
 {
-	return [interval,length,tint]() -> FiniteTimeAction* {
+	auto f = [interval,length,tint]() -> FiniteTimeAction* {
 		int nCycles = length / interval;
 
 		Sequence* flicker = Sequence::createWithTwoActions(
@@ -247,6 +250,7 @@ GraphicsAction flickerTintAction(float interval, float length, Color3B tint)
 
 		return loop;
 	};
+    return GraphicsAction(f);
 }
 
 GraphicsAction comboFlickerTintAction()
@@ -283,21 +287,23 @@ FiniteTimeAction* tintTo(Color3B tint, float length)
 
 GraphicsAction tintToAction(Color3B tint, float length)
 {
-	return [tint, length]() -> FiniteTimeAction* {
+	auto f = [tint, length]() -> FiniteTimeAction* {
 		return TintTo::createRecursive(length, tint);
 	};
+    return GraphicsAction(f);
 }
 
 GraphicsAction pitfallShrinkAction()
 {
-	return []() -> FiniteTimeAction* {
+	auto f = []() -> FiniteTimeAction* {
 		return ScaleTo::create(fallAnimationTime, 0.0f);
 	};
+    return GraphicsAction(f);
 }
 
 GraphicsAction bombAnimationAction(float expand_ratio, bool removeAfter)
 {
-	return [expand_ratio, removeAfter]() -> FiniteTimeAction* {
+	auto f = [expand_ratio, removeAfter]() -> FiniteTimeAction* {
 
 		FadeTo* fade = FadeTo::create(0.0f, 64);
 		ScaleTo* expand = ScaleTo::create(0.125f, expand_ratio);
@@ -323,11 +329,12 @@ GraphicsAction bombAnimationAction(float expand_ratio, bool removeAfter)
 			);
 		}
 	};
+    return GraphicsAction(f);
 }
 
 GraphicsAction motionBlurStretch(float duration, float angle, float opacity, float scale)
 {
-	return [duration,angle,opacity,scale]() -> FiniteTimeAction* {
+	auto f = [duration,angle,opacity,scale]() -> FiniteTimeAction* {
 		Sequence* sequence = Sequence::create(
 			FadeTo::create(0.0f, opacity * 255),
 			DelayTime::create(duration),
@@ -337,45 +344,50 @@ GraphicsAction motionBlurStretch(float duration, float angle, float opacity, flo
 
 		return sequence;
 	};
+    return GraphicsAction(f);
 }
 
 GraphicsAction freezeEffectAction()
 {
-	return []() -> FiniteTimeAction* {
+	auto f = []() -> FiniteTimeAction* {
 		FiniteTimeAction* action = TintTo::createRecursive(0.5f, Color3B(64, 64, 255));
 		action->setTag(to_int(cocos_action_tag::freeze_status));
 		return action;
 	};
+    return GraphicsAction(f);
 }
 
 GraphicsAction freezeEffectEndAction()
 {
-	return []() -> FiniteTimeAction* {
+	auto f = []() -> FiniteTimeAction* {
 		FiniteTimeAction* action = TintTo::createRecursive(0.5f, Color3B(255, 255, 255));
 		action->setTag(to_int(cocos_action_tag::freeze_status));
 		return action;
 	};
+    return GraphicsAction(f);
 }
 
 GraphicsAction objectFadeOut(float duration, unsigned char targetOpacity)
 {
-	return [duration,targetOpacity]() -> FiniteTimeAction* {
+	auto f = [duration,targetOpacity]() -> FiniteTimeAction* {
 		FiniteTimeAction* action = FadeTo::create(duration, targetOpacity);
 		action->setTag(to_int(cocos_action_tag::object_fade));
 		return action;
 	};
+    return GraphicsAction(f);
 }
 
 GraphicsAction damageIndicatorAction(const Vec2& start_pos)
 {
 	Vec2 end_pos = start_pos + Vec2(0.0f, app::pixelsPerTile);
-	return [end_pos]() -> FiniteTimeAction* {
+	auto f = [end_pos]() -> FiniteTimeAction* {
 		MoveTo* moveTo = MoveTo::create(1.0f, end_pos);
 		FadeOut* fadeOut = FadeOut::create(0.5f);
 		RemoveSelf* removeSelf = RemoveSelf::create();
 
 		return Sequence::create(moveTo, fadeOut, removeSelf, nullptr);
 	};
+    return GraphicsAction(f);
 }
 
 float getSpriteZoom(shared_ptr<sprite_properties> sprite, SpaceFloat agentRadius)
