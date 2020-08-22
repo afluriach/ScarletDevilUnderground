@@ -28,27 +28,32 @@ const vector<string> App::shaderFiles = {
 	"sprite",
 };
 
-#define entry(x) { #x , makeInterfaceFunction(function(&App::x))}
-#define entry2(s,x) { #s , makeInterfaceFunction(function(&App::x))}
+#define entry_void(s,x) { #s , makeInterfaceFunction(function<void()>(&App::x))}
+#define entry_uint(s,x) { #s , makeInterfaceFunction(function<void(unsigned int)>(&App::x))}
+#define entry_uint2(s,x) { #s , makeInterfaceFunction(function<void(unsigned int, unsigned int)>(&App::x))}
+#define entry_bool(s,x) { #s , makeInterfaceFunction(function<void(bool)>(&App::x))}
+#define entry_float(s,x) { #s , makeInterfaceFunction(function<void(float)>(&App::x))}
+#define entry_string(s,x) { #s , makeInterfaceFunction(function<void(string)>(&App::x))}
+#define entry_string2(s,x) { #s , makeInterfaceFunction(function<void(string,string)>(&App::x))}
 
 const unordered_map<string, InterfaceFunction> App::interfaceFuntions = {
-	entry2(framerate, setFramerate),
-	entry2(fullscreen, setFullscreen),
-	entry2(resolution, setResolution),
-	entry2(vsync, setVsync),
-	entry2(difficulty, setDifficulty),
-	entry2(timers, setShowTimers),
+	entry_uint(framerate, setFramerate),
+	entry_bool(fullscreen, setFullscreen),
+	entry_uint2(resolution, setResolution),
+	entry_bool(vsync, setVsync),
+	entry_float(difficulty, setDifficulty),
+	entry_bool(timers, setShowTimers),
 
 	//Control register config commands
 	{ "button", &App::assignButton },
 	{ "key", &App::assignKey },
-	entry2(clear_all_keys, clearAllKeys),
-	entry2(clear_all_buttons, clearAllButtons),
-	entry2(clear_button, clearButtonAction),
-	entry2(clear_key, clearKeyAction),
-	entry2(add_key_action, addKeyAction),
-	entry2(add_button_action, addButtonAction),
-	entry2(southpaw, setSouthpaw),
+	entry_void(clear_all_keys, clearAllKeys),
+	entry_void(clear_all_buttons, clearAllButtons),
+	entry_string(clear_button, clearButtonAction),
+	entry_string(clear_key, clearKeyAction),
+	entry_string2(add_key_action, addKeyAction),
+	entry_string2(add_button_action, addButtonAction),
+	entry_bool(southpaw, setSouthpaw),
 };
 
 unique_ptr<ControlRegister> App::control_register;
@@ -220,8 +225,10 @@ void App::initGLContextAttrs()
 }
 
 bool App::applicationDidFinishLaunching() {
+#ifdef _WIN32
 	GLViewImpl::vsync = vsync;
 	Application::vsync = vsync;
+#endif
 
     //Initialize OpenGL view (and set window title on desktop version).
     auto director = Director::getInstance();

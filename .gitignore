@@ -55,3 +55,4 @@ proj.win32/PredictedInputCache_Debug_Win32.dat
 libnoise/win32/Release/
 libnoise/win32/Debug/
 *.FileListAbsolute.txt
+proj.ios_mac/Koumachika.xcodeproj/project.xcworkspace/xcshareddata/

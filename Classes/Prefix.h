@@ -67,7 +67,6 @@
 #include "ui/CocosGUI.h"
 #include "lua.hpp"
 #include "sol/sol.hpp"
-#include "noise.h"
 #include "sndfile.h"
 
 #if use_gamepad

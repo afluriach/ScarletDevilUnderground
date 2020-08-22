@@ -2757,6 +2757,10 @@
 		E2B2E2B01FE33D2B00D99D27 /* lzio.c in Sources */ = {isa = PBXBuildFile; fileRef = E2B2E2371FE33D2A00D99D27 /* lzio.c */; };
 		E2B2E2B11FE33D2B00D99D27 /* lzio.h in Headers */ = {isa = PBXBuildFile; fileRef = E2B2E2381FE33D2A00D99D27 /* lzio.h */; };
 		E2B2E2B21FE33D2B00D99D27 /* lzio.h in Headers */ = {isa = PBXBuildFile; fileRef = E2B2E2381FE33D2A00D99D27 /* lzio.h */; };
+		E2CE0ECE24F1A13900CCE130 /* b2Filter.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E2CE0ECC24F1A13800CCE130 /* b2Filter.cpp */; };
+		E2CE0ECF24F1A13900CCE130 /* b2Filter.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E2CE0ECC24F1A13800CCE130 /* b2Filter.cpp */; };
+		E2CE0ED024F1A13900CCE130 /* b2Filter.h in Headers */ = {isa = PBXBuildFile; fileRef = E2CE0ECD24F1A13900CCE130 /* b2Filter.h */; };
+		E2CE0ED124F1A13900CCE130 /* b2Filter.h in Headers */ = {isa = PBXBuildFile; fileRef = E2CE0ECD24F1A13900CCE130 /* b2Filter.h */; };
 		ED74D7691A5B8A2600157FD4 /* CCPhysicsHelper.h in Headers */ = {isa = PBXBuildFile; fileRef = ED74D7681A5B8A2600157FD4 /* CCPhysicsHelper.h */; };
 		ED74D76A1A5B8A2600157FD4 /* CCPhysicsHelper.h in Headers */ = {isa = PBXBuildFile; fileRef = ED74D7681A5B8A2600157FD4 /* CCPhysicsHelper.h */; };
 		ED9C6A9418599AD8000A5232 /* CCNodeGrid.cpp in Sources */ = {isa = PBXBuildFile; fileRef = ED9C6A9218599AD8000A5232 /* CCNodeGrid.cpp */; };
@@ -4237,6 +4241,8 @@
 		E2B2E2361FE33D2A00D99D27 /* lvm.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = lvm.h; path = ../lua/lvm.h; sourceTree = "<group>"; };
 		E2B2E2371FE33D2A00D99D27 /* lzio.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = lzio.c; path = ../lua/lzio.c; sourceTree = "<group>"; };
 		E2B2E2381FE33D2A00D99D27 /* lzio.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = lzio.h; path = ../lua/lzio.h; sourceTree = "<group>"; };
+		E2CE0ECC24F1A13800CCE130 /* b2Filter.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = b2Filter.cpp; sourceTree = "<group>"; };
+		E2CE0ECD24F1A13900CCE130 /* b2Filter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = b2Filter.h; sourceTree = "<group>"; };
 		ED74D7681A5B8A2600157FD4 /* CCPhysicsHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CCPhysicsHelper.h; sourceTree = "<group>"; };
 		ED9C6A9218599AD8000A5232 /* CCNodeGrid.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; lineEnding = 0; path = CCNodeGrid.cpp; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.cpp; };
 		ED9C6A9318599AD8000A5232 /* CCNodeGrid.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CCNodeGrid.h; sourceTree = "<group>"; };
@@ -5855,6 +5861,8 @@
 		46A168CD1807AF9C005B8026 /* Common */ = {
 			isa = PBXGroup;
 			children = (
+				E2CE0ECC24F1A13800CCE130 /* b2Filter.cpp */,
+				E2CE0ECD24F1A13900CCE130 /* b2Filter.h */,
 				46A168CE1807AF9C005B8026 /* b2BlockAllocator.cpp */,
 				46A168CF1807AF9C005B8026 /* b2BlockAllocator.h */,
 				46A168D01807AF9C005B8026 /* b2Draw.cpp */,
@@ -7101,6 +7109,7 @@
 				15AE1A6519AAD40300C27E9E /* b2TimeStep.h in Headers */,
 				15AE182E19AAD2F700C27E9E /* CCMeshVertexIndexData.h in Headers */,
 				15AE186419AAD31D00C27E9E /* CDConfig.h in Headers */,
+				E2CE0ED024F1A13900CCE130 /* b2Filter.h in Headers */,
 				15AE1BB819AADFEF00C27E9E /* WebSocket.h in Headers */,
 				B665E3B81AA80A6500DDB1C5 /* CCPURibbonTrail.h in Headers */,
 				1A5701B7180BCB5A0088DEC7 /* CCFontFreeType.h in Headers */,
@@ -7879,6 +7888,7 @@
 				E2B2E29C1FE33D2B00D99D27 /* lua.h in Headers */,
 				15AE18DA19AAD33D00C27E9E /* CCSpriteLoader.h in Headers */,
 				15AE196219AAD35100C27E9E /* CCSSceneReader.h in Headers */,
+				E2CE0ED124F1A13900CCE130 /* b2Filter.h in Headers */,
 				E2B2E2841FE33D2B00D99D27 /* lprefix.h in Headers */,
 				1A01C69518F57BE800EFE3A6 /* CCFloat.h in Headers */,
 				B665E2011AA80A6500DDB1C5 /* CCPUAlignAffector.h in Headers */,
@@ -8555,6 +8565,7 @@
 				1A57010E180BC8EE0088DEC7 /* CCDrawingPrimitives.cpp in Sources */,
 				50ABBED71925AB6F00A911A9 /* ZipUtils.cpp in Sources */,
 				B665E3B61AA80A6500DDB1C5 /* CCPURibbonTrail.cpp in Sources */,
+				E2CE0ECE24F1A13900CCE130 /* b2Filter.cpp in Sources */,
 				B29A7E1319EE1B7700872B35 /* Bone.c in Sources */,
 				B665E1F61AA80A6500DDB1C5 /* CCPUAffectorManager.cpp in Sources */,
 				292DB14919B4574100A80320 /* UIEditBoxImpl-ios.mm in Sources */,
@@ -9554,6 +9565,7 @@
 				50ABBE6A1925AB6F00A911A9 /* CCEventListenerFocus.cpp in Sources */,
 				50ABBE661925AB6F00A911A9 /* CCEventListenerCustom.cpp in Sources */,
 				503DD8F81926B0DB00CD74DD /* CCIMEDispatcher.cpp in Sources */,
+				E2CE0ECF24F1A13900CCE130 /* b2Filter.cpp in Sources */,
 				50ABBDB21925AB4100A911A9 /* ccShaders.cpp in Sources */,
 				50ABBD451925AB0000A911A9 /* CCVertex.cpp in Sources */,
 				50ABBEB01925AB6F00A911A9 /* CCUserDefault.cpp in Sources */,
