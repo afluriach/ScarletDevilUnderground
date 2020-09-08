@@ -63,7 +63,7 @@ effect_flags ScriptedMagicEffect::getFlags(string clsName)
 {
 	sol::table cls = GSpace::scriptVM->_state["effects"][clsName];
 
-	if (!cls) {
+    if (!cls.valid()) {
 		log("ScriptedMagicEffect::getFlags: %s does not exist", clsName);
 		return effect_flags::none;
 	}
@@ -80,7 +80,7 @@ ScriptedMagicEffect::ScriptedMagicEffect(effect_params params, string clsName) :
 	auto cls = GSpace::scriptVM->_state["effects"][clsName];
 	MagicEffect* super_this = this;
 
-	if (!cls) {
+    if (!cls.valid()) {
 		log("ScriptedMagicEffect: %s not found", clsName);
 	}
 	else {

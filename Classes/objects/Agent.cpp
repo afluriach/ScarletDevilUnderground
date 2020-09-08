@@ -46,7 +46,7 @@ bool Agent::conditionalLoad(GSpace* space, const object_params& params, local_sh
     auto objects = space->scriptVM->_state["objects"];
 	auto cls = objects[props->clsName];
 
-	if (cls) {
+    if (cls.valid()) {
 		sol::function f = cls["conditionalLoad"];
 
 		if (f && !f(space, params, props)) {
@@ -118,7 +118,7 @@ void Agent::checkInitScriptObject()
     auto objects = space->scriptVM->_state["objects"];
 	auto cls = objects[getClsName()];
 
-	if (cls) {
+    if (cls.valid()) {
 		scriptObj = cls(this);
 	}
 }

@@ -19,7 +19,7 @@ spell_params ScriptedSpell::getParams(string clsName)
 {
 	sol::table cls = GSpace::scriptVM->_state["spells"][clsName];
 
-	if (!cls) {
+    if (!cls.valid()) {
 		log("ScriptedSpell class %s does not exist!", clsName);
 		return spell_params();
 	}
@@ -35,7 +35,7 @@ ScriptedSpell::ScriptedSpell(GObject* caster, const SpellDesc* desc, unsigned in
 	auto cls = GSpace::scriptVM->_state["spells"][clsName];
 	Spell* super_this = this;
 
-	if (cls) {
+    if (cls.valid()) {
 		obj = cls(super_this, caster);
 	}
 }

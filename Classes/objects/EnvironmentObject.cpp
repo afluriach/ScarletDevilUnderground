@@ -22,7 +22,7 @@ bool EnvironmentObject::conditionalLoad(
     auto objects = space->scriptVM->_state["objects"];
 	auto cls = objects[props->clsName];
 
-	if (cls) {
+    if (cls.valid()) {
 		sol::function f = cls["conditionalLoad"];
 
 		if (f && !f(space, id, args, props)) {
@@ -56,7 +56,7 @@ EnvironmentObject::EnvironmentObject(
 	if (props->scriptName.size() > 0) {
         auto objects = space->scriptVM->_state["objects"];
 		auto cls = objects[props->scriptName];
-		if (cls) {
+        if (cls.valid()) {
 			scriptObj = cls(this, args);
 		}
 	}

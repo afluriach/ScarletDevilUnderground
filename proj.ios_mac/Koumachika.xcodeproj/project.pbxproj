@@ -244,6 +244,12 @@
 		E2CDC54C1C0507090017537B /* Player.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E2CDC5491C0507090017537B /* Player.cpp */; };
 		E2CDC54F1C051FFC0017537B /* Bullet.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E2CDC54D1C051FFC0017537B /* Bullet.cpp */; };
 		E2CDC5501C051FFC0017537B /* Bullet.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E2CDC54D1C051FFC0017537B /* Bullet.cpp */; };
+		E2CEBC862507AE150052E46D /* fonts in Resources */ = {isa = PBXBuildFile; fileRef = E2CEBC852507AE140052E46D /* fonts */; };
+		E2CEBC872507AE150052E46D /* fonts in Resources */ = {isa = PBXBuildFile; fileRef = E2CEBC852507AE140052E46D /* fonts */; };
+		E2CEBC892507AE260052E46D /* objects in Resources */ = {isa = PBXBuildFile; fileRef = E2CEBC882507AE260052E46D /* objects */; };
+		E2CEBC8A2507AE260052E46D /* objects in Resources */ = {isa = PBXBuildFile; fileRef = E2CEBC882507AE260052E46D /* objects */; };
+		E2CEBC8C2507AE330052E46D /* sfx in Resources */ = {isa = PBXBuildFile; fileRef = E2CEBC8B2507AE330052E46D /* sfx */; };
+		E2CEBC8D2507AE330052E46D /* sfx in Resources */ = {isa = PBXBuildFile; fileRef = E2CEBC8B2507AE330052E46D /* sfx */; };
 		E2E01EED1C1DCA0D00330904 /* AI.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E2E01EEB1C1DCA0D00330904 /* AI.cpp */; };
 		E2E01EEE1C1DCA0D00330904 /* AI.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E2E01EEB1C1DCA0D00330904 /* AI.cpp */; };
 		E2FB274A20E42CCA0035A5AF /* value_map.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E2FB274820E42CCA0035A5AF /* value_map.cpp */; };
@@ -531,6 +537,9 @@
 		E2CDC54E1C051FFC0017537B /* Bullet.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = Bullet.hpp; path = ../Classes/objects/Bullet.hpp; sourceTree = SOURCE_ROOT; };
 		E2CDC5541C062D000017537B /* Prefix.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.h; fileEncoding = 4; path = Prefix.h; sourceTree = "<group>"; };
 		E2CDC5551C0631290017537B /* macros.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.h; fileEncoding = 4; path = macros.h; sourceTree = "<group>"; };
+		E2CEBC852507AE140052E46D /* fonts */ = {isa = PBXFileReference; lastKnownFileType = folder; path = fonts; sourceTree = "<group>"; };
+		E2CEBC882507AE260052E46D /* objects */ = {isa = PBXFileReference; lastKnownFileType = folder; path = objects; sourceTree = "<group>"; };
+		E2CEBC8B2507AE330052E46D /* sfx */ = {isa = PBXFileReference; lastKnownFileType = folder; path = sfx; sourceTree = "<group>"; };
 		E2D9A6EA1FE06252008E6D48 /* libboost.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libboost.a; path = ../../../lib/boost59/ios/build/armv7/libboost.a; sourceTree = "<group>"; };
 		E2E01EEB1C1DCA0D00330904 /* AI.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = AI.cpp; path = ../Classes/ai/AI.cpp; sourceTree = SOURCE_ROOT; };
 		E2E01EEC1C1DCA0D00330904 /* AI.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = AI.hpp; path = ../Classes/ai/AI.hpp; sourceTree = SOURCE_ROOT; };
@@ -673,11 +682,14 @@
 			isa = PBXGroup;
 			children = (
 				E231220C1BFA9D7700FEA94B /* dialogs */,
+				E2CEBC882507AE260052E46D /* objects */,
+				E2CEBC852507AE140052E46D /* fonts */,
 				E23122021BFA757900FEA94B /* portraits */,
 				E20A7D6E1BCD27F0007F1A3B /* maps */,
 				521A8EA819F11F5000D177D7 /* fonts */,
 				E26147BB1C005A1B008CA1D0 /* scripts */,
 				E20EAF011C64F13C0061B640 /* shaders */,
+				E2CEBC8B2507AE330052E46D /* sfx */,
 				E20328D41BE082970069B322 /* sprites */,
 			);
 			name = Resources;
@@ -1105,8 +1117,10 @@
 			buildActionMask = 2147483647;
 			files = (
 				5087E78117EB970100C73F5D /* Icon-120.png in Resources */,
+				E2CEBC862507AE150052E46D /* fonts in Resources */,
 				5087E78617EB970100C73F5D /* Icon-76.png in Resources */,
 				5087E77F17EB970100C73F5D /* Default@2x.png in Resources */,
+				E2CEBC8C2507AE330052E46D /* sfx in Resources */,
 				50EF629917ECD46A001EB2F8 /* Icon-100.png in Resources */,
 				5087E78317EB970100C73F5D /* Icon-152.png in Resources */,
 				5087E77D17EB970100C73F5D /* Default-568h@2x.png in Resources */,
@@ -1118,6 +1132,7 @@
 				5087E78017EB970100C73F5D /* Icon-114.png in Resources */,
 				50EF62A217ECD613001EB2F8 /* Icon-29.png in Resources */,
 				50EF629617ECD46A001EB2F8 /* Icon-40.png in Resources */,
+				E2CEBC892507AE260052E46D /* objects in Resources */,
 				5087E78217EB970100C73F5D /* Icon-144.png in Resources */,
 				50EF629817ECD46A001EB2F8 /* Icon-80.png in Resources */,
 				E26147BC1C005A1B008CA1D0 /* scripts in Resources */,
@@ -1139,9 +1154,12 @@
 				E231220E1BFA9D7700FEA94B /* dialogs in Resources */,
 				E20EAF031C64F13C0061B640 /* shaders in Resources */,
 				E26147BD1C005A1B008CA1D0 /* scripts in Resources */,
+				E2CEBC8A2507AE260052E46D /* objects in Resources */,
 				503AE0F817EB97AB00D1A890 /* Icon.icns in Resources */,
 				E20328D61BE082970069B322 /* sprites in Resources */,
+				E2CEBC8D2507AE330052E46D /* sfx in Resources */,
 				E20A7D701BCD27F0007F1A3B /* maps in Resources */,
+				E2CEBC872507AE150052E46D /* fonts in Resources */,
 				E23122041BFA757900FEA94B /* portraits in Resources */,
 				521A8EAA19F11F5000D177D7 /* fonts in Resources */,
 			);
