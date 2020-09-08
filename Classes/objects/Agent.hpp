@@ -64,7 +64,6 @@ public:
 	virtual void onEndDetect(GObject* obj);
 
 	virtual void onZeroHP();
-	virtual void onRemove();
 
 	virtual bool applyInitialSpellCost(const spell_cost& cost);
 	virtual bool applyOngoingSpellCost(const spell_cost& cost);
@@ -129,12 +128,10 @@ public:
 	void resetAnimation();
 	void setSprite(shared_ptr<sprite_properties> sprite);
 protected:
-	void updateAgentOverlay();
 	void updateAnimation();
 
 	string ai_package;
 	int level = 0;
-	SpriteID agentOverlay = 0;
 
 	//equips
 	local_shared_ptr<FirePattern> firePattern;

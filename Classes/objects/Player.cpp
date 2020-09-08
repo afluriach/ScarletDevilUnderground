@@ -554,15 +554,6 @@ void Player::moveToDestinationDoor(Door* dest)
 void Player::applyUpgrade(Attribute attr, float val)
 {
 	modifyAttribute(attr, val);
-
-	if (attr == Attribute::shieldLevel) {
-		space->graphicsNodeAction(
-			&AgentBodyShader::setShieldLevel,
-			agentOverlay,
-			(*this)[Attribute::shieldLevel]
-		);
-	}
-
 	App::crntState->applyAttributeUpgrade(attr, val);
 }
 

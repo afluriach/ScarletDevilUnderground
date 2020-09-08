@@ -141,12 +141,6 @@ void Agent::initAttributes()
 {
 	attributeSystem = allocator_new<AttributeSystem>(getBaseAttributes());
 	applyAttributeEffects(getAttributeUpgrades());
-
-	space->graphicsNodeAction(
-		&AgentBodyShader::setShieldLevel,
-		agentOverlay,
-		get(Attribute::shieldLevel)
-	);
 }
 
 void Agent::init()
@@ -187,7 +181,6 @@ void Agent::update()
 
 	if (firePattern) firePattern->update();
 	attributeSystem->update(this);
-	updateAgentOverlay();
 	updateAnimation();
 }
 
@@ -214,13 +207,6 @@ void Agent::onZeroHP()
 {
 	fsm->onZeroHP();
 	space->removeObject(this);
-}
-
-void Agent::onRemove()
-{
-	GObject::onRemove();
-
-	space->addGraphicsAction(&graphics_context::removeSprite, agentOverlay);
 }
 
 bool Agent::applyInitialSpellCost(const spell_cost& cost)
@@ -372,19 +358,6 @@ void Agent::initializeGraphics()
 		getInitialCenterPix()
 	);
 	animation->setAngle(prevAngle);
-
-	agentOverlay = space->createSprite(
-		&graphics_context::createAgentBodyShader,
-		GraphicsLayer::agentOverlay,
-		bodyOutlineColor,
-		shieldConeColor,
-		to_float(getRadius()*app::pixelsPerTile),
-		to_float(Player::grazeRadius*app::pixelsPerTile),
-		bodyOutlineWidth,
-		getInitialCenterPix()
-	);
-	//Should be false, but in case shield has already been activated.
-	space->graphicsNodeAction(&Node::setVisible, agentOverlay, false);
 }
 
 void Agent::setAngle(SpaceFloat a)
@@ -552,28 +525,6 @@ void Agent::removePhysicsObjects()
 		space->removeSensor(radar);
 		allocator_delete(radar);
 	}
-}
-
-void Agent::updateAgentOverlay()
-{
-	//	space->graphicsNodeAction(&Node::setVisible, agentOverlay, v);
-	if ( (shieldActive && !wasShieldActive) || (!shieldActive && wasShieldActive) ) {
-		space->graphicsNodeAction(&Node::setVisible, agentOverlay, shieldActive);
-	}
-
-	if (shieldActive) {
-		space->addGraphicsAction(
-			&graphics_context::setSpritePosition,
-			agentOverlay,
-			toCocos(getPos()*app::pixelsPerTile)
-		);
-		space->graphicsNodeAction(
-			&Node::setRotation,
-			agentOverlay,
-			toCocosAngle(getAngle())
-		);
-	}
-	wasShieldActive = shieldActive;
 }
 
 void Agent::updateAnimation()
