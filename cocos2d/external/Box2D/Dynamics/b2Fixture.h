@@ -131,6 +131,23 @@ public:
 	/// store your application specific data.
 	std::any GetUserData() const;
 
+    template<typename T>
+    T* GetCastUserData() noexcept
+    {
+        std::any* ptr = &m_userData;
+        T* result = std::any_cast<T>(ptr);
+        return result;
+    }
+
+    /// If the userdata is a pointer (most likely), skip the extra
+    /// layer of indirection and just return the ptr or null
+    template<typename T>
+    T* GetCastUserDataPtr() noexcept
+    {
+        T** result = GetCastUserData<T*>();
+        return result ? *result : nullptr;
+    }
+
 	/// Set the user data. Use this to store your application specific data.
 	void SetUserData(std::any);
 

@@ -23,8 +23,8 @@ void sensorEnd(Sensor* radar, GObject* target, b2Contact* arb);
 template<typename T, typename U>
 pair<T*, U*> getCastObjects(b2Contact* contact)
 {
-	GObject* a = any_cast<GObject*>(contact->GetFixtureA()->GetUserData());
-	GObject* b = any_cast<GObject*>(contact->GetFixtureB()->GetUserData());
+	GObject* a = contact->GetFixtureA()->GetCastUserDataPtr<GObject>();
+	GObject* b = contact->GetFixtureB()->GetCastUserDataPtr<GObject>();
 
 	return make_pair(
 		dynamic_cast<T*>(a),
@@ -34,8 +34,8 @@ pair<T*, U*> getCastObjects(b2Contact* contact)
 
 pair<GObject*, GObject*> getObjects(b2Contact* contact)
 {
-	GObject* a = any_cast<GObject*>(contact->GetFixtureA()->GetUserData());
-	GObject* b = any_cast<GObject*>(contact->GetFixtureB()->GetUserData());
+	GObject* a = contact->GetFixtureA()->GetCastUserDataPtr<GObject>();
+	GObject* b = contact->GetFixtureB()->GetCastUserDataPtr<GObject>();;
 
 	return make_pair(a, b);
 }
@@ -125,13 +125,13 @@ PhysicsImpl::contact_func makeSensorHandler(PhysicsImpl::sensor_func f, PhysicsI
 		auto crntTypes = getFixtureTypes(contact);
 
 		if (types == crntTypes) {
-			auto sensor = any_cast<Sensor*>(contact->GetFixtureA()->GetUserData());
-			auto object = any_cast<GObject*>(contact->GetFixtureB()->GetUserData());
+			auto sensor = contact->GetFixtureA()->GetCastUserDataPtr<Sensor>();
+			auto object = contact->GetFixtureB()->GetCastUserDataPtr<GObject>();
 			f(sensor, object, contact);
 		}
 		else if (isReverseMatch(crntTypes, types)) {
-			auto sensor = any_cast<Sensor*>(contact->GetFixtureB()->GetUserData());
-			auto object = any_cast<GObject*>(contact->GetFixtureA()->GetUserData());
+			auto sensor = contact->GetFixtureB()->GetCastUserDataPtr<Sensor>();
+			auto object = contact->GetFixtureA()->GetCastUserDataPtr<GObject>();
 			f(sensor, object, contact);
 		}
 	};
