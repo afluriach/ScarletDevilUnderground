@@ -1,0 +1,72 @@
+<!doctype html>
+
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>ImpulseEye.net</title>
+  <style>
+	body {
+	  background-color: #000000;
+	  color: #FFFFFF;
+	}
+  </style>
+</head>
+
+<body>  
+
+<p> Scarlet Devil Underground (東方紅魔地下)  
+
+<p> Release v0.2 is now out. This is more based on timing than features. I am mostly
+finished with refactoring things that don't need to be hard-coded with C. The most
+impressive changes are in the Resource files: a lot of game logic is now implemented in Lua
+using Sol. Further, game object types such as sprites and light sources can be input in XML.
+
+<p> The project now uses C++17. This means it requires the Visual C++2019 runtime library on Windows,
+but no special requirements for Mac. (https://visualstudio.microsoft.com/downloads/)
+
+<p> MacOS requirements: 10.10+, Intel 64-bit processor
+
+<p> note: Apparently, the libc++ included with MacOS before 10.14 doesn't fully support C++17.
+For example, the project used to use the non-noexcept version of std::any_cast. This resulted
+in XCode requiring a 10.14+ build target. But the noexcept version is available.
+It is built in XCode 11 on Catalina using the current/latest 10.15 API. But the build target
+is (still) 10.10+, so it should work on older versions.
+
+<p> <a href="kouma-v0.2-win.zip">Download for Windows</a>
+<p>
+<p> <a href="kouma-v0.2-mac.zip">Download for MacOS</a>
+<p>
+<p> <a href="manual.pdf">PDF Manual</a>
+<p>
+<p> Note tha the Windows download is a zip file which contains the application kouma.exe and a 
+resources.zip file that needs to be in the same folder as kouma.exe.
+<p>On Mac, the resource files are included in the app package.
+<p>The manual hasn't been updated for Mac yet, but it creates a ~/Documents/koumachika,
+as opposed to %APPDATA%\Koumachika
+
+<p> <a href="https://github.com/afluriach/ScarletDevilUnderground">https://github.com/afluriach/ScarletDevilUnderground</a>
+<p>
+<p> <a href="https://afluriach.wordpress.com">https://afluriach.wordpress.com<a/>
+<p>
+<p>I have decided to make the source code available. I haven't decided which license yet
+(probably BSD or MIT). 
+<p>
+<p> Donations are appreciated! 
+<p> <a href="http://paypal.me/afluriach">http://paypal.me/afluriach</a>
+<p>
+    
+  <iframe id="ytplayer" type="text/html" width="640" height="360"
+	src="https://www.youtube.com/embed/Xla8cpsZY1Y"
+	frameborder="0"
+  >
+  </iframe>
+
+  <p>
+  
+  <iframe id="ytplayer" type="text/html" width="640" height="360"
+	src="https://www.youtube.com/embed/LbJlRa9T62c"
+	frameborder="0"
+  >
+  </iframe>
+    
+</body>
