@@ -21,7 +21,7 @@ void LogSystem::logOutput(const string& s)
 
 void LogSystem::initThread()
 {
-	std::string path = FileUtils::getInstance()->getWritablePath() + std::string("log.txt");
+	std::string path = io::getWriteablePath() + std::string("log.txt");
 	outputFile.open(path, std::ofstream::app | std::ofstream::ate);
 
 	logThread = thread(&update);

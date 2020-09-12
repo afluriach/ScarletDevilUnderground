@@ -113,14 +113,12 @@ public:
 	static mutex timerMutex;
 #endif
     
-	static const string& getBaseDataPath();
 	static GState* getCrntState();
 
 protected:
 	static App* appInst;
 	static bool logTimers;
 
-	string baseDataPath;
 	FileUtilsZip* fileUtils = nullptr;
 
 	virtual bool applicationDidFinishLaunching();

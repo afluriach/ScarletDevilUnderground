@@ -163,6 +163,8 @@ App::App()
 {
     appInst = this;
 
+    io::checkCreateSubfolders();
+
 	LogSystem::initThread();
 
 	log("\nKouma started at %s", getNowTimestamp());
@@ -188,7 +190,6 @@ App::App()
 	timerSystem = make_unique<TimerSystem>();
 #endif
 
-	baseDataPath = FileUtils::getInstance()->getWritablePath();
 	GState::initProfiles();
 	loadConfigFile();
 	loadObjects();
@@ -431,13 +432,11 @@ bool App::saveProfile(const string& name)
 		return false;
 	}
 
-	io::checkCreateSubfolders();
 	return io::saveProfileState(crntState.get(), name);
 }
 
 bool App::autosaveProfile()
 {
-	io::checkCreateSubfolders();
 	return io::saveProfileState(crntState.get(), "autosave");
 }
 
@@ -459,10 +458,6 @@ void App::setDifficulty(float scale)
 	else {
 		log("Invalid difficulty scale %f!", scale);
 	}
-}
-
-const string& App::getBaseDataPath() {
-	return appInst->baseDataPath;
 }
 
 GState* App::getCrntState() {

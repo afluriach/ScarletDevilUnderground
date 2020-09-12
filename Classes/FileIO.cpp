@@ -146,25 +146,39 @@ void checkCreateSubfolders()
 {
 	auto* f = FileUtils::getInstance();
 
+    if (!f->isDirectoryExist(getWriteablePath())) {
+        log("Documents/koumachika/ created.");
+        f->createDirectory(getWriteablePath());
+    }
+
 	if (!f->isDirectoryExist(getProfilePath())) {
 		log("profiles/ folder created.");
 		f->createDirectory(getProfilePath());
 	}
 }
 
+string getWriteablePath()
+{
+#ifdef _WIN32
+    return FileUtils::getInstance()->getWritablePath();
+#else
+    return FileUtils::getInstance()->getWritablePath() + "koumachika/";
+#endif
+}
+
 string getProfilePath()
 {
-	return App::getBaseDataPath() + "profiles/";
+	return io::getWriteablePath() + "profiles/";
 }
 
 string getControlMappingPath()
 {
-	return App::getBaseDataPath() + "control_mapping.txt";
+	return io::getWriteablePath() + "control_mapping.txt";
 }
 
 string getConfigFilePath()
 {
-	return App::getBaseDataPath() + "config.txt";
+	return io::getWriteablePath() + "config.txt";
 }
 
 string getRealPath(const string& path)

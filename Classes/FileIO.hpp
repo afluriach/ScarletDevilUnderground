@@ -22,6 +22,7 @@ set<string> getProfiles();
 string loadTextFile(const string& res);
 
 void checkCreateSubfolders();
+string getWriteablePath();
 string getProfilePath();
 string getControlMappingPath();
 string getConfigFilePath();
