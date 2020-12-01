@@ -47,7 +47,6 @@ void graphics_context::update()
 	for (auto& entry : lightmapNoise)
 	{
 		SpaceVect fieldPos = SpaceVect::ray(entry.second.radius, entry.second.crntAngle);
-		//double output = (lightmapPerlinNoise.GetValue(fieldPos.x, fieldPos.y, 0.0) + 1.0) * 0.5;
         double pout = lightmapPerlinNoise.noise2D(fieldPos.x, fieldPos.y);
 		double intensity = (pout + 1.0) * 0.5 * (1.0 - entry.second.baseIntensity) + entry.second.baseIntensity;
 
@@ -192,7 +191,7 @@ void graphics_context::removeLightSource(LightID id)
 	else {
 		log("removeLightSource: unknown light source %u.", to_uint(id));
 	}
-//	lightmapNoise.erase(id);
+	lightmapNoise.erase(id);
 }
 
 void graphics_context::setLightSourcePosition(LightID id, SpaceVect pos)
@@ -227,7 +226,7 @@ void graphics_context::setLightSourceColor(LightID id, Color4F color)
 void graphics_context::setLightSourceNoise(LightID id, perlin_light_state noise)
 {
 	noise.crntAngle = noise.startAngle;
-//	lightmapNoise.insert_or_assign(id, noise);
+	lightmapNoise.insert_or_assign(id, noise);
 }
 
 void graphics_context::autoremoveLightSource(LightID id, float seconds)
