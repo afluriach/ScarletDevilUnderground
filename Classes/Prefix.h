@@ -108,6 +108,7 @@ USING_NS_CC;
 
 typedef double SpaceFloat;
 
+#include "PerlinNoise.hpp"
 #include "allocator.hpp"
 #include "shared_ptr.hpp"
 #include "macros.h"

@@ -463,7 +463,3 @@ TimerTriplet TimerSystem::getStats(TimerType _type)
 	);
 }
 
-void makePerlin()
-{
-//	noise::module::Perlin myModule;
-}

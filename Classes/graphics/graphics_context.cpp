@@ -44,20 +44,20 @@ void graphics_context::update()
 		entry.second->setVisible(visible);
 	}
 
-//	for (auto& entry : lightmapNoise)
-//	{
-//		SpaceVect fieldPos = SpaceVect::ray(entry.second.radius, entry.second.crntAngle);
-//		//double output = (lightmapPerlinNoise.GetValue(fieldPos.x, fieldPos.y, 0.0) + 1.0) * 0.5;
-//		double pout = lightmapPerlinNoise.GetValue(fieldPos.x, fieldPos.y, 0.0);
-//		double intensity = (pout + 1.0) * 0.5 * (1.0 - entry.second.baseIntensity) + entry.second.baseIntensity;
-//
-//		setLightSourceColor(entry.first, entry.second.baseColor * intensity);
-//
-//		entry.second.crntAngle += 1.0 / entry.second.cycleInterval * app::params.secondsPerFrame;
-//		if (entry.second.crntAngle >= float_pi * 2.0) {
-//			entry.second.crntAngle -= float_pi * 2.0;
-//		}
-//	}
+	for (auto& entry : lightmapNoise)
+	{
+		SpaceVect fieldPos = SpaceVect::ray(entry.second.radius, entry.second.crntAngle);
+		//double output = (lightmapPerlinNoise.GetValue(fieldPos.x, fieldPos.y, 0.0) + 1.0) * 0.5;
+        double pout = lightmapPerlinNoise.noise2D(fieldPos.x, fieldPos.y);
+		double intensity = (pout + 1.0) * 0.5 * (1.0 - entry.second.baseIntensity) + entry.second.baseIntensity;
+
+		setLightSourceColor(entry.first, entry.second.baseColor * intensity);
+
+		entry.second.crntAngle += 1.0 / entry.second.cycleInterval * app::params.secondsPerFrame;
+		if (entry.second.crntAngle >= float_pi * 2.0) {
+			entry.second.crntAngle -= float_pi * 2.0;
+		}
+	}
 
 }
 

@@ -101,9 +101,9 @@ protected:
 
 	atomic_uint nextLightID = 1;
 	unordered_map<LightID, Node*> lightmapNodes;
-//	unordered_map<LightID, perlin_light_state> lightmapNoise;
+	unordered_map<LightID, perlin_light_state> lightmapNoise;
 	unordered_map<SpriteID, float> autoremoveLightTimers;
-//	noise::module::Perlin lightmapPerlinNoise;
+	siv::PerlinNoise lightmapPerlinNoise;
 
 	atomic_uint nextSpriteID = 1;
 	unordered_map<SpriteID, Node*> graphicsNodes;
