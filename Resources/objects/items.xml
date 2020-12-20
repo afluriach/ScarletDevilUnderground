@@ -5,6 +5,7 @@
         dialog="book_acquired"
     />
     <GraveyardBook1
+    	cls="auto"
 		name="Graveyard Book"
         sprite="graveyardBook"
         dialog="book_acquired"

@@ -48,19 +48,6 @@
 		</attributes>
 	</BlueFairy>
 	
-	<Facer
-		sprite="facer"
-		ai_package="facer"
-		
-		mass="40"
-	>
-		<attributes>
-			<maxSpeed val="1.0"/>
-			<maxAcceleration val="4.5"/>
-			<bulletSensitivity val="0.0"/>
-		</attributes>
-	</Facer>
-
 	<Fairy1
 		name="Fairy I"
 
@@ -79,35 +66,6 @@
 			<maxAcceleration val="4.5"/>
 		</attributes>
 	</Fairy1>
-	
-	<Follower
-		sprite="follower"
-		ai_package="follower"
-		
-		mass="40"
-	>
-		<attributes>
-			<maxSpeed val="1.0"/>
-			<maxAcceleration val="4.5"/>
-			<bulletSensitivity val="0.0"/>
-		</attributes>
-	</Follower>
-
-	<ForestMarisa
-		name="Marisa Kirisame"
-		sprite="marisa"
-		ai_package="forest_marisa"
-		
-		mass="33"
-		viewRange="6.0"
-		viewAngle="0"
-	>
-		<attributes>
-			<maxHP val="100"/>
-			<maxSpeed val="3.0"/>
-			<maxAcceleration val="6.0"/>
-		</attributes>
-	</ForestMarisa>
 	
  	<GhostFairy
 		name="Ghost Fairy"
@@ -218,45 +176,6 @@
 		</attributes>
 	</RedFairy>
 	
-	<PatchouliEnemy
-		name="Patchouli"
-		
-		sprite="patchouli"
-		ai_package="patchouli_enemy"
-		
-		mass="30"
-		
-		collectible="magic2"
-	>
-		<attributes>
-			<maxHP val="300"/>
-			<maxMP val="5"/>
-			<maxSpeed val="2.0"/>
-			<maxAcceleration val="4.0"/>
-		</attributes>
-	</PatchouliEnemy>
-	
-	<ReimuEnemy
-		name="Reimu Hakurei"
-		
-		sprite="reimu"
-		ai_package="reimu_enemy"
-		firepattern="ReimuWavePattern"
-		
-		mass="40"
-		viewRange="5.0"
-		viewAngle="0.0"
-		
-		collectible="magic2"
-	>
-		<attributes>
-			<maxHP val="100"/>
-			<maxMP val="5"/>
-			<maxSpeed val="2.0"/>
-			<maxAcceleration val="4.0"/>
-		</attributes>
-	</ReimuEnemy>
-	
 	<Rumia1
 		name="Rumia"
 	
@@ -300,21 +219,6 @@
 			<agility val="2.5"/>
 		</attributes>
 	</Rumia2>
-	
- 	<Sakuya
-		sprite="sakuya"
-		ai_package="sakuya"
-		
-		mass="40"
-		viewRange="6"
-		viewAngle="0"
-	>
-		<attributes>
-			<maxHP val="30"/>
-			<maxSpeed val="3.0"/>
-			<maxAcceleration val="4.5"/>
-		</attributes>
-	</Sakuya>
 	
 	<Scorpion1
 		name="Scorpion I"
@@ -397,40 +301,6 @@
 			<maxAcceleration val="3.0"/>
 		</attributes>
 	</Slime2>
-
- 	<Stalker
-		sprite="stalker"
-		ai_package="stalker"
-		
-		mass="40"
-		viewRange="6.0"
-		viewAngle="0"
-
-		collectible="magic1"
-		
-		detectEssence="true"
-	>
-		<attributes>
-			<maxHP val="12"/>
-			<maxStamina val="10"/>
-			<maxSpeed val="1.5"/>
-			<maxAcceleration val="4.5"/>
-		</attributes>
-	</Stalker>
-	
-	<Tewi
-		sprite="tewi"
-		ai_package="evade_player_projectiles"
-		
-		mass="40"
-		viewRange="6"
-	>
-		<attributes>
-			<maxHP val="5.0"/>
-			<maxSpeed val="6.0"/>
-			<maxAcceleration val="36.0"/>
-		</attributes>
-	</Tewi>
 
 	<ZombieFairy
 		name="Zombie Fairy"

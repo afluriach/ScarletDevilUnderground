@@ -1,32 +1,21 @@
 <sprites>
-	<bat dpi="32" size="4,4"/>
 	<blueFairy file="fairy-blue" size="3,4" />
 	<blueFairy2 file="fairy2-blue" size="3,4" />
-	<facer dpi="32" file="tewi" size="4,4"/>
 	<genericAgent dpi="32" file="melancholy" size="4,4"/>
 	<follower dpi="32" file="reisen" size="4,4"/>
 	<ghostFairy file="ghost-fairy" size="3,4" />
 	<greenFairy file="fairy-green" size="3,4" />
 	<greenFairy2 file="fairy2-green" size="3,4" />
-	<marisa dpi="32" size="4,4" />
-	<meiling dpi="32" size="4,4" />
-	<patchouli dpi="32" size="4,4" />
 	<pyramid file="pyramid_base" />
 	<redFairy file="fairy-red" size="3,4" />
 	<redFairy2 file="fairy2-red" size="3,4" />
-	<reimu dpi="32" size="4,4"/>
 	<rumia size="3,4" />
-	<sakuya dpi="32" size="4,4"/>
 	<scorpion size="3,4" />	
 	<scorpion2 size="3,4" />	
 	<slime size="3,4" ref-size="1.75"/>
-	<stalker dpi="32" file="dark_cirno" size="4,4"/>
-	<tewi dpi="32" size="4,4"/>
 	<zombieFairy file="zombie-fairy" size="3,4" />
 
-	<cirno dpi="32" size="4,4" />
 	<flandre size="3,4" />
-	<flandre_bat dpi="32" size="4,4" />
 	
 	<barrier dpi="256" />
 	<block />
@@ -40,12 +29,9 @@
 	<flower_sky />
 	<flower_violet />
 	<goal />
-	<glyph dpi="512" ref-size="0.6667"/>
 	<headstone />
-	<icePlatform file="ice_platform" ref-size="2.0" />
 	<launcher />
 	<mapFragment file="map" />
-	<movingPlatform file="moving_platform" ref-size="2.0"/>
 	<mushroom />
 	<sapling />
 	<sign dpi="256" />

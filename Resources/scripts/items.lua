@@ -97,3 +97,13 @@ function objects.Upgrade:onAcquire(p)
 	
 	p:applyUpgrade(u[1], u[2])
 end
+
+objects.GraveyardBook1 = class('GraveyardBook1')
+
+function objects.GraveyardBook1:init(super)
+	self.super = super
+end
+
+function objects.GraveyardBook1:onAcquire(p)
+	App.state:registerChamberAvailable('graveyard1')
+end
