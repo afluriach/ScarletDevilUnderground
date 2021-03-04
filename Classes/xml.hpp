@@ -83,6 +83,8 @@ namespace app {
     bool parseObject(tinyxml2::XMLElement* elem, local_shared_ptr<item_properties> result);
     bool parseObject(tinyxml2::XMLElement * elem, SpellDesc** result);
 
+	bool autoName(tinyxml2::XMLElement* elem, string& field);
+
     bool getAttributeAttr(tinyxml2::XMLElement* elem, const string& name, Attribute* result);
     bool getStringAttr(tinyxml2::XMLElement* elem, const string& name, string* result);
     bool getColorAttr(tinyxml2::XMLElement* elem, const string& name, Color4F* result);
