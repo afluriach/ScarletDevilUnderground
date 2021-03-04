@@ -32,9 +32,12 @@ void Inst::addUtil()
 		return result;
 	};
 
-	util["isinf"] = &isinf<double>;
-	util["isnan"] = &isnan<double>;
-
+	util["isinf"] = &std::isinf<double>;
+#ifdef _WIN32
+	util["isnan"] = &isnan;
+#else
+	util["isnan"] = &std::isnan<double>;
+#endif
 	cFuncSame(util, getStringOrDefault);
 	cFuncSame(util, getIntOrDefault);
 	cFuncSame(util, getFloatOrDefault);
