@@ -143,10 +143,5 @@ function stalker(fsm)
 	fsm:addThread( ai.ScriptFunction.create(fsm, "StalkerTeleport") )
 
 	engage = ai.Seek.makeTargetFunctionGenerator(true, 0.0)
-	fsm:addWhileDetectHandler( GType.player, engage )
-	
-	fsm.agent:applyMagicEffect(
-		app.getEffect("DrainStaminaFromMovement"),
-		effect_attributes.new(1.0, -1.0)
-	)	
+	fsm:addWhileDetectHandler( GType.player, engage )	
 end

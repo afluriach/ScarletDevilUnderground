@@ -280,6 +280,30 @@ namespace app {
 		return false;
 	}
 
+	void parseAgentEffectsList(tinyxml2::XMLElement* elem, list<effect_entry>& effects)
+	{
+		for (
+			tinyxml2::XMLElement* e = elem->FirstChildElement();
+			e != nullptr;
+			e = e->NextSiblingElement()
+		) {
+			string effectName = e->Name();
+			const MagicEffectDescriptor* desc = app::getEffect(effectName);
+			effect_attributes attr;
+			attr.length = -1.0f;
+
+			if (!desc) {
+				log("parseAgentEffectsList: unknown effect " + effectName);
+				continue;
+			}
+
+			getNumericAttr(e, "magnitude", &attr.magnitude);
+			getNumericAttr(e, "radius", &attr.radius);
+
+			effects.push_back(make_pair(desc, attr));
+		}
+	}
+
 	bool parseObject(tinyxml2::XMLElement* elem, local_shared_ptr<agent_properties> result)
 	{
 		parseObject(elem, static_cast<local_shared_ptr<object_properties>>(result));
@@ -293,8 +317,13 @@ namespace app {
 			parseObject(attributes, &result->attributes);
 		}
 
+		tinyxml2::XMLElement* effects = elem->FirstChildElement("effects");
+
+		if (effects){
+			parseAgentEffectsList(effects, result->effects);
+		}
+
 		getStringAttr(elem, "ai_package", &result->ai_package);
-		getStringAttr(elem, "effects", &result->effects);
 
 		autoName(elem, result->ai_package);
 

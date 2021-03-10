@@ -143,11 +143,19 @@ void Agent::initAttributes()
 	applyAttributeEffects(getAttributeUpgrades());
 }
 
+void Agent::applyEffects()
+{
+	for (auto entry : props->effects) {
+		applyMagicEffect(entry.first, entry.second);
+	}
+}
+
 void Agent::init()
 {
 	GObject::init();
 
 	initAttributes();
+	applyEffects();
 	initializeRadar();
 	initFSM();
 }
@@ -159,7 +167,7 @@ void Agent::update()
 	if ( (*this)[Attribute::hp] <= 0.0f && (*this)[Attribute::maxHP] >  0.0f) {
 		onZeroHP();
 	}
-	if ((*this)[Attribute::stamina] <= 0.0f && (*this)[Attribute::maxStamina] > 0.0f) {
+	if ( fsm && (*this)[Attribute::stamina] <= 0.0f && (*this)[Attribute::maxStamina] > 0.0f) {
 		fsm->onZeroStamina();
 	}
 
@@ -205,7 +213,8 @@ void Agent::onEndDetect(GObject* obj)
 
 void Agent::onZeroHP()
 {
-	fsm->onZeroHP();
+	if(fsm)
+		fsm->onZeroHP();
 	space->removeObject(this);
 }
 

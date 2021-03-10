@@ -36,12 +36,9 @@ public:
 
 	~Enemy();
 
-	virtual void init();
 	virtual void onRemove();
 
 	void runDamageFlicker();
-
-	void loadEffects();
 
 	virtual DamageInfo touchEffect() const;
 	virtual bool hit(DamageInfo damage, SpaceVect n);

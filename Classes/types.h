@@ -225,6 +225,8 @@ struct effect_attributes
 	setter(DamageType, type)
 };
 
+typedef pair<const MagicEffectDescriptor*, effect_attributes> effect_entry;
+
 struct app_params
 {
 	float getScale() const;

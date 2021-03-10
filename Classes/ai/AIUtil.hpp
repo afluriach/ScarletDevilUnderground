@@ -16,7 +16,7 @@ namespace ai{
 //Low-level movement functions.
 
 //Not strictly an AI function since it's used to control the player.
-void applyDesiredVelocity(GObject* obj, SpaceVect desired, SpaceFloat maxForce);
+void applyDesiredVelocity(GObject* obj, SpaceVect desired, SpaceFloat maxAccel);
 SpaceVect compute_seek(const GObject* agent, SpaceVect target);
 void seek(GObject* agent, SpaceVect target, SpaceFloat maxSpeed, SpaceFloat acceleration);
 void arrive(GObject* agent, SpaceVect target);

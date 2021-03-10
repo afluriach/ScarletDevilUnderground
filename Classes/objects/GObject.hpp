@@ -276,8 +276,8 @@ public:
 	inline bool getSensor() const { return sensor; }
 	inline PhysicsLayers getLayers() const { return layers; }
 
-	inline virtual SpaceFloat getMaxSpeed() const { return 0; }
-	inline virtual SpaceFloat getMaxAcceleration() const { return 0; }
+	inline virtual SpaceFloat getMaxSpeed() const { return 0.0; }
+	inline virtual SpaceFloat getMaxAcceleration() const { return 0.0; }
 
 	void initializeBody();
 

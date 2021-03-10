@@ -18,7 +18,8 @@ public:
 	AttributeMap attributes;
 
 	string ai_package;
-	string effects;
+
+	list<effect_entry> effects;
 
 	SpaceFloat viewRange = 0.0;
 	SpaceFloat viewAngle = 0.0;
@@ -50,6 +51,7 @@ public:
 
 	void initFSM();
 	void initAttributes();
+	void applyEffects();
 	AttributeMap getBaseAttributes() const;
 	void checkInitScriptObject();
 	virtual void init();

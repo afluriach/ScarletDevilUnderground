@@ -115,8 +115,6 @@
 		sprite="ghostFairy"
 		ai_package="ghost_fairy"
 		firepattern="GhostFairyBulletPattern"
-
-		effects="GhostProtection"
 		
 		mass="10"
 		viewRange="3"
@@ -129,6 +127,11 @@
 			<agility val="2.5"/>
 			<bulletSensitivity val="1.25"/>
 		</attributes>
+		
+		<effects>
+			<GhostProtection />
+		</effects>
+		
 	</GhostFairy>
 
 	<GreenFairy1
@@ -416,6 +419,10 @@
 			<maxSpeed val="1.5"/>
 			<maxAcceleration val="4.5"/>
 		</attributes>
+		
+		<effects>
+			<DrainStaminaFromMovement magnitude="1.0" />
+		</effects>
 	</Stalker>
 	
 	<Tewi

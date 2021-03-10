@@ -79,29 +79,6 @@ void Enemy::onRemove()
 	space->registerEnemyDefeated(getClsName());
 }
 
-void Enemy::init()
-{
-	Agent::init();
-
-	loadEffects();
-}
-
 DamageInfo Enemy::touchEffect() const{
 	return props->touchEffect;
-}
-
-void Enemy::loadEffects()
-{
-	vector<string> effectNames = splitString(props->effects, ",");
-
-	for (string name : effectNames) {
-		auto effectDesc = app::getEffect(name);
-
-		if (effectDesc) {
-			applyMagicEffect(effectDesc, effect_attributes(0.0f, -1.0f));
-		}
-		else {
-			log("Unknown MagicEffect: %s", name);
-		}
-	}
 }
