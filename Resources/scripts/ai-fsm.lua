@@ -20,10 +20,20 @@ function ai.fsm:enemyRoomAlert(enemy)
 	end
 end
 
+function ai.fsm:detectBomb(bomb)
+	if self.detectBombHandler then
+		self.super:pushFunction( self.detectBomb(self.super, bomb) )
+	end
+end
+
 function ai.fsm:zeroHP()
 	if self.defeatDialog then
 		self.super.space:createDialog( self.defeatDialog, false )
 	end
+end
+
+function ai.fsm:addFleeBomb()
+	self.detectBombHandler = ai.Flee.makeTargetFunctionGenerator(-1.0)
 end
 
 ai.bat = ai.fsm:extend('bat')
@@ -42,6 +52,19 @@ ai.follower = ai.fsm:extend('follower')
 
 function ai.follower:initialize()
 	self.super:pushFunction( ai.ScriptFunction.create(self.super, "Follower") )
+end
+
+ai.blue_fairy_follow_path = ai.fsm:extend('blue_fairy_follow_path')
+
+function ai.blue_fairy_follow_path:initialize()
+	self.super:pushFunction( ai.ScriptFunction.create(self.super, "BlueFairy") )
+end
+
+ai.green_fairy = ai.fsm:extend('green_fairy')
+
+function ai.green_fairy:initialize()
+	self.detectEnemyHandler = ai.ScriptFunction.targetGenerator("GreenFairy")
+	self:addFleeBomb()
 end
 
 ai.ghost_fairy = ai.fsm:extend('ghost_fairy')
@@ -83,8 +106,23 @@ function ai.reimu_enemy:initialize()
 	self.detectEnemyHandler = ai.ScriptFunction.targetGenerator("ReimuEnemy")
 end
 
+ai.rumia1 = ai.fsm:extend('rumia1')
+
+ai.rumia1.engageDialog = 'dialogs/rumia1'
+ai.rumia1.defeatDialog = 'dialogs/rumia2'
+
+function ai.rumia1:initialize()
+	self.detectEnemyHandler = ai.ScriptFunction.targetGenerator("Rumia1")
+end
+
 ai.sakuya = ai.fsm:extend('sakuya')
 
 function ai.sakuya:initialize()
 	self.enemyRoomAlertHandler = ai.ScriptFunction.targetGenerator("SakuyaMain")
+end
+
+ai.sakuya_npc = ai.fsm:extend('sakuya_npc')
+
+function ai.sakuya_npc:initialize()
+	self.super:pushFunction( ai.ScriptFunction.create(self.super, "SakuyaNPC1") )
 end
