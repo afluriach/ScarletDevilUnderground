@@ -41,6 +41,7 @@ local_shared_ptr<agent_properties> GSpace::playerCharacter;
 void GSpace::loadScriptVM()
 {
 	scriptVM = make_unique<Lua::Inst>("GSpace");
+	scriptVM->runFile("scripts/ai-fsm.lua");
 	scriptVM->runFile("scripts/ai-functions.lua");
 	scriptVM->runFile("scripts/ai-packages.lua");
 	scriptVM->runFile("scripts/bullets.lua");

@@ -23,6 +23,10 @@ typedef function<local_shared_ptr<Function>(StateMachine*, GObject*)> AITargetFu
 
 struct update_return
 {
+	static update_return makePush(local_shared_ptr<Function> f);
+	static update_return makePop();
+	static update_return makeSteady(float update);
+
 	update_return();
 	update_return(int idx, float update, local_shared_ptr<Function> f);
 
@@ -168,7 +172,7 @@ protected:
 	{
 		if (scriptObj && sol::hasMethod(scriptObj, name)) {
 			auto f = scriptObj[name];
-			bool result = f(params...);
+			bool result = f(scriptObj, params...);
 
 			if (result) return;
 		}

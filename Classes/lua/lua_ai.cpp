@@ -50,6 +50,11 @@ namespace Lua{
 			"update", sol::property(&ai::update_return::get_update),
 			"f", sol::property(&ai::update_return::get_f)
 		);
+
+		_update_return["makePush"] = &ai::update_return::makePush;
+		_update_return["makePop"] = &ai::update_return::makePop;
+		_update_return["makeSteady"] = &ai::update_return::makeSteady;
+
 		_update_return["isPop"] = &ai::update_return::isPop;
 		_update_return["isSteady"] = &ai::update_return::isSteady;
 

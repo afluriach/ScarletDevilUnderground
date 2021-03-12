@@ -24,6 +24,21 @@
 
 namespace ai{
 
+update_return update_return::makePush(local_shared_ptr<Function> f)
+{
+	return update_return(0, 0.0f, f);
+}
+
+update_return update_return::makePop()
+{
+	return update_return(-1, 0.0f, nullptr);
+}
+
+update_return update_return::makeSteady(float update)
+{
+	return update_return(0, update, nullptr);
+}
+
 update_return::update_return() :
 	update_return(0, 0.0f, nullptr)
 {
@@ -222,7 +237,7 @@ agent(agent)
 
 	if (cls.valid()) {
 		scriptObj = cls(this);
-		sol::runtMethodIfAvailable(scriptObj, "initialize");
+		sol::runtMethodIfAvailable(scriptObj, "initialize", scriptObj);
 	}
 }
 

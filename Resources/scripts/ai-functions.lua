@@ -12,11 +12,11 @@ end
 
 function ai.BatEngage:update()
 	if not self.target:isValid() then
-		return pop_return()
+		return ai.update_return.makePop()
 	end
 	
 	self.moveFunction:update()
-	return steady_return()
+	return ai.update_return.makeSteady(0.0)
 end
 
 ai.Facer = class("Facer")
@@ -40,7 +40,7 @@ function ai.Facer:update()
 		end
 	end
 	
-	return steady_return()
+	return ai.update_return.makeSteady(0.0)
 end
 
 function ai.Facer:bulletHit(b)
@@ -68,7 +68,7 @@ function ai.Follower:update()
 		end
 	end
 	
-	return steady_return()
+	return ai.update_return.makeSteady(0.0)
 end
 
 function ai.Follower:bulletHit(b)
@@ -92,7 +92,7 @@ function ai.FairyEngage:update()
 	self.super:aimAtTarget(self.target)
 	self.super:fire()
 	
-	return steady_return()
+	return ai.update_return.makeSteady(0.0)
 end
 
 ai.GhostFairyEngage = class("GhostFairyEngage")
@@ -112,7 +112,7 @@ function ai.GhostFairyEngage:update()
 	self.super:aimAtTarget(self.target)
 	self.super:fire()
 	
-	return steady_return()
+	return ai.update_return.makeSteady(0.0)
 end
 
 ai.GreenFairy = class("GreenFairy")
@@ -137,12 +137,12 @@ function ai.GreenFairy:update()
 	
 	if evadeResult:isSteady() then
 		self.wander:reset()
-		return push_return(self.evade)
+		return ai.update_return.makePush(self.evade)
 	else
 		self.fire:update()
 		self.wander:update()
 			
-		return steady_return()	
+		return ai.update_return.makeSteady(0.0)
 	end
 end
 
@@ -174,7 +174,7 @@ function ai.RedFairyEngage:update()
 	self.super:aimAtTarget(self.target)
 	self.super:fire()
 	
-	return steady_return()
+	return ai.update_return.makeSteady(0.0)
 end
 
 ai.BlueFairy = class("BlueFairy")
@@ -208,7 +208,7 @@ function ai.BlueFairy:update()
 	self.fireFunction:update()
 	self.powerAttackFunction:update()
 	
-	return steady_return()
+	return ai.update_return.makeSteady(0.0)
 end
 
 --When target (player) gets and stays within range for a certain time, it activates.
@@ -248,7 +248,7 @@ function ai.BlueFairyBomb:update()
 		self:activate()
 	end
 	
-	return steady_return()
+	return ai.update_return.makeSteady(0.0)
 end
 
 function ai.BlueFairyBomb:activate()
@@ -272,7 +272,7 @@ end
 
 function ai.ZombieFairy:update()
 	self.moveFunction:update()
-	return steady_return()
+	return ai.update_return.makeSteady(0.0)
 end
 
 ai.MarisaForestMain = class("MarisaForestMain")
@@ -284,7 +284,7 @@ end
 
 function ai.MarisaForestMain:update()	
 	if not self.target or not self.target:isValid() then
-		return pop_return()
+		return ai.update_return.makePop()
 	end
 	
 	self.super:aimAtTarget(self.target)
@@ -293,7 +293,7 @@ function ai.MarisaForestMain:update()
 		self.super:castSpell(app.getSpell('StarlightTyphoon'))
 	end
 
-	return steady_return()
+	return steady_return(0.0)
 end
 
 ai.PatchouliEnemy = class("PatchouliEnemy")
@@ -314,7 +314,7 @@ end
 function ai.PatchouliEnemy:update()
 	self.castFunction:update()
 
-	return steady_return()
+	return ai.update_return.makeSteady(0.0)
 end
 
 ai.ReimuEnemy = class("ReimuEnemy")
@@ -335,7 +335,7 @@ function ai.ReimuEnemy:update()
 	self.super:aimAtTarget(self.target)
 	self.super:fire()
 	
-	return steady_return()
+	return ai.update_return.makeSteady(0.0)
 end
 
 ai.Rumia1 = class("Rumia1")
@@ -356,7 +356,7 @@ function ai.Rumia1:update()
 	self.moveFunction = ai.autoUpdateFunction(self.moveFunction)
 	self.fireFunction = ai.autoUpdateFunction(self.fireFunction)
 	
-	return steady_return()
+	return ai.update_return.makeSteady(0.0)
 end
 
 ai.SakuyaMain = class("SakuyaMain")
@@ -370,7 +370,7 @@ function ai.SakuyaMain:update()
 	if not self.super:isSpellActive() then
 		self.super:castSpell(app.getSpell('IllusionDial'))
 	end
-	return steady_return()
+	return ai.update_return.makeSteady(0.0)
 end
 
 ai.SakuyaNPC1 = class("SakuyaNPC1")
@@ -386,7 +386,7 @@ end
 
 function ai.SakuyaNPC1:update()
 	self.moveFunction:update()
-	return steady_return()
+	return ai.update_return.makeSteady(0.0)
 end
 
 ai.StalkerTeleport = class("StalkerTeleport")
@@ -433,7 +433,7 @@ function ai.HPCastSequence:update()
 	end
 	
 	self.crntSpell = newSpell
-	return steady_return()
+	return ai.update_return.makeSteady(0.0)
 end
 
 function ai.HPCastSequence:onExit()
