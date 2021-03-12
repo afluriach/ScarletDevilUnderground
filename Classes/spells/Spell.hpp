@@ -20,9 +20,6 @@ public:
 	friend class GObject;
 	friend class SpellSystem;
 
-	static const vector<string> playerSpells;
-	static const vector<string> playerPowerAttacks;
-
 	//length: -1 means indefinite, 0 means immediate
 	//updateInterval: -1 means no update, 0 means every frame, units in seconds.
 	Spell(GObject* caster, const SpellDesc* desc, unsigned int id);

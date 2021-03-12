@@ -277,6 +277,30 @@ namespace app {
 	}
 
 	template<typename T>
+	bool getSubObjectPtr(
+		tinyxml2::XMLElement* elem,
+		string fieldName,
+		const T** result,
+		const unordered_map<string, T*>& _map,
+		bool autoName
+	) {
+		string field;
+		getStringAttr(elem, fieldName, &field);
+
+		if (autoName && field == "auto") {
+			field = elem->Name();
+		}
+
+		auto it = _map.find(field);
+
+		if (it != _map.end()) {
+			*result = it->second;
+		}
+
+		return it != _map.end();
+	}
+
+	template<typename T>
 	bool getNumericAttr(tinyxml2::XMLElement* elem, const string& name, T* result)
 	{
 		const char* attr = elem->Attribute(name.c_str());

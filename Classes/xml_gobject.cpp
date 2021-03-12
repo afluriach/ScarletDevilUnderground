@@ -304,6 +304,26 @@ namespace app {
 		}
 	}
 
+	void parseSpellInventory(tinyxml2::XMLElement* elem, list<const SpellDesc*>& spells)
+	{
+		for (
+			tinyxml2::XMLElement* e = elem->FirstChildElement();
+			e != nullptr;
+			e = e->NextSiblingElement()
+		) {
+			string name = e->Name();
+			const SpellDesc* desc = app::getSpell(name);
+
+			if (!desc) {
+				log("parseSpellInventory: unknown spell " + name);
+				continue;
+			}
+
+			spells.push_back(desc);
+		}
+	}
+
+
 	bool parseObject(tinyxml2::XMLElement* elem, local_shared_ptr<agent_properties> result)
 	{
 		parseObject(elem, static_cast<local_shared_ptr<object_properties>>(result));
@@ -318,10 +338,16 @@ namespace app {
 		}
 
 		tinyxml2::XMLElement* effects = elem->FirstChildElement("effects");
-
 		if (effects){
 			parseAgentEffectsList(effects, result->effects);
 		}
+
+		tinyxml2::XMLElement* spells = elem->FirstChildElement("spells");
+		if (spells) {
+			parseSpellInventory(spells, result->spellInventory);
+		}
+
+		getSubObjectPtr<SpellDesc>(elem, "attack", &result->attack, app::spells, true);
 
 		getStringAttr(elem, "ai_package", &result->ai_package);
 

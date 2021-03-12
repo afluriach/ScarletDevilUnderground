@@ -19,6 +19,8 @@ public:
 
 	string ai_package;
 
+	const SpellDesc* attack;
+	list<const SpellDesc*> spellInventory;
 	list<effect_entry> effects;
 
 	SpaceFloat viewRange = 0.0;

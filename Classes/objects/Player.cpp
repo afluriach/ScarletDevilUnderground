@@ -119,15 +119,9 @@ void Player::equipSpells()
 {
 	spells.clear();
 
-	for (string spellName : Spell::playerSpells)
+	for (const SpellDesc* desc : props->spellInventory)
 	{
-		if (!app::params.unlockAllEquips && !App::crntState->hasItem(spellName))
-			continue;
-
-		const SpellDesc* desc = app::getSpell(spellName);
-		if (desc) {
-			spells.push_back(desc);
-		}
+		spells.push_back(desc);
 	}
 
 	spellIdx = spells.size() > 0 ? 0 : -1;
@@ -142,12 +136,9 @@ void Player::equipPowerAttacks()
 {
 	powerAttacks.clear();
 
-	for (string spellName : Spell::playerPowerAttacks)
-	{
-		const SpellDesc* desc = app::getSpell(spellName);
-		if (desc) {
-			powerAttacks.push_back(desc);
-		}
+	if (props->attack) {
+		powerAttacks.push_back(props->attack);
+
 	}
 
 	powerAttackIdx = powerAttacks.size() > 0 ? 0 : -1;

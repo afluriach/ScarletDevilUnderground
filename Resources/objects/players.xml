@@ -3,6 +3,7 @@
         sprite="flandre"
         light="flandrePC"
         mass="20.0"
+		attack="LavaeteinnSpell"
     >
 		<attributes>
 			<shieldLevel val="1"/>
@@ -15,6 +16,12 @@
 			<iceSensitivity val="2.0"/>
 			<sunSensitivity val="5.0"/>
 		</attributes>
+		
+		<spells>
+			<PlayerBatMode />
+			<PlayerCounterClock />
+		</spells>
+		
 	</FlandrePC>
 
     <RumiaPC
@@ -32,6 +39,11 @@
 			<sunSensitivity val="0.0"/>
 			<darknessSensitivity val="0.0"/>
 		</attributes>
+		
+		<spells>
+			<DarkMist />
+		</spells>
+		
 	</RumiaPC>
 
     <CirnoPC
@@ -49,6 +61,11 @@
 			<agility val="1.0"/>
 			<iceSensitivity val="0.0"/>
 		</attributes>
+		
+		<spells>
+			<PlayerIceShield />
+		</spells>
+		
 	</CirnoPC>
     
 </players>
