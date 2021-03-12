@@ -110,6 +110,8 @@ public:
 
 	inline virtual int getLevel() const { return 0; }
 
+	gobject_ref getRef() const;
+
 	string getName() const;
 	string getTypeIndexName() const;
 	string toString() const;

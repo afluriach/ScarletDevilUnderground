@@ -175,7 +175,7 @@ namespace Lua{
 		addFuncSame(gobject, printFSM);
 			
 		gobject["asGObject"] = &GObject::getAs<GObject>;
-		gobject["getRef"] = [](const GObject* obj) -> gobject_ref { return gobject_ref(obj); };
+		gobject["getRef"] = &GObject::getRef;
 		gobject["getAsAgent"] = &GObject::getAs<Agent>;
 		gobject["getAsBullet"] = &GObject::getAs<Bullet>;
 		gobject["getAsEnvironmentObject"] = &GObject::getAs<EnvironmentObject>;

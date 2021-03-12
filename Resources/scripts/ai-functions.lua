@@ -25,12 +25,12 @@ function ai.Facer:init(super)
 	self.super = super
 end
 
-function ai.Facer:onEnter()
-	self.target = self.super.space:getPlayerAsRef()
-end
-
 function ai.Facer:update()
-	if self.target:isValid() then
+	if not self.target or not self.target:isValid() then
+		self.target = self.super.space:getPlayerAsRef()
+	end
+
+	if self.target and self.target:isValid() then
 		local agent = self.super.object
 		local target = self.target:get()
 		if ai.isFacingTarget(agent, target) then
@@ -53,12 +53,12 @@ function ai.Follower:init(super)
 	self.super = super
 end
 
-function ai.Follower:onEnter()
-	self.target = self.super.space:getPlayerAsRef()
-end
-
 function ai.Follower:update()
-	if self.target:isValid() then
+	if not self.target or not self.target:isValid() then
+		self.target = self.super.space:getPlayerAsRef()
+	end
+		
+	if self.target and self.target:isValid() then
 		local agent = self.super.object
 		local target = self.target:get()
 		if ai.isFacingTargetsBack(agent, target) then
@@ -293,7 +293,7 @@ function ai.MarisaForestMain:update()
 		self.super:castSpell(app.getSpell('StarlightTyphoon'))
 	end
 
-	return steady_return(0.0)
+	return ai.update_return.makeSteady(0.0)
 end
 
 ai.PatchouliEnemy = class("PatchouliEnemy")

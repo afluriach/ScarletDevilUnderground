@@ -151,6 +151,11 @@ void GObject::initNameMap()
 	}
 }
 
+gobject_ref GObject::getRef() const
+{
+	return gobject_ref(this);
+}
+
 string GObject::getName() const
 {
 	return space->getObjectName(uuid);

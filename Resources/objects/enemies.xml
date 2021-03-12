@@ -362,7 +362,6 @@
 	<Slime1
 		name="Slime I"
 		sprite="slime"
-		ai_package="engage_player_in_room"
 		
 		radius="0.875"
 		mass="40"
@@ -383,7 +382,6 @@
 	<Slime2
 		name="Slime II"
 		sprite="slime"
-		ai_package="engage_player_in_room"
 
 		radius="1.75"
 		mass="40"
