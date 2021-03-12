@@ -61,9 +61,13 @@ public:
 
 	void sendAlert(Player* p);
 
-	//replaces functionality of RadarStateMachineObject by connecting sensor callbacks
-	virtual void onDetect(GObject* obj);
-	virtual void onEndDetect(GObject* obj);
+	void onDetect(GObject* obj);
+	void onEndDetect(GObject* obj);
+
+	void onDetectEnemy(Agent* enemy);
+	void onEndDetectEnemy(Agent* enemy);
+	void onDetectBullet(Bullet* bullet);
+	void onDetectBomb(Bomb* bomb);
 
 	virtual void onZeroHP();
 
@@ -103,6 +107,8 @@ public:
 	virtual void onBulletCollide(Bullet* b, SpaceVect n);
 	void onTouchAgent(Agent* other);
 	void onEndTouchAgent(Agent* other);
+	bool isEnemy(Agent* other);
+	bool isEnemyBullet(Bullet* other);
 
 	inline virtual void onBulletHitTarget(Bullet* bullet, Agent* target) {}
 	virtual bool hit(DamageInfo damage, SpaceVect n);

@@ -44,27 +44,14 @@ namespace Lua{
 			"update_return",
 			sol::constructors<
 				ai::update_return(),
-				ai::update_return(int,local_shared_ptr<ai::Function>)
+				ai::update_return(int,float,local_shared_ptr<ai::Function>)
 			>(),
 			"idx", sol::property(&ai::update_return::get_idx),
+			"update", sol::property(&ai::update_return::get_update),
 			"f", sol::property(&ai::update_return::get_f)
 		);
 		_update_return["isPop"] = &ai::update_return::isPop;
 		_update_return["isSteady"] = &ai::update_return::isSteady;
-
-		auto _event_type = _ai.new_enum<ai::event_type, true>(
-			"event_type",
-			{
-				enum_entry(ai::event_type, none),
-				enum_entry(ai::event_type, bulletBlock),
-				enum_entry(ai::event_type, bulletHit),
-				enum_entry(ai::event_type, detect),
-				enum_entry(ai::event_type, endDetect),
-				enum_entry(ai::event_type, zeroHP),
-				enum_entry(ai::event_type, zeroStamina),
-				enum_entry(ai::event_type, all),
-			}
-		);
 
 		#define _cls ai::Function
 		auto func = _ai.new_usertype<ai::Function>(
@@ -85,13 +72,14 @@ namespace Lua{
 
 		addFuncSame(func, bulletBlock);
 		addFuncSame(func, bulletHit);
-		addFuncSame(func, detect);
-		addFuncSame(func, endDetect);
-		addFuncSame(func, roomAlert);
+		addFuncSame(func, detectEnemy);
+		addFuncSame(func, endDetectEnemy);
+		addFuncSame(func, detectBullet);
+		addFuncSame(func, detectBomb);
+		addFuncSame(func, enemyRoomAlert);
 		addFuncSame(func, zeroHP);
 		addFuncSame(func, zeroStamina);
 
-		addFuncSame(func, getEvents);
 		addFuncSame(func, getName);
 
 		addFuncSame(func, castSpell);
@@ -109,7 +97,7 @@ namespace Lua{
 		#define _cls ai::Thread
 		auto thread = _state.new_usertype<ai::Thread>(
 			"Thread",
-			sol::constructors < ai::Thread(local_shared_ptr < ai::Function>, ai::StateMachine*) > ()
+			sol::constructors < ai::Thread( ai::StateMachine*) > ()
 		);
 		_ai["Thread"] = thread;
 
@@ -129,24 +117,7 @@ namespace Lua{
 			"space", sol::property(&ai::StateMachine::getSpace)
 		);
 
-		sm["addFunction"] = static_cast<void(ai::StateMachine::*)(local_shared_ptr<ai::Function>)>(&ai::StateMachine::addFunction);
-		addFuncSame(sm, removeFunction);
-		sm["addThread"] = sol::overload(
-			static_cast<local_shared_ptr<ai::Thread>(ai::StateMachine::*)(local_shared_ptr<ai::Function>)>(&ai::StateMachine::addThread),
-			static_cast<local_shared_ptr<ai::Thread>(ai::StateMachine::*)(local_shared_ptr<ai::Thread>)>(&ai::StateMachine::addThread)
-		);
-		sm["removeThread"] = sol::overload(
-			static_cast<void(ai::StateMachine::*)(local_shared_ptr<ai::Thread>)>(&ai::StateMachine::removeThread),
-			static_cast<void(ai::StateMachine::*)(const string&)>(&ai::StateMachine::removeThread)
-		);
-		addFuncSame(sm, isThreadRunning);
-		addFuncSame(sm, getThreadCount);
-
-		addFuncSame(sm, addFleeBomb);
-		addFuncSame(sm, addAlertHandler);
-		addFuncSame(sm, addAlertFunction);
-		addFuncSame(sm, addOnDetectHandler);
-		addFuncSame(sm, addWhileDetectHandler);
+		sm["pushFunction"] = static_cast<void(ai::StateMachine::*)(local_shared_ptr<ai::Function>)>(&ai::StateMachine::pushFunction);
 
 		addFuncSame(sm, getFrame);
 		addFuncSame(sm, toString);
@@ -232,23 +203,11 @@ namespace Lua{
 		);
 		fireOnStress["create"] = &create<ai::FireOnStress, float>;
 
-		auto explode_on_zero_hp = _ai.new_usertype<ai::ExplodeOnZeroHP>(
-			"ExplodeOnZeroHP",
-			sol::base_classes, sol::bases<ai::Function>()
-		);
-		explode_on_zero_hp["create"] = &create<ai::ExplodeOnZeroHP, DamageInfo, SpaceFloat>;
-
 		auto throw_bomb = _ai.new_usertype<ai::ThrowBombs>(
 			"ThrowBombs",
 			sol::base_classes, sol::bases<ai::Function>()
 		);
 		throw_bomb["create"] = &create<ai::ThrowBombs, gobject_ref, local_shared_ptr<bomb_properties>, SpaceFloat, SpaceFloat>;
 		throw_bomb["makeTargetFunctionGenerator"] = &ai::makeTargetFunctionGenerator<ai::ThrowBombs, local_shared_ptr<bomb_properties>, SpaceFloat, SpaceFloat>;
-
-		auto boss = _ai.new_usertype<ai::BossFightHandler>(
-			"BossFightHandler",
-			sol::base_classes, sol::bases<ai::Function>()
-		);
-		boss["create"] = &create<ai::BossFightHandler, string, string>;
 	}
 }

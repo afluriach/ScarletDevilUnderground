@@ -13,8 +13,11 @@
 #include "AIFunctions.hpp"
 #include "AIUtil.hpp"
 #include "AreaSensor.hpp"
+#include "Bomb.hpp"
+#include "Bullet.hpp"
 #include "FirePattern.hpp"
 #include "LuaAPI.hpp"
+#include "sol_util.hpp"
 #include "SpellDescriptor.hpp"
 #include "SpellSystem.hpp"
 #include "value_map.hpp"
@@ -22,12 +25,13 @@
 namespace ai{
 
 update_return::update_return() :
-	update_return(0, nullptr)
+	update_return(0, 0.0f, nullptr)
 {
 }
 
-update_return::update_return(int idx, local_shared_ptr<Function> f) :
+update_return::update_return(int idx, float update, local_shared_ptr<Function> f) :
 	idx(idx),
+	update(update),
 	f(f)
 {
 }
@@ -48,13 +52,6 @@ Function::Function(StateMachine* fsm) :
 
 Function::~Function()
 {
-}
-
-void Function::pop() {
-	if (thread)
-		thread->pop();
-	else
-		log("Function::pop: %s is not stackful!", getName());
 }
 
 GSpace* Function::getSpace() const {
@@ -128,12 +125,9 @@ void Function::stopSpell()
 	spellID = 0;
 }
 
-Thread::Thread(local_shared_ptr<Function> threadMain, StateMachine* sm) :
+Thread::Thread(StateMachine* sm) :
 	sm(sm)
 {
-	if (threadMain) {
-		push(threadMain);
-	}
 }
 
 Thread::~Thread()
@@ -163,8 +157,8 @@ void Thread::update()
 
 void Thread::push(local_shared_ptr<Function> newState)
 {
-	newState->thread = this;
 	call_stack.push_back(newState);
+	newState->onEnter();
 }
 
 void Thread::pop()
@@ -172,7 +166,6 @@ void Thread::pop()
 	if (call_stack.empty())
 		return;
 
-	call_stack.back()->thread = nullptr;
 	Function* crnt = call_stack.back().get();
 
 	crnt->onExit();
@@ -218,188 +211,80 @@ string Thread::getMainFuncName() {
 	return !call_stack.empty() ? call_stack.front()->getName() : "";
 }
 
-StateMachine::StateMachine(GObject *const agent) :
+StateMachine::StateMachine(GObject *const agent, const string& clsName) :
 agent(agent)
 {
     frame = getSpace()->getFrame();
+	_stack = make_local_shared<Thread>(this);
+
+	auto objects = getSpace()->scriptVM->_state["ai"];
+	auto cls = objects[clsName];
+
+	if (cls.valid()) {
+		scriptObj = cls(this);
+		sol::runtMethodIfAvailable(scriptObj, "initialize");
+	}
 }
 
 StateMachine::~StateMachine()
 {
 }
 
-bool StateMachine::runScriptPackage(const string& name)
-{
-	sol::function p = GSpace::scriptVM->getFunction(name);
-
-	if (p) {
-		try {
-			p(this);
-		}
-		catch (const sol::error& e) {
-			log("script package %s error: %s", name, e.what());
-			return false;
-		}
-		return true;
-	}
-	else {
-		log("Agent %s, unknown AI package %s!", agent->getName(), name);
-		return false;
-	}
-}
-
 void StateMachine::update()
 {
-	removeCompletedThreads();
-    
-    for(auto thread_it = current_threads.rbegin(); thread_it != current_threads.rend(); ++thread_it)
-    {
-		(*thread_it)->update();
-    }
+	_stack->update();
+	sol::runtMethodIfAvailable(scriptObj, "update");
 }
 
-void StateMachine::addFunction(local_shared_ptr<Function> function)
+void StateMachine::pushFunction(local_shared_ptr<Function> function)
 {
 	if (!function) return;
-
-	event_type events = function->getEvents();
-	if (events != event_type::none) {
-		functions.push_back(make_pair(events, function));
-	}
-	else {
-		log("StateMachine::addFunction: Attempt to add function %s that doesn't handle any events.", function->getName());
-	}
+	_stack->push(function);
 }
 
-void StateMachine::removeFunction(local_shared_ptr<Function> function)
+void StateMachine::onDetectEnemy(Agent* enemy)
 {
-	if (!function) return;
-
-	event_type events = function->getEvents();
-	functions.remove(make_pair(events, function));
+	callInterface<Agent*>("detectEnemy", &ai::Function::detectEnemy, enemy);
 }
 
-local_shared_ptr<Thread> StateMachine::addThread(local_shared_ptr<Thread> thread)
+void StateMachine::onEndDetectEnemy(Agent* enemy)
 {
-	current_threads.push_back(thread);
-	return thread;
+	callInterface<Agent*>("endDetectEnemy", &ai::Function::endDetectEnemy, enemy);
 }
 
-local_shared_ptr<Thread> StateMachine::addThread(local_shared_ptr<Function> threadMain)
+void StateMachine::onDetectBomb(Bomb* bomb)
 {
-	auto t = make_local_shared<Thread>(threadMain,this);
-
-   addThread(t);
-   return t;
+	callInterface<Bomb*>("detectBomb", &ai::Function::detectBomb, bomb);
 }
 
-void StateMachine::removeThread(local_shared_ptr<Thread> t)
+void StateMachine::onDetectBullet(Bullet* bullet)
 {
-	current_threads.remove(t);
-}
-
-void StateMachine::removeThread(const string& mainName)
-{
-	auto it = current_threads.begin();
-	while (it != current_threads.end()) {
-		if ((*it)->getMainFuncName() == mainName) {
-			it = current_threads.erase(it);
-		}
-		else {
-			++it;
-		}
-	}
-}
-
-void StateMachine::removeCompletedThreads()
-{
-	auto it = current_threads.begin();
-	while (it != current_threads.end()) {
-		if ((*it)->call_stack.empty()) {
-			it = current_threads.erase(it);
-		}
-		else {
-			++it;
-		}
-	}
-}
-
-bool StateMachine::isThreadRunning(const string& mainName)
-{
-	for (auto it = current_threads.begin(); it != current_threads.end(); ++it)
-	{
-		if ( (*it)->getMainFuncName() == mainName) return true;
-	}
-	return false;
-}
-
-int StateMachine::getThreadCount()
-{
-	return current_threads.size();
-}
-
-void StateMachine::onDetect(GObject* obj)
-{
-	callInterface<GObject*>(ai::event_type::detect, &ai::Function::detect, obj);
-}
-
-void StateMachine::onEndDetect(GObject* obj)
-{
-	callInterface<GObject*>(ai::event_type::detect, &ai::Function::endDetect, obj);
+	callInterface<Bullet*>("detectBullet", &ai::Function::detectBullet, bullet);
 }
 
 void StateMachine::onBulletHit(Bullet* b)
 {
-	callInterface<Bullet*>(ai::event_type::bulletHit, &ai::Function::bulletHit, b);
+	callInterface<Bullet*>("bulletHit", &ai::Function::bulletHit, b);
 }
 
 void StateMachine::onBulletBlock(Bullet* b)
 {
-	callInterface<Bullet*>(ai::event_type::bulletBlock, &ai::Function::bulletBlock, b);
+	callInterface<Bullet*>("bulletBlock", &ai::Function::bulletBlock, b);
 }
 
-void StateMachine::onAlert(Player* p)
+void StateMachine::enemyRoomAlert(Agent* enemy)
 {
-	callInterface<Player*>(ai::event_type::roomAlert, &ai::Function::roomAlert, p);
+	callInterface<Agent*>("enemyRoomAlert", &ai::Function::enemyRoomAlert, enemy);
 }
 
 void StateMachine::onZeroHP()
 {
-	callInterface(ai::event_type::zeroHP, &ai::Function::zeroHP);
+	callInterface("zeroHP", &ai::Function::zeroHP);
 }
 
 void StateMachine::onZeroStamina()
 {
-	callInterface(ai::event_type::zeroStamina, &ai::Function::zeroStamina);
-}
-
-void StateMachine::addOnDetectHandler(GType type, AITargetFunctionGenerator gen)
-{
-	auto detect = make_local_shared<OnDetect>(this, type, gen);
-	addFunction(detect);
-}
-
-void StateMachine::addWhileDetectHandler(GType type, AITargetFunctionGenerator gen)
-{
-	auto detect = make_local_shared<WhileDetect>(this, type, gen);
-	addFunction(detect);
-}
-
-void StateMachine::addFleeBomb()
-{
-	addWhileDetectHandler(GType::bomb, makeTargetFunctionGenerator<Flee>(-1.0));
-}
-
-void StateMachine::addAlertHandler(AITargetFunctionGenerator gen)
-{
-	auto alert = make_local_shared<OnAlert>(this, gen);
-	addFunction(alert);
-}
-
-void StateMachine::addAlertFunction(alert_function f)
-{
-	auto alert = make_local_shared<OnAlertFunction>(this, f);
-	addFunction(alert);
+	callInterface("zeroStamina", &ai::Function::zeroStamina);
 }
 
 string StateMachine::toString()
@@ -408,12 +293,10 @@ string StateMachine::toString()
     
     ss << "StateMachine for " << agent->getName() << ":\n";
     
-    for(auto it = current_threads.begin(); it != current_threads.end(); ++it)
-    {
-        Thread* t = it->get();
-        ss << "thread " << t << ", stack:  " << t->getStack() << "\n";
-    }
-    return ss.str();
+    Thread* t = _stack.get();
+    ss << "thread " << t << ", stack:  " << t->getStack() << "\n";
+
+	return ss.str();
 }
 
 GSpace* StateMachine::getSpace() {

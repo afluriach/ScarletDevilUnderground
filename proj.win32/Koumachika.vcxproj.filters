@@ -309,6 +309,9 @@
     <ClCompile Include="..\Classes\xml_gobject.cpp">
       <Filter>src</Filter>
     </ClCompile>
+    <ClCompile Include="..\Classes\lua\sol_util.cpp">
+      <Filter>src\lua</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="main.h">
@@ -550,6 +553,9 @@
     </ClInclude>
     <ClInclude Include="..\Classes\spells\SpellImpl.hpp">
       <Filter>src\spells</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\lua\sol_util.hpp">
+      <Filter>src\lua</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

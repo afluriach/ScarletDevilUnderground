@@ -53,21 +53,9 @@ namespace Lua
         void callIfExistsNoReturn(const string& name);
 
 		template<typename T>
-		inline bool getField(sol::table t, const string& clsName, T* dest)
-		{
-			sol::object obj = t[clsName];
-
-			if (obj) {
-				*dest = obj.as<T>();
-				return true;
-			}
-			return false;
-		}
-
-		template<typename T>
 		inline T getEnum(const string& clsName, const string& s, T _default)
 		{
-			sol::object obj = GSpace::scriptVM->_state[clsName][s];
+			sol::object obj = _state[clsName][s];
 
 			if (obj) {
 				return obj.as<T>();

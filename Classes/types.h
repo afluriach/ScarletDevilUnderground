@@ -12,6 +12,7 @@
 //commonly used forward declarations
     //GObject types
 class Agent;
+class Bomb;
 class Bullet;
 class Door;
 class EffectArea;

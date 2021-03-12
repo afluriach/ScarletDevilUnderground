@@ -11,54 +11,30 @@
 
 namespace ai{
 
-enum class event_type
-{
-	none = 0x0,
-
-	bulletBlock = 0x1,
-	bulletHit = 0x2,
-
-	detect = 0x4,
-	endDetect = 0x8,
-
-	roomAlert = 0x10,
-
-	zeroHP = 0x20,
-	zeroStamina = 0x40,
-
-	all = 0x7F
-};
-
-typedef pair<event_type, local_shared_ptr<Function>> function_entry;
-
 //for functions that target an object
 typedef function<local_shared_ptr<Function>(StateMachine*, GObject*)> AITargetFunctionGenerator;
 
 #define FuncGetName(cls) inline virtual string getName() const {return #cls;}
 
-#define return_pop() return update_return(-1, nullptr)
-#define return_push(x) return update_return(0, x)
-#define _steady() update_return(0, nullptr)
-#define return_steady() return _steady()
-
-#define return_pop_if_false(x) return update_return( (x) ? 0 : -1, nullptr)
-#define return_pop_if_true(x) return update_return( (x) ? -1 : 0, nullptr)
-
-#define return_push_if_true(x, s) return update_return( 0, (x) ? (s) : nullptr )
-#define return_push_if_valid(x) return update_return( 0, (x) ? (x) : nullptr )
+#define return_pop() return update_return(-1, 0.0f, nullptr)
+#define return_push(x) return update_return(0, 0.0f, x)
+#define _steady(x) update_return(0, x, nullptr)
+#define return_steady(x) return _steady(x)
 
 struct update_return
 {
 	update_return();
-	update_return(int idx, local_shared_ptr<Function> f);
+	update_return(int idx, float update, local_shared_ptr<Function> f);
 
 	int idx;
+	float update;
 	local_shared_ptr<Function> f;
 
 	bool isSteady();
 	bool isPop();
 
 	getter(int, idx);
+	getter(float, update);
 	getter(local_shared_ptr<Function>, f);
 };
 
@@ -79,10 +55,6 @@ public:
 	virtual ~Function();
 
 	inline StateMachine* getFSM() const { return fsm; }
-
-	template<class FuncCls, typename... Params>
-	void push(Params... params);
-	void pop();
 
 	GSpace* getSpace() const;
 	GObject* getObject() const;
@@ -105,25 +77,25 @@ public:
 	inline virtual bool isCompleted() { return false; }
 	inline virtual void onExit() {}
 
-	inline virtual void bulletBlock(Bullet* b) {}
-	inline virtual void bulletHit(Bullet* b) {}
+	inline virtual bool bulletBlock(Bullet* b) { return false; }
+	inline virtual bool bulletHit(Bullet* b) { return false; }
 
-	inline virtual void detect(GObject* obj) {}
-	inline virtual void endDetect(GObject* obj) {}
+	inline virtual bool detectEnemy(Agent* enemy) { return false; }
+	inline virtual bool endDetectEnemy(Agent* enemy) { return false; }
+	inline virtual bool detectBomb(Bomb* bomb) { return false; }
+	inline virtual bool detectBullet(Bullet* bullet) { return false; }
 
-	inline virtual void roomAlert(Player* p) {}
+	inline virtual bool enemyRoomAlert(Agent* enemy) { return false; }
 
-	inline virtual void zeroHP() {}
-	inline virtual void zeroStamina() {}
+	inline virtual bool zeroHP() { return false; }
+	inline virtual bool zeroStamina() { return false; }
 
-	inline virtual event_type getEvents() { return event_type::none; }
     inline virtual string getName() const {return "Function";}
     
 	StateMachine* const fsm;
 	int _refcount = 0;
 protected:
 	unsigned int spellID = 0;
-	Thread* thread = nullptr;
 	bool hasRunInit = false;
 };
 
@@ -132,7 +104,7 @@ class Thread
 public:    
 	friend class StateMachine;
     
-	Thread(local_shared_ptr<Function> threadMain, StateMachine* sm);
+	Thread(StateMachine* sm);
 	~Thread();
 
 	void update();
@@ -156,47 +128,27 @@ class StateMachine
 public:
 	friend class Thread;
 
-    StateMachine(GObject *const agent);
+    StateMachine(GObject *const agent, const string& clsName);
 	~StateMachine();
-
-	bool runScriptPackage(const string& name);
 
 	void update();
 
-	void addFunction(local_shared_ptr<Function> function);
-	void removeFunction(local_shared_ptr<Function> function);
-	local_shared_ptr<Thread> addThread(local_shared_ptr<Thread> thread);
-    local_shared_ptr<Thread> addThread(local_shared_ptr<Function> threadMain);
-    void removeThread(local_shared_ptr<Thread> thread);
-    //Remove thread(s) that have the given main function.
-    void removeThread(const string& mainName);
-	bool isThreadRunning(const string& mainName);
-	int getThreadCount();
+	void pushFunction(local_shared_ptr<Function> function);
 
-    void onDetect(GObject* obj);
-	void onEndDetect(GObject* obj);
+	void onDetectEnemy(Agent* enemy);
+	void onEndDetectEnemy(Agent* enemy);
+	void onDetectBomb(Bomb* bomb);
+	void onDetectBullet(Bullet* bullet);
 
 	void onBulletHit(Bullet* b);
 	void onBulletBlock(Bullet* b);
-	void onAlert(Player* p);
+	void enemyRoomAlert(Agent* enemy);
 	void onZeroHP();
 	void onZeroStamina();
-
-	void addAlertHandler(AITargetFunctionGenerator gen);
-	void addOnDetectHandler(GType type, AITargetFunctionGenerator gen);
-	void addWhileDetectHandler(GType type, AITargetFunctionGenerator gen);
-	void addFleeBomb();
-
-	void addAlertFunction(alert_function f);
 
 	template<class FuncCls, typename... Params>
 	inline void addFunction(Params... params) {
 		addFunction(make_local_shared<FuncCls>(this, params...));
-	}
-
-	template<class FuncCls, typename... Params>
-	inline local_shared_ptr<Thread> addThread(Params... params) {
-		return addThread(make_local_shared<FuncCls>(this, params...));
 	}
 
 	template<class FuncCls, typename... Params>
@@ -212,42 +164,27 @@ public:
     string toString();
 protected:
 	template<typename... Params>
-	void callInterface(event_type event, void (Function::*method)(Params...), Params... params)
+	void callInterface(const string& name, bool (Function::*method)(Params...), Params... params)
 	{
-		for (auto t : current_threads)
-		{
-			auto f = t->getTop();
-			if (f && (to_int(f->getEvents()) & to_int(event)) ) {
-				(f.get()->*method)(params...);
-			}
+		if (scriptObj && sol::hasMethod(scriptObj, name)) {
+			auto f = scriptObj[name];
+			bool result = f(params...);
+
+			if (result) return;
 		}
 
-		for (auto entry : functions)
-		{
-			if ( to_int(entry.first) & to_int(event)) {
-				(entry.second.get()->*method)(params...);
-			}
+		for (auto it = _stack->call_stack.rbegin(); it != _stack->call_stack.rend(); ++it) {
+			Function* f = it->get();
+			if ((f->*method)(params...)) return;
 		}
 	}
-
-	void removeCompletedThreads();
 
 	GObject *const agent;
 
-	list<local_shared_ptr<Thread>> current_threads;
-	list<function_entry> functions;
+	local_shared_ptr<Thread> _stack;
+	sol::table scriptObj;
     unsigned int frame;
 };
-
-template<class FuncCls, typename... Params>
-inline void Function::push(Params... params) {
-	if (thread) {
-		thread->push(make_local_shared<FuncCls>(fsm, params...));
-	}
-	else {
-		log("Function::push: %s is not stackful!", getName());
-	}
-}
 
 template<class FuncCls, typename... Params>
 inline AITargetFunctionGenerator makeTargetFunctionGenerator(Params... params)

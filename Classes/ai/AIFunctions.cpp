@@ -30,145 +30,6 @@
 
 namespace ai{
 
-OnDetect::OnDetect(StateMachine* fsm, GType type, AITargetFunctionGenerator gen) :
-	Function(fsm),
-	type(type),
-	gen(gen)
-{
-}
-
-event_type OnDetect::getEvents()
-{
-	return event_type::detect;
-}
-
-void OnDetect::detect(GObject* obj)
-{
-	thread = fsm->addThread(gen(fsm, obj));
-}
-
-WhileDetect::WhileDetect(StateMachine* fsm, GType type, AITargetFunctionGenerator gen) :
-	Function(fsm),
-	type(type),
-	gen(gen)
-{
-}
-
-event_type WhileDetect::getEvents()
-{
-	return enum_bitwise_or(event_type, detect, endDetect);
-}
-
-void WhileDetect::detect(GObject* obj)
-{
-	if (!thread)
-		thread = fsm->addThread(gen(fsm, obj));
-}
-
-void WhileDetect::endDetect(GObject* obj)
-{
-	fsm->removeThread(thread);
-	thread.reset();
-}
-
-OnAlert::OnAlert(StateMachine* fsm, AITargetFunctionGenerator gen) :
-	Function(fsm),
-	gen(gen)
-{
-}
-
-void OnAlert::roomAlert(Player* p)
-{
-	fsm->addThread(gen(fsm, p));
-}
-
-event_type OnAlert::getEvents()
-{
-	return event_type::roomAlert;
-}
-
-OnAlertFunction::OnAlertFunction(StateMachine* fsm, alert_function f) :
-	Function(fsm),
-	f(f)
-{
-}
-
-void OnAlertFunction::roomAlert(Player* p)
-{
-	f(fsm, p);
-}
-
-event_type OnAlertFunction::getEvents()
-{
-	return event_type::roomAlert;
-}
-
-CompositeFunction::CompositeFunction(StateMachine* fsm) :
-	Function(fsm)
-{
-}
-
-void CompositeFunction::onEnter()
-{
-	for (auto f : functions) {
-		f->onEnter();
-	}
-	hasInit = true;
-}
-
-update_return CompositeFunction::update()
-{
-	for (auto it = functions.rbegin(); it != functions.rend(); ++it) {
-		update_return result = (*it)->update();
-		
-		if (result.f) {
-			log("CompositeFunction sub-function %s should not push!", (*it)->getName());
-		}
-		if (result.idx < 0) {
-			log("CompositeFunction sub-function %s should not pop!", (*it)->getName());
-		}		
-	}
-
-	return_steady();
-}
-
-void CompositeFunction::onExit()
-{
-	for (auto f : functions) {
-		f->onExit();
-	}
-}
-
-string CompositeFunction::getName()
-{
-	return "CompositeFunction";
-}
-
-void CompositeFunction::addFunction(local_shared_ptr<Function> f)
-{
-	if (hasInit) {
-		f->onEnter();
-	}
-	functions.push_back(f);
-}
-
-void CompositeFunction::removeFunction(local_shared_ptr<Function> f)
-{
-	auto it = functions.begin();
-	while (it != functions.end()) {
-		if (*it == f) {
-			if (hasInit) {
-				f->onExit();
-				functions.erase(it);
-				return;
-			}
-		}
-		else {
-			++it;
-		}
-	}
-}
-
 AITargetFunctionGenerator ScriptFunction::targetGenerator(const string& cls)
 {
 	return makeTargetFunctionGenerator<ScriptFunction>(cls);
@@ -207,68 +68,71 @@ update_return ScriptFunction::update()
 		return result;
 	}
 	else {
-		return_steady();
+		return_steady(-1.0f);
 	}
 }
 
-void ScriptFunction::bulletBlock(Bullet* b)
+bool ScriptFunction::bulletBlock(Bullet* b)
 {
 	sol::function f = obj["bulletBlock"];
-	if (f) f(obj, b);
+	if (f) return f(obj, b);
+	else return false;
 }
 
-void ScriptFunction::bulletHit(Bullet* b)
+bool ScriptFunction::bulletHit(Bullet* b)
 {
 	sol::function f = obj["bulletHit"];
-	if (f) f(obj, b);
+	if (f) return f(obj, b);
+	else return false;
 }
 
-void ScriptFunction::detect(GObject* _obj)
+bool ScriptFunction::detectEnemy(Agent* enemy)
 {
-	sol::function f = obj["detect"];
-	if (f) f(obj, _obj);
+	sol::function f = obj["detectEnemy"];
+	if (f) return f(obj, enemy);
+	else return false;
 }
 
-void ScriptFunction::endDetect(GObject* _obj)
+bool ScriptFunction::endDetectEnemy(Agent* enemy)
 {
-	sol::function f = obj["endDetect"];
-	if (f) f(obj, _obj);
+	sol::function f = obj["endDetectEnemy"];
+	if (f) return f(obj, enemy);
+	else return false;
 }
 
-void ScriptFunction::roomAlert(Player* p)
+bool ScriptFunction::detectBomb(Bomb* bomb)
 {
-	sol::function f = obj["roomAlert"];
-	if (f) f(obj, p);
+	sol::function f = obj["detectBomb"];
+	if (f) return f(obj, bomb);
+	else return false;
 }
 
-void ScriptFunction::zeroHP()
+bool ScriptFunction::detectBullet(Bullet* bullet)
+{
+	sol::function f = obj["detectBullet"];
+	if (f) return f(obj, bullet);
+	else return false;
+}
+
+bool ScriptFunction::enemyRoomAlert(Agent* enemy)
+{
+	sol::function f = obj["enemyRoomAlert"];
+	if (f) return f(obj, enemy);
+	else return false;
+}
+
+bool ScriptFunction::zeroHP()
 {
 	sol::function f = obj["zeroHP"];
-	if (f) f(obj);
+	if (f) return f(obj);
+	else return false;
 }
 
-void ScriptFunction::zeroStamina()
+bool ScriptFunction::zeroStamina()
 {
 	sol::function f = obj["zeroStamina"];
-	if (f) f(obj);
-}
-
-event_type ScriptFunction::getEvents()
-{
-	sol::function f = obj["getEvents"];
-	if (f) {
-		event_type result = f(obj);
-		return result;
-	}
-	else {
-		if (!static_cast<sol::object>(obj["events"])) {
-			obj["events"] = checkEventMethods();
-		}
-
-		sol::object events = obj["events"];
-		event_type result = events.as<event_type>();
-		return result;
-	}
+	if (f) return f(obj);
+	else return false;
 }
 
 void ScriptFunction::onExit()
@@ -291,63 +155,11 @@ string ScriptFunction::getName()
 	}
 }
 
-//if (hasMethod("zeroHP")) result |= make_enum_bitfield(event_type::zeroHP);
-#define c(name) if( hasMethod(#name) ) { result |= to_int(event_type::name); }
-
-event_type ScriptFunction::checkEventMethods()
-{
-	int result = 0;
-
-	c(bulletBlock);
-	c(bulletHit);
-	c(detect);
-	c(endDetect);
-	c(roomAlert);
-	c(zeroHP);
-	c(zeroStamina);
-
-	return static_cast<event_type>(result);
-}
-
 bool ScriptFunction::hasMethod(const string& name)
 {
 	sol::object f = obj[name.c_str()];
 	bool result = f.valid();
 	return result;
-}
-
-BossFightHandler::BossFightHandler(StateMachine* fsm, string startDialog, string endDialog) :
-	Function(fsm),
-	startDialog(startDialog),
-	endDialog(endDialog)
-{
-}
- 
-event_type BossFightHandler::getEvents()
-{
-	return enum_bitwise_or(event_type, detect, zeroHP);
-}
-
-void BossFightHandler::detect(GObject* obj)
-{
-	if (obj->getType() == GType::player && !hasRunStart) {
-		if (!startDialog.empty()) {
-			fsm->getSpace()->createDialog(startDialog, false);
-		}
-		fsm->getObject()->getCrntRoom()->activateBossObjects();
-		hasRunStart = true;
-	}
-}
-
-void BossFightHandler::zeroHP()
-{
-	if (!hasRunEnd) {
-		if (!endDialog.empty()) {
-			fsm->getSpace()->createDialog(endDialog, false);
-		}
-		fsm->getObject()->getCrntRoom()->deactivateBossObjects();
-		hasRunEnd = true;
-	}
 }
 
 Seek::Seek(StateMachine* fsm, GObject* target, bool usePathfinding, SpaceFloat margin) :
@@ -416,58 +228,10 @@ update_return Seek::update()
         ));
 	}
 
-	return_pop_if_false(target.isValid());
-}
-
-ExplodeOnZeroHP::ExplodeOnZeroHP(StateMachine* fsm, DamageInfo damage, SpaceFloat radius) :
-	Function(fsm),
-	damage(damage),
-	radius(radius)
-{
-}
-
-void ExplodeOnZeroHP::zeroHP()
-{
-	explode();
-}
-
-event_type ExplodeOnZeroHP::getEvents()
-{
-	return event_type::zeroHP;
-}
-
-void ExplodeOnZeroHP::explode()
-{
-	GObject* obj = fsm->getObject();
-	GSpace* space = getSpace();
-
-	explosion(obj, radius, damage);
-
-	SpriteID bombSprite = space->createSprite(
-		&graphics_context::createSprite,
-		string("sprites/explosion.png"),
-		GraphicsLayer::overhead,
-		toCocos(obj->getPos()) * app::pixelsPerTile,
-		1.0f
-	);
-	space->graphicsNodeAction(
-		&Node::setColor,
-		bombSprite,
-		Color3B::RED
-	);
-	space->addGraphicsAction(
-		&graphics_context::runSpriteAction,
-		bombSprite,
-		bombAnimationAction(radius / Bomb::explosionSpriteRadius, true).generator
-	);
-	obj->playSoundSpatial("sfx/red_fairy_explosion.wav");
-
-	LightID light = space->addLightSource(
-		CircleLightArea::create(radius, Color4F::RED, 0.25),
-		obj->getPos(),
-		0.0
-	);
-	space->addGraphicsAction(&graphics_context::autoremoveLightSource, light, 1.0f);
+	if (target.isValid())
+		return_steady(0.0f);
+	else
+		return_pop();
 }
 
 MaintainDistance::MaintainDistance(StateMachine* fsm, gobject_ref target, SpaceFloat distance, SpaceFloat margin) :
@@ -512,7 +276,7 @@ update_return MaintainDistance::update()
 		ai::applyDesiredVelocity(agent, SpaceVect::zero, agent->getMaxAcceleration());
 	}
 
-	return_steady();
+	return_steady(0.0f);
 }
 
 OccupyPoint::OccupyPoint(StateMachine* fsm, SpaceVect target) :
@@ -534,7 +298,7 @@ update_return OccupyPoint::update()
 		arrive(agent, target);
 	}
 
-	return_steady();
+	return_steady(0.0f);
 }
 
 OccupyMidpoint::OccupyMidpoint(StateMachine* fsm, gobject_ref target1, gobject_ref target2) :
@@ -565,7 +329,7 @@ update_return OccupyMidpoint::update()
 		arrive(agent, midpoint);
 	}
 
-	return_steady();
+	return_steady(0.0f);
 }
 
 Scurry::Scurry(StateMachine* fsm, GObject* _target, SpaceFloat _distance, SpaceFloat length) :
@@ -591,7 +355,7 @@ update_return Scurry::update()
 	}
 
 	if (moveFunction)
-		return_steady();
+		return_steady(0.0f);
 
 	SpaceVect displacement = displacementToTarget(agent, target.get()->getPos());
 
@@ -610,7 +374,7 @@ update_return Scurry::update()
 		);
 	}
 
-	return_steady();
+	return_steady(0.0f);
 }
 
 Flee::Flee(StateMachine* fsm, GObject* target, SpaceFloat distance) :
@@ -638,7 +402,10 @@ update_return Flee::update()
         ));
 	}
 	
-	return_pop_if_false(target.isValid());
+	if (target.isValid())
+		return_steady(0.0f);
+	else
+		return_pop();
 }
 
 Evade::Evade(StateMachine* fsm, GType type) : 
@@ -683,7 +450,7 @@ update_return Evade::update()
 		}
 	}
 
-	return_steady();
+	return_steady(0.0f);
 }
 
 LookAround::LookAround(StateMachine* fsm, SpaceFloat angularVelocity) :
@@ -695,7 +462,7 @@ angularVelocity(angularVelocity)
 update_return LookAround::update()
 {
 	getObject()->rotate(angularVelocity * app::params.secondsPerFrame);
-	return_steady();
+	return_steady(0.0f);
 }
 
 Flank::Flank(
@@ -724,7 +491,7 @@ update_return Flank::update()
 	autoUpdateFunction(moveFunction);
 
 	if (moveFunction)
-		return_steady();
+		return_steady(0.0f);
 
 	GObject* agent = getObject();
 	SpaceVect target_pos;
@@ -758,7 +525,7 @@ update_return Flank::update()
 		applyDesiredVelocity(agent, SpaceVect::zero, agent->getMaxAcceleration());
 	}
 
-	return_steady();
+	return_steady(0.0f);
 }
 
 
@@ -805,19 +572,14 @@ update_return LookTowardsFire::update()
 		applyDesiredVelocity(agent, SpaceVect::zero, agent->getMaxAcceleration());
 	}
 
-	return_steady();
+	return_steady(0.0f);
 }
 
 void LookTowardsFire::onExit()
 {
 }
 
-event_type LookTowardsFire::getEvents()
-{
-	return event_type::bulletHit;
-}
-
-void LookTowardsFire::bulletHit(Bullet* b)
+bool LookTowardsFire::bulletHit(Bullet* b)
 {
 	SpaceVect bulletDirection = b->getVel().normalizeSafe().rotate(float_pi);
 	hitAccumulator += hitCost;
@@ -826,6 +588,8 @@ void LookTowardsFire::bulletHit(Bullet* b)
 	if (looking) {
 		getObject()->setAngle(bulletDirection.toAngle());
 	}
+
+	return true;
 }
 
 const double MoveToPoint::arrivalMargin = 0.125;
@@ -872,7 +636,10 @@ update_return MoveToPoint::update()
 		arrived = moveToPoint(getObject(), target, arrivalMargin, false);
 	}
 	
-	return_pop_if_true(arrived);
+	if (arrived)
+		return_pop();
+	else
+		return_steady(0.0f);
 }
 
 local_shared_ptr<FollowPath> FollowPath::pathToTarget(
@@ -950,7 +717,7 @@ update_return FollowPath::update()
 		return_pop();
 	}
 
-	return_steady();
+	return_steady(0.0f);
 }
 
 Wander::Wander(StateMachine* fsm, const ValueMap& args) :
@@ -1034,7 +801,7 @@ update_return Wander::update()
 		}
 	}
 
-	return_steady();
+	return_steady(0.0f);
 }
 
 void Wander::reset()
@@ -1061,7 +828,7 @@ update_return FireAtTarget::update()
 
 	fire();
 
-	return_steady();
+	return_steady(0.0f);
 }
 
 FireOnStress::FireOnStress(StateMachine* fsm, float stressPerShot) :
@@ -1076,7 +843,7 @@ update_return FireOnStress::update()
 	if (agent->get(Attribute::stress) >= stressPerShot && fire()) {
 		agent->modifyAttribute(Attribute::stress, -stressPerShot);
 	}
-	return_steady();
+	return_steady(0.0f);
 }
 
 ThrowBombs::ThrowBombs(
@@ -1137,8 +904,6 @@ update_return ThrowBombs::update()
 			) > blastRadius &&
 			//predict net gain player-enemy damage
 			score(agent->getPos(), angle) > 0.5f &&
-			//do not throw bombs when fleeing
-			!fsm->isThreadRunning("Flee") &&
 			//use bombs gradually in a fight
 			hasEnoughMagic &&
 			//do not throw if target is too close
@@ -1155,7 +920,7 @@ update_return ThrowBombs::update()
 			countdown = getInterval();
 		}
 	}
-	return_steady();
+	return_steady(0.0f);
 }
 
 SpaceFloat ThrowBombs::getInterval()

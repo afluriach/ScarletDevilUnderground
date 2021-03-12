@@ -9,6 +9,7 @@
 #include "Prefix.h"
 
 #include "LuaAPI.hpp"
+#include "sol_util.hpp"
 #include "Spell.hpp"
 #include "SpellDescriptor.hpp"
 #include "SpellImpl.hpp"
@@ -24,12 +25,12 @@ spell_params ScriptedSpellDescriptor::getParams(const string& clsName)
 	sol::table obj = getClsObject(clsName);
 	spell_params result;
 
-	GSpace::scriptVM->getField<string>(obj, "name", &result.name);
-	GSpace::scriptVM->getField<string>(obj, "description", &result.description);
-	GSpace::scriptVM->getField<string>(obj, "icon", &result.icon);
-	GSpace::scriptVM->getField<SpaceFloat>(obj, "length", &result.length);
-	GSpace::scriptVM->getField<SpaceFloat>(obj, "updateInterval", &result.updateInterval);
-	GSpace::scriptVM->getField<spell_cost>(obj, "cost", &result.cost);
+	sol::getField<string>(obj, "name", &result.name);
+	sol::getField<string>(obj, "description", &result.description);
+	sol::getField<string>(obj, "icon", &result.icon);
+	sol::getField<SpaceFloat>(obj, "length", &result.length);
+	sol::getField<SpaceFloat>(obj, "updateInterval", &result.updateInterval);
+	sol::getField<spell_cost>(obj, "cost", &result.cost);
 
 	return result;
 }

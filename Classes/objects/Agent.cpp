@@ -125,15 +125,11 @@ void Agent::checkInitScriptObject()
 
 void Agent::initFSM()
 {
-	fsm = make_unique<ai::StateMachine>(this);
+	fsm = make_unique<ai::StateMachine>(this, ai_package);
 
 	if (ai_package.empty() && type != GType::player) {
 		log("%s: no AI package!", toString());
 		return;
-	}
-
-	if(ai_package.size() > 0) {
-		fsm->runScriptPackage(ai_package);
 	}
 }
 
@@ -195,20 +191,70 @@ void Agent::update()
 void Agent::sendAlert(Player* p)
 {
 	if(fsm)
-		fsm->onAlert(p);
+		fsm->enemyRoomAlert(p);
 }
 
 void Agent::onDetect(GObject* obj)
 {
-	if (fsm) {
-		fsm->onDetect(obj);
+	Agent* other = dynamic_cast<Agent*>(obj);
+	Bomb* bomb = dynamic_cast<Bomb*>(obj);
+	Bullet* bullet = dynamic_cast<Bullet*>(obj);
+
+	switch (obj->getType())
+	{
+	case GType::player:
+	case GType::enemy:
+	case GType::npc:
+		if (other && isEnemy(other)) {
+			onDetectEnemy(other);
+		}
+		break;
+	case GType::bomb:
+		if (other) {
+			onDetectBomb(bomb);
+		}
+		break;
+	case GType::enemyBullet:
+	case GType::playerBullet:
+		if (bullet && isEnemyBullet(bullet)) {
+			onDetectBullet(bullet);
+		}
 	}
 }
 
 void Agent::onEndDetect(GObject* obj)
 {
-	if(fsm)
-		fsm->onEndDetect(obj);
+	Agent* other = dynamic_cast<Agent*>(obj);
+
+	if (other && isEnemy(other)) {
+		onEndDetectEnemy(other);
+	}
+}
+
+void Agent::onDetectEnemy(Agent* enemy)
+{
+	if (fsm) {
+		fsm->onDetectEnemy(enemy);
+	}
+}
+
+void Agent::onEndDetectEnemy(Agent* enemy)
+{
+	if (fsm) {
+		fsm->onEndDetectEnemy(enemy);
+	}
+}
+
+void Agent::onDetectBomb(Bomb* bomb)
+{
+	if (fsm)
+		fsm->onDetectBomb(bomb);
+}
+
+void Agent::onDetectBullet(Bullet* bullet)
+{
+	if (fsm)
+		fsm->onDetectBullet(bullet);
 }
 
 void Agent::onZeroHP()
@@ -458,6 +504,22 @@ void Agent::onTouchAgent(Agent* other)
 
 void Agent::onEndTouchAgent(Agent* other)
 {
+}
+
+bool Agent::isEnemy(Agent* other)
+{
+	return (
+		dynamic_cast<Enemy*>(this) && dynamic_cast<Player*>(other) || 
+		dynamic_cast<Player*>(this) && dynamic_cast<Enemy*>(other)
+	);
+}
+
+bool Agent::isEnemyBullet(Bullet* other)
+{
+	return (
+		type == GType::player && other->getType() == GType::enemyBullet ||
+		type == GType::enemy && other->getType() == GType::playerBullet
+	);
 }
 
 bool Agent::hit(DamageInfo damage, SpaceVect n)

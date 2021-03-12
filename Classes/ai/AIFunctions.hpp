@@ -15,74 +15,6 @@ namespace ai{
 
 class MoveToPoint;
 
-class OnDetect : public Function {
-public:
-	OnDetect(StateMachine* fsm, GType type, AITargetFunctionGenerator gen);
-
-	virtual void detect(GObject* obj);
-	virtual event_type getEvents();
-protected:
-	local_shared_ptr<Thread> thread;
-	AITargetFunctionGenerator gen;
-	GType type;
-};
-
-class WhileDetect : public Function {
-public:
-	WhileDetect(StateMachine* fsm, GType type, AITargetFunctionGenerator gen);
-
-	virtual void detect(GObject* obj);
-	virtual void endDetect(GObject* obj);
-	virtual event_type getEvents();
-protected:
-	local_shared_ptr<Thread> thread;
-	AITargetFunctionGenerator gen;
-	GType type;
-};
-
-class OnAlert : public Function {
-public:
-	OnAlert(StateMachine* fsm, AITargetFunctionGenerator gen);
-
-	virtual void roomAlert(Player* p);
-	virtual event_type getEvents();
-protected:
-	AITargetFunctionGenerator gen;
-};
-
-class OnAlertFunction : public Function {
-public:
-	OnAlertFunction(StateMachine* fsm, alert_function f);
-
-	virtual void roomAlert(Player* p);
-	virtual event_type getEvents();
-protected:
-	alert_function f;
-};
-
-class CompositeFunction : public Function {
-public:
-	//create empty
-	CompositeFunction(StateMachine* fsm);
-
-	template<class FuncCls, typename... Params>
-	inline void addFunction(Params... params)
-	{
-		addFunction(make_local_shared<FuncCls>(fsm, params...));
-	}
-
-	virtual void onEnter();
-	virtual update_return update();
-	virtual void onExit();
-	virtual string getName();
-
-	void addFunction(local_shared_ptr<Function> f);
-	void removeFunction(local_shared_ptr<Function> f);
-protected:
-	list<local_shared_ptr<Function>> functions;
-	bool hasInit = false;
-};
-
 class ScriptFunction : public Function {
 public:
 	static AITargetFunctionGenerator targetGenerator(const string& cls);
@@ -94,39 +26,25 @@ public:
 	virtual update_return update();
 	virtual void onExit();
 
-	virtual void bulletBlock(Bullet* b);
-	virtual void bulletHit(Bullet* b);
+	virtual bool bulletBlock(Bullet* b);
+	virtual bool bulletHit(Bullet* b);
 
-	virtual void detect(GObject* _obj);
-	virtual void endDetect(GObject* _obj);
+	virtual bool detectEnemy(Agent* enemy);
+	virtual bool endDetectEnemy(Agent* enemy);
+	virtual bool detectBomb(Bomb* bomb);
+	virtual bool detectBullet(Bullet* bullet);
 
-	virtual void roomAlert(Player* p);
+	virtual bool enemyRoomAlert(Agent* enemy);
 
-	virtual void zeroHP();
-	virtual void zeroStamina();
+	virtual bool zeroHP();
+	virtual bool zeroStamina();
 
-	event_type getEvents();
 	 virtual string getName();
 protected:
-	event_type checkEventMethods();
 	bool hasMethod(const string& name);
 
 	string cls;
 	sol::table obj;
-};
-
-class BossFightHandler : public Function {
-public:
-	BossFightHandler(StateMachine* fsm, string startDialog, string endDialog);
-
-	virtual void detect(GObject* obj);
-	virtual void zeroHP();
-
-	virtual event_type getEvents();
-	FuncGetName(BossFightHandler);
-protected:
-	string startDialog, endDialog;
-	bool hasRunStart = false, hasRunEnd = false;
 };
 
 class Seek : public Function {
@@ -152,19 +70,6 @@ protected:
 	SpaceFloat lastPathfind = 0.0;
 	states crntState = states::direct_seek;
 	bool usePathfinding;
-};
-
-class ExplodeOnZeroHP : public Function {
-public:
-	ExplodeOnZeroHP(StateMachine* fsm, DamageInfo damage, SpaceFloat radius);
-
-	virtual void zeroHP();
-	virtual event_type getEvents();
-protected:
-	void explode();
-
-	DamageInfo damage;
-	SpaceFloat radius;
 };
 
 class MaintainDistance : public Function {
@@ -290,8 +195,7 @@ public:
 	virtual update_return update();
 	virtual void onExit();
 
-	virtual void bulletHit(Bullet* b);
-	virtual event_type getEvents();
+	virtual bool bulletHit(Bullet* b);
 
 	FuncGetName(LookTowardsFire)
 protected:

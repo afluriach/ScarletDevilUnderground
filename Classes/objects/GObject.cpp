@@ -20,6 +20,7 @@
 #include "MagicEffect.hpp"
 #include "MagicEffectSystem.hpp"
 #include "physics_context.hpp"
+#include "sol_util.hpp"
 #include "Spell.hpp"
 #include "SpellDescriptor.hpp"
 #include "SpellSystem.hpp"
@@ -273,8 +274,7 @@ bool GObject::hasMethod(const string& name)
 {
 	if (!scriptObj) return false;
 
-	sol::function f = scriptObj[name];
-	return to_bool(f);
+	return sol::hasMethod(scriptObj, name);
 }
 
 bool GObject::hit(DamageInfo damage, SpaceVect n)

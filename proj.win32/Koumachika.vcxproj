@@ -175,6 +175,7 @@ xcopy "$(ProjectDir)..\Resources" "$(OutDir)" /D /E /I /F /Y</Command>
     <ClCompile Include="..\Classes\lua\lua_struct.cpp" />
     <ClCompile Include="..\Classes\lua\lua_types.cpp" />
     <ClCompile Include="..\Classes\lua\lua_util.cpp" />
+    <ClCompile Include="..\Classes\lua\sol_util.cpp" />
     <ClCompile Include="..\Classes\objects\Agent.cpp" />
     <ClCompile Include="..\Classes\objects\AreaSensor.cpp" />
     <ClCompile Include="..\Classes\objects\Bomb.cpp" />
@@ -265,6 +266,7 @@ xcopy "$(ProjectDir)..\Resources" "$(OutDir)" /D /E /I /F /Y</Command>
     <ClInclude Include="..\Classes\log.hpp" />
     <ClInclude Include="..\Classes\lua\LuaAPI.hpp" />
     <ClInclude Include="..\Classes\lua\LuaShell.hpp" />
+    <ClInclude Include="..\Classes\lua\sol_util.hpp" />
     <ClInclude Include="..\Classes\macros.h" />
     <ClInclude Include="..\Classes\multifunction.h" />
     <ClInclude Include="..\Classes\objects\Agent.hpp" />
