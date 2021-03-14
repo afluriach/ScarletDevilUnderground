@@ -15,6 +15,26 @@ namespace app {
 	app_params params;
 }
 
+#define entry(x) (DamageType::x, #x)
+const boost::bimap<DamageType, string> damageTypeNameMap = boost::assign::list_of<boost::bimap<DamageType, string>::relation>()
+	entry(bullet)
+	entry(bomb)
+	entry(effectArea)
+	entry(touch)
+	entry(melee)
+	entry(none)
+;
+
+#define entry(x) (Element::x, #x)
+const boost::bimap<Element, string> elementNameMap = boost::assign::list_of<boost::bimap<Element, string>::relation>()
+	entry(ice)
+	entry(sun)
+	entry(darkness)
+	entry(poison)
+	entry(slime)
+	entry(none)
+;
+
 DamageInfo DamageInfo::bomb(float mag)
 {
 	return DamageInfo(mag, DamageType::bomb);
@@ -33,18 +53,18 @@ DamageInfo DamageInfo::melee(float mag)
 DamageInfo::DamageInfo() :
 	mag(0.0f),
 	knockback(0.0f),
-	element(Attribute::none),
+	element(Element::none),
 	type(DamageType::none)
 {}
 
 DamageInfo::DamageInfo(float mag, DamageType type) :
 	mag(mag),
 	knockback(0.0f),
-	element(Attribute::none),
+	element(Element::none),
 	type(type)
 {}
 
-DamageInfo::DamageInfo(float mag, DamageType type, Attribute element, float knockback) :
+DamageInfo::DamageInfo(float mag, DamageType type, Element element, float knockback) :
 	mag(mag),
 	type(type),
 	element(element),

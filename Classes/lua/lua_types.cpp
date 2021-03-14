@@ -69,14 +69,26 @@ namespace Lua{
 		auto damageType = _state.new_enum <DamageType, true>(
 			"DamageType",
 			{
-				enum_entry(DamageType, none),
 				enum_entry(DamageType, bullet),
 				enum_entry(DamageType, bomb),
 				enum_entry(DamageType, effectArea),
 				enum_entry(DamageType, touch),
 				enum_entry(DamageType, melee),
-				enum_entry(DamageType, pitfall),
-				enum_entry(DamageType, item),
+
+				enum_entry(DamageType, none)
+			}
+		);
+
+		auto element = _state.new_enum <Element, true>(
+			"Element",
+			{
+				enum_entry(Element, ice),
+				enum_entry(Element, sun),
+				enum_entry(Element, darkness),
+				enum_entry(Element, poison),
+				enum_entry(Element, slime),
+
+				enum_entry(Element, none)
 			}
 		);
 
@@ -130,8 +142,10 @@ namespace Lua{
 				enum_entry(Attribute, maxSpeed),
 				enum_entry(Attribute, maxAcceleration),
 
-				enum_entry(Attribute, bombSensitivity),
 				enum_entry(Attribute, bulletSensitivity),
+				enum_entry(Attribute, bombSensitivity),
+				enum_entry(Attribute, effectAreaSensitivity),
+				enum_entry(Attribute, touchSensitivity),
 				enum_entry(Attribute, meleeSensitivity),
 
 				enum_entry(Attribute, iceSensitivity),
@@ -139,12 +153,6 @@ namespace Lua{
 				enum_entry(Attribute, darknessSensitivity),
 				enum_entry(Attribute, poisonSensitivity),
 				enum_entry(Attribute, slimeSensitivity),
-
-				enum_entry(Attribute, iceDamage),
-				enum_entry(Attribute, sunDamage),
-				enum_entry(Attribute, darknessDamage),
-				enum_entry(Attribute, poisonDamage),
-				enum_entry(Attribute, slimeDamage),
 
 				enum_entry(Attribute, none)
 			}
@@ -156,7 +164,7 @@ namespace Lua{
 				DamageInfo(),
 				DamageInfo(const DamageInfo&),
 				DamageInfo(float, DamageType),
-				DamageInfo(float, DamageType, Attribute, float)
+				DamageInfo(float, DamageType, Element, float)
 			>(),
 			rw_prop(DamageInfo, mag),
 			rw_prop(DamageInfo, knockback),

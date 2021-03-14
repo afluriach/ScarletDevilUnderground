@@ -139,7 +139,6 @@ namespace Lua{
 
 		addFuncSame(gobject, teleport);
 		addFuncSame(gobject, cast);
-		addFuncSame(gobject, isSpellActive);
 		addFuncSame(gobject, hit);
 		addFuncSame(gobject, applyMagicEffect);
 		addFuncSame(gobject, getMaxSpeed);

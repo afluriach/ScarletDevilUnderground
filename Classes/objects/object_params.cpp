@@ -74,7 +74,7 @@ bullet_attributes bullet_attributes::getDefault()
 		nullptr,
 		GType::enemyBullet,
 		nullptr,
-		0,
+		nullptr,
 		1.0f,
 		1.0f,
 		1.0f

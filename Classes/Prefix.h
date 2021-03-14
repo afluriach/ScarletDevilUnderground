@@ -119,6 +119,7 @@ typedef double SpaceFloat;
 #include "util.h"
 #include "log.hpp"
 #include "object_ref.hpp"
+#include "Spell.hpp"
 #include "object_params.hpp"
 #include "controls.h"
 #include "GObject.hpp"

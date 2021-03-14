@@ -61,22 +61,17 @@ enum class Attribute {
 	maxSpeed,
 	maxAcceleration,
 
-	bombSensitivity,
 	bulletSensitivity,
+	bombSensitivity,
+	effectAreaSensitivity,
+	touchSensitivity,
 	meleeSensitivity,
 
-	beginElementSensitivity,
 	iceSensitivity,
 	sunSensitivity,
 	darknessSensitivity,
 	poisonSensitivity,
 	slimeSensitivity,
-
-	iceDamage,
-	sunDamage,
-	darknessDamage,
-	poisonDamage,
-	slimeDamage,
 
 	none
 };
@@ -107,11 +102,11 @@ public:
 	static constexpr IncidentAttributeEntry mp = { Attribute::mp, Attribute::maxMP, Attribute::mpRegen, Attribute::mpInv, Attribute::mpRatio };
 	static constexpr IncidentAttributeEntry stamina = { Attribute::stamina, Attribute::maxStamina, Attribute::staminaRegen, Attribute::staminaInv, Attribute::staminaRatio };
 
+	static constexpr Attribute beginTypeSensitivity = Attribute::bulletSensitivity;
+	static constexpr Attribute lastTypeSensitivity = Attribute::meleeSensitivity;
+
 	static constexpr Attribute beginElementSensitivity = Attribute::iceSensitivity;
 	static constexpr Attribute lastElementSensitivity = Attribute::slimeSensitivity;
-
-	static constexpr Attribute beginElementDamage = Attribute::iceDamage;
-	static constexpr Attribute endElementDamage = Attribute::slimeDamage;
 
 	static pair<float, float> calculateAgilityAttributes(float agility);
 
@@ -123,8 +118,6 @@ public:
 	static AttributeMap getAttributeElementMap(Attribute element, float damage, float elementScale = 1.0f);
 	static AttributeArray getBlankAttributeSet();
 	static AttributeArray getZeroAttributeSet();
-	static Attribute getElementSensitivity(Attribute element);
-	static Attribute getElement(Attribute elementSensitivity);
 
 	static Attribute getAttribute(const string& name);
 
@@ -150,7 +143,6 @@ public:
 
 	void update(Agent* agent);
 	void applyIncidentRegen(IncidentAttributeEntry entry);
-	void applyElementDecay();
 
 	float getIncidentRatio(IncidentAttributeEntry entry) const;
 	float getHealthRatio() const;
@@ -160,6 +152,7 @@ public:
 	float applyDamage(DamageInfo damage);
 	void apply(const AttributeMap& effects);
 	float getAttackMultiplier() const;
+	float getElementSensitivity(Element element);
 	float getTypeSensitivity(DamageType type) const;
 	bool canApplyIncidentAttribute(IncidentAttributeEntry entry) const;
 	void modifyIncidentAttribute(IncidentAttributeEntry entry, float x);
@@ -173,7 +166,6 @@ public:
 	void timerIncrement(Attribute id, Attribute maxID, float scale);
 	bool isZero(Attribute id) const;
 	bool isNonzero(Attribute id) const;
-	void setProtection();
 
 	void setFull(IncidentAttributeEntry entry);
 	void setEmpty(IncidentAttributeEntry entry);

@@ -75,13 +75,13 @@ bool setBoolAttribute(tinyxml2::XMLElement* elem, MagicEffectDescriptor** result
 
 bool applyDamage(tinyxml2::XMLElement* elem, MagicEffectDescriptor** result)
 {
-	Attribute element = Attribute::none;
+	Element element = Element::none;
 	bool success = false;
 
-	getAttributeAttr(elem, "element", &element);
+	getElementAttr(elem, "element", &element);
 
-	if (element != Attribute::none) {
-		*result = new MagicEffectDescImpl<ApplyDamage, Attribute>(elem->Name(), element);
+	if (element != Element::none) {
+		*result = new MagicEffectDescImpl<ApplyDamage, Element>(elem->Name(), element);
 		success = true;
 	}
 
@@ -90,13 +90,13 @@ bool applyDamage(tinyxml2::XMLElement* elem, MagicEffectDescriptor** result)
 
 bool damageOverTime(tinyxml2::XMLElement* elem, MagicEffectDescriptor** result)
 {
-	Attribute element = Attribute::none;
+	Element element = Element::none;
 	bool success = false;
 
-	getAttributeAttr(elem, "element", &element);
+	getElementAttr(elem, "element", &element);
 
-	if (element != Attribute::none) {
-		*result = new MagicEffectDescImpl<DamageOverTime, Attribute>(elem->Name(), element);
+	if (element != Element::none) {
+		*result = new MagicEffectDescImpl<DamageOverTime, Element>(elem->Name(), element);
 		success = true;
 	}
 

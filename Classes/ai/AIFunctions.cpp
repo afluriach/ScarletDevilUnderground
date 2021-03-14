@@ -23,7 +23,6 @@
 #include "physics_context.hpp"
 #include "Player.hpp"
 #include "RadarSensor.hpp"
-#include "Spell.hpp"
 #include "SpellDescriptor.hpp"
 #include "SpellUtil.hpp"
 #include "value_map.hpp"

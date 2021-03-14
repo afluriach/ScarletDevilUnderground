@@ -69,7 +69,7 @@ public:
 	bool aimAtTarget(gobject_ref target);
 
 	bool castSpell(const SpellDesc* desc);
-	unsigned int castSpellManual(const SpellDesc* desc);
+	local_shared_ptr<Spell> castSpellManual(const SpellDesc* desc);
 	bool isSpellActive();
 	void stopSpell();
 
@@ -99,8 +99,7 @@ public:
 	StateMachine* const fsm;
 	int _refcount = 0;
 protected:
-	unsigned int spellID = 0;
-	bool hasRunInit = false;
+	local_shared_ptr<Spell> spell;
 };
 
 class Thread

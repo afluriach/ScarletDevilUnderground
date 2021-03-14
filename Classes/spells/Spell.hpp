@@ -32,7 +32,7 @@ public:
 
 	GSpace* getSpace() const;
 
-	bullet_attributes getBulletAttributes(local_shared_ptr<bullet_properties> props) const;
+	bullet_attributes getBulletAttributes(local_shared_ptr<bullet_properties> props);
 
 	gobject_ref spawnBullet(
 		local_shared_ptr<bullet_properties> props,
@@ -67,12 +67,16 @@ public:
 	spell_cost getCost() const;
 	SpaceFloat getTime() const;
 
+	inline bool isSpellActive() const { return active; }
+
 	inline virtual void init() {}
 	inline virtual void update() {}
 	inline virtual void end() {}
 	inline virtual void onBulletRemove(Bullet* b) {}
 
 	void stop();
+
+	int _refcount = 0;
 protected:
 	void runUpdate();
 
@@ -82,6 +86,8 @@ protected:
 	const SpellDesc* descriptor;
     GObject* caster;
 	unsigned int id;
+	//set to false when spell is stopped and removed from SpellSystem
+	bool active = true;
 };
 
 #endif /* Spell_hpp */

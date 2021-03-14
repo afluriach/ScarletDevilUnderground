@@ -8,7 +8,6 @@
 
 #include "Prefix.h"
 
-#include "Spell.hpp"
 #include "SpellDescriptor.hpp"
 #include "SpellSystem.hpp"
 
@@ -26,23 +25,23 @@ SpellSystem::~SpellSystem()
 	applyRemovals();
 }
 
-unsigned int SpellSystem::cast(const SpellDesc* desc, GObject* caster)
+local_shared_ptr<Spell> SpellSystem::cast(const SpellDesc* desc, GObject* caster)
 {
 	if (!desc) {
 		log("cast(): null SpellDescriptor!");
-		return 0;
+		return nullptr;
 	}
 	if (!caster) {
 		log("cast(): null caster!");
-		return 0;
+		return nullptr;
 	}
 
 	if (!caster->applyInitialSpellCost(desc->getCost())) {
-		return 0;
+		return nullptr;
 	}
 
 	unsigned int id = nextID++;
-	Spell* spell = desc->generate(caster, id);
+	local_shared_ptr<Spell> spell = desc->generate(caster, id);
 
 	spell->init();
 
@@ -52,17 +51,16 @@ unsigned int SpellSystem::cast(const SpellDesc* desc, GObject* caster)
 
 	if (spell->descriptor->params.length != 0.0){
 		spells.insert_or_assign(id, spell);
-		objectSpells.insert(make_pair(caster, spell));
-		additions.push_back(spell);
+		objectSpells.insert(make_pair(caster, spell.get()));
+		additions.push_back(spell.get());
 	}
 	else {
 		if (logSpells) {
 			log("Immediate spell %s (%u) deleted.", spell->getName(), spell->id);
 		}
-		allocator_delete(spell);
 	}
 
-	return id;
+	return spell;
 }
 
 void SpellSystem::stopSpell(unsigned int id)
@@ -76,9 +74,10 @@ void SpellSystem::stopSpell(unsigned int id)
 		}
 
 		it->second->end();
-		removals.insert(it->second);
+		it->second->active = false;
+		removals.insert(it->second.get());
 
-		eraseEntry(objectSpells, make_pair(it->second->caster, it->second));
+		eraseEntry(objectSpells, make_pair(it->second->caster, it->second.get()));
 		spells.erase(it);
 	}
 	else {
@@ -86,41 +85,9 @@ void SpellSystem::stopSpell(unsigned int id)
 	}
 }
 
-bool SpellSystem::isSpellActive(unsigned int id)
-{
-	if (!id) return false;
-
-	auto it = spells.find(id);
-	return it != spells.end();
-}
-
-bool SpellSystem::isSpellActive(const SpellDesc* desc, GObject* caster)
-{
-	auto keysRange = objectSpells.equal_range(caster);
-
-	for (auto it = keysRange.first; it != keysRange.second; ++it) {
-		Spell* crnt = it->second;
-
-		if (crnt->descriptor == desc) {
-			return true;
-		}
-	}
-
-	return false;
-}
-
-void SpellSystem::onRemove(unsigned int id, Bullet* b)
-{
-	auto it = spells.find(id);
-	if (it != spells.end()) {
-		it->second->onBulletRemove(b);
-	}
-}
-
 void SpellSystem::applyRemove(Spell* spell)
 {
 	updateSpells.erase(spell);
-	allocator_delete(spell);
 }
 
 void SpellSystem::stopObjectSpells(GObject* obj)

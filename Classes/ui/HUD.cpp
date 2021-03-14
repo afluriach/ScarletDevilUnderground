@@ -216,21 +216,6 @@ const float MagicEffects::totalAutohideTime = 1.5f;
 const float MagicEffects::fadeoutTime = 0.75f;
 
 const vector<pair<Attribute, RadialMeterSettings>> MagicEffects::meterSettings = {
-	{Attribute::iceDamage,
-		{"sprites/ui/snowflake.png",Color4F(0.2f,0.33f,0.7f,0.5f),Color4F(0.16f, 0.2f, 0.9f, 1.0f)}
-	},
-	{ Attribute::sunDamage,
-		{ "sprites/ui/sun.png", Color4F(.3f,.3f,.12f,.5f), Color4F(.4f,.4f,.3f,1.0f) }
-	},
-	{ Attribute::darknessDamage,
-		{ "sprites/ui/darkness.png", toColor4F(Color3B(80,20,136)), toColor4F(Color3B(53,13,89)) }
-	},
-	{ Attribute::poisonDamage,
-		{ "sprites/ui/poison.png", Color4F(.11f,.52f,.74f,1.0f), Color4F(.29f,.11f,.62f,1.0f) }
-	},
-	{ Attribute::slimeDamage,
-		{ "sprites/ui/slime.png", Color4F(.34f,.61f,.075f,1.0f), Color4F(.75f,.996f,.34f,1.0f) }
-	},
 	{ Attribute::combo,
 		{ "sprites/power1.png",Color4F(.42f,.29f,.29f,1.0f),Color4F(.86f,.16f,.19f,1.0f) }
 	},
@@ -610,10 +595,7 @@ void HUD::updateHUD(AttributeSystem playerAttributes)
 	setStamina(to_int(playerAttributes[Attribute::stamina]));
 
 	setEffect(Attribute::combo, AttributeSystem::maxComboPoints, &playerAttributes);
-
-	for (Attribute elem = AttributeSystem::beginElementDamage; elem <= AttributeSystem::endElementDamage; enum_increment(Attribute, elem)) {
-		setPercentValue(elem, to_int(playerAttributes[elem]));
-	}
+	setEffect(Attribute::hitProtection, 1.0, &playerAttributes);
 }
 
 void HUD::setHP(int v)

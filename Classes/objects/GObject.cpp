@@ -21,7 +21,6 @@
 #include "MagicEffectSystem.hpp"
 #include "physics_context.hpp"
 #include "sol_util.hpp"
-#include "Spell.hpp"
 #include "SpellDescriptor.hpp"
 #include "SpellSystem.hpp"
 #include "value_map.hpp"
@@ -960,14 +959,9 @@ void GObject::stopSound(ALuint sourceID)
 
 //BEGIN SPELLS
 
-unsigned int GObject::cast(const SpellDesc* desc)
+local_shared_ptr<Spell> GObject::cast(const SpellDesc* desc)
 {
 	return space->spellSystem->cast(desc, this);
-}
-
-bool GObject::isSpellActive(const SpellDesc* desc)
-{
-	return space->spellSystem->isSpellActive(desc, this);
 }
 
 unsigned int GObject::applyMagicEffect(const MagicEffectDescriptor* effect, effect_attributes attr)

@@ -25,7 +25,7 @@ public:
 	inline string getIcon() const { return params.icon; }
 	inline spell_cost getCost() const { return params.cost; }
 
-	virtual Spell* generate(GObject* caster, unsigned int id) const = 0;
+	virtual local_shared_ptr<Spell> generate(GObject* caster, unsigned int id) const = 0;
 
 	spell_params params;
 };
@@ -39,7 +39,7 @@ public:
 	ScriptedSpellDescriptor(string clsName);
 	virtual inline ~ScriptedSpellDescriptor() {}
 
-	virtual Spell* generate(GObject* caster, unsigned int id) const;
+	virtual local_shared_ptr<Spell> generate(GObject* caster, unsigned int id) const;
 protected:
 	string clsName;
 };
@@ -55,9 +55,9 @@ public:
 	{}
 	virtual inline ~SpellDescImpl() {}
 
-	virtual inline Spell* generate(GObject* caster, unsigned int id) const
+	virtual inline local_shared_ptr<Spell> generate(GObject* caster, unsigned int id) const
 	{
-		return allocator_new<T>(caster, this, id, get<ClsParams>(clsparams)...);
+		return make_local_shared<T>(caster, this, id, get<ClsParams>(clsparams)...);
 	}
 
 	tuple<ClsParams...> clsparams;

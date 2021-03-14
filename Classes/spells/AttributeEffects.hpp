@@ -75,11 +75,11 @@ class ApplyDamage : public MagicEffect
 public:
 	static constexpr effect_flags flags = enum_bitwise_or(effect_flags, immediate, agent);
 
-	ApplyDamage(effect_params params, Attribute element);
+	ApplyDamage(effect_params params, Element element);
 
 	virtual void init();
 protected:
-	Attribute element;
+	Element element;
 };
 
 class DamageOverTime : public MagicEffect
@@ -87,13 +87,13 @@ class DamageOverTime : public MagicEffect
 public:
 	static constexpr effect_flags flags = enum_bitwise_or(effect_flags, durable, active);
 
-	DamageOverTime(effect_params params, Attribute element);
+	DamageOverTime(effect_params params, Element element);
 
 	inline virtual void init() {}
 	virtual void update();
 	inline virtual void end() {}
 protected:
-	Attribute element;
+	Element element;
 };
 
 #endif /* RestoreAttribute_hpp */

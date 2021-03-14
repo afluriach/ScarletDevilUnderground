@@ -86,6 +86,7 @@ namespace app {
 	bool autoName(tinyxml2::XMLElement* elem, string& field);
 
     bool getAttributeAttr(tinyxml2::XMLElement* elem, const string& name, Attribute* result);
+	bool getElementAttr(tinyxml2::XMLElement* elem, const string& name, Element* result);
     bool getStringAttr(tinyxml2::XMLElement* elem, const string& name, string* result);
     bool getColorAttr(tinyxml2::XMLElement* elem, const string& name, Color4F* result);
     bool getVector(tinyxml2::XMLElement* elem, const string& name, SpaceVect* result);

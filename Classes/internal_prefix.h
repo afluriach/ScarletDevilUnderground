@@ -30,7 +30,6 @@
 
 #include "FirePattern.hpp"
 #include "MagicEffect.hpp"
-#include "Spell.hpp"
 #include "spell_types.hpp"
 #include "SpellDescriptor.hpp"
 

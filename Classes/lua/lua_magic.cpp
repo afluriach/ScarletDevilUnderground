@@ -13,7 +13,6 @@
 #include "MagicEffect.hpp"
 #include "LuaAPI.hpp"
 #include "Player.hpp"
-#include "Spell.hpp"
 #include "SpellDescriptor.hpp"
 #include "spell_types.hpp"
 

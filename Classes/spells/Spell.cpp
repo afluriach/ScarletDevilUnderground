@@ -8,7 +8,7 @@
 
 #include "Prefix.h"
 
-#include "Spell.hpp"
+//#include "Spell.hpp"
 #include "SpellDescriptor.hpp"
 #include "SpellSystem.hpp"
 
@@ -44,10 +44,10 @@ GSpace* Spell::getSpace() const {
 	return caster->space;
 }
 
-bullet_attributes Spell::getBulletAttributes(local_shared_ptr<bullet_properties> props) const
+bullet_attributes Spell::getBulletAttributes(local_shared_ptr<bullet_properties> props)
 {
 	auto result = caster->getBulletAttributes(props);
-	result.sourceSpell = id;
+	result.sourceSpell = this;
 	return result;
 }
 

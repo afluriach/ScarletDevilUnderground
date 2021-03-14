@@ -159,7 +159,7 @@ struct bullet_attributes
 	gobject_ref caster;
 	GType type = GType::none;
 	RoomSensor* startRoom = nullptr;
-	unsigned int sourceSpell = 0;
+	local_shared_ptr<Spell> sourceSpell;
 
 	float size = 1.0f;
 	float sizeOffset = 0.0f;
@@ -175,7 +175,7 @@ struct bullet_attributes
 	getter(gobject_ref, caster)
 	getter(GType, type)
 	getter(RoomSensor*, startRoom)
-	getter(unsigned int, sourceSpell)
+	getter(local_shared_ptr<Spell>, sourceSpell)
 	getter(float, size)
 	getter(float, attackDamage)
 	getter(float, bulletSpeed)
@@ -186,7 +186,7 @@ struct bullet_attributes
 	setter(gobject_ref, caster)
 	setter(GType, type)
 	setter(RoomSensor*, startRoom)
-	setter(unsigned int, sourceSpell)
+	setter(local_shared_ptr<Spell>, sourceSpell)
 	setter(float, size)
 	setter(float, attackDamage)
 	setter(float, bulletSpeed)

@@ -203,7 +203,7 @@ void Bullet::onRemove()
 {
 	GObject::onRemove();
 
-	if (attributes.sourceSpell) {
-		space->spellSystem->onRemove(attributes.sourceSpell, this);
+	if (attributes.sourceSpell && attributes.sourceSpell->isSpellActive()) {
+		attributes.sourceSpell->onBulletRemove(this);
 	}
 }

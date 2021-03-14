@@ -10,7 +10,6 @@
 
 #include "LuaAPI.hpp"
 #include "sol_util.hpp"
-#include "Spell.hpp"
 #include "SpellDescriptor.hpp"
 #include "SpellImpl.hpp"
 
@@ -49,7 +48,7 @@ ScriptedSpellDescriptor::ScriptedSpellDescriptor(string clsName) :
 	//}
 }
 
-Spell* ScriptedSpellDescriptor::generate(GObject* caster, unsigned int id) const
+local_shared_ptr<Spell> ScriptedSpellDescriptor::generate(GObject* caster, unsigned int id) const
 {
-	return allocator_new<ScriptedSpell>(caster, this, id, clsName);
+	return make_local_shared<ScriptedSpell>(caster, this, id, clsName);
 }

@@ -65,8 +65,10 @@ const boost::bimap<Attribute, string> AttributeSystem::attributeNameMap = boost:
 	entry(maxSpeed)
 	entry(maxAcceleration)
 
-	entry(bombSensitivity)
 	entry(bulletSensitivity)
+	entry(bombSensitivity)
+	entry(effectAreaSensitivity)
+	entry(touchSensitivity)
 	entry(meleeSensitivity)
 
 	entry(iceSensitivity)
@@ -74,12 +76,6 @@ const boost::bimap<Attribute, string> AttributeSystem::attributeNameMap = boost:
 	entry(darknessSensitivity)
 	entry(poisonSensitivity)
 	entry(slimeSensitivity)
-
-	entry(iceDamage)
-	entry(sunDamage)
-	entry(darknessDamage)
-	entry(poisonDamage)
-	entry(slimeDamage)
 
 	entry(none)
 ;
@@ -140,8 +136,10 @@ AttributeArray AttributeSystem::getBlankAttributeSet()
 	result[to_size_t(Attribute::bulletSpeed)] = 1.0f;
 
 	//Sensitivity multiplier should be 1.0 by default.
-	result[to_size_t(Attribute::bombSensitivity)] = 1.0f;
 	result[to_size_t(Attribute::bulletSensitivity)] = 1.0f;
+	result[to_size_t(Attribute::bombSensitivity)] = 1.0f;
+	result[to_size_t(Attribute::effectAreaSensitivity)] = 1.0f;
+	result[to_size_t(Attribute::touchSensitivity)] = 1.0f;
 	result[to_size_t(Attribute::meleeSensitivity)] = 1.0f;
 
 	result[to_size_t(Attribute::iceSensitivity)] = 1.0f;
@@ -158,24 +156,6 @@ AttributeArray AttributeSystem::getZeroAttributeSet()
 	AttributeArray result = getZeroArray<float, to_size_t(Attribute::none)>();
 
 	return result;
-}
-
-Attribute AttributeSystem::getElementSensitivity(Attribute element)
-{
-	return static_cast<Attribute>(
-		to_int(element) - 
-		to_int(AttributeSystem::beginElementDamage) + 
-		to_int(AttributeSystem::beginElementSensitivity)
-	);
-}
-
-Attribute AttributeSystem::getElement(Attribute elementSensitivity)
-{
-	return static_cast<Attribute>(
-		to_int(elementSensitivity) -
-		to_int(AttributeSystem::beginElementSensitivity) +
-		to_int(AttributeSystem::beginElementDamage)
-	);
 }
 
 Attribute AttributeSystem::getAttribute(const string& name)
@@ -292,7 +272,6 @@ void AttributeSystem::update(Agent* agent)
 	applyIncidentRegen(mp);
 	applyIncidentRegen(stamina);
 
-	applyElementDecay();
 	timerDecrement(Attribute::stress, (*this)[Attribute::stressDecay]);
 
 	set(Attribute::currentSpeed, agent->getVel().length());
@@ -306,13 +285,6 @@ void AttributeSystem::update(Agent* agent)
 void AttributeSystem::applyIncidentRegen(IncidentAttributeEntry entry)
 {
 	modifyIncidentAttribute(entry, (*this)[entry.regeneration] * (*this)[entry.maximum] * app::params.secondsPerFrame);
-}
-
-void AttributeSystem::applyElementDecay()
-{
-	for (Attribute elem = AttributeSystem::beginElementDamage; elem <= AttributeSystem::endElementDamage; enum_increment(Attribute,elem)) {
-		timerDecrement(elem);
-	}
 }
 
 float AttributeSystem::getIncidentRatio(IncidentAttributeEntry entry) const
@@ -342,17 +314,11 @@ float AttributeSystem::applyDamage(DamageInfo damage)
 	}
 
 	float timeScale = damage.damageOverTime ? app::params.secondsPerFrame : 1.0f;
-	float elementSensitivity = damage.element != Attribute::none ? (*this)[getElementSensitivity(damage.element)] : 1.0f;
+	float elementSensitivity = getElementSensitivity(damage.element);
 	float typeSensitivity = getTypeSensitivity(damage.type);
 	float scale = timeScale * elementSensitivity * typeSensitivity;
 
 	modifyAttribute(Attribute::hp, -damage.mag * scale);
-
-	if (damage.element != Attribute::none) {
-		//Should not be scaled by element sensitivity, since element sensitivity will
-		//be applied to accumulated element damage.
-		modifyAttribute(damage.element, damage.mag * timeScale * typeSensitivity);
-	}
 
 	return damage.mag * scale;
 }
@@ -370,19 +336,20 @@ float AttributeSystem::getAttackMultiplier() const
 	return attributes.at(to_size_t(Attribute::attack));
 }
 
+float AttributeSystem::getElementSensitivity(Element element)
+{
+	if (element == Element::none) return 1.0f;
+
+	Attribute attr = static_cast<Attribute>(to_int(element) + to_int(beginElementSensitivity));
+	return (*this)[attr];
+}
+
 float AttributeSystem::getTypeSensitivity(DamageType type) const
 {
-	switch (type)
-	{
-	case DamageType::bomb:
-		return (*this)[Attribute::bombSensitivity];
-	case DamageType::bullet:
-		return (*this)[Attribute::bulletSensitivity];
-	case DamageType::melee:
-		return (*this)[Attribute::meleeSensitivity];
-	default:
-		return 1.0f;
-	}
+	if (type == DamageType::none) return 1.0f;
+	
+	Attribute attr = static_cast<Attribute>(to_int(type) + to_int(beginTypeSensitivity));
+	return (*this)[attr];
 }
 
 float AttributeSystem::getWithinRange(float input, float min, float max)
@@ -533,22 +500,6 @@ void AttributeSystem::modifyAttribute(Attribute id, float x)
 
 	case Attribute::combo:
 		attributes.at(to_size_t(Attribute::combo)) = getWithinRange(attributes.at(to_size_t(Attribute::combo)) + x, 0, maxComboPoints);
-		break;
-
-	case Attribute::iceDamage:
-		applyElementalDamage(Attribute::iceDamage, Attribute::iceSensitivity, x);
-		break;
-	case Attribute::sunDamage:
-		applyElementalDamage(Attribute::sunDamage, Attribute::sunSensitivity, x);
-		break;
-	case Attribute::darknessDamage:
-		applyElementalDamage(Attribute::darknessDamage, Attribute::darknessSensitivity, x);
-		break;
-	case Attribute::poisonDamage:
-		applyElementalDamage(Attribute::poisonDamage, Attribute::poisonSensitivity, x);
-		break;
-	case Attribute::slimeDamage:
-		applyElementalDamage(Attribute::slimeDamage, Attribute::slimeSensitivity, x);
 		break;
 
 	case Attribute::hpInv:

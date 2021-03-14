@@ -28,7 +28,6 @@
 #include "physics_context.hpp"
 #include "Player.hpp"
 #include "RadarSensor.hpp"
-#include "Spell.hpp"
 #include "SpellDescriptor.hpp"
 #include "spell_types.hpp"
 #include "value_map.hpp"
@@ -165,22 +164,6 @@ void Agent::update()
 	}
 	if ( fsm && (*this)[Attribute::stamina] <= 0.0f && (*this)[Attribute::maxStamina] > 0.0f) {
 		fsm->onZeroStamina();
-	}
-
-	bool hasFreezeEffect = space->magicEffectSystem->hasScriptedEffect(this, "FreezeStatus");
-
-	if ( (*this)[Attribute::iceDamage] >= AttributeSystem::maxElementDamage && !hasFreezeEffect) {
-		applyMagicEffect( app::getEffect("FreezeStatus"), effect_attributes(0.0f, 5.0f));
-		modifyAttribute(Attribute::iceDamage, -AttributeSystem::maxElementDamage);
-	}
-	if ( (*this)[Attribute::sunDamage] >= AttributeSystem::maxElementDamage) {
-		onZeroHP();
-	}
-	if ( (*this)[Attribute::darknessDamage] >= AttributeSystem::maxElementDamage) {
-		applyMagicEffect(app::getEffect("DarknessCurse"), effect_attributes(0.0f, -1.0f));
-	}
-	if ( (*this)[Attribute::poisonDamage] >= AttributeSystem::maxElementDamage) {
-		onZeroHP();
 	}
 
 	if (firePattern) firePattern->update();

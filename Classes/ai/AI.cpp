@@ -120,24 +120,26 @@ bool Function::castSpell(const SpellDesc* desc)
 	if (isSpellActive())
 		stopSpell();
 
-	spellID = getObject()->cast(desc);
-	return spellID != 0;
+	spell = getObject()->cast(desc);
+	return spell;
 }
 
-unsigned int Function::castSpellManual(const SpellDesc* desc)
+local_shared_ptr<Spell> Function::castSpellManual(const SpellDesc* desc)
 {
 	return getObject()->cast(desc);
 }
 
 bool Function::isSpellActive()
 {
-	return spellID != 0 && getSpace()->spellSystem->isSpellActive(spellID);
+	return spell && spell->isSpellActive();
 }
 
 void Function::stopSpell()
 {
-	getSpace()->spellSystem->stopSpell(spellID);
-	spellID = 0;
+	if (spell) {
+		getSpace()->spellSystem->stopSpell(spell);
+		spell.reset();
+	}
 }
 
 Thread::Thread(StateMachine* sm) :
@@ -153,11 +155,6 @@ void Thread::update()
 {
 	Function* crnt = !call_stack.empty() ? call_stack.back().get() : nullptr;
 	if (!crnt) return;
-
-	if (!crnt->hasRunInit) {
-		crnt->onEnter();
-		crnt->hasRunInit = true;
-	}
 
 	update_return result = crnt->update();
 

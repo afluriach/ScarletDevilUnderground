@@ -26,7 +26,6 @@
 #include "Player.hpp"
 #include "PlayScene.hpp"
 #include "RadarSensor.hpp"
-#include "Spell.hpp"
 #include "SpellDescriptor.hpp"
 #include "SpellSystem.hpp"
 #include "value_map.hpp"

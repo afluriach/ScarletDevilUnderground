@@ -24,13 +24,9 @@ public:
 	SpellSystem(GSpace* gspace);
 	~SpellSystem();
 
-	unsigned int cast(const SpellDesc* desc, GObject* caster);
+	local_shared_ptr<Spell> cast(const SpellDesc* desc, GObject* caster);
 
 	void stopSpell(unsigned int id);
-	bool isSpellActive(unsigned int id);
-	bool isSpellActive(const SpellDesc* desc, GObject* caster);
-
-	void onRemove(unsigned int id, Bullet* b);
 protected:
 	void applyRemove(Spell* spell);
 	void applyRemovals();
@@ -41,7 +37,7 @@ protected:
 	//This is a set in order to ensure against double-deletion
 	set<Spell*> removals;
 
-	map<unsigned int, Spell*> spells;
+	map<unsigned int, local_shared_ptr<Spell>> spells;
 	set<Spell*, spellCompareID> updateSpells;
 	multimap<GObject*, Spell*> objectSpells;
 

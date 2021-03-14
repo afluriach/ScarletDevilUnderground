@@ -15,44 +15,44 @@
 
 	<IceDamage
 		type="ApplyDamage"
-		element="iceDamage"
+		element="ice"
 	/>
 	<SunDamage
 		type="ApplyDamage"
-		element="sunDamage"
+		element="sun"
 	/>
 	<DarknessDamage
 		type="ApplyDamage"
-		element="darknessDamage"
+		element="darkness"
 	/>
 	<PoisonDamage
 		type="ApplyDamage"
-		element="poisonDamage"
+		element="poison"
 	/>
 	<SlimeDamage
 		type="ApplyDamage"
-		element="slimeDamage"
+		element="slime"
 	/>
 
 	<IceDamageOverTime
 		type="DamageOverTime"
-		element="iceDamage"
+		element="ice"
 	/>
 	<SunDamageOverTime
 		type="DamageOverTime"
-		element="sunDamage"
+		element="sun"
 	/>
 	<DarknessDamageOverTime
 		type="DamageOverTime"
-		element="darknessDamage"
+		element="darkness"
 	/>
 	<PoisonDamageOverTime
 		type="DamageOverTime"
-		element="poisonDamage"
+		element="poison"
 	/>
 	<SlimeDamageOverTime
 		type="DamageOverTime"
-		element="slimeDamage"
+		element="slime"
 	/>
 	
 	<DrainStaminaFromMovement

@@ -140,16 +140,29 @@ typedef bitset<maxMapFragmentsPerChamber> map_fragments_bitmask;
 
 enum class DamageType
 {
-	none,
-
-	bullet,
+	bullet = 0,
 	bomb,
 	effectArea,
 	touch,
 	melee,
-	pitfall,
-	item,
+
+	none
 };
+
+extern const boost::bimap<DamageType, string> damageTypeNameMap;
+
+enum class Element
+{
+	ice = 0,
+	sun,
+	darkness,
+	poison,
+	slime,
+
+	none
+};
+
+extern const boost::bimap<Element, string> elementNameMap;
 
 struct DamageInfo
 {
@@ -159,24 +172,24 @@ struct DamageInfo
 
 	DamageInfo();
 	DamageInfo(float mag, DamageType type);
-	DamageInfo(float mag, DamageType type, Attribute element, float knockback);
+	DamageInfo(float mag, DamageType type, Element element, float knockback);
 
 	getter(float, mag);
 	getter(float, knockback);
-	getter(Attribute, element);
+	getter(Element, element);
 	getter(DamageType, type);
 	getter(bool, damageOverTime);
 
 	setter(float, mag);
 	setter(float, knockback);
-	setter(Attribute, element);
+	setter(Element, element);
 	setter(DamageType, type);
 	setter(bool, damageOverTime);
 
 	float mag = 0.0f;
 	float knockback = 0.0f;
 	//It is initialized to Attribute::end;
-	Attribute element;
+	Element element;
 	DamageType type;
 
 	bool damageOverTime = false;

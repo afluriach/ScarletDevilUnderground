@@ -25,7 +25,6 @@
 #include "physics_context.hpp"
 #include "Player.hpp"
 #include "PlayScene.hpp"
-#include "Spell.hpp"
 #include "SpellDescriptor.hpp"
 #include "SpellSystem.hpp"
 

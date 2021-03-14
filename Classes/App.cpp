@@ -12,7 +12,6 @@
 #include "OpeningScene.hpp"
 #include "OverworldScene.hpp"
 #include "Resources.hpp"
-#include "Spell.hpp"
 #include "SpellDescriptor.hpp"
 
 const string App::title = "Kouma";

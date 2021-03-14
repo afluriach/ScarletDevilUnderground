@@ -9,8 +9,6 @@
 #ifndef SpellImpl_hpp
 #define SpellImpl_hpp
 
-#include "Spell.hpp"
-
 class ScriptedSpell : public Spell {
 public:
 	static spell_params getParams(string clsName);
