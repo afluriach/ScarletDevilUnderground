@@ -72,14 +72,9 @@ Player::~Player()
 {
 }
 
-void Player::onPitfall()
+void Player::onRemove()
 {
-	if (isRespawnActive || respawnMaskTimer > 0.0) {
-		return;
-	}
-
-	space->addGraphicsAction(&graphics_context::runSpriteAction, spriteID, pitfallShrinkAction().generator);
-	startRespawn();
+	gameOver();
 }
 
 void Player::setCrntRoom(RoomSensor* room)
@@ -170,9 +165,6 @@ void Player::init()
 		equipPowerAttacks();
 		crntBomb = app::getBomb("PlayerBomb");
 	}
-
-	respawnPos = getPos();
-	respawnAngle = getAngle();
 }
 
 void Player::checkMovementControls(const ControlInfo& cs)
@@ -416,13 +408,7 @@ void Player::updateCombo()
 
 void Player::onZeroHP()
 {
-	if (!GScene::suppressGameOver) {
-		space->audioContext->playSound("sfx/player_death.wav", 0.5f);
-
-		space->addSceneAction(
-			[=]()->void { playScene->triggerGameOver(); }
-		);
-	}
+	gameOver();
 }
 
 void Player::update()
@@ -445,13 +431,6 @@ void Player::update()
 			updateSpellControls(cs);
 
 			updateCombo();
-		}
-
-		timerDecrement(respawnTimer);
-		timerDecrement(respawnMaskTimer);
-
-		if (respawnTimer <= 0.0 && isRespawnActive) {
-			applyRespawn();
 		}
 	}
 }
@@ -537,9 +516,6 @@ void Player::moveToDestinationDoor(Door* dest)
 	setPos(dest->getEntryPosition());
 	setVel(SpaceVect::zero);
 	setDirection(dest->getEntryDirection());
-
-	respawnPos = dest->getEntryPosition();
-	respawnAngle = dirToPhysicsAngle(dest->getEntryDirection());
 }
 
 void Player::applyUpgrade(Attribute attr, float val)
@@ -553,35 +529,13 @@ void Player::applyCombo(int b)
 	modifyAttribute(Attribute::combo, b);
 }
 
-void Player::startRespawn()
+void Player::gameOver()
 {
-	isRespawnActive = true;
-	respawnTimer = fallAnimationTime;
+	if (!GScene::suppressGameOver) {
+		space->audioContext->playSound("sfx/player_death.wav", 0.5f);
 
-	increment(Attribute::inhibitFiring);
-	increment(Attribute::inhibitMovement);
-	setVel(SpaceVect::zero);
+		space->addSceneAction(
+			[=]()->void { playScene->triggerGameOver(); }
+		);
+	}
 }
-
-void Player::applyRespawn()
-{
-	setPos(respawnPos);
-	setAngle(respawnAngle);
-
-	space->addGraphicsAction(&graphics_context::stopAllSpriteActions, spriteID);
-	space->addGraphicsAction(
-		&graphics_context::setSpriteZoom,
-		spriteID,
-		getSpriteZoom(getSprite(), getRadius())
-	);
-
-	isRespawnActive = false;
-	decrement(Attribute::inhibitFiring);
-	decrement(Attribute::inhibitMovement);
-
-	respawnMaskTimer = 0.25;
-
-	if(!space->getSuppressAction())
-		hit(DamageInfo(25.0f, DamageType::pitfall), SpaceVect::zero);
-}
-

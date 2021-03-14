@@ -39,7 +39,7 @@ public:
 	);
 	~Player();
     
-	virtual void onPitfall();
+	virtual void onRemove();
 	virtual void setCrntRoom(RoomSensor* room);
 
 	void equipFirePatterns();
@@ -89,14 +89,9 @@ public:
 	void applyUpgrade(Attribute attr, float val);
 
 	void applyCombo(int b);
+	void gameOver();
 protected:
-	void startRespawn();
-	void applyRespawn();
 	SpaceVect sprintDirection;
-	SpaceVect respawnPos;
-	SpaceFloat respawnAngle;
-	SpaceFloat respawnTimer = 0.0;
-	SpaceFloat respawnMaskTimer = 0.0;
 	SpaceFloat sprintTimer = 0.0;
 
 	float interactCooldown = 0.0f;
@@ -118,7 +113,6 @@ protected:
 	bool isAutoFire = false;
 	bool isSprintActive = false;
 	bool isFocusActive = false;
-	bool isRespawnActive = false;
 	bool isComboActive = false;
 };
 
