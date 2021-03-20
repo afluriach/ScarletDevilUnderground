@@ -40,19 +40,3 @@ function objects.BlueFairyNPC:initialize()
 	app.log("BlueFairy:initialize ")
 	
 end
-
-objects.GhostFairyNPC = class("GhostFairyNPC")
-
-function objects.GhostFairyNPC.conditionalLoad(space,params,props)	
-	if params.level > 0 then
-		return App.state:isChamberCompleted('graveyard' .. params.level)
-	else
-		return true
-	end
-end
-
-objects.Meiling1 = class("Meiling1")
-
-function objects.Meiling1.conditionalLoad(space,params,props)
-	return not App.state:isChamberCompleted("graveyard3")
-end

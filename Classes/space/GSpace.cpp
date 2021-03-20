@@ -20,7 +20,6 @@
 #include "HUD.hpp"
 #include "LuaAPI.hpp"
 #include "MagicEffectSystem.hpp"
-#include "OverworldScene.hpp"
 #include "physics_context.hpp"
 #include "PhysicsImpl.hpp"
 #include "Player.hpp"

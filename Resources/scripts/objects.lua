@@ -149,23 +149,6 @@ function objects.GhostHeadstone:onRemove()
 	end
 end
 
-objects.Headstone = class('Headstone')
-
-function objects.Headstone.conditionalLoad(space, id, args)
-	local level = util.getIntOrDefault(args, "level", 0)
-	app.log('headstone load level ' .. level)
-	if level <= 0 then
-		app.log('invalid level')
-		return false
-	end
-		
-	return not App.state:isChamberCompleted('graveyard' .. level)
-end
-
-function objects.Headstone:init(super)
-	self.super = super
-end
-
 objects.Launcher = class('Launcher')
 
 objects.Launcher.fireInterval = 0.25

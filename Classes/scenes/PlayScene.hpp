@@ -15,13 +15,11 @@
 class PlayScene : public GScene
 {
 public:
-	typedef function<PlayScene* () > AdapterType;
-
     static const Color3B fadeoutColor;
     static const float fadeoutLength;
 
-    PlayScene(const string& name);
-	PlayScene(area_properties props);
+    PlayScene(const string& name, const string& start);
+	PlayScene(area_properties props, const string& start);
 
 	virtual ~PlayScene();
 
@@ -34,7 +32,7 @@ public:
 	virtual void enterPause();
 	virtual void exitPause();
     
-	inline virtual string getPlayerStart() const { return "player_start"; }
+	inline virtual string getPlayerStart() const { return start; }
 	virtual Color4F getDefaultAmbientLight() const;
 
 	void onMapPressed();
@@ -65,6 +63,7 @@ private:
 	void triggerMenu( void (PlayScene::*m)(void) );
 
 	area_properties props;
+	string start;
 
 	bool isShowingMenu = false;
 	bool isOverworld = false;

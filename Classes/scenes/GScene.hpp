@@ -60,12 +60,6 @@ public:
 		end
 	};
 
-    typedef function<GScene* () > AdapterType;
-
-    //Map each class name to a constructor adapter function.
-	//Defined in SceneMapping.cpp.
-    static const unordered_map<string,AdapterType> adapters;
-
 	static const Color4F defaultAmbientLight;
 	static const int dialogEdgeMargin;
 	static const bool scriptLog;

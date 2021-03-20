@@ -10,7 +10,7 @@
 #include "LuaAPI.hpp"
 #include "menu_scenes.h"
 #include "OpeningScene.hpp"
-#include "OverworldScene.hpp"
+#include "PlayScene.hpp"
 #include "Resources.hpp"
 #include "SpellDescriptor.hpp"
 
@@ -369,7 +369,7 @@ GScene* App::runOverworldScene()
 
 GScene* App::runOverworldScene(string mapName, string start)
 {
-	return createAndRunScene<OverworldScene>("overworld/"+mapName, start);
+	return createAndRunScene<PlayScene>("overworld/"+mapName, start);
 }
 
 GScene* App::getCrntScene()

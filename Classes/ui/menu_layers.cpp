@@ -301,37 +301,21 @@ void WorldSelect::back()
 
 const string PauseMenu::title = "";
 
-const vector<string> PauseMenu::overworldEntries = {
+const vector<string> PauseMenu::entries = {
 	"Resume",
-	"Dream World Select",
-	"Save",
 	"Exit to title"
 };
 
-const vector<zero_arity_function> PauseMenu::overworldEntryActions = {
+const vector<zero_arity_function> PauseMenu::entryActions = {
 	&App::resumeScene,
-	&PauseMenu::worldSelect,
-	&App::saveCrntProfile,
 	&App::runTitleScene
-};
-
-const vector<string> PauseMenu::chamberEntries = {
-	"Resume",
-	"Restart",
-	"Exit to Overworld"
-};
-
-const vector<zero_arity_function> PauseMenu::chamberEntryActions = {
-	&App::resumeScene,
-	&App::restartScene,
-	static_cast<GScene*(*)(void)>(&App::runOverworldScene)
 };
 
 PauseMenu::PauseMenu(bool overworld, Player* player) :
 	TextListMenuLayer(
 		title,
-		overworld ? overworldEntries : chamberEntries,
-		overworld ? overworldEntryActions : chamberEntryActions
+		entries,
+		entryActions
 	),
 	player(player)
 {
@@ -345,11 +329,6 @@ PauseMenu::PauseMenu(bool overworld, Player* player) :
 		info->setPosition(app::params.width * 0.75f, app::params.height * 0.66f);
 		addChild(info, 3);
 	}
-}
-
-void PauseMenu::worldSelect()
-{
-	App::getCrntScene()->pushMenu(Node::ccCreate<WorldSelect>(false));
 }
 
 const string GameOverMenu::title = "GAME OVER";

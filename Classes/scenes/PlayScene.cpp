@@ -51,13 +51,14 @@ area_properties::area_properties() :
 const Color3B PlayScene::fadeoutColor = Color3B(192,96,96);
 const float PlayScene::fadeoutLength = 3.0f;
 
-PlayScene::PlayScene(const string& mapName) :
-	PlayScene(area_properties::singleMap(mapName))
+PlayScene::PlayScene(const string& mapName, const string& start) :
+	PlayScene(area_properties::singleMap(mapName), start)
 {}
 
-PlayScene::PlayScene(area_properties props) :
+PlayScene::PlayScene(area_properties props, const string& start) :
 GScene(props.sceneName, props.maps),
-props(props)
+props(props),
+start(start)
 {
     multiInit.insertWithOrder(
         wrap_method(PlayScene,addHUD,this),
@@ -279,7 +280,7 @@ void PlayScene::exitWorldSelect()
 
 GScene* PlayScene::getReplacementScene()
 {
-	return Node::ccCreate<PlayScene>(props);
+	return Node::ccCreate<PlayScene>(props, start);
 }
 
 void PlayScene::showMenu(MenuLayer* menu)

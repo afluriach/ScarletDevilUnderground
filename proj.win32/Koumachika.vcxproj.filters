@@ -87,16 +87,10 @@
     <ClCompile Include="..\Classes\scenes\PlayScene.cpp">
       <Filter>src\scenes</Filter>
     </ClCompile>
-    <ClCompile Include="..\Classes\scenes\SceneMapping.cpp">
-      <Filter>src\scenes</Filter>
-    </ClCompile>
     <ClCompile Include="..\Classes\value_map.cpp">
       <Filter>src</Filter>
     </ClCompile>
     <ClCompile Include="..\Classes\spells\Spell.cpp">
-      <Filter>src\spells</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Classes\spells\SpellMapping.cpp">
       <Filter>src\spells</Filter>
     </ClCompile>
     <ClCompile Include="..\Classes\spells\FirePattern.cpp">
@@ -145,9 +139,6 @@
       <Filter>src\objects</Filter>
     </ClCompile>
     <ClCompile Include="..\Classes\scenes\OpeningScene.cpp">
-      <Filter>src\scenes</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Classes\scenes\OverworldScene.cpp">
       <Filter>src\scenes</Filter>
     </ClCompile>
     <ClCompile Include="..\Classes\ai\AIFunctions.cpp">
@@ -426,9 +417,6 @@
       <Filter>src\objects</Filter>
     </ClInclude>
     <ClInclude Include="..\Classes\scenes\OpeningScene.hpp">
-      <Filter>src\scenes</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Classes\scenes\OverworldScene.hpp">
       <Filter>src\scenes</Filter>
     </ClInclude>
     <ClInclude Include="..\Classes\ai\AIFunctions.hpp">

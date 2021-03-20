@@ -29,25 +29,19 @@ bool GScene::suppressGameOver = false;
 
 GScene* GScene::runScene(const string& name)
 {
-    auto it = adapters.find(name);
 	area_properties props;
 	props = app::getArea(name);
 
-	//Run built-in scene adapter
-	if (it != adapters.end()) {
-		crntSceneName = name;
-		return it->second();
-    }
 	//Action scene from area_properties
-	else if (!props.sceneName.empty()) {
+	if (!props.sceneName.empty()) {
 		crntSceneName = name;
-		return App::createAndRunScene<PlayScene>(props);
+		return App::createAndRunScene<PlayScene>(props, "player_start");
 	}
 	//Action scene with default settings from map file.
 	else if (FileUtils::getInstance()->isFileExist("maps/" + name + ".tmx")) {
 		crntSceneName = name;
 		log("Warning, creating scene %s from map file instead of properties!", name);
-		return App::createAndRunScene<PlayScene>(name);
+		return App::createAndRunScene<PlayScene>(name, "player_start");
 	}
 	else {
 		log("runScene: %s not found", name.c_str());

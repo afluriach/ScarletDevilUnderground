@@ -204,9 +204,7 @@ xcopy "$(ProjectDir)..\Resources" "$(OutDir)" /D /E /I /F /Y</Command>
     <ClCompile Include="..\Classes\scenes\GScene_map.cpp" />
     <ClCompile Include="..\Classes\scenes\menu_scenes.cpp" />
     <ClCompile Include="..\Classes\scenes\OpeningScene.cpp" />
-    <ClCompile Include="..\Classes\scenes\OverworldScene.cpp" />
     <ClCompile Include="..\Classes\scenes\PlayScene.cpp" />
-    <ClCompile Include="..\Classes\scenes\SceneMapping.cpp" />
     <ClCompile Include="..\Classes\shared_ptr.cpp" />
     <ClCompile Include="..\Classes\space\GSpace.cpp" />
     <ClCompile Include="..\Classes\space\GState.cpp" />
@@ -291,7 +289,6 @@ xcopy "$(ProjectDir)..\Resources" "$(OutDir)" /D /E /I /F /Y</Command>
     <ClInclude Include="..\Classes\scenes\LibraryOpening.h" />
     <ClInclude Include="..\Classes\scenes\menu_scenes.h" />
     <ClInclude Include="..\Classes\scenes\OpeningScene.hpp" />
-    <ClInclude Include="..\Classes\scenes\OverworldScene.hpp" />
     <ClInclude Include="..\Classes\scenes\PlayScene.hpp" />
     <ClInclude Include="..\Classes\shared_ptr.hpp" />
     <ClInclude Include="..\Classes\space\GSpace.hpp" />

@@ -127,12 +127,8 @@ class PauseMenu : public TextListMenuLayer
 {
 public:
 	static const string title;
-	static const vector<string> overworldEntries;
-	static const vector<zero_arity_function> overworldEntryActions;
-	static const vector<string> chamberEntries;
-	static const vector<zero_arity_function> chamberEntryActions;
-
-	static void worldSelect();
+	static const vector<string> entries;
+	static const vector<zero_arity_function> entryActions;
 
 	PauseMenu(bool overworld, Player* player);
 	inline virtual ~PauseMenu() {}
