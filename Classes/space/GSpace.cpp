@@ -565,32 +565,14 @@ bool GSpace::isNoUpdateObject(GObject* obj)
 	;
 }
 
-void GSpace::registerEnemyStaticLoaded(string s)
-{
-	enemyTypes.insert(s);
-	emplaceIfEmpty(initialEnemyCount, s, 0u);
-
-	++initialEnemyCount.at(s);
-}
-
-void GSpace::registerEnemySpawned(string s)
-{
-	enemyTypes.insert(s);
-	emplaceIfEmpty(actualSpawnCount, s, 0u);
-
-	++actualSpawnCount.at(s);
-}
-
-void GSpace::increasePotentialSpawnTotal(string t, unsigned int count)
-{
-	emplaceIfEmpty(potentialSpawnCount, t, to_uint(0));
-	potentialSpawnCount.at(t) += count;
-}
-
 void GSpace::registerEnemyDefeated(string t)
 {
-	emplaceIfEmpty(enemiesDefeated, t, to_uint(0));
-	++enemiesDefeated.at(t);
+	GState& state = *App::getCrntState();
+
+	++state.totalEnemiesDefeated;
+
+	emplaceIfEmpty(state.enemiesDefeated, t, to_uint(0));
+	++state.enemiesDefeated.at(t);
 }
 
 void GSpace::initObjects()

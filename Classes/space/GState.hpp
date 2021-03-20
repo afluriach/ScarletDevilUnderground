@@ -24,10 +24,8 @@ struct AreaStats
 	template<class Archive>
 	void serialize(Archive& ar, const unsigned int version)
 	{
-		ar & totalTime;
-		
+		ar & totalTime;		
 		ar & timesCleared;
-		ar & enemiesDefeated;
 		
 		ar & roomsVisited;
 		ar & roomsMapped;
@@ -57,10 +55,12 @@ public:
 	map<string, int> attributes;
 	map<Attribute, float> attributeUpgrades;
 	map<string, unsigned int> itemRegistry;
-	
+	map<string, unsigned int> enemiesDefeated;
+
 	unordered_set<string> dialogs;
 
 	unsigned long elapsedTime = 0;
+	unsigned int totalEnemiesDefeated = 0;
 
     template<class Archive>
     void serialize(Archive& ar, const unsigned int version)

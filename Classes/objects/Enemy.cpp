@@ -31,13 +31,6 @@ Enemy::Enemy(
 	),
 	props(props)
 {
-	if (space->getFrame() == 0){
-		space->registerEnemyStaticLoaded(getClsName());
-	}
-	else {
-		space->registerEnemySpawned(getClsName());
-	}
-
 	if (props->firepattern.size() > 0)
 		setFirePattern(props->firepattern);
 }

@@ -199,9 +199,6 @@ public:
 	void addRoomSensor(RoomSensor* rs);
 	void removeRoomSensor(RoomSensor* rs);
 
-	void registerEnemyStaticLoaded(string s);
-	void registerEnemySpawned(string s);
-	void increasePotentialSpawnTotal(string t, unsigned int count);
 	void registerEnemyDefeated(string t);
 
 	void teleportPlayerToDoor(string doorName);
