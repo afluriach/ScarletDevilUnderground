@@ -61,7 +61,6 @@ public:
 	};
 
     typedef function<GScene* () > AdapterType;
-	typedef pair<string, IntVec2> MapEntry;
 
     //Map each class name to a constructor adapter function.
 	//Defined in SceneMapping.cpp.

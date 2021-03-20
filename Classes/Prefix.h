@@ -97,6 +97,8 @@
 #include <boost/range/irange.hpp>
 #include <boost/serialization/array.hpp>
 #include <boost/serialization/bitset.hpp>
+#include <boost/serialization/map.hpp>
+#include <boost/serialization/set.hpp>
 #include <boost/serialization/unordered_map.hpp>
 #include <boost/serialization/unordered_set.hpp>
 #include <boost/serialization/vector.hpp>

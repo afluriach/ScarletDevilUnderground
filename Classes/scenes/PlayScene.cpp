@@ -124,8 +124,8 @@ void PlayScene::loadPlayer()
 
 void PlayScene::showVisibleRooms()
 {
-	auto it = App::crntState->chamberStats.find(getCurrentLevel());
-	if (it != App::crntState->chamberStats.end()) {
+	auto it = App::crntState->areaStats.find(getCurrentLevel());
+	if (it != App::crntState->areaStats.end()) {
 		setRoomsVisible(it->second.roomsVisited);
 		setRoomsDiscovered(it->second.roomsMapped);
 	}
@@ -225,20 +225,6 @@ void PlayScene::triggerGameOver()
 	setColorFilter(toColor4F(fadeoutColor));
 
 	triggerMenu(&PlayScene::showGameOverMenu);
-}
-
-void PlayScene::showSceneCompletedMenu()
-{
-	waitForSpaceThread();
-
-	logPerformance();
-	showMenu(Node::ccCreate<ChamberCompletedMenu>(this));
-}
-
-void PlayScene::triggerSceneCompleted()
-{
-	setPaused(true);
-	triggerMenu(&PlayScene::showSceneCompletedMenu);
 }
 
 void PlayScene::enterMap()

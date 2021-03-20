@@ -40,8 +40,8 @@ public:
 	IntVec2 getSize() const;
     void setSize(int x, int y);
     
-	ChamberStats& getCrntChamberStats();
-	inline string getCrntChamber() const { return crntChamber; }
+	AreaStats& getAreaStats();
+	local_shared_ptr<area_properties> getCrntArea();
 	inline bool isInCallback() const { return isInPhysicsStep; }
 	unsigned int getFrame() const;
 	SpaceFloat getTime() const;
@@ -176,7 +176,6 @@ public:
 	void addObjectAction(zero_arity_function f);
 	void addSceneAction(zero_arity_function f);
 	void enterWorldSelect();
-	void triggerSceneCompleted();
 	void createDialog(string res, bool autoAdvance);
 	void createDialog(string res, bool autoAdvance, zero_arity_function f);
 

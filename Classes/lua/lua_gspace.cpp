@@ -123,7 +123,6 @@ namespace Lua{
 			static_cast<void(GSpace::*)(string, bool, zero_arity_function)>(&GSpace::createDialog)
 		);
 		addFuncSame(gspace, enterWorldSelect);
-		addFuncSame(gspace, triggerSceneCompleted);
 
 		auto gstate = newType(GState);
 #define _cls GState
@@ -139,11 +138,6 @@ namespace Lua{
 
 		addFuncSame(gstate, hasItem);
 		addFuncSame(gstate, getItemCount);
-
-		addFuncSame(gstate, _registerChamberCompleted);
-		addFuncSame(gstate, registerChamberAvailable);
-		addFuncSame(gstate, isChamberAvailable);
-		addFuncSame(gstate, isChamberCompleted);
 
 		addFuncSame(gstate, setAttribute);
 		addFuncSame(gstate, getAttribute);

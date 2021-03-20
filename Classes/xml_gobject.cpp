@@ -158,14 +158,7 @@ namespace app {
 			return false;
 		}
 
-		if (tokens[0] == "registerChamberAvailable") {
-			string chamber = tokens[1];
-			*f = [chamber](NPC* n) -> void {
-				App::crntState->registerChamberAvailable(chamber);
-			};
-			return true;
-		}
-		else if (tokens[0] == "scriptMethod") {
+		if (tokens[0] == "scriptMethod") {
 			string name = tokens[1];
 			*f = [name](NPC* n) -> void {
 				if (!n->hasMethod(name)) {

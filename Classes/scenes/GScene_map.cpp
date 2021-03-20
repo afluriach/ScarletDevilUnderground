@@ -17,7 +17,7 @@
 #include "GScene.hpp"
 #include "value_map.hpp"
 
-vector<GScene::MapEntry> GScene::singleMapEntry(const string& mapName)
+vector<MapEntry> GScene::singleMapEntry(const string& mapName)
 {
 	return {
 		{mapName, IntVec2(0,0)}

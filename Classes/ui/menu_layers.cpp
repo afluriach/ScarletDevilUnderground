@@ -160,14 +160,13 @@ bool LoadProfileDetailMenu::init()
 		info->setPosition(width * 0.75f, height * 0.66f);
 		addChild(info, 3);
 
-		Label* time = createTextLabel("Elapsed time: " + getTimeString(profileState->totalChamberTime()), 32);
+		Label* time = createTextLabel("Elapsed time: " + getTimeString(profileState->getElapsedTime()), 32);
 		time->setPosition(width * 0.5f, height * 0.666f);
 		addChild(time, 3);
 
 		string levelsMsg = boost::str(
-			boost::format("Levels cleared: %d / %d") % 
-			profileState->chambersCompletedCount() % 
-			WorldSelect::entries.size()
+			boost::format("Areas cleared: %d") % 
+			profileState->areasClearedCount()
 		);
 		Label* levels = createTextLabel(levelsMsg, 32);
 		levels->setPosition(width * 0.5f, height * 0.75f);
@@ -271,7 +270,7 @@ vector<pair<string, zero_arity_function>> WorldSelect::getAvailableEntries()
 	GState* state = App::crntState.get();
 
 	for_irange(i, 0, entries.size() - 1) {
-		if (state->isChamberAvailable(chamberIDs.at(i))) {
+		if (state->getAttribute(chamberIDs.at(i))) {
 			result.push_back(entries.at(i));
 		}
 	}
@@ -364,137 +363,6 @@ const vector<zero_arity_function> GameOverMenu::entryActions = {
 	&App::restartScene,
 	&App::runTitleScene
 };
-
-const string ChamberCompletedMenu::title = "COMPLETED!";
-
-const vector<pair<string,zero_arity_function>> ChamberCompletedMenu::entries = {
-	{ "Return to Overworld", static_cast<GScene*(*)(void)>(&App::runOverworldScene) },
-	{ "Play again", &App::restartScene },
-	{ "Exit to title", &App::runTitleScene}
-};
-
-vector<TextListMenuLayer::entry> ChamberCompletedMenu::getEntries(string nextLevel)
-{
-	vector<entry> result;
-
-	if (!nextLevel.empty()) {
-		result.push_back(make_pair(
-			"Next Level",
-			[nextLevel]() -> void { PlayScene::runScene(nextLevel); }
-		));
-	}
-
-	for (auto entry : entries) result.push_back(entry);
-
-	return result;
-}
-
-ChamberCompletedMenu::ChamberCompletedMenu(PlayScene* playScene) :
-	TextListMenuImpl(getEntries(playScene->getNextLevel())),
-	playScene(playScene)
-{}
-
-bool ChamberCompletedMenu::init()
-{
-	TextListMenuLayer::init();
-
-	enemyStats = playScene->getSpace()->getEnemyStats();
-	frameCount = playScene->getSpace()->getFrame();
-	float scale = App::getScale();
-	unsigned int height = app::params.height;
-	unsigned int width = app::params.width;
-
-	Label* enemyStatsLabel = createTextLabel(enemyStatsMsg(),24*scale, "fonts/coiny.ttf");
-	addChild(enemyStatsLabel, 0);
-	enemyStatsLabel->setPosition(Vec2(width * 0.75f, height * 0.5f));
-
-	Label* statsLabel = createTextLabel(statsMsg(), 24*scale, "fonts/coiny.ttf");
-	addChild(statsLabel, 0);
-	statsLabel->setPosition(Vec2(width * 0.5f, height * 0.5f));
-
-	string current = playScene->getCurrentLevel();
-	if (!current.empty()) {
-		updateSaveState();
-
-		string next = playScene->getNextLevel();
-		if (!next.empty()) {
-			App::crntState->registerChamberAvailable(next);
-		}
-	}
-	else {
-		log("ChamberCompletedMenu: play scene has empty name.");
-	}
-
-	App::autosaveProfile();
-
-	return true;
-}
-
-void ChamberCompletedMenu::updateSaveState()
-{
-	string crnt = playScene->getCurrentLevel();
-
-	if (crnt.empty()) {
-		log("ChamberCompletedMenu::updateSaveState: crnt scene is empty!");
-		return;
-	}
-
-	ChamberStats& crntStats = App::crntState->chamberStats.at(crnt);
-	unsigned int timeMS = frameCount * app::params.secondsPerFrame * 1000;
-	unsigned char enemies = totalEnemyCount().first;
-
-	++crntStats.timesCompleted;
-	crntStats.totalTimeMS += timeMS;
-
-	if (crntStats.fastestTimeMS != 0 && timeMS < crntStats.fastestTimeMS) {
-		crntStats.fastestTimeMS = timeMS;
-	}
-
-	crntStats.maxEnemiesDefeated = max(crntStats.maxEnemiesDefeated, enemies);
-}
-
-string ChamberCompletedMenu::statsMsg()
-{
-	unsigned int millis = frameCount * app::params.secondsPerFrame * 1000.0;
-	pair<unsigned int, unsigned int> enemyTotals = totalEnemyCount();
-
-	return boost::str(boost::format("Clear time: %s\nEnemies defeated: %d / %d") %
-		getTimeString(millis) %
-		enemyTotals.first %
-		enemyTotals.second
-	);
-}
-
-string ChamberCompletedMenu::enemyStatsMsg()
-{
-	string result;
-
-	result += "Enemies defeated:";
-
-	for (auto entry : enemyStats)
-	{
-		result +=
-			"\n" +
-			entry.first + " : " + 
-			boost::lexical_cast<string>(entry.second.first)  + " / " +
-			boost::lexical_cast<string>(entry.second.second)
-		;
-	}
-
-	return result;
-}
-
-pair<unsigned int, unsigned int> ChamberCompletedMenu::totalEnemyCount()
-{
-	pair<unsigned int, unsigned int> result = make_pair(0u,0u);
-
-	for (auto entry : enemyStats) {
-		result.first += entry.second.first;
-		result.second += entry.second.second;
-	}
-
-	return result;
-}
 
 const int MapMenu::margin = 64;
 

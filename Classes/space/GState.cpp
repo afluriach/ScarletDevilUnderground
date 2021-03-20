@@ -12,6 +12,17 @@
 //#include "GState.hpp"
 #include "Player.hpp"
 
+void AreaStats::addObjectRemoval(string objectName)
+{
+	objectRemovals.insert(objectName);
+}
+
+bool AreaStats::isObjectRemoved(string objectName) const
+{
+	auto it = objectRemovals.find(objectName);
+	return it != objectRemovals.end();
+}
+
 vector<bool> GState::profileSlotsInUse;
 
 void GState::initProfiles()
@@ -72,28 +83,6 @@ bool GState::hasCompletedDialog(string name)
 	return dialogs.find(name) != dialogs.end();
 }
 
-void GState::addObjectRemoval(string areaName, string objectName)
-{
-	if (areaName.size() > 0 && objectName.size() > 0) {
-		objectRemovals.insert(areaName + "." + objectName);
-	}
-	else {
-		log("addObjectRemoval: invalid parameters!");
-	}
-}
-
-bool GState::isObjectRemoved(string areaName, string objectName)
-{
-	if (areaName.size() > 0 && objectName.size() > 0) {
-		string key = areaName + "." + objectName;
-		return objectRemovals.find(key) != objectRemovals.end();
-	}
-	else {
-		log("isObjectRemoved: invalid parameters!");
-		return false;
-	}
-}
-
 void GState::applyAttributeUpgrade(Attribute attr, float val)
 {
 	emplaceIfEmpty(attributeUpgrades, attr, 0.0f);
@@ -101,50 +90,41 @@ void GState::applyAttributeUpgrade(Attribute attr, float val)
 	attributeUpgrades.at(attr) += val;
 }
 
-void GState::registerChamberAvailable(string id)
+bool GState::hasClearedArea(string id)
 {
-	if (!id.empty()) {
-		chambersAvailable.insert(id);
+	auto it = areaStats.find(id);
+	return it != areaStats.end() ? it->second.timesCleared > 0 : false;
+}
+
+unsigned long GState::getElapsedTime()
+{
+	return elapsedTime;
+}
+
+void GState::incrementElapsedTime()
+{
+	++elapsedTime;
+}
+
+void GState::incrementAreaTime(string areaID)
+{
+	auto it = areaStats.find(areaID);
+	if (it != areaStats.end()) {
+		++it->second.totalTime;
 	}
 }
 
-void GState::_registerChamberCompleted(string name) {
-	checkInitAreaState(name);
-	unsigned char& completions = chamberStats.at(name).timesCompleted;
-	completions = max<unsigned char>(completions, 1);
-}
-
-bool GState::isChamberAvailable(string id)
+int GState::areasClearedCount()
 {
-	return chambersAvailable.find(id) != chambersAvailable.end();
-}
+	int clears = 0;
 
-bool GState::isChamberCompleted(string id)
-{
-	auto it = chamberStats.find(id);
-	return it != chamberStats.end() ? it->second.timesCompleted > 0 : false;
-}
-
-int GState::chambersCompletedCount()
-{
-	int result = 0;
-
-	for (auto entry : chamberStats) {
-		result += bool_int(entry.second.timesCompleted > 0);
+	for (auto entry : areaStats)
+	{
+		if (entry.second.timesCleared > 0)
+			++clears;
 	}
 
-	return result;
-}
-
-unsigned int GState::totalChamberTime()
-{
-	unsigned int result = 0;
-
-	for (auto entry : chamberStats) {
-		result += entry.second.totalTimeMS;
-	}
-
-	return result;
+	return clears;
 }
 
 AttributeSystem GState::getPlayerStats()
@@ -156,7 +136,7 @@ AttributeSystem GState::getPlayerStats()
 
 void GState::checkInitAreaState(string name)
 {
-	emplaceIfEmpty(chamberStats, name);
+	emplaceIfEmpty(areaStats, name);
 }
 
 void GState::setAttribute(string name, int val)

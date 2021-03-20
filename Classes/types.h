@@ -69,7 +69,7 @@ class SpellSystem;
 	//misc
 struct area_properties;
 class AttributeSystem;
-struct ChamberStats;
+struct AreaStats;
 struct ControlInfo;
 class ControlListener;
 class ControlRegister;
@@ -95,7 +95,7 @@ enum class Attribute : int;
 
 enum class GraphicsLayer : int;
 
-typedef unordered_map<Attribute, float> AttributeMap;
+typedef map<Attribute, float> AttributeMap;
 
 typedef pair<int, int> int_pair;
 typedef pair<float, float> float_pair;
@@ -277,6 +277,20 @@ struct sprite_properties {
 	//only used for animation sequences
 	float duration = 0.0;
 	Color3B color = Color3B::BLACK;
+};
+
+typedef pair<string, IntVec2> MapEntry;
+
+struct area_properties
+{
+	static area_properties singleMap(string name);
+
+	area_properties();
+
+	string sceneName;
+	string next;
+	vector<MapEntry> maps;
+	Color4F ambientLight;
 };
 
 namespace app {

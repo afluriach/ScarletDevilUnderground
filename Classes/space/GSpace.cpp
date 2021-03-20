@@ -96,10 +96,10 @@ GSpace::~GSpace()
 	delete world;
 }
 
-ChamberStats& GSpace::getCrntChamberStats()
+AreaStats& GSpace::getAreaStats()
 {
 	App::crntState->checkInitAreaState(crntChamber);
-	return App::crntState->chamberStats.at(crntChamber);
+	return App::crntState->areaStats.at(crntChamber);
 }
 
 IntVec2 GSpace::getSize() const {
@@ -196,6 +196,11 @@ void GSpace::update()
     
 	gscene->addActions(sceneActions);
 	sceneActions.clear();
+
+	if (frame % app::params.framesPerSecond == 0) {
+		App::crntState->incrementElapsedTime();
+		++getAreaStats().totalTime;
+	}
 
 #if USE_TIMERS
 	chrono::steady_clock::time_point t4 = chrono::steady_clock::now();
@@ -530,7 +535,7 @@ void GSpace::processRemoval(GObject* obj, bool _removeSprite)
 
 	string name = getObjectName(obj->uuid);
 	if (!isUnloading && name.size() > 0 && crntChamber.size() > 0) {
-		App::crntState->addObjectRemoval(crntChamber, name);
+		getAreaStats().addObjectRemoval(name);
 	}
 
 	objectNames.right.erase(obj->uuid);
@@ -726,20 +731,6 @@ void GSpace::enterWorldSelect()
 	);
 }
 
-void GSpace::triggerSceneCompleted()
-{
-	PlayScene* playScene = getSceneAs<PlayScene>();
-
-	if (!playScene) {
-		log("GSpace::triggerSceneCompleted: not a PlayScene");
-		return;
-	}
-
-	addSceneAction(
-		[playScene]()->void { playScene->triggerSceneCompleted(); }
-	);
-}
-
 void GSpace::createDialog(string res, bool autoAdvance)
 {
 	addSceneAction(
@@ -795,7 +786,7 @@ void GSpace::eraseTile(int mapID, IntVec2 pos, string layer)
 void GSpace::updatePlayerMapLocation(int roomID)
 {
 	crntMap = roomID;
-	getCrntChamberStats().roomsVisited.set(roomID);
+	getAreaStats().roomsVisited.set(roomID);
 
 	addSceneAction(bind(&GScene::updateMapVisibility, gscene, roomID));
 }
@@ -808,7 +799,7 @@ void GSpace::addMapArea(const SpaceRect& area)
 void GSpace::registerRoomMapped(int roomID)
 {
 	if (roomID >= 0 && roomID < maxRoomsPerChamber) {
-		getCrntChamberStats().roomsMapped.set(roomID, true);
+		getAreaStats().roomsMapped.set(roomID, true);
 		addSceneAction(bind(&GScene::setRoomDiscovered, gscene, roomID));
 	}
 }

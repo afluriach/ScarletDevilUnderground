@@ -38,7 +38,7 @@ const float Agent::bodyOutlineWidth = 4.0f;
 
 bool Agent::conditionalLoad(GSpace* space, const object_params& params, local_shared_ptr<agent_properties> props)
 {
-	if (params.name.size() > 0 && App::crntState->isObjectRemoved(space->getCrntChamber(), params.name)) {
+	if (params.name.size() > 0 && space->getAreaStats().isObjectRemoved(params.name) ) {
 		return false;
 	}
 

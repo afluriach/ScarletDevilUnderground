@@ -9,27 +9,34 @@
 #ifndef GState_hpp
 #define GState_hpp
 
-struct ChamberStats
+struct AreaStats
 {
-	unsigned int totalTimeMS = 0;
-	unsigned int fastestTimeMS = 0;
+	unsigned long totalTime = 0;
 
-	unsigned char timesCompleted = 0;
-	unsigned char maxEnemiesDefeated = 0;
+	int timesCleared = 0;
+	int enemiesDefeated = 0;
 
 	rooms_bitmask roomsVisited;
 	rooms_bitmask roomsMapped;
 
+	set<string> objectRemovals;
+
 	template<class Archive>
 	void serialize(Archive& ar, const unsigned int version)
 	{
-		ar & totalTimeMS;
-		ar & fastestTimeMS;
-		ar & timesCompleted;
-		ar & maxEnemiesDefeated;
+		ar & totalTime;
+		
+		ar & timesCleared;
+		ar & enemiesDefeated;
+		
 		ar & roomsVisited;
 		ar & roomsMapped;
+
+		ar & objectRemovals;
 	}
+
+	void addObjectRemoval(string objectName);
+	bool isObjectRemoved(string objectName) const;
 };
 
 //All of the persistent state associated with a single profile.
@@ -45,24 +52,26 @@ public:
 
 	static void initProfiles();
 
-	unordered_map<string, int> attributes;
-    unordered_map<string, unsigned int> itemRegistry;
+	map<string, AreaStats> areaStats;
+
+	map<string, int> attributes;
+	map<Attribute, float> attributeUpgrades;
+	map<string, unsigned int> itemRegistry;
+	
 	unordered_set<string> dialogs;
-	unordered_set<string> objectRemovals;
-	unordered_set<string> chambersAvailable;
-	unordered_map<string, ChamberStats> chamberStats;
-	unordered_map<Attribute, float> attributeUpgrades;
+
+	unsigned long elapsedTime = 0;
 
     template<class Archive>
     void serialize(Archive& ar, const unsigned int version)
     {
+		ar & areaStats;
+
 		ar & attributes;
-        ar & itemRegistry;
-		ar & dialogs;
-		ar & objectRemovals;
-		ar & chambersAvailable;
-		ar & chamberStats;
 		ar & attributeUpgrades;
+        ar & itemRegistry;
+
+		ar & dialogs;
     }
 
 	void addItem(string name);
@@ -72,19 +81,16 @@ public:
 	bool removeItem(string name);
 	bool removeItem(string name, unsigned int count);
 	bool hasCompletedDialog(string name);
-	void addObjectRemoval(string areaName, string objectName);
-	bool isObjectRemoved(string areaName, string objectName);
 	void applyAttributeUpgrade(Attribute attr, float val);
 
-	void registerChamberAvailable(string id);
-	//Only used for testing
-	void _registerChamberCompleted(string name);
-	bool isChamberAvailable(string id);
-	bool isChamberCompleted(string id);
-	int chambersCompletedCount();
-	unsigned int totalChamberTime();
+	bool hasClearedArea(string id);
+	unsigned long getAreaTime(string id);
+	int areasClearedCount();
 
 	AttributeSystem getPlayerStats();
+	unsigned long getElapsedTime();
+	void incrementElapsedTime();
+	void incrementAreaTime(string areaID);
 
 	void checkInitAreaState(string name);
 

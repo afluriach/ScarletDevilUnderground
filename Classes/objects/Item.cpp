@@ -23,7 +23,7 @@ bool Item::conditionalLoad(GSpace* space, const object_params& params, local_sha
 		return true;
 	}
 
-	return !App::crntState->isObjectRemoved(space->getCrntChamber(), params.name);
+	return !space->getAreaStats().isObjectRemoved(params.name);
 }
 
 ObjectGeneratorType Item::create(GSpace* space, string items, SpaceVect pos)

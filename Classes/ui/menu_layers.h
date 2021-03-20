@@ -151,29 +151,6 @@ public:
 	inline virtual ~GameOverMenu() {}
 };
 
-class ChamberCompletedMenu : public TextListMenuImpl<ChamberCompletedMenu>
-{
-public:
-	static const string title;
-	static const vector<entry> entries;
-
-	static vector<entry> getEntries(string nextLevel);
-
-	ChamberCompletedMenu(PlayScene* playScene);
-	inline virtual ~ChamberCompletedMenu() {}
-
-	virtual bool init();
-protected:
-	void updateSaveState();
-	string statsMsg();
-	string enemyStatsMsg();
-	pair<unsigned int, unsigned int> totalEnemyCount();
-
-	unsigned int frameCount;
-	EnemyStatsMap enemyStats;
-	PlayScene* playScene;
-};
-
 class MapMenu : public MenuLayer
 {
 public:

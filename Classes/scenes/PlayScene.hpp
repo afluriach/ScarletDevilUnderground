@@ -12,18 +12,6 @@
 #include "functional.hpp"
 #include "GScene.hpp"
 
-struct area_properties
-{
-	static area_properties singleMap(string name);
-
-	area_properties();
-
-	string sceneName;
-	string next;
-	vector<GScene::MapEntry> maps;
-	Color4F ambientLight;
-};
-
 class PlayScene : public GScene
 {
 public:
@@ -61,9 +49,6 @@ public:
     
     void triggerGameOver();
     void showGameOverMenu();
-
-	void triggerSceneCompleted();
-	void showSceneCompletedMenu();
 
 	virtual GScene* getReplacementScene();
 

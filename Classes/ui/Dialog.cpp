@@ -143,9 +143,9 @@ void Dialog::setNextScene(const string& next)
 	onEnd.push_back(bind(&GScene::runScene, next));
 }
 
-void Dialog::unlockChamber(string id)
+void Dialog::setAttribute(string id, int val)
 {
-	App::crntState->registerChamberAvailable(id);
+	App::crntState->setAttribute(id, val);
 }
 
 void Dialog::setNameLabel(string label)
@@ -277,9 +277,10 @@ void Dialog::processDialogFile(const string& text)
 					continue;
 				}
 
-				dialog.push_back(makeAction<string>(
-					&Dialog::unlockChamber,
-					tokens[1]
+				dialog.push_back(makeAction<string, int>(
+					&Dialog::setAttribute,
+					tokens[1],
+					1
 				));
 			}
 			else if (boost::starts_with(line, ":setName ")) {

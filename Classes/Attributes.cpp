@@ -97,7 +97,7 @@ AttributeArray AttributeSystem::getAttributeSet(const AttributeMap& input)
 {
 	AttributeArray result = getBlankAttributeSet();
 
-	for (unordered_map<Attribute, float>::const_iterator it = input.cbegin(); it != input.cend(); ++it)
+	for (map<Attribute, float>::const_iterator it = input.cbegin(); it != input.cend(); ++it)
 	{
 		result[to_size_t(it->first)] = it->second;
 	}

@@ -146,6 +146,14 @@ void emplaceIfEmpty(map<K, V, A>& _map, const K& _key)
 		_map.insert_or_assign(_key, V());
 }
 
+template<typename K, typename V, typename A>
+void emplaceIfEmpty(map<K, V, A>& _map, const K& _key, V val)
+{
+	auto it = _map.find(_key);
+	if (it == _map.end())
+		_map.insert_or_assign(_key, val);
+}
+
 template<typename K, typename V>
 void eraseEntry(multimap<K, V>& _map, pair<K,V> entry)
 {
