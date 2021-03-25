@@ -211,13 +211,13 @@ protected:
 	vector<zero_arity_function> actionsToRun;
 	mutex actionsMutex;
 
-	vector<MenuLayer*> menuStack;
+	cocos2d::Vector<MenuLayer*> menuStack;
 	Dialog* dialog = nullptr;
 
 	string sceneName;
 	IntVec2 dimensions;
 
-	Vector<TMXTiledMap*> tilemaps;
+	cocos2d::Vector<TMXTiledMap*> tilemaps;
 	vector<MapEntry> maps;
 	vector<SpaceRect> mapAreas;
 	vector<bool> mapAreasVisited;

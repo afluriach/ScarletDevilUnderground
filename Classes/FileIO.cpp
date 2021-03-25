@@ -186,6 +186,25 @@ string getRealPath(const string& path)
 	return FileUtils::getInstance()->fullPathForFilename(path);
 }
 
+
+string profileName(unsigned long idx)
+{
+	return string_format("save%04d", idx);
+}
+
+bool deleteProfile(string name)
+{
+	string profilePath = io::getProfilePath() + name + ".profile";
+
+	if (!FileUtils::getInstance()->isFileExist(profilePath)) {
+		log("deleteProfile(): \"%s\" does not exist", profilePath);
+		return false;
+	}
+	else {
+		return FileUtils::getInstance()->removeFile(profilePath);
+	}
+}
+
 unique_ptr<GState> loadProfileState(string name)
 {
 	string profilePath = io::getProfilePath() + name + ".profile";

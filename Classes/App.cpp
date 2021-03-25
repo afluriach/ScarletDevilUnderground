@@ -362,14 +362,9 @@ void App::runOpeningScene()
 	createAndRunScene<OpeningScene>();
 }
 
-GScene* App::runOverworldScene()
+GScene* App::runPlayScene(string mapName, string start)
 {
-	return runOverworldScene("mansion_b1", "player_start");
-}
-
-GScene* App::runOverworldScene(string mapName, string start)
-{
-	return createAndRunScene<PlayScene>("overworld/"+mapName, start);
+	return createAndRunScene<PlayScene>(mapName, start);
 }
 
 GScene* App::getCrntScene()
@@ -431,14 +426,10 @@ bool App::saveProfile(const string& name)
 		return false;
 	}
 
+	++crntState->saveCount;
+
 	return io::saveProfileState(crntState.get(), name);
 }
-
-bool App::autosaveProfile()
-{
-	return io::saveProfileState(crntState.get(), "autosave");
-}
-
 void App::setPlayer(string id)
 {
 	GSpace::playerCharacter = app::getPlayer(id);
@@ -461,6 +452,11 @@ void App::setDifficulty(float scale)
 
 GState* App::getCrntState() {
 	return crntState.get();
+}
+
+string App::getProfileName(int profileID)
+{
+	return io::profileName(profileID);
 }
 
 FileUtilsZip* App::getFileUtils()

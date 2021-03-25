@@ -59,8 +59,12 @@ public:
 
 	unordered_set<string> dialogs;
 
+	unsigned long saveCount = 0;
 	unsigned long elapsedTime = 0;
 	unsigned int totalEnemiesDefeated = 0;
+
+	string area;
+	string entrance;
 
     template<class Archive>
     void serialize(Archive& ar, const unsigned int version)
@@ -70,8 +74,16 @@ public:
 		ar & attributes;
 		ar & attributeUpgrades;
         ar & itemRegistry;
+		ar & enemiesDefeated;
 
 		ar & dialogs;
+
+		ar & saveCount;
+		ar & elapsedTime;
+		ar & totalEnemiesDefeated;
+
+		ar & area;
+		ar & entrance;
     }
 
 	void addItem(string name);

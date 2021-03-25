@@ -28,6 +28,8 @@ string getControlMappingPath();
 string getConfigFilePath();
 string getRealPath(const string& path);
 
+string profileName(unsigned long idx);
+bool deleteProfile(string name);
 unique_ptr<GState> loadProfileState(string name);
 bool saveProfileState(const GState* state, string path);
 

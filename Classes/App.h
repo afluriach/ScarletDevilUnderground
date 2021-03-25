@@ -55,8 +55,7 @@ public:
 
 	//Methods for controlling the active scene; wraps calls to Director.
 	static void runTitleScene();
-	static GScene* runOverworldScene();
-	static GScene* runOverworldScene(string mapName, string start);
+	static GScene* runPlayScene(string mapName, string start);
 	static void runOpeningScene();
 	static void restartScene();
 	static GScene* getCrntScene();
@@ -84,7 +83,6 @@ public:
 	static bool loadProfile(const string& name);
 	static bool saveCrntProfile();
 	static bool saveProfile(const string& name);
-	static bool autosaveProfile();
 
 #if USE_TIMERS
 	static void setLogTimers(bool);
@@ -114,6 +112,7 @@ public:
 #endif
     
 	static GState* getCrntState();
+	static string getProfileName(int profileID);
 
 protected:
 	static App* appInst;

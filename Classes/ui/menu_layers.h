@@ -133,6 +133,8 @@ public:
 	PauseMenu(bool overworld, Player* player);
 	inline virtual ~PauseMenu() {}
 protected:
+	static void saveMenu();
+
 	Player * player;
 };
 

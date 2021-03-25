@@ -25,7 +25,7 @@ namespace Lua{
 		);
 #define _cls App
 
-		app["runOverworldScene"] = static_cast<GScene * (*)(string, string)>(&App::runOverworldScene);
+		addFuncSame(app, runPlayScene);
 
 		addFuncSame(app, getParams);
 		addFuncSame(app, getCrntScene);

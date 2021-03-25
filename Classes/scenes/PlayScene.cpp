@@ -102,6 +102,10 @@ void PlayScene::update(float dt)
 void PlayScene::loadPlayer()
 {
 	string start = getPlayerStart();
+
+	App::getCrntState()->area = props.sceneName;
+	App::getCrntState()->entrance = start;
+
 	Door * door = gspace->getObjectAs<Door>(start);
 	SpaceVect player_start = gspace->getWaypoint(start);
 	object_params params;

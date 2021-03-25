@@ -53,7 +53,7 @@
   <object id="111" name="graveyard_entrance" type="Door" x="3200" y="0" width="128" height="128">
    <properties>
     <property name="dest" value="to_graveyard"/>
-    <property name="dest_map" value="clearing"/>
+    <property name="dest_map" value="overworld/clearing"/>
     <property name="dir" value="down"/>
     <property name="path" value="true"/>
    </properties>
@@ -190,7 +190,7 @@
   <object id="153" name="to_inner_area" type="Door" x="3200" y="6400" width="128" height="128">
    <properties>
     <property name="dest" value="entrance"/>
-    <property name="dest_map" value="graveyard_inner_area"/>
+    <property name="dest_map" value="overworld/graveyard_inner_area"/>
     <property name="dir" value="up"/>
     <property name="path" value="true"/>
     <property name="sealed_until_completed" value="graveyard3"/>

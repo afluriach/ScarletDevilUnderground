@@ -195,7 +195,7 @@ void LoadProfileDetailMenu::backPressed()
 void LoadProfileDetailMenu::loadProfile()
 {
 	App::loadProfile(profileName);
-	App::runOverworldScene();
+	App::runPlayScene(App::getCrntState()->area, App::getCrntState()->entrance);
 }
 
 const string SceneSelect::title = "Scene Select";
@@ -303,11 +303,13 @@ const string PauseMenu::title = "";
 
 const vector<string> PauseMenu::entries = {
 	"Resume",
+	"Save Game",
 	"Exit to title"
 };
 
 const vector<zero_arity_function> PauseMenu::entryActions = {
 	&App::resumeScene,
+	&PauseMenu::saveMenu,
 	&App::runTitleScene
 };
 
@@ -329,6 +331,11 @@ PauseMenu::PauseMenu(bool overworld, Player* player) :
 		info->setPosition(app::params.width * 0.75f, app::params.height * 0.66f);
 		addChild(info, 3);
 	}
+}
+
+void PauseMenu::saveMenu()
+{
+	App::saveCrntProfile();
 }
 
 const string GameOverMenu::title = "GAME OVER";

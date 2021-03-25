@@ -344,7 +344,7 @@ void GScene::pushMenu(MenuLayer* layer)
 		menuStack.back()->setControlsActive(false);
 	}
 
-	menuStack.push_back(layer);
+	menuStack.pushBack(layer);
 	getLayer(sceneLayers::menu)->addChild(layer);
 }
 
@@ -353,7 +353,7 @@ void GScene::popMenu()
 	if (!menuStack.empty()) {
 		Layer* l = menuStack.back();
 		getLayer(sceneLayers::menu)->removeChild(l);
-		menuStack.pop_back();
+		menuStack.popBack();
 	}
 
 	if (!menuStack.empty()) {
@@ -367,7 +367,7 @@ void GScene::popMenuIfNonroot()
 	if (menuStack.size() > 1) {
 		Layer* l = menuStack.back();
 		getLayer(sceneLayers::menu)->removeChild(l);
-		menuStack.pop_back();
+		menuStack.popBack();
 	}
 
 	menuStack.back()->setVisible(true);

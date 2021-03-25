@@ -167,23 +167,6 @@ void eraseEntry(multimap<K, V>& _map, pair<K,V> entry)
 	}
 }
 
-template<typename T>
-T vmin(T&&t)
-{
-  return std::forward<T>(t);
-}
-
-template<typename T0, typename T1, typename... Ts>
-typename std::common_type<
-  T0, T1, Ts...
->::type vmin(T0&& val1, T1&& val2, Ts&&... vs)
-{
-  if (val2 < val1)
-    return vmin(val2, std::forward<Ts>(vs)...);
-  else
-    return vmin(val1, std::forward<Ts>(vs)...);
-}
-
 template<typename T, size_t Size>
 inline array<T,Size> getZeroArray()
 {
@@ -201,6 +184,15 @@ constexpr inline bitset<size> make_bitfield(size_t idx)
 {
 	bitset<size> result;
 	result[idx] = true;
+	return result;
+}
+
+template<typename... T>
+string string_format(string s, T... args)
+{
+	boost::format fmt(s);
+	string result = boost::str((fmt % ... % forward<T>(args)));
+
 	return result;
 }
 
