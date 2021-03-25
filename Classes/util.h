@@ -66,7 +66,7 @@ string getNowTimestamp();
 vector<string> splitString(const string& input,const string& sep);
 bool isComment(const string& s);
 
-string getTimeString(unsigned int millis);
+string getTimeString(unsigned int seconds);
 string floatToStringOptionalDecimal(float val);
 
 template<typename T>

@@ -215,22 +215,19 @@ bool isComment(const string& s)
 	return boost::starts_with(s, "#") || boost::starts_with(s, "//");
 }
 
-string getTimeString(unsigned int millis)
+string getTimeString(unsigned int seconds)
 {
-	unsigned int seconds = millis / 1000;
 	unsigned int minutes = seconds / 60;
 	unsigned int hours = minutes / 60;
-	unsigned int _h = (millis % 1000) / 10;
 
 	seconds %= 60;
 	minutes %= 60;
 
 	return boost::str(
-		boost::format("%02u:%02u:%02u.%02u") % 
+		boost::format("%02u:%02u:%02u	") % 
 		hours %
 		minutes %
-		seconds %
-		_h
+		seconds
 	);
 }
 
