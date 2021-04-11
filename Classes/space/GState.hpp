@@ -111,6 +111,8 @@ public:
 	bool hasAttribute(string name);
 	void incrementAttribute(string name);
 	void subtractAttribute(string name, int val);
+    
+    void registerEnemyDefeated(string t);
 };
 
 #endif /* GState_hpp */

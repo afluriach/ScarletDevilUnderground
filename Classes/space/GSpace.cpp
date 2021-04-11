@@ -565,16 +565,6 @@ bool GSpace::isNoUpdateObject(GObject* obj)
 	;
 }
 
-void GSpace::registerEnemyDefeated(string t)
-{
-	GState& state = *App::getCrntState();
-
-	++state.totalEnemiesDefeated;
-
-	emplaceIfEmpty(state.enemiesDefeated, t, to_uint(0));
-	++state.enemiesDefeated.at(t);
-}
-
 void GSpace::initObjects()
 {
 	for (auto f : initMessages) f();
@@ -651,27 +641,6 @@ void GSpace::setControlInfo(ControlInfo info) {
 unsigned int GSpace::getAndIncrementObjectUUID()
 {
 	return nextObjUUID++;
-}
-
-EnemyStatsMap GSpace::getEnemyStats()
-{
-	EnemyStatsMap result;
-
-	for (string t : enemyTypes)
-	{
-		unsigned int initial = getOrDefault(initialEnemyCount, t, to_uint(0));
-		unsigned int spawnTotal = getOrDefault(potentialSpawnCount, t, to_uint(0));
-		if (initial == 0 && spawnTotal == 0) {
-			continue;
-		}
-
-		result[t] = pair<unsigned int, unsigned int>(
-			getOrDefault(enemiesDefeated,t, to_uint(0)),
-			initial + spawnTotal
-		);
-	}
-
-	return result;
 }
 
 gobject_ref GSpace::createAreaSensor(

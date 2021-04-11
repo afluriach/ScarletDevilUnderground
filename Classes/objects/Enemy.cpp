@@ -69,7 +69,7 @@ void Enemy::onRemove()
 	if(!props->collectible.empty()){
 		space->createObject( Item::create(space, props->collectible, getPos()) );
 	}
-	space->registerEnemyDefeated(getClsName());
+    App::getCrntState()->registerEnemyDefeated(getClsName());
 }
 
 DamageInfo Enemy::touchEffect() const{

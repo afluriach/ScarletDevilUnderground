@@ -147,8 +147,6 @@ public:
     
 	void setBulletBodiesVisible(bool b);
 
-	EnemyStatsMap getEnemyStats();
-
 	template<typename ...Args>
 	inline void addHudAction(void (HUD::*m)(Args...), Args... args)
 	{
@@ -198,8 +196,6 @@ public:
 	gobject_ref getPlayerAsRef();
 	void addRoomSensor(RoomSensor* rs);
 	void removeRoomSensor(RoomSensor* rs);
-
-	void registerEnemyDefeated(string t);
 
 	void teleportPlayerToDoor(string doorName);
 	void setSuppressAction(bool b);
@@ -353,12 +349,6 @@ protected:
 	unordered_map<ObjectIDType, GObject*> objByUUID;
 	boost::bimap<string, ObjectIDType> objectNames;
 	unordered_map<type_index, unordered_set<GObject*>> objByType;
-
-	set<string> enemyTypes;
-	unordered_map<string, unsigned int> initialEnemyCount;
-	unordered_map<string, unsigned int> actualSpawnCount;
-	unordered_map<string, unsigned int> potentialSpawnCount;
-	unordered_map<string, unsigned int> enemiesDefeated;
 	
 	set<GObject*> updateObjects;
 	set<RadarSensor*> radarSensors;

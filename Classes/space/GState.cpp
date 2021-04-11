@@ -168,3 +168,11 @@ void GState::subtractAttribute(string name, int val)
 		it->second -= val;
 	}
 }
+
+void GState::registerEnemyDefeated(string t)
+{
+    ++totalEnemiesDefeated;
+
+    emplaceIfEmpty(enemiesDefeated, t, to_uint(0));
+    ++enemiesDefeated.at(t);
+}

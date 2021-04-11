@@ -102,7 +102,6 @@ typedef pair<float, float> float_pair;
 typedef pair<double, double> double_pair;
 typedef pair<int,int> IntVec2;
 typedef tuple<long, long, long> TimerTriplet;
-typedef map<string, pair<unsigned int, unsigned int>> EnemyStatsMap;
 typedef vector<SpaceVect> Path;
 
 typedef unsigned int LightID;
