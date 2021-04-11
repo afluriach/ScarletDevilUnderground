@@ -9,6 +9,8 @@
 #ifndef AI_hpp
 #define AI_hpp
 
+#include "sol_util.hpp"
+
 namespace ai{
 
 //for functions that target an object

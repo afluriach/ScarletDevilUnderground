@@ -31,7 +31,7 @@ inline void runtMethodIfAvailable(sol::table obj, const string& name, Args... ar
 	if (!obj) return;
 	auto f = obj[name];
 
-	if (f) {
+    if (f.valid() && f.get_type() == type::function) {
 		f(args...);
 	}
 }
