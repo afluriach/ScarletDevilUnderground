@@ -39,7 +39,6 @@ public:
 	);
 	~Player();
     
-	virtual void onRemove();
 	virtual void setCrntRoom(RoomSensor* room);
 
 	void equipFirePatterns();
@@ -63,6 +62,7 @@ public:
 	void updateCombo();
 
 	virtual void onZeroHP();
+    virtual void onPitfall();
 
 	//Since the Player is the sound source, override this to avoid playing zero-distance sounds.
 	virtual ALuint playSoundSpatial(

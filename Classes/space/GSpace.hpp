@@ -43,6 +43,7 @@ public:
 	AreaStats& getAreaStats();
 	local_shared_ptr<area_properties> getCrntArea();
 	inline bool isInCallback() const { return isInPhysicsStep; }
+    inline bool getIsUnloading() const { return isUnloading; }
 	unsigned int getFrame() const;
 	SpaceFloat getTime() const;
 	unsigned long getTimeUsed() const;

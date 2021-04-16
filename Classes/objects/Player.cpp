@@ -71,11 +71,6 @@ Player::~Player()
 {
 }
 
-void Player::onRemove()
-{
-	gameOver();
-}
-
 void Player::setCrntRoom(RoomSensor* room)
 {
 	GObject::setCrntRoom(room);
@@ -408,6 +403,13 @@ void Player::updateCombo()
 void Player::onZeroHP()
 {
 	gameOver();
+}
+
+void Player::onPitfall()
+{
+    GObject::onPitfall();
+
+    gameOver();
 }
 
 void Player::update()
