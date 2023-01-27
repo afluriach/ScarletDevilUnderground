@@ -92,6 +92,13 @@ function ai.ice_fairy:initialize()
 	self.detectEnemyHandler = ai.ScriptFunction.targetGenerator("FairyEngage")
 end
 
+ai.red_fairy = ai.fsm:extend('red_fairy')
+
+function ai.red_fairy:initialize()
+	self.detectEnemyHandler = ai.ScriptFunction.targetGenerator("RedFairyEngage")
+	self:addFleeBomb()
+end
+
 ai.zombie_fairy = ai.fsm:extend('zombie_fairy')
 
 function ai.zombie_fairy:initialize()

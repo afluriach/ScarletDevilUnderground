@@ -55,7 +55,10 @@ public:
 
 	//Methods for controlling the active scene; wraps calls to Director.
 	static void runTitleScene();
+    //runs/loads new scene immediately
 	static GScene* runPlayScene(string mapName, string start);
+    //queues creation of new scene
+    static void loadScene(string mapName, string start);
 	static void runOpeningScene();
 	static void restartScene();
 	static GScene* getCrntScene();

@@ -25,6 +25,7 @@ namespace Lua{
 		);
 #define _cls App
 
+        addFuncSame(app, loadScene);
 		addFuncSame(app, runPlayScene);
 
 		addFuncSame(app, getParams);

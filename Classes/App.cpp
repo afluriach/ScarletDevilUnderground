@@ -367,6 +367,15 @@ GScene* App::runPlayScene(string mapName, string start)
 	return createAndRunScene<PlayScene>(mapName, start);
 }
 
+void App::loadScene(string mapName, string start)
+{
+    GSpace* space = getCrntScene()->getSpace();
+    
+    space->addSceneAction(
+        [mapName, start]()->void { App::runPlayScene(mapName, start); }
+    );
+}
+
 GScene* App::getCrntScene()
 {
 	return dynamic_cast<GScene*>(Director::getInstance()->getRunningScene());
