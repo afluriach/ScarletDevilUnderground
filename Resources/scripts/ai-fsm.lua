@@ -7,29 +7,42 @@ end
 function ai.fsm:detectEnemy(enemy)
 	if self.engageDialog then
 		self.super.space:createDialog( self.engageDialog, false )
+		return true
 	end
 
 	if self.detectEnemyHandler then
 		self.super:pushFunction( self.detectEnemyHandler(self.super, enemy) )
+		return true
 	end
+	
+	return false
 end
 
 function ai.fsm:enemyRoomAlert(enemy)
 	if self.enemyRoomAlertHandler then
 		self.super:pushFunction( self.enemyRoomAlertHandler(self.super, enemy) )
+		return true
 	end
+	
+	return false
 end
 
 function ai.fsm:detectBomb(bomb)
 	if self.detectBombHandler then
 		self.super:pushFunction( self.detectBomb(self.super, bomb) )
+		return true
 	end
+	
+	return false
 end
 
 function ai.fsm:zeroHP()
 	if self.defeatDialog then
 		self.super.space:createDialog( self.defeatDialog, false )
+		return true
 	end
+	
+	return false
 end
 
 function ai.fsm:addFleeBomb()
