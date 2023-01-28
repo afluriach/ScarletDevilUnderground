@@ -56,10 +56,10 @@
     <property name="door_type" value="one_way_source"/>
    </properties>
   </object>
-  <object id="77" type="Health3" x="128" y="128" width="128" height="128"/>
-  <object id="79" type="Magic3" x="1920" y="128" width="128" height="128"/>
-  <object id="80" type="Health3" x="1920" y="1920" width="128" height="128"/>
-  <object id="81" type="Magic3" x="128" y="1920" width="128" height="128"/>
+  <object id="77" type="health3" x="128" y="128" width="128" height="128"/>
+  <object id="79" type="magic3" x="1920" y="128" width="128" height="128"/>
+  <object id="80" type="health3" x="1920" y="1920" width="128" height="128"/>
+  <object id="81" type="magic3" x="128" y="1920" width="128" height="128"/>
   <object id="88" type="Torch" x="768" y="1920" width="128" height="128">
    <properties>
     <property name="active" value="true"/>

@@ -146,3 +146,22 @@ ai.sakuya_npc = ai.fsm:extend('sakuya_npc')
 function ai.sakuya_npc:initialize()
 	self.super:pushFunction( ai.ScriptFunction.create(self.super, "SakuyaNPC1") )
 end
+
+ai.scorpion1 = ai.fsm:extend('scorpion1')
+
+function ai.scorpion1:initialize()
+	self.detectEnemyHandler = ai.Scurry.makeTargetFunctionGenerator(3.0, -1.0)
+end
+
+ai.scorpion2 = ai.fsm:extend('scorpion2')
+
+function ai.scorpion2:initialize()
+	self.detectEnemyHandler = ai.Flank.makeTargetFunctionGenerator(3.0, -1.0)
+end
+
+ai.slime = ai.fsm:extent('slime')
+
+function ai.slime:initialize()
+	--Seek without pathfinding
+	self.detectEnemyHandler = ai.Seek.makeTargetFunctionGenerator(false, 0.0)
+end

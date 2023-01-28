@@ -296,8 +296,8 @@
     <property name="door_type" value="one_way_destination"/>
    </properties>
   </object>
-  <object id="345" type="Health3" x="5504" y="1152" width="128" height="128"/>
-  <object id="346" type="Magic3" x="5248" y="896" width="128" height="128"/>
+  <object id="345" type="health3" x="5504" y="1152" width="128" height="128"/>
+  <object id="346" type="magic3" x="5248" y="896" width="128" height="128"/>
  </objectgroup>
  <objectgroup name="spawners">
   <object id="293" name="spawner-g5-1" x="4608" y="4608" width="128" height="128"/>

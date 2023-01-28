@@ -35,7 +35,7 @@
   </object>
  </objectgroup>
  <objectgroup name="objects">
-  <object id="69" type="Health3" x="1024" y="896" width="128" height="128"/>
-  <object id="70" type="Magic3" x="1024" y="1152" width="128" height="128"/>
+  <object id="69" type="health3" x="1024" y="896" width="128" height="128"/>
+  <object id="70" type="magic3" x="1024" y="1152" width="128" height="128"/>
  </objectgroup>
 </map>

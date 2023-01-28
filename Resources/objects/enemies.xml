@@ -329,7 +329,7 @@
 		viewAngle="0"
 
 		damage="5"
-		element="poisonDamage"
+		element="poison"
 		collectible="health1,magic1"		
 	>
 		<attributes>
@@ -349,7 +349,7 @@
 		viewAngle="0"
 
 		damage="15"
-		element="poisonDamage"
+		element="poison"
 		collectible="health2,magic2"		
 	>
 		<attributes>
@@ -362,6 +362,7 @@
 	<Slime1
 		name="Slime I"
 		sprite="slime"
+		ai_package="slime"
 		
 		radius="0.875"
 		mass="40"
@@ -369,7 +370,7 @@
 		viewAngle="45"
 
 		damage="5"
-		element="slimeDamage"
+		element="slime"
 		collectible="health1,magic1"		
 	>
 		<attributes>
@@ -382,6 +383,7 @@
 	<Slime2
 		name="Slime II"
 		sprite="slime"
+		ai_package="slime"
 
 		radius="1.75"
 		mass="40"
@@ -389,7 +391,7 @@
 		viewAngle="45"
 
 		damage="15"
-		element="slimeDamage"
+		element="slime"
 		collectible="health2,magic2"
 	>
 		<attributes>
@@ -448,7 +450,7 @@
 		viewAngle="0"
 
 		damage="20"
-		element="darknessDamage"
+		element="darkness"
 		collectible="health2,magic2"
 	>
 		<attributes>

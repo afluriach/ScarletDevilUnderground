@@ -98,7 +98,7 @@
   <object id="93" type="DarknessArea" x="128" y="128" width="1920" height="1920"/>
  </objectgroup>
  <objectgroup name="dynamic_load">
-  <object id="95" name="room4_magic3" type="Magic3" x="1024" y="1152" width="128" height="128"/>
-  <object id="94" name="room4_health3" type="Health3" x="896" y="1024" width="128" height="128"/>
+  <object id="95" name="room4_magic3" type="magic3" x="1024" y="1152" width="128" height="128"/>
+  <object id="94" name="room4_health3" type="health3" x="896" y="1024" width="128" height="128"/>
  </objectgroup>
 </map>

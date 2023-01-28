@@ -65,10 +65,10 @@
     <property name="direction" value="down"/>
    </properties>
   </object>
-  <object id="57" type="Health2" x="256" y="256" width="128" height="128"/>
-  <object id="58" type="Health2" x="1792" y="256" width="128" height="128"/>
-  <object id="59" type="Magic2" x="256" y="1792" width="128" height="128"/>
-  <object id="60" type="Magic2" x="1792" y="1792" width="128" height="128"/>
+  <object id="57" type="health2" x="256" y="256" width="128" height="128"/>
+  <object id="58" type="health2" x="1792" y="256" width="128" height="128"/>
+  <object id="59" type="magic2" x="256" y="1792" width="128" height="128"/>
+  <object id="60" type="magic2" x="1792" y="1792" width="128" height="128"/>
  </objectgroup>
  <objectgroup name="waypoints">
   <object id="54" name="fairy1-1" x="1024" y="1024" width="128" height="128"/>

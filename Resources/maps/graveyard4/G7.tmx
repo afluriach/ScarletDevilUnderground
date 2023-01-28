@@ -56,7 +56,7 @@
     <property name="dir" value="up"/>
    </properties>
   </object>
-  <object id="72" type="Magic3" x="1024" y="1024" width="128" height="128"/>
+  <object id="72" type="magic3" x="1024" y="1024" width="128" height="128"/>
   <object id="73" type="Torch" x="128" y="128" width="128" height="128">
    <properties>
     <property name="active" value="true"/>
