@@ -13,6 +13,12 @@
 #include "graphics_context.hpp"
 #include "SpellUtil.hpp"
 
+bomb_properties::bomb_properties()
+{}
+
+bomb_properties::~bomb_properties()
+{}
+
 const SpaceFloat Bomb::explosionSpriteRadius = 2.0;
 
 Bomb::Bomb(

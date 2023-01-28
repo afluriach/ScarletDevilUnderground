@@ -16,6 +16,9 @@
 item_properties::item_properties()
 {}
 
+item_properties::~item_properties()
+{}
+
 bool Item::conditionalLoad(GSpace* space, const object_params& params, local_shared_ptr<item_properties> props)
 {
 	if (params.name.empty()) {

@@ -12,6 +12,9 @@
 class environment_object_properties : public object_properties
 {
 public:
+    environment_object_properties();
+    virtual ~environment_object_properties();
+    
 	string scriptName;
 	string interactionIcon;
 	PhysicsLayers layers = PhysicsLayers::none;

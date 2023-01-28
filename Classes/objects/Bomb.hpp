@@ -9,8 +9,12 @@
 #ifndef Bomb_hpp
 #define Bomb_hpp
 
-struct bomb_properties : public object_properties
+class bomb_properties : public object_properties
 {
+public:
+    bomb_properties();
+    virtual ~bomb_properties();
+    
 	string explosionSound;
 
 	float blastRadius;

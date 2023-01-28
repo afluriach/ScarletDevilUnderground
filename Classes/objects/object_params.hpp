@@ -82,6 +82,9 @@ public:
 class object_properties
 {
 public:
+    object_properties();
+    virtual ~object_properties();
+    
 	shared_ptr<sprite_properties> sprite;
 	shared_ptr<LightArea> light;
 
@@ -116,6 +119,9 @@ public:
 class bullet_properties : public object_properties
 {
 public:
+    bullet_properties();
+    virtual ~bullet_properties();
+    
 	SpaceFloat speed;
 
 	DamageInfo damage;
@@ -195,6 +201,9 @@ struct bullet_attributes
 
 class floorsegment_properties : public object_properties {
 public:
+    floorsegment_properties();
+    virtual ~floorsegment_properties();
+    
 	string sfxRes;
 	string sprite;
 

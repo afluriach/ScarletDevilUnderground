@@ -13,6 +13,7 @@ class item_properties : public object_properties
 {
 public:
 	item_properties();
+    virtual ~item_properties();
 
 	string scriptName;
 	string onAcquireDialog;

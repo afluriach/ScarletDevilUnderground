@@ -13,6 +13,12 @@
 #include "Player.hpp"
 #include "value_map.hpp"
 
+environment_object_properties::environment_object_properties()
+{}
+
+environment_object_properties::~environment_object_properties()
+{}
+
 bool EnvironmentObject::conditionalLoad(
 	GSpace* space,
 	ObjectIDType id,

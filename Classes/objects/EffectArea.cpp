@@ -18,6 +18,12 @@
 #include "Player.hpp"
 #include "Torch.hpp"
 
+effectarea_properties::effectarea_properties()
+{}
+
+effectarea_properties::~effectarea_properties()
+{}
+
 EffectArea::EffectArea(
 	GSpace* space,
 	ObjectIDType id,

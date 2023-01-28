@@ -66,6 +66,18 @@ physics_params::physics_params(GType type, PhysicsLayers layers, SpaceFloat mass
 	sensor(sensor)
 {}
 
+object_properties::object_properties()
+{}
+
+object_properties::~object_properties()
+{}
+
+bullet_properties::bullet_properties()
+{}
+
+bullet_properties::~bullet_properties()
+{}
+
 bullet_attributes bullet_attributes::getDefault()
 {
 	return bullet_attributes{
@@ -101,3 +113,9 @@ SpaceFloat bullet_attributes::getLaunchSpeed(local_shared_ptr<bullet_properties>
 bullet_properties bullet_properties::clone() {
 	return *this;
 }
+
+floorsegment_properties::floorsegment_properties()
+{}
+
+floorsegment_properties::~floorsegment_properties()
+{}
