@@ -12,7 +12,7 @@
 #include "menu_scenes.h"
 
 TitleMenuScene::TitleMenuScene() :
-	GScene("TitleMenuScene", {})
+	GScene(area_properties::noMap("TitleMenuScene"), "")
 {}
 
 bool TitleMenuScene::init()

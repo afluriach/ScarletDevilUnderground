@@ -177,6 +177,13 @@ namespace app {
 			};
 			return true;
 		}
+        else if (tokens[0] == "setAttribute") {
+            string attribute = tokens[1];
+            *f = [attribute](NPC* n) -> void {
+                App::crntState->setAttribute(attribute, 1);
+            };
+            return true;
+        }
 		else {
 			log("Unknown effect function %s!", tokens[0]);
 		}

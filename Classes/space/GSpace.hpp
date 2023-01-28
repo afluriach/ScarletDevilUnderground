@@ -30,9 +30,11 @@ public:
 	typedef pair<ObjectGeneratorType, ObjectIDType> generator_pair;
 
 	static void loadScriptVM();
+    static GSpace* getCrntSpace();
 
 	static unique_ptr<Lua::Inst> scriptVM;
 	static local_shared_ptr<agent_properties> playerCharacter;
+    static GSpace* crntSpace;
 
     GSpace(GScene* gscene);    
     ~GSpace();
@@ -177,6 +179,7 @@ public:
 	void enterWorldSelect();
 	void createDialog(string res, bool autoAdvance);
 	void createDialog(string res, bool autoAdvance, zero_arity_function f);
+    void loadScene(string mapName, string start);
 
 	void eraseTile(const SpaceVect& p, string layer);
 	void eraseTile(int mapID, IntVec2 pos, string layer);

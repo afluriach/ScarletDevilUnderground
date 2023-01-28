@@ -7,7 +7,7 @@ function loadArea(area, _start)
 		start = 'player_start'
 	end
 	
-	App.loadScene(area, start)
+	GSpace.crntSpace:loadScene(area, start)
 end
 
 overworld = {}
@@ -45,7 +45,7 @@ function f1()
 end
 
 function gotoDoor(d)
-	App.getCrntSene():teleportToDoor(d)
+	GSpace.crntSpace:teleportToDoor(d)
 end
 
 function rumia1()

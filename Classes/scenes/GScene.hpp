@@ -64,16 +64,14 @@ public:
 	static const int dialogEdgeMargin;
 	static const bool scriptLog;
 
-	static string crntSceneName;
+    static GScene* crntScene;
 	static bool suppressGameOver;
 
-	static GScene* runScene(const string& name);
-	static void restartScene();
-
-	vector<MapEntry> singleMapEntry(const string& mapName);
+    static GScene* getCrntScene();
 	static const IntVec2 getRoomOffset(IntVec2 roomSize, int roomGridX, int roomGridY);
 
-	GScene(const string& sceneName, const vector<MapEntry>& maps);
+    GScene();
+	GScene(shared_ptr<area_properties> area, string start);
 
     virtual ~GScene();
     virtual bool init();
@@ -82,10 +80,8 @@ public:
 	virtual GScene* getReplacementScene();
 	GSpace* getSpace();
 
-	inline string getCurrentLevel() const { return sceneName; }
-	//Return the ID of the next level, if applicable. This is used to transition
-	//to next stage, and also to apply availibility unlock to that stage.
-	inline virtual string getNextLevel() const { return ""; }
+    string getCurrentLevel() const;
+    string getNextLevel() const;
 
     void setPaused(bool p);
 	inline virtual void enterPause() {}
@@ -128,8 +124,6 @@ public:
 	void setRoomVisible(size_t idx);
 	void setRoomsVisible(rooms_bitmask rooms);
 	
-	void teleportToDoor(string name);
-
 	Layer* getLayer(sceneLayers layer);
 	inline Layer* getSpaceLayer() { return getLayer(sceneLayers::space); }
 
@@ -180,8 +174,6 @@ protected:
 
 	void installLuaShell();
 	void checkPendingScript();
-	void runScriptInit();
-	void runScriptUpdate();
 
 	void waitForSpaceThread();
 	void logPerformance();
@@ -214,18 +206,17 @@ protected:
 	cocos2d::Vector<MenuLayer*> menuStack;
 	Dialog* dialog = nullptr;
 
-	string sceneName;
+    shared_ptr<area_properties> areaProps;
+    string start;
+    
 	IntVec2 dimensions;
-
 	cocos2d::Vector<TMXTiledMap*> tilemaps;
-	vector<MapEntry> maps;
 	vector<SpaceRect> mapAreas;
 	vector<bool> mapAreasVisited;
 	vector<bool> mapAreasVisibleOnMap;
 	SpaceRect cameraArea;
 	int crntMap = -1;
 
-	unique_ptr<Lua::Inst> ctx;
 	//The shell that is installed in the current scene.
 	LuaShell* luaShell;
 	string pendingScript;

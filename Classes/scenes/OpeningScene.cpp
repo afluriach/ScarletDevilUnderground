@@ -12,7 +12,7 @@
 #include "OpeningScene.hpp"
 
 OpeningScene::OpeningScene() :
-	GScene("", {})
+	GScene(area_properties::noMap("OpeningScene"), "")
 {
 	multiInit += wrap_method(OpeningScene, startDialog, this);
 }

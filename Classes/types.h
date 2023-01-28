@@ -279,8 +279,9 @@ typedef pair<string, IntVec2> MapEntry;
 
 struct area_properties
 {
-	static area_properties singleMap(string name);
-
+	static shared_ptr<area_properties> singleMap(string name);
+    static shared_ptr<area_properties> noMap(string name);
+    
 	area_properties();
 
 	string sceneName;

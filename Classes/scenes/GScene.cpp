@@ -24,40 +24,20 @@ const Color4F GScene::defaultAmbientLight = Color4F(0.5f, 0.5f, 0.5f, 1.0f);
 const int GScene::dialogEdgeMargin = 30;
 const bool GScene::scriptLog = false;
 
-string GScene::crntSceneName;
+GScene* GScene::crntScene = nullptr;
 bool GScene::suppressGameOver = false;
 
-GScene* GScene::runScene(const string& name)
+GScene* GScene::getCrntScene()
 {
-	area_properties props;
-	props = app::getArea(name);
-
-	//Action scene from area_properties
-	if (!props.sceneName.empty()) {
-		crntSceneName = name;
-		return App::createAndRunScene<PlayScene>(props, "player_start");
-	}
-	//Action scene with default settings from map file.
-	else if (FileUtils::getInstance()->isFileExist("maps/" + name + ".tmx")) {
-		crntSceneName = name;
-		log("Warning, creating scene %s from map file instead of properties!", name);
-		return App::createAndRunScene<PlayScene>(name, "player_start");
-	}
-	else {
-		log("runScene: %s not found", name.c_str());
-		return nullptr;
-	}
+    return crntScene;
 }
 
-void GScene::restartScene()
-{
-	runScene(crntSceneName);
-}
+GScene::GScene() : GScene(area_properties::noMap("GScene"), "")
+{}
 
-GScene::GScene(const string& sceneName, const vector<MapEntry>& maps) :
-maps(maps),
-sceneName(sceneName),
-ctx(make_unique<Lua::Inst>("scene")),
+GScene::GScene(shared_ptr<area_properties> area, string start) :
+areaProps(area),
+start(start),
 control_listener(make_unique<ControlListener>())
 {
 	
@@ -78,10 +58,6 @@ control_listener(make_unique<ControlListener>())
 		wrap_method(GScene, processAdditions, this),
 		to_int(initOrder::loadObjects)
 	);
-	multiInit.insertWithOrder(
-		wrap_method(GScene, runScriptInit, this),
-		to_int(initOrder::postLoadObjects)
-	);
 
     //Create the sublayers at construction (so they are available to mixins at construction time).
     //But do not add sublayers until init time.
@@ -96,19 +72,9 @@ control_listener(make_unique<ControlListener>())
 	graphicsContext = make_unique<graphics_context>(this);
 	gspace = new GSpace(this);
 
-	if (!sceneName.empty())
-	{
-		string scriptPath = "scripts/scenes/" + sceneName + ".lua";
-
-		if (!FileUtils::getInstance()->isFileExist(scriptPath) && scriptLog) {
-			log("GScene: %s script does not exist.", sceneName.c_str());
-		}
-		else {
-			ctx->runFile(scriptPath);
-		}
-	}
-
 	control_listener->addPressListener(ControlAction::displayMode, bind(&GScene::cycleDisplayMode, this));
+    
+    crntScene = this;
 }
 
 GScene::~GScene()
@@ -196,7 +162,6 @@ void GScene::update(float dt)
 
 		runActions();
 		checkPendingScript();
-		runScriptUpdate();
 		renderSpace();
 	}
 }
@@ -212,12 +177,20 @@ void GScene::onExit()
 
 GScene* GScene::getReplacementScene()
 {
-	return Node::ccCreate<GScene>(sceneName, maps);
+	return Node::ccCreate<GScene>(areaProps, start);
 }
 
 GSpace* GScene::getSpace()
 {
 	return gspace;
+}
+
+string GScene::getCurrentLevel() const {
+    return areaProps->sceneName;
+}
+
+string GScene::getNextLevel() const {
+    return areaProps->next;
 }
 
 void GScene::setPaused(bool p){
@@ -323,13 +296,6 @@ SpaceRect GScene::getCameraArea()
 	return cameraArea;
 }
 
-void GScene::teleportToDoor(string name)
-{
-	gspace->addObjectAction([=]()->void {
-		gspace->teleportPlayerToDoor(name);
-	});
-}
-
 Layer* GScene::getLayer(sceneLayers layer)
 {
 	auto it = layers.find(to_int(layer));
@@ -422,15 +388,6 @@ void GScene::checkPendingScript()
 		App::lua->runString(pendingScript);
 		pendingScript.clear();
 	}
-}
-
-void GScene::runScriptInit()
-{
-    ctx->callIfExistsNoReturn("init");
-}
-void GScene::runScriptUpdate()
-{
-    ctx->callIfExistsNoReturn("update");
 }
 
 void GScene::waitForSpaceThread()

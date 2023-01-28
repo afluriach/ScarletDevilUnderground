@@ -1,5 +1,17 @@
 <areas>
 
+	<mansion_b1 map="overworld/mansion_b1" ambient_light="0.5,0.5,0.5"/>
+	<mansion_f1 map="overworld/mansion_f1" ambient_light="0.7,0.7,0.7"/>
+	<mansion_f2 map="overworld/mansion_f2" ambient_light="0.875,0.75,0.75"/>
+
+	<clearing map="overworld/clearing" ambient_light="0.875,0.875,0.875"/>
+
+	<graveyard map="overworld/graveyard"/>
+	<graveyard_inner_area map="overworld/graveyard_inner_area"/>
+
+	<forest map="overworld/forest" ambient_light="0.75,0.75,0.75"/>
+	<forest_lake map="overworld/forest_lake" ambient_light="1.0,1.0,1.0"/>
+
 	<Library map="auto" ambient_light="0.5,0.5,0.2" />
 
 	<graveyard1 map="auto" next="graveyard2" ambient_light="rgb:0.3,0.45,0.45" />

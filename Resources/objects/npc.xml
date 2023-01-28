@@ -70,12 +70,12 @@
 		<dialogs>
 			<graveyard_book
 				condition="hasItem:GraveyardBook1"
-				effect="registerChamberAvailable:graveyard1"
+				effect="setAttribute:graveyard1"
 				once="true"
 			/>
 			<forest_book
 				condition="hasItem:ForestBook1"
-				effect="registerChamberAvailable:forest1"
+				effect="setAttribute:forest1"
 				once="true"
 			/>
 			<patchouli1 />

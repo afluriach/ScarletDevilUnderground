@@ -43,6 +43,7 @@ namespace Lua
 		void addTypes();
 		void addUtil();
 
+        void installSceneApi();
         void installApi();
         void loadLibraries();
         

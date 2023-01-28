@@ -25,7 +25,7 @@
 
 namespace app {
 
-unordered_map<string, area_properties> areas;
+unordered_map<string, shared_ptr<area_properties>> areas;
 unordered_map<string, MagicEffectDescriptor*> effects;
 unordered_map<string, local_shared_ptr<firepattern_properties>> firePatterns;
 unordered_map<string, local_shared_ptr<floorsegment_properties>> floors;
@@ -36,7 +36,7 @@ unordered_map<string, shared_ptr<sprite_properties>> sprites;
 
 void loadAreas()
 {
-	loadObjects<area_properties>("objects/areas.xml", app::areas);
+	loadObjects<shared_ptr<area_properties>>("objects/areas.xml", app::areas);
 }
 
 void loadBombs()
@@ -112,7 +112,7 @@ void loadSprites()
 	loadObjects<shared_ptr<sprite_properties>>("objects/sprites.xml", app::sprites);
 }
 
-area_properties getArea(const string& name)
+shared_ptr<area_properties> getArea(const string& name)
 {
 	return getOrDefault(areas, name);
 }
@@ -280,7 +280,7 @@ bool autoName(tinyxml2::XMLElement* elem, string& field)
 	return result;
 }
 
-bool parseObject(tinyxml2::XMLElement* elem, area_properties* result)
+bool parseObject(tinyxml2::XMLElement* elem, shared_ptr<area_properties>* result)
 {
 	area_properties props;
 
@@ -333,8 +333,8 @@ bool parseObject(tinyxml2::XMLElement* elem, area_properties* result)
 		props.maps.push_back(make_pair(_map, IntVec2(0,0)));
 	}
 
-	*result = props;
-	return true;
+    *result = make_shared<area_properties>( props );
+    return true;
 }
 
 bool parseObject(tinyxml2::XMLElement* elem, local_shared_ptr<firepattern_properties>* _output)

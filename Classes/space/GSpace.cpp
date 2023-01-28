@@ -36,6 +36,8 @@ unique_ptr<Lua::Inst> GSpace::scriptVM;
 
 local_shared_ptr<agent_properties> GSpace::playerCharacter;
 
+GSpace* GSpace::crntSpace = nullptr;
+
 void GSpace::loadScriptVM()
 {
 	scriptVM = make_unique<Lua::Inst>("GSpace");
@@ -53,6 +55,11 @@ void GSpace::loadScriptVM()
 	scriptVM->runFile("scripts/spells/patchouli-spells.lua");
 	scriptVM->runFile("scripts/spells/reimu-spells.lua");
 	scriptVM->runFile("scripts/spells/sakuya-spells.lua");
+}
+
+GSpace* GSpace::getCrntSpace()
+{
+    return crntSpace;
 }
 
 GSpace::GSpace(GScene* gscene) :
@@ -73,6 +80,8 @@ GSpace::GSpace(GScene* gscene) :
 
 	magicEffectSystem = make_unique<MagicEffectSystem>(this);
 	spellSystem = make_unique<SpellSystem>(this);
+    
+    crntSpace = this;
 }
 
 GSpace::~GSpace()
@@ -693,6 +702,13 @@ void GSpace::createDialog(string res, bool autoAdvance, zero_arity_function f)
 	addSceneAction(
 		[this, res, autoAdvance, f]() ->void { getScene()->createDialog(res, autoAdvance, f); }
 	);
+}
+
+void GSpace::loadScene(string mapName, string start)
+{
+    addSceneAction(
+        [mapName, start]()->void { App::runPlayScene(mapName, start); }
+    );
 }
 
 void GSpace::teleportPlayerToDoor(string doorName)

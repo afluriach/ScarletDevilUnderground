@@ -83,7 +83,7 @@
   <object id="69" name="forest_path" type="Door" x="5376" y="6016" width="384" height="128">
    <properties>
     <property name="dest" value="forest_lake_path"/>
-    <property name="dest_map" value="overworld/forest"/>
+    <property name="dest_map" value="forest"/>
     <property name="dir" value="up"/>
     <property name="path" value="true"/>
    </properties>

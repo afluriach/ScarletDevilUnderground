@@ -140,7 +140,9 @@ void Dialog::runLuaScript(const string& script)
 
 void Dialog::setNextScene(const string& next)
 {
-	onEnd.push_back(bind(&GScene::runScene, next));
+    onEnd.push_back([next]() -> void {
+        App::runPlayScene(next, "player_start");
+    });
 }
 
 void Dialog::setAttribute(string id, int val)
@@ -270,10 +272,10 @@ void Dialog::processDialogFile(const string& text)
                 }
 				setNextScene(tokens[1]);                
             }
-			else if (boost::starts_with(line, ":unlockChamber")) {
+			else if (boost::starts_with(line, ":setAttribute")) {
 				vector<string> tokens = splitString(line, " ");
 				if (tokens.size() != 2) {
-					log("invalid unlockChamber directive: %s.", line.c_str());
+					log("invalid setAttribute directive: %s.", line.c_str());
 					continue;
 				}
 

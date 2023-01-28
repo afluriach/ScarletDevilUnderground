@@ -47,7 +47,7 @@
   <object id="21" name="door1" type="Door" x="384" y="1024" width="128" height="128">
    <properties>
     <property name="dest" value="door1"/>
-    <property name="dest_map" value="overworld/mansion_b1"/>
+    <property name="dest_map" value="mansion_b1"/>
     <property name="dir" value="down"/>
     <property name="stairs" value="true"/>
    </properties>
@@ -55,7 +55,7 @@
   <object id="22" name="door2" type="Door" x="3456" y="1024" width="128" height="128">
    <properties>
     <property name="dest" value="door2"/>
-    <property name="dest_map" value="overworld/mansion_b1"/>
+    <property name="dest_map" value="mansion_b1"/>
     <property name="dir" value="down"/>
     <property name="stairs" value="true"/>
    </properties>
@@ -63,7 +63,7 @@
   <object id="23" name="door3" type="Door" x="384" y="2048" width="128" height="128">
    <properties>
     <property name="dest" value="door1"/>
-    <property name="dest_map" value="overworld/mansion_f2"/>
+    <property name="dest_map" value="mansion_f2"/>
     <property name="dir" value="up"/>
     <property name="stairs" value="true"/>
    </properties>
@@ -71,7 +71,7 @@
   <object id="24" name="door4" type="Door" x="3456" y="2048" width="128" height="128">
    <properties>
     <property name="dest" value="door2"/>
-    <property name="dest_map" value="overworld/mansion_f2"/>
+    <property name="dest_map" value="mansion_f2"/>
     <property name="dir" value="up"/>
     <property name="stairs" value="true"/>
    </properties>
@@ -80,7 +80,7 @@
   <object id="42" name="door5" type="Door" x="3840" y="1536" width="128" height="128">
    <properties>
     <property name="dest" value="mansion_door"/>
-    <property name="dest_map" value="overworld/clearing"/>
+    <property name="dest_map" value="clearing"/>
     <property name="dir" value="left"/>
    </properties>
   </object>

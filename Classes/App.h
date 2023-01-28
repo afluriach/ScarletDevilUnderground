@@ -1,12 +1,6 @@
 #ifndef  _APP_DELEGATE_H_
 #define  _APP_DELEGATE_H_
 
-/**
-@brief    The cocos2d Application.
-
-The reason for implement as private inheritance is to hide some interface call by Director.
-*/
-
 class FileUtilsZip;
 class KeyRegister;
 class TimerSystem;
@@ -57,13 +51,10 @@ public:
 	static void runTitleScene();
     //runs/loads new scene immediately
 	static GScene* runPlayScene(string mapName, string start);
-    //queues creation of new scene
-    static void loadScene(string mapName, string start);
 	static void runOpeningScene();
 	static void restartScene();
 	static GScene* getCrntScene();
 	static void resumeScene();
-	static void popScene();
 	static void runScene(GScene* scene);
 	static void popMenu();
 

@@ -76,6 +76,11 @@ const vector<string> Inst::luaIncludes = {
     {
 		_state[name]();
     };
+
+    void Inst::installSceneApi()
+    {
+        addScene();
+    }
     
     void Inst::installApi()
     {
@@ -84,7 +89,6 @@ const vector<string> Inst::luaIncludes = {
 		addGObject();
 		addGSpace();
 		addMagic();
-		addScene();
 		addStructures();
 		addTypes();
 		addUtil();

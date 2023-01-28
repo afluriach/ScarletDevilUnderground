@@ -17,13 +17,6 @@
 #include "GScene.hpp"
 #include "value_map.hpp"
 
-vector<MapEntry> GScene::singleMapEntry(const string& mapName)
-{
-	return {
-		{mapName, IntVec2(0,0)}
-	};
-}
-
 const IntVec2 GScene::getRoomOffset(IntVec2 roomSize, int roomGridX, int roomGridY)
 {
 	return IntVec2(roomGridX * roomSize.first, roomGridY * roomSize.second);
@@ -70,7 +63,7 @@ void GScene::eraseTile(int mapID, IntVec2 pos, string layer)
 
 void GScene::loadMaps()
 {
-	for(MapEntry entry : maps)
+	for(MapEntry entry : areaProps->maps)
 	{
 		loadMap(entry);
 	}
@@ -136,7 +129,7 @@ void GScene::loadMap(const MapEntry& mapEntry)
 	const ValueMap& props = tileMap->getProperties();
 	string roomType = getStringOrDefault(props, "room_type", "");
 
-	if (maps.size() > 1) {
+	if (areaProps->maps.size() > 1) {
 		mapAreas.push_back(mapRect);
 		gspace->addMapArea(mapRect);
 		mapAreasVisited.push_back(false);
@@ -144,7 +137,7 @@ void GScene::loadMap(const MapEntry& mapEntry)
 
 		loadRoomFromMap(mapRect, tilemaps.size() - 1, props);
 	}
-	else if (maps.size() == 1) {
+	else if (areaProps->maps.size() == 1) {
 		loadRoomsLayer(*tileMap);
 	}
 }

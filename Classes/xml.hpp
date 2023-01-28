@@ -16,7 +16,7 @@ namespace app {
 	extern const unordered_map<string, spell_parser> spellParsers;
 	extern const unordered_map<string, effect_parser> effectParsers;
 
-	extern unordered_map<string, area_properties> areas;
+	extern unordered_map<string, shared_ptr<area_properties>> areas;
 	extern unordered_map<string, MagicEffectDescriptor*> effects;
 	extern unordered_map<string, local_shared_ptr<firepattern_properties>> firePatterns;
 	extern unordered_map<string, shared_ptr<LightArea>> lights;
@@ -50,7 +50,7 @@ namespace app {
 	void loadSpells();
 	void loadSprites();
 
-	area_properties getArea(const string& name);
+	shared_ptr<area_properties> getArea(const string& name);
 	local_shared_ptr<bomb_properties> getBomb(const string& name);
 	local_shared_ptr<bullet_properties> getBullet(const string& name);
 	const MagicEffectDescriptor* getEffect(const string& name);
@@ -69,7 +69,7 @@ namespace app {
     bool parseObject(tinyxml2::XMLElement* elem, local_shared_ptr<environment_object_properties> result);
     bool parseObject(tinyxml2::XMLElement* elem, local_shared_ptr<effectarea_properties> result);
     bool parseObject(tinyxml2::XMLElement* elem, local_shared_ptr<agent_properties> result);
-    bool parseObject(tinyxml2::XMLElement* elem, area_properties* result);
+    bool parseObject(tinyxml2::XMLElement* elem, shared_ptr<area_properties>* result);
     bool parseObject(tinyxml2::XMLElement* elem, AttributeMap* result);
     bool parseObject(tinyxml2::XMLElement* elem, local_shared_ptr<enemy_properties> result);
     bool parseObject(tinyxml2::XMLElement* elem, local_shared_ptr<npc_properties> result);

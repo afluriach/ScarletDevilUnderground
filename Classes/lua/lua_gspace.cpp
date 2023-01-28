@@ -58,7 +58,11 @@ namespace Lua{
 		cFuncSame(graphics, objectFadeOut);
 		cFuncSame(graphics, damageIndicatorAction);
 
-		auto gspace = newType(GSpace);
+        auto gspace = _state.new_usertype<GSpace>(
+            "GSpace",
+            sol::no_constructor,
+            "crntSpace", sol::property(&GSpace::getCrntSpace)
+        );
 #define _cls GSpace
 
 		gspace["createObject"] = static_cast<gobject_ref(GSpace::*)(const ValueMap&)>(&GSpace::createObject);
@@ -81,6 +85,9 @@ namespace Lua{
 			static_cast<float(GSpace::*)(float, float)>(&GSpace::getRandomFloat)
 		);
 
+        addFuncSame(gspace, teleportPlayerToDoor);
+        gspace["teleportToDoor"] = &GSpace::teleportPlayerToDoor;
+        
 		addFuncSame(gspace, getPath);
 		addFuncSame(gspace, getWaypoint);
 		addFuncSame(gspace, getRandomWaypoint);
@@ -123,6 +130,7 @@ namespace Lua{
 			static_cast<void(GSpace::*)(string, bool, zero_arity_function)>(&GSpace::createDialog)
 		);
 		addFuncSame(gspace, enterWorldSelect);
+        addFuncSame(gspace, loadScene);
 
 		auto gstate = newType(GState);
 #define _cls GState

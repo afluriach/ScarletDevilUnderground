@@ -18,8 +18,7 @@ public:
     static const Color3B fadeoutColor;
     static const float fadeoutLength;
 
-    PlayScene(const string& name, const string& start);
-	PlayScene(area_properties props, const string& start);
+	PlayScene(shared_ptr<area_properties> props, string start);
 
 	virtual ~PlayScene();
 
@@ -32,9 +31,6 @@ public:
 	virtual void enterPause();
 	virtual void exitPause();
     
-	inline virtual string getPlayerStart() const { return start; }
-	virtual Color4F getDefaultAmbientLight() const;
-
 	void onMapPressed();
 	void enterMap();
 	void exitMap();
@@ -50,7 +46,6 @@ public:
 
 	virtual GScene* getReplacementScene();
 
-	inline virtual string getNextLevel() const { return props.next; }
 	inline void setIsOverworld(bool val) { isOverworld = val; }
 
     HUD* hud = nullptr;
@@ -61,9 +56,6 @@ private:
     void addHUD();
 	void showMenu(MenuLayer* menu);
 	void triggerMenu( void (PlayScene::*m)(void) );
-
-	area_properties props;
-	string start;
 
 	bool isShowingMenu = false;
 	bool isOverworld = false;

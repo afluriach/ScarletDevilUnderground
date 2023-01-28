@@ -506,7 +506,7 @@ void Player::useDoor(Door* interactTarget)
 	}
 	else
 	{
-        App::loadScene(destMap, dest);
+        space->loadScene(destMap, dest);
 	}
 }
 

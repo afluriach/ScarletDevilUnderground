@@ -21,7 +21,7 @@
 #include "Wall.hpp"
 
 zero_arity_function sceneLaunchAdapterByName(const string& name) {
-	return [=]() -> void { GScene::runScene(name); };
+	return [=]() -> void { App::runPlayScene(name, "player_start"); };
 }
 
 const string TitleMenu::title = App::title;
@@ -231,7 +231,7 @@ const vector<zero_arity_function> SceneSelect::entryActions = {
 
 zero_arity_function menuPushAdapter(string sceneName) {
 	return [sceneName]() -> void {
-		GScene::runScene(sceneName);
+		App::runPlayScene(sceneName, "player_start");
 	};
 }
 

@@ -102,14 +102,14 @@
   <object id="51" name="mansion_door" type="Door" x="768" y="2944" width="128" height="128">
    <properties>
     <property name="dest" value="door5"/>
-    <property name="dest_map" value="overworld/mansion_f1"/>
+    <property name="dest_map" value="mansion_f1"/>
     <property name="dir" value="right"/>
    </properties>
   </object>
   <object id="58" name="forest_path" type="Door" x="4352" y="0" width="384" height="256">
    <properties>
     <property name="dest" value="clearing_path"/>
-    <property name="dest_map" value="overworld/forest"/>
+    <property name="dest_map" value="forest"/>
     <property name="dir" value="down"/>
     <property name="path" value="true"/>
     <property name="sealed_until_completed" value="graveyard3"/>
@@ -118,7 +118,7 @@
   <object id="59" name="to_graveyard" type="Door" x="1152" y="5888" width="384" height="256">
    <properties>
     <property name="dest" value="graveyard_entrance"/>
-    <property name="dest_map" value="overworld/graveyard"/>
+    <property name="dest_map" value="graveyard"/>
     <property name="dir" value="up"/>
     <property name="path" value="true"/>
    </properties>

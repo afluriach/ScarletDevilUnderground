@@ -180,10 +180,9 @@ App::App()
 	audioContext = make_unique<audio_context>();
 
     //Initialize Lua
-#if DEV_MODE
 	lua = make_unique<Lua::Inst>("app");
+    lua->installSceneApi();
 	lua->runFile("scripts/init.lua");    
-#endif
 
 #if USE_TIMERS
 	timerSystem = make_unique<TimerSystem>();
@@ -364,16 +363,15 @@ void App::runOpeningScene()
 
 GScene* App::runPlayScene(string mapName, string start)
 {
-	return createAndRunScene<PlayScene>(mapName, start);
-}
-
-void App::loadScene(string mapName, string start)
-{
-    GSpace* space = getCrntScene()->getSpace();
+    shared_ptr<area_properties> area = app::getArea(mapName);
     
-    space->addSceneAction(
-        [mapName, start]()->void { App::runPlayScene(mapName, start); }
-    );
+    if(area){
+        return createAndRunScene<PlayScene>(area, start);
+    }
+    else{
+        log("runPlayScene: %s not found", mapName);
+        return nullptr;
+    }
 }
 
 GScene* App::getCrntScene()
@@ -387,11 +385,6 @@ void App::restartScene()
 
 	if (crntScene)
 		Director::getInstance()->runScene(crntScene->getReplacementScene());
-}
-
-void App::popScene()
-{
-	Director::getInstance()->popScene();
 }
 
 void App::resumeScene()

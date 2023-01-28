@@ -17,14 +17,17 @@ namespace Lua{
   
 	void Inst::addScene()
 	{
-		auto gscene = newType(GScene);
+        auto gscene = _state.new_usertype<GScene>(
+            "GScene",
+            sol::no_constructor,
+            "crntScene", sol::property(&GScene::getCrntScene)
+        );
+        
 #define _cls GScene
 
-		addFuncSame(gscene, runScene);
 		addFuncSame(gscene, getSpace);
 		addFuncSame(gscene, setPaused);
 		addFuncSame(gscene, stopDialog);
-		addFuncSame(gscene, teleportToDoor);
 		addFuncSame(gscene, setRoomVisible);
 		addFuncSame(gscene, unlockAllRooms);
 

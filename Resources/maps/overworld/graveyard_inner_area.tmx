@@ -72,7 +72,7 @@
   <object id="121" name="entrance" type="Door" x="3200" y="6400" width="128" height="128">
    <properties>
     <property name="dest" value="to_inner_area"/>
-    <property name="dest_map" value="overworld/graveyard"/>
+    <property name="dest_map" value="graveyard"/>
     <property name="dir" value="up"/>
     <property name="path" value="true"/>
    </properties>

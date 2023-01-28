@@ -115,7 +115,7 @@
   <object id="61" name="clearing_path" type="Door" x="1408" y="4480" width="384" height="256">
    <properties>
     <property name="dest" value="forest_path"/>
-    <property name="dest_map" value="overworld/clearing"/>
+    <property name="dest_map" value="clearing"/>
     <property name="dir" value="up"/>
     <property name="path" value="true"/>
    </properties>

@@ -9,6 +9,7 @@
 #include "Prefix.h"
 
 #include "app_constants.hpp"
+#include "GScene.hpp"
 #include "LuaAPI.hpp"
 
 namespace app {
@@ -89,6 +90,29 @@ bool DamageInfo::isValid()
 float app_params::getScale() const
 {
 	return 1.0f * width / app::baseWidth;
+}
+
+shared_ptr<area_properties> area_properties::singleMap(string name)
+{
+    area_properties result;
+
+    result.sceneName = name;
+    result.maps.push_back(make_pair(name, IntVec2(0, 0)));
+
+    return make_shared<area_properties>(result);
+}
+
+shared_ptr<area_properties> area_properties::noMap(string name)
+{
+    area_properties result;
+    result.sceneName = name;
+
+    return make_shared<area_properties>(result);
+}
+
+area_properties::area_properties() :
+    ambientLight(GScene::defaultAmbientLight)
+{
 }
 
 SpaceRect::SpaceRect() :

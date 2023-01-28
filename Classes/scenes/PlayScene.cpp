@@ -22,43 +22,11 @@
 #include "PlayScene.hpp"
 #include "value_map.hpp"
 
-void printGroup(TMXObjectGroup* group)
-{
-    const ValueVector& objects = group->getObjects();
-    
-    for(const Value& obj: objects)
-    {
-        const ValueMap& objAsMap = obj.asValueMap();
-        printValueMap(objAsMap);
-    }
-}
-
-area_properties area_properties::singleMap(string name)
-{
-	area_properties result;
-
-	result.sceneName = name;
-	result.maps.push_back(make_pair(name, IntVec2(0, 0)));
-
-	return result;
-}
-
-area_properties::area_properties() :
-	ambientLight(GScene::defaultAmbientLight)
-{
-}
-
 const Color3B PlayScene::fadeoutColor = Color3B(192,96,96);
 const float PlayScene::fadeoutLength = 3.0f;
 
-PlayScene::PlayScene(const string& mapName, const string& start) :
-	PlayScene(area_properties::singleMap(mapName), start)
-{}
-
-PlayScene::PlayScene(area_properties props, const string& start) :
-GScene(props.sceneName, props.maps),
-props(props),
-start(start)
+PlayScene::PlayScene(shared_ptr<area_properties> props, string start) :
+GScene(props, start)
 {
     multiInit.insertWithOrder(
         wrap_method(PlayScene,addHUD,this),
@@ -101,9 +69,7 @@ void PlayScene::update(float dt)
 
 void PlayScene::loadPlayer()
 {
-	string start = getPlayerStart();
-
-	App::getCrntState()->area = props.sceneName;
+	App::getCrntState()->area = areaProps->sceneName;
 	App::getCrntState()->entrance = start;
 
 	Door * door = gspace->getObjectAs<Door>(start);
@@ -196,11 +162,6 @@ void PlayScene::exitPause()
 	hud->resetAutohide();
 }
 
-Color4F PlayScene::getDefaultAmbientLight() const
-{
-	return props.ambientLight;
-}
-
 void PlayScene::pauseAnimations()
 {
     getSpaceLayer()->pauseRecursive();
@@ -284,7 +245,7 @@ void PlayScene::exitWorldSelect()
 
 GScene* PlayScene::getReplacementScene()
 {
-	return Node::ccCreate<PlayScene>(props, start);
+	return Node::ccCreate<PlayScene>(areaProps, start);
 }
 
 void PlayScene::showMenu(MenuLayer* menu)

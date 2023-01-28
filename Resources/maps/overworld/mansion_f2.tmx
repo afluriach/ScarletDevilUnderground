@@ -44,7 +44,7 @@
   <object id="23" name="door1" type="Door" x="384" y="2048" width="128" height="128">
    <properties>
     <property name="dest" value="door3"/>
-    <property name="dest_map" value="overworld/mansion_f1"/>
+    <property name="dest_map" value="mansion_f1"/>
     <property name="dir" value="up"/>
     <property name="stairs" value="true"/>
    </properties>
@@ -52,7 +52,7 @@
   <object id="24" name="door2" type="Door" x="3456" y="2048" width="128" height="128">
    <properties>
     <property name="dest" value="door4"/>
-    <property name="dest_map" value="overworld/mansion_f1"/>
+    <property name="dest_map" value="mansion_f1"/>
     <property name="dir" value="up"/>
     <property name="stairs" value="true"/>
    </properties>
