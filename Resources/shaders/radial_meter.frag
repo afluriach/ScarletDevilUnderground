@@ -17,7 +17,7 @@ varying vec4 v_position;
 void main()
 {
     float d = distance(v_position.xy, u_center);
-	float a = radians(180) - atan(v_position.y - u_center.y, v_position.x - u_center.x);
+	float a = radians(180.0) - atan(v_position.y - u_center.y, v_position.x - u_center.x);
 	//is pixel coord within circle
 	float co1 = 1.0 - step(u_radius, d);
 	//is pixel within angle
