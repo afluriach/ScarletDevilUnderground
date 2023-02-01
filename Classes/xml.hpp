@@ -92,20 +92,22 @@ namespace app {
     bool getVector(tinyxml2::XMLElement* elem, const string& name, SpaceVect* result);
     bool getDamageInfo(tinyxml2::XMLElement* elem, DamageInfo* result);
 
+    void logXmlError(tinyxml2::XMLDocument* doc, string filename);
+
 	template<typename T>
 	inline local_shared_ptr<T> getObjectProperties(const string& name)
 	{
 		local_shared_ptr<object_properties> obj = getOrDefault(app::objects, name);
 
 		if (!obj) {
-			log("%s not found!", name);
+			log_print("%s not found!", name);
 			return nullptr;
 		}
 
 		local_shared_ptr<T> t = obj.downcast<T>();
 
 		if (!t) {
-			log("%s is not of type %s!", name, typeid(T).name());
+			log_print("%s is not of type %s!", name, typeid(T).name());
 			return nullptr;
 		}
 
@@ -126,7 +128,7 @@ namespace app {
                 return true;
             }
             else {
-                log("%s: unknown base %s type: %s", elem->Name(), typeid(T).name(), base);
+                log_print("%s: unknown base %s type: %s", elem->Name(), typeid(T).name(), base);
             }
         }
         return false;
@@ -159,7 +161,7 @@ namespace app {
 
             }
             else {
-                log("%s: unknown base %s type: %s", elem->Name(), typeid(T).name(), base);
+                log_print("%s: unknown base %s type: %s", elem->Name(), typeid(T).name(), base);
 
             }
 
@@ -175,7 +177,7 @@ namespace app {
 		auto error = objects.Parse(io::loadTextFile(filename).c_str());
 
 		if (error != tinyxml2::XML_SUCCESS) {
-			log("XML error: %d", error);
+            logXmlError(&objects, filename);
 			return;
 		}
 
@@ -191,7 +193,7 @@ namespace app {
 				_map.insert_or_assign(crnt->Name(), object);
 			}
 			else {
-				log("%s : %s failed to load!", filename, crnt->Name());
+				log_print("%s : %s failed to load!", filename, crnt->Name());
 			}
 		}
 	}
@@ -199,15 +201,15 @@ namespace app {
 	template<typename T>
 	inline void loadObjectsShared(string filename)
 	{
-		tinyxml2::XMLDocument objects;
-		auto error = objects.Parse(io::loadTextFile(filename).c_str());
+		tinyxml2::XMLDocument objectsDocument;
+		auto error = objectsDocument.Parse(io::loadTextFile(filename).c_str());
 
 		if (error != tinyxml2::XML_SUCCESS) {
-			log("XML error: %d", error);
+            logXmlError(&objectsDocument, filename);
 			return;
 		}
 
-		tinyxml2::XMLNode* root = objects.FirstChild();
+		tinyxml2::XMLNode* root = objectsDocument.FirstChild();
 
 		for (
 			tinyxml2::XMLElement* crnt = root->FirstChildElement();
@@ -226,7 +228,7 @@ namespace app {
 				}
 			}
 			else {
-				log("%s : %s failed to load!", filename, crnt->Name());
+				log_print("%s : %s failed to load!", filename, crnt->Name());
 			}
 		}
 	}
@@ -312,7 +314,7 @@ namespace app {
 				return true;
 			}
 			catch (boost::bad_lexical_cast ex) {
-				log("Unable to parse XML attribute %s", name);
+				log_print("Unable to parse XML attribute %s", name);
 			}
 		}
 		return false;

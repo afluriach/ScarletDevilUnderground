@@ -34,6 +34,32 @@ unordered_map<string, local_shared_ptr<object_properties>> objects;
 unordered_map<string, SpellDesc*> spells;
 unordered_map<string, shared_ptr<sprite_properties>> sprites;
 
+const vector<string> xmlErrors = boost::assign::list_of
+    ("XML_NO_ERROR")
+
+    ("XML_NO_ATTRIBUTE")
+    ("XML_WRONG_ATTRIBUTE_TYPE")
+
+    ("XML_ERROR_FILE_NOT_FOUND")
+    ("XML_ERROR_FILE_COULD_NOT_BE_OPENED")
+    ("XML_ERROR_FILE_READ_ERROR")
+    ("XML_ERROR_ELEMENT_MISMATCH")
+    ("XML_ERROR_PARSING_ELEMENT")
+    ("XML_ERROR_PARSING_ATTRIBUTE")
+    ("XML_ERROR_IDENTIFYING_TAG")
+    ("XML_ERROR_PARSING_TEXT")
+    ("XML_ERROR_PARSING_CDATA")
+    ("XML_ERROR_PARSING_COMMENT")
+    ("XML_ERROR_PARSING_DECLARATION")
+    ("XML_ERROR_PARSING_UNKNOWN")
+    ("XML_ERROR_EMPTY_DOCUMENT")
+    ("XML_ERROR_MISMATCHED_ELEMENT")
+    ("XML_ERROR_PARSING")
+
+    ("XML_CAN_NOT_CONVERT_TEXT")
+    ("XML_NO_TEXT_NODE")
+;
+
 void loadAreas()
 {
 	loadObjects<shared_ptr<area_properties>>("objects/areas.xml", app::areas);
@@ -269,6 +295,38 @@ bool getDamageInfo(tinyxml2::XMLElement* elem, DamageInfo* result)
 	getElementAttr(elem, "element", &result->element);
 
 	return result->mag > 0.0f;
+}
+
+void logXmlError(tinyxml2::XMLDocument* doc, string filename)
+{
+    tinyxml2::XMLError  error = doc->ErrorID();
+//    int errorNum = static_cast<int>(error);
+    string str1;
+    string str2;
+    string errorName;
+    
+    if(error < xmlErrors.size()){
+        errorName = xmlErrors.at(error);
+    }
+    
+    if(doc->GetErrorStr1()){
+        str1 = doc->GetErrorStr1();
+    }
+
+    if(doc->GetErrorStr2()){
+        str2 = doc->GetErrorStr2();
+    }
+    
+    if(error){
+        log_print(
+            "XML file %s error %d (%s): %s, %s\n",
+            filename,
+            error,
+            errorName,
+            str1,
+            str2
+        );
+    }
 }
 
 bool autoName(tinyxml2::XMLElement* elem, string& field)
