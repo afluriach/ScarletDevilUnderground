@@ -12,7 +12,7 @@
 	<forest map="overworld/forest" ambient_light="0.75,0.75,0.75"/>
 	<forest_lake map="overworld/forest_lake" ambient_light="1.0,1.0,1.0"/>
 
-	<Library map="auto" ambient_light="0.5,0.5,0.2" />
+	<library map="auto" ambient_light="0.5,0.5,0.2" />
 
 	<graveyard1 map="auto" next="graveyard2" ambient_light="rgb:0.3,0.45,0.45" />
 	

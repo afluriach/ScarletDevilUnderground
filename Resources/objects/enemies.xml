@@ -227,7 +227,7 @@
 		sprite="patchouli"
 		ai_package="patchouli_enemy"
 		
-		mass="30"
+		mass="-1.0"
 		
 		collectible="magic2"
 	>
