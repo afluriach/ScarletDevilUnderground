@@ -593,37 +593,6 @@ bool LookTowardsFire::bulletHit(Bullet* b)
 
 const double MoveToPoint::arrivalMargin = 0.125;
 
-MoveToPoint::MoveToPoint(StateMachine* fsm, const ValueMap& args) :
-	Function(fsm)
-{
-    auto xIter = args.find("target_x");
-    auto yIter = args.find("target_y");
-    
-    if(xIter == args.end()){
-        log("MoveToPoint::MoveToPoint: target_x missing from ValueMap");
-        return;
-    }
-    if(yIter == args.end()){
-        log("MoveToPoint::MoveToPoint: target_y missing from ValueMap");
-        return;
-    }
-    
-    const Value &x = xIter->second;
-    const Value &y = yIter->second;
-
-//Cocos2D ValueMap does not correctly read data type.
-//    if(!x.isNumber()){
-//        log("MoveToPoint::MoveToPoint: target_x is not a number.");
-//        return;
-//    }
-//    if(!y.isNumber()){
-//        log("MoveToPoint::MoveToPoint: target_y is not a number.");
-//        return;
-//    }
-    
-    target  = SpaceVect(x.asFloat(), y.asFloat());
-}
-
 MoveToPoint::MoveToPoint(StateMachine* fsm, SpaceVect target) :
 	Function(fsm),
 	target(target)
@@ -675,30 +644,6 @@ FollowPath::FollowPath(StateMachine* fsm, Path path, bool loop, bool stopForObst
 	stopForObstacle(stopForObstacle)
 {}
 
-FollowPath::FollowPath(StateMachine* fsm, const ValueMap& args) :
-	Function(fsm)
-{
-	auto name_it = args.find("pathName");
-	auto loop_it = args.find("loop");
-
-	if (name_it == args.end()) {
-		log("FollowPath: pathName not provided!");
-	}
-
-	Path const* p = getSpace()->getPath(name_it->second.asString());
-
-	if (!p) {
-		log("FollowPath: pathName %s not found!", name_it->second.asString().c_str());
-	}
-	else {
-		path = *p;
-	}
-
-	if (loop_it != args.end() && boost::lexical_cast<bool>(loop_it->second.asString())) {
-		loop = true;
-	}
-}
-
 update_return FollowPath::update()
 {
 	GObject* agent = getObject();
@@ -718,14 +663,6 @@ update_return FollowPath::update()
 
 	return_steady(0.0f);
 }
-
-Wander::Wander(StateMachine* fsm, const ValueMap& args) :
-	Function(fsm),
-    init_float_field(minWait,1.0f),
-    init_float_field(maxWait,1.0f),
-    init_float_field(minDist,1.0f),
-    init_float_field(maxDist,1.0f)
-{}
 
 Wander::Wander(StateMachine* fsm, SpaceFloat minWait, SpaceFloat maxWait, SpaceFloat minDist, SpaceFloat maxDist) :
 	Function(fsm),

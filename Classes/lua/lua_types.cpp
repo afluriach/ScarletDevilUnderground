@@ -222,9 +222,5 @@ namespace Lua{
 			"LightArea"
 		);
 
-		auto value_map = _state.new_usertype<ValueMap>(
-			"ValueMap"
-		);
-
 	}
 }

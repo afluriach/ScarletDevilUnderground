@@ -65,7 +65,6 @@ namespace Lua{
         );
 #define _cls GSpace
 
-		gspace["createObject"] = static_cast<gobject_ref(GSpace::*)(const ValueMap&)>(&GSpace::createObject);
 		gspace["getObjectByName"] = static_cast<GObject * (GSpace::*)(const string&) const>(&GSpace::getObject);
 		addFuncSame(gspace, createAreaSensor);
 		addFuncSame(gspace, createBullet);

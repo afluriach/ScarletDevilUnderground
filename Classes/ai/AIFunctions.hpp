@@ -211,7 +211,6 @@ class MoveToPoint : public Function{
 public:
 	static const SpaceFloat arrivalMargin;
 
-    MoveToPoint(StateMachine* fsm, const ValueMap& args);
 	MoveToPoint(StateMachine* fsm, SpaceVect target);
     
 	virtual inline bool isCompleted() const { return arrived; }
@@ -230,7 +229,6 @@ public:
 		gobject_ref target
 	);
 
-	FollowPath(StateMachine* fsm, const ValueMap& args);
 	FollowPath(StateMachine* fsm, Path path, bool loop, bool stopForObstacle);
 	inline virtual ~FollowPath() {}
 
@@ -247,7 +245,6 @@ protected:
 
 class Wander : public Function {
 public:
-    Wander(StateMachine* fsm, const ValueMap& args);
 	Wander(StateMachine* fsm, SpaceFloat minWait, SpaceFloat maxWait, SpaceFloat minDist, SpaceFloat maxDist);
 	Wander(StateMachine* fsm, SpaceFloat waitInterval, SpaceFloat moveDist);
 	Wander(StateMachine* fsm);
