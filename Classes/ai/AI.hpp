@@ -67,9 +67,6 @@ public:
 	Agent* getAgent() const;
 	physics_context* getPhys() const;
 
-	bool fire();
-	bool aimAtTarget(gobject_ref target);
-
 	bool castSpell(const SpellDesc* desc);
 	local_shared_ptr<Spell> castSpellManual(const SpellDesc* desc);
 	bool isSpellActive();

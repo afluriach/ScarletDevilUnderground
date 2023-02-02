@@ -398,6 +398,41 @@ void Agent::initializeGraphics()
 	animation->setAngle(prevAngle);
 }
 
+bool Agent::fire()
+{
+    FirePattern* fp = getFirePattern();
+    bool fired = false;
+    bool inhibit = isActive(Attribute::inhibitFiring);
+    
+    if (!fp) {
+        log("%s: Attempt to fire without FirePattern!", toString());
+        return false;
+    }
+
+    float fireCost = getFirePattern()->getCost();
+    
+    if(inhibit || (*this)[Attribute::stamina] < fireCost){
+        return false;
+    }
+    
+    fired = fp->fireIfPossible();
+    if (fired) {
+        playSoundSpatial("sfx/shot.wav");
+        consume(Attribute::stamina, fireCost);
+    }
+
+    return fired;
+}
+
+bool Agent::aimAtTarget(gobject_ref target)
+{
+    if (!target.isValid())
+        return false;
+
+    setAngle(ai::directionToTarget(this, target.get()->getPos()).toAngle());
+    return true;
+}
+
 void Agent::setAngle(SpaceFloat a)
 {
 	GObject::setAngle(a);

@@ -85,36 +85,6 @@ physics_context* Function::getPhys() const {
 	return getSpace()->physicsContext.get();
 }
 
-bool Function::fire()
-{
-	Agent* agent = getAgent();
-	FirePattern* fp = agent->getFirePattern();
-	bool fired = false;
-
-	if (!fp) {
-		log("%s: Attempt to fire without FirePattern!", getObject()->toString());
-		return false;
-	}
-
-	fired = fp->fireIfPossible();
-	if (fired) {
-		agent->playSoundSpatial("sfx/shot.wav");
-	}
-
-	return fired;
-}
-
-bool Function::aimAtTarget(gobject_ref target)
-{
-	GObject* agent = getObject();
-
-	if (!target.isValid())
-		return false;
-
-	agent->setAngle(directionToTarget(agent, target.get()->getPos()).toAngle());
-	return true;
-}
-
 bool Function::castSpell(const SpellDesc* desc)
 {
 	if (isSpellActive())

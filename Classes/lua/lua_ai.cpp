@@ -92,9 +92,6 @@ namespace Lua{
 		addFuncSame(func, isSpellActive);
 		addFuncSame(func, stopSpell);
 
-		addFuncSame(func, aimAtTarget);
-		addFuncSame(func, fire);
-
 		func["makeNullShared"] = []() -> local_shared_ptr<ai::Function> {
 			return nullptr;
 		};

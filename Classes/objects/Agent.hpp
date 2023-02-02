@@ -132,6 +132,10 @@ public:
 	virtual void initializeGraphics();
 	inline GraphicsLayer sceneLayer() const { return GraphicsLayer::ground; }
 
+    //action interface
+    bool fire();
+    bool aimAtTarget(gobject_ref target);
+    
 	virtual void setAngle(SpaceFloat a);
 	virtual void setDirection(Direction d);
 

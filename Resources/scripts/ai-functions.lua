@@ -89,8 +89,8 @@ end
 
 function ai.FairyEngage:update()
 	self.moveFunction:update()
-	self.super:aimAtTarget(self.target)
-	self.super:fire()
+	self.agent.aimAtTarget(self.target)
+	self.agent.fire()
 	
 	return ai.update_return.makeSteady(0.0)
 end
@@ -109,8 +109,8 @@ end
 
 function ai.GhostFairyEngage:update()
 	self.moveFunction:update()
-	self.super:aimAtTarget(self.target)
-	self.super:fire()
+	self.agent.aimAtTarget(self.target)
+	self.agent.fire()
 	
 	return ai.update_return.makeSteady(0.0)
 end
@@ -171,8 +171,8 @@ function ai.RedFairyEngage:update()
 	self.bombFunction:update()
 	self.moveFunction:update()
 	
-	self.super:aimAtTarget(self.target)
-	self.super:fire()
+	self.agent.aimAtTarget(self.target)
+	self.agent.fire()
 	
 	return ai.update_return.makeSteady(0.0)
 end
@@ -287,7 +287,7 @@ function ai.MarisaForestMain:update()
 		return ai.update_return.makePop()
 	end
 	
-	self.super:aimAtTarget(self.target)
+	self.agent.aimAtTarget(self.target)
 	
 	if not self.super:isSpellActive() then
 		self.super:castSpell(app.getSpell('StarlightTyphoon'))
@@ -332,8 +332,8 @@ end
 
 function ai.ReimuEnemy:update()
 	self.moveFunction:update()
-	self.super:aimAtTarget(self.target)
-	self.super:fire()
+	self.super.aimAtTarget(self.target)
+	self.super.fire()
 	
 	return ai.update_return.makeSteady(0.0)
 end

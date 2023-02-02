@@ -825,7 +825,7 @@ update_return FireAtTarget::update()
 		directionToTarget(agent, target.get()->getPos()).toAngle()
 	);
 
-	fire();
+	agent->fire();
 
 	return_steady(0.0f);
 }
@@ -839,7 +839,7 @@ FireOnStress::FireOnStress(StateMachine* fsm, float stressPerShot) :
 update_return FireOnStress::update()
 {
 	Agent* agent = getAgent();
-	if (agent->get(Attribute::stress) >= stressPerShot && fire()) {
+	if (agent->get(Attribute::stress) >= stressPerShot && agent->fire()) {
 		agent->modifyAttribute(Attribute::stress, -stressPerShot);
 	}
 	return_steady(0.0f);

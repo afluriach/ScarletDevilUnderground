@@ -196,6 +196,9 @@ namespace Lua{
 		addFuncSame(agent, getAttributeSystem);
 
 		addFuncSame(agent, getSensedObjectDistance);
+        
+        addFuncSame(agent, aimAtTarget);
+        addFuncSame(agent, fire);
 
 		agent["modifyAttribute"] = sol::overload(
 			static_cast< void(Agent::*)(Attribute,float) >(&Agent::modifyAttribute),
