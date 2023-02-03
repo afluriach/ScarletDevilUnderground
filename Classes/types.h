@@ -153,7 +153,6 @@ enum class Element
 	sun,
 	darkness,
 	poison,
-	slime,
 
 	none
 };

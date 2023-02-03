@@ -370,7 +370,6 @@
 		viewAngle="45"
 
 		damage="5"
-		element="slime"
 		collectible="health1,magic1"		
 	>
 		<attributes>
@@ -391,7 +390,6 @@
 		viewAngle="45"
 
 		damage="15"
-		element="slime"
 		collectible="health2,magic2"
 	>
 		<attributes>

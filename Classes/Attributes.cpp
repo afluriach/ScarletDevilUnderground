@@ -75,7 +75,6 @@ const boost::bimap<Attribute, string> AttributeSystem::attributeNameMap = boost:
 	entry(sunSensitivity)
 	entry(darknessSensitivity)
 	entry(poisonSensitivity)
-	entry(slimeSensitivity)
 
 	entry(none)
 ;
@@ -146,7 +145,6 @@ AttributeArray AttributeSystem::getBlankAttributeSet()
 	result[to_size_t(Attribute::sunSensitivity)] = 1.0f;
 	result[to_size_t(Attribute::darknessSensitivity)] = 1.0f;
 	result[to_size_t(Attribute::poisonSensitivity)] = 1.0f;
-	result[to_size_t(Attribute::slimeSensitivity)] = 1.0f;
 
 	return result;
 }

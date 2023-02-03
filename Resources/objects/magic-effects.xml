@@ -29,10 +29,6 @@
 		type="ApplyDamage"
 		element="poison"
 	/>
-	<SlimeDamage
-		type="ApplyDamage"
-		element="slime"
-	/>
 
 	<IceDamageOverTime
 		type="DamageOverTime"
@@ -49,10 +45,6 @@
 	<PoisonDamageOverTime
 		type="DamageOverTime"
 		element="poison"
-	/>
-	<SlimeDamageOverTime
-		type="DamageOverTime"
-		element="slime"
 	/>
 	
 	<DrainStaminaFromMovement

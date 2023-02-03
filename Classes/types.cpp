@@ -32,7 +32,6 @@ const boost::bimap<Element, string> elementNameMap = boost::assign::list_of<boos
 	entry(sun)
 	entry(darkness)
 	entry(poison)
-	entry(slime)
 	entry(none)
 ;
 

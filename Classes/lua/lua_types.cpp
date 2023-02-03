@@ -86,7 +86,6 @@ namespace Lua{
 				enum_entry(Element, sun),
 				enum_entry(Element, darkness),
 				enum_entry(Element, poison),
-				enum_entry(Element, slime),
 
 				enum_entry(Element, none)
 			}
@@ -152,7 +151,6 @@ namespace Lua{
 				enum_entry(Attribute, sunSensitivity),
 				enum_entry(Attribute, darknessSensitivity),
 				enum_entry(Attribute, poisonSensitivity),
-				enum_entry(Attribute, slimeSensitivity),
 
 				enum_entry(Attribute, none)
 			}

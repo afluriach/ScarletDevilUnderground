@@ -71,7 +71,6 @@ enum class Attribute {
 	sunSensitivity,
 	darknessSensitivity,
 	poisonSensitivity,
-	slimeSensitivity,
 
 	none
 };
@@ -106,7 +105,7 @@ public:
 	static constexpr Attribute lastTypeSensitivity = Attribute::meleeSensitivity;
 
 	static constexpr Attribute beginElementSensitivity = Attribute::iceSensitivity;
-	static constexpr Attribute lastElementSensitivity = Attribute::slimeSensitivity;
+	static constexpr Attribute lastElementSensitivity = Attribute::poisonSensitivity;
 
 	static pair<float, float> calculateAgilityAttributes(float agility);
 
