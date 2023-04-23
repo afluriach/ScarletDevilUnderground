@@ -538,6 +538,7 @@
 		E2CEBC852507AE140052E46D /* fonts */ = {isa = PBXFileReference; lastKnownFileType = folder; path = fonts; sourceTree = "<group>"; };
 		E2CEBC882507AE260052E46D /* objects */ = {isa = PBXFileReference; lastKnownFileType = folder; path = objects; sourceTree = "<group>"; };
 		E2CEBC8B2507AE330052E46D /* sfx */ = {isa = PBXFileReference; lastKnownFileType = folder; path = sfx; sourceTree = "<group>"; };
+		E2D5AEA229F55D59009B7B9A /* xml_impl.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = xml_impl.hpp; sourceTree = "<group>"; };
 		E2D9A6EA1FE06252008E6D48 /* libboost.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libboost.a; path = ../../../lib/boost59/ios/build/armv7/libboost.a; sourceTree = "<group>"; };
 		E2E01EEB1C1DCA0D00330904 /* AI.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = AI.cpp; path = ../Classes/ai/AI.cpp; sourceTree = SOURCE_ROOT; };
 		E2E01EEC1C1DCA0D00330904 /* AI.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = AI.hpp; path = ../Classes/ai/AI.hpp; sourceTree = SOURCE_ROOT; };
@@ -745,6 +746,7 @@
 				E26C24E424E739EC004067E0 /* xml_spells.cpp */,
 				E26C24D524E739EA004067E0 /* xml.cpp */,
 				E26C24DE24E739EB004067E0 /* xml.hpp */,
+				E2D5AEA229F55D59009B7B9A /* xml_impl.hpp */,
 			);
 			name = Classes;
 			path = ../Classes;

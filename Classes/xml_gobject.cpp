@@ -15,6 +15,7 @@
 #include "FloorSegment.hpp"
 #include "Item.hpp"
 #include "NPC.hpp"
+#include "xml_impl.hpp"
 
 namespace app {
 

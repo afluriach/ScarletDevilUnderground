@@ -10,6 +10,7 @@
 
 #include "SpellDescriptor.hpp"
 #include "SpellImpl.hpp"
+#include "xml_impl.hpp"
 
 namespace app {
 

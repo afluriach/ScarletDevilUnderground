@@ -22,6 +22,7 @@
 #include "NPC.hpp"
 #include "PlayScene.hpp"
 #include "SpellDescriptor.hpp"
+#include "xml_impl.hpp"
 
 namespace app {
 
@@ -193,7 +194,7 @@ local_shared_ptr<bullet_properties> addBullet(const string& name, const string& 
 	local_shared_ptr<bullet_properties> result;
 	
 	if (name.empty()) return nullptr;
-
+    
 	if (base.size() > 0) {
 		result = copyBaseObjectShared<bullet_properties>(base);
 

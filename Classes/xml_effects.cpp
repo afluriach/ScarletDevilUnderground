@@ -10,6 +10,7 @@
 
 #include "AttributeEffects.hpp"
 #include "MagicEffect.hpp"
+#include "xml_impl.hpp"
 
 namespace app {
 
