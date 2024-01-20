@@ -131,7 +131,9 @@ public:
 	ControlInfo getControlInfo();
 
 	void applyControlSettings(const string& input);
+#if usee_gamepad
 	void assignButton(const vector<string>& v);
+#endif
 	void assignKey(const vector<string>& v);
 	void clearAllKeys();
 	void clearKeyAction(const string& keyName);
@@ -156,13 +158,15 @@ private:
 	SpaceVect getKeyboardMovePadVector();
 	SpaceVect getKeyboardAimPadVector();
 
-    void pollGamepad();
     void updateVectors();
     void checkCallbacks();
     void updateActionState();
     void setActions(ControlActionState actions_bitfield);
-    
+
+#if use_gamepad
     void logGamepadButtons();
+    void pollGamepad();
+#endif
     
     SpaceVect left_vector, right_vector;
     

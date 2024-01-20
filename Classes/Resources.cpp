@@ -130,6 +130,7 @@ bool FileUtilsZip::isFileExist(const string& filename) const
 	else return FileUtilsImpl::isFileExist(filename);
 }
 
+#if use_sound
 SNDFILE* FileUtilsZip::openSoundFile(const string& filename, SF_INFO* info)
 {
 	if (!loadFileData(filename)) {
@@ -154,6 +155,7 @@ void FileUtilsZip::closeSoundFile(const string& filename)
 {
 	soundFileHandles.erase(filename);
 }
+#endif
 
 void FileUtilsZip::unloadFile(const string& filename)
 {

@@ -66,7 +66,7 @@ bool saveData(const T* data, string path, bool overwrite)
 
 			if (!ofs) {
 				log("Failed to open output stream for %s.", cpath);
-				return nullptr;
+				return false;
 			}
 
 

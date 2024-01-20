@@ -47,8 +47,10 @@ public:
 	virtual string getStringFromFile(const string& filename);
 	virtual bool isFileExist(const string& filename) const;
 
+#if use_sound
 	SNDFILE* openSoundFile(const string& filename, SF_INFO* info);
 	void closeSoundFile(const string& filename);
+#endif
 
 	void unloadFile(const string& filename);
 protected:

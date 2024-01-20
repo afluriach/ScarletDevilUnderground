@@ -88,10 +88,12 @@ bool ControlRegister::isKeyDown(EventKeyboard::KeyCode key_id)
 	return keysDown.find(key_id) != keysDown.end();
 }
 
+#if use_gamepad
 bool ControlRegister::isButtonDown(gainput::PadButton button_id)
 {
 	return buttonsDown.find(button_id) != buttonsDown.end();
 }
+#endif
 
 SpaceVect ControlRegister::getKeyboardMovePadVector()
 {
@@ -156,9 +158,10 @@ void ControlRegister::updateVectors()
         right_stick.x = gamepad->GetFloat(gainput::PadButtonRightStickX);
         right_stick.y = gamepad->GetFloat(gainput::PadButtonRightStickY);
     }
-    #endif
 
-	if (southpaw) swap(left_stick, right_stick);
+    if (southpaw) swap(left_stick, right_stick);
+    
+    #endif
     
     left_vector = (left_stick.length() >= deadzone) ? left_stick : getKeyboardMovePadVector();
 
@@ -199,31 +202,38 @@ void ControlRegister::applyControlSettings(const string& input)
 			if (boost::iequals(tokens.at(1), "key")) {
 				clearKeyAction(tokens.at(2));
 			}
+#if use_gamepad
 			else if (boost::iequals(tokens.at(1), "button")) {
 				clearButtonAction(tokens.at(2));
 			}
+#endif
 		}
 		else if (boost::iequals(front, "key") && tokens.size() > 2) {
 			assignKey(tokens);
 		}
+#if use_gamepad
 		else if (boost::iequals(front, "button") && tokens.size() > 2) {
 			assignButton(tokens);
 		}
 		else if (boost::iequals(front, "southpaw") && tokens.size() >= 2) {
 			southpaw = boost::lexical_cast<bool>(tokens.at(1));
 		}
+#endif
 		else if (boost::iequals(front, "clear_all_keys")) {
 			clearAllKeys();
 		}
+#if use_gamepad
 		else if (boost::iequals(front, "clear_all_buttons")) {
 			clearAllButtons();
 		}
+#endif
 		else {
 			log("control_mapping.txt: invalid line %s", line.c_str());
 		}
 	}
 }
 
+#if use_gamepad
 void ControlRegister::assignButton(const vector<string>& v)
 {
 	string line = boost::join(v, " ");
@@ -237,6 +247,7 @@ void ControlRegister::assignButton(const vector<string>& v)
 		"gamepad button"
 	);
 }
+#endif
 
 void ControlRegister::assignKey(const vector<string>& v)
 {

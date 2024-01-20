@@ -53,7 +53,9 @@ GScene(props, start)
 		[=]()-> void {onMapPressed(); }
 	);
 
+#if use_sound
 	App::audioContext->resumeSounds();
+#endif
 }
 
 PlayScene::~PlayScene()
@@ -134,7 +136,9 @@ void PlayScene::enterPause()
 		return;
 
     pauseAnimations();
+#if use_sound
 	App::audioContext->pauseSounds();
+#endif
 	setPaused(true);
 	isShowingMenu = true;
 	if(hud) hud->showHidden();
@@ -156,7 +160,9 @@ void PlayScene::exitPause()
 	popMenu();
 	pauseMenu = nullptr;
     resumeAnimations();
+#if use_sound
 	App::audioContext->resumeSounds();
+#endif
 	setPaused(false);
 	isShowingMenu = false;
 	hud->resetAutohide();
@@ -199,7 +205,9 @@ void PlayScene::enterMap()
 		return;
 
 	pauseAnimations();
+#if use_sound
 	App::audioContext->pauseSounds();
+#endif
 	setPaused(true);
 	isShowingMenu = true;
 
@@ -214,7 +222,9 @@ void PlayScene::exitMap()
 	popMenu();
 	mapMenu = nullptr;
 	resumeAnimations();
+#if use_sound
 	App::audioContext->resumeSounds();
+#endif
 	setPaused(false);
 	isShowingMenu = false;
 }
@@ -225,7 +235,9 @@ void PlayScene::enterWorldSelect()
 		return;
 
 	pauseAnimations();
+#if use_sound
 	App::audioContext->pauseSounds();
+#endif
 	setPaused(true);
 	isShowingMenu = true;
 
@@ -238,7 +250,9 @@ void PlayScene::exitWorldSelect()
 {
 	popMenu();
 	resumeAnimations();
+#if use_sound
 	App::audioContext->resumeSounds();
+#endif
 	setPaused(false);
 	isShowingMenu = false;
 }

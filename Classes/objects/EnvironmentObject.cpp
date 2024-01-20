@@ -31,7 +31,7 @@ bool EnvironmentObject::conditionalLoad(
     if (cls.valid()) {
 		sol::function f = cls["conditionalLoad"];
 
-		if (f && !f(space, id, args, props)) {
+		if (f && !f(space, id)) {
 			log("object load canceled");
 			return false;
 		}
@@ -63,7 +63,7 @@ EnvironmentObject::EnvironmentObject(
         auto objects = space->scriptVM->_state["objects"];
 		auto cls = objects[props->scriptName];
         if (cls.valid()) {
-			scriptObj = cls(this, args);
+			scriptObj = cls(this);
 		}
 	}
 }

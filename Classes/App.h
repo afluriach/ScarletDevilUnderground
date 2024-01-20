@@ -95,7 +95,9 @@ public:
     
     //globals exposed by app
     static unique_ptr<ControlRegister> control_register;
+#if use_sound
 	static unique_ptr<audio_context> audioContext;
+#endif
 	static unique_ptr<GState> crntState;
 	static string crntProfileName;
     static unique_ptr<Lua::Inst> lua;

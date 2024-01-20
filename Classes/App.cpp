@@ -42,19 +42,27 @@ const unordered_map<string, InterfaceFunction> App::interfaceFuntions = {
 	entry_bool(timers, setShowTimers),
 
 	//Control register config commands
+#if use_gamepad
 	{ "button", &App::assignButton },
+#endif
 	{ "key", &App::assignKey },
 	entry_void(clear_all_keys, clearAllKeys),
+#if use_gamepad
 	entry_void(clear_all_buttons, clearAllButtons),
 	entry_string(clear_button, clearButtonAction),
+#endif
 	entry_string(clear_key, clearKeyAction),
 	entry_string2(add_key_action, addKeyAction),
+#if use_gamepad
 	entry_string2(add_button_action, addButtonAction),
 	entry_bool(southpaw, setSouthpaw),
+#endif
 };
 
 unique_ptr<ControlRegister> App::control_register;
+#if use_sound
 unique_ptr<audio_context> App::audioContext;
+#endif
 unique_ptr<GState> App::crntState;
 string App::crntProfileName;
 unique_ptr<Lua::Inst> App::lua;
@@ -70,7 +78,9 @@ bool App::logTimers = false;
 
 void App::setSouthpaw(bool b)
 {
+#if use_gamepad
 	control_register->setSouthpaw(b);
+#endif
 }
 
 void App::clearAllKeys()
@@ -177,7 +187,9 @@ App::App()
 
 	//Activate key register.
 	control_register = make_unique<ControlRegister>();
+#if use_sound
 	audioContext = make_unique<audio_context>();
+#endif
 
     //Initialize Lua
 	lua = make_unique<Lua::Inst>("app");
@@ -198,7 +210,9 @@ App::~App()
 	control_register = nullptr;
 	
 	//Close AL
+#if use_sound
 	audioContext.reset();
+#endif
 
 	if (fileUtils) {
 		FileUtils::setDelegate(nullptr);
@@ -260,7 +274,9 @@ bool App::applicationDidFinishLaunching() {
         "app_update"
     );
 
+#if use_sound
 	audioContext->initAudio();
+#endif
 
     //Create title menu scene and run it.
     runTitleScene();
@@ -469,7 +485,9 @@ FileUtilsZip* App::getFileUtils()
 void App::update(float dt)
 {
     control_register->update();
+#if use_sound
 	audioContext->update();
+#endif
 
 #if USE_TIMERS
 	updateTimerSystem();

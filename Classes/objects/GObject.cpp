@@ -937,6 +937,7 @@ void GObject::setSpriteTexture(const string& texture)
 
 ALuint GObject::playSoundSpatial(const string& path, float volume, bool loop, float yPos)
 {
+#if use_sound
 	ALuint soundSource = space->audioContext->playSoundSpatial(
 		path,
 		toVec3(getPos()),
@@ -947,12 +948,17 @@ ALuint GObject::playSoundSpatial(const string& path, float volume, bool loop, fl
 
 	if (soundSource != 0) space->addSpatialSound(this, soundSource);
 	return soundSource;
+#else
+    return 0;
+#endif
 }
 
 void GObject::stopSound(ALuint sourceID)
 {
+#if use_sound
 	space->audioContext->endSound(sourceID);
 	space->removeSpatialSound(sourceID);
+#endif
 }
 
 //END AUDIO

@@ -11,6 +11,8 @@
 #include "Resources.hpp"
 #include "audio_context.hpp"
 
+#if use_sound
+
 bool audio_context::check_error(const string& msg)
 {
 	bool result = false;
@@ -334,3 +336,5 @@ void audio_context::update()
 
 	audioMutex.unlock();
 }
+
+#endif

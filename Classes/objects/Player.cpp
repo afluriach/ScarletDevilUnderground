@@ -411,8 +411,10 @@ void Player::update()
 {
 	Agent::update();
 
+#if use_sound
 	space->audioContext->setSoundListenerPos(getPos(), getVel(), float_pi/2.0);
-
+#endif
+    
 	if (playScene) {
 		space->addHudAction(&HUD::updateHUD, *attributeSystem);
 
@@ -433,6 +435,7 @@ void Player::update()
 
 ALuint Player::playSoundSpatial(const string& path, float volume, bool loop, float yPos)
 {
+#if use_sound
 	ALuint soundSource = space->audioContext->playSound(
 		path,
 		volume,
@@ -440,6 +443,9 @@ ALuint Player::playSoundSpatial(const string& path, float volume, bool loop, flo
 	);
 
 	return soundSource;
+#else
+    return 0;
+#endif
 }
 
 
@@ -526,7 +532,9 @@ void Player::applyCombo(int b)
 void Player::gameOver()
 {
 	if (!GScene::suppressGameOver) {
+#if use_sound
 		space->audioContext->playSound("sfx/player_death.wav", 0.5f);
+#endif
 
 		space->addSceneAction(
 			[=]()->void { playScene->triggerGameOver(); }

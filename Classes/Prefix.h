@@ -18,7 +18,7 @@
     #import <OpenAL/al.h>
     #import <OpenAL/alc.h>
     #define ALuint uint32_t
-    #define use_gamepad 1
+    #define use_gamepad 0
 #endif
 
 #ifdef CC_TARGET_OS_IPHONE
@@ -136,6 +136,7 @@ typedef double SpaceFloat;
 #define DEV_MODE 1
 #define GSPACE_MULTITHREAD 1
 #define INTERNAL_PREFIX 0
+#define use_sound 0
 
 #if INTERNAL_PREFIX
 #include "internal_prefix.h"

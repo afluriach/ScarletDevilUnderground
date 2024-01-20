@@ -64,7 +64,9 @@ GSpace* GSpace::getCrntSpace()
 
 GSpace::GSpace(GScene* gscene) :
 	gscene(gscene),
+#if use_sound
 	audioContext(App::audioContext.get()),
+#endif
 	graphicsContext(gscene->graphicsContext.get()),
 	randomFloat(0.0, 1.0)
 {
@@ -243,6 +245,7 @@ void GSpace::updateSensors()
 
 void GSpace::updateSoundSources()
 {
+#if use_sound
 	auto it = activeSounds.begin();
 	while (it != activeSounds.end())
 	{
@@ -253,6 +256,7 @@ void GSpace::updateSoundSources()
 		else
 			++it;
 	}
+#endif
 }
 
 //BEGIN OBJECT MANIPULATION

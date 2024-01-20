@@ -9,6 +9,8 @@
 #ifndef audio_context_hpp
 #define audio_context_hpp
 
+#if use_sound
+
 class audio_context
 {
 public:
@@ -50,5 +52,6 @@ protected:
 	list<ALuint> availableSources;
 	mutex audioMutex;
 };
+#endif
 
 #endif /* audio_context_hpp */
