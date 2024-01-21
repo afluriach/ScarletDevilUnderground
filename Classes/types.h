@@ -118,6 +118,13 @@ typedef function<FiniteTimeAction*()> ActionGeneratorType;
 typedef function<local_shared_ptr<FirePattern>(Agent*)> FirePatternGeneratorType;
 //
 
+struct debug_info
+{
+    const char* func;
+    const char* file;
+    int line;
+};
+
 struct GraphicsAction
 {
 	ActionGeneratorType generator;

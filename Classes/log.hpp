@@ -32,20 +32,18 @@ protected:
 	static atomic_bool exitFlag;
 };
 
-#define log0(s) log_print(__FUNCTION__, __FILE_NAME__, __LINE__, s)
-#define log1(s,a) log_print(__FUNCTION__, __FILE_NAME__, __LINE__, s, a)
-#define log2(s,a,b) log_print(__FUNCTION__, __FILE_NAME__, __LINE__, s, a, b)
-#define log3(s,a,b,c) log_print(__FUNCTION__, __FILE_NAME__, __LINE__, s, a, b, c)
-#define log4(s,a,b,c,d) log_print(__FUNCTION__, __FILE_NAME__, __LINE__, s, a, b, c, d)
-#define log5(s,a,b,c,d,e) log_print(__FUNCTION__, __FILE_NAME__, __LINE__, s, a, b, c, d, e)
-#define log6(s,a,b,c,d,e,f) log_print(__FUNCTION__, __FILE_NAME__, __LINE__, s, a, b, c, d, e, f)
+#define log0(s) log_print(get_debug_info, s)
+#define log1(s,a) log_print(get_debug_info, s, a)
+#define log2(s,a,b) log_print(get_debug_info, s, a, b)
+#define log3(s,a,b,c) log_print(get_debug_info, s, a, b, c)
+#define log4(s,a,b,c,d) log_print(get_debug_info, s, a, b, c, d)
+#define log5(s,a,b,c,d,e) log_print(get_debug_info, s, a, b, c, d, e)
+#define log6(s,a,b,c,d,e,f) log_print(get_debug_info, s, a, b, c, d, e, f)
 
 
 template<typename... T>
 void log_print(
-    const char* func,
-    const char* file,
-    int line,
+    debug_info debug,
     string s,
     T... args
 ){
@@ -53,7 +51,12 @@ void log_print(
 	string result = boost::str((fmt % ... % forward<T>(args)));
 
     boost::format debugPrefix("%s:%d (%s):");
-    string prefix = boost::str( debugPrefix % file % line % func);
+    string prefix = boost::str(
+        debugPrefix %
+        debug.file %
+        debug.line %
+        debug.func
+    );
 
     LogSystem::debugPrefix(prefix);
 	LogSystem::logOutput("    " + result);
