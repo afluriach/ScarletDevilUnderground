@@ -12,6 +12,7 @@
 namespace sol{
 
 bool hasMethod(sol::table obj, const string& name);
+void printErrorMessage(lua_State* state);
 
 template<typename T>
 inline bool getField(sol::table t, const string& clsName, T* dest)

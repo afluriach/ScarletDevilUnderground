@@ -10,6 +10,7 @@
 
 #include "FileIO.hpp"
 #include "LuaAPI.hpp"
+#include "sol_util.hpp"
 
 namespace Lua{
 
@@ -52,17 +53,37 @@ const vector<string> Inst::luaIncludes = {
         
     void Inst::runString(const string& str)
     {
-		try {
-			_state.script(str);
-		}
-		catch (sol::error e){
-			log2("script %s error: %s", name, e.what());
-		}
+        auto error_handler = [this,str](lua_State*, sol::protected_function_result pfr) {
+            sol::error lua_error = pfr;
+            
+            log1("runString: error running Lua string: \"%s\"", str);
+            sol::printErrorMessage(_state);
+            
+            return pfr;
+        };
+
+        _state.safe_script(str, error_handler);
     }
     
     void Inst::runFile(const string& path)
     {
-		runString(io::loadTextFile(path));
+        auto error_handler = [this,path](lua_State*, sol::protected_function_result pfr) {
+            sol::error lua_error = pfr;
+            
+            log1("runFile: error running Lua file: \"%s\"", path);
+            sol::printErrorMessage(_state);
+            
+            return pfr;
+        };
+
+        string luaText = io::loadTextFile(path);
+
+        if(luaText.empty()){
+            log1("runFile: Warning, Lua script \"%s\" not found or is empty file.", path);
+            return;
+        }
+
+        _state.safe_script(luaText, error_handler);
     }
     
     void Inst::callIfExistsNoReturn(const string& name)
