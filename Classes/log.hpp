@@ -12,8 +12,7 @@
 class LogSystem
 {
 public:
-	static void debugPrefix(const string& s);
-	static void logOutput(const string& s);
+	static void logOutput(const string& prefix, const string& s);
 
 	static void initThread();
 	static void exit();
@@ -58,8 +57,7 @@ void log_print(
         debug.func
     );
 
-    LogSystem::debugPrefix(prefix);
-	LogSystem::logOutput("    " + result);
+	LogSystem::logOutput(prefix, "    " + result);
 }
 
 template<typename... T>
@@ -70,7 +68,7 @@ void print(
 	boost::format fmt(s);
 	string result = boost::str((fmt % ... % forward<T>(args)));
 
-	LogSystem::logOutput(result);
+	LogSystem::logOutput("", result);
 }
 
 

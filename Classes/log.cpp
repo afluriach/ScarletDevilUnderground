@@ -10,20 +10,18 @@
 
 #include "log.hpp"
 
-void LogSystem::debugPrefix(const string& s)
-{
-    if(s != prevDebugPrefix){
-        logOutput(s);
-        prevDebugPrefix = s;
-    }
-}
-
-void LogSystem::logOutput(const string& s)
+void LogSystem::logOutput(const string& prefix, const string& s)
 {
 	bufMutex.lock();
+ 
+    if(!prefix.empty() && prefix != prevDebugPrefix){
+        buf.push_back(prefix);
+    }
+    prevDebugPrefix = prefix;
+    
 	buf.push_back(s);
+    
 	bufMutex.unlock();
-
 	threadCondVar.notify_one();
 }
 
@@ -38,6 +36,7 @@ void LogSystem::initThread()
 void LogSystem::exit()
 {
 	exitFlag.store(true);
+ 	threadCondVar.notify_one();   
 	logThread.join();
 }
 
