@@ -199,7 +199,7 @@ local_shared_ptr<bullet_properties> addBullet(const string& name, const string& 
 		result = copyBaseObjectShared<bullet_properties>(base);
 
 		if (!result) {
-			log("addBullet(%s,%s): base not found", name, base);
+			log2("addBullet(%s,%s): base not found", name, base);
 			return nullptr;
 		}
 	}
@@ -241,7 +241,7 @@ bool getElementAttr(tinyxml2::XMLElement* elem, const string& name, Element* res
 			return true;
 		}
 		else {
-			log("Unknown Element: " + elementStr);
+			log0("Unknown Element: " + elementStr);
 		}
 	}
 
@@ -283,7 +283,7 @@ bool getVector(tinyxml2::XMLElement* elem, const string& name, SpaceVect* result
 			}
 		}
 		catch (boost::bad_lexical_cast ex) {
-			log("Unable to parse XML attribute %s", name);
+			log1("Unable to parse XML attribute %s", name);
 		}
 	}
 	return false;
@@ -319,7 +319,7 @@ void logXmlError(tinyxml2::XMLDocument* doc, string filename)
     }
     
     if(error){
-        log_print(
+        log5(
             "XML file %s error %d (%s): %s, %s\n",
             filename,
             error,
@@ -377,7 +377,7 @@ bool parseObject(tinyxml2::XMLElement* elem, shared_ptr<area_properties>* result
 				props.maps.push_back(make_pair(roomMapName, IntVec2(temp.x * roomSize.x, temp.y * roomSize.y)));
 
 				if (roomSize.isZero()) {
-					log("areas.xml: %s:%s: tile_offset when no room size!", props.sceneName, roomMapName);
+					log2("areas.xml: %s:%s: tile_offset when no room size!", props.sceneName, roomMapName);
 				}
 			}
 		}
@@ -413,7 +413,7 @@ bool parseObject(tinyxml2::XMLElement* elem, local_shared_ptr<firepattern_proper
 	string type;
 	bool match = false;
 	if (!getStringAttr(elem, "type", &type)) {
-		log("fire pattern %s does not have a type.", elem->Name());
+		log1("fire pattern %s does not have a type.", elem->Name());
 		return false;
 	}
 
@@ -493,7 +493,7 @@ bool parseObject(tinyxml2::XMLElement* elem, shared_ptr<sprite_properties>* resu
 		filename = elem->Name();
 	}
 	if (!FileUtils::getInstance()->isFileExist("sprites/" + filename + ".png")) {
-		log("Sprite %s not found!", filename);
+		log1("Sprite %s not found!", filename);
 		return false;
 	}
 

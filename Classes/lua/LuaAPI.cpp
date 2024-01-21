@@ -34,13 +34,13 @@ const vector<string> Inst::luaIncludes = {
         loadLibraries();
         
         if(logInst)
-            log("Lua Inst created: %s.", name.c_str());        
+            log1("Lua Inst created: %s.", name.c_str());
     }
     
     Inst::~Inst()
     {        
         if(logInst)
-            log("Lua Inst closed: %s.", name.c_str());
+            log1("Lua Inst closed: %s.", name.c_str());
     }
     
     void Inst::loadLibraries()
@@ -56,7 +56,7 @@ const vector<string> Inst::luaIncludes = {
 			_state.script(str);
 		}
 		catch (sol::error e){
-			log("script %s error: %s", name, e.what());
+			log2("script %s error: %s", name, e.what());
 		}
     }
     

@@ -96,7 +96,7 @@ vector<pair<string, zero_arity_function>> NewProfileMenu::getProfileEntries()
 void NewProfileMenu::selectProfile(string name)
 {
 	App::crntProfileName = name;
-	log("Profile %s selected.", name.c_str());
+	log1("Profile %s selected.", name.c_str());
 	App::runOpeningScene();
 }
 

@@ -66,7 +66,7 @@ vector<position> gridAStar(const boost::dynamic_bitset<>& obstacleMask, position
         if(outOfBounds){
     
             if(debug)
-                log(
+                log2(
                     "checkVisitAdjacent skipped %d,%d for out of bounds.",
                     adj.first,
                     adj.second
@@ -78,7 +78,7 @@ vector<position> gridAStar(const boost::dynamic_bitset<>& obstacleMask, position
         if(obstacleMask[rawIndex]){
         
             if(debug)
-                log(
+                log2(
                     "checkVisitAdjacent skipped %d,%d for obstacle.",
                     adj.first,
                     adj.second
@@ -97,7 +97,7 @@ vector<position> gridAStar(const boost::dynamic_bitset<>& obstacleMask, position
             if(obstacleMask[hIndex] || obstacleMask[vIndex]){
                 
                 if(debug)
-                    log(
+                    log2(
                         "checkVisitAdjacent skipped %d,%d for indirect obstacle.",
                         adj.first,
                         adj.second
@@ -114,7 +114,7 @@ vector<position> gridAStar(const boost::dynamic_bitset<>& obstacleMask, position
         node adjNode(adj,current.p, actualCostFromStart, heuristicCost);
         
         if(debug)
-            log(
+            log4(
                 "Adjacent node %d,%d: f: %f, g: %f added.",
                 adjNode.p.first,
                 adjNode.p.second,
@@ -138,9 +138,9 @@ vector<position> gridAStar(const boost::dynamic_bitset<>& obstacleMask, position
         reverse(path.begin(), path.end());
 
 		if (debug) {
-			log("Generating final path:");
+			log0("Generating final path:");
 			for(auto p: path) {
-				log("%d,%d", p.first, p.second);
+				log2("%d,%d", p.first, p.second);
 			}
 		}
     
@@ -168,7 +168,7 @@ vector<position> gridAStar(const boost::dynamic_bitset<>& obstacleMask, position
         frontier.pop();
              
         if(debug)
-            log("popped node %d,%d f: %f, g: %f",
+            log4("popped node %d,%d f: %f, g: %f",
                 current.p.first,
                 current.p.second,
                 current.costFromStart,
@@ -181,7 +181,7 @@ vector<position> gridAStar(const boost::dynamic_bitset<>& obstacleMask, position
             visitedFrom[current.p] = current.visitedFrom;
         
             if(debug)
-                log("solved");
+                log0("solved");
             
             return buildPath();
         }
@@ -194,7 +194,7 @@ vector<position> gridAStar(const boost::dynamic_bitset<>& obstacleMask, position
             visitedFrom[current.p] = current.visitedFrom;
 
             if(debug)
-                log("Cost set at %f.", current.costFromStart);
+                log1("Cost set at %f.", current.costFromStart);
 
             visitAdjacents(current);
         }

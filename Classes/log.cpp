@@ -10,6 +10,14 @@
 
 #include "log.hpp"
 
+void LogSystem::debugPrefix(const string& s)
+{
+    if(s != prevDebugPrefix){
+        logOutput(s);
+        prevDebugPrefix = s;
+    }
+}
+
 void LogSystem::logOutput(const string& s)
 {
 	bufMutex.lock();
@@ -60,6 +68,8 @@ void LogSystem::update()
 		}
 	}
 }
+
+string LogSystem::prevDebugPrefix;
 
 mutex LogSystem::bufMutex;
 vector<string> LogSystem::buf;

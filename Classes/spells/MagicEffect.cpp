@@ -26,7 +26,7 @@ damageType(params.attr.type),
 crntState(state::created)
 {
 	if (_flags == effect_flags::none) {
-		log("Warning, empty MagicEffect created.");
+		log0("Warning, empty MagicEffect created.");
 	}
 }
 
@@ -64,7 +64,7 @@ effect_flags ScriptedMagicEffect::getFlags(string clsName)
 	sol::table cls = GSpace::scriptVM->_state["effects"][clsName];
 
     if (!cls.valid()) {
-		log("ScriptedMagicEffect::getFlags: %s does not exist", clsName);
+		log1("%s does not exist", clsName);
 		return effect_flags::none;
 	}
 
@@ -81,7 +81,7 @@ ScriptedMagicEffect::ScriptedMagicEffect(effect_params params, string clsName) :
 	MagicEffect* super_this = this;
 
     if (!cls.valid()) {
-		log("ScriptedMagicEffect: %s not found", clsName);
+		log1("%s not found", clsName);
 	}
 	else {
 		obj = cls(super_this);

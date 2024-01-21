@@ -28,11 +28,11 @@ SpellSystem::~SpellSystem()
 local_shared_ptr<Spell> SpellSystem::cast(const SpellDesc* desc, GObject* caster)
 {
 	if (!desc) {
-		log("cast(): null SpellDescriptor!");
+		log0("null SpellDescriptor!");
 		return nullptr;
 	}
 	if (!caster) {
-		log("cast(): null caster!");
+		log0("null caster!");
 		return nullptr;
 	}
 
@@ -46,7 +46,7 @@ local_shared_ptr<Spell> SpellSystem::cast(const SpellDesc* desc, GObject* caster
 	spell->init();
 
 	if (logSpells) {
-		log("Spell %s (%u) created and initialized.", spell->getName(), spell->id);
+		log2("Spell %s (%u) created and initialized.", spell->getName(), spell->id);
 	}
 
 	if (spell->descriptor->params.length != 0.0){
@@ -56,7 +56,7 @@ local_shared_ptr<Spell> SpellSystem::cast(const SpellDesc* desc, GObject* caster
 	}
 	else {
 		if (logSpells) {
-			log("Immediate spell %s (%u) deleted.", spell->getName(), spell->id);
+			log2("Immediate spell %s (%u) deleted.", spell->getName(), spell->id);
 		}
 	}
 
@@ -70,7 +70,7 @@ void SpellSystem::stopSpell(unsigned int id)
 	auto it = spells.find(id);
 	if (it != spells.end()) {
 		if (logSpells) {
-			log("Spell %s (%u) stopped.", it->second->getName(), it->second->id);
+			log2("Spell %s (%u) stopped.", it->second->getName(), it->second->id);
 		}
 
 		it->second->end();
@@ -81,7 +81,7 @@ void SpellSystem::stopSpell(unsigned int id)
 		spells.erase(it);
 	}
 	else {
-		log("stopSpell(): spell ID %u does not exist!", id);
+		log1("spell ID %u does not exist!", id);
 	}
 }
 

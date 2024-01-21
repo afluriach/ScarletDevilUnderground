@@ -49,7 +49,7 @@ bool Agent::conditionalLoad(GSpace* space, const object_params& params, local_sh
 		sol::function f = cls["conditionalLoad"];
 
 		if (f && !f(space, params, props)) {
-			log("object load canceled");
+			log0("object load canceled");
 			return false;
 		}
 	}
@@ -127,7 +127,7 @@ void Agent::initFSM()
 	fsm = make_unique<ai::StateMachine>(this, ai_package);
 
 	if (ai_package.empty() && type != GType::player) {
-		log("%s: no AI package!", toString());
+		log1("%s: no AI package!", toString());
 		return;
 	}
 }
@@ -325,7 +325,7 @@ bool Agent::setFirePattern(string firePattern)
 			return true;
 		}
 		else {
-			log("Unknown fire pattern: %s", firePattern);
+			log1("Unknown fire pattern: %s", firePattern);
 		}
 	}
 
@@ -405,7 +405,7 @@ bool Agent::fire()
     bool inhibit = isActive(Attribute::inhibitFiring);
     
     if (!fp) {
-        log("%s: Attempt to fire without FirePattern!", toString());
+        log1("%s: Attempt to fire without FirePattern!", toString());
         return false;
     }
 
@@ -590,7 +590,7 @@ void Agent::initializeRadar()
 	};
 
 	if (attr.radius <= 0.0) {
-		log("%s has zero radius", getName());
+		log1("%s has zero radius", getName());
 		return;
 	}
 

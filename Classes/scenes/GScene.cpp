@@ -355,7 +355,7 @@ void GScene::spaceUpdateMain()
 				gspace->update();
 			}
 			catch (sol::error e){
-				log("%s", e.what());
+				log1("%s", e.what());
 				exit(0);
 			}
 			spaceUpdateToRun.store(false);
@@ -405,7 +405,7 @@ void GScene::logPerformance()
 {
 	unsigned int frames = gspace->getFrame();
 	unsigned long us = gspace->getTimeUsed();
-	log(
+	log3(
 		"Replay: %.3f s processing time, %.3f s elapsed time, %.3f ms per frame.",
 		us * 1e-6,
 		frames*app::params.secondsPerFrame,

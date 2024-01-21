@@ -175,7 +175,7 @@ void RoomSensor::endContact(GObject* obj)
 void RoomSensor::onPlayerContact(Player* p)
 {
 	player = p;
-	log("Player entered room %d.", mapID);
+	log1("Player entered room %d.", mapID);
 
 	for (Enemy* e : enemies){
 		e->sendAlert(p);
@@ -184,7 +184,7 @@ void RoomSensor::onPlayerContact(Player* p)
 
 void RoomSensor::onPlayerEndContact(Player* p)
 {
-	log("Player left room %d.", mapID);
+	log1("Player left room %d.", mapID);
 	player = nullptr;
 }
 

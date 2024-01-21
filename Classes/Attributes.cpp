@@ -236,7 +236,7 @@ float AttributeSystem::get(string name) const
 		return (*this)[it->second];
 	}
 	else {
-		log("Attribute name %s not recognized.", name.c_str());
+		log1("Attribute name %s not recognized.", name.c_str());
 		return -1.0f;
 	}
 }
@@ -461,7 +461,7 @@ bool AttributeSystem::canApplyAttribute(Attribute id, float x)
 		return canApplyIncidentAttribute(stamina);
 
 	default:
-		log("AttributeSystem::canApplyAttribute: invalid attribute %d.", to_int(id));
+		log1("AttributeSystem::canApplyAttribute: invalid attribute %d.", to_int(id));
 		return true;
 	}
 }

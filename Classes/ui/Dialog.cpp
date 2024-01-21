@@ -38,7 +38,7 @@ void Dialog::setDialog(const string& res)
 	if (dialog.size() > 0)
 		runFrame();
 	else
-		log("Empty dialog %s created.", res);
+		log1("Empty dialog %s created.", res);
 }
 
 //Enabled by default, allows cursor to appear and listen for action
@@ -128,7 +128,7 @@ void Dialog::setMsg(const string& msg)
 void Dialog::setColor(const Color3B& color)
 {
     bodyColor = color;
-    log("color set to %d %d %d", color.r, color.g, color.b);
+    log3("color set to %d %d %d", color.r, color.g, color.b);
     advanceFrame(false);
 }
 
@@ -227,19 +227,19 @@ Color3B Dialog::parseColorFromDirective(const string& line){
     vector<string> tokens = splitString(line, " ");
     
     if(tokens.size() != 4){
-        log("Invalid setColor directive: %s", line.c_str());
+        log1("Invalid setColor directive: %s", line.c_str());
         return defaultTextColor;
     }
     
     try{
-        log("%s %s %s", tokens[1].c_str(), tokens[2].c_str(), tokens[3].c_str());
+        log3("%s %s %s", tokens[1].c_str(), tokens[2].c_str(), tokens[3].c_str());
         return Color3B(
             boost::lexical_cast<int>(tokens[1]),
             boost::lexical_cast<int>(tokens[2]),
             boost::lexical_cast<int>(tokens[3])
         );
     } catch(boost::bad_lexical_cast){
-        log("setColor parse error: %s", line.c_str());
+        log1("setColor parse error: %s", line.c_str());
         return defaultTextColor;
     }
 }
@@ -267,7 +267,7 @@ void Dialog::processDialogFile(const string& text)
             else if(boost::starts_with(line, ":nextScene")){
                 vector<string> tokens = splitString(line, " ");
                 if(tokens.size() != 2){
-                    log("invalid nextScene directive: %s.", line.c_str());
+                    log1("invalid nextScene directive: %s.", line.c_str());
                     continue;
                 }
 				setNextScene(tokens[1]);                
@@ -275,7 +275,7 @@ void Dialog::processDialogFile(const string& text)
 			else if (boost::starts_with(line, ":setAttribute")) {
 				vector<string> tokens = splitString(line, " ");
 				if (tokens.size() != 2) {
-					log("invalid setAttribute directive: %s.", line.c_str());
+					log1("invalid setAttribute directive: %s.", line.c_str());
 					continue;
 				}
 

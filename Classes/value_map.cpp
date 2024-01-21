@@ -15,7 +15,7 @@ void printValueMap(const ValueMap& obj)
 {
     for(auto it = obj.begin(); it != obj.end(); ++it)
     {
-        log(
+        log2(
             "%s: %s.",
             it->first.c_str(),
             it->second.asString().c_str()

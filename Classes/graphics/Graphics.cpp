@@ -51,7 +51,7 @@ Color3B toColor3B(const string& s)
 	vector<string> tokens = splitString(s, ",");
 
 	if (tokens.size() != 3) {
-		log("toColor3B: invalid string %s", s);
+		log1("invalid string %s", s);
 		return Color3B::BLACK;
 	}
 
@@ -118,7 +118,7 @@ Color4F hsva4F(float h, float s, float v, float a)
 	}
 	else
 	{
-		log("Illegal hue given: %f", h);
+		log1("Illegal hue given: %f", h);
 		return Color4F();
 	}
 
@@ -130,7 +130,7 @@ Color4F hsva4F(const string& s)
 	vector<string> tokens = splitString(s, ",");
 
 	if (tokens.size() != 3 && tokens.size() != 4) {
-		log("hsva4F: invalid string %s", s);
+		log1("invalid string %s", s);
 		return Color4F::BLACK;
 	}
 
@@ -157,7 +157,7 @@ Color4F toColor4F(const string& s)
 	vector<string> tokens = splitString(s, ",");
 
 	if (tokens.size() != 3 && tokens.size() != 4) {
-		log("toColor4F: invalid string %s", s);
+		log1("invalid string %s", s);
 		return Color4F::BLACK;
 	}
 
@@ -406,7 +406,7 @@ Sprite* loadImageSprite(const string& resPath, GraphicsLayer sceneLayer, Layer* 
     if(node)
         dest->positionAndAddNode(node,to_int(sceneLayer),pos, zoom);
     else
-        log("loadImageSprite: sprite %s not loaded", resPath.c_str());
+        log1("sprite %s not loaded", resPath.c_str());
 
     return node;
 }

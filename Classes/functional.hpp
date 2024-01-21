@@ -90,11 +90,11 @@ inline void callAdapter(function<void(T...)> static_method, vector<string> token
 	size_t n_args = tuple_size<tuple<T...>>::value;
 
 	if (tokens.empty()) {
-		log("callAdapter: empty input");
+		log0("empty input");
 		return;
 	}
 	else if (tokens.size() - 1 != n_args) {
-		log("callAdapter: %d arguments expected, %d found", n_args, tokens.size() - 1);
+		log2("%d arguments expected, %d found", n_args, tokens.size() - 1);
 		return;
 	}
 

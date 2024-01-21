@@ -178,7 +178,7 @@ bool Bullet::applyRicochet(SpaceVect n)
 	setVel(vv);
 
 	if (logRicochets) {
-		log(
+		log6(
 			"%s, %d velocity from %f,%f to %f,%f",
 			toString(),
 			space->getFrame(),

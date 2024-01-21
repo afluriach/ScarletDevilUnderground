@@ -32,7 +32,7 @@ bool EnvironmentObject::conditionalLoad(
 		sol::function f = cls["conditionalLoad"];
 
 		if (f && !f(space, id)) {
-			log("object load canceled");
+			log0("object load canceled");
 			return false;
 		}
 	}

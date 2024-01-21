@@ -67,7 +67,7 @@ bool NPC::canInteract(Player* p)
 void NPC::interact(Player* p)
 {
 	if (crntDialog) {
-		log("NPC %s attempt to start dialog when one is already active!", getName());
+		log1("NPC %s attempt to start dialog when one is already active!", getName());
 		return;
 	}
 

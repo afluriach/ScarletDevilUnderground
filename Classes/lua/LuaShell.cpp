@@ -58,7 +58,7 @@ void LuaShell::setVisible(bool visible)
 
 void LuaShell::runText()
 {
-    log("running script: %s", editBox->getText());
+    log1("running script: %s", editBox->getText());
     App::lua->runString(editBox->getText());
 }
 

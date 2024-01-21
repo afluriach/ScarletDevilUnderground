@@ -134,7 +134,7 @@ bool FileUtilsZip::isFileExist(const string& filename) const
 SNDFILE* FileUtilsZip::openSoundFile(const string& filename, SF_INFO* info)
 {
 	if (!loadFileData(filename)) {
-		log("openSoundFile: %s not found in resources.zip", filename.c_str());
+		log1("openSoundFile: %s not found in resources.zip", filename.c_str());
 		return nullptr;
 	}
 
@@ -170,19 +170,19 @@ bool FileUtilsZip::loadFileData(const string& filename)
 {
 	auto it = loadedFiles.find(filename);
 	if (it != loadedFiles.end()) {
-		log("File %s already loaded from resources.zip", filename.c_str());
+		log1("File %s already loaded from resources.zip", filename.c_str());
 		return true;
 	}
 
 	if (!zipFile || !zipFile->fileExists(filename)) {
-		log("File %s not found in resources.zip", filename.c_str());
+		log1("File %s not found in resources.zip", filename.c_str());
 		return false;
 	}
 
 	ssize_t filesize = 0;
 	unsigned char* buf = zipFile->getFileData(filename, &filesize);
 	if (buf == nullptr || filesize == 0) {
-		log("Failed to load file %s from resources.zip", filename.c_str());
+		log1("Failed to load file %s from resources.zip", filename.c_str());
 		return false;
 	}
 

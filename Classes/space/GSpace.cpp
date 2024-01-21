@@ -268,16 +268,16 @@ void GSpace::addDynamicLoadObject(const ValueMap& obj)
 	string type = obj.at("type").asString();
 
 	if (name.empty()) {
-		log("Un-named dynamic load object");
+		log0("Un-named dynamic load object");
 	}
 	else if (type.empty()) {
-		log("Un-typed dynamic load object");
+		log0("Un-typed dynamic load object");
 	}
 	else if (!GObject::isValidObjectType(type)) {
-		log("Dynamic load object with unknown type %s.", type.c_str());
+		log1("Dynamic load object with unknown type %s.", type.c_str());
 	}
 	else if (dynamicLoadObjects.find(name) != dynamicLoadObjects.end()) {
-		log("Dynamic load object name %s already used.", name.c_str());
+		log1("Dynamic load object name %s already used.", name.c_str());
 	}
 	else {
 		dynamicLoadObjects.insert_or_assign(name, obj);
@@ -291,7 +291,7 @@ gobject_ref GSpace::createDynamicObject(const string& name)
 		return createObject(it->second);
 	}
 	else {
-		log("Unknown dynamic load object name %s.", name.c_str());
+		log1("Unknown dynamic load object name %s.", name.c_str());
 		return nullptr;
 	}
 }
@@ -401,7 +401,7 @@ GObject* GSpace::getObject(const string& name) const
 		return getObject(it->second);
 	}
 	else {
-		log("getObject: \"%s\" not found!", name);
+		log1("\"%s\" not found!", name);
 		return nullptr;
 	}
 }
@@ -419,7 +419,7 @@ RoomSensor* GSpace::getRoomSensor(int id) const
 const unordered_set<GObject*>* GSpace::getObjectsByType(type_index t) const
 {
 	if(!isTrackedType(t)){
-		log("%s is not a tracked type.", t.name());
+		log1("%s is not a tracked type.", t.name());
 		return nullptr;
 	}
 
@@ -464,13 +464,13 @@ void GSpace::processAdditions()
 		lastAddedUUID = generator.second;
 
         if(objByUUID.find(obj->uuid) != objByUUID.end()){
-            log("Object UUID is not unique: %s", obj->toString());
+            log1("Object UUID is not unique: %s", obj->toString());
             allocator_delete(obj);
             continue;
         }
 
 		if (!obj->body) {
-			log("Object %s failed to load physics body!", obj->getName());
+			log1("Object %s failed to load physics body!", obj->getName());
 			allocator_delete(obj);
 			continue;
 		}
@@ -497,7 +497,7 @@ void GSpace::removeObject(const string& name)
 {
     auto it = objectNames.left.find(name);
     if(it == objectNames.left.end()){
-        log("removeObject: %s not found", name.c_str());
+        log1("%s not found", name.c_str());
         return;
     }
     
@@ -507,7 +507,7 @@ void GSpace::removeObject(const string& name)
 void GSpace::removeObject(GObject* obj)
 {
 	if (!obj) {
-		log("GSpace::removeObject on nullptr");
+		log0("nullptr");
 		return;
 	}
 
@@ -615,7 +615,7 @@ void GSpace::processRemovals()
 
 void GSpace::setRandomSeed(unsigned int seed)
 {
-	log("Random seed %u loaded.", seed);
+	log1("Random seed %u loaded.", seed);
 
 	randomEngine.seed(seed);
 	randomFloat.reset();
@@ -855,10 +855,10 @@ Player* GSpace::getPlayer()
 	if (objByUUID.size() > 0)
 	{
 		if (objects->size() > 1) {
-			log("getPlayer: multiple player objects");
+			log0("multiple player objects");
 		}
 		else if (objects->empty()) {
-			log("getPlayer: no player object!");
+			log0("no player object!");
 		}
 	}
 #endif
@@ -882,7 +882,7 @@ gobject_ref GSpace::getPlayerAsRef()
 void GSpace::addPath(string name, Path p)
 {
 	if (paths.find(name) != paths.end()) {
-		log("Duplicate path name %s!", name.c_str());
+		log1("Duplicate path name %s!", name.c_str());
 	}
 	paths[name] = p;
 }
@@ -917,12 +917,12 @@ SpaceVect GSpace::getWaypoint(string name) const
 	auto it = waypoints.find(name);
 
 	if (it == waypoints.end() || it->second.empty()) {
-		log("getWaypoint: Unknown waypoint %s.", name.c_str());
+		log1("Unknown waypoint %s.", name.c_str());
 		return SpaceVect(0, 0);
 	}
 
 	if (it->second.size() > 1) {
-		log("getWaypoint: more than one waypoint for %s.", name.c_str());
+		log1("more than one waypoint for %s.", name.c_str());
 	}
 
 	return it->second.back();
@@ -933,7 +933,7 @@ const list<SpaceVect>* GSpace::getWaypoints(string name) const
 	auto it = waypoints.find(name);
 
 	if (it == waypoints.end()) {
-		log("Unknown waypoint %s.", name.c_str());
+		log1("Unknown waypoint %s.", name.c_str());
 		return nullptr;
 	}
 	else {
@@ -960,7 +960,7 @@ SpaceVect GSpace::getRandomWaypoint(string name)
 void GSpace::addArea(string name, SpaceRect a)
 {
 	if (areas.find(name) != areas.end()) {
-		log("Duplicate area name %s!", name);
+		log1("Duplicate area name %s!", name);
 	}
 
 	areas.insert_or_assign(name, a);
@@ -974,7 +974,7 @@ SpaceRect GSpace::getArea(string name) const
 		return it->second;
 	}
 	else {
-		log("Unknown area name %s!", name);
+		log1("Unknown area name %s!", name);
 		return SpaceRect();
 	}
 }

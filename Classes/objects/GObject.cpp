@@ -94,7 +94,7 @@ GObject* GObject::constructByType(GSpace* space, ObjectIDType id, const string& 
 		return adapter(space, id, args);
 	}
     else{
-        log("Unknown object type %s!", type.c_str());
+        log1("Unknown object type %s!", type.c_str());
         return nullptr;
     }
 }
@@ -258,7 +258,7 @@ void GObject::updateFSM() {
 
 void GObject::printFSM() {
 	if (fsm) {
-		log("%s", fsm->toString());
+		log1("%s", fsm->toString());
 	}
 }
 
@@ -617,7 +617,7 @@ void GObject::onContactFloorSegment(FloorSegment* fs)
 	if (fs && isOnFloor())
 	{
 		if (crntFloorContacts.find(fs) != crntFloorContacts.end()) {
-			log("onContactFloorSegment duplicate add attempted for floor ID %d", fs->uuid);
+			log1("onContactFloorSegment duplicate add attempted for floor ID %d", fs->uuid);
 			return;
 		}
 
@@ -631,7 +631,7 @@ void GObject::onEndContactFloorSegment(FloorSegment* fs)
 	if (fs && isOnFloor())
 	{
 		if (crntFloorContacts.find(fs) == crntFloorContacts.end()) {
-			log("onEndContactFloorSegment floor ID %d not found", fs->uuid);
+			log1("onEndContactFloorSegment floor ID %d not found", fs->uuid);
 			return;
 		}
 
@@ -674,7 +674,7 @@ void GObject::initializeBody()
 {
 	if (dimensions.isZero())
 	{
-		log("initializeBody: zero dimensions");
+		log0("initializeBody: zero dimensions");
 		return;
 	}
 	else if(dimensions.y > 0.0)
@@ -844,7 +844,7 @@ void GObject::initializeGraphics()
 		);
 	}
 	else {
-		log("Invalid ImageSprite size %d,%d", _sprite.size.first, _sprite.size.second);
+		log2("Invalid ImageSprite size %d,%d", _sprite.size.first, _sprite.size.second);
 	}
 
 	space->graphicsNodeAction(&Node::setRotation, spriteID, toCocosAngle(prevAngle));
@@ -900,7 +900,7 @@ void GObject::setSpriteZoom(float zoom)
 		space->addGraphicsAction(&graphics_context::setSpriteZoom, spriteID, zoom);
 	}
 	else {
-		log("GObject::setSpriteZoom: %s does not have a sprite!", toString());
+		log1("GObject::setSpriteZoom: %s does not have a sprite!", toString());
 	}
 }
 
@@ -910,7 +910,7 @@ void GObject::setSpriteOpacity(unsigned char op)
 		space->graphicsNodeAction(&Node::setOpacity, spriteID, to_uchar(op));
 	}
 	else {
-		log("GObject::setSpriteOpacity: %s does not have a sprite!", toString());
+		log1("GObject::setSpriteOpacity: %s does not have a sprite!", toString());
 	}
 }
 

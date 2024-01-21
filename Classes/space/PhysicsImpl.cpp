@@ -78,7 +78,7 @@ PhysicsImpl::contact_func makeObjectPairFunc(void(*f)(T*, U*, b2Contact*), Physi
 			tie(u, t) = getCastObjects<U, T>(contact);
 		}
 		else {
-			log("Object pair function, unknown type pair 0x%x,0x%x!", to_int(crntTypes.first), to_int(crntTypes.second));
+			log2("Object pair function, unknown type pair 0x%x,0x%x!", to_int(crntTypes.first), to_int(crntTypes.second));
 		}
 
 		if (t && u) {
@@ -86,9 +86,9 @@ PhysicsImpl::contact_func makeObjectPairFunc(void(*f)(T*, U*, b2Contact*), Physi
 		}
 		else {
 			if (!t)
-				log("Failed to cast first object to type %s!", typeid(T).name());
+				log1("Failed to cast first object to type %s!", typeid(T).name());
 			if (!u)
-				log("Failed to cast second object to type %s!", typeid(U).name());
+				log1("Failed to cast second object to type %s!", typeid(U).name());
 		}
 	};
 }
@@ -227,12 +227,12 @@ pair<b2Body*, b2Fixture*> PhysicsImpl::createCircleBody(
 	std::any data
 ) {
 	if (radius <= 0.0) {
-		log("createCircleBody: invalid radius!");
+		log0("invalid radius!");
 		return make_pair(nullptr, nullptr);
 	}
 
 	if (!isValidType(type)) {
-		log("createCircleBody: Invalid type %x!", to_int(getBaseType(type)));
+		log1("Invalid type %x!", to_int(getBaseType(type)));
 		return make_pair(nullptr, nullptr);
 	}
 
@@ -281,7 +281,7 @@ pair<b2Body*, b2Fixture*> PhysicsImpl::createRectangleBody(
 ) {
 
 	if (dim.x <= 0.0 || dim.y <= 0.0) {
-		log("createRectangleBody: invalid dimensions");
+		log0("invalid dimensions");
 		return make_pair(nullptr, nullptr);
 	}
 
@@ -297,7 +297,7 @@ pair<b2Body*, b2Fixture*> PhysicsImpl::createRectangleBody(
 	}
 
 	if (!isValidType(type)){
-		log("createCircleBody: Invalid type %x!", to_int(getBaseType(type)));
+		log1("Invalid type %x!", to_int(getBaseType(type)));
 		return make_pair(nullptr, nullptr);
 	}
 

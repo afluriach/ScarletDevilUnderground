@@ -23,7 +23,7 @@ unique_ptr<T> loadData(string path)
 
 	if (!FileUtils::getInstance()->isFileExist(path))
 	{
-		log("File %s does not exist!", cpath);
+		log1("File %s does not exist!", cpath);
 		return nullptr;
 	}
 	else
@@ -32,17 +32,17 @@ unique_ptr<T> loadData(string path)
 			std::ifstream ifs(path);
 
 			if (!ifs) {
-				log("Failed to open input stream for %s.", cpath);
+				log1("Failed to open input stream for %s.", cpath);
 				return nullptr;
 			}
 
 			boost::archive::binary_iarchive ia(ifs);
 			ia >> *result;
-			log("File %s loaded.", cpath);
+			log1("File %s loaded.", cpath);
 			return result;
 		}
 		catch (boost::archive::archive_exception e) {
-			log("archive/serialize error code %d while loading file %s", e.code, cpath);
+			log2("archive/serialize error code %d while loading file %s", e.code, cpath);
 			return nullptr;
 		}
 	}
@@ -56,7 +56,7 @@ bool saveData(const T* data, string path, bool overwrite)
 
 	if (exists && !overwrite)
 	{
-		log("File %s exists, not overwriting!", cpath);
+		log1("File %s exists, not overwriting!", cpath);
 		return false;
 	}
 	else
@@ -65,7 +65,7 @@ bool saveData(const T* data, string path, bool overwrite)
 			std::ofstream ofs(path);
 
 			if (!ofs) {
-				log("Failed to open output stream for %s.", cpath);
+				log1("Failed to open output stream for %s.", cpath);
 				return false;
 			}
 
@@ -74,15 +74,15 @@ bool saveData(const T* data, string path, bool overwrite)
 			oa << *data;
 
 			if (exists) {
-				log("File %s overwritten.", cpath);
+				log1("File %s overwritten.", cpath);
 			}
 			else {
-				log("File %s saved.", cpath);
+				log1("File %s saved.", cpath);
 			}
 			return true;
 		}
 		catch (boost::archive::archive_exception e) {
-			log("archive/serialize error code %d while saving file %s", e.code, cpath);
+			log2("archive/serialize error code %d while saving file %s", e.code, cpath);
 			return false;
 		}
 	}
@@ -110,12 +110,12 @@ set<string> getFileNamesInFolder(const string& filepath)
 	try
 	{
 		if (!exists(directory)) {
-			log("Directory %s not found!", pathString(directory).c_str());
+			log1("Directory %s not found!", pathString(directory).c_str());
 			return result;
 		}
 
 		if (!is_directory(directory)) {
-			log("%s is not a directory!", pathString(directory).c_str());
+			log1("%s is not a directory!", pathString(directory).c_str());
 			return result;
 		}
 
@@ -126,7 +126,7 @@ set<string> getFileNamesInFolder(const string& filepath)
 		}
 	}
 	catch (const filesystem_error& ex) {
-		log("Filesystem error: %s", ex.what());
+		log1("Filesystem error: %s", ex.what());
 	}
 
 	return result;
@@ -147,12 +147,12 @@ void checkCreateSubfolders()
 	auto* f = FileUtils::getInstance();
 
     if (!f->isDirectoryExist(getWriteablePath())) {
-        log("Documents/koumachika/ created.");
+        log0("Documents/koumachika/ created.");
         f->createDirectory(getWriteablePath());
     }
 
 	if (!f->isDirectoryExist(getProfilePath())) {
-		log("profiles/ folder created.");
+		log0("profiles/ folder created.");
 		f->createDirectory(getProfilePath());
 	}
 }
@@ -197,7 +197,7 @@ bool deleteProfile(string name)
 	string profilePath = io::getProfilePath() + name + ".profile";
 
 	if (!FileUtils::getInstance()->isFileExist(profilePath)) {
-		log("deleteProfile(): \"%s\" does not exist", profilePath);
+		log1("\"%s\" does not exist", profilePath);
 		return false;
 	}
 	else {

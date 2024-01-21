@@ -42,7 +42,7 @@ GObject::AdapterType itemAdapter()
 		auto itemProps = app::getItem(typeName);
 
 		if (!itemProps) {
-			log("Unknown Item type: %s", typeName);
+			log1("Unknown Item type: %s", typeName);
 		}
 
 		if (!itemProps || !Item::conditionalLoad(space, params, itemProps))

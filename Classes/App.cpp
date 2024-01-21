@@ -176,7 +176,7 @@ App::App()
 
 	LogSystem::initThread();
 
-	log("\nKouma started at %s", getNowTimestamp());
+	log1("\nKouma started at %s", getNowTimestamp());
 
 #if !DEV_MODE
 	//Initialize resources.zip filesystem
@@ -304,7 +304,7 @@ void App::printGlDebug()
 {
 	//print the program, vertex, and fragment log for each custom shader.
 
-	log("printGlDebug:");
+	log0("printGlDebug:");
 
 	for (const string& name : App::shaderFiles) {
 		log("%s", name.c_str());
@@ -314,15 +314,15 @@ void App::printGlDebug()
 
 		logtext = p->getProgramLog();
 		if (!logtext.empty())
-			log("%s program log: \n%s", name.c_str(), logtext.c_str());
+			log2("%s program log: \n%s", name.c_str(), logtext.c_str());
 
 		logtext = p->getVertexShaderLog();
 		if (!logtext.empty())
-			log("%s vertex log: \n%s", name.c_str(), logtext.c_str());
+			log2("%s vertex log: \n%s", name.c_str(), logtext.c_str());
 
 		logtext = p->getFragmentShaderLog();
 		if (!logtext.empty())
-			log("%s fragment log: \n%s", name.c_str(), logtext.c_str());
+			log2("%s fragment log: \n%s", name.c_str(), logtext.c_str());
 
 	}
 }
@@ -385,7 +385,7 @@ GScene* App::runPlayScene(string mapName, string start)
         return createAndRunScene<PlayScene>(area, start);
     }
     else{
-        log("runPlayScene: %s not found", mapName);
+        log1("%s not found", mapName);
         return nullptr;
     }
 }
@@ -440,7 +440,7 @@ bool App::saveCrntProfile()
 bool App::saveProfile(const string& name)
 {
 	if (name.empty()) {
-		log("Can't save, empty profile name.");
+		log0("Can't save, empty profile name.");
 		return false;
 	}
 
@@ -464,7 +464,7 @@ void App::setDifficulty(float scale)
 		app::params.difficultyScale = scale;
 	}
 	else {
-		log("Invalid difficulty scale %f!", scale);
+		log1("Invalid difficulty scale %f!", scale);
 	}
 }
 
@@ -501,10 +501,10 @@ void App::loadConfigFile()
 
 	if (FileUtils::getInstance()->isFileExist(filepath)) {
 		file = io::loadTextFile(filepath);
-		log("Loading \"%s\"", filepath.c_str());
+		log1("Loading \"%s\"", filepath.c_str());
 	}
 	else {
-		log("config.txt not found");
+		log0("config.txt not found");
 		return;
 	}
 
@@ -522,7 +522,7 @@ void App::loadConfigFile()
 				it->second(tokens);
 			}
 			catch (boost::bad_lexical_cast e) {
-				log("config.txt: invalid line \"%s\".", line.c_str());
+				log1("config.txt: invalid line \"%s\".", line.c_str());
 			}
 		}
 	}
@@ -554,7 +554,7 @@ void App::setLogTimers(bool b)
 void App::printTimerInfo()
 {
 	if (!timerSystem) {
-		log("App::printTimerInfo: timer system not available!");
+		log0("App::printTimerInfo: timer system not available!");
 		return;
 	}
 

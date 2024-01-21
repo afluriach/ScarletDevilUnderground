@@ -34,7 +34,7 @@ void explosion(const GObject* source, SpaceFloat radius, DamageInfo baseDamage)
 		crntDamage = crntDamage*scale;
 
 		target->hit(crntDamage, ai::directionToTarget(source, target->getPos()));
-		log("Hit %s at scale %f.", target->toString(), scale);
+		log2("Hit %s at scale %f.", target->toString(), scale);
 	}
 }
 

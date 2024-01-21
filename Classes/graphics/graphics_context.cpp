@@ -85,7 +85,7 @@ Color4F graphics_context::getLightSourceColor(LightID id)
 		}
 	}
 
-	log("getLightSourceColor: light %d does not exist.", id);
+	log1("light %d does not exist.", id);
 	return Color4F::BLACK;
 }
 
@@ -189,7 +189,7 @@ void graphics_context::removeLightSource(LightID id)
 		lightmapNodes.erase(it);
 	}
 	else {
-		log("removeLightSource: unknown light source %u.", to_uint(id));
+		log1("unknown light source %u.", to_uint(id));
 	}
 	lightmapNoise.erase(id);
 }
@@ -268,7 +268,7 @@ void graphics_context::createAgentSprite(
 
 	float zoom = getSpriteZoom(_sprite, agentSize);
 	if (sprite.size != make_pair(3, 4) && sprite.size != make_pair(4, 4)) {
-		log("Invalid agent animation size %d,%d.", sprite.size.first, sprite.size.second);
+		log2("Invalid agent animation size %d,%d.", sprite.size.first, sprite.size.second);
 		return;
 	}
 

@@ -91,7 +91,7 @@ void PlayScene::loadPlayer()
 		gspace->createObject<Player>(params, GSpace::playerCharacter);
 	}
 	else{
-		log("Scene %s, unknown player start!", getName());
+		log1("Scene %s, unknown player start!", getName());
 	}
 }
 
@@ -148,7 +148,7 @@ void PlayScene::enterPause()
 	Player* player = gspace->getPlayer();
 
 	if (!player) {
-		log("PlayScene::enterPause: no Player object!");
+		log0("no Player object!");
 	}
 
 	pauseMenu = Node::ccCreate<PauseMenu>(isOverworld, player);

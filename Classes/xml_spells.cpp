@@ -24,7 +24,7 @@ bool getSpellCost(tinyxml2::XMLElement* elem, spell_cost* result)
 
 	vector<string> tokens = splitString(costStr, ":");
 	if (tokens.size() != 2) {
-		log("getSpellCost: %s, invalid cost attribute: %s", elem->Name(), costStr);
+		log2("%s, invalid cost attribute: %s", elem->Name(), costStr);
 		return false;
 	}
 	float cost = boost::lexical_cast<float>(tokens[1]);
@@ -42,7 +42,7 @@ bool getSpellCost(tinyxml2::XMLElement* elem, spell_cost* result)
 		result->initial_mp = cost;
 	}
 	else {
-		log("getSpellCost: %s, unknown cost type: %s", elem->Name(), tokens[0]);
+		log2("%s, unknown cost type: %s", elem->Name(), tokens[0]);
 		return false;
 	}
 
@@ -163,7 +163,7 @@ bool parseObject(tinyxml2::XMLElement* elem, SpellDesc** result)
 		success = it->second(elem, result);
 	}
 	else {
-		log("Unknown spell type: %s", _type);
+		log1("Unknown spell type: %s", _type);
 	}
 
 	return success;

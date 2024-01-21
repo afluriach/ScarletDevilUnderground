@@ -20,7 +20,7 @@ spell_params ScriptedSpell::getParams(string clsName)
 	sol::table cls = GSpace::scriptVM->_state["spells"][clsName];
 
     if (!cls.valid()) {
-		log("ScriptedSpell class %s does not exist!", clsName);
+		log1("ScriptedSpell class %s does not exist!", clsName);
 		return spell_params();
 	}
 

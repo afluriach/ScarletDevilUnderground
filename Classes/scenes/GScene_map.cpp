@@ -88,10 +88,10 @@ void GScene::loadMap(const MapEntry& mapEntry)
 	}
 
 	if (tileMap) {
-		log("Map %s loaded.", mapResPath.c_str());
+		log1("Map %s loaded.", mapResPath.c_str());
 	}
 	else {
-		log("Map %s not found.", mapResPath.c_str());
+		log1("Map %s not found.", mapResPath.c_str());
 		return;
 	}
 
@@ -161,7 +161,7 @@ void GScene::loadMapObjects(const TMXTiledMap& map, IntVec2 offset)
     Vector<TMXObjectGroup*> objLayers = map.getObjectGroups();
     
     if(map.getObjectGroup("objects") == nullptr){
-        log("Objects group missing.");
+        log0("Objects group missing.");
     }
     else{
         loadObjectGroup(map.getObjectGroup("objects"), offset);
@@ -274,7 +274,7 @@ void GScene::loadObjectGroup(TMXObjectGroup* group, IntVec2 offset)
 		ValueMap objAsMap = obj.asValueMap();
 		string _type = getStringOrDefault(objAsMap, "type", "");
 		if (_type == "Player") {
-			log("warning: Player type map object");
+			log0("warning: Player type map object");
 			gspace->addWaypoint("player_start", getUnitspaceRectangle(objAsMap, offset).center);
 		}
 		else {

@@ -89,6 +89,6 @@ namespace Lua{
 		_app["getLight"] = &app::getLight;
 		_app["getSprite"] = &app::getSprite;
 
-		_app["log"] = &log_print<>;
+		_app["log"] = &print<>;
 	}
 }

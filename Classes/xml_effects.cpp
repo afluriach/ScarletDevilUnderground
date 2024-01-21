@@ -143,7 +143,7 @@ bool parseObject(tinyxml2::XMLElement* elem, MagicEffectDescriptor** result)
 		success = it->second(elem, result);
 	}
 	else {
-		log("Unknown effect type: %s", _type);
+		log1("Unknown effect type: %s", _type);
 	}
 
 	return success;

@@ -18,6 +18,8 @@
 #define bool_int(x) static_cast<int>(static_cast<bool>(x))
 #define to_bool(x) static_cast<bool>(x)
 
+#define debug_info __FUNCTION__, __FILE_NAME__, __LINE__
+
 #define for_irange(var,start,end) for(int var : boost::irange(to_int(start),to_int(end)))
 
 #define no_op(method) inline void method() {}

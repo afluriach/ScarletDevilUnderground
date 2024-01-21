@@ -16,7 +16,7 @@ AnimationSpriteSequence AnimationSpriteSequence::loadFromRasterImage(const strin
     Texture2D* texture = Director::getInstance()->getTextureCache()->addImage(path);
     
     if(!texture){
-        log("AnimationSpriteSequence: texture %s not loaded!", path.c_str());
+        log1("AnimationSpriteSequence: texture %s not loaded!", path.c_str());
         return AnimationSpriteSequence();
     }
     
@@ -26,8 +26,8 @@ AnimationSpriteSequence AnimationSpriteSequence::loadFromRasterImage(const strin
     IntVec2 intSize = toIntVector(size);
     
     if(intSize.first % cols != 0 || intSize.second % rows != 0){
-        log(
-            "AnimationSpriteSequence: texture %s is not evenly divisible! %d,%d px at %d by %d",
+        log5(
+            "texture %s is not evenly divisible! %d,%d px at %d by %d",
             path.c_str(),
             intSize.first,
             intSize.second,
@@ -140,7 +140,7 @@ void PatchConAnimation::loadAnimation(shared_ptr<sprite_properties> _sprite)
 		walkAnimations = AnimationSpriteSequence::loadPatchconSpriteSheet(path);
 	}
 	else {
-		log("Invalid agent sprite %s.", _sprite);
+		log1("Invalid agent sprite %s.", _sprite);
 		return;
 	}
 

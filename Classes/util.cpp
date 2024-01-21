@@ -76,7 +76,7 @@ Direction stringToDirection(string str)
     enum_strcmp(down)
 	enum_strcmp(none)
     
-    log("Invalid direction: %s", str.c_str());
+    log1("Invalid direction: %s", str.c_str());
     return Direction::none;
 }
 
@@ -385,7 +385,7 @@ TimerSystem::TimerSystem()
 
 void TimerSystem::printTimerStats(TimerTriplet _data, string name)
 {
-	log("Timer type %s: min: %ld, avg: %ld, max: %ld.", name.c_str(), get<0>(_data), get<1>(_data), get<2>(_data));
+	log4("Timer type %s: min: %ld, avg: %ld, max: %ld.", name.c_str(), get<0>(_data), get<1>(_data), get<2>(_data));
 }
 
 string TimerSystem::timerStatString(TimerTriplet _data, string name)

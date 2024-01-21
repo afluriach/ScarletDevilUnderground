@@ -62,14 +62,14 @@ namespace app {
         local_shared_ptr<object_properties> obj = getOrDefault(app::objects, name);
 
         if (!obj) {
-            log_print("%s not found!", name);
+            log1("%s not found!", name);
             return nullptr;
         }
 
         local_shared_ptr<T> t = obj.downcast<T>();
 
         if (!t) {
-            log_print("%s is not of type %s!", name, typeid(T).name());
+            log2("%s is not of type %s!", name, typeid(T).name());
             return nullptr;
         }
 
@@ -90,7 +90,7 @@ namespace app {
                 return true;
             }
             else {
-                log_print("%s: unknown base %s type: %s", elem->Name(), typeid(T).name(), base);
+                log3("%s: unknown base %s type: %s", elem->Name(), typeid(T).name(), base);
             }
         }
         return false;
@@ -123,7 +123,7 @@ namespace app {
 
             }
             else {
-                log_print("%s: unknown base %s type: %s", elem->Name(), typeid(T).name(), base);
+                log3("%s: unknown base %s type: %s", elem->Name(), typeid(T).name(), base);
 
             }
 
@@ -155,7 +155,7 @@ namespace app {
                 _map.insert_or_assign(crnt->Name(), object);
             }
             else {
-                log_print("%s : %s failed to load!", filename, crnt->Name());
+                log2("%s : %s failed to load!", filename, crnt->Name());
             }
         }
     }
@@ -190,7 +190,7 @@ namespace app {
                 }
             }
             else {
-                log_print("%s : %s failed to load!", filename, crnt->Name());
+                log2("%s : %s failed to load!", filename, crnt->Name());
             }
         }
     }
@@ -276,7 +276,7 @@ namespace app {
                 return true;
             }
             catch (boost::bad_lexical_cast ex) {
-                log_print("Unable to parse XML attribute %s", name);
+                log1("Unable to parse XML attribute %s", name);
             }
         }
         return false;

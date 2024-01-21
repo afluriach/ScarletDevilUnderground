@@ -225,13 +225,13 @@ void Player::updateSpellControls(const ControlInfo& cs)
 		if (cs.isControlActionPressed(ControlAction::spell_previous)) {
 			--spellIdx;
 			if (spellIdx < 0) spellIdx += spells.size();
-			log("Spell %s equipped.", spells.at(spellIdx)->getName().c_str());
+			log1("Spell %s equipped.", spells.at(spellIdx)->getName().c_str());
 			space->addHudAction(&HUD::setSpellIcon, spells.at(spellIdx)->getIcon());
 		}
 		else if (cs.isControlActionPressed(ControlAction::spell_next)) {
 			++spellIdx;
 			if (spellIdx >= to_int(spells.size())) spellIdx -= spells.size();
-			log("Spell %s equipped.", spells.at(spellIdx)->getName().c_str());
+			log1("Spell %s equipped.", spells.at(spellIdx)->getName().c_str());
 			space->addHudAction(&HUD::setSpellIcon, spells.at(spellIdx)->getIcon());
 		}
 		

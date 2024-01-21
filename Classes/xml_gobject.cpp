@@ -110,7 +110,7 @@ namespace app {
 		vector<string> tokens = splitString(s, ":");
 
 		if (tokens.size() != 2) {
-			log("Invalid condition string: %s", s);
+			log1("Invalid condition string: %s", s);
 			return false;
 		}
 
@@ -125,7 +125,7 @@ namespace app {
 			string name = tokens[1];
 			*f = [name](NPC* n) -> bool {
 				if (!n->hasMethod(name)) {
-					log("condition scriptMethod %s does not exist!", name);
+					log1("condition scriptMethod %s does not exist!", name);
 					return false;
 				}
 				else {
@@ -144,7 +144,7 @@ namespace app {
 			return true;
 		}
 		else {
-			log("Unknown condition function %s!", tokens[0]);
+			log1("Unknown condition function %s!", tokens[0]);
 		}
 
 		return false;
@@ -155,7 +155,7 @@ namespace app {
 		vector<string> tokens = splitString(s, ":");
 
 		if (tokens.size() != 2) {
-			log("Invalid condition string: %s", s);
+			log1("Invalid condition string: %s", s);
 			return false;
 		}
 
@@ -163,7 +163,7 @@ namespace app {
 			string name = tokens[1];
 			*f = [name](NPC* n) -> void {
 				if (!n->hasMethod(name)) {
-					log("effect scriptMethod %s does not exist!", name);
+					log1("effect scriptMethod %s does not exist!", name);
 				}
 				else {
 					n->runVoidScriptMethod(name);
@@ -186,7 +186,7 @@ namespace app {
             return true;
         }
 		else {
-			log("Unknown effect function %s!", tokens[0]);
+			log1("Unknown effect function %s!", tokens[0]);
 		}
 
 		return false;
@@ -210,7 +210,7 @@ namespace app {
 				_result.insert_or_assign(crntAttr, val);
 			}
 			else {
-				log("parseObject: unknown attribute %s", attrName);
+				log1("parseObject: unknown attribute %s", attrName);
 				return false;
 			}
 		}
@@ -251,7 +251,7 @@ namespace app {
 		result->layers = parseLayers(layers);
 		if (result->layers == PhysicsLayers::none) {
 			if (!layers.empty()) {
-				log("invalid object layers: %s", layers);
+				log1("invalid object layers: %s", layers);
 			}
 			result->layers = PhysicsLayers::onGround;
 		}
@@ -294,7 +294,7 @@ namespace app {
 			attr.length = -1.0f;
 
 			if (!desc) {
-				log("parseAgentEffectsList: unknown effect " + effectName);
+				log0("unknown effect " + effectName);
 				continue;
 			}
 
@@ -316,7 +316,7 @@ namespace app {
 			const SpellDesc* desc = app::getSpell(name);
 
 			if (!desc) {
-				log("parseSpellInventory: unknown spell " + name);
+				log0("unknown spell " + name);
 				continue;
 			}
 
@@ -463,7 +463,7 @@ namespace app {
 		getDamageInfo(elem, &result->damage);
 
 		if (result->blastRadius <= 0.0f || result->fuseTime <= 0.0f) {
-			log("bomb properties missing");
+			log0("bomb properties missing");
 			return false;
 		}
 		else {

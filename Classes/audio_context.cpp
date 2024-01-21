@@ -19,7 +19,7 @@ bool audio_context::check_error(const string& msg)
 
 #if DEV_MODE
 	if (ALenum error = alGetError()) {
-		log("Audio error at %s: %X", msg, error);
+		log2("Audio error at %s: %X", msg, error);
 		result = true;
 	}
 #endif
@@ -60,18 +60,18 @@ void audio_context::initAudio()
 {
 	audioDevice = alcOpenDevice(nullptr);
 	if (!audioDevice) {
-		log("Failed to open audio device");
+		log0("Failed to open audio device");
 		return;
 	}
 
 	audioContext = alcCreateContext(audioDevice, nullptr);
 	if (!audioContext) {
-		log("Failed to open audio context.");
+		log0("Failed to open audio context.");
 		return;
 	}
 
 	if (!alcMakeContextCurrent(audioContext)) {
-		log("Failed to set current context.");
+		log0("Failed to set current context.");
 		return;
 	}
 
@@ -125,12 +125,12 @@ void audio_context::loadSound(const string& path)
 	ALuint bufferID;
 
 	if (!file) {
-		log("Failed to load audio file %s.", path.c_str());
+		log1("Failed to load audio file %s.", path.c_str());
 		return;
 	}
 
 	if (info.channels != 1) {
-		log("Sound file %s is multi-channel!", path.c_str());
+		log1("Sound file %s is multi-channel!", path.c_str());
 		sf_close(file);
 		return;
 	}
@@ -151,7 +151,7 @@ void audio_context::loadSound(const string& path)
 	check_error("generate-buffer");
 
 	if (bufferID == AL_INVALID_VALUE) {
-		log("Failed to create sound buffer.");
+		log0("Failed to create sound buffer.");
 		return;
 	}
 
@@ -163,7 +163,7 @@ void audio_context::loadSound(const string& path)
 		info.samplerate
 	);
 	if (check_error("copy-buffer-data")) {
-		log("loading %s, sample rate %d", path, info.samplerate);
+		log2("loading %s, sample rate %d", path, info.samplerate);
 	}
 
 	loadedBuffers.insert_or_assign(path, bufferID);
@@ -203,7 +203,7 @@ ALuint audio_context::playSoundSpatial(const string& path, const Vec3& pos, cons
 	ALuint source = 0;
 
 	if (bufferID == 0) {
-		log("Unknown audio file %s", path.c_str());
+		log1("Unknown audio file %s", path.c_str());
 	}
 	else {
 		source = initSoundSource(pos, vel, false);

@@ -625,7 +625,7 @@ local_shared_ptr<FollowPath> FollowPath::pathToTarget(
 	);
 
 	if (path.empty()) {
-		log("%s (%u) no path to target", agent->getName(), agent->getUUID());
+		log2("%s (%u) no path to target", agent->getName(), agent->getUUID());
 		return nullptr;
 	}
 

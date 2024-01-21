@@ -101,7 +101,7 @@ void MagicEffectSystem::applyAdd()
 		GObject* obj = newEffect->target;
 
 		if (!newEffect || newEffect->crntState != MagicEffect::state::created) {
-			log("invalid magic effect not in created state");
+			log0("invalid magic effect not in created state");
 			continue;
 		}
 
@@ -167,7 +167,7 @@ void MagicEffectSystem::applyRemove()
 		magicEffectsToRemove.pop_front();
 
 		if (!crnt) {
-			log("MagicEffectSystem: attempt to remove invalid effect ID %d!", targetID);
+			log1("attempt to remove invalid effect ID %d!", targetID);
 			continue;
 		}
 
