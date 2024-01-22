@@ -50,6 +50,8 @@
 	<sapling />
 	<sign dpi="256" />
 	<strongHeadstone file="strong_headstone" />
+	<torch dpi="256" />
+	<white_flame dpi="256" />
 	
 	<forestBook file="items/forest_book" /> 
 	<graveyardBook file="items/graveyard_book" />

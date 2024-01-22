@@ -91,16 +91,12 @@ bool EnvironmentObject::canInteract(Player* p)
 
 void EnvironmentObject::interact(Player* p)
 {
-	if (scriptObj && hasMethod("interact")) {
-		return runVoidScriptMethod<Player*>("interact", p);
-	}
+    runMethodIfAvailable("interact", p);
 }
 
 bool EnvironmentObject::hit(DamageInfo damage, SpaceVect n)
 {
-	if (hasMethod("hit")) {
-		runVoidScriptMethod<DamageInfo, SpaceVect>("hit", damage, n);
-	}
+    runMethodIfAvailable("hit", damage, n);
 
 	return true;
 }
@@ -109,18 +105,14 @@ void EnvironmentObject::init()
 {
 	GObject::init();
 
-	if (hasMethod("initialize")) {
-		runVoidScriptMethod("initialize");
-	}
+    runMethodIfAvailable("initialize");
 }
 
 void EnvironmentObject::update()
 {
 	GObject::update();
 
-	if (hasMethod("update")) {
-		runVoidScriptMethod("update");
-	}
+    runMethodIfAvailable("update");
 }
 
 shared_ptr<sprite_properties> EnvironmentObject::getSprite() const {

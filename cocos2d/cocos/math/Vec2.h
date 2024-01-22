@@ -103,6 +103,12 @@ public:
      * Destructor.
      */
     ~Vec2();
+    
+    inline void setX(float v) { x = v; }
+    inline void setY(float v) { y = v; }
+
+    inline float getX() const { return x; }
+    inline float getY() const { return y; }
 
     /**
      * Indicates whether this vector contains all zeros.

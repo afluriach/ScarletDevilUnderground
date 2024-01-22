@@ -13,6 +13,10 @@
 #define MapObjForwarding(cls) cls(space,id,args)
 #define MapObjParams() GObject(object_params(args))
 
+namespace sol{
+    void printErrorMessage(lua_State* state);
+}
+
 struct parametric_motion
 {
 	parametric_space_function parametric_f;
@@ -77,15 +81,35 @@ public:
 	}
 
 	template<typename... Args>
-	inline void runVoidScriptMethod(string name, Args... args)
+	inline void runMethodIfAvailable(string name, Args... args)
 	{
-		scriptObj[name](scriptObj, args...);
+        if(!scriptObj || !hasMethod(name)) return;
+ 
+		sol::function_result result = scriptObj[name](scriptObj, args...);
+        if(!result.valid()){
+            log1("Error running object method %s", name);
+            sol::printErrorMessage(scriptObj.lua_state());
+        }
 	}
 
 	template<typename R, typename... Args>
 	inline R runScriptMethod(string name, Args... args)
 	{
-		return scriptObj[name](scriptObj, args...);
+        if(!scriptObj)
+            logAndThrowError("error calling %s GObject does not haec a scriptObj", name);
+
+        if(!hasMethod(name))
+            logAndThrowError("error calling script function %s. %s does not have this method", name, getName());
+
+
+		sol::function_result result = scriptObj[name](scriptObj, args...);
+  
+        if(!result.valid()){
+            logAndThrowError("Lua error running method %s:", name);
+            sol::printErrorMessage(scriptObj.lua_state());
+        }
+        
+        return result;
 	}
 
 	GObject(
@@ -104,6 +128,7 @@ public:
 
 	inline GSpace* getSpace() const { return space; }
 	inline ObjectIDType getUUID() const { return uuid; }
+    inline local_shared_ptr<object_properties> getProps() const { return props;}
 
 	inline string getProperName() const { return props->properName; }
 	inline string getClsName() const { return props->clsName; }
@@ -142,6 +167,7 @@ public:
 	inline bool getActive() const { return active; }
 	virtual void activate();
 	virtual void deactivate();
+    void toggleActive();
 
 	//Interaction
 	inline virtual bool canInteract(Player* p) { return false; }
@@ -312,6 +338,7 @@ public:
 	virtual void initializeGraphics();
 	
 	inline SpriteID getSpriteID() const { return spriteID; }
+    LightID getLightID() const { return lightID; }
 
     //END GRAPHICS
 

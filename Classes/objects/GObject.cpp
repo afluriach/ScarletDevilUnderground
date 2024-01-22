@@ -202,9 +202,7 @@ void GObject::update()
 
 void GObject::onRemove()
 {
-	if (scriptObj && hasMethod("onRemove")) {
-		runVoidScriptMethod("onRemove");
-	}
+    runMethodIfAvailable("onRemove");
 }
 
 void GObject::onPitfall()
@@ -238,17 +236,21 @@ void GObject::activate()
 {
 	active = true;
 
-	if (hasMethod("onActivate")) {
-		runVoidScriptMethod("onActivate");
-	}
+    runMethodIfAvailable("onActivate");
 }
 void GObject::deactivate()
 {
 	active = false;
 
-	if (hasMethod("onDeactivate")) {
-		runVoidScriptMethod("onDeactivate");
-	}
+	runMethodIfAvailable("onDeactivate");
+}
+
+void GObject::toggleActive()
+{
+    if(active)
+        deactivate();
+    else
+        activate();
 }
 
 void GObject::updateFSM() {
@@ -784,11 +786,15 @@ sprite_update GObject::updateSprite()
 		isInFade = true;
 		fadeOut = true;
 		updateRequired = true;
+
+        runMethodIfAvailable("spriteFadeOut");
 	}
 	else if (visible && isInFade) {
 		isInFade = false;
 		fadeIn = true;
 		updateRequired = true;
+  
+        runMethodIfAvailable("spriteFadeIn");
 	}
 
 	return sprite_update {
@@ -852,6 +858,8 @@ void GObject::initializeGraphics()
 	if (spriteID != 0 && _sprite.color != Color3B::BLACK && _sprite.color != Color3B::WHITE) {
 		space->graphicsNodeAction(&Node::setColor, spriteID, _sprite.color);
 	}
+ 
+    runMethodIfAvailable("initializeGraphics");
 }
 
 void GObject::initLightSource()

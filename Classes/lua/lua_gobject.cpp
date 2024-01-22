@@ -18,7 +18,6 @@
 #include "NPC.hpp"
 #include "Player.hpp"
 #include "SpellDescriptor.hpp"
-#include "Torch.hpp"
 
 namespace Lua{
     
@@ -116,10 +115,13 @@ namespace Lua{
 
 		auto gobject = _state.new_usertype<GObject>(
 			"GObject",
+            "spriteID", sol::property(&GObject::getSpriteID),
+            "lightID", sol::property(&GObject::getLightID),
 			"active", sol::property(&GObject::getActive),
 			"level", sol::property(&GObject::getLevel),
 			"name", sol::property(&GObject::getName),
 			"id", sol::property(&GObject::getUUID),
+            "props", sol::property(&GObject::getProps),
 			"space", sol::property(&GObject::getSpace)
 		);
 
@@ -151,6 +153,7 @@ namespace Lua{
 		addFuncSame(gobject, setAngularVel);
 		addFuncSame(gobject, setPos);
 		addFuncSame(gobject, setVel);
+        addFuncSame(gobject, getInitialCenterPix);
 		addFuncSame(gobject, setSpriteOpacity);
 		addFuncSame(gobject, setSpriteVisible);
 		addFuncSame(gobject, setSpriteTexture);
@@ -161,6 +164,8 @@ namespace Lua{
 		addFuncSame(gobject, setFrozen);
 		addFuncSame(gobject, activate);
 		addFuncSame(gobject, deactivate);
+		addFuncSame(gobject, getActive);
+		addFuncSame(gobject, toggleActive);
 
 		addFuncSame(gobject, getBulletAttributes);
 		addFuncSame(gobject, launchBullet);
@@ -180,7 +185,6 @@ namespace Lua{
 		gobject["getAsEnvironmentObject"] = &GObject::getAs<EnvironmentObject>;
 		gobject["getAsItem"] = &GObject::getAs<Item>;
 		gobject["getAsPlayer"] = &GObject::getAs<Player>;
-		gobject["getAsTorch"] = &GObject::getAs<Torch>;
 
 		auto agent = _state.new_usertype<Agent>("Agent", sol::base_classes, sol::bases<GObject>());
 		#define _cls Agent
@@ -225,12 +229,6 @@ namespace Lua{
 			"EnvironmentObject",
 			sol::base_classes, sol::bases<GObject>()
 		);
-
-		auto torch = _state.new_usertype<Torch>("Torch", sol::base_classes, sol::bases <GObject>());
-#define _cls Torch
-		addFuncSame(torch, getActive);
-		addFuncSame(torch, setActive);
-		addFuncSame(torch, hit);
 
 #define _cls Item
 		auto item = _state.new_usertype<Item>(

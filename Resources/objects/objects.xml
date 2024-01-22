@@ -57,4 +57,19 @@
 		interactionIcon="sprites/sign.png"
 		mass="-1.0"
 	/>
+	
+	<Torch
+		cls="Torch"
+		sprite="torch"
+		light="torchDefault"
+		interactible="true"
+		interactionIcon="sprites/torch.png"
+		mass="-1.0"
+	/>
+	
+	<torchBlue base="Torch" light="auto" />
+	<torchYellow base="Torch" light="auto" />
+	<torchYellow2 base="Torch" light="auto" />
+	<torchG3 base="Torch" light="auto" />
+	
 </objects>

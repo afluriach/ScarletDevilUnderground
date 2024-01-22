@@ -173,6 +173,18 @@ namespace Lua{
 
 		damageInfo["scale"] = &DamageInfo::operator*;
 
+#define _cls Vec2
+        auto vec2 = _state.new_usertype<Vec2>(
+            "Vec2",
+            sol::constructors<
+				Vec2(),
+				Vec2(const Vec2&),
+				Vec2(float,float)
+			>(),
+			"x", sol::property(&Vec2::getX, &Vec2::setX),
+			"y", sol::property(&Vec2::getY, &Vec2::setY)
+        );
+
 #define _cls SpaceVect
 		auto vect = _state.new_usertype<SpaceVect>(
 			"SpaceVect",
@@ -217,7 +229,8 @@ namespace Lua{
 		);
 
 		auto lightArea = _state.new_usertype<LightArea>(
-			"LightArea"
+			"LightArea",
+            "color", sol::property(&LightArea::getColor)
 		);
 
 	}

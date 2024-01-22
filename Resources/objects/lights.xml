@@ -26,4 +26,10 @@
 	<starbowBreak4 type="circle" radius="0.2" color="hsv:180.0,0.5,1.0" />
 	<starbowBreak5 type="circle" radius="0.266666" color="hsv:315.0,0.5,1.0" />
 
+	<torchDefault type="circle" radius="3.0" color="1.0,1.0,1.0" flood="0.5"/>
+	<torchBlue type="circle" radius="3.0" color="0.09375,0.1875,0.625" flood="0.5"/>
+	<torchYellow type="circle" radius="3.0" color="0.75,0.75,0.32" flood="0.5"/>
+	<torchYellow2 type="circle" radius="3.0" color="0.5625,0.5625,0.24" flood="0.5"/>
+	<torchG3 type="circle" radius="4.0" color="1.0,1.0,1.0" flood="0.5"/>
+
 </lights>

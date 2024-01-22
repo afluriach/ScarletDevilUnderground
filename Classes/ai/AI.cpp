@@ -204,7 +204,7 @@ agent(agent)
 
 	if (cls.valid()) {
 		scriptObj = cls(this);
-		sol::runtMethodIfAvailable(scriptObj, "initialize", scriptObj);
+		sol::runMethodIfAvailable(scriptObj, "initialize", scriptObj);
 	}
 }
 
@@ -215,7 +215,7 @@ StateMachine::~StateMachine()
 void StateMachine::update()
 {
 	_stack->update();
-	sol::runtMethodIfAvailable(scriptObj, "update");
+	sol::runMethodIfAvailable(scriptObj, "update");
 }
 
 void StateMachine::pushFunction(local_shared_ptr<Function> function)

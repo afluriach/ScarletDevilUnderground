@@ -181,6 +181,18 @@ void graphics_context::addLightSource(LightID id, SpriteLightArea light, SpaceVe
 	lightmapNodes.insert_or_assign(id, s);
 }
 
+void graphics_context::setLightVisible(LightID id, bool v)
+{
+    auto it = lightmapNodes.find(id);
+    
+    if(it != lightmapNodes.end()){
+        it->second->setVisible(v);
+    }
+    else{
+        log1("Light %d not found.", id);
+    }
+}
+
 void graphics_context::removeLightSource(LightID id)
 {
 	auto it = lightmapNodes.find(id);
@@ -264,6 +276,11 @@ void graphics_context::createAgentSprite(
 	GraphicsLayer sceneLayer,
 	Vec2 pos
 ){
+    if(!_sprite){
+        log0("null sprite_properties");
+        return;
+    }
+
 	sprite_properties sprite = *_sprite;
 
 	float zoom = getSpriteZoom(_sprite, agentSize);

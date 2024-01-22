@@ -8,6 +8,7 @@
 
 #include "Prefix.h"
 
+#include "Graphics.h"
 #include "LuaAPI.hpp"
 #include "SpellUtil.hpp"
 #include "value_map.hpp"
@@ -45,5 +46,10 @@ void Inst::addUtil()
 
 	cFuncSame(util, explosion);
 	cFuncSame(util, radialDamageArea);
+  
+    util["toColor3B"] = sol::overload(
+        static_cast<Color3B(*)(const Color4F&)>(&toColor3B),
+        static_cast<Color3B(*)(const string&)>(&toColor3B)
+    );
 }
 }

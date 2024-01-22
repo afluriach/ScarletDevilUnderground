@@ -230,8 +230,6 @@
 		E27284102623B98A0087E61B /* xml_gobject.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E272840E2623B98A0087E61B /* xml_gobject.cpp */; };
 		E28D89851BDFE7CD00F58903 /* util.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E28D89841BDFE7CD00F58903 /* util.cpp */; };
 		E28D89861BDFE7CD00F58903 /* util.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E28D89841BDFE7CD00F58903 /* util.cpp */; };
-		E2A8467F1FE0CB0E001DFF88 /* Torch.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E2A8467D1FE0CB0E001DFF88 /* Torch.cpp */; };
-		E2A846801FE0CB0E001DFF88 /* Torch.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E2A8467D1FE0CB0E001DFF88 /* Torch.cpp */; };
 		E2AEF500208828EE00A4FC90 /* object_ref.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E2AEF4FE208828EE00A4FC90 /* object_ref.cpp */; };
 		E2AEF501208828EE00A4FC90 /* object_ref.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E2AEF4FE208828EE00A4FC90 /* object_ref.cpp */; };
 		E2AEF5032089983000A4FC90 /* libgainputstatic.a in Frameworks */ = {isa = PBXBuildFile; fileRef = E2AEF5022089982F00A4FC90 /* libgainputstatic.a */; };
@@ -520,8 +518,6 @@
 		E29499A11FA1D30700179C82 /* libboost.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libboost.a; path = ../../../lib/boost59/ios/build/arm64/libboost.a; sourceTree = "<group>"; };
 		E29499A31FA1D4FC00179C82 /* libboost.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libboost.a; path = ../../../lib/boost59/osx/build/x86_64/libboost.a; sourceTree = "<group>"; };
 		E2A65A2C1C063341005761BB /* types.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.h; fileEncoding = 4; path = types.h; sourceTree = "<group>"; };
-		E2A8467D1FE0CB0E001DFF88 /* Torch.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Torch.cpp; path = ../Classes/objects/Torch.cpp; sourceTree = SOURCE_ROOT; };
-		E2A8467E1FE0CB0E001DFF88 /* Torch.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = Torch.hpp; path = ../Classes/objects/Torch.hpp; sourceTree = SOURCE_ROOT; };
 		E2AEF4FE208828EE00A4FC90 /* object_ref.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = object_ref.cpp; path = ../Classes/objects/object_ref.cpp; sourceTree = SOURCE_ROOT; };
 		E2AEF4FF208828EE00A4FC90 /* object_ref.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = object_ref.hpp; path = ../Classes/objects/object_ref.hpp; sourceTree = SOURCE_ROOT; };
 		E2AEF5022089982F00A4FC90 /* libgainputstatic.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libgainputstatic.a; path = ../gainput/lib/mac/libgainputstatic.a; sourceTree = "<group>"; };
@@ -980,8 +976,6 @@
 				E2AEF4FF208828EE00A4FC90 /* object_ref.hpp */,
 				E2CDC5491C0507090017537B /* Player.cpp */,
 				E2CDC54A1C0507090017537B /* Player.hpp */,
-				E2A8467D1FE0CB0E001DFF88 /* Torch.cpp */,
-				E2A8467E1FE0CB0E001DFF88 /* Torch.hpp */,
 				E2239A3D20784E39005DA29F /* Wall.cpp */,
 				E2239A3E20784E39005DA29F /* Wall.hpp */,
 			);
@@ -1181,7 +1175,6 @@
 				E26C253D24E73A7D004067E0 /* AIUtil.cpp in Sources */,
 				E26C257024E73ABF004067E0 /* Bomb.cpp in Sources */,
 				E26C24F524E739ED004067E0 /* xml_effects.cpp in Sources */,
-				E2A8467F1FE0CB0E001DFF88 /* Torch.cpp in Sources */,
 				E2E01EED1C1DCA0D00330904 /* AI.cpp in Sources */,
 				E25BCB0724E73BD00032C1ED /* RadarSensor.cpp in Sources */,
 				E26C251D24E73A41004067E0 /* SpellImpl.cpp in Sources */,
@@ -1271,7 +1264,6 @@
 				E25BCB0024E73BD00032C1ED /* PhysicsImpl.cpp in Sources */,
 				E25BCAE624E73B8B0032C1ED /* Graphics.cpp in Sources */,
 				E2480E1120E1EADC0028E491 /* Agent.cpp in Sources */,
-				E2A846801FE0CB0E001DFF88 /* Torch.cpp in Sources */,
 				E26C254D24E73A96004067E0 /* lua_magic.cpp in Sources */,
 				E27284102623B98A0087E61B /* xml_gobject.cpp in Sources */,
 				E25BCAED24E73BAB0032C1ED /* controls.cpp in Sources */,

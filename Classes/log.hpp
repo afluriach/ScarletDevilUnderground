@@ -71,5 +71,17 @@ void print(
 	LogSystem::logOutput("", result);
 }
 
+template<typename... T>
+void logAndThrowError(
+    string s,
+    T... args
+){
+	boost::format fmt(s);
+	string result = boost::str((fmt % ... % forward<T>(args)));
+
+	LogSystem::logOutput("", result);
+ 
+    throw std::runtime_error(result);
+}
 
 #endif

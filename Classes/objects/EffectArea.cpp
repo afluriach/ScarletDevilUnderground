@@ -16,7 +16,6 @@
 #include "MagicEffectSystem.hpp"
 #include "physics_context.hpp"
 #include "Player.hpp"
-#include "Torch.hpp"
 
 effectarea_properties::effectarea_properties()
 {}

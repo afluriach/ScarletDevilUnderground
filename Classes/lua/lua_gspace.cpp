@@ -112,6 +112,15 @@ namespace Lua{
 		gspace["removeSprite"] = [](GSpace* _this,SpriteID id){
 			_this->addGraphicsAction(&graphics_context::removeSprite, id);
 		};
+        gspace["setSpriteVisible"] = [](GSpace* _this,SpriteID id, bool v){
+            _this->graphicsNodeAction(&Node::setVisible, id, v);
+		};
+        gspace["setSpriteColor"] = [](GSpace* _this,SpriteID id, Color3B color){
+            _this->graphicsNodeAction(&Node::setColor, id, color);
+		};
+        gspace["setLightVisible"] = [](GSpace* _this,LightID id, bool v){
+            _this->addGraphicsAction(&graphics_context::setLightVisible, id, v);
+		};
 		gspace["setRotation"] = [](
 			GSpace* _this,
 			SpriteID id,

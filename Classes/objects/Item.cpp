@@ -99,8 +99,7 @@ void Item::onPlayerContact(Player* p)
 		App::crntState->addItem(props->clsName);
 	}
 
-	if(hasMethod("onAcquire"))
-		runVoidScriptMethod<Player*>("onAcquire", p);
+    runMethodIfAvailable("onAcquire", p);
 
 	if (!props->onAcquireDialog.empty()) {
 		space->createDialog("dialogs/" + props->onAcquireDialog, false);

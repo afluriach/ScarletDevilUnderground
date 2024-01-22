@@ -166,7 +166,7 @@ namespace app {
 					log1("effect scriptMethod %s does not exist!", name);
 				}
 				else {
-					n->runVoidScriptMethod(name);
+					n->runMethodIfAvailable(name);
 				}
 			};
 			return true;

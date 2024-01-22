@@ -183,3 +183,46 @@ end
 function objects.Sign:interact(p)
 	self.super.space:createDialog('dialogs/' .. self.super.name, false)
 end
+
+objects.Torch = class('Torch')
+
+function objects.Torch:init(super)
+	self.super = super
+end
+
+function objects.Torch:interact(p)
+	self.super:toggleActive()
+end
+
+function objects.Torch:initializeGraphics()
+	self.flameSpriteID = self.super.space:createSprite(
+		"white_flame",
+		GraphicsLayer.overhead,
+		self.super:getPos(),
+		0.5
+	)
+	self.super.space:setSpriteVisible(self.flameSpriteID, self.super:getActive())
+	self.super.space:setLightVisible(self.super.lightID, self.super:getActive())
+end
+
+function objects.Torch:spriteFadeIn()
+	app.log("torch fade in")
+	self.super.space:setSpriteVisible(self.flameSpriteID, true)
+end
+
+function objects.Torch:spriteFadeOut()
+	app.log("torch fade out")
+	self.super.space:setSpriteVisible(self.flameSpriteID, false)
+end
+
+function objects.Torch:onActivate()
+	app.log("torch activated")
+	self.super.space:setSpriteVisible(self.flameSpriteID, true)
+	self.super.space:setLightVisible(self.super.lightID, true)
+end
+
+function objects.Torch:onDeactivate()
+	app.log("torch deactivated")
+	self.super.space:setSpriteVisible(self.flameSpriteID, false)
+	self.super.space:setLightVisible(self.super.lightID, false)
+end

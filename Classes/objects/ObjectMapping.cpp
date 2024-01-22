@@ -19,7 +19,6 @@
 #include "Item.hpp"
 #include "NPC.hpp"
 #include "Player.hpp"
-#include "Torch.hpp"
 #include "value_map.hpp"
 #include "Wall.hpp"
 
@@ -99,7 +98,6 @@ void GObject::initObjectInfo()
 	entry_same(Pitfall),
 	no_adapter_entry(Player),
 	no_adapter_entry(RoomSensor),
-	entry_same(Torch),
 	entry_same(Wall),
 
 	};

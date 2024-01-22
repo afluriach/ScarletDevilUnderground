@@ -24,7 +24,6 @@ class Pitfall;
 class Player;
 class RadarSensor;
 class RoomSensor;
-class Torch;
 class Wall;
     //object property, parameter types
 class agent_properties;
