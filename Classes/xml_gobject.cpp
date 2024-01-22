@@ -461,6 +461,7 @@ namespace app {
 		getNumericAttr(elem, "cost", &result->cost);
 
 		getDamageInfo(elem, &result->damage);
+        result->damage.type = DamageType::bomb;
 
 		if (result->blastRadius <= 0.0f || result->fuseTime <= 0.0f) {
 			log0("bomb properties missing");
