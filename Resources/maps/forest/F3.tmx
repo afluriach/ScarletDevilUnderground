@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.0" tiledversion="1.0.3" orientation="orthogonal" renderorder="right-down" width="53" height="37" tilewidth="128" tileheight="128" nextobjectid="125">
+<map version="1.10" tiledversion="1.10.2" orientation="orthogonal" renderorder="right-down" width="53" height="37" tilewidth="128" tileheight="128" infinite="0" nextlayerid="8" nextobjectid="125">
  <properties>
   <property name="trap_doors" value="door-f3-north door-f3-east"/>
  </properties>
@@ -9,17 +9,17 @@
  <tileset firstgid="5" name="forest_dirt_wall" tilewidth="128" tileheight="128" tilecount="4" columns="4">
   <image source="../forest_dirt_wall.png" width="512" height="128"/>
  </tileset>
- <layer name="floor" width="53" height="37">
+ <layer id="1" name="floor" width="53" height="37">
   <data encoding="base64" compression="zlib">
    eJzt00EOgCAMRFFQ739m8QCGKVH4JfMT0g0s7Iul6F3tnPAZ7Winwmc0goOd+hEc7NSP4DDq9PbNBAfVSb1PcFCd1PsEB8Up8obgoDhF3hAc7LSHU7XT8v37f7ITee7qpJbJKRLB4UunJ4KDnfoRHOw01p87XNXsHc7ITjmyU47slCM75YjodAM6PQz7
   </data>
  </layer>
- <layer name="wall_tiles" width="53" height="37">
+ <layer id="2" name="wall_tiles" width="53" height="37">
   <data encoding="base64" compression="zlib">
    eJztl90KgCAMRr2pfP8nLi8kCGw/jc3Zd2BXc8uTMKsUHvsVBzOKYK11VKZPd9LkR8+g+lnXaXrBCU4WdZpef3IazSeqn7auvtRKe1F5L5oTdy+c+2kGpE4ZgFMO4JSH1ZxWPCc45UDqtBExA82J2mePTN97XOB0Q523dT7in/C5zjoPJ10eTv5O3LkfHV+Qzm/JO4wCTnCKAk5wigJOeZwk97uX0wnaUAec
   </data>
  </layer>
- <objectgroup name="floor">
+ <objectgroup id="3" name="floor">
   <object id="104" type="GrassFloor" x="1280" y="0" width="5504" height="3456"/>
   <object id="106" type="GrassFloor" x="128" y="1024" width="1152" height="1408">
    <properties>
@@ -32,12 +32,12 @@
    </properties>
   </object>
  </objectgroup>
- <objectgroup name="spawners">
+ <objectgroup id="4" name="spawners">
   <object id="121" name="spawner-f3-3" x="5888" y="2688" width="128" height="128"/>
   <object id="120" name="spawner-f3-2" x="4864" y="2688" width="128" height="128"/>
   <object id="118" name="spawner-f3-1" x="3840" y="2688" width="128" height="128"/>
  </objectgroup>
- <objectgroup name="walls">
+ <objectgroup id="5" name="walls">
   <object id="57" x="0" y="896" width="128" height="1664">
    <properties>
     <property name="hidden" value="true"/>
@@ -82,12 +82,20 @@
     <property name="hidden" value="true"/>
    </properties>
   </object>
-  <object id="99" type="BreakableWall" x="1280" y="1664" width="128" height="128"/>
-  <object id="100" type="BreakableWall" x="2688" y="3328" width="128" height="128"/>
+  <object id="99" x="1280" y="1664" width="128" height="128">
+   <properties>
+    <property name="breakable" value="true"/>
+   </properties>
+  </object>
+  <object id="100" x="2688" y="3328" width="128" height="128">
+   <properties>
+    <property name="breakable" value="true"/>
+   </properties>
+  </object>
   <object id="102" x="1408" y="128" width="1024" height="1024"/>
   <object id="103" x="1408" y="0" width="1280" height="128"/>
  </objectgroup>
- <objectgroup name="objects">
+ <objectgroup id="6" name="objects">
   <object id="55" name="door-f3-east" type="Door" x="6656" y="1664" width="128" height="128">
    <properties>
     <property name="dir" value="left"/>
@@ -116,7 +124,7 @@
   </object>
   <object id="124" name="attack_upgrade" type="attack_upgrade" x="2688" y="3968" width="128" height="128"/>
  </objectgroup>
- <objectgroup name="subrooms">
+ <objectgroup id="7" name="subrooms">
   <object id="109" x="0" y="896" width="1280" height="1664"/>
   <object id="110" x="1920" y="3456" width="1664" height="1280"/>
  </objectgroup>

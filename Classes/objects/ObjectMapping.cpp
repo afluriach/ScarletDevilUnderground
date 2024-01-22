@@ -98,7 +98,7 @@ void GObject::initObjectInfo()
 	entry_same(Pitfall),
 	no_adapter_entry(Player),
 	no_adapter_entry(RoomSensor),
-	entry_same(Wall),
+	no_adapter_entry(Wall),
 
 	};
 

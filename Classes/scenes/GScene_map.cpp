@@ -16,6 +16,7 @@
 #include "graphics_context.hpp"
 #include "GScene.hpp"
 #include "value_map.hpp"
+#include "Wall.hpp"
 
 const IntVec2 GScene::getRoomOffset(IntVec2 roomSize, int roomGridX, int roomGridY)
 {
@@ -333,7 +334,7 @@ void GScene::loadWalls(const TMXTiledMap& map, IntVec2 offset)
 		objAsMap.insert_or_assign("type", "Wall");
 
 		convertToUnitSpace(objAsMap, offset);
-		gspace->createObject(objAsMap);
+		gspace->createObject<Wall>(objAsMap);
 	}
 }
 
