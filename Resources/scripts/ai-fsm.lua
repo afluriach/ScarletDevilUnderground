@@ -159,7 +159,7 @@ function ai.scorpion2:initialize()
 	self.detectEnemyHandler = ai.Flank.makeTargetFunctionGenerator(3.0, -1.0)
 end
 
-ai.slime = ai.fsm:extent('slime')
+ai.slime = ai.fsm:extend('slime')
 
 function ai.slime:initialize()
 	--Seek without pathfinding
