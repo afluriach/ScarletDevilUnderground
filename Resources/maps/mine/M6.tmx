@@ -42,11 +42,9 @@
  </objectgroup>
  <objectgroup name="objects">
   <object id="52" name="mp_upgrade" type="mp_upgrade" x="1664" y="1664" width="128" height="128"/>
-  <object id="53" type="Torch" x="896" y="896" width="128" height="128">
+  <object id="53" type="torchYellow" x="896" y="896" width="128" height="128">
    <properties>
     <property name="active" value="true"/>
-    <property name="color" value="yellow"/>
-    <property name="radius" value="3"/>
    </properties>
   </object>
  </objectgroup>
