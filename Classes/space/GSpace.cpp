@@ -1103,3 +1103,12 @@ LightID GSpace::addLightSource(shared_ptr<LightArea> light, SpaceVect pos, Space
 
 	return id;
 }
+
+void GSpace::removeLightSource(LightID _id)
+{
+	sceneActions.push_back(bind(
+		&graphics_context::removeLightSource,
+        graphicsContext,
+		_id
+	));
+}

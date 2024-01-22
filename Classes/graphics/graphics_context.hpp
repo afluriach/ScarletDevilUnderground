@@ -26,7 +26,6 @@ public:
 	void addLightSource(LightID id, ConeLightArea light, SpaceVect pos, SpaceFloat angle);
 	void addLightSource(LightID id, SpriteLightArea light, SpaceVect pos, SpaceFloat angle);
 
-    void setLightVisible(LightID id, bool v);
 	void removeLightSource(LightID id);
 	void setLightSourcePosition(LightID id, SpaceVect pos);
 	void setLightSourceAngle(LightID id, SpaceFloat a);

@@ -187,7 +187,7 @@ string GObject::toString() const
 
 void GObject::init()
 {
-	initLightSource();
+	createLight();
 	
 	scriptInitialize();
 }
@@ -862,11 +862,19 @@ void GObject::initializeGraphics()
     runMethodIfAvailable("initializeGraphics");
 }
 
-void GObject::initLightSource()
+void GObject::createLight()
 {
 	auto source = getLightSource();
-	if (source) {
+	if (source && lightID == 0) {
 		lightID = space->addLightSource(source, prevPos, prevAngle);
+	}
+}
+
+void GObject::removeLight()
+{
+	if (lightID != 0) {
+		space->removeLightSource(lightID);
+        lightID = 0;
 	}
 }
 
@@ -938,6 +946,9 @@ void GObject::setSpriteTexture(const string& texture)
 		);
 	}
 }
+
+void createLight();
+void removeLight();
 
 //END GRAPHICS
 

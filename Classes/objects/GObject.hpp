@@ -322,7 +322,8 @@ public:
 	virtual shared_ptr<LightArea> getLightSource() const;
 	int sceneLayerAsInt() const;
     virtual sprite_update updateSprite();
-	void initLightSource();
+	void createLight();
+    void removeLight();
 	//If "id" is not provided, the object's defaut sprite, spriteID, will be
 	//used, assuming it is valid.
 	void addGraphicsAction(GraphicsAction action);

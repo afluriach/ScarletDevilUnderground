@@ -233,6 +233,7 @@ public:
 	//However, nextSpriteID/nextLightID is an atomic integer, so it will not use a mutex.
 
 	LightID addLightSource(shared_ptr<LightArea> light, SpaceVect pos, SpaceFloat angle);
+	void removeLightSource(LightID id);
 
 	template<typename... Args>
 	inline void addLightmapAction(void (graphics_context::*m)(Args...), Args... args)
