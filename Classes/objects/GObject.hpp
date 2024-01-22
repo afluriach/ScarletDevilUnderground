@@ -130,8 +130,8 @@ public:
 	inline ObjectIDType getUUID() const { return uuid; }
     inline local_shared_ptr<object_properties> getProps() const { return props;}
 
-	inline string getProperName() const { return props->properName; }
-	inline string getClsName() const { return props->clsName; }
+	inline string getProperName() const { return props ? props->properName : ""; }
+	inline string getClsName() const { return props ? props->clsName : ""; }
 
 	inline virtual int getLevel() const { return 0; }
 
