@@ -21,6 +21,7 @@
 #include "graphics_context.hpp"
 #include "GraphicsNodes.hpp"
 #include "HUD.hpp"
+#include "Inventory.hpp"
 #include "MagicEffect.hpp"
 #include "physics_context.hpp"
 #include "Player.hpp"
@@ -65,6 +66,8 @@ Player::Player(
 	if (!playScene) {
 		throw runtime_error("Player created outside of PlayScene!");
 	}
+ 
+    inventory = make_unique<Inventory>();
 }
 
 Player::~Player()
@@ -82,7 +85,7 @@ void Player::setCrntRoom(RoomSensor* room)
 
 void Player::equipFirePatterns()
 {
-	firePatterns.clear();
+	inventory->firePatterns.clear();
 
 	for (auto entry : FirePattern::playerFirePatterns)
 	{
@@ -90,51 +93,47 @@ void Player::equipFirePatterns()
 			local_shared_ptr<FirePattern> pattern = entry.second(this);
 
 			if (pattern) {
-				firePatterns.push_back(pattern);
+				inventory->firePatterns.add(pattern);
 			}
 		}
 	}
 
-	firePatternIdx = firePatterns.size() > 0 ? 0 : -1;
-	firePattern = firePatternIdx == 0 ? firePatterns.at(0) : nullptr;
-
+    firePattern = inventory->firePatterns.getCrnt();
+    
 	space->addHudAction(
 		&HUD::setFirePatternIcon,
-		firePatternIdx == 0 ? getFirePattern()->iconPath() : ""
+		inventory->firePatterns.getIcon()
 	);
 }
 
 void Player::equipSpells()
 {
-	spells.clear();
+	inventory->spells.clear();
 
 	for (const SpellDesc* desc : props->spellInventory)
 	{
-		spells.push_back(desc);
+		inventory->spells.add(desc);
 	}
-
-	spellIdx = spells.size() > 0 ? 0 : -1;
 
 	space->addHudAction(
 		&HUD::setSpellIcon,
-		spellIdx == 0 ? spells.at(0)->getIcon() : ""
+		inventory->spells.getIcon()
 	);
 }
 
 void Player::equipPowerAttacks()
 {
-	powerAttacks.clear();
+	inventory->powerAttacks.clear();
 
 	if (props->attack) {
-		powerAttacks.push_back(props->attack);
-
+		inventory->powerAttacks.add(props->attack);
 	}
-
-	powerAttackIdx = powerAttacks.size() > 0 ? 0 : -1;
+ 
+    powerAttack = inventory->powerAttacks.getCrnt();
 
 	space->addHudAction(
 		&HUD::setPowerAttackIcon,
-		powerAttackIdx == 0 ? powerAttacks.at(0)->getIcon() : ""
+		inventory->powerAttacks.getIcon()
 	);
 }
 
@@ -220,26 +219,18 @@ void Player::updateSpellControls(const ControlInfo& cs)
 		space->spellSystem->stopSpell(crntSpell);
 		crntSpell = 0;
 	}
-	else if(!crntSpell && spells.size() > 0 && spellIdx != -1)
-    {		
+	else if(inventory->spells.hasItems())
+    {
 		if (cs.isControlActionPressed(ControlAction::spell_previous)) {
-			--spellIdx;
-			if (spellIdx < 0) spellIdx += spells.size();
-			log1("Spell %s equipped.", spells.at(spellIdx)->getName().c_str());
-			space->addHudAction(&HUD::setSpellIcon, spells.at(spellIdx)->getIcon());
+            inventory->spells.prev();
+			space->addHudAction(&HUD::setSpellIcon, inventory->spells.getIcon());
 		}
 		else if (cs.isControlActionPressed(ControlAction::spell_next)) {
-			++spellIdx;
-			if (spellIdx >= to_int(spells.size())) spellIdx -= spells.size();
-			log1("Spell %s equipped.", spells.at(spellIdx)->getName().c_str());
-			space->addHudAction(&HUD::setSpellIcon, spells.at(spellIdx)->getIcon());
+            inventory->spells.next();
+			space->addHudAction(&HUD::setSpellIcon, inventory->spells.getIcon());
 		}
 		
-		const SpellDesc* equippedSpell;
-
-		if (spellIdx >= 0 && spellIdx < to_int(spells.size())) {
-			equippedSpell = spells.at(spellIdx);
-		}
+		const SpellDesc* equippedSpell = inventory->spells.getCrnt();
 
 		if (
 			!isActive(Attribute::inhibitSpellcasting) && 
@@ -285,38 +276,26 @@ void Player::checkFireControls(const ControlInfo& cs)
 	if ( isFireButton && fire()){
         ;
 	}
-	else if (cs.isControlActionPressed(ControlAction::fire_pattern_previous) && getFirePattern()) {
-		if (firePatternIdx > 0)
-			--firePatternIdx;
-		else
-			firePatternIdx = firePatterns.size() - 1;
-		firePattern = firePatterns.at(firePatternIdx);
-
-		space->addHudAction(&HUD::setFirePatternIcon, firePattern->iconPath());
+	else if (cs.isControlActionPressed(ControlAction::fire_pattern_previous) && inventory->firePatterns.hasItems()) {
+        firePattern = inventory->firePatterns.prev();
+		space->addHudAction(&HUD::setFirePatternIcon, inventory->firePatterns.getIcon());
 	}
-	else if (cs.isControlActionPressed(ControlAction::fire_pattern_next) && getFirePattern()) {
-		++firePatternIdx;
-		if (firePatternIdx >= firePatterns.size())
-			firePatternIdx = 0;
-		firePattern = firePatterns.at(firePatternIdx);
-
-		space->addHudAction(&HUD::setFirePatternIcon, firePattern->iconPath());
+	else if (cs.isControlActionPressed(ControlAction::fire_pattern_next) && inventory->firePatterns.hasItems()) {
+        firePattern = inventory->firePatterns.next();
+		space->addHudAction(&HUD::setFirePatternIcon, inventory->firePatterns.getIcon());
 	}
-	else if (cs.isControlActionPressed(ControlAction::powerAttackNext) && powerAttackIdx != -1) {
-		++powerAttackIdx;
-		if (powerAttackIdx >= powerAttacks.size())
-			powerAttackIdx = 0;
-
-		space->addHudAction(&HUD::setPowerAttackIcon,powerAttacks.at(powerAttackIdx)->getIcon());
+	else if (cs.isControlActionPressed(ControlAction::powerAttackNext) && inventory->powerAttacks.hasItems()) {
+        powerAttack = inventory->powerAttacks.next();
+		space->addHudAction(&HUD::setPowerAttackIcon,inventory->powerAttacks.getIcon());
 	}
 	else if (
 		!isActive(Attribute::inhibitFiring) &&
 		cs.isControlActionPressed(ControlAction::power_attack) &&
-		powerAttackIdx != -1 &&
+		powerAttack &&
 		!crntSpell
 	)
 	{
-		if ( space->spellSystem->cast(powerAttacks.at(powerAttackIdx), this)) {
+		if ( space->spellSystem->cast(powerAttack, this)) {
 			playSoundSpatial("sfx/player_power_attack.wav");
 			isPowerAttack = true;
 		}

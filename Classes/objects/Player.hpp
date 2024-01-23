@@ -11,6 +11,8 @@
 
 #include "Agent.hpp"
 
+class Inventory;
+
 class Player : public Agent
 {
 public:
@@ -99,12 +101,7 @@ protected:
 	float spellCooldown = 0.0f;
 	unsigned int crntSpell = 0;
 
-	vector<local_shared_ptr<FirePattern>> firePatterns;
-	vector<const SpellDesc*> powerAttacks;
-	vector<const SpellDesc*> spells;
-	int firePatternIdx = -1;
-	int powerAttackIdx = -1;
-	int spellIdx = -1;
+    unique_ptr<Inventory> inventory;
 
 	PlayScene* playScene = nullptr;
 

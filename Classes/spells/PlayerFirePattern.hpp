@@ -31,7 +31,7 @@ public:
 	local_shared_ptr<bullet_properties> getProps(int angle);
 	bool spawnBullet(int angle, bool left);
 
-	inline virtual string iconPath() const { return "sprites/ui/starbow_break.png"; }
+	inline virtual string getIcon() const { return "sprites/ui/starbow_break.png"; }
 	virtual void update();
 protected:
 	virtual bool fire();
@@ -53,7 +53,7 @@ public:
 	Catadioptric(Agent *const agent);
 
 	inline virtual void update() { timerDecrement(cooldown); }
-	inline virtual string iconPath() const { return "sprites/ui/catadioptric.png"; }
+	inline virtual string getIcon() const { return "sprites/ui/catadioptric.png"; }
 	inline virtual float getCost() const { return 20.0f; }
 protected:
 	virtual bool fire();

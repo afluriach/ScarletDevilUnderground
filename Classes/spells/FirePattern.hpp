@@ -22,7 +22,7 @@ public:
 
 	GSpace* getSpace() const;
 
-	inline virtual string iconPath() const { return ""; }
+	inline virtual string getIcon() const { return ""; }
 	inline virtual float getCost() const { return 0.0f; }
 
 	virtual bool fireIfPossible();

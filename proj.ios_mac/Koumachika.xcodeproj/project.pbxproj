@@ -82,6 +82,8 @@
 		E24450241C02CFA8006D78B0 /* ObjectMapping.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E24450231C02CFA8006D78B0 /* ObjectMapping.cpp */; };
 		E24450251C02CFA8006D78B0 /* ObjectMapping.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E24450231C02CFA8006D78B0 /* ObjectMapping.cpp */; };
 		E2480E1120E1EADC0028E491 /* Agent.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E21738F41FE609360045C4CB /* Agent.cpp */; };
+		E252F2A52B5F65340014805B /* Inventory.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E252F2A32B5F65340014805B /* Inventory.cpp */; };
+		E252F2A62B5F65340014805B /* Inventory.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E252F2A32B5F65340014805B /* Inventory.cpp */; };
 		E25BCACA24E73B6D0032C1ED /* Dialog.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E25BCAC324E73B6D0032C1ED /* Dialog.cpp */; };
 		E25BCACB24E73B6D0032C1ED /* Dialog.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E25BCAC324E73B6D0032C1ED /* Dialog.cpp */; };
 		E25BCACC24E73B6D0032C1ED /* HUD.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E25BCAC724E73B6D0032C1ED /* HUD.cpp */; };
@@ -379,6 +381,8 @@
 		E23E1B2B1C014A0A00F7FAC1 /* LuaShell.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = LuaShell.hpp; path = ../Classes/lua/LuaShell.hpp; sourceTree = SOURCE_ROOT; };
 		E24450231C02CFA8006D78B0 /* ObjectMapping.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = ObjectMapping.cpp; path = ../Classes/objects/ObjectMapping.cpp; sourceTree = SOURCE_ROOT; };
 		E24620271CF77271007C2CB5 /* libboost_serialization.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libboost_serialization.a; path = ../../../../../../dev/boost_1_59_0/stage/lib/libboost_serialization.a; sourceTree = "<group>"; };
+		E252F2A32B5F65340014805B /* Inventory.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = Inventory.cpp; sourceTree = "<group>"; };
+		E252F2A42B5F65340014805B /* Inventory.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = Inventory.hpp; sourceTree = "<group>"; };
 		E259A5E120D6108F003288B5 /* enum.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.h; fileEncoding = 4; path = enum.h; sourceTree = "<group>"; };
 		E25BCAC224E73B6D0032C1ED /* HUD.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = HUD.hpp; path = ui/HUD.hpp; sourceTree = "<group>"; };
 		E25BCAC324E73B6D0032C1ED /* Dialog.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.cpp; fileEncoding = 4; name = Dialog.cpp; path = ui/Dialog.cpp; sourceTree = "<group>"; };
@@ -715,6 +719,8 @@
 				E2FB274C20E4390C0035A5AF /* functional.hpp */,
 				E223F3841CFCB75F00AD4133 /* Graph.cpp */,
 				E223F3851CFCB75F00AD4133 /* Graph.hpp */,
+				E252F2A32B5F65340014805B /* Inventory.cpp */,
+				E252F2A42B5F65340014805B /* Inventory.hpp */,
 				E26C24DF24E739EC004067E0 /* internal_prefix.h */,
 				E26C24D624E739EB004067E0 /* log.cpp */,
 				E26C24D424E739EA004067E0 /* log.hpp */,
@@ -1222,6 +1228,7 @@
 				E25BCAEC24E73BAB0032C1ED /* controls.cpp in Sources */,
 				E26C24FF24E739ED004067E0 /* FileIO.cpp in Sources */,
 				E25BCACE24E73B6D0032C1ED /* menu_layers.cpp in Sources */,
+				E252F2A52B5F65340014805B /* Inventory.cpp in Sources */,
 				E26C255024E73A96004067E0 /* lua_types.cpp in Sources */,
 				E25BCADF24E73B8B0032C1ED /* GAnimation.cpp in Sources */,
 				E2CDC54B1C0507090017537B /* Player.cpp in Sources */,
@@ -1288,6 +1295,7 @@
 				E26C257B24E73ABF004067E0 /* FloorSegment.cpp in Sources */,
 				E26C24FA24E739ED004067E0 /* xml_spells.cpp in Sources */,
 				E2239A4020784E39005DA29F /* Wall.cpp in Sources */,
+				E252F2A62B5F65340014805B /* Inventory.cpp in Sources */,
 				E26C258324E73ABF004067E0 /* NPC.cpp in Sources */,
 				E25BCB0A24E73BD00032C1ED /* RectangleSensor.cpp in Sources */,
 				E26C252224E73A41004067E0 /* EnemyFirePattern.cpp in Sources */,

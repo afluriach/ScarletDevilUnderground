@@ -18,8 +18,9 @@ const unordered_map<EventKeyboard::KeyCode, ControlActionState> ControlRegister:
 	key_action_1(KEY_BACKTICK,scriptConsole),
 	key_action_1(KEY_L,displayMode),
 #endif
-	key_action_3(KEY_ENTER,menu_select,interact,enter),
-	key_action_3(KEY_KP_ENTER, menu_select, interact, enter),
+	key_action_3(KEY_ENTER,menu_select,fire,enter),
+	key_action_3(KEY_KP_ENTER, menu_select, fire, enter),
+	key_action_3(KEY_RETURN,menu_select,fire,enter),
 
 	key_action_2(KEY_E,menu_select,interact),
 	key_action_2(KEY_X,dialog_skip, center_look),
