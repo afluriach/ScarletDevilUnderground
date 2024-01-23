@@ -125,28 +125,48 @@ protected:
 	StateMachine* sm;
 };
 
-class StateMachine
+class FSM
+{
+public:
+    inline virtual ~FSM() {}
+    virtual void update() = 0;
+    
+    virtual void onDetectEnemy(Agent* enemy) = 0;
+	virtual void onEndDetectEnemy(Agent* enemy) = 0;
+	virtual void onDetectBomb(Bomb* bomb) = 0;
+	virtual void onDetectBullet(Bullet* bullet) = 0;
+ 
+ 	virtual void onBulletHit(Bullet* b) = 0;
+	virtual void onBulletBlock(Bullet* b) = 0;
+	virtual void enemyRoomAlert(Agent* enemy) = 0;
+	virtual void onZeroHP() = 0;
+	virtual void onZeroStamina() = 0;
+ 
+    virtual string toString() = 0;
+};
+
+class StateMachine : public FSM
 {
 public:
 	friend class Thread;
 
     StateMachine(GObject *const agent, const string& clsName);
-	~StateMachine();
+	virtual ~StateMachine();
 
-	void update();
+	virtual void update();
 
 	void pushFunction(local_shared_ptr<Function> function);
 
-	void onDetectEnemy(Agent* enemy);
-	void onEndDetectEnemy(Agent* enemy);
-	void onDetectBomb(Bomb* bomb);
-	void onDetectBullet(Bullet* bullet);
+	virtual void onDetectEnemy(Agent* enemy);
+	virtual void onEndDetectEnemy(Agent* enemy);
+	virtual void onDetectBomb(Bomb* bomb);
+	virtual void onDetectBullet(Bullet* bullet);
 
-	void onBulletHit(Bullet* b);
-	void onBulletBlock(Bullet* b);
-	void enemyRoomAlert(Agent* enemy);
-	void onZeroHP();
-	void onZeroStamina();
+	virtual void onBulletHit(Bullet* b);
+	virtual void onBulletBlock(Bullet* b);
+	virtual void enemyRoomAlert(Agent* enemy);
+	virtual void onZeroHP();
+	virtual void onZeroStamina();
 
 	template<class FuncCls, typename... Params>
 	inline void addFunction(Params... params) {

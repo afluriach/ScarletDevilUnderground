@@ -18,6 +18,7 @@
 #include "FirePattern.hpp"
 #include "FirePatternImpl.hpp"
 #include "FloorSegment.hpp"
+#include "FSM_Impl.hpp"
 #include "GAnimation.hpp"
 #include "Graphics.h"
 #include "graphics_context.hpp"
@@ -124,7 +125,7 @@ void Agent::checkInitScriptObject()
 
 void Agent::initFSM()
 {
-	fsm = make_unique<ai::StateMachine>(this, ai_package);
+	fsm = allocator_new<ai::StateMachine>(this, ai_package);
 
 	if (ai_package.empty() && type != GType::player) {
 		log1("%s: no AI package!", toString());

@@ -60,6 +60,8 @@ GObject::GObject(
 
 GObject::~GObject()
 {
+    if(fsm)
+        allocator_delete<ai::FSM>(fsm);
 }
 
 void GObject::removePhysicsObjects()

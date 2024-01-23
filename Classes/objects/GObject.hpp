@@ -376,7 +376,7 @@ protected:
 //logic
 	sol::table scriptObj;
 	local_shared_ptr<object_properties> props;
-	unique_ptr<ai::StateMachine> fsm;
+	ai::FSM* fsm = nullptr;
 	unique_ptr<parametric_motion> parametricMotion;
 	RoomSensor* crntRoom = nullptr;
 
