@@ -9,20 +9,6 @@
 #ifndef EnvironmentObject_hpp
 #define EnvironmentObject_hpp
 
-class environment_object_properties : public object_properties
-{
-public:
-    environment_object_properties();
-    virtual ~environment_object_properties();
-    
-	string scriptName;
-	string interactionIcon;
-	PhysicsLayers layers = PhysicsLayers::none;
-	bool interactible;
-
-	inline virtual type_index getType() const { return typeid(*this); }
-};
-
 class EnvironmentObject : public GObject
 {
 public:

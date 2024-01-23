@@ -11,37 +11,6 @@
 
 #include "Agent.hpp"
 
-struct dialog_entry
-{
-	dialog_entry();
-	dialog_entry(string dialog);
-	dialog_entry(
-		function<bool(NPC*)> condition,
-		function<void(NPC*)> effect,
-		string dialog,
-		bool once
-	);
-
-	function<bool(NPC*)> condition;
-	function<void(NPC*)> effect;
-
-	string dialog;
-	bool once = false;
-
-	int _refcount = 0;
-};
-
-class npc_properties : public agent_properties
-{
-public:
-	inline npc_properties() {}
-	~npc_properties();
-
-	list<local_shared_ptr<dialog_entry>> dialogs;
-
-	inline virtual type_index getType() const { return typeid(*this); }
-};
-
 class NPC : public Agent
 {
 public:

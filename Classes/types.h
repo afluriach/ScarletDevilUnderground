@@ -35,6 +35,7 @@ class enemy_properties;
 class environment_object_properties;
 class floorsegment_properties;
 class item_properties;
+struct dialog_entry;
 class npc_properties;
 class object_params;
 class object_properties;

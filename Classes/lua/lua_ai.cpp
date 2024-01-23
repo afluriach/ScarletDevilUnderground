@@ -12,9 +12,7 @@
 #include "AI.hpp"
 #include "AIFunctions.hpp"
 #include "AIUtil.hpp"
-#include "Bomb.hpp"
 #include "LuaAPI.hpp"
-#include "Player.hpp"
 #include "SpellDescriptor.hpp"
 
 namespace Lua{

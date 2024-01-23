@@ -11,19 +11,6 @@
 
 #include "Agent.hpp"
 
-class enemy_properties : public agent_properties
-{
-public:
-	inline enemy_properties() {}
-
-	string firepattern;
-	string collectible;
-
-	DamageInfo touchEffect;
-
-	inline virtual type_index getType() const { return typeid(*this); }
-};
-
 class Enemy : public Agent
 {
 public:

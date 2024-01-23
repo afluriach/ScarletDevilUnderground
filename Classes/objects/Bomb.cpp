@@ -13,12 +13,6 @@
 #include "graphics_context.hpp"
 #include "SpellUtil.hpp"
 
-bomb_properties::bomb_properties()
-{}
-
-bomb_properties::~bomb_properties()
-{}
-
 const SpaceFloat Bomb::explosionSpriteRadius = 2.0;
 
 Bomb::Bomb(
@@ -44,6 +38,10 @@ Bomb::Bomb(
 
 Bomb::~Bomb()
 {
+}
+
+GraphicsLayer Bomb::sceneLayer() const {
+    return GraphicsLayer::ground;
 }
 
 void Bomb::init()
@@ -91,6 +89,26 @@ void Bomb::detonate()
 		0.0
 	);
 	space->addGraphicsAction(&graphics_context::autoremoveLightSource, light, 1.0f);
+}
+
+DamageInfo Bomb::getDamageInfo() const {
+    return props->damage;
+}
+
+SpaceFloat Bomb::getFuseTime() const {
+    return props->fuseTime;
+}
+
+SpaceFloat Bomb::getBlastRadius() const {
+    return props->blastRadius;
+}
+
+string Bomb::getExplosionSound() const {
+    return "sfx/" + props->explosionSound + ".wav";
+}
+
+shared_ptr<sprite_properties> Bomb::getSprite() const {
+    return props->sprite;
 }
 
 bool Bomb::hit(DamageInfo damage, SpaceVect n)

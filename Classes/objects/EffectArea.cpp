@@ -17,12 +17,6 @@
 #include "physics_context.hpp"
 #include "Player.hpp"
 
-effectarea_properties::effectarea_properties()
-{}
-
-effectarea_properties::~effectarea_properties()
-{}
-
 EffectArea::EffectArea(
 	GSpace* space,
 	ObjectIDType id,

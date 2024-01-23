@@ -79,81 +79,6 @@ public:
 	bool sensor;
 };
 
-class object_properties
-{
-public:
-    object_properties();
-    virtual ~object_properties();
-    
-	shared_ptr<sprite_properties> sprite;
-	shared_ptr<LightArea> light;
-
-	string properName;
-	string clsName;
-
-	SpaceVect dimensions;
-	SpaceFloat mass = 0.0;
-	SpaceFloat friction = 0.0;
-
-	int _refcount = 0;
-
-	inline virtual type_index getType() const { return typeid(*this); }
-
-	getter(shared_ptr<sprite_properties>, sprite)
-	getter(shared_ptr<LightArea>, light)
-	getter(string, properName)
-	getter(string, clsName)
-	getter(SpaceVect, dimensions)
-	getter(SpaceFloat, mass)
-	getter(SpaceFloat, friction)
-
-	setter(shared_ptr<sprite_properties>, sprite)
-	setter(shared_ptr<LightArea>, light)
-	setter(string, properName)
-	setter(string, clsName)
-	setter(SpaceVect, dimensions)
-	setter(SpaceFloat, mass)
-	setter(SpaceFloat, friction)
-};
-
-class bullet_properties : public object_properties
-{
-public:
-    bullet_properties();
-    virtual ~bullet_properties();
-    
-	SpaceFloat speed;
-
-	DamageInfo damage;
-
-	int hitCount = 1;
-	int ricochetCount = 0;
-
-	bool invisible = false;
-	bool ignoreObstacles = false;
-	bool deflectBullets = false;
-
-	bullet_properties clone();
-
-	inline virtual type_index getType() const { return typeid(*this); }
-
-	getter(SpaceFloat, speed)
-	getter(DamageInfo, damage)
-	getter(int, hitCount)
-	getter(int, ricochetCount)
-	getter(bool, invisible)
-	getter(bool, ignoreObstacles)
-	getter(bool, deflectBullets)
-
-	setter(SpaceFloat, speed)
-	setter(DamageInfo, damage)
-	setter(int, hitCount)
-	setter(int, ricochetCount)
-	setter(bool, invisible)
-	setter(bool, ignoreObstacles)
-	setter(bool, deflectBullets)
-};
-
 //The attributes of the creating agent that can affect this object. These are 
 //captured from the agent when the bullet object factory is created.
 struct bullet_attributes
@@ -197,21 +122,6 @@ struct bullet_attributes
 	setter(float, attackDamage)
 	setter(float, bulletSpeed)
 	setter(float, speedOffset)
-};
-
-class floorsegment_properties : public object_properties {
-public:
-    floorsegment_properties();
-    virtual ~floorsegment_properties();
-    
-	string sfxRes;
-	string sprite;
-
-	double traction = 1.0;
-
-	bool pressurePlate = false;
-
-	inline virtual type_index getType() const { return typeid(*this); }
 };
 
 #endif

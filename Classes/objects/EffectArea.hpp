@@ -11,16 +11,6 @@
 
 #include "AreaSensor.hpp"
 
-class effectarea_properties : public object_properties
-{
-public:
-    effectarea_properties();
-    virtual ~effectarea_properties();
-    
-	const MagicEffectDescriptor* effect;
-	float magnitude = 0.0f;
-};
-
 class EffectArea : public AreaSensor 
 {
 public:

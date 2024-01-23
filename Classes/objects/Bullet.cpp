@@ -124,6 +124,18 @@ void Bullet::initializeGraphics()
 	space->graphicsNodeAction(&Node::setVisible, drawNodeID, false);
 }
 
+SpaceFloat Bullet::getMaxSpeed() const {
+    return props->speed;
+}
+
+DamageInfo Bullet::getDamageInfo() const {
+    return props->damage;
+}
+
+bool Bullet::isInvisible() const {
+    return props->invisible;
+}
+
 void Bullet::onWallCollide(Wall* wall)
 {
 	if(!props->ignoreObstacles)

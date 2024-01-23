@@ -152,6 +152,18 @@ void GObject::initNameMap()
 	}
 }
 
+local_shared_ptr<object_properties> GObject::getProps() const {
+    return props;
+}
+
+string GObject::getProperName() const {
+    return props ? props->properName : "";
+}
+
+string GObject::getClsName() const {
+    return props ? props->clsName : "";
+}
+
 gobject_ref GObject::getRef() const
 {
 	return gobject_ref(this);

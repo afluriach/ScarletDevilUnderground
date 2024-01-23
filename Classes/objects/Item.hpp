@@ -9,20 +9,6 @@
 #ifndef Item_hpp
 #define Item_hpp
 
-class item_properties : public object_properties
-{
-public:
-	item_properties();
-    virtual ~item_properties();
-
-	string scriptName;
-	string onAcquireDialog;
-
-	bool addToInventory = true;
-
-	inline virtual type_index getType() const { return typeid(*this); }
-};
-
 class Item : public GObject
 {
 public:

@@ -11,28 +11,6 @@
 #include "LuaAPI.hpp"
 #include "NPC.hpp"
 
-dialog_entry::dialog_entry() {}
-
-dialog_entry::dialog_entry(string dialog) :
-	dialog(dialog)
-{}
-
-dialog_entry::dialog_entry(
-	function<bool(NPC*)> condition,
-	function<void(NPC*)> effect,
-	string dialog,
-	bool once
-) :
-	condition(condition),
-	effect(effect),
-	dialog(dialog),
-	once(once)
-{}
-
-npc_properties::~npc_properties()
-{
-}
-
 NPC::NPC(
 	GSpace* space,
 	ObjectIDType id,

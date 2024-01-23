@@ -9,7 +9,6 @@
 #include "Prefix.h"
 
 #include "app_constants.hpp"
-#include "Bomb.hpp"
 #include "GScene.hpp"
 #include "LuaAPI.hpp"
 #include "MagicEffect.hpp"

@@ -42,11 +42,11 @@ public:
 	virtual void onRemove();
 	virtual void initializeGraphics();
 	virtual inline GraphicsLayer sceneLayer() const { return GraphicsLayer::ground; }
-	virtual inline SpaceFloat getMaxSpeed() const { return props->speed; }
+	virtual SpaceFloat getMaxSpeed() const;
 
-	inline DamageInfo getDamageInfo() const { return props->damage; }
+	DamageInfo getDamageInfo() const;
 
-	inline virtual bool isInvisible() const { return props->invisible; }
+	virtual bool isInvisible() const;
 
 	void onWallCollide(Wall* wall);
 	void onEnvironmentCollide(GObject* obj);

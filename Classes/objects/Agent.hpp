@@ -9,29 +9,6 @@
 #ifndef Agent_hpp
 #define Agent_hpp
 
-class agent_properties : public object_properties
-{
-public:
-	inline agent_properties() {}
-	virtual inline ~agent_properties() {}
-
-	AttributeMap attributes;
-
-	string ai_package;
-
-	const SpellDesc* attack;
-	list<const SpellDesc*> spellInventory;
-	list<effect_entry> effects;
-
-	SpaceFloat viewRange = 0.0;
-	SpaceFloat viewAngle = 0.0;
-
-	bool detectEssence = false;
-	bool isFlying = false;
-
-	inline virtual type_index getType() const { return typeid(*this); }
-};
-
 class Agent : public GObject
 {
 public:

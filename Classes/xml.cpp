@@ -8,18 +8,11 @@
 
 #include "Prefix.h"
 
-#include "Bomb.hpp"
-#include "EffectArea.hpp"
-#include "Enemy.hpp"
-#include "EnvironmentObject.hpp"
 #include "FileIO.hpp"
 #include "FirePatternImpl.hpp"
-#include "FloorSegment.hpp"
 #include "Graphics.h"
-#include "Item.hpp"
 #include "LuaAPI.hpp"
 #include "MagicEffect.hpp"
-#include "NPC.hpp"
 #include "PlayScene.hpp"
 #include "SpellDescriptor.hpp"
 #include "xml_impl.hpp"

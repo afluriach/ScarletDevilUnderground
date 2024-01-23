@@ -128,10 +128,10 @@ public:
 
 	inline GSpace* getSpace() const { return space; }
 	inline ObjectIDType getUUID() const { return uuid; }
-    inline local_shared_ptr<object_properties> getProps() const { return props;}
+    local_shared_ptr<object_properties> getProps() const;
 
-	inline string getProperName() const { return props ? props->properName : ""; }
-	inline string getClsName() const { return props ? props->clsName : ""; }
+	string getProperName() const;
+	string getClsName() const;
 
 	inline virtual int getLevel() const { return 0; }
 
