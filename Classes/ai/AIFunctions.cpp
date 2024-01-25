@@ -54,104 +54,67 @@ ScriptFunction::ScriptFunction(StateMachine* fsm, GObject* target, const string&
 
 void ScriptFunction::onEnter()
 {
-	sol::function f = obj["onEnter"];
-	if (f) f(obj);
+    sol::runMethodIfAvailable(obj,"onEnter");
 }
 
 update_return ScriptFunction::update()
 {
-	sol::function f = obj["update"];
-
-	if (f) {
-		update_return result = f(obj);
-		return result;
-	}
-	else {
-		return_steady(-1.0f);
-	}
+    return sol::runMethodIfAvailableOrDefault(update_return::makeSteady(-1.0f), obj, "update");
 }
 
 bool ScriptFunction::bulletBlock(Bullet* b)
 {
-	sol::function f = obj["bulletBlock"];
-	if (f) return f(obj, b);
-	else return false;
+    return sol::runMethodIfAvailableOrDefault(false, obj, "bulletBlock", b);
 }
 
 bool ScriptFunction::bulletHit(Bullet* b)
 {
-	sol::function f = obj["bulletHit"];
-	if (f) return f(obj, b);
-	else return false;
+    return sol::runMethodIfAvailableOrDefault(false, obj, "bulletHit", b);
 }
 
 bool ScriptFunction::detectEnemy(Agent* enemy)
 {
-	sol::function f = obj["detectEnemy"];
-	if (f) return f(obj, enemy);
-	else return false;
+    return sol::runMethodIfAvailableOrDefault(false, obj, "detectEnemy", enemy);
 }
 
 bool ScriptFunction::endDetectEnemy(Agent* enemy)
 {
-	sol::function f = obj["endDetectEnemy"];
-	if (f) return f(obj, enemy);
-	else return false;
+    return sol::runMethodIfAvailableOrDefault(false, obj, "endDetectEnemy", enemy);
 }
 
 bool ScriptFunction::detectBomb(Bomb* bomb)
 {
-	sol::function f = obj["detectBomb"];
-	if (f) return f(obj, bomb);
-	else return false;
+    return sol::runMethodIfAvailableOrDefault(false, obj, "detectBomb", bomb);
 }
 
 bool ScriptFunction::detectBullet(Bullet* bullet)
 {
-	sol::function f = obj["detectBullet"];
-	if (f) return f(obj, bullet);
-	else return false;
+    return sol::runMethodIfAvailableOrDefault(false, obj, "detectBullet", bullet);
 }
 
 bool ScriptFunction::enemyRoomAlert(Agent* enemy)
 {
-	sol::function f = obj["enemyRoomAlert"];
-	if (f) return f(obj, enemy);
-	else return false;
+    return sol::runMethodIfAvailableOrDefault(false, obj, "enemyRoomAlert", enemy);
 }
 
 bool ScriptFunction::zeroHP()
 {
-	sol::function f = obj["zeroHP"];
-	if (f) return f(obj);
-	else return false;
+    return sol::runMethodIfAvailableOrDefault(false, obj, "zeroHP");
 }
 
 bool ScriptFunction::zeroStamina()
 {
-	sol::function f = obj["zeroStamina"];
-	if (f) return f(obj);
-	else return false;
+    return sol::runMethodIfAvailableOrDefault(false, obj, "zeroStamina");
 }
 
 void ScriptFunction::onExit()
 {
-	sol::function f = obj["onExit"];
-	if (f) {
-		f(obj);
-	}
+    sol::runMethodIfAvailable(obj, "onExit");
 }
 
 string ScriptFunction::getName()
 {
-	sol::function f = obj["getName"];
-	if (f) {
-		string result = f(obj);
-		return result;
-	}
-	else {
-		return cls;
-	}
+    return sol::runMethodIfAvailableOrDefault(cls, obj, "getName");
 }
 
 bool ScriptFunction::hasMethod(const string& name)

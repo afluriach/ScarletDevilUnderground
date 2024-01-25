@@ -171,8 +171,8 @@ function ai.RedFairyEngage:update()
 	self.bombFunction:update()
 	self.moveFunction:update()
 	
-	self.super.agent.aimAtTarget(self.target)
-	self.super.agent.fire()
+	self.super.agent:aimAtTarget(self.target)
+	self.super.agent:fire()
 	
 	return ai.update_return.makeSteady(0.0)
 end

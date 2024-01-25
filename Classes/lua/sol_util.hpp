@@ -33,7 +33,7 @@ inline void runMethodIfAvailable(sol::table obj, const string& name, Args... arg
 	auto f = obj[name];
 
     if (f.valid() && f.get_type() == type::function) {
-		sol::function_result result = f(args...);
+		sol::function_result result = f(obj, args...);
   
         if(!result.valid())
             printErrorMessage(obj.lua_state());
@@ -41,13 +41,22 @@ inline void runMethodIfAvailable(sol::table obj, const string& name, Args... arg
 }
 
 template<typename R, typename... Args>
+inline R runMethodIfAvailableOrDefault(R _default, sol::table obj, const string& name, Args... args)
+{
+    if(obj && obj[name].valid())
+        return runMethod<R,Args...>(obj, name, args...);
+    else
+        return _default;
+}
+
+template<typename R, typename... Args>
 inline R runMethod(sol::table obj, const string& name, Args... args)
 {
-	if (!obj) return;
+	if (!obj) throw error("run Method: nil object");
 	auto f = obj[name];
 
     if (f.valid() && f.get_type() == type::function) {
-		sol::function_result result = f(args...);
+		sol::function_result result = f(obj, args...);
   
         if(result.valid())
             return result;
