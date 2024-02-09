@@ -167,5 +167,5 @@ void Spell::runUpdate()
 
 void Spell::stop()
 {
-	getSpace()->spellSystem->stopSpell(id);
+	getSpace()->spellSystem->stopSpell(this);
 }

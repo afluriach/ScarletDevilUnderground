@@ -8,7 +8,6 @@
 
 #include "Prefix.h"
 
-#include "Agent.hpp"
 #include "AIUtil.hpp"
 #include "physics_context.hpp"
 #include "RadarSensor.hpp"

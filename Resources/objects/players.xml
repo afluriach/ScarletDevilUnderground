@@ -1,7 +1,7 @@
 <players>
 
 	<PlayerBase
-		ai_package="player_control"
+		cls="Player"
 	>
 		<attributes>
 			<sprintCost val="7.5" />
@@ -13,6 +13,7 @@
 			<blockSpeedRatio val="0.5" />
 			<sprintSpeedRatio val="2.5" />
 			<sprintTime val="0.5" />
+			<sprintRecoveryTime val="0.5" />
 			<sprintCooldownTime val="1.0" />
 
 			<maxThrowSpeed val="3.0" />

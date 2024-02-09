@@ -60,8 +60,6 @@ GObject::GObject(
 
 GObject::~GObject()
 {
-    if(fsm)
-        allocator_delete<ai::FSM>(fsm);
 }
 
 void GObject::removePhysicsObjects()
@@ -80,6 +78,27 @@ void GObject::removeGraphics(bool removeSprite)
 	if (lightID != 0) {
 		space->addGraphicsAction(&graphics_context::removeLightSource, lightID);
 	}
+}
+
+bool GObject::conditionalLoad(GSpace* space, local_shared_ptr<object_properties> props, const object_params& params)
+{
+	if (params.name.size() > 0 && space->getAreaStats().isObjectRemoved(params.name) ) {
+		return false;
+	}
+
+    auto objects = space->scriptVM->_state["objects"];
+	auto cls = objects[props->clsName];
+
+    if (cls.valid()) {
+		sol::function f = cls["conditionalLoad"];
+
+		if (f && !f(space, params, props)) {
+			log0("object load canceled");
+			return false;
+		}
+	}
+
+	return true;
 }
 
 GObject* GObject::constructByType(GSpace* space, ObjectIDType id, const string& type, const ValueMap& args )
@@ -265,6 +284,11 @@ void GObject::toggleActive()
         deactivate();
     else
         activate();
+}
+
+void GObject::setAIFunction(local_shared_ptr<ai::Function> function)
+{
+    fsm->setFunction(function);
 }
 
 void GObject::updateFSM() {
@@ -558,7 +582,6 @@ void GObject::setLayers(PhysicsLayers layers)
 
 	if ( !bitwise_and_bool(PhysicsLayers::floor, layers) ) {
 		crntFloorCenterContact = nullptr;
-		crntFloorContacts.clear();
 	}
 }
 
@@ -578,19 +601,8 @@ void GObject::updateFloorSegment()
 		return;
 	}
 
-	crntFloorCenterContact = nullptr;
 	SpaceVect p = getPos();
-
-	for (auto ref : crntFloorContacts)
-	{
-		//SpaceVect local = cpBodyWorld2Local(ref.get()->body, getPos());
-		SpaceVect local = p - ref->getPos();
-		SpaceVect dim = ref->getDimensions();
-		if (abs(local.x) <= dim.x / 2.0 && abs(local.y) <= dim.y / 2.0) {
-			crntFloorCenterContact = ref;
-			break;
-		}
-	}
+	crntFloorCenterContact = space->floorPointQuery(p);
 
 	if (crntFloorCenterContact) {
 		SpaceFloat _uk = uk();
@@ -599,7 +611,7 @@ void GObject::updateFloorSegment()
 		}
 	}
 	//If not touching any floor, check for pitfall.
-	else if(crntFloorContacts.empty()){
+	else {
 		Pitfall* pitfall = space->pitfallPointQuery(p);
 		if (pitfall) pitfall->exclusiveFloorEffect(this);
 	}
@@ -626,34 +638,6 @@ void GObject::updateFriction(float frictionCoeff)
 		setAngularVel(angularVel - angularImpulse);
 	else
 		setAngularVel(0);
-}
-
-void GObject::onContactFloorSegment(FloorSegment* fs)
-{
-	if (fs && isOnFloor())
-	{
-		if (crntFloorContacts.find(fs) != crntFloorContacts.end()) {
-			log1("onContactFloorSegment duplicate add attempted for floor ID %d", fs->uuid);
-			return;
-		}
-
-		fs->onContact(this);
-		crntFloorContacts.insert(fs);
-	}
-}
-
-void GObject::onEndContactFloorSegment(FloorSegment* fs)
-{
-	if (fs && isOnFloor())
-	{
-		if (crntFloorContacts.find(fs) == crntFloorContacts.end()) {
-			log1("onEndContactFloorSegment floor ID %d not found", fs->uuid);
-			return;
-		}
-
-		fs->onEndContact(this);
-		crntFloorContacts.erase(fs);
-	}
 }
 
 SpaceRect GObject::getBoundingBox() const

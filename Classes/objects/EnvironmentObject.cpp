@@ -13,37 +13,16 @@
 #include "Player.hpp"
 #include "value_map.hpp"
 
-bool EnvironmentObject::conditionalLoad(
-	GSpace* space,
-	ObjectIDType id,
-	const ValueMap& args,
-	local_shared_ptr<environment_object_properties> props
-) {
-    auto objects = space->scriptVM->_state["objects"];
-	auto cls = objects[props->clsName];
-
-    if (cls.valid()) {
-		sol::function f = cls["conditionalLoad"];
-
-		if (f && !f(space, id)) {
-			log0("object load canceled");
-			return false;
-		}
-	}
-
-	return true;
-}
-
 EnvironmentObject::EnvironmentObject(
 	GSpace* space,
 	ObjectIDType id,
-	const ValueMap& args,
-	local_shared_ptr<environment_object_properties> props
+	local_shared_ptr<environment_object_properties> props,
+    const object_params& params
 ) :
 	GObject(
 		space,
 		id,
-		object_params(args),
+        params,
 		physics_params(
 			props->interactible ? enum_bitwise_or(GType,environment,interactible) : GType::environment,
 			props->layers,
@@ -53,13 +32,7 @@ EnvironmentObject::EnvironmentObject(
 	),
 	props(props)
 {
-	if (props->scriptName.size() > 0) {
-        auto objects = space->scriptVM->_state["objects"];
-		auto cls = objects[props->scriptName];
-        if (cls.valid()) {
-			scriptObj = cls(this);
-		}
-	}
+    init_script_object()
 }
 
 EnvironmentObject::~EnvironmentObject()

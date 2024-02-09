@@ -297,7 +297,7 @@ pair<b2Body*, b2Fixture*> PhysicsImpl::createRectangleBody(
 	}
 
 	if (!isValidType(type)){
-		log1("Invalid type %x!", to_int(getBaseType(type)));
+		log1("Invalid type 0x%x!", to_int(getBaseType(type)));
 		return make_pair(nullptr, nullptr);
 	}
 
@@ -441,16 +441,6 @@ void bulletWall(Bullet* _b, Wall* _w, b2Contact* contact)
 	}
 }
 
-void floorObjectBegin(FloorSegment* fs, GObject* obj, b2Contact* arb)
-{
-	obj->onContactFloorSegment(fs);
-}
-
-void floorObjectEnd(FloorSegment* fs, GObject* obj, b2Contact* arb)
-{
-	obj->onEndContactFloorSegment(fs);
-}
-
 void objectAreaSensorBegin(GObject* obj, AreaSensor* areaSensor, b2Contact* contact)
 {
 	areaSensor->beginContact(obj);
@@ -492,14 +482,11 @@ void PhysicsImpl::addCollisionHandlers()
 	_addHandlerNoEnd(playerBullet, wall, bulletWall);
 	_addHandlerNoEnd(enemyBullet, wall, bulletWall);
 
-	_addHandler(floorSegment, player, floorObjectBegin, floorObjectEnd);
-	_addHandler(floorSegment, enemy, floorObjectBegin, floorObjectEnd);
-	_addHandler(floorSegment, npc, floorObjectBegin, floorObjectEnd);
-	_addHandler(floorSegment, environment, floorObjectBegin, floorObjectEnd);
-	_addHandler(floorSegment, bomb, floorObjectBegin, floorObjectEnd);
-
 	_addHandler(player, areaSensor, objectAreaSensorBegin, objectAreaSensorEnd);
 	_addHandler(enemy, areaSensor, objectAreaSensorBegin, objectAreaSensorEnd);
 	_addHandler(npc, areaSensor, objectAreaSensorBegin, objectAreaSensorEnd);
 	_addHandler(environment, areaSensor, objectAreaSensorBegin, objectAreaSensorEnd);
+ 
+    //FloorSegment doesn't collide with anything, it is accessed only by query
+    emplaceIfEmpty(collisionMasks, GType::floorSegment, to_uint(0));
 }

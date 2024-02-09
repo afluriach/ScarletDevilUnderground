@@ -2,15 +2,16 @@ objects.BlueFairyNPC = class("BlueFairyNPC")
 
 function objects.BlueFairyNPC:init(super)
 	self.super = super
+	self.id = util.getIntSuffix(self.super.name)
 end
 
 function objects.BlueFairyNPC:correct_order(idx)
-	return idx == self.super.level and idx == App.state:getAttribute("BlueFairyLevel") + 1	
+	return idx == self.id and idx == App.state:getAttribute("BlueFairyLevel") + 1	
 end
 
 function objects.BlueFairyNPC:satisfy_condition()
-	return  App.state:getItemCount("Mushroom") >= self.super.level and
-	self.super.level == App.state:getAttribute("BlueFairyLevel") + 1
+	return  App.state:getItemCount("Mushroom") >= self.id and
+	self.id == App.state:getAttribute("BlueFairyLevel") + 1
 end
 
 function objects.BlueFairyNPC:request_condition1()
@@ -30,7 +31,7 @@ function objects.BlueFairyNPC:satisfy_effect()
 	app.log("satisfy_effect" .. self.super.name)
 
 	App.state:incrementAttribute("BlueFairyLevel")
-	App.state:removeItem("Mushroom", self.super.level)
+	App.state:removeItem("Mushroom", self.id)
 	
 	self.super.space:removeObject(self.super:asGObject())
 end

@@ -8,7 +8,7 @@
 
 #include "Prefix.h"
 
-#include "Agent.hpp"
+//#include "Agent.hpp"
 #include "AIFunctions.hpp"
 #include "AIUtil.hpp"
 #include "app_constants.hpp"
@@ -18,7 +18,6 @@
 #include "FirePattern.hpp"
 #include "FirePatternImpl.hpp"
 #include "FloorSegment.hpp"
-#include "FSM_Impl.hpp"
 #include "GAnimation.hpp"
 #include "Graphics.h"
 #include "graphics_context.hpp"
@@ -32,6 +31,7 @@
 #include "Player.hpp"
 #include "PlayScene.hpp"
 #include "RadarSensor.hpp"
+#include "sol_util.hpp"
 #include "SpellDescriptor.hpp"
 #include "SpellSystem.hpp"
 #include "spell_types.hpp"
@@ -41,27 +41,6 @@ const Color4F Agent::bodyOutlineColor = hsva4F(270.0f, 0.2f, 0.7f, 0.667f);
 const Color4F Agent::shieldConeColor = Color4F(.37f, .56f, .57f, 0.5f);
 const float Agent::bodyOutlineWidth = 4.0f;
 const float Agent::bombSpawnDistance = 1.0f;
-
-bool Agent::conditionalLoad(GSpace* space, const object_params& params, local_shared_ptr<agent_properties> props)
-{
-	if (params.name.size() > 0 && space->getAreaStats().isObjectRemoved(params.name) ) {
-		return false;
-	}
-
-    auto objects = space->scriptVM->_state["objects"];
-	auto cls = objects[props->clsName];
-
-    if (cls.valid()) {
-		sol::function f = cls["conditionalLoad"];
-
-		if (f && !f(space, params, props)) {
-			log0("object load canceled");
-			return false;
-		}
-	}
-
-	return true;
-}
 
 Agent::Agent(
 	GSpace* space,
@@ -81,11 +60,8 @@ Agent::Agent(
 		),
 		props
 	),
-	props(props),
-	level(params.level)
+	props(props)
 {
-	ai_package = params.ai_package.size() > 0 ? params.ai_package : props->ai_package;
-
     inventory = make_unique<Inventory>();
 }
 
@@ -120,24 +96,15 @@ SpaceFloat Agent::getDefaultFovAngle() const {
 	return props->viewAngle;
 }
 
-void Agent::checkInitScriptObject()
-{
-    auto objects = space->scriptVM->_state["objects"];
-	auto cls = objects[getClsName()];
-
-    if (cls.valid()) {
-		scriptObj = cls(this);
-	}
-}
-
 void Agent::initFSM()
 {
-	fsm = allocator_new<ai::StateMachine>(this, ai_package);
+	fsm = make_unique<ai::StateMachine>(this, props->aiProperties);
 
-	if (ai_package.empty() && type != GType::player) {
-		log1("%s: no AI package!", toString());
-		return;
+	if (!props->aiProperties) {
+		log1("%s: no AI properties!", toString());
 	}
+ 
+    sol::runMethodIfAvailable(scriptObj, "initialize_ai");
 }
 
 void Agent::initAttributes()
@@ -180,6 +147,10 @@ void Agent::update()
 	if (firePattern) firePattern->update();
 	attributeSystem->update(this);
 	updateAnimation();
+}
+
+int Agent::getLevel() const {
+    return (*this)[Attribute::level];
 }
 
 void Agent::sendAlert(Player* p)
@@ -336,6 +307,11 @@ void Agent::setAttribute(Attribute id, float val) const
     attributeSystem->set(id, val);
 }
 
+void Agent::setAttribute(Attribute id, Attribute val) const
+{
+    attributeSystem->set(id, val);
+}
+
 void Agent::modifyAttribute(Attribute id, float val)
 {
 	attributeSystem->modifyAttribute(id, val);
@@ -423,6 +399,16 @@ SpaceFloat Agent::getSpeedMultiplier() const
 	}
 	else if (crntState == agent_state::blocking) {
 		return (*this)[Attribute::blockSpeedRatio];
+	}
+	else {
+		return 1.0;
+	}
+}
+
+SpaceFloat Agent::getAccelMultiplier() const
+{
+	if (crntState == agent_state::sprinting) {
+		return (*this)[Attribute::sprintSpeedRatio] * (*this)[Attribute::sprintSpeedRatio];
 	}
 	else {
 		return 1.0;
@@ -518,12 +504,14 @@ bool Agent::canSprint()
     ;
 }
 
-void Agent::sprint()
+void Agent::sprint(SpaceVect direction)
 {
     if(!canSprint())
         return;
 
     setState(agent_state::sprinting);
+    stateData = sprint_data{direction};
+    
     consume(Attribute::stamina, (*this)[Attribute::sprintCost]);
 }
 
@@ -556,12 +544,15 @@ bool Agent::doPowerAttack(const SpellDesc* p)
     if(crntState != agent_state::none)
         return false;
         
-    bool result = space->spellSystem->cast(p, this);
+    power_attack_data data;
+    data.attack = space->spellSystem->cast(p, this);
     
-    if(result)
+    if(data.attack){
         setState(agent_state::powerAttack);
+        stateData = data;
+    }
     
-    return result;
+    return data.attack;
 }
 
 bool Agent::doPowerAttack()
@@ -605,49 +596,20 @@ bool Agent::throwBomb(local_shared_ptr<bomb_properties> bomb, SpaceFloat speedRa
 
 void Agent::applyDesiredMovement(SpaceVect direction)
 {
-    SpaceFloat baseSpeed = getMaxSpeed();
-    SpaceFloat speedMult = getSpeedMultiplier();
-    SpaceFloat speed = baseSpeed*speedMult;
-    SpaceFloat accel = getMaxAcceleration() * speedMult * speedMult;
+    SpaceFloat speed = getMaxSpeed() * getSpeedMultiplier();
+    SpaceFloat accel = getMaxAcceleration() * getAccelMultiplier();
 
     ai::applyDesiredVelocity(this, direction*speed, accel);
 }
 
-void Agent::toggleSpell()
-{
-	if (crntSpell)
-	{
-        stopSpell();
-    }
-}
-
-bool Agent::canCast()
+bool Agent::canCast(const SpellDesc* spell)
 {
     return
         !isActive(Attribute::inhibitSpellcasting) &&
-        equippedSpell &&
+        spell &&
+        canApplySpellCost(spell->getCost()) &&
         !isActive(Attribute::spellCooldown)
     ;
-}
-
-void Agent::castSpell()
-{
-    if(canCast()){
-        crntSpell = space->spellSystem->cast(equippedSpell, this);
-        if (crntSpell) {
-            attributeSystem->resetCombo();
-            playSoundSpatial("sfx/player_spellcard.wav");
-        }
-    }
-}
-
-void Agent::stopSpell()
-{
-	if (crntSpell)
-	{
-		space->spellSystem->stopSpell(crntSpell);
-		crntSpell = 0;
-	}
 }
 
 void Agent::selectNextSpell()
@@ -703,11 +665,24 @@ void Agent::updateState()
     switch(crntState)
     {
     case agent_state::sprinting:
+        applyDesiredMovement(std::get<sprint_data>(stateData).sprintDirection);
+    
+        log1("sprint time: %d", (*this)[Attribute::sprintTime]);
+    
         if(timeInState > (*this)[Attribute::sprintTime])
             setState(agent_state::sprintRecovery);
     break;
     case agent_state::sprintRecovery:
-        if(timeInState > (*this)[Attribute::sprintRecoveryTime])
+        applyDesiredMovement(SpaceVect::zero);
+    
+        if(timeInState > (*this)[Attribute::sprintRecoveryTime]){
+            setState(agent_state::none);
+            setAttribute(Attribute::sprintCooldown, Attribute::sprintCooldownTime);
+        }
+    break;
+    case agent_state::powerAttack:
+        power_attack_data data = std::get<power_attack_data>(stateData);
+        if(!data.attack->isSpellActive())
             setState(agent_state::none);
     break;
     }

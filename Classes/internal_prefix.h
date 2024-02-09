@@ -18,7 +18,6 @@
 #include "graphics_context.hpp"
 #include "GraphicsNodes.hpp"
 
-#include "Agent.hpp"
 #include "Bullet.hpp"
 #include "Enemy.hpp"
 #include "FloorSegment.hpp"

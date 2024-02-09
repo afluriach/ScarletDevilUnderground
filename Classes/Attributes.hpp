@@ -58,6 +58,7 @@ enum class Attribute {
     spellCooldown,
     sprintCooldown,
 
+    level,
 	shieldLevel,
 
 	stress,

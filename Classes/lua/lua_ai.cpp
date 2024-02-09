@@ -8,7 +8,6 @@
 
 #include "Prefix.h"
 
-#include "Agent.hpp"
 #include "AI.hpp"
 #include "AIFunctions.hpp"
 #include "AIUtil.hpp"

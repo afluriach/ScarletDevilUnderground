@@ -49,6 +49,7 @@ void GSpace::loadScriptVM()
 	scriptVM->runFile("scripts/items.lua");
 	scriptVM->runFile("scripts/npc.lua");
 	scriptVM->runFile("scripts/objects.lua");
+	scriptVM->runFile("scripts/player.lua");
 	scriptVM->runFile("scripts/spells/fairy-spells.lua");
 	scriptVM->runFile("scripts/spells/marisa-spells.lua");
 	scriptVM->runFile("scripts/spells/player-spells.lua");
@@ -977,6 +978,15 @@ SpaceRect GSpace::getArea(string name) const
 		log1("Unknown area name %s!", name);
 		return SpaceRect();
 	}
+}
+
+FloorSegment* GSpace::floorPointQuery(SpaceVect pos)
+{
+	return dynamic_cast<FloorSegment*>(physicsContext->pointQuery(
+		pos,
+		GType::floorSegment,
+		PhysicsLayers::floor
+	));
 }
 
 Pitfall* GSpace::pitfallPointQuery(SpaceVect pos)

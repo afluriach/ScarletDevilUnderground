@@ -8,7 +8,6 @@
 
 #include "Prefix.h"
 
-#include "Agent.hpp"
 #include "AIFunctions.hpp"
 #include "AIUtil.hpp"
 #include "app_constants.hpp"
@@ -29,6 +28,7 @@
 #include "SpellDescriptor.hpp"
 #include "SpellSystem.hpp"
 #include "SpellUtil.hpp"
+#include "sol_util.hpp"
 #include "value_map.hpp"
 
 namespace ai{
@@ -858,6 +858,11 @@ void PlayerControl::onEnter()
 update_return PlayerControl::update()
 {
     ControlInfo cs = getSpace()->getControlInfo();
+    
+    if(activeSpell && !activeSpell->isSpellActive()){
+        activeSpell.reset();
+        player->setAttribute(Attribute::spellCooldown, Attribute::castInterval);
+    }
 
     checkMovementControls(cs);
     checkItemInteraction(cs);
@@ -867,6 +872,8 @@ update_return PlayerControl::update()
         checkBombControls(cs);
         updateSpellControls(cs);
     }
+    
+    applyDesiredMovement();
     
     return_steady(0.0f);
 }
@@ -894,7 +901,7 @@ void PlayerControl::checkMovementControls(const ControlInfo& cs)
 		cs.isControlActionDown(ControlAction::sprint) &&
 		!desiredMoveDirection.isZero()
 	) {
-        player->sprint();
+        player->sprint(desiredMoveDirection);
 	}
     
 	if (desiredMoveDirection.isZero()) {
@@ -958,7 +965,7 @@ void PlayerControl::checkItemInteraction(const ControlInfo& cs)
 void PlayerControl::updateSpellControls(const ControlInfo& cs)
 {
 	if (cs.isControlActionPressed(ControlAction::spell)) {
-        player->toggleSpell();
+        toggleSpell();
 	}
 	else if (cs.isControlActionPressed(ControlAction::spell_previous)) {
         player->selectPrevSpell();
@@ -998,6 +1005,22 @@ bool PlayerControl::tryInteract()
 	);
  
     return result;
+}
+
+void PlayerControl::toggleSpell()
+{
+    if(activeSpell){
+        getSpace()->spellSystem->stopSpell(activeSpell);
+        player->setAttribute(Attribute::spellCooldown, Attribute::castInterval);
+        activeSpell.reset();
+    }
+    else{
+        auto spell = player->getInventory()->spells.getCrnt();
+        
+        if(spell && player->canCast(spell)){
+            activeSpell = player->cast(spell);
+        }
+    }
 }
 
 }//end NS

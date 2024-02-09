@@ -19,6 +19,7 @@ public:
 
 	string properName;
 	string clsName;
+    string scriptName;
 
 	SpaceVect dimensions;
 	SpaceFloat mass = 0.0;
@@ -45,16 +46,25 @@ public:
 	setter(SpaceFloat, friction)
 };
 
+struct ai_properties{
+    string engageDialog;
+    string defeatDialog;
+    
+    //Enemy's root state will be loaded when player enters room, instead of on initialization.
+    bool roomAlert = false;
+        
+    int _refcount = 0;
+};
+
 class agent_properties : public object_properties
 {
 public:
-	inline agent_properties() {}
-	virtual inline ~agent_properties() {}
+	agent_properties();
+	virtual ~agent_properties();
 
 	AttributeMap attributes;
 
-	string ai_package;
-
+    local_shared_ptr<ai_properties> aiProperties;
 	const SpellDesc* attack;
 	list<const SpellDesc*> spellInventory;
 	list<effect_entry> effects;
@@ -152,7 +162,6 @@ public:
     environment_object_properties();
     virtual ~environment_object_properties();
     
-	string scriptName;
 	string interactionIcon;
 	PhysicsLayers layers = PhysicsLayers::none;
 	bool interactible;
@@ -181,7 +190,6 @@ public:
 	item_properties();
     virtual ~item_properties();
 
-	string scriptName;
 	string onAcquireDialog;
 
 	bool addToInventory = true;

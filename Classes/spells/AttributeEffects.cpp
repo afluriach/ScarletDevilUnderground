@@ -8,7 +8,6 @@
 
 #include "Prefix.h"
 
-#include "Agent.hpp"
 #include "AttributeEffects.hpp"
 
 bool RestoreAttribute::canApply(GObject* target, effect_attributes attrs, Attribute attr)

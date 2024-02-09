@@ -13,16 +13,6 @@
 #include "Player.hpp"
 #include "value_map.hpp"
 
-bool Item::conditionalLoad(GSpace* space, const object_params& params, local_shared_ptr<item_properties> props)
-{
-	if (params.name.empty()) {
-		log0("Un-named item!");
-		return true;
-	}
-
-	return !space->getAreaStats().isObjectRemoved(params.name);
-}
-
 ObjectGeneratorType Item::create(GSpace* space, string items, SpaceVect pos)
 {
 	vector<string> tokens;
@@ -61,12 +51,7 @@ Item::Item(
 	),
 	props(props)
 {
-    auto objects = space->scriptVM->_state["objects"];
-	auto cls = objects[props->scriptName];
-
-    if (cls.valid()) {
-		scriptObj = cls(this);
-	}
+    init_script_object();
 }
 
 Item::~Item()

@@ -326,10 +326,14 @@ public:
     
     void applyDesiredMovement();
     bool tryInteract();
+    
+    void toggleSpell();
+    void stopSpell();
 
 	FuncGetName(PlayerControl)
 protected:
     Player* player = nullptr;
+    local_shared_ptr<Spell> activeSpell;
     SpaceVect desiredMoveDirection;
     SpaceFloat interactCooldown = 0.0;
 

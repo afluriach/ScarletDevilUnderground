@@ -48,7 +48,7 @@ namespace app {
 		return [props](GSpace* space, ObjectIDType id, const ValueMap& args) -> GObject* {
 			object_params params(args);
 
-			if (Agent::conditionalLoad(space, params, props)) {
+			if (GObject::conditionalLoad(space, props, params)) {
 				return allocator_new<Enemy>(space, id, params, props);
 			}
 			else {
@@ -62,7 +62,7 @@ namespace app {
 		return [props](GSpace* space, ObjectIDType id, const ValueMap& args) -> GObject* {
 			object_params params(args);
 
-			if (Agent::conditionalLoad(space, params, props)) {
+			if (GObject::conditionalLoad(space, props, params)) {
 				return allocator_new<NPC>(space, id, params, props);
 			}
 			else {
@@ -76,7 +76,7 @@ namespace app {
 		return [props](GSpace* space, ObjectIDType id, const ValueMap& args) -> GObject* {
 			object_params params(args);
 
-			if (Item::conditionalLoad(space, params, props)) {
+			if (GObject::conditionalLoad(space, props, params)) {
 				return allocator_new<Item>(space, id, params, props);
 			}
 			else {
@@ -95,8 +95,10 @@ namespace app {
 	GObject::AdapterType objectAdapter(local_shared_ptr<environment_object_properties> props)
 	{
 		return [props](GSpace* space, ObjectIDType id, const ValueMap& args) -> GObject* {
-			if (EnvironmentObject::conditionalLoad(space, id, args, props)) {
-				return allocator_new<EnvironmentObject>(space, id, args, props);
+            object_params params(args);
+            
+			if (GObject::conditionalLoad(space, props, params)) {
+				return allocator_new<EnvironmentObject>(space, id, props, params);
 			}
 			else {
 				return nullptr;
@@ -195,13 +197,13 @@ namespace app {
 
 	bool parseObject(tinyxml2::XMLElement* elem, AttributeMap* result)
 	{
-		AttributeMap _result;
+		AttributeMap& _result = *result;
 
 		for (
 			tinyxml2::XMLElement* crnt = elem->FirstChildElement();
 			crnt != nullptr;
 			crnt = crnt->NextSiblingElement()
-			) {
+        ) {
 			const char* attrName = crnt->Name();
 			Attribute crntAttr = AttributeSystem::getAttribute(attrName);
 			float val;
@@ -215,7 +217,6 @@ namespace app {
 			}
 		}
 
-		*result = _result;
 		return true;
 	}
 
@@ -223,6 +224,9 @@ namespace app {
 	{
 		result->clsName = elem->Name();
 		getStringAttr(elem, "name", &result->properName);
+  
+        getStringAttr(elem, "cls", &result->scriptName);
+        autoName(elem, result->scriptName);
 
 		if (!getVector(elem, "dimensions", &result->dimensions)) {
 			getNumericAttr(elem, "radius", &result->dimensions.x);
@@ -239,9 +243,6 @@ namespace app {
 	bool parseObject(tinyxml2::XMLElement* elem, local_shared_ptr<environment_object_properties> result)
 	{
 		parseObject(elem, static_cast<local_shared_ptr<object_properties>>(result));
-
-		getStringAttr(elem, "cls", &result->scriptName);
-		autoName(elem, result->scriptName);
 
 		getStringAttr(elem, "interactionIcon", &result->interactionIcon);
 		getNumericAttr(elem, "interactible", &result->interactible);
@@ -349,10 +350,6 @@ namespace app {
 		}
 
 		getSubObjectPtr<SpellDesc>(elem, "attack", &result->attack, app::spells, true);
-
-		getStringAttr(elem, "ai_package", &result->ai_package);
-
-		autoName(elem, result->ai_package);
 
 		getNumericAttr(elem, "viewAngle", &result->viewAngle);
 		getNumericAttr(elem, "viewRange", &result->viewRange);
@@ -479,9 +476,6 @@ namespace app {
 		if (result->dimensions.x == 0.0) {
 			result->dimensions.x = 0.5;
 		}
-
-		getStringAttr(elem, "cls", &result->scriptName);
-		autoName(elem, result->scriptName);
 
 		getStringAttr(elem, "dialog", &result->onAcquireDialog);
 

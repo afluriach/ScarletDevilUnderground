@@ -8,7 +8,6 @@
 
 #include "Prefix.h"
 
-#include "Agent.hpp"
 #include "PlayerFirePattern.hpp"
 
 const float StarbowBreak::baseCost = 1.0f;

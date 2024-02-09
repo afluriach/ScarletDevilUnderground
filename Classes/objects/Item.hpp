@@ -12,7 +12,6 @@
 class Item : public GObject
 {
 public:
-	static bool conditionalLoad(GSpace* space, const object_params& params, local_shared_ptr<item_properties> props);
 	static ObjectGeneratorType create(GSpace* space, string items, SpaceVect pos);
 
 	Item(GSpace* space, ObjectIDType id, const object_params& params, local_shared_ptr<item_properties> props);

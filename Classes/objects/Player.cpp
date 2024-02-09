@@ -22,6 +22,7 @@
 #include "GraphicsNodes.hpp"
 #include "HUD.hpp"
 #include "Inventory.hpp"
+#include "LuaAPI.hpp"
 #include "MagicEffect.hpp"
 #include "physics_context.hpp"
 #include "Player.hpp"
@@ -56,6 +57,8 @@ Player::Player(
 	if (!playScene) {
 		throw runtime_error("Player created outside of PlayScene!");
 	}
+ 
+    init_script_object();    
 }
 
 Player::~Player()

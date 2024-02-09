@@ -9,8 +9,6 @@
 #ifndef FirePattern_hpp
 #define FirePattern_hpp
 
-#include "Agent.hpp"
-
 class FirePattern
 {
 public:

@@ -37,6 +37,9 @@ Direction stringToDirection(string str);
 string directionToString(Direction d);
 string floatToRoundedString(float val, float denom);
 
+bool isNumeric(char c);
+int getIntSuffix(const string& name);
+
 SpaceFloat linearToAngularSpeed(SpaceFloat speed, SpaceFloat radius);
 
 bool isInArea(const vector<SpaceRect>& areas, const SpaceVect& target, int index);

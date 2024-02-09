@@ -99,6 +99,38 @@ string floatToRoundedString(float val, float denom)
 	return boost::lexical_cast<string>(roundedVal);
 }
 
+bool isNumeric(char c)
+{
+    return c >= '0' && c <= '9';
+}
+
+int getIntSuffix(const string& name)
+{
+    if(name.empty()){
+        log("Empty string.");
+        return -1;
+    }
+    
+    int lastIdx = name.size() - 1;
+    int idx = lastIdx;
+    while(isNumeric(name[idx]))
+        --idx;
+        
+    if(idx == lastIdx ){
+        log("Name does not have a numeric suffix");
+        return -1;
+    }
+    
+    try{
+        return boost::lexical_cast<int>(name.substr(idx, lastIdx));
+    }
+    catch(boost::bad_lexical_cast){
+        log("Error parsing numeric suffix");
+    }
+    
+    return -1;
+}
+
 SpaceFloat linearToAngularSpeed(SpaceFloat speed, SpaceFloat radius)
 {
 	SpaceFloat circumference = 2.0 * float_pi * radius;

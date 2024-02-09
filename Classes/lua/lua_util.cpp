@@ -20,6 +20,8 @@ void Inst::addUtil()
 	auto util = _state.create_table();
 	_state["util"] = util;
 
+    cFuncSame(util, getIntSuffix);
+
 	//Lua does not support passing primitves by reference, thus sol does not
 	//support wrapping the C++ version of these functions.
 	util["timerDecrement"] = [](SpaceFloat input) -> SpaceFloat {

@@ -26,6 +26,7 @@
 	<PlayerBatMode
 		type="ApplySelfEffect"
 		icon="sprites/ui/bat_mode.png"
+		sfx="player_spellcard"
 		length="-1.0"
 		cost="ongoing_mp:5.0"
 		effect="BatTransform"
@@ -33,6 +34,7 @@
 	<PlayerCounterClock
 		type="CirclingBullets"
 		icon="sprites/ui/counterclock.png"
+		sfx="player_spellcard"
 		length="-1.0"
 		cost="ongoing_mp:7.5"
 		bullet="flandreCounterClockBullet"
@@ -43,6 +45,7 @@
 	<PlayerIceShield
 		type="CirclingBullets"
 		icon="sprites/ui/ice_shield.png"
+		sfx="player_spellcard"
 		length="-1.0"
 		cost="ongoing_mp:7.5"
 		bullet="cirnoIceShieldBullet"

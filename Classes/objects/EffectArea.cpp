@@ -8,7 +8,6 @@
 
 #include "Prefix.h"
 
-#include "Agent.hpp"
 #include "EffectArea.hpp"
 #include "Graphics.h"
 #include "graphics_context.hpp"

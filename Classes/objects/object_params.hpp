@@ -33,9 +33,6 @@ public:
 	SpaceVect dimensions = SpaceVect::zero;
 
 	string name;
-	string ai_package;
-
-	int level = 0;
 
 	bool hidden = false;
 	bool active = false;
@@ -46,8 +43,6 @@ public:
 	getter(SpaceFloat, angularVel);
 	getter(SpaceVect, dimensions);
 	getter(string, name);
-	getter(string, ai_package);
-	getter(int, level);
 	getter(bool, hidden);
 	getter(bool, active);
 
@@ -57,8 +52,6 @@ public:
 	setter(SpaceFloat, angularVel);
 	setter(SpaceVect, dimensions);
 	setter(string, name);
-	setter(string, ai_package);
-	setter(int, level);
 	setter(bool, hidden);
 	setter(bool, active);
 };

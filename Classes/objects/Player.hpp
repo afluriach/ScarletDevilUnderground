@@ -9,8 +9,6 @@
 #ifndef Player_hpp
 #define Player_hpp
 
-#include "Agent.hpp"
-
 class Player : public Agent
 {
 public:

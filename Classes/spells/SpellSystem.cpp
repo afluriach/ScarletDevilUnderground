@@ -53,7 +53,7 @@ local_shared_ptr<Spell> SpellSystem::cast(const SpellDesc* desc, GObject* caster
 	}
 
 	if (spell->descriptor->params.length != 0.0){
-		spells.insert_or_assign(id, spell);
+		spells.insert(spell);
 		objectSpells.insert(make_pair(caster, spell.get()));
 		additions.push_back(spell.get());
 	}
@@ -66,26 +66,26 @@ local_shared_ptr<Spell> SpellSystem::cast(const SpellDesc* desc, GObject* caster
 	return spell;
 }
 
-void SpellSystem::stopSpell(unsigned int id)
+void SpellSystem::stopSpell(Spell* spell)
 {
-	if (!id) return;
+	if (!spell) return;
 
-	auto it = spells.find(id);
-	if (it != spells.end()) {
-		if (logSpells) {
-			log2("Spell %s (%u) stopped.", it->second->getName(), it->second->id);
-		}
+    spell->end();
+    spell->active = false;
+    removals.insert(spell);
 
-		it->second->end();
-		it->second->active = false;
-		removals.insert(it->second.get());
+    eraseEntry(objectSpells, make_pair(spell->caster, spell));
+    updateSpells.erase(spell);
+    spells.erase(spell);
 
-		eraseEntry(objectSpells, make_pair(it->second->caster, it->second.get()));
-		spells.erase(it);
-	}
-	else {
-		log1("spell ID %u does not exist!", id);
-	}
+    if (logSpells) {
+        log2("Spell %s (%u) stopped.", spell->getName(), spell->id);
+    }
+}
+
+void SpellSystem::stopSpell(local_shared_ptr<Spell> spell)
+{
+    stopSpell(spell.get());
 }
 
 void SpellSystem::applyRemove(Spell* spell)
@@ -98,14 +98,14 @@ void SpellSystem::stopObjectSpells(GObject* obj)
 	auto keysRange = objectSpells.equal_range(obj);
 
 	//This is required, as the keysRange iterator is invalidated once stopSpell is called.
-	list<unsigned int, local_allocator<unsigned int>> toRemove;
+	list<Spell*, local_allocator<Spell*>> toRemove;
 
 	for (auto it = keysRange.first; it != keysRange.second; ++it) {
-		toRemove.push_back(it->second->id);
+		toRemove.push_back(it->second);
 	}
 
-	for (auto id : toRemove) {
-		stopSpell(id);
+	for (auto spell : toRemove) {
+		stopSpell(spell);
 	}
 }
 
@@ -129,7 +129,7 @@ void SpellSystem::update()
 	for (auto it = updateSpells.begin(); it != updateSpells.end(); ++it) {
 		Spell* crnt = *it;
 		if (!crnt->caster->applyOngoingSpellCost(crnt->getCost())) {
-			stopSpell(crnt->id);
+			stopSpell(crnt);
 		}
 		else {
 			crnt->runUpdate();

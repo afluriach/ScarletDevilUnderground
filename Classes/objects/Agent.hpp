@@ -21,6 +21,16 @@ enum class agent_state
     sprintRecovery,
 };
 
+struct power_attack_data{
+    local_shared_ptr<Spell> attack;
+};
+
+struct sprint_data{
+    SpaceVect sprintDirection;
+};
+
+typedef variant<power_attack_data, sprint_data> state_data;
+
 class Agent : public GObject
 {
 public:
@@ -31,8 +41,6 @@ public:
 	static const Color4F shieldConeColor;
 	static const float bodyOutlineWidth;
     static const float bombSpawnDistance;
-
-	static bool conditionalLoad(GSpace* space, const object_params& params, local_shared_ptr<agent_properties> props);
 
 	Agent(
 		GSpace* space,
@@ -47,11 +55,10 @@ public:
 	void initAttributes();
 	void applyEffects();
 	AttributeMap getBaseAttributes() const;
-	void checkInitScriptObject();
 	virtual void init();
 	virtual void update();
 
-	inline virtual int getLevel() const { return level; }
+	virtual int getLevel() const;
 
 	void sendAlert(Player* p);
 
@@ -80,6 +87,7 @@ public:
 	virtual inline AttributeMap getAttributeUpgrades() const { return AttributeMap(); }
 	float get(Attribute id) const;
     void setAttribute(Attribute id, float val) const;
+    void setAttribute(Attribute id, Attribute val) const;
 	inline float operator[](Attribute attr) const { return (*attributeSystem)[attr]; }
 	void modifyAttribute(Attribute id, float val);
 	void modifyAttribute(Attribute mod, Attribute addend);
@@ -100,6 +108,7 @@ public:
 	virtual SpaceFloat getMaxSpeed() const;
 	virtual SpaceFloat getMaxAcceleration() const;
     SpaceFloat getSpeedMultiplier() const;
+    SpaceFloat getAccelMultiplier() const;
 
 	bool canPlaceBomb(SpaceVect pos);
 	void setShieldActive(bool v);
@@ -135,7 +144,7 @@ public:
     bool fire();
     bool aimAtTarget(gobject_ref target);
     bool canSprint();
-    void sprint();
+    void sprint(SpaceVect direction);
     void block();
     void endBlock();
     bool hasPowerAttack();
@@ -147,10 +156,7 @@ public:
     
     void applyDesiredMovement(SpaceVect direction);
     
-    void toggleSpell();
-    bool canCast();
-    void castSpell();
-    void stopSpell();
+    bool canCast(const SpellDesc* desc);
     
     void selectNextSpell();
     void selectPrevSpell();
@@ -170,19 +176,13 @@ public:
 	void setSprite(shared_ptr<sprite_properties> sprite);
 protected:
 	void updateAnimation();
-
-	string ai_package;
-	int level = 0;
  
     agent_state crntState = agent_state::none;
     SpaceFloat timeInState = 0.0;
-    
-    unsigned int activeSpell = 0;
-    unsigned int activePowerAttack = 0;
+    state_data stateData;
 
 	//equips
     unique_ptr<Inventory> inventory;
-    unsigned int crntSpell = 0;
    
 	local_shared_ptr<FirePattern> firePattern;
 	local_shared_ptr<bomb_properties> crntBomb;

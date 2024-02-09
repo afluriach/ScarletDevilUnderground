@@ -133,6 +133,7 @@ typedef double SpaceFloat;
 #include "Attributes.hpp"
 #include "App.h"
 #include "GState.hpp"
+#include "Agent.hpp"
 
 #define DEV_MODE 1
 #define GSPACE_MULTITHREAD 1

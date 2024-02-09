@@ -13,6 +13,12 @@ object_properties::object_properties()
 object_properties::~object_properties()
 {}
 
+agent_properties::agent_properties()
+{}
+
+agent_properties::~agent_properties()
+{}
+
 bomb_properties::bomb_properties()
 {}
 

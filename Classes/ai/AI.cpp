@@ -8,7 +8,6 @@
 
 #include "Prefix.h"
 
-#include "Agent.hpp"
 #include "AI.hpp"
 #include "AIFunctions.hpp"
 #include "AIUtil.hpp"
@@ -17,6 +16,7 @@
 #include "Bullet.hpp"
 #include "FirePattern.hpp"
 #include "LuaAPI.hpp"
+#include "object_properties.hpp"
 #include "Player.hpp"
 #include "sol_util.hpp"
 #include "SpellDescriptor.hpp"
@@ -169,6 +169,13 @@ void Thread::popToRoot()
 	}
 }
 
+void Thread::clear()
+{
+	while (call_stack.size() > 0) {
+		pop();
+	}
+}
+
 local_shared_ptr<Function> Thread::getTop()
 {
 	if (call_stack.size() > 0)
@@ -198,19 +205,12 @@ string Thread::getMainFuncName() {
 	return !call_stack.empty() ? call_stack.front()->getName() : "";
 }
 
-StateMachine::StateMachine(GObject *const agent, const string& clsName) :
+StateMachine::StateMachine(GObject *const agent, local_shared_ptr<ai_properties> props) :
+props(props),
 agent(agent)
 {
     frame = getSpace()->getFrame();
 	_stack = make_local_shared<Thread>(this);
-
-	auto objects = getSpace()->scriptVM->_state["ai"];
-	auto cls = objects[clsName];
-
-	if (cls.valid()) {
-		scriptObj = cls(this);
-		sol::runMethodIfAvailable(scriptObj, "initialize", scriptObj);
-	}
 }
 
 StateMachine::~StateMachine()
@@ -220,13 +220,18 @@ StateMachine::~StateMachine()
 void StateMachine::update()
 {
 	_stack->update();
-	sol::runMethodIfAvailable(scriptObj, "update");
 }
 
 void StateMachine::pushFunction(local_shared_ptr<Function> function)
 {
 	if (!function) return;
 	_stack->push(function);
+}
+
+void StateMachine::setFunction(local_shared_ptr<Function> function)
+{
+    _stack->clear();
+    _stack->push(function);
 }
 
 void StateMachine::onDetectEnemy(Agent* enemy)

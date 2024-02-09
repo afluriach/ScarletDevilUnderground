@@ -8,7 +8,6 @@
 
 #include "Prefix.h"
 
-#include "Agent.hpp"
 //#include "Attributes.hpp"
 
 const float AttributeSystem::maxElementDamage = 100.0f;
@@ -62,6 +61,7 @@ const boost::bimap<Attribute, string> AttributeSystem::attributeNameMap = boost:
     entry(spellCooldown)
     entry(sprintCooldown)
 
+    entry(level)
 	entry(shieldLevel)
 
 	entry(stress)

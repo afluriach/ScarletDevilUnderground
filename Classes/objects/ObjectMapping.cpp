@@ -8,7 +8,6 @@
 
 #include "Prefix.h"
 
-#include "Agent.hpp"
 #include "AreaSensor.hpp"
 #include "Bullet.hpp"
 #include "Door.hpp"
@@ -44,21 +43,11 @@ GObject::AdapterType itemAdapter()
 			log1("Unknown Item type: %s", typeName);
 		}
 
-		if (!itemProps || !Item::conditionalLoad(space, params, itemProps))
+		if (!itemProps || !GObject::conditionalLoad(space, itemProps, params))
 			return nullptr;
         else
 			return allocator_new<Item>(space, id, params, itemProps);
     };
-}
-
-template<typename T>
-GObject::AdapterType conditionalLoadAdapter()
-{
-	return [=](GSpace* space, ObjectIDType id, const ValueMap& args) -> GObject* {
-		if (!T::conditionalLoad(space, id, args) )
-			return nullptr;
-		else return allocator_new<T>(space, id, args);
-	};
 }
 
 template <class C>
@@ -75,7 +64,6 @@ GObject::object_info makeObjectInfo(GObject::AdapterType adapter)
 #define entry_same(cls) entry(#cls, cls)
 
 #define no_adapter_entry(name) {#name, makeObjectInfo<name>(nullptr)}
-#define conditional_entry(name) {#name, makeObjectInfo<name>(conditionalLoadAdapter<name>())}
 
 unordered_map<string, GObject::object_info> GObject::objectInfo;
 unordered_map<string, GObject::AdapterType> GObject::namedObjectTypes;

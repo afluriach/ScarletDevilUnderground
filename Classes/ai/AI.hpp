@@ -9,8 +9,6 @@
 #ifndef AI_hpp
 #define AI_hpp
 
-#include "sol_util.hpp"
-
 namespace ai{
 
 //for functions that target an object
@@ -115,6 +113,7 @@ public:
 	void push(local_shared_ptr<Function> newState);
 	void pop();
 	void popToRoot();
+    void clear();
     
 	local_shared_ptr<Function> getTop();
     string getStack();
@@ -126,37 +125,18 @@ protected:
 	StateMachine* sm;
 };
 
-class FSM
-{
-public:
-    inline virtual ~FSM() {}
-    virtual void update() = 0;
-    
-    virtual void onDetectEnemy(Agent* enemy) = 0;
-	virtual void onEndDetectEnemy(Agent* enemy) = 0;
-	virtual void onDetectBomb(Bomb* bomb) = 0;
-	virtual void onDetectBullet(Bullet* bullet) = 0;
- 
- 	virtual void onBulletHit(Bullet* b) = 0;
-	virtual void onBulletBlock(Bullet* b) = 0;
-	virtual void enemyRoomAlert(Agent* enemy) = 0;
-	virtual void onZeroHP() = 0;
-	virtual void onZeroStamina() = 0;
- 
-    virtual string toString() = 0;
-};
-
-class StateMachine : public FSM
+class StateMachine
 {
 public:
 	friend class Thread;
 
-    StateMachine(GObject *const agent, const string& clsName);
+    StateMachine(GObject *const agent, local_shared_ptr<ai_properties> props);
 	virtual ~StateMachine();
 
 	virtual void update();
 
 	void pushFunction(local_shared_ptr<Function> function);
+    void setFunction(local_shared_ptr<Function> function);
 
 	virtual void onDetectEnemy(Agent* enemy);
 	virtual void onEndDetectEnemy(Agent* enemy);
@@ -190,13 +170,6 @@ protected:
 	template<typename... Params>
 	void callInterface(const string& name, bool (Function::*method)(Params...), Params... params)
 	{
-		if (scriptObj && sol::hasMethod(scriptObj, name)) {
-			auto f = scriptObj[name];
-			bool result = f(scriptObj, params...);
-
-			if (result) return;
-		}
-
 		for (auto it = _stack->call_stack.rbegin(); it != _stack->call_stack.rend(); ++it) {
 			Function* f = it->get();
 			if ((f->*method)(params...)) return;
@@ -205,8 +178,8 @@ protected:
 
 	GObject *const agent;
 
+    local_shared_ptr<ai_properties> props;
 	local_shared_ptr<Thread> _stack;
-	sol::table scriptObj;
     unsigned int frame;
 };
 

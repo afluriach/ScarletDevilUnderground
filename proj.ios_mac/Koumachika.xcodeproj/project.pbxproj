@@ -84,8 +84,6 @@
 		E2480E1120E1EADC0028E491 /* Agent.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E21738F41FE609360045C4CB /* Agent.cpp */; };
 		E252F2A52B5F65340014805B /* Inventory.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E252F2A32B5F65340014805B /* Inventory.cpp */; };
 		E252F2A62B5F65340014805B /* Inventory.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E252F2A32B5F65340014805B /* Inventory.cpp */; };
-		E252F2AB2B60482C0014805B /* FSM_Impl.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E252F2A92B60482C0014805B /* FSM_Impl.cpp */; };
-		E252F2AC2B60482C0014805B /* FSM_Impl.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E252F2A92B60482C0014805B /* FSM_Impl.cpp */; };
 		E252F2AF2B606B0E0014805B /* object_properties.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E252F2AD2B606B0E0014805B /* object_properties.cpp */; };
 		E252F2B02B606B0E0014805B /* object_properties.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E252F2AD2B606B0E0014805B /* object_properties.cpp */; };
 		E25BCACA24E73B6D0032C1ED /* Dialog.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E25BCAC324E73B6D0032C1ED /* Dialog.cpp */; };
@@ -387,8 +385,6 @@
 		E24620271CF77271007C2CB5 /* libboost_serialization.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libboost_serialization.a; path = ../../../../../../dev/boost_1_59_0/stage/lib/libboost_serialization.a; sourceTree = "<group>"; };
 		E252F2A32B5F65340014805B /* Inventory.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = Inventory.cpp; sourceTree = "<group>"; };
 		E252F2A42B5F65340014805B /* Inventory.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = Inventory.hpp; sourceTree = "<group>"; };
-		E252F2A92B60482C0014805B /* FSM_Impl.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = FSM_Impl.cpp; path = ai/FSM_Impl.cpp; sourceTree = "<group>"; };
-		E252F2AA2B60482C0014805B /* FSM_Impl.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = FSM_Impl.hpp; path = ai/FSM_Impl.hpp; sourceTree = "<group>"; };
 		E252F2AD2B606B0E0014805B /* object_properties.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = object_properties.cpp; path = objects/object_properties.cpp; sourceTree = "<group>"; };
 		E252F2AE2B606B0E0014805B /* object_properties.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = object_properties.hpp; path = objects/object_properties.hpp; sourceTree = "<group>"; };
 		E259A5E120D6108F003288B5 /* enum.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.h; fileEncoding = 4; path = enum.h; sourceTree = "<group>"; };
@@ -919,8 +915,6 @@
 				E26C253C24E73A7D004067E0 /* AIUtil.hpp */,
 				E2E01EEB1C1DCA0D00330904 /* AI.cpp */,
 				E2E01EEC1C1DCA0D00330904 /* AI.hpp */,
-				E252F2A92B60482C0014805B /* FSM_Impl.cpp */,
-				E252F2AA2B60482C0014805B /* FSM_Impl.hpp */,
 			);
 			name = ai;
 			sourceTree = "<group>";
@@ -1218,7 +1212,6 @@
 				E26C24ED24E739ED004067E0 /* log.cpp in Sources */,
 				E26C257824E73ABF004067E0 /* object_params.cpp in Sources */,
 				E25BCADD24E73B8B0032C1ED /* graphics_context.cpp in Sources */,
-				E252F2AB2B60482C0014805B /* FSM_Impl.cpp in Sources */,
 				E26C24F924E739ED004067E0 /* xml_spells.cpp in Sources */,
 				E26C253524E73A41004067E0 /* MagicEffectSystem.cpp in Sources */,
 				E25BCAE324E73B8B0032C1ED /* GraphicsNodes.cpp in Sources */,
@@ -1363,7 +1356,6 @@
 				E26C255724E73A96004067E0 /* lua_scene.cpp in Sources */,
 				E26C253824E73A41004067E0 /* SpellSystem.cpp in Sources */,
 				E25BCACB24E73B6D0032C1ED /* Dialog.cpp in Sources */,
-				E252F2AC2B60482C0014805B /* FSM_Impl.cpp in Sources */,
 				E25BCAD124E73B6D0032C1ED /* menu.cpp in Sources */,
 				E26C251E24E73A41004067E0 /* SpellImpl.cpp in Sources */,
 				E2CDC54C1C0507090017537B /* Player.cpp in Sources */,

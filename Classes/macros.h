@@ -53,4 +53,14 @@ public: \
 	static constexpr bool value = is_same<decltype(test<T>(0)), true_type>::value; \
 }; \
 
+#define init_script_object() \
+{ \
+    auto objects = space->scriptVM->_state["objects"]; \
+    auto name = !props->scriptName.empty() ? props->scriptName : props->clsName; \
+    auto cls = objects[name]; \
+    if (cls.valid()) { \
+        scriptObj = cls(this); \
+    } \
+} \
+
 #endif /* macros_h */

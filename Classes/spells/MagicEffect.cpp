@@ -8,7 +8,6 @@
 
 #include "Prefix.h"
 
-#include "Agent.hpp"
 #include "AIUtil.hpp"
 #include "LuaAPI.hpp"
 #include "MagicEffect.hpp"

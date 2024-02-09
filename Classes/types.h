@@ -82,7 +82,6 @@ class PhysicsImpl;
 class Sensor;
 
 namespace ai {
-    class FSM;
 	class Function;
 	class StateMachine;
 	class Thread;

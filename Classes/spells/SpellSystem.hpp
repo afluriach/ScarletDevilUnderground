@@ -26,7 +26,8 @@ public:
 
 	local_shared_ptr<Spell> cast(const SpellDesc* desc, GObject* caster);
 
-	void stopSpell(unsigned int id);
+    void stopSpell(local_shared_ptr<Spell> spell);
+    void stopSpell(Spell* spell);
 protected:
 	void applyRemove(Spell* spell);
 	void applyRemovals();
@@ -37,7 +38,7 @@ protected:
 	//This is a set in order to ensure against double-deletion
 	set<Spell*> removals;
 
-	map<unsigned int, local_shared_ptr<Spell>> spells;
+	set<local_shared_ptr<Spell>> spells;
 	set<Spell*, spellCompareID> updateSpells;
 	multimap<GObject*, Spell*> objectSpells;
 

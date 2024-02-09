@@ -286,6 +286,7 @@ public:
 	void addArea(string name, SpaceRect a);
 	SpaceRect getArea(string name) const;
 
+    FloorSegment* floorPointQuery(SpaceVect pos);
 	Pitfall* pitfallPointQuery(SpaceVect pos);
 
     inline boost::dynamic_bitset<>* getNavMask() const { return navMask;}

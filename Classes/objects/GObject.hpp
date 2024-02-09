@@ -50,6 +50,7 @@ public:
 	static const float objectFadeOutTime;
 	static const GLubyte objectFadeOpacity;
 
+    static bool conditionalLoad(GSpace* space, local_shared_ptr<object_properties> props, const object_params& params);
 	static GObject* constructByType(GSpace* space, ObjectIDType id, const string& type, const ValueMap& args);
 	static ObjectGeneratorType factoryMethodByType(const string& type, const ValueMap& args);
 	static bool isValidObjectType(string typeName);
@@ -181,6 +182,8 @@ public:
 	inline virtual bool isInvisible() const { return false; }
 
 	//StateMachine
+    inline ai::StateMachine* getFSM() const { return fsm.get(); }
+    void setAIFunction(local_shared_ptr<ai::Function> function);
 	void updateFSM();
 	void printFSM();
 	void setFrozen(bool val);
@@ -253,8 +256,6 @@ public:
 	SpaceVect getFloorVelocity() const;
 	void updateFloorSegment();
 	void updateFriction(float _uk);
-	void onContactFloorSegment(FloorSegment* fs);
-	void onEndContactFloorSegment(FloorSegment* fs);
 
 	SpaceRect getBoundingBox() const;
 	SpaceVect getDimensions() const;
@@ -376,7 +377,7 @@ protected:
 //logic
 	sol::table scriptObj;
 	local_shared_ptr<object_properties> props;
-	ai::StateMachine* fsm = nullptr;
+	unique_ptr<ai::StateMachine> fsm;
 	unique_ptr<parametric_motion> parametricMotion;
 	RoomSensor* crntRoom = nullptr;
 
@@ -393,7 +394,6 @@ protected:
 	SpaceFloat prevAngle = 0.0;
 
 	FloorSegment* crntFloorCenterContact = nullptr;
-	unordered_set<FloorSegment*> crntFloorContacts;
 
 //graphics
 	SpriteID spriteID = 0;

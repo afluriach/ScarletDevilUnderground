@@ -138,6 +138,7 @@ namespace Lua{
                 enum_entry(Attribute, spellCooldown),
                 enum_entry(Attribute, sprintCooldown),
 
+                enum_entry(Attribute, level),
 				enum_entry(Attribute, shieldLevel),
 
 				enum_entry(Attribute, stress),

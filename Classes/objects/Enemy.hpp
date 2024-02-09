@@ -9,8 +9,6 @@
 #ifndef Enemy_hpp
 #define Enemy_hpp
 
-#include "Agent.hpp"
-
 class Enemy : public Agent
 {
 public:

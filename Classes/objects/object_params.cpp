@@ -44,9 +44,6 @@ object_params::object_params(const ValueMap& args) :
 	)
 {
 	name = getStringOrDefault(args, "name", "");
-	ai_package = getStringOrDefault(args, "ai_package", "");
-
-	level = getIntOrDefault(args, "level", 0);
 
 	dimensions = getObjectDimensions(args);
 

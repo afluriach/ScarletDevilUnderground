@@ -26,11 +26,7 @@ NPC::NPC(
 	),
 	props(props)
 {
-    auto objects = space->scriptVM->_state["objects"];
-	auto cls = objects[props->clsName];
-    if (cls.valid()) {
-		scriptObj = cls(this);
-	}
+    init_script_object();
 }
 
 NPC::~NPC()

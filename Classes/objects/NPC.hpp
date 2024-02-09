@@ -9,8 +9,6 @@
 #ifndef NPC_hpp
 #define NPC_hpp
 
-#include "Agent.hpp"
-
 class NPC : public Agent
 {
 public:

@@ -8,7 +8,7 @@
 
 #include "Prefix.h"
 
-#include "Agent.hpp"
+#include "AI.hpp"
 #include "Bullet.hpp"
 #include "EnvironmentObject.hpp"
 #include "graphics_types.h"
@@ -51,7 +51,6 @@ namespace Lua{
 			rw_prop(object_params, angularVel),
 			rw_prop(object_params, dimensions),
 			rw_prop(object_params, name),
-			rw_prop(object_params, level),
 			rw_prop(object_params, hidden),
 			rw_prop(object_params, active)
 		);
@@ -122,6 +121,7 @@ namespace Lua{
 			"name", sol::property(&GObject::getName),
 			"id", sol::property(&GObject::getUUID),
             "props", sol::property(&GObject::getProps),
+            "fsm", sol::property(&GObject::getFSM),
 			"space", sol::property(&GObject::getSpace)
 		);
 
@@ -179,6 +179,7 @@ namespace Lua{
 		addFuncSame(gobject, getType);
 		addFuncSame(gobject, getFullType);
 
+        addFuncSame(gobject, setAIFunction);
 		addFuncSame(gobject, printFSM);
 			
 		gobject["asGObject"] = &GObject::getAs<GObject>;
