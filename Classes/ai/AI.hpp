@@ -65,6 +65,7 @@ public:
 	GSpace* getSpace() const;
 	GObject* getObject() const;
 	Agent* getAgent() const;
+    Player* getPlayer() const;
 	physics_context* getPhys() const;
 
 	bool castSpell(const SpellDesc* desc);
@@ -181,6 +182,7 @@ public:
 	GSpace* getSpace();
 	inline GObject* getObject() { return agent; }
 	Agent* getAgent();
+    Player* getPlayer();
 	RoomSensor* getRoomSensor();
 	unsigned int getFrame();
     string toString();

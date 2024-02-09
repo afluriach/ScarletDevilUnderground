@@ -46,10 +46,21 @@ const boost::bimap<Attribute, string> AttributeSystem::attributeNameMap = boost:
 	entry(invisibility)
 
 	entry(combo)
+    entry(maxCombo)
+    entry(comboLevel)
+    entry(comboPerAttack)
+    entry(comboDecay)
 
 	entry(attack)
 	entry(attackSpeed)
 	entry(bulletSpeed)
+    entry(maxThrowSpeed)
+    entry(throwInterval)
+    entry(castInterval)
+
+    entry(bombCooldown)
+    entry(spellCooldown)
+    entry(sprintCooldown)
 
 	entry(shieldLevel)
 
@@ -59,6 +70,13 @@ const boost::bimap<Attribute, string> AttributeSystem::attributeNameMap = boost:
 	entry(stressFromBlocks)
 
 	entry(agility)
+    entry(sprintCost)
+ 
+    entry(blockSpeedRatio)
+    entry(sprintSpeedRatio)
+    entry(sprintTime)
+    entry(sprintCooldownTime)
+    entry(sprintRecoveryTime)
 
 	entry(currentSpeed)
 	entry(speedRatio)
@@ -254,6 +272,11 @@ void AttributeSystem::set(Attribute id, float x)
 	attributes.at(to_size_t(id)) = x;
 }
 
+void AttributeSystem::set(Attribute id, Attribute val)
+{
+    attributes.at(to_size_t(id)) = attributes.at(to_size_t(val));
+}
+
 void AttributeSystem::increment(Attribute a)
 {
 	attributes.at(to_size_t(a)) += 1.0f;
@@ -270,6 +293,11 @@ void AttributeSystem::update(Agent* agent)
 	applyIncidentRegen(mp);
 	applyIncidentRegen(stamina);
 
+    timerDecrement(Attribute::bombCooldown);
+    timerDecrement(Attribute::spellCooldown);
+    timerDecrement(Attribute::sprintCooldown);
+
+    timerDecrement(Attribute::combo, (*this)[Attribute::comboDecay]);
 	timerDecrement(Attribute::stress, (*this)[Attribute::stressDecay]);
 
 	set(Attribute::currentSpeed, agent->getVel().length());

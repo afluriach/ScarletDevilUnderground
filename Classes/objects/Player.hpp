@@ -11,27 +11,15 @@
 
 #include "Agent.hpp"
 
-class Inventory;
-
 class Player : public Agent
 {
 public:
 	static const float centerLookHoldThresh;
     static const float interactCooldownTime;
-	static const float bombCooldownTime;
-	static const float spellCooldownTime;
     static const float hitFlickerInterval;
-
-	static const SpaceFloat sprintSpeedRatio;
-	static const SpaceFloat sprintTime;
-	static const SpaceFloat sprintCooldownTime;
-	static const SpaceFloat focusSpeedRatio;
-	static const SpaceFloat bombThrowSpeed;
 	
 	static const SpaceFloat interactDistance;
 	static const SpaceFloat grazeRadius;
-
-	static const float sprintCost;
 
 	Player(
 		GSpace* space,
@@ -61,7 +49,6 @@ public:
 
 	virtual void init();
     virtual void update();
-	void updateCombo();
 
 	virtual void onZeroHP();
     virtual void onPitfall();
@@ -74,16 +61,6 @@ public:
 		float yPos = 0.0f
 	);
 
-	void checkMovementControls(const ControlInfo& cs);
-	void checkFireControls(const ControlInfo& cs);
-	void checkBombControls(const ControlInfo& cs);
-	void checkItemInteraction(const ControlInfo& cs);
-    void updateSpellControls(const ControlInfo& cs);
-	void onSpellStop();
-
-	SpaceFloat getSpeedMultiplier();
-	void setFocusMode(bool b);
-
 	virtual AttributeMap getAttributeUpgrades() const;
     
 	void useDoor(Door* interactTarget);
@@ -93,23 +70,8 @@ public:
 	void applyCombo(int b);
 	void gameOver();
 protected:
-	SpaceVect sprintDirection;
-	SpaceFloat sprintTimer = 0.0;
-
-	float interactCooldown = 0.0f;
-	float bombCooldown = 0.0f;
-	float spellCooldown = 0.0f;
-	unsigned int crntSpell = 0;
-
-    unique_ptr<Inventory> inventory;
-
 	PlayScene* playScene = nullptr;
 
-	//Override spell cooldown
-	bool isPowerAttack = false;
-	bool isAutoFire = false;
-	bool isSprintActive = false;
-	bool isFocusActive = false;
 	bool isComboActive = false;
 };
 

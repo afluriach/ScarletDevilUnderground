@@ -9,13 +9,28 @@
 #ifndef Agent_hpp
 #define Agent_hpp
 
+class Inventory;
+
+enum class agent_state
+{
+    none,
+    
+    blocking,
+    powerAttack,
+    sprinting,
+    sprintRecovery,
+};
+
 class Agent : public GObject
 {
 public:
+    friend class PlayerControl;
+
 	static constexpr SpaceFloat defaultSize = 0.35;
 	static const Color4F bodyOutlineColor;
 	static const Color4F shieldConeColor;
 	static const float bodyOutlineWidth;
+    static const float bombSpawnDistance;
 
 	static bool conditionalLoad(GSpace* space, const object_params& params, local_shared_ptr<agent_properties> props);
 
@@ -50,8 +65,10 @@ public:
 
 	virtual void onZeroHP();
 
+    void updateCombo();
 	virtual bool applyInitialSpellCost(const spell_cost& cost);
 	virtual bool applyOngoingSpellCost(const spell_cost& cost);
+    bool canApplySpellCost(const spell_cost& cost);
 
 	virtual bullet_attributes getBulletAttributes(local_shared_ptr<bullet_properties> props) const;
 
@@ -62,25 +79,30 @@ public:
 
 	virtual inline AttributeMap getAttributeUpgrades() const { return AttributeMap(); }
 	float get(Attribute id) const;
+    void setAttribute(Attribute id, float val) const;
 	inline float operator[](Attribute attr) const { return (*attributeSystem)[attr]; }
 	void modifyAttribute(Attribute id, float val);
 	void modifyAttribute(Attribute mod, Attribute addend);
 	void modifyAttribute(Attribute mod, Attribute addend, float scale);
 	bool consume(Attribute attr, float val);
 	inline AttributeSystem* getAttributeSystem() { return attributeSystem; }
+ 
+    //inventory / equip interface
+    inline local_shared_ptr<bomb_properties> getBomb() const {return crntBomb; }
 	inline FirePattern* getFirePattern() const { return firePattern.get(); }
 	bool setFirePattern(string firePattern);
+    bool setFirePattern(local_shared_ptr<FirePattern> firePattern);
+    Inventory* getInventory() const { return inventory.get(); }
 
 	inline virtual bool isInvisible() const { return attributeSystem->isNonzero(Attribute::invisibility); }
 
 	virtual SpaceFloat getTraction() const;
-
 	virtual SpaceFloat getMaxSpeed() const;
 	virtual SpaceFloat getMaxAcceleration() const;
+    SpaceFloat getSpeedMultiplier() const;
 
 	bool canPlaceBomb(SpaceVect pos);
 	void setShieldActive(bool v);
-	inline bool isShieldActive() const { return shieldActive; }
 	bool isShield(Bullet* b);
 	float getShieldCost(SpaceVect n);
 	virtual void onBulletCollide(Bullet* b, SpaceVect n);
@@ -112,7 +134,35 @@ public:
     //action interface
     bool fire();
     bool aimAtTarget(gobject_ref target);
+    bool canSprint();
+    void sprint();
+    void block();
+    void endBlock();
+    bool hasPowerAttack();
+    bool powerAttackAvailable();
+    bool doPowerAttack(const SpellDesc* p);
+    bool doPowerAttack();
+    bool isBombAvailable();
+    bool throwBomb(local_shared_ptr<bomb_properties> bomb, SpaceFloat speedRatio);
     
+    void applyDesiredMovement(SpaceVect direction);
+    
+    void toggleSpell();
+    bool canCast();
+    void castSpell();
+    void stopSpell();
+    
+    void selectNextSpell();
+    void selectPrevSpell();
+    void selectNextFirePattern();
+    void selectPrevFirePattern();
+    
+    void setState(agent_state newState);
+    void updateState();
+
+    bool isShieldActive();
+    bool isSprintActive();
+
 	virtual void setAngle(SpaceFloat a);
 	virtual void setDirection(Direction d);
 
@@ -123,19 +173,26 @@ protected:
 
 	string ai_package;
 	int level = 0;
+ 
+    agent_state crntState = agent_state::none;
+    SpaceFloat timeInState = 0.0;
+    
+    unsigned int activeSpell = 0;
+    unsigned int activePowerAttack = 0;
 
 	//equips
+    unique_ptr<Inventory> inventory;
+    unsigned int crntSpell = 0;
+   
 	local_shared_ptr<FirePattern> firePattern;
 	local_shared_ptr<bomb_properties> crntBomb;
-	const SpellDesc* powerAttack;
+	const SpellDesc* powerAttack = nullptr;
+    const SpellDesc* equippedSpell = nullptr;
 
 	RadarSensor* radar = nullptr;
 	AttributeSystem* attributeSystem = nullptr;
 	local_shared_ptr<agent_properties> props;
 	unique_ptr<AgentAnimationContext> animation;
-
-	bool shieldActive = false;
-	bool wasShieldActive = false;
 };
 
 #endif /* Agent_hpp */

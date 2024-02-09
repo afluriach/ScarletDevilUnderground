@@ -49,6 +49,12 @@ function ai.fsm:addFleeBomb()
 	self.detectBombHandler = ai.Flee.makeTargetFunctionGenerator(-1.0)
 end
 
+ai.player_control = ai.fsm:extend('player_control')
+
+function ai.player_control:initialize()
+	self.super:pushFunction( ai.PlayerControl.create(self.super) )
+end
+
 ai.bat = ai.fsm:extend('bat')
 
 function ai.bat:initialize()

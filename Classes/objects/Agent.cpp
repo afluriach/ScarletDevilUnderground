@@ -23,19 +23,24 @@
 #include "Graphics.h"
 #include "graphics_context.hpp"
 #include "GraphicsNodes.hpp"
+#include "HUD.hpp"
+#include "Inventory.hpp"
 #include "LuaAPI.hpp"
 #include "MagicEffect.hpp"
 #include "MagicEffectSystem.hpp"
 #include "physics_context.hpp"
 #include "Player.hpp"
+#include "PlayScene.hpp"
 #include "RadarSensor.hpp"
 #include "SpellDescriptor.hpp"
+#include "SpellSystem.hpp"
 #include "spell_types.hpp"
 #include "value_map.hpp"
 
 const Color4F Agent::bodyOutlineColor = hsva4F(270.0f, 0.2f, 0.7f, 0.667f);
 const Color4F Agent::shieldConeColor = Color4F(.37f, .56f, .57f, 0.5f);
 const float Agent::bodyOutlineWidth = 4.0f;
+const float Agent::bombSpawnDistance = 1.0f;
 
 bool Agent::conditionalLoad(GSpace* space, const object_params& params, local_shared_ptr<agent_properties> props)
 {
@@ -80,6 +85,8 @@ Agent::Agent(
 	level(params.level)
 {
 	ai_package = params.ai_package.size() > 0 ? params.ai_package : props->ai_package;
+
+    inventory = make_unique<Inventory>();
 }
 
 Agent::~Agent()
@@ -166,6 +173,9 @@ void Agent::update()
 	if ( fsm && (*this)[Attribute::stamina] <= 0.0f && (*this)[Attribute::maxStamina] > 0.0f) {
 		fsm->onZeroStamina();
 	}
+ 
+    updateCombo();
+    updateState();
 
 	if (firePattern) firePattern->update();
 	attributeSystem->update(this);
@@ -248,6 +258,32 @@ void Agent::onZeroHP()
 	space->removeObject(this);
 }
 
+void Agent::updateCombo()
+{
+    if( (*this)[Attribute::maxCombo] <= 0.0f )
+        return;
+
+    bool isComboFull = (*this)[Attribute::combo] >= (*this)[Attribute::maxCombo];
+    bool isComboEmpty = (*this)[Attribute::combo] == 0.0f;
+    bool isComboActive = isActive(Attribute::comboLevel);
+
+	if ( isComboFull && !isComboActive) {
+        setAttribute(Attribute::comboLevel, 1.0f);
+		modifyAttribute(Attribute::attack, 0.25f);
+		space->addGraphicsAction(&graphics_context::runSpriteAction, spriteID, comboFlickerTintAction().generator);
+	}
+	else if (!isComboEmpty && isComboActive) {
+        setAttribute(Attribute::comboLevel, 0.0f);
+		modifyAttribute(Attribute::attack, -0.25f);
+		space->addGraphicsAction(
+			&graphics_context::stopSpriteAction,
+			spriteID,
+			cocos_action_tag::combo_mode_flicker
+		);
+		space->graphicsNodeAction(&Node::setColor, spriteID, Color3B::WHITE);
+	}
+}
+
 bool Agent::applyInitialSpellCost(const spell_cost& cost)
 {
 	float mpCost = cost.initial_mp;
@@ -277,6 +313,14 @@ bool Agent::applyOngoingSpellCost(const spell_cost& cost)
 	return true;
 }
 
+bool Agent::canApplySpellCost(const spell_cost& cost)
+{
+    return
+        (*this)[Attribute::mp] >= cost.initial_mp &&
+        (*this)[Attribute::stamina] >= cost.initial_stamina
+    ;
+}
+
 AttributeMap Agent::getBaseAttributes() const
 {
 	return props->attributes;
@@ -285,6 +329,11 @@ AttributeMap Agent::getBaseAttributes() const
 float Agent::get(Attribute id) const
 {
 	return (*this)[id];
+}
+
+void Agent::setAttribute(Attribute id, float val) const
+{
+    attributeSystem->set(id, val);
 }
 
 void Agent::modifyAttribute(Attribute id, float val)
@@ -333,6 +382,12 @@ bool Agent::setFirePattern(string firePattern)
 	return false;
 }
 
+bool Agent::setFirePattern(local_shared_ptr<FirePattern> firePattern)
+{
+    this->firePattern = firePattern;
+    return true;
+}
+
 SpaceFloat Agent::getTraction() const
 {
 	if (get(Attribute::iceSensitivity) >= 1.0f) {
@@ -358,6 +413,22 @@ SpaceFloat Agent::getMaxAcceleration() const
 	return (*this)[Attribute::maxAcceleration];
 }
 
+SpaceFloat Agent::getSpeedMultiplier() const
+{
+	if (crntState == agent_state::sprinting) {
+		return (*this)[Attribute::sprintSpeedRatio];
+	}
+	else if (crntState == agent_state::sprintRecovery) {
+		return 0.0;
+	}
+	else if (crntState == agent_state::blocking) {
+		return (*this)[Attribute::blockSpeedRatio];
+	}
+	else {
+		return 1.0;
+	}
+}
+
 bool Agent::canPlaceBomb(SpaceVect pos)
 {
 	if (!crntBomb) {
@@ -369,12 +440,15 @@ bool Agent::canPlaceBomb(SpaceVect pos)
 
 void Agent::setShieldActive(bool v)
 {
-	shieldActive = v;
+    if(v)
+        block();
+    else
+        endBlock();
 }
 
 bool Agent::isShield(Bullet * b)
 {
-	if (get(Attribute::shieldLevel) <= 0.0f || !shieldActive)
+	if (get(Attribute::shieldLevel) <= 0.0f || !isShieldActive())
 		return false;
 
 	SpaceVect d = -1.0 * b->getVel().normalizeSafe();
@@ -432,6 +506,221 @@ bool Agent::aimAtTarget(gobject_ref target)
 
     setAngle(ai::directionToTarget(this, target.get()->getPos()).toAngle());
     return true;
+}
+
+bool Agent::canSprint()
+{
+    return
+        crntState == agent_state::none &&
+		!isActive(Attribute::sprintCooldown) &&
+		!space->getSuppressAction() &&
+		(*this)[Attribute::stamina] >= (*this)[Attribute::sprintCost]
+    ;
+}
+
+void Agent::sprint()
+{
+    if(!canSprint())
+        return;
+
+    setState(agent_state::sprinting);
+    consume(Attribute::stamina, (*this)[Attribute::sprintCost]);
+}
+
+void Agent::block()
+{
+    if(crntState == agent_state::none && (*this)[Attribute::shieldLevel] > 0.0f){
+        setState(agent_state::blocking);
+    }
+}
+
+void Agent::endBlock()
+{
+    if(isShieldActive()){
+        setState(agent_state::none);
+    }
+}
+
+bool Agent::hasPowerAttack()
+{
+    return powerAttack != nullptr;
+}
+
+bool Agent::powerAttackAvailable()
+{
+    return hasPowerAttack() && canApplySpellCost(powerAttack->getCost());
+}
+
+bool Agent::doPowerAttack(const SpellDesc* p)
+{
+    if(crntState != agent_state::none)
+        return false;
+        
+    bool result = space->spellSystem->cast(p, this);
+    
+    if(result)
+        setState(agent_state::powerAttack);
+    
+    return result;
+}
+
+bool Agent::doPowerAttack()
+{
+    return doPowerAttack(powerAttack);
+}
+
+bool Agent::isBombAvailable()
+{
+    return
+        crntBomb &&
+        !isActive(Attribute::bombCooldown) &&
+        (*this)[Attribute::mp] >= crntBomb->cost &&
+        !isActive(Attribute::inhibitFiring)
+    ;
+}
+
+//0.0 means place it (if standing still), 1.0 means throw it at max throw speed
+//either way, the agents current velocity will be added to it.
+bool Agent::throwBomb(local_shared_ptr<bomb_properties> bomb, SpaceFloat speedRatio)
+{
+    SpaceVect bombPos = getPos() + SpaceVect::ray(bombSpawnDistance, getAngle());
+
+    if(!isBombAvailable() || !canPlaceBomb(bombPos)){
+        return false;
+    }
+    
+    SpaceVect bombVel = getVel();
+    bombVel += SpaceVect::ray((*this)[Attribute::maxThrowSpeed]*speedRatio, getAngle());
+
+    space->createObject<Bomb>(
+        object_params(bombPos,bombVel),
+        bomb
+    );
+    consume(Attribute::mp, crntBomb->cost);
+    
+    attributeSystem->set(Attribute::bombCooldown, Attribute::throwInterval);
+
+    return true;
+}
+
+void Agent::applyDesiredMovement(SpaceVect direction)
+{
+    SpaceFloat baseSpeed = getMaxSpeed();
+    SpaceFloat speedMult = getSpeedMultiplier();
+    SpaceFloat speed = baseSpeed*speedMult;
+    SpaceFloat accel = getMaxAcceleration() * speedMult * speedMult;
+
+    ai::applyDesiredVelocity(this, direction*speed, accel);
+}
+
+void Agent::toggleSpell()
+{
+	if (crntSpell)
+	{
+        stopSpell();
+    }
+}
+
+bool Agent::canCast()
+{
+    return
+        !isActive(Attribute::inhibitSpellcasting) &&
+        equippedSpell &&
+        !isActive(Attribute::spellCooldown)
+    ;
+}
+
+void Agent::castSpell()
+{
+    if(canCast()){
+        crntSpell = space->spellSystem->cast(equippedSpell, this);
+        if (crntSpell) {
+            attributeSystem->resetCombo();
+            playSoundSpatial("sfx/player_spellcard.wav");
+        }
+    }
+}
+
+void Agent::stopSpell()
+{
+	if (crntSpell)
+	{
+		space->spellSystem->stopSpell(crntSpell);
+		crntSpell = 0;
+	}
+}
+
+void Agent::selectNextSpell()
+{
+    if(inventory->spells.hasItems()){
+        equippedSpell = inventory->spells.next();
+        
+        if(dynamic_cast<Player*>(this))
+            space->addHudAction(&HUD::setSpellIcon, inventory->spells.getIcon());
+    }
+}
+
+void Agent::selectPrevSpell()
+{
+    if(inventory->spells.hasItems()){
+        equippedSpell = inventory->spells.prev();
+        
+        if(dynamic_cast<Player*>(this))
+            space->addHudAction(&HUD::setSpellIcon, inventory->spells.getIcon());
+    }
+}
+
+void Agent::selectNextFirePattern()
+{
+    if(inventory->firePatterns.hasItems()){
+        setFirePattern(inventory->firePatterns.prev());
+        
+        if(dynamic_cast<Player*>(this))
+            space->addHudAction(&HUD::setFirePatternIcon, inventory->firePatterns.getIcon());
+    }
+}
+
+void Agent::selectPrevFirePattern()
+{
+    if(inventory->firePatterns.hasItems()){
+        setFirePattern(inventory->firePatterns.next());
+        
+        if(dynamic_cast<Player*>(this))
+            space->addHudAction(&HUD::setFirePatternIcon, inventory->firePatterns.getIcon());
+    }
+}
+
+void Agent::setState(agent_state newState)
+{
+    crntState = newState;
+    timeInState = 0.0;
+}
+
+void Agent::updateState()
+{
+    timerIncrement(timeInState);
+    
+    switch(crntState)
+    {
+    case agent_state::sprinting:
+        if(timeInState > (*this)[Attribute::sprintTime])
+            setState(agent_state::sprintRecovery);
+    break;
+    case agent_state::sprintRecovery:
+        if(timeInState > (*this)[Attribute::sprintRecoveryTime])
+            setState(agent_state::none);
+    break;
+    }
+}
+
+bool Agent::isShieldActive()
+{
+    return crntState == agent_state::blocking;
+}
+
+bool Agent::isSprintActive()
+{
+    return crntState == agent_state::sprinting;
 }
 
 void Agent::setAngle(SpaceFloat a)
@@ -545,6 +834,8 @@ bool Agent::hit(DamageInfo damage, SpaceVect n)
 {
 	if (attributeSystem->isNonzero(Attribute::hitProtection) || damage.mag == 0.0f)
 		return false;
+
+	attributeSystem->set(Attribute::combo, 0.0f);
 
 	if (dynamic_cast<Enemy*>(this)) {
 		damage.mag /= app::params.difficultyScale;

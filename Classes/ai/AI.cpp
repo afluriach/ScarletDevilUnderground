@@ -17,6 +17,7 @@
 #include "Bullet.hpp"
 #include "FirePattern.hpp"
 #include "LuaAPI.hpp"
+#include "Player.hpp"
 #include "sol_util.hpp"
 #include "SpellDescriptor.hpp"
 #include "SpellSystem.hpp"
@@ -79,6 +80,10 @@ GObject* Function::getObject() const {
 
 Agent* Function::getAgent() const {
 	return fsm->getAgent();
+}
+
+Player* Function::getPlayer() const{
+    return fsm->getPlayer();
 }
 
 physics_context* Function::getPhys() const {
@@ -287,6 +292,10 @@ GSpace* StateMachine::getSpace() {
 
 Agent* StateMachine::getAgent() {
 	return dynamic_cast<Agent*>(agent);
+}
+
+Player* StateMachine::getPlayer() {
+	return dynamic_cast<Player*>(agent);
 }
 
 RoomSensor* StateMachine::getRoomSensor() {

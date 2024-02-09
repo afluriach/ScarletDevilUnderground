@@ -310,6 +310,32 @@ protected:
 	gobject_ref target;
 };
 
+class PlayerControl : public Function {
+public:
+	PlayerControl(StateMachine* fsm);
+    virtual ~PlayerControl();
+
+	virtual void onEnter();
+	virtual update_return update();
+     
+    void checkMovementControls(const ControlInfo& cs);
+	void checkFireControls(const ControlInfo& cs);
+	void checkBombControls(const ControlInfo& cs);
+	void checkItemInteraction(const ControlInfo& cs);
+    void updateSpellControls(const ControlInfo& cs);
+    
+    void applyDesiredMovement();
+    bool tryInteract();
+
+	FuncGetName(PlayerControl)
+protected:
+    Player* player = nullptr;
+    SpaceVect desiredMoveDirection;
+    SpaceFloat interactCooldown = 0.0;
+
+	bool isAutoFire = false;
+};
+
 
 } //end NS
 

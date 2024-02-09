@@ -23,6 +23,7 @@ public:
 	inline string getName() const { return params.name; }
 	inline string getDescription() const { return params.description; }
 	inline string getIcon() const { return params.icon; }
+    inline string getSFX() const { return params.sfx; }
 	inline spell_cost getCost() const { return params.cost; }
 
 	virtual local_shared_ptr<Spell> generate(GObject* caster, unsigned int id) const = 0;

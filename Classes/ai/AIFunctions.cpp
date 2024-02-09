@@ -19,11 +19,15 @@
 #include "FirePattern.hpp"
 #include "Graphics.h"
 #include "graphics_context.hpp"
+#include "HUD.hpp"
+#include "Inventory.hpp"
 #include "LuaAPI.hpp"
 #include "physics_context.hpp"
 #include "Player.hpp"
+#include "PlayScene.hpp"
 #include "RadarSensor.hpp"
 #include "SpellDescriptor.hpp"
+#include "SpellSystem.hpp"
 #include "SpellUtil.hpp"
 #include "value_map.hpp"
 
@@ -831,6 +835,169 @@ float ThrowBombs::score(SpaceVect pos, SpaceFloat angle)
 {
 	SpaceVect predictedPos = pos + SpaceVect::ray(1.0 + bombType->fuseTime * throwingSpeed, angle);
 	return bombScore(getSpace(), predictedPos, bombType->blastRadius);
+}
+
+PlayerControl::PlayerControl(StateMachine* fsm) :
+	Function(fsm)
+{
+    player = getPlayer();
+    
+    if(!player){
+        logAndThrowError("Agent is not a Player object.");
+    }
+}
+
+PlayerControl::~PlayerControl()
+{
+}
+
+void PlayerControl::onEnter()
+{
+}
+
+update_return PlayerControl::update()
+{
+    ControlInfo cs = getSpace()->getControlInfo();
+
+    checkMovementControls(cs);
+    checkItemInteraction(cs);
+    
+    if (!getSpace()->getSuppressAction()) {
+        checkFireControls(cs);
+        checkBombControls(cs);
+        updateSpellControls(cs);
+    }
+    
+    return_steady(0.0f);
+}
+
+void PlayerControl::checkMovementControls(const ControlInfo& cs)
+{
+	if (player->isActive(Attribute::inhibitMovement)){
+		return;
+	}
+
+	if (cs.isControlActionPressed(ControlAction::focus)) {
+		getSpace()->setBulletBodiesVisible(true);
+	}
+	else if (cs.isControlActionReleased(ControlAction::focus)) {
+		getSpace()->setBulletBodiesVisible(false);
+	}
+
+	player->setShieldActive(cs.isControlActionDown(ControlAction::focus) && !player->isSprintActive() && !getSpace()->getSuppressAction());
+
+    desiredMoveDirection = cs.left_v;
+	SpaceVect facing = cs.isControlActionDown(ControlAction::center_look) ?
+		cs.left_v : cs.right_v;
+	
+	if (player->canSprint() &&
+		cs.isControlActionDown(ControlAction::sprint) &&
+		!desiredMoveDirection.isZero()
+	) {
+        player->sprint();
+	}
+    
+	if (desiredMoveDirection.isZero()) {
+		player->resetAnimation();
+	}
+    	
+	if (facing.lengthSq() > 0.0) {
+		player->setAngle(facing.toAngle());
+	}
+}
+
+void PlayerControl::checkFireControls(const ControlInfo& cs)
+{
+    Inventory* inventory = player->getInventory();
+    GSpace* space = getSpace();
+
+	bool isFireButton =
+		cs.isControlActionDown(ControlAction::fire) ||
+		isAutoFire && cs.right_v.lengthSq() >= ControlRegister::deadzone2
+	;
+
+	if (cs.isControlActionPressed(ControlAction::fire_mode)) {
+		isAutoFire = !isAutoFire;
+	}
+
+	//Fire if arrow key is pressed
+	if ( isFireButton && player->fire()
+    ){
+        ;
+	}
+	else if (cs.isControlActionPressed(ControlAction::fire_pattern_previous)){
+        player->selectPrevFirePattern();
+	}
+	else if (cs.isControlActionPressed(ControlAction::fire_pattern_next)){
+        player->selectNextFirePattern();
+	}
+	else if (
+		!player->isActive(Attribute::inhibitFiring) &&
+		cs.isControlActionPressed(ControlAction::power_attack) &&
+		player->hasPowerAttack()
+	){
+        player->doPowerAttack();
+    }
+}
+
+void PlayerControl::checkBombControls(const ControlInfo& cs)
+{
+	if (cs.isControlActionPressed(ControlAction::bomb)) {
+        SpaceFloat speedRatio = cs.isControlActionDown(ControlAction::focus) ? 1.0 : 0.0;
+        player->throwBomb(player->getBomb(), speedRatio);
+	}
+}
+
+void PlayerControl::checkItemInteraction(const ControlInfo& cs)
+{
+    if(cs.isControlActionPressed(ControlAction::interact)){
+        tryInteract();
+    }
+}
+
+void PlayerControl::updateSpellControls(const ControlInfo& cs)
+{
+	if (cs.isControlActionPressed(ControlAction::spell)) {
+        player->toggleSpell();
+	}
+	else if (cs.isControlActionPressed(ControlAction::spell_previous)) {
+        player->selectPrevSpell();
+    }
+    else if (cs.isControlActionPressed(ControlAction::spell_next)) {
+        player->selectNextSpell();
+    }		
+}
+
+void PlayerControl::applyDesiredMovement()
+{
+    player->applyDesiredMovement(desiredMoveDirection);
+}
+
+bool PlayerControl::tryInteract()
+{
+	timerDecrement(interactCooldown);
+    bool result = false;
+
+	GObject* interactible = getSpace()->physicsContext->interactibleObjectFeeler(
+		player,
+		player->getInteractFeeler()
+	);
+	
+	if(interactible && interactible->canInteract(player))
+    {
+        if(interactCooldown <= 0.0){
+            interactible->interact(player);
+            interactCooldown = Player::interactCooldownTime;
+            result = true;
+        }
+    }
+
+	getSpace()->addHudAction(
+		&HUD::setInteractionIcon,
+		interactible && interactible->canInteract(player) ? interactible->interactionIcon(player) : ""
+	);
+ 
+    return result;
 }
 
 }//end NS

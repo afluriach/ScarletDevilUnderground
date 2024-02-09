@@ -43,6 +43,9 @@ local_shared_ptr<Spell> SpellSystem::cast(const SpellDesc* desc, GObject* caster
 	unsigned int id = nextID++;
 	local_shared_ptr<Spell> spell = desc->generate(caster, id);
 
+    if(!desc->getSFX().empty())
+        caster->playSoundSpatial("sfx/" + desc->getSFX() + ".wav");
+
 	spell->init();
 
 	if (logSpells) {

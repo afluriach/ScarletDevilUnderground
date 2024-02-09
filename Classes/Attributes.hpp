@@ -42,10 +42,21 @@ enum class Attribute {
 	invisibility,
 
 	combo,
+    maxCombo,
+    comboLevel,
+    comboPerAttack,
+    comboDecay,
 
 	attack,
 	attackSpeed,
 	bulletSpeed,
+    maxThrowSpeed,
+    throwInterval,
+    castInterval,
+    
+    bombCooldown,
+    spellCooldown,
+    sprintCooldown,
 
 	shieldLevel,
 
@@ -55,6 +66,13 @@ enum class Attribute {
 	stressFromBlocks,
 
 	agility,
+    sprintCost,
+ 
+    blockSpeedRatio,
+    sprintSpeedRatio,
+    sprintTime,
+    sprintCooldownTime,
+    sprintRecoveryTime,
 
 	currentSpeed,
 	speedRatio,
@@ -136,6 +154,7 @@ public:
 	float get(string name) const;
 	void set(string name, float val);
 	void set(Attribute id, float val);
+	void set(Attribute id, Attribute val);
 
 	void increment(Attribute a);
 	void decrement(Attribute a);

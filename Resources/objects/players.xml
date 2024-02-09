@@ -1,5 +1,28 @@
 <players>
+
+	<PlayerBase
+		ai_package="player_control"
+	>
+		<attributes>
+			<sprintCost val="7.5" />
+			
+			<comboPerAttack val="6" />
+			<comboDecay val="15" />
+			<maxCombo val="100" />
+		
+			<blockSpeedRatio val="0.5" />
+			<sprintSpeedRatio val="2.5" />
+			<sprintTime val="0.5" />
+			<sprintCooldownTime val="1.0" />
+
+			<maxThrowSpeed val="3.0" />
+			<throwInterval val="1.0" />
+			<castInterval val="1.0" />
+		</attributes>
+	</PlayerBase>
+
     <FlandrePC
+    	base="PlayerBase"
         sprite="flandre"
         light="flandrePC"
         mass="20.0"
@@ -25,6 +48,7 @@
 	</FlandrePC>
 
     <RumiaPC
+    	base="PlayerBase"
         sprite="rumia"
         light="rumiaPC"
         mass="20.0"
@@ -47,6 +71,7 @@
 	</RumiaPC>
 
     <CirnoPC
+    	base="PlayerBase"
         sprite="cirno"
         light="cirnoPC"
         mass="20.0"

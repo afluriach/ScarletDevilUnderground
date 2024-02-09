@@ -221,6 +221,7 @@ namespace Lua{
 
 		addFuncSame(player, applyUpgrade);
 		addFuncSame(player, equipItems);
+        addFuncSame(player, gameOver);
 
 		auto bullet = _state.new_usertype<Bullet>(
 			"Bullet",

@@ -13,6 +13,7 @@
 	<LavaeteinnSpell
 		type="MeleeAttack"
 		icon="sprites/ui/lavaeteinn.png"
+		sfx="player_power_attack"
 		cost="initial_stamina:12.5"
 		length="0.66667"
 		swingDist="1.5"

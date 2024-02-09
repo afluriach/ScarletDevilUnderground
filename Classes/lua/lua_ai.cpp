@@ -209,5 +209,12 @@ namespace Lua{
 		);
 		throw_bomb["create"] = &create<ai::ThrowBombs, gobject_ref, local_shared_ptr<bomb_properties>, SpaceFloat, SpaceFloat>;
 		throw_bomb["makeTargetFunctionGenerator"] = &ai::makeTargetFunctionGenerator<ai::ThrowBombs, local_shared_ptr<bomb_properties>, SpaceFloat, SpaceFloat>;
+  
+        auto player_control = _ai.new_usertype<ai::PlayerControl>(
+            "PlayerControl",
+            sol::base_classes, sol::bases<ai::Function>()
+        );
+        player_control["create"] = &create<ai::PlayerControl>;
 	}
 }
+

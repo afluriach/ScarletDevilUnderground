@@ -122,10 +122,21 @@ namespace Lua{
 				enum_entry(Attribute, invisibility),
 
 				enum_entry(Attribute, combo),
+                enum_entry(Attribute, maxCombo),
+                enum_entry(Attribute, comboLevel),
+                enum_entry(Attribute, comboPerAttack),
+                enum_entry(Attribute, comboDecay),
 
 				enum_entry(Attribute, attack),
 				enum_entry(Attribute, attackSpeed),
 				enum_entry(Attribute, bulletSpeed),
+                enum_entry(Attribute, maxThrowSpeed),
+                enum_entry(Attribute, throwInterval),
+                enum_entry(Attribute, castInterval),
+                
+                enum_entry(Attribute, bombCooldown),
+                enum_entry(Attribute, spellCooldown),
+                enum_entry(Attribute, sprintCooldown),
 
 				enum_entry(Attribute, shieldLevel),
 
@@ -135,6 +146,13 @@ namespace Lua{
 				enum_entry(Attribute, stressFromBlocks),
 
 				enum_entry(Attribute, agility),
+                enum_entry(Attribute, sprintCost),
+    
+                enum_entry(Attribute, blockSpeedRatio),
+                enum_entry(Attribute, sprintSpeedRatio),
+                enum_entry(Attribute, sprintTime),
+                enum_entry(Attribute, sprintCooldownTime),
+                enum_entry(Attribute, sprintRecoveryTime),
 
 				enum_entry(Attribute, currentSpeed),
 				enum_entry(Attribute, speedRatio),
