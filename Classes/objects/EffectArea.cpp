@@ -12,7 +12,6 @@
 #include "Graphics.h"
 #include "graphics_context.hpp"
 #include "MagicEffect.hpp"
-#include "MagicEffectSystem.hpp"
 #include "physics_context.hpp"
 #include "Player.hpp"
 
@@ -28,13 +27,16 @@ EffectArea::EffectArea(
 	attr = effect_attributes(props->magnitude, -1.0f, 0.0f, DamageType::effectArea);
 }
 
+EffectArea::~EffectArea()
+{}
+
 void EffectArea::beginContact(GObject* obj)
 {
 	AreaSensor::beginContact(obj);
 		
 	if (props->effect->canApply(obj, attr)) {
-		unsigned int effectID = obj->applyMagicEffect(props->effect, attr);
-		activeEffects.insert_or_assign(obj, effectID);
+		auto effect = obj->applyMagicEffect(props->effect, attr);
+		activeEffects.insert_or_assign(obj, effect);
 	}
 }
 
@@ -44,7 +46,7 @@ void EffectArea::endContact(GObject* obj)
 
 	auto it = activeEffects.find(obj);
 	if (it != activeEffects.end()) {
-		space->magicEffectSystem->removeEffect(it->second);
+        it->second->remove();
 		activeEffects.erase(it);
 	}
 }

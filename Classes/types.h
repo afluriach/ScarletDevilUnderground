@@ -61,7 +61,6 @@ class FirePattern;
 struct firepattern_properties;
 class MagicEffect;
 class MagicEffectDescriptor;
-class MagicEffectSystem;
 class Spell;
 struct spell_cost;
 class SpellDesc;

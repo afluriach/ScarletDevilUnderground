@@ -26,7 +26,6 @@
 #include "Inventory.hpp"
 #include "LuaAPI.hpp"
 #include "MagicEffect.hpp"
-#include "MagicEffectSystem.hpp"
 #include "physics_context.hpp"
 #include "Player.hpp"
 #include "PlayScene.hpp"

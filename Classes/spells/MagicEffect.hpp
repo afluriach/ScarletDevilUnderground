@@ -30,7 +30,6 @@ enum class effect_flags
 struct effect_params
 {
 	GObject* target;
-	unsigned int id;
 	effect_flags flags;
 	const MagicEffectDescriptor* desc;
 	effect_attributes attr;
@@ -68,19 +67,20 @@ public:
 	inline float getLength() const { return length; }
 	inline float getMagnitude() const { return magnitude; }
 	inline state getState() const { return crntState; }
-	inline unsigned int getID() const { return id; }
 	inline effect_flags getFlags() const { return _flags; }
 
-	//remove this - queues this magic effect for removal, can be called within an update
+    void runInit();
+    void runUpdate();
+    void runEnd();
 	void remove();
 
 	const MagicEffectDescriptor* desc;
 	GObject* target;
 	Agent* agent = nullptr;
 	float length, magnitude;
+    float t = 0.0f;
 	state crntState;
 	DamageType damageType;
-	unsigned int id;
 	effect_flags _flags;
 
 	int _refcount = 0;

@@ -172,8 +172,6 @@
 		E26C253024E73A41004067E0 /* Spell.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E26C251624E73A40004067E0 /* Spell.cpp */; };
 		E26C253324E73A41004067E0 /* FirePattern.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E26C251824E73A41004067E0 /* FirePattern.cpp */; };
 		E26C253424E73A41004067E0 /* FirePattern.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E26C251824E73A41004067E0 /* FirePattern.cpp */; };
-		E26C253524E73A41004067E0 /* MagicEffectSystem.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E26C251A24E73A41004067E0 /* MagicEffectSystem.cpp */; };
-		E26C253624E73A41004067E0 /* MagicEffectSystem.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E26C251A24E73A41004067E0 /* MagicEffectSystem.cpp */; };
 		E26C253D24E73A7D004067E0 /* AIUtil.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E26C253A24E73A7D004067E0 /* AIUtil.cpp */; };
 		E26C253E24E73A7D004067E0 /* AIUtil.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E26C253A24E73A7D004067E0 /* AIUtil.cpp */; };
 		E26C253F24E73A7D004067E0 /* AIFunctions.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E26C253B24E73A7D004067E0 /* AIFunctions.cpp */; };
@@ -453,7 +451,6 @@
 		E26C250424E73A3F004067E0 /* Spell.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = Spell.hpp; path = spells/Spell.hpp; sourceTree = "<group>"; };
 		E26C250524E73A3F004067E0 /* PlayerFirePattern.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.objcpp; fileEncoding = 4; name = PlayerFirePattern.cpp; path = spells/PlayerFirePattern.cpp; sourceTree = "<group>"; };
 		E26C250624E73A3F004067E0 /* EnemyFirePattern.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.objcpp; fileEncoding = 4; name = EnemyFirePattern.cpp; path = spells/EnemyFirePattern.cpp; sourceTree = "<group>"; };
-		E26C250724E73A3F004067E0 /* MagicEffectSystem.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = MagicEffectSystem.hpp; path = spells/MagicEffectSystem.hpp; sourceTree = "<group>"; };
 		E26C250924E73A3F004067E0 /* MagicEffect.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.objcpp; fileEncoding = 4; name = MagicEffect.cpp; path = spells/MagicEffect.cpp; sourceTree = "<group>"; };
 		E26C250A24E73A3F004067E0 /* EnemyFirePattern.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = EnemyFirePattern.hpp; path = spells/EnemyFirePattern.hpp; sourceTree = "<group>"; };
 		E26C250B24E73A3F004067E0 /* spell_types.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = spell_types.hpp; path = spells/spell_types.hpp; sourceTree = "<group>"; };
@@ -470,7 +467,6 @@
 		E26C251624E73A40004067E0 /* Spell.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.objcpp; fileEncoding = 4; name = Spell.cpp; path = spells/Spell.cpp; sourceTree = "<group>"; };
 		E26C251824E73A41004067E0 /* FirePattern.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.objcpp; fileEncoding = 4; name = FirePattern.cpp; path = spells/FirePattern.cpp; sourceTree = "<group>"; };
 		E26C251924E73A41004067E0 /* SpellUtil.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = SpellUtil.hpp; path = spells/SpellUtil.hpp; sourceTree = "<group>"; };
-		E26C251A24E73A41004067E0 /* MagicEffectSystem.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.objcpp; fileEncoding = 4; name = MagicEffectSystem.cpp; path = spells/MagicEffectSystem.cpp; sourceTree = "<group>"; };
 		E26C251B24E73A41004067E0 /* PlayerFirePattern.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = PlayerFirePattern.hpp; path = spells/PlayerFirePattern.hpp; sourceTree = "<group>"; };
 		E26C253924E73A7C004067E0 /* AIFunctions.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = AIFunctions.hpp; path = ai/AIFunctions.hpp; sourceTree = "<group>"; };
 		E26C253A24E73A7D004067E0 /* AIUtil.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = AIUtil.cpp; path = ai/AIUtil.cpp; sourceTree = "<group>"; };
@@ -929,8 +925,6 @@
 				E26C251024E73A40004067E0 /* FirePatternMapping.cpp */,
 				E26C250924E73A3F004067E0 /* MagicEffect.cpp */,
 				E26C250324E73A3E004067E0 /* MagicEffect.hpp */,
-				E26C251A24E73A41004067E0 /* MagicEffectSystem.cpp */,
-				E26C250724E73A3F004067E0 /* MagicEffectSystem.hpp */,
 				E26C250524E73A3F004067E0 /* PlayerFirePattern.cpp */,
 				E26C251B24E73A41004067E0 /* PlayerFirePattern.hpp */,
 				E26C250B24E73A3F004067E0 /* spell_types.hpp */,
@@ -1206,7 +1200,6 @@
 				E26C257824E73ABF004067E0 /* object_params.cpp in Sources */,
 				E25BCADD24E73B8B0032C1ED /* graphics_context.cpp in Sources */,
 				E26C24F924E739ED004067E0 /* xml_spells.cpp in Sources */,
-				E26C253524E73A41004067E0 /* MagicEffectSystem.cpp in Sources */,
 				E25BCAE324E73B8B0032C1ED /* GraphicsNodes.cpp in Sources */,
 				E25BCB0124E73BD00032C1ED /* GSpace.cpp in Sources */,
 				E26C252324E73A41004067E0 /* MagicEffect.cpp in Sources */,
@@ -1311,7 +1304,6 @@
 				E25BCACF24E73B6D0032C1ED /* menu_layers.cpp in Sources */,
 				E26C257724E73ABF004067E0 /* AreaSensor.cpp in Sources */,
 				E26C24EE24E739ED004067E0 /* log.cpp in Sources */,
-				E26C253624E73A41004067E0 /* MagicEffectSystem.cpp in Sources */,
 				E26C24F424E739ED004067E0 /* shared_ptr.cpp in Sources */,
 				E2AEF501208828EE00A4FC90 /* object_ref.cpp in Sources */,
 				E2E01EEE1C1DCA0D00330904 /* AI.cpp in Sources */,

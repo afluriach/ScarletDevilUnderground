@@ -294,7 +294,6 @@ public:
 
 	audio_context* audioContext;
 	unique_ptr<physics_context> physicsContext;
-	unique_ptr<MagicEffectSystem> magicEffectSystem;
 
 protected:
 //LOGIC

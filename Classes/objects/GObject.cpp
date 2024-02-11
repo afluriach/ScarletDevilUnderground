@@ -18,7 +18,6 @@
 #include "graphics_context.hpp"
 #include "LuaAPI.hpp"
 #include "MagicEffect.hpp"
-#include "MagicEffectSystem.hpp"
 #include "physics_context.hpp"
 #include "sol_util.hpp"
 #include "SpellDescriptor.hpp"
@@ -224,6 +223,7 @@ void GObject::init()
 
 void GObject::update()
 {
+    updateEffects();
 	updateFloorSegment();
 	updateParametricMove();
 }
@@ -998,9 +998,62 @@ local_shared_ptr<Spell> GObject::cast(const SpellDesc* desc)
 	return spell;
 }
 
-unsigned int GObject::applyMagicEffect(const MagicEffectDescriptor* effect, effect_attributes attr)
+local_shared_ptr<MagicEffect> GObject::applyMagicEffect(const MagicEffectDescriptor* effect, effect_attributes attr)
 {
-	return space->magicEffectSystem->applyEffect(this, effect, attr);
+    local_shared_ptr<MagicEffect> e;
+    if (effect->canApply(this, attr)) {
+		effect_params params = { this, effect->getFlags(), effect, attr };
+		e = effect->generate(params);
+        effects.push_back(e);
+	}
+    return e;
+}
+
+void GObject::updateEffect(MagicEffect* effect)
+{
+    if (effect->getState() == MagicEffect::state::created)
+        effect->runInit();
+
+    if(effect->getState() == MagicEffect::state::active)
+        effect->runUpdate();
+    
+    if(effect->getState() == MagicEffect::state::ending)
+        effect->runEnd();
+}
+
+void GObject::updateEffects()
+{
+    auto it = effects.begin();
+    
+    while(it != effects.end()){
+        auto e = *it;
+        
+        if(e->getState() == MagicEffect::state::expired){
+            it = effects.erase(it);
+            continue;
+        }
+        
+        updateEffect(e.get());
+        
+        if(e->getState() == MagicEffect::state::expired)
+            it = effects.erase(it);
+        else
+            ++it;
+    }
+}
+
+void GObject::removeEffects()
+{
+    auto it = effects.begin();
+    while(it != effects.end()){
+        auto e = *it;
+        e->remove();
+        
+        if(e->getState() != MagicEffect::state::expired)
+            e->end();
+            
+        it = effects.erase(it);
+    }
 }
 
 //END SPELLS

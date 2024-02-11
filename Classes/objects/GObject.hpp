@@ -373,7 +373,10 @@ public:
 	//BEGIN SPELLS
 
 	local_shared_ptr<Spell> cast(const SpellDesc* desc);
-	unsigned int applyMagicEffect(const MagicEffectDescriptor* effect, effect_attributes attr);
+	local_shared_ptr<MagicEffect> applyMagicEffect(const MagicEffectDescriptor* effect, effect_attributes attr);
+	void updateEffect(MagicEffect* effect);
+	void updateEffects();
+    void removeEffects();
 
 	//END SPELLS
 
@@ -390,6 +393,7 @@ protected:
 
 //logic
 	sol::table scriptObj;
+    list<local_shared_ptr<MagicEffect>> effects;
 	local_shared_ptr<object_properties> props;
 	unique_ptr<parametric_motion> parametricMotion;
 	RoomSensor* crntRoom = nullptr;

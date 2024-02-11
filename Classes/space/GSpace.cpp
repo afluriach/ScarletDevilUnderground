@@ -19,7 +19,6 @@
 //#include "GSpace.hpp"
 #include "HUD.hpp"
 #include "LuaAPI.hpp"
-#include "MagicEffectSystem.hpp"
 #include "physics_context.hpp"
 #include "PhysicsImpl.hpp"
 #include "Player.hpp"
@@ -88,8 +87,6 @@ GSpace::GSpace(GScene* gscene) :
 		objByType[t] = unordered_set<GObject*>();
 	}
 
-	magicEffectSystem = make_unique<MagicEffectSystem>(this);
-    
     crntSpace = this;
 }
 
@@ -199,7 +196,6 @@ void GSpace::update()
 	addGraphicsAction(&graphics_context::spriteSpatialUpdate, spriteUpdates);
 
 	updateSensors();
-	magicEffectSystem->update();
 
     for(GObject* obj : updateObjects){
         obj->update();
@@ -547,8 +543,7 @@ void GSpace::setBulletBodiesVisible(bool b)
 
 void GSpace::processRemoval(GObject* obj, bool _removeSprite)
 {
-	magicEffectSystem->removeObjectEffects(obj);
-
+    obj->removeEffects();
 	obj->onRemove();
 
 	string name = getObjectName(obj->uuid);

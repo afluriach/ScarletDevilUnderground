@@ -20,14 +20,14 @@ public:
 		const object_params& params,
 		local_shared_ptr<effectarea_properties> props
 	);
-	inline virtual ~EffectArea(){}
+	virtual ~EffectArea();
     
 	virtual void beginContact(GObject* obj);
 	virtual void endContact(GObject* obj);
 protected:
 	local_shared_ptr<effectarea_properties> props;
 	
-	map<GObject*, unsigned int> activeEffects;
+	map<GObject*, local_shared_ptr<MagicEffect>> activeEffects;
 	effect_attributes attr;
 };
 

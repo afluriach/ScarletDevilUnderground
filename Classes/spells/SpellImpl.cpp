@@ -11,7 +11,7 @@
 #include "Bullet.hpp"
 #include "GSpace.hpp"
 #include "LuaAPI.hpp"
-#include "MagicEffectSystem.hpp"
+#include "MagicEffect.hpp"
 #include "SpellDescriptor.hpp"
 #include "SpellImpl.hpp"
 
@@ -92,13 +92,13 @@ ApplySelfEffect::~ApplySelfEffect()
 
 void ApplySelfEffect::init()
 {
-	effectID = caster->applyMagicEffect(effect, effect_attributes(0.0f, -1.0f));
+	effectInst = caster->applyMagicEffect(effect, effect_attributes(0.0f, -1.0f));
 }
 
 void ApplySelfEffect::end()
 {
-	if (effectID != 0) {
-		getSpace()->magicEffectSystem->removeEffect(effectID);
+	if (effectInst) {
+        effectInst->remove();
 	}
 }
 

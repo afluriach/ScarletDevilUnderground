@@ -11,7 +11,6 @@
 #include "AIUtil.hpp"
 #include "LuaAPI.hpp"
 #include "MagicEffect.hpp"
-#include "MagicEffectSystem.hpp"
 
 MagicEffect::MagicEffect(effect_params params) :
 target(params.target),
@@ -19,7 +18,6 @@ agent(dynamic_cast<Agent*>(params.target)),
 length(params.attr.length),
 magnitude(params.attr.magnitude),
 _flags(params.flags),
-id(params.id),
 desc(params.desc),
 damageType(params.attr.type),
 crntState(state::created)
@@ -53,9 +51,52 @@ bool MagicEffect::isAgentEffect() const
 	return bitwise_and_bool(_flags, effect_flags::agent);
 }
 
+void MagicEffect::runInit()
+{
+    if(crntState != state::created){
+        log0("Invalid call to runInit!");
+        return;
+    }
+
+    init();
+    crntState = length != 0.0f ? state::active : state::expired;
+}
+
+void MagicEffect::runUpdate()
+{
+    if(crntState != state::active){
+        log0("Invalid call to runUpdate!");
+        return;
+    }
+
+    update();
+    timerIncrement(t);
+
+    if(length > 0.0f && t >= length){
+        crntState = state::ending;
+    }
+}
+
+void MagicEffect::runEnd()
+{
+    if(crntState != state::ending){
+        log0("Invalid call to runEnd!");
+        return;
+    }
+
+    end();
+    crntState = state::expired;
+}
+
 void MagicEffect::remove()
 {
-	getSpace()->magicEffectSystem->removeEffect(id);
+    //if effect is removed before it is initialized, just set it to expired,
+    //so it doesn't run exit() when it didn't run init()
+    if(crntState == state::created)
+        crntState = state::expired;
+    //don't want exit() to run an extra time, since it has already run.
+    else if(crntState != state::expired)
+        crntState = state::ending;
 }
 
 effect_flags ScriptedMagicEffect::getFlags(string clsName)
