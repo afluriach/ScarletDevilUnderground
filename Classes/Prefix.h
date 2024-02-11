@@ -34,6 +34,12 @@
     #define use_gamepad 1
 #endif
 
+#define DEV_MODE 1
+#define GSPACE_MULTITHREAD 1
+#define INTERNAL_PREFIX 0
+#define use_sound 0
+#define USE_ALLOCATOR 0
+
 //C standard libraries
 #include <algorithm>
 #include <any>
@@ -135,11 +141,6 @@ typedef double SpaceFloat;
 #include "App.h"
 #include "GState.hpp"
 #include "Agent.hpp"
-
-#define DEV_MODE 1
-#define GSPACE_MULTITHREAD 1
-#define INTERNAL_PREFIX 0
-#define use_sound 0
 
 #if INTERNAL_PREFIX
 #include "internal_prefix.h"
