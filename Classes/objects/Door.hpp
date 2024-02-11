@@ -34,7 +34,7 @@ public:
 
 	virtual void activate();
 	virtual void deactivate();
-	void setSealed(bool b);
+	void setLocked(bool b);
 
 	Door* getAdjacent();
 	SpaceVect getEntryPosition();
@@ -62,9 +62,7 @@ protected:
 	string destinationMap;
 	gobject_ref adjacent;
 	door_type doorType;
-	bool sealed = false;
 	bool locked = false;
-	bool consumeKey = false;
 	
 	bool stairs = false;
 	bool path = false;

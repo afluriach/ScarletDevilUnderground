@@ -51,7 +51,6 @@ public:
 	);
 	virtual ~Agent();
 
-	void initFSM();
 	void initAttributes();
 	void applyEffects();
 	AttributeMap getBaseAttributes() const;

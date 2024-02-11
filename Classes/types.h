@@ -83,8 +83,6 @@ class Sensor;
 
 namespace ai {
 	class Function;
-	class StateMachine;
-	class Thread;
 }
 
 namespace Lua {
@@ -132,8 +130,6 @@ struct GraphicsAction
 	inline GraphicsAction(ActionGeneratorType generator) : generator(generator) {}
 };
 
-typedef function<void(ai::StateMachine*, Player*)> alert_function;
-typedef function<void(ai::StateMachine&, GObject*)> detect_function;
 typedef function<void(GObject*)> unary_gobject_function;
 
 typedef function<SpaceVect(SpaceFloat)> parametric_space_function;

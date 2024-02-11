@@ -96,17 +96,6 @@ SpaceFloat Agent::getDefaultFovAngle() const {
 	return props->viewAngle;
 }
 
-void Agent::initFSM()
-{
-	fsm = make_unique<ai::StateMachine>(this, props->aiProperties);
-
-	if (!props->aiProperties) {
-		log1("%s: no AI properties!", toString());
-	}
- 
-    sol::runMethodIfAvailable(scriptObj, "initialize_ai");
-}
-
 void Agent::initAttributes()
 {
 	attributeSystem = allocator_new<AttributeSystem>(getBaseAttributes());
@@ -127,7 +116,6 @@ void Agent::init()
 	initAttributes();
 	applyEffects();
 	initializeRadar();
-	initFSM();
 }
 
 void Agent::update()
@@ -136,9 +124,6 @@ void Agent::update()
 
 	if ( (*this)[Attribute::hp] <= 0.0f && (*this)[Attribute::maxHP] >  0.0f) {
 		onZeroHP();
-	}
-	if ( fsm && (*this)[Attribute::stamina] <= 0.0f && (*this)[Attribute::maxStamina] > 0.0f) {
-		fsm->onZeroStamina();
 	}
  
     updateCombo();
@@ -155,8 +140,7 @@ int Agent::getLevel() const {
 
 void Agent::sendAlert(Player* p)
 {
-	if(fsm)
-		fsm->enemyRoomAlert(p);
+    runMethodIfAvailable("roomAlert", p);
 }
 
 void Agent::onDetect(GObject* obj)
@@ -198,35 +182,27 @@ void Agent::onEndDetect(GObject* obj)
 
 void Agent::onDetectEnemy(Agent* enemy)
 {
-	if (fsm) {
-		fsm->onDetectEnemy(enemy);
-	}
+    runMethodIfAvailable("onDetectEnemy", enemy);
 }
 
 void Agent::onEndDetectEnemy(Agent* enemy)
 {
-	if (fsm) {
-		fsm->onEndDetectEnemy(enemy);
-	}
+    runMethodIfAvailable("onEndDetectEnemy", enemy);
 }
 
 void Agent::onDetectBomb(Bomb* bomb)
 {
-	if (fsm)
-		fsm->onDetectBomb(bomb);
+    runMethodIfAvailable("onDetectBomb", bomb);
 }
 
 void Agent::onDetectBullet(Bullet* bullet)
 {
-	if (fsm)
-		fsm->onDetectBullet(bullet);
+    runMethodIfAvailable("onDetectBullet", bullet);
 }
 
 void Agent::onZeroHP()
 {
-	if(fsm)
-		fsm->onZeroHP();
-	space->removeObject(this);
+    runMethodIfAvailable("onZeroHP");
 }
 
 void Agent::updateCombo()
@@ -772,11 +748,11 @@ void Agent::onBulletCollide(Bullet* b, SpaceVect n)
 	if (!isShield(b)) {
 		modifyAttribute(Attribute::stress, Attribute::stressFromHits, damage.mag);
 		hit(damage, n);
-		if(fsm) fsm->onBulletHit(b);
+		runMethodIfAvailable("onBulletHit", b);
 	}
 	else {
 		modifyAttribute(Attribute::stress, Attribute::stressFromBlocks, damage.mag);
-		if(fsm) fsm->onBulletBlock(b);
+  		runMethodIfAvailable("onBulletBlock", b);
 	}
 }
 

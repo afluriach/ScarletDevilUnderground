@@ -13,6 +13,7 @@
 #include "Graphics.h"
 #include "graphics_context.hpp"
 #include "Item.hpp"
+#include "LuaAPI.hpp"
 #include "MagicEffect.hpp"
 #include "Player.hpp"
 
@@ -33,6 +34,8 @@ Enemy::Enemy(
 {
 	if (props->firepattern.size() > 0)
 		setFirePattern(props->firepattern);
+  
+    init_script_object();
 }
 
 Enemy::~Enemy()

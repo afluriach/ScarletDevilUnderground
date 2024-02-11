@@ -112,6 +112,25 @@ public:
         
         return result;
 	}
+ 
+    template<typename T>
+    inline T getFieldOrDefault(string name, T _default)
+    {
+        if(!scriptObj)
+            return _default;
+            
+        sol::object field = scriptObj[name];
+        
+        if(field.valid())
+            return field;
+        else
+            return _default;
+    }
+    
+    template<class FuncCls, typename... Params>
+	inline local_shared_ptr<FuncCls> make(Params... params) {
+		return make_local_shared<FuncCls>(this, params...);
+	}
 
 	GObject(
 		GSpace* space,
@@ -181,16 +200,10 @@ public:
 	//sensory
 	inline virtual bool isInvisible() const { return false; }
 
-	//StateMachine
-    inline ai::StateMachine* getFSM() const { return fsm.get(); }
-    void setAIFunction(local_shared_ptr<ai::Function> function);
-	void updateFSM();
-	void printFSM();
-	void setFrozen(bool val);
-
 	//Lua
 	void scriptInitialize();
 	bool hasMethod(const string& name);
+    sol::object getScriptField(const string& name);
 
 	virtual bool hit(DamageInfo damage, SpaceVect n);
 	inline virtual bool applyInitialSpellCost(const spell_cost& cost) { return true; }
@@ -377,7 +390,6 @@ protected:
 //logic
 	sol::table scriptObj;
 	local_shared_ptr<object_properties> props;
-	unique_ptr<ai::StateMachine> fsm;
 	unique_ptr<parametric_motion> parametricMotion;
 	RoomSensor* crntRoom = nullptr;
 

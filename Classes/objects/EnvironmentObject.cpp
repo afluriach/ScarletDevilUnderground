@@ -71,15 +71,11 @@ bool EnvironmentObject::hit(DamageInfo damage, SpaceVect n)
 void EnvironmentObject::init()
 {
 	GObject::init();
-
-    runMethodIfAvailable("initialize");
 }
 
 void EnvironmentObject::update()
 {
 	GObject::update();
-
-    runMethodIfAvailable("update");
 }
 
 shared_ptr<sprite_properties> EnvironmentObject::getSprite() const {

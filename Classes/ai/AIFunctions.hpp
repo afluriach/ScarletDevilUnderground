@@ -17,27 +17,12 @@ class MoveToPoint;
 
 class ScriptFunction : public Function {
 public:
-	static AITargetFunctionGenerator targetGenerator(const string& cls);
-
-	ScriptFunction(StateMachine* fsm, const string& cls);
-	ScriptFunction(StateMachine* fsm, GObject* target, const string& cls);
+	ScriptFunction(GObject* object, const string& cls);
+	ScriptFunction(GObject* object, GObject* target, const string& cls);
 
 	virtual void onEnter();
-	virtual update_return update();
+	virtual void update();
 	virtual void onExit();
-
-	virtual bool bulletBlock(Bullet* b);
-	virtual bool bulletHit(Bullet* b);
-
-	virtual bool detectEnemy(Agent* enemy);
-	virtual bool endDetectEnemy(Agent* enemy);
-	virtual bool detectBomb(Bomb* bomb);
-	virtual bool detectBullet(Bullet* bullet);
-
-	virtual bool enemyRoomAlert(Agent* enemy);
-
-	virtual bool zeroHP();
-	virtual bool zeroStamina();
 
 	 virtual string getName();
 protected:
@@ -45,6 +30,20 @@ protected:
 
 	string cls;
 	sol::table obj;
+};
+
+class AgentFunction : public Function {
+public:
+    AgentFunction(GObject* object);
+protected:
+    Agent *const agent;
+};
+
+class PlayerFunction : public Function {
+public:
+    PlayerFunction(GObject* object);
+protected:
+    Player *const player;
 };
 
 class Seek : public Function {
@@ -58,9 +57,9 @@ public:
 		no_target,
 	};
 
-	Seek(StateMachine* fsm, GObject* target, bool usePathfinding, SpaceFloat margin = 0.0);
+	Seek(GObject* object, GObject* target, bool usePathfinding, SpaceFloat margin = 0.0);
     
-	virtual update_return update();
+	virtual void update();
     
 	FuncGetName(Seek)
 protected:
@@ -74,9 +73,9 @@ protected:
 
 class MaintainDistance : public Function {
 public:
-    MaintainDistance(StateMachine* fsm, gobject_ref target, SpaceFloat distance, SpaceFloat margin);
+    MaintainDistance(GObject* object, gobject_ref target, SpaceFloat distance, SpaceFloat margin);
     
-	virtual update_return update();
+	virtual void update();
     FuncGetName(MaintainDistance)
 protected:
 	gobject_ref target;
@@ -85,9 +84,9 @@ protected:
 
 class OccupyPoint : public Function {
 public:
-	OccupyPoint(StateMachine* fsm, SpaceVect target);
+	OccupyPoint(GObject* object, SpaceVect target);
 
-	virtual update_return update();
+	virtual void update();
 
 	FuncGetName(OccupyPoint)
 protected:
@@ -96,9 +95,9 @@ protected:
 
 class OccupyMidpoint : public Function {
 public:
-	OccupyMidpoint(StateMachine* fsm, gobject_ref target1, gobject_ref target2);
+	OccupyMidpoint(GObject* object, gobject_ref target1, gobject_ref target2);
 
-	virtual update_return update();
+	virtual void update();
 
 	FuncGetName(OccupyMidpoint)
 protected:
@@ -108,13 +107,13 @@ protected:
 class Scurry : public Function {
 public:
 	Scurry(
-		StateMachine* fsm,
+		GObject* object,
 		GObject* _target,
 		SpaceFloat distance,
 		SpaceFloat length
 	);
 
-	virtual update_return update();
+	virtual void update();
 
 	FuncGetName(Scurry)
 protected:
@@ -127,9 +126,9 @@ protected:
 
 class Flee : public Function {
 public:
-	Flee(StateMachine* fsm, GObject* target, SpaceFloat distance);
+	Flee(GObject* object, GObject* target, SpaceFloat distance);
     
-	virtual update_return update();
+	virtual void update();
 
 	FuncGetName(Flee)
 protected:
@@ -137,11 +136,11 @@ protected:
     SpaceFloat distance;
 };
 
-class Evade : public Function {
+class Evade : public AgentFunction {
 public:
-	Evade(StateMachine* fsm, GType type);
+	Evade(GObject* object, GType type);
 
-	virtual update_return update();
+	virtual void update();
 	inline virtual bool isActive() { return active; }
 
 	FuncGetName(Evade)
@@ -152,9 +151,9 @@ protected:
 
 class LookAround : public Function {
 public:
-	LookAround(StateMachine* fsm, SpaceFloat angularVelocity);
+	LookAround(GObject* object, SpaceFloat angularVelocity);
 
-	virtual update_return update();
+	virtual void update();
 
 	FuncGetName(LookAround)
 private:
@@ -164,14 +163,14 @@ private:
 class Flank : public Function {
 public:
 	Flank(
-		StateMachine* fsm,
+		GObject* object,
 		gobject_ref target,
 		SpaceFloat desiredDistance,
 		SpaceFloat wallMargin
 	);
 
 	virtual void init();
-	virtual update_return update();
+	virtual void update();
 	FuncGetName(Flank);
 
 	bool wallQuery(SpaceVect pos);
@@ -182,17 +181,17 @@ private:
 	SpaceFloat wallMargin;
 };
 
-class LookTowardsFire : public Function {
+class LookTowardsFire : public AgentFunction {
 public:
 	static constexpr float hitCost = 0.375f;
 	static constexpr float lookThresh = 1.0f;
 	static constexpr float timeCoeff = 0.5f;
 	static constexpr float lookTimeCoeff = 0.125f;
 
-	LookTowardsFire(StateMachine* fsm, bool useShield);
+	LookTowardsFire(GObject* object, bool useShield);
 
 	virtual void onEnter();
-	virtual update_return update();
+	virtual void update();
 	virtual void onExit();
 
 	virtual bool bulletHit(Bullet* b);
@@ -211,10 +210,10 @@ class MoveToPoint : public Function{
 public:
 	static const SpaceFloat arrivalMargin;
 
-	MoveToPoint(StateMachine* fsm, SpaceVect target);
+	MoveToPoint(GObject* object, SpaceVect target);
     
 	virtual inline bool isCompleted() const { return arrived; }
-	virtual update_return update();
+	virtual void update();
 
     FuncGetName(MoveToPoint)
 protected:
@@ -225,15 +224,15 @@ protected:
 class FollowPath : public Function {
 public:
 	static local_shared_ptr<FollowPath> pathToTarget(
-		StateMachine* fsm,
+		GObject* object,
 		gobject_ref target
 	);
 
-	FollowPath(StateMachine* fsm, Path path, bool loop, bool stopForObstacle);
+	FollowPath(GObject* object, Path path, bool loop, bool stopForObstacle);
 	inline virtual ~FollowPath() {}
 
 	virtual inline bool isCompleted() const { return completed; }
-	virtual update_return update();
+	virtual void update();
 	FuncGetName(FollowPath)
 protected:
 	Path path;
@@ -245,13 +244,13 @@ protected:
 
 class Wander : public Function {
 public:
-	Wander(StateMachine* fsm, SpaceFloat minWait, SpaceFloat maxWait, SpaceFloat minDist, SpaceFloat maxDist);
-	Wander(StateMachine* fsm, SpaceFloat waitInterval, SpaceFloat moveDist);
-	Wander(StateMachine* fsm);
+	Wander(GObject* object, SpaceFloat minWait, SpaceFloat maxWait, SpaceFloat minDist, SpaceFloat maxDist);
+	Wander(GObject* object, SpaceFloat waitInterval, SpaceFloat moveDist);
+	Wander(GObject* object);
 
 	pair<Direction, SpaceFloat> chooseMovement();
 
-	virtual update_return update();
+	virtual void update();
 	virtual void reset();
 
 	FuncGetName(Wander)
@@ -262,32 +261,32 @@ protected:
 	SpaceFloat waitTimer = 0.0;
 };
 
-class FireOnStress : public Function {
+class FireOnStress : public AgentFunction {
 public:
-	FireOnStress(StateMachine* fsm, float stressPerShot);
+	FireOnStress(GObject* object, float stressPerShot);
 
-	virtual update_return update();
+	virtual void update();
 
 	FuncGetName(FireOnStress)
 protected:
 	float stressPerShot;
 };
 
-class FireAtTarget : public Function {
+class FireAtTarget : public AgentFunction {
 public:
-	FireAtTarget(StateMachine* fsm, gobject_ref target);
+	FireAtTarget(GObject* object, gobject_ref target);
 
-	virtual update_return update();
+	virtual void update();
 
 	FuncGetName(FireAtTarget)
 protected:
 	gobject_ref target;
 };
 
-class ThrowBombs : public Function {
+class ThrowBombs : public AgentFunction {
 public:
 	ThrowBombs(
-		StateMachine* fsm,
+		GObject* object,
 		gobject_ref target,
 		local_shared_ptr<bomb_properties> bombType,
 		SpaceFloat throwingSpeed,
@@ -295,7 +294,7 @@ public:
 	);
 
 	virtual void init();
-	virtual update_return update();
+	virtual void update();
 
 	SpaceFloat getInterval();
 	float score(SpaceVect pos, SpaceFloat angle);
@@ -310,13 +309,13 @@ protected:
 	gobject_ref target;
 };
 
-class PlayerControl : public Function {
+class PlayerControl : public PlayerFunction {
 public:
-	PlayerControl(StateMachine* fsm);
+	PlayerControl(GObject* object);
     virtual ~PlayerControl();
 
 	virtual void onEnter();
-	virtual update_return update();
+	virtual void update();
      
     void checkMovementControls(const ControlInfo& cs);
 	void checkFireControls(const ControlInfo& cs);
@@ -332,14 +331,12 @@ public:
 
 	FuncGetName(PlayerControl)
 protected:
-    Player* player = nullptr;
     local_shared_ptr<Spell> activeSpell;
     SpaceVect desiredMoveDirection;
     SpaceFloat interactCooldown = 0.0;
 
 	bool isAutoFire = false;
 };
-
 
 } //end NS
 

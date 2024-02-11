@@ -9,8 +9,6 @@
 #ifndef Spell_hpp
 #define Spell_hpp
 
-#include "spell_types.hpp"
-
 #define STANDARD_CONS(name) inline name(GObject* caster) : Spell(caster) {}
 #define GET_DESC(name) virtual inline const SpellDesc* getDescriptor() { return app::getSpell(#name); }
 

@@ -32,6 +32,25 @@
 
 class RadarObject;
 
+const vector<string> GSpace::scriptFiles = {
+	"ai-fsm",
+	"ai-functions",
+	"ai-packages",
+	"bullets",
+    "enemy",
+	"magic-effects",
+	"items",
+	"npc",
+	"objects",
+	"player",
+	"spells/fairy-spells",
+	"spells/marisa-spells",
+	"spells/player-spells",
+	"spells/patchouli-spells",
+	"spells/reimu-spells",
+	"spells/sakuya-spells",
+};
+
 unique_ptr<Lua::Inst> GSpace::scriptVM;
 
 local_shared_ptr<agent_properties> GSpace::playerCharacter;
@@ -41,21 +60,10 @@ GSpace* GSpace::crntSpace = nullptr;
 void GSpace::loadScriptVM()
 {
 	scriptVM = make_unique<Lua::Inst>("GSpace");
-	scriptVM->runFile("scripts/ai-fsm.lua");
-	scriptVM->runFile("scripts/ai-functions.lua");
-	scriptVM->runFile("scripts/ai-packages.lua");
-	scriptVM->runFile("scripts/bullets.lua");
-	scriptVM->runFile("scripts/magic-effects.lua");
-	scriptVM->runFile("scripts/items.lua");
-	scriptVM->runFile("scripts/npc.lua");
-	scriptVM->runFile("scripts/objects.lua");
-	scriptVM->runFile("scripts/player.lua");
-	scriptVM->runFile("scripts/spells/fairy-spells.lua");
-	scriptVM->runFile("scripts/spells/marisa-spells.lua");
-	scriptVM->runFile("scripts/spells/player-spells.lua");
-	scriptVM->runFile("scripts/spells/patchouli-spells.lua");
-	scriptVM->runFile("scripts/spells/reimu-spells.lua");
-	scriptVM->runFile("scripts/spells/sakuya-spells.lua");
+ 
+    for(string file : scriptFiles){
+        scriptVM->runFile("scripts/" + file + ".lua");
+    }
 }
 
 GSpace* GSpace::getCrntSpace()
@@ -198,6 +206,7 @@ void GSpace::update()
 
     for(GObject* obj : updateObjects){
         obj->update();
+        obj->runMethodIfAvailable("update");
     }
     
     processRemovals();
@@ -587,6 +596,7 @@ void GSpace::initObjects()
     for(GObject* obj: addedLastFrame)
     {
         obj->init();
+        obj->scriptInitialize();
     }
     addedLastFrame.clear();
 }

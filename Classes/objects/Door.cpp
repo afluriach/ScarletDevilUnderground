@@ -24,7 +24,6 @@ Door::Door(GSpace* space, ObjectIDType id, const ValueMap& args) :
 		nullptr
 	)
 {
-	consumeKey = getBoolOrDefault(args, "consumeKey", false);
 	keyItem = getStringOrDefault(args, "keyItem", "");
 
 	locked = getBoolOrDefault(args, "locked", false);
@@ -41,11 +40,6 @@ Door::Door(GSpace* space, ObjectIDType id, const ValueMap& args) :
 		doorType = door_type::one_way_destination;
 	else
 		doorType = door_type::pair;
-
-	string sealed_until = getStringOrDefault(args, "sealed_until_completed", "");
-	if (sealed_until != "") {
-		sealed = !App::crntState->hasAttribute(sealed_until);
-	}
 }
 
 void Door::init()
@@ -133,10 +127,6 @@ bool Door::canUnlock(Player* p) const
 bool Door::unlock(Player* p)
 {
 	locked = false;
-	if (consumeKey) {
-		App::getCrntState()->removeItem(keyItem);
-	}
-
 	return true;
 }
 
@@ -144,14 +134,13 @@ bool Door::canInteract(Player* p)
 {
 	return doorType != door_type::one_way_destination &&
 		(adjacent.isValid() || !destinationMap.empty()) &&
-		!sealed &&
 		(!locked || canUnlock(p) )
 	;
 }
 
 void Door::interact(Player* p)
 {
-	if (!locked && !sealed) {
+	if (!locked) {
 		p->useDoor(this);
 	}
 	else if(locked){
@@ -174,17 +163,17 @@ string Door::interactionIcon(Player* p)
 
 void Door::activate()
 {
-	setSealed(true);
+	setLocked(true);
 }
 
 void Door::deactivate()
 {
-	setSealed(false);
+	setLocked(false);
 }
 
-void Door::setSealed(bool b)
+void Door::setLocked(bool b)
 {
-	sealed = b;
+	locked = b;
 
 	if (spriteID != 0) {
 		space->addGraphicsAction(

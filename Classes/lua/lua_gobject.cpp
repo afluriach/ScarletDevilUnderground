@@ -121,7 +121,6 @@ namespace Lua{
 			"name", sol::property(&GObject::getName),
 			"id", sol::property(&GObject::getUUID),
             "props", sol::property(&GObject::getProps),
-            "fsm", sol::property(&GObject::getFSM),
 			"space", sol::property(&GObject::getSpace)
 		);
 
@@ -164,7 +163,6 @@ namespace Lua{
 		addFuncSame(gobject, getBodySensor);
 		addFuncSame(gobject, launchAtTarget);
 		addFuncSame(gobject, setLayers);
-		addFuncSame(gobject, setFrozen);
 		addFuncSame(gobject, activate);
 		addFuncSame(gobject, deactivate);
 		addFuncSame(gobject, getActive);
@@ -178,11 +176,8 @@ namespace Lua{
 		addFuncSame(gobject, getClsName);
 		addFuncSame(gobject, getType);
 		addFuncSame(gobject, getFullType);
-
-        addFuncSame(gobject, setAIFunction);
-		addFuncSame(gobject, printFSM);
 			
-		gobject["asGObject"] = &GObject::getAs<GObject>;
+		gobject["getAsObject"] = &GObject::getAs<GObject>;
 		gobject["getRef"] = &GObject::getRef;
 		gobject["getAsAgent"] = &GObject::getAs<Agent>;
 		gobject["getAsBullet"] = &GObject::getAs<Bullet>;

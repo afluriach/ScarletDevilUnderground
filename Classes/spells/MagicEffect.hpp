@@ -23,7 +23,7 @@ enum class effect_flags
 
 	//The effect uses update.
 	active = 0x4,
-	//The effect can only be attached to Agents, typically for affecting Attribute .
+	//The effect can only be attached to Agents, typically for affecting Attributes.
 	agent = 0x8,
 };
 

@@ -33,13 +33,8 @@
 
 namespace ai{
 
-AITargetFunctionGenerator ScriptFunction::targetGenerator(const string& cls)
-{
-	return makeTargetFunctionGenerator<ScriptFunction>(cls);
-}
-
-ScriptFunction::ScriptFunction(StateMachine* fsm, const string& cls) :
-	Function(fsm),
+ScriptFunction::ScriptFunction(GObject* object, const string& cls) :
+	Function(object),
 	cls(cls)
 {
 	Function* f_this = this;
@@ -47,8 +42,8 @@ ScriptFunction::ScriptFunction(StateMachine* fsm, const string& cls) :
 	obj = GSpace::scriptVM->_state["ai"][cls](f_this);
 }
 
-ScriptFunction::ScriptFunction(StateMachine* fsm, GObject* target, const string& cls) :
-	Function(fsm),
+ScriptFunction::ScriptFunction(GObject* object, GObject* target, const string& cls) :
+	Function(object),
 	cls(cls)
 {
 	Function* f_this = this;
@@ -61,54 +56,9 @@ void ScriptFunction::onEnter()
     sol::runMethodIfAvailable(obj,"onEnter");
 }
 
-update_return ScriptFunction::update()
+void ScriptFunction::update()
 {
-    return sol::runMethodIfAvailableOrDefault(update_return::makeSteady(-1.0f), obj, "update");
-}
-
-bool ScriptFunction::bulletBlock(Bullet* b)
-{
-    return sol::runMethodIfAvailableOrDefault(false, obj, "bulletBlock", b);
-}
-
-bool ScriptFunction::bulletHit(Bullet* b)
-{
-    return sol::runMethodIfAvailableOrDefault(false, obj, "bulletHit", b);
-}
-
-bool ScriptFunction::detectEnemy(Agent* enemy)
-{
-    return sol::runMethodIfAvailableOrDefault(false, obj, "detectEnemy", enemy);
-}
-
-bool ScriptFunction::endDetectEnemy(Agent* enemy)
-{
-    return sol::runMethodIfAvailableOrDefault(false, obj, "endDetectEnemy", enemy);
-}
-
-bool ScriptFunction::detectBomb(Bomb* bomb)
-{
-    return sol::runMethodIfAvailableOrDefault(false, obj, "detectBomb", bomb);
-}
-
-bool ScriptFunction::detectBullet(Bullet* bullet)
-{
-    return sol::runMethodIfAvailableOrDefault(false, obj, "detectBullet", bullet);
-}
-
-bool ScriptFunction::enemyRoomAlert(Agent* enemy)
-{
-    return sol::runMethodIfAvailableOrDefault(false, obj, "enemyRoomAlert", enemy);
-}
-
-bool ScriptFunction::zeroHP()
-{
-    return sol::runMethodIfAvailableOrDefault(false, obj, "zeroHP");
-}
-
-bool ScriptFunction::zeroStamina()
-{
-    return sol::runMethodIfAvailableOrDefault(false, obj, "zeroStamina");
+    sol::runMethodIfAvailable(obj, "update");
 }
 
 void ScriptFunction::onExit()
@@ -128,22 +78,39 @@ bool ScriptFunction::hasMethod(const string& name)
 	return result;
 }
 
-Seek::Seek(StateMachine* fsm, GObject* target, bool usePathfinding, SpaceFloat margin) :
-	Function(fsm),
+AgentFunction::AgentFunction(GObject* object) :
+    Function(object),
+    agent(object->getAs<Agent>())
+{
+    if(!agent){
+        logAndThrowError("Object is not an Agent!");
+    }
+}
+
+PlayerFunction::PlayerFunction(GObject* object) :
+    Function(object),
+    player(object->getAs<Player>())
+{
+    if(!player){
+        logAndThrowError("Object is not Player!");
+    }
+}
+
+Seek::Seek(GObject* object, GObject* target, bool usePathfinding, SpaceFloat margin) :
+	Function(object),
 	target(target),
 	usePathfinding(usePathfinding),
 	margin(margin)
 {}
 
-update_return Seek::update()
+void Seek::update()
 {
-	GObject* agent = getObject();
 	timerDecrement(lastPathfind);
 
 	if (!target.isValid()) {
 		crntState = states::no_target;
 	}
-	else if (crntState == states::pathfinding && !isObstacleBetweenTarget(agent, target.get())) {
+	else if (crntState == states::pathfinding && !isObstacleBetweenTarget(object, target.get())) {
 		crntState = states::direct_seek;
 		pathFunction.reset();
 	}
@@ -151,19 +118,19 @@ update_return Seek::update()
 		usePathfinding &&
 		crntState == states::direct_seek &&
 		lastPathfind <= 0.0 &&
-		isObstacleBetweenTarget(agent, target.get())
+		isObstacleBetweenTarget(object, target.get())
 	){
-		pathFunction = ai::FollowPath::pathToTarget(fsm, target.get());
+		pathFunction = ai::FollowPath::pathToTarget(object, target.get());
 		lastPathfind = pathfindingCooldown;
 
 		if (pathFunction) {
 			crntState = states::pathfinding;
 		}
 	}
-	else if (distanceToTarget(agent, target.get()->getPos()) < margin) {
+	else if (distanceToTarget(object, target.get()->getPos()) < margin) {
 		crntState = states::arriving;
 	}
-	else if (crntState == states::arriving && distanceToTarget(agent, target.get()->getPos()) > margin) {
+	else if (crntState == states::arriving && distanceToTarget(object, target.get()->getPos()) > margin) {
 		crntState = states::direct_seek;
 	}
 
@@ -171,135 +138,126 @@ update_return Seek::update()
 	{
 	case states::direct_seek:
 		seek(
-			agent,
+			object,
 			target.get()->getPos(),
-			agent->getMaxSpeed(),
-			agent->getMaxAcceleration()
+			object->getMaxSpeed(),
+			object->getMaxAcceleration()
 		);
 	break;
 	case states::pathfinding:
 		pathFunction->update();
 	break;
 	case states::arriving:
-		arrive(agent, target.get()->getPos());
+		arrive(object, target.get()->getPos());
 	break;
 	}
 
 	if (crntState != states::no_target) {
-		agent->setDirection(toDirection(
+		object->setDirection(toDirection(
             ai::directionToTarget(
-                agent,
+                object,
                 target.get()->getPos()
             )
         ));
 	}
 
-	if (target.isValid())
-		return_steady(0.0f);
-	else
-		return_pop();
+	if (!target.isValid())
+        _state = state::completed;
 }
 
-MaintainDistance::MaintainDistance(StateMachine* fsm, gobject_ref target, SpaceFloat distance, SpaceFloat margin) :
-Function(fsm),
+MaintainDistance::MaintainDistance(GObject* object, gobject_ref target, SpaceFloat distance, SpaceFloat margin) :
+Function(object),
 target(target),
 distance(distance),
 margin(margin)
 {}
 
-update_return MaintainDistance::update()
+void MaintainDistance::update()
 {
-	Agent* agent = fsm->getAgent();
 	if (target.get()) {
-        SpaceFloat crnt_distance = distanceToTarget(agent,target.get());
-		SpaceFloat stop_dist = getStoppingDistance(agent);
+        SpaceFloat crnt_distance = distanceToTarget(object,target.get());
+		SpaceFloat stop_dist = getStoppingDistance(object);
     
 		if (abs(crnt_distance - distance) < stop_dist) {
 			ai::arrive(
-				agent,
-				SpaceVect::ray(distance, float_pi + directionToTarget(agent, target.get()->getPos()).toAngle())
+				object,
+				SpaceVect::ray(distance, float_pi + directionToTarget(object, target.get()->getPos()).toAngle())
 			);
 		}
 
         else if(crnt_distance > distance + margin){
             ai::seek(
-                agent,
+                object,
                 target.get()->getPos(),
-                agent->getMaxSpeed(),
-                agent->getMaxAcceleration()
+                object->getMaxSpeed(),
+                object->getMaxAcceleration()
             );
         }
         else if(crnt_distance < distance + margin){
             ai::fleeWithObstacleAvoidance(
-                agent,
+                object,
                 target.get()->getPos(),
-                agent->getMaxSpeed(),
-                agent->getMaxAcceleration()
+                object->getMaxSpeed(),
+                object->getMaxAcceleration()
             );
         }
 	}
 	else {
-		ai::applyDesiredVelocity(agent, SpaceVect::zero, agent->getMaxAcceleration());
+		ai::applyDesiredVelocity(object, SpaceVect::zero, object->getMaxAcceleration());
 	}
-
-	return_steady(0.0f);
 }
 
-OccupyPoint::OccupyPoint(StateMachine* fsm, SpaceVect target) :
-	Function(fsm),
+OccupyPoint::OccupyPoint(GObject* object, SpaceVect target) :
+	Function(object),
 	target(target)
 {
 }
 
-update_return OccupyPoint::update()
+void OccupyPoint::update()
 {
-	GObject* agent = getObject();
-	SpaceFloat crnt_distance = distanceToTarget(agent, target);
-	SpaceFloat stop_dist = getStoppingDistance(agent);
+	GObject* object = object;
+	SpaceFloat crnt_distance = distanceToTarget(object, target);
+	SpaceFloat stop_dist = getStoppingDistance(object);
 
 	if (crnt_distance > stop_dist) {
-		seek(agent, target, agent->getMaxSpeed(), agent->getMaxAcceleration());
+		seek(object, target, object->getMaxSpeed(), object->getMaxAcceleration());
 	}
 	else {
-		arrive(agent, target);
+		arrive(object, target);
 	}
-
-	return_steady(0.0f);
 }
 
-OccupyMidpoint::OccupyMidpoint(StateMachine* fsm, gobject_ref target1, gobject_ref target2) :
-Function(fsm),
+OccupyMidpoint::OccupyMidpoint(GObject* object, gobject_ref target1, gobject_ref target2) :
+Function(object),
 target1(target1),
 target2(target2)
 {
 }
 
-update_return OccupyMidpoint::update()
+void OccupyMidpoint::update()
 {
 	GObject* t1 = target1.get();
 	GObject* t2 = target2.get();
-	GObject* agent = getObject();
 
 	if (!t1 || !t2) {
-		return_pop();
+        _state = state::completed;
+        return;
 	}
 
 	SpaceVect midpoint = (t1->getPos() + t2->getPos()) / 2.0;
-	SpaceFloat crnt_distance = distanceToTarget(agent, midpoint);
-	SpaceFloat stop_dist = getStoppingDistance(agent);
+	SpaceFloat crnt_distance = distanceToTarget(object, midpoint);
+	SpaceFloat stop_dist = getStoppingDistance(object);
 
 	if (crnt_distance > stop_dist) {
-		seek(agent, midpoint, agent->getMaxSpeed(), agent->getMaxAcceleration());
+		seek(object, midpoint, object->getMaxSpeed(), object->getMaxAcceleration());
 	}
 	else {
-		arrive(agent, midpoint);
+		arrive(object, midpoint);
 	}
-
-	return_steady(0.0f);
 }
 
-Scurry::Scurry(StateMachine* fsm, GObject* _target, SpaceFloat _distance, SpaceFloat length) :
-Function(fsm),
+Scurry::Scurry(GObject* object, GObject* _target, SpaceFloat _distance, SpaceFloat length) :
+Function(object),
 distance(_distance),
 target(_target)
 {
@@ -311,19 +269,19 @@ target(_target)
 		endFrame = 0;
 }
 
-update_return Scurry::update()
+void Scurry::update()
 {
-	GObject* agent = getObject();
 	autoUpdateFunction(moveFunction);
 
 	if (!target.isValid() || endFrame != 0 && getSpace()->getFrame() >= endFrame) {
-		return_pop();
+        _state = state::completed;
+        return;
 	}
 
 	if (moveFunction)
-		return_steady(0.0f);
+		return;
 
-	SpaceVect displacement = displacementToTarget(agent, target.get()->getPos());
+	SpaceVect displacement = displacementToTarget(object, target.get()->getPos());
 
 	SpaceFloat angle = displacement.toAngle();
 	if (!scurryLeft) {
@@ -331,62 +289,55 @@ update_return Scurry::update()
 	}
 	scurryLeft = !scurryLeft;
 
-	array<SpaceFloat, 8> obstacleFeelers = obstacleFeeler8(agent, distance);
+	array<SpaceFloat, 8> obstacleFeelers = obstacleFeeler8(object, distance);
 	int direction = chooseBestDirection(obstacleFeelers, angle, distance);
 
 	if (direction != -1) {
-		moveFunction = fsm->make<MoveToPoint>(
-			agent->getPos() + SpaceVect::ray(distance, direction * float_pi / 4.0)
+		moveFunction = object->make<MoveToPoint>(
+			object->getPos() + SpaceVect::ray(distance, direction * float_pi / 4.0)
 		);
 	}
-
-	return_steady(0.0f);
 }
 
-Flee::Flee(StateMachine* fsm, GObject* target, SpaceFloat distance) :
-	Function(fsm),
+Flee::Flee(GObject* object, GObject* target, SpaceFloat distance) :
+	Function(object),
 	target(target),
 	distance(distance)
 {}
 
-update_return Flee::update()
+void Flee::update()
 {
-	GObject* agent = getObject();
-
 	if (target.isValid()) {
 		ai::fleeWithObstacleAvoidance(
-			agent,
+			object,
 			target.get()->getPos(),
-			agent->getMaxSpeed(),
-			agent->getMaxAcceleration()
+			object->getMaxSpeed(),
+			object->getMaxAcceleration()
 		);
-		agent->setDirection(toDirection(
+		object->setDirection(toDirection(
             ai::directionToTarget(
-                agent,
+                object,
                 target.get()->getPos()
             )
         ));
 	}
 	
-	if (target.isValid())
-		return_steady(0.0f);
-	else
-		return_pop();
+	if (!target.isValid())
+        _state = state::completed;
 }
 
-Evade::Evade(StateMachine* fsm, GType type) : 
-	Function(fsm),
+Evade::Evade(GObject* object, GType type) :
+	AgentFunction(object),
 	type(type)
 {}
 
-update_return Evade::update()
+void Evade::update()
 {
-	Agent* agent = getAgent();
 	const object_list* objs = agent->getRadar()->getSensedObjectsByGtype(type);
 	
 	if (!objs || objs->size() == 0) {
-		active = false;
-		return_pop();
+        _state = state::completed;
+        return;
 	}
 
 	GObject* closest = nullptr;
@@ -394,7 +345,7 @@ update_return Evade::update()
 	 
 	for(GObject* obj: *objs)
 	{
-		SpaceFloat crntDist = distanceToTarget(obj, agent);
+		SpaceFloat crntDist = distanceToTarget(obj, object);
 
 		if (crntDist < closestDistance) {
 			closestDistance = crntDist;
@@ -406,38 +357,35 @@ update_return Evade::update()
 
 	if (closest != nullptr)
 	{
-		SpaceVect offset = projectileEvasion(closest, agent);
+		SpaceVect offset = projectileEvasion(closest, object);
 		if (!offset.isZero()) {
 			applyDesiredVelocity(
-				agent,
-				offset.normalize()*-1.0f * agent->getMaxSpeed(),
-				agent->getMaxAcceleration()
+				object,
+				offset.normalize()*-1.0f * object->getMaxSpeed(),
+				object->getMaxAcceleration()
 			);
 		}
 	}
-
-	return_steady(0.0f);
 }
 
-LookAround::LookAround(StateMachine* fsm, SpaceFloat angularVelocity) :
-Function(fsm),
+LookAround::LookAround(GObject* object, SpaceFloat angularVelocity) :
+Function(object),
 angularVelocity(angularVelocity)
 {
 }
 
-update_return LookAround::update()
+void LookAround::update()
 {
-	getObject()->rotate(angularVelocity * app::params.secondsPerFrame);
-	return_steady(0.0f);
+	object->rotate(angularVelocity * app::params.secondsPerFrame);
 }
 
 Flank::Flank(
-	StateMachine* fsm,
+	GObject* object,
 	gobject_ref target,
 	SpaceFloat desiredDistance,
 	SpaceFloat wallMargin
 ) :
-	Function(fsm),
+	Function(object),
 	target(target),
 	desiredDistance(desiredDistance),
 	wallMargin(wallMargin)
@@ -448,22 +396,22 @@ void Flank::init()
 {
 }
 
-update_return Flank::update()
+void Flank::update()
 {
 	if (!target.isValid()) {
-		return_pop();
+        _state = state::completed;
+        return;
 	}
 
 	autoUpdateFunction(moveFunction);
 
 	if (moveFunction)
-		return_steady(0.0f);
+		return;
 
-	GObject* agent = getObject();
 	SpaceVect target_pos;
 	SpaceVect pos = target.get()->getPos();
 	SpaceFloat angle = target.get()->getAngle();
-	SpaceFloat this_angle = viewAngleToTarget(target.get(), agent);
+	SpaceFloat this_angle = viewAngleToTarget(target.get(), object);
 
 	SpaceVect rear_pos = SpaceVect::ray(desiredDistance, angle + float_pi) + pos;
 	SpaceVect left_pos = SpaceVect::ray(desiredDistance, angle - float_pi / 2.0) + pos;
@@ -485,20 +433,18 @@ update_return Flank::update()
 		target_pos = rear_pos;
 	}
 	if (!target_pos.isZero()) {
-		moveFunction = fsm->make<MoveToPoint>(target_pos);
+		moveFunction = object->make<MoveToPoint>(target_pos);
 	}
 	else {
-		applyDesiredVelocity(agent, SpaceVect::zero, agent->getMaxAcceleration());
+		applyDesiredVelocity(object, SpaceVect::zero, object->getMaxAcceleration());
 	}
-
-	return_steady(0.0f);
 }
 
 
 bool Flank::wallQuery(SpaceVect pos)
 {
 	return getPhys()->obstacleRadiusQuery(
-		getObject(),
+		object,
 		pos, 
 		wallMargin,
 		GType::wall,
@@ -506,8 +452,8 @@ bool Flank::wallQuery(SpaceVect pos)
 	);
 }
 
-LookTowardsFire::LookTowardsFire(StateMachine* fsm, bool useShield) :
-	Function(fsm),
+LookTowardsFire::LookTowardsFire(GObject* object, bool useShield) :
+	AgentFunction(object),
 	useShield(useShield)
 {
 }
@@ -516,10 +462,8 @@ void LookTowardsFire::onEnter()
 {
 }
 
-update_return LookTowardsFire::update()
+void LookTowardsFire::update()
 {
-	Agent* agent = getAgent();
-
 	hitAccumulator -= (looking*lookTimeCoeff + (1-looking)*timeCoeff)* app::params.secondsPerFrame;
 	hitAccumulator = max(hitAccumulator, 0.0f);
 
@@ -529,16 +473,14 @@ update_return LookTowardsFire::update()
 		if (useShield) agent->setShieldActive(false);
 	}
 	else if (!looking && hitAccumulator >= 1.0f) {
-		agent->setAngle(directionAccumulator.toAngle());
+		object->setAngle(directionAccumulator.toAngle());
 		looking = true;
 		if (useShield) agent->setShieldActive(true);
 	}
 
 	if (looking) {
-		applyDesiredVelocity(agent, SpaceVect::zero, agent->getMaxAcceleration());
+		applyDesiredVelocity(object, SpaceVect::zero, object->getMaxAcceleration());
 	}
-
-	return_steady(0.0f);
 }
 
 void LookTowardsFire::onExit()
@@ -552,7 +494,7 @@ bool LookTowardsFire::bulletHit(Bullet* b)
 	directionAccumulator += bulletDirection;
 
 	if (looking) {
-		getObject()->setAngle(bulletDirection.toAngle());
+		object->setAngle(bulletDirection.toAngle());
 	}
 
 	return true;
@@ -560,79 +502,71 @@ bool LookTowardsFire::bulletHit(Bullet* b)
 
 const double MoveToPoint::arrivalMargin = 0.125;
 
-MoveToPoint::MoveToPoint(StateMachine* fsm, SpaceVect target) :
-	Function(fsm),
+MoveToPoint::MoveToPoint(GObject* object, SpaceVect target) :
+	Function(object),
 	target(target)
 {}
 
-update_return MoveToPoint::update()
+void MoveToPoint::update()
 {
 	if (!arrived) {
-		arrived = moveToPoint(getObject(), target, arrivalMargin, false);
+		arrived = moveToPoint(object, target, arrivalMargin, false);
 	}
 	
 	if (arrived)
-		return_pop();
-	else
-		return_steady(0.0f);
+        _state = state::completed;
 }
 
 local_shared_ptr<FollowPath> FollowPath::pathToTarget(
-	StateMachine* fsm,
+	GObject* object,
 	gobject_ref target
 ){
 	if (!target.isValid()) {
 		return nullptr;
 	}
-	Agent* agent = fsm->getAgent();
 
-	Path path = fsm->getSpace()->pathToTile(
-		toIntVector(agent->getPos()),
+	Path path = object->getSpace()->pathToTile(
+		toIntVector(object->getPos()),
 		toIntVector(target.get()->getPos())
 	);
 
 	if (path.empty()) {
-		log2("%s (%u) no path to target", agent->getName(), agent->getUUID());
+		log2("%s (%u) no path to target", object->getName(), object->getUUID());
 		return nullptr;
 	}
 
 	return make_local_shared<FollowPath>(
-		fsm,
+		object,
 		path,
 		false,
 		false
 	);
 }
 
-FollowPath::FollowPath(StateMachine* fsm, Path path, bool loop, bool stopForObstacle) :
-	Function(fsm),
+FollowPath::FollowPath(GObject* object, Path path, bool loop, bool stopForObstacle) :
+	Function(object),
 	path(path),
 	loop(loop),
 	stopForObstacle(stopForObstacle)
 {}
 
-update_return FollowPath::update()
+void FollowPath::update()
 {
-	GObject* agent = getObject();
-
 	if (currentTarget < path.size()) {
-		agent->setDirection(toDirection(ai::directionToTarget(agent, path[currentTarget])));
-		bool arrived = moveToPoint(agent, path[currentTarget], MoveToPoint::arrivalMargin, stopForObstacle);
+		object->setDirection(toDirection(ai::directionToTarget(object, path[currentTarget])));
+		bool arrived = moveToPoint(object, path[currentTarget], MoveToPoint::arrivalMargin, stopForObstacle);
 		currentTarget += arrived;
 	}
 	else if (loop && path.size() > 0) {
 		currentTarget = 0;
 	}
 	else {
-		completed = true;
-		return_pop();
+        _state = state::completed;
 	}
-
-	return_steady(0.0f);
 }
 
-Wander::Wander(StateMachine* fsm, SpaceFloat minWait, SpaceFloat maxWait, SpaceFloat minDist, SpaceFloat maxDist) :
-	Function(fsm),
+Wander::Wander(GObject* object, SpaceFloat minWait, SpaceFloat maxWait, SpaceFloat minDist, SpaceFloat maxDist) :
+	Function(object),
 	minWait(minWait),
 	maxWait(maxWait),
 	minDist(minDist),
@@ -640,17 +574,17 @@ Wander::Wander(StateMachine* fsm, SpaceFloat minWait, SpaceFloat maxWait, SpaceF
 {
 }
 
-Wander::Wander(StateMachine* fsm, SpaceFloat waitInterval, SpaceFloat moveDist) :
-	Wander(fsm, waitInterval, waitInterval, moveDist, moveDist)
+Wander::Wander(GObject* object, SpaceFloat waitInterval, SpaceFloat moveDist) :
+	Wander(object, waitInterval, waitInterval, moveDist, moveDist)
 {}
 
-Wander::Wander(StateMachine* fsm) :
-	Wander(fsm, 1.0, 1.0, 1.0, 1.0)
+Wander::Wander(GObject* object) :
+	Wander(object, 1.0, 1.0, 1.0, 1.0)
 {}
 
 pair<Direction, SpaceFloat> Wander::chooseMovement()
 {
-	array<SpaceFloat, 4> feelers = ai::obstacleFeelerQuad(getObject(), maxDist);
+	array<SpaceFloat, 4> feelers = ai::obstacleFeelerQuad(object, maxDist);
 	vector<Direction> directions;
 	directions.reserve(4);
 
@@ -663,7 +597,7 @@ pair<Direction, SpaceFloat> Wander::chooseMovement()
 	}
 
 	if (!directions.empty()) {
-		return make_pair(directions.at(fsm->getSpace()->getRandomInt(0, directions.size()-1)), maxDist);
+		return make_pair(directions.at(getSpace()->getRandomInt(0, directions.size()-1)), maxDist);
 	}
 
 	//Select a direction that allows at least minimum desired distance.
@@ -675,36 +609,33 @@ pair<Direction, SpaceFloat> Wander::chooseMovement()
 	}
 
 	if (!directions.empty()) {
-		int idx = fsm->getSpace()->getRandomInt(0, directions.size() - 1);
+		int idx = getSpace()->getRandomInt(0, directions.size() - 1);
 		return make_pair(directions.at(idx), feelers[idx]);
 	}
 
 	return make_pair(Direction::none, 0.0);
 }
 
-update_return Wander::update()
+void Wander::update()
 {
-	GObject* agent = getObject();
 	autoUpdateFunction(moveFunction);
 
 	if (!moveFunction) {
 		timerDecrement(waitTimer);
-		applyDesiredVelocity(agent, SpaceVect::zero, agent->getMaxAcceleration());
+		applyDesiredVelocity(object, SpaceVect::zero, object->getMaxAcceleration());
 	}
 
 	if (waitTimer <= 0.0 && !moveFunction) {
 		pair<Direction, SpaceFloat> movement = chooseMovement();
 
 		if (movement.first != Direction::none && movement.second > 0.0) {
-			agent->setDirection(movement.first);
-			waitTimer = fsm->getSpace()->getRandomFloat(minWait, maxWait);
-			moveFunction = fsm->make<MoveToPoint>(
-				agent->getPos() + dirToVector(movement.first)*movement.second
+			object->setDirection(movement.first);
+			waitTimer = getSpace()->getRandomFloat(minWait, maxWait);
+			moveFunction = object->make<MoveToPoint>(
+				object->getPos() + dirToVector(movement.first)*movement.second
 			);
 		}
 	}
-
-	return_steady(0.0f);
 }
 
 void Wander::reset()
@@ -712,51 +643,47 @@ void Wander::reset()
 	moveFunction.reset();
 }
 
-FireAtTarget::FireAtTarget(StateMachine* fsm, gobject_ref target) :
-	Function(fsm),
+FireAtTarget::FireAtTarget(GObject* object, gobject_ref target) :
+	AgentFunction(object),
 	target(target)
 {}
 
-update_return FireAtTarget::update()
+void FireAtTarget::update()
 {
-	Agent* agent = getAgent();
 	FirePattern* fp = agent->getFirePattern();
 	if (!target.isValid() || !fp) {
-		return_pop();
+		_state = state::completed;
+        return;
 	}
 
-	agent->setAngle(
-		directionToTarget(agent, target.get()->getPos()).toAngle()
+	object->setAngle(
+		directionToTarget(object, target.get()->getPos()).toAngle()
 	);
 
 	agent->fire();
-
-	return_steady(0.0f);
 }
 
-FireOnStress::FireOnStress(StateMachine* fsm, float stressPerShot) :
-	Function(fsm),
+FireOnStress::FireOnStress(GObject* object, float stressPerShot) :
+	AgentFunction(object),
 	stressPerShot(stressPerShot)
 {
 }
 
-update_return FireOnStress::update()
+void FireOnStress::update()
 {
-	Agent* agent = getAgent();
 	if (agent->get(Attribute::stress) >= stressPerShot && agent->fire()) {
 		agent->modifyAttribute(Attribute::stress, -stressPerShot);
 	}
-	return_steady(0.0f);
 }
 
 ThrowBombs::ThrowBombs(
-	StateMachine* fsm,
+	GObject* object,
 	gobject_ref target,
 	local_shared_ptr<bomb_properties> bombType,
 	SpaceFloat throwingSpeed,
 	SpaceFloat baseInterval
 ) :
-	Function(fsm),
+	AgentFunction(object),
 	target(target),
 	bombType(bombType),
 	throwingSpeed(throwingSpeed),
@@ -769,12 +696,11 @@ void ThrowBombs::init()
 	countdown = getInterval();
 }
 
-update_return ThrowBombs::update()
+void ThrowBombs::update()
 {
-	Agent* agent = getAgent();
-
 	if (!target.isValid() || !bombType) {
-		return_pop();
+        _state = state::completed;
+        return;
 	}
 
 	SpaceFloat fuseTime = bombType->fuseTime;
@@ -783,9 +709,9 @@ update_return ThrowBombs::update()
 	timerDecrement(countdown);
 
 	if (countdown <= 0.0 && agent->get(Attribute::mp) >= bombType->cost) {
-		SpaceFloat angle = directionToTarget(agent, target.get()->getPos()).toAngle();
-		SpaceVect pos = agent->getPos() + SpaceVect::ray(1.0, angle);
-		SpaceVect vel = agent->getVel() + SpaceVect::ray(throwingSpeed, angle);
+		SpaceFloat angle = directionToTarget(object, target.get()->getPos()).toAngle();
+		SpaceVect pos = object->getPos() + SpaceVect::ray(1.0, angle);
+		SpaceVect vel = object->getVel() + SpaceVect::ray(throwingSpeed, angle);
 		bool hasEnoughMagic =
 			agent->getAttributeSystem()->getHealthRatio() <
 			agent->getAttributeSystem()->getMagicRatio()
@@ -794,7 +720,7 @@ update_return ThrowBombs::update()
 		if (
 			//can place bomb
 			!getPhys()->obstacleRadiusQuery(
-				agent,
+				object,
 				pos,
 				0.5,
 				obstacles,
@@ -802,18 +728,18 @@ update_return ThrowBombs::update()
 			) &&
 			//bomb is likely to travel a significant distance
 			getPhys()->obstacleDistanceFeeler(
-				agent,
+				object,
 				SpaceVect::ray(1.0 + fuseTime*throwingSpeed, angle)
 			) > blastRadius &&
 			//predict net gain player-enemy damage
-			score(agent->getPos(), angle) > 0.5f &&
+			score(object->getPos(), angle) > 0.5f &&
 			//use bombs gradually in a fight
 			hasEnoughMagic &&
 			//do not throw if target is too close
-			distanceToTarget(agent, target.get()) > blastRadius
+			distanceToTarget(object, target.get()) > blastRadius
 		) {
-			SpaceVect bombPos = agent->getPos() + SpaceVect::ray(1.0, angle);
-			SpaceVect bombVel = agent->getVel() + SpaceVect::ray(throwingSpeed, angle);
+			SpaceVect bombPos = object->getPos() + SpaceVect::ray(1.0, angle);
+			SpaceVect bombVel = object->getVel() + SpaceVect::ray(throwingSpeed, angle);
 
 			getSpace()->createObject<Bomb>(
 				object_params(bombPos, bombVel),
@@ -823,12 +749,11 @@ update_return ThrowBombs::update()
 			countdown = getInterval();
 		}
 	}
-	return_steady(0.0f);
 }
 
 SpaceFloat ThrowBombs::getInterval()
 {
-	return baseInterval / (*getAgent()->getAttributeSystem())[Attribute::attackSpeed];
+	return baseInterval / agent->get(Attribute::attackSpeed);
 }
 
 float ThrowBombs::score(SpaceVect pos, SpaceFloat angle)
@@ -837,11 +762,9 @@ float ThrowBombs::score(SpaceVect pos, SpaceFloat angle)
 	return bombScore(getSpace(), predictedPos, bombType->blastRadius);
 }
 
-PlayerControl::PlayerControl(StateMachine* fsm) :
-	Function(fsm)
+PlayerControl::PlayerControl(GObject* object) :
+	PlayerFunction(object)
 {
-    player = getPlayer();
-    
     if(!player){
         logAndThrowError("Agent is not a Player object.");
     }
@@ -855,7 +778,7 @@ void PlayerControl::onEnter()
 {
 }
 
-update_return PlayerControl::update()
+void PlayerControl::update()
 {
     ControlInfo cs = getSpace()->getControlInfo();
     
@@ -874,8 +797,6 @@ update_return PlayerControl::update()
     }
     
     applyDesiredMovement();
-    
-    return_steady(0.0f);
 }
 
 void PlayerControl::checkMovementControls(const ControlInfo& cs)

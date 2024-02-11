@@ -46,16 +46,6 @@ public:
 	setter(SpaceFloat, friction)
 };
 
-struct ai_properties{
-    string engageDialog;
-    string defeatDialog;
-    
-    //Enemy's root state will be loaded when player enters room, instead of on initialization.
-    bool roomAlert = false;
-        
-    int _refcount = 0;
-};
-
 class agent_properties : public object_properties
 {
 public:
@@ -64,7 +54,6 @@ public:
 
 	AttributeMap attributes;
 
-    local_shared_ptr<ai_properties> aiProperties;
 	const SpellDesc* attack;
 	list<const SpellDesc*> spellInventory;
 	list<effect_entry> effects;

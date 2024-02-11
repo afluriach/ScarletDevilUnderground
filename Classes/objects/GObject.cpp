@@ -221,16 +221,12 @@ string GObject::toString() const
 void GObject::init()
 {
 	createLight();
-	
-	scriptInitialize();
 }
 
 void GObject::update()
 {
 	updateFloorSegment();
-	
 	updateParametricMove();
-	updateFSM();
 }
 
 void GObject::onRemove()
@@ -286,32 +282,9 @@ void GObject::toggleActive()
         activate();
 }
 
-void GObject::setAIFunction(local_shared_ptr<ai::Function> function)
-{
-    fsm->setFunction(function);
-}
-
-void GObject::updateFSM() {
-	if (fsm && !isFrozen)
-		fsm->update();
-}
-
-void GObject::printFSM() {
-	if (fsm) {
-		log1("%s", fsm->toString());
-	}
-}
-
-void GObject::setFrozen(bool val) {
-	isFrozen = val;
-}
-
 void GObject::scriptInitialize()
 {
-	if (scriptObj) {
-		sol::function f = scriptObj["initialize"];
-		if (f) f(scriptObj);
-	}
+    runMethodIfAvailable("initialize");
 }
 
 bool GObject::hasMethod(const string& name)
@@ -319,6 +292,14 @@ bool GObject::hasMethod(const string& name)
 	if (!scriptObj) return false;
 
 	return sol::hasMethod(scriptObj, name);
+}
+
+sol::object GObject::getScriptField(const string& name)
+{
+    if(!scriptObj)
+        return sol::object();
+        
+    return scriptObj[name];
 }
 
 bool GObject::hit(DamageInfo damage, SpaceVect n)

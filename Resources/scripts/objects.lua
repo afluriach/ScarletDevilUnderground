@@ -61,7 +61,7 @@ function objects.DestructibleHeadstone:hit(damage, n)
 	self.hp = self.hp - damage.mag
 	
 	if self.hp <= 0.0 then
-		self.super.space:removeObject(self.super:asGObject())
+		self.super.space:removeObject(self.super:getAsObject())
 	else
 		self:updateSprite()
 	end

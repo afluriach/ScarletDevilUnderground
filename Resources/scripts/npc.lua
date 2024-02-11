@@ -33,7 +33,7 @@ function objects.BlueFairyNPC:satisfy_effect()
 	App.state:incrementAttribute("BlueFairyLevel")
 	App.state:removeItem("Mushroom", self.id)
 	
-	self.super.space:removeObject(self.super:asGObject())
+	self.super.space:removeObject(self.super:getAsObject())
 end
 
 function objects.BlueFairyNPC:initialize()
