@@ -48,7 +48,7 @@ ScriptedSpellDescriptor::ScriptedSpellDescriptor(string clsName) :
 	//}
 }
 
-local_shared_ptr<Spell> ScriptedSpellDescriptor::generate(GObject* caster, unsigned int id) const
+local_shared_ptr<Spell> ScriptedSpellDescriptor::generate(GObject* caster) const
 {
-	return make_local_shared<ScriptedSpell>(caster, this, id, clsName);
+	return make_local_shared<ScriptedSpell>(caster, this, clsName);
 }

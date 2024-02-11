@@ -22,7 +22,6 @@
 #include "physics_context.hpp"
 #include "sol_util.hpp"
 #include "SpellDescriptor.hpp"
-#include "SpellSystem.hpp"
 #include "value_map.hpp"
 
 unordered_map<type_index, string> GObject::typeNameMap;
@@ -965,7 +964,27 @@ void GObject::stopSound(ALuint sourceID)
 
 local_shared_ptr<Spell> GObject::cast(const SpellDesc* desc)
 {
-	return space->spellSystem->cast(desc, this);
+	if (!desc) {
+		log0("Null SpellDescriptor!");
+		return nullptr;
+	}
+ 
+    if (!applyInitialSpellCost(desc->getCost())) {
+		return nullptr;
+	}
+ 
+    local_shared_ptr<Spell> spell = desc->generate(this);
+  
+    if(!desc->getSFX().empty())
+        playSoundSpatial("sfx/" + desc->getSFX() + ".wav");
+        
+    spell->start();
+    
+    if (logSpells) {
+		log1("Spell %s (%u) created and initialized.", spell->getName());
+	}
+
+	return spell;
 }
 
 unsigned int GObject::applyMagicEffect(const MagicEffectDescriptor* effect, effect_attributes attr)

@@ -65,7 +65,6 @@ class MagicEffectSystem;
 class Spell;
 struct spell_cost;
 class SpellDesc;
-class SpellSystem;
 	//misc
 struct area_properties;
 class AttributeSystem;

@@ -26,7 +26,6 @@ public:
 	friend class GScene;
 	friend class physics_context;
 	friend class PhysicsImpl;
-	friend class SpellSystem;
 	typedef pair<ObjectGeneratorType, ObjectIDType> generator_pair;
 
 	static void loadScriptVM();
@@ -296,7 +295,6 @@ public:
 	audio_context* audioContext;
 	unique_ptr<physics_context> physicsContext;
 	unique_ptr<MagicEffectSystem> magicEffectSystem;
-	unique_ptr<SpellSystem> spellSystem;
 
 protected:
 //LOGIC

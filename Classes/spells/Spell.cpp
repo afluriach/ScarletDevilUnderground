@@ -10,7 +10,6 @@
 
 //#include "Spell.hpp"
 #include "SpellDescriptor.hpp"
-#include "SpellSystem.hpp"
 
 spell_cost spell_cost::none()
 {
@@ -32,10 +31,9 @@ spell_cost spell_cost::ongoingMP(float mp)
 	return spell_cost( 0.0f, 0.0f, mp, 0.0f );
 }
 
-Spell::Spell(GObject* caster, const SpellDesc* desc, unsigned int id) :
+Spell::Spell(GObject* caster, const SpellDesc* desc) :
 	caster(caster),
-	descriptor(desc),
-	id(id)
+	descriptor(desc)
 {}
 
 Spell::~Spell() {}
@@ -131,10 +129,6 @@ void Spell::bulletCircle(
 	}
 }
 
-unsigned int Spell::getID() const {
-	return id;
-}
-
 string Spell::getName() const {
 	return descriptor->getName();
 }
@@ -149,23 +143,35 @@ SpaceFloat Spell::getTime() const {
 
 void Spell::runUpdate()
 {
+	SpaceFloat updateInterval = descriptor->params.updateInterval;
+	SpaceFloat length = descriptor->params.length;
+    bool expired = length > 0.0 && t >= length;
+    bool costSatisfied = caster->applyOngoingSpellCost(getCost());
+	
+    if (expired || !costSatisfied) {
+		stop();
+	}
+
 	timerIncrement(t);
 	timerIncrement(lastUpdate);
-
-	auto updateInterval = descriptor->params.updateInterval;
-	auto length = descriptor->params.length;
 
 	if (updateInterval >= 0.0 && lastUpdate >= updateInterval) {
 		update();
 		lastUpdate -= updateInterval;
 	}
+}
 
-	if (length > 0.0 && t >= length) {
-		stop();
-	}
+void Spell::start()
+{
+    init();
 }
 
 void Spell::stop()
 {
-	getSpace()->spellSystem->stopSpell(this);
+    end();
+    active = false;
+    
+    if (logSpells) {
+        log1("Spell %s (%u) stopped.", getName());
+    }
 }

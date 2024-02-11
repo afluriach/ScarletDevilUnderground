@@ -16,11 +16,10 @@ class Spell
 {
 public:
 	friend class GObject;
-	friend class SpellSystem;
 
 	//length: -1 means indefinite, 0 means immediate
 	//updateInterval: -1 means no update, 0 means every frame, units in seconds.
-	Spell(GObject* caster, const SpellDesc* desc, unsigned int id);
+	Spell(GObject* caster, const SpellDesc* desc);
 	virtual ~Spell();
     
 	template<class T>
@@ -60,31 +59,30 @@ public:
 	);
 
 	inline const SpellDesc* getDescriptor() const { return descriptor; }
-	unsigned int getID() const;
 	string getName() const;
 	spell_cost getCost() const;
 	SpaceFloat getTime() const;
 
 	inline bool isSpellActive() const { return active; }
 
-	inline virtual void init() {}
-	inline virtual void update() {}
-	inline virtual void end() {}
 	inline virtual void onBulletRemove(Bullet* b) {}
 
+	void runUpdate();
+    void start();
 	void stop();
 
 	int _refcount = 0;
 protected:
-	void runUpdate();
+	inline virtual void init() {}
+	inline virtual void update() {}
+	inline virtual void end() {}
 
 	SpaceFloat t = 0.0;
 	SpaceFloat lastUpdate = 0.0;
 
 	const SpellDesc* descriptor;
     GObject* caster;
-	unsigned int id;
-	//set to false when spell is stopped and removed from SpellSystem
+	//set to false when spell is ended.
 	bool active = true;
 };
 

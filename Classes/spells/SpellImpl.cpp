@@ -28,8 +28,8 @@ spell_params ScriptedSpell::getParams(string clsName)
 	return f ? f() : spell_params();
 }
 
-ScriptedSpell::ScriptedSpell(GObject* caster, const SpellDesc* desc, unsigned int id, string clsName) :
-	Spell(caster,desc,id),
+ScriptedSpell::ScriptedSpell(GObject* caster, const SpellDesc* desc, string clsName) :
+	Spell(caster,desc),
 	clsName(clsName)
 {
 	auto cls = GSpace::scriptVM->_state["spells"][clsName];
@@ -79,10 +79,9 @@ void ScriptedSpell::onBulletRemove(Bullet* b)
 ApplySelfEffect::ApplySelfEffect(
 	GObject* caster,
 	const SpellDesc* desc,
-	unsigned int id,
 	const MagicEffectDescriptor* effect
 ) :
-	Spell(caster, desc, id),
+	Spell(caster, desc),
 	effect(effect)
 {
 }
@@ -106,10 +105,9 @@ void ApplySelfEffect::end()
 MeleeAttack::MeleeAttack(
 	GObject* caster,
 	const SpellDesc* desc,
-	unsigned int id,
 	melee_params melee
 ) :
-	Spell(caster, desc, id),
+	Spell(caster, desc),
 	melee(melee)
 {
 }
@@ -156,10 +154,9 @@ void MeleeAttack::end()
 CirclingBullets::CirclingBullets(
 	GObject* caster,
 	const SpellDesc* desc,
-	unsigned int id,
 	circling_bullets_params _params
 ) :
-	Spell(caster, desc, id),
+	Spell(caster, desc),
 	params(_params)
 {
 }

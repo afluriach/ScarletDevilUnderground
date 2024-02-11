@@ -33,7 +33,6 @@
 #include "RadarSensor.hpp"
 #include "sol_util.hpp"
 #include "SpellDescriptor.hpp"
-#include "SpellSystem.hpp"
 #include "spell_types.hpp"
 #include "value_map.hpp"
 
@@ -521,7 +520,7 @@ bool Agent::doPowerAttack(const SpellDesc* p)
         return false;
         
     power_attack_data data;
-    data.attack = space->spellSystem->cast(p, this);
+    data.attack = cast(p);
     
     if(data.attack){
         setState(agent_state::powerAttack);
@@ -657,9 +656,11 @@ void Agent::updateState()
         }
     break;
     case agent_state::powerAttack:
-        power_attack_data data = std::get<power_attack_data>(stateData);
-        if(!data.attack->isSpellActive())
+        auto attack = std::get<power_attack_data>(stateData).attack;
+        if(!attack->isSpellActive())
             setState(agent_state::none);
+        else
+            attack->runUpdate();
     break;
     }
 }

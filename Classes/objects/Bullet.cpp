@@ -12,7 +12,6 @@
 #include "Bullet.hpp"
 #include "graphics_context.hpp"
 #include "MagicEffect.hpp"
-#include "SpellSystem.hpp"
 
 object_params Bullet::makeLaunchParams(
 	SpaceVect pos,

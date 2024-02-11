@@ -28,7 +28,6 @@
 #include "Player.hpp"
 #include "PlayScene.hpp"
 #include "SpellDescriptor.hpp"
-#include "SpellSystem.hpp"
 
 const float Player::centerLookHoldThresh = 0.3f;
 const float Player::interactCooldownTime = 0.1f;

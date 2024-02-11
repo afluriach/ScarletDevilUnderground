@@ -114,7 +114,6 @@ namespace Lua{
 			"Spell",
 			"agent", sol::property(&Spell::getCasterAs<Agent>),
 			"descriptor", sol::property(&Spell::getDescriptor),
-			"id", sol::property(&Spell::getID),
 			"name", sol::property(&Spell::getName),
 			"cost", sol::property(&Spell::getCost),
 			"object", sol::property(&Spell::getCasterAs<GObject>),
@@ -124,11 +123,12 @@ namespace Lua{
 		);
 #define _cls Spell
 
-		spell["stop"] = &Spell::stop;
+		addFuncSame(spell, runUpdate);
+		addFuncSame(spell, stop);
 
-		spell["getBulletAttributes"] = &Spell::getBulletAttributes;
-		spell["spawnBullet"] = &Spell::spawnBullet;
-		spell["launchBullet"] = &Spell::launchBullet;
+		addFuncSame(spell, getBulletAttributes);
+		addFuncSame(spell, spawnBullet);
+		addFuncSame(spell, launchBullet);
 
 		addFuncSame(spell, spawnBulletRadius);
 		addFuncSame(spell, bulletCircle);

@@ -13,14 +13,14 @@ class ScriptedSpell : public Spell {
 public:
 	static spell_params getParams(string clsName);
 
-	ScriptedSpell(GObject* caster, const SpellDesc* desc, unsigned int id, string clsName);
+	ScriptedSpell(GObject* caster, const SpellDesc* desc, string clsName);
 	virtual ~ScriptedSpell();
 
+protected:
 	virtual void init();
 	virtual void update();
 	virtual void end();
 	virtual void onBulletRemove(Bullet* b);
-protected:
 	string clsName;
 	sol::table obj;
 };
@@ -31,14 +31,13 @@ public:
 	ApplySelfEffect(
 		GObject* caster,
 		const SpellDesc* desc,
-		unsigned int id,
 		const MagicEffectDescriptor* effect
 	);
 	~ApplySelfEffect();
 
+protected:
 	virtual void init();
 	virtual void end();
-protected:
 	const MagicEffectDescriptor* effect;
 	unsigned int effectID = 0;
 };
@@ -49,14 +48,13 @@ public:
 	MeleeAttack(
 		GObject* caster,
 		const SpellDesc* desc,
-		unsigned int id,
 		melee_params melee
 	);
 
+protected:
 	virtual void init();
 	virtual void update();
 	virtual void end();
-protected:
 	melee_params melee;
 
 	SpaceFloat fireTimer;
@@ -71,14 +69,13 @@ public:
 	CirclingBullets(
 		GObject* caster,
 		const SpellDesc* desc,
-		unsigned int id,
 		circling_bullets_params _params
 	);
 
+protected:
 	virtual void init();
 	virtual void update();
 	virtual void end();
-protected:
 	circling_bullets_params params;
 	vector<gobject_ref> bullets;
 	SpaceFloat angularPos = 0.0;

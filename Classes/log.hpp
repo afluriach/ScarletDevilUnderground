@@ -9,6 +9,8 @@
 #ifndef log_hpp
 #define log_hpp
 
+static constexpr bool logSpells = false;
+
 class LogSystem
 {
 public:

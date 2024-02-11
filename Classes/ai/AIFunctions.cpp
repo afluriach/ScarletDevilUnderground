@@ -26,7 +26,6 @@
 #include "PlayScene.hpp"
 #include "RadarSensor.hpp"
 #include "SpellDescriptor.hpp"
-#include "SpellSystem.hpp"
 #include "SpellUtil.hpp"
 #include "sol_util.hpp"
 #include "value_map.hpp"
@@ -786,6 +785,9 @@ void PlayerControl::update()
         activeSpell.reset();
         player->setAttribute(Attribute::spellCooldown, Attribute::castInterval);
     }
+    else if(activeSpell){
+        activeSpell->runUpdate();
+    }
 
     checkMovementControls(cs);
     checkItemInteraction(cs);
@@ -931,7 +933,9 @@ bool PlayerControl::tryInteract()
 void PlayerControl::toggleSpell()
 {
     if(activeSpell){
-        getSpace()->spellSystem->stopSpell(activeSpell);
+        if(activeSpell->isSpellActive())
+            activeSpell->stop();
+        
         player->setAttribute(Attribute::spellCooldown, Attribute::castInterval);
         activeSpell.reset();
     }

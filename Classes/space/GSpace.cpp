@@ -26,7 +26,6 @@
 #include "PlayScene.hpp"
 #include "RadarSensor.hpp"
 #include "SpellDescriptor.hpp"
-#include "SpellSystem.hpp"
 #include "value_map.hpp"
 #include "Wall.hpp"
 
@@ -90,7 +89,6 @@ GSpace::GSpace(GScene* gscene) :
 	}
 
 	magicEffectSystem = make_unique<MagicEffectSystem>(this);
-	spellSystem = make_unique<SpellSystem>(this);
     
     crntSpace = this;
 }
@@ -202,7 +200,6 @@ void GSpace::update()
 
 	updateSensors();
 	magicEffectSystem->update();
-	spellSystem->update();
 
     for(GObject* obj : updateObjects){
         obj->update();
@@ -550,7 +547,6 @@ void GSpace::setBulletBodiesVisible(bool b)
 
 void GSpace::processRemoval(GObject* obj, bool _removeSprite)
 {
-	spellSystem->stopObjectSpells(obj);
 	magicEffectSystem->removeObjectEffects(obj);
 
 	obj->onRemove();
