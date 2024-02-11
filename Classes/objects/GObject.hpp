@@ -338,6 +338,7 @@ public:
     virtual sprite_update updateSprite();
 	void createLight();
     void removeLight();
+    void setLightSourceAngle(SpaceFloat angle);
 	//If "id" is not provided, the object's defaut sprite, spriteID, will be
 	//used, assuming it is valid.
 	void addGraphicsAction(GraphicsAction action);

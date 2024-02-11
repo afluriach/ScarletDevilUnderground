@@ -539,6 +539,19 @@ bool parseObject(tinyxml2::XMLElement* elem, shared_ptr<LightArea>* result)
 			(*result) = _result;
 			return true;
 		}
+        else if (type == "cone")
+        {
+            auto _result = make_shared<ConeLightArea>();
+            
+            getColorAttr(elem, "color", &_result->color);
+            getNumericAttr(elem, "radius", &_result->radius);
+            getNumericAttr(elem, "angularWidth", &_result->angleWidth);
+            
+            _result->angleWidth = toRads(_result->angleWidth);
+            
+            *result = _result;
+            return true;
+        }
 	}
 
 	return false;

@@ -34,6 +34,8 @@ void Inst::addUtil()
 		timerIncrement(result);
 		return result;
 	};
+ 
+    cFuncSame(util, canonicalAngle);
 
 	util["isinf"] = &std::isinf<double>;
 #ifdef _WIN32

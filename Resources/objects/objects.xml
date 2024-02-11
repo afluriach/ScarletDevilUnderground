@@ -45,6 +45,11 @@
 		layers="eyeLevelHeight"
 		mass="-1.0"
 	/>
+	<Pyramid
+		cls="auto"
+		sprite="pyramid"
+		light="pyramid"
+	/>
 	<Sapling
 		sprite="sapling"
 		layers="eyeLevelHeight"

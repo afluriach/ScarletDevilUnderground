@@ -50,6 +50,12 @@ public:
 		float bodyRadius, float coneRadius,
 		float thickness, Vec2 position
 	);
+ 	void createConeShader(
+		SpriteID id, GraphicsLayer layer,
+		const Color4F color, float radius,
+        const Vec2 center, SpaceFloat coneWidth,
+        SpaceFloat initialAngleRad
+	);
 
 	void runSpriteAction(SpriteID id, ActionGeneratorType generator);
 	void stopSpriteAction(SpriteID id, cocos_action_tag action);
@@ -58,7 +64,9 @@ public:
 	void removeSpriteWithAnimation(SpriteID id, ActionGeneratorType generator);
 	void setSpriteTexture(SpriteID id, string path);
 	void setSpritePosition(SpriteID id, Vec2 pos);
+	void setSpriteAngle(SpriteID id, float angle);
 	void setSpriteZoom(SpriteID id, float zoom);
+    void setSpriteVisible(SpriteID id, bool v);
 	
 	void spriteSpatialUpdate(vector<sprite_update> spriteUpdates);
 	void clearSubroomMask(unsigned int roomID);
@@ -76,7 +84,7 @@ protected:
 	{
 		C* c = getSpriteAs<C>(id);
 		if (c) {
-			(c->*method)(forward<Params>(args)...);
+			(c->*method)(std::forward<Params>(args)...);
 		}
 	}
 

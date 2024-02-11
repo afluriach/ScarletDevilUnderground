@@ -37,7 +37,7 @@
 #include "value_map.hpp"
 
 const Color4F Agent::bodyOutlineColor = hsva4F(270.0f, 0.2f, 0.7f, 0.667f);
-const Color4F Agent::shieldConeColor = Color4F(.37f, .56f, .57f, 0.5f);
+const Color4F Agent::shieldConeColor = Color4F(.37f, .56f, .57f, 0.333f);
 const float Agent::bodyOutlineWidth = 4.0f;
 const float Agent::bombSpawnDistance = 1.0f;
 
@@ -115,6 +115,19 @@ void Agent::init()
 	initAttributes();
 	applyEffects();
 	initializeRadar();
+ 
+ 	agentOverlay = space->createSprite(
+		&graphics_context::createAgentBodyShader,
+		GraphicsLayer::agentOverlay,
+		bodyOutlineColor,
+		shieldConeColor,
+		to_float(getRadius()*app::pixelsPerTile),
+		to_float(Player::grazeRadius*app::pixelsPerTile),
+		bodyOutlineWidth,
+		getInitialCenterPix()
+	);
+	space->graphicsNodeAction(&Node::setVisible, agentOverlay, false);
+ 
 }
 
 void Agent::update()
@@ -131,6 +144,20 @@ void Agent::update()
 	if (firePattern) firePattern->update();
 	attributeSystem->update(this);
 	updateAnimation();
+ 
+    if(crntState == agent_state::blocking){
+        space->addGraphicsAction(
+			&graphics_context::setSpritePosition,
+			agentOverlay,
+			toCocos(getPos()*app::pixelsPerTile)
+		);
+		space->graphicsNodeAction(
+			&Node::setRotation,
+			agentOverlay,
+			toCocosAngle(getAngle())
+		);
+    }
+    
 }
 
 int Agent::getLevel() const {
@@ -490,11 +517,18 @@ void Agent::sprint(SpaceVect direction)
     consume(Attribute::stamina, (*this)[Attribute::sprintCost]);
 }
 
+bool Agent::canBlock()
+{
+    return crntState == agent_state::none;
+}
+
 void Agent::block()
 {
     if(crntState == agent_state::none && (*this)[Attribute::shieldLevel] > 0.0f){
         setState(agent_state::blocking);
     }
+    
+    space->addGraphicsAction(&graphics_context::setSpriteVisible, agentOverlay, true);
 }
 
 void Agent::endBlock()
@@ -502,6 +536,8 @@ void Agent::endBlock()
     if(isShieldActive()){
         setState(agent_state::none);
     }
+    
+    space->addGraphicsAction(&graphics_context::setSpriteVisible, agentOverlay, false);
 }
 
 bool Agent::hasPowerAttack()

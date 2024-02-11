@@ -174,6 +174,25 @@ function objects.Launcher:update()
 	end
 end
 
+objects.Pyramid = class('Pyramid')
+
+objects.Pyramid.angular_speed = math.pi * 0.5
+
+function objects.Pyramid:init(super)
+	self.super = super
+end
+
+function objects.Pyramid:initialize()
+	self.lightAngle = self.super:getAngle()
+end
+
+function objects.Pyramid:update()
+	self.lightAngle = self.lightAngle + self.angular_speed * App.params.secondsPerFrame	
+	self.lightAngle = util.canonicalAngle(self.lightAngle)
+	
+	self.super:setLightSourceAngle(self.lightAngle)
+end
+
 objects.Sign = class('Sign')
 
 function objects.Sign:init(super)

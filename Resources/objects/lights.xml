@@ -32,4 +32,6 @@
 	<torchYellow2 type="circle" radius="3.0" color="0.5625,0.5625,0.24" flood="0.5"/>
 	<torchG3 type="circle" radius="4.0" color="1.0,1.0,1.0" flood="0.5"/>
 
+	<pyramid type="cone" radius="4.0" angularWidth="90" color="0.9,0.75,0.5,0.7" />
+
 </lights>

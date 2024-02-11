@@ -156,6 +156,7 @@ namespace Lua{
 
 		addFuncSame(gobject, createLight);
 		addFuncSame(gobject, removeLight);
+        addFuncSame(gobject, setLightSourceAngle);
 		addFuncSame(gobject, setSpriteOpacity);
 		addFuncSame(gobject, setSpriteVisible);
 		addFuncSame(gobject, setSpriteTexture);

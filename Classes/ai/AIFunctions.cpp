@@ -789,6 +789,7 @@ void PlayerControl::update()
         activeSpell->runUpdate();
     }
 
+    checkBlockControls(cs);
     checkMovementControls(cs);
     checkItemInteraction(cs);
     
@@ -801,20 +802,35 @@ void PlayerControl::update()
     applyDesiredMovement();
 }
 
-void PlayerControl::checkMovementControls(const ControlInfo& cs)
+void PlayerControl::checkBlockControls(const ControlInfo& cs)
 {
-	if (player->isActive(Attribute::inhibitMovement)){
-		return;
-	}
-
-	if (cs.isControlActionPressed(ControlAction::focus)) {
+    if(
+        cs.isControlActionDown(ControlAction::focus) &&
+        !player->isShieldActive() &&
+        player->canBlock()
+    ){
+        player->block();
+    }
+    else if(
+        !cs.isControlActionDown(ControlAction::focus) &&
+        player->isShieldActive()
+    ){
+        player->endBlock();
+    }
+    
+    if (cs.isControlActionPressed(ControlAction::focus)) {
 		getSpace()->setBulletBodiesVisible(true);
 	}
 	else if (cs.isControlActionReleased(ControlAction::focus)) {
 		getSpace()->setBulletBodiesVisible(false);
 	}
+}
 
-	player->setShieldActive(cs.isControlActionDown(ControlAction::focus) && !player->isSprintActive() && !getSpace()->getSuppressAction());
+void PlayerControl::checkMovementControls(const ControlInfo& cs)
+{
+	if (player->isActive(Attribute::inhibitMovement)){
+		return;
+	}
 
     desiredMoveDirection = cs.left_v;
 	SpaceVect facing = cs.isControlActionDown(ControlAction::center_look) ?

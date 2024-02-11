@@ -320,6 +320,28 @@ void graphics_context::createAgentBodyShader(
 	scene->getSpaceLayer()->positionAndAddNode(shader, to_int(layer), position, 1.0f);
 }
 
+void graphics_context::createConeShader(
+		SpriteID id,
+        GraphicsLayer layer,
+		const Color4F color,
+        float radius,
+        const Vec2 center,
+        SpaceFloat coneWidth,
+        SpaceFloat initialAngleRad
+) {
+    ConeShader* shader = Node::ccCreate<ConeShader>(
+        color,
+        radius,
+        center,
+        coneWidth,
+        initialAngleRad
+    );
+    shader->setContentSize(CCSize(radius, radius) * 2.0f * app::pixelsPerTile);
+
+	graphicsNodes.insert_or_assign(id, shader);
+	scene->getSpaceLayer()->positionAndAddNode(shader, to_int(layer), center, 1.0f);
+}
+
 void graphics_context::runSpriteAction(SpriteID id, ActionGeneratorType generator)
 {
 	Node* node = getSpriteAsNode(id);
@@ -365,9 +387,19 @@ void graphics_context::setSpritePosition(SpriteID id, Vec2 pos)
 	nodeAction<Node, const Vec2&>(id, &Node::setPosition, pos);
 }
 
+void graphics_context::setSpriteAngle(SpriteID id, float angle)
+{
+    nodeAction<Node, float>(id, &Node::setRotation, angle);
+}
+
 void graphics_context::setSpriteZoom(SpriteID id, float zoom)
 {
 	nodeAction<Node, float>(id, &Node::setScale, zoom);
+}
+
+void graphics_context::setSpriteVisible(SpriteID id, bool v)
+{
+    nodeAction<Node, bool>(id, &Node::setVisible, v);
 }
 
 void graphics_context::spriteSpatialUpdate(vector<sprite_update> spriteUpdates)

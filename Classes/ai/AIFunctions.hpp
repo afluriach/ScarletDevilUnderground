@@ -317,6 +317,7 @@ public:
 	virtual void onEnter();
 	virtual void update();
      
+    void checkBlockControls(const ControlInfo& cs);
     void checkMovementControls(const ControlInfo& cs);
 	void checkFireControls(const ControlInfo& cs);
 	void checkBombControls(const ControlInfo& cs);

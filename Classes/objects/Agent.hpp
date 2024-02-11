@@ -144,6 +144,7 @@ public:
     bool aimAtTarget(gobject_ref target);
     bool canSprint();
     void sprint(SpaceVect direction);
+    bool canBlock();
     void block();
     void endBlock();
     bool hasPowerAttack();
@@ -192,6 +193,7 @@ protected:
 	AttributeSystem* attributeSystem = nullptr;
 	local_shared_ptr<agent_properties> props;
 	unique_ptr<AgentAnimationContext> animation;
+    SpriteID agentOverlay = 0;
 };
 
 #endif /* Agent_hpp */

@@ -1,25 +1,25 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.0" tiledversion="1.0.3" orientation="orthogonal" renderorder="right-down" width="17" height="17" tilewidth="128" tileheight="128" nextobjectid="40">
+<map version="1.10" tiledversion="1.10.2" orientation="orthogonal" renderorder="right-down" width="17" height="17" tilewidth="128" tileheight="128" infinite="0" nextlayerid="6" nextobjectid="44">
  <tileset firstgid="1" name="ice_wall" tilewidth="128" tileheight="128" tilecount="4" columns="2">
   <image source="../ice_wall.png" width="256" height="256"/>
  </tileset>
  <tileset firstgid="5" name="dark_ice_floor" tilewidth="128" tileheight="128" tilecount="1" columns="1">
   <image source="../dark_ice.png" width="128" height="128"/>
  </tileset>
- <layer name="floor" width="17" height="17">
+ <layer id="1" name="floor" width="17" height="17">
   <data encoding="base64" compression="zlib">
    eJxjYGBgYKUAM1CofxSP4lE8dDEDFfQDAKG8BZI=
   </data>
  </layer>
- <layer name="wall_tiles" width="17" height="17">
+ <layer id="2" name="wall_tiles" width="17" height="17">
   <data encoding="base64" compression="zlib">
    eJxjYGBgYARiJjJpEGBmoAywIJlFLmAadQdN3EENMJzCY9QdqO6A0cxk0iAAABKHAJY=
   </data>
  </layer>
- <objectgroup name="floor">
+ <objectgroup id="3" name="floor">
   <object id="35" type="IceFloor" x="128" y="128" width="1920" height="1920"/>
  </objectgroup>
- <objectgroup name="walls">
+ <objectgroup id="4" name="walls">
   <object id="26" x="0" y="0" width="2048" height="128"/>
   <object id="27" x="2048" y="0" width="128" height="1024"/>
   <object id="28" x="128" y="2048" width="2048" height="128"/>
@@ -27,7 +27,7 @@
   <object id="31" x="2048" y="1152" width="128" height="896"/>
   <object id="32" x="0" y="128" width="128" height="896"/>
  </objectgroup>
- <objectgroup name="objects">
+ <objectgroup id="5" name="objects">
   <object id="37" name="player" type="Player" x="1024" y="1024" width="128" height="128"/>
   <object id="38" name="door-c0-west" type="Door" x="0" y="1024" width="128" height="128">
    <properties>
@@ -39,5 +39,9 @@
     <property name="dir" value="left"/>
    </properties>
   </object>
+  <object id="40" name="pyramid4" type="Pyramid" x="256" y="256" width="128" height="128"/>
+  <object id="41" name="pyramid3" type="Pyramid" x="256" y="1792" width="128" height="128"/>
+  <object id="42" name="pyramid2" type="Pyramid" x="1792" y="1792" width="128" height="128"/>
+  <object id="43" name="pyramid1" type="Pyramid" x="1792" y="256" width="128" height="128"/>
  </objectgroup>
 </map>

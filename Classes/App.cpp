@@ -16,6 +16,8 @@
 const string App::title = "Kouma";
 
 const vector<string> App::shaderFiles = {
+    "agent_overlay",
+    "cone",
 	"hue_shift_left",
 	"hue_shift_right", 
 	"inverted",

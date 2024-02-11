@@ -856,6 +856,17 @@ void GObject::removeLight()
 	}
 }
 
+void GObject::setLightSourceAngle(SpaceFloat angle)
+{
+    if(lightID != 0) {
+        space->addGraphicsAction(
+            &graphics_context::setLightSourceAngle,
+            lightID,
+            angle
+        );
+    }
+}
+
 void GObject::addGraphicsAction(GraphicsAction action)
 {
 	addGraphicsAction(action, spriteID);
