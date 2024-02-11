@@ -5,7 +5,7 @@ function objects.Player:init(super)
 end
 
 function objects.Player:initialize()
-	self.controlFunction = ai.PLayerControl.create(self.super:getAsObject())
+	self.controlFunction = ai.PlayerControl.create(self.super:getAsObject())
 end
 
 function objects.Player:update()
