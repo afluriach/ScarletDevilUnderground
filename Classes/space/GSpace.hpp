@@ -273,9 +273,9 @@ public:
     void addNavObstacle(const SpaceVect& center, const SpaceVect& boundingDimensions);
 	void removeNavObstacle(const SpaceVect& center, const SpaceVect& boundingDimensions);
 
-    vector<SpaceVect> pathToTile(IntVec2 begin, IntVec2 end);
+    shared_ptr<const Path> pathToTile(IntVec2 begin, IntVec2 end);
     void addPath(string name, Path p);
-	const Path* getPath(string name) const;
+	shared_ptr<const Path> getPath(string name) const;
 
 	void addWaypoint(string name, SpaceVect w);
 	void addWaypoint(string name, const vector<string>& tags, SpaceVect w);
@@ -363,7 +363,7 @@ protected:
 	void markObstacleTile(int x, int y);
     bool isObstacleTile(int x, int y) const;
     
-	unordered_map<string, Path> paths;
+	unordered_map<string, shared_ptr<const Path>> paths;
 	unordered_map<string, list<SpaceVect>> waypoints;
 	unordered_map<string, SpaceRect> areas;
 	boost::dynamic_bitset<>* navMask = nullptr;

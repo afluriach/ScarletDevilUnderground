@@ -7,7 +7,7 @@
 //
 
 #ifndef Sensor_hpp
-#define Sesnor_hpp
+#define Sensor_hpp
 
 class Sensor
 {

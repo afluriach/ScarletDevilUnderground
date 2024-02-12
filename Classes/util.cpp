@@ -182,22 +182,22 @@ float fromCocosAngle(SpaceFloat cocosDegrees)
 	return toRads(90.0f - cocosDegrees);
 }
 
-SpaceVect toChipmunk(const Vec2& rhs)
+SpaceVect toSpacVect(const Vec2& rhs)
 {
     return SpaceVect(expand_vector2(rhs));
 }
 
-SpaceVect toChipmunk(const cocos2d::CCSize& rhs)
+SpaceVect toSpaceVect(const cocos2d::CCSize& rhs)
 {
     return SpaceVect(rhs.width, rhs.height);
 }
 
-SpaceVect toChipmunk(const IntVec2& ivec)
+SpaceVect toSpaceVect(const IntVec2& ivec)
 {
 	return SpaceVect(ivec.first, ivec.second);
 }
 
-SpaceVect toChipmunkWithCentering(const IntVec2& ivec)
+SpaceVect toSpaceVectWithCentering(const IntVec2& ivec)
 {
 	return SpaceVect(ivec.first + 0.5, ivec.second + 0.5);
 }

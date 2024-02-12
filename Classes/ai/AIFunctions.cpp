@@ -529,12 +529,12 @@ local_shared_ptr<FollowPath> FollowPath::pathToPoint(
     GObject* object,
     SpaceVect point
 ){
-	Path path = object->getSpace()->pathToTile(
+	auto path = object->getSpace()->pathToTile(
 		toIntVector(object->getPos()),
 		toIntVector(point)
 	);
 
-	if (path.empty()) {
+	if (!path) {
 		log2("%s (%u) no path to target", object->getName(), object->getUUID());
 		return nullptr;
 	}
@@ -547,7 +547,7 @@ local_shared_ptr<FollowPath> FollowPath::pathToPoint(
 	);
 }
 
-FollowPath::FollowPath(GObject* object, Path path, bool loop, bool stopForObstacle) :
+FollowPath::FollowPath(GObject* object, shared_ptr<const Path> path, bool loop, bool stopForObstacle) :
 	Function(object),
 	path(path),
 	loop(loop),
@@ -556,12 +556,12 @@ FollowPath::FollowPath(GObject* object, Path path, bool loop, bool stopForObstac
 
 void FollowPath::update()
 {
-	if (currentTarget < path.size()) {
-		object->setDirection(toDirection(ai::directionToTarget(object, path[currentTarget])));
-		bool arrived = moveToPoint(object, path[currentTarget], MoveToPoint::arrivalMargin, stopForObstacle);
+	if (currentTarget < path->size()) {
+		object->setDirection(toDirection(ai::directionToTarget(object, (*path)[currentTarget])));
+		bool arrived = moveToPoint(object, (*path)[currentTarget], MoveToPoint::arrivalMargin, stopForObstacle);
 		currentTarget += arrived;
 	}
-	else if (loop && path.size() > 0) {
+	else if (loop && path->size() > 0) {
 		currentTarget = 0;
 	}
 	else {

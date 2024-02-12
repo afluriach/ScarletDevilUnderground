@@ -229,13 +229,13 @@ public:
 		SpaceVect point
 	);
 
-	FollowPath(GObject* object, Path path, bool loop, bool stopForObstacle);
+	FollowPath(GObject* object, shared_ptr<const Path> path, bool loop, bool stopForObstacle);
 	inline virtual ~FollowPath() {}
 
 	virtual void update();
 	FuncGetName(FollowPath)
 protected:
-	Path path;
+	shared_ptr<const Path> path;
 	size_t currentTarget = 0;
 	bool loop = false;
 	bool stopForObstacle = false;

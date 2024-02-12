@@ -384,8 +384,8 @@ void GScene::loadLights(const TMXTiledMap& map, IntVec2 offset)
 	}
 
 	LightID id = graphicsContext->getLightID();
-	SpaceVect dimensions = toChipmunk(map.getMapSize());
-	SpaceVect center = toChipmunk(offset) + dimensions / 2.0;
+	SpaceVect dimensions = toSpaceVect(map.getMapSize());
+	SpaceVect center = toSpaceVect(offset) + dimensions / 2.0;
 
 	graphicsContext->addPolyLightSource(
 		id,

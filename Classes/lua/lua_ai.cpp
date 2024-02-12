@@ -118,7 +118,7 @@ namespace Lua{
 			"FollowPath",
 			sol::base_classes, sol::bases<ai::Function>()
 		);
-		follow_path["create"] = &create<ai::FollowPath, Path, bool, bool>;
+		follow_path["create"] = &create<ai::FollowPath, shared_ptr<const Path>, bool, bool>;
         addFuncSame(follow_path, pathToTarget);
         addFuncSame(follow_path, pathToPoint);
 

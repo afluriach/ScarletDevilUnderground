@@ -869,14 +869,13 @@ void GSpace::addPath(string name, Path p)
 	if (paths.find(name) != paths.end()) {
 		log1("Duplicate path name %s!", name.c_str());
 	}
-	paths[name] = p;
+	paths[name] = make_shared<Path>(p);
 }
 
-const Path* GSpace::getPath(string name) const
+shared_ptr<const Path> GSpace::getPath(string name) const
 {
 	auto it = paths.find(name);
-
-	return it != paths.end() ? &(it->second) : nullptr;
+	return it != paths.end() ? it->second : nullptr;
 }
 
 void GSpace::addWaypoint(string name, const vector<string>& tags, SpaceVect w)
@@ -1037,7 +1036,7 @@ bool GSpace::isObstacleTile(int x, int y) const
     return false;
 }
 
-vector<SpaceVect> GSpace::pathToTile(IntVec2 begin, IntVec2 end)
+shared_ptr<const Path> GSpace::pathToTile(IntVec2 begin, IntVec2 end)
 {
 	vector<SpaceVect> result;
 
@@ -1049,16 +1048,16 @@ vector<SpaceVect> GSpace::pathToTile(IntVec2 begin, IntVec2 end)
 	);
 
 	if (tileCoords.size() < 2) {
-		return result;
+		return nullptr;
 	}
 
-	result.push_back(toChipmunkWithCentering(tileCoords[0]));
-	result.push_back(toChipmunkWithCentering(tileCoords[1]));
-	SpaceVect direction = toChipmunkWithCentering(tileCoords[1]) - toChipmunkWithCentering(tileCoords[0]);
+	result.push_back(toSpaceVectWithCentering(tileCoords[0]));
+	result.push_back(toSpaceVectWithCentering(tileCoords[1]));
+	SpaceVect direction = toSpaceVectWithCentering(tileCoords[1]) - toSpaceVectWithCentering(tileCoords[0]);
 
 	for_irange(i, 2, tileCoords.size())
 	{
-		SpaceVect crntTile = toChipmunkWithCentering(tileCoords[i]);
+		SpaceVect crntTile = toSpaceVectWithCentering(tileCoords[i]);
 		SpaceVect crntDirection = crntTile - result.back();
 
 		if (SpaceVect::fuzzyMatch(direction, crntDirection)){
@@ -1070,14 +1069,14 @@ vector<SpaceVect> GSpace::pathToTile(IntVec2 begin, IntVec2 end)
 		}
 	}
 
-	SpaceVect endPoint = toChipmunkWithCentering(tileCoords.back());
+	SpaceVect endPoint = toSpaceVectWithCentering(tileCoords.back());
 
 	//Endpoint will not be added loop unless it happens to be a turn (i.e. not colinear with the previous tile coord)
 	if (!SpaceVect::fuzzyMatch(result.back(), endPoint)) {
 		result.push_back(endPoint);
 	}
 
-	return result;
+	return make_shared<Path>(result);
 }
 
 //END NAVIGATION
