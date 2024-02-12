@@ -119,6 +119,7 @@ typedef double SpaceFloat;
 #include "PerlinNoise.hpp"
 #include "allocator.hpp"
 #include "shared_ptr.hpp"
+#include "app_constants.hpp"
 #include "macros.h"
 #include "enum.h"
 #include "vect.hpp"

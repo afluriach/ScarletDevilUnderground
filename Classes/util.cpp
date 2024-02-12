@@ -8,15 +8,11 @@
 
 #include "Prefix.h"
 
-#include "app_constants.hpp"
-
-const SpaceFloat primaryAngles[4] = {0.0, float_pi * 0.5, float_pi, float_pi * 1.5};
-
 SpaceFloat dirToPhysicsAngle(Direction d)
 {
     if(d == Direction::none) return 0.0;
     
-    return primaryAngles[to_int(d)-1];
+    return (to_int(d)-1)*float_pi*0.5;
 }
 
 SpaceVect dirToVector(Direction d)
@@ -36,20 +32,12 @@ Direction toDirection(SpaceVect v)
 //round to nearest primary direction
 Direction angleToDirection(SpaceFloat a)
 {
-    int closest = 0;
-    SpaceFloat distance = float_pi;
-    SpaceFloat angle = canonicalAngle(a);
-    
-    for_irange(i,0,4){
-        SpaceFloat crnt = abs(angle - primaryAngles[i]);
-        
-        if(crnt < distance){
-            closest = i;
-            distance = crnt;
-        }
-    }
-    
-    return static_cast<Direction>(closest+1);
+    SpaceFloat angle = canonicalAngle(a+float_pi*0.25);
+
+    int i = angle * pi_inv * 2.0;
+    i = i > 3 ? 3 : i;
+
+    return static_cast<Direction>(i+1);
 }
 
 SpaceFloat circleMomentOfInertia(SpaceFloat mass, SpaceFloat radius)

@@ -8,7 +8,6 @@
 
 #include "Prefix.h"
 
-#include "app_constants.hpp"
 #include "GAnimation.hpp"
 #include "Graphics.h"
 #include "graphics_context.hpp"

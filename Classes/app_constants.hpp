@@ -21,4 +21,9 @@ namespace app
 	constexpr double Gaccel = 9.806;
 }   
 
+#define float_pi boost::math::constants::pi<SpaceFloat>()
+constexpr SpaceFloat float_2pi = float_pi*2.0;
+constexpr SpaceFloat pi_inv = 1.0 / float_pi;
+constexpr SpaceFloat atan_limit_sq = 1e-6;
+
 #endif

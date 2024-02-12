@@ -8,7 +8,6 @@
 
 #include "Prefix.h"
 
-#include "app_constants.hpp"
 #include "Dialog.hpp"
 #include "FileIO.hpp"
 #include "functional.hpp"

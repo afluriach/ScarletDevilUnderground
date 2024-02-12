@@ -8,7 +8,6 @@
 
 #include "Prefix.h"
 
-#include "app_constants.hpp"
 #include "GraphicsNodes.hpp"
 
 bool ShaderNode::init()

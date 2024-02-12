@@ -9,7 +9,6 @@
 #include "Prefix.h"
 
 #include "AI.hpp"
-#include "app_constants.hpp"
 #include "AreaSensor.hpp"
 #include "audio_context.hpp"
 #include "Bullet.hpp"

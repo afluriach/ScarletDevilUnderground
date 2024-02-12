@@ -10,7 +10,6 @@
 
 #include "AIFunctions.hpp"
 #include "AIUtil.hpp"
-#include "app_constants.hpp"
 #include "AreaSensor.hpp"
 #include "audio_context.hpp"
 #include "Bomb.hpp"
@@ -152,12 +151,7 @@ void Seek::update()
 	}
 
 	if (crntState != states::no_target) {
-		object->setDirection(toDirection(
-            ai::directionToTarget(
-                object,
-                target.get()->getPos()
-            )
-        ));
+		object->setAngle(ai::angleToTarget(object,target.get()));
 	}
 
 	if (!target.isValid())
@@ -313,12 +307,7 @@ void Flee::update()
 			object->getMaxSpeed(),
 			object->getMaxAcceleration()
 		);
-		object->setDirection(toDirection(
-            ai::directionToTarget(
-                object,
-                target.get()->getPos()
-            )
-        ));
+		object->setAngle(ai::angleToTarget(object,target.get()));
 	}
 	
 	if (!target.isValid())
@@ -557,7 +546,7 @@ FollowPath::FollowPath(GObject* object, shared_ptr<const Path> path, bool loop, 
 void FollowPath::update()
 {
 	if (currentTarget < path->size()) {
-		object->setDirection(toDirection(ai::directionToTarget(object, (*path)[currentTarget])));
+		object->setAngle(angleToTarget(object, (*path)[currentTarget]));
 		bool arrived = moveToPoint(object, (*path)[currentTarget], MoveToPoint::arrivalMargin, stopForObstacle);
 		currentTarget += arrived;
 	}
@@ -592,7 +581,7 @@ void FollowPathKinematic::setSegment(size_t idx1, size_t idx2)
     currentSegmentDisplacementNormal = disp.normalize();
     d = 0.0;
     
-    object->setDirection(toDirection(ai::directionToTarget(object, (*path)[idx2])));
+    object->setAngle(angleToTarget(object, (*path)[idx2]));
 }
 
 void FollowPathKinematic::nextSegment()

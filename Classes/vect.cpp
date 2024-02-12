@@ -164,7 +164,10 @@ SpaceVect SpaceVect::clamp(SpaceFloat len) const {
 }
 
 SpaceFloat SpaceVect::toAngle() const {
-	return atan2(y, x);
+    if(lengthSq() >= atan_limit_sq)
+        return atan2(y, x);
+    else
+        return 0.0;
 }
 
 SpaceFloat SpaceVect::dot(SpaceVect v1, SpaceVect v2) {

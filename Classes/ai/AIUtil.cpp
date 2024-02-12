@@ -174,11 +174,26 @@ SpaceFloat distanceToTarget(SpaceVect pos, SpaceVect target)
 	return (target - pos).length();
 }
 
+SpaceFloat angleToTarget(const GObject* agent, const GObject* target)
+{
+    return angleToTarget(agent->getPos(), target->getPos());
+}
+
+SpaceFloat angleToTarget(const GObject* agent, SpaceVect target)
+{
+    return angleToTarget(agent->getPos(), target);
+}
+
+SpaceFloat angleToTarget(SpaceVect source, SpaceVect target)
+{
+    return (target - source).toAngle();
+}
+
 SpaceFloat viewAngleToTarget(const GObject* agent, const GObject* target)
 {
     SpaceVect displacement = target->getPos() - agent->getPos();
     
-    if(displacement.lengthSq() > 0.01)
+    if(displacement.lengthSq() > atan_limit_sq)
         return canonicalAngle(displacement.toAngle() - agent->getAngle());
     else
         return numeric_limits<SpaceFloat>::infinity();
@@ -226,7 +241,7 @@ vector<SpaceVect> getHorizontalAdjacentTiles(GObject* object)
 
     SpaceFloat leftCol = center.x - dim.x/2 - 0.5;
     SpaceFloat rightCol = center.x + dim.x/2 + 0.5;
-    SpaceFloat top = center.y + dim.y/2;
+    SpaceFloat top = center.y + dim.y/2 - 0.5;
 
     for(int i = 0; i < dim.y; ++i){
         result.push_back(SpaceVect(leftCol, top - i));

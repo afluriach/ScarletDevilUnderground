@@ -8,7 +8,6 @@
 
 #include "Prefix.h"
 
-#include "app_constants.hpp"
 #include "AreaSensor.hpp"
 #include "functional.hpp"
 #include "FloorSegment.hpp"
